@@ -1093,22 +1093,80 @@ fn rust_eval_trace(event: &str, fields: serde_json::Value) {
     }
 }
 
-/// Batched NN evaluator for multi-threaded MCTS.
-///
-/// Architecture:
-/// - MCTS worker threads call `evaluate()` → encode state → push to channel → block for result
-/// - A dedicated collector thread drains the channel, builds batch JSON, does one stdout/stdin
-///   round-trip for the whole batch, then distributes results via per-request response channels.
-///
-/// Protocol:
-///   Rust → Python: QIPC binary frame (batch_eval_req)
-///   Python → Rust: QIPC binary frame (batch_eval_resp)
-struct BatchEvalShared<M: Copy + Eq + Hash + Debug + Send + 'static> {
+// ─── GlobalBroker: single process-wide eval I/O owner ───
+
+/// Shared state backing the GlobalBroker, referenced by all `BatchStdioEval` instances.
+pub(crate) struct GlobalBrokerShared<M: Copy + Eq + Hash + Debug + Send + 'static> {
     request_tx: channel::Sender<BatchRequest<M>>,
     shutdown: Arc<AtomicBool>,
     io_handle: Mutex<Option<std::thread::JoinHandle<()>>>,
     stats: Arc<BatchBrokerStats>,
 }
+
+/// Single process-wide inference broker. Owns the collector thread that performs
+/// all QIPC I/O (stdin/stdout). All `BatchStdioEval` instances share one broker.
+pub struct GlobalBroker<M: Copy + Eq + Hash + Debug + Send + 'static> {
+    shared: Arc<GlobalBrokerShared<M>>,
+}
+
+impl<M: Copy + Eq + Hash + Debug + Send + 'static> GlobalBroker<M> {
+    pub fn new(n_actions: usize, config: BatchConfig) -> Self {
+        let (request_tx, request_rx) =
+            channel::bounded::<BatchRequest<M>>(config.max_batch_size * 2);
+        let shutdown = Arc::new(AtomicBool::new(false));
+        let shutdown_clone = shutdown.clone();
+        let stats = Arc::new(BatchBrokerStats::default());
+        let stats_for_thread = stats.clone();
+        let shm = SharedMemTransport::load_from_env().map(Arc::new);
+
+        let handle = std::thread::Builder::new()
+            .name("global-broker".into())
+            .spawn(move || {
+                broker_loop::<M>(
+                    request_rx,
+                    n_actions,
+                    &config,
+                    &shutdown_clone,
+                    &stats_for_thread,
+                    shm,
+                );
+            })
+            .expect("failed to spawn global-broker thread");
+
+        GlobalBroker {
+            shared: Arc::new(GlobalBrokerShared {
+                request_tx,
+                shutdown,
+                io_handle: Mutex::new(Some(handle)),
+                stats,
+            }),
+        }
+    }
+
+    pub fn shared(&self) -> &Arc<GlobalBrokerShared<M>> {
+        &self.shared
+    }
+}
+
+impl<M: Copy + Eq + Hash + Debug + Send + 'static> Drop for GlobalBroker<M> {
+    fn drop(&mut self) {
+        self.shared.shutdown.store(true, Ordering::Relaxed);
+        if let Some(handle) = self.shared.io_handle.lock().unwrap().take() {
+            let _ = handle.join();
+        }
+    }
+}
+
+/// Batched NN evaluator for multi-threaded MCTS (thin wrapper around GlobalBroker).
+///
+/// Architecture:
+/// - MCTS worker threads call `evaluate()` → encode state → push to channel → block for result
+/// - A single GlobalBroker thread drains the channel, builds batch payload, does one stdout/stdin
+///   round-trip for the whole batch, then distributes results via per-request response channels.
+///
+/// Protocol:
+///   Rust → Python: QIPC binary frame (batch_eval_req)
+///   Python → Rust: QIPC binary frame (batch_eval_resp)
 
 pub struct AsyncEvalTicket<M: Copy + Eq + Hash + Debug + Send + 'static> {
     legal_moves: Vec<M>,
@@ -1176,109 +1234,80 @@ impl<M: Copy + Eq + Hash + Debug + Send + 'static> Drop for AsyncEvalTicket<M> {
 }
 
 pub struct BatchStdioEval<M: Copy + Eq + Hash + Debug + Send + 'static> {
-    shared: Arc<BatchEvalShared<M>>,
+    broker: Arc<GlobalBrokerShared<M>>,
     model_tag: u32,
 }
 
-impl<M: Copy + Eq + Hash + Debug + Send + 'static> BatchEvalShared<M> {
-    fn new(n_actions: usize, config: BatchConfig) -> Self {
-        let (request_tx, request_rx) =
-            channel::bounded::<BatchRequest<M>>(config.max_batch_size * 2);
-        let shutdown = Arc::new(AtomicBool::new(false));
-        let shutdown_clone = shutdown.clone();
-        let stats = Arc::new(BatchBrokerStats::default());
-        let stats_for_thread = stats.clone();
-        let shm = SharedMemTransport::load_from_env().map(Arc::new);
-        let shm_for_thread = shm.clone();
-
-        let handle = std::thread::Builder::new()
-            .name("batch-eval-collector".into())
-            .spawn(move || {
-                BatchStdioEval::<M>::collector_loop(
-                    request_rx,
-                    n_actions,
-                    &config,
-                    &shutdown_clone,
-                    &stats_for_thread,
-                    shm_for_thread,
-                );
-            })
-            .expect("failed to spawn batch-eval collector thread");
-
-        BatchEvalShared {
-            request_tx,
-            shutdown,
-            io_handle: Mutex::new(Some(handle)),
-            stats,
-        }
-    }
-}
-
 impl<M: Copy + Eq + Hash + Debug + Send + 'static> BatchStdioEval<M> {
+    /// Create a new evaluator backed by its own broker (convenience for single-use).
     pub fn new(n_actions: usize, config: BatchConfig) -> Self {
+        let broker = GlobalBroker::<M>::new(n_actions, config);
         Self {
-            shared: Arc::new(BatchEvalShared::new(n_actions, config)),
+            broker: broker.shared().clone(),
             model_tag: 0,
         }
+        // NOTE: the GlobalBroker is dropped here, but the thread keeps running
+        // because `broker.shared` (Arc) is still held by this BatchStdioEval.
+        // Shutdown happens when this eval (and all its clones) are dropped.
     }
 
+    /// Create a pair of evaluators sharing a single broker (convenience).
     pub fn new_shared_pair(
         n_actions: usize,
         config: BatchConfig,
         tag_a: u32,
         tag_b: u32,
     ) -> (Self, Self) {
-        let shared = Arc::new(BatchEvalShared::new(n_actions, config));
+        let broker = GlobalBroker::<M>::new(n_actions, config);
+        let shared = broker.shared().clone();
         (
             Self {
-                shared: shared.clone(),
+                broker: shared.clone(),
                 model_tag: tag_a,
             },
             Self {
-                shared,
+                broker: shared,
                 model_tag: tag_b,
             },
         )
     }
 
-    /// Collector thread main loop: drain requests → batch I/O → distribute results.
-    fn collector_loop(
-        rx: channel::Receiver<BatchRequest<M>>,
-        _n_actions: usize,
-        config: &BatchConfig,
-        shutdown: &AtomicBool,
-        stats: &BatchBrokerStats,
-        shm: Option<Arc<SharedMemTransport>>,
-    ) {
-        let base_timeout_us = config.timeout_us.max(250) as f64;
-        let min_timeout_us = (base_timeout_us * 0.5).max(250.0);
-        let max_timeout_us = (base_timeout_us * 4.0).min(12000.0);
-        let mut adaptive_timeout_us = base_timeout_us;
-        let profile_path = BatchCollectorProfile::load_path();
-        let mut profile = profile_path.as_ref().map(|_| BatchCollectorProfile::default());
-        loop {
-            // Wait for first request (blocking with timeout to check shutdown)
-            let idle_t0 = Instant::now();
-            let first = match rx.recv_timeout(Duration::from_millis(50)) {
-                Ok(req) => req,
-                Err(channel::RecvTimeoutError::Timeout) => {
-                    if let Some(stats) = profile.as_mut() {
-                        stats.idle_wait_s += idle_t0.elapsed().as_secs_f64();
-                    }
-                    if shutdown.load(Ordering::Relaxed) {
-                        if let (Some(path), Some(profile_stats)) = (profile_path.as_ref(), profile.as_ref()) {
-                            profile_stats.flush_jsonl(
-                                path,
-                                config,
-                                if shm.is_some() { "shm" } else { "stdio" },
-                                Some(stats),
-                            );
-                        }
-                        return;
-                    }
-                    continue;
+    /// Create an evaluator from an existing GlobalBroker.
+    pub fn from_broker(broker: &GlobalBroker<M>, model_tag: u32) -> Self {
+        Self {
+            broker: broker.shared().clone(),
+            model_tag,
+        }
+    }
+
+}
+
+/// Broker thread main loop: drain requests → batch I/O → distribute results.
+/// Standalone function used by GlobalBroker (extracted from former collector_loop).
+fn broker_loop<M: Copy + Eq + Hash + Debug + Send + 'static>(
+    rx: channel::Receiver<BatchRequest<M>>,
+    _n_actions: usize,
+    config: &BatchConfig,
+    shutdown: &AtomicBool,
+    stats: &BatchBrokerStats,
+    shm: Option<Arc<SharedMemTransport>>,
+) {
+    let base_timeout_us = config.timeout_us.max(250) as f64;
+    let min_timeout_us = (base_timeout_us * 0.5).max(250.0);
+    let max_timeout_us = (base_timeout_us * 4.0).min(12000.0);
+    let mut adaptive_timeout_us = base_timeout_us;
+    let profile_path = BatchCollectorProfile::load_path();
+    let mut profile = profile_path.as_ref().map(|_| BatchCollectorProfile::default());
+    loop {
+        // Wait for first request (blocking with timeout to check shutdown)
+        let idle_t0 = Instant::now();
+        let first = match rx.recv_timeout(Duration::from_millis(50)) {
+            Ok(req) => req,
+            Err(channel::RecvTimeoutError::Timeout) => {
+                if let Some(stats) = profile.as_mut() {
+                    stats.idle_wait_s += idle_t0.elapsed().as_secs_f64();
                 }
-                Err(channel::RecvTimeoutError::Disconnected) => {
+                if shutdown.load(Ordering::Relaxed) {
                     if let (Some(path), Some(profile_stats)) = (profile_path.as_ref(), profile.as_ref()) {
                         profile_stats.flush_jsonl(
                             path,
@@ -1289,330 +1318,347 @@ impl<M: Copy + Eq + Hash + Debug + Send + 'static> BatchStdioEval<M> {
                     }
                     return;
                 }
-            };
-            stats.on_dequeue(first.enqueued_at);
-            if let Some(stats) = profile.as_mut() {
-                stats.idle_wait_s += idle_t0.elapsed().as_secs_f64();
+                continue;
             }
+            Err(channel::RecvTimeoutError::Disconnected) => {
+                if let (Some(path), Some(profile_stats)) = (profile_path.as_ref(), profile.as_ref()) {
+                    profile_stats.flush_jsonl(
+                        path,
+                        config,
+                        if shm.is_some() { "shm" } else { "stdio" },
+                        Some(stats),
+                    );
+                }
+                return;
+            }
+        };
+        stats.on_dequeue(first.enqueued_at);
+        if let Some(stats) = profile.as_mut() {
+            stats.idle_wait_s += idle_t0.elapsed().as_secs_f64();
+        }
 
-            // Collect more requests up to max_batch_size within timeout
-            let mut batch: Vec<BatchRequest<M>> = Vec::with_capacity(config.max_batch_size);
-            batch.push(first);
+        // Collect more requests up to max_batch_size within timeout
+        let mut batch: Vec<BatchRequest<M>> = Vec::with_capacity(config.max_batch_size);
+        batch.push(first);
 
-            let timeout = Duration::from_micros(adaptive_timeout_us.round() as u64);
-            let deadline = Instant::now() + timeout;
-            let collect_t0 = Instant::now();
+        let timeout = Duration::from_micros(adaptive_timeout_us.round() as u64);
+        let deadline = Instant::now() + timeout;
+        let collect_t0 = Instant::now();
+        while batch.len() < config.max_batch_size {
             while batch.len() < config.max_batch_size {
-                while batch.len() < config.max_batch_size {
-                    match rx.try_recv() {
-                        Ok(req) => {
-                            stats.on_dequeue(req.enqueued_at);
-                            batch.push(req)
-                        }
-                        Err(channel::TryRecvError::Empty) => break,
-                        Err(channel::TryRecvError::Disconnected) => break,
-                    }
-                }
-                if batch.len() >= config.max_batch_size {
-                    break;
-                }
-                let remaining = deadline.saturating_duration_since(Instant::now());
-                if remaining.is_zero() {
-                    break;
-                }
-                match rx.recv_timeout(remaining) {
+                match rx.try_recv() {
                     Ok(req) => {
                         stats.on_dequeue(req.enqueued_at);
                         batch.push(req)
                     }
-                    Err(channel::RecvTimeoutError::Timeout) => break,
-                    Err(channel::RecvTimeoutError::Disconnected) => break,
+                    Err(channel::TryRecvError::Empty) => break,
+                    Err(channel::TryRecvError::Disconnected) => break,
                 }
             }
-            if let Some(stats) = profile.as_mut() {
-                stats.collect_s += collect_t0.elapsed().as_secs_f64();
-                stats.note_batch(batch.len(), config.max_batch_size);
+            if batch.len() >= config.max_batch_size {
+                break;
             }
-            let flush_reason = if batch.len() >= config.max_batch_size {
-                "target_batch_reached"
-            } else {
-                "max_wait_reached"
-            };
-            stats.record_flush_reason(flush_reason);
-            if config.max_batch_size > 1 {
-                let fill_ratio = batch.len() as f64 / config.max_batch_size as f64;
-                if fill_ratio < 0.45 {
-                    adaptive_timeout_us = (adaptive_timeout_us * 1.25).min(max_timeout_us);
-                } else if fill_ratio > 0.80 {
-                    adaptive_timeout_us = (adaptive_timeout_us * 0.88).max(min_timeout_us);
-                } else if adaptive_timeout_us > base_timeout_us {
-                    adaptive_timeout_us = (adaptive_timeout_us * 0.96).max(base_timeout_us);
-                } else if adaptive_timeout_us < base_timeout_us {
-                    adaptive_timeout_us = (adaptive_timeout_us * 1.04).min(base_timeout_us);
+            let remaining = deadline.saturating_duration_since(Instant::now());
+            if remaining.is_zero() {
+                break;
+            }
+            match rx.recv_timeout(remaining) {
+                Ok(req) => {
+                    stats.on_dequeue(req.enqueued_at);
+                    batch.push(req)
                 }
+                Err(channel::RecvTimeoutError::Timeout) => break,
+                Err(channel::RecvTimeoutError::Disconnected) => break,
             }
+        }
+        if let Some(stats) = profile.as_mut() {
+            stats.collect_s += collect_t0.elapsed().as_secs_f64();
+            stats.note_batch(batch.len(), config.max_batch_size);
+        }
+        let flush_reason = if batch.len() >= config.max_batch_size {
+            "target_batch_reached"
+        } else {
+            "max_wait_reached"
+        };
+        stats.record_flush_reason(flush_reason);
+        if config.max_batch_size > 1 {
+            let fill_ratio = batch.len() as f64 / config.max_batch_size as f64;
+            if fill_ratio < 0.45 {
+                adaptive_timeout_us = (adaptive_timeout_us * 1.25).min(max_timeout_us);
+            } else if fill_ratio > 0.80 {
+                adaptive_timeout_us = (adaptive_timeout_us * 0.88).max(min_timeout_us);
+            } else if adaptive_timeout_us > base_timeout_us {
+                adaptive_timeout_us = (adaptive_timeout_us * 0.96).max(base_timeout_us);
+            } else if adaptive_timeout_us < base_timeout_us {
+                adaptive_timeout_us = (adaptive_timeout_us * 1.04).min(base_timeout_us);
+            }
+        }
 
-            let encode_t0 = Instant::now();
-            let payload = encode_batch_eval_req_payload(&batch);
-            if let Some(stats) = profile.as_mut() {
-                stats.encode_s += encode_t0.elapsed().as_secs_f64();
-                stats.payload_out_bytes += payload.len();
-            }
+        let encode_t0 = Instant::now();
+        let payload = encode_batch_eval_req_payload(&batch);
+        if let Some(stats) = profile.as_mut() {
+            stats.encode_s += encode_t0.elapsed().as_secs_f64();
+            stats.payload_out_bytes += payload.len();
+        }
 
-            let write_t0 = Instant::now();
-            let write_ok = {
-                let stdout = std::io::stdout();
-                let mut writer = stdout.lock();
-                write_qipc_eval_frame(&mut writer, shm.as_deref(), QIPC_BATCH_EVAL_REQ, &payload).is_ok()
-            };
-            if let Some(stats) = profile.as_mut() {
-                stats.write_s += write_t0.elapsed().as_secs_f64();
-            }
+        let write_t0 = Instant::now();
+        let write_ok = {
+            let stdout = std::io::stdout();
+            let mut writer = stdout.lock();
+            write_qipc_eval_frame(&mut writer, shm.as_deref(), QIPC_BATCH_EVAL_REQ, &payload).is_ok()
+        };
+        if let Some(stats) = profile.as_mut() {
+            stats.write_s += write_t0.elapsed().as_secs_f64();
+        }
 
-            if !write_ok {
-                // I/O failure: send uniform fallback to all waiters
-                Self::send_uniform_fallback(&batch);
-                stats.record_flush_reason("fallback");
-                if let Some(stats) = profile.as_mut() {
-                    stats.record_fallback();
-                }
-                if shutdown.load(Ordering::Relaxed) {
-                    if let (Some(path), Some(profile_stats)) = (profile_path.as_ref(), profile.as_ref()) {
-                        profile_stats.flush_jsonl(
-                            path,
-                            config,
-                            if shm.is_some() { "shm" } else { "stdio" },
-                            Some(stats),
-                        );
-                    }
-                    return;
-                }
-                continue;
-            }
-
-            let read_t0 = Instant::now();
-            let response = {
-                let stdin = std::io::stdin();
-                let mut reader = stdin.lock();
-                read_qipc_frame(&mut reader).ok()
-            };
+        if !write_ok {
+            // I/O failure: send uniform fallback to all waiters
+            send_uniform_fallback(&batch);
+            stats.record_flush_reason("fallback");
             if let Some(stats) = profile.as_mut() {
-                stats.read_s += read_t0.elapsed().as_secs_f64();
+                stats.record_fallback();
             }
-
-            let Some((mut frame_kind, resp_payload)) = response else {
-                Self::send_uniform_fallback(&batch);
-                stats.record_flush_reason("fallback");
-                if let Some(stats) = profile.as_mut() {
-                    stats.record_fallback();
-                }
-                if shutdown.load(Ordering::Relaxed) {
-                    if let (Some(path), Some(profile_stats)) = (profile_path.as_ref(), profile.as_ref()) {
-                        profile_stats.flush_jsonl(
-                            path,
-                            config,
-                            if shm.is_some() { "shm" } else { "stdio" },
-                            Some(stats),
-                        );
-                    }
-                    return;
-                }
-                continue;
-            };
-            let payload_bytes: &[u8] = match frame_kind {
-                QIPC_BATCH_EVAL_RESP_SHM => {
-                    let Some(shm) = shm.as_deref() else {
-                        Self::send_uniform_fallback(&batch);
-                        stats.record_flush_reason("fallback");
-                        if let Some(stats) = profile.as_mut() {
-                            stats.record_fallback();
-                        }
-                        continue;
-                    };
-                    let Some(n_bytes) = qipc_shm_meta_len(&resp_payload) else {
-                        Self::send_uniform_fallback(&batch);
-                        stats.record_flush_reason("fallback");
-                        if let Some(stats) = profile.as_mut() {
-                            stats.record_fallback();
-                        }
-                        continue;
-                    };
-                    frame_kind = QIPC_BATCH_EVAL_RESP;
-                    match shm.read_response(n_bytes) {
-                        Some(bytes) => bytes,
-                        None => {
-                            Self::send_uniform_fallback(&batch);
-                            stats.record_flush_reason("fallback");
-                            if let Some(stats) = profile.as_mut() {
-                                stats.record_fallback();
-                            }
-                            continue;
-                        }
-                    }
-                }
-                _ => resp_payload.as_slice(),
-            };
-            if frame_kind != QIPC_BATCH_EVAL_RESP {
-                Self::send_uniform_fallback(&batch);
-                stats.record_flush_reason("fallback");
-                if let Some(stats) = profile.as_mut() {
-                    stats.record_fallback();
-                }
-                continue;
-            }
-
-            if let Some(stats) = profile.as_mut() {
-                stats.payload_in_bytes += payload_bytes.len();
-            }
-            let decode_t0 = Instant::now();
-            Self::distribute_binary_batch(payload_bytes, &batch);
-            if let Some(stats) = profile.as_mut() {
-                stats.decode_s += decode_t0.elapsed().as_secs_f64();
-            }
-            if let Some(profile_stats) = profile.as_ref() {
-                if profile_stats.batches % 64 == 0 {
-                    rust_eval_trace(
-                        "batch_broker_snapshot",
-                        serde_json::json!({
-                            "transport": if shm.is_some() { "shm" } else { "stdio" },
-                            "max_batch_size": config.max_batch_size,
-                            "adaptive_timeout_us": adaptive_timeout_us,
-                            "broker": stats.snapshot_json(),
-                        }),
+            if shutdown.load(Ordering::Relaxed) {
+                if let (Some(path), Some(profile_stats)) = (profile_path.as_ref(), profile.as_ref()) {
+                    profile_stats.flush_jsonl(
+                        path,
+                        config,
+                        if shm.is_some() { "shm" } else { "stdio" },
+                        Some(stats),
                     );
                 }
+                return;
+            }
+            continue;
+        }
+
+        let read_t0 = Instant::now();
+        let response = {
+            let stdin = std::io::stdin();
+            let mut reader = stdin.lock();
+            read_qipc_frame(&mut reader).ok()
+        };
+        if let Some(stats) = profile.as_mut() {
+            stats.read_s += read_t0.elapsed().as_secs_f64();
+        }
+
+        let Some((mut frame_kind, resp_payload)) = response else {
+            send_uniform_fallback(&batch);
+            stats.record_flush_reason("fallback");
+            if let Some(stats) = profile.as_mut() {
+                stats.record_fallback();
+            }
+            if shutdown.load(Ordering::Relaxed) {
+                if let (Some(path), Some(profile_stats)) = (profile_path.as_ref(), profile.as_ref()) {
+                    profile_stats.flush_jsonl(
+                        path,
+                        config,
+                        if shm.is_some() { "shm" } else { "stdio" },
+                        Some(stats),
+                    );
+                }
+                return;
+            }
+            continue;
+        };
+        let payload_bytes: &[u8] = match frame_kind {
+            QIPC_BATCH_EVAL_RESP_SHM => {
+                let Some(shm) = shm.as_deref() else {
+                    send_uniform_fallback(&batch);
+                    stats.record_flush_reason("fallback");
+                    if let Some(stats) = profile.as_mut() {
+                        stats.record_fallback();
+                    }
+                    continue;
+                };
+                let Some(n_bytes) = qipc_shm_meta_len(&resp_payload) else {
+                    send_uniform_fallback(&batch);
+                    stats.record_flush_reason("fallback");
+                    if let Some(stats) = profile.as_mut() {
+                        stats.record_fallback();
+                    }
+                    continue;
+                };
+                frame_kind = QIPC_BATCH_EVAL_RESP;
+                match shm.read_response(n_bytes) {
+                    Some(bytes) => bytes,
+                    None => {
+                        send_uniform_fallback(&batch);
+                        stats.record_flush_reason("fallback");
+                        if let Some(stats) = profile.as_mut() {
+                            stats.record_fallback();
+                        }
+                        continue;
+                    }
+                }
+            }
+            _ => resp_payload.as_slice(),
+        };
+        if frame_kind != QIPC_BATCH_EVAL_RESP {
+            send_uniform_fallback(&batch);
+            stats.record_flush_reason("fallback");
+            if let Some(stats) = profile.as_mut() {
+                stats.record_fallback();
+            }
+            continue;
+        }
+
+        if let Some(stats) = profile.as_mut() {
+            stats.payload_in_bytes += payload_bytes.len();
+        }
+        let decode_t0 = Instant::now();
+        distribute_binary_batch(payload_bytes, &batch);
+        if let Some(stats) = profile.as_mut() {
+            stats.decode_s += decode_t0.elapsed().as_secs_f64();
+        }
+        if let Some(profile_stats) = profile.as_ref() {
+            if profile_stats.batches % 64 == 0 {
+                rust_eval_trace(
+                    "batch_broker_snapshot",
+                    serde_json::json!({
+                        "transport": if shm.is_some() { "shm" } else { "stdio" },
+                        "max_batch_size": config.max_batch_size,
+                        "adaptive_timeout_us": adaptive_timeout_us,
+                        "broker": stats.snapshot_json(),
+                    }),
+                );
             }
         }
     }
+}
 
-    fn distribute_binary_batch(payload: &[u8], batch: &[BatchRequest<M>]) {
-        let mut offset = 0;
-        let Some(batch_size) = read_u32_le(payload, &mut offset) else {
-            Self::send_uniform_fallback(batch);
+fn distribute_binary_batch<M: Copy + Eq + Hash + Debug + Send + 'static>(
+    payload: &[u8],
+    batch: &[BatchRequest<M>],
+) {
+    let mut offset = 0;
+    let Some(batch_size) = read_u32_le(payload, &mut offset) else {
+        send_uniform_fallback(batch);
+        return;
+    };
+    if batch_size != batch.len() {
+        send_uniform_fallback(batch);
+        return;
+    }
+    let mut results = Vec::with_capacity(batch.len());
+    for req in batch.iter() {
+        let Some(policy_len) = read_u32_le(payload, &mut offset) else {
+            send_uniform_fallback(batch);
             return;
         };
-        if batch_size != batch.len() {
-            Self::send_uniform_fallback(batch);
+        let Some(probs_bytes) = read_f32_bytes(payload, &mut offset, policy_len) else {
+            send_uniform_fallback(batch);
             return;
-        }
-        let mut results = Vec::with_capacity(batch.len());
-        for req in batch.iter() {
-            let Some(policy_len) = read_u32_le(payload, &mut offset) else {
-                Self::send_uniform_fallback(batch);
-                return;
-            };
-            let Some(probs_bytes) = read_f32_bytes(payload, &mut offset, policy_len) else {
-                Self::send_uniform_fallback(batch);
-                return;
-            };
-            let Some(value) = read_f32_le(payload, &mut offset) else {
-                Self::send_uniform_fallback(batch);
-                return;
-            };
-            results.push(EvalResult {
-                policy: build_policy_from_dense_bytes(&req.legal_moves_idx, probs_bytes, policy_len),
-                value,
-            });
-        }
-        if offset != payload.len() {
-            Self::send_uniform_fallback(batch);
+        };
+        let Some(value) = read_f32_le(payload, &mut offset) else {
+            send_uniform_fallback(batch);
             return;
-        }
-        for (req, result) in batch.iter().zip(results.into_iter()) {
-            let _ = req.result_tx.send(result);
-        }
+        };
+        results.push(EvalResult {
+            policy: build_policy_from_dense_bytes(&req.legal_moves_idx, probs_bytes, policy_len),
+            value,
+        });
     }
+    if offset != payload.len() {
+        send_uniform_fallback(batch);
+        return;
+    }
+    for (req, result) in batch.iter().zip(results.into_iter()) {
+        let _ = req.result_tx.send(result);
+    }
+}
 
-    /// Parse batch_eval_resp JSON and send results to waiting threads.
-    ///
-    /// Response format: {"batch_eval_resp":{"responses":[{"policy":[p0,p1,...],"value":V},...]}}
-    /// Each policy is a flat array indexed by action index (same as single eval_resp).
-    #[cfg(test)]
-    fn parse_and_distribute(resp_line: &str, batch: &[BatchRequest<M>]) {
-        let line = resp_line.trim();
+fn send_uniform_fallback<M: Copy + Send + 'static>(batch: &[BatchRequest<M>]) {
+    for req in batch {
+        send_single_uniform(req);
+    }
+}
 
-        // Find "responses":[ array
-        let responses_key = "\"responses\":[";
-        let resp_start = match line.find(responses_key) {
-            Some(pos) => pos + responses_key.len(),
+fn send_single_uniform<M: Copy + Send + 'static>(req: &BatchRequest<M>) {
+    let n = req.legal_moves_idx.len();
+    let p = if n > 0 { 1.0 / n as f32 } else { 0.0 };
+    let policy = req.legal_moves_idx.iter().map(|&(m, _)| (m, p)).collect();
+    let _ = req.result_tx.send(EvalResult { policy, value: 0.0 });
+}
+
+/// Parse batch_eval_resp JSON and send results to waiting threads (test-only).
+#[cfg(test)]
+fn parse_and_distribute<M: Copy + Eq + Hash + Debug + Send + 'static>(
+    resp_line: &str,
+    batch: &[BatchRequest<M>],
+) {
+    let line = resp_line.trim();
+
+    // Find "responses":[ array
+    let responses_key = "\"responses\":[";
+    let resp_start = match line.find(responses_key) {
+        Some(pos) => pos + responses_key.len(),
+        None => {
+            send_uniform_fallback(batch);
+            return;
+        }
+    };
+
+    // Parse each {"policy":[...],"value":V} entry sequentially
+    let mut cursor = resp_start;
+    for req in batch.iter() {
+        let pol_key = "\"policy\":[";
+        let pol_start = match line[cursor..].find(pol_key) {
+            Some(pos) => cursor + pos + pol_key.len(),
             None => {
-                Self::send_uniform_fallback(batch);
-                return;
+                send_single_uniform(req);
+                continue;
             }
         };
+        let pol_end = match line[pol_start..].find(']') {
+            Some(pos) => pol_start + pos,
+            None => {
+                send_single_uniform(req);
+                continue;
+            }
+        };
+        let probs: Vec<f32> = line[pol_start..pol_end]
+            .split(',')
+            .filter_map(|s| s.trim().parse().ok())
+            .collect();
 
-        // Parse each {"policy":[...],"value":V} entry sequentially
-        let mut cursor = resp_start;
-        for req in batch.iter() {
-            let pol_key = "\"policy\":[";
-            let pol_start = match line[cursor..].find(pol_key) {
-                Some(pos) => cursor + pos + pol_key.len(),
-                None => {
-                    Self::send_single_uniform(req);
-                    continue;
-                }
-            };
-            let pol_end = match line[pol_start..].find(']') {
-                Some(pos) => pol_start + pos,
-                None => {
-                    Self::send_single_uniform(req);
-                    continue;
-                }
-            };
-            let probs: Vec<f32> = line[pol_start..pol_end]
-                .split(',')
-                .filter_map(|s| s.trim().parse().ok())
-                .collect();
+        let val_key = "\"value\":";
+        let value = if let Some(vs) = line[pol_end..].find(val_key) {
+            let vstart = pol_end + vs + val_key.len();
+            let vrest = line[vstart..].trim_start();
+            let vend = vrest
+                .find(|c: char| !c.is_ascii_digit() && c != '-' && c != '.')
+                .unwrap_or(vrest.len());
+            vrest[..vend].parse::<f32>().unwrap_or(0.0)
+        } else {
+            0.0
+        };
 
-            let val_key = "\"value\":";
-            let value = if let Some(vs) = line[pol_end..].find(val_key) {
-                let vstart = pol_end + vs + val_key.len();
-                let vrest = line[vstart..].trim_start();
-                let vend = vrest
-                    .find(|c: char| !c.is_ascii_digit() && c != '-' && c != '.')
-                    .unwrap_or(vrest.len());
-                vrest[..vend].parse::<f32>().unwrap_or(0.0)
+        // Build policy: legal_moves_idx stores (move, action_index) pairs,
+        // so we directly index into the flat probs array.
+        let mut policy = Vec::with_capacity(req.legal_moves_idx.len());
+        let mut sum = 0.0f32;
+        for &(mv, idx) in &req.legal_moves_idx {
+            let p = if idx < probs.len() {
+                probs[idx].max(0.0)
             } else {
                 0.0
             };
-
-            // Build policy: legal_moves_idx stores (move, action_index) pairs,
-            // so we directly index into the flat probs array.
-            let mut policy = Vec::with_capacity(req.legal_moves_idx.len());
-            let mut sum = 0.0f32;
-            for &(mv, idx) in &req.legal_moves_idx {
-                let p = if idx < probs.len() {
-                    probs[idx].max(0.0)
-                } else {
-                    0.0
-                };
-                sum += p;
-                policy.push((mv, p));
-            }
-            if sum > 0.0 {
-                for (_, p) in &mut policy {
-                    *p /= sum;
-                }
-            }
-
-            let _ = req.result_tx.send(EvalResult { policy, value });
-            cursor = pol_end;
+            sum += p;
+            policy.push((mv, p));
         }
-    }
-
-    fn send_uniform_fallback(batch: &[BatchRequest<M>]) {
-        for req in batch {
-            Self::send_single_uniform(req);
+        if sum > 0.0 {
+            for (_, p) in &mut policy {
+                *p /= sum;
+            }
         }
-    }
 
-    fn send_single_uniform(req: &BatchRequest<M>) {
-        let n = req.legal_moves_idx.len();
-        let p = if n > 0 { 1.0 / n as f32 } else { 0.0 };
-        let policy = req.legal_moves_idx.iter().map(|&(m, _)| (m, p)).collect();
-        let _ = req.result_tx.send(EvalResult { policy, value: 0.0 });
+        let _ = req.result_tx.send(EvalResult { policy, value });
+        cursor = pol_end;
     }
+}
 
+impl<M: Copy + Eq + Hash + Debug + Send + 'static> BatchStdioEval<M> {
     pub fn submit<G>(&self, state: &G) -> AsyncEvalTicket<M>
     where
         G: GameState<Move = M>,
@@ -1626,8 +1672,8 @@ impl<M: Copy + Eq + Hash + Debug + Send + 'static> BatchStdioEval<M> {
                 value: 0.0,
             });
             let started = Instant::now();
-            self.shared.stats.waiter_enter();
-            return AsyncEvalTicket::from_parts(legal, result_rx, started, self.shared.stats.clone());
+            self.broker.stats.waiter_enter();
+            return AsyncEvalTicket::from_parts(legal, result_rx, started, self.broker.stats.clone());
         }
 
         let planes = state.encode_planes();
@@ -1649,23 +1695,23 @@ impl<M: Copy + Eq + Hash + Debug + Send + 'static> BatchStdioEval<M> {
             result_tx,
         };
 
-        self.shared.stats.on_submit();
-        self.shared.stats.waiter_enter();
-        if self.shared.request_tx.send(request).is_err() {
-            self.shared.stats.on_send_failed();
+        self.broker.stats.on_submit();
+        self.broker.stats.waiter_enter();
+        if self.broker.request_tx.send(request).is_err() {
+            self.broker.stats.on_send_failed();
             let (fallback_tx, fallback_rx) = channel::bounded(1);
             let _ = fallback_tx.send(EvalResult::uniform(&legal, 0.0));
-            return AsyncEvalTicket::from_parts(legal, fallback_rx, wait_started_at, self.shared.stats.clone());
+            return AsyncEvalTicket::from_parts(legal, fallback_rx, wait_started_at, self.broker.stats.clone());
         }
 
-        AsyncEvalTicket::from_parts(legal, result_rx, wait_started_at, self.shared.stats.clone())
+        AsyncEvalTicket::from_parts(legal, result_rx, wait_started_at, self.broker.stats.clone())
     }
 }
 
 impl<M: Copy + Eq + Hash + Debug + Send + 'static> Clone for BatchStdioEval<M> {
     fn clone(&self) -> Self {
         Self {
-            shared: self.shared.clone(),
+            broker: self.broker.clone(),
             model_tag: self.model_tag,
         }
     }
@@ -1682,9 +1728,14 @@ where
 
 impl<M: Copy + Eq + Hash + Debug + Send + 'static> Drop for BatchStdioEval<M> {
     fn drop(&mut self) {
-        if Arc::strong_count(&self.shared) == 1 {
-            self.shared.shutdown.store(true, Ordering::Relaxed);
-            if let Some(handle) = self.shared.io_handle.lock().unwrap().take() {
+        // Evaluators no longer own the broker thread. When the last reference to
+        // GlobalBrokerShared is dropped, the broker thread will exit on its own
+        // (channel disconnects → recv returns Disconnected).
+        // For backward-compat with new() which creates an internal broker,
+        // we still signal shutdown when we're the last holder.
+        if Arc::strong_count(&self.broker) == 1 {
+            self.broker.shutdown.store(true, Ordering::Relaxed);
+            if let Some(handle) = self.broker.io_handle.lock().unwrap().take() {
                 let _ = handle.join();
             }
         }
@@ -1770,7 +1821,7 @@ mod tests {
         let batch = vec![req];
 
         let resp = r#"{"batch_eval_resp":{"responses":[{"policy":[0.1,0.0,0.0,0.0,0.5,0.0,0.0,0.0,0.4],"value":0.42}]}}"#;
-        BatchStdioEval::<TestMove>::parse_and_distribute(resp, &batch);
+        parse_and_distribute(resp, &batch);
 
         let result = rx.recv().unwrap();
         assert_eq!(result.policy.len(), 3);
@@ -1793,7 +1844,7 @@ mod tests {
         let batch = vec![req1, req2];
 
         let resp = r#"{"batch_eval_resp":{"responses":[{"policy":[0.6,0.4,0,0,0,0,0,0,0],"value":0.1},{"policy":[0,0,0,0.3,0,0.7,0,0,0],"value":-0.5}]}}"#;
-        BatchStdioEval::<TestMove>::parse_and_distribute(resp, &batch);
+        parse_and_distribute(resp, &batch);
 
         let r1 = rx1.recv().unwrap();
         assert_eq!(r1.policy.len(), 2);
@@ -1817,7 +1868,7 @@ mod tests {
 
         // Malformed JSON: missing "responses" key
         let resp = r#"{"garbage": true}"#;
-        BatchStdioEval::<TestMove>::parse_and_distribute(resp, &batch);
+        parse_and_distribute(resp, &batch);
 
         let result = rx.recv().unwrap();
         // Should get uniform fallback: 3 moves, each with 1/3 probability
@@ -1836,7 +1887,7 @@ mod tests {
 
         // Valid structure but policy missing for this response
         let resp = r#"{"batch_eval_resp":{"responses":[{"value":0.5}]}}"#;
-        BatchStdioEval::<TestMove>::parse_and_distribute(resp, &batch);
+        parse_and_distribute(resp, &batch);
 
         let result = rx.recv().unwrap();
         // Fallback: uniform with 1 move
@@ -1904,7 +1955,7 @@ mod tests {
         let (tx, rx) = channel::bounded(1);
         let req = make_request(&[(0, 0), (1, 1), (2, 2), (3, 3)], tx);
 
-        BatchStdioEval::<TestMove>::send_single_uniform(&req);
+        send_single_uniform(&req);
 
         let result = rx.recv().unwrap();
         assert_eq!(result.policy.len(), 4);
@@ -1929,7 +1980,7 @@ mod tests {
 
         let resp =
             r#"{"batch_eval_resp":{"responses":[{"policy":[0,0,0,0,1.0,0,0,0,0],"value":-0.99}]}}"#;
-        BatchStdioEval::<TestMove>::parse_and_distribute(resp, &batch);
+        parse_and_distribute(resp, &batch);
 
         let result = rx.recv().unwrap();
         assert!((result.value - (-0.99)).abs() < 1e-4);
@@ -1945,7 +1996,7 @@ mod tests {
 
         let resp =
             r#"{"batch_eval_resp":{"responses":[{"policy":[0,0,0,0,0,0,0,0,0],"value":0.0}]}}"#;
-        BatchStdioEval::<TestMove>::parse_and_distribute(resp, &batch);
+        parse_and_distribute(resp, &batch);
 
         let result = rx.recv().unwrap();
         assert_eq!(result.policy.len(), 2);
@@ -1985,7 +2036,7 @@ mod tests {
             (&[0.0, 0.0, 0.0, 0.3, 0.0, 0.0, 0.0, 0.0, 0.7], -0.5f32),
         ]);
 
-        BatchStdioEval::<TestMove>::distribute_binary_batch(&payload, &batch);
+        distribute_binary_batch(&payload, &batch);
 
         let r1 = rx1.recv().unwrap();
         assert_eq!(r1.policy.len(), 2);

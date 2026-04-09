@@ -15,7 +15,7 @@ use rand::rngs::StdRng;
 use rand::{Rng, SeedableRng};
 
 use crate::game::GameState;
-use crate::mcts::eval::{AsyncEvalTicket, BatchStdioEval, ShortRollout};
+use crate::mcts::eval::{AsyncEvalTicket, BatchStdioEval, GlobalBroker, ShortRollout};
 use crate::mcts::node::edge_lock_contention_snapshot;
 use crate::mcts::quartz::{PenaltyMode, QuartzConfig, QuartzController};
 use crate::mcts::search::FixedIterations;
@@ -3049,11 +3049,12 @@ fn handle_eval_nn_run_gomoku(
         max_batch_size: batch_size.max(n_threads),
         timeout_us: batch_timeout_us,
     };
-    let (eval_a, eval_b) = if dual_model {
-        let (a, b) = BatchStdioEval::<usize>::new_shared_pair(49, batch_cfg, 0, 1);
-        (a, Some(b))
+    let broker = GlobalBroker::<usize>::new(49, batch_cfg);
+    let eval_a = BatchStdioEval::<usize>::from_broker(&broker, 0);
+    let eval_b = if dual_model {
+        Some(BatchStdioEval::<usize>::from_broker(&broker, 1))
     } else {
-        (BatchStdioEval::<usize>::new(49, batch_cfg), None)
+        None
     };
     let started = Instant::now();
     let progress_every = (sessions.len() / 10).clamp(1, 25);
@@ -3280,7 +3281,8 @@ fn handle_selfplay_nn_run_gomoku(
         max_batch_size: batch_size.max(n_threads),
         timeout_us: batch_timeout_us,
     };
-    let eval_a = BatchStdioEval::<usize>::new(49, batch_cfg);
+    let broker = GlobalBroker::<usize>::new(49, batch_cfg);
+    let eval_a = BatchStdioEval::<usize>::from_broker(&broker, 0);
     let slot_count = parallel.max(batch_size).max(1).min(num_games.max(1));
     let mut games_done = 0usize;
     let mut games_started = 0usize;
