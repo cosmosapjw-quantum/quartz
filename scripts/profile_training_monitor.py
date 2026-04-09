@@ -233,6 +233,12 @@ def summarize_rust_server_trace(path: Path) -> dict[str, Any]:
         "events": {},
         "max_queue_depth": 0,
         "max_active_waiters": 0,
+        "broker_queue_wait_s": 0.0,
+        "broker_result_wait_s": 0.0,
+        "broker_flush_fallback": 0,
+        "broker_flush_target_batch": 0,
+        "broker_flush_timeout": 0,
+        "broker_snapshots": 0,
         "max_tt_lock_wait_ms": 0.0,
         "tt_lock_wait_ms_sum": 0.0,
         "tt_get_or_create_calls_sum": 0,
@@ -248,6 +254,9 @@ def summarize_rust_server_trace(path: Path) -> dict[str, Any]:
         "async_batch_jobs_sum": 0,
         "async_batch_max_jobs": 0,
         "async_batch_null_results_sum": 0,
+        "async_batch_null_inactive_slot_sum": 0,
+        "async_batch_null_result_miss_sum": 0,
+        "worker_done_events": [],
         "async_batch_max_inflight_per_job": 0,
         "selfplay_runner_done_count": 0,
         "selfplay_runner_done_duration_ms_sum": 0.0,
@@ -266,6 +275,26 @@ def summarize_rust_server_trace(path: Path) -> dict[str, Any]:
             out["max_active_waiters"] = max(
                 out["max_active_waiters"], int(broker.get("max_active_waiters", 0) or 0)
             )
+            # GlobalBroker health: accumulate wait times and flush reasons
+            out["broker_queue_wait_s"] = max(
+                out["broker_queue_wait_s"], float(broker.get("queue_wait_s", 0.0) or 0.0)
+            )
+            out["broker_result_wait_s"] = max(
+                out["broker_result_wait_s"], float(broker.get("result_wait_s", 0.0) or 0.0)
+            )
+            flush = broker.get("flush_reason_counts") or {}
+            if isinstance(flush, dict):
+                out["broker_flush_fallback"] = max(
+                    out["broker_flush_fallback"], int(flush.get("fallback", 0) or 0)
+                )
+                out["broker_flush_target_batch"] = max(
+                    out["broker_flush_target_batch"], int(flush.get("target_batch_reached", 0) or 0)
+                )
+                out["broker_flush_timeout"] = max(
+                    out["broker_flush_timeout"], int(flush.get("max_wait_reached", 0) or 0)
+                )
+        if event == "batch_broker_snapshot":
+            out["broker_snapshots"] += 1
         out["max_queue_depth"] = max(out["max_queue_depth"], int(row.get("max_queue_depth", 0) or 0))
         out["max_active_waiters"] = max(
             out["max_active_waiters"], int(row.get("max_active_waiters", 0) or 0)
@@ -303,7 +332,23 @@ def summarize_rust_server_trace(path: Path) -> dict[str, Any]:
                 out["async_batch_max_inflight_per_job"], int(row.get("max_inflight_per_job", 0) or 0)
             )
         elif event == "run_multi_async_batch_done":
+            # Support both old (null_results) and new (null_inactive_slot + null_result_miss) formats
             out["async_batch_null_results_sum"] += int(row.get("null_results", 0) or 0)
+            out["async_batch_null_inactive_slot_sum"] += int(row.get("null_inactive_slot", 0) or 0)
+            out["async_batch_null_result_miss_sum"] += int(row.get("null_result_miss", 0) or 0)
+            # Credit system metrics (from PR 2/4)
+            if row.get("credit_capacity") is not None:
+                out["credit_capacity"] = max(
+                    int(out.get("credit_capacity") or 0), int(row.get("credit_capacity", 0) or 0)
+                )
+            if row.get("peak_inflight") is not None:
+                out["peak_inflight"] = max(
+                    int(out.get("peak_inflight") or 0), int(row.get("peak_inflight", 0) or 0)
+                )
+            if row.get("worker_threads") is not None:
+                out["max_worker_threads"] = max(
+                    int(out.get("max_worker_threads") or 0), int(row.get("worker_threads", 0) or 0)
+                )
         elif event == "selfplay_runner_done":
             dur = float(row.get("duration_ms", 0.0) or 0.0)
             out["selfplay_runner_done_count"] += 1
@@ -314,7 +359,48 @@ def summarize_rust_server_trace(path: Path) -> dict[str, Any]:
             out["eval_runner_done_count"] += 1
             out["eval_runner_done_duration_ms_sum"] += dur
             out["eval_runner_done_duration_ms_max"] = max(out["eval_runner_done_duration_ms_max"], dur)
+        elif event == "worker_done":
+            out["worker_done_events"].append({
+                "worker_id": int(row.get("worker_id", -1)),
+                "jobs_count": int(row.get("jobs_count", 0) or 0),
+                "iterations_completed": int(row.get("iterations_completed", 0) or 0),
+                "idle_spins": int(row.get("idle_spins", 0) or 0),
+            })
     return out
+
+
+_EVAL_SR_RE = re.compile(r"sr=([0-9.]+)")
+_EVAL_PV_RE = re.compile(r"p=([0-9.]+)")
+_EVAL_VERDICT_RE = re.compile(r"verdict=(\w+)")
+_EVAL_GAMES_RE = re.compile(r"(\d+)\s*(?:scored|games)")
+_EVAL_VOID_RE = re.compile(r"void(?:ed)?[:\s]+(\d+)", re.IGNORECASE)
+_EVAL_ERROR_RE = re.compile(r"error(?:s)?[:\s]+(\d+)", re.IGNORECASE)
+
+
+def _parse_eval_result_line(line: str, out: dict[str, Any]) -> None:
+    """Extract promotion verdict and score rate from Eval: stdout lines."""
+    if not line:
+        return
+    entry: dict[str, Any] = {"raw": line}
+    m = _EVAL_SR_RE.search(line)
+    if m:
+        entry["score_rate"] = float(m.group(1))
+    m = _EVAL_PV_RE.search(line)
+    if m:
+        entry["p_value"] = float(m.group(1))
+    m = _EVAL_VERDICT_RE.search(line)
+    if m:
+        entry["verdict"] = m.group(1)
+    m = _EVAL_GAMES_RE.search(line)
+    if m:
+        entry["games"] = int(m.group(1))
+    m = _EVAL_VOID_RE.search(line)
+    if m:
+        entry["voids"] = int(m.group(1))
+    m = _EVAL_ERROR_RE.search(line)
+    if m:
+        entry["errors"] = int(m.group(1))
+    out["promotion_verdicts"].append(entry)
 
 
 def summarize_events(path: Path) -> dict[str, Any]:
@@ -326,6 +412,9 @@ def summarize_events(path: Path) -> dict[str, Any]:
         "max_iter": 0,
         "max_total": 0,
         "evaluation_progress_count": 0,
+        "evaluation_result_count": 0,
+        "evaluation_errors": [],
+        "promotion_verdicts": [],
         "training_wait_count": 0,
         "training_wait_total_s": 0.0,
         "training_wait_max_s": 0.0,
@@ -339,6 +428,11 @@ def summarize_events(path: Path) -> dict[str, Any]:
         out["types"][evt_type] = out["types"].get(evt_type, 0) + 1
         if evt_type == "evaluation_progress":
             out["evaluation_progress_count"] += 1
+        elif evt_type == "evaluation_result":
+            out["evaluation_result_count"] += 1
+            _parse_eval_result_line(row.get("line", ""), out)
+        elif evt_type == "evaluation_error":
+            out["evaluation_errors"].append(row.get("line", ""))
         elif evt_type == "training_wait":
             out["training_wait_count"] += 1
             try:
@@ -402,7 +496,7 @@ def summarize_phase_samples(path: Path) -> dict[str, Any]:
             if isinstance(gpus, list) and gpus:
                 raw = gpus[0].get("gpu_util")
                 try:
-                    gpu_vals.append(float(raw))
+                    gpu_vals.append(float(str(raw).rstrip("% ")))
                 except (TypeError, ValueError):
                     pass
         out["phases"][phase] = {
@@ -481,10 +575,53 @@ def build_bottleneck_report(
     async_batch_runs = int(rust_server_trace_summary.get("async_batch_runs") or 0)
     async_batch_jobs_sum = int(rust_server_trace_summary.get("async_batch_jobs_sum") or 0)
     async_batch_null_results = int(rust_server_trace_summary.get("async_batch_null_results_sum") or 0)
+    async_batch_null_result_miss = int(rust_server_trace_summary.get("async_batch_null_result_miss_sum") or 0)
+    async_batch_null_inactive = int(rust_server_trace_summary.get("async_batch_null_inactive_slot_sum") or 0)
     max_wait_reached = int((rust_qipc_summary.get("flush_reason_counts") or {}).get("max_wait_reached") or 0)
     target_batch_reached = int((rust_qipc_summary.get("flush_reason_counts") or {}).get("target_batch_reached") or 0)
 
+    # GlobalBroker health from rust_server_trace
+    broker_queue_wait_s = float(rust_server_trace_summary.get("broker_queue_wait_s") or 0.0)
+    broker_result_wait_s = float(rust_server_trace_summary.get("broker_result_wait_s") or 0.0)
+    broker_fallback = int(rust_server_trace_summary.get("broker_flush_fallback") or 0)
+    broker_snapshots = int(rust_server_trace_summary.get("broker_snapshots") or 0)
+
+    # Promotion audit from event summary
+    promotion_verdicts = event_summary.get("promotion_verdicts") or []
+    eval_errors = event_summary.get("evaluation_errors") or []
+
     findings: list[str] = []
+
+    # --- GlobalBroker findings ---
+    if broker_result_wait_s > max(broker_queue_wait_s * 8.0, 1.0):
+        findings.append("broker_result_wait_high")
+    if broker_fallback > 0:
+        findings.append("broker_fallback_detected")
+    if broker_snapshots == 0 and async_batch_runs > 0:
+        findings.append("broker_snapshots_missing")
+
+    # --- Worker imbalance detection (per large-wave only) ---
+    # Filter to large-wave workers (>= 1000 iterations) to avoid mixing
+    # selfplay waves (small, 2 jobs) with eval waves (large, 200 jobs).
+    worker_events = rust_server_trace_summary.get("worker_done_events") or []
+    worker_completions = [w.get("iterations_completed", 0) for w in worker_events if w.get("iterations_completed", 0) > 0]
+    large_wave_completions = [c for c in worker_completions if c >= 1000]
+    worker_imbalance_ratio = 1.0
+    if len(large_wave_completions) >= 2:
+        worker_imbalance_ratio = max(large_wave_completions) / max(min(large_wave_completions), 1)
+        if worker_imbalance_ratio > 1.20:
+            findings.append("worker_imbalance_high")
+
+    # --- Promotion gate audit ---
+    for pv in promotion_verdicts:
+        voids = int(pv.get("voids") or 0)
+        errs = int(pv.get("errors") or 0)
+        if voids > 0 or errs > 0:
+            findings.append("eval_voids_or_errors_present")
+            break
+    if eval_errors:
+        findings.append("terminal_void_detected")
+
     if result_wait_s > max(queue_wait_s * 2.0, 1.0):
         findings.append("result_wait_dominant")
     if io_time_s > max(codec_time_s * 10.0, 1.0):
@@ -505,7 +642,7 @@ def build_bottleneck_report(
         findings.append("replay_starvation_visible")
     if selfplay_wave_count > 0 and selfplay_positions_emitted == 0:
         findings.append("selfplay_wave_no_positions")
-    if async_batch_runs > 0 and async_batch_null_results > 0:
+    if async_batch_runs > 0 and async_batch_null_result_miss > 0:
         findings.append("async_batch_null_results_present")
     if async_batch_runs > 0:
         avg_jobs = async_batch_jobs_sum / max(async_batch_runs, 1)
@@ -550,10 +687,31 @@ def build_bottleneck_report(
             "runs": async_batch_runs,
             "jobs_sum": async_batch_jobs_sum,
             "null_results_sum": async_batch_null_results,
+            "null_inactive_slot_sum": async_batch_null_inactive,
+            "null_result_miss_sum": async_batch_null_result_miss,
             "max_inflight_per_job": int(rust_server_trace_summary.get("async_batch_max_inflight_per_job") or 0),
             "max_jobs": int(rust_server_trace_summary.get("async_batch_max_jobs") or 0),
             "flush_max_wait_reached": max_wait_reached,
             "flush_target_batch_reached": target_batch_reached,
+        },
+        "broker_health": {
+            "snapshots": broker_snapshots,
+            "queue_wait_s": round(broker_queue_wait_s, 6),
+            "result_wait_s": round(broker_result_wait_s, 6),
+            "result_vs_queue_ratio": round(broker_result_wait_s / max(broker_queue_wait_s, 1e-9), 3),
+            "fallback_count": broker_fallback,
+            "flush_target_batch": int(rust_server_trace_summary.get("broker_flush_target_batch") or 0),
+            "flush_timeout": int(rust_server_trace_summary.get("broker_flush_timeout") or 0),
+        },
+        "promotion_audit": {
+            "verdicts_captured": len(promotion_verdicts),
+            "verdicts": promotion_verdicts[-5:] if promotion_verdicts else [],
+            "eval_error_lines": eval_errors[-5:] if eval_errors else [],
+        },
+        "worker_pool": {
+            "worker_count": len(worker_completions),
+            "per_worker_completed": worker_completions,
+            "imbalance_ratio": round(worker_imbalance_ratio, 3),
         },
         "phase_cpu_thr_mean": {
             "training": training_phase.get("cpu_thr_mean"),
@@ -578,7 +736,11 @@ def parse_rocm_smi_json(raw: str) -> dict[str, Any]:
         row = {"card": key}
         for k, v in value.items():
             lk = k.lower()
-            if "gpu use" in lk or "average_gfx_activity" in lk or "gfx activity" in lk:
+            if "average_gfx_activity" in lk:
+                row["average_gfx_activity"] = v
+                if "gpu_util" not in row:
+                    row["gpu_util"] = v
+            elif "gpu use" in lk or "gfx activity" in lk:
                 row["gpu_util"] = v
             elif "vram" in lk and ("used" in lk or "use" in lk or "allocated" in lk):
                 row["vram"] = v
@@ -596,10 +758,16 @@ def parse_rocm_smi_json(raw: str) -> dict[str, Any]:
 
 def sample_gpu() -> dict[str, Any] | None:
     if shutil.which("rocm-smi"):
+        # Query both instant snapshot and averaged metrics, merge results.
+        # Instant "GPU use (%)" can read 0 between short inference bursts;
+        # "average_gfx_activity (%)" from --showmetrics is a rolling average
+        # that better captures bursty GPU workloads.
         commands = [
             ["rocm-smi", "-u", "--showmemuse", "--showpower", "--showclkfrq", "--json"],
             ["rocm-smi", "--showmetrics", "--json"],
         ]
+        merged: dict[str, Any] = {"tool": "rocm-smi"}
+        merged_gpus: dict[str, dict[str, Any]] = {}
         errors = []
         for cmd in commands:
             try:
@@ -612,11 +780,39 @@ def sample_gpu() -> dict[str, Any] | None:
                 )
                 payload = (proc.stdout or "") + ("\n" + proc.stderr if proc.stderr else "")
                 if "{" in payload:
-                    return {"tool": "rocm-smi", "command": cmd[1:], **parse_rocm_smi_json(payload)}
-                if payload.strip():
+                    parsed = parse_rocm_smi_json(payload)
+                    for gpu_row in (parsed.get("gpus") or []):
+                        card = gpu_row.get("card", "?")
+                        merged_gpus.setdefault(card, {"card": card}).update(gpu_row)
+                elif payload.strip():
                     errors.append({"command": cmd[1:], "output": payload.strip()})
             except Exception as exc:  # pragma: no cover
                 errors.append({"command": cmd[1:], "error": str(exc)})
+        if merged_gpus:
+            gpu_list = list(merged_gpus.values())
+            # Prefer average_gfx_activity over instant gpu_util when both exist
+            for g in gpu_list:
+                avg = g.get("average_gfx_activity")
+                instant = g.get("gpu_util")
+                if avg is not None and instant is not None:
+                    try:
+                        avg_f = float(str(avg).rstrip("%"))
+                        inst_f = float(str(instant).rstrip("%"))
+                        # Use whichever is higher — the average captures bursty load
+                        g["gpu_util"] = max(avg_f, inst_f)
+                        g["gpu_util_instant"] = inst_f
+                        g["gpu_util_average"] = avg_f
+                    except (TypeError, ValueError):
+                        pass
+                elif avg is not None and instant is None:
+                    try:
+                        g["gpu_util"] = float(str(avg).rstrip("%"))
+                    except (TypeError, ValueError):
+                        pass
+            merged["gpus"] = gpu_list
+            return merged
+        if errors:
+            return {"tool": "rocm-smi", "error": "no_parseable_json", "attempts": errors}
         return {"tool": "rocm-smi", "error": "no_parseable_json", "attempts": errors}
     if shutil.which("nvidia-smi"):
         try:
@@ -794,6 +990,9 @@ def parse_stdout_event(line: str) -> dict[str, Any] | None:
         return evt
     if stripped.startswith("Eval:"):
         evt["type"] = "evaluation_result"
+        return evt
+    if "engine error" in stripped.lower() or "void" in stripped.lower():
+        evt["type"] = "evaluation_error"
         return evt
     wait_match = re.search(r"waiting for self-play: .*? ([0-9]+(?:\\.[0-9]+)?)s$", stripped)
     if wait_match:
@@ -1036,9 +1235,29 @@ def main() -> None:
         command = shlex.split(args.run)
         summary["live_run"] = run_live_monitor(command, model_dir, output_dir, args.interval_s)
     else:
-        rust_qipc_default = output_dir / "rust_qipc.jsonl"
-        if rust_qipc_default.exists():
-            summary["rust_qipc_summary"] = summarize_rust_qipc(rust_qipc_default)
+        # Analysis-only: read all available artifact files from output_dir
+        artifacts = build_artifacts(output_dir)
+        rust_qipc_s = summarize_rust_qipc(artifacts.rust_qipc_jsonl)
+        rust_trace_s = summarize_rust_server_trace(artifacts.rust_server_trace_jsonl)
+        event_s = summarize_events(artifacts.events_jsonl)
+        phase_s = summarize_phase_samples(artifacts.samples_jsonl)
+        runner_s = summarize_runner_progress(artifacts.rust_server_trace_jsonl)
+        any_data = any([
+            rust_qipc_s.get("present"),
+            rust_trace_s.get("present"),
+            event_s.get("present"),
+            phase_s.get("present"),
+            runner_s.get("present"),
+        ])
+        if any_data:
+            summary["rust_qipc_summary"] = rust_qipc_s
+            summary["rust_server_trace_summary"] = rust_trace_s
+            summary["event_summary"] = event_s
+            summary["phase_summary"] = phase_s
+            summary["runner_progress_summary"] = runner_s
+            summary["bottleneck_report"] = build_bottleneck_report(
+                rust_qipc_s, rust_trace_s, phase_s, event_s, runner_s,
+            )
         json_dump(output_dir / "summary.json", summary)
 
     if args.print_summary:

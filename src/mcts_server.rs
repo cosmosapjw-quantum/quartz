@@ -1349,18 +1349,92 @@ fn multi_job_execution_plan(job_count: usize, requested_threads: usize) -> (usiz
     }
 }
 
-struct AsyncBatchPending<G: GameState> {
-    selection: crate::mcts::AsyncPendingIteration<G>,
-    ticket: AsyncEvalTicket<G::Move>,
+// ─── Global inflight credit system ───
+
+/// Atomic credit counter for global inflight admission control.
+/// Limits the total number of pending NN evaluations across all jobs.
+struct GlobalInflightCredit {
+    remaining: AtomicUsize,
+    capacity: usize,
+    peak_used: AtomicUsize,
 }
 
-struct AsyncBatchJob<G: GameState> {
+impl GlobalInflightCredit {
+    fn new(capacity: usize) -> Self {
+        Self {
+            remaining: AtomicUsize::new(capacity),
+            capacity,
+            peak_used: AtomicUsize::new(0),
+        }
+    }
+
+    /// Try to acquire one credit. Returns an RAII permit on success.
+    fn try_acquire(&self) -> Option<CreditPermit<'_>> {
+        let mut prev = self.remaining.load(Ordering::Acquire);
+        loop {
+            if prev == 0 {
+                return None;
+            }
+            match self.remaining.compare_exchange_weak(
+                prev,
+                prev - 1,
+                Ordering::AcqRel,
+                Ordering::Acquire,
+            ) {
+                Ok(_) => {
+                    // Update peak high-water mark
+                    let used = self.capacity - (prev - 1);
+                    let mut peak = self.peak_used.load(Ordering::Relaxed);
+                    while used > peak {
+                        match self.peak_used.compare_exchange_weak(
+                            peak,
+                            used,
+                            Ordering::Relaxed,
+                            Ordering::Relaxed,
+                        ) {
+                            Ok(_) => break,
+                            Err(cur) => peak = cur,
+                        }
+                    }
+                    return Some(CreditPermit { credit: self });
+                }
+                Err(cur) => prev = cur,
+            }
+        }
+    }
+
+    fn peak(&self) -> usize {
+        self.peak_used.load(Ordering::Relaxed)
+    }
+}
+
+/// RAII guard that returns one credit on drop. Prevents credit leaks on
+/// early return, panic, or teardown.
+struct CreditPermit<'a> {
+    credit: &'a GlobalInflightCredit,
+}
+
+impl Drop for CreditPermit<'_> {
+    fn drop(&mut self) {
+        self.credit.remaining.fetch_add(1, Ordering::Release);
+    }
+}
+
+// ─── Async batch job structures ───
+
+struct AsyncBatchPending<'credit, G: GameState> {
+    selection: crate::mcts::AsyncPendingIteration<G>,
+    ticket: AsyncEvalTicket<G::Move>,
+    _permit: CreditPermit<'credit>,
+}
+
+struct AsyncBatchJob<'credit, G: GameState> {
     slot_idx: usize,
     model_tag: u32,
     engine: MctsEngine<G>,
     launched: u32,
     completed: u32,
-    pending: Vec<AsyncBatchPending<G>>,
+    pending: Vec<AsyncBatchPending<'credit, G>>,
 }
 
 fn build_async_result_value<G: GameState>(
@@ -1391,6 +1465,107 @@ where
     ))
 }
 
+/// Per-tick counters accumulated during job processing.
+struct TickCounters {
+    immediate_terminal: u64,
+    immediate_tt_cap: u64,
+}
+
+/// Process one tick of a single async batch job: gather new iterations + reap completed results.
+/// Returns true if any progress was made (launch or reap).
+fn process_job_tick<'credit, G: GameState>(
+    job: &mut AsyncBatchJob<'credit, G>,
+    iters: u32,
+    per_job_soft_cap: usize,
+    credit: &'credit GlobalInflightCredit,
+    eval_a: &BatchStdioEval<G::Move>,
+    eval_b: &Option<BatchStdioEval<G::Move>>,
+    counters: &mut TickCounters,
+) -> bool
+where
+    usize: From<G::Move>,
+{
+    let mut made_progress = false;
+
+    // --- Gather: launch new iterations (gated by per-job soft cap + global credit) ---
+    while job.launched < iters && job.pending.len() < per_job_soft_cap {
+        // Immediate iterations don't consume credit (no NN eval needed)
+        match job.engine.prepare_iteration_async() {
+            PreparedIteration::Immediate { path, value, reason } => {
+                job.engine.apply_iteration_value_async(path, value);
+                job.launched += 1;
+                job.completed += 1;
+                job.engine.refresh_async_runtime(job.completed);
+                made_progress = true;
+                match reason {
+                    crate::mcts::ImmediateReason::TtCapHit => {
+                        counters.immediate_tt_cap += 1;
+                    }
+                    crate::mcts::ImmediateReason::TerminalNode => {
+                        counters.immediate_terminal += 1;
+                    }
+                }
+            }
+            PreparedIteration::Pending(selection) => {
+                // Acquire global credit before submitting to broker
+                let Some(permit) = credit.try_acquire() else {
+                    break; // global budget exhausted — drain first
+                };
+                let ticket = if job.model_tag == 1 {
+                    eval_b
+                        .as_ref()
+                        .cloned()
+                        .unwrap_or_else(|| eval_a.clone())
+                        .submit(&selection.leaf_state)
+                } else {
+                    eval_a.clone().submit(&selection.leaf_state)
+                };
+                job.pending.push(AsyncBatchPending {
+                    selection,
+                    ticket,
+                    _permit: permit,
+                });
+                job.launched += 1;
+                made_progress = true;
+            }
+        }
+    }
+
+    // --- Reap: poll completed results (credit auto-released via RAII on drop) ---
+    let mut idx = 0usize;
+    while idx < job.pending.len() {
+        if let Some(result) = job.pending[idx].ticket.try_take() {
+            let pending = job.pending.swap_remove(idx);
+            // pending._permit dropped here → credit auto-released
+            job.engine.complete_iteration_async(pending.selection, result);
+            job.completed += 1;
+            job.engine.refresh_async_runtime(job.completed);
+            made_progress = true;
+        } else {
+            idx += 1;
+        }
+    }
+
+    made_progress
+}
+
+/// Adaptive backoff for idle spins: spin → yield → 50µs → 200µs.
+fn adaptive_backoff(idle_spins: u64) {
+    let sleep_us = if idle_spins <= 4 {
+        0 // pure spin
+    } else if idle_spins <= 16 {
+        std::thread::yield_now();
+        0
+    } else if idle_spins <= 128 {
+        50 // 50µs
+    } else {
+        200 // 200µs for extended idle
+    };
+    if sleep_us > 0 {
+        std::thread::sleep(std::time::Duration::from_micros(sleep_us));
+    }
+}
+
 fn run_multi_async_batch_tags<G: GameState>(
     tagged_states: &[(usize, G, u32)],
     eval_a: BatchStdioEval<G::Move>,
@@ -1410,6 +1585,15 @@ where
     }
     let max_index = tagged_states.iter().map(|(idx, _, _)| *idx).max().unwrap_or(0);
     let max_inflight_per_job = n_threads.max(1);
+    let job_count = tagged_states.len();
+
+    // Global inflight credit: capacity = floor(aggregate_cap * 3/4), matching
+    // the former load-shedding threshold for behavioral equivalence.
+    let aggregate_cap = max_inflight_per_job * job_count;
+    let credit_capacity = (aggregate_cap * 3 / 4).max(job_count);
+    let credit = GlobalInflightCredit::new(credit_capacity);
+    let per_job_soft_cap = (credit_capacity / job_count.max(1)).max(1) + 2;
+
     let mut jobs = tagged_states
         .iter()
         .cloned()
@@ -1432,117 +1616,145 @@ where
         .collect::<Vec<_>>();
     let mut results = vec![serde_json::Value::Null; max_index + 1];
     let mut idle_spins = 0u64;
-    let mut immediate_terminal = 0u64;
-    let mut immediate_tt_cap = 0u64;
+    let mut counters = TickCounters {
+        immediate_terminal: 0,
+        immediate_tt_cap: 0,
+    };
+
+    // Compute worker thread count independently from n_threads (which means inflight-per-job).
+    let worker_threads = {
+        let avail = std::thread::available_parallelism()
+            .map(|n| n.get())
+            .unwrap_or(1);
+        (avail / 2).max(1).min(job_count)
+    };
 
     rust_server_trace(
         "run_multi_async_batch_start",
         serde_json::json!({
-            "jobs": jobs.len(),
+            "jobs": job_count,
             "iters": iters,
             "max_inflight_per_job": max_inflight_per_job,
+            "worker_threads_effective": worker_threads,
+            "inflight_per_job_effective": per_job_soft_cap,
+            "credit_capacity": credit_capacity,
             "search_profile": search_profile_name(search_profile),
         }),
     );
 
-    while jobs
-        .iter()
-        .any(|job| job.completed < iters || !job.pending.is_empty())
-    {
-        let mut made_progress = false;
-
-        // Load shedding: skip launching new work when aggregate pending is high
-        let total_pending: usize = jobs.iter().map(|j| j.pending.len()).sum();
-        let aggregate_cap = max_inflight_per_job * jobs.len();
-        let load_shed = aggregate_cap > 0 && total_pending >= aggregate_cap * 3 / 4;
-
-        for job in jobs.iter_mut() {
-            if load_shed && !job.pending.is_empty() {
-                continue; // drain existing pending first
-            }
-            while job.launched < iters && job.pending.len() < max_inflight_per_job {
-                match job.engine.prepare_iteration_async() {
-                    PreparedIteration::Immediate { path, value, reason } => {
-                        job.engine.apply_iteration_value_async(path, value);
-                        job.launched += 1;
-                        job.completed += 1;
-                        job.engine.refresh_async_runtime(job.completed);
-                        made_progress = true;
-                        match reason {
-                            crate::mcts::ImmediateReason::TtCapHit => {
-                                immediate_tt_cap += 1;
-                            }
-                            crate::mcts::ImmediateReason::TerminalNode => {
-                                immediate_terminal += 1;
-                            }
-                        }
-                    }
-                    PreparedIteration::Pending(selection) => {
-                        let ticket = if job.model_tag == 1 {
-                            eval_b
-                                .as_ref()
-                                .cloned()
-                                .unwrap_or_else(|| eval_a.clone())
-                                .submit(&selection.leaf_state)
-                        } else {
-                            eval_a.clone().submit(&selection.leaf_state)
-                        };
-                        job.pending.push(AsyncBatchPending { selection, ticket });
-                        job.launched += 1;
-                        made_progress = true;
-                    }
-                }
-            }
-        }
-
-        for job in jobs.iter_mut() {
-            let mut idx = 0usize;
-            while idx < job.pending.len() {
-                if let Some(result) = job.pending[idx].ticket.try_take() {
-                    let pending = job.pending.swap_remove(idx);
-                    job.engine.complete_iteration_async(pending.selection, result);
-                    job.completed += 1;
-                    job.engine.refresh_async_runtime(job.completed);
-                    made_progress = true;
-                } else {
-                    idx += 1;
-                }
-            }
-        }
-
-        if !made_progress {
-            idle_spins += 1;
-            // Adaptive backoff: spin briefly, then yield, then sleep with increasing delay
-            let sleep_us = if idle_spins <= 4 {
-                0 // pure spin
-            } else if idle_spins <= 16 {
-                std::thread::yield_now();
-                0
-            } else if idle_spins <= 128 {
-                50 // 50µs
-            } else {
-                200 // 200µs for extended idle
-            };
-            if idle_spins % 2048 == 0 {
-                rust_server_trace(
-                    "run_multi_async_batch_idle",
-                    serde_json::json!({
-                        "jobs": jobs.len(),
-                        "pending_eval": jobs.iter().map(|j| j.pending.len()).sum::<usize>(),
-                        "completed": jobs.iter().map(|j| j.completed as usize).sum::<usize>(),
-                    }),
+    if worker_threads <= 1 {
+        // Single-threaded path (backward compatible)
+        while jobs
+            .iter()
+            .any(|job| job.completed < iters || !job.pending.is_empty())
+        {
+            let mut made_progress = false;
+            for job in jobs.iter_mut() {
+                made_progress |= process_job_tick(
+                    job, iters, per_job_soft_cap, &credit, &eval_a, &eval_b, &mut counters,
                 );
             }
-            if sleep_us > 0 {
-                std::thread::sleep(std::time::Duration::from_micros(sleep_us));
+            if !made_progress {
+                idle_spins += 1;
+                if idle_spins % 2048 == 0 {
+                    rust_server_trace(
+                        "run_multi_async_batch_idle",
+                        serde_json::json!({
+                            "jobs": job_count,
+                            "pending_eval": jobs.iter().map(|j| j.pending.len()).sum::<usize>(),
+                            "completed": jobs.iter().map(|j| j.completed as usize).sum::<usize>(),
+                            "credit_in_use": credit.capacity - credit.remaining.load(Ordering::Relaxed),
+                        }),
+                    );
+                }
+                adaptive_backoff(idle_spins);
+            } else {
+                idle_spins = 0;
             }
-        } else {
-            idle_spins = 0;
+        }
+    } else {
+        // Multi-threaded path: partition jobs across worker threads
+        let mut worker_buckets: Vec<Vec<AsyncBatchJob<'_, G>>> =
+            (0..worker_threads).map(|_| Vec::new()).collect();
+        for (i, job) in jobs.into_iter().enumerate() {
+            worker_buckets[i % worker_threads].push(job);
+        }
+
+        let worker_results: Vec<(Vec<AsyncBatchJob<'_, G>>, TickCounters, u64)> =
+            std::thread::scope(|s| {
+                let credit_ref = &credit;
+                let eval_a_ref = &eval_a;
+                let eval_b_ref = &eval_b;
+                let handles: Vec<_> = worker_buckets
+                    .into_iter()
+                    .enumerate()
+                    .map(|(wid, mut my_jobs)| {
+                        let my_job_count = my_jobs.len();
+                        s.spawn(move || {
+                            let mut telem = TickCounters {
+                                immediate_terminal: 0,
+                                immediate_tt_cap: 0,
+                            };
+                            let mut local_idle_spins = 0u64;
+                            let mut total_completed = 0u64;
+                            while my_jobs
+                                .iter()
+                                .any(|j| j.completed < iters || !j.pending.is_empty())
+                            {
+                                let mut made_progress = false;
+                                for job in my_jobs.iter_mut() {
+                                    made_progress |= process_job_tick(
+                                        job,
+                                        iters,
+                                        per_job_soft_cap,
+                                        credit_ref,
+                                        eval_a_ref,
+                                        eval_b_ref,
+                                        &mut telem,
+                                    );
+                                }
+                                if !made_progress {
+                                    local_idle_spins += 1;
+                                    adaptive_backoff(local_idle_spins);
+                                } else {
+                                    local_idle_spins = 0;
+                                }
+                            }
+                            total_completed = my_jobs.iter().map(|j| j.completed as u64).sum();
+                            rust_server_trace(
+                                "worker_done",
+                                serde_json::json!({
+                                    "worker_id": wid,
+                                    "jobs_count": my_job_count,
+                                    "iterations_completed": total_completed,
+                                    "idle_spins": local_idle_spins,
+                                }),
+                            );
+                            (my_jobs, telem, local_idle_spins)
+                        })
+                    })
+                    .collect();
+                handles
+                    .into_iter()
+                    .map(|h| h.join().unwrap())
+                    .collect()
+            });
+
+        // Reassemble jobs from all workers
+        jobs = Vec::new();
+        for (worker_jobs, worker_counters, worker_idle) in worker_results {
+            counters.immediate_terminal += worker_counters.immediate_terminal;
+            counters.immediate_tt_cap += worker_counters.immediate_tt_cap;
+            idle_spins += worker_idle;
+            jobs.extend(worker_jobs);
         }
     }
 
+    // Track which slots were targeted by jobs vs structurally inactive
+    let mut targeted_slots = vec![false; results.len()];
     for job in jobs.iter() {
         if job.slot_idx < results.len() {
+            targeted_slots[job.slot_idx] = true;
             results[job.slot_idx] = build_async_result_value(
                 &job.engine,
                 job.completed,
@@ -1552,14 +1764,31 @@ where
         }
     }
 
+    // Split null metrics: inactive-slot (structural) vs result-miss (actual failure)
+    let mut null_inactive_slot = 0usize;
+    let mut null_result_miss = 0usize;
+    for (i, v) in results.iter().enumerate() {
+        if v.is_null() {
+            if i < targeted_slots.len() && targeted_slots[i] {
+                null_result_miss += 1;
+            } else {
+                null_inactive_slot += 1;
+            }
+        }
+    }
+
     rust_server_trace(
         "run_multi_async_batch_done",
         serde_json::json!({
             "results_len": results.len(),
-            "null_results": results.iter().filter(|v| v.is_null()).count(),
-            "immediate_terminal": immediate_terminal,
-            "immediate_tt_cap": immediate_tt_cap,
+            "null_inactive_slot": null_inactive_slot,
+            "null_result_miss": null_result_miss,
+            "immediate_terminal": counters.immediate_terminal,
+            "immediate_tt_cap": counters.immediate_tt_cap,
             "idle_spins": idle_spins,
+            "worker_threads": worker_threads,
+            "credit_capacity": credit_capacity,
+            "peak_inflight": credit.peak(),
         }),
     );
 
@@ -3671,5 +3900,74 @@ mod tests {
         assert_eq!(parse_go_game("go9"), Some((9, GoRuleset::Chinese)));
         assert_eq!(parse_go_game("go9_jp"), Some((9, GoRuleset::Japanese)));
         assert_eq!(parse_go_game("go19_kr"), Some((19, GoRuleset::Korean)));
+    }
+
+    #[test]
+    fn test_global_inflight_credit_basic() {
+        let credit = GlobalInflightCredit::new(3);
+        // Acquire all 3
+        let p1 = credit.try_acquire();
+        let p2 = credit.try_acquire();
+        let p3 = credit.try_acquire();
+        assert!(p1.is_some());
+        assert!(p2.is_some());
+        assert!(p3.is_some());
+        // 4th should fail
+        assert!(credit.try_acquire().is_none());
+        assert_eq!(credit.peak(), 3);
+        // Drop one → can acquire again
+        drop(p2);
+        let p4 = credit.try_acquire();
+        assert!(p4.is_some());
+        assert!(credit.try_acquire().is_none());
+        // Drop all → remaining restored
+        drop(p1);
+        drop(p3);
+        drop(p4);
+        assert_eq!(credit.remaining.load(std::sync::atomic::Ordering::Relaxed), 3);
+    }
+
+    #[test]
+    fn test_credit_permit_raii_on_panic() {
+        let credit = std::sync::Arc::new(GlobalInflightCredit::new(5));
+        let c2 = credit.clone();
+        let handle = std::thread::spawn(move || {
+            let _p1 = c2.try_acquire().unwrap();
+            let _p2 = c2.try_acquire().unwrap();
+            panic!("intentional panic to test RAII");
+        });
+        let _ = handle.join(); // join panicked thread
+        // Both permits should have been released via Drop
+        assert_eq!(credit.remaining.load(std::sync::atomic::Ordering::Relaxed), 5);
+    }
+
+    #[test]
+    fn test_credits_in_equals_credits_out() {
+        use std::sync::Arc;
+        let credit = Arc::new(GlobalInflightCredit::new(100));
+        let barrier = Arc::new(std::sync::Barrier::new(8));
+        let mut handles = Vec::new();
+        for _ in 0..8 {
+            let c = credit.clone();
+            let b = barrier.clone();
+            handles.push(std::thread::spawn(move || {
+                b.wait();
+                for _ in 0..1000 {
+                    if let Some(permit) = c.try_acquire() {
+                        // Hold briefly then release via drop
+                        std::hint::black_box(&permit);
+                        drop(permit);
+                    }
+                }
+            }));
+        }
+        for h in handles {
+            h.join().unwrap();
+        }
+        assert_eq!(
+            credit.remaining.load(std::sync::atomic::Ordering::Relaxed),
+            100,
+            "credits leaked: remaining != capacity"
+        );
     }
 }

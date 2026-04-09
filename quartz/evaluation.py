@@ -721,7 +721,8 @@ class PromotionGate:
     def evaluate(self, tally):
         n=tally.scored; z=Z_TABLE.get(self.cfg.confidence,1.96)
         sr,sr_ci=score_rate_ci(tally.wins,tally.draws,n,z)
-        wl=wilson_ci(tally.wins,n,z)[0]; pv=binomial_p_value(tally.wins,n,0.5)
+        scored=tally.wins+0.5*tally.draws
+        wl=wilson_ci(scored,n,z)[0]; pv=binomial_p_value(scored,n,0.5)
         sig=n>=self.cfg.min_games and pv<(1-self.cfg.confidence)
         if n<self.cfg.min_games: verdict=PromotionVerdict.NEED_MORE; reason=f"Only {n}/{self.cfg.min_games} scored games"
         elif sr>=self.cfg.threshold:

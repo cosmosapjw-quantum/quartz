@@ -1150,9 +1150,14 @@ impl<M: Copy + Eq + Hash + Debug + Send + 'static> GlobalBroker<M> {
 
 impl<M: Copy + Eq + Hash + Debug + Send + 'static> Drop for GlobalBroker<M> {
     fn drop(&mut self) {
-        self.shared.shutdown.store(true, Ordering::Relaxed);
-        if let Some(handle) = self.shared.io_handle.lock().unwrap().take() {
-            let _ = handle.join();
+        // Only shut down the broker thread when no other holders remain.
+        // BatchStdioEval instances (and from_broker callers) hold their own
+        // Arc<GlobalBrokerShared>, so the broker must stay alive while they exist.
+        if Arc::strong_count(&self.shared) <= 1 {
+            self.shared.shutdown.store(true, Ordering::Relaxed);
+            if let Some(handle) = self.shared.io_handle.lock().unwrap().take() {
+                let _ = handle.join();
+            }
         }
     }
 }
@@ -1246,9 +1251,8 @@ impl<M: Copy + Eq + Hash + Debug + Send + 'static> BatchStdioEval<M> {
             broker: broker.shared().clone(),
             model_tag: 0,
         }
-        // NOTE: the GlobalBroker is dropped here, but the thread keeps running
-        // because `broker.shared` (Arc) is still held by this BatchStdioEval.
-        // Shutdown happens when this eval (and all its clones) are dropped.
+        // GlobalBroker drops here but skips shutdown because strong_count > 1.
+        // The broker thread stays alive until this eval (and all clones) are dropped.
     }
 
     /// Create a pair of evaluators sharing a single broker (convenience).

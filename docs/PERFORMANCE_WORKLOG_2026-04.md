@@ -1071,3 +1071,53 @@ Intentionally deferred:
 - current training-side chess resident self-play path would need a separate
   move/result update contract review, so this step only opens the safer
   evaluation/session substrate first
+
+## Update: 2026-04-09 Async Core Full (latest rerun)
+
+Reference:
+
+- `artifacts/runtime_monitor/alphazero_gomoku7_20260409_231945/summary.json`
+
+Observed:
+
+- run completed (`returncode=0`)
+- `runtime_tuner_enabled=false`, `eval_selfplay_isolated=true`
+- effective CPU remains low:
+  - training `cpu_thr_mean=0.523`
+  - evaluation `cpu_thr_mean=0.633`
+- result-side wait still dominates:
+  - `result_wait_s=400905.907`
+  - `queue_wait_s=31310.545`
+  - ratio ≈ `12.8`
+- batch fill remains decent:
+  - `mean_batch_weighted=15.688` (target 18)
+- codec remains minor:
+  - `io_time_s=1356.319`
+  - `codec_time_s=2.017`
+
+Interpretation:
+
+- the dominant bottleneck remains orchestration/completion wait, not codec or
+  obvious lock contention
+- current async substrate is active but still not delivering high effective CPU
+  utilization
+
+Important correction:
+
+- `run_multi_async_batch_done.null_results` currently counts null entries in
+  the full slot-aligned result vector, which includes inactive slots.
+- so `async_batch_null_results_sum` should not be treated as a pure "failed
+  eval completion" metric without normalization.
+
+Stronger structural signal:
+
+- `max_active_waiters=1200` aligns with large-wave launch geometry
+  (`jobs=200`, `max_inflight_per_job=6`).
+- this points to a missing global inflight admission control/credit scheduler.
+
+Current non-heuristic next step:
+
+1. introduce a global inflight credit budget across jobs
+2. gate new submissions on global credits, not only per-job pending
+3. separate "inactive-slot null" from real completion misses in telemetry
+4. keep runtime tuner off until completion path is stabilized

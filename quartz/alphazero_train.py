@@ -5383,6 +5383,12 @@ class RustNNEvaluatorEngine:
                 sess["error"] = result.get("error", "empty response") if isinstance(result, dict) else "empty response"
                 sess["done"] = True
                 return
+            # Terminal state: empty policy means the game is over (mate/stalemate).
+            # Mark the session as done without trying to apply a move.
+            pol_entries = result.get("policy", [])
+            if not pol_entries or game.is_terminal():
+                sess["done"] = True
+                return
             move_time_ms = float(result.get("time_used_ms", 0.0) or 0.0)
             sess["total_time_ms"] += move_time_ms if move_time_ms > 0.0 else fallback_ms
             action = int(result.get("best_move", 0))

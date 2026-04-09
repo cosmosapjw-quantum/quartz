@@ -291,6 +291,38 @@ Practical update to priorities:
 3. Continue strict baseline comparison on the same substrate.
 4. Add direct instrumentation for pending-eval lifecycle and null-result causes.
 
+## Update: empirical alignment from `alphazero_gomoku7_20260409_231945`
+
+Reference:
+
+- `artifacts/runtime_monitor/alphazero_gomoku7_20260409_231945/summary.json`
+
+What the run confirms:
+
+1. The event-driven direction is still correct.
+   - async runners are active and stable
+   - evaluation correctness is preserved
+2. The dominant cost is still completion-side waiting.
+   - result wait is much larger than queue wait
+3. Batch fill is not the dominant issue at this stage.
+   - weighted batch remains high
+
+What needs refinement:
+
+1. Current async launch policy lacks global inflight admission control.
+2. Large eval waves can create extreme pending waiter counts.
+3. Existing null-result aggregate is partly structural (inactive slots), so
+   telemetry needs normalized miss taxonomy.
+
+Research-consistent next move:
+
+- move from per-job pending caps to broker-level global credit scheduling
+- expose true pending lifecycle counters:
+  - submitted
+  - admitted
+  - completed
+  - dropped/missed (true miss only)
+
 ## Sources
 
 - KataGo analysis engine:

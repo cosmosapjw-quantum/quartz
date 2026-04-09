@@ -929,6 +929,24 @@ So the CRAG diagnosis is now stricter:
 3. Further gains should target pending-eval/apply separation and completion
    mechanics, not additional heuristic tuning.
 
+### 19. Latest rerun (`alphazero_gomoku7_20260409_231945`) confirms same class
+
+The latest rerun preserves this conclusion with cleaner signals:
+
+- run completed successfully (`returncode=0`)
+- eval correctness remained valid (`errors=0`, `voids=0`)
+- result-side wait remained dominant
+- effective CPU remained low
+
+Additional adversarial note:
+
+- current `null_results` aggregate in async batch traces includes
+  slot-alignment nulls for inactive slots, so it is not a pure completion-fail
+  signal.
+- stronger structural evidence is the observed high pending waiter peak in
+  large waves (`max_active_waiters=1200`), indicating missing global inflight
+  admission control.
+
 ## Sources
 
 - AlphaGo Zero (Nature / PubMed): https://pubmed.ncbi.nlm.nih.gov/29052630/
