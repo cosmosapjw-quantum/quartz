@@ -1,0 +1,9 @@
+{
+    "penalty_mode": "SelfAdaptive",
+    "sigma_0": 0.3,
+    "iters": 400,
+    "games": 100,
+    "steps": 200,
+    "batch": 512,
+    "comment": "Best for trusted prior + high budget"
+}

@@ -1,0 +1,261 @@
+:root {
+  --bg: linear-gradient(160deg, #f3ede3 0%, #e4d3b5 48%, #c7b28f 100%);
+  --panel: rgba(29, 30, 29, 0.82);
+  --panel-soft: rgba(255, 248, 235, 0.78);
+  --ink: #181512;
+  --paper: #fffaf0;
+  --accent: #b13d19;
+  --accent-2: #1a6a63;
+  --wood: #c89f61;
+  --line: rgba(28, 22, 14, 0.45);
+  --light-square: #f4e2bf;
+  --dark-square: #b98544;
+  --shadow: 0 18px 50px rgba(32, 20, 7, 0.18);
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: "Avenir Next", "Segoe UI", sans-serif;
+  color: var(--ink);
+  background: var(--bg);
+  min-height: 100vh;
+}
+
+.shell {
+  display: grid;
+  grid-template-columns: 320px minmax(420px, 1fr) 280px;
+  gap: 20px;
+  padding: 20px;
+  min-height: 100vh;
+}
+
+.panel {
+  border-radius: 24px;
+  box-shadow: var(--shadow);
+  overflow: hidden;
+}
+
+.controls,
+.history-panel {
+  background: var(--panel);
+  color: var(--paper);
+  padding: 22px;
+}
+
+.board-panel {
+  background: rgba(255, 250, 240, 0.58);
+  backdrop-filter: blur(10px);
+  padding: 18px;
+}
+
+.brand h1 {
+  margin: 4px 0 18px;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 2rem;
+}
+
+.eyebrow,
+.meta-label {
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  font-size: 0.72rem;
+  opacity: 0.72;
+}
+
+label {
+  display: block;
+  margin-bottom: 14px;
+}
+
+label span {
+  display: block;
+  margin-bottom: 6px;
+  font-size: 0.9rem;
+}
+
+select,
+input,
+button {
+  width: 100%;
+  border: none;
+  border-radius: 14px;
+  font: inherit;
+}
+
+select,
+input {
+  background: rgba(255, 250, 240, 0.92);
+  color: var(--ink);
+  padding: 12px 14px;
+}
+
+button {
+  cursor: pointer;
+  padding: 12px 14px;
+  background: rgba(255, 250, 240, 0.14);
+  color: var(--paper);
+  transition: transform 120ms ease, background 120ms ease;
+}
+
+button:hover { transform: translateY(-1px); }
+button:disabled { opacity: 0.45; cursor: default; transform: none; }
+
+button.primary { background: var(--accent); }
+button.danger { background: #7c1f0f; }
+
+.divider {
+  height: 1px;
+  background: rgba(255, 250, 240, 0.16);
+  margin: 18px 0;
+}
+
+.action-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.meta-block { margin-top: 16px; }
+.status-text,
+.session-meta {
+  margin-top: 8px;
+  line-height: 1.45;
+}
+
+.board-header {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  align-items: center;
+  margin-bottom: 14px;
+}
+
+.turn-badge {
+  display: inline-block;
+  background: var(--accent-2);
+  color: white;
+  padding: 8px 12px;
+  border-radius: 999px;
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+
+.game-meta { color: rgba(24, 21, 18, 0.75); }
+
+.thinking {
+  padding: 10px 14px;
+  border-radius: 999px;
+  background: rgba(177, 61, 25, 0.12);
+  color: var(--accent);
+  font-weight: 600;
+}
+
+.hidden { display: none; }
+
+.board-wrap {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: calc(100vh - 140px);
+}
+
+.board.empty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 360px;
+  min-width: 360px;
+  color: rgba(24, 21, 18, 0.55);
+  background: rgba(255, 250, 240, 0.55);
+  border-radius: 24px;
+}
+
+.board.grid-board {
+  display: grid;
+  grid-template-columns: repeat(var(--size), minmax(28px, 1fr));
+  grid-template-rows: repeat(var(--size), minmax(28px, 1fr));
+  width: min(86vmin, 760px);
+  aspect-ratio: 1;
+  background: linear-gradient(180deg, #d8b06f 0%, #c3904d 100%);
+  border-radius: 18px;
+  padding: 14px;
+  gap: 0;
+}
+
+.cell {
+  position: relative;
+  border: 1px solid rgba(74, 46, 12, 0.25);
+}
+
+.cell.playable { cursor: pointer; }
+.cell.playable:hover { background: rgba(177, 61, 25, 0.10); }
+.cell.legal-target { background: rgba(26, 106, 99, 0.15); }
+.cell.selected { outline: 3px solid rgba(177, 61, 25, 0.75); outline-offset: -3px; }
+
+.stone {
+  position: absolute;
+  inset: 12%;
+  border-radius: 50%;
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.18);
+}
+
+.stone.black { background: radial-gradient(circle at 28% 28%, #6f6f6f, #101010 70%); }
+.stone.white { background: radial-gradient(circle at 28% 28%, #ffffff, #d4d1c8 72%); }
+.stone.gomoku { inset: 16%; }
+
+.ttt-mark {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: clamp(1.8rem, 8vmin, 4rem);
+  font-weight: 700;
+  color: #1d1208;
+}
+
+.board.chess-board {
+  display: grid;
+  grid-template-columns: repeat(8, minmax(34px, 1fr));
+  width: min(86vmin, 700px);
+  aspect-ratio: 1;
+  border-radius: 18px;
+  overflow: hidden;
+  box-shadow: inset 0 0 0 8px rgba(39, 21, 3, 0.22);
+}
+
+.square {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: clamp(1.8rem, 5.5vmin, 3.8rem);
+  user-select: none;
+}
+
+.square.light { background: var(--light-square); }
+.square.dark { background: var(--dark-square); }
+.square.playable { cursor: pointer; }
+
+.history-list {
+  margin: 14px 0 0;
+  padding-left: 18px;
+  line-height: 1.5;
+}
+
+.history-list li { margin-bottom: 6px; }
+
+@media (max-width: 1100px) {
+  .shell {
+    grid-template-columns: 1fr;
+  }
+  .board-wrap {
+    min-height: auto;
+  }
+  .board.grid-board,
+  .board.chess-board {
+    width: min(92vw, 760px);
+  }
+}

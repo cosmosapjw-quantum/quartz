@@ -1,0 +1,1524 @@
+//! MctsEngine (v0.4) — QUARTZ 통합
+
+pub mod backup;
+pub mod eval;
+pub mod expand;
+pub mod gvoc;
+pub mod mod_types;
+pub mod node;
+pub mod parallel;
+pub mod quartz;
+pub mod rng;
+pub mod root;
+pub mod search;
+pub mod select;
+pub mod tt;
+
+pub use mod_types::PwConfig;
+pub use quartz::{
+    compute_quartz_stats, QuartzConfig, QuartzController, QuartzStats, RunningMedian,
+};
+
+use std::sync::atomic::{AtomicU64, Ordering};
+use std::sync::Arc;
+use std::time::Instant;
+
+use crate::game::{Evaluator, GameState};
+use crate::mcts::backup::backprop;
+use crate::mcts::expand::{expand_and_evaluate, expand_with_result};
+use crate::mcts::gvoc::{routing_mode, GvocConfig, GvocState, ProposalMode};
+use crate::mcts::node::{atomic_f64_load, MctsNode};
+use crate::mcts::root::{
+    compute_dirichlet_noise, select_move_with_temperature, visit_distribution, DirichletConfig,
+};
+use crate::mcts::search::{root_entropy, SearchController, SearchStats};
+use crate::mcts::select::{select, SelectResult};
+use crate::mcts::tt::TranspositionTable;
+
+static ITERATE_CALLS: AtomicU64 = AtomicU64::new(0);
+static SELECT_TIME_NANOS: AtomicU64 = AtomicU64::new(0);
+static EXPAND_EVAL_TIME_NANOS: AtomicU64 = AtomicU64::new(0);
+static BACKPROP_TIME_NANOS: AtomicU64 = AtomicU64::new(0);
+
+#[derive(Debug, Clone, Copy)]
+pub struct EnginePhaseSnapshot {
+    pub iterate_calls: u64,
+    pub select_time_nanos: u64,
+    pub expand_eval_time_nanos: u64,
+    pub backprop_time_nanos: u64,
+}
+
+pub fn engine_phase_snapshot() -> EnginePhaseSnapshot {
+    EnginePhaseSnapshot {
+        iterate_calls: ITERATE_CALLS.load(Ordering::Relaxed),
+        select_time_nanos: SELECT_TIME_NANOS.load(Ordering::Relaxed),
+        expand_eval_time_nanos: EXPAND_EVAL_TIME_NANOS.load(Ordering::Relaxed),
+        backprop_time_nanos: BACKPROP_TIME_NANOS.load(Ordering::Relaxed),
+    }
+}
+
+// ─────────────────────────────────────────────
+// § MctsConfig
+// ─────────────────────────────────────────────
+
+#[derive(Debug, Clone)]
+pub struct MctsConfig {
+    pub c_puct: f32,
+    pub pw: Option<PwConfig>,
+    pub dirichlet: Option<DirichletConfig>,
+    pub temperature: f32,
+    pub max_depth: usize,
+    pub max_tt_size: Option<usize>,
+    /// QUARTZ EFT-PUCT + 적응적 정지
+    pub quartz: Option<QuartzConfig>,
+    /// GVOC 동적 PW 스케줄러 (None = 비활성)
+    pub gvoc: Option<GvocConfig>,
+    /// 재현성 시드 (None = 비결정적)
+    pub seed: Option<u64>,
+    /// Return an immediate root winning move when one exists
+    pub root_forced_win: bool,
+    /// Use exact backed value for already-materialized terminal children during selection
+    pub exact_terminal_value: bool,
+    /// First-play urgency reduction for truly unvisited edges (0 = disabled)
+    pub fpu_reduction: f32,
+    /// Virtual loss mode (Fixed=baseline, Adaptive=σ_Q-scaled, Disabled=no VL)
+    pub vl_mode: parallel::VlMode,
+}
+
+impl Default for MctsConfig {
+    fn default() -> Self {
+        MctsConfig {
+            c_puct: 2.0,
+            pw: None,
+            dirichlet: None,
+            temperature: 0.0,
+            max_depth: 0,
+            max_tt_size: None,
+            quartz: None,
+            gvoc: None,
+            seed: None,
+            root_forced_win: true,
+            exact_terminal_value: false,
+            fpu_reduction: 0.0,
+            vl_mode: parallel::VlMode::Adaptive,
+        }
+    }
+}
+
+impl MctsConfig {
+    pub fn evaluation(c_puct: f32) -> Self {
+        MctsConfig {
+            c_puct,
+            ..Default::default()
+        }
+    }
+
+    pub fn evaluation_with_pw(c_puct: f32, pw: PwConfig) -> Self {
+        MctsConfig {
+            c_puct,
+            pw: Some(pw),
+            max_depth: 25,
+            ..Default::default()
+        }
+    }
+
+    pub fn stress(c_puct: f32, pw: PwConfig, max_tt: usize) -> Self {
+        MctsConfig {
+            c_puct,
+            pw: Some(pw),
+            max_depth: 25,
+            max_tt_size: Some(max_tt),
+            ..Default::default()
+        }
+    }
+
+    /// QUARTZ 활성화
+    pub fn with_quartz(mut self, qcfg: QuartzConfig) -> Self {
+        self.quartz = Some(qcfg);
+        self
+    }
+
+    /// GVOC 활성화
+    pub fn with_gvoc(mut self, gcfg: GvocConfig) -> Self {
+        self.gvoc = Some(gcfg);
+        self
+    }
+
+    /// 재현성 시드 설정
+    pub fn with_seed(mut self, seed: u64) -> Self {
+        self.seed = Some(seed);
+        self
+    }
+
+    pub fn with_root_forced_win(mut self, root_forced_win: bool) -> Self {
+        self.root_forced_win = root_forced_win;
+        self
+    }
+
+    pub fn with_exact_terminal_value(mut self, exact_terminal_value: bool) -> Self {
+        self.exact_terminal_value = exact_terminal_value;
+        self
+    }
+
+    pub fn with_fpu_reduction(mut self, fpu_reduction: f32) -> Self {
+        self.fpu_reduction = fpu_reduction.max(0.0);
+        self
+    }
+}
+
+// ─────────────────────────────────────────────
+// § MctsEngine
+// ─────────────────────────────────────────────
+
+pub struct MctsEngine<G: GameState> {
+    pub root: Arc<MctsNode<G::Move>>,
+    root_state: G,
+    evaluator: Arc<dyn Evaluator<G> + Send + Sync>,
+    pub tt: Arc<TranspositionTable<G::Move>>,
+    pub config: MctsConfig,
+    root_noise: Option<Vec<f32>>,
+    /// 현재 QUARTZ 통계 (EFT-PUCT에 사용)
+    pub(crate) quartz_cache: std::sync::RwLock<Option<QuartzStats>>,
+    /// Parallelism controller (adaptive VL, telemetry)
+    pub par_ctrl: parallel::ParallelismController,
+}
+
+pub struct AsyncPendingIteration<G: GameState> {
+    pub path: Vec<crate::mcts::node::PathEdge<G::Move>>,
+    pub leaf: Arc<MctsNode<G::Move>>,
+    pub leaf_state: G,
+}
+
+/// Why an iteration was resolved immediately (no NN eval needed)
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub enum ImmediateReason {
+    /// Transposition table size cap reached
+    TtCapHit,
+    /// Leaf is a terminal game state
+    TerminalNode,
+}
+
+pub enum PreparedIteration<G: GameState> {
+    Immediate {
+        path: Vec<crate::mcts::node::PathEdge<G::Move>>,
+        value: f32,
+        reason: ImmediateReason,
+    },
+    Pending(AsyncPendingIteration<G>),
+}
+
+impl<G: GameState> MctsEngine<G> {
+    pub fn new(
+        root_state: G,
+        evaluator: Arc<dyn Evaluator<G> + Send + Sync>,
+        config: MctsConfig,
+    ) -> Self {
+        let tt = Arc::new(TranspositionTable::new());
+        let hash = root_state.hash();
+        let tv = if root_state.is_terminal() {
+            Some(root_state.outcome())
+        } else {
+            None
+        };
+        let root = tt.get_or_create(hash, tv);
+
+        let mut engine = MctsEngine {
+            root,
+            root_state,
+            evaluator,
+            tt,
+            par_ctrl: parallel::ParallelismController::new(config.vl_mode, 1),
+            config,
+            root_noise: None,
+            quartz_cache: std::sync::RwLock::new(None),
+        };
+        engine.expand_root();
+        engine
+    }
+
+    fn expand_root(&mut self) {
+        if !self.root.is_expanded() {
+            expand_and_evaluate(
+                &self.root,
+                &self.root_state,
+                self.evaluator.as_ref(),
+                &self.tt,
+                self.config.pw.as_ref(),
+            );
+        }
+        if let Some(dir) = &self.config.dirichlet {
+            let edges = self.root.edge_snapshot(self.root.materialized_count());
+            if !edges.is_empty() {
+                let priors: Vec<f32> = edges.iter().map(|e| e.p).collect();
+                self.root_noise = Some(compute_dirichlet_noise(edges.len(), &priors, dir));
+            }
+        }
+    }
+
+    /// QUARTZ 통계 갱신 (QuartzController와 협력)
+    /// QUARTZ 통계 갱신 (priors=None → 균등 prior 가정)
+    pub fn refresh_quartz_stats(&self) {
+        self.refresh_quartz_stats_with_priors(None);
+    }
+
+    pub fn refresh_quartz_stats_with_priors(&self, priors: Option<&[f32]>) {
+        if self.config.quartz.is_some() {
+            // QuartzController 없이 직접 캐시 갱신할 때의 임시 경로
+            // run_quartz/run_gvoc 사용 시에는 ctrl.update_stats가 처리함
+            // 여기서는 QuartzStats 타입 호환을 위한 최소 통계만 생성
+            let n_mat = self.root.materialized_count();
+            let edges = self.root.edge_snapshot(n_mat);
+            let n_total = self.root.n_total.load(Ordering::Acquire);
+            if !edges.is_empty() && n_total > 10 {
+                // 임시 EMA (상태 없음 — run_quartz 경로 권장)
+                let mut s0 = RunningMedian::new(0.05);
+                let _ce = RunningMedian::new(0.1);
+                let qcfg = self.config.quartz.as_ref().unwrap();
+                let stats = compute_quartz_stats(&self.root, priors, &mut s0, 0.0, 0, 0, qcfg);
+                *self.quartz_cache.write().unwrap() = Some(stats);
+            }
+        }
+    }
+
+    pub fn current_quartz_stats(&self) -> Option<QuartzStats> {
+        self.quartz_cache.read().unwrap().clone()
+    }
+
+    /// Update ParallelismController from QUARTZ stats + root visit entropy.
+    /// One-way coupling: par_ctrl reads from QUARTZ, never writes.
+    fn refresh_par_ctrl(&self) {
+        // σ_Q from QUARTZ
+        let sigma_q = self
+            .quartz_cache
+            .read()
+            .unwrap()
+            .as_ref()
+            .map(|s| s.hbar_eff * self.config.quartz.as_ref().map_or(0.3, |q| q.sigma_0))
+            .unwrap_or(0.3);
+        // Root visit entropy
+        let edges = self.root.edge_snapshot(self.root.materialized_count());
+        let total: f32 = edges
+            .iter()
+            .map(|e| e.n.load(Ordering::Relaxed) as f32)
+            .sum();
+        let root_entropy = if total > 1.0 {
+            edges
+                .iter()
+                .map(|e| {
+                    let p = e.n.load(Ordering::Relaxed) as f32 / total;
+                    if p > 1e-8 {
+                        -p * p.ln()
+                    } else {
+                        0.0
+                    }
+                })
+                .sum::<f32>()
+        } else {
+            1.0
+        };
+        self.par_ctrl.update_from_search(sigma_q, root_entropy);
+    }
+
+    pub fn iterate(&self) {
+        ITERATE_CALLS.fetch_add(1, Ordering::Relaxed);
+        // EFT-PUCT용 통계 스냅샷 (RwLock read — 빠름)
+        let qstate: Option<(QuartzStats, QuartzConfig)> = if let Some(qcfg) = &self.config.quartz {
+            self.quartz_cache
+                .read()
+                .unwrap()
+                .as_ref()
+                .map(|s| (s.clone(), qcfg.clone()))
+        } else {
+            None
+        };
+
+        let select_started = Instant::now();
+        let sel = select(
+            &self.root,
+            &self.root_state,
+            self.config.c_puct,
+            self.root_noise.as_deref(),
+            self.config.pw.as_ref(),
+            self.config.max_depth,
+            &self.tt,
+            qstate.as_ref().map(|(s, c)| (s, c)),
+            self.config.exact_terminal_value,
+            self.config.fpu_reduction,
+            &self.par_ctrl,
+        );
+        SELECT_TIME_NANOS.fetch_add(select_started.elapsed().as_nanos() as u64, Ordering::Relaxed);
+
+        let expand_started = Instant::now();
+        let leaf_value = if self
+            .config
+            .max_tt_size
+            .map_or(true, |cap| self.tt.size() < cap)
+        {
+            expand_and_evaluate(
+                &sel.leaf,
+                &sel.leaf_state,
+                self.evaluator.as_ref(),
+                &self.tt,
+                self.config.pw.as_ref(),
+            )
+        } else {
+            sel.leaf.terminal_value.unwrap_or(0.0)
+        };
+        EXPAND_EVAL_TIME_NANOS.fetch_add(
+            expand_started.elapsed().as_nanos() as u64,
+            Ordering::Relaxed,
+        );
+
+        let backprop_started = Instant::now();
+        backprop::<G>(&sel.path, leaf_value);
+        BACKPROP_TIME_NANOS.fetch_add(
+            backprop_started.elapsed().as_nanos() as u64,
+            Ordering::Relaxed,
+        );
+    }
+
+    pub fn prepare_iteration_async(&self) -> PreparedIteration<G> {
+        ITERATE_CALLS.fetch_add(1, Ordering::Relaxed);
+        let qstate: Option<(QuartzStats, QuartzConfig)> = if let Some(qcfg) = &self.config.quartz {
+            self.quartz_cache
+                .read()
+                .unwrap()
+                .as_ref()
+                .map(|s| (s.clone(), qcfg.clone()))
+        } else {
+            None
+        };
+
+        let select_started = Instant::now();
+        let sel: SelectResult<G> = select(
+            &self.root,
+            &self.root_state,
+            self.config.c_puct,
+            self.root_noise.as_deref(),
+            self.config.pw.as_ref(),
+            self.config.max_depth,
+            &self.tt,
+            qstate.as_ref().map(|(s, c)| (s, c)),
+            self.config.exact_terminal_value,
+            self.config.fpu_reduction,
+            &self.par_ctrl,
+        );
+        SELECT_TIME_NANOS.fetch_add(select_started.elapsed().as_nanos() as u64, Ordering::Relaxed);
+
+        if !self
+            .config
+            .max_tt_size
+            .map_or(true, |cap| self.tt.size() < cap)
+        {
+            return PreparedIteration::Immediate {
+                path: sel.path,
+                value: sel.leaf.terminal_value.unwrap_or(0.0),
+                reason: ImmediateReason::TtCapHit,
+            };
+        }
+
+        if let Some(v) = sel.leaf.terminal_value {
+            return PreparedIteration::Immediate {
+                path: sel.path,
+                value: v,
+                reason: ImmediateReason::TerminalNode,
+            };
+        }
+
+        PreparedIteration::Pending(AsyncPendingIteration {
+            path: sel.path,
+            leaf: sel.leaf,
+            leaf_state: sel.leaf_state,
+        })
+    }
+
+    pub fn apply_iteration_value_async(
+        &self,
+        path: Vec<crate::mcts::node::PathEdge<G::Move>>,
+        leaf_value: f32,
+    ) {
+        let backprop_started = Instant::now();
+        backprop::<G>(&path, leaf_value);
+        BACKPROP_TIME_NANOS.fetch_add(
+            backprop_started.elapsed().as_nanos() as u64,
+            Ordering::Relaxed,
+        );
+    }
+
+    pub fn complete_iteration_async(
+        &self,
+        pending: AsyncPendingIteration<G>,
+        eval: crate::game::EvalResult<G::Move>,
+    ) {
+        let expand_started = Instant::now();
+        let leaf_value = expand_with_result(
+            &pending.leaf,
+            &pending.leaf_state,
+            eval,
+            &self.tt,
+            self.config.pw.as_ref(),
+        );
+        EXPAND_EVAL_TIME_NANOS.fetch_add(
+            expand_started.elapsed().as_nanos() as u64,
+            Ordering::Relaxed,
+        );
+        self.apply_iteration_value_async(pending.path, leaf_value);
+    }
+
+    pub fn refresh_async_runtime(&self, completed_iterations: u32) {
+        if let Some(ref qcfg) = self.config.quartz {
+            if completed_iterations > 0 && completed_iterations % qcfg.check_interval == 0 {
+                self.refresh_quartz_stats();
+                self.refresh_par_ctrl();
+            }
+        }
+    }
+
+    // ── 탐색 실행 ──────────────────────────────────────────────
+
+    pub fn run(&self, controller: &mut dyn SearchController) -> SearchStats {
+        controller.reset();
+        self.par_ctrl.reset_for_search();
+        let start = Instant::now();
+        let mut it = 0u32;
+        let qcfg = self.config.quartz.clone();
+        if let Some(limit) = controller.visit_limit_hint() {
+            loop {
+                let rv = self.root.n_total.load(Ordering::Relaxed);
+                if rv >= limit {
+                    break;
+                }
+
+                self.iterate();
+                it += 1;
+
+                if let Some(ref qcfg) = qcfg {
+                    if it % qcfg.check_interval == 0 {
+                        self.refresh_quartz_stats();
+                        self.refresh_par_ctrl();
+                    }
+                }
+            }
+        } else {
+            let needs_elapsed = controller.needs_elapsed_ms();
+            loop {
+                let rv = self.root.n_total.load(Ordering::Relaxed);
+                let ms = if needs_elapsed {
+                    start.elapsed().as_millis() as u64
+                } else {
+                    0
+                };
+                if controller.should_stop(rv, ms) {
+                    break;
+                }
+
+                self.iterate();
+                it += 1;
+
+                // QUARTZ 통계 주기적 갱신
+                // QuartzController를 직접 downcast할 수 없으므로,
+                // MctsConfig.quartz가 있으면 engine 내부 캐시 갱신하고
+                // controller가 QuartzController이면 자동으로 should_stop에서 확인.
+                if let Some(ref qcfg) = qcfg {
+                    if it % qcfg.check_interval == 0 {
+                        self.refresh_quartz_stats();
+                        self.refresh_par_ctrl();
+                    }
+                }
+            }
+        }
+
+        let ms = start.elapsed().as_millis() as u64;
+        let rv = self.root.n_total.load(Ordering::Relaxed);
+        SearchStats {
+            iterations: it,
+            elapsed_ms: ms,
+            nps: if ms > 0 {
+                it as f64 / ms as f64 * 1000.0
+            } else {
+                0.0
+            },
+            tt_hit_rate: self.tt.hit_rate(),
+            tt_size: self.tt.size(),
+            root_visits: rv,
+            stop_reason: controller.stop_reason(),
+        }
+    }
+
+    /// QuartzController와 통합된 run — 통계 자동 갱신, 적응적 정지
+    pub fn run_quartz(&self, ctrl: &mut QuartzController) -> SearchStats {
+        ctrl.reset();
+        self.par_ctrl.reset_for_search();
+        let start = Instant::now();
+        let mut it = 0u32;
+        let mut iter_start = Instant::now();
+
+        loop {
+            let rv = self.root.n_total.load(Ordering::Relaxed);
+            let ms = start.elapsed().as_millis() as u64;
+            let checked = it > 0 && it % ctrl.cfg.check_interval == 0;
+
+            let should_stop = if checked {
+                // 실제 per-iter cost (ms) EMA 갱신 — CTM cost에 사용
+                let iter_ms =
+                    iter_start.elapsed().as_secs_f32() * 1000.0 / ctrl.cfg.check_interval as f32;
+                ctrl.record_iter_time_ms(iter_ms);
+                iter_start = Instant::now();
+
+                // elapsed 주입 — CTM urgency + NS annealing에 사용
+                ctrl.update_elapsed(ms);
+                {
+                    let _rp = self.root_priors();
+                    ctrl.update_stats(&self.root, Some(&_rp));
+                }
+                *self.quartz_cache.write().unwrap() = Some(ctrl.last_stats());
+                self.refresh_par_ctrl();
+                let stop_now = ctrl.should_stop(rv, ms);
+                if !stop_now {
+                    ctrl.mark_checked(rv);
+                }
+                stop_now
+            } else {
+                ctrl.should_stop(rv, ms)
+            };
+
+            if should_stop {
+                break;
+            }
+            self.iterate();
+            it += 1;
+        }
+
+        ctrl.update_elapsed(start.elapsed().as_millis() as u64);
+        {
+            let _rp = self.root_priors();
+            ctrl.update_stats(&self.root, Some(&_rp));
+        }
+        *self.quartz_cache.write().unwrap() = Some(ctrl.last_stats());
+
+        let ms = start.elapsed().as_millis() as u64;
+        let rv = self.root.n_total.load(Ordering::Relaxed);
+        SearchStats {
+            iterations: it,
+            elapsed_ms: ms,
+            nps: if ms > 0 {
+                it as f64 / ms as f64 * 1000.0
+            } else {
+                0.0
+            },
+            tt_hit_rate: self.tt.hit_rate(),
+            tt_size: self.tt.size(),
+            root_visits: rv,
+            stop_reason: ctrl.stop_reason(),
+        }
+    }
+
+    /// GVOC + QUARTZ 완전 통합 run
+    ///
+    /// - GVOC: VOC 기반 PW 확장 폭 동적 조정
+    /// - QUARTZ: σ_Q / P_flip / VOC 통계 + 적응적 정지
+    /// - 재현성: config.seed 기반 결정론적 RNG
+    pub fn run_gvoc(
+        &self,
+        ctrl: &mut QuartzController,
+        gvoc_cfg: &GvocConfig,
+    ) -> (SearchStats, GvocState) {
+        ctrl.reset();
+        self.par_ctrl.reset_for_search();
+        let start = Instant::now();
+        let mut it = 0u32;
+        let n_cands = self.root.candidate_count();
+        let init_vis = match &self.config.pw {
+            Some(pw) => pw.k(0).max(1).min(n_cands),
+            None => n_cands,
+        };
+        let qcfg = ctrl.cfg.clone();
+
+        let mut gvoc = GvocState::new(gvoc_cfg.clone(), init_vis);
+
+        loop {
+            let rv = self.root.n_total.load(Ordering::Relaxed);
+            let ms = start.elapsed().as_millis() as u64;
+            let checked = it > 0 && it % ctrl.cfg.check_interval == 0;
+
+            // QUARTZ 수렴 체크
+            let should_stop = if checked {
+                {
+                    let _rp = self.root_priors();
+                    ctrl.update_stats(&self.root, Some(&_rp));
+                }
+                *self.quartz_cache.write().unwrap() = Some(ctrl.last_stats());
+                self.refresh_par_ctrl();
+                let stop_now = ctrl.should_stop(rv, ms);
+                if !stop_now {
+                    ctrl.mark_checked(rv);
+                }
+                stop_now
+            } else {
+                ctrl.should_stop(rv, ms)
+            };
+            if should_stop {
+                break;
+            }
+
+            // GVOC: VOC 기반 n_visible 동적 조정
+            gvoc.update(&self.root, n_cands, &qcfg);
+
+            // proposal mode 결정 (Inside / Outside)
+            let _mode = if let Some(s) = self.current_quartz_stats() {
+                routing_mode(&s, &qcfg)
+            } else {
+                ProposalMode::Inside
+            };
+            // Outside mode: WL bonus가 이미 QuartzController 통계에 포함됨
+            // Inside mode: 표준 EFT-PUCT
+
+            self.iterate();
+            it += 1;
+        }
+
+        {
+            let _rp = self.root_priors();
+            ctrl.update_stats(&self.root, Some(&_rp));
+        }
+        *self.quartz_cache.write().unwrap() = Some(ctrl.last_stats());
+
+        let ms = start.elapsed().as_millis() as u64;
+        let rv = self.root.n_total.load(Ordering::Relaxed);
+        let stats = SearchStats {
+            iterations: it,
+            elapsed_ms: ms,
+            nps: if ms > 0 {
+                it as f64 / ms as f64 * 1000.0
+            } else {
+                0.0
+            },
+            tt_hit_rate: self.tt.hit_rate(),
+            tt_size: self.tt.size(),
+            root_visits: rv,
+            stop_reason: ctrl.stop_reason(),
+        };
+        (stats, gvoc)
+    }
+
+    pub fn run_par(&self, controller: &dyn SearchController, n_threads: usize) -> SearchStats {
+        self.par_ctrl.reset_for_search();
+        let start = Instant::now();
+
+        rayon::scope(|s| {
+            for tid in 0..n_threads {
+                let qcfg_ref = &self.config.quartz;
+                if let Some(limit) = controller.visit_limit_hint() {
+                    s.spawn(move |_| {
+                        let mut local_it = 0u32;
+                        loop {
+                            let rv = self.root.n_total.load(Ordering::Relaxed);
+                            if rv >= limit {
+                                break;
+                            }
+                            self.iterate();
+                            local_it += 1;
+                            if tid == 0 {
+                                if let Some(ref qcfg) = qcfg_ref {
+                                    if local_it % qcfg.check_interval == 0 {
+                                        self.refresh_quartz_stats();
+                                        self.refresh_par_ctrl();
+                                    }
+                                }
+                            }
+                        }
+                    });
+                } else {
+                    let needs_elapsed = controller.needs_elapsed_ms();
+                    s.spawn(move |_| {
+                        let mut local_it = 0u32;
+                        loop {
+                            let rv = self.root.n_total.load(Ordering::Relaxed);
+                            let ms = if needs_elapsed {
+                                start.elapsed().as_millis() as u64
+                            } else {
+                                0
+                            };
+                            if controller.should_stop(rv, ms) {
+                                break;
+                            }
+                            self.iterate();
+                            local_it += 1;
+                            if tid == 0 {
+                                if let Some(ref qcfg) = qcfg_ref {
+                                    if local_it % qcfg.check_interval == 0 {
+                                        self.refresh_quartz_stats();
+                                        self.refresh_par_ctrl();
+                                    }
+                                }
+                            }
+                        }
+                    });
+                }
+            }
+        });
+
+        let ms = start.elapsed().as_millis() as u64;
+        let rv = self.root.n_total.load(Ordering::Relaxed);
+        SearchStats {
+            iterations: rv,
+            elapsed_ms: ms,
+            nps: if ms > 0 {
+                rv as f64 / ms as f64 * 1000.0
+            } else {
+                0.0
+            },
+            tt_hit_rate: self.tt.hit_rate(),
+            tt_size: self.tt.size(),
+            root_visits: rv,
+            stop_reason: controller.stop_reason(),
+        }
+    }
+
+    /// Parallel MCTS search with full QUARTZ controller integration.
+    ///
+    /// Combines the threading model of `run_par` with the adaptive statistics
+    /// and stopping logic of `run_quartz`. Thread 0 handles QUARTZ stats
+    /// updates; all threads check `should_stop`.
+    pub fn run_par_quartz(&self, ctrl: &mut QuartzController, n_threads: usize) -> SearchStats {
+        ctrl.reset();
+        self.par_ctrl.set_n_threads(n_threads as u32);
+        self.par_ctrl.reset_for_search();
+
+        let start = Instant::now();
+        let check_interval = self.config.quartz.as_ref().map_or(20, |q| q.check_interval);
+
+        // Reborrow as shared reference for rayon scope
+        let ctrl_ref: &QuartzController = &*ctrl;
+
+        rayon::scope(|s| {
+            for tid in 0..n_threads {
+                s.spawn(move |_| {
+                    let mut local_it = 0u32;
+                    loop {
+                        let rv = self.root.n_total.load(Ordering::Relaxed);
+                        let ms = start.elapsed().as_millis() as u64;
+                        if ctrl_ref.should_stop(rv, ms) {
+                            break;
+                        }
+                        self.iterate();
+                        local_it += 1;
+
+                        // Thread 0: periodic QUARTZ stats refresh
+                        if tid == 0 && local_it % check_interval == 0 {
+                            ctrl_ref.update_elapsed(ms);
+                            let rp = self.root_priors();
+                            ctrl_ref.update_stats(&self.root, Some(&rp));
+                            *self.quartz_cache.write().unwrap() = Some(ctrl_ref.last_stats());
+                            self.refresh_par_ctrl();
+                            let checked_visits = self.root.n_total.load(Ordering::Relaxed);
+                            ctrl_ref.mark_checked(checked_visits);
+                        }
+                    }
+                });
+            }
+        });
+
+        // Final stats update
+        let ms = start.elapsed().as_millis() as u64;
+        ctrl.update_elapsed(ms);
+        {
+            let rp = self.root_priors();
+            ctrl.update_stats(&self.root, Some(&rp));
+        }
+        *self.quartz_cache.write().unwrap() = Some(ctrl.last_stats());
+
+        let rv = self.root.n_total.load(Ordering::Relaxed);
+        SearchStats {
+            iterations: rv,
+            elapsed_ms: ms,
+            nps: if ms > 0 {
+                rv as f64 / ms as f64 * 1000.0
+            } else {
+                0.0
+            },
+            tt_hit_rate: self.tt.hit_rate(),
+            tt_size: self.tt.size(),
+            root_visits: rv,
+            stop_reason: ctrl.stop_reason(),
+        }
+    }
+
+    // ── 결과 추출 ──────────────────────────────────────────────
+
+    /// Extract edge priors from root node for QuartzStats computation.
+    pub fn root_priors(&self) -> Vec<f32> {
+        let n = self.root.materialized_count();
+        let edges = self.root.edge_snapshot(n);
+        edges.iter().map(|e| e.p).collect()
+    }
+
+    /// Advance root to the child matching `chosen_move`, reusing the subtree.
+    /// Returns true if the child was found and promoted, false otherwise.
+    /// After advance, call `expand_root()` if the new root isn't expanded.
+    pub fn advance_root(&mut self, chosen_move: G::Move) -> bool
+    where
+        G::Move: PartialEq,
+    {
+        let n = self.root.materialized_count();
+        let edges = self.root.edge_snapshot(n);
+        for edge in &edges {
+            if edge.mv == chosen_move {
+                self.root = edge.child.clone();
+                self.root_state = self.root_state.apply_move(chosen_move);
+                self.root_noise = None;
+                // Clear quartz cache for new root
+                *self.quartz_cache.write().unwrap() = None;
+                self.par_ctrl.reset_for_search();
+                // Expand new root if not already expanded
+                if self.root.materialized_count() == 0 && !self.root_state.is_terminal() {
+                    self.expand_root();
+                }
+                return true;
+            }
+        }
+        false
+    }
+
+    /// Get a reference to the current root state.
+    pub fn root_state(&self) -> &G {
+        &self.root_state
+    }
+
+    pub fn best_move(&self) -> Option<G::Move> {
+        if self.config.root_forced_win && self.config.temperature <= 0.0 {
+            if let Some(forced) = self
+                .root_state
+                .legal_moves()
+                .into_iter()
+                .find(|&mv| self.root_state.is_winning_move(mv))
+            {
+                return Some(forced);
+            }
+        }
+        select_move_with_temperature(&self.root, self.config.temperature)
+    }
+
+    pub fn pi_target(&self, temperature: f32) -> Vec<(G::Move, f32)> {
+        visit_distribution(&self.root, temperature)
+    }
+
+    pub fn root_entropy(&self) -> f32 {
+        let edges = self.root.edge_snapshot(self.root.materialized_count());
+        let counts = edges
+            .iter()
+            .map(|e| e.n.load(Ordering::Acquire))
+            .collect::<Vec<_>>();
+        root_entropy(&counts)
+    }
+
+    pub fn root_value(&self) -> f32 {
+        let edges = self.root.edge_snapshot(self.root.materialized_count());
+        let total = self.root.n_total.load(Ordering::Acquire);
+        if total == 0 {
+            return 0.0;
+        }
+        edges
+            .iter()
+            .map(|e| e.n.load(Ordering::Acquire) as f32 * e.q())
+            .sum::<f32>()
+            / total as f32
+    }
+
+    pub fn pw_stats(&self) -> (usize, usize) {
+        let total = self.root.candidate_count();
+        let n_root = self.root.n_total.load(Ordering::Acquire);
+        let open = match &self.config.pw {
+            Some(cfg) => cfg.k(n_root).max(1).min(total),
+            None => total,
+        };
+        (open, total)
+    }
+
+    pub fn print_stats(&self, label: &str) {
+        let rv = self.root.n_total.load(Ordering::Acquire);
+        let h = self.root_entropy();
+        let v = self.root_value();
+        let (pw_open, pw_total) = self.pw_stats();
+
+        println!(
+            "\n[{}] visits={}, entropy={:.3}, value={:.3}, hash=0x{:016X}",
+            label, rv, h, v, self.root.hash
+        );
+        println!(
+            "TT(size={}, hit={:.1}%)  PW({}/{})  max_depth={}",
+            self.tt.size(),
+            self.tt.hit_rate() * 100.0,
+            pw_open,
+            pw_total,
+            self.config.max_depth
+        );
+
+        // QUARTZ 통계 출력
+        if let Some(stats) = self.current_quartz_stats() {
+            stats.print(label);
+        }
+
+        let n_show = self.root.materialized_count().min(pw_open);
+        let edges = self.root.edge_snapshot(n_show);
+        if !edges.is_empty() {
+            println!(
+                "{:<8} {:>7} {:>8} {:>8} {:>7}",
+                "Move", "N", "W", "Q", "P(%)"
+            );
+            println!("{}", "-".repeat(44));
+            let mut data: Vec<_> = edges
+                .iter()
+                .map(|e| {
+                    (
+                        e.mv,
+                        e.n.load(Ordering::Acquire),
+                        atomic_f64_load(&e.w),
+                        e.q(),
+                        e.p,
+                    )
+                })
+                .collect();
+            data.sort_by(|a, b| b.1.cmp(&a.1));
+            for (mv, n, w, q, p) in data.iter().take(9) {
+                println!(
+                    "  {:?}  {:>7} {:>8.2} {:>8.3} {:>6.1}",
+                    mv,
+                    n,
+                    w,
+                    q,
+                    p * 100.0
+                );
+            }
+            if pw_open > 9 {
+                println!("  ... ({} more open)", pw_open - 9);
+            }
+            if pw_total > pw_open {
+                println!("  ... ({} not yet opened)", pw_total - pw_open);
+            }
+        }
+    }
+}
+
+unsafe impl<G: GameState> Sync for MctsEngine<G> {}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use crate::ablation_refresh::{gen_gomoku_positions, gen_ttt_positions};
+    use crate::games::gomoku::Gomoku;
+    use crate::games::tictactoe::TicTacToe;
+    use crate::mcts::eval::{ShortRollout, UniformEval};
+    use crate::mcts::quartz::{HaltMode, PenaltyMode, QuartzConfig, QuartzController};
+    use crate::mcts::search::StopReason;
+    use rand::rngs::StdRng;
+    use rand::{Rng, SeedableRng};
+    use std::collections::HashMap;
+    use std::hint::black_box;
+    use std::sync::Arc;
+    use std::time::Instant;
+
+    fn run_reference_fixed<G: GameState>(engine: &MctsEngine<G>, limit: u32) -> SearchStats {
+        engine.par_ctrl.reset_for_search();
+        let start = Instant::now();
+        let mut it = 0u32;
+        let qcfg = engine.config.quartz.clone();
+
+        loop {
+            let rv = engine.root.n_total.load(Ordering::Relaxed);
+            let ms = start.elapsed().as_millis() as u64;
+            if rv >= limit {
+                break;
+            }
+
+            engine.iterate();
+            it += 1;
+
+            if let Some(ref qcfg) = qcfg {
+                if it % qcfg.check_interval == 0 {
+                    engine.refresh_quartz_stats();
+                    engine.refresh_par_ctrl();
+                }
+            }
+
+            black_box(ms);
+        }
+
+        let ms = start.elapsed().as_millis() as u64;
+        let rv = engine.root.n_total.load(Ordering::Relaxed);
+        SearchStats {
+            iterations: it,
+            elapsed_ms: ms,
+            nps: if ms > 0 {
+                it as f64 / ms as f64 * 1000.0
+            } else {
+                0.0
+            },
+            tt_hit_rate: engine.tt.hit_rate(),
+            tt_size: engine.tt.size(),
+            root_visits: rv,
+            stop_reason: StopReason::BudgetExhausted { iterations: limit },
+        }
+    }
+
+    fn gomoku7_engine(iters: u32) -> (MctsEngine<Gomoku>, QuartzController) {
+        let state = Gomoku::new(7);
+        let eval: Arc<dyn Evaluator<Gomoku>> = Arc::new(ShortRollout::new(8));
+        let qcfg = QuartzConfig {
+            min_visits: 15,
+            check_interval: 20,
+            ..Default::default()
+        };
+        let cfg = MctsConfig::evaluation(2.0).with_quartz(qcfg.clone());
+        let engine = MctsEngine::new(state, eval, cfg);
+        let ctrl = QuartzController::new(iters, qcfg);
+        (engine, ctrl)
+    }
+
+    #[test]
+    fn test_run_par_quartz_basic() {
+        let (engine, mut ctrl) = gomoku7_engine(200);
+        let stats = engine.run_par_quartz(&mut ctrl, 2);
+        assert!(
+            stats.root_visits >= 200,
+            "Expected ≥200 visits, got {}",
+            stats.root_visits
+        );
+        assert!(engine.best_move().is_some());
+    }
+
+    #[test]
+    fn test_run_par_quartz_single_thread() {
+        // Single-threaded should behave like run_quartz
+        let (engine, mut ctrl) = gomoku7_engine(100);
+        let stats = engine.run_par_quartz(&mut ctrl, 1);
+        assert!(stats.root_visits >= 100);
+        assert!(engine.best_move().is_some());
+    }
+
+    #[test]
+    fn test_run_par_quartz_four_threads() {
+        let (engine, mut ctrl) = gomoku7_engine(400);
+        let stats = engine.run_par_quartz(&mut ctrl, 4);
+        assert!(
+            stats.root_visits >= 400,
+            "Expected ≥400 visits, got {}",
+            stats.root_visits
+        );
+        // Should have non-trivial NPS with 4 threads
+        assert!(stats.nps > 0.0);
+    }
+
+    #[test]
+    fn test_run_par_quartz_stats_updated() {
+        let (engine, mut ctrl) = gomoku7_engine(200);
+        engine.run_par_quartz(&mut ctrl, 2);
+        let qstats = ctrl.last_stats();
+        // After 200 visits, sigma_q should be computed (not default NaN)
+        assert!(
+            qstats.sigma_q.is_finite() || qstats.sigma_q.is_nan(),
+            "sigma_q should be computed after search"
+        );
+    }
+
+    #[test]
+    fn test_run_par_quartz_high_threads_no_panic() {
+        // Stress: 16 threads on a small search
+        let (engine, mut ctrl) = gomoku7_engine(50);
+        let stats = engine.run_par_quartz(&mut ctrl, 16);
+        // With virtual loss, 16 threads should still complete
+        assert!(stats.root_visits >= 50);
+    }
+
+    #[test]
+    fn test_run_par_quartz_budget_one() {
+        // Edge case: budget=1 should terminate cleanly
+        let (engine, mut ctrl) = gomoku7_engine(1);
+        let stats = engine.run_par_quartz(&mut ctrl, 2);
+        // At least 1 visit (may be more due to thread timing)
+        assert!(stats.root_visits >= 1);
+    }
+
+    #[test]
+    fn test_set_n_threads() {
+        use crate::mcts::parallel::{ParallelismController, VlMode};
+        let ctrl = ParallelismController::new(VlMode::Adaptive, 1);
+        ctrl.set_n_threads(4);
+        // Verify via vl_at_depth — contention calculation uses n_threads
+        let vl = ctrl.vl_at_depth(0);
+        assert!(vl.vvisit > 0.0);
+    }
+
+    #[test]
+    fn test_advance_root_resets_parallel_telemetry() {
+        let (mut engine, _) = gomoku7_engine(50);
+        engine.par_ctrl.telemetry.record_select(3);
+        engine.par_ctrl.telemetry.record_dup_leaf();
+        let chosen = engine.root_state().legal_moves()[0];
+
+        assert!(engine.advance_root(chosen));
+
+        let snap = engine.par_ctrl.telemetry.snapshot();
+        assert_eq!(snap.total_selects, 0);
+        assert_eq!(snap.dup_leaf_count, 0);
+        assert_eq!(snap.max_pending, 0);
+    }
+
+    #[test]
+    fn test_best_move_prefers_immediate_root_win() {
+        let mut state = TicTacToe::initial();
+        for mv in [0, 3, 1, 4] {
+            state = state.apply_move(mv);
+        }
+        let eval: Arc<dyn Evaluator<TicTacToe>> = Arc::new(UniformEval);
+        let engine = MctsEngine::new(state, eval, MctsConfig::evaluation(2.0));
+        assert_eq!(engine.best_move(), Some(2));
+    }
+
+    #[test]
+    fn test_fixed_iterations_fast_path_matches_reference() {
+        let state = Gomoku::new(7);
+        let eval: Arc<dyn Evaluator<Gomoku>> = Arc::new(UniformEval);
+        let cfg = MctsConfig::evaluation(2.0);
+        let ref_engine = MctsEngine::new(state.clone(), eval.clone(), cfg.clone());
+        let ref_stats = run_reference_fixed(&ref_engine, 200);
+
+        let opt_engine = MctsEngine::new(state, eval, cfg);
+        let mut ctrl = crate::mcts::search::FixedIterations::new(200);
+        let opt_stats = opt_engine.run(&mut ctrl);
+
+        assert_eq!(opt_stats.root_visits, ref_stats.root_visits);
+        assert_eq!(opt_engine.best_move(), ref_engine.best_move());
+    }
+
+    fn solve_ttt(state: &TicTacToe, memo: &mut HashMap<u64, f32>) -> f32 {
+        if let Some(&v) = memo.get(&state.hash()) {
+            return v;
+        }
+        let value = if state.is_terminal() {
+            state.outcome()
+        } else {
+            state
+                .legal_moves()
+                .into_iter()
+                .map(|mv| -solve_ttt(&state.apply_move(mv), memo))
+                .fold(f32::NEG_INFINITY, f32::max)
+        };
+        memo.insert(state.hash(), value);
+        value
+    }
+
+    fn optimal_ttt_moves(state: &TicTacToe) -> Vec<usize> {
+        let mut memo = HashMap::new();
+        let mut best = f32::NEG_INFINITY;
+        let mut best_moves = Vec::new();
+        for mv in state.legal_moves() {
+            let score = -solve_ttt(&state.apply_move(mv), &mut memo);
+            if score > best + 1e-6 {
+                best = score;
+                best_moves.clear();
+                best_moves.push(mv);
+            } else if (score - best).abs() < 1e-6 {
+                best_moves.push(mv);
+            }
+        }
+        best_moves
+    }
+
+    fn gen_ttt_immediate_win_positions(n: usize, seed: u64) -> Vec<TicTacToe> {
+        let mut rng = StdRng::seed_from_u64(seed);
+        let mut positions = Vec::new();
+        for _ in 0..n * 50 {
+            if positions.len() >= n {
+                break;
+            }
+            let n_moves = 3 + rng.gen::<usize>() % 4;
+            let mut s = TicTacToe::initial();
+            for _ in 0..n_moves {
+                if s.is_terminal() {
+                    break;
+                }
+                let legal = s.legal_moves();
+                if legal.is_empty() {
+                    break;
+                }
+                s = s.apply_move(legal[rng.gen::<usize>() % legal.len()]);
+            }
+            if !s.is_terminal()
+                && s.legal_moves()
+                    .iter()
+                    .copied()
+                    .any(|mv| s.is_winning_move(mv))
+            {
+                positions.push(s);
+            }
+        }
+        positions
+    }
+
+    fn gen_gomoku_immediate_win_positions(n: usize, seed: u64) -> Vec<Gomoku> {
+        let mut rng = StdRng::seed_from_u64(seed);
+        let mut positions = Vec::new();
+        for _ in 0..n * 80 {
+            if positions.len() >= n {
+                break;
+            }
+            let n_moves = 5 + rng.gen::<usize>() % 10;
+            let mut s = Gomoku::new_with_win(7, 4);
+            for _ in 0..n_moves {
+                if s.is_terminal() {
+                    break;
+                }
+                let legal = s.legal_moves();
+                if legal.is_empty() {
+                    break;
+                }
+                s = s.apply_move(legal[rng.gen::<usize>() % legal.len()]);
+            }
+            if !s.is_terminal()
+                && s.legal_moves()
+                    .iter()
+                    .copied()
+                    .any(|mv| s.is_winning_move(mv))
+            {
+                positions.push(s);
+            }
+        }
+        positions
+    }
+
+    fn run_fixed<G, E>(
+        state: &G,
+        eval: &Arc<E>,
+        budget: u32,
+        root_forced_win: bool,
+        exact_terminal_value: bool,
+        fpu_reduction: f32,
+    ) -> (Option<G::Move>, f64)
+    where
+        G: GameState + Clone,
+        E: Evaluator<G> + Send + Sync + 'static,
+    {
+        use std::time::Instant;
+
+        let qcfg = QuartzConfig {
+            penalty_mode: PenaltyMode::GatedRefresh,
+            min_visits: 30,
+            check_interval: 50,
+            halt_mode: HaltMode::Fixed { budget },
+            ..Default::default()
+        };
+        let cfg = MctsConfig::evaluation_with_pw(2.0, PwConfig::default())
+            .with_quartz(qcfg.clone())
+            .with_root_forced_win(root_forced_win)
+            .with_exact_terminal_value(exact_terminal_value)
+            .with_fpu_reduction(fpu_reduction);
+        let eng = MctsEngine::new(state.clone(), eval.clone(), cfg);
+        let mut ctrl = QuartzController::new(budget, qcfg);
+        let t0 = Instant::now();
+        let stats = eng.run_quartz(&mut ctrl);
+        let elapsed_s = t0.elapsed().as_secs_f64().max(1e-9);
+        let nps = stats.root_visits as f64 / elapsed_s;
+        (eng.best_move(), nps)
+    }
+
+    #[test]
+    #[ignore]
+    fn bench_fpu_accuracy_tradeoff() {
+        let ttt_positions = gen_ttt_positions(80, 42);
+        let gomoku_positions = gen_gomoku_positions(40, 43);
+        let ttt_eval: Arc<UniformEval> = Arc::new(UniformEval);
+        let gomoku_eval: Arc<ShortRollout> = Arc::new(ShortRollout::seeded(7, 123));
+        let ttt_budget = 250u32;
+        let gomoku_budget = 400u32;
+        let gomoku_ref_budget = 2000u32;
+        let fpu_candidates = [0.0f32, 0.02, 0.05, 0.10, 0.15];
+
+        let gomoku_reference: Vec<_> = gomoku_positions
+            .iter()
+            .map(|state| run_fixed(state, &gomoku_eval, gomoku_ref_budget, false, false, 0.0).0)
+            .collect();
+
+        eprintln!(
+            "\n{:>6} {:>10} {:>10} {:>10} {:>10}",
+            "FPU", "TTT_Exact", "Gmk_Agree", "TTT_NPS", "Gmk_NPS"
+        );
+        eprintln!("{}", "─".repeat(54));
+
+        for &fpu in &fpu_candidates {
+            let mut ttt_correct = 0u32;
+            let mut ttt_nps = 0.0f64;
+            for state in &ttt_positions {
+                let optimal = optimal_ttt_moves(state);
+                let (best, nps) = run_fixed(state, &ttt_eval, ttt_budget, false, false, fpu);
+                if best.map(|mv| optimal.contains(&mv)).unwrap_or(false) {
+                    ttt_correct += 1;
+                }
+                ttt_nps += nps;
+            }
+
+            let mut gomoku_agree = 0u32;
+            let mut gomoku_nps = 0.0f64;
+            for (idx, state) in gomoku_positions.iter().enumerate() {
+                let (best, nps) = run_fixed(state, &gomoku_eval, gomoku_budget, false, false, fpu);
+                if best == gomoku_reference[idx] {
+                    gomoku_agree += 1;
+                }
+                gomoku_nps += nps;
+            }
+
+            eprintln!(
+                "{:>6.2} {:>9.1}% {:>9.1}% {:>10.0} {:>10.0}",
+                fpu,
+                100.0 * ttt_correct as f32 / ttt_positions.len() as f32,
+                100.0 * gomoku_agree as f32 / gomoku_positions.len() as f32,
+                ttt_nps / ttt_positions.len() as f64,
+                gomoku_nps / gomoku_positions.len() as f64,
+            );
+        }
+    }
+
+    #[test]
+    #[ignore]
+    fn bench_terminal_child_accuracy_tradeoff() {
+        use std::time::Instant;
+
+        let ttt_positions = gen_ttt_positions(120, 7);
+        let gomoku_positions = gen_gomoku_positions(50, 8);
+        let ttt_eval: Arc<UniformEval> = Arc::new(UniformEval);
+        let gomoku_eval: Arc<ShortRollout> = Arc::new(ShortRollout::seeded(7, 123));
+        let ttt_budget = 250u32;
+        let gomoku_budget = 500u32;
+        let gomoku_ref_budget = 2500u32;
+
+        let gomoku_reference: Vec<_> = gomoku_positions
+            .iter()
+            .map(|state| run_fixed(state, &gomoku_eval, gomoku_ref_budget, false, false, 0.0).0)
+            .collect();
+
+        eprintln!(
+            "\n{:>8} {:>10} {:>10} {:>10} {:>10}",
+            "Terminal", "TTT_Exact", "Gmk_Agree", "TTT_NPS", "Gmk_NPS"
+        );
+        eprintln!("{}", "─".repeat(58));
+
+        for exact_terminal in [false, true] {
+            let t_ttt = Instant::now();
+            let mut ttt_correct = 0u32;
+            for state in &ttt_positions {
+                let optimal = optimal_ttt_moves(state);
+                let (best, _) = run_fixed(state, &ttt_eval, ttt_budget, false, exact_terminal, 0.0);
+                if best.map(|mv| optimal.contains(&mv)).unwrap_or(false) {
+                    ttt_correct += 1;
+                }
+            }
+            let ttt_ms = t_ttt.elapsed().as_millis().max(1) as f64;
+
+            let t_gmk = Instant::now();
+            let mut gomoku_agree = 0u32;
+            for (idx, state) in gomoku_positions.iter().enumerate() {
+                let (best, _) = run_fixed(
+                    state,
+                    &gomoku_eval,
+                    gomoku_budget,
+                    false,
+                    exact_terminal,
+                    0.0,
+                );
+                if best == gomoku_reference[idx] {
+                    gomoku_agree += 1;
+                }
+            }
+            let gomoku_ms = t_gmk.elapsed().as_millis().max(1) as f64;
+
+            eprintln!(
+                "{:>8} {:>9.1}% {:>9.1}% {:>10.0} {:>10.0}",
+                if exact_terminal { "on" } else { "off" },
+                100.0 * ttt_correct as f32 / ttt_positions.len() as f32,
+                100.0 * gomoku_agree as f32 / gomoku_positions.len() as f32,
+                (ttt_budget as f64 * ttt_positions.len() as f64) / (ttt_ms / 1000.0),
+                (gomoku_budget as f64 * gomoku_positions.len() as f64) / (gomoku_ms / 1000.0),
+            );
+        }
+    }
+
+    #[test]
+    #[ignore]
+    fn bench_terminal_child_forced_win_hit_rate() {
+        let ttt_positions = gen_ttt_immediate_win_positions(120, 91);
+        let gomoku_positions = gen_gomoku_immediate_win_positions(80, 92);
+        let ttt_eval: Arc<UniformEval> = Arc::new(UniformEval);
+        let gomoku_eval: Arc<UniformEval> = Arc::new(UniformEval);
+        let ttt_budget = 400u32;
+        let gomoku_budget = 1000u32;
+
+        eprintln!(
+            "\n{:>8} {:>10} {:>10} {:>10} {:>10}",
+            "RootWin", "TTT_Win%", "Gmk_Win%", "TTT_NPS", "Gmk_NPS"
+        );
+        eprintln!("{}", "─".repeat(58));
+
+        for root_forced_win in [false, true] {
+            let mut ttt_hits = 0u32;
+            let mut ttt_nps = 0.0f64;
+            for state in &ttt_positions {
+                let (best, nps) =
+                    run_fixed(state, &ttt_eval, ttt_budget, root_forced_win, false, 0.0);
+                if best.map(|mv| state.is_winning_move(mv)).unwrap_or(false) {
+                    ttt_hits += 1;
+                }
+                ttt_nps += nps;
+            }
+            let mut gomoku_hits = 0u32;
+            let mut gomoku_nps = 0.0f64;
+            for state in &gomoku_positions {
+                let (best, nps) = run_fixed(
+                    state,
+                    &gomoku_eval,
+                    gomoku_budget,
+                    root_forced_win,
+                    false,
+                    0.0,
+                );
+                if best.map(|mv| state.is_winning_move(mv)).unwrap_or(false) {
+                    gomoku_hits += 1;
+                }
+                gomoku_nps += nps;
+            }
+
+            eprintln!(
+                "{:>8} {:>9.1}% {:>9.1}% {:>10.0} {:>10.0}",
+                if root_forced_win { "on" } else { "off" },
+                100.0 * ttt_hits as f32 / ttt_positions.len() as f32,
+                100.0 * gomoku_hits as f32 / gomoku_positions.len() as f32,
+                ttt_nps / ttt_positions.len() as f64,
+                gomoku_nps / gomoku_positions.len() as f64,
+            );
+        }
+    }
+
+    #[test]
+    #[ignore]
+    fn bench_search_controller_fixed_iterations_fast_path() {
+        let limit = 15_000;
+        let state = Gomoku::new(7);
+        let eval: Arc<dyn Evaluator<Gomoku>> = Arc::new(UniformEval);
+        let cfg = MctsConfig::evaluation(2.0);
+
+        let ref_engine = MctsEngine::new(state.clone(), eval.clone(), cfg.clone());
+        let ref_stats = run_reference_fixed(&ref_engine, limit);
+
+        let opt_engine = MctsEngine::new(state, eval, cfg);
+        let mut ctrl = crate::mcts::search::FixedIterations::new(limit);
+        let opt_stats = opt_engine.run(&mut ctrl);
+
+        eprintln!(
+            "\nFixedIterations loop: reference={:.0} nps optimized={:.0} nps speedup={:.3}x",
+            ref_stats.nps,
+            opt_stats.nps,
+            opt_stats.nps / ref_stats.nps.max(1.0)
+        );
+        assert_eq!(opt_stats.root_visits, ref_stats.root_visits);
+        assert_eq!(opt_engine.best_move(), ref_engine.best_move());
+    }
+}

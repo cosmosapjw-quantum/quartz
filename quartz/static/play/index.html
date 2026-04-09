@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>QUARTZ Play</title>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <div class="shell">
+    <aside class="panel controls">
+      <div class="brand">
+        <div class="eyebrow">Human vs Model</div>
+        <h1>QUARTZ Play</h1>
+      </div>
+      <label>
+        <span>Game</span>
+        <select id="game-select"></select>
+      </label>
+      <label>
+        <span>Model</span>
+        <select id="model-select"></select>
+      </label>
+      <label>
+        <span>Play As</span>
+        <select id="side-select">
+          <option value="black">Black / First</option>
+          <option value="white">White / Second</option>
+        </select>
+      </label>
+      <label>
+        <span>Search Iterations</span>
+        <input id="iters-input" type="number" min="1" step="1" value="200">
+      </label>
+      <button id="new-game-btn" class="primary">Start New Game</button>
+      <div class="divider"></div>
+      <div class="action-row">
+        <button id="undo-btn">Undo Turn</button>
+        <button id="restart-btn">Restart</button>
+      </div>
+      <div class="action-row">
+        <button id="pass-btn">Pass</button>
+        <button id="ai-btn">AI Move</button>
+      </div>
+      <button id="resign-btn" class="danger">Resign</button>
+      <div class="meta-block">
+        <div class="meta-label">Status</div>
+        <div id="status-text" class="status-text">Choose a model and start a game.</div>
+      </div>
+      <div class="meta-block">
+        <div class="meta-label">Session</div>
+        <div id="session-meta" class="session-meta">No active session.</div>
+      </div>
+    </aside>
+
+    <main class="panel board-panel">
+      <div class="board-header">
+        <div>
+          <div id="turn-badge" class="turn-badge">Idle</div>
+          <div id="game-meta" class="game-meta"></div>
+        </div>
+        <div id="thinking-indicator" class="thinking hidden">AI thinking...</div>
+      </div>
+      <div id="board-wrap" class="board-wrap">
+        <div id="board" class="board empty"></div>
+      </div>
+    </main>
+
+    <aside class="panel history-panel">
+      <div class="meta-label">Move History</div>
+      <ol id="history-list" class="history-list"></ol>
+    </aside>
+  </div>
+  <script src="/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,25 @@
+[package]
+name = "mcts_demo"
+version = "0.3.0"
+edition = "2021"
+
+[features]
+default = []
+onnx = ["dep:ort", "dep:ndarray"]
+
+[dependencies]
+rand       = "0.8"
+rand_distr = "0.4"
+rayon      = "1.8"
+serde      = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+crossbeam-channel = "0.5"
+
+# ONNX Runtime (requires Rust ≥1.82)
+ort     = { version = "2.0.0-rc.12", optional = true, default-features = false, features = ["download-binaries"] }
+ndarray = { version = "0.16", optional = true }
+
+[profile.release]
+opt-level = 3
+lto = "thin"
+codegen-units = 1

@@ -1,0 +1,10 @@
+{
+    "penalty_mode": "None",
+    "hbar_penalty_cap": 0.0,
+    "sigma_0": 0.3,
+    "iters": 400,
+    "games": 100,
+    "steps": 200,
+    "batch": 512,
+    "comment": "Baseline: pure PUCT, no search control"
+}

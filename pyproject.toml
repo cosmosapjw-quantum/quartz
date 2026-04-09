@@ -1,0 +1,51 @@
+[build-system]
+requires = ["setuptools>=64", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "quartz-mcts"
+version = "0.10.0"
+description = "Calibrated metacontroller for neural MCTS (AlphaZero training framework)"
+readme = "README.md"
+requires-python = ">=3.10"
+license = {text = "MIT"}
+authors = [{name = "QUARTZ Team"}]
+keywords = ["mcts", "alphazero", "reinforcement-learning", "game-ai", "onnx"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Science/Research",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Rust",
+]
+
+dependencies = [
+    "numpy>=1.24",
+    "tqdm",
+    "matplotlib>=3.8",
+]
+
+[project.optional-dependencies]
+# Core ML framework (pick one)
+torch = ["torch>=2.0"]
+jax = ["torch>=2.0", "jax[cpu]>=0.4", "flax>=0.7", "optax"]
+
+# ONNX inference (deploy without torch/jax)
+onnx = ["onnxruntime>=1.16", "onnx>=1.14"]
+onnx-gpu = ["onnxruntime-gpu>=1.16", "onnx>=1.14"]
+
+# All-in-one
+full = ["torch>=2.0", "onnxruntime>=1.16", "onnx>=1.14"]
+dev = ["pytest", "ruff", "onnx>=1.14"]
+
+[project.scripts]
+quartz-train = "quartz.train:main"
+quartz-eval = "quartz.evaluation:_run_all"
+quartz-gpu = "quartz.gpu_detect:main"
+quartz-play = "quartz.play_gui:main"
+
+[tool.setuptools.packages.find]
+include = ["quartz*"]
+
+[tool.setuptools.package-data]
+quartz = ["configs/*.json", "static/play/*"]

@@ -1,0 +1,45 @@
+# Rust
+/target/
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.egg-info/
+dist/
+build/
+venv/
+.venv/
+
+# Caches
+.mypy_cache/
+.pytest_cache/
+.ruff_cache/
+
+# Environment & secrets
+.env
+*.env.local
+
+# Model artifacts & runtime outputs
+models/
+artifacts/
+tmp/
+
+# Binary artifacts
+*.onnx
+*.so
+*.dylib
+*.pt
+*.pth
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+.claude
