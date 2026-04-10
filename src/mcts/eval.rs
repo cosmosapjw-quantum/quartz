@@ -1287,7 +1287,8 @@ impl<M: Copy + Eq + Hash + Debug + Send + 'static> BatchStdioEval<M> {
 }
 
 /// Broker thread main loop: drain requests → batch I/O → distribute results.
-/// Standalone function used by GlobalBroker (extracted from former collector_loop).
+/// Single-threaded: owns both stdin (read response) and stdout (write request)
+/// exclusively during each batch cycle. This avoids stdin contention with serve().
 fn broker_loop<M: Copy + Eq + Hash + Debug + Send + 'static>(
     rx: channel::Receiver<BatchRequest<M>>,
     _n_actions: usize,
@@ -1303,106 +1304,70 @@ fn broker_loop<M: Copy + Eq + Hash + Debug + Send + 'static>(
     let profile_path = BatchCollectorProfile::load_path();
     let mut profile = profile_path.as_ref().map(|_| BatchCollectorProfile::default());
     loop {
-        // Wait for first request (blocking with timeout to check shutdown)
         let idle_t0 = Instant::now();
         let first = match rx.recv_timeout(Duration::from_millis(50)) {
             Ok(req) => req,
             Err(channel::RecvTimeoutError::Timeout) => {
-                if let Some(stats) = profile.as_mut() {
-                    stats.idle_wait_s += idle_t0.elapsed().as_secs_f64();
-                }
+                if let Some(s) = profile.as_mut() { s.idle_wait_s += idle_t0.elapsed().as_secs_f64(); }
                 if shutdown.load(Ordering::Relaxed) {
-                    if let (Some(path), Some(profile_stats)) = (profile_path.as_ref(), profile.as_ref()) {
-                        profile_stats.flush_jsonl(
-                            path,
-                            config,
-                            if shm.is_some() { "shm" } else { "stdio" },
-                            Some(stats),
-                        );
+                    if let (Some(path), Some(ps)) = (profile_path.as_ref(), profile.as_ref()) {
+                        ps.flush_jsonl(path, config, if shm.is_some() { "shm" } else { "stdio" }, Some(stats));
                     }
                     return;
                 }
                 continue;
             }
             Err(channel::RecvTimeoutError::Disconnected) => {
-                if let (Some(path), Some(profile_stats)) = (profile_path.as_ref(), profile.as_ref()) {
-                    profile_stats.flush_jsonl(
-                        path,
-                        config,
-                        if shm.is_some() { "shm" } else { "stdio" },
-                        Some(stats),
-                    );
+                if let (Some(path), Some(ps)) = (profile_path.as_ref(), profile.as_ref()) {
+                    ps.flush_jsonl(path, config, if shm.is_some() { "shm" } else { "stdio" }, Some(stats));
                 }
                 return;
             }
         };
         stats.on_dequeue(first.enqueued_at);
-        if let Some(stats) = profile.as_mut() {
-            stats.idle_wait_s += idle_t0.elapsed().as_secs_f64();
-        }
+        if let Some(s) = profile.as_mut() { s.idle_wait_s += idle_t0.elapsed().as_secs_f64(); }
 
-        // Collect more requests up to max_batch_size within timeout
         let mut batch: Vec<BatchRequest<M>> = Vec::with_capacity(config.max_batch_size);
         batch.push(first);
-
         let timeout = Duration::from_micros(adaptive_timeout_us.round() as u64);
         let deadline = Instant::now() + timeout;
         let collect_t0 = Instant::now();
         while batch.len() < config.max_batch_size {
             while batch.len() < config.max_batch_size {
                 match rx.try_recv() {
-                    Ok(req) => {
-                        stats.on_dequeue(req.enqueued_at);
-                        batch.push(req)
-                    }
+                    Ok(req) => { stats.on_dequeue(req.enqueued_at); batch.push(req) }
                     Err(channel::TryRecvError::Empty) => break,
                     Err(channel::TryRecvError::Disconnected) => break,
                 }
             }
-            if batch.len() >= config.max_batch_size {
-                break;
-            }
+            if batch.len() >= config.max_batch_size { break; }
             let remaining = deadline.saturating_duration_since(Instant::now());
-            if remaining.is_zero() {
-                break;
-            }
+            if remaining.is_zero() { break; }
             match rx.recv_timeout(remaining) {
-                Ok(req) => {
-                    stats.on_dequeue(req.enqueued_at);
-                    batch.push(req)
-                }
+                Ok(req) => { stats.on_dequeue(req.enqueued_at); batch.push(req) }
                 Err(channel::RecvTimeoutError::Timeout) => break,
                 Err(channel::RecvTimeoutError::Disconnected) => break,
             }
         }
-        if let Some(stats) = profile.as_mut() {
-            stats.collect_s += collect_t0.elapsed().as_secs_f64();
-            stats.note_batch(batch.len(), config.max_batch_size);
+        if let Some(s) = profile.as_mut() {
+            s.collect_s += collect_t0.elapsed().as_secs_f64();
+            s.note_batch(batch.len(), config.max_batch_size);
         }
-        let flush_reason = if batch.len() >= config.max_batch_size {
-            "target_batch_reached"
-        } else {
-            "max_wait_reached"
-        };
+        let flush_reason = if batch.len() >= config.max_batch_size { "target_batch_reached" } else { "max_wait_reached" };
         stats.record_flush_reason(flush_reason);
         if config.max_batch_size > 1 {
             let fill_ratio = batch.len() as f64 / config.max_batch_size as f64;
-            if fill_ratio < 0.45 {
-                adaptive_timeout_us = (adaptive_timeout_us * 1.25).min(max_timeout_us);
-            } else if fill_ratio > 0.80 {
-                adaptive_timeout_us = (adaptive_timeout_us * 0.88).max(min_timeout_us);
-            } else if adaptive_timeout_us > base_timeout_us {
-                adaptive_timeout_us = (adaptive_timeout_us * 0.96).max(base_timeout_us);
-            } else if adaptive_timeout_us < base_timeout_us {
-                adaptive_timeout_us = (adaptive_timeout_us * 1.04).min(base_timeout_us);
-            }
+            if fill_ratio < 0.45 { adaptive_timeout_us = (adaptive_timeout_us * 1.25).min(max_timeout_us); }
+            else if fill_ratio > 0.80 { adaptive_timeout_us = (adaptive_timeout_us * 0.88).max(min_timeout_us); }
+            else if adaptive_timeout_us > base_timeout_us { adaptive_timeout_us = (adaptive_timeout_us * 0.96).max(base_timeout_us); }
+            else if adaptive_timeout_us < base_timeout_us { adaptive_timeout_us = (adaptive_timeout_us * 1.04).min(base_timeout_us); }
         }
 
         let encode_t0 = Instant::now();
         let payload = encode_batch_eval_req_payload(&batch);
-        if let Some(stats) = profile.as_mut() {
-            stats.encode_s += encode_t0.elapsed().as_secs_f64();
-            stats.payload_out_bytes += payload.len();
+        if let Some(s) = profile.as_mut() {
+            s.encode_s += encode_t0.elapsed().as_secs_f64();
+            s.payload_out_bytes += payload.len();
         }
 
         let write_t0 = Instant::now();
@@ -1411,25 +1376,15 @@ fn broker_loop<M: Copy + Eq + Hash + Debug + Send + 'static>(
             let mut writer = stdout.lock();
             write_qipc_eval_frame(&mut writer, shm.as_deref(), QIPC_BATCH_EVAL_REQ, &payload).is_ok()
         };
-        if let Some(stats) = profile.as_mut() {
-            stats.write_s += write_t0.elapsed().as_secs_f64();
-        }
+        if let Some(s) = profile.as_mut() { s.write_s += write_t0.elapsed().as_secs_f64(); }
 
         if !write_ok {
-            // I/O failure: send uniform fallback to all waiters
             send_uniform_fallback(&batch);
             stats.record_flush_reason("fallback");
-            if let Some(stats) = profile.as_mut() {
-                stats.record_fallback();
-            }
+            if let Some(s) = profile.as_mut() { s.record_fallback(); }
             if shutdown.load(Ordering::Relaxed) {
-                if let (Some(path), Some(profile_stats)) = (profile_path.as_ref(), profile.as_ref()) {
-                    profile_stats.flush_jsonl(
-                        path,
-                        config,
-                        if shm.is_some() { "shm" } else { "stdio" },
-                        Some(stats),
-                    );
+                if let (Some(path), Some(ps)) = (profile_path.as_ref(), profile.as_ref()) {
+                    ps.flush_jsonl(path, config, if shm.is_some() { "shm" } else { "stdio" }, Some(stats));
                 }
                 return;
             }
@@ -1442,24 +1397,15 @@ fn broker_loop<M: Copy + Eq + Hash + Debug + Send + 'static>(
             let mut reader = stdin.lock();
             read_qipc_frame(&mut reader).ok()
         };
-        if let Some(stats) = profile.as_mut() {
-            stats.read_s += read_t0.elapsed().as_secs_f64();
-        }
+        if let Some(s) = profile.as_mut() { s.read_s += read_t0.elapsed().as_secs_f64(); }
 
         let Some((mut frame_kind, resp_payload)) = response else {
             send_uniform_fallback(&batch);
             stats.record_flush_reason("fallback");
-            if let Some(stats) = profile.as_mut() {
-                stats.record_fallback();
-            }
+            if let Some(s) = profile.as_mut() { s.record_fallback(); }
             if shutdown.load(Ordering::Relaxed) {
-                if let (Some(path), Some(profile_stats)) = (profile_path.as_ref(), profile.as_ref()) {
-                    profile_stats.flush_jsonl(
-                        path,
-                        config,
-                        if shm.is_some() { "shm" } else { "stdio" },
-                        Some(stats),
-                    );
+                if let (Some(path), Some(ps)) = (profile_path.as_ref(), profile.as_ref()) {
+                    ps.flush_jsonl(path, config, if shm.is_some() { "shm" } else { "stdio" }, Some(stats));
                 }
                 return;
             }
@@ -1470,17 +1416,13 @@ fn broker_loop<M: Copy + Eq + Hash + Debug + Send + 'static>(
                 let Some(shm) = shm.as_deref() else {
                     send_uniform_fallback(&batch);
                     stats.record_flush_reason("fallback");
-                    if let Some(stats) = profile.as_mut() {
-                        stats.record_fallback();
-                    }
+                    if let Some(s) = profile.as_mut() { s.record_fallback(); }
                     continue;
                 };
                 let Some(n_bytes) = qipc_shm_meta_len(&resp_payload) else {
                     send_uniform_fallback(&batch);
                     stats.record_flush_reason("fallback");
-                    if let Some(stats) = profile.as_mut() {
-                        stats.record_fallback();
-                    }
+                    if let Some(s) = profile.as_mut() { s.record_fallback(); }
                     continue;
                 };
                 frame_kind = QIPC_BATCH_EVAL_RESP;
@@ -1489,9 +1431,7 @@ fn broker_loop<M: Copy + Eq + Hash + Debug + Send + 'static>(
                     None => {
                         send_uniform_fallback(&batch);
                         stats.record_flush_reason("fallback");
-                        if let Some(stats) = profile.as_mut() {
-                            stats.record_fallback();
-                        }
+                        if let Some(s) = profile.as_mut() { s.record_fallback(); }
                         continue;
                     }
                 }
@@ -1501,22 +1441,16 @@ fn broker_loop<M: Copy + Eq + Hash + Debug + Send + 'static>(
         if frame_kind != QIPC_BATCH_EVAL_RESP {
             send_uniform_fallback(&batch);
             stats.record_flush_reason("fallback");
-            if let Some(stats) = profile.as_mut() {
-                stats.record_fallback();
-            }
+            if let Some(s) = profile.as_mut() { s.record_fallback(); }
             continue;
         }
 
-        if let Some(stats) = profile.as_mut() {
-            stats.payload_in_bytes += payload_bytes.len();
-        }
+        if let Some(s) = profile.as_mut() { s.payload_in_bytes += payload_bytes.len(); }
         let decode_t0 = Instant::now();
         distribute_binary_batch(payload_bytes, &batch);
-        if let Some(stats) = profile.as_mut() {
-            stats.decode_s += decode_t0.elapsed().as_secs_f64();
-        }
-        if let Some(profile_stats) = profile.as_ref() {
-            if profile_stats.batches % 64 == 0 {
+        if let Some(s) = profile.as_mut() { s.decode_s += decode_t0.elapsed().as_secs_f64(); }
+        if let Some(ps) = profile.as_ref() {
+            if ps.batches % 64 == 0 {
                 rust_eval_trace(
                     "batch_broker_snapshot",
                     serde_json::json!({

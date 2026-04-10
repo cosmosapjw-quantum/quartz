@@ -13,7 +13,7 @@ Requirements: torch, numpy, tqdm
 GPU:          pip install torch --index-url https://download.pytorch.org/whl/rocm6.2
               export HSA_OVERRIDE_GFX_VERSION=10.3.0
 """
-import os, sys, json, select, time, argparse, subprocess, random, math, signal, threading, logging, struct, warnings, atexit
+import os, sys, json, select, time, argparse, subprocess, random, math, signal, threading, logging, struct, warnings, atexit, queue
 import numpy as np
 from dataclasses import dataclass
 from pathlib import Path
@@ -427,6 +427,73 @@ def pack_qipc_batch_eval_resp(policies, values):
         payload.extend(policy.tobytes())
         payload.extend(struct.pack("<f", float(value)))
     return bytes(payload)
+
+
+class InferencePipelineThread:
+    """Background thread that runs GPU inference while the caller collects the next batch.
+
+    Usage:
+        pipeline = InferencePipelineThread(model, device, cfg)
+        pipeline.start()
+        pipeline.submit(eval_groups_0)
+        # ... collect eval_groups_1 while inference_0 runs ...
+        results_0 = pipeline.collect()
+        pipeline.submit(eval_groups_1)
+        # ...
+        pipeline.stop()
+
+    Torch-only: the GIL is released during CUDA kernel execution, allowing the
+    collector thread to run Python (QIPC parsing) in parallel with GPU inference.
+    """
+
+    def __init__(self, model, device, cfg, max_pending=1):
+        self._model = model
+        self._device = device
+        self._cfg = cfg
+        self._inbound = queue.Queue(maxsize=max_pending)
+        self._outbound = queue.Queue(maxsize=max_pending)
+        self._shutdown = threading.Event()
+        self._thread = None
+
+    def start(self):
+        self._thread = threading.Thread(
+            target=self._loop, daemon=True, name="quartz-inference")
+        self._thread.start()
+
+    def stop(self, timeout=5.0):
+        self._shutdown.set()
+        try:
+            self._inbound.put_nowait(None)  # sentinel to unblock
+        except queue.Full:
+            pass
+        if self._thread:
+            self._thread.join(timeout=timeout)
+
+    def submit(self, eval_groups):
+        """Submit a batch for background inference. Blocks if pipeline is full."""
+        self._inbound.put(eval_groups, timeout=10.0)
+
+    def collect(self, timeout=30.0):
+        """Block until the oldest submitted batch completes. Re-raises inference errors."""
+        result = self._outbound.get(timeout=timeout)
+        if isinstance(result, BaseException):
+            raise result
+        return result
+
+    def _loop(self):
+        while not self._shutdown.is_set():
+            try:
+                groups = self._inbound.get(timeout=0.5)
+            except queue.Empty:
+                continue
+            if groups is None:  # shutdown sentinel
+                break
+            try:
+                responses = _run_batched_eval_groups(
+                    groups, self._model, self._device, self._cfg)
+                self._outbound.put(responses)
+            except Exception as e:
+                self._outbound.put(e)
 
 
 def _run_batched_eval_groups(eval_groups, model, device, cfg):
@@ -1856,6 +1923,27 @@ class NNSearchClient:
             for response_group in responses:
                 _write_batched_eval_group(self.proc, response_group)
 
+    @staticmethod
+    def _emit_duty_cycle(duty):
+        """Emit eval-loop duty-cycle timing for monitoring."""
+        total = duty["read_s"] + duty["collect_s"] + duty["model_s"] + duty["write_s"]
+        if total < 1e-9:
+            return
+        import sys as _sys
+        msg = (
+            f'  [DutyCycle] cycles={duty["cycles"]}'
+            f' read={duty["read_s"]:.3f}s({duty["read_s"]/total*100:.0f}%)'
+            f' collect={duty["collect_s"]:.3f}s({duty["collect_s"]/total*100:.0f}%)'
+            f' model={duty["model_s"]:.3f}s({duty["model_s"]/total*100:.0f}%)'
+            f' write={duty["write_s"]:.3f}s({duty["write_s"]/total*100:.0f}%)'
+            f' total={total:.3f}s\n'
+        )
+        try:
+            _sys.stderr.write(msg)
+            _sys.stderr.flush()
+        except Exception:
+            pass
+
     def _exchange_search_request(self, req_dict):
         if not self.proc:
             self.start()
@@ -1912,16 +2000,52 @@ class NNSearchClient:
         collect_wait_ema_s = 0.0
         proc_write_json_line(self.proc, req_dict)
         deferred = None
+        _duty = {"read_s": 0.0, "collect_s": 0.0, "model_s": 0.0, "write_s": 0.0, "cycles": 0}
+        _duty_log_interval = 16
+        _use_pl = (
+            not os.environ.get("QUARTZ_DISABLE_ASYNC_PIPELINE")
+            and self.model is not None
+            and not hasattr(self.model, "predict")
+        )
+        pipeline = None
+        inflight = False
+        pending_response = None
+        if _use_pl:
+            pipeline = InferencePipelineThread(self.model, self.device, self.cfg, max_pending=1)
+            pipeline.start()
 
-        while True:
+        try:
+          while True:
+            # --- Flush: if inflight, wait for inference and write result ---
+            # This MUST happen before read, because Rust broker won't send
+            # the next request until it receives the response for the current one.
+            if inflight and pipeline is not None:
+                model_t0 = time.perf_counter()
+                responses = pipeline.collect(timeout=30.0)
+                _duty["model_s"] += time.perf_counter() - model_t0
+                inflight = False
+                write_t0 = time.perf_counter()
+                for rg in responses:
+                    _write_batched_eval_group(self.proc, rg)
+                _duty["write_s"] += time.perf_counter() - write_t0
+
+            # --- Read first request ---
+            read_t0 = time.perf_counter()
             kind, payload = deferred if deferred is not None else proc_read_message(self.proc)
             deferred = None
+            _duty["read_s"] += time.perf_counter() - read_t0
+
             if kind is None:
+                if _duty["cycles"] > 0:
+                    NNSearchClient._emit_duty_cycle(_duty)
                 return {}
             first_group, terminal = parse_eval_group(kind, payload)
             if terminal is not None:
+                if _duty["cycles"] > 0:
+                    NNSearchClient._emit_duty_cycle(_duty)
                 return terminal
 
+            # --- Collect batch ---
             eval_groups = [first_group]
             eval_item_count = len(first_group["requests"])
             dynamic_target_eval_items, dynamic_collect_timeout_s = compute_eval_collect_policy(
@@ -1946,11 +2070,40 @@ class NNSearchClient:
 
             merged_items = sum(len(group["requests"]) for group in eval_groups)
             collect_wait_s = time.perf_counter() - collect_t0
+            _duty["collect_s"] += collect_wait_s
             batch_items_ema = 0.25 * float(merged_items) + 0.75 * float(batch_items_ema)
             collect_wait_ema_s = 0.25 * float(collect_wait_s) + 0.75 * float(collect_wait_ema_s)
-            responses = _run_batched_eval_groups(eval_groups, self.model, self.device, self.cfg)
-            for response_group in responses:
-                _write_batched_eval_group(self.proc, response_group)
+
+            # --- Inference: submit to pipeline or run sync ---
+            if pipeline is not None:
+                pipeline.submit(eval_groups)
+                inflight = True
+                # Pipeline overlap: inference runs in background while we loop
+                # back to flush (collect result + write) then read next batch.
+                # The overlap happens when Rust has already queued the next
+                # batch in the broker channel before we finish writing.
+            else:
+                model_t0 = time.perf_counter()
+                responses = _run_batched_eval_groups(eval_groups, self.model, self.device, self.cfg)
+                _duty["model_s"] += time.perf_counter() - model_t0
+                write_t0 = time.perf_counter()
+                for rg in responses:
+                    _write_batched_eval_group(self.proc, rg)
+                _duty["write_s"] += time.perf_counter() - write_t0
+
+            _duty["cycles"] += 1
+            if _duty["cycles"] % _duty_log_interval == 0:
+                NNSearchClient._emit_duty_cycle(_duty)
+        finally:
+            if inflight and pipeline is not None:
+                try:
+                    drain = pipeline.collect(timeout=10.0)
+                    for rg in drain:
+                        _write_batched_eval_group(self.proc, rg)
+                except Exception:
+                    pass
+            if pipeline is not None:
+                pipeline.stop()
 
     def _eval_from_features(self, features, n_act):
         try:
@@ -4950,6 +5103,14 @@ def selfplay_rust_nn_batched(cfg, model, device, n_games, rust_binary="./target/
                 return None, payload
         return None, {"error": "unexpected message"}
 
+    _duty = {"read_s": 0.0, "collect_s": 0.0, "model_s": 0.0, "write_s": 0.0, "cycles": 0}
+    _duty_log_interval = 16
+    _use_pipeline = (
+        not os.environ.get("QUARTZ_DISABLE_ASYNC_PIPELINE")
+        and model is not None
+        and not hasattr(model, "predict")  # torch only — JAX has no GIL-release guarantee
+    )
+
     def exchange_search_request(req):
         nonlocal batch_items_ema, collect_wait_ema_s
         req_cmd = req.get("cmd", "?") if isinstance(req, dict) else "?"
@@ -4969,12 +5130,39 @@ def selfplay_rust_nn_batched(cfg, model, device, n_games, rust_binary="./target/
         deferred = None
         results_payload = None
         loop_count = 0
-        while results_payload is None:
+
+        # Pipeline state: at most one batch in-flight on inference thread
+        pipeline = None
+        inflight = False
+        pending_response = None  # completed inference results waiting to be written
+
+        if _use_pipeline:
+            pipeline = InferencePipelineThread(model, device, cfg, max_pending=1)
+            pipeline.start()
+
+        try:
+          while results_payload is None:
             loop_count += 1
             if perf_stats is not None:
                 perf_stats["collect_loops"] += 1
+
+            # --- Flush: wait for inflight inference and write result ---
+            # MUST happen before read: Rust broker won't send the next request
+            # until it receives the response for the current one.
+            if inflight and pipeline is not None:
+                model_t0 = time.perf_counter()
+                flush_responses = pipeline.collect(timeout=30.0)
+                _duty["model_s"] += time.perf_counter() - model_t0
+                inflight = False
+                write_t0 = time.perf_counter()
+                for rg in flush_responses:
+                    _write_batched_eval_group(proc, rg)
+                _duty["write_s"] += time.perf_counter() - write_t0
+
+            # --- Read first request ---
             read_t0 = time.perf_counter()
             kind, payload = deferred if deferred is not None else proc_read_message(proc)
+            _duty["read_s"] += time.perf_counter() - read_t0
             _stall_trace(
                 "exchange_message",
                 cmd=req_cmd,
@@ -5000,6 +5188,7 @@ def selfplay_rust_nn_batched(cfg, model, device, n_games, rust_binary="./target/
                 )
                 break
 
+            # --- Collect batch ---
             eval_groups = [first_group]
             eval_item_count = len(first_group["requests"])
             dynamic_target_eval_items, dynamic_collect_timeout_s = compute_eval_collect_policy(
@@ -5026,37 +5215,66 @@ def selfplay_rust_nn_batched(cfg, model, device, n_games, rust_binary="./target/
 
             merged_items = sum(len(group["requests"]) for group in eval_groups)
             collect_wait_s = time.perf_counter() - collect_t0
+            _duty["collect_s"] += collect_wait_s
             batch_items_ema = 0.25 * float(merged_items) + 0.75 * float(batch_items_ema)
             collect_wait_ema_s = 0.25 * float(collect_wait_s) + 0.75 * float(collect_wait_ema_s)
-            t_eval = time.perf_counter()
-            responses = _run_batched_eval_groups(eval_groups, model, device, cfg)
-            eval_elapsed = time.perf_counter() - t_eval
-            _stall_trace(
-                "exchange_eval",
-                cmd=req_cmd,
-                loop=int(loop_count),
-                groups=int(len(eval_groups)),
-                items=int(merged_items),
-                target_items=int(dynamic_target_eval_items),
-                collect_wait_s=float(collect_wait_s),
-                collect_timeout_s=float(dynamic_collect_timeout_s),
-                eval_s=float(eval_elapsed),
-            )
+
+            # --- Inference: submit to pipeline or run sync ---
+            if pipeline is not None:
+                pipeline.submit(eval_groups)
+                inflight = True
+                _stall_trace(
+                    "exchange_eval",
+                    cmd=req_cmd,
+                    loop=int(loop_count),
+                    groups=int(len(eval_groups)),
+                    items=int(merged_items),
+                    target_items=int(dynamic_target_eval_items),
+                    collect_wait_s=float(collect_wait_s),
+                    collect_timeout_s=float(dynamic_collect_timeout_s),
+                    eval_s=0.0,
+                    pipelined=True,
+                )
+            else:
+                t_eval = time.perf_counter()
+                responses = _run_batched_eval_groups(eval_groups, model, device, cfg)
+                eval_elapsed = time.perf_counter() - t_eval
+                _duty["model_s"] += eval_elapsed
+                _stall_trace(
+                    "exchange_eval",
+                    cmd=req_cmd,
+                    loop=int(loop_count),
+                    groups=int(len(eval_groups)),
+                    items=int(merged_items),
+                    target_items=int(dynamic_target_eval_items),
+                    collect_wait_s=float(collect_wait_s),
+                    collect_timeout_s=float(dynamic_collect_timeout_s),
+                    eval_s=float(eval_elapsed),
+                )
+                write_t0 = time.perf_counter()
+                for response_group in responses:
+                    _write_batched_eval_group(proc, response_group)
+                _duty["write_s"] += time.perf_counter() - write_t0
+
             if perf_stats is not None:
                 perf_stats["model_calls"] += 1
                 perf_stats["model_batch_sizes"].append(merged_items)
-                perf_stats["model_time_s"] += eval_elapsed
-            write_t0 = time.perf_counter()
-            for response_group in responses:
-                _write_batched_eval_group(proc, response_group)
-            _stall_trace(
-                "exchange_write_responses",
-                cmd=req_cmd,
-                loop=int(loop_count),
-                groups=int(len(responses)),
-                write_s=float(time.perf_counter() - write_t0),
-            )
+            _duty["cycles"] += 1
+            if _duty["cycles"] % _duty_log_interval == 0:
+                NNSearchClient._emit_duty_cycle(_duty)
+        finally:
+            if inflight and pipeline is not None:
+                try:
+                    drain = pipeline.collect(timeout=10.0)
+                    for rg in drain:
+                        _write_batched_eval_group(proc, rg)
+                except Exception:
+                    pass
+            if pipeline is not None:
+                pipeline.stop()
 
+        if _duty["cycles"] > 0:
+            NNSearchClient._emit_duty_cycle(_duty)
         if perf_stats is not None and results_payload is not None:
             perf_stats["result_messages"] += 1
         _stall_trace(

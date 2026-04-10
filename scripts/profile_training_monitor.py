@@ -373,8 +373,8 @@ _EVAL_SR_RE = re.compile(r"sr=([0-9.]+)")
 _EVAL_PV_RE = re.compile(r"p=([0-9.]+)")
 _EVAL_VERDICT_RE = re.compile(r"verdict=(\w+)")
 _EVAL_GAMES_RE = re.compile(r"(\d+)\s*(?:scored|games)")
-_EVAL_VOID_RE = re.compile(r"void(?:ed)?[:\s]+(\d+)", re.IGNORECASE)
-_EVAL_ERROR_RE = re.compile(r"error(?:s)?[:\s]+(\d+)", re.IGNORECASE)
+_EVAL_VOID_RE = re.compile(r"voids?[=:]\s*(\d+)", re.IGNORECASE)
+_EVAL_ERROR_RE = re.compile(r"errors?[=:]\s*(\d+)", re.IGNORECASE)
 
 
 def _parse_eval_result_line(line: str, out: dict[str, Any]) -> None:
@@ -991,8 +991,16 @@ def parse_stdout_event(line: str) -> dict[str, Any] | None:
     if stripped.startswith("Eval:"):
         evt["type"] = "evaluation_result"
         return evt
-    if "engine error" in stripped.lower() or "void" in stripped.lower():
+    if "[EvalInvalid]" in stripped or "[EvalError]" in stripped:
         evt["type"] = "evaluation_error"
+        return evt
+    if "[DutyCycle]" in stripped:
+        evt["type"] = "duty_cycle"
+        # Parse: cycles=N read=Xs(P%) collect=Xs(P%) model=Xs(P%) write=Xs(P%) total=Xs
+        for key in ("cycles", "read", "collect", "model", "write", "total"):
+            m = re.search(rf"{key}=([0-9.]+)", stripped)
+            if m:
+                evt[key] = float(m.group(1)) if "." in m.group(1) else int(m.group(1))
         return evt
     wait_match = re.search(r"waiting for self-play: .*? ([0-9]+(?:\\.[0-9]+)?)s$", stripped)
     if wait_match:
