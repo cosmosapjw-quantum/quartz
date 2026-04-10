@@ -386,6 +386,10 @@ impl GameState for Gomoku {
         out
     }
 
+    fn board_state_record(&self) -> Vec<i64> {
+        self.board.iter().map(|&v| match v { 1 => 1, -1 => 2, _ => 0 }).collect()
+    }
+
     /// [OPT] O(win_len) win check — no state clone, no hash update.
     fn is_winning_move(&self, mv: usize) -> bool {
         self.wins_if(mv, self.current_player)

@@ -121,6 +121,8 @@ QIPC_SHM_LEN = struct.Struct("<I")
 QIPC_SHM_DEFAULT_BYTES = 8 * 1024 * 1024
 _QIPC_TRANSPORTS = {}
 _QIPC_TRANSPORTS_LOCK = threading.Lock()
+_SHM_RING_BUFFERS = {}
+_SHM_RING_BUFFERS_LOCK = threading.Lock()
 
 
 def _register_qipc_transport(transport):
@@ -135,7 +137,17 @@ def _unregister_qipc_transport(transport):
         _QIPC_TRANSPORTS.pop(key, None)
 
 
-def _cleanup_all_qipc_transports():
+def _register_ring_buffer(ring):
+    with _SHM_RING_BUFFERS_LOCK:
+        _SHM_RING_BUFFERS[ring.name] = ring
+
+
+def _unregister_ring_buffer(ring):
+    with _SHM_RING_BUFFERS_LOCK:
+        _SHM_RING_BUFFERS.pop(ring.name, None)
+
+
+def _cleanup_all_shm():
     with _QIPC_TRANSPORTS_LOCK:
         transports = list(_QIPC_TRANSPORTS.values())
         _QIPC_TRANSPORTS.clear()
@@ -144,9 +156,17 @@ def _cleanup_all_qipc_transports():
             transport.destroy()
         except Exception:
             pass
+    with _SHM_RING_BUFFERS_LOCK:
+        rings = list(_SHM_RING_BUFFERS.values())
+        _SHM_RING_BUFFERS.clear()
+    for ring in rings:
+        try:
+            ring.destroy()
+        except Exception:
+            pass
 
 
-atexit.register(_cleanup_all_qipc_transports)
+atexit.register(_cleanup_all_shm)
 
 
 @dataclass
@@ -211,21 +231,205 @@ class QipcSharedMemoryTransport:
         return True
 
 
+# ─── SHM Ring Buffer for lock-free eval pipeline ───
+
+SHM_RING_MAGIC = 0x51524E47  # "QRNG"
+SHM_RING_VERSION = 1
+SHM_RING_HEADER_SIZE = 256
+SHM_RING_SLOT_HEADER = 16
+SHM_RING_DEFAULT_SIZE = 16 * 1024 * 1024  # 16MB
+
+SHM_SLOT_EMPTY = 0
+SHM_SLOT_WRITTEN = 1
+SHM_SLOT_DONE = 2
+
+SHM_MSG_EVAL_BATCH_REQ = 1
+SHM_MSG_EVAL_BATCH_RESP = 2
+SHM_MSG_JSON = 3
+
+SHM_DIR_TO_PYTHON = 0
+SHM_DIR_TO_RUST = 1
+
+import ctypes
+
+
+@dataclass
+class ShmRingBuffer:
+    """Lock-free ring buffer in shared memory for Rust↔Python eval communication."""
+    _shm: shared_memory.SharedMemory
+    r2p_slot_count: int
+    p2r_slot_count: int
+    slot_data_size: int
+    r2p_base: int
+    p2r_base: int
+
+    @classmethod
+    def create(cls, r2p_slots=2, p2r_slots=2, slot_data_size=None):
+        total_slots = r2p_slots + p2r_slots
+        if slot_data_size is None:
+            size = int(os.environ.get("QUARTZ_QIPC_RING_SHM_SIZE", SHM_RING_DEFAULT_SIZE))
+            slot_data_size = (size - SHM_RING_HEADER_SIZE) // total_slots
+        else:
+            size = SHM_RING_HEADER_SIZE + total_slots * slot_data_size
+        shm = shared_memory.SharedMemory(create=True, size=size)
+        # Write header
+        struct.pack_into("<IIIII", shm.buf, 0,
+                         SHM_RING_MAGIC, SHM_RING_VERSION, r2p_slots, p2r_slots, slot_data_size)
+        # Zero epoch, cmd_done
+        struct.pack_into("<IB", shm.buf, 20, 0, 0)
+        # Zero all slot states
+        r2p_base = SHM_RING_HEADER_SIZE
+        p2r_base = SHM_RING_HEADER_SIZE + r2p_slots * slot_data_size
+        for i in range(total_slots):
+            off = SHM_RING_HEADER_SIZE + i * slot_data_size
+            shm.buf[off] = SHM_SLOT_EMPTY
+        ring = cls(_shm=shm, r2p_slot_count=r2p_slots, p2r_slot_count=p2r_slots,
+                   slot_data_size=slot_data_size, r2p_base=r2p_base, p2r_base=p2r_base)
+        ring._created = True
+        return ring
+
+    @classmethod
+    def open(cls, name, size):
+        shm = shared_memory.SharedMemory(name=name, create=False, size=size)
+        magic, version, r2p_slots, p2r_slots, slot_data_size = struct.unpack_from("<IIIII", shm.buf, 0)
+        if magic != SHM_RING_MAGIC or version != SHM_RING_VERSION:
+            shm.close()
+            return None
+        r2p_base = SHM_RING_HEADER_SIZE
+        p2r_base = SHM_RING_HEADER_SIZE + r2p_slots * slot_data_size
+        ring = cls(_shm=shm, r2p_slot_count=r2p_slots, p2r_slot_count=p2r_slots,
+                   slot_data_size=slot_data_size, r2p_base=r2p_base, p2r_base=p2r_base)
+        ring._created = False
+        return ring
+
+    @property
+    def name(self):
+        return self._shm.name
+
+    @property
+    def size(self):
+        return self._shm.size
+
+    def close(self):
+        try:
+            self._shm.close()
+        except Exception:
+            pass
+
+    def destroy(self):
+        try:
+            self._shm.close()
+        except Exception:
+            pass
+        if getattr(self, "_created", False):
+            try:
+                self._shm.unlink()
+            except Exception:
+                pass
+
+    # --- Atomic accessors (x86-64: aligned byte/word loads/stores are atomic) ---
+
+    def _atomic_load_u8(self, offset):
+        return ctypes.c_uint8.from_buffer(self._shm.buf, offset).value
+
+    def _atomic_store_u8(self, offset, val):
+        ctypes.c_uint8.from_buffer(self._shm.buf, offset).value = val
+
+    def _atomic_load_u32(self, offset):
+        return ctypes.c_uint32.from_buffer(self._shm.buf, offset).value
+
+    def _atomic_store_u32(self, offset, val):
+        ctypes.c_uint32.from_buffer(self._shm.buf, offset).value = val
+
+    # --- Header ---
+
+    def epoch(self):
+        return self._atomic_load_u32(20)
+
+    def cmd_done(self):
+        return self._atomic_load_u8(24) != 0
+
+    # --- Slot state ---
+
+    def _r2p_slot_offset(self, idx):
+        return self.r2p_base + idx * self.slot_data_size
+
+    def _p2r_slot_offset(self, idx):
+        return self.p2r_base + idx * self.slot_data_size
+
+    def slot_state(self, slot_offset):
+        return self._atomic_load_u8(slot_offset)
+
+    def set_slot_state(self, slot_offset, state):
+        self._atomic_store_u8(slot_offset, state)
+
+    # --- Read from r2p (Python reads Rust's messages) ---
+
+    def r2p_try_read(self, slot_idx):
+        """Try to read a WRITTEN r2p slot. Returns (msg_type, payload_bytes) or None."""
+        off = self._r2p_slot_offset(slot_idx)
+        if self.slot_state(off) != SHM_SLOT_WRITTEN:
+            return None
+        msg_type = self._shm.buf[off + 1]
+        payload_len = struct.unpack_from("<I", self._shm.buf, off + 4)[0]
+        epoch = struct.unpack_from("<I", self._shm.buf, off + 8)[0]
+        payload = bytes(self._shm.buf[off + SHM_RING_SLOT_HEADER: off + SHM_RING_SLOT_HEADER + payload_len])
+        return msg_type, payload
+
+    def r2p_mark_done(self, slot_idx):
+        """Mark an r2p slot as DONE (processed by Python)."""
+        off = self._r2p_slot_offset(slot_idx)
+        self.set_slot_state(off, SHM_SLOT_DONE)
+
+    # --- Write to p2r (Python writes responses to Rust) ---
+
+    def p2r_try_write(self, slot_idx, msg_type, payload, epoch=0, seq=0):
+        """Write to a p2r slot. Caller must ensure slot is EMPTY."""
+        off = self._p2r_slot_offset(slot_idx)
+        if len(payload) > self.slot_data_size - SHM_RING_SLOT_HEADER:
+            return False
+        # Write metadata
+        self._shm.buf[off + 1] = msg_type
+        self._shm.buf[off + 2] = SHM_DIR_TO_RUST
+        self._shm.buf[off + 3] = 0
+        struct.pack_into("<III", self._shm.buf, off + 4, len(payload), epoch, seq)
+        # Write payload
+        self._shm.buf[off + SHM_RING_SLOT_HEADER: off + SHM_RING_SLOT_HEADER + len(payload)] = payload
+        # Set state to WRITTEN (release)
+        self.set_slot_state(off, SHM_SLOT_WRITTEN)
+        return True
+
+    def p2r_slot_state(self, slot_idx):
+        return self.slot_state(self._p2r_slot_offset(slot_idx))
+
+    def slot_payload_capacity(self):
+        return self.slot_data_size - SHM_RING_SLOT_HEADER
+
+
 def _get_qipc_transport(proc):
     return getattr(proc, "_quartz_qipc_transport", None)
 
 
 def _cleanup_qipc_transport(proc):
     transport = _get_qipc_transport(proc)
-    if transport is None:
-        return
-    try:
-        transport.destroy()
-    finally:
+    if transport is not None:
         try:
-            delattr(proc, "_quartz_qipc_transport")
-        except Exception:
-            pass
+            transport.destroy()
+        finally:
+            try:
+                delattr(proc, "_quartz_qipc_transport")
+            except Exception:
+                pass
+    ring = getattr(proc, "_quartz_ring_buffer", None)
+    if ring is not None:
+        try:
+            ring.destroy()
+            _unregister_ring_buffer(ring)
+        finally:
+            try:
+                delattr(proc, "_quartz_ring_buffer")
+            except Exception:
+                pass
 
 
 def _json_line_bytes(payload):
@@ -496,13 +700,80 @@ class InferencePipelineThread:
                 self._outbound.put(e)
 
 
+class NNEvalCache:
+    """LRU cache for NN evaluation results keyed by feature hash."""
+
+    def __init__(self, max_entries=65536):
+        self._cache = {}  # hash → (policy_np, value_float)
+        self._max = max_entries
+        self._hits = 0
+        self._misses = 0
+
+    def get(self, feat_hash):
+        entry = self._cache.get(feat_hash)
+        if entry is not None:
+            self._hits += 1
+            return entry
+        self._misses += 1
+        return None
+
+    def put(self, feat_hash, policy_np, value):
+        if len(self._cache) >= self._max:
+            # Evict oldest 25%
+            keys = list(self._cache.keys())
+            for k in keys[:len(keys) // 4]:
+                del self._cache[k]
+        self._cache[feat_hash] = (policy_np, float(value))
+
+    def clear(self):
+        self._cache.clear()
+        self._hits = 0
+        self._misses = 0
+
+    @property
+    def hit_rate(self):
+        total = self._hits + self._misses
+        return self._hits / total if total > 0 else 0.0
+
+    @staticmethod
+    def default_size(actions):
+        """Size scaled by action space: larger actions → fewer entries to fit in ~256MB."""
+        entry_bytes = actions * 4 + 8
+        return min(131072, max(4096, 256 * 1024 * 1024 // entry_bytes))
+
+
+_NN_EVAL_CACHE = None  # lazily initialized per-model
+
+
+def _get_nn_eval_cache(cfg):
+    global _NN_EVAL_CACHE
+    if os.environ.get("QUARTZ_DISABLE_NN_CACHE"):
+        return None
+    if _NN_EVAL_CACHE is None:
+        actions = cfg.get("actions", 49)
+        _NN_EVAL_CACHE = NNEvalCache(NNEvalCache.default_size(actions))
+    return _NN_EVAL_CACHE
+
+
+def clear_nn_eval_cache():
+    """Call after model training to invalidate cached predictions."""
+    global _NN_EVAL_CACHE
+    if _NN_EVAL_CACHE is not None:
+        if _NN_EVAL_CACHE._hits + _NN_EVAL_CACHE._misses > 0:
+            log.info("NN cache: hit_rate=%.1f%% entries=%d",
+                     _NN_EVAL_CACHE.hit_rate * 100, len(_NN_EVAL_CACHE._cache))
+        _NN_EVAL_CACHE.clear()
+
+
 def _run_batched_eval_groups(eval_groups, model, device, cfg):
     if not eval_groups:
         return []
     ch_cfg, bs_cfg = cfg["ch"], cfg["board"]
     expected = ch_cfg * bs_cfg * bs_cfg
+    nn_cache = _get_nn_eval_cache(cfg)
     flat_requests = []
     batch_features = []
+    cached_results = {}  # index → (policy, value)
     for group in eval_groups:
         for request in group["requests"]:
             if len(request) == 3:
@@ -511,11 +782,20 @@ def _run_batched_eval_groups(eval_groups, model, device, cfg):
                 na, feats = request
                 model_tag = 0
             na = max(1, int(na))
+            idx = len(flat_requests)
             flat_requests.append((na, int(model_tag)))
             if len(feats) == expected:
                 x = np.asarray(feats, dtype=np.float32).reshape(ch_cfg, bs_cfg, bs_cfg)
             else:
                 x = np.zeros((ch_cfg, bs_cfg, bs_cfg), dtype=np.float32)
+            # Check cache
+            if nn_cache is not None:
+                feat_hash = hash(x.tobytes())
+                hit = nn_cache.get(feat_hash)
+                if hit is not None:
+                    cached_results[idx] = hit
+                    batch_features.append(None)  # placeholder
+                    continue
             batch_features.append(x)
 
     if isinstance(model, dict):
@@ -523,35 +803,61 @@ def _run_batched_eval_groups(eval_groups, model, device, cfg):
     else:
         model_map = None
 
-    if batch_features:
-        all_policies = [None] * len(flat_requests)
-        all_values = [0.0] * len(flat_requests)
+    # Fill cached results first, build GPU batch from misses only
+    all_policies = [None] * len(flat_requests)
+    all_values = [0.0] * len(flat_requests)
+    for idx, (policy, value) in cached_results.items():
+        na = flat_requests[idx][0]
+        all_policies[idx] = policy[:na] if len(policy) >= na else policy
+        all_values[idx] = value
+
+    # Filter to GPU-needed items only
+    gpu_indices = [i for i in range(len(flat_requests)) if i not in cached_results]
+    gpu_features = [batch_features[i] for i in gpu_indices if batch_features[i] is not None]
+
+    if gpu_features:
         if model_map is not None:
-            features_np = np.stack(batch_features, axis=0)
+            features_np = np.stack(gpu_features, axis=0)
             by_tag = {}
-            for i, (na, model_tag) in enumerate(flat_requests):
-                by_tag.setdefault(int(model_tag), []).append((i, int(na)))
+            for local_i, global_i in enumerate(gpu_indices):
+                na, model_tag = flat_requests[global_i]
+                by_tag.setdefault(int(model_tag), []).append((local_i, global_i, int(na)))
             for model_tag, entries in by_tag.items():
                 model_obj = model_map.get(int(model_tag))
-                idxs = [i for i, _ in entries]
+                local_idxs = [li for li, _, _ in entries]
                 if model_obj is not None:
-                    probs_batch, vals_np = _run_model_batch(model_obj, device, features_np[idxs])
-                    for local_i, (global_i, na) in enumerate(entries):
-                        all_policies[global_i] = probs_batch[local_i][:na]
-                        all_values[global_i] = float(vals_np[local_i])
+                    probs_batch, vals_np = _run_model_batch(model_obj, device, features_np[local_idxs])
+                    for bi, (_, global_i, na) in enumerate(entries):
+                        all_policies[global_i] = probs_batch[bi][:na]
+                        all_values[global_i] = float(vals_np[bi])
                 else:
-                    for global_i, na in entries:
+                    for _, global_i, na in entries:
                         all_policies[global_i] = np.full(na, 1.0 / na, dtype=np.float32)
                         all_values[global_i] = 0.0
         elif model is not None:
-            probs_batch, vals_np = _run_model_batch(model, device, np.stack(batch_features, axis=0))
-            for i, (na, _model_tag) in enumerate(flat_requests):
-                all_policies[i] = probs_batch[i][:na]
-                all_values[i] = float(vals_np[i])
+            probs_batch, vals_np = _run_model_batch(model, device, np.stack(gpu_features, axis=0))
+            for bi, global_i in enumerate(gpu_indices):
+                na = flat_requests[global_i][0]
+                all_policies[global_i] = probs_batch[bi][:na]
+                all_values[global_i] = float(vals_np[bi])
         else:
-            for i, (na, _model_tag) in enumerate(flat_requests):
-                all_policies[i] = np.full(na, 1.0 / na, dtype=np.float32)
-                all_values[i] = 0.0
+            for global_i in gpu_indices:
+                na = flat_requests[global_i][0]
+                all_policies[global_i] = np.full(na, 1.0 / na, dtype=np.float32)
+                all_values[global_i] = 0.0
+    # Fill any remaining None entries (items with no features and no cache)
+    for i in range(len(all_policies)):
+        if all_policies[i] is None:
+            na = flat_requests[i][0]
+            all_policies[i] = np.full(na, 1.0 / na, dtype=np.float32)
+
+    # Store GPU results in cache
+    if nn_cache is not None:
+        for global_i in gpu_indices:
+            feat = batch_features[global_i]
+            if feat is not None:
+                feat_hash = hash(feat.tobytes())
+                nn_cache.put(feat_hash, all_policies[global_i], all_values[global_i])
     else:
         all_policies = [
             np.full(na, 1.0 / na, dtype=np.float32)
@@ -632,9 +938,163 @@ def _write_batched_eval_group(proc, response_group):
         raise ValueError(f"unknown eval response group kind: {kind}")
 
 
+def _shm_eval_loop(ring, model, device, cfg, proc, on_json=None):
+    """SHM ring buffer eval loop.
+
+    Reads eval batch requests and JSON messages from r2p slots,
+    writes eval batch responses to p2r slots.
+    Uses InferencePipelineThread for GPU overlap when possible.
+
+    Returns when Rust sets cmd_done flag.  The caller should then
+    read the final JSON result from proc.stdout.
+
+    Args:
+        ring: ShmRingBuffer instance
+        model: PyTorch model (or dict of models)
+        device: torch device
+        cfg: game config dict
+        proc: subprocess with stdin/stdout
+        on_json: callback(dict) for JSON messages (selfplay_chunk, selfplay_progress, etc.)
+    """
+    _use_pipeline = (
+        not os.environ.get("QUARTZ_DISABLE_ASYNC_PIPELINE")
+        and model is not None
+        and not hasattr(model, "predict")
+    )
+    pipeline = None
+    inflight = False
+    _duty = {"read_s": 0.0, "collect_s": 0.0, "model_s": 0.0, "write_s": 0.0, "cycles": 0}
+    _duty_log_interval = 16
+
+    if _use_pipeline:
+        pipeline = InferencePipelineThread(model, device, cfg, max_pending=1)
+        pipeline.start()
+
+    try:
+        spin = 0
+        while True:
+            # --- Flush inflight inference before reading next batch ---
+            if inflight and pipeline is not None:
+                model_t0 = time.perf_counter()
+                responses = pipeline.collect(timeout=30.0)
+                _duty["model_s"] += time.perf_counter() - model_t0
+                inflight = False
+                write_t0 = time.perf_counter()
+                for rg in responses:
+                    _shm_write_eval_response(ring, rg)
+                _duty["write_s"] += time.perf_counter() - write_t0
+
+            # --- Poll all r2p slots, process each immediately ---
+            read_t0 = time.perf_counter()
+            found_eval = False
+            for slot_idx in range(ring.r2p_slot_count):
+                result = ring.r2p_try_read(slot_idx)
+                if result is None:
+                    continue
+                msg_type, payload_bytes = result
+                spin = 0
+
+                if msg_type == SHM_MSG_EVAL_BATCH_REQ:
+                    ring.r2p_mark_done(slot_idx)
+                    _duty["read_s"] += time.perf_counter() - read_t0
+                    found_eval = True
+                    requests = unpack_qipc_batch_eval_req(bytes(payload_bytes))
+                    eval_groups = [_make_eval_request_group("binary_batch", requests, gi=0)]
+
+                    if pipeline is not None:
+                        pipeline.submit(eval_groups)
+                        inflight = True
+                    else:
+                        model_t0 = time.perf_counter()
+                        responses = _run_batched_eval_groups(eval_groups, model, device, cfg)
+                        _duty["model_s"] += time.perf_counter() - model_t0
+                        write_t0 = time.perf_counter()
+                        for rg in responses:
+                            _shm_write_eval_response(ring, rg)
+                        _duty["write_s"] += time.perf_counter() - write_t0
+
+                    _duty["cycles"] += 1
+                    if _duty["cycles"] % _duty_log_interval == 0:
+                        NNSearchClient._emit_duty_cycle(_duty)
+                    # Break to flush pipeline before reading next batch
+                    break
+
+                elif msg_type == SHM_MSG_JSON:
+                    ring.r2p_mark_done(slot_idx)
+                    try:
+                        json_obj = json_loads_fast(payload_bytes.decode("utf-8"))
+                        if callable(on_json) and json_obj:
+                            on_json(json_obj)
+                    except Exception:
+                        pass
+                else:
+                    ring.r2p_mark_done(slot_idx)
+
+            if not found_eval:
+                _duty["read_s"] += time.perf_counter() - read_t0
+                if ring.cmd_done():
+                    # Drain any remaining JSON messages
+                    for slot_idx in range(ring.r2p_slot_count):
+                        result = ring.r2p_try_read(slot_idx)
+                        if result is None:
+                            continue
+                        msg_type, payload_bytes = result
+                        ring.r2p_mark_done(slot_idx)
+                        if msg_type == SHM_MSG_JSON:
+                            try:
+                                json_obj = json_loads_fast(payload_bytes.decode("utf-8"))
+                                if callable(on_json) and json_obj:
+                                    on_json(json_obj)
+                            except Exception:
+                                pass
+                    break
+
+                spin += 1
+                if spin < 64:
+                    pass  # busy spin
+                elif spin < 512:
+                    time.sleep(0.000001)  # 1µs
+                else:
+                    time.sleep(0.00001)   # 10µs
+
+    finally:
+        if inflight and pipeline is not None:
+            try:
+                drain = pipeline.collect(timeout=10.0)
+                for rg in drain:
+                    _shm_write_eval_response(ring, rg)
+            except Exception:
+                pass
+        if pipeline is not None:
+            pipeline.stop()
+        if _duty["cycles"] > 0:
+            NNSearchClient._emit_duty_cycle(_duty)
+
+
+def _shm_write_eval_response(ring, response_group):
+    """Write eval response to p2r ring buffer slot."""
+    policies = response_group["policies"]
+    values = response_group["values"]
+    payload = pack_qipc_batch_eval_resp(policies, values)
+    epoch = ring.epoch()
+    # Spin-wait for empty p2r slot
+    for attempt in range(100000):
+        for slot_idx in range(ring.p2r_slot_count):
+            if ring.p2r_try_write(slot_idx, SHM_MSG_EVAL_BATCH_RESP, payload, epoch=epoch):
+                return
+        if attempt < 64:
+            pass
+        elif attempt < 512:
+            time.sleep(0.000001)
+        else:
+            time.sleep(0.00001)
+    log.warning("_shm_write_eval_response: timed out waiting for p2r slot")
+
+
 def launch_rust_server(rust_binary):
     """Start Rust server and fail fast with stderr if it exits immediately."""
     transport = None
+    ring_buffer = None
     env = os.environ.copy()
     disable_shm = str(env.get("QUARTZ_DISABLE_QIPC_SHM", "")).strip().lower() in {"1", "true", "yes", "on"}
     try:
@@ -644,6 +1104,14 @@ def launch_rust_server(rust_binary):
             env["QUARTZ_QIPC_RESP_SHM_NAME"] = transport.resp.name
             env["QUARTZ_QIPC_REQ_SHM_SIZE"] = str(transport.size)
             env["QUARTZ_QIPC_RESP_SHM_SIZE"] = str(transport.size)
+            # Also create SHM ring buffer for lock-free eval pipeline
+            try:
+                ring_buffer = ShmRingBuffer.create(r2p_slots=2, p2r_slots=2)
+                env["QUARTZ_QIPC_RING_SHM_NAME"] = ring_buffer.name
+                env["QUARTZ_QIPC_RING_SHM_SIZE"] = str(ring_buffer.size)
+                _register_ring_buffer(ring_buffer)
+            except Exception:
+                ring_buffer = None
     except Exception:
         transport = None
     _stall_trace("rust_server_launch", rust_binary=rust_binary, shm=bool(transport))
@@ -657,6 +1125,8 @@ def launch_rust_server(rust_binary):
             break
         time.sleep(0.005)
     if proc.poll() is not None:
+        if ring_buffer is not None:
+            ring_buffer.destroy()
         if transport is not None:
             transport.destroy()
         stderr = ""
@@ -670,7 +1140,9 @@ def launch_rust_server(rust_binary):
         )
     if transport is not None:
         proc._quartz_qipc_transport = transport
-    _stall_trace("rust_server_ready", child_pid=proc.pid, shm=bool(transport))
+    if ring_buffer is not None:
+        proc._quartz_ring_buffer = ring_buffer
+    _stall_trace("rust_server_ready", child_pid=proc.pid, shm=bool(transport), ring=bool(ring_buffer))
     return proc
 
 
@@ -1694,6 +2166,7 @@ class NNSearchClient:
                 proc_write_json_line(self.proc, {"cmd": "quit"})
                 self.proc.wait(timeout=5)
             except Exception: self.proc.kill()
+            _cleanup_qipc_transport(self.proc)
             self.proc = None
 
     def search_move(self, board_flat, player, penalty_mode="GatedRefresh", fen=None, state_meta=None):
@@ -1812,6 +2285,35 @@ class NNSearchClient:
         }
         req_dict.update(rust_search_options(self.cfg, penalty_mode=penalty_mode))
         proc_write_json_line(self.proc, req_dict)
+
+        # --- SHM ring buffer fast path ---
+        ring = getattr(self.proc, "_quartz_ring_buffer", None)
+        if ring is not None:
+            aggregated_games = []
+            def _on_json(obj):
+                if not isinstance(obj, dict):
+                    return
+                if "selfplay_chunk" in obj:
+                    games = obj["selfplay_chunk"].get("games", []) or []
+                    if callable(on_chunk):
+                        on_chunk(games)
+                    else:
+                        aggregated_games.extend(games)
+                elif "selfplay_progress" in obj:
+                    if callable(on_progress):
+                        on_progress(obj["selfplay_progress"])
+            _shm_eval_loop(ring, self.model, self.device, self.cfg, self.proc, on_json=_on_json)
+            # Read final result from stdout
+            kind, payload = proc_read_message(self.proc)
+            if kind == "json" and isinstance(payload, dict):
+                if "selfplay_done" in payload:
+                    done = dict(payload["selfplay_done"])
+                    done["games"] = aggregated_games
+                    return done
+                if "games" in payload:
+                    return payload
+                return payload
+            return {"games": aggregated_games}
 
         def parse_eval_group(kind, payload):
             if kind is None:
@@ -1999,6 +2501,17 @@ class NNSearchClient:
         batch_items_ema = float(base_target_eval_items)
         collect_wait_ema_s = 0.0
         proc_write_json_line(self.proc, req_dict)
+
+        # --- SHM ring buffer fast path ---
+        ring = getattr(self.proc, "_quartz_ring_buffer", None)
+        if ring is not None:
+            _shm_eval_loop(ring, self.model, self.device, self.cfg, self.proc)
+            # Read final result from stdout
+            kind, payload = proc_read_message(self.proc)
+            if kind == "json" and isinstance(payload, dict):
+                return payload
+            return {}
+
         deferred = None
         _duty = {"read_s": 0.0, "collect_s": 0.0, "model_s": 0.0, "write_s": 0.0, "cycles": 0}
         _duty_log_interval = 16
@@ -2761,6 +3274,53 @@ def train_epoch(model, optimizer, replay, cfg, device, n_steps, backend=None, in
     )
 
 
+_COMPILED_MODELS = {}  # id(model) → compiled model cache
+
+
+def _get_compiled_model(model):
+    """Lazily compile model with torch.compile for faster inference."""
+    key = id(model)
+    compiled = _COMPILED_MODELS.get(key)
+    if compiled is not None:
+        return compiled
+    if os.environ.get("QUARTZ_DISABLE_COMPILE"):
+        return model
+    try:
+        import torch as _torch
+        compiled = _torch.compile(model, mode="reduce-overhead")
+        _COMPILED_MODELS[key] = compiled
+        return compiled
+    except Exception:
+        _COMPILED_MODELS[key] = model
+        return model
+
+
+_PINNED_BUFS = {}  # (device_str, C, H, W) → (pinned_tensor, gpu_tensor, max_bs)
+
+
+def _get_inference_buffers(device, batch_np):
+    """Get or create pre-allocated pinned + GPU buffers for inference."""
+    if batch_np.ndim != 4:
+        return None
+    bs, C, H, W = batch_np.shape
+    key = (str(device), C, H, W)
+    entry = _PINNED_BUFS.get(key)
+    if entry is not None:
+        pinned, gpu, max_bs = entry
+        if bs <= max_bs:
+            pinned[:bs].copy_(torch.from_numpy(batch_np))
+            gpu[:bs].copy_(pinned[:bs], non_blocking=True)
+            return gpu[:bs]
+    # Allocate new buffers (2x headroom for batch size growth)
+    max_bs = max(bs * 2, 64)
+    pinned = torch.zeros(max_bs, C, H, W, dtype=torch.float32).pin_memory()
+    gpu = torch.zeros(max_bs, C, H, W, dtype=torch.float32, device=device)
+    _PINNED_BUFS[key] = (pinned, gpu, max_bs)
+    pinned[:bs].copy_(torch.from_numpy(batch_np))
+    gpu[:bs].copy_(pinned[:bs], non_blocking=True)
+    return gpu[:bs]
+
+
 def _run_model_batch(model, device, batch_features):
     batch_np = np.asarray(batch_features, dtype=np.float32)
     if not batch_np.flags.c_contiguous:
@@ -2770,13 +3330,15 @@ def _run_model_batch(model, device, batch_features):
     if hasattr(model, "predict"):
         probs_batch, vals_np = model.predict(batch_np)
         return np.asarray(probs_batch, dtype=np.float32), np.asarray(vals_np, dtype=np.float32).reshape(-1)
-    x_batch = torch.from_numpy(batch_np)
     if getattr(device, "type", "cpu") != "cpu":
-        x_batch = x_batch.pin_memory().to(device, non_blocking=True)
+        x_batch = _get_inference_buffers(device, batch_np)
+        if x_batch is None:
+            x_batch = torch.from_numpy(batch_np).pin_memory().to(device, non_blocking=True)
     else:
-        x_batch = x_batch.to(device)
+        x_batch = torch.from_numpy(batch_np).to(device)
+    compiled = _get_compiled_model(model)
     with torch.inference_mode():
-        logits_batch, vals_batch = model(x_batch)
+        logits_batch, vals_batch = compiled(x_batch)
         probs_batch = torch.softmax(logits_batch, dim=-1).cpu().numpy()
         vals_np = vals_batch.cpu().numpy()
     return probs_batch, vals_np
@@ -3337,6 +3899,35 @@ def autoscale_model_cfg(cfg, hw):
     return tuned
 
 
+def _probe_inference_batch_size(model, device, cfg, eval_batch_cap):
+    """Benchmark different batch sizes to find optimal GPU throughput."""
+    if model is None or hasattr(model, "predict") or getattr(device, "type", "cpu") == "cpu":
+        return cfg.get("batch_size", 8)
+    ch, bs = cfg.get("ch", 3), cfg.get("board", 7)
+    current_bs = cfg.get("batch_size", 8)
+    candidates = sorted(set([current_bs] + [c for c in [32, 64, 128, 256] if c <= eval_batch_cap]))
+    best_bs, best_ips = current_bs, 0.0
+    import time as _time
+    for cand in candidates:
+        try:
+            batch = [np.random.randn(ch, bs, bs).astype(np.float32) for _ in range(cand)]
+            # Warmup
+            for _ in range(5):
+                _run_model_batch(model, device, batch)
+            N = max(20, 200 // cand)
+            t0 = _time.perf_counter()
+            for _ in range(N):
+                _run_model_batch(model, device, batch)
+            elapsed = _time.perf_counter() - t0
+            ips = cand * N / max(elapsed, 1e-9)
+            if ips > best_ips:
+                best_ips = ips
+                best_bs = cand
+        except Exception:
+            break  # OOM or other error — stop probing larger sizes
+    return best_bs
+
+
 def autotune_training_cfg(cfg, hw, concurrent=True):
     tuned = autoscale_model_cfg(cfg, hw)
 
@@ -3344,19 +3935,22 @@ def autotune_training_cfg(cfg, hw, concurrent=True):
 
     if hw.gpu_vram_mb >= 20_000:
         train_batch_scale = 2.0
-        eval_batch_cap = 64
+        eval_batch_cap = 256
+    elif hw.gpu_vram_mb >= 16_000:
+        train_batch_scale = 1.5
+        eval_batch_cap = 192
     elif hw.gpu_vram_mb >= 12_000:
         train_batch_scale = 1.5
-        eval_batch_cap = 32
+        eval_batch_cap = 128
     elif hw.gpu_vram_mb >= 8_000:
         train_batch_scale = 1.0
-        eval_batch_cap = 16
+        eval_batch_cap = 64
     elif hw.gpu_vram_mb >= 4_000:
         train_batch_scale = 0.75
-        eval_batch_cap = 8
+        eval_batch_cap = 32
     else:
         train_batch_scale = 0.5 if hw.device_kind == "cpu" else 0.75
-        eval_batch_cap = 4
+        eval_batch_cap = 16
 
     max_parallel = proc_target
     tuned["selfplay_parallel"] = max(1, min(max_parallel, cfg.get("games", 1)))
@@ -3702,11 +4296,13 @@ def should_use_resident_session(game_name, parallel, n_games, enabled=False):
 
 
 def supports_rust_eval_state_machine(game_name):
-    return rust_game_name(game_name) == "gomoku7"
+    rg = rust_game_name(game_name)
+    return rg in GAME_CONFIGS or rg in GOMOKU15_VARIANTS or is_chess_game(rg) or is_go_game(rg)
 
 
 def supports_rust_selfplay_state_machine(game_name):
-    return rust_game_name(game_name) == "gomoku7"
+    rg = rust_game_name(game_name)
+    return rg in GAME_CONFIGS or rg in GOMOKU15_VARIANTS or is_chess_game(rg) or is_go_game(rg)
 
 
 def _score_train_batch_probe(examples_per_s, batch_n, concurrent=False, target_positions_per_cycle=None):
@@ -5127,6 +5723,20 @@ def selfplay_rust_nn_batched(cfg, model, device, n_games, rust_binary="./target/
             resident=bool(use_resident_session),
         )
         proc_write_json_line(proc, req)
+
+        # --- SHM ring buffer fast path ---
+        _ring = getattr(proc, "_quartz_ring_buffer", None)
+        if _ring is not None:
+            _shm_eval_loop(_ring, model, device, cfg, proc)
+            kind, payload = proc_read_message(proc)
+            _stall_trace("exchange_end", cmd=req_cmd, loops=0,
+                         elapsed_s=float(time.perf_counter() - req_t0))
+            if perf_stats is not None and payload is not None:
+                perf_stats["result_messages"] += 1
+            if kind == "json" and isinstance(payload, dict):
+                return payload
+            return None
+
         deferred = None
         results_payload = None
         loop_count = 0
@@ -6837,6 +7447,21 @@ def main():
             else:
                 print("  Auto-tune profile: benchmark produced no overrides")
 
+    # Probe optimal inference batch_size (runs once during --retune)
+    if args.autotune and not args.serve and not args.arena:
+        _eval_batch_cap = cfg.get("_eval_batch_cap", 192)
+        if _eval_batch_cap < 32:
+            _eval_batch_cap = 32
+        _probe_model = actor_source if not isinstance(actor_source, dict) else None
+        if _probe_model is not None and not os.environ.get("QUARTZ_DISABLE_BATCH_PROBE"):
+            try:
+                probed_bs = _probe_inference_batch_size(_probe_model, device, cfg, _eval_batch_cap)
+                if probed_bs > cfg.get("batch_size", 8):
+                    cfg["batch_size"] = probed_bs
+                    print(f"  Batch size probe: optimal BS={probed_bs} (cap={_eval_batch_cap})")
+            except Exception as e:
+                print(f"  Batch size probe: skipped ({e})")
+
     manual_runtime_overrides = {}
     if args.selfplay_parallel is not None:
         manual_runtime_overrides["selfplay_parallel"] = max(1, int(args.selfplay_parallel))
@@ -7114,6 +7739,7 @@ def main():
         cfg, hw, enabled_iters=min(10, args.iterations), interval=2) if args.concurrent and args.runtime_autotune else None
 
     for iteration in range(args.iterations):
+        clear_nn_eval_cache()  # invalidate after model update
         t0 = time.time()
         # LR schedule
         progress = iteration / max(args.iterations, 1)

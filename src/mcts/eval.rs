@@ -484,6 +484,239 @@ impl SharedMemTransport {
     }
 }
 
+// ─── SHM Ring Buffer for lock-free eval pipeline ───
+
+/// SHM ring buffer layout constants.
+const SHM_RING_MAGIC: u32 = 0x51524E47; // "QRNG"
+const SHM_RING_VERSION: u32 = 1;
+const SHM_RING_HEADER_SIZE: usize = 256;
+const SHM_RING_SLOT_HEADER: usize = 16; // state(1)+type(1)+dir(1)+pad(1)+len(4)+epoch(4)+seq(4)
+
+// Slot states
+const SHM_SLOT_EMPTY: u8 = 0;
+const SHM_SLOT_WRITTEN: u8 = 1;
+const SHM_SLOT_DONE: u8 = 2;
+
+// Message types
+pub(crate) const SHM_MSG_EVAL_BATCH_REQ: u8 = 1;
+pub(crate) const SHM_MSG_EVAL_BATCH_RESP: u8 = 2;
+pub(crate) const SHM_MSG_JSON: u8 = 3;
+
+// Direction
+const SHM_DIR_TO_PYTHON: u8 = 0;
+const SHM_DIR_TO_RUST: u8 = 1;
+
+/// Lock-free ring buffer in shared memory for Rust↔Python eval communication.
+/// Replaces stdin/stdout signaling so broker doesn't need to touch pipes.
+pub(crate) struct ShmRingBuffer {
+    region: SharedMemRegion,
+    r2p_slot_count: u32,
+    p2r_slot_count: u32,
+    slot_data_size: u32,
+    r2p_base: usize,     // byte offset to first r2p slot
+    p2r_base: usize,     // byte offset to first p2r slot
+}
+
+impl ShmRingBuffer {
+    /// Open an existing ring buffer SHM region (Rust side — Python creates it).
+    pub fn open(name: &str, expected_size: usize) -> Option<Self> {
+        let region = SharedMemRegion::open(name, expected_size)?;
+        // Validate magic and version
+        let magic = Self::read_u32(&region, 0);
+        let version = Self::read_u32(&region, 4);
+        if magic != SHM_RING_MAGIC || version != SHM_RING_VERSION {
+            return None;
+        }
+        let r2p_slot_count = Self::read_u32(&region, 8);
+        let p2r_slot_count = Self::read_u32(&region, 12);
+        let slot_data_size = Self::read_u32(&region, 16);
+        if r2p_slot_count == 0 || p2r_slot_count == 0 || slot_data_size < 1024 {
+            return None;
+        }
+        let r2p_base = SHM_RING_HEADER_SIZE;
+        let p2r_base = SHM_RING_HEADER_SIZE + (r2p_slot_count as usize) * (slot_data_size as usize);
+        let needed = p2r_base + (p2r_slot_count as usize) * (slot_data_size as usize);
+        if needed > expected_size {
+            return None;
+        }
+        Some(Self { region, r2p_slot_count, p2r_slot_count, slot_data_size, r2p_base, p2r_base })
+    }
+
+    // --- Header accessors ---
+
+    pub fn epoch(&self) -> u32 {
+        let ptr = unsafe { (self.region.ptr as *const u8).add(20) as *const AtomicU32 };
+        unsafe { (*ptr).load(Ordering::Acquire) }
+    }
+
+    pub fn bump_epoch(&self) -> u32 {
+        let ptr = unsafe { (self.region.ptr as *const u8).add(20) as *const AtomicU32 };
+        let new_epoch = unsafe { (*ptr).fetch_add(1, Ordering::AcqRel) } + 1;
+        // Reset cmd_done
+        self.set_cmd_done(false);
+        // Reset all slot states to EMPTY
+        for i in 0..self.r2p_slot_count {
+            self.set_slot_state(self.r2p_slot_offset(i), SHM_SLOT_EMPTY);
+        }
+        for i in 0..self.p2r_slot_count {
+            self.set_slot_state(self.p2r_slot_offset(i), SHM_SLOT_EMPTY);
+        }
+        new_epoch
+    }
+
+    pub fn cmd_done(&self) -> bool {
+        let ptr = unsafe { (self.region.ptr as *const u8).add(24) as *const AtomicU8 };
+        let val = unsafe { (*ptr).load(Ordering::Acquire) };
+        val != 0
+    }
+
+    pub fn set_cmd_done(&self, done: bool) {
+        let ptr = unsafe { (self.region.ptr as *const u8).add(24) as *const AtomicU8 };
+        unsafe { (*ptr).store(if done { 1 } else { 0 }, Ordering::Release) };
+    }
+
+    // --- Slot offset helpers ---
+
+    fn r2p_slot_offset(&self, idx: u32) -> usize {
+        self.r2p_base + (idx as usize) * (self.slot_data_size as usize)
+    }
+
+    fn p2r_slot_offset(&self, idx: u32) -> usize {
+        self.p2r_base + (idx as usize) * (self.slot_data_size as usize)
+    }
+
+    // --- Atomic slot state ---
+
+    fn slot_state(&self, slot_offset: usize) -> u8 {
+        let ptr = unsafe { (self.region.ptr as *const u8).add(slot_offset) as *const AtomicU8 };
+        unsafe { (*ptr).load(Ordering::Acquire) }
+    }
+
+    fn set_slot_state(&self, slot_offset: usize, state: u8) {
+        let ptr = unsafe { (self.region.ptr as *const u8).add(slot_offset) as *const AtomicU8 };
+        unsafe { (*ptr).store(state, Ordering::Release) };
+    }
+
+    // --- Slot read/write ---
+
+    fn write_slot(&self, slot_offset: usize, msg_type: u8, direction: u8, epoch: u32, seq: u32, payload: &[u8]) -> bool {
+        let max_payload = self.slot_data_size as usize - SHM_RING_SLOT_HEADER;
+        if payload.len() > max_payload {
+            return false;
+        }
+        let base = unsafe { self.region.ptr.add(slot_offset) };
+        unsafe {
+            // Write metadata (after state byte)
+            *base.add(1) = msg_type;
+            *base.add(2) = direction;
+            *base.add(3) = 0; // reserved
+            std::ptr::copy_nonoverlapping(
+                (payload.len() as u32).to_le_bytes().as_ptr(), base.add(4), 4);
+            std::ptr::copy_nonoverlapping(
+                epoch.to_le_bytes().as_ptr(), base.add(8), 4);
+            std::ptr::copy_nonoverlapping(
+                seq.to_le_bytes().as_ptr(), base.add(12), 4);
+            // Write payload
+            std::ptr::copy_nonoverlapping(payload.as_ptr(), base.add(SHM_RING_SLOT_HEADER), payload.len());
+        }
+        // Set state to WRITTEN (Release — ensures all writes above are visible)
+        self.set_slot_state(slot_offset, SHM_SLOT_WRITTEN);
+        true
+    }
+
+    fn read_slot_meta(&self, slot_offset: usize) -> (u8, u8, u32, u32) {
+        let base = unsafe { self.region.ptr.add(slot_offset) };
+        unsafe {
+            let msg_type = *base.add(1);
+            let direction = *base.add(2);
+            let mut len_buf = [0u8; 4];
+            std::ptr::copy_nonoverlapping(base.add(4), len_buf.as_mut_ptr(), 4);
+            let payload_len = u32::from_le_bytes(len_buf);
+            let mut epoch_buf = [0u8; 4];
+            std::ptr::copy_nonoverlapping(base.add(8), epoch_buf.as_mut_ptr(), 4);
+            let epoch = u32::from_le_bytes(epoch_buf);
+            (msg_type, direction, payload_len, epoch)
+        }
+    }
+
+    fn read_slot_payload(&self, slot_offset: usize, payload_len: u32) -> &[u8] {
+        unsafe {
+            std::slice::from_raw_parts(
+                self.region.ptr.add(slot_offset + SHM_RING_SLOT_HEADER),
+                payload_len as usize,
+            )
+        }
+    }
+
+    // --- High-level Rust→Python write ---
+
+    /// Write a message to the next available r2p slot. Returns false if no slot is EMPTY.
+    pub fn r2p_try_write(&self, msg_type: u8, payload: &[u8], epoch: u32, seq: u32) -> bool {
+        for i in 0..self.r2p_slot_count {
+            let off = self.r2p_slot_offset(i);
+            if self.slot_state(off) == SHM_SLOT_EMPTY {
+                return self.write_slot(off, msg_type, SHM_DIR_TO_PYTHON, epoch, seq, payload);
+            }
+        }
+        false
+    }
+
+    /// Reclaim DONE r2p slots (set back to EMPTY).
+    pub fn r2p_reclaim(&self) {
+        for i in 0..self.r2p_slot_count {
+            let off = self.r2p_slot_offset(i);
+            if self.slot_state(off) == SHM_SLOT_DONE {
+                self.set_slot_state(off, SHM_SLOT_EMPTY);
+            }
+        }
+    }
+
+    // --- High-level Python→Rust read ---
+
+    /// Try to read a WRITTEN p2r slot. Returns (msg_type, payload) or None.
+    pub fn p2r_try_read(&self) -> Option<(u8, &[u8])> {
+        for i in 0..self.p2r_slot_count {
+            let off = self.p2r_slot_offset(i);
+            if self.slot_state(off) == SHM_SLOT_WRITTEN {
+                let (msg_type, _dir, payload_len, _epoch) = self.read_slot_meta(off);
+                let payload = self.read_slot_payload(off, payload_len);
+                self.set_slot_state(off, SHM_SLOT_DONE);
+                return Some((msg_type, payload));
+            }
+        }
+        None
+    }
+
+    // --- Utility ---
+
+    fn read_u32(region: &SharedMemRegion, offset: usize) -> u32 {
+        let mut buf = [0u8; 4];
+        unsafe {
+            std::ptr::copy_nonoverlapping(region.ptr.add(offset), buf.as_mut_ptr(), 4);
+        }
+        u32::from_le_bytes(buf)
+    }
+
+    pub fn slot_payload_capacity(&self) -> usize {
+        self.slot_data_size as usize - SHM_RING_SLOT_HEADER
+    }
+}
+
+unsafe impl Send for ShmRingBuffer {}
+unsafe impl Sync for ShmRingBuffer {}
+
+/// Global ring buffer singleton — initialized once from environment variables.
+/// Used by broker_loop_shm, emit_json_message, and serve() epoch management.
+pub(crate) fn global_ring_buffer() -> Option<&'static ShmRingBuffer> {
+    static RING: std::sync::OnceLock<Option<ShmRingBuffer>> = std::sync::OnceLock::new();
+    RING.get_or_init(|| {
+        let name = std::env::var("QUARTZ_QIPC_RING_SHM_NAME").ok()?;
+        let size: usize = std::env::var("QUARTZ_QIPC_RING_SHM_SIZE").ok()?.parse().ok()?;
+        ShmRingBuffer::open(&name, size)
+    })
+    .as_ref()
+}
+
 fn write_qipc_frame<W: Write>(writer: &mut W, frame_kind: u8, payload: &[u8]) -> std::io::Result<()> {
     let mut header = [0u8; 9];
     header[0..4].copy_from_slice(&QIPC_MAGIC);
@@ -934,7 +1167,7 @@ unsafe impl Sync for StdioCallbackEval {}
 
 // ─── BatchStdioEval: batched NN evaluation via producer-consumer channels ───
 
-use std::sync::atomic::{AtomicBool, AtomicU64, AtomicUsize, Ordering};
+use std::sync::atomic::{AtomicBool, AtomicU8, AtomicU32, AtomicU64, AtomicUsize, Ordering};
 use std::sync::Arc;
 use std::time::{Duration, Instant};
 
@@ -1118,10 +1351,23 @@ impl<M: Copy + Eq + Hash + Debug + Send + 'static> GlobalBroker<M> {
         let stats = Arc::new(BatchBrokerStats::default());
         let stats_for_thread = stats.clone();
         let shm = SharedMemTransport::load_from_env().map(Arc::new);
+        let use_ring = global_ring_buffer().is_some();
 
         let handle = std::thread::Builder::new()
             .name("global-broker".into())
             .spawn(move || {
+                if use_ring {
+                    if let Some(ring) = global_ring_buffer() {
+                        broker_loop_shm::<M>(
+                            request_rx,
+                            &config,
+                            &shutdown_clone,
+                            &stats_for_thread,
+                            ring,
+                        );
+                        return;
+                    }
+                }
                 broker_loop::<M>(
                     request_rx,
                     n_actions,
@@ -1455,6 +1701,185 @@ fn broker_loop<M: Copy + Eq + Hash + Debug + Send + 'static>(
                     "batch_broker_snapshot",
                     serde_json::json!({
                         "transport": if shm.is_some() { "shm" } else { "stdio" },
+                        "max_batch_size": config.max_batch_size,
+                        "adaptive_timeout_us": adaptive_timeout_us,
+                        "broker": stats.snapshot_json(),
+                    }),
+                );
+            }
+        }
+    }
+}
+
+/// SHM ring buffer variant of broker_loop.
+/// Writes eval batch requests to r2p slots and reads responses from p2r slots.
+/// Never touches stdout/stdin — all IPC goes through shared memory.
+fn broker_loop_shm<M: Copy + Eq + Hash + Debug + Send + 'static>(
+    rx: channel::Receiver<BatchRequest<M>>,
+    config: &BatchConfig,
+    shutdown: &AtomicBool,
+    stats: &BatchBrokerStats,
+    ring: &ShmRingBuffer,
+) {
+    let base_timeout_us = config.timeout_us.max(250) as f64;
+    let min_timeout_us = (base_timeout_us * 0.5).max(250.0);
+    let max_timeout_us = (base_timeout_us * 4.0).min(12000.0);
+    let mut adaptive_timeout_us = base_timeout_us;
+    let profile_path = BatchCollectorProfile::load_path();
+    let mut profile = profile_path.as_ref().map(|_| BatchCollectorProfile::default());
+    let mut seq: u32 = 0;
+
+    loop {
+        // --- Idle wait for first request ---
+        let idle_t0 = Instant::now();
+        let first = match rx.recv_timeout(Duration::from_millis(50)) {
+            Ok(req) => req,
+            Err(channel::RecvTimeoutError::Timeout) => {
+                if let Some(s) = profile.as_mut() { s.idle_wait_s += idle_t0.elapsed().as_secs_f64(); }
+                if shutdown.load(Ordering::Relaxed) {
+                    if let (Some(path), Some(ps)) = (profile_path.as_ref(), profile.as_ref()) {
+                        ps.flush_jsonl(path, config, "shm_ring", Some(stats));
+                    }
+                    return;
+                }
+                continue;
+            }
+            Err(channel::RecvTimeoutError::Disconnected) => {
+                if let (Some(path), Some(ps)) = (profile_path.as_ref(), profile.as_ref()) {
+                    ps.flush_jsonl(path, config, "shm_ring", Some(stats));
+                }
+                return;
+            }
+        };
+        stats.on_dequeue(first.enqueued_at);
+        if let Some(s) = profile.as_mut() { s.idle_wait_s += idle_t0.elapsed().as_secs_f64(); }
+
+        // --- Batch collection (identical to broker_loop) ---
+        let mut batch: Vec<BatchRequest<M>> = Vec::with_capacity(config.max_batch_size);
+        batch.push(first);
+        let timeout = Duration::from_micros(adaptive_timeout_us.round() as u64);
+        let deadline = Instant::now() + timeout;
+        let collect_t0 = Instant::now();
+        while batch.len() < config.max_batch_size {
+            while batch.len() < config.max_batch_size {
+                match rx.try_recv() {
+                    Ok(req) => { stats.on_dequeue(req.enqueued_at); batch.push(req) }
+                    Err(channel::TryRecvError::Empty) => break,
+                    Err(channel::TryRecvError::Disconnected) => break,
+                }
+            }
+            if batch.len() >= config.max_batch_size { break; }
+            let remaining = deadline.saturating_duration_since(Instant::now());
+            if remaining.is_zero() { break; }
+            match rx.recv_timeout(remaining) {
+                Ok(req) => { stats.on_dequeue(req.enqueued_at); batch.push(req) }
+                Err(channel::RecvTimeoutError::Timeout) => break,
+                Err(channel::RecvTimeoutError::Disconnected) => break,
+            }
+        }
+        if let Some(s) = profile.as_mut() {
+            s.collect_s += collect_t0.elapsed().as_secs_f64();
+            s.note_batch(batch.len(), config.max_batch_size);
+        }
+        let flush_reason = if batch.len() >= config.max_batch_size { "target_batch_reached" } else { "max_wait_reached" };
+        stats.record_flush_reason(flush_reason);
+        if config.max_batch_size > 1 {
+            let fill_ratio = batch.len() as f64 / config.max_batch_size as f64;
+            if fill_ratio < 0.45 { adaptive_timeout_us = (adaptive_timeout_us * 1.25).min(max_timeout_us); }
+            else if fill_ratio > 0.80 { adaptive_timeout_us = (adaptive_timeout_us * 0.88).max(min_timeout_us); }
+            else if adaptive_timeout_us > base_timeout_us { adaptive_timeout_us = (adaptive_timeout_us * 0.96).max(base_timeout_us); }
+            else if adaptive_timeout_us < base_timeout_us { adaptive_timeout_us = (adaptive_timeout_us * 1.04).min(base_timeout_us); }
+        }
+
+        // --- Encode batch ---
+        let encode_t0 = Instant::now();
+        let payload = encode_batch_eval_req_payload(&batch);
+        if let Some(s) = profile.as_mut() {
+            s.encode_s += encode_t0.elapsed().as_secs_f64();
+            s.payload_out_bytes += payload.len();
+        }
+
+        // --- Write to r2p ring slot ---
+        let write_t0 = Instant::now();
+        let epoch = ring.epoch();
+        seq = seq.wrapping_add(1);
+
+        // Spin-wait for an empty r2p slot, reclaiming DONE slots
+        let mut write_ok = false;
+        let write_deadline = Instant::now() + Duration::from_secs(5);
+        let mut spin = 0u32;
+        while Instant::now() < write_deadline {
+            ring.r2p_reclaim();
+            if ring.r2p_try_write(SHM_MSG_EVAL_BATCH_REQ, &payload, epoch, seq) {
+                write_ok = true;
+                break;
+            }
+            if shutdown.load(Ordering::Relaxed) { break; }
+            spin += 1;
+            if spin < 64 { std::hint::spin_loop(); }
+            else if spin < 512 { std::thread::yield_now(); }
+            else { std::thread::sleep(Duration::from_micros(10)); }
+        }
+        if let Some(s) = profile.as_mut() { s.write_s += write_t0.elapsed().as_secs_f64(); }
+
+        if !write_ok {
+            send_uniform_fallback(&batch);
+            stats.record_flush_reason("fallback");
+            if let Some(s) = profile.as_mut() { s.record_fallback(); }
+            if shutdown.load(Ordering::Relaxed) {
+                if let (Some(path), Some(ps)) = (profile_path.as_ref(), profile.as_ref()) {
+                    ps.flush_jsonl(path, config, "shm_ring", Some(stats));
+                }
+                return;
+            }
+            continue;
+        }
+
+        // --- Read response from p2r ring slot (spin-wait) ---
+        let read_t0 = Instant::now();
+        let mut resp_payload: Option<Vec<u8>> = None;
+        let read_deadline = Instant::now() + Duration::from_secs(30);
+        spin = 0;
+        while Instant::now() < read_deadline {
+            if let Some((msg_type, data)) = ring.p2r_try_read() {
+                if msg_type == SHM_MSG_EVAL_BATCH_RESP {
+                    resp_payload = Some(data.to_vec());
+                    break;
+                }
+                // Unexpected message type — ignore (shouldn't happen)
+            }
+            if shutdown.load(Ordering::Relaxed) { break; }
+            spin += 1;
+            if spin < 64 { std::hint::spin_loop(); }
+            else if spin < 512 { std::thread::yield_now(); }
+            else { std::thread::sleep(Duration::from_micros(10)); }
+        }
+        if let Some(s) = profile.as_mut() { s.read_s += read_t0.elapsed().as_secs_f64(); }
+
+        let Some(payload_bytes) = resp_payload else {
+            send_uniform_fallback(&batch);
+            stats.record_flush_reason("fallback");
+            if let Some(s) = profile.as_mut() { s.record_fallback(); }
+            if shutdown.load(Ordering::Relaxed) {
+                if let (Some(path), Some(ps)) = (profile_path.as_ref(), profile.as_ref()) {
+                    ps.flush_jsonl(path, config, "shm_ring", Some(stats));
+                }
+                return;
+            }
+            continue;
+        };
+
+        // --- Distribute results ---
+        if let Some(s) = profile.as_mut() { s.payload_in_bytes += payload_bytes.len(); }
+        let decode_t0 = Instant::now();
+        distribute_binary_batch(&payload_bytes, &batch);
+        if let Some(s) = profile.as_mut() { s.decode_s += decode_t0.elapsed().as_secs_f64(); }
+        if let Some(ps) = profile.as_ref() {
+            if ps.batches % 64 == 0 {
+                rust_eval_trace(
+                    "batch_broker_snapshot",
+                    serde_json::json!({
+                        "transport": "shm_ring",
                         "max_batch_size": config.max_batch_size,
                         "adaptive_timeout_us": adaptive_timeout_us,
                         "broker": stats.snapshot_json(),

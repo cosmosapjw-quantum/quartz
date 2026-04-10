@@ -793,6 +793,10 @@ impl GameState for Gomoku15 {
         out
     }
 
+    fn board_state_record(&self) -> Vec<i64> {
+        self.board.iter().map(|&v| v as i64).collect()
+    }
+
     /// [OPT] O(1) win check — no clone
     fn is_winning_move(&self, mv: u16) -> bool {
         let val = Self::side_to_val(self.side);

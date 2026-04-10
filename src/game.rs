@@ -82,6 +82,13 @@ pub trait GameState: Clone + Send + Sync + 'static {
     fn legal_move_count(&self) -> usize {
         self.legal_moves().len()
     }
+
+    /// Board state for selfplay recording (0/1/2 encoding: empty/black/white).
+    /// Used by the Rust selfplay state machine to record game history.
+    /// Default: encode_planes() flattened (games should override for compact format).
+    fn board_state_record(&self) -> Vec<i64> {
+        self.encode_planes().iter().map(|&v| if v > 0.5 { 1 } else if v < -0.5 { 2 } else { 0 }).collect()
+    }
 }
 
 // ─────────────────────────────────────────────

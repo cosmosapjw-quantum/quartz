@@ -896,6 +896,11 @@ impl GameState for Go {
         out
     }
 
+    fn board_state_record(&self) -> Vec<i64> {
+        let n2 = self.n2();
+        self.board[..n2].iter().map(|&v| v as i64).collect()
+    }
+
     /// O(n²) scan without Vec allocation — critical for ShortRollout performance.
     fn random_legal_move(&self, rand_idx: usize) -> Option<u16> {
         if self.passes >= 2 || self.cycle_terminal {

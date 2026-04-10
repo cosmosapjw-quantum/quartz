@@ -15,7 +15,7 @@ use rand::rngs::StdRng;
 use rand::{Rng, SeedableRng};
 
 use crate::game::GameState;
-use crate::mcts::eval::{AsyncEvalTicket, BatchStdioEval, GlobalBroker, ShortRollout};
+use crate::mcts::eval::{AsyncEvalTicket, BatchStdioEval, GlobalBroker, ShortRollout, global_ring_buffer, SHM_MSG_JSON};
 use crate::mcts::node::edge_lock_contention_snapshot;
 use crate::mcts::quartz::{PenaltyMode, QuartzConfig, QuartzController};
 use crate::mcts::search::FixedIterations;
@@ -65,6 +65,15 @@ fn rust_server_trace(event: &str, fields: serde_json::Value) {
 }
 
 fn emit_json_message(payload: &serde_json::Value) {
+    // Try ring buffer first — avoids stdout contention with broker
+    if let Some(ring) = global_ring_buffer() {
+        let json_bytes = payload.to_string().into_bytes();
+        let epoch = ring.epoch();
+        if ring.r2p_try_write(SHM_MSG_JSON, &json_bytes, epoch, 0) {
+            return;
+        }
+        // Slots full — fall through to stdout
+    }
     let stdout = io::stdout();
     let mut out = stdout.lock();
     let _ = writeln!(out, "{}", payload);
@@ -832,6 +841,11 @@ pub fn serve() {
             break;
         }
 
+        // Bump ring buffer epoch at command start so Python ignores stale slots
+        if let Some(ring) = global_ring_buffer() {
+            ring.bump_epoch();
+        }
+
         if cmd == "search_nn" {
             let resp = handle_search_nn(&line);
             {
@@ -839,6 +853,7 @@ pub fn serve() {
                 let _ = writeln!(out, "{}", resp);
                 let _ = out.flush();
             }
+            if let Some(ring) = global_ring_buffer() { ring.set_cmd_done(true); }
             continue;
         }
         if cmd == "search_nn_multi" {
@@ -848,6 +863,7 @@ pub fn serve() {
                 let _ = writeln!(out, "{}", resp);
                 let _ = out.flush();
             }
+            if let Some(ring) = global_ring_buffer() { ring.set_cmd_done(true); }
             continue;
         }
         if cmd == "search_nn_multi_session_open" {
@@ -857,6 +873,7 @@ pub fn serve() {
                 let _ = writeln!(out, "{}", resp);
                 let _ = out.flush();
             }
+            if let Some(ring) = global_ring_buffer() { ring.set_cmd_done(true); }
             continue;
         }
         if cmd == "search_nn_multi_session_step" {
@@ -866,6 +883,7 @@ pub fn serve() {
                 let _ = writeln!(out, "{}", resp);
                 let _ = out.flush();
             }
+            if let Some(ring) = global_ring_buffer() { ring.set_cmd_done(true); }
             continue;
         }
         if cmd == "search_nn_multi_session_close" {
@@ -875,6 +893,7 @@ pub fn serve() {
                 let _ = writeln!(out, "{}", resp);
                 let _ = out.flush();
             }
+            if let Some(ring) = global_ring_buffer() { ring.set_cmd_done(true); }
             continue;
         }
         if cmd == "eval_nn_run" {
@@ -884,6 +903,7 @@ pub fn serve() {
                 let _ = writeln!(out, "{}", resp);
                 let _ = out.flush();
             }
+            if let Some(ring) = global_ring_buffer() { ring.set_cmd_done(true); }
             continue;
         }
         if cmd == "selfplay_nn_run" {
@@ -893,6 +913,7 @@ pub fn serve() {
                 let _ = writeln!(out, "{}", resp);
                 let _ = out.flush();
             }
+            if let Some(ring) = global_ring_buffer() { ring.set_cmd_done(true); }
             continue;
         }
 
@@ -922,6 +943,7 @@ pub fn serve() {
             let _ = writeln!(out, "{}", resp);
             let _ = out.flush();
         }
+        if let Some(ring) = global_ring_buffer() { ring.set_cmd_done(true); }
     }
 }
 
@@ -985,9 +1007,24 @@ fn build_eval_record_json<G: GameState>(sess: &EvalRunnerSession<G>) -> serde_js
     })
 }
 
+/// Lookup action-space size for a game name.
+fn game_n_actions(game: &str) -> usize {
+    match game {
+        "gomoku7" => 49,
+        _ if parse_gomoku15_variant(game).is_some() => 225,
+        _ if parse_go_game(game).is_some() => {
+            let (size, _) = parse_go_game(game).unwrap();
+            size * size + 1
+        }
+        "tictactoe" => 9,
+        _ if is_chess_game_name(game) => CHESS_POLICY_ACTIONS,
+        _ => 225, // default to gomoku15
+    }
+}
+
 #[derive(Clone)]
-struct GomokuSelfplaySession {
-    state: Gomoku,
+struct SelfplaySession<G: GameState> {
+    state: G,
     rng: StdRng,
     moves: usize,
     finished: bool,
@@ -998,19 +1035,26 @@ struct GomokuSelfplaySession {
     trace_history: Vec<serde_json::Value>,
 }
 
-fn choose_selfplay_action(
+// Keep legacy type alias for backward compatibility with existing code
+type GomokuSelfplaySession = SelfplaySession<Gomoku>;
+
+fn choose_selfplay_action_generic<G: GameState>(
     rng: &mut StdRng,
-    state: &Gomoku,
+    state: &G,
     policy_entries: &[String],
     move_count: usize,
     temp_threshold: usize,
     fallback_best: usize,
-) -> Option<usize> {
-    let legal = state.legal_moves();
+    n_actions: usize,
+) -> Option<usize>
+where
+    usize: From<G::Move>,
+{
+    let legal: Vec<usize> = state.legal_moves().into_iter().map(|m| m.into()).collect();
     if legal.is_empty() {
         return None;
     }
-    let mut policy = vec![0.0f64; 49];
+    let mut policy = vec![0.0f64; n_actions];
     for entry in policy_entries {
         if let Some((idx_raw, val_raw)) = entry.split_once(':') {
             if let (Ok(idx), Ok(val)) = (idx_raw.parse::<usize>(), val_raw.parse::<f64>()) {
@@ -1587,10 +1631,10 @@ where
     let max_inflight_per_job = n_threads.max(1);
     let job_count = tagged_states.len();
 
-    // Global inflight credit: capacity = floor(aggregate_cap * 3/4), matching
-    // the former load-shedding threshold for behavioral equivalence.
+    // Global inflight credit: scale with both job concurrency and n_threads.
+    // Use generous capacity to ensure the broker can fill large batches.
     let aggregate_cap = max_inflight_per_job * job_count;
-    let credit_capacity = (aggregate_cap * 3 / 4).max(job_count);
+    let credit_capacity = aggregate_cap.max(job_count);
     let credit = GlobalInflightCredit::new(credit_capacity);
     let per_job_soft_cap = (credit_capacity / job_count.max(1)).max(1) + 2;
 
@@ -2398,7 +2442,11 @@ fn default_batch_timeout_us(n_threads: usize, batch_size: usize, job_count: usiz
     if jobs >= 4 {
         timeout_us += 250;
     }
-    timeout_us.clamp(500, 6000)
+    // Large batches need more fill time
+    if batch_size > 64 {
+        timeout_us += (batch_size as u64 - 64) * 10;
+    }
+    timeout_us.clamp(500, 8000)
 }
 
 fn handle_search_nn(line: &str) -> String {
@@ -3204,9 +3252,10 @@ fn handle_search_nn_multi_session_close(line: &str) -> String {
     serde_json::json!({ "ok": removed, "session_id": session_id }).to_string()
 }
 
-fn parse_eval_runner_sessions_gomoku(
+fn parse_eval_runner_sessions_generic<G: GameState>(
     sessions: &[serde_json::Value],
-) -> Vec<EvalRunnerSession<Gomoku>> {
+    parse_state: impl Fn(&serde_json::Value) -> G,
+) -> Vec<EvalRunnerSession<G>> {
     sessions
         .iter()
         .map(|session| EvalRunnerSession {
@@ -3215,7 +3264,7 @@ fn parse_eval_runner_sessions_gomoku(
                 .and_then(|v| v.as_str())
                 .unwrap_or("g0000")
                 .to_string(),
-            state: parse_gomoku7_job(session),
+            state: parse_state(session),
             black_tag: session
                 .get("black_tag")
                 .and_then(|v| v.as_u64())
@@ -3248,40 +3297,35 @@ fn parse_eval_runner_sessions_gomoku(
         .collect()
 }
 
-fn handle_eval_nn_run_gomoku(
+fn handle_eval_nn_run_generic<G: GameState>(
+    game_name: &str,
     sessions_json: &[serde_json::Value],
+    parse_state: impl Fn(&serde_json::Value) -> G,
+    n_actions: usize,
     iters: u32,
     max_moves: usize,
-    overrides: SearchOverrides,
+    cfg: MctsConfig,
     search_profile: SearchProfile,
     n_threads: usize,
     batch_size: usize,
     batch_timeout_us: u64,
-) -> String {
-    let mut sessions = parse_eval_runner_sessions_gomoku(sessions_json);
+) -> String
+where
+    usize: From<G::Move>,
+{
+    let mut sessions = parse_eval_runner_sessions_generic(sessions_json, parse_state);
     let dual_model = sessions
         .iter()
         .any(|sess| sess.black_tag != 0 || sess.white_tag != 0);
-    let cfg = apply_search_profile(
-        apply_search_overrides(
-            MctsConfig::evaluation(2.0).with_quartz(QuartzConfig {
-                min_visits: 15,
-                check_interval: 20,
-                ..Default::default()
-            }),
-            overrides,
-        ),
-        search_profile,
-    );
     let qcfg = cfg.quartz.clone();
     let batch_cfg = crate::mcts::eval::BatchConfig {
         max_batch_size: batch_size.max(n_threads),
         timeout_us: batch_timeout_us,
     };
-    let broker = GlobalBroker::<usize>::new(49, batch_cfg);
-    let eval_a = BatchStdioEval::<usize>::from_broker(&broker, 0);
+    let broker = GlobalBroker::<G::Move>::new(n_actions, batch_cfg);
+    let eval_a = BatchStdioEval::<G::Move>::from_broker(&broker, 0);
     let eval_b = if dual_model {
-        Some(BatchStdioEval::<usize>::from_broker(&broker, 1))
+        Some(BatchStdioEval::<G::Move>::from_broker(&broker, 1))
     } else {
         None
     };
@@ -3291,7 +3335,7 @@ fn handle_eval_nn_run_gomoku(
     rust_server_trace(
         "eval_runner_start",
         serde_json::json!({
-            "game": "gomoku7",
+            "game": game_name,
             "session_count": sessions.len(),
             "iters": iters,
             "max_moves": max_moves,
@@ -3328,7 +3372,7 @@ fn handle_eval_nn_run_gomoku(
             qcfg.clone(),
             iters,
             n_threads,
-            49,
+            n_actions,
             search_profile,
         );
         let batch_elapsed_ms = batch_started.elapsed().as_secs_f64() * 1000.0;
@@ -3381,7 +3425,7 @@ fn handle_eval_nn_run_gomoku(
         rust_server_trace(
             "eval_runner_wave",
             serde_json::json!({
-                "game": "gomoku7",
+                "game": game_name,
                 "active_games": active_count,
                 "completed_before": completed_before,
                 "completed_after": completed,
@@ -3397,7 +3441,7 @@ fn handle_eval_nn_run_gomoku(
             rust_server_trace(
                 "eval_runner_progress",
                 serde_json::json!({
-                    "game": "gomoku7",
+                    "game": game_name,
                     "completed_games": completed,
                     "total_games": sessions.len(),
                     "active_games": sessions.len().saturating_sub(completed),
@@ -3413,7 +3457,7 @@ fn handle_eval_nn_run_gomoku(
     rust_server_trace(
         "eval_runner_done",
         serde_json::json!({
-            "game": "gomoku7",
+            "game": game_name,
             "completed_games": records.len(),
             "duration_ms": started.elapsed().as_secs_f64() * 1000.0,
             "errors": records.iter().filter(|r| r.get("error").and_then(|v| v.as_str()).is_some()).count(),
@@ -3421,7 +3465,7 @@ fn handle_eval_nn_run_gomoku(
     );
     serde_json::json!({
         "valid_eval": true,
-        "game": "gomoku7",
+        "game": game_name,
         "records": records,
         "completed_games": sessions.len(),
         "duration_ms": started.elapsed().as_secs_f64() * 1000.0,
@@ -3464,66 +3508,100 @@ fn handle_eval_nn_run(line: &str) -> String {
         .get("batch_timeout_us")
         .and_then(|v| v.as_u64())
         .unwrap_or_else(|| default_batch_timeout_us(n_threads, batch_size, sessions.len()));
+    let n_actions = game_n_actions(game);
+
+    macro_rules! dispatch_eval {
+        ($parse_state:expr, $game_name:expr, $cfg:expr) => {
+            handle_eval_nn_run_generic(
+                $game_name, &sessions, $parse_state, n_actions,
+                iters, max_moves,
+                apply_search_profile($cfg, search_profile),
+                search_profile, n_threads, batch_size, batch_timeout_us,
+            )
+        };
+    }
+
     match game {
-        "gomoku7" => handle_eval_nn_run_gomoku(
-            &sessions,
-            iters,
-            max_moves,
-            overrides,
-            search_profile,
-            n_threads,
-            batch_size,
-            batch_timeout_us,
+        "gomoku7" => dispatch_eval!(
+            |job| parse_gomoku7_job(job), "gomoku7",
+            apply_search_overrides(
+                MctsConfig::evaluation(2.0).with_quartz(QuartzConfig { min_visits: 15, check_interval: 20, ..Default::default() }),
+                overrides)
         ),
+        g if parse_gomoku15_variant(g).is_some() => {
+            let variant = parse_gomoku15_variant(g).unwrap();
+            dispatch_eval!(
+                move |job| parse_gomoku15_job(job, variant), g,
+                apply_search_overrides(gomoku15_quartz(variant), overrides)
+            )
+        }
+        g if parse_go_game(g).is_some() => {
+            let (size, default_ruleset) = parse_go_game(g).unwrap();
+            let ruleset = parse_go_ruleset(line, default_ruleset);
+            let scoring = parse_go_scoring(line, ruleset.scoring());
+            let komi = parse_go_komi(line, 7.5);
+            let allow_suicide = parse_go_allow_suicide(line, false);
+            dispatch_eval!(
+                move |job| parse_go_job(job, size, ruleset, scoring, komi, allow_suicide), g,
+                apply_search_overrides(go_quartz(size), overrides)
+            )
+        }
+        "tictactoe" => dispatch_eval!(
+            |job| parse_tictactoe_job(job), "tictactoe",
+            apply_search_overrides(
+                MctsConfig::evaluation(1.4).with_quartz(QuartzConfig::default()),
+                overrides)
+        ),
+        g if is_chess_game_name(g) => {
+            let default_960 = g == "chess960";
+            dispatch_eval!(
+                move |job| parse_chess_job(job, default_960), g,
+                apply_search_overrides(chess_quartz(), overrides)
+            )
+        }
         _ => serde_json::json!({
-            "error": format!("eval_nn_run not yet supported for {}", game)
+            "error": format!("eval_nn_run not supported for {}", game)
         })
         .to_string(),
     }
 }
 
-fn handle_selfplay_nn_run_gomoku(
+fn handle_selfplay_nn_run_generic<G: GameState>(
+    game_name: &str,
+    init_state: G,
+    n_actions: usize,
     num_games: usize,
     parallel: usize,
     iters: u32,
     temp_threshold: usize,
-    overrides: SearchOverrides,
+    cfg: MctsConfig,
     search_profile: SearchProfile,
     n_threads: usize,
     batch_size: usize,
     batch_timeout_us: u64,
     base_seed: u64,
-) -> String {
-    let cfg = apply_search_profile(
-        apply_search_overrides(
-            MctsConfig::evaluation(2.0).with_quartz(QuartzConfig {
-                min_visits: 15,
-                check_interval: 20,
-                ..Default::default()
-            }),
-            overrides,
-        ),
-        search_profile,
-    );
-    let qcfg = cfg.quartz.clone();
+) -> String
+where
+    usize: From<G::Move>,
+{
     let batch_cfg = crate::mcts::eval::BatchConfig {
         max_batch_size: batch_size.max(n_threads),
         timeout_us: batch_timeout_us,
     };
-    let broker = GlobalBroker::<usize>::new(49, batch_cfg);
-    let eval_a = BatchStdioEval::<usize>::from_broker(&broker, 0);
+    let broker = GlobalBroker::<G::Move>::new(n_actions, batch_cfg);
+    let eval_a = BatchStdioEval::<G::Move>::from_broker(&broker, 0);
     let slot_count = parallel.max(batch_size).max(1).min(num_games.max(1));
     let mut games_done = 0usize;
     let mut games_started = 0usize;
     let started = Instant::now();
     let progress_every = (num_games / 10).clamp(1, 25);
     let mut last_reported = 0usize;
-    let mut sessions = (0..slot_count)
+    let mut sessions: Vec<SelfplaySession<G>> = (0..slot_count)
         .map(|slot| {
             let seed = base_seed.wrapping_add(slot as u64).wrapping_add(1);
             games_started += 1;
-            GomokuSelfplaySession {
-                state: Gomoku::new_with_win(7, 4),
+            SelfplaySession {
+                state: init_state.clone(),
                 rng: StdRng::seed_from_u64(seed),
                 moves: 0,
                 finished: false,
@@ -3534,11 +3612,11 @@ fn handle_selfplay_nn_run_gomoku(
                 trace_history: Vec::new(),
             }
         })
-        .collect::<Vec<_>>();
+        .collect();
     rust_server_trace(
         "selfplay_runner_start",
         serde_json::json!({
-            "game": "gomoku7",
+            "game": game_name,
             "num_games": num_games,
             "parallel": parallel,
             "slot_count": slot_count,
@@ -3574,10 +3652,10 @@ fn handle_selfplay_nn_run_gomoku(
             eval_a.clone(),
             None,
             &cfg,
-            qcfg.clone(),
+            cfg.quartz.clone(),
             iters,
             n_threads,
-            49,
+            n_actions,
             search_profile,
         );
         let mut wave_finished = 0usize;
@@ -3604,7 +3682,7 @@ fn handle_selfplay_nn_run_gomoku(
                 sess.finished = true;
                 sess.winner = terminal_black_score(&sess.state).unwrap_or(0.0);
             } else {
-                sess.board_history.push(sess.state.board_as_12());
+                sess.board_history.push(sess.state.board_state_record());
                 sess.player_history.push(sess.state.current_player());
                 sess.policy_history.push(policy_entries.clone());
                 wave_positions_emitted += 1;
@@ -3620,13 +3698,14 @@ fn handle_selfplay_nn_run_gomoku(
                     "avg_vvalue": result.get("avg_vvalue").and_then(|v| v.as_f64()).unwrap_or(0.0),
                 }));
                 let fallback_best = result.get("best_move").and_then(|v| v.as_u64()).unwrap_or(0) as usize;
-                if let Some(action) = choose_selfplay_action(
+                if let Some(action) = choose_selfplay_action_generic(
                     &mut sess.rng,
                     &sess.state,
                     &policy_entries,
                     sess.moves,
                     temp_threshold,
                     fallback_best,
+                    n_actions,
                 ) {
                     if let Some(mv) = sess.state.idx_to_move(action) {
                         sess.state = sess.state.apply_move(mv);
@@ -3655,8 +3734,8 @@ fn handle_selfplay_nn_run_gomoku(
                 wave_finished += 1;
                 if games_started < num_games {
                     let seed = base_seed.wrapping_add(games_started as u64).wrapping_add(1);
-                    *sess = GomokuSelfplaySession {
-                        state: Gomoku::new_with_win(7, 4),
+                    *sess = SelfplaySession {
+                        state: init_state.clone(),
                         rng: StdRng::seed_from_u64(seed),
                         moves: 0,
                         finished: false,
@@ -3673,7 +3752,7 @@ fn handle_selfplay_nn_run_gomoku(
         rust_server_trace(
             "selfplay_runner_wave",
             serde_json::json!({
-                "game": "gomoku7",
+                "game": game_name,
                 "active_games": active_count,
                 "frontier_slots": active_count,
                 "completed_before": finished_before,
@@ -3718,13 +3797,54 @@ fn handle_selfplay_nn_run_gomoku(
         }),
     );
     serde_json::json!({
-        "game": "gomoku7",
+        "game": game_name,
         "selfplay_done": {
             "completed_games": games_done,
             "duration_ms": started.elapsed().as_secs_f64() * 1000.0,
         }
     })
     .to_string()
+}
+
+// Legacy wrapper — delegates to generic implementation
+fn handle_selfplay_nn_run_gomoku(
+    num_games: usize,
+    parallel: usize,
+    iters: u32,
+    temp_threshold: usize,
+    overrides: SearchOverrides,
+    search_profile: SearchProfile,
+    n_threads: usize,
+    batch_size: usize,
+    batch_timeout_us: u64,
+    base_seed: u64,
+) -> String {
+    let cfg = apply_search_profile(
+        apply_search_overrides(
+            MctsConfig::evaluation(2.0).with_quartz(QuartzConfig {
+                min_visits: 15,
+                check_interval: 20,
+                ..Default::default()
+            }),
+            overrides,
+        ),
+        search_profile,
+    );
+    handle_selfplay_nn_run_generic(
+        "gomoku7",
+        Gomoku::new_with_win(7, 4),
+        49,
+        num_games,
+        parallel,
+        iters,
+        temp_threshold,
+        cfg,
+        search_profile,
+        n_threads,
+        batch_size,
+        batch_timeout_us,
+        base_seed,
+    )
 }
 
 fn handle_selfplay_nn_run(line: &str) -> String {
@@ -3757,21 +3877,56 @@ fn handle_selfplay_nn_run(line: &str) -> String {
         .get("batch_timeout_us")
         .and_then(|v| v.as_u64())
         .unwrap_or_else(|| default_batch_timeout_us(n_threads, batch_size, parallel.max(1)));
+    let n_actions = game_n_actions(game);
+
+    macro_rules! dispatch_selfplay {
+        ($init_state:expr, $game_name:expr, $cfg:expr) => {
+            handle_selfplay_nn_run_generic(
+                $game_name, $init_state, n_actions,
+                num_games, parallel, iters, temp_threshold,
+                apply_search_profile($cfg, search_profile),
+                search_profile, n_threads, batch_size, batch_timeout_us, seed,
+            )
+        };
+    }
+
     match game {
-        "gomoku7" => handle_selfplay_nn_run_gomoku(
-            num_games,
-            parallel,
-            iters,
-            temp_threshold,
-            overrides,
-            search_profile,
-            n_threads,
-            batch_size,
-            batch_timeout_us,
-            seed,
+        "gomoku7" => dispatch_selfplay!(
+            Gomoku::new_with_win(7, 4), "gomoku7",
+            apply_search_overrides(
+                MctsConfig::evaluation(2.0).with_quartz(QuartzConfig { min_visits: 15, check_interval: 20, ..Default::default() }),
+                overrides)
+        ),
+        g if parse_gomoku15_variant(g).is_some() => {
+            let variant = parse_gomoku15_variant(g).unwrap();
+            dispatch_selfplay!(
+                Gomoku15::new(variant), g,
+                apply_search_overrides(gomoku15_quartz(variant), overrides)
+            )
+        }
+        g if parse_go_game(g).is_some() => {
+            let (size, default_ruleset) = parse_go_game(g).unwrap();
+            let ruleset = parse_go_ruleset(line, default_ruleset);
+            let scoring = parse_go_scoring(line, ruleset.scoring());
+            let komi = parse_go_komi(line, 7.5);
+            let allow_suicide = parse_go_allow_suicide(line, false);
+            dispatch_selfplay!(
+                Go::new_with_options(size, komi, ruleset, scoring, allow_suicide), g,
+                apply_search_overrides(go_quartz(size), overrides)
+            )
+        }
+        "tictactoe" => dispatch_selfplay!(
+            TicTacToe::initial(), "tictactoe",
+            apply_search_overrides(
+                MctsConfig::evaluation(1.4).with_quartz(QuartzConfig::default()),
+                overrides)
+        ),
+        g if is_chess_game_name(g) => dispatch_selfplay!(
+            chess_state_from_request(line, g == "chess960"), g,
+            apply_search_overrides(chess_quartz(), overrides)
         ),
         _ => serde_json::json!({
-            "error": format!("selfplay_nn_run not yet supported for {}", game)
+            "error": format!("selfplay_nn_run not supported for {}", game)
         }).to_string(),
     }
 }

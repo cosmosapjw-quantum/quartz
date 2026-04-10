@@ -200,6 +200,10 @@ impl GameState for TicTacToe {
             None
         }
     }
+
+    fn board_state_record(&self) -> Vec<i64> {
+        self.board.iter().map(|&v| match v { 1 => 1, -1 => 2, _ => 0 }).collect()
+    }
 }
 
 // ─────────────────────────────────────────────
