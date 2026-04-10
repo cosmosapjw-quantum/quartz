@@ -372,9 +372,20 @@ class ShmRingBuffer:
             return None
         msg_type = self._shm.buf[off + 1]
         payload_len = struct.unpack_from("<I", self._shm.buf, off + 4)[0]
-        epoch = struct.unpack_from("<I", self._shm.buf, off + 8)[0]
         payload = bytes(self._shm.buf[off + SHM_RING_SLOT_HEADER: off + SHM_RING_SLOT_HEADER + payload_len])
         return msg_type, payload
+
+    def r2p_try_read_meta(self, slot_idx):
+        """Try to read a WRITTEN r2p slot with metadata. Returns (msg_type, epoch, seq, payload) or None."""
+        off = self._r2p_slot_offset(slot_idx)
+        if self.slot_state(off) != SHM_SLOT_WRITTEN:
+            return None
+        msg_type = self._shm.buf[off + 1]
+        payload_len = struct.unpack_from("<I", self._shm.buf, off + 4)[0]
+        epoch = struct.unpack_from("<I", self._shm.buf, off + 8)[0]
+        seq = struct.unpack_from("<I", self._shm.buf, off + 12)[0]
+        payload = bytes(self._shm.buf[off + SHM_RING_SLOT_HEADER: off + SHM_RING_SLOT_HEADER + payload_len])
+        return msg_type, epoch, seq, payload
 
     def r2p_mark_done(self, slot_idx):
         """Mark an r2p slot as DONE (processed by Python)."""
@@ -788,9 +799,9 @@ def _run_batched_eval_groups(eval_groups, model, device, cfg):
                 x = np.asarray(feats, dtype=np.float32).reshape(ch_cfg, bs_cfg, bs_cfg)
             else:
                 x = np.zeros((ch_cfg, bs_cfg, bs_cfg), dtype=np.float32)
-            # Check cache
+            # Check cache (include model_tag to avoid cross-model pollution)
             if nn_cache is not None:
-                feat_hash = hash(x.tobytes())
+                feat_hash = hash((int(model_tag), x.tobytes()))
                 hit = nn_cache.get(feat_hash)
                 if hit is not None:
                     cached_results[idx] = hit
@@ -856,7 +867,8 @@ def _run_batched_eval_groups(eval_groups, model, device, cfg):
         for global_i in gpu_indices:
             feat = batch_features[global_i]
             if feat is not None:
-                feat_hash = hash(feat.tobytes())
+                model_tag_i = flat_requests[global_i][1]
+                feat_hash = hash((model_tag_i, feat.tobytes()))
                 nn_cache.put(feat_hash, all_policies[global_i], all_values[global_i])
     else:
         all_policies = [
@@ -963,6 +975,8 @@ def _shm_eval_loop(ring, model, device, cfg, proc, on_json=None):
     )
     pipeline = None
     inflight = False
+    _inflight_epoch = 0
+    _inflight_seq = 0
     _duty = {"read_s": 0.0, "collect_s": 0.0, "model_s": 0.0, "write_s": 0.0, "cycles": 0}
     _duty_log_interval = 16
 
@@ -981,17 +995,17 @@ def _shm_eval_loop(ring, model, device, cfg, proc, on_json=None):
                 inflight = False
                 write_t0 = time.perf_counter()
                 for rg in responses:
-                    _shm_write_eval_response(ring, rg)
+                    _shm_write_eval_response(ring, rg, epoch=_inflight_epoch, seq=_inflight_seq)
                 _duty["write_s"] += time.perf_counter() - write_t0
 
             # --- Poll all r2p slots, process each immediately ---
             read_t0 = time.perf_counter()
             found_eval = False
             for slot_idx in range(ring.r2p_slot_count):
-                result = ring.r2p_try_read(slot_idx)
+                result = ring.r2p_try_read_meta(slot_idx)
                 if result is None:
                     continue
-                msg_type, payload_bytes = result
+                msg_type, req_epoch, req_seq, payload_bytes = result
                 spin = 0
 
                 if msg_type == SHM_MSG_EVAL_BATCH_REQ:
@@ -1002,6 +1016,8 @@ def _shm_eval_loop(ring, model, device, cfg, proc, on_json=None):
                     eval_groups = [_make_eval_request_group("binary_batch", requests, gi=0)]
 
                     if pipeline is not None:
+                        _inflight_epoch = req_epoch
+                        _inflight_seq = req_seq
                         pipeline.submit(eval_groups)
                         inflight = True
                     else:
@@ -1010,7 +1026,7 @@ def _shm_eval_loop(ring, model, device, cfg, proc, on_json=None):
                         _duty["model_s"] += time.perf_counter() - model_t0
                         write_t0 = time.perf_counter()
                         for rg in responses:
-                            _shm_write_eval_response(ring, rg)
+                            _shm_write_eval_response(ring, rg, epoch=req_epoch, seq=req_seq)
                         _duty["write_s"] += time.perf_counter() - write_t0
 
                     _duty["cycles"] += 1
@@ -1062,7 +1078,7 @@ def _shm_eval_loop(ring, model, device, cfg, proc, on_json=None):
             try:
                 drain = pipeline.collect(timeout=10.0)
                 for rg in drain:
-                    _shm_write_eval_response(ring, rg)
+                    _shm_write_eval_response(ring, rg, epoch=_inflight_epoch, seq=_inflight_seq)
             except Exception:
                 pass
         if pipeline is not None:
@@ -1071,16 +1087,15 @@ def _shm_eval_loop(ring, model, device, cfg, proc, on_json=None):
             NNSearchClient._emit_duty_cycle(_duty)
 
 
-def _shm_write_eval_response(ring, response_group):
-    """Write eval response to p2r ring buffer slot."""
+def _shm_write_eval_response(ring, response_group, epoch=0, seq=0):
+    """Write eval response to p2r ring buffer slot with matching epoch/seq."""
     policies = response_group["policies"]
     values = response_group["values"]
     payload = pack_qipc_batch_eval_resp(policies, values)
-    epoch = ring.epoch()
     # Spin-wait for empty p2r slot
     for attempt in range(100000):
         for slot_idx in range(ring.p2r_slot_count):
-            if ring.p2r_try_write(slot_idx, SHM_MSG_EVAL_BATCH_RESP, payload, epoch=epoch):
+            if ring.p2r_try_write(slot_idx, SHM_MSG_EVAL_BATCH_RESP, payload, epoch=epoch, seq=seq):
                 return
         if attempt < 64:
             pass

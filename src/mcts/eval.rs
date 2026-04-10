@@ -687,6 +687,28 @@ impl ShmRingBuffer {
         None
     }
 
+    /// Try to read a WRITTEN p2r slot, returning metadata for validation.
+    /// Returns (msg_type, epoch, seq, payload) or None.
+    pub fn p2r_try_read_meta(&self) -> Option<(u8, u32, u32, &[u8])> {
+        for i in 0..self.p2r_slot_count {
+            let off = self.p2r_slot_offset(i);
+            if self.slot_state(off) == SHM_SLOT_WRITTEN {
+                let (msg_type, _dir, payload_len, epoch) = self.read_slot_meta(off);
+                // Read seq from slot header offset 12
+                let seq = {
+                    let mut buf = [0u8; 4];
+                    unsafe { std::ptr::copy_nonoverlapping(
+                        self.region.ptr.add(off + 12), buf.as_mut_ptr(), 4); }
+                    u32::from_le_bytes(buf)
+                };
+                let payload = self.read_slot_payload(off, payload_len);
+                self.set_slot_state(off, SHM_SLOT_DONE);
+                return Some((msg_type, epoch, seq, payload));
+            }
+        }
+        None
+    }
+
     // --- Utility ---
 
     fn read_u32(region: &SharedMemRegion, offset: usize) -> u32 {
@@ -1836,17 +1858,18 @@ fn broker_loop_shm<M: Copy + Eq + Hash + Debug + Send + 'static>(
         }
 
         // --- Read response from p2r ring slot (spin-wait) ---
+        // Validate epoch/seq to reject stale responses from timed-out batches.
         let read_t0 = Instant::now();
         let mut resp_payload: Option<Vec<u8>> = None;
         let read_deadline = Instant::now() + Duration::from_secs(30);
         spin = 0;
         while Instant::now() < read_deadline {
-            if let Some((msg_type, data)) = ring.p2r_try_read() {
-                if msg_type == SHM_MSG_EVAL_BATCH_RESP {
+            if let Some((msg_type, resp_epoch, resp_seq, data)) = ring.p2r_try_read_meta() {
+                if msg_type == SHM_MSG_EVAL_BATCH_RESP && resp_epoch == epoch && resp_seq == seq {
                     resp_payload = Some(data.to_vec());
                     break;
                 }
-                // Unexpected message type — ignore (shouldn't happen)
+                // Stale or mismatched response — discard and keep waiting
             }
             if shutdown.load(Ordering::Relaxed) { break; }
             spin += 1;

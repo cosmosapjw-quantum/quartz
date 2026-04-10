@@ -69,10 +69,12 @@ fn emit_json_message(payload: &serde_json::Value) {
     if let Some(ring) = global_ring_buffer() {
         let json_bytes = payload.to_string().into_bytes();
         let epoch = ring.epoch();
+        // Reclaim DONE slots so we have room to write
+        ring.r2p_reclaim();
         if ring.r2p_try_write(SHM_MSG_JSON, &json_bytes, epoch, 0) {
             return;
         }
-        // Slots full — fall through to stdout
+        // Still full after reclaim — fall through to stdout
     }
     let stdout = io::stdout();
     let mut out = stdout.lock();
