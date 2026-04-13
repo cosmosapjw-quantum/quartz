@@ -46,3 +46,9 @@ venv/bin/python -m quartz.train --game gomoku7 --iterations 2 --device auto
 1. CUDA
 2. Apple MPS
 3. CPU
+
+## Next steps
+
+- Training and ablation flow: [QUICKSTART.md](./QUICKSTART.md)
+- Full install notes and ONNX provider setup: [INSTALL.md](./INSTALL.md)
+- Gomocup bundle/export/build flow: [GOMOCUP_BRAIN.md](./GOMOCUP_BRAIN.md)

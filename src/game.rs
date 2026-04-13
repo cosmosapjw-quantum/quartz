@@ -43,6 +43,12 @@ pub trait GameState: Clone + Send + Sync + 'static {
     /// Zobrist 해시 (TT 키)
     fn hash(&self) -> u64;
 
+    /// Exact TT key. Defaults to `hash()`, but history-sensitive games can
+    /// override this to include rule state beyond the board hash.
+    fn tt_hash(&self) -> u64 {
+        self.hash()
+    }
+
     /// 전체 행동 공간 크기 (NN 정책 출력 차원)
     fn num_actions(&self) -> usize;
 
@@ -89,6 +95,21 @@ pub trait GameState: Clone + Send + Sync + 'static {
     fn board_state_record(&self) -> Vec<i64> {
         self.encode_planes().iter().map(|&v| if v > 0.5 { 1 } else if v < -0.5 { 2 } else { 0 }).collect()
     }
+}
+
+#[inline]
+pub fn tt_mix64(mut x: u64) -> u64 {
+    x ^= x >> 30;
+    x = x.wrapping_mul(0xbf58_476d_1ce4_e5b9);
+    x ^= x >> 27;
+    x = x.wrapping_mul(0x94d0_49bb_1331_11eb);
+    x ^ (x >> 31)
+}
+
+#[inline]
+pub fn tt_combine(seed: u64, value: u64) -> u64 {
+    let mixed = tt_mix64(value.wrapping_add(0x9e37_79b9_7f4a_7c15));
+    tt_mix64(seed ^ mixed.rotate_left(25) ^ 0x517c_c1b7_2722_0a95)
 }
 
 // ─────────────────────────────────────────────

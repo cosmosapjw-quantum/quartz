@@ -15,18 +15,19 @@ use rand::rngs::StdRng;
 use rand::{Rng, SeedableRng};
 
 use crate::game::GameState;
-use crate::mcts::eval::{AsyncEvalTicket, BatchStdioEval, GlobalBroker, ShortRollout, global_ring_buffer, SHM_MSG_JSON};
+use crate::mcts::eval::{
+    AsyncEvalTicket, BatchStdioEval, GlobalBroker, ShortRollout, global_ring_buffer, SHM_MSG_JSON,
+    SHM_MSG_SEARCH_RESP,
+};
 use crate::mcts::node::edge_lock_contention_snapshot;
 use crate::mcts::quartz::{PenaltyMode, QuartzConfig, QuartzController};
 use crate::mcts::search::FixedIterations;
 use crate::mcts::{engine_phase_snapshot, MctsConfig, MctsEngine, PreparedIteration};
 
-use crate::games::chess::{chess_quartz, Chess, ChessMove};
+use crate::games::chess::{chess_quartz, Chess, ChessMove, CHESS_POLICY_ACTIONS};
 use crate::games::go::{go_quartz, Go, GoRuleset, GoScoring};
 use crate::games::gomoku15::{gomoku15_quartz, Gomoku15, GomokuVariant};
 use crate::games::{Gomoku, TicTacToe};
-
-const CHESS_POLICY_ACTIONS: usize = 4096;
 
 fn rust_server_trace_path() -> Option<&'static str> {
     static TRACE_PATH: OnceLock<Option<String>> = OnceLock::new();
@@ -82,11 +83,226 @@ fn emit_json_message(payload: &serde_json::Value) {
     let _ = out.flush();
 }
 
+fn emit_ring_message(msg_type: u8, payload: &[u8]) -> bool {
+    let Some(ring) = global_ring_buffer() else {
+        return false;
+    };
+    ring.r2p_reclaim();
+    ring.r2p_try_write(msg_type, payload, ring.epoch(), 0)
+}
+
+const SEARCH_RESP_SINGLE: u8 = 1;
+const SEARCH_RESP_MULTI: u8 = 2;
+const SEARCH_RESP_SESSION: u8 = 3;
+
+fn push_u8(buf: &mut Vec<u8>, value: u8) {
+    buf.push(value);
+}
+
+fn push_u32(buf: &mut Vec<u8>, value: u32) {
+    buf.extend_from_slice(&value.to_le_bytes());
+}
+
+fn push_u64(buf: &mut Vec<u8>, value: u64) {
+    buf.extend_from_slice(&value.to_le_bytes());
+}
+
+fn push_f32(buf: &mut Vec<u8>, value: f32) {
+    buf.extend_from_slice(&value.to_le_bytes());
+}
+
+fn push_string(buf: &mut Vec<u8>, value: &str) {
+    let bytes = value.as_bytes();
+    push_u32(buf, bytes.len().min(u32::MAX as usize) as u32);
+    buf.extend_from_slice(bytes);
+}
+
+fn encode_search_result_entry(buf: &mut Vec<u8>, result: &serde_json::Value) {
+    let Some(obj) = result.as_object() else {
+        push_u8(buf, 0b10);
+        return;
+    };
+    let error = obj.get("error").and_then(|v| v.as_str()).unwrap_or("");
+    if !error.is_empty() {
+        push_u8(buf, 0b01);
+        push_string(buf, error);
+        return;
+    }
+
+    push_u8(buf, 0);
+    push_u32(buf, obj.get("best_move").and_then(|v| v.as_u64()).unwrap_or(0) as u32);
+    push_u32(
+        buf,
+        obj.get("iterations").and_then(|v| v.as_u64()).unwrap_or(0) as u32,
+    );
+    push_u32(
+        buf,
+        obj.get("max_pending").and_then(|v| v.as_u64()).unwrap_or(0) as u32,
+    );
+    push_f32(buf, obj.get("p_flip").and_then(|v| v.as_f64()).unwrap_or(0.0) as f32);
+    push_f32(buf, obj.get("value").and_then(|v| v.as_f64()).unwrap_or(0.0) as f32);
+    push_f32(
+        buf,
+        obj.get("sigma_q").and_then(|v| v.as_f64()).unwrap_or(0.0) as f32,
+    );
+    push_f32(
+        buf,
+        obj.get("hbar_eff").and_then(|v| v.as_f64()).unwrap_or(0.0) as f32,
+    );
+    push_f32(
+        buf,
+        obj.get("dup_rate").and_then(|v| v.as_f64()).unwrap_or(0.0) as f32,
+    );
+    push_f32(
+        buf,
+        obj.get("avg_vvalue").and_then(|v| v.as_f64()).unwrap_or(0.0) as f32,
+    );
+
+    let policy = parse_sparse_policy_value(obj.get("policy").unwrap_or(&serde_json::Value::Null));
+    push_u32(buf, policy.len().min(u32::MAX as usize) as u32);
+    for (idx, prob) in policy {
+        push_u32(buf, idx as u32);
+        push_f32(buf, prob);
+    }
+
+    let history_hashes = obj
+        .get("result_history_hashes")
+        .and_then(|v| v.as_array())
+        .map(|arr| {
+            arr.iter()
+                .filter_map(|entry| entry.as_u64().or_else(|| entry.as_i64().and_then(|v| (v >= 0).then_some(v as u64))))
+                .collect::<Vec<_>>()
+        })
+        .unwrap_or_default();
+    push_u32(buf, history_hashes.len().min(u32::MAX as usize) as u32);
+    for hash in history_hashes {
+        push_u64(buf, hash);
+    }
+
+    push_string(
+        buf,
+        obj.get("stop_reason").and_then(|v| v.as_str()).unwrap_or(""),
+    );
+    push_string(
+        buf,
+        obj.get("best_move_uci").and_then(|v| v.as_str()).unwrap_or(""),
+    );
+    push_string(
+        buf,
+        obj.get("result_fen").and_then(|v| v.as_str()).unwrap_or(""),
+    );
+}
+
+fn encode_search_response_payload(value: &serde_json::Value) -> Option<Vec<u8>> {
+    let (kind, session_id, results): (u8, u64, Vec<serde_json::Value>) =
+        if let Some(result) = value.get("result") {
+            (SEARCH_RESP_SINGLE, 0, vec![result.clone()])
+        } else if let Some(results) = value.get("results").and_then(|v| v.as_array()) {
+            let kind = if value.get("session_id").and_then(|v| v.as_u64()).is_some() {
+                SEARCH_RESP_SESSION
+            } else {
+                SEARCH_RESP_MULTI
+            };
+            (
+                kind,
+                value.get("session_id").and_then(|v| v.as_u64()).unwrap_or(0),
+                results.clone(),
+            )
+        } else {
+            return None;
+        };
+
+    let mut payload = Vec::new();
+    push_u8(&mut payload, kind);
+    push_u64(&mut payload, session_id);
+    push_u32(&mut payload, results.len().min(u32::MAX as usize) as u32);
+    for result in &results {
+        encode_search_result_entry(&mut payload, result);
+    }
+    Some(payload)
+}
+
+fn emit_search_response_payload(value: &serde_json::Value) -> bool {
+    let Some(payload) = encode_search_response_payload(value) else {
+        return false;
+    };
+    emit_ring_message(SHM_MSG_SEARCH_RESP, &payload)
+}
+
 fn parse_result_value(resp: String) -> serde_json::Value {
     serde_json::from_str::<serde_json::Value>(&resp)
         .ok()
         .and_then(|v| v.get("result").cloned())
         .unwrap_or_else(|| serde_json::json!({}))
+}
+
+type SparsePolicyEntry = (usize, f32);
+
+fn sparse_policy_from_visits(visits: &[u32]) -> (Vec<SparsePolicyEntry>, u32) {
+    let total: u32 = visits.iter().sum();
+    let denom = total.max(1) as f32;
+    let policy = visits
+        .iter()
+        .enumerate()
+        .filter_map(|(idx, &n)| {
+            if n > 0 {
+                Some((idx, n as f32 / denom))
+            } else {
+                None
+            }
+        })
+        .collect();
+    (policy, total)
+}
+
+fn collect_sparse_policy<G: GameState>(
+    engine: &MctsEngine<G>,
+    n_actions: usize,
+) -> (usize, Vec<SparsePolicyEntry>, u32) {
+    let best = engine
+        .best_move()
+        .map(|mv| engine.root_state().move_to_idx(mv))
+        .unwrap_or(0);
+    let guard = engine.root.edges.read().unwrap();
+    let mut visits = vec![0u32; n_actions];
+    for edge in guard.iter() {
+        let idx = engine.root_state().move_to_idx(edge.mv);
+        if idx < n_actions {
+            visits[idx] = visits[idx].saturating_add(edge.n.load(Ordering::Relaxed));
+        }
+    }
+    drop(guard);
+    let (policy, total) = sparse_policy_from_visits(&visits);
+    (best, policy, total)
+}
+
+fn parse_sparse_policy_entry(value: &serde_json::Value) -> Option<SparsePolicyEntry> {
+    match value {
+        serde_json::Value::String(entry) => {
+            let (idx_raw, prob_raw) = entry.split_once(':')?;
+            let idx = idx_raw.parse::<usize>().ok()?;
+            let prob = prob_raw.parse::<f32>().ok()?;
+            Some((idx, prob))
+        }
+        serde_json::Value::Array(entry) if entry.len() >= 2 => {
+            let idx = entry.first()?.as_u64()? as usize;
+            let prob = entry.get(1)?.as_f64()? as f32;
+            Some((idx, prob))
+        }
+        _ => None,
+    }
+}
+
+fn parse_sparse_policy_value(value: &serde_json::Value) -> Vec<SparsePolicyEntry> {
+    value
+        .as_array()
+        .map(|entries| {
+            entries
+                .iter()
+                .filter_map(parse_sparse_policy_entry)
+                .collect::<Vec<_>>()
+        })
+        .unwrap_or_default()
 }
 
 fn jstr<'a>(s: &'a str, key: &str) -> Option<&'a str> {
@@ -144,6 +360,26 @@ fn jbool(s: &str, key: &str) -> Option<bool> {
         None
     }
 }
+
+fn json_u64ish(value: &serde_json::Value) -> Option<u64> {
+    value
+        .as_u64()
+        .or_else(|| value.as_i64().and_then(|v| (v >= 0).then_some(v as u64)))
+        .or_else(|| {
+            value.as_str().and_then(|raw| {
+                let trimmed = raw.trim();
+                if let Some(hex) = trimmed
+                    .strip_prefix("0x")
+                    .or_else(|| trimmed.strip_prefix("0X"))
+                {
+                    u64::from_str_radix(hex, 16).ok()
+                } else {
+                    trimmed.parse::<u64>().ok()
+                }
+            })
+        })
+}
+
 fn f_or(v: f32, d: f32) -> f32 {
     if v.is_finite() {
         v
@@ -152,8 +388,8 @@ fn f_or(v: f32, d: f32) -> f32 {
     }
 }
 
-fn chess_policy_index(mv: ChessMove) -> usize {
-    (mv.from_sq() as usize) * 64 + mv.to_sq() as usize
+fn chess_policy_index(state: &Chess, mv: ChessMove) -> usize {
+    state.move_to_idx(mv)
 }
 
 fn chess_outcome_for_white(state: &Chess) -> f32 {
@@ -178,7 +414,7 @@ fn handle_chess_state(line: &str, default_960: bool) -> String {
         .join(",");
     let legal_actions = legal
         .iter()
-        .map(|mv| chess_policy_index(*mv).to_string())
+        .map(|mv| chess_policy_index(&state, *mv).to_string())
         .collect::<Vec<_>>()
         .join(",");
     let terminal = state.is_terminal();
@@ -194,6 +430,7 @@ fn handle_chess_state(line: &str, default_960: bool) -> String {
             "\"side_to_move\":\"{}\",",
             "\"terminal\":{},",
             "\"outcome_white\":{:.4},",
+            "\"history_hashes\":{},",
             "\"legal_moves\":[{}],",
             "\"legal_actions\":[{}]",
             "}}"
@@ -202,6 +439,7 @@ fn handle_chess_state(line: &str, default_960: bool) -> String {
         if state.current_player() > 0 { "w" } else { "b" },
         if terminal { "true" } else { "false" },
         outcome,
+        serde_json::json!(state.history_hashes()).to_string(),
         legal_moves,
         legal_actions
     )
@@ -228,7 +466,7 @@ fn handle_chess_apply(line: &str, default_960: bool) -> String {
         .join(",");
     let legal_actions = legal
         .iter()
-        .map(|m| chess_policy_index(*m).to_string())
+        .map(|m| chess_policy_index(&next, *m).to_string())
         .collect::<Vec<_>>()
         .join(",");
     let terminal = next.is_terminal();
@@ -245,6 +483,7 @@ fn handle_chess_apply(line: &str, default_960: bool) -> String {
             "\"side_to_move\":\"{}\",",
             "\"terminal\":{},",
             "\"outcome_white\":{:.4},",
+            "\"history_hashes\":{},",
             "\"legal_moves\":[{}],",
             "\"legal_actions\":[{}]",
             "}}"
@@ -254,12 +493,13 @@ fn handle_chess_apply(line: &str, default_960: bool) -> String {
         if next.current_player() > 0 { "w" } else { "b" },
         if terminal { "true" } else { "false" },
         outcome,
+        serde_json::json!(next.history_hashes()).to_string(),
         legal_moves,
         legal_actions
     )
 }
 
-#[derive(Clone, Copy)]
+#[derive(Clone)]
 struct SearchOverrides {
     penalty_mode: PenaltyMode,
     hbar_penalty_cap: Option<f32>,
@@ -269,6 +509,9 @@ struct SearchOverrides {
     check_interval: Option<u32>,
     prior_refresh_rate: Option<f32>,
     prior_refresh_temp: Option<f32>,
+    root_only_shaping: Option<bool>,
+    vl_mode: Option<String>,
+    tt_enabled: Option<bool>,
 }
 
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
@@ -298,6 +541,9 @@ fn parse_search_overrides(line: &str) -> SearchOverrides {
         prior_refresh_temp: jfloat(line, "prior_refresh_temp")
             .map(|v| v as f32)
             .filter(|v| *v > 0.0),
+        root_only_shaping: jbool(line, "root_only_shaping"),
+        vl_mode: jstr(line, "vl_mode").map(|s| s.to_string()),
+        tt_enabled: jbool(line, "tt_enabled"),
     }
 }
 
@@ -322,6 +568,7 @@ fn apply_search_profile(mut cfg: MctsConfig, profile: SearchProfile) -> MctsConf
         SearchProfile::Quartz => {}
         SearchProfile::Baseline => {
             cfg.quartz = None;
+            cfg.gvoc = None;  // GVOC is part of the QUARTZ search controller bundle
             cfg.vl_mode = crate::mcts::parallel::VlMode::Disabled;
         }
         SearchProfile::BaselineStrict => {
@@ -336,7 +583,7 @@ fn apply_search_profile(mut cfg: MctsConfig, profile: SearchProfile) -> MctsConf
     cfg
 }
 
-fn apply_search_overrides(mut cfg: MctsConfig, ov: SearchOverrides) -> MctsConfig {
+fn apply_search_overrides(mut cfg: MctsConfig, ov: &SearchOverrides) -> MctsConfig {
     cfg = override_penalty(cfg, ov.penalty_mode, ov.hbar_penalty_cap.unwrap_or(0.0));
     if let Some(c_puct) = ov.c_puct {
         cfg.c_puct = c_puct;
@@ -357,6 +604,24 @@ fn apply_search_overrides(mut cfg: MctsConfig, ov: SearchOverrides) -> MctsConfi
         if let Some(prior_refresh_temp) = ov.prior_refresh_temp {
             q.prior_refresh_temp = prior_refresh_temp;
         }
+        if let Some(root_only_shaping) = ov.root_only_shaping {
+            q.root_only_shaping = root_only_shaping;
+        }
+    }
+    // VL mode override (independent of search profile)
+    if let Some(ref vl) = ov.vl_mode {
+        use crate::mcts::parallel::VlMode;
+        cfg.vl_mode = match vl.as_str() {
+            "disabled" => VlMode::Disabled,
+            "fixed" => VlMode::Fixed,
+            "adaptive" => VlMode::Adaptive,
+            "vvisit_only" => VlMode::VvisitOnly,
+            "vvalue_only" => VlMode::VvalueOnly,
+            _ => cfg.vl_mode,
+        };
+    }
+    if let Some(tt_enabled) = ov.tt_enabled {
+        cfg.tt_enabled = tt_enabled;
     }
     cfg
 }
@@ -370,7 +635,7 @@ fn selfplay_one<G: GameState>(
     num_actions: usize,
 ) -> String
 where
-    G::Move: Into<usize> + PartialEq,
+    G::Move: PartialEq,
 {
     let eval: Arc<ShortRollout> = Arc::new(ShortRollout::new(12));
     let first_player = initial.current_player();
@@ -397,7 +662,7 @@ where
         let mut visits = vec![0u32; num_actions];
         let mut total = 0u32;
         for e in guard.iter() {
-            let idx: usize = e.mv.into();
+            let idx = engine.root_state().move_to_idx(e.mv);
             let n = e.n.load(Ordering::Relaxed);
             if idx < num_actions {
                 visits[idx] = n;
@@ -418,11 +683,11 @@ where
             .collect();
         let planes = engine.root_state().encode_planes();
 
-        let pol_str: Vec<String> = policy
+        let sparse_policy: Vec<SparsePolicyEntry> = policy
             .iter()
             .enumerate()
             .filter(|(_, &p)| p > 1e-6)
-            .map(|(i, p)| format!("\"{}:{:.4}\"", i, p))
+            .map(|(i, p)| (i, *p))
             .collect();
         let board_str: String = planes
             .iter()
@@ -436,15 +701,17 @@ where
         let sq = f_or(stats.sigma_q, 0.0);
         let hb = f_or(stats.hbar_eff, 0.0);
 
-        positions.push(format!(
-            "{{\"pl\":{},\"bd\":\"{}\",\"pol\":[{}],\"pf\":{:.4},\"sq\":{:.4},\"hb\":{:.4}}}",
-            engine.root_state().current_player(),
-            board_str,
-            pol_str.join(","),
-            pf,
-            sq,
-            hb
-        ));
+        positions.push(
+            serde_json::json!({
+                "pl": engine.root_state().current_player(),
+                "bd": board_str,
+                "pol": sparse_policy,
+                "pf": pf,
+                "sq": sq,
+                "hb": hb,
+            })
+            .to_string(),
+        );
 
         // Move selection
         let chosen = if move_n < temp_thresh {
@@ -457,7 +724,7 @@ where
             let mut cum = 0.0f32;
             let mut sel = legal[0];
             for &mv in &legal {
-                let idx: usize = mv.into();
+                let idx = engine.root_state().move_to_idx(mv);
                 if idx < num_actions {
                     cum += policy[idx];
                     if cum >= r {
@@ -471,7 +738,7 @@ where
             let mut best = legal[0];
             let mut bn = 0u32;
             for &mv in &legal {
-                let i: usize = mv.into();
+                let i = engine.root_state().move_to_idx(mv);
                 if i < num_actions && visits[i] > bn {
                     bn = visits[i];
                     best = mv;
@@ -516,6 +783,7 @@ fn parse_penalty_mode(s: &str) -> PenaltyMode {
         "EffectiveV2" => PenaltyMode::EffectiveV2,
         "SelfAdaptive" => PenaltyMode::SelfAdaptive,
         "GatedRefresh" => PenaltyMode::GatedRefresh,
+        "GatedRefreshLegacy" => PenaltyMode::GatedRefreshLegacy,
         "PFlipMixture" => PenaltyMode::PFlipMixture,
         _ => PenaltyMode::GatedRefresh, // default
     }
@@ -566,26 +834,71 @@ fn parse_chess960_index(line: &str) -> Option<u16> {
         .map(|v| v.clamp(0, 959) as u16)
 }
 
-fn chess_state_from_request(line: &str, default_960: bool) -> Chess {
+fn apply_chess_history_from_json(state: &mut Chess, value: &serde_json::Value) {
+    if let Some(history) = value.get("chess_history_hashes").and_then(|v| v.as_array()) {
+        let hashes = history.iter().filter_map(json_u64ish).collect::<Vec<_>>();
+        state.set_history_hashes(&hashes);
+        return;
+    }
+    if let Some(history) = value.get("chess_history_keys").and_then(|v| v.as_array()) {
+        let keys = history
+            .iter()
+            .filter_map(|entry| entry.as_str().map(str::to_string))
+            .collect::<Vec<_>>();
+        if !keys.is_empty() {
+            let _ = state.set_history_keys(&keys);
+        }
+    }
+}
+
+fn chess_state_from_json(root: &serde_json::Value, default_960: bool) -> Chess {
     let fallback = || {
         if default_960 {
-            if let Some(idx) = parse_chess960_index(line) {
+            if let Some(idx) = root
+                .get("chess960_index")
+                .and_then(json_u64ish)
+                .map(|v| v.min(959) as u16)
+            {
                 Chess::from_960(idx)
-            } else if jbool(line, "chess960_random_start").unwrap_or(false) {
+            } else if root
+                .get("chess960_random_start")
+                .and_then(|v| v.as_bool())
+                .unwrap_or(false)
+            {
                 Chess::from_960(rand::random::<u16>() % 960)
             } else {
                 Chess::from_960(518)
             }
-        } else if let Some(idx) = parse_chess960_index(line) {
+        } else if let Some(idx) = root
+            .get("chess960_index")
+            .and_then(json_u64ish)
+            .map(|v| v.min(959) as u16)
+        {
             Chess::from_960(idx)
         } else {
             Chess::standard()
         }
     };
-    if let Some(fen) = jstr(line, "fen") {
+    let mut state = if let Some(fen) = root.get("fen").and_then(|v| v.as_str()) {
         Chess::from_fen(fen).unwrap_or_else(|_| fallback())
     } else {
         fallback()
+    };
+    apply_chess_history_from_json(&mut state, root);
+    state
+}
+
+fn chess_state_from_request(line: &str, default_960: bool) -> Chess {
+    if let Ok(root) = serde_json::from_str::<serde_json::Value>(line) {
+        chess_state_from_json(&root, default_960)
+    } else if default_960 {
+        if let Some(idx) = parse_chess960_index(line) {
+            Chess::from_960(idx)
+        } else {
+            Chess::from_960(518)
+        }
+    } else {
+        Chess::standard()
     }
 }
 
@@ -638,7 +951,7 @@ fn handle_selfplay(line: &str) -> String {
                         ..Default::default()
                     },
                 );
-                let cfg = apply_search_overrides(cfg, overrides);
+                let cfg = apply_search_overrides(cfg, &overrides);
                 selfplay_one(
                     Gomoku::new_with_win(7, 4),
                     move || cfg.clone(),
@@ -649,7 +962,7 @@ fn handle_selfplay(line: &str) -> String {
             }
             _ if parse_gomoku15_variant(game).is_some() => {
                 let variant = parse_gomoku15_variant(game).unwrap();
-                let cfg = apply_search_overrides(gomoku15_quartz(variant), overrides);
+                let cfg = apply_search_overrides(gomoku15_quartz(variant), &overrides);
                 selfplay_one(Gomoku15::new(variant), move || cfg.clone(), iters, tt, 225)
             }
             _ if parse_go_game(game).is_some() => {
@@ -658,7 +971,7 @@ fn handle_selfplay(line: &str) -> String {
                 let scoring = parse_go_scoring(line, ruleset.scoring());
                 let komi = parse_go_komi(line, if size == 19 { 7.5 } else { 7.5 });
                 let allow_suicide = parse_go_allow_suicide(line, false);
-                let cfg = apply_search_overrides(go_quartz(size), overrides);
+                let cfg = apply_search_overrides(go_quartz(size), &overrides);
                 selfplay_one(
                     Go::new_with_options(size, komi, ruleset, scoring, allow_suicide),
                     move || cfg.clone(),
@@ -670,12 +983,12 @@ fn handle_selfplay(line: &str) -> String {
             "tictactoe" => {
                 let cfg = apply_search_overrides(
                     MctsConfig::evaluation(1.4).with_quartz(QuartzConfig::default()),
-                    overrides,
+                    &overrides,
                 );
                 selfplay_one(TicTacToe::initial(), move || cfg.clone(), iters, tt, 9)
             }
             game if is_chess_game_name(game) => {
-                let cfg = apply_search_overrides(chess_quartz(), overrides);
+                let cfg = apply_search_overrides(chess_quartz(), &overrides);
                 selfplay_one(
                     chess_state_from_request(line, game == "chess960"),
                     move || cfg.clone(),
@@ -686,7 +999,7 @@ fn handle_selfplay(line: &str) -> String {
             }
             _ => {
                 let cfg =
-                    apply_search_overrides(gomoku15_quartz(GomokuVariant::Freestyle), overrides);
+                    apply_search_overrides(gomoku15_quartz(GomokuVariant::Freestyle), &overrides);
                 selfplay_one(Gomoku15::freestyle(), move || cfg.clone(), iters, tt, 225)
             }
         };
@@ -850,7 +1163,11 @@ pub fn serve() {
 
         if cmd == "search_nn" {
             let resp = handle_search_nn(&line);
-            {
+            let emitted = serde_json::from_str::<serde_json::Value>(&resp)
+                .ok()
+                .map(|value| emit_search_response_payload(&value))
+                .unwrap_or(false);
+            if !emitted {
                 let mut out = io::stdout().lock();
                 let _ = writeln!(out, "{}", resp);
                 let _ = out.flush();
@@ -860,7 +1177,11 @@ pub fn serve() {
         }
         if cmd == "search_nn_multi" {
             let resp = handle_search_nn_multi(&line);
-            {
+            let emitted = serde_json::from_str::<serde_json::Value>(&resp)
+                .ok()
+                .map(|value| emit_search_response_payload(&value))
+                .unwrap_or(false);
+            if !emitted {
                 let mut out = io::stdout().lock();
                 let _ = writeln!(out, "{}", resp);
                 let _ = out.flush();
@@ -870,7 +1191,11 @@ pub fn serve() {
         }
         if cmd == "search_nn_multi_session_open" {
             let resp = handle_search_nn_multi_session_open(&line);
-            {
+            let emitted = serde_json::from_str::<serde_json::Value>(&resp)
+                .ok()
+                .map(|value| emit_search_response_payload(&value))
+                .unwrap_or(false);
+            if !emitted {
                 let mut out = io::stdout().lock();
                 let _ = writeln!(out, "{}", resp);
                 let _ = out.flush();
@@ -880,7 +1205,11 @@ pub fn serve() {
         }
         if cmd == "search_nn_multi_session_step" {
             let resp = handle_search_nn_multi_session_step(&line);
-            {
+            let emitted = serde_json::from_str::<serde_json::Value>(&resp)
+                .ok()
+                .map(|value| emit_search_response_payload(&value))
+                .unwrap_or(false);
+            if !emitted {
                 let mut out = io::stdout().lock();
                 let _ = writeln!(out, "{}", resp);
                 let _ = out.flush();
@@ -1033,37 +1362,31 @@ struct SelfplaySession<G: GameState> {
     winner: f64,
     board_history: Vec<Vec<i64>>,
     player_history: Vec<i8>,
-    policy_history: Vec<Vec<String>>,
+    policy_history: Vec<Vec<SparsePolicyEntry>>,
     trace_history: Vec<serde_json::Value>,
 }
-
-// Keep legacy type alias for backward compatibility with existing code
-type GomokuSelfplaySession = SelfplaySession<Gomoku>;
 
 fn choose_selfplay_action_generic<G: GameState>(
     rng: &mut StdRng,
     state: &G,
-    policy_entries: &[String],
+    policy_entries: &[SparsePolicyEntry],
     move_count: usize,
     temp_threshold: usize,
     fallback_best: usize,
     n_actions: usize,
-) -> Option<usize>
-where
-    usize: From<G::Move>,
-{
-    let legal: Vec<usize> = state.legal_moves().into_iter().map(|m| m.into()).collect();
+) -> Option<usize> {
+    let legal: Vec<usize> = state
+        .legal_moves()
+        .into_iter()
+        .map(|m| state.move_to_idx(m))
+        .collect();
     if legal.is_empty() {
         return None;
     }
     let mut policy = vec![0.0f64; n_actions];
-    for entry in policy_entries {
-        if let Some((idx_raw, val_raw)) = entry.split_once(':') {
-            if let (Ok(idx), Ok(val)) = (idx_raw.parse::<usize>(), val_raw.parse::<f64>()) {
-                if idx < policy.len() {
-                    policy[idx] = val.max(0.0);
-                }
-            }
+    for &(idx, prob) in policy_entries {
+        if idx < policy.len() {
+            policy[idx] = f64::from(prob.max(0.0));
         }
     }
     if move_count < temp_threshold {
@@ -1104,60 +1427,32 @@ fn build_result_json<G: GameState>(
     value: f32,
     sigma_q: f32,
     hbar_eff: f32,
-) -> String
-where
-    usize: From<G::Move>,
-{
-    let best: usize = engine.best_move().map(|m| m.into()).unwrap_or(0);
+) -> String {
+    let (best, policy, total) = collect_sparse_policy(engine, n_act);
     let tt = engine.tt.contention_snapshot();
-    let guard = engine.root.edges.read().unwrap();
-    let mut visits = vec![0u32; n_act];
-    for e in guard.iter() {
-        let i: usize = e.mv.into();
-        if i < n_act {
-            visits[i] = e.n.load(Ordering::Relaxed);
-        }
-    }
-    drop(guard);
-    let total: u32 = visits.iter().sum();
-    let pol: Vec<String> = visits
-        .iter()
-        .enumerate()
-        .filter(|(_, &n)| n > 0)
-        .map(|(i, &n)| format!("\"{}:{:.4}\"", i, n as f32 / total.max(1) as f32))
-        .collect();
     let par = engine.par_ctrl.telemetry.snapshot();
-    format!(
-        concat!(
-            "{{\"result\":{{",
-            "\"best_move\":{},\"policy\":[{}],",
-            "\"p_flip\":{:.4},\"value\":{:.4},",
-            "\"sigma_q\":{:.4},\"hbar_eff\":{:.4},",
-            "\"stop_reason\":\"{}\",\"iterations\":{},",
-            "\"dup_rate\":{:.4},\"max_pending\":{},\"avg_vvalue\":{:.4},",
-            "\"tt_hit_rate\":{:.6},\"tt_size\":{},",
-            "\"tt_get_or_create_calls\":{},\"tt_get_calls\":{},",
-            "\"tt_lock_wait_ms\":{:.6},\"tt_max_lock_wait_ms\":{:.6}",
-            "}}}}"
-        ),
-        best,
-        pol.join(","),
-        f_or(p_flip, 0.0),
-        f_or(value, 0.0),
-        f_or(sigma_q, 0.0),
-        f_or(hbar_eff, 0.0),
-        stop_reason,
-        iterations.max(total),
-        par.dup_rate,
-        par.max_pending,
-        par.avg_vvalue,
-        engine.tt.hit_rate(),
-        engine.tt.size(),
-        tt.get_or_create_calls,
-        tt.get_calls,
-        tt.lock_wait_nanos as f64 / 1_000_000.0,
-        tt.max_lock_wait_nanos as f64 / 1_000_000.0
-    )
+    serde_json::json!({
+        "result": {
+            "best_move": best,
+            "policy": policy,
+            "p_flip": f_or(p_flip, 0.0),
+            "value": f_or(value, 0.0),
+            "sigma_q": f_or(sigma_q, 0.0),
+            "hbar_eff": f_or(hbar_eff, 0.0),
+            "stop_reason": stop_reason,
+            "iterations": iterations.max(total),
+            "dup_rate": par.dup_rate,
+            "max_pending": par.max_pending,
+            "avg_vvalue": par.avg_vvalue,
+            "tt_hit_rate": engine.tt.hit_rate(),
+            "tt_size": engine.tt.size(),
+            "tt_get_or_create_calls": tt.get_or_create_calls,
+            "tt_get_calls": tt.get_calls,
+            "tt_lock_wait_ms": tt.lock_wait_nanos as f64 / 1_000_000.0,
+            "tt_max_lock_wait_ms": tt.max_lock_wait_nanos as f64 / 1_000_000.0,
+        }
+    })
+    .to_string()
 }
 
 fn run_and_extract<G: GameState>(
@@ -2148,6 +2443,18 @@ struct ChessSession {
     default_960: bool,
 }
 
+impl ChessSession {
+    fn search(&self) -> Vec<serde_json::Value> {
+        let mut results = self.inner.search();
+        for (state, result) in self.inner.states.iter().zip(results.iter_mut()) {
+            if let Some(state) = state.as_ref() {
+                enrich_chess_result(state, result);
+            }
+        }
+        results
+    }
+}
+
 enum SearchSessionAny {
     Gomoku(SearchSession<Gomoku>),
     Gomoku15(Gomoku15Session),
@@ -2162,7 +2469,7 @@ impl SearchSessionAny {
             SearchSessionAny::Gomoku(inner) => inner.search(),
             SearchSessionAny::Gomoku15(inner) => inner.inner.search(),
             SearchSessionAny::Go(inner) => inner.inner.search(),
-            SearchSessionAny::Chess(inner) => inner.inner.search(),
+            SearchSessionAny::Chess(inner) => inner.search(),
             SearchSessionAny::TicTacToe(inner) => inner.search(),
         }
     }
@@ -2297,38 +2604,30 @@ fn parse_tictactoe_job(job: &serde_json::Value) -> TicTacToe {
 }
 
 fn parse_chess_job(job: &serde_json::Value, default_960: bool) -> Chess {
-    let fallback = || {
-        if default_960 {
-            if let Some(idx) = job
-                .get("chess960_index")
-                .and_then(|v| v.as_u64())
-                .map(|v| v.min(959) as u16)
-            {
-                Chess::from_960(idx)
-            } else if job
-                .get("chess960_random_start")
-                .and_then(|v| v.as_bool())
-                .unwrap_or(false)
-            {
-                Chess::from_960(rand::random::<u16>() % 960)
-            } else {
-                Chess::from_960(518)
-            }
-        } else if let Some(idx) = job
-            .get("chess960_index")
-            .and_then(|v| v.as_u64())
-            .map(|v| v.min(959) as u16)
-        {
-            Chess::from_960(idx)
-        } else {
-            Chess::standard()
-        }
+    chess_state_from_json(job, default_960)
+}
+
+fn enrich_chess_result(state: &Chess, result: &mut serde_json::Value) {
+    let Some(obj) = result.as_object_mut() else {
+        return;
     };
-    if let Some(fen) = job.get("fen").and_then(|v| v.as_str()) {
-        Chess::from_fen(fen).unwrap_or_else(|_| fallback())
-    } else {
-        fallback()
+    if obj.get("error").and_then(|v| v.as_str()).is_some() {
+        return;
     }
+    let best_move = obj
+        .get("best_move")
+        .and_then(|v| v.as_u64())
+        .and_then(|idx| state.idx_to_move(idx as usize));
+    let next_state = best_move.map(|mv| state.apply_move(mv)).unwrap_or_else(|| state.clone());
+    obj.insert(
+        "best_move_uci".to_string(),
+        serde_json::json!(best_move.map(|mv| mv.to_uci()).unwrap_or_default()),
+    );
+    obj.insert("result_fen".to_string(), serde_json::json!(next_state.to_fen()));
+    obj.insert(
+        "result_history_hashes".to_string(),
+        serde_json::json!(next_state.history_hashes()),
+    );
 }
 
 fn apply_updates_gomoku(
@@ -2519,7 +2818,7 @@ fn handle_search_nn(line: &str) -> String {
                     check_interval: 20,
                     ..Default::default()
                 }),
-                overrides,
+                &overrides,
             ), search_profile);
             let engine = MctsEngine::new(state, eval, cfg);
             run_and_extract(&engine, n_threads, 49, iters, engine.config.quartz.clone(), search_profile)
@@ -2538,7 +2837,7 @@ fn handle_search_nn(line: &str) -> String {
                 Gomoku15::new(variant)
             };
             let eval = make_eval!(Gomoku15);
-            let cfg = apply_search_profile(apply_search_overrides(gomoku15_quartz(variant), overrides), search_profile);
+            let cfg = apply_search_profile(apply_search_overrides(gomoku15_quartz(variant), &overrides), search_profile);
             let engine = MctsEngine::new(state, eval, cfg);
             run_and_extract(&engine, n_threads, 225, iters, engine.config.quartz.clone(), search_profile)
         }
@@ -2573,7 +2872,7 @@ fn handle_search_nn(line: &str) -> String {
                 Go::new_with_options(size, komi, ruleset, scoring, allow_suicide)
             };
             let eval = make_eval!(Go);
-            let cfg = apply_search_profile(apply_search_overrides(go_quartz(size), overrides), search_profile);
+            let cfg = apply_search_profile(apply_search_overrides(go_quartz(size), &overrides), search_profile);
             let engine = MctsEngine::new(state, eval, cfg);
             run_and_extract(&engine, n_threads, n_actions, iters, engine.config.quartz.clone(), search_profile)
         }
@@ -2591,7 +2890,7 @@ fn handle_search_nn(line: &str) -> String {
             let eval = make_eval!(TicTacToe);
             let cfg = apply_search_profile(apply_search_overrides(
                 MctsConfig::evaluation(1.4).with_quartz(QuartzConfig::default()),
-                overrides,
+                &overrides,
             ), search_profile);
             let engine = MctsEngine::new(state, eval, cfg);
             run_and_extract(&engine, n_threads, 9, iters, engine.config.quartz.clone(), search_profile)
@@ -2599,7 +2898,7 @@ fn handle_search_nn(line: &str) -> String {
         game if is_chess_game_name(game) => {
             let state = chess_state_from_request(line, game == "chess960");
             let eval = make_eval::<Chess>(n_threads, batch_size, batch_timeout_us, n_actions, false);
-            let cfg = apply_search_profile(apply_search_overrides(chess_quartz(), overrides), search_profile);
+            let cfg = apply_search_profile(apply_search_overrides(chess_quartz(), &overrides), search_profile);
             let engine = MctsEngine::new(state, eval, cfg);
             let (iterations, stop_reason, p_flip, value, sigma_q, hbar_eff) = match search_profile {
                 SearchProfile::Quartz => {
@@ -2637,58 +2936,23 @@ fn handle_search_nn(line: &str) -> String {
             };
 
             // Chess has custom result extraction (includes result_fen)
-            let best: usize = engine.best_move().map(chess_policy_index).unwrap_or(0);
-            let guard = engine.root.edges.read().unwrap();
-            let mut visits = vec![0u32; CHESS_POLICY_ACTIONS];
-            for e in guard.iter() {
-                let i = chess_policy_index(e.mv);
-                if i < CHESS_POLICY_ACTIONS {
-                    visits[i] = visits[i].saturating_add(e.n.load(Ordering::Relaxed));
-                }
-            }
-            drop(guard);
-            let total: u32 = visits.iter().sum();
-            let pol: Vec<String> = visits
-                .iter()
-                .enumerate()
-                .filter(|(_, &n)| n > 0)
-                .map(|(i, &n)| format!("\"{}:{:.4}\"", i, n as f32 / total.max(1) as f32))
-                .collect();
-            let best_move_uci = engine.best_move().map(|mv| mv.to_uci()).unwrap_or_default();
-            let result_fen = if let Some(mv) = engine.best_move() {
-                let new_state = engine.root_state().apply_move(mv);
-                new_state.to_fen()
-            } else {
-                engine.root_state().to_fen()
-            };
-
             let par = engine.par_ctrl.telemetry.snapshot();
-            format!(
-                concat!(
-                    "{{\"result\":{{",
-                    "\"best_move\":{},\"policy\":[{}],",
-                    "\"p_flip\":{:.4},\"value\":{:.4},",
-                    "\"sigma_q\":{:.4},\"hbar_eff\":{:.4},",
-                    "\"stop_reason\":\"{}\",\"iterations\":{},",
-                    "\"dup_rate\":{:.4},\"max_pending\":{},\"avg_vvalue\":{:.4},",
-                    "\"best_move_uci\":\"{}\",",
-                    "\"result_fen\":\"{}\"",
-                    "}}}}"
-                ),
-                best,
-                pol.join(","),
-                f_or(p_flip, 0.0),
-                f_or(value, 0.0),
-                f_or(sigma_q, 0.0),
-                f_or(hbar_eff, 0.0),
-                stop_reason,
-                iterations.max(total),
-                par.dup_rate,
-                par.max_pending,
-                par.avg_vvalue,
-                best_move_uci,
-                result_fen
-            )
+            let (best, policy, total) = collect_sparse_policy(&engine, CHESS_POLICY_ACTIONS);
+            let mut result = serde_json::json!({
+                "best_move": best,
+                "policy": policy,
+                    "p_flip": f_or(p_flip, 0.0),
+                    "value": f_or(value, 0.0),
+                    "sigma_q": f_or(sigma_q, 0.0),
+                    "hbar_eff": f_or(hbar_eff, 0.0),
+                    "stop_reason": stop_reason,
+                    "iterations": iterations.max(total),
+                    "dup_rate": par.dup_rate,
+                    "max_pending": par.max_pending,
+                    "avg_vvalue": par.avg_vvalue,
+            });
+            enrich_chess_result(engine.root_state(), &mut result);
+            serde_json::json!({ "result": result }).to_string()
         }
         _ => format!("{{\"error\":\"search_nn not yet supported for {}\"}}", game),
     }
@@ -2802,7 +3066,7 @@ fn handle_search_nn_multi(line: &str) -> String {
                     check_interval: 20,
                     ..Default::default()
                 }),
-                overrides,
+                &overrides,
             ), search_profile);
             run_multi_generic!(Gomoku, states, cfg, 49)
         }
@@ -2828,7 +3092,7 @@ fn handle_search_nn_multi(line: &str) -> String {
                 };
                 states.push((idx, state, model_tag));
             }
-            let cfg = apply_search_profile(apply_search_overrides(gomoku15_quartz(variant), overrides), search_profile);
+            let cfg = apply_search_profile(apply_search_overrides(gomoku15_quartz(variant), &overrides), search_profile);
             run_multi_generic!(Gomoku15, states, cfg, 225)
         }
         _ if parse_go_game(game).is_some() => {
@@ -2870,7 +3134,7 @@ fn handle_search_nn_multi(line: &str) -> String {
                 };
                 states.push((idx, state, model_tag));
             }
-            let cfg = apply_search_profile(apply_search_overrides(go_quartz(size), overrides), search_profile);
+            let cfg = apply_search_profile(apply_search_overrides(go_quartz(size), &overrides), search_profile);
             run_multi_generic!(Go, states, cfg, n_actions)
         }
         "tictactoe" => {
@@ -2895,7 +3159,7 @@ fn handle_search_nn_multi(line: &str) -> String {
             }
             let cfg = apply_search_profile(apply_search_overrides(
                 MctsConfig::evaluation(1.4).with_quartz(QuartzConfig::default()),
-                overrides,
+                &overrides,
             ), search_profile);
             run_multi_generic!(TicTacToe, states, cfg, 9)
         }
@@ -2909,7 +3173,7 @@ fn handle_search_nn_multi(line: &str) -> String {
                 jobs.len() > 1 || dual_model,
                 dual_model,
             );
-            let base_cfg = apply_search_profile(apply_search_overrides(chess_quartz(), overrides), search_profile);
+            let base_cfg = apply_search_profile(apply_search_overrides(chess_quartz(), &overrides), search_profile);
             let qcfg = base_cfg.quartz.clone().unwrap_or_default();
             let results = std::thread::scope(|scope| {
                 let mut handles = Vec::with_capacity(jobs.len());
@@ -2924,9 +3188,12 @@ fn handle_search_nn_multi(line: &str) -> String {
                     let qcfg = qcfg.clone();
                     handles.push(scope.spawn(move || {
                         let state = if let Some(fen) = job.get("fen").and_then(|v| v.as_str()) {
-                            Chess::from_fen(fen).unwrap_or_else(|_| chess_state_from_request(line, game == "chess960"))
+                            let mut parsed = Chess::from_fen(fen)
+                                .unwrap_or_else(|_| chess_state_from_request(line, game == "chess960"));
+                            apply_chess_history_from_json(&mut parsed, &job);
+                            parsed
                         } else {
-                            chess_state_from_request(line, game == "chess960")
+                            chess_state_from_json(&job, game == "chess960")
                         };
                         let engine = MctsEngine::new(state, eval, cfg);
                         let (iterations, stop_reason, p_flip, value, sigma_q, hbar_eff) = match search_profile {
@@ -2963,32 +3230,10 @@ fn handle_search_nn_multi(line: &str) -> String {
                                 )
                             }
                         };
-                        let best: usize = engine.best_move().map(chess_policy_index).unwrap_or(0);
-                        let guard = engine.root.edges.read().unwrap();
-                        let mut visits = vec![0u32; CHESS_POLICY_ACTIONS];
-                        for e in guard.iter() {
-                            let i = chess_policy_index(e.mv);
-                            if i < CHESS_POLICY_ACTIONS {
-                                visits[i] = visits[i].saturating_add(e.n.load(Ordering::Relaxed));
-                            }
-                        }
-                        drop(guard);
-                        let total: u32 = visits.iter().sum();
-                        let pol: Vec<String> = visits
-                            .iter()
-                            .enumerate()
-                            .filter(|(_, &n)| n > 0)
-                            .map(|(i, &n)| format!("{}:{:.4}", i, n as f32 / total.max(1) as f32))
-                            .collect();
-                        let best_move_uci = engine.best_move().map(|mv| mv.to_uci()).unwrap_or_default();
-                        let result_fen = if let Some(mv) = engine.best_move() {
-                            engine.root_state().apply_move(mv).to_fen()
-                        } else {
-                            engine.root_state().to_fen()
-                        };
-                        serde_json::json!({
+                        let (best, policy, total) = collect_sparse_policy(&engine, CHESS_POLICY_ACTIONS);
+                        let mut result = serde_json::json!({
                             "best_move": best,
-                            "policy": pol,
+                            "policy": policy,
                             "p_flip": f_or(p_flip, 0.0),
                             "value": f_or(value, 0.0),
                             "sigma_q": f_or(sigma_q, 0.0),
@@ -2998,9 +3243,9 @@ fn handle_search_nn_multi(line: &str) -> String {
                             "dup_rate": engine.par_ctrl.telemetry.snapshot().dup_rate,
                             "max_pending": engine.par_ctrl.telemetry.snapshot().max_pending,
                             "avg_vvalue": engine.par_ctrl.telemetry.snapshot().avg_vvalue,
-                            "best_move_uci": best_move_uci,
-                            "result_fen": result_fen,
-                        })
+                        });
+                        enrich_chess_result(engine.root_state(), &mut result);
+                        result
                     }));
                 }
                 handles
@@ -3070,7 +3315,7 @@ fn handle_search_nn_multi_session_open(line: &str) -> String {
                     check_interval: 20,
                     ..Default::default()
                 }),
-                overrides,
+                &overrides,
             ), search_profile);
             let qcfg = cfg.quartz.clone();
             SearchSessionAny::Gomoku(SearchSession {
@@ -3086,7 +3331,7 @@ fn handle_search_nn_multi_session_open(line: &str) -> String {
         }
         _ if parse_gomoku15_variant(game).is_some() => {
             let variant = parse_gomoku15_variant(game).unwrap();
-            let cfg = apply_search_profile(apply_search_overrides(gomoku15_quartz(variant), overrides), search_profile);
+            let cfg = apply_search_profile(apply_search_overrides(gomoku15_quartz(variant), &overrides), search_profile);
             let qcfg = cfg.quartz.clone();
             SearchSessionAny::Gomoku15(Gomoku15Session {
                 inner: SearchSession {
@@ -3112,7 +3357,7 @@ fn handle_search_nn_multi_session_open(line: &str) -> String {
             let komi = parse_go_komi(line, 7.5);
             let allow_suicide = parse_go_allow_suicide(line, false);
             let n_actions = size * size + 1;
-            let cfg = apply_search_profile(apply_search_overrides(go_quartz(size), overrides), search_profile);
+            let cfg = apply_search_profile(apply_search_overrides(go_quartz(size), &overrides), search_profile);
             let qcfg = cfg.quartz.clone();
             SearchSessionAny::Go(GoSession {
                 inner: SearchSession {
@@ -3147,7 +3392,7 @@ fn handle_search_nn_multi_session_open(line: &str) -> String {
         game if is_chess_game_name(game) => {
             let default_960 = game == "chess960";
             let cfg = apply_search_profile(
-                apply_search_overrides(chess_quartz(), overrides),
+                apply_search_overrides(chess_quartz(), &overrides),
                 search_profile,
             );
             let qcfg = cfg.quartz.clone();
@@ -3177,7 +3422,7 @@ fn handle_search_nn_multi_session_open(line: &str) -> String {
         "tictactoe" => {
             let cfg = apply_search_profile(apply_search_overrides(
                 MctsConfig::evaluation(1.4).with_quartz(QuartzConfig::default()),
-                overrides,
+                &overrides,
             ), search_profile);
             let qcfg = cfg.quartz.clone();
             SearchSessionAny::TicTacToe(SearchSession {
@@ -3232,14 +3477,19 @@ fn handle_search_nn_multi_session_step(line: &str) -> String {
         .and_then(|v| v.as_array())
         .cloned()
         .unwrap_or_default();
-    let mut sessions = search_sessions().lock().unwrap();
-    let Some(session) = sessions.get_mut(&session_id) else {
-        return "{\"error\":\"unknown session_id\"}".to_string();
+    let mut session = {
+        let mut sessions = search_sessions().lock().unwrap();
+        let Some(session) = sessions.remove(&session_id) else {
+            return "{\"error\":\"unknown session_id\"}".to_string();
+        };
+        session
     };
     if let Err(err) = session.apply_updates(&updates) {
+        search_sessions().lock().unwrap().insert(session_id, session);
         return serde_json::json!({ "error": err }).to_string();
     }
     let results = session.search();
+    search_sessions().lock().unwrap().insert(session_id, session);
     serde_json::json!({ "session_id": session_id, "results": results }).to_string()
 }
 
@@ -3528,13 +3778,13 @@ fn handle_eval_nn_run(line: &str) -> String {
             |job| parse_gomoku7_job(job), "gomoku7",
             apply_search_overrides(
                 MctsConfig::evaluation(2.0).with_quartz(QuartzConfig { min_visits: 15, check_interval: 20, ..Default::default() }),
-                overrides)
+                &overrides)
         ),
         g if parse_gomoku15_variant(g).is_some() => {
             let variant = parse_gomoku15_variant(g).unwrap();
             dispatch_eval!(
                 move |job| parse_gomoku15_job(job, variant), g,
-                apply_search_overrides(gomoku15_quartz(variant), overrides)
+                apply_search_overrides(gomoku15_quartz(variant), &overrides)
             )
         }
         g if parse_go_game(g).is_some() => {
@@ -3545,20 +3795,20 @@ fn handle_eval_nn_run(line: &str) -> String {
             let allow_suicide = parse_go_allow_suicide(line, false);
             dispatch_eval!(
                 move |job| parse_go_job(job, size, ruleset, scoring, komi, allow_suicide), g,
-                apply_search_overrides(go_quartz(size), overrides)
+                apply_search_overrides(go_quartz(size), &overrides)
             )
         }
         "tictactoe" => dispatch_eval!(
             |job| parse_tictactoe_job(job), "tictactoe",
             apply_search_overrides(
                 MctsConfig::evaluation(1.4).with_quartz(QuartzConfig::default()),
-                overrides)
+                &overrides)
         ),
         g if is_chess_game_name(g) => {
             let default_960 = g == "chess960";
             dispatch_eval!(
                 move |job| parse_chess_job(job, default_960), g,
-                apply_search_overrides(chess_quartz(), overrides)
+                apply_search_overrides(chess_quartz(), &overrides)
             )
         }
         _ => serde_json::json!({
@@ -3630,6 +3880,17 @@ where
     );
 
     while games_done < num_games {
+        // Check cancel flag at wave boundary (cooperative cancellation from Python)
+        if let Some(ring) = global_ring_buffer() {
+            if ring.cancel_requested() {
+                rust_server_trace("selfplay_runner_cancelled", serde_json::json!({
+                    "completed_games": games_done,
+                    "duration_ms": started.elapsed().as_secs_f64() * 1000.0,
+                }));
+                break;  // exit wave loop → emit normal selfplay_done below
+            }
+        }
+
         let active = sessions
             .iter()
             .enumerate()
@@ -3671,15 +3932,9 @@ where
             if result.is_null() {
                 wave_nulls += 1;
             }
-            let policy_entries = result
-                .get("policy")
-                .and_then(|v| v.as_array())
-                .map(|arr| {
-                    arr.iter()
-                        .filter_map(|v| v.as_str().map(|s| s.to_string()))
-                        .collect::<Vec<_>>()
-                })
-                .unwrap_or_default();
+            let policy_entries = parse_sparse_policy_value(
+                result.get("policy").unwrap_or(&serde_json::Value::Null)
+            );
             if policy_entries.is_empty() {
                 sess.finished = true;
                 sess.winner = terminal_black_score(&sess.state).unwrap_or(0.0);
@@ -3828,7 +4083,7 @@ fn handle_selfplay_nn_run_gomoku(
                 check_interval: 20,
                 ..Default::default()
             }),
-            overrides,
+            &overrides,
         ),
         search_profile,
     );
@@ -3897,13 +4152,13 @@ fn handle_selfplay_nn_run(line: &str) -> String {
             Gomoku::new_with_win(7, 4), "gomoku7",
             apply_search_overrides(
                 MctsConfig::evaluation(2.0).with_quartz(QuartzConfig { min_visits: 15, check_interval: 20, ..Default::default() }),
-                overrides)
+                &overrides)
         ),
         g if parse_gomoku15_variant(g).is_some() => {
             let variant = parse_gomoku15_variant(g).unwrap();
             dispatch_selfplay!(
                 Gomoku15::new(variant), g,
-                apply_search_overrides(gomoku15_quartz(variant), overrides)
+                apply_search_overrides(gomoku15_quartz(variant), &overrides)
             )
         }
         g if parse_go_game(g).is_some() => {
@@ -3914,18 +4169,18 @@ fn handle_selfplay_nn_run(line: &str) -> String {
             let allow_suicide = parse_go_allow_suicide(line, false);
             dispatch_selfplay!(
                 Go::new_with_options(size, komi, ruleset, scoring, allow_suicide), g,
-                apply_search_overrides(go_quartz(size), overrides)
+                apply_search_overrides(go_quartz(size), &overrides)
             )
         }
         "tictactoe" => dispatch_selfplay!(
             TicTacToe::initial(), "tictactoe",
             apply_search_overrides(
                 MctsConfig::evaluation(1.4).with_quartz(QuartzConfig::default()),
-                overrides)
+                &overrides)
         ),
         g if is_chess_game_name(g) => dispatch_selfplay!(
             chess_state_from_request(line, g == "chess960"), g,
-            apply_search_overrides(chess_quartz(), overrides)
+            apply_search_overrides(chess_quartz(), &overrides)
         ),
         _ => serde_json::json!({
             "error": format!("selfplay_nn_run not supported for {}", game)
@@ -3985,9 +4240,68 @@ mod tests {
     }
 
     #[test]
+    fn test_parse_sparse_policy_value_accepts_legacy_and_numeric_pairs() {
+        let policy = parse_sparse_policy_value(&serde_json::json!([
+            "1:0.25",
+            [3, 0.75],
+            {"bad": true},
+        ]));
+
+        assert_eq!(policy, vec![(1, 0.25), (3, 0.75)]);
+    }
+
+    #[test]
+    fn test_parse_chess_job_preserves_history_hashes_for_exact_tt() {
+        let state = Chess::standard()
+            .apply_move(
+                Chess::standard()
+                    .legal_moves()
+                    .into_iter()
+                    .find(|mv| mv.to_uci() == "g1f3")
+                    .unwrap(),
+            )
+            .apply_move(
+                Chess::from_fen("rnbqkbnr/pppppppp/8/8/8/5N2/PPPPPPPP/RNBQKB1R b KQkq - 1 1")
+                    .unwrap()
+                    .legal_moves()
+                    .into_iter()
+                    .find(|mv| mv.to_uci() == "g8f6")
+                    .unwrap(),
+            );
+        let parsed = parse_chess_job(
+            &serde_json::json!({
+                "fen": state.to_fen(),
+                "chess_history_hashes": state.history_hashes(),
+            }),
+            false,
+        );
+
+        assert_eq!(parsed.tt_hash(), state.tt_hash());
+    }
+
+    #[test]
+    fn test_encode_search_response_payload_supports_single_result_wrapper() {
+        let payload = encode_search_response_payload(&serde_json::json!({
+            "result": {
+                "best_move": 17,
+                "policy": [[3, 0.6], [5, 0.4]],
+                "iterations": 321,
+                "result_history_hashes": [101, 202],
+                "best_move_uci": "e2e4",
+                "result_fen": "rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR b KQkq e3 0 1",
+            }
+        }))
+        .unwrap();
+
+        assert_eq!(payload[0], SEARCH_RESP_SINGLE);
+        assert!(!payload.is_empty());
+    }
+
+    #[test]
     fn test_chess_session_updates_apply_action_and_deactivate() {
         let state = Chess::standard();
         let action = chess_policy_index(
+            &state,
             state
                 .legal_moves()
                 .into_iter()

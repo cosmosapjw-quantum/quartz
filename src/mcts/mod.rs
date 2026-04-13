@@ -69,6 +69,7 @@ pub struct MctsConfig {
     pub temperature: f32,
     pub max_depth: usize,
     pub max_tt_size: Option<usize>,
+    pub tt_enabled: bool,
     /// QUARTZ EFT-PUCT + 적응적 정지
     pub quartz: Option<QuartzConfig>,
     /// GVOC 동적 PW 스케줄러 (None = 비활성)
@@ -94,6 +95,7 @@ impl Default for MctsConfig {
             temperature: 0.0,
             max_depth: 0,
             max_tt_size: None,
+            tt_enabled: true,
             quartz: None,
             gvoc: None,
             seed: None,
@@ -164,6 +166,11 @@ impl MctsConfig {
         self.fpu_reduction = fpu_reduction.max(0.0);
         self
     }
+
+    pub fn with_tt_enabled(mut self, tt_enabled: bool) -> Self {
+        self.tt_enabled = tt_enabled;
+        self
+    }
 }
 
 // ─────────────────────────────────────────────
@@ -213,8 +220,8 @@ impl<G: GameState> MctsEngine<G> {
         evaluator: Arc<dyn Evaluator<G> + Send + Sync>,
         config: MctsConfig,
     ) -> Self {
-        let tt = Arc::new(TranspositionTable::new());
-        let hash = root_state.hash();
+        let tt = Arc::new(TranspositionTable::new_enabled(config.tt_enabled));
+        let hash = root_state.tt_hash();
         let tv = if root_state.is_terminal() {
             Some(root_state.outcome())
         } else {
@@ -1018,6 +1025,69 @@ mod tests {
     use std::sync::Arc;
     use std::time::Instant;
 
+    #[derive(Clone, Debug)]
+    struct TtHashDummy {
+        phase: u8,
+        raw_hash: u64,
+        exact_hash: u64,
+    }
+
+    impl GameState for TtHashDummy {
+        type Move = u8;
+
+        fn initial() -> Self {
+            Self {
+                phase: 0,
+                raw_hash: 1,
+                exact_hash: 11,
+            }
+        }
+
+        fn current_player(&self) -> i8 {
+            1
+        }
+
+        fn legal_moves(&self) -> Vec<Self::Move> {
+            if self.phase == 0 { vec![0, 1] } else { vec![] }
+        }
+
+        fn apply_move(&self, mv: Self::Move) -> Self {
+            match mv {
+                0 => Self { phase: 1, raw_hash: 101, exact_hash: 999 },
+                1 => Self { phase: 1, raw_hash: 202, exact_hash: 999 },
+                _ => unreachable!(),
+            }
+        }
+
+        fn is_terminal(&self) -> bool {
+            self.phase == 1
+        }
+
+        fn outcome(&self) -> f32 {
+            0.0
+        }
+
+        fn hash(&self) -> u64 {
+            self.raw_hash
+        }
+
+        fn tt_hash(&self) -> u64 {
+            self.exact_hash
+        }
+
+        fn num_actions(&self) -> usize {
+            2
+        }
+
+        fn move_to_idx(&self, mv: Self::Move) -> usize {
+            mv as usize
+        }
+
+        fn idx_to_move(&self, idx: usize) -> Option<Self::Move> {
+            if idx < 2 { Some(idx as u8) } else { None }
+        }
+    }
+
     fn run_reference_fixed<G: GameState>(engine: &MctsEngine<G>, limit: u32) -> SearchStats {
         engine.par_ctrl.reset_for_search();
         let start = Instant::now();
@@ -1059,6 +1129,16 @@ mod tests {
             root_visits: rv,
             stop_reason: StopReason::BudgetExhausted { iterations: limit },
         }
+    }
+
+    #[test]
+    fn tt_uses_exact_tt_hash_for_child_transpositions() {
+        let eval: Arc<dyn Evaluator<TtHashDummy>> = Arc::new(UniformEval);
+        let engine = MctsEngine::new(TtHashDummy::initial(), eval, MctsConfig::evaluation(1.0));
+        let guard = engine.root.edges.read().unwrap();
+
+        assert_eq!(guard.len(), 2);
+        assert!(Arc::ptr_eq(&guard[0].child, &guard[1].child));
     }
 
     fn gomoku7_engine(iters: u32) -> (MctsEngine<Gomoku>, QuartzController) {

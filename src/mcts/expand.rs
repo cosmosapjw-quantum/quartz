@@ -121,7 +121,7 @@ pub fn materialize_edges<G: GameState>(
         for i in current..actual {
             let (mv, prior) = candidates[i];
             let child_state = state.apply_move(mv);
-            let child_hash = child_state.hash();
+            let child_hash = child_state.tt_hash();
             let tv = if child_state.is_terminal() {
                 Some(child_state.outcome())
             } else {

@@ -122,6 +122,27 @@ pub fn eft_puct_score(
     base + bonus + penalty
 }
 
+#[inline]
+fn blended_prior(base_prior: f32, alt_prior: f32, rho: f32) -> f32 {
+    let rho = rho.clamp(0.0, 1.0);
+    if rho <= 1e-6 {
+        return base_prior.max(1e-8);
+    }
+    let log_p0 = base_prior.max(1e-8).ln();
+    let log_p1 = alt_prior.max(1e-8).ln();
+    ((1.0 - rho) * log_p0 + rho * log_p1).exp().max(1e-8)
+}
+
+#[inline]
+fn root_share_penalty(n_raw: u32, sqrt_n_parent_eff: f32, hbar_eff: f32, cap: f32) -> f32 {
+    if n_raw == 0 {
+        return 0.0;
+    }
+    let n_parent_eff = (sqrt_n_parent_eff * sqrt_n_parent_eff).max(1.0);
+    let h_cap = hbar_eff.min(cap);
+    -(h_cap * n_raw as f32 / n_parent_eff)
+}
+
 /// PR-1B: Ablation-aware PUCT — respects penalty_mode and prior refresh settings.
 /// SelfAdaptive mode: state-derived with fixed constants. All inputs from search observables.
 #[inline]
@@ -208,19 +229,51 @@ fn ablation_puct_score_with_parent_sqrt(
     }
 
     // ═══════════════════════════════════════════
-    // GatedRefresh v3: ExtQRef formula + P_flip gate
-    // maturity gate 제거, fixed τ=0.5 (τ_auto의 σ_Q 피드백 회피)
+    // Canonical GatedRefresh
+    // Root-only visit-share penalty + divergence-gated visit refresh.
+    //
+    // - penalty(a) = -min(ħ_eff, cap) * N_a / N_parent
+    // - gate opens when prior_q_divergence exceeds ε_t
+    // - refresh blends original prior with visit share at the root
     // ═══════════════════════════════════════════
     if qcfg.penalty_mode == PenaltyMode::GatedRefresh {
-        // ── Penalty: EffV2 ──
+        let penalty = root_share_penalty(n_raw, sqrt_n_parent_eff, stats.hbar_eff, qcfg.hbar_penalty_cap);
+
+        let effective_prior = if n_raw > 0 && stats.root_visits > 0 {
+            let gate_threshold = stats.epsilon_t.max(1e-6);
+            let divergence = stats.prior_q_divergence.max(0.0);
+            if divergence > gate_threshold {
+                let rho_t = ((divergence - gate_threshold) / divergence.max(gate_threshold)).clamp(0.0, 1.0);
+                let visit_share = (n_raw as f32 / stats.root_visits as f32).max(1e-8);
+                blended_prior(prior, visit_share, rho_t)
+            } else {
+                prior
+            }
+        } else {
+            prior
+        };
+
+        let p = (effective_prior + noise_adj).max(0.0);
+        let base = if qcfg.enable_fisher_puct {
+            let p_fish = fisher_prior_weight(p);
+            q_eff + c_puct * p_fish * sqrt_n_parent_eff / (1.0 + n_eff as f32)
+        } else {
+            q_eff + c_puct * p * sqrt_n_parent_eff / (1.0 + n_eff as f32)
+        };
+        return base + penalty;
+    }
+
+    // ═══════════════════════════════════════════
+    // Historical GatedRefresh heuristic kept for direct ablation
+    // against the canonical doc-aligned controller.
+    // ═══════════════════════════════════════════
+    if qcfg.penalty_mode == PenaltyMode::GatedRefreshLegacy {
         let penalty = crate::mcts::quartz::effective_penalty_v2(n_raw, o_a, qcfg.hbar_penalty_cap);
 
-        // ── P_flip-reversed gate ──
         let flip_thresh = 0.159_f32;
         let rho_max = 0.3_f32;
         let rho_t = rho_max * (stats.p_flip / flip_thresh).min(1.0);
 
-        // ── Q-based refresh — fixed τ, same as ExtQRef ──
         let tau = 0.5_f32;
         let effective_prior = if n_raw > 0 && rho_t > 1e-4 {
             let log_p0 = prior.max(1e-8).ln();
@@ -353,6 +406,7 @@ fn ablation_puct_score_with_parent_sqrt(
         PenaltyMode::None => 0.0,
         PenaltyMode::SelfAdaptive => unreachable!(), // handled above
         PenaltyMode::GatedRefresh => unreachable!(), // handled above
+        PenaltyMode::GatedRefreshLegacy => unreachable!(), // handled above
         PenaltyMode::PFlipMixture => unreachable!(), // handled above
     };
 
@@ -467,9 +521,8 @@ fn score_snapshot(
             };
             base + b1
         }
-        Some((stats, qcfg)) if depth <= 3 => {
-            // Depth-decayed QUARTZ scoring at shallow non-root depths
-            // Penalty weight decays as 1/(1+depth), so depth=1 → 0.5, depth=2 → 0.33, etc.
+        Some((stats, qcfg)) if !qcfg.root_only_shaping && depth <= 3 => {
+            // Historical shallow-tree blend preserved only for controller ablations.
             let depth_weight = 1.0 / (1.0 + depth as f32);
             let base_puct = puct_score_with_parent_sqrt(
                 snapshot.n_eff,
@@ -491,7 +544,6 @@ fn score_snapshot(
                 stats,
                 qcfg,
             );
-            // Blend: weighted mix of full QUARTZ and plain PUCT
             let blended = depth_weight * full_quartz + (1.0 - depth_weight) * base_puct;
             let b1 = if stats.lambda_1loop > 1e-6 {
                 crate::mcts::quartz::paper_b1loop_bonus(
@@ -605,7 +657,7 @@ pub fn select<G: GameState>(
         let parent_visits = n_total;
         let sqrt_n_parent_eff = (n_parent_eff as f32).sqrt();
         let need_sigma =
-            matches!(quartz, Some((stats, _)) if depth <= 3 && stats.lambda_1loop > 1e-6);
+            matches!(quartz, Some((stats, qcfg)) if (depth == 0 || (!qcfg.root_only_shaping && depth <= 3)) && stats.lambda_1loop > 1e-6);
         let mut best_idx = 0usize;
         let mut best_score = f32::NEG_INFINITY;
         let mut best_has_pending = false;
@@ -881,6 +933,193 @@ mod tests {
             Some((&stats, &qcfg)),
         );
         assert_eq!(best_idx, expected);
+    }
+
+    #[test]
+    fn test_quartz_scoring_is_root_only() {
+        let snapshot = EdgeScoreSnapshot {
+            n_raw: 6,
+            o_a: 0,
+            n_eff: 6,
+            q_eff: 0.22,
+            terminal_q: None,
+            prior: 0.45,
+            noise_adj: 0.0,
+            edge_sigma: Some(0.08),
+        };
+        let stats = QuartzStats {
+            lambda_1loop: 0.11,
+            sigma_q: 0.18,
+            hbar_eff: 0.6,
+            p_flip: 0.03,
+            prior_q_divergence: 0.8,
+            epsilon_t: 0.1,
+            root_visits: 24,
+            n_visible: 4,
+            ..Default::default()
+        };
+        let qcfg = QuartzConfig {
+            penalty_mode: PenaltyMode::GatedRefresh,
+            ..Default::default()
+        };
+
+        let quartz_nonroot = score_snapshot(snapshot, 1, 0.20, 24, 5.0, 2.0, 0.0, Some((&stats, &qcfg)));
+        let plain_nonroot = puct_score_with_parent_sqrt(
+            snapshot.n_eff,
+            snapshot.q_eff,
+            snapshot.prior,
+            snapshot.noise_adj,
+            5.0,
+            2.0,
+        );
+        assert!((quartz_nonroot - plain_nonroot).abs() < 1e-6);
+    }
+
+    #[test]
+    fn test_gated_refresh_ignores_pflip_when_other_state_matches() {
+        let snapshot = EdgeScoreSnapshot {
+            n_raw: 4,
+            o_a: 0,
+            n_eff: 4,
+            q_eff: 0.10,
+            terminal_q: None,
+            prior: 0.70,
+            noise_adj: 0.0,
+            edge_sigma: None,
+        };
+        let qcfg = QuartzConfig {
+            penalty_mode: PenaltyMode::GatedRefresh,
+            hbar_penalty_cap: 0.3,
+            ..Default::default()
+        };
+        let stats_a = QuartzStats {
+            hbar_eff: 0.8,
+            p_flip: 0.01,
+            prior_q_divergence: 0.6,
+            epsilon_t: 0.1,
+            root_visits: 20,
+            n_visible: 5,
+            ..Default::default()
+        };
+        let stats_b = QuartzStats {
+            p_flip: 0.95,
+            ..stats_a.clone()
+        };
+
+        let score_a = score_snapshot(snapshot, 0, 0.0, 20, 5.0, 2.0, 0.0, Some((&stats_a, &qcfg)));
+        let score_b = score_snapshot(snapshot, 0, 0.0, 20, 5.0, 2.0, 0.0, Some((&stats_b, &qcfg)));
+        assert!((score_a - score_b).abs() < 1e-6);
+    }
+
+    #[test]
+    fn test_gated_refresh_opens_on_prior_divergence() {
+        let snapshot = EdgeScoreSnapshot {
+            n_raw: 4,
+            o_a: 0,
+            n_eff: 4,
+            q_eff: 0.10,
+            terminal_q: None,
+            prior: 0.70,
+            noise_adj: 0.0,
+            edge_sigma: None,
+        };
+        let qcfg = QuartzConfig {
+            penalty_mode: PenaltyMode::GatedRefresh,
+            hbar_penalty_cap: 0.3,
+            ..Default::default()
+        };
+        let gate_off = QuartzStats {
+            hbar_eff: 0.8,
+            prior_q_divergence: 0.05,
+            epsilon_t: 0.10,
+            root_visits: 20,
+            n_visible: 5,
+            ..Default::default()
+        };
+        let gate_on = QuartzStats {
+            prior_q_divergence: 0.60,
+            ..gate_off.clone()
+        };
+
+        let score_off = score_snapshot(snapshot, 0, 0.0, 20, 5.0, 2.0, 0.0, Some((&gate_off, &qcfg)));
+        let score_on = score_snapshot(snapshot, 0, 0.0, 20, 5.0, 2.0, 0.0, Some((&gate_on, &qcfg)));
+        assert!(score_on < score_off, "visit-share refresh should pull a 0.70 prior toward the 0.20 visit share");
+    }
+
+    #[test]
+    fn test_legacy_gated_refresh_depends_on_pflip() {
+        let snapshot = EdgeScoreSnapshot {
+            n_raw: 4,
+            o_a: 0,
+            n_eff: 4,
+            q_eff: 0.10,
+            terminal_q: None,
+            prior: 0.20,
+            noise_adj: 0.0,
+            edge_sigma: None,
+        };
+        let qcfg = QuartzConfig {
+            penalty_mode: PenaltyMode::GatedRefreshLegacy,
+            hbar_penalty_cap: 0.3,
+            ..Default::default()
+        };
+        let stats_low = QuartzStats {
+            p_flip: 0.01,
+            prior_q_divergence: 0.9,
+            epsilon_t: 0.1,
+            root_visits: 20,
+            n_visible: 5,
+            ..Default::default()
+        };
+        let stats_high = QuartzStats {
+            p_flip: 0.15,
+            ..stats_low.clone()
+        };
+
+        let score_low = score_snapshot(snapshot, 0, 0.0, 20, 5.0, 2.0, 0.0, Some((&stats_low, &qcfg)));
+        let score_high = score_snapshot(snapshot, 0, 0.0, 20, 5.0, 2.0, 0.0, Some((&stats_high, &qcfg)));
+        assert!(score_high > score_low);
+    }
+
+    #[test]
+    fn test_legacy_profile_can_shape_shallow_nonroot_nodes() {
+        let snapshot = EdgeScoreSnapshot {
+            n_raw: 6,
+            o_a: 0,
+            n_eff: 6,
+            q_eff: 0.22,
+            terminal_q: None,
+            prior: 0.45,
+            noise_adj: 0.0,
+            edge_sigma: Some(0.08),
+        };
+        let stats = QuartzStats {
+            lambda_1loop: 0.11,
+            sigma_q: 0.18,
+            hbar_eff: 0.6,
+            p_flip: 0.10,
+            prior_q_divergence: 0.8,
+            epsilon_t: 0.1,
+            root_visits: 24,
+            n_visible: 4,
+            ..Default::default()
+        };
+        let qcfg = QuartzConfig {
+            penalty_mode: PenaltyMode::GatedRefreshLegacy,
+            root_only_shaping: false,
+            ..Default::default()
+        };
+
+        let shallow_score = score_snapshot(snapshot, 1, 0.20, 24, 5.0, 2.0, 0.0, Some((&stats, &qcfg)));
+        let plain_nonroot = puct_score_with_parent_sqrt(
+            snapshot.n_eff,
+            snapshot.q_eff,
+            snapshot.prior,
+            snapshot.noise_adj,
+            5.0,
+            2.0,
+        );
+        assert!((shallow_score - plain_nonroot).abs() > 1e-5);
     }
 
     #[test]

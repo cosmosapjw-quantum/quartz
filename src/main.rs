@@ -6384,4 +6384,5 @@ mod experiment_chess;
 mod experiment_go;
 #[allow(dead_code, unused_imports, unused_variables)]
 mod experiment_gomoku15;
+mod gomocup_bundle;
 mod gomocup_brain;

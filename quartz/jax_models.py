@@ -97,7 +97,7 @@ if HAS_JAX:
         return AlphaZeroJAX(15, 3, 225, 128, 8, 256, 2)
 
     def make_chess_jax():
-        return AlphaZeroJAX(8, 119, 4096, 128, 10, 256, 2)
+        return AlphaZeroJAX(8, 36, 4672, 128, 10, 256, 2)
 
     def make_go9_jax():
         return AlphaZeroJAX(9, 17, 82, 128, 10, 256, 2)

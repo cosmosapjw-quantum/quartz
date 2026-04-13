@@ -17,7 +17,7 @@ use rand::SeedableRng;
 use std::fmt;
 use std::hash::Hash;
 
-use crate::game::GameState;
+use crate::game::{tt_combine, tt_mix64, GameState};
 
 // ═══════════════════════════════════════════════════════
 // § Constants
@@ -25,6 +25,8 @@ use crate::game::GameState;
 
 const MAX_SZ: usize = 19;
 const MAX_N2: usize = MAX_SZ * MAX_SZ; // 361
+const GO_HISTORY_DIGEST_SEED: u64 = 0x4d31_aa72_61c5_f09b;
+const GO_TT_HASH_SEED: u64 = 0x85b8_bf34_6f2d_91c3;
 
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub enum GoScoring {
@@ -81,6 +83,9 @@ thread_local! {
 // § Go state
 // ═══════════════════════════════════════════════════════
 
+/// History depth for AlphaZero-style encoding (T=8 timesteps including current).
+const GO_HISTORY_LEN: usize = 8;
+
 #[derive(Clone)]
 pub struct Go {
     board: [u8; MAX_N2], // 0=empty, 1=black, 2=white
@@ -97,13 +102,26 @@ pub struct Go {
     move_count: u16,
     // Position history: board + side-to-move hash
     hash_history: Vec<u64>,
+    history_digest: u64,
     allow_suicide: bool,
     cycle_terminal: bool,
+    /// Past board snapshots for AlphaZero-style history encoding (most recent last).
+    board_history: Vec<Vec<u8>>,
 }
 
 impl Go {
     pub fn new(size: usize, komi: f32) -> Self {
         Self::new_with_options(size, komi, GoRuleset::Chinese, GoScoring::Area, false)
+    }
+
+    #[inline]
+    fn history_digest_for_hash(position_hash: u64) -> u64 {
+        tt_mix64(GO_HISTORY_DIGEST_SEED ^ tt_mix64(position_hash))
+    }
+
+    #[inline]
+    fn history_digest_insert(history_digest: u64, position_hash: u64) -> u64 {
+        history_digest ^ tt_mix64(position_hash.wrapping_add(GO_HISTORY_DIGEST_SEED))
     }
 
     pub fn new_with_rules(size: usize, komi: f32, ruleset: GoRuleset) -> Self {
@@ -132,10 +150,13 @@ impl Go {
             hash: 0,
             move_count: 0,
             hash_history: Vec::with_capacity(size * size * 2),
+            history_digest: 0,
             allow_suicide,
             cycle_terminal: false,
+            board_history: Vec::new(),
         };
         g.hash_history.push(g.hash);
+        g.history_digest = Self::history_digest_for_hash(g.hash);
         g
     }
 
@@ -203,6 +224,8 @@ impl Go {
             }
         });
         g.hash_history = vec![g.hash];
+        g.history_digest = Go::history_digest_for_hash(g.hash);
+        g.history_digest = Self::history_digest_for_hash(g.hash);
         g
     }
 
@@ -221,6 +244,9 @@ impl Go {
         let repeated = self.repeats_position_hash(next.hash);
         if matches!(self.ruleset, GoRuleset::Japanese | GoRuleset::Korean) && repeated && next.passes < 2 {
             next.cycle_terminal = true;
+        }
+        if !repeated {
+            next.history_digest = Self::history_digest_insert(self.history_digest, next.hash);
         }
         next.hash_history.push(next.hash);
     }
@@ -801,9 +827,18 @@ impl GameState for Go {
 
     fn apply_move(&self, mv: u16) -> Self {
         let n2 = self.n2() as u16;
+
+        // Save current board to history before applying move
+        let mut hist = self.board_history.clone();
+        hist.push(self.board[..self.n2()].to_vec());
+        if hist.len() > GO_HISTORY_LEN - 1 {
+            hist.drain(0..hist.len() - (GO_HISTORY_LEN - 1));
+        }
+
         if mv == n2 {
             // Pass
             let mut next = self.clone();
+            next.board_history = hist;
             next.passes += 1;
             next.ko_point = u16::MAX;
             next.side = Self::opp(self.side);
@@ -817,6 +852,7 @@ impl GameState for Go {
 
         let pos = mv as usize;
         let mut next = self.do_place(pos);
+        next.board_history = hist;
         next.passes = 0;
         next.side = Self::opp(self.side);
         GZOB.with(|z| {
@@ -860,6 +896,22 @@ impl GameState for Go {
         self.hash
     }
 
+    fn tt_hash(&self) -> u64 {
+        let mut tt = tt_combine(GO_TT_HASH_SEED, self.hash);
+        tt = tt_combine(tt, self.history_digest);
+        tt = tt_combine(tt, self.size as u64);
+        tt = tt_combine(tt, self.ko_point as u64);
+        tt = tt_combine(tt, self.passes as u64);
+        tt = tt_combine(tt, self.black_caps as u64);
+        tt = tt_combine(tt, self.white_caps as u64);
+        tt = tt_combine(tt, self.komi.to_bits() as u64);
+        tt = tt_combine(tt, self.ruleset as u64);
+        tt = tt_combine(tt, self.scoring as u64);
+        tt = tt_combine(tt, self.allow_suicide as u64);
+        tt = tt_combine(tt, self.cycle_terminal as u64);
+        tt_mix64(tt)
+    }
+
     fn num_actions(&self) -> usize {
         self.n2() + 1
     } // board + pass
@@ -876,11 +928,20 @@ impl GameState for Go {
         }
     }
 
+    /// NN 입력 feature planes (AlphaZero-style: [17, N, N])
+    ///   planes 0-1:   현재(t=0) 내 돌, 상대 돌
+    ///   planes 2-3:   t=1 (1수 전) 내 돌, 상대 돌
+    ///   ...
+    ///   planes 14-15: t=7 (7수 전) 내 돌, 상대 돌
+    ///   plane 16:     현재 플레이어 색상 (black=1, white=0)
     fn encode_planes(&self) -> Vec<f32> {
         let n2 = self.n2();
-        let mut out = vec![0.0f32; 3 * n2];
+        let total_planes = GO_HISTORY_LEN * 2 + 1; // 17
+        let mut out = vec![0.0f32; total_planes * n2];
         let my = self.side;
         let opp = Self::opp(my);
+
+        // t=0: current board
         for i in 0..n2 {
             if self.board[i] == my {
                 out[i] = 1.0;
@@ -888,11 +949,22 @@ impl GameState for Go {
                 out[n2 + i] = 1.0;
             }
         }
-        if self.side == 1 {
-            for i in 0..n2 {
-                out[2 * n2 + i] = 1.0;
+
+        // t=1..7: history (most recent = last element in board_history)
+        for (k, hist_board) in self.board_history.iter().rev().enumerate() {
+            let t = k + 1;
+            if t >= GO_HISTORY_LEN { break; }
+            let base = t * 2 * n2;
+            for (i, &v) in hist_board.iter().enumerate() {
+                if v == my { out[base + i] = 1.0; }
+                else if v == opp { out[base + n2 + i] = 1.0; }
             }
         }
+
+        // Color plane
+        let color_val = if self.side == 1 { 1.0 } else { 0.0 };
+        let color_base = (total_planes - 1) * n2;
+        for i in 0..n2 { out[color_base + i] = color_val; }
         out
     }
 
@@ -1234,6 +1306,7 @@ mod tests {
             }
         });
         g.hash_history = vec![g.hash];
+        g.history_digest = Go::history_digest_for_hash(g.hash);
 
         assert_eq!(
             g.count_liberties(11),
@@ -1274,6 +1347,7 @@ mod tests {
             }
         });
         g.hash_history = vec![g.hash];
+        g.history_digest = Go::history_digest_for_hash(g.hash);
 
         let g = g.apply_move(10); // B captures at (1,1)
         assert_eq!(g.ko_point, 11);
@@ -1303,6 +1377,7 @@ mod tests {
             }
         });
         g.hash_history = vec![g.hash];
+        g.history_digest = Go::history_digest_for_hash(g.hash);
 
         let g = g.apply_move(10); // B captures
         assert_eq!(g.ko_point, 11);
@@ -1452,6 +1527,37 @@ mod tests {
         assert_ne!(g.hash(), g2.hash());
     }
 
+    #[test]
+    fn test_tt_hash_distinguishes_pass_count_on_same_board() {
+        let g0 = Go::new_9x9();
+        let g2 = g0.apply_move(g0.pass_action()).apply_move(g0.pass_action());
+
+        assert_eq!(g0.hash(), g2.hash());
+        assert_ne!(g0.tt_hash(), g2.tt_hash());
+    }
+
+    #[test]
+    fn test_tt_hash_distinguishes_superko_history_on_same_board() {
+        let g0 = Go::new_9x9();
+        let mut g1 = g0.clone();
+        let synthetic_seen = 0x1234_5678_9abc_def0;
+        g1.hash_history.push(synthetic_seen);
+        g1.history_digest = Go::history_digest_insert(g1.history_digest, synthetic_seen);
+
+        assert_eq!(g0.hash(), g1.hash());
+        assert_ne!(g0.tt_hash(), g1.tt_hash());
+    }
+
+    #[test]
+    fn test_tt_hash_distinguishes_ko_point_on_same_board() {
+        let g0 = Go::new_9x9();
+        let mut g1 = g0.clone();
+        g1.ko_point = 10;
+
+        assert_eq!(g0.hash(), g1.hash());
+        assert_ne!(g0.tt_hash(), g1.tt_hash());
+    }
+
     // ── Send + Sync ──
 
     #[test]
@@ -1530,6 +1636,7 @@ mod tests {
             }
         });
         g.hash_history = vec![g.hash];
+        g.history_digest = Go::history_digest_for_hash(g.hash);
 
         assert_eq!(
             g.count_liberties(0),
@@ -1566,6 +1673,7 @@ mod tests {
             }
         });
         g.hash_history = vec![g.hash];
+        g.history_digest = Go::history_digest_for_hash(g.hash);
 
         // B at (0,0): neighbors (0,1)=W, (1,0)=W → 0 liberties → suicide → illegal
         assert!(!g.is_legal(0), "Suicide at corner should be illegal");
@@ -1608,6 +1716,7 @@ mod tests {
             }
         });
         g.hash_history = vec![g.hash];
+        g.history_digest = Go::history_digest_for_hash(g.hash);
 
         // W(0,0) has 1 liberty at (1,0)=9. B plays (1,0) → captures W(0,0)
         assert!(g.is_legal(9), "Capture at (1,0) should be legal");

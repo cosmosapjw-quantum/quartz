@@ -90,7 +90,7 @@ class GomokuEncoder(GameEncoder):
 
     @property
     def n_channels(self) -> int:
-        return 3
+        return 17
 
     @property
     def board_size(self) -> int:
@@ -105,8 +105,9 @@ class GomokuEncoder(GameEncoder):
         return self._win_len
 
     def encode(self, board_flat, player):
+        """17-channel encoding (t=0 only, no history). Planes 0-1: my/opp stones, plane 16: color."""
         bs = self._board_size
-        enc = np.zeros((3, bs, bs), dtype=np.float32)
+        enc = np.zeros((17, bs, bs), dtype=np.float32)
         for i in range(bs * bs):
             r, c = i // bs, i % bs
             if board_flat[i] == player:
@@ -114,7 +115,7 @@ class GomokuEncoder(GameEncoder):
             elif board_flat[i] != 0:
                 enc[1, r, c] = 1.0
         if player == 1:
-            enc[2] = 1.0
+            enc[16] = 1.0
         return enc
 
     def decode(self, enc, player):
@@ -267,6 +268,7 @@ class GoEncoder(GameEncoder):
         return len(liberties)
 
     def encode(self, board_flat, player):
+        """17-channel encoding (t=0 only, no history). Planes 0-1: my/opp stones, plane 16: color."""
         bs = self._board_size
         n2 = bs * bs
         enc = np.zeros((17, bs, bs), dtype=np.float32)
@@ -276,15 +278,10 @@ class GoEncoder(GameEncoder):
                 continue
             r, c = pos // bs, pos % bs
             color = board_flat[pos]
-            libs = self._count_liberties(board_flat, pos, color)
-            lib_idx = min(libs, 8) - 1  # 0-7
-            if lib_idx < 0:
-                lib_idx = 0
-
             if color == player:
-                enc[lib_idx, r, c] = 1.0
+                enc[0, r, c] = 1.0
             else:
-                enc[8 + lib_idx, r, c] = 1.0
+                enc[1, r, c] = 1.0
 
         if player == 1:
             enc[16] = 1.0
@@ -295,11 +292,9 @@ class GoEncoder(GameEncoder):
         board = np.zeros(bs * bs, dtype=np.int8)
         for r in range(bs):
             for c in range(bs):
-                # Current player: any of planes 0-7
-                if np.any(enc[0:8, r, c] > 0.5):
+                if enc[0, r, c] > 0.5:
                     board[r * bs + c] = player
-                # Opponent: any of planes 8-15
-                elif np.any(enc[8:16, r, c] > 0.5):
+                elif enc[1, r, c] > 0.5:
                     board[r * bs + c] = -player
         return board
 
@@ -309,21 +304,11 @@ class GoEncoder(GameEncoder):
 # ════════════════════════════════════════════
 
 class ChessEncoder(GameEncoder):
-    """16-plane encoder for Chess.
-
-    Planes 0-5:   white pieces (P,N,B,R,Q,K)
-    Planes 6-11:  black pieces (p,n,b,r,q,k)
-    Plane 12:     white kingside castling rights
-    Plane 13:     white queenside castling rights
-    Plane 14:     en passant square
-    Plane 15:     side to move (1.0 if black)
-
-    Matches Rust Chess::encode_planes() output (16 × 64 = 1024).
-    """
+    """36-plane encoder for Chess with 4672 AlphaZero-style actions."""
 
     @property
     def n_channels(self) -> int:
-        return 16
+        return 36
 
     @property
     def board_size(self) -> int:
@@ -331,39 +316,45 @@ class ChessEncoder(GameEncoder):
 
     @property
     def n_actions(self) -> int:
-        return 4096
+        return 4672
 
     def encode(self, board_flat, player):
-        # Chess encoding is done by Rust encode_planes().
-        # This Python encoder handles the simple case for TreeMCTS fallback.
-        enc = np.zeros((16, 8, 8), dtype=np.float32)
-        # board_flat for chess is the Rust-encoded 1024-element binary vector
-        # reshaped to (16, 8, 8)
-        if len(board_flat) == 1024:
-            enc = board_flat.astype(np.float32).reshape(16, 8, 8)
-        elif len(board_flat) == 64:
-            # Simple piece encoding: positive = white, negative = black
+        """36-channel chess encoding (t=0, no history).
+        0-5: my pieces, 6-11: opp pieces, 12-13: repetition,
+        14-27: history (zero), 28: color, 29: move count,
+        30-33: castling, 34: halfmove, 35: EP."""
+        enc = np.zeros((36, 8, 8), dtype=np.float32)
+        is_white = (player == 1)
+        if len(board_flat) == 64:
             for i in range(64):
                 r, c = i // 8, i % 8
-                v = board_flat[i]
-                if v > 0 and v <= 6:
-                    enc[v - 1, r, c] = 1.0
-                elif v < 0 and v >= -6:
-                    enc[5 + abs(v), r, c] = 1.0
-            if player == -1:
-                enc[15] = 1.0
+                v = int(board_flat[i])
+                if v == 0:
+                    continue
+                # Map to my/opp relative encoding
+                if v > 0:  # white piece
+                    plane = (v - 1) if is_white else (v - 1 + 6)
+                else:  # black piece
+                    plane = (abs(v) - 1 + 6) if is_white else (abs(v) - 1)
+                if 0 <= plane < 12:
+                    enc[plane, r, c] = 1.0
+        if is_white:
+            enc[28] = 1.0
         return enc
 
     def decode(self, enc, player):
         board = np.zeros(64, dtype=np.int8)
+        is_white = (player == 1)
         for r in range(8):
             for c in range(8):
                 for p in range(6):
                     if enc[p, r, c] > 0.5:
-                        board[r * 8 + c] = p + 1
+                        # "my" piece
+                        board[r * 8 + c] = (p + 1) if is_white else -(p + 1)
                         break
                     elif enc[6 + p, r, c] > 0.5:
-                        board[r * 8 + c] = -(p + 1)
+                        # "opp" piece
+                        board[r * 8 + c] = -(p + 1) if is_white else (p + 1)
                         break
         return board
 
@@ -474,12 +465,12 @@ def _run_tests():
 
     # Chess encoder
     ch_enc = ChessEncoder()
-    assert ch_enc.n_channels == 16 and ch_enc.n_actions == 4096
+    assert ch_enc.n_channels == 36 and ch_enc.n_actions == 4672
     ch_board = np.zeros(64, dtype=np.int8)
     ch_board[0] = 4  # white rook at a1
     ch_board[63] = -4  # black rook at h8
     ct = ch_enc.encode(ch_board, 1)
-    assert ct.shape == (16, 8, 8)
+    assert ct.shape == (36, 8, 8)
     cb = ch_enc.decode(ct, 1)
     assert cb[0] == 4 and cb[63] == -4, f"Chess roundtrip failed"
     print("  [PASS] ChessEncoder 8×8 roundtrip")

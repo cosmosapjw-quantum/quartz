@@ -48,11 +48,16 @@ thread_local! {
 // § TicTacToe 상태
 // ─────────────────────────────────────────────
 
+/// History depth for AlphaZero-style encoding (T=8 timesteps including current).
+const TICTACTOE_HISTORY_LEN: usize = 8;
+
 #[derive(Clone, Debug, PartialEq)]
 pub struct TicTacToe {
     board: [i8; 9],     // +1=X, -1=O, 0=empty
     current_player: i8, // +1 or -1
     hash: u64,          // Zobrist 증분 해시
+    /// Past board snapshots for AlphaZero-style history encoding (most recent last).
+    board_history: Vec<[i8; 9]>,
 }
 
 impl TicTacToe {
@@ -61,6 +66,7 @@ impl TicTacToe {
             board: [0; 9],
             current_player: if player >= 0 { 1 } else { -1 },
             hash: 0,
+            board_history: Vec::new(),
         };
         for i in 0..9.min(board.len()) {
             state.board[i] = match board[i] {
@@ -131,6 +137,7 @@ impl GameState for TicTacToe {
             board: [0; 9],
             current_player: 1,
             hash: 0,
+            board_history: Vec::new(),
         }
     }
 
@@ -152,6 +159,13 @@ impl GameState for TicTacToe {
 
     fn apply_move(&self, mv: usize) -> Self {
         let mut next = self.clone();
+
+        // Save current board to history before applying move
+        next.board_history.push(self.board);
+        if next.board_history.len() > TICTACTOE_HISTORY_LEN - 1 {
+            next.board_history.drain(0..next.board_history.len() - (TICTACTOE_HISTORY_LEN - 1));
+        }
+
         // 보드 갱신
         next.board[mv] = self.current_player;
         // Zobrist 증분 갱신: 기물 배치 + 차례 전환
@@ -199,6 +213,42 @@ impl GameState for TicTacToe {
         } else {
             None
         }
+    }
+
+    /// NN 입력 feature planes (AlphaZero-style: [17, 3, 3])
+    ///   planes 0-1:   현재(t=0) 내 돌, 상대 돌
+    ///   planes 2-3:   t=1 (1수 전) 내 돌, 상대 돌
+    ///   ...
+    ///   planes 14-15: t=7 (7수 전) 내 돌, 상대 돌
+    ///   plane 16:     현재 플레이어 색상 (X=1, O=0)
+    fn encode_planes(&self) -> Vec<f32> {
+        let n = 9;
+        let total_planes = TICTACTOE_HISTORY_LEN * 2 + 1; // 17
+        let mut out = vec![0.0f32; total_planes * n];
+        let cp = self.current_player;
+
+        // t=0: current board
+        for (i, &v) in self.board.iter().enumerate() {
+            if v == cp { out[i] = 1.0; }
+            else if v != 0 { out[n + i] = 1.0; }
+        }
+
+        // t=1..7: history (most recent = last element in board_history)
+        for (k, hist_board) in self.board_history.iter().rev().enumerate() {
+            let t = k + 1;
+            if t >= TICTACTOE_HISTORY_LEN { break; }
+            let base = t * 2 * n;
+            for (i, &v) in hist_board.iter().enumerate() {
+                if v == cp { out[base + i] = 1.0; }
+                else if v != 0 { out[base + n + i] = 1.0; }
+            }
+        }
+
+        // Color plane
+        let color_val = if cp == 1 { 1.0 } else { 0.0 };
+        let color_base = (total_planes - 1) * n;
+        for i in 0..n { out[color_base + i] = color_val; }
+        out
     }
 
     fn board_state_record(&self) -> Vec<i64> {

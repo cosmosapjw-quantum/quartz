@@ -6,6 +6,7 @@ requiring a running Rust process or GPU.
 
 import json
 import os
+import struct
 import numpy as np
 
 class MockModel:
@@ -183,19 +184,19 @@ def test_batch_eval_no_model():
 
 
 def test_batch_eval_chess_actions():
-    """Chess with 4096 actions should work."""
-    cfg = {'board': 8, 'ch': 16, 'actions': 4096}
-    model = MockModel(4096)
+    """Chess with full 4672 actions should work."""
+    cfg = {'board': 8, 'ch': 36, 'actions': 4672}
+    model = MockModel(4672)
     client = MockNNSearchClient(model, cfg)
 
-    features = [0.0] * (16 * 8 * 8)
+    features = [0.0] * (36 * 8 * 8)
     req = json.dumps({
         "batch_eval_req": {
             "batch_size": 1,
             "requests": [{
                 "features": features,
-                "action_mask": [1]*4096,
-                "num_actions": 4096
+                "action_mask": [1]*4672,
+                "num_actions": 4672
             }]
         }
     })
@@ -203,7 +204,7 @@ def test_batch_eval_chess_actions():
     resp = client._eval_nn_batch(req)
     responses = resp["batch_eval_resp"]["responses"]
     assert len(responses) == 1
-    assert len(responses[0]["policy"]) == 4096
+    assert len(responses[0]["policy"]) == 4672
 
 
 def test_batch_eval_response_json_roundtrip():
@@ -231,6 +232,41 @@ def test_batch_eval_response_json_roundtrip():
     assert len(parsed["batch_eval_resp"]["responses"]) == 2
 
 
+def test_unpack_shm_search_response_parses_sparse_binary_payload():
+    from quartz import alphazero_train as az
+
+    payload = bytearray()
+    payload.extend(struct.pack("<BQI", 1, 0, 1))
+    payload.extend(struct.pack("<B", 0))
+    payload.extend(struct.pack("<III", 17, 321, 9))
+    payload.extend(struct.pack("<ffffff", 0.25, -0.5, 0.125, 0.75, 0.05, -0.125))
+    payload.extend(struct.pack("<I", 2))
+    payload.extend(struct.pack("<If", 3, 0.6))
+    payload.extend(struct.pack("<If", 5, 0.4))
+    payload.extend(struct.pack("<I", 2))
+    payload.extend(struct.pack("<Q", 101))
+    payload.extend(struct.pack("<Q", 202))
+    for text in (
+        "BudgetExhausted",
+        "e2e4",
+        "rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR b KQkq e3 0 1",
+    ):
+        encoded = text.encode("utf-8")
+        payload.extend(struct.pack("<I", len(encoded)))
+        payload.extend(encoded)
+
+    decoded = az.unpack_shm_search_response(bytes(payload))
+
+    assert decoded["result"]["best_move"] == 17
+    assert decoded["result"]["policy"][0][0] == 3
+    assert decoded["result"]["policy"][1][0] == 5
+    assert abs(decoded["result"]["policy"][0][1] - 0.6) < 1e-6
+    assert abs(decoded["result"]["policy"][1][1] - 0.4) < 1e-6
+    assert decoded["result"]["iterations"] == 321
+    assert decoded["result"]["result_history_hashes"] == [101, 202]
+    assert decoded["result"]["best_move_uci"] == "e2e4"
+
+
 def test_game_configs_have_n_threads():
     """Verify all game configs include n_threads and batch_size."""
     # Import the actual configs
@@ -256,5 +292,6 @@ if __name__ == '__main__':
     test_batch_eval_no_model()
     test_batch_eval_chess_actions()
     test_batch_eval_response_json_roundtrip()
+    test_unpack_shm_search_response_parses_sparse_binary_payload()
     test_game_configs_have_n_threads()
     print("All Python batch protocol tests passed!")

@@ -90,7 +90,10 @@ pub enum GomokuVariant {
 // § Gomoku15 상태
 // ─────────────────────────────────────────────
 
-#[derive(Clone, Copy, Debug)]
+/// History depth for AlphaZero-style encoding (T=8 timesteps including current).
+const GOMOKU15_HISTORY_LEN: usize = 8;
+
+#[derive(Clone, Debug)]
 pub struct Gomoku15 {
     board: [u8; N2], // 0=empty, 1=black, 2=white
     hash: u64,
@@ -102,6 +105,8 @@ pub struct Gomoku15 {
     /// Bitmask: bit i set ⇔ cell i is within distance 4 (in any direction)
     /// of at least one black stone. Used to skip forbidden checks for far cells.
     near_black: [u64; 4], // ceil(225/64) = 4
+    /// Past board snapshots for AlphaZero-style history encoding (most recent last).
+    board_history: Vec<[u8; N2]>,
 }
 
 impl Gomoku15 {
@@ -128,6 +133,7 @@ impl Gomoku15 {
             last_mv: 0xFFFF,
             rules: variant,
             near_black: [0u64; 4],
+            board_history: Vec::new(),
         }
     }
 
@@ -707,9 +713,15 @@ impl GameState for Gomoku15 {
     }
 
     fn apply_move(&self, mv: u16) -> Self {
-        let mut next = *self; // Copy semantics
+        let mut next = self.clone();
         let pos = mv as usize;
         let val = Self::side_to_val(self.side);
+
+        // Save current board to history before applying move
+        next.board_history.push(self.board);
+        if next.board_history.len() > GOMOKU15_HISTORY_LEN - 1 {
+            next.board_history.drain(0..next.board_history.len() - (GOMOKU15_HISTORY_LEN - 1));
+        }
 
         // Place stone
         next.board[pos] = val;
@@ -772,24 +784,42 @@ impl GameState for Gomoku15 {
         }
     }
 
-    /// NN 입력 feature planes (channel-first: [3, 15, 15])
-    ///   plane 0: 현재 플레이어 기물
-    ///   plane 1: 상대 플레이어 기물
-    ///   plane 2: 현재 플레이어 색상 (black=1, white=0)
+    /// NN 입력 feature planes (AlphaZero-style: [17, 15, 15])
+    ///   planes 0-1:   현재(t=0) 내 돌, 상대 돌
+    ///   planes 2-3:   t=1 (1수 전) 내 돌, 상대 돌
+    ///   ...
+    ///   planes 14-15: t=7 (7수 전) 내 돌, 상대 돌
+    ///   plane 16:     현재 플레이어 색상 (black=1, white=0)
     fn encode_planes(&self) -> Vec<f32> {
-        let mut out = vec![0.0f32; 3 * N2];
+        let total_planes = GOMOKU15_HISTORY_LEN * 2 + 1; // 17
+        let mut out = vec![0.0f32; total_planes * N2];
         let my_val = Self::side_to_val(self.side);
         let opp_val = Self::side_to_val(-self.side);
-        let color_val = if self.side > 0 { 1.0 } else { 0.0 };
 
+        // t=0: current board
         for i in 0..N2 {
             if self.board[i] == my_val {
                 out[i] = 1.0;
             } else if self.board[i] == opp_val {
                 out[N2 + i] = 1.0;
             }
-            out[2 * N2 + i] = color_val;
         }
+
+        // t=1..7: history (most recent = last element in board_history)
+        for (k, hist_board) in self.board_history.iter().rev().enumerate() {
+            let t = k + 1;
+            if t >= GOMOKU15_HISTORY_LEN { break; }
+            let base = t * 2 * N2;
+            for (i, &v) in hist_board.iter().enumerate() {
+                if v == my_val { out[base + i] = 1.0; }
+                else if v == opp_val { out[base + N2 + i] = 1.0; }
+            }
+        }
+
+        // Color plane
+        let color_val = if self.side > 0 { 1.0 } else { 0.0 };
+        let color_base = (total_planes - 1) * N2;
+        for i in 0..N2 { out[color_base + i] = color_val; }
         out
     }
 
@@ -1279,7 +1309,7 @@ mod tests {
     fn test_encode_planes() {
         let s = std(&[(7, 7), (0, 0)]); // B at center, W at corner
         let planes = s.encode_planes();
-        assert_eq!(planes.len(), 3 * 225);
+        assert_eq!(planes.len(), 17 * 225);
         // current player is now black (after 2 moves)
         assert_eq!(planes[7 * 15 + 7], 1.0); // plane 0: black's piece
         assert_eq!(planes[225 + 0], 1.0); // plane 1: white's piece

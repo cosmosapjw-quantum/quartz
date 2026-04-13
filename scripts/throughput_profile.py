@@ -28,12 +28,12 @@ NETWORK_SIZES = {
 }
 
 GAME_SPECS = {
-    "tictactoe": {"board": 3, "ch": 3, "actions": 9, "avg_ply": 6, "iters": 100},
-    "gomoku7":   {"board": 7, "ch": 3, "actions": 49, "avg_ply": 30, "iters": 200},
-    "gomoku15":  {"board": 15, "ch": 3, "actions": 225, "avg_ply": 50, "iters": 400},
-    "chess":     {"board": 8, "ch": 16, "actions": 4096, "avg_ply": 80, "iters": 200},
-    "go9":       {"board": 9, "ch": 17, "actions": 82, "avg_ply": 60, "iters": 200},
-    "go19":      {"board": 19, "ch": 17, "actions": 362, "avg_ply": 200, "iters": 200},
+    "tictactoe": {"board": 3, "ch": 3, "actions": 9, "avg_ply": 6, "iters": 100, "profile_iters": 32},
+    "gomoku7":   {"board": 7, "ch": 3, "actions": 49, "avg_ply": 30, "iters": 200, "profile_iters": 32},
+    "gomoku15":  {"board": 15, "ch": 3, "actions": 225, "avg_ply": 50, "iters": 400, "profile_iters": 32},
+    "chess":     {"board": 8, "ch": 16, "actions": 4096, "avg_ply": 80, "iters": 200, "profile_iters": 16},
+    "go9":       {"board": 9, "ch": 17, "actions": 82, "avg_ply": 60, "iters": 200, "profile_iters": 32},
+    "go19":      {"board": 19, "ch": 17, "actions": 362, "avg_ply": 200, "iters": 200, "profile_iters": 16},
 }
 
 BATCH_SIZES = [16, 64, 128, 256]
@@ -43,6 +43,8 @@ def make_cfg(game, net_size):
     """Build a config dict for a given game + network size."""
     gs = GAME_SPECS[game]
     ns = NETWORK_SIZES[net_size]
+    # Use reduced iters for profiling (enough to measure throughput, not full strength)
+    profile_iters = gs.get("profile_iters", 32)
     return {
         "_name": game,
         "board": gs["board"],
@@ -51,7 +53,7 @@ def make_cfg(game, net_size):
         "filters": ns["filters"],
         "blocks": ns["blocks"],
         "vh": ns["vh"],
-        "iters": gs["iters"],
+        "iters": profile_iters,
         "games": 10,
         "temp_th": max(4, gs["avg_ply"] // 4),
         "batch_size": 64,
@@ -62,7 +64,7 @@ def make_cfg(game, net_size):
         "min_visits": 15,
         "check_interval": 20,
         "c_puct": 2.0,
-        "batch_timeout_us": 0,
+        "batch_timeout_us": 1500,
         "search_profile": "quartz",
         "recent_frac": 0.8,
         "recent_window": 10000,
@@ -71,6 +73,7 @@ def make_cfg(game, net_size):
         "steps": 10,
         "batch": 64,
         "win": 4 if "gomoku" in game else 0,
+        "_selfplay_runner_mode": "rust_selfplay_state_machine",
     }
 
 
@@ -116,13 +119,15 @@ def benchmark_raw_inference(model, device, cfg, batch_sizes, warmup=20, n_iters=
 
 # ── Phase 2: Selfplay throughput via Rust server ────────────────────
 
-def benchmark_selfplay(model, device, cfg, rust_binary, n_games=10, parallel=4):
-    """Run actual selfplay and measure games/s, positions/s."""
+def benchmark_selfplay(model, device, cfg, rust_binary, n_games=2, parallel=2, timeout_s=90):
+    """Run actual selfplay and measure games/s, positions/s.
+    Uses a timeout thread to kill the server if games take too long.
+    """
     from quartz.alphazero_train import (
         NNSearchClient, rust_game_name, supports_rust_selfplay_state_machine,
         clear_nn_eval_cache,
     )
-    import random
+    import random, threading
 
     clear_nn_eval_cache()
     game_name = cfg["_name"]
@@ -131,54 +136,84 @@ def benchmark_selfplay(model, device, cfg, rust_binary, n_games=10, parallel=4):
     if not os.path.exists(rust_binary):
         return {"error": f"rust binary not found: {rust_binary}", "games_per_s": 0}
 
+    if not supports_rust_selfplay_state_machine(game_name):
+        return {"error": f"rust selfplay not supported for {game_name}", "games_per_s": 0}
+
     client = NNSearchClient(model, cfg, device, rust_binary)
-    try:
-        client.start()
-        all_games = []
-        t0 = time.perf_counter()
+    result_box = [None]  # mutable container for thread result
+    error_box = [None]
+    all_games = []
 
-        if supports_rust_selfplay_state_machine(game_name):
-            # Use Rust state machine path
-            def on_chunk(games):
-                all_games.extend(games)
+    def on_chunk(games):
+        all_games.extend(games)
 
-            result = client.selfplay_run(
-                n_games=n_games,
-                parallel=parallel,
+    def run_selfplay():
+        try:
+            result_box[0] = client.selfplay_run(
+                n_games=n_games, parallel=parallel,
                 temp_threshold=cfg.get("temp_th", 8),
                 penalty_mode=cfg.get("penalty_mode", "GatedRefresh"),
                 seed=random.randint(0, 2**31),
                 on_chunk=on_chunk,
             )
-        else:
-            # Fallback: won't use Rust selfplay
-            return {"error": f"rust selfplay not supported for {game_name}", "games_per_s": 0}
+        except Exception as e:
+            error_box[0] = e
 
+    try:
+        client.start()
+        t0 = time.perf_counter()
+
+        worker = threading.Thread(target=run_selfplay, daemon=True)
+        worker.start()
+        worker.join(timeout=timeout_s)
         elapsed = time.perf_counter() - t0
-        total_positions = sum(
-            len(g.get("states", g.get("policies", []))) if isinstance(g, dict) else 0
-            for g in all_games
-        )
-        completed = result.get("completed_games", len(all_games)) if isinstance(result, dict) else len(all_games)
+        timed_out = worker.is_alive()
+
+        if timed_out:
+            # Kill server to unblock the worker thread
+            try:
+                client.proc.kill()
+            except Exception:
+                pass
+            worker.join(timeout=5)
+
+        if error_box[0] is not None:
+            raise error_box[0]
+
+        # Count completed games
+        completed = 0
+        total_positions = 0
+        result = result_box[0]
+        if isinstance(result, dict):
+            completed = result.get("completed_games", 0) or len(all_games)
+        if completed == 0:
+            completed = len(all_games)
+        for g in all_games:
+            if isinstance(g, dict):
+                total_positions += len(g.get("states", g.get("policies", [])))
+
+        if completed == 0:
+            suffix = " (timed out)" if timed_out else ""
+            return {"error": f"0 games completed in {elapsed:.0f}s{suffix}", "games_per_s": 0}
 
         games_per_s = completed / max(elapsed, 0.001)
-        positions_per_s = total_positions / max(elapsed, 0.001)
         avg_ply = total_positions / max(completed, 1)
-        leaf_evals = completed * iters * avg_ply  # approximate
+        leaf_evals = completed * iters * avg_ply
         leaf_eval_per_s = leaf_evals / max(elapsed, 0.001)
 
         return {
             "completed_games": completed,
             "elapsed_s": round(elapsed, 2),
             "games_per_s": round(games_per_s, 2),
-            "positions_per_s": round(positions_per_s, 1),
+            "positions_per_s": round(total_positions / max(elapsed, 0.001), 1),
             "avg_ply": round(avg_ply, 1),
             "total_positions": total_positions,
             "leaf_eval_per_s_approx": round(leaf_eval_per_s, 0),
             "games_per_day": round(games_per_s * 86400, 0),
+            "timed_out": timed_out,
         }
     except Exception as e:
-        return {"error": str(e), "games_per_s": 0}
+        return {"error": f"{type(e).__name__}: {e}", "games_per_s": 0}
     finally:
         try:
             client.stop()
@@ -243,6 +278,12 @@ def benchmark_training_step(model, device, cfg, n_steps=20):
 
 def run_profile(args):
     import torch
+    torch.set_float32_matmul_precision("high")
+    import warnings, logging as _logging
+    warnings.filterwarnings("ignore", message=".*hipBLASLt.*")
+    warnings.filterwarnings("ignore", message=".*TensorFloat32.*")
+    warnings.filterwarnings("ignore", message=".*cache_size_limit.*")
+    _logging.getLogger("torch._dynamo").setLevel(_logging.ERROR)
     from quartz.alphazero_train import AlphaZeroNet, _COMPILED_MODELS, _PINNED_BUFS
 
     device = torch.device(args.device)
@@ -254,7 +295,7 @@ def run_profile(args):
     if torch.cuda.is_available():
         print(f"GPU: {torch.cuda.get_device_name(0)}")
         props = torch.cuda.get_device_properties(0)
-        print(f"VRAM: {props.total_mem / 1024**3:.1f} GB")
+        print(f"VRAM: {props.total_memory / 1024**3:.1f} GB")
     print(f"Games: {games}")
     print(f"Sizes: {net_sizes}")
     print()
@@ -333,17 +374,23 @@ def run_profile(args):
             if os.path.exists(rust_binary):
                 print(f"  [2/3] Selfplay benchmark...")
                 try:
-                    n_games = 4 if args.quick else 10
+                    n_games = 2
+                    sp_timeout = 60 if args.quick else 120
                     selfplay = benchmark_selfplay(
                         model, device, cfg, rust_binary,
-                        n_games=n_games, parallel=min(4, n_games))
+                        n_games=n_games, parallel=min(2, n_games),
+                        timeout_s=sp_timeout)
                     entry["selfplay"] = selfplay
                     if selfplay.get("games_per_s", 0) > 0:
+                        to = " [partial]" if selfplay.get("timed_out") else ""
                         print(f"       {selfplay['completed_games']} games in {selfplay['elapsed_s']:.1f}s "
                               f"→ {selfplay['games_per_s']:.2f} games/s, "
-                              f"{selfplay.get('games_per_day', 0):.0f} games/day")
+                              f"{selfplay.get('games_per_day', 0):.0f} games/day{to}")
                     else:
-                        print(f"       {selfplay.get('error', 'no data')}")
+                        err = selfplay.get("error", "0 games completed")
+                        if "\n" in str(err):
+                            err = str(err).split("\n")[0]
+                        print(f"       [NO DATA] {err}")
                 except Exception as e:
                     print(f"       [FAIL] {e}")
                     entry["selfplay"] = {"error": str(e)}

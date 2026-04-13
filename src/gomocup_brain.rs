@@ -1,12 +1,15 @@
 use std::io::{self, BufRead, Write};
+use std::path::PathBuf;
 use std::sync::Arc;
 use std::time::Instant;
 
-use crate::game::GameState;
+use crate::game::{Evaluator, GameState};
+use crate::gomocup_bundle::{apply_bundle_search_config, load_bundle, LoadedGomocupBundle};
 use crate::games::gomoku15::{gomoku15_quartz_timed, Gomoku15, GomokuVariant};
 use crate::games::Gomoku;
 use crate::mcts::eval::ShortRollout;
 use crate::mcts::quartz::{QuartzConfig, QuartzController};
+use crate::mcts::search::FixedIterations;
 use crate::mcts::{MctsConfig, MctsEngine, PwConfig};
 
 const DEFAULT_BUDGET_MS: u64 = 1_000;
@@ -55,6 +58,7 @@ pub struct GomocupBrain {
     runtime: Option<RuntimeKind>,
     board: Vec<u8>,
     board_mode: Option<BoardParseMode>,
+    bundle: Option<LoadedGomocupBundle>,
 }
 
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
@@ -65,14 +69,17 @@ enum BoardParseMode {
 
 impl Default for GomocupBrain {
     fn default() -> Self {
-        Self {
+        let mut brain = Self {
             info: BrainInfo::default(),
             rule: BrainRule::Freestyle,
             size: None,
             runtime: None,
             board: Vec::new(),
             board_mode: None,
-        }
+            bundle: None,
+        };
+        brain.refresh_bundle();
+        brain
     }
 }
 
@@ -123,6 +130,44 @@ pub fn compute_budget_ms(info: &BrainInfo, remaining_moves: usize) -> u64 {
 }
 
 impl GomocupBrain {
+    fn bundle_search_roots(&self) -> Vec<PathBuf> {
+        let mut roots = Vec::new();
+        if let Ok(path) = std::env::var("QUARTZ_GOMOCUP_BUNDLE_DIR") {
+            if !path.trim().is_empty() {
+                roots.push(PathBuf::from(path));
+            }
+        }
+        if let Some(folder) = self.info.folder.as_ref() {
+            if !folder.trim().is_empty() {
+                roots.push(PathBuf::from(folder));
+            }
+        }
+        if let Ok(exe) = std::env::current_exe() {
+            if let Some(parent) = exe.parent() {
+                roots.push(parent.to_path_buf());
+            }
+        }
+        if let Ok(cwd) = std::env::current_dir() {
+            roots.push(cwd);
+        }
+        roots
+    }
+
+    fn refresh_bundle(&mut self) {
+        self.bundle = load_bundle(&self.bundle_search_roots());
+    }
+
+    fn bundle_budget_ms(&self) -> Option<u64> {
+        self.bundle.as_ref().and_then(|bundle| bundle.budget_ms())
+    }
+
+    fn bundle_max_visits(&self) -> u32 {
+        self.bundle
+            .as_ref()
+            .and_then(|bundle| bundle.max_visits())
+            .unwrap_or(MAX_VISITS)
+    }
+
     pub fn handle_line(&mut self, line: &str) -> HandleResult {
         let line = line.trim();
         if line.is_empty() {
@@ -337,6 +382,7 @@ impl GomocupBrain {
             "folder" => {
                 if !value.is_empty() {
                     self.info.folder = Some(value.to_string());
+                    self.refresh_bundle();
                 }
             }
             _ => {}
@@ -350,6 +396,7 @@ impl GomocupBrain {
         self.runtime = Some(runtime);
         self.board = vec![0; size * size];
         self.board_mode = None;
+        self.refresh_bundle();
         Ok(())
     }
 
@@ -407,7 +454,10 @@ impl GomocupBrain {
             return Ok(format!("{},{}", center.0, center.1));
         }
 
-        let budget_ms = compute_budget_ms(&self.info, self.remaining_moves());
+        let mut budget_ms = compute_budget_ms(&self.info, self.remaining_moves());
+        if let Some(bundle_budget) = self.bundle_budget_ms() {
+            budget_ms = budget_ms.min(bundle_budget.max(MIN_BUDGET_MS));
+        }
         let started = Instant::now();
         let mv = match runtime {
             RuntimeKind::Gomoku15(variant) => self.search_gomoku15(variant, budget_ms)?,
@@ -438,12 +488,32 @@ impl GomocupBrain {
             return Err("no legal moves".to_string());
         }
 
-        let config = gomoku15_quartz_timed(variant, budget_ms);
+        let config = apply_bundle_search_config(
+            gomoku15_quartz_timed(variant, budget_ms),
+            self.bundle.as_ref(),
+        );
         let qcfg = config.quartz.clone().unwrap_or_default();
-        let eval: Arc<ShortRollout> = Arc::new(ShortRollout::new(12));
+        #[cfg(feature = "onnx")]
+        let eval: Arc<dyn Evaluator<Gomoku15> + Send + Sync> = self
+            .bundle
+            .as_ref()
+            .and_then(|bundle| bundle.evaluator_for_variant(variant))
+            .unwrap_or_else(|| Arc::new(ShortRollout::new(12)));
+        #[cfg(not(feature = "onnx"))]
+        let eval: Arc<dyn Evaluator<Gomoku15> + Send + Sync> = Arc::new(ShortRollout::new(12));
         let engine = MctsEngine::new(state, eval, config);
-        let mut ctrl = QuartzController::new(MAX_VISITS, qcfg);
-        engine.run_quartz(&mut ctrl);
+        if self
+            .bundle
+            .as_ref()
+            .map(|bundle| bundle.uses_quartz_controller())
+            .unwrap_or(true)
+        {
+            let mut ctrl = QuartzController::new(self.bundle_max_visits(), qcfg);
+            engine.run_quartz(&mut ctrl);
+        } else {
+            let mut ctrl = FixedIterations::new(self.bundle_max_visits());
+            engine.run(&mut ctrl);
+        }
         Ok(engine
             .best_move()
             .or_else(|| legal.first().copied())
@@ -463,12 +533,22 @@ impl GomocupBrain {
             return Err("no legal moves".to_string());
         }
 
-        let config = freestyle_quartz_timed(budget_ms);
+        let config = apply_bundle_search_config(freestyle_quartz_timed(budget_ms), self.bundle.as_ref());
         let qcfg = config.quartz.clone().unwrap_or_default();
         let eval: Arc<ShortRollout> = Arc::new(ShortRollout::new(12));
         let engine = MctsEngine::new(state, eval, config);
-        let mut ctrl = QuartzController::new(MAX_VISITS, qcfg);
-        engine.run_quartz(&mut ctrl);
+        if self
+            .bundle
+            .as_ref()
+            .map(|bundle| bundle.uses_quartz_controller())
+            .unwrap_or(true)
+        {
+            let mut ctrl = QuartzController::new(self.bundle_max_visits(), qcfg);
+            engine.run_quartz(&mut ctrl);
+        } else {
+            let mut ctrl = FixedIterations::new(self.bundle_max_visits());
+            engine.run(&mut ctrl);
+        }
         Ok(engine
             .best_move()
             .or_else(|| legal.first().copied())
@@ -476,7 +556,12 @@ impl GomocupBrain {
     }
 
     fn about(&self) -> String {
-        "name=QUARTZ-Gomocup, version=0.1, author=cosmosapjw+Codex, country=KR".to_string()
+        self.bundle
+            .as_ref()
+            .map(|bundle| bundle.about_line())
+            .unwrap_or_else(|| {
+                "name=QUARTZ-Gomocup, version=0.2, author=cosmosapjw+Codex, country=KR".to_string()
+            })
     }
 }
 

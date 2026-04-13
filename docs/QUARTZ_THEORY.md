@@ -1,4 +1,4 @@
-# QUARTZ Theory Foundations
+# QUARTZ Theory and Architecture
 
 ## Overview
 
@@ -11,8 +11,102 @@ AlphaZero-style PUCT search and modulates three aspects:
 2. **Adaptive stopping** — when to stop searching
 3. **Parallel thread distribution** — how to manage virtual loss
 
-All controller inputs are derived from search state. The control law uses
-fixed constants only (no learned or user-tuned hyperparameters).
+The runtime signals are derived from search/runtime state, but the controller
+also depends on explicit per-run search hyperparameters such as `sigma_0`,
+`min_visits`, `check_interval`, `c_puct`, and `hbar_penalty_cap`. Those values
+are not learned online, but they are legitimate sweep and tuning targets.
+
+## Current empirical status
+
+This document is an architecture note, not a claim that one frozen controller
+formula has already won across every game.
+
+As of the current repository-local Gomoku7 studies:
+
+- short-budget training and frozen-checkpoint confirmatory arenas still favor
+  no-refresh legacy-family variants over refresh-enabled anchors
+- the wider Optuna sweep also stayed in the no-refresh basin
+- the strongest current candidate is a tuned no-refresh legacy-family variant
+  with `root_only_shaping=true` and retuned search constants
+
+The honest reading is: QUARTZ is a family of state-driven controllers plus
+explicit search hyperparameters, not a hyperparameter-free law.
+
+## Legacy design lineage
+
+The repository uses the word "legacy" in two slightly different senses. This
+section spells them out because current ablations still depend on both.
+
+### 1. Original low-level legacy mode: `PenaltyMode::Legacy`
+
+This is the earliest QUARTZ-style root-shaping path preserved in the Rust
+selector. In code terms it is the default `QuartzConfig` shape in
+`src/mcts/quartz.rs`:
+
+- `penalty_mode = Legacy`
+- `enable_one_loop = true`
+- `prior_refresh_rate = 0.0`
+- `root_only_shaping = true`
+- `enable_fisher_puct = false`
+
+The resulting root score is conceptually:
+
+    score(a) = standard_PUCT(a) + one_loop_bonus(stats) - min(hbar_eff, cap) / N_a
+
+where the negative term is `one_loop_visit_penalty(...)` and the positive term
+is the off-diagonal `B_1loop` bonus when available.
+
+This original design tried to keep the intervention minimal:
+
+- leave the interior tree close to standard PUCT
+- shape only the root ranking
+- use `σ_Q / σ_0` as the uncertainty scale
+- disable prior refresh by default
+
+### 2. Historical training heuristic: `GatedRefreshLegacy`
+
+Later training experiments introduced a second "legacy" branch that is now
+what most recent Gomoku7 controller ablations mean by "legacy family."
+
+In `src/mcts/select.rs`, `GatedRefreshLegacy` does:
+
+- penalty = `effective_penalty_v2(N_a, O_a, hbar_penalty_cap)`
+- compute a refresh gate from `P_flip`
+- set `rho_t = rho_max * min(P_flip / flip_thresh, 1)`
+- mix the original prior with a Q-based signal using fixed `tau = 0.5`
+
+Conceptually:
+
+    score(a) = standard_PUCT(a; blended_prior) - nu / (1 + N_a + O_a)
+
+with:
+
+    blended_prior ∝ prior^(1-rho_t) · exp(rho_t * Q_a / tau)
+
+This branch is "legacy" because it preserves the historical training-time
+heuristic that existed before the current doc-aligned `GatedRefresh` branch
+was added. It is not the same thing as the older `PenaltyMode::Legacy`.
+
+### 3. Historical shallow-tree blend
+
+There is one more historical behavior worth documenting. When
+`root_only_shaping = false`, selection does not turn on full QUARTZ everywhere.
+Instead, the code uses a shallow blend for `depth <= 3`:
+
+- compute standard PUCT
+- compute full controller-shaped score
+- interpolate between them with weight `1 / (1 + depth)`
+
+This path exists to preserve older experiments that wanted some non-root
+controller influence without fully replacing the interior-tree policy.
+
+### How this maps to current ablation names
+
+- `A1_legacy_base` and `A2_legacy_krefresh` refer to the
+  `GatedRefreshLegacy` family, not the older `PenaltyMode::Legacy`.
+- The original `PenaltyMode::Legacy` path still exists in the codebase and is
+  part of the design lineage, but it is no longer the main label used by the
+  recent training-level controller shortlists.
 
 ## 1. Search Policy: Boltzmann on Discrete Exponential Family
 
@@ -27,21 +121,24 @@ and N_a is the visit count.
 
 ### QUARTZ Modification (Root Only)
 
-QUARTZ adds a score-shaping penalty at the root node (depth = 0):
+QUARTZ adds controller-side score shaping at the root node (depth = 0):
 
-    score(a) = PUCT(a) − penalty(a)
+    score(a) = PUCT(a) − penalty(a) + optional refresh/shaping terms
 
-The penalty is computed via the one-loop visit penalty:
+The exact penalty term is mode-dependent in the current Rust implementation.
+The active codebase contains multiple controller variants
+(`GatedRefreshLegacy`, `GatedRefresh`, and related helper paths), so this
+document treats the root penalty conceptually:
 
-    penalty(a) = h_cap · (N_a / N_parent)
+- it is visit-dependent
+- it is modulated by Q-uncertainty statistics such as `σ_Q` and `σ_0`
+- it tries to reduce premature lock-in on one root action while the root is
+  still uncertain
 
-where h_cap = min(σ_Q / σ_0, penalty_cap). This penalizes over-visited
-actions proportionally to the Q-value uncertainty, encouraging exploration
-when the evaluator is uncertain.
-
-**Scope**: Score shaping applies at root depth only. Interior tree nodes
-use standard PUCT. This is by design — root action ranking is where
-controller guidance has the highest impact-to-cost ratio.
+**Scope**: Score shaping applies at root depth only. In current QUARTZ this
+includes the penalty, prior-refresh, and related controller-side shaping
+terms. Interior tree nodes use standard PUCT. This is by design — root action
+ranking is where controller guidance has the highest impact-to-cost ratio.
 
 ## 2. Uncertainty Estimation: σ_Q and Related Statistics
 
@@ -59,7 +156,7 @@ needed. When σ_Q is low, the evaluator is confident.
 
     hbar_eff = σ_Q / σ_0
 
-where σ_0 is a reference scale (configurable, default 0.5). This
+where σ_0 is a reference scale (configurable per run/game). This
 normalizes the uncertainty to a dimensionless ratio. The name is a legacy
 from an earlier QFT-motivated framing; it functions as a normalized
 Q-uncertainty ratio.
@@ -102,7 +199,8 @@ The final P_flip is the minimum of both estimates (conservative).
   search progresses. This enables adaptive stopping.
 - With a weak evaluator (loss > ~1.5), P_flip stays at 0.4–0.5 regardless
   of budget. Adaptive stopping correctly does not trigger.
-- The threshold for stopping is P_flip < 0.159 (configurable).
+- The stopping threshold is a configured threshold plus several code-level
+  guards. It is not a learned quantity.
 
 ## 4. Adaptive Stopping: VOC and Halt Modes
 
@@ -141,12 +239,16 @@ can refresh the prior during search based on accumulated Q-value information.
 
 ### Modes
 
-- **GatedRefresh**: Refresh prior only when prior_q_divergence exceeds a
-  threshold. Mixes original prior with visit-proportional policy.
-- **SelfAdaptive**: Continuous refresh with strength proportional to σ_Q.
-  Per-action refresh weight α_a = N_a / (N_a + K), temperature
-  τ = ln(1 + N_total / K). Most effective with strong NN evaluators.
-- **PFlipMixture**: Weight refresh by P_flip (high P_flip = more refresh).
+- **GatedRefreshLegacy**: The legacy-family path used in the recent controller
+  shortlists and confirmatory arenas.
+- **GatedRefresh**: The theory-family path used in the same studies.
+- **Other refresh modes**: Additional paths remain for lower-level experiments
+  and historical comparisons.
+
+Current evidence matters more than the menu of available modes. Recent
+short-budget Gomoku7 studies did not support enabling prior refresh as the
+default. Refresh remains a valid search axis, but it is currently best treated
+as optional/experimental rather than as the recommended deployment profile.
 
 ## 6. Parallel Search: Adaptive Virtual Loss
 
@@ -243,7 +345,43 @@ Every `check_interval` iterations (default: 20):
 4. Update ParallelismController (σ_Q, root_entropy)
 5. Optionally refresh prior (if mode enables it)
 
-## 8. Limitations and Honest Scope
+## 8. Implementation Notes
+
+### What the controller claim means
+
+Because score shaping is root-only, "controller improved search" should be
+read narrowly:
+
+- improved root move selection
+- improved adaptive stopping
+- improved parallel thread distribution
+
+It does not mean QUARTZ rewrites the full interior-tree selection policy.
+
+### Virtual-loss feedback summary
+
+The active virtual-loss control law is:
+
+    vvalue = σ_Q × depth_decay × entropy_factor × contention_amplifier
+
+with:
+
+- `depth_decay = 1 / (1 + depth)`
+- `entropy_factor = clamp(root_entropy, 0.5, 2.0) / 2.0`
+- `contention_amplifier = 1 + dup_rate × (1 + max_pending / n_threads)`
+
+All inputs are observable runtime/search state. The runtime law is
+state-derived, but the surrounding scales and clamps are explicit
+configuration.
+
+### Legacy helper path
+
+`TreeMCTS` remains in the repo as a simplified arena helper, but it is not the
+training engine and not the benchmark-grade search stack. It lacks the full
+TT/VL/progressive-widening/runtime-controller combination used by the Rust
+training and evaluation path.
+
+## 9. Limitations and Honest Scope
 
 ### What QUARTZ Does Well
 
@@ -255,27 +393,42 @@ Every `check_interval` iterations (default: 20):
 ### What QUARTZ Does Not Do
 
 - Does not modify interior tree policy (root-only score shaping)
-- Does not learn controller parameters (all fixed constants)
+- Does not learn controller parameters online
 - Does not replace the neural network evaluator
 - Adaptive stopping requires evaluator loss < ~1.0 to trigger convergence
 - Does not guarantee improvement with weak/untrained evaluators
+- Does not currently justify enabling prior refresh by default on Gomoku7
 
-### Design Constants
+### Search Hyperparameters and Fixed Thresholds
 
-The control law uses the following fixed constants (not hyperparameters
-in the sense that they are not tuned per-game or per-run):
+The controller mixes two classes of numbers:
 
-| Constant | Value | Purpose |
+1. Explicit search hyperparameters that are configured per run and should be
+   treated as sweep targets.
+2. Hard-coded thresholds/clamps that live in the current Rust implementation.
+
+The most important explicit hyperparameters are:
+
+| Hyperparameter | Role | Current status |
 |----------|-------|---------|
-| σ_0 | 0.5 | Reference scale for hbar_eff |
-| penalty_cap | 0.3 | Maximum one-loop penalty |
-| P_flip threshold | 0.159 | Adaptive stopping trigger |
-| check_interval | 20 | Refresh cycle frequency |
-| entropy clamp | [0.5, 2.0] | VL entropy factor range |
-| contention cap | 2.0 | Maximum contention amplifier |
-| vvalue floor | 0.01 | Minimum vvalue (prevents zero) |
+| `sigma_0` | uncertainty reference scale | swept in controller studies |
+| `hbar_penalty_cap` | root penalty cap | swept in controller studies |
+| `min_visits` | minimum evidence before some controller actions | swept in controller studies |
+| `check_interval` | refresh/telemetry cadence | swept in controller studies |
+| `c_puct` | base exploration strength | swept in controller studies |
+| `prior_refresh_rate` | refresh strength | currently not favored in Gomoku7 sweeps |
+| `prior_refresh_temp` | refresh temperature | currently not favored in Gomoku7 sweeps |
 
-These are design choices, not learned parameters. They could in principle
-be tuned, but the current values work across all tested games without
-modification. The claim is "state-derived with fixed constants," not
-"hyperparameter-free."
+Examples of fixed thresholds/clamps still hard-coded in the implementation:
+
+| Fixed threshold | Purpose |
+|----------|---------|
+| `P_flip` threshold and related guards | adaptive stopping trigger logic |
+| entropy clamp | VL entropy factor range |
+| contention cap | maximum contention amplifier |
+| `vvalue` floor | minimum pessimism floor |
+
+The honest claim is therefore not "hyperparameter-free." The honest claim is:
+the runtime signals are state-derived, while the controller family sits on top
+of explicit search hyperparameters and a smaller set of fixed implementation
+thresholds.

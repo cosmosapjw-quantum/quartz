@@ -1,79 +1,119 @@
 # Training Guide
 
-For the current 2026 performance investigation history, failures, kept fixes,
-and surviving benchmark artifacts, see
-[`docs/PERFORMANCE_WORKLOG_2026-04.md`](./PERFORMANCE_WORKLOG_2026-04.md).
+## Current training architecture
 
-## Architecture: Rust MCTS + Python NN (sole training engine)
+All training self-play uses the Rust MCTS engine with Python-owned NN forward
+and learner logic. The active path is:
 
-All training self-play uses the Rust MCTS engine with Python NN evaluation
-via the bidirectional IPC protocol (`search_nn*`, `selfplay_nn_run`, `eval_nn_run`).
+1. Python launches the Rust server.
+2. Rust drives self-play/eval loops and search sessions.
+3. Rust batches NN requests.
+4. Python executes model forward passes.
+5. Rust consumes the returned priors/values and continues search.
 
-### Search Features (all active during training)
+Control traffic uses JSON-line IPC. Hot-path payloads use binary sparse framing
+and SHM ring transport when available, with stdout JSON fallback retained.
 
-- Transposition table (Zobrist hashing)
-- Virtual loss (adaptive split vvisit/vvalue via ParallelismController)
-- Progressive widening
-- QUARTZ controller (6 penalty modes)
-- FEN tracking (chess)
+## Search features active during training
 
-### Self-Play / Eval Flow (current)
+- transposition table
+- progressive widening
+- adaptive split virtual loss (`vvisit` + `vvalue`)
+- QUARTZ controller
+- batched Rust+NN evaluation
+- history-sensitive TT exactness for chess/go
 
-1. Python launches Rust server process(es).
-2. Rust self-play/eval runners drive game/session loops.
-3. Rust batches NN eval requests and exchanges responses through QIPC.
-4. Python owns model forward/backend and learner bookkeeping.
-5. Progress and bottleneck telemetry are emitted to monitor artifacts.
+Important correctness details:
 
-Training-time `search_nn` requests rebuild search from the current position.
-Tree reuse via `advance_root()` exists in the server self-play path, but it is
-not the current Rust+NN training path contract.
+- Chess policy uses full `4672`-action promotion-aware encoding.
+- Chess exact search state includes FEN plus returned history-token metadata.
+- Go and chess TT keys use `tt_hash()` rather than board-only `hash()`.
 
-### Background Actor (--concurrent)
+## Runtime behavior
 
-Main thread: training (SGD on replay buffer)
-Background: SelfPlayWorker (Rust+NN, frozen model snapshot)
-- Uses selfplay_rust_nn_batched(parallel=2)
-- Backpressure: pauses at 80% replay capacity
-- Model snapshot refreshed after each checkpoint
-- Evaluation isolation (default): background self-play is paused during
-  checkpoint evaluation and resumed after evaluation ends.
+### Background actor (`--concurrent`)
 
-### Runtime tuning and isolation defaults
+Main thread:
 
-- Online runtime autotune is **off by default**.
-  - Enable explicitly with `--runtime-autotune`.
-- Evaluation/self-play isolation is **on by default**.
-  - Disable explicitly with `--no-eval-selfplay-isolation`.
-- Search profile options:
+- replay sampling
+- SGD / backend update
+- checkpointing
+- checkpoint evaluation
+
+Background worker:
+
+- Rust+NN self-play with frozen model snapshot
+- backpressure when replay is near capacity
+- model snapshot refresh after checkpoint
+
+By default, checkpoint evaluation pauses background self-play and resumes it
+after the eval completes.
+
+### Tuning and isolation defaults
+
+- online runtime autotune is off by default
+- eval/self-play isolation is on by default
+- `search-profile` is explicit and ablation-safe:
   - `quartz`
-  - `baseline` (shared substrate)
+  - `baseline`
   - `baseline_strict`
 
-## Requirements
+## Checkpoint and evaluation cadence
 
-- Rust binary required: cargo build --release (training exits if not found)
-- PyTorch: for NN model (training + evaluation)
-- Recommended GPU: for NN forward pass throughput
+Current loop behavior:
 
-## Legacy Components
+- `latest.pt` is checkpointed every 5 iterations
+- replay state is checkpointed alongside it
+- training-time promotion evaluation runs on `--eval-interval`
+- `best.pt` updates only on explicit promotion verdict
+- plots regenerate from `train_log.jsonl`
 
-- TreeMCTS: retained for arena evaluation (lightweight model comparison)
-- selfplay_rust(): Tier 1 ShortRollout, internal function for search-only ablation (not exposed as standalone CLI)
+The loop no longer drops checkpoint/eval work when an iteration has `0`
+learner steps because self-play was still filling replay.
 
-## Checkpoint Evaluation
+## Training artifacts
 
-Training-time checkpoint evaluation uses RustNNEvaluatorEngine (same Rust+NN stack as training self-play)
-when the Rust binary is available. This ensures evaluation semantics match training semantics.
-Falls back to TreeMCTSEngine only when Rust binary is missing (with explicit warning).
+The model directory contains:
 
-The search_nn result payload includes controller telemetry (partial; core stats):
-- p_flip, sigma_q, hbar_eff: QUARTZ controller state
-- stop_reason: why search terminated (Budget/VOC/Threshold/ConfAdaptive)
-- iterations: actual visit count
-- dup_rate, max_pending, avg_vvalue: parallelism-controller telemetry
+- `latest.pt`
+- `best.pt`
+- `replay.npz`
+- `train_log.jsonl`
+- `autotune_profile.json`
+- `glicko2_ladder.json`
+- `training_loss.png`
+- `training_elo.png`
 
-For current performance diagnosis and handoff status, see:
+Training log rows include:
 
-- [`docs/PERFORMANCE_WORKLOG_2026-04.md`](./PERFORMANCE_WORKLOG_2026-04.md)
-- [`docs/HANDOFF_PACKET_2026-04-09_ASYNC_CORE.md`](./HANDOFF_PACKET_2026-04-09_ASYNC_CORE.md)
+- losses
+- replay size and freshness
+- self-play throughput
+- controller telemetry
+- eval verdict / Elo / score rate
+
+## Evaluation semantics
+
+Checkpoint evaluation uses `RustNNEvaluatorEngine` when the Rust binary is
+available. That keeps evaluation aligned with the same search stack used in
+training self-play.
+
+If the Rust binary is missing, the code falls back to lighter evaluation paths
+with an explicit warning. Those fallback paths are not benchmark-grade and
+should not be mixed into ablation claims.
+
+## Cache and transport correctness notes
+
+The following regressions were fixed and are now part of the expected behavior:
+
+- disabling the NN cache does not replace model output with uniform priors
+- sparse loss series are plotted correctly
+- best-Elo progression only advances on actual promotion
+- binary sparse search-result transport preserves the same search meaning as the older JSON payload path
+
+## Remaining limitations
+
+- QUARTZ score shaping is still root-only
+- P_flip behavior still depends on evaluator quality and usually needs NN loss below roughly `1.0`
+- raw external chess FEN alone cannot recreate prior repetition history; exact repeated search requires the returned history token path
+- JAX remains a training backend, not the inference backend used by Rust self-play/eval or Gomocup deployment

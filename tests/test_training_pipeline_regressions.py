@@ -4,6 +4,7 @@ import json
 import io
 import sys
 import tomllib
+import types
 from pathlib import Path
 import random
 
@@ -293,13 +294,13 @@ def test_rust_nn_evaluator_uses_chess_session_payloads(monkeypatch):
             return {"ok": True}
 
     monkeypatch.setattr(az, "NNSearchClient", FakeClient)
-    cfg = {"_name": "chess", "iters": 8, "actions": 4096}
+    cfg = {"_name": "chess", "iters": 8, "actions": az.CHESS_POLICY_ACTIONS}
     eng_a = az.RustNNEvaluatorEngine("candidate", cfg, object(), az.torch.device("cpu"))
     eng_b = az.RustNNEvaluatorEngine("champion", cfg, object(), az.torch.device("cpu"))
 
     tally = eng_a.play_match_tally_against(
         eng_b,
-        lambda: az.ChessEvaluationAdapter(actions=4096, start_fen=start_fen),
+        lambda: az.ChessEvaluationAdapter(actions=az.CHESS_POLICY_ACTIONS, start_fen=start_fen),
         opening_book=[],
         num_games=2,
         color_swap=True,
@@ -854,6 +855,105 @@ def test_run_batched_eval_groups_defaults_missing_group_index():
     assert responses[0]["policies"][0].shape == (2,)
 
 
+def test_run_batched_eval_groups_preserves_model_outputs_when_cache_disabled(monkeypatch):
+    az = load_training_module()
+
+    class FakeModel:
+        def __init__(self):
+            self.calls = 0
+
+        def predict(self, batch_np):
+            self.calls += 1
+            probs = np.array([[0.05, 0.15, 0.8]], dtype=np.float32)
+            vals = np.array([0.375], dtype=np.float32)
+            return probs, vals
+
+    groups = [
+        {
+            "gi": 0,
+            "kind": "json_single",
+            "requests": [(3, [1.0, 0.0, 0.0, 0.0], 0)],
+        }
+    ]
+    cfg = {"ch": 1, "board": 2, "actions": 3}
+
+    model_with_cache = FakeModel()
+    az.clear_nn_eval_cache()
+    monkeypatch.delenv("QUARTZ_DISABLE_NN_CACHE", raising=False)
+    with_cache = az._run_batched_eval_groups(groups, model_with_cache, az.torch.device("cpu"), cfg)
+
+    model_without_cache = FakeModel()
+    az.clear_nn_eval_cache()
+    monkeypatch.setenv("QUARTZ_DISABLE_NN_CACHE", "1")
+    without_cache = az._run_batched_eval_groups(groups, model_without_cache, az.torch.device("cpu"), cfg)
+
+    np.testing.assert_allclose(with_cache[0]["policies"][0], [0.05, 0.15, 0.8])
+    np.testing.assert_allclose(without_cache[0]["policies"][0], with_cache[0]["policies"][0])
+    assert with_cache[0]["values"] == [0.375]
+    assert without_cache[0]["values"] == [0.375]
+    assert model_with_cache.calls == 1
+    assert model_without_cache.calls == 1
+
+
+def test_nn_eval_cache_treats_move_to_end_race_as_miss():
+    az = load_training_module()
+
+    class FlakyOrderedDict(az.OrderedDict):
+        def get(self, key, default=None):
+            value = super().get(key, default)
+            if value is not default:
+                super().pop(key, None)
+            return value
+
+    cache = az.NNEvalCache(max_entries=4)
+    cache._cache = FlakyOrderedDict()
+    cache._cache[123] = (np.array([0.2, 0.8], dtype=np.float32), 0.5)
+
+    assert cache.get(123) is None
+    assert cache._hits == 0
+    assert cache._misses == 1
+
+
+def test_read_exact_timeout_raises(monkeypatch):
+    az = load_training_module()
+
+    class FakeStream:
+        def read(self, _n):
+            raise AssertionError("read should not be called when the stream is not readable")
+
+    monkeypatch.setattr(az, "wait_readable", lambda stream, timeout_s: False)
+
+    with pytest.raises(TimeoutError):
+        az._read_exact(FakeStream(), 4, timeout_s=0.01)
+
+
+def test_search_move_retries_after_timeout(monkeypatch):
+    az = load_training_module()
+
+    client = az.NNSearchClient(model=None, cfg={"_name": "gomoku7", "iters": 8}, device="cpu")
+    starts = []
+    stops = []
+    calls = {"n": 0}
+
+    monkeypatch.setattr(client, "start", lambda: starts.append("start") or setattr(client, "proc", object()))
+    monkeypatch.setattr(client, "stop", lambda: stops.append("stop") or setattr(client, "proc", None))
+
+    def fake_exchange(req):
+        calls["n"] += 1
+        if calls["n"] == 1:
+            raise TimeoutError("stalled search")
+        return {"result": {"best_move": 7, "policy": [[7, 1.0]], "value": 0.25}}
+
+    monkeypatch.setattr(client, "_exchange_search_request", fake_exchange)
+
+    result = client.search_move(np.zeros(49, dtype=np.int8), player=1)
+
+    assert result["best_move"] == 7
+    assert calls["n"] == 2
+    assert starts == ["start", "start"]
+    assert stops == ["stop"]
+
+
 def test_make_json_safe_converts_numpy_scalars_and_arrays():
     az = load_training_module()
 
@@ -928,6 +1028,18 @@ def test_rust_search_options_preserves_baseline_strict_profile():
     opts = az.rust_search_options({"search_profile": "baseline_strict"})
 
     assert opts["search_profile"] == "baseline_strict"
+
+
+def test_rust_search_options_passes_controller_runtime_overrides():
+    az = load_training_module()
+
+    opts = az.rust_search_options({
+        "penalty_mode": "GatedRefreshLegacy",
+        "root_only_shaping": False,
+    })
+
+    assert opts["penalty_mode"] == "GatedRefreshLegacy"
+    assert opts["root_only_shaping"] is False
 
 
 def test_gpu_host_thread_caps_follow_physical_cores():
@@ -1165,6 +1277,51 @@ def test_default_output_dir_uses_models_subdirectory():
     assert az.default_output_dir("gomoku7") == "models/alphazero_gomoku7"
 
 
+def test_rust_search_options_propagates_tt_enabled_flag():
+    az = load_training_module()
+
+    opts = az.rust_search_options({"n_threads": 2, "batch_size": 16, "tt_enabled": False})
+
+    assert opts["tt_enabled"] is False
+
+
+def test_dense_policy_from_sparse_accepts_legacy_strings_and_numeric_pairs():
+    az = load_training_module()
+
+    policy = az.dense_policy_from_sparse(["1:0.25", [3, 0.75], ["bad"]], 5)
+
+    assert np.allclose(policy, np.array([0.0, 0.25, 0.0, 0.75, 0.0], dtype=np.float32))
+
+
+def test_build_rust_state_meta_includes_chess_history_hashes():
+    az = load_training_module()
+    state = az.ChessEvaluationAdapter()
+    state._chess_history_hashes = [11, 22, 33]
+
+    meta = az.build_rust_state_meta("chess", state, {})
+
+    assert meta == {"chess_history_hashes": [11, 22, 33]}
+
+
+def test_chess_evaluation_adapter_tracks_engine_history_hashes():
+    az = load_training_module()
+    state = az.ChessEvaluationAdapter()
+
+    applied = state.apply_engine_meta(
+        0,
+        {
+            "result_fen": "rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR b KQkq e3 0 1",
+            "result_history_hashes": [101, 202, 303],
+        },
+    )
+
+    assert applied is True
+    assert state._fen == "rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR b KQkq e3 0 1"
+    assert state._chess_history_hashes == [101, 202, 303]
+    clone = state.clone()
+    assert clone._chess_history_hashes == [101, 202, 303]
+
+
 def test_early_stopping_enabled_by_positive_patience():
     az = load_training_module()
 
@@ -1220,6 +1377,205 @@ def test_build_elo_plot_series_falls_back_to_delta_when_champion_missing():
     assert point["elo_gap"] == 30.0
     assert point["error_mid"] == 145.0
     assert point["error_half"] == 15.0
+
+
+def test_build_metric_plot_series_skips_missing_points_without_dropping_sparse_losses():
+    az = load_training_module()
+    history = [
+        {"iter": 1, "loss": 4.9},
+        {"iter": 2, "loss": None},
+        {"iter": 4, "loss": 4.2},
+    ]
+
+    series = az.build_metric_plot_series(history, "loss")
+
+    assert series == [(1, 4.9), (4, 4.2)]
+
+
+def test_build_best_elo_series_only_promotes_on_promotion_verdict():
+    az = load_training_module()
+    elo_points = [
+        {
+            "iter": 5,
+            "candidate_elo": 140.0,
+            "champion_elo": 100.0,
+            "match_delta_elo": 15.0,
+            "eval_verdict": "reject",
+        },
+        {
+            "iter": 10,
+            "candidate_elo": 155.0,
+            "champion_elo": 110.0,
+            "match_delta_elo": 18.0,
+            "eval_verdict": "promote",
+        },
+    ]
+
+    series = az.build_best_elo_series(elo_points)
+
+    assert series == [100.0, 155.0]
+
+
+def test_main_runs_eval_at_interval_even_when_train_steps_are_zero(monkeypatch, tmp_path):
+    az = load_training_module()
+    backend_module = sys.modules["quartz.backend"]
+    output_dir = tmp_path / "run"
+    rust_binary = tmp_path / "mcts_demo"
+    rust_binary.write_text("stub", encoding="utf-8")
+
+    def fake_create_backend(*args, **kwargs):
+        raise RuntimeError("skip unified backend")
+
+    monkeypatch.setattr(backend_module, "create_backend", fake_create_backend, raising=False)
+    monkeypatch.setattr(az, "auto_device_name", lambda: "cpu")
+    monkeypatch.setattr(
+        az,
+        "detect_hardware_spec",
+        lambda device: az.HardwareSpec(
+            logical_cpus=4,
+            physical_cpus=2,
+            memory_mb=8192,
+            gpu_vendor="",
+            gpu_name="",
+            gpu_vram_mb=0,
+            gpu_count=0,
+            torch_cuda=False,
+            device_kind="cpu",
+        ),
+    )
+    monkeypatch.setattr(az, "configure_torch_rocm_runtime", lambda hw: None)
+    monkeypatch.setattr(az, "clamp_runtime_cfg_to_hardware", lambda cfg, hw: dict(cfg))
+    monkeypatch.setattr(az, "print_autotune_summary", lambda *args, **kwargs: None)
+    monkeypatch.setattr(az, "max_supported_threads", lambda hw: 1)
+    monkeypatch.setattr(az, "gpu_host_thread_cap", lambda hw: 1)
+    monkeypatch.setattr(az, "gpu_interop_thread_cap", lambda hw: 1)
+    monkeypatch.setattr(az.torch, "set_num_threads", lambda n: None)
+    monkeypatch.setattr(az.torch, "set_num_interop_threads", lambda n: None)
+    monkeypatch.setattr(az.torch.cuda, "is_available", lambda: False)
+    monkeypatch.setattr(az, "clear_nn_eval_cache", lambda: None)
+    monkeypatch.setattr(az, "get_actor_model", lambda model, backend: "candidate-actor")
+    monkeypatch.setattr(az, "clone_actor_model", lambda actor: actor)
+    monkeypatch.setattr(az, "load_actor_source_from_checkpoint", lambda *args, **kwargs: "champion-actor")
+    monkeypatch.setattr(az, "generate_training_plots", lambda *args, **kwargs: False)
+    monkeypatch.setattr(az, "compute_train_steps", lambda *args, **kwargs: 0)
+    monkeypatch.setattr(az, "selfplay_rust_nn_batched", lambda *args, **kwargs: ([], [], [], []))
+    monkeypatch.setattr(az, "supports_rust_eval_state_machine", lambda game: False)
+    monkeypatch.setattr(az, "supports_rust_selfplay_state_machine", lambda game: False)
+    monkeypatch.setattr(az, "load_eval_autotune_profile", lambda *args, **kwargs: None)
+    monkeypatch.setattr(az, "recommend_eval_parallel_workers", lambda *args, **kwargs: 1)
+    monkeypatch.setattr(az, "build_training_game_adapter", lambda cfg: object())
+    monkeypatch.setattr(az, "ensure_best_checkpoint_compatible", lambda *args, **kwargs: None)
+    monkeypatch.setattr(az, "HAS_EVAL_SYSTEM", True)
+
+    class FakeOptimizer:
+        def __init__(self, params):
+            self.param_groups = [{"lr": 0.0}]
+
+    monkeypatch.setattr(az.torch.optim, "SGD", lambda params, **kwargs: FakeOptimizer(params))
+
+    class FakeModel:
+        def __init__(self, cfg):
+            self._params = [az.torch.nn.Parameter(az.torch.zeros(1))]
+
+        def to(self, device):
+            return self
+
+        def parameters(self):
+            return self._params
+
+        def state_dict(self):
+            return {"w": az.torch.zeros(1)}
+
+    monkeypatch.setattr(az, "AlphaZeroNet", FakeModel)
+
+    class FakeReplayBuffer:
+        def __init__(self, *args, **kwargs):
+            self._size = 10_000
+
+        def __len__(self):
+            return self._size
+
+        def save(self, path):
+            Path(path).write_text("replay", encoding="utf-8")
+
+    monkeypatch.setattr(az, "ReplayBuffer", FakeReplayBuffer)
+    monkeypatch.setattr(az.torch, "save", lambda payload, path: Path(path).write_text("model", encoding="utf-8"))
+
+    class FakeRustEngine:
+        def __init__(self, name, cfg, actor, device, rust_binary):
+            self._name = name
+
+        def name(self):
+            return self._name
+
+        def reset(self):
+            return None
+
+        def select_moves_batch(self, *args, **kwargs):
+            return []
+
+    monkeypatch.setattr(az, "RustNNEvaluatorEngine", FakeRustEngine)
+
+    eval_generations = []
+
+    class FakeTrainingEvaluator:
+        def __init__(self, config=None, manifest=None):
+            self.cfg = types.SimpleNamespace(parallel_workers=1)
+
+        def evaluate_checkpoint(
+            self,
+            candidate,
+            champion,
+            game_factory,
+            candidate_id="",
+            generation=0,
+            candidate_factory=None,
+            champion_factory=None,
+        ):
+            eval_generations.append(generation)
+            return types.SimpleNamespace(
+                valid_eval=True,
+                invalid_reason=None,
+                promotion={"verdict": "need_more"},
+                tally={"score_rate": 0.5, "scored": 2, "errors": 0, "voids": 0},
+                elo={"delta": 12.0},
+                published={"candidate_abs": 100.0, "champion_abs": 88.0, "delta": 12.0},
+            )
+
+    monkeypatch.setattr(az, "TrainingEvaluator", FakeTrainingEvaluator)
+    monkeypatch.setattr(
+        sys,
+        "argv",
+        [
+            "quartz.train",
+            "--game",
+            "gomoku7",
+            "--iterations",
+            "5",
+            "--output",
+            str(output_dir),
+            "--rust-binary",
+            str(rust_binary),
+            "--no-pipeline",
+            "--no-autotune",
+        ],
+    )
+
+    az.main()
+
+    assert eval_generations == [5]
+
+    log_rows = [
+        json.loads(line)
+        for line in (output_dir / "train_log.jsonl").read_text(encoding="utf-8").splitlines()
+        if line.strip()
+    ]
+    eval_row = next(row for row in log_rows if row.get("_type") == "eval")
+    iter_row = next(row for row in log_rows if row.get("_type") is None and row.get("iter") == 5)
+
+    assert eval_row["iter"] == 5
+    assert iter_row["published_elo"] == 100.0
+    assert iter_row["eval_verdict"] == "need_more"
 
 
 def test_autotune_profile_roundtrip(tmp_path):
@@ -1479,11 +1835,13 @@ def test_gomoku15_caro_blocked_five_is_not_a_win():
     assert game._is_winning_move(row + 8) is False
 
 
-def test_chess_action_space_matches_simplified_rust_contract():
+def test_chess_action_space_matches_full_rust_contract():
     az = load_training_module()
 
-    assert az.GAME_CONFIGS["chess"]["actions"] == 4096
-    assert az.GAME_CONFIGS["chess960"]["actions"] == 4096
+    assert az.GAME_CONFIGS["chess"]["actions"] == 4672
+    assert az.GAME_CONFIGS["chess960"]["actions"] == 4672
+    assert az.GAME_CONFIGS["chess"]["tt_enabled"] is True
+    assert az.GAME_CONFIGS["chess960"]["tt_enabled"] is True
 
 
 def test_chess960_has_registered_encoder_and_is_treated_as_chess():
@@ -1504,11 +1862,17 @@ def test_chess960_start_fen_and_encoding_preserve_castling_and_ep():
     enc = az.encode_chess_fen("bbqnnrkr/pppppppp/8/8/8/8/PPPPPPPP/BBQNNRKR b HFhf e3 0 1")
 
     assert fen.split()[2] != "KQkq"
-    assert enc.shape == (16, 8, 8)
-    assert np.all(enc[12] == 1.0)
-    assert np.all(enc[13] == 1.0)
-    assert enc[14, 2, 4] == 1.0
-    assert np.all(enc[15] == 1.0)
+    assert enc.shape == (36, 8, 8)
+    # Planes 0-5: my pieces (black to move → black pieces are "my")
+    assert enc[:6].sum() > 0
+    # Planes 6-11: opponent pieces (white)
+    assert enc[6:12].sum() > 0
+    # Plane 28: color (0 for black's turn)
+    assert np.all(enc[28] == 0.0)
+    # Castling planes 30-33 should have some rights set
+    assert enc[30:34].sum() > 0
+    # EP plane 35: e3 target
+    assert enc[35, 2, 4] == 1.0
 
 
 def test_initial_chess_fen_uses_fixed_chess960_index_when_configured():

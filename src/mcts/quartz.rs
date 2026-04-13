@@ -108,11 +108,12 @@ pub enum PenaltyMode {
     /// State-derived penalty+refresh mechanism (fixed constants, no user-tuned knobs).
     /// 내장 visit-frequency refresh (always-on).
     SelfAdaptive,
-    /// P_flip-역전 게이팅 + Q-based refresh.
-    /// P_flip 높을 때(불확실) → Q-refresh 활성화 (prior 교정)
-    /// P_flip 낮을 때(확신) → refresh OFF (안정화)
-    /// Penalty: EffV2와 동일 (-ν/(1+N+O), ν=hbar_penalty_cap)
+    /// Canonical controller matching the research doc:
+    /// root-share penalty + prior-divergence gate + visit-share refresh.
     GatedRefresh,
+    /// Historical training-time heuristic preserved for ablation:
+    /// P_flip gate + Q-based refresh + EffV2 penalty.
+    GatedRefreshLegacy,
     /// P_flip-mediated VF↔Q mixture + σ_Q-adaptive penalty.
     /// P_flip high → Q-refresh dominant (prior correction).
     /// P_flip low  → VF-refresh dominant (search concentration).
@@ -255,6 +256,9 @@ pub struct QuartzConfig {
     pub prior_refresh_rate: f32,
     /// Temperature for Q → prior conversion in dynamic refresh
     pub prior_refresh_temp: f32,
+    /// Apply QUARTZ score shaping only at the root.
+    /// When false, the historical shallow depth<=3 blend is enabled.
+    pub root_only_shaping: bool,
     // ── 고정값 (config에서 제거, 코드에 hardcode) ──
     // fisher_alpha = 0.5  (F_aa = π(a) → natural gradient → √π)
     // flip_thresh  = 0.159 (Φ(-1), 1-sigma rule)
@@ -284,6 +288,7 @@ impl Default for QuartzConfig {
             penalty_mode: PenaltyMode::Legacy,
             prior_refresh_rate: 0.0, // disabled by default
             prior_refresh_temp: 1.0,
+            root_only_shaping: true,
         }
     }
 }

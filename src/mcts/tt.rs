@@ -50,6 +50,7 @@ impl<M: Copy + Send + Sync + 'static> TtBucket<M> {
 // ─────────────────────────────────────────────
 
 pub struct TranspositionTable<M: Copy + Send + Sync + 'static> {
+    enabled: bool,
     buckets: Vec<Mutex<TtBucket<M>>>,
     // 통계 (로깅용)
     pub hits: AtomicU64,
@@ -72,10 +73,15 @@ pub struct TtContentionSnapshot {
 
 impl<M: Copy + Send + Sync + 'static> TranspositionTable<M> {
     pub fn new() -> Self {
+        Self::new_enabled(true)
+    }
+
+    pub fn new_enabled(enabled: bool) -> Self {
         let buckets = (0..NUM_BUCKETS)
             .map(|_| Mutex::new(TtBucket::new()))
             .collect();
         TranspositionTable {
+            enabled,
             buckets,
             hits: AtomicU64::new(0),
             misses: AtomicU64::new(0),
@@ -94,6 +100,9 @@ impl<M: Copy + Send + Sync + 'static> TranspositionTable<M> {
     /// 없으면 `terminal_value`로 새 노드를 생성하고 삽입.
     /// 있으면 기존 노드 반환 (always-replace 충돌 정책 → 먼저 들어온 것 우선).
     pub fn get_or_create(&self, hash: u64, terminal_value: Option<f32>) -> Arc<MctsNode<M>> {
+        if !self.enabled {
+            return MctsNode::new(hash, terminal_value);
+        }
         let idx = Self::bucket_idx(hash);
         self.get_or_create_calls.fetch_add(1, Ordering::Relaxed);
         let t0 = Instant::now();
@@ -126,6 +135,9 @@ impl<M: Copy + Send + Sync + 'static> TranspositionTable<M> {
 
     /// 조회만 (삽입 없음)
     pub fn get(&self, hash: u64) -> Option<Arc<MctsNode<M>>> {
+        if !self.enabled {
+            return None;
+        }
         let idx = Self::bucket_idx(hash);
         self.get_calls.fetch_add(1, Ordering::Relaxed);
         let t0 = Instant::now();
@@ -135,6 +147,9 @@ impl<M: Copy + Send + Sync + 'static> TranspositionTable<M> {
     }
 
     pub fn size(&self) -> usize {
+        if !self.enabled {
+            return 0;
+        }
         self.buckets
             .iter()
             .map(|b| b.lock().unwrap().map.len())
@@ -152,6 +167,15 @@ impl<M: Copy + Send + Sync + 'static> TranspositionTable<M> {
     }
 
     pub fn clear(&self) {
+        if !self.enabled {
+            self.hits.store(0, Ordering::Relaxed);
+            self.misses.store(0, Ordering::Relaxed);
+            self.get_or_create_calls.store(0, Ordering::Relaxed);
+            self.get_calls.store(0, Ordering::Relaxed);
+            self.lock_wait_nanos.store(0, Ordering::Relaxed);
+            self.max_lock_wait_nanos.store(0, Ordering::Relaxed);
+            return;
+        }
         for b in &self.buckets {
             b.lock().unwrap().map.clear();
         }
@@ -194,5 +218,22 @@ impl<M: Copy + Send + Sync + 'static> TranspositionTable<M> {
 impl<M: Copy + Send + Sync + 'static> Default for TranspositionTable<M> {
     fn default() -> Self {
         Self::new()
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::TranspositionTable;
+    use std::sync::Arc;
+
+    #[test]
+    fn disabled_table_does_not_merge_or_store_nodes() {
+        let tt = TranspositionTable::<usize>::new_enabled(false);
+        let a = tt.get_or_create(123, None);
+        let b = tt.get_or_create(123, None);
+
+        assert_eq!(tt.size(), 0);
+        assert!(tt.get(123).is_none());
+        assert!(!Arc::ptr_eq(&a, &b));
     }
 }

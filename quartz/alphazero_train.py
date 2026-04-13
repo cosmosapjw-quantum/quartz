@@ -16,8 +16,10 @@ GPU:          pip install torch --index-url https://download.pytorch.org/whl/roc
 import os, sys, json, select, time, argparse, subprocess, random, math, signal, threading, logging, struct, warnings, atexit, queue
 import numpy as np
 from dataclasses import dataclass
+
+log = logging.getLogger(__name__)
 from pathlib import Path
-from collections import deque
+from collections import OrderedDict, deque
 from multiprocessing import shared_memory
 
 from quartz.backend import (
@@ -52,18 +54,21 @@ except ImportError:
 
 
 def encode_board(cfg, board_flat, player):
-    """Game-agnostic board encoding using registered encoder."""
+    """Game-agnostic board encoding using registered encoder.
+    For 17-channel history encoding, use _encode_board_with_history instead.
+    This function creates a single-timestep snapshot (t=0 only, no history)."""
     enc_obj = cfg.get('_encoder')
     if enc_obj is not None:
         return enc_obj.encode(board_flat, player)
-    # Legacy fallback: 3-plane encoding
     bs = cfg['board']; n2 = bs * bs
-    enc = np.zeros((cfg['ch'], bs, bs), dtype=np.float32)
+    ch = cfg.get('ch', 17)
+    enc = np.zeros((ch, bs, bs), dtype=np.float32)
     for i in range(n2):
         r, c = i // bs, i % bs
         if board_flat[i] == player: enc[0, r, c] = 1.0
         elif board_flat[i] != 0: enc[1, r, c] = 1.0
-    if cfg['ch'] >= 3 and player == 1: enc[2] = 1.0
+    # Color plane (last channel)
+    if player == 1: enc[ch - 1] = 1.0
     return enc
 
 
@@ -92,6 +97,30 @@ def json_dumps_compact(payload):
         out = orjson.dumps(payload)
         return out.decode("utf-8") if isinstance(out, bytes) else out
     return json.dumps(payload, separators=(",", ":"))
+
+
+def iter_sparse_policy_entries(entries):
+    for entry in entries or ():
+        if isinstance(entry, str) and ":" in entry:
+            idx_raw, val_raw = entry.split(":", 1)
+        elif isinstance(entry, (list, tuple)) and len(entry) >= 2:
+            idx_raw, val_raw = entry[0], entry[1]
+        else:
+            continue
+        try:
+            idx = int(idx_raw)
+            val = float(val_raw)
+        except (TypeError, ValueError):
+            continue
+        yield idx, val
+
+
+def dense_policy_from_sparse(entries, n_actions):
+    policy = np.zeros(n_actions, dtype=np.float32)
+    for idx, val in iter_sparse_policy_entries(entries):
+        if 0 <= idx < n_actions:
+            policy[idx] = val
+    return policy
 
 
 def wait_readable(stream, timeout_s):
@@ -246,6 +275,7 @@ SHM_SLOT_DONE = 2
 SHM_MSG_EVAL_BATCH_REQ = 1
 SHM_MSG_EVAL_BATCH_RESP = 2
 SHM_MSG_JSON = 3
+SHM_MSG_SEARCH_RESP = 4
 
 SHM_DIR_TO_PYTHON = 0
 SHM_DIR_TO_RUST = 1
@@ -349,6 +379,13 @@ class ShmRingBuffer:
     def cmd_done(self):
         return self._atomic_load_u8(24) != 0
 
+    def request_cancel(self):
+        """Signal Rust to cancel the current command at the next wave boundary."""
+        self._atomic_store_u8(25, 1)
+
+    def cancel_requested(self):
+        return self._atomic_load_u8(25) != 0
+
     # --- Slot state ---
 
     def _r2p_slot_offset(self, idx):
@@ -451,9 +488,14 @@ def _json_line_bytes(payload):
     return out if out.endswith(b"\n") else out + b"\n"
 
 
-def _read_exact(stream, n_bytes):
+def _read_exact(stream, n_bytes, timeout_s=None):
     chunks = bytearray()
+    deadline = None if timeout_s is None else time.perf_counter() + float(timeout_s)
     while len(chunks) < n_bytes:
+        if deadline is not None:
+            remaining = deadline - time.perf_counter()
+            if remaining <= 0.0 or not wait_readable(stream, remaining):
+                raise TimeoutError(f"timed out reading {n_bytes} bytes from IPC stream")
         chunk = stream.read(n_bytes - len(chunks))
         if not chunk:
             return None
@@ -515,11 +557,11 @@ def proc_read_json_line(proc_or_stream):
     return line or None
 
 
-def proc_read_message(proc_or_stream):
+def proc_read_message(proc_or_stream, timeout_s=None):
     stream = getattr(proc_or_stream, "stdout", proc_or_stream)
-    first = _read_exact(stream, 1)
+    first = _read_exact(stream, 1, timeout_s=timeout_s)
     while first in (b"\n", b"\r"):
-        first = _read_exact(stream, 1)
+        first = _read_exact(stream, 1, timeout_s=timeout_s)
     if not first:
         return None, None
     if first in (b"{", b"["):
@@ -537,7 +579,7 @@ def proc_read_message(proc_or_stream):
         except (json.JSONDecodeError, ValueError, TypeError) as exc:
             log.warning("proc_read_message: JSON parse failed (%s), skipping line", exc)
             return "json", None
-    header_rest = _read_exact(stream, QIPC_HEADER.size - 1)
+    header_rest = _read_exact(stream, QIPC_HEADER.size - 1, timeout_s=timeout_s)
     if header_rest is None:
         return None, None
     try:
@@ -551,7 +593,7 @@ def proc_read_message(proc_or_stream):
     if payload_len > 256 * 1024 * 1024:  # 256 MB sanity cap
         log.warning("proc_read_message: unreasonable payload_len=%d, skipping", payload_len)
         return None, None
-    payload = _read_exact(stream, payload_len)
+    payload = _read_exact(stream, payload_len, timeout_s=timeout_s)
     if payload is None:
         return None, None
     return "frame", (frame_kind, payload)
@@ -644,6 +686,102 @@ def pack_qipc_batch_eval_resp(policies, values):
     return bytes(payload)
 
 
+_SEARCH_RESP_SINGLE = 1
+_SEARCH_RESP_MULTI = 2
+_SEARCH_RESP_SESSION = 3
+
+
+def _unpack_search_string(payload, offset):
+    if offset + 4 > len(payload):
+        raise ValueError("truncated search string length")
+    (byte_len,) = struct.unpack_from("<I", payload, offset)
+    offset += 4
+    if offset + byte_len > len(payload):
+        raise ValueError("truncated search string payload")
+    raw = payload[offset: offset + byte_len]
+    offset += byte_len
+    return raw.decode("utf-8"), offset
+
+
+def unpack_shm_search_response(payload):
+    if len(payload) < 13:
+        raise ValueError("short search response payload")
+    wrapper_kind = payload[0]
+    (session_id,) = struct.unpack_from("<Q", payload, 1)
+    (result_count,) = struct.unpack_from("<I", payload, 9)
+    offset = 13
+    results = []
+    for _ in range(result_count):
+        if offset >= len(payload):
+            raise ValueError("truncated search result flags")
+        flags = payload[offset]
+        offset += 1
+        if flags & 0b10:
+            results.append(None)
+            continue
+        if flags & 0b01:
+            error, offset = _unpack_search_string(payload, offset)
+            results.append({"error": error})
+            continue
+        if offset + 36 > len(payload):
+            raise ValueError("truncated search result scalars")
+        best_move, iterations, max_pending = struct.unpack_from("<III", payload, offset)
+        offset += 12
+        p_flip, value, sigma_q, hbar_eff, dup_rate, avg_vvalue = struct.unpack_from("<ffffff", payload, offset)
+        offset += 24
+        if offset + 4 > len(payload):
+            raise ValueError("truncated sparse policy count")
+        (policy_len,) = struct.unpack_from("<I", payload, offset)
+        offset += 4
+        policy = []
+        for _ in range(policy_len):
+            if offset + 8 > len(payload):
+                raise ValueError("truncated sparse policy entry")
+            idx, prob = struct.unpack_from("<If", payload, offset)
+            offset += 8
+            policy.append([int(idx), float(prob)])
+        if offset + 4 > len(payload):
+            raise ValueError("truncated history hash count")
+        (history_len,) = struct.unpack_from("<I", payload, offset)
+        offset += 4
+        history_hashes = []
+        for _ in range(history_len):
+            if offset + 8 > len(payload):
+                raise ValueError("truncated history hash entry")
+            (history_hash,) = struct.unpack_from("<Q", payload, offset)
+            offset += 8
+            history_hashes.append(int(history_hash))
+        stop_reason, offset = _unpack_search_string(payload, offset)
+        best_move_uci, offset = _unpack_search_string(payload, offset)
+        result_fen, offset = _unpack_search_string(payload, offset)
+        result = {
+            "best_move": int(best_move),
+            "policy": policy,
+            "p_flip": float(p_flip),
+            "value": float(value),
+            "sigma_q": float(sigma_q),
+            "hbar_eff": float(hbar_eff),
+            "stop_reason": stop_reason,
+            "iterations": int(iterations),
+            "dup_rate": float(dup_rate),
+            "max_pending": int(max_pending),
+            "avg_vvalue": float(avg_vvalue),
+            "best_move_uci": best_move_uci,
+            "result_fen": result_fen,
+            "result_history_hashes": history_hashes,
+        }
+        results.append(result)
+    if offset != len(payload):
+        raise ValueError("search response trailing bytes")
+    if wrapper_kind == _SEARCH_RESP_SINGLE:
+        return {"result": results[0] if results else {}}
+    if wrapper_kind == _SEARCH_RESP_SESSION:
+        return {"session_id": int(session_id), "results": results}
+    if wrapper_kind == _SEARCH_RESP_MULTI:
+        return {"results": results}
+    raise ValueError(f"unknown search response wrapper kind: {wrapper_kind}")
+
+
 class InferencePipelineThread:
     """Background thread that runs GPU inference while the caller collects the next batch.
 
@@ -715,36 +853,47 @@ class NNEvalCache:
     """LRU cache for NN evaluation results keyed by feature hash."""
 
     def __init__(self, max_entries=65536):
-        self._cache = {}  # hash → (policy_np, value_float)
+        self._cache = OrderedDict()  # hash → (policy_np, value_float)
         self._max = max_entries
         self._hits = 0
         self._misses = 0
+        self._lock = threading.Lock()
 
     def get(self, feat_hash):
-        entry = self._cache.get(feat_hash)
-        if entry is not None:
+        with self._lock:
+            entry = self._cache.get(feat_hash)
+            if entry is None:
+                self._misses += 1
+                return None
+            try:
+                self._cache.move_to_end(feat_hash)
+            except KeyError:
+                # A concurrent clear/eviction should degrade to a miss, not crash
+                # the self-play worker hot path.
+                self._misses += 1
+                return None
             self._hits += 1
             return entry
-        self._misses += 1
-        return None
 
     def put(self, feat_hash, policy_np, value):
-        if len(self._cache) >= self._max:
-            # Evict oldest 25%
-            keys = list(self._cache.keys())
-            for k in keys[:len(keys) // 4]:
-                del self._cache[k]
-        self._cache[feat_hash] = (policy_np, float(value))
+        with self._lock:
+            if feat_hash in self._cache:
+                self._cache.move_to_end(feat_hash)
+            self._cache[feat_hash] = (policy_np, float(value))
+            while len(self._cache) > self._max:
+                self._cache.popitem(last=False)
 
     def clear(self):
-        self._cache.clear()
-        self._hits = 0
-        self._misses = 0
+        with self._lock:
+            self._cache.clear()
+            self._hits = 0
+            self._misses = 0
 
     @property
     def hit_rate(self):
-        total = self._hits + self._misses
-        return self._hits / total if total > 0 else 0.0
+        with self._lock:
+            total = self._hits + self._misses
+            return self._hits / total if total > 0 else 0.0
 
     @staticmethod
     def default_size(actions):
@@ -870,12 +1019,6 @@ def _run_batched_eval_groups(eval_groups, model, device, cfg):
                 model_tag_i = flat_requests[global_i][1]
                 feat_hash = hash((model_tag_i, feat.tobytes()))
                 nn_cache.put(feat_hash, all_policies[global_i], all_values[global_i])
-    else:
-        all_policies = [
-            np.full(na, 1.0 / na, dtype=np.float32)
-            for na, _model_tag in flat_requests
-        ]
-        all_values = [0.0] * len(flat_requests)
 
     responses = []
     offset = 0
@@ -957,8 +1100,8 @@ def _shm_eval_loop(ring, model, device, cfg, proc, on_json=None):
     writes eval batch responses to p2r slots.
     Uses InferencePipelineThread for GPU overlap when possible.
 
-    Returns when Rust sets cmd_done flag.  The caller should then
-    read the final JSON result from proc.stdout.
+    Returns when Rust sets cmd_done flag. If the command writes a binary
+    search response onto the ring, that decoded payload is returned.
 
     Args:
         ring: ShmRingBuffer instance
@@ -984,6 +1127,7 @@ def _shm_eval_loop(ring, model, device, cfg, proc, on_json=None):
         pipeline = InferencePipelineThread(model, device, cfg, max_pending=1)
         pipeline.start()
 
+    terminal_payload = None
     try:
         spin = 0
         while True:
@@ -1043,13 +1187,19 @@ def _shm_eval_loop(ring, model, device, cfg, proc, on_json=None):
                             on_json(json_obj)
                     except Exception:
                         pass
+                elif msg_type == SHM_MSG_SEARCH_RESP:
+                    ring.r2p_mark_done(slot_idx)
+                    try:
+                        terminal_payload = unpack_shm_search_response(payload_bytes)
+                    except Exception:
+                        terminal_payload = {"error": "invalid shm search response"}
                 else:
                     ring.r2p_mark_done(slot_idx)
 
             if not found_eval:
                 _duty["read_s"] += time.perf_counter() - read_t0
                 if ring.cmd_done():
-                    # Drain any remaining JSON messages
+                    # Drain any remaining ring messages for this command.
                     for slot_idx in range(ring.r2p_slot_count):
                         result = ring.r2p_try_read(slot_idx)
                         if result is None:
@@ -1063,7 +1213,16 @@ def _shm_eval_loop(ring, model, device, cfg, proc, on_json=None):
                                     on_json(json_obj)
                             except Exception:
                                 pass
+                        elif msg_type == SHM_MSG_SEARCH_RESP:
+                            try:
+                                terminal_payload = unpack_shm_search_response(payload_bytes)
+                            except Exception:
+                                terminal_payload = {"error": "invalid shm search response"}
                     break
+
+                # Check if the Rust process died (killed by pause or crash)
+                if proc.poll() is not None:
+                    raise RuntimeError(f"Rust server exited (code={proc.returncode}) during SHM eval loop")
 
                 spin += 1
                 if spin < 64:
@@ -1085,6 +1244,7 @@ def _shm_eval_loop(ring, model, device, cfg, proc, on_json=None):
             pipeline.stop()
         if _duty["cycles"] > 0:
             NNSearchClient._emit_duty_cycle(_duty)
+    return terminal_payload
 
 
 def _shm_write_eval_response(ring, response_group, epoch=0, seq=0):
@@ -1199,6 +1359,17 @@ class RustServerPool:
                 self._procs.append(launch_rust_server(self.rust_binary))
             return list(self._procs[:n])
 
+    def kill_active(self):
+        """Kill all active processes to force in-flight operations to abort.
+        Pool will spawn fresh processes on next acquire()."""
+        with self._lock:
+            for proc in self._procs:
+                try:
+                    proc.kill()
+                except Exception:
+                    pass
+            self._procs = []
+
     def close(self):
         with self._lock:
             procs, self._procs = self._procs, []
@@ -1228,7 +1399,7 @@ import torch.nn as nn
 import torch.nn.functional as F
 from torch.utils.data import DataLoader, Dataset
 
-CHESS_POLICY_ACTIONS = 4096
+CHESS_POLICY_ACTIONS = 4672
 SEARCH_RUNTIME_KEYS = {
     "sigma_0",
     "min_visits",
@@ -1238,6 +1409,7 @@ SEARCH_RUNTIME_KEYS = {
     "hbar_penalty_cap",
     "c_puct",
     "penalty_mode",
+    "root_only_shaping",
     "n_threads",
     "batch_size",
     "batch_timeout_us",
@@ -1271,6 +1443,7 @@ def _make_go_cfg(board, filters, blocks, vh, iters, games, temp_th, dir_a, steps
         min_visits=min_visits, check_interval=check_interval,
         prior_refresh_rate=0.0, prior_refresh_temp=1.0, c_puct=2.5,
         n_threads=4, batch_size=8, recent_frac=0.8, recent_window=recent_window,
+        tt_enabled=True,
     )
     cfg.update(GO_RULESET_PRESETS[suffix])
     return cfg
@@ -1280,22 +1453,23 @@ def _make_go_cfg(board, filters, blocks, vh, iters, games, temp_th, dir_a, steps
 # ═══════════════════════════════════════════
 
 _GOMOKU15_BASE = dict(
-    board=15, ch=3, actions=225, win=5, filters=128, blocks=8, vh=256,
-    iters=400, games=100, temp_th=15, dir_a=0.15, buf=500_000, steps=200,
+    board=15, ch=17, actions=225, win=5, filters=128, blocks=8, vh=256,
+    iters=200, games=100, temp_th=15, dir_a=0.15, buf=500_000, steps=200,
     batch=512, penalty_mode="GatedRefresh", hbar_penalty_cap=0.3, sigma_0=0.3,
     min_visits=50, check_interval=100, prior_refresh_rate=0.0,
     prior_refresh_temp=1.0, c_puct=2.0, n_threads=4, batch_size=8,
     recent_frac=0.8, recent_window=50_000)
 
 _CHESS_BASE = dict(
-    board=8, ch=16, actions=CHESS_POLICY_ACTIONS, win=0, filters=128, blocks=10, vh=256,
+    board=8, ch=36, actions=CHESS_POLICY_ACTIONS, win=0, filters=128, blocks=10, vh=256,
     iters=800, games=40, temp_th=15, dir_a=0.3, buf=1_000_000, steps=400, batch=256,
     penalty_mode="GatedRefresh", hbar_penalty_cap=0.3, sigma_0=0.3, min_visits=50,
     check_interval=100, prior_refresh_rate=0.0, prior_refresh_temp=1.0, c_puct=2.5,
-    n_threads=4, batch_size=8, recent_frac=0.8, recent_window=100_000)
+    n_threads=4, batch_size=8, recent_frac=0.8, recent_window=100_000,
+    tt_enabled=True)
 
 GAME_CONFIGS = {
-    "gomoku7":  dict(board=7,  ch=3, actions=49,  win=4, filters=64,  blocks=4, vh=64,  iters=200, games=200, temp_th=8,  dir_a=0.5,  buf=200_000,  steps=100, batch=256, penalty_mode="GatedRefresh", hbar_penalty_cap=0.3, sigma_0=0.3, min_visits=15, check_interval=20, prior_refresh_rate=0.0, prior_refresh_temp=1.0, c_puct=2.0, n_threads=4, batch_size=8, recent_frac=0.8, recent_window=20_000),
+    "gomoku7":  dict(board=7,  ch=17, actions=49,  win=4, filters=64,  blocks=4, vh=64,  iters=200, games=200, temp_th=8,  dir_a=0.5,  buf=200_000,  steps=100, batch=256, penalty_mode="GatedRefresh", hbar_penalty_cap=0.3, sigma_0=0.3, min_visits=15, check_interval=20, prior_refresh_rate=0.0, prior_refresh_temp=1.0, c_puct=2.0, n_threads=4, batch_size=8, recent_frac=0.8, recent_window=20_000),
     "gomoku15": dict(_GOMOKU15_BASE),
     "gomoku15_free": dict(_GOMOKU15_BASE),
     "gomoku15_std": dict(_GOMOKU15_BASE),
@@ -1316,7 +1490,7 @@ GAME_CONFIGS = {
     "go19_kr":  _make_go_cfg(19, 192, 12, 384, 800, 20, 20, 0.25, 400, 384, 80, 160, 150_000, "kr"),
     "chess":    dict(_CHESS_BASE, chess960=False, chess960_index=None),
     "chess960": dict(_CHESS_BASE, chess960=True, chess960_index=None),
-    "tictactoe": dict(board=3, ch=3, actions=9, win=3, filters=32, blocks=2, vh=32, iters=100, games=400, temp_th=4, dir_a=0.6, buf=50_000, steps=64, batch=128, penalty_mode="GatedRefresh", hbar_penalty_cap=0.3, sigma_0=0.3, min_visits=8, check_interval=16, prior_refresh_rate=0.0, prior_refresh_temp=1.0, c_puct=1.5, n_threads=2, batch_size=8, recent_frac=0.8, recent_window=10_000),
+    "tictactoe": dict(board=3, ch=17, actions=9, win=3, filters=32, blocks=2, vh=32, iters=100, games=400, temp_th=4, dir_a=0.6, buf=50_000, steps=64, batch=128, penalty_mode="GatedRefresh", hbar_penalty_cap=0.3, sigma_0=0.3, min_visits=8, check_interval=16, prior_refresh_rate=0.0, prior_refresh_temp=1.0, c_puct=1.5, n_threads=2, batch_size=8, recent_frac=0.8, recent_window=10_000),
 }
 
 
@@ -1439,6 +1613,9 @@ def rust_search_options(cfg, penalty_mode=None):
         "n_threads": n_threads,
         "batch_size": batch_size,
         "batch_timeout_us": batch_timeout_us,
+        **({"root_only_shaping": bool(cfg["root_only_shaping"])} if "root_only_shaping" in cfg else {}),
+        **({"vl_mode": cfg["vl_mode"]} if "vl_mode" in cfg else {}),
+        **({"tt_enabled": bool(cfg["tt_enabled"])} if "tt_enabled" in cfg else {}),
     }
 
 
@@ -1450,7 +1627,19 @@ def normalize_rust_board(game_name, board_flat):
     return board_flat.tolist() if hasattr(board_flat, "tolist") else list(board_flat)
 
 
+def chess_state_meta_from_hashes(history_hashes):
+    hashes = []
+    for value in history_hashes or []:
+        try:
+            hashes.append(int(value))
+        except (TypeError, ValueError):
+            continue
+    return {"chess_history_hashes": hashes} if hashes else {}
+
+
 def build_rust_state_meta(game_name, state, cfg):
+    if is_chess_game(game_name) and state is not None:
+        return chess_state_meta_from_hashes(getattr(state, "_chess_history_hashes", None))
     if is_go_game(game_name) and state is not None:
         return {
             "go_ruleset": cfg.get("go_ruleset", "chinese"),
@@ -1527,59 +1716,83 @@ def initial_chess_fen(cfg, rng=None):
 
 
 def encode_chess_fen(fen):
-    enc = np.zeros((16, 8, 8), dtype=np.float32)
+    """Encode a chess FEN to 36-channel tensor (AlphaZero-complete for t=0).
+    0-5: my pieces, 6-11: opp pieces (relative), 12-13: repetition,
+    14-27: history (zero), 28: color, 29: move count,
+    30-33: castling, 34: halfmove clock, 35: EP."""
+    enc = np.zeros((36, 8, 8), dtype=np.float32)
     parts = fen.split()
     if len(parts) < 4:
         return enc
 
     board_part, side_part, castling_part, ep_part = parts[:4]
-    piece_map = {
-        'P': 0, 'N': 1, 'B': 2, 'R': 3, 'Q': 4, 'K': 5,
-        'p': 6, 'n': 7, 'b': 8, 'r': 9, 'q': 10, 'k': 11,
-    }
+    is_white = (side_part != 'b')
+    # Piece planes: relative to side-to-move
+    white_map = {'P': 0, 'N': 1, 'B': 2, 'R': 3, 'Q': 4, 'K': 5}
+    black_map = {'p': 0, 'n': 1, 'b': 2, 'r': 3, 'q': 4, 'k': 5}
     rank = 7
     file = 0
-    white_king_file = None
+    white_king_file = 4
     for ch in board_part:
         if ch == '/':
             rank -= 1
             file = 0
         elif ch.isdigit():
             file += int(ch)
-        elif ch in piece_map:
-            enc[piece_map[ch], rank, file] = 1.0
+        elif ch in white_map:
+            plane = white_map[ch] if is_white else (white_map[ch] + 6)
+            enc[plane, rank, file] = 1.0
             if ch == 'K':
                 white_king_file = file
             file += 1
+        elif ch in black_map:
+            plane = (black_map[ch] + 6) if is_white else black_map[ch]
+            enc[plane, rank, file] = 1.0
+            file += 1
 
-    white_king_file = 4 if white_king_file is None else white_king_file
+    # Plane 28: side to move
+    if is_white:
+        enc[28] = 1.0
 
-    wks = wqs = False
+    # Plane 29: move count (from FEN fullmove field)
+    if len(parts) >= 6:
+        try:
+            fullmove = int(parts[5])
+            enc[29] = min(fullmove / 200.0, 1.0)
+        except ValueError:
+            pass
+
+    # Planes 30-33: castling rights
     for ch in castling_part:
         if ch == 'K':
-            wks = True
+            enc[30] = 1.0
         elif ch == 'Q':
-            wqs = True
+            enc[31] = 1.0
+        elif ch == 'k':
+            enc[32] = 1.0
+        elif ch == 'q':
+            enc[33] = 1.0
         elif 'A' <= ch <= 'H':
             rook_file = ord(ch) - ord('A')
-            if rook_file > white_king_file:
-                wks = True
-            else:
-                wqs = True
+            enc[30 if rook_file > white_king_file else 31] = 1.0
+        elif 'a' <= ch <= 'h':
+            rook_file = ord(ch) - ord('a')
+            enc[32 if rook_file > white_king_file else 33] = 1.0
 
-    if wks:
-        enc[12] = 1.0
-    if wqs:
-        enc[13] = 1.0
+    # Plane 34: halfmove clock
+    if len(parts) >= 5:
+        try:
+            half = int(parts[4])
+            enc[34] = min(half / 100.0, 1.0)
+        except ValueError:
+            pass
 
+    # Plane 35: en passant target
     if ep_part != "-" and len(ep_part) >= 2:
         ep_file = ord(ep_part[0]) - ord('a')
         ep_rank = ord(ep_part[1]) - ord('1')
         if 0 <= ep_file < 8 and 0 <= ep_rank < 8:
-            enc[14, ep_rank, ep_file] = 1.0
-
-    if side_part == 'b':
-        enc[15] = 1.0
+            enc[35, ep_rank, ep_file] = 1.0
     return enc
 
 # ═══════════════════════════════════════════
@@ -2171,6 +2384,9 @@ class NNSearchClient:
         self.device = device
         self.proc = None
         self.rust_binary = rust_binary
+        self.search_read_timeout_s = float(
+            os.environ.get("QUARTZ_SEARCH_STALL_TIMEOUT_S", "120") or 120.0
+        )
 
     def start(self):
         self.proc = launch_rust_server(self.rust_binary)
@@ -2186,26 +2402,42 @@ class NNSearchClient:
 
     def search_move(self, board_flat, player, penalty_mode="GatedRefresh", fen=None, state_meta=None):
         """Send position to Rust, handle eval callbacks, get result."""
-        if not self.proc:
-            self.start()
         game_name = rust_game_name(self.cfg['_name'])
-        req_dict = {
-            "cmd": "search_nn",
-            "game": game_name,
-            "player": int(player),
-            "iters": self.cfg['iters'],
-        }
-        req_dict.update(rust_search_options(self.cfg, penalty_mode=penalty_mode))
-        if is_chess_game(game_name) and fen:
-            req_dict["fen"] = fen
-        else:
-            req_dict["board"] = normalize_rust_board(game_name, board_flat)
-            if state_meta:
-                req_dict.update(state_meta)
-        payload = self._exchange_search_request(req_dict)
-        if isinstance(payload, dict) and "result" in payload:
-            return payload.get("result", {})
-        return payload if isinstance(payload, dict) else {}
+        last_error = None
+        for attempt in range(2):
+            if not self.proc:
+                self.start()
+            req_dict = {
+                "cmd": "search_nn",
+                "game": game_name,
+                "player": int(player),
+                "iters": self.cfg['iters'],
+            }
+            req_dict.update(rust_search_options(self.cfg, penalty_mode=penalty_mode))
+            if is_chess_game(game_name) and fen:
+                req_dict["fen"] = fen
+                if state_meta:
+                    req_dict.update(state_meta)
+            else:
+                req_dict["board"] = normalize_rust_board(game_name, board_flat)
+                if state_meta:
+                    req_dict.update(state_meta)
+            try:
+                payload = self._exchange_search_request(req_dict)
+                if isinstance(payload, dict) and "result" in payload:
+                    return payload.get("result", {})
+                return payload if isinstance(payload, dict) else {}
+            except TimeoutError as exc:
+                last_error = exc
+                logging.getLogger(__name__).warning(
+                    "search_move timed out on attempt %d/2 for %s; restarting Rust server",
+                    attempt + 1,
+                    game_name,
+                )
+                self.stop()
+        if last_error is not None:
+            raise last_error
+        return {}
 
     def search_moves_multi(self, jobs, penalty_mode="GatedRefresh"):
         if not self.proc:
@@ -2317,7 +2549,16 @@ class NNSearchClient:
                 elif "selfplay_progress" in obj:
                     if callable(on_progress):
                         on_progress(obj["selfplay_progress"])
-            _shm_eval_loop(ring, self.model, self.device, self.cfg, self.proc, on_json=_on_json)
+            ring_payload = _shm_eval_loop(ring, self.model, self.device, self.cfg, self.proc, on_json=_on_json)
+            if isinstance(ring_payload, dict):
+                if "selfplay_done" in ring_payload:
+                    done = dict(ring_payload["selfplay_done"])
+                    done["games"] = aggregated_games
+                    return done
+                if "games" in ring_payload:
+                    payload = dict(ring_payload)
+                    payload.setdefault("games", aggregated_games)
+                    return payload
             # Read final result from stdout
             kind, payload = proc_read_message(self.proc)
             if kind == "json" and isinstance(payload, dict):
@@ -2442,7 +2683,10 @@ class NNSearchClient:
 
     @staticmethod
     def _emit_duty_cycle(duty):
-        """Emit eval-loop duty-cycle timing for monitoring."""
+        """Emit eval-loop duty-cycle timing for monitoring.
+        Only active when QUARTZ_DUTY_CYCLE=1 is set."""
+        if not os.environ.get("QUARTZ_DUTY_CYCLE"):
+            return
         total = duty["read_s"] + duty["collect_s"] + duty["model_s"] + duty["write_s"]
         if total < 1e-9:
             return
@@ -2464,6 +2708,7 @@ class NNSearchClient:
     def _exchange_search_request(self, req_dict):
         if not self.proc:
             self.start()
+        read_timeout_s = max(1.0, float(self.search_read_timeout_s))
 
         def parse_eval_group(kind, payload):
             if kind is None:
@@ -2520,9 +2765,10 @@ class NNSearchClient:
         # --- SHM ring buffer fast path ---
         ring = getattr(self.proc, "_quartz_ring_buffer", None)
         if ring is not None:
-            _shm_eval_loop(ring, self.model, self.device, self.cfg, self.proc)
-            # Read final result from stdout
-            kind, payload = proc_read_message(self.proc)
+            ring_payload = _shm_eval_loop(ring, self.model, self.device, self.cfg, self.proc)
+            if isinstance(ring_payload, dict):
+                return ring_payload
+            kind, payload = proc_read_message(self.proc, timeout_s=read_timeout_s)
             if kind == "json" and isinstance(payload, dict):
                 return payload
             return {}
@@ -2559,7 +2805,7 @@ class NNSearchClient:
 
             # --- Read first request ---
             read_t0 = time.perf_counter()
-            kind, payload = deferred if deferred is not None else proc_read_message(self.proc)
+            kind, payload = deferred if deferred is not None else proc_read_message(self.proc, timeout_s=read_timeout_s)
             deferred = None
             _duty["read_s"] += time.perf_counter() - read_t0
 
@@ -2588,7 +2834,7 @@ class NNSearchClient:
                 timeout_s = max(0.0, deadline - time.perf_counter())
                 if timeout_s <= 0.0 or not wait_readable(self.proc.stdout, timeout_s):
                     break
-                next_kind, next_payload = proc_read_message(self.proc)
+                next_kind, next_payload = proc_read_message(self.proc, timeout_s=read_timeout_s)
                 next_group, next_terminal = parse_eval_group(next_kind, next_payload)
                 if next_terminal is not None:
                     deferred = (next_kind, next_payload)
@@ -2775,6 +3021,7 @@ def selfplay_rust_nn(cfg, model, device, n_games, rust_binary="./target/release/
 
             if is_chess:
                 current_fen = initial_chess_fen(cfg)
+                current_chess_meta = {}
                 player = 1
                 chess_outcome = 0.0  # updated on terminal detection
             else:
@@ -2798,7 +3045,8 @@ def selfplay_rust_nn(cfg, model, device, n_games, rust_binary="./target/release/
 
                 # Call Rust MCTS with NN evaluation
                 if is_chess:
-                    result = client.search_move(None, player, penalty_mode, fen=current_fen)
+                    result = client.search_move(
+                        None, player, penalty_mode, fen=current_fen, state_meta=current_chess_meta)
                 else:
                     result = client.search_move(
                         game._board, player, penalty_mode,
@@ -2807,7 +3055,6 @@ def selfplay_rust_nn(cfg, model, device, n_games, rust_binary="./target/release/
                     break
 
                 # Extract policy
-                policy = np.zeros(n_actions, dtype=np.float32)
                 pol_entries = result.get('policy', [])
                 if not pol_entries:
                     # Terminal: Rust adjudicates mate, stalemate, dead positions,
@@ -2818,11 +3065,7 @@ def selfplay_rust_nn(cfg, model, device, n_games, rust_binary="./target/release/
                         # Convert to first player (white=1) perspective
                         chess_outcome = terminal_value * player  # player=1(white)/-1(black)
                     break
-                for entry in pol_entries:
-                    if isinstance(entry, str) and ':' in entry:
-                        idx, val = entry.split(':')
-                        idx = int(idx)
-                        if idx < n_actions: policy[idx] = float(val)
+                policy = dense_policy_from_sparse(pol_entries, n_actions)
 
                 game_states.append(enc.copy())
                 game_policies.append(policy.copy())
@@ -2833,6 +3076,8 @@ def selfplay_rust_nn(cfg, model, device, n_games, rust_binary="./target/release/
                     if not new_fen or new_fen == current_fen:
                         break  # game over
                     current_fen = new_fen
+                    current_chess_meta = chess_state_meta_from_hashes(
+                        result.get("result_history_hashes", []))
                     move_count += 1
                     player = -player
                 else:
@@ -2944,6 +3189,7 @@ class SelfPlayWorker:
         self._recent_chunks = deque(maxlen=8)
         self._proc_pool = RustServerPool(self.rust_binary)
         self._model = clone_actor_model(model)
+        self._active_proc = None  # tracks current in-flight Rust process for kill-on-pause
         self._last_progress_ts = time.time()
         self._last_error = None
         self._consecutive_errors = 0
@@ -2968,13 +3214,25 @@ class SelfPlayWorker:
                     "SelfPlayWorker did not stop within timeout")
         self._proc_pool.close()
 
-    def pause(self, wait=True, timeout=30.0):
+    def pause(self, wait=True):
         self._pause.set()
         if not wait:
             return True
-        return bool(self._idle.wait(timeout=max(0.1, float(timeout))))
+        # Quick check: already idle?
+        if self._idle.wait(timeout=2.0):
+            return True
+        # Cooperative cancel: signal Rust to stop at next wave boundary
+        proc = self._active_proc
+        if proc is not None:
+            ring = getattr(proc, "_quartz_ring_buffer", None)
+            if ring is not None:
+                ring.request_cancel()
+        # Wait indefinitely for the current wave to finish
+        self._idle.wait()
+        return True
 
     def resume(self):
+        self._consecutive_errors = 0  # reset after pause/kill cycle
         self._pause.clear()
 
     def telemetry(self):
@@ -3078,8 +3336,10 @@ class SelfPlayWorker:
                             parallel=min(parallel, chunk_games),
                             show_progress=False,
                             proc_pool=self._proc_pool,
-                            on_game=_on_game_stream if self.cfg.get("_selfplay_runner_mode") == "rust_selfplay_state_machine" else None)
+                            on_game=_on_game_stream if self.cfg.get("_selfplay_runner_mode") == "rust_selfplay_state_machine" else None,
+                            active_proc_ref=self)
                     finally:
+                        self._active_proc = None
                         self._idle.set()
                     chunk_positions = streamed_positions
                     if self.cfg.get("_selfplay_runner_mode") != "rust_selfplay_state_machine":
@@ -3107,11 +3367,56 @@ class SelfPlayWorker:
                 self._last_cycle_positions = n_new
                 self._last_cycle_games = batch_games
             except Exception as e:
-                logger = logging.getLogger(__name__)
+                self._idle.set()  # ensure idle is set on any error
+                self._active_proc = None
                 self._last_error = str(e)
                 self._consecutive_errors += 1
-                logger.warning(f"SelfPlayWorker error: {e}")
-                time.sleep(1)
+                if self._consecutive_errors <= 3:
+                    logging.getLogger(__name__).exception(
+                        "SelfPlayWorker error (%s): %r",
+                        type(e).__name__,
+                        e,
+                    )
+                time.sleep(min(self._consecutive_errors, 5))
+
+
+def _encode_board_with_history(cfg, board_12_sequence, move_idx, player):
+    """Encode board with AlphaZero-style 8-step history (17 channels).
+
+    Args:
+        cfg: game config
+        board_12_sequence: list of all board snapshots (0/1/2 encoding) up to this point
+        move_idx: index into board_12_sequence for the current position
+        player: current player (+1 or -1)
+    """
+    bs = cfg['board']
+    n2 = bs * bs
+    history_len = 8
+    total_ch = history_len * 2 + 1  # 17
+    enc = np.zeros((total_ch, bs, bs), dtype=np.float32)
+
+    for t in range(history_len):
+        hist_idx = move_idx - t
+        if hist_idx < 0:
+            break  # no more history available
+        board_12 = board_12_sequence[hist_idx]
+        board_flat = np.asarray([
+            1 if int(v) == 1 else (-1 if int(v) == 2 else 0)
+            for v in board_12
+        ], dtype=np.int8)
+        plane_my = t * 2
+        plane_opp = t * 2 + 1
+        for i in range(min(n2, len(board_flat))):
+            r, c = i // bs, i % bs
+            if board_flat[i] == player:
+                enc[plane_my, r, c] = 1.0
+            elif board_flat[i] != 0:
+                enc[plane_opp, r, c] = 1.0
+
+    # Color plane (last channel)
+    if player == 1:
+        enc[total_ch - 1] = 1.0
+    return enc
 
 
 def _decode_streamed_selfplay_game(cfg, game_payload):
@@ -3122,21 +3427,12 @@ def _decode_streamed_selfplay_game(cfg, game_payload):
     traces = game_payload.get("trace", []) or []
     states = []
     policies = []
-    for board_12, raw_player, sparse_pol in zip(board_hist, player_hist, policy_hist):
-        board_flat = np.asarray([
-            1 if int(v) == 1 else (-1 if int(v) == 2 else 0)
-            for v in board_12
-        ], dtype=np.int8)
+    for move_idx, (board_12, raw_player, sparse_pol) in enumerate(
+            zip(board_hist, player_hist, policy_hist)):
         player = 1 if int(raw_player) > 0 else -1
-        states.append(encode_board(cfg, board_flat, player))
-        policy = np.zeros(n_actions, dtype=np.float32)
-        for entry in sparse_pol:
-            if isinstance(entry, str) and ':' in entry:
-                idx, val = entry.split(':', 1)
-                idx = int(idx)
-                if 0 <= idx < n_actions:
-                    policy[idx] = float(val)
-        policies.append(policy)
+        # Encode with 8-step history from the sequence of board snapshots
+        states.append(_encode_board_with_history(cfg, board_hist, move_idx, player))
+        policies.append(dense_policy_from_sparse(sparse_pol, n_actions))
     outcome = float(game_payload.get("outcome", 0.0) or 0.0)
     return states, policies, outcome, traces
 
@@ -3302,7 +3598,7 @@ def _get_compiled_model(model):
         return model
     try:
         import torch as _torch
-        compiled = _torch.compile(model, mode="reduce-overhead")
+        compiled = _torch.compile(model, mode="default", dynamic=True)
         _COMPILED_MODELS[key] = compiled
         return compiled
     except Exception:
@@ -4767,8 +5063,43 @@ def build_elo_plot_series(history):
             "error_half": half_gap,
             "score_rate": row.get("score_rate"),
             "match_delta_elo": match_delta,
+            "eval_verdict": row.get("eval_verdict"),
         })
     return eval_points
+
+
+def build_metric_plot_series(history, field):
+    """Return sparse (iteration, value) pairs for a single plotted metric."""
+    series = []
+    for row in history:
+        iteration = row.get("iter")
+        value = row.get(field)
+        if iteration is None or value is None:
+            continue
+        series.append((iteration, value))
+    return series
+
+
+def build_best_elo_series(elo_points):
+    """Track champion Elo, promoting only on explicit promotion verdicts."""
+    best_elo = []
+    running_best = None
+    for point in elo_points:
+        champion_elo = point.get("champion_elo")
+        candidate_elo = point.get("candidate_elo")
+        verdict = point.get("eval_verdict")
+
+        if champion_elo is not None:
+            running_best = champion_elo if running_best is None else max(running_best, champion_elo)
+
+        promoted = verdict == "promote"
+        if verdict is None and champion_elo is not None and candidate_elo is not None:
+            promoted = candidate_elo >= champion_elo and (point.get("match_delta_elo") or 0) > 0
+        if promoted and candidate_elo is not None:
+            running_best = candidate_elo if running_best is None else max(running_best, candidate_elo)
+
+        best_elo.append(running_best)
+    return best_elo
 
 
 def generate_training_plots(log_path, output_dir):
@@ -4786,71 +5117,116 @@ def generate_training_plots(log_path, output_dir):
         return False
 
     iters = [h.get("iter") for h in history]
-    loss = [h.get("loss") for h in history]
-    p_loss = [h.get("p_loss") for h in history]
-    v_loss = [h.get("v_loss") for h in history]
-    loss_ema = [h.get("loss_ema") for h in history]
+    loss = build_metric_plot_series(history, "loss")
+    p_loss = build_metric_plot_series(history, "p_loss")
+    v_loss = build_metric_plot_series(history, "v_loss")
+    loss_ema = build_metric_plot_series(history, "loss_ema")
     elo_points = build_elo_plot_series(history)
 
     fig, ax = plt.subplots(figsize=(9, 5))
-    ax.plot(iters, loss, label="loss", linewidth=2.0)
-    ax.plot(iters, p_loss, label="p_loss", linewidth=1.5, alpha=0.9)
-    ax.plot(iters, v_loss, label="v_loss", linewidth=1.5, alpha=0.9)
-    if any(v is not None for v in loss_ema):
-        ax.plot(iters, loss_ema, label="loss_ema", linewidth=2.0, linestyle="--")
+
+    def plot_metric(series, label, **kwargs):
+        if not series:
+            return
+        xs, ys = zip(*series)
+        ax.plot(xs, ys, label=label, marker="o", markersize=3.5, **kwargs)
+
+    plot_metric(loss, "loss", linewidth=2.0)
+    plot_metric(p_loss, "p_loss", linewidth=1.5, alpha=0.9)
+    plot_metric(v_loss, "v_loss", linewidth=1.5, alpha=0.9)
+    if loss_ema:
+        xs, ys = zip(*loss_ema)
+        ax.plot(xs, ys, label="loss_ema", linewidth=2.0, linestyle="--", marker="o", markersize=3.0)
     ax.set_xlabel("Iteration")
     ax.set_ylabel("Loss")
     ax.set_title("Training Loss")
     ax.grid(True, alpha=0.25)
+    if iters:
+        ax.set_xlim(min(iters), max(iters))
     ax.legend()
     fig.tight_layout()
     fig.savefig(os.path.join(output_dir, "training_loss.png"), dpi=140)
     plt.close(fig)
 
     if elo_points:
-        fig, ax1 = plt.subplots(figsize=(10, 5.6))
+        from matplotlib.lines import Line2D
+
         elo_iters = [p["iter"] for p in elo_points]
         candidate_elo = [p["candidate_elo"] for p in elo_points]
         champion_elo = [p["champion_elo"] for p in elo_points]
-        error_iters = [p["iter"] for p in elo_points if p["error_half"] is not None]
-        error_mid = [p["error_mid"] for p in elo_points if p["error_half"] is not None]
-        error_half = [p["error_half"] for p in elo_points if p["error_half"] is not None]
-        score_rate = [p["score_rate"] for p in elo_points]
-        match_delta_elo = [p["match_delta_elo"] for p in elo_points]
 
-        ax1.plot(elo_iters, candidate_elo, label="candidate_elo", color="tab:blue",
-                 linewidth=2.2, marker="o", markersize=4)
+        # --- Top panel: Elo progression ---
+        fig, (ax_elo, ax_sr) = plt.subplots(2, 1, figsize=(10, 7),
+            height_ratios=[3, 1], sharex=True)
+
+        best_elo = build_best_elo_series(elo_points)
+
+        # Best Elo: bold primary line
+        ax_elo.plot(elo_iters, best_elo, color="#2563EB", linewidth=2.5,
+                    marker="o", markersize=5, label="Best Elo", zorder=4)
+
+        # Candidate & Champion: thin, muted
+        ax_elo.plot(elo_iters, candidate_elo, color="#93C5FD", linewidth=1.0,
+                    marker=".", markersize=3, label="Candidate", alpha=0.6, zorder=2)
         if any(v is not None for v in champion_elo):
-            ax1.plot(elo_iters, champion_elo, label="champion_elo", color="tab:gray",
-                     linewidth=1.8, linestyle="--", marker="s", markersize=3.5, alpha=0.95)
-        if error_iters:
-            ax1.errorbar(error_iters, error_mid, yerr=error_half, fmt="none",
-                         ecolor="tab:orange", elinewidth=1.6, capsize=4, alpha=0.9,
-                         label="ΔElo range")
-        ax1.set_xlabel("Iteration")
-        ax1.set_ylabel("Published Elo")
-        ax1.grid(True, alpha=0.25)
+            ax_elo.plot(elo_iters, champion_elo, color="#D1D5DB", linewidth=1.0,
+                        linestyle="--", marker=".", markersize=3, label="Champion", alpha=0.5, zorder=1)
 
-        ax2 = ax1.twinx()
+        # Error region: best Elo ± |delta_elo| from match measurement
+        delta_data = [(it, be, p.get("match_delta_elo"))
+                      for it, be, p in zip(elo_iters, best_elo, elo_points)
+                      if be is not None and p.get("match_delta_elo") is not None]
+        if delta_data:
+            d_it, d_best, d_delta = zip(*delta_data)
+            d_lo = [b - abs(d) for b, d in zip(d_best, d_delta)]
+            d_hi = [b + abs(d) for b, d in zip(d_best, d_delta)]
+            ax_elo.fill_between(d_it, d_lo, d_hi, alpha=0.12, color="#2563EB",
+                                label="\u00b1 match \u0394Elo")
+
+        ax_elo.set_ylabel("Elo Rating", fontsize=11)
+        ax_elo.set_title("Elo Progression", fontsize=13, fontweight="bold")
+        ax_elo.grid(True, alpha=0.2)
+        ax_elo.legend(loc="upper left", fontsize=9, framealpha=0.9)
+        # Auto-scale Y axis robustly (clip extreme outliers)
+        all_elos = [v for v in candidate_elo + champion_elo if v is not None]
+        if all_elos:
+            q1 = sorted(all_elos)[len(all_elos) // 10]
+            q9 = sorted(all_elos)[len(all_elos) * 9 // 10]
+            iqr = max(q9 - q1, 100)
+            ax_elo.set_ylim(min(all_elos[0], q1 - iqr * 0.3), q9 + iqr * 0.5)
+
+        # --- Bottom panel: Score rate with promotion markers ---
+        score_rate = [p.get("score_rate") for p in elo_points]
         if any(v is not None for v in score_rate):
-            ax2.plot(elo_iters, score_rate, label="score_rate", color="tab:green",
-                     linewidth=1.4, linestyle=":")
-        if any(v is not None for v in match_delta_elo):
-            ax2.plot(elo_iters, match_delta_elo, label="match_delta_elo",
-                     color="tab:red", linewidth=1.2, linestyle="-.")
-        ax2.set_ylabel("Score Rate / Match ΔElo")
+            colors = []
+            for sr in score_rate:
+                if sr is None:
+                    colors.append("#9CA3AF")
+                elif sr > 0.55:
+                    colors.append("#16A34A")  # green = promoted
+                elif sr < 0.45:
+                    colors.append("#DC2626")  # red = rejected
+                else:
+                    colors.append("#F59E0B")  # amber = marginal
+            ax_sr.bar(elo_iters, [s if s is not None else 0 for s in score_rate],
+                      color=colors, width=max(1, (max(elo_iters) - min(elo_iters)) / len(elo_iters) * 0.6),
+                      edgecolor="none", alpha=0.85)
+            ax_sr.axhline(y=0.5, color="#9CA3AF", linewidth=0.8, linestyle="--", alpha=0.6)
+            ax_sr.axhline(y=0.55, color="#16A34A", linewidth=0.6, linestyle=":", alpha=0.4)
+            ax_sr.set_ylabel("Score Rate", fontsize=10)
+            ax_sr.set_ylim(0, 1)
+            # Legend for bar colors
+            ax_sr.legend(handles=[
+                Line2D([0], [0], color="#16A34A", marker="s", linestyle="", markersize=7, label="Promoted (>55%)"),
+                Line2D([0], [0], color="#F59E0B", marker="s", linestyle="", markersize=7, label="Marginal"),
+                Line2D([0], [0], color="#DC2626", marker="s", linestyle="", markersize=7, label="Rejected (<45%)"),
+            ], loc="upper right", fontsize=8, framealpha=0.9)
 
-        lines = ax1.get_lines() + ax2.get_lines()
-        extra = []
-        if error_iters:
-            from matplotlib.lines import Line2D
-            extra.append(Line2D([0], [0], color="tab:orange", linewidth=1.6, label="ΔElo range"))
-        labels = [ln.get_label() for ln in lines] + [ln.get_label() for ln in extra]
-        if lines or extra:
-            ax1.legend(lines + extra, labels, loc="best")
-        ax1.set_title("Published Elo With ΔElo Error Plot")
+        ax_sr.set_xlabel("Iteration", fontsize=11)
+        ax_sr.grid(True, alpha=0.2)
+
         fig.tight_layout()
-        fig.savefig(os.path.join(output_dir, "training_elo.png"), dpi=140)
+        fig.savefig(os.path.join(output_dir, "training_elo.png"), dpi=150)
         plt.close(fig)
 
     return True
@@ -5055,29 +5431,34 @@ def arena_compare(model_a_path, model_b_path, cfg, device, n_games=50):
 # § Rust NN-Backed Arena
 # ═══════════════════════════════════════════
 
-def arena_rust_nn(model_a_path, model_b_path, cfg, device, n_games=50,
-                  rust_binary="./target/release/mcts_demo", strict=True):
+def _arena_rust_nn_impl(model_a_path, cfg_a, model_b_path, cfg_b, device, n_games=50,
+                        rust_binary="./target/release/mcts_demo", strict=True):
     """Head-to-head using Rust MCTS with NN evaluation.
-    
+
     Unlike arena_compare (Python TreeMCTS), this uses the full Rust search stack:
     TT, virtual loss, progressive widening, full QUARTZ controller.
-    
+
     Args:
         strict: If True (default), raise error when Rust binary missing.
                 If False, fall back to Python arena (NOT benchmark-grade).
-    
+
     Each model gets its own NNSearchClient → separate Rust server process.
     """
-    is_chess = is_chess_game(cfg.get('_name'))
+    if cfg_a.get("_name") != cfg_b.get("_name"):
+        raise ValueError(
+            f"arena_rust_nn requires same game on both sides: {cfg_a.get('_name')} vs {cfg_b.get('_name')}"
+        )
 
-    model_a = AlphaZeroNet(cfg).to(device)
-    model_b = AlphaZeroNet(cfg).to(device)
+    is_chess = is_chess_game(cfg_a.get('_name'))
+
+    model_a = AlphaZeroNet(cfg_a).to(device)
+    model_b = AlphaZeroNet(cfg_b).to(device)
     model_a.load_state_dict(load_torch_state_dict(model_a_path, torch, map_location=device))
     model_b.load_state_dict(load_torch_state_dict(model_b_path, torch, map_location=device))
     model_a.eval(); model_b.eval()
 
-    client_a = NNSearchClient(model_a, cfg, device, rust_binary)
-    client_b = NNSearchClient(model_b, cfg, device, rust_binary)
+    client_a = NNSearchClient(model_a, cfg_a, device, rust_binary)
+    client_b = NNSearchClient(model_b, cfg_b, device, rust_binary)
     try:
         client_a.start(); client_b.start()
     except FileNotFoundError:
@@ -5087,13 +5468,16 @@ def arena_rust_nn(model_a_path, model_b_path, cfg, device, n_games=50,
                 f"Run: cargo build --release. "
                 f"Use strict=False for Python TreeMCTS fallback (NOT benchmark-grade).")
         print(f"  [WARN] Rust binary not found, falling back to Python arena (NOT benchmark-grade)")
-        return arena_compare(model_a_path, model_b_path, cfg, device, n_games)
+        if cfg_a == cfg_b:
+            return arena_compare(model_a_path, model_b_path, cfg_a, device, n_games)
+        raise RuntimeError("strict=False fallback does not support asymmetric search configs")
 
-    board_size = cfg['board']
+    board_size = cfg_a['board']
     n2 = board_size ** 2
-    n_actions = cfg['actions']
-    win_len = cfg['win']
-    penalty_mode = cfg.get('penalty_mode', 'GatedRefresh')
+    n_actions = cfg_a['actions']
+    win_len = cfg_a['win']
+    penalty_mode_a = cfg_a.get('penalty_mode', 'GatedRefresh')
+    penalty_mode_b = cfg_b.get('penalty_mode', 'GatedRefresh')
 
     wins_a, wins_b, draws = 0, 0, 0
 
@@ -5118,13 +5502,18 @@ def arena_rust_nn(model_a_path, model_b_path, cfg, device, n_games=50,
             player = 1
             winner = 0
             current_fen = initial_chess_fen(cfg) if is_chess else None
+            current_chess_meta = {} if is_chess else None
             max_moves = 500 if is_chess else n2
 
             for move_n in range(max_moves):
                 client = first_client if player == 1 else second_client
+                penalty_mode = (
+                    penalty_mode_a if client is client_a else penalty_mode_b
+                )
 
                 if is_chess:
-                    result = client.search_move(None, player, penalty_mode, fen=current_fen)
+                    result = client.search_move(
+                        None, player, penalty_mode, fen=current_fen, state_meta=current_chess_meta)
                 else:
                     result = client.search_move(board, player, penalty_mode)
                 if not result or 'error' in result:
@@ -5145,6 +5534,8 @@ def arena_rust_nn(model_a_path, model_b_path, cfg, device, n_games=50,
                     if not new_fen or new_fen == current_fen:
                         break
                     current_fen = new_fen
+                    current_chess_meta = chess_state_meta_from_hashes(
+                        result.get("result_history_hashes", []))
                     player = -player
                 else:
                     best = result.get('best_move', -1)
@@ -5200,6 +5591,34 @@ def arena_rust_nn(model_a_path, model_b_path, cfg, device, n_games=50,
     ci_hi = (p_hat + z*z/(2*n) + z*math.sqrt((p_hat*(1-p_hat)+z*z/(4*n))/n)) / (1+z*z/n)
     sprt_str = sprt_result or "inconclusive"
     return wins_a, wins_b, draws, wr, (ci_lo, ci_hi), sprt_str
+
+
+def arena_rust_nn(model_a_path, model_b_path, cfg, device, n_games=50,
+                  rust_binary="./target/release/mcts_demo", strict=True):
+    return _arena_rust_nn_impl(
+        model_a_path,
+        cfg,
+        model_b_path,
+        cfg,
+        device,
+        n_games=n_games,
+        rust_binary=rust_binary,
+        strict=strict,
+    )
+
+
+def arena_rust_nn_dual_cfg(model_a_path, cfg_a, model_b_path, cfg_b, device, n_games=50,
+                           rust_binary="./target/release/mcts_demo", strict=True):
+    return _arena_rust_nn_impl(
+        model_a_path,
+        cfg_a,
+        model_b_path,
+        cfg_b,
+        device,
+        n_games=n_games,
+        rust_binary=rust_binary,
+        strict=strict,
+    )
 
 
 # ═══════════════════════════════════════════
@@ -5487,7 +5906,7 @@ def arena_3agent(model_current_path, model_best_path, cfg, device,
 
 def selfplay_rust_nn_batched(cfg, model, device, n_games, rust_binary="./target/release/mcts_demo",
                               parallel=4, show_progress=True, proc_pool=None, perf_stats=None,
-                              on_game=None):
+                              on_game=None, active_proc_ref=None):
     """Run N games in parallel via a single Rust server + shared batched NN eval."""
     board_size = cfg['board']
     n_actions = cfg['actions']
@@ -5520,6 +5939,8 @@ def selfplay_rust_nn_batched(cfg, model, device, n_games, rust_binary="./target/
         client = NNSearchClient(model, cfg, device, rust_binary)
         try:
             client.start()
+            if active_proc_ref is not None:
+                active_proc_ref._active_proc = client.proc
             def _handle_stream_chunk(games):
                 for game_payload in games:
                     states, policies, outcome, traces = _decode_streamed_selfplay_game(cfg, game_payload)
@@ -5579,13 +6000,16 @@ def selfplay_rust_nn_batched(cfg, model, device, n_games, rust_binary="./target/
         }
         if is_chess:
             gd['fen'] = initial_chess_fen(cfg)
+            gd['chess_history_hashes'] = []
         else:
             gd['state'] = build_training_game_adapter(cfg)
         return gd
 
     def build_job(gd):
         if is_chess:
-            return {'fen': gd['fen']}
+            job = {'fen': gd['fen']}
+            job.update(chess_state_meta_from_hashes(gd.get('chess_history_hashes', [])))
+            return job
         state = gd['state']
         player = 1 if state.current_player() == 0 else -1
         job = {
@@ -5610,13 +6034,7 @@ def selfplay_rust_nn_batched(cfg, model, device, n_games, rust_binary="./target/
             gd['finished'] = True
             return None
 
-        policy = np.zeros(n_actions, dtype=np.float32)
-        for entry in pol_entries:
-            if isinstance(entry, str) and ':' in entry:
-                idx, val = entry.split(':', 1)
-                idx = int(idx)
-                if 0 <= idx < n_actions:
-                    policy[idx] = float(val)
+        policy = dense_policy_from_sparse(pol_entries, n_actions)
 
         enc = encode_chess_fen(gd['fen']) if is_chess else gd['state']._encode()
         gd['states'].append(enc.copy())
@@ -5640,6 +6058,9 @@ def selfplay_rust_nn_batched(cfg, model, device, n_games, rust_binary="./target/
                 gd['winner'] = result.get('value', 0.0) * gd['player']
             else:
                 gd['fen'] = new_fen
+                gd['chess_history_hashes'] = [
+                    int(v) for v in result.get("result_history_hashes", [])
+                ]
                 gd['moves'] += 1
                 gd['player'] = -gd['player']
             return None
@@ -5742,12 +6163,14 @@ def selfplay_rust_nn_batched(cfg, model, device, n_games, rust_binary="./target/
         # --- SHM ring buffer fast path ---
         _ring = getattr(proc, "_quartz_ring_buffer", None)
         if _ring is not None:
-            _shm_eval_loop(_ring, model, device, cfg, proc)
-            kind, payload = proc_read_message(proc)
+            ring_payload = _shm_eval_loop(_ring, model, device, cfg, proc)
             _stall_trace("exchange_end", cmd=req_cmd, loops=0,
                          elapsed_s=float(time.perf_counter() - req_t0))
-            if perf_stats is not None and payload is not None:
+            if perf_stats is not None and ring_payload is not None:
                 perf_stats["result_messages"] += 1
+            if isinstance(ring_payload, dict):
+                return ring_payload
+            kind, payload = proc_read_message(proc)
             if kind == "json" and isinstance(payload, dict):
                 return payload
             return None
@@ -5911,6 +6334,8 @@ def selfplay_rust_nn_batched(cfg, model, device, n_games, rust_binary="./target/
         return results_payload
 
     proc = proc_pool.acquire(1)[0] if proc_pool is not None else launch_rust_server(rust_binary)
+    if active_proc_ref is not None:
+        active_proc_ref._active_proc = proc
     try:
         slot_count = min(max(1, parallel), max(1, n_games))
         with tqdm(total=n_games, desc="Self-play (Rust+NN batched)", leave=False,
@@ -6142,10 +6567,12 @@ class RustNNEvaluatorEngine:
                 raw_player = state.current_player()
                 player = 1 if raw_player == 1 else -1
                 players.append(player)
-                jobs.append({
+                job = {
                     "fen": getattr(state, "_fen", ""),
                     "player": int(player),
-                })
+                }
+                job.update(build_rust_state_meta(game_name, state, self._cfg))
+                jobs.append(job)
             results = self._client.search_moves_multi(jobs, penalty_mode=penalty_mode)
             parsed = []
             for state, player, result in zip(states, players, results):
@@ -6172,6 +6599,7 @@ class RustNNEvaluatorEngine:
                     "p_flip": result.get('p_flip', 0),
                     "engine": "rust_nn",
                     "result_fen": result.get('result_fen', ''),
+                    "result_history_hashes": result.get('result_history_hashes', []),
                 }))
             return parsed
 
@@ -6243,6 +6671,7 @@ class RustNNEvaluatorEngine:
             }
             if hasattr(game, "apply_engine_meta") and result.get("result_fen"):
                 meta["result_fen"] = result.get("result_fen", "")
+                meta["result_history_hashes"] = result.get("result_history_hashes", [])
             applied = False
             if hasattr(game, "apply_engine_meta"):
                 applied = bool(game.apply_engine_meta(action, meta))
@@ -6587,12 +7016,9 @@ class RustNNEvaluatorEngine:
                 continue
             legal_set = set(legal)
             policy = {}
-            for entry in pol_entries:
-                if isinstance(entry, str) and ':' in entry:
-                    idx, val = entry.split(':', 1)
-                    action = int(idx)
-                    if action in legal_set and action < self._cfg['actions']:
-                        policy[action] = float(val)
+            for action, val in iter_sparse_policy_entries(pol_entries):
+                if action in legal_set and action < self._cfg['actions']:
+                    policy[action] = val
             chosen = legal[0]
             best_val = policy.get(chosen, 0.0)
             for action in legal[1:]:
@@ -7136,15 +7562,19 @@ class ChessEvaluationAdapter:
 
     supports_random_baseline = False
 
-    def __init__(self, actions=4096, encoder=None, start_fen=STANDARD_CHESS_FEN):
+    def __init__(self, actions=CHESS_POLICY_ACTIONS, encoder=None, start_fen=STANDARD_CHESS_FEN):
         self._actions = actions
         self._encoder = encoder
         self._fen = start_fen
+        self._chess_history_hashes = None
         self._terminal = False
         self._outcome = None
 
     def clone(self):
         g = ChessEvaluationAdapter(self._actions, self._encoder, self._fen)
+        g._chess_history_hashes = (
+            list(self._chess_history_hashes) if self._chess_history_hashes is not None else None
+        )
         g._terminal = self._terminal
         g._outcome = self._outcome
         return g
@@ -7170,6 +7600,9 @@ class ChessEvaluationAdapter:
         if not new_fen or new_fen == self._fen:
             return False
         self._fen = new_fen
+        history_hashes = meta.get("result_history_hashes")
+        if history_hashes is not None:
+            self._chess_history_hashes = [int(v) for v in history_hashes]
         return True
 
     def apply_move(self, action):
@@ -7194,7 +7627,7 @@ def build_training_game_adapter(cfg):
         return TicTacToeGameAdapter(encoder=encoder)
     if is_chess_game(game_name):
         return ChessEvaluationAdapter(
-            actions=cfg.get('actions', 4096),
+            actions=cfg.get('actions', CHESS_POLICY_ACTIONS),
             encoder=encoder,
             start_fen=initial_chess_fen(cfg))
     if is_go_game(game_name):
@@ -7280,6 +7713,9 @@ def main():
                         help="Override Rust->Python NN batch size")
     parser.add_argument("--search-profile", choices=["quartz", "baseline", "baseline_strict"], default=None,
                         help="Rust MCTS profile: quartz, baseline shared substrate, or baseline_strict")
+    parser.add_argument("--vl-mode", choices=["disabled", "fixed", "adaptive", "vvisit_only", "vvalue_only"],
+                        default=None, help="Virtual loss mode override for ablation study")
+    parser.add_argument("--games", type=int, default=None, help="Self-play games per iteration override")
     parser.add_argument("--resident-session", action="store_true",
                         help="Experimental: enable Rust resident search sessions for self-play")
     parser.add_argument("--runtime-autotune", action="store_true",
@@ -7337,6 +7773,10 @@ def main():
         cfg['chess960_index'] = max(0, min(959, int(args.chess960_index)))
     if args.search_profile is not None:
         cfg["search_profile"] = args.search_profile
+    if args.vl_mode is not None:
+        cfg["vl_mode"] = args.vl_mode
+    if args.games is not None:
+        cfg["games"] = max(1, int(args.games))
 
     base_dir = args.output or default_output_dir(args.game)
     Path(base_dir).mkdir(parents=True, exist_ok=True)
@@ -7819,45 +8259,37 @@ def main():
                     "new_pos": n_new,
                     "time_s": round(elapsed, 1),
                     "pos_per_s": round(n_new / max(elapsed, 0.1), 1),
-                    "published_elo": latest_eval["published_elo"],
-                    "champion_elo": latest_eval["champion_elo"],
-                    "elo_gap": latest_eval["elo_gap"],
-                    "delta_elo": latest_eval["delta_elo"],
-                    "score_rate": latest_eval["score_rate"],
-                    "eval_verdict": latest_eval["eval_verdict"],
                 })
-                log_f.write(json.dumps(entry) + "\n"); log_f.flush()
                 print(f"[{iteration+1:>3}/{args.iterations}] waiting for self-play: replay={len(replay)} +0 {elapsed:.1f}s")
-                continue
+            else:
+                avg_loss, avg_pl, avg_vl, executed_steps, inner_stop = train_epoch(
+                    model, optimizer, replay, cfg, device, train_steps, backend=backend,
+                    inner_stop_cfg=inner_stop_cfg)
+                elapsed = time.time() - t0
+                if outer_stopper:
+                    should_early_stop = outer_stopper.step(avg_loss)
 
-            avg_loss, avg_pl, avg_vl, executed_steps, inner_stop = train_epoch(
-                model, optimizer, replay, cfg, device, train_steps, backend=backend,
-                inner_stop_cfg=inner_stop_cfg)
-            elapsed = time.time() - t0
-            if outer_stopper:
-                should_early_stop = outer_stopper.step(avg_loss)
+                entry.update({
+                    "loss": round(avg_loss, 4),
+                    "p_loss": round(avg_pl, 4),
+                    "v_loss": round(avg_vl, 4),
+                    "loss_ema": round_or_none(outer_stopper.loss_ema if outer_stopper else None),
+                    "replay": len(replay),
+                    "new_pos": n_new,
+                    "train_steps": executed_steps,
+                    "planned_train_steps": train_steps,
+                    "time_s": round(elapsed, 1),
+                    "pos_per_s": round(n_new / max(elapsed, 0.1), 1),
+                    "avg_pflip": round(avg_pflip, 4) if avg_pflip is not None else None,
+                    "replay_freshness": round(ReplayMetrics.freshness(n_new, len(replay)), 4),
+                    "policy_entropy": round(ReplayMetrics.policy_entropy(replay), 3),
+                    "value_std": round(ReplayMetrics.value_std(replay), 4),
+                })
+                if inner_stop is not None:
+                    entry["inner_stop"] = inner_stop
 
-            entry.update({
-                "loss": round(avg_loss, 4),
-                "p_loss": round(avg_pl, 4),
-                "v_loss": round(avg_vl, 4),
-                "loss_ema": round_or_none(outer_stopper.loss_ema if outer_stopper else None),
-                "replay": len(replay),
-                "new_pos": n_new,
-                "train_steps": executed_steps,
-                "planned_train_steps": train_steps,
-                "time_s": round(elapsed, 1),
-                "pos_per_s": round(n_new / max(elapsed, 0.1), 1),
-                "avg_pflip": round(avg_pflip, 4) if avg_pflip is not None else None,
-                "replay_freshness": round(ReplayMetrics.freshness(n_new, len(replay)), 4),
-                "policy_entropy": round(ReplayMetrics.policy_entropy(replay), 3),
-                "value_std": round(ReplayMetrics.value_std(replay), 4),
-            })
-            if inner_stop is not None:
-                entry["inner_stop"] = inner_stop
-
-            print(f"[{iteration+1:>3}/{args.iterations}] loss={avg_loss:.4f} (p={avg_pl:.4f} v={avg_vl:.4f}) "
-                  f"lr={lr:.5f} replay={len(replay)} +{n_new} steps={executed_steps}/{train_steps} {elapsed:.1f}s")
+                print(f"[{iteration+1:>3}/{args.iterations}] loss={avg_loss:.4f} (p={avg_pl:.4f} v={avg_vl:.4f}) "
+                      f"lr={lr:.5f} replay={len(replay)} +{n_new} steps={executed_steps}/{train_steps} {elapsed:.1f}s")
         else:
             elapsed = time.time() - t0
             entry.update({
@@ -7895,10 +8327,7 @@ def main():
             champ_eng = None
             if bg_worker and args.eval_selfplay_isolation:
                 bg_pause_requested = True
-                print("  [BG] Pausing self-play for evaluation...")
-                bg_was_paused = bg_worker.pause(wait=True, timeout=45.0)
-                if not bg_was_paused:
-                    print("  [BG] WARN: self-play pause timed out; evaluation proceeding concurrently")
+                bg_was_paused = bg_worker.pause(wait=True)
             try:
                 # Create engines using same Rust+NN stack as training
                 candidate_name = f"gen_{iteration+1}"

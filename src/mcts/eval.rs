@@ -501,6 +501,7 @@ const SHM_SLOT_DONE: u8 = 2;
 pub(crate) const SHM_MSG_EVAL_BATCH_REQ: u8 = 1;
 pub(crate) const SHM_MSG_EVAL_BATCH_RESP: u8 = 2;
 pub(crate) const SHM_MSG_JSON: u8 = 3;
+pub(crate) const SHM_MSG_SEARCH_RESP: u8 = 4;
 
 // Direction
 const SHM_DIR_TO_PYTHON: u8 = 0;
@@ -552,8 +553,9 @@ impl ShmRingBuffer {
     pub fn bump_epoch(&self) -> u32 {
         let ptr = unsafe { (self.region.ptr as *const u8).add(20) as *const AtomicU32 };
         let new_epoch = unsafe { (*ptr).fetch_add(1, Ordering::AcqRel) } + 1;
-        // Reset cmd_done
+        // Reset cmd_done and cancel
         self.set_cmd_done(false);
+        self.clear_cancel();
         // Reset all slot states to EMPTY
         for i in 0..self.r2p_slot_count {
             self.set_slot_state(self.r2p_slot_offset(i), SHM_SLOT_EMPTY);
@@ -573,6 +575,20 @@ impl ShmRingBuffer {
     pub fn set_cmd_done(&self, done: bool) {
         let ptr = unsafe { (self.region.ptr as *const u8).add(24) as *const AtomicU8 };
         unsafe { (*ptr).store(if done { 1 } else { 0 }, Ordering::Release) };
+    }
+
+    /// Check if Python has requested cancellation of the current command.
+    /// Stored at header offset 25 as AtomicU8. Set by Python, read by Rust.
+    pub fn cancel_requested(&self) -> bool {
+        let ptr = unsafe { (self.region.ptr as *const u8).add(25) as *const AtomicU8 };
+        let val = unsafe { (*ptr).load(Ordering::Acquire) };
+        val != 0
+    }
+
+    /// Clear the cancel flag (called by bump_epoch at command start).
+    pub fn clear_cancel(&self) {
+        let ptr = unsafe { (self.region.ptr as *const u8).add(25) as *const AtomicU8 };
+        unsafe { (*ptr).store(0, Ordering::Release) };
     }
 
     // --- Slot offset helpers ---
@@ -1066,10 +1082,7 @@ impl StdioCallbackEval {
     }
 }
 
-impl<G: GameState> Evaluator<G> for StdioCallbackEval
-where
-    usize: From<G::Move>,
-{
+impl<G: GameState> Evaluator<G> for StdioCallbackEval {
     fn evaluate(&self, state: &G) -> EvalResult<G::Move> {
         let legal = state.legal_moves();
         if legal.is_empty() {
@@ -1082,7 +1095,7 @@ where
         let planes = state.encode_planes();
         let mut legal_moves_idx = Vec::with_capacity(legal.len());
         for &mv in &legal {
-            legal_moves_idx.push((mv, usize::from(mv)));
+            legal_moves_idx.push((mv, state.move_to_idx(mv)));
         }
 
         let encode_t0 = Instant::now();
@@ -2048,7 +2061,6 @@ impl<M: Copy + Eq + Hash + Debug + Send + 'static> BatchStdioEval<M> {
     pub fn submit<G>(&self, state: &G) -> AsyncEvalTicket<M>
     where
         G: GameState<Move = M>,
-        usize: From<M>,
     {
         let legal = state.legal_moves();
         if legal.is_empty() {
@@ -2066,7 +2078,7 @@ impl<M: Copy + Eq + Hash + Debug + Send + 'static> BatchStdioEval<M> {
         let n_actions = state.num_actions();
         let mut legal_moves_idx = Vec::with_capacity(legal.len());
         for &mv in &legal {
-            let idx: usize = mv.into();
+            let idx = state.move_to_idx(mv);
             legal_moves_idx.push((mv, idx));
         }
 
@@ -2103,10 +2115,7 @@ impl<M: Copy + Eq + Hash + Debug + Send + 'static> Clone for BatchStdioEval<M> {
     }
 }
 
-impl<G: GameState> Evaluator<G> for BatchStdioEval<G::Move>
-where
-    usize: From<G::Move>,
-{
+impl<G: GameState> Evaluator<G> for BatchStdioEval<G::Move> {
     fn evaluate(&self, state: &G) -> EvalResult<G::Move> {
         self.submit::<G>(state).recv_blocking()
     }

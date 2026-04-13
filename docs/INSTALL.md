@@ -28,14 +28,14 @@ source $HOME/.cargo/env
 
 # Build
 cargo build --release
-cargo test --release    # ~270+ tests should pass
+cargo test --release
 ```
 
 ### 2. Install Python Dependencies
 
 ```bash
 # Create virtual environment (recommended)
-python3 -m venv .venv && source .venv/bin/activate
+python3 -m venv venv && source venv/bin/activate
 
 # NVIDIA GPU (CUDA 12.x)
 pip install torch --index-url https://download.pytorch.org/whl/cu121
@@ -273,14 +273,16 @@ CPU, CUDA, ROCm, TensorRT, DirectML, CoreML.
 ### Export
 
 ```python
+from quartz.alphazero_train import AlphaZeroNet, GAME_CONFIGS
+from quartz.backend import load_torch_state_dict_checked
 from quartz.onnx_support import export_onnx
-from python.alphazero_train import AlphaZeroNet
+import torch
 
-cfg = {'board': 7, 'actions': 49, 'channels': 32, 'blocks': 2, 'in_channels': 3}
+cfg = dict(GAME_CONFIGS["gomoku15"])
+cfg["_name"] = "gomoku15"
 model = AlphaZeroNet(cfg)
-model.load_state_dict(torch.load("models/gomoku7_train/best.pt"))
-
-export_onnx(model, cfg, "model.onnx")
+load_torch_state_dict_checked(model, "models/alphazero_gomoku15/best.pt", torch, map_location="cpu")
+export_onnx(model.eval(), cfg, "gomocup_model.onnx")
 ```
 
 ### Inference
@@ -293,6 +295,27 @@ pred = OnnxPredictor("model.onnx")
 
 policy, value = pred.predict(board_tensor)
 ```
+
+### Gomocup bundle build
+
+If you want the Rust Gomocup binary to consume ONNX directly, build with the
+`onnx` feature:
+
+```bash
+cargo build --release --features onnx
+```
+
+The project helper already does this:
+
+```bash
+scripts/build_gomocup_brain.sh \
+  --bundle-dir results/ablation/gomoku15/gomocup_bundle \
+  --target-name pbrain-quartz
+```
+
+The helper builds `target/release/pbrain-quartz` and copies that executable
+into the bundle directory next to `gomocup_manifest.json` and
+`gomocup_model.onnx`.
 
 ### Provider Selection
 

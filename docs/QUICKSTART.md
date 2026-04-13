@@ -1,193 +1,211 @@
-# Quickstart: Training and Experiments
+# Quickstart: Training, Ablation, and Gomocup Export
 
-## 1. Training a Model from Scratch
+## 1. Train a model
 
-### Gomoku 7×7 (recommended first experiment)
-
-```bash
-# Basic training run
-venv/bin/python -m quartz.train \
-    --game gomoku7 \
-    --iterations 30 \
-    --eval-interval 10 \
-    --eval-games 200
-
-# Output: models/alphazero_gomoku7/latest.pt, best.pt, train_log.jsonl
-```
-
-### Key training parameters
-
-| Parameter | Default | Description |
-|-----------|---------|-------------|
-| `--game` | gomoku7 | Game: gomoku7, gomoku15, go9, chess |
-| `--iterations` | 30 | Total training iterations |
-| `--config` | none | JSON overrides for runtime/game config |
-| `--concurrent` | true | Background self-play worker |
-| `--eval-interval` | 10 | Evaluate checkpoint every N iterations |
-| `--eval-games` | 200 | Games per promotion evaluation |
-| `--search-profile` | quartz | `quartz`, `baseline`, `baseline_strict` |
-| `--runtime-autotune` | off | Enable online runtime retuning (default off) |
-| `--no-eval-selfplay-isolation` | off | Disable eval-time self-play pause (default isolated) |
-
-### Concurrent training (faster, requires more RAM)
+### Gomoku 7×7
 
 ```bash
 venv/bin/python -m quartz.train \
-    --game gomoku7 \
-    --concurrent
+  --game gomoku7 \
+  --iterations 30 \
+  --eval-interval 5 \
+  --eval-games 200
 ```
 
-This runs self-play in a background thread while the main thread trains.
-The worker uses a frozen model snapshot, updated at each checkpoint.
+Artifacts land in `models/alphazero_<game>/`:
 
-## 2. Understanding Training Output
-
-Training produces:
-- `models/<game>/latest.pt` — latest training checkpoint
-- `models/<game>/best.pt` — best model (promoted via Glicko-2)
+- `latest.pt` — latest checkpoint
+- `best.pt` — promoted champion checkpoint
+- `replay.npz` — replay snapshot
 - `train_log.jsonl` — per-iteration metrics
+- `training_loss.png` / `training_elo.png` — regenerated from the log
 
-### Training log fields
+### Useful flags
 
-```json
-{
-    "iter": 10,
-    "loss": 2.15,
-    "p_loss": 1.82,
-    "v_loss": 0.33,
-    "new_pos": 2400,
-    "games_done": 200,
-    "replay_freshness": 0.85,
-    "policy_entropy": 2.1,
-    "value_std": 0.42,
-    "avg_pflip": 0.38,
-    "time_s": 45.2
-}
-```
+| Flag | Meaning |
+|---|---|
+| `--search-profile quartz|baseline|baseline_strict` | Search-controller ablation axis |
+| `--vl-mode disabled|fixed|adaptive|vvisit_only|vvalue_only` | Virtual-loss ablation axis |
+| `--resident-session` | Keep Rust search sessions resident for self-play |
+| `--runtime-autotune` | Enable online runtime retuning |
+| `--no-eval-selfplay-isolation` | Let background self-play continue during eval |
+| `--seed <int>` | Reproducible training seed |
 
-Key indicators:
-- **loss decreasing**: model is learning
-- **replay_freshness > 0.5**: replay buffer has recent data
-- **avg_pflip decreasing**: search is converging (requires loss < ~1.0)
+## 2. Understand current training semantics
 
-## 3. Running Search Ablations
+Current training/eval uses the same Rust+NN stack:
 
-### Level 1: Search-only (no training, fixed evaluator)
+1. Python launches the Rust server.
+2. Rust drives self-play or evaluation game loops.
+3. Batched NN eval requests cross QIPC.
+4. Control traffic stays on JSON-line IPC.
+5. Hot-path eval/search payloads use binary sparse payloads and SHM ring when available.
 
-These run inside the Rust test suite:
+Correctness-sensitive updates already reflected in the codebase:
+
+- Chess policy uses full `4672`-action promotion-aware encoding.
+- Chess and Go TT keys use history-sensitive `tt_hash()` values.
+- Disabling the NN cache no longer changes search semantics.
+- Checkpoint/eval cadence is no longer skipped when a learner iteration has `0` train steps.
+
+## 3. Run ablations
+
+### Level 1: Search-only Rust experiments
 
 ```bash
-# VL ablation: component isolation + budget scaling + QUARTZ interaction
+# Adaptive virtual loss
 cargo test --release -- ablation_vl::tests::vl_ablation_gomoku7 --ignored --nocapture
 
-# P_flip convergence experiment
+# P_flip convergence
 cargo test --release -- ablation_pflip::tests::pflip_convergence_curves --ignored --nocapture
 
-# Prior refresh ablation
+# Prior-refresh experiments
 cargo test --release -- ablation_refresh_v2 --ignored --nocapture
 ```
 
 ### Level 2: Training-level ablation
 
-Compare QUARTZ modes across full training runs:
+Use the ablation runner instead of ad-hoc shell loops:
 
 ```bash
-# Baseline: no QUARTZ penalty
-venv/bin/python -m quartz.train --game gomoku7 --search-profile baseline --iterations 30
-
-# GatedRefresh (default)
-venv/bin/python -m quartz.train --game gomoku7 --search-profile quartz --iterations 30
-
-# Strict semantic baseline (same systems substrate, controller stack removed)
-venv/bin/python -m quartz.train --game gomoku7 --search-profile baseline_strict --iterations 30
+venv/bin/python scripts/ablation_study.py \
+  --game gomoku15 \
+  --iterations 30 \
+  --eval-games 80
 ```
 
-Compare by examining `train_log.jsonl` loss curves and arena win rates.
+The runner writes:
 
-### Level 3: Arena evaluation
+- `study_manifest.json` — full experiment definition, seeds, and CLI/runtime choices
+- `models/<condition>[/seed_<n>]` — per-condition training outputs
+- `evaluation_matrix.json` — round-robin post-train arena results across eval conditions
+- `champion.json` — selected final model, selection metrics, and recommended deployment search config
+- `ablation_report.json` — summarized training/eval report
+
+`champion.json` is chosen from the post-train evaluation matrix when it exists.
+The deployment search profile stored there is the best-scoring evaluation
+condition for that selected model, not just its training condition.
+
+For multi-seed studies:
 
 ```bash
-# Compare two checkpoints (strict Rust+NN engine)
+venv/bin/python scripts/ablation_study.py \
+  --game gomoku15 \
+  --iterations 20 \
+  --eval-games 40 \
+  --seeds 41,42,43
+```
+
+### Level 2.5: Low-cost controller search
+
+Use these when you want to separate "controller family" from the fixed search
+constants that turned out to matter just as much.
+
+Shortlist + confirmatory arena:
+
+```bash
+venv/bin/python scripts/controller_sweep.py \
+  --resume-report results/controller_sweep_confirmatory_v1/gomoku7 \
+  --candidate-ids A1_legacy_base,R03_7362f3bd,A2_legacy_krefresh \
+  --arena-iters 96 \
+  --stage2-games 12
+```
+
+Optuna search over the same frozen checkpoints:
+
+```bash
+venv/bin/python scripts/controller_optuna.py \
+  --game gomoku7 \
+  --checkpoints results/ablation_controller_factorial_short/gomoku7/models/F1_legacy_base/seed_42/best.pt,results/ablation_controller_factorial_short/gomoku7/models/F2_legacy_krefresh/seed_41/best.pt,results/ablation_controller_factorial_short/gomoku7/models/F3_theory_base/seed_42/best.pt,results/ablation_controller_factorial_short/gomoku7/models/F4_theory_krefresh/seed_42/best.pt \
+  --positions-file results/controller_sweep_shortlist_v1/gomoku7/stage1_positions.json \
+  --trials 48 \
+  --enqueue-anchors \
+  --probe-iters 64 \
+  --arena-topk 4 \
+  --arena-iters 96 \
+  --stage2-games 6 \
+  --output results/controller_optuna_v1
+```
+
+Artifacts to read first:
+
+- `optuna_report.json` or `sweep_report.json` — canonical summary
+- `stage2_round_robin.json` — shortlist/top-trial arena confirmation
+
+`--checkpoints` expects comma-separated checkpoint files. Use
+`--checkpoint-dir` when you want the script to scan a directory tree.
+
+Current repository-local Gomoku7 evidence favors no-refresh legacy-family
+variants. Keep prior refresh as an experimental axis, not the starting default.
+
+### Level 3: Direct arena
+
+```bash
 venv/bin/python -m quartz.train \
-    --arena models/alphazero_gomoku7/best.pt models/alphazero_gomoku7/latest.pt \
-    --arena-games 100
+  --arena models/alphazero_gomoku15/best.pt models/alphazero_gomoku15/latest.pt \
+  --arena-games 100
 ```
 
-## 7. Runtime Monitoring (recommended)
+## 4. Export the champion for Gomocup
+
+From an existing ablation directory:
 
 ```bash
-venv/bin/python scripts/profile_training_monitor.py \
-    --model-dir models/alphazero_gomoku7 \
-    --output-dir artifacts/runtime_monitor/gomoku7_run \
-    --interval-s 0.5 \
-    --run "venv/bin/python -m quartz.train --game gomoku7 --iterations 20 --retune --search-profile quartz" \
-    --print-summary
+venv/bin/python scripts/ablation_study.py \
+  --report results/ablation/gomoku15 \
+  --prepare-gomocup
 ```
 
-## 4. Interpreting Ablation Results
+This creates a `gomocup_bundle/` directory containing:
 
-### VL ablation table columns
+- `gomocup_manifest.json`
+- `gomocup_model.onnx`
+- `champion.pt`
 
-| Column | Meaning |
-|--------|---------|
-| Agree | % moves matching serial (1-thread) reference |
-| Entrop | Root policy entropy (higher = more exploration) |
-| Q_Sprd | Q-value spread across root actions |
-| NPS | Nodes per second |
-| AvgVV | Average virtual value applied (lower = less pessimism) |
-| DupRt | Duplicate leaf rate (how often threads collide) |
-| MaxP | Maximum pending threads at any node |
+Then build the tournament binary:
 
-Key relationships:
-- **Fixed VL**: AvgVV≈1.0, DupRt≈0.27 (over-pessimistic, avoids overlap)
-- **Adaptive VL**: AvgVV≈0.17, DupRt≈0.38 (controlled overlap, less waste)
-- Fixed + SelfAdaptive = worst (double pessimism)
-- Adaptive + SelfAdaptive = rescued (σ_Q auto-correction)
-
-### P_flip interpretation
-
-- P_flip ≈ 0.5: evaluator provides no useful signal (random)
-- P_flip < 0.25: search is converging, safe to stop early
-- P_flip threshold (0.159): adaptive stopping trigger
-
-P_flip convergence requires NN loss < ~1.0. With weak evaluators
-(ShortRollout, Uniform), P_flip stays at 0.4-0.5 regardless of budget.
-
-## 5. Supported Games
-
-| Game | Board | Actions | Encoder | Status |
-|------|-------|---------|---------|--------|
-| gomoku7 | 7×7 | 49 | 3ch | Full training + evaluation |
-| gomoku15 | 15×15 | 225 | 3ch | Full training + evaluation |
-| go9 | 9×9 | 82 | 17ch | Search + self-play |
-| chess | 8×8 | 4096 | 16ch | Search + self-play (FEN, simplified from-to policy) |
-
-## 6. Project Structure
-
+```bash
+scripts/build_gomocup_brain.sh \
+  --bundle-dir results/ablation/gomoku15/gomocup_bundle \
+  --target-name pbrain-quartz
 ```
+
+For ONNX-backed Gomocup deployment the Rust binary is built with `--features onnx`.
+The helper copies `pbrain-quartz` into the bundle directory so the directory can
+be used directly as the runtime folder or passed via `INFO folder`.
+
+## 5. Supported games
+
+| Game | Board | Actions | Encoder | Notes |
+|---|---|---:|---:|---|
+| `gomoku7` | 7×7 | 49 | 17ch | full training + evaluation |
+| `gomoku15` and variants | 15×15 | 225 | 17ch | full training + evaluation |
+| `go9` | 9×9 | 82 | 17ch | ruleset/scoring presets supported |
+| `chess` | 8×8 | 4672 | 36ch | promotion-aware policy + history-aware TT |
+
+## 6. Project structure
+
+```text
 quartz/
-├── train.py              CLI entrypoint
-├── alphazero_train.py    Core training loop
-├── evaluation.py         Glicko-2 evaluation system
-├── encoders.py           Game-specific board encoders
-├── onnx_support.py       ONNX export/inference
-├── gpu_detect.py         GPU auto-detection
-├── backend.py            JAX/PyTorch backend abstraction
+├── train.py
+├── alphazero_train.py
+├── evaluation.py
+├── encoders.py
+├── onnx_support.py
+├── gomocup_export.py
+└── backend.py
+
+scripts/
+├── ablation_study.py
+├── build_gomocup_brain.sh
+├── controller_optuna.py
+├── controller_sweep.py
+└── profile_training_monitor.py
 
 src/
+├── gomocup_bundle.rs
+├── gomocup_brain.rs
+├── mcts_server.rs
 ├── mcts/
-│   ├── quartz.rs         QUARTZ search controller
-│   ├── parallel.rs       ParallelismController (adaptive VL)
-│   ├── select.rs         PUCT selection + score shaping
-│   ├── search.rs         Search loop + stop reasons
-│   └── ...               backup, expand, eval, node, tt, rng
-├── games/                chess, go, gomoku, gomoku15, tictactoe
-├── mcts_server.rs        JSON-line IPC server
-├── ablation_vl.rs        VL ablation suite (3 experiments)
-├── ablation_pflip.rs     P_flip ablation suite (3 experiments)
-└── main.rs               Entry point + legacy experiments
-
-docs/                     This documentation
-configs/                  Preset configurations
-models/                   Trained checkpoints
+└── games/
 ```

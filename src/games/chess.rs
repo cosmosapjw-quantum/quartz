@@ -17,7 +17,7 @@ use rand::SeedableRng;
 use std::fmt;
 use std::hash::Hash;
 
-use crate::game::GameState;
+use crate::game::{tt_combine, tt_mix64, GameState};
 
 // ═══════════════════════════════════════════════════════
 // § 1. Constants
@@ -71,6 +71,36 @@ const RANK_1: u64 = 0xFF;
 const RANK_2: u64 = 0xFF00;
 const RANK_7: u64 = 0x00FF_0000_0000_0000;
 const RANK_8: u64 = 0xFF00_0000_0000_0000;
+
+pub const CHESS_POLICY_ACTIONS: usize = 64 * 73;
+const CHESS_POLICY_PLANES_PER_SQUARE: usize = 73;
+const CHESS_POLICY_QUEENLIKE_PLANES: usize = 56;
+const CHESS_POLICY_KNIGHT_PLANES: usize = 8;
+const CHESS_POLICY_UNDERPROMOTION_OFFSET: usize =
+    CHESS_POLICY_QUEENLIKE_PLANES + CHESS_POLICY_KNIGHT_PLANES;
+const CHESS_POLICY_RAY_DIRS: [(i8, i8); 8] = [
+    (0, 1),   // N
+    (1, 1),   // NE
+    (1, 0),   // E
+    (1, -1),  // SE
+    (0, -1),  // S
+    (-1, -1), // SW
+    (-1, 0),  // W
+    (-1, 1),  // NW
+];
+const CHESS_POLICY_KNIGHT_DIRS: [(i8, i8); 8] = [
+    (1, 2),
+    (2, 1),
+    (2, -1),
+    (1, -2),
+    (-1, -2),
+    (-2, -1),
+    (-2, 1),
+    (-1, 2),
+];
+
+const CHESS_HISTORY_DIGEST_SEED: u64 = 0x7d31_2049_b5a1_9e67;
+const CHESS_TT_HASH_SEED: u64 = 0x2f93_7bda_6c4e_18a1;
 
 // ═══════════════════════════════════════════════════════
 // § 2. Move encoding
@@ -152,6 +182,25 @@ impl ChessMove {
         };
         format!("{}{}{}{}{}", from_f, from_r, to_f, to_r, promo)
     }
+}
+
+fn chess_policy_ray_plane(df: i8, dr: i8) -> Option<usize> {
+    for (dir_idx, (step_f, step_r)) in CHESS_POLICY_RAY_DIRS.iter().enumerate() {
+        for dist in 1..=7 {
+            let dist_i8 = dist as i8;
+            if df == step_f * dist_i8 && dr == step_r * dist_i8 {
+                return Some(dir_idx * 7 + (dist - 1));
+            }
+        }
+    }
+    None
+}
+
+fn chess_policy_knight_plane(df: i8, dr: i8) -> Option<usize> {
+    CHESS_POLICY_KNIGHT_DIRS
+        .iter()
+        .position(|&(kf, kr)| kf == df && kr == dr)
+        .map(|idx| CHESS_POLICY_QUEENLIKE_PLANES + idx)
 }
 
 impl fmt::Debug for ChessMove {
@@ -361,6 +410,9 @@ thread_local! {
 // § 6. Chess state
 // ═══════════════════════════════════════════════════════
 
+/// History depth for AlphaZero-style encoding (T=8 timesteps including current).
+const CHESS_HISTORY_LEN: usize = 8;
+
 #[derive(Clone)]
 pub struct Chess {
     bb: [u64; 12], // piece bitboards
@@ -374,9 +426,39 @@ pub struct Chess {
     /// Position hashes for 3-fold repetition detection.
     /// Truncated on irreversible moves (pawn/capture → half=0).
     history: Vec<u64>,
+    history_digest: u64,
     // Chess960
     rook_files: [u8; 4], // original rook positions [WKS, WQS, BKS, BQS]
     is_960: bool,
+    /// Past piece bitboard snapshots for AlphaZero-style history encoding.
+    board_history: Vec<([u64; 12], u8)>,  // (bb, side) per timestep
+}
+
+#[inline]
+fn chess_history_digest_init(position_hash: u64) -> u64 {
+    tt_mix64(CHESS_HISTORY_DIGEST_SEED ^ tt_mix64(position_hash))
+}
+
+#[inline]
+fn chess_history_digest_push(history_digest: u64, position_hash: u64) -> u64 {
+    history_digest.wrapping_add(tt_mix64(position_hash.wrapping_add(CHESS_HISTORY_DIGEST_SEED)))
+}
+
+#[inline]
+fn chess_pack_rook_files(rook_files: [u8; 4]) -> u64 {
+    u32::from_le_bytes(rook_files) as u64
+}
+
+#[inline]
+fn chess_history_digest_from_hashes(history: &[u64]) -> u64 {
+    let Some((&first, rest)) = history.split_first() else {
+        return 0;
+    };
+    let mut digest = chess_history_digest_init(first);
+    for &position_hash in rest {
+        digest = chess_history_digest_push(digest, position_hash);
+    }
+    digest
 }
 
 impl Chess {
@@ -474,6 +556,7 @@ impl Chess {
             full: 1,
             hash: 0,
             history: Vec::with_capacity(100),
+            history_digest: 0,
             rook_files: [
                 remaining[2] as u8,
                 remaining[0] as u8,
@@ -481,6 +564,7 @@ impl Chess {
                 remaining[0] as u8,
             ],
             is_960: true,
+            board_history: Vec::new(),
         };
 
         // Place white back rank
@@ -506,6 +590,7 @@ impl Chess {
 
         chess.hash = chess.compute_hash();
         chess.history.push(chess.hash);
+        chess.history_digest = chess_history_digest_init(chess.hash);
         chess
     }
 
@@ -525,8 +610,10 @@ impl Chess {
             full: 1,
             hash: 0,
             history: Vec::with_capacity(100),
+            history_digest: 0,
             rook_files: [7, 0, 7, 0], // default: h1, a1, h8, a8
             is_960: false,
+            board_history: Vec::new(),
         };
 
         // Piece placement
@@ -634,8 +721,44 @@ impl Chess {
         // Compute hash
         chess.hash = chess.compute_hash();
         chess.history.push(chess.hash);
+        chess.history_digest = chess_history_digest_init(chess.hash);
 
         Ok(chess)
+    }
+
+    pub fn history_hashes(&self) -> &[u64] {
+        &self.history
+    }
+
+    pub fn set_history_hashes(&mut self, history_hashes: &[u64]) {
+        let mut history = history_hashes.to_vec();
+        if self.half == 0 {
+            history.clear();
+        }
+        if history.is_empty() || *history.last().unwrap() != self.hash {
+            history.push(self.hash);
+        }
+        let max_len = usize::from(self.half).saturating_add(1).max(1);
+        if history.len() > max_len {
+            history.drain(0..history.len() - max_len);
+        }
+        self.history = history;
+        self.history_digest = chess_history_digest_from_hashes(&self.history);
+    }
+
+    pub fn set_history_keys(&mut self, history_keys: &[String]) -> Result<(), &'static str> {
+        let mut hashes = Vec::with_capacity(history_keys.len());
+        for key in history_keys {
+            let parts: Vec<&str> = key.split_whitespace().collect();
+            if parts.len() < 4 {
+                return Err("history key must contain at least 4 FEN fields");
+            }
+            let fen = format!("{} {} {} {} 0 1", parts[0], parts[1], parts[2], parts[3]);
+            let parsed = Chess::from_fen(&fen)?;
+            hashes.push(parsed.hash());
+        }
+        self.set_history_hashes(&hashes);
+        Ok(())
     }
 
     /// Serialize position to FEN string.
@@ -1026,8 +1149,10 @@ impl Chess {
             full: self.full,
             hash: self.hash,
             history: Vec::new(),
+            history_digest: self.history_digest,
             rook_files: self.rook_files,
             is_960: self.is_960,
+            board_history: Vec::new(), // not needed for legality check
         };
         let side = self.side;
         let opp = 1 - side;
@@ -1097,6 +1222,11 @@ impl Chess {
 
     fn apply_move_unchecked(&self, mv: ChessMove) -> Self {
         let mut next = self.clone();
+        // Save current board to history for AlphaZero-style encoding
+        next.board_history.push((self.bb, self.side));
+        if next.board_history.len() > CHESS_HISTORY_LEN - 1 {
+            next.board_history.drain(0..next.board_history.len() - (CHESS_HISTORY_LEN - 1));
+        }
         let side = self.side;
         let opp = 1 - side;
         let from = mv.from_sq();
@@ -1252,6 +1382,9 @@ impl Chess {
         // On irreversible moves (half reset), truncate history — old positions unreachable.
         if next.half == 0 {
             next.history.clear();
+            next.history_digest = chess_history_digest_init(next.hash);
+        } else {
+            next.history_digest = chess_history_digest_push(self.history_digest, next.hash);
         }
         next.history.push(next.hash);
 
@@ -1416,56 +1549,157 @@ impl GameState for Chess {
         self.hash
     }
 
+    fn tt_hash(&self) -> u64 {
+        let mut tt = tt_combine(CHESS_TT_HASH_SEED, self.hash);
+        tt = tt_combine(tt, self.history_digest);
+        tt = tt_combine(tt, self.half as u64);
+        if self.castling != 0 {
+            tt = tt_combine(tt, chess_pack_rook_files(self.rook_files));
+            tt = tt_combine(tt, self.is_960 as u64);
+        }
+        tt_mix64(tt)
+    }
+
     fn num_actions(&self) -> usize {
-        4096
-    } // 64×64 (simplified; full AlphaZero = 4672)
+        CHESS_POLICY_ACTIONS
+    } // 64 × 73 AlphaZero-style action planes
 
     fn move_to_idx(&self, mv: ChessMove) -> usize {
-        mv.from_sq() as usize * 64 + mv.to_sq() as usize
+        let from = mv.from_sq();
+        let to = mv.to_sq();
+        let from_file = (from & 7) as i8;
+        let from_rank = (from >> 3) as i8;
+        let to_file = (to & 7) as i8;
+        let to_rank = (to >> 3) as i8;
+        let df = to_file - from_file;
+        let dr = to_rank - from_rank;
+        let base = from as usize * CHESS_POLICY_PLANES_PER_SQUARE;
+
+        if mv.is_promotion() && mv.promo_piece() != 4 {
+            let forward = if self.side == WHITE { 1 } else { -1 };
+            if dr == forward && (-1..=1).contains(&df) {
+                let dir_idx = (df + 1) as usize;
+                let promo_idx = match mv.promo_piece() {
+                    1 => 0, // knight
+                    2 => 1, // bishop
+                    3 => 2, // rook
+                    _ => unreachable!("queen promotions use queen-like planes"),
+                };
+                return base + CHESS_POLICY_UNDERPROMOTION_OFFSET + dir_idx * 3 + promo_idx;
+            }
+        }
+
+        if let Some(plane) = chess_policy_ray_plane(df, dr) {
+            return base + plane;
+        }
+        if let Some(plane) = chess_policy_knight_plane(df, dr) {
+            return base + plane;
+        }
+
+        debug_assert!(
+            false,
+            "unencodable chess move {} from={} to={}",
+            mv.to_uci(),
+            from,
+            to
+        );
+        base
     }
 
     fn idx_to_move(&self, idx: usize) -> Option<ChessMove> {
-        if idx >= 4096 {
+        if idx >= CHESS_POLICY_ACTIONS {
             return None;
         }
-        let from = (idx / 64) as u8;
-        let to = (idx % 64) as u8;
-        // Find actual move in legal moves matching from/to
-        let legals = self.generate_legal_moves();
-        legals
+        self.generate_legal_moves()
             .into_iter()
-            .find(|m| m.from_sq() == from && m.to_sq() == to)
+            .find(|mv| self.move_to_idx(*mv) == idx)
     }
 
     fn encode_planes(&self) -> Vec<f32> {
-        // 12 piece planes + 2 castling + 1 ep + 1 side = 16 planes × 8×8 = 1024
-        let mut out = vec![0.0f32; 16 * 64];
-        for pi in 0..12 {
-            for s in bits(self.bb[pi]) {
-                out[pi * 64 + s as usize] = 1.0;
+        // Chess 36-channel encoding (AlphaZero-complete for t=0):
+        //
+        // t=0 piece planes (relative to side-to-move):
+        //   0-5:   my pieces (P,N,B,R,Q,K)
+        //   6-11:  opponent pieces
+        //   12:    2-fold repetition flag
+        //   13:    1-fold repetition flag (first occurrence)
+        //
+        // History t=1..7 (occupancy):
+        //   14-27: 7 × 2 planes (my occ, opp occ)
+        //
+        // Constant planes:
+        //   28:    side to move (1.0 = white)
+        //   29:    total move count (fullmove / 200, clamped)
+        //   30:    castling WKS
+        //   31:    castling WQS
+        //   32:    castling BKS
+        //   33:    castling BQS
+        //   34:    halfmove clock (half / 100, clamped, for 50-move rule)
+        //   35:    en passant target square
+        const TOTAL: usize = 36;
+        let mut out = vec![0.0f32; TOTAL * 64];
+        let my_base = if self.side == WHITE { 0usize } else { 6 };
+        let opp_base = if self.side == WHITE { 6usize } else { 0 };
+
+        // Planes 0-5: my pieces (relative)
+        for p in 0..6 {
+            for s in bits(self.bb[my_base + p]) {
+                out[p * 64 + s as usize] = 1.0;
             }
         }
-        // Castling planes (13, 14: white KS/QS, 15, 16: black KS/QS)
-        if self.castling & WKS != 0 {
-            for i in 0..64 {
-                out[12 * 64 + i] = 1.0;
+        // Planes 6-11: opponent pieces (relative)
+        for p in 0..6 {
+            for s in bits(self.bb[opp_base + p]) {
+                out[(6 + p) * 64 + s as usize] = 1.0;
             }
         }
-        if self.castling & WQS != 0 {
-            for i in 0..64 {
-                out[13 * 64 + i] = 1.0;
-            }
+
+        // Planes 12-13: repetition count
+        let current_hash = self.hash;
+        let mut rep_count = 0u32;
+        for &h in self.history.iter().rev() {
+            if h == current_hash { rep_count += 1; }
         }
-        // EP plane
+        if rep_count >= 2 { for i in 0..64 { out[12 * 64 + i] = 1.0; } }
+        if rep_count >= 1 { for i in 0..64 { out[13 * 64 + i] = 1.0; } }
+
+        // Planes 14-27: history t=1..7 occupancy
+        for (k, &(hist_bb, hist_side)) in self.board_history.iter().rev().enumerate() {
+            if k >= 7 { break; }
+            let base = (14 + k * 2) * 64;
+            let (my_range, opp_range) = if hist_side == self.side {
+                (0..6, 6..12)
+            } else {
+                (6..12, 0..6)
+            };
+            let hist_my = hist_bb[my_range].iter().fold(0u64, |a, b| a | b);
+            let hist_opp = hist_bb[opp_range].iter().fold(0u64, |a, b| a | b);
+            for s in bits(hist_my) { out[base + s as usize] = 1.0; }
+            for s in bits(hist_opp) { out[base + 64 + s as usize] = 1.0; }
+        }
+
+        // Plane 28: side to move
+        if self.side == WHITE { for i in 0..64 { out[28 * 64 + i] = 1.0; } }
+
+        // Plane 29: total move count (normalized)
+        let move_frac = (self.full as f32 / 200.0).min(1.0);
+        for i in 0..64 { out[29 * 64 + i] = move_frac; }
+
+        // Planes 30-33: castling rights
+        if self.castling & WKS != 0 { for i in 0..64 { out[30 * 64 + i] = 1.0; } }
+        if self.castling & WQS != 0 { for i in 0..64 { out[31 * 64 + i] = 1.0; } }
+        if self.castling & BKS != 0 { for i in 0..64 { out[32 * 64 + i] = 1.0; } }
+        if self.castling & BQS != 0 { for i in 0..64 { out[33 * 64 + i] = 1.0; } }
+
+        // Plane 34: halfmove clock (normalized, for 50-move rule awareness)
+        let half_frac = (self.half as f32 / 100.0).min(1.0);
+        for i in 0..64 { out[34 * 64 + i] = half_frac; }
+
+        // Plane 35: en passant target
         if self.ep_sq < 64 {
-            out[14 * 64 + self.ep_sq as usize] = 1.0;
+            out[35 * 64 + self.ep_sq as usize] = 1.0;
         }
-        // Side plane
-        if self.side == BLACK {
-            for i in 0..64 {
-                out[15 * 64 + i] = 1.0;
-            }
-        }
+
         out
     }
 }
@@ -1716,6 +1950,25 @@ mod tests {
             4,
             "pawn on 7th should have 4 promotion options"
         );
+    }
+
+    #[test]
+    fn test_policy_index_roundtrip_for_quiet_promotions() {
+        let c = Chess::from_fen("8/P7/8/8/8/8/8/4K2k w - - 0 1").unwrap();
+        let promo_moves: Vec<_> = c
+            .generate_legal_moves()
+            .into_iter()
+            .filter(|m| m.is_promotion())
+            .collect();
+        let indices: Vec<_> = promo_moves.iter().map(|&mv| c.move_to_idx(mv)).collect();
+        let unique = indices.iter().copied().collect::<std::collections::HashSet<_>>();
+
+        assert_eq!(c.num_actions(), CHESS_POLICY_ACTIONS);
+        assert_eq!(unique.len(), 4, "each promotion choice needs a unique policy index");
+        for mv in promo_moves {
+            let idx = c.move_to_idx(mv);
+            assert_eq!(c.idx_to_move(idx).unwrap().to_uci(), mv.to_uci());
+        }
     }
 
     #[test]
@@ -1988,6 +2241,13 @@ mod tests {
             .filter(|m| m.is_promotion() && m.is_capture())
             .collect();
         assert_eq!(cap_promos.len(), 4, "axb8=Q/R/B/N (4 capture promotions)");
+        let indices: Vec<_> = cap_promos.iter().map(|&&mv| c.move_to_idx(mv)).collect();
+        let unique = indices.iter().copied().collect::<std::collections::HashSet<_>>();
+        assert_eq!(
+            unique.len(),
+            4,
+            "capture promotion choices must not collapse onto one policy index"
+        );
     }
 
     // ── Checkmate patterns ──
@@ -2199,6 +2459,27 @@ mod tests {
             let full = c.compute_hash();
             assert_eq!(c.hash(), full, "incremental hash mismatch after {}", mv_str);
         }
+    }
+
+    #[test]
+    fn test_tt_hash_distinguishes_same_board_with_different_repetition_histories() {
+        let root = Chess::standard();
+        let knight_cycle = play(&play(&play(&play(&root, "g1f3"), "g8f6"), "f3g1"), "f6g8");
+        let queen_knight_cycle = play(&play(&play(&play(&root, "b1c3"), "b8c6"), "c3b1"), "c6b8");
+
+        assert_eq!(root.hash(), knight_cycle.hash());
+        assert_eq!(knight_cycle.hash(), queen_knight_cycle.hash());
+        assert_eq!(knight_cycle.half, queen_knight_cycle.half);
+        assert_ne!(knight_cycle.tt_hash(), queen_knight_cycle.tt_hash());
+    }
+
+    #[test]
+    fn test_tt_hash_distinguishes_halfmove_clock() {
+        let fresh = Chess::from_fen("4k3/8/8/8/8/8/8/R3K3 w - - 0 1").unwrap();
+        let stale = Chess::from_fen("4k3/8/8/8/8/8/8/R3K3 w - - 99 1").unwrap();
+
+        assert_eq!(fresh.hash(), stale.hash());
+        assert_ne!(fresh.tt_hash(), stale.tt_hash());
     }
 
     // ── Copy size ──
