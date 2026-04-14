@@ -38,6 +38,10 @@ def _should_prewarm_jax(argv: list[str]) -> bool:
     return backend == "jax" or device == "jax"
 
 
+def _runtime_module_name(argv: list[str]) -> str:
+    return "quartz.jax_runtime" if _should_prewarm_jax(argv) else "quartz.torch_runtime"
+
+
 def _configure_host_thread_env(argv: list[str]) -> None:
     device = (_arg_value(argv, "--device") or "auto").strip().lower()
     logical = _detect_logical_threads()
@@ -62,6 +66,8 @@ def _configure_host_thread_env(argv: list[str]) -> None:
 def _prewarm_jax_rocm(argv: list[str]) -> None:
     if not _should_prewarm_jax(argv):
         return
+    if any(arg in {"-h", "--help"} for arg in argv):
+        return
     os.environ.setdefault("JAX_PLATFORMS", "rocm,cpu")
     try:
         import jax
@@ -73,9 +79,11 @@ def _prewarm_jax_rocm(argv: list[str]) -> None:
 
 
 def main() -> None:
-    _configure_host_thread_env(sys.argv[1:])
-    _prewarm_jax_rocm(sys.argv[1:])
-    from .alphazero_train import main as train_main
+    argv = sys.argv[1:]
+    _configure_host_thread_env(argv)
+    _prewarm_jax_rocm(argv)
+    runtime_module = __import__(_runtime_module_name(argv), fromlist=["main"])
+    train_main = runtime_module.main
 
     train_main()
 

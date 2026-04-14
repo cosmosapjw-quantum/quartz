@@ -111,9 +111,16 @@ def summarize_logs(output_dir: Path):
 
 
 def run_child(args):
-    from quartz import alphazero_train as az
+    import torch
 
-    cfg = dict(az.GAME_CONFIGS[args.game])
+    from quartz import runtime_support
+    from quartz import torch_training_runtime as torch_runtime
+    from quartz.autotune_runtime import AutotuneRuntimeHooks, _run_selfplay_probe
+    from quartz.models_torch import AlphaZeroNet
+    from quartz.system_runtime import configure_torch_rocm_runtime, detect_hardware_spec
+    from quartz.training_catalog import GAME_CONFIGS
+
+    cfg = dict(GAME_CONFIGS[args.game])
     cfg["_name"] = args.game
     cfg["_resident_session"] = bool(args.resident_session)
     cfg["_disable_resident_session"] = bool(args.disable_resident_session)
@@ -125,20 +132,20 @@ def run_child(args):
         cfg["batch_timeout_us"] = int(args.batch_timeout_us)
 
     if args.device == "auto":
-        device = az.torch.device("cuda" if az.torch.cuda.is_available() else "cpu")
+        device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     else:
-        device = az.torch.device(args.device)
-    hw = az.detect_hardware_spec(device)
-    az.configure_torch_rocm_runtime(hw)
+        device = torch.device(args.device)
+    hw = detect_hardware_spec(device)
+    configure_torch_rocm_runtime(hw)
 
     model = None
     model_kind = args.model_mode
     if model_kind == "real":
-        model = az.AlphaZeroNet(cfg).to(device)
+        model = AlphaZeroNet(cfg).to(device)
         ckpt = args.checkpoint
         if ckpt:
             from quartz.backend import load_torch_state_dict_checked
-            load_torch_state_dict_checked(model, ckpt, az.torch, map_location=device)
+            load_torch_state_dict_checked(model, ckpt, torch, map_location=device)
         model.eval()
     elif model_kind == "dummy":
         class DummyModel:
@@ -156,8 +163,16 @@ def run_child(args):
     else:
         raise ValueError(f"unknown model_mode: {model_kind}")
 
+    runtime_hooks = AutotuneRuntimeHooks(
+        alphazero_net_cls=runtime_support.AlphaZeroNet,
+        run_model_batch=runtime_support.run_model_batch,
+        selfplay_rust_nn_batched=torch_runtime.selfplay_rust_nn_batched,
+        stall_trace=lambda *args, **kwargs: None,
+        tqdm_factory=runtime_support.tqdm_factory,
+    )
+
     t0 = time.time()
-    probe = az._run_selfplay_probe(
+    probe = _run_selfplay_probe(
         cfg,
         model,
         device,
@@ -165,6 +180,7 @@ def run_child(args):
         parallel=args.parallel,
         batch_games=args.batch_games,
         n_threads=args.n_threads,
+        runtime_hooks=runtime_hooks,
         concurrent=bool(args.concurrent),
         rounds=args.rounds,
         warmup=not args.no_warmup,

@@ -1,0 +1,59 @@
+{
+  "systems": [
+    {
+      "id": "B0",
+      "label": "no-refresh baseline",
+      "operator": "search",
+      "search_overrides": {
+        "penalty_mode": "GatedRefreshLegacy",
+        "root_only_shaping": false,
+        "prior_refresh_rate": 0.0
+      },
+      "params": {}
+    },
+    {
+      "id": "B1",
+      "label": "current refresh",
+      "operator": "search",
+      "search_overrides": {
+        "penalty_mode": "GatedRefreshLegacy",
+        "root_only_shaping": false,
+        "prior_refresh_rate": 0.5,
+        "prior_refresh_temp": 0.0
+      },
+      "params": {}
+    },
+    {
+      "id": "N1",
+      "label": "dual-channel refresh",
+      "operator": "dual_channel",
+      "search_overrides": {
+        "penalty_mode": "GatedRefreshLegacy",
+        "root_only_shaping": false,
+        "prior_refresh_rate": 0.0
+      },
+      "params": {
+        "gate_epsilon": 0.05,
+        "gate_scale": 1.0,
+        "posterior_mix": 1.0,
+        "fallback_temp": 1.0
+      }
+    },
+    {
+      "id": "N2",
+      "label": "root-only posterior snapshot",
+      "operator": "root_snapshot",
+      "search_overrides": {
+        "penalty_mode": "GatedRefreshLegacy",
+        "root_only_shaping": false,
+        "prior_refresh_rate": 0.0
+      },
+      "params": {
+        "challenger_k": 4,
+        "candidate_score_mix": 0.5,
+        "snapshot_alpha": 0.75,
+        "adaptive_k": true
+      }
+    }
+  ]
+}

@@ -189,10 +189,19 @@ be used directly as the runtime folder or passed via `INFO folder`.
 quartz/
 ├── train.py
 ├── alphazero_train.py
+├── cli_main.py
+├── train_loop.py
+├── selfplay_runtime.py
+├── arena_runtime.py
+├── evaluator_runtime.py
+├── eval_runtime.py
+├── replay.py
+├── qipc.py
 ├── evaluation.py
 ├── encoders.py
 ├── onnx_support.py
 ├── gomocup_export.py
+├── models_torch.py
 └── backend.py
 
 scripts/
@@ -209,3 +218,6 @@ src/
 ├── mcts/
 └── games/
 ```
+
+`alphazero_train.py` is now a compatibility facade. New runtime logic lives in
+the split modules above, and new code should import from those modules directly.

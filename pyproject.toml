@@ -33,10 +33,11 @@ jax = ["torch>=2.0", "jax[cpu]>=0.4", "flax>=0.7", "optax"]
 # ONNX inference (deploy without torch/jax)
 onnx = ["onnxruntime>=1.16", "onnx>=1.14"]
 onnx-gpu = ["onnxruntime-gpu>=1.16", "onnx>=1.14"]
+search = ["optuna>=3.6"]
 
 # All-in-one
 full = ["torch>=2.0", "onnxruntime>=1.16", "onnx>=1.14"]
-dev = ["pytest", "ruff", "onnx>=1.14"]
+dev = ["pytest", "ruff", "onnx>=1.14", "optuna>=3.6"]
 
 [project.scripts]
 quartz-train = "quartz.train:main"

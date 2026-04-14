@@ -14,6 +14,9 @@ A research platform combining:
 - **Python training loop** — self-play, replay buffer, SGD, checkpoint
   evaluation via Glicko-2
 
+The Python side is now split into focused runtime modules. `quartz/alphazero_train.py`
+remains as a compatibility facade for older imports, the GUI, and tests.
+
 The Rust engine is the sole training search engine. Self-play and evaluation
 run through the same Rust+NN stack, with a hybrid QIPC transport:
 JSON-line control messages plus binary/SHM hot-path payloads for batched NN
@@ -54,6 +57,10 @@ See [docs/INSTALL.md](docs/INSTALL.md) for detailed setup and
 ```
 Python training loop
   │
+  ├─ cli_main / train_loop
+  ├─ selfplay_runtime / arena_runtime / evaluator_runtime
+  ├─ replay / eval_runtime / qipc
+  │
   ├─ selfplay/eval runners
   │    └─ Launch Rust server (--server)
   │         └─ QIPC: JSON control + binary/SHM eval/search payloads
@@ -79,6 +86,13 @@ Python training loop
 - Low-cost controller search now has frozen-checkpoint confirmatory runs
   (`controller_sweep.py`) and Optuna-driven surrogate search
   (`controller_optuna.py`).
+- Phase-1 prior revision assays now have a dedicated runner
+  (`prior_revision_experiment.py`) for bucketized frozen-checkpoint `B0/B1/N1/N2`
+  comparisons before training-contract promotion. Use explicit curated
+  checkpoint paths; lexical `--checkpoint-dir` truncation is intentionally
+  rejected for weak/mid/strong experiments.
+- The old Python monolith was split into focused runtime modules; the public
+  `alphazero_train.py` surface is now a thin compatibility facade.
 - Current Gomoku7 controller evidence favors no-refresh legacy-family variants.
   Prior refresh remains implemented and searchable, but is not the current
   default/deployment recommendation.

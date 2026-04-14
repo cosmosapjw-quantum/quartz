@@ -2,7 +2,9 @@ import importlib.util
 import sys
 from pathlib import Path
 
-import optuna
+import pytest
+
+optuna = pytest.importorskip("optuna")
 
 
 def load_module(name: str, path: Path):

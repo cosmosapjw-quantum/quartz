@@ -15,7 +15,7 @@ from typing import Any
 
 import torch
 
-from quartz.alphazero_train import (
+from quartz.runtime_support import (
     AlphaZeroNet,
     GAME_CONFIGS,
     NNSearchClient,
@@ -228,14 +228,14 @@ class RustControlClient:
 
     def start(self):
         if self.proc is None:
-            from quartz.alphazero_train import launch_rust_server
+            from quartz.runtime_support import launch_rust_server
 
             self.proc = launch_rust_server(self.rust_binary)
 
     def stop(self):
         if self.proc is not None:
             try:
-                from quartz.alphazero_train import proc_write_json_line
+                from quartz.runtime_support import proc_write_json_line
 
                 proc_write_json_line(self.proc, {"cmd": "quit"})
                 self.proc.wait(timeout=5)
@@ -246,7 +246,7 @@ class RustControlClient:
     def request(self, payload: dict[str, Any]) -> dict[str, Any]:
         self.start()
         assert self.proc is not None
-        from quartz.alphazero_train import proc_write_json_line, proc_read_json_line
+        from quartz.runtime_support import proc_write_json_line, proc_read_json_line
 
         proc_write_json_line(self.proc, payload)
         line = proc_read_json_line(self.proc)

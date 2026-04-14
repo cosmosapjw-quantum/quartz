@@ -18,7 +18,7 @@ use std::os::raw::{c_int, c_void};
 use std::process::{Child, ChildStdin, ChildStdout, Command, Stdio};
 use std::sync::Mutex;
 
-use crate::game::{EvalResult, Evaluator, GameState};
+use crate::game::{tt_combine, EvalResult, Evaluator, GameState};
 use std::fmt::Debug;
 use std::hash::Hash;
 use crate::simd_utils::normalize_nonnegative_in_place;
@@ -819,6 +819,10 @@ fn push_u32_le(buf: &mut Vec<u8>, value: usize) {
     buf.extend_from_slice(&(value as u32).to_le_bytes());
 }
 
+fn push_u64_le(buf: &mut Vec<u8>, value: u64) {
+    buf.extend_from_slice(&value.to_le_bytes());
+}
+
 fn push_f32_slice_le(buf: &mut Vec<u8>, values: &[f32]) {
     if cfg!(target_endian = "little") {
         let byte_len = mem::size_of_val(values);
@@ -874,23 +878,50 @@ fn dense_prob_at(probs_bytes: &[u8], policy_len: usize, idx: usize) -> f32 {
     f32::from_le_bytes(raw)
 }
 
-fn encode_eval_req_payload(features: &[f32], n_actions: usize, model_tag: u32) -> Vec<u8> {
-    let mut payload = Vec::with_capacity(12 + features.len() * 4);
+fn eval_cache_fingerprint<G: GameState>(
+    state: &G,
+    feature_len: usize,
+    n_actions: usize,
+) -> (u64, u64, u32) {
+    let encoder_rev = state.eval_encoder_revision();
+    let fp_lo = state.tt_hash();
+    let mut fp_hi = tt_combine(0x4556_414c_5f46_5031, fp_lo);
+    fp_hi = tt_combine(fp_hi, n_actions as u64);
+    fp_hi = tt_combine(fp_hi, feature_len as u64);
+    fp_hi = tt_combine(fp_hi, encoder_rev as u64);
+    (fp_lo, fp_hi, encoder_rev)
+}
+
+fn encode_eval_req_payload(
+    features: &[f32],
+    n_actions: usize,
+    model_tag: u32,
+    feature_fp_lo: u64,
+    feature_fp_hi: u64,
+    encoder_rev: u32,
+) -> Vec<u8> {
+    let mut payload = Vec::with_capacity(32 + features.len() * 4);
     push_u32_le(&mut payload, model_tag as usize);
     push_u32_le(&mut payload, n_actions);
     push_u32_le(&mut payload, features.len());
+    push_u64_le(&mut payload, feature_fp_lo);
+    push_u64_le(&mut payload, feature_fp_hi);
+    push_u32_le(&mut payload, encoder_rev as usize);
     push_f32_slice_le(&mut payload, features);
     payload
 }
 
 fn encode_batch_eval_req_payload<M: Copy + Send + 'static>(batch: &[BatchRequest<M>]) -> Vec<u8> {
     let total_floats: usize = batch.iter().map(|req| req.features.len()).sum();
-    let mut payload = Vec::with_capacity(4 + batch.len() * 12 + total_floats * 4);
+    let mut payload = Vec::with_capacity(4 + batch.len() * 32 + total_floats * 4);
     push_u32_le(&mut payload, batch.len());
     for req in batch {
         push_u32_le(&mut payload, req.model_tag as usize);
         push_u32_le(&mut payload, req.n_actions);
         push_u32_le(&mut payload, req.features.len());
+        push_u64_le(&mut payload, req.feature_fp_lo);
+        push_u64_le(&mut payload, req.feature_fp_hi);
+        push_u32_le(&mut payload, req.encoder_rev as usize);
         push_f32_slice_le(&mut payload, &req.features);
     }
     payload
@@ -1093,13 +1124,22 @@ impl<G: GameState> Evaluator<G> for StdioCallbackEval {
         }
 
         let planes = state.encode_planes();
+        let (feature_fp_lo, feature_fp_hi, encoder_rev) =
+            eval_cache_fingerprint(state, planes.len(), self.n_actions);
         let mut legal_moves_idx = Vec::with_capacity(legal.len());
         for &mv in &legal {
             legal_moves_idx.push((mv, state.move_to_idx(mv)));
         }
 
         let encode_t0 = Instant::now();
-        let req = encode_eval_req_payload(&planes, self.n_actions, 0);
+        let req = encode_eval_req_payload(
+            &planes,
+            self.n_actions,
+            0,
+            feature_fp_lo,
+            feature_fp_hi,
+            encoder_rev,
+        );
 
         // Mutex serializes ALL evaluate() calls — critical for bidirectional I/O.
         // Only one thread can write eval_req + read eval_resp at a time.
@@ -1230,6 +1270,9 @@ struct BatchRequest<M: Copy + Send + 'static> {
     legal_moves_idx: Vec<(M, usize)>,
     n_actions: usize,
     model_tag: u32,
+    feature_fp_lo: u64,
+    feature_fp_hi: u64,
+    encoder_rev: u32,
     enqueued_at: Instant,
     result_tx: channel::Sender<EvalResult<M>>,
 }
@@ -2076,6 +2119,8 @@ impl<M: Copy + Eq + Hash + Debug + Send + 'static> BatchStdioEval<M> {
 
         let planes = state.encode_planes();
         let n_actions = state.num_actions();
+        let (feature_fp_lo, feature_fp_hi, encoder_rev) =
+            eval_cache_fingerprint(state, planes.len(), n_actions);
         let mut legal_moves_idx = Vec::with_capacity(legal.len());
         for &mv in &legal {
             let idx = state.move_to_idx(mv);
@@ -2089,6 +2134,9 @@ impl<M: Copy + Eq + Hash + Debug + Send + 'static> BatchStdioEval<M> {
             legal_moves_idx,
             n_actions,
             model_tag: self.model_tag,
+            feature_fp_lo,
+            feature_fp_hi,
+            encoder_rev,
             enqueued_at: Instant::now(),
             result_tx,
         };
@@ -2203,9 +2251,25 @@ mod tests {
             legal_moves_idx,
             n_actions,
             model_tag: 0,
+            feature_fp_lo: 11,
+            feature_fp_hi: 22,
+            encoder_rev: 1,
             enqueued_at: Instant::now(),
             result_tx: tx,
         }
+    }
+
+    #[test]
+    fn test_encode_eval_req_payload_includes_fingerprint_header() {
+        let payload = encode_eval_req_payload(&[0.25, -0.5], 9, 7, 11, 22, 3);
+
+        assert_eq!(payload.len(), 32 + 8);
+        assert_eq!(u32::from_le_bytes(payload[0..4].try_into().unwrap()), 7);
+        assert_eq!(u32::from_le_bytes(payload[4..8].try_into().unwrap()), 9);
+        assert_eq!(u32::from_le_bytes(payload[8..12].try_into().unwrap()), 2);
+        assert_eq!(u64::from_le_bytes(payload[12..20].try_into().unwrap()), 11);
+        assert_eq!(u64::from_le_bytes(payload[20..28].try_into().unwrap()), 22);
+        assert_eq!(u32::from_le_bytes(payload[28..32].try_into().unwrap()), 3);
     }
 
     #[test]
@@ -2327,6 +2391,9 @@ mod tests {
                     legal_moves_idx: vec![(i, 1)],
                     n_actions: 9,
                     model_tag: 0,
+                    feature_fp_lo: i as u64,
+                    feature_fp_hi: i as u64 + 100,
+                    encoder_rev: 1,
                     enqueued_at: Instant::now(),
                     result_tx,
                 };

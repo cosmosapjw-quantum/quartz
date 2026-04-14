@@ -267,6 +267,47 @@ def test_unpack_shm_search_response_parses_sparse_binary_payload():
     assert decoded["result"]["best_move_uci"] == "e2e4"
 
 
+def test_unpack_qipc_eval_req_accepts_fingerprint_header():
+    from quartz import alphazero_train as az
+
+    feats = np.asarray([0.25, -0.5, 0.75, 1.25], dtype="<f4")
+    payload = (
+        struct.pack("<IIIQQI", 7, 9, feats.size, 11, 22, 3)
+        + feats.tobytes()
+    )
+
+    num_actions, features, model_tag, fp_lo, fp_hi, encoder_rev = az.unpack_qipc_eval_req(payload)
+
+    assert num_actions == 9
+    assert model_tag == 7
+    assert fp_lo == 11
+    assert fp_hi == 22
+    assert encoder_rev == 3
+    np.testing.assert_allclose(features, feats)
+
+
+def test_unpack_qipc_batch_eval_req_accepts_fingerprint_headers():
+    from quartz import alphazero_train as az
+
+    feat_a = np.asarray([1.0, 0.0, 0.0, 0.0], dtype="<f4")
+    feat_b = np.asarray([0.0, 1.0, 0.0, 0.0], dtype="<f4")
+    payload = bytearray(struct.pack("<I", 2))
+    payload.extend(struct.pack("<IIIQQI", 3, 5, feat_a.size, 101, 201, 1))
+    payload.extend(feat_a.tobytes())
+    payload.extend(struct.pack("<IIIQQI", 4, 6, feat_b.size, 102, 202, 1))
+    payload.extend(feat_b.tobytes())
+
+    requests = az.unpack_qipc_batch_eval_req(bytes(payload))
+
+    assert len(requests) == 2
+    assert requests[0][0] == 5
+    assert requests[0][2:] == (3, 101, 201, 1)
+    assert requests[1][0] == 6
+    assert requests[1][2:] == (4, 102, 202, 1)
+    np.testing.assert_allclose(requests[0][1], feat_a)
+    np.testing.assert_allclose(requests[1][1], feat_b)
+
+
 def test_game_configs_have_n_threads():
     """Verify all game configs include n_threads and batch_size."""
     # Import the actual configs

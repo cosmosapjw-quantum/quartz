@@ -273,7 +273,8 @@ CPU, CUDA, ROCm, TensorRT, DirectML, CoreML.
 ### Export
 
 ```python
-from quartz.alphazero_train import AlphaZeroNet, GAME_CONFIGS
+from quartz.models_torch import AlphaZeroNet
+from quartz.alphazero_train import GAME_CONFIGS
 from quartz.backend import load_torch_state_dict_checked
 from quartz.onnx_support import export_onnx
 import torch
@@ -284,6 +285,9 @@ model = AlphaZeroNet(cfg)
 load_torch_state_dict_checked(model, "models/alphazero_gomoku15/best.pt", torch, map_location="cpu")
 export_onnx(model.eval(), cfg, "gomocup_model.onnx")
 ```
+
+`quartz.alphazero_train` still re-exports `AlphaZeroNet` for compatibility, but
+new code should prefer `quartz.models_torch`.
 
 ### Inference
 

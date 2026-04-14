@@ -7,7 +7,7 @@ import shutil
 import time
 from pathlib import Path
 
-from .alphazero_train import AlphaZeroNet, GAME_CONFIGS
+from .runtime_support import AlphaZeroNet, GAME_CONFIGS
 from .backend import load_torch_state_dict_checked
 from .encoders import get_encoder
 from .onnx_support import export_onnx

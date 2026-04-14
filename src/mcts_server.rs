@@ -83,6 +83,13 @@ fn emit_json_message(payload: &serde_json::Value) {
     let _ = out.flush();
 }
 
+fn emit_stdout_json_value(payload: &serde_json::Value) {
+    let stdout = io::stdout();
+    let mut out = stdout.lock();
+    let _ = writeln!(out, "{}", payload);
+    let _ = out.flush();
+}
+
 fn emit_ring_message(msg_type: u8, payload: &[u8]) -> bool {
     let Some(ring) = global_ring_buffer() else {
         return false;
@@ -94,6 +101,59 @@ fn emit_ring_message(msg_type: u8, payload: &[u8]) -> bool {
 const SEARCH_RESP_SINGLE: u8 = 1;
 const SEARCH_RESP_MULTI: u8 = 2;
 const SEARCH_RESP_SESSION: u8 = 3;
+
+enum SearchResponsePayload {
+    Single { result: serde_json::Value },
+    Multi { results: Vec<serde_json::Value> },
+    Session {
+        session_id: u64,
+        results: Vec<serde_json::Value>,
+    },
+}
+
+impl SearchResponsePayload {
+    fn kind(&self) -> u8 {
+        match self {
+            SearchResponsePayload::Single { .. } => SEARCH_RESP_SINGLE,
+            SearchResponsePayload::Multi { .. } => SEARCH_RESP_MULTI,
+            SearchResponsePayload::Session { .. } => SEARCH_RESP_SESSION,
+        }
+    }
+
+    fn session_id(&self) -> u64 {
+        match self {
+            SearchResponsePayload::Session { session_id, .. } => *session_id,
+            SearchResponsePayload::Single { .. } | SearchResponsePayload::Multi { .. } => 0,
+        }
+    }
+
+    fn results(&self) -> &[serde_json::Value] {
+        match self {
+            SearchResponsePayload::Single { result } => std::slice::from_ref(result),
+            SearchResponsePayload::Multi { results } => results,
+            SearchResponsePayload::Session { results, .. } => results,
+        }
+    }
+
+    fn to_json_value(&self) -> serde_json::Value {
+        match self {
+            SearchResponsePayload::Single { result } => serde_json::json!({ "result": result }),
+            SearchResponsePayload::Multi { results } => serde_json::json!({ "results": results }),
+            SearchResponsePayload::Session {
+                session_id,
+                results,
+            } => serde_json::json!({
+                "session_id": session_id,
+                "results": results,
+            }),
+        }
+    }
+}
+
+enum SearchCommandReply {
+    Search(SearchResponsePayload),
+    Json(serde_json::Value),
+}
 
 fn push_u8(buf: &mut Vec<u8>, value: u8) {
     buf.push(value);
@@ -193,47 +253,34 @@ fn encode_search_result_entry(buf: &mut Vec<u8>, result: &serde_json::Value) {
     );
 }
 
-fn encode_search_response_payload(value: &serde_json::Value) -> Option<Vec<u8>> {
-    let (kind, session_id, results): (u8, u64, Vec<serde_json::Value>) =
-        if let Some(result) = value.get("result") {
-            (SEARCH_RESP_SINGLE, 0, vec![result.clone()])
-        } else if let Some(results) = value.get("results").and_then(|v| v.as_array()) {
-            let kind = if value.get("session_id").and_then(|v| v.as_u64()).is_some() {
-                SEARCH_RESP_SESSION
-            } else {
-                SEARCH_RESP_MULTI
-            };
-            (
-                kind,
-                value.get("session_id").and_then(|v| v.as_u64()).unwrap_or(0),
-                results.clone(),
-            )
-        } else {
-            return None;
-        };
-
+fn encode_search_response_payload(response: &SearchResponsePayload) -> Vec<u8> {
     let mut payload = Vec::new();
-    push_u8(&mut payload, kind);
-    push_u64(&mut payload, session_id);
-    push_u32(&mut payload, results.len().min(u32::MAX as usize) as u32);
-    for result in &results {
+    push_u8(&mut payload, response.kind());
+    push_u64(&mut payload, response.session_id());
+    push_u32(
+        &mut payload,
+        response.results().len().min(u32::MAX as usize) as u32,
+    );
+    for result in response.results() {
         encode_search_result_entry(&mut payload, result);
     }
-    Some(payload)
+    payload
 }
 
-fn emit_search_response_payload(value: &serde_json::Value) -> bool {
-    let Some(payload) = encode_search_response_payload(value) else {
-        return false;
-    };
+fn emit_search_response_payload(response: &SearchResponsePayload) -> bool {
+    let payload = encode_search_response_payload(response);
     emit_ring_message(SHM_MSG_SEARCH_RESP, &payload)
 }
 
-fn parse_result_value(resp: String) -> serde_json::Value {
-    serde_json::from_str::<serde_json::Value>(&resp)
-        .ok()
-        .and_then(|v| v.get("result").cloned())
-        .unwrap_or_else(|| serde_json::json!({}))
+fn emit_search_command_reply(reply: SearchCommandReply) {
+    match reply {
+        SearchCommandReply::Search(response) => {
+            if !emit_search_response_payload(&response) {
+                emit_stdout_json_value(&response.to_json_value());
+            }
+        }
+        SearchCommandReply::Json(value) => emit_stdout_json_value(&value),
+    }
 }
 
 type SparsePolicyEntry = (usize, f32);
@@ -1162,58 +1209,22 @@ pub fn serve() {
         }
 
         if cmd == "search_nn" {
-            let resp = handle_search_nn(&line);
-            let emitted = serde_json::from_str::<serde_json::Value>(&resp)
-                .ok()
-                .map(|value| emit_search_response_payload(&value))
-                .unwrap_or(false);
-            if !emitted {
-                let mut out = io::stdout().lock();
-                let _ = writeln!(out, "{}", resp);
-                let _ = out.flush();
-            }
+            emit_search_command_reply(handle_search_nn(&line));
             if let Some(ring) = global_ring_buffer() { ring.set_cmd_done(true); }
             continue;
         }
         if cmd == "search_nn_multi" {
-            let resp = handle_search_nn_multi(&line);
-            let emitted = serde_json::from_str::<serde_json::Value>(&resp)
-                .ok()
-                .map(|value| emit_search_response_payload(&value))
-                .unwrap_or(false);
-            if !emitted {
-                let mut out = io::stdout().lock();
-                let _ = writeln!(out, "{}", resp);
-                let _ = out.flush();
-            }
+            emit_search_command_reply(handle_search_nn_multi(&line));
             if let Some(ring) = global_ring_buffer() { ring.set_cmd_done(true); }
             continue;
         }
         if cmd == "search_nn_multi_session_open" {
-            let resp = handle_search_nn_multi_session_open(&line);
-            let emitted = serde_json::from_str::<serde_json::Value>(&resp)
-                .ok()
-                .map(|value| emit_search_response_payload(&value))
-                .unwrap_or(false);
-            if !emitted {
-                let mut out = io::stdout().lock();
-                let _ = writeln!(out, "{}", resp);
-                let _ = out.flush();
-            }
+            emit_search_command_reply(handle_search_nn_multi_session_open(&line));
             if let Some(ring) = global_ring_buffer() { ring.set_cmd_done(true); }
             continue;
         }
         if cmd == "search_nn_multi_session_step" {
-            let resp = handle_search_nn_multi_session_step(&line);
-            let emitted = serde_json::from_str::<serde_json::Value>(&resp)
-                .ok()
-                .map(|value| emit_search_response_payload(&value))
-                .unwrap_or(false);
-            if !emitted {
-                let mut out = io::stdout().lock();
-                let _ = writeln!(out, "{}", resp);
-                let _ = out.flush();
-            }
+            emit_search_command_reply(handle_search_nn_multi_session_step(&line));
             if let Some(ring) = global_ring_buffer() { ring.set_cmd_done(true); }
             continue;
         }
@@ -1418,7 +1429,7 @@ fn choose_selfplay_action_generic<G: GameState>(
 /// Batch MCTS search: select K leaves → 1 batch eval → K expand+backprop.
 /// Throughput: ~K× fewer IPC round-trips, ~K× better GPU utilization.
 /// Run search with appropriate parallelism, then extract result JSON.
-fn build_result_json<G: GameState>(
+fn build_result_value<G: GameState>(
     engine: &MctsEngine<G>,
     n_act: usize,
     iterations: u32,
@@ -1427,32 +1438,29 @@ fn build_result_json<G: GameState>(
     value: f32,
     sigma_q: f32,
     hbar_eff: f32,
-) -> String {
+) -> serde_json::Value {
     let (best, policy, total) = collect_sparse_policy(engine, n_act);
     let tt = engine.tt.contention_snapshot();
     let par = engine.par_ctrl.telemetry.snapshot();
     serde_json::json!({
-        "result": {
-            "best_move": best,
-            "policy": policy,
-            "p_flip": f_or(p_flip, 0.0),
-            "value": f_or(value, 0.0),
-            "sigma_q": f_or(sigma_q, 0.0),
-            "hbar_eff": f_or(hbar_eff, 0.0),
-            "stop_reason": stop_reason,
-            "iterations": iterations.max(total),
-            "dup_rate": par.dup_rate,
-            "max_pending": par.max_pending,
-            "avg_vvalue": par.avg_vvalue,
-            "tt_hit_rate": engine.tt.hit_rate(),
-            "tt_size": engine.tt.size(),
-            "tt_get_or_create_calls": tt.get_or_create_calls,
-            "tt_get_calls": tt.get_calls,
-            "tt_lock_wait_ms": tt.lock_wait_nanos as f64 / 1_000_000.0,
-            "tt_max_lock_wait_ms": tt.max_lock_wait_nanos as f64 / 1_000_000.0,
-        }
+        "best_move": best,
+        "policy": policy,
+        "p_flip": f_or(p_flip, 0.0),
+        "value": f_or(value, 0.0),
+        "sigma_q": f_or(sigma_q, 0.0),
+        "hbar_eff": f_or(hbar_eff, 0.0),
+        "stop_reason": stop_reason,
+        "iterations": iterations.max(total),
+        "dup_rate": par.dup_rate,
+        "max_pending": par.max_pending,
+        "avg_vvalue": par.avg_vvalue,
+        "tt_hit_rate": engine.tt.hit_rate(),
+        "tt_size": engine.tt.size(),
+        "tt_get_or_create_calls": tt.get_or_create_calls,
+        "tt_get_calls": tt.get_calls,
+        "tt_lock_wait_ms": tt.lock_wait_nanos as f64 / 1_000_000.0,
+        "tt_max_lock_wait_ms": tt.max_lock_wait_nanos as f64 / 1_000_000.0,
     })
-    .to_string()
 }
 
 fn run_and_extract<G: GameState>(
@@ -1462,7 +1470,7 @@ fn run_and_extract<G: GameState>(
     iters: u32,
     qcfg: Option<QuartzConfig>,
     profile: SearchProfile,
-) -> String
+) -> serde_json::Value
 where
     usize: From<G::Move>,
 {
@@ -1477,7 +1485,7 @@ where
                 engine.run_quartz(&mut ctrl);
             }
             let s = ctrl.last_stats();
-            let out = build_result_json(
+            let out = build_result_value(
                 engine,
                 n_act,
                 engine.root.n_total.load(Ordering::Relaxed),
@@ -1520,7 +1528,7 @@ where
             } else {
                 engine.run(&mut FixedIterations::new(iters))
             };
-            let out = build_result_json(
+            let out = build_result_value(
                 engine,
                 n_act,
                 stats.iterations,
@@ -1794,7 +1802,7 @@ where
         },
         SearchProfile::Baseline | SearchProfile::BaselineStrict => (0.0, 0.0, 0.0, 0.0),
     };
-    parse_result_value(build_result_json(
+    build_result_value(
         engine,
         n_actions,
         completed,
@@ -1803,7 +1811,7 @@ where
         value,
         sigma_q,
         hbar_eff,
-    ))
+    )
 }
 
 /// Per-tick counters accumulated during job processing.
@@ -2221,14 +2229,14 @@ where
                         }),
                     );
                     let engine = MctsEngine::new(state, eval.clone(), cfg_template.clone());
-                    let value = parse_result_value(run_and_extract(
+                    let value = run_and_extract(
                         &engine,
                         engine_threads,
                         n_actions,
                         iters,
                         qcfg.clone(),
                         search_profile,
-                    ));
+                    );
                     rust_server_trace(
                         "run_multi_job_done",
                         serde_json::json!({
@@ -2321,14 +2329,14 @@ where
                     eval_a.clone()
                 };
                 let engine = MctsEngine::new(state, eval, cfg_template.clone());
-                let value = parse_result_value(run_and_extract(
+                let value = run_and_extract(
                     &engine,
                     engine_threads,
                     n_actions,
                     iters,
                     qcfg.clone(),
                     search_profile,
-                ));
+                );
                 if idx < results.len() {
                     if let Ok(mut slot) = results[idx].lock() {
                         *slot = value;
@@ -2750,7 +2758,7 @@ fn default_batch_timeout_us(n_threads: usize, batch_size: usize, job_count: usiz
     timeout_us.clamp(500, 8000)
 }
 
-fn handle_search_nn(line: &str) -> String {
+fn handle_search_nn(line: &str) -> SearchCommandReply {
     use crate::mcts::eval::{BatchConfig, BatchStdioEval, StdioCallbackEval};
 
     let game = jstr(line, "game").unwrap_or("gomoku15");
@@ -2821,7 +2829,16 @@ fn handle_search_nn(line: &str) -> String {
                 &overrides,
             ), search_profile);
             let engine = MctsEngine::new(state, eval, cfg);
-            run_and_extract(&engine, n_threads, 49, iters, engine.config.quartz.clone(), search_profile)
+            SearchCommandReply::Search(SearchResponsePayload::Single {
+                result: run_and_extract(
+                    &engine,
+                    n_threads,
+                    49,
+                    iters,
+                    engine.config.quartz.clone(),
+                    search_profile,
+                ),
+            })
         }
         _ if parse_gomoku15_variant(game).is_some() => {
             let board_raw = jarr(line, "board");
@@ -2839,7 +2856,16 @@ fn handle_search_nn(line: &str) -> String {
             let eval = make_eval!(Gomoku15);
             let cfg = apply_search_profile(apply_search_overrides(gomoku15_quartz(variant), &overrides), search_profile);
             let engine = MctsEngine::new(state, eval, cfg);
-            run_and_extract(&engine, n_threads, 225, iters, engine.config.quartz.clone(), search_profile)
+            SearchCommandReply::Search(SearchResponsePayload::Single {
+                result: run_and_extract(
+                    &engine,
+                    n_threads,
+                    225,
+                    iters,
+                    engine.config.quartz.clone(),
+                    search_profile,
+                ),
+            })
         }
         _ if parse_go_game(game).is_some() => {
             let (size, default_ruleset) = parse_go_game(game).unwrap();
@@ -2874,7 +2900,16 @@ fn handle_search_nn(line: &str) -> String {
             let eval = make_eval!(Go);
             let cfg = apply_search_profile(apply_search_overrides(go_quartz(size), &overrides), search_profile);
             let engine = MctsEngine::new(state, eval, cfg);
-            run_and_extract(&engine, n_threads, n_actions, iters, engine.config.quartz.clone(), search_profile)
+            SearchCommandReply::Search(SearchResponsePayload::Single {
+                result: run_and_extract(
+                    &engine,
+                    n_threads,
+                    n_actions,
+                    iters,
+                    engine.config.quartz.clone(),
+                    search_profile,
+                ),
+            })
         }
         "tictactoe" => {
             let board_raw = jarr(line, "board");
@@ -2893,7 +2928,16 @@ fn handle_search_nn(line: &str) -> String {
                 &overrides,
             ), search_profile);
             let engine = MctsEngine::new(state, eval, cfg);
-            run_and_extract(&engine, n_threads, 9, iters, engine.config.quartz.clone(), search_profile)
+            SearchCommandReply::Search(SearchResponsePayload::Single {
+                result: run_and_extract(
+                    &engine,
+                    n_threads,
+                    9,
+                    iters,
+                    engine.config.quartz.clone(),
+                    search_profile,
+                ),
+            })
         }
         game if is_chess_game_name(game) => {
             let state = chess_state_from_request(line, game == "chess960");
@@ -2941,26 +2985,28 @@ fn handle_search_nn(line: &str) -> String {
             let mut result = serde_json::json!({
                 "best_move": best,
                 "policy": policy,
-                    "p_flip": f_or(p_flip, 0.0),
-                    "value": f_or(value, 0.0),
-                    "sigma_q": f_or(sigma_q, 0.0),
-                    "hbar_eff": f_or(hbar_eff, 0.0),
-                    "stop_reason": stop_reason,
-                    "iterations": iterations.max(total),
-                    "dup_rate": par.dup_rate,
-                    "max_pending": par.max_pending,
-                    "avg_vvalue": par.avg_vvalue,
+                "p_flip": f_or(p_flip, 0.0),
+                "value": f_or(value, 0.0),
+                "sigma_q": f_or(sigma_q, 0.0),
+                "hbar_eff": f_or(hbar_eff, 0.0),
+                "stop_reason": stop_reason,
+                "iterations": iterations.max(total),
+                "dup_rate": par.dup_rate,
+                "max_pending": par.max_pending,
+                "avg_vvalue": par.avg_vvalue,
             });
             enrich_chess_result(engine.root_state(), &mut result);
-            serde_json::json!({ "result": result }).to_string()
+            SearchCommandReply::Search(SearchResponsePayload::Single { result })
         }
-        _ => format!("{{\"error\":\"search_nn not yet supported for {}\"}}", game),
+        _ => SearchCommandReply::Json(serde_json::json!({
+            "error": format!("search_nn not yet supported for {}", game)
+        })),
     }
 }
 
-fn handle_search_nn_multi(line: &str) -> String {
+fn handle_search_nn_multi(line: &str) -> SearchCommandReply {
     let Ok(root) = serde_json::from_str::<serde_json::Value>(line) else {
-        return "{\"error\":\"invalid json\"}".to_string();
+        return SearchCommandReply::Json(serde_json::json!({ "error": "invalid json" }));
     };
     let game = root
         .get("game")
@@ -2972,7 +3018,7 @@ fn handle_search_nn_multi(line: &str) -> String {
         .cloned()
         .unwrap_or_default();
     if jobs.is_empty() {
-        return "{\"results\":[]}".to_string();
+        return SearchCommandReply::Search(SearchResponsePayload::Multi { results: vec![] });
     }
 
     let iters = root.get("iters").and_then(|v| v.as_u64()).unwrap_or(200) as u32;
@@ -3030,7 +3076,7 @@ fn handle_search_nn_multi(line: &str) -> String {
                 $n_act,
                 search_profile,
             );
-            serde_json::json!({ "results": results }).to_string()
+            SearchCommandReply::Search(SearchResponsePayload::Multi { results })
         }};
     }
 
@@ -3253,15 +3299,17 @@ fn handle_search_nn_multi(line: &str) -> String {
                     .map(|h| h.join().unwrap_or_else(|_| serde_json::json!({})))
                     .collect::<Vec<_>>()
             });
-            serde_json::json!({ "results": results }).to_string()
+            SearchCommandReply::Search(SearchResponsePayload::Multi { results })
         }
-        _ => format!("{{\"error\":\"search_nn_multi not yet supported for {}\"}}", game),
+        _ => SearchCommandReply::Json(serde_json::json!({
+            "error": format!("search_nn_multi not yet supported for {}", game)
+        })),
     }
 }
 
-fn handle_search_nn_multi_session_open(line: &str) -> String {
+fn handle_search_nn_multi_session_open(line: &str) -> SearchCommandReply {
     let Ok(root) = serde_json::from_str::<serde_json::Value>(line) else {
-        return "{\"error\":\"invalid json\"}".to_string();
+        return SearchCommandReply::Json(serde_json::json!({ "error": "invalid json" }));
     };
     let game = root
         .get("game")
@@ -3273,7 +3321,7 @@ fn handle_search_nn_multi_session_open(line: &str) -> String {
         .cloned()
         .unwrap_or_default();
     if jobs.is_empty() {
-        return "{\"error\":\"jobs required\"}".to_string();
+        return SearchCommandReply::Json(serde_json::json!({ "error": "jobs required" }));
     }
     let iters = root.get("iters").and_then(|v| v.as_u64()).unwrap_or(200) as u32;
     let overrides = parse_search_overrides(line);
@@ -3437,10 +3485,9 @@ fn handle_search_nn_multi_session_open(line: &str) -> String {
             })
         }
         _ => {
-            return format!(
-                "{{\"error\":\"search_nn_multi_session not yet supported for {}\"}}",
-                game
-            )
+            return SearchCommandReply::Json(serde_json::json!({
+                "error": format!("search_nn_multi_session not yet supported for {}", game)
+            }))
         }
     };
 
@@ -3462,15 +3509,15 @@ fn handle_search_nn_multi_session_open(line: &str) -> String {
             "null_results": results.iter().filter(|v| v.is_null()).count(),
         }),
     );
-    serde_json::json!({ "session_id": session_id, "results": results }).to_string()
+    SearchCommandReply::Search(SearchResponsePayload::Session { session_id, results })
 }
 
-fn handle_search_nn_multi_session_step(line: &str) -> String {
+fn handle_search_nn_multi_session_step(line: &str) -> SearchCommandReply {
     let Ok(root) = serde_json::from_str::<serde_json::Value>(line) else {
-        return "{\"error\":\"invalid json\"}".to_string();
+        return SearchCommandReply::Json(serde_json::json!({ "error": "invalid json" }));
     };
     let Some(session_id) = root.get("session_id").and_then(|v| v.as_u64()) else {
-        return "{\"error\":\"session_id required\"}".to_string();
+        return SearchCommandReply::Json(serde_json::json!({ "error": "session_id required" }));
     };
     let updates = root
         .get("updates")
@@ -3480,17 +3527,17 @@ fn handle_search_nn_multi_session_step(line: &str) -> String {
     let mut session = {
         let mut sessions = search_sessions().lock().unwrap();
         let Some(session) = sessions.remove(&session_id) else {
-            return "{\"error\":\"unknown session_id\"}".to_string();
+            return SearchCommandReply::Json(serde_json::json!({ "error": "unknown session_id" }));
         };
         session
     };
     if let Err(err) = session.apply_updates(&updates) {
         search_sessions().lock().unwrap().insert(session_id, session);
-        return serde_json::json!({ "error": err }).to_string();
+        return SearchCommandReply::Json(serde_json::json!({ "error": err }));
     }
     let results = session.search();
     search_sessions().lock().unwrap().insert(session_id, session);
-    serde_json::json!({ "session_id": session_id, "results": results }).to_string()
+    SearchCommandReply::Search(SearchResponsePayload::Session { session_id, results })
 }
 
 fn handle_search_nn_multi_session_close(line: &str) -> String {
@@ -4281,17 +4328,16 @@ mod tests {
 
     #[test]
     fn test_encode_search_response_payload_supports_single_result_wrapper() {
-        let payload = encode_search_response_payload(&serde_json::json!({
-            "result": {
+        let payload = encode_search_response_payload(&SearchResponsePayload::Single {
+            result: serde_json::json!({
                 "best_move": 17,
                 "policy": [[3, 0.6], [5, 0.4]],
                 "iterations": 321,
                 "result_history_hashes": [101, 202],
                 "best_move_uci": "e2e4",
                 "result_fen": "rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR b KQkq e3 0 1",
-            }
-        }))
-        .unwrap();
+            }),
+        });
 
         assert_eq!(payload[0], SEARCH_RESP_SINGLE);
         assert!(!payload.is_empty());

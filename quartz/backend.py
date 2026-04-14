@@ -168,8 +168,8 @@ class JAXBackend:
         self._jit_train_step = jax.jit(self._train_step_impl)
         self._jit_predict = jax.jit(self._predict_impl)
 
-        n_params = sum(p.size for p in jax.tree.leaves(self.params))
-        print(f"  JAX backend: {n_params:,} params on {jax.devices()}")
+        self.num_params = sum(p.size for p in jax.tree.leaves(self.params))
+        print(f"  JAX backend: {self.num_params:,} params on {jax.devices()}")
 
     def _train_step_impl(self, params, batch_stats, opt_state, states, policies, values):
         def loss_fn(p):
@@ -296,15 +296,15 @@ class PyTorchBackend:
         else:
             self.device = torch.device(device)
 
-        from quartz.alphazero_train import AlphaZeroNet
+        from quartz.models_torch import AlphaZeroNet
 
         self.model = AlphaZeroNet(cfg).to(self.device)
         self.optimizer = torch.optim.SGD(
             self.model.parameters(), lr=0.02, momentum=0.9, weight_decay=1e-4
         )
 
-        n_params = sum(p.numel() for p in self.model.parameters())
-        print(f"  PyTorch backend: {n_params:,} params on {self.device}")
+        self.num_params = sum(p.numel() for p in self.model.parameters())
+        print(f"  PyTorch backend: {self.num_params:,} params on {self.device}")
 
     def train_step(self, states_np, policies_np, values_np):
         torch = self.torch

@@ -64,6 +64,12 @@ pub trait GameState: Clone + Send + Sync + 'static {
         vec![]
     }
 
+    /// Monotonic encoder revision for cache fingerprints. Override when a
+    /// game's feature encoding changes incompatibly.
+    fn eval_encoder_revision(&self) -> u32 {
+        1
+    }
+
     /// [OPT] Check if move wins for current player without full apply_move.
     /// Default: apply_move + check terminal (expensive).
     /// Override for O(1) win check (e.g., Gomoku line scan).

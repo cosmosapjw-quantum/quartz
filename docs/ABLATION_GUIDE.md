@@ -218,6 +218,62 @@ game or budget.
 - For current Gomoku7 work, the best basin is a no-refresh legacy-family
   controller with `root_only_shaping=true` and retuned search constants.
 
+### Level 2.6: Prior revision structure assays
+
+Use [scripts/prior_revision_experiment.py](../scripts/prior_revision_experiment.py)
+for the phase-1 prior revision redesign in
+[prior_revision_experiment_plan.md](../prior_revision_experiment_plan.md).
+
+Current implementation scope:
+
+- frozen-checkpoint assays for `E1`, `E3`, and `E5`
+- bucketized position-suite preparation
+- explicit `B0`, `B1`, `N1`, `N2` system definitions
+- common revision logging (`revision_occurred`, `revision_step`,
+  `num_revisions`, `entropy_path`, candidate-set logs)
+
+Important current contract:
+
+- this runner is a root-policy prior-revision assay over frozen-checkpoint
+  search evidence
+- `N1` and `N2` are implemented as explicit policy-revision operators on top of
+  root search statistics, not as a full in-tree Rust kernel rewrite yet
+- the intended use is structure identification before training-contract runs
+- checkpoint selection must be curated explicitly; do not rely on lexical
+  `--checkpoint-dir` truncation for weak/mid/strong coverage
+
+Typical usage:
+
+```bash
+venv/bin/python scripts/prior_revision_experiment.py \
+  --game gomoku7 \
+  --checkpoints results/ablation_controller_factorial_short/gomoku7/models/F1_legacy_base/seed_41/best.pt,results/ablation_controller_factorial_short/gomoku7/models/F2_legacy_krefresh/seed_41/best.pt,results/ablation_controller_factorial_short/gomoku7/models/F4_theory_krefresh/seed_41/best.pt \
+  --systems-config configs/prior_revision_systems.default.json \
+  --reference-checkpoint results/ablation_controller_factorial_short/gomoku7/models/F4_theory_krefresh/seed_41/best.pt \
+  --budgets 8,16,32,64 \
+  --oracle-budget 256 \
+  --suite-size 96 \
+  --experiments E1,E3,E5 \
+  --search-stall-timeout-s 45 \
+  --output results/prior_revision_v1
+```
+
+To change prior-revision policy definitions between reruns, copy and edit
+`configs/prior_revision_systems.default.json` and pass the edited file via
+`--systems-config`.
+
+Set `--reference-checkpoint` explicitly so the bucketized suite and oracle policy
+are built from the intended strongest frozen model. The runner now rejects
+implicit `--checkpoint-dir` discovery when it would silently truncate a larger
+directory into lexical first-N checkpoints.
+
+Artifacts:
+
+- `prior_revision_manifest.json`
+- `position_suite.json`
+- `assays/E1.jsonl`, `assays/E3.jsonl`, `assays/E5.jsonl`
+- `prior_revision_summary.json`
+
 ## Recommended interpretation
 
 - Level 1 tells you whether a controller change helps search behavior.
