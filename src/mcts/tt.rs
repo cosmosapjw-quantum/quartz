@@ -63,8 +63,6 @@ pub struct TranspositionTable<M: Copy + Send + Sync + 'static> {
 
 #[derive(Debug, Clone, Copy)]
 pub struct TtContentionSnapshot {
-    pub hits: u64,
-    pub misses: u64,
     pub get_or_create_calls: u64,
     pub get_calls: u64,
     pub lock_wait_nanos: u64,
@@ -166,29 +164,9 @@ impl<M: Copy + Send + Sync + 'static> TranspositionTable<M> {
         }
     }
 
-    pub fn clear(&self) {
-        if !self.enabled {
-            self.hits.store(0, Ordering::Relaxed);
-            self.misses.store(0, Ordering::Relaxed);
-            self.get_or_create_calls.store(0, Ordering::Relaxed);
-            self.get_calls.store(0, Ordering::Relaxed);
-            self.lock_wait_nanos.store(0, Ordering::Relaxed);
-            self.max_lock_wait_nanos.store(0, Ordering::Relaxed);
-            return;
-        }
-        for b in &self.buckets {
-            b.lock().unwrap().map.clear();
-        }
-        self.hits.store(0, Ordering::Relaxed);
-        self.misses.store(0, Ordering::Relaxed);
-        self.get_or_create_calls.store(0, Ordering::Relaxed);
-        self.get_calls.store(0, Ordering::Relaxed);
-        self.lock_wait_nanos.store(0, Ordering::Relaxed);
-        self.max_lock_wait_nanos.store(0, Ordering::Relaxed);
-    }
-
     fn record_lock_wait(&self, wait_nanos: u64) {
-        self.lock_wait_nanos.fetch_add(wait_nanos, Ordering::Relaxed);
+        self.lock_wait_nanos
+            .fetch_add(wait_nanos, Ordering::Relaxed);
         let mut prev = self.max_lock_wait_nanos.load(Ordering::Relaxed);
         while wait_nanos > prev {
             match self.max_lock_wait_nanos.compare_exchange(
@@ -205,8 +183,6 @@ impl<M: Copy + Send + Sync + 'static> TranspositionTable<M> {
 
     pub fn contention_snapshot(&self) -> TtContentionSnapshot {
         TtContentionSnapshot {
-            hits: self.hits.load(Ordering::Relaxed),
-            misses: self.misses.load(Ordering::Relaxed),
             get_or_create_calls: self.get_or_create_calls.load(Ordering::Relaxed),
             get_calls: self.get_calls.load(Ordering::Relaxed),
             lock_wait_nanos: self.lock_wait_nanos.load(Ordering::Relaxed),

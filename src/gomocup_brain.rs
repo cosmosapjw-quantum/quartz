@@ -4,9 +4,9 @@ use std::sync::Arc;
 use std::time::Instant;
 
 use crate::game::{Evaluator, GameState};
-use crate::gomocup_bundle::{apply_bundle_search_config, load_bundle, LoadedGomocupBundle};
 use crate::games::gomoku15::{gomoku15_quartz_timed, Gomoku15, GomokuVariant};
 use crate::games::Gomoku;
+use crate::gomocup_bundle::{apply_bundle_search_config, load_bundle, LoadedGomocupBundle};
 use crate::mcts::eval::ShortRollout;
 use crate::mcts::quartz::{QuartzConfig, QuartzController};
 use crate::mcts::search::FixedIterations;
@@ -533,7 +533,8 @@ impl GomocupBrain {
             return Err("no legal moves".to_string());
         }
 
-        let config = apply_bundle_search_config(freestyle_quartz_timed(budget_ms), self.bundle.as_ref());
+        let config =
+            apply_bundle_search_config(freestyle_quartz_timed(budget_ms), self.bundle.as_ref());
         let qcfg = config.quartz.clone().unwrap_or_default();
         let eval: Arc<ShortRollout> = Arc::new(ShortRollout::new(12));
         let engine = MctsEngine::new(state, eval, config);

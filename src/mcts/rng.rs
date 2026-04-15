@@ -41,4 +41,23 @@ impl MctsRng {
             MctsRng::Random => rand::thread_rng().gen_range(0..n),
         }
     }
+
+    pub fn sample_weighted_index(&mut self, weights: &[f64]) -> Option<usize> {
+        if weights.is_empty() {
+            return None;
+        }
+        let total: f64 = weights.iter().copied().sum();
+        if total < 1e-12 {
+            return Some(self.gen_range_u64(weights.len() as u64) as usize);
+        }
+        let threshold = (self.gen_range_u64(1u64 << 53) as f64 / (1u64 << 53) as f64) * total;
+        let mut cumulative = 0.0;
+        for (idx, weight) in weights.iter().copied().enumerate() {
+            cumulative += weight;
+            if threshold <= cumulative {
+                return Some(idx);
+            }
+        }
+        Some(weights.len().saturating_sub(1))
+    }
 }

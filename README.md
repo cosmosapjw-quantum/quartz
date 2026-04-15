@@ -86,11 +86,33 @@ Python training loop
 - Low-cost controller search now has frozen-checkpoint confirmatory runs
   (`controller_sweep.py`) and Optuna-driven surrogate search
   (`controller_optuna.py`).
-- Phase-1 prior revision assays now have a dedicated runner
-  (`prior_revision_experiment.py`) for bucketized frozen-checkpoint `B0/B1/N1/N2`
-  comparisons before training-contract promotion. Use explicit curated
-  checkpoint paths; lexical `--checkpoint-dir` truncation is intentionally
-  rejected for weak/mid/strong experiments.
+- Phase-1.5 clean-split assays now have a dedicated runner
+  (`phase15_ablation_study.py`) for bucketized frozen-checkpoint `A/B/C`
+  post-hoc comparisons, a suite miner (`phase15_mine_suite.py`) for balanced
+  bucket artifacts, and an explicit online chunked scaffold
+  (`phase15_online_ablation.py`) for `B/C` follow-up. The phase15 manifest now
+  separates `reference_policy` from `oracle_policy`, splits trace-acquisition
+  time from readout time, and treats `B0` as an alias of `A4` instead of a
+  distinct substrate. Post-hoc runs also warm the prior cache in batches, store
+  shared suite policies in compressed NPZ sidecars, and report trace-cache hit
+  rates plus semantic summaries over alias-equivalent systems. Trace cache keys
+  are now salted against the phase15 codepath, runner contracts, and the
+  systems config schema so stale artifacts are invalidated when semantics move.
+  Post-hoc, online, and continuation-benchmark runs now amortize one full trace per
+  `checkpoint x position x system` and reuse budget prefixes instead of
+  reacquiring independent traces per budget row. The phase15 benchmark emits a
+  `bundle_summary`, a built-in gate, and per-system headwind diagnostics
+  (`session_overhead`, `readout_sensitivity`, or mixed). The post-hoc and
+  online phase15 summaries now also emit `headwind_summary` so assay-space
+  runtime and semantic bottlenecks can be read in the same family of terms.
+  A self-contained GitHub Actions workflow now runs a deterministic smoke
+  version of the phase15 benchmark gate and uploads the resulting artifacts.
+  The online phase15 runner now prefers true root-continuation resident
+  sessions and only falls back to restart-per-chunk when that server path is
+  unavailable. Use explicit
+  curated checkpoint paths; lexical
+  `--checkpoint-dir` truncation is intentionally rejected for weak/mid/strong
+  experiments.
 - The old Python monolith was split into focused runtime modules; the public
   `alphazero_train.py` surface is now a thin compatibility facade.
 - Current Gomoku7 controller evidence favors no-refresh legacy-family variants.

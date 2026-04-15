@@ -237,13 +237,19 @@ fn ablation_puct_score_with_parent_sqrt(
     // - refresh blends original prior with visit share at the root
     // ═══════════════════════════════════════════
     if qcfg.penalty_mode == PenaltyMode::GatedRefresh {
-        let penalty = root_share_penalty(n_raw, sqrt_n_parent_eff, stats.hbar_eff, qcfg.hbar_penalty_cap);
+        let penalty = root_share_penalty(
+            n_raw,
+            sqrt_n_parent_eff,
+            stats.hbar_eff,
+            qcfg.hbar_penalty_cap,
+        );
 
         let effective_prior = if n_raw > 0 && stats.root_visits > 0 {
             let gate_threshold = stats.epsilon_t.max(1e-6);
             let divergence = stats.prior_q_divergence.max(0.0);
             if divergence > gate_threshold {
-                let rho_t = ((divergence - gate_threshold) / divergence.max(gate_threshold)).clamp(0.0, 1.0);
+                let rho_t = ((divergence - gate_threshold) / divergence.max(gate_threshold))
+                    .clamp(0.0, 1.0);
                 let visit_share = (n_raw as f32 / stats.root_visits as f32).max(1e-8);
                 blended_prior(prior, visit_share, rho_t)
             } else {
@@ -656,8 +662,7 @@ pub fn select<G: GameState>(
         let parent_q = cur_node.mean_q();
         let parent_visits = n_total;
         let sqrt_n_parent_eff = (n_parent_eff as f32).sqrt();
-        let need_sigma =
-            matches!(quartz, Some((stats, qcfg)) if (depth == 0 || (!qcfg.root_only_shaping && depth <= 3)) && stats.lambda_1loop > 1e-6);
+        let need_sigma = matches!(quartz, Some((stats, qcfg)) if (depth == 0 || (!qcfg.root_only_shaping && depth <= 3)) && stats.lambda_1loop > 1e-6);
         let mut best_idx = 0usize;
         let mut best_score = f32::NEG_INFINITY;
         let mut best_has_pending = false;
@@ -963,7 +968,8 @@ mod tests {
             ..Default::default()
         };
 
-        let quartz_nonroot = score_snapshot(snapshot, 1, 0.20, 24, 5.0, 2.0, 0.0, Some((&stats, &qcfg)));
+        let quartz_nonroot =
+            score_snapshot(snapshot, 1, 0.20, 24, 5.0, 2.0, 0.0, Some((&stats, &qcfg)));
         let plain_nonroot = puct_score_with_parent_sqrt(
             snapshot.n_eff,
             snapshot.q_eff,
@@ -1041,9 +1047,21 @@ mod tests {
             ..gate_off.clone()
         };
 
-        let score_off = score_snapshot(snapshot, 0, 0.0, 20, 5.0, 2.0, 0.0, Some((&gate_off, &qcfg)));
+        let score_off = score_snapshot(
+            snapshot,
+            0,
+            0.0,
+            20,
+            5.0,
+            2.0,
+            0.0,
+            Some((&gate_off, &qcfg)),
+        );
         let score_on = score_snapshot(snapshot, 0, 0.0, 20, 5.0, 2.0, 0.0, Some((&gate_on, &qcfg)));
-        assert!(score_on < score_off, "visit-share refresh should pull a 0.70 prior toward the 0.20 visit share");
+        assert!(
+            score_on < score_off,
+            "visit-share refresh should pull a 0.70 prior toward the 0.20 visit share"
+        );
     }
 
     #[test]
@@ -1076,8 +1094,26 @@ mod tests {
             ..stats_low.clone()
         };
 
-        let score_low = score_snapshot(snapshot, 0, 0.0, 20, 5.0, 2.0, 0.0, Some((&stats_low, &qcfg)));
-        let score_high = score_snapshot(snapshot, 0, 0.0, 20, 5.0, 2.0, 0.0, Some((&stats_high, &qcfg)));
+        let score_low = score_snapshot(
+            snapshot,
+            0,
+            0.0,
+            20,
+            5.0,
+            2.0,
+            0.0,
+            Some((&stats_low, &qcfg)),
+        );
+        let score_high = score_snapshot(
+            snapshot,
+            0,
+            0.0,
+            20,
+            5.0,
+            2.0,
+            0.0,
+            Some((&stats_high, &qcfg)),
+        );
         assert!(score_high > score_low);
     }
 
@@ -1110,7 +1146,8 @@ mod tests {
             ..Default::default()
         };
 
-        let shallow_score = score_snapshot(snapshot, 1, 0.20, 24, 5.0, 2.0, 0.0, Some((&stats, &qcfg)));
+        let shallow_score =
+            score_snapshot(snapshot, 1, 0.20, 24, 5.0, 2.0, 0.0, Some((&stats, &qcfg)));
         let plain_nonroot = puct_score_with_parent_sqrt(
             snapshot.n_eff,
             snapshot.q_eff,

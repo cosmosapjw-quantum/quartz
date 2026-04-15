@@ -294,15 +294,6 @@ impl Default for QuartzConfig {
 }
 
 impl QuartzConfig {
-    pub fn aggressive() -> Self {
-        QuartzConfig {
-            sigma_0: 0.4,
-            min_visits: 80,
-            ns_gamma: 0.7,
-            check_interval: 50,
-            ..Default::default()
-        }
-    }
     pub fn fast() -> Self {
         QuartzConfig {
             sigma_0: 0.2,
@@ -316,10 +307,12 @@ impl QuartzConfig {
         self.ctm_budget_ms = ms;
         self
     }
+    #[cfg(test)]
     pub fn with_halt_mode(mut self, mode: HaltMode) -> Self {
         self.halt_mode = mode;
         self
     }
+    #[cfg(test)]
     pub fn with_cost_mode(mut self, mode: CostMode) -> Self {
         self.cost_mode = mode;
         self
@@ -563,9 +556,6 @@ impl RunningEma {
         self.n += 1;
         let a = if self.n == 1 { 1.0 } else { self.alpha };
         self.value = (1.0 - a) * self.value + a * x;
-    }
-    pub fn initialized(&self) -> bool {
-        self.n > 0
     }
 }
 
@@ -1448,9 +1438,6 @@ impl DepthCalibration {
     pub fn kappas(&self) -> [f32; 3] {
         self.kappa
     }
-    pub fn observation_counts(&self) -> [u32; 3] {
-        self.counts
-    }
 }
 
 // ─────────────────────────────────────────────
@@ -1681,9 +1668,6 @@ impl QuartzController {
             cfg,
         }
     }
-    pub fn with_defaults(max_visits: u32) -> Self {
-        Self::new(max_visits, QuartzConfig::default())
-    }
     pub fn last_stats(&self) -> QuartzStats {
         self.inner.lock().unwrap().last_stats.clone()
     }
@@ -1696,15 +1680,9 @@ impl QuartzController {
     pub fn defect(&self) -> f32 {
         self.inner.lock().unwrap().defect_value
     }
-    pub fn last_unified_voc(&self) -> UnifiedVOC {
-        self.inner.lock().unwrap().last_stats.unified
-    }
     pub fn last_stop_reason(&self) -> StopReason {
         self.inner.lock().unwrap().stop_reason.clone()
     }
-    pub fn wl_flatness(&self) -> Option<f32> {
-        None
-    } // WL removed v0.6
     pub fn update_elapsed(&self, ms: u64) {
         self.inner.lock().unwrap().elapsed_ms = ms;
     }
@@ -1712,10 +1690,6 @@ impl QuartzController {
     pub fn depth_kappas(&self) -> [f32; 3] {
         self.inner.lock().unwrap().depth_cal.kappas()
     }
-    pub fn depth_counts(&self) -> [u32; 3] {
-        self.inner.lock().unwrap().depth_cal.observation_counts()
-    }
-
     pub fn update_stats<M: Copy + Send + Sync + 'static>(
         &self,
         root: &Arc<MctsNode<M>>,
@@ -2067,10 +2041,10 @@ mod tests {
         let n = 1000u32;
         let sqrt_n = (n as f32).sqrt();
         let eps_t = 1.0 / sqrt_n;
-        let pinsker_threshold = 2.0 * eps_t * eps_t; // 2/N = 0.002
+        let _pinsker_threshold = 2.0 * eps_t * eps_t; // 2/N = 0.002
         let our_threshold = ENVAR_CONST / sqrt_n; // 0.5/√1000 ≈ 0.0158
-        // Our threshold is now MORE conservative (higher) than Pinsker at high N
-        // This is intentional: we want to detect violations early
+                                                  // Our threshold is now MORE conservative (higher) than Pinsker at high N
+                                                  // This is intentional: we want to detect violations early
         assert!(
             our_threshold > 0.0,
             "our threshold {:.5} should be positive",
@@ -2085,7 +2059,7 @@ mod tests {
         // Actually: score = Q + c·π(a)/√π(a)·√N/(1+N_a) → prior exponent = 1-0.5 = 0.5
         assert_eq!(FISHER_ALPHA, 0.5);
         // Verify: for π(a)=0.01, standard vs Fisher
-        let standard_weight = 0.01_f32;
+        let _standard_weight = 0.01_f32;
         let fisher_weight = fisher_prior_weight(0.01);
         assert!(
             (fisher_weight - 0.1).abs() < 1e-5,
@@ -2300,7 +2274,7 @@ mod tests {
         // Enable expand channel
         let cfg_on = QuartzConfig::default();
         let mut s0 = RunningEma::new(0.05);
-        let stats_on = compute_quartz_stats(&node, None, &mut s0, 0.01, 0, 0, &cfg_on);
+        let _stats_on = compute_quartz_stats(&node, None, &mut s0, 0.01, 0, 0, &cfg_on);
 
         // Disable expand channel
         let cfg_off = QuartzConfig {
@@ -2361,7 +2335,7 @@ mod tests {
 
     #[test]
     fn test_1b_fisher_switch_affects_score() {
-        use crate::mcts::select::{ablation_puct_score, fisher_puct_score, puct_score};
+        use crate::mcts::select::{ablation_puct_score, puct_score};
 
         let stats = QuartzStats::default();
 
@@ -2380,7 +2354,7 @@ mod tests {
         let score_off = ablation_puct_score(10, 10, 0, 0.5, 0.1, 0.0, 100, 2.0, &stats, &cfg_off);
 
         // Standard PUCT (no quartz at all)
-        let score_std = puct_score(10, 0.5, 0.1, 0.0, 100, 2.0);
+        let _score_std = puct_score(10, 0.5, 0.1, 0.0, 100, 2.0);
 
         // Fisher off should produce different score than Fisher on
         // (unless prior happens to make them equal, but with p=0.1, √0.1 ≠ 0.1)
@@ -2407,8 +2381,8 @@ mod tests {
         };
 
         // ablation score with everything off should equal standard puct
-        let abl = ablation_puct_score(10, 10, 0, 0.25, 0.0, 0.0, 200, 2.0, &stats, &cfg_off);
-        let std_puct = puct_score(10, 0.0, 0.25, 0.0, 200, 2.0);
+        let _abl = ablation_puct_score(10, 10, 0, 0.25, 0.0, 0.0, 200, 2.0, &stats, &cfg_off);
+        let _std_puct = puct_score(10, 0.0, 0.25, 0.0, 200, 2.0);
 
         // With hbar_eff=0 and both switches off, they should be identical
         // Note: ablation passes q_eff differently... let me check the signatures
@@ -2851,7 +2825,7 @@ mod tests {
         let skew = 1.0f32;
         let kurt = 2.0f32;
 
-        let (p_used_ht, p_g, p_sp) = pflip_with_correction(mu_d, sigma_d, skew, kurt, true, 10);
+        let (p_used_ht, _p_g, p_sp) = pflip_with_correction(mu_d, sigma_d, skew, kurt, true, 10);
         let (p_used_no, p_g2, _) = pflip_with_correction(mu_d, sigma_d, skew, kurt, false, 10);
 
         // When heavy-tail: should use saddlepoint
@@ -3074,7 +3048,7 @@ mod tests {
         let mut gate = NsGate::new();
         // Feed uniform low values → all normalized ratios ≈ 1 (no anomaly)
         for _ in 0..10 {
-            let r = gate.evaluate(0.5, 0.01, 1.0);
+            let _r = gate.evaluate(0.5, 0.01, 1.0);
             // After warmup, ratios should be near 1.0 (current ≈ median)
         }
         let r = gate.evaluate(0.5, 0.01, 1.0);

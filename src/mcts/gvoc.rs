@@ -59,19 +59,6 @@ impl Default for GvocConfig {
     }
 }
 
-impl GvocConfig {
-    pub fn aggressive() -> Self {
-        GvocConfig {
-            expand_thresh: 0.01,
-            contract_thresh: 0.001,
-            expand_delta: 8,
-            max_visible: 128,
-            min_visible: 2,
-            score_interval: 100,
-        }
-    }
-}
-
 // ─────────────────────────────────────────────
 // § GvocState — 루트 노드의 동적 PW 상태
 // ─────────────────────────────────────────────

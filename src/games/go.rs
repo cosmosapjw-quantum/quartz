@@ -110,6 +110,7 @@ pub struct Go {
 }
 
 impl Go {
+    #[cfg(test)]
     pub fn new(size: usize, komi: f32) -> Self {
         Self::new_with_options(size, komi, GoRuleset::Chinese, GoScoring::Area, false)
     }
@@ -163,14 +164,17 @@ impl Go {
     pub fn new_9x9() -> Self {
         Self::new_with_rules(9, 7.5, GoRuleset::Chinese)
     }
+    #[cfg(test)]
     pub fn new_13x13() -> Self {
         Self::new_with_rules(13, 7.5, GoRuleset::Chinese)
     }
+    #[cfg(test)]
     pub fn new_19x19() -> Self {
         Self::new_with_rules(19, 7.5, GoRuleset::Chinese)
     }
 
     /// Reconstruct state from board array (0=empty, 1=black, 2=white) + side to move.
+    #[cfg(test)]
     pub fn from_board(size: usize, komi: f32, board: &[u8], side: u8) -> Self {
         Self::from_board_with_options(
             size,
@@ -242,7 +246,10 @@ impl Go {
 
     fn finalize_transition(&self, next: &mut Self) {
         let repeated = self.repeats_position_hash(next.hash);
-        if matches!(self.ruleset, GoRuleset::Japanese | GoRuleset::Korean) && repeated && next.passes < 2 {
+        if matches!(self.ruleset, GoRuleset::Japanese | GoRuleset::Korean)
+            && repeated
+            && next.passes < 2
+        {
             next.cycle_terminal = true;
         }
         if !repeated {
@@ -290,6 +297,7 @@ impl Go {
     // ── BFS liberty / group detection ──
 
     /// Count liberties of the group containing `pos`. Returns 0 if `pos` is empty.
+    #[cfg(test)]
     fn count_liberties(&self, pos: usize) -> u32 {
         self.group_liberties_on_board(&self.board, pos)
     }
@@ -368,7 +376,8 @@ impl Go {
     /// Remove a group and return the number of stones removed.
     fn remove_group(&mut self, pos: usize) -> u16 {
         let mut stones = [0usize; MAX_N2];
-        let (stone_count, _) = self.group_stones_and_liberties_on_board(&self.board, pos, &mut stones);
+        let (stone_count, _) =
+            self.group_stones_and_liberties_on_board(&self.board, pos, &mut stones);
         let count = stone_count as u16;
         for &s in &stones[..stone_count] {
             let color = self.board[s];
@@ -700,7 +709,10 @@ impl Go {
         (board, black, white)
     }
 
-    fn classify_empty_regions(&self, board: &[u8; MAX_N2]) -> ([usize; MAX_N2], [u8; MAX_N2], usize) {
+    fn classify_empty_regions(
+        &self,
+        board: &[u8; MAX_N2],
+    ) -> ([usize; MAX_N2], [u8; MAX_N2], usize) {
         let n2 = self.n2();
         let mut region_ids = [usize::MAX; MAX_N2];
         let mut region_owners = [0u8; MAX_N2];
@@ -953,18 +965,25 @@ impl GameState for Go {
         // t=1..7: history (most recent = last element in board_history)
         for (k, hist_board) in self.board_history.iter().rev().enumerate() {
             let t = k + 1;
-            if t >= GO_HISTORY_LEN { break; }
+            if t >= GO_HISTORY_LEN {
+                break;
+            }
             let base = t * 2 * n2;
             for (i, &v) in hist_board.iter().enumerate() {
-                if v == my { out[base + i] = 1.0; }
-                else if v == opp { out[base + n2 + i] = 1.0; }
+                if v == my {
+                    out[base + i] = 1.0;
+                } else if v == opp {
+                    out[base + n2 + i] = 1.0;
+                }
             }
         }
 
         // Color plane
         let color_val = if self.side == 1 { 1.0 } else { 0.0 };
         let color_base = (total_planes - 1) * n2;
-        for i in 0..n2 { out[color_base + i] = color_val; }
+        for i in 0..n2 {
+            out[color_base + i] = color_val;
+        }
         out
     }
 
@@ -1059,20 +1078,24 @@ pub fn go_quartz(size: usize) -> MctsConfig {
 // § GoFastRollout — Vec 할당 없는 고속 롤아웃 평가기
 // ═══════════════════════════════════════════════════════
 
+#[cfg(test)]
 use crate::game::{EvalResult, Evaluator};
 
+#[cfg(test)]
 /// Go-specific evaluator: uniform policy + fast rollout using random_legal_move().
 /// ShortRollout 대비 Vec 할당이 없어 Go 19×19에서 2-3× 빠름.
 pub struct GoFastRollout {
     pub max_depth: usize,
 }
 
+#[cfg(test)]
 impl GoFastRollout {
     pub fn new(max_depth: usize) -> Self {
         GoFastRollout { max_depth }
     }
 }
 
+#[cfg(test)]
 impl Evaluator<Go> for GoFastRollout {
     fn evaluate(&self, state: &Go) -> EvalResult<u16> {
         let legal = state.legal_moves();
@@ -1088,6 +1111,7 @@ impl Evaluator<Go> for GoFastRollout {
     }
 }
 
+#[cfg(test)]
 fn go_fast_playout(start: &Go, max_depth: usize) -> f32 {
     let mut state = start.clone();
     let root_player = start.current_player();
@@ -1224,7 +1248,7 @@ mod tests {
         // row 0: . W B .
         //
         // pos = row*9 + col
-        let g = play_moves(
+        let _g = play_moves(
             &g,
             &[
                 18, // B at (2,0) — far, just to give B a move
@@ -1265,7 +1289,7 @@ mod tests {
 
         // Now W plays to give us more W stones around (1,1)
         // Actually, it's B's turn. B plays at (1,1)=10 → captures W(1,2)=11
-        let g = play_moves(
+        let _g = play_moves(
             &g,
             &[
                 9, // B at (1,0) — also surrounds (1,1) but we need W there for ko
@@ -1751,13 +1775,7 @@ mod tests {
     #[test]
     fn test_territory_cleanup_removes_surrounded_one_eye_group() {
         let mut g = Go::new_with_rules(5, 6.5, GoRuleset::Japanese);
-        for pos in [
-            0usize, 1, 2, 3, 4,
-            5, 9,
-            10, 14,
-            15, 19,
-            20, 21, 22, 23, 24,
-        ] {
+        for pos in [0usize, 1, 2, 3, 4, 5, 9, 10, 14, 15, 19, 20, 21, 22, 23, 24] {
             g.board[pos] = 1;
         }
         for pos in [6usize, 7, 8, 11, 13, 16, 17, 18] {

@@ -4,9 +4,12 @@ use std::sync::atomic::Ordering;
 use std::sync::Arc;
 
 use rand::distributions::Distribution;
+use rand::rngs::StdRng;
+use rand::SeedableRng;
 use rand_distr::Dirichlet;
 
 use crate::mcts::node::MctsNode;
+use crate::mcts::rng::MctsRng;
 
 // ─────────────────────────────────────────────
 // § Dirichlet Noise
@@ -20,33 +23,26 @@ pub struct DirichletConfig {
     pub epsilon: f32,
 }
 
-impl DirichletConfig {
-    pub fn new(alpha: f32, epsilon: f32) -> Self {
-        DirichletConfig { alpha, epsilon }
-    }
-    pub fn alphazero_default() -> Self {
-        DirichletConfig {
-            alpha: 0.03,
-            epsilon: 0.25,
-        }
-    }
-    pub fn gomoku() -> Self {
-        DirichletConfig {
-            alpha: 0.15,
-            epsilon: 0.25,
-        }
-    }
-}
+impl DirichletConfig {}
 
 /// Dirichlet noise overlay 계산 → adjusted prior delta vec
 /// 반환: 각 엣지에 더할 noise (ε · (dir[i] - p[i])) 형태
-pub fn compute_dirichlet_noise(n_edges: usize, priors: &[f32], cfg: &DirichletConfig) -> Vec<f32> {
+pub fn compute_dirichlet_noise(
+    n_edges: usize,
+    priors: &[f32],
+    cfg: &DirichletConfig,
+    seed: Option<u64>,
+) -> Vec<f32> {
     if n_edges == 0 {
         return vec![];
     }
     let alphas = vec![cfg.alpha as f64; n_edges];
     let dir = Dirichlet::new(&alphas).unwrap();
-    let sample: Vec<f64> = dir.sample(&mut rand::thread_rng());
+    let sample: Vec<f64> = if let Some(seed) = seed {
+        dir.sample(&mut StdRng::seed_from_u64(seed))
+    } else {
+        dir.sample(&mut rand::thread_rng())
+    };
     sample
         .iter()
         .zip(priors.iter().chain(std::iter::repeat(&0.0)))
@@ -62,6 +58,7 @@ pub fn compute_dirichlet_noise(n_edges: usize, priors: &[f32], cfg: &DirichletCo
 pub fn select_move_with_temperature<M: Copy + Send + Sync + 'static>(
     node: &Arc<MctsNode<M>>,
     temperature: f32,
+    seed: Option<u64>,
 ) -> Option<M> {
     let edge_arcs = node.edge_snapshot(node.materialized_count());
     if edge_arcs.is_empty() {
@@ -75,7 +72,6 @@ pub fn select_move_with_temperature<M: Copy + Send + Sync + 'static>(
             .max_by_key(|e| e.n.load(Ordering::Acquire))
             .map(|e| e.mv)
     } else {
-        use rand::distributions::WeightedIndex;
         let weights: Vec<f64> = edge_arcs
             .iter()
             .map(|e| {
@@ -83,12 +79,11 @@ pub fn select_move_with_temperature<M: Copy + Send + Sync + 'static>(
                 n.powf(1.0 / temperature as f64)
             })
             .collect();
-        let total: f64 = weights.iter().sum();
-        if total < 1e-12 {
-            return edge_arcs.first().map(|e| e.mv);
+        let mut rng = MctsRng::new(seed, 0);
+        if weights.iter().copied().sum::<f64>() < 1e-12 {
+            return rng.choose(&edge_arcs).map(|e| e.mv);
         }
-        let wi = WeightedIndex::new(&weights).ok()?;
-        let idx = wi.sample(&mut rand::thread_rng());
+        let idx = rng.sample_weighted_index(&weights)?;
         Some(edge_arcs[idx].mv)
     }
 }

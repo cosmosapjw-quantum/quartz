@@ -19,13 +19,6 @@ impl PwConfig {
             beta: 0.5,
         }
     }
-    pub fn small_game() -> Self {
-        PwConfig {
-            alpha: 10.0,
-            beta: 1.0,
-        }
-    }
-
     #[inline]
     pub fn k(&self, n: u32) -> usize {
         (self.alpha * (n as f32).powf(self.beta)).floor() as usize

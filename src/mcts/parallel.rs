@@ -143,7 +143,9 @@ impl ParallelTelemetry {
 
     pub fn snapshot(&self) -> TelemetrySnapshot {
         TelemetrySnapshot {
+            #[cfg(test)]
             total_selects: self.total_selects.load(Ordering::Relaxed),
+            #[cfg(test)]
             dup_leaf_count: self.dup_leaf_count.load(Ordering::Relaxed),
             max_pending: self.max_pending.load(Ordering::Relaxed),
             avg_vvalue: {
@@ -162,7 +164,9 @@ impl ParallelTelemetry {
 
 #[derive(Debug, Clone, Copy)]
 pub struct TelemetrySnapshot {
+    #[cfg(test)]
     pub total_selects: u32,
+    #[cfg(test)]
     pub dup_leaf_count: u32,
     pub max_pending: u32,
     pub avg_vvalue: f32,
@@ -227,6 +231,7 @@ impl ParallelismController {
         f32::from_bits(self.sigma_q.load(Ordering::Relaxed))
     }
 
+    #[cfg(test)]
     #[inline(always)]
     fn root_entropy_val(&self) -> f32 {
         f32::from_bits(self.root_entropy.load(Ordering::Relaxed))
@@ -283,25 +288,8 @@ impl ParallelismController {
         }
     }
 
-    pub fn mode(&self) -> VlMode {
-        self.mode
-    }
-
     pub fn reset_for_search(&self) {
         self.telemetry.reset();
-    }
-
-    pub fn summary_string(&self) -> String {
-        let snap = self.telemetry.snapshot();
-        format!(
-            "VL[{:?}] σ_Q={:.3} ent={:.3} dup_rate={:.3} max_pend={} avg_vv={:.3}",
-            self.mode,
-            self.sigma_q_val(),
-            self.root_entropy_val(),
-            snap.dup_rate,
-            snap.max_pending,
-            snap.avg_vvalue
-        )
     }
 }
 

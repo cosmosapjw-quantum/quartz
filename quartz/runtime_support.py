@@ -315,7 +315,7 @@ class NNSearchClient(_NNSearchClientImpl):
                 run_batched_eval_groups=lambda groups, model_obj, dev, cfg_obj: run_batched_eval_groups(groups, model_obj, dev, cfg_obj, _run_model_batch),
                 write_batched_eval_group=_write_batched_eval_group,
                 run_model_batch=_run_model_batch,
-                torch_module=torch,
+                torch_module=_torch_module(),
                 pack_qipc_eval_resp=pack_qipc_eval_resp,
                 pack_qipc_batch_eval_resp=pack_qipc_batch_eval_resp,
                 parse_eval_request=parse_eval_request,

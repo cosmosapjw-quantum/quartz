@@ -1,0 +1,218 @@
+{
+  "systems": [
+    {
+      "id": "A0",
+      "label": "S0 substrate only",
+      "group": "A",
+      "substrate": "S0",
+      "controller": "none",
+      "refresh_operator": "none",
+      "search_overrides": {
+        "search_profile": "baseline",
+        "vl_mode": "disabled",
+        "root_only_shaping": true
+      },
+      "params": {},
+      "execution_mode": "posthoc"
+    },
+    {
+      "id": "A1",
+      "label": "S0 + Quartz stop-only",
+      "group": "A",
+      "substrate": "S0",
+      "controller": "QuartzStopOnly",
+      "refresh_operator": "none",
+      "search_overrides": {
+        "search_profile": "quartz",
+        "vl_mode": "disabled",
+        "penalty_mode": "None",
+        "root_only_shaping": true
+      },
+      "params": {},
+      "execution_mode": "posthoc"
+    },
+    {
+      "id": "A2",
+      "label": "S0 + Quartz + VL",
+      "group": "A",
+      "substrate": "S0",
+      "controller": "QuartzVL",
+      "refresh_operator": "none",
+      "search_overrides": {
+        "search_profile": "quartz",
+        "vl_mode": "adaptive",
+        "penalty_mode": "None",
+        "root_only_shaping": true
+      },
+      "params": {},
+      "execution_mode": "posthoc"
+    },
+    {
+      "id": "A3",
+      "label": "S1 + Quartz stop-only",
+      "group": "A",
+      "substrate": "S1",
+      "controller": "QuartzStopOnly",
+      "refresh_operator": "none",
+      "search_overrides": {
+        "search_profile": "quartz",
+        "vl_mode": "disabled",
+        "penalty_mode": "EffectiveV2",
+        "root_only_shaping": true
+      },
+      "params": {},
+      "execution_mode": "posthoc"
+    },
+    {
+      "id": "A4",
+      "label": "S1 + Quartz + VL",
+      "group": "A",
+      "substrate": "S1",
+      "controller": "QuartzVL",
+      "refresh_operator": "none",
+      "search_overrides": {
+        "search_profile": "quartz",
+        "vl_mode": "adaptive",
+        "penalty_mode": "EffectiveV2",
+        "root_only_shaping": true
+      },
+      "params": {},
+      "execution_mode": "posthoc"
+    },
+    {
+      "id": "B0",
+      "label": "A4 report alias (posthoc no-refresh baseline)",
+      "group": "B",
+      "substrate": "S1",
+      "controller": "QuartzVL",
+      "refresh_operator": "none",
+      "search_overrides": {
+        "search_profile": "quartz",
+        "vl_mode": "adaptive",
+        "penalty_mode": "EffectiveV2",
+        "root_only_shaping": true
+      },
+      "params": {},
+      "execution_mode": "posthoc",
+      "report_alias": "A4"
+    },
+    {
+      "id": "B1",
+      "label": "A4 + dual-channel commit (posthoc)",
+      "group": "B",
+      "substrate": "S1",
+      "controller": "QuartzVL",
+      "refresh_operator": "dual_channel_commit",
+      "search_overrides": {
+        "search_profile": "quartz",
+        "vl_mode": "adaptive",
+        "penalty_mode": "EffectiveV2",
+        "root_only_shaping": true
+      },
+      "params": {
+        "commit_threshold": 0.55,
+        "gate_scale": 1.0,
+        "divergence_scale": 0.4,
+        "entropy_scale": 0.35
+      },
+      "execution_mode": "posthoc"
+    },
+    {
+      "id": "B2",
+      "label": "A4 + root challenger (posthoc)",
+      "group": "B",
+      "substrate": "S1",
+      "controller": "QuartzVL",
+      "refresh_operator": "root_challenger",
+      "search_overrides": {
+        "search_profile": "quartz",
+        "vl_mode": "adaptive",
+        "penalty_mode": "EffectiveV2",
+        "root_only_shaping": true
+      },
+      "params": {
+        "challenger_k": 4,
+        "candidate_score_mix": 0.5,
+        "snapshot_alpha": 0.75,
+        "candidate_tie_eps": 0.0005,
+        "challenger_max_extra": 4,
+        "prior_anchor_k": 2,
+        "posterior_anchor_k": 4
+      },
+      "execution_mode": "posthoc"
+    },
+    {
+      "id": "B3",
+      "label": "A4 + budget routing (posthoc)",
+      "group": "B",
+      "substrate": "S1",
+      "controller": "QuartzVL",
+      "refresh_operator": "budget_routing",
+      "search_overrides": {
+        "search_profile": "quartz",
+        "vl_mode": "adaptive",
+        "penalty_mode": "EffectiveV2",
+        "root_only_shaping": true
+      },
+      "params": {
+        "persistence_floor": 0.6,
+        "margin_stability_floor": 0.72
+      },
+      "execution_mode": "posthoc"
+    },
+    {
+      "id": "C0",
+      "label": "legacy GatedRefreshLegacy",
+      "group": "C",
+      "substrate": "legacy",
+      "controller": "hybrid",
+      "refresh_operator": "none",
+      "search_overrides": {
+        "search_profile": "quartz",
+        "vl_mode": "adaptive",
+        "penalty_mode": "GatedRefreshLegacy",
+        "root_only_shaping": false,
+        "prior_refresh_rate": 0.5,
+        "prior_refresh_temp": 0.0
+      },
+      "params": {},
+      "execution_mode": "online"
+    },
+    {
+      "id": "C1",
+      "label": "legacy PFlipMixture",
+      "group": "C",
+      "substrate": "legacy",
+      "controller": "hybrid",
+      "refresh_operator": "none",
+      "search_overrides": {
+        "search_profile": "quartz",
+        "vl_mode": "adaptive",
+        "penalty_mode": "PFlipMixture",
+        "root_only_shaping": false,
+        "prior_refresh_rate": 0.5,
+        "prior_refresh_temp": 0.0
+      },
+      "params": {},
+      "execution_mode": "online"
+    },
+    {
+      "id": "C2",
+      "label": "legacy SelfAdaptive",
+      "group": "C",
+      "substrate": "legacy",
+      "controller": "hybrid",
+      "refresh_operator": "none",
+      "search_overrides": {
+        "search_profile": "quartz",
+        "vl_mode": "adaptive",
+        "penalty_mode": "SelfAdaptive",
+        "root_only_shaping": false,
+        "prior_refresh_rate": 0.5,
+        "prior_refresh_temp": 0.0
+      },
+      "params": {},
+      "execution_mode": "online"
+    }
+  ]
+}

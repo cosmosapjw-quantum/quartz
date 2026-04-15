@@ -402,6 +402,21 @@ class NNSearchClient:
             return payload
         return {}
 
+    def open_search_engine_session(self, jobs, penalty_mode="GatedRefresh", iters=None):
+        if not self.proc:
+            self.start()
+        req_dict = {
+            "cmd": "search_nn_multi_engine_session_open",
+            "game": self._rt.rust_game_name(self.cfg["_name"]),
+            "iters": int(self.cfg["iters"] if iters is None else iters),
+            "jobs": jobs,
+        }
+        req_dict.update(self._rt.rust_search_options(self.cfg, penalty_mode=penalty_mode))
+        payload = self._exchange_search_request(req_dict)
+        if isinstance(payload, dict):
+            return payload
+        return {}
+
     def step_search_session(self, session_id, updates):
         if not self.proc:
             self.start()
@@ -410,6 +425,21 @@ class NNSearchClient:
                 "cmd": "search_nn_multi_session_step",
                 "session_id": int(session_id),
                 "updates": updates,
+            }
+        )
+        if isinstance(payload, dict):
+            return payload
+        return {}
+
+    def step_search_engine_session(self, session_id, updates=None, iters=None):
+        if not self.proc:
+            self.start()
+        payload = self._exchange_search_request(
+            {
+                "cmd": "search_nn_multi_engine_session_step",
+                "session_id": int(session_id),
+                "iters": int(self.cfg["iters"] if iters is None else iters),
+                "updates": list(updates or []),
             }
         )
         if isinstance(payload, dict):
@@ -2021,6 +2051,7 @@ def rust_search_options(cfg, penalty_mode=None):
         "n_threads": n_threads,
         "batch_size": batch_size,
         "batch_timeout_us": batch_timeout_us,
+        **({"seed": int(cfg["seed"])} if "seed" in cfg and cfg.get("seed") is not None else {}),
         **({"root_only_shaping": bool(cfg["root_only_shaping"])} if "root_only_shaping" in cfg else {}),
         **({"vl_mode": cfg["vl_mode"]} if "vl_mode" in cfg else {}),
         **({"tt_enabled": bool(cfg["tt_enabled"])} if "tt_enabled" in cfg else {}),

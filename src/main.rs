@@ -957,11 +957,8 @@ mod tests {
     #[test]
     fn q_normal_cdf() {
         // Gaussian CDF 근사 간접 검증: P_flip with equal Q ≈ 0.5
-        let qs = vec![0.5f32, 0.5];
-        let ns = vec![100.0f32, 100.0];
         // 동일 Q → σ_diff로 나눠도 z=0 → CDF(0)=0.5
-        let cfg = QuartzConfig::default();
-        let mut s = QuartzStats {
+        let s = QuartzStats {
             sigma_q: 0.2,
             p_envar: 0.0,
             root_visits: 200,
@@ -988,7 +985,6 @@ mod tests {
     }
     #[test]
     fn q_eft_gate() {
-        let cfg = QuartzConfig::default();
         let mut s = QuartzStats::default();
         s.sigma_q = 0.3;
         s.p_envar = 0.1;
@@ -1802,9 +1798,7 @@ mod ablation_round1 {
         let budget = 500u32;
 
         for (label, ns_gate, depth_cal) in &configs {
-            let mut total_iters = 0u32;
             let mut total_pflip = 0.0f32;
-            let mut early_stops = 0u32;
             let mut total_voc_expand = 0.0f32;
             let mut expand_positive = 0u32;
             let mut total_hbar = 0.0f32;
@@ -1828,16 +1822,12 @@ mod ablation_round1 {
                 engine.run_quartz(&mut ctrl);
 
                 let stats = ctrl.last_stats();
-                total_iters += stats.root_visits;
                 total_pflip += stats.p_flip;
                 total_voc_expand += stats.voc_expand;
                 total_hbar += stats.hbar_eff;
                 total_envar_delta += stats.envar_delta;
                 if stats.voc_expand > 0.0 {
                     expand_positive += 1;
-                }
-                if stats.root_visits < budget {
-                    early_stops += 1;
                 }
             }
 
@@ -2333,7 +2323,7 @@ mod ablation_pw_nn {
 
             let n_mat = engine.root.materialized_count();
             let n_cand = engine.root.candidate_count();
-            let edges = engine.root.edge_snapshot(n_mat.min(5));
+            let _edges = engine.root.edge_snapshot(n_mat.min(5));
             let prior_sum: f32 = engine.root.edge_snapshot(n_mat).iter().map(|e| e.p).sum();
             let m_out = (1.0 - prior_sum).max(0.0);
 
@@ -2415,7 +2405,7 @@ mod nn_pw_experiment {
     use super::*;
     use crate::mcts::eval::PythonIpcEval;
     use crate::mcts::mod_types::PwConfig;
-    use crate::mcts::quartz::{CostMode, HaltMode};
+    use crate::mcts::quartz::HaltMode;
     use std::sync::atomic::Ordering;
     use std::time::Instant;
 
@@ -2689,8 +2679,7 @@ mod ablation_g2_g5 {
     use super::*;
     use crate::mcts::eval::PythonIpcEval;
     use crate::mcts::mod_types::PwConfig;
-    use crate::mcts::quartz::{CostMode, HaltMode};
-    use std::sync::atomic::Ordering;
+    use crate::mcts::quartz::HaltMode;
     use std::time::Instant;
 
     #[test]
@@ -2928,7 +2917,7 @@ mod penalty_fix_test {
     use super::*;
     use crate::mcts::eval::PythonIpcEval;
     use crate::mcts::mod_types::PwConfig;
-    use crate::mcts::quartz::{CostMode, HaltMode};
+    use crate::mcts::quartz::HaltMode;
 
     #[test]
     #[ignore]
@@ -3077,7 +3066,7 @@ mod budget_scaling {
     use super::*;
     use crate::mcts::eval::PythonIpcEval;
     use crate::mcts::mod_types::PwConfig;
-    use crate::mcts::quartz::{CostMode, HaltMode};
+    use crate::mcts::quartz::HaltMode;
 
     #[test]
     #[ignore]
@@ -3449,7 +3438,7 @@ mod voc_debug {
         let config = MctsConfig::evaluation_with_pw(2.0, PwConfig::default_gomoku())
             .with_quartz(qcfg.clone());
         let eng = MctsEngine::new(s.clone(), eval.clone(), config);
-        let mut ctrl = QuartzController::new(100, qcfg);
+        let ctrl = QuartzController::new(100, qcfg);
 
         // Manual step-by-step
         let start = std::time::Instant::now();
@@ -3680,7 +3669,6 @@ mod final_validation {
 mod voc_halt_shortrollout {
     use super::*;
     use crate::mcts::eval::ShortRollout;
-    use crate::mcts::mod_types::PwConfig;
     use crate::mcts::quartz::{CostMode, HaltMode};
 
     #[test]
@@ -4559,7 +4547,6 @@ mod gomoku_nn_experiments {
             );
 
             // Show σ_Q/σ_response ratio as candidate ħ_eff
-            let stats = QuartzConfig::default();
             let sigma_q_mean: f32 = sigma_qs.iter().sum::<f32>() / sigma_qs.len() as f32;
             let hbar_candidate = if mean_sr > 1e-6 {
                 sigma_q_mean / mean_sr
@@ -4581,7 +4568,7 @@ mod gomoku_nn_experiments {
 #[cfg(test)]
 mod theory_v5_ablation {
     use super::*;
-    use crate::mcts::eval::{ShortRollout, UniformEval};
+    use crate::mcts::eval::UniformEval;
     use crate::mcts::mod_types::PwConfig;
     use crate::mcts::quartz::{HaltMode, PenaltyMode, QuartzConfig, QuartzController};
     use std::time::Instant;
@@ -5205,7 +5192,7 @@ mod self_adaptive_exp8 {
                 let eng = MctsEngine::new(state.clone(), eval.clone(), config);
                 let mut ctrl = QuartzController::new(budget, qcfg.clone());
                 eng.run_quartz(&mut ctrl);
-                let best1 = eng.best_move();
+                let _best1 = eng.best_move();
                 pf_sum += ctrl.last_stats().p_flip;
                 let rconfig =
                     MctsConfig::evaluation_with_pw(2.0, pw.clone()).with_quartz(rqcfg.clone());
@@ -5662,7 +5649,7 @@ mod zobrist_tt_parallel_verify {
 
         // Run second search from same position — TT should get hits
         let config2 = MctsConfig::evaluation_with_pw(2.0, PwConfig::default_gomoku());
-        let eng2 = MctsEngine::new(Gomoku::new_with_win(7, 4), eval.clone(), config2);
+        let _eng2 = MctsEngine::new(Gomoku::new_with_win(7, 4), eval.clone(), config2);
         // Share the same TT... actually each MctsEngine creates its own TT.
         // Let me verify that WITHIN a single engine, TT works correctly.
         // The key test: transposition hits during a single search.
@@ -6077,8 +6064,6 @@ mod controller_onoff_exp9 {
         ];
 
         // Replay config (always fixed budget, no quartz)
-        let replay_config_base = MctsConfig::evaluation_with_pw(2.0, pw.clone());
-
         for rc in &configs {
             let mut flips = 0u32;
             let mut total_iters = 0u64;
@@ -6119,7 +6104,6 @@ mod controller_onoff_exp9 {
                 total_iters += iters_used as u64;
 
                 // === Replay (same method, higher budget) ===
-                let iters_replay;
                 let best2;
 
                 if !rc.use_quartz {
@@ -6127,7 +6111,6 @@ mod controller_onoff_exp9 {
                     let reng = MctsEngine::new(state.clone(), eval.clone(), rconfig);
                     reng.run(&mut FixedIterations::new(replay_budget));
                     best2 = reng.best_move();
-                    iters_replay = reng.root.n_total.load(Ordering::Relaxed);
                 } else {
                     let rqcfg = QuartzConfig {
                         halt_mode: HaltMode::Fixed {
@@ -6146,7 +6129,6 @@ mod controller_onoff_exp9 {
                     let mut rctrl = QuartzController::new(replay_budget, rqcfg);
                     reng.run_quartz(&mut rctrl);
                     best2 = reng.best_move();
-                    iters_replay = reng.root.n_total.load(Ordering::Relaxed);
                 }
 
                 if best1 != best2 {
@@ -6384,5 +6366,5 @@ mod experiment_chess;
 mod experiment_go;
 #[allow(dead_code, unused_imports, unused_variables)]
 mod experiment_gomoku15;
-mod gomocup_bundle;
 mod gomocup_brain;
+mod gomocup_bundle;

@@ -163,7 +163,8 @@ impl GameState for TicTacToe {
         // Save current board to history before applying move
         next.board_history.push(self.board);
         if next.board_history.len() > TICTACTOE_HISTORY_LEN - 1 {
-            next.board_history.drain(0..next.board_history.len() - (TICTACTOE_HISTORY_LEN - 1));
+            next.board_history
+                .drain(0..next.board_history.len() - (TICTACTOE_HISTORY_LEN - 1));
         }
 
         // 보드 갱신
@@ -229,30 +230,47 @@ impl GameState for TicTacToe {
 
         // t=0: current board
         for (i, &v) in self.board.iter().enumerate() {
-            if v == cp { out[i] = 1.0; }
-            else if v != 0 { out[n + i] = 1.0; }
+            if v == cp {
+                out[i] = 1.0;
+            } else if v != 0 {
+                out[n + i] = 1.0;
+            }
         }
 
         // t=1..7: history (most recent = last element in board_history)
         for (k, hist_board) in self.board_history.iter().rev().enumerate() {
             let t = k + 1;
-            if t >= TICTACTOE_HISTORY_LEN { break; }
+            if t >= TICTACTOE_HISTORY_LEN {
+                break;
+            }
             let base = t * 2 * n;
             for (i, &v) in hist_board.iter().enumerate() {
-                if v == cp { out[base + i] = 1.0; }
-                else if v != 0 { out[base + n + i] = 1.0; }
+                if v == cp {
+                    out[base + i] = 1.0;
+                } else if v != 0 {
+                    out[base + n + i] = 1.0;
+                }
             }
         }
 
         // Color plane
         let color_val = if cp == 1 { 1.0 } else { 0.0 };
         let color_base = (total_planes - 1) * n;
-        for i in 0..n { out[color_base + i] = color_val; }
+        for i in 0..n {
+            out[color_base + i] = color_val;
+        }
         out
     }
 
     fn board_state_record(&self) -> Vec<i64> {
-        self.board.iter().map(|&v| match v { 1 => 1, -1 => 2, _ => 0 }).collect()
+        self.board
+            .iter()
+            .map(|&v| match v {
+                1 => 1,
+                -1 => 2,
+                _ => 0,
+            })
+            .collect()
     }
 }
 

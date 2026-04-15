@@ -1,14 +1,23 @@
 use std::fs;
 use std::path::{Path, PathBuf};
-use std::sync::Arc;
 
 use serde::Deserialize;
 
+#[cfg(feature = "onnx")]
+use std::sync::Arc;
+
+#[cfg(feature = "onnx")]
 use crate::game::{EvalResult, Evaluator, GameState};
-use crate::games::gomoku15::{Gomoku15, GomokuVariant};
+#[cfg(feature = "onnx")]
+use crate::games::gomoku15::Gomoku15;
+#[cfg(any(feature = "onnx", test))]
+use crate::games::gomoku15::GomokuVariant;
 use crate::mcts::parallel::VlMode;
+#[cfg(test)]
 use crate::mcts::quartz::QuartzConfig;
-use crate::mcts::{MctsConfig, PwConfig};
+use crate::mcts::MctsConfig;
+#[cfg(test)]
+use crate::mcts::PwConfig;
 
 #[cfg(feature = "onnx")]
 use ort::{session::Session, value::TensorRef};
@@ -64,10 +73,9 @@ enum SearchProfile {
 }
 
 pub struct LoadedGomocupBundle {
-    pub root: PathBuf,
-    pub manifest_path: Option<PathBuf>,
     pub manifest: GomocupManifest,
-    pub model_path: Option<PathBuf>,
+    #[cfg(test)]
+    model_path: Option<PathBuf>,
     #[cfg(feature = "onnx")]
     evaluator: Option<Arc<Gomoku15OnnxEvaluator>>,
 }
@@ -116,6 +124,7 @@ impl LoadedGomocupBundle {
             return None;
         }
 
+        #[cfg(any(feature = "onnx", test))]
         let model_path = candidate_model.exists().then_some(candidate_model.clone());
         #[cfg(feature = "onnx")]
         let evaluator = if let Some(path) = model_path.as_ref() {
@@ -131,15 +140,15 @@ impl LoadedGomocupBundle {
         };
 
         Some(Self {
-            root: root_dir,
-            manifest_path: manifest_path.exists().then_some(manifest_path),
             manifest,
+            #[cfg(test)]
             model_path,
             #[cfg(feature = "onnx")]
             evaluator,
         })
     }
 
+    #[cfg(any(feature = "onnx", test))]
     pub fn supports_variant(&self, variant: GomokuVariant) -> bool {
         match self.manifest.game.as_deref().unwrap_or("gomoku15") {
             "gomoku15" | "gomoku15_free" => variant == GomokuVariant::Freestyle,
@@ -170,7 +179,8 @@ impl LoadedGomocupBundle {
     }
 
     pub fn uses_quartz_controller(&self) -> bool {
-        parse_search_profile(self.manifest.search.search_profile.as_deref()) == SearchProfile::Quartz
+        parse_search_profile(self.manifest.search.search_profile.as_deref())
+            == SearchProfile::Quartz
     }
 
     #[cfg(feature = "onnx")]
@@ -225,7 +235,10 @@ fn apply_search_profile(mut cfg: MctsConfig, profile: SearchProfile) -> MctsConf
     cfg
 }
 
-pub fn apply_bundle_search_config(mut cfg: MctsConfig, bundle: Option<&LoadedGomocupBundle>) -> MctsConfig {
+pub fn apply_bundle_search_config(
+    mut cfg: MctsConfig,
+    bundle: Option<&LoadedGomocupBundle>,
+) -> MctsConfig {
     let Some(bundle) = bundle else {
         return cfg;
     };
@@ -263,7 +276,8 @@ pub fn apply_bundle_search_config(mut cfg: MctsConfig, bundle: Option<&LoadedGom
     cfg
 }
 
-pub fn default_gomoku15_config() -> MctsConfig {
+#[cfg(test)]
+fn default_gomoku15_config() -> MctsConfig {
     MctsConfig::evaluation_with_pw(2.0, PwConfig::new(2.0, 0.5)).with_quartz(QuartzConfig {
         sigma_0: 0.3,
         min_visits: 30,
@@ -281,7 +295,9 @@ pub struct Gomoku15OnnxEvaluator {
 impl Gomoku15OnnxEvaluator {
     pub fn load(path: &Path) -> Result<Self, String> {
         let mut builder = Session::builder().map_err(|err| err.to_string())?;
-        let session = builder.commit_from_file(path).map_err(|err| err.to_string())?;
+        let session = builder
+            .commit_from_file(path)
+            .map_err(|err| err.to_string())?;
         Ok(Self {
             session: std::sync::Mutex::new(session),
         })
@@ -289,8 +305,9 @@ impl Gomoku15OnnxEvaluator {
 
     fn predict(&self, state: &Gomoku15) -> Result<(Vec<f32>, f32), String> {
         let input = state.encode_planes();
-        let tensor = TensorRef::from_array_view(([1usize, 17usize, 15usize, 15usize], input.as_slice()))
-            .map_err(|err| err.to_string())?;
+        let tensor =
+            TensorRef::from_array_view(([1usize, 17usize, 15usize, 15usize], input.as_slice()))
+                .map_err(|err| err.to_string())?;
         let mut session = self.session.lock().unwrap();
         let outputs = session
             .run(ort::inputs![tensor])
@@ -382,8 +399,6 @@ mod tests {
     #[test]
     fn test_apply_bundle_search_config_respects_manifest_overrides() {
         let bundle = LoadedGomocupBundle {
-            root: PathBuf::new(),
-            manifest_path: None,
             manifest: GomocupManifest {
                 game: Some("gomoku15".to_string()),
                 search: GomocupSearchConfig {
@@ -411,8 +426,6 @@ mod tests {
     #[test]
     fn test_bundle_supports_exact_variant_only() {
         let bundle = LoadedGomocupBundle {
-            root: PathBuf::new(),
-            manifest_path: None,
             manifest: GomocupManifest {
                 game: Some("gomoku15_renju".to_string()),
                 ..Default::default()

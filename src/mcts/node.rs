@@ -124,13 +124,6 @@ impl<M: Copy + Send + Sync + 'static> MctsEdge<M> {
         Some(var.sqrt() as f32)
     }
 
-    #[inline]
-    pub fn n_eff(&self) -> u32 {
-        let n = self.n.load(Ordering::Acquire);
-        let vl = self.virtual_losses.load(Ordering::Acquire).max(0) as u32;
-        n + vl
-    }
-
     /// Q with split virtual loss: Q_eff = (W - Σvvalue) / (N + Σvvisit)
     #[inline]
     pub fn q_eff(&self) -> f32 {
@@ -150,10 +143,6 @@ impl<M: Copy + Send + Sync + 'static> MctsEdge<M> {
             return 0.0;
         }
         atomic_f64_load(&self.w) as f32 / n as f32
-    }
-
-    pub fn vl(&self) -> i32 {
-        self.virtual_losses.load(Ordering::Acquire)
     }
 
     /// Apply split virtual loss (called during select)
@@ -289,14 +278,6 @@ impl<M: Copy + Send + Sync + 'static> MctsNode<M> {
         }
     }
 
-    /// parent N 조회 (wimp 계산용)
-    pub fn parent_n(&self) -> Option<u32> {
-        self.parent.read().ok().and_then(|lock| {
-            lock.as_ref()
-                .and_then(|weak| weak.upgrade())
-                .map(|p| p.n_total.load(Ordering::Acquire))
-        })
-    }
     /// backup.rs에서 TT hit path에 대해 호출
     pub fn record_rtt_hit(&self, q_value: f32) {
         let q = q_value as f64;

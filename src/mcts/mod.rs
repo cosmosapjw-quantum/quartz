@@ -27,11 +27,15 @@ use crate::game::{Evaluator, GameState};
 use crate::mcts::backup::backprop;
 use crate::mcts::expand::{expand_and_evaluate, expand_with_result};
 use crate::mcts::gvoc::{routing_mode, GvocConfig, GvocState, ProposalMode};
-use crate::mcts::node::{atomic_f64_load, MctsNode};
+#[cfg(test)]
+use crate::mcts::node::atomic_f64_load;
+use crate::mcts::node::MctsNode;
 use crate::mcts::root::{
     compute_dirichlet_noise, select_move_with_temperature, visit_distribution, DirichletConfig,
 };
-use crate::mcts::search::{root_entropy, SearchController, SearchStats};
+#[cfg(test)]
+use crate::mcts::search::root_entropy;
+use crate::mcts::search::{SearchController, SearchStats};
 use crate::mcts::select::{select, SelectResult};
 use crate::mcts::tt::TranspositionTable;
 
@@ -152,21 +156,25 @@ impl MctsConfig {
         self
     }
 
+    #[cfg(test)]
     pub fn with_root_forced_win(mut self, root_forced_win: bool) -> Self {
         self.root_forced_win = root_forced_win;
         self
     }
 
+    #[cfg(test)]
     pub fn with_exact_terminal_value(mut self, exact_terminal_value: bool) -> Self {
         self.exact_terminal_value = exact_terminal_value;
         self
     }
 
+    #[cfg(test)]
     pub fn with_fpu_reduction(mut self, fpu_reduction: f32) -> Self {
         self.fpu_reduction = fpu_reduction.max(0.0);
         self
     }
 
+    #[cfg(test)]
     pub fn with_tt_enabled(mut self, tt_enabled: bool) -> Self {
         self.tt_enabled = tt_enabled;
         self
@@ -180,7 +188,7 @@ impl MctsConfig {
 pub struct MctsEngine<G: GameState> {
     pub root: Arc<MctsNode<G::Move>>,
     root_state: G,
-    evaluator: Arc<dyn Evaluator<G> + Send + Sync>,
+    pub(crate) evaluator: Arc<dyn Evaluator<G> + Send + Sync>,
     pub tt: Arc<TranspositionTable<G::Move>>,
     pub config: MctsConfig,
     root_noise: Option<Vec<f32>>,
@@ -257,7 +265,12 @@ impl<G: GameState> MctsEngine<G> {
             let edges = self.root.edge_snapshot(self.root.materialized_count());
             if !edges.is_empty() {
                 let priors: Vec<f32> = edges.iter().map(|e| e.p).collect();
-                self.root_noise = Some(compute_dirichlet_noise(edges.len(), &priors, dir));
+                self.root_noise = Some(compute_dirichlet_noise(
+                    edges.len(),
+                    &priors,
+                    dir,
+                    self.config.seed,
+                ));
             }
         }
     }
@@ -353,7 +366,10 @@ impl<G: GameState> MctsEngine<G> {
             self.config.fpu_reduction,
             &self.par_ctrl,
         );
-        SELECT_TIME_NANOS.fetch_add(select_started.elapsed().as_nanos() as u64, Ordering::Relaxed);
+        SELECT_TIME_NANOS.fetch_add(
+            select_started.elapsed().as_nanos() as u64,
+            Ordering::Relaxed,
+        );
 
         let expand_started = Instant::now();
         let leaf_value = if self
@@ -410,7 +426,10 @@ impl<G: GameState> MctsEngine<G> {
             self.config.fpu_reduction,
             &self.par_ctrl,
         );
-        SELECT_TIME_NANOS.fetch_add(select_started.elapsed().as_nanos() as u64, Ordering::Relaxed);
+        SELECT_TIME_NANOS.fetch_add(
+            select_started.elapsed().as_nanos() as u64,
+            Ordering::Relaxed,
+        );
 
         if !self
             .config
@@ -887,6 +906,29 @@ impl<G: GameState> MctsEngine<G> {
         false
     }
 
+    /// Replace the root state and rebuild the engine while preserving the
+    /// evaluator/config pair.
+    pub fn replace_root_state(&mut self, root_state: G) {
+        *self = MctsEngine::new(root_state, self.evaluator.clone(), self.config.clone());
+    }
+
+    /// Advance the current root by action index, reusing the subtree when the
+    /// chosen move already exists under the root and falling back to a rebuild
+    /// otherwise.
+    pub fn apply_action_idx_root(&mut self, action: usize) -> Result<(), String>
+    where
+        G::Move: PartialEq,
+    {
+        let Some(mv) = self.root_state.idx_to_move(action) else {
+            return Err(format!("invalid action {}", action));
+        };
+        if !self.advance_root(mv) {
+            let next_state = self.root_state.apply_move(mv);
+            self.replace_root_state(next_state);
+        }
+        Ok(())
+    }
+
     /// Get a reference to the current root state.
     pub fn root_state(&self) -> &G {
         &self.root_state
@@ -903,13 +945,14 @@ impl<G: GameState> MctsEngine<G> {
                 return Some(forced);
             }
         }
-        select_move_with_temperature(&self.root, self.config.temperature)
+        select_move_with_temperature(&self.root, self.config.temperature, self.config.seed)
     }
 
     pub fn pi_target(&self, temperature: f32) -> Vec<(G::Move, f32)> {
         visit_distribution(&self.root, temperature)
     }
 
+    #[cfg(test)]
     pub fn root_entropy(&self) -> f32 {
         let edges = self.root.edge_snapshot(self.root.materialized_count());
         let counts = edges
@@ -919,6 +962,7 @@ impl<G: GameState> MctsEngine<G> {
         root_entropy(&counts)
     }
 
+    #[cfg(test)]
     pub fn root_value(&self) -> f32 {
         let edges = self.root.edge_snapshot(self.root.materialized_count());
         let total = self.root.n_total.load(Ordering::Acquire);
@@ -942,6 +986,7 @@ impl<G: GameState> MctsEngine<G> {
         (open, total)
     }
 
+    #[cfg(test)]
     pub fn print_stats(&self, label: &str) {
         let rv = self.root.n_total.load(Ordering::Acquire);
         let h = self.root_entropy();
@@ -1048,13 +1093,25 @@ mod tests {
         }
 
         fn legal_moves(&self) -> Vec<Self::Move> {
-            if self.phase == 0 { vec![0, 1] } else { vec![] }
+            if self.phase == 0 {
+                vec![0, 1]
+            } else {
+                vec![]
+            }
         }
 
         fn apply_move(&self, mv: Self::Move) -> Self {
             match mv {
-                0 => Self { phase: 1, raw_hash: 101, exact_hash: 999 },
-                1 => Self { phase: 1, raw_hash: 202, exact_hash: 999 },
+                0 => Self {
+                    phase: 1,
+                    raw_hash: 101,
+                    exact_hash: 999,
+                },
+                1 => Self {
+                    phase: 1,
+                    raw_hash: 202,
+                    exact_hash: 999,
+                },
                 _ => unreachable!(),
             }
         }
@@ -1084,7 +1141,11 @@ mod tests {
         }
 
         fn idx_to_move(&self, idx: usize) -> Option<Self::Move> {
-            if idx < 2 { Some(idx as u8) } else { None }
+            if idx < 2 {
+                Some(idx as u8)
+            } else {
+                None
+            }
         }
     }
 
@@ -1217,6 +1278,23 @@ mod tests {
         let stats = engine.run_par_quartz(&mut ctrl, 2);
         // At least 1 visit (may be more due to thread timing)
         assert!(stats.root_visits >= 1);
+    }
+
+    #[test]
+    fn test_apply_action_idx_root_advances_and_restarts_from_new_root() {
+        let eval: Arc<dyn Evaluator<TicTacToe>> = Arc::new(UniformEval);
+        let mut engine = MctsEngine::new(TicTacToe::initial(), eval, MctsConfig::evaluation(1.4));
+        let mut ctrl = QuartzController::new(8, QuartzConfig::default());
+        let stats_before = engine.run_quartz(&mut ctrl);
+        assert!(stats_before.root_visits >= 8);
+
+        engine.apply_action_idx_root(0).unwrap();
+        assert_eq!(engine.root_state().current_player(), -1);
+        assert_eq!(engine.root.n_total.load(Ordering::Relaxed), 0);
+
+        let mut ctrl2 = QuartzController::new(4, QuartzConfig::default());
+        let stats_after = engine.run_quartz(&mut ctrl2);
+        assert!(stats_after.root_visits >= 4);
     }
 
     #[test]

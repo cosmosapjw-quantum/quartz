@@ -218,61 +218,224 @@ game or budget.
 - For current Gomoku7 work, the best basin is a no-refresh legacy-family
   controller with `root_only_shaping=true` and retuned search constants.
 
-### Level 2.6: Prior revision structure assays
+### Level 2.6: Phase 1.5 clean-split structure assays
 
-Use [scripts/prior_revision_experiment.py](../scripts/prior_revision_experiment.py)
-for the phase-1 prior revision redesign in
-[prior_revision_experiment_plan.md](../prior_revision_experiment_plan.md).
+Use [scripts/phase15_ablation_study.py](../scripts/phase15_ablation_study.py)
+for the phase-1.5 redesign in
+[phase15_strategy_revision_v2.md](../phase15_strategy_revision_v2.md).
 
 Current implementation scope:
 
-- frozen-checkpoint assays for `E1`, `E3`, and `E5`
+- frozen-checkpoint post-hoc assays for Group `A/B/C`
+- explicit online chunked runner for Group `B/C`
+- amortized full-trace reuse for post-hoc, online, and benchmark budget rows
 - bucketized position-suite preparation
-- explicit `B0`, `B1`, `N1`, `N2` system definitions
-- common revision logging (`revision_occurred`, `revision_step`,
-  `num_revisions`, `entropy_path`, candidate-set logs)
+- bucket-balanced suite mining
+- trace disk cache for repeated assay recomposition
+- batched prior inference warmup for suite and checkpoint passes
+- `position_suite.json` now embeds shared `prior_policy`, `low_budget_policy`,
+  `reference_policy`, and `oracle_policy` artifacts via a compressed NPZ
+  sidecar file
+  so post-hoc and online runs can reuse suite-level evidence without bloating
+  the main suite manifest
+- explicit `A0-A4`, `B0-B3`, `C0-C2` system definitions
+- root-level telemetry for commit/challenger/budget-routing analysis
 
 Important current contract:
 
-- this runner is a root-policy prior-revision assay over frozen-checkpoint
-  search evidence
-- `N1` and `N2` are implemented as explicit policy-revision operators on top of
-  root search statistics, not as a full in-tree Rust kernel rewrite yet
-- the intended use is structure identification before training-contract runs
+- Group A is the substrate/controller sanity matrix
+- Group B in `phase15_ablation_study.py` is explicitly `posthoc`
+- Group B in `phase15_online_ablation.py` is online chunked control with
+  resident `root_continuation` preferred and `restart_per_chunk` fallback only
+  on protocol failure
+- Group C is legacy-anchor comparison only
+- `reference_policy` and `oracle_policy` are stored separately
+- `B0` is a report alias for `A4`, not a distinct search substrate
 - checkpoint selection must be curated explicitly; do not rely on lexical
   `--checkpoint-dir` truncation for weak/mid/strong coverage
 
-Typical usage:
+Post-hoc assay:
 
 ```bash
-venv/bin/python scripts/prior_revision_experiment.py \
+venv/bin/python scripts/phase15_ablation_study.py \
   --game gomoku7 \
   --checkpoints results/ablation_controller_factorial_short/gomoku7/models/F1_legacy_base/seed_41/best.pt,results/ablation_controller_factorial_short/gomoku7/models/F2_legacy_krefresh/seed_41/best.pt,results/ablation_controller_factorial_short/gomoku7/models/F4_theory_krefresh/seed_41/best.pt \
-  --systems-config configs/prior_revision_systems.default.json \
+  --systems-config configs/phase15_systems.default.json \
   --reference-checkpoint results/ablation_controller_factorial_short/gomoku7/models/F4_theory_krefresh/seed_41/best.pt \
   --budgets 8,16,32,64 \
   --oracle-budget 256 \
   --suite-size 96 \
-  --experiments E1,E3,E5 \
+  --suite-source mined \
+  --bucket-min-count 4 \
+  --groups A,B,C \
   --search-stall-timeout-s 45 \
-  --output results/prior_revision_v1
+  --output results/phase15_ablation_v1
 ```
 
-To change prior-revision policy definitions between reruns, copy and edit
-`configs/prior_revision_systems.default.json` and pass the edited file via
+Online chunked assay:
+
+```bash
+venv/bin/python scripts/phase15_online_ablation.py \
+  --game gomoku7 \
+  --checkpoints results/ablation_controller_factorial_short/gomoku7/models/F1_legacy_base/seed_41/best.pt,results/ablation_controller_factorial_short/gomoku7/models/F2_legacy_krefresh/seed_41/best.pt,results/ablation_controller_factorial_short/gomoku7/models/F4_theory_krefresh/seed_41/best.pt \
+  --systems-config configs/phase15_systems.default.json \
+  --reference-checkpoint results/ablation_controller_factorial_short/gomoku7/models/F4_theory_krefresh/seed_41/best.pt \
+  --systems B1,B2,B3,C0,C1,C2 \
+  --groups B,C \
+  --budgets 8,16,32,64 \
+  --oracle-budget 256 \
+  --suite-size 96 \
+  --output results/phase15_online_v1
+```
+
+Continuation benchmark and CI gate smoke:
+
+```bash
+venv/bin/python scripts/phase15_benchmark.py \
+  --game gomoku7 \
+  --checkpoints results/ablation_controller_factorial_short/gomoku7/models/F4_theory_krefresh/seed_41/best.pt \
+  --positions-file results/controller_sweep_shortlist_v1/gomoku7/stage1_positions.json \
+  --max-positions 2 \
+  --systems A4,B1,B2,B3 \
+  --budgets 8,16,32,64 \
+  --repeats 1 \
+  --warmup-rounds 0 \
+  --rust-binary ./target/release/mcts_demo \
+  --enforce-gate
+```
+
+Default phase15 benchmark gate:
+
+- `bundle_summary.wallclock_speedup_mean >= 1.80`
+- `summary.tie_aware_match_rate >= 0.65`
+- `summary.policy_kl_restart_vs_continuation.mean <= 0.25`
+
+This is a smoke/CI gate, not a publishable research threshold. The tie-aware
+bound is intentionally looser than a strict parity requirement because flat-root
+positions still create benign top-1 ambiguity. If you want a tighter local
+check, override the thresholds explicitly on the command line.
+
+Mine a reusable suite artifact:
+
+```bash
+venv/bin/python scripts/phase15_mine_suite.py \
+  --game gomoku7 \
+  --checkpoints results/ablation_controller_factorial_short/gomoku7/models/F1_legacy_base/seed_41/best.pt,results/ablation_controller_factorial_short/gomoku7/models/F2_legacy_krefresh/seed_41/best.pt,results/ablation_controller_factorial_short/gomoku7/models/F4_theory_krefresh/seed_41/best.pt \
+  --systems-config configs/phase15_systems.default.json \
+  --reference-checkpoint results/ablation_controller_factorial_short/gomoku7/models/F4_theory_krefresh/seed_41/best.pt \
+  --suite-size 96 \
+  --candidate-count 384 \
+  --bucket-min-count 4 \
+  --positions-out results/phase15_suite_mining/gomoku7/mined_suite.json
+```
+
+To change phase-1.5 system definitions between reruns, copy and edit
+`configs/phase15_systems.default.json` and pass the edited file via
 `--systems-config`.
 
-Set `--reference-checkpoint` explicitly so the bucketized suite and oracle policy
-are built from the intended strongest frozen model. The runner now rejects
-implicit `--checkpoint-dir` discovery when it would silently truncate a larger
-directory into lexical first-N checkpoints.
+Set `--reference-checkpoint` explicitly so `reference_policy` is built from the
+intended frozen model. Set `--oracle-checkpoint` or `--oracle-system` when you
+need a stronger oracle contract than “same checkpoint, stricter profile”. The
+runner rejects implicit `--checkpoint-dir` discovery when it would silently
+truncate a larger directory into lexical first-N checkpoints.
 
-Artifacts:
+Post-hoc artifacts:
 
-- `prior_revision_manifest.json`
+- `phase15_manifest.json`
 - `position_suite.json`
-- `assays/E1.jsonl`, `assays/E3.jsonl`, `assays/E5.jsonl`
-- `prior_revision_summary.json`
+- `position_suite_artifacts.npz`
+- `assays/phase15_rows.jsonl`
+- `phase15_summary.json`
+
+`phase15_manifest.json` and `phase15_online_manifest.json` now also record
+`trace_cache_salt`. This is a code-signature hash over the phase15
+search/readout stack, the suite/config schema, and the main phase15 runners.
+It is part of the trace-cache key, so old cached traces are invalidated when
+semantics-critical code or config contracts change.
+  - `raw_summary`
+  - `semantic_summary`
+  - `headwind_summary`
+  - `trace_cache_stats`
+  - `trace_cache_unit = "trace_bundle"`
+
+Online artifacts:
+
+- `phase15_online_manifest.json`
+- `assays/phase15_online_rows.jsonl`
+- `phase15_online_summary.json`
+  - `raw_summary`
+  - `semantic_summary`
+  - `headwind_summary`
+  - `trace_cache_stats`
+  - `trace_cache_unit = "trace_bundle"`
+- online runner now prefers true root-continuation resident sessions and falls
+  back to `restart_per_chunk` only when the Rust server path is unavailable
+
+Benchmark artifacts:
+
+- `phase15_continuation_benchmark_rows.jsonl`
+- `phase15_continuation_benchmark_summary.json`
+  - `summary`
+  - `bundle_summary`
+  - `gate`
+
+`bundle_summary` is the primary speed artifact. It measures one amortized trace
+run per `checkpoint x position x system x repeat`, then replays budget prefixes
+through readout. Use it when you care about actual continuation-vs-restart
+wallclock. `summary` remains useful for budget-level semantic drift metrics.
+
+The benchmark summary also includes a coarse headwind decomposition for each
+`checkpoint x system`:
+
+- `continuation_trace_acquire_ms` / `restart_trace_acquire_ms`
+- `continuation_overhead_ms` / `restart_overhead_ms`
+- `readout_sensitivity`
+- `speedup_headwind`
+
+The post-hoc and online summary files also carry `headwind_summary`. That
+payload does not compare continuation against restart; instead it summarizes the
+same systems in assay space using:
+
+- `trace_acquire_ms`
+- `readout_ms`
+- `effective_runtime_ms`
+- `readout_ratio_mean`
+- `accuracy_to_reference`
+- `kl_to_reference`
+- `speedup_headwind`
+
+Interpret those labels as follows:
+
+- `trace_acquire_cost` means the assay is dominated by search-trace acquisition.
+- `readout_cost` means the final operator/readout is a meaningful share of
+  runtime.
+- `semantic_drift` means reference divergence is the larger concern.
+- `mixed_readout_cost_and_semantic_drift` means both the readout and the
+  semantics need attention.
+
+Continuous integration:
+
+- GitHub Actions workflow:
+  [`.github/workflows/phase15-benchmark-gate.yml`](../.github/workflows/phase15-benchmark-gate.yml)
+- self-contained smoke entrypoint:
+  [scripts/phase15_benchmark_ci_smoke.py](../scripts/phase15_benchmark_ci_smoke.py)
+
+That CI path generates a deterministic random checkpoint plus a tiny fixed
+position suite at runtime, runs the real Rust-backed phase15 benchmark gate, and
+uploads the resulting benchmark artifacts.
+
+The smoke gate intentionally uses the stable subset `A4,B1,B2`. `B3` remains in
+the full benchmark runner, but it is more path-sensitive on tiny deterministic
+suites and can add noise to CI without improving regression coverage.
+
+Interpretation:
+
+- `session_overhead` means continuation speed is being limited mostly by
+  resident-session orchestration cost.
+- `readout_sensitivity` means policy drift indicators are the larger concern.
+- `mixed_session_overhead_and_readout_sensitivity` means both effects matter.
+- `search_cost` means continuation is still dominated by the actual search work
+  rather than orchestration or readout instability.
 
 ## Recommended interpretation
 

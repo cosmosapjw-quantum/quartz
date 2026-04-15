@@ -1,8 +1,11 @@
 //! SearchController 트레이트 + root_entropy 헬퍼
 
+#[cfg(test)]
 use std::sync::atomic::Ordering;
+#[cfg(test)]
 use std::sync::Arc;
 
+#[cfg(test)]
 use crate::mcts::node::MctsNode;
 
 // ─────────────────────────────────────────────
@@ -127,12 +130,14 @@ impl SearchController for FixedIterations {
 // § TimeManager
 // ─────────────────────────────────────────────
 
+#[cfg(test)]
 pub struct TimeManager {
     budget_ms: u64,
     effective_budget_ms: u64,
     last_elapsed_ms: std::sync::atomic::AtomicU64,
 }
 
+#[cfg(test)]
 impl TimeManager {
     pub fn new(budget_ms: u64) -> Self {
         TimeManager {
@@ -147,6 +152,7 @@ impl TimeManager {
     }
 }
 
+#[cfg(test)]
 impl SearchController for TimeManager {
     fn should_stop(&self, _root_visits: u32, elapsed_ms: u64) -> bool {
         self.last_elapsed_ms
@@ -168,6 +174,7 @@ impl SearchController for TimeManager {
 
 /// 루트 방문 분포의 Shannon entropy H(π)
 /// visit_counts: 각 자식의 N
+#[cfg(test)]
 pub fn root_entropy(visit_counts: &[u32]) -> f32 {
     let total: u32 = visit_counts.iter().sum();
     if total == 0 {
@@ -185,6 +192,7 @@ pub fn root_entropy(visit_counts: &[u32]) -> f32 {
 }
 
 /// 루트 노드에서 직접 entropy 계산
+#[cfg(test)]
 pub fn root_entropy_from_node<M: Copy + Send + Sync + 'static>(node: &Arc<MctsNode<M>>) -> f32 {
     let n_mat = node.materialized_count();
     let edge_arcs = node.edge_snapshot(n_mat);

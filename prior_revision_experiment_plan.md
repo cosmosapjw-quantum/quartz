@@ -7,11 +7,12 @@ Primary aim: 구조 식별(structure identification)과 최소 검증(minimal ve
 
 Implementation note:
 
-- The repository phase-1 runner is `scripts/prior_revision_experiment.py`.
-- The current code path implements the structure-identification layer as a
-  frozen-checkpoint root-policy assay over search evidence.
-- `N1` and `N2` are therefore already runnable for `E1/E3/E5`, but they are
-  not yet a full in-tree Rust search-kernel rewrite.
+- The old phase-1 runner has been retired.
+- The repository now uses the phase-1.5 clean-split runner
+  `scripts/phase15_ablation_study.py`.
+- This plan remains useful as historical context for why the prior-revision
+  framing failed, but the active in-tree experiment contract is now the
+  substrate/controller/refresh split from `phase15_strategy_revision_v2.md`.
 
 ---
 

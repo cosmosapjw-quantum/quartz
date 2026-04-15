@@ -49,24 +49,18 @@ const BQS: u8 = 8;
 #[allow(dead_code)]
 // Squares
 const A1: u8 = 0;
-const B1: u8 = 1;
+#[cfg(test)]
 const C1: u8 = 2;
 const D1: u8 = 3;
+#[cfg(test)]
 const E1: u8 = 4;
 const F1: u8 = 5;
 const G1: u8 = 6;
+#[cfg(test)]
 const H1: u8 = 7;
-const A8: u8 = 56;
-const B8: u8 = 57;
-const C8: u8 = 58;
 const D8: u8 = 59;
-const E8: u8 = 60;
 const F8: u8 = 61;
 const G8: u8 = 62;
-const H8: u8 = 63;
-
-const FILE_A: u64 = 0x0101_0101_0101_0101;
-const FILE_H: u64 = 0x8080_8080_8080_8080;
 const RANK_1: u64 = 0xFF;
 const RANK_2: u64 = 0xFF00;
 const RANK_7: u64 = 0x00FF_0000_0000_0000;
@@ -431,7 +425,7 @@ pub struct Chess {
     rook_files: [u8; 4], // original rook positions [WKS, WQS, BKS, BQS]
     is_960: bool,
     /// Past piece bitboard snapshots for AlphaZero-style history encoding.
-    board_history: Vec<([u64; 12], u8)>,  // (bb, side) per timestep
+    board_history: Vec<([u64; 12], u8)>, // (bb, side) per timestep
 }
 
 #[inline]
@@ -441,7 +435,9 @@ fn chess_history_digest_init(position_hash: u64) -> u64 {
 
 #[inline]
 fn chess_history_digest_push(history_digest: u64, position_hash: u64) -> u64 {
-    history_digest.wrapping_add(tt_mix64(position_hash.wrapping_add(CHESS_HISTORY_DIGEST_SEED)))
+    history_digest.wrapping_add(tt_mix64(
+        position_hash.wrapping_add(CHESS_HISTORY_DIGEST_SEED),
+    ))
 }
 
 #[inline]
@@ -1044,8 +1040,7 @@ impl Chess {
                 }
 
                 // Captures
-                let cap_targets = t.pawn_atk[side as usize][from as usize]
-                    & (their | ep_mask);
+                let cap_targets = t.pawn_atk[side as usize][from as usize] & (their | ep_mask);
                 for to in bits(cap_targets) {
                     if to == self.ep_sq {
                         moves.push(ChessMove::new(from, to, 5)); // EP
@@ -1225,7 +1220,8 @@ impl Chess {
         // Save current board to history for AlphaZero-style encoding
         next.board_history.push((self.bb, self.side));
         if next.board_history.len() > CHESS_HISTORY_LEN - 1 {
-            next.board_history.drain(0..next.board_history.len() - (CHESS_HISTORY_LEN - 1));
+            next.board_history
+                .drain(0..next.board_history.len() - (CHESS_HISTORY_LEN - 1));
         }
         let side = self.side;
         let opp = 1 - side;
@@ -1393,20 +1389,7 @@ impl Chess {
 
     // ── Terminal conditions ──
 
-    fn is_checkmate_or_stalemate(&self) -> (bool, bool) {
-        if !self.has_any_legal_move() {
-            if self.in_check() {
-                (true, false)
-            }
-            // checkmate
-            else {
-                (false, true)
-            } // stalemate
-        } else {
-            (false, false)
-        }
-    }
-
+    #[cfg(test)]
     pub fn is_fifty_move_claimable(&self) -> bool {
         self.half >= 100
     }
@@ -1419,6 +1402,7 @@ impl Chess {
         self.history.iter().filter(|&&h| h == current).count() as u32
     }
 
+    #[cfg(test)]
     pub fn is_threefold_claimable(&self) -> bool {
         self.repetition_count() >= 3
     }
@@ -1458,8 +1442,7 @@ impl Chess {
         }
 
         // Two knights cannot force or construct mate against a lone king.
-        if (wn == 2 && wb == 0 && black_minors == 0) || (bn == 2 && bb == 0 && white_minors == 0)
-        {
+        if (wn == 2 && wb == 0 && black_minors == 0) || (bn == 2 && bb == 0 && white_minors == 0) {
             return true;
         }
 
@@ -1658,14 +1641,26 @@ impl GameState for Chess {
         let current_hash = self.hash;
         let mut rep_count = 0u32;
         for &h in self.history.iter().rev() {
-            if h == current_hash { rep_count += 1; }
+            if h == current_hash {
+                rep_count += 1;
+            }
         }
-        if rep_count >= 2 { for i in 0..64 { out[12 * 64 + i] = 1.0; } }
-        if rep_count >= 1 { for i in 0..64 { out[13 * 64 + i] = 1.0; } }
+        if rep_count >= 2 {
+            for i in 0..64 {
+                out[12 * 64 + i] = 1.0;
+            }
+        }
+        if rep_count >= 1 {
+            for i in 0..64 {
+                out[13 * 64 + i] = 1.0;
+            }
+        }
 
         // Planes 14-27: history t=1..7 occupancy
         for (k, &(hist_bb, hist_side)) in self.board_history.iter().rev().enumerate() {
-            if k >= 7 { break; }
+            if k >= 7 {
+                break;
+            }
             let base = (14 + k * 2) * 64;
             let (my_range, opp_range) = if hist_side == self.side {
                 (0..6, 6..12)
@@ -1674,26 +1669,54 @@ impl GameState for Chess {
             };
             let hist_my = hist_bb[my_range].iter().fold(0u64, |a, b| a | b);
             let hist_opp = hist_bb[opp_range].iter().fold(0u64, |a, b| a | b);
-            for s in bits(hist_my) { out[base + s as usize] = 1.0; }
-            for s in bits(hist_opp) { out[base + 64 + s as usize] = 1.0; }
+            for s in bits(hist_my) {
+                out[base + s as usize] = 1.0;
+            }
+            for s in bits(hist_opp) {
+                out[base + 64 + s as usize] = 1.0;
+            }
         }
 
         // Plane 28: side to move
-        if self.side == WHITE { for i in 0..64 { out[28 * 64 + i] = 1.0; } }
+        if self.side == WHITE {
+            for i in 0..64 {
+                out[28 * 64 + i] = 1.0;
+            }
+        }
 
         // Plane 29: total move count (normalized)
         let move_frac = (self.full as f32 / 200.0).min(1.0);
-        for i in 0..64 { out[29 * 64 + i] = move_frac; }
+        for i in 0..64 {
+            out[29 * 64 + i] = move_frac;
+        }
 
         // Planes 30-33: castling rights
-        if self.castling & WKS != 0 { for i in 0..64 { out[30 * 64 + i] = 1.0; } }
-        if self.castling & WQS != 0 { for i in 0..64 { out[31 * 64 + i] = 1.0; } }
-        if self.castling & BKS != 0 { for i in 0..64 { out[32 * 64 + i] = 1.0; } }
-        if self.castling & BQS != 0 { for i in 0..64 { out[33 * 64 + i] = 1.0; } }
+        if self.castling & WKS != 0 {
+            for i in 0..64 {
+                out[30 * 64 + i] = 1.0;
+            }
+        }
+        if self.castling & WQS != 0 {
+            for i in 0..64 {
+                out[31 * 64 + i] = 1.0;
+            }
+        }
+        if self.castling & BKS != 0 {
+            for i in 0..64 {
+                out[32 * 64 + i] = 1.0;
+            }
+        }
+        if self.castling & BQS != 0 {
+            for i in 0..64 {
+                out[33 * 64 + i] = 1.0;
+            }
+        }
 
         // Plane 34: halfmove clock (normalized, for 50-move rule awareness)
         let half_frac = (self.half as f32 / 100.0).min(1.0);
-        for i in 0..64 { out[34 * 64 + i] = half_frac; }
+        for i in 0..64 {
+            out[34 * 64 + i] = half_frac;
+        }
 
         // Plane 35: en passant target
         if self.ep_sq < 64 {
@@ -1745,6 +1768,7 @@ impl fmt::Display for Chess {
 // ═══════════════════════════════════════════════════════
 
 impl Chess {
+    #[cfg(test)]
     pub fn perft(&self, depth: u32) -> u64 {
         if depth == 0 {
             return 1;
@@ -1904,10 +1928,10 @@ mod tests {
     #[test]
     fn test_stalemate() {
         // K vs K+Q stalemate position
-        let c = Chess::from_fen("k7/8/1K6/8/8/8/8/1Q6 b - - 0 1").unwrap();
+        let _c = Chess::from_fen("k7/8/1K6/8/8/8/8/1Q6 b - - 0 1").unwrap();
         // Black king at a8, white king at b6, white queen at b1
         // Actually this might not be stalemate. Let me use a known stalemate FEN:
-        let c = Chess::from_fen("k7/8/2K5/8/8/8/8/7Q b - - 0 1").unwrap();
+        let _c = Chess::from_fen("k7/8/2K5/8/8/8/8/7Q b - - 0 1").unwrap();
         // Check if black has any legal moves
         // Actually let me use a simpler known stalemate:
         // After: 1...Ka8 with white Qb6 Kc6 → black has no legal moves but not in check
@@ -1961,10 +1985,17 @@ mod tests {
             .filter(|m| m.is_promotion())
             .collect();
         let indices: Vec<_> = promo_moves.iter().map(|&mv| c.move_to_idx(mv)).collect();
-        let unique = indices.iter().copied().collect::<std::collections::HashSet<_>>();
+        let unique = indices
+            .iter()
+            .copied()
+            .collect::<std::collections::HashSet<_>>();
 
         assert_eq!(c.num_actions(), CHESS_POLICY_ACTIONS);
-        assert_eq!(unique.len(), 4, "each promotion choice needs a unique policy index");
+        assert_eq!(
+            unique.len(),
+            4,
+            "each promotion choice needs a unique policy index"
+        );
         for mv in promo_moves {
             let idx = c.move_to_idx(mv);
             assert_eq!(c.idx_to_move(idx).unwrap().to_uci(), mv.to_uci());
@@ -2242,7 +2273,10 @@ mod tests {
             .collect();
         assert_eq!(cap_promos.len(), 4, "axb8=Q/R/B/N (4 capture promotions)");
         let indices: Vec<_> = cap_promos.iter().map(|&&mv| c.move_to_idx(mv)).collect();
-        let unique = indices.iter().copied().collect::<std::collections::HashSet<_>>();
+        let unique = indices
+            .iter()
+            .copied()
+            .collect::<std::collections::HashSet<_>>();
         assert_eq!(
             unique.len(),
             4,
@@ -2388,7 +2422,7 @@ mod tests {
     #[test]
     fn test_double_check_only_king_moves() {
         // In double check, only king can move
-        let c = Chess::from_fen("4k3/8/8/8/1b6/8/2N5/R3K3 b - - 0 1").unwrap();
+        let _c = Chess::from_fen("4k3/8/8/8/1b6/8/2N5/R3K3 b - - 0 1").unwrap();
         // Actually let me construct a proper double check position.
         // Black to move, in double check: only king moves allowed.
         // This is hard to set up without deep analysis. Let's use perft.
@@ -2580,7 +2614,7 @@ mod tests {
             let c = Chess::from_960(n);
             let moves = c.generate_legal_moves();
             // At start, no castling possible (pieces in the way)
-            let castle_moves: Vec<_> = moves.iter().filter(|m| m.is_castle()).collect();
+            let _castle_moves: Vec<_> = moves.iter().filter(|m| m.is_castle()).collect();
             // Typically no castling from start (blocked), that's fine
             // Just verify no crash
             assert!(!moves.is_empty(), "960#{}: should have legal moves", n);

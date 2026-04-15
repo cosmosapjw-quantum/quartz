@@ -137,18 +137,22 @@ impl Gomoku15 {
         }
     }
 
+    #[cfg(test)]
     pub fn standard() -> Self {
         Self::new(GomokuVariant::Standard)
     }
     pub fn freestyle() -> Self {
         Self::new(GomokuVariant::Freestyle)
     }
+    #[cfg(test)]
     pub fn omok() -> Self {
         Self::new(GomokuVariant::Omok)
     }
+    #[cfg(test)]
     pub fn renju() -> Self {
         Self::new(GomokuVariant::Renju)
     }
+    #[cfg(test)]
     pub fn caro() -> Self {
         Self::new(GomokuVariant::Caro)
     }
@@ -646,6 +650,7 @@ impl Gomoku15 {
     }
 
     /// Board as 0/1/2 encoding (for JSON protocol compatibility)
+    #[cfg(test)]
     pub fn board_as_12(&self) -> &[u8; N2] {
         &self.board
     }
@@ -720,7 +725,8 @@ impl GameState for Gomoku15 {
         // Save current board to history before applying move
         next.board_history.push(self.board);
         if next.board_history.len() > GOMOKU15_HISTORY_LEN - 1 {
-            next.board_history.drain(0..next.board_history.len() - (GOMOKU15_HISTORY_LEN - 1));
+            next.board_history
+                .drain(0..next.board_history.len() - (GOMOKU15_HISTORY_LEN - 1));
         }
 
         // Place stone
@@ -808,18 +814,25 @@ impl GameState for Gomoku15 {
         // t=1..7: history (most recent = last element in board_history)
         for (k, hist_board) in self.board_history.iter().rev().enumerate() {
             let t = k + 1;
-            if t >= GOMOKU15_HISTORY_LEN { break; }
+            if t >= GOMOKU15_HISTORY_LEN {
+                break;
+            }
             let base = t * 2 * N2;
             for (i, &v) in hist_board.iter().enumerate() {
-                if v == my_val { out[base + i] = 1.0; }
-                else if v == opp_val { out[base + N2 + i] = 1.0; }
+                if v == my_val {
+                    out[base + i] = 1.0;
+                } else if v == opp_val {
+                    out[base + N2 + i] = 1.0;
+                }
             }
         }
 
         // Color plane
         let color_val = if self.side > 0 { 1.0 } else { 0.0 };
         let color_base = (total_planes - 1) * N2;
-        for i in 0..N2 { out[color_base + i] = color_val; }
+        for i in 0..N2 {
+            out[color_base + i] = color_val;
+        }
         out
     }
 
