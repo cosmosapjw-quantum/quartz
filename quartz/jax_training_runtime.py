@@ -490,6 +490,9 @@ def selfplay_rust_nn_batched(cfg, model, device, n_games, rust_binary="./target/
             initial_chess_fen=lambda game_cfg, rng=None: initial_chess_fen(game_cfg, rng=rng, standard_chess_fen=STANDARD_CHESS_FEN),
             chess_state_meta_from_hashes=chess_state_meta_from_hashes,
             arena_compare=lambda *args, **kwargs: (_ for _ in ()).throw(RuntimeError("arena_compare unavailable in JAX runtime")),
+            build_training_game_adapter=lambda *args, **kwargs: (_ for _ in ()).throw(RuntimeError("arena game adapter unavailable in JAX runtime")),
+            rust_nn_evaluator_engine_cls=lambda *args, **kwargs: (_ for _ in ()).throw(RuntimeError("Rust evaluator engine unavailable in JAX runtime")),
+            match_runner_cls=lambda *args, **kwargs: (_ for _ in ()).throw(RuntimeError("MatchRunner unavailable in JAX runtime")),
         ),
     )
 

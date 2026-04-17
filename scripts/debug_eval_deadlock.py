@@ -87,6 +87,11 @@ def summarize_rust_qipc(path: Path) -> dict[str, Any]:
         "io_time_s": 0.0,
         "codec_time_s": 0.0,
         "mean_batch_weighted": 0.0,
+        "singleton_batches": 0,
+        "low_concurrency_flushes": 0,
+        "adaptive_timeout_min_us": None,
+        "adaptive_timeout_max_us": None,
+        "adaptive_timeout_last_us": None,
     }
     if not rows:
         return out
@@ -104,8 +109,14 @@ def summarize_rust_qipc(path: Path) -> dict[str, Any]:
             mean_batch = float(row.get("mean_batch", 0.0) or 0.0)
             out["batch_rows"] += 1
             out["batch_requests"] += reqs
+            out["singleton_batches"] += int(row.get("singleton_batches", 0) or 0)
+            out["low_concurrency_flushes"] += int(row.get("low_concurrency_flushes", 0) or 0)
             batch_reqs += reqs
             batch_sum += reqs * mean_batch
+            for key in ("adaptive_timeout_min_us", "adaptive_timeout_max_us", "adaptive_timeout_last_us"):
+                value = row.get(key)
+                if value is not None:
+                    out[key] = float(value)
     if batch_reqs > 0:
         out["mean_batch_weighted"] = batch_sum / batch_reqs
     out["io_time_s"] = round(out["io_time_s"], 6)
@@ -259,6 +270,7 @@ def run_child(args) -> int:
             load_torch_state_dict_checked,
             supports_rust_eval_state_machine,
         )
+        from quartz.system_runtime import auto_device_name, configure_torch_rocm_runtime, detect_hardware_spec
 
         cfg = dict(GAME_CONFIGS[args.game])
         cfg["_name"] = args.game
@@ -281,10 +293,10 @@ def run_child(args) -> int:
         if args.search_profile:
             cfg["search_profile"] = args.search_profile
 
-        if args.device == "auto":
-            device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-        else:
-            device = torch.device(args.device)
+        selected_device_name = auto_device_name() if args.device == "auto" else args.device
+        device = torch.device(selected_device_name)
+        hardware = detect_hardware_spec(device)
+        configure_torch_rocm_runtime(hardware)
 
         model_a = AlphaZeroNet(cfg).to(device)
         model_b = AlphaZeroNet(cfg).to(device)
@@ -316,6 +328,11 @@ def run_child(args) -> int:
             "num_games": int(args.num_games),
             "iters": int(args.iters),
             "device": str(device),
+            "selected_device_name": selected_device_name,
+            "torch_cuda_available": bool(torch.cuda.is_available()),
+            "torch_hip_version": getattr(torch.version, "hip", None),
+            "gpu_count": int(getattr(hardware, "gpu_count", 0) or 0),
+            "gpu_name": getattr(hardware, "gpu_name", ""),
             "search_profile": cfg.get("search_profile", "quartz"),
             "valid_tally": True,
             "wins": int(getattr(tally, "wins", 0)),

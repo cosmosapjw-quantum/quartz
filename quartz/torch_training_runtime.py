@@ -147,6 +147,9 @@ def arena_rust_nn(
             initial_chess_fen=runtime_support.initial_chess_fen,
             chess_state_meta_from_hashes=chess_state_meta_from_hashes,
             arena_compare=arena_compare,
+            build_training_game_adapter=runtime_support.build_training_game_adapter,
+            rust_nn_evaluator_engine_cls=RustNNEvaluatorEngine,
+            match_runner_cls=__import__("quartz.evaluation", fromlist=["MatchRunner"]).MatchRunner,
         ),
     )
 

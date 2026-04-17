@@ -184,6 +184,11 @@ def summarize_rust_qipc(profile_jsonl: Path) -> dict[str, Any]:
         "queue_wait_s": 0.0,
         "result_wait_s": 0.0,
         "flush_reason_counts": {},
+        "singleton_batches": 0,
+        "low_concurrency_flushes": 0,
+        "adaptive_timeout_min_us": None,
+        "adaptive_timeout_max_us": None,
+        "adaptive_timeout_last_us": None,
     }
     if not rows:
         return out
@@ -211,6 +216,12 @@ def summarize_rust_qipc(profile_jsonl: Path) -> dict[str, Any]:
             )
             out["queue_wait_s"] += float(row.get("queue_wait_s", 0.0) or 0.0)
             out["result_wait_s"] += float(row.get("result_wait_s", 0.0) or 0.0)
+            out["singleton_batches"] += int(row.get("singleton_batches", 0) or 0)
+            out["low_concurrency_flushes"] += int(row.get("low_concurrency_flushes", 0) or 0)
+            for key in ("adaptive_timeout_min_us", "adaptive_timeout_max_us", "adaptive_timeout_last_us"):
+                value = row.get(key)
+                if value is not None:
+                    out[key] = float(value)
             flush_counts = row.get("flush_reason_counts") or {}
             if isinstance(flush_counts, dict):
                 for key, value in flush_counts.items():
@@ -238,6 +249,7 @@ def summarize_rust_server_trace(path: Path) -> dict[str, Any]:
         "broker_flush_fallback": 0,
         "broker_flush_target_batch": 0,
         "broker_flush_timeout": 0,
+        "broker_flush_low_concurrency": 0,
         "broker_snapshots": 0,
         "max_tt_lock_wait_ms": 0.0,
         "tt_lock_wait_ms_sum": 0.0,
@@ -264,6 +276,12 @@ def summarize_rust_server_trace(path: Path) -> dict[str, Any]:
         "eval_runner_done_count": 0,
         "eval_runner_done_duration_ms_sum": 0.0,
         "eval_runner_done_duration_ms_max": 0.0,
+        "eval_runner_wave_count": 0,
+        "eval_runner_active_games_sum": 0,
+        "eval_runner_active_games_max": 0,
+        "eval_runner_share_ms_sum": 0.0,
+        "eval_runner_batch_elapsed_ms_sum": 0.0,
+        "runner_mode_counts": {},
         "last_row": rows[-1] if rows else None,
     }
     for row in rows:
@@ -293,8 +311,15 @@ def summarize_rust_server_trace(path: Path) -> dict[str, Any]:
                 out["broker_flush_timeout"] = max(
                     out["broker_flush_timeout"], int(flush.get("max_wait_reached", 0) or 0)
                 )
+                out["broker_flush_low_concurrency"] = max(
+                    out["broker_flush_low_concurrency"], int(flush.get("low_concurrency", 0) or 0)
+                )
         if event == "batch_broker_snapshot":
             out["broker_snapshots"] += 1
+        runner_mode = row.get("runner_mode")
+        if runner_mode:
+            mode_key = str(runner_mode)
+            out["runner_mode_counts"][mode_key] = out["runner_mode_counts"].get(mode_key, 0) + 1
         out["max_queue_depth"] = max(out["max_queue_depth"], int(row.get("max_queue_depth", 0) or 0))
         out["max_active_waiters"] = max(
             out["max_active_waiters"], int(row.get("max_active_waiters", 0) or 0)
@@ -359,6 +384,13 @@ def summarize_rust_server_trace(path: Path) -> dict[str, Any]:
             out["eval_runner_done_count"] += 1
             out["eval_runner_done_duration_ms_sum"] += dur
             out["eval_runner_done_duration_ms_max"] = max(out["eval_runner_done_duration_ms_max"], dur)
+        elif event == "eval_runner_wave":
+            active_games = int(row.get("active_games", 0) or 0)
+            out["eval_runner_wave_count"] += 1
+            out["eval_runner_active_games_sum"] += active_games
+            out["eval_runner_active_games_max"] = max(out["eval_runner_active_games_max"], active_games)
+            out["eval_runner_share_ms_sum"] += float(row.get("share_ms", 0.0) or 0.0)
+            out["eval_runner_batch_elapsed_ms_sum"] += float(row.get("batch_elapsed_ms", 0.0) or 0.0)
         elif event == "worker_done":
             out["worker_done_events"].append({
                 "worker_id": int(row.get("worker_id", -1)),
@@ -579,12 +611,22 @@ def build_bottleneck_report(
     async_batch_null_inactive = int(rust_server_trace_summary.get("async_batch_null_inactive_slot_sum") or 0)
     max_wait_reached = int((rust_qipc_summary.get("flush_reason_counts") or {}).get("max_wait_reached") or 0)
     target_batch_reached = int((rust_qipc_summary.get("flush_reason_counts") or {}).get("target_batch_reached") or 0)
+    low_concurrency_flushes = int((rust_qipc_summary.get("flush_reason_counts") or {}).get("low_concurrency") or 0)
+    singleton_batches = int(rust_qipc_summary.get("singleton_batches") or 0)
+    eval_wave_count = int(rust_server_trace_summary.get("eval_runner_wave_count") or 0)
+    eval_active_games_sum = int(rust_server_trace_summary.get("eval_runner_active_games_sum") or 0)
+    eval_active_games_max = int(rust_server_trace_summary.get("eval_runner_active_games_max") or 0)
+    eval_share_ms_sum = float(rust_server_trace_summary.get("eval_runner_share_ms_sum") or 0.0)
+    eval_batch_elapsed_ms_sum = float(rust_server_trace_summary.get("eval_runner_batch_elapsed_ms_sum") or 0.0)
+    mean_eval_active_games = eval_active_games_sum / max(eval_wave_count, 1)
+    batch_vs_active_ratio = mean_batch / max(mean_eval_active_games, 1e-9)
 
     # GlobalBroker health from rust_server_trace
     broker_queue_wait_s = float(rust_server_trace_summary.get("broker_queue_wait_s") or 0.0)
     broker_result_wait_s = float(rust_server_trace_summary.get("broker_result_wait_s") or 0.0)
     broker_fallback = int(rust_server_trace_summary.get("broker_flush_fallback") or 0)
     broker_snapshots = int(rust_server_trace_summary.get("broker_snapshots") or 0)
+    broker_low_concurrency = int(rust_server_trace_summary.get("broker_flush_low_concurrency") or 0)
 
     # Promotion audit from event summary
     promotion_verdicts = event_summary.get("promotion_verdicts") or []
@@ -599,6 +641,8 @@ def build_bottleneck_report(
         findings.append("broker_fallback_detected")
     if broker_snapshots == 0 and async_batch_runs > 0:
         findings.append("broker_snapshots_missing")
+    if broker_low_concurrency > 0 or low_concurrency_flushes > 0:
+        findings.append("broker_low_concurrency_mode")
 
     # --- Worker imbalance detection (per large-wave only) ---
     # Filter to large-wave workers (>= 1000 iterations) to avoid mixing
@@ -650,6 +694,10 @@ def build_bottleneck_report(
             findings.append("async_batch_underfed_jobs")
     if max_wait_reached > target_batch_reached * 2 and max_wait_reached > 0:
         findings.append("flush_timeout_dominant")
+    if eval_wave_count > 0 and mean_eval_active_games <= 3.0 and batch_vs_active_ratio < 0.85:
+        findings.append("eval_batch_headroom_underfilled")
+    if singleton_batches > 0 and singleton_batches >= max(1, rust_qipc_summary.get("batch_rows", 0)):
+        findings.append("singleton_batches_dominant")
 
     primary = "undetermined"
     if "result_wait_dominant" in findings and "transport_wait_dominant" in findings:
@@ -665,6 +713,7 @@ def build_bottleneck_report(
         "ratios": {
             "result_vs_queue_wait": round(result_wait_s / max(queue_wait_s, 1e-9), 3),
             "io_vs_codec": round(io_time_s / max(codec_time_s, 1e-9), 3),
+            "batch_vs_active_games": round(batch_vs_active_ratio, 3),
         },
         "training_wait_summary": {
             "count": training_wait_count,
@@ -702,6 +751,21 @@ def build_bottleneck_report(
             "fallback_count": broker_fallback,
             "flush_target_batch": int(rust_server_trace_summary.get("broker_flush_target_batch") or 0),
             "flush_timeout": int(rust_server_trace_summary.get("broker_flush_timeout") or 0),
+            "flush_low_concurrency": broker_low_concurrency,
+            "singleton_batches": singleton_batches,
+            "adaptive_timeout_min_us": rust_qipc_summary.get("adaptive_timeout_min_us"),
+            "adaptive_timeout_max_us": rust_qipc_summary.get("adaptive_timeout_max_us"),
+            "adaptive_timeout_last_us": rust_qipc_summary.get("adaptive_timeout_last_us"),
+        },
+        "eval_headroom": {
+            "wave_count": eval_wave_count,
+            "active_games_mean": round(mean_eval_active_games, 3),
+            "active_games_max": eval_active_games_max,
+            "mean_batch_weighted": mean_batch,
+            "batch_vs_active_ratio": round(batch_vs_active_ratio, 3),
+            "share_ms_mean": round(eval_share_ms_sum / max(eval_wave_count, 1), 3),
+            "batch_elapsed_ms_mean": round(eval_batch_elapsed_ms_sum / max(eval_wave_count, 1), 3),
+            "low_concurrency_flushes": low_concurrency_flushes,
         },
         "promotion_audit": {
             "verdicts_captured": len(promotion_verdicts),

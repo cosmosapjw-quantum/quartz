@@ -805,6 +805,124 @@ def test_rust_nn_evaluator_uses_rust_eval_state_machine_for_gomoku7(monkeypatch)
     assert fake.open_called is False
 
 
+def test_rust_nn_evaluator_reuses_single_model_tag_for_same_model(monkeypatch):
+    az = load_training_module()
+
+    class MiniGame:
+        def __init__(self):
+            self._board = [0] * 49
+            self._player = 0
+
+        def current_player(self):
+            return self._player
+
+        def legal_moves(self):
+            return [idx for idx, value in enumerate(self._board) if value == 0]
+
+        def is_terminal(self):
+            return False
+
+        def apply_move(self, action):
+            self._board[action] = 1 if self._player == 0 else -1
+            self._player = 1 - self._player
+
+    class FakeClient:
+        last_instance = None
+
+        def __init__(self, model, cfg, device, rust_binary):
+            self.model = model
+            self.cfg = dict(cfg)
+            self.eval_sessions = None
+            self.engine_open_jobs = None
+            self.engine_step_updates = []
+            self.closed_session_id = None
+            self.started = False
+            self.stopped = False
+            FakeClient.last_instance = self
+
+        def start(self):
+            self.started = True
+
+        def stop(self):
+            self.stopped = True
+
+        def eval_match_run(self, sessions, max_moves, penalty_mode="GatedRefresh"):
+            self.eval_sessions = sessions
+            raise AssertionError("same-model fast path should use engine sessions instead of eval_match_run")
+
+        def open_search_engine_session(self, jobs, penalty_mode="GatedRefresh", iters=None):
+            self.engine_open_jobs = jobs
+            return {
+                "session_id": 11,
+                "results": [
+                    {"best_move": 0, "iterations": 8, "time_used_ms": 5.0},
+                    {"best_move": 0, "iterations": 8, "time_used_ms": 5.0},
+                ],
+            }
+
+        def step_search_engine_session(self, session_id, updates=None, iters=None):
+            self.engine_step_updates.append((session_id, list(updates or [])))
+            return {"session_id": session_id, "results": []}
+
+        def close_search_session(self, session_id):
+            self.closed_session_id = session_id
+            return {"ok": True}
+
+    monkeypatch.setattr(az, "NNSearchClient", FakeClient)
+    shared_model = object()
+    cfg = {
+        "_name": "gomoku7",
+        "iters": 8,
+        "actions": 49,
+        "_eval_runner_mode": "rust_eval_state_machine",
+    }
+    eng_a = az.RustNNEvaluatorEngine("candidate", cfg, shared_model, az.torch.device("cpu"))
+    eng_b = az.RustNNEvaluatorEngine("champion", cfg, shared_model, az.torch.device("cpu"))
+
+    tally = eng_a.play_match_tally_against(
+        eng_b,
+        MiniGame,
+        opening_book=[],
+        num_games=2,
+        color_swap=True,
+        max_moves=1,
+        seed=7,
+    )
+
+    fake = FakeClient.last_instance
+    assert tally.total == 2
+    assert fake is not None and fake.model is shared_model
+    assert fake.eval_sessions is None
+    assert fake.cfg["batch_size"] == 2
+    assert fake.cfg["batch_timeout_us"] == 900
+    assert fake.engine_open_jobs is not None and len(fake.engine_open_jobs) == 2
+    assert all(job["model_tag"] == 0 for job in fake.engine_open_jobs)
+    assert fake.engine_step_updates == [(11, [{"deactivate": True}, {"deactivate": True}])]
+    assert fake.closed_session_id == 11
+
+
+def test_arena_eval_runtime_cfg_reduces_low_concurrency_batching():
+    from quartz import evaluator_runtime as eval_mod
+
+    tiny = eval_mod.arena_eval_runtime_cfg({"batch_size": 8, "batch_timeout_us": 1500, "n_threads": 4}, 2)
+    assert tiny["batch_size"] == 2
+    assert tiny["batch_timeout_us"] == 700
+    assert tiny["_arena_low_concurrency_profile"] == "tiny"
+
+    small = eval_mod.arena_eval_runtime_cfg({"batch_size": 8, "batch_timeout_us": 1500, "n_threads": 1}, 4)
+    assert small["batch_size"] == 4
+    assert small["batch_timeout_us"] == 1200
+    assert small["_arena_low_concurrency_profile"] == "small"
+
+    untouched = eval_mod.arena_eval_runtime_cfg(
+        {"batch_size": 8, "batch_timeout_us": 1500, "n_threads": 4, "_arena_eval_topology_override": False},
+        2,
+    )
+    assert untouched["batch_size"] == 8
+    assert untouched["batch_timeout_us"] == 1500
+    assert "_arena_low_concurrency_profile" not in untouched
+
+
 def test_rust_nn_evaluator_select_moves_batch_handles_non_chess_games(monkeypatch):
     az = load_training_module()
 
@@ -972,7 +1090,88 @@ def test_selfplay_rust_nn_uses_training_module_search_client(monkeypatch):
     assert traces == 0
 
 
-def test_arena_rust_nn_impl_uses_training_module_search_client(monkeypatch, tmp_path):
+def test_arena_rust_nn_impl_uses_shared_eval_runner(monkeypatch, tmp_path):
+    az = load_training_module()
+
+    class DummyNet:
+        def __init__(self, cfg):
+            self.cfg = cfg
+
+        def to(self, device):
+            return self
+
+        def load_state_dict(self, state_dict):
+            self.state_dict = state_dict
+
+        def eval(self):
+            return self
+
+    created_engines = []
+    built_games = []
+
+    class FakeRustEngine:
+        def __init__(self, engine_name, cfg, model, device, rust_binary="./target/release/mcts_demo"):
+            self.engine_name = engine_name
+            self.cfg = cfg
+            self.model = model
+            self.device = device
+            self.rust_binary = rust_binary
+            created_engines.append(self)
+
+        def reset(self):
+            return None
+
+        def name(self):
+            return self.engine_name
+
+    class FakeRunner:
+        instances = []
+
+        def __init__(self, game_factory, opening_book=None, seed=None, max_moves=500):
+            self.game_factory = game_factory
+            self.opening_book = opening_book
+            self.seed = seed
+            self.max_moves = max_moves
+            self.play_calls = []
+            FakeRunner.instances.append(self)
+
+        def play_match_tally_batched(self, eng_a, eng_b, num_games, color_swap=True, logger=None):
+            built_games.append(self.game_factory())
+            self.play_calls.append((eng_a.name(), eng_b.name(), num_games, color_swap))
+            return types.SimpleNamespace(wins=1, losses=0, draws=1)
+
+    monkeypatch.setattr(az, "AlphaZeroNet", DummyNet)
+    monkeypatch.setattr(az, "load_torch_state_dict", lambda *args, **kwargs: {})
+    monkeypatch.setattr(az, "RustNNEvaluatorEngine", FakeRustEngine)
+    monkeypatch.setattr(az, "MatchRunner", FakeRunner)
+    monkeypatch.setattr(az, "build_training_game_adapter", lambda cfg: {"game": cfg["_name"]})
+
+    model_a = tmp_path / "a.pt"
+    model_b = tmp_path / "b.pt"
+    model_a.write_bytes(b"a")
+    model_b.write_bytes(b"b")
+
+    cfg = dict(az.GAME_CONFIGS["gomoku7"])
+    cfg["_name"] = "gomoku7"
+    wins_a, wins_b, draws, wr, _ci, _sprt = az._arena_rust_nn_impl(
+        str(model_a),
+        cfg,
+        str(model_b),
+        cfg,
+        az.torch.device("cpu"),
+        n_games=2,
+        strict=True,
+    )
+
+    assert len(created_engines) == 2
+    assert {engine.engine_name for engine in created_engines} == {"arena_a", "arena_b"}
+    assert FakeRunner.instances and FakeRunner.instances[0].play_calls == [("arena_a", "arena_b", 2, True)]
+    assert built_games == [{"game": "gomoku7"}]
+    assert (wins_a, wins_b, draws) == (1, 0, 1)
+    assert wr == pytest.approx(0.5)
+
+
+def test_arena_rust_nn_impl_keeps_legacy_dual_cfg_path(monkeypatch, tmp_path):
     az = load_training_module()
 
     class DummyNet:
@@ -992,6 +1191,7 @@ def test_arena_rust_nn_impl_uses_training_module_search_client(monkeypatch, tmp_
         instances = []
 
         def __init__(self, model, cfg, device, rust_binary):
+            self.cfg = cfg
             self.calls = 0
             self.started = False
             self.stopped = False
@@ -1018,13 +1218,16 @@ def test_arena_rust_nn_impl_uses_training_module_search_client(monkeypatch, tmp_
     model_a.write_bytes(b"a")
     model_b.write_bytes(b"b")
 
-    cfg = dict(az.GAME_CONFIGS["gomoku7"])
-    cfg["_name"] = "gomoku7"
+    cfg_a = dict(az.GAME_CONFIGS["gomoku7"])
+    cfg_a["_name"] = "gomoku7"
+    cfg_b = dict(cfg_a)
+    cfg_b["penalty_mode"] = "GatedRefreshLegacy"
+
     wins_a, wins_b, draws, wr, _ci, _sprt = az._arena_rust_nn_impl(
         str(model_a),
-        cfg,
+        cfg_a,
         str(model_b),
-        cfg,
+        cfg_b,
         az.torch.device("cpu"),
         n_games=2,
         strict=True,

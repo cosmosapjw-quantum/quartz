@@ -42,12 +42,12 @@ def _encode_board_fallback(cfg, board_flat, player):
     n2 = bs * bs
     ch = int(cfg.get("ch", 17))
     enc = np.zeros((ch, bs, bs), dtype=np.float32)
-    for i in range(n2):
-        r, c = divmod(i, bs)
-        if board_flat[i] == player:
-            enc[0, r, c] = 1.0
-        elif board_flat[i] != 0:
-            enc[1, r, c] = 1.0
+    # [OPT] Vectorized board encoding
+    board_arr = np.asarray(board_flat, dtype=np.int8).ravel()[:n2]
+    my_val = np.int8(player)
+    enc[0].ravel()[:len(board_arr)] = (board_arr == my_val).astype(np.float32)
+    opp_mask = (board_arr != 0) & (board_arr != my_val)
+    enc[1].ravel()[:len(board_arr)] = opp_mask.astype(np.float32)
     if player == 1:
         enc[ch - 1] = 1.0
     return enc

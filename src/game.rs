@@ -59,9 +59,16 @@ pub trait GameState: Clone + Send + Sync + 'static {
     fn idx_to_move(&self, idx: usize) -> Option<Self::Move>;
 
     /// NN 입력용 feature plane (flat, channel-first)
-    /// 기본 구현: 빈 vec (NN stub 사용 시)
     fn encode_planes(&self) -> Vec<f32> {
-        vec![]
+        let mut out = Vec::new();
+        self.encode_planes_into(&mut out);
+        out
+    }
+
+    /// Encode NN input into a caller-provided buffer so hot paths can reuse
+    /// allocation capacity across requests.
+    fn encode_planes_into(&self, out: &mut Vec<f32>) {
+        out.clear();
     }
 
     /// Monotonic encoder revision for cache fingerprints. Override when a

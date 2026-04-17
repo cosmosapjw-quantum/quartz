@@ -38,6 +38,25 @@ def _default_runtime_hooks():
     )
 
 
+def arena_eval_runtime_cfg(base_cfg, num_games):
+    cfg = dict(base_cfg)
+    if not bool(cfg.get("_arena_eval_topology_override", True)):
+        return cfg
+    total_games = max(1, int(num_games or 0))
+    current_batch_size = max(1, int(cfg.get("batch_size", 8) or 8))
+    current_timeout_us = int(cfg.get("batch_timeout_us", 1500) or 1500)
+    n_threads = max(1, int(cfg.get("n_threads", 1) or 1))
+    if total_games <= 2:
+        cfg["batch_size"] = min(current_batch_size, 2)
+        cfg["batch_timeout_us"] = min(current_timeout_us, 900 if n_threads <= 1 else 700)
+        cfg["_arena_low_concurrency_profile"] = "tiny"
+    elif total_games <= 4:
+        cfg["batch_size"] = min(current_batch_size, 4)
+        cfg["batch_timeout_us"] = min(current_timeout_us, 1200 if n_threads <= 1 else 900)
+        cfg["_arena_low_concurrency_profile"] = "small"
+    return cfg
+
+
 class InferencePipelineThread:
     """Background thread that runs model inference while the caller collects the next batch."""
 
@@ -309,6 +328,13 @@ class RustNNEvaluatorEngine:
         self._simulations = self._cfg.get("iters", 200)
         self._runtime_hooks = runtime_hooks or _default_runtime_hooks()
 
+    def _shares_eval_model_with(self, opponent) -> bool:
+        if not isinstance(opponent, RustNNEvaluatorEngine):
+            return False
+        if self._cfg != opponent._cfg:
+            return False
+        return self._model is opponent._model
+
     def _ensure_client(self):
         if self._client is None:
             client_cls = self._runtime_hooks.search_client_cls
@@ -461,9 +487,11 @@ class RustNNEvaluatorEngine:
         GameRecord = self._runtime_hooks.game_record_cls
         tally_match = self._runtime_hooks.tally_match
 
+        runtime_cfg = arena_eval_runtime_cfg(self._cfg, num_games)
+        same_model_mode = self._shares_eval_model_with(opponent)
         shared_client = client_cls(
-            {0: self._model, 1: opponent._model},
-            self._cfg,
+            self._model if same_model_mode else {0: self._model, 1: opponent._model},
+            runtime_cfg,
             self._device,
             self._rust_binary,
         )
@@ -538,6 +566,174 @@ class RustNNEvaluatorEngine:
             if game.is_terminal() or sess["ply"] >= max_moves:
                 sess["done"] = True
 
+        def build_record(sess):
+            game = sess["game"]
+            if game.is_terminal():
+                if hasattr(game, "is_void_result") and game.is_void_result():
+                    return GameRecord(
+                        game_id=sess["game_id"],
+                        engine_black=sess["eng_black"].name(),
+                        engine_white=sess["eng_white"].name(),
+                        outcome="void",
+                        score_black=None,
+                        move_count=sess["ply"],
+                        total_time_ms=sess["total_time_ms"],
+                        moves=[],
+                        opening=sess["opening"],
+                        seed=sess["seed"],
+                        error=sess["error"],
+                        is_void=True,
+                    )
+                outcome_for_black = float(game.outcome_for_black() or 0.0)
+                if outcome_for_black > 0:
+                    outcome, score_black = "black_win", 1.0
+                elif outcome_for_black < 0:
+                    outcome, score_black = "white_win", 0.0
+                else:
+                    outcome, score_black = "draw", 0.5
+                return GameRecord(
+                    game_id=sess["game_id"],
+                    engine_black=sess["eng_black"].name(),
+                    engine_white=sess["eng_white"].name(),
+                    outcome=outcome,
+                    score_black=score_black,
+                    move_count=sess["ply"],
+                    total_time_ms=sess["total_time_ms"],
+                    moves=[],
+                    opening=sess["opening"],
+                    seed=sess["seed"],
+                    error=sess["error"],
+                    is_void=bool(sess["error"]),
+                )
+            return GameRecord(
+                game_id=sess["game_id"],
+                engine_black=sess["eng_black"].name(),
+                engine_white=sess["eng_white"].name(),
+                outcome="draw",
+                score_black=0.5,
+                move_count=sess["ply"],
+                total_time_ms=sess["total_time_ms"],
+                moves=[],
+                opening=sess["opening"],
+                seed=sess["seed"],
+                error=sess["error"],
+                is_void=bool(sess["error"]),
+            )
+
+        def finish_records(runner_mode=None):
+            nonlocal completed_games
+            for sess in sessions:
+                rec = build_record(sess)
+                records.append(rec)
+                if logger is not None:
+                    logger.log(rec)
+                completed_games += 1
+                trace_kwargs = {
+                    "game": game_name,
+                    "completed_games": int(completed_games),
+                    "total_games": int(num_games),
+                    "move_count": int(sess["ply"]),
+                    "has_error": bool(sess["error"]),
+                }
+                if runner_mode:
+                    trace_kwargs["runner_mode"] = runner_mode
+                stall_trace("eval_game_done", **trace_kwargs)
+                report_progress()
+
+        def run_shared_session(open_fn, step_fn, session_mode):
+            nonlocal session_id, eval_loop_idx, last_progress_sig, last_progress_ts
+            payload = open_fn(
+                [build_job(sess) for sess in sessions],
+                penalty_mode=runtime_cfg.get("penalty_mode", "GatedRefresh"),
+            )
+            session_id = payload.get("session_id") if isinstance(payload, dict) else None
+            results = payload.get("results", []) if isinstance(payload, dict) else []
+            stall_trace(
+                "eval_session_open",
+                game=game_name,
+                num_games=int(num_games),
+                session_id=int(session_id) if session_id is not None else None,
+                result_count=int(len(results)) if isinstance(results, list) else None,
+                runner_mode=session_mode,
+            )
+
+            while True:
+                active = [
+                    sess
+                    for sess in sessions
+                    if not sess["done"] and not sess["game"].is_terminal() and sess["ply"] < max_moves
+                ]
+                if not active:
+                    break
+                eval_loop_idx += 1
+                progress_sig = (
+                    int(len(active)),
+                    int(sum(sess["ply"] for sess in sessions)),
+                    int(sum(1 for sess in sessions if sess["done"])),
+                    int(sum(1 for sess in sessions if sess["error"])),
+                )
+                if progress_sig != last_progress_sig:
+                    last_progress_sig = progress_sig
+                    last_progress_ts = time.time()
+                elif stall_timeout_s > 0.0 and (time.time() - last_progress_ts) > stall_timeout_s:
+                    stall_trace(
+                        "eval_stall",
+                        game=game_name,
+                        loop=int(eval_loop_idx),
+                        active_games=int(len(active)),
+                        total_ply=int(sum(sess["ply"] for sess in sessions)),
+                        done_games=int(sum(1 for sess in sessions if sess["done"])),
+                        error_games=int(sum(1 for sess in sessions if sess["error"])),
+                        session_id=int(session_id) if session_id is not None else None,
+                        runner_mode=session_mode,
+                    )
+                    raise RuntimeError(
+                        f"evaluation stalled for {time.time() - last_progress_ts:.1f}s "
+                        f"(active={len(active)} ply={sum(sess['ply'] for sess in sessions)})"
+                    )
+                stall_trace(
+                    "eval_loop",
+                    game=game_name,
+                    loop=int(eval_loop_idx),
+                    active_games=int(len(active)),
+                    done_games=int(sum(1 for sess in sessions if sess["done"])),
+                    total_ply=int(sum(sess["ply"] for sess in sessions)),
+                    session_mode=bool(session_id is not None),
+                    runner_mode=session_mode,
+                )
+
+                if not isinstance(results, list) or len(results) != len(sessions):
+                    for sess in active:
+                        sess["error"] = (
+                            f"shared eval session result length mismatch: expected {len(sessions)} got "
+                            f"{len(results) if isinstance(results, list) else 'non-list'}"
+                        )
+                        sess["done"] = True
+                    break
+                share_ms = 0.0
+                updates = []
+                for idx, sess in enumerate(sessions):
+                    if sess["done"] or sess["game"].is_terminal() or sess["ply"] >= max_moves:
+                        sess["done"] = True
+                        updates.append({"deactivate": True})
+                        continue
+                    apply_result(sess, results[idx], share_ms)
+                    if sess["done"]:
+                        updates.append({"deactivate": True})
+                    else:
+                        updates.append({"action": int(results[idx].get("best_move", 0))})
+                payload = step_fn(session_id, updates)
+                results = payload.get("results", []) if isinstance(payload, dict) else []
+                stall_trace(
+                    "eval_session_step",
+                    game=game_name,
+                    loop=int(eval_loop_idx),
+                    session_id=int(session_id) if session_id is not None else None,
+                    updates=int(len(updates)),
+                    result_count=int(len(results)) if isinstance(results, list) else None,
+                    runner_mode=session_mode,
+                )
+
         def append_session(eng_black, eng_white, black_tag, white_tag, game_id, opening_idx=None):
             game = game_factory()
             opening_applied = []
@@ -568,11 +764,11 @@ class RustNNEvaluatorEngine:
         pairs = num_games // 2 if color_swap else 0
         for i in range(pairs):
             opening_idx = i % ob_n if ob_n else None
-            append_session(self, opponent, 0, 1, f"g{2 * i:04d}", opening_idx)
-            append_session(opponent, self, 1, 0, f"g{2 * i + 1:04d}", opening_idx)
+            append_session(self, opponent, 0, 0 if same_model_mode else 1, f"g{2 * i:04d}", opening_idx)
+            append_session(opponent, self, 0 if same_model_mode else 1, 0, f"g{2 * i + 1:04d}", opening_idx)
         for idx in range(2 * pairs, num_games):
             opening_idx = idx % ob_n if ob_n else None
-            append_session(self, opponent, 0, 1, f"g{idx:04d}", opening_idx)
+            append_session(self, opponent, 0, 0 if same_model_mode else 1, f"g{idx:04d}", opening_idx)
 
         records = []
         session_id = None
@@ -583,6 +779,21 @@ class RustNNEvaluatorEngine:
         try:
             if use_rust_eval_runner:
                 try:
+                    if same_model_mode:
+                        stall_trace(
+                            "eval_runner_start",
+                            game=game_name,
+                            num_games=int(num_games),
+                            runner_mode="engine_session_same_model",
+                        )
+                        run_shared_session(
+                            shared_client.open_search_engine_session,
+                            shared_client.step_search_engine_session,
+                            "engine_session_same_model",
+                        )
+                        finish_records(runner_mode="engine_session_same_model")
+                        report_progress(force=True)
+                        return tally_match(records, self.name())
                     runner_sessions = []
                     for sess in sessions:
                         payload = build_job(sess)
@@ -608,7 +819,7 @@ class RustNNEvaluatorEngine:
                     payload = shared_client.eval_match_run(
                         runner_sessions,
                         max_moves=max_moves,
-                        penalty_mode=self._cfg.get("penalty_mode", "GatedRefresh"),
+                        penalty_mode=runtime_cfg.get("penalty_mode", "GatedRefresh"),
                     )
                     raw_records = payload.get("records", []) if isinstance(payload, dict) else []
                     if isinstance(payload, dict) and payload.get("error"):
@@ -660,162 +871,12 @@ class RustNNEvaluatorEngine:
                         error=str(exc),
                     )
 
-            payload = shared_client.open_search_session(
-                [build_job(sess) for sess in sessions],
-                penalty_mode=self._cfg.get("penalty_mode", "GatedRefresh"),
+            run_shared_session(
+                shared_client.open_search_session,
+                shared_client.step_search_session,
+                "shared_client_session",
             )
-            session_id = payload.get("session_id") if isinstance(payload, dict) else None
-            results = payload.get("results", []) if isinstance(payload, dict) else []
-            stall_trace(
-                "eval_session_open",
-                game=game_name,
-                num_games=int(num_games),
-                session_id=int(session_id) if session_id is not None else None,
-                result_count=int(len(results)) if isinstance(results, list) else None,
-            )
-
-            while True:
-                active = [
-                    sess
-                    for sess in sessions
-                    if not sess["done"] and not sess["game"].is_terminal() and sess["ply"] < max_moves
-                ]
-                if not active:
-                    break
-                eval_loop_idx += 1
-                progress_sig = (
-                    int(len(active)),
-                    int(sum(sess["ply"] for sess in sessions)),
-                    int(sum(1 for sess in sessions if sess["done"])),
-                    int(sum(1 for sess in sessions if sess["error"])),
-                )
-                if progress_sig != last_progress_sig:
-                    last_progress_sig = progress_sig
-                    last_progress_ts = time.time()
-                elif stall_timeout_s > 0.0 and (time.time() - last_progress_ts) > stall_timeout_s:
-                    stall_trace(
-                        "eval_stall",
-                        game=game_name,
-                        loop=int(eval_loop_idx),
-                        active_games=int(len(active)),
-                        total_ply=int(sum(sess["ply"] for sess in sessions)),
-                        done_games=int(sum(1 for sess in sessions if sess["done"])),
-                        error_games=int(sum(1 for sess in sessions if sess["error"])),
-                        session_id=int(session_id) if session_id is not None else None,
-                    )
-                    raise RuntimeError(
-                        f"evaluation stalled for {time.time() - last_progress_ts:.1f}s "
-                        f"(active={len(active)} ply={sum(sess['ply'] for sess in sessions)})"
-                    )
-                stall_trace(
-                    "eval_loop",
-                    game=game_name,
-                    loop=int(eval_loop_idx),
-                    active_games=int(len(active)),
-                    done_games=int(sum(1 for sess in sessions if sess["done"])),
-                    total_ply=int(sum(sess["ply"] for sess in sessions)),
-                    session_mode=bool(session_id is not None),
-                )
-
-                if not isinstance(results, list) or len(results) != len(sessions):
-                    for sess in active:
-                        sess["error"] = (
-                            f"shared eval session result length mismatch: expected {len(sessions)} got "
-                            f"{len(results) if isinstance(results, list) else 'non-list'}"
-                        )
-                        sess["done"] = True
-                    break
-                share_ms = 0.0
-                updates = []
-                for idx, sess in enumerate(sessions):
-                    if sess["done"] or sess["game"].is_terminal() or sess["ply"] >= max_moves:
-                        sess["done"] = True
-                        updates.append({"deactivate": True})
-                        continue
-                    apply_result(sess, results[idx], share_ms)
-                    if sess["done"]:
-                        updates.append({"deactivate": True})
-                    else:
-                        updates.append({"action": int(results[idx].get("best_move", 0))})
-                payload = shared_client.step_search_session(session_id, updates)
-                results = payload.get("results", []) if isinstance(payload, dict) else []
-                stall_trace(
-                    "eval_session_step",
-                    game=game_name,
-                    loop=int(eval_loop_idx),
-                    session_id=int(session_id),
-                    updates=int(len(updates)),
-                    result_count=int(len(results)) if isinstance(results, list) else None,
-                )
-
-            for sess in sessions:
-                game = sess["game"]
-                if game.is_terminal():
-                    if hasattr(game, "is_void_result") and game.is_void_result():
-                        rec = GameRecord(
-                            game_id=sess["game_id"],
-                            engine_black=sess["eng_black"].name(),
-                            engine_white=sess["eng_white"].name(),
-                            outcome="void",
-                            score_black=None,
-                            move_count=sess["ply"],
-                            total_time_ms=sess["total_time_ms"],
-                            moves=[],
-                            opening=sess["opening"],
-                            seed=sess["seed"],
-                            error=sess["error"],
-                            is_void=True,
-                        )
-                    else:
-                        outcome_for_black = float(game.outcome_for_black() or 0.0)
-                        if outcome_for_black > 0:
-                            outcome, score_black = "black_win", 1.0
-                        elif outcome_for_black < 0:
-                            outcome, score_black = "white_win", 0.0
-                        else:
-                            outcome, score_black = "draw", 0.5
-                        rec = GameRecord(
-                            game_id=sess["game_id"],
-                            engine_black=sess["eng_black"].name(),
-                            engine_white=sess["eng_white"].name(),
-                            outcome=outcome,
-                            score_black=score_black,
-                            move_count=sess["ply"],
-                            total_time_ms=sess["total_time_ms"],
-                            moves=[],
-                            opening=sess["opening"],
-                            seed=sess["seed"],
-                            error=sess["error"],
-                            is_void=bool(sess["error"]),
-                        )
-                else:
-                    rec = GameRecord(
-                        game_id=sess["game_id"],
-                        engine_black=sess["eng_black"].name(),
-                        engine_white=sess["eng_white"].name(),
-                        outcome="draw",
-                        score_black=0.5,
-                        move_count=sess["ply"],
-                        total_time_ms=sess["total_time_ms"],
-                        moves=[],
-                        opening=sess["opening"],
-                        seed=sess["seed"],
-                        error=sess["error"],
-                        is_void=bool(sess["error"]),
-                    )
-                records.append(rec)
-                if logger is not None:
-                    logger.log(rec)
-                completed_games += 1
-                stall_trace(
-                    "eval_game_done",
-                    game=game_name,
-                    completed_games=int(completed_games),
-                    total_games=int(num_games),
-                    move_count=int(sess["ply"]),
-                    has_error=bool(sess["error"]),
-                )
-                report_progress()
+            finish_records(runner_mode="shared_client_session")
         finally:
             if session_id is not None:
                 try:

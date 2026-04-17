@@ -16,7 +16,9 @@
 use rand::rngs::StdRng;
 use rand::Rng;
 use rand::SeedableRng;
+use std::cell::RefCell;
 use std::fmt;
+use std::sync::LazyLock;
 
 use crate::game::GameState;
 
@@ -51,8 +53,29 @@ impl GomokuZob {
     }
 }
 
+unsafe impl Sync for GomokuZob {}
+
+static GOB: LazyLock<GomokuZob> = LazyLock::new(|| GomokuZob::new(0xFEED_FACE_CAFE_BABE));
+
 thread_local! {
-    static GOB: GomokuZob = GomokuZob::new(0xFEED_FACE_CAFE_BABE);
+    static GOMOKU_FEATURE_SCRATCH: RefCell<GomokuFeatureScratch> =
+        RefCell::new(GomokuFeatureScratch::default());
+}
+
+struct GomokuFeatureScratch {
+    touched: Vec<usize>,
+    recent_rank: [u8; MAX_SQ],
+    recent_rank_dirty: Vec<usize>,
+}
+
+impl Default for GomokuFeatureScratch {
+    fn default() -> Self {
+        Self {
+            touched: Vec::new(),
+            recent_rank: [0; MAX_SQ],
+            recent_rank_dirty: Vec::with_capacity(16),
+        }
+    }
 }
 
 // ─────────────────────────────────────────────
@@ -61,6 +84,7 @@ thread_local! {
 
 /// History depth for AlphaZero-style encoding (T=8 timesteps including current).
 const GOMOKU_HISTORY_LEN: usize = 8;
+const GOMOKU_HISTORY_MOVES: usize = GOMOKU_HISTORY_LEN - 1;
 
 #[derive(Clone, Debug)]
 pub struct Gomoku {
@@ -72,8 +96,11 @@ pub struct Gomoku {
     move_count: u32,
     winner: i8, // 0=없음, +1=black 승, -1=white 승
     last_move: Option<usize>,
-    /// Past board snapshots for AlphaZero-style history encoding (most recent last).
-    board_history: Vec<Vec<i8>>,
+    /// Recent move history for AlphaZero-style feature reconstruction.
+    /// We reconstruct historical boards on demand in encode_planes() to keep
+    /// search-state clones cheap.
+    recent_moves: [u16; GOMOKU_HISTORY_MOVES],
+    recent_move_len: u8,
 }
 
 impl Gomoku {
@@ -98,8 +125,22 @@ impl Gomoku {
             move_count: 0,
             winner: 0,
             last_move: None,
-            board_history: Vec::new(),
+            recent_moves: [0; GOMOKU_HISTORY_MOVES],
+            recent_move_len: 0,
         }
+    }
+
+    #[inline]
+    fn push_recent_move(&mut self, mv: usize) {
+        let mv = mv as u16;
+        let len = self.recent_move_len as usize;
+        if len < GOMOKU_HISTORY_MOVES {
+            self.recent_moves[len] = mv;
+            self.recent_move_len += 1;
+            return;
+        }
+        self.recent_moves.copy_within(1..GOMOKU_HISTORY_MOVES, 0);
+        self.recent_moves[GOMOKU_HISTORY_MOVES - 1] = mv;
     }
 
     /// JSON board (0/1/2 encoding) + player (1 or 2)로부터 상태 복원
@@ -112,12 +153,12 @@ impl Gomoku {
                 1 => {
                     g.board[i] = 1;
                     mc += 1;
-                    GOB.with(|z| g.hash ^= z.piece_hash(1, i));
+                    g.hash ^= GOB.piece_hash(1, i);
                 }
                 2 => {
                     g.board[i] = -1;
                     mc += 1;
-                    GOB.with(|z| g.hash ^= z.piece_hash(-1, i));
+                    g.hash ^= GOB.piece_hash(-1, i);
                 }
                 _ => {}
             }
@@ -126,7 +167,7 @@ impl Gomoku {
         g.current_player = if player_12 == 1 { 1 } else { -1 };
         // side hash: black's turn = base, white's turn = xor side
         if g.current_player == -1 {
-            GOB.with(|z| g.hash ^= z.side);
+            g.hash ^= GOB.side;
         }
         // Check if already terminal (winner from last move)
         for i in 0..g.board.len() {
@@ -312,22 +353,14 @@ impl GameState for Gomoku {
         let mut next = self.clone();
         let player = self.current_player;
 
-        // Save current board to history before applying move
-        next.board_history.push(self.board.clone());
-        if next.board_history.len() > GOMOKU_HISTORY_LEN - 1 {
-            next.board_history
-                .drain(0..next.board_history.len() - (GOMOKU_HISTORY_LEN - 1));
-        }
-
         // Zobrist 갱신
-        GOB.with(|z| {
-            next.hash ^= z.piece_hash(player, mv);
-            next.hash ^= z.side;
-        });
+        next.hash ^= GOB.piece_hash(player, mv);
+        next.hash ^= GOB.side;
 
         next.board[mv] = player;
         next.move_count += 1;
         next.last_move = Some(mv);
+        next.push_recent_move(mv);
 
         // 승리 판정 (착수 위치에서만 검사 → O(1) 아닌 O(n) 이지만 충분히 빠름)
         if next.check_win_at(mv, player) {
@@ -384,44 +417,64 @@ impl GameState for Gomoku {
     ///   ...
     ///   planes 14-15: t=7 (7수 전) 내 돌, 상대 돌
     ///   plane 16:     현재 플레이어 색상 (black=1, white=0)
-    fn encode_planes(&self) -> Vec<f32> {
+    fn encode_planes_into(&self, out: &mut Vec<f32>) {
         let n = self.size * self.size;
         let total_planes = GOMOKU_HISTORY_LEN * 2 + 1; // 17
-        let mut out = vec![0.0f32; total_planes * n];
         let cp = self.current_player;
-
-        // t=0: current board
-        for (i, &v) in self.board.iter().enumerate() {
-            if v == cp {
-                out[i] = 1.0;
-            } else if v != 0 {
-                out[n + i] = 1.0;
+        GOMOKU_FEATURE_SCRATCH.with(|scratch| {
+            let mut scratch = scratch.borrow_mut();
+            let total = total_planes * n;
+            if out.len() != total {
+                out.clear();
+                out.resize(total, 0.0);
+                scratch.touched.clear();
+            } else {
+                for &idx in &scratch.touched {
+                    out[idx] = 0.0;
+                }
+                scratch.touched.clear();
             }
-        }
 
-        // t=1..7: history (most recent = last element in board_history)
-        for (k, hist_board) in self.board_history.iter().rev().enumerate() {
-            let t = k + 1;
-            if t >= GOMOKU_HISTORY_LEN {
-                break;
+            // Sparse reset: only clear entries that were set last time
+            for i in 0..scratch.recent_rank_dirty.len() {
+                let pos = scratch.recent_rank_dirty[i];
+                scratch.recent_rank[pos] = 0;
             }
-            let base = t * 2 * n;
-            for (i, &v) in hist_board.iter().enumerate() {
-                if v == cp {
-                    out[base + i] = 1.0;
-                } else if v != 0 {
-                    out[base + n + i] = 1.0;
+            scratch.recent_rank_dirty.clear();
+            for (rank, &mv) in self.recent_moves[..self.recent_move_len as usize]
+                .iter()
+                .rev()
+                .enumerate()
+            {
+                let pos = mv as usize;
+                scratch.recent_rank[pos] = (rank + 1) as u8;
+                scratch.recent_rank_dirty.push(pos);
+            }
+
+            for (i, &v) in self.board.iter().enumerate() {
+                if v == 0 {
+                    continue;
+                }
+                let plane_offset = if v == cp { 0 } else { n };
+                let active_steps = match scratch.recent_rank[i] {
+                    0 => GOMOKU_HISTORY_LEN,
+                    rank => rank as usize,
+                };
+                for t in 0..active_steps {
+                    let idx = t * 2 * n + plane_offset + i;
+                    out[idx] = 1.0;
+                    scratch.touched.push(idx);
                 }
             }
-        }
 
-        // Color plane
-        let color_val = if cp == 1 { 1.0 } else { 0.0 };
-        let color_base = (total_planes - 1) * n;
-        for i in 0..n {
-            out[color_base + i] = color_val;
-        }
-        out
+            if cp == 1 {
+                let color_base = (total_planes - 1) * n;
+                for idx in color_base..color_base + n {
+                    out[idx] = 1.0;
+                    scratch.touched.push(idx);
+                }
+            }
+        });
     }
 
     fn board_state_record(&self) -> Vec<i64> {

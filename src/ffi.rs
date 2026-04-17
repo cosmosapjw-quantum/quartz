@@ -52,7 +52,7 @@ impl GameState for CppGameAdapter {
     fn idx_to_move(&self, idx: usize) -> Option<usize> {
         self.inner.idx_to_move(idx)
     }
-    fn encode_planes(&self) -> Vec<f32> {
-        self.inner.encode_planes()
+    fn encode_planes_into(&self, out: &mut Vec<f32>) {
+        self.inner.encode_planes_into(out)
     }
 }

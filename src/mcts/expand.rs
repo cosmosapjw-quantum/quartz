@@ -50,26 +50,18 @@ pub fn expand_with_result<G: GameState>(
 
     let value = eval.value;
 
-    let legal = state.legal_moves();
-    if legal.is_empty() {
+    // [OPT] Use policy directly as candidates — avoids redundant legal_moves() call
+    // and eliminates O(n²) policy-to-legal lookup.
+    // Evaluator.evaluate() returns policy containing only legal moves with priors.
+    let mut candidates = eval.policy;
+    if candidates.is_empty() {
         return value;
     }
 
-    // [OPT] Linear search instead of HashMap — avoids heap allocation for small move sets
-    let policy = eval.policy;
-
-    let mut candidates: Vec<(G::Move, f32)> = legal
-        .iter()
-        .map(|&mv| {
-            let prior = policy
-                .iter()
-                .find(|(m, _)| *m == mv)
-                .map(|(_, p)| *p)
-                .unwrap_or(0.0)
-                .max(0.0);
-            (mv, prior)
-        })
-        .collect();
+    // Clamp negative priors to 0
+    for entry in candidates.iter_mut() {
+        entry.1 = entry.1.max(0.0);
+    }
     candidates.sort_unstable_by(|a, b| b.1.partial_cmp(&a.1).unwrap_or(std::cmp::Ordering::Equal));
     let n_candidates = candidates.len();
 

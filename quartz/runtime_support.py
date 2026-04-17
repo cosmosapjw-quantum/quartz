@@ -26,7 +26,6 @@ from quartz.game_adapters import (
     TicTacToeGameAdapter,
     build_training_game_adapter as _build_training_game_adapter_impl,
 )
-from quartz.models_torch import AlphaZeroNet
 from quartz.qipc import (
     QIPC_BATCH_EVAL_REQ,
     QIPC_BATCH_EVAL_RESP,
@@ -126,12 +125,12 @@ def encode_board(cfg, board_flat, player):
     n2 = bs * bs
     ch = cfg.get("ch", 17)
     enc = np.zeros((ch, bs, bs), dtype=np.float32)
-    for i in range(n2):
-        r, c = i // bs, i % bs
-        if board_flat[i] == player:
-            enc[0, r, c] = 1.0
-        elif board_flat[i] != 0:
-            enc[1, r, c] = 1.0
+    # [OPT] Vectorized board encoding — replaces per-cell Python loop
+    board_arr = np.asarray(board_flat, dtype=np.int8).ravel()[:n2]
+    my_val = np.int8(player)
+    enc[0].ravel()[:len(board_arr)] = (board_arr == my_val).astype(np.float32)
+    opp_mask = (board_arr != 0) & (board_arr != my_val)
+    enc[1].ravel()[:len(board_arr)] = opp_mask.astype(np.float32)
     if player == 1:
         enc[ch - 1] = 1.0
     return enc
@@ -156,7 +155,10 @@ def normalize_rust_board(game_name, board_flat):
     if board_flat is None:
         return None
     if is_go_game(game_name):
-        return [1 if v == 1 else 2 if v in (-1, 2) else 0 for v in board_flat]
+        # [OPT] Vectorized: convert -1→2, keep 1→1, rest→0
+        arr = np.asarray(board_flat, dtype=np.int8)
+        out = np.where(arr == 1, np.int8(1), np.where((arr == -1) | (arr == 2), np.int8(2), np.int8(0)))
+        return out.tolist()
     return board_flat.tolist() if hasattr(board_flat, "tolist") else list(board_flat)
 
 

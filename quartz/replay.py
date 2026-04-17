@@ -239,9 +239,19 @@ class ReplayBuffer:
     def build_dataloader(self, batch_size, n_steps, pin_memory=False):
         with self._lock:
             snapshot = tuple(self.buf)
-        examples = []
-        for _ in range(max(0, int(n_steps))):
-            examples.extend(self._sample_examples_from_snapshot(snapshot, batch_size))
+        n_steps = max(0, int(n_steps))
+        total_needed = n_steps * batch_size
+        if total_needed <= 0 or not snapshot:
+            return None
+        # [OPT] Vectorized index sampling — single numpy call instead of n_steps Python loops
+        snap_len = len(snapshot)
+        if self.recent_fraction <= 0.0 or self.recent_window <= 0:
+            all_indices = np.random.randint(0, snap_len, size=total_needed)
+            examples = [snapshot[i] for i in all_indices]
+        else:
+            examples = []
+            for _ in range(n_steps):
+                examples.extend(self._sample_examples_from_snapshot(snapshot, batch_size))
         if not examples:
             return None
         dataset = ReplayDataset(examples)

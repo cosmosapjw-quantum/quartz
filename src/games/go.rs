@@ -14,8 +14,10 @@
 use rand::rngs::StdRng;
 use rand::Rng;
 use rand::SeedableRng;
+use std::cell::RefCell;
 use std::fmt;
 use std::hash::Hash;
+use std::sync::{Arc, LazyLock};
 
 use crate::game::{tt_combine, tt_mix64, GameState};
 
@@ -75,16 +77,152 @@ impl GoZob {
     }
 }
 
+// SAFETY: GoZob is read-only after init and contains only plain data.
+unsafe impl Sync for GoZob {}
+
+static GZOB: LazyLock<GoZob> = LazyLock::new(|| GoZob::new(0xBADC_AFE0_6060_1234));
+
 thread_local! {
-    static GZOB: GoZob = GoZob::new(0xBADC_AFE0_6060_1234);
+    static GO_SCRATCH: RefCell<GoScratch> = RefCell::new(GoScratch::default());
+}
+
+#[derive(Clone)]
+struct GoScratch {
+    epoch: u32,
+    visited: [u32; MAX_N2],
+    libs: [u32; MAX_N2],
+    checked: [u32; MAX_N2],
+    stack: [usize; MAX_N2],
+    group_stones: [usize; MAX_N2],
+}
+
+impl Default for GoScratch {
+    fn default() -> Self {
+        Self {
+            epoch: 1,
+            visited: [0; MAX_N2],
+            libs: [0; MAX_N2],
+            checked: [0; MAX_N2],
+            stack: [0; MAX_N2],
+            group_stones: [0; MAX_N2],
+        }
+    }
+}
+
+impl GoScratch {
+    #[inline]
+    fn next_epoch(&mut self) -> u32 {
+        let next = self.epoch.wrapping_add(1);
+        if next == 0 {
+            self.visited.fill(0);
+            self.libs.fill(0);
+            self.epoch = 1;
+        } else {
+            self.epoch = next;
+        }
+        self.epoch
+    }
+}
+
+// ═══════════════════════════════════════════════════════
+// § Board history ring buffer (zero-alloc)
+// ═══════════════════════════════════════════════════════
+
+const GO_HISTORY_LEN: usize = 8;
+const GO_HISTORY_SLOTS: usize = GO_HISTORY_LEN - 1; // 7 past snapshots
+
+/// Fixed-size ring buffer for board snapshots. Replaces Vec<Vec<u8>>.
+/// Copy semantics — no heap allocation.
+#[derive(Clone)]
+struct BoardRing {
+    boards: [[u8; MAX_N2]; GO_HISTORY_SLOTS],
+    len: u8,  // number of valid entries (0..=7)
+    head: u8, // index of most recent entry
+}
+
+impl BoardRing {
+    fn new() -> Self {
+        BoardRing {
+            boards: [[0u8; MAX_N2]; GO_HISTORY_SLOTS],
+            len: 0,
+            head: 0,
+        }
+    }
+
+    /// Push a board snapshot. Oldest entry is overwritten when full.
+    #[inline]
+    fn push(&mut self, board: &[u8; MAX_N2], n2: usize) {
+        let slot = if self.len == 0 {
+            0
+        } else {
+            (self.head as usize + 1) % GO_HISTORY_SLOTS
+        };
+        self.boards[slot][..n2].copy_from_slice(&board[..n2]);
+        self.head = slot as u8;
+        if (self.len as usize) < GO_HISTORY_SLOTS {
+            self.len += 1;
+        }
+    }
+
+    /// Iterate past boards from most recent to oldest.
+    #[inline]
+    fn iter_rev(&self) -> BoardRingIter<'_> {
+        BoardRingIter {
+            ring: self,
+            remaining: self.len as usize,
+            cur: self.head as usize,
+        }
+    }
+}
+
+struct BoardRingIter<'a> {
+    ring: &'a BoardRing,
+    remaining: usize,
+    cur: usize,
+}
+
+impl<'a> Iterator for BoardRingIter<'a> {
+    type Item = &'a [u8; MAX_N2];
+
+    #[inline]
+    fn next(&mut self) -> Option<Self::Item> {
+        if self.remaining == 0 {
+            return None;
+        }
+        let board = &self.ring.boards[self.cur];
+        self.remaining -= 1;
+        self.cur = if self.cur == 0 {
+            GO_HISTORY_SLOTS - 1
+        } else {
+            self.cur - 1
+        };
+        Some(board)
+    }
+}
+
+// ═══════════════════════════════════════════════════════
+// § Go feature scratch (sparse encode_planes)
+// ═══════════════════════════════════════════════════════
+
+struct GoFeatureScratch {
+    touched: Vec<usize>,
+}
+
+impl Default for GoFeatureScratch {
+    fn default() -> Self {
+        Self {
+            touched: Vec::with_capacity(2048),
+        }
+    }
+}
+
+thread_local! {
+    static GO_FEATURE_SCRATCH: RefCell<GoFeatureScratch> = RefCell::new(GoFeatureScratch::default());
 }
 
 // ═══════════════════════════════════════════════════════
 // § Go state
 // ═══════════════════════════════════════════════════════
-
-/// History depth for AlphaZero-style encoding (T=8 timesteps including current).
-const GO_HISTORY_LEN: usize = 8;
 
 #[derive(Clone)]
 pub struct Go {
@@ -100,13 +238,13 @@ pub struct Go {
     scoring: GoScoring,
     hash: u64,
     move_count: u16,
-    // Position history: board + side-to-move hash
-    hash_history: Vec<u64>,
+    // Position history: board + side-to-move hash (Arc for cheap clone)
+    hash_history: Arc<Vec<u64>>,
     history_digest: u64,
     allow_suicide: bool,
     cycle_terminal: bool,
-    /// Past board snapshots for AlphaZero-style history encoding (most recent last).
-    board_history: Vec<Vec<u8>>,
+    /// Past board snapshots for AlphaZero-style history encoding.
+    board_ring: BoardRing,
 }
 
 impl Go {
@@ -150,13 +288,13 @@ impl Go {
             scoring,
             hash: 0,
             move_count: 0,
-            hash_history: Vec::with_capacity(size * size * 2),
+            hash_history: Arc::new(Vec::with_capacity(size * size * 2)),
             history_digest: 0,
             allow_suicide,
             cycle_terminal: false,
-            board_history: Vec::new(),
+            board_ring: BoardRing::new(),
         };
-        g.hash_history.push(g.hash);
+        Arc::make_mut(&mut g.hash_history).push(g.hash);
         g.history_digest = Self::history_digest_for_hash(g.hash);
         g
     }
@@ -214,7 +352,8 @@ impl Go {
         g.ko_point = ko_point.unwrap_or(u16::MAX);
         g.black_caps = black_caps;
         g.white_caps = white_caps;
-        GZOB.with(|z| {
+        {
+            let z = &*GZOB;
             g.hash = 0;
             for pos in 0..n2 {
                 match g.board[pos] {
@@ -226,9 +365,8 @@ impl Go {
             if g.side == 2 {
                 g.hash ^= z.side;
             }
-        });
-        g.hash_history = vec![g.hash];
-        g.history_digest = Go::history_digest_for_hash(g.hash);
+        }
+        g.hash_history = Arc::new(vec![g.hash]);
         g.history_digest = Self::history_digest_for_hash(g.hash);
         g
     }
@@ -255,7 +393,7 @@ impl Go {
         if !repeated {
             next.history_digest = Self::history_digest_insert(self.history_digest, next.hash);
         }
-        next.hash_history.push(next.hash);
+        Arc::make_mut(&mut next.hash_history).push(next.hash);
     }
 
     fn row(&self, pos: usize) -> usize {
@@ -294,6 +432,29 @@ impl Go {
         3 - color
     }
 
+    #[inline]
+    fn clone_core(&self, hash_history: Arc<Vec<u64>>, board_ring: BoardRing) -> Self {
+        Go {
+            board: self.board,
+            size: self.size,
+            side: self.side,
+            ko_point: self.ko_point,
+            passes: self.passes,
+            black_caps: self.black_caps,
+            white_caps: self.white_caps,
+            komi: self.komi,
+            ruleset: self.ruleset,
+            scoring: self.scoring,
+            hash: self.hash,
+            move_count: self.move_count,
+            hash_history,
+            history_digest: self.history_digest,
+            allow_suicide: self.allow_suicide,
+            cycle_terminal: self.cycle_terminal,
+            board_ring,
+        }
+    }
+
     // ── BFS liberty / group detection ──
 
     /// Count liberties of the group containing `pos`. Returns 0 if `pos` is empty.
@@ -302,37 +463,98 @@ impl Go {
         self.group_liberties_on_board(&self.board, pos)
     }
 
-    fn group_liberties_on_board(&self, board: &[u8; MAX_N2], pos: usize) -> u32 {
+    fn group_liberties_with_scratch(
+        &self,
+        board: &[u8; MAX_N2],
+        pos: usize,
+        scratch: &mut GoScratch,
+    ) -> u32 {
         let color = board[pos];
         if color == 0 {
             return 0;
         }
-        let mut visited = [false; MAX_N2];
-        let mut libs = [false; MAX_N2];
-        let mut stack = [0usize; MAX_N2];
+        let visit_epoch = scratch.next_epoch();
+        let lib_epoch = scratch.next_epoch();
+        let GoScratch {
+            stack,
+            visited,
+            libs,
+            ..
+        } = scratch;
         let mut top = 0usize;
         stack[top] = pos;
         top += 1;
-        visited[pos] = true;
+        visited[pos] = visit_epoch;
         let mut lib_count = 0u32;
         while top > 0 {
             top -= 1;
             let p = stack[top];
             for nb in self.neighbors(p) {
-                if visited[nb] {
+                if visited[nb] == visit_epoch {
                     continue;
                 }
                 if board[nb] == color {
-                    visited[nb] = true;
+                    visited[nb] = visit_epoch;
                     stack[top] = nb;
                     top += 1;
-                } else if board[nb] == 0 && !libs[nb] {
-                    libs[nb] = true;
+                } else if board[nb] == 0 && libs[nb] != lib_epoch {
+                    libs[nb] = lib_epoch;
                     lib_count += 1;
                 }
             }
         }
         lib_count
+    }
+
+    fn group_liberties_on_board(&self, board: &[u8; MAX_N2], pos: usize) -> u32 {
+        GO_SCRATCH.with(|scratch| {
+            let mut scratch = scratch.borrow_mut();
+            self.group_liberties_with_scratch(board, pos, &mut scratch)
+        })
+    }
+
+    fn group_stones_and_liberties_with_scratch(
+        &self,
+        board: &[u8; MAX_N2],
+        pos: usize,
+        scratch: &mut GoScratch,
+    ) -> (usize, u32) {
+        let color = board[pos];
+        if color == 0 {
+            return (0, 0);
+        }
+        let visit_epoch = scratch.next_epoch();
+        let lib_epoch = scratch.next_epoch();
+        let GoScratch {
+            stack,
+            visited,
+            libs,
+            group_stones,
+            ..
+        } = scratch;
+        let mut top = 0usize;
+        stack[top] = pos;
+        top += 1;
+        visited[pos] = visit_epoch;
+        let mut stone_count = 0usize;
+        let mut lib_count = 0u32;
+        while top > 0 {
+            top -= 1;
+            let p = stack[top];
+            group_stones[stone_count] = p;
+            stone_count += 1;
+            for nb in self.neighbors(p) {
+                if board[nb] == color && visited[nb] != visit_epoch {
+                    visited[nb] = visit_epoch;
+                    stack[top] = nb;
+                    top += 1;
+                } else if board[nb] == 0 && libs[nb] != lib_epoch {
+                    libs[nb] = lib_epoch;
+                    lib_count += 1;
+                }
+            }
+        }
+        (stone_count, lib_count)
     }
 
     fn group_stones_and_liberties_on_board(
@@ -341,36 +563,13 @@ impl Go {
         pos: usize,
         stones_out: &mut [usize; MAX_N2],
     ) -> (usize, u32) {
-        let color = board[pos];
-        if color == 0 {
-            return (0, 0);
-        }
-        let mut visited = [false; MAX_N2];
-        let mut libs = [false; MAX_N2];
-        let mut stack = [0usize; MAX_N2];
-        let mut top = 0usize;
-        stack[top] = pos;
-        top += 1;
-        visited[pos] = true;
-        let mut stone_count = 0usize;
-        let mut lib_count = 0u32;
-        while top > 0 {
-            top -= 1;
-            let p = stack[top];
-            stones_out[stone_count] = p;
-            stone_count += 1;
-            for nb in self.neighbors(p) {
-                if board[nb] == color && !visited[nb] {
-                    visited[nb] = true;
-                    stack[top] = nb;
-                    top += 1;
-                } else if board[nb] == 0 && !libs[nb] {
-                    libs[nb] = true;
-                    lib_count += 1;
-                }
-            }
-        }
-        (stone_count, lib_count)
+        GO_SCRATCH.with(|scratch| {
+            let mut scratch = scratch.borrow_mut();
+            let (stone_count, lib_count) =
+                self.group_stones_and_liberties_with_scratch(board, pos, &mut scratch);
+            stones_out[..stone_count].copy_from_slice(&scratch.group_stones[..stone_count]);
+            (stone_count, lib_count)
+        })
     }
 
     /// Remove a group and return the number of stones removed.
@@ -379,11 +578,10 @@ impl Go {
         let (stone_count, _) =
             self.group_stones_and_liberties_on_board(&self.board, pos, &mut stones);
         let count = stone_count as u16;
+        let z = &*GZOB;
         for &s in &stones[..stone_count] {
             let color = self.board[s];
-            GZOB.with(|z| {
-                self.hash ^= z.piece[(color - 1) as usize][s];
-            });
+            self.hash ^= z.piece[(color - 1) as usize][s];
             self.board[s] = 0;
         }
         count
@@ -418,131 +616,193 @@ impl Go {
             }
         }
 
+        // Merged GO_SCRATCH.with: check opponent captures + friendly groups in one call
         if !basic_legal {
-            // Fast path 2: if any opponent neighbor has exactly 1 liberty (=pos) → capture
-            let mut checked = [false; MAX_N2];
-            let mut stones = [0usize; MAX_N2];
-            for nb in self.neighbors(pos) {
-                if self.board[nb] != opp || checked[nb] {
-                    continue;
+            GO_SCRATCH.with(|scratch| {
+                let mut scratch = scratch.borrow_mut();
+                // Phase 1: opponent neighbor with exactly 1 liberty → capture
+                let checked_epoch = scratch.next_epoch();
+                for nb in self.neighbors(pos) {
+                    if self.board[nb] != opp || scratch.checked[nb] == checked_epoch {
+                        continue;
+                    }
+                    let (stone_count, lib_count) =
+                        self.group_stones_and_liberties_with_scratch(&self.board, nb, &mut scratch);
+                    for idx in 0..stone_count {
+                        let s = scratch.group_stones[idx];
+                        scratch.checked[s] = checked_epoch;
+                    }
+                    if lib_count == 1 {
+                        basic_legal = true;
+                        return;
+                    }
                 }
-                let (stone_count, lib_count) =
-                    self.group_stones_and_liberties_on_board(&self.board, nb, &mut stones);
-                for &stone in &stones[..stone_count] {
-                    checked[stone] = true;
+                // Phase 2: friendly neighbor's group with >1 liberty
+                let checked_epoch2 = scratch.next_epoch();
+                for nb in self.neighbors(pos) {
+                    if self.board[nb] != color || scratch.checked[nb] == checked_epoch2 {
+                        continue;
+                    }
+                    let (stone_count, lib_count) =
+                        self.group_stones_and_liberties_with_scratch(&self.board, nb, &mut scratch);
+                    for idx in 0..stone_count {
+                        let s = scratch.group_stones[idx];
+                        scratch.checked[s] = checked_epoch2;
+                    }
+                    if lib_count > 1 {
+                        basic_legal = true;
+                        return;
+                    }
                 }
-                if lib_count == 1 {
-                    basic_legal = true;
-                    break;
-                }
-            }
+            });
         }
 
         if !basic_legal {
-            // Fast path 3: if any friendly neighbor's group has >1 liberty → still has libs
-            let mut checked = [false; MAX_N2];
-            let mut stones = [0usize; MAX_N2];
-            for nb in self.neighbors(pos) {
-                if self.board[nb] != color || checked[nb] {
-                    continue;
-                }
-                let (stone_count, lib_count) =
-                    self.group_stones_and_liberties_on_board(&self.board, nb, &mut stones);
-                for &stone in &stones[..stone_count] {
-                    checked[stone] = true;
-                }
-                if lib_count > 1 {
-                    basic_legal = true;
-                    break;
-                }
-            }
-        }
-
-        if !basic_legal {
-            // Slow path: all neighbors are occupied, no captures, no friendly group with spare libs
-            // → placing here results in 0 liberties = suicide
             basic_legal = self.allow_suicide;
         }
         if !basic_legal {
             return false;
         }
 
+        // Chinese superko: hash-only check (no full state construction)
         if self.ruleset == GoRuleset::Chinese {
-            let mut next = self.do_place(pos);
-            next.passes = 0;
-            next.side = Self::opp(self.side);
-            GZOB.with(|z| {
-                next.hash ^= z.side;
-            });
-            if self.repeats_position_hash(next.hash) {
+            let next_hash = self.compute_hash_after_place(pos);
+            if self.repeats_position_hash(next_hash) {
                 return false;
             }
         }
         true
     }
 
-    /// Internal: place stone and handle captures. Returns new state.
-    fn do_place(&self, pos: usize) -> Self {
-        let mut next = self.clone();
+    /// Compute the Zobrist hash that would result from placing a stone at `pos`,
+    /// performing captures, and switching sides — without constructing a full Go state.
+    fn compute_hash_after_place(&self, pos: usize) -> u64 {
         let color = self.side;
         let opp = Self::opp(color);
+        let z = &*GZOB;
+        let mut hash = self.hash;
+        let mut board = self.board; // stack copy
+
+        board[pos] = color;
+        hash ^= z.piece[(color - 1) as usize][pos];
+
+        GO_SCRATCH.with(|scratch| {
+            let mut scratch = scratch.borrow_mut();
+            let checked_epoch = scratch.next_epoch();
+            for nb in self.neighbors(pos) {
+                if board[nb] != opp || scratch.checked[nb] == checked_epoch {
+                    continue;
+                }
+                let (stone_count, lib_count) =
+                    self.group_stones_and_liberties_with_scratch(&board, nb, &mut scratch);
+                for idx in 0..stone_count {
+                    let s = scratch.group_stones[idx];
+                    scratch.checked[s] = checked_epoch;
+                }
+                if lib_count == 0 {
+                    for idx in 0..stone_count {
+                        let stone = scratch.group_stones[idx];
+                        hash ^= z.piece[(opp - 1) as usize][stone];
+                        board[stone] = 0;
+                    }
+                }
+            }
+            // Check self-capture (suicide)
+            let libs = self.group_liberties_with_scratch(&board, pos, &mut scratch);
+            if libs == 0 {
+                let (sc, _) =
+                    self.group_stones_and_liberties_with_scratch(&board, pos, &mut scratch);
+                for idx in 0..sc {
+                    let s = scratch.group_stones[idx];
+                    hash ^= z.piece[(color - 1) as usize][s];
+                }
+            }
+        });
+
+        // Switch sides
+        hash ^= z.side;
+        hash
+    }
+
+    /// Internal: place stone and handle captures. Returns new state.
+    /// Optimized: single GZOB access (static), single GO_SCRATCH.with(),
+    /// single BFS for ko+suicide check.
+    fn do_place(&self, pos: usize) -> Self {
+        // Use dummy histories — caller (apply_move) sets them properly
+        let mut next = self.clone_core(Arc::new(Vec::new()), BoardRing::new());
+        let color = self.side;
+        let opp = Self::opp(color);
+        let z = &*GZOB;
 
         // Place stone
         next.board[pos] = color;
-        GZOB.with(|z| {
-            next.hash ^= z.piece[(color - 1) as usize][pos];
-        });
+        next.hash ^= z.piece[(color - 1) as usize][pos];
 
-        // Capture adjacent opponent groups with 0 liberties
-        let mut total_captured = 0u16;
-        let mut single_cap = u16::MAX;
-        let mut checked_opp = [false; MAX_N2];
-        let mut stones = [0usize; MAX_N2];
-        for nb in self.neighbors(pos) {
-            if next.board[nb] != opp || checked_opp[nb] {
-                continue;
-            }
-            let (stone_count, lib_count) =
-                next.group_stones_and_liberties_on_board(&next.board, nb, &mut stones);
-            for &stone in &stones[..stone_count] {
-                checked_opp[stone] = true;
-            }
-            if lib_count == 0 {
-                total_captured += stone_count as u16;
-                if stone_count == 1 {
-                    single_cap = stones[0] as u16;
+        // All BFS work in one GO_SCRATCH.with() call
+        GO_SCRATCH.with(|scratch| {
+            let mut scratch = scratch.borrow_mut();
+
+            // -- Capture phase --
+            let mut total_captured = 0u16;
+            let mut single_cap = u16::MAX;
+            let checked_epoch = scratch.next_epoch();
+            for nb in self.neighbors(pos) {
+                if next.board[nb] != opp || scratch.checked[nb] == checked_epoch {
+                    continue;
                 }
-                for &stone in &stones[..stone_count] {
-                    GZOB.with(|z| {
+                let (stone_count, lib_count) =
+                    next.group_stones_and_liberties_with_scratch(&next.board, nb, &mut scratch);
+                for idx in 0..stone_count {
+                    let s = scratch.group_stones[idx];
+                    scratch.checked[s] = checked_epoch;
+                }
+                if lib_count == 0 {
+                    total_captured += stone_count as u16;
+                    if stone_count == 1 {
+                        single_cap = scratch.group_stones[0] as u16;
+                    }
+                    for idx in 0..stone_count {
+                        let stone = scratch.group_stones[idx];
                         next.hash ^= z.piece[(opp - 1) as usize][stone];
-                    });
-                    next.board[stone] = 0;
+                        next.board[stone] = 0;
+                    }
                 }
             }
-        }
 
-        // Record captures
-        if color == 1 {
-            next.black_caps += total_captured;
-        } else {
-            next.white_caps += total_captured;
-        }
-
-        // Simple ko: if captured exactly 1 stone and placed stone has exactly 1 liberty
-        next.ko_point = u16::MAX;
-        if total_captured == 1 && next.group_liberties_on_board(&next.board, pos) == 1 {
-            next.ko_point = single_cap;
-        }
-
-        // Check self-capture (suicide)
-        if next.group_liberties_on_board(&next.board, pos) == 0 {
-            let n = next.remove_group(pos);
+            // Record captures
             if color == 1 {
-                next.white_caps += n;
+                next.black_caps += total_captured;
             } else {
-                next.black_caps += n;
+                next.white_caps += total_captured;
             }
-        }
+
+            // -- Single BFS for placed stone's liberties (ko + suicide) --
+            let placed_libs = next.group_liberties_with_scratch(&next.board, pos, &mut scratch);
+
+            // Ko check
+            next.ko_point = u16::MAX;
+            if total_captured == 1 && placed_libs == 1 {
+                next.ko_point = single_cap;
+            }
+
+            // Suicide check
+            if placed_libs == 0 {
+                let (sc, _) =
+                    next.group_stones_and_liberties_with_scratch(&next.board, pos, &mut scratch);
+                let n = sc as u16;
+                for idx in 0..sc {
+                    let s = scratch.group_stones[idx];
+                    let c = next.board[s];
+                    next.hash ^= z.piece[(c - 1) as usize][s];
+                    next.board[s] = 0;
+                }
+                if color == 1 {
+                    next.white_caps += n;
+                } else {
+                    next.black_caps += n;
+                }
+            }
+        });
 
         next
     }
@@ -839,24 +1099,22 @@ impl GameState for Go {
 
     fn apply_move(&self, mv: u16) -> Self {
         let n2 = self.n2() as u16;
+        let z = &*GZOB;
 
-        // Save current board to history before applying move
-        let mut hist = self.board_history.clone();
-        hist.push(self.board[..self.n2()].to_vec());
-        if hist.len() > GO_HISTORY_LEN - 1 {
-            hist.drain(0..hist.len() - (GO_HISTORY_LEN - 1));
-        }
+        // Prepare board ring: push current board snapshot (zero-alloc)
+        let mut ring = self.board_ring.clone();
+        ring.push(&self.board, self.n2());
+
+        // O(1) hash_history clone via Arc
+        let hash_hist = Arc::clone(&self.hash_history);
 
         if mv == n2 {
             // Pass
-            let mut next = self.clone();
-            next.board_history = hist;
+            let mut next = self.clone_core(hash_hist, ring);
             next.passes += 1;
             next.ko_point = u16::MAX;
             next.side = Self::opp(self.side);
-            GZOB.with(|z| {
-                next.hash ^= z.side;
-            });
+            next.hash ^= z.side;
             next.move_count += 1;
             self.finalize_transition(&mut next);
             return next;
@@ -864,12 +1122,11 @@ impl GameState for Go {
 
         let pos = mv as usize;
         let mut next = self.do_place(pos);
-        next.board_history = hist;
+        next.hash_history = hash_hist;
+        next.board_ring = ring;
         next.passes = 0;
         next.side = Self::opp(self.side);
-        GZOB.with(|z| {
-            next.hash ^= z.side;
-        });
+        next.hash ^= z.side;
         next.move_count += 1;
         self.finalize_transition(&mut next);
         next
@@ -946,45 +1203,69 @@ impl GameState for Go {
     ///   ...
     ///   planes 14-15: t=7 (7수 전) 내 돌, 상대 돌
     ///   plane 16:     현재 플레이어 색상 (black=1, white=0)
-    fn encode_planes(&self) -> Vec<f32> {
+    fn encode_planes_into(&self, out: &mut Vec<f32>) {
         let n2 = self.n2();
         let total_planes = GO_HISTORY_LEN * 2 + 1; // 17
-        let mut out = vec![0.0f32; total_planes * n2];
+        let total = total_planes * n2;
         let my = self.side;
         let opp = Self::opp(my);
 
-        // t=0: current board
-        for i in 0..n2 {
-            if self.board[i] == my {
-                out[i] = 1.0;
-            } else if self.board[i] == opp {
-                out[n2 + i] = 1.0;
+        GO_FEATURE_SCRATCH.with(|scratch| {
+            let mut scratch = scratch.borrow_mut();
+            if out.len() != total {
+                out.clear();
+                out.resize(total, 0.0);
+                scratch.touched.clear();
+            } else {
+                // Sparse reset: only zero indices we set last time
+                for &idx in &scratch.touched {
+                    out[idx] = 0.0;
+                }
+                scratch.touched.clear();
             }
-        }
 
-        // t=1..7: history (most recent = last element in board_history)
-        for (k, hist_board) in self.board_history.iter().rev().enumerate() {
-            let t = k + 1;
-            if t >= GO_HISTORY_LEN {
-                break;
-            }
-            let base = t * 2 * n2;
-            for (i, &v) in hist_board.iter().enumerate() {
-                if v == my {
-                    out[base + i] = 1.0;
-                } else if v == opp {
-                    out[base + n2 + i] = 1.0;
+            // t=0: current board
+            for i in 0..n2 {
+                if self.board[i] == my {
+                    out[i] = 1.0;
+                    scratch.touched.push(i);
+                } else if self.board[i] == opp {
+                    let idx = n2 + i;
+                    out[idx] = 1.0;
+                    scratch.touched.push(idx);
                 }
             }
-        }
 
-        // Color plane
-        let color_val = if self.side == 1 { 1.0 } else { 0.0 };
-        let color_base = (total_planes - 1) * n2;
-        for i in 0..n2 {
-            out[color_base + i] = color_val;
-        }
-        out
+            // t=1..7: history from ring buffer
+            for (k, hist_board) in self.board_ring.iter_rev().enumerate() {
+                let t = k + 1;
+                if t >= GO_HISTORY_LEN {
+                    break;
+                }
+                let base = t * 2 * n2;
+                for i in 0..n2 {
+                    let v = hist_board[i];
+                    if v == my {
+                        let idx = base + i;
+                        out[idx] = 1.0;
+                        scratch.touched.push(idx);
+                    } else if v == opp {
+                        let idx = base + n2 + i;
+                        out[idx] = 1.0;
+                        scratch.touched.push(idx);
+                    }
+                }
+            }
+
+            // Color plane
+            if self.side == 1 {
+                let color_base = (total_planes - 1) * n2;
+                for idx in color_base..color_base + n2 {
+                    out[idx] = 1.0;
+                    scratch.touched.push(idx);
+                }
+            }
+        });
     }
 
     fn board_state_record(&self) -> Vec<i64> {
@@ -1151,6 +1432,16 @@ fn go_fast_playout(start: &Go, max_depth: usize) -> f32 {
 #[cfg(test)]
 mod tests {
     use super::*;
+    use std::hint::black_box;
+    use std::time::Instant;
+
+    fn bench_loops(default: usize) -> usize {
+        std::env::var("GAME_BENCH_LOOPS")
+            .ok()
+            .and_then(|s| s.parse::<usize>().ok())
+            .filter(|&v| v > 0)
+            .unwrap_or(default)
+    }
 
     fn pos(x: usize, y: usize, sz: usize) -> u16 {
         (y * sz + x) as u16
@@ -1319,7 +1610,8 @@ mod tests {
         g.board[11] = 2; // W at (1,2) — target
         g.side = 1; // B to play
                     // Recompute hash
-        GZOB.with(|z| {
+        {
+            let z = &*GZOB;
             g.hash = 0;
             for pos in 0..81 {
                 if g.board[pos] == 1 {
@@ -1328,8 +1620,8 @@ mod tests {
                     g.hash ^= z.piece[1][pos];
                 }
             }
-        });
-        g.hash_history = vec![g.hash];
+        }
+        g.hash_history = Arc::new(vec![g.hash]);
         g.history_digest = Go::history_digest_for_hash(g.hash);
 
         assert_eq!(
@@ -1360,7 +1652,8 @@ mod tests {
         g.board[19] = 2; // W surround (1,1)
         g.board[11] = 2; // W target
         g.side = 1;
-        GZOB.with(|z| {
+        {
+            let z = &*GZOB;
             g.hash = 0;
             for pos in 0..81 {
                 match g.board[pos] {
@@ -1369,8 +1662,8 @@ mod tests {
                     _ => {}
                 }
             }
-        });
-        g.hash_history = vec![g.hash];
+        }
+        g.hash_history = Arc::new(vec![g.hash]);
         g.history_digest = Go::history_digest_for_hash(g.hash);
 
         let g = g.apply_move(10); // B captures at (1,1)
@@ -1390,7 +1683,8 @@ mod tests {
         g.board[19] = 2;
         g.board[11] = 2;
         g.side = 1;
-        GZOB.with(|z| {
+        {
+            let z = &*GZOB;
             g.hash = 0;
             for pos in 0..81 {
                 match g.board[pos] {
@@ -1399,8 +1693,8 @@ mod tests {
                     _ => {}
                 }
             }
-        });
-        g.hash_history = vec![g.hash];
+        }
+        g.hash_history = Arc::new(vec![g.hash]);
         g.history_digest = Go::history_digest_for_hash(g.hash);
 
         let g = g.apply_move(10); // B captures
@@ -1565,7 +1859,7 @@ mod tests {
         let g0 = Go::new_9x9();
         let mut g1 = g0.clone();
         let synthetic_seen = 0x1234_5678_9abc_def0;
-        g1.hash_history.push(synthetic_seen);
+        Arc::make_mut(&mut g1.hash_history).push(synthetic_seen);
         g1.history_digest = Go::history_digest_insert(g1.history_digest, synthetic_seen);
 
         assert_eq!(g0.hash(), g1.hash());
@@ -1649,7 +1943,8 @@ mod tests {
                          // W group has 1 liberty at (0,4)=36
         g.board[37] = 1; // B at (1,4) — doesn't block (0,4)
         g.side = 1;
-        GZOB.with(|z| {
+        {
+            let z = &*GZOB;
             g.hash = 0;
             for pos in 0..81 {
                 match g.board[pos] {
@@ -1658,8 +1953,8 @@ mod tests {
                     _ => {}
                 }
             }
-        });
-        g.hash_history = vec![g.hash];
+        }
+        g.hash_history = Arc::new(vec![g.hash]);
         g.history_digest = Go::history_digest_for_hash(g.hash);
 
         assert_eq!(
@@ -1686,7 +1981,8 @@ mod tests {
         g.board[1] = 2; // W at (0,1)
         g.board[9] = 2; // W at (1,0)
         g.side = 1;
-        GZOB.with(|z| {
+        {
+            let z = &*GZOB;
             g.hash = 0;
             for pos in 0..81 {
                 match g.board[pos] {
@@ -1695,8 +1991,8 @@ mod tests {
                     _ => {}
                 }
             }
-        });
-        g.hash_history = vec![g.hash];
+        }
+        g.hash_history = Arc::new(vec![g.hash]);
         g.history_digest = Go::history_digest_for_hash(g.hash);
 
         // B at (0,0): neighbors (0,1)=W, (1,0)=W → 0 liberties → suicide → illegal
@@ -1704,7 +2000,8 @@ mod tests {
 
         // But if B has a friendly stone adjacent that provides a liberty:
         g.board[10] = 1; // B at (1,1)
-        GZOB.with(|z| {
+        {
+            let z = &*GZOB;
             g.hash = 0;
             for pos in 0..81 {
                 match g.board[pos] {
@@ -1713,7 +2010,7 @@ mod tests {
                     _ => {}
                 }
             }
-        });
+        }
         // Now B at (1,0)=W, but (0,0)'s group won't connect to B(1,1) because (1,0) is W
         // So still suicide.
         assert!(!g.is_legal(0), "Still suicide — no friendly connection");
@@ -1729,7 +2026,8 @@ mod tests {
         g.board[0] = 2; // W at (0,0)
         g.board[1] = 1; // B at (0,1)
         g.side = 1;
-        GZOB.with(|z| {
+        {
+            let z = &*GZOB;
             g.hash = 0;
             for pos in 0..81 {
                 match g.board[pos] {
@@ -1738,8 +2036,8 @@ mod tests {
                     _ => {}
                 }
             }
-        });
-        g.hash_history = vec![g.hash];
+        }
+        g.hash_history = Arc::new(vec![g.hash]);
         g.history_digest = Go::history_digest_for_hash(g.hash);
 
         // W(0,0) has 1 liberty at (1,0)=9. B plays (1,0) → captures W(0,0)
@@ -1793,12 +2091,10 @@ mod tests {
             let mut next = g.do_place(40);
             next.passes = 0;
             next.side = Go::opp(g.side);
-            GZOB.with(|z| {
-                next.hash ^= z.side;
-            });
+            next.hash ^= GZOB.side;
             next.hash
         };
-        g.hash_history.push(candidate);
+        Arc::make_mut(&mut g.hash_history).push(candidate);
         assert!(!g.is_legal(40));
     }
 
@@ -1809,12 +2105,10 @@ mod tests {
             let mut next = g.do_place(40);
             next.passes = 0;
             next.side = Go::opp(g.side);
-            GZOB.with(|z| {
-                next.hash ^= z.side;
-            });
+            next.hash ^= GZOB.side;
             next.hash
         };
-        g.hash_history.push(candidate);
+        Arc::make_mut(&mut g.hash_history).push(candidate);
         let g2 = g.apply_move(40);
         assert!(g2.is_terminal());
         assert!(g2.cycle_terminal);
@@ -1912,5 +2206,62 @@ mod tests {
         let g = g.apply_move(g.pass_action()); // W pass
         assert_eq!(g.board, board_before);
         assert_eq!(g.side, 1); // B to play again
+    }
+
+    #[test]
+    #[ignore]
+    fn bench_go_hotpaths() {
+        let mut state = Go::new_9x9();
+        for &mv in &[
+            p(4, 4),
+            p(0, 0),
+            p(4, 5),
+            p(0, 1),
+            p(5, 4),
+            p(1, 0),
+            p(3, 4),
+            p(1, 1),
+        ] {
+            state = state.apply_move(mv);
+        }
+        let loops = bench_loops(5_000);
+
+        let start = Instant::now();
+        for _ in 0..loops {
+            black_box(state.clone());
+        }
+        let clone_ms = start.elapsed().as_secs_f64() * 1000.0;
+
+        let start = Instant::now();
+        for _ in 0..loops {
+            black_box(state.legal_moves());
+        }
+        let legal_ms = start.elapsed().as_secs_f64() * 1000.0;
+
+        let legal = state.legal_moves();
+        let mv = legal[legal.len() / 2];
+        let start = Instant::now();
+        for _ in 0..loops {
+            black_box(state.apply_move(mv));
+        }
+        let apply_ms = start.elapsed().as_secs_f64() * 1000.0;
+
+        let start = Instant::now();
+        for _ in 0..loops {
+            black_box(state.encode_planes());
+        }
+        let encode_ms = start.elapsed().as_secs_f64() * 1000.0;
+
+        let mut scratch = Vec::new();
+        let start = Instant::now();
+        for _ in 0..loops {
+            state.encode_planes_into(&mut scratch);
+            black_box(&scratch);
+        }
+        let encode_reuse_ms = start.elapsed().as_secs_f64() * 1000.0;
+
+        eprintln!(
+            "[bench] go9: clone={clone_ms:.2}ms legal={legal_ms:.2}ms apply={apply_ms:.2}ms encode={encode_ms:.2}ms encode_reuse={encode_reuse_ms:.2}ms loops={loops}"
+        );
     }
 }

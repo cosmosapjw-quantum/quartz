@@ -65,10 +65,12 @@ def encode_board(cfg, board_flat, player):
     bs = cfg['board']; n2 = bs * bs
     ch = cfg.get('ch', 17)
     enc = np.zeros((ch, bs, bs), dtype=np.float32)
-    for i in range(n2):
-        r, c = i // bs, i % bs
-        if board_flat[i] == player: enc[0, r, c] = 1.0
-        elif board_flat[i] != 0: enc[1, r, c] = 1.0
+    # [OPT] Vectorized board encoding
+    board_arr = np.asarray(board_flat, dtype=np.int8).ravel()[:n2]
+    my_val = np.int8(player)
+    enc[0].ravel()[:len(board_arr)] = (board_arr == my_val).astype(np.float32)
+    opp_mask = (board_arr != 0) & (board_arr != my_val)
+    enc[1].ravel()[:len(board_arr)] = opp_mask.astype(np.float32)
     # Color plane (last channel)
     if player == 1: enc[ch - 1] = 1.0
     return enc
@@ -1320,6 +1322,9 @@ def _arena_rust_nn_impl(model_a_path, cfg_a, model_b_path, cfg_b, device, n_game
             initial_chess_fen=initial_chess_fen,
             chess_state_meta_from_hashes=chess_state_meta_from_hashes,
             arena_compare=arena_compare,
+            build_training_game_adapter=build_training_game_adapter,
+            rust_nn_evaluator_engine_cls=RustNNEvaluatorEngine,
+            match_runner_cls=MatchRunner,
         ),
     )
 

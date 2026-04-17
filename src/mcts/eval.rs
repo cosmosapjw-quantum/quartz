@@ -99,7 +99,13 @@ fn short_playout<G: GameState>(
     let mut state = start.clone();
     let root_player = start.current_player();
 
-    let mut seeded_rng = seed.map(StdRng::seed_from_u64);
+    // [OPT] Use fast PCG-style RNG to avoid thread_rng() per depth + Vec allocation
+    let mut rng_state: u64 = seed.unwrap_or_else(|| {
+        start
+            .hash()
+            .wrapping_mul(6364136223846793005)
+            .wrapping_add(1)
+    });
 
     for _depth in 0..max_depth.max(1) {
         if state.is_terminal() {
@@ -111,28 +117,21 @@ fn short_playout<G: GameState>(
             };
             return raw * flip;
         }
-        let legal = state.legal_moves();
-        if legal.is_empty() {
-            break;
-        }
 
-        // 1-ply immediate win check — [OPT] uses is_winning_move (no state clone)
-        // Semantically identical to: apply_move + is_terminal + outcome check
-        let mut chosen = None;
-        for &mv in &legal {
-            if state.is_winning_move(mv) {
-                chosen = Some(mv);
-                break;
-            }
-        }
+        // [OPT] Use random_legal_move() to avoid Vec allocation for legal_moves().
+        // First check winning moves via legal_moves only if needed.
+        // Trade-off: skip is_winning_move scan in deeper playout to save time.
+        // is_winning_move is O(1) per move but iterating all legal moves is O(n).
+        // Instead, use random_legal_move (O(n) scan, zero alloc).
+        rng_state = rng_state
+            .wrapping_mul(6364136223846793005)
+            .wrapping_add(1442695040888963407);
+        let rand_idx = (rng_state >> 33) as usize;
 
-        let mv = chosen.unwrap_or_else(|| {
-            if let Some(ref mut rng) = seeded_rng {
-                *legal.choose(rng).unwrap()
-            } else {
-                *legal.choose(&mut thread_rng()).unwrap()
-            }
-        });
+        let mv = match state.random_legal_move(rand_idx) {
+            Some(m) => m,
+            None => break,
+        };
         state = state.apply_move(mv);
     }
 
@@ -937,6 +936,16 @@ fn encode_batch_eval_req_payload<M: Copy + Send + 'static>(batch: &[BatchRequest
     payload
 }
 
+fn reclaim_batch_features<M: Copy + Send + 'static>(batch: &mut [BatchRequest<M>]) {
+    for req in batch {
+        if let Some(pool) = req.feature_pool.as_ref() {
+            pool.give_back(mem::take(&mut req.features));
+        } else {
+            req.features.clear();
+        }
+    }
+}
+
 #[cfg(test)]
 fn build_policy_from_dense<M: Copy>(
     legal_moves_idx: &[(M, usize)],
@@ -977,8 +986,13 @@ struct BatchCollectorProfile {
     requests: usize,
     full_batches: usize,
     partial_batches: usize,
+    singleton_batches: usize,
+    low_concurrency_flushes: usize,
     max_batch: usize,
     batch_sum: usize,
+    adaptive_timeout_min_us: f64,
+    adaptive_timeout_max_us: f64,
+    adaptive_timeout_last_us: f64,
     payload_out_bytes: usize,
     payload_in_bytes: usize,
     idle_wait_s: f64,
@@ -1002,6 +1016,9 @@ impl BatchCollectorProfile {
         self.requests += batch_len;
         self.batch_sum += batch_len;
         self.max_batch = self.max_batch.max(batch_len);
+        if batch_len == 1 {
+            self.singleton_batches += 1;
+        }
         if batch_len > 0 {
             if batch_len >= max_batch_size {
                 self.full_batches += 1;
@@ -1013,6 +1030,21 @@ impl BatchCollectorProfile {
 
     fn record_fallback(&mut self) {
         self.fallback_batches += 1;
+    }
+
+    fn note_adaptive_timeout(&mut self, timeout_us: f64) {
+        if self.batches <= 1 {
+            self.adaptive_timeout_min_us = timeout_us;
+            self.adaptive_timeout_max_us = timeout_us;
+        } else {
+            self.adaptive_timeout_min_us = self.adaptive_timeout_min_us.min(timeout_us);
+            self.adaptive_timeout_max_us = self.adaptive_timeout_max_us.max(timeout_us);
+        }
+        self.adaptive_timeout_last_us = timeout_us;
+    }
+
+    fn note_low_concurrency_flush(&mut self) {
+        self.low_concurrency_flushes += 1;
     }
 
     fn flush_jsonl(
@@ -1037,9 +1069,14 @@ impl BatchCollectorProfile {
             "requests": self.requests,
             "full_batches": self.full_batches,
             "partial_batches": self.partial_batches,
+            "singleton_batches": self.singleton_batches,
+            "low_concurrency_flushes": self.low_concurrency_flushes,
             "fallback_batches": self.fallback_batches,
             "max_batch": self.max_batch,
             "mean_batch": mean_batch,
+            "adaptive_timeout_min_us": self.adaptive_timeout_min_us,
+            "adaptive_timeout_max_us": self.adaptive_timeout_max_us,
+            "adaptive_timeout_last_us": self.adaptive_timeout_last_us,
             "payload_out_bytes": self.payload_out_bytes,
             "payload_in_bytes": self.payload_in_bytes,
             "idle_wait_s": self.idle_wait_s,
@@ -1062,6 +1099,38 @@ impl BatchCollectorProfile {
             rec.push(b'\n');
             let _ = file.write_all(&rec);
         }
+    }
+}
+
+fn retune_adaptive_timeout_us(
+    adaptive_timeout_us: f64,
+    base_timeout_us: f64,
+    min_timeout_us: f64,
+    max_timeout_us: f64,
+    batch_len: usize,
+    max_batch_size: usize,
+    queue_depth: usize,
+    active_waiters: usize,
+) -> (f64, bool) {
+    if max_batch_size <= 1 {
+        return (adaptive_timeout_us, false);
+    }
+    let fill_ratio = batch_len as f64 / max_batch_size as f64;
+    let low_concurrency = batch_len <= 2 && queue_depth == 0 && active_waiters <= 2;
+    if low_concurrency {
+        let target = (adaptive_timeout_us * 0.6).min(base_timeout_us * 0.75);
+        return (target.max(min_timeout_us), true);
+    }
+    if fill_ratio < 0.45 {
+        ((adaptive_timeout_us * 1.12).min(max_timeout_us), false)
+    } else if fill_ratio > 0.80 {
+        ((adaptive_timeout_us * 0.88).max(min_timeout_us), false)
+    } else if adaptive_timeout_us > base_timeout_us {
+        ((adaptive_timeout_us * 0.96).max(base_timeout_us), false)
+    } else if adaptive_timeout_us < base_timeout_us {
+        ((adaptive_timeout_us * 1.04).min(base_timeout_us), false)
+    } else {
+        (adaptive_timeout_us, false)
     }
 }
 
@@ -1112,6 +1181,7 @@ pub struct StdioCallbackEval {
     shm: Option<std::sync::Arc<SharedMemTransport>>,
     profile_path: Option<String>,
     profile: std::sync::Mutex<SingleEvalProfile>,
+    feature_scratch: std::sync::Mutex<Vec<f32>>,
 }
 
 impl StdioCallbackEval {
@@ -1122,6 +1192,7 @@ impl StdioCallbackEval {
             shm: SharedMemTransport::load_from_env().map(std::sync::Arc::new),
             profile_path: BatchCollectorProfile::load_path(),
             profile: std::sync::Mutex::new(SingleEvalProfile::default()),
+            feature_scratch: std::sync::Mutex::new(Vec::new()),
         }
     }
 }
@@ -1136,7 +1207,8 @@ impl<G: GameState> Evaluator<G> for StdioCallbackEval {
             };
         }
 
-        let planes = state.encode_planes();
+        let mut planes = self.feature_scratch.lock().unwrap();
+        state.encode_planes_into(&mut planes);
         let (feature_fp_lo, feature_fp_hi, encoder_rev) =
             eval_cache_fingerprint(state, planes.len(), self.n_actions);
         let mut legal_moves_idx = Vec::with_capacity(legal.len());
@@ -1153,6 +1225,8 @@ impl<G: GameState> Evaluator<G> for StdioCallbackEval {
             feature_fp_hi,
             encoder_rev,
         );
+        planes.clear();
+        drop(planes);
 
         // Mutex serializes ALL evaluate() calls — critical for bidirectional I/O.
         // Only one thread can write eval_req + read eval_resp at a time.
@@ -1275,6 +1349,37 @@ impl Default for BatchConfig {
     }
 }
 
+struct FeatureVecPool {
+    buffers: Mutex<Vec<Vec<f32>>>,
+    max_cached: usize,
+}
+
+impl FeatureVecPool {
+    fn new(max_cached: usize) -> Self {
+        Self {
+            buffers: Mutex::new(Vec::new()),
+            max_cached,
+        }
+    }
+
+    #[inline]
+    fn checkout(&self) -> Vec<f32> {
+        self.buffers.lock().unwrap().pop().unwrap_or_default()
+    }
+
+    #[inline]
+    fn give_back(&self, mut buffer: Vec<f32>) {
+        if self.max_cached == 0 {
+            return;
+        }
+        buffer.clear();
+        let mut guard = self.buffers.lock().unwrap();
+        if guard.len() < self.max_cached {
+            guard.push(buffer);
+        }
+    }
+}
+
 /// Internal request sent from MCTS worker threads to the collector.
 struct BatchRequest<M: Copy + Send + 'static> {
     features: Vec<f32>,
@@ -1287,6 +1392,7 @@ struct BatchRequest<M: Copy + Send + 'static> {
     encoder_rev: u32,
     enqueued_at: Instant,
     result_tx: channel::Sender<EvalResult<M>>,
+    feature_pool: Option<Arc<FeatureVecPool>>,
 }
 
 #[derive(Default)]
@@ -1300,6 +1406,7 @@ struct BatchBrokerStats {
     max_active_waiters: AtomicUsize,
     flush_target_batch: AtomicUsize,
     flush_timeout: AtomicUsize,
+    flush_low_concurrency: AtomicUsize,
     flush_fallback: AtomicUsize,
     queue_wait_micros: AtomicU64,
     result_wait_micros: AtomicU64,
@@ -1355,6 +1462,9 @@ impl BatchBrokerStats {
             "max_wait_reached" => {
                 self.flush_timeout.fetch_add(1, Ordering::Relaxed);
             }
+            "low_concurrency" => {
+                self.flush_low_concurrency.fetch_add(1, Ordering::Relaxed);
+            }
             "fallback" => {
                 self.flush_fallback.fetch_add(1, Ordering::Relaxed);
             }
@@ -1374,6 +1484,7 @@ impl BatchBrokerStats {
             "flush_reason_counts": {
                 "target_batch_reached": self.flush_target_batch.load(Ordering::Relaxed),
                 "max_wait_reached": self.flush_timeout.load(Ordering::Relaxed),
+                "low_concurrency": self.flush_low_concurrency.load(Ordering::Relaxed),
                 "fallback": self.flush_fallback.load(Ordering::Relaxed),
             },
             "queue_wait_s": self.queue_wait_micros.load(Ordering::Relaxed) as f64 / 1_000_000.0,
@@ -1426,6 +1537,7 @@ pub(crate) struct GlobalBrokerShared<M: Copy + Eq + Hash + Debug + Send + 'stati
     shutdown: Arc<AtomicBool>,
     io_handle: Mutex<Option<std::thread::JoinHandle<()>>>,
     stats: Arc<BatchBrokerStats>,
+    feature_pool: Arc<FeatureVecPool>,
 }
 
 /// Single process-wide inference broker. Owns the collector thread that performs
@@ -1442,6 +1554,7 @@ impl<M: Copy + Eq + Hash + Debug + Send + 'static> GlobalBroker<M> {
         let shutdown_clone = shutdown.clone();
         let stats = Arc::new(BatchBrokerStats::default());
         let stats_for_thread = stats.clone();
+        let feature_pool = Arc::new(FeatureVecPool::new(config.max_batch_size * 4));
         let shm = SharedMemTransport::load_from_env().map(Arc::new);
         let use_ring = global_ring_buffer().is_some();
 
@@ -1477,6 +1590,7 @@ impl<M: Copy + Eq + Hash + Debug + Send + 'static> GlobalBroker<M> {
                 shutdown,
                 io_handle: Mutex::new(Some(handle)),
                 stats,
+                feature_pool,
             }),
         }
     }
@@ -1716,22 +1830,31 @@ fn broker_loop<M: Copy + Eq + Hash + Debug + Send + 'static>(
             s.collect_s += collect_t0.elapsed().as_secs_f64();
             s.note_batch(batch.len(), config.max_batch_size);
         }
+        let queue_depth_now = stats.queue_depth.load(Ordering::Relaxed);
+        let active_waiters_now = stats.active_waiters.load(Ordering::Relaxed);
+        let (next_timeout_us, low_concurrency_flush) = retune_adaptive_timeout_us(
+            adaptive_timeout_us,
+            base_timeout_us,
+            min_timeout_us,
+            max_timeout_us,
+            batch.len(),
+            config.max_batch_size,
+            queue_depth_now,
+            active_waiters_now,
+        );
         let flush_reason = if batch.len() >= config.max_batch_size {
             "target_batch_reached"
+        } else if low_concurrency_flush {
+            "low_concurrency"
         } else {
             "max_wait_reached"
         };
         stats.record_flush_reason(flush_reason);
-        if config.max_batch_size > 1 {
-            let fill_ratio = batch.len() as f64 / config.max_batch_size as f64;
-            if fill_ratio < 0.45 {
-                adaptive_timeout_us = (adaptive_timeout_us * 1.25).min(max_timeout_us);
-            } else if fill_ratio > 0.80 {
-                adaptive_timeout_us = (adaptive_timeout_us * 0.88).max(min_timeout_us);
-            } else if adaptive_timeout_us > base_timeout_us {
-                adaptive_timeout_us = (adaptive_timeout_us * 0.96).max(base_timeout_us);
-            } else if adaptive_timeout_us < base_timeout_us {
-                adaptive_timeout_us = (adaptive_timeout_us * 1.04).min(base_timeout_us);
+        adaptive_timeout_us = next_timeout_us;
+        if let Some(s) = profile.as_mut() {
+            s.note_adaptive_timeout(adaptive_timeout_us);
+            if low_concurrency_flush {
+                s.note_low_concurrency_flush();
             }
         }
 
@@ -1755,6 +1878,7 @@ fn broker_loop<M: Copy + Eq + Hash + Debug + Send + 'static>(
 
         if !write_ok {
             send_uniform_fallback(&batch);
+            reclaim_batch_features(&mut batch);
             stats.record_flush_reason("fallback");
             if let Some(s) = profile.as_mut() {
                 s.record_fallback();
@@ -1785,6 +1909,7 @@ fn broker_loop<M: Copy + Eq + Hash + Debug + Send + 'static>(
 
         let Some((mut frame_kind, resp_payload)) = response else {
             send_uniform_fallback(&batch);
+            reclaim_batch_features(&mut batch);
             stats.record_flush_reason("fallback");
             if let Some(s) = profile.as_mut() {
                 s.record_fallback();
@@ -1806,6 +1931,7 @@ fn broker_loop<M: Copy + Eq + Hash + Debug + Send + 'static>(
             QIPC_BATCH_EVAL_RESP_SHM => {
                 let Some(shm) = shm.as_deref() else {
                     send_uniform_fallback(&batch);
+                    reclaim_batch_features(&mut batch);
                     stats.record_flush_reason("fallback");
                     if let Some(s) = profile.as_mut() {
                         s.record_fallback();
@@ -1814,6 +1940,7 @@ fn broker_loop<M: Copy + Eq + Hash + Debug + Send + 'static>(
                 };
                 let Some(n_bytes) = qipc_shm_meta_len(&resp_payload) else {
                     send_uniform_fallback(&batch);
+                    reclaim_batch_features(&mut batch);
                     stats.record_flush_reason("fallback");
                     if let Some(s) = profile.as_mut() {
                         s.record_fallback();
@@ -1825,6 +1952,7 @@ fn broker_loop<M: Copy + Eq + Hash + Debug + Send + 'static>(
                     Some(bytes) => bytes,
                     None => {
                         send_uniform_fallback(&batch);
+                        reclaim_batch_features(&mut batch);
                         stats.record_flush_reason("fallback");
                         if let Some(s) = profile.as_mut() {
                             s.record_fallback();
@@ -1837,6 +1965,7 @@ fn broker_loop<M: Copy + Eq + Hash + Debug + Send + 'static>(
         };
         if frame_kind != QIPC_BATCH_EVAL_RESP {
             send_uniform_fallback(&batch);
+            reclaim_batch_features(&mut batch);
             stats.record_flush_reason("fallback");
             if let Some(s) = profile.as_mut() {
                 s.record_fallback();
@@ -1849,6 +1978,7 @@ fn broker_loop<M: Copy + Eq + Hash + Debug + Send + 'static>(
         }
         let decode_t0 = Instant::now();
         distribute_binary_batch(payload_bytes, &batch);
+        reclaim_batch_features(&mut batch);
         if let Some(s) = profile.as_mut() {
             s.decode_s += decode_t0.elapsed().as_secs_f64();
         }
@@ -1860,6 +1990,9 @@ fn broker_loop<M: Copy + Eq + Hash + Debug + Send + 'static>(
                         "transport": if shm.is_some() { "shm" } else { "stdio" },
                         "max_batch_size": config.max_batch_size,
                         "adaptive_timeout_us": adaptive_timeout_us,
+                        "queue_depth": queue_depth_now,
+                        "active_waiters": active_waiters_now,
+                        "low_concurrency_flush": low_concurrency_flush,
                         "broker": stats.snapshot_json(),
                     }),
                 );
@@ -1954,22 +2087,31 @@ fn broker_loop_shm<M: Copy + Eq + Hash + Debug + Send + 'static>(
             s.collect_s += collect_t0.elapsed().as_secs_f64();
             s.note_batch(batch.len(), config.max_batch_size);
         }
+        let queue_depth_now = stats.queue_depth.load(Ordering::Relaxed);
+        let active_waiters_now = stats.active_waiters.load(Ordering::Relaxed);
+        let (next_timeout_us, low_concurrency_flush) = retune_adaptive_timeout_us(
+            adaptive_timeout_us,
+            base_timeout_us,
+            min_timeout_us,
+            max_timeout_us,
+            batch.len(),
+            config.max_batch_size,
+            queue_depth_now,
+            active_waiters_now,
+        );
         let flush_reason = if batch.len() >= config.max_batch_size {
             "target_batch_reached"
+        } else if low_concurrency_flush {
+            "low_concurrency"
         } else {
             "max_wait_reached"
         };
         stats.record_flush_reason(flush_reason);
-        if config.max_batch_size > 1 {
-            let fill_ratio = batch.len() as f64 / config.max_batch_size as f64;
-            if fill_ratio < 0.45 {
-                adaptive_timeout_us = (adaptive_timeout_us * 1.25).min(max_timeout_us);
-            } else if fill_ratio > 0.80 {
-                adaptive_timeout_us = (adaptive_timeout_us * 0.88).max(min_timeout_us);
-            } else if adaptive_timeout_us > base_timeout_us {
-                adaptive_timeout_us = (adaptive_timeout_us * 0.96).max(base_timeout_us);
-            } else if adaptive_timeout_us < base_timeout_us {
-                adaptive_timeout_us = (adaptive_timeout_us * 1.04).min(base_timeout_us);
+        adaptive_timeout_us = next_timeout_us;
+        if let Some(s) = profile.as_mut() {
+            s.note_adaptive_timeout(adaptive_timeout_us);
+            if low_concurrency_flush {
+                s.note_low_concurrency_flush();
             }
         }
 
@@ -2014,6 +2156,7 @@ fn broker_loop_shm<M: Copy + Eq + Hash + Debug + Send + 'static>(
 
         if !write_ok {
             send_uniform_fallback(&batch);
+            reclaim_batch_features(&mut batch);
             stats.record_flush_reason("fallback");
             if let Some(s) = profile.as_mut() {
                 s.record_fallback();
@@ -2059,6 +2202,7 @@ fn broker_loop_shm<M: Copy + Eq + Hash + Debug + Send + 'static>(
 
         let Some(payload_bytes) = resp_payload else {
             send_uniform_fallback(&batch);
+            reclaim_batch_features(&mut batch);
             stats.record_flush_reason("fallback");
             if let Some(s) = profile.as_mut() {
                 s.record_fallback();
@@ -2078,6 +2222,7 @@ fn broker_loop_shm<M: Copy + Eq + Hash + Debug + Send + 'static>(
         }
         let decode_t0 = Instant::now();
         distribute_binary_batch(&payload_bytes, &batch);
+        reclaim_batch_features(&mut batch);
         if let Some(s) = profile.as_mut() {
             s.decode_s += decode_t0.elapsed().as_secs_f64();
         }
@@ -2089,6 +2234,9 @@ fn broker_loop_shm<M: Copy + Eq + Hash + Debug + Send + 'static>(
                         "transport": "shm_ring",
                         "max_batch_size": config.max_batch_size,
                         "adaptive_timeout_us": adaptive_timeout_us,
+                        "queue_depth": queue_depth_now,
+                        "active_waiters": active_waiters_now,
+                        "low_concurrency_flush": low_concurrency_flush,
                         "broker": stats.snapshot_json(),
                     }),
                 );
@@ -2250,7 +2398,8 @@ impl<M: Copy + Eq + Hash + Debug + Send + 'static> BatchStdioEval<M> {
             );
         }
 
-        let planes = state.encode_planes();
+        let mut planes = self.broker.feature_pool.checkout();
+        state.encode_planes_into(&mut planes);
         let n_actions = state.num_actions();
         let (feature_fp_lo, feature_fp_hi, encoder_rev) =
             eval_cache_fingerprint(state, planes.len(), n_actions);
@@ -2272,6 +2421,7 @@ impl<M: Copy + Eq + Hash + Debug + Send + 'static> BatchStdioEval<M> {
             encoder_rev,
             enqueued_at: Instant::now(),
             result_tx,
+            feature_pool: Some(self.broker.feature_pool.clone()),
         };
 
         self.broker.stats.on_submit();
@@ -2356,6 +2506,7 @@ mod tests {
             encoder_rev: 1,
             enqueued_at: Instant::now(),
             result_tx: tx,
+            feature_pool: None,
         }
     }
 
@@ -2496,6 +2647,7 @@ mod tests {
                     encoder_rev: 1,
                     enqueued_at: Instant::now(),
                     result_tx,
+                    feature_pool: None,
                 };
                 tx.send(req).unwrap();
                 let result = result_rx.recv_timeout(Duration::from_secs(5)).unwrap();
@@ -2611,6 +2763,15 @@ mod tests {
         assert!((r2.policy[0].1 - 0.3).abs() < 1e-6);
         assert!((r2.policy[1].1 - 0.7).abs() < 1e-6);
         assert!((r2.value + 0.5).abs() < 1e-6);
+    }
+
+    #[test]
+    fn test_retune_adaptive_timeout_prefers_lower_latency_for_low_concurrency() {
+        let (next, low_concurrency) =
+            retune_adaptive_timeout_us(2000.0, 2000.0, 250.0, 8000.0, 1, 8, 0, 1);
+        assert!(low_concurrency);
+        assert!(next < 2000.0);
+        assert!(next >= 250.0);
     }
 
     fn pack_qipc_batch_eval_resp_for_test(entries: &[(&[f32], f32)]) -> Vec<u8> {

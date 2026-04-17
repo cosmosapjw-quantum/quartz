@@ -7,14 +7,14 @@
 use std::collections::HashMap;
 use std::fs::OpenOptions;
 use std::io::{self, BufRead, Write};
-use std::sync::atomic::{AtomicU64, AtomicUsize, Ordering};
+use std::sync::atomic::{AtomicU32, AtomicU64, AtomicUsize, Ordering};
 use std::sync::{Arc, Mutex, OnceLock};
 use std::time::{Instant, SystemTime, UNIX_EPOCH};
 
 use rand::rngs::StdRng;
 use rand::{Rng, SeedableRng};
 
-use crate::game::GameState;
+use crate::game::{EvalResult, Evaluator, GameState};
 use crate::mcts::eval::{
     global_ring_buffer, AsyncEvalTicket, BatchStdioEval, GlobalBroker, ShortRollout, SHM_MSG_JSON,
     SHM_MSG_SEARCH_RESP,
@@ -1731,6 +1731,24 @@ where
             Arc::new(StdioCallbackEval::new(n_actions)) as Arc<dyn crate::game::Evaluator<G>>,
             None,
         )
+    }
+}
+
+#[derive(Clone)]
+struct TaggedSharedEvaluator<G: GameState> {
+    current_tag: Arc<AtomicU32>,
+    eval_a: Arc<dyn Evaluator<G>>,
+    eval_b: Option<Arc<dyn Evaluator<G>>>,
+}
+
+impl<G: GameState> Evaluator<G> for TaggedSharedEvaluator<G> {
+    fn evaluate(&self, state: &G) -> EvalResult<G::Move> {
+        let tag = self.current_tag.load(Ordering::Relaxed);
+        if tag == 0 {
+            self.eval_a.evaluate(state)
+        } else {
+            self.eval_b.as_ref().unwrap_or(&self.eval_a).evaluate(state)
+        }
     }
 }
 
@@ -4446,7 +4464,6 @@ where
     let dual_model = sessions
         .iter()
         .any(|sess| sess.black_tag != 0 || sess.white_tag != 0);
-    let qcfg = cfg.quartz.clone();
     let batch_cfg = crate::mcts::eval::BatchConfig {
         max_batch_size: batch_size.max(n_threads),
         timeout_us: batch_timeout_us,
@@ -4457,6 +4474,38 @@ where
         Some(BatchStdioEval::<G::Move>::from_broker(&broker, 1))
     } else {
         None
+    };
+    let eval_a_shared: Arc<dyn Evaluator<G>> = Arc::new(eval_a.clone());
+    let eval_b_shared: Option<Arc<dyn Evaluator<G>>> = eval_b
+        .as_ref()
+        .map(|eval| Arc::new(eval.clone()) as Arc<dyn Evaluator<G>>);
+    let model_tags = sessions
+        .iter()
+        .map(|sess| Arc::new(AtomicU32::new(sess.active_model_tag())))
+        .collect::<Vec<_>>();
+    let mut engine_session = EngineSearchSession {
+        engines: sessions
+            .iter()
+            .enumerate()
+            .map(|(idx, sess)| {
+                if sess.done || sess.state.is_terminal() || sess.ply >= max_moves {
+                    None
+                } else {
+                    Some(MctsEngine::new(
+                        sess.state.clone(),
+                        Arc::new(TaggedSharedEvaluator {
+                            current_tag: model_tags[idx].clone(),
+                            eval_a: eval_a_shared.clone(),
+                            eval_b: eval_b_shared.clone(),
+                        }),
+                        cfg.clone(),
+                    ))
+                }
+            })
+            .collect(),
+        n_threads,
+        n_actions,
+        search_profile,
     };
     let started = Instant::now();
     let progress_every = (sessions.len() / 10).clamp(1, 25);
@@ -4472,48 +4521,42 @@ where
             "batch_size": batch_size,
             "batch_timeout_us": batch_timeout_us,
             "search_profile": search_profile_name(search_profile),
+            "runner_impl": "persistent_engine_session",
         }),
     );
 
     loop {
-        let active = sessions
+        let active_count = sessions
             .iter()
             .enumerate()
-            .filter_map(|(idx, sess)| {
-                if sess.done || sess.state.is_terminal() || sess.ply >= max_moves {
-                    None
-                } else {
-                    Some((idx, sess.state.clone(), sess.active_model_tag()))
-                }
+            .filter(|(idx, sess)| {
+                !sess.done
+                    && !sess.state.is_terminal()
+                    && sess.ply < max_moves
+                    && engine_session
+                        .engines
+                        .get(*idx)
+                        .and_then(|e| e.as_ref())
+                        .is_some()
             })
-            .collect::<Vec<_>>();
-        if active.is_empty() {
+            .count();
+        if active_count == 0 {
             break;
         }
-        let active_count = active.len();
         let completed_before = sessions.iter().filter(|sess| sess.done).count();
         let batch_started = Instant::now();
-        let results = run_multi_async_batch_tags(
-            &active,
-            eval_a.clone(),
-            eval_b.clone(),
-            &cfg,
-            qcfg.clone(),
-            iters,
-            n_threads,
-            n_actions,
-            search_profile,
-        );
+        let results = engine_session.search_with_iters(iters);
         let batch_elapsed_ms = batch_started.elapsed().as_secs_f64() * 1000.0;
         let share_ms = batch_elapsed_ms / active_count.max(1) as f64;
         let mut wave_errors = 0usize;
         let mut wave_nulls = 0usize;
-        for (idx, _, _) in active {
+        for idx in 0..sessions.len() {
             let Some(sess) = sessions.get_mut(idx) else {
                 continue;
             };
             if sess.done || sess.state.is_terminal() || sess.ply >= max_moves {
                 sess.done = true;
+                engine_session.deactivate(idx);
                 continue;
             }
             let result = results.get(idx).cloned().unwrap_or(serde_json::Value::Null);
@@ -4546,8 +4589,18 @@ where
             sess.total_time_ms += move_time_ms;
             sess.state = sess.state.apply_move(mv);
             sess.ply += 1;
+            if let Err(err) = engine_session.apply_action_idx(idx, action as usize) {
+                sess.error = Some(err);
+                sess.done = true;
+                wave_errors += 1;
+                engine_session.deactivate(idx);
+                continue;
+            }
             if sess.state.is_terminal() || sess.ply >= max_moves {
                 sess.done = true;
+                engine_session.deactivate(idx);
+            } else {
+                model_tags[idx].store(sess.active_model_tag(), Ordering::Relaxed);
             }
         }
         let completed = sessions.iter().filter(|sess| sess.done).count();
@@ -4563,6 +4616,7 @@ where
                 "wave_nulls": wave_nulls,
                 "batch_elapsed_ms": batch_elapsed_ms,
                 "share_ms": share_ms,
+                "runner_impl": "persistent_engine_session",
             }),
         );
         if completed >= last_reported + progress_every || completed == sessions.len() {
@@ -5292,6 +5346,36 @@ mod tests {
             first_iters,
             second_iters
         );
+    }
+
+    #[test]
+    fn test_tagged_shared_evaluator_switches_model_by_atomic_tag() {
+        #[derive(Clone)]
+        struct MarkerEval {
+            value: f32,
+        }
+
+        impl Evaluator<Gomoku> for MarkerEval {
+            fn evaluate(&self, state: &Gomoku) -> EvalResult<<Gomoku as GameState>::Move> {
+                let legal = state.legal_moves();
+                EvalResult::uniform(&legal, self.value)
+            }
+        }
+
+        let tag = Arc::new(AtomicU32::new(0));
+        let eval = TaggedSharedEvaluator::<Gomoku> {
+            current_tag: tag.clone(),
+            eval_a: Arc::new(MarkerEval { value: 0.25 }),
+            eval_b: Some(Arc::new(MarkerEval { value: -0.5 })),
+        };
+        let state = Gomoku::new(7);
+
+        let first = eval.evaluate(&state);
+        assert!((first.value - 0.25).abs() < 1e-6);
+
+        tag.store(1, Ordering::Relaxed);
+        let second = eval.evaluate(&state);
+        assert!((second.value + 0.5).abs() < 1e-6);
     }
 
     #[test]

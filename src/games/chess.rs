@@ -16,6 +16,7 @@ use rand::Rng;
 use rand::SeedableRng;
 use std::fmt;
 use std::hash::Hash;
+use std::sync::LazyLock;
 
 use crate::game::{tt_combine, tt_mix64, GameState};
 
@@ -321,9 +322,10 @@ impl AttackTables {
     }
 }
 
-thread_local! {
-    static ATK: AttackTables = AttackTables::init();
-}
+// SAFETY: AttackTables is read-only after init and contains only plain data.
+unsafe impl Sync for AttackTables {}
+
+static ATK: LazyLock<AttackTables> = LazyLock::new(AttackTables::init);
 
 // Ray attacks for sliding pieces (computed on the fly — simple, no magic)
 fn ray_attacks(sq: u8, occ: u64, dirs: &[(i8, i8)]) -> u64 {
@@ -396,9 +398,11 @@ impl ChessZob {
     }
 }
 
-thread_local! {
-    static CZOB: ChessZob = ChessZob::new(0xC4E5_5960_DEAD_BEEF);
-}
+// SAFETY: ChessZob is read-only after init and contains only plain data.
+unsafe impl Sync for ChessZob {}
+
+static CZOB: LazyLock<ChessZob> = LazyLock::new(|| ChessZob::new(0xC4E5_5960_DEAD_BEEF));
+
 
 // ═══════════════════════════════════════════════════════
 // § 6. Chess state
@@ -847,7 +851,8 @@ impl Chess {
     }
 
     fn compute_hash(&self) -> u64 {
-        CZOB.with(|z| {
+        {
+            let z = &*CZOB;
             let mut h = 0u64;
             for pi in 0..12 {
                 for s in bits(self.bb[pi]) {
@@ -862,7 +867,7 @@ impl Chess {
                 h ^= z.ep[file_of(self.ep_sq) as usize];
             }
             h
-        })
+        }
     }
 
     #[inline]
@@ -901,7 +906,8 @@ impl Chess {
         let occ = self.all_occ();
         let base = if attacker_side == WHITE { 0 } else { 6 };
 
-        ATK.with(|t| {
+        {
+            let t = &*ATK;
             // Pawn attacks
             if t.pawn_atk[1 - attacker_side as usize][sq as usize] & self.bb[base] != 0 {
                 return true;
@@ -925,7 +931,7 @@ impl Chess {
                 return true;
             }
             false
-        })
+        }
     }
 
     fn in_check(&self) -> bool {
@@ -960,7 +966,8 @@ impl Chess {
         self.gen_pawns(side, my, their, occ, moves);
 
         // Knights
-        ATK.with(|t| {
+        {
+            let t = &*ATK;
             for from in bits(self.bb[base + 1]) {
                 let targets = t.knight[from as usize] & !my;
                 for to in bits(targets) {
@@ -976,7 +983,7 @@ impl Chess {
                 let fl = if their & bit(to) != 0 { 4 } else { 0 };
                 moves.push(ChessMove::new(ksq, to, fl));
             }
-        });
+        }
 
         // Bishops
         for from in bits(self.bb[base + 2]) {
@@ -1016,7 +1023,8 @@ impl Chess {
         };
         let ep_mask = if self.ep_sq < 64 { bit(self.ep_sq) } else { 0 };
 
-        ATK.with(|t| {
+        {
+            let t = &*ATK;
             for from in bits(pawns) {
                 let to_sq = (from as i8 + fwd) as u8;
                 // Single push
@@ -1053,7 +1061,7 @@ impl Chess {
                     }
                 }
             }
-        });
+        }
     }
 
     fn gen_castling(&self, side: u8, occ: u64, moves: &mut Vec<ChessMove>) {
@@ -1235,22 +1243,24 @@ impl Chess {
         debug_assert!(piece_idx != usize::MAX, "no piece at from sq {}", from);
 
         // Clear EP from hash
-        CZOB.with(|z| {
+        {
+            let z = &*CZOB;
             if next.ep_sq < 64 {
                 next.hash ^= z.ep[file_of(next.ep_sq) as usize];
             }
             next.hash ^= z.castle[next.castling as usize];
-        });
+        }
 
         // Move the piece
         if from != to {
             next.bb[piece_idx] ^= bit(from) | bit(to);
             next.occ[side as usize] ^= bit(from) | bit(to);
 
-            CZOB.with(|z| {
+            {
+                let z = &*CZOB;
                 next.hash ^= z.piece[piece_idx][from as usize];
                 next.hash ^= z.piece[piece_idx][to as usize];
-            });
+            }
         }
 
         // Handle capture
@@ -1259,9 +1269,10 @@ impl Chess {
             if cap_idx != usize::MAX {
                 next.bb[cap_idx] ^= bit(to);
                 next.occ[opp as usize] ^= bit(to);
-                CZOB.with(|z| {
+                {
+                    let z = &*CZOB;
                     next.hash ^= z.piece[cap_idx][to as usize];
-                });
+                }
             }
         }
 
@@ -1271,9 +1282,10 @@ impl Chess {
             let cap_idx = if side == WHITE { BP } else { WP };
             next.bb[cap_idx] ^= bit(cap_sq);
             next.occ[opp as usize] ^= bit(cap_sq);
-            CZOB.with(|z| {
+            {
+                let z = &*CZOB;
                 next.hash ^= z.piece[cap_idx][cap_sq as usize];
-            });
+            }
         }
 
         // Promotion
@@ -1282,10 +1294,11 @@ impl Chess {
                                                        // Remove pawn at `to`, add promoted piece
             next.bb[piece_idx] ^= bit(to); // remove pawn (was just placed)
             next.bb[promo_piece] |= bit(to);
-            CZOB.with(|z| {
+            {
+                let z = &*CZOB;
                 next.hash ^= z.piece[piece_idx][to as usize];
                 next.hash ^= z.piece[promo_piece][to as usize];
-            });
+            }
         }
 
         // Castling move
@@ -1313,10 +1326,11 @@ impl Chess {
             if rook_from != rook_to {
                 next.bb[rook_idx] ^= bit(rook_from) | bit(rook_to);
                 next.occ[side as usize] ^= bit(rook_from) | bit(rook_to);
-                CZOB.with(|z| {
+                {
+                    let z = &*CZOB;
                     next.hash ^= z.piece[rook_idx][rook_from as usize];
                     next.hash ^= z.piece[rook_idx][rook_to as usize];
-                });
+                }
             }
         }
 
@@ -1366,13 +1380,14 @@ impl Chess {
 
         // Side
         next.side = opp;
-        CZOB.with(|z| {
+        {
+            let z = &*CZOB;
             next.hash ^= z.side;
             next.hash ^= z.castle[next.castling as usize];
             if next.ep_sq < 64 {
                 next.hash ^= z.ep[file_of(next.ep_sq) as usize];
             }
-        });
+        }
 
         // Record hash for 3-fold.
         // On irreversible moves (half reset), truncate history — old positions unreachable.
@@ -1507,7 +1522,7 @@ impl GameState for Chess {
     }
 
     fn legal_moves(&self) -> Vec<ChessMove> {
-        if !matches!(self.terminal_status(), TerminalStatus::Ongoing) {
+        if self.is_insufficient_material() || self.is_fivefold() || self.is_seventy_five_move() {
             return vec![];
         }
         self.generate_legal_moves()
@@ -1598,7 +1613,7 @@ impl GameState for Chess {
             .find(|mv| self.move_to_idx(*mv) == idx)
     }
 
-    fn encode_planes(&self) -> Vec<f32> {
+    fn encode_planes_into(&self, out: &mut Vec<f32>) {
         // Chess 36-channel encoding (AlphaZero-complete for t=0):
         //
         // t=0 piece planes (relative to side-to-move):
@@ -1620,7 +1635,8 @@ impl GameState for Chess {
         //   34:    halfmove clock (half / 100, clamped, for 50-move rule)
         //   35:    en passant target square
         const TOTAL: usize = 36;
-        let mut out = vec![0.0f32; TOTAL * 64];
+        out.clear();
+        out.resize(TOTAL * 64, 0.0);
         let my_base = if self.side == WHITE { 0usize } else { 6 };
         let opp_base = if self.side == WHITE { 6usize } else { 0 };
 
@@ -1646,14 +1662,10 @@ impl GameState for Chess {
             }
         }
         if rep_count >= 2 {
-            for i in 0..64 {
-                out[12 * 64 + i] = 1.0;
-            }
+            out[12 * 64..13 * 64].fill(1.0);
         }
         if rep_count >= 1 {
-            for i in 0..64 {
-                out[13 * 64 + i] = 1.0;
-            }
+            out[13 * 64..14 * 64].fill(1.0);
         }
 
         // Planes 14-27: history t=1..7 occupancy
@@ -1679,51 +1691,35 @@ impl GameState for Chess {
 
         // Plane 28: side to move
         if self.side == WHITE {
-            for i in 0..64 {
-                out[28 * 64 + i] = 1.0;
-            }
+            out[28 * 64..29 * 64].fill(1.0);
         }
 
         // Plane 29: total move count (normalized)
         let move_frac = (self.full as f32 / 200.0).min(1.0);
-        for i in 0..64 {
-            out[29 * 64 + i] = move_frac;
-        }
+        out[29 * 64..30 * 64].fill(move_frac);
 
         // Planes 30-33: castling rights
         if self.castling & WKS != 0 {
-            for i in 0..64 {
-                out[30 * 64 + i] = 1.0;
-            }
+            out[30 * 64..31 * 64].fill(1.0);
         }
         if self.castling & WQS != 0 {
-            for i in 0..64 {
-                out[31 * 64 + i] = 1.0;
-            }
+            out[31 * 64..32 * 64].fill(1.0);
         }
         if self.castling & BKS != 0 {
-            for i in 0..64 {
-                out[32 * 64 + i] = 1.0;
-            }
+            out[32 * 64..33 * 64].fill(1.0);
         }
         if self.castling & BQS != 0 {
-            for i in 0..64 {
-                out[33 * 64 + i] = 1.0;
-            }
+            out[33 * 64..34 * 64].fill(1.0);
         }
 
         // Plane 34: halfmove clock (normalized, for 50-move rule awareness)
         let half_frac = (self.half as f32 / 100.0).min(1.0);
-        for i in 0..64 {
-            out[34 * 64 + i] = half_frac;
-        }
+        out[34 * 64..35 * 64].fill(half_frac);
 
         // Plane 35: en passant target
         if self.ep_sq < 64 {
             out[35 * 64 + self.ep_sq as usize] = 1.0;
         }
-
-        out
     }
 }
 
@@ -1822,6 +1818,16 @@ pub fn chess_quartz() -> MctsConfig {
 #[cfg(test)]
 mod tests {
     use super::*;
+    use std::hint::black_box;
+    use std::time::Instant;
+
+    fn bench_loops(default: usize) -> usize {
+        std::env::var("GAME_BENCH_LOOPS")
+            .ok()
+            .and_then(|s| s.parse::<usize>().ok())
+            .filter(|&v| v > 0)
+            .unwrap_or(default)
+    }
 
     #[test]
     fn test_initial_position() {
@@ -2651,5 +2657,58 @@ mod tests {
                 n
             );
         }
+    }
+
+    #[test]
+    #[ignore]
+    fn bench_chess_hotpaths() {
+        let mut state = Chess::standard();
+        for mv in ["e2e4", "e7e5", "g1f3", "b8c6", "f1c4", "g8f6"] {
+            let next = state
+                .generate_legal_moves()
+                .into_iter()
+                .find(|m| m.to_uci() == mv)
+                .expect("opening move must exist");
+            state = state.apply_move(next);
+        }
+        let loops = bench_loops(5_000);
+
+        let start = Instant::now();
+        for _ in 0..loops {
+            black_box(state.clone());
+        }
+        let clone_ms = start.elapsed().as_secs_f64() * 1000.0;
+
+        let start = Instant::now();
+        for _ in 0..loops {
+            black_box(state.legal_moves());
+        }
+        let legal_ms = start.elapsed().as_secs_f64() * 1000.0;
+
+        let legal = state.legal_moves();
+        let mv = legal[legal.len() / 2];
+        let start = Instant::now();
+        for _ in 0..loops {
+            black_box(state.apply_move(mv));
+        }
+        let apply_ms = start.elapsed().as_secs_f64() * 1000.0;
+
+        let start = Instant::now();
+        for _ in 0..loops {
+            black_box(state.encode_planes());
+        }
+        let encode_ms = start.elapsed().as_secs_f64() * 1000.0;
+
+        let mut scratch = Vec::new();
+        let start = Instant::now();
+        for _ in 0..loops {
+            state.encode_planes_into(&mut scratch);
+            black_box(&scratch);
+        }
+        let encode_reuse_ms = start.elapsed().as_secs_f64() * 1000.0;
+
+        eprintln!(
+            "[bench] chess: clone={clone_ms:.2}ms legal={legal_ms:.2}ms apply={apply_ms:.2}ms encode={encode_ms:.2}ms encode_reuse={encode_reuse_ms:.2}ms loops={loops}"
+        );
     }
 }

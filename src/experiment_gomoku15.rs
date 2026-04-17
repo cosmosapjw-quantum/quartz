@@ -279,3 +279,4 @@ mod tests {
         tournament_variant(GomokuVariant::Omok, 10, 100);
     }
 }
+

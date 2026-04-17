@@ -19,7 +19,9 @@
 use rand::rngs::StdRng;
 use rand::Rng;
 use rand::SeedableRng;
+use std::cell::RefCell;
 use std::fmt;
+use std::sync::LazyLock;
 
 use crate::game::GameState;
 
@@ -64,8 +66,29 @@ impl Zob15 {
     }
 }
 
+unsafe impl Sync for Zob15 {}
+
+static ZOB15: LazyLock<Zob15> = LazyLock::new(|| Zob15::new(0xA0B0_C015_DEAD_BEEF));
+
 thread_local! {
-    static ZOB15: Zob15 = Zob15::new(0xA0B0_C015_DEAD_BEEF);
+    static GOMOKU15_FEATURE_SCRATCH: RefCell<Gomoku15FeatureScratch> =
+        RefCell::new(Gomoku15FeatureScratch::default());
+}
+
+struct Gomoku15FeatureScratch {
+    touched: Vec<usize>,
+    recent_rank: [u8; N2],
+    recent_rank_dirty: Vec<usize>,
+}
+
+impl Default for Gomoku15FeatureScratch {
+    fn default() -> Self {
+        Self {
+            touched: Vec::new(),
+            recent_rank: [0; N2],
+            recent_rank_dirty: Vec::with_capacity(16),
+        }
+    }
 }
 
 // ─────────────────────────────────────────────
@@ -92,6 +115,7 @@ pub enum GomokuVariant {
 
 /// History depth for AlphaZero-style encoding (T=8 timesteps including current).
 const GOMOKU15_HISTORY_LEN: usize = 8;
+const GOMOKU15_HISTORY_MOVES: usize = GOMOKU15_HISTORY_LEN - 1;
 
 #[derive(Clone, Debug)]
 pub struct Gomoku15 {
@@ -105,8 +129,9 @@ pub struct Gomoku15 {
     /// Bitmask: bit i set ⇔ cell i is within distance 4 (in any direction)
     /// of at least one black stone. Used to skip forbidden checks for far cells.
     near_black: [u64; 4], // ceil(225/64) = 4
-    /// Past board snapshots for AlphaZero-style history encoding (most recent last).
-    board_history: Vec<[u8; N2]>,
+    /// Recent move history for AlphaZero-style feature reconstruction.
+    recent_moves: [u16; GOMOKU15_HISTORY_MOVES],
+    recent_move_len: u8,
 }
 
 impl Gomoku15 {
@@ -133,8 +158,21 @@ impl Gomoku15 {
             last_mv: 0xFFFF,
             rules: variant,
             near_black: [0u64; 4],
-            board_history: Vec::new(),
+            recent_moves: [0; GOMOKU15_HISTORY_MOVES],
+            recent_move_len: 0,
         }
+    }
+
+    #[inline]
+    fn push_recent_move(&mut self, mv: u16) {
+        let len = self.recent_move_len as usize;
+        if len < GOMOKU15_HISTORY_MOVES {
+            self.recent_moves[len] = mv;
+            self.recent_move_len += 1;
+            return;
+        }
+        self.recent_moves.copy_within(1..GOMOKU15_HISTORY_MOVES, 0);
+        self.recent_moves[GOMOKU15_HISTORY_MOVES - 1] = mv;
     }
 
     #[cfg(test)]
@@ -179,7 +217,8 @@ impl Gomoku15 {
         g.moves = move_count;
         g.last_mv = last;
         // Recompute hash
-        ZOB15.with(|z| {
+        {
+            let z = &*ZOB15;
             g.hash = 0;
             for i in 0..N2 {
                 if g.board[i] == 1 {
@@ -191,7 +230,7 @@ impl Gomoku15 {
             if g.side < 0 {
                 g.hash ^= z.side;
             }
-        });
+        }
         // Check winner
         for i in 0..N2 {
             if g.board[i] != 0 && g.check_win_at(i) {
@@ -722,13 +761,6 @@ impl GameState for Gomoku15 {
         let pos = mv as usize;
         let val = Self::side_to_val(self.side);
 
-        // Save current board to history before applying move
-        next.board_history.push(self.board);
-        if next.board_history.len() > GOMOKU15_HISTORY_LEN - 1 {
-            next.board_history
-                .drain(0..next.board_history.len() - (GOMOKU15_HISTORY_LEN - 1));
-        }
-
         // Place stone
         next.board[pos] = val;
 
@@ -738,10 +770,11 @@ impl GameState for Gomoku15 {
         }
 
         // Zobrist incremental update
-        ZOB15.with(|z| {
+        {
+            let z = &*ZOB15;
             next.hash ^= z.piece_hash(self.side, pos);
             next.hash ^= z.side;
-        });
+        }
 
         // Win check
         if next.check_win_at(pos) {
@@ -751,6 +784,7 @@ impl GameState for Gomoku15 {
         next.side = -self.side;
         next.moves += 1;
         next.last_mv = mv;
+        next.push_recent_move(mv);
 
         next
     }
@@ -796,44 +830,63 @@ impl GameState for Gomoku15 {
     ///   ...
     ///   planes 14-15: t=7 (7수 전) 내 돌, 상대 돌
     ///   plane 16:     현재 플레이어 색상 (black=1, white=0)
-    fn encode_planes(&self) -> Vec<f32> {
+    fn encode_planes_into(&self, out: &mut Vec<f32>) {
         let total_planes = GOMOKU15_HISTORY_LEN * 2 + 1; // 17
-        let mut out = vec![0.0f32; total_planes * N2];
         let my_val = Self::side_to_val(self.side);
-        let opp_val = Self::side_to_val(-self.side);
-
-        // t=0: current board
-        for i in 0..N2 {
-            if self.board[i] == my_val {
-                out[i] = 1.0;
-            } else if self.board[i] == opp_val {
-                out[N2 + i] = 1.0;
+        GOMOKU15_FEATURE_SCRATCH.with(|scratch| {
+            let mut scratch = scratch.borrow_mut();
+            let total = total_planes * N2;
+            if out.len() != total {
+                out.clear();
+                out.resize(total, 0.0);
+                scratch.touched.clear();
+            } else {
+                for &idx in &scratch.touched {
+                    out[idx] = 0.0;
+                }
+                scratch.touched.clear();
             }
-        }
 
-        // t=1..7: history (most recent = last element in board_history)
-        for (k, hist_board) in self.board_history.iter().rev().enumerate() {
-            let t = k + 1;
-            if t >= GOMOKU15_HISTORY_LEN {
-                break;
+            // Sparse reset: only clear entries that were set last time
+            for i in 0..scratch.recent_rank_dirty.len() {
+                let pos = scratch.recent_rank_dirty[i];
+                scratch.recent_rank[pos] = 0;
             }
-            let base = t * 2 * N2;
-            for (i, &v) in hist_board.iter().enumerate() {
-                if v == my_val {
-                    out[base + i] = 1.0;
-                } else if v == opp_val {
-                    out[base + N2 + i] = 1.0;
+            scratch.recent_rank_dirty.clear();
+            for (rank, &mv) in self.recent_moves[..self.recent_move_len as usize]
+                .iter()
+                .rev()
+                .enumerate()
+            {
+                let pos = mv as usize;
+                scratch.recent_rank[pos] = (rank + 1) as u8;
+                scratch.recent_rank_dirty.push(pos);
+            }
+
+            for (i, &v) in self.board.iter().enumerate() {
+                if v == 0 {
+                    continue;
+                }
+                let plane_offset = if v == my_val { 0 } else { N2 };
+                let active_steps = match scratch.recent_rank[i] {
+                    0 => GOMOKU15_HISTORY_LEN,
+                    rank => rank as usize,
+                };
+                for t in 0..active_steps {
+                    let idx = t * 2 * N2 + plane_offset + i;
+                    out[idx] = 1.0;
+                    scratch.touched.push(idx);
                 }
             }
-        }
 
-        // Color plane
-        let color_val = if self.side > 0 { 1.0 } else { 0.0 };
-        let color_base = (total_planes - 1) * N2;
-        for i in 0..N2 {
-            out[color_base + i] = color_val;
-        }
-        out
+            if self.side > 0 {
+                let color_base = (total_planes - 1) * N2;
+                for idx in color_base..color_base + N2 {
+                    out[idx] = 1.0;
+                    scratch.touched.push(idx);
+                }
+            }
+        });
     }
 
     fn board_state_record(&self) -> Vec<i64> {
@@ -970,6 +1023,17 @@ pub fn gomoku15_quartz_timed(variant: GomokuVariant, budget_ms: u64) -> MctsConf
 #[cfg(test)]
 mod tests {
     use super::*;
+    use crate::games::{Gomoku, TicTacToe};
+    use std::hint::black_box;
+    use std::time::Instant;
+
+    fn bench_loops(default: usize) -> usize {
+        std::env::var("GAME_BENCH_LOOPS")
+            .ok()
+            .and_then(|s| s.parse::<usize>().ok())
+            .filter(|&v| v > 0)
+            .unwrap_or(default)
+    }
 
     // ── Helpers ──
 
@@ -2247,5 +2311,144 @@ mod tests {
             s.legal_moves().is_empty(),
             "drawn position should not continue"
         );
+    }
+
+    fn bench_gomoku_state(mut state: Gomoku, label: &str) {
+        for &mv in &[112usize, 113, 127, 128, 142, 143, 157, 158] {
+            if state.idx_to_move(mv).is_some() && state.legal_moves().contains(&mv) {
+                state = state.apply_move(mv);
+            }
+        }
+        let loops = bench_loops(20_000);
+
+        let start = Instant::now();
+        for _ in 0..loops {
+            black_box(state.clone());
+        }
+        let clone_ms = start.elapsed().as_secs_f64() * 1000.0;
+
+        let legal = state.legal_moves();
+        let mv = legal[legal.len() / 2];
+        let start = Instant::now();
+        for _ in 0..loops {
+            black_box(state.apply_move(mv));
+        }
+        let apply_ms = start.elapsed().as_secs_f64() * 1000.0;
+
+        let start = Instant::now();
+        for _ in 0..loops {
+            black_box(state.encode_planes());
+        }
+        let encode_ms = start.elapsed().as_secs_f64() * 1000.0;
+
+        let mut scratch = Vec::new();
+        let start = Instant::now();
+        for _ in 0..loops {
+            state.encode_planes_into(&mut scratch);
+            black_box(&scratch);
+        }
+        let encode_reuse_ms = start.elapsed().as_secs_f64() * 1000.0;
+
+        eprintln!(
+                "[bench] {label}: clone={clone_ms:.2}ms apply={apply_ms:.2}ms encode={encode_ms:.2}ms encode_reuse={encode_reuse_ms:.2}ms loops={loops}"
+            );
+    }
+
+    fn bench_gomoku15_state(mut state: Gomoku15, label: &str) {
+        for &mv in &[112u16, 113, 127, 128, 142, 143, 157, 158] {
+            if state.legal_moves().contains(&mv) {
+                state = state.apply_move(mv);
+            }
+        }
+        let loops = bench_loops(20_000);
+
+        let start = Instant::now();
+        for _ in 0..loops {
+            black_box(state.clone());
+        }
+        let clone_ms = start.elapsed().as_secs_f64() * 1000.0;
+
+        let legal = state.legal_moves();
+        let mv = legal[legal.len() / 2];
+        let start = Instant::now();
+        for _ in 0..loops {
+            black_box(state.apply_move(mv));
+        }
+        let apply_ms = start.elapsed().as_secs_f64() * 1000.0;
+
+        let start = Instant::now();
+        for _ in 0..loops {
+            black_box(state.encode_planes());
+        }
+        let encode_ms = start.elapsed().as_secs_f64() * 1000.0;
+
+        let mut scratch = Vec::new();
+        let start = Instant::now();
+        for _ in 0..loops {
+            state.encode_planes_into(&mut scratch);
+            black_box(&scratch);
+        }
+        let encode_reuse_ms = start.elapsed().as_secs_f64() * 1000.0;
+
+        eprintln!(
+                "[bench] {label}: clone={clone_ms:.2}ms apply={apply_ms:.2}ms encode={encode_ms:.2}ms encode_reuse={encode_reuse_ms:.2}ms loops={loops}"
+            );
+    }
+
+    fn bench_ttt_state(mut state: TicTacToe, label: &str) {
+        for &mv in &[4usize, 0, 8, 2] {
+            state = state.apply_move(mv);
+        }
+        let loops = bench_loops(50_000);
+
+        let start = Instant::now();
+        for _ in 0..loops {
+            black_box(state.clone());
+        }
+        let clone_ms = start.elapsed().as_secs_f64() * 1000.0;
+
+        let legal = state.legal_moves();
+        let mv = legal[0];
+        let start = Instant::now();
+        for _ in 0..loops {
+            black_box(state.apply_move(mv));
+        }
+        let apply_ms = start.elapsed().as_secs_f64() * 1000.0;
+
+        let start = Instant::now();
+        for _ in 0..loops {
+            black_box(state.encode_planes());
+        }
+        let encode_ms = start.elapsed().as_secs_f64() * 1000.0;
+
+        let mut scratch = Vec::new();
+        let start = Instant::now();
+        for _ in 0..loops {
+            state.encode_planes_into(&mut scratch);
+            black_box(&scratch);
+        }
+        let encode_reuse_ms = start.elapsed().as_secs_f64() * 1000.0;
+
+        eprintln!(
+                "[bench] {label}: clone={clone_ms:.2}ms apply={apply_ms:.2}ms encode={encode_ms:.2}ms encode_reuse={encode_reuse_ms:.2}ms loops={loops}"
+            );
+    }
+
+    #[test]
+    #[ignore]
+    fn bench_gomoku_hotpaths() {
+        bench_gomoku_state(Gomoku::new(15), "gomoku15-generic");
+    }
+
+    #[test]
+    #[ignore]
+    fn bench_gomoku15_hotpaths() {
+        bench_gomoku15_state(Gomoku15::freestyle(), "gomoku15-freestyle");
+    }
+
+    #[test]
+    #[ignore]
+    fn bench_tictactoe_hotpaths() {
+        bench_ttt_state(TicTacToe::initial(), "tictactoe");
     }
 }

@@ -109,23 +109,19 @@ def encode_board_with_history(cfg, board_12_sequence, move_idx, player):
     total_ch = history_len * 2 + 1
     enc = np.zeros((total_ch, bs, bs), dtype=np.float32)
 
+    # Map player convention: board uses 1=black, 2=white; we need +1/-1
+    my_val = 1 if player == 1 else 2
+    opp_val = 2 if player == 1 else 1
+
     for t in range(history_len):
         hist_idx = move_idx - t
         if hist_idx < 0:
             break
         board_12 = board_12_sequence[hist_idx]
-        board_flat = np.asarray(
-            [1 if int(v) == 1 else (-1 if int(v) == 2 else 0) for v in board_12],
-            dtype=np.int8,
-        )
-        plane_my = t * 2
-        plane_opp = t * 2 + 1
-        for i in range(min(n2, len(board_flat))):
-            r, c = i // bs, i % bs
-            if board_flat[i] == player:
-                enc[plane_my, r, c] = 1.0
-            elif board_flat[i] != 0:
-                enc[plane_opp, r, c] = 1.0
+        # [OPT] Vectorized: convert list → numpy array → boolean mask → reshape
+        board_arr = np.asarray(board_12, dtype=np.int8).ravel()[:n2]
+        enc[t * 2].ravel()[:len(board_arr)] = (board_arr == my_val).astype(np.float32)
+        enc[t * 2 + 1].ravel()[:len(board_arr)] = (board_arr == opp_val).astype(np.float32)
 
     if player == 1:
         enc[total_ch - 1] = 1.0
@@ -257,6 +253,9 @@ class ArenaRuntimeHooks:
     initial_chess_fen: object
     chess_state_meta_from_hashes: object
     arena_compare: object
+    build_training_game_adapter: object
+    rust_nn_evaluator_engine_cls: object
+    match_runner_cls: object
 
 
 @dataclass(frozen=True)
@@ -1025,24 +1024,190 @@ def arena_rust_nn_impl(
             f"arena_rust_nn requires same game on both sides: {cfg_a.get('_name')} vs {cfg_b.get('_name')}"
         )
 
-    is_chess = runtime_hooks.is_chess_game(cfg_a.get("_name"))
+    same_search_cfg = cfg_a == cfg_b
+    same_model_source = same_search_cfg and os.path.abspath(model_a_path) == os.path.abspath(model_b_path)
 
     model_a = runtime_hooks.alphazero_net_cls(cfg_a).to(device)
-    model_b = runtime_hooks.alphazero_net_cls(cfg_b).to(device)
     model_a.load_state_dict(
         runtime_hooks.load_torch_state_dict(model_a_path, runtime_hooks.torch_module, map_location=device)
     )
-    model_b.load_state_dict(
-        runtime_hooks.load_torch_state_dict(model_b_path, runtime_hooks.torch_module, map_location=device)
-    )
     model_a.eval()
-    model_b.eval()
+    if same_model_source:
+        model_b = model_a
+    else:
+        model_b = runtime_hooks.alphazero_net_cls(cfg_b).to(device)
+        model_b.load_state_dict(
+            runtime_hooks.load_torch_state_dict(model_b_path, runtime_hooks.torch_module, map_location=device)
+        )
+        model_b.eval()
 
-    client_a = runtime_hooks.search_client_cls(model_a, cfg_a, device, rust_binary)
-    client_b = runtime_hooks.search_client_cls(model_b, cfg_b, device, rust_binary)
+    game_name = cfg_a.get("_name")
+    is_chess = runtime_hooks.is_chess_game(game_name)
+    max_moves = 500 if is_chess else int(cfg_a["board"]) ** 2
+    wins_a = wins_b = draws = 0
+
+    p0, p1 = 0.5, 0.55
+    alpha, beta = 0.05, 0.05
+    lower_bound = math.log(beta / (1 - alpha))
+    upper_bound = math.log((1 - beta) / alpha)
+    sprt_decided = False
+    sprt_result = None
+
     try:
-        client_a.start()
-        client_b.start()
+        if not same_search_cfg:
+            raise RuntimeError("__arena_use_legacy_dual_cfg__")
+        engine_a = runtime_hooks.rust_nn_evaluator_engine_cls(
+            "arena_a",
+            cfg_a,
+            model_a,
+            device,
+            rust_binary,
+        )
+        engine_b = runtime_hooks.rust_nn_evaluator_engine_cls(
+            "arena_b",
+            cfg_b,
+            model_b,
+            device,
+            rust_binary,
+        )
+        runner = runtime_hooks.match_runner_cls(
+            lambda: runtime_hooks.build_training_game_adapter(dict(cfg_a)),
+            seed=int(cfg_a.get("seed", 0) or 0),
+            max_moves=max_moves,
+        )
+        tally = runner.play_match_tally_batched(engine_a, engine_b, n_games, color_swap=True)
+        wins_a = int(tally.wins)
+        wins_b = int(tally.losses)
+        draws = int(tally.draws)
+        decisive = wins_a + wins_b
+        if decisive > 0:
+            llr = wins_a * math.log(p1 / p0) + (decisive - wins_a) * math.log((1 - p1) / (1 - p0))
+            if llr >= upper_bound:
+                sprt_decided = True
+                sprt_result = "H1_accept"
+            elif llr <= lower_bound:
+                sprt_decided = True
+                sprt_result = "H0_accept"
+    except RuntimeError as exc:
+        if str(exc) != "__arena_use_legacy_dual_cfg__":
+            raise
+        client_a = runtime_hooks.search_client_cls(model_a, cfg_a, device, rust_binary)
+        client_b = runtime_hooks.search_client_cls(model_b, cfg_b, device, rust_binary)
+        try:
+            client_a.start()
+            client_b.start()
+        except FileNotFoundError:
+            if strict:
+                raise RuntimeError(
+                    f"Arena (strict mode): Rust binary not found at {rust_binary}. "
+                    f"Run: cargo build --release. "
+                    f"Use strict=False for Python TreeMCTS fallback (NOT benchmark-grade)."
+                )
+            print("  [WARN] Rust binary not found, falling back to Python arena (NOT benchmark-grade)")
+            raise RuntimeError("strict=False fallback does not support asymmetric search configs")
+
+        board_size = cfg_a["board"]
+        n2 = board_size ** 2
+        win_len = cfg_a["win"]
+        penalty_mode_a = cfg_a.get("penalty_mode", "GatedRefresh")
+        penalty_mode_b = cfg_b.get("penalty_mode", "GatedRefresh")
+
+        with tqdm(total=n_games, desc="Arena (Rust+NN)", leave=False) as pbar:
+            for game_idx in range(n_games):
+                if game_idx % 2 == 0:
+                    first_client, second_client = client_a, client_b
+                    first_is_a = True
+                else:
+                    first_client, second_client = client_b, client_a
+                    first_is_a = False
+
+                board = np.zeros(n2, dtype=np.int8) if not is_chess else None
+                player = 1
+                winner = 0
+                current_fen = runtime_hooks.initial_chess_fen(cfg_a) if is_chess else None
+                current_chess_meta = {} if is_chess else None
+
+                for _move_n in range(max_moves):
+                    client = first_client if player == 1 else second_client
+                    penalty_mode = penalty_mode_a if client is client_a else penalty_mode_b
+
+                    if is_chess:
+                        result = client.search_move(
+                            None, player, penalty_mode, fen=current_fen, state_meta=current_chess_meta
+                        )
+                    else:
+                        result = client.search_move(board, player, penalty_mode)
+                    if not result or "error" in result:
+                        break
+
+                    pol_entries = result.get("policy", [])
+                    if not pol_entries:
+                        if is_chess:
+                            terminal_value = float(result.get("value", 0.0))
+                            if terminal_value < -0.5:
+                                winner = -player
+                            elif terminal_value > 0.5:
+                                winner = player
+                        break
+
+                    if is_chess:
+                        new_fen = result.get("result_fen", "")
+                        if not new_fen or new_fen == current_fen:
+                            break
+                        current_fen = new_fen
+                        current_chess_meta = runtime_hooks.chess_state_meta_from_hashes(
+                            result.get("result_history_hashes", [])
+                        )
+                        player = -player
+                    else:
+                        best = result.get("best_move", -1)
+                        legal = [i for i in range(n2) if board[i] == 0]
+                        if best < 0 or best >= n2 or board[best] != 0:
+                            if legal:
+                                best = random.choice(legal)
+                            else:
+                                break
+
+                        board[best] = player
+
+                        if win_len > 0:
+                            r0, c0 = best // board_size, best % board_size
+                            for dr, dc in [(0, 1), (1, 0), (1, 1), (1, -1)]:
+                                cnt = 1
+                                for sign in [1, -1]:
+                                    nr, nc = r0 + sign * dr, c0 + sign * dc
+                                    while 0 <= nr < board_size and 0 <= nc < board_size and board[nr * board_size + nc] == player:
+                                        cnt += 1
+                                        nr += sign * dr
+                                        nc += sign * dc
+                                if cnt >= win_len:
+                                    winner = player
+                                    break
+                            if winner:
+                                break
+
+                        if not [i for i in range(n2) if board[i] == 0]:
+                            break
+                        player = -player
+
+                if winner == 1:
+                    if first_is_a:
+                        wins_a += 1
+                    else:
+                        wins_b += 1
+                elif winner == -1:
+                    if first_is_a:
+                        wins_b += 1
+                    else:
+                        wins_a += 1
+                else:
+                    draws += 1
+
+                pbar.update(1)
+                pbar.set_postfix_str(f"A:{wins_a} B:{wins_b} D:{draws}")
+
+        client_a.stop()
+        client_b.stop()
     except FileNotFoundError:
         if strict:
             raise RuntimeError(
@@ -1054,131 +1219,6 @@ def arena_rust_nn_impl(
         if cfg_a == cfg_b:
             return runtime_hooks.arena_compare(model_a_path, model_b_path, cfg_a, device, n_games)
         raise RuntimeError("strict=False fallback does not support asymmetric search configs")
-
-    board_size = cfg_a["board"]
-    n2 = board_size ** 2
-    win_len = cfg_a["win"]
-    penalty_mode_a = cfg_a.get("penalty_mode", "GatedRefresh")
-    penalty_mode_b = cfg_b.get("penalty_mode", "GatedRefresh")
-
-    wins_a, wins_b, draws = 0, 0, 0
-
-    p0, p1 = 0.5, 0.55
-    alpha, beta = 0.05, 0.05
-    lower_bound = math.log(beta / (1 - alpha))
-    upper_bound = math.log((1 - beta) / alpha)
-    sprt_decided = False
-    sprt_result = None
-
-    with tqdm(total=n_games, desc="Arena (Rust+NN)", leave=False) as pbar:
-        for game_idx in range(n_games):
-            if game_idx % 2 == 0:
-                first_client, second_client = client_a, client_b
-                first_is_a = True
-            else:
-                first_client, second_client = client_b, client_a
-                first_is_a = False
-
-            board = np.zeros(n2, dtype=np.int8) if not is_chess else None
-            player = 1
-            winner = 0
-            current_fen = runtime_hooks.initial_chess_fen(cfg_a) if is_chess else None
-            current_chess_meta = {} if is_chess else None
-            max_moves = 500 if is_chess else n2
-
-            for _move_n in range(max_moves):
-                client = first_client if player == 1 else second_client
-                penalty_mode = penalty_mode_a if client is client_a else penalty_mode_b
-
-                if is_chess:
-                    result = client.search_move(
-                        None, player, penalty_mode, fen=current_fen, state_meta=current_chess_meta
-                    )
-                else:
-                    result = client.search_move(board, player, penalty_mode)
-                if not result or "error" in result:
-                    break
-
-                pol_entries = result.get("policy", [])
-                if not pol_entries:
-                    if is_chess:
-                        terminal_value = float(result.get("value", 0.0))
-                        if terminal_value < -0.5:
-                            winner = -player
-                        elif terminal_value > 0.5:
-                            winner = player
-                    break
-
-                if is_chess:
-                    new_fen = result.get("result_fen", "")
-                    if not new_fen or new_fen == current_fen:
-                        break
-                    current_fen = new_fen
-                    current_chess_meta = runtime_hooks.chess_state_meta_from_hashes(
-                        result.get("result_history_hashes", [])
-                    )
-                    player = -player
-                else:
-                    best = result.get("best_move", -1)
-                    legal = [i for i in range(n2) if board[i] == 0]
-                    if best < 0 or best >= n2 or board[best] != 0:
-                        if legal:
-                            best = random.choice(legal)
-                        else:
-                            break
-
-                    board[best] = player
-
-                    if win_len > 0:
-                        r0, c0 = best // board_size, best % board_size
-                        for dr, dc in [(0, 1), (1, 0), (1, 1), (1, -1)]:
-                            cnt = 1
-                            for sign in [1, -1]:
-                                nr, nc = r0 + sign * dr, c0 + sign * dc
-                                while 0 <= nr < board_size and 0 <= nc < board_size and board[nr * board_size + nc] == player:
-                                    cnt += 1
-                                    nr += sign * dr
-                                    nc += sign * dc
-                            if cnt >= win_len:
-                                winner = player
-                                break
-                        if winner:
-                            break
-
-                    if not [i for i in range(n2) if board[i] == 0]:
-                        break
-                    player = -player
-
-            if winner == 1:
-                if first_is_a:
-                    wins_a += 1
-                else:
-                    wins_b += 1
-            elif winner == -1:
-                if first_is_a:
-                    wins_b += 1
-                else:
-                    wins_a += 1
-            else:
-                draws += 1
-
-            pbar.update(1)
-            pbar.set_postfix_str(f"A:{wins_a} B:{wins_b} D:{draws}")
-
-            decisive = wins_a + wins_b
-            if decisive > 0 and not sprt_decided:
-                llr = wins_a * math.log(p1 / p0) + (decisive - wins_a) * math.log((1 - p1) / (1 - p0))
-                if llr >= upper_bound:
-                    sprt_decided = True
-                    sprt_result = "H1_accept"
-                    break
-                if llr <= lower_bound:
-                    sprt_decided = True
-                    sprt_result = "H0_accept"
-                    break
-
-    client_a.stop()
-    client_b.stop()
 
     total = wins_a + wins_b + draws
     wr = wins_a / max(total, 1)

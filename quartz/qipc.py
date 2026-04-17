@@ -705,13 +705,30 @@ def pack_qipc_eval_resp(policy, value):
 
 
 def pack_qipc_batch_eval_resp(policies, values):
-    payload = bytearray(struct.pack("<I", len(policies)))
+    # [OPT] Pre-allocate buffer to avoid repeated extend calls
+    n = len(policies)
+    if n == 0:
+        return struct.pack("<I", 0)
+    # Estimate total size: header + n * (size_prefix + policy_bytes + value)
+    first_size = np.asarray(policies[0]).size
+    est_size = 4 + n * (4 + first_size * 4 + 4)
+    payload = bytearray(est_size)
+    struct.pack_into("<I", payload, 0, n)
+    offset = 4
     for policy, value in zip(policies, values):
         policy = np.ascontiguousarray(policy, dtype="<f4")
-        payload.extend(struct.pack("<I", int(policy.size)))
-        payload.extend(policy.tobytes())
-        payload.extend(struct.pack("<f", float(value)))
-    return bytes(payload)
+        psize = policy.size
+        pbytes = psize * 4
+        needed = offset + 4 + pbytes + 4
+        if needed > len(payload):
+            payload.extend(b'\x00' * (needed - len(payload)))
+        struct.pack_into("<I", payload, offset, psize)
+        offset += 4
+        payload[offset:offset + pbytes] = policy.tobytes()
+        offset += pbytes
+        struct.pack_into("<f", payload, offset, float(value))
+        offset += 4
+    return bytes(payload[:offset])
 
 
 _SEARCH_RESP_SINGLE = 1
