@@ -21,6 +21,7 @@ from quartz.autotune_runtime import (
     load_autotune_profile as _load_autotune_profile_impl,
     print_autotune_summary,
     run_autotune_benchmark as _run_autotune_benchmark_impl,
+    run_autotune_benchmark_fast as _run_autotune_benchmark_fast_impl,
     save_autotune_profile as _save_autotune_profile_impl,
 )
 from quartz.cli_main import (
@@ -278,22 +279,10 @@ def benchmark_selfplay_throughput(cfg, model, device, rust_binary, hw, concurren
 
 
 def run_autotune_benchmark(cfg, backend, model, optimizer, device, hw, rust_binary, concurrent=True):
-    return _run_autotune_benchmark_impl(
-        cfg,
-        backend,
-        model,
-        optimizer,
-        device,
-        hw,
-        rust_binary,
-        runtime_hooks=AutotuneRuntimeHooks(
-            alphazero_net_cls=runtime_support.AlphaZeroNet,
-            run_model_batch=runtime_support.run_model_batch,
-            selfplay_rust_nn_batched=selfplay_rust_nn_batched,
-            stall_trace=lambda *args, **kwargs: None,
-            tqdm_factory=runtime_support.tqdm_factory,
-        ),
-        concurrent=concurrent,
+    # Use fast inference-only benchmark by default (~10-30s instead of 5-15min)
+    return _run_autotune_benchmark_fast_impl(
+        cfg, backend, model, optimizer, device, hw,
+        rust_binary=rust_binary, runtime_hooks=None, concurrent=concurrent,
     )
 
 

@@ -637,9 +637,9 @@ def run_training_main(args, ctx: PreparedTrainingContext, runtime_hooks: MainRun
             training_evaluator = runtime_hooks.training_evaluator_cls(config=eval_cfg)
             if not os.path.exists(best_model_path):
                 if backend:
-                    backend.save(best_model_path)
+                    backend.save(best_model_path, cfg=cfg)
                 elif model:
-                    torch.save(model.state_dict(), best_model_path)
+                    torch.save({"model_state_dict": model.state_dict(), "cfg": {k: v for k, v in cfg.items() if not k.startswith("_") and not callable(v)}}, best_model_path)
             else:
                 runtime_hooks.ensure_best_checkpoint_compatible(best_model_path, backend, model, device)
             eval_worker_msg = str(eval_parallel_workers)
@@ -851,9 +851,9 @@ def run_training_main(args, ctx: PreparedTrainingContext, runtime_hooks: MainRun
 
         if (iteration + 1) % 5 == 0:
             if backend:
-                backend.save(latest_model_path)
+                backend.save(latest_model_path, cfg=cfg)
             else:
-                torch.save(model.state_dict(), latest_model_path)
+                torch.save({"model_state_dict": model.state_dict(), "cfg": {k: v for k, v in cfg.items() if not k.startswith("_") and not callable(v)}}, latest_model_path)
             replay.save(replay_path)
             print(f"  Checkpoint: {latest_model_path} (replay={len(replay)})")
             if bg_worker:
@@ -970,9 +970,9 @@ def run_training_main(args, ctx: PreparedTrainingContext, runtime_hooks: MainRun
                 print(f"  Eval: {v} | sr={sr:.3f} | ΔElo={elo_d:+.0f} | AbsElo={pub} | ChampElo={champ_pub}")
                 if v == "promote":
                     if backend:
-                        backend.save(best_model_path)
+                        backend.save(best_model_path, cfg=cfg)
                     else:
-                        torch.save(model.state_dict(), best_model_path)
+                        torch.save({"model_state_dict": model.state_dict(), "cfg": {k: v for k, v in cfg.items() if not k.startswith("_") and not callable(v)}}, best_model_path)
                     print(f"  ★ PROMOTED: gen_{iteration+1} is new champion!")
             else:
                 entry["eval_invalid_reason"] = str(eval_invalid_reason or "invalid evaluation")

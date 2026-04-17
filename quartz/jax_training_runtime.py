@@ -66,6 +66,7 @@ from quartz.qipc import (
 from quartz.replay import ReplayBuffer, ReplayMetrics, iter_sparse_policy_entries
 from quartz.selfplay_runtime import (
     ArenaRuntimeHooks,
+    BatchedSelfPlayRuntimeHooks,
     LegacyRustSelfplayHooks,
     NNSearchClient as _NNSearchClientImpl,
     RustServerPool as _RustServerPoolImpl,
@@ -469,6 +470,7 @@ def supports_rust_selfplay_state_machine(game_name):
 
 
 def selfplay_rust_nn_batched(cfg, model, device, n_games, rust_binary="./target/release/mcts_demo", parallel=4, show_progress=True, proc_pool=None, perf_stats=None, on_game=None, active_proc_ref=None):
+    from quartz.eval_runtime import make_eval_request_group, run_batched_eval_groups
     return _selfplay_rust_nn_batched_impl(
         cfg,
         model,
@@ -481,18 +483,41 @@ def selfplay_rust_nn_batched(cfg, model, device, n_games, rust_binary="./target/
         perf_stats=perf_stats,
         on_game=on_game,
         active_proc_ref=active_proc_ref,
-        runtime_hooks=ArenaRuntimeHooks(
+        runtime_hooks=BatchedSelfPlayRuntimeHooks(
             is_chess_game=is_chess_game,
+            is_go_game=is_go_game,
+            should_use_resident_session=should_use_resident_session,
+            supports_rust_selfplay_state_machine=supports_rust_selfplay_state_machine,
             search_client_cls=NNSearchClient,
-            alphazero_net_cls=_TorchModelUnavailable,
-            load_torch_state_dict=lambda *args, **kwargs: (_ for _ in ()).throw(RuntimeError("torch load unavailable in JAX runtime")),
-            torch_module=_TorchShim,
+            decode_streamed_selfplay_game=decode_streamed_selfplay_game,
+            encode_chess_fen=encode_chess_fen,
             initial_chess_fen=lambda game_cfg, rng=None: initial_chess_fen(game_cfg, rng=rng, standard_chess_fen=STANDARD_CHESS_FEN),
+            build_training_game_adapter=build_training_game_adapter,
             chess_state_meta_from_hashes=chess_state_meta_from_hashes,
-            arena_compare=lambda *args, **kwargs: (_ for _ in ()).throw(RuntimeError("arena_compare unavailable in JAX runtime")),
-            build_training_game_adapter=lambda *args, **kwargs: (_ for _ in ()).throw(RuntimeError("arena game adapter unavailable in JAX runtime")),
-            rust_nn_evaluator_engine_cls=lambda *args, **kwargs: (_ for _ in ()).throw(RuntimeError("Rust evaluator engine unavailable in JAX runtime")),
-            match_runner_cls=lambda *args, **kwargs: (_ for _ in ()).throw(RuntimeError("MatchRunner unavailable in JAX runtime")),
+            rust_game_name=rust_game_name,
+            normalize_rust_board=lambda game_name, board_flat: [1 if v == 1 else 2 if v in (-1, 2) else 0 for v in board_flat] if is_go_game(game_name) else (board_flat.tolist() if hasattr(board_flat, "tolist") else list(board_flat)),
+            build_rust_state_meta=build_rust_state_meta,
+            choose_selfplay_move=choose_selfplay_move,
+            proc_decode_eval_frame=proc_decode_eval_frame,
+            qipc_batch_eval_req=QIPC_BATCH_EVAL_REQ,
+            qipc_eval_req=QIPC_EVAL_REQ,
+            unpack_qipc_batch_eval_req=unpack_qipc_batch_eval_req,
+            unpack_qipc_eval_req=unpack_qipc_eval_req,
+            make_eval_request_group=make_eval_request_group,
+            stall_trace=lambda *args, **kwargs: None,
+            proc_write_json_line=proc_write_json_line,
+            proc_read_json_line=proc_read_json_line,
+            proc_read_message=proc_read_message,
+            shm_eval_loop=_shm_eval_loop,
+            wait_readable=wait_readable,
+            compute_eval_collect_policy=compute_eval_collect_policy,
+            inference_pipeline_thread_cls=InferencePipelineThread,
+            run_batched_eval_groups=lambda groups, model_obj, dev, cfg_obj: run_batched_eval_groups(groups, model_obj, dev, cfg_obj, _run_model_batch),
+            write_batched_eval_group=_write_batched_eval_group,
+            rust_search_options=rust_search_options,
+            launch_server=launch_rust_server,
+            stop_server=stop_rust_server,
+            emit_duty_cycle=getattr(NNSearchClient, "_emit_duty_cycle", lambda duty: None),
         ),
     )
 
@@ -561,25 +586,10 @@ def autotune_training_cfg(cfg, hw, concurrent=True):
 
 
 def run_autotune_benchmark(cfg, backend, model, optimizer, device, hw, rust_binary, concurrent=True):
-    from quartz.autotune_runtime import run_autotune_benchmark as _run_autotune_benchmark_impl
-    from quartz.autotune_runtime import AutotuneRuntimeHooks
-
-    return _run_autotune_benchmark_impl(
-        cfg,
-        backend,
-        model,
-        optimizer,
-        device,
-        hw,
-        rust_binary,
-        runtime_hooks=AutotuneRuntimeHooks(
-            alphazero_net_cls=_TorchModelUnavailable,
-            run_model_batch=_run_model_batch,
-            selfplay_rust_nn_batched=selfplay_rust_nn_batched,
-            stall_trace=lambda *args, **kwargs: None,
-            tqdm_factory=_autotune_progress_bar,
-        ),
-        concurrent=concurrent,
+    from quartz.autotune_runtime import run_autotune_benchmark_fast as _fast_impl
+    return _fast_impl(
+        cfg, backend, model, optimizer, device, hw,
+        rust_binary=rust_binary, runtime_hooks=None, concurrent=concurrent,
     )
 
 

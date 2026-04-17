@@ -6,6 +6,8 @@ Requires: jax, flax, optax
 Docker:   rocm/jax-community:latest (with HSA_OVERRIDE_GFX_VERSION=10.3.0)
 PIP:      pip install jax[rocm6] flax optax  (see docs/SETUP.md)
 """
+from typing import Any
+
 try:
     import jax
     import jax.numpy as jnp
@@ -107,6 +109,10 @@ if HAS_JAX:
 
     # ── Training utilities ──
 
+    # Subclass TrainState to carry batch_stats (Flax >=0.12 removed **kwargs)
+    class TrainStateWithBatchStats(train_state.TrainState):
+        batch_stats: Any = None
+
     def create_train_state(model, rng, input_shape, lr=0.02, momentum=0.9, wd=1e-4):
         variables = model.init(rng, jnp.ones(input_shape))
         tx = optax.chain(
@@ -114,7 +120,7 @@ if HAS_JAX:
             optax.sgd(lr, momentum=momentum),
             optax.add_decayed_weights(wd),
         )
-        return train_state.TrainState.create(
+        return TrainStateWithBatchStats.create(
             apply_fn=model.apply, params=variables['params'],
             tx=tx, batch_stats=variables.get('batch_stats', {}),
         )
@@ -122,13 +128,11 @@ if HAS_JAX:
     @jax.jit
     def train_step(state, batch_states, batch_policies, batch_values):
         def loss_fn(params):
-            logits, values = state.apply_fn(
+            # model.apply with mutable returns ((logits, values), mutated_vars)
+            result = state.apply_fn(
                 {'params': params, 'batch_stats': state.batch_stats},
                 batch_states, train=True, mutable=['batch_stats'])
-            if isinstance(logits, tuple):
-                (logits, values), updates = logits  # unpack mutable
-            else:
-                updates = {}
+            (logits, values), updates = result
             log_probs = jax.nn.log_softmax(logits, axis=-1)
             policy_loss = -(batch_policies * log_probs).sum(axis=-1).mean()
             value_loss = jnp.mean((values - batch_values) ** 2)

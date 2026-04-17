@@ -11,8 +11,19 @@ EVAL_INTERVAL="${EVAL_INTERVAL:-5}"
 SEEDS="${SEEDS:-41,42,43,44,45}"
 TIMEOUT_HOURS="${TIMEOUT_HOURS:-96}"
 
+BACKEND="${BACKEND:-torch}"
+
 SEARCH_OUTPUT="${SEARCH_OUTPUT:-results/ablation_search_vl_sig}"
 CONTROLLER_OUTPUT="${CONTROLLER_OUTPUT:-results/ablation_controller_factorial_sig}"
+
+# ROCm workarounds
+export MIOPEN_DEBUG_CONV_GEMM=0
+if [ "$BACKEND" = "jax" ]; then
+  export XLA_FLAGS="${XLA_FLAGS:---xla_gpu_autotune_level=0}"
+fi
+
+# torch.compile kernel cache: persist across subprocesses for faster startup
+export TORCHINDUCTOR_FX_GRAPH_CACHE=1
 
 GAMES=()
 STUDIES=()
@@ -30,6 +41,7 @@ Examples:
 Environment overrides:
   PYTHON_BIN
   RUST_BINARY
+  BACKEND          (torch|jax, default: torch)
   ITERATIONS
   EVAL_GAMES
   EVAL_INTERVAL
@@ -117,6 +129,7 @@ run_study() {
     --seeds "$SEEDS" \
     --paired-seed-eval \
     --include-strict-reference \
+    --backend "$BACKEND" \
     --resident-session \
     --timeout-hours "$TIMEOUT_HOURS" \
     --output "$output_root"

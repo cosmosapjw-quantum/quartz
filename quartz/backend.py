@@ -13,13 +13,11 @@ import numpy as np
 def load_torch_state_dict(path, torch_module, map_location="cpu"):
     """Load a trusted local checkpoint state dict with weights_only fallback.
 
-    Newer PyTorch defaults can reject some older QUARTZ checkpoints when
-    `weights_only=True`. For project-local checkpoints we first try the safer
-    path, then fall back to full unpickling only for the known compatibility
-    failure mode.
+    Supports both bare state_dict (legacy) and wrapped format with metadata:
+      {"model_state_dict": ..., "cfg": {...}}
     """
     try:
-        return torch_module.load(path, map_location=map_location, weights_only=True)
+        raw = torch_module.load(path, map_location=map_location, weights_only=True)
     except Exception as exc:
         msg = str(exc)
         compat_error = (
@@ -29,7 +27,22 @@ def load_torch_state_dict(path, torch_module, map_location="cpu"):
         )
         if not compat_error:
             raise
-        return torch_module.load(path, map_location=map_location, weights_only=False)
+        raw = torch_module.load(path, map_location=map_location, weights_only=False)
+    # Unwrap if saved with metadata
+    if isinstance(raw, dict) and "model_state_dict" in raw:
+        return raw["model_state_dict"]
+    return raw
+
+
+def load_checkpoint_with_metadata(path, torch_module, map_location="cpu"):
+    """Load checkpoint and return (state_dict, cfg_or_None)."""
+    try:
+        raw = torch_module.load(path, map_location=map_location, weights_only=True)
+    except Exception:
+        raw = torch_module.load(path, map_location=map_location, weights_only=False)
+    if isinstance(raw, dict) and "model_state_dict" in raw:
+        return raw["model_state_dict"], raw.get("cfg")
+    return raw, None
 
 
 def validate_torch_state_dict(model, state_dict):
@@ -344,8 +357,12 @@ class PyTorchBackend:
         for pg in self.optimizer.param_groups:
             pg["lr"] = lr
 
-    def save(self, path):
-        self.torch.save(self.model.state_dict(), path)
+    def save(self, path, cfg=None):
+        payload = self.model.state_dict()
+        if cfg is not None:
+            # Wrap state_dict with metadata for eval compatibility
+            payload = {"model_state_dict": payload, "cfg": {k: v for k, v in cfg.items() if not k.startswith("_") and not callable(v)}}
+        self.torch.save(payload, path)
 
     def load(self, path):
         if os.path.exists(path):

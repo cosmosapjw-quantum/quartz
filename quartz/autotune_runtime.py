@@ -521,7 +521,92 @@ def benchmark_train_batch(cfg, backend, model, optimizer, device, hw, concurrent
     return {"batch": best["batch"]}, results
 
 
+def run_autotune_benchmark_fast(cfg, backend, model, optimizer, device, hw, rust_binary=None, runtime_hooks=None, concurrent=True):
+    """Inference-only autotune: measures NN throughput + heuristic sizing.
+
+    ~10-30 seconds instead of 5-15 minutes. No Rust server needed.
+    """
+    import torch
+    overrides = {}
+    benchmark = {}
+
+    # 1. Measure pure NN inference throughput at various batch sizes
+    is_cpu = (str(device) == "cpu")
+    test_bs = [1, 4, 8, 16, 32] if not is_cpu else [1, 4, 8]
+    ch = cfg.get("ch", 17)
+    board = cfg["board"]
+    warmup_iters = 5
+    bench_iters = 30
+
+    throughputs = {}
+    try:
+        torch_model = backend.get_torch_model() if hasattr(backend, "get_torch_model") else model
+        torch_model.eval()
+        with torch.inference_mode():
+            for bs in test_bs:
+                x = torch.randn(bs, ch, board, board, device=device)
+                for _ in range(warmup_iters):
+                    torch_model(x)
+                if not is_cpu:
+                    torch.cuda.synchronize()
+                t0 = time.perf_counter()
+                for _ in range(bench_iters):
+                    torch_model(x)
+                if not is_cpu:
+                    torch.cuda.synchronize()
+                t1 = time.perf_counter()
+                throughputs[bs] = bs * bench_iters / (t1 - t0)
+        benchmark["inference"] = [{"batch_size": bs, "evals_per_s": round(tp, 1)} for bs, tp in throughputs.items()]
+    except Exception as e:
+        benchmark["inference"] = [{"error": str(e)}]
+
+    # 2. Heuristic sizing from hardware + inference throughput
+    peak_tp = max(throughputs.values()) if throughputs else 1000
+    optimal_bs = max(throughputs, key=throughputs.get) if throughputs else 8
+
+    # Parallel workers: enough to keep GPU fed, not more than CPU cores allow
+    max_parallel = _autotune_parallel_limit(hw, concurrent)
+    # Each worker needs ~1 thread; more workers = more MCTS parallelism
+    # but GPU is the bottleneck, so limit by inference throughput
+    iters_per_move = cfg.get("iters", 200)
+    # Approximate: each selfplay position needs iters_per_move NN evals
+    # With batch_size=optimal_bs, GPU can handle peak_tp evals/s
+    # target: keep GPU ~80% utilized
+    target_positions_per_s = peak_tp / iters_per_move * 0.8
+    parallel = max(1, min(max_parallel, int(math.ceil(target_positions_per_s * 2))))
+
+    n_threads = _autotune_thread_capacity(hw, parallel)
+    batch_size = max(cfg.get("batch_size", 8), min(optimal_bs * 2, 64))
+    bg_batch_games = _autotune_batch_game_limit(hw, parallel, concurrent=True) if concurrent else 0
+
+    overrides["selfplay_parallel"] = parallel
+    overrides["bg_parallel"] = parallel if concurrent else min(parallel, 4)
+    overrides["bg_batch_games"] = bg_batch_games
+    overrides["n_threads"] = n_threads
+    overrides["batch_size"] = batch_size
+
+    # 3. Training batch: simple scaling from VRAM
+    if hw.gpu_vram_mb >= 16_000:
+        train_batch_scale = 1.5
+    elif hw.gpu_vram_mb >= 12_000:
+        train_batch_scale = 1.25
+    elif hw.gpu_vram_mb >= 8_000:
+        train_batch_scale = 1.0
+    else:
+        train_batch_scale = 0.75
+    base_batch = cfg.get("batch", 256)
+    batch_multiple = 32 if base_batch >= 256 else 16
+    overrides["batch"] = max(batch_multiple, _round_down_to_multiple(int(base_batch * train_batch_scale), batch_multiple))
+    benchmark["heuristic"] = {
+        "peak_inference_tp": round(peak_tp, 1),
+        "optimal_batch_size": optimal_bs,
+        "target_positions_per_s": round(target_positions_per_s, 2),
+    }
+    return overrides, benchmark
+
+
 def run_autotune_benchmark(cfg, backend, model, optimizer, device, hw, rust_binary, runtime_hooks, concurrent=True):
+    """Full autotune with Rust selfplay benchmark (legacy, 5-15 minutes)."""
     overrides = {}
     benchmark = {}
     selfplay_meta = {}

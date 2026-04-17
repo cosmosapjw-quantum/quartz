@@ -23,6 +23,9 @@ from pathlib import Path
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
 
+# Persist torch.compile kernel cache across training subprocesses
+os.environ.setdefault("TORCHINDUCTOR_FX_GRAPH_CACHE", "1")
+
 CLI_CONDITION_KEYS = {"search_profile", "vl_mode"}
 
 SEARCH_VL_TRAIN_CONDITIONS = {
@@ -471,7 +474,7 @@ def run_training(
     }
 
 
-def build_eval_cfg(game_name: str, eval_cfg: dict, device_name: str) -> tuple[dict, object]:
+def build_eval_cfg(game_name: str, eval_cfg: dict, device_name: str, model_path: str | None = None) -> tuple[dict, object]:
     import torch
     from quartz.alphazero_train import (
         GAME_CONFIGS,
@@ -485,6 +488,26 @@ def build_eval_cfg(game_name: str, eval_cfg: dict, device_name: str) -> tuple[di
     cfg["search_profile"] = eval_cfg["search_profile"]
     cfg["vl_mode"] = eval_cfg["vl_mode"]
     cfg = apply_config_overrides(cfg, condition_runtime_overrides(eval_cfg))
+
+    # Read model config from checkpoint metadata (or infer from state_dict keys)
+    if model_path is not None:
+        try:
+            from quartz.backend import load_checkpoint_with_metadata
+            sd, ckpt_cfg = load_checkpoint_with_metadata(model_path, torch, map_location="cpu")
+            if ckpt_cfg:
+                for k in ("blocks", "filters", "vh"):
+                    if k in ckpt_cfg:
+                        cfg[k] = ckpt_cfg[k]
+            else:
+                # Legacy checkpoint: infer block count from state_dict keys
+                tower_indices = {int(k.split(".")[1]) for k in sd if k.startswith("tower.")}
+                if tower_indices:
+                    actual_blocks = max(tower_indices) + 1
+                    if actual_blocks != cfg.get("blocks"):
+                        cfg["blocks"] = actual_blocks
+        except Exception:
+            pass
+
     try:
         cfg["_encoder"] = get_encoder(game_name)
     except Exception:
@@ -662,7 +685,9 @@ def run_evaluation_matrix(
     model_runs: list[dict],
     eval_conditions: dict[str, dict],
 ) -> dict | None:
-    eligible = [run for run in model_runs if run["success"] and run["model_path"]]
+    # Eligible if model_path exists (even if training crashed during eval phase,
+    # the model was already saved and is valid for post-hoc evaluation)
+    eligible = [run for run in model_runs if run["model_path"]]
     if len(eligible) < 2:
         return None
     eligible_ids = {run["id"] for run in eligible}
@@ -702,7 +727,6 @@ def run_evaluation_matrix(
 
     all_matches = list(existing_matches)
     for eval_name, eval_cfg in eval_conditions.items():
-        cfg, device = build_eval_cfg(args.game, eval_cfg, args.device)
         for idx, model_a in enumerate(eligible):
             for model_b in eligible[idx + 1:]:
                 if not should_compare(model_a, model_b):
@@ -712,6 +736,7 @@ def run_evaluation_matrix(
                     continue
 
                 print(f"  EVAL {eval_name}: {model_a['id']} vs {model_b['id']} ({args.eval_games} games)")
+                cfg, device = build_eval_cfg(args.game, eval_cfg, args.device, model_path=model_a["model_path"])
                 wa, wb, draws, wr, ci, sprt = arena_rust_nn(
                     model_a["model_path"],
                     model_b["model_path"],

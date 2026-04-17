@@ -162,6 +162,34 @@ def normalize_rust_board(game_name, board_flat):
     return board_flat.tolist() if hasattr(board_flat, "tolist") else list(board_flat)
 
 
+def _try_compile_model(model):
+    """Lazily wrap model with torch.compile for Triton acceleration.
+
+    The compiled model is cached on the original model object so compilation
+    happens only once per model instance.  Falls back to eager if compile
+    is unavailable or fails (e.g. CPU-only, older PyTorch).
+
+    Set QUARTZ_NO_COMPILE=1 to disable (useful for debugging segfaults).
+    """
+    if os.environ.get("QUARTZ_NO_COMPILE", "") == "1":
+        return model
+    compiled = getattr(model, "_quartz_compiled", None)
+    if compiled is not None:
+        return compiled
+    try:
+        torch = _torch_module()
+        if not hasattr(torch, "compile"):
+            return model
+        # 'default' mode avoids CUDA graphs that break on ROCm/HIP stream capture
+        compiled = torch.compile(model, backend="inductor")
+        # Tag so we don't compile again
+        object.__setattr__(model, "_quartz_compiled", compiled)
+        return compiled
+    except Exception:
+        object.__setattr__(model, "_quartz_compiled", model)
+        return model
+
+
 def _run_model_batch(model, device, batch_features):
     batch_np = np.asarray(batch_features, dtype=np.float32)
     if not batch_np.flags.c_contiguous:
@@ -170,9 +198,11 @@ def _run_model_batch(model, device, batch_features):
         probs_batch, vals_np = model.predict(batch_np)
         return np.asarray(probs_batch, dtype=np.float32), np.asarray(vals_np, dtype=np.float32).reshape(-1)
     torch = _torch_module()
+    # [OPT] Use torch.compile (Triton) for ~2-3x inference speedup on GPU
+    run_model = _try_compile_model(model) if str(device) != "cpu" else model
     x_batch = torch.from_numpy(batch_np).to(device)
     with torch.inference_mode():
-        logits_batch, vals_batch = model(x_batch)
+        logits_batch, vals_batch = run_model(x_batch)
         probs_batch = torch.softmax(logits_batch, dim=-1).cpu().numpy()
         vals_np = vals_batch.cpu().numpy()
     return probs_batch, vals_np
