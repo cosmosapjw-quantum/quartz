@@ -13,6 +13,12 @@ and learner logic. The active path is:
 
 Control traffic uses JSON-line IPC. Hot-path payloads use binary sparse framing
 and SHM ring transport when available, with stdout JSON fallback retained.
+Current Python-side runtime defaults also include:
+
+- async inference pipeline disabled by default on CPU or `batch_size <= 1`
+- direct memoryview/`struct` SHM ring access instead of repeated
+  `ctypes.from_buffer`
+- wider default SHM ring topology at Rust launch (`8x8`, env-overridable)
 
 ## Search features active during training
 
@@ -53,6 +59,8 @@ after the eval completes.
 
 - online runtime autotune is off by default
 - eval/self-play isolation is on by default
+- CPU / tiny-batch paths default to synchronous eval instead of the async
+  pipeline thread
 - `search-profile` is explicit and ablation-safe:
   - `quartz`
   - `baseline`
@@ -92,6 +100,28 @@ Training log rows include:
 - controller telemetry
 - eval verdict / Elo / score rate
 
+For external audit or fresh-machine verification, the preferred one-command
+audit smoke is:
+
+```bash
+venv/bin/python scripts/smoke_e2e.py
+```
+
+That path checks:
+
+- Python CLI importability
+- evaluation math self-tests
+- Rust-backed training/eval integration via a tiny ablation run
+- artifact emission (`study_manifest.json`, `evaluation_matrix.json`,
+  `ablation_report.json`)
+
+The intent is to fail fast on orchestration/runtime breakage. It is not, by
+itself, a benchmark-grade certification run.
+
+If the Rust binary is missing, the smoke attempts to build
+`mcts_demo` automatically and records the resolved binary path/hash in
+`smoke_contract.json`.
+
 ## Evaluation semantics
 
 Checkpoint evaluation uses `RustNNEvaluatorEngine` when the Rust binary is
@@ -102,6 +132,10 @@ If the Rust binary is missing, the code falls back to lighter evaluation paths
 with an explicit warning. Those fallback paths are not benchmark-grade and
 should not be mixed into ablation claims.
 
+Training-level ablation reports now also carry real per-match score-rate
+confidence intervals and SPRT status in `evaluation_matrix.json`; they are no
+longer placeholder fields.
+
 ## Cache and transport correctness notes
 
 The following regressions were fixed and are now part of the expected behavior:
@@ -110,6 +144,8 @@ The following regressions were fixed and are now part of the expected behavior:
 - sparse loss series are plotted correctly
 - best-Elo progression only advances on actual promotion
 - binary sparse search-result transport preserves the same search meaning as the older JSON payload path
+- compatibility-facade `NNSearchClient` now passes the same runtime hook surface
+  as the split runtime modules, including async-pipeline policy
 
 ## Remaining limitations
 
@@ -117,3 +153,6 @@ The following regressions were fixed and are now part of the expected behavior:
 - P_flip behavior still depends on evaluator quality and usually needs NN loss below roughly `1.0`
 - raw external chess FEN alone cannot recreate prior repetition history; exact repeated search requires the returned history token path
 - JAX remains a training backend, not the inference backend used by Rust self-play/eval or Gomocup deployment
+- Python orchestrator micro-optimization is now largely exhausted; the next
+  meaningful runtime wins should come from broker/event-loop redesign rather
+  than more Python polling tweaks

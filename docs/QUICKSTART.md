@@ -33,13 +33,21 @@ Artifacts land in `models/alphazero_<game>/`:
 
 ## 2. Understand current training semantics
 
-Current training/eval uses the same Rust+NN stack:
+Current training/eval targets the same Rust+NN substrate on the main
+Rust-backed paths:
 
 1. Python launches the Rust server.
 2. Rust drives self-play or evaluation game loops.
 3. Batched NN eval requests cross QIPC.
 4. Control traffic stays on JSON-line IPC.
 5. Hot-path eval/search payloads use binary sparse payloads and SHM ring when available.
+
+Fallback and legacy compatibility paths still exist outside this flow; benchmark
+claims should use the Rust-backed path above.
+
+Also treat QUARTZ as a controller family, not a hyperparameter-free reduction:
+the runtime signals are shared, but `search_profile`, halt, penalty, and prior-
+refresh switches still define materially different executable paths.
 
 Correctness-sensitive updates already reflected in the codebase:
 
@@ -67,8 +75,40 @@ cargo test --release -- ablation_refresh_v2 --ignored --nocapture
 
 Use the ablation runner instead of ad-hoc shell loops:
 
+Canonical audit / install smoke:
+
+```bash
+venv/bin/python scripts/smoke_e2e.py
+```
+
+If `./target/release/mcts_demo` is missing, the smoke now attempts
+`cargo build --release --bin mcts_demo` automatically. It also writes a
+`smoke_contract.json` file describing the Rust binary provenance and the
+required output artifacts. The intent is to fail fast on integration breakage,
+not to certify benchmark-grade readiness by itself.
+
+Smoke-first sanity check:
+
 ```bash
 venv/bin/python scripts/ablation_study.py \
+  --study search_vl \
+  --game gomoku7 \
+  --iterations 2 \
+  --eval-games 4 \
+  --eval-interval 1 \
+  --seeds 11 \
+  --paired-seed-eval \
+  --include-strict-reference \
+  --resident-session \
+  --timeout-hours 1 \
+  --output results/ablation_smoke_search_vl
+```
+
+If that passes, scale to a real run:
+
+```bash
+venv/bin/python scripts/ablation_study.py \
+  --study search_vl \
   --game gomoku15 \
   --iterations 30 \
   --eval-games 80
@@ -90,11 +130,31 @@ For multi-seed studies:
 
 ```bash
 venv/bin/python scripts/ablation_study.py \
+  --study controller_axes \
   --game gomoku15 \
   --iterations 20 \
   --eval-games 40 \
   --seeds 41,42,43
 ```
+
+Smoke-first is strongly recommended before `gomoku15`, `gomoku15_omok`, or
+`gomoku15_renju`. The smoke path exercises the same Rust+NN substrate and
+contract validation, but fails much faster when the stack is misconfigured.
+
+Study intent matters:
+
+- `search_vl` compares search profile and VL mode.
+- `controller` is a bundled legacy-vs-theory comparison.
+- `controller_factorial` preserves the older training matrix.
+- `controller_axes` is the cleanest attribution preset because adjacent rows
+  isolate `root_only_shaping`, `penalty_mode`, and `prior_refresh_rate`.
+
+`evaluation_matrix.json` rows now record:
+
+- `ci` as a real score-rate confidence interval
+- `sprt` as a real sequential-test status
+- `sprt_meta` with decisive-game count and LLR
+- `score_rate_a` as the canonical per-row point rate
 
 ### Level 2.5: Low-cost controller search
 

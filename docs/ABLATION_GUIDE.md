@@ -43,11 +43,72 @@ Example:
 
 ```bash
 venv/bin/python scripts/ablation_study.py \
+  --study search_vl \
   --game gomoku15 \
   --iterations 30 \
   --eval-games 80 \
   --seeds 41,42
 ```
+
+Recommended smoke run before any larger study:
+
+```bash
+venv/bin/python scripts/smoke_e2e.py
+```
+
+If `./target/release/mcts_demo` is missing, the smoke script will attempt
+`cargo build --release --bin mcts_demo` first and will write
+`smoke_contract.json` so binary provenance and required output artifacts are
+explicit. Treat this as a fail-fast integration smoke, not as a benchmark
+certification step.
+
+Or run just the training/eval ablation smoke directly:
+
+```bash
+venv/bin/python scripts/ablation_study.py \
+  --study search_vl \
+  --game gomoku7 \
+  --iterations 2 \
+  --eval-games 4 \
+  --eval-interval 1 \
+  --seeds 11 \
+  --paired-seed-eval \
+  --include-strict-reference \
+  --resident-session \
+  --timeout-hours 1 \
+  --output results/ablation_smoke_search_vl
+```
+
+This is the preferred pipeline sanity check because it exercises:
+
+- the real Rust server path
+- SHM ring transport and sparse search payload decode
+- the compatibility-facade `NNSearchClient` path used by arena/eval wrappers
+- contract hashing and cached-eval invalidation
+
+Only after this passes should you scale to `gomoku15`, `gomoku15_omok`, or
+`gomoku15_renju`.
+
+Study intent:
+
+- `search_vl` compares search profile and VL mode.
+- `controller` is a bundled legacy-vs-theory comparison and is not a
+  single-factor isolation study.
+- `controller_factorial` preserves the historical 4-cell matrix.
+- `controller_axes` is the attribution-first preset:
+  - `A1 -> A2` isolates `root_only_shaping`
+  - `A2 -> A3` isolates `penalty_mode`
+  - `A3 -> A4` isolates `prior_refresh_rate`
+
+Evaluation rows now store:
+
+- `score_rate_a` — canonical point rate for side A
+- `ci` — score-rate confidence interval
+- `ci_kind` — interval model tag
+- `sprt` — sequential-test status
+- `sprt_meta` — decisive-game count and LLR metadata
+- `errors` / `voids` / `scored_games` — arena validity counters
+- `timing_s` — startup and per-match timing metadata
 
 ### Level 2.5: Frozen-checkpoint controller search
 
@@ -118,6 +179,17 @@ Each ablation directory now carries:
 - `evaluation_matrix.json` — post-train round-robin matches and leaderboards
 - `champion.json` — final model selection, selection metrics, and deployment config
 - `ablation_report.json` — summary report for humans/tools
+- `study_manifest.json` now also carries:
+  - `train_contract_summary`
+  - `contract_summary` for evaluation conditions
+- `study_manifest.json`, `evaluation_matrix.json`, and `ablation_report.json`
+  also carry:
+  - `runtime_contract`
+  - `runtime_contract_hash`
+  so backend/device/Rust-binary provenance is visible at the study, eval, and
+  report layers
+- `ablation_report.json` mirrors those summaries so training/evaluation contract
+  drift can be read without reopening per-condition artifacts
 
 Frozen-checkpoint controller sweeps carry:
 
@@ -154,9 +226,34 @@ share:
 
 - binary sparse search-result payloads
 - SHM ring transport on the hot path when available
+- wider default SHM ring topology (`8x8`, env-overridable)
 - stdout JSON fallback for compatibility
 
 That transport is part of the common substrate, not an ablation axis by itself.
+
+Replay/search summaries now also surface controller observability fields when
+the runtime provides them:
+
+- `halt_reason_hist`
+- `mean_refresh_count`
+- `mean_penalty_sum`
+- `controller_penalty_mode_counts`
+- `mean_prior_refresh_rate`
+- `root_only_shaping_frac`
+- `controller_telemetry_partial_frac`
+- `halt_metric_coverage_frac`
+- `refresh_metric_coverage_frac`
+- `penalty_metric_coverage_frac`
+
+`halt_reason_hist` is populated from replay metadata today. The refresh/penalty
+aggregates remain intentionally partial until every Rust search path emits
+those counters directly.
+
+For external audit packaging, regenerate the review bundle with:
+
+```bash
+venv/bin/python scripts/build_audit_bundle.py
+```
 
 For controller sweeps, keep these fixed as well:
 
@@ -176,6 +273,10 @@ Recent corrections matter for fair comparisons:
 
 If an ablation predates these fixes, do not compare it directly to current runs
 without restating the older semantics.
+
+The same warning now applies to cached evaluation matrices: current
+`ablation_study.py` discards stale rows when `search_manifest_hash` changes
+instead of quietly reusing them.
 
 ## Current controller findings
 
