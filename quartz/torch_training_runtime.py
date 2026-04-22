@@ -141,7 +141,7 @@ def arena_rust_nn(
         strict=strict,
         runtime_hooks=ArenaRuntimeHooks(
             is_chess_game=runtime_support.is_chess_game,
-            search_client_cls=runtime_support.NNSearchClient,
+            search_client_cls=runtime_support.resolve_search_client_cls(),
             alphazero_net_cls=runtime_support.AlphaZeroNet,
             load_torch_state_dict=runtime_support.load_torch_state_dict,
             torch_module=torch,
@@ -190,7 +190,7 @@ def selfplay_rust_nn_batched(
             is_go_game=runtime_support.is_go_game,
             should_use_resident_session=should_use_resident_session,
             supports_rust_selfplay_state_machine=supports_rust_selfplay_state_machine,
-            search_client_cls=runtime_support.NNSearchClient,
+            search_client_cls=runtime_support.resolve_search_client_cls(),
             decode_streamed_selfplay_game=decode_streamed_selfplay_game,
             encode_chess_fen=runtime_support.encode_chess_fen,
             initial_chess_fen=runtime_support.initial_chess_fen,
@@ -214,12 +214,13 @@ def selfplay_rust_nn_batched(
             wait_readable=wait_readable,
             compute_eval_collect_policy=compute_eval_collect_policy,
             inference_pipeline_thread_cls=runtime_support.InferencePipelineThread,
+            should_use_async_pipeline=runtime_support.should_use_async_pipeline,
             run_batched_eval_groups=lambda groups, model_obj, dev, cfg_obj: __import__("quartz.eval_runtime", fromlist=["run_batched_eval_groups"]).run_batched_eval_groups(groups, model_obj, dev, cfg_obj, runtime_support.run_model_batch),
             write_batched_eval_group=runtime_support._write_batched_eval_group,
             rust_search_options=runtime_support.rust_search_options,
             launch_server=launch_rust_server,
             stop_server=stop_rust_server,
-            emit_duty_cycle=getattr(runtime_support.NNSearchClient, "_emit_duty_cycle", lambda duty: None),
+            emit_duty_cycle=getattr(runtime_support.resolve_search_client_cls(), "_emit_duty_cycle", lambda duty: None),
         ),
     )
 
@@ -248,7 +249,7 @@ class RustNNEvaluatorEngine(_RustNNEvaluatorEngineImpl):
             device,
             rust_binary,
             runtime_hooks=EvaluatorRuntimeHooks(
-                search_client_cls=runtime_support.NNSearchClient,
+                search_client_cls=runtime_support.resolve_search_client_cls(),
                 is_chess_game=runtime_support.is_chess_game,
                 build_rust_state_meta=runtime_support.build_rust_state_meta,
                 iter_sparse_policy_entries=iter_sparse_policy_entries,

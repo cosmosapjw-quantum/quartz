@@ -3,6 +3,8 @@
 from __future__ import annotations
 
 import logging
+import hashlib
+import json
 import math
 import os
 import random
@@ -16,6 +18,40 @@ import numpy as np
 from tqdm import tqdm
 
 from quartz.replay import sparse_policy_from_entries
+
+
+_SEARCH_MANIFEST_KEYS = (
+    "_name",
+    "iters",
+    "search_profile",
+    "vl_mode",
+    "penalty_mode",
+    "root_only_shaping",
+    "prior_refresh_rate",
+    "prior_refresh_temp",
+    "c_puct",
+    "sigma_0",
+    "min_visits",
+    "check_interval",
+    "hbar_penalty_cap",
+    "n_threads",
+    "batch_size",
+    "batch_timeout_us",
+    "_eval_runner_mode",
+    "_arena_low_concurrency_profile",
+)
+
+
+def _search_manifest_hash(cfg):
+    manifest = {}
+    for key in _SEARCH_MANIFEST_KEYS:
+        if key in cfg:
+            value = cfg.get(key)
+            if value is None:
+                continue
+            manifest[key] = value
+    payload = json.dumps(manifest, sort_keys=True, separators=(",", ":"), default=str)
+    return hashlib.sha256(payload.encode("utf-8")).hexdigest()[:16]
 
 
 def estimate_selfplay_positions_per_game(cfg, recent_chunks):
@@ -164,6 +200,7 @@ def choose_selfplay_move(policy, legal, move_count, temp_threshold, fallback_bes
 def wait_for_worker_progress(worker, previous_count, min_new=1, timeout_s=30.0, poll_s=0.25):
     deadline = time.time() + timeout_s
     current = worker.positions_generated
+    stall_timeout_s = getattr(worker, "REPLAY_STALL_TIMEOUT_S", 45.0)
     while current - previous_count < min_new and time.time() < deadline:
         if worker._stop.is_set():
             break
@@ -174,7 +211,15 @@ def wait_for_worker_progress(worker, previous_count, min_new=1, timeout_s=30.0, 
                     f"background self-play worker stopped unexpectedly: {status.get('last_error') or 'thread exited'}"
                 )
             if (
-                status.get("last_progress_age_s", 0.0) > getattr(worker, "REPLAY_STALL_TIMEOUT_S", 45.0)
+                status.get("consecutive_errors", 0) >= 3
+                and status.get("last_progress_age_s", 0.0) > min(10.0, stall_timeout_s / 3.0)
+            ):
+                raise RuntimeError(
+                    "background self-play made no progress after repeated errors: "
+                    f"{status.get('last_error') or 'no progress'}"
+                )
+            if (
+                status.get("last_progress_age_s", 0.0) > stall_timeout_s
                 and status.get("consecutive_errors", 0) > 0
             ):
                 raise RuntimeError(
@@ -203,6 +248,7 @@ def default_output_dir(game_name):
 class SearchClientRuntimeHooks:
     launch_server: object
     proc_write_json_line: object
+    proc_write_qipc_frame: object
     cleanup_qipc_transport: object
     proc_read_json_line: object
     json_loads_fast: object
@@ -213,14 +259,19 @@ class SearchClientRuntimeHooks:
     proc_read_message: object
     shm_eval_loop: object
     proc_decode_eval_frame: object
+    qipc_arena_eval_req: int
+    qipc_arena_eval_resp: int
     qipc_batch_eval_req: int
     qipc_eval_req: int
     make_eval_request_group: object
+    pack_qipc_arena_eval_req: object
     unpack_qipc_batch_eval_req: object
+    unpack_qipc_arena_eval_resp: object
     unpack_qipc_eval_req: object
     compute_eval_collect_policy: object
     wait_readable: object
     inference_pipeline_thread_cls: object
+    should_use_async_pipeline: object | None
     run_batched_eval_groups: object
     write_batched_eval_group: object
     run_model_batch: object
@@ -288,6 +339,7 @@ class BatchedSelfPlayRuntimeHooks:
     wait_readable: object
     compute_eval_collect_policy: object
     inference_pipeline_thread_cls: object
+    should_use_async_pipeline: object | None
     run_batched_eval_groups: object
     write_batched_eval_group: object
     rust_search_options: object
@@ -466,15 +518,18 @@ class NNSearchClient:
     def eval_match_run(self, sessions, max_moves, penalty_mode="GatedRefresh"):
         if not self.proc:
             self.start()
-        req_dict = {
-            "cmd": "eval_nn_run",
-            "game": self._rt.rust_game_name(self.cfg["_name"]),
-            "iters": self.cfg["iters"],
-            "sessions": sessions,
-            "max_moves": int(max_moves),
-        }
-        req_dict.update(self._rt.rust_search_options(self.cfg, penalty_mode=penalty_mode))
-        payload = self._exchange_search_request(req_dict)
+        game_name = self._rt.rust_game_name(self.cfg["_name"])
+        frame_payload = self._rt.pack_qipc_arena_eval_req(
+            game_name,
+            self._rt.rust_search_options(self.cfg, penalty_mode=penalty_mode),
+            sessions,
+            iters=self.cfg["iters"],
+            max_moves=int(max_moves),
+        )
+        payload = self._exchange_search_request(
+            frame_kind=self._rt.qipc_arena_eval_req,
+            frame_payload=frame_payload,
+        )
         if isinstance(payload, dict):
             return payload
         return {}
@@ -501,9 +556,16 @@ class NNSearchClient:
             "seed": int(seed),
         }
         req_dict.update(self._rt.rust_search_options(self.cfg, penalty_mode=penalty_mode))
+        ring = getattr(self.proc, "_quartz_ring_buffer", None)
+        if ring is not None:
+            try:
+                baseline_epoch = int(ring.epoch())
+            except Exception:
+                baseline_epoch = None
+        else:
+            baseline_epoch = None
         self._rt.proc_write_json_line(self.proc, req_dict)
 
-        ring = getattr(self.proc, "_quartz_ring_buffer", None)
         if ring is not None:
             aggregated_games = []
 
@@ -520,7 +582,7 @@ class NNSearchClient:
                     on_progress(obj["selfplay_progress"])
 
             ring_payload = self._rt.shm_eval_loop(
-                ring, self.model, self.device, self.cfg, self.proc, on_json=_on_json
+                ring, self.model, self.device, self.cfg, self.proc, on_json=_on_json, baseline_epoch=baseline_epoch
             )
             if isinstance(ring_payload, dict):
                 if "selfplay_done" in ring_payload:
@@ -631,6 +693,8 @@ class NNSearchClient:
         if kind == "frame":
             frame_kind, frame_payload = payload
             frame_kind, frame_payload = self._rt.proc_decode_eval_frame(self.proc, frame_kind, frame_payload)
+            if frame_kind == self._rt.qipc_arena_eval_resp:
+                return None, self._rt.unpack_qipc_arena_eval_resp(frame_payload)
             if frame_kind == self._rt.qipc_batch_eval_req:
                 return self._rt.make_eval_request_group(
                     "binary_batch",
@@ -676,18 +740,29 @@ class NNSearchClient:
         base_target_eval_items = max(1, int(search_opts.get("batch_size", self.cfg.get("batch_size", 8))))
         return base_collect_timeout_s, base_target_eval_items
 
-    def _exchange_search_request(self, req_dict):
+    def _exchange_search_request(self, req_dict=None, *, frame_kind=None, frame_payload=None):
         if not self.proc:
             self.start()
         read_timeout_s = max(1.0, float(self.search_read_timeout_s))
         base_collect_timeout_s, base_target_eval_items = self._base_eval_collect_config()
         batch_items_ema = float(base_target_eval_items)
         collect_wait_ema_s = 0.0
-        self._rt.proc_write_json_line(self.proc, req_dict)
-
         ring = getattr(self.proc, "_quartz_ring_buffer", None)
         if ring is not None:
-            ring_payload = self._rt.shm_eval_loop(ring, self.model, self.device, self.cfg, self.proc)
+            try:
+                baseline_epoch = int(ring.epoch())
+            except Exception:
+                baseline_epoch = None
+        else:
+            baseline_epoch = None
+        if frame_kind is None:
+            self._rt.proc_write_json_line(self.proc, req_dict)
+        else:
+            self._rt.proc_write_qipc_frame(self.proc, frame_kind, frame_payload or b"")
+        if ring is not None:
+            ring_payload = self._rt.shm_eval_loop(
+                ring, self.model, self.device, self.cfg, self.proc, baseline_epoch=baseline_epoch
+            )
             if isinstance(ring_payload, dict):
                 return ring_payload
             kind, payload = self._rt.proc_read_message(self.proc, timeout_s=read_timeout_s)
@@ -698,11 +773,15 @@ class NNSearchClient:
         deferred = None
         duty = {"read_s": 0.0, "collect_s": 0.0, "model_s": 0.0, "write_s": 0.0, "cycles": 0}
         duty_log_interval = 16
-        use_pipeline = (
-            not os.environ.get("QUARTZ_DISABLE_ASYNC_PIPELINE")
-            and self.model is not None
-            and not hasattr(self.model, "predict")
-        )
+        pipeline_policy = getattr(self._rt, "should_use_async_pipeline", None)
+        if callable(pipeline_policy):
+            use_pipeline = bool(pipeline_policy(self.model, self.device, self.cfg))
+        else:
+            use_pipeline = (
+                not os.environ.get("QUARTZ_DISABLE_ASYNC_PIPELINE")
+                and self.model is not None
+                and not hasattr(self.model, "predict")
+            )
         pipeline = None
         inflight = False
         if use_pipeline:
@@ -1024,15 +1103,21 @@ def arena_rust_nn_impl(
             f"arena_rust_nn requires same game on both sides: {cfg_a.get('_name')} vs {cfg_b.get('_name')}"
         )
 
-    same_search_cfg = cfg_a == cfg_b
+    cfg_a = dict(cfg_a)
+    cfg_b = dict(cfg_b)
+    same_search_cfg = _search_manifest_hash(cfg_a) == _search_manifest_hash(cfg_b)
+    if same_search_cfg:
+        cfg_a.setdefault("_eval_runner_mode", "rust_eval_state_machine")
+        cfg_b.setdefault("_eval_runner_mode", "rust_eval_state_machine")
     same_model_source = same_search_cfg and os.path.abspath(model_a_path) == os.path.abspath(model_b_path)
+    share_same_model_object = same_model_source and cfg_a.get("_eval_runner_mode") != "rust_eval_state_machine"
 
     model_a = runtime_hooks.alphazero_net_cls(cfg_a).to(device)
     model_a.load_state_dict(
         runtime_hooks.load_torch_state_dict(model_a_path, runtime_hooks.torch_module, map_location=device)
     )
     model_a.eval()
-    if same_model_source:
+    if share_same_model_object:
         model_b = model_a
     else:
         model_b = runtime_hooks.alphazero_net_cls(cfg_b).to(device)
@@ -1076,6 +1161,16 @@ def arena_rust_nn_impl(
             max_moves=max_moves,
         )
         tally = runner.play_match_tally_batched(engine_a, engine_b, n_games, color_swap=True)
+        if strict and (
+            getattr(tally, "errors", 0)
+            or getattr(tally, "voids", 0)
+            or (getattr(tally, "total", 0) and getattr(tally, "scored", 0) == 0)
+        ):
+            raise RuntimeError(
+                "strict arena produced unscored games "
+                f"(errors={getattr(tally, 'errors', 0)} voids={getattr(tally, 'voids', 0)} "
+                f"scored={getattr(tally, 'scored', 0)} total={getattr(tally, 'total', 0)})"
+            )
         wins_a = int(tally.wins)
         wins_b = int(tally.losses)
         draws = int(tally.draws)
@@ -1393,6 +1488,9 @@ def selfplay_rust_nn_batched(
                 "dup_rate": result.get("dup_rate", 0.0),
                 "max_pending": result.get("max_pending", 0),
                 "avg_vvalue": result.get("avg_vvalue", 0.0),
+                "search_manifest": dict(result.get("search_manifest") or {}),
+                "realized_budget": dict(result.get("realized_budget") or {}),
+                "controller_summary": dict(result.get("controller_summary") or {}),
             }
         )
 
@@ -1484,11 +1582,15 @@ def selfplay_rust_nn_batched(
 
     duty = {"read_s": 0.0, "collect_s": 0.0, "model_s": 0.0, "write_s": 0.0, "cycles": 0}
     duty_log_interval = 16
-    use_pipeline = (
-        not os.environ.get("QUARTZ_DISABLE_ASYNC_PIPELINE")
-        and model is not None
-        and not hasattr(model, "predict")
-    )
+    pipeline_policy = getattr(runtime_hooks, "should_use_async_pipeline", None)
+    if callable(pipeline_policy):
+        use_pipeline = bool(pipeline_policy(model, device, cfg))
+    else:
+        use_pipeline = (
+            not os.environ.get("QUARTZ_DISABLE_ASYNC_PIPELINE")
+            and model is not None
+            and not hasattr(model, "predict")
+        )
 
     def exchange_search_request(req):
         nonlocal batch_items_ema, collect_wait_ema_s
@@ -1991,9 +2093,9 @@ class SelfPlayWorker:
                     chunk_games = min(remaining, int(plan.get("games_per_call", parallel)))
                     streamed_positions = 0
 
-                    def _on_game_stream(gs, gp, out, _traces):
+                    def _on_game_stream(gs, gp, out, traces):
                         nonlocal n_new, streamed_positions
-                        self.replay.add_game(gs, gp, out)
+                        self.replay.add_game(gs, gp, out, traces=traces)
                         n_new += len(gs)
                         streamed_positions += len(gs)
                         self._last_progress_ts = time.time()
@@ -2002,7 +2104,7 @@ class SelfPlayWorker:
 
                     self._idle.clear()
                     try:
-                        states, policies, outcomes, _ = self._selfplay_runner(
+                        states, policies, outcomes, traces = self._selfplay_runner(
                             self.cfg,
                             self._model,
                             self.device,
@@ -2019,8 +2121,8 @@ class SelfPlayWorker:
                         self._idle.set()
                     chunk_positions = streamed_positions
                     if self.cfg.get("_selfplay_runner_mode") != "rust_selfplay_state_machine":
-                        for gs, gp, out in zip(states, policies, outcomes):
-                            self.replay.add_game(gs, gp, out)
+                        for gs, gp, out, trace in zip(states, policies, outcomes, traces):
+                            self.replay.add_game(gs, gp, out, traces=trace)
                             n_new += len(gs)
                             chunk_positions += len(gs)
                     if chunk_positions > 0:

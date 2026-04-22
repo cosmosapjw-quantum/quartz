@@ -6,7 +6,7 @@
 
 use std::collections::HashMap;
 use std::fs::OpenOptions;
-use std::io::{self, BufRead, Write};
+use std::io::{self, BufRead, Read, Write};
 use std::sync::atomic::{AtomicU32, AtomicU64, AtomicUsize, Ordering};
 use std::sync::{Arc, Mutex, OnceLock};
 use std::time::{Instant, SystemTime, UNIX_EPOCH};
@@ -101,6 +101,19 @@ fn emit_ring_message(msg_type: u8, payload: &[u8]) -> bool {
 const SEARCH_RESP_SINGLE: u8 = 1;
 const SEARCH_RESP_MULTI: u8 = 2;
 const SEARCH_RESP_SESSION: u8 = 3;
+const SHM_MSG_ARENA_EVAL_RESP: u8 = 5;
+const QIPC_ARENA_EVAL_RESP: u8 = 9;
+const QIPC_ARENA_EVAL_REQ: u8 = 10;
+const QIPC_MAGIC: &[u8; 4] = b"QIPC";
+const QIPC_HEADER_SIZE: usize = 9;
+const ARENA_EVAL_RESP_VERSION: u8 = 1;
+const ARENA_OUTCOME_DRAW: u8 = 0;
+const ARENA_OUTCOME_BLACK_WIN: u8 = 1;
+const ARENA_OUTCOME_WHITE_WIN: u8 = 2;
+const ARENA_EVAL_REQ_VERSION: u8 = 2;
+const ARENA_STATE_BOARD: u8 = 0;
+const ARENA_STATE_GO: u8 = 1;
+const ARENA_STATE_CHESS: u8 = 2;
 
 enum SearchResponsePayload {
     Single {
@@ -159,6 +172,71 @@ enum SearchCommandReply {
     Json(serde_json::Value),
 }
 
+enum EvalCommandReply {
+    Json(String),
+    Binary(Vec<u8>),
+}
+
+enum ServerCommandInput {
+    Json(String),
+    Frame(u8, Vec<u8>),
+    Invalid(String),
+}
+
+struct ArenaEvalFrameRequest {
+    game: String,
+    search_options: ArenaEvalSearchOptions,
+    iters: u32,
+    max_moves: usize,
+    sessions: Vec<ArenaEvalSessionSpec>,
+}
+
+#[derive(Clone)]
+struct ArenaEvalSearchOptions {
+    search_profile: SearchProfile,
+    overrides: SearchOverrides,
+    n_threads: usize,
+    batch_size: usize,
+    batch_timeout_us: u64,
+}
+
+#[derive(Clone)]
+enum ArenaEvalStateSpec {
+    Board {
+        player: i8,
+        board: Vec<i8>,
+    },
+    Go {
+        player: i8,
+        board: Vec<u8>,
+        ruleset: GoRuleset,
+        scoring: GoScoring,
+        komi: f32,
+        allow_suicide: bool,
+        passes: u8,
+        ko_point: Option<u16>,
+        black_caps: u16,
+        white_caps: u16,
+    },
+    Chess {
+        fen: String,
+        history_hashes: Vec<u64>,
+    },
+}
+
+#[derive(Clone)]
+struct ArenaEvalSessionSpec {
+    game_id: String,
+    black_tag: u32,
+    white_tag: u32,
+    opening: Vec<usize>,
+    seed: Option<u64>,
+    ply: usize,
+    total_time_ms: f64,
+    done: bool,
+    state: ArenaEvalStateSpec,
+}
+
 fn push_u8(buf: &mut Vec<u8>, value: u8) {
     buf.push(value);
 }
@@ -172,6 +250,10 @@ fn push_u64(buf: &mut Vec<u8>, value: u64) {
 }
 
 fn push_f32(buf: &mut Vec<u8>, value: f32) {
+    buf.extend_from_slice(&value.to_le_bytes());
+}
+
+fn push_f64(buf: &mut Vec<u8>, value: f64) {
     buf.extend_from_slice(&value.to_le_bytes());
 }
 
@@ -274,6 +356,27 @@ fn encode_search_result_entry(buf: &mut Vec<u8>, result: &serde_json::Value) {
         buf,
         obj.get("result_fen").and_then(|v| v.as_str()).unwrap_or(""),
     );
+    push_string(
+        buf,
+        &obj.get("search_manifest")
+            .and_then(|v| (!v.is_null()).then_some(v))
+            .and_then(|v| serde_json::to_string(v).ok())
+            .unwrap_or_default(),
+    );
+    push_string(
+        buf,
+        &obj.get("realized_budget")
+            .and_then(|v| (!v.is_null()).then_some(v))
+            .and_then(|v| serde_json::to_string(v).ok())
+            .unwrap_or_default(),
+    );
+    push_string(
+        buf,
+        &obj.get("controller_summary")
+            .and_then(|v| (!v.is_null()).then_some(v))
+            .and_then(|v| serde_json::to_string(v).ok())
+            .unwrap_or_default(),
+    );
 }
 
 fn encode_search_response_payload(response: &SearchResponsePayload) -> Vec<u8> {
@@ -303,6 +406,92 @@ fn emit_search_command_reply(reply: SearchCommandReply) {
             }
         }
         SearchCommandReply::Json(value) => emit_stdout_json_value(&value),
+    }
+}
+
+fn emit_binary_frame(frame_kind: u8, payload: &[u8]) {
+    let stdout = io::stdout();
+    let mut out = stdout.lock();
+    let _ = out.write_all(b"QIPC");
+    let _ = out.write_all(&[frame_kind]);
+    let _ = out.write_all(&(payload.len().min(u32::MAX as usize) as u32).to_le_bytes());
+    if !payload.is_empty() {
+        let _ = out.write_all(payload);
+    }
+    let _ = out.flush();
+}
+
+fn emit_eval_command_reply(reply: EvalCommandReply) {
+    match reply {
+        EvalCommandReply::Json(value) => {
+            let stdout = io::stdout();
+            let mut out = stdout.lock();
+            let _ = writeln!(out, "{}", value);
+            let _ = out.flush();
+        }
+        EvalCommandReply::Binary(payload) => {
+            if !emit_ring_message(SHM_MSG_ARENA_EVAL_RESP, &payload) {
+                emit_binary_frame(QIPC_ARENA_EVAL_RESP, &payload);
+            }
+        }
+    }
+}
+
+fn read_stdin_command() -> Option<ServerCommandInput> {
+    loop {
+        let stdin = io::stdin();
+        let mut reader = stdin.lock();
+        let mut first = [0u8; 1];
+        if reader.read(&mut first).ok()? == 0 {
+            return None;
+        }
+        if matches!(first[0], b'\n' | b'\r') {
+            continue;
+        }
+        if matches!(first[0], b'{' | b'[') {
+            let mut rest = Vec::new();
+            if reader.read_until(b'\n', &mut rest).is_err() {
+                return Some(ServerCommandInput::Invalid(
+                    "failed to read json command".to_string(),
+                ));
+            }
+            let mut raw = vec![first[0]];
+            raw.extend_from_slice(&rest);
+            let line = String::from_utf8_lossy(&raw).trim().to_string();
+            if line.is_empty() {
+                continue;
+            }
+            return Some(ServerCommandInput::Json(line));
+        }
+        if first[0] != b'Q' {
+            return Some(ServerCommandInput::Invalid(format!(
+                "unexpected stdin command prefix: {}",
+                first[0]
+            )));
+        }
+        let mut header_rest = [0u8; QIPC_HEADER_SIZE - 1];
+        if reader.read_exact(&mut header_rest).is_err() {
+            return Some(ServerCommandInput::Invalid(
+                "failed to read QIPC header".to_string(),
+            ));
+        }
+        let mut header = [0u8; QIPC_HEADER_SIZE];
+        header[0] = first[0];
+        header[1..].copy_from_slice(&header_rest);
+        if &header[..4] != QIPC_MAGIC {
+            return Some(ServerCommandInput::Invalid(
+                "unexpected IPC frame magic".to_string(),
+            ));
+        }
+        let frame_kind = header[4];
+        let payload_len = u32::from_le_bytes([header[5], header[6], header[7], header[8]]) as usize;
+        let mut payload = vec![0u8; payload_len];
+        if reader.read_exact(&mut payload).is_err() {
+            return Some(ServerCommandInput::Invalid(
+                "failed to read QIPC payload".to_string(),
+            ));
+        }
+        return Some(ServerCommandInput::Frame(frame_kind, payload));
     }
 }
 
@@ -429,6 +618,245 @@ fn jbool(s: &str, key: &str) -> Option<bool> {
     } else {
         None
     }
+}
+
+fn frame_take<'a>(payload: &'a [u8], offset: &mut usize, n: usize) -> Result<&'a [u8], String> {
+    if payload.len().saturating_sub(*offset) < n {
+        return Err("truncated arena eval request payload".to_string());
+    }
+    let slice = &payload[*offset..*offset + n];
+    *offset += n;
+    Ok(slice)
+}
+
+fn frame_read_u8(payload: &[u8], offset: &mut usize) -> Result<u8, String> {
+    Ok(frame_take(payload, offset, 1)?[0])
+}
+
+fn frame_read_u32(payload: &[u8], offset: &mut usize) -> Result<u32, String> {
+    let raw = frame_take(payload, offset, 4)?;
+    Ok(u32::from_le_bytes([raw[0], raw[1], raw[2], raw[3]]))
+}
+
+fn frame_read_u64(payload: &[u8], offset: &mut usize) -> Result<u64, String> {
+    let raw = frame_take(payload, offset, 8)?;
+    Ok(u64::from_le_bytes([
+        raw[0], raw[1], raw[2], raw[3], raw[4], raw[5], raw[6], raw[7],
+    ]))
+}
+
+fn frame_read_i32(payload: &[u8], offset: &mut usize) -> Result<i32, String> {
+    let raw = frame_take(payload, offset, 4)?;
+    Ok(i32::from_le_bytes([raw[0], raw[1], raw[2], raw[3]]))
+}
+
+fn frame_read_f32(payload: &[u8], offset: &mut usize) -> Result<f32, String> {
+    Ok(f32::from_bits(frame_read_u32(payload, offset)?))
+}
+
+fn frame_read_f64(payload: &[u8], offset: &mut usize) -> Result<f64, String> {
+    Ok(f64::from_bits(frame_read_u64(payload, offset)?))
+}
+
+fn frame_read_string(payload: &[u8], offset: &mut usize) -> Result<String, String> {
+    let byte_len = frame_read_u32(payload, offset)? as usize;
+    let raw = frame_take(payload, offset, byte_len)?;
+    String::from_utf8(raw.to_vec()).map_err(|_| "invalid utf-8 in arena eval request".to_string())
+}
+
+fn decode_arena_eval_request_payload(payload: &[u8]) -> Result<ArenaEvalFrameRequest, String> {
+    let mut offset = 0usize;
+    let version = frame_read_u8(payload, &mut offset)?;
+    let game = frame_read_string(payload, &mut offset)?;
+    let search_options_json_v1 = if version == 1 {
+        Some(frame_read_string(payload, &mut offset)?)
+    } else {
+        None
+    };
+    let typed_search_options_v2 = if version == 1 {
+        None
+    } else if version == 2 {
+        let search_profile = frame_read_string(payload, &mut offset)?;
+        let penalty_mode = frame_read_string(payload, &mut offset)?;
+        let vl_mode = frame_read_string(payload, &mut offset)?;
+        let n_threads = frame_read_u32(payload, &mut offset)?;
+        let batch_size = frame_read_u32(payload, &mut offset)?;
+        let batch_timeout_us = frame_read_u32(payload, &mut offset)?;
+        let hbar_penalty_cap = frame_read_f32(payload, &mut offset)?;
+        let sigma_0 = frame_read_f32(payload, &mut offset)?;
+        let min_visits = frame_read_u32(payload, &mut offset)?;
+        let check_interval = frame_read_u32(payload, &mut offset)?;
+        let prior_refresh_rate = frame_read_f32(payload, &mut offset)?;
+        let prior_refresh_temp = frame_read_f32(payload, &mut offset)?;
+        let c_puct = frame_read_f32(payload, &mut offset)?;
+        let root_only_raw = frame_take(payload, &mut offset, 1)?[0] as i8;
+        let tt_enabled_raw = frame_take(payload, &mut offset, 1)?[0] as i8;
+        let seed_present = frame_read_u8(payload, &mut offset)? != 0;
+        let seed = frame_read_u64(payload, &mut offset)?;
+        Some(ArenaEvalSearchOptions {
+            search_profile: match search_profile.as_str() {
+                "baseline" => SearchProfile::Baseline,
+                "baseline_strict" => SearchProfile::BaselineStrict,
+                _ => SearchProfile::Quartz,
+            },
+            overrides: SearchOverrides {
+                penalty_mode: parse_penalty_mode(&penalty_mode),
+                hbar_penalty_cap: if hbar_penalty_cap > 0.0 {
+                    Some(hbar_penalty_cap)
+                } else {
+                    None
+                },
+                c_puct: if c_puct > 0.0 { Some(c_puct) } else { None },
+                sigma_0: if sigma_0 > 0.0 { Some(sigma_0) } else { None },
+                min_visits: Some(min_visits.max(1)),
+                check_interval: Some(check_interval.max(1)),
+                prior_refresh_rate: if prior_refresh_rate >= 0.0 {
+                    Some(prior_refresh_rate)
+                } else {
+                    None
+                },
+                prior_refresh_temp: if prior_refresh_temp > 0.0 {
+                    Some(prior_refresh_temp)
+                } else {
+                    None
+                },
+                root_only_shaping: if root_only_raw >= 0 {
+                    Some(root_only_raw != 0)
+                } else {
+                    None
+                },
+                vl_mode: if vl_mode.is_empty() {
+                    None
+                } else {
+                    Some(vl_mode)
+                },
+                tt_enabled: if tt_enabled_raw >= 0 {
+                    Some(tt_enabled_raw != 0)
+                } else {
+                    None
+                },
+                seed: if seed_present { Some(seed) } else { None },
+            },
+            n_threads: cap_search_threads(n_threads.max(1) as usize),
+            batch_size: (batch_size as usize).max(1),
+            batch_timeout_us: (batch_timeout_us.max(1)) as u64,
+        })
+    } else {
+        return Err(format!(
+            "unsupported arena eval request version: {}",
+            version
+        ));
+    };
+    let iters = frame_read_u32(payload, &mut offset)?;
+    let max_moves = frame_read_u32(payload, &mut offset)? as usize;
+    let session_count = frame_read_u32(payload, &mut offset)? as usize;
+    let mut sessions = Vec::with_capacity(session_count);
+    for _ in 0..session_count {
+        let game_id = frame_read_string(payload, &mut offset)?;
+        let black_tag = frame_read_u32(payload, &mut offset)?;
+        let white_tag = frame_read_u32(payload, &mut offset)?;
+        let seed_raw = frame_read_u64(payload, &mut offset)?;
+        let ply = frame_read_u32(payload, &mut offset)? as usize;
+        let total_time_ms = frame_read_f64(payload, &mut offset)?;
+        let done = frame_read_u8(payload, &mut offset)? != 0;
+        let opening_len = frame_read_u32(payload, &mut offset)? as usize;
+        let mut opening = Vec::with_capacity(opening_len);
+        for _ in 0..opening_len {
+            opening.push(frame_read_u32(payload, &mut offset)? as usize);
+        }
+        let state_kind = frame_read_u8(payload, &mut offset)?;
+        let state = match state_kind {
+            ARENA_STATE_CHESS => {
+                let fen = frame_read_string(payload, &mut offset)?;
+                let history_len = frame_read_u32(payload, &mut offset)? as usize;
+                let mut history_hashes = Vec::with_capacity(history_len);
+                for _ in 0..history_len {
+                    history_hashes.push(frame_read_u64(payload, &mut offset)?);
+                }
+                ArenaEvalStateSpec::Chess { fen, history_hashes }
+            }
+            ARENA_STATE_GO => {
+                let player = frame_read_i32(payload, &mut offset)? as i8;
+                let board_len = frame_read_u32(payload, &mut offset)? as usize;
+                let board = frame_take(payload, &mut offset, board_len)?.to_vec();
+                let go_ruleset = match frame_read_string(payload, &mut offset)?.as_str() {
+                    "japanese" | "jp" => GoRuleset::Japanese,
+                    "korean" | "kr" => GoRuleset::Korean,
+                    "chinese" | "cn" => GoRuleset::Chinese,
+                    _ => GoRuleset::Chinese,
+                };
+                let go_scoring = match frame_read_string(payload, &mut offset)?.as_str() {
+                    "territory" => GoScoring::Territory,
+                    "area" => GoScoring::Area,
+                    _ => go_ruleset.scoring(),
+                };
+                let go_komi = frame_read_f32(payload, &mut offset)?;
+                let go_allow_suicide = frame_read_u8(payload, &mut offset)? != 0;
+                let passes = frame_read_u32(payload, &mut offset)?.min(2) as u8;
+                let ko_point_raw = frame_read_u32(payload, &mut offset)?;
+                let black_caps = frame_read_u32(payload, &mut offset)? as u16;
+                let white_caps = frame_read_u32(payload, &mut offset)? as u16;
+                ArenaEvalStateSpec::Go {
+                    player,
+                    board,
+                    ruleset: go_ruleset,
+                    scoring: go_scoring,
+                    komi: go_komi,
+                    allow_suicide: go_allow_suicide,
+                    passes,
+                    ko_point: if ko_point_raw == u32::MAX {
+                        None
+                    } else {
+                        Some(ko_point_raw as u16)
+                    },
+                    black_caps,
+                    white_caps,
+                }
+            }
+            ARENA_STATE_BOARD => {
+                let player = frame_read_i32(payload, &mut offset)? as i8;
+                let board_len = frame_read_u32(payload, &mut offset)? as usize;
+                let board = frame_take(payload, &mut offset, board_len)?
+                    .iter()
+                    .map(|value| i8::from_le_bytes([*value]))
+                    .collect::<Vec<_>>();
+                ArenaEvalStateSpec::Board { player, board }
+            }
+            other => {
+                return Err(format!("unknown arena eval state kind: {}", other));
+            }
+        };
+        sessions.push(ArenaEvalSessionSpec {
+            game_id,
+            black_tag,
+            white_tag,
+            opening,
+            seed: if seed_raw == u64::MAX {
+                None
+            } else {
+                Some(seed_raw)
+            },
+            ply,
+            total_time_ms,
+            done,
+            state,
+        });
+    }
+    if offset != payload.len() {
+        return Err("arena eval request trailing bytes".to_string());
+    }
+    let search_options = if let Some(options_json) = search_options_json_v1 {
+        arena_eval_search_options_from_json(&game, &options_json, session_count)
+    } else {
+        typed_search_options_v2.expect("v2 typed arena options must exist")
+    };
+    Ok(ArenaEvalFrameRequest {
+        game,
+        search_options,
+        iters,
+        max_moves,
+        sessions,
+    })
 }
 
 fn json_u64ish(value: &serde_json::Value) -> Option<u64> {
@@ -627,12 +1055,310 @@ fn parse_search_profile(line: &str) -> SearchProfile {
     }
 }
 
+fn arena_eval_search_options_from_json(
+    game: &str,
+    line: &str,
+    session_count: usize,
+) -> ArenaEvalSearchOptions {
+    let overrides = parse_search_overrides(line);
+    let search_profile = parse_search_profile(line);
+    let n_threads = cap_search_threads(jint(line, "n_threads").unwrap_or(1).max(1) as usize);
+    let batch_size = (jint(line, "batch_size").unwrap_or(8) as usize).max(1);
+    let batch_timeout_us = jint(line, "batch_timeout_us")
+        .map(|v| v.max(1) as u64)
+        .unwrap_or_else(|| default_batch_timeout_us(n_threads, batch_size, session_count));
+    ArenaEvalSearchOptions {
+        search_profile,
+        overrides,
+        n_threads,
+        batch_size,
+        batch_timeout_us,
+    }
+}
+
+fn arena_eval_session_specs_from_json(
+    _game: &str,
+    sessions: &[serde_json::Value],
+) -> Vec<ArenaEvalSessionSpec> {
+    let go_defaults = parse_go_game(_game).map(|(_, default_ruleset)| default_ruleset);
+    let chess_default_960 = _game == "chess960";
+    sessions
+        .iter()
+        .map(|session| {
+            let game_id = session
+                .get("game_id")
+                .and_then(|v| v.as_str())
+                .unwrap_or("g0000")
+                .to_string();
+            let black_tag = session
+                .get("black_tag")
+                .and_then(|v| v.as_u64())
+                .unwrap_or(0) as u32;
+            let white_tag = session
+                .get("white_tag")
+                .and_then(|v| v.as_u64())
+                .unwrap_or(1) as u32;
+            let opening = session
+                .get("opening")
+                .and_then(|v| v.as_array())
+                .map(|arr| {
+                    arr.iter()
+                        .filter_map(|v| v.as_u64().map(|x| x as usize))
+                        .collect::<Vec<_>>()
+                })
+                .unwrap_or_default();
+            let seed = session.get("seed").and_then(|v| v.as_u64());
+            let ply = session.get("ply").and_then(|v| v.as_u64()).unwrap_or(0) as usize;
+            let total_time_ms = session
+                .get("total_time_ms")
+                .and_then(|v| v.as_f64())
+                .unwrap_or(0.0);
+            let done = session
+                .get("done")
+                .and_then(|v| v.as_bool())
+                .unwrap_or(false);
+            let state = if is_chess_game_name(_game) || session.get("fen").is_some() {
+                let fallback = if chess_default_960 {
+                    Chess::from_960(518)
+                } else {
+                    Chess::standard()
+                };
+                let default_fen = fallback.to_fen();
+                let history_hashes = session
+                    .get("chess_history_hashes")
+                    .and_then(|v| v.as_array())
+                    .map(|arr| arr.iter().filter_map(|v| v.as_u64()).collect::<Vec<_>>())
+                    .unwrap_or_default();
+                ArenaEvalStateSpec::Chess {
+                    fen: session
+                        .get("fen")
+                        .and_then(|v| v.as_str())
+                        .unwrap_or(default_fen.as_str())
+                        .to_string(),
+                    history_hashes,
+                }
+            } else if go_defaults.is_some() || session.get("go_ruleset").is_some() {
+                let board = session
+                    .get("board")
+                    .and_then(|v| v.as_array())
+                    .map(|arr| {
+                        arr.iter()
+                            .map(|v| match v.as_i64().unwrap_or(0) {
+                                1 => 1,
+                                2 | -1 => 2,
+                                _ => 0,
+                            } as u8)
+                            .collect::<Vec<_>>()
+                    })
+                    .unwrap_or_default();
+                let player = session.get("player").and_then(|v| v.as_i64()).unwrap_or(1) as i8;
+                let default_ruleset = go_defaults.unwrap_or(GoRuleset::Chinese);
+                let ruleset = match session
+                    .get("go_ruleset")
+                    .and_then(|v| v.as_str())
+                    .unwrap_or("")
+                {
+                    "japanese" | "jp" => GoRuleset::Japanese,
+                    "korean" | "kr" => GoRuleset::Korean,
+                    "chinese" | "cn" => GoRuleset::Chinese,
+                    _ => default_ruleset,
+                };
+                let scoring = match session
+                    .get("go_scoring")
+                    .and_then(|v| v.as_str())
+                    .unwrap_or("")
+                {
+                    "territory" => GoScoring::Territory,
+                    "area" => GoScoring::Area,
+                    _ => ruleset.scoring(),
+                };
+                let komi = session
+                    .get("go_komi")
+                    .and_then(|v| v.as_f64())
+                    .map(|v| v as f32)
+                    .unwrap_or(7.5);
+                let allow_suicide = session
+                    .get("go_allow_suicide")
+                    .and_then(|v| v.as_bool())
+                    .unwrap_or(false);
+                let passes = session
+                    .get("passes")
+                    .and_then(|v| v.as_u64())
+                    .unwrap_or(0)
+                    .min(2) as u8;
+                let ko_point = session
+                    .get("ko_point")
+                    .and_then(|v| v.as_i64())
+                    .and_then(|v| if v >= 0 { Some(v as u16) } else { None });
+                let black_caps = session
+                    .get("black_caps")
+                    .and_then(|v| v.as_u64())
+                    .unwrap_or(0) as u16;
+                let white_caps = session
+                    .get("white_caps")
+                    .and_then(|v| v.as_u64())
+                    .unwrap_or(0) as u16;
+                ArenaEvalStateSpec::Go {
+                    player,
+                    board,
+                    ruleset,
+                    scoring,
+                    komi,
+                    allow_suicide,
+                    passes,
+                    ko_point,
+                    black_caps,
+                    white_caps,
+                }
+            } else {
+                let board = session
+                    .get("board")
+                    .and_then(|v| v.as_array())
+                    .map(|arr| {
+                        arr.iter()
+                            .map(|v| v.as_i64().unwrap_or(0) as i8)
+                            .collect::<Vec<_>>()
+                    })
+                    .unwrap_or_default();
+                let player = session.get("player").and_then(|v| v.as_i64()).unwrap_or(1) as i8;
+                ArenaEvalStateSpec::Board { player, board }
+            };
+            ArenaEvalSessionSpec {
+                game_id,
+                black_tag,
+                white_tag,
+                opening,
+                seed,
+                ply,
+                total_time_ms,
+                done,
+                state,
+            }
+        })
+        .collect()
+}
+
 fn search_profile_name(profile: SearchProfile) -> &'static str {
     match profile {
         SearchProfile::Quartz => "quartz",
         SearchProfile::Baseline => "baseline_shared_substrate",
         SearchProfile::BaselineStrict => "baseline_strict",
     }
+}
+
+fn should_use_batch_eval(profile: SearchProfile, n_threads: usize, force_batch: bool) -> bool {
+    force_batch || n_threads > 1 || matches!(profile, SearchProfile::BaselineStrict)
+}
+
+fn note_serial_eval_fallback(profile: SearchProfile, n_threads: usize, n_actions: usize) {
+    static WARNED: OnceLock<()> = OnceLock::new();
+    rust_server_trace(
+        "serial_eval_fallback",
+        serde_json::json!({
+            "search_profile": search_profile_name(profile),
+            "n_threads": n_threads,
+            "n_actions": n_actions,
+            "reason": "stdio_callback_eval_serializes_all_requests",
+        }),
+    );
+    if WARNED.set(()).is_ok() {
+        eprintln!(
+            "[warn] using serialized StdioCallbackEval fallback; this path is exploratory and not benchmark-safe"
+        );
+    }
+}
+
+fn search_evaluator_path(
+    profile: SearchProfile,
+    n_threads: usize,
+    force_batch: bool,
+) -> &'static str {
+    if should_use_batch_eval(profile, n_threads, force_batch) {
+        "batch_stdio"
+    } else {
+        "serial_stdio"
+    }
+}
+
+fn attach_search_metadata(
+    result: &mut serde_json::Value,
+    profile: SearchProfile,
+    requested_iteration_limit: u32,
+    n_threads: usize,
+    evaluator_path: &'static str,
+    qcfg: Option<&QuartzConfig>,
+) {
+    let Some(obj) = result.as_object_mut() else {
+        return;
+    };
+    let realized_iterations = obj.get("iterations").and_then(|v| v.as_u64()).unwrap_or(0) as u32;
+    let stop_reason = obj
+        .get("stop_reason")
+        .and_then(|v| v.as_str())
+        .unwrap_or("")
+        .to_string();
+    let halt_reason_hist = if stop_reason.is_empty() {
+        serde_json::json!({})
+    } else {
+        serde_json::json!({ stop_reason.clone(): 1 })
+    };
+    let penalty_mode = qcfg.map(|cfg| format!("{:?}", cfg.penalty_mode));
+    let halt_mode = qcfg.map(|cfg| format!("{:?}", cfg.halt_mode));
+    let root_only_shaping = qcfg.map(|cfg| cfg.root_only_shaping);
+    let prior_refresh_rate = qcfg.map(|cfg| cfg.prior_refresh_rate);
+    let prior_refresh_temp = qcfg.map(|cfg| cfg.prior_refresh_temp);
+    let refresh_count = obj.get("refresh_count").and_then(|v| v.as_f64());
+    let penalty_sum = obj.get("penalty_sum").and_then(|v| v.as_f64());
+    let prior_q_divergence = obj.get("prior_q_divergence").and_then(|v| v.as_f64());
+    let mut telemetry_missing_fields = Vec::new();
+    if refresh_count.is_none() {
+        telemetry_missing_fields.push("refresh_count");
+    }
+    if penalty_sum.is_none() {
+        telemetry_missing_fields.push("penalty_sum");
+    }
+    let controller_summary = serde_json::json!({
+        "p_flip": obj.get("p_flip").and_then(|v| v.as_f64()).unwrap_or(0.0),
+        "value": obj.get("value").and_then(|v| v.as_f64()).unwrap_or(0.0),
+        "sigma_q": obj.get("sigma_q").and_then(|v| v.as_f64()).unwrap_or(0.0),
+        "hbar_eff": obj.get("hbar_eff").and_then(|v| v.as_f64()).unwrap_or(0.0),
+        "dup_rate": obj.get("dup_rate").and_then(|v| v.as_f64()).unwrap_or(0.0),
+        "max_pending": obj.get("max_pending").and_then(|v| v.as_u64()).unwrap_or(0),
+        "avg_vvalue": obj.get("avg_vvalue").and_then(|v| v.as_f64()).unwrap_or(0.0),
+        "stop_reason": stop_reason,
+        "halt_reason_hist": halt_reason_hist,
+        "penalty_mode": penalty_mode,
+        "halt_mode": halt_mode,
+        "root_only_shaping": root_only_shaping,
+        "prior_refresh_rate": prior_refresh_rate,
+        "prior_refresh_temp": prior_refresh_temp,
+        "prior_q_divergence": prior_q_divergence,
+        "refresh_count": refresh_count,
+        "penalty_sum": penalty_sum,
+        "refresh_metric_present": refresh_count.is_some(),
+        "penalty_metric_present": penalty_sum.is_some(),
+        "telemetry_partial": !telemetry_missing_fields.is_empty(),
+        "telemetry_missing_fields": telemetry_missing_fields,
+    });
+    obj.insert(
+        "search_manifest".to_string(),
+        serde_json::json!({
+            "profile": search_profile_name(profile),
+            "requested_iteration_limit": requested_iteration_limit,
+            "n_threads": n_threads,
+            "evaluator_path": evaluator_path,
+            "benchmark_safe": evaluator_path != "serial_stdio",
+        }),
+    );
+    obj.insert(
+        "realized_budget".to_string(),
+        serde_json::json!({
+            "requested_iteration_limit": requested_iteration_limit,
+            "realized_iterations": realized_iterations,
+            "stop_reason": stop_reason,
+        }),
+    );
+    obj.insert("controller_summary".to_string(), controller_summary);
 }
 
 fn apply_search_profile(mut cfg: MctsConfig, profile: SearchProfile) -> MctsConfig {
@@ -1229,26 +1955,42 @@ pub fn serve() {
     // NOTE: We do NOT hold stdin/stdout locks across the loop.
     // search_nn needs direct stdio access for bidirectional eval protocol.
     loop {
-        let mut line = String::new();
-        {
-            let stdin = io::stdin();
-            let mut reader = stdin.lock();
-            if reader.read_line(&mut line).unwrap_or(0) == 0 {
-                break;
-            }
-        }
-        let line = line.trim().to_string();
-        if line.is_empty() {
-            continue;
-        }
-        let cmd = jstr(&line, "cmd").unwrap_or("move");
-        if cmd == "quit" {
+        let Some(input) = read_stdin_command() else {
             break;
-        }
+        };
 
         // Bump ring buffer epoch at command start so Python ignores stale slots
         if let Some(ring) = global_ring_buffer() {
             ring.bump_epoch();
+        }
+
+        let line = match input {
+            ServerCommandInput::Invalid(err) => {
+                emit_stdout_json_value(&serde_json::json!({ "error": err }));
+                if let Some(ring) = global_ring_buffer() {
+                    ring.set_cmd_done(true);
+                }
+                continue;
+            }
+            ServerCommandInput::Frame(frame_kind, payload) => {
+                if frame_kind == QIPC_ARENA_EVAL_REQ {
+                    emit_eval_command_reply(handle_eval_nn_run_frame(&payload));
+                } else {
+                    emit_stdout_json_value(&serde_json::json!({
+                        "error": format!("unsupported QIPC command frame kind: {}", frame_kind)
+                    }));
+                }
+                if let Some(ring) = global_ring_buffer() {
+                    ring.set_cmd_done(true);
+                }
+                continue;
+            }
+            ServerCommandInput::Json(line) => line,
+        };
+
+        let cmd = jstr(&line, "cmd").unwrap_or("move");
+        if cmd == "quit" {
+            break;
         }
 
         if cmd == "search_nn" {
@@ -1318,12 +2060,7 @@ pub fn serve() {
             continue;
         }
         if cmd == "eval_nn_run" {
-            let resp = handle_eval_nn_run(&line);
-            {
-                let mut out = io::stdout().lock();
-                let _ = writeln!(out, "{}", resp);
-                let _ = out.flush();
-            }
+            emit_eval_command_reply(handle_eval_nn_run(&line));
             if let Some(ring) = global_ring_buffer() {
                 ring.set_cmd_done(true);
             }
@@ -1442,6 +2179,51 @@ fn build_eval_record_json<G: GameState>(sess: &EvalRunnerSession<G>) -> serde_js
     })
 }
 
+fn arena_eval_outcome<G: GameState>(sess: &EvalRunnerSession<G>) -> (u8, f32) {
+    match terminal_black_score(&sess.state) {
+        Some(1.0) => (ARENA_OUTCOME_BLACK_WIN, 1.0),
+        Some(0.0) => (ARENA_OUTCOME_WHITE_WIN, 0.0),
+        Some(_) => (ARENA_OUTCOME_DRAW, 0.5),
+        None => (ARENA_OUTCOME_DRAW, 0.5),
+    }
+}
+
+fn encode_arena_eval_record<G: GameState>(buf: &mut Vec<u8>, sess: &EvalRunnerSession<G>) {
+    let (outcome_code, score_black) = arena_eval_outcome(sess);
+    push_string(buf, &sess.game_id);
+    push_u32(buf, sess.black_tag);
+    push_u32(buf, sess.white_tag);
+    push_u8(buf, outcome_code);
+    push_u8(buf, if sess.error.is_some() { 1 } else { 0 });
+    push_f32(buf, score_black);
+    push_u32(buf, sess.ply.min(u32::MAX as usize) as u32);
+    push_f64(buf, sess.total_time_ms);
+    push_u64(buf, sess.seed.unwrap_or(u64::MAX));
+    push_u32(buf, sess.opening.len().min(u32::MAX as usize) as u32);
+    for &mv in &sess.opening {
+        push_u32(buf, mv.min(u32::MAX as usize) as u32);
+    }
+    push_string(buf, sess.error.as_deref().unwrap_or(""));
+}
+
+fn encode_arena_eval_response_payload<G: GameState>(
+    game_name: &str,
+    sessions: &[EvalRunnerSession<G>],
+    duration_ms: f64,
+) -> Vec<u8> {
+    let mut payload = Vec::new();
+    push_u8(&mut payload, ARENA_EVAL_RESP_VERSION);
+    push_u8(&mut payload, 1);
+    push_u32(&mut payload, sessions.len().min(u32::MAX as usize) as u32);
+    push_f64(&mut payload, duration_ms);
+    push_string(&mut payload, game_name);
+    push_u32(&mut payload, sessions.len().min(u32::MAX as usize) as u32);
+    for sess in sessions {
+        encode_arena_eval_record(&mut payload, sess);
+    }
+    payload
+}
+
 /// Lookup action-space size for a game name.
 fn game_n_actions(game: &str) -> usize {
     match game {
@@ -1533,6 +2315,7 @@ fn build_result_value<G: GameState>(
     value: f32,
     sigma_q: f32,
     hbar_eff: f32,
+    prior_q_divergence: Option<f32>,
 ) -> serde_json::Value {
     let (best, policy, total) = collect_sparse_policy(engine, n_act);
     let tt = engine.tt.contention_snapshot();
@@ -1544,6 +2327,7 @@ fn build_result_value<G: GameState>(
         "value": f_or(value, 0.0),
         "sigma_q": f_or(sigma_q, 0.0),
         "hbar_eff": f_or(hbar_eff, 0.0),
+        "prior_q_divergence": prior_q_divergence.map(|v| f_or(v, 0.0)),
         "stop_reason": stop_reason,
         "iterations": iterations.max(total),
         "dup_rate": par.dup_rate,
@@ -1555,6 +2339,103 @@ fn build_result_value<G: GameState>(
         "tt_get_calls": tt.get_calls,
         "tt_lock_wait_ms": tt.lock_wait_nanos as f64 / 1_000_000.0,
         "tt_max_lock_wait_ms": tt.max_lock_wait_nanos as f64 / 1_000_000.0,
+    })
+}
+
+struct SearchExecutionOutcome {
+    iterations: u32,
+    stop_reason: String,
+    p_flip: f32,
+    value: f32,
+    sigma_q: f32,
+    hbar_eff: f32,
+    prior_q_divergence: Option<f32>,
+}
+
+#[derive(Clone, Copy)]
+struct EvalSearchStepResult {
+    best_move: usize,
+    iterations: u32,
+    time_used_ms: f64,
+    p_flip: f32,
+}
+
+#[derive(Clone, Copy)]
+struct EvalSearchStepCompact {
+    best_move: usize,
+    iterations: u32,
+    time_used_ms: f64,
+    p_flip: f32,
+}
+
+fn execute_search<G: GameState>(
+    engine: &MctsEngine<G>,
+    n_threads: usize,
+    iters: u32,
+    qcfg: Option<QuartzConfig>,
+    profile: SearchProfile,
+) -> SearchExecutionOutcome
+where
+    usize: From<G::Move>,
+{
+    match profile {
+        SearchProfile::Quartz => {
+            let mut ctrl = QuartzController::new(iters, qcfg.unwrap_or_default());
+            if n_threads > 1 {
+                engine.run_par_quartz(&mut ctrl, n_threads);
+            } else {
+                engine.run_quartz(&mut ctrl);
+            }
+            let s = ctrl.last_stats();
+            SearchExecutionOutcome {
+                iterations: engine.root.n_total.load(Ordering::Relaxed),
+                stop_reason: format!("{:?}", ctrl.last_stop_reason()),
+                p_flip: s.p_flip,
+                value: s.mean_q,
+                sigma_q: s.sigma_q,
+                hbar_eff: s.hbar_eff,
+                prior_q_divergence: Some(s.prior_q_divergence),
+            }
+        }
+        SearchProfile::Baseline | SearchProfile::BaselineStrict => {
+            let ctrl = FixedIterations::new(iters);
+            let stats = if n_threads > 1 {
+                engine.run_par(&ctrl, n_threads)
+            } else {
+                engine.run(&mut FixedIterations::new(iters))
+            };
+            SearchExecutionOutcome {
+                iterations: stats.iterations,
+                stop_reason: format!("{:?}", stats.stop_reason),
+                p_flip: 0.0,
+                value: 0.0,
+                sigma_q: 0.0,
+                hbar_eff: 0.0,
+                prior_q_divergence: None,
+            }
+        }
+    }
+}
+
+fn run_eval_search_step<G: GameState>(
+    engine: &MctsEngine<G>,
+    n_threads: usize,
+    iters: u32,
+    qcfg: Option<QuartzConfig>,
+    profile: SearchProfile,
+) -> Option<EvalSearchStepResult>
+where
+    usize: From<G::Move>,
+{
+    let outcome = execute_search(engine, n_threads, iters, qcfg.clone(), profile);
+    let best_move = engine
+        .best_move()
+        .map(|mv| engine.root_state().move_to_idx(mv))?;
+    Some(EvalSearchStepResult {
+        best_move,
+        iterations: engine.root.n_total.load(Ordering::Relaxed),
+        time_used_ms: 0.0,
+        p_flip: outcome.p_flip,
     })
 }
 
@@ -1571,98 +2452,56 @@ where
 {
     let phase_before = engine_phase_snapshot();
     let edge_before = edge_lock_contention_snapshot();
-    match profile {
-        SearchProfile::Quartz => {
-            let mut ctrl = QuartzController::new(iters, qcfg.unwrap_or_default());
-            if n_threads > 1 {
-                engine.run_par_quartz(&mut ctrl, n_threads);
-            } else {
-                engine.run_quartz(&mut ctrl);
-            }
-            let s = ctrl.last_stats();
-            let out = build_result_value(
-                engine,
-                n_act,
-                engine.root.n_total.load(Ordering::Relaxed),
-                format!("{:?}", ctrl.last_stop_reason()),
-                s.p_flip,
-                s.mean_q,
-                s.sigma_q,
-                s.hbar_eff,
-            );
-            let tt = engine.tt.contention_snapshot();
-            let phase_after = engine_phase_snapshot();
-            let edge_after = edge_lock_contention_snapshot();
-            rust_server_trace(
-                "search_result_stats",
-                serde_json::json!({
-                    "profile": search_profile_name(SearchProfile::Quartz),
-                    "n_threads": n_threads,
-                    "iters": iters,
-                    "tt_hit_rate": engine.tt.hit_rate(),
-                    "tt_size": engine.tt.size(),
-                    "tt_get_or_create_calls": tt.get_or_create_calls,
-                    "tt_get_calls": tt.get_calls,
-                    "tt_lock_wait_ms": tt.lock_wait_nanos as f64 / 1_000_000.0,
-                    "tt_max_lock_wait_ms": tt.max_lock_wait_nanos as f64 / 1_000_000.0,
-                    "iterate_calls": phase_after.iterate_calls.saturating_sub(phase_before.iterate_calls),
-                    "select_time_ms": (phase_after.select_time_nanos.saturating_sub(phase_before.select_time_nanos)) as f64 / 1_000_000.0,
-                    "expand_eval_time_ms": (phase_after.expand_eval_time_nanos.saturating_sub(phase_before.expand_eval_time_nanos)) as f64 / 1_000_000.0,
-                    "backprop_time_ms": (phase_after.backprop_time_nanos.saturating_sub(phase_before.backprop_time_nanos)) as f64 / 1_000_000.0,
-                    "edges_lock_calls": edge_after.calls.saturating_sub(edge_before.calls),
-                    "edges_lock_wait_ms": (edge_after.wait_nanos.saturating_sub(edge_before.wait_nanos)) as f64 / 1_000_000.0,
-                    "edges_lock_max_wait_ms": edge_after.max_wait_nanos as f64 / 1_000_000.0,
-                }),
-            );
-            out
-        }
-        SearchProfile::Baseline | SearchProfile::BaselineStrict => {
-            let ctrl = FixedIterations::new(iters);
-            let stats = if n_threads > 1 {
-                engine.run_par(&ctrl, n_threads)
-            } else {
-                engine.run(&mut FixedIterations::new(iters))
-            };
-            let out = build_result_value(
-                engine,
-                n_act,
-                stats.iterations,
-                format!("{:?}", stats.stop_reason),
-                0.0,
-                0.0,
-                0.0,
-                0.0,
-            );
-            let tt = engine.tt.contention_snapshot();
-            let phase_after = engine_phase_snapshot();
-            let edge_after = edge_lock_contention_snapshot();
-            rust_server_trace(
-                "search_result_stats",
-                serde_json::json!({
-                    "profile": search_profile_name(profile),
-                    "n_threads": n_threads,
-                    "iters": iters,
-                    "tt_hit_rate": engine.tt.hit_rate(),
-                    "tt_size": engine.tt.size(),
-                    "tt_get_or_create_calls": tt.get_or_create_calls,
-                    "tt_get_calls": tt.get_calls,
-                    "tt_lock_wait_ms": tt.lock_wait_nanos as f64 / 1_000_000.0,
-                    "tt_max_lock_wait_ms": tt.max_lock_wait_nanos as f64 / 1_000_000.0,
-                    "iterate_calls": phase_after.iterate_calls.saturating_sub(phase_before.iterate_calls),
-                    "select_time_ms": (phase_after.select_time_nanos.saturating_sub(phase_before.select_time_nanos)) as f64 / 1_000_000.0,
-                    "expand_eval_time_ms": (phase_after.expand_eval_time_nanos.saturating_sub(phase_before.expand_eval_time_nanos)) as f64 / 1_000_000.0,
-                    "backprop_time_ms": (phase_after.backprop_time_nanos.saturating_sub(phase_before.backprop_time_nanos)) as f64 / 1_000_000.0,
-                    "edges_lock_calls": edge_after.calls.saturating_sub(edge_before.calls),
-                    "edges_lock_wait_ms": (edge_after.wait_nanos.saturating_sub(edge_before.wait_nanos)) as f64 / 1_000_000.0,
-                    "edges_lock_max_wait_ms": edge_after.max_wait_nanos as f64 / 1_000_000.0,
-                }),
-            );
-            out
-        }
-    }
+    let outcome = execute_search(engine, n_threads, iters, qcfg.clone(), profile);
+    let out = build_result_value(
+        engine,
+        n_act,
+        outcome.iterations,
+        outcome.stop_reason,
+        outcome.p_flip,
+        outcome.value,
+        outcome.sigma_q,
+        outcome.hbar_eff,
+        outcome.prior_q_divergence,
+    );
+    let mut out = out;
+    attach_search_metadata(
+        &mut out,
+        profile,
+        iters,
+        n_threads,
+        search_evaluator_path(profile, n_threads, false),
+        qcfg.as_ref(),
+    );
+    let tt = engine.tt.contention_snapshot();
+    let phase_after = engine_phase_snapshot();
+    let edge_after = edge_lock_contention_snapshot();
+    rust_server_trace(
+        "search_result_stats",
+        serde_json::json!({
+            "profile": search_profile_name(profile),
+            "n_threads": n_threads,
+            "iters": iters,
+            "tt_hit_rate": engine.tt.hit_rate(),
+            "tt_size": engine.tt.size(),
+            "tt_get_or_create_calls": tt.get_or_create_calls,
+            "tt_get_calls": tt.get_calls,
+            "tt_lock_wait_ms": tt.lock_wait_nanos as f64 / 1_000_000.0,
+            "tt_max_lock_wait_ms": tt.max_lock_wait_nanos as f64 / 1_000_000.0,
+            "iterate_calls": phase_after.iterate_calls.saturating_sub(phase_before.iterate_calls),
+            "select_time_ms": (phase_after.select_time_nanos.saturating_sub(phase_before.select_time_nanos)) as f64 / 1_000_000.0,
+            "expand_eval_time_ms": (phase_after.expand_eval_time_nanos.saturating_sub(phase_before.expand_eval_time_nanos)) as f64 / 1_000_000.0,
+            "backprop_time_ms": (phase_after.backprop_time_nanos.saturating_sub(phase_before.backprop_time_nanos)) as f64 / 1_000_000.0,
+            "edges_lock_calls": edge_after.calls.saturating_sub(edge_before.calls),
+            "edges_lock_wait_ms": (edge_after.wait_nanos.saturating_sub(edge_before.wait_nanos)) as f64 / 1_000_000.0,
+            "edges_lock_max_wait_ms": edge_after.max_wait_nanos as f64 / 1_000_000.0,
+        }),
+    );
+    out
 }
 
 fn make_eval<G: GameState>(
+    profile: SearchProfile,
     n_threads: usize,
     batch_size: usize,
     batch_timeout_us: u64,
@@ -1673,7 +2512,7 @@ where
     usize: From<G::Move>,
 {
     use crate::mcts::eval::{BatchConfig, BatchStdioEval, StdioCallbackEval};
-    if force_batch || n_threads > 1 {
+    if should_use_batch_eval(profile, n_threads, force_batch) {
         let cfg = BatchConfig {
             max_batch_size: batch_size.max(n_threads),
             timeout_us: batch_timeout_us,
@@ -1682,11 +2521,13 @@ where
             n_actions, cfg,
         )) as Arc<dyn crate::game::Evaluator<G>>
     } else {
+        note_serial_eval_fallback(profile, n_threads, n_actions);
         Arc::new(StdioCallbackEval::new(n_actions)) as Arc<dyn crate::game::Evaluator<G>>
     }
 }
 
 fn make_eval_pair<G: GameState>(
+    profile: SearchProfile,
     n_threads: usize,
     batch_size: usize,
     batch_timeout_us: u64,
@@ -1701,7 +2542,7 @@ where
     usize: From<G::Move>,
 {
     use crate::mcts::eval::{BatchConfig, BatchStdioEval, StdioCallbackEval};
-    if force_batch || n_threads > 1 {
+    if should_use_batch_eval(profile, n_threads, force_batch) {
         let cfg = BatchConfig {
             max_batch_size: batch_size.max(n_threads),
             timeout_us: batch_timeout_us,
@@ -1722,11 +2563,13 @@ where
             )
         }
     } else if dual_model {
+        note_serial_eval_fallback(profile, n_threads, n_actions);
         (
             Arc::new(StdioCallbackEval::new(n_actions)) as Arc<dyn crate::game::Evaluator<G>>,
             Some(Arc::new(StdioCallbackEval::new(n_actions)) as Arc<dyn crate::game::Evaluator<G>>),
         )
     } else {
+        note_serial_eval_fallback(profile, n_threads, n_actions);
         (
             Arc::new(StdioCallbackEval::new(n_actions)) as Arc<dyn crate::game::Evaluator<G>>,
             None,
@@ -1910,12 +2753,18 @@ fn build_async_result_value<G: GameState>(
 where
     usize: From<G::Move>,
 {
-    let (p_flip, value, sigma_q, hbar_eff) = match search_profile {
+    let (p_flip, value, sigma_q, hbar_eff, prior_q_divergence) = match search_profile {
         SearchProfile::Quartz => match engine.current_quartz_stats() {
-            Some(stats) => (stats.p_flip, stats.mean_q, stats.sigma_q, stats.hbar_eff),
-            None => (0.0, 0.0, 0.0, 0.0),
+            Some(stats) => (
+                stats.p_flip,
+                stats.mean_q,
+                stats.sigma_q,
+                stats.hbar_eff,
+                Some(stats.prior_q_divergence),
+            ),
+            None => (0.0, 0.0, 0.0, 0.0, None),
         },
-        SearchProfile::Baseline | SearchProfile::BaselineStrict => (0.0, 0.0, 0.0, 0.0),
+        SearchProfile::Baseline | SearchProfile::BaselineStrict => (0.0, 0.0, 0.0, 0.0, None),
     };
     build_result_value(
         engine,
@@ -1926,6 +2775,7 @@ where
         value,
         sigma_q,
         hbar_eff,
+        prior_q_divergence,
     )
 }
 
@@ -2502,6 +3352,7 @@ struct SearchSession<G: GameState> {
 
 struct EngineSearchSession<G: GameState> {
     engines: Vec<Option<MctsEngine<G>>>,
+    cumulative_iters: Vec<u32>,
     n_threads: usize,
     n_actions: usize,
     search_profile: SearchProfile,
@@ -2573,23 +3424,48 @@ where
     usize: From<G::Move>,
     G::Move: PartialEq,
 {
-    fn search_with_iters(&mut self, iters: u32) -> Vec<serde_json::Value> {
+    fn search_with_iters_compact(&mut self, iters: u32) -> Vec<Option<EvalSearchStepCompact>> {
         self.engines
             .iter_mut()
-            .map(|engine_opt| {
+            .enumerate()
+            .map(|(idx, engine_opt)| {
                 let Some(engine) = engine_opt.as_mut() else {
-                    return serde_json::Value::Null;
+                    return None;
                 };
-                let current_visits = engine.root.n_total.load(Ordering::Relaxed);
-                let target_visits = current_visits.saturating_add(iters);
-                run_and_extract(
+                let mut result = run_eval_search_step(
                     engine,
                     self.n_threads,
-                    self.n_actions,
-                    target_visits,
+                    iters,
                     engine.config.quartz.clone(),
                     self.search_profile,
-                )
+                )?;
+                if let Some(total) = self.cumulative_iters.get_mut(idx) {
+                    *total = total.saturating_add(iters);
+                    result.iterations = *total;
+                }
+                Some(EvalSearchStepCompact {
+                    best_move: result.best_move,
+                    iterations: result.iterations,
+                    time_used_ms: result.time_used_ms,
+                    p_flip: result.p_flip,
+                })
+            })
+            .collect()
+    }
+
+    fn search_with_iters(&mut self, iters: u32) -> Vec<serde_json::Value> {
+        self.search_with_iters_compact(iters)
+            .into_iter()
+            .map(|result| {
+                let Some(result) = result else {
+                    return serde_json::Value::Null;
+                };
+                serde_json::json!({
+                    "best_move": result.best_move,
+                    "time_used_ms": result.time_used_ms,
+                    "iterations": result.iterations,
+                    "p_flip": result.p_flip,
+                })
             })
             .collect()
     }
@@ -3238,7 +4114,7 @@ fn handle_search_nn(line: &str) -> SearchCommandReply {
     // Macro to create the right evaluator type (avoids dynamic dispatch boxing issues)
     macro_rules! make_eval {
         ($game_type:ty) => {
-            if n_threads > 1 {
+            if should_use_batch_eval(search_profile, n_threads, false) {
                 let cfg = BatchConfig {
                     max_batch_size: batch_size.max(n_threads),
                     timeout_us: batch_timeout_us,
@@ -3247,6 +4123,7 @@ fn handle_search_nn(line: &str) -> SearchCommandReply {
                     n_actions, cfg,
                 )) as Arc<dyn crate::game::Evaluator<$game_type>>
             } else {
+                note_serial_eval_fallback(search_profile, n_threads, n_actions);
                 Arc::new(StdioCallbackEval::new(n_actions))
                     as Arc<dyn crate::game::Evaluator<$game_type>>
             }
@@ -3419,14 +4296,21 @@ fn handle_search_nn(line: &str) -> SearchCommandReply {
         }
         game if is_chess_game_name(game) => {
             let state = chess_state_from_request(line, game == "chess960");
-            let eval =
-                make_eval::<Chess>(n_threads, batch_size, batch_timeout_us, n_actions, false);
+            let eval = make_eval::<Chess>(
+                search_profile,
+                n_threads,
+                batch_size,
+                batch_timeout_us,
+                n_actions,
+                false,
+            );
             let cfg = apply_search_profile(
                 apply_search_overrides(chess_quartz(), &overrides),
                 search_profile,
             );
             let engine = MctsEngine::new(state, eval, cfg);
-            let (iterations, stop_reason, p_flip, value, sigma_q, hbar_eff) = match search_profile {
+            let (iterations, stop_reason, p_flip, value, sigma_q, hbar_eff, prior_q_divergence) =
+                match search_profile {
                 SearchProfile::Quartz => {
                     let mut ctrl = QuartzController::new(
                         iters,
@@ -3445,6 +4329,7 @@ fn handle_search_nn(line: &str) -> SearchCommandReply {
                         s.mean_q,
                         s.sigma_q,
                         s.hbar_eff,
+                        Some(s.prior_q_divergence),
                     )
                 }
                 SearchProfile::Baseline | SearchProfile::BaselineStrict => {
@@ -3460,6 +4345,7 @@ fn handle_search_nn(line: &str) -> SearchCommandReply {
                         0.0,
                         0.0,
                         0.0,
+                        None,
                     )
                 }
             };
@@ -3474,6 +4360,7 @@ fn handle_search_nn(line: &str) -> SearchCommandReply {
                 "value": f_or(value, 0.0),
                 "sigma_q": f_or(sigma_q, 0.0),
                 "hbar_eff": f_or(hbar_eff, 0.0),
+                "prior_q_divergence": prior_q_divergence.map(|v| f_or(v, 0.0)),
                 "stop_reason": stop_reason,
                 "iterations": iterations.max(total),
                 "dup_rate": par.dup_rate,
@@ -3481,6 +4368,14 @@ fn handle_search_nn(line: &str) -> SearchCommandReply {
                 "avg_vvalue": par.avg_vvalue,
             });
             enrich_chess_result(engine.root_state(), &mut result);
+            attach_search_metadata(
+                &mut result,
+                search_profile,
+                iters,
+                n_threads,
+                search_evaluator_path(search_profile, n_threads, false),
+                engine.config.quartz.as_ref(),
+            );
             SearchCommandReply::Search(SearchResponsePayload::Single { result })
         }
         _ => SearchCommandReply::Json(serde_json::json!({
@@ -3542,6 +4437,7 @@ fn handle_search_nn_multi(line: &str) -> SearchCommandReply {
             let dual_model = $states.iter().any(|(_, _, tag)| *tag != 0);
             let force_batch = $states.len() > 1 || dual_model;
             let (eval_a, eval_b) = make_eval_pair::<$game_type>(
+                search_profile,
                 n_threads,
                 batch_size,
                 batch_timeout_us,
@@ -3740,12 +4636,14 @@ fn handle_search_nn_multi(line: &str) -> SearchCommandReply {
             let dual_model = jobs
                 .iter()
                 .any(|job| job.get("model_tag").and_then(|v| v.as_u64()).unwrap_or(0) != 0);
+            let force_batch = jobs.len() > 1 || dual_model;
             let (eval_a, eval_b) = make_eval_pair::<Chess>(
+                search_profile,
                 n_threads,
                 batch_size,
                 batch_timeout_us,
                 n_actions,
-                jobs.len() > 1 || dual_model,
+                force_batch,
                 dual_model,
             );
             let base_cfg = apply_search_profile(
@@ -3827,6 +4725,14 @@ fn handle_search_nn_multi(line: &str) -> SearchCommandReply {
                             "avg_vvalue": engine.par_ctrl.telemetry.snapshot().avg_vvalue,
                         });
                         enrich_chess_result(engine.root_state(), &mut result);
+                        attach_search_metadata(
+                            &mut result,
+                            search_profile,
+                            iters,
+                            n_threads,
+                            search_evaluator_path(search_profile, n_threads, force_batch),
+                            engine.config.quartz.as_ref(),
+                        );
                         result
                     }));
                 }
@@ -3911,7 +4817,14 @@ fn handle_search_nn_multi_session_open(line: &str) -> SearchCommandReply {
                     .into_iter()
                     .map(|job| Some(parse_gomoku7_job(&job)))
                     .collect(),
-                eval: make_eval::<Gomoku>(n_threads, batch_size, batch_timeout_us, 49, force_batch),
+                eval: make_eval::<Gomoku>(
+                    search_profile,
+                    n_threads,
+                    batch_size,
+                    batch_timeout_us,
+                    49,
+                    force_batch,
+                ),
                 cfg,
                 qcfg,
                 iters,
@@ -3934,6 +4847,7 @@ fn handle_search_nn_multi_session_open(line: &str) -> SearchCommandReply {
                         .map(|job| Some(parse_gomoku15_job(&job, variant)))
                         .collect(),
                     eval: make_eval::<Gomoku15>(
+                        search_profile,
                         n_threads,
                         batch_size,
                         batch_timeout_us,
@@ -3978,6 +4892,7 @@ fn handle_search_nn_multi_session_open(line: &str) -> SearchCommandReply {
                         })
                         .collect(),
                     eval: make_eval::<Go>(
+                        search_profile,
                         n_threads,
                         batch_size,
                         batch_timeout_us,
@@ -4012,6 +4927,7 @@ fn handle_search_nn_multi_session_open(line: &str) -> SearchCommandReply {
                         .map(|job| Some(parse_chess_job(&job, default_960)))
                         .collect(),
                     eval: make_eval::<Chess>(
+                        search_profile,
                         n_threads,
                         batch_size,
                         batch_timeout_us,
@@ -4043,6 +4959,7 @@ fn handle_search_nn_multi_session_open(line: &str) -> SearchCommandReply {
                     .map(|job| Some(parse_tictactoe_job(&job)))
                     .collect(),
                 eval: make_eval::<TicTacToe>(
+                    search_profile,
                     n_threads,
                     batch_size,
                     batch_timeout_us,
@@ -4141,8 +5058,14 @@ fn handle_search_nn_multi_engine_session_open(line: &str) -> SearchCommandReply 
                 ),
                 search_profile,
             );
-            let eval =
-                make_eval::<Gomoku>(n_threads, batch_size, batch_timeout_us, 49, force_batch);
+            let eval = make_eval::<Gomoku>(
+                search_profile,
+                n_threads,
+                batch_size,
+                batch_timeout_us,
+                49,
+                force_batch,
+            );
             let engines = jobs
                 .into_iter()
                 .map(|job| {
@@ -4155,6 +5078,7 @@ fn handle_search_nn_multi_engine_session_open(line: &str) -> SearchCommandReply 
                 .collect();
             SearchSessionAny::EngineGomoku(EngineSearchSession {
                 engines,
+                cumulative_iters: vec![0; job_count],
                 n_threads,
                 n_actions: 49,
                 search_profile,
@@ -4166,8 +5090,14 @@ fn handle_search_nn_multi_engine_session_open(line: &str) -> SearchCommandReply 
                 apply_search_overrides(gomoku15_quartz(variant), &overrides),
                 search_profile,
             );
-            let eval =
-                make_eval::<Gomoku15>(n_threads, batch_size, batch_timeout_us, 225, force_batch);
+            let eval = make_eval::<Gomoku15>(
+                search_profile,
+                n_threads,
+                batch_size,
+                batch_timeout_us,
+                225,
+                force_batch,
+            );
             let engines = jobs
                 .into_iter()
                 .map(|job| {
@@ -4181,6 +5111,7 @@ fn handle_search_nn_multi_engine_session_open(line: &str) -> SearchCommandReply 
             SearchSessionAny::EngineGomoku15(EngineGomoku15Session {
                 inner: EngineSearchSession {
                     engines,
+                    cumulative_iters: vec![0; job_count],
                     n_threads,
                     n_actions: 225,
                     search_profile,
@@ -4200,6 +5131,7 @@ fn handle_search_nn_multi_engine_session_open(line: &str) -> SearchCommandReply 
                 search_profile,
             );
             let eval = make_eval::<Go>(
+                search_profile,
                 n_threads,
                 batch_size,
                 batch_timeout_us,
@@ -4219,6 +5151,7 @@ fn handle_search_nn_multi_engine_session_open(line: &str) -> SearchCommandReply 
             SearchSessionAny::EngineGo(EngineGoSession {
                 inner: EngineSearchSession {
                     engines,
+                    cumulative_iters: vec![0; job_count],
                     n_threads,
                     n_actions,
                     search_profile,
@@ -4237,6 +5170,7 @@ fn handle_search_nn_multi_engine_session_open(line: &str) -> SearchCommandReply 
                 search_profile,
             );
             let eval = make_eval::<Chess>(
+                search_profile,
                 n_threads,
                 batch_size,
                 batch_timeout_us,
@@ -4256,6 +5190,7 @@ fn handle_search_nn_multi_engine_session_open(line: &str) -> SearchCommandReply 
             SearchSessionAny::EngineChess(EngineChessSession {
                 inner: EngineSearchSession {
                     engines,
+                    cumulative_iters: vec![0; job_count],
                     n_threads,
                     n_actions: CHESS_POLICY_ACTIONS,
                     search_profile,
@@ -4271,8 +5206,14 @@ fn handle_search_nn_multi_engine_session_open(line: &str) -> SearchCommandReply 
                 ),
                 search_profile,
             );
-            let eval =
-                make_eval::<TicTacToe>(n_threads, batch_size, batch_timeout_us, 9, force_batch);
+            let eval = make_eval::<TicTacToe>(
+                search_profile,
+                n_threads,
+                batch_size,
+                batch_timeout_us,
+                9,
+                force_batch,
+            );
             let engines = jobs
                 .into_iter()
                 .map(|job| {
@@ -4285,6 +5226,7 @@ fn handle_search_nn_multi_engine_session_open(line: &str) -> SearchCommandReply 
                 .collect();
             SearchSessionAny::EngineTicTacToe(EngineSearchSession {
                 engines,
+                cumulative_iters: vec![0; job_count],
                 n_threads,
                 n_actions: 9,
                 search_profile,
@@ -4399,55 +5341,122 @@ fn handle_search_nn_multi_session_close(line: &str) -> String {
     serde_json::json!({ "ok": removed, "session_id": session_id }).to_string()
 }
 
-fn parse_eval_runner_sessions_generic<G: GameState>(
-    sessions: &[serde_json::Value],
-    parse_state: impl Fn(&serde_json::Value) -> G,
+fn build_eval_runner_sessions_generic<G: GameState>(
+    sessions: &[ArenaEvalSessionSpec],
+    parse_state: impl Fn(&ArenaEvalSessionSpec) -> G,
 ) -> Vec<EvalRunnerSession<G>> {
     sessions
         .iter()
         .map(|session| EvalRunnerSession {
-            game_id: session
-                .get("game_id")
-                .and_then(|v| v.as_str())
-                .unwrap_or("g0000")
-                .to_string(),
+            game_id: session.game_id.clone(),
             state: parse_state(session),
-            black_tag: session
-                .get("black_tag")
-                .and_then(|v| v.as_u64())
-                .unwrap_or(0) as u32,
-            white_tag: session
-                .get("white_tag")
-                .and_then(|v| v.as_u64())
-                .unwrap_or(1) as u32,
-            opening: session
-                .get("opening")
-                .and_then(|v| v.as_array())
-                .map(|arr| {
-                    arr.iter()
-                        .filter_map(|v| v.as_u64().map(|x| x as usize))
-                        .collect::<Vec<_>>()
-                })
-                .unwrap_or_default(),
-            seed: session.get("seed").and_then(|v| v.as_u64()),
-            ply: session.get("ply").and_then(|v| v.as_u64()).unwrap_or(0) as usize,
-            total_time_ms: session
-                .get("total_time_ms")
-                .and_then(|v| v.as_f64())
-                .unwrap_or(0.0),
-            done: session
-                .get("done")
-                .and_then(|v| v.as_bool())
-                .unwrap_or(false),
+            black_tag: session.black_tag,
+            white_tag: session.white_tag,
+            opening: session.opening.clone(),
+            seed: session.seed,
+            ply: session.ply,
+            total_time_ms: session.total_time_ms,
+            done: session.done,
             error: None,
         })
         .collect()
 }
 
+fn parse_gomoku7_eval_session(session: &ArenaEvalSessionSpec) -> Gomoku {
+    let ArenaEvalStateSpec::Board { player, board } = &session.state else {
+        return Gomoku::new(7);
+    };
+    let player_12: u8 = if *player == 1 { 1 } else { 2 };
+    let board_12: Vec<i64> = if board.len() == 49 {
+        board.iter().map(|&v| match v {
+            1 => 1,
+            -1 => 2,
+            _ => 0,
+        }).collect()
+    } else {
+        vec![0i64; 49]
+    };
+    Gomoku::from_board_12(7, 4, &board_12, player_12)
+}
+
+fn parse_gomoku15_eval_session(session: &ArenaEvalSessionSpec, variant: GomokuVariant) -> Gomoku15 {
+    let ArenaEvalStateSpec::Board { player, board } = &session.state else {
+        return Gomoku15::new(variant);
+    };
+    if board.len() == 225 {
+        Gomoku15::from_board(board, *player, variant)
+    } else {
+        Gomoku15::new(variant)
+    }
+}
+
+fn parse_go_eval_session(session: &ArenaEvalSessionSpec, size: usize) -> Go {
+    let ArenaEvalStateSpec::Go {
+        player,
+        board,
+        ruleset,
+        scoring,
+        komi,
+        allow_suicide,
+        passes,
+        ko_point,
+        black_caps,
+        white_caps,
+    } = &session.state else {
+        return Go::new_with_options(size, 7.5, GoRuleset::Chinese, GoScoring::Area, false);
+    };
+    let side: u8 = if *player == 1 { 1 } else { 2 };
+    if board.len() == size * size {
+        Go::from_board_with_options(
+            size,
+            *komi,
+            board,
+            side,
+            *ruleset,
+            *scoring,
+            *allow_suicide,
+            *passes,
+            *ko_point,
+            *black_caps,
+            *white_caps,
+        )
+    } else {
+        Go::new_with_options(size, *komi, *ruleset, *scoring, *allow_suicide)
+    }
+}
+
+fn parse_tictactoe_eval_session(session: &ArenaEvalSessionSpec) -> TicTacToe {
+    let ArenaEvalStateSpec::Board { player, board } = &session.state else {
+        return TicTacToe::initial();
+    };
+    if board.len() == 9 {
+        TicTacToe::from_board(board, *player)
+    } else {
+        TicTacToe::initial()
+    }
+}
+
+fn parse_chess_eval_session(session: &ArenaEvalSessionSpec, default_960: bool) -> Chess {
+    let ArenaEvalStateSpec::Chess { fen, history_hashes } = &session.state else {
+        return if default_960 {
+            Chess::from_960(518)
+        } else {
+            Chess::standard()
+        };
+    };
+    let mut json = serde_json::Map::new();
+    json.insert("fen".to_string(), serde_json::json!(fen));
+    json.insert(
+        "chess_history_hashes".to_string(),
+        serde_json::json!(history_hashes),
+    );
+    chess_state_from_json(&serde_json::Value::Object(json), default_960)
+}
+
 fn handle_eval_nn_run_generic<G: GameState>(
     game_name: &str,
-    sessions_json: &[serde_json::Value],
-    parse_state: impl Fn(&serde_json::Value) -> G,
+    sessions_spec: &[ArenaEvalSessionSpec],
+    parse_state: impl Fn(&ArenaEvalSessionSpec) -> G,
     n_actions: usize,
     iters: u32,
     max_moves: usize,
@@ -4456,11 +5465,12 @@ fn handle_eval_nn_run_generic<G: GameState>(
     n_threads: usize,
     batch_size: usize,
     batch_timeout_us: u64,
-) -> String
+    typed_response: bool,
+) -> EvalCommandReply
 where
     usize: From<G::Move>,
 {
-    let mut sessions = parse_eval_runner_sessions_generic(sessions_json, parse_state);
+    let mut sessions = build_eval_runner_sessions_generic(sessions_spec, parse_state);
     let dual_model = sessions
         .iter()
         .any(|sess| sess.black_tag != 0 || sess.white_tag != 0);
@@ -4503,6 +5513,7 @@ where
                 }
             })
             .collect(),
+        cumulative_iters: vec![0; sessions.len()],
         n_threads,
         n_actions,
         search_profile,
@@ -4545,7 +5556,7 @@ where
         }
         let completed_before = sessions.iter().filter(|sess| sess.done).count();
         let batch_started = Instant::now();
-        let results = engine_session.search_with_iters(iters);
+        let results = engine_session.search_with_iters_compact(iters);
         let batch_elapsed_ms = batch_started.elapsed().as_secs_f64() * 1000.0;
         let share_ms = batch_elapsed_ms / active_count.max(1) as f64;
         let mut wave_errors = 0usize;
@@ -4559,37 +5570,33 @@ where
                 engine_session.deactivate(idx);
                 continue;
             }
-            let result = results.get(idx).cloned().unwrap_or(serde_json::Value::Null);
-            if result.is_null() {
+            let result = results.get(idx).copied().flatten();
+            if result.is_none() {
                 wave_nulls += 1;
             }
-            if let Some(err) = result.get("error").and_then(|v| v.as_str()) {
-                sess.error = Some(err.to_string());
-                sess.done = true;
-                wave_errors += 1;
-                continue;
-            }
-            let Some(action) = result.get("best_move").and_then(|v| v.as_u64()) else {
+            let Some(result) = result else {
                 sess.error = Some("missing best_move".to_string());
                 sess.done = true;
+                engine_session.deactivate(idx);
                 wave_errors += 1;
                 continue;
             };
+            let action = result.best_move;
             let Some(mv) = sess.state.idx_to_move(action as usize) else {
                 sess.error = Some(format!("invalid action {} for eval runner", action));
                 sess.done = true;
                 wave_errors += 1;
                 continue;
             };
-            let move_time_ms = result
-                .get("time_used_ms")
-                .and_then(|v| v.as_f64())
-                .filter(|v| *v > 0.0)
-                .unwrap_or(share_ms);
+            let move_time_ms = if result.time_used_ms > 0.0 {
+                result.time_used_ms
+            } else {
+                share_ms
+            };
             sess.total_time_ms += move_time_ms;
             sess.state = sess.state.apply_move(mv);
             sess.ply += 1;
-            if let Err(err) = engine_session.apply_action_idx(idx, action as usize) {
+            if let Err(err) = engine_session.apply_action_idx(idx, action) {
                 sess.error = Some(err);
                 sess.done = true;
                 wave_errors += 1;
@@ -4646,54 +5653,47 @@ where
             "errors": records.iter().filter(|r| r.get("error").and_then(|v| v.as_str()).is_some()).count(),
         }),
     );
-    serde_json::json!({
-        "valid_eval": true,
-        "game": game_name,
-        "records": records,
-        "completed_games": sessions.len(),
-        "duration_ms": started.elapsed().as_secs_f64() * 1000.0,
-    })
-    .to_string()
+    let duration_ms = started.elapsed().as_secs_f64() * 1000.0;
+    if typed_response {
+        EvalCommandReply::Binary(encode_arena_eval_response_payload(
+            game_name,
+            &sessions,
+            duration_ms,
+        ))
+    } else {
+        EvalCommandReply::Json(
+            serde_json::json!({
+                "valid_eval": true,
+                "game": game_name,
+                "records": records,
+                "completed_games": sessions.len(),
+                "duration_ms": duration_ms,
+            })
+            .to_string(),
+        )
+    }
 }
 
-fn handle_eval_nn_run(line: &str) -> String {
-    let Ok(root) = serde_json::from_str::<serde_json::Value>(line) else {
-        return "{\"error\":\"invalid json\"}".to_string();
-    };
-    let game = root
-        .get("game")
-        .and_then(|v| v.as_str())
-        .unwrap_or("gomoku7");
-    let sessions = root
-        .get("sessions")
-        .and_then(|v| v.as_array())
-        .cloned()
-        .unwrap_or_default();
+fn handle_eval_nn_run_parts(
+    game: &str,
+    sessions: Vec<ArenaEvalSessionSpec>,
+    iters: u32,
+    max_moves: usize,
+    options: &ArenaEvalSearchOptions,
+    typed_response: bool,
+) -> EvalCommandReply {
     if sessions.is_empty() {
-        return "{\"error\":\"sessions required\"}".to_string();
+        return EvalCommandReply::Json("{\"error\":\"sessions required\"}".to_string());
     }
-    let iters = root.get("iters").and_then(|v| v.as_u64()).unwrap_or(200) as u32;
-    let max_moves = root
-        .get("max_moves")
-        .and_then(|v| v.as_u64())
-        .unwrap_or(500) as usize;
-    let overrides = parse_search_overrides(line);
-    let search_profile = parse_search_profile(line);
-    let n_threads = cap_search_threads(
-        root.get("n_threads")
-            .and_then(|v| v.as_u64())
-            .unwrap_or(1)
-            .max(1) as usize,
-    );
-    let batch_size = root
-        .get("batch_size")
-        .and_then(|v| v.as_u64())
-        .unwrap_or(8)
-        .max(1) as usize;
-    let batch_timeout_us = root
-        .get("batch_timeout_us")
-        .and_then(|v| v.as_u64())
-        .unwrap_or_else(|| default_batch_timeout_us(n_threads, batch_size, sessions.len()));
+    let overrides = options.overrides.clone();
+    let search_profile = options.search_profile;
+    let n_threads = cap_search_threads(options.n_threads.max(1));
+    let batch_size = options.batch_size.max(1);
+    let batch_timeout_us = if options.batch_timeout_us > 0 {
+        options.batch_timeout_us
+    } else {
+        default_batch_timeout_us(n_threads, batch_size, sessions.len())
+    };
     let n_actions = game_n_actions(game);
 
     macro_rules! dispatch_eval {
@@ -4710,13 +5710,14 @@ fn handle_eval_nn_run(line: &str) -> String {
                 n_threads,
                 batch_size,
                 batch_timeout_us,
+                typed_response,
             )
         };
     }
 
     match game {
         "gomoku7" => dispatch_eval!(
-            |job| parse_gomoku7_job(job),
+            |session| parse_gomoku7_eval_session(session),
             "gomoku7",
             apply_search_overrides(
                 MctsConfig::evaluation(2.0).with_quartz(QuartzConfig {
@@ -4730,25 +5731,21 @@ fn handle_eval_nn_run(line: &str) -> String {
         g if parse_gomoku15_variant(g).is_some() => {
             let variant = parse_gomoku15_variant(g).unwrap();
             dispatch_eval!(
-                move |job| parse_gomoku15_job(job, variant),
+                move |session| parse_gomoku15_eval_session(session, variant),
                 g,
                 apply_search_overrides(gomoku15_quartz(variant), &overrides)
             )
         }
         g if parse_go_game(g).is_some() => {
-            let (size, default_ruleset) = parse_go_game(g).unwrap();
-            let ruleset = parse_go_ruleset(line, default_ruleset);
-            let scoring = parse_go_scoring(line, ruleset.scoring());
-            let komi = parse_go_komi(line, 7.5);
-            let allow_suicide = parse_go_allow_suicide(line, false);
+            let (size, _default_ruleset) = parse_go_game(g).unwrap();
             dispatch_eval!(
-                move |job| parse_go_job(job, size, ruleset, scoring, komi, allow_suicide),
+                move |session| parse_go_eval_session(session, size),
                 g,
                 apply_search_overrides(go_quartz(size), &overrides)
             )
         }
         "tictactoe" => dispatch_eval!(
-            |job| parse_tictactoe_job(job),
+            |session| parse_tictactoe_eval_session(session),
             "tictactoe",
             apply_search_overrides(
                 MctsConfig::evaluation(1.4).with_quartz(QuartzConfig::default()),
@@ -4758,16 +5755,71 @@ fn handle_eval_nn_run(line: &str) -> String {
         g if is_chess_game_name(g) => {
             let default_960 = g == "chess960";
             dispatch_eval!(
-                move |job| parse_chess_job(job, default_960),
+                move |session| parse_chess_eval_session(session, default_960),
                 g,
                 apply_search_overrides(chess_quartz(), &overrides)
             )
         }
-        _ => serde_json::json!({
-            "error": format!("eval_nn_run not supported for {}", game)
-        })
-        .to_string(),
+        _ => EvalCommandReply::Json(
+            serde_json::json!({
+                "error": format!("eval_nn_run not supported for {}", game)
+            })
+            .to_string(),
+        ),
     }
+}
+
+fn handle_eval_nn_run(line: &str) -> EvalCommandReply {
+    let Ok(root) = serde_json::from_str::<serde_json::Value>(line) else {
+        return EvalCommandReply::Json("{\"error\":\"invalid json\"}".to_string());
+    };
+    let game = root
+        .get("game")
+        .and_then(|v| v.as_str())
+        .unwrap_or("gomoku7");
+    let sessions = root
+        .get("sessions")
+        .and_then(|v| v.as_array())
+        .cloned()
+        .unwrap_or_default();
+    let iters = root.get("iters").and_then(|v| v.as_u64()).unwrap_or(200) as u32;
+    let max_moves = root
+        .get("max_moves")
+        .and_then(|v| v.as_u64())
+        .unwrap_or(500) as usize;
+    let typed_response = root
+        .get("_typed_arena_eval_resp")
+        .and_then(|v| v.as_bool())
+        .unwrap_or(false);
+    let options = arena_eval_search_options_from_json(game, line, sessions.len());
+    let session_specs = arena_eval_session_specs_from_json(game, &sessions);
+    handle_eval_nn_run_parts(
+        game,
+        session_specs,
+        iters,
+        max_moves,
+        &options,
+        typed_response,
+    )
+}
+
+fn handle_eval_nn_run_frame(payload: &[u8]) -> EvalCommandReply {
+    let request = match decode_arena_eval_request_payload(payload) {
+        Ok(request) => request,
+        Err(err) => {
+            return EvalCommandReply::Json(
+                serde_json::json!({ "error": err }).to_string(),
+            )
+        }
+    };
+    handle_eval_nn_run_parts(
+        &request.game,
+        request.sessions,
+        request.iters,
+        request.max_moves,
+        &request.search_options,
+        true,
+    )
 }
 
 fn handle_selfplay_nn_run_generic<G: GameState>(
@@ -5311,6 +6363,17 @@ mod tests {
     }
 
     #[test]
+    fn test_baseline_strict_forces_batched_eval_even_single_thread() {
+        assert!(should_use_batch_eval(
+            SearchProfile::BaselineStrict,
+            1,
+            false
+        ));
+        assert!(should_use_batch_eval(SearchProfile::Baseline, 4, false));
+        assert!(!should_use_batch_eval(SearchProfile::Baseline, 1, false));
+    }
+
+    #[test]
     fn test_parse_go_game_aliases() {
         assert_eq!(parse_go_game("go9"), Some((9, GoRuleset::Chinese)));
         assert_eq!(parse_go_game("go9_jp"), Some((9, GoRuleset::Japanese)));
@@ -5324,6 +6387,7 @@ mod tests {
         let cfg = MctsConfig::evaluation(2.0);
         let mut session = EngineSearchSession {
             engines: vec![Some(MctsEngine::new(state, eval, cfg))],
+            cumulative_iters: vec![0],
             n_threads: 1,
             n_actions: 49,
             search_profile: SearchProfile::Baseline,
@@ -5346,6 +6410,272 @@ mod tests {
             first_iters,
             second_iters
         );
+    }
+
+    #[test]
+    fn test_engine_session_multi_engine_matches_serial_reference() {
+        let eval: Arc<ShortRollout> = Arc::new(ShortRollout::new(4));
+        let cfg = MctsConfig::evaluation(2.0);
+        let state_a = Gomoku::new(7);
+        let state_b = state_a.apply_move(state_a.idx_to_move(24).unwrap());
+
+        let mut session = EngineSearchSession {
+            engines: vec![
+                Some(MctsEngine::new(state_a.clone(), eval.clone(), cfg.clone())),
+                Some(MctsEngine::new(state_b.clone(), eval.clone(), cfg.clone())),
+            ],
+            cumulative_iters: vec![0, 0],
+            n_threads: 1,
+            n_actions: 49,
+            search_profile: SearchProfile::Baseline,
+        };
+
+        let ref_engine_a = MctsEngine::new(state_a, eval.clone(), cfg.clone());
+        let ref_engine_b = MctsEngine::new(state_b, eval, cfg);
+        let ref_a = run_eval_search_step(
+            &ref_engine_a,
+            1,
+            32,
+            ref_engine_a.config.quartz.clone(),
+            SearchProfile::Baseline,
+        )
+        .unwrap();
+        let ref_b = run_eval_search_step(
+            &ref_engine_b,
+            1,
+            32,
+            ref_engine_b.config.quartz.clone(),
+            SearchProfile::Baseline,
+        )
+        .unwrap();
+
+        let got = session.search_with_iters(32);
+        let got_a = &got[0];
+        let got_b = &got[1];
+
+        assert_eq!(
+            got_a.get("best_move").and_then(|v| v.as_u64()),
+            Some(ref_a.best_move as u64)
+        );
+        assert_eq!(
+            got_b.get("best_move").and_then(|v| v.as_u64()),
+            Some(ref_b.best_move as u64)
+        );
+        assert_eq!(
+            got_a.get("iterations").and_then(|v| v.as_u64()),
+            Some(ref_a.iterations as u64)
+        );
+        assert_eq!(
+            got_b.get("iterations").and_then(|v| v.as_u64()),
+            Some(ref_b.iterations as u64)
+        );
+    }
+
+    #[test]
+    fn test_engine_session_compact_step_iters_are_delta_not_absolute() {
+        let state = Gomoku::new(7);
+        let eval: Arc<ShortRollout> = Arc::new(ShortRollout::new(4));
+        let cfg = MctsConfig::evaluation(2.0);
+        let mut session = EngineSearchSession {
+            engines: vec![Some(MctsEngine::new(state, eval, cfg))],
+            cumulative_iters: vec![0],
+            n_threads: 1,
+            n_actions: 49,
+            search_profile: SearchProfile::Baseline,
+        };
+
+        let first = session.search_with_iters_compact(8);
+        let first_iters = first[0].map(|v| v.iterations).unwrap_or(0);
+        let second = session.search_with_iters_compact(8);
+        let second_iters = second[0].map(|v| v.iterations).unwrap_or(0);
+
+        assert!(
+            second_iters >= first_iters + 8,
+            "compact engine session steps must add visits cumulatively: first={}, second={}",
+            first_iters,
+            second_iters
+        );
+    }
+
+    #[test]
+    fn test_engine_session_compact_matches_json_reference() {
+        let eval: Arc<ShortRollout> = Arc::new(ShortRollout::new(4));
+        let cfg = MctsConfig::evaluation(2.0);
+        let state = Gomoku::new(7);
+
+        let mut compact_session = EngineSearchSession {
+            engines: vec![Some(MctsEngine::new(state.clone(), eval.clone(), cfg.clone()))],
+            cumulative_iters: vec![0],
+            n_threads: 1,
+            n_actions: 49,
+            search_profile: SearchProfile::Baseline,
+        };
+        let mut json_session = EngineSearchSession {
+            engines: vec![Some(MctsEngine::new(state, eval, cfg))],
+            cumulative_iters: vec![0],
+            n_threads: 1,
+            n_actions: 49,
+            search_profile: SearchProfile::Baseline,
+        };
+
+        let compact = compact_session.search_with_iters_compact(16);
+        let json = json_session.search_with_iters(16);
+        let compact = compact[0].expect("compact result");
+        let json = &json[0];
+
+        assert_eq!(
+            json.get("best_move").and_then(|v| v.as_u64()),
+            Some(compact.best_move as u64)
+        );
+        assert_eq!(
+            json.get("iterations").and_then(|v| v.as_u64()),
+            Some(compact.iterations as u64)
+        );
+        assert_eq!(
+            json.get("p_flip").and_then(|v| v.as_f64()),
+            Some(compact.p_flip as f64)
+        );
+    }
+
+
+    #[test]
+    fn test_decode_arena_eval_request_payload_v1_restores_board_session() {
+        let mut payload = Vec::new();
+        push_u8(&mut payload, 1);
+        push_string(&mut payload, "gomoku7");
+        push_string(
+            &mut payload,
+            r#"{"search_profile":"baseline","n_threads":1,"batch_size":8}"#,
+        );
+        push_u32(&mut payload, 32);
+        push_u32(&mut payload, 64);
+        push_u32(&mut payload, 1);
+        push_string(&mut payload, "m0::g0000");
+        push_u32(&mut payload, 7);
+        push_u32(&mut payload, 11);
+        push_u64(&mut payload, u64::MAX);
+        push_u32(&mut payload, 2);
+        push_f64(&mut payload, 12.5);
+        push_u8(&mut payload, 0);
+        push_u32(&mut payload, 2);
+        push_u32(&mut payload, 3);
+        push_u32(&mut payload, 5);
+        push_u8(&mut payload, ARENA_STATE_BOARD);
+        payload.extend_from_slice(&(1_i32).to_le_bytes());
+        push_u32(&mut payload, 4);
+        payload.extend_from_slice(&[1u8, 0u8, 255u8, 0u8]);
+
+        let request = decode_arena_eval_request_payload(&payload).unwrap();
+
+        assert_eq!(request.game, "gomoku7");
+        assert!(matches!(
+            request.search_options.search_profile,
+            SearchProfile::Baseline
+        ));
+        assert_eq!(request.search_options.n_threads, 1);
+        assert_eq!(request.search_options.batch_size, 8);
+        assert_eq!(request.iters, 32);
+        assert_eq!(request.max_moves, 64);
+        assert_eq!(request.sessions.len(), 1);
+        let session = &request.sessions[0];
+        assert_eq!(session.game_id, "m0::g0000");
+        assert_eq!(session.black_tag, 7);
+        assert_eq!(session.white_tag, 11);
+        assert_eq!(session.seed, None);
+        assert_eq!(session.ply, 2);
+        assert_eq!(session.opening, vec![3, 5]);
+        match &session.state {
+            ArenaEvalStateSpec::Board { player, board } => {
+                assert_eq!(*player, 1);
+                assert_eq!(board, &vec![1, 0, -1, 0]);
+            }
+            other => panic!("expected board state, got {:?}", std::mem::discriminant(other)),
+        }
+    }
+
+    #[test]
+    fn test_decode_arena_eval_request_payload_v2_restores_typed_options_and_board_session() {
+        let mut payload = Vec::new();
+        push_u8(&mut payload, ARENA_EVAL_REQ_VERSION);
+        push_string(&mut payload, "gomoku7");
+        push_string(&mut payload, "baseline");
+        push_string(&mut payload, "GatedRefresh");
+        push_string(&mut payload, "adaptive");
+        push_u32(&mut payload, 3);
+        push_u32(&mut payload, 16);
+        push_u32(&mut payload, 2400);
+        push_f32(&mut payload, 0.25);
+        push_f32(&mut payload, 0.45);
+        push_u32(&mut payload, 12);
+        push_u32(&mut payload, 33);
+        push_f32(&mut payload, 0.5);
+        push_f32(&mut payload, 1.25);
+        push_f32(&mut payload, 1.8);
+        payload.extend_from_slice(&(1_i8).to_le_bytes());
+        payload.extend_from_slice(&(0_i8).to_le_bytes());
+        push_u8(&mut payload, 1);
+        push_u64(&mut payload, 777);
+        push_u32(&mut payload, 32);
+        push_u32(&mut payload, 64);
+        push_u32(&mut payload, 1);
+        push_string(&mut payload, "m0::g0000");
+        push_u32(&mut payload, 7);
+        push_u32(&mut payload, 11);
+        push_u64(&mut payload, u64::MAX);
+        push_u32(&mut payload, 2);
+        push_f64(&mut payload, 12.5);
+        push_u8(&mut payload, 0);
+        push_u32(&mut payload, 2);
+        push_u32(&mut payload, 3);
+        push_u32(&mut payload, 5);
+        push_u8(&mut payload, ARENA_STATE_BOARD);
+        payload.extend_from_slice(&(1_i32).to_le_bytes());
+        push_u32(&mut payload, 4);
+        payload.extend_from_slice(&[1u8, 0u8, 255u8, 0u8]);
+
+        let request = decode_arena_eval_request_payload(&payload).unwrap();
+
+        assert_eq!(request.game, "gomoku7");
+        assert!(matches!(
+            request.search_options.search_profile,
+            SearchProfile::Baseline
+        ));
+        assert_eq!(request.search_options.n_threads, 3);
+        assert_eq!(request.search_options.batch_size, 16);
+        assert_eq!(request.search_options.batch_timeout_us, 2400);
+        assert!(matches!(
+            request.search_options.overrides.penalty_mode,
+            PenaltyMode::GatedRefresh
+        ));
+        assert_eq!(
+            request.search_options.overrides.vl_mode.as_deref(),
+            Some("adaptive")
+        );
+        assert_eq!(request.search_options.overrides.min_visits, Some(12));
+        assert_eq!(request.search_options.overrides.check_interval, Some(33));
+        assert_eq!(
+            request.search_options.overrides.root_only_shaping,
+            Some(true)
+        );
+        assert_eq!(request.search_options.overrides.tt_enabled, Some(false));
+        assert_eq!(request.search_options.overrides.seed, Some(777));
+        assert_eq!(request.iters, 32);
+        assert_eq!(request.max_moves, 64);
+        assert_eq!(request.sessions.len(), 1);
+        let session = &request.sessions[0];
+        assert_eq!(session.game_id, "m0::g0000");
+        assert_eq!(session.black_tag, 7);
+        assert_eq!(session.white_tag, 11);
+        assert_eq!(session.seed, None);
+        assert_eq!(session.ply, 2);
+        assert_eq!(session.opening, vec![3, 5]);
+        match &session.state {
+            ArenaEvalStateSpec::Board { player, board } => {
+                assert_eq!(*player, 1);
+                assert_eq!(board, &vec![1, 0, -1, 0]);
+            }
+            other => panic!("expected board state, got {:?}", std::mem::discriminant(other)),
+        }
     }
 
     #[test]

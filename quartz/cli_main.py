@@ -255,6 +255,25 @@ class MainRuntimeHooks:
     generate_training_plots: object
 
 
+def _replay_fill_worker_error(bg_status, stall_timeout_s, replay_size, no_progress_age_s, repeated_error_limit=3):
+    if not bg_status.get("alive", True):
+        return (
+            "background self-play worker exited during replay fill: "
+            f"{bg_status.get('last_error') or 'thread exited'}"
+        )
+    consecutive_errors = int(bg_status.get("consecutive_errors", 0) or 0)
+    if consecutive_errors <= 0:
+        return None
+    last_error = bg_status.get("last_error") or "no progress"
+    if replay_size <= 0 and consecutive_errors >= repeated_error_limit:
+        return f"background self-play worker failed to seed replay: {last_error}"
+    if no_progress_age_s > min(10.0, stall_timeout_s / 3.0) and consecutive_errors >= repeated_error_limit:
+        return f"background self-play worker made no replay-fill progress: {last_error}"
+    if bg_status.get("last_progress_age_s", 0.0) > stall_timeout_s:
+        return f"background self-play worker stalled during replay fill: {last_error}"
+    return None
+
+
 def prepare_training_context(args, runtime_hooks: CliPrepareHooks):
     torch = runtime_hooks.torch
     np = runtime_hooks.np
@@ -681,30 +700,31 @@ def run_training_main(args, ctx: PreparedTrainingContext, runtime_hooks: MainRun
         bg_worker = runtime_hooks.selfplay_worker_cls(cfg, actor_source, device, replay, args.rust_binary)
         bg_worker.start()
         print("  [BG] Self-play worker started (Rust+NN)")
+        last_replay_growth = len(replay)
+        last_replay_growth_ts = time.time()
         while len(replay) < runtime_hooks.initial_replay_fill_target(cfg, bg_worker._recent_chunks) and not (
             outer_stopper and outer_stopper.should_stop
         ):
             time.sleep(0.5)
             bg_status = bg_worker.status()
-            if not bg_status.get("alive", True):
-                raise RuntimeError(
-                    "background self-play worker exited during replay fill: "
-                    f"{bg_status.get('last_error') or 'thread exited'}"
-                )
-            if (
-                bg_status.get("last_progress_age_s", 0.0) > bg_worker.REPLAY_STALL_TIMEOUT_S
-                and bg_status.get("consecutive_errors", 0) > 0
-            ):
-                raise RuntimeError(
-                    "background self-play worker stalled during replay fill: "
-                    f"{bg_status.get('last_error') or 'no progress'}"
-                )
+            replay_size = len(replay)
+            if replay_size > last_replay_growth:
+                last_replay_growth = replay_size
+                last_replay_growth_ts = time.time()
+            worker_error = _replay_fill_worker_error(
+                bg_status,
+                bg_worker.REPLAY_STALL_TIMEOUT_S,
+                replay_size=replay_size,
+                no_progress_age_s=max(0.0, time.time() - last_replay_growth_ts),
+            )
+            if worker_error:
+                raise RuntimeError(worker_error)
             status_suffix = ""
             if bg_status.get("consecutive_errors", 0) > 0:
                 status_suffix = f" err={bg_status['consecutive_errors']}"
             fill_target = runtime_hooks.initial_replay_fill_target(cfg, bg_worker._recent_chunks)
             print(
-                f"\r  [BG] Filling replay: {len(replay)}/{fill_target}...{status_suffix}",
+                f"\r  [BG] Filling replay: {replay_size}/{fill_target}...{status_suffix}",
                 end="",
                 flush=True,
             )
@@ -718,6 +738,10 @@ def run_training_main(args, ctx: PreparedTrainingContext, runtime_hooks: MainRun
         "score_rate": None,
         "eval_verdict": None,
     }
+    from quartz import evaluator_runtime as _eval_runtime_mod
+    from quartz import runtime_support as _runtime_support_mod
+
+    train_search_manifest_hash = _runtime_support_mod.search_manifest_hash(cfg)
     online_tuner = (
         runtime_hooks.online_autotune_controller_cls(cfg, hw, enabled_iters=min(10, args.iterations), interval=2)
         if args.concurrent and args.runtime_autotune
@@ -738,6 +762,7 @@ def run_training_main(args, ctx: PreparedTrainingContext, runtime_hooks: MainRun
         should_early_stop = False
         entry = {
             "iter": iteration + 1,
+            "search_manifest_hash": train_search_manifest_hash,
             "loss": None,
             "p_loss": None,
             "v_loss": None,
@@ -768,8 +793,8 @@ def run_training_main(args, ctx: PreparedTrainingContext, runtime_hooks: MainRun
             states, policies, outcomes, traces = runtime_hooks.selfplay_rust_nn_batched(
                 cfg, actor_source, device, cfg["games"], args.rust_binary, parallel=cfg.get("selfplay_parallel", 4)
             )
-            for gs, gp, out in zip(states, policies, outcomes):
-                replay.add_game(gs, gp, out)
+            for gs, gp, out, trace in zip(states, policies, outcomes, traces):
+                replay.add_game(gs, gp, out, traces=trace)
                 n_new += len(gs)
             all_pflips = [t.get("p_flip", 0) for tr in traces for t in tr if t]
             avg_pflip = sum(all_pflips) / max(len(all_pflips), 1) if all_pflips else 0
@@ -790,6 +815,7 @@ def run_training_main(args, ctx: PreparedTrainingContext, runtime_hooks: MainRun
                         "new_pos": n_new,
                         "time_s": round(elapsed, 1),
                         "pos_per_s": round(n_new / max(elapsed, 0.1), 1),
+                        "replay_search_summary": runtime_hooks.replay_metrics.search_summary(replay),
                     }
                 )
                 print(
@@ -819,6 +845,7 @@ def run_training_main(args, ctx: PreparedTrainingContext, runtime_hooks: MainRun
                         "replay_freshness": round(runtime_hooks.replay_metrics.freshness(n_new, len(replay)), 4),
                         "policy_entropy": round(runtime_hooks.replay_metrics.policy_entropy(replay), 3),
                         "value_std": round(runtime_hooks.replay_metrics.value_std(replay), 4),
+                        "replay_search_summary": runtime_hooks.replay_metrics.search_summary(replay),
                     }
                 )
                 if inner_stop is not None:
@@ -836,6 +863,7 @@ def run_training_main(args, ctx: PreparedTrainingContext, runtime_hooks: MainRun
                     "new_pos": n_new,
                     "time_s": round(elapsed, 1),
                     "pos_per_s": round(n_new / max(elapsed, 0.1), 1),
+                    "replay_search_summary": runtime_hooks.replay_metrics.search_summary(replay),
                 }
             )
             print(f"[{iteration+1:>3}/{args.iterations}] filling replay: {len(replay)}/{cfg['batch']} +{n_new} {elapsed:.1f}s")
@@ -861,6 +889,8 @@ def run_training_main(args, ctx: PreparedTrainingContext, runtime_hooks: MainRun
 
         if training_evaluator and (iteration + 1) % args.eval_interval == 0 and game_factory:
             print(f"  Evaluating gen_{iteration+1} vs champion...")
+            eval_search_manifest = _eval_runtime_mod.arena_search_manifest(cfg, args.eval_games)
+            eval_search_manifest_hash = _eval_runtime_mod.arena_search_manifest_hash(cfg, args.eval_games)
             bg_pause_requested = False
             cand_eng = None
             champ_eng = None
@@ -983,6 +1013,8 @@ def run_training_main(args, ctx: PreparedTrainingContext, runtime_hooks: MainRun
                         {
                             "_type": "eval",
                             "iter": iteration + 1,
+                            "search_manifest": eval_search_manifest,
+                            "search_manifest_hash": eval_search_manifest_hash,
                             "valid_eval": eval_valid,
                             "invalid_reason": eval_invalid_reason,
                             "verdict": v,

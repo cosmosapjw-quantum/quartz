@@ -6,6 +6,7 @@ storage, serialization, and batching can be tested and optimized in isolation.
 
 from __future__ import annotations
 
+import json
 import math
 import os
 import random
@@ -15,17 +16,26 @@ from dataclasses import dataclass
 
 import numpy as np
 
+_TORCH_MODULE = None
+_DATA_LOADER_CLS = None
+
 
 def _torch_module():
-    import torch
+    global _TORCH_MODULE
+    if _TORCH_MODULE is None:
+        import torch
 
-    return torch
+        _TORCH_MODULE = torch
+    return _TORCH_MODULE
 
 
 def _data_loader_cls():
-    from torch.utils.data import DataLoader
+    global _DATA_LOADER_CLS
+    if _DATA_LOADER_CLS is None:
+        from torch.utils.data import DataLoader
 
-    return DataLoader
+        _DATA_LOADER_CLS = DataLoader
+    return _DATA_LOADER_CLS
 
 
 def iter_sparse_policy_entries(entries):
@@ -92,6 +102,7 @@ class ReplayExample:
     state: np.ndarray
     policy: SparsePolicyTarget
     value: float
+    metadata: dict | None = None
 
     def __getitem__(self, idx):
         if idx == 0:
@@ -154,44 +165,52 @@ class ReplayBuffer:
         self.recent_fraction = float(max(0.0, min(1.0, recent_fraction)))
         self.recent_window = int(max(0, recent_window))
 
-    def _make_example(self, state, policy, value):
+    def _make_example(self, state, policy, value, metadata=None):
         sparse_policy = normalize_sparse_policy(policy)
         return ReplayExample(
             state=np.asarray(state, dtype=np.float32),
             policy=sparse_policy,
             value=float(value),
+            metadata=dict(metadata or {}),
         )
 
-    def _make_sparse_example(self, state, policy_entries, value, n_actions):
+    def _make_sparse_example(self, state, policy_entries, value, n_actions, metadata=None):
         sparse_policy = normalize_sparse_policy(policy_entries, n_actions=n_actions)
         return ReplayExample(
             state=np.asarray(state, dtype=np.float32),
             policy=sparse_policy,
             value=float(value),
+            metadata=dict(metadata or {}),
         )
 
-    def add(self, state, policy, value):
+    def add(self, state, policy, value, metadata=None):
         with self._lock:
-            self.buf.append(self._make_example(state, policy, value))
+            self.buf.append(self._make_example(state, policy, value, metadata=metadata))
 
-    def add_sparse(self, state, policy_entries, value, n_actions):
+    def add_sparse(self, state, policy_entries, value, n_actions, metadata=None):
         with self._lock:
-            self.buf.append(self._make_sparse_example(state, policy_entries, value, n_actions))
+            self.buf.append(
+                self._make_sparse_example(state, policy_entries, value, n_actions, metadata=metadata)
+            )
 
-    def add_game(self, states, policies, outcome, start_player=1):
+    def add_game(self, states, policies, outcome, start_player=1, traces=None):
         """Add a full game using side-to-move values at each ply."""
         with self._lock:
             for i, (state, policy) in enumerate(zip(states, policies)):
                 player_to_move = start_player if (i % 2 == 0) else -start_player
                 value = outcome * player_to_move
-                self.buf.append(self._make_example(state, policy, value))
+                metadata = traces[i] if traces is not None and i < len(traces) else None
+                self.buf.append(self._make_example(state, policy, value, metadata=metadata))
 
-    def add_sparse_game(self, states, policies, outcome, n_actions, start_player=1):
+    def add_sparse_game(self, states, policies, outcome, n_actions, start_player=1, traces=None):
         with self._lock:
             for i, (state, policy) in enumerate(zip(states, policies)):
                 player_to_move = start_player if (i % 2 == 0) else -start_player
                 value = outcome * player_to_move
-                self.buf.append(self._make_sparse_example(state, policy, value, n_actions))
+                metadata = traces[i] if traces is not None and i < len(traces) else None
+                self.buf.append(
+                    self._make_sparse_example(state, policy, value, n_actions, metadata=metadata)
+                )
 
     def _sample_indices_from_size(self, total_size, n):
         sample_n = min(n, total_size)
@@ -268,6 +287,10 @@ class ReplayBuffer:
     def __len__(self):
         return len(self.buf)
 
+    def examples_at_indices(self, indices):
+        with self._lock:
+            return [self.buf[int(idx)] for idx in indices]
+
     def save(self, path):
         data = list(self.buf)
         policy_ptr = np.zeros(len(data) + 1, dtype=np.int64)
@@ -291,6 +314,13 @@ class ReplayBuffer:
             policy_val=policy_val,
             n_actions=np.array([d.policy.n_actions for d in data], dtype=np.int32),
             values=np.array([d.value for d in data], dtype=np.float32),
+            metadata_json=np.asarray(
+                [
+                    json.dumps(d.metadata or {}, separators=(",", ":"), sort_keys=True)
+                    for d in data
+                ],
+                dtype=np.str_,
+            ),
         )
 
     def load(self, path):
@@ -305,6 +335,7 @@ class ReplayBuffer:
             idx = loaded["policy_idx"]
             val = loaded["policy_val"]
             n_actions = loaded["n_actions"] if "n_actions" in loaded else np.zeros(n, dtype=np.int32)
+            metadata_json = loaded["metadata_json"] if "metadata_json" in loaded else None
             for i in range(n):
                 start = int(ptr[i])
                 end = int(ptr[i + 1])
@@ -317,6 +348,11 @@ class ReplayBuffer:
                             n_actions=int(n_actions[i]),
                         ),
                         value=float(values[i]),
+                        metadata=(
+                            json.loads(str(metadata_json[i]))
+                            if metadata_json is not None and str(metadata_json[i]).strip()
+                            else {}
+                        ),
                     )
                 )
         else:
@@ -345,33 +381,61 @@ def collate_replay_samples(batch):
             torch.empty(0, dtype=torch.float32),
             torch.empty(0, dtype=torch.float32),
         )
-    examples = []
-    for item in batch:
-        if isinstance(item, ReplayExample):
-            examples.append(item)
-        else:
-            state, policy, value = item
-            examples.append(
-                ReplayExample(
-                    state=np.asarray(state, dtype=np.float32),
-                    policy=normalize_sparse_policy(policy),
-                    value=float(value),
+    if all(isinstance(item, ReplayExample) for item in batch):
+        examples = batch
+    else:
+        examples = []
+        for item in batch:
+            if isinstance(item, ReplayExample):
+                examples.append(item)
+            else:
+                state, policy, value = item
+                examples.append(
+                    ReplayExample(
+                        state=np.asarray(state, dtype=np.float32),
+                        policy=normalize_sparse_policy(policy),
+                        value=float(value),
+                    )
                 )
-            )
-    states_np = np.stack([np.asarray(ex.state, dtype=np.float32) for ex in examples])
+    first_state = np.asarray(examples[0].state, dtype=np.float32)
+    states_np = np.empty((len(examples),) + first_state.shape, dtype=np.float32)
+    values_np = np.empty(len(examples), dtype=np.float32)
     n_actions = max(int(ex.policy.n_actions) for ex in examples)
     policies_np = np.zeros((len(examples), n_actions), dtype=np.float32)
     for row, ex in enumerate(examples):
+        states_np[row] = np.asarray(ex.state, dtype=np.float32)
+        values_np[row] = float(ex.value)
         if ex.policy.idx.size:
             policies_np[row, ex.policy.idx] = ex.policy.val
     states = torch.from_numpy(states_np)
     policies = torch.from_numpy(policies_np)
-    values = torch.tensor([ex.value for ex in examples], dtype=torch.float32)
+    values = torch.from_numpy(values_np)
     return states, policies, values
 
 
 class ReplayMetrics:
     """Track replay buffer health metrics."""
+
+    @staticmethod
+    def _examples_at_indices(replay, indices):
+        if not indices:
+            return []
+        getter = getattr(replay, "examples_at_indices", None)
+        if callable(getter):
+            try:
+                return list(getter(indices))
+            except Exception:
+                return []
+        buf = getattr(replay, "buf", None)
+        if buf is not None:
+            try:
+                return [buf[int(idx)] for idx in indices]
+            except Exception:
+                return []
+        try:
+            return [replay[int(idx)] for idx in indices]
+        except Exception:
+            return []
 
     @staticmethod
     def freshness(n_new, replay_size):
@@ -382,9 +446,11 @@ class ReplayMetrics:
         if len(replay) < sample_n:
             return 0.0
         indices = random.sample(range(len(replay)), sample_n)
+        examples = ReplayMetrics._examples_at_indices(replay, indices)
+        if len(examples) < sample_n:
+            return 0.0
         total_ent = 0.0
-        for i in indices:
-            sample = replay.buf[i]
+        for sample in examples:
             if isinstance(sample, ReplayExample):
                 total_ent += sample.policy.entropy()
             else:
@@ -400,11 +466,125 @@ class ReplayMetrics:
         if len(replay) < sample_n:
             return 0.0
         indices = random.sample(range(len(replay)), sample_n)
+        examples = ReplayMetrics._examples_at_indices(replay, indices)
+        if len(examples) < sample_n:
+            return 0.0
         values = [
-            replay.buf[i].value if isinstance(replay.buf[i], ReplayExample) else replay.buf[i][2]
-            for i in indices
+            sample.value if isinstance(sample, ReplayExample) else sample[2]
+            for sample in examples
         ]
         return float(np.std(values))
+
+    @staticmethod
+    def search_summary(replay, sample_n=100):
+        if len(replay) <= 0:
+            return {}
+        sample_n = min(int(sample_n), len(replay))
+        indices = random.sample(range(len(replay)), sample_n)
+        examples = ReplayMetrics._examples_at_indices(replay, indices)
+        if not examples:
+            return {}
+        sample_n = len(examples)
+        profile_counts = {}
+        benchmark_safe = 0
+        realized_iterations = []
+        dup_rates = []
+        p_flips = []
+        halt_reason_hist = {}
+        refresh_counts = []
+        penalty_sums = []
+        penalty_mode_counts = {}
+        prior_refresh_rates = []
+        prior_q_divergences = []
+        root_only_shaping_true = 0
+        root_only_shaping_seen = 0
+        telemetry_partial = 0
+        refresh_metric_present = 0
+        penalty_metric_present = 0
+        halt_metric_present = 0
+        for sample in examples:
+            metadata = sample.metadata if isinstance(sample, ReplayExample) else {}
+            metadata = metadata or {}
+            manifest = metadata.get("search_manifest") or {}
+            realized = metadata.get("realized_budget") or {}
+            ctrl = metadata.get("controller_summary") or {}
+            profile = manifest.get("profile")
+            if profile:
+                profile_counts[profile] = int(profile_counts.get(profile, 0)) + 1
+            if manifest.get("benchmark_safe"):
+                benchmark_safe += 1
+            if realized.get("realized_iterations") is not None:
+                realized_iterations.append(float(realized["realized_iterations"]))
+            if ctrl.get("dup_rate") is not None:
+                dup_rates.append(float(ctrl["dup_rate"]))
+            if ctrl.get("p_flip") is not None:
+                p_flips.append(float(ctrl["p_flip"]))
+            if ctrl.get("telemetry_partial"):
+                telemetry_partial += 1
+            if ctrl.get("refresh_count") is not None:
+                refresh_counts.append(float(ctrl["refresh_count"]))
+                refresh_metric_present += 1
+            if ctrl.get("penalty_sum") is not None:
+                penalty_sums.append(float(ctrl["penalty_sum"]))
+                penalty_metric_present += 1
+            penalty_mode = ctrl.get("penalty_mode")
+            if penalty_mode:
+                penalty_mode_counts[str(penalty_mode)] = int(penalty_mode_counts.get(str(penalty_mode), 0)) + 1
+            if ctrl.get("prior_refresh_rate") is not None:
+                prior_refresh_rates.append(float(ctrl["prior_refresh_rate"]))
+            if ctrl.get("prior_q_divergence") is not None:
+                prior_q_divergences.append(float(ctrl["prior_q_divergence"]))
+            if ctrl.get("root_only_shaping") is not None:
+                root_only_shaping_seen += 1
+                if bool(ctrl.get("root_only_shaping")):
+                    root_only_shaping_true += 1
+            reason_hist = ctrl.get("halt_reason_hist") or {}
+            if isinstance(reason_hist, dict) and reason_hist:
+                halt_metric_present += 1
+                for reason, count in reason_hist.items():
+                    if not reason:
+                        continue
+                    halt_reason_hist[str(reason)] = int(halt_reason_hist.get(str(reason), 0)) + int(count or 0)
+            else:
+                stop_reason = ctrl.get("stop_reason") or metadata.get("stop_reason")
+                if stop_reason:
+                    halt_metric_present += 1
+                    halt_reason_hist[str(stop_reason)] = int(halt_reason_hist.get(str(stop_reason), 0)) + 1
+        return {
+            "samples": sample_n,
+            "search_profile_counts": profile_counts,
+            "benchmark_safe_frac": float(benchmark_safe / max(sample_n, 1)),
+            "mean_realized_iterations": (
+                float(sum(realized_iterations) / len(realized_iterations))
+                if realized_iterations
+                else None
+            ),
+            "mean_dup_rate": float(sum(dup_rates) / len(dup_rates)) if dup_rates else None,
+            "mean_p_flip": float(sum(p_flips) / len(p_flips)) if p_flips else None,
+            "halt_reason_hist": halt_reason_hist,
+            "mean_refresh_count": float(sum(refresh_counts) / len(refresh_counts)) if refresh_counts else None,
+            "mean_penalty_sum": float(sum(penalty_sums) / len(penalty_sums)) if penalty_sums else None,
+            "controller_penalty_mode_counts": penalty_mode_counts,
+            "mean_prior_refresh_rate": (
+                float(sum(prior_refresh_rates) / len(prior_refresh_rates))
+                if prior_refresh_rates
+                else None
+            ),
+            "mean_prior_q_divergence": (
+                float(sum(prior_q_divergences) / len(prior_q_divergences))
+                if prior_q_divergences
+                else None
+            ),
+            "root_only_shaping_frac": (
+                float(root_only_shaping_true / max(root_only_shaping_seen, 1))
+                if root_only_shaping_seen
+                else None
+            ),
+            "controller_telemetry_partial_frac": float(telemetry_partial / max(sample_n, 1)),
+            "halt_metric_coverage_frac": float(halt_metric_present / max(sample_n, 1)),
+            "refresh_metric_coverage_frac": float(refresh_metric_present / max(sample_n, 1)),
+            "penalty_metric_coverage_frac": float(penalty_metric_present / max(sample_n, 1)),
+        }
 
 
 __all__ = [
