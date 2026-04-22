@@ -52,7 +52,12 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--iterations", type=int, default=1)
     parser.add_argument("--games-per-iter", type=int, default=4)
     parser.add_argument("--eval-games", type=int, default=2)
-    parser.add_argument("--eval-interval", type=int, default=1)
+    parser.add_argument(
+        "--eval-interval",
+        type=int,
+        default=999999,
+        help="Training-time checkpoint eval interval; large default skips internal promotion eval in smoke runs.",
+    )
     parser.add_argument("--seed", type=int, default=11)
     parser.add_argument("--timeout-hours", type=int, default=1)
     parser.add_argument("--keep-output", action="store_true")
@@ -73,6 +78,12 @@ def parse_args() -> argparse.Namespace:
         action=argparse.BooleanOptionalAction,
         default=True,
         help="Force eager inference in smoke subprocesses to avoid long inductor warmup.",
+    )
+    parser.add_argument(
+        "--eval-stall-timeout-s",
+        type=float,
+        default=45.0,
+        help="Fail fast if Rust shared-eval stops making progress during the smoke.",
     )
     parser.add_argument(
         "--build-rust-if-missing",
@@ -121,6 +132,7 @@ def main() -> None:
         "no_autotune": bool(args.no_autotune),
         "include_strict_reference": bool(args.include_strict_reference),
         "disable_torch_compile": bool(args.disable_torch_compile),
+        "eval_stall_timeout_s": float(args.eval_stall_timeout_s),
         "artifact_contract": {
             "required_outputs": [
                 f"{args.game}/study_manifest.json",
@@ -138,6 +150,8 @@ def main() -> None:
     if args.disable_torch_compile:
         ablation_env["QUARTZ_NO_COMPILE"] = "1"
         ablation_env["QUARTZ_DISABLE_COMPILE"] = "1"
+    if args.eval_stall_timeout_s > 0:
+        ablation_env["QUARTZ_EVAL_STALL_TIMEOUT_S"] = str(float(args.eval_stall_timeout_s))
     ablation_cmd = [
         sys.executable,
         "scripts/ablation_study.py",
