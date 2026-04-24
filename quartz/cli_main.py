@@ -255,6 +255,53 @@ class MainRuntimeHooks:
     generate_training_plots: object
 
 
+def _checkpoint_cfg_payload(cfg: dict) -> dict:
+    return {
+        key: value
+        for key, value in cfg.items()
+        if not str(key).startswith("_") and not callable(value)
+    }
+
+
+def _save_model_checkpoint(backend, model, torch_mod, path: str, cfg: dict) -> None:
+    if backend:
+        backend.save(path, cfg=cfg)
+        return
+    torch_mod.save({"model_state_dict": model.state_dict(), "cfg": _checkpoint_cfg_payload(cfg)}, path)
+
+
+def _write_checkpoint_status(
+    base_dir: str,
+    latest_model_path: str,
+    best_model_path: str,
+    *,
+    best_checkpoint_bootstrap: bool,
+    saw_promotion: bool,
+) -> dict:
+    latest_exists = os.path.exists(latest_model_path)
+    best_exists = os.path.exists(best_model_path)
+    preferred_name = None
+    if best_exists and not best_checkpoint_bootstrap:
+        preferred_name = Path(best_model_path).name
+    elif latest_exists:
+        preferred_name = Path(latest_model_path).name
+    elif best_exists:
+        preferred_name = Path(best_model_path).name
+    payload = {
+        "saved_at": time.strftime("%Y-%m-%d %H:%M:%S"),
+        "latest_model_path": str(latest_model_path),
+        "best_model_path": str(best_model_path),
+        "latest_exists": bool(latest_exists),
+        "best_exists": bool(best_exists),
+        "best_checkpoint_bootstrap_seeded": bool(best_checkpoint_bootstrap),
+        "saw_promotion": bool(saw_promotion),
+        "preferred_posttrain_checkpoint": preferred_name,
+    }
+    status_path = Path(base_dir) / "checkpoint_status.json"
+    status_path.write_text(json.dumps(payload, indent=2), encoding="utf-8")
+    return payload
+
+
 def _replay_fill_worker_error(bg_status, stall_timeout_s, replay_size, no_progress_age_s, repeated_error_limit=3):
     if not bg_status.get("alive", True):
         return (
@@ -272,6 +319,20 @@ def _replay_fill_worker_error(bg_status, stall_timeout_s, replay_size, no_progre
     if bg_status.get("last_progress_age_s", 0.0) > stall_timeout_s:
         return f"background self-play worker stalled during replay fill: {last_error}"
     return None
+
+
+def _apply_safe_runtime_env_overrides(cfg):
+    if not os.environ.get("QUARTZ_SAFE_RUNTIME"):
+        return dict(cfg)
+    safe_cfg = dict(cfg)
+    safe_cfg["_disable_resident_session"] = True
+    bootstrap_cap = int(os.environ.get("QUARTZ_SAFE_BOOTSTRAP_TARGET_CAP", "16") or 16)
+    parallel_cap = int(os.environ.get("QUARTZ_SAFE_SELFPLAY_PARALLEL_CAP", "4") or 4)
+    batch_games_cap = int(os.environ.get("QUARTZ_SAFE_SELFPLAY_BATCH_GAMES_CAP", "4") or 4)
+    safe_cfg["_bootstrap_replay_target_cap"] = max(1, bootstrap_cap)
+    safe_cfg["_selfplay_parallel_cap"] = max(1, parallel_cap)
+    safe_cfg["_selfplay_batch_games_cap"] = max(1, batch_games_cap)
+    return safe_cfg
 
 
 def prepare_training_context(args, runtime_hooks: CliPrepareHooks):
@@ -376,6 +437,7 @@ def prepare_training_context(args, runtime_hooks: CliPrepareHooks):
     cfg["_broker_enabled"] = False
     cfg["_eval_runner_mode"] = eval_runner_mode
     cfg["_selfplay_runner_mode"] = selfplay_runner_mode
+    cfg = _apply_safe_runtime_env_overrides(cfg)
     cfg = runtime_hooks.clamp_runtime_cfg_to_hardware(cfg, hw)
     if not jax_requested:
         try:
@@ -627,6 +689,8 @@ def run_training_main(args, ctx: PreparedTrainingContext, runtime_hooks: MainRun
     )
     eval_workers_autotuned = cached_eval_parallel_workers is not None
     rust_ok = os.path.exists(args.rust_binary)
+    best_checkpoint_bootstrap = False
+    saw_promotion = False
     if runtime_hooks.has_eval_system:
         eval_parallel_workers = cached_eval_parallel_workers or runtime_hooks.recommend_eval_parallel_workers(
             hw, cfg, args.eval_games, rust_ok=rust_ok
@@ -655,10 +719,15 @@ def run_training_main(args, ctx: PreparedTrainingContext, runtime_hooks: MainRun
         if game_factory:
             training_evaluator = runtime_hooks.training_evaluator_cls(config=eval_cfg)
             if not os.path.exists(best_model_path):
-                if backend:
-                    backend.save(best_model_path, cfg=cfg)
-                elif model:
-                    torch.save({"model_state_dict": model.state_dict(), "cfg": {k: v for k, v in cfg.items() if not k.startswith("_") and not callable(v)}}, best_model_path)
+                best_checkpoint_bootstrap = True
+                _save_model_checkpoint(backend, model, torch, best_model_path, cfg)
+                _write_checkpoint_status(
+                    base_dir,
+                    latest_model_path,
+                    best_model_path,
+                    best_checkpoint_bootstrap=best_checkpoint_bootstrap,
+                    saw_promotion=saw_promotion,
+                )
             else:
                 runtime_hooks.ensure_best_checkpoint_compatible(best_model_path, backend, model, device)
             eval_worker_msg = str(eval_parallel_workers)
@@ -850,6 +919,8 @@ def run_training_main(args, ctx: PreparedTrainingContext, runtime_hooks: MainRun
                 )
                 if inner_stop is not None:
                     entry["inner_stop"] = inner_stop
+                if bg_worker and executed_steps > 0:
+                    bg_worker.update_model(actor_source)
                 print(
                     f"[{iteration+1:>3}/{args.iterations}] loss={avg_loss:.4f} "
                     f"(p={avg_pl:.4f} v={avg_vl:.4f}) lr={lr:.5f} replay={len(replay)} "
@@ -878,14 +949,9 @@ def run_training_main(args, ctx: PreparedTrainingContext, runtime_hooks: MainRun
                 print(f"  [AutoTune] iter {iteration+1}: adjusted {changes}")
 
         if (iteration + 1) % 5 == 0:
-            if backend:
-                backend.save(latest_model_path, cfg=cfg)
-            else:
-                torch.save({"model_state_dict": model.state_dict(), "cfg": {k: v for k, v in cfg.items() if not k.startswith("_") and not callable(v)}}, latest_model_path)
+            _save_model_checkpoint(backend, model, torch, latest_model_path, cfg)
             replay.save(replay_path)
             print(f"  Checkpoint: {latest_model_path} (replay={len(replay)})")
-            if bg_worker:
-                bg_worker.update_model(actor_source)
 
         if training_evaluator and (iteration + 1) % args.eval_interval == 0 and game_factory:
             print(f"  Evaluating gen_{iteration+1} vs champion...")
@@ -896,7 +962,8 @@ def run_training_main(args, ctx: PreparedTrainingContext, runtime_hooks: MainRun
             champ_eng = None
             if bg_worker and args.eval_selfplay_isolation:
                 bg_pause_requested = True
-                bg_worker.pause(wait=True)
+                if not bg_worker.pause(wait=True):
+                    raise RuntimeError("background self-play failed to pause for evaluation")
             try:
                 candidate_name = f"gen_{iteration+1}"
                 candidate_actor_template = runtime_hooks.clone_actor_model(actor_source)
@@ -999,10 +1066,16 @@ def run_training_main(args, ctx: PreparedTrainingContext, runtime_hooks: MainRun
                 )
                 print(f"  Eval: {v} | sr={sr:.3f} | ΔElo={elo_d:+.0f} | AbsElo={pub} | ChampElo={champ_pub}")
                 if v == "promote":
-                    if backend:
-                        backend.save(best_model_path, cfg=cfg)
-                    else:
-                        torch.save({"model_state_dict": model.state_dict(), "cfg": {k: v for k, v in cfg.items() if not k.startswith("_") and not callable(v)}}, best_model_path)
+                    saw_promotion = True
+                    best_checkpoint_bootstrap = False
+                    _save_model_checkpoint(backend, model, torch, best_model_path, cfg)
+                    _write_checkpoint_status(
+                        base_dir,
+                        latest_model_path,
+                        best_model_path,
+                        best_checkpoint_bootstrap=best_checkpoint_bootstrap,
+                        saw_promotion=saw_promotion,
+                    )
                     print(f"  ★ PROMOTED: gen_{iteration+1} is new champion!")
             else:
                 entry["eval_invalid_reason"] = str(eval_invalid_reason or "invalid evaluation")
@@ -1053,10 +1126,14 @@ def run_training_main(args, ctx: PreparedTrainingContext, runtime_hooks: MainRun
     log_f.close()
     if bg_worker:
         bg_worker.stop()
-    if backend:
-        backend.save(latest_model_path)
-    else:
-        torch.save(model.state_dict(), latest_model_path)
+    _save_model_checkpoint(backend, model, torch, latest_model_path, cfg)
+    _write_checkpoint_status(
+        base_dir,
+        latest_model_path,
+        best_model_path,
+        best_checkpoint_bootstrap=best_checkpoint_bootstrap,
+        saw_promotion=saw_promotion,
+    )
     if runtime_hooks.generate_training_plots(log_path, base_dir):
         print(
             f"  Plots: {os.path.join(base_dir, 'training_loss.png')}"

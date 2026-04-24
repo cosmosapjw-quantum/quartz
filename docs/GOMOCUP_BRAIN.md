@@ -126,6 +126,7 @@ directory with `INFO folder`, or set `QUARTZ_GOMOCUP_BUNDLE_DIR` explicitly.
 
 ```bash
 venv/bin/python scripts/ablation_study.py \
+  --study search_vl \
   --game gomoku15 \
   --iterations 30 \
   --eval-games 80

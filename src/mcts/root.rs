@@ -60,32 +60,32 @@ pub fn select_move_with_temperature<M: Copy + Send + Sync + 'static>(
     temperature: f32,
     seed: Option<u64>,
 ) -> Option<M> {
-    let edge_arcs = node.edge_snapshot(node.materialized_count());
-    if edge_arcs.is_empty() {
-        return None;
-    }
-
-    if temperature <= 0.0 {
-        // Greedy argmax
-        edge_arcs
-            .iter()
-            .max_by_key(|e| e.n.load(Ordering::Acquire))
-            .map(|e| e.mv)
-    } else {
-        let weights: Vec<f64> = edge_arcs
-            .iter()
-            .map(|e| {
-                let n = e.n.load(Ordering::Acquire) as f64;
-                n.powf(1.0 / temperature as f64)
-            })
-            .collect();
-        let mut rng = MctsRng::new(seed, 0);
-        if weights.iter().copied().sum::<f64>() < 1e-12 {
-            return rng.choose(&edge_arcs).map(|e| e.mv);
+    node.with_edge_slice(node.materialized_count(), |edge_arcs| {
+        if edge_arcs.is_empty() {
+            return None;
         }
-        let idx = rng.sample_weighted_index(&weights)?;
-        Some(edge_arcs[idx].mv)
-    }
+
+        if temperature <= 0.0 {
+            edge_arcs
+                .iter()
+                .max_by_key(|e| e.n.load(Ordering::Acquire))
+                .map(|e| e.mv)
+        } else {
+            let weights: Vec<f64> = edge_arcs
+                .iter()
+                .map(|e| {
+                    let n = e.n.load(Ordering::Acquire) as f64;
+                    n.powf(1.0 / temperature as f64)
+                })
+                .collect();
+            let mut rng = MctsRng::new(seed, 0);
+            if weights.iter().copied().sum::<f64>() < 1e-12 {
+                return rng.choose(edge_arcs).map(|e| e.mv);
+            }
+            let idx = rng.sample_weighted_index(&weights)?;
+            Some(edge_arcs[idx].mv)
+        }
+    })
 }
 
 /// 방문 분포 π (AlphaZero 학습 타겟)
@@ -93,30 +93,31 @@ pub fn visit_distribution<M: Copy + Send + Sync + 'static>(
     node: &Arc<MctsNode<M>>,
     temperature: f32,
 ) -> Vec<(M, f32)> {
-    let edge_arcs = node.edge_snapshot(node.materialized_count());
-    if edge_arcs.is_empty() {
-        return vec![];
-    }
+    node.with_edge_slice(node.materialized_count(), |edge_arcs| {
+        if edge_arcs.is_empty() {
+            return vec![];
+        }
 
-    let counts: Vec<f64> = edge_arcs
-        .iter()
-        .map(|e| {
-            let n = e.n.load(Ordering::Acquire) as f64;
-            if temperature <= 0.0 {
-                n
-            } else {
-                n.powf(1.0 / temperature as f64)
-            }
-        })
-        .collect();
-    let total: f64 = counts.iter().sum();
-    if total < 1e-12 {
-        return vec![];
-    }
+        let counts: Vec<f64> = edge_arcs
+            .iter()
+            .map(|e| {
+                let n = e.n.load(Ordering::Acquire) as f64;
+                if temperature <= 0.0 {
+                    n
+                } else {
+                    n.powf(1.0 / temperature as f64)
+                }
+            })
+            .collect();
+        let total: f64 = counts.iter().sum();
+        if total < 1e-12 {
+            return vec![];
+        }
 
-    edge_arcs
-        .iter()
-        .zip(counts.iter())
-        .map(|(e, &c)| (e.mv, (c / total) as f32))
-        .collect()
+        edge_arcs
+            .iter()
+            .zip(counts.iter())
+            .map(|(e, &c)| (e.mv, (c / total) as f32))
+            .collect()
+    })
 }

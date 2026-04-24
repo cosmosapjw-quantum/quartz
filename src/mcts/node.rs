@@ -14,7 +14,7 @@
 //!   4. edge_cursor는 edges.len()의 단조 증가 근사치 (RwLock 외부 빠른 확인용)
 
 use std::sync::atomic::{AtomicI32, AtomicU32, AtomicU64, Ordering};
-use std::sync::{Arc, OnceLock, Weak};
+use std::sync::{Arc, OnceLock, RwLock};
 
 // ─────────────────────────────────────────────
 // § Atomic f64 헬퍼
@@ -49,6 +49,9 @@ static EDGES_LOCK_WAIT_MAX_NANOS: AtomicU64 = AtomicU64::new(0);
 static EDGES_LOCK_CALLS: AtomicU64 = AtomicU64::new(0);
 
 pub(crate) fn record_edges_lock_wait(wait_nanos: u64) {
+    if !crate::mcts::profiling::hot_path_metrics_enabled() {
+        return;
+    }
     EDGES_LOCK_CALLS.fetch_add(1, Ordering::Relaxed);
     EDGES_LOCK_WAIT_NANOS.fetch_add(wait_nanos, Ordering::Relaxed);
     let mut cur = EDGES_LOCK_WAIT_MAX_NANOS.load(Ordering::Relaxed);
@@ -99,8 +102,8 @@ pub struct MctsEdge<M> {
 }
 
 impl<M: Copy + Send + Sync + 'static> MctsEdge<M> {
-    pub fn new(mv: M, child: Arc<MctsNode<M>>, prior: f32) -> Arc<Self> {
-        Arc::new(MctsEdge {
+    pub fn new(mv: M, child: Arc<MctsNode<M>>, prior: f32) -> Self {
+        MctsEdge {
             mv,
             child,
             p: prior.max(0.0),
@@ -109,7 +112,7 @@ impl<M: Copy + Send + Sync + 'static> MctsEdge<M> {
             m2: AtomicU64::new(0),
             virtual_losses: AtomicI32::new(0),
             virtual_value: AtomicU64::new(0),
-        })
+        }
     }
 
     /// 논문 §6.1.1: σᵢ = √(M2/(N-1)), N≥2 시 유효
@@ -176,13 +179,50 @@ impl<M: Copy + Send + Sync + 'static> MctsEdge<M> {
     }
 }
 
+#[derive(Clone)]
+pub struct MctsEdgeSnapshot<M> {
+    pub mv: M,
+    pub child: Arc<MctsNode<M>>,
+    pub p: f32,
+    pub n: u32,
+    pub w: f64,
+    pub m2: f64,
+    pub virtual_losses: i32,
+    pub virtual_value: f64,
+}
+
+impl<M: Copy + Send + Sync + 'static> MctsEdgeSnapshot<M> {
+    #[inline]
+    pub fn q(&self) -> f32 {
+        if self.n == 0 {
+            return 0.0;
+        }
+        (self.w as f32) / self.n as f32
+    }
+
+    #[inline]
+    pub fn q_eff(&self) -> f32 {
+        let vl = self.virtual_losses.max(0) as u32;
+        let n_eff = (self.n + vl).max(1) as f32;
+        ((self.w - self.virtual_value) as f32) / n_eff
+    }
+
+    pub fn edge_sigma(&self) -> Option<f32> {
+        if self.n < 2 {
+            return None;
+        }
+        let var = (self.m2 / (self.n - 1) as f64).max(0.0);
+        Some(var.sqrt() as f32)
+    }
+}
+
 // ─────────────────────────────────────────────
 // § PathEdge — backprop용 경로 기록 (with applied VL)
 // ─────────────────────────────────────────────
 
 pub struct PathEdge<M> {
     pub parent: Arc<MctsNode<M>>,
-    pub edge_arc: Arc<MctsEdge<M>>,
+    pub edge_idx: usize,
     /// VL that was applied during select — must be removed during backup
     pub applied_vl: (f32, f32), // (vvisit, vvalue)
 }
@@ -199,18 +239,13 @@ pub struct MctsNode<M> {
     pub candidates: OnceLock<Box<[(M, f32)]>>,
 
     /// Lazy materialized edges — append-only
-    pub edges: std::sync::RwLock<Vec<Arc<MctsEdge<M>>>>,
+    pub edges: RwLock<Vec<MctsEdge<M>>>,
 
     /// edges.len()의 단조 증가 근사
     pub edge_cursor: AtomicU32,
 
     pub n_total: AtomicU32,
     pub w_total: AtomicU64,
-
-    // ── §5.3 GVOC: wimp(s) = N(s)/N(root) ─────────────────────
-    // parent가 있으면 wimp 계산 가능
-    // Weak로 순환 참조 방지
-    pub parent: std::sync::RwLock<Option<Weak<MctsNode<M>>>>,
 
     // ── §6.3 MERGE channel: RTT holonomy residual curvature ──────
     // RTT(s) = Var[Q_γ(s)], γᵢ = 서로 다른 경로
@@ -229,11 +264,10 @@ impl<M: Copy + Send + Sync + 'static> MctsNode<M> {
             hash,
             terminal_value,
             candidates: OnceLock::new(),
-            edges: std::sync::RwLock::new(Vec::new()),
+            edges: RwLock::new(Vec::new()),
             edge_cursor: AtomicU32::new(0),
             n_total: AtomicU32::new(0),
             w_total: AtomicU64::new(0),
-            parent: std::sync::RwLock::new(None),
             rtt_n: AtomicU32::new(0),
             rtt_w: AtomicU64::new(0),
             rtt_m2: AtomicU64::new(0),
@@ -271,13 +305,6 @@ impl<M: Copy + Send + Sync + 'static> MctsNode<M> {
         (my_n as f32 / root_n as f32).min(1.0)
     }
 
-    /// parent weak ptr 설정 (expand 시 호출)
-    pub fn set_parent(&self, parent: &Arc<MctsNode<M>>) {
-        if let Ok(mut lock) = self.parent.write() {
-            *lock = Some(Arc::downgrade(parent));
-        }
-    }
-
     /// backup.rs에서 TT hit path에 대해 호출
     pub fn record_rtt_hit(&self, q_value: f32) {
         let q = q_value as f64;
@@ -308,11 +335,48 @@ impl<M: Copy + Send + Sync + 'static> MctsNode<M> {
     }
 
     /// RwLock 내 Arc clone 스냅샷 — read lock으로 병렬 접근 허용
-    pub fn edge_snapshot(&self, n_snap: usize) -> Vec<Arc<MctsEdge<M>>> {
-        let lock_started = std::time::Instant::now();
+    pub fn edge_snapshot(&self, n_snap: usize) -> Vec<MctsEdgeSnapshot<M>> {
+        let lock_started = crate::mcts::profiling::maybe_start_timer();
         let guard = self.edges.read().unwrap();
-        record_edges_lock_wait(lock_started.elapsed().as_nanos() as u64);
+        if let Some(t0) = lock_started {
+            record_edges_lock_wait(t0.elapsed().as_nanos() as u64);
+        }
         let n = n_snap.min(guard.len());
-        guard[..n].iter().map(Arc::clone).collect()
+        guard[..n]
+            .iter()
+            .map(|edge| MctsEdgeSnapshot {
+                mv: edge.mv,
+                child: Arc::clone(&edge.child),
+                p: edge.p,
+                n: edge.n.load(Ordering::Acquire),
+                w: atomic_f64_load(&edge.w),
+                m2: atomic_f64_load(&edge.m2),
+                virtual_losses: edge.virtual_losses.load(Ordering::Acquire),
+                virtual_value: atomic_f64_load(&edge.virtual_value),
+            })
+            .collect()
+    }
+
+    /// Snapshot only the priors for the first `n_snap` edges, avoiding Arc clones
+    /// when callers only need root prior values.
+    pub fn edge_priors_snapshot(&self, n_snap: usize) -> Vec<f32> {
+        let lock_started = crate::mcts::profiling::maybe_start_timer();
+        let guard = self.edges.read().unwrap();
+        if let Some(t0) = lock_started {
+            record_edges_lock_wait(t0.elapsed().as_nanos() as u64);
+        }
+        let n = n_snap.min(guard.len());
+        guard[..n].iter().map(|edge| edge.p).collect()
+    }
+
+    /// Read-only access to the first `n_snap` edges without cloning the Arc list.
+    pub fn with_edge_slice<R>(&self, n_snap: usize, f: impl FnOnce(&[MctsEdge<M>]) -> R) -> R {
+        let lock_started = crate::mcts::profiling::maybe_start_timer();
+        let guard = self.edges.read().unwrap();
+        if let Some(t0) = lock_started {
+            record_edges_lock_wait(t0.elapsed().as_nanos() as u64);
+        }
+        let n = n_snap.min(guard.len());
+        f(&guard[..n])
     }
 }

@@ -6,10 +6,8 @@
 //! PythonIpcEval   — eval_server.py JSON-line IPC (center_preference prior)
 
 use crossbeam_channel as channel;
-use rand::rngs::StdRng;
 use rand::seq::SliceRandom;
 use rand::thread_rng;
-use rand::SeedableRng;
 use std::fs::OpenOptions;
 use std::io::{BufRead, BufReader, Read, Write};
 use std::mem;
@@ -1548,8 +1546,7 @@ pub struct GlobalBroker<M: Copy + Eq + Hash + Debug + Send + 'static> {
 
 impl<M: Copy + Eq + Hash + Debug + Send + 'static> GlobalBroker<M> {
     pub fn new(n_actions: usize, config: BatchConfig) -> Self {
-        let (request_tx, request_rx) =
-            channel::bounded::<BatchRequest<M>>(config.max_batch_size * 2);
+        let (request_tx, request_rx) = channel::unbounded::<BatchRequest<M>>();
         let shutdown = Arc::new(AtomicBool::new(false));
         let shutdown_clone = shutdown.clone();
         let stats = Arc::new(BatchBrokerStats::default());
@@ -2258,6 +2255,7 @@ fn distribute_binary_batch<M: Copy + Eq + Hash + Debug + Send + 'static>(
         send_uniform_fallback(batch);
         return;
     }
+
     let mut results = Vec::with_capacity(batch.len());
     for req in batch.iter() {
         let Some(policy_len) = read_u32_le(payload, &mut offset) else {
@@ -2612,7 +2610,6 @@ mod tests {
         // Test that multiple threads can submit requests concurrently
         // and all receive results.
         use std::thread;
-
         let (request_tx, request_rx) = channel::bounded::<BatchRequest<TestMove>>(16);
 
         // Spawn a mock collector that returns uniform results
@@ -2763,6 +2760,37 @@ mod tests {
         assert!((r2.policy[0].1 - 0.3).abs() < 1e-6);
         assert!((r2.policy[1].1 - 0.7).abs() < 1e-6);
         assert!((r2.value + 0.5).abs() < 1e-6);
+    }
+
+    #[test]
+    fn test_distribute_binary_batch_falls_back_uniform_on_truncated_payload() {
+        let (tx1, rx1) = channel::bounded(1);
+        let (tx2, rx2) = channel::bounded(1);
+        let req1 = make_request(&[(0, 0), (4, 4)], tx1);
+        let req2 = make_request(&[(3, 3), (8, 8)], tx2);
+        let batch = vec![req1, req2];
+
+        let mut payload = pack_qipc_batch_eval_resp_for_test(&[
+            (&[0.6, 0.0, 0.0, 0.0, 0.4, 0.0, 0.0, 0.0, 0.0], 0.25f32),
+            (&[0.0, 0.0, 0.0, 0.3, 0.0, 0.0, 0.0, 0.0, 0.7], -0.5f32),
+        ]);
+        payload.pop();
+
+        distribute_binary_batch(&payload, &batch);
+
+        let r1 = rx1.recv().unwrap();
+        assert_eq!(r1.policy.len(), 2);
+        for (_, p) in &r1.policy {
+            assert!((p - 0.5).abs() < 1e-6);
+        }
+        assert_eq!(r1.value, 0.0);
+
+        let r2 = rx2.recv().unwrap();
+        assert_eq!(r2.policy.len(), 2);
+        for (_, p) in &r2.policy {
+            assert!((p - 0.5).abs() < 1e-6);
+        }
+        assert_eq!(r2.value, 0.0);
     }
 
     #[test]

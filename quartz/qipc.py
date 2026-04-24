@@ -31,6 +31,8 @@ QIPC_EVAL_REQ_SHM = 5
 QIPC_EVAL_RESP_SHM = 6
 QIPC_BATCH_EVAL_REQ_SHM = 7
 QIPC_BATCH_EVAL_RESP_SHM = 8
+QIPC_ARENA_EVAL_RESP = 9
+QIPC_ARENA_EVAL_REQ = 10
 QIPC_SHM_LEN = struct.Struct("<I")
 QIPC_SHM_DEFAULT_BYTES = 8 * 1024 * 1024
 
@@ -303,7 +305,9 @@ def launch_rust_server(
             env["QUARTZ_QIPC_REQ_SHM_SIZE"] = str(transport.size)
             env["QUARTZ_QIPC_RESP_SHM_SIZE"] = str(transport.size)
             try:
-                ring_buffer = shm_ring_buffer_cls.create(r2p_slots=2, p2r_slots=2)
+                r2p_slots = max(2, int(env.get("QUARTZ_QIPC_RING_R2P_SLOTS", "8") or "8"))
+                p2r_slots = max(2, int(env.get("QUARTZ_QIPC_RING_P2R_SLOTS", "8") or "8"))
+                ring_buffer = shm_ring_buffer_cls.create(r2p_slots=r2p_slots, p2r_slots=p2r_slots)
                 env["QUARTZ_QIPC_RING_SHM_NAME"] = ring_buffer.name
                 env["QUARTZ_QIPC_RING_SHM_SIZE"] = str(ring_buffer.size)
                 register_ring_buffer_fn(ring_buffer)
@@ -452,6 +456,7 @@ SHM_MSG_EVAL_BATCH_REQ = 1
 SHM_MSG_EVAL_BATCH_RESP = 2
 SHM_MSG_JSON = 3
 SHM_MSG_SEARCH_RESP = 4
+SHM_MSG_ARENA_EVAL_RESP = 5
 
 SHM_DIR_TO_PYTHON = 0
 SHM_DIR_TO_RUST = 1
@@ -465,6 +470,9 @@ class ShmRingBuffer:
     slot_data_size: int
     r2p_base: int
     p2r_base: int
+
+    def __post_init__(self):
+        self._buf = self._shm.buf
 
     @classmethod
     def create(cls, r2p_slots=2, p2r_slots=2, slot_data_size=None):
@@ -548,16 +556,16 @@ class ShmRingBuffer:
                 pass
 
     def _atomic_load_u8(self, offset):
-        return ctypes.c_uint8.from_buffer(self._shm.buf, offset).value
+        return self._buf[offset]
 
     def _atomic_store_u8(self, offset, val):
-        ctypes.c_uint8.from_buffer(self._shm.buf, offset).value = val
+        self._buf[offset] = int(val) & 0xFF
 
     def _atomic_load_u32(self, offset):
-        return ctypes.c_uint32.from_buffer(self._shm.buf, offset).value
+        return struct.unpack_from("<I", self._buf, offset)[0]
 
     def _atomic_store_u32(self, offset, val):
-        ctypes.c_uint32.from_buffer(self._shm.buf, offset).value = val
+        struct.pack_into("<I", self._buf, offset, int(val))
 
     def epoch(self):
         return self._atomic_load_u32(20)
@@ -587,20 +595,22 @@ class ShmRingBuffer:
         off = self._r2p_slot_offset(slot_idx)
         if self.slot_state(off) != SHM_SLOT_WRITTEN:
             return None
-        msg_type = self._shm.buf[off + 1]
-        payload_len = struct.unpack_from("<I", self._shm.buf, off + 4)[0]
-        payload = bytes(self._shm.buf[off + SHM_RING_SLOT_HEADER: off + SHM_RING_SLOT_HEADER + payload_len])
+        buf = self._buf
+        msg_type = buf[off + 1]
+        payload_len = struct.unpack_from("<I", buf, off + 4)[0]
+        payload = bytes(buf[off + SHM_RING_SLOT_HEADER: off + SHM_RING_SLOT_HEADER + payload_len])
         return msg_type, payload
 
     def r2p_try_read_meta(self, slot_idx):
         off = self._r2p_slot_offset(slot_idx)
         if self.slot_state(off) != SHM_SLOT_WRITTEN:
             return None
-        msg_type = self._shm.buf[off + 1]
-        payload_len = struct.unpack_from("<I", self._shm.buf, off + 4)[0]
-        epoch = struct.unpack_from("<I", self._shm.buf, off + 8)[0]
-        seq = struct.unpack_from("<I", self._shm.buf, off + 12)[0]
-        payload = bytes(self._shm.buf[off + SHM_RING_SLOT_HEADER: off + SHM_RING_SLOT_HEADER + payload_len])
+        buf = self._buf
+        msg_type = buf[off + 1]
+        payload_len = struct.unpack_from("<I", buf, off + 4)[0]
+        epoch = struct.unpack_from("<I", buf, off + 8)[0]
+        seq = struct.unpack_from("<I", buf, off + 12)[0]
+        payload = bytes(buf[off + SHM_RING_SLOT_HEADER: off + SHM_RING_SLOT_HEADER + payload_len])
         return msg_type, epoch, seq, payload
 
     def r2p_mark_done(self, slot_idx):
@@ -611,11 +621,12 @@ class ShmRingBuffer:
         off = self._p2r_slot_offset(slot_idx)
         if len(payload) > self.slot_data_size - SHM_RING_SLOT_HEADER:
             return False
-        self._shm.buf[off + 1] = msg_type
-        self._shm.buf[off + 2] = SHM_DIR_TO_RUST
-        self._shm.buf[off + 3] = 0
-        struct.pack_into("<III", self._shm.buf, off + 4, len(payload), epoch, seq)
-        self._shm.buf[off + SHM_RING_SLOT_HEADER: off + SHM_RING_SLOT_HEADER + len(payload)] = payload
+        buf = self._buf
+        buf[off + 1] = msg_type
+        buf[off + 2] = SHM_DIR_TO_RUST
+        buf[off + 3] = 0
+        struct.pack_into("<III", buf, off + 4, len(payload), epoch, seq)
+        buf[off + SHM_RING_SLOT_HEADER: off + SHM_RING_SLOT_HEADER + len(payload)] = payload
         self.set_slot_state(off, SHM_SLOT_WRITTEN)
         return True
 
@@ -734,6 +745,14 @@ def pack_qipc_batch_eval_resp(policies, values):
 _SEARCH_RESP_SINGLE = 1
 _SEARCH_RESP_MULTI = 2
 _SEARCH_RESP_SESSION = 3
+_ARENA_EVAL_RESP_VERSION = 1
+_ARENA_OUTCOME_DRAW = 0
+_ARENA_OUTCOME_BLACK_WIN = 1
+_ARENA_OUTCOME_WHITE_WIN = 2
+_ARENA_EVAL_REQ_VERSION = 2
+_ARENA_STATE_BOARD = 0
+_ARENA_STATE_GO = 1
+_ARENA_STATE_CHESS = 2
 
 
 def _unpack_search_string(payload, offset):
@@ -746,6 +765,28 @@ def _unpack_search_string(payload, offset):
     raw = payload[offset: offset + byte_len]
     offset += byte_len
     return raw.decode("utf-8"), offset
+
+
+def _try_unpack_optional_search_string(payload, offset):
+    if offset >= len(payload):
+        return "", offset, False
+    if offset + 4 > len(payload):
+        return "", offset, False
+    (byte_len,) = struct.unpack_from("<I", payload, offset)
+    if offset + 4 + byte_len > len(payload):
+        return "", offset, False
+    value, new_offset = _unpack_search_string(payload, offset)
+    return value, new_offset, True
+
+
+def _decode_search_json_string(raw):
+    if not raw:
+        return {}
+    try:
+        value = json.loads(raw)
+    except Exception:
+        return {}
+    return value if isinstance(value, dict) else {}
 
 
 def unpack_shm_search_response(payload):
@@ -799,6 +840,16 @@ def unpack_shm_search_response(payload):
         stop_reason, offset = _unpack_search_string(payload, offset)
         best_move_uci, offset = _unpack_search_string(payload, offset)
         result_fen, offset = _unpack_search_string(payload, offset)
+        search_manifest_raw, offset, has_search_manifest = _try_unpack_optional_search_string(payload, offset)
+        if has_search_manifest:
+            realized_budget_raw, offset, has_realized_budget = _try_unpack_optional_search_string(payload, offset)
+            if has_realized_budget:
+                controller_summary_raw, offset, _ = _try_unpack_optional_search_string(payload, offset)
+            else:
+                controller_summary_raw = ""
+        else:
+            realized_budget_raw = ""
+            controller_summary_raw = ""
         results.append({
             "best_move": int(best_move),
             "policy": policy,
@@ -814,6 +865,9 @@ def unpack_shm_search_response(payload):
             "best_move_uci": best_move_uci,
             "result_fen": result_fen,
             "result_history_hashes": history_hashes,
+            "search_manifest": _decode_search_json_string(search_manifest_raw),
+            "realized_budget": _decode_search_json_string(realized_budget_raw),
+            "controller_summary": _decode_search_json_string(controller_summary_raw),
         })
     if offset != len(payload):
         raise ValueError("search response trailing bytes")
@@ -826,11 +880,198 @@ def unpack_shm_search_response(payload):
     raise ValueError(f"unknown search response wrapper kind: {wrapper_kind}")
 
 
+def unpack_qipc_arena_eval_resp(payload):
+    if len(payload) < 14:
+        raise ValueError("short arena eval response payload")
+    version = payload[0]
+    if version != _ARENA_EVAL_RESP_VERSION:
+        raise ValueError(f"unsupported arena eval response version: {version}")
+    valid_eval = bool(payload[1])
+    completed_games, duration_ms = struct.unpack_from("<Id", payload, 2)
+    offset = 2 + struct.calcsize("<Id")
+    game, offset = _unpack_search_string(payload, offset)
+    if offset + 4 > len(payload):
+        raise ValueError("truncated arena eval record count")
+    (record_count,) = struct.unpack_from("<I", payload, offset)
+    offset += 4
+    records = []
+    for _ in range(record_count):
+        game_id, offset = _unpack_search_string(payload, offset)
+        if offset + 26 > len(payload):
+            raise ValueError("truncated arena eval record scalars")
+        black_tag, white_tag = struct.unpack_from("<II", payload, offset)
+        offset += 8
+        outcome_code = payload[offset]
+        is_void = bool(payload[offset + 1])
+        offset += 2
+        score_black = struct.unpack_from("<f", payload, offset)[0]
+        offset += 4
+        (move_count,) = struct.unpack_from("<I", payload, offset)
+        offset += 4
+        (total_time_ms,) = struct.unpack_from("<d", payload, offset)
+        offset += 8
+        (seed_raw,) = struct.unpack_from("<Q", payload, offset)
+        offset += 8
+        if offset + 4 > len(payload):
+            raise ValueError("truncated arena eval opening length")
+        (opening_len,) = struct.unpack_from("<I", payload, offset)
+        offset += 4
+        opening = []
+        for _ in range(opening_len):
+            if offset + 4 > len(payload):
+                raise ValueError("truncated arena eval opening entry")
+            (move_idx,) = struct.unpack_from("<I", payload, offset)
+            offset += 4
+            opening.append(int(move_idx))
+        error, offset = _unpack_search_string(payload, offset)
+        if outcome_code == _ARENA_OUTCOME_BLACK_WIN:
+            outcome = "black_win"
+        elif outcome_code == _ARENA_OUTCOME_WHITE_WIN:
+            outcome = "white_win"
+        else:
+            outcome = "draw"
+        records.append(
+            {
+                "game_id": game_id,
+                "black_tag": int(black_tag),
+                "white_tag": int(white_tag),
+                "outcome": outcome,
+                "score_black": None if np.isnan(score_black) else float(score_black),
+                "move_count": int(move_count),
+                "total_time_ms": float(total_time_ms),
+                "opening": opening,
+                "seed": None if seed_raw == 0xFFFFFFFFFFFFFFFF else int(seed_raw),
+                "error": error or None,
+                "is_void": bool(is_void),
+            }
+        )
+    if offset != len(payload):
+        raise ValueError("arena eval response trailing bytes")
+    return {
+        "valid_eval": valid_eval,
+        "game": game,
+        "records": records,
+        "completed_games": int(completed_games),
+        "duration_ms": float(duration_ms),
+    }
+
+
+def pack_qipc_arena_eval_req(game, search_options, sessions, *, iters, max_moves):
+    payload = bytearray()
+    payload.extend(struct.pack("<B", _ARENA_EVAL_REQ_VERSION))
+    game_b = str(game).encode("utf-8")
+    payload.extend(struct.pack("<I", len(game_b)))
+    payload.extend(game_b)
+    options = dict(search_options or {})
+
+    def _pack_opt_str(value):
+        raw = str(value or "").encode("utf-8")
+        payload.extend(struct.pack("<I", len(raw)))
+        payload.extend(raw)
+
+    def _pack_opt_bool(name):
+        if name not in options:
+            payload.extend(struct.pack("<b", -1))
+        else:
+            payload.extend(struct.pack("<b", 1 if bool(options.get(name)) else 0))
+
+    def _pack_opt_u64(name):
+        if name not in options or options.get(name) is None:
+            payload.extend(struct.pack("<B", 0))
+            payload.extend(struct.pack("<Q", 0))
+        else:
+            payload.extend(struct.pack("<B", 1))
+            payload.extend(struct.pack("<Q", int(options.get(name) or 0)))
+
+    _pack_opt_str(options.get("search_profile", "quartz"))
+    _pack_opt_str(options.get("penalty_mode", "GatedRefresh"))
+    _pack_opt_str(options.get("vl_mode", ""))
+    payload.extend(
+        struct.pack(
+            "<IIIffIIfff",
+            int(options.get("n_threads", 1) or 1),
+            int(options.get("batch_size", 8) or 8),
+            int(options.get("batch_timeout_us", 1500) or 1500),
+            float(options.get("hbar_penalty_cap", 0.3) or 0.3),
+            float(options.get("sigma_0", 0.3) or 0.3),
+            int(options.get("min_visits", 50) or 50),
+            int(options.get("check_interval", 100) or 100),
+            float(options.get("prior_refresh_rate", 0.0) or 0.0),
+            float(options.get("prior_refresh_temp", 1.0) or 1.0),
+            float(options.get("c_puct", 0.0) or 0.0),
+        )
+    )
+    _pack_opt_bool("root_only_shaping")
+    _pack_opt_bool("tt_enabled")
+    _pack_opt_u64("seed")
+    payload.extend(struct.pack("<II", int(iters), int(max_moves)))
+    payload.extend(struct.pack("<I", len(sessions or [])))
+    for sess in sessions or []:
+        game_id_b = str(sess.get("game_id", "g0000")).encode("utf-8")
+        payload.extend(struct.pack("<I", len(game_id_b)))
+        payload.extend(game_id_b)
+        payload.extend(
+            struct.pack(
+                "<IIQIdB",
+                int(sess.get("black_tag", 0) or 0),
+                int(sess["white_tag"]) if "white_tag" in sess and sess.get("white_tag") is not None else 1,
+                int(sess.get("seed", 0xFFFFFFFFFFFFFFFF) if sess.get("seed") is not None else 0xFFFFFFFFFFFFFFFF),
+                int(sess.get("ply", 0) or 0),
+                float(sess.get("total_time_ms", 0.0) or 0.0),
+                1 if bool(sess.get("done", False)) else 0,
+            )
+        )
+        opening = list(sess.get("opening") or [])
+        payload.extend(struct.pack("<I", len(opening)))
+        for mv in opening:
+            payload.extend(struct.pack("<I", int(mv)))
+        if "fen" in sess:
+            payload.extend(struct.pack("<B", _ARENA_STATE_CHESS))
+            fen_b = str(sess.get("fen", "")).encode("utf-8")
+            payload.extend(struct.pack("<I", len(fen_b)))
+            payload.extend(fen_b)
+            hashes = list(sess.get("chess_history_hashes") or [])
+            payload.extend(struct.pack("<I", len(hashes)))
+            for value in hashes:
+                payload.extend(struct.pack("<Q", int(value)))
+        else:
+            board = list(sess.get("board") or [])
+            player = int(sess.get("player", 1) or 1)
+            if any(key in sess for key in ("go_ruleset", "go_scoring", "go_komi", "go_allow_suicide", "passes", "ko_point", "black_caps", "white_caps")):
+                payload.extend(struct.pack("<B", _ARENA_STATE_GO))
+                payload.extend(struct.pack("<iI", player, len(board)))
+                payload.extend(bytes(int(v) & 0xFF for v in board))
+                ruleset_b = str(sess.get("go_ruleset", "")).encode("utf-8")
+                scoring_b = str(sess.get("go_scoring", "")).encode("utf-8")
+                payload.extend(struct.pack("<I", len(ruleset_b)))
+                payload.extend(ruleset_b)
+                payload.extend(struct.pack("<I", len(scoring_b)))
+                payload.extend(scoring_b)
+                payload.extend(
+                    struct.pack(
+                        "<fBIIII",
+                        float(sess.get("go_komi", 7.5) or 7.5),
+                        1 if bool(sess.get("go_allow_suicide", False)) else 0,
+                        int(sess.get("passes", 0) or 0),
+                        int(sess.get("ko_point", -1) if sess.get("ko_point") is not None else 0xFFFFFFFF),
+                        int(sess.get("black_caps", 0) or 0),
+                        int(sess.get("white_caps", 0) or 0),
+                    )
+                )
+            else:
+                payload.extend(struct.pack("<B", _ARENA_STATE_BOARD))
+                payload.extend(struct.pack("<iI", player, len(board)))
+                payload.extend(struct.pack(f"<{len(board)}b", *[int(v) for v in board]) if board else b"")
+    return bytes(payload)
+
+
 __all__ = [
     "QIPC_BATCH_EVAL_REQ",
     "QIPC_BATCH_EVAL_REQ_SHM",
     "QIPC_BATCH_EVAL_RESP",
     "QIPC_BATCH_EVAL_RESP_SHM",
+    "QIPC_ARENA_EVAL_RESP",
+    "QIPC_ARENA_EVAL_REQ",
     "QIPC_EVAL_REQ",
     "QIPC_EVAL_REQ_SHM",
     "QIPC_EVAL_RESP",
@@ -844,6 +1085,7 @@ __all__ = [
     "SHM_DIR_TO_RUST",
     "SHM_MSG_EVAL_BATCH_REQ",
     "SHM_MSG_EVAL_BATCH_RESP",
+    "SHM_MSG_ARENA_EVAL_RESP",
     "SHM_MSG_JSON",
     "SHM_MSG_SEARCH_RESP",
     "SHM_RING_DEFAULT_SIZE",
@@ -857,9 +1099,11 @@ __all__ = [
     "ShmRingBuffer",
     "cleanup_all_shm",
     "pack_qipc_batch_eval_resp",
+    "pack_qipc_arena_eval_req",
     "pack_qipc_eval_resp",
     "register_ring_buffer",
     "unpack_qipc_batch_eval_req",
+    "unpack_qipc_arena_eval_resp",
     "unpack_qipc_eval_req",
     "unpack_shm_search_response",
     "unregister_ring_buffer",

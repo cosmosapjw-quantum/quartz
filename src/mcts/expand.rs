@@ -102,9 +102,11 @@ pub fn materialize_edges<G: GameState>(
         return;
     }
 
-    let lock_started = std::time::Instant::now();
+    let lock_started = crate::mcts::profiling::maybe_start_timer();
     let mut guard = node.edges.write().unwrap();
-    crate::mcts::node::record_edges_lock_wait(lock_started.elapsed().as_nanos() as u64);
+    if let Some(t0) = lock_started {
+        crate::mcts::node::record_edges_lock_wait(t0.elapsed().as_nanos() as u64);
+    }
     // double-check inside lock
     let current = node.edge_cursor.load(Ordering::Relaxed) as usize;
     if current < actual {
@@ -120,8 +122,6 @@ pub fn materialize_edges<G: GameState>(
                 None
             };
             let child = tt.get_or_create(child_hash, tv);
-            // §5.3 GVOC: child.parent = node (weak ptr)
-            child.set_parent(node);
             guard.push(MctsEdge::new(mv, child, prior));
         }
         node.edge_cursor.store(actual as u32, Ordering::Release);

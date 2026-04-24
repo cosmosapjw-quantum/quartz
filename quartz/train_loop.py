@@ -151,9 +151,11 @@ def generate_training_plots(log_path, output_dir):
     ax.set_ylabel("Loss")
     ax.set_title("Training Loss")
     ax.grid(True, alpha=0.25)
-    if iters:
+    if iters and min(iters) != max(iters):
         ax.set_xlim(min(iters), max(iters))
-    ax.legend()
+    handles, labels = ax.get_legend_handles_labels()
+    if any(label and not label.startswith("_") for label in labels):
+        ax.legend()
     fig.tight_layout()
     fig.savefig(os.path.join(output_dir, "training_loss.png"), dpi=140)
     plt.close(fig)

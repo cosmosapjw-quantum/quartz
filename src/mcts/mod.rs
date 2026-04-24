@@ -7,6 +7,7 @@ pub mod gvoc;
 pub mod mod_types;
 pub mod node;
 pub mod parallel;
+pub mod profiling;
 pub mod quartz;
 pub mod rng;
 pub mod root;
@@ -20,15 +21,13 @@ pub use quartz::{
 };
 
 use std::sync::atomic::{AtomicU64, Ordering};
-use std::sync::Arc;
+use std::sync::{Arc, RwLock};
 use std::time::Instant;
 
 use crate::game::{Evaluator, GameState};
 use crate::mcts::backup::backprop;
 use crate::mcts::expand::{expand_and_evaluate, expand_with_result};
 use crate::mcts::gvoc::{routing_mode, GvocConfig, GvocState, ProposalMode};
-#[cfg(test)]
-use crate::mcts::node::atomic_f64_load;
 use crate::mcts::node::MctsNode;
 use crate::mcts::root::{
     compute_dirichlet_noise, select_move_with_temperature, visit_distribution, DirichletConfig,
@@ -193,7 +192,7 @@ pub struct MctsEngine<G: GameState> {
     pub config: MctsConfig,
     root_noise: Option<Vec<f32>>,
     /// 현재 QUARTZ 통계 (EFT-PUCT에 사용)
-    pub(crate) quartz_cache: std::sync::RwLock<Option<QuartzStats>>,
+    pub(crate) quartz_cache: RwLock<Option<QuartzStats>>,
     /// Parallelism controller (adaptive VL, telemetry)
     pub par_ctrl: parallel::ParallelismController,
 }
@@ -245,7 +244,7 @@ impl<G: GameState> MctsEngine<G> {
             par_ctrl: parallel::ParallelismController::new(config.vl_mode, 1),
             config,
             root_noise: None,
-            quartz_cache: std::sync::RwLock::new(None),
+            quartz_cache: RwLock::new(None),
         };
         engine.expand_root();
         engine
@@ -262,11 +261,12 @@ impl<G: GameState> MctsEngine<G> {
             );
         }
         if let Some(dir) = &self.config.dirichlet {
-            let edges = self.root.edge_snapshot(self.root.materialized_count());
-            if !edges.is_empty() {
-                let priors: Vec<f32> = edges.iter().map(|e| e.p).collect();
+            let priors = self
+                .root
+                .edge_priors_snapshot(self.root.materialized_count());
+            if !priors.is_empty() {
                 self.root_noise = Some(compute_dirichlet_noise(
-                    edges.len(),
+                    priors.len(),
                     &priors,
                     dir,
                     self.config.seed,
@@ -316,26 +316,29 @@ impl<G: GameState> MctsEngine<G> {
             .map(|s| s.hbar_eff * self.config.quartz.as_ref().map_or(0.3, |q| q.sigma_0))
             .unwrap_or(0.3);
         // Root visit entropy
-        let edges = self.root.edge_snapshot(self.root.materialized_count());
-        let total: f32 = edges
-            .iter()
-            .map(|e| e.n.load(Ordering::Relaxed) as f32)
-            .sum();
-        let root_entropy = if total > 1.0 {
-            edges
-                .iter()
-                .map(|e| {
-                    let p = e.n.load(Ordering::Relaxed) as f32 / total;
-                    if p > 1e-8 {
-                        -p * p.ln()
-                    } else {
-                        0.0
-                    }
-                })
-                .sum::<f32>()
-        } else {
-            1.0
-        };
+        let root_entropy = self
+            .root
+            .with_edge_slice(self.root.materialized_count(), |edges| {
+                let total: f32 = edges
+                    .iter()
+                    .map(|e| e.n.load(Ordering::Acquire) as f32)
+                    .sum();
+                if total > 1.0 {
+                    edges
+                        .iter()
+                        .map(|e| {
+                            let p = e.n.load(Ordering::Acquire) as f32 / total;
+                            if p > 1e-8 {
+                                -p * p.ln()
+                            } else {
+                                0.0
+                            }
+                        })
+                        .sum::<f32>()
+                } else {
+                    1.0
+                }
+            });
         self.par_ctrl.update_from_search(sigma_q, root_entropy);
     }
 
@@ -352,7 +355,7 @@ impl<G: GameState> MctsEngine<G> {
             None
         };
 
-        let select_started = Instant::now();
+        let select_started = profiling::maybe_start_timer();
         let sel = select(
             &self.root,
             &self.root_state,
@@ -366,12 +369,9 @@ impl<G: GameState> MctsEngine<G> {
             self.config.fpu_reduction,
             &self.par_ctrl,
         );
-        SELECT_TIME_NANOS.fetch_add(
-            select_started.elapsed().as_nanos() as u64,
-            Ordering::Relaxed,
-        );
+        profiling::record_elapsed_nanos(&SELECT_TIME_NANOS, select_started);
 
-        let expand_started = Instant::now();
+        let expand_started = profiling::maybe_start_timer();
         let leaf_value = if self
             .config
             .max_tt_size
@@ -387,17 +387,11 @@ impl<G: GameState> MctsEngine<G> {
         } else {
             sel.leaf.terminal_value.unwrap_or(0.0)
         };
-        EXPAND_EVAL_TIME_NANOS.fetch_add(
-            expand_started.elapsed().as_nanos() as u64,
-            Ordering::Relaxed,
-        );
+        profiling::record_elapsed_nanos(&EXPAND_EVAL_TIME_NANOS, expand_started);
 
-        let backprop_started = Instant::now();
+        let backprop_started = profiling::maybe_start_timer();
         backprop::<G>(&sel.path, leaf_value);
-        BACKPROP_TIME_NANOS.fetch_add(
-            backprop_started.elapsed().as_nanos() as u64,
-            Ordering::Relaxed,
-        );
+        profiling::record_elapsed_nanos(&BACKPROP_TIME_NANOS, backprop_started);
     }
 
     pub fn prepare_iteration_async(&self) -> PreparedIteration<G> {
@@ -412,7 +406,7 @@ impl<G: GameState> MctsEngine<G> {
             None
         };
 
-        let select_started = Instant::now();
+        let select_started = profiling::maybe_start_timer();
         let sel: SelectResult<G> = select(
             &self.root,
             &self.root_state,
@@ -426,10 +420,7 @@ impl<G: GameState> MctsEngine<G> {
             self.config.fpu_reduction,
             &self.par_ctrl,
         );
-        SELECT_TIME_NANOS.fetch_add(
-            select_started.elapsed().as_nanos() as u64,
-            Ordering::Relaxed,
-        );
+        profiling::record_elapsed_nanos(&SELECT_TIME_NANOS, select_started);
 
         if !self
             .config
@@ -463,12 +454,9 @@ impl<G: GameState> MctsEngine<G> {
         path: Vec<crate::mcts::node::PathEdge<G::Move>>,
         leaf_value: f32,
     ) {
-        let backprop_started = Instant::now();
+        let backprop_started = profiling::maybe_start_timer();
         backprop::<G>(&path, leaf_value);
-        BACKPROP_TIME_NANOS.fetch_add(
-            backprop_started.elapsed().as_nanos() as u64,
-            Ordering::Relaxed,
-        );
+        profiling::record_elapsed_nanos(&BACKPROP_TIME_NANOS, backprop_started);
     }
 
     pub fn complete_iteration_async(
@@ -476,7 +464,7 @@ impl<G: GameState> MctsEngine<G> {
         pending: AsyncPendingIteration<G>,
         eval: crate::game::EvalResult<G::Move>,
     ) {
-        let expand_started = Instant::now();
+        let expand_started = profiling::maybe_start_timer();
         let leaf_value = expand_with_result(
             &pending.leaf,
             &pending.leaf_state,
@@ -484,10 +472,7 @@ impl<G: GameState> MctsEngine<G> {
             &self.tt,
             self.config.pw.as_ref(),
         );
-        EXPAND_EVAL_TIME_NANOS.fetch_add(
-            expand_started.elapsed().as_nanos() as u64,
-            Ordering::Relaxed,
-        );
+        profiling::record_elapsed_nanos(&EXPAND_EVAL_TIME_NANOS, expand_started);
         self.apply_iteration_value_async(pending.path, leaf_value);
     }
 
@@ -875,8 +860,7 @@ impl<G: GameState> MctsEngine<G> {
     /// Extract edge priors from root node for QuartzStats computation.
     pub fn root_priors(&self) -> Vec<f32> {
         let n = self.root.materialized_count();
-        let edges = self.root.edge_snapshot(n);
-        edges.iter().map(|e| e.p).collect()
+        self.root.edge_priors_snapshot(n)
     }
 
     /// Advance root to the child matching `chosen_move`, reusing the subtree.
@@ -954,26 +938,30 @@ impl<G: GameState> MctsEngine<G> {
 
     #[cfg(test)]
     pub fn root_entropy(&self) -> f32 {
-        let edges = self.root.edge_snapshot(self.root.materialized_count());
-        let counts = edges
-            .iter()
-            .map(|e| e.n.load(Ordering::Acquire))
-            .collect::<Vec<_>>();
-        root_entropy(&counts)
+        self.root
+            .with_edge_slice(self.root.materialized_count(), |edges| {
+                let counts = edges
+                    .iter()
+                    .map(|e| e.n.load(Ordering::Acquire))
+                    .collect::<Vec<_>>();
+                root_entropy(&counts)
+            })
     }
 
     #[cfg(test)]
     pub fn root_value(&self) -> f32 {
-        let edges = self.root.edge_snapshot(self.root.materialized_count());
         let total = self.root.n_total.load(Ordering::Acquire);
         if total == 0 {
             return 0.0;
         }
-        edges
-            .iter()
-            .map(|e| e.n.load(Ordering::Acquire) as f32 * e.q())
-            .sum::<f32>()
-            / total as f32
+        self.root
+            .with_edge_slice(self.root.materialized_count(), |edges| {
+                edges
+                    .iter()
+                    .map(|e| e.n.load(Ordering::Acquire) as f32 * e.q())
+                    .sum::<f32>()
+                    / total as f32
+            })
     }
 
     pub fn pw_stats(&self) -> (usize, usize) {
@@ -1021,15 +1009,7 @@ impl<G: GameState> MctsEngine<G> {
             println!("{}", "-".repeat(44));
             let mut data: Vec<_> = edges
                 .iter()
-                .map(|e| {
-                    (
-                        e.mv,
-                        e.n.load(Ordering::Acquire),
-                        atomic_f64_load(&e.w),
-                        e.q(),
-                        e.p,
-                    )
-                })
+                .map(|e| (e.mv, e.n, e.w, e.q(), e.p))
                 .collect();
             data.sort_by(|a, b| b.1.cmp(&a.1));
             for (mv, n, w, q, p) in data.iter().take(9) {
@@ -1347,6 +1327,102 @@ mod tests {
 
         assert_eq!(opt_stats.root_visits, ref_stats.root_visits);
         assert_eq!(opt_engine.best_move(), ref_engine.best_move());
+    }
+
+    #[test]
+    fn test_root_priors_matches_edge_snapshot_priors() {
+        let state = Gomoku::new(7);
+        let eval: Arc<dyn Evaluator<Gomoku>> = Arc::new(UniformEval);
+        let mut cfg = MctsConfig::evaluation(2.0);
+        cfg.pw = Some(PwConfig::new(1.0, 0.0));
+        let engine = MctsEngine::new(state, eval, cfg);
+
+        let n = engine.root.materialized_count();
+        let from_root_priors = engine.root_priors();
+        let from_edges: Vec<f32> = engine.root.edge_snapshot(n).iter().map(|e| e.p).collect();
+
+        assert_eq!(from_root_priors, from_edges);
+    }
+
+    #[test]
+    fn test_visit_distribution_matches_edge_snapshot_reference() {
+        let state = Gomoku::new(7);
+        let eval: Arc<dyn Evaluator<Gomoku>> = Arc::new(UniformEval);
+        let engine = MctsEngine::new(state, eval, MctsConfig::evaluation(2.0));
+        let mut ctrl = crate::mcts::search::FixedIterations::new(32);
+        let _ = engine.run(&mut ctrl);
+
+        let from_api = visit_distribution(&engine.root, 1.0);
+        let from_edges = {
+            let edges = engine.root.edge_snapshot(engine.root.materialized_count());
+            let counts: Vec<f64> = edges
+                .iter()
+                .map(|e| e.n as f64)
+                .collect();
+            let total: f64 = counts.iter().sum();
+            edges
+                .iter()
+                .zip(counts.iter())
+                .map(|(e, &c)| (e.mv, (c / total) as f32))
+                .collect::<Vec<_>>()
+        };
+
+        assert_eq!(from_api, from_edges);
+    }
+
+    #[test]
+    fn test_greedy_root_selection_matches_edge_snapshot_reference() {
+        let state = Gomoku::new(7);
+        let eval: Arc<dyn Evaluator<Gomoku>> = Arc::new(UniformEval);
+        let engine = MctsEngine::new(state, eval, MctsConfig::evaluation(2.0));
+        let mut ctrl = crate::mcts::search::FixedIterations::new(32);
+        let _ = engine.run(&mut ctrl);
+
+        let from_api = select_move_with_temperature(&engine.root, 0.0, Some(7));
+        let from_edges = engine
+            .root
+            .edge_snapshot(engine.root.materialized_count())
+            .iter()
+            .max_by_key(|e| e.n)
+            .map(|e| e.mv);
+
+        assert_eq!(from_api, from_edges);
+    }
+
+    #[test]
+    fn test_materialize_edges_concurrent_preserves_order_and_uniqueness() {
+        let state = Gomoku::new(7);
+        let eval: Arc<dyn Evaluator<Gomoku>> = Arc::new(UniformEval);
+        let mut cfg = MctsConfig::evaluation(2.0);
+        cfg.pw = Some(PwConfig::new(1.0, 0.0));
+        let engine = MctsEngine::new(state.clone(), eval, cfg);
+
+        let target = engine.root.candidate_count();
+        let expected: Vec<(usize, f32)> = engine.root.candidates.get().unwrap()[..target]
+            .iter()
+            .copied()
+            .collect();
+
+        std::thread::scope(|scope| {
+            for _ in 0..4 {
+                let root = engine.root.clone();
+                let root_state = state.clone();
+                let tt = engine.tt.clone();
+                scope.spawn(move || {
+                    crate::mcts::expand::materialize_edges(&root, &root_state, target, &tt)
+                });
+            }
+        });
+
+        let edges = engine.root.edge_snapshot(target);
+        assert_eq!(edges.len(), target);
+
+        let actual: Vec<(usize, f32)> = edges.iter().map(|e| (e.mv, e.p)).collect();
+        assert_eq!(actual, expected);
+
+        let unique_moves: std::collections::HashSet<_> = edges.iter().map(|e| e.mv).collect();
+        assert_eq!(unique_moves.len(), target);
+        assert_eq!(engine.root.materialized_count(), target);
     }
 
     fn solve_ttt(state: &TicTacToe, memo: &mut HashMap<u64, f32>) -> f32 {

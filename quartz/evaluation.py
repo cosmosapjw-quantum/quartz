@@ -384,11 +384,23 @@ class GameRecord:
     moves: List[MoveRecord]=field(default_factory=list)
     opening: List[int]=field(default_factory=list)
     seed: Optional[int]=None; error: Optional[str]=None; is_void:bool=False
+    search_manifest_hash: Optional[str]=None
+    search_manifest_hash_black: Optional[str]=None
+    search_manifest_hash_white: Optional[str]=None
+    search_manifest_mismatch_reason: Optional[str]=None
     def to_jsonl(self):
         d={"game_id":self.game_id,"outcome":self.outcome,"score_black":self.score_black,
            "engines":[self.engine_black,self.engine_white],"moves":self.move_count,
            "time_ms":round(self.total_time_ms,1),"is_void":self.is_void}
         if self.error: d["error"]=self.error
+        if self.search_manifest_hash is not None:
+            d["search_manifest_hash"] = self.search_manifest_hash
+        if self.search_manifest_hash_black is not None:
+            d["search_manifest_hash_black"] = self.search_manifest_hash_black
+        if self.search_manifest_hash_white is not None:
+            d["search_manifest_hash_white"] = self.search_manifest_hash_white
+        if self.search_manifest_mismatch_reason is not None:
+            d["search_manifest_mismatch_reason"] = self.search_manifest_mismatch_reason
         return json.dumps(d,ensure_ascii=False)
 
 class MatchRunner:

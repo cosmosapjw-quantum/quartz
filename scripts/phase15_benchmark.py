@@ -54,6 +54,35 @@ def parse_args() -> argparse.Namespace:
     return parser.parse_args()
 
 
+def build_benchmark_contract_summary(
+    args: argparse.Namespace,
+    checkpoints: list[posthoc.CheckpointRef],
+    systems: list[posthoc.Phase15System],
+    budgets: list[int],
+    *,
+    positions_count: int,
+) -> dict[str, Any]:
+    contracts = posthoc.build_phase15_contracts(
+        execution_mode="benchmark_continuation_vs_restart",
+        game=args.game,
+        checkpoints=checkpoints,
+        systems=systems,
+        budgets=budgets,
+        trace_cache_salt_value=posthoc.trace_cache_salt(),
+        extra={
+            "positions_file": str(args.positions_file),
+            "positions_count": int(positions_count),
+            "seed": int(args.seed),
+            "repeats": int(args.repeats),
+            "warmup_rounds": int(args.warmup_rounds),
+            "min_bundle_speedup": float(args.min_bundle_speedup),
+            "min_tie_aware_match": float(args.min_tie_aware_match),
+            "max_kl_mean": float(args.max_kl_mean),
+        },
+    )
+    return posthoc.summarize_phase15_contracts(contracts)
+
+
 def percentiles(values: list[float]) -> dict[str, float]:
     if not values:
         return {"mean": 0.0, "median": 0.0, "p95": 0.0}
@@ -406,6 +435,13 @@ def main() -> None:
     for idx, row in enumerate(positions):
         row.setdefault("id", f"P{idx+1:04d}")
     budgets = posthoc.parse_csv_ints(args.budgets)
+    contract_summary = build_benchmark_contract_summary(
+        args,
+        checkpoints,
+        systems,
+        budgets,
+        positions_count=len(positions),
+    )
 
     benchmark_rows: list[dict[str, Any]] = []
     bundle_runs: list[dict[str, Any]] = []
@@ -568,6 +604,7 @@ def main() -> None:
     )
     payload = {
         "generated_at": time.strftime("%Y-%m-%d %H:%M:%S"),
+        "contract_summary": contract_summary,
         "game": args.game,
         "device": str(device),
         "rust_binary": args.rust_binary,

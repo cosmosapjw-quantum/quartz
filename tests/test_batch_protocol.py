@@ -8,6 +8,7 @@ import json
 import os
 import struct
 import numpy as np
+import pytest
 
 class MockModel:
     """Mock NN model that returns predictable outputs."""
@@ -250,6 +251,27 @@ def test_unpack_shm_search_response_parses_sparse_binary_payload():
         "BudgetExhausted",
         "e2e4",
         "rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR b KQkq e3 0 1",
+        json.dumps({
+            "profile": "baseline_strict",
+            "requested_iteration_limit": 400,
+            "n_threads": 1,
+            "evaluator_path": "batch_stdio",
+            "benchmark_safe": True,
+        }, separators=(",", ":")),
+        json.dumps({
+            "requested_iteration_limit": 400,
+            "realized_iterations": 321,
+            "stop_reason": "BudgetExhausted",
+        }, separators=(",", ":")),
+        json.dumps({
+            "p_flip": 0.25,
+            "value": -0.5,
+            "sigma_q": 0.125,
+            "hbar_eff": 0.75,
+            "dup_rate": 0.05,
+            "max_pending": 9,
+            "avg_vvalue": -0.125,
+        }, separators=(",", ":")),
     ):
         encoded = text.encode("utf-8")
         payload.extend(struct.pack("<I", len(encoded)))
@@ -265,6 +287,66 @@ def test_unpack_shm_search_response_parses_sparse_binary_payload():
     assert decoded["result"]["iterations"] == 321
     assert decoded["result"]["result_history_hashes"] == [101, 202]
     assert decoded["result"]["best_move_uci"] == "e2e4"
+    assert decoded["result"]["search_manifest"]["profile"] == "baseline_strict"
+    assert decoded["result"]["realized_budget"]["realized_iterations"] == 321
+    assert decoded["result"]["controller_summary"]["max_pending"] == 9
+
+
+def test_unpack_shm_search_response_accepts_legacy_payload_without_contract_fields():
+    from quartz import alphazero_train as az
+
+    payload = bytearray()
+    payload.extend(struct.pack("<BQI", 1, 0, 1))
+    payload.extend(struct.pack("<B", 0))
+    payload.extend(struct.pack("<III", 17, 321, 9))
+    payload.extend(struct.pack("<ffffff", 0.25, -0.5, 0.125, 0.75, 0.05, -0.125))
+    payload.extend(struct.pack("<I", 1))
+    payload.extend(struct.pack("<If", 3, 1.0))
+    payload.extend(struct.pack("<I", 0))
+    for text in (
+        "BudgetExhausted",
+        "",
+        "",
+    ):
+        encoded = text.encode("utf-8")
+        payload.extend(struct.pack("<I", len(encoded)))
+        payload.extend(encoded)
+
+    decoded = az.unpack_shm_search_response(bytes(payload))
+
+    assert decoded["result"]["best_move"] == 17
+    assert decoded["result"]["iterations"] == 321
+    assert decoded["result"]["search_manifest"] == {}
+    assert decoded["result"]["realized_budget"] == {}
+    assert decoded["result"]["controller_summary"] == {}
+
+
+def test_unpack_shm_search_response_accepts_legacy_session_payload_without_contract_fields():
+    from quartz import alphazero_train as az
+
+    payload = bytearray()
+    payload.extend(struct.pack("<BQI", 3, 7, 2))
+    for best_move in (17, 23):
+        payload.extend(struct.pack("<B", 0))
+        payload.extend(struct.pack("<III", best_move, 321, 9))
+        payload.extend(struct.pack("<ffffff", 0.25, -0.5, 0.125, 0.75, 0.05, -0.125))
+        payload.extend(struct.pack("<I", 1))
+        payload.extend(struct.pack("<If", 3, 1.0))
+        payload.extend(struct.pack("<I", 0))
+        for text in (
+            "BudgetExhausted",
+            "",
+            "",
+        ):
+            encoded = text.encode("utf-8")
+            payload.extend(struct.pack("<I", len(encoded)))
+            payload.extend(encoded)
+
+    decoded = az.unpack_shm_search_response(bytes(payload))
+
+    assert decoded["session_id"] == 7
+    assert [row["best_move"] for row in decoded["results"]] == [17, 23]
+    assert all(row["search_manifest"] == {} for row in decoded["results"])
 
 
 def test_unpack_qipc_eval_req_accepts_fingerprint_header():
@@ -306,6 +388,63 @@ def test_unpack_qipc_batch_eval_req_accepts_fingerprint_headers():
     assert requests[1][2:] == (4, 102, 202, 1)
     np.testing.assert_allclose(requests[0][1], feat_a)
     np.testing.assert_allclose(requests[1][1], feat_b)
+
+
+def test_unpack_qipc_arena_eval_resp_parses_records():
+    from quartz import alphazero_train as az
+
+    payload = bytearray()
+    payload.extend(struct.pack("<BBId", 1, 1, 2, 12.5))
+    game = b"gomoku7"
+    payload.extend(struct.pack("<I", len(game)))
+    payload.extend(game)
+    payload.extend(struct.pack("<I", 2))
+
+    def append_record(
+        game_id,
+        black_tag,
+        white_tag,
+        outcome_code,
+        is_void,
+        score_black,
+        move_count,
+        total_time_ms,
+        seed_raw,
+        opening,
+        error,
+    ):
+        game_id_b = game_id.encode("utf-8")
+        payload.extend(struct.pack("<I", len(game_id_b)))
+        payload.extend(game_id_b)
+        payload.extend(struct.pack("<II", black_tag, white_tag))
+        payload.extend(struct.pack("<BB", outcome_code, 1 if is_void else 0))
+        payload.extend(struct.pack("<fIdQ", score_black, move_count, total_time_ms, seed_raw))
+        payload.extend(struct.pack("<I", len(opening)))
+        for mv in opening:
+            payload.extend(struct.pack("<I", mv))
+        error_b = error.encode("utf-8")
+        payload.extend(struct.pack("<I", len(error_b)))
+        payload.extend(error_b)
+
+    append_record("m0::g0000", 0, 1, 1, False, 1.0, 12, 42.0, 7, [3, 5], "")
+    append_record("m1::g0001", 1, 0, 0, True, float("nan"), 8, 21.5, 0xFFFFFFFFFFFFFFFF, [], "void")
+
+    decoded = az.unpack_qipc_arena_eval_resp(bytes(payload))
+
+    assert decoded["valid_eval"] is True
+    assert decoded["game"] == "gomoku7"
+    assert decoded["completed_games"] == 2
+    assert decoded["duration_ms"] == pytest.approx(12.5)
+    assert decoded["records"][0]["game_id"] == "m0::g0000"
+    assert decoded["records"][0]["outcome"] == "black_win"
+    assert decoded["records"][0]["score_black"] == pytest.approx(1.0)
+    assert decoded["records"][0]["seed"] == 7
+    assert decoded["records"][0]["opening"] == [3, 5]
+    assert decoded["records"][1]["outcome"] == "draw"
+    assert decoded["records"][1]["score_black"] is None
+    assert decoded["records"][1]["is_void"] is True
+    assert decoded["records"][1]["seed"] is None
+    assert decoded["records"][1]["error"] == "void"
 
 
 def test_game_configs_have_n_threads():

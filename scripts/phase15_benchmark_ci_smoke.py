@@ -103,6 +103,31 @@ def build_benchmark_command(args: argparse.Namespace, checkpoint_path: Path, pos
     ]
 
 
+def build_ci_smoke_contract_summary(
+    args: argparse.Namespace,
+    *,
+    checkpoint_path: Path,
+    positions_path: Path,
+    benchmark_payload: dict[str, object],
+) -> dict[str, object]:
+    benchmark_contract = benchmark_payload.get("contract_summary")
+    return {
+        "runner": {
+            "game": str(args.game),
+            "systems": str(args.systems),
+            "budgets": str(args.budgets),
+            "seed": int(args.seed),
+            "search_stall_timeout_s": float(args.search_stall_timeout_s),
+        },
+        "artifacts": {
+            "checkpoint_path": str(checkpoint_path),
+            "positions_path": str(positions_path),
+            "summary_path": str(Path(args.output) / args.game / "phase15_continuation_benchmark_summary.json"),
+        },
+        "benchmark_contract_summary": benchmark_contract,
+    }
+
+
 def main() -> None:
     args = parse_args()
     base_dir = Path(args.output) / args.game
@@ -117,6 +142,12 @@ def main() -> None:
         "positions_path": str(positions_path),
         "summary_path": str(summary_path),
         "gate": payload.get("gate", {}),
+        "contract_summary": build_ci_smoke_contract_summary(
+            args,
+            checkpoint_path=checkpoint_path,
+            positions_path=positions_path,
+            benchmark_payload=payload,
+        ),
     }
     (base_dir / "phase15_ci_smoke_report.json").write_text(json.dumps(report, indent=2), encoding="utf-8")
     print(json.dumps(report, indent=2), flush=True)

@@ -254,7 +254,27 @@ struct AttackTables {
     king: [u64; 64],
     // Pawn attacks [side][sq]
     pawn_atk: [[u64; 64]; 2],
+    ray_masks: [[u64; 64]; 8],
 }
+
+const DIR_N: usize = 0;
+const DIR_S: usize = 1;
+const DIR_E: usize = 2;
+const DIR_W: usize = 3;
+const DIR_NE: usize = 4;
+const DIR_NW: usize = 5;
+const DIR_SE: usize = 6;
+const DIR_SW: usize = 7;
+const RAY_DIRS: [(i8, i8); 8] = [
+    (1, 0),
+    (-1, 0),
+    (0, 1),
+    (0, -1),
+    (1, 1),
+    (1, -1),
+    (-1, 1),
+    (-1, -1),
+];
 
 impl AttackTables {
     fn init() -> Self {
@@ -262,6 +282,7 @@ impl AttackTables {
             knight: [0; 64],
             king: [0; 64],
             pawn_atk: [[0; 64]; 2],
+            ray_masks: [[0; 64]; 8],
         };
         for s in 0..64u8 {
             let r = rank_of(s) as i8;
@@ -317,6 +338,15 @@ impl AttackTables {
                     t.pawn_atk[BLACK as usize][s as usize] |= bit(s - 7);
                 }
             }
+
+            for (dir_idx, (dr, df)) in RAY_DIRS.iter().copied().enumerate() {
+                let (mut nr, mut nf) = (r + dr, f + df);
+                while nr >= 0 && nr < 8 && nf >= 0 && nf < 8 {
+                    t.ray_masks[dir_idx][s as usize] |= bit(make_sq(nr as u8, nf as u8));
+                    nr += dr;
+                    nf += df;
+                }
+            }
         }
         t
     }
@@ -327,8 +357,8 @@ unsafe impl Sync for AttackTables {}
 
 static ATK: LazyLock<AttackTables> = LazyLock::new(AttackTables::init);
 
-// Ray attacks for sliding pieces (computed on the fly — simple, no magic)
-fn ray_attacks(sq: u8, occ: u64, dirs: &[(i8, i8)]) -> u64 {
+#[cfg(test)]
+fn ray_attacks_reference(sq: u8, occ: u64, dirs: &[(i8, i8)]) -> u64 {
     let mut attacks = 0u64;
     let r = rank_of(sq) as i8;
     let f = file_of(sq) as i8;
@@ -351,16 +381,65 @@ const BISHOP_DIRS: [(i8, i8); 4] = [(1, 1), (1, -1), (-1, 1), (-1, -1)];
 const ROOK_DIRS: [(i8, i8); 4] = [(1, 0), (-1, 0), (0, 1), (0, -1)];
 
 #[inline]
+fn directional_attacks(sq: u8, occ: u64, dir: usize) -> u64 {
+    let ray = ATK.ray_masks[dir][sq as usize];
+    let blockers = ray & occ;
+    if blockers == 0 {
+        return ray;
+    }
+    let blocker_sq = if matches!(dir, DIR_N | DIR_E | DIR_NE | DIR_NW) {
+        blockers.trailing_zeros() as u8
+    } else {
+        (63 - blockers.leading_zeros()) as u8
+    };
+    ray & !ATK.ray_masks[dir][blocker_sq as usize]
+}
+
+#[inline]
 fn bishop_attacks(sq: u8, occ: u64) -> u64 {
-    ray_attacks(sq, occ, &BISHOP_DIRS)
+    directional_attacks(sq, occ, DIR_NE)
+        | directional_attacks(sq, occ, DIR_NW)
+        | directional_attacks(sq, occ, DIR_SE)
+        | directional_attacks(sq, occ, DIR_SW)
 }
 #[inline]
 fn rook_attacks(sq: u8, occ: u64) -> u64 {
-    ray_attacks(sq, occ, &ROOK_DIRS)
+    directional_attacks(sq, occ, DIR_N)
+        | directional_attacks(sq, occ, DIR_S)
+        | directional_attacks(sq, occ, DIR_E)
+        | directional_attacks(sq, occ, DIR_W)
 }
 #[inline]
 fn queen_attacks(sq: u8, occ: u64) -> u64 {
     bishop_attacks(sq, occ) | rook_attacks(sq, occ)
+}
+
+#[inline]
+fn king_sq_from_bb(bb: &[u64; 12], side: u8) -> u8 {
+    let ki = if side == WHITE { WK } else { BK };
+    bb[ki].trailing_zeros() as u8
+}
+
+#[inline]
+fn is_attacked_on_state(bb: &[u64; 12], occ: [u64; 2], sq: u8, attacker_side: u8) -> bool {
+    let occ_all = occ[0] | occ[1];
+    let base = if attacker_side == WHITE { 0 } else { 6 };
+    let t = &*ATK;
+    if t.pawn_atk[1 - attacker_side as usize][sq as usize] & bb[base] != 0 {
+        return true;
+    }
+    if t.knight[sq as usize] & bb[base + 1] != 0 {
+        return true;
+    }
+    if t.king[sq as usize] & bb[base + 5] != 0 {
+        return true;
+    }
+    let b_atk = bishop_attacks(sq, occ_all);
+    if b_atk & (bb[base + 2] | bb[base + 4]) != 0 {
+        return true;
+    }
+    let r_atk = rook_attacks(sq, occ_all);
+    r_atk & (bb[base + 3] | bb[base + 4]) != 0
 }
 
 // ═══════════════════════════════════════════════════════
@@ -403,13 +482,100 @@ unsafe impl Sync for ChessZob {}
 
 static CZOB: LazyLock<ChessZob> = LazyLock::new(|| ChessZob::new(0xC4E5_5960_DEAD_BEEF));
 
-
 // ═══════════════════════════════════════════════════════
 // § 6. Chess state
 // ═══════════════════════════════════════════════════════
 
 /// History depth for AlphaZero-style encoding (T=8 timesteps including current).
 const CHESS_HISTORY_LEN: usize = 8;
+const CHESS_BOARD_HISTORY_CAP: usize = CHESS_HISTORY_LEN - 1;
+const CHESS_MOVE_BUFFER_CAP: usize = 256;
+type ChessBoardSnapshot = ([u64; 2], u8);
+
+struct ChessMoveBuf {
+    data: [ChessMove; CHESS_MOVE_BUFFER_CAP],
+    len: usize,
+}
+
+impl ChessMoveBuf {
+    #[inline]
+    fn new() -> Self {
+        Self {
+            data: [ChessMove(0); CHESS_MOVE_BUFFER_CAP],
+            len: 0,
+        }
+    }
+
+    #[inline]
+    fn push(&mut self, mv: ChessMove) {
+        debug_assert!(
+            self.len < CHESS_MOVE_BUFFER_CAP,
+            "pseudo-legal move buffer overflow: len={} cap={}",
+            self.len,
+            CHESS_MOVE_BUFFER_CAP
+        );
+        self.data[self.len] = mv;
+        self.len += 1;
+    }
+
+    #[inline]
+    fn len(&self) -> usize {
+        self.len
+    }
+
+    #[inline]
+    fn iter(&self) -> impl Iterator<Item = ChessMove> + '_ {
+        self.data[..self.len].iter().copied()
+    }
+}
+
+#[derive(Clone, Copy)]
+struct ChessBoardHistory {
+    entries: [ChessBoardSnapshot; CHESS_BOARD_HISTORY_CAP],
+    len: u8,
+    head: u8,
+}
+
+impl Default for ChessBoardHistory {
+    fn default() -> Self {
+        Self {
+            entries: [([0; 2], 0); CHESS_BOARD_HISTORY_CAP],
+            len: 0,
+            head: 0,
+        }
+    }
+}
+
+impl ChessBoardHistory {
+    #[inline]
+    fn push(&mut self, snapshot: ChessBoardSnapshot) {
+        let len = self.len as usize;
+        if len < CHESS_BOARD_HISTORY_CAP {
+            let idx = (self.head as usize + len) % CHESS_BOARD_HISTORY_CAP;
+            self.entries[idx] = snapshot;
+            self.len += 1;
+        } else {
+            let idx = self.head as usize;
+            self.entries[idx] = snapshot;
+            self.head = ((self.head as usize + 1) % CHESS_BOARD_HISTORY_CAP) as u8;
+        }
+    }
+
+    #[inline]
+    fn len(&self) -> usize {
+        self.len as usize
+    }
+
+    #[inline]
+    fn recent(&self, k: usize) -> Option<ChessBoardSnapshot> {
+        let len = self.len();
+        if k >= len {
+            return None;
+        }
+        let idx = (self.head as usize + len - 1 - k) % CHESS_BOARD_HISTORY_CAP;
+        Some(self.entries[idx])
+    }
+}
 
 #[derive(Clone)]
 pub struct Chess {
@@ -428,8 +594,9 @@ pub struct Chess {
     // Chess960
     rook_files: [u8; 4], // original rook positions [WKS, WQS, BKS, BQS]
     is_960: bool,
-    /// Past piece bitboard snapshots for AlphaZero-style history encoding.
-    board_history: Vec<([u64; 12], u8)>, // (bb, side) per timestep
+    /// Past occupancy snapshots for AlphaZero-style history encoding.
+    /// Fixed ring keeps search hot path allocation-free.
+    board_history: ChessBoardHistory,
 }
 
 #[inline]
@@ -564,7 +731,7 @@ impl Chess {
                 remaining[0] as u8,
             ],
             is_960: true,
-            board_history: Vec::new(),
+            board_history: ChessBoardHistory::default(),
         };
 
         // Place white back rank
@@ -613,7 +780,7 @@ impl Chess {
             history_digest: 0,
             rook_files: [7, 0, 7, 0], // default: h1, a1, h8, a8
             is_960: false,
-            board_history: Vec::new(),
+            board_history: ChessBoardHistory::default(),
         };
 
         // Piece placement
@@ -903,35 +1070,7 @@ impl Chess {
 
     /// Is `sq` attacked by `attacker_side`?
     fn is_attacked(&self, sq: u8, attacker_side: u8) -> bool {
-        let occ = self.all_occ();
-        let base = if attacker_side == WHITE { 0 } else { 6 };
-
-        {
-            let t = &*ATK;
-            // Pawn attacks
-            if t.pawn_atk[1 - attacker_side as usize][sq as usize] & self.bb[base] != 0 {
-                return true;
-            }
-            // Knight
-            if t.knight[sq as usize] & self.bb[base + 1] != 0 {
-                return true;
-            }
-            // King
-            if t.king[sq as usize] & self.bb[base + 5] != 0 {
-                return true;
-            }
-            // Bishop/Queen
-            let b_atk = bishop_attacks(sq, occ);
-            if b_atk & (self.bb[base + 2] | self.bb[base + 4]) != 0 {
-                return true;
-            }
-            // Rook/Queen
-            let r_atk = rook_attacks(sq, occ);
-            if r_atk & (self.bb[base + 3] | self.bb[base + 4]) != 0 {
-                return true;
-            }
-            false
-        }
+        is_attacked_on_state(&self.bb, self.occ, sq, attacker_side)
     }
 
     fn in_check(&self) -> bool {
@@ -941,21 +1080,18 @@ impl Chess {
     // ── Move generation ──
 
     pub fn generate_legal_moves(&self) -> Vec<ChessMove> {
-        let mut pseudo = Vec::with_capacity(48);
+        let mut pseudo = ChessMoveBuf::new();
         self.generate_pseudo_legal(&mut pseudo);
-        let side = self.side;
-        let opp = 1 - side;
         let mut legal = Vec::with_capacity(pseudo.len());
-        for mv in pseudo {
-            let next = self.apply_move_for_legality_check(mv);
-            if !next.is_attacked(next.king_sq(side), opp) {
+        for mv in pseudo.iter() {
+            if self.move_preserves_king_safety(mv) {
                 legal.push(mv);
             }
         }
         legal
     }
 
-    fn generate_pseudo_legal(&self, moves: &mut Vec<ChessMove>) {
+    fn generate_pseudo_legal(&self, moves: &mut ChessMoveBuf) {
         let side = self.side;
         let my = self.my_occ();
         let their = self.their_occ();
@@ -1014,7 +1150,7 @@ impl Chess {
         self.gen_castling(side, occ, moves);
     }
 
-    fn gen_pawns(&self, side: u8, _my: u64, their: u64, occ: u64, moves: &mut Vec<ChessMove>) {
+    fn gen_pawns(&self, side: u8, _my: u64, their: u64, occ: u64, moves: &mut ChessMoveBuf) {
         let pawns = self.bb[if side == WHITE { WP } else { BP }];
         let (fwd, start_rank, promo_rank) = if side == WHITE {
             (8i8, RANK_2, RANK_8)
@@ -1064,7 +1200,7 @@ impl Chess {
         }
     }
 
-    fn gen_castling(&self, side: u8, occ: u64, moves: &mut Vec<ChessMove>) {
+    fn gen_castling(&self, side: u8, occ: u64, moves: &mut ChessMoveBuf) {
         let ksq = self.king_sq(side);
         let opp = 1 - side;
         let rank = if side == WHITE { 0u8 } else { 7 };
@@ -1141,56 +1277,44 @@ impl Chess {
         true
     }
 
-    fn apply_move_for_legality_check(&self, mv: ChessMove) -> Self {
-        let mut next = Chess {
-            bb: self.bb,
-            occ: self.occ,
-            side: 1 - self.side,
-            castling: self.castling,
-            ep_sq: 64,
-            half: self.half,
-            full: self.full,
-            hash: self.hash,
-            history: Vec::new(),
-            history_digest: self.history_digest,
-            rook_files: self.rook_files,
-            is_960: self.is_960,
-            board_history: Vec::new(), // not needed for legality check
-        };
+    fn move_preserves_king_safety(&self, mv: ChessMove) -> bool {
+        let mut bb = self.bb;
+        let mut occ = self.occ;
         let side = self.side;
         let opp = 1 - side;
         let from = mv.from_sq();
         let to = mv.to_sq();
         let flags = mv.flags();
         let base = if side == WHITE { 0usize } else { 6 };
-
+        let king_idx = base + 5;
+        let current_king_sq = king_sq_from_bb(&self.bb, side);
         let piece_idx = self.piece_at(from, side);
         debug_assert!(piece_idx != usize::MAX, "no piece at from sq {}", from);
 
         if from != to {
-            next.bb[piece_idx] ^= bit(from) | bit(to);
-            next.occ[side as usize] ^= bit(from) | bit(to);
+            bb[piece_idx] ^= bit(from) | bit(to);
+            occ[side as usize] ^= bit(from) | bit(to);
         }
 
         if flags & 4 != 0 && !mv.is_ep() {
             let cap_idx = self.piece_at(to, opp);
             if cap_idx != usize::MAX {
-                next.bb[cap_idx] ^= bit(to);
-                next.occ[opp as usize] ^= bit(to);
+                bb[cap_idx] ^= bit(to);
+                occ[opp as usize] ^= bit(to);
             }
         }
 
         if mv.is_ep() {
             let cap_sq = if side == WHITE { to - 8 } else { to + 8 };
             let cap_idx = if side == WHITE { BP } else { WP };
-            next.bb[cap_idx] ^= bit(cap_sq);
-            next.occ[opp as usize] ^= bit(cap_sq);
+            bb[cap_idx] ^= bit(cap_sq);
+            occ[opp as usize] ^= bit(cap_sq);
         }
 
         if mv.is_promotion() {
             let promo_piece = base + mv.promo_piece();
-            next.bb[piece_idx] ^= bit(to);
-            next.bb[promo_piece] |= bit(to);
+            bb[piece_idx] ^= bit(to);
+            bb[promo_piece] |= bit(to);
         }
 
         if mv.is_castle() {
@@ -1213,12 +1337,17 @@ impl Chess {
             };
             let rook_idx = base + 3;
             if rook_from != rook_to {
-                next.bb[rook_idx] ^= bit(rook_from) | bit(rook_to);
-                next.occ[side as usize] ^= bit(rook_from) | bit(rook_to);
+                bb[rook_idx] ^= bit(rook_from) | bit(rook_to);
+                occ[side as usize] ^= bit(rook_from) | bit(rook_to);
             }
         }
 
-        next
+        let check_sq = if piece_idx == king_idx {
+            to
+        } else {
+            current_king_sq
+        };
+        !is_attacked_on_state(&bb, occ, check_sq, opp)
     }
 
     // ── Apply move (pure function) ──
@@ -1226,11 +1355,7 @@ impl Chess {
     fn apply_move_unchecked(&self, mv: ChessMove) -> Self {
         let mut next = self.clone();
         // Save current board to history for AlphaZero-style encoding
-        next.board_history.push((self.bb, self.side));
-        if next.board_history.len() > CHESS_HISTORY_LEN - 1 {
-            next.board_history
-                .drain(0..next.board_history.len() - (CHESS_HISTORY_LEN - 1));
-        }
+        next.board_history.push((self.occ, self.side));
         let side = self.side;
         let opp = 1 - side;
         let from = mv.from_sq();
@@ -1465,13 +1590,10 @@ impl Chess {
     }
 
     fn has_any_legal_move(&self) -> bool {
-        let mut pseudo = Vec::with_capacity(48);
+        let mut pseudo = ChessMoveBuf::new();
         self.generate_pseudo_legal(&mut pseudo);
-        let side = self.side;
-        let opp = 1 - side;
-        for mv in pseudo {
-            let next = self.apply_move_for_legality_check(mv);
-            if !next.is_attacked(next.king_sq(side), opp) {
+        for mv in pseudo.iter() {
+            if self.move_preserves_king_safety(mv) {
                 return true;
             }
         }
@@ -1669,18 +1791,16 @@ impl GameState for Chess {
         }
 
         // Planes 14-27: history t=1..7 occupancy
-        for (k, &(hist_bb, hist_side)) in self.board_history.iter().rev().enumerate() {
-            if k >= 7 {
+        for k in 0..self.board_history.len() {
+            let Some((hist_occ, hist_side)) = self.board_history.recent(k) else {
                 break;
-            }
-            let base = (14 + k * 2) * 64;
-            let (my_range, opp_range) = if hist_side == self.side {
-                (0..6, 6..12)
-            } else {
-                (6..12, 0..6)
             };
-            let hist_my = hist_bb[my_range].iter().fold(0u64, |a, b| a | b);
-            let hist_opp = hist_bb[opp_range].iter().fold(0u64, |a, b| a | b);
+            let base = (14 + k * 2) * 64;
+            let (hist_my, hist_opp) = if hist_side == self.side {
+                (hist_occ[0], hist_occ[1])
+            } else {
+                (hist_occ[1], hist_occ[0])
+            };
             for s in bits(hist_my) {
                 out[base + s as usize] = 1.0;
             }
@@ -2089,6 +2209,45 @@ mod tests {
     }
 
     #[test]
+    fn test_sliding_attack_tables_match_reference() {
+        let mut occupancies = vec![
+            0u64,
+            !0u64,
+            RANK_1,
+            RANK_8,
+            0x0101_0101_0101_0101,
+            0x8080_8080_8080_8080,
+            0xAA55_AA55_AA55_AA55,
+            0x55AA_55AA_55AA_55AA,
+        ];
+        let mut rng = StdRng::seed_from_u64(0xC4E5_5A11_1D15);
+        for _ in 0..2048 {
+            occupancies.push(rng.gen());
+        }
+
+        for sq in 0..64u8 {
+            for &occ in &occupancies {
+                assert_eq!(
+                    bishop_attacks(sq, occ),
+                    ray_attacks_reference(sq, occ, &BISHOP_DIRS),
+                    "bishop attacks mismatch at sq={sq} occ={occ:#018x}"
+                );
+                assert_eq!(
+                    rook_attacks(sq, occ),
+                    ray_attacks_reference(sq, occ, &ROOK_DIRS),
+                    "rook attacks mismatch at sq={sq} occ={occ:#018x}"
+                );
+                assert_eq!(
+                    queen_attacks(sq, occ),
+                    ray_attacks_reference(sq, occ, &BISHOP_DIRS)
+                        | ray_attacks_reference(sq, occ, &ROOK_DIRS),
+                    "queen attacks mismatch at sq={sq} occ={occ:#018x}"
+                );
+            }
+        }
+    }
+
+    #[test]
     fn test_mcts_integration() {
         use crate::mcts::eval::UniformEval;
         use crate::mcts::search::FixedIterations;
@@ -2144,6 +2303,212 @@ mod tests {
                 .copied()
         };
         c.apply_move(mv.unwrap_or_else(|| panic!("move {} not found in {:?}", uci, c)))
+    }
+
+    fn encode_planes_reference(state: &Chess) -> Vec<f32> {
+        const TOTAL: usize = 36;
+        let mut out = vec![0.0; TOTAL * 64];
+        let my_base = if state.side == WHITE { 0usize } else { 6 };
+        let opp_base = if state.side == WHITE { 6usize } else { 0 };
+
+        for p in 0..6 {
+            for s in bits(state.bb[my_base + p]) {
+                out[p * 64 + s as usize] = 1.0;
+            }
+        }
+        for p in 0..6 {
+            for s in bits(state.bb[opp_base + p]) {
+                out[(6 + p) * 64 + s as usize] = 1.0;
+            }
+        }
+
+        let current_hash = state.hash;
+        let mut rep_count = 0u32;
+        for &h in state.history.iter().rev() {
+            if h == current_hash {
+                rep_count += 1;
+            }
+        }
+        if rep_count >= 2 {
+            out[12 * 64..13 * 64].fill(1.0);
+        }
+        if rep_count >= 1 {
+            out[13 * 64..14 * 64].fill(1.0);
+        }
+
+        for k in 0..state.board_history.len() {
+            let Some((hist_occ, hist_side)) = state.board_history.recent(k) else {
+                break;
+            };
+            let base = (14 + k * 2) * 64;
+            let (hist_my, hist_opp) = if hist_side == state.side {
+                (hist_occ[0], hist_occ[1])
+            } else {
+                (hist_occ[1], hist_occ[0])
+            };
+            for s in bits(hist_my) {
+                out[base + s as usize] = 1.0;
+            }
+            for s in bits(hist_opp) {
+                out[base + 64 + s as usize] = 1.0;
+            }
+        }
+
+        if state.side == WHITE {
+            out[28 * 64..29 * 64].fill(1.0);
+        }
+        let move_frac = (state.full as f32 / 200.0).min(1.0);
+        out[29 * 64..30 * 64].fill(move_frac);
+        if state.castling & WKS != 0 {
+            out[30 * 64..31 * 64].fill(1.0);
+        }
+        if state.castling & WQS != 0 {
+            out[31 * 64..32 * 64].fill(1.0);
+        }
+        if state.castling & BKS != 0 {
+            out[32 * 64..33 * 64].fill(1.0);
+        }
+        if state.castling & BQS != 0 {
+            out[33 * 64..34 * 64].fill(1.0);
+        }
+        let half_frac = (state.half as f32 / 100.0).min(1.0);
+        out[34 * 64..35 * 64].fill(half_frac);
+        if state.ep_sq < 64 {
+            out[35 * 64 + state.ep_sq as usize] = 1.0;
+        }
+        out
+    }
+
+    #[test]
+    fn test_fast_legal_filter_matches_full_apply_reference_on_edge_cases() {
+        let tricky_positions = [
+            Chess::standard(),
+            Chess::from_fen("rnbqkbnr/ppp1p1pp/8/3pPp2/8/8/PPPP1PPP/RNBQKBNR w KQkq f6 0 3")
+                .unwrap(), // en passant
+            Chess::from_fen("4r2k/8/8/8/8/8/4N3/4K3 w - - 0 1").unwrap(), // pin
+            Chess::from_fen("r3k2r/pppppppp/8/8/8/8/PPPPPPPP/R3K2R w KQkq - 0 1").unwrap(), // castling
+            Chess::from_fen("8/P7/8/8/8/8/8/4K2k w - - 0 1").unwrap(), // promotion
+            Chess::from_fen("4k3/8/8/8/8/8/3n1n2/4K3 w - - 0 1").unwrap(), // double check
+        ];
+
+        for state in tricky_positions {
+            let side = state.side;
+            let opp = 1 - side;
+            let mut pseudo = ChessMoveBuf::new();
+            state.generate_pseudo_legal(&mut pseudo);
+
+            let fast: std::collections::HashSet<_> = pseudo
+                .iter()
+                .filter(|mv| state.move_preserves_king_safety(*mv))
+                .collect();
+            let reference: std::collections::HashSet<_> = pseudo
+                .iter()
+                .filter(|mv| {
+                    let next = state.apply_move_unchecked(*mv);
+                    !next.is_attacked(next.king_sq(side), opp)
+                })
+                .collect();
+            let legal: std::collections::HashSet<_> =
+                state.generate_legal_moves().into_iter().collect();
+
+            assert_eq!(
+                fast,
+                reference,
+                "fast legality filter drifted on {}",
+                state.to_fen()
+            );
+            assert_eq!(
+                legal,
+                reference,
+                "generate_legal_moves drifted from reference filter on {}",
+                state.to_fen()
+            );
+        }
+    }
+
+    #[test]
+    fn test_encode_planes_matches_reference_and_reuse_on_edge_cases() {
+        let mut sequence = Vec::new();
+        let mut played = Chess::standard();
+        for mv in [
+            "e2e4", "e7e5", "g1f3", "b8c6", "f1c4", "g8f6", "d2d3", "f8c5",
+        ] {
+            played = play(&played, mv);
+        }
+        sequence.push(Chess::standard());
+        sequence.push(played);
+        sequence.push(
+            Chess::from_fen("rnbqkbnr/ppp1p1pp/8/3pPp2/8/8/PPPP1PPP/RNBQKBNR w KQkq f6 0 3")
+                .unwrap(),
+        );
+        sequence
+            .push(Chess::from_fen("r3k2r/pppppppp/8/8/8/8/PPPPPPPP/R3K2R w KQkq - 0 1").unwrap());
+        sequence.push(Chess::from_fen("8/P7/8/8/8/8/8/4K2k w - - 0 1").unwrap());
+
+        let mut scratch = Vec::new();
+        for state in sequence {
+            let expected = encode_planes_reference(&state);
+            state.encode_planes_into(&mut scratch);
+            assert_eq!(
+                scratch,
+                expected,
+                "encode_planes_into drifted from reference on {}",
+                state.to_fen()
+            );
+        }
+    }
+
+    #[test]
+    fn test_history_always_tracks_current_hash_on_edge_cases() {
+        let mut states = vec![
+            Chess::standard(),
+            Chess::from_960(518),
+            Chess::from_fen("rnbqkbnr/ppp1p1pp/8/3pPp2/8/8/PPPP1PPP/RNBQKBNR w KQkq f6 0 3")
+                .unwrap(),
+            Chess::from_fen("r3k2r/pppppppp/8/8/8/8/PPPPPPPP/R3K2R w KQkq - 0 1").unwrap(),
+            Chess::from_fen("8/P7/8/8/8/8/8/4K2k w - - 0 1").unwrap(),
+            Chess::from_fen("4k3/8/8/8/8/8/3n1n2/4K3 w - - 0 1").unwrap(),
+        ];
+
+        let mut played = Chess::standard();
+        for mv in [
+            "e2e4", "e7e5", "g1f3", "b8c6", "f1b5", "a7a6", "b5a4", "g8f6",
+        ] {
+            played = play(&played, mv);
+            states.push(played.clone());
+        }
+
+        for state in states {
+            assert_eq!(
+                state.history.last().copied(),
+                Some(state.hash),
+                "current hash missing from repetition history on {}",
+                state.to_fen()
+            );
+            assert!(
+                state.history.iter().any(|&h| h == state.hash),
+                "current hash must appear in repetition history on {}",
+                state.to_fen()
+            );
+        }
+    }
+
+    #[test]
+    fn test_board_history_ring_keeps_last_seven_positions() {
+        let mut c = Chess::standard();
+        let mut snapshots = Vec::new();
+        for uci in [
+            "e2e4", "e7e5", "g1f3", "b8c6", "f1c4", "g8f6", "d2d3", "f8c5", "c2c3",
+        ] {
+            snapshots.push((c.occ, c.side));
+            c = play(&c, uci);
+        }
+
+        assert_eq!(c.board_history.len(), CHESS_BOARD_HISTORY_CAP);
+        for k in 0..CHESS_BOARD_HISTORY_CAP {
+            let expected = snapshots[snapshots.len() - 1 - k];
+            assert_eq!(c.board_history.recent(k), Some(expected));
+        }
     }
 
     // ── perft(5) ──
@@ -2528,8 +2893,8 @@ mod tests {
     fn test_struct_size() {
         let size = std::mem::size_of::<Chess>();
         assert!(
-            size <= 200,
-            "Chess struct should be ~160 bytes, got {}",
+            size <= 1024,
+            "Chess struct should stay below 1 KiB with the in-state history ring, got {}",
             size
         );
     }

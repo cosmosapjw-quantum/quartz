@@ -7,6 +7,7 @@ import hashlib
 import json
 import math
 import os
+import queue
 import random
 import sys
 import threading
@@ -63,18 +64,37 @@ def estimate_selfplay_positions_per_game(cfg, recent_chunks):
     return max(4.0, float(board * board) * 0.5)
 
 
+def replay_fill_ceiling(cfg, replay_capacity=None, backpressure_ratio=None):
+    capacity = replay_capacity
+    if capacity is None:
+        capacity = int(cfg.get("buf", 0) or 0)
+    if capacity <= 0:
+        return None
+    ratio = float(backpressure_ratio if backpressure_ratio is not None else SelfPlayWorker.BACKPRESSURE_RATIO)
+    return max(1, int(math.floor(float(capacity) * max(0.0, ratio))))
+
+
 def initial_replay_fill_target(cfg, recent_chunks):
     train_batch = max(1, int(cfg.get("batch", 256) or 256))
     batch_target = max(1, int(cfg.get("batch_size", 8) or 8))
     base_parallel = max(1, int(cfg.get("bg_parallel", 2) or 2))
     positions_per_game = estimate_selfplay_positions_per_game(cfg, recent_chunks)
     warm_games = max(base_parallel, int(math.ceil(batch_target / max(positions_per_game, 1.0))))
-    return int(min(train_batch, max(batch_target, int(math.ceil(warm_games * positions_per_game)))))
+    target = int(min(train_batch, max(batch_target, int(math.ceil(warm_games * positions_per_game)))))
+    target_cap = int(cfg.get("_bootstrap_replay_target_cap", 0) or 0)
+    if target_cap > 0:
+        target = min(target, target_cap)
+    ceiling = replay_fill_ceiling(cfg)
+    if ceiling is not None:
+        target = min(target, ceiling)
+    return int(max(1, target))
 
 
 def plan_selfplay_runner_chunk(cfg, replay_size, recent_chunks):
     base_parallel = max(1, int(cfg.get("bg_parallel", 2) or 2))
     base_batch_games = max(1, int(cfg.get("bg_batch_games", base_parallel) or base_parallel))
+    parallel_cap_override = max(0, int(cfg.get("_selfplay_parallel_cap", 0) or 0))
+    batch_games_cap_override = max(0, int(cfg.get("_selfplay_batch_games_cap", 0) or 0))
     batch_target = max(1, int(cfg.get("batch_size", 8) or 8))
     train_batch = max(1, int(cfg.get("batch", 256) or 256))
     logical_threads = max(1, int(os.cpu_count() or base_parallel))
@@ -86,9 +106,19 @@ def plan_selfplay_runner_chunk(cfg, replay_size, recent_chunks):
     batch_games = base_batch_games
     if cfg.get("_selfplay_runner_mode") == "rust_selfplay_state_machine":
         parallel_cap = max(base_parallel, logical_threads)
+        if parallel_cap_override > 0:
+            parallel_cap = min(parallel_cap, parallel_cap_override)
         parallel = max(base_parallel, min(parallel_cap, max(batch_target, games_needed)))
         max_batch_games_cap = max(base_batch_games, min(train_batch, max(parallel * 4, batch_target * 4)))
+        if batch_games_cap_override > 0:
+            max_batch_games_cap = min(max_batch_games_cap, batch_games_cap_override)
         batch_games = min(max_batch_games_cap, max(base_batch_games, parallel, games_needed))
+    if parallel_cap_override > 0:
+        parallel = min(parallel, parallel_cap_override)
+    if batch_games_cap_override > 0:
+        batch_games = min(batch_games, batch_games_cap_override)
+    parallel = max(1, int(parallel))
+    batch_games = max(1, int(batch_games))
 
     return {
         "parallel": int(parallel),
@@ -108,18 +138,59 @@ class RustServerPool:
         self._stop_server = stop_server
         self._lock = threading.Lock()
         self._procs = []
+        self._restart_count = 0
+        self._restart_streak = 0
+        self._last_restart_reason = None
+        self._last_restart_ts = 0.0
+
+    def _note_restart(self, reason):
+        self._restart_count += 1
+        self._restart_streak += 1
+        self._last_restart_reason = str(reason)
+        self._last_restart_ts = time.time()
+
+    def record_failure(self, reason):
+        with self._lock:
+            self._note_restart(reason)
+
+    def snapshot(self):
+        with self._lock:
+            return {
+                "cached_procs": int(len(self._procs)),
+                "restart_count": int(self._restart_count),
+                "restart_streak": int(self._restart_streak),
+                "last_restart_reason": self._last_restart_reason,
+                "last_restart_age_s": (
+                    round(max(0.0, time.time() - self._last_restart_ts), 3) if self._last_restart_ts > 0.0 else None
+                ),
+            }
 
     def acquire(self, n):
         with self._lock:
             alive = []
+            reaped = 0
             for proc in self._procs:
                 if proc.poll() is None:
                     alive.append(proc)
                 else:
                     self._stop_server(proc, timeout=0.1)
+                    reaped += 1
             self._procs = alive
+            if reaped:
+                self._note_restart(f"reaped_dead_servers:{reaped}")
             while len(self._procs) < n:
-                self._procs.append(self._launch_server(self.rust_binary))
+                if self._restart_streak > 0 and self._last_restart_ts > 0.0:
+                    backoff_s = min(2.0, 0.25 * (2 ** min(self._restart_streak - 1, 3)))
+                    wait_s = self._last_restart_ts + backoff_s - time.time()
+                    if wait_s > 0.0:
+                        time.sleep(wait_s)
+                try:
+                    proc = self._launch_server(self.rust_binary)
+                except Exception as exc:
+                    self._note_restart(f"launch_failed:{type(exc).__name__}:{exc}")
+                    raise
+                self._procs.append(proc)
+                self._restart_streak = 0
             return list(self._procs[:n])
 
     def kill_active(self):
@@ -228,6 +299,20 @@ def wait_for_worker_progress(worker, previous_count, min_new=1, timeout_s=30.0, 
         time.sleep(poll_s)
         current = worker.positions_generated
     return max(0, current - previous_count), current
+
+
+def _supervised_pipeline_collect(pipeline, *, proc, timeout_s, label):
+    deadline = time.perf_counter() + max(0.0, float(timeout_s))
+    while True:
+        if proc is not None and proc.poll() is not None:
+            raise RuntimeError(f"Rust server exited (code={proc.returncode}) while waiting for {label}")
+        wait_s = min(0.25, max(0.001, deadline - time.perf_counter()))
+        if wait_s <= 0.0:
+            raise TimeoutError(f"timed out waiting for {label}")
+        try:
+            return pipeline.collect(timeout=wait_s)
+        except queue.Empty:
+            continue
 
 
 def compute_train_steps(base_steps, batch_size, n_new, concurrent=False):
@@ -792,7 +877,12 @@ class NNSearchClient:
             while True:
                 if inflight and pipeline is not None:
                     model_t0 = time.perf_counter()
-                    responses = pipeline.collect(timeout=30.0)
+                    responses = _supervised_pipeline_collect(
+                        pipeline,
+                        proc=self.proc,
+                        timeout_s=30.0,
+                        label="Rust search pipeline responses",
+                    )
                     duty["model_s"] += time.perf_counter() - model_t0
                     inflight = False
                     write_t0 = time.perf_counter()
@@ -865,7 +955,12 @@ class NNSearchClient:
         finally:
             if inflight and pipeline is not None:
                 try:
-                    drain = pipeline.collect(timeout=10.0)
+                    drain = _supervised_pipeline_collect(
+                        pipeline,
+                        proc=self.proc,
+                        timeout_s=10.0,
+                        label="Rust search pipeline drain",
+                    )
                     for rg in drain:
                         self._rt.write_batched_eval_group(self.proc, rg)
                 except Exception:
@@ -1621,9 +1716,13 @@ def selfplay_rust_nn_batched(
             if perf_stats is not None and ring_payload is not None:
                 perf_stats["result_messages"] += 1
             if isinstance(ring_payload, dict):
+                if ring_payload.get("error"):
+                    raise RuntimeError(str(ring_payload.get("error")))
                 return ring_payload
             kind, payload = runtime_hooks.proc_read_message(proc)
             if kind == "json" and isinstance(payload, dict):
+                if payload.get("error"):
+                    raise RuntimeError(str(payload.get("error")))
                 return payload
             return None
 
@@ -1645,7 +1744,12 @@ def selfplay_rust_nn_batched(
 
                 if inflight and pipeline is not None:
                     model_t0 = time.perf_counter()
-                    flush_responses = pipeline.collect(timeout=30.0)
+                    flush_responses = _supervised_pipeline_collect(
+                        pipeline,
+                        proc=proc,
+                        timeout_s=30.0,
+                        label=f"{req_cmd} pipeline responses",
+                    )
                     duty["model_s"] += time.perf_counter() - model_t0
                     inflight = False
                     write_t0 = time.perf_counter()
@@ -1756,7 +1860,12 @@ def selfplay_rust_nn_batched(
         finally:
             if inflight and pipeline is not None:
                 try:
-                    drain = pipeline.collect(timeout=10.0)
+                    drain = _supervised_pipeline_collect(
+                        pipeline,
+                        proc=proc,
+                        timeout_s=10.0,
+                        label=f"{req_cmd} pipeline drain",
+                    )
                     for rg in drain:
                         runtime_hooks.write_batched_eval_group(proc, rg)
                 except Exception:
@@ -1832,17 +1941,19 @@ def selfplay_rust_nn_batched(
                 }
                 session_req.update(search_opts)
                 results_payload = exchange_search_request(session_req)
+                if isinstance(results_payload, dict) and results_payload.get("error"):
+                    raise RuntimeError(str(results_payload.get("error")))
                 session_id = results_payload.get("session_id") if isinstance(results_payload, dict) else None
+                if session_id is None:
+                    raise RuntimeError("resident self-play session open returned no session_id")
                 results = results_payload.get("results", []) if isinstance(results_payload, dict) else []
 
                 while games_done < n_games:
                     if not isinstance(results, list) or len(results) != slot_count:
-                        for gi, gd in enumerate(game_data):
-                            if gd is not None:
-                                gd["finished"] = True
-                                gd["winner"] = 0.0
-                                finalize_slot(gi)
-                        break
+                        raise RuntimeError(
+                            "resident self-play result length mismatch: "
+                            f"expected {slot_count} got {len(results) if isinstance(results, list) else 'non-list'}"
+                        )
 
                     updates = []
                     for gi, result in enumerate(results):
@@ -1875,6 +1986,8 @@ def selfplay_rust_nn_batched(
                             "updates": updates,
                         }
                     )
+                    if isinstance(results_payload, dict) and results_payload.get("error"):
+                        raise RuntimeError(str(results_payload.get("error")))
                     results = results_payload.get("results", []) if isinstance(results_payload, dict) else []
 
                 if session_id is not None:
@@ -1914,16 +2027,16 @@ def selfplay_rust_nn_batched(
                     }
                     req.update(search_opts)
                     results_payload = exchange_search_request(req)
+                    if isinstance(results_payload, dict) and results_payload.get("error"):
+                        raise RuntimeError(str(results_payload.get("error")))
                     results = []
                     if isinstance(results_payload, dict):
                         results = results_payload.get("results", [])
                     if not isinstance(results, list) or len(results) != len(active):
-                        for gi in active:
-                            gd = game_data[gi]
-                            if gd is not None:
-                                gd["finished"] = True
-                                gd["winner"] = 0.0
-                        continue
+                        raise RuntimeError(
+                            "self-play result length mismatch: "
+                            f"expected {len(active)} got {len(results) if isinstance(results, list) else 'non-list'}"
+                        )
                     for gi, result in zip(active, results):
                         gd = game_data[gi]
                         if gd is not None:
@@ -1941,6 +2054,9 @@ class SelfPlayWorker:
     BACKPRESSURE_RATIO = 0.8
     BACKPRESSURE_SLEEP = 0.5
     REPLAY_STALL_TIMEOUT_S = 45.0
+    PAUSE_IDLE_TIMEOUT_S = 2.0
+    PAUSE_CANCEL_TIMEOUT_S = 2.0
+    PAUSE_KILL_TIMEOUT_S = 5.0
 
     def __init__(
             self,
@@ -1988,6 +2104,26 @@ class SelfPlayWorker:
     def update_model(self, model):
         self._model = self._clone_actor_model(model)
 
+    def _cancel_active_search(self, *, kill_proc=False):
+        proc = self._active_proc
+        if proc is None:
+            return False
+        cancelled = False
+        ring = getattr(proc, "_quartz_ring_buffer", None)
+        if ring is not None:
+            try:
+                ring.request_cancel()
+                cancelled = True
+            except Exception:
+                pass
+        if kill_proc:
+            try:
+                proc.kill()
+                cancelled = True
+            except Exception:
+                pass
+        return cancelled
+
     def start(self):
         self._stop.clear()
         self._thread = threading.Thread(target=self._run, daemon=False)
@@ -1996,8 +2132,14 @@ class SelfPlayWorker:
     def stop(self):
         self._stop.set()
         self._pause.clear()
+        self._cancel_active_search()
         if self._thread:
-            self._thread.join(timeout=30)
+            self._thread.join(timeout=10)
+            if self._thread.is_alive():
+                self._cancel_active_search(kill_proc=True)
+                if hasattr(self._proc_pool, "kill_active"):
+                    self._proc_pool.kill_active()
+                self._thread.join(timeout=5)
             if self._thread.is_alive():
                 self._logger.warning("SelfPlayWorker did not stop within timeout")
         self._proc_pool.close()
@@ -2006,17 +2148,22 @@ class SelfPlayWorker:
         self._pause.set()
         if not wait:
             return True
-        if self._idle.wait(timeout=2.0):
+        if self._idle.wait(timeout=self.PAUSE_IDLE_TIMEOUT_S):
             return True
-        proc = self._active_proc
-        if proc is not None:
-            ring = getattr(proc, "_quartz_ring_buffer", None)
-            if ring is not None:
-                ring.request_cancel()
-        self._idle.wait()
-        return True
+        self._cancel_active_search()
+        if self._idle.wait(timeout=self.PAUSE_CANCEL_TIMEOUT_S):
+            return True
+        self._cancel_active_search(kill_proc=True)
+        if hasattr(self._proc_pool, "kill_active"):
+            self._proc_pool.kill_active()
+        if self._idle.wait(timeout=self.PAUSE_KILL_TIMEOUT_S):
+            return True
+        self._last_error = "background self-play failed to become idle after pause request"
+        self._logger.warning(self._last_error)
+        return False
 
     def resume(self):
+        self._last_error = None
         self._consecutive_errors = 0
         self._pause.clear()
 
@@ -2051,6 +2198,7 @@ class SelfPlayWorker:
             "last_error": self._last_error,
             "consecutive_errors": self._consecutive_errors,
             "last_plan": self._last_plan,
+            "server_pool": self._proc_pool.snapshot() if hasattr(self._proc_pool, "snapshot") else None,
             "path": "rust+nn",
         }
 
@@ -2062,6 +2210,7 @@ class SelfPlayWorker:
             "last_progress_age_s": max(0.0, time.time() - self._last_progress_ts),
             "last_error": self._last_error,
             "consecutive_errors": self._consecutive_errors,
+            "server_pool": self._proc_pool.snapshot() if hasattr(self._proc_pool, "snapshot") else None,
         }
 
     def _run(self):
@@ -2129,6 +2278,10 @@ class SelfPlayWorker:
                         self._last_progress_ts = time.time()
                         self._last_error = None
                         self._consecutive_errors = 0
+                    elif chunk_games > 0:
+                        raise RuntimeError(
+                            f"self-play chunk produced no positions (games={chunk_games}, parallel={min(parallel, chunk_games)})"
+                        )
                     chunk_elapsed = max(time.time() - chunk_t0, 1e-6)
                     self.games_generated += len(states)
                     self.positions_generated += chunk_positions
@@ -2147,8 +2300,17 @@ class SelfPlayWorker:
             except Exception as exc:
                 self._idle.set()
                 self._active_proc = None
+                cancelled = isinstance(exc, InterruptedError) and (self._pause.is_set() or self._stop.is_set())
+                if cancelled:
+                    self._last_error = None
+                    self._consecutive_errors = 0
+                    continue
                 self._last_error = str(exc)
                 self._consecutive_errors += 1
+                if hasattr(self._proc_pool, "record_failure"):
+                    self._proc_pool.record_failure(str(exc))
+                if hasattr(self._proc_pool, "kill_active"):
+                    self._proc_pool.kill_active()
                 if self._consecutive_errors <= 3:
                     self._logger.exception("SelfPlayWorker error (%s): %r", type(exc).__name__, exc)
                 time.sleep(min(self._consecutive_errors, 5))

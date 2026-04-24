@@ -263,6 +263,27 @@ def test_game_record_json_uses_move_count():
         assert '"moves": 17' in payload
 
 
+def test_game_record_json_includes_search_manifest_hashes():
+    for module in EVAL_MODULES:
+        record = module.GameRecord(
+            game_id="g0002",
+            engine_black="a",
+            engine_white="b",
+            outcome="draw",
+            score_black=0.5,
+            move_count=9,
+            total_time_ms=8.4,
+            moves=[],
+            search_manifest_hash="deadbeefcafefeed",
+            search_manifest_hash_black="deadbeefcafefeed",
+            search_manifest_hash_white="deadbeefcafefeed",
+        )
+        payload = record.to_jsonl()
+        assert '"search_manifest_hash": "deadbeefcafefeed"' in payload
+        assert '"search_manifest_hash_black": "deadbeefcafefeed"' in payload
+        assert '"search_manifest_hash_white": "deadbeefcafefeed"' in payload
+
+
 def test_parallel_evaluator_matches_sequential():
     for module in EVAL_MODULES:
         seq = module.TrainingEvaluator(

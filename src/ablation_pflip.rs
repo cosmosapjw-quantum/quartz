@@ -352,13 +352,13 @@ mod tests {
                 let edges = eng.root.edge_snapshot(eng.root.materialized_count());
                 let total: f32 = edges
                     .iter()
-                    .map(|e| e.n.load(Ordering::Relaxed) as f32)
+                    .map(|e| e.n as f32)
                     .sum();
                 let ent = if total > 1.0 {
                     edges
                         .iter()
                         .map(|e| {
-                            let p = e.n.load(Ordering::Relaxed) as f32 / total;
+                            let p = e.n as f32 / total;
                             if p > 1e-8 {
                                 -p * p.ln()
                             } else {

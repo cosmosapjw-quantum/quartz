@@ -49,4 +49,4 @@ quartz-play = "quartz.play_gui:main"
 include = ["quartz*"]
 
 [tool.setuptools.package-data]
-quartz = ["configs/*.json", "static/play/*"]
+quartz = ["static/play/*"]

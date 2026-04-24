@@ -707,13 +707,12 @@ pub fn select<G: GameState>(
 
         let best_mv = edges[best_idx].mv;
         let next_node = Arc::clone(&edges[best_idx].child);
-        let edge_arc = Arc::clone(&edges[best_idx]);
         drop(guard); // release Mutex before apply_move
 
         cur_state = cur_state.apply_move(best_mv);
         path.push(PathEdge {
             parent: Arc::clone(&cur_node),
-            edge_arc,
+            edge_idx: best_idx,
             applied_vl: (vl_split.vvisit, vl_split.vvalue),
         });
         cur_node = next_node;

@@ -763,6 +763,37 @@ def test_validate_checkpoint_refs_accepts_explicit_curated_checkpoint_files(tmp_
     runner.validate_checkpoint_refs(args, refs)
 
 
+def test_phase15_contract_summary_uses_shared_schema():
+    runner = load_phase15_runner()
+    checkpoints = [runner.CheckpointRef(id="C01", path="/tmp/c01.pt")]
+    systems = [
+        Phase15System(
+            id="A4",
+            label="substrate",
+            group="A",
+            substrate="S1",
+            controller="QuartzVL",
+            refresh_operator="none",
+            params={"penalty_scale": 0.25},
+        )
+    ]
+    contracts = runner.build_phase15_contracts(
+        execution_mode="posthoc",
+        game="gomoku7",
+        checkpoints=checkpoints,
+        systems=systems,
+        budgets=[8, 16, 32],
+        trace_cache_salt_value="salt-v1",
+        extra={"seed": 7},
+    )
+    summary = runner.summarize_phase15_contracts(contracts)
+    assert summary["count"] == len(contracts)
+    assert summary["discarded_count"] == 0
+    assert summary["legacy_partial_count"] == 0
+    assert summary["hash_key"] == "stable_json_hash"
+    assert isinstance(summary["collection_hash"], str) and summary["collection_hash"]
+
+
 def test_benchmark_summary_reports_tie_aware_match_rate():
     benchmark = load_phase15_benchmark_runner()
     rows = [
@@ -798,6 +829,44 @@ def test_benchmark_summary_reports_tie_aware_match_rate():
     assert summary["tie_aware_match_rate"] == 1.0
     assert summary["ambiguous_top1_rate"] == 0.5
     assert summary["by_checkpoint_system_budget"][0]["tie_aware_match_rate"] == 1.0
+
+
+def test_benchmark_contract_summary_uses_shared_schema():
+    benchmark = load_phase15_benchmark_runner()
+    checkpoints = [benchmark.posthoc.CheckpointRef(id="C01", path="/tmp/c01.pt")]
+    systems = [
+        Phase15System(
+            id="B2",
+            label="challenger",
+            group="B",
+            substrate="S1",
+            controller="QuartzVL",
+            refresh_operator="root_challenger",
+            params={"challenger_k": 2},
+        )
+    ]
+    args = SimpleNamespace(
+        game="gomoku7",
+        positions_file="/tmp/positions.json",
+        seed=7,
+        repeats=2,
+        warmup_rounds=1,
+        min_bundle_speedup=1.8,
+        min_tie_aware_match=0.65,
+        max_kl_mean=0.25,
+    )
+    summary = benchmark.build_benchmark_contract_summary(
+        args,
+        checkpoints,
+        systems,
+        [8, 16, 32],
+        positions_count=4,
+    )
+    assert summary["count"] >= 3
+    assert summary["discarded_count"] == 0
+    assert summary["legacy_partial_count"] == 0
+    assert summary["hash_key"] == "stable_json_hash"
+    assert isinstance(summary["collection_hash"], str) and summary["collection_hash"]
 
 
 def test_benchmark_bundle_summary_reports_modes_and_fallbacks():
@@ -896,6 +965,36 @@ def test_phase15_benchmark_ci_smoke_builds_self_contained_command():
     assert "--seed" in command
     assert "7" in command
     assert "--enforce-gate" in command
+
+
+def test_phase15_benchmark_ci_smoke_report_includes_benchmark_contract_summary():
+    smoke = load_phase15_benchmark_ci_smoke_runner()
+    args = SimpleNamespace(
+        game="gomoku7",
+        output="results/phase15_ci_gate",
+        systems="A4,B1,B2",
+        budgets="8,16,32,64",
+        seed=7,
+        search_stall_timeout_s=180.0,
+    )
+    report = smoke.build_ci_smoke_contract_summary(
+        args,
+        checkpoint_path=Path("/tmp/model.pt"),
+        positions_path=Path("/tmp/positions.json"),
+        benchmark_payload={
+            "contract_summary": {
+                "count": 6,
+                "collection_hash": "abc123",
+                "discarded_count": 0,
+                "legacy_partial_count": 0,
+                "hash_key": "stable_json_hash",
+            }
+        },
+    )
+    assert report["runner"]["game"] == "gomoku7"
+    assert report["artifacts"]["checkpoint_path"] == "/tmp/model.pt"
+    assert report["benchmark_contract_summary"]["collection_hash"] == "abc123"
+    assert report["benchmark_contract_summary"]["hash_key"] == "stable_json_hash"
 
 
 def test_phase15_benchmark_ci_smoke_positions_are_deterministic():

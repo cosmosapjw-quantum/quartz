@@ -11,12 +11,12 @@
 //!   - 충돌 정책: always-replace (가장 단순, baseline)
 //!   - TT 통계: hits, misses, collisions (로깅용)
 
-use std::collections::HashMap;
-use std::sync::atomic::{AtomicU64, Ordering};
-use std::sync::{Arc, Mutex};
-use std::time::Instant;
-
 use crate::mcts::node::MctsNode;
+use parking_lot::Mutex;
+use std::collections::HashMap;
+use std::hash::{BuildHasherDefault, Hasher};
+use std::sync::atomic::{AtomicU64, Ordering};
+use std::sync::Arc;
 
 // ─────────────────────────────────────────────
 // § 설정
@@ -33,15 +33,41 @@ const MAX_ENTRIES_PER_BUCKET: usize = 4096;
 // § TT Entry (통계 포함)
 // ─────────────────────────────────────────────
 
+#[derive(Default)]
+struct U64IdentityHasher {
+    value: u64,
+}
+
+impl Hasher for U64IdentityHasher {
+    #[inline]
+    fn finish(&self) -> u64 {
+        self.value
+    }
+
+    #[inline]
+    fn write_u64(&mut self, i: u64) {
+        self.value = i;
+    }
+
+    #[inline]
+    fn write(&mut self, bytes: &[u8]) {
+        let mut folded = 0u64;
+        for (shift, byte) in bytes.iter().take(8).enumerate() {
+            folded |= (*byte as u64) << (shift * 8);
+        }
+        self.value = folded;
+    }
+}
+
+type TtMap<M> = HashMap<u64, Arc<MctsNode<M>>, BuildHasherDefault<U64IdentityHasher>>;
+
 struct TtBucket<M: Copy + Send + Sync + 'static> {
-    map: HashMap<u64, Arc<MctsNode<M>>>,
+    map: TtMap<M>,
 }
 
 impl<M: Copy + Send + Sync + 'static> TtBucket<M> {
     fn new() -> Self {
-        TtBucket {
-            map: HashMap::new(),
-        }
+        TtBucket { map: TtMap::default() }
     }
 }
 
@@ -103,9 +129,11 @@ impl<M: Copy + Send + Sync + 'static> TranspositionTable<M> {
         }
         let idx = Self::bucket_idx(hash);
         self.get_or_create_calls.fetch_add(1, Ordering::Relaxed);
-        let t0 = Instant::now();
-        let mut bucket = self.buckets[idx].lock().unwrap();
-        self.record_lock_wait(t0.elapsed().as_nanos() as u64);
+        let t0 = crate::mcts::profiling::maybe_start_timer();
+        let mut bucket = self.buckets[idx].lock();
+        if let Some(t0) = t0 {
+            self.record_lock_wait(t0.elapsed().as_nanos() as u64);
+        }
 
         if let Some(node) = bucket.map.get(&hash) {
             self.hits.fetch_add(1, Ordering::Relaxed);
@@ -119,8 +147,8 @@ impl<M: Copy + Send + Sync + 'static> TranspositionTable<M> {
             let victim = bucket
                 .map
                 .iter()
-                .min_by_key(|(_, n)| n.n_total.load(Ordering::Relaxed))
-                .map(|(k, _)| *k);
+                .min_by_key(|(_, node)| node.n_total.load(Ordering::Relaxed))
+                .map(|(hash, _)| *hash);
             if let Some(victim_hash) = victim {
                 bucket.map.remove(&victim_hash);
             }
@@ -138,9 +166,11 @@ impl<M: Copy + Send + Sync + 'static> TranspositionTable<M> {
         }
         let idx = Self::bucket_idx(hash);
         self.get_calls.fetch_add(1, Ordering::Relaxed);
-        let t0 = Instant::now();
-        let bucket = self.buckets[idx].lock().unwrap();
-        self.record_lock_wait(t0.elapsed().as_nanos() as u64);
+        let t0 = crate::mcts::profiling::maybe_start_timer();
+        let bucket = self.buckets[idx].lock();
+        if let Some(t0) = t0 {
+            self.record_lock_wait(t0.elapsed().as_nanos() as u64);
+        }
         bucket.map.get(&hash).map(Arc::clone)
     }
 
@@ -150,7 +180,7 @@ impl<M: Copy + Send + Sync + 'static> TranspositionTable<M> {
         }
         self.buckets
             .iter()
-            .map(|b| b.lock().unwrap().map.len())
+            .map(|b| b.lock().map.len())
             .sum()
     }
 
@@ -165,6 +195,9 @@ impl<M: Copy + Send + Sync + 'static> TranspositionTable<M> {
     }
 
     fn record_lock_wait(&self, wait_nanos: u64) {
+        if !crate::mcts::profiling::hot_path_metrics_enabled() {
+            return;
+        }
         self.lock_wait_nanos
             .fetch_add(wait_nanos, Ordering::Relaxed);
         let mut prev = self.max_lock_wait_nanos.load(Ordering::Relaxed);
@@ -211,5 +244,20 @@ mod tests {
         assert_eq!(tt.size(), 0);
         assert!(tt.get(123).is_none());
         assert!(!Arc::ptr_eq(&a, &b));
+    }
+
+    #[test]
+    fn identity_hasher_preserves_distinct_u64_keys() {
+        let tt = TranspositionTable::<usize>::new_enabled(true);
+        let a = tt.get_or_create(0, None);
+        let b = tt.get_or_create(u64::MAX, None);
+        let c = tt.get_or_create(0x0102_0304_0506_0708, None);
+
+        assert!(Arc::ptr_eq(&a, &tt.get(0).unwrap()));
+        assert!(Arc::ptr_eq(&b, &tt.get(u64::MAX).unwrap()));
+        assert!(Arc::ptr_eq(&c, &tt.get(0x0102_0304_0506_0708).unwrap()));
+        assert!(!Arc::ptr_eq(&a, &b));
+        assert!(!Arc::ptr_eq(&a, &c));
+        assert!(!Arc::ptr_eq(&b, &c));
     }
 }

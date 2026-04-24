@@ -63,18 +63,34 @@ thread_local! {
 }
 
 struct GomokuFeatureScratch {
-    touched: Vec<usize>,
+    touched: Vec<u16>,
+    recent_epoch: [u16; MAX_SQ],
     recent_rank: [u8; MAX_SQ],
-    recent_rank_dirty: Vec<usize>,
+    color_plane_active: bool,
+    current_epoch: u16,
 }
 
 impl Default for GomokuFeatureScratch {
     fn default() -> Self {
         Self {
-            touched: Vec::new(),
+            touched: Vec::with_capacity(MAX_SQ * GOMOKU_HISTORY_LEN),
+            recent_epoch: [0; MAX_SQ],
             recent_rank: [0; MAX_SQ],
-            recent_rank_dirty: Vec::with_capacity(16),
+            color_plane_active: false,
+            current_epoch: 0,
         }
+    }
+}
+
+impl GomokuFeatureScratch {
+    #[inline]
+    fn next_recent_epoch(&mut self) -> u16 {
+        self.current_epoch = self.current_epoch.wrapping_add(1);
+        if self.current_epoch == 0 {
+            self.recent_epoch = [0; MAX_SQ];
+            self.current_epoch = 1;
+        }
+        self.current_epoch
     }
 }
 
@@ -91,6 +107,7 @@ pub struct Gomoku {
     pub size: usize,    // 보드 크기 (7/9/13/15)
     pub win_len: usize, // 승리 조건 (연속 몇 개: 4 or 5)
     board: Vec<i8>,     // +1=black, -1=white, 0=empty  (row-major)
+    occupied: [u16; MAX_SQ],
     current_player: i8, // +1=black, -1=white
     hash: u64,          // Zobrist 증분 해시
     move_count: u32,
@@ -120,6 +137,7 @@ impl Gomoku {
             size,
             win_len,
             board: vec![0; size * size],
+            occupied: [0; MAX_SQ],
             current_player: 1, // black 선수
             hash: 0,
             move_count: 0,
@@ -152,11 +170,13 @@ impl Gomoku {
             match v {
                 1 => {
                     g.board[i] = 1;
+                    g.occupied[mc as usize] = i as u16;
                     mc += 1;
                     g.hash ^= GOB.piece_hash(1, i);
                 }
                 2 => {
                     g.board[i] = -1;
+                    g.occupied[mc as usize] = i as u16;
                     mc += 1;
                     g.hash ^= GOB.piece_hash(-1, i);
                 }
@@ -358,6 +378,7 @@ impl GameState for Gomoku {
         next.hash ^= GOB.side;
 
         next.board[mv] = player;
+        next.occupied[self.move_count as usize] = mv as u16;
         next.move_count += 1;
         next.last_move = Some(mv);
         next.push_recent_move(mv);
@@ -424,55 +445,62 @@ impl GameState for Gomoku {
         GOMOKU_FEATURE_SCRATCH.with(|scratch| {
             let mut scratch = scratch.borrow_mut();
             let total = total_planes * n;
+            let color_base = (total_planes - 1) * n;
             if out.len() != total {
                 out.clear();
                 out.resize(total, 0.0);
                 scratch.touched.clear();
+                scratch.color_plane_active = false;
             } else {
-                for &idx in &scratch.touched {
-                    out[idx] = 0.0;
+                let touched_len =
+                    scratch.touched.len() + if scratch.color_plane_active { n } else { 0 };
+                if touched_len * 2 >= total {
+                    out.fill(0.0);
+                    scratch.touched.clear();
+                    scratch.color_plane_active = false;
+                } else {
+                    for &idx in &scratch.touched {
+                        out[idx as usize] = 0.0;
+                    }
+                    scratch.touched.clear();
+                    if scratch.color_plane_active {
+                        out[color_base..color_base + n].fill(0.0);
+                        scratch.color_plane_active = false;
+                    }
                 }
-                scratch.touched.clear();
             }
 
-            // Sparse reset: only clear entries that were set last time
-            for i in 0..scratch.recent_rank_dirty.len() {
-                let pos = scratch.recent_rank_dirty[i];
-                scratch.recent_rank[pos] = 0;
-            }
-            scratch.recent_rank_dirty.clear();
+            let recent_epoch = scratch.next_recent_epoch();
             for (rank, &mv) in self.recent_moves[..self.recent_move_len as usize]
                 .iter()
                 .rev()
                 .enumerate()
             {
                 let pos = mv as usize;
+                scratch.recent_epoch[pos] = recent_epoch;
                 scratch.recent_rank[pos] = (rank + 1) as u8;
-                scratch.recent_rank_dirty.push(pos);
             }
 
-            for (i, &v) in self.board.iter().enumerate() {
-                if v == 0 {
-                    continue;
-                }
+            for &pos in &self.occupied[..self.move_count as usize] {
+                let i = pos as usize;
+                let v = self.board[i];
                 let plane_offset = if v == cp { 0 } else { n };
-                let active_steps = match scratch.recent_rank[i] {
-                    0 => GOMOKU_HISTORY_LEN,
-                    rank => rank as usize,
+                let active_steps = match (scratch.recent_epoch[i] == recent_epoch)
+                    .then_some(scratch.recent_rank[i])
+                {
+                    Some(rank) => rank as usize,
+                    None => GOMOKU_HISTORY_LEN,
                 };
                 for t in 0..active_steps {
                     let idx = t * 2 * n + plane_offset + i;
                     out[idx] = 1.0;
-                    scratch.touched.push(idx);
+                    scratch.touched.push(idx as u16);
                 }
             }
 
             if cp == 1 {
-                let color_base = (total_planes - 1) * n;
-                for idx in color_base..color_base + n {
-                    out[idx] = 1.0;
-                    scratch.touched.push(idx);
-                }
+                out[color_base..color_base + n].fill(1.0);
+                scratch.color_plane_active = true;
             }
         });
     }
@@ -532,6 +560,68 @@ impl GameState for Gomoku {
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    fn encode_planes_reference(state: &Gomoku) -> Vec<f32> {
+        let n = state.size * state.size;
+        let total_planes = GOMOKU_HISTORY_LEN * 2 + 1;
+        let mut out = vec![0.0; total_planes * n];
+        let cp = state.current_player;
+        let mut recent_rank = [0u8; MAX_SQ];
+        for (rank, &mv) in state.recent_moves[..state.recent_move_len as usize]
+            .iter()
+            .rev()
+            .enumerate()
+        {
+            recent_rank[mv as usize] = (rank + 1) as u8;
+        }
+        for (i, &v) in state.board.iter().enumerate() {
+            if v == 0 {
+                continue;
+            }
+            let plane_offset = if v == cp { 0 } else { n };
+            let active_steps = match recent_rank[i] {
+                0 => GOMOKU_HISTORY_LEN,
+                rank => rank as usize,
+            };
+            for t in 0..active_steps {
+                out[t * 2 * n + plane_offset + i] = 1.0;
+            }
+        }
+        if cp == 1 {
+            let color_base = (total_planes - 1) * n;
+            out[color_base..color_base + n].fill(1.0);
+        }
+        out
+    }
+
+    fn assert_occupied_matches_board(state: &Gomoku) {
+        let occupied_len = state.move_count as usize;
+        let board_len = state.size * state.size;
+        let board_count = state.board[..board_len].iter().filter(|&&v| v != 0).count();
+        assert_eq!(
+            occupied_len, board_count,
+            "occupied prefix length must match stone count"
+        );
+
+        let mut seen = [false; MAX_SQ];
+        for &pos in &state.occupied[..occupied_len] {
+            let pos = pos as usize;
+            assert!(
+                pos < board_len,
+                "occupied position must stay in board bounds"
+            );
+            assert_ne!(state.board[pos], 0, "occupied entries must point to stones");
+            assert!(!seen[pos], "occupied entries must not duplicate positions");
+            seen[pos] = true;
+        }
+        for (idx, &cell) in state.board[..board_len].iter().enumerate() {
+            assert_eq!(
+                seen[idx],
+                cell != 0,
+                "occupied prefix must cover exactly all stones"
+            );
+        }
+    }
 
     fn make_state(size: usize, moves: &[(usize, usize)]) -> Gomoku {
         // moves: (row, col) 쌍, 교대로 착수
@@ -636,6 +726,43 @@ mod tests {
         // current_player = black (+1) after 2 moves
         assert_eq!(planes[4 * 9 + 4], 1.0); // plane 0: black's piece at (4,4)
         assert_eq!(planes[n + 0], 1.0); // plane 1: white's piece at (0,0)
+    }
+
+    #[test]
+    fn test_encode_planes_matches_reference_and_occupied_consistency() {
+        let states = [
+            Gomoku::new(9),
+            make_state(9, &[(4, 4), (0, 0), (4, 5), (0, 1), (4, 6)]),
+            make_state_7x4(&[(0, 0), (1, 0), (0, 1), (1, 1), (0, 2), (1, 2)]),
+            make_state_15(&[(7, 7), (0, 0), (7, 8), (0, 1), (7, 9), (0, 2), (7, 10)]),
+        ];
+
+        for state in &states {
+            assert_occupied_matches_board(state);
+            let expected = encode_planes_reference(state);
+            assert_eq!(state.encode_planes(), expected);
+            let mut scratch = Vec::new();
+            state.encode_planes_into(&mut scratch);
+            assert_eq!(scratch, expected);
+        }
+
+        let board = vec![
+            1, 0, 2, 0, 0, 0, 0, 0, 0, //
+            0, 1, 0, 2, 0, 0, 0, 0, 0, //
+            0, 0, 1, 0, 2, 0, 0, 0, 0, //
+            0, 0, 0, 1, 0, 2, 0, 0, 0, //
+            0, 0, 0, 0, 1, 0, 0, 0, 0, //
+            0, 0, 0, 0, 0, 0, 0, 0, 0, //
+            0, 0, 0, 0, 0, 0, 0, 0, 0, //
+            0, 0, 0, 0, 0, 0, 0, 0, 0, //
+            0, 0, 0, 0, 0, 0, 0, 0, 0,
+        ];
+        let rebuilt = Gomoku::from_board_12(9, 5, &board, 2);
+        assert_occupied_matches_board(&rebuilt);
+        let expected = encode_planes_reference(&rebuilt);
+        let mut scratch = Vec::new();
+        rebuilt.encode_planes_into(&mut scratch);
+        assert_eq!(scratch, expected);
     }
 
     // ── win_len=4 tests (7×7 server compatibility) ──

@@ -76,18 +76,34 @@ thread_local! {
 }
 
 struct Gomoku15FeatureScratch {
-    touched: Vec<usize>,
+    touched: Vec<u16>,
+    recent_epoch: [u16; N2],
     recent_rank: [u8; N2],
-    recent_rank_dirty: Vec<usize>,
+    color_plane_active: bool,
+    current_epoch: u16,
 }
 
 impl Default for Gomoku15FeatureScratch {
     fn default() -> Self {
         Self {
-            touched: Vec::new(),
+            touched: Vec::with_capacity(N2 * GOMOKU15_HISTORY_LEN),
+            recent_epoch: [0; N2],
             recent_rank: [0; N2],
-            recent_rank_dirty: Vec::with_capacity(16),
+            color_plane_active: false,
+            current_epoch: 0,
         }
+    }
+}
+
+impl Gomoku15FeatureScratch {
+    #[inline]
+    fn next_recent_epoch(&mut self) -> u16 {
+        self.current_epoch = self.current_epoch.wrapping_add(1);
+        if self.current_epoch == 0 {
+            self.recent_epoch = [0; N2];
+            self.current_epoch = 1;
+        }
+        self.current_epoch
     }
 }
 
@@ -120,6 +136,7 @@ const GOMOKU15_HISTORY_MOVES: usize = GOMOKU15_HISTORY_LEN - 1;
 #[derive(Clone, Debug)]
 pub struct Gomoku15 {
     board: [u8; N2], // 0=empty, 1=black, 2=white
+    occupied: [u16; N2],
     hash: u64,
     side: i8, // +1=black, -1=white
     moves: u16,
@@ -151,6 +168,7 @@ impl Gomoku15 {
     pub fn new(variant: GomokuVariant) -> Self {
         Gomoku15 {
             board: [0u8; N2],
+            occupied: [0; N2],
             hash: 0,
             side: 1, // black first
             moves: 0,
@@ -205,11 +223,13 @@ impl Gomoku15 {
         for i in 0..N2.min(board.len()) {
             if board[i] == 1 {
                 g.board[i] = 1;
+                g.occupied[move_count as usize] = i as u16;
                 move_count += 1;
                 last = i as u16;
                 g.nb_mark_around(i);
             } else if board[i] == -1 || board[i] == 2 {
                 g.board[i] = 2;
+                g.occupied[move_count as usize] = i as u16;
                 move_count += 1;
                 last = i as u16;
             }
@@ -271,6 +291,13 @@ impl Gomoku15 {
     #[inline]
     fn needs_forbidden_filter(&self) -> bool {
         self.side > 0 && matches!(self.rules, GomokuVariant::Omok | GomokuVariant::Renju)
+    }
+
+    #[inline]
+    fn filtered_black_move_is_legal(&self, pos: usize) -> bool {
+        debug_assert!(self.side > 0);
+        debug_assert_eq!(self.board[pos], 0);
+        !self.nb_get(pos) || !self.compute_black_forbidden(pos)
     }
 
     // ── near_black bitmask ──
@@ -742,7 +769,7 @@ impl GameState for Gomoku15 {
 
         if need_filter {
             for (i, &v) in self.board.iter().enumerate() {
-                if v == 0 && !self.is_forbidden(i) {
+                if v == 0 && self.filtered_black_move_is_legal(i) {
                     moves.push(i as u16);
                 }
             }
@@ -763,6 +790,7 @@ impl GameState for Gomoku15 {
 
         // Place stone
         next.board[pos] = val;
+        next.occupied[self.moves as usize] = mv;
 
         // Update near_black bitmask (only for black stones)
         if val == 1 {
@@ -836,55 +864,62 @@ impl GameState for Gomoku15 {
         GOMOKU15_FEATURE_SCRATCH.with(|scratch| {
             let mut scratch = scratch.borrow_mut();
             let total = total_planes * N2;
+            let color_base = (total_planes - 1) * N2;
             if out.len() != total {
                 out.clear();
                 out.resize(total, 0.0);
                 scratch.touched.clear();
+                scratch.color_plane_active = false;
             } else {
-                for &idx in &scratch.touched {
-                    out[idx] = 0.0;
+                let touched_len =
+                    scratch.touched.len() + if scratch.color_plane_active { N2 } else { 0 };
+                if touched_len * 2 >= total {
+                    out.fill(0.0);
+                    scratch.touched.clear();
+                    scratch.color_plane_active = false;
+                } else {
+                    for &idx in &scratch.touched {
+                        out[idx as usize] = 0.0;
+                    }
+                    scratch.touched.clear();
+                    if scratch.color_plane_active {
+                        out[color_base..color_base + N2].fill(0.0);
+                        scratch.color_plane_active = false;
+                    }
                 }
-                scratch.touched.clear();
             }
 
-            // Sparse reset: only clear entries that were set last time
-            for i in 0..scratch.recent_rank_dirty.len() {
-                let pos = scratch.recent_rank_dirty[i];
-                scratch.recent_rank[pos] = 0;
-            }
-            scratch.recent_rank_dirty.clear();
+            let recent_epoch = scratch.next_recent_epoch();
             for (rank, &mv) in self.recent_moves[..self.recent_move_len as usize]
                 .iter()
                 .rev()
                 .enumerate()
             {
                 let pos = mv as usize;
+                scratch.recent_epoch[pos] = recent_epoch;
                 scratch.recent_rank[pos] = (rank + 1) as u8;
-                scratch.recent_rank_dirty.push(pos);
             }
 
-            for (i, &v) in self.board.iter().enumerate() {
-                if v == 0 {
-                    continue;
-                }
+            for &pos in &self.occupied[..self.moves as usize] {
+                let i = pos as usize;
+                let v = self.board[i];
                 let plane_offset = if v == my_val { 0 } else { N2 };
-                let active_steps = match scratch.recent_rank[i] {
-                    0 => GOMOKU15_HISTORY_LEN,
-                    rank => rank as usize,
+                let active_steps = match (scratch.recent_epoch[i] == recent_epoch)
+                    .then_some(scratch.recent_rank[i])
+                {
+                    Some(rank) => rank as usize,
+                    None => GOMOKU15_HISTORY_LEN,
                 };
                 for t in 0..active_steps {
                     let idx = t * 2 * N2 + plane_offset + i;
                     out[idx] = 1.0;
-                    scratch.touched.push(idx);
+                    scratch.touched.push(idx as u16);
                 }
             }
 
             if self.side > 0 {
-                let color_base = (total_planes - 1) * N2;
-                for idx in color_base..color_base + N2 {
-                    out[idx] = 1.0;
-                    scratch.touched.push(idx);
-                }
+                out[color_base..color_base + N2].fill(1.0);
+                scratch.color_plane_active = true;
             }
         });
     }
@@ -930,7 +965,7 @@ impl GameState for Gomoku15 {
                 .board
                 .iter()
                 .enumerate()
-                .filter(|(i, &v)| v == 0 && !self.is_forbidden(*i))
+                .filter(|(i, &v)| v == 0 && self.filtered_black_move_is_legal(*i))
                 .count();
             if legal_count == 0 {
                 return None;
@@ -938,7 +973,7 @@ impl GameState for Gomoku15 {
             let target = rand_idx % legal_count;
             let mut count = 0usize;
             for (i, &v) in self.board.iter().enumerate() {
-                if v == 0 && !self.is_forbidden(i) {
+                if v == 0 && self.filtered_black_move_is_legal(i) {
                     if count == target {
                         return Some(i as u16);
                     }
@@ -960,7 +995,7 @@ impl GameState for Gomoku15 {
         } else {
             let mut count = 0usize;
             for (i, &v) in self.board.iter().enumerate() {
-                if v == 0 && !self.is_forbidden(i) {
+                if v == 0 && self.filtered_black_move_is_legal(i) {
                     count += 1;
                 }
             }
@@ -1059,6 +1094,62 @@ mod tests {
 
     fn a(r: usize, c: usize) -> u16 {
         (r * N + c) as u16
+    }
+
+    fn encode_planes_reference(state: &Gomoku15) -> Vec<f32> {
+        let total_planes = GOMOKU15_HISTORY_LEN * 2 + 1;
+        let mut out = vec![0.0; total_planes * N2];
+        let my_val = Gomoku15::side_to_val(state.side);
+        let mut recent_rank = [0u8; N2];
+        for (rank, &mv) in state.recent_moves[..state.recent_move_len as usize]
+            .iter()
+            .rev()
+            .enumerate()
+        {
+            recent_rank[mv as usize] = (rank + 1) as u8;
+        }
+        for (i, &v) in state.board.iter().enumerate() {
+            if v == 0 {
+                continue;
+            }
+            let plane_offset = if v == my_val { 0 } else { N2 };
+            let active_steps = match recent_rank[i] {
+                0 => GOMOKU15_HISTORY_LEN,
+                rank => rank as usize,
+            };
+            for t in 0..active_steps {
+                out[t * 2 * N2 + plane_offset + i] = 1.0;
+            }
+        }
+        if state.side > 0 {
+            let color_base = (total_planes - 1) * N2;
+            out[color_base..color_base + N2].fill(1.0);
+        }
+        out
+    }
+
+    fn assert_occupied_matches_board(state: &Gomoku15) {
+        let occupied_len = state.moves as usize;
+        let board_count = state.board.iter().filter(|&&v| v != 0).count();
+        assert_eq!(
+            occupied_len, board_count,
+            "occupied prefix length must match stone count"
+        );
+
+        let mut seen = [false; N2];
+        for &pos in &state.occupied[..occupied_len] {
+            let pos = pos as usize;
+            assert_ne!(state.board[pos], 0, "occupied entries must point to stones");
+            assert!(!seen[pos], "occupied entries must not duplicate positions");
+            seen[pos] = true;
+        }
+        for (idx, &cell) in state.board.iter().enumerate() {
+            assert_eq!(
+                seen[idx],
+                cell != 0,
+                "occupied prefix must cover exactly all stones"
+            );
+        }
     }
 
     // ══════════════════════════════════════════
@@ -2183,6 +2274,72 @@ mod tests {
     }
 
     #[test]
+    fn test_encode_planes_matches_reference_and_occupied_consistency_across_variants() {
+        let states = [
+            Gomoku15::freestyle(),
+            std(&[(7, 5), (0, 0), (7, 6), (0, 1), (7, 7)]),
+            free(&[(7, 5), (0, 0), (7, 6), (0, 1), (7, 7), (0, 2), (7, 8)]),
+            omok(&[
+                (7, 6),
+                (0, 0),
+                (7, 8),
+                (0, 1),
+                (6, 7),
+                (0, 2),
+                (8, 7),
+                (0, 3),
+            ]),
+            renju(&[
+                (7, 5),
+                (0, 0),
+                (7, 6),
+                (0, 1),
+                (7, 8),
+                (0, 2),
+                (6, 7),
+                (0, 3),
+            ]),
+            make(
+                GomokuVariant::Caro,
+                &[(7, 5), (0, 0), (7, 6), (0, 1), (7, 7), (0, 2), (7, 8)],
+            ),
+        ];
+
+        for state in &states {
+            assert_occupied_matches_board(state);
+            let expected = encode_planes_reference(state);
+            assert_eq!(state.encode_planes(), expected);
+            let mut scratch = Vec::new();
+            state.encode_planes_into(&mut scratch);
+            assert_eq!(scratch, expected);
+        }
+
+        let board = vec![
+            1, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, //
+            0, 1, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, //
+            0, 0, 1, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, //
+            0, 0, 0, 1, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, //
+            0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, //
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, //
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, //
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, //
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, //
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, //
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, //
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, //
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, //
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, //
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        ];
+        let rebuilt = Gomoku15::from_board(&board, -1, GomokuVariant::Omok);
+        assert_occupied_matches_board(&rebuilt);
+        let expected = encode_planes_reference(&rebuilt);
+        let mut scratch = Vec::new();
+        rebuilt.encode_planes_into(&mut scratch);
+        assert_eq!(scratch, expected);
+    }
+
+    #[test]
     fn test_freestyle_overline_wins() {
         let s = make(
             GomokuVariant::Freestyle,
@@ -2444,6 +2601,12 @@ mod tests {
     #[ignore]
     fn bench_gomoku15_hotpaths() {
         bench_gomoku15_state(Gomoku15::freestyle(), "gomoku15-freestyle");
+    }
+
+    #[test]
+    #[ignore]
+    fn bench_gomoku15_renju_hotpaths() {
+        bench_gomoku15_state(Gomoku15::renju(), "gomoku15-renju");
     }
 
     #[test]

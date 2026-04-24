@@ -3,11 +3,13 @@
 from __future__ import annotations
 
 import contextlib
+import hashlib
 import json
 import logging
 import os
 import queue
 import random
+import sys
 import threading
 from types import SimpleNamespace
 
@@ -27,23 +29,29 @@ from quartz.game_adapters import (
     build_training_game_adapter as _build_training_game_adapter_impl,
 )
 from quartz.qipc import (
+    QIPC_ARENA_EVAL_REQ,
+    QIPC_ARENA_EVAL_RESP,
     QIPC_BATCH_EVAL_REQ,
     QIPC_BATCH_EVAL_RESP,
     QIPC_EVAL_REQ,
     QIPC_EVAL_RESP,
     SHM_MSG_EVAL_BATCH_REQ,
+    SHM_MSG_ARENA_EVAL_RESP,
     SHM_MSG_JSON,
     SHM_MSG_SEARCH_RESP,
     cleanup_qipc_transport,
     launch_rust_server,
     pack_qipc_batch_eval_resp,
+    pack_qipc_arena_eval_req,
     pack_qipc_eval_resp,
     proc_decode_eval_frame,
     proc_read_json_line,
     proc_read_message,
     proc_write_eval_response,
     proc_write_json_line,
+    proc_write_qipc_frame,
     unpack_qipc_batch_eval_req,
+    unpack_qipc_arena_eval_resp,
     unpack_qipc_eval_req,
     unpack_shm_search_response,
     wait_readable,
@@ -88,10 +96,87 @@ def _alphazero_net_cls():
     return AlphaZeroNet
 
 
+_SEARCH_CLIENT_RESOLVER = None
+
+
+def register_search_client_resolver(resolver):
+    global _SEARCH_CLIENT_RESOLVER
+    _SEARCH_CLIENT_RESOLVER = resolver
+
+
+def resolve_search_client_cls(default_cls=None):
+    default_cls = default_cls or NNSearchClient
+    if callable(_SEARCH_CLIENT_RESOLVER):
+        try:
+            candidate = _SEARCH_CLIENT_RESOLVER()
+        except Exception:
+            candidate = None
+        if candidate is not None:
+            return candidate
+    candidates = []
+    for module_name in ("quartz.alphazero_train", "alphazero_train", "quartz_alphazero_train"):
+        module = sys.modules.get(module_name)
+        if module is not None:
+            candidates.append(module)
+    for module in list(sys.modules.values()):
+        module_file = getattr(module, "__file__", None)
+        if isinstance(module_file, str) and module_file.endswith(os.path.join("quartz", "alphazero_train.py")):
+            candidates.append(module)
+    seen = set()
+    for module in candidates:
+        module_id = id(module)
+        if module_id in seen:
+            continue
+        seen.add(module_id)
+        candidate = getattr(module, "NNSearchClient", None)
+        if candidate is not None:
+            return candidate
+    return default_cls
+
+
 def json_loads_fast(payload):
     if orjson is not None:
         return orjson.loads(payload)
     return json.loads(payload)
+
+
+SEARCH_MANIFEST_KEYS = (
+    "_name",
+    "iters",
+    "search_profile",
+    "vl_mode",
+    "penalty_mode",
+    "root_only_shaping",
+    "prior_refresh_rate",
+    "prior_refresh_temp",
+    "c_puct",
+    "sigma_0",
+    "min_visits",
+    "check_interval",
+    "hbar_penalty_cap",
+    "n_threads",
+    "batch_size",
+    "batch_timeout_us",
+    "_eval_runner_mode",
+    "_arena_low_concurrency_profile",
+)
+
+
+def build_search_manifest(cfg):
+    manifest = {}
+    for key in SEARCH_MANIFEST_KEYS:
+        if key in cfg:
+            value = cfg.get(key)
+            if value is None:
+                continue
+            manifest[key] = value
+    return manifest
+
+
+def search_manifest_hash(cfg):
+    manifest = build_search_manifest(cfg)
+    payload = json.dumps(manifest, sort_keys=True, separators=(",", ":"), default=str)
+    return hashlib.sha256(payload.encode("utf-8")).hexdigest()[:16]
 
 
 def rust_game_name(game_name):
@@ -263,6 +348,19 @@ class InferencePipelineThread:
                 self._outbound.put(exc)
 
 
+def should_use_async_pipeline(model, device, cfg):
+    if os.environ.get("QUARTZ_FORCE_ASYNC_PIPELINE"):
+        return bool(model is not None and not hasattr(model, "predict"))
+    if os.environ.get("QUARTZ_DISABLE_ASYNC_PIPELINE"):
+        return False
+    if model is None or hasattr(model, "predict"):
+        return False
+    if str(device) == "cpu":
+        return False
+    batch_size = int(cfg.get("batch_size", 0) or 0)
+    return batch_size > 1
+
+
 def _write_batched_eval_group(proc, response_group):
     kind = response_group["kind"]
     policies = response_group["policies"]
@@ -289,7 +387,7 @@ def _write_batched_eval_group(proc, response_group):
         raise ValueError(f"unknown eval response group kind: {kind}")
 
 
-def _shm_eval_loop(ring, model, device, cfg, proc, on_json=None):
+def _shm_eval_loop(ring, model, device, cfg, proc, on_json=None, baseline_epoch=None):
     from quartz.evaluator_runtime import ShmEvalRuntimeHooks, shm_eval_loop as _shm_eval_loop_impl
 
     return _shm_eval_loop_impl(
@@ -299,19 +397,23 @@ def _shm_eval_loop(ring, model, device, cfg, proc, on_json=None):
         cfg,
         proc,
         on_json=on_json,
+        baseline_epoch=baseline_epoch,
         runtime_hooks=ShmEvalRuntimeHooks(
             run_batched_eval_groups=lambda groups, model_obj, dev, cfg_obj: run_batched_eval_groups(groups, model_obj, dev, cfg_obj, _run_model_batch),
             make_eval_request_group=make_eval_request_group,
             unpack_qipc_batch_eval_req=unpack_qipc_batch_eval_req,
             unpack_shm_search_response=unpack_shm_search_response,
+            unpack_qipc_arena_eval_resp=unpack_qipc_arena_eval_resp,
             json_loads_fast=json_loads_fast,
-            emit_duty_cycle=getattr(NNSearchClient, "_emit_duty_cycle", lambda duty: None),
+            emit_duty_cycle=getattr(resolve_search_client_cls(), "_emit_duty_cycle", lambda duty: None),
             pack_qipc_batch_eval_resp=pack_qipc_batch_eval_resp,
             logger=log,
             shm_msg_eval_batch_req=SHM_MSG_EVAL_BATCH_REQ,
+            shm_msg_arena_eval_resp=SHM_MSG_ARENA_EVAL_RESP,
             shm_msg_json=SHM_MSG_JSON,
             shm_msg_search_resp=SHM_MSG_SEARCH_RESP,
             inference_pipeline_thread_cls=InferencePipelineThread,
+            should_use_async_pipeline=should_use_async_pipeline,
         ),
     )
 
@@ -326,6 +428,7 @@ class NNSearchClient(_NNSearchClientImpl):
             runtime_hooks=SearchClientRuntimeHooks(
                 launch_server=launch_rust_server,
                 proc_write_json_line=proc_write_json_line,
+                proc_write_qipc_frame=proc_write_qipc_frame,
                 cleanup_qipc_transport=cleanup_qipc_transport,
                 proc_read_json_line=proc_read_json_line,
                 json_loads_fast=json_loads_fast,
@@ -336,14 +439,19 @@ class NNSearchClient(_NNSearchClientImpl):
                 proc_read_message=proc_read_message,
                 shm_eval_loop=_shm_eval_loop,
                 proc_decode_eval_frame=proc_decode_eval_frame,
+                qipc_arena_eval_req=QIPC_ARENA_EVAL_REQ,
+                qipc_arena_eval_resp=QIPC_ARENA_EVAL_RESP,
                 qipc_batch_eval_req=QIPC_BATCH_EVAL_REQ,
                 qipc_eval_req=QIPC_EVAL_REQ,
                 make_eval_request_group=make_eval_request_group,
+                pack_qipc_arena_eval_req=pack_qipc_arena_eval_req,
                 unpack_qipc_batch_eval_req=unpack_qipc_batch_eval_req,
+                unpack_qipc_arena_eval_resp=unpack_qipc_arena_eval_resp,
                 unpack_qipc_eval_req=unpack_qipc_eval_req,
                 compute_eval_collect_policy=__import__("quartz.system_runtime", fromlist=["compute_eval_collect_policy"]).compute_eval_collect_policy,
                 wait_readable=wait_readable,
                 inference_pipeline_thread_cls=InferencePipelineThread,
+                should_use_async_pipeline=should_use_async_pipeline,
                 run_batched_eval_groups=lambda groups, model_obj, dev, cfg_obj: run_batched_eval_groups(groups, model_obj, dev, cfg_obj, _run_model_batch),
                 write_batched_eval_group=_write_batched_eval_group,
                 run_model_batch=_run_model_batch,
@@ -450,8 +558,10 @@ __all__ = [
     "GAME_CONFIGS",
     "GameRecord",
     "InferencePipelineThread",
+    "should_use_async_pipeline",
     "NNSearchClient",
     "build_rust_state_meta",
+    "build_search_manifest",
     "build_training_game_adapter",
     "decode_board",
     "detect_checkpoint_backend_hint",
@@ -471,7 +581,10 @@ __all__ = [
     "proc_read_message",
     "proc_write_json_line",
     "run_model_batch",
+    "register_search_client_resolver",
+    "resolve_search_client_cls",
     "rust_game_name",
+    "search_manifest_hash",
     "supports_rust_eval_state_machine",
     "tally_match",
     "torch",

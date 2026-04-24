@@ -4,11 +4,13 @@ import builtins
 import json
 import io
 import logging
+import math
 import os
 import struct
 import sys
 import tomllib
 import types
+import warnings
 from pathlib import Path
 import random
 
@@ -30,6 +32,16 @@ def load_train_entry_module():
     spec = importlib.util.spec_from_file_location(
         "quartz_train_entry", root / "quartz" / "train.py")
     module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    return module
+
+
+def load_cli_main_module():
+    root = Path(__file__).resolve().parents[1]
+    spec = importlib.util.spec_from_file_location(
+        "quartz_cli_main", root / "quartz" / "cli_main.py")
+    module = importlib.util.module_from_spec(spec)
+    sys.modules[spec.name] = module
     spec.loader.exec_module(module)
     return module
 
@@ -1368,6 +1380,117 @@ def test_training_module_reexports_selfplay_runtime_api():
     assert az.default_output_dir("gomoku7") == sp_mod.default_output_dir("gomoku7")
 
 
+def test_selfplay_worker_stop_cancels_active_search_and_kills_pool():
+    from quartz import selfplay_runtime as sp_mod
+
+    class FakePool:
+        def __init__(self):
+            self.kill_calls = 0
+            self.close_calls = 0
+
+        def kill_active(self):
+            self.kill_calls += 1
+
+        def close(self):
+            self.close_calls += 1
+
+    class FakeThread:
+        def __init__(self):
+            self.join_calls = []
+            self._alive_checks = 0
+
+        def join(self, timeout=None):
+            self.join_calls.append(timeout)
+
+        def is_alive(self):
+            self._alive_checks += 1
+            return self._alive_checks == 1
+
+    class FakeRing:
+        def __init__(self):
+            self.cancel_calls = 0
+
+        def request_cancel(self):
+            self.cancel_calls += 1
+
+    class FakeProc:
+        def __init__(self):
+            self._quartz_ring_buffer = FakeRing()
+            self.kill_calls = 0
+
+        def kill(self):
+            self.kill_calls += 1
+
+    worker = sp_mod.SelfPlayWorker(
+        cfg={"batch": 8},
+        model="actor",
+        device="cpu",
+        replay=types.SimpleNamespace(buf=[]),
+        rust_binary="./target/release/mcts_demo",
+        server_pool_factory=lambda _binary: FakePool(),
+        clone_actor_model_fn=lambda model: model,
+        selfplay_runner=lambda *args, **kwargs: ([], [], [], []),
+    )
+    proc = FakeProc()
+    worker._active_proc = proc
+    worker._thread = FakeThread()
+
+    worker.stop()
+
+    assert proc._quartz_ring_buffer.cancel_calls >= 1
+    assert proc.kill_calls == 1
+    assert worker._proc_pool.kill_calls == 1
+    assert worker._proc_pool.close_calls == 1
+    assert worker._thread.join_calls == [10, 5]
+
+
+def test_selfplay_worker_pause_escalates_and_reports_failure():
+    from quartz import selfplay_runtime as sp_mod
+
+    class FakePool:
+        def __init__(self):
+            self.kill_calls = 0
+
+        def kill_active(self):
+            self.kill_calls += 1
+
+    class FakeIdle:
+        def __init__(self):
+            self.wait_calls = []
+
+        def set(self):
+            return None
+
+        def clear(self):
+            return None
+
+        def is_set(self):
+            return False
+
+        def wait(self, timeout=None):
+            self.wait_calls.append(timeout)
+            return False
+
+    worker = sp_mod.SelfPlayWorker(
+        cfg={"batch": 8},
+        model="actor",
+        device="cpu",
+        replay=types.SimpleNamespace(buf=[]),
+        rust_binary="./target/release/mcts_demo",
+        server_pool_factory=lambda _binary: FakePool(),
+        clone_actor_model_fn=lambda model: model,
+        selfplay_runner=lambda *args, **kwargs: ([], [], [], []),
+    )
+    worker._idle = FakeIdle()
+    cancel_calls = []
+    worker._cancel_active_search = lambda kill_proc=False: cancel_calls.append(bool(kill_proc)) or True
+
+    assert worker.pause(wait=True) is False
+    assert cancel_calls == [False, True]
+    assert worker._proc_pool.kill_calls == 1
+    assert "failed to become idle" in str(worker._last_error)
+
+
 def test_runtime_support_resolves_training_module_search_client_override(monkeypatch):
     az = load_training_module()
     from quartz import evaluator_runtime as eval_mod
@@ -1631,6 +1754,21 @@ def test_prepare_training_context_prefers_backend_actor_for_jax(monkeypatch, tmp
     assert ctx.actor_source is ctx.backend
     assert ctx.device == "jax"
     assert ctx.n_params == 123
+
+
+def test_cli_safe_runtime_env_overrides_apply_caps(monkeypatch):
+    cli_mod = load_cli_main_module()
+    monkeypatch.setenv("QUARTZ_SAFE_RUNTIME", "1")
+    monkeypatch.setenv("QUARTZ_SAFE_BOOTSTRAP_TARGET_CAP", "12")
+    monkeypatch.setenv("QUARTZ_SAFE_SELFPLAY_PARALLEL_CAP", "3")
+    monkeypatch.setenv("QUARTZ_SAFE_SELFPLAY_BATCH_GAMES_CAP", "5")
+
+    cfg = cli_mod._apply_safe_runtime_env_overrides({"_resident_session": True})
+
+    assert cfg["_disable_resident_session"] is True
+    assert cfg["_bootstrap_replay_target_cap"] == 12
+    assert cfg["_selfplay_parallel_cap"] == 3
+    assert cfg["_selfplay_batch_games_cap"] == 5
 
 
 def test_replay_module_imports_without_torch():
@@ -3552,6 +3690,55 @@ def test_shm_eval_loop_returns_binary_arena_eval_payload():
     assert decoded["records"][0]["game_id"] == "m0::g0000"
 
 
+def test_shm_eval_loop_raises_interrupted_error_when_cancel_requested():
+    from quartz import evaluator_runtime as eval_runtime_mod
+
+    class FakeRing:
+        r2p_slot_count = 0
+
+        def epoch(self):
+            return 6
+
+        def cmd_done(self):
+            return False
+
+        def cancel_requested(self):
+            return True
+
+    class FakeProc:
+        def poll(self):
+            return None
+
+    hooks = eval_runtime_mod.ShmEvalRuntimeHooks(
+        run_batched_eval_groups=lambda groups, model_obj, dev, cfg_obj: [],
+        make_eval_request_group=lambda kind, requests, gi=0: {"kind": kind, "requests": requests, "gi": gi},
+        unpack_qipc_batch_eval_req=lambda payload: [],
+        unpack_qipc_arena_eval_resp=lambda raw: {"valid_eval": True, "records": []},
+        unpack_shm_search_response=lambda payload: {"decoded": True},
+        json_loads_fast=lambda s: {},
+        emit_duty_cycle=lambda duty: None,
+        pack_qipc_batch_eval_resp=lambda policies, values: b"",
+        logger=logging.getLogger(__name__),
+        shm_msg_eval_batch_req=1,
+        shm_msg_arena_eval_resp=5,
+        shm_msg_json=2,
+        shm_msg_search_resp=4,
+        inference_pipeline_thread_cls=None,
+        should_use_async_pipeline=lambda model, device, cfg: False,
+    )
+
+    with pytest.raises(InterruptedError, match="cancelled"):
+        eval_runtime_mod.shm_eval_loop(
+            FakeRing(),
+            model=None,
+            device="cpu",
+            cfg={},
+            proc=FakeProc(),
+            runtime_hooks=hooks,
+            baseline_epoch=5,
+        )
+
+
 def test_eval_match_run_requests_typed_arena_eval_response(monkeypatch):
     az = load_training_module()
     client = az.NNSearchClient(model=None, cfg={"_name": "gomoku7", "iters": 8}, device="cpu")
@@ -4112,6 +4299,193 @@ def test_build_best_elo_series_only_promotes_on_promotion_verdict():
     series = az.build_best_elo_series(elo_points)
 
     assert series == [100.0, 155.0]
+
+
+def test_generate_training_plots_avoids_single_point_warnings(tmp_path):
+    az = load_training_module()
+    log_path = tmp_path / "train_log.jsonl"
+    log_path.write_text(json.dumps({"iter": 1}) + "\n", encoding="utf-8")
+
+    with warnings.catch_warnings(record=True) as caught:
+        warnings.simplefilter("always")
+        assert az.generate_training_plots(str(log_path), str(tmp_path)) is True
+
+    messages = [str(item.message) for item in caught]
+    assert not any("identical low and high xlims" in message for message in messages)
+    assert not any("No artists with labels found" in message for message in messages)
+
+
+def test_cli_main_refreshes_bg_actor_after_each_update_and_writes_checkpoint_status(tmp_path):
+    cli = load_cli_main_module()
+    rust_binary = tmp_path / "mcts_demo"
+    rust_binary.write_text("stub", encoding="utf-8")
+
+    class FakeBackend:
+        name = "torch"
+
+        def __init__(self):
+            self.saved = []
+            self.lr_values = []
+
+        def set_lr(self, lr):
+            self.lr_values.append(lr)
+
+        def save(self, path, cfg=None):
+            self.saved.append((str(path), None if cfg is None else dict(cfg)))
+            Path(path).write_text("checkpoint", encoding="utf-8")
+
+    class FakeReplayBuffer:
+        def __init__(self, *args, **kwargs):
+            self.buf = []
+            self._size = 32
+
+        def __len__(self):
+            return self._size
+
+        def save(self, path):
+            Path(path).write_text("replay", encoding="utf-8")
+
+    class FakeWorker:
+        instances = []
+        _recent_chunks = []
+        _prev_count = 0
+
+        def __init__(self, cfg, actor_source, device, replay, rust_binary):
+            self.update_calls = []
+            self.started = False
+            self.stopped = False
+            FakeWorker.instances.append(self)
+
+        def start(self):
+            self.started = True
+
+        def stop(self):
+            self.stopped = True
+
+        def status(self):
+            return {"alive": True, "consecutive_errors": 0, "last_progress_age_s": 0.0, "last_error": None}
+
+        def update_model(self, actor_source):
+            self.update_calls.append(actor_source)
+
+        def pause(self, wait=True):
+            return True
+
+        def resume(self):
+            return None
+
+    backend = FakeBackend()
+    ctx = cli.PreparedTrainingContext(
+        cfg={
+            "_name": "gomoku7",
+            "board": 7,
+            "filters": 32,
+            "blocks": 2,
+            "buf": 64,
+            "batch": 8,
+            "steps": 1,
+            "games": 2,
+            "search_profile": "quartz",
+            "vl_mode": "adaptive",
+        },
+        base_cfg={"board": 7},
+        base_dir=str(tmp_path),
+        device="cpu",
+        hw=types.SimpleNamespace(physical_cpus=1),
+        model=None,
+        backend=backend,
+        optimizer=types.SimpleNamespace(param_groups=[{"lr": 0.0}]),
+        actor_source="actor-source",
+        benchmark_info=None,
+        model_path=str(tmp_path / "latest.pt"),
+        latest_model_path=str(tmp_path / "latest.pt"),
+        best_model_path=str(tmp_path / "best.pt"),
+        replay_path=str(tmp_path / "replay.npz"),
+        log_path=str(tmp_path / "train_log.jsonl"),
+        autotune_profile_path=str(tmp_path / "autotune_profile.json"),
+        n_params=123,
+    )
+    args = argparse.Namespace(
+        serve=False,
+        arena_3agent=None,
+        arena=None,
+        rust_nn=True,
+        arena_games=0,
+        game="gomoku7",
+        iterations=2,
+        resume=False,
+        concurrent=True,
+        runtime_autotune=False,
+        eval_selfplay_isolation=True,
+        patience=0,
+        inner_patience=0,
+        inner_min_fraction=0.0,
+        inner_min_delta=0.0,
+        inner_ema_alpha=0.2,
+        eval_games=2,
+        eval_interval=99,
+        seed=7,
+        rust_binary=str(rust_binary),
+    )
+    runtime_hooks = cli.MainRuntimeHooks(
+        torch=types.SimpleNamespace(),
+        np=np,
+        game_configs={"gomoku7": {}},
+        serve=lambda *args, **kwargs: None,
+        arena_3agent=lambda *args, **kwargs: None,
+        arena_rust_nn=lambda *args, **kwargs: None,
+        arena_compare=lambda *args, **kwargs: None,
+        print_autotune_summary=lambda *args, **kwargs: None,
+        is_go_game=lambda _name: False,
+        replay_buffer_cls=FakeReplayBuffer,
+        early_stopping_cls=lambda *args, **kwargs: None,
+        early_stopping_enabled=lambda patience, concurrent=False: False,
+        load_eval_autotune_profile=lambda *args, **kwargs: None,
+        has_eval_system=True,
+        recommend_eval_parallel_workers=lambda *args, **kwargs: 1,
+        max_supported_threads=lambda hw: 1,
+        eval_config_cls=lambda **kwargs: types.SimpleNamespace(**kwargs),
+        training_evaluator_cls=lambda config=None: types.SimpleNamespace(cfg=config),
+        build_training_game_adapter=lambda cfg: object(),
+        ensure_best_checkpoint_compatible=lambda *args, **kwargs: None,
+        selfplay_worker_cls=FakeWorker,
+        initial_replay_fill_target=lambda cfg, recent_chunks: 0,
+        online_autotune_controller_cls=lambda *args, **kwargs: None,
+        clear_nn_eval_cache=lambda: None,
+        round_or_none=lambda value: value,
+        wait_for_worker_progress=lambda worker, prev_bg, min_new=1, timeout_s=30.0: (4, prev_bg + 4),
+        selfplay_rust_nn_batched=lambda *args, **kwargs: ([], [], [], []),
+        compute_train_steps=lambda *args, **kwargs: 1,
+        train_epoch=lambda *args, **kwargs: (0.5, 0.3, 0.2, 1, None),
+        replay_metrics=types.SimpleNamespace(
+            freshness=lambda n_new, replay_len: 0.5,
+            policy_entropy=lambda replay: 0.1,
+            value_std=lambda replay: 0.2,
+            search_summary=lambda replay: {"positions": len(replay)},
+        ),
+        rust_nn_evaluator_engine_cls=object,
+        clone_actor_model=lambda actor: actor,
+        load_actor_source_from_checkpoint=lambda *args, **kwargs: "champion-actor",
+        tree_mcts_engine_cls=object,
+        benchmark_eval_parallel_workers=lambda *args, **kwargs: (1, []),
+        make_json_safe=lambda payload: payload,
+        generate_training_plots=lambda *args, **kwargs: False,
+    )
+
+    cli.run_training_main(args, ctx, runtime_hooks)
+
+    worker = FakeWorker.instances[0]
+    status = json.loads((tmp_path / "checkpoint_status.json").read_text(encoding="utf-8"))
+
+    assert worker.started is True
+    assert worker.stopped is True
+    assert worker.update_calls == ["actor-source", "actor-source"]
+    assert backend.saved[0][0].endswith("best.pt")
+    assert backend.saved[-1][0].endswith("latest.pt")
+    assert backend.saved[-1][1]["search_profile"] == "quartz"
+    assert status["best_checkpoint_bootstrap_seeded"] is True
+    assert status["preferred_posttrain_checkpoint"] == "latest.pt"
+    assert (tmp_path / "latest.pt").exists()
 
 
 def test_main_runs_eval_at_interval_even_when_train_steps_are_zero(monkeypatch, tmp_path):
@@ -4887,3 +5261,53 @@ def test_initial_replay_fill_target_uses_board_prior_without_recent_chunks():
 
     assert target >= 16
     assert target <= 256
+
+
+def test_initial_replay_fill_target_clamps_to_replay_headroom():
+    az = load_training_module()
+    cfg = {
+        "batch": 256,
+        "batch_size": 32,
+        "bg_parallel": 4,
+        "board": 7,
+        "buf": 30,
+    }
+
+    target = az.initial_replay_fill_target(cfg, [])
+
+    assert target == int(math.floor(30 * az.SelfPlayWorker.BACKPRESSURE_RATIO))
+
+
+def test_initial_replay_fill_target_honors_bootstrap_cap():
+    az = load_training_module()
+    cfg = {
+        "batch": 256,
+        "batch_size": 32,
+        "bg_parallel": 4,
+        "board": 7,
+        "_bootstrap_replay_target_cap": 12,
+    }
+
+    target = az.initial_replay_fill_target(cfg, [])
+
+    assert target == 12
+
+
+def test_plan_selfplay_runner_chunk_honors_safe_caps():
+    az = load_training_module()
+    cfg = {
+        "batch": 256,
+        "batch_size": 8,
+        "bg_parallel": 2,
+        "bg_batch_games": 2,
+        "board": 7,
+        "_selfplay_runner_mode": "rust_selfplay_state_machine",
+        "_selfplay_parallel_cap": 3,
+        "_selfplay_batch_games_cap": 4,
+    }
+
+    plan = az.plan_selfplay_runner_chunk(cfg, replay_size=0, recent_chunks=[])
+
+    assert plan["parallel"] == 3
+    assert plan["batch_games"] == 4
+    assert plan["games_per_call"] <= 4

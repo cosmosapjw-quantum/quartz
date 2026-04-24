@@ -14,7 +14,9 @@ from __future__ import annotations
 
 import argparse
 import copy
+import hashlib
 import json
+import math
 import os
 import subprocess
 import sys
@@ -22,6 +24,15 @@ import time
 from pathlib import Path
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
+
+from quartz.contract_summary import (
+    stable_json_hash,
+    summarize_named_contract_map,
+    summarize_plain_contracts,
+)
+from quartz.evaluation import score_rate_ci
+from quartz.eval_timing_summary import summarize_ablation_eval_timings
+from quartz.eval_runtime_profile import load_eval_runtime_overrides_from_model
 
 # Persist torch.compile kernel cache across training subprocesses
 os.environ.setdefault("TORCHINDUCTOR_FX_GRAPH_CACHE", "1")
@@ -138,6 +149,45 @@ CONTROLLER_FACTORIAL_EVAL_CONDITIONS = {
     },
 }
 
+CONTROLLER_AXES_TRAIN_CONDITIONS = {
+    "A1_legacy_tree_norefresh": {
+        "search_profile": "quartz",
+        "vl_mode": "adaptive",
+        "penalty_mode": "GatedRefreshLegacy",
+        "root_only_shaping": False,
+        "prior_refresh_rate": 0.0,
+    },
+    "A2_legacy_root_norefresh": {
+        "search_profile": "quartz",
+        "vl_mode": "adaptive",
+        "penalty_mode": "GatedRefreshLegacy",
+        "root_only_shaping": True,
+        "prior_refresh_rate": 0.0,
+    },
+    "A3_theory_root_norefresh": {
+        "search_profile": "quartz",
+        "vl_mode": "adaptive",
+        "penalty_mode": "GatedRefresh",
+        "root_only_shaping": True,
+        "prior_refresh_rate": 0.0,
+    },
+    "A4_theory_root_refresh": {
+        "search_profile": "quartz",
+        "vl_mode": "adaptive",
+        "penalty_mode": "GatedRefresh",
+        "root_only_shaping": True,
+        "prior_refresh_rate": 0.5,
+        "prior_refresh_temp": 0.0,
+    },
+}
+
+CONTROLLER_AXES_EVAL_CONDITIONS = {
+    "EA1_legacy_tree_norefresh": copy.deepcopy(CONTROLLER_AXES_TRAIN_CONDITIONS["A1_legacy_tree_norefresh"]),
+    "EA2_legacy_root_norefresh": copy.deepcopy(CONTROLLER_AXES_TRAIN_CONDITIONS["A2_legacy_root_norefresh"]),
+    "EA3_theory_root_norefresh": copy.deepcopy(CONTROLLER_AXES_TRAIN_CONDITIONS["A3_theory_root_norefresh"]),
+    "EA4_theory_root_refresh": copy.deepcopy(CONTROLLER_AXES_TRAIN_CONDITIONS["A4_theory_root_refresh"]),
+}
+
 STRICT_REFERENCE_CONDITION = {
     "E0_baseline_strict": {"search_profile": "baseline_strict", "vl_mode": "disabled"},
 }
@@ -155,12 +205,89 @@ STUDY_PRESETS = {
         "train_conditions": CONTROLLER_FACTORIAL_TRAIN_CONDITIONS,
         "eval_conditions": CONTROLLER_FACTORIAL_EVAL_CONDITIONS,
     },
+    "controller_axes": {
+        "train_conditions": CONTROLLER_AXES_TRAIN_CONDITIONS,
+        "eval_conditions": CONTROLLER_AXES_EVAL_CONDITIONS,
+    },
 }
 
 
 def json_dump(path: Path, payload: dict) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(json.dumps(payload, indent=2), encoding="utf-8")
+
+
+def summarize_ablation_contracts(expected_manifests: dict | None, discarded_matches: list[dict] | None) -> dict:
+    return summarize_named_contract_map(
+        expected_manifests,
+        discarded_matches,
+        name_key="eval_condition",
+    )
+
+
+def attach_ablation_contract_summary(payload: dict) -> dict:
+    payload["contract_summary"] = summarize_ablation_contracts(
+        payload.get("expected_search_manifests"),
+        payload.get("discarded_matches"),
+    )
+    return payload
+
+
+def build_runtime_contract(args: argparse.Namespace) -> dict:
+    rust_binary = getattr(args, "rust_binary", "./target/release/mcts_demo")
+    rust_binary_path = Path(rust_binary).expanduser()
+    rust_binary_abs = str(rust_binary_path.resolve()) if rust_binary_path.exists() else str(rust_binary_path)
+    return {
+        "backend": getattr(args, "backend", "auto"),
+        "device": getattr(args, "device", "auto"),
+        "rust_binary": rust_binary,
+        "rust_binary_abs": rust_binary_abs,
+        "rust_binary_exists": bool(rust_binary_path.exists()),
+        "rust_binary_sha256": sha256_file_prefix(rust_binary_path),
+        "quick": bool(getattr(args, "quick", False)),
+        "no_autotune": bool(getattr(args, "no_autotune", False)),
+        "resident_session": bool(getattr(args, "resident_session", False)),
+        "runtime_autotune": bool(getattr(args, "runtime_autotune", False)),
+        "paired_seed_eval": bool(getattr(args, "paired_seed_eval", False)),
+        "include_strict_reference": bool(getattr(args, "include_strict_reference", False)),
+        "python": sys.executable,
+        "cwd": str(Path.cwd()),
+        "config_layout": "repo_top_level_configs",
+    }
+
+
+def build_training_contract(
+    args: argparse.Namespace,
+    condition_name: str,
+    condition_cfg: dict,
+    seed: int,
+) -> dict:
+    resolved_games = args.games_per_iter
+    if resolved_games is None and args.quick:
+        resolved_games = 50
+    runtime_contract = build_runtime_contract(args)
+    return {
+        "condition": condition_name,
+        "game": args.game,
+        "iterations": int(args.iterations),
+        "seed": int(seed),
+        "train_cfg": copy.deepcopy(condition_cfg),
+        "games_per_iter": int(resolved_games) if resolved_games is not None else None,
+        "eval_interval": int(args.eval_interval),
+        "eval_games": int(args.eval_games),
+        "backend": args.backend,
+        "device": args.device,
+        "rust_binary": args.rust_binary,
+        "no_autotune": bool(args.no_autotune),
+        "resident_session": bool(args.resident_session),
+        "runtime_autotune": bool(args.runtime_autotune),
+        "runtime_contract": runtime_contract,
+        "runtime_contract_hash": stable_json_hash(runtime_contract),
+    }
+
+
+def summarize_training_contracts(contracts: list[dict] | None) -> dict:
+    return summarize_plain_contracts(contracts)
 
 
 def git_head() -> str | None:
@@ -178,6 +305,22 @@ def git_head() -> str | None:
         return None
     head = proc.stdout.strip()
     return head or None
+
+
+def sha256_file_prefix(path: str | Path | None, prefix_len: int = 16) -> str | None:
+    if not path:
+        return None
+    try:
+        file_path = Path(path)
+        if not file_path.exists() or not file_path.is_file():
+            return None
+        digest = hashlib.sha256()
+        with file_path.open("rb") as handle:
+            for chunk in iter(lambda: handle.read(1024 * 1024), b""):
+                digest.update(chunk)
+        return digest.hexdigest()[:prefix_len]
+    except Exception:
+        return None
 
 
 def parse_csv_items(raw: str | None) -> list[str]:
@@ -225,7 +368,60 @@ def condition_run_dir(base_dir: Path, condition_name: str, seed: int, multi_seed
     return root / f"seed_{seed}" if multi_seed else root
 
 
+def controller_surface(condition_cfg: dict | None) -> dict:
+    cfg = condition_cfg or {}
+    return {
+        "search_profile": cfg.get("search_profile"),
+        "vl_mode": cfg.get("vl_mode"),
+        "penalty_mode": cfg.get("penalty_mode"),
+        "root_only_shaping": cfg.get("root_only_shaping"),
+        "prior_refresh_rate": cfg.get("prior_refresh_rate"),
+        "prior_refresh_temp": cfg.get("prior_refresh_temp"),
+    }
+
+
+def load_checkpoint_status(run_dir: Path) -> dict | None:
+    status_path = run_dir / "checkpoint_status.json"
+    if not status_path.exists():
+        return None
+    try:
+        return json.loads(status_path.read_text(encoding="utf-8"))
+    except Exception:
+        return None
+
+
+def has_promoted_checkpoint(run_dir: Path) -> bool:
+    log_path = run_dir / "train_log.jsonl"
+    if not log_path.exists():
+        return False
+    with log_path.open(encoding="utf-8") as handle:
+        for line in handle:
+            try:
+                row = json.loads(line)
+            except Exception:
+                continue
+            if row.get("_type") != "eval":
+                continue
+            verdict = row.get("verdict")
+            if verdict is None:
+                verdict = row.get("eval_verdict")
+            if verdict == "promote":
+                return True
+    return False
+
+
 def resolve_model_path(run_dir: Path) -> Path | None:
+    status = load_checkpoint_status(run_dir)
+    if status:
+        preferred_name = status.get("preferred_posttrain_checkpoint")
+        if preferred_name:
+            candidate = run_dir / preferred_name
+            if candidate.exists():
+                return candidate
+    best_path = run_dir / "best.pt"
+    latest_path = run_dir / "latest.pt"
+    if best_path.exists() and latest_path.exists():
+        return best_path if has_promoted_checkpoint(run_dir) else latest_path
     for name in ("best.pt", "latest.pt"):
         candidate = run_dir / name
         if candidate.exists():
@@ -300,12 +496,25 @@ def discover_model_runs(base_dir: Path) -> list[dict]:
                     run_id = meta.get("condition", run_dir.name)
                 else:
                     run_id = f"{meta.get('condition', condition_dir.name)}_s{seed}"
+            train_contract = meta.get("train_contract")
+            if train_contract is None:
+                train_contract = {
+                    "condition": meta.get("condition", condition_dir.name),
+                    "game": meta.get("game"),
+                    "seed": seed,
+                    "iterations": meta.get("iterations"),
+                    "train_cfg": meta.get("train_cfg", {}),
+                    "legacy_partial": True,
+                }
             runs.append({
                 "id": run_id,
                 "condition": meta.get("condition", condition_dir.name),
                 "seed": seed,
                 "game": meta.get("game"),
                 "train_cfg": meta.get("train_cfg", {}),
+                "controller_surface": controller_surface(meta.get("train_cfg", {})),
+                "train_contract": train_contract,
+                "train_contract_hash": meta.get("train_contract_hash") or stable_json_hash(train_contract),
                 "run_dir": str(run_dir),
                 "elapsed_s": meta.get("elapsed_s", 0),
                 "returncode": meta.get("returncode"),
@@ -322,7 +531,8 @@ def build_study_manifest(args: argparse.Namespace) -> dict:
     eval_conditions = preset["eval_conditions"]
     selected_train_conditions = parse_selected_conditions(args.conditions, train_conditions)
     selected_eval_conditions = parse_selected_conditions(args.eval_conditions, eval_conditions)
-    return {
+    runtime_contract = build_runtime_contract(args)
+    manifest = {
         "format_version": 2,
         "study": args.study,
         "game": args.game,
@@ -341,11 +551,55 @@ def build_study_manifest(args: argparse.Namespace) -> dict:
         "eval_conditions": {
             name: copy.deepcopy(eval_conditions[name]) for name in selected_eval_conditions
         },
+        "train_condition_surfaces": {
+            name: controller_surface(train_conditions[name]) for name in selected_train_conditions
+        },
+        "eval_condition_surfaces": {
+            name: controller_surface(eval_conditions[name]) for name in selected_eval_conditions
+        },
         "strict_reference": bool(args.include_strict_reference),
         "git_head": git_head(),
         "python": sys.executable,
+        "runtime_contract": runtime_contract,
+        "runtime_contract_hash": stable_json_hash(runtime_contract),
         "started_at": time.strftime("%Y-%m-%d %H:%M:%S"),
     }
+    return manifest
+
+
+def compute_match_statistics(wins_a: int, wins_b: int, draws: int) -> tuple[float, list[float], str, dict]:
+    total = int(wins_a) + int(wins_b) + int(draws)
+    score_rate, ci = score_rate_ci(int(wins_a), int(draws), total)
+    decisive = int(wins_a) + int(wins_b)
+    p0 = 0.50
+    p1 = 0.55
+    alpha = 0.05
+    beta = 0.05
+    lower_bound = math.log(beta / (1.0 - alpha))
+    upper_bound = math.log((1.0 - beta) / alpha)
+    llr = 0.0
+    sprt_result = "inconclusive"
+    if decisive > 0:
+        llr = float(
+            wins_a * math.log(p1 / p0)
+            + (decisive - wins_a) * math.log((1.0 - p1) / (1.0 - p0))
+        )
+        if llr >= upper_bound:
+            sprt_result = "H1_accept"
+        elif llr <= lower_bound:
+            sprt_result = "H0_accept"
+    sprt_meta = {
+        "model": "wald_binomial_v1",
+        "p0": p0,
+        "p1": p1,
+        "alpha": alpha,
+        "beta": beta,
+        "decisive_games": decisive,
+        "llr": round(llr, 6),
+        "lower_bound": round(lower_bound, 6),
+        "upper_bound": round(upper_bound, 6),
+    }
+    return float(score_rate), [float(ci[0]), float(ci[1])], sprt_result, sprt_meta
 
 
 def build_training_command(
@@ -421,15 +675,19 @@ def run_training(
         except Exception:
             previous = None
         if previous and previous.get("returncode") == 0 and existing_model is not None:
-            return {
-                "condition": condition_name,
-                "seed": seed,
-                "run_dir": str(output_dir),
-                "elapsed_s": previous.get("elapsed_s", 0),
-                "success": True,
-                "skipped": True,
-            }
+            expected_train_contract = build_training_contract(args, condition_name, condition_cfg, seed)
+            expected_train_contract_hash = stable_json_hash(expected_train_contract)
+            if previous.get("train_contract_hash") == expected_train_contract_hash:
+                return {
+                    "condition": condition_name,
+                    "seed": seed,
+                    "run_dir": str(output_dir),
+                    "elapsed_s": previous.get("elapsed_s", 0),
+                    "success": True,
+                    "skipped": True,
+                }
 
+    train_contract = build_training_contract(args, condition_name, condition_cfg, seed)
     meta = {
         "condition": condition_name,
         "run_id": f"{condition_name}_s{seed}" if multi_seed else condition_name,
@@ -437,6 +695,8 @@ def run_training(
         "iterations": args.iterations,
         "seed": seed,
         "train_cfg": condition_cfg,
+        "train_contract": train_contract,
+        "train_contract_hash": stable_json_hash(train_contract),
         "started_at": time.strftime("%Y-%m-%d %H:%M:%S"),
         "cmd": build_training_command(args, condition_cfg, seed, output_dir),
     }
@@ -513,7 +773,44 @@ def build_eval_cfg(game_name: str, eval_cfg: dict, device_name: str, model_path:
     except Exception:
         cfg["_encoder"] = None
     resolved_device = auto_device_name() if device_name == "auto" else device_name
+    runtime_overrides = load_eval_runtime_overrides_from_model(model_path, resolved_device)
+    if runtime_overrides:
+        cfg = apply_config_overrides(cfg, runtime_overrides)
+    try:
+        from quartz import runtime_support as support_mod
+
+        if support_mod.supports_rust_eval_state_machine(game_name):
+            cfg.setdefault("_eval_runner_mode", "rust_eval_state_machine")
+    except Exception:
+        pass
     return cfg, torch.device(resolved_device)
+
+
+def build_eval_engine(model_run: dict, args: argparse.Namespace, eval_cfg: dict, device) -> tuple[object, dict]:
+    from quartz import runtime_support as support_mod
+    from quartz.evaluator_runtime import RustNNEvaluatorEngine
+
+    engine_cfg, _ = build_eval_cfg(args.game, eval_cfg, args.device, model_path=model_run["model_path"])
+    actor = support_mod.load_actor_source_from_checkpoint(
+        model_run["model_path"],
+        engine_cfg,
+        device,
+        backend_preference=getattr(args, "backend", "auto"),
+    )
+    engine = RustNNEvaluatorEngine(
+        model_run["id"],
+        engine_cfg,
+        actor,
+        device,
+        args.rust_binary,
+    )
+    return engine, engine_cfg
+
+
+def build_opening_book(game_name: str) -> list[list[int]]:
+    if game_name.startswith("go") or game_name.startswith("chess"):
+        return []
+    return [[]]
 
 
 def aggregate_matches(model_runs: list[dict], matches: list[dict]) -> dict:
@@ -692,24 +989,49 @@ def run_evaluation_matrix(
         return None
     eligible_ids = {run["id"] for run in eligible}
 
-    from quartz.alphazero_train import arena_rust_nn
-
     eval_conditions = dict(eval_conditions)
     if args.include_strict_reference:
         eval_conditions = {**STRICT_REFERENCE_CONDITION, **eval_conditions}
 
+    from quartz import runtime_support as support_mod
+
+    expected_manifest_hashes = {}
+    expected_manifests = {}
+    reference_model_path = eligible[0]["model_path"]
+    eval_condition_timings = {}
+    for eval_name, eval_cfg in eval_conditions.items():
+        cfg, _ = build_eval_cfg(args.game, eval_cfg, args.device, model_path=reference_model_path)
+        expected_manifest_hashes[eval_name] = support_mod.search_manifest_hash(cfg)
+        expected_manifests[eval_name] = support_mod.build_search_manifest(cfg)
+
     existing_path = base_dir / "evaluation_matrix.json"
     existing_matches = []
+    discarded_matches = []
     if existing_path.exists() and not args.force_eval:
         try:
             existing = json.loads(existing_path.read_text(encoding="utf-8"))
-            existing_matches = [
-                row
-                for row in existing.get("matches", [])
-                if row.get("a_id") in eligible_ids and row.get("b_id") in eligible_ids
-            ]
+            for row in existing.get("matches", []):
+                if row.get("a_id") not in eligible_ids or row.get("b_id") not in eligible_ids:
+                    continue
+                eval_name = row.get("eval_condition")
+                expected_hash = expected_manifest_hashes.get(eval_name)
+                found_hash = row.get("search_manifest_hash")
+                if expected_hash and found_hash != expected_hash:
+                    discarded_matches.append(
+                        {
+                            "eval_condition": eval_name,
+                            "a_id": row.get("a_id"),
+                            "b_id": row.get("b_id"),
+                            "reason": "search_manifest_hash_changed",
+                            "expected_hash": expected_hash,
+                            "found_hash": found_hash,
+                        }
+                    )
+                    continue
+                existing_matches.append(row)
         except Exception:
             existing_matches = []
+            discarded_matches = []
 
     match_index = {
         (row["eval_condition"], row["a_id"], row["b_id"]): row
@@ -727,6 +1049,8 @@ def run_evaluation_matrix(
 
     all_matches = list(existing_matches)
     for eval_name, eval_cfg in eval_conditions.items():
+        pending_pairs = []
+        needed_ids = set()
         for idx, model_a in enumerate(eligible):
             for model_b in eligible[idx + 1:]:
                 if not should_compare(model_a, model_b):
@@ -734,40 +1058,165 @@ def run_evaluation_matrix(
                 key = (eval_name, model_a["id"], model_b["id"])
                 if key in match_index and not args.force_eval:
                     continue
+                pending_pairs.append((key, model_a, model_b))
+                needed_ids.add(model_a["id"])
+                needed_ids.add(model_b["id"])
+        if not pending_pairs:
+            continue
 
-                print(f"  EVAL {eval_name}: {model_a['id']} vs {model_b['id']} ({args.eval_games} games)")
-                cfg, device = build_eval_cfg(args.game, eval_cfg, args.device, model_path=model_a["model_path"])
-                wa, wb, draws, wr, ci, sprt = arena_rust_nn(
-                    model_a["model_path"],
-                    model_b["model_path"],
-                    cfg,
-                    device,
-                    n_games=args.eval_games,
-                    rust_binary=args.rust_binary,
-                    strict=True,
-                )
-                row = {
-                    "eval_condition": eval_name,
-                    "search_profile": eval_cfg["search_profile"],
-                    "vl_mode": eval_cfg["vl_mode"],
-                    "a_id": model_a["id"],
-                    "b_id": model_b["id"],
-                    "games": int(args.eval_games),
-                    "wins_a": int(wa),
-                    "wins_b": int(wb),
-                    "draws": int(draws),
-                    "win_rate_a": float(wr),
-                    "ci": [float(ci[0]), float(ci[1])],
-                    "sprt": sprt,
+        cfg_t0 = time.perf_counter()
+        cfg, device = build_eval_cfg(args.game, eval_cfg, args.device, model_path=reference_model_path)
+        cfg_build_s = time.perf_counter() - cfg_t0
+
+        engine_load_t0 = time.perf_counter()
+        engines = {}
+        for run in eligible:
+            if run["id"] not in needed_ids:
+                continue
+            engine, _engine_cfg = build_eval_engine(run, args, eval_cfg, device)
+            engines[run["id"]] = engine
+        engine_load_s = time.perf_counter() - engine_load_t0
+
+        opening_book = build_opening_book(args.game)
+        board_size = int(cfg.get("board", 0) or 0)
+        max_moves = 500 if support_mod.is_chess_game(args.game) else max(1, board_size) ** 2
+
+        from quartz.evaluator_runtime import PersistentRustNNEvalCampaign
+
+        campaign_t0 = time.perf_counter()
+        try:
+            with PersistentRustNNEvalCampaign(engines.values(), args.eval_games) as campaign:
+                campaign_bootstrap_s = float(campaign.timings.get("client_start_s", 0.0) or 0.0)
+                eval_condition_timings[eval_name] = {
+                    "cfg_build_s": round(cfg_build_s, 6),
+                    "engine_load_s": round(engine_load_s, 6),
+                    "campaign_bootstrap_s": round(campaign_bootstrap_s, 6),
+                    "pairs": len(pending_pairs),
+                    "engine_count": len(engines),
                 }
-                match_index[key] = row
+                search_manifest = support_mod.build_search_manifest(cfg)
+                search_manifest_hash = support_mod.search_manifest_hash(cfg)
+
+                def _build_row(key, model_a, model_b, tally, timing_meta):
+                    scored_games = int(getattr(tally, "scored", 0))
+                    if scored_games <= 0:
+                        raise RuntimeError(
+                            f"evaluation produced zero scored games for {eval_name}: "
+                            f"errors={getattr(tally, 'errors', 0)} voids={getattr(tally, 'voids', 0)} "
+                            f"total={getattr(tally, 'total', 0)}"
+                        )
+                    wa = int(tally.wins)
+                    wb = int(tally.losses)
+                    draws = int(tally.draws)
+                    score_rate, ci, sprt, sprt_meta = compute_match_statistics(wa, wb, draws)
+                    timing_s = {
+                        "cfg_build_s": round(cfg_build_s, 6),
+                        "engine_load_s": round(engine_load_s, 6),
+                        "campaign_bootstrap_s": round(campaign_bootstrap_s, 6),
+                        "match_elapsed_s": round(float(timing_meta.get("match_elapsed_s", 0.0) or 0.0), 6),
+                    }
+                    if timing_meta.get("batch_id"):
+                        timing_s["batch_id"] = str(timing_meta.get("batch_id"))
+                        timing_s["batch_elapsed_s"] = round(float(timing_meta.get("batch_elapsed_s", 0.0) or 0.0), 6)
+                        timing_s["batch_total_games"] = int(timing_meta.get("batch_total_games", 0) or 0)
+                    return {
+                        "eval_condition": eval_name,
+                        "search_profile": eval_cfg["search_profile"],
+                        "vl_mode": eval_cfg["vl_mode"],
+                        "search_manifest": search_manifest,
+                        "search_manifest_hash": search_manifest_hash,
+                        "a_id": model_a["id"],
+                        "b_id": model_b["id"],
+                        "games": int(args.eval_games),
+                        "wins_a": wa,
+                        "wins_b": wb,
+                        "draws": draws,
+                        "win_rate_a": float(getattr(tally, "score_rate", score_rate)),
+                        "score_rate_a": score_rate,
+                        "ci": ci,
+                        "ci_kind": "score_rate_normal_approx_v1",
+                        "sprt": sprt,
+                        "sprt_meta": sprt_meta,
+                        "errors": int(getattr(tally, "errors", 0)),
+                        "voids": int(getattr(tally, "voids", 0)),
+                        "scored_games": scored_games,
+                        "timing_s": timing_s,
+                        "runner_mode": timing_meta.get("runner_mode"),
+                    }
+
+                used_batched_compare = bool(getattr(campaign, "compare_many", None)) and len(pending_pairs) > 1
+                if used_batched_compare:
+                    print(
+                        f"  EVAL {eval_name}: batching {len(pending_pairs)} pairings "
+                        f"({len(pending_pairs) * int(args.eval_games)} games)"
+                    )
+                    match_id_map = {}
+                    comparisons = []
+                    for pair_idx, (key, model_a, model_b) in enumerate(pending_pairs):
+                        match_id = f"pair{pair_idx:03d}"
+                        match_id_map[match_id] = (key, model_a, model_b)
+                        comparisons.append(
+                            {
+                                "match_id": match_id,
+                                "engine_a": engines[model_a["id"]],
+                                "engine_b": engines[model_b["id"]],
+                                "game_factory": lambda cfg_ref=cfg: support_mod.build_training_game_adapter(dict(cfg_ref)),
+                                "opening_book": opening_book,
+                                "num_games": args.eval_games,
+                                "color_swap": True,
+                                "logger": None,
+                                "max_moves": max_moves,
+                                "seed": int(cfg.get("seed", 0) or 0),
+                            }
+                        )
+                    for match_id, tally, timing_meta in campaign.compare_many(comparisons):
+                        key, model_a, model_b = match_id_map[match_id]
+                        row = _build_row(key, model_a, model_b, tally, timing_meta)
+                        match_index[key] = row
+                else:
+                    for key, model_a, model_b in pending_pairs:
+                        print(f"  EVAL {eval_name}: {model_a['id']} vs {model_b['id']} ({args.eval_games} games)")
+                        tally, timing_meta = campaign.compare(
+                            engines[model_a["id"]],
+                            engines[model_b["id"]],
+                            lambda cfg_ref=cfg: support_mod.build_training_game_adapter(dict(cfg_ref)),
+                            opening_book,
+                            args.eval_games,
+                            color_swap=True,
+                            logger=None,
+                            max_moves=max_moves,
+                            seed=int(cfg.get("seed", 0) or 0),
+                        )
+                        row = _build_row(key, model_a, model_b, tally, timing_meta)
+                        match_index[key] = row
+
                 all_matches = list(match_index.values())
                 payload = aggregate_matches(eligible, all_matches)
                 payload["generated_at"] = time.strftime("%Y-%m-%d %H:%M:%S")
+                payload["discarded_matches"] = discarded_matches
+                payload["expected_search_manifests"] = expected_manifests
+                payload["runtime_contract"] = build_runtime_contract(args)
+                payload["runtime_contract_hash"] = stable_json_hash(payload["runtime_contract"])
+                payload["eval_condition_timings"] = eval_condition_timings
+                payload["eval_timing_summary"] = summarize_ablation_eval_timings(payload)
+                attach_ablation_contract_summary(payload)
                 json_dump(existing_path, payload)
+        finally:
+            for engine in engines.values():
+                try:
+                    engine.reset()
+                except Exception:
+                    pass
 
     payload = aggregate_matches(eligible, list(match_index.values()))
     payload["generated_at"] = time.strftime("%Y-%m-%d %H:%M:%S")
+    payload["discarded_matches"] = discarded_matches
+    payload["expected_search_manifests"] = expected_manifests
+    payload["runtime_contract"] = build_runtime_contract(args)
+    payload["runtime_contract_hash"] = stable_json_hash(payload["runtime_contract"])
+    payload["eval_condition_timings"] = eval_condition_timings
+    payload["eval_timing_summary"] = summarize_ablation_eval_timings(payload)
+    attach_ablation_contract_summary(payload)
     json_dump(existing_path, payload)
     return payload
 
@@ -787,18 +1236,8 @@ def select_champion(
         top = eval_payload["overall"][0]
         champion_run = by_id[top["id"]]
         deployment_condition = None
-        deployment_score = None
-        for eval_name, leaderboard in eval_payload.get("leaderboards", {}).items():
-            for row in leaderboard:
-                if row["id"] != top["id"]:
-                    continue
-                if deployment_score is None or row["score_rate"] > deployment_score:
-                    deployment_condition = eval_name
-                    deployment_score = row["score_rate"]
-                break
-        deployment_cfg = copy.deepcopy(eval_conditions.get(deployment_condition, {}))
-        if not deployment_cfg and deployment_condition in STRICT_REFERENCE_CONDITION:
-            deployment_cfg = copy.deepcopy(STRICT_REFERENCE_CONDITION[deployment_condition])
+        deployment_cfg = copy.deepcopy(champion_run.get("train_cfg") or {})
+        deployment_cfg_source = "train_cfg"
         selection_metrics = {
             "overall_score_rate": top["score_rate"],
             "overall_points": top["points"],
@@ -817,6 +1256,7 @@ def select_champion(
         champion_run = ordered[0]
         deployment_condition = None
         deployment_cfg = copy.deepcopy(champion_run.get("train_cfg") or {})
+        deployment_cfg_source = "train_cfg"
         selection_metrics = {
             "published_elo": champion_run["metrics"].get("published_elo"),
             "score_rate": champion_run["metrics"].get("score_rate"),
@@ -834,9 +1274,12 @@ def select_champion(
         "seed": champion_run["seed"],
         "game": champion_run["game"],
         "train_cfg": champion_run["train_cfg"],
+        "controller_surface": champion_run.get("controller_surface") or controller_surface(champion_run.get("train_cfg")),
         "training_metrics": champion_run["metrics"],
         "deployment_eval_condition": deployment_condition,
         "deployment_search_cfg": deployment_cfg,
+        "deployment_cfg_source": deployment_cfg_source,
+        "deployment_controller_surface": controller_surface(deployment_cfg),
         "selection_metrics": selection_metrics,
     }
     json_dump(base_dir / "champion.json", payload)
@@ -951,6 +1394,25 @@ def generate_report(base_dir: Path, selected_conditions: set[str] | None = None)
                 f"points={row['points']:.1f}/{row['games']}"
             )
 
+    eval_timing_summary = summarize_ablation_eval_timings(eval_payload)
+    if eval_timing_summary.get("total_games", 0) > 0:
+        print(f"\n{'Eval Timing Summary':<40}")
+        print("-" * 132)
+        print(
+            f"total_games={eval_timing_summary['total_games']} "
+            f"startup={eval_timing_summary['total_startup_s']:.3f}s "
+            f"search={eval_timing_summary['total_match_elapsed_s']:.3f}s "
+            f"end_to_end_gps={eval_timing_summary['games_per_s_end_to_end']:.3f} "
+            f"search_only_gps={eval_timing_summary['games_per_s_search_only']:.3f} "
+            f"startup_share={eval_timing_summary['startup_share']:.3f}"
+        )
+        for row in eval_timing_summary.get("conditions", []):
+            print(
+                f"{row['eval_condition']:<20} games={row['games']:<4} "
+                f"startup={row['startup_s']:.3f}s search={row['match_elapsed_s']:.3f}s "
+                f"gps={row['games_per_s_end_to_end']:.3f} startup_share={row['startup_share']:.3f}"
+            )
+
     if champion:
         print(f"\nChampion: {champion['model_id']}")
         dep = champion.get("deployment_search_cfg", {})
@@ -959,6 +1421,7 @@ def generate_report(base_dir: Path, selected_conditions: set[str] | None = None)
             f"vl={dep.get('vl_mode', 'adaptive')} "
             f"penalty={dep.get('penalty_mode', 'default')} "
             f"root_only={dep.get('root_only_shaping', 'default')} "
+            f"source={champion.get('deployment_cfg_source', 'train_cfg')} "
             f"model={champion.get('model_path')}"
         )
 
@@ -967,6 +1430,16 @@ def generate_report(base_dir: Path, selected_conditions: set[str] | None = None)
         "base_dir": str(base_dir),
         "runs": runs,
         "evaluation": eval_payload,
+        "train_contract_summary": summarize_training_contracts(
+            [run.get("train_contract") for run in runs if run.get("train_contract") is not None]
+        ),
+        "contract_summary": summarize_ablation_contracts(
+            (eval_payload or {}).get("expected_search_manifests"),
+            (eval_payload or {}).get("discarded_matches"),
+        ),
+        "runtime_contract": (eval_payload or {}).get("runtime_contract"),
+        "runtime_contract_hash": (eval_payload or {}).get("runtime_contract_hash"),
+        "eval_timing_summary": eval_timing_summary,
         "condition_summary": condition_summary,
         "champion": champion,
     }
@@ -981,7 +1454,7 @@ def parse_args() -> argparse.Namespace:
         "--study",
         default="search_vl",
         choices=sorted(STUDY_PRESETS),
-        help="Study preset: search_vl, controller, or controller_factorial",
+        help="Study preset: search_vl, controller, controller_factorial, or controller_axes",
     )
     parser.add_argument(
         "--game",
@@ -1100,6 +1573,19 @@ def main() -> None:
     eval_payload = None
     if not args.skip_eval:
         eval_payload = run_evaluation_matrix(args, base_dir, model_runs, eval_conditions)
+    manifest["train_contract_summary"] = summarize_training_contracts(
+        [
+            build_training_contract(args, condition_name, train_conditions[condition_name], seed)
+            for condition_name in selected_conditions
+            for seed in seeds
+        ]
+    )
+    manifest["contract_summary"] = summarize_ablation_contracts(
+        (eval_payload or {}).get("expected_search_manifests"),
+        (eval_payload or {}).get("discarded_matches"),
+    )
+    manifest["updated_at"] = time.strftime("%Y-%m-%d %H:%M:%S")
+    json_dump(base_dir / "study_manifest.json", manifest)
     champion = select_champion(base_dir, model_runs, eval_payload, eval_conditions)
     if args.prepare_gomocup:
         prepare_gomocup_bundle(args, base_dir, champion)

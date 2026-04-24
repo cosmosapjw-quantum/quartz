@@ -607,12 +607,14 @@ impl Go {
         let opp = Self::opp(color);
 
         let mut basic_legal = false;
+        let mut has_empty_neighbor = false;
+        let mut capture_possible = false;
 
         // Fast path 1: if ANY neighbor is empty → guaranteed ≥1 liberty
         for nb in self.neighbors(pos) {
             if self.board[nb] == 0 {
+                has_empty_neighbor = true;
                 basic_legal = true;
-                break;
             }
         }
 
@@ -633,6 +635,7 @@ impl Go {
                         scratch.checked[s] = checked_epoch;
                     }
                     if lib_count == 1 {
+                        capture_possible = true;
                         basic_legal = true;
                         return;
                     }
@@ -666,7 +669,12 @@ impl Go {
 
         // Chinese superko: hash-only check (no full state construction)
         if self.ruleset == GoRuleset::Chinese {
-            let next_hash = self.compute_hash_after_place(pos);
+            let next_hash = if has_empty_neighbor && !capture_possible {
+                let z = &*GZOB;
+                self.hash ^ z.piece[(color - 1) as usize][pos] ^ z.side
+            } else {
+                self.compute_hash_after_place(pos)
+            };
             if self.repeats_position_hash(next_hash) {
                 return false;
             }
@@ -1208,7 +1216,7 @@ impl GameState for Go {
         let total_planes = GO_HISTORY_LEN * 2 + 1; // 17
         let total = total_planes * n2;
         let my = self.side;
-        let opp = Self::opp(my);
+        let opp = Go::opp(my);
 
         GO_FEATURE_SCRATCH.with(|scratch| {
             let mut scratch = scratch.borrow_mut();
@@ -2206,6 +2214,92 @@ mod tests {
         let g = g.apply_move(g.pass_action()); // W pass
         assert_eq!(g.board, board_before);
         assert_eq!(g.side, 1); // B to play again
+    }
+
+    fn encode_planes_reference(state: &Go) -> Vec<f32> {
+        let n2 = state.n2();
+        let total_planes = GO_HISTORY_LEN * 2 + 1;
+        let total = total_planes * n2;
+        let my = state.side;
+        let opp = Go::opp(my);
+        let mut out = vec![0.0; total];
+
+        for i in 0..n2 {
+            if state.board[i] == my {
+                out[i] = 1.0;
+            } else if state.board[i] == opp {
+                out[n2 + i] = 1.0;
+            }
+        }
+
+        for (k, hist_board) in state.board_ring.iter_rev().enumerate() {
+            let t = k + 1;
+            if t >= GO_HISTORY_LEN {
+                break;
+            }
+            let base = t * 2 * n2;
+            for i in 0..n2 {
+                let v = hist_board[i];
+                if v == my {
+                    out[base + i] = 1.0;
+                } else if v == opp {
+                    out[base + n2 + i] = 1.0;
+                }
+            }
+        }
+
+        if state.side == 1 {
+            let color_base = (total_planes - 1) * n2;
+            out[color_base..color_base + n2].fill(1.0);
+        }
+        out
+    }
+
+    #[test]
+    fn test_encode_planes_matches_reference_and_board_ring_on_edge_cases() {
+        let mut sequence = Vec::new();
+        let mut snapshots = Vec::new();
+        let mut g = Go::new_9x9();
+        sequence.push(g.clone());
+        for mv in [
+            p(4, 4),
+            p(0, 0),
+            p(4, 5),
+            p(0, 1),
+            p(5, 4),
+            p(1, 0),
+            p(3, 4),
+            p(1, 1),
+            p(4, 3),
+            g.pass_action(),
+            p(2, 0),
+        ] {
+            snapshots.push(g.board);
+            g = g.apply_move(mv);
+            sequence.push(g.clone());
+        }
+
+        let mut scratch = Vec::new();
+        for state in &sequence {
+            let expected = encode_planes_reference(state);
+            state.encode_planes_into(&mut scratch);
+            assert_eq!(
+                scratch, expected,
+                "encode_planes_into drifted from reference on {:?}",
+                state
+            );
+        }
+
+        let latest = sequence.last().unwrap();
+        for (k, hist_board) in latest.board_ring.iter_rev().enumerate() {
+            let expected = snapshots[snapshots.len() - 1 - k];
+            assert_eq!(
+                &hist_board[..latest.n2()],
+                &expected[..latest.n2()],
+                "board ring drifted at history step {}",
+                k + 1
+            );
+        }
     }
 
     #[test]

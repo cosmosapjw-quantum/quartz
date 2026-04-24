@@ -266,6 +266,25 @@ def main() -> None:
         "seed": int(args.seed),
         "started_at": time.strftime("%Y-%m-%d %H:%M:%S"),
     }
+    phase15_contracts = posthoc.build_phase15_contracts(
+        execution_mode="online_chunked_root_continuation",
+        game=args.game,
+        checkpoints=checkpoints,
+        systems=systems,
+        budgets=posthoc.parse_csv_ints(args.budgets),
+        trace_cache_salt_value=posthoc.trace_cache_salt(),
+        reference_checkpoint=reference_checkpoint,
+        reference_system=reference_system,
+        oracle_checkpoint=oracle_checkpoint,
+        oracle_system=oracle_system,
+        extra={
+            "oracle_budget": int(args.oracle_budget),
+            "suite_source": "file" if args.positions_file else args.suite_source,
+            "seed": int(args.seed),
+            "search_continuation": "root_continuation_preferred",
+        },
+    )
+    manifest["contract_summary"] = posthoc.summarize_phase15_contracts(phase15_contracts)
     posthoc.json_dump(base_dir / "phase15_online_manifest.json", manifest)
 
     rows = []
@@ -371,6 +390,7 @@ def main() -> None:
         base_dir / "phase15_online_summary.json",
         {
             "generated_at": time.strftime("%Y-%m-%d %H:%M:%S"),
+            "contract_summary": posthoc.summarize_phase15_contracts(phase15_contracts),
             "raw_summary": posthoc.build_summary_payload(rows),
             "semantic_summary": posthoc.build_semantic_summary_payload(rows),
             "headwind_summary": posthoc.build_headwind_summary_payload(rows),

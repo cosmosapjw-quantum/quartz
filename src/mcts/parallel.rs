@@ -106,9 +106,17 @@ impl ParallelTelemetry {
     #[inline(always)]
     pub fn record_select(&self, pending_at_node: u32) {
         self.total_selects.fetch_add(1, Ordering::Relaxed);
-        let prev = self.max_pending.load(Ordering::Relaxed);
-        if pending_at_node > prev {
-            self.max_pending.store(pending_at_node, Ordering::Relaxed);
+        let mut prev = self.max_pending.load(Ordering::Relaxed);
+        while pending_at_node > prev {
+            match self.max_pending.compare_exchange_weak(
+                prev,
+                pending_at_node,
+                Ordering::Relaxed,
+                Ordering::Relaxed,
+            ) {
+                Ok(_) => break,
+                Err(cur) => prev = cur,
+            }
         }
     }
 
@@ -119,10 +127,20 @@ impl ParallelTelemetry {
 
     #[inline(always)]
     pub fn record_vvalue(&self, v: f32) {
-        // Simple add — not exact for concurrent but fine for telemetry
-        let old = f64::from_bits(self.vvalue_sum.load(Ordering::Relaxed));
-        self.vvalue_sum
-            .store((old + v as f64).to_bits(), Ordering::Relaxed);
+        let mut old_bits = self.vvalue_sum.load(Ordering::Relaxed);
+        loop {
+            let old = f64::from_bits(old_bits);
+            let new_bits = (old + v as f64).to_bits();
+            match self.vvalue_sum.compare_exchange_weak(
+                old_bits,
+                new_bits,
+                Ordering::Relaxed,
+                Ordering::Relaxed,
+            ) {
+                Ok(_) => break,
+                Err(cur) => old_bits = cur,
+            }
+        }
     }
 
     pub fn reset(&self) {
@@ -424,6 +442,31 @@ mod tests {
         assert_eq!(snap.max_pending, 0);
         assert_eq!(snap.avg_vvalue, 0.0);
         assert_eq!(snap.dup_rate, 0.0);
+    }
+
+    #[test]
+    fn test_telemetry_vvalue_accumulates_under_concurrency() {
+        use std::sync::Arc;
+        use std::thread;
+
+        let tel = Arc::new(ParallelTelemetry::new());
+        let mut handles = Vec::new();
+        for _ in 0..8 {
+            let tel = tel.clone();
+            handles.push(thread::spawn(move || {
+                for _ in 0..1000 {
+                    tel.record_select(1);
+                    tel.record_vvalue(0.25);
+                }
+            }));
+        }
+        for handle in handles {
+            handle.join().unwrap();
+        }
+
+        let snap = tel.snapshot();
+        assert_eq!(snap.total_selects, 8000);
+        assert!((snap.avg_vvalue - 0.25).abs() < 1e-6);
     }
 
     #[test]

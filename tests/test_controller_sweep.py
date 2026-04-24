@@ -172,6 +172,28 @@ def test_discover_checkpoint_paths_recurses_and_dedupes_best_first(tmp_path):
     assert rows[1].endswith("latest.pt")
 
 
+def test_discover_checkpoint_paths_prefers_latest_for_bootstrap_only_runs(tmp_path):
+    sweep = load_controller_sweep_module()
+    root = tmp_path / "models"
+    run_dir = root / "a" / "seed_41"
+    run_dir.mkdir(parents=True)
+    (run_dir / "best.pt").write_bytes(b"bootstrap")
+    (run_dir / "latest.pt").write_bytes(b"latest")
+    (run_dir / "checkpoint_status.json").write_text(
+        __import__("json").dumps(
+            {
+                "best_checkpoint_bootstrap_seeded": True,
+                "preferred_posttrain_checkpoint": "latest.pt",
+            }
+        ),
+        encoding="utf-8",
+    )
+
+    rows = sweep.discover_checkpoint_paths(root)
+
+    assert rows == [str(run_dir / "latest.pt")]
+
+
 def test_load_resume_state_reads_report_and_shortlist(tmp_path):
     sweep = load_controller_sweep_module()
     base = tmp_path / "resume"

@@ -126,6 +126,8 @@ try:
         run_batched_eval_groups as _run_batched_eval_groups_impl,
     )
     from quartz.qipc import (
+        QIPC_ARENA_EVAL_REQ,
+        QIPC_ARENA_EVAL_RESP,
         QIPC_BATCH_EVAL_REQ,
         QIPC_BATCH_EVAL_REQ_SHM,
         QIPC_BATCH_EVAL_RESP,
@@ -140,6 +142,7 @@ try:
         QipcSharedMemoryTransport,
         SHM_MSG_EVAL_BATCH_REQ,
         SHM_MSG_EVAL_BATCH_RESP,
+        SHM_MSG_ARENA_EVAL_RESP,
         SHM_MSG_JSON,
         SHM_MSG_SEARCH_RESP,
         ShmRingBuffer,
@@ -147,6 +150,7 @@ try:
         _read_exact as _read_exact_impl,
         cleanup_all_shm as _cleanup_all_shm_impl,
         pack_qipc_batch_eval_resp,
+        pack_qipc_arena_eval_req,
         pack_qipc_eval_resp,
         cleanup_qipc_transport as _cleanup_qipc_transport_impl,
         get_qipc_transport as _get_qipc_transport_impl,
@@ -162,6 +166,7 @@ try:
         stall_trace_path as _stall_trace_path_impl,
         stop_rust_server as _stop_rust_server_impl,
         unpack_qipc_batch_eval_req,
+        unpack_qipc_arena_eval_resp,
         unpack_qipc_eval_req,
         unpack_shm_search_response,
         unregister_ring_buffer as _unregister_ring_buffer_impl,
@@ -602,12 +607,14 @@ def _make_shm_eval_runtime_hooks():
         run_batched_eval_groups=_run_batched_eval_groups,
         make_eval_request_group=_make_eval_request_group,
         unpack_qipc_batch_eval_req=unpack_qipc_batch_eval_req,
+        unpack_qipc_arena_eval_resp=unpack_qipc_arena_eval_resp,
         unpack_shm_search_response=unpack_shm_search_response,
         json_loads_fast=json_loads_fast,
         emit_duty_cycle=NNSearchClient._emit_duty_cycle,
         pack_qipc_batch_eval_resp=pack_qipc_batch_eval_resp,
         logger=log,
         shm_msg_eval_batch_req=SHM_MSG_EVAL_BATCH_REQ,
+        shm_msg_arena_eval_resp=SHM_MSG_ARENA_EVAL_RESP,
         shm_msg_json=SHM_MSG_JSON,
         shm_msg_search_resp=SHM_MSG_SEARCH_RESP,
         inference_pipeline_thread_cls=InferencePipelineThread,
@@ -652,7 +659,7 @@ def _write_batched_eval_group(proc, response_group):
         raise ValueError(f"unknown eval response group kind: {kind}")
 
 
-def _shm_eval_loop(ring, model, device, cfg, proc, on_json=None):
+def _shm_eval_loop(ring, model, device, cfg, proc, on_json=None, baseline_epoch=None):
     return _shm_eval_loop_impl(
         ring,
         model,
@@ -660,6 +667,7 @@ def _shm_eval_loop(ring, model, device, cfg, proc, on_json=None):
         cfg,
         proc,
         on_json=on_json,
+        baseline_epoch=baseline_epoch,
         runtime_hooks=_make_shm_eval_runtime_hooks(),
     )
 
@@ -872,6 +880,7 @@ class NNSearchClient(_NNSearchClientImpl):
             runtime_hooks=SearchClientRuntimeHooks(
                 launch_server=launch_rust_server,
                 proc_write_json_line=proc_write_json_line,
+                proc_write_qipc_frame=proc_write_qipc_frame,
                 cleanup_qipc_transport=_cleanup_qipc_transport,
                 proc_read_json_line=proc_read_json_line,
                 json_loads_fast=json_loads_fast,
@@ -882,14 +891,19 @@ class NNSearchClient(_NNSearchClientImpl):
                 proc_read_message=proc_read_message,
                 shm_eval_loop=_shm_eval_loop,
                 proc_decode_eval_frame=proc_decode_eval_frame,
+                qipc_arena_eval_req=QIPC_ARENA_EVAL_REQ,
+                qipc_arena_eval_resp=QIPC_ARENA_EVAL_RESP,
                 qipc_batch_eval_req=QIPC_BATCH_EVAL_REQ,
                 qipc_eval_req=QIPC_EVAL_REQ,
                 make_eval_request_group=_make_eval_request_group,
+                pack_qipc_arena_eval_req=pack_qipc_arena_eval_req,
                 unpack_qipc_batch_eval_req=unpack_qipc_batch_eval_req,
+                unpack_qipc_arena_eval_resp=unpack_qipc_arena_eval_resp,
                 unpack_qipc_eval_req=unpack_qipc_eval_req,
                 compute_eval_collect_policy=compute_eval_collect_policy,
                 wait_readable=wait_readable,
                 inference_pipeline_thread_cls=InferencePipelineThread,
+                should_use_async_pipeline=_runtime_support.should_use_async_pipeline,
                 run_batched_eval_groups=_run_batched_eval_groups,
                 write_batched_eval_group=_write_batched_eval_group,
                 run_model_batch=_run_model_batch,
@@ -899,6 +913,9 @@ class NNSearchClient(_NNSearchClientImpl):
                 parse_eval_request=_parse_eval_request,
             ),
         )
+
+
+_runtime_support.register_search_client_resolver(lambda: NNSearchClient)
 
 
 # ═══════════════════════════════════════════

@@ -1990,7 +1990,7 @@ mod ablation_round2 {
                 pi, stats.hbar_eff, lambda_1loop
             );
             for (i, e) in edges.iter().take(5).enumerate() {
-                let n_a = e.n.load(std::sync::atomic::Ordering::Relaxed);
+                let n_a = e.n;
                 let sigma_hat = e.edge_sigma().unwrap_or(0.0);
 
                 // Current: −ħ_eff/N_a
@@ -2406,7 +2406,6 @@ mod nn_pw_experiment {
     use crate::mcts::eval::PythonIpcEval;
     use crate::mcts::mod_types::PwConfig;
     use crate::mcts::quartz::HaltMode;
-    use std::sync::atomic::Ordering;
     use std::time::Instant;
 
     #[test]
@@ -2577,7 +2576,7 @@ mod nn_pw_experiment {
                 edges.len()
             );
             for (i, e) in edges.iter().take(8).enumerate() {
-                let n_a = e.n.load(Ordering::Relaxed);
+                let n_a = e.n;
                 let sigma_hat = e.edge_sigma().unwrap_or(0.0);
                 let penalty = if n_a > 0 {
                     -stats.hbar_eff / n_a as f32

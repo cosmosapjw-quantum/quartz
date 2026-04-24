@@ -61,7 +61,7 @@ fn root_visit_entropy<M: Into<usize> + Copy + Send + Sync + 'static>(
     let edges = engine.root.edge_snapshot(engine.root.materialized_count());
     let total: f32 = edges
         .iter()
-        .map(|e| e.n.load(Ordering::Relaxed) as f32)
+        .map(|e| e.n as f32)
         .sum();
     if total < 2.0 {
         return 0.0;
@@ -69,7 +69,7 @@ fn root_visit_entropy<M: Into<usize> + Copy + Send + Sync + 'static>(
     edges
         .iter()
         .map(|e| {
-            let p = e.n.load(Ordering::Relaxed) as f32 / total;
+            let p = e.n as f32 / total;
             if p > 1e-8 {
                 -p * p.ln()
             } else {
@@ -85,7 +85,7 @@ fn root_q_spread<M: Into<usize> + Copy + Send + Sync + 'static>(
     let edges = engine.root.edge_snapshot(engine.root.materialized_count());
     let qs: Vec<f32> = edges
         .iter()
-        .filter(|e| e.n.load(Ordering::Relaxed) > 0)
+        .filter(|e| e.n > 0)
         .map(|e| e.q())
         .collect();
     if qs.len() < 2 {

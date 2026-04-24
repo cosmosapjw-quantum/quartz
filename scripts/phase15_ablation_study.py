@@ -29,6 +29,7 @@ sys.path.insert(0, str(SCRIPT_DIR))
 import controller_sweep as sweep
 
 from quartz.autotune_runtime import apply_runtime_overrides
+from quartz.contract_summary import summarize_plain_contracts
 from quartz.encoders import get_encoder
 from quartz.models_torch import AlphaZeroNet
 from quartz.phase15_ablation import (
@@ -74,6 +75,89 @@ def jsonl_dump(path: Path, rows: list[dict[str, Any]]) -> None:
     with path.open("w", encoding="utf-8") as handle:
         for row in rows:
             handle.write(json.dumps(row, ensure_ascii=True) + "\n")
+
+
+def build_phase15_contracts(
+    *,
+    execution_mode: str,
+    game: str,
+    checkpoints: list[CheckpointRef],
+    systems: list[Phase15System],
+    budgets: list[int],
+    trace_cache_salt_value: str,
+    reference_checkpoint: CheckpointRef | None = None,
+    reference_system: Phase15System | None = None,
+    oracle_checkpoint: CheckpointRef | None = None,
+    oracle_system: Phase15System | None = None,
+    extra: dict[str, Any] | None = None,
+) -> list[dict[str, Any]]:
+    contracts: list[dict[str, Any]] = []
+    runner_contract = {
+        "contract_type": "runner",
+        "execution_mode": str(execution_mode),
+        "game": str(game),
+        "budgets": [int(item) for item in budgets],
+        "trace_cache_salt": str(trace_cache_salt_value),
+    }
+    if extra:
+        runner_contract.update(copy.deepcopy(extra))
+    contracts.append(runner_contract)
+    for checkpoint in checkpoints:
+        contracts.append(
+            {
+                "contract_type": "checkpoint",
+                "checkpoint_id": str(checkpoint.id),
+                "checkpoint_path": str(checkpoint.path),
+            }
+        )
+    for system in systems:
+        contracts.append(
+            {
+                "contract_type": "system",
+                "system_id": str(system.id),
+                "semantic_signature": list(system_semantic_signature(system)),
+                "system": asdict(system),
+            }
+        )
+    if reference_checkpoint is not None:
+        contracts.append(
+            {
+                "contract_type": "reference_checkpoint",
+                "checkpoint_id": str(reference_checkpoint.id),
+                "checkpoint_path": str(reference_checkpoint.path),
+            }
+        )
+    if reference_system is not None:
+        contracts.append(
+            {
+                "contract_type": "reference_system",
+                "system_id": str(reference_system.id),
+                "semantic_signature": list(system_semantic_signature(reference_system)),
+                "system": asdict(reference_system),
+            }
+        )
+    if oracle_checkpoint is not None:
+        contracts.append(
+            {
+                "contract_type": "oracle_checkpoint",
+                "checkpoint_id": str(oracle_checkpoint.id),
+                "checkpoint_path": str(oracle_checkpoint.path),
+            }
+        )
+    if oracle_system is not None:
+        contracts.append(
+            {
+                "contract_type": "oracle_system",
+                "system_id": str(oracle_system.id),
+                "semantic_signature": list(system_semantic_signature(oracle_system)),
+                "system": asdict(oracle_system),
+            }
+        )
+    return contracts
+
+
+def summarize_phase15_contracts(contracts: list[dict[str, Any]]) -> dict[str, Any]:
+    return summarize_plain_contracts(contracts)
 
 
 def parse_csv_ints(raw: str) -> list[int]:
@@ -1038,6 +1122,25 @@ def main() -> None:
             "legacy anchor comparison. Reference and oracle policies are tracked separately."
         ),
     }
+    phase15_contracts = build_phase15_contracts(
+        execution_mode="posthoc",
+        game=args.game,
+        checkpoints=checkpoints,
+        systems=systems,
+        budgets=parse_csv_ints(args.budgets),
+        trace_cache_salt_value=trace_cache_salt(),
+        reference_checkpoint=reference_checkpoint,
+        reference_system=reference_system,
+        oracle_checkpoint=oracle_checkpoint,
+        oracle_system=oracle_system,
+        extra={
+            "oracle_budget": int(args.oracle_budget),
+            "suite_source": "file" if args.positions_file else args.suite_source,
+            "seed": int(args.seed),
+            "search_stall_timeout_s": float(args.search_stall_timeout_s),
+        },
+    )
+    manifest["contract_summary"] = summarize_phase15_contracts(phase15_contracts)
     json_dump(base_dir / "phase15_manifest.json", manifest)
 
     candidate_count = int(args.suite_size)
@@ -1131,6 +1234,7 @@ def main() -> None:
         base_dir / "phase15_summary.json",
         {
             "generated_at": time.strftime("%Y-%m-%d %H:%M:%S"),
+            "contract_summary": summarize_phase15_contracts(phase15_contracts),
             "raw_summary": build_summary_payload(rows),
             "semantic_summary": build_semantic_summary_payload(rows),
             "headwind_summary": build_headwind_summary_payload(rows),

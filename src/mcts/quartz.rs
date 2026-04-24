@@ -643,21 +643,21 @@ fn check_envariance(s_kl: f32, n_total: u32) -> (bool, f32, f32) {
 /// §6.1.1 P_flip with child-node RTT for ρ̂ (correct version)
 /// top-2 자식의 RTT variance = 그 자식이 여러 경로에서 얼마나 다른 Q를 받았나
 fn compute_p_flip_with_child_rtt<M: Copy + Send + Sync + 'static>(
-    edges: &[Arc<crate::mcts::node::MctsEdge<M>>],
+    edges: &[crate::mcts::node::MctsEdgeSnapshot<M>],
     sigma_q: f32,
 ) -> (f32, f32, f32, f32, bool) {
     if edges.len() < 2 {
         return (0.0, 0.0, 0.0, 0.0, false);
     }
-    let mut qe: Vec<(&Arc<crate::mcts::node::MctsEdge<M>>, f32)> =
+    let mut qe: Vec<(&crate::mcts::node::MctsEdgeSnapshot<M>, f32)> =
         edges.iter().map(|e| (e, e.q())).collect();
     qe.sort_unstable_by(|a, b| b.1.partial_cmp(&a.1).unwrap());
 
     let (e1, q1) = qe[0];
     let (e2, q2) = qe[1];
     let mu_d = q1 - q2;
-    let n1 = e1.n.load(Ordering::Acquire) as f32;
-    let n2 = e2.n.load(Ordering::Acquire) as f32;
+    let n1 = e1.n as f32;
+    let n2 = e2.n as f32;
 
     let s1 = e1.edge_sigma();
     let s2 = e2.edge_sigma();
@@ -691,21 +691,21 @@ fn compute_p_flip_with_child_rtt<M: Copy + Send + Sync + 'static>(
 }
 
 fn compute_p_flip<M: Copy + Send + Sync + 'static>(
-    edges: &[Arc<crate::mcts::node::MctsEdge<M>>],
+    edges: &[crate::mcts::node::MctsEdgeSnapshot<M>],
     sigma_q: f32,
     rtt_var: f32,
 ) -> (f32, f32, f32, f32, bool) {
     if edges.len() < 2 {
         return (0.0, 0.0, 0.0, 0.0, false);
     }
-    let mut qe: Vec<(&Arc<crate::mcts::node::MctsEdge<M>>, f32)> =
+    let mut qe: Vec<(&crate::mcts::node::MctsEdgeSnapshot<M>, f32)> =
         edges.iter().map(|e| (e, e.q())).collect();
     qe.sort_unstable_by(|a, b| b.1.partial_cmp(&a.1).unwrap());
     let (e1, q1) = qe[0];
     let (e2, q2) = qe[1];
     let mu_d = q1 - q2;
-    let n1 = e1.n.load(Ordering::Acquire) as f32;
-    let n2 = e2.n.load(Ordering::Acquire) as f32;
+    let n1 = e1.n as f32;
+    let n2 = e2.n as f32;
     let s1 = e1.edge_sigma();
     let s2 = e2.edge_sigma();
     let reliable = s1.is_some() && s2.is_some();
@@ -823,7 +823,7 @@ pub fn compute_quartz_stats<M: Copy + Send + Sync + 'static>(
     let mut total_p = 0.0f32;
 
     for (i, e) in edges.iter().enumerate() {
-        let n = e.n.load(Ordering::Acquire) as f32;
+        let n = e.n as f32;
         if n > 0.0 {
             qs.push(e.q());
             ns.push(n);
@@ -1057,7 +1057,7 @@ pub fn compute_quartz_stats<M: Copy + Send + Sync + 'static>(
     // ── One-loop bonus (§6.1.2, selection-level, see select.rs) ─
     // Reported here for diagnostics; actual application in select.rs
     let one_loop_b = if !is_heavy_tail && p_envar < 0.2 {
-        hbar_eff * (1.0 + sigma_q / cfg.sigma_0).ln()
+        hbar_eff * (1.0f32 + sigma_q / cfg.sigma_0).ln()
     } else {
         0.0
     };
@@ -1087,7 +1087,7 @@ pub fn compute_quartz_stats<M: Copy + Send + Sync + 'static>(
     let gvoc_nonroot_max = if n_total > 0 {
         let mut child_wimps: Vec<f32> = edges
             .iter()
-            .map(|e| e.n.load(Ordering::Acquire) as f32 / n_total as f32)
+            .map(|e| e.n as f32 / n_total as f32)
             .collect();
         child_wimps.sort_unstable_by(|a, b| b.partial_cmp(a).unwrap());
         child_wimps
@@ -1733,7 +1733,7 @@ impl QuartzController {
             for e in &edges {
                 if let Some(sigma_emp) = e.edge_sigma() {
                     let sigma_pred = self.cfg.sigma_0
-                        / (e.n.load(std::sync::atomic::Ordering::Relaxed) as f32 + 1.0).sqrt();
+                        / (e.n as f32 + 1.0).sqrt();
                     g.depth_cal.record(0, sigma_emp, sigma_pred);
                 }
             }
@@ -1782,7 +1782,7 @@ impl QuartzController {
             let edges = root.edge_snapshot(n_mat.min(20));
             let n_total = edges
                 .iter()
-                .map(|e| e.n.load(std::sync::atomic::Ordering::Relaxed))
+                .map(|e| e.n)
                 .sum::<u32>()
                 .max(1);
 
@@ -1791,7 +1791,7 @@ impl QuartzController {
             let cur_log_policy: Vec<f32> = edges
                 .iter()
                 .map(|e| {
-                    let na = e.n.load(std::sync::atomic::Ordering::Relaxed) as f32;
+                    let na = e.n as f32;
                     ((na + eps_p) / (n_total as f32 + eps_p * edges.len() as f32)).ln()
                 })
                 .collect();
@@ -1806,7 +1806,7 @@ impl QuartzController {
                 let q_weights: Vec<f32> = edges
                     .iter()
                     .map(|e| {
-                        let na = e.n.load(std::sync::atomic::Ordering::Relaxed) as f32;
+                        let na = e.n as f32;
                         (na + eps_p) / (n_total as f32 + eps_p * edges.len() as f32)
                     })
                     .collect();
