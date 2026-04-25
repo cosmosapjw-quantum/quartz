@@ -8,7 +8,6 @@ import json
 import logging
 import os
 import queue
-import random
 import sys
 import threading
 from types import SimpleNamespace
@@ -60,7 +59,6 @@ from quartz.selfplay_runtime import (
     NNSearchClient as _NNSearchClientImpl,
     SearchClientRuntimeHooks,
     build_rust_state_meta as _build_rust_state_meta_impl,
-    chess_state_meta_from_hashes,
     encode_chess_fen,
     initial_chess_fen as _initial_chess_fen_impl,
     is_chess_game,

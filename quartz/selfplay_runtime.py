@@ -55,9 +55,15 @@ def _search_manifest_hash(cfg):
     return hashlib.sha256(payload.encode("utf-8")).hexdigest()[:16]
 
 
+_LOGICAL_CPU_COUNT = max(1, os.cpu_count() or 1)
+
+
 def estimate_selfplay_positions_per_game(cfg, recent_chunks):
-    rolling_games = sum(int(chunk.get("games", 0) or 0) for chunk in recent_chunks)
-    rolling_positions = sum(int(chunk.get("positions", 0) or 0) for chunk in recent_chunks)
+    rolling_games = 0
+    rolling_positions = 0
+    for chunk in recent_chunks:
+        rolling_games += int(chunk.get("games", 0) or 0)
+        rolling_positions += int(chunk.get("positions", 0) or 0)
     if rolling_games > 0 and rolling_positions > 0:
         return max(1.0, rolling_positions / rolling_games)
     board = int(cfg.get("board", 7) or 7)
@@ -91,39 +97,78 @@ def initial_replay_fill_target(cfg, recent_chunks):
 
 
 def plan_selfplay_runner_chunk(cfg, replay_size, recent_chunks):
-    base_parallel = max(1, int(cfg.get("bg_parallel", 2) or 2))
-    base_batch_games = max(1, int(cfg.get("bg_batch_games", base_parallel) or base_parallel))
-    parallel_cap_override = max(0, int(cfg.get("_selfplay_parallel_cap", 0) or 0))
-    batch_games_cap_override = max(0, int(cfg.get("_selfplay_batch_games_cap", 0) or 0))
-    batch_target = max(1, int(cfg.get("batch_size", 8) or 8))
-    train_batch = max(1, int(cfg.get("batch", 256) or 256))
-    logical_threads = max(1, int(os.cpu_count() or base_parallel))
+    cfg_get = cfg.get
+    base_parallel = int(cfg_get("bg_parallel", 2) or 2)
+    if base_parallel < 1:
+        base_parallel = 1
+    base_batch_games = int(cfg_get("bg_batch_games", base_parallel) or base_parallel)
+    if base_batch_games < 1:
+        base_batch_games = 1
+    parallel_cap_override = int(cfg_get("_selfplay_parallel_cap", 0) or 0)
+    batch_games_cap_override = int(cfg_get("_selfplay_batch_games_cap", 0) or 0)
+    batch_target = int(cfg_get("batch_size", 8) or 8)
+    if batch_target < 1:
+        batch_target = 1
+    train_batch = int(cfg_get("batch", 256) or 256)
+    if train_batch < 1:
+        train_batch = 1
+
     positions_per_game = estimate_selfplay_positions_per_game(cfg, recent_chunks)
-    replay_deficit = max(0, train_batch - int(replay_size))
-    games_needed = max(1, int(math.ceil(replay_deficit / max(positions_per_game, 1.0))))
+    replay_deficit = train_batch - int(replay_size)
+    if replay_deficit < 0:
+        replay_deficit = 0
+    pos_floor = positions_per_game if positions_per_game > 1.0 else 1.0
+    games_needed = int(math.ceil(replay_deficit / pos_floor))
+    if games_needed < 1:
+        games_needed = 1
 
     parallel = base_parallel
     batch_games = base_batch_games
-    if cfg.get("_selfplay_runner_mode") == "rust_selfplay_state_machine":
-        parallel_cap = max(base_parallel, logical_threads)
-        if parallel_cap_override > 0:
-            parallel_cap = min(parallel_cap, parallel_cap_override)
-        parallel = max(base_parallel, min(parallel_cap, max(batch_target, games_needed)))
-        max_batch_games_cap = max(base_batch_games, min(train_batch, max(parallel * 4, batch_target * 4)))
-        if batch_games_cap_override > 0:
-            max_batch_games_cap = min(max_batch_games_cap, batch_games_cap_override)
-        batch_games = min(max_batch_games_cap, max(base_batch_games, parallel, games_needed))
-    if parallel_cap_override > 0:
-        parallel = min(parallel, parallel_cap_override)
-    if batch_games_cap_override > 0:
-        batch_games = min(batch_games, batch_games_cap_override)
-    parallel = max(1, int(parallel))
-    batch_games = max(1, int(batch_games))
+    if cfg_get("_selfplay_runner_mode") == "rust_selfplay_state_machine":
+        parallel_cap = base_parallel if base_parallel > _LOGICAL_CPU_COUNT else _LOGICAL_CPU_COUNT
+        if parallel_cap_override > 0 and parallel_cap_override < parallel_cap:
+            parallel_cap = parallel_cap_override
+        parallel_target = batch_target if batch_target > games_needed else games_needed
+        if parallel_target > parallel_cap:
+            parallel_target = parallel_cap
+        parallel = base_parallel if base_parallel > parallel_target else parallel_target
+
+        quad_parallel = parallel * 4
+        quad_batch = batch_target * 4
+        quad = quad_parallel if quad_parallel > quad_batch else quad_batch
+        if quad > train_batch:
+            quad = train_batch
+        max_batch_games_cap = base_batch_games if base_batch_games > quad else quad
+        if batch_games_cap_override > 0 and batch_games_cap_override < max_batch_games_cap:
+            max_batch_games_cap = batch_games_cap_override
+
+        candidate = base_batch_games
+        if parallel > candidate:
+            candidate = parallel
+        if games_needed > candidate:
+            candidate = games_needed
+        batch_games = candidate if candidate < max_batch_games_cap else max_batch_games_cap
+
+    if parallel_cap_override > 0 and parallel > parallel_cap_override:
+        parallel = parallel_cap_override
+    if batch_games_cap_override > 0 and batch_games > batch_games_cap_override:
+        batch_games = batch_games_cap_override
+    if parallel < 1:
+        parallel = 1
+    if batch_games < 1:
+        batch_games = 1
+
+    games_per_call = batch_games
+    base_or_target = base_parallel if base_parallel > batch_target else batch_target
+    if games_per_call > base_or_target:
+        games_per_call = base_or_target
+    if parallel > games_per_call:
+        games_per_call = parallel
 
     return {
         "parallel": int(parallel),
         "batch_games": int(batch_games),
-        "games_per_call": int(max(parallel, min(batch_games, max(base_parallel, batch_target)))),
+        "games_per_call": int(games_per_call),
         "replay_deficit": int(replay_deficit),
         "estimated_positions_per_game": round(float(positions_per_game), 3),
     }

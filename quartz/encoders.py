@@ -17,7 +17,6 @@ Encoder contract:
 """
 
 import numpy as np
-import math
 from abc import ABC, abstractmethod
 
 
@@ -108,12 +107,9 @@ class GomokuEncoder(GameEncoder):
         """17-channel encoding (t=0 only, no history). Planes 0-1: my/opp stones, plane 16: color."""
         bs = self._board_size
         enc = np.zeros((17, bs, bs), dtype=np.float32)
-        for i in range(bs * bs):
-            r, c = i // bs, i % bs
-            if board_flat[i] == player:
-                enc[0, r, c] = 1.0
-            elif board_flat[i] != 0:
-                enc[1, r, c] = 1.0
+        arr = np.asarray(board_flat).reshape(bs, bs)
+        enc[0] = (arr == player)
+        enc[1] = (arr != 0) & (arr != player)
         if player == 1:
             enc[16] = 1.0
         return enc
@@ -121,12 +117,9 @@ class GomokuEncoder(GameEncoder):
     def decode(self, enc, player):
         bs = self._board_size
         board = np.zeros(bs * bs, dtype=np.int8)
-        for r in range(bs):
-            for c in range(bs):
-                if enc[0, r, c] > 0.5:
-                    board[r * bs + c] = player
-                elif enc[1, r, c] > 0.5:
-                    board[r * bs + c] = -player
+        view = board.reshape(bs, bs)
+        view[enc[0] > 0.5] = player
+        view[enc[1] > 0.5] = -player
         return board
 
     def heuristic_prior(self, board_flat, player):
@@ -137,49 +130,67 @@ class GomokuEncoder(GameEncoder):
         bs = self._board_size
         n2 = bs * bs
         wl = self._win_len
-        scores = np.zeros(n2, dtype=np.float32)
 
-        for pos in range(n2):
-            if board_flat[pos] != 0:
-                continue
-            r, c = pos // bs, pos % bs
+        # Vectorized adjacency bonus: each empty cell scores 0.5 per
+        # non-zero neighbor in the 8-neighborhood. Equivalent to
+        # convolving a 3x3 ones-minus-center kernel with the |arr|>0 mask.
+        arr = np.asarray(board_flat).reshape(bs, bs).astype(np.int8, copy=False)
+        nonzero = (arr != 0).astype(np.int32)
+        padded = np.pad(nonzero, 1, mode="constant")
+        neighbor_sum = (
+            padded[:-2, :-2] + padded[:-2, 1:-1] + padded[:-2, 2:]
+            + padded[1:-1, :-2] +                 + padded[1:-1, 2:]
+            + padded[2:, :-2]  + padded[2:, 1:-1] + padded[2:, 2:]
+        )
+        scores = (neighbor_sum.reshape(n2).astype(np.float32) * 0.5)
 
-            # Adjacency bonus
-            for dr in (-1, 0, 1):
-                for dc in (-1, 0, 1):
-                    if dr == 0 and dc == 0:
-                        continue
-                    nr, nc = r + dr, c + dc
-                    if 0 <= nr < bs and 0 <= nc < bs and board_flat[nr * bs + nc] != 0:
-                        scores[pos] += 0.5
+        # Vectorized center bias.
+        rs, cs = np.indices((bs, bs))
+        center = bs // 2
+        bias = np.maximum(0, bs - np.abs(rs - center) - np.abs(cs - center)).astype(np.float32) * 0.2
+        scores += bias.reshape(n2)
 
-            # Threat patterns in 4 directions
+        # Mask out occupied cells from the contributions above (they
+        # would have been skipped in the original loop).
+        empty_mask = (arr.reshape(n2) == 0)
+        scores = np.where(empty_mask, scores, 0.0).astype(np.float32)
+
+        # Threat-pattern scan: kept as a tight Python loop, but with
+        # board_flat materialized once as a Python list so that each
+        # cell read is a Python int, not a boxed numpy scalar.
+        bf = arr.reshape(n2).tolist()
+        empty_idx = np.flatnonzero(empty_mask).tolist()
+        opp = -player
+        for pos in empty_idx:
+            r = pos // bs
+            c = pos - r * bs
+            local = 0.0
             for dr, dc in ((0, 1), (1, 0), (1, 1), (1, -1)):
-                for side in (player, -player):
+                for side in (player, opp):
                     cnt = 0
                     oe = 0
                     for sign in (1, -1):
-                        nr, nc = r + sign * dr, c + sign * dc
+                        nr = r + sign * dr
+                        nc = c + sign * dc
                         while 0 <= nr < bs and 0 <= nc < bs:
-                            if board_flat[nr * bs + nc] == side:
+                            v = bf[nr * bs + nc]
+                            if v == side:
                                 cnt += 1
                                 nr += sign * dr
                                 nc += sign * dc
-                            elif board_flat[nr * bs + nc] == 0:
+                            elif v == 0:
                                 oe += 1
                                 break
                             else:
                                 break
                     mult = 1.0 if side == player else 0.8
                     if cnt >= wl - 1:
-                        scores[pos] += 100 * mult
+                        local += 100.0 * mult
                     elif cnt == wl - 2 and oe >= 1:
-                        scores[pos] += 15 * mult
+                        local += 15.0 * mult
                     elif cnt >= 1:
-                        scores[pos] += cnt * mult
-
-            # Center bias
-            scores[pos] += max(0, (bs - abs(r - bs // 2) - abs(c - bs // 2))) * 0.2
+                        local += cnt * mult
+            scores[pos] += local
 
         s = scores.sum()
         if s > 0:

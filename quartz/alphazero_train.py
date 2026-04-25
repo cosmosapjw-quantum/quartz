@@ -16,13 +16,11 @@ Requirements: torch, numpy, tqdm
 GPU:          pip install torch --index-url https://download.pytorch.org/whl/rocm6.2
               export HSA_OVERRIDE_GFX_VERSION=10.3.0
 """
-import os, sys, json, select, time, argparse, subprocess, random, math, signal, threading, logging, struct, warnings, atexit, queue
+import os, sys, json, time, random, logging, atexit
 import numpy as np
-from collections import OrderedDict
-from dataclasses import dataclass
+from collections import OrderedDict  # re-exported for tests / utilities
 
 log = logging.getLogger(__name__)
-from pathlib import Path
 
 from quartz.backend import (
     load_torch_state_dict,
@@ -306,20 +304,11 @@ try:
 except ImportError:
     from replay import (
         ReplayBuffer,
-        ReplayExample,
         ReplayMetrics,
-        SparsePolicyTarget,
-        collate_replay_samples,
-        dense_policy_from_sparse,
         iter_sparse_policy_entries,
-        normalize_sparse_policy,
-        sparse_policy_from_dense,
-        sparse_policy_from_entries,
     )
     from eval_runtime import (
-        NNEvalCache,
         clear_nn_eval_cache as _clear_nn_eval_cache_impl,
-        eval_request_cache_key as _eval_request_cache_key_impl,
         legacy_eval_cache_key as _legacy_eval_cache_key_impl,
         make_eval_request_group as _make_eval_request_group_impl,
         parse_eval_request as _parse_eval_request_impl,
@@ -327,19 +316,11 @@ except ImportError:
     )
     from qipc import (
         QIPC_BATCH_EVAL_REQ,
-        QIPC_BATCH_EVAL_REQ_SHM,
         QIPC_BATCH_EVAL_RESP,
-        QIPC_BATCH_EVAL_RESP_SHM,
         QIPC_EVAL_REQ,
-        QIPC_EVAL_REQ_SHM,
         QIPC_EVAL_RESP,
-        QIPC_EVAL_RESP_SHM,
-        QIPC_HEADER,
-        QIPC_MAGIC,
-        QIPC_SHM_LEN,
         QipcSharedMemoryTransport,
         SHM_MSG_EVAL_BATCH_REQ,
-        SHM_MSG_EVAL_BATCH_RESP,
         SHM_MSG_JSON,
         SHM_MSG_SEARCH_RESP,
         ShmRingBuffer,
@@ -369,14 +350,12 @@ except ImportError:
     )
     from selfplay_runtime import (
         ArenaRuntimeHooks,
-        BatchedSelfPlayRuntimeHooks,
         LegacyRustSelfplayHooks,
         NNSearchClient as _NNSearchClientImpl,
         SearchClientRuntimeHooks,
         SelfPlayLoopRuntimeHooks,
         RustServerPool as _RustServerPoolImpl,
         SelfPlayWorker as _SelfPlayWorkerImpl,
-        build_rust_state_meta as _build_rust_state_meta_impl,
         chess960_start_fen as _chess960_start_fen_impl,
         chess_state_meta_from_hashes as _chess_state_meta_from_hashes_impl,
         arena_rust_nn_impl as _arena_rust_nn_impl_runtime,
@@ -385,37 +364,16 @@ except ImportError:
         decode_streamed_selfplay_game as _decode_streamed_selfplay_game_impl,
         default_output_dir as _default_output_dir_impl,
         encode_board_with_history as _encode_board_with_history_impl,
-        encode_chess_fen as _encode_chess_fen_impl,
         estimate_selfplay_positions_per_game as _estimate_selfplay_positions_per_game_impl,
         initial_replay_fill_target as _initial_replay_fill_target_impl,
-        initial_chess_fen as _initial_chess_fen_impl,
-        is_chess_game as _is_chess_game_impl,
-        is_go_game as _is_go_game_impl,
         plan_selfplay_runner_chunk as _plan_selfplay_runner_chunk_impl,
-        rust_game_name as _rust_game_name_impl,
         rust_search_options as _rust_search_options_impl,
         selfplay_rust as _selfplay_rust_impl,
         selfplay_rust_nn as _selfplay_rust_nn_impl,
-        selfplay_rust_nn_batched as _selfplay_rust_nn_batched_impl,
         should_use_resident_session as _should_use_resident_session_impl,
-        supports_rust_eval_state_machine as _supports_rust_eval_state_machine_impl,
-        supports_rust_selfplay_state_machine as _supports_rust_selfplay_state_machine_impl,
         wait_for_worker_progress as _wait_for_worker_progress_impl,
     )
-    from game_adapters import (
-        ChessEvaluationAdapter,
-        GameAdapterRuntimeHooks,
-        GoGameAdapter,
-        GomokuGameAdapter,
-        TicTacToeGameAdapter,
-        build_training_game_adapter as _build_training_game_adapter_impl,
-    )
     from arena_runtime import (
-        Glicko2Rating,
-        Glicko2System,
-        MCTSNode,
-        RandomRolloutAgent,
-        TreeMCTS,
         TreeMCTSEngine,
         arena_3agent,
         arena_compare,
@@ -429,7 +387,6 @@ except ImportError:
         shm_write_eval_response as _shm_write_eval_response_impl,
     )
     from autotune_runtime import (
-        AUTOTUNE_PROFILE_VERSION,
         OnlineAutotuneController as _OnlineAutotuneControllerImpl,
         AutotuneRuntimeHooks,
         _autotune_batch_game_candidates as _autotune_batch_game_candidates_impl,
@@ -445,19 +402,12 @@ except ImportError:
         apply_runtime_overrides as _apply_runtime_overrides_impl,
         autoscale_model_cfg as _autoscale_model_cfg_impl,
         autotune_signature as _autotune_signature_impl,
-        autotune_training_cfg as _autotune_training_cfg_impl,
-        benchmark_selfplay_throughput as _benchmark_selfplay_throughput_impl,
         benchmark_train_batch as _benchmark_train_batch_impl,
         estimate_model_params as _estimate_model_params_impl,
-        load_autotune_profile as _load_autotune_profile_impl,
         plan_online_runtime_overrides as _plan_online_runtime_overrides_impl,
         print_autotune_summary as _print_autotune_summary_impl,
-        run_autotune_benchmark as _run_autotune_benchmark_impl,
-        save_autotune_profile as _save_autotune_profile_impl,
     )
     from system_runtime import (
-        EVAL_AUTOTUNE_PROFILE_VERSION,
-        HardwareSpec,
         auto_device_name,
         clamp_runtime_cfg_to_hardware,
         clamp_thread_count,
@@ -491,7 +441,6 @@ except ImportError:
         load_actor_source_from_checkpoint as _load_actor_source_from_checkpoint_impl,
         serve as _serve_impl,
     )
-    from cli_main import build_arg_parser as _build_arg_parser_impl
     from cli_main import (
         MainRuntimeHooks,
         CliPrepareHooks,
@@ -729,13 +678,11 @@ except ImportError:
         def close(self): pass
 
 import torch
-import torch.nn as nn
-import torch.nn.functional as F
 
 try:
     from quartz.models_torch import AlphaZeroNet, ResBlock, SEBlock
 except ImportError:
-    from models_torch import AlphaZeroNet, ResBlock, SEBlock
+    from models_torch import AlphaZeroNet
 try:
     from quartz.training_catalog import (
         CHESS_POLICY_ACTIONS,
@@ -752,12 +699,7 @@ try:
     )
 except ImportError:
     from training_catalog import (
-        CHESS_POLICY_ACTIONS,
         GAME_CONFIGS,
-        GOMOKU15_VARIANTS,
-        GO_RULESET_PRESETS,
-        SEARCH_RUNTIME_KEYS,
-        STANDARD_CHESS_FEN,
         apply_config_overrides,
         is_chess_game,
         is_go_game,

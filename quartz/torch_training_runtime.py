@@ -14,13 +14,10 @@ from quartz.autotune_runtime import (
     AutotuneRuntimeHooks,
     OnlineAutotuneController,
     apply_runtime_overrides,
-    autotune_signature,
     autotune_training_cfg as _autotune_training_cfg_impl,
     benchmark_selfplay_throughput as _benchmark_selfplay_throughput_impl,
-    benchmark_train_batch as _benchmark_train_batch_impl,
     load_autotune_profile as _load_autotune_profile_impl,
     print_autotune_summary,
-    run_autotune_benchmark as _run_autotune_benchmark_impl,
     run_autotune_benchmark_fast as _run_autotune_benchmark_fast_impl,
     save_autotune_profile as _save_autotune_profile_impl,
 )

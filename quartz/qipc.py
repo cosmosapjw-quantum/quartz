@@ -3,7 +3,6 @@
 from __future__ import annotations
 
 import atexit
-import ctypes
 import json
 import logging
 import os
@@ -754,6 +753,30 @@ _ARENA_STATE_BOARD = 0
 _ARENA_STATE_GO = 1
 _ARENA_STATE_CHESS = 2
 
+# Pre-bound struct layouts for the arena-eval request packer hot path.
+_ARENA_REQ_PREFIX = struct.Struct("<BI")  # version + game_name_len
+_ARENA_REQ_LEN_U32 = struct.Struct("<I")
+_ARENA_REQ_OPT_BOOL = struct.Struct("<b")
+_ARENA_REQ_OPT_U64 = struct.Struct("<BQ")
+_ARENA_REQ_OPT_U64_ZERO = _ARENA_REQ_OPT_U64.pack(0, 0)
+_ARENA_REQ_OPT_BOOL_ABSENT = _ARENA_REQ_OPT_BOOL.pack(-1)
+_ARENA_REQ_OPT_BOOL_TRUE = _ARENA_REQ_OPT_BOOL.pack(1)
+_ARENA_REQ_OPT_BOOL_FALSE = _ARENA_REQ_OPT_BOOL.pack(0)
+_ARENA_REQ_OPTS_FIXED = struct.Struct("<IIIffIIfff")
+_ARENA_REQ_ITERS_MAX = struct.Struct("<II")
+_ARENA_REQ_SESSION_HEADER = struct.Struct("<IIQIdB")
+_ARENA_REQ_PLAYER_LEN = struct.Struct("<iI")
+_ARENA_REQ_GO_TAIL = struct.Struct("<fBIIII")
+_ARENA_REQ_STATE_BOARD = struct.pack("<B", _ARENA_STATE_BOARD)
+_ARENA_REQ_STATE_GO = struct.pack("<B", _ARENA_STATE_GO)
+_ARENA_REQ_STATE_CHESS = struct.pack("<B", _ARENA_STATE_CHESS)
+_ARENA_GO_KEYS = (
+    "go_ruleset", "go_scoring", "go_komi", "go_allow_suicide",
+    "passes", "ko_point", "black_caps", "white_caps",
+)
+_ARENA_SEED_SENTINEL = 0xFFFFFFFFFFFFFFFF
+_ARENA_KO_SENTINEL = 0xFFFFFFFF
+
 
 def _unpack_search_string(payload, offset):
     if offset + 4 > len(payload):
@@ -958,110 +981,131 @@ def unpack_qipc_arena_eval_resp(payload):
 
 def pack_qipc_arena_eval_req(game, search_options, sessions, *, iters, max_moves):
     payload = bytearray()
-    payload.extend(struct.pack("<B", _ARENA_EVAL_REQ_VERSION))
+    extend = payload.extend
+
     game_b = str(game).encode("utf-8")
-    payload.extend(struct.pack("<I", len(game_b)))
-    payload.extend(game_b)
-    options = dict(search_options or {})
+    extend(_ARENA_REQ_PREFIX.pack(_ARENA_EVAL_REQ_VERSION, len(game_b)))
+    extend(game_b)
 
-    def _pack_opt_str(value):
-        raw = str(value or "").encode("utf-8")
-        payload.extend(struct.pack("<I", len(raw)))
-        payload.extend(raw)
+    options = search_options or {}
+    opt_get = options.get
+    opt_contains = options.__contains__
 
-    def _pack_opt_bool(name):
-        if name not in options:
-            payload.extend(struct.pack("<b", -1))
+    # variable-length opt strings
+    sp_b = str(opt_get("search_profile", "quartz") or "").encode("utf-8")
+    extend(_ARENA_REQ_LEN_U32.pack(len(sp_b))); extend(sp_b)
+    pm_b = str(opt_get("penalty_mode", "GatedRefresh") or "").encode("utf-8")
+    extend(_ARENA_REQ_LEN_U32.pack(len(pm_b))); extend(pm_b)
+    vl_b = str(opt_get("vl_mode", "") or "").encode("utf-8")
+    extend(_ARENA_REQ_LEN_U32.pack(len(vl_b))); extend(vl_b)
+
+    extend(_ARENA_REQ_OPTS_FIXED.pack(
+        int(opt_get("n_threads", 1) or 1),
+        int(opt_get("batch_size", 8) or 8),
+        int(opt_get("batch_timeout_us", 1500) or 1500),
+        float(opt_get("hbar_penalty_cap", 0.3) or 0.3),
+        float(opt_get("sigma_0", 0.3) or 0.3),
+        int(opt_get("min_visits", 50) or 50),
+        int(opt_get("check_interval", 100) or 100),
+        float(opt_get("prior_refresh_rate", 0.0) or 0.0),
+        float(opt_get("prior_refresh_temp", 1.0) or 1.0),
+        float(opt_get("c_puct", 0.0) or 0.0),
+    ))
+
+    if not opt_contains("root_only_shaping"):
+        extend(_ARENA_REQ_OPT_BOOL_ABSENT)
+    else:
+        extend(_ARENA_REQ_OPT_BOOL_TRUE if opt_get("root_only_shaping") else _ARENA_REQ_OPT_BOOL_FALSE)
+    if not opt_contains("tt_enabled"):
+        extend(_ARENA_REQ_OPT_BOOL_ABSENT)
+    else:
+        extend(_ARENA_REQ_OPT_BOOL_TRUE if opt_get("tt_enabled") else _ARENA_REQ_OPT_BOOL_FALSE)
+    seed_val = opt_get("seed") if opt_contains("seed") else None
+    if seed_val is None:
+        extend(_ARENA_REQ_OPT_U64_ZERO)
+    else:
+        extend(_ARENA_REQ_OPT_U64.pack(1, int(seed_val or 0)))
+
+    extend(_ARENA_REQ_ITERS_MAX.pack(int(iters), int(max_moves)))
+
+    if sessions:
+        extend(_ARENA_REQ_LEN_U32.pack(len(sessions)))
+    else:
+        extend(_ARENA_REQ_LEN_U32.pack(0))
+        return bytes(payload)
+
+    session_header_pack = _ARENA_REQ_SESSION_HEADER.pack
+    player_len_pack = _ARENA_REQ_PLAYER_LEN.pack
+    len_u32_pack = _ARENA_REQ_LEN_U32.pack
+    go_tail_pack = _ARENA_REQ_GO_TAIL.pack
+
+    for sess in sessions:
+        sess_get = sess.get
+        sess_contains = sess.__contains__
+
+        game_id_b = str(sess_get("game_id", "g0000")).encode("utf-8")
+        extend(len_u32_pack(len(game_id_b))); extend(game_id_b)
+
+        if sess_contains("white_tag") and sess_get("white_tag") is not None:
+            white_tag = int(sess["white_tag"])
         else:
-            payload.extend(struct.pack("<b", 1 if bool(options.get(name)) else 0))
+            white_tag = 1
+        seed_raw = sess_get("seed")
+        seed_field = _ARENA_SEED_SENTINEL if seed_raw is None else int(seed_raw)
+        extend(session_header_pack(
+            int(sess_get("black_tag", 0) or 0),
+            white_tag,
+            seed_field,
+            int(sess_get("ply", 0) or 0),
+            float(sess_get("total_time_ms", 0.0) or 0.0),
+            1 if sess_get("done", False) else 0,
+        ))
 
-    def _pack_opt_u64(name):
-        if name not in options or options.get(name) is None:
-            payload.extend(struct.pack("<B", 0))
-            payload.extend(struct.pack("<Q", 0))
-        else:
-            payload.extend(struct.pack("<B", 1))
-            payload.extend(struct.pack("<Q", int(options.get(name) or 0)))
-
-    _pack_opt_str(options.get("search_profile", "quartz"))
-    _pack_opt_str(options.get("penalty_mode", "GatedRefresh"))
-    _pack_opt_str(options.get("vl_mode", ""))
-    payload.extend(
-        struct.pack(
-            "<IIIffIIfff",
-            int(options.get("n_threads", 1) or 1),
-            int(options.get("batch_size", 8) or 8),
-            int(options.get("batch_timeout_us", 1500) or 1500),
-            float(options.get("hbar_penalty_cap", 0.3) or 0.3),
-            float(options.get("sigma_0", 0.3) or 0.3),
-            int(options.get("min_visits", 50) or 50),
-            int(options.get("check_interval", 100) or 100),
-            float(options.get("prior_refresh_rate", 0.0) or 0.0),
-            float(options.get("prior_refresh_temp", 1.0) or 1.0),
-            float(options.get("c_puct", 0.0) or 0.0),
-        )
-    )
-    _pack_opt_bool("root_only_shaping")
-    _pack_opt_bool("tt_enabled")
-    _pack_opt_u64("seed")
-    payload.extend(struct.pack("<II", int(iters), int(max_moves)))
-    payload.extend(struct.pack("<I", len(sessions or [])))
-    for sess in sessions or []:
-        game_id_b = str(sess.get("game_id", "g0000")).encode("utf-8")
-        payload.extend(struct.pack("<I", len(game_id_b)))
-        payload.extend(game_id_b)
-        payload.extend(
-            struct.pack(
-                "<IIQIdB",
-                int(sess.get("black_tag", 0) or 0),
-                int(sess["white_tag"]) if "white_tag" in sess and sess.get("white_tag") is not None else 1,
-                int(sess.get("seed", 0xFFFFFFFFFFFFFFFF) if sess.get("seed") is not None else 0xFFFFFFFFFFFFFFFF),
-                int(sess.get("ply", 0) or 0),
-                float(sess.get("total_time_ms", 0.0) or 0.0),
-                1 if bool(sess.get("done", False)) else 0,
-            )
-        )
-        opening = list(sess.get("opening") or [])
-        payload.extend(struct.pack("<I", len(opening)))
+        opening = sess_get("opening") or ()
+        extend(len_u32_pack(len(opening)))
         for mv in opening:
-            payload.extend(struct.pack("<I", int(mv)))
-        if "fen" in sess:
-            payload.extend(struct.pack("<B", _ARENA_STATE_CHESS))
-            fen_b = str(sess.get("fen", "")).encode("utf-8")
-            payload.extend(struct.pack("<I", len(fen_b)))
-            payload.extend(fen_b)
-            hashes = list(sess.get("chess_history_hashes") or [])
-            payload.extend(struct.pack("<I", len(hashes)))
-            for value in hashes:
-                payload.extend(struct.pack("<Q", int(value)))
+            extend(len_u32_pack(int(mv)))
+
+        if sess_contains("fen"):
+            extend(_ARENA_REQ_STATE_CHESS)
+            fen_b = str(sess_get("fen", "")).encode("utf-8")
+            extend(len_u32_pack(len(fen_b))); extend(fen_b)
+            hashes = sess_get("chess_history_hashes") or ()
+            extend(len_u32_pack(len(hashes)))
+            if hashes:
+                extend(struct.pack(f"<{len(hashes)}Q", *(int(v) for v in hashes)))
         else:
-            board = list(sess.get("board") or [])
-            player = int(sess.get("player", 1) or 1)
-            if any(key in sess for key in ("go_ruleset", "go_scoring", "go_komi", "go_allow_suicide", "passes", "ko_point", "black_caps", "white_caps")):
-                payload.extend(struct.pack("<B", _ARENA_STATE_GO))
-                payload.extend(struct.pack("<iI", player, len(board)))
-                payload.extend(bytes(int(v) & 0xFF for v in board))
-                ruleset_b = str(sess.get("go_ruleset", "")).encode("utf-8")
-                scoring_b = str(sess.get("go_scoring", "")).encode("utf-8")
-                payload.extend(struct.pack("<I", len(ruleset_b)))
-                payload.extend(ruleset_b)
-                payload.extend(struct.pack("<I", len(scoring_b)))
-                payload.extend(scoring_b)
-                payload.extend(
-                    struct.pack(
-                        "<fBIIII",
-                        float(sess.get("go_komi", 7.5) or 7.5),
-                        1 if bool(sess.get("go_allow_suicide", False)) else 0,
-                        int(sess.get("passes", 0) or 0),
-                        int(sess.get("ko_point", -1) if sess.get("ko_point") is not None else 0xFFFFFFFF),
-                        int(sess.get("black_caps", 0) or 0),
-                        int(sess.get("white_caps", 0) or 0),
-                    )
-                )
+            board = sess_get("board") or ()
+            player = int(sess_get("player", 1) or 1)
+            board_len = len(board)
+            is_go = False
+            for k in _ARENA_GO_KEYS:
+                if k in sess:
+                    is_go = True
+                    break
+            if is_go:
+                extend(_ARENA_REQ_STATE_GO)
+                extend(player_len_pack(player, board_len))
+                extend(bytes(int(v) & 0xFF for v in board))
+                ruleset_b = str(sess_get("go_ruleset", "")).encode("utf-8")
+                scoring_b = str(sess_get("go_scoring", "")).encode("utf-8")
+                extend(len_u32_pack(len(ruleset_b))); extend(ruleset_b)
+                extend(len_u32_pack(len(scoring_b))); extend(scoring_b)
+                ko_raw = sess_get("ko_point")
+                ko_field = _ARENA_KO_SENTINEL if ko_raw is None else int(ko_raw)
+                extend(go_tail_pack(
+                    float(sess_get("go_komi", 7.5) or 7.5),
+                    1 if sess_get("go_allow_suicide", False) else 0,
+                    int(sess_get("passes", 0) or 0),
+                    ko_field,
+                    int(sess_get("black_caps", 0) or 0),
+                    int(sess_get("white_caps", 0) or 0),
+                ))
             else:
-                payload.extend(struct.pack("<B", _ARENA_STATE_BOARD))
-                payload.extend(struct.pack("<iI", player, len(board)))
-                payload.extend(struct.pack(f"<{len(board)}b", *[int(v) for v in board]) if board else b"")
+                extend(_ARENA_REQ_STATE_BOARD)
+                extend(player_len_pack(player, board_len))
+                if board_len:
+                    extend(struct.pack(f"<{board_len}b", *(int(v) for v in board)))
     return bytes(payload)
 
 
