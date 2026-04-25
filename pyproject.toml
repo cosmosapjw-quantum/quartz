@@ -50,3 +50,12 @@ include = ["quartz*"]
 
 [tool.setuptools.package-data]
 quartz = ["static/play/*"]
+
+[tool.pytest.ini_options]
+markers = [
+    # P10 (audit_codex_20260425.md W10): slower integration-style tests
+    # that build a real torch model + replay and run a few SGD iters.
+    # Still fast enough for the default suite (~3s) but tagged so
+    # opt-out CI gates can skip them via `-m "not slow"`.
+    "slow: integration-style tests that build a real model + replay",
+]
