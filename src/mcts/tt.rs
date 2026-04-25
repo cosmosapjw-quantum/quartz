@@ -1,21 +1,31 @@
-//! TranspositionTable — lock striping
+//! TranspositionTable — lock-striped open-addressing
 //!
-//! 이전: Arc<Mutex<HashMap<>>> (단일 락 — 스레드 수↑ → 경합↑)
-//! 현재: NUM_BUCKETS 개 버킷, 각 버킷이 독립적인 Mutex<HashMap>
+//! Phase 7 F (2026-04-26): per-bucket storage migrated from
+//! `HashMap<u64, ArenaRef<MctsNode<M>>>` to a fixed-size open-addressing
+//! slot array (`Box<[TtSlot<M>]>`, 1024 slots × 16 B = 16 KiB / bucket;
+//! initial cap=4096 measured at -16 % wall vs. C due to dTLB pressure
+//! from a 16 MiB pre-alloc — reduced to 1024 after profile-driven
+//! re-tuning, see commit-message numbers).
+//! Lookups linearly probe an 8-slot window starting from `(hash >> 8) &
+//! SLOT_MASK`. Misses on a full window evict the lowest-`n_total` slot
+//! in the window (matches the pre-Phase-7 HashMap eviction policy
+//! semantically — no body reclaim, the Bump retains the bytes until
+//! `TtBucket::Drop`).
 //!
-//! 버킷 배분: hash % NUM_BUCKETS
-//!   → 스레드들이 서로 다른 버킷에 접근하면 락 경합 없음
-//!   → 최악(같은 버킷): 그래도 기존 단일 락과 같은 수준
+//! Why: callgrind on the Phase 7 C bench shows
+//! `TranspositionTable::get_or_create` at ~25 % Ir share. The HashMap
+//! path traverses dozens of cycles per lookup (hash compute, bucket
+//! redirection, entry walk). The open-addressing window touches at
+//! most 8 16-byte slots = 2 cache lines, with a single comparison per
+//! slot. Phase 7 plan target: get_or_create < 8 % Ir.
 //!
-//! 추가 기능:
-//!   - 충돌 정책: always-replace (가장 단순, baseline)
-//!   - TT 통계: hits, misses, collisions (로깅용)
+//! 버킷 배분: hash & 0xFF (low byte). Slot start within bucket: bits
+//! 8..20 of hash. Different bits ensure low-bucket-collision hashes
+//! still spread within a bucket.
 
 use crate::mcts::node::{ArenaRef, MctsEdge, MctsNode};
 use bumpalo::Bump;
 use parking_lot::RwLock;
-use std::collections::HashMap;
-use std::hash::{BuildHasherDefault, Hasher};
 use std::ptr::NonNull;
 use std::sync::atomic::{AtomicU64, Ordering};
 
@@ -27,14 +37,14 @@ use std::sync::atomic::{AtomicU64, Ordering};
 pub const NUM_BUCKETS: usize = 256;
 
 /// 버킷당 최대 엔트리 수. 초과 시 가장 적게 방문된 노드를 제거.
-/// 256 buckets × 4096 entries = ~1M total entries max.
-///
-/// Phase 7 F-prep (2026-04-26): visibility raised to `pub(crate)` so
-/// the open-addressing landing in F can reuse the same cap without
-/// re-deriving it. Numeric value unchanged (4096 is a power of two,
-/// which matters for the `& MASK` reduction the F commit uses in lieu
-/// of `%`).
-pub(crate) const MAX_ENTRIES_PER_BUCKET: usize = 4096;
+/// Phase 7 F (2026-04-26): cap = 1024. Profile-driven: scenario A
+/// creates ~30 K unique nodes/search → ~120 nodes/bucket avg, so
+/// cap=1024 keeps ~88 % headroom while shrinking the per-TT slot
+/// pre-allocation to 256 buckets × 1024 × 16 B = 4 MiB (vs 16 MiB at
+/// cap=4096). Smaller working set reduces dTLB pressure on the
+/// linear-probe path. Cap is a power of two so `& SLOT_MASK` stays
+/// branch-free.
+pub(crate) const MAX_ENTRIES_PER_BUCKET: usize = 1024;
 
 /// Phase 7 F-prep (2026-04-26): per-slot record for the open-addressing
 /// TT landing in the next commit. **Currently unused.** The active TT
@@ -66,7 +76,8 @@ pub(crate) struct TtSlot<M: Copy + Send + Sync + 'static> {
 
 impl<M: Copy + Send + Sync + 'static> TtSlot<M> {
     /// Sentinel for an empty slot. Used to initialize the slot array
-    /// when the F commit replaces `HashMap` with `Box<[TtSlot<M>; 4096]>`.
+    /// when the F commit replaces `HashMap` with `Box<[TtSlot<M>]>` of
+    /// length `MAX_ENTRIES_PER_BUCKET`.
     pub const VACANT: Self = Self {
         hash: 0,
         node: None,
@@ -82,70 +93,61 @@ impl<M: Copy + Send + Sync + 'static> TtSlot<M> {
 }
 
 // ─────────────────────────────────────────────
-// § TT Entry (통계 포함)
+// § TT Bucket (Phase 7 F open-addressing)
 // ─────────────────────────────────────────────
 
-#[derive(Default)]
-struct U64IdentityHasher {
-    value: u64,
-}
+/// Bitmask for slot index reduction. `MAX_ENTRIES_PER_BUCKET` is a
+/// power of two so `& SLOT_MASK` replaces `%` (cheaper, branch-free).
+const SLOT_MASK: usize = MAX_ENTRIES_PER_BUCKET - 1;
 
-impl Hasher for U64IdentityHasher {
-    #[inline]
-    fn finish(&self) -> u64 {
-        self.value
-    }
-
-    #[inline]
-    fn write_u64(&mut self, i: u64) {
-        self.value = i;
-    }
-
-    #[inline]
-    fn write(&mut self, bytes: &[u8]) {
-        let mut folded = 0u64;
-        for (shift, byte) in bytes.iter().take(8).enumerate() {
-            folded |= (*byte as u64) << (shift * 8);
-        }
-        self.value = folded;
-    }
-}
-
-type TtMap<M> = HashMap<u64, ArenaRef<MctsNode<M>>, BuildHasherDefault<U64IdentityHasher>>;
+/// Linear-probe window. A probe walks at most `PROBE_WINDOW` slots
+/// before declaring "no match" (read path) or evicting the
+/// lowest-`n_total` slot (write path). At 16 B / slot the window
+/// covers two 64-byte cache lines, which is a tight working set even
+/// under heavy concurrent probing.
+const PROBE_WINDOW: usize = 8;
 
 struct TtBucket<M: Copy + Send + Sync + 'static> {
-    map: TtMap<M>,
-    /// Bumpalo arena: all `MctsNode<M>` bodies for this bucket are
-    /// allocated here. Bumpalo guarantees pointer stability for the life
-    /// of the Bump, so `ArenaRef`s into it remain valid until the
-    /// containing `ArenaPool` is dropped.
+    /// Phase 7 F: fixed-size open-addressing slot array.
+    /// `len() == MAX_ENTRIES_PER_BUCKET`. Each slot is `TtSlot::VACANT`
+    /// at construction; insertion sets `(hash, Some(node))` and
+    /// eviction overwrites in place (the displaced node body is left
+    /// in the Bump until `TtBucket::Drop`).
+    slots: Box<[TtSlot<M>]>,
+    /// Bumpalo arena: all `MctsNode<M>` bodies AND per-node edge slabs
+    /// (Phase 7 C, 2026-04-26) for this bucket are allocated here.
+    /// Bumpalo guarantees pointer stability for the life of the Bump,
+    /// so `ArenaRef`s and `edges_ptr`s into it remain valid until the
+    /// containing TT is dropped.
     arena: Bump,
 }
 
-// SAFETY (Phase 6.2, 2026-04-25): `TtBucket` contains a `Bump`, which is
-// `!Sync`. Wrapping the bucket in `parking_lot::RwLock` requires the
-// inner type to be `Sync` (so a read guard can hand out `&TtBucket` to
-// multiple threads). Soundness rests on a per-bucket access discipline:
+// SAFETY (Phase 6.2 → Phase 7 F): `TtBucket` contains a `Bump` (!Sync)
+// AND a `Box<[TtSlot<M>]>` of plain (Copy, no interior mutability) records.
+// Wrapping in `parking_lot::RwLock` requires `Sync`; soundness rests on
+// the per-bucket access discipline:
 //
-//   - Read guards (`buckets[i].read()`) MUST only touch `bucket.map`.
-//     They MUST NOT call methods on `bucket.arena` (those take `&Bump`
-//     and would alias under concurrent readers, which is UB).
+//   - Read guards (`buckets[i].read()`) may concurrently load fields
+//     from `bucket.slots[..]` (plain reads of Copy data — no race) and
+//     MUST NOT touch `bucket.arena` (`&Bump` aliasing across readers
+//     would be UB).
 //   - Write guards (`buckets[i].write()`) hold exclusive access by
-//     RwLock contract, so they may freely mutate either field.
+//     RwLock contract and may mutate either field freely.
 //
-// The only call sites are within this module: `get_or_create` (read for
-// probe, write on miss), `get` (read), `size` (read), and `Drop` (which
-// runs with `&mut self`). Each has been audited to respect the
-// discipline above.
+// Phase 7 F adds one new caller: `allocate_edge_slab` (write guard,
+// touches arena). The original `get_or_create` paths remain (read for
+// probe, write on miss).
 unsafe impl<M: Copy + Send + Sync + 'static> Sync for TtBucket<M> {}
 
 impl<M: Copy + Send + Sync + 'static> TtBucket<M> {
     fn new() -> Self {
+        // Pre-allocate the slot array filled with `VACANT`. Allocation
+        // pattern: vec! macro → Box<[TtSlot<M>]> via into_boxed_slice.
+        // The vec is stack-built then heap-shrunk; no separate raw
+        // alloc helper needed.
+        let slots = vec![TtSlot::<M>::VACANT; MAX_ENTRIES_PER_BUCKET].into_boxed_slice();
         TtBucket {
-            map: TtMap::with_capacity_and_hasher(
-                MAX_ENTRIES_PER_BUCKET / 2,
-                Default::default(),
-            ),
+            slots,
             arena: Bump::new(),
         }
     }
@@ -153,43 +155,36 @@ impl<M: Copy + Send + Sync + 'static> TtBucket<M> {
 
 impl<M: Copy + Send + Sync + 'static> Drop for TtBucket<M> {
     fn drop(&mut self) {
-        // bumpalo's `Bump` does NOT run `Drop` on its allocations: when
-        // the Bump goes out of scope, it just frees its raw chunks. Each
-        // `MctsNode<M>` body, however, transitively owns heap-allocated
-        // sub-structures via global allocator (the `OnceLock<Box<...>>`
-        // candidates payload and — until Phase 7 C lands — the
-        // `Vec<MctsEdge<M>>` inside its `RwLock`; after Phase 7 C, the
-        // raw-pointer edge slab will instead be allocated *inside* the
-        // bucket's Bump and freed via `MctsNode::Drop`'s `[..len]` walk).
-        // Without explicit `drop_in_place`, those sub-allocs would leak
-        // per-node — multiplied across ~30 K nodes/search, that's a
-        // multi-MB leak per engine session, accumulating across FFI calls.
+        // Phase 7 F (2026-04-26): walk the slot array and drop_in_place
+        // every populated MctsNode<M> body before the Bump frees its
+        // chunks. Same discipline as the pre-Phase-7 HashMap drain: the
+        // arena does not run Drop on its allocations, so the explicit
+        // walk is required to release each node's heap-owned sub-allocs
+        // (OnceLock<Box<...>> candidates) and — Phase 7 C — invoke
+        // `MctsNode::Drop` which drains the edge slab.
         //
-        // Drop order
-        //   We run `drop_in_place` on every node body in `self.map`
-        //   BEFORE the Bump field drops. Field drop order in Rust is
-        //   declaration order (`map` before `arena` here), so the
-        //   imperative drain below runs first and the Bump frees its
-        //   chunks last. The `drop_in_place` call invokes
-        //   `MctsNode::Drop` (Phase 7 C-prep, 2026-04-26), which drains
-        //   the edge buffer, then field auto-drops handle the rest.
+        // Field drop order: `slots` (declaration-order first) drains
+        // surviving bodies, then `arena` (next field) frees the Bump
+        // chunks. Bodies that were *evicted* during the bucket's life
+        // are not reachable from `slots` and thus are NOT
+        // drop_in_place'd (matches the HashMap path's pre-Phase-7
+        // eviction behavior — see the eviction note in §
+        // "Per-bucket bumpalo storage" below).
         //
         // Safety
-        //   Each `ArenaRef<MctsNode<M>>` value in `self.map` is the
-        //   master reference to a node body allocated in `self.arena`.
-        //   By the engine's drop-order discipline (`MctsEngine` field
-        //   layout) and the search-time invariant (no `ArenaRef` escapes
-        //   beyond a finished search), no other live reference to these
-        //   bodies exists at this point. `MctsNode::drop` itself does
-        //   not follow `ArenaRef<MctsNode<M>>` children — those are raw
-        //   pointer wrappers without a `Drop` impl — so cross-bucket
-        //   double-drop is impossible.
-        for (_, node_ref) in self.map.drain() {
-            let raw: *mut MctsNode<M> =
-                crate::mcts::node::ArenaRef::as_ptr(&node_ref) as *mut MctsNode<M>;
-            // SAFETY: documented above.
-            unsafe {
-                std::ptr::drop_in_place(raw);
+        //   Each `Some(node)` slot is the master reference to a node
+        //   body in `self.arena`. By the engine's drop-order discipline
+        //   no concurrent reader exists; `&mut self` excludes anyone
+        //   else. `drop_in_place` runs `MctsNode::Drop` exactly once
+        //   per surviving body.
+        for slot in self.slots.iter() {
+            if let Some(node_ref) = slot.node {
+                let raw: *mut MctsNode<M> =
+                    crate::mcts::node::ArenaRef::as_ptr(&node_ref) as *mut MctsNode<M>;
+                // SAFETY: documented above.
+                unsafe {
+                    std::ptr::drop_in_place(raw);
+                }
             }
         }
     }
@@ -286,20 +281,32 @@ impl<M: Copy + Send + Sync + 'static> TranspositionTable<M> {
         }
     }
 
+    #[inline]
     fn bucket_idx(hash: u64) -> usize {
-        (hash as usize) % NUM_BUCKETS
+        (hash as usize) & (NUM_BUCKETS - 1)
+    }
+
+    /// Phase 7 F (2026-04-26): slot start within a bucket. Uses bits
+    /// 8..20 of the hash so the bucket index (low 8 bits) and slot
+    /// index draw from disjoint regions of the Zobrist key.
+    #[inline]
+    fn slot_start(hash: u64) -> usize {
+        ((hash >> 8) as usize) & SLOT_MASK
     }
 
     /// 해시에 해당하는 노드를 조회.
     /// 없으면 `terminal_value`로 새 노드를 생성하고 삽입.
     /// 있으면 기존 노드 반환 (always-replace 충돌 정책 → 먼저 들어온 것 우선).
     ///
-    /// Phase 6.2 (2026-04-25): hits take a read lock so multiple threads
-    /// can probe the same bucket in parallel. Misses upgrade to a write
-    /// lock and double-check before allocating, which keeps the
-    /// happy-path `get_or_create` cost down to a single uncontended
-    /// `RwLock::read()` on the ~80 % of calls that are hits in steady
-    /// state.
+    /// Phase 7 F (2026-04-26): open-addressing replacement for the
+    /// pre-Phase-7 `HashMap` lookup. The fast path reads at most
+    /// `PROBE_WINDOW` (= 8) 16-byte slots within a single bucket,
+    /// terminating on either a hash match (HIT, return the slot's
+    /// `ArenaRef`) or a vacant slot (MISS — insertion path).
+    ///
+    /// Lock ladder unchanged from Phase 6.2: read lock for probe,
+    /// upgrade to write lock on miss. A second probe under write lock
+    /// double-checks for racing writers before alloc + insert.
     pub fn get_or_create(&self, hash: u64, terminal_value: Option<f32>) -> ArenaRef<MctsNode<M>> {
         if !self.enabled {
             // Disabled TT: caller-owned ad-hoc node, leaked. This path is
@@ -307,52 +314,96 @@ impl<M: Copy + Send + Sync + 'static> TranspositionTable<M> {
             // configs); leak per get_or_create is acceptable there.
             return leak_node(hash, terminal_value);
         }
-        let idx = Self::bucket_idx(hash);
+        let bucket_idx = Self::bucket_idx(hash);
         self.get_or_create_calls.fetch_add(1, Ordering::Relaxed);
+        let slot_start = Self::slot_start(hash);
 
-        // Fast path: read lock + map probe. Multiple threads can be in
-        // this branch simultaneously on the same bucket.
+        // Fast path: read lock + linear probe. Multiple threads can be
+        // in this branch simultaneously on the same bucket.
         {
             let t0 = crate::mcts::profiling::maybe_start_timer();
-            let bucket = self.buckets[idx].read();
+            let bucket = self.buckets[bucket_idx].read();
             if let Some(t0) = t0 {
                 self.record_lock_wait(t0.elapsed().as_nanos() as u64);
             }
-            if let Some(node) = bucket.map.get(&hash) {
-                self.hits.fetch_add(1, Ordering::Relaxed);
-                return *node;
+            for offset in 0..PROBE_WINDOW {
+                let i = (slot_start + offset) & SLOT_MASK;
+                // SAFETY: `i & SLOT_MASK` is in [0, MAX_ENTRIES_PER_BUCKET);
+                // `bucket.slots.len() == MAX_ENTRIES_PER_BUCKET` (set in
+                // `TtBucket::new`).
+                let slot = unsafe { bucket.slots.get_unchecked(i) };
+                if slot.hash == hash {
+                    if let Some(node) = slot.node {
+                        self.hits.fetch_add(1, Ordering::Relaxed);
+                        return node;
+                    }
+                }
+                if slot.is_vacant() {
+                    // Linear probe terminates at the first vacant slot:
+                    // any subsequent slot with this hash would have been
+                    // placed here on insert (the `find_insertion_slot`
+                    // logic below picks the first vacant slot in the
+                    // window before considering eviction).
+                    break;
+                }
             }
         }
 
-        // Slow path: write lock + double-check + alloc + insert.
+        // Slow path: write lock + re-probe + alloc + insert.
         let t1 = crate::mcts::profiling::maybe_start_timer();
-        let mut bucket = self.buckets[idx].write();
+        let mut bucket = self.buckets[bucket_idx].write();
         if let Some(t1) = t1 {
             self.record_lock_wait(t1.elapsed().as_nanos() as u64);
         }
-        if let Some(node) = bucket.map.get(&hash) {
-            // Another writer raced us to insert this entry between the
-            // read drop and the write acquire. Treat as a hit.
-            self.hits.fetch_add(1, Ordering::Relaxed);
-            return *node;
+
+        // Re-probe under write lock to catch racing inserts.
+        for offset in 0..PROBE_WINDOW {
+            let i = (slot_start + offset) & SLOT_MASK;
+            let slot = unsafe { bucket.slots.get_unchecked(i) };
+            if slot.hash == hash {
+                if let Some(node) = slot.node {
+                    self.hits.fetch_add(1, Ordering::Relaxed);
+                    return node;
+                }
+            }
         }
 
         self.misses.fetch_add(1, Ordering::Relaxed);
 
-        // Evict least-visited entry if bucket is full. Note: bumpalo does
-        // not free the backing memory on remove (the slot stays allocated
-        // in the Bump). This is acceptable: eviction in this engine is
-        // rare in scenario-A traces, and the per-bucket Bump caps
-        // total bytes per bucket at the working-set size.
-        if bucket.map.len() >= MAX_ENTRIES_PER_BUCKET {
-            let victim = bucket
-                .map
-                .iter()
-                .min_by_key(|(_, node)| node.n_total.load(Ordering::Relaxed))
-                .map(|(hash, _)| *hash);
-            if let Some(victim_hash) = victim {
-                bucket.map.remove(&victim_hash);
+        // Find insertion slot: first vacant in window, else evict the
+        // lowest-`n_total` slot. Eviction does NOT drop_in_place the
+        // displaced body — outstanding `ArenaRef`s elsewhere in the
+        // tree may still reference it. The body is reclaimed at
+        // bucket-Drop time only if it remains in a slot; otherwise it
+        // lives unreferenced in the Bump (acceptable per the Phase 3
+        // arena leak contract). This matches the pre-Phase-7 HashMap
+        // eviction policy (which `bucket.map.remove(victim_hash)`
+        // dropped the ArenaRef without touching the body).
+        let mut insert_idx = slot_start;
+        let mut min_n: u32 = u32::MAX;
+        let mut min_idx = slot_start;
+        let mut found_vacant = false;
+        for offset in 0..PROBE_WINDOW {
+            let i = (slot_start + offset) & SLOT_MASK;
+            let slot = unsafe { bucket.slots.get_unchecked(i) };
+            if slot.is_vacant() {
+                insert_idx = i;
+                found_vacant = true;
+                break;
             }
+            // Occupied — track lowest n_total candidate for eviction.
+            // SAFETY: `slot.is_vacant()` would have returned true for
+            // `node = None`; we are in the else branch, so node is Some.
+            let n = unsafe { slot.node.unwrap_unchecked() }
+                .n_total
+                .load(Ordering::Relaxed);
+            if n < min_n {
+                min_n = n;
+                min_idx = i;
+            }
+        }
+        if !found_vacant {
+            insert_idx = min_idx;
         }
 
         // Allocate the body in the bucket's Bump. Bumpalo's `alloc`
@@ -362,12 +413,17 @@ impl<M: Copy + Send + Sync + 'static> TranspositionTable<M> {
         // safety invariant is documented at its definition.
         let body = MctsNode::new(hash, terminal_value);
         let allocated: &mut MctsNode<M> = bucket.arena.alloc(body);
-        // SAFETY: `allocated` is a fresh, non-null reference to a value
-        // just allocated in `bucket.arena`. The `ArenaPool` (and thus
-        // every per-bucket Bump) is owned by the engine and outlives all
-        // `ArenaRef`s reachable from the TT.
         let node = unsafe { ArenaRef::from_raw(NonNull::new_unchecked(allocated as *mut _)) };
-        bucket.map.insert(hash, node);
+
+        // Publish the new entry. SAFETY: insert_idx ≤ SLOT_MASK <
+        // bucket.slots.len(); we hold the write guard so no other
+        // thread observes this slot mid-update.
+        unsafe {
+            *bucket.slots.get_unchecked_mut(insert_idx) = TtSlot {
+                hash,
+                node: Some(node),
+            };
+        }
         node
     }
 
@@ -440,27 +496,46 @@ impl<M: Copy + Send + Sync + 'static> TranspositionTable<M> {
     }
 
     /// 조회만 (삽입 없음)
+    /// Phase 7 F (2026-04-26): open-addressing probe — same probe
+    /// window as `get_or_create` fast path.
     pub fn get(&self, hash: u64) -> Option<ArenaRef<MctsNode<M>>> {
         if !self.enabled {
             return None;
         }
-        let idx = Self::bucket_idx(hash);
+        let bucket_idx = Self::bucket_idx(hash);
         self.get_calls.fetch_add(1, Ordering::Relaxed);
+        let slot_start = Self::slot_start(hash);
         let t0 = crate::mcts::profiling::maybe_start_timer();
-        let bucket = self.buckets[idx].read();
+        let bucket = self.buckets[bucket_idx].read();
         if let Some(t0) = t0 {
             self.record_lock_wait(t0.elapsed().as_nanos() as u64);
         }
-        bucket.map.get(&hash).copied()
+        for offset in 0..PROBE_WINDOW {
+            let i = (slot_start + offset) & SLOT_MASK;
+            let slot = unsafe { bucket.slots.get_unchecked(i) };
+            if slot.hash == hash {
+                return slot.node;
+            }
+            if slot.is_vacant() {
+                return None;
+            }
+        }
+        None
     }
 
     pub fn size(&self) -> usize {
         if !self.enabled {
             return 0;
         }
+        // Phase 7 F (2026-04-26): linear count of occupied slots per
+        // bucket. With 256 buckets × 1024 slots = 256 K slots, a full
+        // walk is ~1 M reads — only used for diagnostics, not hot path.
         self.buckets
             .iter()
-            .map(|b| b.read().map.len())
+            .map(|b| {
+                let bucket = b.read();
+                bucket.slots.iter().filter(|s| !s.is_vacant()).count()
+            })
             .sum()
     }
 
