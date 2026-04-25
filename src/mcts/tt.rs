@@ -106,18 +106,22 @@ impl<M: Copy + Send + Sync + 'static> Drop for TtBucket<M> {
         // the Bump goes out of scope, it just frees its raw chunks. Each
         // `MctsNode<M>` body, however, transitively owns heap-allocated
         // sub-structures via global allocator (the `OnceLock<Box<...>>`
-        // candidates payload and the `Vec<MctsEdge<M>>` inside its
-        // `RwLock`). Without explicit `drop_in_place`, those sub-allocs
-        // would leak per-node — multiplied across ~30 K nodes/search,
-        // that's a multi-MB leak per engine session, accumulating across
-        // FFI calls.
+        // candidates payload and — until Phase 7 C lands — the
+        // `Vec<MctsEdge<M>>` inside its `RwLock`; after Phase 7 C, the
+        // raw-pointer edge slab will instead be allocated *inside* the
+        // bucket's Bump and freed via `MctsNode::Drop`'s `[..len]` walk).
+        // Without explicit `drop_in_place`, those sub-allocs would leak
+        // per-node — multiplied across ~30 K nodes/search, that's a
+        // multi-MB leak per engine session, accumulating across FFI calls.
         //
         // Drop order
         //   We run `drop_in_place` on every node body in `self.map`
         //   BEFORE the Bump field drops. Field drop order in Rust is
         //   declaration order (`map` before `arena` here), so the
         //   imperative drain below runs first and the Bump frees its
-        //   chunks last.
+        //   chunks last. The `drop_in_place` call invokes
+        //   `MctsNode::Drop` (Phase 7 C-prep, 2026-04-26), which drains
+        //   the edge buffer, then field auto-drops handle the rest.
         //
         // Safety
         //   Each `ArenaRef<MctsNode<M>>` value in `self.map` is the

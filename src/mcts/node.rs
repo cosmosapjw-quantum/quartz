@@ -488,4 +488,59 @@ impl<M: Copy + Send + Sync + 'static> MctsNode<M> {
         let n = n_snap.min(guard.len());
         f(&guard[..n])
     }
+
+}
+
+// Phase 7 C-prep (2026-04-26): bounds-free helper + explicit `Drop` for
+// `MctsNode`. The struct definition itself has no trait bounds on `M`
+// (see `pub struct MctsNode<M>` above), so Rust's dropck rule requires
+// the `Drop` impl to be equally unbounded. We split the helper into its
+// own bounds-free inherent impl rather than adding it to the bounded
+// inherent impl block above.
+//
+// With the current `RwLock<Vec<MctsEdge<M>>>` storage this `Drop` is
+// structurally redundant — `Vec`'s own drop already calls `Drop` on
+// every contained `MctsEdge<M>`. The impl is landed now so the next
+// commit (Phase 7 C) only has to swap the body of
+// `drop_edges_in_place` once `edges` becomes a raw-pointer slab
+// allocated inside the bucket's `bumpalo::Bump` (bumpalo does NOT run
+// `Drop` on its allocations).
+//
+// Drop order
+//   `Drop::drop` runs BEFORE field auto-drop in declaration order. Our
+//   Drop drains the edge buffer, then field auto-drop runs on (in
+//   declaration order): `hash`, `terminal_value`, `candidates`,
+//   `edges` (now empty), `edge_cursor`, `n_total`, `w_total`, `rtt_*`.
+//   No double-drop: the Vec is already empty when its auto-drop runs.
+//
+// Interaction with `TtBucket::Drop`
+//   `TtBucket::Drop` calls `std::ptr::drop_in_place` on each node body
+//   stored in the bucket's Bump arena. That `drop_in_place` invokes
+//   this `Drop` impl, then runs the field auto-drops, then returns.
+//   The bucket's `Bump` then frees its raw chunks. The
+//   ArenaPool/MctsEngine field-declaration discipline guarantees the
+//   nodes are unreachable from anywhere else by the time we get here.
+impl<M> MctsNode<M> {
+    /// Drop every materialized edge in place. Called from the `Drop`
+    /// impl below.
+    ///
+    /// For the current `RwLock<Vec<MctsEdge<M>>>` storage this is
+    /// exactly `Vec::clear` — semantically a no-op vs. letting the
+    /// field's auto-drop handle elements. After Phase 7 C lands, this
+    /// helper becomes load-bearing: it will walk `[..len]` and
+    /// `drop_in_place` each `MctsEdge<M>` before the Bump chunks are
+    /// freed by `TtBucket::Drop`.
+    fn drop_edges_in_place(&mut self) {
+        // SAFETY (Vec path): we hold `&mut self`, so `RwLock::get_mut`
+        // bypasses synchronization. `Vec::clear` runs `Drop` on every
+        // element exactly once and leaves the Vec empty; the field's
+        // own auto-drop afterwards is then a no-op.
+        self.edges.get_mut().clear();
+    }
+}
+
+impl<M> Drop for MctsNode<M> {
+    fn drop(&mut self) {
+        self.drop_edges_in_place();
+    }
 }
