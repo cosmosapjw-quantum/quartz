@@ -28,7 +28,58 @@ pub const NUM_BUCKETS: usize = 256;
 
 /// 버킷당 최대 엔트리 수. 초과 시 가장 적게 방문된 노드를 제거.
 /// 256 buckets × 4096 entries = ~1M total entries max.
-const MAX_ENTRIES_PER_BUCKET: usize = 4096;
+///
+/// Phase 7 F-prep (2026-04-26): visibility raised to `pub(crate)` so
+/// the open-addressing landing in F can reuse the same cap without
+/// re-deriving it. Numeric value unchanged (4096 is a power of two,
+/// which matters for the `& MASK` reduction the F commit uses in lieu
+/// of `%`).
+pub(crate) const MAX_ENTRIES_PER_BUCKET: usize = 4096;
+
+/// Phase 7 F-prep (2026-04-26): per-slot record for the open-addressing
+/// TT landing in the next commit. **Currently unused.** The active TT
+/// implementation in this file is the `HashMap<u64, ArenaRef<...>>`
+/// path; this struct is declared now so the F commit can swap the
+/// storage layer without simultaneously introducing a new data shape.
+///
+/// Vacancy invariant (Phase 7 F semantics, sealed in next commit):
+///   - `hash == 0 && node.is_none()` ↔ vacant slot.
+///   - Insertion always populates `node = Some(...)` and any non-zero
+///     hash. The TT bucket index uses the full 64-bit `hash`, so a
+///     genuine `hash = 0` value would be a Zobrist collision with the
+///     sentinel — the engine's Zobrist setup guarantees the empty
+///     position hash is non-zero on every game type currently shipped
+///     (verified in `zobrist_tt_parallel_verify::v1_zobrist_collision_rate`).
+///
+/// Layout (M = Copy + Send + Sync + 'static):
+///   - `hash: u64` — 8 bytes
+///   - `node: Option<ArenaRef<MctsNode<M>>>` — 8 bytes (niche-opt over
+///     `NonNull<MctsNode<M>>`, so `None` == null pointer)
+/// Total: 16 bytes. With default alignment (8), four slots fit per
+/// 64-byte L1 line; the F commit's 8-slot probe window covers two
+/// adjacent cache lines.
+#[derive(Clone, Copy)]
+pub(crate) struct TtSlot<M: Copy + Send + Sync + 'static> {
+    pub hash: u64,
+    pub node: Option<ArenaRef<MctsNode<M>>>,
+}
+
+impl<M: Copy + Send + Sync + 'static> TtSlot<M> {
+    /// Sentinel for an empty slot. Used to initialize the slot array
+    /// when the F commit replaces `HashMap` with `Box<[TtSlot<M>; 4096]>`.
+    pub const VACANT: Self = Self {
+        hash: 0,
+        node: None,
+    };
+
+    /// True iff this slot has no published node. Equivalent to
+    /// `self.node.is_none()`; the helper exists for symmetry with the
+    /// open-addressing probe-window scan in F.
+    #[inline]
+    pub fn is_vacant(&self) -> bool {
+        self.node.is_none()
+    }
+}
 
 // ─────────────────────────────────────────────
 // § TT Entry (통계 포함)
