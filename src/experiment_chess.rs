@@ -56,7 +56,7 @@ mod tests {
         let stats = engine2.run_par(&FixedIterations::new(10_000), 4);
         let ms = t.elapsed().as_millis().max(1) as f64;
         let root_n = engine2.root.n_total.load(Ordering::Relaxed);
-        let guard = engine2.root.edges.read().unwrap();
+        let guard = engine2.root.edges.read();
         let vl: i64 = guard
             .iter()
             .map(|e| e.virtual_losses.load(Ordering::Relaxed) as i64)

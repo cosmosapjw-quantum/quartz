@@ -18,7 +18,7 @@ pub fn backprop<G: GameState>(path: &[PathEdge<G::Move>], leaf_value: f32) {
     for pe in path.iter().rev() {
         value = -value; // negamax: 부모 관점 부호 반전
 
-        let guard = pe.parent.edges.read().unwrap();
+        let guard = pe.parent.edges.read();
         let e = &guard[pe.edge_idx];
 
         // Virtual Loss: remove the exact (vvisit, vvalue) applied during select

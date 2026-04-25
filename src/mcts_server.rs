@@ -522,7 +522,7 @@ fn collect_sparse_policy<G: GameState>(
         .best_move()
         .map(|mv| engine.root_state().move_to_idx(mv))
         .unwrap_or(0);
-    let guard = engine.root.edges.read().unwrap();
+    let guard = engine.root.edges.read();
     let mut visits = vec![0u32; n_actions];
     for edge in guard.iter() {
         let idx = engine.root_state().move_to_idx(edge.mv);
@@ -1459,7 +1459,7 @@ where
         engine.run_quartz(&mut ctrl);
 
         // Visit distribution
-        let guard = engine.root.edges.read().unwrap();
+        let guard = engine.root.edges.read();
         let mut visits = vec![0u32; num_actions];
         let mut total = 0u32;
         for e in guard.iter() {

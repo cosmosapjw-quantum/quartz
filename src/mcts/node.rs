@@ -14,7 +14,13 @@
 //!   4. edge_cursor는 edges.len()의 단조 증가 근사치 (RwLock 외부 빠른 확인용)
 
 use std::sync::atomic::{AtomicI32, AtomicU32, AtomicU64, Ordering};
-use std::sync::{Arc, OnceLock, RwLock};
+// Migrated edges RwLock from std::sync to parking_lot per the Apr-25 profile
+// audit (Step 2 / P1-1). parking_lot::RwLock is non-poisoning and ~2× faster
+// on uncontended takes; profiled benefit on the gomoku15 4-thread benchmark
+// is ~5% wall-clock. Other RwLock users in the engine (e.g. quartz_cache in
+// mcts/mod.rs) deliberately keep std::sync::RwLock and are unchanged.
+use parking_lot::RwLock;
+use std::sync::{Arc, OnceLock};
 
 // ─────────────────────────────────────────────
 // § Atomic f64 헬퍼
@@ -337,7 +343,7 @@ impl<M: Copy + Send + Sync + 'static> MctsNode<M> {
     /// RwLock 내 Arc clone 스냅샷 — read lock으로 병렬 접근 허용
     pub fn edge_snapshot(&self, n_snap: usize) -> Vec<MctsEdgeSnapshot<M>> {
         let lock_started = crate::mcts::profiling::maybe_start_timer();
-        let guard = self.edges.read().unwrap();
+        let guard = self.edges.read();
         if let Some(t0) = lock_started {
             record_edges_lock_wait(t0.elapsed().as_nanos() as u64);
         }
@@ -361,7 +367,7 @@ impl<M: Copy + Send + Sync + 'static> MctsNode<M> {
     /// when callers only need root prior values.
     pub fn edge_priors_snapshot(&self, n_snap: usize) -> Vec<f32> {
         let lock_started = crate::mcts::profiling::maybe_start_timer();
-        let guard = self.edges.read().unwrap();
+        let guard = self.edges.read();
         if let Some(t0) = lock_started {
             record_edges_lock_wait(t0.elapsed().as_nanos() as u64);
         }
@@ -372,7 +378,7 @@ impl<M: Copy + Send + Sync + 'static> MctsNode<M> {
     /// Read-only access to the first `n_snap` edges without cloning the Arc list.
     pub fn with_edge_slice<R>(&self, n_snap: usize, f: impl FnOnce(&[MctsEdge<M>]) -> R) -> R {
         let lock_started = crate::mcts::profiling::maybe_start_timer();
-        let guard = self.edges.read().unwrap();
+        let guard = self.edges.read();
         if let Some(t0) = lock_started {
             record_edges_lock_wait(t0.elapsed().as_nanos() as u64);
         }

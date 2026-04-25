@@ -103,7 +103,7 @@ pub fn materialize_edges<G: GameState>(
     }
 
     let lock_started = crate::mcts::profiling::maybe_start_timer();
-    let mut guard = node.edges.write().unwrap();
+    let mut guard = node.edges.write();
     if let Some(t0) = lock_started {
         crate::mcts::node::record_edges_lock_wait(t0.elapsed().as_nanos() as u64);
     }

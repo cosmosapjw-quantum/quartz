@@ -1176,7 +1176,7 @@ mod tests {
     fn tt_uses_exact_tt_hash_for_child_transpositions() {
         let eval: Arc<dyn Evaluator<TtHashDummy>> = Arc::new(UniformEval);
         let engine = MctsEngine::new(TtHashDummy::initial(), eval, MctsConfig::evaluation(1.0));
-        let guard = engine.root.edges.read().unwrap();
+        let guard = engine.root.edges.read();
 
         assert_eq!(guard.len(), 2);
         assert!(Arc::ptr_eq(&guard[0].child, &guard[1].child));

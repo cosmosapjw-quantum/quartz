@@ -658,7 +658,7 @@ pub fn select<G: GameState>(
         }
 
         // [OPT] Hold RwLock read guard directly instead of edge_snapshot (avoids N Arc clones)
-        let guard = cur_node.edges.read().unwrap();
+        let guard = cur_node.edges.read();
         let n_edges = n_visible.min(guard.len());
         if n_edges == 0 {
             drop(guard);

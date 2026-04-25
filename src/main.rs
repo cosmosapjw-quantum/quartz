@@ -5477,7 +5477,7 @@ mod zobrist_tt_parallel_verify {
         eng.run_par(&FixedIterations::new(5000), 4);
 
         // Check: all virtual losses must be 0
-        let guard = eng.root.edges.read().unwrap();
+        let guard = eng.root.edges.read();
         let mut vl_sum = 0i64;
         let mut max_vl = 0i32;
         for e in guard.iter() {
@@ -5540,7 +5540,7 @@ mod zobrist_tt_parallel_verify {
         let root_par = eng2.root.n_total.load(Ordering::Relaxed);
 
         // Check VL balance in parallel result
-        let guard = eng2.root.edges.read().unwrap();
+        let guard = eng2.root.edges.read();
         let vl_sum: i64 = guard
             .iter()
             .map(|e| e.virtual_losses.load(Ordering::Relaxed) as i64)
@@ -5615,7 +5615,7 @@ mod zobrist_tt_parallel_verify {
         );
 
         // Verify: Q values in [-1, 1] range (no corruption)
-        let guard = eng.root.edges.read().unwrap();
+        let guard = eng.root.edges.read();
         let mut q_out_of_range = 0u32;
         let mut n_sum = 0u32;
         for e in guard.iter() {
@@ -5676,7 +5676,7 @@ mod zobrist_tt_parallel_verify {
         let nps = root_n as f64 / (ms as f64 / 1000.0);
 
         // Check VL balance
-        let guard = eng.root.edges.read().unwrap();
+        let guard = eng.root.edges.read();
         let vl_sum: i64 = guard
             .iter()
             .map(|e| e.virtual_losses.load(Ordering::Relaxed) as i64)
@@ -5738,7 +5738,7 @@ mod nn_parallel_verify {
         let tt_size = eng.tt.size();
 
         // VL balance check
-        let guard = eng.root.edges.read().unwrap();
+        let guard = eng.root.edges.read();
         let vl_sum: i64 = guard
             .iter()
             .map(|e| e.virtual_losses.load(Ordering::Relaxed) as i64)
@@ -5833,7 +5833,7 @@ mod nn_parallel_verify {
             if root_n < budget / 2 {
                 errors.push(format!("move {}: root_n={} < budget/2", move_count, root_n));
             }
-            let guard = eng.root.edges.read().unwrap();
+            let guard = eng.root.edges.read();
             let vl_sum: i64 = guard
                 .iter()
                 .map(|e| e.virtual_losses.load(Ordering::Relaxed) as i64)
