@@ -1747,11 +1747,27 @@ def selfplay_rust_nn_batched(
             n_games=int(n_games),
             resident=bool(use_resident_session),
         )
+        ring = getattr(proc, "_quartz_ring_buffer", None)
+        # Capture baseline_epoch BEFORE writing the JSON command. Rust bumps
+        # the ring epoch as soon as it reads stdin, so capturing after the
+        # write races against the server: if the server reads + bumps before
+        # this thread captures, baseline becomes equal to the new command's
+        # epoch, and shm_eval_loop's `req_epoch <= baseline_epoch` discard
+        # filter then rejects the very request we are waiting for, deadlocking
+        # against `cmd_done && command_started`. Mirrors the order used in
+        # SelfplayRunner.selfplay_run at line 692.
+        baseline_epoch = None
+        if ring is not None:
+            try:
+                baseline_epoch = int(ring.epoch())
+            except Exception:
+                baseline_epoch = None
         runtime_hooks.proc_write_json_line(proc, req)
 
-        ring = getattr(proc, "_quartz_ring_buffer", None)
         if ring is not None:
-            ring_payload = runtime_hooks.shm_eval_loop(ring, model, device, cfg, proc)
+            ring_payload = runtime_hooks.shm_eval_loop(
+                ring, model, device, cfg, proc, baseline_epoch=baseline_epoch
+            )
             runtime_hooks.stall_trace(
                 "exchange_end",
                 cmd=req_cmd,
