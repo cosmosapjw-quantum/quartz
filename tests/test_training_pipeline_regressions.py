@@ -4488,6 +4488,175 @@ def test_cli_main_refreshes_bg_actor_after_each_update_and_writes_checkpoint_sta
     assert (tmp_path / "latest.pt").exists()
 
 
+def test_iteration_level_actor_refresh_fires_when_sgd_skipped(tmp_path):
+    """P9 (audit_codex_20260425.md W5): `bg_worker.update_model` must
+    fire every iteration, including when SGD is skipped because the
+    replay buffer hasn't crossed the batch threshold yet.
+    """
+    cli = importlib.import_module("quartz.cli_main")
+
+    class FakeBackend:
+        name = "torch"
+
+        def __init__(self):
+            self.saved = []
+            self.lr_values = []
+
+        def set_lr(self, lr):
+            self.lr_values.append(lr)
+
+        def save(self, path, cfg=None):
+            Path(path).write_text("checkpoint", encoding="utf-8")
+            self.saved.append((path, cfg))
+
+    class FakeReplayBuffer:
+        def __init__(self, *args, **kwargs):
+            # Below the configured batch threshold (8 in this test)
+            self._size = 2
+
+        def __len__(self):
+            return self._size
+
+        def save(self, path):
+            Path(path).write_text("replay", encoding="utf-8")
+
+    class FakeWorker:
+        instances = []
+        _recent_chunks = []
+        _prev_count = 0
+
+        def __init__(self, cfg, actor_source, device, replay, rust_binary):
+            self.update_calls = []
+            self.started = False
+            self.stopped = False
+            FakeWorker.instances.append(self)
+
+        def start(self):
+            self.started = True
+
+        def stop(self):
+            self.stopped = True
+
+        def status(self):
+            return {"alive": True, "consecutive_errors": 0, "last_progress_age_s": 0.0, "last_error": None}
+
+        def update_model(self, actor_source):
+            self.update_calls.append(actor_source)
+
+        def pause(self, wait=True):
+            return True
+
+        def resume(self):
+            return None
+
+    backend = FakeBackend()
+    rust_binary = tmp_path / "mcts_demo"
+    rust_binary.write_text("stub", encoding="utf-8")
+    ctx = cli.PreparedTrainingContext(
+        cfg={
+            "_name": "gomoku7",
+            "board": 7,
+            "filters": 32,
+            "blocks": 2,
+            "buf": 64,
+            "batch": 8,
+            "steps": 1,
+            "games": 2,
+            "search_profile": "quartz",
+            "vl_mode": "adaptive",
+        },
+        base_cfg={"board": 7},
+        base_dir=str(tmp_path),
+        device="cpu",
+        hw=types.SimpleNamespace(physical_cpus=1),
+        model=None,
+        backend=backend,
+        optimizer=types.SimpleNamespace(param_groups=[{"lr": 0.0}]),
+        actor_source="actor-source",
+        benchmark_info=None,
+        model_path=str(tmp_path / "latest.pt"),
+        latest_model_path=str(tmp_path / "latest.pt"),
+        best_model_path=str(tmp_path / "best.pt"),
+        replay_path=str(tmp_path / "replay.npz"),
+        log_path=str(tmp_path / "train_log.jsonl"),
+        autotune_profile_path=str(tmp_path / "autotune_profile.json"),
+        n_params=123,
+    )
+    args = argparse.Namespace(
+        serve=False,
+        arena_3agent=None,
+        arena=None,
+        rust_nn=True,
+        arena_games=0,
+        game="gomoku7",
+        iterations=3,  # 3 iters, all below batch threshold → no SGD ever
+        resume=False,
+        concurrent=True,
+        runtime_autotune=False,
+        eval_selfplay_isolation=True,
+        patience=0,
+        inner_patience=0,
+        inner_min_fraction=0.0,
+        inner_min_delta=0.0,
+        inner_ema_alpha=0.2,
+        eval_games=2,
+        eval_interval=99,
+        seed=7,
+        rust_binary=str(rust_binary),
+    )
+    runtime_hooks = cli.MainRuntimeHooks(
+        torch=types.SimpleNamespace(),
+        np=np,
+        game_configs={"gomoku7": {}},
+        serve=lambda *args, **kwargs: None,
+        arena_3agent=lambda *args, **kwargs: None,
+        arena_rust_nn=lambda *args, **kwargs: None,
+        arena_compare=lambda *args, **kwargs: None,
+        print_autotune_summary=lambda *args, **kwargs: None,
+        is_go_game=lambda _name: False,
+        replay_buffer_cls=FakeReplayBuffer,
+        early_stopping_cls=lambda *args, **kwargs: None,
+        early_stopping_enabled=lambda patience, concurrent=False: False,
+        load_eval_autotune_profile=lambda *args, **kwargs: None,
+        has_eval_system=True,
+        recommend_eval_parallel_workers=lambda *args, **kwargs: 1,
+        max_supported_threads=lambda hw: 1,
+        eval_config_cls=lambda **kwargs: types.SimpleNamespace(**kwargs),
+        training_evaluator_cls=lambda config=None: types.SimpleNamespace(cfg=config),
+        build_training_game_adapter=lambda cfg: object(),
+        ensure_best_checkpoint_compatible=lambda *args, **kwargs: None,
+        selfplay_worker_cls=FakeWorker,
+        initial_replay_fill_target=lambda cfg, recent_chunks: 0,
+        online_autotune_controller_cls=lambda *args, **kwargs: None,
+        clear_nn_eval_cache=lambda: None,
+        round_or_none=lambda value: value,
+        wait_for_worker_progress=lambda worker, prev_bg, min_new=1, timeout_s=30.0: (1, prev_bg + 1),
+        selfplay_rust_nn_batched=lambda *args, **kwargs: ([], [], [], []),
+        compute_train_steps=lambda *args, **kwargs: 1,
+        train_epoch=lambda *args, **kwargs: (0.0, 0.0, 0.0, 0, None),
+        replay_metrics=types.SimpleNamespace(
+            freshness=lambda n_new, replay_len: 0.0,
+            policy_entropy=lambda replay: 0.0,
+            value_std=lambda replay: 0.0,
+            search_summary=lambda replay: {"positions": len(replay)},
+        ),
+        rust_nn_evaluator_engine_cls=object,
+        clone_actor_model=lambda actor: actor,
+        load_actor_source_from_checkpoint=lambda *args, **kwargs: "champion-actor",
+        tree_mcts_engine_cls=object,
+        benchmark_eval_parallel_workers=lambda *args, **kwargs: (1, []),
+        make_json_safe=lambda payload: payload,
+        generate_training_plots=lambda *args, **kwargs: False,
+    )
+
+    cli.run_training_main(args, ctx, runtime_hooks)
+
+    worker = FakeWorker.instances[-1]
+    # Three iterations, replay never crossed batch=8 → 0 SGD rows. With
+    # P9, update_model should still fire once per iteration.
+    assert worker.update_calls == ["actor-source", "actor-source", "actor-source"]
+
+
 def test_main_runs_eval_at_interval_even_when_train_steps_are_zero(monkeypatch, tmp_path):
     az = load_training_module()
     backend_module = sys.modules["quartz.backend"]

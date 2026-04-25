@@ -965,8 +965,6 @@ def run_training_main(args, ctx: PreparedTrainingContext, runtime_hooks: MainRun
                 )
                 if inner_stop is not None:
                     entry["inner_stop"] = inner_stop
-                if bg_worker and executed_steps > 0:
-                    bg_worker.update_model(actor_source)
                 print(
                     f"[{iteration+1:>3}/{args.iterations}] loss={avg_loss:.4f} "
                     f"(p={avg_pl:.4f} v={avg_vl:.4f}) lr={lr:.5f} replay={len(replay)} "
@@ -990,6 +988,18 @@ def run_training_main(args, ctx: PreparedTrainingContext, runtime_hooks: MainRun
                 }
             )
             print(f"[{iteration+1:>3}/{args.iterations}] filling replay: {len(replay)}/{cfg['batch']} +{n_new} {elapsed:.1f}s")
+
+        # P9 (audit_codex_20260425.md W5): iteration-level actor refresh.
+        # The prior per-iteration call was gated on `executed_steps > 0`,
+        # which never fired during warmup or any iteration where SGD was
+        # skipped (replay below batch threshold or planned train_steps==0)
+        # — leaving the concurrent self-play worker on stale weights.
+        # Lifting the call here makes the worker's actor_generation track
+        # the learner's iteration boundary regardless of SGD path; replay
+        # samples produced by the worker carry the matching tag, which
+        # `actor_generation_histogram` aggregates per row.
+        if bg_worker is not None:
+            bg_worker.update_model(actor_source)
 
         if online_tuner is not None:
             runtime_overrides = online_tuner.observe(
