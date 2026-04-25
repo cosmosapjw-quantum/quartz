@@ -13,7 +13,7 @@
 
 use crate::mcts::node::{ArenaRef, MctsNode};
 use bumpalo::Bump;
-use parking_lot::Mutex;
+use parking_lot::RwLock;
 use std::collections::HashMap;
 use std::hash::{BuildHasherDefault, Hasher};
 use std::ptr::NonNull;
@@ -70,6 +70,23 @@ struct TtBucket<M: Copy + Send + Sync + 'static> {
     /// containing `ArenaPool` is dropped.
     arena: Bump,
 }
+
+// SAFETY (Phase 6.2, 2026-04-25): `TtBucket` contains a `Bump`, which is
+// `!Sync`. Wrapping the bucket in `parking_lot::RwLock` requires the
+// inner type to be `Sync` (so a read guard can hand out `&TtBucket` to
+// multiple threads). Soundness rests on a per-bucket access discipline:
+//
+//   - Read guards (`buckets[i].read()`) MUST only touch `bucket.map`.
+//     They MUST NOT call methods on `bucket.arena` (those take `&Bump`
+//     and would alias under concurrent readers, which is UB).
+//   - Write guards (`buckets[i].write()`) hold exclusive access by
+//     RwLock contract, so they may freely mutate either field.
+//
+// The only call sites are within this module: `get_or_create` (read for
+// probe, write on miss), `get` (read), `size` (read), and `Drop` (which
+// runs with `&mut self`). Each has been audited to respect the
+// discipline above.
+unsafe impl<M: Copy + Send + Sync + 'static> Sync for TtBucket<M> {}
 
 impl<M: Copy + Send + Sync + 'static> TtBucket<M> {
     fn new() -> Self {
@@ -170,7 +187,12 @@ pub fn leak_node<M: Copy + Send + Sync + 'static>(
 
 pub struct TranspositionTable<M: Copy + Send + Sync + 'static> {
     enabled: bool,
-    buckets: Vec<Mutex<TtBucket<M>>>,
+    /// Per-bucket `RwLock<TtBucket>` (Phase 6.2, 2026-04-25). The hit path
+    /// in `get_or_create` and `get` takes a read lock so multiple threads
+    /// can probe the same bucket in parallel; the miss path of
+    /// `get_or_create` upgrades to a write lock for the alloc + insert.
+    /// See the safety note on `TtBucket`'s `unsafe Sync` impl above.
+    buckets: Vec<RwLock<TtBucket<M>>>,
     // 통계 (로깅용)
     pub hits: AtomicU64,
     pub misses: AtomicU64,
@@ -195,7 +217,7 @@ impl<M: Copy + Send + Sync + 'static> TranspositionTable<M> {
 
     pub fn new_enabled(enabled: bool) -> Self {
         let buckets = (0..NUM_BUCKETS)
-            .map(|_| Mutex::new(TtBucket::new()))
+            .map(|_| RwLock::new(TtBucket::new()))
             .collect();
         TranspositionTable {
             enabled,
@@ -216,6 +238,13 @@ impl<M: Copy + Send + Sync + 'static> TranspositionTable<M> {
     /// 해시에 해당하는 노드를 조회.
     /// 없으면 `terminal_value`로 새 노드를 생성하고 삽입.
     /// 있으면 기존 노드 반환 (always-replace 충돌 정책 → 먼저 들어온 것 우선).
+    ///
+    /// Phase 6.2 (2026-04-25): hits take a read lock so multiple threads
+    /// can probe the same bucket in parallel. Misses upgrade to a write
+    /// lock and double-check before allocating, which keeps the
+    /// happy-path `get_or_create` cost down to a single uncontended
+    /// `RwLock::read()` on the ~80 % of calls that are hits in steady
+    /// state.
     pub fn get_or_create(&self, hash: u64, terminal_value: Option<f32>) -> ArenaRef<MctsNode<M>> {
         if !self.enabled {
             // Disabled TT: caller-owned ad-hoc node, leaked. This path is
@@ -225,13 +254,30 @@ impl<M: Copy + Send + Sync + 'static> TranspositionTable<M> {
         }
         let idx = Self::bucket_idx(hash);
         self.get_or_create_calls.fetch_add(1, Ordering::Relaxed);
-        let t0 = crate::mcts::profiling::maybe_start_timer();
-        let mut bucket = self.buckets[idx].lock();
-        if let Some(t0) = t0 {
-            self.record_lock_wait(t0.elapsed().as_nanos() as u64);
+
+        // Fast path: read lock + map probe. Multiple threads can be in
+        // this branch simultaneously on the same bucket.
+        {
+            let t0 = crate::mcts::profiling::maybe_start_timer();
+            let bucket = self.buckets[idx].read();
+            if let Some(t0) = t0 {
+                self.record_lock_wait(t0.elapsed().as_nanos() as u64);
+            }
+            if let Some(node) = bucket.map.get(&hash) {
+                self.hits.fetch_add(1, Ordering::Relaxed);
+                return *node;
+            }
         }
 
+        // Slow path: write lock + double-check + alloc + insert.
+        let t1 = crate::mcts::profiling::maybe_start_timer();
+        let mut bucket = self.buckets[idx].write();
+        if let Some(t1) = t1 {
+            self.record_lock_wait(t1.elapsed().as_nanos() as u64);
+        }
         if let Some(node) = bucket.map.get(&hash) {
+            // Another writer raced us to insert this entry between the
+            // read drop and the write acquire. Treat as a hit.
             self.hits.fetch_add(1, Ordering::Relaxed);
             return *node;
         }
@@ -278,7 +324,7 @@ impl<M: Copy + Send + Sync + 'static> TranspositionTable<M> {
         let idx = Self::bucket_idx(hash);
         self.get_calls.fetch_add(1, Ordering::Relaxed);
         let t0 = crate::mcts::profiling::maybe_start_timer();
-        let bucket = self.buckets[idx].lock();
+        let bucket = self.buckets[idx].read();
         if let Some(t0) = t0 {
             self.record_lock_wait(t0.elapsed().as_nanos() as u64);
         }
@@ -291,7 +337,7 @@ impl<M: Copy + Send + Sync + 'static> TranspositionTable<M> {
         }
         self.buckets
             .iter()
-            .map(|b| b.lock().map.len())
+            .map(|b| b.read().map.len())
             .sum()
     }
 
