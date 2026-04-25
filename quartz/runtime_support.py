@@ -157,6 +157,11 @@ SEARCH_MANIFEST_KEYS = (
     "batch_timeout_us",
     "_eval_runner_mode",
     "_arena_low_concurrency_profile",
+    # P7 (audit_codex_20260425.md W2): include halt_mode in the
+    # search-manifest hash so two runs with different halt policies
+    # produce distinct manifest hashes (the eval_matrix uses the hash
+    # to detect engine drift across rows).
+    "halt_mode",
 )
 
 

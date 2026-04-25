@@ -2444,6 +2444,10 @@ def rust_search_options(cfg, penalty_mode=None):
         **({"root_only_shaping": bool(cfg["root_only_shaping"])} if "root_only_shaping" in cfg else {}),
         **({"vl_mode": cfg["vl_mode"]} if "vl_mode" in cfg else {}),
         **({"tt_enabled": bool(cfg["tt_enabled"])} if "tt_enabled" in cfg else {}),
+        # P7 (audit W2): forward `halt_mode` so mcts_server's
+        # `parse_halt_mode_override` can pin HaltMode::Fixed for
+        # attribution rows.
+        **({"halt_mode": str(cfg["halt_mode"])} if cfg.get("halt_mode") is not None else {}),
     }
 
 

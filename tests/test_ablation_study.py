@@ -1,6 +1,7 @@
 import importlib
 import importlib.util
 import argparse
+import copy
 import json
 import sys
 import types
@@ -629,6 +630,60 @@ def test_build_gomocup_manifest_captures_search_and_selection_metadata():
     assert manifest["search"]["max_visits"] == 50000
     assert manifest["source"]["condition"] == "T4_S_VL"
     assert manifest["source"]["selection_metrics"]["overall_score_rate"] == 0.70
+
+
+def test_pin_halt_mode_stamps_fixed_for_controller_axes_preset():
+    """P7 (audit_codex_20260425.md W2): attribution presets get
+    halt_mode='fixed' on every train + eval condition.
+    """
+    ablation = load_ablation_module()
+    preset = ablation.resolve_study_preset("controller_axes")
+    pinned = ablation.pin_halt_mode_for_attribution(preset, "controller_axes")
+
+    for cond_cfg in pinned["train_conditions"].values():
+        assert cond_cfg["halt_mode"] == "fixed"
+    for cond_cfg in pinned["eval_conditions"].values():
+        assert cond_cfg["halt_mode"] == "fixed"
+
+
+def test_pin_halt_mode_does_not_overwrite_explicit_value():
+    """P7: a user-provided halt_mode in the preset cfg is preserved."""
+    ablation = load_ablation_module()
+    preset = {
+        "train_conditions": {
+            "T_a": {"penalty_mode": "GatedRefresh", "halt_mode": "voc"},
+        },
+        "eval_conditions": {
+            "E_a": {"penalty_mode": "GatedRefresh"},
+        },
+    }
+    pinned = ablation.pin_halt_mode_for_attribution(preset, "controller_axes")
+
+    assert pinned["train_conditions"]["T_a"]["halt_mode"] == "voc"
+    assert pinned["eval_conditions"]["E_a"]["halt_mode"] == "fixed"
+
+
+def test_pin_halt_mode_is_noop_for_search_vl_preset():
+    """P7: non-attribution presets do not get the halt_mode stamp."""
+    ablation = load_ablation_module()
+    preset = ablation.resolve_study_preset("search_vl")
+    pinned = ablation.pin_halt_mode_for_attribution(preset, "search_vl")
+
+    for cond_cfg in pinned["train_conditions"].values():
+        assert "halt_mode" not in cond_cfg
+
+
+def test_pin_halt_mode_does_not_mutate_original_preset():
+    """P7: deep-copy semantics — module-level constants stay untouched."""
+    ablation = load_ablation_module()
+    original = ablation.resolve_study_preset("controller_axes")
+    before = copy.deepcopy(original)
+
+    ablation.pin_halt_mode_for_attribution(original, "controller_axes")
+
+    # Original preset is unchanged after the call.
+    for cond_name, cond_cfg in original["train_conditions"].items():
+        assert cond_cfg == before["train_conditions"][cond_name]
 
 
 def _make_p8_args(study, frozen_eval_condition=None, no_frozen_eval=False):

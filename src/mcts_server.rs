@@ -20,7 +20,7 @@ use crate::mcts::eval::{
     SHM_MSG_SEARCH_RESP,
 };
 use crate::mcts::node::edge_lock_contention_snapshot;
-use crate::mcts::quartz::{PenaltyMode, QuartzConfig, QuartzController};
+use crate::mcts::quartz::{HaltMode, PenaltyMode, QuartzConfig, QuartzController};
 use crate::mcts::search::FixedIterations;
 use crate::mcts::{engine_phase_snapshot, MctsConfig, MctsEngine, PreparedIteration};
 
@@ -736,6 +736,10 @@ fn decode_arena_eval_request_payload(payload: &[u8]) -> Result<ArenaEvalFrameReq
                     None
                 },
                 seed: if seed_present { Some(seed) } else { None },
+                // P7: binary frame path doesn't carry a halt-mode override
+                // yet (the JSON path does); keep it None so existing
+                // behaviour is unchanged for SHM consumers.
+                halt_mode: None,
             },
             n_threads: cap_search_threads(n_threads.max(1) as usize),
             batch_size: (batch_size as usize).max(1),
@@ -1011,6 +1015,11 @@ struct SearchOverrides {
     vl_mode: Option<String>,
     tt_enabled: Option<bool>,
     seed: Option<u64>,
+    /// P7 (audit_codex_20260425.md W2): per-request halt_mode override.
+    /// "fixed" disables all adaptive halts (P_flip / VOC / ConfAdaptive)
+    /// so attribution presets can ensure same-budget fairness across
+    /// rows that vary penalty mode.
+    halt_mode: Option<HaltMode>,
 }
 
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
@@ -1018,6 +1027,20 @@ enum SearchProfile {
     Quartz,
     Baseline,
     BaselineStrict,
+}
+
+fn parse_halt_mode_override(line: &str) -> Option<HaltMode> {
+    // P7 (audit W2): map JSON `halt_mode` strings to a controller halt
+    // selection. Only the modes that make sense as ablation-row pins are
+    // accepted — `ConfAdaptive` requires its own theta_init / target etc.
+    // and is intentionally not exposed through this surface.
+    let raw: &str = &jstr(line, "halt_mode")?;
+    match raw {
+        "fixed" => Some(HaltMode::Fixed { budget: u32::MAX }),
+        "simple_threshold" | "SimpleThreshold" => Some(HaltMode::SimpleThreshold),
+        "voc" | "VOC" => Some(HaltMode::VOC),
+        _ => None,
+    }
 }
 
 fn parse_search_overrides(line: &str) -> SearchOverrides {
@@ -1044,6 +1067,7 @@ fn parse_search_overrides(line: &str) -> SearchOverrides {
         vl_mode: jstr(line, "vl_mode").map(|s| s.to_string()),
         tt_enabled: jbool(line, "tt_enabled"),
         seed: jint(line, "seed").map(|v| v.max(0) as u64),
+        halt_mode: parse_halt_mode_override(line),
     }
 }
 
@@ -1414,6 +1438,9 @@ fn apply_search_overrides(mut cfg: MctsConfig, ov: &SearchOverrides) -> MctsConf
         }
         if let Some(root_only_shaping) = ov.root_only_shaping {
             q.root_only_shaping = root_only_shaping;
+        }
+        if let Some(halt_mode) = ov.halt_mode.clone() {
+            q.halt_mode = halt_mode;
         }
     }
     // VL mode override (independent of search profile)
@@ -6247,6 +6274,38 @@ mod tests {
     fn test_tictactoe() {
         let r = search_tictactoe(r#"{}"#, 30);
         assert!(r.contains("move"));
+    }
+
+    #[test]
+    fn test_p7_parse_halt_mode_override_fixed() {
+        // P7 (audit_codex_20260425.md W2): "fixed" maps to
+        // HaltMode::Fixed with a sentinel max-budget that effectively
+        // disables adaptive halt branches.
+        let parsed = parse_halt_mode_override(r#"{"halt_mode":"fixed"}"#);
+        assert!(matches!(parsed, Some(HaltMode::Fixed { budget }) if budget == u32::MAX));
+    }
+
+    #[test]
+    fn test_p7_parse_halt_mode_override_voc() {
+        let parsed = parse_halt_mode_override(r#"{"halt_mode":"voc"}"#);
+        assert!(matches!(parsed, Some(HaltMode::VOC)));
+        let parsed_pascal = parse_halt_mode_override(r#"{"halt_mode":"VOC"}"#);
+        assert!(matches!(parsed_pascal, Some(HaltMode::VOC)));
+    }
+
+    #[test]
+    fn test_p7_parse_halt_mode_override_unknown_returns_none() {
+        assert!(parse_halt_mode_override(r#"{"halt_mode":"bogus"}"#).is_none());
+        assert!(parse_halt_mode_override(r#"{}"#).is_none());
+    }
+
+    #[test]
+    fn test_p7_apply_search_overrides_pins_halt_mode() {
+        let mut cfg = MctsConfig::evaluation(2.0).with_quartz(QuartzConfig::default());
+        let ov = parse_search_overrides(r#"{"halt_mode":"fixed"}"#);
+        cfg = apply_search_overrides(cfg, &ov);
+        let q = cfg.quartz.expect("quartz config retained");
+        assert!(matches!(q.halt_mode, HaltMode::Fixed { budget } if budget == u32::MAX));
     }
 
     #[test]

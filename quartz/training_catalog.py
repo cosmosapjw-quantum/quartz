@@ -20,6 +20,12 @@ SEARCH_RUNTIME_KEYS = {
     "n_threads",
     "batch_size",
     "batch_timeout_us",
+    # P7 (audit_codex_20260425.md W2): per-condition halt-mode override
+    # plumbed through to mcts_server's `parse_halt_mode_override`.
+    # Accepts "fixed" / "voc" / "simple_threshold". "fixed" pins
+    # `HaltMode::Fixed { budget = u32::MAX }`, disabling adaptive halts
+    # so attribution presets see same-budget arena rows.
+    "halt_mode",
 }
 
 GOMOKU15_VARIANTS = {

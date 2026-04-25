@@ -444,6 +444,39 @@ def resolve_study_preset(study_name: str) -> dict:
     return preset
 
 
+def pin_halt_mode_for_attribution(preset: dict, study_name: str) -> dict:
+    """P7 (audit_codex_20260425.md W2): for attribution presets, stamp
+    `halt_mode = "fixed"` into every train and eval condition cfg.
+
+    `HaltMode::Fixed { budget = u32::MAX }` (Rust side, parsed in
+    `mcts_server.parse_halt_mode_override`) disables every adaptive
+    halt branch — P_flip / VOC / ConfAdaptive — so the only halt
+    signal is the controller's own `max_visits` ceiling. This makes
+    same-budget fairness trivially observable across rows that vary
+    penalty mode, prior refresh, etc.
+
+    The original cfg objects are deep-copied so module-level constants
+    are not mutated. Returns a new preset dict with the same keys.
+    """
+    if study_name not in CONTROLLER_ATTRIBUTION_PRESETS:
+        return preset
+    pinned = {}
+    for bucket_name in ("train_conditions", "eval_conditions"):
+        bucket = preset.get(bucket_name)
+        if bucket is None:
+            continue
+        new_bucket = {}
+        for cond_name, cond_cfg in bucket.items():
+            cfg = copy.deepcopy(cond_cfg)
+            cfg.setdefault("halt_mode", "fixed")
+            new_bucket[cond_name] = cfg
+        pinned[bucket_name] = new_bucket
+    # Preserve any non-condition keys the preset may carry.
+    for key, value in preset.items():
+        pinned.setdefault(key, value)
+    return pinned
+
+
 def condition_runtime_overrides(condition_cfg: dict) -> dict:
     return {
         key: value
@@ -690,7 +723,7 @@ def discover_model_runs(base_dir: Path) -> list[dict]:
 
 
 def build_study_manifest(args: argparse.Namespace) -> dict:
-    preset = resolve_study_preset(args.study)
+    preset = pin_halt_mode_for_attribution(resolve_study_preset(args.study), args.study)
     train_conditions = preset["train_conditions"]
     eval_conditions = preset["eval_conditions"]
     selected_train_conditions = parse_selected_conditions(args.conditions, train_conditions)
