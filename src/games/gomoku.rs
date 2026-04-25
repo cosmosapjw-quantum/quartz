@@ -106,7 +106,15 @@ const GOMOKU_HISTORY_MOVES: usize = GOMOKU_HISTORY_LEN - 1;
 pub struct Gomoku {
     pub size: usize,    // 보드 크기 (7/9/13/15)
     pub win_len: usize, // 승리 조건 (연속 몇 개: 4 or 5)
-    board: Vec<i8>,     // +1=black, -1=white, 0=empty  (row-major)
+    // Fixed-size [i8; MAX_SQ=361] (was Vec<i8>) per the Apr-25 profile audit
+    // Step 4 / P0-1. Eliminates the per-apply_move heap allocation that was
+    // 61.6% of all heap allocations in the canonical benchmark. Only the
+    // first `size * size` cells are valid game state; cells `size*size..MAX_SQ`
+    // are always 0 (empty) and must NOT be iterated by any game-logic code —
+    // every iterator over `self.board` clips with `[..self.size * self.size]`.
+    // The `semantics_audit_*` tests at the bottom of this file pin that
+    // invariant.
+    board: [i8; MAX_SQ], // +1=black, -1=white, 0=empty  (row-major)
     occupied: [u16; MAX_SQ],
     current_player: i8, // +1=black, -1=white
     hash: u64,          // Zobrist 증분 해시
@@ -136,7 +144,7 @@ impl Gomoku {
         Gomoku {
             size,
             win_len,
-            board: vec![0; size * size],
+            board: [0; MAX_SQ],
             occupied: [0; MAX_SQ],
             current_player: 1, // black 선수
             hash: 0,
@@ -189,8 +197,10 @@ impl Gomoku {
         if g.current_player == -1 {
             g.hash ^= GOB.side;
         }
-        // Check if already terminal (winner from last move)
-        for i in 0..g.board.len() {
+        // Check if already terminal (winner from last move). Bounded to
+        // size*size — cells beyond that index are storage padding.
+        let cells = g.size * g.size;
+        for i in 0..cells {
             let v = g.board[i];
             if v != 0 && g.check_win_at(i, v) {
                 g.winner = v;
@@ -203,8 +213,9 @@ impl Gomoku {
     /// 내부 board를 0/1/2 encoding으로 변환 (JSON 응답용)
     #[cfg(test)]
     pub fn board_as_12(&self) -> Vec<i64> {
-        let mut out = Vec::with_capacity(self.board.len());
-        for &v in &self.board {
+        let cells = self.size * self.size;
+        let mut out = Vec::with_capacity(cells);
+        for &v in &self.board[..cells] {
             out.push(match v {
                 1 => 1,
                 -1 => 2,
@@ -360,8 +371,9 @@ impl GameState for Gomoku {
         if self.is_terminal() {
             return vec![];
         }
-        let mut moves = Vec::with_capacity(self.size * self.size - self.move_count as usize);
-        for (i, &v) in self.board.iter().enumerate() {
+        let cells = self.size * self.size;
+        let mut moves = Vec::with_capacity(cells - self.move_count as usize);
+        for (i, &v) in self.board[..cells].iter().enumerate() {
             if v == 0 {
                 moves.push(i);
             }
@@ -506,7 +518,8 @@ impl GameState for Gomoku {
     }
 
     fn board_state_record(&self) -> Vec<i64> {
-        self.board
+        let cells = self.size * self.size;
+        self.board[..cells]
             .iter()
             .map(|&v| match v {
                 1 => 1,
@@ -533,7 +546,8 @@ impl GameState for Gomoku {
         }
         let target = rand_idx % n_empty;
         let mut count = 0usize;
-        for (i, &v) in self.board.iter().enumerate() {
+        let cells = self.size * self.size;
+        for (i, &v) in self.board[..cells].iter().enumerate() {
             if v == 0 {
                 if count == target {
                     return Some(i);
@@ -574,7 +588,7 @@ mod tests {
         {
             recent_rank[mv as usize] = (rank + 1) as u8;
         }
-        for (i, &v) in state.board.iter().enumerate() {
+        for (i, &v) in state.board[..n].iter().enumerate() {
             if v == 0 {
                 continue;
             }
@@ -950,5 +964,77 @@ mod tests {
             b.hash(),
             "same board via different order should have same hash"
         );
+    }
+
+    // ── Semantics audit (Apr-25 profile-audit Step 4 / P0-1) ──────────────
+    //
+    // These tests pin properties that must be preserved under any board
+    // representation change (Vec<i8> → fixed-size array). They check that
+    // every iteration over `self.board` is correctly bounded to the
+    // game's `size * size` cells, not the underlying storage capacity.
+
+    /// `legal_moves()` must return exactly `size*size - move_count` cells
+    /// for every supported board size. If an internal iteration is
+    /// unbounded, this assertion fails immediately.
+    #[test]
+    fn semantics_audit_legal_moves_bounded_to_size() {
+        for size in [7usize, 9, 13, 15] {
+            let s = Gomoku::new(size);
+            let want = size * size;
+            let got = s.legal_moves().len();
+            assert_eq!(got, want, "legal_moves on empty {}x{}", size, size);
+
+            let s2 = if size == 7 {
+                make_state_7x4(&[(0, 0), (1, 1), (0, 1)])
+            } else {
+                let mut s = Gomoku::new(size);
+                for &(r, c) in &[(0usize, 0), (1, 1), (0, 1)] {
+                    s = s.apply_move(r * size + c);
+                }
+                s
+            };
+            assert_eq!(s2.legal_moves().len(), size * size - 3);
+        }
+    }
+
+    /// `board_state_record()` returns exactly `size*size` entries (used by
+    /// JSON export and replay snapshots). An unbounded iterator would emit
+    /// `MAX_SQ` entries on smaller boards, breaking the contract.
+    #[test]
+    fn semantics_audit_board_state_record_bounded_to_size() {
+        use crate::game::GameState;
+        for size in [7usize, 9, 13, 15] {
+            let s = Gomoku::new(size);
+            assert_eq!(s.board_state_record().len(), size * size);
+        }
+    }
+
+    /// `random_legal_move()` must only ever return indices `< size*size`.
+    /// Since unfilled storage cells beyond `size*size` will read as 0 (empty)
+    /// under any representation, an unbounded scan would happily return
+    /// out-of-board indices. We sample 100 RNG seeds for each board size.
+    #[test]
+    fn semantics_audit_random_legal_move_inside_board() {
+        use crate::game::GameState;
+        for size in [7usize, 9, 13, 15] {
+            let s = Gomoku::new(size);
+            let bound = size * size;
+            for seed in 0..100 {
+                let mv = s.random_legal_move(seed * 7919).unwrap();
+                assert!(mv < bound, "size={} seed={} move={} bound={}", size, seed, mv, bound);
+            }
+        }
+    }
+
+    /// from_board_12 must check terminal state only over valid cells, not
+    /// the underlying storage. We construct a non-terminal small-board
+    /// state and confirm winner stays at 0.
+    #[test]
+    fn semantics_audit_from_board_12_no_phantom_winner() {
+        let board: Vec<i64> = (0..49).map(|i| if i == 0 { 1 } else { 0 }).collect();
+        let s = Gomoku::from_board_12(7, 4, &board, 2);
+        assert_eq!(s.winner, 0);
+        assert!(!s.is_terminal());
+        assert_eq!(s.move_count, 1);
     }
 }
