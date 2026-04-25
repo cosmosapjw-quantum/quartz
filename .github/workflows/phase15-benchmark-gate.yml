@@ -1,3 +1,8 @@
+# P4 (audit_codex_20260425.md W9): this workflow is the deterministic
+# phase15 benchmark smoke. The unit + contract regression gate
+# (`cargo test --release --locked` and `pytest -q tests/`) lives in
+# `tests-gate.yml` and runs on a broader path-filter set. Do not rely
+# on this workflow for cross-suite regression discipline.
 name: phase15-benchmark-gate
 
 on:

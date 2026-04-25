@@ -240,6 +240,20 @@ set of outstanding caveats.
 - [GOMOCUP_BRAIN.md](docs/GOMOCUP_BRAIN.md) — Gomocup bundle/export/build flow
 - [TT_NOTES.md](docs/TT_NOTES.md) — TT design and exactness notes
 
+## CI Gates
+
+Two GitHub Actions workflows enforce the regression discipline:
+
+- [`tests-gate.yml`](.github/workflows/tests-gate.yml) — runs `cargo
+  test --release --locked` and `pytest -q tests/` on every push/PR
+  that touches `src/**`, `tests/**`, `quartz/**`, `scripts/**`,
+  `Cargo.toml`, `Cargo.lock`, or `pyproject.toml`. This is the
+  unit/contract test gate.
+- [`phase15-benchmark-gate.yml`](.github/workflows/phase15-benchmark-gate.yml)
+  — runs the deterministic phase15 benchmark smoke. This is a
+  benchmark-shape gate, not a unit-test gate; rely on `tests-gate.yml`
+  for regression discipline on the engine and pipeline.
+
 ## Design Principles
 
 1. **Rust-native search, Python training**: Search performance in Rust,
