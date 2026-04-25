@@ -18,8 +18,9 @@ pub fn backprop<G: GameState>(path: &[PathEdge<G::Move>], leaf_value: f32) {
     for pe in path.iter().rev() {
         value = -value; // negamax: 부모 관점 부호 반전
 
-        let guard = pe.parent.edges.read();
-        let e = &guard[pe.edge_idx];
+        // Phase 7 C (2026-04-26): lock-free slab read.
+        let edges = pe.parent.read_edges();
+        let e = &edges[pe.edge_idx];
 
         // Virtual Loss: remove the exact (vvisit, vvalue) applied during select
         let (vv, vq) = pe.applied_vl;
@@ -50,7 +51,7 @@ pub fn backprop<G: GameState>(path: &[PathEdge<G::Move>], leaf_value: f32) {
         if n_old >= 1.0 {
             e.child.record_rtt_hit(value);
         }
-        drop(guard);
+        // Phase 7 C: no guard to drop — slab read is lock-free.
 
         atomic_f64_add(&pe.parent.w_total, value as f64);
         pe.parent.n_total.fetch_add(1, Ordering::AcqRel);

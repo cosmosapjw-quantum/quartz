@@ -56,12 +56,12 @@ mod tests {
         let stats = engine2.run_par(&FixedIterations::new(10_000), 4);
         let ms = t.elapsed().as_millis().max(1) as f64;
         let root_n = engine2.root.n_total.load(Ordering::Relaxed);
-        let guard = engine2.root.edges.read();
-        let vl: i64 = guard
+        // Phase 7 C: lock-free slab read.
+        let edges = engine2.root.read_edges();
+        let vl: i64 = edges
             .iter()
             .map(|e| e.virtual_losses.load(Ordering::Relaxed) as i64)
             .sum();
-        drop(guard);
         eprintln!(
             "  4T parallel:    {:.0} NPS ({} visits, {:.0}ms, VL={})",
             root_n as f64 / (ms / 1000.0),

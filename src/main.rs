@@ -5476,16 +5476,15 @@ mod zobrist_tt_parallel_verify {
         // Run parallel search with 4 threads
         eng.run_par(&FixedIterations::new(5000), 4);
 
-        // Check: all virtual losses must be 0
-        let guard = eng.root.edges.read();
+        // Check: all virtual losses must be 0. Phase 7 C: lock-free slab read.
+        let edges = eng.root.read_edges();
         let mut vl_sum = 0i64;
         let mut max_vl = 0i32;
-        for e in guard.iter() {
+        for e in edges.iter() {
             let vl = e.virtual_losses.load(Ordering::Relaxed);
             vl_sum += vl as i64;
             max_vl = max_vl.max(vl.abs());
         }
-        drop(guard);
 
         let root_n = eng.root.n_total.load(Ordering::Relaxed);
         let tt_size = eng.tt.size();
@@ -5539,13 +5538,12 @@ mod zobrist_tt_parallel_verify {
         let best_par = eng2.best_move();
         let root_par = eng2.root.n_total.load(Ordering::Relaxed);
 
-        // Check VL balance in parallel result
-        let guard = eng2.root.edges.read();
-        let vl_sum: i64 = guard
+        // Check VL balance in parallel result. Phase 7 C: lock-free.
+        let edges = eng2.root.read_edges();
+        let vl_sum: i64 = edges
             .iter()
             .map(|e| e.virtual_losses.load(Ordering::Relaxed) as i64)
             .sum();
-        drop(guard);
 
         eprintln!("[V3] Sequential: best={:?}, root_n={}", best_seq, root_seq);
         eprintln!(
@@ -5614,11 +5612,11 @@ mod zobrist_tt_parallel_verify {
             best, stats.p_flip, stats.sigma_q
         );
 
-        // Verify: Q values in [-1, 1] range (no corruption)
-        let guard = eng.root.edges.read();
+        // Verify: Q values in [-1, 1] range (no corruption). Phase 7 C: lock-free.
+        let edges = eng.root.read_edges();
         let mut q_out_of_range = 0u32;
         let mut n_sum = 0u32;
-        for e in guard.iter() {
+        for e in edges.iter() {
             let q = e.q();
             let n = e.n.load(Ordering::Relaxed);
             n_sum += n;
@@ -5630,7 +5628,6 @@ mod zobrist_tt_parallel_verify {
                 );
             }
         }
-        drop(guard);
 
         eprintln!(
             "[V4]   edge_n_sum={}, root_n={}, diff={}",
@@ -5675,14 +5672,13 @@ mod zobrist_tt_parallel_verify {
         let tt_size = eng.tt.size();
         let nps = root_n as f64 / (ms as f64 / 1000.0);
 
-        // Check VL balance
-        let guard = eng.root.edges.read();
-        let vl_sum: i64 = guard
+        // Check VL balance. Phase 7 C: lock-free.
+        let edges = eng.root.read_edges();
+        let vl_sum: i64 = edges
             .iter()
             .map(|e| e.virtual_losses.load(Ordering::Relaxed) as i64)
             .sum();
-        let n_edges = guard.len();
-        drop(guard);
+        let n_edges = edges.len();
 
         eprintln!("[V5] Stress 8-thread 50k iters:");
         eprintln!(
@@ -5737,16 +5733,16 @@ mod nn_parallel_verify {
         let root_n = eng.root.n_total.load(Ordering::Relaxed);
         let tt_size = eng.tt.size();
 
-        // VL balance check
-        let guard = eng.root.edges.read();
-        let vl_sum: i64 = guard
+        // VL balance check. Phase 7 C: lock-free.
+        let edges = eng.root.read_edges();
+        let vl_sum: i64 = edges
             .iter()
             .map(|e| e.virtual_losses.load(Ordering::Relaxed) as i64)
             .sum();
-        let n_edges = guard.len();
+        let n_edges = edges.len();
         let mut q_corrupted = 0u32;
         let mut n_sum = 0u32;
-        for e in guard.iter() {
+        for e in edges.iter() {
             let n = e.n.load(Ordering::Relaxed);
             let q = e.q();
             n_sum += n;
@@ -5755,7 +5751,6 @@ mod nn_parallel_verify {
                 eprintln!("[V6] CORRUPT: edge q={:.4} n={}", q, n);
             }
         }
-        drop(guard);
 
         eprintln!("[V6] Parallel NN (4-thread, 500 iters):");
         eprintln!(
@@ -5833,15 +5828,15 @@ mod nn_parallel_verify {
             if root_n < budget / 2 {
                 errors.push(format!("move {}: root_n={} < budget/2", move_count, root_n));
             }
-            let guard = eng.root.edges.read();
-            let vl_sum: i64 = guard
+            // Phase 7 C: lock-free.
+            let edges = eng.root.read_edges();
+            let vl_sum: i64 = edges
                 .iter()
                 .map(|e| e.virtual_losses.load(Ordering::Relaxed) as i64)
                 .sum();
             if vl_sum != 0 {
                 errors.push(format!("move {}: VL leak={}", move_count, vl_sum));
             }
-            drop(guard);
 
             if move_count % 5 == 0 || state.legal_moves().len() < 10 {
                 eprintln!(

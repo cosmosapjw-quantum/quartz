@@ -83,6 +83,15 @@ pub fn expand_with_result<G: GameState>(
 
 /// `target`개까지 edges materialization
 /// state: 이 노드에 해당하는 게임 상태 (apply_move용)
+///
+/// Phase 7 C (2026-04-26): edge buffer is a raw slab in the TT bucket's
+/// bumpalo Bump (not a `Vec`). Allocation is done via
+/// `tt.allocate_edge_slab(...)` (takes the bucket write lock for the
+/// one-shot Bump alloc, then releases it). The fill loop runs under the
+/// per-node `materialize_lock` (parking_lot::Mutex) and writes each
+/// slot via `std::ptr::write`. The Release-store of `edge_cursor` at
+/// the end of the loop publishes all written slots to lock-free
+/// readers.
 pub fn materialize_edges<G: GameState>(
     node: &ArenaRef<MctsNode<G::Move>>,
     state: &G,
@@ -101,34 +110,56 @@ pub fn materialize_edges<G: GameState>(
         return;
     }
 
+    // Allocate / look up the slab. Idempotent: only the first caller
+    // takes the bucket write lock; subsequent calls observe the
+    // published `edges_ptr` and return its (ptr, cap).
+    let (slab_ptr, slab_cap) = tt.allocate_edge_slab::<G::Move>(&**node, candidates.len());
+    debug_assert!(actual <= slab_cap as usize);
+
+    // Acquire the per-node materialize lock. Wait time is fed into the
+    // same telemetry channel that pre-Phase-7 recorded for the
+    // `RwLock<Vec<...>>` write lock, so the diagnostic API
+    // (`edge_lock_contention_snapshot`) keeps its semantic meaning.
     let lock_started = crate::mcts::profiling::maybe_start_timer();
-    let mut guard = node.edges.write();
+    let _mat_guard = node.materialize_lock.lock();
     if let Some(t0) = lock_started {
         crate::mcts::node::record_edges_lock_wait(t0.elapsed().as_nanos() as u64);
     }
-    // double-check inside lock
+
+    // Double-check inside lock (another writer may have caught up).
     let current = node.edge_cursor.load(Ordering::Relaxed) as usize;
-    if current < actual {
-        let additional = actual.saturating_sub(guard.len());
-        guard.reserve(additional);
-        // Phase 6.1: clone the parent state once and use apply_in_place +
-        // undo_move per candidate to avoid an N-way per-candidate clone of
-        // the (~1144 B for Gomoku-7) game state. Net effect on Gomoku-7 is
-        // (N - 1) clones eliminated per materialize call.
-        let mut probe = state.clone();
-        for i in current..actual {
-            let (mv, prior) = candidates[i];
-            let undo = probe.apply_move_in_place(mv);
-            let child_hash = probe.tt_hash();
-            let tv = if probe.is_terminal() {
-                Some(probe.outcome())
-            } else {
-                None
-            };
-            probe.undo_move(undo);
-            let child = tt.get_or_create(child_hash, tv);
-            guard.push(MctsEdge::new(mv, child, prior));
-        }
-        node.edge_cursor.store(actual as u32, Ordering::Release);
+    if current >= actual {
+        return;
     }
+
+    // Phase 6.1: clone the parent state once and use apply_in_place +
+    // undo_move per candidate to avoid an N-way per-candidate clone of
+    // the (~1144 B for Gomoku-7) game state. Net effect on Gomoku-7 is
+    // (N - 1) clones eliminated per materialize call.
+    let mut probe = state.clone();
+    for i in current..actual {
+        let (mv, prior) = candidates[i];
+        let undo = probe.apply_move_in_place(mv);
+        let child_hash = probe.tt_hash();
+        let tv = if probe.is_terminal() {
+            Some(probe.outcome())
+        } else {
+            None
+        };
+        probe.undo_move(undo);
+        let child = tt.get_or_create(child_hash, tv);
+        // SAFETY: we hold `materialize_lock`, so no other writer is
+        // touching slot `i`. `i < slab_cap` was established by the
+        // `actual <= slab_cap` debug_assert above. The slot has not
+        // been initialized before (cursor < i+1 at this point), so
+        // `std::ptr::write` does NOT drop any prior value — it just
+        // writes the new edge.
+        unsafe {
+            std::ptr::write(slab_ptr.add(i), MctsEdge::new(mv, child, prior));
+        }
+    }
+    // Single Release-store publishes every slot we just wrote.
+    // Lock-free readers see either the old cursor (and old slots) or
+    // the new cursor (and all slots through `actual`).
+    node.edge_cursor.store(actual as u32, Ordering::Release);
 }

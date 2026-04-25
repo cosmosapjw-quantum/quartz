@@ -522,15 +522,15 @@ fn collect_sparse_policy<G: GameState>(
         .best_move()
         .map(|mv| engine.root_state().move_to_idx(mv))
         .unwrap_or(0);
-    let guard = engine.root.edges.read();
+    // Phase 7 C (2026-04-26): lock-free slab read.
+    let edges = engine.root.read_edges();
     let mut visits = vec![0u32; n_actions];
-    for edge in guard.iter() {
+    for edge in edges.iter() {
         let idx = engine.root_state().move_to_idx(edge.mv);
         if idx < n_actions {
             visits[idx] = visits[idx].saturating_add(edge.n.load(Ordering::Relaxed));
         }
     }
-    drop(guard);
     let (policy, total) = sparse_policy_from_visits(&visits);
     (best, policy, total)
 }
@@ -1513,11 +1513,11 @@ where
         let mut ctrl = QuartzController::new(iters, qcfg_template.clone());
         engine.run_quartz(&mut ctrl);
 
-        // Visit distribution
-        let guard = engine.root.edges.read();
+        // Visit distribution. Phase 7 C: lock-free slab read.
+        let edges = engine.root.read_edges();
         let mut visits = vec![0u32; num_actions];
         let mut total = 0u32;
-        for e in guard.iter() {
+        for e in edges.iter() {
             let idx = engine.root_state().move_to_idx(e.mv);
             let n = e.n.load(Ordering::Relaxed);
             if idx < num_actions {
@@ -1525,7 +1525,6 @@ where
                 total += n;
             }
         }
-        drop(guard);
 
         let policy: Vec<f32> = visits
             .iter()

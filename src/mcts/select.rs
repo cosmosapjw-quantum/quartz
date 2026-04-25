@@ -656,14 +656,16 @@ pub fn select<G: GameState>(
             materialize_edges(&cur_node, &cur_state, n_visible, tt);
         }
 
-        // [OPT] Hold RwLock read guard directly instead of edge_snapshot (avoids N Arc clones)
-        let guard = cur_node.edges.read();
-        let n_edges = n_visible.min(guard.len());
+        // Phase 7 C (2026-04-26): lock-free slab read. `read_edges()`
+        // returns `&[MctsEdge<M>]` covering [0..edge_cursor]. Slice
+        // lifetime is tied to `&cur_node` (slab lives in TT bucket
+        // Bump, outlives this borrow).
+        let edges_full = cur_node.read_edges();
+        let n_edges = n_visible.min(edges_full.len());
         if n_edges == 0 {
-            drop(guard);
             break;
         }
-        let edges = &guard[..n_edges];
+        let edges = &edges_full[..n_edges];
 
         let vl_sum: u32 = edges
             .iter()
@@ -719,7 +721,7 @@ pub fn select<G: GameState>(
 
         let best_mv = edges[best_idx].mv;
         let next_node = edges[best_idx].child;
-        drop(guard); // release Mutex before apply_move
+        // Phase 7 C: no guard to drop — slab read is lock-free.
 
         // Phase 6.1: in-place descent. The select loop only walks down the
         // tree (no backtracking inside this function), so the returned undo

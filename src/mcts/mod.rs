@@ -1189,10 +1189,10 @@ mod tests {
     fn tt_uses_exact_tt_hash_for_child_transpositions() {
         let eval: Arc<dyn Evaluator<TtHashDummy>> = Arc::new(UniformEval);
         let engine = MctsEngine::new(TtHashDummy::initial(), eval, MctsConfig::evaluation(1.0));
-        let guard = engine.root.edges.read();
+        let edges = engine.root.read_edges();
 
-        assert_eq!(guard.len(), 2);
-        assert!(ArenaRef::ptr_eq(&guard[0].child, &guard[1].child));
+        assert_eq!(edges.len(), 2);
+        assert!(ArenaRef::ptr_eq(&edges[0].child, &edges[1].child));
     }
 
     fn gomoku7_engine(iters: u32) -> (MctsEngine<Gomoku>, QuartzController) {

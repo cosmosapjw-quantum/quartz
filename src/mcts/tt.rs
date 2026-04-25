@@ -11,7 +11,7 @@
 //!   - 충돌 정책: always-replace (가장 단순, baseline)
 //!   - TT 통계: hits, misses, collisions (로깅용)
 
-use crate::mcts::node::{ArenaRef, MctsNode};
+use crate::mcts::node::{ArenaRef, MctsEdge, MctsNode};
 use bumpalo::Bump;
 use parking_lot::RwLock;
 use std::collections::HashMap;
@@ -318,6 +318,74 @@ impl<M: Copy + Send + Sync + 'static> TranspositionTable<M> {
         let node = unsafe { ArenaRef::from_raw(NonNull::new_unchecked(allocated as *mut _)) };
         bucket.map.insert(hash, node);
         node
+    }
+
+    /// Phase 7 C (2026-04-26): allocate (or look up) the per-node edge
+    /// slab in the bucket's bumpalo Bump.
+    ///
+    /// Idempotent: if `node.edges_ptr` is already non-null, returns the
+    /// existing (ptr, cap) under an Acquire load — no lock taken. On
+    /// first call, takes the bucket write lock, allocates a slab of
+    /// `n_candidates` `MctsEdge<M>` slots in `bucket.arena`, and
+    /// publishes the pointer via Release-store.
+    ///
+    /// # Memory ordering
+    ///   - Writer: bucket-write-locked alloc, then `edges_ptr.store(Release)`,
+    ///     then `edges_cap` is implicit (capacity = `n_candidates`,
+    ///     known to all callers via `node.candidates`).
+    ///   - Reader (in `materialize_edges` fill loop): observes the
+    ///     non-null ptr via Acquire load, then writes to slots under
+    ///     `materialize_lock`.
+    ///   - Lock-free PUCT reader (`MctsNode::read_edges`): sees ptr
+    ///     publication transitively via the Release-store of
+    ///     `edge_cursor` at the end of the materialize fill loop.
+    ///
+    /// # Safety
+    ///   The returned pointer is valid for `n_candidates` aligned
+    ///   `MctsEdge<M>` slots and remains valid until the bucket's Bump
+    ///   is dropped (i.e., until the engine's TT drops). All writes to
+    ///   the slab MUST be serialized via `node.materialize_lock`.
+    pub fn allocate_edge_slab<MM: Copy + Send + Sync + 'static>(
+        &self,
+        node: &MctsNode<MM>,
+        n_candidates: usize,
+    ) -> (*mut MctsEdge<MM>, u32) {
+        debug_assert!(n_candidates > 0);
+        // Fast path: slab already published.
+        let existing = node.edges_ptr.load(Ordering::Acquire);
+        if !existing.is_null() {
+            // The cap was set once and is not stored on the node — it
+            // is implicit in `node.candidates.get().unwrap().len()`.
+            // Callers that need it should consult that. We return the
+            // published pointer plus the *requested* `n_candidates`
+            // verbatim; callers always pass `candidates.len()`, so the
+            // cap is identical across calls.
+            return (existing as *mut MctsEdge<MM>, n_candidates as u32);
+        }
+
+        let idx = Self::bucket_idx(node.hash);
+        // Slab alloc requires bucket write lock (per the unsafe Sync
+        // discipline on TtBucket: only write guards may touch arena).
+        let bucket = self.buckets[idx].write();
+
+        // Double-check after acquiring the write lock.
+        let existing = node.edges_ptr.load(Ordering::Relaxed);
+        if !existing.is_null() {
+            return (existing as *mut MctsEdge<MM>, n_candidates as u32);
+        }
+
+        let layout = std::alloc::Layout::array::<MctsEdge<MM>>(n_candidates)
+            .expect("MctsEdge slab layout");
+        // SAFETY: `Bump::alloc_layout` returns a `NonNull<u8>` with the
+        // requested layout. The pointer is valid until the Bump drops
+        // (the TT owns the bucket; the bucket owns the Bump).
+        let raw = bucket.arena.alloc_layout(layout);
+        let slab_ptr = raw.as_ptr() as *mut MctsEdge<MM>;
+
+        // Release-store publishes the pointer to lock-free readers.
+        node.edges_ptr.store(slab_ptr, Ordering::Release);
+
+        (slab_ptr, n_candidates as u32)
     }
 
     /// 조회만 (삽입 없음)

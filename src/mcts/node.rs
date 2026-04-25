@@ -7,19 +7,27 @@
 //!   child_hash, terminal_value는 candidates에 저장하지 않고,
 //!   materialize_edges(node, state, ...) 시점에 state.apply_move(mv)로 lazy 계산.
 //!
-//! 불변식:
+//! 불변식 (Phase 7 C, 2026-04-26):
 //!   1. candidates: OnceLock — CAS exactly-once
-//!   2. edges: RwLock<Vec<Arc<MctsEdge>>> — append-only, 인덱스 영구 안정
-//!   3. edge_cursor ≤ edges.len() (항상)
-//!   4. edge_cursor는 edges.len()의 단조 증가 근사치 (RwLock 외부 빠른 확인용)
+//!   2. edges_ptr: AtomicPtr<MctsEdge<M>> — null until first materialize_edges
+//!      call, then points to a slab allocated in the TT bucket's bumpalo Bump.
+//!      Slab capacity = candidates.len() (set once at expand time).
+//!   3. edge_cursor: AtomicU32 — number of materialized edges. Acts as the
+//!      Release-store of the slab writes; readers use Acquire load + raw
+//!      slice construction (no lock).
+//!   4. materialize_lock: parking_lot::Mutex<()> — serializes concurrent
+//!      materialize_edges calls on the same node.
+//!
+//! Pre-Phase-7 layout (kept for reference):
+//!   edges: RwLock<Vec<MctsEdge<M>>> — append-only Vec under parking_lot
+//!   RwLock. PUCT read path took an uncontended read lock per visit. Replaced
+//!   to remove RwLock contention from the hot path AND to shed the per-search
+//!   global-allocator traffic for the Vec backing buffer (~30 K nodes/search
+//!   × 49 edges ≈ 1.5 M MctsEdge<M> allocations/search → now slab-allocated
+//!   in the bucket Bump alongside the node bodies).
 
-use std::sync::atomic::{AtomicI32, AtomicU32, AtomicU64, Ordering};
-// Migrated edges RwLock from std::sync to parking_lot per the Apr-25 profile
-// audit (Step 2 / P1-1). parking_lot::RwLock is non-poisoning and ~2× faster
-// on uncontended takes; profiled benefit on the gomoku15 4-thread benchmark
-// is ~5% wall-clock. Other RwLock users in the engine (e.g. quartz_cache in
-// mcts/mod.rs) deliberately keep std::sync::RwLock and are unchanged.
-use parking_lot::RwLock;
+use std::sync::atomic::{AtomicI32, AtomicPtr, AtomicU32, AtomicU64, Ordering};
+use parking_lot::Mutex as PlMutex;
 use std::marker::PhantomData;
 use std::ops::Deref;
 use std::ptr::NonNull;
@@ -342,11 +350,26 @@ pub struct MctsNode<M> {
     /// CAS exactly-once: (move, prior) 쌍, prior 내림차순 정렬
     pub candidates: OnceLock<Box<[(M, f32)]>>,
 
-    /// Lazy materialized edges — append-only
-    pub edges: RwLock<Vec<MctsEdge<M>>>,
+    /// Phase 7 C edge buffer (2026-04-26): raw pointer to a slab of
+    /// `MctsEdge<M>` allocated in the TT bucket's bumpalo Bump. Null
+    /// until the first `materialize_edges` call publishes the slab.
+    /// Slab capacity = `candidates.get().unwrap().len()` (fixed at
+    /// expand time). Lifetime: tied to the bucket's Bump, which the TT
+    /// owns; ArenaRef discipline guarantees the Bump outlives any
+    /// `&MctsNode<M>` reachable from outside.
+    pub edges_ptr: AtomicPtr<MctsEdge<M>>,
 
-    /// edges.len()의 단조 증가 근사
+    /// Number of materialized edges (Phase 7 C). Acts as the Release-
+    /// store synchronizer for the slab writes. Readers do
+    /// `cursor.load(Acquire)` then `edges_ptr.load(Acquire)` and treat
+    /// `[..cursor]` as fully-published.
+    /// (Field name kept from the pre-Phase-7 `edge_cursor` for API
+    /// compatibility with `materialized_count` / external callers.)
     pub edge_cursor: AtomicU32,
+
+    /// Serializes concurrent `materialize_edges` calls on this node.
+    /// Held only during slab fills; readers never block on it.
+    pub materialize_lock: PlMutex<()>,
 
     pub n_total: AtomicU32,
     pub w_total: AtomicU64,
@@ -373,8 +396,9 @@ impl<M: Copy + Send + Sync + 'static> MctsNode<M> {
             hash,
             terminal_value,
             candidates: OnceLock::new(),
-            edges: RwLock::new(Vec::new()),
+            edges_ptr: AtomicPtr::new(std::ptr::null_mut()),
             edge_cursor: AtomicU32::new(0),
+            materialize_lock: PlMutex::new(()),
             n_total: AtomicU32::new(0),
             w_total: AtomicU64::new(0),
             rtt_n: AtomicU32::new(0),
@@ -443,15 +467,47 @@ impl<M: Copy + Send + Sync + 'static> MctsNode<M> {
         Some(((m2 / (n - 1.0)).max(0.0)) as f32)
     }
 
-    /// RwLock 내 Arc clone 스냅샷 — read lock으로 병렬 접근 허용
-    pub fn edge_snapshot(&self, n_snap: usize) -> Vec<MctsEdgeSnapshot<M>> {
-        let lock_started = crate::mcts::profiling::maybe_start_timer();
-        let guard = self.edges.read();
-        if let Some(t0) = lock_started {
-            record_edges_lock_wait(t0.elapsed().as_nanos() as u64);
+    /// Lock-free read of the materialized edges (Phase 7 C, 2026-04-26).
+    ///
+    /// Returns a slice covering `[0..edge_cursor]`. The slice's lifetime
+    /// is tied to `&self`; the slab itself lives in the TT bucket's
+    /// bumpalo Bump and outlives `&self` by the engine's ArenaPool
+    /// discipline. Concurrent writers extend `edge_cursor` monotonically
+    /// (under `materialize_lock`); a reader observing cursor = N
+    /// happens-after every slot write at indices `[0..N)` via the
+    /// Acquire/Release pair on `edge_cursor`.
+    ///
+    /// # Safety reasoning
+    ///   - If `edge_cursor.load(Acquire)` returns 0, no slab access is
+    ///     needed — return `&[]`.
+    ///   - Otherwise the writer must have stored `edges_ptr` (Release)
+    ///     BEFORE its first Release-store of `edge_cursor` (see
+    ///     `TranspositionTable::allocate_edge_slab`). Our Acquire load
+    ///     of `edge_cursor` synchronizes-with that prior Release-chain,
+    ///     so the subsequent Acquire load of `edges_ptr` is guaranteed
+    ///     to observe the published, non-null pointer.
+    ///   - `from_raw_parts(ptr, len)` is sound: `ptr` is non-null and
+    ///     properly aligned (allocated via `Layout::array::<MctsEdge<M>>`),
+    ///     all `len` slots have been initialized, and the slab does not
+    ///     move or shrink for the lifetime of `&self`.
+    pub fn read_edges(&self) -> &[MctsEdge<M>] {
+        let len = self.edge_cursor.load(Ordering::Acquire) as usize;
+        if len == 0 {
+            return &[];
         }
-        let n = n_snap.min(guard.len());
-        guard[..n]
+        let ptr = self.edges_ptr.load(Ordering::Acquire);
+        debug_assert!(!ptr.is_null(), "edge_cursor > 0 implies edges_ptr published");
+        // SAFETY: see method-level reasoning above.
+        unsafe { std::slice::from_raw_parts(ptr as *const MctsEdge<M>, len) }
+    }
+
+    /// Phase 7 C (2026-04-26): per-edge snapshot. Now backed by
+    /// `read_edges()` (lock-free); the legacy lock-wait timer is dropped
+    /// since there is no lock to wait on.
+    pub fn edge_snapshot(&self, n_snap: usize) -> Vec<MctsEdgeSnapshot<M>> {
+        let edges = self.read_edges();
+        let n = n_snap.min(edges.len());
+        edges[..n]
             .iter()
             .map(|edge| MctsEdgeSnapshot {
                 mv: edge.mv,
@@ -466,27 +522,19 @@ impl<M: Copy + Send + Sync + 'static> MctsNode<M> {
             .collect()
     }
 
-    /// Snapshot only the priors for the first `n_snap` edges, avoiding Arc clones
-    /// when callers only need root prior values.
+    /// Snapshot only the priors for the first `n_snap` edges. Phase 7 C:
+    /// lock-free read via slab.
     pub fn edge_priors_snapshot(&self, n_snap: usize) -> Vec<f32> {
-        let lock_started = crate::mcts::profiling::maybe_start_timer();
-        let guard = self.edges.read();
-        if let Some(t0) = lock_started {
-            record_edges_lock_wait(t0.elapsed().as_nanos() as u64);
-        }
-        let n = n_snap.min(guard.len());
-        guard[..n].iter().map(|edge| edge.p).collect()
+        let edges = self.read_edges();
+        let n = n_snap.min(edges.len());
+        edges[..n].iter().map(|edge| edge.p).collect()
     }
 
-    /// Read-only access to the first `n_snap` edges without cloning the Arc list.
+    /// Read-only access to the first `n_snap` edges. Phase 7 C: lock-free.
     pub fn with_edge_slice<R>(&self, n_snap: usize, f: impl FnOnce(&[MctsEdge<M>]) -> R) -> R {
-        let lock_started = crate::mcts::profiling::maybe_start_timer();
-        let guard = self.edges.read();
-        if let Some(t0) = lock_started {
-            record_edges_lock_wait(t0.elapsed().as_nanos() as u64);
-        }
-        let n = n_snap.min(guard.len());
-        f(&guard[..n])
+        let edges = self.read_edges();
+        let n = n_snap.min(edges.len());
+        f(&edges[..n])
     }
 
 }
@@ -521,21 +569,43 @@ impl<M: Copy + Send + Sync + 'static> MctsNode<M> {
 //   ArenaPool/MctsEngine field-declaration discipline guarantees the
 //   nodes are unreachable from anywhere else by the time we get here.
 impl<M> MctsNode<M> {
-    /// Drop every materialized edge in place. Called from the `Drop`
-    /// impl below.
+    /// Drop every materialized edge in place (Phase 7 C, 2026-04-26).
     ///
-    /// For the current `RwLock<Vec<MctsEdge<M>>>` storage this is
-    /// exactly `Vec::clear` — semantically a no-op vs. letting the
-    /// field's auto-drop handle elements. After Phase 7 C lands, this
-    /// helper becomes load-bearing: it will walk `[..len]` and
-    /// `drop_in_place` each `MctsEdge<M>` before the Bump chunks are
-    /// freed by `TtBucket::Drop`.
+    /// The slab lives in the TT bucket's bumpalo Bump, which does not
+    /// run `Drop` on its allocations. Without this walk, each
+    /// `MctsEdge<M>` would leak any heap-owned sub-fields it carries
+    /// (currently atomics only — no boxed sub-fields — but future edge
+    /// fields would silently leak).
+    ///
+    /// The slab MEMORY itself is not freed here: the bucket's Bump
+    /// reclaims its raw chunks when `TtBucket::Drop` runs (after every
+    /// node body in the bucket has been `drop_in_place`'d).
+    ///
+    /// # Safety
+    ///   - We hold `&mut self`, so no other thread is racing on this
+    ///     node. The engine's drop-order discipline (TT drops before
+    ///     ArenaPool) guarantees any concurrent search threads have
+    ///     joined by the time this runs.
+    ///   - Each slot in `[0..len)` was initialized exactly once by a
+    ///     prior `materialize_edges` call (writes serialized by
+    ///     `materialize_lock`, published via the Release-store of
+    ///     `edge_cursor`). `drop_in_place` runs `MctsEdge<M>::drop`
+    ///     once per slot.
+    ///   - After this, we zero `edge_cursor` so any (theoretically
+    ///     impossible) post-drop reader observes empty.
     fn drop_edges_in_place(&mut self) {
-        // SAFETY (Vec path): we hold `&mut self`, so `RwLock::get_mut`
-        // bypasses synchronization. `Vec::clear` runs `Drop` on every
-        // element exactly once and leaves the Vec empty; the field's
-        // own auto-drop afterwards is then a no-op.
-        self.edges.get_mut().clear();
+        let len = *self.edge_cursor.get_mut() as usize;
+        let ptr = *self.edges_ptr.get_mut();
+        if len == 0 || ptr.is_null() {
+            return;
+        }
+        // SAFETY: see method-level reasoning above.
+        for i in 0..len {
+            unsafe {
+                std::ptr::drop_in_place(ptr.add(i));
+            }
+        }
+        *self.edge_cursor.get_mut() = 0;
     }
 }
 
