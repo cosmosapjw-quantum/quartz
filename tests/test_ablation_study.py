@@ -631,6 +631,56 @@ def test_build_gomocup_manifest_captures_search_and_selection_metadata():
     assert manifest["source"]["selection_metrics"]["overall_score_rate"] == 0.70
 
 
+def _make_p8_args(study, frozen_eval_condition=None, no_frozen_eval=False):
+    return argparse.Namespace(
+        study=study,
+        frozen_eval_condition=frozen_eval_condition,
+        no_frozen_eval=no_frozen_eval,
+    )
+
+
+def test_resolve_frozen_eval_default_picks_first_for_attribution_preset():
+    """P8: attribution preset auto-resolves to the alphabetically first eval condition."""
+    ablation = load_ablation_module()
+    eval_conditions = {"EA2_b": {}, "EA1_a": {}, "EA3_c": {}}
+    args = _make_p8_args("controller_axes")
+    assert ablation.resolve_frozen_eval_condition(args, eval_conditions) == "EA1_a"
+
+
+def test_resolve_frozen_eval_returns_none_for_non_attribution_preset():
+    """P8: non-attribution presets keep the legacy per-row matrix by default."""
+    ablation = load_ablation_module()
+    eval_conditions = {"E1_a": {}, "E2_b": {}}
+    args = _make_p8_args("search_vl")
+    assert ablation.resolve_frozen_eval_condition(args, eval_conditions) is None
+
+
+def test_resolve_frozen_eval_explicit_name_wins():
+    """P8: explicit `--frozen-eval-condition NAME` overrides the auto default."""
+    ablation = load_ablation_module()
+    eval_conditions = {"EA1_a": {}, "EA2_b": {}, "EA3_c": {}}
+    args = _make_p8_args("controller_axes", frozen_eval_condition="EA3_c")
+    assert ablation.resolve_frozen_eval_condition(args, eval_conditions) == "EA3_c"
+
+
+def test_resolve_frozen_eval_no_flag_opts_out():
+    """P8: `--no-frozen-eval` opts out even for attribution presets."""
+    ablation = load_ablation_module()
+    eval_conditions = {"EA1_a": {}, "EA2_b": {}}
+    args = _make_p8_args("controller_axes", no_frozen_eval=True)
+    assert ablation.resolve_frozen_eval_condition(args, eval_conditions) is None
+
+
+def test_resolve_frozen_eval_unknown_name_raises():
+    """P8: explicit unknown name fails fast."""
+    import pytest
+    ablation = load_ablation_module()
+    eval_conditions = {"EA1_a": {}}
+    args = _make_p8_args("controller_axes", frozen_eval_condition="bogus")
+    with pytest.raises(SystemExit):
+        ablation.resolve_frozen_eval_condition(args, eval_conditions)
+
+
 def test_controller_identity_hash_is_stable_under_dict_reordering():
     """P5: hash must depend only on values, not Python dict insertion order."""
     ablation = load_ablation_module()

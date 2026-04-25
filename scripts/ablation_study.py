@@ -251,6 +251,37 @@ def emit_attribution_halt_guard(preset_name: str, stream=None) -> None:
     )
 
 
+def resolve_frozen_eval_condition(
+    args: argparse.Namespace, eval_conditions: dict
+) -> str | None:
+    """Resolve the `--frozen-eval-condition` choice into a concrete name or None.
+
+    P8 (audit_codex_20260425.md W7): for attribution presets the
+    eval-engine drift across rows confounds (model quality) ×
+    (eval search profile). When this returns a non-None name, the
+    eval loop pins every pair to that single eval condition's cfg.
+
+    Resolution rules:
+      * `--no-frozen-eval` set                → None (explicit opt-out).
+      * `--frozen-eval-condition NAME` set    → NAME (must exist in eval_conditions).
+      * attribution preset and neither flag set → first eval condition (sorted).
+      * non-attribution preset and neither flag set → None (legacy per-row matrix).
+    """
+    if getattr(args, "no_frozen_eval", False):
+        return None
+    explicit = getattr(args, "frozen_eval_condition", None)
+    if explicit:
+        if explicit not in eval_conditions:
+            raise SystemExit(
+                f"--frozen-eval-condition '{explicit}' not in eval_conditions "
+                f"({sorted(eval_conditions)})"
+            )
+        return explicit
+    if getattr(args, "study", None) in CONTROLLER_ATTRIBUTION_PRESETS and eval_conditions:
+        return sorted(eval_conditions)[0]
+    return None
+
+
 def attribution_preset_tag(preset_name: str) -> dict:
     """Return a small metadata blob identifying attribution guard status.
 
@@ -708,6 +739,13 @@ def build_study_manifest(args: argparse.Namespace) -> dict:
         "runtime_contract_hash": stable_json_hash(runtime_contract),
         "started_at": time.strftime("%Y-%m-%d %H:%M:%S"),
         "attribution_guard": attribution_preset_tag(args.study),
+        # P8 (audit W7): record the frozen-eval resolution so post-hoc
+        # readers can confirm which single eval engine produced the
+        # arena results when the matrix was collapsed.
+        "frozen_eval_condition": resolve_frozen_eval_condition(
+            args,
+            {name: eval_conditions[name] for name in selected_eval_conditions},
+        ),
     }
     return manifest
 
@@ -1170,6 +1208,13 @@ def run_evaluation_matrix(
         eval_conditions = {**STRICT_REFERENCE_CONDITION, **eval_conditions}
 
     from quartz import runtime_support as support_mod
+
+    # P8 (audit W7): when frozen-eval is active, collapse the eval matrix
+    # to the single named condition so every pair runs through identical
+    # search settings.
+    frozen_eval_name = resolve_frozen_eval_condition(args, eval_conditions)
+    if frozen_eval_name is not None:
+        eval_conditions = {frozen_eval_name: eval_conditions[frozen_eval_name]}
 
     expected_manifest_hashes = {}
     expected_manifests = {}
@@ -1670,6 +1715,24 @@ def parse_args() -> argparse.Namespace:
                         help="Only evaluate runs that share the same seed across different conditions")
     parser.add_argument("--include-strict-reference", action="store_true",
                         help="Also evaluate under baseline_strict search settings")
+    # P8 (audit_codex_20260425.md W7): for attribution presets, every
+    # row should be evaluated under a single fixed eval engine so that
+    # cross-row deltas reflect model quality, not (model × eval search
+    # profile). Default: auto-resolve to the first eval condition for
+    # attribution presets (controller_axes / controller_factorial),
+    # legacy per-row matrix for everything else.
+    parser.add_argument(
+        "--frozen-eval-condition",
+        default=None,
+        help="Pin every pair's eval to this single named condition. "
+             "Defaults to the first eval condition for attribution presets, "
+             "no-op otherwise.",
+    )
+    parser.add_argument(
+        "--no-frozen-eval",
+        action="store_true",
+        help="Opt out of P8 frozen-eval pinning even for attribution presets.",
+    )
     parser.add_argument("--prepare-gomocup", action="store_true",
                         help="Export the selected champion as a Gomocup bundle")
     parser.add_argument("--gomocup-dir", default=None, help="Output directory for the Gomocup bundle")
