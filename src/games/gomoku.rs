@@ -242,6 +242,7 @@ impl Gomoku {
 
     /// Check if placing `player` at `pos` would form win_len in a row.
     /// Does NOT require the piece to actually be on the board.
+    #[inline]
     fn check_win_at_hypothetical(&self, pos: usize, player: i8) -> bool {
         let row = (pos / self.size) as i32;
         let col = (pos % self.size) as i32;
@@ -285,6 +286,7 @@ impl Gomoku {
     }
 
     /// pos에 player 기물을 놓았을 때 win_len목 달성 여부
+    #[inline]
     fn check_win_at(&self, pos: usize, player: i8) -> bool {
         let row = (pos / self.size) as i32;
         let col = (pos % self.size) as i32;
