@@ -552,7 +552,7 @@ def __getattr__(name):
 
 
 __all__ = [
-    "AlphaZeroNet",
+    "AlphaZeroNet",  # noqa: F822 — lazy attribute via module __getattr__
     "GAME_CONFIGS",
     "GameRecord",
     "InferencePipelineThread",
@@ -585,6 +585,6 @@ __all__ = [
     "search_manifest_hash",
     "supports_rust_eval_state_machine",
     "tally_match",
-    "torch",
+    "torch",  # noqa: F822 — lazy attribute via module __getattr__
     "tqdm_factory",
 ]

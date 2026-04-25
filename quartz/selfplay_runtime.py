@@ -2321,7 +2321,7 @@ class SelfPlayWorker:
                     # — this keeps per-chunk accounting consistent.
                     chunk_actor_generation = self._actor_generation
 
-                    def _on_game_stream(gs, gp, out, traces):
+                    def _on_game_stream(gs, gp, out, traces, chunk_actor_generation=chunk_actor_generation):
                         nonlocal n_new, streamed_positions
                         self.replay.add_game(
                             gs, gp, out, traces=traces,

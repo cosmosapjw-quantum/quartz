@@ -460,22 +460,22 @@ def benchmark_train_batch(cfg, backend, model, optimizer, device, hw, concurrent
                 model_ref = backend.get_torch_model()
                 model_state = copy.deepcopy(model_ref.state_dict())
                 opt_state = copy.deepcopy(backend.optimizer.state_dict())
-                def restore():
+                def restore(model_ref=model_ref, model_state=model_state, opt_state=opt_state):
                     model_ref.load_state_dict(model_state)
                     backend.optimizer.load_state_dict(opt_state)
             else:
                 params_state = copy.deepcopy(getattr(backend, "params", None))
                 batch_stats_state = copy.deepcopy(getattr(backend, "batch_stats", None))
                 opt_state_state = copy.deepcopy(getattr(backend, "opt_state", None))
-                def restore():
+                def restore(params_state=params_state, batch_stats_state=batch_stats_state, opt_state_state=opt_state_state):
                     backend.params = copy.deepcopy(params_state)
                     backend.batch_stats = copy.deepcopy(batch_stats_state)
                     backend.opt_state = copy.deepcopy(opt_state_state)
-            train_once = lambda: backend.train_step(states, policies, values)
+            train_once = lambda states=states, policies=policies, values=values: backend.train_step(states, policies, values)
         else:
             model_state = copy.deepcopy(model.state_dict())
             opt_state = copy.deepcopy(optimizer.state_dict())
-            def train_once():
+            def train_once(states=states, policies=policies, values=values):
                 torch = _torch_module()
                 F = _torch_functional()
                 model.train()
@@ -491,7 +491,7 @@ def benchmark_train_batch(cfg, backend, model, optimizer, device, hw, concurrent
                 torch.nn.utils.clip_grad_norm_(model.parameters(), 1.0)
                 optimizer.step()
                 return float(loss_t.item())
-            def restore():
+            def restore(model_state=model_state, opt_state=opt_state):
                 model.load_state_dict(model_state)
                 optimizer.load_state_dict(opt_state)
         try:

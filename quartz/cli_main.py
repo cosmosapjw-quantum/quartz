@@ -1008,7 +1008,7 @@ def run_training_main(args, ctx: PreparedTrainingContext, runtime_hooks: MainRun
                 candidate_name = f"gen_{iteration+1}"
                 candidate_actor_template = runtime_hooks.clone_actor_model(actor_source)
                 if rust_ok:
-                    cand_factory = lambda: runtime_hooks.rust_nn_evaluator_engine_cls(
+                    cand_factory = lambda candidate_name=candidate_name, candidate_actor_template=candidate_actor_template: runtime_hooks.rust_nn_evaluator_engine_cls(
                         candidate_name,
                         cfg,
                         runtime_hooks.clone_actor_model(candidate_actor_template),
@@ -1017,7 +1017,7 @@ def run_training_main(args, ctx: PreparedTrainingContext, runtime_hooks: MainRun
                     )
                 else:
                     print("  [WARN] Rust binary not found, using TreeMCTS for evaluation (NOT benchmark-grade)")
-                    cand_factory = lambda: runtime_hooks.tree_mcts_engine_cls(
+                    cand_factory = lambda candidate_name=candidate_name, candidate_actor_template=candidate_actor_template: runtime_hooks.tree_mcts_engine_cls(
                         candidate_name, cfg, runtime_hooks.clone_actor_model(candidate_actor_template), device
                     )
                 cand_eng = cand_factory()
@@ -1032,7 +1032,7 @@ def run_training_main(args, ctx: PreparedTrainingContext, runtime_hooks: MainRun
                     )
                 champion_actor_template = runtime_hooks.clone_actor_model(champion_actor)
                 if rust_ok:
-                    champ_factory = lambda: runtime_hooks.rust_nn_evaluator_engine_cls(
+                    champ_factory = lambda champion_actor_template=champion_actor_template: runtime_hooks.rust_nn_evaluator_engine_cls(
                         "champion",
                         cfg,
                         runtime_hooks.clone_actor_model(champion_actor_template),
@@ -1040,7 +1040,7 @@ def run_training_main(args, ctx: PreparedTrainingContext, runtime_hooks: MainRun
                         args.rust_binary,
                     )
                 else:
-                    champ_factory = lambda: runtime_hooks.tree_mcts_engine_cls(
+                    champ_factory = lambda champion_actor_template=champion_actor_template: runtime_hooks.tree_mcts_engine_cls(
                         "champion", cfg, runtime_hooks.clone_actor_model(champion_actor_template), device
                     )
                 champ_eng = champ_factory()

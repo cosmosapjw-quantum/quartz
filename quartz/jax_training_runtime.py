@@ -122,6 +122,7 @@ from quartz.training_catalog import (
     resolve_runtime_paths,
 )
 from quartz.training_runtime_utils import benchmark_eval_parallel_workers, make_json_safe
+from quartz import runtime_support
 
 try:
     from quartz.gpu_detect import detect_gpu
