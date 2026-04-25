@@ -20,8 +20,9 @@ pub use quartz::{
     compute_quartz_stats, QuartzConfig, QuartzController, QuartzStats, RunningMedian,
 };
 
+use parking_lot::RwLock;
 use std::sync::atomic::{AtomicU64, Ordering};
-use std::sync::{Arc, RwLock};
+use std::sync::Arc;
 use std::time::Instant;
 
 use crate::game::{Evaluator, GameState};
@@ -295,13 +296,13 @@ impl<G: GameState> MctsEngine<G> {
                 let _ce = RunningMedian::new(0.1);
                 let qcfg = self.config.quartz.as_ref().unwrap();
                 let stats = compute_quartz_stats(&self.root, priors, &mut s0, 0.0, 0, 0, qcfg);
-                *self.quartz_cache.write().unwrap() = Some(stats);
+                *self.quartz_cache.write() = Some(stats);
             }
         }
     }
 
     pub fn current_quartz_stats(&self) -> Option<QuartzStats> {
-        self.quartz_cache.read().unwrap().clone()
+        self.quartz_cache.read().clone()
     }
 
     /// Update ParallelismController from QUARTZ stats + root visit entropy.
@@ -311,7 +312,6 @@ impl<G: GameState> MctsEngine<G> {
         let sigma_q = self
             .quartz_cache
             .read()
-            .unwrap()
             .as_ref()
             .map(|s| s.hbar_eff * self.config.quartz.as_ref().map_or(0.3, |q| q.sigma_0))
             .unwrap_or(0.3);
@@ -348,7 +348,6 @@ impl<G: GameState> MctsEngine<G> {
         let qstate: Option<(QuartzStats, QuartzConfig)> = if let Some(qcfg) = &self.config.quartz {
             self.quartz_cache
                 .read()
-                .unwrap()
                 .as_ref()
                 .map(|s| (s.clone(), qcfg.clone()))
         } else {
@@ -399,7 +398,6 @@ impl<G: GameState> MctsEngine<G> {
         let qstate: Option<(QuartzStats, QuartzConfig)> = if let Some(qcfg) = &self.config.quartz {
             self.quartz_cache
                 .read()
-                .unwrap()
                 .as_ref()
                 .map(|s| (s.clone(), qcfg.clone()))
         } else {
@@ -582,7 +580,7 @@ impl<G: GameState> MctsEngine<G> {
                     let _rp = self.root_priors();
                     ctrl.update_stats(&self.root, Some(&_rp));
                 }
-                *self.quartz_cache.write().unwrap() = Some(ctrl.last_stats());
+                *self.quartz_cache.write() = Some(ctrl.last_stats());
                 self.refresh_par_ctrl();
                 let stop_now = ctrl.should_stop(rv, ms);
                 if !stop_now {
@@ -605,7 +603,7 @@ impl<G: GameState> MctsEngine<G> {
             let _rp = self.root_priors();
             ctrl.update_stats(&self.root, Some(&_rp));
         }
-        *self.quartz_cache.write().unwrap() = Some(ctrl.last_stats());
+        *self.quartz_cache.write() = Some(ctrl.last_stats());
 
         let ms = start.elapsed().as_millis() as u64;
         let rv = self.root.n_total.load(Ordering::Relaxed);
@@ -658,7 +656,7 @@ impl<G: GameState> MctsEngine<G> {
                     let _rp = self.root_priors();
                     ctrl.update_stats(&self.root, Some(&_rp));
                 }
-                *self.quartz_cache.write().unwrap() = Some(ctrl.last_stats());
+                *self.quartz_cache.write() = Some(ctrl.last_stats());
                 self.refresh_par_ctrl();
                 let stop_now = ctrl.should_stop(rv, ms);
                 if !stop_now {
@@ -692,7 +690,7 @@ impl<G: GameState> MctsEngine<G> {
             let _rp = self.root_priors();
             ctrl.update_stats(&self.root, Some(&_rp));
         }
-        *self.quartz_cache.write().unwrap() = Some(ctrl.last_stats());
+        *self.quartz_cache.write() = Some(ctrl.last_stats());
 
         let ms = start.elapsed().as_millis() as u64;
         let rv = self.root.n_total.load(Ordering::Relaxed);
@@ -820,7 +818,7 @@ impl<G: GameState> MctsEngine<G> {
                             ctrl_ref.update_elapsed(ms);
                             let rp = self.root_priors();
                             ctrl_ref.update_stats(&self.root, Some(&rp));
-                            *self.quartz_cache.write().unwrap() = Some(ctrl_ref.last_stats());
+                            *self.quartz_cache.write() = Some(ctrl_ref.last_stats());
                             self.refresh_par_ctrl();
                             let checked_visits = self.root.n_total.load(Ordering::Relaxed);
                             ctrl_ref.mark_checked(checked_visits);
@@ -837,7 +835,7 @@ impl<G: GameState> MctsEngine<G> {
             let rp = self.root_priors();
             ctrl.update_stats(&self.root, Some(&rp));
         }
-        *self.quartz_cache.write().unwrap() = Some(ctrl.last_stats());
+        *self.quartz_cache.write() = Some(ctrl.last_stats());
 
         let rv = self.root.n_total.load(Ordering::Relaxed);
         SearchStats {
@@ -878,7 +876,7 @@ impl<G: GameState> MctsEngine<G> {
                 self.root_state = self.root_state.apply_move(chosen_move);
                 self.root_noise = None;
                 // Clear quartz cache for new root
-                *self.quartz_cache.write().unwrap() = None;
+                *self.quartz_cache.write() = None;
                 self.par_ctrl.reset_for_search();
                 // Expand new root if not already expanded
                 if self.root.materialized_count() == 0 && !self.root_state.is_terminal() {
