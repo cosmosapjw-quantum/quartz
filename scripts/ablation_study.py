@@ -438,6 +438,81 @@ def controller_surface(condition_cfg: dict | None) -> dict:
     }
 
 
+# P5 (audit_codex_20260425.md W1): cross-paper portability of "the
+# QUARTZ controller" requires that every artifact carries a fingerprint
+# of *which* of the six dispatch surfaces was actually configured. The
+# tuple below is the controller's identity surface — every key whose
+# value materially changes the behaviour of select.rs's mode dispatch
+# (`src/mcts/select.rs:175-431`) and quartz.rs's halt dispatch
+# (`src/mcts/quartz.rs:1862-1959`).
+def controller_identity_keys() -> tuple[str, ...]:
+    return (
+        "search_profile",
+        "vl_mode",
+        "penalty_mode",
+        "halt_mode",
+        "root_only_shaping",
+        "prior_refresh_rate",
+        "prior_refresh_temp",
+        "sigma_0",
+        "hbar_penalty_cap",
+        "ctm_budget_ms",
+        "min_visits",
+        "check_interval",
+        "enable_fisher_puct",
+        "enable_one_loop",
+    )
+
+
+def controller_identity_hash(condition_cfg: dict | None) -> str:
+    """Stable 16-hex SHA-256 over the controller-identity surface.
+
+    The hash distinguishes any two controller variants that differ in
+    *any* identity-defining field; reorderings or unrelated keys do
+    not perturb it (handled via `stable_json_hash`'s `sort_keys=True`).
+    """
+    cfg = condition_cfg or {}
+    payload = {key: cfg.get(key) for key in controller_identity_keys()}
+    return stable_json_hash(payload)
+
+
+def controller_identity_hash_for_axes(
+    condition_cfg: dict | None, axis_keys: tuple[str, ...] | list[str]
+) -> str:
+    """Hash all controller-identity fields *except* the named axes.
+
+    Use this to verify single-axis isolation: every row of a
+    single-axis preset should share the same value here, even though
+    full `controller_identity_hash` values differ. Unknown axis names
+    are tolerated.
+    """
+    cfg = condition_cfg or {}
+    excluded = set(axis_keys)
+    payload = {
+        key: cfg.get(key)
+        for key in controller_identity_keys()
+        if key not in excluded
+    }
+    return stable_json_hash(payload)
+
+
+def assert_single_axis_isolation(
+    surfaces: dict, axis_keys: tuple[str, ...] | list[str]
+) -> tuple[bool, dict[str, str]]:
+    """Return (all_equal, hashes) for the given condition map.
+
+    `surfaces` maps condition name → condition cfg. `axis_keys` are
+    the fields the preset declares it varies. Result `all_equal=True`
+    iff every condition produces the same `controller_identity_hash_for_axes`,
+    i.e., the rows differ only in the declared axes.
+    """
+    hashes = {
+        name: controller_identity_hash_for_axes(cfg, axis_keys)
+        for name, cfg in surfaces.items()
+    }
+    return len(set(hashes.values())) <= 1, hashes
+
+
 def load_checkpoint_status(run_dir: Path) -> dict | None:
     status_path = run_dir / "checkpoint_status.json"
     if not status_path.exists():
@@ -614,6 +689,17 @@ def build_study_manifest(args: argparse.Namespace) -> dict:
         },
         "eval_condition_surfaces": {
             name: controller_surface(eval_conditions[name]) for name in selected_eval_conditions
+        },
+        # P5 (audit W1): per-row controller identity fingerprint so
+        # cross-paper readers can tell which of the six dispatch
+        # surfaces produced an Elo curve. See `controller_identity_keys`.
+        "train_condition_identity_hashes": {
+            name: controller_identity_hash(train_conditions[name])
+            for name in selected_train_conditions
+        },
+        "eval_condition_identity_hashes": {
+            name: controller_identity_hash(eval_conditions[name])
+            for name in selected_eval_conditions
         },
         "strict_reference": bool(args.include_strict_reference),
         "git_head": git_head(),

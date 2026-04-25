@@ -631,6 +631,93 @@ def test_build_gomocup_manifest_captures_search_and_selection_metadata():
     assert manifest["source"]["selection_metrics"]["overall_score_rate"] == 0.70
 
 
+def test_controller_identity_hash_is_stable_under_dict_reordering():
+    """P5: hash must depend only on values, not Python dict insertion order."""
+    ablation = load_ablation_module()
+    cfg_a = {
+        "search_profile": "quartz",
+        "vl_mode": "adaptive",
+        "penalty_mode": "GatedRefresh",
+        "halt_mode": "VOC",
+        "prior_refresh_temp": 1.0,
+    }
+    cfg_b = dict(reversed(list(cfg_a.items())))
+
+    assert ablation.controller_identity_hash(cfg_a) == ablation.controller_identity_hash(cfg_b)
+
+
+def test_controller_identity_hash_changes_with_any_identity_field():
+    """P5: each controller-identity field individually perturbs the hash."""
+    ablation = load_ablation_module()
+    base = {key: None for key in ablation.controller_identity_keys()}
+    base.update(
+        {
+            "search_profile": "quartz",
+            "penalty_mode": "GatedRefresh",
+            "halt_mode": "VOC",
+            "prior_refresh_temp": 1.0,
+        }
+    )
+    base_hash = ablation.controller_identity_hash(base)
+
+    for key in ablation.controller_identity_keys():
+        perturbed = dict(base)
+        perturbed[key] = "PERTURBED-VALUE"
+        assert (
+            ablation.controller_identity_hash(perturbed) != base_hash
+        ), f"hash should change when {key!r} changes"
+
+
+def test_controller_identity_ignores_unknown_keys():
+    """P5: keys outside the identity surface do not perturb the hash."""
+    ablation = load_ablation_module()
+    cfg = {"penalty_mode": "GatedRefresh", "halt_mode": "VOC"}
+    cfg_with_extras = dict(cfg, max_visits=400, eval_games=10, comment="aux")
+
+    assert ablation.controller_identity_hash(cfg) == ablation.controller_identity_hash(cfg_with_extras)
+
+
+def test_assert_single_axis_isolation_passes_when_only_axis_varies():
+    """P5: hash-modulo-axis is constant across rows of a single-axis preset."""
+    ablation = load_ablation_module()
+    base = {
+        "search_profile": "quartz",
+        "vl_mode": "adaptive",
+        "halt_mode": "Fixed",
+        "prior_refresh_temp": 1.0,
+        "hbar_penalty_cap": 0.3,
+    }
+    surfaces = {
+        "A1_legacy": dict(base, penalty_mode="Legacy"),
+        "A2_gated": dict(base, penalty_mode="GatedRefresh"),
+        "A3_pflip": dict(base, penalty_mode="PFlipMixture"),
+    }
+
+    ok, hashes = ablation.assert_single_axis_isolation(surfaces, ("penalty_mode",))
+
+    assert ok, f"single-axis preset should isolate penalty_mode, hashes={hashes}"
+    assert len(set(hashes.values())) == 1
+
+
+def test_assert_single_axis_isolation_fails_when_two_axes_vary():
+    """P5: two axes varying → not single-axis isolated."""
+    ablation = load_ablation_module()
+    base = {
+        "search_profile": "quartz",
+        "vl_mode": "adaptive",
+    }
+    surfaces = {
+        "row_a": dict(base, penalty_mode="GatedRefresh", halt_mode="Fixed"),
+        # halt_mode also drifts — should be detected
+        "row_b": dict(base, penalty_mode="GatedRefresh", halt_mode="VOC"),
+        "row_c": dict(base, penalty_mode="PFlipMixture", halt_mode="Fixed"),
+    }
+
+    ok, _ = ablation.assert_single_axis_isolation(surfaces, ("penalty_mode",))
+
+    assert not ok
+
+
 def test_smoke_count_sgd_rows_counts_only_loss_present_rows(tmp_path):
     """P3: count_sgd_rows counts non-null `loss` rows only."""
     smoke = load_smoke_module()
