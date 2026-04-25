@@ -1633,6 +1633,32 @@ struct QuartzCtrlInner {
     // v0.9.2: Defect D_t tracking (Theory §VI)
     prev_log_policy: Vec<f32>, // log(N_a/N_total) at previous check
     defect_value: f32,         // last computed D_t²
+    // P6 (audit_codex_20260425.md W8): per-check halt-decision telemetry.
+    // Appended to on every `should_stop()` call after the periodicity
+    // gate clears. Serialized via `halt_telemetry()` accessor for the
+    // search-result builder in mcts_server.rs.
+    halt_telemetry: Vec<HaltCheck>,
+}
+
+/// P6 (audit_codex_20260425.md W8): one record per `should_stop` call.
+/// `schema_version: 1` is published with this struct so wire-format
+/// changes can be detected by downstream consumers
+/// (`quartz/replay.py:_finalize_halt_trace`).
+#[derive(Clone, Debug, serde::Serialize)]
+pub struct HaltCheck {
+    pub schema_version: u8,
+    pub root_visits: u32,
+    pub elapsed_ms: u64,
+    pub p_flip: f32,
+    pub flip_stable: u32,
+    pub sigma_q: f32,
+    pub hbar_eff: f32,
+    pub voc_total: f32,
+    pub voc_focus: f32,
+    pub voc_expand: f32,
+    pub voc_merge: f32,
+    pub decision: &'static str,
+    pub triggered: bool,
 }
 
 pub struct QuartzController {
@@ -1665,9 +1691,15 @@ impl QuartzController {
                 sigma_response_count: 0,
                 prev_log_policy: Vec::new(),
                 defect_value: 0.0,
+                halt_telemetry: Vec::new(),
             }),
             cfg,
         }
+    }
+
+    /// P6: snapshot of recorded halt checks since controller creation.
+    pub fn halt_telemetry(&self) -> Vec<HaltCheck> {
+        self.inner.lock().unwrap().halt_telemetry.clone()
     }
     pub fn last_stats(&self) -> QuartzStats {
         self.inner.lock().unwrap().last_stats.clone()
@@ -1858,6 +1890,36 @@ impl QuartzController {
     }
 }
 
+/// P6 (audit_codex_20260425.md W8): append one HaltCheck record to the
+/// controller's per-call telemetry buffer. The buffer is bounded
+/// implicitly by the search budget — `should_stop` is called once per
+/// iteration, so for typical 15K-iter searches we record ≤ 15K items
+/// (~ 1 MiB peak at 64 B/record before the controller is dropped).
+fn record_halt_check(
+    g: &mut QuartzCtrlInner,
+    root_visits: u32,
+    elapsed_ms: u64,
+    decision: &'static str,
+    triggered: bool,
+) {
+    let stats = &g.last_stats;
+    g.halt_telemetry.push(HaltCheck {
+        schema_version: 1,
+        root_visits,
+        elapsed_ms,
+        p_flip: stats.p_flip,
+        flip_stable: stats.flip_stable,
+        sigma_q: stats.sigma_q,
+        hbar_eff: stats.hbar_eff,
+        voc_total: stats.unified.voc_total,
+        voc_focus: stats.unified.voc_focus,
+        voc_expand: stats.unified.voc_expand,
+        voc_merge: stats.unified.voc_merge,
+        decision,
+        triggered,
+    });
+}
+
 impl SearchController for QuartzController {
     fn should_stop(&self, root_visits: u32, elapsed_ms: u64) -> bool {
         // ── PR-1A: HaltMode 3-way branch ──
@@ -1868,24 +1930,33 @@ impl SearchController for QuartzController {
 
         // Common hard limits (apply to all modes)
         if root_visits >= self.max_visits {
-            self.inner.lock().unwrap().stop_reason = StopReason::BudgetExhausted {
+            let mut g = self.inner.lock().unwrap();
+            g.stop_reason = StopReason::BudgetExhausted {
                 iterations: root_visits,
             };
+            // P6: record terminal halt-check at the max_visits ceiling.
+            record_halt_check(&mut g, root_visits, elapsed_ms, "MaxVisits", true);
             return true;
         }
         if self.cfg.ctm_budget_ms > 0 && elapsed_ms > self.cfg.ctm_budget_ms * 3 {
-            self.inner.lock().unwrap().stop_reason = StopReason::TimeCapHit { elapsed_ms };
+            let mut g = self.inner.lock().unwrap();
+            g.stop_reason = StopReason::TimeCapHit { elapsed_ms };
+            record_halt_check(&mut g, root_visits, elapsed_ms, "TimeCapHit", true);
             return true;
         }
 
         // Fixed mode: only hard limits above, no adaptive stopping
         if let HaltMode::Fixed { budget } = self.cfg.halt_mode {
             if root_visits >= budget {
-                self.inner.lock().unwrap().stop_reason = StopReason::BudgetExhausted {
+                let mut g = self.inner.lock().unwrap();
+                g.stop_reason = StopReason::BudgetExhausted {
                     iterations: root_visits,
                 };
+                record_halt_check(&mut g, root_visits, elapsed_ms, "FixedBudget", true);
                 return true;
             }
+            // No record here — Fixed mode doesn't periodically inspect
+            // adaptive stats, so a per-tick HaltCheck would be noise.
             return false;
         }
 
@@ -1902,6 +1973,10 @@ impl SearchController for QuartzController {
             return false;
         }
 
+        // P6: classify this halt-check up front so a single record per
+        // periodic check can be appended whether or not we trigger.
+        let mut decision_tag: &'static str = "Pending";
+        let mut triggered = false;
         match self.cfg.halt_mode {
             HaltMode::SimpleThreshold => {
                 // Only P_flip convergence — ignore VOC cost term
@@ -1911,7 +1986,8 @@ impl SearchController for QuartzController {
                         p_flip: stats.p_flip,
                         stable_count: stats.flip_stable,
                     };
-                    return true;
+                    decision_tag = "Converged";
+                    triggered = true;
                 }
             }
             HaltMode::VOC => {
@@ -1921,13 +1997,15 @@ impl SearchController for QuartzController {
                         g.stop_reason = StopReason::VocNonPositive {
                             max_gvoc: stats.unified.voc_total,
                         };
+                        decision_tag = "VocNonPositive";
                     } else {
                         g.stop_reason = StopReason::Converged {
                             p_flip: stats.p_flip,
                             stable_count: stats.flip_stable,
                         };
+                        decision_tag = "Converged";
                     }
-                    return true;
+                    triggered = true;
                 }
             }
             HaltMode::ConfAdaptive {
@@ -1949,10 +2027,15 @@ impl SearchController for QuartzController {
                         let delta = eta * (actual - target) / target;
                         g.theta_conf = (g.theta_conf + delta).clamp(0.5, 0.99);
                     }
-                    return true;
+                    decision_tag = "Converged";
+                    triggered = true;
                 }
             }
             HaltMode::Fixed { .. } => unreachable!(), // handled above
+        }
+        record_halt_check(&mut g, root_visits, elapsed_ms, decision_tag, triggered);
+        if triggered {
+            return true;
         }
 
         false
@@ -2122,6 +2205,73 @@ mod tests {
         let cost_f = hbar * cost_base * 0.5;
         let cost_e = hbar * hbar * cost_base;
         assert!(cost_e > cost_f, "EXPAND costs more than FOCUS for ħ_eff=1");
+    }
+
+    #[test]
+    fn test_p6_halt_telemetry_records_max_visits_terminal() {
+        // P6 (audit_codex_20260425.md W8): hitting the max_visits ceiling
+        // appends a single HaltCheck with decision="MaxVisits", triggered=true.
+        let cfg = QuartzConfig::default();
+        let ctrl = QuartzController::new(10, cfg);
+        assert!(ctrl.should_stop(10, 0));
+        let tele = ctrl.halt_telemetry();
+        assert_eq!(tele.len(), 1);
+        let rec = &tele[0];
+        assert_eq!(rec.schema_version, 1);
+        assert_eq!(rec.root_visits, 10);
+        assert_eq!(rec.decision, "MaxVisits");
+        assert!(rec.triggered);
+    }
+
+    #[test]
+    fn test_p6_halt_telemetry_records_fixed_budget() {
+        // P6: HaltMode::Fixed records FixedBudget when its own budget hits
+        // before the controller's max_visits ceiling.
+        let cfg = QuartzConfig {
+            halt_mode: HaltMode::Fixed { budget: 5 },
+            ..QuartzConfig::default()
+        };
+        let ctrl = QuartzController::new(100, cfg);
+        // Below budget: no record (Fixed mode skips per-tick recording).
+        assert!(!ctrl.should_stop(2, 0));
+        assert_eq!(ctrl.halt_telemetry().len(), 0);
+        // At budget: triggered, record appended.
+        assert!(ctrl.should_stop(5, 0));
+        let tele = ctrl.halt_telemetry();
+        assert_eq!(tele.len(), 1);
+        assert_eq!(tele[0].decision, "FixedBudget");
+        assert!(tele[0].triggered);
+    }
+
+    #[test]
+    fn test_p6_halt_check_serializes_with_schema_version_1() {
+        // P6: JSON wire format must carry `schema_version: 1` for the
+        // Python aggregator. Asserts shape + presence of every advertised
+        // field.
+        let rec = HaltCheck {
+            schema_version: 1,
+            root_visits: 100,
+            elapsed_ms: 250,
+            p_flip: 0.05,
+            flip_stable: 4,
+            sigma_q: 0.12,
+            hbar_eff: 0.6,
+            voc_total: 0.04,
+            voc_focus: 0.02,
+            voc_expand: 0.01,
+            voc_merge: 0.01,
+            decision: "Converged",
+            triggered: true,
+        };
+        let json = serde_json::to_value(&rec).unwrap();
+        assert_eq!(json["schema_version"], 1);
+        for key in [
+            "root_visits", "elapsed_ms", "p_flip", "flip_stable", "sigma_q",
+            "hbar_eff", "voc_total", "voc_focus", "voc_expand", "voc_merge",
+            "decision", "triggered",
+        ] {
+            assert!(json.get(key).is_some(), "missing field {key}");
+        }
     }
 
     #[test]

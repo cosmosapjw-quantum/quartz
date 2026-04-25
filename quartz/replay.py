@@ -600,6 +600,15 @@ class ReplayMetrics:
         refresh_metric_present = 0
         penalty_metric_present = 0
         halt_metric_present = 0
+        # P6 (audit_codex_20260425.md W8): per-sample voc-channel
+        # accumulators. Mean / count are surfaced in the summary so
+        # ablation readers can see the QUARTZ-channel decomposition
+        # alongside p_flip and halt_reason histograms.
+        voc_total_samples = []
+        voc_focus_samples = []
+        voc_expand_samples = []
+        voc_merge_samples = []
+        controller_schema_versions: dict[str, int] = {}
         # Per-penalty-mode halt-trace accumulators — needed so ablation readers
         # can verify same-budget fairness across penalty modes (see W1/F1 in
         # the audit review: default halt is p_flip-mediated, so mode-specific
@@ -649,6 +658,20 @@ class ReplayMetrics:
                 prior_refresh_rates.append(float(ctrl["prior_refresh_rate"]))
             if ctrl.get("prior_q_divergence") is not None:
                 prior_q_divergences.append(float(ctrl["prior_q_divergence"]))
+            # P6: voc-channel accumulators + schema_version census.
+            if ctrl.get("voc_total") is not None:
+                voc_total_samples.append(float(ctrl["voc_total"]))
+            if ctrl.get("voc_focus") is not None:
+                voc_focus_samples.append(float(ctrl["voc_focus"]))
+            if ctrl.get("voc_expand") is not None:
+                voc_expand_samples.append(float(ctrl["voc_expand"]))
+            if ctrl.get("voc_merge") is not None:
+                voc_merge_samples.append(float(ctrl["voc_merge"]))
+            if ctrl.get("schema_version") is not None:
+                key = str(ctrl["schema_version"])
+                controller_schema_versions[key] = (
+                    int(controller_schema_versions.get(key, 0)) + 1
+                )
             if ctrl.get("root_only_shaping") is not None:
                 root_only_shaping_seen += 1
                 if bool(ctrl.get("root_only_shaping")):
@@ -717,6 +740,30 @@ class ReplayMetrics:
             "refresh_metric_coverage_frac": float(refresh_metric_present / max(sample_n, 1)),
             "penalty_metric_coverage_frac": float(penalty_metric_present / max(sample_n, 1)),
             "halt_trace": _finalize_halt_trace(halt_trace_per_mode),
+            # P6: voc-channel decomposition (mean across samples) and a
+            # schema_version census so a downstream consumer can fail
+            # fast on wire-format drift.
+            "mean_voc_total": (
+                float(sum(voc_total_samples) / len(voc_total_samples))
+                if voc_total_samples
+                else None
+            ),
+            "mean_voc_focus": (
+                float(sum(voc_focus_samples) / len(voc_focus_samples))
+                if voc_focus_samples
+                else None
+            ),
+            "mean_voc_expand": (
+                float(sum(voc_expand_samples) / len(voc_expand_samples))
+                if voc_expand_samples
+                else None
+            ),
+            "mean_voc_merge": (
+                float(sum(voc_merge_samples) / len(voc_merge_samples))
+                if voc_merge_samples
+                else None
+            ),
+            "controller_schema_versions": dict(controller_schema_versions),
         }
 
 

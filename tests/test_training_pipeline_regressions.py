@@ -284,6 +284,88 @@ def test_replay_search_summary_exposes_halt_reason_histogram():
     assert summary["penalty_metric_coverage_frac"] == pytest.approx(0.0)
 
 
+def test_p6_replay_summary_aggregates_voc_channels_and_schema_version():
+    """P6 (audit_codex_20260425.md W8): the replay summary must fold per-sample
+    voc_total / voc_focus / voc_expand / voc_merge channel decomposition and
+    surface a `controller_schema_versions` census so wire-format drift is
+    visible to ablation analysis.
+    """
+    az = load_training_module()
+    replay = az.ReplayBuffer(16)
+    state = np.zeros((3, 7, 7), dtype=np.float32)
+    policy = np.zeros(49, dtype=np.float32)
+    policy[4] = 1.0
+    replay.add(
+        state,
+        policy,
+        0.5,
+        metadata={
+            "search_manifest": {"profile": "quartz", "benchmark_safe": True},
+            "realized_budget": {"realized_iterations": 16},
+            "controller_summary": {
+                "schema_version": 1,
+                "p_flip": 0.1,
+                "voc_total": 0.04,
+                "voc_focus": 0.02,
+                "voc_expand": 0.01,
+                "voc_merge": 0.01,
+            },
+        },
+    )
+    replay.add(
+        state,
+        policy,
+        -0.5,
+        metadata={
+            "search_manifest": {"profile": "quartz", "benchmark_safe": True},
+            "realized_budget": {"realized_iterations": 12},
+            "controller_summary": {
+                "schema_version": 1,
+                "p_flip": 0.2,
+                "voc_total": 0.08,
+                "voc_focus": 0.04,
+                "voc_expand": 0.02,
+                "voc_merge": 0.02,
+            },
+        },
+    )
+
+    summary = az.ReplayMetrics.search_summary(replay, sample_n=2)
+
+    assert summary["mean_voc_total"] == pytest.approx(0.06)
+    assert summary["mean_voc_focus"] == pytest.approx(0.03)
+    assert summary["mean_voc_expand"] == pytest.approx(0.015)
+    assert summary["mean_voc_merge"] == pytest.approx(0.015)
+    assert summary["controller_schema_versions"] == {"1": 2}
+
+
+def test_p6_replay_summary_handles_missing_voc_fields():
+    """P6: pre-P6 wire format (no voc fields) yields None means without crashing."""
+    az = load_training_module()
+    replay = az.ReplayBuffer(16)
+    state = np.zeros((3, 7, 7), dtype=np.float32)
+    policy = np.zeros(49, dtype=np.float32)
+    policy[4] = 1.0
+    replay.add(
+        state,
+        policy,
+        0.0,
+        metadata={
+            "search_manifest": {"profile": "quartz", "benchmark_safe": True},
+            "realized_budget": {"realized_iterations": 8},
+            "controller_summary": {"p_flip": 0.05},  # no voc_*, no schema_version
+        },
+    )
+
+    summary = az.ReplayMetrics.search_summary(replay, sample_n=1)
+
+    assert summary["mean_voc_total"] is None
+    assert summary["mean_voc_focus"] is None
+    assert summary["mean_voc_expand"] is None
+    assert summary["mean_voc_merge"] is None
+    assert summary["controller_schema_versions"] == {}
+
+
 def test_runtime_support_should_use_async_pipeline_prefers_gpu_and_batching(monkeypatch):
     import quartz.runtime_support as runtime_support
 

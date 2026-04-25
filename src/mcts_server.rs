@@ -1351,11 +1351,29 @@ fn attach_search_metadata(
     if penalty_sum.is_none() {
         telemetry_missing_fields.push("penalty_sum");
     }
+    // P6 (audit_codex_20260425.md W8): VOC channel decomposition is the
+    // mechanism-level signal callers need to falsify "controller helps"
+    // claims. The fields below were already populated upstream (engine
+    // root_search_summary attaches them), so this block just plumbs them
+    // through the controller_summary view.
+    let voc_total = obj.get("voc_total").and_then(|v| v.as_f64()).unwrap_or(0.0);
+    let voc_focus = obj.get("voc_focus").and_then(|v| v.as_f64()).unwrap_or(0.0);
+    let voc_expand = obj.get("voc_expand").and_then(|v| v.as_f64()).unwrap_or(0.0);
+    let voc_merge = obj.get("voc_merge").and_then(|v| v.as_f64()).unwrap_or(0.0);
     let controller_summary = serde_json::json!({
+        // P6: schema_version pins the wire format for replay aggregator
+        // and downstream analysis (`quartz/replay.py:_finalize_halt_trace`).
+        // Bump when fields are added/removed in a non-backward-compatible
+        // way; readers must tolerate unknown extra fields.
+        "schema_version": 1,
         "p_flip": obj.get("p_flip").and_then(|v| v.as_f64()).unwrap_or(0.0),
         "value": obj.get("value").and_then(|v| v.as_f64()).unwrap_or(0.0),
         "sigma_q": obj.get("sigma_q").and_then(|v| v.as_f64()).unwrap_or(0.0),
         "hbar_eff": obj.get("hbar_eff").and_then(|v| v.as_f64()).unwrap_or(0.0),
+        "voc_total": voc_total,
+        "voc_focus": voc_focus,
+        "voc_expand": voc_expand,
+        "voc_merge": voc_merge,
         "dup_rate": obj.get("dup_rate").and_then(|v| v.as_f64()).unwrap_or(0.0),
         "max_pending": obj.get("max_pending").and_then(|v| v.as_u64()).unwrap_or(0),
         "avg_vvalue": obj.get("avg_vvalue").and_then(|v| v.as_f64()).unwrap_or(0.0),
