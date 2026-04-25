@@ -22,5 +22,9 @@ ndarray = { version = "0.16", optional = true }
 
 [profile.release]
 opt-level = 3
-lto = "thin"
+lto = "fat"
 codegen-units = 1
+# panic = "abort" intentionally NOT set: tests use catch_unwind / should_panic
+# in places, and some Python FFI consumers expect unwinding panics. If a future
+# audit confirms no live consumer relies on unwind, switching to abort would
+# save ~1-2% binary size with no runtime change.
