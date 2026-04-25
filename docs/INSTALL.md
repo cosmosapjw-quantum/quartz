@@ -70,6 +70,37 @@ This is the most maintainable local JAX route today. For older RDNA2 cards
 such as `RX 6950 XT (gfx1030)`, treat it as a best-effort setup rather than
 fully guaranteed support.
 
+### Known-degraded GPUs
+
+`quartz.system_runtime.configure_torch_rocm_runtime()` detects the
+following GPU names at startup and silently downgrades the BLAS backend
+from `hipBLASLt` to `hipBLAS`, because `hipBLASLt` does not support
+these architectures:
+
+- `gfx1030` family (RDNA2)
+- `RX 6950 XT`, `RX 6900 XT`, `RX 6800 XT`
+
+When the downgrade fires, QUARTZ now prints a one-line banner on stderr
+so the user can tell that the degraded path was taken:
+
+```text
+[quartz] ROCm on AMD Radeon RX 6950 XT: hipBLASLt unsupported — downgraded
+to hipBLAS. Expect 30-50% throughput vs CUDA-equivalent; see docs/INSTALL.md
+§ Known-degraded GPUs.
+```
+
+Set `QUARTZ_SILENCE_ROCM_BANNER=1` to suppress the banner in scripted runs.
+
+Practical notes:
+
+- `hipBLAS` matmul throughput is roughly 30-50% of a comparable NVIDIA
+  CUDA+cuBLASLt card. Training wall-clock time for Gomoku-15 / Go-9 /
+  chess at meaningful batch sizes will be proportionally longer.
+- For controlled benchmark runs, prefer a CUDA host or be explicit about
+  the degraded-path caveat in the published protocol.
+- `torch.compile` is not enabled by default in the training loop; no
+  CUDA-graph capture path is implemented today.
+
 Important:
 
 - AMD's current Radeon Linux documentation describes JAX support as

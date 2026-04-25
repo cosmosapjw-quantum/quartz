@@ -211,6 +211,64 @@ STUDY_PRESETS = {
     },
 }
 
+# Presets whose design goal is per-factor controller attribution.
+# For these presets the arena comparison is only credible when the effective
+# per-move search budget is uniform across modes. Because the default halt
+# policy on the Rust side is p_flip-mediated (VOC), penalty-mode choice can
+# silently change the halt step, which leaks budget into the mode-level
+# comparison. `emit_attribution_halt_guard()` below warns at study launch
+# and tags each attribution eval manifest so downstream analysis can verify
+# budget-fairness via the `halt_trace` block now emitted in replay
+# search_summary (see quartz/replay.py _finalize_halt_trace).
+CONTROLLER_ATTRIBUTION_PRESETS = frozenset({"controller_axes", "controller_factorial"})
+
+
+def emit_attribution_halt_guard(preset_name: str, stream=None) -> None:
+    """Warn at study launch when a controller-attribution preset is used.
+
+    The warning is intentionally loud and points the user at the `halt_trace`
+    diagnostic in each evaluation_matrix row so they can audit same-budget
+    fairness empirically, not assume it.
+    """
+    if preset_name not in CONTROLLER_ATTRIBUTION_PRESETS:
+        return
+    if stream is None:
+        stream = sys.stderr
+    print(
+        f"[ablation_study] attribution preset `{preset_name}` selected.\n"
+        f"                 Controller attribution requires same-budget fairness across\n"
+        f"                 penalty modes. The default Rust halt policy is p_flip-mediated\n"
+        f"                 and can leak budget into the mode comparison (see audit W1).\n"
+        f"                 The evaluation_matrix will now include a `halt_trace` block\n"
+        f"                 per eval_condition (replay search_summary). After the run,\n"
+        f"                 inspect halt_trace.root_visits.mean across modes:\n"
+        f"                   * >5%% relative spread -> budget leakage; re-run with an\n"
+        f"                     explicit fixed `--iters N` for all conditions, or pin\n"
+        f"                     halt_mode=fixed on the Rust side.\n"
+        f"                   * <5%% relative spread -> attribution is budget-fair.\n",
+        file=stream,
+        flush=True,
+    )
+
+
+def attribution_preset_tag(preset_name: str) -> dict:
+    """Return a small metadata blob identifying attribution guard status.
+
+    Stamped into study_manifest.json so readers and CI gates can tell whether
+    the run intended per-factor attribution and therefore should be audited
+    against the halt_trace fairness check.
+    """
+    return {
+        "attribution_preset": bool(preset_name in CONTROLLER_ATTRIBUTION_PRESETS),
+        "preset": preset_name,
+        "halt_fairness_check": (
+            "inspect evaluation_matrix[*].replay_search_summary.halt_trace "
+            "for equal root_visits.mean across penalty modes"
+            if preset_name in CONTROLLER_ATTRIBUTION_PRESETS
+            else "n/a (not an attribution preset)"
+        ),
+    }
+
 
 def json_dump(path: Path, payload: dict) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
@@ -563,6 +621,7 @@ def build_study_manifest(args: argparse.Namespace) -> dict:
         "runtime_contract": runtime_contract,
         "runtime_contract_hash": stable_json_hash(runtime_contract),
         "started_at": time.strftime("%Y-%m-%d %H:%M:%S"),
+        "attribution_guard": attribution_preset_tag(args.study),
     }
     return manifest
 
@@ -883,6 +942,34 @@ def aggregate_matches(model_runs: list[dict], matches: list[dict]) -> dict:
     }
 
 
+def _across_seed_summary(values: list[float]) -> dict:
+    """Mean + std + 95% CI (normal approximation) for across-seed aggregates.
+
+    Uses the normal approximation for simplicity; the CI is only meaningful
+    when n >= 2, and wide for small n. Readers should inspect `n` before
+    drawing conclusions.
+    """
+    if not values:
+        return {"n": 0, "mean": None, "std": None, "sem": None, "ci95": None}
+    n = len(values)
+    mean = float(sum(values) / n)
+    if n < 2:
+        return {"n": n, "mean": mean, "std": None, "sem": None, "ci95": None}
+    # Sample standard deviation (Bessel's correction).
+    var = sum((float(v) - mean) ** 2 for v in values) / (n - 1)
+    std = var ** 0.5
+    sem = std / (n ** 0.5)
+    # 1.96 × SEM is the 95% normal-approx CI half-width; cf. score_rate_ci.
+    half = 1.96 * sem
+    return {
+        "n": n,
+        "mean": mean,
+        "std": float(std),
+        "sem": float(sem),
+        "ci95": [float(mean - half), float(mean + half)],
+    }
+
+
 def summarize_conditions(runs: list[dict], eval_payload: dict | None = None) -> dict:
     training = {}
     for run in runs:
@@ -895,37 +982,40 @@ def summarize_conditions(runs: list[dict], eval_payload: dict | None = None) -> 
             {
                 "condition": cond,
                 "runs": 0,
-                "sum_elo": 0.0,
-                "n_elo": 0,
-                "sum_score_rate": 0.0,
-                "n_score_rate": 0,
-                "sum_loss": 0.0,
-                "n_loss": 0,
+                "values_elo": [],
+                "values_score_rate": [],
+                "values_loss": [],
             },
         )
         row["runs"] += 1
         elo = metrics.get("published_elo")
         if elo is not None:
-            row["sum_elo"] += float(elo)
-            row["n_elo"] += 1
+            row["values_elo"].append(float(elo))
         score_rate = metrics.get("score_rate")
         if score_rate is not None:
-            row["sum_score_rate"] += float(score_rate)
-            row["n_score_rate"] += 1
+            row["values_score_rate"].append(float(score_rate))
         loss = metrics.get("loss")
         if loss is not None:
-            row["sum_loss"] += float(loss)
-            row["n_loss"] += 1
+            row["values_loss"].append(float(loss))
 
     training_rows = []
     for row in training.values():
+        elo_summary = _across_seed_summary(row["values_elo"])
+        score_summary = _across_seed_summary(row["values_score_rate"])
+        loss_summary = _across_seed_summary(row["values_loss"])
         training_rows.append(
             {
                 "condition": row["condition"],
                 "runs": row["runs"],
-                "mean_elo": (row["sum_elo"] / row["n_elo"]) if row["n_elo"] else None,
-                "mean_score_rate": (row["sum_score_rate"] / row["n_score_rate"]) if row["n_score_rate"] else None,
-                "mean_loss": (row["sum_loss"] / row["n_loss"]) if row["n_loss"] else None,
+                # Backwards-compatible mean-only fields kept so existing readers
+                # (tests, reports) continue to parse. The new `*_ci` block
+                # carries the across-seed std / SEM / 95% CI.
+                "mean_elo": elo_summary["mean"],
+                "mean_score_rate": score_summary["mean"],
+                "mean_loss": loss_summary["mean"],
+                "elo_ci": elo_summary,
+                "score_rate_ci": score_summary,
+                "loss_ci": loss_summary,
             }
         )
     training_rows.sort(
@@ -1538,6 +1628,7 @@ def main() -> None:
 
     base_dir = Path(args.output) / args.game
     base_dir.mkdir(parents=True, exist_ok=True)
+    emit_attribution_halt_guard(args.study)
     manifest = build_study_manifest(args)
     json_dump(base_dir / "study_manifest.json", manifest)
     train_conditions = manifest["train_conditions"]

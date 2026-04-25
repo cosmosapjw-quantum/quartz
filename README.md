@@ -185,10 +185,19 @@ Python training loop
 Repository-local Gomoku7 evidence currently points to:
 
 - `A1_legacy_base` as the safest existing default among the hand-written anchors
-- a stronger tuned no-refresh legacy-family variant from Optuna
-  (`T0010_cf38467f`) as the current top low-cost sweep result
+  defined in `scripts/ablation_study.py`
+- a tuned no-refresh legacy-family Optuna candidate as the current top
+  low-cost sweep result; the specific row (`T0010_cf38467f` in prior notes)
+  is a one-off sweep output and is not re-runnable from the in-repo
+  `results/` tree
 - `prior refresh` as an experimental axis worth preserving, not the default
   search profile to ship
+
+These are engineering signals, not multi-seed publication-grade claims.
+Cross-seed CIs and pinned regression positions are not yet part of the
+default ablation harness; see
+`audit_codex_20260423.md` and the internal audit review for the current
+set of outstanding caveats.
 
 ## Key Features
 
@@ -258,8 +267,13 @@ Repository-local Gomoku7 evidence currently points to:
   isolation.
 - Raw external chess FEN alone does not reconstruct prior repetition history;
   exactness for repeated search requires the returned history token path
-- JAX backend is available for training, but Rust self-play/eval and Gomocup
-  deployment paths do not use JAX inference
+- JAX backend is only nominally separate today: `quartz/jax_training_runtime.py`
+  routes through the same `MainRuntimeHooks` / `train_loop` / `evaluator_runtime`
+  as the PyTorch path, and self-play / eval inference into the Rust server
+  still flows through the torch model-forward path regardless of
+  `--backend jax`. Rust self-play / eval and Gomocup deployment paths also
+  do not use JAX inference. Treat `--backend jax` as an experimental surface,
+  not as a fully independent backend today.
 - Gomocup ONNX deployment requires building the Rust binary with `--features onnx`
 - Prior refresh is implemented, but current short-budget Gomoku7 controller
   sweeps do not support enabling it by default

@@ -1822,7 +1822,10 @@ fn search_gomoku15(line: &str, variant: GomokuVariant, iters: u32) -> String {
     } else {
         Gomoku15::new(variant)
     };
-    let config = gomoku15_quartz(variant);
+    // Honor search_profile / penalty_mode / vl_mode / etc. overrides so the
+    // regression test can pin per-mode behavior from the JSON request.
+    let overrides = parse_search_overrides(line);
+    let config = apply_search_overrides(gomoku15_quartz(variant), &overrides);
     let qcfg = config.quartz.clone().unwrap();
     let eval: Arc<ShortRollout> = Arc::new(ShortRollout::new(12));
     let engine = MctsEngine::new(state, eval, config);

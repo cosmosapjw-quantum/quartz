@@ -280,7 +280,14 @@ fn ablation_puct_score_with_parent_sqrt(
         let rho_max = 0.3_f32;
         let rho_t = rho_max * (stats.p_flip / flip_thresh).min(1.0);
 
-        let tau = 0.5_f32;
+        // Honor config.prior_refresh_temp; fall back to the legacy 0.5 only when
+        // the knob is explicitly zeroed (< 0.01), matching the GatedRefresh
+        // manual_mode convention at the bottom of this file.
+        let tau = if qcfg.prior_refresh_temp > 0.01 {
+            qcfg.prior_refresh_temp
+        } else {
+            0.5_f32
+        };
         let effective_prior = if n_raw > 0 && rho_t > 1e-4 {
             let log_p0 = prior.max(1e-8).ln();
             let log_pt = (1.0 - rho_t) * log_p0 + rho_t * q_eff / tau;
@@ -327,7 +334,13 @@ fn ablation_puct_score_with_parent_sqrt(
 
         let effective_prior = if n_raw > 0 && (rho_q + rho_vf) > 1e-4 {
             let log_p0 = prior.max(1e-8).ln();
-            let tau_q = 0.5_f32;
+            // Q-refresh temperature: follow config.prior_refresh_temp; fall back
+            // to the legacy 0.5 only when the knob is explicitly zeroed (< 0.01).
+            let tau_q = if qcfg.prior_refresh_temp > 0.01 {
+                qcfg.prior_refresh_temp
+            } else {
+                0.5_f32
+            };
             let q_signal = q_eff / tau_q;
 
             let n_a = n_raw as f32;

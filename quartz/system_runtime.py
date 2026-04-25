@@ -136,8 +136,10 @@ def configure_torch_rocm_runtime(hw):
     preferred_blas = getattr(torch.backends.cuda, "preferred_blas_library", None)
     if preferred_blas is None:
         return
+    downgraded = False
     try:
         preferred_blas("hipblas")
+        downgraded = True
     except Exception:
         pass
     warnings.filterwarnings(
@@ -145,6 +147,20 @@ def configure_torch_rocm_runtime(hw):
         message="Attempting to use hipBLASLt on an unsupported architecture! Overriding blas backend to hipblas",
         category=UserWarning,
     )
+    # Print an explicit one-line banner so users on a known-degraded
+    # RDNA2 / gfx1030 GPU understand which BLAS backend is actually
+    # running. This is documented in docs/INSTALL.md under "Known-degraded
+    # GPUs". The environment variable QUARTZ_SILENCE_ROCM_BANNER=1 can
+    # opt out for scripted runs where stderr chatter is undesirable.
+    if downgraded and not os.environ.get("QUARTZ_SILENCE_ROCM_BANNER"):
+        label = hw.gpu_name or "unknown AMD GPU"
+        print(
+            f"[quartz] ROCm on {label}: hipBLASLt unsupported — "
+            f"downgraded to hipBLAS. Expect 30-50% throughput vs CUDA-equivalent; "
+            f"see docs/INSTALL.md § Known-degraded GPUs.",
+            file=sys.stderr,
+            flush=True,
+        )
 
 
 def recommend_eval_parallel_workers(hw, cfg, eval_games, rust_ok):

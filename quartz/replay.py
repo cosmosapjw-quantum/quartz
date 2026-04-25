@@ -193,21 +193,41 @@ class ReplayBuffer:
                 self._make_sparse_example(state, policy_entries, value, n_actions, metadata=metadata)
             )
 
-    def add_game(self, states, policies, outcome, start_player=1, traces=None):
-        """Add a full game using side-to-move values at each ply."""
+    @staticmethod
+    def _stamp_actor_generation(metadata, actor_generation):
+        # Always return a dict so downstream ReplayExample stores a concrete
+        # metadata object rather than None. When actor_generation is not
+        # supplied we leave the field out rather than stamping 0, so readers
+        # can tell "tagged with generation 0" from "not tagged at all".
+        base = dict(metadata or {})
+        if actor_generation is not None:
+            base["actor_generation"] = int(actor_generation)
+        return base
+
+    def add_game(self, states, policies, outcome, start_player=1, traces=None, actor_generation=None):
+        """Add a full game using side-to-move values at each ply.
+
+        `actor_generation`, when provided, is stamped into every per-sample
+        metadata dict so the replay buffer's samples remain traceable to the
+        exact actor checkpoint that produced them. This lets downstream
+        analysis draw an actor-generation freshness histogram for each
+        learner step.
+        """
         with self._lock:
             for i, (state, policy) in enumerate(zip(states, policies)):
                 player_to_move = start_player if (i % 2 == 0) else -start_player
                 value = outcome * player_to_move
                 metadata = traces[i] if traces is not None and i < len(traces) else None
+                metadata = self._stamp_actor_generation(metadata, actor_generation)
                 self.buf.append(self._make_example(state, policy, value, metadata=metadata))
 
-    def add_sparse_game(self, states, policies, outcome, n_actions, start_player=1, traces=None):
+    def add_sparse_game(self, states, policies, outcome, n_actions, start_player=1, traces=None, actor_generation=None):
         with self._lock:
             for i, (state, policy) in enumerate(zip(states, policies)):
                 player_to_move = start_player if (i % 2 == 0) else -start_player
                 value = outcome * player_to_move
                 metadata = traces[i] if traces is not None and i < len(traces) else None
+                metadata = self._stamp_actor_generation(metadata, actor_generation)
                 self.buf.append(
                     self._make_sparse_example(state, policy, value, n_actions, metadata=metadata)
                 )
@@ -413,6 +433,57 @@ def collate_replay_samples(batch):
     return states, policies, values
 
 
+def _percentile(sorted_values, p):
+    # Linear interpolation percentile on a pre-sorted list; p in [0, 100].
+    if not sorted_values:
+        return None
+    if len(sorted_values) == 1:
+        return float(sorted_values[0])
+    rank = (p / 100.0) * (len(sorted_values) - 1)
+    lo = int(rank)
+    hi = min(lo + 1, len(sorted_values) - 1)
+    frac = rank - lo
+    return float(sorted_values[lo] * (1.0 - frac) + sorted_values[hi] * frac)
+
+
+def _summarize_sample(values):
+    if not values:
+        return None
+    sv = sorted(float(x) for x in values)
+    total = sum(sv)
+    n = len(sv)
+    return {
+        "n": n,
+        "min": float(sv[0]),
+        "max": float(sv[-1]),
+        "mean": float(total / n),
+        "p50": _percentile(sv, 50.0),
+        "p95": _percentile(sv, 95.0),
+    }
+
+
+def _finalize_halt_trace(per_mode):
+    """Turn the per-penalty-mode accumulator into a disk-serializable block.
+
+    Emits, per penalty mode actually observed, the halt-step distribution
+    (root visits at halt), the p_flip distribution at halt, and the stop-reason
+    counts. Ablation readers can use this to verify budget-fairness across
+    modes — e.g., if Legacy stops at mean 400 visits and PFlipMixture at
+    mean 180, the "same budget" claim is broken for that run.
+    """
+    out = {}
+    for mode_key, bucket in per_mode.items():
+        if bucket["moves"] <= 0:
+            continue
+        out[str(mode_key)] = {
+            "moves": int(bucket["moves"]),
+            "root_visits": _summarize_sample(bucket["root_visits"]),
+            "p_flip_at_halt": _summarize_sample(bucket["p_flip_at_halt"]),
+            "stop_reasons": dict(bucket["stop_reasons"]),
+        }
+    return out
+
+
 class ReplayMetrics:
     """Track replay buffer health metrics."""
 
@@ -440,6 +511,33 @@ class ReplayMetrics:
     @staticmethod
     def freshness(n_new, replay_size):
         return n_new / max(replay_size, 1)
+
+    @staticmethod
+    def actor_generation_histogram(replay, sample_n=200):
+        """Count samples per `actor_generation` tag in a random subsample.
+
+        Paired with the `actor_generation` stamped at `add_game()` time, this
+        lets a training-log consumer draw the distribution of actor identities
+        currently influencing SGD — e.g. "iteration 7 trained on samples from
+        generations {5: 12, 6: 60, 7: 128}". Samples without the tag are
+        counted under the key `"untagged"`.
+        """
+        if len(replay) <= 0:
+            return {}
+        sample_n = min(int(sample_n), len(replay))
+        if sample_n <= 0:
+            return {}
+        indices = random.sample(range(len(replay)), sample_n)
+        examples = ReplayMetrics._examples_at_indices(replay, indices)
+        hist: dict[str, int] = {}
+        for sample in examples:
+            gen_key = "untagged"
+            if isinstance(sample, ReplayExample):
+                gen = sample.metadata.get("actor_generation") if sample.metadata else None
+                if gen is not None:
+                    gen_key = str(int(gen))
+            hist[gen_key] = hist.get(gen_key, 0) + 1
+        return hist
 
     @staticmethod
     def policy_entropy(replay, sample_n=100):
@@ -502,6 +600,23 @@ class ReplayMetrics:
         refresh_metric_present = 0
         penalty_metric_present = 0
         halt_metric_present = 0
+        # Per-penalty-mode halt-trace accumulators — needed so ablation readers
+        # can verify same-budget fairness across penalty modes (see W1/F1 in
+        # the audit review: default halt is p_flip-mediated, so mode-specific
+        # realized_iterations distributions can reveal budget leakage).
+        halt_trace_per_mode: dict[str, dict] = {}
+
+        def _trace_bucket(mode_key: str) -> dict:
+            bucket = halt_trace_per_mode.get(mode_key)
+            if bucket is None:
+                bucket = {
+                    "moves": 0,
+                    "root_visits": [],
+                    "p_flip_at_halt": [],
+                    "stop_reasons": {},
+                }
+                halt_trace_per_mode[mode_key] = bucket
+            return bucket
         for sample in examples:
             metadata = sample.metadata if isinstance(sample, ReplayExample) else {}
             metadata = metadata or {}
@@ -550,6 +665,23 @@ class ReplayMetrics:
                 if stop_reason:
                     halt_metric_present += 1
                     halt_reason_hist[str(stop_reason)] = int(halt_reason_hist.get(str(stop_reason), 0)) + 1
+            # Per-penalty-mode halt-trace bookkeeping. This is auditable
+            # evidence for the budget-fairness check across controller modes.
+            mode_key = str(penalty_mode) if penalty_mode else "unknown"
+            realized = metadata.get("realized_budget") or {}
+            rv = realized.get("realized_iterations")
+            pflip_at_halt = ctrl.get("p_flip")
+            stop_reason_tag = ctrl.get("stop_reason") or metadata.get("stop_reason")
+            if rv is not None or pflip_at_halt is not None or stop_reason_tag:
+                bucket = _trace_bucket(mode_key)
+                bucket["moves"] += 1
+                if rv is not None:
+                    bucket["root_visits"].append(float(rv))
+                if pflip_at_halt is not None:
+                    bucket["p_flip_at_halt"].append(float(pflip_at_halt))
+                if stop_reason_tag:
+                    key = str(stop_reason_tag)
+                    bucket["stop_reasons"][key] = int(bucket["stop_reasons"].get(key, 0)) + 1
         return {
             "samples": sample_n,
             "search_profile_counts": profile_counts,
@@ -584,6 +716,7 @@ class ReplayMetrics:
             "halt_metric_coverage_frac": float(halt_metric_present / max(sample_n, 1)),
             "refresh_metric_coverage_frac": float(refresh_metric_present / max(sample_n, 1)),
             "penalty_metric_coverage_frac": float(penalty_metric_present / max(sample_n, 1)),
+            "halt_trace": _finalize_halt_trace(halt_trace_per_mode),
         }
 
 

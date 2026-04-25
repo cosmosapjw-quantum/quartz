@@ -862,8 +862,15 @@ def run_training_main(args, ctx: PreparedTrainingContext, runtime_hooks: MainRun
             states, policies, outcomes, traces = runtime_hooks.selfplay_rust_nn_batched(
                 cfg, actor_source, device, cfg["games"], args.rust_binary, parallel=cfg.get("selfplay_parallel", 4)
             )
+            # In the inline path, the actor producing these games is the
+            # learner's current actor at the start of this iteration. Use
+            # `iteration` as the actor_generation tag so replay samples are
+            # traceable to the learner step that produced them.
             for gs, gp, out, trace in zip(states, policies, outcomes, traces):
-                replay.add_game(gs, gp, out, traces=trace)
+                replay.add_game(
+                    gs, gp, out, traces=trace,
+                    actor_generation=int(iteration),
+                )
                 n_new += len(gs)
             all_pflips = [t.get("p_flip", 0) for tr in traces for t in tr if t]
             avg_pflip = sum(all_pflips) / max(len(all_pflips), 1) if all_pflips else 0
@@ -880,6 +887,13 @@ def run_training_main(args, ctx: PreparedTrainingContext, runtime_hooks: MainRun
                 elapsed = time.time() - t0
                 entry.update(
                     {
+                        # Always emit these three fields on every iteration so
+                        # train_log.jsonl parses as a time series without special-
+                        # casing replay-starved / waiting rows.
+                        "loss": None,
+                        "train_executed": False,
+                        "train_steps": 0,
+                        "planned_train_steps": train_steps,
                         "replay": len(replay),
                         "new_pos": n_new,
                         "time_s": round(elapsed, 1),
@@ -898,6 +912,17 @@ def run_training_main(args, ctx: PreparedTrainingContext, runtime_hooks: MainRun
                 elapsed = time.time() - t0
                 if outer_stopper:
                     should_early_stop = outer_stopper.step(avg_loss)
+                # Current actor identity: for the inline path the current
+                # iteration is the producing actor generation; for the
+                # concurrent path, bg_worker tracks its own generation
+                # independently of the learner step counter. Use getattr
+                # fallback so mock SelfPlayWorker objects in tests do not
+                # need to implement the attribute.
+                current_actor_generation = int(
+                    getattr(bg_worker, "actor_generation", iteration)
+                    if bg_worker is not None
+                    else iteration
+                )
                 entry.update(
                     {
                         "loss": round(avg_loss, 4),
@@ -906,6 +931,7 @@ def run_training_main(args, ctx: PreparedTrainingContext, runtime_hooks: MainRun
                         "loss_ema": runtime_hooks.round_or_none(outer_stopper.loss_ema if outer_stopper else None),
                         "replay": len(replay),
                         "new_pos": n_new,
+                        "train_executed": bool(executed_steps > 0),
                         "train_steps": executed_steps,
                         "planned_train_steps": train_steps,
                         "time_s": round(elapsed, 1),
@@ -915,6 +941,14 @@ def run_training_main(args, ctx: PreparedTrainingContext, runtime_hooks: MainRun
                         "policy_entropy": round(runtime_hooks.replay_metrics.policy_entropy(replay), 3),
                         "value_std": round(runtime_hooks.replay_metrics.value_std(replay), 4),
                         "replay_search_summary": runtime_hooks.replay_metrics.search_summary(replay),
+                        "actor_generation": current_actor_generation,
+                        "replay_actor_gen_hist": (
+                            # Not all test stubs provide this helper; fall back
+                            # to an empty histogram when it is unavailable.
+                            runtime_hooks.replay_metrics.actor_generation_histogram(replay)
+                            if hasattr(runtime_hooks.replay_metrics, "actor_generation_histogram")
+                            else {}
+                        ),
                     }
                 )
                 if inner_stop is not None:
@@ -930,6 +964,12 @@ def run_training_main(args, ctx: PreparedTrainingContext, runtime_hooks: MainRun
             elapsed = time.time() - t0
             entry.update(
                 {
+                    # Always emit loss / train_executed / train_steps so
+                    # train_log.jsonl parses as a uniform time series.
+                    "loss": None,
+                    "train_executed": False,
+                    "train_steps": 0,
+                    "planned_train_steps": 0,
                     "replay": len(replay),
                     "new_pos": n_new,
                     "time_s": round(elapsed, 1),

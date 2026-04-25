@@ -2100,9 +2100,21 @@ class SelfPlayWorker:
         self._last_error = None
         self._consecutive_errors = 0
         self._last_plan = None
+        # Monotonically increasing counter identifying which learner checkpoint
+        # the current `self._model` clone was derived from. Iteration 0 is the
+        # initial clone; each successful `update_model()` increments. Replay
+        # samples produced by this worker inherit this value in their metadata,
+        # so downstream analysis can trace an arena outcome back to the actor
+        # identity that produced its training samples.
+        self._actor_generation = 0
 
     def update_model(self, model):
         self._model = self._clone_actor_model(model)
+        self._actor_generation += 1
+
+    @property
+    def actor_generation(self) -> int:
+        return self._actor_generation
 
     def _cancel_active_search(self, *, kill_proc=False):
         proc = self._active_proc
@@ -2242,9 +2254,18 @@ class SelfPlayWorker:
                     chunk_games = min(remaining, int(plan.get("games_per_call", parallel)))
                     streamed_positions = 0
 
+                    # Capture the worker's actor_generation at the start of
+                    # this chunk. All samples produced by the chunk inherit
+                    # that generation even if update_model() fires concurrently
+                    # — this keeps per-chunk accounting consistent.
+                    chunk_actor_generation = self._actor_generation
+
                     def _on_game_stream(gs, gp, out, traces):
                         nonlocal n_new, streamed_positions
-                        self.replay.add_game(gs, gp, out, traces=traces)
+                        self.replay.add_game(
+                            gs, gp, out, traces=traces,
+                            actor_generation=chunk_actor_generation,
+                        )
                         n_new += len(gs)
                         streamed_positions += len(gs)
                         self._last_progress_ts = time.time()
@@ -2271,7 +2292,10 @@ class SelfPlayWorker:
                     chunk_positions = streamed_positions
                     if self.cfg.get("_selfplay_runner_mode") != "rust_selfplay_state_machine":
                         for gs, gp, out, trace in zip(states, policies, outcomes, traces):
-                            self.replay.add_game(gs, gp, out, traces=trace)
+                            self.replay.add_game(
+                                gs, gp, out, traces=trace,
+                                actor_generation=chunk_actor_generation,
+                            )
                             n_new += len(gs)
                             chunk_positions += len(gs)
                     if chunk_positions > 0:

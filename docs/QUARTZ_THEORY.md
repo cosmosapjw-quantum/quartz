@@ -73,7 +73,12 @@ In `src/mcts/select.rs`, `GatedRefreshLegacy` does:
 - penalty = `effective_penalty_v2(N_a, O_a, hbar_penalty_cap)`
 - compute a refresh gate from `P_flip`
 - set `rho_t = rho_max * min(P_flip / flip_thresh, 1)`
-- mix the original prior with a Q-based signal using fixed `tau = 0.5`
+- mix the original prior with a Q-based signal using `tau`. Historically
+  this was a hardcoded `tau = 0.5`; it now follows `config.prior_refresh_temp`
+  and falls back to the legacy `0.5` only when that knob is explicitly
+  zeroed (`< 0.01`). `PenaltyMode::PFlipMixture`'s Q-refresh branch honors
+  the same field, so `prior_refresh_temp` sweeps against either of those
+  two modes now report real effects instead of silent nulls.
 
 Conceptually:
 
