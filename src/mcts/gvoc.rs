@@ -21,9 +21,8 @@
 //!    - `gvoc_score(s)` = VOC(s) / (N(s)+1): 방문당 기대 정보이득
 //!    - 높은 노드에 더 많은 simulations 집중 (root에서 제어)
 
-use std::sync::Arc;
 
-use crate::mcts::node::MctsNode;
+use crate::mcts::node::{ArenaRef, MctsNode};
 use crate::mcts::quartz::{compute_quartz_stats, QuartzConfig, QuartzStats};
 
 // ─────────────────────────────────────────────
@@ -93,7 +92,7 @@ impl GvocState {
     /// 매 iteration 후 호출 — VOC 기반 n_visible 조정
     pub fn update<M: Copy + Send + Sync + 'static>(
         &mut self,
-        root: &Arc<MctsNode<M>>,
+        root: &ArenaRef<MctsNode<M>>,
         n_total: usize,
         qcfg: &QuartzConfig,
     ) {

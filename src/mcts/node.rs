@@ -20,7 +20,105 @@ use std::sync::atomic::{AtomicI32, AtomicU32, AtomicU64, Ordering};
 // is ~5% wall-clock. Other RwLock users in the engine (e.g. quartz_cache in
 // mcts/mod.rs) deliberately keep std::sync::RwLock and are unchanged.
 use parking_lot::RwLock;
-use std::sync::{Arc, OnceLock};
+use std::marker::PhantomData;
+use std::ops::Deref;
+use std::ptr::NonNull;
+use std::sync::OnceLock;
+
+// ─────────────────────────────────────────────
+// § ArenaRef<T> — bumpalo-arena-allocated node reference
+// ─────────────────────────────────────────────
+//
+// Replaces Arc<MctsNode<M>> (Phase 3, 2026-04-25). Per the audit, 760 K
+// `Arc<MctsNode>` allocations accounted for 86 % of remaining heap traffic
+// and 51 % of all D1 read-misses on scenario A. Moving node bodies into a
+// per-bucket `bumpalo::Bump` (see `mcts::tt::ArenaPool`) eliminates the
+// global-allocator round-trip and packs node bodies contiguously per bucket.
+//
+// Safety invariant
+//   The pointed-to `MctsNode` lives in a `bumpalo::Bump` that is owned by
+//   the `MctsEngine` via `Arc<ArenaPool<M>>`. All `ArenaRef<MctsNode>`
+//   instances in the program are reachable only from the engine's TT or
+//   from `Vec<MctsEdge>` lists hanging off TT-stored nodes. The engine is
+//   declared with `tt` BEFORE `pool`, so on `MctsEngine` drop the TT (and
+//   its node references) drops first, then the pool frees the Bumps. No
+//   dangling reference can escape the engine.
+//
+// Bumpalo guarantees: allocations never move; `Bump::alloc` returns
+// addresses that remain valid until the Bump is dropped or `reset()` is
+// called (we never call `reset` on engine-owned pools).
+//
+// Sync: `MctsNode<M>` is `Sync` (atomics + parking_lot::RwLock with
+// inline contents). A shared raw pointer to a `Sync` type is itself `Sync`,
+// so the unsafe impls below are sound.
+
+/// A non-owning reference to an `MctsNode` allocated in an `ArenaPool`'s
+/// bumpalo arena. Cheap to copy; does not refcount. The arena keeps the
+/// pointee alive for as long as `Arc<ArenaPool<M>>` is held by the engine.
+pub struct ArenaRef<T> {
+    ptr: NonNull<T>,
+    // `*const T` carries no lifetime obligation (so `T: 'static` is not
+    // required at the type level). Send/Sync are hand-implemented below
+    // with the `T: Sync` bound.
+    _marker: PhantomData<*const T>,
+}
+
+impl<T> ArenaRef<T> {
+    /// # Safety
+    /// `ptr` must point to a `T` that lives in an arena whose lifetime
+    /// outlives every clone of this `ArenaRef`. The engine's
+    /// `Arc<ArenaPool>` Drop-order discipline (see `MctsEngine`) is the
+    /// guarantor.
+    #[inline]
+    pub unsafe fn from_raw(ptr: NonNull<T>) -> Self {
+        Self {
+            ptr,
+            _marker: PhantomData,
+        }
+    }
+
+    #[inline]
+    pub fn as_ptr(this: &Self) -> *const T {
+        this.ptr.as_ptr()
+    }
+
+    #[inline]
+    pub fn ptr_eq(a: &Self, b: &Self) -> bool {
+        a.ptr.as_ptr() == b.ptr.as_ptr()
+    }
+}
+
+impl<T> Clone for ArenaRef<T> {
+    #[inline]
+    fn clone(&self) -> Self {
+        Self {
+            ptr: self.ptr,
+            _marker: PhantomData,
+        }
+    }
+}
+
+impl<T> Copy for ArenaRef<T> {}
+
+impl<T> Deref for ArenaRef<T> {
+    type Target = T;
+    #[inline]
+    fn deref(&self) -> &T {
+        // SAFETY: see ArenaRef invariant above.
+        unsafe { self.ptr.as_ref() }
+    }
+}
+
+// SAFETY: ArenaRef is a shared raw pointer to a `Sync` payload. Sharing it
+// across threads is sound iff the pointee is Sync, which the bound enforces.
+unsafe impl<T: Sync> Send for ArenaRef<T> {}
+unsafe impl<T: Sync> Sync for ArenaRef<T> {}
+
+impl<T> std::fmt::Debug for ArenaRef<T> {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        write!(f, "ArenaRef({:p})", self.ptr.as_ptr())
+    }
+}
 
 // ─────────────────────────────────────────────
 // § Atomic f64 헬퍼
@@ -95,7 +193,7 @@ pub fn edge_lock_contention_snapshot() -> EdgeLockContentionSnapshot {
 
 pub struct MctsEdge<M> {
     pub mv: M,
-    pub child: Arc<MctsNode<M>>,
+    pub child: ArenaRef<MctsNode<M>>,
     pub p: f32,
     pub n: AtomicU32,
     pub w: AtomicU64, // f64 bits
@@ -108,7 +206,7 @@ pub struct MctsEdge<M> {
 }
 
 impl<M: Copy + Send + Sync + 'static> MctsEdge<M> {
-    pub fn new(mv: M, child: Arc<MctsNode<M>>, prior: f32) -> Self {
+    pub fn new(mv: M, child: ArenaRef<MctsNode<M>>, prior: f32) -> Self {
         MctsEdge {
             mv,
             child,
@@ -188,7 +286,7 @@ impl<M: Copy + Send + Sync + 'static> MctsEdge<M> {
 #[derive(Clone)]
 pub struct MctsEdgeSnapshot<M> {
     pub mv: M,
-    pub child: Arc<MctsNode<M>>,
+    pub child: ArenaRef<MctsNode<M>>,
     pub p: f32,
     pub n: u32,
     pub w: f64,
@@ -227,7 +325,7 @@ impl<M: Copy + Send + Sync + 'static> MctsEdgeSnapshot<M> {
 // ─────────────────────────────────────────────
 
 pub struct PathEdge<M> {
-    pub parent: Arc<MctsNode<M>>,
+    pub parent: ArenaRef<MctsNode<M>>,
     pub edge_idx: usize,
     /// VL that was applied during select — must be removed during backup
     pub applied_vl: (f32, f32), // (vvisit, vvalue)
@@ -265,8 +363,13 @@ pub struct MctsNode<M> {
 }
 
 impl<M: Copy + Send + Sync + 'static> MctsNode<M> {
-    pub fn new(hash: u64, terminal_value: Option<f32>) -> Arc<Self> {
-        Arc::new(MctsNode {
+    /// Construct an `MctsNode` body in place. The TT layer allocates the
+    /// resulting value into a `bumpalo::Bump` and returns an `ArenaRef`.
+    /// Callers outside the engine (tests, isolated benchmarks) can wrap
+    /// in `Box::leak` if they need an `ArenaRef` that outlives the call,
+    /// or use `crate::mcts::tt::leak_node` for a shared helper.
+    pub fn new(hash: u64, terminal_value: Option<f32>) -> Self {
+        MctsNode {
             hash,
             terminal_value,
             candidates: OnceLock::new(),
@@ -277,7 +380,7 @@ impl<M: Copy + Send + Sync + 'static> MctsNode<M> {
             rtt_n: AtomicU32::new(0),
             rtt_w: AtomicU64::new(0),
             rtt_m2: AtomicU64::new(0),
-        })
+        }
     }
 
     pub fn is_expanded(&self) -> bool {
@@ -352,7 +455,7 @@ impl<M: Copy + Send + Sync + 'static> MctsNode<M> {
             .iter()
             .map(|edge| MctsEdgeSnapshot {
                 mv: edge.mv,
-                child: Arc::clone(&edge.child),
+                child: edge.child,
                 p: edge.p,
                 n: edge.n.load(Ordering::Acquire),
                 w: atomic_f64_load(&edge.w),

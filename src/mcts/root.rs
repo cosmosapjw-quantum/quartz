@@ -1,14 +1,13 @@
 //! 루트 착수 선택 + Dirichlet noise
 
 use std::sync::atomic::Ordering;
-use std::sync::Arc;
 
 use rand::distributions::Distribution;
 use rand::rngs::StdRng;
 use rand::SeedableRng;
 use rand_distr::Dirichlet;
 
-use crate::mcts::node::MctsNode;
+use crate::mcts::node::{ArenaRef, MctsNode};
 use crate::mcts::rng::MctsRng;
 
 // ─────────────────────────────────────────────
@@ -56,7 +55,7 @@ pub fn compute_dirichlet_noise(
 
 /// temperature=0 → argmax N, temperature>0 → N^(1/T) 비례 샘플링
 pub fn select_move_with_temperature<M: Copy + Send + Sync + 'static>(
-    node: &Arc<MctsNode<M>>,
+    node: &ArenaRef<MctsNode<M>>,
     temperature: f32,
     seed: Option<u64>,
 ) -> Option<M> {
@@ -90,7 +89,7 @@ pub fn select_move_with_temperature<M: Copy + Send + Sync + 'static>(
 
 /// 방문 분포 π (AlphaZero 학습 타겟)
 pub fn visit_distribution<M: Copy + Send + Sync + 'static>(
-    node: &Arc<MctsNode<M>>,
+    node: &ArenaRef<MctsNode<M>>,
     temperature: f32,
 ) -> Vec<(M, f32)> {
     node.with_edge_slice(node.materialized_count(), |edge_arcs| {

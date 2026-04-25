@@ -1,10 +1,7 @@
 //! SearchController 트레이트 + root_entropy 헬퍼
 
 #[cfg(test)]
-use std::sync::Arc;
-
-#[cfg(test)]
-use crate::mcts::node::MctsNode;
+use crate::mcts::node::{ArenaRef, MctsNode};
 
 // ─────────────────────────────────────────────
 // § StopReason — PR-0B: 정지 의미론 명시화
@@ -191,7 +188,7 @@ pub fn root_entropy(visit_counts: &[u32]) -> f32 {
 
 /// 루트 노드에서 직접 entropy 계산
 #[cfg(test)]
-pub fn root_entropy_from_node<M: Copy + Send + Sync + 'static>(node: &Arc<MctsNode<M>>) -> f32 {
+pub fn root_entropy_from_node<M: Copy + Send + Sync + 'static>(node: &ArenaRef<MctsNode<M>>) -> f32 {
     let n_mat = node.materialized_count();
     let edge_arcs = node.edge_snapshot(n_mat);
     let counts: Vec<u32> = edge_arcs.iter().map(|e| e.n).collect();

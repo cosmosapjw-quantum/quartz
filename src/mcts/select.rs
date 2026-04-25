@@ -3,12 +3,11 @@
 //! + EFT-PUCT (§6.1.2 one-loop bonus + visit penalty)
 
 use std::sync::atomic::Ordering;
-use std::sync::Arc;
 
 use crate::game::GameState;
 use crate::mcts::expand::materialize_edges;
 use crate::mcts::mod_types::PwConfig;
-use crate::mcts::node::{atomic_f64_load, MctsEdge, MctsNode, PathEdge};
+use crate::mcts::node::{atomic_f64_load, ArenaRef, MctsEdge, MctsNode, PathEdge};
 use crate::mcts::quartz::{
     eft_action_bonus, fisher_prior_weight, one_loop_visit_penalty, QuartzConfig, QuartzStats,
 };
@@ -438,7 +437,7 @@ fn ablation_puct_score_with_parent_sqrt(
 
 pub struct SelectResult<G: GameState> {
     pub path: Vec<PathEdge<G::Move>>,
-    pub leaf: Arc<MctsNode<G::Move>>,
+    pub leaf: ArenaRef<MctsNode<G::Move>>,
     pub leaf_state: G,
 }
 
@@ -604,7 +603,7 @@ fn should_replace_best(
 // ─────────────────────────────────────────────
 
 pub fn select<G: GameState>(
-    root: &Arc<MctsNode<G::Move>>,
+    root: &ArenaRef<MctsNode<G::Move>>,
     root_state: &G,
     c_puct: f32,
     root_prior_noise: Option<&[f32]>,
@@ -625,7 +624,7 @@ pub fn select<G: GameState>(
     // (Apr-25 profile audit Step 3 / P1-2.)
     let path_capacity = if max_depth > 0 { max_depth } else { 16 };
     let mut path = Vec::with_capacity(path_capacity);
-    let mut cur_node = Arc::clone(root);
+    let mut cur_node = *root;
     let mut cur_state = root_state.clone();
     let mut depth = 0usize;
 
@@ -725,12 +724,12 @@ pub fn select<G: GameState>(
         par_ctrl.telemetry.record_vvalue(vl_split.vvalue);
 
         let best_mv = edges[best_idx].mv;
-        let next_node = Arc::clone(&edges[best_idx].child);
+        let next_node = edges[best_idx].child;
         drop(guard); // release Mutex before apply_move
 
         cur_state = cur_state.apply_move(best_mv);
         path.push(PathEdge {
-            parent: Arc::clone(&cur_node),
+            parent: cur_node,
             edge_idx: best_idx,
             applied_vl: (vl_split.vvisit, vl_split.vvalue),
         });

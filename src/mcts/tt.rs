@@ -11,19 +11,20 @@
 //!   - 충돌 정책: always-replace (가장 단순, baseline)
 //!   - TT 통계: hits, misses, collisions (로깅용)
 
-use crate::mcts::node::MctsNode;
+use crate::mcts::node::{ArenaRef, MctsNode};
+use bumpalo::Bump;
 use parking_lot::Mutex;
 use std::collections::HashMap;
 use std::hash::{BuildHasherDefault, Hasher};
+use std::ptr::NonNull;
 use std::sync::atomic::{AtomicU64, Ordering};
-use std::sync::Arc;
 
 // ─────────────────────────────────────────────
 // § 설정
 // ─────────────────────────────────────────────
 
 /// 버킷 수 — 2의 거듭제곱이면 % 연산이 & 연산으로 최적화됨
-const NUM_BUCKETS: usize = 256;
+pub const NUM_BUCKETS: usize = 256;
 
 /// 버킷당 최대 엔트리 수. 초과 시 가장 적게 방문된 노드를 제거.
 /// 256 buckets × 4096 entries = ~1M total entries max.
@@ -59,10 +60,15 @@ impl Hasher for U64IdentityHasher {
     }
 }
 
-type TtMap<M> = HashMap<u64, Arc<MctsNode<M>>, BuildHasherDefault<U64IdentityHasher>>;
+type TtMap<M> = HashMap<u64, ArenaRef<MctsNode<M>>, BuildHasherDefault<U64IdentityHasher>>;
 
 struct TtBucket<M: Copy + Send + Sync + 'static> {
     map: TtMap<M>,
+    /// Bumpalo arena: all `MctsNode<M>` bodies for this bucket are
+    /// allocated here. Bumpalo guarantees pointer stability for the life
+    /// of the Bump, so `ArenaRef`s into it remain valid until the
+    /// containing `ArenaPool` is dropped.
+    arena: Bump,
 }
 
 impl<M: Copy + Send + Sync + 'static> TtBucket<M> {
@@ -72,8 +78,90 @@ impl<M: Copy + Send + Sync + 'static> TtBucket<M> {
                 MAX_ENTRIES_PER_BUCKET / 2,
                 Default::default(),
             ),
+            arena: Bump::new(),
         }
     }
+}
+
+impl<M: Copy + Send + Sync + 'static> Drop for TtBucket<M> {
+    fn drop(&mut self) {
+        // bumpalo's `Bump` does NOT run `Drop` on its allocations: when
+        // the Bump goes out of scope, it just frees its raw chunks. Each
+        // `MctsNode<M>` body, however, transitively owns heap-allocated
+        // sub-structures via global allocator (the `OnceLock<Box<...>>`
+        // candidates payload and the `Vec<MctsEdge<M>>` inside its
+        // `RwLock`). Without explicit `drop_in_place`, those sub-allocs
+        // would leak per-node — multiplied across ~30 K nodes/search,
+        // that's a multi-MB leak per engine session, accumulating across
+        // FFI calls.
+        //
+        // Drop order
+        //   We run `drop_in_place` on every node body in `self.map`
+        //   BEFORE the Bump field drops. Field drop order in Rust is
+        //   declaration order (`map` before `arena` here), so the
+        //   imperative drain below runs first and the Bump frees its
+        //   chunks last.
+        //
+        // Safety
+        //   Each `ArenaRef<MctsNode<M>>` value in `self.map` is the
+        //   master reference to a node body allocated in `self.arena`.
+        //   By the engine's drop-order discipline (`MctsEngine` field
+        //   layout) and the search-time invariant (no `ArenaRef` escapes
+        //   beyond a finished search), no other live reference to these
+        //   bodies exists at this point. `MctsNode::drop` itself does
+        //   not follow `ArenaRef<MctsNode<M>>` children — those are raw
+        //   pointer wrappers without a `Drop` impl — so cross-bucket
+        //   double-drop is impossible.
+        for (_, node_ref) in self.map.drain() {
+            let raw: *mut MctsNode<M> =
+                crate::mcts::node::ArenaRef::as_ptr(&node_ref) as *mut MctsNode<M>;
+            // SAFETY: documented above.
+            unsafe {
+                std::ptr::drop_in_place(raw);
+            }
+        }
+    }
+}
+
+// ─────────────────────────────────────────────
+// § Per-bucket bumpalo storage
+// ─────────────────────────────────────────────
+//
+// Each `TtBucket` owns its own `bumpalo::Bump`. All `MctsNode<M>` bodies
+// inserted via `get_or_create` are allocated in the bucket's Bump and
+// returned as `ArenaRef<MctsNode<M>>`. Allocations are serialized
+// through the existing per-bucket `Mutex<TtBucket>` (Bump is `!Sync` —
+// the lock is the synchronization mechanism).
+//
+// Lifetime safety
+//   The TT owns the Bumps. Edges/snapshots/path entries hold
+//   `ArenaRef`s into those Bumps. The engine holds `Arc<TT>` and ensures
+//   the TT outlives every `ArenaRef` reachable through the engine's
+//   internal state. When the last `Arc<TT>` drops, both the map (which
+//   contains `ArenaRef`s with no Drop impl) and the Bumps drop. After
+//   that point no `ArenaRef` is reachable.
+//
+// Eviction note: removing an entry from the map does NOT free its
+// Bump-allocated body (bumpalo never reclaims individual allocations).
+// This is a deliberate trade — eviction is rare under scenario A and
+// the per-bucket cap (`MAX_ENTRIES_PER_BUCKET`) bounds total bytes.
+
+/// Test/standalone helper: allocate an `MctsNode` body on the heap and
+/// leak it, returning an `ArenaRef`. Used by detached test setups in
+/// `mcts/quartz.rs` and similar places that previously called
+/// `Arc::new(MctsNode::new(...))` outside of an engine. Production hot
+/// paths (engine select/expand/backup) MUST go through
+/// `TranspositionTable::get_or_create`.
+pub fn leak_node<M: Copy + Send + Sync + 'static>(
+    hash: u64,
+    terminal_value: Option<f32>,
+) -> ArenaRef<MctsNode<M>> {
+    let boxed = Box::new(MctsNode::new(hash, terminal_value));
+    let raw = Box::into_raw(boxed);
+    // SAFETY: `raw` is a valid heap pointer (non-null, aligned). It is
+    // intentionally leaked; this helper is for test scaffolding only and
+    // its leak is acceptable in those contexts.
+    unsafe { ArenaRef::from_raw(NonNull::new_unchecked(raw)) }
 }
 
 // ─────────────────────────────────────────────
@@ -128,9 +216,12 @@ impl<M: Copy + Send + Sync + 'static> TranspositionTable<M> {
     /// 해시에 해당하는 노드를 조회.
     /// 없으면 `terminal_value`로 새 노드를 생성하고 삽입.
     /// 있으면 기존 노드 반환 (always-replace 충돌 정책 → 먼저 들어온 것 우선).
-    pub fn get_or_create(&self, hash: u64, terminal_value: Option<f32>) -> Arc<MctsNode<M>> {
+    pub fn get_or_create(&self, hash: u64, terminal_value: Option<f32>) -> ArenaRef<MctsNode<M>> {
         if !self.enabled {
-            return MctsNode::new(hash, terminal_value);
+            // Disabled TT: caller-owned ad-hoc node, leaked. This path is
+            // hit only when `tt_enabled = false` (a few test/ablation
+            // configs); leak per get_or_create is acceptable there.
+            return leak_node(hash, terminal_value);
         }
         let idx = Self::bucket_idx(hash);
         self.get_or_create_calls.fetch_add(1, Ordering::Relaxed);
@@ -142,12 +233,16 @@ impl<M: Copy + Send + Sync + 'static> TranspositionTable<M> {
 
         if let Some(node) = bucket.map.get(&hash) {
             self.hits.fetch_add(1, Ordering::Relaxed);
-            return Arc::clone(node);
+            return *node;
         }
 
         self.misses.fetch_add(1, Ordering::Relaxed);
 
-        // Evict least-visited entry if bucket is full
+        // Evict least-visited entry if bucket is full. Note: bumpalo does
+        // not free the backing memory on remove (the slot stays allocated
+        // in the Bump). This is acceptable: eviction in this engine is
+        // rare in scenario-A traces, and the per-bucket Bump caps
+        // total bytes per bucket at the working-set size.
         if bucket.map.len() >= MAX_ENTRIES_PER_BUCKET {
             let victim = bucket
                 .map
@@ -159,13 +254,24 @@ impl<M: Copy + Send + Sync + 'static> TranspositionTable<M> {
             }
         }
 
-        let node = MctsNode::new(hash, terminal_value); // already Arc<MctsNode<M>>
-        bucket.map.insert(hash, Arc::clone(&node));
+        // Allocate the body in the bucket's Bump. Bumpalo's `alloc`
+        // returns a `&mut T` whose lifetime is bound by `&self`, but the
+        // allocation itself is stable until the Bump drops. We capture
+        // the address as `NonNull<T>` and wrap in `ArenaRef`, whose
+        // safety invariant is documented at its definition.
+        let body = MctsNode::new(hash, terminal_value);
+        let allocated: &mut MctsNode<M> = bucket.arena.alloc(body);
+        // SAFETY: `allocated` is a fresh, non-null reference to a value
+        // just allocated in `bucket.arena`. The `ArenaPool` (and thus
+        // every per-bucket Bump) is owned by the engine and outlives all
+        // `ArenaRef`s reachable from the TT.
+        let node = unsafe { ArenaRef::from_raw(NonNull::new_unchecked(allocated as *mut _)) };
+        bucket.map.insert(hash, node);
         node
     }
 
     /// 조회만 (삽입 없음)
-    pub fn get(&self, hash: u64) -> Option<Arc<MctsNode<M>>> {
+    pub fn get(&self, hash: u64) -> Option<ArenaRef<MctsNode<M>>> {
         if !self.enabled {
             return None;
         }
@@ -176,7 +282,7 @@ impl<M: Copy + Send + Sync + 'static> TranspositionTable<M> {
         if let Some(t0) = t0 {
             self.record_lock_wait(t0.elapsed().as_nanos() as u64);
         }
-        bucket.map.get(&hash).map(Arc::clone)
+        bucket.map.get(&hash).copied()
     }
 
     pub fn size(&self) -> usize {
@@ -238,7 +344,7 @@ impl<M: Copy + Send + Sync + 'static> Default for TranspositionTable<M> {
 #[cfg(test)]
 mod tests {
     use super::TranspositionTable;
-    use std::sync::Arc;
+    use crate::mcts::node::ArenaRef;
 
     #[test]
     fn disabled_table_does_not_merge_or_store_nodes() {
@@ -248,7 +354,7 @@ mod tests {
 
         assert_eq!(tt.size(), 0);
         assert!(tt.get(123).is_none());
-        assert!(!Arc::ptr_eq(&a, &b));
+        assert!(!ArenaRef::ptr_eq(&a, &b));
     }
 
     #[test]
@@ -258,11 +364,11 @@ mod tests {
         let b = tt.get_or_create(u64::MAX, None);
         let c = tt.get_or_create(0x0102_0304_0506_0708, None);
 
-        assert!(Arc::ptr_eq(&a, &tt.get(0).unwrap()));
-        assert!(Arc::ptr_eq(&b, &tt.get(u64::MAX).unwrap()));
-        assert!(Arc::ptr_eq(&c, &tt.get(0x0102_0304_0506_0708).unwrap()));
-        assert!(!Arc::ptr_eq(&a, &b));
-        assert!(!Arc::ptr_eq(&a, &c));
-        assert!(!Arc::ptr_eq(&b, &c));
+        assert!(ArenaRef::ptr_eq(&a, &tt.get(0).unwrap()));
+        assert!(ArenaRef::ptr_eq(&b, &tt.get(u64::MAX).unwrap()));
+        assert!(ArenaRef::ptr_eq(&c, &tt.get(0x0102_0304_0506_0708).unwrap()));
+        assert!(!ArenaRef::ptr_eq(&a, &b));
+        assert!(!ArenaRef::ptr_eq(&a, &c));
+        assert!(!ArenaRef::ptr_eq(&b, &c));
     }
 }

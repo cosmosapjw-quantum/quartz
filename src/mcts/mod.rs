@@ -29,7 +29,7 @@ use crate::game::{Evaluator, GameState};
 use crate::mcts::backup::backprop;
 use crate::mcts::expand::{expand_and_evaluate, expand_with_result};
 use crate::mcts::gvoc::{routing_mode, GvocConfig, GvocState, ProposalMode};
-use crate::mcts::node::MctsNode;
+use crate::mcts::node::{ArenaRef, MctsNode};
 use crate::mcts::root::{
     compute_dirichlet_noise, select_move_with_temperature, visit_distribution, DirichletConfig,
 };
@@ -186,9 +186,14 @@ impl MctsConfig {
 // ─────────────────────────────────────────────
 
 pub struct MctsEngine<G: GameState> {
-    pub root: Arc<MctsNode<G::Move>>,
+    pub root: ArenaRef<MctsNode<G::Move>>,
     root_state: G,
     pub(crate) evaluator: Arc<dyn Evaluator<G> + Send + Sync>,
+    /// `tt` owns the per-bucket bumpalo arenas that back every `ArenaRef`
+    /// reachable from `root`, edges, and path entries. It is declared
+    /// before `config`/etc. so that on engine drop the TT (and thus the
+    /// Bumps) outlives all transient `ArenaRef`s reachable via search-
+    /// scoped temporaries.
     pub tt: Arc<TranspositionTable<G::Move>>,
     pub config: MctsConfig,
     root_noise: Option<Vec<f32>>,
@@ -200,7 +205,7 @@ pub struct MctsEngine<G: GameState> {
 
 pub struct AsyncPendingIteration<G: GameState> {
     pub path: Vec<crate::mcts::node::PathEdge<G::Move>>,
-    pub leaf: Arc<MctsNode<G::Move>>,
+    pub leaf: ArenaRef<MctsNode<G::Move>>,
     pub leaf_state: G,
 }
 
@@ -1177,7 +1182,7 @@ mod tests {
         let guard = engine.root.edges.read();
 
         assert_eq!(guard.len(), 2);
-        assert!(Arc::ptr_eq(&guard[0].child, &guard[1].child));
+        assert!(ArenaRef::ptr_eq(&guard[0].child, &guard[1].child));
     }
 
     fn gomoku7_engine(iters: u32) -> (MctsEngine<Gomoku>, QuartzController) {

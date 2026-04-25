@@ -77,10 +77,11 @@
 //! Backprop:   Welford M2 (per-edge σᵢ) + RTT Welford (ρ̂ off-diagonal)
 
 use std::sync::atomic::Ordering;
-use std::sync::Arc;
 
-use crate::mcts::node::MctsNode;
+use crate::mcts::node::{ArenaRef, MctsNode};
 use crate::mcts::search::{SearchController, StopReason};
+#[cfg(test)]
+use crate::mcts::tt::leak_node;
 
 // ─────────────────────────────────────────────
 // § QuartzConfig — 5개 hyperparameter
@@ -795,7 +796,7 @@ fn e_delta_expand(mu_out: f32, mu_best: f32, sigma_q: f32) -> f32 {
 // ─────────────────────────────────────────────
 
 pub fn compute_quartz_stats<M: Copy + Send + Sync + 'static>(
-    root: &Arc<MctsNode<M>>,
+    root: &ArenaRef<MctsNode<M>>,
     priors: Option<&[f32]>,
     s0_same: &mut RunningEma,
     _s0_global: f32,
@@ -1692,7 +1693,7 @@ impl QuartzController {
     }
     pub fn update_stats<M: Copy + Send + Sync + 'static>(
         &self,
-        root: &Arc<MctsNode<M>>,
+        root: &ArenaRef<MctsNode<M>>,
         priors: Option<&[f32]>,
     ) {
         let mut g = self.inner.lock().unwrap();
@@ -1980,6 +1981,7 @@ impl SearchController for QuartzController {
 #[cfg(test)]
 mod tests {
     use super::*;
+    use std::sync::Arc;
 
     #[test]
     fn test_hbar_eff_scale() {
@@ -2269,7 +2271,7 @@ mod tests {
     fn test_1b_expand_off_forces_zero() {
         // With expand channel disabled, voc_expand should be 0.0
         // Create a simple tree node to test compute_quartz_stats
-        let node = Arc::new(crate::mcts::node::MctsNode::<usize>::new(0, None));
+        let node = leak_node::<usize>(0, None);
 
         // Enable expand channel
         let cfg_on = QuartzConfig::default();
@@ -2294,7 +2296,7 @@ mod tests {
 
     #[test]
     fn test_1b_merge_off_forces_zero() {
-        let node = Arc::new(crate::mcts::node::MctsNode::<usize>::new(0, None));
+        let node = leak_node::<usize>(0, None);
 
         let cfg_off = QuartzConfig {
             enable_merge_channel: false,
@@ -2314,7 +2316,7 @@ mod tests {
     fn test_1b_all_off_still_computes_pflip() {
         // Even with all selection features off, P_flip should still be computed
         // (needed for SimpleThreshold halt mode)
-        let node = Arc::new(crate::mcts::node::MctsNode::<usize>::new(0, None));
+        let node = leak_node::<usize>(0, None);
 
         let cfg = QuartzConfig {
             enable_fisher_puct: false,
@@ -2417,7 +2419,7 @@ mod tests {
     fn test_3a1_constant_cost_baseline() {
         // Core QUARTZ math should work with any CostMode.
         // Verify compute_quartz_stats doesn't panic with Constant or TimeDriven.
-        let node = Arc::new(crate::mcts::node::MctsNode::<usize>::new(0, None));
+        let node = leak_node::<usize>(0, None);
 
         for mode in [CostMode::Legacy, CostMode::Constant, CostMode::TimeDriven] {
             let cfg = QuartzConfig {
@@ -2508,7 +2510,7 @@ mod tests {
     #[test]
     fn test_3a3_termination_guarantee() {
         // For all CostModes, cost_focus must be > 0 (Theorem 1 A4)
-        let node = Arc::new(crate::mcts::node::MctsNode::<usize>::new(0, None));
+        let node = leak_node::<usize>(0, None);
 
         for mode in [CostMode::Legacy, CostMode::Constant, CostMode::TimeDriven] {
             let cfg = QuartzConfig {
@@ -2533,7 +2535,7 @@ mod tests {
     // TEST-3A: cost values differ between modes
     #[test]
     fn test_3a_cost_modes_differ() {
-        let node = Arc::new(crate::mcts::node::MctsNode::<usize>::new(0, None));
+        let node = leak_node::<usize>(0, None);
 
         let cfg_legacy = QuartzConfig {
             cost_mode: CostMode::Legacy,
@@ -2687,7 +2689,7 @@ mod tests {
     #[test]
     fn test_6a5_p_hidden_dormant() {
         // On empty tree, p_hidden ≈ 0, so Conf(t) ≈ (1−P_flip)·max{0, 1−S/S₀}
-        let node = Arc::new(crate::mcts::node::MctsNode::<usize>::new(0, None));
+        let node = leak_node::<usize>(0, None);
         let cfg = QuartzConfig::default();
         let mut s0 = RunningEma::new(0.05);
         let stats = compute_quartz_stats(&node, None, &mut s0, 0.01, 0, 0, &cfg);
@@ -2863,7 +2865,7 @@ mod tests {
     // PR-6B diagnostic fields appear in stats
     #[test]
     fn test_6b_diagnostic_fields() {
-        let node = Arc::new(crate::mcts::node::MctsNode::<usize>::new(0, None));
+        let node = leak_node::<usize>(0, None);
         let cfg = QuartzConfig::default();
         let mut s0 = RunningEma::new(0.05);
         let stats = compute_quartz_stats(&node, None, &mut s0, 0.01, 0, 0, &cfg);
@@ -2939,7 +2941,7 @@ mod tests {
     fn test_6d1_wimp_root_is_one() {
         // At root: w_imp = N(root)/N(root) = 1.0
         // This is already hardcoded as wimp=1.0 in compute_quartz_stats
-        let node = Arc::new(crate::mcts::node::MctsNode::<usize>::new(0, None));
+        let node = leak_node::<usize>(0, None);
         let cfg = QuartzConfig::default();
         let mut s0 = RunningEma::new(0.05);
         let stats = compute_quartz_stats(&node, None, &mut s0, 0.01, 0, 0, &cfg);
@@ -2954,7 +2956,7 @@ mod tests {
     #[test]
     fn test_6d4_root_only_equivalent() {
         // When gvoc_nonroot_max is 0 or ignored, behavior should be same as before PR-6D
-        let node = Arc::new(crate::mcts::node::MctsNode::<usize>::new(0, None));
+        let node = leak_node::<usize>(0, None);
         let cfg = QuartzConfig::default();
         let mut s0 = RunningEma::new(0.05);
         let stats = compute_quartz_stats(&node, None, &mut s0, 0.01, 0, 0, &cfg);

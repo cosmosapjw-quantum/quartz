@@ -11,11 +11,10 @@
 //!   - Mutex 내 append-only push, double-check pattern
 
 use std::sync::atomic::Ordering;
-use std::sync::Arc;
 
 use crate::game::{EvalResult, Evaluator, GameState};
 use crate::mcts::mod_types::PwConfig;
-use crate::mcts::node::{MctsEdge, MctsNode};
+use crate::mcts::node::{ArenaRef, MctsEdge, MctsNode};
 use crate::mcts::tt::TranspositionTable;
 
 // ─────────────────────────────────────────────
@@ -23,7 +22,7 @@ use crate::mcts::tt::TranspositionTable;
 // ─────────────────────────────────────────────
 
 pub fn expand_and_evaluate<G: GameState>(
-    node: &Arc<MctsNode<G::Move>>,
+    node: &ArenaRef<MctsNode<G::Move>>,
     state: &G,
     evaluator: &dyn Evaluator<G>,
     tt: &TranspositionTable<G::Move>,
@@ -38,7 +37,7 @@ pub fn expand_and_evaluate<G: GameState>(
 }
 
 pub fn expand_with_result<G: GameState>(
-    node: &Arc<MctsNode<G::Move>>,
+    node: &ArenaRef<MctsNode<G::Move>>,
     state: &G,
     eval: EvalResult<G::Move>,
     tt: &TranspositionTable<G::Move>,
@@ -85,7 +84,7 @@ pub fn expand_with_result<G: GameState>(
 /// `target`개까지 edges materialization
 /// state: 이 노드에 해당하는 게임 상태 (apply_move용)
 pub fn materialize_edges<G: GameState>(
-    node: &Arc<MctsNode<G::Move>>,
+    node: &ArenaRef<MctsNode<G::Move>>,
     state: &G,
     target: usize,
     tt: &TranspositionTable<G::Move>,
