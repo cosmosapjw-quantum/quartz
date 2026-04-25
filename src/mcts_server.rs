@@ -1247,7 +1247,17 @@ fn search_profile_name(profile: SearchProfile) -> &'static str {
 }
 
 fn should_use_batch_eval(profile: SearchProfile, n_threads: usize, force_batch: bool) -> bool {
-    force_batch || n_threads > 1 || matches!(profile, SearchProfile::BaselineStrict)
+    // When the SHM ring buffer is configured, Python's shm_eval_loop only
+    // services the ring — it does not write QIPC frames back over stdin.
+    // Falling back to StdioCallbackEval here would deadlock the search
+    // worker against Python (the worker reads from stdin, Python is parked
+    // on the ring). So whenever the ring is live, force the broker-backed
+    // BatchStdioEval path; the broker selects ring vs. stdio internally
+    // (mcts/eval.rs:1556 use_ring), so this is correct in both modes.
+    force_batch
+        || n_threads > 1
+        || matches!(profile, SearchProfile::BaselineStrict)
+        || global_ring_buffer().is_some()
 }
 
 fn note_serial_eval_fallback(profile: SearchProfile, n_threads: usize, n_actions: usize) {
