@@ -631,6 +631,61 @@ def test_build_gomocup_manifest_captures_search_and_selection_metadata():
     assert manifest["source"]["selection_metrics"]["overall_score_rate"] == 0.70
 
 
+def test_smoke_count_sgd_rows_counts_only_loss_present_rows(tmp_path):
+    """P3: count_sgd_rows counts non-null `loss` rows only."""
+    smoke = load_smoke_module()
+    log_path = tmp_path / "train_log.jsonl"
+    log_path.write_text(
+        '\n'.join(
+            [
+                json.dumps({"loss": 0.4, "iter": 1}),
+                json.dumps({"loss": None, "iter": 2}),
+                json.dumps({"_type": "eval", "verdict": "skip"}),  # no loss key
+                json.dumps({"loss": 0.35, "iter": 3}),
+                "not-json",  # corrupt row tolerated
+            ]
+        ),
+        encoding="utf-8",
+    )
+
+    assert smoke.count_sgd_rows(log_path) == 2
+
+
+def test_smoke_verify_training_fired_raises_when_zero_sgd(tmp_path):
+    """P3: verify_training_fired surfaces zero-SGD smoke runs as fail-fast."""
+    import pytest
+
+    smoke = load_smoke_module()
+    report_dir = tmp_path / "gomoku7"
+    models_dir = report_dir / "models" / "T1_noS_noVL"
+    models_dir.mkdir(parents=True)
+    (models_dir / "train_log.jsonl").write_text(
+        json.dumps({"loss": None, "iter": 1}) + "\n",
+        encoding="utf-8",
+    )
+
+    with pytest.raises(SystemExit) as excinfo:
+        smoke.verify_training_fired(report_dir)
+    assert "0 SGD rows" in str(excinfo.value)
+
+
+def test_smoke_verify_training_fired_passes_with_sgd(tmp_path):
+    """P3: verify_training_fired returns counts when SGD fired."""
+    smoke = load_smoke_module()
+    report_dir = tmp_path / "gomoku7"
+    models_dir = report_dir / "models" / "T1_noS_noVL"
+    models_dir.mkdir(parents=True)
+    (models_dir / "train_log.jsonl").write_text(
+        json.dumps({"loss": 0.42, "iter": 1}) + "\n",
+        encoding="utf-8",
+    )
+
+    total, scanned = smoke.verify_training_fired(report_dir)
+
+    assert total == 1
+    assert len(scanned) == 1
+
+
 def test_smoke_e2e_builds_safe_runtime_ablation_command_by_default(tmp_path):
     smoke = load_smoke_module()
     args = argparse.Namespace(

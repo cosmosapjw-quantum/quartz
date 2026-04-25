@@ -152,7 +152,11 @@ def parse_args() -> argparse.Namespace:
         help="Comma-separated eval conditions for the smoke subset.",
     )
     parser.add_argument("--iterations", type=int, default=1)
-    parser.add_argument("--games-per-iter", type=int, default=4)
+    # P3 (audit_codex_20260425.md W6): bumped from 4 → 16 so replay
+    # crosses the default batch threshold (~256) and at least one SGD
+    # row fires. The post-run `verify_training_fired` assertion enforces
+    # this at audit time.
+    parser.add_argument("--games-per-iter", type=int, default=16)
     parser.add_argument("--eval-games", type=int, default=2)
     parser.add_argument(
         "--eval-interval",
@@ -246,6 +250,55 @@ def build_ablation_command(args: argparse.Namespace, rust_binary: Path, output_r
     if args.include_strict_reference:
         cmd.append("--include-strict-reference")
     return cmd
+
+
+def count_sgd_rows(train_log: Path) -> int:
+    """Count rows in `train_log.jsonl` where `loss` is a non-null number.
+
+    P3 (audit_codex_20260425.md W6): a smoke that produces zero SGD
+    rows certifies imports/transport, not training. This helper is
+    consumed by `verify_training_fired` to fail-fast when the smoke
+    parameters silently keep replay below the SGD batch threshold.
+    """
+    if not train_log.exists():
+        return 0
+    rows = 0
+    with train_log.open("r", encoding="utf-8", errors="replace") as handle:
+        for line in handle:
+            try:
+                payload = json.loads(line)
+            except Exception:
+                continue
+            if payload.get("loss") is not None:
+                rows += 1
+    return rows
+
+
+def verify_training_fired(report_dir: Path) -> tuple[int, list[Path]]:
+    """Scan all `train_log.jsonl` files under `report_dir/models/**` and
+    return `(total_sgd_rows, scanned_logs)`. Raises `SystemExit` if zero
+    SGD rows fired across all conditions.
+    """
+    models_dir = report_dir / "models"
+    scanned: list[Path] = []
+    total = 0
+    if models_dir.is_dir():
+        for log_path in sorted(models_dir.rglob("train_log.jsonl")):
+            scanned.append(log_path)
+            total += count_sgd_rows(log_path)
+    if not scanned:
+        raise SystemExit(
+            f"P3 smoke contract: no train_log.jsonl files under {models_dir}; "
+            "ablation_smoke produced no per-condition training logs."
+        )
+    if total == 0:
+        details = ", ".join(str(p.relative_to(report_dir)) for p in scanned)
+        raise SystemExit(
+            f"P3 smoke contract: 0 SGD rows across {len(scanned)} train_log.jsonl files "
+            f"({details}). Replay never crossed the batch threshold — increase "
+            "--games-per-iter or override --batch downward."
+        )
+    return total, scanned
 
 
 def build_smoke_summary(
@@ -407,6 +460,14 @@ def main() -> None:
         missing = [str(path) for path in expected if not path.exists()]
         if missing:
             raise SystemExit(f"Smoke completed but expected artifacts are missing: {', '.join(missing)}")
+        # P3 (audit_codex_20260425.md W6): explicit post-run assertion that
+        # at least one SGD row fired across all conditions. Without this
+        # the smoke certifies imports/transport but not training.
+        sgd_rows, scanned_logs = verify_training_fired(report_dir)
+        print(
+            f"P3 smoke contract: {sgd_rows} SGD rows across "
+            f"{len(scanned_logs)} train_log.jsonl files."
+        )
         success = True
         print(f"Smoke complete. Artifacts: {report_dir}")
         print(f"Smoke contract: {output_root / 'smoke_contract.json'}")
