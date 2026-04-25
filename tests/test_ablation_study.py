@@ -199,6 +199,78 @@ def test_resolve_model_path_prefers_latest_when_best_is_only_bootstrap_seed(tmp_
     assert resolved == run_dir / "latest.pt"
 
 
+def test_resolve_model_path_prefers_best_when_promotion_recorded(tmp_path):
+    """P1: when this run promoted, status advertises best.pt as preferred."""
+    ablation = load_ablation_module()
+    run_dir = tmp_path / "run"
+    run_dir.mkdir(parents=True)
+    (run_dir / "best.pt").write_bytes(b"promoted")
+    (run_dir / "latest.pt").write_bytes(b"latest")
+    (run_dir / "checkpoint_status.json").write_text(
+        json.dumps(
+            {
+                "best_checkpoint_bootstrap_seeded": False,
+                "saw_promotion": True,
+                "preferred_posttrain_checkpoint": "best.pt",
+            }
+        ),
+        encoding="utf-8",
+    )
+
+    resolved = ablation.resolve_model_path(run_dir)
+
+    assert resolved == run_dir / "best.pt"
+
+
+def test_write_checkpoint_status_prefers_latest_when_no_promotion_in_rerun(tmp_path):
+    """P1 regression guard (audit_codex_20260425.md W4):
+
+    When a run reuses an output directory whose `best.pt` was a *prior*
+    bootstrap (not a real promotion) and the current run also does not
+    promote, `_write_checkpoint_status` must mark `latest.pt` as
+    preferred — even though `best_checkpoint_bootstrap=False` for *this*
+    run because best.pt already existed at start.
+    """
+    cli_main = importlib.import_module("quartz.cli_main")
+    base_dir = tmp_path
+    latest_path = base_dir / "latest.pt"
+    best_path = base_dir / "best.pt"
+    latest_path.write_bytes(b"latest")
+    best_path.write_bytes(b"prior_bootstrap")
+
+    payload = cli_main._write_checkpoint_status(
+        str(base_dir),
+        str(latest_path),
+        str(best_path),
+        best_checkpoint_bootstrap=False,  # this run did not seed; best.pt was carried over
+        saw_promotion=False,  # this run did not promote
+    )
+
+    assert payload["preferred_posttrain_checkpoint"] == "latest.pt"
+    on_disk = json.loads((base_dir / "checkpoint_status.json").read_text(encoding="utf-8"))
+    assert on_disk["preferred_posttrain_checkpoint"] == "latest.pt"
+
+
+def test_write_checkpoint_status_prefers_best_after_promotion(tmp_path):
+    """P1: a run that saw a promotion advertises best.pt regardless of bootstrap state."""
+    cli_main = importlib.import_module("quartz.cli_main")
+    base_dir = tmp_path
+    latest_path = base_dir / "latest.pt"
+    best_path = base_dir / "best.pt"
+    latest_path.write_bytes(b"latest")
+    best_path.write_bytes(b"promoted")
+
+    payload = cli_main._write_checkpoint_status(
+        str(base_dir),
+        str(latest_path),
+        str(best_path),
+        best_checkpoint_bootstrap=False,
+        saw_promotion=True,
+    )
+
+    assert payload["preferred_posttrain_checkpoint"] == "best.pt"
+
+
 def test_select_champion_prefers_eval_leader_and_train_cfg_for_deployment(tmp_path):
     ablation = load_ablation_module()
     base_dir = tmp_path / "results" / "gomoku15"

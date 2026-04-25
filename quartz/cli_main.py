@@ -281,7 +281,19 @@ def _write_checkpoint_status(
     latest_exists = os.path.exists(latest_model_path)
     best_exists = os.path.exists(best_model_path)
     preferred_name = None
-    if best_exists and not best_checkpoint_bootstrap:
+    # P1 (audit_codex_20260425.md W4): the preferred-checkpoint signal
+    # gates which file `ablation_study.resolve_model_path` returns. The
+    # prior logic keyed on `best_checkpoint_bootstrap` (a per-run flag
+    # set only when *this* run seeded best.pt with the untrained model),
+    # which leaked across re-runs: a fresh run that reused an output
+    # directory with a prior-run bootstrap best.pt would set
+    # `best_checkpoint_bootstrap=False` (because best.pt already
+    # existed), and the status would advertise the still-untrained best
+    # as preferred. Keying on `saw_promotion` instead means we only
+    # prefer best.pt after a real promotion event in this run; otherwise
+    # we point at this run's latest.pt, which always reflects the most
+    # recently trained weights.
+    if best_exists and saw_promotion:
         preferred_name = Path(best_model_path).name
     elif latest_exists:
         preferred_name = Path(latest_model_path).name
