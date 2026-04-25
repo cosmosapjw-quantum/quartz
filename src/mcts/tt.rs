@@ -67,7 +67,12 @@ struct TtBucket<M: Copy + Send + Sync + 'static> {
 
 impl<M: Copy + Send + Sync + 'static> TtBucket<M> {
     fn new() -> Self {
-        TtBucket { map: TtMap::default() }
+        TtBucket {
+            map: TtMap::with_capacity_and_hasher(
+                MAX_ENTRIES_PER_BUCKET / 2,
+                Default::default(),
+            ),
+        }
     }
 }
 
