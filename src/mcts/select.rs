@@ -618,7 +618,13 @@ pub fn select<G: GameState>(
     // Parallelism controller (1st-class runtime object)
     par_ctrl: &super::parallel::ParallelismController,
 ) -> SelectResult<G> {
-    let mut path = Vec::new();
+    // Pre-size the path accumulator to avoid the first 1-3 Vec re-grows during
+    // typical 10-20 ply selection traversals. `max_depth` is the engine's
+    // configured ceiling when set; otherwise 16 is a reasonable default that
+    // covers the vast majority of search depths in profiled workloads.
+    // (Apr-25 profile audit Step 3 / P1-2.)
+    let path_capacity = if max_depth > 0 { max_depth } else { 16 };
+    let mut path = Vec::with_capacity(path_capacity);
     let mut cur_node = Arc::clone(root);
     let mut cur_state = root_state.clone();
     let mut depth = 0usize;
