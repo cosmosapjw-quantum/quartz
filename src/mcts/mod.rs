@@ -1062,6 +1062,7 @@ mod tests {
 
     impl GameState for TtHashDummy {
         type Move = u8;
+        type Undo = Self;
 
         fn initial() -> Self {
             Self {
@@ -1097,6 +1098,15 @@ mod tests {
                 },
                 _ => unreachable!(),
             }
+        }
+
+        fn apply_move_in_place(&mut self, mv: Self::Move) -> Self {
+            let next = self.apply_move(mv);
+            std::mem::replace(self, next)
+        }
+
+        fn undo_move(&mut self, undo: Self) {
+            *self = undo;
         }
 
         fn is_terminal(&self) -> bool {

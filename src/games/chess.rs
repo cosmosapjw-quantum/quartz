@@ -1630,6 +1630,7 @@ enum TerminalStatus {
 
 impl GameState for Chess {
     type Move = ChessMove;
+    type Undo = Self;
 
     fn initial() -> Self {
         Chess::standard()
@@ -1652,6 +1653,18 @@ impl GameState for Chess {
 
     fn apply_move(&self, mv: ChessMove) -> Self {
         self.apply_move_unchecked(mv)
+    }
+
+    /// Phase 6.1: clone-based fallback. Chess uses Copy bitboards (~344 B
+    /// state) so the clone is already cheap; chess is not the scenario-A
+    /// hot path, so make-unmake specialization isn't worth the surgery.
+    fn apply_move_in_place(&mut self, mv: ChessMove) -> Self {
+        let next = self.apply_move(mv);
+        std::mem::replace(self, next)
+    }
+
+    fn undo_move(&mut self, undo: Self) {
+        *self = undo;
     }
 
     fn is_terminal(&self) -> bool {

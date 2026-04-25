@@ -1077,6 +1077,7 @@ impl fmt::Debug for Go {
 
 impl GameState for Go {
     type Move = u16; // 0..N*N for board, N*N for pass
+    type Undo = Self;
 
     fn initial() -> Self {
         Go::new_9x9()
@@ -1138,6 +1139,18 @@ impl GameState for Go {
         next.move_count += 1;
         self.finalize_transition(&mut next);
         next
+    }
+
+    /// Phase 6.1: clone-based fallback. Go's state carries an Arc-shared
+    /// hash history and a board ring; specializing make-unmake here is
+    /// non-trivial. The clone+replace path preserves observable semantics.
+    fn apply_move_in_place(&mut self, mv: u16) -> Self {
+        let next = self.apply_move(mv);
+        std::mem::replace(self, next)
+    }
+
+    fn undo_move(&mut self, undo: Self) {
+        *self = undo;
     }
 
     fn is_terminal(&self) -> bool {

@@ -751,6 +751,7 @@ impl fmt::Display for Gomoku15 {
 
 impl GameState for Gomoku15 {
     type Move = u16; // 0..224
+    type Undo = Self;
 
     fn initial() -> Self {
         Gomoku15::freestyle()
@@ -815,6 +816,19 @@ impl GameState for Gomoku15 {
         next.push_recent_move(mv);
 
         next
+    }
+
+    /// Phase 6.1: clone-based fallback. Gomoku15 is not the scenario-A
+    /// hot path; the make-unmake optimization currently only targets
+    /// Gomoku-7. A future phase can specialize this if Gomoku-15 becomes
+    /// a profile-priority workload.
+    fn apply_move_in_place(&mut self, mv: u16) -> Self {
+        let next = self.apply_move(mv);
+        std::mem::replace(self, next)
+    }
+
+    fn undo_move(&mut self, undo: Self) {
+        *self = undo;
     }
 
     fn is_terminal(&self) -> bool {

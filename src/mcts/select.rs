@@ -727,7 +727,10 @@ pub fn select<G: GameState>(
         let next_node = edges[best_idx].child;
         drop(guard); // release Mutex before apply_move
 
-        cur_state = cur_state.apply_move(best_mv);
+        // Phase 6.1: in-place descent. The select loop only walks down the
+        // tree (no backtracking inside this function), so the returned undo
+        // is dropped — the leaf state is consumed by the caller as-is.
+        let _undo = cur_state.apply_move_in_place(best_mv);
         path.push(PathEdge {
             parent: cur_node,
             edge_idx: best_idx,

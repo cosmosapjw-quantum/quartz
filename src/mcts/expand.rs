@@ -111,15 +111,21 @@ pub fn materialize_edges<G: GameState>(
     if current < actual {
         let additional = actual.saturating_sub(guard.len());
         guard.reserve(additional);
+        // Phase 6.1: clone the parent state once and use apply_in_place +
+        // undo_move per candidate to avoid an N-way per-candidate clone of
+        // the (~1144 B for Gomoku-7) game state. Net effect on Gomoku-7 is
+        // (N - 1) clones eliminated per materialize call.
+        let mut probe = state.clone();
         for i in current..actual {
             let (mv, prior) = candidates[i];
-            let child_state = state.apply_move(mv);
-            let child_hash = child_state.tt_hash();
-            let tv = if child_state.is_terminal() {
-                Some(child_state.outcome())
+            let undo = probe.apply_move_in_place(mv);
+            let child_hash = probe.tt_hash();
+            let tv = if probe.is_terminal() {
+                Some(probe.outcome())
             } else {
                 None
             };
+            probe.undo_move(undo);
             let child = tt.get_or_create(child_hash, tv);
             guard.push(MctsEdge::new(mv, child, prior));
         }

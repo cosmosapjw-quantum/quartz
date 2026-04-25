@@ -19,6 +19,7 @@ impl CppGameAdapter {
 
 impl GameState for CppGameAdapter {
     type Move = usize;
+    type Undo = Self;
 
     fn initial() -> Self {
         Self::gomoku_9x9()
@@ -33,6 +34,13 @@ impl GameState for CppGameAdapter {
         CppGameAdapter {
             inner: self.inner.apply_move(mv),
         }
+    }
+    fn apply_move_in_place(&mut self, mv: usize) -> Self {
+        let next = self.apply_move(mv);
+        std::mem::replace(self, next)
+    }
+    fn undo_move(&mut self, undo: Self) {
+        *self = undo;
     }
     fn is_terminal(&self) -> bool {
         self.inner.is_terminal()

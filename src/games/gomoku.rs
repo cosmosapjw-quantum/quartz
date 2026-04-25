@@ -102,6 +102,22 @@ impl GomokuFeatureScratch {
 const GOMOKU_HISTORY_LEN: usize = 8;
 const GOMOKU_HISTORY_MOVES: usize = GOMOKU_HISTORY_LEN - 1;
 
+/// Reverse-info for `apply_move_in_place` (Phase 6.1, 2026-04-25). Compact
+/// (~24 B) so the MCTS select descent can stack-allocate one per ply
+/// instead of cloning the full ~1144 B `Gomoku` struct. The fields capture
+/// only what changes during a single apply; everything else is restored by
+/// inverting the deterministic mutation (XOR for Zobrist, decrement for
+/// `move_count`, write-zero for the cell).
+#[derive(Clone, Copy, Debug)]
+pub struct GomokuUndo {
+    pos: u16,
+    prev_winner: i8,
+    prev_recent_move_len: u8,
+    prev_last_move_some: bool,
+    prev_last_move_pos: u16,
+    prev_recent_moves: [u16; GOMOKU_HISTORY_MOVES],
+}
+
 #[derive(Clone, Debug)]
 pub struct Gomoku {
     pub size: usize,    // 보드 크기 (7/9/13/15)
@@ -285,6 +301,40 @@ impl Gomoku {
         false
     }
 
+    /// Internal in-place mutator shared by `apply_move` (clone-then-mutate)
+    /// and `apply_move_in_place` (Phase 6.1 hot-path entry point). Returns
+    /// the `GomokuUndo` blob needed to reverse the mutation.
+    #[inline]
+    fn apply_move_mut_internal(&mut self, mv: usize) -> GomokuUndo {
+        let player = self.current_player;
+        let undo = GomokuUndo {
+            pos: mv as u16,
+            prev_winner: self.winner,
+            prev_recent_move_len: self.recent_move_len,
+            prev_last_move_some: self.last_move.is_some(),
+            prev_last_move_pos: self.last_move.unwrap_or(0) as u16,
+            prev_recent_moves: self.recent_moves,
+        };
+
+        // Zobrist 갱신
+        self.hash ^= GOB.piece_hash(player, mv);
+        self.hash ^= GOB.side;
+
+        self.board[mv] = player;
+        self.occupied[self.move_count as usize] = mv as u16;
+        self.move_count += 1;
+        self.last_move = Some(mv);
+        self.push_recent_move(mv);
+
+        // 승리 판정 (착수 위치에서만 검사)
+        if self.check_win_at(mv, player) {
+            self.winner = player;
+        }
+
+        self.current_player = -player;
+        undo
+    }
+
     /// pos에 player 기물을 놓았을 때 win_len목 달성 여부
     #[inline]
     fn check_win_at(&self, pos: usize, player: i8) -> bool {
@@ -360,6 +410,7 @@ impl fmt::Display for Gomoku {
 
 impl GameState for Gomoku {
     type Move = usize; // flat index (0..size*size)
+    type Undo = GomokuUndo;
 
     fn initial() -> Self {
         Gomoku::new(9)
@@ -385,25 +436,43 @@ impl GameState for Gomoku {
 
     fn apply_move(&self, mv: usize) -> Self {
         let mut next = self.clone();
-        let player = self.current_player;
-
-        // Zobrist 갱신
-        next.hash ^= GOB.piece_hash(player, mv);
-        next.hash ^= GOB.side;
-
-        next.board[mv] = player;
-        next.occupied[self.move_count as usize] = mv as u16;
-        next.move_count += 1;
-        next.last_move = Some(mv);
-        next.push_recent_move(mv);
-
-        // 승리 판정 (착수 위치에서만 검사 → O(1) 아닌 O(n) 이지만 충분히 빠름)
-        if next.check_win_at(mv, player) {
-            next.winner = player;
-        }
-
-        next.current_player = -player;
+        // Phase 6.1: share the mutation logic with `apply_move_in_place`. The
+        // returned undo is dropped here — `apply_move`'s contract is to
+        // produce the next state without mutating `self`.
+        let _undo = next.apply_move_mut_internal(mv);
         next
+    }
+
+    fn apply_move_in_place(&mut self, mv: usize) -> GomokuUndo {
+        self.apply_move_mut_internal(mv)
+    }
+
+    fn undo_move(&mut self, undo: GomokuUndo) {
+        // current_player was flipped at the end of apply; the player who just
+        // moved is the *new* opponent of the current side.
+        let player = -self.current_player;
+        let pos = undo.pos as usize;
+
+        // Reverse the cell write and decrement move_count. occupied[move_count-1]
+        // becomes garbage by convention (only [..move_count] is valid).
+        self.board[pos] = 0;
+        self.move_count -= 1;
+
+        // Reverse Zobrist (XOR is involutive).
+        self.hash ^= GOB.piece_hash(player, pos);
+        self.hash ^= GOB.side;
+
+        // Restore winner / recent-history fields from the undo blob.
+        self.winner = undo.prev_winner;
+        self.recent_move_len = undo.prev_recent_move_len;
+        self.recent_moves = undo.prev_recent_moves;
+        self.last_move = if undo.prev_last_move_some {
+            Some(undo.prev_last_move_pos as usize)
+        } else {
+            None
+        };
+
+        self.current_player = player;
     }
 
     fn is_terminal(&self) -> bool {
@@ -1024,6 +1093,80 @@ mod tests {
             for seed in 0..100 {
                 let mv = s.random_legal_move(seed * 7919).unwrap();
                 assert!(mv < bound, "size={} seed={} move={} bound={}", size, seed, mv, bound);
+            }
+        }
+    }
+
+    /// Phase 6.1: random sequences of (apply_in_place, undo) leave board
+    /// state and hash identical to the pre-apply state. Also asserts that
+    /// `apply_move_in_place(mv)` produces the same post-state as
+    /// `apply_move(mv)` so the make-unmake path is fully equivalent.
+    #[test]
+    fn semantics_audit_apply_in_place_undo_equivalence() {
+        use rand::rngs::StdRng;
+        use rand::Rng;
+        use rand::SeedableRng;
+
+        for &size in &[7usize, 9, 13, 15] {
+            for seed in 0..16u64 {
+                let mut rng = StdRng::seed_from_u64(seed.wrapping_mul(31 + size as u64));
+                let mut s = Gomoku::new(size);
+                for _ply in 0..8 {
+                    if s.is_terminal() {
+                        break;
+                    }
+                    let legal = s.legal_moves();
+                    if legal.is_empty() {
+                        break;
+                    }
+                    let mv = legal[rng.gen::<usize>() % legal.len()];
+
+                    // 1) apply_move (clone) and apply_in_place must yield equal post-states.
+                    let pure = s.apply_move(mv);
+                    let mut mutated = s.clone();
+                    let undo = mutated.apply_move_in_place(mv);
+                    assert_eq!(pure.board, mutated.board);
+                    assert_eq!(pure.occupied, mutated.occupied);
+                    assert_eq!(pure.current_player, mutated.current_player);
+                    assert_eq!(pure.hash(), mutated.hash());
+                    assert_eq!(pure.move_count, mutated.move_count);
+                    assert_eq!(pure.winner, mutated.winner);
+                    assert_eq!(pure.last_move, mutated.last_move);
+                    assert_eq!(pure.recent_move_len, mutated.recent_move_len);
+                    assert_eq!(pure.recent_moves, mutated.recent_moves);
+
+                    // 2) undo restores the pre-apply state exactly.
+                    let pre_board = s.board;
+                    let pre_occupied = s.occupied;
+                    let pre_hash = s.hash();
+                    let pre_player = s.current_player;
+                    let pre_winner = s.winner;
+                    let pre_last_move = s.last_move;
+                    let pre_recent_len = s.recent_move_len;
+                    let pre_recent_moves = s.recent_moves;
+                    let pre_move_count = s.move_count;
+
+                    mutated.undo_move(undo);
+                    assert_eq!(mutated.board, pre_board);
+                    // Only [..move_count] of `occupied` is semantically valid;
+                    // the slot at index `move_count` may contain a stale value
+                    // from before undo (this is by-design and is invariant
+                    // with how `apply_move` writes occupied[move_count]).
+                    assert_eq!(
+                        mutated.occupied[..pre_move_count as usize],
+                        pre_occupied[..pre_move_count as usize]
+                    );
+                    assert_eq!(mutated.hash(), pre_hash);
+                    assert_eq!(mutated.current_player, pre_player);
+                    assert_eq!(mutated.winner, pre_winner);
+                    assert_eq!(mutated.last_move, pre_last_move);
+                    assert_eq!(mutated.recent_move_len, pre_recent_len);
+                    assert_eq!(mutated.recent_moves, pre_recent_moves);
+                    assert_eq!(mutated.move_count, pre_move_count);
+
+                    // Advance the outer state via the pure path.
+                    s = pure;
+                }
             }
         }
     }

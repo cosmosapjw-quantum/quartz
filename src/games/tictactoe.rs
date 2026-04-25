@@ -149,6 +149,7 @@ impl std::fmt::Display for TicTacToe {
 
 impl GameState for TicTacToe {
     type Move = usize; // 0..8 (보드 위치)
+    type Undo = Self;
 
     fn initial() -> Self {
         TicTacToe {
@@ -188,6 +189,18 @@ impl GameState for TicTacToe {
         next.current_player = -self.current_player;
         next.push_recent_move(mv);
         next
+    }
+
+    /// Phase 6.1: clone-based fallback. TicTacToe is small (~40 B); the
+    /// clone is cheap, so the make-unmake hot-path optimization isn't
+    /// worth the per-game implementation cost.
+    fn apply_move_in_place(&mut self, mv: usize) -> Self {
+        let next = self.apply_move(mv);
+        std::mem::replace(self, next)
+    }
+
+    fn undo_move(&mut self, undo: Self) {
+        *self = undo;
     }
 
     fn is_terminal(&self) -> bool {

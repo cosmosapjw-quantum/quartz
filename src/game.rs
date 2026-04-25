@@ -20,6 +20,13 @@ pub trait GameState: Clone + Send + Sync + 'static {
     /// 이 게임의 착수(이동) 타입
     type Move: Copy + Eq + Hash + Send + Sync + Debug + 'static;
 
+    /// Undo info returned by `apply_move_in_place` and consumed by `undo_move`.
+    /// Games override this with a compact delta struct (Phase 6.1, 2026-04-25).
+    /// The default — `Undo = Self` plus clone-and-replace bodies in
+    /// `apply_move_in_place` / `undo_move` — preserves the legacy
+    /// pure-function semantics without requiring every impl to migrate.
+    type Undo: Send;
+
     /// 게임 초기 상태 생성
     fn initial() -> Self;
 
@@ -31,6 +38,16 @@ pub trait GameState: Clone + Send + Sync + 'static {
 
     /// 착수를 적용해 새 상태 반환 (pure function, self 불변)
     fn apply_move(&self, mv: Self::Move) -> Self;
+
+    /// Apply a move in place. The returned `Undo` is consumed by `undo_move`
+    /// to restore the previous state. Hot paths (MCTS select descent,
+    /// edge materialization) use this to avoid full state clones.
+    fn apply_move_in_place(&mut self, mv: Self::Move) -> Self::Undo;
+
+    /// Reverse a prior `apply_move_in_place`. After this call, the receiver
+    /// must equal the state observed before the matched apply, including
+    /// hash and any auxiliary fields.
+    fn undo_move(&mut self, undo: Self::Undo);
 
     /// 게임 종료 여부
     fn is_terminal(&self) -> bool;
