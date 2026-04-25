@@ -521,9 +521,21 @@ plan followed in order.
 | Phase 0 (now, `9232342`) | 886 K | 1.13 | 558 ms | 31.6 % | 390 + 287 |
 | After Phase 1 (Python committed) | 886 K | 1.13 | 558 ms | 31.6 % | 390 + 292 |
 | After Phase 2 (3 Rust quick wins) | ~880 K | ~1.15 | ~540 ms | 31 % | 390 + 292 |
-| After Phase 3 (bumpalo) | < 200 K | > 1.7 | < 380 ms | < 10 % | 390 + 292 |
-| After Phase 4 (hang fixed) | unchanged | unchanged | unchanged | unchanged | 390 + 292 + orchestrator-harness completes |
-| After Phase 5 (lint) | unchanged | unchanged | unchanged | unchanged | 390 + 292 + ruff-clean |
+| **Target after Phase 3 (bumpalo)** | **< 200 K** | **> 1.7** | **< 380 ms** | **< 10 %** | **390 + 287** |
+| **Achieved Phase 3 (`0c3992e`)** | **125 K ✅** | **1.13 ✗** | **414 ms ◔** (min 372) | **24.3 % ✗** | **390 + 287 ✅** |
+| After Phase 4 (hang fixed) | unchanged | unchanged | unchanged | unchanged | 390 + 287 + orchestrator-harness completes |
+| After Phase 5 (lint) | unchanged | unchanged | unchanged | unchanged | 390 + 287 + ruff-clean |
+
+**Phase 3 result note:** the allocation-count bar (the headline reason
+Phase 3 exists) was hit cleanly. The IPC and dTLB bars were missed
+because the chosen `ArenaRef`-wrapper design (per the Phase 3.0
+analysis: option (a) is unsound on stable Rust, option (b)
+`<'arena>`-everywhere ripples to 140+ engine call sites and breaks
+gomocup_brain/mcts_server long-lived sessions) bumpalo-allocates the
+node body but leaves the inner `Vec<MctsEdge>` on the global heap.
+That hop is what's keeping per-node cache locality short of the
+< 10 % dTLB target. See [`docs/MCTS_PROFILE_DELTA_PHASE3_20260425.md`](MCTS_PROFILE_DELTA_PHASE3_20260425.md)
+§2 (bars hit / missed) and §6 (follow-ups).
 
 ---
 
