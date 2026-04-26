@@ -3,12 +3,15 @@
 from __future__ import annotations
 
 import atexit
+import ctypes
 import json
 import logging
 import os
 import select
+import signal as _signal
 import struct
 import subprocess
+import sys
 import threading
 import time
 from dataclasses import dataclass
@@ -18,6 +21,77 @@ import numpy as np
 
 
 log = logging.getLogger(__name__)
+
+
+# Phase 7 follow-up (2026-04-27): on Linux, set PR_SET_PDEATHSIG so that
+# any Rust child server dies if the Python parent exits abnormally
+# (SIGKILL, segfault, or any path that bypasses the orderly
+# stop_rust_server cleanup chain). Without this, orphaned children get
+# reparented to init(1) and survive — observed in ablation_study runs
+# that interrupt mid-search. Linux-only; on other platforms the
+# preexec_fn is None.
+def _set_parent_death_signal_linux():  # pragma: no cover - exercised at child startup
+    try:
+        libc = ctypes.CDLL("libc.so.6", use_errno=True)
+        # PR_SET_PDEATHSIG = 1, deliver SIGTERM when parent dies.
+        libc.prctl(1, _signal.SIGTERM, 0, 0, 0)
+    except Exception:
+        # Best-effort; if prctl fails the parent's stdin EOF should
+        # still cause the Rust server to exit on its own.
+        pass
+
+
+_RUST_PDEATHSIG_PREEXEC = (
+    _set_parent_death_signal_linux if sys.platform.startswith("linux") else None
+)
+
+
+# Phase 7 follow-up (2026-04-27): atexit registry for Rust server
+# subprocesses. Defense-in-depth alongside `_RUST_PDEATHSIG_PREEXEC`:
+# any proc spawned by `launch_rust_server` is tracked here and gets
+# terminated if Python exits without the orderly `stop_rust_server`
+# call (e.g. uncaught exception, sys.exit before bg_worker.stop ran,
+# eval engine that forgot to reset). Together with PR_SET_PDEATHSIG
+# this guarantees no Rust child outlives its Python parent on Linux.
+_LIVE_RUST_PROCS: list = []
+_LIVE_RUST_PROCS_LOCK = threading.Lock()
+
+
+def _track_rust_proc(proc):
+    with _LIVE_RUST_PROCS_LOCK:
+        _LIVE_RUST_PROCS.append(proc)
+
+
+def _untrack_rust_proc(proc):
+    with _LIVE_RUST_PROCS_LOCK:
+        try:
+            _LIVE_RUST_PROCS.remove(proc)
+        except ValueError:
+            pass
+
+
+def _atexit_kill_orphans():
+    with _LIVE_RUST_PROCS_LOCK:
+        procs = list(_LIVE_RUST_PROCS)
+        _LIVE_RUST_PROCS.clear()
+    for proc in procs:
+        try:
+            if proc.poll() is None:
+                # Try graceful first, then SIGKILL.
+                try:
+                    proc.terminate()
+                    proc.wait(timeout=2)
+                except Exception:
+                    try:
+                        proc.kill()
+                        proc.wait(timeout=1)
+                    except Exception:
+                        pass
+        except Exception:
+            pass
+
+
+atexit.register(_atexit_kill_orphans)
 
 
 QIPC_MAGIC = b"QIPC"
@@ -323,6 +397,7 @@ def launch_rust_server(
         text=False,
         bufsize=0,
         env=env,
+        preexec_fn=_RUST_PDEATHSIG_PREEXEC,
     )
     deadline = time.time() + 0.015
     while time.time() < deadline:
@@ -347,6 +422,7 @@ def launch_rust_server(
         proc._quartz_qipc_transport = transport
     if ring_buffer is not None:
         proc._quartz_ring_buffer = ring_buffer
+    _track_rust_proc(proc)
     stall_trace_fn("rust_server_ready", child_pid=proc.pid, shm=bool(transport), ring=bool(ring_buffer))
     return proc
 
@@ -372,6 +448,7 @@ def stop_rust_server(
             pass
     finally:
         cleanup_qipc_transport_fn(proc)
+        _untrack_rust_proc(proc)
         stall_trace_fn(
             "rust_server_stop_end",
             child_pid=getattr(proc, "pid", None),
