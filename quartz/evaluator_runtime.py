@@ -1276,6 +1276,17 @@ class PersistentRustNNEvalCampaign:
         if getattr(self, "_client", None) is not None:
             self._client.stop()
             self._client = None
+        # Phase 7 follow-up (2026-04-27): explicitly drop any stacked-
+        # module-state cache entries left over from the (opt-in) fused
+        # multi-model eval forward. Belt-and-suspenders alongside the
+        # weakref-on-model anchor: ensures GPU tensors are returned to
+        # the caching allocator immediately on campaign close, even
+        # if other references to a model still happen to be live.
+        try:
+            from quartz.eval_runtime import clear_fused_cache as _clear_fused_cache
+            _clear_fused_cache()
+        except Exception:
+            pass
 
     def __enter__(self):
         return self
