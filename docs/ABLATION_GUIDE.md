@@ -170,6 +170,45 @@ venv/bin/python scripts/ablation_study.py \
   --prepare-gomocup
 ```
 
+## Rust-side ablation scaffolds
+
+The Python harness in `scripts/ablation_study.py` is the canonical
+training-loop ablation runner. In addition, the Rust crate ships a set of
+mechanism-level scaffolds in `src/ablation_*.rs` that test specific search
+behaviors with fixed evaluators, no learner involved. These produce the
+numbers cited in `docs/QUARTZ_THEORY.md` (e.g. the AdaptiveVL `AvgVV ≈ 0.17,
+DupRt ≈ 0.38` line).
+
+Every Rust ablation is gated behind `#[ignore]` so it doesn't run in the
+default `cargo test` suite. Q7 (`audit_codex_20260428.md` W'10) added a
+single reproduction wrapper:
+
+```bash
+# Run every Rust-side ablation; output collected under results/rust_ablations/
+scripts/run_rust_ablations.sh
+
+# Run a single named module (no other modules touched)
+scripts/run_rust_ablations.sh ablation_vl
+```
+
+Modules currently exposed:
+
+| Module | Studies | Source |
+| --- | --- | --- |
+| `ablation_vl` | Adaptive Virtual Loss vs Fixed VL across thread counts | `src/ablation_vl.rs` |
+| `ablation_pflip` | P_flip convergence and adaptive stopping under various evaluator qualities | `src/ablation_pflip.rs` |
+| `ablation_phase1b` | GatedRefresh penalty + P_flip gate + Q-refresh end-to-end | `src/ablation_phase1b.rs` |
+| `ablation_refresh` | Prior-refresh phase 0 / 1A / 1B | `src/ablation_refresh.rs` |
+| `ablation_refresh_v2` | Prior-refresh critical analysis (SelfAdaptive built-in refresh, etc.) | `src/ablation_refresh_v2.rs` |
+| `ablation_h3` | D-based gating threshold sweep (4-condition) | `src/ablation_h3.rs` |
+| `calibration` | Cross-game σ₀ calibration sweep | `src/calibration.rs` (Q9: emits `sigma_0_recommendation.json`) |
+
+These scaffolds are mechanism-level — they do not participate in the
+training-loop ablation matrix. Use them as reproducibility anchors for
+controller-level claims, not as substitutes for the Python harness. The
+collected logs land alongside the Python ablation results so review
+bundles can pick them up uniformly.
+
 ## Artifact contract
 
 Each ablation directory now carries:

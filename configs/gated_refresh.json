@@ -6,5 +6,5 @@
     "games": 100,
     "steps": 200,
     "batch": 512,
-    "comment": "Default: minimax-optimal from ablation study"
+    "comment": "Example override: GatedRefresh penalty mode. NOT a current production default; default training reads from quartz/training_catalog.py. Current Gomoku7 evidence does not favor refresh-enabled defaults (see README Maturity table and docs/QUARTZ_THEORY.md)."
 }

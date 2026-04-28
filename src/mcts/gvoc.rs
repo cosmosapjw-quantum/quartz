@@ -241,4 +241,104 @@ mod tests {
         s.p_envar = 0.8;
         assert_eq!(routing_mode(&s, &qcfg), ProposalMode::Outside);
     }
+
+    // Q6 (audit_codex_20260428.md W'8): integration test that calls
+    // `GvocState::update()` with a real MCTS root rather than simulating
+    // the body inline. The pre-Q6 tests at
+    // `test_gvoc_expand_on_high_voc` / `test_gvoc_contract_on_low_voc`
+    // re-implemented the threshold logic in test code, so a refactor of
+    // `update()` could regress without tripping CI. This test plugs the
+    // PW scheduler into a TicTacToe search with a `score_interval` of 1
+    // and asserts (a) `iterations` is incremented per call and (b) the
+    // `n_visible_eff` knob remains within its declared bounds.
+
+    use crate::game::{Evaluator, GameState};
+    use crate::games::tictactoe::TicTacToe;
+    use crate::mcts::eval::UniformEval;
+    use crate::mcts::quartz::QuartzController;
+    use crate::mcts::{MctsConfig, MctsEngine, PwConfig};
+    use std::sync::Arc;
+
+    #[test]
+    fn test_q6_gvoc_update_with_real_root_respects_bounds_and_advances_iters() {
+        let cfg = MctsConfig::evaluation_with_pw(2.0, PwConfig::new(2.0, 0.5))
+            .with_quartz(QuartzConfig::default());
+        let eval: Arc<dyn Evaluator<TicTacToe> + Send + Sync> = Arc::new(UniformEval);
+        let engine = MctsEngine::new(TicTacToe::initial(), eval, cfg);
+        let mut ctrl = QuartzController::new(64, QuartzConfig::default());
+        engine.run_quartz(&mut ctrl);
+
+        let n_cands = engine.root.candidate_count();
+        let qcfg = ctrl.cfg.clone();
+        let gvoc_cfg = GvocConfig {
+            score_interval: 1,
+            min_visible: 2,
+            max_visible: n_cands.max(2),
+            ..Default::default()
+        };
+        let mut state = GvocState::new(gvoc_cfg.clone(), n_cands.max(2).min(4));
+
+        let initial_visible = state.n_visible_eff;
+        for _ in 0..3 {
+            state.update(&engine.root, n_cands, &qcfg);
+        }
+
+        // (a) iterations counter advances by one per update call regardless
+        //     of whether the threshold logic fires.
+        assert_eq!(
+            state.iterations, 3,
+            "GvocState::update must increment iterations on every call"
+        );
+        // (b) n_visible_eff stays in [min_visible, max_visible] at all
+        //     times — this is the bounds invariant the inline tests
+        //     never exercised.
+        assert!(state.n_visible_eff >= gvoc_cfg.min_visible);
+        assert!(state.n_visible_eff <= gvoc_cfg.max_visible);
+        // (c) every change must be reflected in either expand_count or
+        //     contract_count; if neither fired, n_visible_eff must equal
+        //     its starting value. Catches a class of off-by-one bugs in
+        //     the side-effect bookkeeping.
+        let changed = state.n_visible_eff != initial_visible;
+        let counted = state.expand_count + state.contract_count > 0;
+        assert_eq!(
+            changed, counted,
+            "n_visible_eff change must be matched by exactly one bookkeeping counter increment"
+        );
+    }
+
+    #[test]
+    fn test_q6_gvoc_disabled_when_below_score_interval() {
+        // Q6: when score_interval is large relative to the number of
+        // update() calls, the scheduler must NOT mutate any of its state
+        // beyond the iterations counter. Verifies that the early-return
+        // path at `if self.iterations % self.cfg.score_interval != 0`
+        // is honored under real-engine inputs (not just inline mocks).
+        let cfg = MctsConfig::evaluation_with_pw(2.0, PwConfig::new(2.0, 0.5))
+            .with_quartz(QuartzConfig::default());
+        let eval: Arc<dyn Evaluator<TicTacToe> + Send + Sync> = Arc::new(UniformEval);
+        let engine = MctsEngine::new(TicTacToe::initial(), eval, cfg);
+        let mut ctrl = QuartzController::new(64, QuartzConfig::default());
+        engine.run_quartz(&mut ctrl);
+
+        let n_cands = engine.root.candidate_count();
+        let qcfg = ctrl.cfg.clone();
+        // Large score_interval — only the call where `iterations %
+        // score_interval == 0` does any work. With iterations=1..=3 and
+        // score_interval=200, no real update body should ever execute.
+        let mut state = GvocState::new(
+            GvocConfig {
+                score_interval: 200,
+                ..Default::default()
+            },
+            8,
+        );
+        let initial_visible = state.n_visible_eff;
+        for _ in 0..3 {
+            state.update(&engine.root, n_cands, &qcfg);
+        }
+        assert_eq!(state.iterations, 3);
+        assert_eq!(state.n_visible_eff, initial_visible);
+        assert_eq!(state.expand_count, 0);
+        assert_eq!(state.contract_count, 0);
+    }
 }

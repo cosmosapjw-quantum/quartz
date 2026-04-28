@@ -260,6 +260,15 @@ pub struct QuartzConfig {
     /// Apply QUARTZ score shaping only at the root.
     /// When false, the historical shallow depth<=3 blend is enabled.
     pub root_only_shaping: bool,
+    /// Q8 (audit_codex_20260428.md W'2): when true, the `PFlipMixture`
+    /// penalty mode additionally gates its refresh-mixture activation
+    /// on `prior_q_divergence > epsilon_t`, mirroring the behavior of
+    /// `GatedRefresh`. Default false preserves the existing PFlipMixture
+    /// math so already-published numbers do not silently shift; setting
+    /// this true enables divergence-aware sweeps under PFlipMixture
+    /// instead of the no-op response previously documented in
+    /// `docs/QUARTZ_THEORY.md` §5.
+    pub pflip_mixture_divergence_gate: bool,
     // ── 고정값 (config에서 제거, 코드에 hardcode) ──
     // fisher_alpha = 0.5  (F_aa = π(a) → natural gradient → √π)
     // flip_thresh  = 0.159 (Φ(-1), 1-sigma rule)
@@ -290,6 +299,7 @@ impl Default for QuartzConfig {
             prior_refresh_rate: 0.0, // disabled by default
             prior_refresh_temp: 1.0,
             root_only_shaping: true,
+            pflip_mixture_divergence_gate: false,
         }
     }
 }
@@ -1641,9 +1651,14 @@ struct QuartzCtrlInner {
 }
 
 /// P6 (audit_codex_20260425.md W8): one record per `should_stop` call.
-/// `schema_version: 1` is published with this struct so wire-format
-/// changes can be detected by downstream consumers
-/// (`quartz/replay.py:_finalize_halt_trace`).
+///
+/// `schema_version: 2` (audit_codex_20260428.md Q3): adds
+/// `voc_argmax_channel`, the argmax of (voc_focus, voc_expand,
+/// voc_merge) at this halt-check. Consumers expecting v1 may safely
+/// ignore the new field; v1 had no argmax channel field at all.
+/// `quartz/replay.py:_finalize_halt_trace` aggregates the per-check
+/// argmax into a histogram in the replay search summary so the
+/// "three-channel VOC" framing is falsifiable per artifact.
 #[derive(Clone, Debug, serde::Serialize)]
 pub struct HaltCheck {
     pub schema_version: u8,
@@ -1657,8 +1672,28 @@ pub struct HaltCheck {
     pub voc_focus: f32,
     pub voc_expand: f32,
     pub voc_merge: f32,
+    /// Q3: argmax of (focus, expand, merge); one of "focus" / "expand" /
+    /// "merge". When all three channels equal NEG_INFINITY (no usable
+    /// channel), this is "none". This is a static-string label so it
+    /// serializes as plain JSON without enum tagging.
+    pub voc_argmax_channel: &'static str,
     pub decision: &'static str,
     pub triggered: bool,
+}
+
+/// Q3: pure helper exposed for unit testing. Returns the static label
+/// of the channel with the largest VOC value. Ties resolve in declared
+/// order (focus, expand, merge). All-NaN / all-NEG_INFINITY returns
+/// "none".
+pub fn voc_argmax_channel(focus: f32, expand: f32, merge: f32) -> &'static str {
+    let candidates = [("focus", focus), ("expand", expand), ("merge", merge)];
+    let mut best: (&'static str, f32) = ("none", f32::NEG_INFINITY);
+    for (name, value) in candidates {
+        if value.is_finite() && value > best.1 {
+            best = (name, value);
+        }
+    }
+    best.0
 }
 
 pub struct QuartzController {
@@ -1903,8 +1938,13 @@ fn record_halt_check(
     triggered: bool,
 ) {
     let stats = &g.last_stats;
+    let argmax = voc_argmax_channel(
+        stats.unified.voc_focus,
+        stats.unified.voc_expand,
+        stats.unified.voc_merge,
+    );
     g.halt_telemetry.push(HaltCheck {
-        schema_version: 1,
+        schema_version: 2,
         root_visits,
         elapsed_ms,
         p_flip: stats.p_flip,
@@ -1915,6 +1955,7 @@ fn record_halt_check(
         voc_focus: stats.unified.voc_focus,
         voc_expand: stats.unified.voc_expand,
         voc_merge: stats.unified.voc_merge,
+        voc_argmax_channel: argmax,
         decision,
         triggered,
     });
@@ -2211,13 +2252,15 @@ mod tests {
     fn test_p6_halt_telemetry_records_max_visits_terminal() {
         // P6 (audit_codex_20260425.md W8): hitting the max_visits ceiling
         // appends a single HaltCheck with decision="MaxVisits", triggered=true.
+        // Q3 (audit_codex_20260428.md W'1) bumped the schema to 2 to add
+        // `voc_argmax_channel`; the wire format remains additive.
         let cfg = QuartzConfig::default();
         let ctrl = QuartzController::new(10, cfg);
         assert!(ctrl.should_stop(10, 0));
         let tele = ctrl.halt_telemetry();
         assert_eq!(tele.len(), 1);
         let rec = &tele[0];
-        assert_eq!(rec.schema_version, 1);
+        assert_eq!(rec.schema_version, 2);
         assert_eq!(rec.root_visits, 10);
         assert_eq!(rec.decision, "MaxVisits");
         assert!(rec.triggered);
@@ -2244,12 +2287,12 @@ mod tests {
     }
 
     #[test]
-    fn test_p6_halt_check_serializes_with_schema_version_1() {
-        // P6: JSON wire format must carry `schema_version: 1` for the
-        // Python aggregator. Asserts shape + presence of every advertised
-        // field.
+    fn test_p6_halt_check_serializes_with_schema_version_2() {
+        // P6 + Q3: JSON wire format carries `schema_version: 2`. v2 added
+        // `voc_argmax_channel`. Asserts shape + presence of every advertised
+        // field including the new one.
         let rec = HaltCheck {
-            schema_version: 1,
+            schema_version: 2,
             root_visits: 100,
             elapsed_ms: 250,
             p_flip: 0.05,
@@ -2258,20 +2301,39 @@ mod tests {
             hbar_eff: 0.6,
             voc_total: 0.04,
             voc_focus: 0.02,
-            voc_expand: 0.01,
+            voc_expand: 0.04,
             voc_merge: 0.01,
-            decision: "Converged",
+            voc_argmax_channel: "expand",
+            decision: "VocNonPositive",
             triggered: true,
         };
         let json = serde_json::to_value(&rec).unwrap();
-        assert_eq!(json["schema_version"], 1);
+        assert_eq!(json["schema_version"], 2);
         for key in [
             "root_visits", "elapsed_ms", "p_flip", "flip_stable", "sigma_q",
             "hbar_eff", "voc_total", "voc_focus", "voc_expand", "voc_merge",
-            "decision", "triggered",
+            "voc_argmax_channel", "decision", "triggered",
         ] {
             assert!(json.get(key).is_some(), "missing field {key}");
         }
+        assert_eq!(json["voc_argmax_channel"], "expand");
+    }
+
+    #[test]
+    fn test_q3_voc_argmax_channel_helper() {
+        // Q3 (audit_codex_20260428.md): voc_argmax_channel must reliably pick
+        // the largest finite channel; ties resolve in declared order
+        // (focus → expand → merge); all-NaN / NEG_INF returns "none".
+        assert_eq!(voc_argmax_channel(0.5, 0.1, 0.1), "focus");
+        assert_eq!(voc_argmax_channel(0.0, 0.5, 0.1), "expand");
+        assert_eq!(voc_argmax_channel(0.0, 0.1, 0.5), "merge");
+        // Ties: focus wins on equality (declared order).
+        assert_eq!(voc_argmax_channel(0.5, 0.5, 0.5), "focus");
+        // NaN / NEG_INF inputs degrade gracefully.
+        assert_eq!(voc_argmax_channel(f32::NAN, f32::NAN, f32::NAN), "none");
+        assert_eq!(voc_argmax_channel(f32::NEG_INFINITY, f32::NEG_INFINITY, f32::NEG_INFINITY), "none");
+        // Mixed: NaN is non-finite, falls through.
+        assert_eq!(voc_argmax_channel(f32::NAN, 0.5, 0.1), "expand");
     }
 
     #[test]

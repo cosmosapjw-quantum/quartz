@@ -58,4 +58,9 @@ markers = [
     # Still fast enough for the default suite (~3s) but tagged so
     # opt-out CI gates can skip them via `-m "not slow"`.
     "slow: integration-style tests that build a real model + replay",
+    # Q5 (audit_codex_20260428.md W'3): real-loop tests that spawn the
+    # Rust self-play subprocess and exercise the full
+    # selfplay→replay→SGD→eval pipeline. Minutes-scale; opt-in only.
+    # Run via `pytest -m real_loop tests/`.
+    "real_loop: full pipeline tests; spawns Rust binary; minutes-scale",
 ]

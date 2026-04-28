@@ -6,5 +6,5 @@
     "games": 100,
     "steps": 200,
     "batch": 512,
-    "comment": "VF↔Q mixture, best for low budget"
+    "comment": "Example override: PFlipMixture (VF↔Q refresh mixture by p_ratio). Experimental; not a current production default. Note: unlike GatedRefresh, this mode does NOT consult prior_q_divergence (see docs/QUARTZ_THEORY.md §5)."
 }

@@ -673,6 +673,70 @@ def test_pin_halt_mode_is_noop_for_search_vl_preset():
         assert "halt_mode" not in cond_cfg
 
 
+def test_q4_halt_attribution_preset_varies_halt_mode():
+    """Q4 (audit_codex_20260428.md W'4): halt_attribution rows must differ
+    only in halt_mode while penalty_mode and refresh stay constant. This
+    is the contract that lets a reader attribute compute savings to the
+    halt mode itself rather than to a confound.
+    """
+    ablation = load_ablation_module()
+    preset = ablation.resolve_study_preset("halt_attribution")
+    train = preset["train_conditions"]
+    # Three rows expected, each pinning a distinct halt_mode.
+    halt_modes = sorted(cfg["halt_mode"] for cfg in train.values())
+    assert halt_modes == ["fixed", "simple_threshold", "voc"]
+    # All other identity fields must be identical across rows.
+    invariants = ("penalty_mode", "root_only_shaping", "prior_refresh_rate", "vl_mode", "search_profile")
+    first = next(iter(train.values()))
+    for cfg in train.values():
+        for key in invariants:
+            assert cfg.get(key) == first.get(key), (
+                f"halt_attribution preset rows must agree on {key}"
+            )
+
+
+def test_q4_pin_halt_mode_does_not_clobber_halt_attribution_rows():
+    """Q4: when halt_attribution is pinned for fairness, the explicit
+    per-row halt_mode (the variable being studied) must survive.
+    `pin_halt_mode_for_attribution` is a noop for halt_attribution
+    today, but if halt_attribution is ever added to
+    CONTROLLER_ATTRIBUTION_PRESETS the setdefault discipline still
+    preserves the explicit value.
+    """
+    ablation = load_ablation_module()
+    preset = ablation.resolve_study_preset("halt_attribution")
+    pinned = ablation.pin_halt_mode_for_attribution(preset, "halt_attribution")
+    # Whether the function noops or applies setdefault, every row's
+    # explicit halt_mode must still be present and varied.
+    halt_modes = sorted(cfg["halt_mode"] for cfg in pinned["train_conditions"].values())
+    assert halt_modes == ["fixed", "simple_threshold", "voc"]
+
+
+def test_q4_resolve_frozen_eval_pins_first_for_halt_attribution():
+    """Q4: halt_attribution presets need a single frozen eval condition so
+    the comparison varies only halt_mode, not the eval engine itself."""
+    ablation = load_ablation_module()
+    eval_conditions = {"EH2_simple_threshold": {}, "EH1_voc_default": {}, "EH3_fixed_full_budget": {}}
+    args = _make_p8_args("halt_attribution")
+    # Sorted-first must be EH1_voc_default.
+    assert ablation.resolve_frozen_eval_condition(args, eval_conditions) == "EH1_voc_default"
+
+
+def test_q4_attribution_preset_tag_marks_halt_axis_preset():
+    """Q4: study_manifest.attribution metadata must distinguish controller-
+    attribution presets (halt pinned) from halt-axis presets (halt varies)."""
+    ablation = load_ablation_module()
+    halt_tag = ablation.attribution_preset_tag("halt_attribution")
+    assert halt_tag["halt_axis_preset"] is True
+    assert halt_tag["attribution_preset"] is False
+    ctrl_tag = ablation.attribution_preset_tag("controller_axes")
+    assert ctrl_tag["halt_axis_preset"] is False
+    assert ctrl_tag["attribution_preset"] is True
+    none_tag = ablation.attribution_preset_tag("search_vl")
+    assert none_tag["halt_axis_preset"] is False
+    assert none_tag["attribution_preset"] is False
+
+
 def test_pin_halt_mode_does_not_mutate_original_preset():
     """P7: deep-copy semantics — module-level constants stay untouched."""
     ablation = load_ablation_module()

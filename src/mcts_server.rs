@@ -564,61 +564,11 @@ fn parse_sparse_policy_value(value: &serde_json::Value) -> Vec<SparsePolicyEntry
         .unwrap_or_default()
 }
 
-fn jstr<'a>(s: &'a str, key: &str) -> Option<&'a str> {
-    let pat = format!("\"{}\":", key);
-    let start = s.find(&pat)? + pat.len();
-    let rest = s[start..].trim_start(); // skip whitespace after colon
-    if rest.starts_with('"') {
-        let inner = &rest[1..];
-        let end = inner.find('"')?;
-        Some(&inner[..end])
-    } else {
-        None
-    }
-}
-fn jint(s: &str, key: &str) -> Option<i64> {
-    let pat = format!("\"{}\":", key);
-    let start = s.find(&pat)? + pat.len();
-    let rest = s[start..].trim_start();
-    let end = rest
-        .find(|c: char| !c.is_ascii_digit() && c != '-')
-        .unwrap_or(rest.len());
-    rest[..end].parse().ok()
-}
-fn jarr(s: &str, key: &str) -> Vec<i64> {
-    let pat = format!("\"{}\":[", key);
-    if let Some(start) = s.find(&pat) {
-        let rest = &s[start + pat.len()..];
-        if let Some(end) = rest.find(']') {
-            return rest[..end]
-                .split(',')
-                .filter_map(|v| v.trim().parse().ok())
-                .collect();
-        }
-    }
-    vec![]
-}
-fn jfloat(s: &str, key: &str) -> Option<f64> {
-    let pat = format!("\"{}\":", key);
-    let start = s.find(&pat)? + pat.len();
-    let rest = s[start..].trim_start();
-    let end = rest
-        .find(|c: char| !c.is_ascii_digit() && c != '-' && c != '.')
-        .unwrap_or(rest.len());
-    rest[..end].parse().ok()
-}
-fn jbool(s: &str, key: &str) -> Option<bool> {
-    let pat = format!("\"{}\":", key);
-    let start = s.find(&pat)? + pat.len();
-    let rest = s[start..].trim_start();
-    if rest.starts_with("true") {
-        Some(true)
-    } else if rest.starts_with("false") {
-        Some(false)
-    } else {
-        None
-    }
-}
+// Q10 (audit_codex_20260428.md W'6): JSON parsing helpers were extracted
+// to `crate::mcts_server_parsers`. They are pure str→Option transforms
+// with no engine-state dependencies; the new home gives them their own
+// unit-test module and shrinks the mcts_server review surface.
+use crate::mcts_server_parsers::{jarr, jbool, jfloat, jint, jstr};
 
 fn frame_take<'a>(payload: &'a [u8], offset: &mut usize, n: usize) -> Result<&'a [u8], String> {
     if payload.len().saturating_sub(*offset) < n {
@@ -1360,12 +1310,22 @@ fn attach_search_metadata(
     let voc_focus = obj.get("voc_focus").and_then(|v| v.as_f64()).unwrap_or(0.0);
     let voc_expand = obj.get("voc_expand").and_then(|v| v.as_f64()).unwrap_or(0.0);
     let voc_merge = obj.get("voc_merge").and_then(|v| v.as_f64()).unwrap_or(0.0);
+    // Q3 (audit_codex_20260428.md W'1): forward the per-game argmax
+    // histogram into the controller_summary view so the Python aggregator
+    // (replay.py:ReplayMetrics.controller_telemetry_summary) can build a
+    // study-wide histogram over rows without reparsing the search-result
+    // top level. An empty object means the row never recorded a halt-check
+    // (older Rust binary on schema_version 1, or non-Quartz profile).
+    let voc_argmax_channel_hist = obj
+        .get("voc_argmax_channel_hist")
+        .cloned()
+        .unwrap_or_else(|| serde_json::json!({}));
     let controller_summary = serde_json::json!({
-        // P6: schema_version pins the wire format for replay aggregator
-        // and downstream analysis (`quartz/replay.py:_finalize_halt_trace`).
-        // Bump when fields are added/removed in a non-backward-compatible
-        // way; readers must tolerate unknown extra fields.
-        "schema_version": 1,
+        // P6+Q3: schema_version pins the wire format. v1 had no argmax
+        // channel field; v2 adds `voc_argmax_channel_hist`. Readers must
+        // tolerate unknown extra fields and degrade gracefully when a
+        // newer field is missing on an older Rust binary.
+        "schema_version": 2,
         "p_flip": obj.get("p_flip").and_then(|v| v.as_f64()).unwrap_or(0.0),
         "value": obj.get("value").and_then(|v| v.as_f64()).unwrap_or(0.0),
         "sigma_q": obj.get("sigma_q").and_then(|v| v.as_f64()).unwrap_or(0.0),
@@ -1374,6 +1334,7 @@ fn attach_search_metadata(
         "voc_focus": voc_focus,
         "voc_expand": voc_expand,
         "voc_merge": voc_merge,
+        "voc_argmax_channel_hist": voc_argmax_channel_hist,
         "dup_rate": obj.get("dup_rate").and_then(|v| v.as_f64()).unwrap_or(0.0),
         "max_pending": obj.get("max_pending").and_then(|v| v.as_u64()).unwrap_or(0),
         "avg_vvalue": obj.get("avg_vvalue").and_then(|v| v.as_f64()).unwrap_or(0.0),
@@ -2366,6 +2327,7 @@ fn choose_selfplay_action_generic<G: GameState>(
 fn build_result_value<G: GameState>(
     engine: &MctsEngine<G>,
     n_act: usize,
+    outcome: &SearchExecutionOutcome,
     iterations: u32,
     stop_reason: String,
     p_flip: f32,
@@ -2377,6 +2339,13 @@ fn build_result_value<G: GameState>(
     let (best, policy, total) = collect_sparse_policy(engine, n_act);
     let tt = engine.tt.contention_snapshot();
     let par = engine.par_ctrl.telemetry.snapshot();
+    // Q3: serialize the argmax histogram as a plain JSON object so the
+    // Python aggregator (replay.py) can read it directly.
+    let argmax_hist_json: serde_json::Map<String, serde_json::Value> = outcome
+        .voc_argmax_channel_hist
+        .iter()
+        .map(|(k, v)| ((*k).to_string(), serde_json::json!(*v)))
+        .collect();
     serde_json::json!({
         "best_move": best,
         "policy": policy,
@@ -2396,6 +2365,13 @@ fn build_result_value<G: GameState>(
         "tt_get_calls": tt.get_calls,
         "tt_lock_wait_ms": tt.lock_wait_nanos as f64 / 1_000_000.0,
         "tt_max_lock_wait_ms": tt.max_lock_wait_nanos as f64 / 1_000_000.0,
+        // Q3 (audit_codex_20260428.md W'1): VOC channel decomposition is now
+        // populated for SearchProfile::Quartz; baseline profiles emit zeros.
+        "voc_total": f_or(outcome.voc_total, 0.0),
+        "voc_focus": f_or(outcome.voc_focus, 0.0),
+        "voc_expand": f_or(outcome.voc_expand, 0.0),
+        "voc_merge": f_or(outcome.voc_merge, 0.0),
+        "voc_argmax_channel_hist": serde_json::Value::Object(argmax_hist_json),
     })
 }
 
@@ -2407,6 +2383,18 @@ struct SearchExecutionOutcome {
     sigma_q: f32,
     hbar_eff: f32,
     prior_q_divergence: Option<f32>,
+    /// Q3 (audit_codex_20260428.md W'1): VOC channel decomposition from
+    /// the controller's last_stats. Populated only for SearchProfile::Quartz;
+    /// other profiles report 0.0 (no controller present).
+    voc_total: f32,
+    voc_focus: f32,
+    voc_expand: f32,
+    voc_merge: f32,
+    /// Q3: per-game histogram of the argmax channel across every halt-check
+    /// the controller recorded. Empty for non-Quartz profiles. Lets readers
+    /// see whether VOC-halt is dominated by one channel or genuinely
+    /// distributed across focus / expand / merge.
+    voc_argmax_channel_hist: std::collections::BTreeMap<&'static str, u32>,
 }
 
 #[derive(Clone, Copy)]
@@ -2444,6 +2432,15 @@ where
                 engine.run_quartz(&mut ctrl);
             }
             let s = ctrl.last_stats();
+            // Q3 (audit_codex_20260428.md W'1): aggregate per-halt-check
+            // argmax-channel labels into a histogram so the per-game artifact
+            // shows whether VOC halts are channel-distributed or
+            // single-channel-dominated.
+            let mut argmax_hist: std::collections::BTreeMap<&'static str, u32> =
+                std::collections::BTreeMap::new();
+            for check in ctrl.halt_telemetry() {
+                *argmax_hist.entry(check.voc_argmax_channel).or_insert(0) += 1;
+            }
             SearchExecutionOutcome {
                 iterations: engine.root.n_total.load(Ordering::Relaxed),
                 stop_reason: format!("{:?}", ctrl.last_stop_reason()),
@@ -2452,6 +2449,11 @@ where
                 sigma_q: s.sigma_q,
                 hbar_eff: s.hbar_eff,
                 prior_q_divergence: Some(s.prior_q_divergence),
+                voc_total: s.unified.voc_total,
+                voc_focus: s.unified.voc_focus,
+                voc_expand: s.unified.voc_expand,
+                voc_merge: s.unified.voc_merge,
+                voc_argmax_channel_hist: argmax_hist,
             }
         }
         SearchProfile::Baseline | SearchProfile::BaselineStrict => {
@@ -2469,6 +2471,11 @@ where
                 sigma_q: 0.0,
                 hbar_eff: 0.0,
                 prior_q_divergence: None,
+                voc_total: 0.0,
+                voc_focus: 0.0,
+                voc_expand: 0.0,
+                voc_merge: 0.0,
+                voc_argmax_channel_hist: std::collections::BTreeMap::new(),
             }
         }
     }
@@ -2513,8 +2520,9 @@ where
     let out = build_result_value(
         engine,
         n_act,
+        &outcome,
         outcome.iterations,
-        outcome.stop_reason,
+        outcome.stop_reason.clone(),
         outcome.p_flip,
         outcome.value,
         outcome.sigma_q,
@@ -2810,22 +2818,48 @@ fn build_async_result_value<G: GameState>(
 where
     usize: From<G::Move>,
 {
-    let (p_flip, value, sigma_q, hbar_eff, prior_q_divergence) = match search_profile {
-        SearchProfile::Quartz => match engine.current_quartz_stats() {
-            Some(stats) => (
-                stats.p_flip,
-                stats.mean_q,
-                stats.sigma_q,
-                stats.hbar_eff,
-                Some(stats.prior_q_divergence),
-            ),
-            None => (0.0, 0.0, 0.0, 0.0, None),
-        },
-        SearchProfile::Baseline | SearchProfile::BaselineStrict => (0.0, 0.0, 0.0, 0.0, None),
+    let (p_flip, value, sigma_q, hbar_eff, prior_q_divergence, voc_total, voc_focus, voc_expand, voc_merge) =
+        match search_profile {
+            SearchProfile::Quartz => match engine.current_quartz_stats() {
+                Some(stats) => (
+                    stats.p_flip,
+                    stats.mean_q,
+                    stats.sigma_q,
+                    stats.hbar_eff,
+                    Some(stats.prior_q_divergence),
+                    stats.unified.voc_total,
+                    stats.unified.voc_focus,
+                    stats.unified.voc_expand,
+                    stats.unified.voc_merge,
+                ),
+                None => (0.0, 0.0, 0.0, 0.0, None, 0.0, 0.0, 0.0, 0.0),
+            },
+            SearchProfile::Baseline | SearchProfile::BaselineStrict => {
+                (0.0, 0.0, 0.0, 0.0, None, 0.0, 0.0, 0.0, 0.0)
+            }
+        };
+    // Q3: async result paths don't accumulate per-halt-check telemetry
+    // (only the live `current_quartz_stats` snapshot is available), so the
+    // argmax histogram is empty here. The non-async path
+    // (`run_and_extract`) does carry the full per-game histogram.
+    let synth_outcome = SearchExecutionOutcome {
+        iterations: completed,
+        stop_reason: "BudgetExhausted".to_string(),
+        p_flip,
+        value,
+        sigma_q,
+        hbar_eff,
+        prior_q_divergence,
+        voc_total,
+        voc_focus,
+        voc_expand,
+        voc_merge,
+        voc_argmax_channel_hist: std::collections::BTreeMap::new(),
     };
     build_result_value(
         engine,
         n_actions,
+        &synth_outcome,
         completed,
         "BudgetExhausted".to_string(),
         p_flip,

@@ -329,6 +329,27 @@ fn ablation_puct_score_with_parent_sqrt(
         // VF-refresh: strong when P_flip low (converged)
         let rho_vf = rho_max * (1.0 - p_ratio).max(0.0);
 
+        // Q8 (audit_codex_20260428.md W'2): optional divergence gate. When
+        // `pflip_mixture_divergence_gate` is enabled, the entire mixture
+        // contribution is masked off until prior_q_divergence exceeds the
+        // per-check epsilon_t threshold — mirroring GatedRefresh. Default
+        // false preserves the published PFlipMixture math; flip the flag
+        // explicitly to make `prior_q_divergence` an actual sweep axis for
+        // this mode instead of the previously-documented no-op.
+        let divergence_mask = if qcfg.pflip_mixture_divergence_gate {
+            let gate_threshold = stats.epsilon_t.max(1e-6);
+            let divergence = stats.prior_q_divergence.max(0.0);
+            if divergence > gate_threshold {
+                1.0_f32
+            } else {
+                0.0_f32
+            }
+        } else {
+            1.0_f32
+        };
+        let rho_q = rho_q * divergence_mask;
+        let rho_vf = rho_vf * divergence_mask;
+
         let effective_prior = if n_raw > 0 && (rho_q + rho_vf) > 1e-4 {
             let log_p0 = prior.max(1e-8).ln();
             // P2 (audit_codex_20260425.md W3): see GatedRefreshLegacy branch
@@ -1077,6 +1098,93 @@ mod tests {
         assert!(
             score_on < score_off,
             "visit-share refresh should pull a 0.70 prior toward the 0.20 visit share"
+        );
+    }
+
+    #[test]
+    fn test_q8_pflip_mixture_divergence_gate_default_off_is_noop() {
+        // Q8 (audit_codex_20260428.md W'2): with the gate flag at its
+        // default (false), divergence value must NOT change the score —
+        // existing PFlipMixture math is preserved.
+        let snapshot = EdgeScoreSnapshot {
+            n_raw: 4,
+            o_a: 0,
+            n_eff: 4,
+            q_eff: 0.10,
+            terminal_q: None,
+            prior: 0.20,
+            noise_adj: 0.0,
+            edge_sigma: None,
+        };
+        let qcfg = QuartzConfig {
+            penalty_mode: PenaltyMode::PFlipMixture,
+            hbar_penalty_cap: 0.3,
+            prior_refresh_temp: 0.5,
+            pflip_mixture_divergence_gate: false,
+            ..Default::default()
+        };
+        let stats_low_div = QuartzStats {
+            p_flip: 0.10,
+            prior_q_divergence: 0.0,
+            epsilon_t: 0.10,
+            root_visits: 20,
+            n_visible: 5,
+            sigma_q: 0.10,
+            ..Default::default()
+        };
+        let stats_high_div = QuartzStats {
+            prior_q_divergence: 0.80,
+            ..stats_low_div.clone()
+        };
+        let s_low = score_snapshot(snapshot, 0, 0.0, 20, 5.0, 2.0, 0.0, Some((&stats_low_div, &qcfg)));
+        let s_high = score_snapshot(snapshot, 0, 0.0, 20, 5.0, 2.0, 0.0, Some((&stats_high_div, &qcfg)));
+        assert!(
+            (s_low - s_high).abs() < 1e-5,
+            "PFlipMixture must be divergence-insensitive when gate flag is off (s_low={s_low}, s_high={s_high})"
+        );
+    }
+
+    #[test]
+    fn test_q8_pflip_mixture_divergence_gate_on_masks_below_threshold() {
+        // Q8: with the gate flag enabled, divergence below epsilon_t must
+        // mask off the refresh-mixture contribution; setting divergence
+        // above the threshold must re-enable it. The two scores must
+        // therefore differ.
+        let snapshot = EdgeScoreSnapshot {
+            n_raw: 4,
+            o_a: 0,
+            n_eff: 4,
+            q_eff: 0.40,
+            terminal_q: None,
+            prior: 0.20,
+            noise_adj: 0.0,
+            edge_sigma: None,
+        };
+        let qcfg = QuartzConfig {
+            penalty_mode: PenaltyMode::PFlipMixture,
+            hbar_penalty_cap: 0.3,
+            prior_refresh_temp: 0.5,
+            pflip_mixture_divergence_gate: true,
+            ..Default::default()
+        };
+        let stats_below = QuartzStats {
+            p_flip: 0.10,
+            prior_q_divergence: 0.05, // below epsilon_t
+            epsilon_t: 0.10,
+            root_visits: 20,
+            n_visible: 5,
+            sigma_q: 0.10,
+            ..Default::default()
+        };
+        let stats_above = QuartzStats {
+            prior_q_divergence: 0.80, // above epsilon_t
+            ..stats_below.clone()
+        };
+        let s_below = score_snapshot(snapshot, 0, 0.0, 20, 5.0, 2.0, 0.0, Some((&stats_below, &qcfg)));
+        let s_above = score_snapshot(snapshot, 0, 0.0, 20, 5.0, 2.0, 0.0, Some((&stats_above, &qcfg)));
+        assert!(
+            (s_below - s_above).abs() > 1e-5,
+            "PFlipMixture with divergence gate must respond to divergence above epsilon_t (s_below={s_below}, s_above={s_above})"
         );
     }
 

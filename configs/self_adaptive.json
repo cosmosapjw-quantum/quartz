@@ -5,5 +5,5 @@
     "games": 100,
     "steps": 200,
     "batch": 512,
-    "comment": "Best for trusted prior + high budget"
+    "comment": "Example override: SelfAdaptive penalty (-σ_Q/(1+N_a) plus per-action α_a). Experimental; not a current production default. See README Maturity table for current controller status."
 }

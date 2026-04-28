@@ -1686,6 +1686,10 @@ fn test_hbar_eff_sensitivity() {
 
 // Include mcts_server for JSON-line mode
 mod mcts_server;
+// Q10 (audit_codex_20260428.md W'6): pure JSON parsing helpers extracted
+// from mcts_server.rs. Sibling module so the parser tests live next to the
+// parsers and the mcts_server review surface drops by ~80 lines.
+mod mcts_server_parsers;
 
 #[cfg(test)]
 mod bench {

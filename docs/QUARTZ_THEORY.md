@@ -218,6 +218,30 @@ iteration worth the computational cost?"
 
 When VOC < 0, search should stop.
 
+### Two distinct VOC computations in this repo
+
+The word "VOC" appears in two unrelated places. They share statistics
+but live in different decision layers:
+
+1. **halt-VOC** (in `src/mcts/quartz.rs`) — used by the `HaltMode::VOC`
+   stopping rule. Computes three accounting channels (`voc_focus`,
+   `voc_expand`, `voc_merge`) and aggregates them as
+   `voc_total = max(voc_focus, voc_expand, voc_merge)`. **Only
+   `voc_total` is consumed by the halt decision.** The individual
+   channels are recorded in telemetry but do not route the policy.
+   The argmax channel at each halt check is now emitted as
+   `voc_argmax_channel` so attribution work can falsify single-channel
+   dominance.
+2. **PW-VOC** (in `src/mcts/gvoc.rs`) — a progressive-widening width
+   scheduler. `GvocState::update()` reads `voc_total` (not the channels)
+   and expands or contracts `n_visible` against simple thresholds. This
+   is a heuristic PW knob, not an optimal-stopping controller.
+
+When this document or the README says "VOC", it almost always means
+halt-VOC. PW-VOC is documented per-game where it is wired in
+(`chess.rs`, `gomoku15.rs`, `go.rs`) and is independent of the
+penalty-mode dispatch.
+
 ### Halt Modes
 
 | Mode | Description |
@@ -226,6 +250,12 @@ When VOC < 0, search should stop.
 | SimpleThreshold | Stop when P_flip < threshold |
 | VOC | Full VOC computation with cost model |
 | ConfAdaptive | Confidence-adaptive threshold |
+
+For attribution-grade ablation studies, the `controller_axes` and
+`controller_factorial` presets pin `HaltMode::Fixed` so penalty
+changes cannot silently shift the effective compute budget. To
+study `HaltMode` itself at fixed NN/eval/visit-cap, use the
+`halt_attribution` preset (see `docs/ABLATION_GUIDE.md`).
 
 ### Stop Reasons (recorded in telemetry)
 
@@ -237,6 +267,11 @@ When VOC < 0, search should stop.
 | ConfidenceHigh | Confidence threshold met |
 | Unknown | Default / unclassified |
 
+Each per-position halt check now also records `voc_argmax_channel ∈
+{focus, expand, merge}` so that artifacts can show whether a "VOC
+halt" was driven by FOCUS, EXPAND, or MERGE. Channel histograms are
+aggregated per game in the replay search summary.
+
 ## 5. Prior Refresh
 
 Standard MCTS uses the neural network prior once at node expansion. QUARTZ
@@ -245,8 +280,18 @@ can refresh the prior during search based on accumulated Q-value information.
 ### Modes
 
 - **GatedRefreshLegacy**: The legacy-family path used in the recent controller
-  shortlists and confirmatory arenas.
-- **GatedRefresh**: The theory-family path used in the same studies.
+  shortlists and confirmatory arenas. Refresh gate keyed on `P_flip`; uses
+  `prior_refresh_temp` (with a `1e-6` floor — no hidden 0.5 fallback).
+- **GatedRefresh**: The theory-family path used in the same studies. Refresh
+  gate keyed on `prior_q_divergence` exceeding the per-check `epsilon_t`
+  threshold.
+- **PFlipMixture**: Mixes Q-refresh and VF-refresh by `p_ratio`. The mixture
+  weight is computed from `P_flip`; by default this mode does **not** consult
+  `prior_q_divergence` (unlike `GatedRefresh`). Setting the opt-in flag
+  `pflip_mixture_divergence_gate = true` (Q8) additionally masks off the
+  refresh contribution when `prior_q_divergence ≤ epsilon_t`, making
+  divergence a real sweep axis for this mode at the cost of changing the
+  baseline math. The default-false preserves prior published numbers.
 - **Other refresh modes**: Additional paths remain for lower-level experiments
   and historical comparisons.
 

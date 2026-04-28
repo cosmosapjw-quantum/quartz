@@ -608,6 +608,12 @@ class ReplayMetrics:
         voc_focus_samples = []
         voc_expand_samples = []
         voc_merge_samples = []
+        # Q3 (audit_codex_20260428.md W'1): per-sample argmax-channel
+        # histogram. Lets attribution readers verify that "VOC halt" is
+        # not silently driven by a single channel — if this hist is
+        # degenerate (one label dominates), the three-channel framing is
+        # framing rather than decision-bearing structure.
+        voc_argmax_channel_hist: dict[str, int] = {}
         controller_schema_versions: dict[str, int] = {}
         # Per-penalty-mode halt-trace accumulators — needed so ablation readers
         # can verify same-budget fairness across penalty modes (see W1/F1 in
@@ -667,6 +673,26 @@ class ReplayMetrics:
                 voc_expand_samples.append(float(ctrl["voc_expand"]))
             if ctrl.get("voc_merge") is not None:
                 voc_merge_samples.append(float(ctrl["voc_merge"]))
+            # Q3: argmax-channel aggregation. Two acceptable shapes from
+            # the Rust side:
+            #   - per-sample scalar:        ctrl["voc_argmax_channel"] = "focus"
+            #   - per-sample histogram:     ctrl["voc_argmax_channel_hist"] = {"focus": 3, ...}
+            # The mcts_server attaches the per-game histogram; per-position
+            # samples may also carry the scalar from a recent halt-check.
+            argmax_hist = ctrl.get("voc_argmax_channel_hist")
+            if isinstance(argmax_hist, dict) and argmax_hist:
+                for label, count in argmax_hist.items():
+                    if not label:
+                        continue
+                    voc_argmax_channel_hist[str(label)] = (
+                        int(voc_argmax_channel_hist.get(str(label), 0)) + int(count or 0)
+                    )
+            else:
+                argmax_scalar = ctrl.get("voc_argmax_channel")
+                if argmax_scalar:
+                    voc_argmax_channel_hist[str(argmax_scalar)] = (
+                        int(voc_argmax_channel_hist.get(str(argmax_scalar), 0)) + 1
+                    )
             if ctrl.get("schema_version") is not None:
                 key = str(ctrl["schema_version"])
                 controller_schema_versions[key] = (
@@ -763,6 +789,11 @@ class ReplayMetrics:
                 if voc_merge_samples
                 else None
             ),
+            # Q3 (audit_codex_20260428.md W'1): per-row argmax-channel
+            # histogram. Empty dict means no per-position halt-check
+            # records were available (older Rust binaries on
+            # schema_version 1, or pre-halt smoke runs).
+            "voc_argmax_channel_hist": dict(voc_argmax_channel_hist),
             "controller_schema_versions": dict(controller_schema_versions),
         }
 

@@ -6,5 +6,5 @@
     "games": 100,
     "steps": 200,
     "batch": 512,
-    "comment": "Baseline: pure PUCT, no search control"
+    "comment": "Example override: pure-PUCT baseline (penalty_mode=None). Use as the controller-off comparator in attribution presets; not loaded by default training."
 }

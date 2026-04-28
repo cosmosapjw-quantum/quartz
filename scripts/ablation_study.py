@@ -188,6 +188,48 @@ CONTROLLER_AXES_EVAL_CONDITIONS = {
     "EA4_theory_root_refresh": copy.deepcopy(CONTROLLER_AXES_TRAIN_CONDITIONS["A4_theory_root_refresh"]),
 }
 
+# Q4 (audit_codex_20260428.md W'4): the existing controller_axes /
+# controller_factorial presets pin `halt_mode = "fixed"` to make
+# penalty/refresh attribution clean. That solution disables every adaptive
+# halt branch, which means VOC and SimpleThreshold cannot themselves be
+# studied at fixed NN/eval/visit-cap. The HALT_ATTRIBUTION_* presets fill
+# that gap: every row holds penalty_mode, root_only_shaping, and
+# prior_refresh constant — only `halt_mode` varies across adjacent rows.
+# Compare per-row `mean_root_visits_at_halt` (from replay halt_trace) to
+# see how much compute each halt mode saves at equal arena strength.
+HALT_ATTRIBUTION_TRAIN_CONDITIONS = {
+    "H1_voc_default": {
+        "search_profile": "quartz",
+        "vl_mode": "adaptive",
+        "penalty_mode": "GatedRefreshLegacy",
+        "root_only_shaping": True,
+        "prior_refresh_rate": 0.0,
+        "halt_mode": "voc",
+    },
+    "H2_simple_threshold": {
+        "search_profile": "quartz",
+        "vl_mode": "adaptive",
+        "penalty_mode": "GatedRefreshLegacy",
+        "root_only_shaping": True,
+        "prior_refresh_rate": 0.0,
+        "halt_mode": "simple_threshold",
+    },
+    "H3_fixed_full_budget": {
+        "search_profile": "quartz",
+        "vl_mode": "adaptive",
+        "penalty_mode": "GatedRefreshLegacy",
+        "root_only_shaping": True,
+        "prior_refresh_rate": 0.0,
+        "halt_mode": "fixed",
+    },
+}
+
+HALT_ATTRIBUTION_EVAL_CONDITIONS = {
+    "EH1_voc_default": copy.deepcopy(HALT_ATTRIBUTION_TRAIN_CONDITIONS["H1_voc_default"]),
+    "EH2_simple_threshold": copy.deepcopy(HALT_ATTRIBUTION_TRAIN_CONDITIONS["H2_simple_threshold"]),
+    "EH3_fixed_full_budget": copy.deepcopy(HALT_ATTRIBUTION_TRAIN_CONDITIONS["H3_fixed_full_budget"]),
+}
+
 STRICT_REFERENCE_CONDITION = {
     "E0_baseline_strict": {"search_profile": "baseline_strict", "vl_mode": "disabled"},
 }
@@ -209,6 +251,11 @@ STUDY_PRESETS = {
         "train_conditions": CONTROLLER_AXES_TRAIN_CONDITIONS,
         "eval_conditions": CONTROLLER_AXES_EVAL_CONDITIONS,
     },
+    # Q4: see HALT_ATTRIBUTION_TRAIN_CONDITIONS for design rationale.
+    "halt_attribution": {
+        "train_conditions": HALT_ATTRIBUTION_TRAIN_CONDITIONS,
+        "eval_conditions": HALT_ATTRIBUTION_EVAL_CONDITIONS,
+    },
 }
 
 # Presets whose design goal is per-factor controller attribution.
@@ -221,6 +268,14 @@ STUDY_PRESETS = {
 # budget-fairness via the `halt_trace` block now emitted in replay
 # search_summary (see quartz/replay.py _finalize_halt_trace).
 CONTROLLER_ATTRIBUTION_PRESETS = frozenset({"controller_axes", "controller_factorial"})
+
+# Q4: presets that hold controller penalty/refresh fixed and vary
+# `halt_mode` itself across rows. They want the same frozen-eval-condition
+# discipline as the controller_attribution presets, but they MUST NOT have
+# `halt_mode` silently overridden to "fixed" — that is the variable being
+# studied. `pin_halt_mode_for_attribution` already uses `setdefault`, so an
+# explicit `halt_mode` in each condition cfg survives the pin step.
+HALT_ATTRIBUTION_PRESETS = frozenset({"halt_attribution"})
 
 
 def emit_attribution_halt_guard(preset_name: str, stream=None) -> None:
@@ -277,7 +332,13 @@ def resolve_frozen_eval_condition(
                 f"({sorted(eval_conditions)})"
             )
         return explicit
-    if getattr(args, "study", None) in CONTROLLER_ATTRIBUTION_PRESETS and eval_conditions:
+    study = getattr(args, "study", None)
+    # Q4: halt_attribution presets also need a frozen eval condition so the
+    # comparison varies only `halt_mode`, not the eval engine itself.
+    if (
+        study in CONTROLLER_ATTRIBUTION_PRESETS
+        or study in HALT_ATTRIBUTION_PRESETS
+    ) and eval_conditions:
         return sorted(eval_conditions)[0]
     return None
 
@@ -288,16 +349,32 @@ def attribution_preset_tag(preset_name: str) -> dict:
     Stamped into study_manifest.json so readers and CI gates can tell whether
     the run intended per-factor attribution and therefore should be audited
     against the halt_trace fairness check.
+
+    Q4: extended to surface `halt_axis_preset` for halt_attribution
+    presets so downstream tooling can distinguish "controller-axis study"
+    (halt pinned to Fixed) from "halt-axis study" (halt is the variable).
     """
-    return {
-        "attribution_preset": bool(preset_name in CONTROLLER_ATTRIBUTION_PRESETS),
-        "preset": preset_name,
-        "halt_fairness_check": (
+    is_controller_attribution = preset_name in CONTROLLER_ATTRIBUTION_PRESETS
+    is_halt_attribution = preset_name in HALT_ATTRIBUTION_PRESETS
+    if is_controller_attribution:
+        check = (
             "inspect evaluation_matrix[*].replay_search_summary.halt_trace "
             "for equal root_visits.mean across penalty modes"
-            if preset_name in CONTROLLER_ATTRIBUTION_PRESETS
-            else "n/a (not an attribution preset)"
-        ),
+        )
+    elif is_halt_attribution:
+        check = (
+            "inspect evaluation_matrix[*].replay_search_summary.halt_trace "
+            "for divergent root_visits.mean across halt modes; verify "
+            "score-rate at equal NN/eval/visit-cap to attribute compute "
+            "savings of each halt mode (audit_codex_20260428.md W'4)"
+        )
+    else:
+        check = "n/a (not an attribution preset)"
+    return {
+        "attribution_preset": bool(is_controller_attribution),
+        "halt_axis_preset": bool(is_halt_attribution),
+        "preset": preset_name,
+        "halt_fairness_check": check,
     }
 
 
