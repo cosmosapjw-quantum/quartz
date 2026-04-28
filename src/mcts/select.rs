@@ -674,6 +674,19 @@ pub fn select<G: GameState>(
         let next_node = edges[best_idx].child;
         // Phase 7 C: no guard to drop — slab read is lock-free.
 
+        // Hint the prefetcher to fetch the next node's body. The next loop
+        // iteration's first reads (`terminal_value`, `is_expanded()`,
+        // `candidate_count()`, `n_total.load()`) are all on this body; the
+        // intervening apply_move_in_place + path.push (~50 cycles) hides
+        // the L2/L3 fetch latency. Random-walk descent through the
+        // bumpalo arena makes successive nodes mostly cold lines.
+        // No semantic effect — `_mm_prefetch` is a non-faulting hint.
+        #[cfg(target_arch = "x86_64")]
+        unsafe {
+            use std::arch::x86_64::{_mm_prefetch, _MM_HINT_T0};
+            _mm_prefetch::<_MM_HINT_T0>(ArenaRef::as_ptr(&next_node) as *const i8);
+        }
+
         // Phase 6.1: in-place descent. The select loop only walks down the
         // tree (no backtracking inside this function), so the returned undo
         // is dropped — the leaf state is consumed by the caller as-is.
