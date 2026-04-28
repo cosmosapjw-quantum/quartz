@@ -502,6 +502,57 @@ impl<M: Copy + Send + Sync + 'static> TranspositionTable<M> {
         (slab_ptr, n_candidates as u32)
     }
 
+    /// Architectural prefetch hint for the cache line that the next
+    /// `get_or_create(hash, _)` will read on its read-lock fast path.
+    ///
+    /// Intended call pattern (callers race the L2/L3 fetch with other
+    /// useful work between the hint and the actual access):
+    /// ```ignore
+    /// let h = state.hash();
+    /// tt.prefetch(h);          // <-- issue here
+    /// // ~30+ cycles of cheap work …
+    /// let n = tt.get_or_create(h, tv);
+    /// ```
+    ///
+    /// No semantic effect on any architecture — `_mm_prefetch` is
+    /// non-faulting and does not perturb program-visible state. On
+    /// non-x86_64 targets this fn is a no-op.
+    #[inline(always)]
+    pub fn prefetch(&self, hash: u64) {
+        if !self.enabled {
+            return;
+        }
+        #[cfg(target_arch = "x86_64")]
+        {
+            let bucket_idx = Self::bucket_idx(hash);
+            let slot_start = Self::slot_start(hash);
+            // SAFETY:
+            //   - `RwLock::data_ptr()` is valid for the life of the TT —
+            //     the underlying `TtBucket<M>` is heap-pinned by the
+            //     parking_lot RwLock and never moves.
+            //   - The non-atomic read of `bucket.slots.as_ptr()` is
+            //     race-free in practice: `slots` is a `Box<[TtSlot<M>]>`
+            //     set once in `TtBucket::new` and never reassigned, so
+            //     the pointer field's bit pattern is invariant after
+            //     construction (any thread reading observes the same
+            //     stable pointer).
+            //   - `_mm_prefetch` is a hint that issues no architectural
+            //     load and cannot fault, even if the address is
+            //     pathological. Worst case it is silently dropped by the
+            //     CPU.
+            unsafe {
+                use std::arch::x86_64::{_mm_prefetch, _MM_HINT_T0};
+                let bucket_ptr = self.buckets[bucket_idx].data_ptr();
+                let slot_ptr = (*bucket_ptr).slots.as_ptr().add(slot_start);
+                _mm_prefetch::<_MM_HINT_T0>(slot_ptr as *const i8);
+            }
+        }
+        #[cfg(not(target_arch = "x86_64"))]
+        {
+            let _ = hash;
+        }
+    }
+
     /// 조회만 (삽입 없음)
     /// Phase 7 F (2026-04-26): open-addressing probe — same probe
     /// window as `get_or_create` fast path.

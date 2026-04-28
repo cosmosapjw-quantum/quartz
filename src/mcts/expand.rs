@@ -141,6 +141,13 @@ pub fn materialize_edges<G: GameState>(
         let (mv, prior) = candidates[i];
         let undo = probe.apply_move_in_place(mv);
         let child_hash = probe.tt_hash();
+        // Hint the prefetcher to start fetching the TT bucket cache line
+        // we're about to probe. The is_terminal + outcome + undo_move
+        // sequence below gives ~30 cycles of latency hiding before
+        // tt.get_or_create reads the same line under the read lock.
+        // Profiling (artifacts/profiling_20260428) attributed 54.7 % of
+        // all D1 read misses to TT::get_or_create on this workload.
+        tt.prefetch(child_hash);
         let tv = if probe.is_terminal() {
             Some(probe.outcome())
         } else {
