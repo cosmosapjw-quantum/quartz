@@ -155,42 +155,60 @@ class GomokuEncoder(GameEncoder):
         empty_mask = (arr.reshape(n2) == 0)
         scores = np.where(empty_mask, scores, 0.0).astype(np.float32)
 
-        # Threat-pattern scan: kept as a tight Python loop, but with
-        # board_flat materialized once as a Python list so that each
-        # cell read is a Python int, not a boxed numpy scalar.
-        bf = arr.reshape(n2).tolist()
-        empty_idx = np.flatnonzero(empty_mask).tolist()
+        # Vectorized threat-pattern scan. For each (direction, side),
+        # compute per-cell run-length and open-end counts as 2D arrays
+        # by walking k=1..bs-1 in each half-ray and AND-ing alive masks.
+        # Replaces the prior O(n² × 4 dirs × 2 sides × 2 signs × bs)
+        # Python ray-walk with O(bs) numpy ops on bs×bs masks.
         opp = -player
-        for pos in empty_idx:
-            r = pos // bs
-            c = pos - r * bs
-            local = 0.0
-            for dr, dc in ((0, 1), (1, 0), (1, 1), (1, -1)):
-                for side in (player, opp):
-                    cnt = 0
-                    oe = 0
-                    for sign in (1, -1):
-                        nr = r + sign * dr
-                        nc = c + sign * dc
-                        while 0 <= nr < bs and 0 <= nc < bs:
-                            v = bf[nr * bs + nc]
-                            if v == side:
-                                cnt += 1
-                                nr += sign * dr
-                                nc += sign * dc
-                            elif v == 0:
-                                oe += 1
-                                break
-                            else:
-                                break
-                    mult = 1.0 if side == player else 0.8
-                    if cnt >= wl - 1:
-                        local += 100.0 * mult
-                    elif cnt == wl - 2 and oe >= 1:
-                        local += 15.0 * mult
-                    elif cnt >= 1:
-                        local += cnt * mult
-            scores[pos] += local
+        threat_2d = np.zeros((bs, bs), dtype=np.float32)
+
+        def _shift_eq(mask, dy, dx):
+            # mask[r+dy, c+dx], OOB → False.
+            out = np.zeros_like(mask)
+            r0, c0 = max(0, -dy), max(0, -dx)
+            r1, c1 = bs - max(0, dy), bs - max(0, dx)
+            if r0 < r1 and c0 < c1:
+                out[r0:r1, c0:c1] = mask[r0 + dy:r1 + dy, c0 + dx:c1 + dx]
+            return out
+
+        is_empty = (arr == 0)
+        for dr, dc in ((0, 1), (1, 0), (1, 1), (1, -1)):
+            for side in (player, opp):
+                mult = 1.0 if side == player else 0.8
+                is_side = (arr == side)
+
+                cnt = np.zeros((bs, bs), dtype=np.int32)
+                oe = np.zeros((bs, bs), dtype=np.int32)
+                for sign in (1, -1):
+                    sdy, sdx = sign * dr, sign * dc
+                    alive = np.ones((bs, bs), dtype=bool)  # alive at k=0
+                    for k in range(1, bs):
+                        side_k = _shift_eq(is_side, k * sdy, k * sdx)
+                        empty_k = _shift_eq(is_empty, k * sdy, k * sdx)
+                        alive_k = alive & side_k
+                        # Cells that stop at offset k: were alive at k-1, not at k.
+                        stopped = alive & ~alive_k
+                        oe += (stopped & empty_k).astype(np.int32)
+                        cnt += alive_k.astype(np.int32)
+                        alive = alive_k
+                        if not alive.any():
+                            break
+
+                # Replicate original threshold ladder per cell:
+                # cnt >= wl-1   → 100 * mult
+                # cnt == wl-2 & oe >= 1 → 15 * mult
+                # cnt >= 1      → cnt * mult
+                t = np.zeros((bs, bs), dtype=np.float32)
+                big = cnt >= (wl - 1)
+                t = np.where(big, 100.0 * mult, t)
+                semi = (cnt == (wl - 2)) & (oe >= 1) & ~big
+                t = np.where(semi, 15.0 * mult, t)
+                small = (cnt >= 1) & ~big & ~semi
+                t = np.where(small, cnt.astype(np.float32) * mult, t)
+                threat_2d += t
+
+        scores += np.where(empty_mask, threat_2d.reshape(n2), 0.0)
 
         s = scores.sum()
         if s > 0:
