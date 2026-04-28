@@ -1428,11 +1428,25 @@ def run_evaluation_matrix(
                 search_manifest = support_mod.build_search_manifest(cfg)
                 search_manifest_hash = support_mod.search_manifest_hash(cfg)
 
-                def _build_row(key, model_a, model_b, tally, timing_meta):
+                def _build_row(
+                    key,
+                    model_a,
+                    model_b,
+                    tally,
+                    timing_meta,
+                    *,
+                    _eval_name=eval_name,
+                    _eval_cfg=eval_cfg,
+                    _cfg_build_s=cfg_build_s,
+                    _engine_load_s=engine_load_s,
+                    _campaign_bootstrap_s=campaign_bootstrap_s,
+                    _search_manifest=search_manifest,
+                    _search_manifest_hash=search_manifest_hash,
+                ):
                     scored_games = int(getattr(tally, "scored", 0))
                     if scored_games <= 0:
                         raise RuntimeError(
-                            f"evaluation produced zero scored games for {eval_name}: "
+                            f"evaluation produced zero scored games for {_eval_name}: "
                             f"errors={getattr(tally, 'errors', 0)} voids={getattr(tally, 'voids', 0)} "
                             f"total={getattr(tally, 'total', 0)}"
                         )
@@ -1441,9 +1455,9 @@ def run_evaluation_matrix(
                     draws = int(tally.draws)
                     score_rate, ci, sprt, sprt_meta = compute_match_statistics(wa, wb, draws)
                     timing_s = {
-                        "cfg_build_s": round(cfg_build_s, 6),
-                        "engine_load_s": round(engine_load_s, 6),
-                        "campaign_bootstrap_s": round(campaign_bootstrap_s, 6),
+                        "cfg_build_s": round(_cfg_build_s, 6),
+                        "engine_load_s": round(_engine_load_s, 6),
+                        "campaign_bootstrap_s": round(_campaign_bootstrap_s, 6),
                         "match_elapsed_s": round(float(timing_meta.get("match_elapsed_s", 0.0) or 0.0), 6),
                     }
                     if timing_meta.get("batch_id"):
@@ -1451,11 +1465,11 @@ def run_evaluation_matrix(
                         timing_s["batch_elapsed_s"] = round(float(timing_meta.get("batch_elapsed_s", 0.0) or 0.0), 6)
                         timing_s["batch_total_games"] = int(timing_meta.get("batch_total_games", 0) or 0)
                     return {
-                        "eval_condition": eval_name,
-                        "search_profile": eval_cfg["search_profile"],
-                        "vl_mode": eval_cfg["vl_mode"],
-                        "search_manifest": search_manifest,
-                        "search_manifest_hash": search_manifest_hash,
+                        "eval_condition": _eval_name,
+                        "search_profile": _eval_cfg["search_profile"],
+                        "vl_mode": _eval_cfg["vl_mode"],
+                        "search_manifest": _search_manifest,
+                        "search_manifest_hash": _search_manifest_hash,
                         "a_id": model_a["id"],
                         "b_id": model_b["id"],
                         "games": int(args.eval_games),
