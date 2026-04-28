@@ -289,9 +289,21 @@ impl ParallelismController {
         let sigma = self.sigma_q_val();
         let entropy_factor = self.entropy_factor_val();
         let dr = self.telemetry.dup_rate();
-        let mp = self.telemetry.max_pending.load(Ordering::Relaxed) as f32;
-        let contention = (mp / self.n_threads.load(Ordering::Relaxed).max(1) as f32).min(2.0);
-        let amplifier = 1.0 + dr * (1.0 + contention);
+        // B3: when dup_rate == 0 the contention amplifier is exactly 1.0
+        // (1 + 0 * (1 + c) = 1 for any finite c). Skip the two extra atomic
+        // loads (max_pending + n_threads) in that branch. dup_rate() returns
+        // exact 0.0 iff dup_leaf_count == 0, which holds for every
+        // single-thread search (record_dup_leaf only fires when another
+        // worker is already pending on the leaf) and for the early phase of
+        // multi-thread runs before any duplicate path materializes.
+        let amplifier = if dr == 0.0 {
+            1.0
+        } else {
+            let mp = self.telemetry.max_pending.load(Ordering::Relaxed) as f32;
+            let contention =
+                (mp / self.n_threads.load(Ordering::Relaxed).max(1) as f32).min(2.0);
+            1.0 + dr * (1.0 + contention)
+        };
         (sigma * depth_decay * entropy_factor * amplifier).max(0.01)
     }
 
