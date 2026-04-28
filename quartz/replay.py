@@ -470,16 +470,31 @@ def collate_replay_samples(batch):
                         value=float(value),
                     )
                 )
-    first_state = np.asarray(examples[0].state, dtype=np.float32)
-    states_np = np.empty((len(examples),) + first_state.shape, dtype=np.float32)
-    values_np = np.empty(len(examples), dtype=np.float32)
+    n = len(examples)
+
+    # States: one numpy stack instead of len(examples) per-row np.asarray
+    # writes into a pre-allocated np.empty.
+    states_np = np.stack([ex.state for ex in examples])
+    if states_np.dtype != np.float32:
+        states_np = states_np.astype(np.float32, copy=False)
+
+    # Values: a single fromiter pass (avoids the per-row Python `float()` +
+    # numpy scalar boxing of the prior loop).
+    values_np = np.fromiter((ex.value for ex in examples), dtype=np.float32, count=n)
+
+    # Policies: replace the per-row sparse→dense scatter Python loop with
+    # one concatenated fancy-indexed write. For batch=256 this turns 256
+    # `policies_np[row, idx] = val` calls into 3 numpy ops + 1 scatter.
     n_actions = max(int(ex.policy.n_actions) for ex in examples)
-    policies_np = np.zeros((len(examples), n_actions), dtype=np.float32)
-    for row, ex in enumerate(examples):
-        states_np[row] = np.asarray(ex.state, dtype=np.float32)
-        values_np[row] = float(ex.value)
-        if ex.policy.idx.size:
-            policies_np[row, ex.policy.idx] = ex.policy.val
+    policies_np = np.zeros((n, n_actions), dtype=np.float32)
+    nnz_per_row = [int(ex.policy.idx.size) for ex in examples]
+    total_nnz = sum(nnz_per_row)
+    if total_nnz > 0:
+        rows_concat = np.repeat(np.arange(n, dtype=np.int64), nnz_per_row)
+        cols_concat = np.concatenate([ex.policy.idx for ex in examples])
+        vals_concat = np.concatenate([ex.policy.val for ex in examples])
+        policies_np[rows_concat, cols_concat] = vals_concat
+
     states = torch.from_numpy(states_np)
     policies = torch.from_numpy(policies_np)
     values = torch.from_numpy(values_np)
