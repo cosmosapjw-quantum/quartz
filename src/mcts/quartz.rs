@@ -1793,12 +1793,18 @@ impl QuartzController {
             }
         }
 
+        // A4: take a single edge snapshot for the three downstream sections
+        // (depth_cal / sigma_response / defect_D). Previously each took its own.
+        // Single-threaded run_quartz path: all three observe identical atomic
+        // values, so this is a pure refactor (no drift). Multi-thread callers
+        // gain coherence (one timepoint instead of three).
+        let n_mat_for_sections = root.materialized_count();
+        let edges_snap = root.edge_snapshot(n_mat_for_sections);
+
         // ── G7: κ_b depth calibration (diagnostic collection) ──
         if self.cfg.enable_depth_cal {
             // Collect σ observations from root edges (depth=0)
-            let n_mat = root.materialized_count();
-            let edges = root.edge_snapshot(n_mat);
-            for e in &edges {
+            for e in &edges_snap {
                 if let Some(sigma_emp) = e.edge_sigma() {
                     let sigma_pred = self.cfg.sigma_0
                         / (e.n as f32 + 1.0).sqrt();
@@ -1827,9 +1833,8 @@ impl QuartzController {
 
         // ── v0.9.2: σ_response online estimator (Exp-3, instrumentation only) ──
         {
-            // Track |ΔQ_best| between checks as EMA
-            let n_mat = root.materialized_count();
-            let edges = root.edge_snapshot(n_mat.min(5));
+            // Track |ΔQ_best| between checks as EMA — top-5 root edges.
+            let edges = &edges_snap[..edges_snap.len().min(5)];
             let q_best = edges
                 .iter()
                 .map(|e| e.q_eff())
@@ -1846,8 +1851,7 @@ impl QuartzController {
 
         // ── v0.9.2: Defect D_t computation (Theory §VI, Theorem 5) ──
         {
-            let n_mat = root.materialized_count();
-            let edges = root.edge_snapshot(n_mat.min(20));
+            let edges = &edges_snap[..edges_snap.len().min(20)];
             let n_total = edges
                 .iter()
                 .map(|e| e.n)
