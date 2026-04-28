@@ -281,19 +281,10 @@ class GoEncoder(GameEncoder):
     def encode(self, board_flat, player):
         """17-channel encoding (t=0 only, no history). Planes 0-1: my/opp stones, plane 16: color."""
         bs = self._board_size
-        n2 = bs * bs
         enc = np.zeros((17, bs, bs), dtype=np.float32)
-
-        for pos in range(n2):
-            if board_flat[pos] == 0:
-                continue
-            r, c = pos // bs, pos % bs
-            color = board_flat[pos]
-            if color == player:
-                enc[0, r, c] = 1.0
-            else:
-                enc[1, r, c] = 1.0
-
+        arr = np.asarray(board_flat).reshape(bs, bs)
+        enc[0] = (arr == player)
+        enc[1] = (arr != 0) & (arr != player)
         if player == 1:
             enc[16] = 1.0
         return enc
@@ -301,12 +292,9 @@ class GoEncoder(GameEncoder):
     def decode(self, enc, player):
         bs = self._board_size
         board = np.zeros(bs * bs, dtype=np.int8)
-        for r in range(bs):
-            for c in range(bs):
-                if enc[0, r, c] > 0.5:
-                    board[r * bs + c] = player
-                elif enc[1, r, c] > 0.5:
-                    board[r * bs + c] = -player
+        view = board.reshape(bs, bs)
+        view[enc[0] > 0.5] = player
+        view[enc[1] > 0.5] = -player
         return board
 
 
