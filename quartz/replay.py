@@ -116,11 +116,15 @@ class ReplayExample:
 
 def sparse_policy_from_dense(policy):
     dense = np.asarray(policy, dtype=np.float32).reshape(-1)
+    # `dense[idx]` already returns a fresh contiguous float32 array (fancy
+    # indexing copies); the prior code chained `.astype(np.float32,
+    # copy=True)` which forced a redundant second copy. flatnonzero already
+    # yields int64 contiguous; one astype is enough.
     idx = np.flatnonzero(np.abs(dense) > 1e-12).astype(np.int32, copy=False)
-    val = dense[idx].astype(np.float32, copy=True)
+    val = dense[idx]
     return SparsePolicyTarget(
-        idx=np.ascontiguousarray(idx, dtype=np.int32),
-        val=np.ascontiguousarray(val, dtype=np.float32),
+        idx=idx,
+        val=val,
         n_actions=int(dense.size),
     )
 
