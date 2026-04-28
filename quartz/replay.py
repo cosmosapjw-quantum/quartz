@@ -11,10 +11,59 @@ import math
 import os
 import random
 import threading
-from collections import deque
 from dataclasses import dataclass
 
 import numpy as np
+
+
+class _RingBuffer:
+    """Bounded FIFO with O(1) random-index access.
+
+    Drop-in replacement for `collections.deque(maxlen=capacity)` for the
+    operations replay actually uses (append, len, getitem, iter, maxlen
+    attribute). `deque` is doubly-linked block-of-blocks: middle indexing
+    is O(min(i, n-i)), which dominated `ReplayBuffer.sample` (358us per
+    256-sample batch in profile). A pre-allocated cyclic list with a
+    head pointer makes `__getitem__` a single modulo + array fetch.
+    """
+
+    __slots__ = ("_cap", "_buf", "_size", "_head")
+
+    def __init__(self, capacity):
+        self._cap = int(capacity)
+        self._buf = [None] * self._cap
+        self._size = 0
+        self._head = 0
+
+    @property
+    def maxlen(self):
+        return self._cap
+
+    def append(self, item):
+        if self._size < self._cap:
+            self._buf[(self._head + self._size) % self._cap] = item
+            self._size += 1
+        else:
+            self._buf[self._head] = item
+            self._head = (self._head + 1) % self._cap
+
+    def __len__(self):
+        return self._size
+
+    def __getitem__(self, idx):
+        if isinstance(idx, slice):
+            return [self[i] for i in range(*idx.indices(self._size))]
+        if idx < 0:
+            idx += self._size
+        if not 0 <= idx < self._size:
+            raise IndexError(idx)
+        return self._buf[(self._head + idx) % self._cap]
+
+    def __iter__(self):
+        head, cap, size = self._head, self._cap, self._size
+        buf = self._buf
+        for i in range(size):
+            yield buf[(head + i) % cap]
 
 _TORCH_MODULE = None
 _DATA_LOADER_CLS = None
@@ -164,7 +213,7 @@ def normalize_sparse_policy(policy, n_actions=None):
 
 class ReplayBuffer:
     def __init__(self, capacity, recent_fraction=0.0, recent_window=0):
-        self.buf = deque(maxlen=capacity)
+        self.buf = _RingBuffer(capacity)
         self._lock = threading.Lock()
         self.recent_fraction = float(max(0.0, min(1.0, recent_fraction)))
         self.recent_window = int(max(0, recent_window))
