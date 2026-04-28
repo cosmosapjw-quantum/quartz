@@ -148,7 +148,14 @@ impl<M: Copy + Send + Sync + 'static> TtBucket<M> {
         let slots = vec![TtSlot::<M>::VACANT; MAX_ENTRIES_PER_BUCKET].into_boxed_slice();
         TtBucket {
             slots,
-            arena: Bump::new(),
+            // Initial bumpalo chunk sized to amortize first-touch zero-fault
+            // cost across many node bodies + edge slabs. Profiling
+            // (artifacts/profiling_20260428) attributed ~20% of cumulative
+            // CPU to the kernel page-fault path through bumpalo's grow
+            // chunks — pre-sizing the first chunk to 64 KiB collapses the
+            // initial doubling sequence (1 KiB → 2 → 4 → 8 → 16 → 32 → 64)
+            // into a single allocation, cutting first-touch faults ~6×.
+            arena: Bump::with_capacity(64 * 1024),
         }
     }
 }
