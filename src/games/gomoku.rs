@@ -258,47 +258,14 @@ impl Gomoku {
 
     /// Check if placing `player` at `pos` would form win_len in a row.
     /// Does NOT require the piece to actually be on the board.
+    ///
+    /// Forwards to `check_win_lines`. Both `check_win_at` (post-placement
+    /// invariant: `board[pos] == player`) and this fn (pre-placement) share
+    /// the same body because neither reads `board[pos]` — the count is seeded
+    /// at 1 representing the (real or hypothetical) piece, then walks outward.
     #[inline]
     fn check_win_at_hypothetical(&self, pos: usize, player: i8) -> bool {
-        let row = (pos / self.size) as i32;
-        let col = (pos % self.size) as i32;
-        let sz = self.size as i32;
-        let target = self.win_len as i32;
-
-        const DIRS: [(i32, i32); 4] = [(0, 1), (1, 0), (1, 1), (1, -1)];
-
-        for &(dr, dc) in &DIRS {
-            let mut cnt = 1; // count the hypothetical piece at pos
-
-            let (mut r, mut c) = (row + dr, col + dc);
-            while r >= 0
-                && r < sz
-                && c >= 0
-                && c < sz
-                && self.board[(r as usize) * self.size + c as usize] == player
-            {
-                cnt += 1;
-                r += dr;
-                c += dc;
-            }
-
-            let (mut r, mut c) = (row - dr, col - dc);
-            while r >= 0
-                && r < sz
-                && c >= 0
-                && c < sz
-                && self.board[(r as usize) * self.size + c as usize] == player
-            {
-                cnt += 1;
-                r -= dr;
-                c -= dc;
-            }
-
-            if cnt >= target {
-                return true;
-            }
-        }
-        false
+        self.check_win_lines(pos, player)
     }
 
     /// Internal in-place mutator shared by `apply_move` (clone-then-mutate)
@@ -338,40 +305,67 @@ impl Gomoku {
     /// pos에 player 기물을 놓았을 때 win_len목 달성 여부
     #[inline]
     fn check_win_at(&self, pos: usize, player: i8) -> bool {
-        let row = (pos / self.size) as i32;
-        let col = (pos % self.size) as i32;
-        let sz = self.size as i32;
-        let target = self.win_len as i32;
+        self.check_win_lines(pos, player)
+    }
 
-        const DIRS: [(i32, i32); 4] = [(0, 1), (1, 0), (1, 1), (1, -1)];
+    /// Shared body for `check_win_at` (post-placement) and
+    /// `check_win_at_hypothetical` (pre-placement). The count is seeded at 1
+    /// for the piece at `pos` and the walks read only neighbouring cells —
+    /// neither caller depends on `board[pos]`'s actual value.
+    ///
+    /// Algorithm: for each of the 4 line orientations, precompute the maximum
+    /// number of valid steps in each polarity (forward / backward) from the
+    /// board geometry, then walk via a flat board index with a single
+    /// per-step compare. Eliminates the per-step (r, c) bounds check (4
+    /// branches per step) plus the per-step `imul` for index reconstruction
+    /// — the original loop's branch-miss share was 56.9 % of the program
+    /// total per profiling (artifacts/profiling_20260428).
+    #[inline]
+    fn check_win_lines(&self, pos: usize, player: i8) -> bool {
+        let sz = self.size;
+        let row = pos / sz;
+        let col = pos % sz;
+        let target = self.win_len as usize;
+        let board = &self.board[..];
+        let pos_i = pos as isize;
+        let szi = sz as isize;
 
-        for &(dr, dc) in &DIRS {
-            let mut cnt = 1;
+        // For each direction (dr, dc):
+        //   step       = dr * sz + dc                    (signed flat index delta)
+        //   fwd_max    = furthest steps in (+dr, +dc) before edge
+        //   bwd_max    = furthest steps in (-dr, -dc) before edge
+        //   horizontal (0, 1):  step=+1,    fwd=sz-1-col,                   bwd=col
+        //   vertical   (1, 0):  step=+sz,   fwd=sz-1-row,                   bwd=row
+        //   diag SE-NW (1, 1):  step=+sz+1, fwd=min(sz-1-row, sz-1-col),    bwd=min(row, col)
+        //   diag SW-NE (1,-1):  step=+sz-1, fwd=min(sz-1-row, col),         bwd=min(row, sz-1-col)
+        let dirs: [(isize, usize, isize, usize); 4] = [
+            (1,           sz - 1 - col,                          -1,           col),
+            (szi,         sz - 1 - row,                          -szi,         row),
+            (szi + 1,     (sz - 1 - row).min(sz - 1 - col),      -(szi + 1),   row.min(col)),
+            (szi - 1,     (sz - 1 - row).min(col),               -(szi - 1),   row.min(sz - 1 - col)),
+        ];
 
-            let (mut r, mut c) = (row + dr, col + dc);
-            while r >= 0
-                && r < sz
-                && c >= 0
-                && c < sz
-                && self.board[(r as usize) * self.size + c as usize] == player
-            {
+        // Flat-index walk. `max_steps` was derived from board geometry, so
+        // every `idx` produced is in `[0, sz*sz)` — bounds-checked indexing
+        // is safe and elided where the compiler can prove the invariant.
+        #[inline(always)]
+        fn walk(board: &[i8], start: isize, step: isize, max_steps: usize, player: i8) -> usize {
+            let mut idx = start;
+            let mut cnt = 0;
+            for _ in 0..max_steps {
+                idx += step;
+                if board[idx as usize] != player {
+                    break;
+                }
                 cnt += 1;
-                r += dr;
-                c += dc;
             }
+            cnt
+        }
 
-            let (mut r, mut c) = (row - dr, col - dc);
-            while r >= 0
-                && r < sz
-                && c >= 0
-                && c < sz
-                && self.board[(r as usize) * self.size + c as usize] == player
-            {
-                cnt += 1;
-                r -= dr;
-                c -= dc;
-            }
-
+        for &(fs, fmax, bs, bmax) in &dirs {
+            let cnt = 1
+                + walk(board, pos_i, fs, fmax, player)
+                + walk(board, pos_i, bs, bmax, player);
             if cnt >= target {
                 return true;
             }
