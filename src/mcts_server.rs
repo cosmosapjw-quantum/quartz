@@ -3445,7 +3445,6 @@ struct EngineSearchSession<G: GameState> {
     engines: Vec<Option<MctsEngine<G>>>,
     cumulative_iters: Vec<u32>,
     n_threads: usize,
-    n_actions: usize,
     search_profile: SearchProfile,
 }
 
@@ -5171,7 +5170,6 @@ fn handle_search_nn_multi_engine_session_open(line: &str) -> SearchCommandReply 
                 engines,
                 cumulative_iters: vec![0; job_count],
                 n_threads,
-                n_actions: 49,
                 search_profile,
             })
         }
@@ -5204,7 +5202,6 @@ fn handle_search_nn_multi_engine_session_open(line: &str) -> SearchCommandReply 
                     engines,
                     cumulative_iters: vec![0; job_count],
                     n_threads,
-                    n_actions: 225,
                     search_profile,
                 },
                 variant,
@@ -5244,7 +5241,6 @@ fn handle_search_nn_multi_engine_session_open(line: &str) -> SearchCommandReply 
                     engines,
                     cumulative_iters: vec![0; job_count],
                     n_threads,
-                    n_actions,
                     search_profile,
                 },
                 size,
@@ -5283,7 +5279,6 @@ fn handle_search_nn_multi_engine_session_open(line: &str) -> SearchCommandReply 
                     engines,
                     cumulative_iters: vec![0; job_count],
                     n_threads,
-                    n_actions: CHESS_POLICY_ACTIONS,
                     search_profile,
                 },
                 default_960,
@@ -5319,7 +5314,6 @@ fn handle_search_nn_multi_engine_session_open(line: &str) -> SearchCommandReply 
                 engines,
                 cumulative_iters: vec![0; job_count],
                 n_threads,
-                n_actions: 9,
                 search_profile,
             })
         }
@@ -5606,7 +5600,6 @@ where
             .collect(),
         cumulative_iters: vec![0; sessions.len()],
         n_threads,
-        n_actions,
         search_profile,
     };
     let started = Instant::now();
@@ -6512,7 +6505,6 @@ mod tests {
             engines: vec![Some(MctsEngine::new(state, eval, cfg))],
             cumulative_iters: vec![0],
             n_threads: 1,
-            n_actions: 49,
             search_profile: SearchProfile::Baseline,
         };
 
@@ -6549,7 +6541,6 @@ mod tests {
             ],
             cumulative_iters: vec![0, 0],
             n_threads: 1,
-            n_actions: 49,
             search_profile: SearchProfile::Baseline,
         };
 
@@ -6603,7 +6594,6 @@ mod tests {
             engines: vec![Some(MctsEngine::new(state, eval, cfg))],
             cumulative_iters: vec![0],
             n_threads: 1,
-            n_actions: 49,
             search_profile: SearchProfile::Baseline,
         };
 
@@ -6630,14 +6620,12 @@ mod tests {
             engines: vec![Some(MctsEngine::new(state.clone(), eval.clone(), cfg.clone()))],
             cumulative_iters: vec![0],
             n_threads: 1,
-            n_actions: 49,
             search_profile: SearchProfile::Baseline,
         };
         let mut json_session = EngineSearchSession {
             engines: vec![Some(MctsEngine::new(state, eval, cfg))],
             cumulative_iters: vec![0],
             n_threads: 1,
-            n_actions: 49,
             search_profile: SearchProfile::Baseline,
         };
 
