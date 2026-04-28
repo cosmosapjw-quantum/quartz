@@ -85,21 +85,44 @@ impl VlSplit {
 // § Telemetry (parallel-specific)
 // ───────────────────────────────────────────
 
+/// Cache-line padded wrapper. B1: prevents false sharing of telemetry
+/// atomics that are written/read by all rayon worker threads in run_par.
+/// `Deref`/`DerefMut` keep call sites unchanged
+/// (`self.field.fetch_add(...)` still works via auto-deref).
+#[repr(C, align(64))]
+struct CacheLined<T>(T);
+
+impl<T> std::ops::Deref for CacheLined<T> {
+    type Target = T;
+    #[inline(always)]
+    fn deref(&self) -> &T {
+        &self.0
+    }
+}
+impl<T> std::ops::DerefMut for CacheLined<T> {
+    #[inline(always)]
+    fn deref_mut(&mut self) -> &mut T {
+        &mut self.0
+    }
+}
+
 /// Runtime parallel telemetry — accumulated across iterations.
+/// B1: each atomic occupies its own 64-byte line via `CacheLined<T>`,
+/// eliminating cross-core line bouncing on the rayon hot path.
 pub struct ParallelTelemetry {
-    pub total_selects: AtomicU32,
-    pub dup_leaf_count: AtomicU32, // times a leaf was already pending
-    pub max_pending: AtomicU32,    // peak pending leaves across all nodes
-    pub vvalue_sum: AtomicU64,     // sum of applied vvalues (f64 bits)
+    total_selects: CacheLined<AtomicU32>,
+    dup_leaf_count: CacheLined<AtomicU32>, // times a leaf was already pending
+    max_pending: CacheLined<AtomicU32>,    // peak pending leaves across all nodes
+    vvalue_sum: CacheLined<AtomicU64>,     // sum of applied vvalues (f64 bits)
 }
 
 impl ParallelTelemetry {
     pub fn new() -> Self {
         ParallelTelemetry {
-            total_selects: AtomicU32::new(0),
-            dup_leaf_count: AtomicU32::new(0),
-            max_pending: AtomicU32::new(0),
-            vvalue_sum: AtomicU64::new(0),
+            total_selects: CacheLined(AtomicU32::new(0)),
+            dup_leaf_count: CacheLined(AtomicU32::new(0)),
+            max_pending: CacheLined(AtomicU32::new(0)),
+            vvalue_sum: CacheLined(AtomicU64::new(0)),
         }
     }
 
