@@ -7,6 +7,11 @@ pub mod gvoc;
 pub mod mod_types;
 pub mod node;
 pub mod parallel;
+// P06: unified SearchPolicy trait + types. Scaffolding only — nothing
+// in the engine consults the trait yet. P07-P11 land the concrete
+// policies (LegacyAlphaZero, LegacyQuartz, KLLUCBStop, BayesianQuartz,
+// MENTSEntropyRegularized).
+pub mod policy;
 pub mod profiling;
 pub mod quartz;
 pub mod rng;
