@@ -3464,14 +3464,26 @@ where
         selection_mean_candidate_count: selection_trace.selected_mean_candidate_count,
         selection_max_candidate_count: selection_trace.selected_max_candidate_count,
         voc_argmax_channel_hist: std::collections::BTreeMap::new(),
-        // P01: async synth path doesn't have direct controller access here.
-        // Selection trace is real (engine.selection_telemetry); halt_reason
-        // counts are intentionally zeroed since the live controller is
-        // outside this function's scope.
         selection_penalty_mode_invoke_count: selection_trace.penalty_mode_invoke_count,
         selection_refresh_eligible_count: selection_trace.refresh_eligible_count,
         selection_refresh_active_count: selection_trace.refresh_active_count,
-        halt_reason_count: [0u32; crate::mcts::quartz::HALT_REASON_COUNT],
+        // BQ++ Phase 8c: async batched search runs an iter-driven loop
+        // that bypasses QuartzController::should_stop, so the
+        // controller's note_halt() never fires and the per-`HaltReason`
+        // counters stay at 0. But every async search DOES terminate at
+        // the iter budget, which is semantically identical to the
+        // synchronous path's `if root_visits >= self.max_visits {
+        // self.note_halt(MaxVisits); }` branch. Reflect that on
+        // completion: increment halt_reason_count[MaxVisits] by 1 so
+        // each self-play position contributes a halt-reason entry that
+        // matches the eval/arena semantics. P01 toy-ablation analysis
+        // (commit f0f4b33) showed all halt counters at 0 across 3,830
+        // self-play replay entries — this terminal increment fixes that.
+        halt_reason_count: {
+            let mut hr = [0u32; crate::mcts::quartz::HALT_REASON_COUNT];
+            hr[crate::mcts::quartz::HaltReason::MaxVisits as usize] = 1;
+            hr
+        },
     };
     let mut result = build_result_value(
         engine,
