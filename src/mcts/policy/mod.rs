@@ -17,6 +17,7 @@
 
 pub mod cache;
 pub mod gumbel_sh;
+pub mod kg_stop;
 pub mod kl_helpers;
 pub mod kl_lucb;
 pub mod legacy_az;
@@ -26,6 +27,9 @@ pub mod trait_def;
 pub use cache::{EdgeRef, PolicyCache, PolicyCachePublisher};
 pub use gumbel_sh::{
     gumbel_top_m, initial_bracket, sample_gumbel, SequentialHalvingBracket,
+};
+pub use kg_stop::{
+    compute_kg_array, expected_improvement, kg_per_arm, should_halt_by_kg,
 };
 pub use kl_helpers::{bernoulli_kl, kl_lower, kl_lucb_beta, kl_upper};
 pub use kl_lucb::KLLUCBStop;
