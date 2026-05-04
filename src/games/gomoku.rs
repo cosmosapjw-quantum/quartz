@@ -408,6 +408,49 @@ impl fmt::Display for Gomoku {
 }
 
 // ─────────────────────────────────────────────
+// § BQ++ Phase 5: tactical-sentinel accessors
+// ─────────────────────────────────────────────
+
+impl Gomoku {
+    /// BQ++ Phase 5: dimension accessor for the tactical sentinel.
+    /// Returns the board size (e.g. 7 for 7×7, 15 for 15×15).
+    pub fn size_dim(&self) -> usize {
+        self.size
+    }
+
+    /// BQ++ Phase 5: win-condition accessor for the tactical sentinel.
+    /// Returns the number of consecutive stones required to win
+    /// (4 for Gomoku 7×7 in this codebase, 5 for standard 15×15).
+    pub fn win_len_dim(&self) -> usize {
+        self.win_len
+    }
+
+    /// BQ++ Phase 5: current-player sign accessor (+1 black / −1 white).
+    pub fn current_player_sign(&self) -> i8 {
+        self.current_player
+    }
+
+    /// BQ++ Phase 5: per-cell occupancy check used by the tactical
+    /// sentinel. Returns true iff `pos` is in-bounds AND the cell is
+    /// empty (board[pos] == 0).
+    pub fn cell_is_empty(&self, pos: usize) -> bool {
+        if pos >= self.size * self.size {
+            return false;
+        }
+        self.board[pos] == 0
+    }
+
+    /// BQ++ Phase 5: per-cell player check. Returns true iff `pos` is
+    /// in-bounds AND the cell holds a stone of the given player.
+    pub fn cell_is_player(&self, pos: usize, player: i8) -> bool {
+        if pos >= self.size * self.size {
+            return false;
+        }
+        self.board[pos] == player
+    }
+}
+
+// ─────────────────────────────────────────────
 // § GameState 구현
 // ─────────────────────────────────────────────
 
