@@ -3398,6 +3398,7 @@ fn build_async_result_value<G: GameState>(
     n_actions: usize,
     n_threads: usize,
     search_profile: SearchProfile,
+    qcfg: Option<&QuartzConfig>,
 ) -> serde_json::Value
 where
     usize: From<G::Move>,
@@ -3472,7 +3473,7 @@ where
         selection_refresh_active_count: selection_trace.refresh_active_count,
         halt_reason_count: [0u32; crate::mcts::quartz::HALT_REASON_COUNT],
     };
-    build_result_value(
+    let mut result = build_result_value(
         engine,
         n_actions,
         &synth_outcome,
@@ -3483,7 +3484,25 @@ where
         sigma_q,
         hbar_eff,
         prior_q_divergence,
-    )
+    );
+    // BQ++ Phase 8b: previously the async self-play path skipped the
+    // attach_search_metadata pass, so every replay-buffer position came
+    // back with `controller_summary: {}` and the P01 extended block was
+    // never populated for self-play (eval/arena worked because they took
+    // the synchronous path). Toy-ablation analysis on commit ff12d6f
+    // showed extended_coverage_frac=0.0 over all 334 replay metadata
+    // entries; this one-call fix routes the async result through the
+    // same metadata-builder so self-play and eval emit identical
+    // controller_summary shapes.
+    attach_search_metadata(
+        &mut result,
+        search_profile,
+        completed,
+        n_threads,
+        "batch_stdio",
+        qcfg,
+    );
+    result
 }
 
 /// Per-tick counters accumulated during job processing.
@@ -3597,7 +3616,12 @@ fn run_multi_async_batch_tags<G: GameState>(
     eval_a: BatchStdioEval<G::Move>,
     eval_b: Option<BatchStdioEval<G::Move>>,
     base_cfg: &MctsConfig,
-    _qcfg: Option<QuartzConfig>,
+    // BQ++ Phase 8b: qcfg is now consumed (was previously _qcfg, marked
+    // unused). It threads through build_async_result_value into
+    // attach_search_metadata so the per-search controller_summary
+    // (including P01's extended block) is emitted on the self-play path,
+    // matching the eval/arena path.
+    qcfg: Option<QuartzConfig>,
     iters: u32,
     n_threads: usize,
     n_actions: usize,
@@ -3792,6 +3816,7 @@ where
                 n_actions,
                 n_threads,
                 search_profile,
+                qcfg.as_ref(),
             );
         }
     }
