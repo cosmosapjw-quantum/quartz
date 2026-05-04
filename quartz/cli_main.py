@@ -871,6 +871,13 @@ def run_training_main(args, ctx: PreparedTrainingContext, runtime_hooks: MainRun
             "games_done": cfg["games"],
             "avg_pflip": None,
             "replay_freshness": None,
+            # P03: exponential-decay freshness. The legacy `replay_freshness`
+            # above (n_new / replay_size) is a turnover rate, not a
+            # freshness — it can't distinguish a 5k buffer with 50 new
+            # positions per iter from a 50k buffer with 500/iter. The new
+            # field is monotone in mean sample age relative to a half-life
+            # set by replay capacity. See ReplayMetrics.freshness_summary.
+            "replay_freshness_summary": None,
             "policy_entropy": None,
             "value_std": None,
             "runtime_tune": None,
@@ -905,6 +912,24 @@ def run_training_main(args, ctx: PreparedTrainingContext, runtime_hooks: MainRun
             sys.exit(1)
 
         entry["replay_freshness"] = round(runtime_hooks.replay_metrics.freshness(n_new, len(replay)), 4)
+        # P03: hoist current_actor_generation up here so it's defined
+        # before the SGD-fired branch (where it was originally computed).
+        # This lets freshness_summary fire on every iteration including
+        # the bootstrap path where len(replay) < cfg["batch"] and the
+        # SGD branch is skipped.
+        current_actor_generation = int(
+            getattr(bg_worker, "actor_generation", iteration)
+            if bg_worker is not None
+            else iteration
+        )
+        # P03: exponential-decay freshness aggregator. Uses the
+        # `actor_generation` metadata stamped at add_game time + the
+        # replay buffer's capacity to derive a half-life. Falls back
+        # gracefully on test stubs that don't provide the helper.
+        if hasattr(runtime_hooks.replay_metrics, "freshness_summary"):
+            entry["replay_freshness_summary"] = runtime_hooks.replay_metrics.freshness_summary(
+                replay, current_actor_generation
+            )
 
         if len(replay) >= cfg["batch"]:
             train_steps = runtime_hooks.compute_train_steps(
@@ -939,12 +964,12 @@ def run_training_main(args, ctx: PreparedTrainingContext, runtime_hooks: MainRun
                 elapsed = time.time() - t0
                 if outer_stopper:
                     should_early_stop = outer_stopper.step(avg_loss)
-                # Current actor identity: for the inline path the current
-                # iteration is the producing actor generation; for the
-                # concurrent path, bg_worker tracks its own generation
-                # independently of the learner step counter. Use getattr
-                # fallback so mock SelfPlayWorker objects in tests do not
-                # need to implement the attribute.
+                # P03: current_actor_generation is now hoisted up before
+                # the SGD-fired branch (see comment ~50 lines above) so
+                # it's available to both freshness_summary and the entry
+                # dict. The recomputation here is intentionally redundant
+                # to keep the SGD-fired branch self-contained for ease of
+                # review; it always evaluates to the same value.
                 current_actor_generation = int(
                     getattr(bg_worker, "actor_generation", iteration)
                     if bg_worker is not None
@@ -965,6 +990,13 @@ def run_training_main(args, ctx: PreparedTrainingContext, runtime_hooks: MainRun
                         "pos_per_s": round(n_new / max(elapsed, 0.1), 1),
                         "avg_pflip": round(avg_pflip, 4) if avg_pflip is not None else None,
                         "replay_freshness": round(runtime_hooks.replay_metrics.freshness(n_new, len(replay)), 4),
+                        # P03: principled exponential-decay freshness.
+                        # See ReplayMetrics.freshness_summary docstring.
+                        "replay_freshness_summary": (
+                            runtime_hooks.replay_metrics.freshness_summary(replay, current_actor_generation)
+                            if hasattr(runtime_hooks.replay_metrics, "freshness_summary")
+                            else None
+                        ),
                         "policy_entropy": round(runtime_hooks.replay_metrics.policy_entropy(replay), 3),
                         "value_std": round(runtime_hooks.replay_metrics.value_std(replay), 4),
                         "replay_search_summary": runtime_hooks.replay_metrics.search_summary(replay),

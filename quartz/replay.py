@@ -582,6 +582,95 @@ class ReplayMetrics:
         return n_new / max(replay_size, 1)
 
     @staticmethod
+    def freshness_summary(replay, current_generation, sample_n=200):
+        """P03: per-replay-buffer age statistics relative to the current
+        learner generation, with an exponential-decay freshness score.
+
+        The legacy `freshness(n_new, replay_size)` (above) returned
+        `n_new / replay_size` — a turnover rate, not a freshness. Two
+        pipelines with the same turnover but very different `mean_age`
+        (e.g. 5k-replay × 50/iter vs. 50k-replay × 500/iter) get the
+        same legacy number, masking off-policy drift in the larger one.
+
+        This summary instead returns a true monotone-in-mean-age score:
+
+            half_life_gen   = max(1, capacity / 100)   # ~100 pos/game heuristic
+            mean_age        = current_generation - sample_mean(actor_generation)
+            freshness_score = exp(-mean_age / half_life_gen)
+
+        Range: (0, 1]; 1.0 = freshly produced this generation; 0.5 = mean
+        sample is one half-life old; below 0.1 = average sample is so
+        off-policy that gradient direction is dominated by stale
+        on-policy correlations.
+
+        Returns dict with `schema_version: 1`, `oldest_gen`, `newest_gen`,
+        `mean_age`, `freshness_score`, `sample_count`, `half_life_gen`.
+        Empty replay → freshness_score=0.0 and all gen fields None.
+        Rows without `actor_generation` metadata are silently skipped;
+        if NO sampled row has the tag, returns the same empty shape.
+        """
+        if len(replay) <= 0:
+            return {
+                "schema_version": 1,
+                "oldest_gen": None,
+                "newest_gen": None,
+                "mean_age": None,
+                "freshness_score": 0.0,
+                "sample_count": 0,
+                "half_life_gen": None,
+            }
+        n = min(int(sample_n), len(replay))
+        if n <= 0:
+            return {
+                "schema_version": 1,
+                "oldest_gen": None,
+                "newest_gen": None,
+                "mean_age": None,
+                "freshness_score": 0.0,
+                "sample_count": 0,
+                "half_life_gen": None,
+            }
+        indices = random.sample(range(len(replay)), n)
+        examples = ReplayMetrics._examples_at_indices(replay, indices)
+        gens = []
+        for ex in examples:
+            if isinstance(ex, ReplayExample) and ex.metadata:
+                gen = ex.metadata.get("actor_generation")
+                if gen is not None:
+                    gens.append(int(gen))
+        if not gens:
+            return {
+                "schema_version": 1,
+                "oldest_gen": None,
+                "newest_gen": None,
+                "mean_age": None,
+                "freshness_score": 0.0,
+                "sample_count": 0,
+                "half_life_gen": None,
+            }
+        oldest, newest = min(gens), max(gens)
+        mean_gen = sum(gens) / len(gens)
+        mean_age = float(current_generation) - mean_gen
+        # Capacity-defined half-life. Assumes ~100 positions per game; if
+        # the caller wants a tighter half-life they can divide capacity
+        # by their actual positions-per-game ratio.
+        capacity = getattr(replay.buf, "maxlen", len(replay)) or len(replay)
+        half_life_gen = max(1.0, float(capacity) / 100.0)
+        # max(0, mean_age): negative ages occur when a buffer was loaded
+        # from disk with stamps from a future generation; clamp to keep
+        # freshness in (0, 1].
+        freshness = math.exp(-max(0.0, mean_age) / half_life_gen)
+        return {
+            "schema_version": 1,
+            "oldest_gen": int(oldest),
+            "newest_gen": int(newest),
+            "mean_age": float(mean_age),
+            "freshness_score": float(freshness),
+            "sample_count": len(gens),
+            "half_life_gen": float(half_life_gen),
+        }
+
+    @staticmethod
     def actor_generation_histogram(replay, sample_n=200):
         """Count samples per `actor_generation` tag in a random subsample.
 

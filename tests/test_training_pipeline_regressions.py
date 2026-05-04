@@ -398,6 +398,94 @@ def test_replay_search_summary_aggregates_selection_trace():
     assert summary["max_selection_candidate_count"] == pytest.approx(9.0)
 
 
+def test_p03_replay_freshness_summary_empty_buffer():
+    """P03: empty replay returns the canonical empty shape — keys present
+    so downstream consumers index by key without KeyError, but values
+    are None / 0.0 to signal "no data". Critical for cli_main's first
+    iteration (replay still bootstrapping)."""
+    az = load_training_module()
+    replay = az.ReplayBuffer(16)
+    summary = az.ReplayMetrics.freshness_summary(replay, current_generation=5)
+    assert summary["schema_version"] == 1
+    assert summary["oldest_gen"] is None
+    assert summary["newest_gen"] is None
+    assert summary["mean_age"] is None
+    assert summary["freshness_score"] == 0.0
+    assert summary["sample_count"] == 0
+    assert summary["half_life_gen"] is None
+
+
+def test_p03_replay_freshness_summary_all_current_gen():
+    """P03: every sample stamped with current_generation ⇒ mean_age=0,
+    freshness_score=1.0 exactly."""
+    az = load_training_module()
+    replay = az.ReplayBuffer(1000)
+    state = np.zeros((3, 7, 7), dtype=np.float32)
+    policy = np.zeros(49, dtype=np.float32)
+    policy[0] = 1.0
+    for _ in range(50):
+        replay.add(state, policy, 0.0, metadata={"actor_generation": 7})
+    summary = az.ReplayMetrics.freshness_summary(replay, current_generation=7)
+    assert summary["sample_count"] > 0
+    assert summary["oldest_gen"] == 7
+    assert summary["newest_gen"] == 7
+    assert summary["mean_age"] == pytest.approx(0.0, abs=1e-9)
+    assert summary["freshness_score"] == pytest.approx(1.0, abs=1e-9)
+    # half_life = max(1, capacity/100) = 10
+    assert summary["half_life_gen"] == pytest.approx(10.0)
+
+
+def test_p03_replay_freshness_summary_one_half_life_old():
+    """P03: mean sample is exactly one half-life old ⇒ freshness ≈ exp(-1) ≈ 0.3679.
+    Verifies the exponential-decay formula with hand-computed expected value."""
+    az = load_training_module()
+    # capacity 1000 ⇒ half_life = 10 generations
+    replay = az.ReplayBuffer(1000)
+    state = np.zeros((3, 7, 7), dtype=np.float32)
+    policy = np.zeros(49, dtype=np.float32)
+    policy[0] = 1.0
+    # all samples at gen=10, current_generation=20 ⇒ mean_age = 10 = half_life
+    for _ in range(60):
+        replay.add(state, policy, 0.0, metadata={"actor_generation": 10})
+    summary = az.ReplayMetrics.freshness_summary(replay, current_generation=20, sample_n=60)
+    assert summary["sample_count"] == 60
+    assert summary["mean_age"] == pytest.approx(10.0)
+    # exp(-1) ≈ 0.3678794
+    assert summary["freshness_score"] == pytest.approx(0.3678794, abs=1e-4)
+
+
+def test_p03_replay_freshness_summary_skips_untagged():
+    """P03: rows without `actor_generation` metadata are silently
+    skipped. If NO row has the tag, return the empty shape."""
+    az = load_training_module()
+    replay = az.ReplayBuffer(100)
+    state = np.zeros((3, 7, 7), dtype=np.float32)
+    policy = np.zeros(49, dtype=np.float32)
+    policy[0] = 1.0
+    for _ in range(20):
+        replay.add(state, policy, 0.0, metadata={})  # no actor_generation
+    summary = az.ReplayMetrics.freshness_summary(replay, current_generation=5)
+    assert summary["sample_count"] == 0
+    assert summary["mean_age"] is None
+    assert summary["freshness_score"] == 0.0
+
+
+def test_p03_replay_freshness_summary_negative_age_clamped():
+    """P03: stamps from a future generation (e.g. buffer reloaded from
+    disk with newer data) clamp to age=0; freshness_score stays in (0, 1]."""
+    az = load_training_module()
+    replay = az.ReplayBuffer(100)
+    state = np.zeros((3, 7, 7), dtype=np.float32)
+    policy = np.zeros(49, dtype=np.float32)
+    policy[0] = 1.0
+    for _ in range(10):
+        replay.add(state, policy, 0.0, metadata={"actor_generation": 50})
+    summary = az.ReplayMetrics.freshness_summary(replay, current_generation=5)
+    # mean_age = 5 - 50 = -45; clamp to 0 in the formula
+    assert summary["mean_age"] == pytest.approx(-45.0)
+    assert summary["freshness_score"] == pytest.approx(1.0)
+
+
 def test_p01_replay_summary_aggregates_extended_block():
     """P01: schema_version 6+ controller_summary.extended block carries
     real measured `mean_prior_refresh_rate` and per-mode/per-reason
@@ -627,9 +715,15 @@ def test_ablation_study_discards_stale_eval_cache(monkeypatch, tmp_path):
         eval_seed=17,
         rust_binary="./target/release/mcts_demo",
     )
+    # P02: pre_flight_check requires the .pt files to exist on disk so it
+    # can SHA256 them. FakeCampaign in this test never reads model bytes,
+    # but the gate runs before FakeCampaign's compare. Write minimal
+    # fixture bytes per (id) so the gate passes.
+    (tmp_path / "a.pt").write_bytes(b"a")
+    (tmp_path / "b.pt").write_bytes(b"b")
     model_runs = [
-        {"id": "m1", "model_path": "a.pt", "condition": "T1", "seed": 41},
-        {"id": "m2", "model_path": "b.pt", "condition": "T2", "seed": 41},
+        {"id": "m1", "model_path": str(tmp_path / "a.pt"), "condition": "T1", "seed": 41},
+        {"id": "m2", "model_path": str(tmp_path / "b.pt"), "condition": "T2", "seed": 41},
     ]
 
     payload = module.run_evaluation_matrix(
@@ -714,9 +808,13 @@ def test_ablation_study_records_eval_condition_timings(monkeypatch, tmp_path):
         rust_binary="./target/release/mcts_demo",
         backend="torch",
     )
+    # P02: pre_flight_check requires existing .pt files (see comment in
+    # test_ablation_study_discards_stale_eval_cache).
+    (tmp_path / "a.pt").write_bytes(b"a")
+    (tmp_path / "b.pt").write_bytes(b"b")
     model_runs = [
-        {"id": "m1", "model_path": "a.pt", "condition": "T1", "seed": 41},
-        {"id": "m2", "model_path": "b.pt", "condition": "T2", "seed": 41},
+        {"id": "m1", "model_path": str(tmp_path / "a.pt"), "condition": "T1", "seed": 41},
+        {"id": "m2", "model_path": str(tmp_path / "b.pt"), "condition": "T2", "seed": 41},
     ]
 
     payload = module.run_evaluation_matrix(
@@ -812,10 +910,13 @@ def test_ablation_study_uses_compare_many_when_available(monkeypatch, tmp_path):
         rust_binary="./target/release/mcts_demo",
         backend="torch",
     )
+    # P02: pre_flight_check requires existing .pt files.
+    for fname in ("a.pt", "b.pt", "c.pt"):
+        (tmp_path / fname).write_bytes(fname.encode())
     model_runs = [
-        {"id": "m1", "model_path": "a.pt", "condition": "T1", "seed": 41},
-        {"id": "m2", "model_path": "b.pt", "condition": "T2", "seed": 41},
-        {"id": "m3", "model_path": "c.pt", "condition": "T3", "seed": 41},
+        {"id": "m1", "model_path": str(tmp_path / "a.pt"), "condition": "T1", "seed": 41},
+        {"id": "m2", "model_path": str(tmp_path / "b.pt"), "condition": "T2", "seed": 41},
+        {"id": "m3", "model_path": str(tmp_path / "c.pt"), "condition": "T3", "seed": 41},
     ]
 
     payload = module.run_evaluation_matrix(
