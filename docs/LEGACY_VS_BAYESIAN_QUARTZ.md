@@ -1103,3 +1103,36 @@ follows P15.
   falsifiable from artifact JSON.
 
 End of document.
+
+---
+
+## Appendix A — Superseded sections (Phase 0 amendment, 2026-05-04)
+
+This document was the subject of an external technical audit
+(`report.md` at the repo root, dated 2026-05-04). The audit
+identified mathematical errors in the sections listed below. Rather
+than silently rewriting the body — which would erase audit-trail
+integrity — the original text is preserved and this appendix
+records what is superseded.
+
+The full acknowledgment lives at
+[`../audit_external_review_response.md`](../audit_external_review_response.md);
+the architectural successor (BQ++) is planned at
+[`~/.claude/plans/bq_plus_plus_plan.md`](../../../.claude/plans/bq_plus_plus_plan.md).
+
+| Section | Issue | Correction |
+|---|---|---|
+| §2.1 ("Surface area"), §4 ("Side-by-side summary table") | The configuration count `7 × 4 × 3 × 2¹¹ ≈ 229,376` is wrong arithmetic. | The actual product is **172,032**. With the duplicate `enable_fisher_puct` flag removed, unique-flag count becomes 10 → `7 × 4 × 3 × 2¹⁰ = 86,016`. Qualitative point (the surface is too large) stands. |
+| §3.3 ("Empirical Bernstein gap CI") | `eb_gap = best_mu − 2·EB_b` uses only the best-arm bound and is not a best-vs-runner-up certificate. | The correct empirical-Bernstein certificate is `g_EB = L_b − max_{a ≠ b} U_a`. Stop when `g_EB > 0` for δ-PAC. |
+| §3.5 ("Russo-Van Roy one-step VOI") | `VOI = φ(−Δ/s)·s` was described as a "conservative underestimate." It is in fact an **overestimate** because the proper `E[max(X, 0)] = s·φ(Δ/s) − Δ·Φ(−Δ/s)` subtracts the second term. Overestimating VOI delays halt, opposite of "safer." | Use the full expected-improvement formula above, or the Knowledge Gradient approximation `KG_a ≈ E[max_j μ_j⁺] − max_j μ̂_j` evaluated only on a top-m candidate set. |
+| §3.6 ("KL-LUCB halt"), §5.5 ("KL-LUCB sample complexity") | The δ-PAC guarantee assumes iid Bernoulli samples per arm; AlphaZero MCTS violates this via shared subtree backups, virtual loss coupling, and NN value bias. | Downgrade the claim to "δ-PAC under an idealized root-bandit abstraction of calibrated bounded backups." For NN value backups, the EB certificate is the safer primary halt rule; KL-LUCB remains valid for terminal Bernoulli win/loss backups. |
+| §3.4 ("Pearson χ² envariance test"), §5.3 ("Pearson χ² goodness-of-fit") | Pearson's χ² null distribution is exact for iid multinomial counts. MCTS visits are adaptive (driven by PUCT, virtual loss, value feedback), so the test does not have its claimed null-distribution properties. | Keep the χ² *statistic* as a prior-surprise diagnostic (a non-negative scalar measuring divergence from prior), but do **not** advertise a p-value, α-level, or formal hypothesis test. The threshold becomes a calibrated empirical decision, not a textbook χ² inverse-CDF. |
+| §7.3 ("Concurrency model"): "gap_bits can only increase for a stable best arm, so a stale read produces a slightly older PAC bound, which gives an *under-eager* halt" | Wrong on three counts: the empirical best can change between observe calls; μ̂_b can decrease as new rollouts arrive; β(t,δ) grows as `O(log t^α)` so a stale cache from earlier `t` can show a positive `gap_bits` that is no longer valid at the current `t`. | The successor design (Phase 2 of BQ++ plan) requires fresh-snapshot halt decisions: cache rejects a stale certificate via `root_visits_at_observe` and `edge_version_hash` freshness keys. |
+| §3.5, §8.2 (pseudocode) | `sigma_a[best as usize]` confuses edge-local position with `action_id`. For Chess (4672 action slots) and Go (up to 361 action slots), indexing by `action_id` into a per-edge array reads out of bounds. | The successor design uses `edge_pos: u32` (dense 0..n_children) for all per-edge cache arrays; `action_id` is stored as a separate field for engine communication. |
+
+**Sections NOT superseded.** §1, §2, §4 (table structure), §5.1, §5.2, §5.4, §6, §7.1, §7.2, §9, §10, §11 are unaffected by the audit. The math primitives in §5.1 (Welford + empirical-Bayes shrinkage) and §5.2 (Maurer-Pontil empirical Bernstein) are correct as stated; they survive into BQ++ unchanged.
+
+**What this means for a reader.** This document remains useful as a
+description of LegacyQuartz (what is in the code today) but the
+BayesianQuartz half is no longer the project's plan. For the current
+plan, follow the audit response and BQ++ implementation plan above.

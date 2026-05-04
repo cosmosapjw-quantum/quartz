@@ -211,6 +211,35 @@ Python training loop
   `scripts/build_audit_bundle.py` regenerates the external audit zip with the
   files needed for install, ablation, and protocol review.
 
+## Controller v2 (BQ++) — in progress
+
+The shipped controller (LegacyQuartz, exposed via
+`--policy=legacy_quartz` once BQ++ Phase 2 lands) is a heuristic
+family that this project's own
+[`docs/QUARTZ_THEORY.md`](docs/QUARTZ_THEORY.md) §9 calls "state-derived
+controllers plus explicit hyperparameters, not a hyperparameter-free
+law." A v1.0 plan to rebuild it as `BayesianQuartz` was reviewed
+externally (`report.md` at the repo root) and has been replaced by
+**BQ++** (Bounded-rational Bayesian Free-Energy Search Controller).
+
+The BQ++ design is governed by a single principle —
+*choose the next computation that maximizes expected decision-loss
+reduction per compute cost; halt when value ≤ cost or a
+`L_b > max_{a≠b} U_a` certificate fires* — and is organized into five
+modules (calibrated belief, EB+KL-LUCB certificate, Knowledge Gradient
+computation-value, Gumbel-SH + tactical sentinel candidate reservoir,
+ArcSwap CPU-friendly cache).
+
+The user's primary objective for BQ++ is ≥30% reduction in
+`nn_evals_per_move` at non-inferior play quality on Gomoku 7×7
+short-budget self-play. See:
+
+- [`audit_external_review_response.md`](audit_external_review_response.md) —
+  external audit acknowledgment + pivot rationale.
+- [`docs/LEGACY_VS_BAYESIAN_QUARTZ.md`](docs/LEGACY_VS_BAYESIAN_QUARTZ.md) —
+  comparison doc with Appendix A "Superseded sections."
+- `~/.claude/plans/bq_plus_plus_plan.md` — 8-phase implementation plan.
+
 ## Current Controller Status
 
 Repository-local Gomoku7 evidence currently points to:

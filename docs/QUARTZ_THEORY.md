@@ -639,3 +639,36 @@ The honest claim is therefore not "hyperparameter-free." The honest claim is:
 the runtime signals are state-derived, while the controller family sits on top
 of explicit search hyperparameters and a smaller set of fixed implementation
 thresholds.
+
+---
+
+## §10 — Successor (BQ++)
+
+This document describes LegacyQuartz, the controller in production at
+the time of writing. An external audit (`report.md` at the repo root,
+2026-05-04) identified mathematical errors in the `BayesianQuartz`
+design that was originally planned as the successor, and a missing
+allocation-controller axis. The successor is therefore **BQ++**
+(Bounded-rational Bayesian Free-Energy Search Controller), governed by
+a single principle:
+
+> Choose the next computation `c` that maximizes
+> `E[ΔR(B_t) | c] / cost(c)` (expected decision-loss reduction per
+> compute cost). Stop when `max_c E[ΔR | c] ≤ cost(c)` or a
+> confidence-interval certificate `L_b > max_{a≠b} U_a` holds.
+
+For the design:
+- Audit acknowledgment:
+  [`../audit_external_review_response.md`](../audit_external_review_response.md)
+- Comparison doc with superseded-sections appendix:
+  [`LEGACY_VS_BAYESIAN_QUARTZ.md`](LEGACY_VS_BAYESIAN_QUARTZ.md)
+- 8-phase implementation plan:
+  `~/.claude/plans/bq_plus_plus_plan.md`
+
+The "free-energy" framing in BQ++ is explicit log-sum-exp /
+KL-regularized planning (Xiao et al. 2019 MENTS-family), **not** a
+literal quantum-mechanical claim. Path measure replaces "path
+integral"; saddle-point / one-loop language is removed from the hot
+path and replaced with empirical-Bayes variance shrinkage and
+Knowledge-Gradient computation value. This brings the language into
+line with §9's honest scope.
