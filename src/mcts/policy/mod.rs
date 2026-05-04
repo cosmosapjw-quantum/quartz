@@ -22,6 +22,7 @@ pub mod kl_helpers;
 pub mod kl_lucb;
 pub mod legacy_az;
 pub mod legacy_quartz;
+pub mod ments;
 pub mod reservoir;
 pub mod tactical;
 pub mod trait_def;
@@ -33,6 +34,7 @@ pub use gumbel_sh::{
 pub use kg_stop::{
     compute_kg_array, expected_improvement, kg_per_arm, should_halt_by_kg,
 };
+pub use ments::{kl_visit_to_soft, soft_policy, soft_value};
 pub use reservoir::{lambda_score, quantile, Reservoir};
 pub use tactical::{gomoku_sentinel, TacticalResult};
 pub use kl_helpers::{bernoulli_kl, kl_lower, kl_lucb_beta, kl_upper};
