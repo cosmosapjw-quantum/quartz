@@ -2016,6 +2016,27 @@ def run_training(
         print(f"overrides={json.dumps(overrides, sort_keys=True)}")
     print(f"{'=' * 76}")
 
+    # BQ++ Phase 8c: truncate train_log.jsonl on a fresh training launch
+    # so re-runs against an existing output dir don't silently append to
+    # the previous run's log. cli_main.py opens the log in append mode
+    # ("a") unconditionally; if the ablation runner has decided that
+    # this is a fresh training (we got past the condition.json + same-
+    # contract skip-gate at line 1978-2001), then any existing train_log
+    # is from a stale prior run and should not be blended into the new
+    # aggregates. Toy-ablation analysis on commit f0f4b33 showed the
+    # pipeline_telemetry row count doubling (24 → 48) across two
+    # separate runs because of this silent append behavior. Removing
+    # the file here is safe because: (1) we already determined this is
+    # a fresh training, (2) condition.json + checkpoints are about to
+    # be overwritten anyway, (3) the file will be re-created on the
+    # subprocess's first append-write.
+    train_log_path = output_dir / "train_log.jsonl"
+    if train_log_path.exists():
+        try:
+            train_log_path.unlink()
+        except OSError as exc:
+            print(f"  [WARN] could not truncate stale train_log {train_log_path}: {exc}")
+
     # P05: forward calibration directory to the Rust server process via
     # the shared env var. The server's apply_search_profile reads this on
     # every search call and overlays the σ₀ recommendation if a JSON file
