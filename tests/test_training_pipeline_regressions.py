@@ -1102,7 +1102,10 @@ def test_ablation_run_training_reruns_when_train_contract_changes(monkeypatch, t
     class FakeCompleted:
         returncode = 0
 
-    def fake_run(cmd, check=False, timeout=None):
+    def fake_run(cmd, check=False, timeout=None, env=None):
+        # P05 added env=proc_env to subprocess.run for the
+        # QUARTZ_CALIBRATION_DIR forwarding. Test mock must accept it
+        # to stay signature-compatible with the production caller.
         calls["run"] += 1
         return FakeCompleted()
 
@@ -1606,7 +1609,15 @@ def test_controller_sweep_contract_summary_falls_back_for_legacy_payloads():
     assert combined["stage2"]["legacy_partial_count"] == 1
 
 
-def test_eval_timing_summary_helpers_expose_throughput_fields():
+def test_eval_timing_summary_stage2_throughput_fields():
+    """Companion to the ablation-eval test above; checks the
+    summarize_controller_stage2_timings helper specifically.
+
+    Originally shipped as a duplicate `test_eval_timing_summary_helpers_expose_throughput_fields`
+    (a copy-paste of the prior test with a stage2 body) which Python
+    silently de-duped to the last definition only. Renamed so both
+    tests actually run.
+    """
     from quartz.eval_timing_summary import (
         summarize_ablation_eval_timings,
         summarize_controller_stage2_timings,

@@ -21,6 +21,18 @@ from tqdm import tqdm
 from quartz.replay import sparse_policy_from_entries
 
 
+def _tqdm_factory(*args, **kwargs):
+    """Lazy import of tqdm_factory to avoid circular dependency.
+
+    runtime_support imports selfplay_runtime at module load time; doing
+    a top-level import the other way creates a partially-initialized-
+    module ImportError. Function-local import resolves on first call,
+    after both modules are fully loaded.
+    """
+    from quartz.runtime_support import tqdm_factory
+    return tqdm_factory(*args, **kwargs)
+
+
 _SEARCH_MANIFEST_KEYS = (
     "_name",
     "iters",
@@ -1143,7 +1155,7 @@ def selfplay_rust_nn(cfg, model, device, n_games, rust_binary="./target/release/
 
     all_states, all_policies, all_outcomes = [], [], []
 
-    with tqdm(total=n_games, desc="Self-play (Rust+NN)", leave=False) as pbar:
+    with _tqdm_factory(total=n_games, desc="Self-play (Rust+NN)", leave=False) as pbar:
         for _game_idx in range(n_games):
             game_states, game_policies = [], []
             move_count = 0
@@ -1366,7 +1378,7 @@ def arena_rust_nn_impl(
         penalty_mode_a = cfg_a.get("penalty_mode", "GatedRefresh")
         penalty_mode_b = cfg_b.get("penalty_mode", "GatedRefresh")
 
-        with tqdm(total=n_games, desc="Arena (Rust+NN)", leave=False) as pbar:
+        with _tqdm_factory(total=n_games, desc="Arena (Rust+NN)", leave=False) as pbar:
             for game_idx in range(n_games):
                 if game_idx % 2 == 0:
                     first_client, second_client = client_a, client_b
@@ -1975,7 +1987,14 @@ def selfplay_rust_nn_batched(
         active_proc_ref._active_proc = proc
     try:
         slot_count = min(max(1, parallel), max(1, n_games))
-        with tqdm(total=n_games, desc="Self-play (Rust+NN batched)", leave=False, disable=not show_progress) as pbar:
+        # show_progress=False forces disable; otherwise let tqdm_factory
+        # auto-disable on non-TTY stderr (subprocess capture, log file, CI).
+        with _tqdm_factory(
+            total=n_games,
+            desc="Self-play (Rust+NN batched)",
+            leave=False,
+            **({"disable": True} if not show_progress else {}),
+        ) as pbar:
             game_data = [None] * slot_count
             games_started = 0
 

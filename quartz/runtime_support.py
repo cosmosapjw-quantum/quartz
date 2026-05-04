@@ -589,8 +589,28 @@ def default_encoder_cfg(game_name):
 
 
 def tqdm_factory(*args, **kwargs):
+    """Centralized tqdm wrapper with TTY-aware disable.
+
+    When stderr is NOT a TTY (e.g. captured by smoke_e2e's subprocess.run,
+    redirected to a log file, or running under CI), tqdm cannot use \\r
+    to overwrite the progress bar; it appends each update as a new line
+    instead, producing the verbose duplicate-output we used to see.
+
+    The fix: gate the bar on `sys.stderr.isatty()`. Non-TTY callers get
+    a no-op nullcontext, identical in shape to the no-tqdm fallback.
+    Callers can override with `disable=False` to force the bar (e.g.
+    for tests that explicitly want it).
+    """
     if tqdm is None:
-        return contextlib.nullcontext(SimpleNamespace(update=lambda *_a, **_k: None, set_postfix_str=lambda *_a, **_k: None))
+        return contextlib.nullcontext(
+            SimpleNamespace(update=lambda *_a, **_k: None, set_postfix_str=lambda *_a, **_k: None)
+        )
+    # Only apply the auto-disable when the caller didn't already set it.
+    if "disable" not in kwargs:
+        kwargs["disable"] = not sys.stderr.isatty()
+    # dynamic_ncols=True keeps the bar from over-stretching when the
+    # terminal is resized; harmless on TTY-disabled paths.
+    kwargs.setdefault("dynamic_ncols", True)
     return tqdm(*args, **kwargs)
 
 

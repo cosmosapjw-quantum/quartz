@@ -7,7 +7,8 @@ import math
 import os
 
 import numpy as np
-from tqdm import tqdm
+
+from quartz.runtime_support import tqdm_factory
 
 
 def early_stopping_enabled(patience, concurrent=False):
@@ -364,7 +365,7 @@ def train_epoch(model, optimizer, replay, cfg, device, n_steps, backend=None, in
             planned_steps=n_steps,
         )
 
-    with tqdm(loader, total=n_steps, desc="  Training", leave=False) as pbar:
+    with tqdm_factory(loader, total=n_steps, desc="  Training", leave=False) as pbar:
         for states_t, policies_t, values_t in pbar:
             if backend is not None:
                 loss, pl, vl = backend.train_step(states_t.numpy(), policies_t.numpy(), values_t.numpy())

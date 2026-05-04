@@ -11,19 +11,16 @@ from dataclasses import dataclass
 import numpy as np
 from quartz import runtime_support
 
-try:
-    from tqdm import tqdm as _tqdm
-except Exception:
-    _tqdm = None
-
-
 def arena_compare(model_a_path, model_b_path, cfg, device, n_games=50):
     """Play N games with SPRT early termination."""
     alphazero_net_cls = runtime_support.AlphaZeroNet
     load_torch_state_dict = runtime_support.load_torch_state_dict
     torch_module = runtime_support.torch
     tree_mcts_cls = TreeMCTS
-    tqdm_cls = _tqdm or runtime_support.tqdm_factory
+    # Use tqdm_factory (which auto-disables on non-TTY stderr) instead
+    # of raw tqdm; otherwise smoke_e2e's subprocess capture floods stdout
+    # with one progress-bar line per update.
+    tqdm_cls = runtime_support.tqdm_factory
 
     model_a = alphazero_net_cls(cfg).to(device)
     model_b = alphazero_net_cls(cfg).to(device)
