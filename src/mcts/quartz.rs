@@ -125,6 +125,75 @@ pub enum PenaltyMode {
     PFlipMixture,
 }
 
+/// P01: Reasons a controller halt actually fired. Indexed atomic counters
+/// on `QuartzController` track these so the README's claimed
+/// `halt_reason_count` field is emitted from real data, not just declared.
+///
+/// `KLLUCBStop`, `GLRCertified`, `EmpBernsteinSep`, `PolicyConverged` are
+/// reserved for future policies (P08, P09, P11). Adding them up-front keeps
+/// the array layout and serialization keys stable.
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+#[repr(u8)]
+pub enum HaltReason {
+    PFlipConverged = 0,
+    VOCNonPositive = 1,
+    FixedBudget = 2,
+    KLLUCBStop = 3,
+    MaxVisits = 4,
+    MaxTime = 5,
+    MinVisitsNotMet = 6,
+    GLRCertified = 7,
+    PolicyConverged = 8,
+    EmpBernsteinSep = 9,
+}
+pub const HALT_REASON_COUNT: usize = 10;
+
+impl HaltReason {
+    /// Stable JSON key. Keep these synced with the README and never rename
+    /// without bumping `controller_summary.extended.schema_version`.
+    pub const fn as_key(self) -> &'static str {
+        match self {
+            HaltReason::PFlipConverged => "PFlipConverged",
+            HaltReason::VOCNonPositive => "VOCNonPositive",
+            HaltReason::FixedBudget => "FixedBudget",
+            HaltReason::KLLUCBStop => "KLLUCBStop",
+            HaltReason::MaxVisits => "MaxVisits",
+            HaltReason::MaxTime => "MaxTime",
+            HaltReason::MinVisitsNotMet => "MinVisitsNotMet",
+            HaltReason::GLRCertified => "GLRCertified",
+            HaltReason::PolicyConverged => "PolicyConverged",
+            HaltReason::EmpBernsteinSep => "EmpBernsteinSep",
+        }
+    }
+}
+
+/// P01: Stable JSON keys for the seven `PenaltyMode` variants. Used for
+/// emitting `controller_penalty_mode_counts` so the README claim is
+/// falsifiable from the search response.
+pub const PENALTY_MODE_KEYS: [&str; 7] = [
+    "Legacy",
+    "EffectiveV2",
+    "None",
+    "SelfAdaptive",
+    "GatedRefresh",
+    "GatedRefreshLegacy",
+    "PFlipMixture",
+];
+pub const PENALTY_MODE_COUNT: usize = 7;
+
+#[inline]
+pub fn penalty_mode_idx(mode: PenaltyMode) -> u8 {
+    match mode {
+        PenaltyMode::Legacy => 0,
+        PenaltyMode::EffectiveV2 => 1,
+        PenaltyMode::None => 2,
+        PenaltyMode::SelfAdaptive => 3,
+        PenaltyMode::GatedRefresh => 4,
+        PenaltyMode::GatedRefreshLegacy => 5,
+        PenaltyMode::PFlipMixture => 6,
+    }
+}
+
 /// - `VOC`: full QUARTZ VOC halt (P_flip × σ_Δ - cost → converged)
 /// - `SimpleThreshold`: P_flip < FLIP_THRESH only (no VOC cost term)
 /// - `Fixed { budget }`: always run exactly `budget` iterations
@@ -1695,6 +1764,12 @@ pub struct QuartzController {
     /// common "not due yet" path out of the mutex without changing the
     /// telemetry-producing locked path.
     last_check_at_atomic: AtomicU32,
+    /// P01: per-`HaltReason` increment counters. Updated lock-free by
+    /// `should_stop` on every terminal branch so the README's
+    /// `halt_reason_count` claim is emitted from real data. Workers that
+    /// race on the same termination cause increment independently; the
+    /// final value is stable once the search ends and all workers join.
+    halt_reason_count: [AtomicU32; HALT_REASON_COUNT],
     inner: std::sync::Mutex<QuartzCtrlInner>,
 }
 
@@ -1707,6 +1782,7 @@ impl QuartzController {
         QuartzController {
             max_visits,
             last_check_at_atomic: AtomicU32::new(0),
+            halt_reason_count: std::array::from_fn(|_| AtomicU32::new(0)),
             inner: std::sync::Mutex::new(QuartzCtrlInner {
                 last_stats: QuartzStats::default(),
                 last_check_at: 0,
@@ -1732,6 +1808,24 @@ impl QuartzController {
     /// P6: snapshot of recorded halt checks since controller creation.
     pub fn halt_telemetry(&self) -> Vec<HaltCheck> {
         self.inner.lock().unwrap().halt_telemetry.clone()
+    }
+    /// P01: snapshot of per-`HaltReason` terminal counts since controller
+    /// creation. Updates are `Relaxed` and unsynchronized between workers,
+    /// but `should_stop` is the only writer and the final values are
+    /// stable once all workers join. Indexed identically to `HaltReason`.
+    pub fn halt_reason_count_snapshot(&self) -> [u32; HALT_REASON_COUNT] {
+        let mut out = [0u32; HALT_REASON_COUNT];
+        for (i, slot) in self.halt_reason_count.iter().enumerate() {
+            out[i] = slot.load(Ordering::Relaxed);
+        }
+        out
+    }
+    /// P01: explicit terminal-branch increment, called from each
+    /// `should_stop` early-return. Centralized so the (Reason, Relaxed)
+    /// invariant is enforced in one place.
+    #[inline]
+    fn note_halt(&self, reason: HaltReason) {
+        self.halt_reason_count[reason as usize].fetch_add(1, Ordering::Relaxed);
     }
     pub fn last_stats(&self) -> QuartzStats {
         self.inner.lock().unwrap().last_stats.clone()
@@ -1982,12 +2076,16 @@ impl SearchController for QuartzController {
             };
             // P6: record terminal halt-check at the max_visits ceiling.
             record_halt_check(&mut g, root_visits, elapsed_ms, "MaxVisits", true);
+            drop(g);
+            self.note_halt(HaltReason::MaxVisits);
             return true;
         }
         if self.cfg.ctm_budget_ms > 0 && elapsed_ms > self.cfg.ctm_budget_ms * 3 {
             let mut g = self.inner.lock().unwrap();
             g.stop_reason = StopReason::TimeCapHit { elapsed_ms };
             record_halt_check(&mut g, root_visits, elapsed_ms, "TimeCapHit", true);
+            drop(g);
+            self.note_halt(HaltReason::MaxTime);
             return true;
         }
 
@@ -1999,6 +2097,8 @@ impl SearchController for QuartzController {
                     iterations: root_visits,
                 };
                 record_halt_check(&mut g, root_visits, elapsed_ms, "FixedBudget", true);
+                drop(g);
+                self.note_halt(HaltReason::FixedBudget);
                 return true;
             }
             // No record here — Fixed mode doesn't periodically inspect
@@ -2020,6 +2120,13 @@ impl SearchController for QuartzController {
 
         let stats = &g.last_stats;
         if stats.root_visits < self.cfg.min_visits {
+            // P01: distinguish "stop attempted but visits insufficient" from
+            // "not yet checked" so the halt_reason histogram is meaningful.
+            // Note: only counted when the periodicity gate cleared (we are
+            // inside the periodic check), preventing an avalanche of
+            // every-iteration MinVisitsNotMet increments.
+            drop(g);
+            self.note_halt(HaltReason::MinVisitsNotMet);
             return false;
         }
 
@@ -2027,6 +2134,9 @@ impl SearchController for QuartzController {
         // periodic check can be appended whether or not we trigger.
         let mut decision_tag: &'static str = "Pending";
         let mut triggered = false;
+        // P01: classify the WHY when triggered=true, mapped onto the
+        // HaltReason axis (PFlipConverged, VOCNonPositive, ...).
+        let mut halt_reason: Option<HaltReason> = None;
         match self.cfg.halt_mode {
             HaltMode::SimpleThreshold => {
                 // Only P_flip convergence — ignore VOC cost term
@@ -2038,6 +2148,7 @@ impl SearchController for QuartzController {
                     };
                     decision_tag = "Converged";
                     triggered = true;
+                    halt_reason = Some(HaltReason::PFlipConverged);
                 }
             }
             HaltMode::VOC => {
@@ -2048,12 +2159,14 @@ impl SearchController for QuartzController {
                             max_gvoc: stats.unified.voc_total,
                         };
                         decision_tag = "VocNonPositive";
+                        halt_reason = Some(HaltReason::VOCNonPositive);
                     } else {
                         g.stop_reason = StopReason::Converged {
                             p_flip: stats.p_flip,
                             stable_count: stats.flip_stable,
                         };
                         decision_tag = "Converged";
+                        halt_reason = Some(HaltReason::PFlipConverged);
                     }
                     triggered = true;
                 }
@@ -2079,11 +2192,16 @@ impl SearchController for QuartzController {
                     }
                     decision_tag = "Converged";
                     triggered = true;
+                    halt_reason = Some(HaltReason::PFlipConverged);
                 }
             }
             HaltMode::Fixed { .. } => unreachable!(), // handled above
         }
         record_halt_check(&mut g, root_visits, elapsed_ms, decision_tag, triggered);
+        drop(g);
+        if let Some(reason) = halt_reason {
+            self.note_halt(reason);
+        }
         if triggered {
             return true;
         }

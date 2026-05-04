@@ -1,5 +1,12 @@
 //! QUARTZ MCTS v0.4 — QUARTZController 실통계 + Python IPC Evaluator
 
+// P01: build_result_value's serde_json::json!{...} block grew past the
+// default 128-token recursion limit when extended controller telemetry
+// fields were added. 256 is the standard escape hatch (see serde_json
+// FAQ); raises the limit for the entire crate so future telemetry
+// extensions don't trip the same wall.
+#![recursion_limit = "256"]
+
 #[allow(dead_code, unused_imports, unused_variables)]
 mod experiment;
 

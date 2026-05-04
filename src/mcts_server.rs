@@ -1457,15 +1457,82 @@ fn attach_search_metadata(
         .get("voc_argmax_channel_hist")
         .cloned()
         .unwrap_or_else(|| serde_json::json!({}));
+
+    // P01: build the `controller_summary.extended` object by reading the
+    // flat keys placed by `build_result_value`. We map [u64; 7] →
+    // {<PenaltyMode name>: count} and [u32; 10] → {<HaltReason name>: count}
+    // so consumers see stable string keys instead of raw indices.
+    let pm_invoke_arr = obj
+        .get("selection_penalty_mode_invoke_count")
+        .and_then(|v| v.as_array())
+        .cloned()
+        .unwrap_or_default();
+    let halt_reason_arr = obj
+        .get("halt_reason_count")
+        .and_then(|v| v.as_array())
+        .cloned()
+        .unwrap_or_default();
+    let refresh_eligible = obj
+        .get("selection_refresh_eligible_count")
+        .and_then(|v| v.as_u64());
+    let refresh_active = obj
+        .get("selection_refresh_active_count")
+        .and_then(|v| v.as_u64());
+    let mean_prior_refresh_rate: Option<f64> = match (refresh_active, refresh_eligible) {
+        (Some(active), Some(eligible)) if eligible > 0 => Some(active as f64 / eligible as f64),
+        (Some(_), Some(_)) => None,
+        _ => None,
+    };
+    let mut pm_invoke_map = serde_json::Map::new();
+    for (i, key) in crate::mcts::quartz::PENALTY_MODE_KEYS.iter().enumerate() {
+        let v = pm_invoke_arr
+            .get(i)
+            .and_then(|v| v.as_u64())
+            .unwrap_or(0);
+        pm_invoke_map.insert((*key).to_string(), serde_json::json!(v));
+    }
+    let mut halt_reason_map = serde_json::Map::new();
+    let halt_reason_keys: [&'static str; crate::mcts::quartz::HALT_REASON_COUNT] = [
+        crate::mcts::quartz::HaltReason::PFlipConverged.as_key(),
+        crate::mcts::quartz::HaltReason::VOCNonPositive.as_key(),
+        crate::mcts::quartz::HaltReason::FixedBudget.as_key(),
+        crate::mcts::quartz::HaltReason::KLLUCBStop.as_key(),
+        crate::mcts::quartz::HaltReason::MaxVisits.as_key(),
+        crate::mcts::quartz::HaltReason::MaxTime.as_key(),
+        crate::mcts::quartz::HaltReason::MinVisitsNotMet.as_key(),
+        crate::mcts::quartz::HaltReason::GLRCertified.as_key(),
+        crate::mcts::quartz::HaltReason::PolicyConverged.as_key(),
+        crate::mcts::quartz::HaltReason::EmpBernsteinSep.as_key(),
+    ];
+    for (i, key) in halt_reason_keys.iter().enumerate() {
+        let v = halt_reason_arr
+            .get(i)
+            .and_then(|v| v.as_u64())
+            .unwrap_or(0);
+        halt_reason_map.insert((*key).to_string(), serde_json::json!(v));
+    }
+    let extended_block = serde_json::json!({
+        "schema_version": 1,
+        "refresh_active_count": refresh_active,
+        "refresh_eligible_count": refresh_eligible,
+        "mean_prior_refresh_rate": mean_prior_refresh_rate,
+        "controller_penalty_mode_counts": serde_json::Value::Object(pm_invoke_map),
+        "halt_reason_count": serde_json::Value::Object(halt_reason_map),
+    });
+
     let controller_summary = serde_json::json!({
         // P6+Q3: schema_version pins the wire format. v1 had no argmax
         // channel field; v2 adds `voc_argmax_channel_hist`; v3 adds root
         // snapshot refresh/penalty/effective-prior diagnostics; v4 adds
         // actual root-selection path telemetry; v5 adds controller actuator
-        // coverage so configured-but-inert knobs are visible. Readers must
-        // tolerate unknown extra fields and degrade gracefully when a
-        // newer field is missing on an older Rust binary.
-        "schema_version": 5,
+        // coverage so configured-but-inert knobs are visible.
+        // P01: v6 adds `extended` block carrying
+        // controller_penalty_mode_counts, mean_prior_refresh_rate,
+        // halt_reason_count — fields previously claimed in README but
+        // never emitted from Rust. Readers must tolerate unknown extra
+        // fields and degrade gracefully when a newer field is missing on
+        // an older Rust binary.
+        "schema_version": 6,
         "p_flip": obj.get("p_flip").and_then(|v| v.as_f64()).unwrap_or(0.0),
         "value": obj.get("value").and_then(|v| v.as_f64()).unwrap_or(0.0),
         "sigma_q": obj.get("sigma_q").and_then(|v| v.as_f64()).unwrap_or(0.0),
@@ -1503,6 +1570,8 @@ fn attach_search_metadata(
         "telemetry_partial": !telemetry_missing_fields.is_empty(),
         "telemetry_missing_fields": telemetry_missing_fields,
         "actuator_coverage": controller_actuator_coverage(qcfg),
+        // P01: see the schema_version comment above for rationale.
+        "extended": extended_block,
     });
     obj.insert(
         "search_manifest".to_string(),
@@ -2586,6 +2655,15 @@ fn build_result_value<G: GameState>(
         "selection_effective_prior_l1_sum": outcome.selection_effective_prior_l1_sum,
         "selection_mean_candidate_count": outcome.selection_mean_candidate_count,
         "selection_max_candidate_count": outcome.selection_max_candidate_count,
+        // P01: extended controller telemetry — emitted as flat keys here so
+        // attach_search_metadata can promote them into
+        // controller_summary.extended without a second pass over the engine.
+        // `mean_prior_refresh_rate` is computed in attach_search_metadata
+        // since it's a derived ratio.
+        "selection_penalty_mode_invoke_count": outcome.selection_penalty_mode_invoke_count.to_vec(),
+        "selection_refresh_eligible_count": outcome.selection_refresh_eligible_count,
+        "selection_refresh_active_count": outcome.selection_refresh_active_count,
+        "halt_reason_count": outcome.halt_reason_count.to_vec(),
     })
 }
 
@@ -2623,6 +2701,20 @@ struct SearchExecutionOutcome {
     /// see whether VOC-halt is dominated by one channel or genuinely
     /// distributed across focus / expand / merge.
     voc_argmax_channel_hist: std::collections::BTreeMap<&'static str, u32>,
+    /// P01: per-`PenaltyMode` invocation count, indexed identically to
+    /// `quartz::PENALTY_MODE_KEYS`. Sampled at root selects only (one
+    /// increment per MCTS root iteration). Empty / all-zero for non-Quartz.
+    selection_penalty_mode_invoke_count: [u64; crate::mcts::quartz::PENALTY_MODE_COUNT],
+    /// P01: # of root selects where the active mode's refresh path was
+    /// eligible to fire. Used to compute `mean_prior_refresh_rate`.
+    selection_refresh_eligible_count: u64,
+    /// P01: # of root selects where refresh actually fired (effective_prior
+    /// drifted from raw prior). Always ≤ `selection_refresh_eligible_count`.
+    selection_refresh_active_count: u64,
+    /// P01: per-`HaltReason` terminal counts from `QuartzController`.
+    /// Indexed identically to `quartz::HaltReason` (offsets 0..HALT_REASON_COUNT).
+    /// All-zero for non-Quartz profiles (no controller).
+    halt_reason_count: [u32; crate::mcts::quartz::HALT_REASON_COUNT],
 }
 
 #[derive(Default)]
@@ -2848,6 +2940,11 @@ where
                 selection_mean_candidate_count: selection_trace.selected_mean_candidate_count,
                 selection_max_candidate_count: selection_trace.selected_max_candidate_count,
                 voc_argmax_channel_hist: argmax_hist,
+                // P01
+                selection_penalty_mode_invoke_count: selection_trace.penalty_mode_invoke_count,
+                selection_refresh_eligible_count: selection_trace.refresh_eligible_count,
+                selection_refresh_active_count: selection_trace.refresh_active_count,
+                halt_reason_count: ctrl.halt_reason_count_snapshot(),
             }
         }
         SearchProfile::Baseline | SearchProfile::BaselineStrict => {
@@ -2898,6 +2995,12 @@ where
                 selection_mean_candidate_count: selection_trace.selected_mean_candidate_count,
                 selection_max_candidate_count: selection_trace.selected_max_candidate_count,
                 voc_argmax_channel_hist: std::collections::BTreeMap::new(),
+                // P01: baseline profiles run no QuartzController, so the
+                // controller-side counters are all-zero.
+                selection_penalty_mode_invoke_count: selection_trace.penalty_mode_invoke_count,
+                selection_refresh_eligible_count: selection_trace.refresh_eligible_count,
+                selection_refresh_active_count: selection_trace.refresh_active_count,
+                halt_reason_count: [0u32; crate::mcts::quartz::HALT_REASON_COUNT],
             }
         }
     }
@@ -3321,6 +3424,14 @@ where
         selection_mean_candidate_count: selection_trace.selected_mean_candidate_count,
         selection_max_candidate_count: selection_trace.selected_max_candidate_count,
         voc_argmax_channel_hist: std::collections::BTreeMap::new(),
+        // P01: async synth path doesn't have direct controller access here.
+        // Selection trace is real (engine.selection_telemetry); halt_reason
+        // counts are intentionally zeroed since the live controller is
+        // outside this function's scope.
+        selection_penalty_mode_invoke_count: selection_trace.penalty_mode_invoke_count,
+        selection_refresh_eligible_count: selection_trace.refresh_eligible_count,
+        selection_refresh_active_count: selection_trace.refresh_active_count,
+        halt_reason_count: [0u32; crate::mcts::quartz::HALT_REASON_COUNT],
     };
     build_result_value(
         engine,
@@ -6925,7 +7036,15 @@ mod tests {
         );
 
         let coverage = &result["controller_summary"]["actuator_coverage"];
-        assert_eq!(result["controller_summary"]["schema_version"], 5);
+        // P01: schema bumped from 5 to 6 when the `extended` block was
+        // added. The block carries controller_penalty_mode_counts,
+        // mean_prior_refresh_rate, and halt_reason_count — fields that
+        // were claimed in README but never emitted before P01.
+        assert_eq!(result["controller_summary"]["schema_version"], 6);
+        let extended = &result["controller_summary"]["extended"];
+        assert_eq!(extended["schema_version"], 1);
+        assert!(extended["controller_penalty_mode_counts"].is_object());
+        assert!(extended["halt_reason_count"].is_object());
         assert_eq!(coverage["prior_refresh_rate_configured"], true);
         assert_eq!(coverage["prior_refresh_rate_consumed_by_mode"], false);
         assert_eq!(coverage["prior_refresh_rate_inert_for_mode"], true);
@@ -6952,6 +7071,105 @@ mod tests {
             coverage["prior_refresh_source"],
             "config_prior_refresh_rate"
         );
+    }
+
+    /// P01: schema_version 6 must emit `extended` with the full key set
+    /// the README claimed but never delivered before P01. This is the
+    /// regression guard against telemetry-claim drift.
+    #[test]
+    fn test_controller_summary_extended_block_has_all_keys() {
+        use crate::mcts::quartz::{HaltReason, PenaltyMode, PENALTY_MODE_KEYS};
+
+        let qcfg = QuartzConfig {
+            sigma_0: 0.3,
+            min_visits: 50,
+            ctm_budget_ms: 0,
+            penalty_mode: PenaltyMode::Legacy,
+            ..Default::default()
+        };
+        // Synthesize a SearchExecutionOutcome-shaped result by hand-feeding
+        // the obj that build_result_value normally emits. This isolates the
+        // attach_search_metadata pipeline from the live engine.
+        let zero_hist: Vec<u32> = vec![0; crate::mcts::quartz::HALT_REASON_COUNT];
+        let mut counts: Vec<u64> = vec![0; PENALTY_MODE_KEYS.len()];
+        // Synthesize a non-trivial signal: pretend Legacy mode fired 7 times
+        // and PFlipMixture fired 3 times. Aggregator should reflect both.
+        counts[0] = 7;
+        counts[6] = 3;
+        let mut halt_hist: Vec<u32> = zero_hist.clone();
+        halt_hist[HaltReason::MaxVisits as usize] = 1;
+        halt_hist[HaltReason::PFlipConverged as usize] = 4;
+        let mut result = serde_json::json!({
+            "iterations": 32,
+            "stop_reason": "BudgetExhausted",
+            "selection_penalty_mode_invoke_count": counts,
+            "selection_refresh_eligible_count": 50_u64,
+            "selection_refresh_active_count": 17_u64,
+            "halt_reason_count": halt_hist,
+        });
+
+        attach_search_metadata(
+            &mut result,
+            SearchProfile::Quartz,
+            32,
+            2,
+            "batch_stdio",
+            Some(&qcfg),
+        );
+
+        assert_eq!(result["controller_summary"]["schema_version"], 6);
+        let ext = &result["controller_summary"]["extended"];
+        assert_eq!(ext["schema_version"], 1);
+        assert_eq!(ext["refresh_active_count"], 17);
+        assert_eq!(ext["refresh_eligible_count"], 50);
+        // Bit-exact float check would be brittle; cap at 4 decimals.
+        let measured = ext["mean_prior_refresh_rate"].as_f64().unwrap();
+        assert!((measured - 0.34).abs() < 1e-6, "measured rate = {measured}");
+        let pm = ext["controller_penalty_mode_counts"].as_object().unwrap();
+        assert_eq!(pm["Legacy"], 7);
+        assert_eq!(pm["PFlipMixture"], 3);
+        assert_eq!(pm["EffectiveV2"], 0);
+        let hr = ext["halt_reason_count"].as_object().unwrap();
+        assert_eq!(hr["MaxVisits"], 1);
+        assert_eq!(hr["PFlipConverged"], 4);
+        // Reserved keys still present with zero count — important for
+        // downstream aggregators that index by key, not position.
+        assert_eq!(hr["KLLUCBStop"], 0);
+        assert_eq!(hr["GLRCertified"], 0);
+    }
+
+    /// P01: zero-eligible-count must NOT divide by zero — the JSON
+    /// reports `null` instead of NaN/Infinity. Empty refresh path
+    /// (e.g. PenaltyMode::None on a non-Quartz profile) is the
+    /// standard case where this matters.
+    #[test]
+    fn test_controller_summary_extended_handles_zero_eligible() {
+        use crate::mcts::quartz::PenaltyMode;
+        let qcfg = QuartzConfig {
+            penalty_mode: PenaltyMode::None,
+            ..Default::default()
+        };
+        let zero_pm: Vec<u64> = vec![0; crate::mcts::quartz::PENALTY_MODE_COUNT];
+        let zero_hr: Vec<u32> = vec![0; crate::mcts::quartz::HALT_REASON_COUNT];
+        let mut result = serde_json::json!({
+            "iterations": 0,
+            "stop_reason": "BudgetExhausted",
+            "selection_penalty_mode_invoke_count": zero_pm,
+            "selection_refresh_eligible_count": 0_u64,
+            "selection_refresh_active_count": 0_u64,
+            "halt_reason_count": zero_hr,
+        });
+        attach_search_metadata(
+            &mut result,
+            SearchProfile::Quartz,
+            32,
+            2,
+            "batch_stdio",
+            Some(&qcfg),
+        );
+        let ext = &result["controller_summary"]["extended"];
+        assert_eq!(ext["refresh_eligible_count"], 0);
+        assert!(ext["mean_prior_refresh_rate"].is_null());
     }
 
     #[test]

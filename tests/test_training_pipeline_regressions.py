@@ -398,6 +398,105 @@ def test_replay_search_summary_aggregates_selection_trace():
     assert summary["max_selection_candidate_count"] == pytest.approx(9.0)
 
 
+def test_p01_replay_summary_aggregates_extended_block():
+    """P01: schema_version 6+ controller_summary.extended block carries
+    real measured `mean_prior_refresh_rate` and per-mode/per-reason
+    counters. Aggregator must sum them across rows and compute the
+    fired/eligible ratio at the study level (not at per-row, which
+    would inflate small-eligible games).
+    """
+    az = load_training_module()
+    replay = az.ReplayBuffer(16)
+    state = np.zeros((3, 7, 7), dtype=np.float32)
+    policy = np.zeros(49, dtype=np.float32)
+    policy[4] = 1.0
+
+    rows = [
+        # (active, eligible, penalty_mode_counts, halt_reason_count)
+        (
+            17,
+            50,
+            {"Legacy": 7, "PFlipMixture": 3},
+            {"MaxVisits": 1, "PFlipConverged": 4},
+        ),
+        (
+            8,
+            40,
+            {"Legacy": 5, "PFlipMixture": 2, "GatedRefresh": 1},
+            {"VOCNonPositive": 2, "PFlipConverged": 3},
+        ),
+    ]
+    for active, eligible, pm_counts, hr_counts in rows:
+        replay.add(
+            state,
+            policy,
+            0.0,
+            metadata={
+                "search_manifest": {"profile": "quartz", "benchmark_safe": True},
+                "realized_budget": {"realized_iterations": eligible},
+                "controller_summary": {
+                    "schema_version": 6,
+                    "p_flip": 0.05,
+                    "extended": {
+                        "schema_version": 1,
+                        "refresh_active_count": active,
+                        "refresh_eligible_count": eligible,
+                        "controller_penalty_mode_counts": pm_counts,
+                        "halt_reason_count": hr_counts,
+                    },
+                },
+            },
+        )
+
+    summary = az.ReplayMetrics.search_summary(replay, sample_n=2)
+
+    assert summary["extended_coverage_frac"] == pytest.approx(1.0)
+    assert summary["extended_refresh_active_total"] == 25
+    assert summary["extended_refresh_eligible_total"] == 90
+    # Study-level rate: 25 / 90 ≈ 0.2778. Note this is NOT the average
+    # of per-row rates (which would weight rows equally regardless of
+    # eligible-count) — it's the pooled estimator that survives small
+    # eligible counts.
+    assert summary["extended_measured_prior_refresh_rate"] == pytest.approx(25 / 90)
+    assert summary["extended_controller_penalty_mode_counts"] == {
+        "Legacy": 12,
+        "PFlipMixture": 5,
+        "GatedRefresh": 1,
+    }
+    assert summary["extended_halt_reason_count"] == {
+        "MaxVisits": 1,
+        "PFlipConverged": 7,
+        "VOCNonPositive": 2,
+    }
+
+
+def test_p01_replay_summary_handles_missing_extended_block():
+    """P01: pre-schema_version 6 rows carry no `extended` block;
+    aggregator emits coverage 0 and None ratio without crashing."""
+    az = load_training_module()
+    replay = az.ReplayBuffer(16)
+    state = np.zeros((3, 7, 7), dtype=np.float32)
+    policy = np.zeros(49, dtype=np.float32)
+    policy[4] = 1.0
+    replay.add(
+        state,
+        policy,
+        0.0,
+        metadata={
+            "search_manifest": {"profile": "quartz", "benchmark_safe": True},
+            "realized_budget": {"realized_iterations": 32},
+            "controller_summary": {"schema_version": 5, "p_flip": 0.05},
+        },
+    )
+    summary = az.ReplayMetrics.search_summary(replay, sample_n=1)
+    assert summary["extended_coverage_frac"] == pytest.approx(0.0)
+    assert summary["extended_refresh_active_total"] == 0
+    assert summary["extended_refresh_eligible_total"] == 0
+    assert summary["extended_measured_prior_refresh_rate"] is None
+    assert summary["extended_controller_penalty_mode_counts"] == {}
+    assert summary["extended_halt_reason_count"] == {}
+
+
 def test_p6_replay_summary_handles_missing_voc_fields():
     """P6: pre-P6 wire format (no voc fields) yields None means without crashing."""
     az = load_training_module()

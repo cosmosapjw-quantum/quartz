@@ -701,6 +701,18 @@ class ReplayMetrics:
         # the audit review: default halt is p_flip-mediated, so mode-specific
         # realized_iterations distributions can reveal budget leakage).
         halt_trace_per_mode: dict[str, dict] = {}
+        # P01: aggregators for the new `controller_summary.extended` block
+        # (Rust schema_version 6+). The legacy `mean_prior_refresh_rate`
+        # above was actually averaging the CONFIGURED rate (cfg field), not
+        # a measured fired/eligible ratio. The extended block fixes this:
+        # `refresh_active_count` and `refresh_eligible_count` are integer
+        # counters incremented per root select. `measured_prior_refresh_rate`
+        # below = active / eligible across the whole subsample.
+        ext_refresh_active_total = 0
+        ext_refresh_eligible_total = 0
+        ext_penalty_mode_counts: dict[str, int] = {}
+        ext_halt_reason_counts: dict[str, int] = {}
+        ext_present_count = 0
 
         def _trace_bucket(mode_key: str) -> dict:
             bucket = halt_trace_per_mode.get(mode_key)
@@ -822,6 +834,34 @@ class ReplayMetrics:
                 if stop_reason:
                     halt_metric_present += 1
                     halt_reason_hist[str(stop_reason)] = int(halt_reason_hist.get(str(stop_reason), 0)) + 1
+            # P01: aggregate the new `extended` block. Each game-row's
+            # extended block carries cumulative counters for that game's
+            # search; we sum across games to get a study-level rate. Older
+            # Rust binaries (schema_version<=5) emit no extended block and
+            # are silently skipped via the falsy guard.
+            extended = ctrl.get("extended") or {}
+            if isinstance(extended, dict) and extended:
+                ext_present_count += 1
+                if extended.get("refresh_active_count") is not None:
+                    ext_refresh_active_total += int(extended["refresh_active_count"] or 0)
+                if extended.get("refresh_eligible_count") is not None:
+                    ext_refresh_eligible_total += int(extended["refresh_eligible_count"] or 0)
+                pm_counts = extended.get("controller_penalty_mode_counts") or {}
+                if isinstance(pm_counts, dict):
+                    for k, v in pm_counts.items():
+                        if not k:
+                            continue
+                        ext_penalty_mode_counts[str(k)] = (
+                            int(ext_penalty_mode_counts.get(str(k), 0)) + int(v or 0)
+                        )
+                hr_counts = extended.get("halt_reason_count") or {}
+                if isinstance(hr_counts, dict):
+                    for k, v in hr_counts.items():
+                        if not k:
+                            continue
+                        ext_halt_reason_counts[str(k)] = (
+                            int(ext_halt_reason_counts.get(str(k), 0)) + int(v or 0)
+                        )
             # Per-penalty-mode halt-trace bookkeeping. This is auditable
             # evidence for the budget-fairness check across controller modes.
             mode_key = str(penalty_mode) if penalty_mode else "unknown"
@@ -939,6 +979,24 @@ class ReplayMetrics:
             "prior_refresh_rate_consumed_by_mode_frac": float(prior_refresh_rate_consumed_by_mode / max(actuator_coverage_seen, 1)),
             "prior_refresh_rate_inert_for_mode_frac": float(prior_refresh_rate_inert_for_mode / max(actuator_coverage_seen, 1)),
             "prior_refresh_source_counts": dict(prior_refresh_source_counts),
+            # P01: extended block aggregation. The legacy
+            # `mean_prior_refresh_rate` above averages the configured
+            # rate (stale claim from W3); these new fields aggregate the
+            # actual measured fired/eligible counts emitted by Rust
+            # schema_version 6+. `extended_coverage_frac` exposes how
+            # many subsample rows carried the new block (0.0 means every
+            # sample came from an older Rust binary; 1.0 means full
+            # coverage).
+            "extended_coverage_frac": float(ext_present_count / max(sample_n, 1)),
+            "extended_refresh_active_total": int(ext_refresh_active_total),
+            "extended_refresh_eligible_total": int(ext_refresh_eligible_total),
+            "extended_measured_prior_refresh_rate": (
+                float(ext_refresh_active_total / ext_refresh_eligible_total)
+                if ext_refresh_eligible_total > 0
+                else None
+            ),
+            "extended_controller_penalty_mode_counts": dict(ext_penalty_mode_counts),
+            "extended_halt_reason_count": dict(ext_halt_reason_counts),
         }
 
 

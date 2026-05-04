@@ -11,7 +11,8 @@ use crate::mcts::expand::{materialize_edges_in_place, materialize_edges_in_place
 use crate::mcts::mod_types::PwConfig;
 use crate::mcts::node::{atomic_f64_load, ArenaRef, MctsEdge, MctsNode, PathEdge};
 use crate::mcts::quartz::{
-    eft_action_bonus, fisher_prior_weight, one_loop_visit_penalty, QuartzConfig, QuartzStats,
+    eft_action_bonus, fisher_prior_weight, one_loop_visit_penalty, penalty_mode_idx, QuartzConfig,
+    QuartzStats, PENALTY_MODE_COUNT,
 };
 use crate::mcts::tt::TranspositionTable;
 
@@ -474,20 +475,64 @@ impl<G: GameState> SelectScratch<G> {
     }
 }
 
-#[derive(Clone, Copy, Debug, Default)]
+#[derive(Clone, Copy, Debug)]
 pub struct RootSelectionTrace {
     pub candidate_count: u32,
     pub effective_prior_l1: f32,
     pub penalty_abs: f32,
     pub refresh_activated: bool,
+    /// P01: Active `PenaltyMode` index at this root select. Used for
+    /// `controller_penalty_mode_counts` aggregation. Sentinel `u8::MAX`
+    /// means "no quartz config / non-Quartz profile" — `record_root` must
+    /// skip the histogram increment for sentinel values.
+    pub penalty_mode_idx: u8,
+    /// P01: True iff the active penalty mode's refresh branch was *eligible*
+    /// to fire (i.e. all gating predicates that don't depend on the value
+    /// of stats.prior_q_divergence were satisfied). Distinguishes "refresh
+    /// could have fired but didn't" from "refresh never had a chance".
+    pub refresh_eligible: bool,
 }
 
-#[derive(Clone, Copy, Debug, Default)]
+impl Default for RootSelectionTrace {
+    fn default() -> Self {
+        // P01: sentinel `penalty_mode_idx = u8::MAX` for non-Quartz traces;
+        // record_root's bounds check skips it instead of mis-attributing to
+        // PenaltyMode::Legacy (idx 0).
+        RootSelectionTrace {
+            candidate_count: 0,
+            effective_prior_l1: 0.0,
+            penalty_abs: 0.0,
+            refresh_activated: false,
+            penalty_mode_idx: u8::MAX,
+            refresh_eligible: false,
+        }
+    }
+}
+
+#[derive(Clone, Copy, Debug)]
 struct RootScoreDetail {
     score: f32,
     effective_prior_l1: f32,
     penalty_abs: f32,
     refresh_activated: bool,
+    /// P01: see `RootSelectionTrace.penalty_mode_idx`. Sentinel u8::MAX
+    /// for "no quartz".
+    penalty_mode_idx: u8,
+    /// P01: see `RootSelectionTrace.refresh_eligible`.
+    refresh_eligible: bool,
+}
+
+impl Default for RootScoreDetail {
+    fn default() -> Self {
+        RootScoreDetail {
+            score: 0.0,
+            effective_prior_l1: 0.0,
+            penalty_abs: 0.0,
+            refresh_activated: false,
+            penalty_mode_idx: u8::MAX,
+            refresh_eligible: false,
+        }
+    }
 }
 
 impl RootScoreDetail {
@@ -498,6 +543,8 @@ impl RootScoreDetail {
             effective_prior_l1: self.effective_prior_l1,
             penalty_abs: self.penalty_abs,
             refresh_activated: self.refresh_activated,
+            penalty_mode_idx: self.penalty_mode_idx,
+            refresh_eligible: self.refresh_eligible,
         }
     }
 }
@@ -510,6 +557,16 @@ pub struct SelectionTelemetrySnapshot {
     pub selected_effective_prior_l1_sum: f64,
     pub selected_mean_candidate_count: f64,
     pub selected_max_candidate_count: u64,
+    /// P01: per-`PenaltyMode` invocation count at root selects (indexed
+    /// identically to `quartz::PENALTY_MODE_KEYS`).
+    pub penalty_mode_invoke_count: [u64; PENALTY_MODE_COUNT],
+    /// P01: # of root selects where refresh was *eligible* for the active
+    /// penalty mode (all non-divergence gates satisfied).
+    pub refresh_eligible_count: u64,
+    /// P01: # of root selects where refresh actually fired (refresh_activated).
+    /// Distinct from `refresh_selected_count` (which is the same thing today
+    /// but kept as a separate semantic: see `record_root`).
+    pub refresh_active_count: u64,
 }
 
 #[derive(Default)]
@@ -520,6 +577,11 @@ pub struct SelectionTelemetry {
     selected_effective_prior_l1_sum_micro: AtomicU64,
     selected_candidate_count_sum: AtomicU64,
     selected_candidate_count_max: AtomicU64,
+    /// P01: see snapshot fields. All `Relaxed`; final consistency at
+    /// search-end barrier is sufficient (telemetry-only data, not load-bearing).
+    penalty_mode_invoke_count: [AtomicU64; PENALTY_MODE_COUNT],
+    refresh_eligible_count: AtomicU64,
+    refresh_active_count: AtomicU64,
 }
 
 impl SelectionTelemetry {
@@ -538,6 +600,12 @@ impl SelectionTelemetry {
             .store(0, Ordering::Relaxed);
         self.selected_candidate_count_max
             .store(0, Ordering::Relaxed);
+        // P01: reset the new counters too so per-search aggregation starts clean.
+        for slot in self.penalty_mode_invoke_count.iter() {
+            slot.store(0, Ordering::Relaxed);
+        }
+        self.refresh_eligible_count.store(0, Ordering::Relaxed);
+        self.refresh_active_count.store(0, Ordering::Relaxed);
     }
 
     pub fn record_root(&self, trace: RootSelectionTrace) {
@@ -553,11 +621,30 @@ impl SelectionTelemetry {
             .fetch_add(trace.candidate_count as u64, Ordering::Relaxed);
         self.selected_candidate_count_max
             .fetch_max(trace.candidate_count as u64, Ordering::Relaxed);
+        // P01: penalty-mode invocation histogram + refresh eligibility ratio.
+        // The eligible/active ordering is "eligible-after-decision":
+        // refresh_eligible=true is set only when the gate has been evaluated
+        // and the non-divergence preconditions held, so a snapshot taken
+        // mid-search will always see eligible >= active.
+        if (trace.penalty_mode_idx as usize) < PENALTY_MODE_COUNT {
+            self.penalty_mode_invoke_count[trace.penalty_mode_idx as usize]
+                .fetch_add(1, Ordering::Relaxed);
+        }
+        if trace.refresh_eligible {
+            self.refresh_eligible_count.fetch_add(1, Ordering::Relaxed);
+            if trace.refresh_activated {
+                self.refresh_active_count.fetch_add(1, Ordering::Relaxed);
+            }
+        }
     }
 
     pub fn snapshot(&self) -> SelectionTelemetrySnapshot {
         let root_selects = self.root_selects.load(Ordering::Relaxed);
         let candidate_sum = self.selected_candidate_count_sum.load(Ordering::Relaxed);
+        let mut pm = [0u64; PENALTY_MODE_COUNT];
+        for (i, slot) in self.penalty_mode_invoke_count.iter().enumerate() {
+            pm[i] = slot.load(Ordering::Relaxed);
+        }
         SelectionTelemetrySnapshot {
             root_selects,
             refresh_selected_count: self.refresh_selected_count.load(Ordering::Relaxed),
@@ -574,6 +661,9 @@ impl SelectionTelemetry {
                 0.0
             },
             selected_max_candidate_count: self.selected_candidate_count_max.load(Ordering::Relaxed),
+            penalty_mode_invoke_count: pm,
+            refresh_eligible_count: self.refresh_eligible_count.load(Ordering::Relaxed),
+            refresh_active_count: self.refresh_active_count.load(Ordering::Relaxed),
         }
     }
 }
@@ -623,6 +713,25 @@ fn selected_q_eff(
     }
 }
 
+/// P01: Returns true iff the active `PenaltyMode` *can* refresh the prior
+/// at all (regardless of whether the runtime gate fires this iteration).
+/// `Legacy`/`EffectiveV2`/`None` only refresh through the manual fall-through
+/// branch in `quartz_policy_adjustment`, which is gated on
+/// `qcfg.prior_refresh_rate > 1e-6`.
+#[inline]
+fn refresh_supported(qcfg: &QuartzConfig) -> bool {
+    use crate::mcts::quartz::PenaltyMode;
+    match qcfg.penalty_mode {
+        PenaltyMode::SelfAdaptive
+        | PenaltyMode::GatedRefresh
+        | PenaltyMode::GatedRefreshLegacy
+        | PenaltyMode::PFlipMixture => true,
+        PenaltyMode::Legacy | PenaltyMode::EffectiveV2 | PenaltyMode::None => {
+            qcfg.prior_refresh_rate > 1e-6
+        }
+    }
+}
+
 #[inline]
 fn root_quartz_score_detail(
     snapshot: EdgeScoreSnapshot,
@@ -659,11 +768,18 @@ fn root_quartz_score_detail(
         adj,
     ) + b1;
     let effective_prior_l1 = (adj.effective_prior - snapshot.prior).abs();
+    let refresh_activated = effective_prior_l1 > 1e-6;
+    // P01: eligibility = "this edge had a chance to refresh under the
+    // current penalty mode". Excludes the trivial "n_raw==0 first-visit"
+    // case where every refresh branch returns the unchanged prior.
+    let refresh_eligible = snapshot.n_raw > 0 && refresh_supported(qcfg);
     RootScoreDetail {
         score,
         effective_prior_l1,
         penalty_abs: adj.penalty.abs(),
-        refresh_activated: effective_prior_l1 > 1e-6,
+        refresh_activated,
+        penalty_mode_idx: penalty_mode_idx(qcfg.penalty_mode),
+        refresh_eligible,
     }
 }
 
