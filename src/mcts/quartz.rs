@@ -375,6 +375,49 @@ impl Default for QuartzConfig {
     }
 }
 
+/// P05: per-evaluator-strength calibration bin. Future calibration sweeps
+/// can stratify σ₀ recommendations by training value-loss bin so weak vs
+/// strong evaluators get appropriately tuned uncertainty references.
+/// Default selection from value-loss thresholds (Weak > 0.7, Medium 0.3-0.7,
+/// Strong < 0.3) based on the empirical regime documented in
+/// QUARTZ_THEORY.md §3 ("With a strong evaluator (NN loss < ~1.0)…").
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum EvalStrength {
+    Weak,
+    Medium,
+    Strong,
+}
+
+impl EvalStrength {
+    pub fn tag(&self) -> &'static str {
+        match self {
+            Self::Weak => "weak",
+            Self::Medium => "medium",
+            Self::Strong => "strong",
+        }
+    }
+    /// Bin a value-loss measurement into the calibration buckets.
+    /// Empirical thresholds; can be overridden per-game.
+    pub fn from_value_loss(vl: f32) -> Self {
+        if vl > 0.7 {
+            Self::Weak
+        } else if vl > 0.3 {
+            Self::Medium
+        } else {
+            Self::Strong
+        }
+    }
+}
+
+/// P05: structured diagnostic from the auto-calibration loader. Surfaced
+/// to the caller (server entry point) as eprintln WARN so the override
+/// is visible in the train_log without requiring artifact inspection.
+#[derive(Clone, Debug)]
+pub enum CalibrationDiagnostic {
+    Info(String),
+    Warn(String),
+}
+
 impl QuartzConfig {
     pub fn fast() -> Self {
         QuartzConfig {
@@ -398,6 +441,126 @@ impl QuartzConfig {
     pub fn with_cost_mode(mut self, mode: CostMode) -> Self {
         self.cost_mode = mode;
         self
+    }
+
+    /// P05: load `<calibration_dir>/sigma_0_recommendation.json`, optionally
+    /// preferring a strength-stratified file (e.g. `weak.json`,
+    /// `medium.json`, `strong.json`) when one is present, and apply the
+    /// `<game_label>` recommendation (or `__cross_game__` fallback) to
+    /// `self.sigma_0`.
+    ///
+    /// Returns `(modified_self, diagnostics)`. Diagnostics are non-fatal:
+    /// the caller decides whether to surface them as INFO or WARN. The
+    /// `warn_factor` parameter controls when a "calibration override
+    /// disagrees significantly from base" warning is emitted (default 2.0
+    /// = warn if the override is more than 2x larger or smaller than
+    /// `self.sigma_0`).
+    pub fn with_calibration(
+        mut self,
+        calibration_dir: &std::path::Path,
+        game_label: Option<&str>,
+        eval_strength: Option<EvalStrength>,
+        warn_factor: f32,
+    ) -> (Self, Vec<CalibrationDiagnostic>) {
+        let mut diags = Vec::new();
+        // Search order: strength-specific file, then default. The first
+        // file found that parses cleanly is applied; subsequent
+        // candidates are not consulted. This deliberately gives users a
+        // way to override "strong" sigma_0 by writing a strength-specific
+        // file.
+        let mut candidates: Vec<std::path::PathBuf> = Vec::new();
+        if let Some(strength) = eval_strength {
+            candidates.push(calibration_dir.join(format!("{}.json", strength.tag())));
+        }
+        candidates.push(calibration_dir.join("sigma_0_recommendation.json"));
+
+        for path in &candidates {
+            if !path.exists() {
+                continue;
+            }
+            let raw = match std::fs::read_to_string(path) {
+                Ok(s) => s,
+                Err(e) => {
+                    diags.push(CalibrationDiagnostic::Warn(format!(
+                        "calibration read err {}: {e}",
+                        path.display()
+                    )));
+                    continue;
+                }
+            };
+            let parsed: serde_json::Value = match serde_json::from_str(&raw) {
+                Ok(v) => v,
+                Err(e) => {
+                    diags.push(CalibrationDiagnostic::Warn(format!(
+                        "calibration parse err {}: {e}",
+                        path.display()
+                    )));
+                    continue;
+                }
+            };
+            // schema_version must be 1 — calibration writer pins to v1
+            // (see src/calibration.rs:write_sigma_recommendation). Older
+            // / newer files are silently skipped.
+            if parsed.get("schema_version").and_then(|v| v.as_u64()) != Some(1) {
+                diags.push(CalibrationDiagnostic::Warn(format!(
+                    "calibration schema_version != 1 in {}; skipping",
+                    path.display()
+                )));
+                continue;
+            }
+            let recs = match parsed.get("recommendations").and_then(|v| v.as_object()) {
+                Some(m) => m,
+                None => {
+                    diags.push(CalibrationDiagnostic::Warn(format!(
+                        "calibration missing 'recommendations' in {}",
+                        path.display()
+                    )));
+                    continue;
+                }
+            };
+            // game-label first, then __cross_game__ fallback
+            let key = game_label.unwrap_or("__cross_game__");
+            let pick = recs
+                .get(key)
+                .or_else(|| recs.get("__cross_game__"))
+                .and_then(|v| v.as_f64())
+                .map(|v| v as f32);
+            let Some(new_sigma) = pick else {
+                diags.push(CalibrationDiagnostic::Warn(format!(
+                    "no recommendation for {key} in {}",
+                    path.display()
+                )));
+                continue;
+            };
+            if !new_sigma.is_finite() || new_sigma <= 0.0 {
+                diags.push(CalibrationDiagnostic::Warn(format!(
+                    "invalid sigma_0={new_sigma} in {}; skipping",
+                    path.display()
+                )));
+                continue;
+            }
+            let base = self.sigma_0;
+            let ratio = (new_sigma / base).max(base / new_sigma);
+            if ratio > warn_factor {
+                diags.push(CalibrationDiagnostic::Warn(format!(
+                    "calibration sigma_0={new_sigma:.4} differs from base \
+                     {base:.4} by {ratio:.2}x (>{warn_factor:.2}x threshold)"
+                )));
+            }
+            diags.push(CalibrationDiagnostic::Info(format!(
+                "applied calibration sigma_0 {base:.4} -> {new_sigma:.4} \
+                 from {} (key={key})",
+                path.display()
+            )));
+            self.sigma_0 = new_sigma;
+            return (self, diags);
+        }
+        diags.push(CalibrationDiagnostic::Info(format!(
+            "no calibration file found in {}; keeping default sigma_0={:.4}",
+            calibration_dir.display(),
+            self.sigma_0
+        )));
+        (self, diags)
     }
 }
 
@@ -2248,6 +2411,169 @@ impl SearchController for QuartzController {
 mod tests {
     use super::*;
     use std::sync::Arc;
+
+    /// P05: with_calibration applies the per-game recommendation from a
+    /// schema_version=1 JSON file produced by `write_sigma_recommendation`.
+    #[test]
+    fn test_p05_with_calibration_applies_per_game_recommendation() {
+        let dir = tempfile::tempdir().unwrap();
+        let payload = serde_json::json!({
+            "schema_version": 1,
+            "tool": "calibration::test",
+            "target": "ħ_eff ≈ 1.0",
+            "tie_break": "prefer smaller σ₀",
+            "per_game_rows": {},
+            "recommendations": {
+                "gomoku7": 0.18,
+                "__cross_game__": 0.22,
+            },
+        });
+        std::fs::write(
+            dir.path().join("sigma_0_recommendation.json"),
+            serde_json::to_string(&payload).unwrap(),
+        )
+        .unwrap();
+        let base = QuartzConfig {
+            sigma_0: 0.3,
+            ..Default::default()
+        };
+        let (cfg, diags) = base.with_calibration(dir.path(), Some("gomoku7"), None, 2.0);
+        assert!((cfg.sigma_0 - 0.18).abs() < 1e-6);
+        // exactly one INFO emitted with the new value
+        let info_count = diags
+            .iter()
+            .filter(|d| matches!(d, CalibrationDiagnostic::Info(_)))
+            .count();
+        assert_eq!(info_count, 1);
+    }
+
+    /// P05: when the per-game key is missing, fall back to __cross_game__.
+    #[test]
+    fn test_p05_with_calibration_falls_back_to_cross_game() {
+        let dir = tempfile::tempdir().unwrap();
+        let payload = serde_json::json!({
+            "schema_version": 1,
+            "tool": "test",
+            "target": "x",
+            "tie_break": "x",
+            "per_game_rows": {},
+            "recommendations": { "__cross_game__": 0.25 },
+        });
+        std::fs::write(
+            dir.path().join("sigma_0_recommendation.json"),
+            serde_json::to_string(&payload).unwrap(),
+        )
+        .unwrap();
+        let base = QuartzConfig::default();
+        let (cfg, _) = base.with_calibration(dir.path(), Some("not_in_file"), None, 2.0);
+        assert!((cfg.sigma_0 - 0.25).abs() < 1e-6);
+    }
+
+    /// P05: when the override differs from base by >warn_factor, emit a
+    /// WARN diagnostic alongside the INFO.
+    #[test]
+    fn test_p05_with_calibration_warns_on_large_divergence() {
+        let dir = tempfile::tempdir().unwrap();
+        let payload = serde_json::json!({
+            "schema_version": 1,
+            "tool": "test",
+            "target": "x",
+            "tie_break": "x",
+            "per_game_rows": {},
+            // 5x base ⇒ exceeds warn_factor=2
+            "recommendations": { "__cross_game__": 1.5 },
+        });
+        std::fs::write(
+            dir.path().join("sigma_0_recommendation.json"),
+            serde_json::to_string(&payload).unwrap(),
+        )
+        .unwrap();
+        let base = QuartzConfig {
+            sigma_0: 0.3,
+            ..Default::default()
+        };
+        let (cfg, diags) = base.with_calibration(dir.path(), None, None, 2.0);
+        assert!((cfg.sigma_0 - 1.5).abs() < 1e-6);
+        let warn_count = diags
+            .iter()
+            .filter(|d| matches!(d, CalibrationDiagnostic::Warn(_)))
+            .count();
+        assert!(warn_count >= 1, "expected a WARN diagnostic, got {diags:?}");
+    }
+
+    /// P05: missing calibration_dir leaves sigma_0 untouched and emits a
+    /// single INFO diagnostic.
+    #[test]
+    fn test_p05_with_calibration_missing_file_keeps_default() {
+        let dir = tempfile::tempdir().unwrap();
+        let base = QuartzConfig {
+            sigma_0: 0.3,
+            ..Default::default()
+        };
+        let (cfg, diags) = base.with_calibration(dir.path(), Some("any"), None, 2.0);
+        assert!((cfg.sigma_0 - 0.3).abs() < 1e-6);
+        assert!(matches!(diags.first(), Some(CalibrationDiagnostic::Info(_))));
+    }
+
+    /// P05: a strength-stratified file (e.g. weak.json) takes priority
+    /// over the default sigma_0_recommendation.json when EvalStrength is
+    /// set. This is the future hook for per-evaluator-quality stratified
+    /// calibration without requiring a separate dir tree per strength.
+    #[test]
+    fn test_p05_with_calibration_strength_stratified_file_wins() {
+        let dir = tempfile::tempdir().unwrap();
+        // default file → 0.3
+        std::fs::write(
+            dir.path().join("sigma_0_recommendation.json"),
+            serde_json::to_string(&serde_json::json!({
+                "schema_version": 1, "tool": "x", "target": "x", "tie_break": "x",
+                "per_game_rows": {},
+                "recommendations": { "__cross_game__": 0.3 },
+            })).unwrap(),
+        ).unwrap();
+        // weak.json → 0.5 (weaker eval ⇒ larger uncertainty reference)
+        std::fs::write(
+            dir.path().join("weak.json"),
+            serde_json::to_string(&serde_json::json!({
+                "schema_version": 1, "tool": "x", "target": "x", "tie_break": "x",
+                "per_game_rows": {},
+                "recommendations": { "__cross_game__": 0.5 },
+            })).unwrap(),
+        ).unwrap();
+        let base = QuartzConfig::default();
+        let (cfg, _) = base.with_calibration(
+            dir.path(),
+            None,
+            Some(EvalStrength::Weak),
+            10.0, // generous warn_factor
+        );
+        assert!((cfg.sigma_0 - 0.5).abs() < 1e-6, "got sigma_0={}", cfg.sigma_0);
+    }
+
+    /// P05: schema_version != 1 must be skipped (forward-compat guard).
+    #[test]
+    fn test_p05_with_calibration_skips_unknown_schema_version() {
+        let dir = tempfile::tempdir().unwrap();
+        std::fs::write(
+            dir.path().join("sigma_0_recommendation.json"),
+            serde_json::to_string(&serde_json::json!({
+                "schema_version": 99,
+                "recommendations": { "__cross_game__": 0.5 },
+            }))
+            .unwrap(),
+        )
+        .unwrap();
+        let base = QuartzConfig {
+            sigma_0: 0.3,
+            ..Default::default()
+        };
+        let (cfg, diags) = base.with_calibration(dir.path(), None, None, 2.0);
+        assert!((cfg.sigma_0 - 0.3).abs() < 1e-6);
+        let has_warn = diags
+            .iter()
+            .any(|d| matches!(d, CalibrationDiagnostic::Warn(m) if m.contains("schema_version")));
+        assert!(has_warn, "expected schema_version WARN, got {diags:?}");
+    }
 
     #[test]
     fn test_hbar_eff_scale() {

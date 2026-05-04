@@ -22,6 +22,10 @@ smallvec = "1.15"
 ort     = { version = "2.0.0-rc.12", optional = true, default-features = false, features = ["std", "download-binaries", "tls-rustls"] }
 ndarray = { version = "0.16", optional = true }
 
+[dev-dependencies]
+# P05: tempdir for calibration auto-load tests; build-only, not in release.
+tempfile = "3"
+
 [profile.release]
 opt-level = 3
 lto = "fat"

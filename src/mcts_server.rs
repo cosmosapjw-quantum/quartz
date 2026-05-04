@@ -1615,6 +1615,45 @@ fn apply_search_profile(mut cfg: MctsConfig, profile: SearchProfile) -> MctsConf
             cfg.fpu_reduction = 0.0;
         }
     }
+    // P05: auto-load σ₀ calibration from $QUARTZ_CALIBRATION_DIR if set.
+    // Only applies when the profile retains a Quartz config — Baseline*
+    // profiles disabled it above. Diagnostics are eprintln'd so they
+    // surface in the train_log without artifact inspection.
+    if let Some(quartz_cfg) = cfg.quartz.take() {
+        let cal_dir = std::env::var_os("QUARTZ_CALIBRATION_DIR")
+            .map(std::path::PathBuf::from);
+        let game_label = std::env::var_os("QUARTZ_CALIBRATION_GAME")
+            .and_then(|v| v.into_string().ok());
+        let strength = std::env::var_os("QUARTZ_CALIBRATION_STRENGTH")
+            .and_then(|v| v.into_string().ok())
+            .map(|s| match s.as_str() {
+                "weak" => crate::mcts::quartz::EvalStrength::Weak,
+                "medium" => crate::mcts::quartz::EvalStrength::Medium,
+                _ => crate::mcts::quartz::EvalStrength::Strong,
+            });
+        let updated = if let Some(dir) = cal_dir {
+            let (next, diags) = quartz_cfg.with_calibration(
+                &dir,
+                game_label.as_deref(),
+                strength,
+                2.0,
+            );
+            for d in diags {
+                match d {
+                    crate::mcts::quartz::CalibrationDiagnostic::Info(msg) => {
+                        eprintln!("[quartz][calibration] INFO: {msg}");
+                    }
+                    crate::mcts::quartz::CalibrationDiagnostic::Warn(msg) => {
+                        eprintln!("[quartz][calibration] WARN: {msg}");
+                    }
+                }
+            }
+            next
+        } else {
+            quartz_cfg
+        };
+        cfg.quartz = Some(updated);
+    }
     cfg
 }
 

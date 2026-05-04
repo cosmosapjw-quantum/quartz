@@ -1984,9 +1984,20 @@ def run_training(
         print(f"overrides={json.dumps(overrides, sort_keys=True)}")
     print(f"{'=' * 76}")
 
+    # P05: forward calibration directory to the Rust server process via
+    # the shared env var. The server's apply_search_profile reads this on
+    # every search call and overlays the σ₀ recommendation if a JSON file
+    # is present. Each subprocess only sees the explicit override; system
+    # env is otherwise inherited.
+    proc_env = None
+    cal_dir = getattr(args, "calibration_dir", None)
+    if cal_dir:
+        proc_env = dict(os.environ)
+        proc_env["QUARTZ_CALIBRATION_DIR"] = str(cal_dir)
+        proc_env["QUARTZ_CALIBRATION_GAME"] = str(args.game)
     t0 = time.time()
     try:
-        proc = subprocess.run(meta["cmd"], check=False, timeout=args.timeout_hours * 3600)
+        proc = subprocess.run(meta["cmd"], check=False, timeout=args.timeout_hours * 3600, env=proc_env)
         returncode = proc.returncode
     except subprocess.TimeoutExpired:
         print(f"  [TIMEOUT] {meta['run_id']} exceeded {args.timeout_hours}h")
@@ -3607,6 +3618,17 @@ def parse_args() -> argparse.Namespace:
         type=int,
         default=None,
         help="Deterministic seed for post-train evaluation games; included in eval manifest hashes.",
+    )
+    parser.add_argument(
+        "--calibration-dir",
+        default=None,
+        help=(
+            "Directory containing sigma_0_recommendation.json (and optional "
+            "weak.json / medium.json / strong.json strength-stratified files). "
+            "Forwarded to the Rust server via QUARTZ_CALIBRATION_DIR; the "
+            "server's apply_search_profile auto-loads the appropriate σ₀ "
+            "recommendation. (P05)"
+        ),
     )
     parser.add_argument("--seeds", default="42", help="Comma-separated training seeds")
     parser.add_argument("--conditions", help="Comma-separated condition names to run (default: all)")
