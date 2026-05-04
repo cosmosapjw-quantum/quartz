@@ -257,6 +257,122 @@ def test_seed_protocol_requires_paired_seed_eval_rows_for_claims():
     assert summary["paired_seed_claim_ready"] is False
 
 
+def test_p02_sha256_checkpoint_full_digest(tmp_path):
+    """P02: sha256_checkpoint must return the FULL 64-char digest (not the
+    16-char prefix `sha256_file_prefix` returns) so cross-checkpoint
+    fingerprinting in the eval matrix is collision-resistant for the
+    ~10^5 checkpoint scale a long campaign produces.
+    """
+    ablation = load_ablation_module()
+    p = tmp_path / "ckpt.pt"
+    p.write_bytes(b"hello")
+    full = ablation.sha256_checkpoint(p)
+    assert full is not None
+    assert len(full) == 64
+    # known SHA256 of "hello"
+    assert full == "2cf24dba5fb0a30e26e83b2ac5b9e29e1b161e5c1fa7425e73043362938b9824"
+    # missing path returns None, no exception
+    assert ablation.sha256_checkpoint(tmp_path / "nope.pt") is None
+    assert ablation.sha256_checkpoint(None) is None
+    # `sha256_file_prefix` independence — the two helpers must not be
+    # accidentally aliased.
+    short = ablation.sha256_file_prefix(p)
+    assert short is not None
+    assert len(short) == 16
+    assert full.startswith(short)
+
+
+def test_p02_pre_flight_check_passes_on_clean_inputs(tmp_path):
+    """P02: clean checkpoints + non-null manifest hashes ⇒ ok=True, no errors."""
+    ablation = load_ablation_module()
+    ckpt_a = tmp_path / "a.pt"
+    ckpt_a.write_bytes(b"model_a_bytes")
+    ckpt_b = tmp_path / "b.pt"
+    ckpt_b.write_bytes(b"model_b_bytes")
+    eligible = [
+        {"id": "A_s42", "condition": "A", "seed": 42,
+         "model_path": str(ckpt_a), "train_contract_hash": "abc"},
+        {"id": "B_s42", "condition": "B", "seed": 42,
+         "model_path": str(ckpt_b), "train_contract_hash": "def"},
+    ]
+    args = argparse.Namespace(paired_seed_eval=True, research_grade=False)
+    summary = ablation.pre_flight_check(args, eligible, {"E1": {}}, {"E1": "manifest_hash_x"})
+    assert summary["ok"] is True
+    assert summary["errors"] == []
+    assert summary["skipped_pairs"] == []
+    assert eligible[0]["candidate_hash"] is not None
+    assert len(eligible[0]["candidate_hash"]) == 64
+    assert eligible[1]["candidate_hash"] is not None
+
+
+def test_p02_pre_flight_check_blocks_missing_checkpoint(tmp_path):
+    """P02: missing checkpoint becomes an error and the run id ends up in
+    skipped_pairs so should_compare can drop downstream pairs without
+    crashing mid-eval. Under --research-grade ⇒ SystemExit."""
+    ablation = load_ablation_module()
+    ckpt_a = tmp_path / "a.pt"
+    ckpt_a.write_bytes(b"model_a_bytes")
+    eligible = [
+        {"id": "A_s42", "condition": "A", "seed": 42,
+         "model_path": str(ckpt_a), "train_contract_hash": "abc"},
+        {"id": "B_s42", "condition": "B", "seed": 42,
+         "model_path": str(tmp_path / "missing.pt"), "train_contract_hash": "def"},
+    ]
+    args = argparse.Namespace(paired_seed_eval=True, research_grade=False)
+    summary = ablation.pre_flight_check(args, eligible, {"E1": {}}, {"E1": "manifest_hash_x"})
+    assert summary["ok"] is False
+    assert "B_s42" in summary["skipped_pairs"]
+    reasons = {e["reason"] for e in summary["errors"]}
+    assert "checkpoint_missing_or_unreadable" in reasons
+
+    # Same inputs under --research-grade fail loudly.
+    args_strict = argparse.Namespace(paired_seed_eval=True, research_grade=True)
+    with pytest.raises(SystemExit, match="checkpoint_missing_or_unreadable"):
+        ablation.pre_flight_check(args_strict, eligible, {"E1": {}}, {"E1": "manifest_hash_x"})
+
+
+def test_p02_pre_flight_check_blocks_null_manifest_hash(tmp_path):
+    """P02: every eval condition must produce a non-null search_manifest_hash;
+    a None / empty value silently breaks cross-condition comparison and
+    must therefore be a hard error before launch."""
+    ablation = load_ablation_module()
+    ckpt_a = tmp_path / "a.pt"
+    ckpt_a.write_bytes(b"model_a_bytes")
+    eligible = [
+        {"id": "A", "condition": "A", "seed": 1,
+         "model_path": str(ckpt_a), "train_contract_hash": "abc"},
+    ]
+    args = argparse.Namespace(paired_seed_eval=False, research_grade=False)
+    summary = ablation.pre_flight_check(
+        args, eligible, {"E1": {}, "E2": {}}, {"E1": None, "E2": "ok"}
+    )
+    assert summary["ok"] is False
+    bad = [e for e in summary["errors"] if e.get("reason") == "search_manifest_hash_missing"]
+    assert len(bad) == 1
+    assert bad[0]["eval_condition"] == "E1"
+
+
+def test_p02_pre_flight_check_catches_drifted_label_under_paired_seed(tmp_path):
+    """P02: under --paired-seed-eval, two runs with the same (condition,
+    seed) but different `train_contract_hash` indicate the label was
+    overloaded — the same A_s42 was re-trained with a different config.
+    Pairing them with B_s42 silently mixes incompatible models. Hard fail."""
+    ablation = load_ablation_module()
+    ckpt = tmp_path / "ckpt.pt"
+    ckpt.write_bytes(b"x")
+    eligible = [
+        {"id": "A_s42_v1", "condition": "A", "seed": 42,
+         "model_path": str(ckpt), "train_contract_hash": "v1_hash"},
+        {"id": "A_s42_v2", "condition": "A", "seed": 42,
+         "model_path": str(ckpt), "train_contract_hash": "v2_hash"},
+    ]
+    args = argparse.Namespace(paired_seed_eval=True, research_grade=False)
+    summary = ablation.pre_flight_check(args, eligible, {"E1": {}}, {"E1": "ok"})
+    assert summary["ok"] is False
+    reasons = {e["reason"] for e in summary["errors"]}
+    assert "duplicate_label_with_drifted_contract" in reasons
+
+
 def test_resolve_model_path_prefers_latest_when_best_is_only_bootstrap_seed(tmp_path):
     ablation = load_ablation_module()
     run_dir = tmp_path / "run"
@@ -607,6 +723,13 @@ def test_run_evaluation_matrix_can_limit_to_paired_seed_comparisons(tmp_path, mo
         },
     )()
 
+    # P02: pre_flight_check inside run_evaluation_matrix now requires
+    # the checkpoint files to exist on disk; create them with distinct
+    # bytes per (condition, seed) so the candidate hashes are unique
+    # but otherwise opaque to this test (the FakeCampaign doesn't read
+    # model bytes — only the pre-flight gate does).
+    for fname in ("a41.pt", "b41.pt", "a42.pt", "b42.pt"):
+        (base_dir / fname).write_bytes(fname.encode())
     model_runs = [
         {"id": "C1_impl_legacy_s41", "condition": "C1_impl_legacy", "seed": 41, "success": True, "model_path": str(base_dir / "a41.pt")},
         {"id": "C2_theory_doc_s41", "condition": "C2_theory_doc", "seed": 41, "success": True, "model_path": str(base_dir / "b41.pt")},

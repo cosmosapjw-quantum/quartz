@@ -498,6 +498,31 @@ def sha256_file_prefix(path: str | Path | None, prefix_len: int = 16) -> str | N
         return None
 
 
+def sha256_checkpoint(path: str | Path | None) -> str | None:
+    """P02: full 64-char SHA256 of a model checkpoint file.
+
+    Distinct from `sha256_file_prefix` (which truncates to 16 chars for log
+    readability). Pre-flight uses the full digest so cross-checkpoint
+    fingerprinting and corruption detection are robust against birthday
+    collisions across the ~10^5 checkpoints a long campaign may produce.
+    Returns `None` on missing/unreadable files; the caller decides whether
+    to fail or skip.
+    """
+    if not path:
+        return None
+    try:
+        file_path = Path(path)
+        if not file_path.exists() or not file_path.is_file():
+            return None
+        digest = hashlib.sha256()
+        with file_path.open("rb") as handle:
+            for chunk in iter(lambda: handle.read(1024 * 1024), b""):
+                digest.update(chunk)
+        return digest.hexdigest()
+    except Exception:
+        return None
+
+
 def parse_csv_items(raw: str | None) -> list[str]:
     if not raw:
         return []
@@ -2442,6 +2467,107 @@ def summarize_budget_fairness(eval_payload: dict | None) -> dict:
     }
 
 
+def pre_flight_check(
+    args: argparse.Namespace,
+    eligible: list[dict],
+    eval_conditions: dict[str, dict],
+    expected_manifest_hashes: dict,
+) -> dict:
+    """P02: pre-flight gate — runs once before the eval matrix executes.
+
+    Checks performed:
+
+    1. **Checkpoint reachability + fingerprinting**: SHA256 of every
+       eligible run's `model_path`. Missing or unreadable files become
+       errors. Side-effect: each run dict gains a `candidate_hash` field
+       so downstream eval rows can record exactly which model bytes they
+       evaluated.
+    2. **Manifest-hash presence**: every eval condition must have a
+       non-null `search_manifest_hash`. A null/empty value means the
+       eval runner config didn't produce a stable hash, which silently
+       breaks cross-condition comparison.
+    3. **Paired-seed cross-condition consistency** (only when
+       `--paired-seed-eval` is set): for each seed shared across two or
+       more conditions, the runs' `train_contract_hash` values are
+       compared *grouped by condition*. Within a single condition,
+       different seeds naturally produce different contract hashes (the
+       seed is part of the contract). Across conditions but with the
+       same seed, the contracts disagree by design (the condition
+       differs). What this check catches is *unintentional* drift: e.g.
+       two runs labeled `condition=A, seed=42` with different contract
+       hashes, indicating the run was re-run with a different config
+       under the same label.
+
+    Returns a JSON-shaped result dict with `schema_version: 1`,
+    `ok: bool`, `errors: list`, `skipped_pairs: list[run_id]`.
+    On `--research-grade`, raises `SystemExit` if any error fires.
+    """
+    errors: list = []
+    skipped: list = []
+
+    # 1. checkpoint reachability + fingerprint
+    for run in eligible:
+        h = sha256_checkpoint(run.get("model_path"))
+        if h is None:
+            errors.append(
+                {
+                    "run_id": run.get("id"),
+                    "reason": "checkpoint_missing_or_unreadable",
+                    "model_path": run.get("model_path"),
+                }
+            )
+            skipped.append(run.get("id"))
+            run["candidate_hash"] = None
+        else:
+            run["candidate_hash"] = h
+
+    # 2. manifest-hash presence
+    for name, h in (expected_manifest_hashes or {}).items():
+        if not h:
+            errors.append(
+                {
+                    "eval_condition": name,
+                    "reason": "search_manifest_hash_missing",
+                }
+            )
+
+    # 3. paired-seed cross-condition consistency
+    if getattr(args, "paired_seed_eval", False):
+        # Index runs by (condition, seed). Within a label-pair, multiple
+        # entries indicate a re-run; if their train_contract_hash values
+        # disagree, the label is silently overloaded — we flag this as
+        # an error so the user knows their `--paired-seed-eval` claim
+        # would otherwise pair non-homogeneous models.
+        per_label: dict = {}
+        for run in eligible:
+            key = (run.get("condition"), run.get("seed"))
+            per_label.setdefault(key, []).append(run)
+        for (cond, seed), runs in per_label.items():
+            if len(runs) <= 1:
+                continue
+            hashes = {r.get("train_contract_hash") for r in runs}
+            if len(hashes) > 1:
+                errors.append(
+                    {
+                        "condition": cond,
+                        "seed": seed,
+                        "reason": "duplicate_label_with_drifted_contract",
+                        "train_contract_hashes": sorted(h for h in hashes if h),
+                    }
+                )
+
+    ok = not errors
+    if not ok and getattr(args, "research_grade", False):
+        msg = "; ".join(f"{e.get('reason')}={e.get('run_id') or e.get('eval_condition') or e.get('condition')}" for e in errors)
+        raise SystemExit(f"pre_flight_check failed under --research-grade: {msg}")
+    return {
+        "schema_version": 1,
+        "ok": ok,
+        "errors": errors,
+        "skipped_pairs": sorted({sid for sid in skipped if sid is not None}),
+    }
+
+
 def run_evaluation_matrix(
     args: argparse.Namespace,
     base_dir: Path,
@@ -2490,6 +2616,12 @@ def run_evaluation_matrix(
                 f"settings or pass --allow-unsafe-benchmark for exploratory runs."
             )
 
+    # P02: pre-flight gate. Runs once before any eval pair launches; under
+    # `--research-grade` raises on any error so an entire campaign isn't
+    # spent on missing checkpoints or drifted contracts.
+    pre_flight_summary = pre_flight_check(args, eligible, eval_conditions, expected_manifest_hashes)
+    pre_flight_skip = set(pre_flight_summary.get("skipped_pairs") or [])
+
     existing_path = base_dir / "evaluation_matrix.json"
     existing_matches = []
     discarded_matches = []
@@ -2525,6 +2657,11 @@ def run_evaluation_matrix(
     }
 
     def should_compare(model_a: dict, model_b: dict) -> bool:
+        # P02: skip pairs whose checkpoint failed pre-flight (missing /
+        # unreadable). Without this guard the eval would crash mid-pair
+        # and pollute evaluation_matrix.json with half-finished rows.
+        if model_a.get("id") in pre_flight_skip or model_b.get("id") in pre_flight_skip:
+            return False
         if not args.paired_seed_eval:
             return True
         seed_a = model_a.get("seed")
@@ -2712,6 +2849,7 @@ def run_evaluation_matrix(
                 payload["runtime_contract_hash"] = stable_json_hash(payload["runtime_contract"])
                 payload["eval_condition_timings"] = eval_condition_timings
                 payload["eval_timing_summary"] = summarize_ablation_eval_timings(payload)
+                payload["pre_flight"] = pre_flight_summary
                 attach_ablation_contract_summary(payload)
                 json_dump(existing_path, payload)
         finally:
@@ -2732,6 +2870,7 @@ def run_evaluation_matrix(
     payload["runtime_contract_hash"] = stable_json_hash(payload["runtime_contract"])
     payload["eval_condition_timings"] = eval_condition_timings
     payload["eval_timing_summary"] = summarize_ablation_eval_timings(payload)
+    payload["pre_flight"] = pre_flight_summary
     attach_ablation_contract_summary(payload)
     json_dump(existing_path, payload)
     return payload
