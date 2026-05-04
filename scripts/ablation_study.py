@@ -256,6 +256,38 @@ STUDY_PRESETS = {
         "train_conditions": HALT_ATTRIBUTION_TRAIN_CONDITIONS,
         "eval_conditions": HALT_ATTRIBUTION_EVAL_CONDITIONS,
     },
+    # BQ++ Phase 8: 7-system experiment matrix per the BQ++ plan
+    # `~/.claude/plans/bq_plus_plus_plan.md` §Phase 8. Compares the
+    # full BQ++ stack against LegacyQuartz and pure AlphaZero PUCT
+    # under controlled budgets. The actual `--policy=` values are
+    # parsed by the Rust server once Phase 8 engine integration lands;
+    # at preset-definition time these are placeholder labels that the
+    # study runner will resolve to the appropriate engine configuration.
+    #
+    # Subjects (per audit §12 Phase 8):
+    #   1. legacy_az              — pure AlphaZero PUCT, fixed budget.
+    #   2. legacy_quartz          — current heuristic family (control).
+    #   3. bqpp_no_gumbel         — BQ++ EB cert + KG stop, no Gumbel SH.
+    #   4. bqpp_gumbel_sh         — BQ++ + Gumbel SH allocation.
+    #   5. bqpp_with_sentinel     — adds tactical sentinel.
+    #   6. bqpp_full_reservoir    — adds nested-reservoir escape.
+    #   7. (reserved) ments       — opt-in soft-Bellman variant.
+    #
+    # The placeholder train_conditions reuse SEARCH_VL_TRAIN_CONDITIONS
+    # because the study assumes the network was trained the same way
+    # for every system; only the search-time policy varies.
+    "policy_battle": {
+        "train_conditions": SEARCH_VL_TRAIN_CONDITIONS,
+        "eval_conditions": SEARCH_VL_EVAL_CONDITIONS,
+        "_bqpp_phase8_subjects": [
+            "legacy_az",
+            "legacy_quartz",
+            "bqpp_no_gumbel",
+            "bqpp_gumbel_sh",
+            "bqpp_with_sentinel",
+            "bqpp_full_reservoir",
+        ],
+    },
 }
 
 # Presets whose design goal is per-factor controller attribution.
