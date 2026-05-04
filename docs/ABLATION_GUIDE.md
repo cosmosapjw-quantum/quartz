@@ -110,6 +110,35 @@ Evaluation rows now store:
 - `errors` / `voids` / `scored_games` — arena validity counters
 - `timing_s` — startup and per-match timing metadata
 
+`ablation_report.json` also rolls those rows up into
+`evaluator_quality_summary`. This summary stratifies matches by the available
+train-log quality proxies for each evaluated model pair (`loss`, `p_loss`,
+`v_loss`, `loss_ema`, published Elo, and score rate). Treat weak/strong
+evaluator robustness claims as unsupported when
+`evaluator_quality_summary.stratification_ready=false`; the current strata are
+proxies, not a replacement for a held-out calibration suite.
+
+For claim-bearing evaluator-quality studies, add `evaluator_calibration.json`
+beside `ablation_report.json`. The report expects a `models` mapping keyed by
+model id with `n_positions`, `policy_nll`, `value_mse`, `top1_acc`, and
+`brier`. `--research-grade` requires this artifact to cover every evaluated
+model.
+
+Generate that artifact from a frozen held-out replay shard after the ablation
+models exist:
+
+```bash
+venv/bin/python scripts/evaluator_calibration.py \
+  --ablation-dir results/ablation/gomoku15 \
+  --dataset results/heldout/gomoku15_replay_heldout.npz \
+  --device cpu \
+  --batch-size 128
+```
+
+The held-out replay shard must not be sampled from the training games used by
+the compared checkpoints; otherwise the artifact is only an evaluator sanity
+check, not a calibration claim.
+
 ### Level 2.5: Frozen-checkpoint controller search
 
 Use this level when controller family and search hyperparameters are confounded
@@ -236,6 +265,8 @@ Frozen-checkpoint controller sweeps carry:
 - `stage1_positions.json` — fixed position suite used for surrogate probing
 - `optuna_report.json` / `sweep_report.json` — canonical summary report
 - `stage2_round_robin.json` — same-checkpoint arena verification for shortlisted candidates
+  with score-rate CI, SPRT status, per-match search manifest hashes, and
+  realized root-visit / halt-reason telemetry when emitted by the Rust path
 - `trials/trial_*.json` — per-trial telemetry snapshots
 
 These artifacts are the intended basis for:
@@ -276,6 +307,10 @@ the runtime provides them:
 - `halt_reason_hist`
 - `mean_refresh_count`
 - `mean_penalty_sum`
+- `mean_prior_q_divergence`
+- `mean_voc_total`
+- `voc_argmax_channel_hist`
+- `effective_prior_l1` via per-search `controller_summary`
 - `controller_penalty_mode_counts`
 - `mean_prior_refresh_rate`
 - `root_only_shaping_frac`
@@ -283,10 +318,42 @@ the runtime provides them:
 - `halt_metric_coverage_frac`
 - `refresh_metric_coverage_frac`
 - `penalty_metric_coverage_frac`
+- `selection_trace_coverage_frac`
+- `mean_selection_root_selects`
+- `selection_refresh_selected_frac`
+- `mean_selection_penalty_abs_sum`
+- `mean_selection_effective_prior_l1_sum`
+- `mean_selection_candidate_count`
 
-`halt_reason_hist` is populated from replay metadata today. The refresh/penalty
-aggregates remain intentionally partial until every Rust search path emits
-those counters directly.
+The current Rust server emits root-level refresh/penalty/effective-prior
+diagnostics for QUARTZ search results. Treat them as root-snapshot attribution
+signals. It also emits `controller_summary.selection_trace`, which is an
+actual root-selection path summary accumulated once per MCTS iteration. Use the
+selection trace for event-frequency claims such as “refresh affected selected
+root actions”; use root-snapshot diagnostics for final-root attribution.
+`evaluation_matrix.json` also records `realized_budget_trace` for post-train
+arena rows, including root-visit distributions and aggregated selection trace,
+so controller gains can be checked against actual search behavior, not only
+nominal iteration caps.
+
+By default the ablation runner refuses evaluation conditions whose effective
+runtime contract is not known to be benchmark-safe. Use
+`--allow-unsafe-benchmark` only for exploratory debugging runs.
+
+For claim-bearing runs, inspect `ablation_report.json` →
+`research_readiness` and prefer turning it into a hard gate:
+
+```bash
+venv/bin/python scripts/ablation_study.py \
+  --report results/ablation_controller_axes/gomoku7 \
+  --research-grade
+```
+
+The checklist remains passive unless `--research-grade` is supplied. The
+canonical criteria live in [RESEARCH_READINESS.md](RESEARCH_READINESS.md), and
+missing items should be fixed by upgrading the pipeline/artifacts rather than
+by claiming an exception. Cross-condition controller claims now require aligned
+training seeds plus paired-seed eval rows, not just equal seed counts.
 
 For external audit packaging, regenerate the review bundle with:
 
@@ -584,4 +651,6 @@ Interpretation:
 - Level 2.5 tells you whether the apparent controller win survives once
   controller family and fixed search constants are allowed to move together.
 - `evaluation_matrix.json` should decide the final champion, not loss alone.
-- The deployment search profile in `champion.json` is the one to carry into Gomocup export.
+- `champion.json` records the selected model and the deployment search config
+  actually used for export. When no evaluation condition is selected as a
+  deployment override, the config source is explicitly `train_cfg`.

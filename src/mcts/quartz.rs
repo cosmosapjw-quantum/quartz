@@ -76,9 +76,11 @@
 //! Simulation: (AlphaZero: NN value; ShortRollout: empirical)
 //! Backprop:   Welford M2 (per-edge σᵢ) + RTT Welford (ρ̂ off-diagonal)
 
-use std::sync::atomic::Ordering;
+use std::sync::atomic::{AtomicU32, Ordering};
 
-use crate::mcts::node::{ArenaRef, MctsNode};
+use smallvec::SmallVec;
+
+use crate::mcts::node::{ArenaRef, MctsEdge, MctsNode};
 use crate::mcts::search::{SearchController, StopReason};
 #[cfg(test)]
 use crate::mcts::tt::leak_node;
@@ -651,24 +653,46 @@ fn check_envariance(s_kl: f32, n_total: u32) -> (bool, f32, f32) {
 // σ_Δ² = σ₁²+σ₂²-2ρ̂σ₁σ₂
 // ─────────────────────────────────────────────
 
-/// §6.1.1 P_flip with child-node RTT for ρ̂ (correct version)
-/// top-2 자식의 RTT variance = 그 자식이 여러 경로에서 얼마나 다른 Q를 받았나
-fn compute_p_flip_with_child_rtt<M: Copy + Send + Sync + 'static>(
-    edges: &[crate::mcts::node::MctsEdgeSnapshot<M>],
+/// Same P_flip estimator as `compute_p_flip_with_child_rtt`, but reads directly
+/// from the root edge slab. This avoids allocating an `edge_snapshot` Vec during
+/// every QUARTZ controller refresh while preserving the same top-2-Q semantics.
+fn compute_p_flip_with_child_rtt_edges<M: Copy + Send + Sync + 'static>(
+    edges: &[MctsEdge<M>],
     sigma_q: f32,
 ) -> (f32, f32, f32, f32, bool) {
     if edges.len() < 2 {
         return (0.0, 0.0, 0.0, 0.0, false);
     }
-    let mut qe: Vec<(&crate::mcts::node::MctsEdgeSnapshot<M>, f32)> =
-        edges.iter().map(|e| (e, e.q())).collect();
-    qe.sort_unstable_by(|a, b| b.1.partial_cmp(&a.1).unwrap());
 
-    let (e1, q1) = qe[0];
-    let (e2, q2) = qe[1];
+    let mut best: Option<(usize, f32)> = None;
+    let mut second: Option<(usize, f32)> = None;
+    for (idx, edge) in edges.iter().enumerate() {
+        let q = edge.q();
+        match best {
+            None => best = Some((idx, q)),
+            Some((_, bq)) if q > bq => {
+                second = best;
+                best = Some((idx, q));
+            }
+            _ => match second {
+                None => second = Some((idx, q)),
+                Some((_, sq)) if q > sq => second = Some((idx, q)),
+                _ => {}
+            },
+        }
+    }
+
+    let Some((i1, q1)) = best else {
+        return (0.0, 0.0, 0.0, 0.0, false);
+    };
+    let Some((i2, q2)) = second else {
+        return (0.0, 0.0, 0.0, 0.0, false);
+    };
+    let e1 = &edges[i1];
+    let e2 = &edges[i2];
     let mu_d = q1 - q2;
-    let n1 = e1.n as f32;
-    let n2 = e2.n as f32;
+    let n1 = e1.n.load(Ordering::Acquire) as f32;
+    let n2 = e2.n.load(Ordering::Acquire) as f32;
 
     let s1 = e1.edge_sigma();
     let s2 = e2.edge_sigma();
@@ -678,8 +702,6 @@ fn compute_p_flip_with_child_rtt<M: Copy + Send + Sync + 'static>(
     let sigma2 = s2.unwrap_or(sigma_q / (n2 + 1.0).sqrt());
     let sp = (sigma1 * sigma2).max(1e-8);
 
-    // ρ̂: top-2 자식 RTT variance 평균 → path correlation
-    // child RTT_var 높음 → 다른 경로가 이 자식에서 다른 Q를 줌 → ρ̂ < 0 (diverging)
     let rtt1 = e1.child.rtt_variance().unwrap_or(0.0);
     let rtt2 = e2.child.rtt_variance().unwrap_or(0.0);
     let rtt_avg = (rtt1 + rtt2) / 2.0;
@@ -696,43 +718,6 @@ fn compute_p_flip_with_child_rtt<M: Copy + Send + Sync + 'static>(
         mu_d,
         sigma_d,
         standard_normal_cdf(-mu_d / sigma_d),
-        rho_hat,
-        reliable,
-    )
-}
-
-fn compute_p_flip<M: Copy + Send + Sync + 'static>(
-    edges: &[crate::mcts::node::MctsEdgeSnapshot<M>],
-    sigma_q: f32,
-    rtt_var: f32,
-) -> (f32, f32, f32, f32, bool) {
-    if edges.len() < 2 {
-        return (0.0, 0.0, 0.0, 0.0, false);
-    }
-    let mut qe: Vec<(&crate::mcts::node::MctsEdgeSnapshot<M>, f32)> =
-        edges.iter().map(|e| (e, e.q())).collect();
-    qe.sort_unstable_by(|a, b| b.1.partial_cmp(&a.1).unwrap());
-    let (e1, q1) = qe[0];
-    let (e2, q2) = qe[1];
-    let mu_d = q1 - q2;
-    let n1 = e1.n as f32;
-    let n2 = e2.n as f32;
-    let s1 = e1.edge_sigma();
-    let s2 = e2.edge_sigma();
-    let reliable = s1.is_some() && s2.is_some();
-    let sigma1 = s1.unwrap_or(sigma_q / (n1 + 1.0).sqrt());
-    let sigma2 = s2.unwrap_or(sigma_q / (n2 + 1.0).sqrt());
-    let sp = (sigma1 * sigma2).max(1e-8);
-    let rho_hat = if rtt_var > 0.0 && reliable {
-        (1.0 - rtt_var / sp).clamp(-0.95, 0.95)
-    } else {
-        0.0
-    };
-    let var_d = (sigma1.powi(2) + sigma2.powi(2) - 2.0 * rho_hat * sigma1 * sigma2).max(1e-10);
-    (
-        mu_d,
-        var_d.sqrt(),
-        standard_normal_cdf(-mu_d / var_d.sqrt()),
         rho_hat,
         reliable,
     )
@@ -755,7 +740,8 @@ fn compute_heavy_tail(qs: &[f32], ns: &[f32], sigma_q: f32, cfg: &QuartzConfig) 
         return (1.0, false);
     }
 
-    let mut sorted: Vec<(f32, f32)> = qs.iter().zip(ns.iter()).map(|(&q, &n)| (q, n)).collect();
+    let mut sorted: SmallVec<[(f32, f32); 64]> =
+        qs.iter().zip(ns.iter()).map(|(&q, &n)| (q, n)).collect();
     sorted.sort_unstable_by(|a, b| a.0.partial_cmp(&b.0).unwrap());
     let mut cum = 0.0f32;
     let mut median_q = sorted[0].0;
@@ -767,7 +753,7 @@ fn compute_heavy_tail(qs: &[f32], ns: &[f32], sigma_q: f32, cfg: &QuartzConfig) 
         }
     }
 
-    let mut devs: Vec<(f32, f32)> = sorted
+    let mut devs: SmallVec<[(f32, f32); 64]> = sorted
         .iter()
         .map(|&(q, n)| ((q - median_q).abs(), n))
         .collect();
@@ -815,7 +801,9 @@ pub fn compute_quartz_stats<M: Copy + Send + Sync + 'static>(
     cfg: &QuartzConfig,
 ) -> QuartzStats {
     let n_mat = root.materialized_count();
-    let edges = root.edge_snapshot(n_mat);
+    let edges_full = root.read_edges();
+    let n_edges = n_mat.min(edges_full.len());
+    let edges = &edges_full[..n_edges];
     let n_total = root.n_total.load(Ordering::Acquire);
 
     if edges.is_empty() || n_total < cfg.min_visits {
@@ -827,18 +815,18 @@ pub fn compute_quartz_stats<M: Copy + Send + Sync + 'static>(
     }
 
     // ── Q, N, prior ──────────────────────────────────────────
-    let mut qs = Vec::with_capacity(edges.len());
-    let mut ns = Vec::with_capacity(edges.len());
-    let mut ps = Vec::with_capacity(edges.len());
+    let mut qs: SmallVec<[f32; 64]> = SmallVec::new();
+    let mut ns: SmallVec<[f32; 64]> = SmallVec::new();
+    let mut ps: SmallVec<[f32; 64]> = SmallVec::new();
     let mut total_n = 0.0f32;
     let mut total_p = 0.0f32;
 
     for (i, e) in edges.iter().enumerate() {
-        let n = e.n as f32;
+        let n = e.n.load(Ordering::Acquire) as f32;
         if n > 0.0 {
             qs.push(e.q());
             ns.push(n);
-            let p = priors.and_then(|pr| pr.get(i).copied()).unwrap_or(0.0);
+            let p = priors.and_then(|pr| pr.get(i).copied()).unwrap_or(e.p);
             ps.push(p);
             total_n += n;
             total_p += p;
@@ -854,8 +842,8 @@ pub fn compute_quartz_stats<M: Copy + Send + Sync + 'static>(
 
     let use_uniform = total_p < 1e-6;
     let unif_p = 1.0 / qs.len() as f32;
-    let ps_norm: Vec<f32> = if use_uniform {
-        vec![unif_p; qs.len()]
+    let ps_norm: SmallVec<[f32; 64]> = if use_uniform {
+        std::iter::repeat(unif_p).take(qs.len()).collect()
     } else {
         ps.iter().map(|&p| p / total_p).collect()
     };
@@ -897,7 +885,7 @@ pub fn compute_quartz_stats<M: Copy + Send + Sync + 'static>(
     // 수정: root.rtt_variance()는 루트 자신의 RTT = 0
     // 올바른 방법: top-2 자식 노드의 RTT variance로 경로 상관 추정
     let (mu_delta, sigma_delta, p_flip, rho_hat, sigma_reliable) =
-        compute_p_flip_with_child_rtt(&edges, sigma_q);
+        compute_p_flip_with_child_rtt_edges(edges, sigma_q);
 
     // ── §6.3 MERGE — children RTT aggregation ────────────────
     // 루트 자식 중 RTT 누적이 가장 많은 노드를 찾아 MERGE channel에 사용
@@ -1096,9 +1084,9 @@ pub fn compute_quartz_stats<M: Copy + Send + Sync + 'static>(
     // PR-6D: Estimate non-root GVOC for top-3 children
     // w_imp(child) = N(child)/N(root), GVOC ≈ w_imp × root_voc_total (proxy)
     let gvoc_nonroot_max = if n_total > 0 {
-        let mut child_wimps: Vec<f32> = edges
+        let mut child_wimps: SmallVec<[f32; 64]> = edges
             .iter()
-            .map(|e| e.n as f32 / n_total as f32)
+            .map(|e| e.n.load(Ordering::Acquire) as f32 / n_total as f32)
             .collect();
         child_wimps.sort_unstable_by(|a, b| b.partial_cmp(a).unwrap());
         child_wimps
@@ -1140,7 +1128,7 @@ pub fn compute_quartz_stats<M: Copy + Send + Sync + 'static>(
     let conf_t = (1.0 - p_flip) * (1.0 - p_hidden) * (1.0 - surprise_ratio).max(0.0);
 
     // G1: lambda_1loop = median of edge σ̂ (for paper B_1loop formula)
-    let mut sigma_hats: Vec<f32> = edges.iter().filter_map(|e| e.edge_sigma()).collect();
+    let mut sigma_hats: SmallVec<[f32; 64]> = edges.iter().filter_map(|e| e.edge_sigma()).collect();
     let lambda_1loop = if !sigma_hats.is_empty() {
         sigma_hats.sort_unstable_by(|a, b| a.partial_cmp(b).unwrap());
         sigma_hats[sigma_hats.len() / 2]
@@ -1153,7 +1141,7 @@ pub fn compute_quartz_stats<M: Copy + Send + Sync + 'static>(
         let k = qs.len() as f32;
         let tau_d = (sigma_q * k.sqrt()).max(0.1);
         // Compute softmax(Q/τ)
-        let q_scaled: Vec<f32> = qs.iter().map(|&q| q / tau_d).collect();
+        let q_scaled: SmallVec<[f32; 64]> = qs.iter().map(|&q| q / tau_d).collect();
         let q_max = q_scaled.iter().cloned().fold(f32::NEG_INFINITY, f32::max);
         let exp_sum: f32 = q_scaled.iter().map(|&q| (q - q_max).exp()).sum();
         if exp_sum > 1e-30 && !ps_norm.is_empty() {
@@ -1699,6 +1687,14 @@ pub fn voc_argmax_channel(focus: f32, expand: f32, merge: f32) -> &'static str {
 pub struct QuartzController {
     pub cfg: QuartzConfig,
     pub max_visits: u32,
+    /// Lock-free mirror of `inner.last_check_at`.
+    ///
+    /// Parallel search calls `should_stop()` on every worker loop. The
+    /// adaptive branches only need the mutex once `check_interval` visits have
+    /// elapsed since the previous controller check, so this mirror keeps the
+    /// common "not due yet" path out of the mutex without changing the
+    /// telemetry-producing locked path.
+    last_check_at_atomic: AtomicU32,
     inner: std::sync::Mutex<QuartzCtrlInner>,
 }
 
@@ -1710,6 +1706,7 @@ impl QuartzController {
         };
         QuartzController {
             max_visits,
+            last_check_at_atomic: AtomicU32::new(0),
             inner: std::sync::Mutex::new(QuartzCtrlInner {
                 last_stats: QuartzStats::default(),
                 last_check_at: 0,
@@ -1793,21 +1790,21 @@ impl QuartzController {
             }
         }
 
-        // A4: take a single edge snapshot for the three downstream sections
-        // (depth_cal / sigma_response / defect_D). Previously each took its own.
-        // Single-threaded run_quartz path: all three observe identical atomic
-        // values, so this is a pure refactor (no drift). Multi-thread callers
-        // gain coherence (one timepoint instead of three).
+        // A4/P12: use the published edge slab directly for the downstream
+        // diagnostic sections. This preserves the single-timepoint intent of
+        // the old snapshot while avoiding a Vec allocation and child-handle
+        // copies on every controller refresh.
         let n_mat_for_sections = root.materialized_count();
-        let edges_snap = root.edge_snapshot(n_mat_for_sections);
+        let edges_full = root.read_edges();
+        let edges_view = &edges_full[..n_mat_for_sections.min(edges_full.len())];
 
         // ── G7: κ_b depth calibration (diagnostic collection) ──
         if self.cfg.enable_depth_cal {
             // Collect σ observations from root edges (depth=0)
-            for e in &edges_snap {
+            for e in edges_view {
                 if let Some(sigma_emp) = e.edge_sigma() {
-                    let sigma_pred = self.cfg.sigma_0
-                        / (e.n as f32 + 1.0).sqrt();
+                    let n = e.n.load(Ordering::Acquire);
+                    let sigma_pred = self.cfg.sigma_0 / (n as f32 + 1.0).sqrt();
                     g.depth_cal.record(0, sigma_emp, sigma_pred);
                 }
             }
@@ -1834,7 +1831,7 @@ impl QuartzController {
         // ── v0.9.2: σ_response online estimator (Exp-3, instrumentation only) ──
         {
             // Track |ΔQ_best| between checks as EMA — top-5 root edges.
-            let edges = &edges_snap[..edges_snap.len().min(5)];
+            let edges = &edges_view[..edges_view.len().min(5)];
             let q_best = edges
                 .iter()
                 .map(|e| e.q_eff())
@@ -1851,44 +1848,45 @@ impl QuartzController {
 
         // ── v0.9.2: Defect D_t computation (Theory §VI, Theorem 5) ──
         {
-            let edges = &edges_snap[..edges_snap.len().min(20)];
+            let edges = &edges_view[..edges_view.len().min(20)];
             let n_total = edges
                 .iter()
-                .map(|e| e.n)
+                .map(|e| e.n.load(Ordering::Acquire))
                 .sum::<u32>()
                 .max(1);
 
             // Current log-policy: log(N_a/N_total + ε)
             let eps_p = 1e-4_f32;
-            let cur_log_policy: Vec<f32> = edges
+            let cur_log_policy: SmallVec<[f32; 32]> = edges
                 .iter()
                 .map(|e| {
-                    let na = e.n as f32;
+                    let na = e.n.load(Ordering::Acquire) as f32;
                     ((na + eps_p) / (n_total as f32 + eps_p * edges.len() as f32)).ln()
                 })
                 .collect();
 
             if !g.prev_log_policy.is_empty() && g.prev_log_policy.len() == cur_log_policy.len() {
                 // Drift g(a) = (cur - prev) - mean(cur - prev)
-                let drift: Vec<f32> = cur_log_policy
+                let drift: SmallVec<[f32; 32]> = cur_log_policy
                     .iter()
                     .zip(g.prev_log_policy.iter())
                     .map(|(c, p)| c - p)
                     .collect();
-                let q_weights: Vec<f32> = edges
+                let q_weights: SmallVec<[f32; 32]> = edges
                     .iter()
                     .map(|e| {
-                        let na = e.n as f32;
+                        let na = e.n.load(Ordering::Acquire) as f32;
                         (na + eps_p) / (n_total as f32 + eps_p * edges.len() as f32)
                     })
                     .collect();
                 let drift_mean: f32 = drift.iter().zip(q_weights.iter()).map(|(d, w)| d * w).sum();
-                let centered_drift: Vec<f32> = drift.iter().map(|d| d - drift_mean).collect();
+                let centered_drift: SmallVec<[f32; 32]> =
+                    drift.iter().map(|d| d - drift_mean).collect();
 
                 // One-field tangent: centered Q values
-                let qs: Vec<f32> = edges.iter().map(|e| e.q_eff()).collect();
+                let qs: SmallVec<[f32; 32]> = edges.iter().map(|e| e.q_eff()).collect();
                 let q_mean: f32 = qs.iter().zip(q_weights.iter()).map(|(q, w)| q * w).sum();
-                let centered_q: Vec<f32> = qs.iter().map(|q| q - q_mean).collect();
+                let centered_q: SmallVec<[f32; 32]> = qs.iter().map(|q| q - q_mean).collect();
 
                 // Fisher-weighted inner products: <g, g>, <g, f̃>, <f̃, f̃>
                 let gg: f32 = centered_drift
@@ -1916,7 +1914,8 @@ impl QuartzController {
                 }
             }
 
-            g.prev_log_policy = cur_log_policy;
+            g.prev_log_policy.clear();
+            g.prev_log_policy.extend(cur_log_policy.iter().copied());
         }
 
         g.s0_global.update(s.surprise_kl);
@@ -1926,6 +1925,8 @@ impl QuartzController {
 
     pub fn mark_checked(&self, root_visits: u32) {
         self.inner.lock().unwrap().last_check_at = root_visits;
+        self.last_check_at_atomic
+            .store(root_visits, Ordering::Relaxed);
     }
 }
 
@@ -2006,6 +2007,10 @@ impl SearchController for QuartzController {
         }
 
         // VOC / SimpleThreshold: check QUARTZ stats periodically
+        let last_check_at = self.last_check_at_atomic.load(Ordering::Relaxed);
+        if root_visits.saturating_sub(last_check_at) < self.cfg.check_interval {
+            return false;
+        }
         let mut g = self.inner.lock().unwrap();
         g.elapsed_ms = elapsed_ms;
         let since = root_visits.saturating_sub(g.last_check_at);
@@ -2090,10 +2095,25 @@ impl SearchController for QuartzController {
         self.inner.lock().unwrap().stop_reason.clone()
     }
 
+    fn needs_elapsed_ms(&self) -> bool {
+        self.cfg.ctm_budget_ms > 0 || !matches!(self.cfg.halt_mode, HaltMode::Fixed { .. })
+    }
+
+    fn visit_limit_hint(&self) -> Option<u32> {
+        if self.cfg.ctm_budget_ms > 0 {
+            return None;
+        }
+        match self.cfg.halt_mode {
+            HaltMode::Fixed { budget } => Some(budget.min(self.max_visits)),
+            _ => None,
+        }
+    }
+
     fn reset(&mut self) {
         let mut g = self.inner.lock().unwrap();
         g.last_stats = QuartzStats::default();
         g.last_check_at = 0;
+        self.last_check_at_atomic.store(0, Ordering::Relaxed);
         g.s0_same = RunningEma::new(0.05);
         g.elapsed_ms = 0;
         g.stop_reason = StopReason::Unknown;
@@ -2314,9 +2334,19 @@ mod tests {
         let json = serde_json::to_value(&rec).unwrap();
         assert_eq!(json["schema_version"], 2);
         for key in [
-            "root_visits", "elapsed_ms", "p_flip", "flip_stable", "sigma_q",
-            "hbar_eff", "voc_total", "voc_focus", "voc_expand", "voc_merge",
-            "voc_argmax_channel", "decision", "triggered",
+            "root_visits",
+            "elapsed_ms",
+            "p_flip",
+            "flip_stable",
+            "sigma_q",
+            "hbar_eff",
+            "voc_total",
+            "voc_focus",
+            "voc_expand",
+            "voc_merge",
+            "voc_argmax_channel",
+            "decision",
+            "triggered",
         ] {
             assert!(json.get(key).is_some(), "missing field {key}");
         }
@@ -2335,7 +2365,10 @@ mod tests {
         assert_eq!(voc_argmax_channel(0.5, 0.5, 0.5), "focus");
         // NaN / NEG_INF inputs degrade gracefully.
         assert_eq!(voc_argmax_channel(f32::NAN, f32::NAN, f32::NAN), "none");
-        assert_eq!(voc_argmax_channel(f32::NEG_INFINITY, f32::NEG_INFINITY, f32::NEG_INFINITY), "none");
+        assert_eq!(
+            voc_argmax_channel(f32::NEG_INFINITY, f32::NEG_INFINITY, f32::NEG_INFINITY),
+            "none"
+        );
         // Mixed: NaN is non-finite, falls through.
         assert_eq!(voc_argmax_channel(f32::NAN, 0.5, 0.1), "expand");
     }

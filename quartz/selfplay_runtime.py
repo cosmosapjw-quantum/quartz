@@ -36,10 +36,17 @@ _SEARCH_MANIFEST_KEYS = (
     "check_interval",
     "hbar_penalty_cap",
     "n_threads",
+    "thread_policy",
+    "auto_thread_policy",
+    "thread_cap",
+    "max_threads",
+    "n_threads_cap",
     "batch_size",
     "batch_timeout_us",
     "_eval_runner_mode",
     "_arena_low_concurrency_profile",
+    "eval_seed",
+    "halt_mode",
 )
 
 
@@ -286,6 +293,18 @@ def decode_streamed_selfplay_game(cfg, game_payload):
     player_hist = game_payload.get("players", []) or []
     policy_hist = game_payload.get("policies", []) or []
     traces = game_payload.get("trace", []) or []
+    lengths = {
+        "states": len(board_hist),
+        "players": len(player_hist),
+        "policies": len(policy_hist),
+    }
+    if len(set(lengths.values())) != 1:
+        raise ValueError(f"streamed self-play payload length mismatch: {lengths}")
+    if traces and len(traces) != len(board_hist):
+        raise ValueError(
+            "streamed self-play trace length mismatch: "
+            f"trace={len(traces)} states={len(board_hist)}"
+        )
     states = []
     policies = []
     for move_idx, (_board_12, raw_player, sparse_pol) in enumerate(zip(board_hist, player_hist, policy_hist)):
@@ -1561,6 +1580,7 @@ def selfplay_rust_nn_batched(
         perf_stats.setdefault("model_calls", 0)
         perf_stats.setdefault("model_batch_sizes", [])
         perf_stats.setdefault("model_time_s", 0.0)
+        perf_stats.setdefault("collect_wait_s", 0.0)
         perf_stats.setdefault("collect_loops", 0)
         perf_stats.setdefault("result_messages", 0)
 
@@ -1873,6 +1893,8 @@ def selfplay_rust_nn_batched(
                 merged_items = sum(len(group["requests"]) for group in eval_groups)
                 collect_wait_s = time.perf_counter() - collect_t0
                 duty["collect_s"] += collect_wait_s
+                if perf_stats is not None:
+                    perf_stats["collect_wait_s"] += float(collect_wait_s)
                 batch_items_ema = 0.25 * float(merged_items) + 0.75 * float(batch_items_ema)
                 collect_wait_ema_s = 0.25 * float(collect_wait_s) + 0.75 * float(collect_wait_ema_s)
 
@@ -1896,6 +1918,8 @@ def selfplay_rust_nn_batched(
                     responses = runtime_hooks.run_batched_eval_groups(eval_groups, model, device, cfg)
                     eval_elapsed = time.perf_counter() - t_eval
                     duty["model_s"] += eval_elapsed
+                    if perf_stats is not None:
+                        perf_stats["model_time_s"] += float(eval_elapsed)
                     runtime_hooks.stall_trace(
                         "exchange_eval",
                         cmd=req_cmd,
@@ -2109,6 +2133,38 @@ def selfplay_rust_nn_batched(
     return all_states, all_policies, all_outcomes, all_traces
 
 
+def _summarize_selfplay_perf_stats(stats):
+    stats = stats or {}
+    batch_sizes = [float(v) for v in (stats.get("model_batch_sizes") or [])]
+    model_calls = int(stats.get("model_calls") or 0)
+    eval_items = int(stats.get("eval_items") or 0)
+    eval_messages = int(stats.get("eval_messages") or 0)
+    collect_wait_s = float(stats.get("collect_wait_s") or 0.0)
+    model_time_s = float(stats.get("model_time_s") or 0.0)
+    return {
+        "eval_messages": eval_messages,
+        "eval_items": eval_items,
+        "model_calls": model_calls,
+        "mean_model_batch_size": (
+            float(sum(batch_sizes) / len(batch_sizes)) if batch_sizes else None
+        ),
+        "max_model_batch_size": float(max(batch_sizes)) if batch_sizes else None,
+        "eval_items_per_message": (
+            float(eval_items / eval_messages) if eval_messages else None
+        ),
+        "collect_wait_s": collect_wait_s,
+        "mean_collect_wait_ms": (
+            float(1000.0 * collect_wait_s / model_calls) if model_calls else None
+        ),
+        "model_time_s": model_time_s,
+        "mean_model_time_ms": (
+            float(1000.0 * model_time_s / model_calls) if model_calls else None
+        ),
+        "collect_loops": int(stats.get("collect_loops") or 0),
+        "result_messages": int(stats.get("result_messages") or 0),
+    }
+
+
 class SelfPlayWorker:
     """Background actor: Rust MCTS + batched NN eval."""
 
@@ -2156,6 +2212,7 @@ class SelfPlayWorker:
         self._recent_chunks = deque(maxlen=8)
         self._proc_pool = self._server_pool_factory(self.rust_binary)
         self._model = self._clone_actor_model(model)
+        self._actor_lock = threading.Lock()
         self._active_proc = None
         self._last_progress_ts = time.time()
         self._last_error = None
@@ -2168,14 +2225,23 @@ class SelfPlayWorker:
         # so downstream analysis can trace an arena outcome back to the actor
         # identity that produced its training samples.
         self._actor_generation = 0
+        self._actor_id = "actor_gen_000000"
 
     def update_model(self, model):
-        self._model = self._clone_actor_model(model)
-        self._actor_generation += 1
+        next_model = self._clone_actor_model(model)
+        with self._actor_lock:
+            self._model = next_model
+            self._actor_generation += 1
+            self._actor_id = f"actor_gen_{self._actor_generation:06d}"
 
     @property
     def actor_generation(self) -> int:
-        return self._actor_generation
+        with self._actor_lock:
+            return self._actor_generation
+
+    def actor_snapshot(self):
+        with self._actor_lock:
+            return self._model, self._actor_generation, self._actor_id
 
     def _cancel_active_search(self, *, kill_proc=False):
         proc = self._active_proc
@@ -2250,6 +2316,16 @@ class SelfPlayWorker:
         )
         peak_chunk_positions = max((chunk["positions"] for chunk in self._recent_chunks), default=0)
         burst_ratio = peak_chunk_positions / max(mean_chunk_positions, 1.0) if mean_chunk_positions > 0.0 else 1.0
+        perf_chunks = [chunk.get("perf") or {} for chunk in self._recent_chunks]
+        perf_model_calls = sum(int(chunk.get("model_calls") or 0) for chunk in perf_chunks)
+        perf_eval_messages = sum(int(chunk.get("eval_messages") or 0) for chunk in perf_chunks)
+        perf_eval_items = sum(int(chunk.get("eval_items") or 0) for chunk in perf_chunks)
+        perf_collect_wait_s = sum(float(chunk.get("collect_wait_s") or 0.0) for chunk in perf_chunks)
+        perf_model_time_s = sum(float(chunk.get("model_time_s") or 0.0) for chunk in perf_chunks)
+        weighted_batch_sum = sum(
+            float(chunk.get("mean_model_batch_size") or 0.0) * int(chunk.get("model_calls") or 0)
+            for chunk in perf_chunks
+        )
         return {
             "games": self.games_generated,
             "positions": self.positions_generated,
@@ -2271,6 +2347,36 @@ class SelfPlayWorker:
             "last_error": self._last_error,
             "consecutive_errors": self._consecutive_errors,
             "last_plan": self._last_plan,
+            "actor_generation": self.actor_generation,
+            "actor_id": self.actor_snapshot()[2],
+            "inference": {
+                "chunks": int(len(perf_chunks)),
+                "eval_messages": int(perf_eval_messages),
+                "eval_items": int(perf_eval_items),
+                "model_calls": int(perf_model_calls),
+                "mean_model_batch_size": (
+                    round(weighted_batch_sum / perf_model_calls, 3)
+                    if perf_model_calls
+                    else None
+                ),
+                "eval_items_per_message": (
+                    round(perf_eval_items / perf_eval_messages, 3)
+                    if perf_eval_messages
+                    else None
+                ),
+                "collect_wait_s": round(perf_collect_wait_s, 6),
+                "mean_collect_wait_ms": (
+                    round(1000.0 * perf_collect_wait_s / perf_model_calls, 3)
+                    if perf_model_calls
+                    else None
+                ),
+                "model_time_s": round(perf_model_time_s, 6),
+                "mean_model_time_ms": (
+                    round(1000.0 * perf_model_time_s / perf_model_calls, 3)
+                    if perf_model_calls
+                    else None
+                ),
+            },
             "server_pool": self._proc_pool.snapshot() if hasattr(self._proc_pool, "snapshot") else None,
             "path": "rust+nn",
         }
@@ -2283,6 +2389,8 @@ class SelfPlayWorker:
             "last_progress_age_s": max(0.0, time.time() - self._last_progress_ts),
             "last_error": self._last_error,
             "consecutive_errors": self._consecutive_errors,
+            "actor_generation": self.actor_generation,
+            "actor_id": self.actor_snapshot()[2],
             "server_pool": self._proc_pool.snapshot() if hasattr(self._proc_pool, "snapshot") else None,
         }
 
@@ -2315,17 +2423,25 @@ class SelfPlayWorker:
                     chunk_games = min(remaining, int(plan.get("games_per_call", parallel)))
                     streamed_positions = 0
 
-                    # Capture the worker's actor_generation at the start of
-                    # this chunk. All samples produced by the chunk inherit
-                    # that generation even if update_model() fires concurrently
-                    # — this keeps per-chunk accounting consistent.
-                    chunk_actor_generation = self._actor_generation
+                    # Capture one immutable actor snapshot for the chunk. The
+                    # runner receives the same model object whose id/generation
+                    # are stamped into replay metadata, even if update_model()
+                    # fires concurrently while the Rust search is in flight.
+                    chunk_model, chunk_actor_generation, chunk_actor_id = self.actor_snapshot()
 
-                    def _on_game_stream(gs, gp, out, traces, chunk_actor_generation=chunk_actor_generation):
+                    def _on_game_stream(
+                        gs,
+                        gp,
+                        out,
+                        traces,
+                        chunk_actor_generation=chunk_actor_generation,
+                        chunk_actor_id=chunk_actor_id,
+                    ):
                         nonlocal n_new, streamed_positions
                         self.replay.add_game(
                             gs, gp, out, traces=traces,
                             actor_generation=chunk_actor_generation,
+                            actor_id=chunk_actor_id,
                         )
                         n_new += len(gs)
                         streamed_positions += len(gs)
@@ -2335,15 +2451,17 @@ class SelfPlayWorker:
 
                     self._idle.clear()
                     try:
+                        chunk_perf_stats = {}
                         states, policies, outcomes, traces = self._selfplay_runner(
                             self.cfg,
-                            self._model,
+                            chunk_model,
                             self.device,
                             chunk_games,
                             self.rust_binary,
                             parallel=min(parallel, chunk_games),
                             show_progress=False,
                             proc_pool=self._proc_pool,
+                            perf_stats=chunk_perf_stats,
                             on_game=_on_game_stream if self.cfg.get("_selfplay_runner_mode") == "rust_selfplay_state_machine" else None,
                             active_proc_ref=self,
                         )
@@ -2356,6 +2474,7 @@ class SelfPlayWorker:
                             self.replay.add_game(
                                 gs, gp, out, traces=trace,
                                 actor_generation=chunk_actor_generation,
+                                actor_id=chunk_actor_id,
                             )
                             n_new += len(gs)
                             chunk_positions += len(gs)
@@ -2374,6 +2493,7 @@ class SelfPlayWorker:
                         "games": int(len(states)),
                         "positions": int(chunk_positions),
                         "elapsed_s": float(chunk_elapsed),
+                        "perf": _summarize_selfplay_perf_stats(chunk_perf_stats),
                     })
                     remaining -= chunk_games
                 self._cycles += 1
@@ -2418,7 +2538,27 @@ def is_go_game(game_name):
 
 
 def rust_search_options(cfg, penalty_mode=None):
-    n_threads = int(cfg.get("n_threads", 1) or 1)
+    raw_n_threads = cfg.get("n_threads", 1)
+    thread_request = raw_n_threads
+    thread_budget = None
+    if isinstance(raw_n_threads, str):
+        thread_request = raw_n_threads.strip().lower() or "1"
+        if thread_request in {"auto", "throughput", "auto-throughput", "quality", "auto-quality"}:
+            cap = (
+                cfg.get("thread_cap")
+                or cfg.get("max_threads")
+                or cfg.get("n_threads_cap")
+                or os.cpu_count()
+                or 1
+            )
+            thread_budget = max(1, int(cap))
+        else:
+            thread_budget = max(1, int(thread_request))
+            thread_request = thread_budget
+    else:
+        thread_budget = max(1, int(raw_n_threads or 1))
+        thread_request = thread_budget
+    n_threads = thread_budget
     batch_size = int(cfg.get("batch_size", 8) or 8)
     batch_timeout_us = int(
         cfg.get(
@@ -2437,13 +2577,18 @@ def rust_search_options(cfg, penalty_mode=None):
         "prior_refresh_rate": cfg.get("prior_refresh_rate", 0.0),
         "prior_refresh_temp": cfg.get("prior_refresh_temp", 1.0),
         "c_puct": cfg.get("c_puct", 0.0),
-        "n_threads": n_threads,
+        "n_threads": thread_request,
         "batch_size": batch_size,
         "batch_timeout_us": batch_timeout_us,
         **({"seed": int(cfg["seed"])} if "seed" in cfg and cfg.get("seed") is not None else {}),
         **({"root_only_shaping": bool(cfg["root_only_shaping"])} if "root_only_shaping" in cfg else {}),
         **({"vl_mode": cfg["vl_mode"]} if "vl_mode" in cfg else {}),
         **({"tt_enabled": bool(cfg["tt_enabled"])} if "tt_enabled" in cfg else {}),
+        **({"thread_policy": str(cfg["thread_policy"])} if cfg.get("thread_policy") is not None else {}),
+        **({"auto_thread_policy": str(cfg["auto_thread_policy"])} if cfg.get("auto_thread_policy") is not None else {}),
+        **({"thread_cap": int(cfg["thread_cap"])} if cfg.get("thread_cap") is not None else {}),
+        **({"max_threads": int(cfg["max_threads"])} if cfg.get("max_threads") is not None else {}),
+        **({"n_threads_cap": int(cfg["n_threads_cap"])} if cfg.get("n_threads_cap") is not None else {}),
         # P7 (audit W2): forward `halt_mode` so mcts_server's
         # `parse_halt_mode_override` can pin HaltMode::Fixed for
         # attribution rows.

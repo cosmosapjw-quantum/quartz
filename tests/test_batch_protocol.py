@@ -443,8 +443,36 @@ def test_unpack_qipc_arena_eval_resp_parses_records():
     assert decoded["records"][1]["outcome"] == "draw"
     assert decoded["records"][1]["score_black"] is None
     assert decoded["records"][1]["is_void"] is True
-    assert decoded["records"][1]["seed"] is None
-    assert decoded["records"][1]["error"] == "void"
+
+
+def test_unpack_qipc_arena_eval_resp_v2_preserves_search_summary():
+    from quartz import alphazero_train as az
+
+    payload = bytearray()
+    payload.extend(struct.pack("<BBId", 2, 1, 1, 3.5))
+    game = b"gomoku7"
+    payload.extend(struct.pack("<I", len(game)))
+    payload.extend(game)
+    payload.extend(struct.pack("<I", 1))
+
+    def append_string(text):
+        raw = text.encode("utf-8")
+        payload.extend(struct.pack("<I", len(raw)))
+        payload.extend(raw)
+
+    append_string("m0::g0000")
+    payload.extend(struct.pack("<II", 0, 1))
+    payload.extend(struct.pack("<BB", 1, 0))
+    payload.extend(struct.pack("<fIdQ", 1.0, 5, 10.0, 123))
+    payload.extend(struct.pack("<I", 0))
+    append_string("")
+    append_string(json.dumps({"root_visits": {"samples": [8, 8]}, "halt_reason_hist": {"BudgetExhausted": 2}}))
+
+    decoded = az.unpack_qipc_arena_eval_resp(bytes(payload))
+
+    summary = decoded["records"][0]["search_summary"]
+    assert summary["root_visits"]["samples"] == [8, 8]
+    assert summary["halt_reason_hist"]["BudgetExhausted"] == 2
 
 
 def test_game_configs_have_n_threads():

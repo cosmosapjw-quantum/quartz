@@ -388,6 +388,7 @@ class GameRecord:
     search_manifest_hash_black: Optional[str]=None
     search_manifest_hash_white: Optional[str]=None
     search_manifest_mismatch_reason: Optional[str]=None
+    search_summary: Optional[Dict[str,Any]]=None
     def to_jsonl(self):
         d={"game_id":self.game_id,"outcome":self.outcome,"score_black":self.score_black,
            "engines":[self.engine_black,self.engine_white],"moves":self.move_count,

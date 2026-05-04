@@ -152,11 +152,15 @@ def parse_args() -> argparse.Namespace:
         help="Comma-separated eval conditions for the smoke subset.",
     )
     parser.add_argument("--iterations", type=int, default=1)
-    # P3 (audit_codex_20260425.md W6): bumped from 4 → 16 so replay
-    # crosses the default batch threshold (~256) and at least one SGD
-    # row fires. The post-run `verify_training_fired` assertion enforces
-    # this at audit time.
-    parser.add_argument("--games-per-iter", type=int, default=16)
+    # P3 (audit_codex_20260425.md W6): bumped from 4 → 16 → 64. On gomoku7
+    # random-init games yield ~5 samples/game, so 64 games × 5 ≈ 320 samples
+    # — comfortably above the default train batch=256. Combined with the
+    # `--no-pipeline` default below (inline self-play that blocks until all
+    # `--games` are generated before checking the batch threshold), iter 1
+    # reliably crosses batch and `verify_training_fired` sees ≥1 SGD row.
+    # Concurrent mode would not work here: it only waits for `min_new=1` per
+    # iteration and would skip SGD with iterations=1.
+    parser.add_argument("--games-per-iter", type=int, default=64)
     parser.add_argument("--eval-games", type=int, default=2)
     parser.add_argument(
         "--eval-interval",
@@ -209,6 +213,16 @@ def parse_args() -> argparse.Namespace:
         default=None,
         help="Override resident-session usage inside the smoke ablation.",
     )
+    parser.add_argument(
+        "--no-pipeline",
+        action=argparse.BooleanOptionalAction,
+        default=True,
+        help=(
+            "Force inline self-play in quartz.train so a single short iteration fills "
+            "replay past the SGD batch threshold. The concurrent path waits only for "
+            "min_new=1 per iter and won't accumulate to batch=256 with iterations=1."
+        ),
+    )
     return parser.parse_args()
 
 
@@ -249,6 +263,8 @@ def build_ablation_command(args: argparse.Namespace, rust_binary: Path, output_r
         cmd.append("--no-autotune")
     if args.include_strict_reference:
         cmd.append("--include-strict-reference")
+    if getattr(args, "no_pipeline", True):
+        cmd.append("--no-pipeline")
     return cmd
 
 
@@ -391,6 +407,7 @@ def main() -> None:
         "eval_stall_timeout_s": float(args.eval_stall_timeout_s),
         "safe_runtime": bool(args.safe_runtime),
         "resident_session": bool(args.resident_session) if args.resident_session is not None else None,
+        "no_pipeline": bool(args.no_pipeline),
         "safe_runtime_overrides": (
             {
                 "bootstrap_target_cap": int(base_env["QUARTZ_SAFE_BOOTSTRAP_TARGET_CAP"]),

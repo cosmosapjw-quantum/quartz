@@ -243,6 +243,12 @@ def test_replay_search_summary_exposes_halt_reason_histogram():
                 "prior_q_divergence": 0.4,
                 "root_only_shaping": True,
                 "telemetry_partial": True,
+                "actuator_coverage": {
+                    "prior_refresh_rate_configured": True,
+                    "prior_refresh_rate_consumed_by_mode": False,
+                    "prior_refresh_rate_inert_for_mode": True,
+                    "prior_refresh_source": "prior_q_divergence_gate",
+                },
             },
         },
     )
@@ -263,6 +269,12 @@ def test_replay_search_summary_exposes_halt_reason_histogram():
                 "prior_q_divergence": 0.2,
                 "root_only_shaping": False,
                 "telemetry_partial": True,
+                "actuator_coverage": {
+                    "prior_refresh_rate_configured": False,
+                    "prior_refresh_rate_consumed_by_mode": False,
+                    "prior_refresh_rate_inert_for_mode": False,
+                    "prior_refresh_source": "prior_q_divergence_gate",
+                },
             },
         },
     )
@@ -282,6 +294,11 @@ def test_replay_search_summary_exposes_halt_reason_histogram():
     assert summary["halt_metric_coverage_frac"] == pytest.approx(1.0)
     assert summary["refresh_metric_coverage_frac"] == pytest.approx(0.0)
     assert summary["penalty_metric_coverage_frac"] == pytest.approx(0.0)
+    assert summary["actuator_coverage_frac"] == pytest.approx(1.0)
+    assert summary["prior_refresh_rate_configured_frac"] == pytest.approx(0.5)
+    assert summary["prior_refresh_rate_consumed_by_mode_frac"] == pytest.approx(0.0)
+    assert summary["prior_refresh_rate_inert_for_mode_frac"] == pytest.approx(0.5)
+    assert summary["prior_refresh_source_counts"]["prior_q_divergence_gate"] == 2
 
 
 def test_p6_replay_summary_aggregates_voc_channels_and_schema_version():
@@ -339,6 +356,48 @@ def test_p6_replay_summary_aggregates_voc_channels_and_schema_version():
     assert summary["controller_schema_versions"] == {"1": 2}
 
 
+def test_replay_search_summary_aggregates_selection_trace():
+    az = load_training_module()
+    replay = az.ReplayBuffer(16)
+    state = np.zeros((3, 7, 7), dtype=np.float32)
+    policy = np.zeros(49, dtype=np.float32)
+    policy[4] = 1.0
+    for root_selects, refresh_selected, penalty_sum, prior_l1 in [
+        (10, 4, 1.5, 0.25),
+        (20, 6, 2.5, 0.75),
+    ]:
+        replay.add(
+            state,
+            policy,
+            0.0,
+            metadata={
+                "search_manifest": {"profile": "quartz", "benchmark_safe": True},
+                "realized_budget": {"realized_iterations": root_selects},
+                "controller_summary": {
+                    "schema_version": 4,
+                    "selection_trace": {
+                        "root_selects": root_selects,
+                        "refresh_selected_count": refresh_selected,
+                        "selected_penalty_abs_sum": penalty_sum,
+                        "selected_effective_prior_l1_sum": prior_l1,
+                        "selected_mean_candidate_count": 7.0,
+                        "selected_max_candidate_count": 9,
+                    },
+                },
+            },
+        )
+
+    summary = az.ReplayMetrics.search_summary(replay, sample_n=2)
+
+    assert summary["selection_trace_coverage_frac"] == pytest.approx(1.0)
+    assert summary["mean_selection_root_selects"] == pytest.approx(15.0)
+    assert summary["selection_refresh_selected_frac"] == pytest.approx(10 / 30)
+    assert summary["mean_selection_penalty_abs_sum"] == pytest.approx(2.0)
+    assert summary["mean_selection_effective_prior_l1_sum"] == pytest.approx(0.5)
+    assert summary["mean_selection_candidate_count"] == pytest.approx(7.0)
+    assert summary["max_selection_candidate_count"] == pytest.approx(9.0)
+
+
 def test_p6_replay_summary_handles_missing_voc_fields():
     """P6: pre-P6 wire format (no voc fields) yields None means without crashing."""
     az = load_training_module()
@@ -390,7 +449,7 @@ def test_runtime_support_should_use_async_pipeline_prefers_gpu_and_batching(monk
 def test_ablation_study_discards_stale_eval_cache(monkeypatch, tmp_path):
     module = load_ablation_script_module()
     import quartz.evaluator_runtime as eval_mod
-    calls = {"campaign": 0}
+    calls = {"campaign": 0, "seeds": []}
 
     def fake_build_eval_cfg(game_name, eval_cfg, device_name, model_path=None):
         return (
@@ -428,6 +487,7 @@ def test_ablation_study_discards_stale_eval_cache(monkeypatch, tmp_path):
 
         def compare(self, engine_a, engine_b, *args, **kwargs):
             calls["campaign"] += 1
+            calls["seeds"].append(kwargs.get("seed"))
             return types.SimpleNamespace(wins=1, losses=0, draws=0, errors=0, voids=0, scored=1, total=1, score_rate=1.0), {
                 "runner_mode": "rust_eval_state_machine",
                 "match_elapsed_s": 0.02,
@@ -465,6 +525,7 @@ def test_ablation_study_discards_stale_eval_cache(monkeypatch, tmp_path):
         game="gomoku7",
         device="cpu",
         eval_games=4,
+        eval_seed=17,
         rust_binary="./target/release/mcts_demo",
     )
     model_runs = [
@@ -480,6 +541,10 @@ def test_ablation_study_discards_stale_eval_cache(monkeypatch, tmp_path):
     )
 
     assert calls["campaign"] == 1
+    assert calls["seeds"] == [17]
+    assert payload["expected_eval_seeds"] == {"E1": 17}
+    assert payload["expected_search_manifests"]["E1"]["eval_seed"] == 17
+    assert payload["matches"][0]["search_manifest"]["eval_seed"] == 17
     assert payload["matches"][0]["search_manifest_hash"] != "stalehash0000000"
     assert payload["matches"][0]["timing_s"]["match_elapsed_s"] == pytest.approx(0.02)
     assert payload["discarded_matches"] == [
@@ -855,7 +920,31 @@ def test_ablation_report_includes_contract_summary(tmp_path):
     module = load_ablation_script_module()
     eval_payload = {
         "matches": [
-            {"eval_condition": "E1", "games": 4, "timing_s": {"match_elapsed_s": 8.0}},
+            {
+                "eval_condition": "E1",
+                "a_id": "cond1_s42",
+                "b_id": "cond1_s42",
+                "games": 4,
+                "scored_games": 4,
+                "ci": [0.25, 0.75],
+                "runner_mode": "rust_eval_state_machine",
+                "search_manifest_hash": "e1hash",
+                "timing_s": {"match_elapsed_s": 8.0},
+                "realized_budget_trace": {
+                    "games": 4,
+                    "moves": 8,
+                    "root_visits": {"samples": [8, 8, 8, 8, 8, 8, 8, 8], "mean": 8.0, "max": 8.0},
+                    "halt_reason_hist": {"BudgetExhausted": 8},
+                    "benchmark_safe_frac": 1.0,
+                    "selection_trace_coverage_frac": 1.0,
+                    "selection_trace": {
+                        "root_selects": 64,
+                        "refresh_selected_count": 16,
+                        "selected_penalty_abs_sum": 3.0,
+                        "selected_effective_prior_l1_sum": 1.0,
+                    },
+                },
+            },
         ],
         "overall": [
             {
@@ -871,8 +960,10 @@ def test_ablation_report_includes_contract_summary(tmp_path):
             }
         ],
         "expected_search_manifests": {
-            "E1": {"search_profile": "baseline", "vl_mode": "disabled"},
+            "E1": {"search_profile": "baseline", "vl_mode": "disabled", "eval_seed": 17},
         },
+        "expected_eval_seeds": {"E1": 17},
+        "expected_benchmark_safe": {"E1": True},
         "discarded_matches": [{"eval_condition": "E1", "a_id": "m1", "b_id": "m2"}],
         "runtime_contract": {
             "backend": "torch",
@@ -894,7 +985,19 @@ def test_ablation_report_includes_contract_summary(tmp_path):
     runs_dir.mkdir(parents=True, exist_ok=True)
     (tmp_path / "evaluation_matrix.json").write_text(json.dumps(eval_payload), encoding="utf-8")
     (runs_dir / "train_log.jsonl").write_text(
-        json.dumps({"iter": 1, "loss": 0.1, "games_done": 4, "published_elo": 1234}) + "\n",
+        json.dumps(
+            {
+                "iter": 1,
+                "loss": 0.1,
+                "p_loss": 0.07,
+                "v_loss": 0.03,
+                "loss_ema": 0.1,
+                "games_done": 4,
+                "published_elo": 1234,
+                "replay_freshness": 0.5,
+                "pos_per_s": 8.0,
+            }
+        ) + "\n",
         encoding="utf-8",
     )
     (runs_dir / "condition.json").write_text(
@@ -919,12 +1022,45 @@ def test_ablation_report_includes_contract_summary(tmp_path):
     assert report["runtime_contract"]["config_layout"] == "repo_top_level_configs"
     assert report["runtime_contract_hash"] == "abcd1234abcd1234"
     assert report["eval_timing_summary"]["total_games"] == 4
+    assert report["research_readiness"]["blocking"] is False
+    assert report["research_readiness"]["policy_doc"] == "docs/RESEARCH_READINESS.md"
+    assert report["research_readiness"]["research_grade_ready"] is False
+    assert "multi_seed_per_condition" in report["research_readiness"]["unmet_criteria"]
+    assert "no_stale_eval_cache_rows" in report["research_readiness"]["unmet_criteria"]
+    assert "selection_trace_recorded" not in report["research_readiness"]["unmet_criteria"]
+    assert "budget_trace_recorded" not in report["research_readiness"]["unmet_criteria"]
+    assert "evaluation_protocol_recorded" not in report["research_readiness"]["unmet_criteria"]
+    assert "evaluator_quality_strata_recorded" not in report["research_readiness"]["unmet_criteria"]
+    assert "pipeline_telemetry_recorded" not in report["research_readiness"]["unmet_criteria"]
+    assert "hardware_claim_scope_recorded" not in report["research_readiness"]["unmet_criteria"]
+    assert report["selection_trace_summary"]["conditions"][0]["selection_trace_coverage_frac"] == pytest.approx(1.0)
+    assert report["budget_fairness_summary"]["budget_trace_coverage_frac"] == pytest.approx(1.0)
+    assert report["budget_fairness_summary"]["conditions"][0]["root_visits"]["mean"] == pytest.approx(8.0)
+    assert report["seed_protocol_summary"]["condition_count"] == 1
+    assert report["seed_protocol_summary"]["paired_seed_claim_ready"] is True
+    assert report["evaluation_protocol_summary"]["protocol_ready"] is True
+    assert report["evaluation_protocol_summary"]["complete_pair_eval_matrix"] is True
+    assert report["evaluator_quality_summary"]["stratification_ready"] is True
+    assert report["evaluator_quality_summary"]["quality_proxy_pair_coverage_frac"] == pytest.approx(1.0)
+    assert report["evaluator_quality_summary"]["model_quality"]["cond1_s42"]["p_loss"] == pytest.approx(0.07)
+    assert report["pipeline_telemetry_summary"]["aggregate"]["freshness_coverage_frac"] == pytest.approx(1.0)
+    assert report["pipeline_telemetry_summary"]["aggregate"]["throughput_coverage_frac"] == pytest.approx(1.0)
+    assert report["hardware_runtime_summary"]["claim_scope"] == "runtime_telemetry_only"
+    assert report["hardware_runtime_summary"]["profiler_artifact_present"] is False
+    assert report["hardware_runtime_summary"]["hardware_performance_claims_allowed"] is False
     saved = json.loads((tmp_path / "ablation_report.json").read_text(encoding="utf-8"))
     assert saved["contract_summary"] == report["contract_summary"]
     assert saved["train_contract_summary"] == report["train_contract_summary"]
     assert saved["runtime_contract"] == report["runtime_contract"]
     assert saved["runtime_contract_hash"] == report["runtime_contract_hash"]
     assert saved["eval_timing_summary"] == report["eval_timing_summary"]
+    assert saved["pipeline_telemetry_summary"] == report["pipeline_telemetry_summary"]
+    assert saved["budget_fairness_summary"] == report["budget_fairness_summary"]
+    assert saved["seed_protocol_summary"] == report["seed_protocol_summary"]
+    assert saved["evaluation_protocol_summary"] == report["evaluation_protocol_summary"]
+    assert saved["evaluator_quality_summary"] == report["evaluator_quality_summary"]
+    assert saved["hardware_runtime_summary"] == report["hardware_runtime_summary"]
+    assert saved["research_readiness"] == report["research_readiness"]
 
 
 def test_controller_sweep_reuses_matching_stage2_cache(monkeypatch, tmp_path):
@@ -1675,6 +1811,11 @@ def test_training_module_reexports_system_runtime_api():
         sys_mod.compute_eval_collect_policy(8, 0.002, batch_items_ema=4.0, wait_ema_s=0.0)
     )
     assert az.max_supported_threads(hw) == sys_mod.max_supported_threads(hw)
+    assert az.runtime_thread_budget({"n_threads": "auto", "thread_cap": 6}, hw=hw) == 6
+    assert sys_mod.clamp_runtime_cfg_to_hardware(
+        {"n_threads": "auto", "thread_cap": 99},
+        hw,
+    )["thread_cap"] == 8
 
 
 def test_training_module_reexports_train_loop_api():
@@ -2359,6 +2500,17 @@ def test_persistent_rust_eval_campaign_reuses_single_client(monkeypatch):
                         "seed": sess.get("seed"),
                         "error": None,
                         "is_void": False,
+                        "search_summary": {
+                            "root_visits": {"samples": [8, 8, 8, 8]},
+                            "halt_reason_hist": {"BudgetExhausted": 4},
+                            "benchmark_safe": True,
+                            "selection_trace": {
+                                "root_selects": 16,
+                                "refresh_selected_count": 4,
+                                "selected_penalty_abs_sum": 1.25,
+                                "selected_effective_prior_l1_sum": 0.5,
+                            },
+                        },
                     }
                 )
             return {"records": records}
@@ -2391,6 +2543,10 @@ def test_persistent_rust_eval_campaign_reuses_single_client(monkeypatch):
     assert meta_ab["runner_mode"] == "rust_eval_state_machine"
     assert meta_ac["runner_mode"] == "rust_eval_state_machine"
     assert meta_ab["client_start_s"] >= 0.0
+    assert meta_ab["realized_budget_trace"]["games"] == 4
+    assert meta_ab["realized_budget_trace"]["selection_trace_coverage_frac"] == pytest.approx(1.0)
+    assert meta_ab["realized_budget_trace"]["selection_trace"]["root_selects"] == 64
+    assert meta_ab["realized_budget_trace"]["selection_trace"]["refresh_selected_count"] == 16
 
 
 def test_persistent_rust_eval_campaign_compare_many_batches_single_eval_call():
@@ -3841,7 +3997,7 @@ def test_eval_match_run_requests_typed_arena_eval_response(monkeypatch):
     assert seen["req_dict"] is None
     assert seen["frame_kind"] == az.QIPC_ARENA_EVAL_REQ
     assert isinstance(seen["frame_payload"], (bytes, bytearray))
-    assert seen["frame_payload"][0] == 2
+    assert seen["frame_payload"][0] == 3
     assert result["valid_eval"] is True
 
 
@@ -3879,7 +4035,7 @@ def test_eval_match_run_typed_request_preserves_zero_white_tag(monkeypatch):
 
     payload = seen["frame_payload"]
     offset = 0
-    assert payload[offset] == 2
+    assert payload[offset] == 3
     offset += 1
 
     def read_string():
@@ -3898,6 +4054,7 @@ def test_eval_match_run_typed_request_preserves_zero_white_tag(monkeypatch):
     offset += 1  # root_only_shaping
     offset += 1  # tt_enabled
     offset += 1 + 8  # seed presence + seed
+    assert read_string() == ""
     iters, max_moves, session_count = struct.unpack_from("<III", payload, offset)
     offset += struct.calcsize("<III")
     assert iters == 8
@@ -3952,6 +4109,22 @@ def test_rust_search_options_includes_adaptive_batch_timeout():
     assert opts["search_profile"] == "baseline"
 
 
+def test_rust_search_options_forwards_auto_thread_policy():
+    az = load_training_module()
+
+    opts = az.rust_search_options({
+        "n_threads": "auto",
+        "thread_policy": "quality",
+        "thread_cap": 8,
+        "batch_size": 16,
+    })
+
+    assert opts["n_threads"] == "auto"
+    assert opts["thread_policy"] == "quality"
+    assert opts["thread_cap"] == 8
+    assert opts["batch_timeout_us"] > 1500
+
+
 def test_rust_search_options_preserves_baseline_strict_profile():
     az = load_training_module()
 
@@ -3970,6 +4143,73 @@ def test_rust_search_options_passes_controller_runtime_overrides():
 
     assert opts["penalty_mode"] == "GatedRefreshLegacy"
     assert opts["root_only_shaping"] is False
+
+
+def test_search_manifest_key_surfaces_stay_in_sync():
+    from quartz import runtime_support
+    from quartz import selfplay_runtime
+
+    assert selfplay_runtime._SEARCH_MANIFEST_KEYS == runtime_support.SEARCH_MANIFEST_KEYS
+
+
+def test_search_manifest_hash_is_sensitive_to_halt_mode_and_eval_seed():
+    from quartz import runtime_support
+    from quartz import selfplay_runtime
+
+    cfg = {
+        "_name": "gomoku7",
+        "iters": 8,
+        "search_profile": "quartz",
+        "vl_mode": "adaptive",
+        "penalty_mode": "GatedRefresh",
+        "halt_mode": "fixed",
+        "eval_seed": 17,
+    }
+    cfg_halt = dict(cfg, halt_mode="voc")
+    cfg_seed = dict(cfg, eval_seed=18)
+
+    assert runtime_support.search_manifest_hash(cfg) == selfplay_runtime._search_manifest_hash(cfg)
+    assert runtime_support.search_manifest_hash(cfg) != runtime_support.search_manifest_hash(cfg_halt)
+    assert runtime_support.search_manifest_hash(cfg) != runtime_support.search_manifest_hash(cfg_seed)
+
+
+def test_decode_streamed_selfplay_game_rejects_mismatched_lengths():
+    from quartz.selfplay_runtime import decode_streamed_selfplay_game
+
+    cfg = {"board": 3, "actions": 9}
+    payload = {
+        "states": [[0] * 9],
+        "players": [1, -1],
+        "policies": [[(0, 1.0)]],
+    }
+
+    with pytest.raises(ValueError, match="length mismatch"):
+        decode_streamed_selfplay_game(cfg, payload)
+
+
+def test_replay_samples_preserve_actor_snapshot_id():
+    from quartz.replay import ReplayBuffer
+
+    replay = ReplayBuffer(8)
+    replay.add_game(
+        [np.zeros((1, 3, 3), dtype=np.float32)],
+        [np.ones(9, dtype=np.float32) / 9.0],
+        outcome=1.0,
+        actor_generation=7,
+        actor_id="actor_gen_000007",
+    )
+
+    sample = replay.examples_at_indices([0])[0]
+    assert sample.metadata["actor_generation"] == 7
+    assert sample.metadata["actor_id"] == "actor_gen_000007"
+
+
+def test_jax_backend_save_accepts_cfg_argument():
+    import inspect
+
+    backend = load_backend_module()
+
+    assert "cfg" in inspect.signature(backend.JAXBackend.save).parameters
 
 
 def test_gpu_host_thread_caps_follow_physical_cores():

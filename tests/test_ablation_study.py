@@ -8,6 +8,9 @@ import types
 import tomllib
 from pathlib import Path
 
+import numpy as np
+import pytest
+
 
 def load_module(name: str, path: Path):
     spec = importlib.util.spec_from_file_location(name, path)
@@ -20,6 +23,11 @@ def load_module(name: str, path: Path):
 def load_ablation_module():
     root = Path(__file__).resolve().parents[1]
     return load_module("ablation_study_script", root / "scripts" / "ablation_study.py")
+
+
+def load_evaluator_calibration_module():
+    root = Path(__file__).resolve().parents[1]
+    return load_module("evaluator_calibration_script", root / "scripts" / "evaluator_calibration.py")
 
 
 def load_smoke_module():
@@ -177,6 +185,76 @@ def test_build_study_manifest_uses_controller_axes_preset():
     assert manifest["runtime_contract"]["config_layout"] == "repo_top_level_configs"
     assert isinstance(manifest["runtime_contract_hash"], str)
     assert len(manifest["runtime_contract_hash"]) == 16
+    assert manifest["search_options_schema_version"] >= 1
+    assert "penalty_mode" in manifest["search_options_keys"]
+
+
+def test_build_study_manifest_rejects_unknown_search_option_key(monkeypatch):
+    ablation = load_ablation_module()
+    args = type(
+        "Args",
+        (),
+        {
+            "study": "search_vl",
+            "game": "gomoku7",
+            "iterations": 1,
+            "eval_games": 2,
+            "quick": True,
+            "rust_binary": "./target/release/mcts_demo",
+            "backend": "torch",
+            "device": "cpu",
+            "seeds": "42",
+            "conditions": None,
+            "eval_conditions": None,
+            "include_strict_reference": False,
+        },
+    )()
+    bad = copy.deepcopy(ablation.STUDY_PRESETS["search_vl"])
+    bad["train_conditions"] = copy.deepcopy(bad["train_conditions"])
+    bad["train_conditions"]["T1_noS_noVL"]["penalty_mod"] = "typo"
+    monkeypatch.setitem(ablation.STUDY_PRESETS, "search_vl", bad)
+
+    with pytest.raises(SystemExit, match="unknown search-option keys"):
+        ablation.build_study_manifest(args)
+
+
+def test_research_grade_gate_fails_on_incomplete_report():
+    ablation = load_ablation_module()
+    args = argparse.Namespace(research_grade=True)
+    report = {
+        "research_readiness": {
+            "research_grade_ready": False,
+            "unmet_criteria": ["multi_seed_per_condition"],
+        }
+    }
+
+    with pytest.raises(SystemExit, match="multi_seed_per_condition"):
+        ablation.enforce_research_grade(args, report)
+
+
+def test_seed_protocol_requires_paired_seed_eval_rows_for_claims():
+    ablation = load_ablation_module()
+    runs = [
+        {"condition": "A", "seed": seed, "id": f"A_s{seed}"}
+        for seed in (1, 2, 3)
+    ] + [
+        {"condition": "B", "seed": seed, "id": f"B_s{seed}"}
+        for seed in (1, 2, 3)
+    ]
+    eval_payload = {
+        "runtime_contract": {"paired_seed_eval": False},
+        "matches": [
+            {"a_id": "A_s1", "b_id": "B_s1"},
+            {"a_id": "A_s2", "b_id": "B_s2"},
+            {"a_id": "A_s3", "b_id": "B_s3"},
+        ],
+    }
+
+    summary = ablation.summarize_seed_protocol(runs, eval_payload)
+
+    assert summary["common_seed_count"] == 3
+    assert summary["eval_pairs"]["same_seed_pair_frac"] == 1.0
+    assert summary["paired_seed_claim_ready"] is False
 
 
 def test_resolve_model_path_prefers_latest_when_best_is_only_bootstrap_seed(tmp_path):
@@ -272,7 +350,7 @@ def test_write_checkpoint_status_prefers_best_after_promotion(tmp_path):
     assert payload["preferred_posttrain_checkpoint"] == "best.pt"
 
 
-def test_select_champion_prefers_eval_leader_and_train_cfg_for_deployment(tmp_path):
+def test_select_champion_prefers_eval_leader_and_best_eval_cfg_for_deployment(tmp_path):
     ablation = load_ablation_module()
     base_dir = tmp_path / "results" / "gomoku15"
     base_dir.mkdir(parents=True, exist_ok=True)
@@ -323,13 +401,22 @@ def test_select_champion_prefers_eval_leader_and_train_cfg_for_deployment(tmp_pa
     ]
 
     eval_payload = ablation.aggregate_matches(model_runs, matches)
-    champion = ablation.select_champion(base_dir, model_runs, eval_payload)
+    champion = ablation.select_champion(
+        base_dir,
+        model_runs,
+        eval_payload,
+        {
+            "E2_S_noVL": {"search_profile": "quartz", "vl_mode": "disabled"},
+            "E4_S_VL": {"search_profile": "quartz", "vl_mode": "adaptive"},
+        },
+    )
 
     assert champion["model_id"] == "T4_S_VL_s42"
-    assert champion["deployment_eval_condition"] is None
+    assert champion["deployment_eval_condition"] == "E4_S_VL"
     assert champion["deployment_search_cfg"]["search_profile"] == "quartz"
     assert champion["deployment_search_cfg"]["vl_mode"] == "adaptive"
-    assert champion["deployment_cfg_source"] == "train_cfg"
+    assert champion["deployment_cfg_source"] == "eval_condition:E4_S_VL"
+    assert champion["selection_metrics"]["deployment_eval_condition_score_rate"] == pytest.approx(0.75)
 
 
 def test_build_eval_cfg_applies_runtime_overrides():
@@ -360,7 +447,9 @@ def test_build_audit_bundle_includes_configs_smoke_and_manifest(tmp_path):
 
     assert (stage_dir / "README.md").exists()
     assert (stage_dir / "configs" / "phase15_systems.default.json").exists()
+    assert (stage_dir / "docs" / "RESEARCH_READINESS.md").exists()
     assert (stage_dir / "scripts" / "smoke_e2e.py").exists()
+    assert (stage_dir / "scripts" / "evaluator_calibration.py").exists()
     assert (stage_dir / "tests" / "test_training_pipeline_regressions.py").exists()
     assert (stage_dir / "AUDIT_PACKAGE_MANIFEST.txt").exists()
     assert (stage_dir / "FILELIST.txt").exists()
@@ -427,6 +516,7 @@ def test_docs_audit_surface_references_exist():
         "scripts/build_audit_bundle.py",
         "scripts/controller_sweep.py",
         "scripts/controller_optuna.py",
+        "scripts/evaluator_calibration.py",
         "scripts/phase15_ablation_study.py",
         "scripts/phase15_online_ablation.py",
         "scripts/phase15_benchmark.py",
@@ -434,6 +524,7 @@ def test_docs_audit_surface_references_exist():
         "configs/phase15_systems.default.json",
         "docs/QUARTZ_THEORY.md",
         "docs/ABLATION_GUIDE.md",
+        "docs/RESEARCH_READINESS.md",
         "docs/QUICKSTART.md",
         "README.md",
     ]
@@ -601,6 +692,608 @@ def test_summarize_conditions_groups_training_and_eval_rows():
     legacy_eval = next(row for row in summary["evaluation"] if row["condition"] == "F1_legacy_base")
     assert legacy_eval["entries"] == 2
     assert legacy_eval["score_rate"] == 0.5
+
+
+def test_summarize_selection_trace_contract_groups_eval_conditions():
+    ablation = load_ablation_module()
+    eval_payload = {
+        "matches": [
+            {
+                "eval_condition": "E1",
+                "realized_budget_trace": {
+                    "games": 2,
+                    "selection_trace_coverage_frac": 1.0,
+                    "selection_trace": {
+                        "root_selects": 10,
+                        "refresh_selected_count": 2,
+                        "selected_penalty_abs_sum": 1.0,
+                        "selected_effective_prior_l1_sum": 0.5,
+                    }
+                },
+            },
+            {
+                "eval_condition": "E1",
+                "realized_budget_trace": {
+                    "games": 2,
+                    "selection_trace_coverage_frac": 0.5,
+                    "selection_trace": {
+                        "root_selects": 30,
+                        "refresh_selected_count": 6,
+                        "selected_penalty_abs_sum": 3.0,
+                        "selected_effective_prior_l1_sum": 1.5,
+                    }
+                },
+            },
+        ]
+    }
+
+    summary = ablation.summarize_selection_trace_contract(eval_payload)
+
+    row = summary["conditions"][0]
+    assert row["eval_condition"] == "E1"
+    assert row["games"] == 4
+    assert row["root_selects"] == 40
+    assert row["selection_trace_coverage_frac"] == pytest.approx(0.75)
+    assert row["refresh_selected_frac"] == 0.2
+    assert row["mean_penalty_abs_per_root_select"] == 0.1
+    assert row["mean_prior_l1_per_root_select"] == 0.05
+
+
+def test_research_readiness_requires_selection_trace_coverage():
+    ablation = load_ablation_module()
+    runs = [
+        {"condition": "C1", "seed": 41},
+        {"condition": "C1", "seed": 42},
+        {"condition": "C1", "seed": 43},
+    ]
+    eval_payload = {
+        "matches": [{"eval_condition": "E1", "games": 4, "ci": [0.25, 0.75]}],
+        "discarded_matches": [],
+        "expected_benchmark_safe": {"E1": True},
+        "expected_eval_seeds": {"E1": 17},
+        "expected_search_manifests": {"E1": {"eval_seed": 17}},
+    }
+    champion = {"deployment_cfg_source": "eval_condition:E1"}
+    pipeline_summary = {
+        "aggregate": {
+            "row_count": 3,
+            "concurrent_run_count": 0,
+            "freshness_coverage_frac": 1.0,
+            "throughput_coverage_frac": 1.0,
+            "worker_telemetry_coverage_frac": 0.0,
+        }
+    }
+    budget_summary = {
+        "budget_trace_coverage_frac": 1.0,
+        "root_visit_mean_relative_spread": 0.0,
+        "budget_fairness_flag": "ok",
+    }
+    seed_summary = {
+        "condition_count": 1,
+        "min_seed_count": 3,
+        "common_seed_count": 3,
+        "seed_sets_aligned": True,
+        "eval_pairs": {"same_seed_pair_frac": None},
+        "paired_seed_claim_ready": True,
+    }
+    hardware_summary = {
+        "claim_scope": "runtime_telemetry_only",
+        "profiler_artifact_present": False,
+        "hardware_performance_claims_allowed": False,
+    }
+    evaluation_protocol_summary = {
+        "protocol_ready": True,
+        "match_count": 1,
+        "runtime_contract_hash": "abcd1234abcd1234",
+        "expected_eval_seed_coverage": True,
+        "eval_seed_consistent": True,
+        "benchmark_safe_all_expected": True,
+        "game_count_consistent": True,
+        "one_manifest_per_eval_condition": True,
+        "complete_pair_eval_matrix": True,
+    }
+    evaluator_quality_summary = {
+        "stratification_ready": True,
+        "match_count": 1,
+        "quality_proxy_pair_coverage_frac": 1.0,
+        "loss_pair_coverage_frac": 1.0,
+        "models_with_quality_proxy": 2,
+        "strata_count": 1,
+        "missing_model_ids": [],
+    }
+    heldout_calibration_summary = {
+        "artifact_present": True,
+        "calibration_ready": True,
+        "coverage_frac": 1.0,
+        "missing_model_ids": [],
+    }
+
+    legacy_summary = {
+        "conditions": [
+            {
+                "eval_condition": "E1",
+                "root_selects": 16,
+                "selection_trace_coverage_frac": None,
+            }
+        ]
+    }
+    legacy_ready = ablation.research_readiness_summary(
+        runs,
+        eval_payload,
+        legacy_summary,
+        budget_summary,
+        seed_summary,
+        pipeline_summary,
+        hardware_summary,
+        champion,
+        evaluation_protocol_summary=evaluation_protocol_summary,
+        evaluator_quality_summary=evaluator_quality_summary,
+        heldout_calibration_summary=heldout_calibration_summary,
+    )
+    assert "selection_trace_recorded" in legacy_ready["unmet_criteria"]
+
+    covered_summary = {
+        "conditions": [
+            {
+                "eval_condition": "E1",
+                "root_selects": 16,
+                "selection_trace_coverage_frac": 1.0,
+            }
+        ]
+    }
+    covered_ready = ablation.research_readiness_summary(
+        runs,
+        eval_payload,
+        covered_summary,
+        budget_summary,
+        seed_summary,
+        pipeline_summary,
+        hardware_summary,
+        champion,
+        evaluation_protocol_summary=evaluation_protocol_summary,
+        evaluator_quality_summary=evaluator_quality_summary,
+        heldout_calibration_summary=heldout_calibration_summary,
+    )
+    assert "selection_trace_recorded" not in covered_ready["unmet_criteria"]
+    assert "hardware_claim_scope_recorded" not in covered_ready["unmet_criteria"]
+    assert covered_ready["research_grade_ready"] is True
+
+
+def test_summarize_evaluator_quality_strata_groups_quality_proxies():
+    ablation = load_ablation_module()
+    runs = [
+        {
+            "id": "A_s1",
+            "condition": "A",
+            "seed": 1,
+            "metrics": {
+                "loss": 0.8,
+                "p_loss": 0.55,
+                "v_loss": 0.25,
+                "loss_ema": 0.85,
+                "published_elo": 1500.0,
+                "score_rate": 0.60,
+                "games_done": 32,
+            },
+        },
+        {
+            "id": "B_s1",
+            "condition": "B",
+            "seed": 1,
+            "metrics": {
+                "loss": 1.7,
+                "published_elo": 1450.0,
+                "score_rate": 0.45,
+                "games_done": 32,
+            },
+        },
+    ]
+    eval_payload = {
+        "matches": [
+            {
+                "eval_condition": "E1",
+                "a_id": "A_s1",
+                "b_id": "B_s1",
+                "games": 4,
+                "scored_games": 4,
+                "score_rate_a": 0.75,
+            },
+            {
+                "eval_condition": "E2",
+                "a_id": "A_s1",
+                "b_id": "B_s1",
+                "games": 4,
+                "scored_games": 4,
+                "score_rate_a": 0.50,
+            },
+        ]
+    }
+
+    summary = ablation.summarize_evaluator_quality_strata(runs, eval_payload)
+
+    assert summary["stratification_ready"] is True
+    assert summary["quality_proxy_pair_coverage_frac"] == pytest.approx(1.0)
+    assert summary["loss_pair_coverage_frac"] == pytest.approx(1.0)
+    assert summary["loss_bucket_counts"] == {"loss_ge_1_5": 1, "loss_lt_1_0": 1}
+    assert summary["model_quality"]["A_s1"]["p_loss"] == pytest.approx(0.55)
+    assert summary["model_quality"]["A_s1"]["loss_bucket"] == "loss_lt_1_0"
+    assert summary["strata"][0]["stratum"] == "loss_ge_1_5__loss_lt_1_0"
+    assert summary["strata"][0]["matches"] == 2
+    assert summary["strata"][0]["score_rate_a"]["mean"] == pytest.approx(0.625)
+    assert sorted(summary["strata"][0]["eval_conditions"]) == ["E1", "E2"]
+
+
+def test_summarize_evaluator_quality_strata_flags_missing_quality():
+    ablation = load_ablation_module()
+    runs = [
+        {"id": "A_s1", "condition": "A", "seed": 1, "metrics": {}},
+    ]
+    eval_payload = {
+        "matches": [
+            {"eval_condition": "E1", "a_id": "A_s1", "b_id": "B_s1", "games": 4},
+        ]
+    }
+
+    summary = ablation.summarize_evaluator_quality_strata(runs, eval_payload)
+
+    assert summary["stratification_ready"] is False
+    assert summary["quality_proxy_pair_coverage_frac"] == pytest.approx(0.0)
+    assert summary["missing_model_ids"] == ["B_s1"]
+    assert summary["strata"][0]["stratum"] == "quality_unknown"
+
+
+def test_summarize_heldout_calibration_requires_all_model_metrics(tmp_path):
+    ablation = load_ablation_module()
+    runs = [
+        {"id": "A_s1", "model_path": "/tmp/a.pt"},
+        {"id": "B_s1", "model_path": "/tmp/b.pt"},
+    ]
+    (tmp_path / "evaluator_calibration.json").write_text(
+        json.dumps(
+            {
+                "models": {
+                    "A_s1": {
+                        "n_positions": 16,
+                        "policy_nll": 1.2,
+                        "value_mse": 0.3,
+                        "top1_acc": 0.5,
+                        "brier": 0.2,
+                    },
+                    "B_s1": {
+                        "n_positions": 0,
+                        "policy_nll": 1.5,
+                        "value_mse": 0.4,
+                        "top1_acc": 0.4,
+                        "brier": 0.3,
+                    },
+                }
+            }
+        ),
+        encoding="utf-8",
+    )
+
+    summary = ablation.summarize_heldout_calibration(tmp_path, runs)
+
+    assert summary["artifact_present"] is True
+    assert summary["calibration_ready"] is False
+    assert summary["covered_model_count"] == 1
+    assert summary["missing_model_ids"] == ["B_s1"]
+
+
+def test_evaluator_calibration_metrics_scores_policy_and_value():
+    calibration = load_evaluator_calibration_module()
+    from quartz.replay import ReplayExample, sparse_policy_from_dense
+
+    examples = [
+        ReplayExample(
+            state=np.zeros((2, 2), dtype=np.float32),
+            policy=sparse_policy_from_dense([1.0, 0.0, 0.0]),
+            value=0.5,
+        ),
+        ReplayExample(
+            state=np.ones((2, 2), dtype=np.float32),
+            policy=sparse_policy_from_dense([0.0, 1.0, 0.0]),
+            value=-0.5,
+        ),
+    ]
+
+    class FakeActor:
+        def predict(self, batch):
+            probs = []
+            values = []
+            for state in batch:
+                if float(np.mean(state)) < 0.5:
+                    probs.append([0.8, 0.1, 0.1])
+                    values.append(0.4)
+                else:
+                    probs.append([0.2, 0.7, 0.1])
+                    values.append(-0.25)
+            return np.asarray(probs, dtype=np.float32), np.asarray(values, dtype=np.float32)
+
+    metrics = calibration.calibration_metrics(FakeActor(), "cpu", examples, batch_size=2)
+
+    assert metrics["n_positions"] == 2
+    assert metrics["policy_nll"] == pytest.approx(-0.5 * (np.log(0.8) + np.log(0.7)))
+    assert metrics["value_mse"] == pytest.approx((0.01 + 0.0625) / 2.0)
+    assert metrics["top1_acc"] == pytest.approx(1.0)
+    assert metrics["brier"] == pytest.approx(0.10)
+
+
+def test_summarize_evaluation_protocol_detects_consistent_protocol():
+    ablation = load_ablation_module()
+    runs = [
+        {"id": "A_s1", "condition": "A", "seed": 1},
+        {"id": "B_s1", "condition": "B", "seed": 1},
+    ]
+    eval_payload = {
+        "runtime_contract": {"paired_seed_eval": True, "backend": "torch", "device": "cpu"},
+        "runtime_contract_hash": "abcd1234abcd1234",
+        "expected_eval_seeds": {"E1": 17, "E2": 17},
+        "expected_benchmark_safe": {"E1": True, "E2": True},
+        "matches": [
+            {
+                "eval_condition": "E1",
+                "a_id": "A_s1",
+                "b_id": "B_s1",
+                "games": 4,
+                "scored_games": 4,
+                "search_manifest_hash": "h1",
+                "runner_mode": "rust_eval_state_machine",
+            },
+            {
+                "eval_condition": "E2",
+                "a_id": "A_s1",
+                "b_id": "B_s1",
+                "games": 4,
+                "scored_games": 4,
+                "search_manifest_hash": "h2",
+                "runner_mode": "rust_eval_state_machine",
+            },
+        ],
+    }
+
+    summary = ablation.summarize_evaluation_protocol(runs, eval_payload)
+
+    assert summary["protocol_ready"] is True
+    assert summary["eval_seed_consistent"] is True
+    assert summary["game_count_consistent"] is True
+    assert summary["one_manifest_per_eval_condition"] is True
+    assert summary["complete_pair_eval_matrix"] is True
+    assert summary["pair_id_coverage_frac"] == pytest.approx(1.0)
+    assert summary["search_manifest_hash_coverage_frac"] == pytest.approx(1.0)
+    assert summary["pair_eval_condition_coverage"] == {"A_s1||B_s1": ["E1", "E2"]}
+
+
+def test_summarize_evaluation_protocol_flags_protocol_drift():
+    ablation = load_ablation_module()
+    eval_payload = {
+        "runtime_contract": {"backend": "torch", "device": "cpu"},
+        "runtime_contract_hash": "abcd1234abcd1234",
+        "expected_eval_seeds": {"E1": 17, "E2": 19},
+        "expected_benchmark_safe": {"E1": True, "E2": True},
+        "matches": [
+            {
+                "eval_condition": "E1",
+                "a_id": "A_s1",
+                "b_id": "B_s1",
+                "games": 4,
+                "search_manifest_hash": "h1",
+                "runner_mode": "rust_eval_state_machine",
+            },
+            {
+                "eval_condition": "E1",
+                "a_id": "A_s2",
+                "b_id": "B_s2",
+                "games": 8,
+                "search_manifest_hash": "h2",
+                "runner_mode": "rust_eval_state_machine",
+            },
+            {
+                "eval_condition": "E2",
+                "a_id": "A_s1",
+                "b_id": "B_s1",
+                "games": 4,
+                "search_manifest_hash": "h3",
+                "runner_mode": "rust_eval_state_machine",
+            },
+        ],
+    }
+
+    summary = ablation.summarize_evaluation_protocol([], eval_payload)
+
+    assert summary["protocol_ready"] is False
+    assert summary["eval_seed_consistent"] is False
+    assert summary["game_count_consistent"] is False
+    assert summary["one_manifest_per_eval_condition"] is False
+    assert summary["complete_pair_eval_matrix"] is False
+
+
+def test_summarize_budget_fairness_groups_realized_budget_trace():
+    ablation = load_ablation_module()
+    eval_payload = {
+        "matches": [
+            {
+                "eval_condition": "E1",
+                "games": 2,
+                "realized_budget_trace": {
+                    "games": 2,
+                    "moves": 4,
+                    "root_visits": {"samples": [8, 10, 12, 10], "mean": 10.0, "max": 12.0},
+                    "halt_reason_hist": {"BudgetExhausted": 4},
+                    "benchmark_safe_frac": 1.0,
+                },
+            },
+            {
+                "eval_condition": "E2",
+                "games": 2,
+                "realized_budget_trace": {
+                    "games": 2,
+                    "moves": 4,
+                    "root_visits": {"samples": [20, 20, 20, 20], "mean": 20.0, "max": 20.0},
+                    "halt_reason_hist": {"Converged": 4},
+                    "benchmark_safe_frac": 1.0,
+                },
+            },
+        ]
+    }
+
+    summary = ablation.summarize_budget_fairness(eval_payload)
+
+    assert summary["budget_trace_coverage_frac"] == pytest.approx(1.0)
+    assert summary["budget_fairness_flag"] == "drift"
+    assert summary["root_visit_mean_relative_spread"] == pytest.approx(0.5)
+    e1 = summary["conditions"][0]
+    assert e1["eval_condition"] == "E1"
+    assert e1["root_visits"]["mean"] == pytest.approx(10.0)
+    assert e1["root_visits"]["sample_count"] == 4
+    assert e1["halt_reason_hist"]["BudgetExhausted"] == 4
+
+
+def test_summarize_seed_protocol_detects_unpaired_seed_sets():
+    ablation = load_ablation_module()
+    runs = [
+        {"id": "A_s1", "condition": "A", "seed": 1},
+        {"id": "A_s2", "condition": "A", "seed": 2},
+        {"id": "A_s3", "condition": "A", "seed": 3},
+        {"id": "B_s2", "condition": "B", "seed": 2},
+        {"id": "B_s3", "condition": "B", "seed": 3},
+        {"id": "B_s4", "condition": "B", "seed": 4},
+    ]
+    eval_payload = {
+        "runtime_contract": {"paired_seed_eval": True},
+        "matches": [
+            {"a_id": "A_s2", "b_id": "B_s2"},
+            {"a_id": "A_s3", "b_id": "B_s4"},
+        ],
+    }
+
+    summary = ablation.summarize_seed_protocol(runs, eval_payload)
+
+    assert summary["min_seed_count"] == 3
+    assert summary["common_seeds"] == [2, 3]
+    assert summary["common_seed_count"] == 2
+    assert summary["seed_sets_aligned"] is False
+    assert summary["paired_seed_claim_ready"] is False
+    assert summary["eval_pairs"]["same_seed_pair_frac"] == pytest.approx(0.5)
+
+
+def test_summarize_hardware_runtime_downgrades_without_profiler(tmp_path):
+    ablation = load_ablation_module()
+    run_dir = tmp_path / "models" / "C1"
+    run_dir.mkdir(parents=True)
+    runs = [
+        {
+            "id": "C1",
+            "run_dir": str(run_dir),
+            "train_contract": {
+                "runtime_contract": {"backend": "torch", "device": "cuda"},
+            },
+        }
+    ]
+    pipeline_summary = {
+        "aggregate": {
+            "row_count": 1,
+            "pos_per_s": {"mean": 12.5},
+            "freshness": {"mean": 0.4},
+            "worker_rolling_positions_per_s": {"mean": None},
+            "inference_eval_items": 0,
+            "inference_model_calls": 0,
+        }
+    }
+
+    summary = ablation.summarize_hardware_runtime(tmp_path, runs, {}, pipeline_summary)
+
+    assert summary["requested_backends"] == ["torch"]
+    assert summary["requested_devices"] == ["cuda"]
+    assert summary["profiler_artifact_present"] is False
+    assert summary["hardware_performance_claims_allowed"] is False
+    assert summary["claim_scope"] == "runtime_telemetry_only"
+
+
+def test_summarize_hardware_runtime_detects_profiler_artifact(tmp_path):
+    ablation = load_ablation_module()
+    (tmp_path / "throughput_profile.json").write_text("{}", encoding="utf-8")
+
+    summary = ablation.summarize_hardware_runtime(tmp_path, [], {}, {"aggregate": {}})
+
+    assert summary["profiler_artifact_present"] is True
+    assert summary["hardware_performance_claims_allowed"] is True
+    assert summary["claim_scope"] == "hardware_profiled"
+    assert summary["profiler_artifacts"] == ["throughput_profile.json"]
+
+
+def test_summarize_pipeline_telemetry_reads_train_logs(tmp_path):
+    ablation = load_ablation_module()
+    run_dir = tmp_path / "models" / "C1" / "s41"
+    run_dir.mkdir(parents=True)
+    (run_dir / "train_log.jsonl").write_text(
+        "\n".join(
+            [
+                json.dumps(
+                    {
+                        "iter": 1,
+                        "replay_freshness": 0.25,
+                        "pos_per_s": 12.0,
+                        "new_pos": 32,
+                        "train_steps": 2,
+                        "selfplay_telemetry": {
+                            "last_progress_age_s": 0.4,
+                            "rolling_positions_per_s": 40.0,
+                            "backpressure_waits": 1,
+                            "inference": {
+                                "eval_items": 96,
+                                "eval_messages": 12,
+                                "model_calls": 8,
+                            },
+                        },
+                    }
+                ),
+                json.dumps(
+                    {
+                        "iter": 2,
+                        "replay_freshness": 0.5,
+                        "pos_per_s": 16.0,
+                        "new_pos": 48,
+                        "train_steps": 3,
+                        "selfplay_telemetry": {
+                            "last_progress_age_s": 0.2,
+                            "rolling_positions_per_s": 44.0,
+                            "backpressure_waits": 2,
+                            "inference": {
+                                "eval_items": 120,
+                                "eval_messages": 15,
+                                "model_calls": 10,
+                            },
+                        },
+                    }
+                ),
+            ]
+        )
+        + "\n",
+        encoding="utf-8",
+    )
+    runs = [
+        {
+            "id": "C1_s41",
+            "condition": "C1",
+            "seed": 41,
+            "run_dir": str(run_dir),
+            "train_contract": {"concurrent": True},
+        }
+    ]
+
+    summary = ablation.summarize_pipeline_telemetry(runs)
+
+    agg = summary["aggregate"]
+    assert agg["row_count"] == 2
+    assert agg["freshness_coverage_frac"] == pytest.approx(1.0)
+    assert agg["throughput_coverage_frac"] == pytest.approx(1.0)
+    assert agg["worker_telemetry_coverage_frac"] == pytest.approx(1.0)
+    assert agg["freshness"]["mean"] == pytest.approx(0.375)
+    assert agg["pos_per_s"]["mean"] == pytest.approx(14.0)
+    assert agg["selfplay_queue_latency_s"]["max"] == pytest.approx(0.4)
+    assert agg["inference_eval_items"] == 216
+    assert agg["inference_model_calls"] == 18
 
 
 def test_build_gomocup_manifest_captures_search_and_selection_metadata():

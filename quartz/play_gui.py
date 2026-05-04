@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 import threading
 import urllib.parse
@@ -128,6 +129,17 @@ def infer_game_from_model_dir(path: Path) -> str | None:
     return game if game in GAME_CONFIGS else None
 
 
+def checkpoint_digest(path: Path, limit: int = 16) -> str | None:
+    try:
+        h = hashlib.sha256()
+        with path.open("rb") as handle:
+            for chunk in iter(lambda: handle.read(1024 * 1024), b""):
+                h.update(chunk)
+        return h.hexdigest()[:limit]
+    except OSError:
+        return None
+
+
 def discover_models(models_dir: Path) -> list[dict[str, Any]]:
     if not models_dir.exists():
         return []
@@ -141,6 +153,13 @@ def discover_models(models_dir: Path) -> list[dict[str, Any]]:
         for kind, filename in (("best", "best.pt"), ("latest", "latest.pt")):
             model_path = child / filename
             if model_path.exists():
+                status_path = child / "checkpoint_status.json"
+                status = {}
+                if status_path.exists():
+                    try:
+                        status = json.loads(status_path.read_text(encoding="utf-8"))
+                    except Exception:
+                        status = {}
                 entries.append(
                     {
                         "id": f"{game}:{kind}",
@@ -148,6 +167,10 @@ def discover_models(models_dir: Path) -> list[dict[str, Any]]:
                         "kind": kind,
                         "label": f"{game} {kind}",
                         "path": str(model_path.resolve()),
+                        "sha256": checkpoint_digest(model_path),
+                        "bytes": int(model_path.stat().st_size),
+                        "preferred": status.get("preferred_posttrain_checkpoint") == filename,
+                        "promotionRecorded": bool(status.get("saw_promotion")),
                     }
                 )
     return entries
@@ -276,6 +299,7 @@ class GameSession:
         self.id = session_id
         self.game = game
         self.model_path = model_path
+        self.model_sha256 = checkpoint_digest(Path(model_path))
         self.human_side = human_side
         self.ai_side = -human_side
         self.cfg = cfg
@@ -286,6 +310,7 @@ class GameSession:
         self.snapshots: list[dict[str, Any]] = []
         self.search_client = NNSearchClient(self.model, self.cfg, self.device, self.rust_binary)
         self.rust_control = RustControlClient(self.rust_binary) if is_chess_game(game) else None
+        self.last_search: dict[str, Any] = {}
         self.state = None
         self.fen = ""
         self.chess_info: dict[str, Any] = {}
@@ -423,6 +448,11 @@ class GameSession:
         if is_chess_game(self.game):
             player = 1 if self.chess_info.get("side_to_move") == "w" else -1
             result = self.search_client.search_move(None, player, fen=self.fen)
+            self.last_search = {
+                "searchManifest": result.get("search_manifest") or {},
+                "realizedBudget": result.get("realized_budget") or {},
+                "controllerSummary": result.get("controller_summary") or {},
+            }
             move_uci = result.get("best_move_uci", "")
             next_fen = result.get("result_fen", "")
             if not move_uci or not next_fen:
@@ -442,6 +472,11 @@ class GameSession:
             player,
             state_meta=build_rust_state_meta(self.game, self.state, self.cfg),
         )
+        self.last_search = {
+            "searchManifest": result.get("search_manifest") or {},
+            "realizedBudget": result.get("realized_budget") or {},
+            "controllerSummary": result.get("controller_summary") or {},
+        }
         if "best_move" not in result:
             raise ValueError("AI search returned no move")
         action = int(result["best_move"])
@@ -465,6 +500,7 @@ class GameSession:
             "sessionId": self.id,
             "game": self.game,
             "modelPath": self.model_path,
+            "modelSha256": self.model_sha256,
             "boardSize": self.cfg["board"],
             "humanSide": side_name(self.game, self.human_side),
             "aiSide": side_name(self.game, self.ai_side),
@@ -475,6 +511,7 @@ class GameSession:
             "resultLabel": self.result_label(),
             "moveHistory": self.move_history,
             "searchIterations": self.cfg["iters"],
+            "lastSearch": self.last_search,
         }
         if is_chess_game(self.game):
             base.update(

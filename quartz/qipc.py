@@ -350,8 +350,8 @@ def stall_trace(event, path_fn=None, **fields):
     try:
         with open(path, "a", encoding="utf-8") as f:
             f.write(json.dumps(record, ensure_ascii=True) + "\n")
-    except Exception:
-        pass
+    except Exception as exc:
+        log.warning("failed to write QUARTZ stall trace %s: %s", path, exc)
 
 
 def launch_rust_server(
@@ -821,11 +821,11 @@ def pack_qipc_batch_eval_resp(policies, values):
 _SEARCH_RESP_SINGLE = 1
 _SEARCH_RESP_MULTI = 2
 _SEARCH_RESP_SESSION = 3
-_ARENA_EVAL_RESP_VERSION = 1
+_ARENA_EVAL_RESP_VERSION = 2
 _ARENA_OUTCOME_DRAW = 0
 _ARENA_OUTCOME_BLACK_WIN = 1
 _ARENA_OUTCOME_WHITE_WIN = 2
-_ARENA_EVAL_REQ_VERSION = 2
+_ARENA_EVAL_REQ_VERSION = 3
 _ARENA_STATE_BOARD = 0
 _ARENA_STATE_GO = 1
 _ARENA_STATE_CHESS = 2
@@ -984,7 +984,7 @@ def unpack_qipc_arena_eval_resp(payload):
     if len(payload) < 14:
         raise ValueError("short arena eval response payload")
     version = payload[0]
-    if version != _ARENA_EVAL_RESP_VERSION:
+    if version not in (1, _ARENA_EVAL_RESP_VERSION):
         raise ValueError(f"unsupported arena eval response version: {version}")
     valid_eval = bool(payload[1])
     completed_games, duration_ms = struct.unpack_from("<Id", payload, 2)
@@ -1024,6 +1024,10 @@ def unpack_qipc_arena_eval_resp(payload):
             offset += 4
             opening.append(int(move_idx))
         error, offset = _unpack_search_string(payload, offset)
+        search_summary = {}
+        if version >= 2:
+            search_summary_raw, offset = _unpack_search_string(payload, offset)
+            search_summary = _decode_search_json_string(search_summary_raw)
         if outcome_code == _ARENA_OUTCOME_BLACK_WIN:
             outcome = "black_win"
         elif outcome_code == _ARENA_OUTCOME_WHITE_WIN:
@@ -1043,6 +1047,7 @@ def unpack_qipc_arena_eval_resp(payload):
                 "seed": None if seed_raw == 0xFFFFFFFFFFFFFFFF else int(seed_raw),
                 "error": error or None,
                 "is_void": bool(is_void),
+                "search_summary": search_summary,
             }
         )
     if offset != len(payload):
@@ -1080,13 +1085,13 @@ def pack_qipc_arena_eval_req(game, search_options, sessions, *, iters, max_moves
         int(opt_get("n_threads", 1) or 1),
         int(opt_get("batch_size", 8) or 8),
         int(opt_get("batch_timeout_us", 1500) or 1500),
-        float(opt_get("hbar_penalty_cap", 0.3) or 0.3),
-        float(opt_get("sigma_0", 0.3) or 0.3),
+        float(0.3 if opt_get("hbar_penalty_cap", 0.3) is None else opt_get("hbar_penalty_cap", 0.3)),
+        float(0.3 if opt_get("sigma_0", 0.3) is None else opt_get("sigma_0", 0.3)),
         int(opt_get("min_visits", 50) or 50),
         int(opt_get("check_interval", 100) or 100),
-        float(opt_get("prior_refresh_rate", 0.0) or 0.0),
-        float(opt_get("prior_refresh_temp", 1.0) or 1.0),
-        float(opt_get("c_puct", 0.0) or 0.0),
+        float(0.0 if opt_get("prior_refresh_rate", 0.0) is None else opt_get("prior_refresh_rate", 0.0)),
+        float(1.0 if opt_get("prior_refresh_temp", 1.0) is None else opt_get("prior_refresh_temp", 1.0)),
+        float(0.0 if opt_get("c_puct", 0.0) is None else opt_get("c_puct", 0.0)),
     ))
 
     if not opt_contains("root_only_shaping"):
@@ -1102,6 +1107,8 @@ def pack_qipc_arena_eval_req(game, search_options, sessions, *, iters, max_moves
         extend(_ARENA_REQ_OPT_U64_ZERO)
     else:
         extend(_ARENA_REQ_OPT_U64.pack(1, int(seed_val or 0)))
+    hm_b = str(opt_get("halt_mode", "") or "").encode("utf-8")
+    extend(_ARENA_REQ_LEN_U32.pack(len(hm_b))); extend(hm_b)
 
     extend(_ARENA_REQ_ITERS_MAX.pack(int(iters), int(max_moves)))
 

@@ -36,6 +36,13 @@ pub trait GameState: Clone + Send + Sync + 'static {
     /// 현재 상태에서 합법 착수 목록
     fn legal_moves(&self) -> Vec<Self::Move>;
 
+    /// Uniform policy/value evaluation for the current legal moves. The
+    /// default uses `legal_moves()`, while hot games can override this to
+    /// fill the policy directly and avoid an intermediate legal-move Vec.
+    fn uniform_eval(&self, value: f32) -> EvalResult<Self::Move> {
+        EvalResult::uniform(&self.legal_moves(), value)
+    }
+
     /// 착수를 적용해 새 상태 반환 (pure function, self 불변)
     fn apply_move(&self, mv: Self::Move) -> Self;
 
@@ -44,10 +51,36 @@ pub trait GameState: Clone + Send + Sync + 'static {
     /// edge materialization) use this to avoid full state clones.
     fn apply_move_in_place(&mut self, mv: Self::Move) -> Self::Undo;
 
+    /// Apply a move destructively when the caller will never need to undo it.
+    /// Selection descent uses this path because it only advances toward the
+    /// leaf state. Games with large `Undo` payloads can override this to avoid
+    /// constructing reverse state that would be dropped immediately.
+    fn apply_move_in_place_no_undo(&mut self, mv: Self::Move) {
+        let undo = self.apply_move_in_place(mv);
+        drop(undo);
+    }
+
     /// Reverse a prior `apply_move_in_place`. After this call, the receiver
     /// must equal the state observed before the matched apply, including
     /// hash and any auxiliary fields.
     fn undo_move(&mut self, undo: Self::Undo);
+
+    /// Whether MCTS should reuse one mutable state per worker during
+    /// synchronous selection. Games should return true only when `Undo` is a
+    /// compact delta. If `Undo = Self` or otherwise stores a full board/state
+    /// snapshot, the clone-free select path is usually slower and more memory
+    /// hungry than the default clone-and-descend path.
+    fn uses_reusable_select_scratch() -> bool {
+        false
+    }
+
+    /// Whether expansion may skip re-sorting an evaluator policy that is
+    /// already non-increasing after prior clamping. Keep this false unless
+    /// the resulting move-order semantics and performance have both been
+    /// measured for the game.
+    fn can_skip_sorted_policy_resort() -> bool {
+        false
+    }
 
     /// 게임 종료 여부
     fn is_terminal(&self) -> bool;

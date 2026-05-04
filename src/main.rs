@@ -9,6 +9,8 @@ mod games;
 #[allow(dead_code, unused_imports, unused_variables)]
 mod logger;
 mod mcts;
+#[cfg(test)]
+mod profile_all_games;
 mod simd_utils;
 
 use std::sync::Arc;

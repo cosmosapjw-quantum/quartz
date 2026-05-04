@@ -113,7 +113,12 @@ pub struct ParallelTelemetry {
     total_selects: CacheLined<AtomicU32>,
     dup_leaf_count: CacheLined<AtomicU32>, // times a leaf was already pending
     max_pending: CacheLined<AtomicU32>,    // peak pending leaves across all nodes
-    vvalue_sum: CacheLined<AtomicU64>,     // sum of applied vvalues (f64 bits)
+    /// Sum of applied vvalues in micro-units.
+    ///
+    /// This is telemetry, not a search-state variable. Using integer
+    /// accumulation turns the former f64 CAS loop into one fetch_add on the
+    /// hot path while preserving sub-ppm reporting precision for dashboards.
+    vvalue_sum_micro: CacheLined<AtomicU64>,
 }
 
 impl ParallelTelemetry {
@@ -122,13 +127,16 @@ impl ParallelTelemetry {
             total_selects: CacheLined(AtomicU32::new(0)),
             dup_leaf_count: CacheLined(AtomicU32::new(0)),
             max_pending: CacheLined(AtomicU32::new(0)),
-            vvalue_sum: CacheLined(AtomicU64::new(0)),
+            vvalue_sum_micro: CacheLined(AtomicU64::new(0)),
         }
     }
 
     #[inline(always)]
     pub fn record_select(&self, pending_at_node: u32) {
         self.total_selects.fetch_add(1, Ordering::Relaxed);
+        if pending_at_node == 0 {
+            return;
+        }
         let mut prev = self.max_pending.load(Ordering::Relaxed);
         while pending_at_node > prev {
             match self.max_pending.compare_exchange_weak(
@@ -150,27 +158,15 @@ impl ParallelTelemetry {
 
     #[inline(always)]
     pub fn record_vvalue(&self, v: f32) {
-        let mut old_bits = self.vvalue_sum.load(Ordering::Relaxed);
-        loop {
-            let old = f64::from_bits(old_bits);
-            let new_bits = (old + v as f64).to_bits();
-            match self.vvalue_sum.compare_exchange_weak(
-                old_bits,
-                new_bits,
-                Ordering::Relaxed,
-                Ordering::Relaxed,
-            ) {
-                Ok(_) => break,
-                Err(cur) => old_bits = cur,
-            }
-        }
+        self.vvalue_sum_micro
+            .fetch_add(float_to_micro(v), Ordering::Relaxed);
     }
 
     pub fn reset(&self) {
         self.total_selects.store(0, Ordering::Relaxed);
         self.dup_leaf_count.store(0, Ordering::Relaxed);
         self.max_pending.store(0, Ordering::Relaxed);
-        self.vvalue_sum.store(0.0f64.to_bits(), Ordering::Relaxed);
+        self.vvalue_sum_micro.store(0, Ordering::Relaxed);
     }
 
     #[inline(always)]
@@ -194,13 +190,29 @@ impl ParallelTelemetry {
                 if t == 0 {
                     0.0
                 } else {
-                    let s = f64::from_bits(self.vvalue_sum.load(Ordering::Relaxed));
+                    let s = micro_to_float(self.vvalue_sum_micro.load(Ordering::Relaxed));
                     (s / t as f64) as f32
                 }
             },
             dup_rate: self.dup_rate(),
         }
     }
+}
+
+#[inline(always)]
+fn float_to_micro(v: f32) -> u64 {
+    if v.is_finite() {
+        (v.max(0.0) as f64 * 1_000_000.0)
+            .round()
+            .clamp(0.0, u64::MAX as f64) as u64
+    } else {
+        0
+    }
+}
+
+#[inline(always)]
+fn micro_to_float(v: u64) -> f64 {
+    v as f64 / 1_000_000.0
 }
 
 #[derive(Debug, Clone, Copy)]
@@ -212,6 +224,182 @@ pub struct TelemetrySnapshot {
     pub max_pending: u32,
     pub avg_vvalue: f32,
     pub dup_rate: f32,
+}
+
+// ───────────────────────────────────────────
+// § Auto Thread Policy
+// ───────────────────────────────────────────
+
+/// Search-thread policy for opt-in automatic thread selection.
+///
+/// This is intentionally separate from `VlMode`: thread count controls CPU
+/// scheduling, while VL controls duplicate-path avoidance inside shared-tree
+/// MCTS. Keeping them separate preserves existing ablation semantics for
+/// explicit `run_par(..., n_threads)` calls.
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub enum AutoThreadMode {
+    /// Maximize raw node throughput when the visit budget can absorb worker
+    /// overhead. This may tolerate higher duplicate-selection telemetry.
+    Throughput,
+    /// Conservative mode for search-quality or ablation runs. It caps tiny
+    /// action spaces more aggressively to avoid excessive virtual-loss churn.
+    Quality,
+}
+
+impl Default for AutoThreadMode {
+    fn default() -> Self {
+        AutoThreadMode::Throughput
+    }
+}
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub struct AutoThreadPolicy {
+    pub mode: AutoThreadMode,
+    /// Optional caller cap. `None` means the host's available parallelism.
+    pub max_threads: Option<usize>,
+}
+
+impl AutoThreadPolicy {
+    pub const fn throughput() -> Self {
+        Self {
+            mode: AutoThreadMode::Throughput,
+            max_threads: None,
+        }
+    }
+
+    pub const fn quality() -> Self {
+        Self {
+            mode: AutoThreadMode::Quality,
+            max_threads: None,
+        }
+    }
+
+    pub const fn with_max_threads(mut self, max_threads: usize) -> Self {
+        self.max_threads = Some(max_threads);
+        self
+    }
+}
+
+impl Default for AutoThreadPolicy {
+    fn default() -> Self {
+        AutoThreadPolicy::throughput()
+    }
+}
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub enum AutoThreadReason {
+    SingleHostThread,
+    TrivialSearch,
+    TinyBudget,
+    BudgetLimited,
+    QualityLowBranchingCap,
+    ThroughputHostCap,
+}
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub struct AutoThreadInput {
+    pub host_threads: usize,
+    /// Remaining visit budget, not absolute root visits. `None` means the
+    /// controller has no exact fixed-visit hint.
+    pub remaining_visits: Option<u32>,
+    pub root_legal_count: usize,
+    pub pw_enabled: bool,
+    pub reusable_select_scratch: bool,
+}
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub struct AutoThreadDecision {
+    pub threads: usize,
+    pub host_threads: usize,
+    pub requested_cap: usize,
+    pub remaining_visits: Option<u32>,
+    pub root_legal_count: usize,
+    pub reason: AutoThreadReason,
+}
+
+pub fn available_search_threads() -> usize {
+    std::thread::available_parallelism()
+        .map(|n| n.get())
+        .unwrap_or(1)
+        .max(1)
+}
+
+pub fn recommend_auto_threads(
+    input: AutoThreadInput,
+    policy: AutoThreadPolicy,
+) -> AutoThreadDecision {
+    let host_threads = input.host_threads.max(1);
+    let requested_cap = policy
+        .max_threads
+        .unwrap_or(host_threads)
+        .max(1)
+        .min(host_threads);
+    let legal = input.root_legal_count.max(1);
+    let remaining = input.remaining_visits.map(|v| v as usize);
+
+    let make = |threads: usize, reason: AutoThreadReason| AutoThreadDecision {
+        threads: threads.max(1).min(requested_cap),
+        host_threads,
+        requested_cap,
+        remaining_visits: input.remaining_visits,
+        root_legal_count: input.root_legal_count,
+        reason,
+    };
+
+    if requested_cap <= 1 {
+        return make(1, AutoThreadReason::SingleHostThread);
+    }
+    if legal <= 1 || matches!(remaining, Some(0 | 1)) {
+        return make(1, AutoThreadReason::TrivialSearch);
+    }
+
+    if let Some(visits) = remaining {
+        if visits < 128 {
+            return make(1, AutoThreadReason::TinyBudget);
+        }
+        if visits < 512 {
+            return make(2, AutoThreadReason::TinyBudget);
+        }
+    }
+
+    let visits_per_thread = match policy.mode {
+        AutoThreadMode::Throughput => 64,
+        AutoThreadMode::Quality => 384,
+    };
+    let mut threads = requested_cap;
+    let mut reason = AutoThreadReason::ThroughputHostCap;
+    if let Some(visits) = remaining {
+        let budget_cap = (visits / visits_per_thread).max(1);
+        if budget_cap < threads {
+            threads = budget_cap;
+            reason = AutoThreadReason::BudgetLimited;
+        }
+    }
+
+    if policy.mode == AutoThreadMode::Quality {
+        let low_branch_cap = if legal <= 16 {
+            4
+        } else if legal <= 32 {
+            8
+        } else if !input.pw_enabled && legal <= 64 {
+            // Full materialization plus modest branching is the pattern that
+            // produced the highest TT/materialization pressure in profiling.
+            requested_cap.saturating_div(2).max(4)
+        } else {
+            requested_cap
+        };
+        if low_branch_cap < threads {
+            threads = low_branch_cap;
+            reason = AutoThreadReason::QualityLowBranchingCap;
+        }
+
+        if !input.reusable_select_scratch && legal <= 32 && threads > 8 {
+            threads = 8;
+            reason = AutoThreadReason::QualityLowBranchingCap;
+        }
+    }
+
+    make(threads, reason)
 }
 
 // ───────────────────────────────────────────
@@ -251,6 +439,26 @@ impl ParallelismController {
     /// Update thread count (e.g., when switching between single and parallel search).
     pub fn set_n_threads(&self, n: u32) {
         self.n_threads.store(n.max(1), Ordering::Relaxed);
+    }
+
+    /// Whether ordinary `iterate()` calls need virtual-loss reservations.
+    ///
+    /// Serial search has no competing worker observing pending edges, so VL
+    /// only adds atomic traffic. Batched async selection forces reservation at
+    /// its call site because multiple prepared leaves can be pending even on a
+    /// single OS thread.
+    #[inline(always)]
+    pub fn should_reserve_virtual_loss(&self) -> bool {
+        self.mode != VlMode::Disabled && self.n_threads.load(Ordering::Relaxed) > 1
+    }
+
+    /// Whether selection must read virtual-value pessimism even when an edge
+    /// has no virtual-visit reservation. This is true only for the explicit
+    /// `VvalueOnly` ablation; production Adaptive/Fixed modes publish vvalue
+    /// together with vvisit, so `o_a == 0` is enough to skip that atomic load.
+    #[inline(always)]
+    pub fn can_publish_vvalue_without_vvisit(&self) -> bool {
+        self.mode == VlMode::VvalueOnly
     }
 
     /// One-way read from QUARTZ: update σ_Q and root_entropy.
@@ -300,8 +508,7 @@ impl ParallelismController {
             1.0
         } else {
             let mp = self.telemetry.max_pending.load(Ordering::Relaxed) as f32;
-            let contention =
-                (mp / self.n_threads.load(Ordering::Relaxed).max(1) as f32).min(2.0);
+            let contention = (mp / self.n_threads.load(Ordering::Relaxed).max(1) as f32).min(2.0);
             1.0 + dr * (1.0 + contention)
         };
         (sigma * depth_decay * entropy_factor * amplifier).max(0.01)
@@ -374,6 +581,52 @@ mod tests {
             vvisit: if include_vvisit { 1.0 } else { 0.0 },
             vvalue,
         }
+    }
+
+    fn thread_input(visits: u32, legal: usize) -> AutoThreadInput {
+        AutoThreadInput {
+            host_threads: 24,
+            remaining_visits: Some(visits),
+            root_legal_count: legal,
+            pw_enabled: true,
+            reusable_select_scratch: false,
+        }
+    }
+
+    #[test]
+    fn test_auto_threads_throughput_uses_host_when_budget_allows() {
+        let decision =
+            recommend_auto_threads(thread_input(80_000, 82), AutoThreadPolicy::throughput());
+        assert_eq!(decision.threads, 24);
+        assert_eq!(decision.reason, AutoThreadReason::ThroughputHostCap);
+    }
+
+    #[test]
+    fn test_auto_threads_caps_tiny_budgets() {
+        let one = recommend_auto_threads(thread_input(100, 225), AutoThreadPolicy::throughput());
+        let two = recommend_auto_threads(thread_input(256, 225), AutoThreadPolicy::throughput());
+        assert_eq!(one.threads, 1);
+        assert_eq!(one.reason, AutoThreadReason::TinyBudget);
+        assert_eq!(two.threads, 2);
+        assert_eq!(two.reason, AutoThreadReason::TinyBudget);
+    }
+
+    #[test]
+    fn test_auto_threads_quality_caps_low_branching() {
+        let decision =
+            recommend_auto_threads(thread_input(500_000, 9), AutoThreadPolicy::quality());
+        assert_eq!(decision.threads, 4);
+        assert_eq!(decision.reason, AutoThreadReason::QualityLowBranchingCap);
+    }
+
+    #[test]
+    fn test_auto_threads_respects_caller_cap() {
+        let decision = recommend_auto_threads(
+            thread_input(80_000, 82),
+            AutoThreadPolicy::throughput().with_max_threads(8),
+        );
+        assert_eq!(decision.threads, 8);
+        assert_eq!(decision.requested_cap, 8);
     }
 
     #[test]

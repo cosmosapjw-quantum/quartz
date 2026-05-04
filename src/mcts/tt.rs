@@ -2,12 +2,12 @@
 //!
 //! Phase 7 F (2026-04-26): per-bucket storage migrated from
 //! `HashMap<u64, ArenaRef<MctsNode<M>>>` to a fixed-size open-addressing
-//! slot array (`Box<[TtSlot<M>]>`, 1024 slots × 16 B = 16 KiB / bucket;
-//! initial cap=4096 measured at -16 % wall vs. C due to dTLB pressure
-//! from a 16 MiB pre-alloc — reduced to 1024 after profile-driven
-//! re-tuning, see commit-message numbers).
-//! Lookups linearly probe an 8-slot window starting from `(hash >> 8) &
-//! SLOT_MASK`. Misses on a full window evict the lowest-`n_total` slot
+//! slot array (`Box<[TtSlot<M>]>`). The current production geometry keeps
+//! the total slot budget at 256 K entries split across 256 lock stripes,
+//! so each bucket owns 1024 slots (16 KiB / bucket).
+//! Lookups linearly probe an 8-slot window starting from
+//! `(hash >> BUCKET_INDEX_BITS) & SLOT_MASK`. Misses on a full window
+//! evict the lowest-`n_total` slot
 //! in the window (matches the pre-Phase-7 HashMap eviction policy
 //! semantically — no body reclaim, the Bump retains the bytes until
 //! `TtBucket::Drop`).
@@ -19,13 +19,14 @@
 //! most 8 16-byte slots = 2 cache lines, with a single comparison per
 //! slot. Phase 7 plan target: get_or_create < 8 % Ir.
 //!
-//! 버킷 배분: hash & 0xFF (low byte). Slot start within bucket: bits
-//! 8..20 of hash. Different bits ensure low-bucket-collision hashes
-//! still spread within a bucket.
+//! 버킷 배분: low `BUCKET_INDEX_BITS` of the hash. Slot start within
+//! bucket: the next bits above the bucket index. Different bits ensure
+//! low-bucket-collision hashes still spread within a bucket.
 
 use crate::mcts::node::{ArenaRef, MctsEdge, MctsNode};
 use bumpalo::Bump;
 use parking_lot::RwLock;
+use smallvec::SmallVec;
 use std::ptr::NonNull;
 use std::sync::atomic::{AtomicU64, Ordering};
 
@@ -33,24 +34,37 @@ use std::sync::atomic::{AtomicU64, Ordering};
 // § 설정
 // ─────────────────────────────────────────────
 
-/// 버킷 수 — 2의 거듭제곱이면 % 연산이 & 연산으로 최적화됨
+/// Total open-addressing slots kept constant across geometry sweeps.
+/// 256 K slots x 16 B/slot = 4 MiB of slot metadata, before per-bucket
+/// bump chunks.
+const TOTAL_TT_SLOTS: usize = 256 * 1024;
+
+/// 버킷 수 — 2의 거듭제곱이면 % 연산이 & 연산으로 최적화됨.
+/// Phase 7 G (2026-05-03): a 512×512 geometry was benchmarked because
+/// hotpath telemetry showed TT write-lock wait dominating read-lock wait
+/// on parallel Gomoku15. It reduced TT wait, but did not produce a clear
+/// non-instrumented throughput win. Production therefore keeps the
+/// previous 256×1024 geometry and preserves the read/write split
+/// telemetry for future larger-budget comparisons.
 pub const NUM_BUCKETS: usize = 256;
 
-/// 버킷당 최대 엔트리 수. 초과 시 가장 적게 방문된 노드를 제거.
-/// Phase 7 F (2026-04-26): cap = 1024. Profile-driven: scenario A
-/// creates ~30 K unique nodes/search → ~120 nodes/bucket avg, so
-/// cap=1024 keeps ~88 % headroom while shrinking the per-TT slot
-/// pre-allocation to 256 buckets × 1024 × 16 B = 4 MiB (vs 16 MiB at
-/// cap=4096). Smaller working set reduces dTLB pressure on the
-/// linear-probe path. Cap is a power of two so `& SLOT_MASK` stays
-/// branch-free.
-pub(crate) const MAX_ENTRIES_PER_BUCKET: usize = 1024;
+/// Number of low hash bits consumed by the bucket index. Keep slot
+/// indexing on the next bits so bucket-local probe starts do not reuse
+/// the same entropy as the lock stripe.
+const BUCKET_INDEX_BITS: u32 = NUM_BUCKETS.trailing_zeros();
 
-/// Phase 7 F-prep (2026-04-26): per-slot record for the open-addressing
-/// TT landing in the next commit. **Currently unused.** The active TT
-/// implementation in this file is the `HashMap<u64, ArenaRef<...>>`
-/// path; this struct is declared now so the F commit can swap the
-/// storage layer without simultaneously introducing a new data shape.
+/// 버킷당 최대 엔트리 수. 초과 시 가장 적게 방문된 노드를 제거.
+/// Phase 7 G (2026-05-03): cap remains 1024 with 256 buckets after an
+/// inconclusive 512×512 geometry comparison. This preserves the Phase 7
+/// F total slot budget of 256 K entries and the measured per-bucket
+/// locality profile. Cap is a power of two so `& SLOT_MASK` stays
+/// branch-free.
+pub(crate) const MAX_ENTRIES_PER_BUCKET: usize = TOTAL_TT_SLOTS / NUM_BUCKETS;
+
+const _: () = assert!(NUM_BUCKETS.is_power_of_two());
+const _: () = assert!(MAX_ENTRIES_PER_BUCKET.is_power_of_two());
+
+/// Phase 7 F (2026-04-26): per-slot record for the open-addressing TT.
 ///
 /// Vacancy invariant (Phase 7 F semantics, sealed in next commit):
 ///   - `hash == 0 && node.is_none()` ↔ vacant slot.
@@ -66,8 +80,8 @@ pub(crate) const MAX_ENTRIES_PER_BUCKET: usize = 1024;
 ///   - `node: Option<ArenaRef<MctsNode<M>>>` — 8 bytes (niche-opt over
 ///     `NonNull<MctsNode<M>>`, so `None` == null pointer)
 /// Total: 16 bytes. With default alignment (8), four slots fit per
-/// 64-byte L1 line; the F commit's 8-slot probe window covers two
-/// adjacent cache lines.
+/// 64-byte L1 line; the 8-slot probe window covers two adjacent cache
+/// lines.
 #[derive(Clone, Copy)]
 pub(crate) struct TtSlot<M: Copy + Send + Sync + 'static> {
     pub hash: u64,
@@ -120,6 +134,25 @@ struct TtBucket<M: Copy + Send + Sync + 'static> {
     /// so `ArenaRef`s and `edges_ptr`s into it remain valid until the
     /// containing TT is dropped.
     arena: Bump,
+}
+
+#[repr(align(64))]
+struct TtBucketStats {
+    hits: AtomicU64,
+    misses: AtomicU64,
+    get_or_create_calls: AtomicU64,
+    get_calls: AtomicU64,
+}
+
+impl TtBucketStats {
+    fn new() -> Self {
+        Self {
+            hits: AtomicU64::new(0),
+            misses: AtomicU64::new(0),
+            get_or_create_calls: AtomicU64::new(0),
+            get_calls: AtomicU64::new(0),
+        }
+    }
 }
 
 // SAFETY (Phase 6.2 → Phase 7 F): `TtBucket` contains a `Bump` (!Sync)
@@ -250,13 +283,16 @@ pub struct TranspositionTable<M: Copy + Send + Sync + 'static> {
     /// `get_or_create` upgrades to a write lock for the alloc + insert.
     /// See the safety note on `TtBucket`'s `unsafe Sync` impl above.
     buckets: Vec<RwLock<TtBucket<M>>>,
-    // 통계 (로깅용)
-    pub hits: AtomicU64,
-    pub misses: AtomicU64,
-    pub get_or_create_calls: AtomicU64,
-    pub get_calls: AtomicU64,
+    /// Per-bucket counters avoid a single global atomic cache-line hotspot
+    /// during parallel search. `hit_rate()` and `contention_snapshot()` fold
+    /// these counters after the search, where O(NUM_BUCKETS) reads are cheap.
+    stats: Box<[TtBucketStats]>,
     pub lock_wait_nanos: AtomicU64,
     pub max_lock_wait_nanos: AtomicU64,
+    pub read_lock_wait_nanos: AtomicU64,
+    pub max_read_lock_wait_nanos: AtomicU64,
+    pub write_lock_wait_nanos: AtomicU64,
+    pub max_write_lock_wait_nanos: AtomicU64,
 }
 
 #[derive(Debug, Clone, Copy)]
@@ -265,6 +301,28 @@ pub struct TtContentionSnapshot {
     pub get_calls: u64,
     pub lock_wait_nanos: u64,
     pub max_lock_wait_nanos: u64,
+    pub read_lock_wait_nanos: u64,
+    pub max_read_lock_wait_nanos: u64,
+    pub write_lock_wait_nanos: u64,
+    pub max_write_lock_wait_nanos: u64,
+}
+
+#[derive(Debug, Clone, Copy)]
+pub struct TtLookup<M: Copy + Send + Sync + 'static> {
+    pub hash: u64,
+    pub terminal_value: Option<f32>,
+    pub node: Option<ArenaRef<MctsNode<M>>>,
+}
+
+impl<M: Copy + Send + Sync + 'static> TtLookup<M> {
+    #[inline]
+    pub fn new(hash: u64, terminal_value: Option<f32>) -> Self {
+        Self {
+            hash,
+            terminal_value,
+            node: None,
+        }
+    }
 }
 
 impl<M: Copy + Send + Sync + 'static> TranspositionTable<M> {
@@ -276,15 +334,20 @@ impl<M: Copy + Send + Sync + 'static> TranspositionTable<M> {
         let buckets = (0..NUM_BUCKETS)
             .map(|_| RwLock::new(TtBucket::new()))
             .collect();
+        let stats = (0..NUM_BUCKETS)
+            .map(|_| TtBucketStats::new())
+            .collect::<Vec<_>>()
+            .into_boxed_slice();
         TranspositionTable {
             enabled,
             buckets,
-            hits: AtomicU64::new(0),
-            misses: AtomicU64::new(0),
-            get_or_create_calls: AtomicU64::new(0),
-            get_calls: AtomicU64::new(0),
+            stats,
             lock_wait_nanos: AtomicU64::new(0),
             max_lock_wait_nanos: AtomicU64::new(0),
+            read_lock_wait_nanos: AtomicU64::new(0),
+            max_read_lock_wait_nanos: AtomicU64::new(0),
+            write_lock_wait_nanos: AtomicU64::new(0),
+            max_write_lock_wait_nanos: AtomicU64::new(0),
         }
     }
 
@@ -293,90 +356,44 @@ impl<M: Copy + Send + Sync + 'static> TranspositionTable<M> {
         (hash as usize) & (NUM_BUCKETS - 1)
     }
 
-    /// Phase 7 F (2026-04-26): slot start within a bucket. Uses bits
-    /// 8..20 of the hash so the bucket index (low 8 bits) and slot
-    /// index draw from disjoint regions of the Zobrist key.
+    /// Phase 7 F/G: slot start within a bucket. Uses the hash bits
+    /// immediately above the bucket index so lock stripe selection and
+    /// bucket-local probe starts draw from disjoint regions of the
+    /// Zobrist key.
     #[inline]
     fn slot_start(hash: u64) -> usize {
-        ((hash >> 8) as usize) & SLOT_MASK
+        ((hash >> BUCKET_INDEX_BITS) as usize) & SLOT_MASK
     }
 
-    /// 해시에 해당하는 노드를 조회.
-    /// 없으면 `terminal_value`로 새 노드를 생성하고 삽입.
-    /// 있으면 기존 노드 반환 (always-replace 충돌 정책 → 먼저 들어온 것 우선).
-    ///
-    /// Phase 7 F (2026-04-26): open-addressing replacement for the
-    /// pre-Phase-7 `HashMap` lookup. The fast path reads at most
-    /// `PROBE_WINDOW` (= 8) 16-byte slots within a single bucket,
-    /// terminating on either a hash match (HIT, return the slot's
-    /// `ArenaRef`) or a vacant slot (MISS — insertion path).
-    ///
-    /// Lock ladder unchanged from Phase 6.2: read lock for probe,
-    /// upgrade to write lock on miss. A second probe under write lock
-    /// double-checks for racing writers before alloc + insert.
-    pub fn get_or_create(&self, hash: u64, terminal_value: Option<f32>) -> ArenaRef<MctsNode<M>> {
-        if !self.enabled {
-            // Disabled TT: caller-owned ad-hoc node, leaked. This path is
-            // hit only when `tt_enabled = false` (a few test/ablation
-            // configs); leak per get_or_create is acceptable there.
-            return leak_node(hash, terminal_value);
-        }
-        let bucket_idx = Self::bucket_idx(hash);
-        self.get_or_create_calls.fetch_add(1, Ordering::Relaxed);
-        let slot_start = Self::slot_start(hash);
-
-        // Fast path: read lock + linear probe. Multiple threads can be
-        // in this branch simultaneously on the same bucket.
-        {
-            let t0 = crate::mcts::profiling::maybe_start_timer();
-            let bucket = self.buckets[bucket_idx].read();
-            if let Some(t0) = t0 {
-                self.record_lock_wait(t0.elapsed().as_nanos() as u64);
-            }
-            for offset in 0..PROBE_WINDOW {
-                let i = (slot_start + offset) & SLOT_MASK;
-                // SAFETY: `i & SLOT_MASK` is in [0, MAX_ENTRIES_PER_BUCKET);
-                // `bucket.slots.len() == MAX_ENTRIES_PER_BUCKET` (set in
-                // `TtBucket::new`).
-                let slot = unsafe { bucket.slots.get_unchecked(i) };
-                if slot.hash == hash {
-                    if let Some(node) = slot.node {
-                        self.hits.fetch_add(1, Ordering::Relaxed);
-                        return node;
-                    }
-                }
-                if slot.is_vacant() {
-                    // Linear probe terminates at the first vacant slot:
-                    // any subsequent slot with this hash would have been
-                    // placed here on insert (the `find_insertion_slot`
-                    // logic below picks the first vacant slot in the
-                    // window before considering eviction).
-                    break;
-                }
-            }
-        }
-
-        // Slow path: write lock + re-probe + alloc + insert.
-        let t1 = crate::mcts::profiling::maybe_start_timer();
-        let mut bucket = self.buckets[bucket_idx].write();
-        if let Some(t1) = t1 {
-            self.record_lock_wait(t1.elapsed().as_nanos() as u64);
-        }
-
-        // Re-probe under write lock to catch racing inserts.
+    #[inline(always)]
+    fn probe_locked(
+        bucket: &TtBucket<M>,
+        hash: u64,
+        slot_start: usize,
+    ) -> Option<ArenaRef<MctsNode<M>>> {
         for offset in 0..PROBE_WINDOW {
             let i = (slot_start + offset) & SLOT_MASK;
+            // SAFETY: `i & SLOT_MASK` is in [0, MAX_ENTRIES_PER_BUCKET);
+            // `bucket.slots.len() == MAX_ENTRIES_PER_BUCKET` by construction.
             let slot = unsafe { bucket.slots.get_unchecked(i) };
             if slot.hash == hash {
                 if let Some(node) = slot.node {
-                    self.hits.fetch_add(1, Ordering::Relaxed);
-                    return node;
+                    return Some(node);
                 }
             }
+            if slot.is_vacant() {
+                break;
+            }
         }
+        None
+    }
 
-        self.misses.fetch_add(1, Ordering::Relaxed);
-
+    fn insert_missing_locked(
+        bucket: &mut TtBucket<M>,
+        hash: u64,
+        terminal_value: Option<f32>,
+        slot_start: usize,
+    ) -> ArenaRef<MctsNode<M>> {
         // Find insertion slot: first vacant in window, else evict the
         // lowest-`n_total` slot. Eviction does NOT drop_in_place the
         // displaced body — outstanding `ArenaRef`s elsewhere in the
@@ -422,7 +439,7 @@ impl<M: Copy + Send + Sync + 'static> TranspositionTable<M> {
         let allocated: &mut MctsNode<M> = bucket.arena.alloc(body);
         let node = unsafe { ArenaRef::from_raw(NonNull::new_unchecked(allocated as *mut _)) };
 
-        // Publish the new entry. SAFETY: insert_idx ≤ SLOT_MASK <
+        // Publish the new entry. SAFETY: insert_idx <= SLOT_MASK <
         // bucket.slots.len(); we hold the write guard so no other
         // thread observes this slot mid-update.
         unsafe {
@@ -432,6 +449,156 @@ impl<M: Copy + Send + Sync + 'static> TranspositionTable<M> {
             };
         }
         node
+    }
+
+    /// 해시에 해당하는 노드를 조회.
+    /// 없으면 `terminal_value`로 새 노드를 생성하고 삽입.
+    /// 있으면 기존 노드 반환 (always-replace 충돌 정책 → 먼저 들어온 것 우선).
+    ///
+    /// Phase 7 F (2026-04-26): open-addressing replacement for the
+    /// pre-Phase-7 `HashMap` lookup. The fast path reads at most
+    /// `PROBE_WINDOW` (= 8) 16-byte slots within a single bucket,
+    /// terminating on either a hash match (HIT, return the slot's
+    /// `ArenaRef`) or a vacant slot (MISS — insertion path).
+    ///
+    /// Lock ladder unchanged from Phase 6.2: read lock for probe,
+    /// upgrade to write lock on miss. A second probe under write lock
+    /// double-checks for racing writers before alloc + insert.
+    pub fn get_or_create(&self, hash: u64, terminal_value: Option<f32>) -> ArenaRef<MctsNode<M>> {
+        if !self.enabled {
+            // Disabled TT: caller-owned ad-hoc node, leaked. This path is
+            // hit only when `tt_enabled = false` (a few test/ablation
+            // configs); leak per get_or_create is acceptable there.
+            return leak_node(hash, terminal_value);
+        }
+        let bucket_idx = Self::bucket_idx(hash);
+        let stats = &self.stats[bucket_idx];
+        stats.get_or_create_calls.fetch_add(1, Ordering::Relaxed);
+        let slot_start = Self::slot_start(hash);
+
+        // Fast path: read lock + linear probe. Multiple threads can be
+        // in this branch simultaneously on the same bucket.
+        {
+            let t0 = crate::mcts::profiling::maybe_start_timer();
+            let bucket = self.buckets[bucket_idx].read();
+            if let Some(t0) = t0 {
+                self.record_read_lock_wait(t0.elapsed().as_nanos() as u64);
+            }
+            if let Some(node) = Self::probe_locked(&bucket, hash, slot_start) {
+                stats.hits.fetch_add(1, Ordering::Relaxed);
+                return node;
+            }
+        }
+
+        // Slow path: write lock + re-probe + alloc + insert.
+        let t1 = crate::mcts::profiling::maybe_start_timer();
+        let mut bucket = self.buckets[bucket_idx].write();
+        if let Some(t1) = t1 {
+            self.record_write_lock_wait(t1.elapsed().as_nanos() as u64);
+        }
+
+        // Re-probe under write lock to catch racing inserts.
+        if let Some(node) = Self::probe_locked(&bucket, hash, slot_start) {
+            stats.hits.fetch_add(1, Ordering::Relaxed);
+            return node;
+        }
+
+        stats.misses.fetch_add(1, Ordering::Relaxed);
+        Self::insert_missing_locked(&mut bucket, hash, terminal_value, slot_start)
+    }
+
+    /// Resolve several child hashes while coalescing work by TT bucket.
+    ///
+    /// Small batches intentionally fall back to `get_or_create`: progressive
+    /// widening often materializes only one edge, where the grouping scan would
+    /// cost more than it saves. Larger batches preserve per-lookup hit/miss
+    /// accounting while reducing repeated read/write lock acquisitions on the
+    /// same bucket.
+    pub fn get_or_create_batch(&self, lookups: &mut [TtLookup<M>]) {
+        if lookups.is_empty() {
+            return;
+        }
+        if !self.enabled {
+            for lookup in lookups.iter_mut() {
+                if lookup.node.is_none() {
+                    lookup.node = Some(leak_node(lookup.hash, lookup.terminal_value));
+                }
+            }
+            return;
+        }
+        if lookups.len() < 4 {
+            for lookup in lookups.iter_mut() {
+                if lookup.node.is_none() {
+                    lookup.node = Some(self.get_or_create(lookup.hash, lookup.terminal_value));
+                }
+            }
+            return;
+        }
+
+        for i in 0..lookups.len() {
+            if lookups[i].node.is_some() {
+                continue;
+            }
+            let bucket_idx = Self::bucket_idx(lookups[i].hash);
+            let stats = &self.stats[bucket_idx];
+            let mut misses: SmallVec<[usize; 16]> = SmallVec::new();
+
+            {
+                let t0 = crate::mcts::profiling::maybe_start_timer();
+                let bucket = self.buckets[bucket_idx].read();
+                if let Some(t0) = t0 {
+                    self.record_read_lock_wait(t0.elapsed().as_nanos() as u64);
+                }
+
+                for j in i..lookups.len() {
+                    if lookups[j].node.is_some() || Self::bucket_idx(lookups[j].hash) != bucket_idx
+                    {
+                        continue;
+                    }
+
+                    stats.get_or_create_calls.fetch_add(1, Ordering::Relaxed);
+                    let hash = lookups[j].hash;
+                    let slot_start = Self::slot_start(hash);
+                    if let Some(node) = Self::probe_locked(&bucket, hash, slot_start) {
+                        stats.hits.fetch_add(1, Ordering::Relaxed);
+                        lookups[j].node = Some(node);
+                    } else {
+                        misses.push(j);
+                    }
+                }
+            }
+
+            if misses.is_empty() {
+                continue;
+            }
+
+            let t1 = crate::mcts::profiling::maybe_start_timer();
+            let mut bucket = self.buckets[bucket_idx].write();
+            if let Some(t1) = t1 {
+                self.record_write_lock_wait(t1.elapsed().as_nanos() as u64);
+            }
+
+            for j in misses {
+                if lookups[j].node.is_some() {
+                    continue;
+                }
+                let hash = lookups[j].hash;
+                let slot_start = Self::slot_start(hash);
+                let node = if let Some(node) = Self::probe_locked(&bucket, hash, slot_start) {
+                    stats.hits.fetch_add(1, Ordering::Relaxed);
+                    node
+                } else {
+                    stats.misses.fetch_add(1, Ordering::Relaxed);
+                    Self::insert_missing_locked(
+                        &mut bucket,
+                        hash,
+                        lookups[j].terminal_value,
+                        slot_start,
+                    )
+                };
+                lookups[j].node = Some(node);
+            }
+        }
     }
 
     /// Phase 7 C (2026-04-26): allocate (or look up) the per-node edge
@@ -480,7 +647,11 @@ impl<M: Copy + Send + Sync + 'static> TranspositionTable<M> {
         let idx = Self::bucket_idx(node.hash);
         // Slab alloc requires bucket write lock (per the unsafe Sync
         // discipline on TtBucket: only write guards may touch arena).
+        let t0 = crate::mcts::profiling::maybe_start_timer();
         let bucket = self.buckets[idx].write();
+        if let Some(t0) = t0 {
+            self.record_write_lock_wait(t0.elapsed().as_nanos() as u64);
+        }
 
         // Double-check after acquiring the write lock.
         let existing = node.edges_ptr.load(Ordering::Relaxed);
@@ -488,8 +659,8 @@ impl<M: Copy + Send + Sync + 'static> TranspositionTable<M> {
             return (existing as *mut MctsEdge<MM>, n_candidates as u32);
         }
 
-        let layout = std::alloc::Layout::array::<MctsEdge<MM>>(n_candidates)
-            .expect("MctsEdge slab layout");
+        let layout =
+            std::alloc::Layout::array::<MctsEdge<MM>>(n_candidates).expect("MctsEdge slab layout");
         // SAFETY: `Bump::alloc_layout` returns a `NonNull<u8>` with the
         // requested layout. The pointer is valid until the Bump drops
         // (the TT owns the bucket; the bucket owns the Bump).
@@ -561,12 +732,14 @@ impl<M: Copy + Send + Sync + 'static> TranspositionTable<M> {
             return None;
         }
         let bucket_idx = Self::bucket_idx(hash);
-        self.get_calls.fetch_add(1, Ordering::Relaxed);
+        self.stats[bucket_idx]
+            .get_calls
+            .fetch_add(1, Ordering::Relaxed);
         let slot_start = Self::slot_start(hash);
         let t0 = crate::mcts::profiling::maybe_start_timer();
         let bucket = self.buckets[bucket_idx].read();
         if let Some(t0) = t0 {
-            self.record_lock_wait(t0.elapsed().as_nanos() as u64);
+            self.record_read_lock_wait(t0.elapsed().as_nanos() as u64);
         }
         for offset in 0..PROBE_WINDOW {
             let i = (slot_start + offset) & SLOT_MASK;
@@ -585,9 +758,9 @@ impl<M: Copy + Send + Sync + 'static> TranspositionTable<M> {
         if !self.enabled {
             return 0;
         }
-        // Phase 7 F (2026-04-26): linear count of occupied slots per
-        // bucket. With 256 buckets × 1024 slots = 256 K slots, a full
-        // walk is ~1 M reads — only used for diagnostics, not hot path.
+        // Phase 7 F/G: linear count of occupied slots per bucket. With
+        // TOTAL_TT_SLOTS = 256 K, this is only used for diagnostics,
+        // not the hot path.
         self.buckets
             .iter()
             .map(|b| {
@@ -598,13 +771,42 @@ impl<M: Copy + Send + Sync + 'static> TranspositionTable<M> {
     }
 
     pub fn hit_rate(&self) -> f64 {
-        let h = self.hits.load(Ordering::Relaxed) as f64;
-        let m = self.misses.load(Ordering::Relaxed) as f64;
+        let (h, m) = self
+            .stats
+            .iter()
+            .fold((0_u64, 0_u64), |(hits, misses), bucket| {
+                (
+                    hits + bucket.hits.load(Ordering::Relaxed),
+                    misses + bucket.misses.load(Ordering::Relaxed),
+                )
+            });
+        let h = h as f64;
+        let m = m as f64;
         if h + m > 0.0 {
             h / (h + m)
         } else {
             0.0
         }
+    }
+
+    fn record_read_lock_wait(&self, wait_nanos: u64) {
+        self.record_lock_wait(wait_nanos);
+        if !crate::mcts::profiling::hot_path_metrics_enabled() {
+            return;
+        }
+        self.read_lock_wait_nanos
+            .fetch_add(wait_nanos, Ordering::Relaxed);
+        update_max_atomic(&self.max_read_lock_wait_nanos, wait_nanos);
+    }
+
+    fn record_write_lock_wait(&self, wait_nanos: u64) {
+        self.record_lock_wait(wait_nanos);
+        if !crate::mcts::profiling::hot_path_metrics_enabled() {
+            return;
+        }
+        self.write_lock_wait_nanos
+            .fetch_add(wait_nanos, Ordering::Relaxed);
+        update_max_atomic(&self.max_write_lock_wait_nanos, wait_nanos);
     }
 
     fn record_lock_wait(&self, wait_nanos: u64) {
@@ -613,26 +815,38 @@ impl<M: Copy + Send + Sync + 'static> TranspositionTable<M> {
         }
         self.lock_wait_nanos
             .fetch_add(wait_nanos, Ordering::Relaxed);
-        let mut prev = self.max_lock_wait_nanos.load(Ordering::Relaxed);
-        while wait_nanos > prev {
-            match self.max_lock_wait_nanos.compare_exchange(
-                prev,
-                wait_nanos,
-                Ordering::Relaxed,
-                Ordering::Relaxed,
-            ) {
-                Ok(_) => break,
-                Err(cur) => prev = cur,
-            }
-        }
+        update_max_atomic(&self.max_lock_wait_nanos, wait_nanos);
     }
 
     pub fn contention_snapshot(&self) -> TtContentionSnapshot {
+        let (get_or_create_calls, get_calls) =
+            self.stats
+                .iter()
+                .fold((0_u64, 0_u64), |(goc, get), bucket| {
+                    (
+                        goc + bucket.get_or_create_calls.load(Ordering::Relaxed),
+                        get + bucket.get_calls.load(Ordering::Relaxed),
+                    )
+                });
         TtContentionSnapshot {
-            get_or_create_calls: self.get_or_create_calls.load(Ordering::Relaxed),
-            get_calls: self.get_calls.load(Ordering::Relaxed),
+            get_or_create_calls,
+            get_calls,
             lock_wait_nanos: self.lock_wait_nanos.load(Ordering::Relaxed),
             max_lock_wait_nanos: self.max_lock_wait_nanos.load(Ordering::Relaxed),
+            read_lock_wait_nanos: self.read_lock_wait_nanos.load(Ordering::Relaxed),
+            max_read_lock_wait_nanos: self.max_read_lock_wait_nanos.load(Ordering::Relaxed),
+            write_lock_wait_nanos: self.write_lock_wait_nanos.load(Ordering::Relaxed),
+            max_write_lock_wait_nanos: self.max_write_lock_wait_nanos.load(Ordering::Relaxed),
+        }
+    }
+}
+
+fn update_max_atomic(max: &AtomicU64, value: u64) {
+    let mut prev = max.load(Ordering::Relaxed);
+    while value > prev {
+        match max.compare_exchange(prev, value, Ordering::Relaxed, Ordering::Relaxed) {
+            Ok(_) => break,
+            Err(cur) => prev = cur,
         }
     }
 }
@@ -645,8 +859,10 @@ impl<M: Copy + Send + Sync + 'static> Default for TranspositionTable<M> {
 
 #[cfg(test)]
 mod tests {
-    use super::TranspositionTable;
+    use super::{TranspositionTable, TtLookup, BUCKET_INDEX_BITS};
     use crate::mcts::node::ArenaRef;
+    use std::sync::{Arc, Barrier};
+    use std::thread;
 
     #[test]
     fn disabled_table_does_not_merge_or_store_nodes() {
@@ -668,9 +884,116 @@ mod tests {
 
         assert!(ArenaRef::ptr_eq(&a, &tt.get(0).unwrap()));
         assert!(ArenaRef::ptr_eq(&b, &tt.get(u64::MAX).unwrap()));
-        assert!(ArenaRef::ptr_eq(&c, &tt.get(0x0102_0304_0506_0708).unwrap()));
+        assert!(ArenaRef::ptr_eq(
+            &c,
+            &tt.get(0x0102_0304_0506_0708).unwrap()
+        ));
         assert!(!ArenaRef::ptr_eq(&a, &b));
         assert!(!ArenaRef::ptr_eq(&a, &c));
         assert!(!ArenaRef::ptr_eq(&b, &c));
+    }
+
+    #[test]
+    fn bucket_and_slot_indices_use_disjoint_hash_bits() {
+        let base = 0_u64;
+        let bucket_bit = 1_u64;
+        let slot_bit = 1_u64 << BUCKET_INDEX_BITS;
+
+        assert_ne!(
+            TranspositionTable::<usize>::bucket_idx(base),
+            TranspositionTable::<usize>::bucket_idx(base ^ bucket_bit)
+        );
+        assert_eq!(
+            TranspositionTable::<usize>::slot_start(base),
+            TranspositionTable::<usize>::slot_start(base ^ bucket_bit)
+        );
+
+        assert_eq!(
+            TranspositionTable::<usize>::bucket_idx(base),
+            TranspositionTable::<usize>::bucket_idx(base ^ slot_bit)
+        );
+        assert_ne!(
+            TranspositionTable::<usize>::slot_start(base),
+            TranspositionTable::<usize>::slot_start(base ^ slot_bit)
+        );
+    }
+
+    #[test]
+    fn batch_get_or_create_matches_sequential_duplicate_semantics() {
+        let tt = TranspositionTable::<usize>::new_enabled(true);
+        let mut lookups = [
+            TtLookup::new(0x101, None),
+            TtLookup::new(0x202, None),
+            TtLookup::new(0x101, Some(0.5)),
+            TtLookup::new(0x303, Some(-1.0)),
+        ];
+
+        tt.get_or_create_batch(&mut lookups);
+
+        let a = lookups[0].node.unwrap();
+        let b = lookups[1].node.unwrap();
+        let a_dup = lookups[2].node.unwrap();
+        let c = lookups[3].node.unwrap();
+
+        assert!(ArenaRef::ptr_eq(&a, &a_dup));
+        assert!(!ArenaRef::ptr_eq(&a, &b));
+        assert!(!ArenaRef::ptr_eq(&a, &c));
+        assert_eq!(tt.size(), 3);
+        assert!(ArenaRef::ptr_eq(&a, &tt.get(0x101).unwrap()));
+        assert!(ArenaRef::ptr_eq(&b, &tt.get(0x202).unwrap()));
+        assert!(ArenaRef::ptr_eq(&c, &tt.get(0x303).unwrap()));
+
+        let contention = tt.contention_snapshot();
+        assert_eq!(contention.get_or_create_calls, 4);
+        assert!((tt.hit_rate() - 0.25).abs() < 1e-9);
+    }
+
+    #[test]
+    fn batch_get_or_create_uses_existing_nodes() {
+        let tt = TranspositionTable::<usize>::new_enabled(true);
+        let existing = tt.get_or_create(0xfeed, None);
+        let mut lookups = [
+            TtLookup::new(0xfeed, Some(1.0)),
+            TtLookup::new(0xbeef, None),
+            TtLookup::new(0xfeed, None),
+            TtLookup::new(0xbeef, Some(-1.0)),
+        ];
+
+        tt.get_or_create_batch(&mut lookups);
+
+        assert!(ArenaRef::ptr_eq(&existing, &lookups[0].node.unwrap()));
+        assert!(ArenaRef::ptr_eq(&existing, &lookups[2].node.unwrap()));
+        assert!(ArenaRef::ptr_eq(
+            &lookups[1].node.unwrap(),
+            &lookups[3].node.unwrap()
+        ));
+        assert_eq!(tt.size(), 2);
+    }
+
+    #[test]
+    fn concurrent_get_or_create_same_hash_publishes_one_node() {
+        let tt = Arc::new(TranspositionTable::<usize>::new_enabled(true));
+        let barrier = Arc::new(Barrier::new(8));
+        let mut handles = Vec::new();
+
+        for _ in 0..8 {
+            let tt = Arc::clone(&tt);
+            let barrier = Arc::clone(&barrier);
+            handles.push(thread::spawn(move || {
+                barrier.wait();
+                tt.get_or_create(0xfeed_beef_cafe_babe, None)
+            }));
+        }
+
+        let first = handles.remove(0).join().unwrap();
+        for handle in handles {
+            let node = handle.join().unwrap();
+            assert!(ArenaRef::ptr_eq(&first, &node));
+        }
+        assert!(ArenaRef::ptr_eq(
+            &first,
+            &tt.get(0xfeed_beef_cafe_babe).unwrap()
+        ));
+        assert_eq!(tt.size(), 1);
     }
 }

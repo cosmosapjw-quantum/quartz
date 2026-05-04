@@ -153,16 +153,62 @@ SEARCH_MANIFEST_KEYS = (
     "check_interval",
     "hbar_penalty_cap",
     "n_threads",
+    "thread_policy",
+    "auto_thread_policy",
+    "thread_cap",
+    "max_threads",
+    "n_threads_cap",
     "batch_size",
     "batch_timeout_us",
     "_eval_runner_mode",
     "_arena_low_concurrency_profile",
+    "eval_seed",
     # P7 (audit_codex_20260425.md W2): include halt_mode in the
     # search-manifest hash so two runs with different halt policies
     # produce distinct manifest hashes (the eval_matrix uses the hash
     # to detect engine drift across rows).
     "halt_mode",
 )
+
+SEARCH_RUNTIME_KEYS = tuple(
+    dict.fromkeys(
+        SEARCH_MANIFEST_KEYS
+        + (
+            "games",
+            "steps",
+            "batch",
+            "search_budget",
+            "_resident_session",
+            "_selfplay_runner_mode",
+            "_eval_runner_mode",
+            "_eval_runtime_overrides",
+            "_runtime_autotune",
+            "tt_enabled",
+        )
+    )
+)
+
+SEARCH_OPTIONS_SCHEMA_VERSION = 1
+
+
+def validate_search_option_keys(payload, *, context="search options", allow_runtime_private=True):
+    """Return unknown public search/config keys for a search-condition payload.
+
+    This is the Python-side canonical key surface used by ablation manifests
+    and tests. Rust still owns execution semantics, but condition/config files
+    should fail early when they spell a public actuator differently from the
+    manifest/runtime contract vocabulary.
+    """
+    allowed = set(SEARCH_RUNTIME_KEYS)
+    unknown = []
+    for key in payload or {}:
+        key_s = str(key)
+        if allow_runtime_private and key_s.startswith("_"):
+            continue
+        if key_s in allowed:
+            continue
+        unknown.append(key_s)
+    return sorted(unknown)
 
 
 def build_search_manifest(cfg):

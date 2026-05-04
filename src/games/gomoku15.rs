@@ -23,7 +23,7 @@ use std::cell::RefCell;
 use std::fmt;
 use std::sync::LazyLock;
 
-use crate::game::GameState;
+use crate::game::{EvalResult, GameState};
 
 // ─────────────────────────────────────────────
 // § Constants
@@ -133,6 +133,16 @@ pub enum GomokuVariant {
 const GOMOKU15_HISTORY_LEN: usize = 8;
 const GOMOKU15_HISTORY_MOVES: usize = GOMOKU15_HISTORY_LEN - 1;
 
+#[derive(Clone, Copy, Debug)]
+pub struct Gomoku15Undo {
+    pos: u16,
+    prev_winner: i8,
+    prev_last_mv: u16,
+    prev_recent_move_len: u8,
+    prev_recent_moves: [u16; GOMOKU15_HISTORY_MOVES],
+    prev_near_black: [u64; 4],
+}
+
 #[derive(Clone, Debug)]
 pub struct Gomoku15 {
     board: [u8; N2], // 0=empty, 1=black, 2=white
@@ -191,6 +201,44 @@ impl Gomoku15 {
         }
         self.recent_moves.copy_within(1..GOMOKU15_HISTORY_MOVES, 0);
         self.recent_moves[GOMOKU15_HISTORY_MOVES - 1] = mv;
+    }
+
+    #[inline]
+    fn apply_move_mut_internal(&mut self, mv: u16) -> Gomoku15Undo {
+        let pos = mv as usize;
+        let side = self.side;
+        let val = Self::side_to_val(side);
+        let undo = Gomoku15Undo {
+            pos: mv,
+            prev_winner: self.winner,
+            prev_last_mv: self.last_mv,
+            prev_recent_move_len: self.recent_move_len,
+            prev_recent_moves: self.recent_moves,
+            prev_near_black: self.near_black,
+        };
+
+        self.board[pos] = val;
+        self.occupied[self.moves as usize] = mv;
+
+        if val == 1 {
+            self.nb_mark_around(pos);
+        }
+
+        {
+            let z = &*ZOB15;
+            self.hash ^= z.piece_hash(side, pos);
+            self.hash ^= z.side;
+        }
+
+        if self.check_win_at(pos) {
+            self.winner = side;
+        }
+
+        self.side = -side;
+        self.moves += 1;
+        self.last_mv = mv;
+        self.push_recent_move(mv);
+        undo
     }
 
     #[cfg(test)]
@@ -496,11 +544,11 @@ impl Gomoku15 {
             return false;
         }
 
+        // ── 1. Read 4 × 9-cell arrays ONCE ──
+        // v[dir][0..8], pos at index 4 (hypothetical black), OOB=3
         let r = Self::row(pos);
         let c = Self::col(pos);
 
-        // ── 1. Read 4 × 9-cell arrays ONCE ──
-        // v[dir][0..8], pos at index 4 (hypothetical black), OOB=3
         let mut v = [[3u8; 9]; 4];
         for dir in 0..4 {
             let (dr, dc) = DIRS[dir];
@@ -751,7 +799,7 @@ impl fmt::Display for Gomoku15 {
 
 impl GameState for Gomoku15 {
     type Move = u16; // 0..224
-    type Undo = Self;
+    type Undo = Gomoku15Undo;
 
     fn initial() -> Self {
         Gomoku15::freestyle()
@@ -784,51 +832,72 @@ impl GameState for Gomoku15 {
         moves
     }
 
+    fn uniform_eval(&self, value: f32) -> EvalResult<u16> {
+        if self.is_terminal() {
+            return EvalResult {
+                policy: Vec::new(),
+                value,
+            };
+        }
+        let count = self.legal_move_count();
+        let prior = if count > 0 { 1.0 / count as f32 } else { 0.0 };
+        let need_filter = self.needs_forbidden_filter();
+        let mut policy = Vec::with_capacity(count);
+        if need_filter {
+            for (i, &v) in self.board.iter().enumerate() {
+                if v == 0 && self.filtered_black_move_is_legal(i) {
+                    policy.push((i as u16, prior));
+                }
+            }
+        } else {
+            for (i, &v) in self.board.iter().enumerate() {
+                if v == 0 {
+                    policy.push((i as u16, prior));
+                }
+            }
+        }
+        EvalResult { policy, value }
+    }
+
     fn apply_move(&self, mv: u16) -> Self {
         let mut next = self.clone();
-        let pos = mv as usize;
-        let val = Self::side_to_val(self.side);
-
-        // Place stone
-        next.board[pos] = val;
-        next.occupied[self.moves as usize] = mv;
-
-        // Update near_black bitmask (only for black stones)
-        if val == 1 {
-            next.nb_mark_around(pos);
-        }
-
-        // Zobrist incremental update
-        {
-            let z = &*ZOB15;
-            next.hash ^= z.piece_hash(self.side, pos);
-            next.hash ^= z.side;
-        }
-
-        // Win check
-        if next.check_win_at(pos) {
-            next.winner = self.side;
-        }
-
-        next.side = -self.side;
-        next.moves += 1;
-        next.last_mv = mv;
-        next.push_recent_move(mv);
-
+        let _undo = next.apply_move_mut_internal(mv);
         next
     }
 
-    /// Phase 6.1: clone-based fallback. Gomoku15 is not the scenario-A
-    /// hot path; the make-unmake optimization currently only targets
-    /// Gomoku-7. A future phase can specialize this if Gomoku-15 becomes
-    /// a profile-priority workload.
-    fn apply_move_in_place(&mut self, mv: u16) -> Self {
-        let next = self.apply_move(mv);
-        std::mem::replace(self, next)
+    fn apply_move_in_place(&mut self, mv: u16) -> Gomoku15Undo {
+        self.apply_move_mut_internal(mv)
     }
 
-    fn undo_move(&mut self, undo: Self) {
-        *self = undo;
+    fn apply_move_in_place_no_undo(&mut self, mv: u16) {
+        let _ = self.apply_move_mut_internal(mv);
+    }
+
+    fn undo_move(&mut self, undo: Gomoku15Undo) {
+        let moved_side = -self.side;
+        let pos = undo.pos as usize;
+        {
+            let z = &*ZOB15;
+            self.hash ^= z.piece_hash(moved_side, pos);
+            self.hash ^= z.side;
+        }
+        self.side = moved_side;
+        self.moves = self.moves.saturating_sub(1);
+        self.board[pos] = 0;
+        self.occupied[self.moves as usize] = 0;
+        self.winner = undo.prev_winner;
+        self.last_mv = undo.prev_last_mv;
+        self.recent_move_len = undo.prev_recent_move_len;
+        self.recent_moves = undo.prev_recent_moves;
+        self.near_black = undo.prev_near_black;
+    }
+
+    fn uses_reusable_select_scratch() -> bool {
+        true
+    }
+
+    fn can_skip_sorted_policy_resort() -> bool {
+        true
     }
 
     fn is_terminal(&self) -> bool {
@@ -1464,6 +1533,33 @@ mod tests {
         assert_eq!(s.board[112], 0, "original should be unchanged");
         assert_eq!(s2.board[112], 1);
         assert_eq!(s2.current_player(), -1);
+    }
+
+    #[test]
+    fn test_apply_move_in_place_roundtrip_matches_pure() {
+        let mut s = Gomoku15::renju();
+        for mv in [112u16, 0, 113, 1, 114, 2, 115] {
+            let before = s.clone();
+            let pure = s.apply_move(mv);
+            let undo = s.apply_move_in_place(mv);
+            assert_eq!(s.board, pure.board);
+            assert_eq!(s.hash, pure.hash);
+            assert_eq!(s.side, pure.side);
+            assert_eq!(s.moves, pure.moves);
+            assert_eq!(s.winner, pure.winner);
+            assert_eq!(s.near_black, pure.near_black);
+            assert_eq!(s.recent_moves, pure.recent_moves);
+            s.undo_move(undo);
+            assert_eq!(s.board, before.board);
+            assert_eq!(s.hash, before.hash);
+            assert_eq!(s.side, before.side);
+            assert_eq!(s.moves, before.moves);
+            assert_eq!(s.winner, before.winner);
+            assert_eq!(s.last_mv, before.last_mv);
+            assert_eq!(s.near_black, before.near_black);
+            assert_eq!(s.recent_moves, before.recent_moves);
+            s = pure;
+        }
     }
 
     #[test]

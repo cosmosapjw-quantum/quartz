@@ -2,10 +2,12 @@
 //! Standard PUCT + Fisher Metric PUCT (§4 Information Geometry)
 //! + EFT-PUCT (§6.1.2 one-loop bonus + visit penalty)
 
-use std::sync::atomic::Ordering;
+use std::sync::atomic::{AtomicU64, Ordering};
+
+use smallvec::SmallVec;
 
 use crate::game::GameState;
-use crate::mcts::expand::materialize_edges;
+use crate::mcts::expand::{materialize_edges_in_place, materialize_edges_in_place_best_effort};
 use crate::mcts::mod_types::PwConfig;
 use crate::mcts::node::{atomic_f64_load, ArenaRef, MctsEdge, MctsNode, PathEdge};
 use crate::mcts::quartz::{
@@ -114,6 +116,56 @@ fn ablation_puct_score_with_parent_sqrt(
     stats: &QuartzStats,
     qcfg: &QuartzConfig,
 ) -> f32 {
+    let adj = quartz_policy_adjustment(n_raw, o_a, q_eff, prior, sqrt_n_parent_eff, stats, qcfg);
+    adjusted_puct_score(
+        n_eff,
+        q_eff,
+        adj.effective_prior,
+        noise_adj,
+        sqrt_n_parent_eff,
+        c_puct,
+        adj,
+    )
+}
+
+#[derive(Clone, Copy, Debug)]
+struct QuartzPolicyAdjustment {
+    effective_prior: f32,
+    penalty: f32,
+    bonus: f32,
+    use_fisher_puct: bool,
+}
+
+#[inline]
+fn adjusted_puct_score(
+    n_eff: u32,
+    q_eff: f32,
+    effective_prior: f32,
+    noise_adj: f32,
+    sqrt_n_parent_eff: f32,
+    c_puct: f32,
+    adj: QuartzPolicyAdjustment,
+) -> f32 {
+    let p = (effective_prior + noise_adj).max(0.0);
+    let base = if adj.use_fisher_puct {
+        let p_fish = fisher_prior_weight(p);
+        q_eff + c_puct * p_fish * sqrt_n_parent_eff / (1.0 + n_eff as f32)
+    } else {
+        q_eff + c_puct * p * sqrt_n_parent_eff / (1.0 + n_eff as f32)
+    };
+    base + adj.bonus + adj.penalty
+}
+
+#[inline]
+fn quartz_policy_adjustment(
+    n_raw: u32,
+    o_a: u32,
+    q_eff: f32,
+    prior: f32,
+    sqrt_n_parent_eff: f32,
+    stats: &QuartzStats,
+    qcfg: &QuartzConfig,
+) -> QuartzPolicyAdjustment {
     use crate::mcts::quartz::PenaltyMode;
 
     // ═══════════════════════════════════════════
@@ -152,9 +204,12 @@ fn ablation_puct_score_with_parent_sqrt(
             prior
         };
 
-        let p = (effective_prior + noise_adj).max(0.0);
-        let base = q_eff + c_puct * p * sqrt_n_parent_eff / (1.0 + n_eff as f32);
-        return base + penalty;
+        return QuartzPolicyAdjustment {
+            effective_prior,
+            penalty,
+            bonus: 0.0,
+            use_fisher_puct: false,
+        };
     }
 
     // ═══════════════════════════════════════════
@@ -188,14 +243,12 @@ fn ablation_puct_score_with_parent_sqrt(
             prior
         };
 
-        let p = (effective_prior + noise_adj).max(0.0);
-        let base = if qcfg.enable_fisher_puct {
-            let p_fish = fisher_prior_weight(p);
-            q_eff + c_puct * p_fish * sqrt_n_parent_eff / (1.0 + n_eff as f32)
-        } else {
-            q_eff + c_puct * p * sqrt_n_parent_eff / (1.0 + n_eff as f32)
+        return QuartzPolicyAdjustment {
+            effective_prior,
+            penalty,
+            bonus: 0.0,
+            use_fisher_puct: qcfg.enable_fisher_puct,
         };
-        return base + penalty;
     }
 
     // ═══════════════════════════════════════════
@@ -223,9 +276,12 @@ fn ablation_puct_score_with_parent_sqrt(
             prior
         };
 
-        let p = (effective_prior + noise_adj).max(0.0);
-        let base = q_eff + c_puct * p * sqrt_n_parent_eff / (1.0 + n_eff as f32);
-        return base + penalty;
+        return QuartzPolicyAdjustment {
+            effective_prior,
+            penalty,
+            bonus: 0.0,
+            use_fisher_puct: false,
+        };
     }
 
     // ═══════════════════════════════════════════
@@ -299,9 +355,12 @@ fn ablation_puct_score_with_parent_sqrt(
             prior
         };
 
-        let p = (effective_prior + noise_adj).max(0.0);
-        let base = q_eff + c_puct * p * sqrt_n_parent_eff / (1.0 + n_eff as f32);
-        return base + penalty;
+        return QuartzPolicyAdjustment {
+            effective_prior,
+            penalty,
+            bonus: 0.0,
+            use_fisher_puct: false,
+        };
     }
 
     // ═══════════════════════════════════════════
@@ -338,15 +397,6 @@ fn ablation_puct_score_with_parent_sqrt(
         prior
     };
 
-    // Base PUCT
-    let p = (effective_prior + noise_adj).max(0.0);
-    let base = if qcfg.enable_fisher_puct {
-        let p_fish = fisher_prior_weight(p);
-        q_eff + c_puct * p_fish * sqrt_n_parent_eff / (1.0 + n_eff as f32)
-    } else {
-        q_eff + c_puct * p * sqrt_n_parent_eff / (1.0 + n_eff as f32)
-    };
-
     // Off-diagonal bonus
     let bonus = if qcfg.enable_one_loop {
         eft_action_bonus(stats)
@@ -373,7 +423,12 @@ fn ablation_puct_score_with_parent_sqrt(
         PenaltyMode::PFlipMixture => unreachable!(), // handled above
     };
 
-    base + bonus + penalty
+    QuartzPolicyAdjustment {
+        effective_prior,
+        penalty,
+        bonus,
+        use_fisher_puct: qcfg.enable_fisher_puct,
+    }
 }
 
 // ─────────────────────────────────────────────
@@ -381,9 +436,162 @@ fn ablation_puct_score_with_parent_sqrt(
 // ─────────────────────────────────────────────
 
 pub struct SelectResult<G: GameState> {
-    pub path: Vec<PathEdge<G::Move>>,
+    pub path: SmallVec<[PathEdge<G::Move>; 32]>,
     pub leaf: ArenaRef<MctsNode<G::Move>>,
     pub leaf_state: G,
+    pub root_selection_trace: Option<RootSelectionTrace>,
+}
+
+pub struct SelectInPlaceResult<G: GameState> {
+    pub path: SmallVec<[PathEdge<G::Move>; 32]>,
+    pub leaf: ArenaRef<MctsNode<G::Move>>,
+    pub root_selection_trace: Option<RootSelectionTrace>,
+}
+
+pub struct SelectScratch<G: GameState> {
+    state: G,
+    undos: Vec<G::Undo>,
+}
+
+impl<G: GameState> SelectScratch<G> {
+    pub fn new(root_state: &G) -> Self {
+        Self {
+            state: root_state.clone(),
+            undos: Vec::with_capacity(32),
+        }
+    }
+
+    #[inline]
+    pub fn state_mut(&mut self) -> &mut G {
+        &mut self.state
+    }
+
+    #[inline]
+    pub fn reset_to_root(&mut self) {
+        while let Some(undo) = self.undos.pop() {
+            self.state.undo_move(undo);
+        }
+    }
+}
+
+#[derive(Clone, Copy, Debug, Default)]
+pub struct RootSelectionTrace {
+    pub candidate_count: u32,
+    pub effective_prior_l1: f32,
+    pub penalty_abs: f32,
+    pub refresh_activated: bool,
+}
+
+#[derive(Clone, Copy, Debug, Default)]
+struct RootScoreDetail {
+    score: f32,
+    effective_prior_l1: f32,
+    penalty_abs: f32,
+    refresh_activated: bool,
+}
+
+impl RootScoreDetail {
+    #[inline]
+    fn into_trace(self, candidate_count: usize) -> RootSelectionTrace {
+        RootSelectionTrace {
+            candidate_count: candidate_count.min(u32::MAX as usize) as u32,
+            effective_prior_l1: self.effective_prior_l1,
+            penalty_abs: self.penalty_abs,
+            refresh_activated: self.refresh_activated,
+        }
+    }
+}
+
+#[derive(Clone, Copy, Debug, Default)]
+pub struct SelectionTelemetrySnapshot {
+    pub root_selects: u64,
+    pub refresh_selected_count: u64,
+    pub selected_penalty_abs_sum: f64,
+    pub selected_effective_prior_l1_sum: f64,
+    pub selected_mean_candidate_count: f64,
+    pub selected_max_candidate_count: u64,
+}
+
+#[derive(Default)]
+pub struct SelectionTelemetry {
+    root_selects: AtomicU64,
+    refresh_selected_count: AtomicU64,
+    selected_penalty_abs_sum_micro: AtomicU64,
+    selected_effective_prior_l1_sum_micro: AtomicU64,
+    selected_candidate_count_sum: AtomicU64,
+    selected_candidate_count_max: AtomicU64,
+}
+
+impl SelectionTelemetry {
+    pub fn new() -> Self {
+        Self::default()
+    }
+
+    pub fn reset(&self) {
+        self.root_selects.store(0, Ordering::Relaxed);
+        self.refresh_selected_count.store(0, Ordering::Relaxed);
+        self.selected_penalty_abs_sum_micro
+            .store(0, Ordering::Relaxed);
+        self.selected_effective_prior_l1_sum_micro
+            .store(0, Ordering::Relaxed);
+        self.selected_candidate_count_sum
+            .store(0, Ordering::Relaxed);
+        self.selected_candidate_count_max
+            .store(0, Ordering::Relaxed);
+    }
+
+    pub fn record_root(&self, trace: RootSelectionTrace) {
+        self.root_selects.fetch_add(1, Ordering::Relaxed);
+        if trace.refresh_activated {
+            self.refresh_selected_count.fetch_add(1, Ordering::Relaxed);
+        }
+        self.selected_penalty_abs_sum_micro
+            .fetch_add(float_to_micro(trace.penalty_abs), Ordering::Relaxed);
+        self.selected_effective_prior_l1_sum_micro
+            .fetch_add(float_to_micro(trace.effective_prior_l1), Ordering::Relaxed);
+        self.selected_candidate_count_sum
+            .fetch_add(trace.candidate_count as u64, Ordering::Relaxed);
+        self.selected_candidate_count_max
+            .fetch_max(trace.candidate_count as u64, Ordering::Relaxed);
+    }
+
+    pub fn snapshot(&self) -> SelectionTelemetrySnapshot {
+        let root_selects = self.root_selects.load(Ordering::Relaxed);
+        let candidate_sum = self.selected_candidate_count_sum.load(Ordering::Relaxed);
+        SelectionTelemetrySnapshot {
+            root_selects,
+            refresh_selected_count: self.refresh_selected_count.load(Ordering::Relaxed),
+            selected_penalty_abs_sum: micro_to_float(
+                self.selected_penalty_abs_sum_micro.load(Ordering::Relaxed),
+            ),
+            selected_effective_prior_l1_sum: micro_to_float(
+                self.selected_effective_prior_l1_sum_micro
+                    .load(Ordering::Relaxed),
+            ),
+            selected_mean_candidate_count: if root_selects > 0 {
+                candidate_sum as f64 / root_selects as f64
+            } else {
+                0.0
+            },
+            selected_max_candidate_count: self.selected_candidate_count_max.load(Ordering::Relaxed),
+        }
+    }
+}
+
+#[inline]
+fn float_to_micro(v: f32) -> u64 {
+    if v.is_finite() {
+        (v.max(0.0) as f64 * 1_000_000.0)
+            .round()
+            .clamp(0.0, u64::MAX as f64) as u64
+    } else {
+        0
+    }
+}
+
+#[inline]
+fn micro_to_float(v: u64) -> f64 {
+    v as f64 / 1_000_000.0
 }
 
 #[derive(Clone, Copy, Debug)]
@@ -399,19 +607,106 @@ struct EdgeScoreSnapshot {
 }
 
 #[inline]
+fn selected_q_eff(
+    snapshot: EdgeScoreSnapshot,
+    parent_q: f32,
+    parent_visits: u32,
+    fpu_reduction: f32,
+) -> f32 {
+    if let Some(terminal_q) = snapshot.terminal_q {
+        terminal_q
+    } else if snapshot.n_raw == 0 && snapshot.o_a == 0 && parent_visits >= 4 && fpu_reduction > 1e-6
+    {
+        parent_q - fpu_reduction * (1.0 - snapshot.prior)
+    } else {
+        snapshot.q_eff
+    }
+}
+
+#[inline]
+fn root_quartz_score_detail(
+    snapshot: EdgeScoreSnapshot,
+    q_eff: f32,
+    sqrt_n_parent_eff: f32,
+    c_puct: f32,
+    stats: &QuartzStats,
+    qcfg: &QuartzConfig,
+) -> RootScoreDetail {
+    let adj = quartz_policy_adjustment(
+        snapshot.n_raw,
+        snapshot.o_a,
+        q_eff,
+        snapshot.prior,
+        sqrt_n_parent_eff,
+        stats,
+        qcfg,
+    );
+    let b1 = if stats.lambda_1loop > 1e-6 {
+        crate::mcts::quartz::paper_b1loop_bonus(
+            snapshot.edge_sigma.unwrap_or(0.0),
+            stats.lambda_1loop,
+        )
+    } else {
+        0.0
+    };
+    let score = adjusted_puct_score(
+        snapshot.n_eff,
+        q_eff,
+        adj.effective_prior,
+        snapshot.noise_adj,
+        sqrt_n_parent_eff,
+        c_puct,
+        adj,
+    ) + b1;
+    let effective_prior_l1 = (adj.effective_prior - snapshot.prior).abs();
+    RootScoreDetail {
+        score,
+        effective_prior_l1,
+        penalty_abs: adj.penalty.abs(),
+        refresh_activated: effective_prior_l1 > 1e-6,
+    }
+}
+
+#[inline]
 fn snapshot_edge<M>(
     edge: &MctsEdge<M>,
     noise_adj: f32,
     need_sigma: bool,
     exact_terminal_value: bool,
+    vvalue_without_vvisit: bool,
 ) -> EdgeScoreSnapshot {
     let n_raw = edge.n.load(Ordering::Relaxed);
-    let o_a = edge.virtual_losses.load(Ordering::Relaxed).max(0) as u32;
+    let o_a = edge.virtual_losses.load(Ordering::Acquire).max(0) as u32;
     let n_eff = n_raw + o_a;
     let q_eff = {
+        let has_virtual_value = o_a > 0 || vvalue_without_vvisit;
+        if n_eff == 0 && !has_virtual_value {
+            return EdgeScoreSnapshot {
+                n_raw,
+                o_a,
+                n_eff,
+                q_eff: 0.0,
+                terminal_q: if exact_terminal_value {
+                    edge.child.terminal_value.map(|v| -v)
+                } else {
+                    None
+                },
+                prior: edge.p,
+                noise_adj,
+                edge_sigma: None,
+            };
+        }
         let denom = n_eff.max(1) as f32;
-        let w = atomic_f64_load(&edge.w) as f32;
-        let vv = atomic_f64_load(&edge.virtual_value) as f32;
+        let w = if n_raw > 0 {
+            atomic_f64_load(&edge.w) as f32
+        } else {
+            0.0
+        };
+        let vv = if has_virtual_value {
+            atomic_f64_load(&edge.virtual_value) as f32
+        } else {
+            0.0
+        };
         (w - vv) / denom
     };
     let edge_sigma = if need_sigma && n_raw >= 2 {
@@ -440,6 +735,44 @@ fn snapshot_edge<M>(
 }
 
 #[inline]
+fn snapshot_edge_no_vl<M>(
+    edge: &MctsEdge<M>,
+    noise_adj: f32,
+    need_sigma: bool,
+    exact_terminal_value: bool,
+) -> EdgeScoreSnapshot {
+    let n_raw = edge.n.load(Ordering::Relaxed);
+    let q_eff = if n_raw == 0 {
+        0.0
+    } else {
+        atomic_f64_load(&edge.w) as f32 / n_raw as f32
+    };
+    let edge_sigma = if need_sigma && n_raw >= 2 {
+        let m2 = f64::from_bits(edge.m2.load(Ordering::Acquire));
+        let var = (m2 / (n_raw - 1) as f64).max(0.0);
+        Some(var.sqrt() as f32)
+    } else {
+        None
+    };
+    let terminal_q = if exact_terminal_value {
+        edge.child.terminal_value.map(|v| -v)
+    } else {
+        None
+    };
+
+    EdgeScoreSnapshot {
+        n_raw,
+        o_a: 0,
+        n_eff: n_raw,
+        q_eff,
+        terminal_q,
+        prior: edge.p,
+        noise_adj,
+        edge_sigma,
+    }
+}
+
+#[inline]
 fn score_snapshot(
     snapshot: EdgeScoreSnapshot,
     depth: usize,
@@ -450,39 +783,12 @@ fn score_snapshot(
     fpu_reduction: f32,
     quartz: Option<(&QuartzStats, &QuartzConfig)>,
 ) -> f32 {
-    let q_eff = if let Some(terminal_q) = snapshot.terminal_q {
-        terminal_q
-    } else if snapshot.n_raw == 0 && snapshot.o_a == 0 && parent_visits >= 4 && fpu_reduction > 1e-6
-    {
-        parent_q - fpu_reduction * (1.0 - snapshot.prior)
-    } else {
-        snapshot.q_eff
-    };
+    let q_eff = selected_q_eff(snapshot, parent_q, parent_visits, fpu_reduction);
 
     match quartz {
         Some((stats, qcfg)) if depth == 0 => {
             // Full QUARTZ scoring at root
-            let base = ablation_puct_score_with_parent_sqrt(
-                snapshot.n_eff,
-                snapshot.n_raw,
-                snapshot.o_a,
-                q_eff,
-                snapshot.prior,
-                snapshot.noise_adj,
-                sqrt_n_parent_eff,
-                c_puct,
-                stats,
-                qcfg,
-            );
-            let b1 = if stats.lambda_1loop > 1e-6 {
-                crate::mcts::quartz::paper_b1loop_bonus(
-                    snapshot.edge_sigma.unwrap_or(0.0),
-                    stats.lambda_1loop,
-                )
-            } else {
-                0.0
-            };
-            base + b1
+            root_quartz_score_detail(snapshot, q_eff, sqrt_n_parent_eff, c_puct, stats, qcfg).score
         }
         Some((stats, qcfg)) if !qcfg.root_only_shaping && depth <= 3 => {
             // Historical shallow-tree blend preserved only for controller ablations.
@@ -543,13 +849,20 @@ fn should_replace_best(
         == std::cmp::Ordering::Less
 }
 
+struct SelectCoreResult<M: Copy + Send + Sync + 'static> {
+    path: SmallVec<[PathEdge<M>; 32]>,
+    leaf: ArenaRef<MctsNode<M>>,
+    root_selection_trace: Option<RootSelectionTrace>,
+}
+
 // ─────────────────────────────────────────────
 // § select
 // ─────────────────────────────────────────────
 
-pub fn select<G: GameState>(
+#[inline(always)]
+fn select_core<G, F>(
     root: &ArenaRef<MctsNode<G::Move>>,
-    root_state: &G,
+    cur_state: &mut G,
     c_puct: f32,
     root_prior_noise: Option<&[f32]>,
     pw: Option<&PwConfig>,
@@ -559,19 +872,24 @@ pub fn select<G: GameState>(
     quartz: Option<(&QuartzStats, &QuartzConfig)>,
     exact_terminal_value: bool,
     fpu_reduction: f32,
+    reserve_virtual_loss: bool,
     // Parallelism controller (1st-class runtime object)
     par_ctrl: &super::parallel::ParallelismController,
-) -> SelectResult<G> {
-    // Pre-size the path accumulator to avoid the first 1-3 Vec re-grows during
-    // typical 10-20 ply selection traversals. `max_depth` is the engine's
-    // configured ceiling when set; otherwise 16 is a reasonable default that
-    // covers the vast majority of search depths in profiled workloads.
-    // (Apr-25 profile audit Step 3 / P1-2.)
-    let path_capacity = if max_depth > 0 { max_depth } else { 16 };
-    let mut path = Vec::with_capacity(path_capacity);
+    mut apply_selected_move: F,
+) -> SelectCoreResult<G::Move>
+where
+    G: GameState,
+    F: FnMut(&mut G, G::Move),
+{
+    // Keep the common root-to-leaf path on stack. Most profiled selections are
+    // under 20 ply; paths beyond 32 still spill to heap without changing API
+    // semantics.
+    let mut path: SmallVec<[PathEdge<G::Move>; 32]> = SmallVec::new();
     let mut cur_node = *root;
-    let mut cur_state = root_state.clone();
     let mut depth = 0usize;
+    let mut root_selection_trace_record = None;
+    let vvalue_without_vvisit =
+        reserve_virtual_loss && par_ctrl.can_publish_vvalue_without_vvisit();
 
     loop {
         if cur_node.terminal_value.is_some()
@@ -604,7 +922,11 @@ pub fn select<G: GameState>(
 
         let n_mat = cur_node.materialized_count();
         if n_mat < n_visible {
-            materialize_edges(&cur_node, &cur_state, n_visible, tt);
+            if reserve_virtual_loss {
+                materialize_edges_in_place_best_effort(&cur_node, cur_state, n_visible, tt);
+            } else {
+                materialize_edges_in_place(&cur_node, cur_state, n_visible, tt);
+            }
         }
 
         // Phase 7 C (2026-04-26): lock-free slab read. `read_edges()`
@@ -618,19 +940,28 @@ pub fn select<G: GameState>(
         }
         let edges = &edges_full[..n_edges];
 
-        let vl_sum: u32 = edges
-            .iter()
-            .map(|e| e.virtual_losses.load(Ordering::Relaxed).max(0) as u32)
-            .sum();
+        let vl_sum: u32 = if reserve_virtual_loss {
+            edges
+                .iter()
+                .map(|e| e.virtual_losses.load(Ordering::Acquire).max(0) as u32)
+                .sum()
+        } else {
+            0
+        };
         let n_parent_eff = n_total + vl_sum;
 
-        let parent_q = cur_node.mean_q();
         let parent_visits = n_total;
+        let parent_q = if parent_visits >= 4 && fpu_reduction > 1e-6 {
+            cur_node.mean_q()
+        } else {
+            0.0
+        };
         let sqrt_n_parent_eff = (n_parent_eff as f32).sqrt();
         let need_sigma = matches!(quartz, Some((stats, qcfg)) if (depth == 0 || (!qcfg.root_only_shaping && depth <= 3)) && stats.lambda_1loop > 1e-6);
         let mut best_idx = 0usize;
         let mut best_score = f32::NEG_INFINITY;
         let mut best_has_pending = false;
+        let mut best_root_detail = None;
 
         for (idx, edge) in edges.iter().enumerate() {
             let noise_adj = if depth == 0 {
@@ -640,35 +971,91 @@ pub fn select<G: GameState>(
             } else {
                 0.0
             };
-            let snapshot = snapshot_edge(edge, noise_adj, need_sigma, exact_terminal_value);
-            let score = score_snapshot(
-                snapshot,
-                depth,
-                parent_q,
-                parent_visits,
-                sqrt_n_parent_eff,
-                c_puct,
-                fpu_reduction,
-                quartz,
-            );
+            let snapshot = if reserve_virtual_loss {
+                snapshot_edge(
+                    edge,
+                    noise_adj,
+                    need_sigma,
+                    exact_terminal_value,
+                    vvalue_without_vvisit,
+                )
+            } else {
+                snapshot_edge_no_vl(edge, noise_adj, need_sigma, exact_terminal_value)
+            };
+            let (score, root_detail) = if depth == 0 {
+                if let Some((stats, qcfg)) = quartz {
+                    let q_eff = selected_q_eff(snapshot, parent_q, parent_visits, fpu_reduction);
+                    let detail = root_quartz_score_detail(
+                        snapshot,
+                        q_eff,
+                        sqrt_n_parent_eff,
+                        c_puct,
+                        stats,
+                        qcfg,
+                    );
+                    (detail.score, Some(detail))
+                } else {
+                    (
+                        score_snapshot(
+                            snapshot,
+                            depth,
+                            parent_q,
+                            parent_visits,
+                            sqrt_n_parent_eff,
+                            c_puct,
+                            fpu_reduction,
+                            quartz,
+                        ),
+                        None,
+                    )
+                }
+            } else {
+                (
+                    score_snapshot(
+                        snapshot,
+                        depth,
+                        parent_q,
+                        parent_visits,
+                        sqrt_n_parent_eff,
+                        c_puct,
+                        fpu_reduction,
+                        quartz,
+                    ),
+                    None,
+                )
+            };
             if idx == 0 || should_replace_best(best_score, best_idx, score, idx) {
                 best_idx = idx;
                 best_score = score;
                 best_has_pending = snapshot.o_a > 0;
+                best_root_detail = root_detail;
             }
         }
 
+        if depth == 0 && best_root_detail.is_some() {
+            root_selection_trace_record = best_root_detail.map(|detail| detail.into_trace(n_edges));
+        }
+
         // Parallelism telemetry: record pending count at this node
-        par_ctrl.telemetry.record_select(vl_sum);
+        if reserve_virtual_loss {
+            par_ctrl.telemetry.record_select(vl_sum);
+        }
 
         // Detect duplicate path: if selected edge already has pending VL
-        if best_has_pending {
+        if reserve_virtual_loss && best_has_pending {
             par_ctrl.telemetry.record_dup_leaf();
         }
 
-        let vl_split = par_ctrl.vl_at_depth(depth as u32);
-        edges[best_idx].apply_vl(vl_split.vvisit, vl_split.vvalue);
-        par_ctrl.telemetry.record_vvalue(vl_split.vvalue);
+        let vl_split = if reserve_virtual_loss {
+            let vl_split = par_ctrl.vl_at_depth(depth as u32);
+            edges[best_idx].apply_vl(vl_split.vvisit, vl_split.vvalue);
+            if vl_split.vvalue.abs() > 1e-9 {
+                par_ctrl.telemetry.record_vvalue(vl_split.vvalue);
+            }
+            vl_split
+        } else {
+            super::parallel::VlSplit::ZERO
+        };
 
         let best_mv = edges[best_idx].mv;
         let next_node = edges[best_idx].child;
@@ -687,10 +1074,7 @@ pub fn select<G: GameState>(
             _mm_prefetch::<_MM_HINT_T0>(ArenaRef::as_ptr(&next_node) as *const i8);
         }
 
-        // Phase 6.1: in-place descent. The select loop only walks down the
-        // tree (no backtracking inside this function), so the returned undo
-        // is dropped — the leaf state is consumed by the caller as-is.
-        let _undo = cur_state.apply_move_in_place(best_mv);
+        apply_selected_move(cur_state, best_mv);
         path.push(PathEdge {
             parent: cur_node,
             edge_idx: best_idx,
@@ -700,10 +1084,95 @@ pub fn select<G: GameState>(
         depth += 1;
     }
 
-    SelectResult {
+    SelectCoreResult {
         path,
         leaf: cur_node,
-        leaf_state: cur_state,
+        root_selection_trace: root_selection_trace_record,
+    }
+}
+
+#[inline(always)]
+pub fn select<G: GameState>(
+    root: &ArenaRef<MctsNode<G::Move>>,
+    root_state: &G,
+    c_puct: f32,
+    root_prior_noise: Option<&[f32]>,
+    pw: Option<&PwConfig>,
+    max_depth: usize,
+    tt: &TranspositionTable<G::Move>,
+    // QUARTZ EFT-PUCT (None = standard PUCT)
+    quartz: Option<(&QuartzStats, &QuartzConfig)>,
+    exact_terminal_value: bool,
+    fpu_reduction: f32,
+    reserve_virtual_loss: bool,
+    // Parallelism controller (1st-class runtime object)
+    par_ctrl: &super::parallel::ParallelismController,
+) -> SelectResult<G> {
+    let mut leaf_state = root_state.clone();
+    let result = select_core(
+        root,
+        &mut leaf_state,
+        c_puct,
+        root_prior_noise,
+        pw,
+        max_depth,
+        tt,
+        quartz,
+        exact_terminal_value,
+        fpu_reduction,
+        reserve_virtual_loss,
+        par_ctrl,
+        |state, mv| state.apply_move_in_place_no_undo(mv),
+    );
+
+    SelectResult {
+        path: result.path,
+        leaf: result.leaf,
+        leaf_state,
+        root_selection_trace: result.root_selection_trace,
+    }
+}
+
+#[inline(always)]
+pub fn select_in_place<G: GameState>(
+    root: &ArenaRef<MctsNode<G::Move>>,
+    scratch: &mut SelectScratch<G>,
+    c_puct: f32,
+    root_prior_noise: Option<&[f32]>,
+    pw: Option<&PwConfig>,
+    max_depth: usize,
+    tt: &TranspositionTable<G::Move>,
+    quartz: Option<(&QuartzStats, &QuartzConfig)>,
+    exact_terminal_value: bool,
+    fpu_reduction: f32,
+    reserve_virtual_loss: bool,
+    par_ctrl: &super::parallel::ParallelismController,
+) -> SelectInPlaceResult<G> {
+    scratch.reset_to_root();
+    let SelectScratch { state, undos } = scratch;
+    let result = select_core(
+        root,
+        state,
+        c_puct,
+        root_prior_noise,
+        pw,
+        max_depth,
+        tt,
+        quartz,
+        exact_terminal_value,
+        fpu_reduction,
+        reserve_virtual_loss,
+        par_ctrl,
+        |state, mv| {
+            let undo = state.apply_move_in_place(mv);
+            undos.push(undo);
+        },
+    );
+
+    SelectInPlaceResult {
+        path: result.path,
+        leaf: result.leaf,
+        root_selection_trace: result.root_selection_trace,
     }
 }
 
@@ -921,6 +1390,41 @@ mod tests {
     }
 
     #[test]
+    fn test_snapshot_edge_skips_vvalue_without_reservation_except_vvalue_only() {
+        let child = crate::mcts::tt::leak_node::<u8>(7, None);
+        let edge = MctsEdge::new(3u8, child, 0.5);
+        edge.n.store(4, Ordering::Relaxed);
+        edge.w.store(2.0_f64.to_bits(), Ordering::Relaxed);
+        edge.virtual_value
+            .store(1.0_f64.to_bits(), Ordering::Relaxed);
+
+        let paired_mode = snapshot_edge(&edge, 0.0, false, false, false);
+        assert_eq!(paired_mode.o_a, 0);
+        assert_eq!(paired_mode.n_eff, 4);
+        assert!((paired_mode.q_eff - 0.5).abs() < 1e-6);
+
+        edge.n.store(0, Ordering::Relaxed);
+        edge.w.store(0.0_f64.to_bits(), Ordering::Relaxed);
+        let unvisited_paired_mode = snapshot_edge(&edge, 0.0, false, false, false);
+        assert_eq!(unvisited_paired_mode.o_a, 0);
+        assert_eq!(unvisited_paired_mode.n_eff, 0);
+        assert_eq!(unvisited_paired_mode.q_eff, 0.0);
+
+        edge.n.store(4, Ordering::Relaxed);
+        edge.w.store(2.0_f64.to_bits(), Ordering::Relaxed);
+        let vvalue_only_mode = snapshot_edge(&edge, 0.0, false, false, true);
+        assert_eq!(vvalue_only_mode.o_a, 0);
+        assert_eq!(vvalue_only_mode.n_eff, 4);
+        assert!((vvalue_only_mode.q_eff - 0.25).abs() < 1e-6);
+
+        edge.virtual_losses.store(1, Ordering::Relaxed);
+        let live_reservation = snapshot_edge(&edge, 0.0, false, false, false);
+        assert_eq!(live_reservation.o_a, 1);
+        assert_eq!(live_reservation.n_eff, 5);
+        assert!((live_reservation.q_eff - 0.2).abs() < 1e-6);
+    }
+
+    #[test]
     fn test_quartz_scoring_is_root_only() {
         let snapshot = EdgeScoreSnapshot {
             n_raw: 6,
@@ -1079,8 +1583,26 @@ mod tests {
             prior_q_divergence: 0.80,
             ..stats_low_div.clone()
         };
-        let s_low = score_snapshot(snapshot, 0, 0.0, 20, 5.0, 2.0, 0.0, Some((&stats_low_div, &qcfg)));
-        let s_high = score_snapshot(snapshot, 0, 0.0, 20, 5.0, 2.0, 0.0, Some((&stats_high_div, &qcfg)));
+        let s_low = score_snapshot(
+            snapshot,
+            0,
+            0.0,
+            20,
+            5.0,
+            2.0,
+            0.0,
+            Some((&stats_low_div, &qcfg)),
+        );
+        let s_high = score_snapshot(
+            snapshot,
+            0,
+            0.0,
+            20,
+            5.0,
+            2.0,
+            0.0,
+            Some((&stats_high_div, &qcfg)),
+        );
         assert!(
             (s_low - s_high).abs() < 1e-5,
             "PFlipMixture must be divergence-insensitive when gate flag is off (s_low={s_low}, s_high={s_high})"
@@ -1123,8 +1645,26 @@ mod tests {
             prior_q_divergence: 0.80, // above epsilon_t
             ..stats_below.clone()
         };
-        let s_below = score_snapshot(snapshot, 0, 0.0, 20, 5.0, 2.0, 0.0, Some((&stats_below, &qcfg)));
-        let s_above = score_snapshot(snapshot, 0, 0.0, 20, 5.0, 2.0, 0.0, Some((&stats_above, &qcfg)));
+        let s_below = score_snapshot(
+            snapshot,
+            0,
+            0.0,
+            20,
+            5.0,
+            2.0,
+            0.0,
+            Some((&stats_below, &qcfg)),
+        );
+        let s_above = score_snapshot(
+            snapshot,
+            0,
+            0.0,
+            20,
+            5.0,
+            2.0,
+            0.0,
+            Some((&stats_above, &qcfg)),
+        );
         assert!(
             (s_below - s_above).abs() > 1e-5,
             "PFlipMixture with divergence gate must respond to divergence above epsilon_t (s_below={s_below}, s_above={s_above})"

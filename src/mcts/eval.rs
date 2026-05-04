@@ -29,7 +29,7 @@ pub struct UniformEval;
 
 impl<G: GameState> Evaluator<G> for UniformEval {
     fn evaluate(&self, state: &G) -> EvalResult<G::Move> {
-        EvalResult::uniform(&state.legal_moves(), 0.0)
+        state.uniform_eval(0.0)
     }
 }
 
@@ -74,17 +74,12 @@ impl ShortRollout {
 
 impl<G: GameState> Evaluator<G> for ShortRollout {
     fn evaluate(&self, state: &G) -> EvalResult<G::Move> {
-        let legal = state.legal_moves();
-        if legal.is_empty() {
-            return EvalResult::uniform(&[], state.outcome());
-        }
-
-        // 균등 prior (향후 NN prior로 교체)
-        let p = 1.0 / legal.len() as f32;
-        let policy: Vec<(G::Move, f32)> = legal.iter().map(|&m| (m, p)).collect();
-
-        let value = short_playout(state, self.max_depth, self.draw_value, self.seed);
-        EvalResult { policy, value }
+        let value = if state.is_terminal() {
+            state.outcome()
+        } else {
+            short_playout(state, self.max_depth, self.draw_value, self.seed)
+        };
+        state.uniform_eval(value)
     }
 }
 
@@ -154,14 +149,8 @@ pub struct RandomPlayout;
 
 impl<G: GameState> Evaluator<G> for RandomPlayout {
     fn evaluate(&self, state: &G) -> EvalResult<G::Move> {
-        let legal = state.legal_moves();
-        if legal.is_empty() {
-            return EvalResult::uniform(&[], state.outcome());
-        }
-        let p = 1.0 / legal.len() as f32;
-        let policy = legal.iter().map(|&m| (m, p)).collect();
         let value = full_playout(state);
-        EvalResult { policy, value }
+        state.uniform_eval(value)
     }
 }
 
@@ -180,6 +169,9 @@ fn full_playout<G: GameState>(start: &G) -> f32 {
             return raw * flip;
         }
         let legal = state.legal_moves();
+        if legal.is_empty() {
+            return state.outcome();
+        }
         let mv = if let Some(w) = immediate_win(&state, &legal) {
             w
         } else {

@@ -19,6 +19,8 @@ def test_discover_models_lists_best_and_latest(tmp_path):
 
     assert [row["kind"] for row in rows] == ["best", "latest"]
     assert all(row["game"] == "gomoku7" for row in rows)
+    assert all(row["sha256"] for row in rows)
+    assert rows[0]["bytes"] == 1
 
 
 def test_parse_chess_fen_board_returns_a1_indexed_board():

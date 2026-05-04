@@ -237,11 +237,18 @@ class JAXBackend:
         )
         self.opt_state = self.tx.init(self.params)
 
-    def save(self, path):
+    def save(self, path, cfg=None):
         import pickle
 
         with open(path, "wb") as f:
-            pickle.dump({"params": self.params, "batch_stats": self.batch_stats}, f)
+            payload = {"params": self.params, "batch_stats": self.batch_stats}
+            if cfg is not None:
+                payload["cfg"] = {
+                    key: value
+                    for key, value in dict(cfg).items()
+                    if not str(key).startswith("_") and not callable(value)
+                }
+            pickle.dump(payload, f)
 
     def load(self, path):
         import pickle
@@ -383,6 +390,8 @@ class PyTorchBackend:
 
 def create_backend(cfg, device="auto", preference="auto"):
     """Create the best available backend."""
+    requested_preference = str(preference or "auto").lower()
+    requested_device = str(device or "auto").lower()
     det = detect_backends(preference=preference)
     jax_status = "skipped" if not det.get("jax_checked", False) else ("✅" if det["jax"] else "❌")
     print(
@@ -396,6 +405,7 @@ def create_backend(cfg, device="auto", preference="auto"):
         preference = "jax"
     elif device in ("torch", "cuda"):
         preference = "torch"
+    explicit_jax = requested_preference == "jax" or requested_device == "jax"
 
     backend_name = select_backend(det, preference)
 
@@ -413,6 +423,11 @@ def create_backend(cfg, device="auto", preference="auto"):
             print(f"  JAX JIT warmup: {jit_time:.1f}s (subsequent calls ~10-100× faster)")
             return be
         except Exception as e:
+            if explicit_jax:
+                raise RuntimeError(
+                    "JAX backend was explicitly requested but initialization failed; "
+                    "refusing to silently fall back to PyTorch."
+                ) from e
             print(f"  JAX init failed ({e}), falling back to PyTorch")
 
     return PyTorchBackend(cfg, device=device)

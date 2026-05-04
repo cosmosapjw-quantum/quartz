@@ -21,13 +21,13 @@ pub use quartz::{
 };
 
 use parking_lot::RwLock;
-use std::sync::atomic::{AtomicU64, Ordering};
+use std::sync::atomic::{AtomicU32, AtomicU64, Ordering};
 use std::sync::Arc;
 use std::time::Instant;
 
 use crate::game::{Evaluator, GameState};
 use crate::mcts::backup::backprop;
-use crate::mcts::expand::{expand_and_evaluate, expand_with_result};
+use crate::mcts::expand::{expand_and_evaluate, expand_and_evaluate_in_place, expand_with_result};
 use crate::mcts::gvoc::{routing_mode, GvocConfig, GvocState, ProposalMode};
 use crate::mcts::node::{ArenaRef, MctsNode};
 use crate::mcts::root::{
@@ -36,13 +36,26 @@ use crate::mcts::root::{
 #[cfg(test)]
 use crate::mcts::search::root_entropy;
 use crate::mcts::search::{SearchController, SearchStats};
-use crate::mcts::select::{select, SelectResult};
+use crate::mcts::select::{
+    select, select_in_place, SelectResult, SelectScratch, SelectionTelemetry,
+};
 use crate::mcts::tt::TranspositionTable;
 
 static ITERATE_CALLS: AtomicU64 = AtomicU64::new(0);
 static SELECT_TIME_NANOS: AtomicU64 = AtomicU64::new(0);
 static EXPAND_EVAL_TIME_NANOS: AtomicU64 = AtomicU64::new(0);
 static BACKPROP_TIME_NANOS: AtomicU64 = AtomicU64::new(0);
+
+const PAR_FIXED_BUDGET_TICKET_CHUNK: u32 = 8;
+
+#[inline]
+fn fixed_budget_ticket_chunk(n_threads: usize) -> u32 {
+    if n_threads <= 1 {
+        1
+    } else {
+        PAR_FIXED_BUDGET_TICKET_CHUNK
+    }
+}
 
 #[derive(Debug, Clone, Copy)]
 pub struct EnginePhaseSnapshot {
@@ -59,6 +72,13 @@ pub fn engine_phase_snapshot() -> EnginePhaseSnapshot {
         expand_eval_time_nanos: EXPAND_EVAL_TIME_NANOS.load(Ordering::Relaxed),
         backprop_time_nanos: BACKPROP_TIME_NANOS.load(Ordering::Relaxed),
     }
+}
+
+pub fn reset_engine_phase_counters() {
+    ITERATE_CALLS.store(0, Ordering::Relaxed);
+    SELECT_TIME_NANOS.store(0, Ordering::Relaxed);
+    EXPAND_EVAL_TIME_NANOS.store(0, Ordering::Relaxed);
+    BACKPROP_TIME_NANOS.store(0, Ordering::Relaxed);
 }
 
 // ─────────────────────────────────────────────
@@ -199,8 +219,14 @@ pub struct MctsEngine<G: GameState> {
     root_noise: Option<Vec<f32>>,
     /// 현재 QUARTZ 통계 (EFT-PUCT에 사용)
     pub(crate) quartz_cache: RwLock<Option<QuartzStats>>,
+    /// Monotonic version for `quartz_cache`. Search loops keep a local
+    /// QUARTZ snapshot and reload it only when this epoch changes.
+    quartz_cache_epoch: AtomicU64,
     /// Parallelism controller (adaptive VL, telemetry)
     pub par_ctrl: parallel::ParallelismController,
+    /// Per-search root selection telemetry. This records the actual selected
+    /// root edge on each MCTS iteration, complementing root-snapshot summaries.
+    pub selection_telemetry: SelectionTelemetry,
 }
 
 pub struct AsyncPendingIteration<G: GameState> {
@@ -251,6 +277,8 @@ impl<G: GameState> MctsEngine<G> {
             config,
             root_noise: None,
             quartz_cache: RwLock::new(None),
+            quartz_cache_epoch: AtomicU64::new(0),
+            selection_telemetry: SelectionTelemetry::new(),
         };
         engine.expand_root();
         engine
@@ -282,7 +310,7 @@ impl<G: GameState> MctsEngine<G> {
     }
 
     /// QUARTZ 통계 갱신 (QuartzController와 협력)
-    /// QUARTZ 통계 갱신 (priors=None → 균등 prior 가정)
+    /// QUARTZ 통계 갱신 (`priors=None` reads the root edge priors in-place).
     pub fn refresh_quartz_stats(&self) {
         self.refresh_quartz_stats_with_priors(None);
     }
@@ -301,13 +329,81 @@ impl<G: GameState> MctsEngine<G> {
                 let _ce = RunningMedian::new(0.1);
                 let qcfg = self.config.quartz.as_ref().unwrap();
                 let stats = compute_quartz_stats(&self.root, priors, &mut s0, 0.0, 0, 0, qcfg);
-                *self.quartz_cache.write() = Some(stats);
+                self.store_quartz_stats(stats);
             }
         }
     }
 
     pub fn current_quartz_stats(&self) -> Option<QuartzStats> {
         self.quartz_cache.read().clone()
+    }
+
+    #[inline]
+    fn store_quartz_stats(&self, stats: QuartzStats) -> u64 {
+        *self.quartz_cache.write() = Some(stats);
+        self.quartz_cache_epoch.fetch_add(1, Ordering::Release) + 1
+    }
+
+    #[inline]
+    fn clear_quartz_stats(&self) -> u64 {
+        *self.quartz_cache.write() = None;
+        self.quartz_cache_epoch.fetch_add(1, Ordering::Release) + 1
+    }
+
+    #[inline]
+    fn quartz_snapshot(&self) -> (u64, Option<QuartzStats>) {
+        let epoch = self.quartz_cache_epoch.load(Ordering::Acquire);
+        let snapshot = if self.config.quartz.is_some() {
+            self.quartz_cache.read().clone()
+        } else {
+            None
+        };
+        (epoch, snapshot)
+    }
+
+    #[inline]
+    fn refresh_quartz_snapshot_if_changed(
+        &self,
+        seen_epoch: &mut u64,
+        snapshot: &mut Option<QuartzStats>,
+    ) {
+        let epoch = self.quartz_cache_epoch.load(Ordering::Acquire);
+        if epoch != *seen_epoch {
+            *snapshot = if self.config.quartz.is_some() {
+                self.quartz_cache.read().clone()
+            } else {
+                None
+            };
+            *seen_epoch = epoch;
+        }
+    }
+
+    #[inline]
+    fn qstate_from_snapshot<'a>(
+        &'a self,
+        snapshot: &'a Option<QuartzStats>,
+    ) -> Option<(&'a QuartzStats, &'a QuartzConfig)> {
+        match (snapshot.as_ref(), self.config.quartz.as_ref()) {
+            (Some(stats), Some(qcfg)) => Some((stats, qcfg)),
+            _ => None,
+        }
+    }
+
+    #[inline]
+    fn iterate_with_cached_quartz_snapshot(
+        &self,
+        scratch: &mut Option<SelectScratch<G>>,
+        use_quartz: bool,
+        seen_epoch: &mut u64,
+        snapshot: &mut Option<QuartzStats>,
+    ) {
+        if use_quartz {
+            self.refresh_quartz_snapshot_if_changed(seen_epoch, snapshot);
+            let qstate = self.qstate_from_snapshot(snapshot);
+            self.iterate_maybe_scratch_with_qstate(scratch, qstate);
+        } else {
+            self.iterate_maybe_scratch_with_qstate(scratch, None);
+        }
     }
 
     /// Update ParallelismController from QUARTZ stats + root visit entropy.
@@ -347,18 +443,39 @@ impl<G: GameState> MctsEngine<G> {
         self.par_ctrl.update_from_search(sigma_q, root_entropy);
     }
 
-    pub fn iterate(&self) {
-        ITERATE_CALLS.fetch_add(1, Ordering::Relaxed);
-        // EFT-PUCT용 통계 스냅샷 (RwLock read — 빠름)
-        let qstate: Option<(QuartzStats, QuartzConfig)> = if let Some(qcfg) = &self.config.quartz {
-            self.quartz_cache
-                .read()
-                .as_ref()
-                .map(|s| (s.clone(), qcfg.clone()))
-        } else {
-            None
-        };
+    #[inline]
+    fn make_select_scratch(&self) -> Option<SelectScratch<G>> {
+        G::uses_reusable_select_scratch().then(|| SelectScratch::new(&self.root_state))
+    }
 
+    #[inline]
+    fn iterate_maybe_scratch(&self, scratch: &mut Option<SelectScratch<G>>) {
+        let (_, qstats_snapshot) = self.quartz_snapshot();
+        let qstate = self.qstate_from_snapshot(&qstats_snapshot);
+        self.iterate_maybe_scratch_with_qstate(scratch, qstate);
+    }
+
+    #[inline]
+    fn iterate_maybe_scratch_with_qstate(
+        &self,
+        scratch: &mut Option<SelectScratch<G>>,
+        qstate: Option<(&QuartzStats, &QuartzConfig)>,
+    ) {
+        if let Some(scratch) = scratch.as_mut() {
+            self.iterate_with_scratch_qstate(scratch, qstate);
+        } else {
+            self.iterate_owned_state_with_qstate(qstate);
+        }
+    }
+
+    pub fn iterate(&self) {
+        let mut scratch = self.make_select_scratch();
+        self.iterate_maybe_scratch(&mut scratch);
+    }
+
+    #[inline]
+    fn iterate_owned_state_with_qstate(&self, qstate: Option<(&QuartzStats, &QuartzConfig)>) {
+        ITERATE_CALLS.fetch_add(1, Ordering::Relaxed);
         let select_started = profiling::maybe_start_timer();
         let sel = select(
             &self.root,
@@ -368,12 +485,16 @@ impl<G: GameState> MctsEngine<G> {
             self.config.pw.as_ref(),
             self.config.max_depth,
             &self.tt,
-            qstate.as_ref().map(|(s, c)| (s, c)),
+            qstate,
             self.config.exact_terminal_value,
             self.config.fpu_reduction,
+            self.par_ctrl.should_reserve_virtual_loss(),
             &self.par_ctrl,
         );
         profiling::record_elapsed_nanos(&SELECT_TIME_NANOS, select_started);
+        if let Some(trace) = sel.root_selection_trace {
+            self.selection_telemetry.record_root(trace);
+        }
 
         let expand_started = profiling::maybe_start_timer();
         let leaf_value = if self
@@ -398,16 +519,61 @@ impl<G: GameState> MctsEngine<G> {
         profiling::record_elapsed_nanos(&BACKPROP_TIME_NANOS, backprop_started);
     }
 
+    #[inline]
+    fn iterate_with_scratch_qstate(
+        &self,
+        scratch: &mut SelectScratch<G>,
+        qstate: Option<(&QuartzStats, &QuartzConfig)>,
+    ) {
+        ITERATE_CALLS.fetch_add(1, Ordering::Relaxed);
+        let select_started = profiling::maybe_start_timer();
+        let sel = select_in_place(
+            &self.root,
+            scratch,
+            self.config.c_puct,
+            self.root_noise.as_deref(),
+            self.config.pw.as_ref(),
+            self.config.max_depth,
+            &self.tt,
+            qstate,
+            self.config.exact_terminal_value,
+            self.config.fpu_reduction,
+            self.par_ctrl.should_reserve_virtual_loss(),
+            &self.par_ctrl,
+        );
+        profiling::record_elapsed_nanos(&SELECT_TIME_NANOS, select_started);
+        if let Some(trace) = sel.root_selection_trace {
+            self.selection_telemetry.record_root(trace);
+        }
+
+        let expand_started = profiling::maybe_start_timer();
+        let leaf_value = if self
+            .config
+            .max_tt_size
+            .map_or(true, |cap| self.tt.size() < cap)
+        {
+            expand_and_evaluate_in_place(
+                &sel.leaf,
+                scratch.state_mut(),
+                self.evaluator.as_ref(),
+                &self.tt,
+                self.config.pw.as_ref(),
+            )
+        } else {
+            sel.leaf.terminal_value.unwrap_or(0.0)
+        };
+        profiling::record_elapsed_nanos(&EXPAND_EVAL_TIME_NANOS, expand_started);
+
+        let backprop_started = profiling::maybe_start_timer();
+        backprop::<G>(&sel.path, leaf_value);
+        profiling::record_elapsed_nanos(&BACKPROP_TIME_NANOS, backprop_started);
+        scratch.reset_to_root();
+    }
+
     pub fn prepare_iteration_async(&self) -> PreparedIteration<G> {
         ITERATE_CALLS.fetch_add(1, Ordering::Relaxed);
-        let qstate: Option<(QuartzStats, QuartzConfig)> = if let Some(qcfg) = &self.config.quartz {
-            self.quartz_cache
-                .read()
-                .as_ref()
-                .map(|s| (s.clone(), qcfg.clone()))
-        } else {
-            None
-        };
+        let (_, qstats_snapshot) = self.quartz_snapshot();
+        let qstate = self.qstate_from_snapshot(&qstats_snapshot);
 
         let select_started = profiling::maybe_start_timer();
         let sel: SelectResult<G> = select(
@@ -418,12 +584,16 @@ impl<G: GameState> MctsEngine<G> {
             self.config.pw.as_ref(),
             self.config.max_depth,
             &self.tt,
-            qstate.as_ref().map(|(s, c)| (s, c)),
+            qstate,
             self.config.exact_terminal_value,
             self.config.fpu_reduction,
+            true,
             &self.par_ctrl,
         );
         profiling::record_elapsed_nanos(&SELECT_TIME_NANOS, select_started);
+        if let Some(trace) = sel.root_selection_trace {
+            self.selection_telemetry.record_root(trace);
+        }
 
         if !self
             .config
@@ -431,7 +601,7 @@ impl<G: GameState> MctsEngine<G> {
             .map_or(true, |cap| self.tt.size() < cap)
         {
             return PreparedIteration::Immediate {
-                path: sel.path,
+                path: sel.path.into_vec(),
                 value: sel.leaf.terminal_value.unwrap_or(0.0),
                 reason: ImmediateReason::TtCapHit,
             };
@@ -439,14 +609,14 @@ impl<G: GameState> MctsEngine<G> {
 
         if let Some(v) = sel.leaf.terminal_value {
             return PreparedIteration::Immediate {
-                path: sel.path,
+                path: sel.path.into_vec(),
                 value: v,
                 reason: ImmediateReason::TerminalNode,
             };
         }
 
         PreparedIteration::Pending(AsyncPendingIteration {
-            path: sel.path,
+            path: sel.path.into_vec(),
             leaf: sel.leaf,
             leaf_state: sel.leaf_state,
         })
@@ -492,10 +662,19 @@ impl<G: GameState> MctsEngine<G> {
 
     pub fn run(&self, controller: &mut dyn SearchController) -> SearchStats {
         controller.reset();
+        self.par_ctrl.set_n_threads(1);
         self.par_ctrl.reset_for_search();
+        self.selection_telemetry.reset();
         let start = Instant::now();
         let mut it = 0u32;
         let qcfg = self.config.quartz.clone();
+        let mut scratch = self.make_select_scratch();
+        let use_quartz = qcfg.is_some();
+        let (mut qstats_epoch, mut qstats_snapshot) = if use_quartz {
+            self.quartz_snapshot()
+        } else {
+            (0, None)
+        };
         if let Some(limit) = controller.visit_limit_hint() {
             loop {
                 let rv = self.root.n_total.load(Ordering::Relaxed);
@@ -503,7 +682,12 @@ impl<G: GameState> MctsEngine<G> {
                     break;
                 }
 
-                self.iterate();
+                self.iterate_with_cached_quartz_snapshot(
+                    &mut scratch,
+                    use_quartz,
+                    &mut qstats_epoch,
+                    &mut qstats_snapshot,
+                );
                 it += 1;
 
                 if let Some(ref qcfg) = qcfg {
@@ -526,7 +710,12 @@ impl<G: GameState> MctsEngine<G> {
                     break;
                 }
 
-                self.iterate();
+                self.iterate_with_cached_quartz_snapshot(
+                    &mut scratch,
+                    use_quartz,
+                    &mut qstats_epoch,
+                    &mut qstats_snapshot,
+                );
                 it += 1;
 
                 // QUARTZ 통계 주기적 갱신
@@ -559,12 +748,108 @@ impl<G: GameState> MctsEngine<G> {
         }
     }
 
+    pub fn auto_thread_decision(
+        &self,
+        controller: &dyn SearchController,
+        policy: parallel::AutoThreadPolicy,
+    ) -> parallel::AutoThreadDecision {
+        let current_visits = self.root.n_total.load(Ordering::Relaxed);
+        let remaining_visits = controller
+            .visit_limit_hint()
+            .map(|limit| limit.saturating_sub(current_visits));
+        parallel::recommend_auto_threads(
+            parallel::AutoThreadInput {
+                host_threads: parallel::available_search_threads(),
+                remaining_visits,
+                root_legal_count: self.root_state.legal_move_count(),
+                pw_enabled: self.config.pw.is_some(),
+                reusable_select_scratch: G::uses_reusable_select_scratch(),
+            },
+            policy,
+        )
+    }
+
+    /// Run search with opt-in automatic thread selection.
+    ///
+    /// Explicit `run_par(..., n_threads)` remains unchanged for reproducible
+    /// ablations. This method is the production-oriented path for
+    /// device-agnostic throughput tuning.
+    pub fn run_auto(
+        &self,
+        controller: &mut dyn SearchController,
+        policy: parallel::AutoThreadPolicy,
+    ) -> (SearchStats, parallel::AutoThreadDecision) {
+        let decision = self.auto_thread_decision(controller, policy);
+        let stats = if decision.threads > 1 {
+            controller.reset();
+            self.run_par(controller, decision.threads)
+        } else {
+            self.run(controller)
+        };
+        (stats, decision)
+    }
+
     /// QuartzController와 통합된 run — 통계 자동 갱신, 적응적 정지
     pub fn run_quartz(&self, ctrl: &mut QuartzController) -> SearchStats {
         ctrl.reset();
+        self.par_ctrl.set_n_threads(1);
         self.par_ctrl.reset_for_search();
+        self.selection_telemetry.reset();
         let start = Instant::now();
         let mut it = 0u32;
+        let mut scratch = self.make_select_scratch();
+        let use_quartz = self.config.quartz.is_some();
+        let (mut qstats_epoch, mut qstats_snapshot) = if use_quartz {
+            self.quartz_snapshot()
+        } else {
+            (0, None)
+        };
+
+        if let Some(limit) = ctrl.visit_limit_hint() {
+            loop {
+                let rv = self.root.n_total.load(Ordering::Relaxed);
+                if rv >= limit {
+                    break;
+                }
+                self.iterate_with_cached_quartz_snapshot(
+                    &mut scratch,
+                    use_quartz,
+                    &mut qstats_epoch,
+                    &mut qstats_snapshot,
+                );
+                it += 1;
+                if it % ctrl.cfg.check_interval == 0 {
+                    ctrl.update_stats(&self.root, None);
+                    let stats = ctrl.last_stats();
+                    qstats_epoch = self.store_quartz_stats(stats.clone());
+                    qstats_snapshot = Some(stats);
+                    self.refresh_par_ctrl();
+                    let checked_visits = self.root.n_total.load(Ordering::Relaxed);
+                    ctrl.mark_checked(checked_visits);
+                }
+            }
+
+            let ms = start.elapsed().as_millis() as u64;
+            ctrl.update_elapsed(ms);
+            ctrl.update_stats(&self.root, None);
+            self.store_quartz_stats(ctrl.last_stats());
+            let rv = self.root.n_total.load(Ordering::Relaxed);
+            let _ = ctrl.should_stop(rv, ms);
+            return SearchStats {
+                iterations: it,
+                elapsed_ms: ms,
+                nps: if ms > 0 {
+                    it as f64 / ms as f64 * 1000.0
+                } else {
+                    0.0
+                },
+                tt_hit_rate: self.tt.hit_rate(),
+                tt_size: self.tt.size(),
+                root_visits: rv,
+                stop_reason: ctrl.stop_reason(),
+            };
+        }
+
         let mut iter_start = Instant::now();
 
         loop {
@@ -581,11 +866,10 @@ impl<G: GameState> MctsEngine<G> {
 
                 // elapsed 주입 — CTM urgency + NS annealing에 사용
                 ctrl.update_elapsed(ms);
-                {
-                    let _rp = self.root_priors();
-                    ctrl.update_stats(&self.root, Some(&_rp));
-                }
-                *self.quartz_cache.write() = Some(ctrl.last_stats());
+                ctrl.update_stats(&self.root, None);
+                let stats = ctrl.last_stats();
+                qstats_epoch = self.store_quartz_stats(stats.clone());
+                qstats_snapshot = Some(stats);
                 self.refresh_par_ctrl();
                 let stop_now = ctrl.should_stop(rv, ms);
                 if !stop_now {
@@ -599,16 +883,20 @@ impl<G: GameState> MctsEngine<G> {
             if should_stop {
                 break;
             }
-            self.iterate();
+            self.iterate_with_cached_quartz_snapshot(
+                &mut scratch,
+                use_quartz,
+                &mut qstats_epoch,
+                &mut qstats_snapshot,
+            );
             it += 1;
         }
 
         ctrl.update_elapsed(start.elapsed().as_millis() as u64);
         {
-            let _rp = self.root_priors();
-            ctrl.update_stats(&self.root, Some(&_rp));
+            ctrl.update_stats(&self.root, None);
         }
-        *self.quartz_cache.write() = Some(ctrl.last_stats());
+        self.store_quartz_stats(ctrl.last_stats());
 
         let ms = start.elapsed().as_millis() as u64;
         let rv = self.root.n_total.load(Ordering::Relaxed);
@@ -627,6 +915,20 @@ impl<G: GameState> MctsEngine<G> {
         }
     }
 
+    pub fn run_quartz_auto(
+        &self,
+        ctrl: &mut QuartzController,
+        policy: parallel::AutoThreadPolicy,
+    ) -> (SearchStats, parallel::AutoThreadDecision) {
+        let decision = self.auto_thread_decision(ctrl, policy);
+        let stats = if decision.threads > 1 {
+            self.run_par_quartz(ctrl, decision.threads)
+        } else {
+            self.run_quartz(ctrl)
+        };
+        (stats, decision)
+    }
+
     /// GVOC + QUARTZ 완전 통합 run
     ///
     /// - GVOC: VOC 기반 PW 확장 폭 동적 조정
@@ -638,7 +940,9 @@ impl<G: GameState> MctsEngine<G> {
         gvoc_cfg: &GvocConfig,
     ) -> (SearchStats, GvocState) {
         ctrl.reset();
+        self.par_ctrl.set_n_threads(1);
         self.par_ctrl.reset_for_search();
+        self.selection_telemetry.reset();
         let start = Instant::now();
         let mut it = 0u32;
         let n_cands = self.root.candidate_count();
@@ -649,6 +953,13 @@ impl<G: GameState> MctsEngine<G> {
         let qcfg = ctrl.cfg.clone();
 
         let mut gvoc = GvocState::new(gvoc_cfg.clone(), init_vis);
+        let mut scratch = self.make_select_scratch();
+        let use_quartz = self.config.quartz.is_some();
+        let (mut qstats_epoch, mut qstats_snapshot) = if use_quartz {
+            self.quartz_snapshot()
+        } else {
+            (0, None)
+        };
 
         loop {
             let rv = self.root.n_total.load(Ordering::Relaxed);
@@ -657,11 +968,10 @@ impl<G: GameState> MctsEngine<G> {
 
             // QUARTZ 수렴 체크
             let should_stop = if checked {
-                {
-                    let _rp = self.root_priors();
-                    ctrl.update_stats(&self.root, Some(&_rp));
-                }
-                *self.quartz_cache.write() = Some(ctrl.last_stats());
+                ctrl.update_stats(&self.root, None);
+                let stats = ctrl.last_stats();
+                qstats_epoch = self.store_quartz_stats(stats.clone());
+                qstats_snapshot = Some(stats);
                 self.refresh_par_ctrl();
                 let stop_now = ctrl.should_stop(rv, ms);
                 if !stop_now {
@@ -687,15 +997,19 @@ impl<G: GameState> MctsEngine<G> {
             // Outside mode: WL bonus가 이미 QuartzController 통계에 포함됨
             // Inside mode: 표준 EFT-PUCT
 
-            self.iterate();
+            self.iterate_with_cached_quartz_snapshot(
+                &mut scratch,
+                use_quartz,
+                &mut qstats_epoch,
+                &mut qstats_snapshot,
+            );
             it += 1;
         }
 
         {
-            let _rp = self.root_priors();
-            ctrl.update_stats(&self.root, Some(&_rp));
+            ctrl.update_stats(&self.root, None);
         }
-        *self.quartz_cache.write() = Some(ctrl.last_stats());
+        self.store_quartz_stats(ctrl.last_stats());
 
         let ms = start.elapsed().as_millis() as u64;
         let rv = self.root.n_total.load(Ordering::Relaxed);
@@ -716,36 +1030,69 @@ impl<G: GameState> MctsEngine<G> {
     }
 
     pub fn run_par(&self, controller: &dyn SearchController, n_threads: usize) -> SearchStats {
+        let n_threads = n_threads.max(1);
+        self.par_ctrl.set_n_threads(n_threads as u32);
         self.par_ctrl.reset_for_search();
+        self.selection_telemetry.reset();
         let start = Instant::now();
+        let use_quartz = self.config.quartz.is_some();
 
-        rayon::scope(|s| {
-            for tid in 0..n_threads {
-                let qcfg_ref = &self.config.quartz;
-                if let Some(limit) = controller.visit_limit_hint() {
+        if let Some(limit) = controller.visit_limit_hint() {
+            let next_visit = AtomicU32::new(self.root.n_total.load(Ordering::Relaxed));
+            let ticket_chunk = fixed_budget_ticket_chunk(n_threads);
+            rayon::scope(|s| {
+                for tid in 0..n_threads {
+                    let qcfg_ref = &self.config.quartz;
+                    let next_visit_ref = &next_visit;
                     s.spawn(move |_| {
                         let mut local_it = 0u32;
+                        let mut scratch = self.make_select_scratch();
+                        let (mut qstats_epoch, mut qstats_snapshot) = if use_quartz {
+                            self.quartz_snapshot()
+                        } else {
+                            (0, None)
+                        };
                         loop {
-                            let rv = self.root.n_total.load(Ordering::Relaxed);
-                            if rv >= limit {
+                            let chunk_start =
+                                next_visit_ref.fetch_add(ticket_chunk, Ordering::Relaxed);
+                            if chunk_start >= limit {
                                 break;
                             }
-                            self.iterate();
-                            local_it += 1;
-                            if tid == 0 {
-                                if let Some(ref qcfg) = qcfg_ref {
-                                    if local_it % qcfg.check_interval == 0 {
-                                        self.refresh_quartz_stats();
-                                        self.refresh_par_ctrl();
+                            let chunk_end = chunk_start.saturating_add(ticket_chunk).min(limit);
+                            for _ticket in chunk_start..chunk_end {
+                                self.iterate_with_cached_quartz_snapshot(
+                                    &mut scratch,
+                                    use_quartz,
+                                    &mut qstats_epoch,
+                                    &mut qstats_snapshot,
+                                );
+                                local_it += 1;
+                                if tid == 0 {
+                                    if let Some(ref qcfg) = qcfg_ref {
+                                        if local_it % qcfg.check_interval == 0 {
+                                            self.refresh_quartz_stats();
+                                            self.refresh_par_ctrl();
+                                        }
                                     }
                                 }
                             }
                         }
                     });
-                } else {
+                }
+            });
+        } else {
+            rayon::scope(|s| {
+                for tid in 0..n_threads {
+                    let qcfg_ref = &self.config.quartz;
                     let needs_elapsed = controller.needs_elapsed_ms();
                     s.spawn(move |_| {
                         let mut local_it = 0u32;
+                        let mut scratch = self.make_select_scratch();
+                        let (mut qstats_epoch, mut qstats_snapshot) = if use_quartz {
+                            self.quartz_snapshot()
+                        } else {
+                            (0, None)
+                        };
                         loop {
                             let rv = self.root.n_total.load(Ordering::Relaxed);
                             let ms = if needs_elapsed {
@@ -756,7 +1103,12 @@ impl<G: GameState> MctsEngine<G> {
                             if controller.should_stop(rv, ms) {
                                 break;
                             }
-                            self.iterate();
+                            self.iterate_with_cached_quartz_snapshot(
+                                &mut scratch,
+                                use_quartz,
+                                &mut qstats_epoch,
+                                &mut qstats_snapshot,
+                            );
                             local_it += 1;
                             if tid == 0 {
                                 if let Some(ref qcfg) = qcfg_ref {
@@ -769,8 +1121,8 @@ impl<G: GameState> MctsEngine<G> {
                         }
                     });
                 }
-            }
-        });
+            });
+        }
 
         let ms = start.elapsed().as_millis() as u64;
         let rv = self.root.n_total.load(Ordering::Relaxed);
@@ -796,53 +1148,120 @@ impl<G: GameState> MctsEngine<G> {
     /// updates; all threads check `should_stop`.
     pub fn run_par_quartz(&self, ctrl: &mut QuartzController, n_threads: usize) -> SearchStats {
         ctrl.reset();
+        let n_threads = n_threads.max(1);
         self.par_ctrl.set_n_threads(n_threads as u32);
         self.par_ctrl.reset_for_search();
+        self.selection_telemetry.reset();
 
         let start = Instant::now();
         let check_interval = self.config.quartz.as_ref().map_or(20, |q| q.check_interval);
+        let use_quartz = self.config.quartz.is_some();
 
         // Reborrow as shared reference for rayon scope
         let ctrl_ref: &QuartzController = &*ctrl;
 
-        rayon::scope(|s| {
-            for tid in 0..n_threads {
-                s.spawn(move |_| {
-                    let mut local_it = 0u32;
-                    loop {
-                        let rv = self.root.n_total.load(Ordering::Relaxed);
-                        let ms = start.elapsed().as_millis() as u64;
-                        if ctrl_ref.should_stop(rv, ms) {
-                            break;
-                        }
-                        self.iterate();
-                        local_it += 1;
+        if let Some(limit) = ctrl_ref.visit_limit_hint() {
+            let next_visit = AtomicU32::new(self.root.n_total.load(Ordering::Relaxed));
+            let ticket_chunk = fixed_budget_ticket_chunk(n_threads);
+            rayon::scope(|s| {
+                for tid in 0..n_threads {
+                    let next_visit_ref = &next_visit;
+                    s.spawn(move |_| {
+                        let mut local_it = 0u32;
+                        let mut scratch = self.make_select_scratch();
+                        let (mut qstats_epoch, mut qstats_snapshot) = if use_quartz {
+                            self.quartz_snapshot()
+                        } else {
+                            (0, None)
+                        };
+                        loop {
+                            let chunk_start =
+                                next_visit_ref.fetch_add(ticket_chunk, Ordering::Relaxed);
+                            if chunk_start >= limit {
+                                break;
+                            }
+                            let chunk_end = chunk_start.saturating_add(ticket_chunk).min(limit);
+                            for _ticket in chunk_start..chunk_end {
+                                self.iterate_with_cached_quartz_snapshot(
+                                    &mut scratch,
+                                    use_quartz,
+                                    &mut qstats_epoch,
+                                    &mut qstats_snapshot,
+                                );
+                                local_it += 1;
 
-                        // Thread 0: periodic QUARTZ stats refresh
-                        if tid == 0 && local_it % check_interval == 0 {
-                            ctrl_ref.update_elapsed(ms);
-                            let rp = self.root_priors();
-                            ctrl_ref.update_stats(&self.root, Some(&rp));
-                            *self.quartz_cache.write() = Some(ctrl_ref.last_stats());
-                            self.refresh_par_ctrl();
-                            let checked_visits = self.root.n_total.load(Ordering::Relaxed);
-                            ctrl_ref.mark_checked(checked_visits);
+                                // Thread 0: periodic QUARTZ stats refresh. Fixed
+                                // halt mode still uses QUARTZ root shaping during
+                                // selection, so keep stats fresh even though stop
+                                // polling is replaced by exact budget tickets.
+                                if tid == 0 && local_it % check_interval == 0 {
+                                    let ms = start.elapsed().as_millis() as u64;
+                                    ctrl_ref.update_elapsed(ms);
+                                    ctrl_ref.update_stats(&self.root, None);
+                                    let stats = ctrl_ref.last_stats();
+                                    qstats_epoch = self.store_quartz_stats(stats.clone());
+                                    qstats_snapshot = Some(stats);
+                                    self.refresh_par_ctrl();
+                                    let checked_visits = self.root.n_total.load(Ordering::Relaxed);
+                                    ctrl_ref.mark_checked(checked_visits);
+                                }
+                            }
                         }
-                    }
-                });
-            }
-        });
+                    });
+                }
+            });
+        } else {
+            rayon::scope(|s| {
+                for tid in 0..n_threads {
+                    s.spawn(move |_| {
+                        let mut local_it = 0u32;
+                        let mut scratch = self.make_select_scratch();
+                        let (mut qstats_epoch, mut qstats_snapshot) = if use_quartz {
+                            self.quartz_snapshot()
+                        } else {
+                            (0, None)
+                        };
+                        loop {
+                            let rv = self.root.n_total.load(Ordering::Relaxed);
+                            let ms = start.elapsed().as_millis() as u64;
+                            if ctrl_ref.should_stop(rv, ms) {
+                                break;
+                            }
+                            self.iterate_with_cached_quartz_snapshot(
+                                &mut scratch,
+                                use_quartz,
+                                &mut qstats_epoch,
+                                &mut qstats_snapshot,
+                            );
+                            local_it += 1;
+
+                            // Thread 0: periodic QUARTZ stats refresh
+                            if tid == 0 && local_it % check_interval == 0 {
+                                ctrl_ref.update_elapsed(ms);
+                                ctrl_ref.update_stats(&self.root, None);
+                                let stats = ctrl_ref.last_stats();
+                                qstats_epoch = self.store_quartz_stats(stats.clone());
+                                qstats_snapshot = Some(stats);
+                                self.refresh_par_ctrl();
+                                let checked_visits = self.root.n_total.load(Ordering::Relaxed);
+                                ctrl_ref.mark_checked(checked_visits);
+                            }
+                        }
+                    });
+                }
+            });
+        }
 
         // Final stats update
         let ms = start.elapsed().as_millis() as u64;
         ctrl.update_elapsed(ms);
         {
-            let rp = self.root_priors();
-            ctrl.update_stats(&self.root, Some(&rp));
+            ctrl.update_stats(&self.root, None);
         }
-        *self.quartz_cache.write() = Some(ctrl.last_stats());
+        self.store_quartz_stats(ctrl.last_stats());
 
         let rv = self.root.n_total.load(Ordering::Relaxed);
+        let _ = ctrl.should_stop(rv, ms);
         SearchStats {
             iterations: rv,
             elapsed_ms: ms,
@@ -881,7 +1300,7 @@ impl<G: GameState> MctsEngine<G> {
                 self.root_state = self.root_state.apply_move(chosen_move);
                 self.root_noise = None;
                 // Clear quartz cache for new root
-                *self.quartz_cache.write() = None;
+                self.clear_quartz_stats();
                 self.par_ctrl.reset_for_search();
                 // Expand new root if not already expanded
                 if self.root.materialized_count() == 0 && !self.root_state.is_terminal() {
@@ -1010,10 +1429,7 @@ impl<G: GameState> MctsEngine<G> {
                 "Move", "N", "W", "Q", "P(%)"
             );
             println!("{}", "-".repeat(44));
-            let mut data: Vec<_> = edges
-                .iter()
-                .map(|e| (e.mv, e.n, e.w, e.q(), e.p))
-                .collect();
+            let mut data: Vec<_> = edges.iter().map(|e| (e.mv, e.n, e.w, e.q(), e.p)).collect();
             data.sort_by(|a, b| b.1.cmp(&a.1));
             for (mv, n, w, q, p) in data.iter().take(9) {
                 println!(
@@ -1050,8 +1466,104 @@ mod tests {
     use rand::{Rng, SeedableRng};
     use std::collections::HashMap;
     use std::hint::black_box;
-    use std::sync::Arc;
+    use std::sync::atomic::AtomicUsize;
+    use std::sync::{Arc, Mutex};
     use std::time::Instant;
+
+    static SCRATCH_CLONE_COUNT: AtomicUsize = AtomicUsize::new(0);
+    static EDGE_COUNTER_TEST_LOCK: Mutex<()> = Mutex::new(());
+
+    struct HotPathMetricsGuard;
+
+    impl HotPathMetricsGuard {
+        fn enabled() -> Self {
+            crate::mcts::profiling::set_test_hot_path_metrics_override(Some(true));
+            HotPathMetricsGuard
+        }
+    }
+
+    impl Drop for HotPathMetricsGuard {
+        fn drop(&mut self) {
+            crate::mcts::profiling::set_test_hot_path_metrics_override(None);
+        }
+    }
+
+    #[derive(Debug)]
+    struct ScratchCloneGame {
+        phase: u8,
+    }
+
+    impl Clone for ScratchCloneGame {
+        fn clone(&self) -> Self {
+            SCRATCH_CLONE_COUNT.fetch_add(1, Ordering::Relaxed);
+            Self { phase: self.phase }
+        }
+    }
+
+    impl GameState for ScratchCloneGame {
+        type Move = u8;
+        type Undo = u8;
+
+        fn initial() -> Self {
+            Self { phase: 0 }
+        }
+
+        fn current_player(&self) -> i8 {
+            1
+        }
+
+        fn legal_moves(&self) -> Vec<Self::Move> {
+            if self.phase == 0 {
+                vec![0, 1]
+            } else {
+                vec![]
+            }
+        }
+
+        fn apply_move(&self, _mv: Self::Move) -> Self {
+            Self {
+                phase: self.phase.saturating_add(1),
+            }
+        }
+
+        fn apply_move_in_place(&mut self, _mv: Self::Move) -> Self::Undo {
+            let prev = self.phase;
+            self.phase = self.phase.saturating_add(1);
+            prev
+        }
+
+        fn undo_move(&mut self, undo: Self::Undo) {
+            self.phase = undo;
+        }
+
+        fn uses_reusable_select_scratch() -> bool {
+            true
+        }
+
+        fn is_terminal(&self) -> bool {
+            self.phase > 0
+        }
+
+        fn outcome(&self) -> f32 {
+            0.0
+        }
+
+        fn hash(&self) -> u64 {
+            self.phase as u64
+        }
+
+        fn num_actions(&self) -> usize {
+            2
+        }
+
+        fn move_to_idx(&self, mv: Self::Move) -> usize {
+            mv as usize
+        }
+
+        fn idx_to_move(&self, idx: usize) -> Option<Self::Move> {
+            (idx < 2).then_some(idx as u8)
+        }
+    }
 
     #[derive(Clone, Debug)]
     struct TtHashDummy {
@@ -1186,6 +1698,27 @@ mod tests {
     }
 
     #[test]
+    fn test_sync_run_reuses_select_scratch_for_compact_undo_games() {
+        SCRATCH_CLONE_COUNT.store(0, Ordering::Relaxed);
+        let eval: Arc<dyn Evaluator<ScratchCloneGame>> = Arc::new(UniformEval);
+        let engine = MctsEngine::new(
+            ScratchCloneGame::initial(),
+            eval,
+            MctsConfig::evaluation(2.0),
+        );
+
+        let mut ctrl = crate::mcts::search::FixedIterations::new(32);
+        let stats = engine.run(&mut ctrl);
+
+        assert_eq!(stats.root_visits, 32);
+        let clones = SCRATCH_CLONE_COUNT.load(Ordering::Relaxed);
+        assert!(
+            clones <= 4,
+            "compact-undo sync search should clone once for root expansion and once for worker scratch, not once per iteration (clones={clones})"
+        );
+    }
+
+    #[test]
     fn tt_uses_exact_tt_hash_for_child_transpositions() {
         let eval: Arc<dyn Evaluator<TtHashDummy>> = Arc::new(UniformEval);
         let engine = MctsEngine::new(TtHashDummy::initial(), eval, MctsConfig::evaluation(1.0));
@@ -1248,6 +1781,10 @@ mod tests {
         let (engine, mut ctrl) = gomoku7_engine(200);
         engine.run_par_quartz(&mut ctrl, 2);
         let qstats = ctrl.last_stats();
+        assert!(
+            engine.current_quartz_stats().is_some(),
+            "engine QUARTZ cache should publish the controller snapshot"
+        );
         // After 200 visits, sigma_q should be computed (not default NaN)
         assert!(
             qstats.sigma_q.is_finite() || qstats.sigma_q.is_nan(),
@@ -1271,6 +1808,186 @@ mod tests {
         let stats = engine.run_par_quartz(&mut ctrl, 2);
         // At least 1 visit (may be more due to thread timing)
         assert!(stats.root_visits >= 1);
+    }
+
+    #[test]
+    fn test_run_par_fixed_budget_reservation_is_exact() {
+        let state = Gomoku::new(7);
+        let eval: Arc<dyn Evaluator<Gomoku>> = Arc::new(UniformEval);
+        let engine = MctsEngine::new(state, eval, MctsConfig::evaluation(2.0));
+        let ctrl = crate::mcts::search::FixedIterations::new(128);
+
+        let stats = engine.run_par(&ctrl, 8);
+
+        assert_eq!(stats.root_visits, 128);
+        assert_eq!(
+            stats.stop_reason,
+            StopReason::BudgetExhausted { iterations: 128 }
+        );
+    }
+
+    #[test]
+    fn test_auto_thread_decision_uses_remaining_fixed_budget() {
+        let state = Gomoku::new(7);
+        let eval: Arc<dyn Evaluator<Gomoku>> = Arc::new(UniformEval);
+        let engine = MctsEngine::new(state, eval, MctsConfig::evaluation(2.0));
+        let ctrl = crate::mcts::search::FixedIterations::new(10_000);
+
+        let decision = engine.auto_thread_decision(
+            &ctrl,
+            parallel::AutoThreadPolicy::throughput().with_max_threads(8),
+        );
+
+        assert_eq!(decision.threads, 8);
+        assert_eq!(decision.requested_cap, 8);
+        assert_eq!(decision.remaining_visits, Some(10_000));
+    }
+
+    #[test]
+    fn test_run_auto_fixed_budget_is_exact() {
+        let state = Gomoku::new(7);
+        let eval: Arc<dyn Evaluator<Gomoku>> = Arc::new(UniformEval);
+        let engine = MctsEngine::new(state, eval, MctsConfig::evaluation(2.0));
+        let mut ctrl = crate::mcts::search::FixedIterations::new(130);
+
+        let (stats, decision) = engine.run_auto(
+            &mut ctrl,
+            parallel::AutoThreadPolicy::throughput().with_max_threads(8),
+        );
+
+        assert_eq!(decision.threads, 2);
+        assert_eq!(stats.root_visits, 130);
+        assert_eq!(
+            stats.stop_reason,
+            StopReason::BudgetExhausted { iterations: 130 }
+        );
+    }
+
+    #[test]
+    fn test_run_auto_quality_caps_low_branching_game() {
+        let state = TicTacToe::initial();
+        let eval: Arc<dyn Evaluator<TicTacToe>> = Arc::new(UniformEval);
+        let engine = MctsEngine::new(state, eval, MctsConfig::evaluation(1.4));
+        let mut ctrl = crate::mcts::search::FixedIterations::new(50_000);
+
+        let (stats, decision) = engine.run_auto(
+            &mut ctrl,
+            parallel::AutoThreadPolicy::quality().with_max_threads(16),
+        );
+
+        assert_eq!(decision.threads, 4);
+        assert_eq!(stats.root_visits, 50_000);
+    }
+
+    #[test]
+    fn test_run_quartz_auto_fixed_budget_is_exact() {
+        let state = Gomoku::new(7);
+        let eval: Arc<dyn Evaluator<Gomoku>> = Arc::new(UniformEval);
+        let qcfg = QuartzConfig {
+            halt_mode: HaltMode::Fixed { budget: 130 },
+            check_interval: 16,
+            min_visits: 8,
+            ..Default::default()
+        };
+        let cfg = MctsConfig::evaluation(2.0).with_quartz(qcfg.clone());
+        let engine = MctsEngine::new(state, eval, cfg);
+        let mut ctrl = QuartzController::new(512, qcfg);
+
+        let (stats, decision) = engine.run_quartz_auto(
+            &mut ctrl,
+            parallel::AutoThreadPolicy::throughput().with_max_threads(8),
+        );
+
+        assert_eq!(decision.threads, 2);
+        assert_eq!(stats.root_visits, 130);
+    }
+
+    #[test]
+    fn test_run_par_fixed_budget_chunking_is_exact_when_not_divisible() {
+        let state = Gomoku::new(7);
+        let eval: Arc<dyn Evaluator<Gomoku>> = Arc::new(UniformEval);
+        let engine = MctsEngine::new(state, eval, MctsConfig::evaluation(2.0));
+        let ctrl = crate::mcts::search::FixedIterations::new(130);
+
+        let stats = engine.run_par(&ctrl, 8);
+
+        assert_eq!(stats.root_visits, 130);
+        assert_eq!(
+            stats.stop_reason,
+            StopReason::BudgetExhausted { iterations: 130 }
+        );
+    }
+
+    #[test]
+    fn test_run_par_quartz_fixed_budget_reservation_is_exact() {
+        let state = Gomoku::new(7);
+        let eval: Arc<dyn Evaluator<Gomoku>> = Arc::new(UniformEval);
+        let qcfg = QuartzConfig {
+            halt_mode: HaltMode::Fixed { budget: 128 },
+            check_interval: 16,
+            min_visits: 8,
+            ..Default::default()
+        };
+        let cfg = MctsConfig::evaluation(2.0).with_quartz(qcfg.clone());
+        let engine = MctsEngine::new(state, eval, cfg);
+        let mut ctrl = QuartzController::new(512, qcfg);
+
+        let stats = engine.run_par_quartz(&mut ctrl, 8);
+
+        assert_eq!(stats.root_visits, 128);
+        assert_eq!(
+            stats.stop_reason,
+            StopReason::BudgetExhausted { iterations: 128 }
+        );
+        assert!(ctrl.last_stats().root_visits >= 128);
+    }
+
+    #[test]
+    fn test_run_par_quartz_fixed_budget_chunking_is_exact_when_not_divisible() {
+        let state = Gomoku::new(7);
+        let eval: Arc<dyn Evaluator<Gomoku>> = Arc::new(UniformEval);
+        let qcfg = QuartzConfig {
+            halt_mode: HaltMode::Fixed { budget: 130 },
+            check_interval: 16,
+            min_visits: 8,
+            ..Default::default()
+        };
+        let cfg = MctsConfig::evaluation(2.0).with_quartz(qcfg.clone());
+        let engine = MctsEngine::new(state, eval, cfg);
+        let mut ctrl = QuartzController::new(512, qcfg);
+
+        let stats = engine.run_par_quartz(&mut ctrl, 8);
+
+        assert_eq!(stats.root_visits, 130);
+        assert_eq!(
+            stats.stop_reason,
+            StopReason::BudgetExhausted { iterations: 130 }
+        );
+        assert!(ctrl.last_stats().root_visits >= 130);
+    }
+
+    #[test]
+    fn test_run_quartz_fixed_budget_fast_path_is_exact() {
+        let state = Gomoku::new(7);
+        let eval: Arc<dyn Evaluator<Gomoku>> = Arc::new(UniformEval);
+        let qcfg = QuartzConfig {
+            halt_mode: HaltMode::Fixed { budget: 96 },
+            check_interval: 16,
+            min_visits: 8,
+            ..Default::default()
+        };
+        let cfg = MctsConfig::evaluation(2.0).with_quartz(qcfg.clone());
+        let engine = MctsEngine::new(state, eval, cfg);
+        let mut ctrl = QuartzController::new(256, qcfg);
+
+        let stats = engine.run_quartz(&mut ctrl);
+
+        assert_eq!(stats.root_visits, 96);
+        assert_eq!(stats.iterations, 96);
+        assert_eq!(
+            stats.stop_reason,
+            StopReason::BudgetExhausted { iterations: 96 }
+        );
     }
 
     #[test]
@@ -1301,6 +2018,47 @@ mod tests {
     }
 
     #[test]
+    fn test_serial_run_skips_virtual_loss_reservations() {
+        let eval: Arc<dyn Evaluator<TicTacToe>> = Arc::new(UniformEval);
+        let engine = MctsEngine::new(TicTacToe::initial(), eval, MctsConfig::evaluation(1.4));
+        let mut ctrl = crate::mcts::search::FixedIterations::new(16);
+
+        engine.run(&mut ctrl);
+
+        let snap = engine.par_ctrl.telemetry.snapshot();
+        assert_eq!(snap.total_selects, 0);
+        assert_eq!(snap.dup_leaf_count, 0);
+        assert_eq!(snap.max_pending, 0);
+    }
+
+    #[test]
+    fn test_async_prepare_forces_virtual_loss_reservation() {
+        let eval: Arc<dyn Evaluator<TicTacToe>> = Arc::new(UniformEval);
+        let engine = MctsEngine::new(TicTacToe::initial(), eval, MctsConfig::evaluation(1.4));
+
+        let prepared = engine.prepare_iteration_async();
+        let snap = engine.par_ctrl.telemetry.snapshot();
+        assert!(snap.total_selects > 0);
+
+        if let PreparedIteration::Pending(pending) = prepared {
+            let eval = engine.evaluator.evaluate(&pending.leaf_state);
+            engine.complete_iteration_async(pending, eval);
+        }
+    }
+
+    #[test]
+    fn test_parallel_run_uses_virtual_loss_reservations() {
+        let eval: Arc<dyn Evaluator<TicTacToe>> = Arc::new(UniformEval);
+        let engine = MctsEngine::new(TicTacToe::initial(), eval, MctsConfig::evaluation(1.4));
+        let ctrl = crate::mcts::search::FixedIterations::new(64);
+
+        engine.run_par(&ctrl, 2);
+
+        let snap = engine.par_ctrl.telemetry.snapshot();
+        assert!(snap.total_selects > 0);
+    }
+
+    #[test]
     fn test_advance_root_resets_parallel_telemetry() {
         let (mut engine, _) = gomoku7_engine(50);
         engine.par_ctrl.telemetry.record_select(3);
@@ -1313,6 +2071,20 @@ mod tests {
         assert_eq!(snap.total_selects, 0);
         assert_eq!(snap.dup_leaf_count, 0);
         assert_eq!(snap.max_pending, 0);
+    }
+
+    #[test]
+    fn test_advance_root_clears_quartz_cache_epoch() {
+        let (mut engine, mut ctrl) = gomoku7_engine(80);
+        engine.run_quartz(&mut ctrl);
+        assert!(engine.current_quartz_stats().is_some());
+        let epoch_before = engine.quartz_cache_epoch.load(Ordering::Acquire);
+        let chosen = engine.root_state().legal_moves()[0];
+
+        assert!(engine.advance_root(chosen));
+
+        assert!(engine.current_quartz_stats().is_none());
+        assert!(engine.quartz_cache_epoch.load(Ordering::Acquire) > epoch_before);
     }
 
     #[test]
@@ -1368,10 +2140,7 @@ mod tests {
         let from_api = visit_distribution(&engine.root, 1.0);
         let from_edges = {
             let edges = engine.root.edge_snapshot(engine.root.materialized_count());
-            let counts: Vec<f64> = edges
-                .iter()
-                .map(|e| e.n as f64)
-                .collect();
+            let counts: Vec<f64> = edges.iter().map(|e| e.n as f64).collect();
             let total: f64 = counts.iter().sum();
             edges
                 .iter()
@@ -1436,6 +2205,87 @@ mod tests {
         let unique_moves: std::collections::HashSet<_> = edges.iter().map(|e| e.mv).collect();
         assert_eq!(unique_moves.len(), target);
         assert_eq!(engine.root.materialized_count(), target);
+    }
+
+    #[test]
+    fn test_best_effort_materialization_skips_busy_lock_after_first_edge() {
+        let _counter_guard = EDGE_COUNTER_TEST_LOCK.lock().unwrap();
+        let _metrics = HotPathMetricsGuard::enabled();
+        crate::mcts::node::reset_edge_lock_contention_counters();
+
+        let state = Gomoku::new(7);
+        let eval: Arc<dyn Evaluator<Gomoku>> = Arc::new(UniformEval);
+        let mut cfg = MctsConfig::evaluation(2.0);
+        cfg.pw = Some(PwConfig::new(1.0, 0.0));
+        let engine = MctsEngine::new(state.clone(), eval, cfg);
+        let target = engine.root.candidate_count();
+        assert!(target > 1);
+
+        crate::mcts::expand::materialize_edges(&engine.root, &state, 1, &engine.tt);
+        assert_eq!(engine.root.materialized_count(), 1);
+
+        let lock_guard = engine.root.materialize_lock.lock();
+        let mut probe = state.clone();
+        crate::mcts::expand::materialize_edges_in_place_best_effort(
+            &engine.root,
+            &mut probe,
+            target,
+            &engine.tt,
+        );
+        assert_eq!(probe.tt_hash(), state.tt_hash());
+        assert_eq!(engine.root.materialized_count(), 1);
+        assert_eq!(
+            crate::mcts::node::edge_lock_contention_snapshot().busy_skips,
+            1
+        );
+        drop(lock_guard);
+
+        crate::mcts::expand::materialize_edges_in_place_best_effort(
+            &engine.root,
+            &mut probe,
+            target,
+            &engine.tt,
+        );
+        assert_eq!(probe.tt_hash(), state.tt_hash());
+        assert_eq!(engine.root.materialized_count(), target);
+    }
+
+    #[test]
+    fn test_best_effort_materialization_skips_duplicate_preparation_claim() {
+        let _counter_guard = EDGE_COUNTER_TEST_LOCK.lock().unwrap();
+        let _metrics = HotPathMetricsGuard::enabled();
+        crate::mcts::node::reset_edge_lock_contention_counters();
+
+        let state = Gomoku::new(7);
+        let eval: Arc<dyn Evaluator<Gomoku>> = Arc::new(UniformEval);
+        let mut cfg = MctsConfig::evaluation(2.0);
+        cfg.pw = Some(PwConfig::new(1.0, 0.0));
+        let engine = MctsEngine::new(state.clone(), eval, cfg);
+        let target = engine.root.candidate_count();
+        assert!(target > 1);
+
+        crate::mcts::expand::materialize_edges(&engine.root, &state, 1, &engine.tt);
+        assert_eq!(engine.root.materialized_count(), 1);
+
+        engine.root.materialize_claim.store(1, Ordering::Relaxed);
+        let tt_size_before = engine.tt.size();
+        let mut probe = state.clone();
+        crate::mcts::expand::materialize_edges_in_place_best_effort(
+            &engine.root,
+            &mut probe,
+            target,
+            &engine.tt,
+        );
+
+        assert_eq!(probe.tt_hash(), state.tt_hash());
+        assert_eq!(engine.root.materialized_count(), 1);
+        assert_eq!(engine.tt.size(), tt_size_before);
+        assert_eq!(
+            crate::mcts::node::edge_lock_contention_snapshot().busy_skips,
+            1
+        );
+
+        engine.root.materialize_claim.store(0, Ordering::Relaxed);
     }
 
     fn solve_ttt(state: &TicTacToe, memo: &mut HashMap<u64, f32>) -> f32 {

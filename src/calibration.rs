@@ -48,7 +48,11 @@ pub fn recommend_sigma_0(rows: &[SigmaScanRow]) -> Option<f32> {
             let db = b.hbar_distance();
             da.partial_cmp(&db)
                 .unwrap_or(std::cmp::Ordering::Equal)
-                .then(a.sigma_0.partial_cmp(&b.sigma_0).unwrap_or(std::cmp::Ordering::Equal))
+                .then(
+                    a.sigma_0
+                        .partial_cmp(&b.sigma_0)
+                        .unwrap_or(std::cmp::Ordering::Equal),
+                )
         })
         .map(|row| row.sigma_0)
 }
@@ -253,7 +257,9 @@ mod tests {
             .ok()
             .map(std::path::PathBuf::from)
             .unwrap_or_else(|| {
-                std::path::PathBuf::from("results/rust_ablations/calibration/sigma_0_recommendation.json")
+                std::path::PathBuf::from(
+                    "results/rust_ablations/calibration/sigma_0_recommendation.json",
+                )
             });
         match write_sigma_recommendation(&out_path, &per_game) {
             Ok(()) => eprintln!("  σ₀ recommendation -> {}", out_path.display()),

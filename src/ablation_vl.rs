@@ -59,10 +59,7 @@ fn root_visit_entropy<M: Into<usize> + Copy + Send + Sync + 'static>(
     engine: &MctsEngine<impl GameState<Move = M>>,
 ) -> f32 {
     let edges = engine.root.edge_snapshot(engine.root.materialized_count());
-    let total: f32 = edges
-        .iter()
-        .map(|e| e.n as f32)
-        .sum();
+    let total: f32 = edges.iter().map(|e| e.n as f32).sum();
     if total < 2.0 {
         return 0.0;
     }
@@ -83,11 +80,7 @@ fn root_q_spread<M: Into<usize> + Copy + Send + Sync + 'static>(
     engine: &MctsEngine<impl GameState<Move = M>>,
 ) -> f32 {
     let edges = engine.root.edge_snapshot(engine.root.materialized_count());
-    let qs: Vec<f32> = edges
-        .iter()
-        .filter(|e| e.n > 0)
-        .map(|e| e.q())
-        .collect();
+    let qs: Vec<f32> = edges.iter().filter(|e| e.n > 0).map(|e| e.q()).collect();
     if qs.len() < 2 {
         return 0.0;
     }

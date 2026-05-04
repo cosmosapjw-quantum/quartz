@@ -166,9 +166,34 @@ def configure_torch_rocm_runtime(hw):
 def recommend_eval_parallel_workers(hw, cfg, eval_games, rust_ok):
     if eval_games <= 1:
         return 1
-    thread_cost = max(1, int(cfg.get("n_threads", 1)))
+    thread_cost = runtime_thread_budget(cfg, hw=hw)
     cpu_capacity = max(1, hw.physical_cpus // thread_cost)
     return max(1, min(cpu_capacity, int(eval_games)))
+
+
+def runtime_thread_budget(cfg, hw=None, fallback=1):
+    raw = cfg.get("n_threads", fallback)
+    cap = max_supported_threads(hw) if hw is not None else None
+    try:
+        if isinstance(raw, str):
+            value = raw.strip().lower()
+            if value in {"auto", "throughput", "auto-throughput", "quality", "auto-quality"}:
+                raw_cap = (
+                    cfg.get("thread_cap")
+                    or cfg.get("max_threads")
+                    or cfg.get("n_threads_cap")
+                    or cap
+                    or fallback
+                )
+                budget = int(raw_cap)
+            else:
+                budget = int(value)
+        else:
+            budget = int(raw or fallback)
+    except (TypeError, ValueError):
+        budget = int(fallback)
+    budget = max(1, budget)
+    return min(budget, cap) if cap is not None else budget
 
 
 EVAL_AUTOTUNE_PROFILE_VERSION = 4
@@ -192,7 +217,10 @@ def eval_autotune_signature(hw, cfg, eval_games):
         "game": cfg.get("_name"),
         "eval_games": int(eval_games),
         "iters": int(cfg.get("iters", 0)),
-        "n_threads": int(cfg.get("n_threads", 1)),
+        "n_threads": cfg.get("n_threads", 1),
+        "thread_budget": runtime_thread_budget(cfg, hw=hw),
+        "thread_policy": cfg.get("thread_policy"),
+        "auto_thread_policy": cfg.get("auto_thread_policy"),
         "batch_size": int(cfg.get("batch_size", 8)),
         "backend": str(cfg.get("_backend_name", "torch")),
         "search_profile": str(cfg.get("search_profile", "quartz")),
@@ -234,7 +262,7 @@ def save_eval_autotune_profile(profile_path, hw, cfg, eval_games, workers, bench
 
 
 def eval_worker_candidates(hw, cfg, eval_games):
-    thread_cost = max(1, int(cfg.get("n_threads", 1)))
+    thread_cost = runtime_thread_budget(cfg, hw=hw)
     cap = max(1, min(int(eval_games), hw.physical_cpus // thread_cost))
     seeds = [
         1,
@@ -306,7 +334,19 @@ def clamp_runtime_cfg_to_hardware(cfg, hw):
     out = dict(cfg)
     thread_cap = max_supported_threads(hw)
     if "n_threads" in out:
-        out["n_threads"] = max(1, min(int(out["n_threads"]), thread_cap))
+        raw = out["n_threads"]
+        if isinstance(raw, str) and raw.strip().lower() in {
+            "auto",
+            "throughput",
+            "auto-throughput",
+            "quality",
+            "auto-quality",
+        }:
+            for key in ("thread_cap", "max_threads", "n_threads_cap"):
+                if key in out and out[key] is not None:
+                    out[key] = max(1, min(int(out[key]), thread_cap))
+        else:
+            out["n_threads"] = max(1, min(int(raw), thread_cap))
     return out
 
 
@@ -327,5 +367,6 @@ __all__ = [
     "load_eval_autotune_profile",
     "max_supported_threads",
     "recommend_eval_parallel_workers",
+    "runtime_thread_budget",
     "save_eval_autotune_profile",
 ]

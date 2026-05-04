@@ -41,6 +41,7 @@ import numpy as np
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
 
 from quartz.contract_summary import stable_json_hash, summarize_contract_collection
+from quartz.evaluation import score_rate_ci
 from quartz.eval_runtime_profile import load_eval_runtime_overrides_from_model
 from quartz.eval_timing_summary import summarize_controller_stage2_timings
 
@@ -576,7 +577,7 @@ def _arena_dual_cfg_with_clients(
     *,
     n_games: int,
     strict: bool = True,
-) -> tuple[int, int, int, float, list[float], str | None]:
+) -> tuple[int, int, int, float, list[float], str | None, dict]:
     board_size = int(cfg_a["board"])
     n2 = board_size ** 2
     win_len = int(cfg_a["win"])
@@ -589,6 +590,22 @@ def _arena_dual_cfg_with_clients(
     upper_bound = math.log((1 - beta) / alpha)
     sprt_decided = False
     sprt_result = None
+    telemetry = {
+        "candidate_a": {
+            "search_count": 0,
+            "benchmark_safe_count": 0,
+            "root_visits": [],
+            "halt_reason_hist": {},
+            "selection_root_selects": 0,
+        },
+        "candidate_b": {
+            "search_count": 0,
+            "benchmark_safe_count": 0,
+            "root_visits": [],
+            "halt_reason_hist": {},
+            "selection_root_selects": 0,
+        },
+    }
 
     penalty_mode_a = cfg_a.get("penalty_mode", "GatedRefresh")
     penalty_mode_b = cfg_b.get("penalty_mode", "GatedRefresh")
@@ -615,6 +632,8 @@ def _arena_dual_cfg_with_clients(
                         f"stage2 strict arena search failed: {result.get('error') if isinstance(result, dict) else 'empty response'}"
                     )
                 break
+            slot = "candidate_a" if client is client_a else "candidate_b"
+            _record_stage2_search_telemetry(telemetry[slot], result)
 
             pol_entries = result.get("policy", [])
             if not pol_entries:
@@ -680,7 +699,66 @@ def _arena_dual_cfg_with_clients(
                 sprt_result = "H0_accept"
 
     wr = (wins_a + 0.5 * draws) / max(1, int(n_games))
-    return wins_a, wins_b, draws, wr, [0.0, 0.0], sprt_result
+    _score_rate, ci = score_rate_ci(wins_a, draws, int(n_games))
+    return wins_a, wins_b, draws, wr, [float(ci[0]), float(ci[1])], sprt_result, {
+        key: _finalize_stage2_search_telemetry(value)
+        for key, value in telemetry.items()
+    }
+
+
+def _record_stage2_search_telemetry(bucket: dict, result: dict) -> None:
+    bucket["search_count"] = int(bucket.get("search_count", 0) or 0) + 1
+    manifest = result.get("search_manifest") or {}
+    if manifest.get("benchmark_safe") is not False:
+        bucket["benchmark_safe_count"] = int(bucket.get("benchmark_safe_count", 0) or 0) + 1
+    realized = result.get("realized_budget") or {}
+    controller = result.get("controller_summary") or {}
+    root_visits = realized.get("root_visits")
+    if root_visits is None:
+        root_visits = realized.get("realized_iterations")
+    if root_visits is None:
+        root_visits = result.get("iters") or result.get("iterations")
+    if root_visits is not None:
+        try:
+            bucket.setdefault("root_visits", []).append(float(root_visits))
+        except Exception:
+            pass
+    reason = (
+        realized.get("stop_reason")
+        or controller.get("stop_reason")
+        or result.get("stop_reason")
+    )
+    if reason:
+        hist = bucket.setdefault("halt_reason_hist", {})
+        key = str(reason)
+        hist[key] = int(hist.get(key, 0) or 0) + 1
+    trace = controller.get("selection_trace") or {}
+    if trace.get("root_selects") is not None:
+        try:
+            bucket["selection_root_selects"] = int(bucket.get("selection_root_selects", 0) or 0) + int(trace["root_selects"])
+        except Exception:
+            pass
+
+
+def _finalize_stage2_search_telemetry(bucket: dict) -> dict:
+    visits = [float(v) for v in bucket.get("root_visits") or []]
+    search_count = int(bucket.get("search_count", 0) or 0)
+    return {
+        "search_count": search_count,
+        "benchmark_safe_frac": (
+            float(bucket.get("benchmark_safe_count", 0) / search_count)
+            if search_count
+            else None
+        ),
+        "root_visits": {
+            "count": int(len(visits)),
+            "mean": float(sum(visits) / len(visits)) if visits else None,
+            "min": float(min(visits)) if visits else None,
+            "max": float(max(visits)) if visits else None,
+        },
+        "halt_reason_hist": dict(bucket.get("halt_reason_hist") or {}),
+        "selection_root_selects": int(bucket.get("selection_root_selects", 0) or 0),
+    }
 
 
 def _build_stage2_client_pool(
@@ -1189,7 +1267,7 @@ def run_stage2_round_robin(candidates: list[dict], checkpoints: list[str], base_
                     f"({args.stage2_games} games)"
                 )
                 match_t0 = time.perf_counter()
-                wa, wb, draws, wr, ci, sprt = _arena_dual_cfg_with_clients(
+                arena_result = _arena_dual_cfg_with_clients(
                     client_pool[candidate_a["id"]]["client"],
                     client_pool[candidate_a["id"]]["cfg"],
                     client_pool[candidate_b["id"]]["client"],
@@ -1197,6 +1275,11 @@ def run_stage2_round_robin(candidates: list[dict], checkpoints: list[str], base_
                     n_games=args.stage2_games,
                     strict=True,
                 )
+                if len(arena_result) == 6:
+                    wa, wb, draws, wr, ci, sprt = arena_result
+                    budget_trace = {}
+                else:
+                    wa, wb, draws, wr, ci, sprt, budget_trace = arena_result
                 matches.append({
                     "checkpoint_path": checkpoint_path,
                     "candidate_a": candidate_a["id"],
@@ -1212,6 +1295,7 @@ def run_stage2_round_robin(candidates: list[dict], checkpoints: list[str], base_
                     "win_rate_a": float(wr),
                     "ci": [float(ci[0]), float(ci[1])],
                     "sprt": sprt,
+                    "realized_budget_trace": budget_trace,
                     "timing_s": {
                         "client_bootstrap_s": round(float(checkpoint_timing["client_bootstrap_s"]), 6),
                         "match_elapsed_s": round(time.perf_counter() - match_t0, 6),

@@ -247,7 +247,7 @@ class ReplayBuffer:
             )
 
     @staticmethod
-    def _stamp_actor_generation(metadata, actor_generation):
+    def _stamp_actor_generation(metadata, actor_generation, actor_id=None):
         # Always return a dict so downstream ReplayExample stores a concrete
         # metadata object rather than None. When actor_generation is not
         # supplied we leave the field out rather than stamping 0, so readers
@@ -255,32 +255,32 @@ class ReplayBuffer:
         base = dict(metadata or {})
         if actor_generation is not None:
             base["actor_generation"] = int(actor_generation)
+        if actor_id is not None:
+            base["actor_id"] = str(actor_id)
         return base
 
-    def add_game(self, states, policies, outcome, start_player=1, traces=None, actor_generation=None):
+    def add_game(self, states, policies, outcome, start_player=1, traces=None, actor_generation=None, actor_id=None):
         """Add a full game using side-to-move values at each ply.
 
-        `actor_generation`, when provided, is stamped into every per-sample
-        metadata dict so the replay buffer's samples remain traceable to the
-        exact actor checkpoint that produced them. This lets downstream
-        analysis draw an actor-generation freshness histogram for each
-        learner step.
+        `actor_generation` and `actor_id`, when provided, are stamped into
+        every per-sample metadata dict so replay samples remain traceable to
+        the immutable actor snapshot that produced them.
         """
         with self._lock:
             for i, (state, policy) in enumerate(zip(states, policies)):
                 player_to_move = start_player if (i % 2 == 0) else -start_player
                 value = outcome * player_to_move
                 metadata = traces[i] if traces is not None and i < len(traces) else None
-                metadata = self._stamp_actor_generation(metadata, actor_generation)
+                metadata = self._stamp_actor_generation(metadata, actor_generation, actor_id=actor_id)
                 self.buf.append(self._make_example(state, policy, value, metadata=metadata))
 
-    def add_sparse_game(self, states, policies, outcome, n_actions, start_player=1, traces=None, actor_generation=None):
+    def add_sparse_game(self, states, policies, outcome, n_actions, start_player=1, traces=None, actor_generation=None, actor_id=None):
         with self._lock:
             for i, (state, policy) in enumerate(zip(states, policies)):
                 player_to_move = start_player if (i % 2 == 0) else -start_player
                 value = outcome * player_to_move
                 metadata = traces[i] if traces is not None and i < len(traces) else None
-                metadata = self._stamp_actor_generation(metadata, actor_generation)
+                metadata = self._stamp_actor_generation(metadata, actor_generation, actor_id=actor_id)
                 self.buf.append(
                     self._make_sparse_example(state, policy, value, n_actions, metadata=metadata)
                 )
@@ -365,7 +365,8 @@ class ReplayBuffer:
             return [self.buf[int(idx)] for idx in indices]
 
     def save(self, path):
-        data = list(self.buf)
+        with self._lock:
+            data = list(self.buf)
         policy_ptr = np.zeros(len(data) + 1, dtype=np.int64)
         nnz_total = 0
         for i, example in enumerate(data):
@@ -659,6 +660,12 @@ class ReplayMetrics:
         halt_reason_hist = {}
         refresh_counts = []
         penalty_sums = []
+        selection_root_selects = []
+        selection_refresh_selected = []
+        selection_penalty_abs_sums = []
+        selection_effective_prior_l1_sums = []
+        selection_mean_candidate_counts = []
+        selection_max_candidate_counts = []
         penalty_mode_counts = {}
         prior_refresh_rates = []
         prior_q_divergences = []
@@ -667,6 +674,7 @@ class ReplayMetrics:
         telemetry_partial = 0
         refresh_metric_present = 0
         penalty_metric_present = 0
+        selection_trace_present = 0
         halt_metric_present = 0
         # P6 (audit_codex_20260425.md W8): per-sample voc-channel
         # accumulators. Mean / count are surfaced in the summary so
@@ -683,6 +691,11 @@ class ReplayMetrics:
         # framing rather than decision-bearing structure.
         voc_argmax_channel_hist: dict[str, int] = {}
         controller_schema_versions: dict[str, int] = {}
+        actuator_coverage_seen = 0
+        prior_refresh_rate_configured = 0
+        prior_refresh_rate_consumed_by_mode = 0
+        prior_refresh_rate_inert_for_mode = 0
+        prior_refresh_source_counts: dict[str, int] = {}
         # Per-penalty-mode halt-trace accumulators — needed so ablation readers
         # can verify same-budget fairness across penalty modes (see W1/F1 in
         # the audit review: default halt is p_flip-mediated, so mode-specific
@@ -725,6 +738,18 @@ class ReplayMetrics:
             if ctrl.get("penalty_sum") is not None:
                 penalty_sums.append(float(ctrl["penalty_sum"]))
                 penalty_metric_present += 1
+            selection_trace = ctrl.get("selection_trace") or {}
+            if isinstance(selection_trace, dict) and selection_trace.get("root_selects") is not None:
+                selection_trace_present += 1
+                root_selects = float(selection_trace.get("root_selects") or 0.0)
+                selection_root_selects.append(root_selects)
+                selection_refresh_selected.append(float(selection_trace.get("refresh_selected_count") or 0.0))
+                selection_penalty_abs_sums.append(float(selection_trace.get("selected_penalty_abs_sum") or 0.0))
+                selection_effective_prior_l1_sums.append(float(selection_trace.get("selected_effective_prior_l1_sum") or 0.0))
+                if selection_trace.get("selected_mean_candidate_count") is not None:
+                    selection_mean_candidate_counts.append(float(selection_trace["selected_mean_candidate_count"]))
+                if selection_trace.get("selected_max_candidate_count") is not None:
+                    selection_max_candidate_counts.append(float(selection_trace["selected_max_candidate_count"]))
             penalty_mode = ctrl.get("penalty_mode")
             if penalty_mode:
                 penalty_mode_counts[str(penalty_mode)] = int(penalty_mode_counts.get(str(penalty_mode), 0)) + 1
@@ -766,6 +791,21 @@ class ReplayMetrics:
                 controller_schema_versions[key] = (
                     int(controller_schema_versions.get(key, 0)) + 1
                 )
+            actuator_coverage = ctrl.get("actuator_coverage") or {}
+            if isinstance(actuator_coverage, dict) and actuator_coverage:
+                actuator_coverage_seen += 1
+                if actuator_coverage.get("prior_refresh_rate_configured"):
+                    prior_refresh_rate_configured += 1
+                if actuator_coverage.get("prior_refresh_rate_consumed_by_mode"):
+                    prior_refresh_rate_consumed_by_mode += 1
+                if actuator_coverage.get("prior_refresh_rate_inert_for_mode"):
+                    prior_refresh_rate_inert_for_mode += 1
+                source = actuator_coverage.get("prior_refresh_source")
+                if source:
+                    key = str(source)
+                    prior_refresh_source_counts[key] = (
+                        int(prior_refresh_source_counts.get(key, 0)) + 1
+                    )
             if ctrl.get("root_only_shaping") is not None:
                 root_only_shaping_seen += 1
                 if bool(ctrl.get("root_only_shaping")):
@@ -813,6 +853,36 @@ class ReplayMetrics:
             "halt_reason_hist": halt_reason_hist,
             "mean_refresh_count": float(sum(refresh_counts) / len(refresh_counts)) if refresh_counts else None,
             "mean_penalty_sum": float(sum(penalty_sums) / len(penalty_sums)) if penalty_sums else None,
+            "mean_selection_root_selects": (
+                float(sum(selection_root_selects) / len(selection_root_selects))
+                if selection_root_selects
+                else None
+            ),
+            "selection_refresh_selected_frac": (
+                float(sum(selection_refresh_selected) / sum(selection_root_selects))
+                if selection_root_selects and sum(selection_root_selects) > 0
+                else None
+            ),
+            "mean_selection_penalty_abs_sum": (
+                float(sum(selection_penalty_abs_sums) / len(selection_penalty_abs_sums))
+                if selection_penalty_abs_sums
+                else None
+            ),
+            "mean_selection_effective_prior_l1_sum": (
+                float(sum(selection_effective_prior_l1_sums) / len(selection_effective_prior_l1_sums))
+                if selection_effective_prior_l1_sums
+                else None
+            ),
+            "mean_selection_candidate_count": (
+                float(sum(selection_mean_candidate_counts) / len(selection_mean_candidate_counts))
+                if selection_mean_candidate_counts
+                else None
+            ),
+            "max_selection_candidate_count": (
+                float(max(selection_max_candidate_counts))
+                if selection_max_candidate_counts
+                else None
+            ),
             "controller_penalty_mode_counts": penalty_mode_counts,
             "mean_prior_refresh_rate": (
                 float(sum(prior_refresh_rates) / len(prior_refresh_rates))
@@ -833,6 +903,7 @@ class ReplayMetrics:
             "halt_metric_coverage_frac": float(halt_metric_present / max(sample_n, 1)),
             "refresh_metric_coverage_frac": float(refresh_metric_present / max(sample_n, 1)),
             "penalty_metric_coverage_frac": float(penalty_metric_present / max(sample_n, 1)),
+            "selection_trace_coverage_frac": float(selection_trace_present / max(sample_n, 1)),
             "halt_trace": _finalize_halt_trace(halt_trace_per_mode),
             # P6: voc-channel decomposition (mean across samples) and a
             # schema_version census so a downstream consumer can fail
@@ -863,6 +934,11 @@ class ReplayMetrics:
             # schema_version 1, or pre-halt smoke runs).
             "voc_argmax_channel_hist": dict(voc_argmax_channel_hist),
             "controller_schema_versions": dict(controller_schema_versions),
+            "actuator_coverage_frac": float(actuator_coverage_seen / max(sample_n, 1)),
+            "prior_refresh_rate_configured_frac": float(prior_refresh_rate_configured / max(actuator_coverage_seen, 1)),
+            "prior_refresh_rate_consumed_by_mode_frac": float(prior_refresh_rate_consumed_by_mode / max(actuator_coverage_seen, 1)),
+            "prior_refresh_rate_inert_for_mode_frac": float(prior_refresh_rate_inert_for_mode / max(actuator_coverage_seen, 1)),
+            "prior_refresh_source_counts": dict(prior_refresh_source_counts),
         }
 
 

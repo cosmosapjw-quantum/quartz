@@ -4,9 +4,11 @@
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 import math
 import os
+import shutil
 import sys
 import time
 from dataclasses import dataclass
@@ -268,6 +270,17 @@ def _save_model_checkpoint(backend, model, torch_mod, path: str, cfg: dict) -> N
         backend.save(path, cfg=cfg)
         return
     torch_mod.save({"model_state_dict": model.state_dict(), "cfg": _checkpoint_cfg_payload(cfg)}, path)
+
+
+def _sha256_file(path: str) -> str | None:
+    try:
+        h = hashlib.sha256()
+        with open(path, "rb") as handle:
+            for chunk in iter(lambda: handle.read(1024 * 1024), b""):
+                h.update(chunk)
+        return h.hexdigest()
+    except OSError:
+        return None
 
 
 def _write_checkpoint_status(
@@ -891,6 +904,8 @@ def run_training_main(args, ctx: PreparedTrainingContext, runtime_hooks: MainRun
             print(f"  Expected: {args.rust_binary}")
             sys.exit(1)
 
+        entry["replay_freshness"] = round(runtime_hooks.replay_metrics.freshness(n_new, len(replay)), 4)
+
         if len(replay) >= cfg["batch"]:
             train_steps = runtime_hooks.compute_train_steps(
                 cfg["steps"], cfg["batch"], n_new, concurrent=args.concurrent
@@ -1010,6 +1025,19 @@ def run_training_main(args, ctx: PreparedTrainingContext, runtime_hooks: MainRun
                 changes = ", ".join(f"{k}={v}" for k, v in runtime_overrides.items())
                 print(f"  [AutoTune] iter {iteration+1}: adjusted {changes}")
 
+        if bg_worker is not None:
+            telemetry_fn = getattr(bg_worker, "telemetry", None)
+            try:
+                selfplay_telemetry = telemetry_fn() if callable(telemetry_fn) else bg_worker.status()
+            except Exception:
+                selfplay_telemetry = bg_worker.status()
+            entry["selfplay_telemetry"] = selfplay_telemetry
+            if isinstance(selfplay_telemetry, dict) and selfplay_telemetry.get("last_progress_age_s") is not None:
+                entry["selfplay_queue_latency_s"] = round(
+                    float(selfplay_telemetry.get("last_progress_age_s") or 0.0),
+                    3,
+                )
+
         if (iteration + 1) % 5 == 0:
             _save_model_checkpoint(backend, model, torch, latest_model_path, cfg)
             replay.save(replay_path)
@@ -1028,7 +1056,16 @@ def run_training_main(args, ctx: PreparedTrainingContext, runtime_hooks: MainRun
                     raise RuntimeError("background self-play failed to pause for evaluation")
             try:
                 candidate_name = f"gen_{iteration+1}"
-                candidate_actor_template = runtime_hooks.clone_actor_model(actor_source)
+                candidate_model_path = os.path.join(base_dir, f"{candidate_name}.pt")
+                _save_model_checkpoint(backend, model, torch, candidate_model_path, cfg)
+                candidate_model_hash = _sha256_file(candidate_model_path)
+                candidate_actor_template = runtime_hooks.load_actor_source_from_checkpoint(
+                    candidate_model_path,
+                    cfg,
+                    device,
+                    backend_preference=backend.name if backend is not None else "torch",
+                    backend_template=backend,
+                )
                 if rust_ok:
                     cand_factory = lambda candidate_name=candidate_name, candidate_actor_template=candidate_actor_template: runtime_hooks.rust_nn_evaluator_engine_cls(
                         candidate_name,
@@ -1130,7 +1167,7 @@ def run_training_main(args, ctx: PreparedTrainingContext, runtime_hooks: MainRun
                 if v == "promote":
                     saw_promotion = True
                     best_checkpoint_bootstrap = False
-                    _save_model_checkpoint(backend, model, torch, best_model_path, cfg)
+                    shutil.copy2(candidate_model_path, best_model_path)
                     _write_checkpoint_status(
                         base_dir,
                         latest_model_path,
@@ -1148,6 +1185,8 @@ def run_training_main(args, ctx: PreparedTrainingContext, runtime_hooks: MainRun
                         {
                             "_type": "eval",
                             "iter": iteration + 1,
+                            "candidate_model_path": candidate_model_path,
+                            "candidate_model_sha256": candidate_model_hash,
                             "search_manifest": eval_search_manifest,
                             "search_manifest_hash": eval_search_manifest_hash,
                             "valid_eval": eval_valid,
@@ -1189,6 +1228,7 @@ def run_training_main(args, ctx: PreparedTrainingContext, runtime_hooks: MainRun
     if bg_worker:
         bg_worker.stop()
     _save_model_checkpoint(backend, model, torch, latest_model_path, cfg)
+    replay.save(replay_path)
     _write_checkpoint_status(
         base_dir,
         latest_model_path,

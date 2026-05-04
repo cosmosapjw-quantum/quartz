@@ -199,6 +199,11 @@ impl GameState for TicTacToe {
         std::mem::replace(self, next)
     }
 
+    fn apply_move_in_place_no_undo(&mut self, mv: usize) {
+        let next = self.apply_move(mv);
+        *self = next;
+    }
+
     fn undo_move(&mut self, undo: Self) {
         *self = undo;
     }

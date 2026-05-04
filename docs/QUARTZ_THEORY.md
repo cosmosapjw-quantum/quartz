@@ -257,6 +257,77 @@ changes cannot silently shift the effective compute budget. To
 study `HaltMode` itself at fixed NN/eval/visit-cap, use the
 `halt_attribution` preset (see `docs/ABLATION_GUIDE.md`).
 
+### Production fixed-budget execution
+
+`HaltMode::Fixed` and plain `FixedIterations` are implemented as exact
+work-budget paths in production search loops. Parallel workers reserve visit
+tickets from a shared counter instead of repeatedly polling root visits and
+racing past the budget. This is an execution optimization only:
+
+- root selection still uses the same PUCT / QUARTZ scoring law
+- QUARTZ root statistics are still refreshed on `check_interval`
+- halt telemetry is recorded at the final budget boundary
+- adaptive halt modes still use the controller's normal `should_stop` path
+- parallel fixed-budget searches reserve tickets in small chunks when
+  `n_threads > 1`, but each worker executes only tickets strictly below the
+  requested limit; internal counter overshoot is not exposed as extra visits
+
+The practical effect is lower CPU coordination overhead and exact same-budget
+accounting for fixed-budget ablations.
+
+### Automatic Thread Selection
+
+Explicit thread counts remain the ablation surface. A study that compares
+controller modes should still pin `n_threads` so the controller cannot gain or
+lose compute through the scheduler.
+
+For production throughput, the engine also exposes opt-in automatic thread
+selection:
+
+- `MctsEngine::run_auto(controller, AutoThreadPolicy::throughput())`
+- `MctsEngine::run_quartz_auto(controller, AutoThreadPolicy::throughput())`
+- `AutoThreadPolicy::quality()` for lower duplicate-selection pressure
+
+The policy is game-agnostic and device-agnostic. It reads:
+
+- host `available_parallelism()`
+- remaining fixed-visit budget
+- root legal-move count
+- whether progressive widening is enabled
+- whether the game supports reusable select scratch
+
+It does **not** change PUCT, QUARTZ penalty, refresh, halt, backup, or
+evaluator semantics. It only selects the number of worker threads before
+entering the existing serial or parallel search loop.
+
+The single-position Rust NN server path exposes this as an opt-in execution
+policy:
+
+```json
+{"cmd":"search_nn","game":"gomoku15","iters":800,"n_threads":"auto"}
+{"cmd":"search_nn","game":"gomoku15","iters":800,"thread_policy":"quality","thread_cap":12}
+```
+
+Server responses preserve the old effective `n_threads` field and add
+`requested_threads`, `effective_threads`, `thread_policy`, and
+`auto_thread_reason` in both the top-level result and `search_manifest`.
+Multi-position/session paths intentionally continue to require explicit
+`n_threads` because their worker count, per-job inflight limit, and batched NN
+queue interact; automatic scheduling there needs a separate fairness contract.
+
+`throughput` mode may use the full host cap when the budget can absorb worker
+overhead. `quality` mode caps low-branching and small-budget searches more
+aggressively because high raw NPS can coincide with high virtual-loss duplicate
+selection. Profile harness support is available via:
+
+```bash
+QUARTZ_PROFILE_THREADS=auto cargo test --release --locked \
+  profile_mcts_parallel_all_supported_games -- --ignored --nocapture
+
+QUARTZ_PROFILE_THREADS=quality cargo test --release --locked \
+  profile_mcts_parallel_all_supported_games -- --ignored --nocapture
+```
+
 ### Stop Reasons (recorded in telemetry)
 
 | Reason | Meaning |
@@ -377,6 +448,92 @@ QUARTZ separates two controllers:
    - Penalty modes, halt modes, prior refresh
    - Reads: root visits, Q-values, prior distribution
    - Writes: stop decision, score adjustments
+
+### Production Hot-Path Contract
+
+The implementation should preserve the controller meaning above without
+charging avoidable heap and snapshot costs to every search refresh:
+
+- QUARTZ statistics read the published root edge slab directly. Passing
+  `priors=None` means "use the original priors stored on root edges", not
+  "pretend the prior is uniform".
+- Short root-child working arrays use stack-backed `SmallVec` and spill only
+  for large boards. This keeps Gomoku7/low-budget controller refreshes
+  allocation-free while retaining the same σ_Q, P_flip, VOC, and
+  prior-divergence formulas.
+- The MCTS select path stores the root-to-leaf path in a stack-backed
+  `SmallVec<[PathEdge; 32]>`; only unusually deep selections spill.
+- Synchronous search can reuse one mutable root-state scratch per worker for
+  games that explicitly advertise a measured win from compact `Undo` deltas.
+  This removes the per-iteration root-state clone for opted-in games without
+  applying the same path to games whose undo payload is a full state snapshot
+  or whose clone-and-descend path is faster in practice.
+- Expansion may skip re-sorting an already non-increasing evaluator policy
+  only for games that explicitly opt in after measurement. This keeps
+  move-order-sensitive equal-prior searches from silently changing behavior
+  just because a low-level optimization was added.
+- Search loops keep a local QUARTZ stats snapshot and reload it only when the
+  engine's monotonic stats epoch changes. This preserves the same controller
+  semantics while avoiding an `RwLock` read and `QuartzStats` clone on every
+  selection in fixed-budget and parallel searches.
+- The ignored Rust profile tests accept `QUARTZ_PROFILE_REPEATS=N` and emit
+  median/min/max summary rows. Use repeated rows for CPU claims; single-run
+  NPS is treated as a smoke signal only, especially for parallel searches.
+- With `QUARTZ_MCTS_HOTPATH_METRICS=1`, profile rows include per-iteration
+  TT probe counts, aggregate TT lock-wait nanoseconds, split TT read/write
+  lock-wait nanoseconds, edge-materialization lock waits, best-effort
+  materialization skips, and select/expand/backprop phase timings. These
+  counters are diagnostic instrumentation, not a fairness axis; benchmark
+  comparisons should either enable them for all conditions or disable them for
+  all conditions.
+- TT hit/miss/get-or-create/get counters are bucket-local padded atomics and
+  are folded only when `hit_rate()` or `contention_snapshot()` is requested.
+  This preserves exact reported statistics while avoiding a single global
+  atomic cache-line hotspot during parallel search.
+- The production TT geometry remains 256 buckets x 1024 slots. A 512 x 512
+  geometry reduced measured TT write-lock wait on the Gomoku15 parallel
+  hotpath, but did not produce a clear non-instrumented throughput win in
+  repeated local profiles, so it is documented as an evaluated candidate
+  rather than kept as a production change.
+- A seqlock-style lock-free TT read probe was also evaluated and passed the
+  same-hash concurrency tests, but it expanded each TT slot from 16 B to 24 B
+  and regressed the miss-heavy Gomoku15 parallel `get_or_create` path. The
+  production TT therefore keeps read-locked 16 B slots; any future lock-free
+  attempt should avoid increasing slot footprint or should target a genuinely
+  hit-heavy workload.
+- Parallel selection uses best-effort progressive widening after at least one
+  child edge is already visible. If another worker is materializing the same
+  node, the selector may score the currently published prefix instead of
+  blocking on the materialization mutex. Serial selection and first-edge
+  publication remain blocking, so a node is never selected with zero visible
+  children because of this optimization.
+- Edge materialization prepares child hashes and TT nodes before taking the
+  per-node materialization mutex; the mutex protects only raw slab writes and
+  the final `edge_cursor` publication. The common <=64-edge batch stays
+  stack-backed, so Gomoku7-style full-width expansion does not pay a pending
+  edge heap allocation.
+- The best-effort widening path also uses a per-node owner claim before the
+  expensive child-hash/TT preparation step. This prevents several parallel
+  selectors from preparing the same widening batch concurrently. A busy
+  materialization mutex is still checked before preparation, preserving the
+  older "skip instead of prepare-and-wait" behavior.
+- When materialization prepares four or more child hashes, TT lookup/insert is
+  coalesced by bucket. This keeps the same per-hash hit/miss accounting and
+  duplicate-hash semantics, but avoids taking the same bucket read/write lock
+  once per child. Smaller progressive-widening increments use the original
+  single-lookup path to avoid grouping overhead.
+- Uniform/simple rollout evaluators return root policy through
+  `GameState::uniform_eval(value)` after computing value. Games with measured
+  direct uniform-policy builders, currently Gomoku and Gomoku15, avoid a
+  redundant root `legal_moves()` Vec without changing the value rollout.
+- Production split-VL modes publish `vvalue` together with a `vvisit`
+  reservation. Selection therefore reads `virtual_value` only when an edge has
+  a live reservation; the explicit `VvalueOnly` ablation keeps the old
+  standalone-vvalue semantics.
+- Game implementations used by production search should implement compact
+  make/unmake. `Gomoku` and `Gomoku15` both avoid clone-and-replace in
+  `apply_move_in_place`; the pure `apply_move` API remains for callers that
+  require value semantics.
 
 2. **ParallelismController** (parallel.rs): How to parallelise
    - Split virtual loss, contention management

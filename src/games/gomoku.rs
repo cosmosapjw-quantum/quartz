@@ -20,7 +20,7 @@ use std::cell::RefCell;
 use std::fmt;
 use std::sync::LazyLock;
 
-use crate::game::GameState;
+use crate::game::{EvalResult, GameState};
 
 // ─────────────────────────────────────────────
 // § Zobrist 테이블 (최대 19×19)
@@ -339,10 +339,20 @@ impl Gomoku {
         //   diag SE-NW (1, 1):  step=+sz+1, fwd=min(sz-1-row, sz-1-col),    bwd=min(row, col)
         //   diag SW-NE (1,-1):  step=+sz-1, fwd=min(sz-1-row, col),         bwd=min(row, sz-1-col)
         let dirs: [(isize, usize, isize, usize); 4] = [
-            (1,           sz - 1 - col,                          -1,           col),
-            (szi,         sz - 1 - row,                          -szi,         row),
-            (szi + 1,     (sz - 1 - row).min(sz - 1 - col),      -(szi + 1),   row.min(col)),
-            (szi - 1,     (sz - 1 - row).min(col),               -(szi - 1),   row.min(sz - 1 - col)),
+            (1, sz - 1 - col, -1, col),
+            (szi, sz - 1 - row, -szi, row),
+            (
+                szi + 1,
+                (sz - 1 - row).min(sz - 1 - col),
+                -(szi + 1),
+                row.min(col),
+            ),
+            (
+                szi - 1,
+                (sz - 1 - row).min(col),
+                -(szi - 1),
+                row.min(sz - 1 - col),
+            ),
         ];
 
         // Flat-index walk. `max_steps` was derived from board geometry, so
@@ -363,9 +373,8 @@ impl Gomoku {
         }
 
         for &(fs, fmax, bs, bmax) in &dirs {
-            let cnt = 1
-                + walk(board, pos_i, fs, fmax, player)
-                + walk(board, pos_i, bs, bmax, player);
+            let cnt =
+                1 + walk(board, pos_i, fs, fmax, player) + walk(board, pos_i, bs, bmax, player);
             if cnt >= target {
                 return true;
             }
@@ -428,6 +437,25 @@ impl GameState for Gomoku {
         moves
     }
 
+    fn uniform_eval(&self, value: f32) -> EvalResult<usize> {
+        if self.is_terminal() {
+            return EvalResult {
+                policy: Vec::new(),
+                value,
+            };
+        }
+        let count = self.legal_move_count();
+        let prior = if count > 0 { 1.0 / count as f32 } else { 0.0 };
+        let cells = self.size * self.size;
+        let mut policy = Vec::with_capacity(count);
+        for (i, &v) in self.board[..cells].iter().enumerate() {
+            if v == 0 {
+                policy.push((i, prior));
+            }
+        }
+        EvalResult { policy, value }
+    }
+
     fn apply_move(&self, mv: usize) -> Self {
         let mut next = self.clone();
         // Phase 6.1: share the mutation logic with `apply_move_in_place`. The
@@ -439,6 +467,10 @@ impl GameState for Gomoku {
 
     fn apply_move_in_place(&mut self, mv: usize) -> GomokuUndo {
         self.apply_move_mut_internal(mv)
+    }
+
+    fn apply_move_in_place_no_undo(&mut self, mv: usize) {
+        let _ = self.apply_move_mut_internal(mv);
     }
 
     fn undo_move(&mut self, undo: GomokuUndo) {
@@ -1086,7 +1118,14 @@ mod tests {
             let bound = size * size;
             for seed in 0..100 {
                 let mv = s.random_legal_move(seed * 7919).unwrap();
-                assert!(mv < bound, "size={} seed={} move={} bound={}", size, seed, mv, bound);
+                assert!(
+                    mv < bound,
+                    "size={} seed={} move={} bound={}",
+                    size,
+                    seed,
+                    mv,
+                    bound
+                );
             }
         }
     }

@@ -18,6 +18,8 @@ const els = {
   resignBtn: document.getElementById("resign-btn"),
   statusText: document.getElementById("status-text"),
   sessionMeta: document.getElementById("session-meta"),
+  modelContract: document.getElementById("model-contract"),
+  searchContract: document.getElementById("search-contract"),
   turnBadge: document.getElementById("turn-badge"),
   gameMeta: document.getElementById("game-meta"),
   thinking: document.getElementById("thinking-indicator"),
@@ -55,6 +57,24 @@ function refreshModelSelect() {
     option.textContent = item.label;
     els.modelSelect.appendChild(option);
   }
+  renderModelContract();
+}
+
+function selectedModel() {
+  return stateStore.models.find((entry) => entry.path === els.modelSelect.value) || null;
+}
+
+function renderModelContract(session = null) {
+  const model = selectedModel();
+  if (!model && !session) {
+    els.modelContract.textContent = "No model selected.";
+    return;
+  }
+  const digest = (session && session.modelSha256) || (model && model.sha256) || "unknown";
+  const kind = model ? model.kind : "loaded";
+  const preferred = model && model.preferred ? "preferred" : "not preferred";
+  const promoted = model && model.promotionRecorded ? "promotion recorded" : "promotion unknown";
+  els.modelContract.textContent = `${kind}; sha256=${digest}; ${preferred}; ${promoted}`;
 }
 
 async function loadModels() {
@@ -258,6 +278,8 @@ function renderSession() {
     els.turnBadge.textContent = "Idle";
     els.gameMeta.textContent = "";
     els.sessionMeta.textContent = "No active session.";
+    renderModelContract();
+    els.searchContract.textContent = "No search yet.";
     return;
   }
 
@@ -270,6 +292,30 @@ function renderSession() {
   }
   els.gameMeta.textContent = meta;
   els.sessionMeta.textContent = `${session.humanSide} vs ${session.aiSide}`;
+  renderModelContract(session);
+  const lastSearch = session.lastSearch || {};
+  const manifest = lastSearch.searchManifest || {};
+  const realized = lastSearch.realizedBudget || {};
+  const controller = lastSearch.controllerSummary || {};
+  if (Object.keys(lastSearch).length > 0 && Object.keys(manifest).length > 0) {
+    const parts = [
+      manifest.profile || "unknown",
+      manifest.benchmark_safe === false ? "unsafe" : "benchmark-safe",
+      `${realized.realized_iterations || session.searchIterations} visits`,
+    ];
+    if (controller.stop_reason) parts.push(controller.stop_reason);
+    if (controller.refresh_activated) parts.push("refresh");
+    const trace = controller.selection_trace || {};
+    if (trace.root_selects) {
+      parts.push(`${trace.root_selects} root-selects`);
+      if (trace.refresh_selected_count) {
+        parts.push(`${trace.refresh_selected_count} refreshed-selected`);
+      }
+    }
+    els.searchContract.textContent = parts.join(" | ");
+  } else {
+    els.searchContract.textContent = "No search yet.";
+  }
 
   if (session.render === "chess") {
     renderChessBoard(session);
@@ -301,6 +347,7 @@ async function maybeRunAi() {
 
 function bindEvents() {
   els.gameSelect.addEventListener("change", refreshModelSelect);
+  els.modelSelect.addEventListener("change", () => renderModelContract());
   els.newGameBtn.addEventListener("click", async () => {
     try {
       await createSession();

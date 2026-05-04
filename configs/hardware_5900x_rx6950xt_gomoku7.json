@@ -1,0 +1,14 @@
+{
+  "penalty_mode": "GatedRefresh",
+  "halt_mode": "fixed",
+  "iters": 200,
+  "games": 64,
+  "batch": 256,
+  "steps": 1,
+  "n_threads": 2,
+  "batch_size": 16,
+  "batch_timeout_us": 1200,
+  "prior_refresh_rate": 0.0,
+  "prior_refresh_temp": 1.0,
+  "root_only_shaping": true
+}

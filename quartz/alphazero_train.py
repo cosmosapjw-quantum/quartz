@@ -275,6 +275,7 @@ try:
         load_eval_autotune_profile as _load_eval_autotune_profile_impl,
         max_supported_threads,
         recommend_eval_parallel_workers,
+        runtime_thread_budget,
         save_eval_autotune_profile,
     )
     from quartz.train_loop import (
@@ -422,6 +423,7 @@ except ImportError:
         load_eval_autotune_profile as _load_eval_autotune_profile_impl,
         max_supported_threads,
         recommend_eval_parallel_workers,
+        runtime_thread_budget,
         save_eval_autotune_profile,
     )
     from train_loop import (

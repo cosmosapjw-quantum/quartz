@@ -14,6 +14,7 @@
 use rand::rngs::StdRng;
 use rand::Rng;
 use rand::SeedableRng;
+use smallvec::SmallVec;
 use std::cell::RefCell;
 use std::fmt;
 use std::hash::Hash;
@@ -140,6 +141,14 @@ struct BoardRing {
     head: u8, // index of most recent entry
 }
 
+#[derive(Clone)]
+struct BoardRingUndo {
+    slot: u8,
+    prev_len: u8,
+    prev_head: u8,
+    prev_board: [u8; MAX_N2],
+}
+
 impl BoardRing {
     fn new() -> Self {
         BoardRing {
@@ -162,6 +171,34 @@ impl BoardRing {
         if (self.len as usize) < GO_HISTORY_SLOTS {
             self.len += 1;
         }
+    }
+
+    #[inline]
+    fn push_with_undo(&mut self, board: &[u8; MAX_N2], n2: usize) -> BoardRingUndo {
+        let slot = if self.len == 0 {
+            0
+        } else {
+            (self.head as usize + 1) % GO_HISTORY_SLOTS
+        };
+        let undo = BoardRingUndo {
+            slot: slot as u8,
+            prev_len: self.len,
+            prev_head: self.head,
+            prev_board: self.boards[slot],
+        };
+        self.boards[slot][..n2].copy_from_slice(&board[..n2]);
+        self.head = slot as u8;
+        if (self.len as usize) < GO_HISTORY_SLOTS {
+            self.len += 1;
+        }
+        undo
+    }
+
+    #[inline]
+    fn undo_push(&mut self, undo: BoardRingUndo) {
+        self.boards[undo.slot as usize] = undo.prev_board;
+        self.len = undo.prev_len;
+        self.head = undo.prev_head;
     }
 
     /// Iterate past boards from most recent to oldest.
@@ -206,12 +243,14 @@ impl<'a> Iterator for BoardRingIter<'a> {
 
 struct GoFeatureScratch {
     touched: Vec<usize>,
+    color_plane_filled: bool,
 }
 
 impl Default for GoFeatureScratch {
     fn default() -> Self {
         Self {
             touched: Vec::with_capacity(2048),
+            color_plane_filled: false,
         }
     }
 }
@@ -245,6 +284,22 @@ pub struct Go {
     cycle_terminal: bool,
     /// Past board snapshots for AlphaZero-style history encoding.
     board_ring: BoardRing,
+}
+
+#[derive(Clone)]
+pub struct GoUndo {
+    prev_side: u8,
+    prev_ko_point: u16,
+    prev_passes: u8,
+    prev_black_caps: u16,
+    prev_white_caps: u16,
+    prev_hash: u64,
+    prev_move_count: u16,
+    prev_history_digest: u64,
+    prev_cycle_terminal: bool,
+    prev_hash_history: Arc<Vec<u64>>,
+    board_ring_undo: BoardRingUndo,
+    board_changes: SmallVec<[(u16, u8); 16]>,
 }
 
 impl Go {
@@ -396,6 +451,26 @@ impl Go {
         Arc::make_mut(&mut next.hash_history).push(next.hash);
     }
 
+    fn finalize_transition_from_previous(
+        &mut self,
+        prev_hash_history: &Arc<Vec<u64>>,
+        prev_history_digest: u64,
+    ) {
+        let repeated = prev_hash_history.iter().any(|&seen| seen == self.hash);
+        if matches!(self.ruleset, GoRuleset::Japanese | GoRuleset::Korean)
+            && repeated
+            && self.passes < 2
+        {
+            self.cycle_terminal = true;
+        }
+        self.history_digest = if repeated {
+            prev_history_digest
+        } else {
+            Self::history_digest_insert(prev_history_digest, self.hash)
+        };
+        Arc::make_mut(&mut self.hash_history).push(self.hash);
+    }
+
     fn row(&self, pos: usize) -> usize {
         pos / self.size
     }
@@ -428,8 +503,50 @@ impl Go {
         (0..n).map(move |i| nbrs[i])
     }
 
+    #[inline]
+    fn neighbor_flags(&self, pos: usize, opp: u8) -> (bool, bool) {
+        let r = pos / self.size;
+        let c = pos - r * self.size;
+        let sz = self.size;
+        let board = &self.board;
+        let mut has_empty = false;
+        let mut has_opp = false;
+
+        #[inline(always)]
+        fn observe(cell: u8, opp: u8, has_empty: &mut bool, has_opp: &mut bool) {
+            if cell == 0 {
+                *has_empty = true;
+            } else if cell == opp {
+                *has_opp = true;
+            }
+        }
+
+        if r > 0 {
+            observe(board[pos - sz], opp, &mut has_empty, &mut has_opp);
+        }
+        if r + 1 < sz {
+            observe(board[pos + sz], opp, &mut has_empty, &mut has_opp);
+        }
+        if c > 0 {
+            observe(board[pos - 1], opp, &mut has_empty, &mut has_opp);
+        }
+        if c + 1 < sz {
+            observe(board[pos + 1], opp, &mut has_empty, &mut has_opp);
+        }
+        (has_empty, has_opp)
+    }
+
     fn opp(color: u8) -> u8 {
         3 - color
+    }
+
+    #[inline]
+    fn record_board_change(
+        changes: &mut SmallVec<[(u16, u8); 16]>,
+        board: &[u8; MAX_N2],
+        pos: usize,
+    ) {
+        changes.push((pos as u16, board[pos]));
     }
 
     #[inline]
@@ -815,6 +932,124 @@ impl Go {
         next
     }
 
+    fn apply_move_mut_internal(&mut self, mv: u16) -> GoUndo {
+        let n2 = self.n2();
+        let prev_hash_history = Arc::clone(&self.hash_history);
+        let prev_history_digest = self.history_digest;
+        let board_ring_undo = self.board_ring.push_with_undo(&self.board, n2);
+        let mut undo = GoUndo {
+            prev_side: self.side,
+            prev_ko_point: self.ko_point,
+            prev_passes: self.passes,
+            prev_black_caps: self.black_caps,
+            prev_white_caps: self.white_caps,
+            prev_hash: self.hash,
+            prev_move_count: self.move_count,
+            prev_history_digest,
+            prev_cycle_terminal: self.cycle_terminal,
+            prev_hash_history,
+            board_ring_undo,
+            board_changes: SmallVec::new(),
+        };
+
+        let z = &*GZOB;
+        if mv == n2 as u16 {
+            self.passes += 1;
+            self.ko_point = u16::MAX;
+            self.side = Self::opp(self.side);
+            self.hash ^= z.side;
+            self.move_count += 1;
+            self.finalize_transition_from_previous(
+                &undo.prev_hash_history,
+                undo.prev_history_digest,
+            );
+            return undo;
+        }
+
+        let pos = mv as usize;
+        let color = self.side;
+        let opp = Self::opp(color);
+
+        Self::record_board_change(&mut undo.board_changes, &self.board, pos);
+        self.board[pos] = color;
+        self.hash ^= z.piece[(color - 1) as usize][pos];
+
+        let mut neighbors = [usize::MAX; 4];
+        let mut neighbor_count = 0usize;
+        for nb in self.neighbors(pos) {
+            neighbors[neighbor_count] = nb;
+            neighbor_count += 1;
+        }
+
+        GO_SCRATCH.with(|scratch| {
+            let mut scratch = scratch.borrow_mut();
+
+            let mut total_captured = 0u16;
+            let mut single_cap = u16::MAX;
+            let checked_epoch = scratch.next_epoch();
+            for &nb in &neighbors[..neighbor_count] {
+                if self.board[nb] != opp || scratch.checked[nb] == checked_epoch {
+                    continue;
+                }
+                let (stone_count, lib_count) =
+                    self.group_stones_and_liberties_with_scratch(&self.board, nb, &mut scratch);
+                for idx in 0..stone_count {
+                    let s = scratch.group_stones[idx];
+                    scratch.checked[s] = checked_epoch;
+                }
+                if lib_count == 0 {
+                    total_captured += stone_count as u16;
+                    if stone_count == 1 {
+                        single_cap = scratch.group_stones[0] as u16;
+                    }
+                    for idx in 0..stone_count {
+                        let stone = scratch.group_stones[idx];
+                        Self::record_board_change(&mut undo.board_changes, &self.board, stone);
+                        self.hash ^= z.piece[(opp - 1) as usize][stone];
+                        self.board[stone] = 0;
+                    }
+                }
+            }
+
+            if color == 1 {
+                self.black_caps += total_captured;
+            } else {
+                self.white_caps += total_captured;
+            }
+
+            let placed_libs = self.group_liberties_with_scratch(&self.board, pos, &mut scratch);
+            self.ko_point = u16::MAX;
+            if total_captured == 1 && placed_libs == 1 {
+                self.ko_point = single_cap;
+            }
+
+            if placed_libs == 0 {
+                let (sc, _) =
+                    self.group_stones_and_liberties_with_scratch(&self.board, pos, &mut scratch);
+                let n = sc as u16;
+                for idx in 0..sc {
+                    let stone = scratch.group_stones[idx];
+                    let captured_color = self.board[stone];
+                    Self::record_board_change(&mut undo.board_changes, &self.board, stone);
+                    self.hash ^= z.piece[(captured_color - 1) as usize][stone];
+                    self.board[stone] = 0;
+                }
+                if color == 1 {
+                    self.white_caps += n;
+                } else {
+                    self.black_caps += n;
+                }
+            }
+        });
+
+        self.passes = 0;
+        self.side = Self::opp(color);
+        self.hash ^= z.side;
+        self.move_count += 1;
+        self.finalize_transition_from_previous(&undo.prev_hash_history, undo.prev_history_digest);
+        undo
+    }
+
     fn score_empty_regions_on_board(&self, board: &[u8; MAX_N2], black: &mut f32, white: &mut f32) {
         let n2 = self.n2();
         let mut visited = [false; MAX_N2];
@@ -1077,7 +1312,7 @@ impl fmt::Debug for Go {
 
 impl GameState for Go {
     type Move = u16; // 0..N*N for board, N*N for pass
-    type Undo = Self;
+    type Undo = GoUndo;
 
     fn initial() -> Self {
         Go::new_9x9()
@@ -1097,8 +1332,26 @@ impl GameState for Go {
         }
         let n2 = self.n2();
         let mut moves = Vec::with_capacity(n2);
+        let color = self.side;
+        let opp = Self::opp(color);
+        let z = &*GZOB;
+        let color_idx = (color - 1) as usize;
+        let chinese_superko = self.ruleset == GoRuleset::Chinese;
         for pos in 0..n2 {
-            if self.is_legal(pos) {
+            if self.board[pos] != 0 || pos as u16 == self.ko_point {
+                continue;
+            }
+
+            let (has_empty_neighbor, has_adjacent_opp) = self.neighbor_flags(pos, opp);
+            if has_empty_neighbor && !has_adjacent_opp {
+                if chinese_superko {
+                    let next_hash = self.hash ^ z.piece[color_idx][pos] ^ z.side;
+                    if self.repeats_position_hash(next_hash) {
+                        continue;
+                    }
+                }
+                moves.push(pos as u16);
+            } else if self.is_legal(pos) {
                 moves.push(pos as u16);
             }
         }
@@ -1141,16 +1394,29 @@ impl GameState for Go {
         next
     }
 
-    /// Phase 6.1: clone-based fallback. Go's state carries an Arc-shared
-    /// hash history and a board ring; specializing make-unmake here is
-    /// non-trivial. The clone+replace path preserves observable semantics.
-    fn apply_move_in_place(&mut self, mv: u16) -> Self {
-        let next = self.apply_move(mv);
-        std::mem::replace(self, next)
+    fn apply_move_in_place(&mut self, mv: u16) -> GoUndo {
+        self.apply_move_mut_internal(mv)
     }
 
-    fn undo_move(&mut self, undo: Self) {
-        *self = undo;
+    fn apply_move_in_place_no_undo(&mut self, mv: u16) {
+        let _ = self.apply_move_mut_internal(mv);
+    }
+
+    fn undo_move(&mut self, undo: GoUndo) {
+        for &(pos, value) in undo.board_changes.iter().rev() {
+            self.board[pos as usize] = value;
+        }
+        self.side = undo.prev_side;
+        self.ko_point = undo.prev_ko_point;
+        self.passes = undo.prev_passes;
+        self.black_caps = undo.prev_black_caps;
+        self.white_caps = undo.prev_white_caps;
+        self.hash = undo.prev_hash;
+        self.move_count = undo.prev_move_count;
+        self.history_digest = undo.prev_history_digest;
+        self.cycle_terminal = undo.prev_cycle_terminal;
+        self.hash_history = undo.prev_hash_history;
+        self.board_ring.undo_push(undo.board_ring_undo);
     }
 
     fn is_terminal(&self) -> bool {
@@ -1233,16 +1499,22 @@ impl GameState for Go {
 
         GO_FEATURE_SCRATCH.with(|scratch| {
             let mut scratch = scratch.borrow_mut();
+            let color_base = (total_planes - 1) * n2;
             if out.len() != total {
                 out.clear();
                 out.resize(total, 0.0);
                 scratch.touched.clear();
+                scratch.color_plane_filled = false;
             } else {
                 // Sparse reset: only zero indices we set last time
                 for &idx in &scratch.touched {
                     out[idx] = 0.0;
                 }
                 scratch.touched.clear();
+                if scratch.color_plane_filled {
+                    out[color_base..color_base + n2].fill(0.0);
+                    scratch.color_plane_filled = false;
+                }
             }
 
             // t=0: current board
@@ -1280,11 +1552,8 @@ impl GameState for Go {
 
             // Color plane
             if self.side == 1 {
-                let color_base = (total_planes - 1) * n2;
-                for idx in color_base..color_base + n2 {
-                    out[idx] = 1.0;
-                    scratch.touched.push(idx);
-                }
+                out[color_base..color_base + n2].fill(1.0);
+                scratch.color_plane_filled = true;
             }
         });
     }
@@ -1477,6 +1746,29 @@ mod tests {
             s = s.apply_move(mv);
         }
         s
+    }
+
+    fn assert_same_state(a: &Go, b: &Go) {
+        assert_eq!(a.board, b.board);
+        assert_eq!(a.size, b.size);
+        assert_eq!(a.side, b.side);
+        assert_eq!(a.ko_point, b.ko_point);
+        assert_eq!(a.passes, b.passes);
+        assert_eq!(a.black_caps, b.black_caps);
+        assert_eq!(a.white_caps, b.white_caps);
+        assert_eq!(a.komi, b.komi);
+        assert_eq!(a.ruleset, b.ruleset);
+        assert_eq!(a.scoring, b.scoring);
+        assert_eq!(a.hash, b.hash);
+        assert_eq!(a.move_count, b.move_count);
+        assert_eq!(a.hash_history.as_ref(), b.hash_history.as_ref());
+        assert_eq!(a.history_digest, b.history_digest);
+        assert_eq!(a.allow_suicide, b.allow_suicide);
+        assert_eq!(a.cycle_terminal, b.cycle_terminal);
+        assert_eq!(a.board_ring.len, b.board_ring.len);
+        assert_eq!(a.board_ring.head, b.board_ring.head);
+        assert_eq!(a.board_ring.boards, b.board_ring.boards);
+        assert_eq!(a.tt_hash(), b.tt_hash());
     }
 
     // ── Basic ──
@@ -1855,6 +2147,56 @@ mod tests {
         let g2 = g.apply_move(p(4, 4));
         assert_eq!(g.board[p(4, 4) as usize], 0, "Original unchanged");
         assert_eq!(g2.board[p(4, 4) as usize], 1);
+    }
+
+    #[test]
+    fn test_apply_move_in_place_roundtrip_matches_pure() {
+        let mut s = Go::new_9x9();
+        let opening = [p(4, 4), p(3, 4), p(4, 3), p(3, 3), s.pass_action()];
+        for mv in opening {
+            let before = s.clone();
+            let pure = s.apply_move(mv);
+            let undo = s.apply_move_in_place(mv);
+            assert_same_state(&s, &pure);
+            s.undo_move(undo);
+            assert_same_state(&s, &before);
+            s = pure;
+        }
+    }
+
+    #[test]
+    fn test_apply_move_in_place_roundtrip_with_capture() {
+        let mut g = Go::new_9x9();
+        g.board[0] = 2;
+        g.board[9] = 2;
+        g.board[18] = 2;
+        g.board[27] = 2;
+        g.board[1] = 1;
+        g.board[10] = 1;
+        g.board[19] = 1;
+        g.board[28] = 1;
+        g.board[37] = 1;
+        g.side = 1;
+        {
+            let z = &*GZOB;
+            g.hash = 0;
+            for pos in 0..81 {
+                match g.board[pos] {
+                    1 => g.hash ^= z.piece[0][pos],
+                    2 => g.hash ^= z.piece[1][pos],
+                    _ => {}
+                }
+            }
+        }
+        g.hash_history = Arc::new(vec![g.hash]);
+        g.history_digest = Go::history_digest_for_hash(g.hash);
+
+        let before = g.clone();
+        let pure = g.apply_move(36);
+        let undo = g.apply_move_in_place(36);
+        assert_same_state(&g, &pure);
+        g.undo_move(undo);
+        assert_same_state(&g, &before);
     }
 
     // ── Hash ──

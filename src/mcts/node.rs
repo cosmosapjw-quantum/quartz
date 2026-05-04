@@ -15,7 +15,11 @@
 //!   3. edge_cursor: AtomicU32 — number of materialized edges. Acts as the
 //!      Release-store of the slab writes; readers use Acquire load + raw
 //!      slice construction (no lock).
-//!   4. materialize_lock: parking_lot::Mutex<()> — serializes concurrent
+//!   4. materialize_claim: AtomicU32 — best-effort parallel widening owner
+//!      flag. After at least one edge is visible, parallel selectors skip
+//!      duplicate edge preparation when another worker is already preparing
+//!      this node's next widening step.
+//!   5. materialize_lock: parking_lot::Mutex<()> — serializes concurrent
 //!      materialize_edges calls on the same node.
 //!
 //! Pre-Phase-7 layout (kept for reference):
@@ -26,11 +30,11 @@
 //!   × 49 edges ≈ 1.5 M MctsEdge<M> allocations/search → now slab-allocated
 //!   in the bucket Bump alongside the node bodies).
 
-use std::sync::atomic::{AtomicI32, AtomicPtr, AtomicU32, AtomicU64, Ordering};
 use parking_lot::Mutex as PlMutex;
 use std::marker::PhantomData;
 use std::ops::Deref;
 use std::ptr::NonNull;
+use std::sync::atomic::{AtomicI32, AtomicPtr, AtomicU32, AtomicU64, Ordering};
 use std::sync::OnceLock;
 
 // ─────────────────────────────────────────────
@@ -159,6 +163,7 @@ pub fn atomic_f64_load(a: &AtomicU64) -> f64 {
 static EDGES_LOCK_WAIT_NANOS: AtomicU64 = AtomicU64::new(0);
 static EDGES_LOCK_WAIT_MAX_NANOS: AtomicU64 = AtomicU64::new(0);
 static EDGES_LOCK_CALLS: AtomicU64 = AtomicU64::new(0);
+static EDGES_MATERIALIZE_BUSY_SKIPS: AtomicU64 = AtomicU64::new(0);
 
 pub(crate) fn record_edges_lock_wait(wait_nanos: u64) {
     if !crate::mcts::profiling::hot_path_metrics_enabled() {
@@ -180,11 +185,19 @@ pub(crate) fn record_edges_lock_wait(wait_nanos: u64) {
     }
 }
 
+pub(crate) fn record_edges_materialize_busy_skip() {
+    if !crate::mcts::profiling::hot_path_metrics_enabled() {
+        return;
+    }
+    EDGES_MATERIALIZE_BUSY_SKIPS.fetch_add(1, Ordering::Relaxed);
+}
+
 #[derive(Debug, Clone, Copy)]
 pub struct EdgeLockContentionSnapshot {
     pub calls: u64,
     pub wait_nanos: u64,
     pub max_wait_nanos: u64,
+    pub busy_skips: u64,
 }
 
 pub fn edge_lock_contention_snapshot() -> EdgeLockContentionSnapshot {
@@ -192,7 +205,15 @@ pub fn edge_lock_contention_snapshot() -> EdgeLockContentionSnapshot {
         calls: EDGES_LOCK_CALLS.load(Ordering::Relaxed),
         wait_nanos: EDGES_LOCK_WAIT_NANOS.load(Ordering::Relaxed),
         max_wait_nanos: EDGES_LOCK_WAIT_MAX_NANOS.load(Ordering::Relaxed),
+        busy_skips: EDGES_MATERIALIZE_BUSY_SKIPS.load(Ordering::Relaxed),
     }
+}
+
+pub fn reset_edge_lock_contention_counters() {
+    EDGES_LOCK_CALLS.store(0, Ordering::Relaxed);
+    EDGES_LOCK_WAIT_NANOS.store(0, Ordering::Relaxed);
+    EDGES_LOCK_WAIT_MAX_NANOS.store(0, Ordering::Relaxed);
+    EDGES_MATERIALIZE_BUSY_SKIPS.store(0, Ordering::Relaxed);
 }
 
 // ─────────────────────────────────────────────
@@ -263,26 +284,32 @@ impl<M: Copy + Send + Sync + 'static> MctsEdge<M> {
     /// Apply split virtual loss (called during select)
     #[inline]
     pub fn apply_vl(&self, vvisit: f32, vvalue: f32) {
+        // Publish value pessimism before the virtual visit. Selection treats
+        // the virtual visit as the reservation marker; this order prevents a
+        // reader from seeing a published reservation without its paired
+        // value penalty.
+        if vvalue.abs() > 1e-9 {
+            atomic_f64_add(&self.virtual_value, vvalue as f64);
+        }
         // vvisit: round to nearest integer for atomic increment
         let vi = vvisit.round() as i32;
         if vi > 0 {
             self.virtual_losses.fetch_add(vi, Ordering::AcqRel);
-        }
-        // vvalue: add to f64 accumulator
-        if vvalue.abs() > 1e-9 {
-            atomic_f64_add(&self.virtual_value, vvalue as f64);
         }
     }
 
     /// Remove split virtual loss (called during backup)
     #[inline]
     pub fn remove_vl(&self, vvisit: f32, vvalue: f32) {
+        // Remove the paired value pessimism before clearing the reservation
+        // marker. For modes with vvisit > 0, this maintains the invariant
+        // that `virtual_losses == 0` implies no live paired virtual value.
+        if vvalue.abs() > 1e-9 {
+            atomic_f64_add(&self.virtual_value, -(vvalue as f64));
+        }
         let vi = vvisit.round() as i32;
         if vi > 0 {
             self.virtual_losses.fetch_sub(vi, Ordering::AcqRel);
-        }
-        if vvalue.abs() > 1e-9 {
-            atomic_f64_add(&self.virtual_value, -(vvalue as f64));
         }
     }
 
@@ -367,6 +394,15 @@ pub struct MctsNode<M> {
     /// compatibility with `materialized_count` / external callers.)
     pub edge_cursor: AtomicU32,
 
+    /// Best-effort parallel materialization owner flag.
+    ///
+    /// This is intentionally separate from `materialize_lock`: it is acquired
+    /// before expensive child-hash/TT preparation only on the non-blocking
+    /// parallel widening path after at least one edge is already published.
+    /// Blocking materialization ignores this flag and is still serialized by
+    /// `materialize_lock`, preserving first-edge and serial semantics.
+    pub materialize_claim: AtomicU32,
+
     /// Serializes concurrent `materialize_edges` calls on this node.
     /// Held only during slab fills; readers never block on it.
     pub materialize_lock: PlMutex<()>,
@@ -398,6 +434,7 @@ impl<M: Copy + Send + Sync + 'static> MctsNode<M> {
             candidates: OnceLock::new(),
             edges_ptr: AtomicPtr::new(std::ptr::null_mut()),
             edge_cursor: AtomicU32::new(0),
+            materialize_claim: AtomicU32::new(0),
             materialize_lock: PlMutex::new(()),
             n_total: AtomicU32::new(0),
             w_total: AtomicU64::new(0),
@@ -496,7 +533,10 @@ impl<M: Copy + Send + Sync + 'static> MctsNode<M> {
             return &[];
         }
         let ptr = self.edges_ptr.load(Ordering::Acquire);
-        debug_assert!(!ptr.is_null(), "edge_cursor > 0 implies edges_ptr published");
+        debug_assert!(
+            !ptr.is_null(),
+            "edge_cursor > 0 implies edges_ptr published"
+        );
         // SAFETY: see method-level reasoning above.
         unsafe { std::slice::from_raw_parts(ptr as *const MctsEdge<M>, len) }
     }
@@ -536,7 +576,6 @@ impl<M: Copy + Send + Sync + 'static> MctsNode<M> {
         let n = n_snap.min(edges.len());
         f(&edges[..n])
     }
-
 }
 
 // Phase 7 C-prep (2026-04-26): bounds-free helper + explicit `Drop` for

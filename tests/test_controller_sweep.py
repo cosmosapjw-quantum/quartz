@@ -144,6 +144,33 @@ def test_aggregate_stage2_matches_builds_overall_leaderboard():
     assert set(payload["by_checkpoint"]) == {"/tmp/ckpt_a.pt", "/tmp/ckpt_b.pt"}
 
 
+def test_stage2_search_telemetry_tracks_budget_and_halt_reason():
+    sweep = load_controller_sweep_module()
+    bucket = {
+        "search_count": 0,
+        "benchmark_safe_count": 0,
+        "root_visits": [],
+        "halt_reason_hist": {},
+        "selection_root_selects": 0,
+    }
+
+    sweep._record_stage2_search_telemetry(
+        bucket,
+        {
+            "search_manifest": {"benchmark_safe": True},
+            "realized_budget": {"root_visits": 16, "stop_reason": "BudgetExhausted"},
+            "controller_summary": {"selection_trace": {"root_selects": 4}},
+        },
+    )
+    summary = sweep._finalize_stage2_search_telemetry(bucket)
+
+    assert summary["search_count"] == 1
+    assert summary["benchmark_safe_frac"] == 1.0
+    assert summary["root_visits"]["mean"] == 16.0
+    assert summary["halt_reason_hist"] == {"BudgetExhausted": 1}
+    assert summary["selection_root_selects"] == 4
+
+
 def test_generate_random_positions_returns_non_terminal_gomoku_positions():
     sweep = load_controller_sweep_module()
     cfg = {"board": 7, "win": 4}

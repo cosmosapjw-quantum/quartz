@@ -8,7 +8,8 @@ An AlphaZero-style game-playing AI engine with an adaptive search controller.
 
 A research platform combining:
 - **Rust MCTS engine** — tree-parallel search with transposition table,
-  progressive widening, and adaptive virtual loss
+  progressive widening, adaptive virtual loss, and opt-in automatic thread
+  selection
 - **QUARTZ controller** — uncertainty-aware search policy, adaptive stopping
   (P_flip), experimental prior refresh, and a controller family surface across
   `search_profile`, halt, penalty, and refresh switches
@@ -31,8 +32,9 @@ evaluation and search responses.
 cargo build --release
 cargo test --release
 
-# 2. Install Python package
-pip install -e .
+# 2. Install Python package. Default training uses PyTorch, so install
+# the torch extra or an explicit CPU/ROCm/CUDA torch wheel.
+pip install -e .[torch]
 
 # 3. Run the canonical end-to-end audit smoke
 venv/bin/python scripts/smoke_e2e.py
@@ -57,6 +59,11 @@ venv/bin/python -m quartz.train --game gomoku7 --iterations 30
 # 6. Generate a report from an existing ablation directory
 venv/bin/python scripts/ablation_study.py \
   --report results/ablation_smoke_search_vl/gomoku7
+
+# 6b. For claim-bearing runs, make readiness a hard gate
+venv/bin/python scripts/ablation_study.py \
+  --report results/ablation_smoke_search_vl/gomoku7 \
+  --research-grade
 
 # 7. Export a selected champion as a Gomocup bundle
 venv/bin/python scripts/ablation_study.py \
@@ -107,6 +114,12 @@ Python training loop
 
 ## Recent Updates
 
+- The Rust search server now exposes opt-in automatic thread selection for
+  single-position `search_nn` requests. Use `"n_threads":"auto"` for throughput
+  mode or `"thread_policy":"quality"` with an optional `"thread_cap"` for
+  lower duplicate-selection pressure. Results record requested/effective thread
+  counts and the auto-selection reason; multi/session ablation paths still use
+  explicit `n_threads`.
 - Training checkpoints, tournament evaluation, and Elo promotion now run on the
   intended cadence even when an iteration produces `0` learner steps.
 - Loss and Elo plots were corrected so sparse loss series render and best Elo
@@ -166,14 +179,32 @@ Python training loop
 - Study manifests, evaluation matrices, and ablation reports now all carry a
   `runtime_contract` / `runtime_contract_hash` so backend/device/Rust-binary
   provenance is visible without reopening per-run metadata.
+- Ablation reports also record `hardware_runtime_summary`. Without an explicit
+  profiler artifact, hardware claims are scoped to observed runtime telemetry
+  only; ROCm/CUDA/GPU efficiency claims require `profiler_artifact_present=true`.
 - `controller_axes` is now the attribution-oriented study preset: adjacent
   comparisons isolate `root_only_shaping`, `penalty_mode`, and
   `prior_refresh_rate` one factor at a time. The older `controller` preset
   remains a bundled legacy-vs-theory comparison.
 - Replay search summaries now expose controller observability and coverage
   fields such as `halt_reason_hist`, `controller_penalty_mode_counts`,
-  `mean_prior_refresh_rate`, and telemetry coverage fractions so partial
-  instrumentation is explicit in artifacts.
+  `mean_prior_refresh_rate`, root-snapshot refresh/penalty diagnostics, and
+  exact root-selection trace summaries. Partial instrumentation is explicit in
+  artifact coverage fractions.
+- Ablation reports now aggregate `budget_fairness_summary` from realized eval
+  root visits and halt reasons, so same-budget controller comparisons can be
+  checked from the report without inspecting raw rows.
+- Reports also include `seed_protocol_summary`, separating "three seeds per
+  condition" from the stronger requirement that compared conditions share the
+  same seed set for paired attribution.
+- Reports include `evaluation_protocol_summary`, which records runtime contract
+  hash, runner path, eval seed coverage, per-condition search manifest hashes,
+  model-pair coverage, and game-count consistency for same-evaluator /
+  same-NN / same-game-distribution claims.
+- Reports include `evaluator_quality_summary`, which stratifies eval rows by
+  available model-quality proxies from train logs. Missing proxies remain
+  explicit, so weak/strong evaluator robustness claims do not silently collapse
+  into one aggregate leaderboard.
 - `scripts/smoke_e2e.py` is the canonical audit smoke for the current tree. It
   is meant to fail fast on replay-bootstrap/runtime breakages rather than
   certify benchmark readiness, and
@@ -204,12 +235,13 @@ set of outstanding caveats.
 | Feature | Description |
 |---------|-------------|
 | Adaptive VL | 2nd-gen feedback controller: dup_rate + contention |
+| Auto thread policy | Opt-in throughput/quality thread selection from host cores, budget, and root branching |
 | P_flip stopping | Adaptive budget based on move-flip probability |
 | Prior refresh | Experimental search axis; not current default winner |
 | Split virtual loss | Separate vvisit (reservation) + vvalue (pessimism) |
 | Exact TT keys | History-sensitive TT hashing for chess/go rule state |
 | Strict arena | Default strict mode; fallback explicitly non-benchmark |
-| Controller telemetry | p_flip, sigma_q, hbar_eff, stop_reason per move |
+| Controller telemetry | halt/VOC stats, root-snapshot diagnostics, root-selection trace |
 | Multi-game | Gomoku 7/15, Go 9x9, Chess (all via same Rust engine) |
 | Gomocup deployment | Champion export → ONNX bundle → `pbrain` binary |
 
@@ -219,7 +251,7 @@ set of outstanding caveats.
 |---|---|---|
 | Rust MCTS engine | Implemented | Extensive Rust test surface; validate with local `cargo test --release` |
 | QUARTZ controller | Implemented | Multiple penalty families, adaptive stopping, still best treated as an experimental controller bundle |
-| ParallelismController | Implemented | 2nd-gen feedback: dup_rate + contention |
+| ParallelismController | Implemented | 2nd-gen feedback: dup_rate + contention; explicit thread counts remain the ablation surface |
 | Game encoders | Implemented | Gomoku, Go, Chess |
 | Glicko-2 evaluation | Implemented | Comprehensive math / gate self-tests |
 | ONNX export/inference | Partial | Real code path exists; external deployment still needs environment-specific verification |
@@ -254,6 +286,13 @@ Two GitHub Actions workflows enforce the regression discipline:
   benchmark-shape gate, not a unit-test gate; rely on `tests-gate.yml`
   for regression discipline on the engine and pipeline.
 
+## Research Readiness
+
+`ablation_report.json` now carries a passive `research_readiness` section. It
+does not block runs; it lists which internal criteria are still missing for
+claim-bearing research artifacts. See
+[RESEARCH_READINESS.md](docs/RESEARCH_READINESS.md) for the checklist.
+
 ## Design Principles
 
 1. **Rust-native search, Python training**: Search performance in Rust,
@@ -275,7 +314,9 @@ Two GitHub Actions workflows enforce the regression discipline:
 
 - Score shaping applies at root depth only (not tree-wide)
 - Adaptive stopping requires NN loss < ~1.0 for P_flip convergence
-- Controller telemetry is partial (core stats; not all internal state exposed)
+- Controller telemetry has two scopes: final-root snapshot diagnostics and
+  exact root-selection trace summaries. Use the latter for event-frequency
+  claims; deeper tree-wide per-edge tracing is still intentionally absent.
 - The `controller` study preset is intentionally bundled. Use
   `controller_axes` or `controller_factorial` when you need cleaner factor
   isolation.
@@ -286,8 +327,11 @@ Two GitHub Actions workflows enforce the regression discipline:
   as the PyTorch path, and self-play / eval inference into the Rust server
   still flows through the torch model-forward path regardless of
   `--backend jax`. Rust self-play / eval and Gomocup deployment paths also
-  do not use JAX inference. Treat `--backend jax` as an experimental surface,
-  not as a fully independent backend today.
+  do not use JAX inference. The checkpoint save/load signature is kept aligned
+  with the shared CLI path, but `--backend jax` remains an experimental surface,
+  not a fully independent backend today. Explicit JAX requests now fail rather
+  than silently falling back to PyTorch; auto backend selection may still choose
+  PyTorch.
 - Gomocup ONNX deployment requires building the Rust binary with `--features onnx`
 - Prior refresh is implemented, but current short-budget Gomoku7 controller
   sweeps do not support enabling it by default

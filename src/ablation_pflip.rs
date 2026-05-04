@@ -350,10 +350,7 @@ mod tests {
                 }
 
                 let edges = eng.root.edge_snapshot(eng.root.materialized_count());
-                let total: f32 = edges
-                    .iter()
-                    .map(|e| e.n as f32)
-                    .sum();
+                let total: f32 = edges.iter().map(|e| e.n as f32).sum();
                 let ent = if total > 1.0 {
                     edges
                         .iter()

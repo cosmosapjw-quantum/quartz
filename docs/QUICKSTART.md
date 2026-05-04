@@ -16,6 +16,7 @@ Artifacts land in `models/alphazero_<game>/`:
 
 - `latest.pt` — latest checkpoint
 - `best.pt` — promoted champion checkpoint
+- `gen_N.pt` — immutable candidate checkpoint used for training-time eval
 - `replay.npz` — replay snapshot
 - `train_log.jsonl` — per-iteration metrics
 - `training_loss.png` / `training_elo.png` — regenerated from the log
@@ -44,6 +45,11 @@ Rust-backed paths:
 
 Fallback and legacy compatibility paths still exist outside this flow; benchmark
 claims should use the Rust-backed path above.
+
+For research claims, inspect `ablation_report.json` → `research_readiness` and
+run report mode with `--research-grade` to make missing criteria fail the
+command. The checklist is maintained in [RESEARCH_READINESS.md](RESEARCH_READINESS.md);
+short smoke runs are expected to miss several criteria.
 
 Also treat QUARTZ as a controller family, not a hyperparameter-free reduction:
 the runtime signals are shared, but `search_profile`, halt, penalty, and prior-
@@ -123,8 +129,28 @@ The runner writes:
 - `ablation_report.json` — summarized training/eval report
 
 `champion.json` is chosen from the post-train evaluation matrix when it exists.
-The deployment search profile stored there is the best-scoring evaluation
-condition for that selected model, not just its training condition.
+It records both the selected model and `deployment_cfg_source`. If that source
+is `train_cfg`, no evaluation-condition override was promoted into deployment;
+if it names an evaluation condition, that exact search config is the one to
+carry into export.
+
+For local smoke and short controller ablations on a Ryzen 5900X / 64GB RAM /
+RX 6950 XT class machine, start with:
+
+```bash
+venv/bin/python -m quartz.train \
+  --game gomoku7 \
+  --backend torch \
+  --config configs/hardware_5900x_rx6950xt_gomoku7.json \
+  --search-profile quartz \
+  --vl-mode adaptive \
+  --selfplay-parallel 4 \
+  --bg-parallel 4 \
+  --nn-batch-size 16
+```
+
+This preset is for executable confidence and short ablation development, not
+publication-scale multi-seed evidence.
 
 For multi-seed studies:
 

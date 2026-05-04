@@ -21,7 +21,6 @@
 //!    - `gvoc_score(s)` = VOC(s) / (N(s)+1): 방문당 기대 정보이득
 //!    - 높은 노드에 더 많은 simulations 집중 (root에서 제어)
 
-
 use crate::mcts::node::{ArenaRef, MctsNode};
 use crate::mcts::quartz::{compute_quartz_stats, QuartzConfig, QuartzStats};
 

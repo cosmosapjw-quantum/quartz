@@ -71,9 +71,12 @@ after the eval completes.
 Current loop behavior:
 
 - `latest.pt` is checkpointed every 5 iterations
+- each training-time evaluation first writes an immutable `gen_N.pt`
+  candidate checkpoint and evaluates that file, not a live in-memory model
 - replay state is checkpointed alongside it
 - training-time promotion evaluation runs on `--eval-interval`
-- `best.pt` updates only on explicit promotion verdict
+- `best.pt` updates only on explicit promotion verdict and is copied from the
+  evaluated candidate checkpoint
 - plots regenerate from `train_log.jsonl`
 
 The loop no longer drops checkpoint/eval work when an iteration has `0`
@@ -85,6 +88,7 @@ The model directory contains:
 
 - `latest.pt`
 - `best.pt`
+- `gen_N.pt` candidate checkpoints for iterations that reached evaluation
 - `replay.npz`
 - `train_log.jsonl`
 - `autotune_profile.json`
@@ -97,7 +101,7 @@ Training log rows include:
 - losses
 - replay size and freshness
 - self-play throughput
-- controller telemetry
+- controller telemetry, including root-selection trace coverage when available
 - eval verdict / Elo / score rate
 
 For external audit or fresh-machine verification, the preferred one-command
@@ -117,6 +121,12 @@ That path checks:
 
 The intent is to fail fast on orchestration/runtime breakage. It is not, by
 itself, a benchmark-grade certification run.
+
+For ablation reports, the `research_readiness` field records which internal
+research-grade criteria remain unmet. It is passive by default, but
+`scripts/ablation_study.py --research-grade --report <dir>` makes the same
+criteria a hard gate for claim-bearing artifacts. The checklist is maintained
+in [RESEARCH_READINESS.md](RESEARCH_READINESS.md).
 
 If the Rust binary is missing, the smoke attempts to build
 `mcts_demo` automatically and records the resolved binary path/hash in
@@ -152,7 +162,9 @@ The following regressions were fixed and are now part of the expected behavior:
 - QUARTZ score shaping is still root-only
 - P_flip behavior still depends on evaluator quality and usually needs NN loss below roughly `1.0`
 - raw external chess FEN alone cannot recreate prior repetition history; exact repeated search requires the returned history token path
-- JAX remains a training backend, not the inference backend used by Rust self-play/eval or Gomocup deployment
+- JAX remains a training backend, not the inference backend used by Rust self-play/eval or Gomocup deployment. Explicit `--backend jax` / `--device jax` now fails if JAX initialization fails; only `auto` backend selection may fall back to PyTorch.
+- The trainer saves `replay.npz` at normal checkpoints and again at shutdown, so short runs do not lose tail replay samples.
+- The Play UI exposes the loaded model artifact digest/preferred-checkpoint status and the last AI move's search contract (`benchmark_safe`, realized visits, halt reason, and refresh activation) for manual inspection; it is still a demo surface, not a benchmark harness.
 - Python orchestrator micro-optimization is now largely exhausted; the next
   meaningful runtime wins should come from broker/event-loop redesign rather
   than more Python polling tweaks

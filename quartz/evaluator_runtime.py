@@ -77,6 +77,100 @@ def _decode_match_game_id(game_id):
     return tuple(text.split("::", 1))
 
 
+def _empty_search_trace():
+    return {
+        "games": 0,
+        "moves": 0,
+        "root_visits": {"mean": None, "max": None, "samples": []},
+        "halt_reason_hist": {},
+        "mean_p_flip": None,
+        "benchmark_safe_frac": None,
+        "telemetry_partial_frac": None,
+        "selection_trace_coverage_frac": None,
+        "selection_trace": {
+            "root_selects": 0,
+            "refresh_selected_count": 0,
+            "selected_penalty_abs_sum": 0.0,
+            "selected_effective_prior_l1_sum": 0.0,
+        },
+    }
+
+
+def _summarize_search_summaries(items):
+    root_visits = []
+    halt_reason_hist = {}
+    p_flip_values = []
+    benchmark_safe = 0
+    benchmark_seen = 0
+    telemetry_partial = 0
+    telemetry_seen = 0
+    selection_trace_seen = 0
+    selection_root_selects = 0
+    selection_refresh_selected = 0
+    selection_penalty_abs_sum = 0.0
+    selection_effective_prior_l1_sum = 0.0
+    game_count = 0
+    for item in items or []:
+        summary = item.get("search_summary") if isinstance(item, dict) else getattr(item, "search_summary", None)
+        if not isinstance(summary, dict):
+            continue
+        game_count += 1
+        rv = ((summary.get("root_visits") or {}).get("samples") or [])
+        for value in rv:
+            try:
+                root_visits.append(float(value))
+            except Exception:
+                pass
+        for reason, count in (summary.get("halt_reason_hist") or {}).items():
+            halt_reason_hist[str(reason)] = int(halt_reason_hist.get(str(reason), 0)) + int(count or 0)
+        if summary.get("mean_p_flip") is not None:
+            try:
+                p_flip_values.append(float(summary["mean_p_flip"]))
+            except Exception:
+                pass
+        if summary.get("benchmark_safe") is not None:
+            benchmark_seen += 1
+            if bool(summary.get("benchmark_safe")):
+                benchmark_safe += 1
+        if summary.get("telemetry_partial") is not None:
+            telemetry_seen += 1
+            if bool(summary.get("telemetry_partial")):
+                telemetry_partial += 1
+        trace = summary.get("selection_trace")
+        if isinstance(trace, dict):
+            selection_trace_seen += 1
+            selection_root_selects += int(trace.get("root_selects") or 0)
+            selection_refresh_selected += int(trace.get("refresh_selected_count") or 0)
+            selection_penalty_abs_sum += float(trace.get("selected_penalty_abs_sum") or 0.0)
+            selection_effective_prior_l1_sum += float(trace.get("selected_effective_prior_l1_sum") or 0.0)
+    if game_count == 0:
+        return _empty_search_trace()
+    return {
+        "games": int(game_count),
+        "moves": int(len(root_visits)),
+        "root_visits": {
+            "mean": float(sum(root_visits) / len(root_visits)) if root_visits else None,
+            "max": float(max(root_visits)) if root_visits else None,
+            "samples": root_visits,
+        },
+        "halt_reason_hist": halt_reason_hist,
+        "mean_p_flip": float(sum(p_flip_values) / len(p_flip_values)) if p_flip_values else None,
+        "benchmark_safe_frac": (
+            float(benchmark_safe / benchmark_seen) if benchmark_seen else None
+        ),
+        "telemetry_partial_frac": (
+            float(telemetry_partial / telemetry_seen) if telemetry_seen else None
+        ),
+        "selection_trace_coverage_frac": float(selection_trace_seen / game_count),
+        "selection_trace": {
+            "root_selects": int(selection_root_selects),
+            "refresh_selected_count": int(selection_refresh_selected),
+            "selected_penalty_abs_sum": float(selection_penalty_abs_sum),
+            "selected_effective_prior_l1_sum": float(selection_effective_prior_l1_sum),
+        },
+    }
+
+
 def _run_shared_eval_matches(
     *,
     shared_client,
@@ -170,6 +264,37 @@ def _run_shared_eval_matches(
             return
         move_time_ms = float(result.get("time_used_ms", 0.0) or 0.0)
         sess["total_time_ms"] += move_time_ms if move_time_ms > 0.0 else fallback_ms
+        realized = result.get("realized_budget") or {}
+        controller = result.get("controller_summary") or {}
+        manifest = result.get("search_manifest") or {}
+        rv = realized.get("realized_iterations", result.get("iterations"))
+        if rv is not None:
+            try:
+                sess["search_root_visits"].append(float(rv))
+            except Exception:
+                pass
+        if result.get("p_flip") is not None:
+            try:
+                sess["search_p_flip"].append(float(result.get("p_flip")))
+            except Exception:
+                pass
+        reason = controller.get("stop_reason") or realized.get("stop_reason") or result.get("stop_reason")
+        if reason:
+            sess["search_halt_reason_hist"][str(reason)] = (
+                int(sess["search_halt_reason_hist"].get(str(reason), 0)) + 1
+            )
+        if manifest.get("benchmark_safe") is not None:
+            sess["search_benchmark_safe"].append(bool(manifest.get("benchmark_safe")))
+        if controller.get("telemetry_partial") is not None:
+            sess["search_telemetry_partial"].append(bool(controller.get("telemetry_partial")))
+        trace = controller.get("selection_trace") or {}
+        if isinstance(trace, dict):
+            sess["selection_root_selects"] += int(trace.get("root_selects") or 0)
+            sess["selection_refresh_selected"] += int(trace.get("refresh_selected_count") or 0)
+            sess["selection_penalty_abs_sum"] += float(trace.get("selected_penalty_abs_sum") or 0.0)
+            sess["selection_effective_prior_l1_sum"] += float(
+                trace.get("selected_effective_prior_l1_sum") or 0.0
+            )
         action = int(result.get("best_move", 0))
         meta = {
             "time_used_ms": move_time_ms if move_time_ms > 0.0 else fallback_ms,
@@ -196,6 +321,42 @@ def _run_shared_eval_matches(
 
     def build_record(sess):
         game = sess["game"]
+        search_summary = {
+            "moves": len(sess.get("search_root_visits") or []),
+            "root_visits": {
+                "mean": (
+                    sum(sess["search_root_visits"]) / len(sess["search_root_visits"])
+                    if sess.get("search_root_visits")
+                    else None
+                ),
+                "max": max(sess["search_root_visits"]) if sess.get("search_root_visits") else None,
+                "samples": list(sess.get("search_root_visits") or []),
+            },
+            "halt_reason_hist": dict(sess.get("search_halt_reason_hist") or {}),
+            "mean_p_flip": (
+                sum(sess["search_p_flip"]) / len(sess["search_p_flip"])
+                if sess.get("search_p_flip")
+                else None
+            ),
+            "benchmark_safe": (
+                all(sess["search_benchmark_safe"])
+                if sess.get("search_benchmark_safe")
+                else None
+            ),
+            "telemetry_partial": (
+                any(sess["search_telemetry_partial"])
+                if sess.get("search_telemetry_partial")
+                else None
+            ),
+            "selection_trace": {
+                "root_selects": int(sess.get("selection_root_selects") or 0),
+                "refresh_selected_count": int(sess.get("selection_refresh_selected") or 0),
+                "selected_penalty_abs_sum": float(sess.get("selection_penalty_abs_sum") or 0.0),
+                "selected_effective_prior_l1_sum": float(
+                    sess.get("selection_effective_prior_l1_sum") or 0.0
+                ),
+            },
+        }
         if game.is_terminal():
             if hasattr(game, "is_void_result") and game.is_void_result():
                 return GameRecord(
@@ -211,6 +372,7 @@ def _run_shared_eval_matches(
                     seed=sess["seed"],
                     error=sess["error"],
                     is_void=True,
+                    search_summary=search_summary,
                     **manifest_fields_for_tags(sess["black_tag"], sess["white_tag"]),
                 )
             outcome_for_black = float(game.outcome_for_black() or 0.0)
@@ -233,6 +395,7 @@ def _run_shared_eval_matches(
                 seed=sess["seed"],
                 error=sess["error"],
                 is_void=bool(sess["error"]),
+                search_summary=search_summary,
                 **manifest_fields_for_tags(sess["black_tag"], sess["white_tag"]),
             )
         return GameRecord(
@@ -248,6 +411,7 @@ def _run_shared_eval_matches(
             seed=sess["seed"],
             error=sess["error"],
             is_void=bool(sess["error"]),
+            search_summary=search_summary,
             **manifest_fields_for_tags(sess["black_tag"], sess["white_tag"]),
         )
 
@@ -398,6 +562,15 @@ def _run_shared_eval_matches(
                 "done": bool(game.is_terminal()) or len(opening_applied) >= spec["max_moves"],
                 "error": None,
                 "max_moves": int(spec["max_moves"]),
+                "search_root_visits": [],
+                "search_p_flip": [],
+                "search_halt_reason_hist": {},
+                "search_benchmark_safe": [],
+                "search_telemetry_partial": [],
+                "selection_root_selects": 0,
+                "selection_refresh_selected": 0,
+                "selection_penalty_abs_sum": 0.0,
+                "selection_effective_prior_l1_sum": 0.0,
             }
         )
 
@@ -480,6 +653,7 @@ def _run_shared_eval_matches(
                         seed=rec_data.get("seed"),
                         error=rec_data.get("error"),
                         is_void=bool(rec_data.get("is_void", False)),
+                        search_summary=rec_data.get("search_summary") if isinstance(rec_data.get("search_summary"), dict) else None,
                         **manifest_fields_for_tags(black_tag, white_tag),
                     )
                     records.append(rec)
@@ -516,6 +690,7 @@ def _run_shared_eval_matches(
                             "voids": int(tally.voids),
                             "scored_games": int(tally.scored),
                             "total_games": int(tally.total),
+                            "realized_budget_trace": _summarize_search_summaries(records_by_match[spec["match_id"]]),
                         },
                     )
                 return results
@@ -561,6 +736,7 @@ def _run_shared_eval_matches(
                 "voids": int(tally.voids),
                 "scored_games": int(tally.scored),
                 "total_games": int(tally.total),
+                "realized_budget_trace": _summarize_search_summaries(records_by_match[spec["match_id"]]),
             },
         )
     return results

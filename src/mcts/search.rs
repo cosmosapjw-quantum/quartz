@@ -188,7 +188,9 @@ pub fn root_entropy(visit_counts: &[u32]) -> f32 {
 
 /// 루트 노드에서 직접 entropy 계산
 #[cfg(test)]
-pub fn root_entropy_from_node<M: Copy + Send + Sync + 'static>(node: &ArenaRef<MctsNode<M>>) -> f32 {
+pub fn root_entropy_from_node<M: Copy + Send + Sync + 'static>(
+    node: &ArenaRef<MctsNode<M>>,
+) -> f32 {
     let n_mat = node.materialized_count();
     let edge_arcs = node.edge_snapshot(n_mat);
     let counts: Vec<u32> = edge_arcs.iter().map(|e| e.n).collect();

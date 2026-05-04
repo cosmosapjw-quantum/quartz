@@ -20,6 +20,7 @@ use crate::mcts::eval::{
     SHM_MSG_SEARCH_RESP,
 };
 use crate::mcts::node::edge_lock_contention_snapshot;
+use crate::mcts::parallel::{AutoThreadMode, AutoThreadPolicy};
 use crate::mcts::quartz::{HaltMode, PenaltyMode, QuartzConfig, QuartzController};
 use crate::mcts::search::FixedIterations;
 use crate::mcts::{engine_phase_snapshot, MctsConfig, MctsEngine, PreparedIteration};
@@ -106,7 +107,7 @@ const QIPC_ARENA_EVAL_RESP: u8 = 9;
 const QIPC_ARENA_EVAL_REQ: u8 = 10;
 const QIPC_MAGIC: &[u8; 4] = b"QIPC";
 const QIPC_HEADER_SIZE: usize = 9;
-const ARENA_EVAL_RESP_VERSION: u8 = 1;
+const ARENA_EVAL_RESP_VERSION: u8 = 2;
 const ARENA_OUTCOME_DRAW: u8 = 0;
 const ARENA_OUTCOME_BLACK_WIN: u8 = 1;
 const ARENA_OUTCOME_WHITE_WIN: u8 = 2;
@@ -625,7 +626,7 @@ fn decode_arena_eval_request_payload(payload: &[u8]) -> Result<ArenaEvalFrameReq
     };
     let typed_search_options_v2 = if version == 1 {
         None
-    } else if version == 2 {
+    } else if version == 2 || version == 3 {
         let search_profile = frame_read_string(payload, &mut offset)?;
         let penalty_mode = frame_read_string(payload, &mut offset)?;
         let vl_mode = frame_read_string(payload, &mut offset)?;
@@ -665,7 +666,7 @@ fn decode_arena_eval_request_payload(payload: &[u8]) -> Result<ArenaEvalFrameReq
                 } else {
                     None
                 },
-                prior_refresh_temp: if prior_refresh_temp > 0.0 {
+                prior_refresh_temp: if prior_refresh_temp >= 0.0 {
                     Some(prior_refresh_temp)
                 } else {
                     None
@@ -686,10 +687,12 @@ fn decode_arena_eval_request_payload(payload: &[u8]) -> Result<ArenaEvalFrameReq
                     None
                 },
                 seed: if seed_present { Some(seed) } else { None },
-                // P7: binary frame path doesn't carry a halt-mode override
-                // yet (the JSON path does); keep it None so existing
-                // behaviour is unchanged for SHM consumers.
-                halt_mode: None,
+                halt_mode: if version >= 3 {
+                    let halt_mode = frame_read_string(payload, &mut offset)?;
+                    parse_halt_mode_override(&format!(r#"{{"halt_mode":"{}"}}"#, halt_mode))
+                } else {
+                    None
+                },
             },
             n_threads: cap_search_threads(n_threads.max(1) as usize),
             batch_size: (batch_size as usize).max(1),
@@ -727,7 +730,10 @@ fn decode_arena_eval_request_payload(payload: &[u8]) -> Result<ArenaEvalFrameReq
                 for _ in 0..history_len {
                     history_hashes.push(frame_read_u64(payload, &mut offset)?);
                 }
-                ArenaEvalStateSpec::Chess { fen, history_hashes }
+                ArenaEvalStateSpec::Chess {
+                    fen,
+                    history_hashes,
+                }
             }
             ARENA_STATE_GO => {
                 let player = frame_read_i32(payload, &mut offset)? as i8;
@@ -979,6 +985,61 @@ enum SearchProfile {
     BaselineStrict,
 }
 
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+struct SearchThreadSpec {
+    requested_threads: usize,
+    auto_policy: Option<AutoThreadPolicy>,
+}
+
+impl SearchThreadSpec {
+    fn explicit(n_threads: usize) -> Self {
+        SearchThreadSpec {
+            requested_threads: cap_search_threads(n_threads.max(1)),
+            auto_policy: None,
+        }
+    }
+
+    fn policy_name(&self) -> &'static str {
+        match self.auto_policy.map(|p| p.mode) {
+            Some(AutoThreadMode::Throughput) => "auto-throughput",
+            Some(AutoThreadMode::Quality) => "auto-quality",
+            None => "explicit",
+        }
+    }
+}
+
+fn parse_auto_thread_policy_name(raw: &str) -> Option<AutoThreadPolicy> {
+    match raw {
+        "auto" | "throughput" | "auto-throughput" => Some(AutoThreadPolicy::throughput()),
+        "quality" | "auto-quality" => Some(AutoThreadPolicy::quality()),
+        _ => None,
+    }
+}
+
+fn parse_search_thread_spec(line: &str) -> SearchThreadSpec {
+    let auto_policy = jstr(line, "n_threads")
+        .and_then(parse_auto_thread_policy_name)
+        .or_else(|| jstr(line, "thread_policy").and_then(parse_auto_thread_policy_name))
+        .or_else(|| jstr(line, "auto_thread_policy").and_then(parse_auto_thread_policy_name));
+
+    if let Some(mut policy) = auto_policy {
+        if let Some(cap) = jint(line, "thread_cap")
+            .or_else(|| jint(line, "max_threads"))
+            .or_else(|| jint(line, "n_threads_cap"))
+            .map(|v| v.max(1) as usize)
+        {
+            policy = policy.with_max_threads(cap_search_threads(cap));
+        }
+        let requested_threads = policy.max_threads.unwrap_or_else(available_host_threads);
+        SearchThreadSpec {
+            requested_threads: cap_search_threads(requested_threads),
+            auto_policy: Some(policy),
+        }
+    } else {
+        SearchThreadSpec::explicit(jint(line, "n_threads").unwrap_or(1).max(1) as usize)
+    }
+}
+
 fn parse_halt_mode_override(line: &str) -> Option<HaltMode> {
     // P7 (audit W2): map JSON `halt_mode` strings to a controller halt
     // selection. Only the modes that make sense as ablation-row pins are
@@ -1012,7 +1073,7 @@ fn parse_search_overrides(line: &str) -> SearchOverrides {
             .filter(|v| *v >= 0.0),
         prior_refresh_temp: jfloat(line, "prior_refresh_temp")
             .map(|v| v as f32)
-            .filter(|v| *v > 0.0),
+            .filter(|v| *v >= 0.0),
         root_only_shaping: jbool(line, "root_only_shaping"),
         vl_mode: jstr(line, "vl_mode").map(|s| s.to_string()),
         tt_enabled: jbool(line, "tt_enabled"),
@@ -1030,7 +1091,7 @@ fn parse_search_profile(line: &str) -> SearchProfile {
 }
 
 fn arena_eval_search_options_from_json(
-    game: &str,
+    _game: &str,
     line: &str,
     session_count: usize,
 ) -> ArenaEvalSearchOptions {
@@ -1264,6 +1325,41 @@ fn search_evaluator_path(
     }
 }
 
+fn controller_actuator_coverage(qcfg: Option<&QuartzConfig>) -> serde_json::Value {
+    let Some(cfg) = qcfg else {
+        return serde_json::json!({
+            "controller_present": false,
+        });
+    };
+    let prior_refresh_rate_configured = cfg.prior_refresh_rate > 1e-6;
+    let (
+        prior_refresh_rate_consumed_by_mode,
+        prior_refresh_temp_consumed_by_mode,
+        prior_refresh_source,
+    ) = match cfg.penalty_mode {
+        PenaltyMode::Legacy | PenaltyMode::EffectiveV2 | PenaltyMode::None => (
+            true,
+            prior_refresh_rate_configured,
+            "config_prior_refresh_rate",
+        ),
+        PenaltyMode::SelfAdaptive => (false, false, "self_adaptive_visit_bayes"),
+        PenaltyMode::GatedRefresh => (false, false, "prior_q_divergence_gate"),
+        PenaltyMode::GatedRefreshLegacy => (false, true, "pflip_q_refresh"),
+        PenaltyMode::PFlipMixture => (false, true, "pflip_mixture"),
+    };
+    serde_json::json!({
+        "controller_present": true,
+        "penalty_mode_consumed_by_selection": true,
+        "halt_mode_consumed_by_controller": true,
+        "root_only_shaping_consumed_by_selection": true,
+        "prior_refresh_rate_configured": prior_refresh_rate_configured,
+        "prior_refresh_rate_consumed_by_mode": prior_refresh_rate_consumed_by_mode,
+        "prior_refresh_rate_inert_for_mode": prior_refresh_rate_configured && !prior_refresh_rate_consumed_by_mode,
+        "prior_refresh_temp_consumed_by_mode": prior_refresh_temp_consumed_by_mode,
+        "prior_refresh_source": prior_refresh_source,
+    })
+}
+
 fn attach_search_metadata(
     result: &mut serde_json::Value,
     profile: SearchProfile,
@@ -1292,14 +1388,52 @@ fn attach_search_metadata(
     let prior_refresh_rate = qcfg.map(|cfg| cfg.prior_refresh_rate);
     let prior_refresh_temp = qcfg.map(|cfg| cfg.prior_refresh_temp);
     let refresh_count = obj.get("refresh_count").and_then(|v| v.as_f64());
+    let refresh_activated = obj.get("refresh_activated").and_then(|v| v.as_bool());
     let penalty_sum = obj.get("penalty_sum").and_then(|v| v.as_f64());
+    let effective_prior_l1 = obj.get("effective_prior_l1").and_then(|v| v.as_f64());
+    let selection_root_selects = obj.get("selection_root_selects").and_then(|v| v.as_u64());
+    let selection_refresh_selected_count = obj
+        .get("selection_refresh_selected_count")
+        .and_then(|v| v.as_u64());
+    let selection_penalty_abs_sum = obj
+        .get("selection_penalty_abs_sum")
+        .and_then(|v| v.as_f64());
+    let selection_effective_prior_l1_sum = obj
+        .get("selection_effective_prior_l1_sum")
+        .and_then(|v| v.as_f64());
+    let selection_mean_candidate_count = obj
+        .get("selection_mean_candidate_count")
+        .and_then(|v| v.as_f64());
+    let selection_max_candidate_count = obj
+        .get("selection_max_candidate_count")
+        .and_then(|v| v.as_u64());
     let prior_q_divergence = obj.get("prior_q_divergence").and_then(|v| v.as_f64());
+    let requested_threads = obj
+        .get("requested_threads")
+        .and_then(|v| v.as_u64())
+        .unwrap_or(n_threads as u64) as usize;
+    let effective_threads = obj
+        .get("effective_threads")
+        .and_then(|v| v.as_u64())
+        .unwrap_or(n_threads as u64) as usize;
+    let thread_policy = obj
+        .get("thread_policy")
+        .and_then(|v| v.as_str())
+        .unwrap_or("explicit")
+        .to_string();
+    let auto_thread_reason = obj
+        .get("auto_thread_reason")
+        .cloned()
+        .unwrap_or(serde_json::Value::Null);
     let mut telemetry_missing_fields = Vec::new();
     if refresh_count.is_none() {
         telemetry_missing_fields.push("refresh_count");
     }
     if penalty_sum.is_none() {
         telemetry_missing_fields.push("penalty_sum");
+    }
+    if selection_root_selects.is_none() {
+        telemetry_missing_fields.push("selection_trace");
     }
     // P6 (audit_codex_20260425.md W8): VOC channel decomposition is the
     // mechanism-level signal callers need to falsify "controller helps"
@@ -1308,7 +1442,10 @@ fn attach_search_metadata(
     // through the controller_summary view.
     let voc_total = obj.get("voc_total").and_then(|v| v.as_f64()).unwrap_or(0.0);
     let voc_focus = obj.get("voc_focus").and_then(|v| v.as_f64()).unwrap_or(0.0);
-    let voc_expand = obj.get("voc_expand").and_then(|v| v.as_f64()).unwrap_or(0.0);
+    let voc_expand = obj
+        .get("voc_expand")
+        .and_then(|v| v.as_f64())
+        .unwrap_or(0.0);
     let voc_merge = obj.get("voc_merge").and_then(|v| v.as_f64()).unwrap_or(0.0);
     // Q3 (audit_codex_20260428.md W'1): forward the per-game argmax
     // histogram into the controller_summary view so the Python aggregator
@@ -1322,10 +1459,13 @@ fn attach_search_metadata(
         .unwrap_or_else(|| serde_json::json!({}));
     let controller_summary = serde_json::json!({
         // P6+Q3: schema_version pins the wire format. v1 had no argmax
-        // channel field; v2 adds `voc_argmax_channel_hist`. Readers must
+        // channel field; v2 adds `voc_argmax_channel_hist`; v3 adds root
+        // snapshot refresh/penalty/effective-prior diagnostics; v4 adds
+        // actual root-selection path telemetry; v5 adds controller actuator
+        // coverage so configured-but-inert knobs are visible. Readers must
         // tolerate unknown extra fields and degrade gracefully when a
         // newer field is missing on an older Rust binary.
-        "schema_version": 2,
+        "schema_version": 5,
         "p_flip": obj.get("p_flip").and_then(|v| v.as_f64()).unwrap_or(0.0),
         "value": obj.get("value").and_then(|v| v.as_f64()).unwrap_or(0.0),
         "sigma_q": obj.get("sigma_q").and_then(|v| v.as_f64()).unwrap_or(0.0),
@@ -1347,11 +1487,22 @@ fn attach_search_metadata(
         "prior_refresh_temp": prior_refresh_temp,
         "prior_q_divergence": prior_q_divergence,
         "refresh_count": refresh_count,
+        "refresh_activated": refresh_activated,
         "penalty_sum": penalty_sum,
+        "effective_prior_l1": effective_prior_l1,
+        "selection_trace": {
+            "root_selects": selection_root_selects,
+            "refresh_selected_count": selection_refresh_selected_count,
+            "selected_penalty_abs_sum": selection_penalty_abs_sum,
+            "selected_effective_prior_l1_sum": selection_effective_prior_l1_sum,
+            "selected_mean_candidate_count": selection_mean_candidate_count,
+            "selected_max_candidate_count": selection_max_candidate_count,
+        },
         "refresh_metric_present": refresh_count.is_some(),
         "penalty_metric_present": penalty_sum.is_some(),
         "telemetry_partial": !telemetry_missing_fields.is_empty(),
         "telemetry_missing_fields": telemetry_missing_fields,
+        "actuator_coverage": controller_actuator_coverage(qcfg),
     });
     obj.insert(
         "search_manifest".to_string(),
@@ -1359,6 +1510,10 @@ fn attach_search_metadata(
             "profile": search_profile_name(profile),
             "requested_iteration_limit": requested_iteration_limit,
             "n_threads": n_threads,
+            "requested_threads": requested_threads,
+            "effective_threads": effective_threads,
+            "thread_policy": thread_policy,
+            "auto_thread_reason": auto_thread_reason,
             "evaluator_path": evaluator_path,
             "benchmark_safe": evaluator_path != "serial_stdio",
         }),
@@ -2149,6 +2304,13 @@ struct EvalRunnerSession<G: GameState> {
     total_time_ms: f64,
     done: bool,
     error: Option<String>,
+    search_root_visits: Vec<u32>,
+    search_p_flip: Vec<f32>,
+    search_halt_reasons: std::collections::BTreeMap<String, u32>,
+    selection_root_selects: u64,
+    selection_refresh_selected_count: u64,
+    selection_penalty_abs_sum: f64,
+    selection_effective_prior_l1_sum: f64,
 }
 
 impl<G: GameState> EvalRunnerSession<G> {
@@ -2192,8 +2354,44 @@ fn build_eval_record_json<G: GameState>(sess: &EvalRunnerSession<G>) -> serde_js
         "total_time_ms": sess.total_time_ms,
         "opening": sess.opening,
         "seed": sess.seed,
-        "error": sess.error,
-        "is_void": sess.error.is_some(),
+            "error": sess.error,
+            "is_void": sess.error.is_some(),
+            "search_summary": eval_session_search_summary(sess),
+    })
+}
+
+fn eval_session_search_summary<G: GameState>(sess: &EvalRunnerSession<G>) -> serde_json::Value {
+    let count = sess.search_root_visits.len();
+    let mean_root_visits = if count > 0 {
+        sess.search_root_visits
+            .iter()
+            .map(|v| *v as f64)
+            .sum::<f64>()
+            / count as f64
+    } else {
+        0.0
+    };
+    let max_root_visits = sess.search_root_visits.iter().copied().max().unwrap_or(0);
+    let mean_p_flip = if sess.search_p_flip.is_empty() {
+        0.0
+    } else {
+        sess.search_p_flip.iter().map(|v| *v as f64).sum::<f64>() / sess.search_p_flip.len() as f64
+    };
+    serde_json::json!({
+        "moves": count,
+        "root_visits": {
+            "mean": mean_root_visits,
+            "max": max_root_visits,
+            "samples": &sess.search_root_visits,
+        },
+        "mean_p_flip": mean_p_flip,
+        "halt_reason_hist": &sess.search_halt_reasons,
+        "selection_trace": {
+            "root_selects": sess.selection_root_selects,
+            "refresh_selected_count": sess.selection_refresh_selected_count,
+            "selected_penalty_abs_sum": sess.selection_penalty_abs_sum,
+            "selected_effective_prior_l1_sum": sess.selection_effective_prior_l1_sum,
+        },
     })
 }
 
@@ -2222,6 +2420,7 @@ fn encode_arena_eval_record<G: GameState>(buf: &mut Vec<u8>, sess: &EvalRunnerSe
         push_u32(buf, mv.min(u32::MAX as usize) as u32);
     }
     push_string(buf, sess.error.as_deref().unwrap_or(""));
+    push_string(buf, &eval_session_search_summary(sess).to_string());
 }
 
 fn encode_arena_eval_response_payload<G: GameState>(
@@ -2356,6 +2555,11 @@ fn build_result_value<G: GameState>(
         "prior_q_divergence": prior_q_divergence.map(|v| f_or(v, 0.0)),
         "stop_reason": stop_reason,
         "iterations": iterations.max(total),
+        "requested_threads": outcome.requested_threads,
+        "effective_threads": outcome.effective_threads,
+        "n_threads": outcome.effective_threads,
+        "thread_policy": outcome.thread_policy,
+        "auto_thread_reason": outcome.auto_thread_reason.clone(),
         "dup_rate": par.dup_rate,
         "max_pending": par.max_pending,
         "avg_vvalue": par.avg_vvalue,
@@ -2372,12 +2576,26 @@ fn build_result_value<G: GameState>(
         "voc_expand": f_or(outcome.voc_expand, 0.0),
         "voc_merge": f_or(outcome.voc_merge, 0.0),
         "voc_argmax_channel_hist": serde_json::Value::Object(argmax_hist_json),
+        "refresh_count": outcome.refresh_count,
+        "refresh_activated": outcome.refresh_activated,
+        "penalty_sum": f_or(outcome.penalty_sum, 0.0),
+        "effective_prior_l1": f_or(outcome.effective_prior_l1, 0.0),
+        "selection_root_selects": outcome.selection_root_selects,
+        "selection_refresh_selected_count": outcome.selection_refresh_selected_count,
+        "selection_penalty_abs_sum": outcome.selection_penalty_abs_sum,
+        "selection_effective_prior_l1_sum": outcome.selection_effective_prior_l1_sum,
+        "selection_mean_candidate_count": outcome.selection_mean_candidate_count,
+        "selection_max_candidate_count": outcome.selection_max_candidate_count,
     })
 }
 
 struct SearchExecutionOutcome {
     iterations: u32,
     stop_reason: String,
+    requested_threads: usize,
+    effective_threads: usize,
+    thread_policy: &'static str,
+    auto_thread_reason: Option<String>,
     p_flip: f32,
     value: f32,
     sigma_q: f32,
@@ -2390,6 +2608,16 @@ struct SearchExecutionOutcome {
     voc_focus: f32,
     voc_expand: f32,
     voc_merge: f32,
+    refresh_count: u32,
+    refresh_activated: bool,
+    penalty_sum: f32,
+    effective_prior_l1: f32,
+    selection_root_selects: u64,
+    selection_refresh_selected_count: u64,
+    selection_penalty_abs_sum: f64,
+    selection_effective_prior_l1_sum: f64,
+    selection_mean_candidate_count: f64,
+    selection_max_candidate_count: u64,
     /// Q3: per-game histogram of the argmax channel across every halt-check
     /// the controller recorded. Empty for non-Quartz profiles. Lets readers
     /// see whether VOC-halt is dominated by one channel or genuinely
@@ -2397,40 +2625,187 @@ struct SearchExecutionOutcome {
     voc_argmax_channel_hist: std::collections::BTreeMap<&'static str, u32>,
 }
 
-#[derive(Clone, Copy)]
+#[derive(Default)]
+struct ControllerDiagnostics {
+    refresh_count: u32,
+    refresh_activated: bool,
+    penalty_sum: f32,
+    effective_prior_l1: f32,
+}
+
+fn blended_prior_diag(prior: f32, signal: f32, rho: f32) -> f32 {
+    ((1.0 - rho) * prior.max(1e-8).ln() + rho * signal.max(1e-8).ln())
+        .exp()
+        .max(1e-8)
+}
+
+fn controller_diagnostics<G: GameState>(
+    engine: &MctsEngine<G>,
+    stats: &crate::mcts::quartz::QuartzStats,
+    qcfg: &QuartzConfig,
+) -> ControllerDiagnostics
+where
+    G::Move: Copy + Send + Sync + 'static,
+{
+    use crate::mcts::quartz::PenaltyMode;
+
+    let mut diag = ControllerDiagnostics::default();
+    let n = engine.root.materialized_count();
+    let edges = engine.root.edge_snapshot(n);
+    if edges.is_empty() {
+        return diag;
+    }
+    let root_visits = (stats.root_visits as f32).max(1.0);
+    let k = (stats.n_visible as f32).max(2.0);
+    let n_avg = root_visits / k;
+    for edge in edges {
+        let n_raw = edge.n;
+        let prior = edge.p.max(1e-8);
+        let q_eff = edge.q();
+        let mut effective_prior = prior;
+        let penalty = match qcfg.penalty_mode {
+            PenaltyMode::SelfAdaptive => {
+                if n_raw > 0 {
+                    let n_a = n_raw as f32;
+                    let alpha_a = n_a / (n_a + k);
+                    let tau = (1.0 + n_avg).ln().max(0.1);
+                    let log_visit = (1.0 + n_a).ln();
+                    effective_prior = ((1.0 - alpha_a) * prior.ln() + alpha_a * log_visit / tau)
+                        .exp()
+                        .max(1e-8);
+                    -stats.sigma_q.max(0.001) / (1.0 + n_a)
+                } else {
+                    0.0
+                }
+            }
+            PenaltyMode::GatedRefresh => {
+                if n_raw > 0 && stats.root_visits > 0 {
+                    let gate = stats.epsilon_t.max(1e-6);
+                    let divergence = stats.prior_q_divergence.max(0.0);
+                    if divergence > gate {
+                        let rho = ((divergence - gate) / divergence.max(gate)).clamp(0.0, 1.0);
+                        let visit_share = (n_raw as f32 / root_visits).max(1e-8);
+                        effective_prior = blended_prior_diag(prior, visit_share, rho);
+                    }
+                }
+                -qcfg.hbar_penalty_cap.min(stats.hbar_eff) * (n_raw as f32 / root_visits)
+            }
+            PenaltyMode::GatedRefreshLegacy => {
+                if n_raw > 0 {
+                    let rho = 0.3_f32 * (stats.p_flip / 0.159_f32).min(1.0);
+                    if rho > 1e-4 {
+                        let tau = qcfg.prior_refresh_temp.max(1e-6);
+                        effective_prior = ((1.0 - rho) * prior.ln() + rho * q_eff / tau)
+                            .exp()
+                            .max(1e-8);
+                    }
+                }
+                crate::mcts::quartz::effective_penalty_v2(n_raw, 0, qcfg.hbar_penalty_cap)
+            }
+            PenaltyMode::PFlipMixture => {
+                if n_raw > 0 {
+                    let flip_thresh = 0.159_f32;
+                    let rho_max = 0.3_f32;
+                    let p_ratio = (stats.p_flip / flip_thresh).min(2.0);
+                    let mut rho_q = rho_max * p_ratio.min(1.0);
+                    let mut rho_vf = rho_max * (1.0 - p_ratio).max(0.0);
+                    if qcfg.pflip_mixture_divergence_gate
+                        && stats.prior_q_divergence <= stats.epsilon_t.max(1e-6)
+                    {
+                        rho_q = 0.0;
+                        rho_vf = 0.0;
+                    }
+                    if rho_q + rho_vf > 1e-4 {
+                        let tau_q = qcfg.prior_refresh_temp.max(1e-6);
+                        let tau_vf = (1.0 + n_avg).ln().max(0.1);
+                        let vf_signal = (1.0 + n_raw as f32).ln() / tau_vf;
+                        effective_prior = ((1.0 - rho_q - rho_vf) * prior.ln()
+                            + rho_q * q_eff / tau_q
+                            + rho_vf * vf_signal)
+                            .exp()
+                            .max(1e-8);
+                    }
+                    -qcfg.hbar_penalty_cap.max(stats.sigma_q.max(0.001)) / (1.0 + n_raw as f32)
+                } else {
+                    0.0
+                }
+            }
+            PenaltyMode::Legacy => {
+                if qcfg.enable_one_loop && n_raw > 0 {
+                    -qcfg.hbar_penalty_cap.min(stats.hbar_eff) / (1.0 + n_raw as f32)
+                } else {
+                    0.0
+                }
+            }
+            PenaltyMode::EffectiveV2 => {
+                crate::mcts::quartz::effective_penalty_v2(n_raw, 0, qcfg.hbar_penalty_cap)
+            }
+            PenaltyMode::None => 0.0,
+        };
+        let delta = (effective_prior - prior).abs();
+        if delta > 1e-6 {
+            diag.refresh_count = diag.refresh_count.saturating_add(1);
+            diag.refresh_activated = true;
+            diag.effective_prior_l1 += delta;
+        }
+        diag.penalty_sum += penalty.abs();
+    }
+    diag
+}
+
+#[derive(Clone)]
 struct EvalSearchStepResult {
     best_move: usize,
     iterations: u32,
+    root_visits: u32,
     time_used_ms: f64,
     p_flip: f32,
+    stop_reason: String,
+    selection_root_selects: u64,
+    selection_refresh_selected_count: u64,
+    selection_penalty_abs_sum: f64,
+    selection_effective_prior_l1_sum: f64,
 }
 
-#[derive(Clone, Copy)]
+#[derive(Clone)]
 struct EvalSearchStepCompact {
     best_move: usize,
     iterations: u32,
+    root_visits: u32,
     time_used_ms: f64,
     p_flip: f32,
+    stop_reason: String,
+    selection_root_selects: u64,
+    selection_refresh_selected_count: u64,
+    selection_penalty_abs_sum: f64,
+    selection_effective_prior_l1_sum: f64,
 }
 
 fn execute_search<G: GameState>(
     engine: &MctsEngine<G>,
-    n_threads: usize,
+    thread_spec: SearchThreadSpec,
     iters: u32,
     qcfg: Option<QuartzConfig>,
     profile: SearchProfile,
 ) -> SearchExecutionOutcome
 where
     usize: From<G::Move>,
+    G::Move: Copy + Send + Sync + 'static,
 {
     match profile {
         SearchProfile::Quartz => {
-            let mut ctrl = QuartzController::new(iters, qcfg.unwrap_or_default());
-            if n_threads > 1 {
-                engine.run_par_quartz(&mut ctrl, n_threads);
-            } else {
-                engine.run_quartz(&mut ctrl);
-            }
+            let mut ctrl = QuartzController::new(iters, qcfg.clone().unwrap_or_default());
+            let (effective_threads, auto_thread_reason) =
+                if let Some(policy) = thread_spec.auto_policy {
+                    let (_stats, decision) = engine.run_quartz_auto(&mut ctrl, policy);
+                    (decision.threads, Some(format!("{:?}", decision.reason)))
+                } else if thread_spec.requested_threads > 1 {
+                    engine.run_par_quartz(&mut ctrl, thread_spec.requested_threads);
+                    (thread_spec.requested_threads, None)
+                } else {
+                    engine.run_quartz(&mut ctrl);
+                    (1, None)
+                };
             let s = ctrl.last_stats();
             // Q3 (audit_codex_20260428.md W'1): aggregate per-halt-check
             // argmax-channel labels into a histogram so the per-game artifact
@@ -2441,9 +2816,18 @@ where
             for check in ctrl.halt_telemetry() {
                 *argmax_hist.entry(check.voc_argmax_channel).or_insert(0) += 1;
             }
+            let diag = qcfg
+                .as_ref()
+                .map(|cfg| controller_diagnostics(engine, &s, cfg))
+                .unwrap_or_default();
+            let selection_trace = engine.selection_telemetry.snapshot();
             SearchExecutionOutcome {
                 iterations: engine.root.n_total.load(Ordering::Relaxed),
                 stop_reason: format!("{:?}", ctrl.last_stop_reason()),
+                requested_threads: thread_spec.requested_threads,
+                effective_threads,
+                thread_policy: thread_spec.policy_name(),
+                auto_thread_reason,
                 p_flip: s.p_flip,
                 value: s.mean_q,
                 sigma_q: s.sigma_q,
@@ -2453,19 +2837,47 @@ where
                 voc_focus: s.unified.voc_focus,
                 voc_expand: s.unified.voc_expand,
                 voc_merge: s.unified.voc_merge,
+                refresh_count: diag.refresh_count,
+                refresh_activated: diag.refresh_activated,
+                penalty_sum: diag.penalty_sum,
+                effective_prior_l1: diag.effective_prior_l1,
+                selection_root_selects: selection_trace.root_selects,
+                selection_refresh_selected_count: selection_trace.refresh_selected_count,
+                selection_penalty_abs_sum: selection_trace.selected_penalty_abs_sum,
+                selection_effective_prior_l1_sum: selection_trace.selected_effective_prior_l1_sum,
+                selection_mean_candidate_count: selection_trace.selected_mean_candidate_count,
+                selection_max_candidate_count: selection_trace.selected_max_candidate_count,
                 voc_argmax_channel_hist: argmax_hist,
             }
         }
         SearchProfile::Baseline | SearchProfile::BaselineStrict => {
-            let ctrl = FixedIterations::new(iters);
-            let stats = if n_threads > 1 {
-                engine.run_par(&ctrl, n_threads)
-            } else {
-                engine.run(&mut FixedIterations::new(iters))
-            };
+            let (stats, effective_threads, auto_thread_reason) =
+                if let Some(policy) = thread_spec.auto_policy {
+                    let mut ctrl = FixedIterations::new(iters);
+                    let (stats, decision) = engine.run_auto(&mut ctrl, policy);
+                    (
+                        stats,
+                        decision.threads,
+                        Some(format!("{:?}", decision.reason)),
+                    )
+                } else if thread_spec.requested_threads > 1 {
+                    let ctrl = FixedIterations::new(iters);
+                    (
+                        engine.run_par(&ctrl, thread_spec.requested_threads),
+                        thread_spec.requested_threads,
+                        None,
+                    )
+                } else {
+                    (engine.run(&mut FixedIterations::new(iters)), 1, None)
+                };
+            let selection_trace = engine.selection_telemetry.snapshot();
             SearchExecutionOutcome {
                 iterations: stats.iterations,
                 stop_reason: format!("{:?}", stats.stop_reason),
+                requested_threads: thread_spec.requested_threads,
+                effective_threads,
+                thread_policy: thread_spec.policy_name(),
+                auto_thread_reason,
                 p_flip: 0.0,
                 value: 0.0,
                 sigma_q: 0.0,
@@ -2475,6 +2887,16 @@ where
                 voc_focus: 0.0,
                 voc_expand: 0.0,
                 voc_merge: 0.0,
+                refresh_count: 0,
+                refresh_activated: false,
+                penalty_sum: 0.0,
+                effective_prior_l1: 0.0,
+                selection_root_selects: selection_trace.root_selects,
+                selection_refresh_selected_count: selection_trace.refresh_selected_count,
+                selection_penalty_abs_sum: selection_trace.selected_penalty_abs_sum,
+                selection_effective_prior_l1_sum: selection_trace.selected_effective_prior_l1_sum,
+                selection_mean_candidate_count: selection_trace.selected_mean_candidate_count,
+                selection_max_candidate_count: selection_trace.selected_max_candidate_count,
                 voc_argmax_channel_hist: std::collections::BTreeMap::new(),
             }
         }
@@ -2490,22 +2912,35 @@ fn run_eval_search_step<G: GameState>(
 ) -> Option<EvalSearchStepResult>
 where
     usize: From<G::Move>,
+    G::Move: Copy + Send + Sync + 'static,
 {
-    let outcome = execute_search(engine, n_threads, iters, qcfg.clone(), profile);
+    let outcome = execute_search(
+        engine,
+        SearchThreadSpec::explicit(n_threads),
+        iters,
+        qcfg.clone(),
+        profile,
+    );
     let best_move = engine
         .best_move()
         .map(|mv| engine.root_state().move_to_idx(mv))?;
     Some(EvalSearchStepResult {
         best_move,
         iterations: engine.root.n_total.load(Ordering::Relaxed),
+        root_visits: engine.root.n_total.load(Ordering::Relaxed),
         time_used_ms: 0.0,
         p_flip: outcome.p_flip,
+        stop_reason: outcome.stop_reason,
+        selection_root_selects: outcome.selection_root_selects,
+        selection_refresh_selected_count: outcome.selection_refresh_selected_count,
+        selection_penalty_abs_sum: outcome.selection_penalty_abs_sum,
+        selection_effective_prior_l1_sum: outcome.selection_effective_prior_l1_sum,
     })
 }
 
 fn run_and_extract<G: GameState>(
     engine: &MctsEngine<G>,
-    n_threads: usize,
+    thread_spec: SearchThreadSpec,
     n_act: usize,
     iters: u32,
     qcfg: Option<QuartzConfig>,
@@ -2513,10 +2948,12 @@ fn run_and_extract<G: GameState>(
 ) -> serde_json::Value
 where
     usize: From<G::Move>,
+    G::Move: Copy + Send + Sync + 'static,
 {
     let phase_before = engine_phase_snapshot();
     let edge_before = edge_lock_contention_snapshot();
-    let outcome = execute_search(engine, n_threads, iters, qcfg.clone(), profile);
+    let outcome = execute_search(engine, thread_spec, iters, qcfg.clone(), profile);
+    let effective_threads = outcome.effective_threads;
     let out = build_result_value(
         engine,
         n_act,
@@ -2534,8 +2971,8 @@ where
         &mut out,
         profile,
         iters,
-        n_threads,
-        search_evaluator_path(profile, n_threads, false),
+        effective_threads,
+        search_evaluator_path(profile, thread_spec.requested_threads, false),
         qcfg.as_ref(),
     );
     let tt = engine.tt.contention_snapshot();
@@ -2545,7 +2982,11 @@ where
         "search_result_stats",
         serde_json::json!({
             "profile": search_profile_name(profile),
-            "n_threads": n_threads,
+            "requested_threads": outcome.requested_threads,
+            "effective_threads": outcome.effective_threads,
+            "n_threads": outcome.effective_threads,
+            "thread_policy": outcome.thread_policy,
+            "auto_thread_reason": outcome.auto_thread_reason,
             "iters": iters,
             "tt_hit_rate": engine.tt.hit_rate(),
             "tt_size": engine.tt.size(),
@@ -2813,38 +3254,13 @@ fn build_async_result_value<G: GameState>(
     engine: &MctsEngine<G>,
     completed: u32,
     n_actions: usize,
+    n_threads: usize,
     search_profile: SearchProfile,
 ) -> serde_json::Value
 where
     usize: From<G::Move>,
 {
-    let (p_flip, value, sigma_q, hbar_eff, prior_q_divergence, voc_total, voc_focus, voc_expand, voc_merge) =
-        match search_profile {
-            SearchProfile::Quartz => match engine.current_quartz_stats() {
-                Some(stats) => (
-                    stats.p_flip,
-                    stats.mean_q,
-                    stats.sigma_q,
-                    stats.hbar_eff,
-                    Some(stats.prior_q_divergence),
-                    stats.unified.voc_total,
-                    stats.unified.voc_focus,
-                    stats.unified.voc_expand,
-                    stats.unified.voc_merge,
-                ),
-                None => (0.0, 0.0, 0.0, 0.0, None, 0.0, 0.0, 0.0, 0.0),
-            },
-            SearchProfile::Baseline | SearchProfile::BaselineStrict => {
-                (0.0, 0.0, 0.0, 0.0, None, 0.0, 0.0, 0.0, 0.0)
-            }
-        };
-    // Q3: async result paths don't accumulate per-halt-check telemetry
-    // (only the live `current_quartz_stats` snapshot is available), so the
-    // argmax histogram is empty here. The non-async path
-    // (`run_and_extract`) does carry the full per-game histogram.
-    let synth_outcome = SearchExecutionOutcome {
-        iterations: completed,
-        stop_reason: "BudgetExhausted".to_string(),
+    let (
         p_flip,
         value,
         sigma_q,
@@ -2854,6 +3270,56 @@ where
         voc_focus,
         voc_expand,
         voc_merge,
+    ) = match search_profile {
+        SearchProfile::Quartz => match engine.current_quartz_stats() {
+            Some(stats) => (
+                stats.p_flip,
+                stats.mean_q,
+                stats.sigma_q,
+                stats.hbar_eff,
+                Some(stats.prior_q_divergence),
+                stats.unified.voc_total,
+                stats.unified.voc_focus,
+                stats.unified.voc_expand,
+                stats.unified.voc_merge,
+            ),
+            None => (0.0, 0.0, 0.0, 0.0, None, 0.0, 0.0, 0.0, 0.0),
+        },
+        SearchProfile::Baseline | SearchProfile::BaselineStrict => {
+            (0.0, 0.0, 0.0, 0.0, None, 0.0, 0.0, 0.0, 0.0)
+        }
+    };
+    // Q3: async result paths don't accumulate per-halt-check telemetry
+    // (only the live `current_quartz_stats` snapshot is available), so the
+    // argmax histogram is empty here. The non-async path
+    // (`run_and_extract`) does carry the full per-game histogram.
+    let selection_trace = engine.selection_telemetry.snapshot();
+    let synth_outcome = SearchExecutionOutcome {
+        iterations: completed,
+        stop_reason: "BudgetExhausted".to_string(),
+        requested_threads: n_threads,
+        effective_threads: n_threads,
+        thread_policy: "explicit",
+        auto_thread_reason: None,
+        p_flip,
+        value,
+        sigma_q,
+        hbar_eff,
+        prior_q_divergence,
+        voc_total,
+        voc_focus,
+        voc_expand,
+        voc_merge,
+        refresh_count: 0,
+        refresh_activated: false,
+        penalty_sum: 0.0,
+        effective_prior_l1: 0.0,
+        selection_root_selects: selection_trace.root_selects,
+        selection_refresh_selected_count: selection_trace.refresh_selected_count,
+        selection_penalty_abs_sum: selection_trace.selected_penalty_abs_sum,
+        selection_effective_prior_l1_sum: selection_trace.selected_effective_prior_l1_sum,
+        selection_mean_candidate_count: selection_trace.selected_mean_candidate_count,
+        selection_max_candidate_count: selection_trace.selected_max_candidate_count,
         voc_argmax_channel_hist: std::collections::BTreeMap::new(),
     };
     build_result_value(
@@ -3170,8 +3636,13 @@ where
     for job in jobs.iter() {
         if job.slot_idx < results.len() {
             targeted_slots[job.slot_idx] = true;
-            results[job.slot_idx] =
-                build_async_result_value(&job.engine, job.completed, n_actions, search_profile);
+            results[job.slot_idx] = build_async_result_value(
+                &job.engine,
+                job.completed,
+                n_actions,
+                n_threads,
+                search_profile,
+            );
         }
     }
 
@@ -3293,7 +3764,7 @@ where
                     let engine = MctsEngine::new(state, eval.clone(), cfg_template.clone());
                     let value = run_and_extract(
                         &engine,
-                        engine_threads,
+                        SearchThreadSpec::explicit(engine_threads),
                         n_actions,
                         iters,
                         qcfg.clone(),
@@ -3397,7 +3868,7 @@ where
                 let engine = MctsEngine::new(state, eval, cfg_template.clone());
                 let value = run_and_extract(
                     &engine,
-                    engine_threads,
+                    SearchThreadSpec::explicit(engine_threads),
                     n_actions,
                     iters,
                     qcfg.clone(),
@@ -3512,7 +3983,7 @@ where
 impl<G: GameState> EngineSearchSession<G>
 where
     usize: From<G::Move>,
-    G::Move: PartialEq,
+    G::Move: PartialEq + Copy + Send + Sync + 'static,
 {
     fn search_with_iters_compact(&mut self, iters: u32) -> Vec<Option<EvalSearchStepCompact>> {
         self.engines
@@ -3536,8 +4007,14 @@ where
                 Some(EvalSearchStepCompact {
                     best_move: result.best_move,
                     iterations: result.iterations,
+                    root_visits: result.root_visits,
                     time_used_ms: result.time_used_ms,
                     p_flip: result.p_flip,
+                    stop_reason: result.stop_reason,
+                    selection_root_selects: result.selection_root_selects,
+                    selection_refresh_selected_count: result.selection_refresh_selected_count,
+                    selection_penalty_abs_sum: result.selection_penalty_abs_sum,
+                    selection_effective_prior_l1_sum: result.selection_effective_prior_l1_sum,
                 })
             })
             .collect()
@@ -3554,7 +4031,13 @@ where
                     "best_move": result.best_move,
                     "time_used_ms": result.time_used_ms,
                     "iterations": result.iterations,
+                    "root_visits": result.root_visits,
                     "p_flip": result.p_flip,
+                    "stop_reason": result.stop_reason,
+                    "selection_root_selects": result.selection_root_selects,
+                    "selection_refresh_selected_count": result.selection_refresh_selected_count,
+                    "selection_penalty_abs_sum": result.selection_penalty_abs_sum,
+                    "selection_effective_prior_l1_sum": result.selection_effective_prior_l1_sum,
                 })
             })
             .collect()
@@ -4183,7 +4666,8 @@ fn handle_search_nn(line: &str) -> SearchCommandReply {
     let iters = jint(line, "iters").unwrap_or(200) as u32;
     let overrides = parse_search_overrides(line);
     let search_profile = parse_search_profile(line);
-    let n_threads = cap_search_threads(jint(line, "n_threads").unwrap_or(1) as usize);
+    let thread_spec = parse_search_thread_spec(line);
+    let n_threads = thread_spec.requested_threads;
     let batch_size = (jint(line, "batch_size").unwrap_or(8) as usize).max(1);
     let batch_timeout_us = jint(line, "batch_timeout_us")
         .unwrap_or(default_batch_timeout_us(n_threads, batch_size, 1) as i64)
@@ -4254,7 +4738,7 @@ fn handle_search_nn(line: &str) -> SearchCommandReply {
             SearchCommandReply::Search(SearchResponsePayload::Single {
                 result: run_and_extract(
                     &engine,
-                    n_threads,
+                    thread_spec,
                     49,
                     iters,
                     engine.config.quartz.clone(),
@@ -4284,7 +4768,7 @@ fn handle_search_nn(line: &str) -> SearchCommandReply {
             SearchCommandReply::Search(SearchResponsePayload::Single {
                 result: run_and_extract(
                     &engine,
-                    n_threads,
+                    thread_spec,
                     225,
                     iters,
                     engine.config.quartz.clone(),
@@ -4345,7 +4829,7 @@ fn handle_search_nn(line: &str) -> SearchCommandReply {
             SearchCommandReply::Search(SearchResponsePayload::Single {
                 result: run_and_extract(
                     &engine,
-                    n_threads,
+                    thread_spec,
                     n_actions,
                     iters,
                     engine.config.quartz.clone(),
@@ -4376,7 +4860,7 @@ fn handle_search_nn(line: &str) -> SearchCommandReply {
             SearchCommandReply::Search(SearchResponsePayload::Single {
                 result: run_and_extract(
                     &engine,
-                    n_threads,
+                    thread_spec,
                     9,
                     iters,
                     engine.config.quartz.clone(),
@@ -4399,71 +4883,33 @@ fn handle_search_nn(line: &str) -> SearchCommandReply {
                 search_profile,
             );
             let engine = MctsEngine::new(state, eval, cfg);
-            let (iterations, stop_reason, p_flip, value, sigma_q, hbar_eff, prior_q_divergence) =
-                match search_profile {
-                SearchProfile::Quartz => {
-                    let mut ctrl = QuartzController::new(
-                        iters,
-                        engine.config.quartz.clone().unwrap_or_default(),
-                    );
-                    if n_threads > 1 {
-                        engine.run_par_quartz(&mut ctrl, n_threads);
-                    } else {
-                        engine.run_quartz(&mut ctrl);
-                    }
-                    let s = ctrl.last_stats();
-                    (
-                        engine.root.n_total.load(Ordering::Relaxed),
-                        format!("{:?}", ctrl.last_stop_reason()),
-                        s.p_flip,
-                        s.mean_q,
-                        s.sigma_q,
-                        s.hbar_eff,
-                        Some(s.prior_q_divergence),
-                    )
-                }
-                SearchProfile::Baseline | SearchProfile::BaselineStrict => {
-                    let stats = if n_threads > 1 {
-                        engine.run_par(&FixedIterations::new(iters), n_threads)
-                    } else {
-                        engine.run(&mut FixedIterations::new(iters))
-                    };
-                    (
-                        stats.iterations,
-                        format!("{:?}", stats.stop_reason),
-                        0.0,
-                        0.0,
-                        0.0,
-                        0.0,
-                        None,
-                    )
-                }
-            };
-
             // Chess has custom result extraction (includes result_fen)
-            let par = engine.par_ctrl.telemetry.snapshot();
-            let (best, policy, total) = collect_sparse_policy(&engine, CHESS_POLICY_ACTIONS);
-            let mut result = serde_json::json!({
-                "best_move": best,
-                "policy": policy,
-                "p_flip": f_or(p_flip, 0.0),
-                "value": f_or(value, 0.0),
-                "sigma_q": f_or(sigma_q, 0.0),
-                "hbar_eff": f_or(hbar_eff, 0.0),
-                "prior_q_divergence": prior_q_divergence.map(|v| f_or(v, 0.0)),
-                "stop_reason": stop_reason,
-                "iterations": iterations.max(total),
-                "dup_rate": par.dup_rate,
-                "max_pending": par.max_pending,
-                "avg_vvalue": par.avg_vvalue,
-            });
+            let outcome = execute_search(
+                &engine,
+                thread_spec,
+                iters,
+                engine.config.quartz.clone(),
+                search_profile,
+            );
+            let mut result = build_result_value(
+                &engine,
+                CHESS_POLICY_ACTIONS,
+                &outcome,
+                outcome.iterations,
+                outcome.stop_reason.clone(),
+                outcome.p_flip,
+                outcome.value,
+                outcome.sigma_q,
+                outcome.hbar_eff,
+                outcome.prior_q_divergence,
+            );
             enrich_chess_result(engine.root_state(), &mut result);
             attach_search_metadata(
                 &mut result,
                 search_profile,
                 iters,
-                n_threads,
-                search_evaluator_path(search_profile, n_threads, false),
+                outcome.effective_threads,
+                search_evaluator_path(search_profile, thread_spec.requested_threads, false),
                 engine.config.quartz.as_ref(),
             );
             SearchCommandReply::Search(SearchResponsePayload::Single { result })
@@ -5443,6 +5889,13 @@ fn build_eval_runner_sessions_generic<G: GameState>(
             total_time_ms: session.total_time_ms,
             done: session.done,
             error: None,
+            search_root_visits: Vec::new(),
+            search_p_flip: Vec::new(),
+            search_halt_reasons: std::collections::BTreeMap::new(),
+            selection_root_selects: 0,
+            selection_refresh_selected_count: 0,
+            selection_penalty_abs_sum: 0.0,
+            selection_effective_prior_l1_sum: 0.0,
         })
         .collect()
 }
@@ -5453,11 +5906,14 @@ fn parse_gomoku7_eval_session(session: &ArenaEvalSessionSpec) -> Gomoku {
     };
     let player_12: u8 = if *player == 1 { 1 } else { 2 };
     let board_12: Vec<i64> = if board.len() == 49 {
-        board.iter().map(|&v| match v {
-            1 => 1,
-            -1 => 2,
-            _ => 0,
-        }).collect()
+        board
+            .iter()
+            .map(|&v| match v {
+                1 => 1,
+                -1 => 2,
+                _ => 0,
+            })
+            .collect()
     } else {
         vec![0i64; 49]
     };
@@ -5487,7 +5943,8 @@ fn parse_go_eval_session(session: &ArenaEvalSessionSpec, size: usize) -> Go {
         ko_point,
         black_caps,
         white_caps,
-    } = &session.state else {
+    } = &session.state
+    else {
         return Go::new_with_options(size, 7.5, GoRuleset::Chinese, GoScoring::Area, false);
     };
     let side: u8 = if *player == 1 { 1 } else { 2 };
@@ -5522,7 +5979,11 @@ fn parse_tictactoe_eval_session(session: &ArenaEvalSessionSpec) -> TicTacToe {
 }
 
 fn parse_chess_eval_session(session: &ArenaEvalSessionSpec, default_960: bool) -> Chess {
-    let ArenaEvalStateSpec::Chess { fen, history_hashes } = &session.state else {
+    let ArenaEvalStateSpec::Chess {
+        fen,
+        history_hashes,
+    } = &session.state
+    else {
         return if default_960 {
             Chess::from_960(518)
         } else {
@@ -5654,7 +6115,7 @@ where
                 engine_session.deactivate(idx);
                 continue;
             }
-            let result = results.get(idx).copied().flatten();
+            let result = results.get(idx).cloned().flatten();
             if result.is_none() {
                 wave_nulls += 1;
             }
@@ -5665,6 +6126,20 @@ where
                 wave_errors += 1;
                 continue;
             };
+            sess.search_root_visits.push(result.root_visits);
+            sess.search_p_flip.push(result.p_flip);
+            *sess
+                .search_halt_reasons
+                .entry(result.stop_reason.clone())
+                .or_insert(0) += 1;
+            sess.selection_root_selects = sess
+                .selection_root_selects
+                .saturating_add(result.selection_root_selects);
+            sess.selection_refresh_selected_count = sess
+                .selection_refresh_selected_count
+                .saturating_add(result.selection_refresh_selected_count);
+            sess.selection_penalty_abs_sum += result.selection_penalty_abs_sum;
+            sess.selection_effective_prior_l1_sum += result.selection_effective_prior_l1_sum;
             let action = result.best_move;
             let Some(mv) = sess.state.idx_to_move(action as usize) else {
                 sess.error = Some(format!("invalid action {} for eval runner", action));
@@ -5890,11 +6365,7 @@ fn handle_eval_nn_run(line: &str) -> EvalCommandReply {
 fn handle_eval_nn_run_frame(payload: &[u8]) -> EvalCommandReply {
     let request = match decode_arena_eval_request_payload(payload) {
         Ok(request) => request,
-        Err(err) => {
-            return EvalCommandReply::Json(
-                serde_json::json!({ "error": err }).to_string(),
-            )
-        }
+        Err(err) => return EvalCommandReply::Json(serde_json::json!({ "error": err }).to_string()),
     };
     handle_eval_nn_run_parts(
         &request.game,
@@ -6043,6 +6514,9 @@ where
                     "dup_rate": result.get("dup_rate").and_then(|v| v.as_f64()).unwrap_or(0.0),
                     "max_pending": result.get("max_pending").and_then(|v| v.as_u64()).unwrap_or(0),
                     "avg_vvalue": result.get("avg_vvalue").and_then(|v| v.as_f64()).unwrap_or(0.0),
+                    "search_manifest": result.get("search_manifest").cloned().unwrap_or(serde_json::json!({})),
+                    "realized_budget": result.get("realized_budget").cloned().unwrap_or(serde_json::json!({})),
+                    "controller_summary": result.get("controller_summary").cloned().unwrap_or(serde_json::json!({})),
                 }));
                 let fallback_best = result
                     .get("best_move")
@@ -6270,10 +6744,87 @@ fn handle_selfplay_nn_run(line: &str) -> String {
 #[cfg(test)]
 mod tests {
     use super::*;
+    use crate::mcts::eval::UniformEval;
+
     #[test]
     fn test_json() {
         assert_eq!(jstr(r#"{"cmd":"selfplay"}"#, "cmd"), Some("selfplay"));
     }
+
+    #[test]
+    fn test_parse_search_thread_spec_explicit() {
+        let spec = parse_search_thread_spec(r#"{"n_threads":3}"#);
+        assert_eq!(spec.requested_threads, cap_search_threads(3));
+        assert!(spec.auto_policy.is_none());
+        assert_eq!(spec.policy_name(), "explicit");
+    }
+
+    #[test]
+    fn test_parse_search_thread_spec_auto_with_cap() {
+        let spec = parse_search_thread_spec(r#"{"n_threads":"auto","thread_cap":8}"#);
+        assert!(spec.auto_policy.is_some());
+        assert_eq!(spec.policy_name(), "auto-throughput");
+        assert!(spec.requested_threads >= 1);
+        assert!(spec.requested_threads <= cap_search_threads(8));
+    }
+
+    #[test]
+    fn test_parse_search_thread_spec_quality_alias() {
+        let spec = parse_search_thread_spec(r#"{"thread_policy":"quality","max_threads":16}"#);
+        assert!(spec.auto_policy.is_some());
+        assert_eq!(spec.policy_name(), "auto-quality");
+        assert!(spec.requested_threads >= 1);
+        assert!(spec.requested_threads <= cap_search_threads(16));
+    }
+
+    #[test]
+    fn test_execute_search_auto_threads_records_metadata() {
+        let eval: Arc<dyn Evaluator<TicTacToe>> = Arc::new(UniformEval);
+        let cfg = MctsConfig::evaluation(1.4);
+        let engine = MctsEngine::new(TicTacToe::initial(), eval, cfg);
+        let thread_spec = SearchThreadSpec {
+            requested_threads: cap_search_threads(8),
+            auto_policy: Some(AutoThreadPolicy::quality().with_max_threads(8)),
+        };
+
+        let outcome = execute_search(&engine, thread_spec, 128, None, SearchProfile::Baseline);
+
+        assert_eq!(outcome.thread_policy, "auto-quality");
+        assert_eq!(outcome.requested_threads, thread_spec.requested_threads);
+        assert!(outcome.effective_threads >= 1);
+        assert!(outcome.effective_threads <= outcome.requested_threads);
+        assert_eq!(outcome.auto_thread_reason.as_deref(), Some("TinyBudget"));
+    }
+
+    #[test]
+    fn test_attach_search_metadata_preserves_auto_thread_manifest() {
+        let mut result = serde_json::json!({
+            "iterations": 128,
+            "stop_reason": "BudgetExhausted",
+            "requested_threads": 8,
+            "effective_threads": 2,
+            "thread_policy": "auto-quality",
+            "auto_thread_reason": "TinyBudget"
+        });
+
+        attach_search_metadata(
+            &mut result,
+            SearchProfile::Baseline,
+            128,
+            2,
+            "batch_stdio",
+            None,
+        );
+
+        let manifest = &result["search_manifest"];
+        assert_eq!(manifest["n_threads"], 2);
+        assert_eq!(manifest["requested_threads"], 8);
+        assert_eq!(manifest["effective_threads"], 2);
+        assert_eq!(manifest["thread_policy"], "auto-quality");
+        assert_eq!(manifest["auto_thread_reason"], "TinyBudget");
+        assert_eq!(manifest["evaluator_path"], "batch_stdio");
+    }
+
     #[test]
     fn test_chess() {
         let r = search_chess(r#"{}"#, false, 30);
@@ -6350,6 +6901,57 @@ mod tests {
         cfg = apply_search_overrides(cfg, &ov);
         let q = cfg.quartz.expect("quartz config retained");
         assert!(matches!(q.halt_mode, HaltMode::Fixed { budget } if budget == u32::MAX));
+    }
+
+    #[test]
+    fn test_controller_summary_marks_inert_prior_refresh_rate() {
+        let mut qcfg = QuartzConfig {
+            penalty_mode: PenaltyMode::GatedRefresh,
+            prior_refresh_rate: 0.5,
+            ..Default::default()
+        };
+        let mut result = serde_json::json!({
+            "iterations": 32,
+            "stop_reason": "BudgetExhausted"
+        });
+
+        attach_search_metadata(
+            &mut result,
+            SearchProfile::Quartz,
+            32,
+            2,
+            "batch_stdio",
+            Some(&qcfg),
+        );
+
+        let coverage = &result["controller_summary"]["actuator_coverage"];
+        assert_eq!(result["controller_summary"]["schema_version"], 5);
+        assert_eq!(coverage["prior_refresh_rate_configured"], true);
+        assert_eq!(coverage["prior_refresh_rate_consumed_by_mode"], false);
+        assert_eq!(coverage["prior_refresh_rate_inert_for_mode"], true);
+        assert_eq!(coverage["prior_refresh_source"], "prior_q_divergence_gate");
+
+        qcfg.penalty_mode = PenaltyMode::EffectiveV2;
+        let mut result = serde_json::json!({
+            "iterations": 32,
+            "stop_reason": "BudgetExhausted"
+        });
+        attach_search_metadata(
+            &mut result,
+            SearchProfile::Quartz,
+            32,
+            2,
+            "batch_stdio",
+            Some(&qcfg),
+        );
+
+        let coverage = &result["controller_summary"]["actuator_coverage"];
+        assert_eq!(coverage["prior_refresh_rate_consumed_by_mode"], true);
+        assert_eq!(coverage["prior_refresh_rate_inert_for_mode"], false);
+        assert_eq!(
+            coverage["prior_refresh_source"],
+            "config_prior_refresh_rate"
+        );
     }
 
     #[test]
@@ -6598,9 +7200,9 @@ mod tests {
         };
 
         let first = session.search_with_iters_compact(8);
-        let first_iters = first[0].map(|v| v.iterations).unwrap_or(0);
+        let first_iters = first[0].as_ref().map(|v| v.iterations).unwrap_or(0);
         let second = session.search_with_iters_compact(8);
-        let second_iters = second[0].map(|v| v.iterations).unwrap_or(0);
+        let second_iters = second[0].as_ref().map(|v| v.iterations).unwrap_or(0);
 
         assert!(
             second_iters >= first_iters + 8,
@@ -6617,7 +7219,11 @@ mod tests {
         let state = Gomoku::new(7);
 
         let mut compact_session = EngineSearchSession {
-            engines: vec![Some(MctsEngine::new(state.clone(), eval.clone(), cfg.clone()))],
+            engines: vec![Some(MctsEngine::new(
+                state.clone(),
+                eval.clone(),
+                cfg.clone(),
+            ))],
             cumulative_iters: vec![0],
             n_threads: 1,
             search_profile: SearchProfile::Baseline,
@@ -6631,7 +7237,7 @@ mod tests {
 
         let compact = compact_session.search_with_iters_compact(16);
         let json = json_session.search_with_iters(16);
-        let compact = compact[0].expect("compact result");
+        let compact = compact[0].as_ref().expect("compact result");
         let json = &json[0];
 
         assert_eq!(
@@ -6647,7 +7253,6 @@ mod tests {
             Some(compact.p_flip as f64)
         );
     }
-
 
     #[test]
     fn test_decode_arena_eval_request_payload_v1_restores_board_session() {
@@ -6700,7 +7305,10 @@ mod tests {
                 assert_eq!(*player, 1);
                 assert_eq!(board, &vec![1, 0, -1, 0]);
             }
-            other => panic!("expected board state, got {:?}", std::mem::discriminant(other)),
+            other => panic!(
+                "expected board state, got {:?}",
+                std::mem::discriminant(other)
+            ),
         }
     }
 
@@ -6785,7 +7393,10 @@ mod tests {
                 assert_eq!(*player, 1);
                 assert_eq!(board, &vec![1, 0, -1, 0]);
             }
-            other => panic!("expected board state, got {:?}", std::mem::discriminant(other)),
+            other => panic!(
+                "expected board state, got {:?}",
+                std::mem::discriminant(other)
+            ),
         }
     }
 

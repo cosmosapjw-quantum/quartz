@@ -16,6 +16,7 @@ serde_json = "1.0"
 crossbeam-channel = "0.5"
 parking_lot = "0.12"
 bumpalo = "3"
+smallvec = "1.15"
 
 # ONNX Runtime (requires Rust ≥1.82)
 ort     = { version = "2.0.0-rc.12", optional = true, default-features = false, features = ["std", "download-binaries", "tls-rustls"] }
