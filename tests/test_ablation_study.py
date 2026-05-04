@@ -218,9 +218,88 @@ def test_build_study_manifest_rejects_unknown_search_option_key(monkeypatch):
         ablation.build_study_manifest(args)
 
 
+def test_p04_research_grade_blocks_single_seed():
+    """P04: --research-grade with fewer than min_seeds_for_research_grade
+    seeds is a hard SystemExit BEFORE training starts. Default min is 3
+    matching RESEARCH_READINESS.md."""
+    ablation = load_ablation_module()
+    args = argparse.Namespace(
+        seeds="42",
+        research_grade=True,
+        min_seeds_for_research_grade=3,
+        paired_seed_eval=False,
+    )
+    with pytest.raises(SystemExit, match="at least 3 seeds"):
+        ablation.enforce_research_grade(args, None)
+
+
+def test_p04_research_grade_passes_with_three_seeds_and_ready_report():
+    """P04: three seeds + ready readiness ⇒ no SystemExit."""
+    ablation = load_ablation_module()
+    args = argparse.Namespace(
+        seeds="11,22,33",
+        research_grade=True,
+        min_seeds_for_research_grade=3,
+        paired_seed_eval=False,
+    )
+    report = {"research_readiness": {"research_grade_ready": True}}
+    ablation.enforce_research_grade(args, report)  # no raise
+
+
+def test_p04_research_grade_paired_seed_mismatch_blocks():
+    """P04: under --paired-seed-eval, conditions A and B must share the
+    same seed set. Mismatch ⇒ SystemExit. Triggers the second hard gate
+    in enforce_research_grade."""
+    ablation = load_ablation_module()
+    args = argparse.Namespace(
+        seeds="11,22,33",
+        research_grade=True,
+        min_seeds_for_research_grade=3,
+        paired_seed_eval=True,
+    )
+    report = {
+        "research_readiness": {"research_grade_ready": True},
+        "runs": [
+            {"condition": "A", "seed": 11},
+            {"condition": "A", "seed": 22},
+            {"condition": "A", "seed": 33},
+            {"condition": "B", "seed": 11},
+            {"condition": "B", "seed": 22},
+            # missing seed 33 for B → mismatch
+        ],
+    }
+    with pytest.raises(SystemExit, match="conditions disagree on seeds"):
+        ablation.enforce_research_grade(args, report)
+
+
+def test_p04_soft_warning_on_single_seed_without_research_grade(capsys):
+    """P04: single-seed runs without --research-grade do NOT raise; a
+    soft warning is printed to stderr so users learn the protocol
+    convention but iteration is not blocked."""
+    ablation = load_ablation_module()
+    args = argparse.Namespace(
+        seeds="42",
+        research_grade=False,
+        min_seeds_for_research_grade=3,
+        paired_seed_eval=False,
+    )
+    ablation.enforce_research_grade(args, None)  # no raise
+    captured = capsys.readouterr()
+    assert "1 seed(s)" in captured.err
+    assert "RESEARCH_READINESS" in captured.err
+
+
 def test_research_grade_gate_fails_on_incomplete_report():
     ablation = load_ablation_module()
-    args = argparse.Namespace(research_grade=True)
+    # P04 added the multi-seed gate which fires BEFORE the readiness gate;
+    # provide 3 seeds so this test continues to exercise the readiness
+    # path it was originally written for.
+    args = argparse.Namespace(
+        seeds="11,22,33",
+        research_grade=True,
+        min_seeds_for_research_grade=3,
+        paired_seed_eval=False,
+    )
     report = {
         "research_readiness": {
             "research_grade_ready": False,

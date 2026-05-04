@@ -842,6 +842,14 @@ def run_training_main(args, ctx: PreparedTrainingContext, runtime_hooks: MainRun
         else None
     )
 
+    # P04: concurrent-mode zero-SGD streak counter. Fires a WARN after
+    # two consecutive iterations with `len(replay) >= cfg["batch"]` AND
+    # `train_steps == 0` AND `args.concurrent` — the regime where the
+    # bg_worker is producing samples but the learner is starved by
+    # min_new=1 backpressure. Bootstrap iterations (replay < batch) do
+    # not count toward the streak, since "no SGD this iter" is the
+    # expected behavior there.
+    zero_sgd_streak = 0
     for iteration in range(args.iterations):
         runtime_hooks.clear_nn_eval_cache()
         t0 = time.time()
@@ -935,6 +943,23 @@ def run_training_main(args, ctx: PreparedTrainingContext, runtime_hooks: MainRun
             train_steps = runtime_hooks.compute_train_steps(
                 cfg["steps"], cfg["batch"], n_new, concurrent=args.concurrent
             )
+            # P04: concurrent-stall streak update.
+            if train_steps <= 0 and args.concurrent:
+                zero_sgd_streak += 1
+                if zero_sgd_streak >= 2:
+                    ratio = float(n_new) / max(1, cfg["batch"])
+                    print(
+                        f"[cli_main] WARN: 2 consecutive iterations with "
+                        f"learner_steps==0. replay={len(replay)} "
+                        f"cfg.batch={cfg['batch']} min_new_ratio={ratio:.3f} "
+                        f"(n_new={n_new}). concurrent-mode backpressure is "
+                        f"starving the learner. Lower the min_new threshold "
+                        f"or raise selfplay parallelism.",
+                        file=sys.stderr,
+                        flush=True,
+                    )
+            elif train_steps > 0:
+                zero_sgd_streak = 0
             if train_steps <= 0:
                 elapsed = time.time() - t0
                 entry.update(

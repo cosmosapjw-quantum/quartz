@@ -3648,12 +3648,82 @@ def parse_args() -> argparse.Namespace:
         action="store_true",
         help="Fail if the generated report does not pass every research-readiness criterion.",
     )
+    parser.add_argument(
+        "--min-seeds-for-research-grade",
+        type=int,
+        default=3,
+        help=(
+            "Minimum distinct seeds required when --research-grade is set. "
+            "Default 3 matches RESEARCH_READINESS.md. (P04)"
+        ),
+    )
     return parser.parse_args()
 
 
 def enforce_research_grade(args: argparse.Namespace, report: dict | None) -> None:
-    if not getattr(args, "research_grade", False):
+    """P04: enforce multi-seed and paired-seed protocols at the CLI level.
+
+    Soft warnings fire whenever `len(seeds) < 3` regardless of
+    `--research-grade` so a user running an exploratory single-seed
+    sweep sees the message without it blocking iteration.
+
+    Hard gates fire only under `--research-grade`:
+    - `len(seeds) < min_seeds_for_research_grade` ⇒ SystemExit before
+      training starts (no point spending compute on a claim that will
+      be rejected post-hoc).
+    - `--paired-seed-eval` set but conditions disagree on which seeds
+      were actually realized ⇒ SystemExit. The conditions must share
+      an identical seed set; otherwise pairing mixes apples and oranges.
+    - `report['research_readiness']['research_grade_ready'] is False`
+      ⇒ SystemExit with the unmet criteria list (existing behavior).
+    """
+    seeds = parse_seed_list(getattr(args, "seeds", "42"))
+    research_grade = bool(getattr(args, "research_grade", False))
+    min_seeds = int(getattr(args, "min_seeds_for_research_grade", 3))
+
+    # Soft warning: always fires for sub-3-seed runs so users learn the
+    # protocol convention even when they're iterating without
+    # --research-grade.
+    if len(seeds) < 3 and not research_grade:
+        print(
+            f"[ablation_study] WARN: running with {len(seeds)} seed(s); "
+            f"RESEARCH_READINESS requires >=3 seeds for non-debug claims. "
+            f"Pass --seeds=A,B,C and --research-grade to enforce.",
+            file=sys.stderr,
+            flush=True,
+        )
+
+    if not research_grade:
         return
+
+    # Hard gate 1: minimum distinct seeds.
+    if len(seeds) < min_seeds:
+        raise SystemExit(
+            f"--research-grade requires at least {min_seeds} seeds; got {seeds!r}. "
+            f"Override with --min-seeds-for-research-grade=N (not recommended)."
+        )
+
+    # Hard gate 2: paired-seed protocol consistency across conditions. If
+    # the report doesn't expose `runs` (e.g. enforce called pre-train),
+    # skip this check and rely on the readiness gate below.
+    if getattr(args, "paired_seed_eval", False) and report is not None:
+        by_condition: dict = {}
+        for run_summary in (report or {}).get("runs", []):
+            cond = run_summary.get("condition")
+            seed = run_summary.get("seed")
+            if cond is None or seed is None:
+                continue
+            by_condition.setdefault(cond, set()).add(int(seed))
+        if len(by_condition) >= 2:
+            seed_sets = list(by_condition.values())
+            if not all(s == seed_sets[0] for s in seed_sets[1:]):
+                seed_map = {k: sorted(v) for k, v in by_condition.items()}
+                raise SystemExit(
+                    "--paired-seed-eval requested but conditions disagree on seeds: "
+                    f"{seed_map!r}"
+                )
+
+    # Hard gate 3 (existing): report-level readiness.
     readiness = (report or {}).get("research_readiness") or {}
     if readiness.get("research_grade_ready"):
         return
