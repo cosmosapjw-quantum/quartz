@@ -17,6 +17,9 @@ crossbeam-channel = "0.5"
 parking_lot = "0.12"
 bumpalo = "3"
 smallvec = "1.15"
+# BQ++ Phase 2: lock-free immutable cache publish for the SearchPolicy
+# hot path. Replaces the parking_lot::Mutex<Cache> pattern from P06.
+arc-swap = "1.7"
 
 # ONNX Runtime (requires Rust ≥1.82)
 ort     = { version = "2.0.0-rc.12", optional = true, default-features = false, features = ["std", "download-binaries", "tls-rustls"] }

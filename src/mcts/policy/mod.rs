@@ -15,12 +15,14 @@
 //! into ~5 named, individually-tunable policies where each policy is
 //! a single named author with one set of hyperparameters.
 
+pub mod cache;
 pub mod kl_helpers;
 pub mod kl_lucb;
 pub mod legacy_az;
 pub mod legacy_quartz;
 pub mod trait_def;
 
+pub use cache::{EdgeRef, PolicyCache, PolicyCachePublisher};
 pub use kl_helpers::{bernoulli_kl, kl_lower, kl_lucb_beta, kl_upper};
 pub use kl_lucb::KLLUCBStop;
 pub use legacy_az::LegacyAlphaZero;
