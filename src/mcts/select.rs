@@ -129,12 +129,16 @@ fn ablation_puct_score_with_parent_sqrt(
     )
 }
 
+/// Internal score-side adjustment produced by `quartz_policy_adjustment`.
+/// P07: now `pub(crate)` so the new `LegacyQuartz` policy can read it
+/// when shimming the existing controller path through the SearchPolicy
+/// trait. Field semantics unchanged from pre-P07.
 #[derive(Clone, Copy, Debug)]
-struct QuartzPolicyAdjustment {
-    effective_prior: f32,
-    penalty: f32,
-    bonus: f32,
-    use_fisher_puct: bool,
+pub(crate) struct QuartzPolicyAdjustment {
+    pub(crate) effective_prior: f32,
+    pub(crate) penalty: f32,
+    pub(crate) bonus: f32,
+    pub(crate) use_fisher_puct: bool,
 }
 
 #[inline]
@@ -157,8 +161,11 @@ fn adjusted_puct_score(
     base + adj.bonus + adj.penalty
 }
 
+/// P07: now `pub(crate)` so `policy::legacy_quartz::LegacyQuartz` can
+/// reuse the existing penalty/refresh dispatch verbatim. Behavior
+/// unchanged from pre-P07.
 #[inline]
-fn quartz_policy_adjustment(
+pub(crate) fn quartz_policy_adjustment(
     n_raw: u32,
     o_a: u32,
     q_eff: f32,

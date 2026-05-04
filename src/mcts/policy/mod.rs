@@ -16,9 +16,13 @@
 //! a single named author with one set of hyperparameters.
 
 pub mod kl_helpers;
+pub mod legacy_az;
+pub mod legacy_quartz;
 pub mod trait_def;
 
 pub use kl_helpers::{bernoulli_kl, kl_lower, kl_lucb_beta, kl_upper};
+pub use legacy_az::LegacyAlphaZero;
+pub use legacy_quartz::LegacyQuartz;
 pub use trait_def::{
     BoxedPolicy, ControllerTelemetry, EdgeView, EffectivePrior, HaltDecision, ScoreAdjustment,
     SearchPolicy, SearchSnapshot,
