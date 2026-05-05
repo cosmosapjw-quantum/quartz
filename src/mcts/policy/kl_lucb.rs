@@ -75,9 +75,20 @@ impl KLLUCBStop {
     }
 
     /// Default tuning per the design doc: δ=0.05, min_pulls=30,
-    /// min_total=200, max_visits=caller-provided.
-    pub fn default_for_budget(max_visits: u32) -> Self {
-        Self::new(0.05, 30, 200, max_visits)
+    /// `min_total = clamp(budget/4, 20, 200)`, `max_visits = u32::MAX`.
+    ///
+    /// `min_total` scales down for toy budgets (≤800) so the policy
+    /// has at least 75% of the budget to fire its PAC certificate;
+    /// at production budgets (≥800) it caps at 200 per the design doc.
+    /// `max_visits` is left at u32::MAX so the host controller's
+    /// `BudgetExhausted` is the sole budget-cap halt — the policy's
+    /// only halt path is the actual `gap_bits > 0` certificate.
+    /// (BQ++ Phase 8c followup: was `min_total=200, max_visits=budget`
+    /// which raced the controller for tie wins on toy budgets and
+    /// gated out below-200 fires entirely.)
+    pub fn default_for_budget(budget: u32) -> Self {
+        let min_total = (budget / 4).clamp(20, 200);
+        Self::new(0.05, 30, min_total, u32::MAX)
     }
 }
 
@@ -265,9 +276,12 @@ mod tests {
     }
 
     /// P08: halt at max_visits regardless of gap_bits state.
+    /// Use direct constructor — `default_for_budget` was changed in
+    /// the Phase 8c followup to set max_visits=u32::MAX so the host
+    /// controller's BudgetExhausted is the sole budget-cap halt.
     #[test]
     fn test_p08_kl_lucb_stop_halt_at_max_visits() {
-        let policy = KLLUCBStop::default_for_budget(800);
+        let policy = KLLUCBStop::new(0.05, 30, 200, 800);
         let snap = make_snap(800, 3);
         let edges: Vec<EdgeView<'_>> = vec![];
         match policy.should_halt(&snap, &edges) {
