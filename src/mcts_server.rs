@@ -3442,6 +3442,13 @@ struct AsyncBatchJob<'credit, G: GameState> {
     launched: u32,
     completed: u32,
     pending: Vec<AsyncBatchPending<'credit, G>>,
+    /// BQ++ Phase 8c: latched once `engine.policy_halt_check` fires. Stops
+    /// the gather phase from launching new iterations; the reap phase
+    /// continues to drain in-flight tickets so no permits leak.
+    policy_halted: bool,
+    /// Iteration counter for the gather-phase policy poll (avoids
+    /// constructing the snapshot on every gather attempt).
+    policy_check_tick: u32,
 }
 
 fn build_async_result_value<G: GameState>(
@@ -3591,8 +3598,29 @@ where
 {
     let mut made_progress = false;
 
+    // --- BQ++ Phase 8c: SearchPolicy halt poll (every 64 launched iters) ---
+    // Gate kept cheap: only consults the policy when one is actually
+    // attached, and at most once per 64 launched iterations. Once latched,
+    // the gather phase stops launching but the reap phase continues so
+    // pending tickets drain cleanly (no permit leak).
+    if !job.policy_halted && job.engine.config.search_policy.is_some() {
+        let interval: u32 = job
+            .engine
+            .config
+            .quartz
+            .as_ref()
+            .map(|q| q.check_interval.max(1))
+            .unwrap_or(64);
+        if job.launched.wrapping_sub(job.policy_check_tick) >= interval {
+            job.policy_check_tick = job.launched;
+            if job.engine.policy_halt_check(job.completed as u64, 0) {
+                job.policy_halted = true;
+            }
+        }
+    }
+
     // --- Gather: launch new iterations (gated by per-job soft cap + global credit) ---
-    while job.launched < iters && job.pending.len() < per_job_soft_cap {
+    while !job.policy_halted && job.launched < iters && job.pending.len() < per_job_soft_cap {
         // Immediate iterations don't consume credit (no NN eval needed)
         match job.engine.prepare_iteration_async() {
             PreparedIteration::Immediate {
@@ -3730,6 +3758,8 @@ where
             launched: 0,
             completed: 0,
             pending: Vec::new(),
+            policy_halted: false,
+            policy_check_tick: 0,
         })
         .collect::<Vec<_>>();
     let mut results = vec![serde_json::Value::Null; max_index + 1];
@@ -3764,7 +3794,7 @@ where
         // Single-threaded path (backward compatible)
         while jobs
             .iter()
-            .any(|job| job.completed < iters || !job.pending.is_empty())
+            .any(|job| (!job.policy_halted && job.completed < iters) || !job.pending.is_empty())
         {
             let mut made_progress = false;
             for job in jobs.iter_mut() {
@@ -3820,10 +3850,10 @@ where
                                 immediate_tt_cap: 0,
                             };
                             let mut local_idle_spins = 0u64;
-                            while my_jobs
-                                .iter()
-                                .any(|j| j.completed < iters || !j.pending.is_empty())
-                            {
+                            while my_jobs.iter().any(|j| {
+                                (!j.policy_halted && j.completed < iters)
+                                    || !j.pending.is_empty()
+                            }) {
                                 let mut made_progress = false;
                                 for job in my_jobs.iter_mut() {
                                     made_progress |= process_job_tick(

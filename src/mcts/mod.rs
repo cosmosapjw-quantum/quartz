@@ -26,7 +26,7 @@ pub use quartz::{
 };
 
 use parking_lot::RwLock;
-use std::sync::atomic::{AtomicU32, AtomicU64, Ordering};
+use std::sync::atomic::{AtomicBool, AtomicU32, AtomicU64, Ordering};
 use std::sync::Arc;
 use std::time::Instant;
 
@@ -354,7 +354,7 @@ impl<G: GameState> MctsEngine<G> {
     /// caller treats this as a halt signal alongside the existing
     /// `SearchController::should_stop`. Returns `false` when no policy
     /// is configured (back-compat) or the policy says Continue.
-    fn policy_halt_check(&self, iteration: u64, elapsed_ms: u64) -> bool {
+    pub fn policy_halt_check(&self, iteration: u64, elapsed_ms: u64) -> bool {
         let Some(ref policy) = self.config.search_policy else {
             return false;
         };
@@ -1173,6 +1173,11 @@ impl<G: GameState> MctsEngine<G> {
         self.selection_telemetry.reset();
         let start = Instant::now();
         let use_quartz = self.config.quartz.is_some();
+        // BQ++ Phase 8c: shared halt flag for parallel SearchPolicy integration.
+        // Thread 0 polls `policy_halt_check` periodically; if it fires, all
+        // threads observe the flag at iteration boundary and break.
+        let policy_halted = AtomicBool::new(false);
+        let has_policy = self.config.search_policy.is_some();
 
         if let Some(limit) = controller.visit_limit_hint() {
             let next_visit = AtomicU32::new(self.root.n_total.load(Ordering::Relaxed));
@@ -1181,6 +1186,7 @@ impl<G: GameState> MctsEngine<G> {
                 for tid in 0..n_threads {
                     let qcfg_ref = &self.config.quartz;
                     let next_visit_ref = &next_visit;
+                    let policy_halted_ref = &policy_halted;
                     s.spawn(move |_| {
                         let mut local_it = 0u32;
                         let mut scratch = self.make_select_scratch();
@@ -1190,6 +1196,9 @@ impl<G: GameState> MctsEngine<G> {
                             (0, None)
                         };
                         loop {
+                            if has_policy && policy_halted_ref.load(Ordering::Relaxed) {
+                                break;
+                            }
                             let chunk_start =
                                 next_visit_ref.fetch_add(ticket_chunk, Ordering::Relaxed);
                             if chunk_start >= limit {
@@ -1211,6 +1220,22 @@ impl<G: GameState> MctsEngine<G> {
                                             self.refresh_par_ctrl();
                                         }
                                     }
+                                    if has_policy {
+                                        let interval = qcfg_ref
+                                            .as_ref()
+                                            .map(|q| q.check_interval)
+                                            .unwrap_or(64);
+                                        if local_it % interval == 0 {
+                                            let rv =
+                                                self.root.n_total.load(Ordering::Relaxed);
+                                            let ms = start.elapsed().as_millis() as u64;
+                                            if self.policy_halt_check(rv as u64, ms) {
+                                                policy_halted_ref
+                                                    .store(true, Ordering::Relaxed);
+                                                break;
+                                            }
+                                        }
+                                    }
                                 }
                             }
                         }
@@ -1222,6 +1247,7 @@ impl<G: GameState> MctsEngine<G> {
                 for tid in 0..n_threads {
                     let qcfg_ref = &self.config.quartz;
                     let needs_elapsed = controller.needs_elapsed_ms();
+                    let policy_halted_ref = &policy_halted;
                     s.spawn(move |_| {
                         let mut local_it = 0u32;
                         let mut scratch = self.make_select_scratch();
@@ -1231,6 +1257,9 @@ impl<G: GameState> MctsEngine<G> {
                             (0, None)
                         };
                         loop {
+                            if has_policy && policy_halted_ref.load(Ordering::Relaxed) {
+                                break;
+                            }
                             let rv = self.root.n_total.load(Ordering::Relaxed);
                             let ms = if needs_elapsed {
                                 start.elapsed().as_millis() as u64
@@ -1252,6 +1281,22 @@ impl<G: GameState> MctsEngine<G> {
                                     if local_it % qcfg.check_interval == 0 {
                                         self.refresh_quartz_stats();
                                         self.refresh_par_ctrl();
+                                    }
+                                }
+                                if has_policy {
+                                    let interval = qcfg_ref
+                                        .as_ref()
+                                        .map(|q| q.check_interval)
+                                        .unwrap_or(64);
+                                    if local_it % interval == 0 {
+                                        let ms_now = start.elapsed().as_millis() as u64;
+                                        let rv_now =
+                                            self.root.n_total.load(Ordering::Relaxed);
+                                        if self.policy_halt_check(rv_now as u64, ms_now) {
+                                            policy_halted_ref
+                                                .store(true, Ordering::Relaxed);
+                                            break;
+                                        }
                                     }
                                 }
                             }
@@ -1293,6 +1338,10 @@ impl<G: GameState> MctsEngine<G> {
         let start = Instant::now();
         let check_interval = self.config.quartz.as_ref().map_or(20, |q| q.check_interval);
         let use_quartz = self.config.quartz.is_some();
+        // BQ++ Phase 8c: shared halt flag for parallel SearchPolicy
+        // integration. See `run_par` for rationale.
+        let policy_halted = AtomicBool::new(false);
+        let has_policy = self.config.search_policy.is_some();
 
         // Reborrow as shared reference for rayon scope
         let ctrl_ref: &QuartzController = &*ctrl;
@@ -1303,6 +1352,7 @@ impl<G: GameState> MctsEngine<G> {
             rayon::scope(|s| {
                 for tid in 0..n_threads {
                     let next_visit_ref = &next_visit;
+                    let policy_halted_ref = &policy_halted;
                     s.spawn(move |_| {
                         let mut local_it = 0u32;
                         let mut scratch = self.make_select_scratch();
@@ -1312,6 +1362,9 @@ impl<G: GameState> MctsEngine<G> {
                             (0, None)
                         };
                         loop {
+                            if has_policy && policy_halted_ref.load(Ordering::Relaxed) {
+                                break;
+                            }
                             let chunk_start =
                                 next_visit_ref.fetch_add(ticket_chunk, Ordering::Relaxed);
                             if chunk_start >= limit {
@@ -1341,6 +1394,12 @@ impl<G: GameState> MctsEngine<G> {
                                     self.refresh_par_ctrl();
                                     let checked_visits = self.root.n_total.load(Ordering::Relaxed);
                                     ctrl_ref.mark_checked(checked_visits);
+                                    if has_policy
+                                        && self.policy_halt_check(checked_visits as u64, ms)
+                                    {
+                                        policy_halted_ref.store(true, Ordering::Relaxed);
+                                        break;
+                                    }
                                 }
                             }
                         }
@@ -1350,6 +1409,7 @@ impl<G: GameState> MctsEngine<G> {
         } else {
             rayon::scope(|s| {
                 for tid in 0..n_threads {
+                    let policy_halted_ref = &policy_halted;
                     s.spawn(move |_| {
                         let mut local_it = 0u32;
                         let mut scratch = self.make_select_scratch();
@@ -1359,6 +1419,9 @@ impl<G: GameState> MctsEngine<G> {
                             (0, None)
                         };
                         loop {
+                            if has_policy && policy_halted_ref.load(Ordering::Relaxed) {
+                                break;
+                            }
                             let rv = self.root.n_total.load(Ordering::Relaxed);
                             let ms = start.elapsed().as_millis() as u64;
                             if ctrl_ref.should_stop(rv, ms) {
@@ -1382,6 +1445,12 @@ impl<G: GameState> MctsEngine<G> {
                                 self.refresh_par_ctrl();
                                 let checked_visits = self.root.n_total.load(Ordering::Relaxed);
                                 ctrl_ref.mark_checked(checked_visits);
+                                if has_policy
+                                    && self.policy_halt_check(checked_visits as u64, ms)
+                                {
+                                    policy_halted_ref.store(true, Ordering::Relaxed);
+                                    break;
+                                }
                             }
                         }
                     });
@@ -2797,6 +2866,63 @@ mod tests {
         // Debug formatter renders the dyn opaque, no panic.
         let dbg = format!("{:?}", MctsConfig::evaluation(2.0).with_search_policy(policy));
         assert!(dbg.contains("legacy_az"), "debug format missing policy name: {dbg}");
+    }
+
+    /// BQ++ Phase 8c: integration test that a SearchPolicy halt fires
+    /// under `run_par` (parallel single-policy path). LegacyAlphaZero
+    /// budget=50, FixedIterations(1000) controller, 2 worker threads.
+    /// The policy must halt the search before 1000 iters; the latched
+    /// AtomicBool flag should propagate to all workers within ~one
+    /// check_interval. We allow up to 400 visits to absorb the lag
+    /// between thread 0 setting the flag and other threads reading it
+    /// at chunk boundary (ticket_chunk * n_threads slack).
+    #[test]
+    fn test_phase8c_run_par_honors_search_policy_halt() {
+        let state = Gomoku::new(7);
+        let eval: Arc<dyn Evaluator<Gomoku>> = Arc::new(UniformEval);
+        let policy: Arc<dyn SearchPolicy> = Arc::new(LegacyAlphaZero::new(50));
+        let cfg = MctsConfig::evaluation(2.0).with_search_policy(policy);
+        let engine = MctsEngine::new(state, eval, cfg);
+        let ctrl = FixedIterations::new(1000); // permissive
+        let stats = engine.run_par(&ctrl, 2);
+        assert!(
+            stats.iterations < 800,
+            "run_par policy halt did not fire; iterations={}",
+            stats.iterations
+        );
+        assert!(
+            stats.root_visits >= 50,
+            "run_par halted too early; root_visits={}",
+            stats.root_visits
+        );
+    }
+
+    /// BQ++ Phase 8c: integration test that a SearchPolicy halt fires
+    /// under `run_par_quartz` (parallel quartz-aware path). Same shape
+    /// as the run_par test but goes through the quartz controller.
+    #[test]
+    fn test_phase8c_run_par_quartz_honors_search_policy_halt() {
+        let state = Gomoku::new(7);
+        let eval: Arc<dyn Evaluator<Gomoku>> = Arc::new(UniformEval);
+        let policy: Arc<dyn SearchPolicy> = Arc::new(LegacyAlphaZero::new(50));
+        let qcfg = crate::mcts::QuartzConfig::default();
+        let cfg = MctsConfig::evaluation(2.0)
+            .with_search_policy(policy)
+            .with_quartz(qcfg.clone());
+        let engine = MctsEngine::new(state, eval, cfg);
+        // 1000 max-visit ceiling — well above the policy budget of 50.
+        let mut ctrl = QuartzController::new(1000, qcfg);
+        let stats = engine.run_par_quartz(&mut ctrl, 2);
+        assert!(
+            stats.iterations < 800,
+            "run_par_quartz policy halt did not fire; iterations={}",
+            stats.iterations
+        );
+        assert!(
+            stats.root_visits >= 50,
+            "run_par_quartz halted too early; root_visits={}",
+            stats.root_visits
+        );
     }
 
     #[test]
