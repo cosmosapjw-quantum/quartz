@@ -196,7 +196,17 @@ impl Default for MctsConfig {
             fpu_reduction: 0.0,
             vl_mode: parallel::VlMode::Adaptive,
             search_policy: None,
-            policy_halt_counts: None,
+            // Always allocate the per-HaltReason counter array.
+            // `policy_halt_check` increments unconditionally; if no
+            // policy is ever attached the array stays at zero and is
+            // a no-op cost (40B per Arc clone, one Arc per engine).
+            // Allocating eagerly avoids the foot-gun where direct
+            // assignment of `cfg.search_policy = Some(_)` (vs going
+            // through `with_search_policy()`) would otherwise leave
+            // counts=None and silently drop every increment.
+            policy_halt_counts: Some(std::sync::Arc::new(std::array::from_fn(|_| {
+                AtomicU32::new(0)
+            }))),
         }
     }
 }
@@ -242,8 +252,11 @@ impl MctsConfig {
         policy: std::sync::Arc<dyn crate::mcts::policy::SearchPolicy>,
     ) -> Self {
         self.search_policy = Some(policy);
-        // Allocate the per-HaltReason counter array eagerly so
-        // `policy_halt_check` can increment it without re-checking.
+        // Counter array is allocated by Default; reset it here so a
+        // builder pattern never sees leftover counts from a prior
+        // attach (defensive — Default always returns fresh zero
+        // atomics, but a future builder reuse pattern won't surprise
+        // a reader).
         self.policy_halt_counts = Some(std::sync::Arc::new(std::array::from_fn(|_| {
             AtomicU32::new(0)
         })));
@@ -2912,6 +2925,48 @@ mod tests {
         // Debug formatter renders the dyn opaque, no panic.
         let dbg = format!("{:?}", MctsConfig::evaluation(2.0).with_search_policy(policy));
         assert!(dbg.contains("legacy_az"), "debug format missing policy name: {dbg}");
+    }
+
+    /// BQ++ Phase 8c followup: pin the policy_halt_counts allocation
+    /// invariant. The `apply_search_profile` path in mcts_server.rs
+    /// directly assigns `cfg.search_policy = Some(...)` rather than
+    /// going through `with_search_policy()` (preserving the
+    /// quartz-config plumbing in the same scope). If
+    /// `MctsConfig::default()` left `policy_halt_counts = None`, this
+    /// direct-assignment path would silently drop every counter
+    /// increment — which is exactly the bug that produced
+    /// `extended_halt_reason_count = {MaxVisits: 2400}` for legacy_az
+    /// in the phase8c_v4 toy ablation.
+    #[test]
+    fn test_phase8c_policy_halt_counts_increment_via_direct_assignment() {
+        let state = Gomoku::new(7);
+        let eval: Arc<dyn Evaluator<Gomoku>> = Arc::new(UniformEval);
+        let mut cfg = MctsConfig::evaluation(2.0);
+        // Direct assignment — mimics apply_search_profile's path.
+        cfg.search_policy = Some(Arc::new(LegacyAlphaZero::new(50)));
+        // Counters must be allocated by Default; assert non-None.
+        assert!(
+            cfg.policy_halt_counts.is_some(),
+            "MctsConfig::default() must allocate policy_halt_counts \
+             so direct cfg.search_policy assignment doesn't silently \
+             drop increments"
+        );
+        let engine = MctsEngine::new(state, eval, cfg);
+        let mut ctrl = FixedIterations::new(1000);
+        let _ = engine.run(&mut ctrl);
+        let counts = engine.policy_halt_count_snapshot();
+        let total: u32 = counts.iter().sum();
+        assert!(
+            total >= 1,
+            "expected at least one policy halt to be counted; got total=0"
+        );
+        let fixed_budget_idx =
+            crate::mcts::quartz::HaltReason::FixedBudget as usize;
+        assert!(
+            counts[fixed_budget_idx] >= 1,
+            "expected FixedBudget halts to be counted; got {}",
+            counts[fixed_budget_idx]
+        );
     }
 
     /// BQ++ Phase 8c: integration test that a SearchPolicy halt fires
