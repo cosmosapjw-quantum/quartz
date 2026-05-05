@@ -90,7 +90,7 @@ pub fn reset_engine_phase_counters() {
 // § MctsConfig
 // ─────────────────────────────────────────────
 
-#[derive(Debug, Clone)]
+#[derive(Clone)]
 pub struct MctsConfig {
     pub c_puct: f32,
     pub pw: Option<PwConfig>,
@@ -113,6 +113,52 @@ pub struct MctsConfig {
     pub fpu_reduction: f32,
     /// Virtual loss mode (Fixed=baseline, Adaptive=σ_Q-scaled, Disabled=no VL)
     pub vl_mode: parallel::VlMode,
+    /// BQ++ Phase 8b: opt-in SearchPolicy trait object that overlays
+    /// the legacy QuartzController-based selection / halt behavior.
+    /// When `None`, the engine drives entirely through the existing
+    /// `quartz` + `SearchController` paths (back-compat with all P01-
+    /// P07 commits). When `Some`, the engine consults
+    /// `policy.score_adjustment(...)` at root selection and
+    /// `policy.should_halt(...)` as an additional halt signal AFTER
+    /// each `SearchController::should_stop` check. The policy is
+    /// shared across worker threads via `Arc<dyn SearchPolicy>` and
+    /// expected to use lock-free internal state (e.g.
+    /// `arc_swap::ArcSwap<Arc<PolicyCache>>` from BQ++ Phase 2).
+    pub search_policy: Option<std::sync::Arc<dyn crate::mcts::policy::SearchPolicy>>,
+}
+
+// BQ++ Phase 8b: manual Debug impl because the new `search_policy`
+// field is `Arc<dyn SearchPolicy>` which doesn't derive Debug. Adding
+// Debug to the trait bounds would force every impl to also derive
+// Debug, which is fine but invasive. The manual impl is local + the
+// field is rendered as `<dyn SearchPolicy: ${name}>` for clarity in
+// log output without forcing the trait's surface to grow.
+impl std::fmt::Debug for MctsConfig {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        f.debug_struct("MctsConfig")
+            .field("c_puct", &self.c_puct)
+            .field("pw", &self.pw)
+            .field("dirichlet", &self.dirichlet)
+            .field("temperature", &self.temperature)
+            .field("max_depth", &self.max_depth)
+            .field("max_tt_size", &self.max_tt_size)
+            .field("tt_enabled", &self.tt_enabled)
+            .field("quartz", &self.quartz)
+            .field("gvoc", &self.gvoc)
+            .field("seed", &self.seed)
+            .field("root_forced_win", &self.root_forced_win)
+            .field("exact_terminal_value", &self.exact_terminal_value)
+            .field("fpu_reduction", &self.fpu_reduction)
+            .field("vl_mode", &self.vl_mode)
+            .field(
+                "search_policy",
+                &self
+                    .search_policy
+                    .as_ref()
+                    .map(|p| format!("<dyn SearchPolicy: {}>", p.name())),
+            )
+            .finish()
+    }
 }
 
 impl Default for MctsConfig {
@@ -132,6 +178,7 @@ impl Default for MctsConfig {
             exact_terminal_value: false,
             fpu_reduction: 0.0,
             vl_mode: parallel::VlMode::Adaptive,
+            search_policy: None,
         }
     }
 }
@@ -166,6 +213,17 @@ impl MctsConfig {
     /// QUARTZ 활성화
     pub fn with_quartz(mut self, qcfg: QuartzConfig) -> Self {
         self.quartz = Some(qcfg);
+        self
+    }
+
+    /// BQ++ Phase 8b: attach a SearchPolicy trait object that drives
+    /// score adjustment + halt decisions in addition to the legacy
+    /// controller path. The Arc is shared across worker threads.
+    pub fn with_search_policy(
+        mut self,
+        policy: std::sync::Arc<dyn crate::mcts::policy::SearchPolicy>,
+    ) -> Self {
+        self.search_policy = Some(policy);
         self
     }
 
@@ -259,6 +317,66 @@ pub enum PreparedIteration<G: GameState> {
 }
 
 impl<G: GameState> MctsEngine<G> {
+    /// BQ++ Phase 8b: build a minimal SearchSnapshot from current engine
+    /// state for the SearchPolicy trait. Edge view list is intentionally
+    /// empty in this initial integration — policies that need per-edge
+    /// data (Gumbel SH allocation, KG computation) will require per-edge
+    /// plumbing through select.rs in a follow-up patch. Halt-only
+    /// policies (LegacyAlphaZero, KLLUCBStop pure stop, MENTS) work
+    /// correctly with this simplified snapshot since they consume only
+    /// `root_visits` and `iteration` for the halt decision.
+    fn build_policy_snapshot(&self, iteration: u64, elapsed_ms: u64) -> crate::mcts::policy::SearchSnapshot {
+        let root_visits = self.root.n_total.load(Ordering::Relaxed);
+        let n_children = self.root.candidate_count() as u16;
+        // Mean Q + sigma_q approximation from quartz cache when available;
+        // 0.0 fallback for non-quartz profiles.
+        let (mean_q_root, sigma_q_root) = match self.quartz_snapshot() {
+            (_, Some(stats)) => (stats.mean_q, stats.sigma_q),
+            (_, None) => (0.0, 0.3),
+        };
+        crate::mcts::policy::SearchSnapshot {
+            root_visits,
+            n_children,
+            n_visible: n_children,
+            elapsed_ms,
+            depth_max: 0,
+            mean_q_root,
+            sigma_q_root,
+            sigma_eval: None,
+            iteration,
+            best_idx: 0,
+            second_idx: 0,
+        }
+    }
+
+    /// BQ++ Phase 8b: consult `search_policy.should_halt()` if a policy
+    /// is configured. Returns `true` when the policy says Stop(_); the
+    /// caller treats this as a halt signal alongside the existing
+    /// `SearchController::should_stop`. Returns `false` when no policy
+    /// is configured (back-compat) or the policy says Continue.
+    fn policy_halt_check(&self, iteration: u64, elapsed_ms: u64) -> bool {
+        let Some(ref policy) = self.config.search_policy else {
+            return false;
+        };
+        let snap = self.build_policy_snapshot(iteration, elapsed_ms);
+        let edges: &[crate::mcts::policy::EdgeView<'_>] = &[];
+        // Periodic observe call — policy implementations cache state
+        // inside their own internal storage; observe is the canonical
+        // refresh point.
+        if let Some(ref qcfg) = self.config.quartz {
+            if iteration > 0 && iteration % qcfg.check_interval as u64 == 0 {
+                policy.observe(&snap, edges);
+            }
+        } else if iteration > 0 && iteration % 64 == 0 {
+            // Non-quartz default check_interval
+            policy.observe(&snap, edges);
+        }
+        matches!(
+            policy.should_halt(&snap, edges),
+            crate::mcts::policy::HaltDecision::Stop(_)
+        )
+    }
+
     pub fn new(
         root_state: G,
         evaluator: Arc<dyn Evaluator<G> + Send + Sync>,
@@ -686,6 +804,14 @@ impl<G: GameState> MctsEngine<G> {
                 if rv >= limit {
                     break;
                 }
+                // BQ++ Phase 8b: SearchPolicy halt also fires on the
+                // visit_limit_hint fast path. Enables policies to
+                // short-circuit fixed-budget controllers (e.g.
+                // KLLUCBStop firing a PAC certificate before the iter
+                // cap is reached).
+                if self.policy_halt_check(it as u64, 0) {
+                    break;
+                }
 
                 self.iterate_with_cached_quartz_snapshot(
                     &mut scratch,
@@ -712,6 +838,12 @@ impl<G: GameState> MctsEngine<G> {
                     0
                 };
                 if controller.should_stop(rv, ms) {
+                    break;
+                }
+                // BQ++ Phase 8b: SearchPolicy halt as a secondary signal.
+                // Fires only when cfg.search_policy is set; back-compat
+                // null when None.
+                if self.policy_halt_check(it as u64, ms) {
                     break;
                 }
 
@@ -1465,8 +1597,9 @@ mod tests {
     use crate::games::gomoku::Gomoku;
     use crate::games::tictactoe::TicTacToe;
     use crate::mcts::eval::{ShortRollout, UniformEval};
+    use crate::mcts::policy::{LegacyAlphaZero, SearchPolicy};
     use crate::mcts::quartz::{HaltMode, PenaltyMode, QuartzConfig, QuartzController};
-    use crate::mcts::search::StopReason;
+    use crate::mcts::search::{FixedIterations, StopReason};
     use rand::rngs::StdRng;
     use rand::{Rng, SeedableRng};
     use std::collections::HashMap;
@@ -2597,6 +2730,73 @@ mod tests {
                 gomoku_nps / gomoku_positions.len() as f64,
             );
         }
+    }
+
+    /// BQ++ Phase 8b: integration test that an attached SearchPolicy is
+    /// consulted by run() and its halt decision is honored.
+    /// LegacyAlphaZero with budget=50 should fire Stop(FixedBudget)
+    /// the moment root_visits reaches 50. Combined with a permissive
+    /// SearchController (FixedIterations(1000)), the policy halt should
+    /// dominate, and the search ends well before 1000 iters.
+    #[test]
+    fn test_phase8b_search_policy_halt_signal_is_honored() {
+        let state = Gomoku::new(7);
+        let eval: Arc<dyn Evaluator<Gomoku>> = Arc::new(UniformEval);
+        let policy: Arc<dyn SearchPolicy> = Arc::new(LegacyAlphaZero::new(50));
+        let cfg = MctsConfig::evaluation(2.0).with_search_policy(policy);
+
+        let engine = MctsEngine::new(state, eval, cfg);
+        let mut ctrl = FixedIterations::new(1000); // permissive controller
+        let stats = engine.run(&mut ctrl);
+
+        // The policy says Stop(FixedBudget) at root_visits>=50.
+        // FixedIterations would otherwise let the search run to 1000.
+        // Verify the policy halt fired well before 1000.
+        assert!(
+            stats.iterations < 200,
+            "policy halt did not fire; iterations={} (expected < 200)",
+            stats.iterations
+        );
+        assert!(
+            stats.root_visits >= 50,
+            "policy halted too early; root_visits={} (expected >= 50)",
+            stats.root_visits
+        );
+    }
+
+    /// BQ++ Phase 8b: a None search_policy preserves bit-identical
+    /// existing behavior. This is the back-compat regression guard:
+    /// no integration test should change behavior unless cfg.search_policy
+    /// is explicitly set.
+    #[test]
+    fn test_phase8b_no_search_policy_is_back_compat() {
+        let state = Gomoku::new(7);
+        let eval: Arc<dyn Evaluator<Gomoku>> = Arc::new(UniformEval);
+        let cfg = MctsConfig::evaluation(2.0);
+        // Confirm the field defaults to None.
+        assert!(cfg.search_policy.is_none());
+        let engine = MctsEngine::new(state, eval, cfg);
+        let mut ctrl = FixedIterations::new(64);
+        let stats = engine.run(&mut ctrl);
+        // Run completes at the controller's budget exactly (no policy
+        // intervention). FixedIterations(64) yields root_visits == 64.
+        assert_eq!(stats.iterations, 64);
+        assert_eq!(stats.root_visits, 64);
+    }
+
+    /// BQ++ Phase 8b: MctsConfig.search_policy round-trips the Arc.
+    /// Pin the basic Cloneability + name() round-trip.
+    #[test]
+    fn test_phase8b_with_search_policy_builder() {
+        let policy: Arc<dyn SearchPolicy> = Arc::new(LegacyAlphaZero::new(100));
+        let cfg = MctsConfig::evaluation(2.0).with_search_policy(Arc::clone(&policy));
+        let attached = cfg.search_policy.clone().expect("policy attached");
+        assert_eq!(attached.name(), "legacy_az");
+        let cloned_cfg = cfg.clone();
+        let _ = cloned_cfg.search_policy.expect("clone preserves policy Arc");
+        // Debug formatter renders the dyn opaque, no panic.
+        let dbg = format!("{:?}", MctsConfig::evaluation(2.0).with_search_policy(policy));
+        assert!(dbg.contains("legacy_az"), "debug format missing policy name: {dbg}");
     }
 
     #[test]
