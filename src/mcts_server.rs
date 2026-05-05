@@ -3467,9 +3467,6 @@ struct AsyncBatchJob<'credit, G: GameState> {
     /// the gather phase from launching new iterations; the reap phase
     /// continues to drain in-flight tickets so no permits leak.
     policy_halted: bool,
-    /// Iteration counter for the gather-phase policy poll (avoids
-    /// constructing the snapshot on every gather attempt).
-    policy_check_tick: u32,
 }
 
 fn build_async_result_value<G: GameState>(
@@ -3635,18 +3632,19 @@ where
     // the gather phase stops launching but the reap phase continues so
     // pending tickets drain cleanly (no permit leak).
     if !job.policy_halted && job.engine.config.search_policy.is_some() {
-        let interval: u32 = job
-            .engine
-            .config
-            .quartz
-            .as_ref()
-            .map(|q| q.check_interval.max(1))
-            .unwrap_or(64);
-        if job.launched.wrapping_sub(job.policy_check_tick) >= interval {
-            job.policy_check_tick = job.launched;
-            if job.engine.policy_halt_check(job.completed as u64, 0) {
-                job.policy_halted = true;
-            }
+        // Drop the `launched`-based throttle from the initial Phase 8c
+        // wiring. `process_job_tick` is called per outer-loop turn —
+        // not per search iteration — so unconditional polling adds
+        // only a single Arc deref + mutex-read per turn (cheap).
+        // `policy.observe()` (the expensive cache rebuild) has its own
+        // internal `iteration % check_interval` throttle inside
+        // `MctsEngine::policy_halt_check`, so the per-iter cost stays
+        // bounded. The throttled variant missed both:
+        //   * the reap phase entirely (`launched` saturated at iters),
+        //   * the budget-crossing window (interval=64, budget=200,
+        //     last poll at completed=192 → never sees 200).
+        if job.engine.policy_halt_check(job.completed as u64, 0) {
+            job.policy_halted = true;
         }
     }
 
@@ -3711,6 +3709,20 @@ where
             made_progress = true;
         } else {
             idx += 1;
+        }
+    }
+
+    // BQ++ Phase 8c followup: post-reap policy poll. The pre-gather
+    // poll above sees `completed` from the *previous* tick; reap may
+    // push completed across the budget boundary mid-tick (e.g.
+    // 199 → 200 for budget=200). Without this final poll, the outer
+    // loop exits at completed >= iters before the policy ever
+    // observes root_visits == iters, so policies whose halt fires at
+    // exactly the iter cap (LegacyAlphaZero(budget)) never increment
+    // their counter even though they would semantically fire.
+    if !job.policy_halted && job.engine.config.search_policy.is_some() {
+        if job.engine.policy_halt_check(job.completed as u64, 0) {
+            job.policy_halted = true;
         }
     }
 
@@ -3790,7 +3802,6 @@ where
             completed: 0,
             pending: Vec::new(),
             policy_halted: false,
-            policy_check_tick: 0,
         })
         .collect::<Vec<_>>();
     let mut results = vec![serde_json::Value::Null; max_index + 1];
