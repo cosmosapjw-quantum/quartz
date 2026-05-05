@@ -2044,10 +2044,18 @@ def run_training(
     # env is otherwise inherited.
     proc_env = None
     cal_dir = getattr(args, "calibration_dir", None)
-    if cal_dir:
+    search_policy = getattr(args, "search_policy", None)
+    if cal_dir or search_policy:
         proc_env = dict(os.environ)
-        proc_env["QUARTZ_CALIBRATION_DIR"] = str(cal_dir)
-        proc_env["QUARTZ_CALIBRATION_GAME"] = str(args.game)
+        if cal_dir:
+            proc_env["QUARTZ_CALIBRATION_DIR"] = str(cal_dir)
+            proc_env["QUARTZ_CALIBRATION_GAME"] = str(args.game)
+        if search_policy:
+            # BQ++ Phase 8b: forward --search-policy to the Rust server
+            # via QUARTZ_SEARCH_POLICY env var. Recognized values:
+            # legacy_az, kl_lucb_stop. Unrecognized values produce a
+            # warning at the Rust side and fall through to no-policy.
+            proc_env["QUARTZ_SEARCH_POLICY"] = str(search_policy)
     t0 = time.time()
     try:
         proc = subprocess.run(meta["cmd"], check=False, timeout=args.timeout_hours * 3600, env=proc_env)
@@ -3681,6 +3689,20 @@ def parse_args() -> argparse.Namespace:
             "Forwarded to the Rust server via QUARTZ_CALIBRATION_DIR; the "
             "server's apply_search_profile auto-loads the appropriate σ₀ "
             "recommendation. (P05)"
+        ),
+    )
+    parser.add_argument(
+        "--search-policy",
+        default=None,
+        choices=[None, "legacy_az", "kl_lucb_stop", "legacy_quartz", "bqpp", "ments", "none"],
+        help=(
+            "BQ++ Phase 8b: attach a SearchPolicy trait object to every "
+            "search invocation in this study. Forwarded to the Rust server "
+            "via QUARTZ_SEARCH_POLICY env var. Currently wired (halt-side, "
+            "single-threaded run): legacy_az, kl_lucb_stop. Reserved names "
+            "(legacy_quartz, bqpp, ments) emit a WARN and fall through to "
+            "no-policy until per-edge select.rs plumbing or the BQPP "
+            "composed-policy impl ships."
         ),
     )
     parser.add_argument("--seeds", default="42", help="Comma-separated training seeds")

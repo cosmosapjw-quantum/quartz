@@ -1654,6 +1654,58 @@ fn apply_search_profile(mut cfg: MctsConfig, profile: SearchProfile) -> MctsConf
         };
         cfg.quartz = Some(updated);
     }
+    // BQ++ Phase 8b: opt-in SearchPolicy attachment via env var.
+    // Mirrors the QUARTZ_CALIBRATION_DIR convention from P05:
+    // out-of-band engine configuration without touching the JSON
+    // command parsers. Set QUARTZ_SEARCH_POLICY to one of
+    // {legacy_az, kl_lucb_stop} to attach a halt-only policy to
+    // every search. Unrecognized values fall through to no-policy
+    // (back-compat).
+    //
+    // legacy_quartz / bqpp / ments are reserved names that require
+    // per-edge plumbing through select.rs and/or a composed-policy
+    // implementation; they emit a one-line WARN and skip attachment
+    // so the search continues via the legacy path.
+    if let Some(name) = std::env::var_os("QUARTZ_SEARCH_POLICY").and_then(|v| v.into_string().ok()) {
+        let max_visits = cfg
+            .quartz
+            .as_ref()
+            .map(|q| match q.halt_mode {
+                crate::mcts::quartz::HaltMode::Fixed { budget } => budget,
+                _ => 200,
+            })
+            .unwrap_or(200);
+        match name.as_str() {
+            "legacy_az" => {
+                cfg.search_policy = Some(std::sync::Arc::new(
+                    crate::mcts::policy::LegacyAlphaZero::new(max_visits),
+                ));
+                eprintln!("[bqpp] attached SearchPolicy: legacy_az (budget={max_visits})");
+            }
+            "kl_lucb_stop" => {
+                cfg.search_policy = Some(std::sync::Arc::new(
+                    crate::mcts::policy::KLLUCBStop::default_for_budget(max_visits),
+                ));
+                eprintln!("[bqpp] attached SearchPolicy: kl_lucb_stop (max_visits={max_visits})");
+            }
+            "" | "none" => { /* explicit no-policy */ }
+            "legacy_quartz" | "bqpp" | "ments" => {
+                eprintln!(
+                    "[bqpp] WARN: --policy={name} requires per-edge select.rs plumbing or a \
+                     composed-policy impl, neither of which is shipped yet. Falling through to \
+                     no-policy (legacy controller path drives search). See \
+                     audit_phase8b_engine_integration.md for the deferred-items list."
+                );
+            }
+            other => {
+                eprintln!(
+                    "[bqpp] WARN: unknown QUARTZ_SEARCH_POLICY={other}; expected one of \
+                     {{legacy_az, kl_lucb_stop, legacy_quartz, bqpp, ments, none}}. Falling \
+                     through to no-policy."
+                );
+            }
+        }
+    }
     cfg
 }
 
