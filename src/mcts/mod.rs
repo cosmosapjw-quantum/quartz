@@ -125,6 +125,16 @@ pub struct MctsConfig {
     /// expected to use lock-free internal state (e.g.
     /// `arc_swap::ArcSwap<Arc<PolicyCache>>` from BQ++ Phase 2).
     pub search_policy: Option<std::sync::Arc<dyn crate::mcts::policy::SearchPolicy>>,
+    /// BQ++ Phase 8c followup: per-`HaltReason` increment counters owned
+    /// by the engine (parallel to `QuartzController.halt_reason_count`).
+    /// Incremented by `policy_halt_check` whenever the attached
+    /// `search_policy` returns `Stop(reason)`, so policy-driven halts
+    /// surface in `extended_halt_reason_count` even on async/server
+    /// paths that synthesize the controller's counters from scratch.
+    /// `None` when no policy is attached.
+    pub policy_halt_counts: Option<
+        std::sync::Arc<[AtomicU32; crate::mcts::quartz::HALT_REASON_COUNT]>,
+    >,
 }
 
 // BQ++ Phase 8b: manual Debug impl because the new `search_policy`
@@ -157,6 +167,13 @@ impl std::fmt::Debug for MctsConfig {
                     .as_ref()
                     .map(|p| format!("<dyn SearchPolicy: {}>", p.name())),
             )
+            .field(
+                "policy_halt_counts",
+                &self
+                    .policy_halt_counts
+                    .as_ref()
+                    .map(|_| "<Arc<[AtomicU32; HALT_REASON_COUNT]>>"),
+            )
             .finish()
     }
 }
@@ -179,6 +196,7 @@ impl Default for MctsConfig {
             fpu_reduction: 0.0,
             vl_mode: parallel::VlMode::Adaptive,
             search_policy: None,
+            policy_halt_counts: None,
         }
     }
 }
@@ -224,6 +242,11 @@ impl MctsConfig {
         policy: std::sync::Arc<dyn crate::mcts::policy::SearchPolicy>,
     ) -> Self {
         self.search_policy = Some(policy);
+        // Allocate the per-HaltReason counter array eagerly so
+        // `policy_halt_check` can increment it without re-checking.
+        self.policy_halt_counts = Some(std::sync::Arc::new(std::array::from_fn(|_| {
+            AtomicU32::new(0)
+        })));
         self
     }
 
@@ -349,11 +372,15 @@ impl<G: GameState> MctsEngine<G> {
         }
     }
 
-    /// BQ++ Phase 8b: consult `search_policy.should_halt()` if a policy
-    /// is configured. Returns `true` when the policy says Stop(_); the
-    /// caller treats this as a halt signal alongside the existing
-    /// `SearchController::should_stop`. Returns `false` when no policy
-    /// is configured (back-compat) or the policy says Continue.
+    /// BQ++ Phase 8b/8c: consult `search_policy.should_halt()` if a
+    /// policy is configured. Returns `true` when the policy says
+    /// `Stop(_)`. Side effect: when the policy halts and the engine
+    /// has a `QuartzController` attached (the normal training/eval
+    /// configuration), increments the matching extended
+    /// `halt_reason_count[reason as usize]` so the policy's halt
+    /// reason surfaces in the per-search controller_summary.extended
+    /// telemetry. Without this, KLLUCBStop / PolicyConverged firings
+    /// are invisible to the replay aggregator.
     pub fn policy_halt_check(&self, iteration: u64, elapsed_ms: u64) -> bool {
         let Some(ref policy) = self.config.search_policy else {
             return false;
@@ -371,10 +398,29 @@ impl<G: GameState> MctsEngine<G> {
             // Non-quartz default check_interval
             policy.observe(&snap, edges);
         }
-        matches!(
-            policy.should_halt(&snap, edges),
-            crate::mcts::policy::HaltDecision::Stop(_)
-        )
+        match policy.should_halt(&snap, edges) {
+            crate::mcts::policy::HaltDecision::Stop(reason) => {
+                if let Some(ref counts) = self.config.policy_halt_counts {
+                    counts[reason as usize].fetch_add(1, Ordering::Relaxed);
+                }
+                true
+            }
+            crate::mcts::policy::HaltDecision::Continue => false,
+        }
+    }
+
+    /// BQ++ Phase 8c followup: snapshot of policy-driven halt counts.
+    /// Returns all-zero array when no policy is attached.
+    pub fn policy_halt_count_snapshot(
+        &self,
+    ) -> [u32; crate::mcts::quartz::HALT_REASON_COUNT] {
+        let mut out = [0u32; crate::mcts::quartz::HALT_REASON_COUNT];
+        if let Some(ref counts) = self.config.policy_halt_counts {
+            for (i, slot) in counts.iter().enumerate() {
+                out[i] = slot.load(Ordering::Relaxed);
+            }
+        }
+        out
     }
 
     pub fn new(

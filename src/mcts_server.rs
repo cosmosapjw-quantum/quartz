@@ -3035,7 +3035,10 @@ where
                 selection_penalty_mode_invoke_count: selection_trace.penalty_mode_invoke_count,
                 selection_refresh_eligible_count: selection_trace.refresh_eligible_count,
                 selection_refresh_active_count: selection_trace.refresh_active_count,
-                halt_reason_count: ctrl.halt_reason_count_snapshot(),
+                halt_reason_count: merge_halt_counts(
+                    ctrl.halt_reason_count_snapshot(),
+                    engine.policy_halt_count_snapshot(),
+                ),
             }
         }
         SearchProfile::Baseline | SearchProfile::BaselineStrict => {
@@ -3091,10 +3094,28 @@ where
                 selection_penalty_mode_invoke_count: selection_trace.penalty_mode_invoke_count,
                 selection_refresh_eligible_count: selection_trace.refresh_eligible_count,
                 selection_refresh_active_count: selection_trace.refresh_active_count,
-                halt_reason_count: [0u32; crate::mcts::quartz::HALT_REASON_COUNT],
+                halt_reason_count: engine.policy_halt_count_snapshot(),
             }
         }
     }
+}
+
+/// BQ++ Phase 8c followup: combine the QuartzController's controller-
+/// side `halt_reason_count` with the engine's policy-side increments
+/// (set by `MctsEngine::policy_halt_check`). Both arrays are indexed
+/// identically by `HaltReason as usize`; per-slot saturating add
+/// preserves the existing controller semantics while surfacing
+/// policy-driven halts (KLLUCBStop, PolicyConverged, …) into the
+/// per-search `extended_halt_reason_count` JSON field.
+fn merge_halt_counts(
+    a: [u32; crate::mcts::quartz::HALT_REASON_COUNT],
+    b: [u32; crate::mcts::quartz::HALT_REASON_COUNT],
+) -> [u32; crate::mcts::quartz::HALT_REASON_COUNT] {
+    let mut out = a;
+    for i in 0..crate::mcts::quartz::HALT_REASON_COUNT {
+        out[i] = out[i].saturating_add(b[i]);
+    }
+    out
 }
 
 fn run_eval_search_step<G: GameState>(
@@ -3539,9 +3560,19 @@ where
         // (commit f0f4b33) showed all halt counters at 0 across 3,830
         // self-play replay entries — this terminal increment fixes that.
         halt_reason_count: {
-            let mut hr = [0u32; crate::mcts::quartz::HALT_REASON_COUNT];
-            hr[crate::mcts::quartz::HaltReason::MaxVisits as usize] = 1;
-            hr
+            let policy_counts = engine.policy_halt_count_snapshot();
+            let policy_total: u32 = policy_counts.iter().sum();
+            if policy_total > 0 {
+                // Policy was attached and fired at least once for this
+                // job — surface its per-reason counts directly. Skip the
+                // synthetic MaxVisits=1 increment because the policy is
+                // the actual halt source.
+                policy_counts
+            } else {
+                let mut hr = [0u32; crate::mcts::quartz::HALT_REASON_COUNT];
+                hr[crate::mcts::quartz::HaltReason::MaxVisits as usize] = 1;
+                hr
+            }
         },
     };
     let mut result = build_result_value(
