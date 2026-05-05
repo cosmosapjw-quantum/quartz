@@ -439,7 +439,7 @@ impl<G: GameState> MctsEngine<G> {
     pub fn new(
         root_state: G,
         evaluator: Arc<dyn Evaluator<G> + Send + Sync>,
-        config: MctsConfig,
+        mut config: MctsConfig,
     ) -> Self {
         let tt = Arc::new(TranspositionTable::new_enabled(config.tt_enabled));
         let hash = root_state.tt_hash();
@@ -449,6 +449,18 @@ impl<G: GameState> MctsEngine<G> {
             None
         };
         let root = tt.get_or_create(hash, tv);
+
+        // BQ++ Phase 8c followup: each engine gets its OWN
+        // policy_halt_counts Arc. Without this, all engines created
+        // from the same base config (e.g. async batched self-play
+        // where every game does base_cfg.clone()) share one Arc and
+        // the per-search snapshot reads the cumulative count across
+        // the whole server lifetime — over-counting that inflated the
+        // legacy_az toy ablation to 465K halts vs the expected ~324K
+        // (one per move).
+        config.policy_halt_counts = Some(std::sync::Arc::new(std::array::from_fn(
+            |_| AtomicU32::new(0),
+        )));
 
         let mut engine = MctsEngine {
             root,
