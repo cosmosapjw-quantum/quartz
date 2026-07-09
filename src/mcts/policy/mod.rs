@@ -36,7 +36,7 @@ pub use kg_stop::{
 };
 pub use ments::{kl_visit_to_soft, soft_policy, soft_value};
 pub use reservoir::{lambda_score, quantile, Reservoir};
-pub use tactical::{gomoku_sentinel, TacticalResult};
+pub use tactical::{tactical_sentinel, TacticalResult};
 pub use kl_helpers::{bernoulli_kl, kl_lower, kl_lucb_beta, kl_upper};
 pub use kl_lucb::KLLUCBStop;
 pub use legacy_az::LegacyAlphaZero;
