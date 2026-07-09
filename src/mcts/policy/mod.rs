@@ -159,8 +159,13 @@ mod tests {
         }
     }
 
-    /// P06: EdgeView::sigma_a applies the additive smoothing correctly.
-    /// At N=0, M2=0 ⇒ σ_a = √(λ₀·σ_root²/λ₀) = σ_root exactly.
+    /// P06/A1-c: EdgeView::sigma_a applies the additive smoothing
+    /// correctly. Denominator is `max(N-1,1)+λ₀` (matching the Python
+    /// prototype's `belief.py::empirical_bayes_shrinkage`), which
+    /// collapses N=0 and N=1 to the same effective count of
+    /// `max(-1,1)+λ₀ = 1+λ₀ = 5`: σ_a = √((0 + 4·0.09)/5) ≈ 0.2683 —
+    /// identical to the N=1 case below, and matching belief.py's own
+    /// documented hand-derivation for N=0.
     #[test]
     fn test_p06_edge_view_sigma_a_smoothing_at_zero_visits() {
         let n_total = 0_u32;
@@ -192,13 +197,15 @@ mod tests {
             root_total_n: &n_total,
             stats: &snap,
         };
-        // λ₀=4, σ_root=0.3, M2=0 ⇒ σ_a = √((0 + 4·0.09)/4) = 0.3
+        // λ₀=4, σ_root=0.3, M2=0, N=0 ⇒ n_eff=max(-1,1)+4=5
+        // ⇒ σ_a = √((0 + 4·0.09)/5) = √0.072 ≈ 0.2683
         let sigma = edge.sigma_a(4.0);
-        assert!((sigma - 0.3).abs() < 1e-5, "sigma_a={sigma}");
+        assert!((sigma - 0.2683).abs() < 1e-3, "sigma_a={sigma}");
     }
 
     /// P06: σ_a after one observation. Hand-computed:
-    /// N=1, M2=0, σ_root=0.3, λ₀=4 ⇒ σ_a = √((0 + 4·0.09)/(1+4)) = √(0.36/5) ≈ 0.2683.
+    /// N=1, M2=0, σ_root=0.3, λ₀=4 ⇒ n_eff=max(0,1)+4=5
+    /// ⇒ σ_a = √((0 + 4·0.09)/5) = √(0.072) ≈ 0.2683.
     #[test]
     fn test_p06_edge_view_sigma_a_smoothing_after_one_observation() {
         let n_total = 1_u32;
@@ -233,5 +240,61 @@ mod tests {
         // (0 + 4·0.09)/(1+4) = 0.072 → √ ≈ 0.2683
         let sigma = edge.sigma_a(4.0);
         assert!((sigma - 0.2683).abs() < 1e-3, "sigma_a={sigma}");
+    }
+
+    /// A1-c cross-language regression: pins `sigma_a` at N ∈ {0,1,2,10}
+    /// against hand-derived values using the SAME denominator formula
+    /// as `prototype/bqpp_prototype/belief.py::empirical_bayes_shrinkage`
+    /// (`max(N-1,1)+λ₀`), with a mirrored Python test
+    /// (`test_empirical_bayes_shrinkage_matches_rust_a1c_pinned_values`
+    /// in `prototype/tests/test_belief.py`) asserting the identical
+    /// values independently. Both must be updated together if the
+    /// formula ever changes again.
+    #[test]
+    fn test_a1c_edge_view_sigma_a_matches_prototype_formula_across_n() {
+        // lambda0=4, sigma_root=0.3 (prior_var=0.09), M2=0 throughout.
+        // n_eff = max(n-1,1) + 4; sigma_a = sqrt((4*0.09)/n_eff).
+        let cases: [(u32, f32); 4] = [
+            (0, 0.2683), // n_eff = max(-1,1)+4 = 5
+            (1, 0.2683), // n_eff = max(0,1)+4  = 5
+            (2, 0.2683), // n_eff = max(1,1)+4  = 5
+            (10, 0.1664), // n_eff = max(9,1)+4 = 13
+        ];
+        for (n, expected) in cases {
+            let n_total = n.max(1);
+            let snap = SearchSnapshot {
+                root_visits: n,
+                n_children: 1,
+                n_visible: 1,
+                elapsed_ms: 0,
+                depth_max: 0,
+                mean_q_root: 0.0,
+                sigma_q_root: 0.3,
+                sigma_eval: None,
+                iteration: n as u64,
+                best_idx: 0,
+                second_idx: 0,
+            };
+            let edge = EdgeView {
+                idx: 0,
+                n,
+                n_virtual: 0,
+                o_a: 0,
+                q: 0.0,
+                q_sum: 0.0,
+                m2: 0.0,
+                prior: 1.0,
+                depth: 0,
+                last_value: 0.0,
+                envar_partial: 0.0,
+                root_total_n: &n_total,
+                stats: &snap,
+            };
+            let sigma = edge.sigma_a(4.0);
+            assert!(
+                (sigma - expected).abs() < 1e-3,
+                "n={n}: expected sigma_a≈{expected}, got {sigma}"
+            );
+        }
     }
 }

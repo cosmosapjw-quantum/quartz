@@ -101,10 +101,10 @@ pub struct EdgeView<'a> {
 }
 
 impl<'a> EdgeView<'a> {
-    /// Per-action posterior std deviation with Beta-Binomial-conjugate
-    /// smoothing.
+    /// Per-action posterior std deviation with empirical-Bayes
+    /// variance shrinkage.
     ///
-    /// Formula: σ_a² = (M2 + λ₀ · σ_root²) / (N + λ₀)
+    /// Formula: σ_a² = (M2 + λ₀ · σ_root²) / (max(N − 1, 1) + λ₀)
     ///
     /// Reference: Welford 1962 (online variance) + standard
     /// Normal-inverse-Gamma conjugate posterior with prior pseudo-count
@@ -112,15 +112,27 @@ impl<'a> EdgeView<'a> {
     /// of root Q-means, available as `stats.sigma_q_root²`). Returns
     /// at least 1e-3 to avoid downstream divisions by zero.
     ///
+    /// A1-c audit fix: the denominator is `max(N-1, 1) + λ₀`, matching
+    /// the validated Python prototype (`belief.py::empirical_bayes_shrinkage`,
+    /// audit §6.1's canonical bias-corrected form — it aligns with the
+    /// unbiased sample-variance denominator `N-1`, floored at 1 to
+    /// handle N ∈ {0, 1}). This file previously used `N + λ₀`, which
+    /// disagreed with the prototype by one effective count at every N
+    /// (e.g. σ=0.300 vs 0.268 at N=0) despite the design doc's
+    /// "bit-identical numerical behavior between Python prototype and
+    /// Rust" claim. `max(N-1,1)` collapses N=0 and N=1 to the same
+    /// effective count, matching `belief.py`'s documented hand-derived
+    /// values for both.
+    ///
     /// `lambda0=4` is the canonical weak-prior choice (matches α=2,
     /// β=2σ_root² in shape-rate parameterization). Tunable but rarely
     /// helpful to change.
     #[inline]
     pub fn sigma_a(&self, lambda0: f32) -> f32 {
-        let n = self.n as f32 + lambda0;
+        let n = (self.n as f32 - 1.0).max(1.0) + lambda0;
         let prior_var = self.stats.sigma_q_root.max(1e-4).powi(2);
         let m2 = self.m2 as f32 + lambda0 * prior_var;
-        (m2 / n.max(1.0)).sqrt().max(1e-3)
+        (m2 / n).sqrt().max(1e-3)
     }
 }
 

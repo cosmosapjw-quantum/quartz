@@ -93,6 +93,21 @@ def test_empirical_bayes_shrinkage_at_n_one_matches_n_zero():
     assert math.isclose(s_n0, s_n1, abs_tol=1e-12)
 
 
+def test_empirical_bayes_shrinkage_matches_rust_a1c_pinned_values():
+    """A1-c cross-language regression: pins shrunk sigma at N in
+    {0,1,2,10} against the SAME hand-derived values asserted by the
+    Rust test
+    test_a1c_edge_view_sigma_a_matches_prototype_formula_across_n
+    (src/mcts/policy/mod.rs). Both must be updated together if the
+    formula ever changes again — this is the two-language check the
+    A1-c fix (aligning Rust's EdgeView::sigma_a denominator to this
+    module's max(n-1,1)+lambda0 form) was missing."""
+    expected = {0: 0.2683, 1: 0.2683, 2: 0.2683, 10: 0.1664}
+    for n, exp in expected.items():
+        sigma = shrunk_sigma(n=n, M2=0.0, sigma2_parent=0.09, lambda0=4.0)
+        assert abs(sigma - exp) < 1e-3, f"n={n}: expected sigma≈{exp}, got {sigma}"
+
+
 def test_empirical_bayes_shrinkage_data_dominates_at_large_n():
     """At large N with M2 = (n-1) * 0.04 ⇒ shrunk variance approaches 0.04."""
     n = 1000
