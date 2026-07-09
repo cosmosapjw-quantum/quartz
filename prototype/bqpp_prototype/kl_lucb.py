@@ -83,8 +83,19 @@ def kl_lucb_gap_bits(
 
     Returns ``(gap_bits, best_pos, runner_up_pos)``. Stop is allowed
     when ``gap_bits > 0``. ``runner_up_pos`` returns ``best_pos`` when
-    fewer than 2 arms have ``min_pulls`` (i.e. the comparison is
+    no arm reaches ``min_pulls`` (i.e. even the best-arm comparison is
     ill-defined; caller should treat this as "continue").
+
+    A1-a audit fix: ``min_pulls`` gates the *best*-arm side only (an
+    unvetted single lucky rollout should not become the empirical
+    best). It must NOT gate the runner-up side — KK13's certificate
+    requires the upper bound to dominate over ALL other arms, and an
+    unvisited or barely-visited arm has an upper bound near 1.0 (see
+    ``kl_upper``'s ``n<=0`` fast path), which correctly blocks a
+    premature stop. Filtering it out here (the previous behavior) was
+    anti-conservative, worst exactly at the low visit budgets this
+    project targets, where most arms have far fewer than ``min_pulls``
+    visits.
     """
     n_arms = len(mu_hats)
     if n_arms < 2 or K < 2:
@@ -102,17 +113,21 @@ def kl_lucb_gap_bits(
     if best_pos < 0:
         return -1.0, 0, 0
 
-    # Runner-up by upper bound
+    # Runner-up by upper bound — every other arm participates
+    # unconditionally (see the A1-a note above).
     runner_up_pos = best_pos
     second_ucb = -1.0
     for i in range(n_arms):
-        if i == best_pos or n_pulls[i] < min_pulls:
+        if i == best_pos:
             continue
         u = kl_upper(mu_hats[i], n_pulls[i], beta)
         if u > second_ucb:
             second_ucb = u
             runner_up_pos = i
     if runner_up_pos == best_pos:
+        # Defensive only: with n_arms >= 2 guaranteed above and every
+        # i != best_pos now unconditionally considered, this is
+        # unreachable — kept as a safety net, not live logic.
         return -1.0, best_pos, best_pos
 
     # gap_bits = L_best - U_runner

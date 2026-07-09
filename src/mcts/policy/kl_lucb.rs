@@ -131,16 +131,26 @@ impl SearchPolicy for KLLUCBStop {
             return;
         }
 
-        // Runner-up — argmax_{a≠b̂} U_a(t,δ).
+        // Runner-up — argmax_{a≠b̂} U_a(t,δ). A1-a audit fix: this side
+        // must NOT filter by `min_pulls`. KK13's certificate requires
+        // the upper bound to dominate over ALL a≠b̂, not just the
+        // well-sampled ones — an unvisited or barely-visited arm has
+        // an upper bound near 1.0 (see `kl_upper`'s n=0 fast path) and
+        // must be allowed to correctly block a premature stop. The
+        // previous code applied `min_pulls` here too, silently
+        // excluding under-sampled arms from the max-U comparison —
+        // anti-conservative, and worst exactly at the low visit
+        // budgets (8-64) this project targets, where most arms have
+        // far fewer than `min_pulls` visits. `min_pulls` remains a
+        // legitimate eligibility gate for the *best* arm above (an
+        // unvetted single lucky rollout should not become b̂), but
+        // must not gate the runner-up's upper bound.
         let mut second_ucb = -1.0f32;
         let mut second_idx = best_idx;
         let mut n_best = 0_u32;
         for e in edges {
             if e.idx == best_idx {
                 n_best = e.n;
-                continue;
-            }
-            if e.n < self.min_pulls {
                 continue;
             }
             let mu = q_to_mu(e.q);
@@ -151,7 +161,11 @@ impl SearchPolicy for KLLUCBStop {
             }
         }
         if second_idx == best_idx {
-            return; // only one arm has enough pulls
+            // Defensive only: with `edges.len() >= 2` guaranteed by the
+            // early return above and every a≠b̂ now unconditionally
+            // considered, this is unreachable — kept as a safety net
+            // against a future signature change, not live logic.
+            return;
         }
 
         // Lower CI for the best arm.
@@ -295,8 +309,13 @@ mod tests {
     ///   N=[100, 50, 1], Q=[0.6, 0.5, 0.4], mapped μ=[0.8, 0.75, 0.7].
     ///   t=151, K=3, δ=0.05 ⇒ β ≈ 15.618 (verified in P06's
     ///   kl_lucb_beta_kk13_sanity test).
-    ///   With min_pulls=30, only the first two arms participate.
-    ///   The KK13 test rejects unless L_best > U_second.
+    ///   Arm 0 (n=100) is the best (min_pulls=30 still gates the best
+    ///   arm side). A1-a: the runner-up side no longer filters by
+    ///   min_pulls, so arm 2 (n=1) now correctly participates in the
+    ///   U-side race — and wins it, since 1 pull gives an upper bound
+    ///   near 1.0 (see `kl_upper`'s tiny-n behavior). That's the
+    ///   intended fix: an almost-unvisited arm must be able to block a
+    ///   premature stop, not be silently excluded from the comparison.
     #[test]
     fn test_p08_kl_lucb_stop_tight_gap_does_not_halt() {
         let policy = KLLUCBStop::new(0.05, 30, 100, 10000);
@@ -305,14 +324,16 @@ mod tests {
         let edges = vec![
             make_edge(0, 100, 0.6, &snap, &n_total),
             make_edge(1, 50, 0.5, &snap, &n_total),
-            make_edge(2, 1, 0.4, &snap, &n_total), // pulls < min_pulls; skipped
+            make_edge(2, 1, 0.4, &snap, &n_total),
         ];
         policy.observe(&snap, &edges);
         let cache = *policy.cached.lock();
-        // Best is arm 0 (μ̂=0.8); runner-up is arm 1 (μ̂=0.75).
+        // Best is arm 0 (μ̂=0.8); runner-up is arm 2 — its n=1 upper
+        // bound dominates arm 1's (n=50, better-sampled) bound.
         assert_eq!(cache.best_idx, 0);
-        assert_eq!(cache.second_idx, 1);
-        // Gap should be negative — Q's are too close at this budget.
+        assert_eq!(cache.second_idx, 2);
+        // Gap should be negative — an almost-unvisited arm's wide
+        // bound easily blocks certification at this budget.
         assert!(
             cache.gap_bits < 0.0,
             "expected negative gap_bits, got {}",
@@ -329,6 +350,10 @@ mod tests {
     /// runner-up clearly worse), gap_bits goes positive ⇒
     /// Stop(KLLUCBStop). Q=[0.9, 0.0] mapped to μ̂=[0.95, 0.5] —
     /// at N=[10000, 500] the KK13 confidence bounds clearly separate.
+    /// Only two (adequately-sampled) arms — see
+    /// `test_p08_kl_lucb_stop_a1a_underpulled_arm_blocks_premature_stop`
+    /// below for the case where a third, barely-visited candidate is
+    /// live: A1-a intentionally makes that case block the stop.
     ///
     /// Hand sanity: β(10501, 3, 0.05) ≈ 20.3.
     /// L_best ≈ 0.937, U_second ≈ 0.641, gap ≈ 0.296 > 0.
@@ -340,7 +365,6 @@ mod tests {
         let edges = vec![
             make_edge(0, 10000, 0.9, &snap, &n_total),
             make_edge(1, 500, 0.0, &snap, &n_total),
-            make_edge(2, 1, -0.5, &snap, &n_total),
         ];
         policy.observe(&snap, &edges);
         let cache = *policy.cached.lock();
@@ -356,8 +380,52 @@ mod tests {
         }
     }
 
-    /// P08: min_pulls guard — when the runner-up has < min_pulls
-    /// visits, the policy can't compare and never stops.
+    /// A1-a regression: the whole point of removing `min_pulls` from
+    /// the runner-up side. Same wide, well-resolved gap as
+    /// `test_p08_kl_lucb_stop_wide_gap_halts` above, but with a third
+    /// candidate live at only 1 pull. Before the fix, that arm was
+    /// silently excluded from the runner-up race and the cert fired
+    /// anyway (anti-conservative — the barely-sampled arm was never
+    /// actually ruled out). After the fix, its near-1.0 upper bound
+    /// correctly blocks the stop.
+    #[test]
+    fn test_p08_kl_lucb_stop_a1a_underpulled_arm_blocks_premature_stop() {
+        let policy = KLLUCBStop::new(0.05, 30, 200, 100000);
+        let snap = make_snap(10501, 3);
+        let n_total = 10501_u32;
+        let edges = vec![
+            make_edge(0, 10000, 0.9, &snap, &n_total),
+            make_edge(1, 500, 0.0, &snap, &n_total),
+            make_edge(2, 1, -0.5, &snap, &n_total),
+        ];
+        policy.observe(&snap, &edges);
+        let cache = *policy.cached.lock();
+        assert_eq!(cache.best_idx, 0);
+        assert_eq!(
+            cache.second_idx, 2,
+            "the under-sampled arm must win the runner-up slot on its wide bound"
+        );
+        assert!(
+            cache.gap_bits < 0.0,
+            "an unresolved 1-pull candidate must block certification, got gap_bits={}",
+            cache.gap_bits
+        );
+        assert!(matches!(
+            policy.should_halt(&snap, &edges),
+            HaltDecision::Continue
+        ));
+    }
+
+    /// P08: min_pulls guard — the best-arm side still requires
+    /// `min_pulls` (a single lucky rollout should not become b̂), so
+    /// with only arm 0 adequately sampled, best_idx=0 is the sole
+    /// candidate for b̂. A1-a: the runner-up side no longer applies
+    /// `min_pulls`, so arms 1 and 2 (n=5 each, below min_pulls) DO
+    /// participate in the U-side race and one of them wins it with a
+    /// wide, barely-constrained bound — correctly keeping gap_bits
+    /// negative (never positive), same qualitative Continue result as
+    /// before the fix, but now via a real computed gap rather than
+    /// the old early-return-to-default-0.0 path.
     #[test]
     fn test_p08_kl_lucb_stop_min_pulls_guard() {
         let policy = KLLUCBStop::new(0.05, 30, 100, 10000);
@@ -365,14 +433,16 @@ mod tests {
         let n_total = 120_u32;
         let edges = vec![
             make_edge(0, 100, 0.6, &snap, &n_total),
-            make_edge(1, 5, 0.5, &snap, &n_total), // < min_pulls
-            make_edge(2, 5, 0.4, &snap, &n_total), // < min_pulls
+            make_edge(1, 5, 0.5, &snap, &n_total),
+            make_edge(2, 5, 0.4, &snap, &n_total),
         ];
         policy.observe(&snap, &edges);
         let cache = *policy.cached.lock();
-        // Best gets identified, but second_idx can't be set because
-        // no other arm has enough pulls; cache.gap_bits stays at
-        // default 0.0 (not positive).
+        assert_eq!(cache.best_idx, 0);
+        assert_ne!(
+            cache.second_idx, cache.best_idx,
+            "runner-up must now resolve to a real arm even though both are under min_pulls"
+        );
         assert!(cache.gap_bits <= 0.0);
         assert!(matches!(
             policy.should_halt(&snap, &edges),
