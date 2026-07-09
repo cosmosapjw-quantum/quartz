@@ -4,8 +4,32 @@
 //!   1. Virtual Loss 환원
 //!   2. N += 1, W += value  (negamax 부호 반전)
 //!   3. M2 Welford update: M2 += (value - Q_prev)(value - Q_new)
-//!      → edge_sigma() = √(M2/(N-1)) = 정확한 per-edge std
+//!      → edge_sigma() = √(M2/(N-1)) = per-edge std 근사 (아래 A3-b 참고)
 //!   4. parent.n_total += 1
+//!
+//! ## A3-b audit note: 병렬 백업 하 M2 갱신은 정확하지 않은 근사다
+//!
+//! `n.fetch_add`(atomic 예약)와 `w`의 load(`w_before`)는 개별로는 각각
+//! atomic이지만, 그 둘의 조합(n_old ↔ w_before의 페어링)은 하나의 원자적
+//! 연산이 아니다. 두 스레드가 같은 edge를 동시에 backup할 때, 이 스레드가
+//! `n_old`를 예약한 직후·`w_before` load 이전에 다른 스레드가 자신의
+//! `fetch_add` + `add_w`를 먼저 끝내버리면, `w_before`는 실제로는
+//! `n_old`개가 아니라 `n_old+1`개(또는 그 이상) 값의 누적합을 담고 있을 수
+//! 있다. 이 경우 `mu_old = w_before / n_old`는 "정확히 n_old개 값의
+//! 평균"이라는 Welford 재귀식의 전제를 깨고, `delta_m2`가 실제로 관측된
+//! 갱신 순서와 불일치하는 값이 될 수 있다.
+//!
+//! 결과적으로 `edge_sigma()`(및 이를 소비하는 `σ_Q`)는 heavy contention
+//! 하에서 정확한 표본표준편차가 아니라 **잡음 섞인 근사**다. `σ_Q`는
+//! `QuartzController`의 root penalty 계산과 `ParallelismController`의
+//! adaptive split virtual-loss 크기(`vvalue = σ_Q × depth_decay × ...`,
+//! parallel.rs) 양쪽에 공급된다 — 즉 이 근사 오차는 penalty 강도와 VL
+//! 크기 모두에 전파된다.
+//!
+//! 완전한 수정(락 또는 CAS 루프로 {n,w,m2} 트리플을 원자적으로 갱신)은
+//! 이 lock-free hot path의 설계 목표(§7 Production Hot-Path Contract,
+//! docs/QUARTZ_THEORY.md)와 충돌하므로 이번 패스의 범위 밖이다. 여기서는
+//! 근사임을 명시적으로 기록한다 — docs/CLAIM_LEDGER.md 참고.
 
 use std::sync::atomic::Ordering;
 
@@ -30,7 +54,11 @@ pub fn backprop<G: GameState>(path: &[PathEdge<G::Move>], leaf_value: f32) {
         let n_old = e.n.fetch_add(1, Ordering::AcqRel) as f64;
         let n_new = n_old + 1.0;
 
-        // Snapshot W before our update to compute correct Welford delta locally
+        // Snapshot W before our update to compute correct Welford delta locally.
+        // A3-b: (n_old, w_before) is NOT an atomic pair — see the module-level
+        // doc comment above. Under concurrent backups on the same edge,
+        // w_before can already include another thread's value, making
+        // mu_old/delta_m2 below an approximation, not an exact Welford step.
         let w_before = atomic_f64_load(&e.w) as f64;
 
         // W 갱신
