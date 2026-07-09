@@ -1830,19 +1830,127 @@ def test_phase15_analysis_reports_paired_posthoc_deltas():
 
     deltas = analysis.paired_posthoc_deltas(rows, targets=("B9",), baselines=("A4",))
 
-    assert deltas == [
+    assert len(deltas) == 1
+    row = deltas[0]
+    # A2-b: point-estimate fields are unchanged by the bootstrap-CI fix.
+    assert row["target"] == "B9"
+    assert row["baseline"] == "A4"
+    assert row["pairs"] == 2
+    assert row["delta_accuracy_to_oracle"] == 0.5
+    assert row["delta_topk_recall_oracle"] == 0.0
+    assert row["delta_kl_to_oracle"] == 0.0
+    assert row["accuracy_win_count"] == 1
+    assert row["accuracy_loss_count"] == 0
+    assert row["accuracy_tie_count"] == 1
+    # A2-b: new CI fields exist, are well-formed, and are internally
+    # consistent with their own excludes_zero flag. Exact bootstrap
+    # bounds are pinned separately in test_paired_bootstrap_ci_*
+    # (deterministic seed, but not hand-verifiable here without
+    # duplicating the resampling logic).
+    for metric in ("delta_accuracy_to_oracle", "delta_topk_recall_oracle", "delta_kl_to_oracle"):
+        ci = row[f"{metric}_ci"]
+        assert isinstance(ci, list) and len(ci) == 2
+        assert ci[0] <= ci[1]
+        excludes_zero = row[f"{metric}_ci_excludes_zero"]
+        assert excludes_zero == bool(ci[0] > 0.0 or ci[1] < 0.0)
+
+
+def test_paired_bootstrap_ci_pinned_values():
+    """A2-b: pins paired_bootstrap_ci's deterministic (seed=0) output
+    for representative inputs. Values below were computed by running
+    the function itself (not hand-derived) — this test's job is to
+    catch any future drift in the resampling/percentile logic, not to
+    re-derive the bootstrap math by inspection."""
+    analysis = load_phase15_analysis_runner()
+
+    # Same [0, 1] accuracy-delta shape as the B9-vs-A4 fixture above:
+    # with only 2 possible resample-mean values compatible with a
+    # 2-element {0,1} population (0, 0.5, 1 at 25/50/25), the interval
+    # collapses exactly onto the observed extremes.
+    lo, hi = analysis.paired_bootstrap_ci([0.0, 1.0], alpha=0.05, n_resamples=2000, seed=0)
+    assert (lo, hi) == (0.0, 1.0)
+
+    # A well-separated, tightly-clustered positive signal: CI stays
+    # entirely above zero.
+    separated = [0.4, 0.5, 0.45, 0.42, 0.48, 0.5, 0.44]
+    lo, hi = analysis.paired_bootstrap_ci(separated, alpha=0.05, n_resamples=2000, seed=0)
+    assert lo == pytest.approx(0.43, abs=1e-9)
+    assert hi == pytest.approx(0.4814285714285714, abs=1e-9)
+    assert lo > 0.0, "well-separated positive signal must exclude zero"
+
+    # Degenerate: a single repeated value collapses tightly onto itself.
+    lo, hi = analysis.paired_bootstrap_ci([0.2] * 10, alpha=0.05, n_resamples=2000, seed=0)
+    assert lo == pytest.approx(0.2, abs=1e-9)
+    assert hi == pytest.approx(0.2, abs=1e-9)
+
+    # Fewer than 2 observations: no CI can be formed.
+    assert analysis.paired_bootstrap_ci([0.5], alpha=0.05, n_resamples=2000, seed=0) == (0.0, 0.0)
+    assert analysis.paired_bootstrap_ci([], alpha=0.05, n_resamples=2000, seed=0) == (0.0, 0.0)
+
+
+def test_paired_bootstrap_ci_is_deterministic_across_repeated_calls():
+    """A2-b: the whole point of using a local random.Random(seed)
+    instance is reproducibility for a research-grade artifact — repeat
+    calls with the same input/seed must be bit-identical, regardless
+    of other randomness elsewhere in the process."""
+    analysis = load_phase15_analysis_runner()
+    deltas = [0.1, 0.3, -0.1, 0.2, 0.0]
+    first = analysis.paired_bootstrap_ci(deltas, alpha=0.05, n_resamples=2000, seed=0)
+    second = analysis.paired_bootstrap_ci(deltas, alpha=0.05, n_resamples=2000, seed=0)
+    assert first == second
+
+
+def test_paired_bootstrap_ci_bonferroni_correction_widens_interval():
+    """A2-b: the whole point of the fix — a stricter (Bonferroni-
+    corrected) alpha for a larger comparison family must produce a
+    WIDER interval than the uncorrected base alpha, for the same
+    underlying data."""
+    analysis = load_phase15_analysis_runner()
+    deltas = [0.4, 0.5, 0.45, 0.42, 0.48, 0.5, 0.44]
+    base_lo, base_hi = analysis.paired_bootstrap_ci(deltas, alpha=0.05, n_resamples=2000, seed=0)
+    corrected_lo, corrected_hi = analysis.paired_bootstrap_ci(deltas, alpha=0.05 / 36, n_resamples=2000, seed=0)
+    assert corrected_lo <= base_lo
+    assert corrected_hi >= base_hi
+    assert (corrected_hi - corrected_lo) > (base_hi - base_lo)
+
+
+def test_build_analysis_report_records_screening_multiplicity():
+    """A2-b: the report must record how many comparisons were
+    screened and the Bonferroni-corrected alpha actually used, so a
+    reader can't mistake per-delta CIs for uncorrected 95% intervals."""
+    analysis = load_phase15_analysis_runner()
+    rows = [
         {
-            "target": "B9",
-            "baseline": "A4",
-            "pairs": 2,
-            "delta_accuracy_to_oracle": 0.5,
-            "delta_topk_recall_oracle": 0.0,
-            "delta_kl_to_oracle": 0.0,
-            "accuracy_win_count": 1,
-            "accuracy_loss_count": 0,
-            "accuracy_tie_count": 1,
-        }
+            "checkpoint_id": "C01",
+            "position_id": "P1",
+            "budget": 8,
+            "system": "A4",
+            "accuracy_to_oracle": 1,
+            "topk_recall_oracle": 1,
+            "kl_to_oracle": 0.30,
+        },
+        {
+            "checkpoint_id": "C01",
+            "position_id": "P1",
+            "budget": 8,
+            "system": "B9",
+            "accuracy_to_oracle": 1,
+            "topk_recall_oracle": 0,
+            "kl_to_oracle": 0.40,
+        },
     ]
+    report = analysis.build_analysis_report(
+        posthoc_rows=rows,
+        benchmark_rows=[],
+        targets=("B9", "B10"),
+        baselines=("A4", "B4", "B5"),
+    )
+    multiplicity = report["screening_multiplicity"]
+    assert multiplicity["n_candidates_screened"] == 2
+    assert multiplicity["n_baselines"] == 3
+    assert multiplicity["n_comparisons"] == 6
+    assert multiplicity["base_alpha"] == 0.05
+    assert multiplicity["bonferroni_corrected_alpha"] == pytest.approx(0.05 / 6)
 
 
 def test_phase15_analysis_reports_guard_reasons_by_system_and_budget():
