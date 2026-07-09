@@ -1074,6 +1074,41 @@ def apply_entropy_expansion_stabilized_posterior(
     }
 
 
+def budget_routing_signal(
+    trace_policies: list[np.ndarray],
+    trace_budgets: list[int],
+    target_budget: int,
+    params: dict[str, Any],
+) -> dict[str, Any]:
+    """Instability signal for budget routing, computed from the
+    sub-target trace ONLY — it never looks at (or requires) a
+    supra-target chunk.
+
+    A2-a: this is split out of `apply_budget_routing` specifically so
+    the online runner (`quartz.phase15_online.run_online_readout`) can
+    decide whether to burst BEFORE paying for the extra tier's search.
+    Before this split, the online path always evaluated
+    `apply_budget_routing` mid-loop with only the sub-target trace
+    accumulated so far, so `burst_idx` (which needs a supra-target
+    entry) was always `None` and the burst branch was unreachable
+    dead code. Reading `signal["unstable"]` here first lets the
+    online runner fetch the extra chunk ONLY when actually indicated —
+    the genuinely adaptive (not always-pay) version of the same
+    decision `apply_budget_routing` makes when the full trace bundle
+    is already available (the posthoc path).
+    """
+    base_trace = [p for p, b in zip(trace_policies, trace_budgets) if int(b) <= int(target_budget)]
+    if not base_trace:
+        base_trace = [trace_policies[0]]
+    base_budgets = [int(b) for b in trace_budgets if int(b) <= int(target_budget)] or [int(target_budget)]
+    signal_metrics = _trace_signal_metrics(base_trace, base_budgets, challenger_k=int(params.get("challenger_k", 4)))
+    unstable = (
+        float(signal_metrics["argmax_persistence"]) < float(params.get("persistence_floor", 0.60))
+        or float(signal_metrics["top2_margin_stability"]) < float(params.get("margin_stability_floor", 0.72))
+    )
+    return {**signal_metrics, "unstable": unstable}
+
+
 def apply_budget_routing(
     prior_base: np.ndarray,
     trace_policies: list[np.ndarray],
@@ -1081,24 +1116,17 @@ def apply_budget_routing(
     target_budget: int,
     params: dict[str, Any],
 ) -> tuple[np.ndarray, dict[str, Any]]:
+    signal = budget_routing_signal(trace_policies, trace_budgets, target_budget, params)
     base_trace = [p for p, b in zip(trace_policies, trace_budgets) if int(b) <= int(target_budget)]
     if not base_trace:
         base_trace = [trace_policies[0]]
-    base_budgets = [int(b) for b in trace_budgets if int(b) <= int(target_budget)] or [int(target_budget)]
-    signal_metrics = _trace_signal_metrics(base_trace, base_budgets, challenger_k=int(params.get("challenger_k", 4)))
     base_policy = normalize_policy(base_trace[-1])
     burst_idx = next((idx for idx, budget in enumerate(trace_budgets) if int(budget) > int(target_budget)), None)
-    burst_trigger = (
-        burst_idx is not None
-        and (
-            float(signal_metrics["argmax_persistence"]) < float(params.get("persistence_floor", 0.60))
-            or float(signal_metrics["top2_margin_stability"]) < float(params.get("margin_stability_floor", 0.72))
-        )
-    )
+    burst_trigger = burst_idx is not None and bool(signal["unstable"])
     effective = normalize_policy(trace_policies[burst_idx]) if burst_trigger else base_policy
     burst_budget = int(trace_budgets[burst_idx]) if burst_trigger and burst_idx is not None else int(target_budget)
     return effective, {
-        **signal_metrics,
+        **{key: value for key, value in signal.items() if key != "unstable"},
         "budget_burst_triggered": int(burst_trigger),
         "extra_budget_used": int(max(0, burst_budget - int(target_budget))),
         "burst_budget": int(burst_budget),
@@ -1525,6 +1553,7 @@ __all__ = [
     "apply_root_posterior_snapshot",
     "apply_snapshot_trace_stabilized_posterior",
     "apply_system_readout",
+    "budget_routing_signal",
     "candidate_undercoverage",
     "classify_position_buckets",
     "compute_argmax_path_metrics",
