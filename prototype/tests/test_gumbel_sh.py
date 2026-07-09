@@ -129,3 +129,46 @@ def test_sh_resumable_property():
     resumed_winner = select_winner(paused, arm_means)
 
     assert full_winner == resumed_winner
+
+
+def test_sh_advance_round_keeps_ceiling_half_on_odd_count():
+    """A3-c regression: Karnin-Koren-Somekh keeps ceil(m_r/2)
+    survivors, not floor(m_r/2) — an odd live-set size (5) must keep
+    3, not 2. budget=100 is generous enough that shrink-to-affordable
+    is a no-op here, isolating the keep_n formula itself."""
+    bracket = SequentialHalvingBracket(
+        candidates=[0, 1, 2, 3, 4],
+        budget=100,
+        n_initial_candidates=5,
+    )
+    arm_means = [0.9, 0.7, 0.5, 0.3, 0.1]
+    nb = advance_round(bracket, arm_means)
+    assert len(nb.candidates) == 3, f"5 live arms must keep ceil(5/2)=3, got {nb.candidates}"
+    assert sorted(nb.candidates) == [0, 1, 2]
+
+
+def test_sh_new_shrinks_initial_candidates_to_avoid_budget_overshoot():
+    """A3-c regression: the whole point of _shrink_to_affordable. At
+    budget=8 with 8 initial candidates (3 rounds), the unshrunk
+    bracket's round_budget would floor to 0 and get forced to 1 by
+    the max(...,1) safety net every round — consuming
+    8+4+2=14 visits against a declared budget of 8. After the fix,
+    the initial candidate count is shrunk so visits_consumed never
+    exceeds the declared budget."""
+    bracket = SequentialHalvingBracket(candidates=list(range(8)), budget=8, n_initial_candidates=8)
+    assert len(bracket.candidates) < 8, f"8 candidates at budget=8 must be shrunk, got {bracket.candidates}"
+    assert bracket.candidates[0] == 0  # highest-scoring prefix preserved
+
+    arm_means = [0.9, 0.7, 0.5, 0.3, 0.1, 0.05, 0.02, 0.01]
+    current = bracket
+    while not current.is_done():
+        current = advance_round(current, arm_means)
+    assert current.visits_consumed <= 8, f"must not exceed declared budget, got {current.visits_consumed}"
+
+
+def test_sh_new_does_not_shrink_when_budget_is_affordable():
+    """A budget that already comfortably affords the requested
+    candidate count must NOT be shrunk."""
+    bracket = SequentialHalvingBracket(candidates=list(range(8)), budget=100, n_initial_candidates=8)
+    assert len(bracket.candidates) == 8
+    assert bracket.n_initial_candidates == 8

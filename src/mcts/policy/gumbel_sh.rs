@@ -98,6 +98,20 @@ pub struct SequentialHalvingBracket {
 impl SequentialHalvingBracket {
     pub fn new(candidates: SmallVec<[u16; 32]>, budget: u32) -> Self {
         let n_initial = candidates.len() as u16;
+        // A3-c audit fix: if `budget` can't afford >=1 visit per
+        // candidate per round for the requested initial candidate
+        // count (round_budget() needs `m0 * rounds <= budget` to
+        // compute an honest per-round allocation), shrink the
+        // candidate set before the bracket ever starts. Without this,
+        // round_budget()'s `.max(1)` floor forces at least 1 visit per
+        // candidate every round regardless of whether the total
+        // budget can afford it, so `visits_consumed` can silently
+        // exceed the declared `budget` — most visible at the small
+        // budgets (8-64) this project targets. Candidates are
+        // Gumbel-top-m ordered (highest perturbed score first, see
+        // `gumbel_top_m`), so truncating from the end keeps the
+        // highest-scoring prefix.
+        let (candidates, n_initial) = Self::shrink_to_affordable(candidates, n_initial, budget);
         Self {
             candidates,
             budget,
@@ -107,19 +121,41 @@ impl SequentialHalvingBracket {
         }
     }
 
-    /// Number of halving rounds in the bracket: ⌈log₂(m₀)⌉ for m₀ ≥ 2,
-    /// else 1.
-    pub fn n_total_rounds(&self) -> u16 {
-        let m0 = self.n_initial_candidates.max(1);
+    fn rounds_for(m0: u16) -> u16 {
         if m0 <= 1 {
             return 1;
         }
         ((m0 as f32).log2().ceil() as u16).max(1)
     }
 
+    fn shrink_to_affordable(
+        mut candidates: SmallVec<[u16; 32]>,
+        mut m0: u16,
+        budget: u32,
+    ) -> (SmallVec<[u16; 32]>, u16) {
+        while m0 > 1 {
+            let rounds = Self::rounds_for(m0) as u32;
+            if (m0 as u32) * rounds <= budget.max(1) {
+                break;
+            }
+            m0 -= 1;
+            candidates.truncate(m0 as usize);
+        }
+        (candidates, m0)
+    }
+
+    /// Number of halving rounds in the bracket: ⌈log₂(m₀)⌉ for m₀ ≥ 2,
+    /// else 1.
+    pub fn n_total_rounds(&self) -> u16 {
+        Self::rounds_for(self.n_initial_candidates.max(1))
+    }
+
     /// Per-arm visits in the current round.
     /// Formula: ⌊B / (m_r * total_rounds)⌋ where m_r is the current
-    /// live-set size.
+    /// live-set size. `new()`'s affordability shrink keeps this a true
+    /// division in the common case; `.max(1)` remains only as a
+    /// last-resort floor for later rounds where `m_r` has shrunk far
+    /// below the value `new()` sized the bracket for.
     pub fn round_budget(&self) -> u32 {
         let m_r = self.candidates.len() as u32;
         let rounds = self.n_total_rounds() as u32;
@@ -137,6 +173,25 @@ impl SequentialHalvingBracket {
     /// Advance one halving round. Drops the bottom half of the
     /// current candidates by `arm_means` (indexed by edge-local pos).
     /// Returns a new bracket; does not mutate self.
+    ///
+    /// A3-c audit note (ranking formula, deferred): Karnin-Koren-Somekh
+    /// Sequential Halving ranks candidates by raw mean reward, which is
+    /// what this function does — that part is correct standalone SH.
+    /// Danihelka et al. 2022's policy-improvement GUARANTEE additionally
+    /// requires ranking by `g(a) + logits(a) + sigma(q_hat(a))` (their
+    /// Eq. 8), not raw mean, so that halving/winner selection stays a
+    /// monotone transform of the original Gumbel-max sample. Wiring
+    /// that in needs the per-candidate Gumbel+logit base score (not
+    /// currently threaded past `gumbel_top_m`'s index-only return),
+    /// live visit counts (for the `sigma` transform's `max_b N(b)`
+    /// term), and a calibration decision for `c_visit`/`c_scale` that
+    /// should be validated against real search data rather than
+    /// guessed — appropriately done alongside the Part B Lane 2
+    /// narrowing-lane experiment
+    /// (~/.claude/plans/parallel-popping-owl.md §A3-c / §B2), not as a
+    /// blind change here. This module is not yet wired into the live
+    /// engine (see BQ_PLUS_PLUS_DESIGN.md §5), so the gap has no
+    /// current production impact.
     pub fn advance_round(&self, arm_means: &[f32]) -> Self {
         if self.is_done() || self.candidates.len() <= 1 {
             return self.clone();
@@ -149,7 +204,12 @@ impl SequentialHalvingBracket {
             let mb = arm_means.get(b as usize).copied().unwrap_or(f32::NEG_INFINITY);
             mb.partial_cmp(&ma).unwrap_or(std::cmp::Ordering::Equal)
         });
-        let keep_n = (sorted.len() / 2).max(1);
+        // A3-c: ceiling, not floor — Karnin-Koren-Somekh keeps
+        // ⌈m_r/2⌉ survivors each round (e.g. 5 live arms -> keep 3,
+        // not 2). Integer `/` in Rust floors for positive operands,
+        // so the prior `(sorted.len() / 2).max(1)` under-kept by one
+        // arm whenever the live-set size was odd.
+        let keep_n = (sorted.len() + 1) / 2;
         sorted.truncate(keep_n);
         let visits_this_round = self.round_budget() * (self.candidates.len() as u32);
         Self {
@@ -357,5 +417,70 @@ mod tests {
             8,  // small budget; per-arm-per-round = 8/(4*2) = 1
         );
         assert_eq!(bracket.round_budget(), 1);
+    }
+
+    /// A3-c regression: Karnin-Koren-Somekh keeps ⌈m_r/2⌉ survivors,
+    /// not ⌊m_r/2⌋ — an odd live-set size (5) must keep 3, not 2.
+    /// budget=100 is generous enough that shrink_to_affordable is a
+    /// no-op here, isolating the keep_n formula itself.
+    #[test]
+    fn test_phase3_sh_advance_round_keeps_ceiling_half_on_odd_count() {
+        let bracket = SequentialHalvingBracket::new(
+            (0_u16..5).collect::<SmallVec<_>>(),
+            100,
+        );
+        let arm_means: Vec<f32> = vec![0.9, 0.7, 0.5, 0.3, 0.1];
+        let next = bracket.advance_round(&arm_means);
+        assert_eq!(
+            next.candidates.len(),
+            3,
+            "5 live arms must keep ceil(5/2)=3, got {:?}",
+            next.candidates
+        );
+        let mut got: Vec<u16> = next.candidates.to_vec();
+        got.sort();
+        assert_eq!(got, vec![0, 1, 2]);
+    }
+
+    /// A3-c regression: the whole point of shrink_to_affordable. At
+    /// budget=8 with 8 initial candidates (3 rounds), the UNSHRUNK
+    /// bracket's round_budget() would floor to 0 and get forced to 1
+    /// by round_budget()'s `.max(1)` safety net every round —
+    /// consuming 8 (round 1) + 4 (round 2) + 2 (round 3) = 14 visits
+    /// against a declared budget of 8, a 75% overshoot. After the
+    /// fix, `new()` shrinks the initial candidate count so the
+    /// bracket's own visits_consumed accounting never exceeds the
+    /// declared budget.
+    #[test]
+    fn test_phase3_sh_new_shrinks_initial_candidates_to_avoid_budget_overshoot() {
+        let bracket = SequentialHalvingBracket::new((0_u16..8).collect::<SmallVec<_>>(), 8);
+        assert!(
+            bracket.candidates.len() < 8,
+            "8 candidates at budget=8 must be shrunk, got {} candidates",
+            bracket.candidates.len()
+        );
+        // Highest-scoring prefix (Gumbel-top-m order) is preserved.
+        assert_eq!(bracket.candidates[0], 0);
+
+        let arm_means: Vec<f32> = vec![0.9, 0.7, 0.5, 0.3, 0.1, 0.05, 0.02, 0.01];
+        let mut current = bracket;
+        while !current.is_done() {
+            current = current.advance_round(&arm_means);
+        }
+        assert!(
+            current.visits_consumed <= 8,
+            "bracket must not consume more than its declared budget, got {}",
+            current.visits_consumed
+        );
+    }
+
+    /// A3-c: a budget that already comfortably affords the requested
+    /// candidate count must NOT be shrunk (no regression on the
+    /// common/generous-budget case).
+    #[test]
+    fn test_phase3_sh_new_does_not_shrink_when_budget_is_affordable() {
+        let bracket = SequentialHalvingBracket::new((0_u16..8).collect::<SmallVec<_>>(), 100);
+        assert_eq!(bracket.candidates.len(), 8);
+        assert_eq!(bracket.n_initial_candidates, 8);
     }
 }

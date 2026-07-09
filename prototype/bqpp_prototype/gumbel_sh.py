@@ -67,6 +67,30 @@ def gumbel_top_m(
     return sorted_indices[: min(m, len(log_priors))]
 
 
+def _rounds_for(m0: int) -> int:
+    if m0 <= 1:
+        return 1
+    return max(1, int(math.ceil(math.log2(m0))))
+
+
+def _shrink_to_affordable(candidates: list[int], m0: int, budget: int) -> tuple[list[int], int]:
+    """A3-c audit fix: shrink to an initial candidate count the budget
+    can actually afford (see the Rust port's
+    ``SequentialHalvingBracket::new`` docstring for the full
+    rationale — without this, ``round_budget``'s ``max(..., 1)`` floor
+    silently forces ``visits_consumed`` above the declared budget).
+    Candidates are Gumbel-top-m ordered (highest first), so truncating
+    from the end keeps the highest-scoring prefix."""
+    candidates = list(candidates)
+    while m0 > 1:
+        rounds = _rounds_for(m0)
+        if m0 * rounds <= max(budget, 1):
+            break
+        m0 -= 1
+        candidates = candidates[:m0]
+    return candidates, m0
+
+
 @dataclass
 class SequentialHalvingBracket:
     """Anytime-resumable Sequential Halving bracket state.
@@ -90,14 +114,27 @@ class SequentialHalvingBracket:
     visit_history: list[int] | None = None  # per-arm cumulative visits
 
     def __post_init__(self):
+        # A3-c: only shrink at genuine INITIAL construction — detected
+        # by rounds_completed==0 AND candidates already matching
+        # n_initial_candidates in length. advance_round() constructs a
+        # new SequentialHalvingBracket for each subsequent round with
+        # rounds_completed>=1 and a SHRUNK candidates list against the
+        # ORIGINAL (unchanged) n_initial_candidates — shrinking again
+        # there would incorrectly re-truncate against a mismatched m0.
+        # This mirrors the Rust port, where advance_round constructs
+        # the struct literal directly and never calls ::new() (the
+        # only place the shrink logic lives).
+        if self.rounds_completed == 0 and len(self.candidates) == self.n_initial_candidates:
+            self.candidates, self.n_initial_candidates = _shrink_to_affordable(
+                self.candidates, self.n_initial_candidates, self.budget
+            )
         if self.visit_history is None:
             self.visit_history = [0] * len(self.candidates)
 
     @property
     def n_total_rounds(self) -> int:
         """Number of halving rounds in the bracket."""
-        m0 = max(self.n_initial_candidates, 1)
-        return max(1, int(math.ceil(math.log2(m0))) if m0 > 1 else 1)
+        return _rounds_for(max(self.n_initial_candidates, 1))
 
     @property
     def round_budget(self) -> int:
@@ -143,6 +180,17 @@ def advance_round(
     drops the bottom half of its current candidates by ``arm_means``.
 
     Returns a new bracket; does not mutate the input.
+
+    A3-c note (deferred, mirrors the Rust port): ranking by raw
+    ``arm_means`` is correct standalone Karnin-Koren-Somekh SH, but
+    Danihelka et al. 2022's policy-improvement guarantee requires
+    ranking by ``g(a) + logits(a) + sigma(q_hat(a))`` instead (their
+    Eq. 8) so halving stays a monotone transform of the original
+    Gumbel-max sample. Wiring that in needs the per-candidate base
+    score (not currently threaded past ``gumbel_top_m``'s index-only
+    return), live visit counts, and a calibration decision for the
+    sigma transform's constants — appropriately done alongside the
+    Part B Lane 2 narrowing-lane experiment, not blindly here.
     """
     if bracket.is_done():
         return bracket
@@ -151,8 +199,9 @@ def advance_round(
         return bracket
     # Sort candidates by mean (descending)
     sorted_by_mean = sorted(candidates, key=lambda i: arm_means[i], reverse=True)
-    # Keep top half
-    keep_n = max(1, len(sorted_by_mean) // 2)
+    # A3-c: ceiling, not floor — Karnin-Koren-Somekh keeps ceil(m_r/2)
+    # survivors each round (e.g. 5 live arms -> keep 3, not 2).
+    keep_n = max(1, -(-len(sorted_by_mean) // 2))  # ceiling division
     new_candidates = sorted_by_mean[:keep_n]
     return SequentialHalvingBracket(
         candidates=new_candidates,
