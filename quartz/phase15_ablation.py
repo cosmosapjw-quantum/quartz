@@ -17,6 +17,8 @@ from typing import Any
 
 import numpy as np
 
+from quartz.phase15_one_loop import apply_one_loop_readout
+
 
 @dataclass(frozen=True)
 class Phase15System:
@@ -47,6 +49,7 @@ POSTHOC_OPERATORS = {
     "adaptive_snapshot_trace_stabilized_posterior",
     "entropy_expansion_stabilized_posterior",
     "budget_routing",
+    "one_loop_finite_n",
 }
 ONLINE_OPERATORS = set(POSTHOC_OPERATORS)
 
@@ -1173,6 +1176,8 @@ def apply_system_readout(
         return apply_entropy_expansion_stabilized_posterior(prior_base, trace_policies, trace_budgets, system.params)
     if operator == "budget_routing":
         return apply_budget_routing(prior_base, trace_policies, trace_budgets, target_budget, system.params)
+    if operator == "one_loop_finite_n":
+        return apply_one_loop_readout(prior_base, trace_policies, trace_budgets, system.params)
     raise ValueError(f"unsupported phase15 refresh operator: {operator}")
 
 

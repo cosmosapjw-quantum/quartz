@@ -80,3 +80,58 @@ This guard is what makes P3 falsifiable rather than "optimize the metric".
 **Kill/keep for B1 itself:** B1 is infrastructure, not a hypothesis — it
 cannot be "killed". Its job is to make P3 measurable. It is done when the
 double-pattern (§B3 dissociation) can be computed from real traces.
+
+---
+
+## B2 — Algorithm lanes (my intuitions, translated to statistics)
+
+Each lane = a hypothesis + reuse of existing experiment infrastructure +
+a **pre-registered kill-criterion** + a **CCoT discriminating experiment**
+(the observation that separates the correct mechanism from the
+plausible-but-wrong one). Ordered by increasing verification cost. Every
+lane's origin is one of my own legacy notes (`docs/legacy/`) or prior math,
+not a transplanted paper; the literature enters only as baseline/compare.
+
+| Lane | Hypothesis | Origin | Cheapest substrate | Status |
+|---|---|---|---|---|
+| H2 | finite-N curvature readout ("B13") | v5.0 one-loop | phase15 readout (`quartz/phase15_one_loop.py`) | **substrate implemented** |
+| H1 | bootstrap argmax-stability stop | Darwinism redundancy | offline resample gate (`quartz/phase15_argmax_stability.py`) | (next) |
+| H3 | backflow-triggered burst | legacy backflow | phase15 online burst (A2-a substrate) | SPECIFIED |
+| H4 | concentration-scheduled batching | — | self-play throughput lane | SPECIFIED |
+| H5 | LSH path-interference | — | CPU dedup lane | SPECIFIED (exploratory) |
+
+### H2 — One-Loop finite-N curvature readout ("B13") [readout lane]
+
+**Implemented this session:** `quartz/phase15_one_loop.py` +
+`tests/test_phase15_one_loop.py` (10 passed). Wired as posthoc operator
+`one_loop_finite_n`, dispatchable through `apply_system_readout` (the
+`test_readout_reachable_through_apply_system_readout_dispatch` test asserts
+the wiring is live — the A0-a lesson: an unreachable readout is a lie).
+
+**Reframe (PDR item 2, §0.5).** The correction
+`log π_eff(a) = log π̄(a) + curvature / max(N_a, N_floor)` is **not** an
+extra Q term (that double-counts, since π̄ is already PUCT+Q-shaped and the
+term diverges at `N_a → 0`). It is a **finite-N discretization curvature
+correction**: the realized visit distribution π̄ is a biased,
+over-concentrated estimate of the continuous policy-improvement target
+(Grill et al. 2020 worst-case gap `(|A|-1)/(|A|+N)`, largest at small N).
+It re-inflates under-visited arms and, by construction, `→ 0` as N grows.
+Per-arm counts are reconstructed as `N_a = π̄(a)·N_total`; unvisited arms
+stay at 0 (no completed-Q is available in the trace, so none is invented).
+
+**Discriminating experiment (CCoT §0.6):** stratify the readout's effect
+`one_loop_effect_kl = KL(π̄ ‖ π_eff)` by root visit count. The kill test is
+now a *unit test* (`test_kill_test_effect_vanishes_as_n_grows`): the effect
+falls monotonically and is `< 1e-4` by 65k visits.
+
+**Kill-criterion.** (a) paired CI vs A4 / π̄ baseline crosses zero → no
+efficacy; (b) the effect does **not** vanish at large N on real traces →
+double-counting → demote to diagnostic. The `ℏ_eff` / `3-4` constant is
+deliberately a single `curvature` knob until a real-trace calibration
+fixes it (no blind first-principles value; §0.7 mirrors the A3-c
+deferral).
+
+**Deferred (needs real traces + GPU):** register a "B13" `Phase15System`
+config row and run the paired posthoc ablation vs A4/B5 with `π̄` added as
+an explicit baseline. The operator is already selectable; only the config
+row and the run remain.
