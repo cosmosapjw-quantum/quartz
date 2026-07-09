@@ -14,7 +14,7 @@ Output: JSON dataset for validating training time estimates.
 Usage:
   venv/bin/python scripts/throughput_profile.py [--device cuda] [--games gomoku7,chess] [--quick]
 """
-import os, sys, json, time, argparse, subprocess, signal
+import os, sys, json, time, argparse, subprocess, signal, gc
 import numpy as np
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
@@ -284,7 +284,7 @@ def run_profile(args):
     warnings.filterwarnings("ignore", message=".*TensorFloat32.*")
     warnings.filterwarnings("ignore", message=".*cache_size_limit.*")
     _logging.getLogger("torch._dynamo").setLevel(_logging.ERROR)
-    from quartz.alphazero_train import AlphaZeroNet, _COMPILED_MODELS, _PINNED_BUFS
+    from quartz.alphazero_train import AlphaZeroNet, _PINNED_BUFS
 
     device = torch.device(args.device)
     games = [g.strip() for g in args.games.split(",")]
@@ -324,8 +324,13 @@ def run_profile(args):
             print(f"  {label}")
             print(f"{'='*60}")
 
-            # Clear caches for fresh measurement
-            _COMPILED_MODELS.clear()
+            # A3-a: the compiled-model cache now lives as an attribute
+            # on each model object (torch_inference_runtime.py), not a
+            # separate global dict — a freshly-constructed model below
+            # has no cached attribute yet, so there is nothing to
+            # clear here anymore. Only the pinned-buffer cache (keyed
+            # by device/shape, not by model identity) still needs an
+            # explicit reset for a clean measurement.
             _PINNED_BUFS.clear()
 
             # Create model
@@ -436,11 +441,19 @@ def run_profile(args):
 
             dataset["results"].append(entry)
 
-            # Free GPU memory
+            # Free GPU memory. A3-a: the compiled-model cache is now an
+            # attribute on `model` itself, forming a reference cycle
+            # with the compiled wrapper (torch's `_orig_mod` points
+            # back to model) — `del model` alone only drops the last
+            # EXTERNAL reference; an explicit gc.collect() is needed to
+            # actually reclaim the cycle before empty_cache() can free
+            # the underlying GPU memory (this replaces the old
+            # _COMPILED_MODELS.clear(), which is no longer applicable
+            # now that there's no separate global cache to clear).
             del model
+            gc.collect()
             if hasattr(torch.cuda, "empty_cache"):
                 torch.cuda.empty_cache()
-            _COMPILED_MODELS.clear()
             _PINNED_BUFS.clear()
             print()
 

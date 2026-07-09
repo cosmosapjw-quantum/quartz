@@ -13,8 +13,7 @@ Usage:
   python3 -m quartz.train --serve --game gomoku15 --model alphazero_gomoku15/best.pt
 
 Requirements: torch, numpy, tqdm
-GPU:          pip install torch --index-url https://download.pytorch.org/whl/rocm6.2
-              export HSA_OVERRIDE_GFX_VERSION=10.3.0
+GPU:          install the CUDA/ROCm wheel matching the host driver; see docs/SETUP.md.
 """
 import os, sys, json, time, random, logging, atexit
 import numpy as np
@@ -278,6 +277,12 @@ try:
         runtime_thread_budget,
         save_eval_autotune_profile,
     )
+    from quartz.torch_inference_runtime import (
+        _PINNED_BUFS,
+        get_compiled_model as _get_compiled_model_impl,
+        get_inference_buffers as _get_inference_buffers_impl,
+        run_model_batch as _run_model_batch_impl,
+    )
     from quartz.train_loop import (
         EarlyStopping as _EarlyStoppingImpl,
         StepEarlyStopping as _StepEarlyStoppingImpl,
@@ -425,6 +430,12 @@ except ImportError:
         recommend_eval_parallel_workers,
         runtime_thread_budget,
         save_eval_autotune_profile,
+    )
+    from torch_inference_runtime import (
+        _PINNED_BUFS,
+        get_compiled_model as _get_compiled_model_impl,
+        get_inference_buffers as _get_inference_buffers_impl,
+        run_model_batch as _run_model_batch_impl,
     )
     from train_loop import (
         EarlyStopping as _EarlyStoppingImpl,
@@ -933,74 +944,22 @@ def train_epoch(model, optimizer, replay, cfg, device, n_steps, backend=None, in
     )
 
 
-_COMPILED_MODELS = {}  # id(model) → compiled model cache
-
-
 def _get_compiled_model(model):
-    """Lazily compile model with torch.compile for faster inference."""
-    key = id(model)
-    compiled = _COMPILED_MODELS.get(key)
-    if compiled is not None:
-        return compiled
-    if os.environ.get("QUARTZ_DISABLE_COMPILE"):
-        return model
-    try:
-        import torch as _torch
-        compiled = _torch.compile(model, mode="default", dynamic=True)
-        _COMPILED_MODELS[key] = compiled
-        return compiled
-    except Exception:
-        _COMPILED_MODELS[key] = model
-        return model
-
-
-_PINNED_BUFS = {}  # (device_str, C, H, W) → (pinned_tensor, gpu_tensor, max_bs)
+    return _get_compiled_model_impl(model, torch_module=torch, compile_on_cpu=True)
 
 
 def _get_inference_buffers(device, batch_np):
-    """Get or create pre-allocated pinned + GPU buffers for inference."""
-    if batch_np.ndim != 4:
-        return None
-    bs, C, H, W = batch_np.shape
-    key = (str(device), C, H, W)
-    entry = _PINNED_BUFS.get(key)
-    if entry is not None:
-        pinned, gpu, max_bs = entry
-        if bs <= max_bs:
-            pinned[:bs].copy_(torch.from_numpy(batch_np))
-            gpu[:bs].copy_(pinned[:bs], non_blocking=True)
-            return gpu[:bs]
-    # Allocate new buffers (2x headroom for batch size growth)
-    max_bs = max(bs * 2, 64)
-    pinned = torch.zeros(max_bs, C, H, W, dtype=torch.float32).pin_memory()
-    gpu = torch.zeros(max_bs, C, H, W, dtype=torch.float32, device=device)
-    _PINNED_BUFS[key] = (pinned, gpu, max_bs)
-    pinned[:bs].copy_(torch.from_numpy(batch_np))
-    gpu[:bs].copy_(pinned[:bs], non_blocking=True)
-    return gpu[:bs]
+    return _get_inference_buffers_impl(device, batch_np, torch_module=torch)
 
 
 def _run_model_batch(model, device, batch_features):
-    batch_np = np.asarray(batch_features, dtype=np.float32)
-    if not batch_np.flags.c_contiguous:
-        batch_np = np.ascontiguousarray(batch_np)
-    if not batch_np.flags.writeable:
-        batch_np = batch_np.copy()
-    if hasattr(model, "predict"):
-        probs_batch, vals_np = model.predict(batch_np)
-        return np.asarray(probs_batch, dtype=np.float32), np.asarray(vals_np, dtype=np.float32).reshape(-1)
-    if getattr(device, "type", "cpu") != "cpu":
-        x_batch = _get_inference_buffers(device, batch_np)
-        if x_batch is None:
-            x_batch = torch.from_numpy(batch_np).pin_memory().to(device, non_blocking=True)
-    else:
-        x_batch = torch.from_numpy(batch_np).to(device)
-    compiled = _get_compiled_model(model)
-    with torch.inference_mode():
-        logits_batch, vals_batch = compiled(x_batch)
-        probs_batch = torch.softmax(logits_batch, dim=-1).cpu().numpy()
-        vals_np = vals_batch.cpu().numpy()
-    return probs_batch, vals_np
+    return _run_model_batch_impl(
+        model,
+        device,
+        batch_features,
+        torch_module=torch,
+        compile_on_cpu=True,
+    )
 
 
 def choose_selfplay_move(policy, legal, move_count, temp_threshold, fallback_best=-1):
