@@ -183,8 +183,19 @@ control:
 - Falsifiable telemetry — every halt decision carries
   `gap_bits`, `chi2`, `max_kg_per_ms`, `prior_surprise` in the
   `controller_summary.extended` JSON block (P01, schema_version 6).
-- CPU-friendly hot path (no mutex, edge-local indexing,
-  ArcSwap publish).
+- CPU-friendly hot path for the *actually wired* policy
+  (`KLLUCBStop`, dispatchable via `--policy=kl_lucb_stop`): edge-local
+  indexing, no allocation on `observe`/`should_halt` beyond the
+  per-call `EdgeView` `Vec` built in `policy_halt_check`
+  (`src/mcts/mod.rs`); it uses a plain `parking_lot::Mutex<Cache>`
+  for its own small cached-certificate state, not the ArcSwap design
+  below. **Re-scoped (A4-b audit)**: "no mutex, ArcSwap publish"
+  describes `PolicyCache`/`PolicyCachePublisher`
+  (`src/mcts/policy/cache.rs`), which is real, tested code but is
+  **not constructed or read by the engine anywhere** — grep-verified
+  zero references outside `src/mcts/policy/`. Do not read this bullet
+  as a property of the live search path until that module is wired;
+  see `docs/CLAIM_LEDGER.md` for the per-module status table.
 - Reproducibility of every existing experiment via
   `--policy=legacy_quartz` shim (P07).
 - Bit-identical numerical behavior between Python prototype
