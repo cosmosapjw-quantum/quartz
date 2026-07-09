@@ -20,13 +20,27 @@ from bqpp_prototype.certificate import (
 
 
 def test_eb_log_term_at_known_values():
-    """L = log(3 * K * t^alpha / delta) at hand-computed inputs."""
+    """L = log(k1 * K * t^alpha / delta), k1=405.5 (A1-b: anytime-valid
+    KK13 constant, matching kl_lucb_beta) at hand-computed inputs.
+    """
     # K=4, t=100, delta=0.05, alpha=1.1 ⇒
     # 100^1.1 = exp(1.1 * ln(100)) = exp(1.1 * 4.6052) = exp(5.0657) ≈ 158.49
-    # 3 * 4 * 158.49 / 0.05 = 38037.6
-    # ln(38037.6) ≈ 10.546
+    # 405.5 * 4 * 158.49 / 0.05 = 5,142,186
+    # ln(5,142,186) ≈ 15.453
     L = eb_log_term(K=4, t=100, delta=0.05)
-    assert abs(L - 10.546) < 0.005, f"L = {L}"
+    assert abs(L - 15.453) < 0.005, f"L = {L}"
+
+
+def test_eb_log_term_matches_kl_lucb_beta():
+    """A1-b: both certificate families must share the exact same
+    anytime-valid threshold — eb_log_term is not an independent,
+    possibly-drifting reimplementation of kl_lucb_beta."""
+    from bqpp_prototype.kl_lucb import kl_lucb_beta
+
+    for K, t, delta in [(4, 100, 0.05), (2, 200, 0.05), (8, 5000, 0.01)]:
+        assert eb_log_term(K=K, t=t, delta=delta) == kl_lucb_beta(
+            t=float(t), K=float(K), delta=delta
+        )
 
 
 def test_eb_width_R_one_vs_R_two():

@@ -24,15 +24,28 @@ References:
     Maurer, A. & Pontil, M. (2009). "Empirical Bernstein Bounds and
     Sample Variance Penalization." COLT 2009.
 
-    The 3K factor in the log argument is the union bound over the K
-    arms times a doubling factor for upper/lower bounds. The audit
-    suggests this exact form.
+A1-b audit fix: the original ``3 * K`` factor in the log argument only
+covers a union bound over the K arms times a doubling factor for
+upper/lower bounds *at one fixed t*. Because the width is recomputed
+and acted on at every observe() call (anytime use, t=1,2,3,...), the
+per-t failure probabilities must themselves sum to at most delta
+across all t — a plain constant-times-K factor does not provide that,
+so the realized anytime failure probability was roughly 14*delta, not
+delta. ``eb_log_term`` now reuses ``kl_lucb.kl_lucb_beta``'s
+already-correct time-uniform threshold (Kaufmann-Kalyanakrishnan
+2013 Theorem 8's k1=405.5, alpha=1.1 peeling constant, which is
+exactly built to make sum_t delta_t <= delta) instead of
+reimplementing a similar-looking but uncorrected formula. Both
+certificate families (KL-LUCB and this Maurer-Pontil EB bound) now
+share one audited anytime-valid threshold.
 """
 
 from __future__ import annotations
 
 import math
 from dataclasses import dataclass
+
+from .kl_lucb import kl_lucb_beta
 
 
 @dataclass
@@ -52,17 +65,20 @@ class EBInterval:
 
 
 def eb_log_term(K: int, t: int, delta: float, alpha: float = 1.1) -> float:
-    """Compute log(3 * K * t^alpha / delta).
+    """Compute the anytime-valid union-bound log term
+    log(k1 * K * t^alpha / delta), k1=405.5 for alpha=1.1.
 
-    This is the per-arm union-bound log term that appears inside both
-    the variance-scaled and the constant terms of the Maurer-Pontil
-    width.
+    This is the per-arm threshold that appears inside both the
+    variance-scaled and the constant terms of the Maurer-Pontil
+    width. Delegates to ``kl_lucb.kl_lucb_beta`` (see A1-b note in
+    this module's docstring): the same KK13 peeling constant that
+    makes the KL-LUCB certificate anytime-valid also fixes this one.
 
     ``t`` is clamped to >= 1 to avoid log(0) at the very first step.
     """
     t_safe = max(t, 1)
     K_safe = max(K, 1)
-    return math.log(3.0 * K_safe * (t_safe ** alpha) / delta)
+    return kl_lucb_beta(t=float(t_safe), K=float(K_safe), delta=delta, alpha=alpha)
 
 
 def empirical_bernstein_width(
