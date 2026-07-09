@@ -354,13 +354,15 @@ pub enum PreparedIteration<G: GameState> {
 
 impl<G: GameState> MctsEngine<G> {
     /// BQ++ Phase 8b: build a minimal SearchSnapshot from current engine
-    /// state for the SearchPolicy trait. Edge view list is intentionally
-    /// empty in this initial integration — policies that need per-edge
-    /// data (Gumbel SH allocation, KG computation) will require per-edge
-    /// plumbing through select.rs in a follow-up patch. Halt-only
-    /// policies (LegacyAlphaZero, KLLUCBStop pure stop, MENTS) work
-    /// correctly with this simplified snapshot since they consume only
-    /// `root_visits` and `iteration` for the halt decision.
+    /// state for the SearchPolicy trait.
+    ///
+    /// Audit note (A0-a, follows the Phase 8b/8c dead-edges finding):
+    /// `should_halt`/`observe` are fed real root `EdgeView`s by
+    /// `policy_halt_check` below (see `build_policy_root_edges`). This
+    /// snapshot itself stays edge-free — `score_adjustment` (per-edge
+    /// PUCT scoring) is a separate, still-deferred integration (BQ++
+    /// design doc §5 item 1); this function only feeds the
+    /// halt/observe path.
     fn build_policy_snapshot(&self, iteration: u64, elapsed_ms: u64) -> crate::mcts::policy::SearchSnapshot {
         let root_visits = self.root.n_total.load(Ordering::Relaxed);
         let n_children = self.root.candidate_count() as u16;
@@ -385,6 +387,73 @@ impl<G: GameState> MctsEngine<G> {
         }
     }
 
+    /// A0-a: build real root `EdgeView`s from the currently-materialized
+    /// root children for the `SearchPolicy` observe/should_halt path.
+    ///
+    /// Scope: this reads the same lock-free published edge slab
+    /// `select.rs`'s hot path reads (`read_edges()`), but is only
+    /// called at `check_interval` boundaries (not per-iteration), so
+    /// it does not add hot-path allocation or contention.
+    ///
+    /// Field choices, matched against what wired policies actually
+    /// consume (`kl_lucb.rs` reads `n`/`q`; `legacy_quartz.rs`'s
+    /// `score_adjustment` — not yet wired into the engine, see BQ++
+    /// design doc §5 item 1 — reads `o_a`/`root_total_n`):
+    /// - `q` is the **raw** empirical mean (`MctsEdge::q()`, no virtual
+    ///   loss), not `q_eff()`. Certificates/KG must see true backed-up
+    ///   statistics; virtual loss is a within-iteration parallel
+    ///   coordination reservation and would bias a PAC certificate.
+    /// - `o_a` stays `0`, matching every existing EdgeView construction
+    ///   site in this codebase (tests, `legacy_az.rs`, `kl_lucb.rs`
+    ///   fixtures). The field's doc ("outside/un-materialized neighbor
+    ///   visits") is a distinct concept from `select.rs`'s local
+    ///   `o_a` variable (virtual-loss count) and is not currently
+    ///   tracked per-edge anywhere in the engine.
+    /// - `envar_partial` is computed here (visit-share KL contribution)
+    ///   since it's cheap and the field exists precisely so policies
+    ///   don't recompute it; leaving it at a silent `0.0` would be the
+    ///   same species of dead-value bug this function fixes.
+    /// - `idx` is the dense `edge_pos` (slab position), never
+    ///   `action_id` — see the superseded-sections note in
+    ///   `docs/LEGACY_VS_BAYESIAN_QUARTZ.md` Appendix A on the
+    ///   edge_pos/action_id OOB hazard.
+    fn build_policy_root_edges<'a>(
+        &self,
+        snap: &'a crate::mcts::policy::SearchSnapshot,
+        root_total_n: &'a u32,
+    ) -> Vec<crate::mcts::policy::EdgeView<'a>> {
+        self.root
+            .read_edges()
+            .iter()
+            .enumerate()
+            .map(|(i, e)| {
+                let n = e.n.load(Ordering::Relaxed);
+                let prior = e.p;
+                let visit_share = n as f32 / (*root_total_n).max(1) as f32;
+                let envar_partial = if visit_share > 0.0 && prior > 1e-6 {
+                    visit_share * (visit_share / prior).ln()
+                } else {
+                    0.0
+                };
+                crate::mcts::policy::EdgeView {
+                    idx: i as u16,
+                    n,
+                    n_virtual: e.virtual_losses.load(Ordering::Acquire).max(0) as u32,
+                    o_a: 0,
+                    q: e.q(),
+                    q_sum: crate::mcts::node::atomic_f64_load(&e.w) as f32,
+                    m2: f64::from_bits(e.m2.load(Ordering::Acquire)),
+                    prior,
+                    depth: 0,
+                    last_value: 0.0,
+                    envar_partial,
+                    root_total_n,
+                    stats: snap,
+                }
+            })
+            .collect()
+    }
+
     /// BQ++ Phase 8b/8c: consult `search_policy.should_halt()` if a
     /// policy is configured. Returns `true` when the policy says
     /// `Stop(_)`. Side effect: when the policy halts and the engine
@@ -399,19 +468,20 @@ impl<G: GameState> MctsEngine<G> {
             return false;
         };
         let snap = self.build_policy_snapshot(iteration, elapsed_ms);
-        let edges: &[crate::mcts::policy::EdgeView<'_>] = &[];
+        let root_total_n = snap.root_visits;
+        let edges = self.build_policy_root_edges(&snap, &root_total_n);
         // Periodic observe call — policy implementations cache state
         // inside their own internal storage; observe is the canonical
         // refresh point.
         if let Some(ref qcfg) = self.config.quartz {
             if iteration > 0 && iteration % qcfg.check_interval as u64 == 0 {
-                policy.observe(&snap, edges);
+                policy.observe(&snap, &edges);
             }
         } else if iteration > 0 && iteration % 64 == 0 {
             // Non-quartz default check_interval
-            policy.observe(&snap, edges);
+            policy.observe(&snap, &edges);
         }
-        match policy.should_halt(&snap, edges) {
+        match policy.should_halt(&snap, &edges) {
             crate::mcts::policy::HaltDecision::Stop(reason) => {
                 if let Some(ref counts) = self.config.policy_halt_counts {
                     counts[reason as usize].fetch_add(1, Ordering::Relaxed);
@@ -1737,7 +1807,10 @@ mod tests {
     use crate::games::gomoku::Gomoku;
     use crate::games::tictactoe::TicTacToe;
     use crate::mcts::eval::{ShortRollout, UniformEval};
-    use crate::mcts::policy::{LegacyAlphaZero, SearchPolicy};
+    use crate::mcts::policy::{
+        ControllerTelemetry, EdgeView, HaltDecision, LegacyAlphaZero, ScoreAdjustment,
+        SearchPolicy, SearchSnapshot,
+    };
     use crate::mcts::quartz::{HaltMode, PenaltyMode, QuartzConfig, QuartzController};
     use crate::mcts::search::{FixedIterations, StopReason};
     use rand::rngs::StdRng;
@@ -2901,6 +2974,90 @@ mod tests {
             stats.root_visits >= 50,
             "policy halted too early; root_visits={} (expected >= 50)",
             stats.root_visits
+        );
+    }
+
+    /// A0-a regression fixture: a `SearchPolicy` that records what
+    /// `observe()` was actually handed, so tests can assert on real
+    /// edge data instead of trusting the caller's claim.
+    struct EdgeSpyPolicy {
+        max_edges_seen: Mutex<usize>,
+        max_n_seen: Mutex<u32>,
+        any_nonzero_prior: Mutex<bool>,
+    }
+
+    impl EdgeSpyPolicy {
+        fn new() -> Self {
+            Self {
+                max_edges_seen: Mutex::new(0),
+                max_n_seen: Mutex::new(0),
+                any_nonzero_prior: Mutex::new(false),
+            }
+        }
+    }
+
+    impl SearchPolicy for EdgeSpyPolicy {
+        fn name(&self) -> &'static str {
+            "edge_spy_test_policy"
+        }
+        fn observe(&self, _snap: &SearchSnapshot, edges: &[EdgeView<'_>]) {
+            let mut max_edges = self.max_edges_seen.lock().unwrap();
+            *max_edges = (*max_edges).max(edges.len());
+            let mut max_n = self.max_n_seen.lock().unwrap();
+            let mut any_prior = self.any_nonzero_prior.lock().unwrap();
+            for e in edges {
+                *max_n = (*max_n).max(e.n);
+                if e.prior > 0.0 {
+                    *any_prior = true;
+                }
+            }
+        }
+        fn score_adjustment(&self, _edge: EdgeView<'_>) -> ScoreAdjustment {
+            ScoreAdjustment::default()
+        }
+        fn should_halt(&self, _snap: &SearchSnapshot, _edges: &[EdgeView<'_>]) -> HaltDecision {
+            HaltDecision::Continue
+        }
+        fn telemetry(&self) -> ControllerTelemetry {
+            ControllerTelemetry::default()
+        }
+    }
+
+    /// A0-a regression: `policy_halt_check` must feed `observe()` real
+    /// root `EdgeView`s (dense `edge_pos`-indexed, real `n`/`prior`),
+    /// not the empty slice this function used to pass. Before the fix,
+    /// `max_edges_seen` would stay `0` forever and `KLLUCBStop`'s
+    /// `edges.len() < 2` guard made its certificate permanently
+    /// unreachable — this test pins the fix at the engine-integration
+    /// boundary (not just unit-testing `EdgeView` construction).
+    #[test]
+    fn test_a0a_policy_halt_check_feeds_real_root_edges() {
+        let state = Gomoku::new(7);
+        let eval: Arc<dyn Evaluator<Gomoku>> = Arc::new(UniformEval);
+        let spy = Arc::new(EdgeSpyPolicy::new());
+        let policy: Arc<dyn SearchPolicy> = spy.clone();
+        let cfg = MctsConfig::evaluation(2.0).with_search_policy(policy);
+        let engine = MctsEngine::new(state, eval, cfg);
+        let mut ctrl = FixedIterations::new(200);
+        let stats = engine.run(&mut ctrl);
+
+        assert_eq!(stats.iterations, 200, "sanity: permissive spy must not halt early");
+        let max_edges = *spy.max_edges_seen.lock().unwrap();
+        assert!(
+            max_edges >= 2,
+            "observe() never saw >=2 real root edges (got {max_edges}); \
+             the empty-edges regression is back"
+        );
+        let max_n = *spy.max_n_seen.lock().unwrap();
+        assert!(
+            max_n > 0,
+            "observe() never saw a visited root edge (max n=0); edges are \
+             still fake/zeroed"
+        );
+        assert!(
+            *spy.any_nonzero_prior.lock().unwrap(),
+            "observe() never saw a nonzero prior; EdgeView.prior is not \
+             wired to the real edge slab"
         );
     }
 
