@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+# ruff: noqa: E402
 """Frozen-checkpoint phase 1.5 ablation runner.
 
 This runner replaces the older prior-revision study. It follows the clean-split
@@ -40,7 +41,10 @@ from quartz.phase15_ablation import (
     kl_divergence,
     load_systems_config,
     normalize_policy,
+    phase15_systems_csv,
     policy_argmax,
+    resolve_phase15_systems_arg,
+    search_relevant_signature,
     system_semantic_signature,
     summarize_rows,
     topk_recall,
@@ -346,11 +350,33 @@ class FrozenCheckpointHarness:
 
 
 def resolve_checkpoint_refs(args: argparse.Namespace, base_dir: Path) -> list[CheckpointRef]:
+    ensure_checkpoint_resolution_args(args)
     rows = sweep.resolve_checkpoint_paths(args, base_dir)
     refs = []
     for idx, row in enumerate(rows):
         refs.append(CheckpointRef(id=f"C{idx+1:02d}_{Path(row).stem}", path=row))
     return refs
+
+
+def ensure_checkpoint_resolution_args(args: argparse.Namespace) -> argparse.Namespace:
+    defaults = {
+        "checkpoints": None,
+        "checkpoint_dir": None,
+        "max_checkpoints": 3,
+        "bootstrap_if_empty": False,
+        "bootstrap_iterations": 2,
+        "bootstrap_games": 8,
+        "bootstrap_eval_games": 4,
+        "bootstrap_seeds": "41,42,43",
+        "force_bootstrap": False,
+        "backend": "torch",
+        "device": "auto",
+        "rust_binary": "./target/release/mcts_demo",
+    }
+    for key, value in defaults.items():
+        if not hasattr(args, key):
+            setattr(args, key, value)
+    return args
 
 
 def checkpoint_family_label(path_str: str) -> str:
@@ -515,8 +541,7 @@ def build_search_trace(
         checkpoint.id,
         checkpoint.path,
         harness._position_key(position),
-        system.id,
-        system_semantic_signature(system),
+        search_relevant_signature(system),
         trace_budgets,
         code_salt=trace_cache_salt(),
     )
@@ -643,7 +668,7 @@ def build_row(
         "readout_ms": readout_ms,
         "effective_runtime_ms": effective_runtime_ms,
         "trace_reused": int(trace_reused),
-        "revision_occurred": int(argmax_effective != argmax_prior),
+        "revision_occurred": int(trace_meta.get("revision_occurred", int(argmax_effective != argmax_prior))),
         "revision_step": first_revision_budget(
             trace_meta.get("argmax_path", []),
             trace_meta.get("trace_budgets", []),
@@ -661,6 +686,12 @@ def build_row(
     }
     if alias_of is not None:
         row["alias_of"] = str(alias_of)
+    if "comparison_role" in system.params:
+        row["comparison_role"] = str(system.params["comparison_role"])
+    if "equivalence_anchor" in system.params:
+        row["equivalence_anchor"] = str(system.params["equivalence_anchor"])
+    if "budget_confounded" in system.params:
+        row["budget_confounded"] = int(bool(system.params["budget_confounded"]))
     if "commit_confidence" in trace_meta:
         row["commit_confidence"] = float(trace_meta["commit_confidence"])
         row["commit_applied"] = int(trace_meta.get("commit_applied", 0))
@@ -670,6 +701,64 @@ def build_row(
         row["root_candidate_scores"] = list(trace_meta.get("root_candidate_scores", []))
         row["candidate_undercoverage"] = candidate_undercoverage(row["root_candidate_set"], oracle_best)
         row["challenger_recall_k"] = int(trace_meta.get("challenger_recall_k", 0))
+    for key in (
+        "belief_revision_operator",
+        "belief_revision_scope",
+        "posterior_channel",
+        "burst_reason",
+        "guard_operator",
+        "guard_reason",
+        "fallback_operator",
+        "stabilization_reason",
+    ):
+        if key in trace_meta:
+            row[key] = str(trace_meta[key])
+    for key in (
+        "prior_base_mutated",
+        "revision_occurred",
+        "guard_vetoed",
+        "guard_flip_flop_count",
+        "guard_max_flip_flops",
+        "proposal_argmax",
+        "posterior_argmax",
+        "adaptive_stabilizer",
+        "entropy_expansion_gate_passed",
+        "stabilizer_applied",
+        "candidate_weight_count",
+        "snapshot_anchor_k",
+        "snapshot_anchor_preserved",
+        "snapshot_argmax",
+        "stabilized_argmax",
+    ):
+        if key in trace_meta:
+            row[key] = int(trace_meta[key])
+    for key in (
+        "revision_confidence",
+        "revision_threshold",
+        "posterior_weight",
+        "prior_entropy",
+        "posterior_entropy",
+        "effective_entropy",
+        "kl_prior_to_posterior",
+        "kl_prior_to_effective",
+        "kl_posterior_to_effective",
+        "mean_trace_volatility",
+        "annealing_temperature",
+        "guard_margin",
+        "guard_margin_floor",
+        "guard_argmax_persistence",
+        "guard_persistence_floor",
+        "guard_margin_stability",
+        "guard_margin_stability_floor",
+        "stabilization_weight",
+        "selected_stabilization_weight",
+        "max_stabilization_weight",
+        "candidate_weight_step",
+        "min_stabilization_weight",
+        "entropy_slope_floor",
+    ):
+        if key in trace_meta:
+            row[key] = float(trace_meta[key])
     if "budget_burst_triggered" in trace_meta:
         row["budget_burst_triggered"] = int(trace_meta["budget_burst_triggered"])
         row["extra_budget_used"] = int(trace_meta.get("extra_budget_used", 0))
@@ -857,6 +946,21 @@ def build_summary_payload(rows: list[dict[str, Any]]) -> list[dict[str, Any]]:
             "challenger_recall_k",
             "budget_burst_triggered",
             "extra_budget_used",
+            "guard_vetoed",
+            "guard_margin",
+            "guard_argmax_persistence",
+            "guard_margin_stability",
+            "guard_flip_flop_count",
+            "adaptive_stabilizer",
+            "entropy_expansion_gate_passed",
+            "stabilizer_applied",
+            "snapshot_anchor_preserved",
+            "stabilization_weight",
+            "selected_stabilization_weight",
+            "max_stabilization_weight",
+            "candidate_weight_step",
+            "candidate_weight_count",
+            "entropy_slope_floor",
         ],
     )
 
@@ -1033,6 +1137,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--bootstrap-eval-games", type=int, default=4)
     parser.add_argument("--bootstrap-seeds", default="41,42,43")
     parser.add_argument("--force-bootstrap", action="store_true")
+    parser.add_argument("--backend", default="torch", choices=["auto", "torch", "jax"])
     parser.add_argument("--device", default="auto")
     parser.add_argument("--rust-binary", default="./target/release/mcts_demo")
     parser.add_argument("--positions-file", default=None)
@@ -1048,7 +1153,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--budgets", default="8,16,32,64")
     parser.add_argument("--oracle-budget", type=int, default=256)
     parser.add_argument("--systems-config", default=None)
-    parser.add_argument("--systems", default="A0,A1,A2,A3,A4,B0,B1,B2,B3,C0,C1,C2")
+    parser.add_argument("--systems", default=phase15_systems_csv("full"))
     parser.add_argument("--groups", default="A,B,C")
     parser.add_argument("--skip-suite-build", action="store_true")
     parser.add_argument("--suite-source", choices=["random", "mined"], default="random")
@@ -1079,7 +1184,7 @@ def main() -> None:
     if args.write_default_systems_config:
         json_dump(Path(args.write_default_systems_config), {"systems": [asdict(system) for system in all_systems]})
 
-    selected_ids = set(parse_csv_strings(args.systems))
+    selected_ids = set(resolve_phase15_systems_arg(args.systems))
     selected_groups = set(parse_csv_strings(args.groups))
     systems = [system for system in all_systems if system.id in selected_ids and system.group in selected_groups]
     if not systems:

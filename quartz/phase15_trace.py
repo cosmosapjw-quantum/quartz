@@ -10,13 +10,14 @@ from typing import Any
 
 import numpy as np
 
-TRACE_CACHE_SCHEMA_VERSION = 3
+TRACE_CACHE_SCHEMA_VERSION = 4  # A0-b: cache key no longer includes system.id
 TRACE_CACHE_RELEVANT_PATHS = (
     "configs/phase15_systems.default.json",
     "quartz/phase15_ablation.py",
     "quartz/phase15_online.py",
     "quartz/phase15_suite.py",
     "quartz/phase15_trace.py",
+    "quartz/search_manifest.py",
     "quartz/selfplay_runtime.py",
     "scripts/phase15_ablation_study.py",
     "scripts/phase15_online_ablation.py",
@@ -49,20 +50,27 @@ def trace_cache_key(
     checkpoint_id: str,
     checkpoint_path: str,
     position_id: str,
-    system_id: str,
-    system_signature: tuple[Any, ...],
+    search_signature: tuple[Any, ...],
     trace_budgets: list[int],
     *,
     code_salt: str | None = None,
 ) -> str:
+    """Cache key for a (checkpoint, position, search config, budgets) trace.
+
+    `search_signature` must identify only what actually reaches the
+    Rust search (see `quartz.phase15_ablation.search_relevant_signature`).
+    It deliberately excludes any system id/label/readout-operator identity:
+    two systems that only differ in post-hoc readout must collide onto
+    the same cache entry so they provably share one search trace
+    (A0-b audit fix — see docs/CLAIM_LEDGER.md).
+    """
     payload = {
         "trace_cache_schema_version": TRACE_CACHE_SCHEMA_VERSION,
         "trace_code_salt": str(code_salt or trace_cache_salt()),
         "checkpoint_id": checkpoint_id,
         "checkpoint_path": checkpoint_path,
         "position_id": position_id,
-        "system_id": system_id,
-        "system_signature": list(system_signature),
+        "search_signature": list(search_signature),
         "trace_budgets": [int(x) for x in trace_budgets],
     }
     encoded = json.dumps(payload, sort_keys=True, separators=(",", ":")).encode("utf-8")
