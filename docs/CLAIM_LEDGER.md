@@ -5,6 +5,11 @@ what is smoke-tested, and what remains ablation-pending. Do not promote a claim
 above its evidence tier without adding the cited artifact and test/benchmark
 command.
 
+The frozen research propositions (single principle, ≥30% efficiency target,
+GM-signature as emergent prediction, CPU-friendliness as engineering gate) live
+in [`THESIS.md`](THESIS.md). Every proposition there is a claim under the status
+vocabulary below; none is `VALIDATED`.
+
 ## Status Vocabulary
 
 - `SPECIFIED`: design exists, implementation is not complete.
