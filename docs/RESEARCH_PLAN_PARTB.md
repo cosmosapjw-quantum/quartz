@@ -332,3 +332,37 @@ Implemented + tested offline this session (no GPU / engine loop needed):
 Every lane's *online efficacy* claim stays `SPECIFIED` / `PROPOSED` until a
 paired ablation runs on real traces under `--research-grade`. H3/H4/H5 and
 B3 need the engine/self-play loop and are design-only here.
+
+---
+
+## GPU validation session (RTX 3080 Ti; torch 2.11.0+cu128)
+
+The environment's torch was a ROCm/AMD build on an NVIDIA-only machine
+(unusable GPU); swapped to `torch 2.11.0+cu128`. Then validated the full
+phase15 pipeline end-to-end on real GPU traces (all runs `device: cuda`):
+
+1. **Toy posthoc ablation** (A4,B1..B12): 52 real rows; trace-cache
+   24 hits / 2 misses — real-data confirmation of the A0-b same-trace fix
+   (2 positions → 2 traces, all 13 systems reuse them).
+2. **H2 / B13 real-trace validation** (see B2/H2 above): registered B13,
+   ran A4,B5,B13; trace-cache 4/2 (same-trace pairing holds for B13). The
+   real-trace kill test corrected the metric from full-support KL to the
+   decision-relevant `one_loop_top1_delta` (which vanishes with budget;
+   argmax preserved).
+3. **Benchmark path** (`--run benchmark`): produced continuation-vs-restart
+   timing + a 3-check gate (`bundle_speedup`, `tie_aware_match`,
+   `policy_kl`). Gate correctly reported `passed: false` on the random-init
+   toy (speedup 1.09<1.8, KL 0.78>0.25) — the research-grade guard working,
+   not a pipeline failure (`--enforce-gate` off → exit 0).
+4. **A2-b analyzer** on real B13 deltas: `screening_multiplicity` applied
+   Bonferroni (corrected_alpha 0.025 = 0.05/2 comparisons) + paired
+   bootstrap CIs. Correctly **refused to crown B13**: accuracy Δ=0.0 with
+   CI [0,0] (indistinguishable from A4/B5) and KL Δ=+0.47 with CI
+   [0.040,0.912] (distinguishably *worse*). No false champion — consistent
+   with the H2 finding that `curvature=1.0` inflates a diffuse random-init
+   policy without helping the decision.
+
+**Caveat carried forward:** all of the above use a *random-init* checkpoint
+(smoke). A real quality verdict for B13 (and a proper H2 kill-test
+stratification) needs a **trained** checkpoint where the policy
+concentrates. That run is the remaining deferred item.
