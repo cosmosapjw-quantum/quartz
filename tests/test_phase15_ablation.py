@@ -87,6 +87,7 @@ def test_make_default_systems_exposes_clean_split_groups():
         "B10",
         "B11",
         "B12",
+        "B13",
         "C0",
         "C1",
         "C2",
@@ -110,6 +111,39 @@ def test_phase15_system_presets_cover_current_candidates():
     assert resolve_phase15_systems_arg("full") == PHASE15_FULL_SYSTEMS
     assert resolve_phase15_systems_arg("B1,B12") == ("B1", "B12")
     assert phase15_systems_csv("small") == "A4,B1,B2,B3,B4,B5,B6,B7,B8,B9,B10,B11,B12"
+
+
+def test_b13_partb_registered_but_not_in_default_battery():
+    # Part B H2 readout is selectable via FULL but kept OUT of the default
+    # candidate/small/ci battery so paired-ablation counts are unchanged.
+    assert "B13" in PHASE15_FULL_SYSTEMS
+    assert "B13" not in PHASE15_CANDIDATE_SYSTEMS
+    assert "B13" not in PHASE15_SMALL_ABLATION_SYSTEMS
+    assert "B13" not in PHASE15_CI_SMOKE_SYSTEMS
+    by_id = {s.id: s for s in make_default_systems({})}
+    b13 = by_id["B13"]
+    assert b13.refresh_operator == "one_loop_finite_n"
+    assert b13.params["one_loop_curvature"] == 1.0
+
+
+def test_b13_shares_a4_trace_signature_for_paired_pairing():
+    # B13 must reuse A4's trace (identical search_relevant_signature) so
+    # the same-trace paired-delta pairing (A0-b) holds.
+    from quartz.phase15_ablation import search_relevant_signature
+
+    by_id = {s.id: s for s in make_default_systems({})}
+    assert search_relevant_signature(by_id["B13"]) == search_relevant_signature(by_id["A4"])
+
+
+def test_b13_readout_runs_and_returns_one_loop_metadata():
+    by_id = {s.id: s for s in make_default_systems({})}
+    b13 = by_id["B13"]
+    prior = np.array([0.25, 0.25, 0.25, 0.25])
+    trace = [np.array([0.7, 0.2, 0.08, 0.02])]
+    effective, meta = apply_system_readout(b13, prior, trace, [64], 64)
+    assert meta["belief_revision_operator"] == "one_loop_finite_n"
+    assert "one_loop_effect_kl" in meta
+    assert float(np.asarray(effective).sum()) == pytest.approx(1.0)
 
 
 def test_group_a_and_b_defaults_do_not_use_refresh_legacy_substrate():

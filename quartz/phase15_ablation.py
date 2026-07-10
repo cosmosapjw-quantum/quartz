@@ -57,6 +57,10 @@ PHASE15_GROUP_A_SYSTEMS = ("A0", "A1", "A2", "A3", "A4")
 PHASE15_BASELINE_SYSTEMS = ("A4",)
 PHASE15_GROUP_B_ALIAS_SYSTEMS = ("B0",)
 PHASE15_CANDIDATE_SYSTEMS = ("B1", "B2", "B3", "B4", "B5", "B6", "B7", "B8", "B9", "B10", "B11", "B12")
+# Part B experimental readouts. Deliberately kept OUT of the CANDIDATE /
+# SMALL / CI battery (so default paired ablations and count assertions are
+# unchanged) but included in FULL so they are selectable and registered.
+PHASE15_PARTB_SYSTEMS = ("B13",)
 PHASE15_LEGACY_ANCHOR_SYSTEMS = ("C0", "C1", "C2")
 PHASE15_CI_SMOKE_SYSTEMS = ("A4", "B1", "B2")
 PHASE15_SMALL_ABLATION_SYSTEMS = PHASE15_BASELINE_SYSTEMS + PHASE15_CANDIDATE_SYSTEMS
@@ -65,6 +69,7 @@ PHASE15_FULL_SYSTEMS = (
     PHASE15_GROUP_A_SYSTEMS
     + PHASE15_GROUP_B_ALIAS_SYSTEMS
     + PHASE15_CANDIDATE_SYSTEMS
+    + PHASE15_PARTB_SYSTEMS
     + PHASE15_LEGACY_ANCHOR_SYSTEMS
 )
 PHASE15_SYSTEM_PRESETS = {
@@ -1423,6 +1428,23 @@ def make_default_systems(_base_cfg: dict[str, Any]) -> list[Phase15System]:
             },
         ),
         Phase15System(
+            "B13",
+            "A4 + one-loop finite-N curvature readout (posthoc, Part B H2)",
+            "B",
+            "S1",
+            "QuartzVL",
+            "one_loop_finite_n",
+            # Same search substrate as A4/B-series so B13 shares the SAME
+            # trace per (checkpoint, position) — search_relevant_signature
+            # is identical, preserving same-trace paired-delta pairing.
+            search_overrides=a4,
+            params={
+                "one_loop_curvature": 1.0,
+                "one_loop_n_floor": 1.0,
+                "comparison_role": "one_loop_finite_n_readout",
+            },
+        ),
+        Phase15System(
             "C0",
             "legacy GatedRefreshLegacy",
             "C",
@@ -1545,6 +1567,7 @@ __all__ = [
     "PHASE15_GROUP_B_ALIAS_SYSTEMS",
     "PHASE15_LEGACY_ANCHOR_SYSTEMS",
     "PHASE15_ONLINE_EXPLORATORY_SYSTEMS",
+    "PHASE15_PARTB_SYSTEMS",
     "PHASE15_SMALL_ABLATION_SYSTEMS",
     "PHASE15_SYSTEM_PRESETS",
     "Phase15System",

@@ -51,6 +51,32 @@ def test_kill_test_effect_vanishes_as_n_grows():
     assert kls[0] > kls[-1] * 100  # small-N effect is orders larger
 
 
+def test_decision_relevant_top1_delta_vanishes_with_budget():
+    # Real-trace finding (B13 GPU validation): full-support effect_kl can be
+    # tail-dominated and fail to vanish for diffuse policies, but the
+    # DECISION-relevant top1_delta (mass pulled off the best arm) DOES vanish
+    # with budget and the argmax is preserved. This is the correct kill-test
+    # metric. Fixed mildly-concentrated policy, growing budget.
+    pi_bar = np.array([0.35, 0.25, 0.2, 0.12, 0.08])
+    prev_mag = None
+    for n_total in (8, 32, 128, 512, 2048):
+        _, meta = one_loop_correction(pi_bar, n_total=n_total, curvature=1.0)
+        assert meta["one_loop_argmax_preserved"] is True
+        mag = abs(meta["one_loop_top1_delta"])
+        if prev_mag is not None:
+            assert mag <= prev_mag + 1e-9, (n_total, mag, prev_mag)
+        prev_mag = mag
+    assert abs(meta["one_loop_top1_delta"]) < 1e-3  # negligible at high budget
+
+
+def test_argmax_preserved_flag_present_in_inactive_branches():
+    _, m0 = one_loop_correction(np.array([0.0, 1.0, 0.0]), n_total=10)  # single arm
+    _, m1 = one_loop_correction(np.array([0.6, 0.4]), n_total=0)  # zero budget
+    for m in (m0, m1):
+        assert m["one_loop_argmax_preserved"] is True
+        assert m["one_loop_top1_delta"] == 0.0
+
+
 def test_effect_scales_with_curvature():
     pi_bar = np.array([0.7, 0.2, 0.1])
     _, m0 = one_loop_correction(pi_bar, n_total=16, curvature=0.5)

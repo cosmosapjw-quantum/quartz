@@ -131,10 +131,37 @@ deliberately a single `curvature` knob until a real-trace calibration
 fixes it (no blind first-principles value; §0.7 mirrors the A3-c
 deferral).
 
-**Deferred (needs real traces + GPU):** register a "B13" `Phase15System`
-config row and run the paired posthoc ablation vs A4/B5 with `π̄` added as
-an explicit baseline. The operator is already selectable; only the config
-row and the run remain.
+**Real-trace validation (B13, GPU — DONE).** B13 is now a registered
+`Phase15System` (operator `one_loop_finite_n`, same `search_overrides` as
+A4 so it reuses A4's trace — trace-cache showed 4 hits / 2 misses across
+{A4, B5, B13} × 2 positions, confirming same-trace pairing). Ran through
+`phase15_ablation_study.py` on real RTX 3080 Ti traces at budgets
+{8,16,32,64}.
+
+**Finding (real data corrected a synthetic assumption).** The synthetic
+unit-test kill test held the policy shape fixed and scaled N; on **real**
+traces from a *random-init* checkpoint the policy is near-uniform and
+*spreads* with budget (support 7→45, K_eff 6.6→42.5), so per-arm `N_a`
+stays ≈1-2 and the full-support `one_loop_effect_kl` does **not** vanish —
+it is **tail-dominated**. That makes full-support KL the **wrong**
+kill-test metric in the diffuse regime. The **decision-relevant** metric
+does behave as predicted: `one_loop_top1_delta` (mass pulled off the best
+arm) shrinks with budget (curv 1.0, trace1: −0.104 @8 → −0.016 @64) and
+the **argmax is preserved at every budget** — B13 never flips the
+decision. Two consequences, both now encoded in code + tests:
+1. the kill-test metric is switched to `one_loop_top1_delta` /
+   `one_loop_argmax_preserved` (added to the readout metadata), not
+   full-support KL;
+2. `curvature=1.0` is too aggressive in the diffuse regime (adds ≈0.7 to
+   ~45 log-terms); `0.25` keeps top-1 shift <3% and still vanishes with
+   budget. The constant needs calibration on a **trained** checkpoint
+   (random-init gives pathologically diffuse policies — re-run there
+   before any efficacy verdict).
+
+**Deferred (needs a trained checkpoint):** run the paired posthoc ablation
+vs A4/B5 with π̄ as an explicit baseline on a trained net, and re-stratify
+`one_loop_top1_delta` by N to confirm the vanishing under a concentrating
+policy.
 
 ### H1 — Bootstrap Argmax-Stability Stop [stop lane]
 

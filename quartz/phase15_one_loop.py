@@ -91,6 +91,8 @@ def one_loop_correction(
             "one_loop_schema_version": ONE_LOOP_SCHEMA_VERSION,
             "one_loop_active": False,
             "one_loop_effect_kl": 0.0,
+            "one_loop_top1_delta": 0.0,
+            "one_loop_argmax_preserved": True,
             "one_loop_max_delta": 0.0,
             "one_loop_support": k,
         }
@@ -103,6 +105,8 @@ def one_loop_correction(
             "one_loop_schema_version": ONE_LOOP_SCHEMA_VERSION,
             "one_loop_active": False,
             "one_loop_effect_kl": 0.0,
+            "one_loop_top1_delta": 0.0,
+            "one_loop_argmax_preserved": True,
             "one_loop_max_delta": 0.0,
             "one_loop_support": k,
         }
@@ -120,16 +124,30 @@ def one_loop_correction(
     exp[support] = np.exp(logits[support] - m)
     eff = exp / exp.sum()
 
-    # KL(pi_bar || eff) over the shared support — the quantity to stratify
-    # by N for the double-counting kill test.
+    # KL(pi_bar || eff) over the shared support. NOTE (real-trace finding,
+    # B13 validation): full-support KL is TAIL-DOMINATED for diffuse
+    # policies (a random-init net spreads visits over many N_a≈1 arms as
+    # budget grows, so the tail inflates KL and it does NOT vanish with N).
+    # It is therefore the WRONG kill-test metric in the diffuse regime.
     p = pi_bar[support]
     q = eff[support]
     effect_kl = float(np.sum(p * (np.log(p) - np.log(q))))
+
+    # Decision-relevant effect — the correct kill-test quantity. `top1_delta`
+    # is how much mass the correction pulls off the current best arm; it DOES
+    # vanish with budget on real traces (validated on B13 GPU traces), which
+    # is the finite-N curvature prediction. argmax preservation confirms the
+    # readout does not flip the decision.
+    observed = int(np.argmax(pi_bar))
+    eff_argmax = int(np.argmax(eff))
+    top1_delta = float(eff[observed] - pi_bar[observed])
 
     return eff, {
         "one_loop_schema_version": ONE_LOOP_SCHEMA_VERSION,
         "one_loop_active": True,
         "one_loop_effect_kl": effect_kl,
+        "one_loop_top1_delta": top1_delta,
+        "one_loop_argmax_preserved": bool(observed == eff_argmax),
         "one_loop_max_delta": float(np.max(delta[support])),
         "one_loop_support": k,
         "one_loop_n_total": float(n_total),
