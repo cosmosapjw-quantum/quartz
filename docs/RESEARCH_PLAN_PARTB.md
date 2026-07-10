@@ -135,3 +135,46 @@ deferral).
 config row and run the paired posthoc ablation vs A4/B5 with `π̄` added as
 an explicit baseline. The operator is already selectable; only the config
 row and the run remain.
+
+### H1 — Bootstrap Argmax-Stability Stop [stop lane]
+
+**Implemented this session:** `quartz/phase15_argmax_stability.py` +
+`tests/test_phase15_argmax_stability.py` (11 passed).
+
+**Redesign (PDR item 1, §0.5).** The original H1 — "split the visit stream
+into k independent fragments and check agreement" — was **killed** in the
+audit: a shared MCTS tree + virtual loss makes the fragments
+non-independent, so their agreement is trivially ~1 and meaningless. The
+surviving design places a Bayesian bootstrap / Dirichlet posterior on the
+visit allocation, `θ ~ Dir(n + α)`, and defines
+
+    argmax_stability = P(argmax(θ) == argmax(n))
+
+as a nonparametric flip-risk with **no iid-across-time or stationarity
+assumption** (a posterior over the exchangeable multinomial parameter). It
+is the honest translation of the legacy "Darwinism redundancy" intuition
+(many resampled votes agreeing = redundant confidence). It **replaces
+KL-LUCB as the low-budget primary stop** — A1-a made that certificate
+correct-but-near-never-firing at 8-64 visits (CLAIM_LEDGER Module 2 row);
+KL-LUCB is demoted to a high-budget / terminal-Bernoulli backup (§B4).
+
+**Discriminating experiment (CCoT §0.6) — run BEFORE the paired lane.** The
+kill test is *not* "does it stop" but "does the signal *discriminate*".
+`stability_discrimination_gate` measures the spread of stability across
+positions; a signal stuck ~1.0 (zero variance) is no better than the
+trivial point-argmax and **fails the gate → H1 killed** before the
+expensive experiment. Unit-tested both ways
+(`test_discrimination_gate_passes_on_varied_positions` /
+`..._fails_on_saturated_signal`), plus the core property that stability
+rises with N at fixed gap (`test_stability_increases_with_n_at_fixed_gap`).
+
+**Kill-criterion.** (a) fails the discrimination gate on real traces; (b)
+in the paired lane (A4 vs P_flip vs bootstrap-stop at matched realized
+budget), loses on flip-calibration — a reliability diagram of predicted
+stability vs realized argmax agreement at held-out higher budget — to
+P_flip.
+
+**Deferred (needs engine/online integration):** wire the stop into the
+online search-halt path (the A2-a `run_online_readout` substrate is the
+natural host) so it can gate real budget, then run the calibration lane.
+The offline signal + gate are complete and testable now.
