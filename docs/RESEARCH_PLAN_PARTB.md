@@ -178,3 +178,130 @@ P_flip.
 online search-halt path (the A2-a `run_online_readout` substrate is the
 natural host) so it can gate real budget, then run the calibration lane.
 The offline signal + gate are complete and testable now.
+
+### H3 — Backflow-Triggered Burst [allocation lane]
+
+**Status:** `SPECIFIED` (needs the online engine loop; A2-a is the
+substrate). Not implemented this session — it requires real search
+iteration, not a trace readout.
+
+**Strengthening (PDR item 3, §0.5).** The naive trigger "root entropy went
+up → think more" is dominated by integer-visit quantization noise at 8-64
+visits and is circular if difficulty is defined from the same entropy
+signal. The surviving design fires a burst only under a **2-signal gate**
+measured on a **smoothed posterior with a minimum-visit floor**:
+
+    burst  ⇐  (ΔH_root > 0  on smoothed posterior)  AND  (argmax margin shrinking)
+
+Built on the A2-a `budget_routing_signal` substrate (which already
+computes sub-target instability without pre-paying for extra budget).
+
+**Discriminating experiment (CCoT §0.6).** Correlate burst events with an
+**external** difficulty proxy (oracle top-2 margin / cross-seed
+disagreement — a *different source* from the entropy trigger, closing the
+circularity). Burst precision `P(hard | burst)/P(hard)` (signature O6) must
+exceed 1; ≈1 means the burst is firing on noise. **Kill** if precision ≈ 1
+or if bursts do not track external difficulty.
+
+### H4 — Concentration-Scheduled Batching [self-play throughput lane]
+
+**Status:** `SPECIFIED` (needs the self-play NN-eval batching path).
+
+**Rescope (PDR item 4, §0.5).** This is **not** a low-budget *quality*
+lane — at 8-64 visits there is little batching headroom to improve
+decisions. It is a **self-play throughput** lane: schedule NN-eval batch
+width `W(t) = W_max · f(K_eff / K_legal)` so that a concentrated (already
+decided) root does not waste NN evals. The physical `τ_D` claim is
+**deleted**; only the empirical throughput description remains. Reuses the
+adaptive virtual-loss infrastructure. `K_eff` is exactly the B1 O1
+signature (`phase15_signatures.k_eff`), so the scheduler input is already
+implemented.
+
+**Discriminating experiment (CCoT §0.6).** Compare against a fixed
+optimal batch width. Honest outcome = **quality identical, throughput
+only ↑**. Claiming a *quality* improvement from batch width is the
+plausible-but-wrong story. **Kill** if throughput does not improve.
+
+### H5 — LSH Path-Interference [CPU lane, exploratory]
+
+**Status:** `SPECIFIED`, lowest priority. Explicitly exploratory.
+
+In-flight path MinHash → LSH bucketing → add a small `vvalue` penalty to
+near-duplicate in-flight paths that edge-local virtual loss cannot see
+(edge-VL only decorrelates at the branching edge, not along whole paths).
+
+**Discriminating experiment (CCoT §0.6).** Stratify path `dup_rate` by
+thread count. Only a **high-thread-count** improvement is real; at low
+thread counts the sketch cost outweighs the benefit. **Kill** if
+`dup_rate` does not improve over adaptive VL at any thread count.
+
+---
+
+## B3 — Judgment experiments (novelty defense)
+
+These are the experiments that separate "principled" from "tuned to look
+principled". They are the highest-value, highest-cost lanes and run last.
+
+### B3.1 Double dissociation (P1 + P3)
+
+Three arms at **matched playing strength**:
+1. **single-principle** controller (`E[ΔR]/cost`),
+2. a **strength-matched heuristic** with no governing principle,
+3. a **signature-tuned control** that directly optimizes the O1-O6
+   metrics *without* the principle.
+
+Prediction: the GM signatures (esp. VOC-tightness) appear in arm 1 and can
+be *forced* in arm 3, but arm 3 pays a generalization cost that arm 1 does
+not (the signatures in arm 1 **emerge**; in arm 3 they are **imposed**).
+This is the concrete test of THESIS.md P1's falsifier and P3's
+"emergent, not target" claim.
+
+### B3.2 Zero-retune transfer (P2 generality)
+
+Run gomoku7 → gomoku15 → go9 with **every constant derived, none
+retuned**: `δ` from ply count, `λ₀` from measured ECE, cost floor from
+measured latency. Zero manual retune across games. A controller that needs
+per-game retuning is a per-game heuristic in disguise (violates the
+game-agnostic FORBIDDEN constraint). The transfer holding is the strongest
+available evidence for P1's single-principle claim.
+
+---
+
+## B4 — Existing-axis verdicts (audit synthesis)
+
+The audit's disposition of the pre-existing controller/candidate axes.
+These are recorded as CLAIM_LEDGER rows (this session) so the verdicts are
+enforceable, not just prose.
+
+| Axis | Verdict | Rationale |
+|---|---|---|
+| root-only shaping | **KEEP** (substrate) | the shared substrate every lane builds on |
+| P_flip stop | **KEEP** (incumbent) | H1 must *beat* it on flip-calibration to win the stop lane |
+| adaptive split VL | **KEEP** (strongest evidence) | most original, best-supported axis |
+| KL-LUCB / EB certificate | **DEMOTE** | A1-a made it near-never-fire at 8-64 visits; low-budget stop → H1 / P_flip; keep only as high-budget / terminal-Bernoulli backup |
+| prior-refresh pre-family | **KILL** (mainline) | Gomoku7 no-refresh basin confirmed |
+| halt-VOC | **MERGE** → KG-stop lane | duplicate mechanism |
+| B5 (A4 alias) | **KEEP-DIAGNOSTIC** | sanity anchor; never a champion |
+| B9 (argmax/tie-guard) | **KEEP-DIAGNOSTIC** | difficulty instrument |
+| B12 (entropy-gated stabilizer) | **KEEP-DIAGNOSTIC** | narrow stabilizer; use when retargeting the training-target smoother |
+| B4 / B6 / B7 / B8 / B11 | **KILL** | redundant or null in aligned rehearsals |
+| B1 (dual-channel commit) | **MERGE** | recover `commit_confidence` only → feed the stop signal |
+| B2 (root challenger) | **MERGE** → Gumbel-SH narrowing | candidate-reservoir duplicate |
+| B10 (trace stabilizer) | **MERGE** → B12 | subsumed by the narrower gate |
+
+---
+
+## Session status (Part B substrate)
+
+Implemented + tested offline this session (no GPU / engine loop needed):
+
+- B0 `docs/THESIS.md` — frozen propositions.
+- B1 `quartz/phase15_signatures.py` — O1/O2/O5 + VOC-tightness (15 tests).
+- H2 `quartz/phase15_one_loop.py` — finite-N curvature readout, wired as
+  operator `one_loop_finite_n` (10 tests).
+- H1 `quartz/phase15_argmax_stability.py` — Dirichlet argmax-stability stop
+  + discrimination gate (11 tests).
+
+Every lane's *online efficacy* claim stays `SPECIFIED` / `PROPOSED` until a
+paired ablation runs on real traces under `--research-grade`. H3/H4/H5 and
+B3 need the engine/self-play loop and are design-only here.
