@@ -144,19 +144,34 @@ traces from a *random-init* checkpoint the policy is near-uniform and
 *spreads* with budget (support 7→45, K_eff 6.6→42.5), so per-arm `N_a`
 stays ≈1-2 and the full-support `one_loop_effect_kl` does **not** vanish —
 it is **tail-dominated**. That makes full-support KL the **wrong**
-kill-test metric in the diffuse regime. The **decision-relevant** metric
-does behave as predicted: `one_loop_top1_delta` (mass pulled off the best
-arm) shrinks with budget (curv 1.0, trace1: −0.104 @8 → −0.016 @64) and
-the **argmax is preserved at every budget** — B13 never flips the
-decision. Two consequences, both now encoded in code + tests:
+kill-test metric in the diffuse regime.
+
+**Adversarial-verify correction (do not overclaim).** A 6-skeptic
+verification workflow (`partb-gpu-adversarial-verify`, 5/6 survived)
+**refuted** the first draft of this finding: I had written that
+`one_loop_top1_delta` shrinks *monotonically* with budget. That is false —
+on real bundle `bed6feee` `|top1_delta|` **grows +43%** from budget 8
+(0.0165) to 16 (0.0237) before netting down, because the policy *shape*
+changes with budget (support grows), not just N. The **defensible**
+statement is: (a) the **argmax is preserved at every budget** on every real
+bundle (confirmed 8/8), and (b) the top-1 shift **net-decreases
+endpoint-to-endpoint** (trace1: −0.104 @8 → −0.016 @64) and is negligible
+at high budget — but it is **not** per-step monotone on diffuse policies.
+Both the monotone-only-for-fixed-shape property and the real non-monotone
+behaviour are now pinned by tests.
+
+Consequences, encoded in code + tests:
 1. the kill-test metric is switched to `one_loop_top1_delta` /
    `one_loop_argmax_preserved` (added to the readout metadata), not
-   full-support KL;
+   full-support KL. **Scope caveat (skeptic C1b):** this relabel is a
+   *methodological choice* justified by argmax-preservation + full-KL
+   being tail-dominated/uninformative, **not** by monotonicity; it is
+   provisional until confirmed on a trained checkpoint.
 2. `curvature=1.0` is too aggressive in the diffuse regime (adds ≈0.7 to
-   ~45 log-terms); `0.25` keeps top-1 shift <3% and still vanishes with
-   budget. The constant needs calibration on a **trained** checkpoint
-   (random-init gives pathologically diffuse policies — re-run there
-   before any efficacy verdict).
+   ~45 log-terms); `0.25` keeps top-1 shift <3%. The constant needs
+   calibration on a **trained** checkpoint (random-init gives
+   pathologically diffuse policies — the clean kill test, and any efficacy
+   verdict, must run there).
 
 **Deferred (needs a trained checkpoint):** run the paired posthoc ablation
 vs A4/B5 with π̄ as an explicit baseline on a trained net, and re-stratify

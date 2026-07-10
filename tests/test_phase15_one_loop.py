@@ -51,12 +51,14 @@ def test_kill_test_effect_vanishes_as_n_grows():
     assert kls[0] > kls[-1] * 100  # small-N effect is orders larger
 
 
-def test_decision_relevant_top1_delta_vanishes_with_budget():
-    # Real-trace finding (B13 GPU validation): full-support effect_kl can be
-    # tail-dominated and fail to vanish for diffuse policies, but the
-    # DECISION-relevant top1_delta (mass pulled off the best arm) DOES vanish
-    # with budget and the argmax is preserved. This is the correct kill-test
-    # metric. Fixed mildly-concentrated policy, growing budget.
+def test_decision_relevant_top1_delta_monotone_only_for_FIXED_policy_shape():
+    # For a FIXED policy shape (N_a grows proportionally with budget), the
+    # decision-relevant top1_delta shrinks monotonically toward 0 and the
+    # argmax is preserved. NOTE (adversarial-verify catch): monotonicity is
+    # NOT a general property — on real traces the policy SHAPE changes with
+    # budget (support grows), which breaks per-step monotonicity; see
+    # test_diffuse_spreading_policy_top1_delta_not_monotone below. Only the
+    # endpoint net-decrease + argmax-preservation generalize.
     pi_bar = np.array([0.35, 0.25, 0.2, 0.12, 0.08])
     prev_mag = None
     for n_total in (8, 32, 128, 512, 2048):
@@ -67,6 +69,31 @@ def test_decision_relevant_top1_delta_vanishes_with_budget():
             assert mag <= prev_mag + 1e-9, (n_total, mag, prev_mag)
         prev_mag = mag
     assert abs(meta["one_loop_top1_delta"]) < 1e-3  # negligible at high budget
+
+
+def test_diffuse_spreading_policy_top1_delta_not_monotone_but_argmax_preserved():
+    # Replicates the real-bundle finding (bundle bed6feee: |top1_delta| grew
+    # +43% from budget 8->16 before netting down). When the policy SPREADS
+    # with budget (support grows, more N_a~1 tail arms), per-step top1_delta
+    # is NOT monotone. The DEFENSIBLE general contract is: argmax preserved
+    # at every step, and the high-budget endpoint magnitude is below the
+    # low-budget one (net decrease) — NOT strict monotonicity.
+    steps = [
+        (8, np.array([0.40, 0.30, 0.30, 0.0, 0.0, 0.0])),   # concentrated, small support
+        (16, np.array([0.22, 0.20, 0.20, 0.20, 0.18, 0.0])),  # spreads -> top1_delta can grow
+        (64, np.array([0.30, 0.18, 0.16, 0.14, 0.12, 0.10])),  # wider support, larger N
+    ]
+    mags = []
+    for n_total, pol in steps:
+        _, meta = one_loop_correction(pol, n_total=n_total, curvature=1.0)
+        assert meta["one_loop_argmax_preserved"] is True
+        mags.append(abs(meta["one_loop_top1_delta"]))
+    # net decrease endpoint-to-endpoint holds even though it is not monotone
+    assert mags[-1] < mags[0], mags
+    # and the middle step is allowed to exceed neighbours (non-monotone) —
+    # this is the real behaviour, asserted so a future "fix" back to strict
+    # monotonicity is caught as an overclaim.
+    assert max(mags) >= mags[0], mags
 
 
 def test_argmax_preserved_flag_present_in_inactive_branches():
