@@ -173,10 +173,18 @@ Consequences, encoded in code + tests:
    pathologically diffuse policies — the clean kill test, and any efficacy
    verdict, must run there).
 
-**Deferred (needs a trained checkpoint):** run the paired posthoc ablation
-vs A4/B5 with π̄ as an explicit baseline on a trained net, and re-stratify
-`one_loop_top1_delta` by N to confirm the vanishing under a concentrating
-policy.
+**Trained-checkpoint smoke (DONE — `docs/PHASE15_B13_TRAINED_SMOKE_20260710.md`).**
+Trained a gomoku7 net (5 self-play generations, architecture-compatible)
+and re-ran A4/B5/B13. Outcome: B13 flips from *harmful* (random-init,
+KL +0.47) to *non-harmful, marginally KL-favorable but statistically
+indistinguishable* (delta_kl −0.0008, CI includes 0; accuracy/topk
+identical); the A2-b guard still refuses to crown it; argmax preserved at
+every budget. `top1_delta` remains non-monotone even on the trained net
+because gomoku7 root search *spreads* with budget (K_eff 4→20), so the
+finite-N premise (`N_a` grows) is only partially met. **Status:
+SMOKE-VALIDATED plumbing + non-negative direction, not a quality claim.**
+Deferred for a research-grade verdict: longer training + multi-seed + more
+positions under `--research-grade`; calibrate `curvature` (0.25 vs 1.0).
 
 ### H1 — Bootstrap Argmax-Stability Stop [stop lane]
 
