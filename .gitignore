@@ -45,6 +45,8 @@ Thumbs.db
 results/
 .claude
 .codex
-.gitignoreperf.data
+
+# Large local artifacts (stripped from history; must not be re-added)
+perf.data
 perf.data.old
 /quartz.zip
