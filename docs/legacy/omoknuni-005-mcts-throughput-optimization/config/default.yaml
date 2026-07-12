@@ -1,0 +1,162 @@
+# AlphaZero Engine Default Configuration
+# =====================================
+#
+# This file contains all tunable parameters for the AlphaZero engine.
+# Environment variables can override any setting using the format:
+# ALPHAZERO_<SECTION>_<KEY>=value (e.g., ALPHAZERO_MCTS_SIMULATIONS=1600)
+
+# Configuration metadata
+config_version: "1.0"
+created_by: "alphazero-engine"
+
+# =============================================================================
+# MCTS Search Configuration
+# =============================================================================
+mcts:
+  # Core search parameters
+  simulations: 800                    # Number of MCTS simulations per move
+  exploration_constant: 1.0           # PUCT exploration constant (c_puct)
+  virtual_loss: 1.0                   # Virtual loss magnitude for thread coordination
+  threads: 8                          # Number of search threads (optimal: 8-12)
+
+  # Tree management
+  max_tree_size_mb: 1024             # Maximum tree memory usage in MB
+  transposition_table_size_mb: 256   # Transposition table memory in MB
+  enable_transposition_table: true   # Enable position reuse across searches
+
+  # Performance tuning (optimized via T019)
+  batch_size_min: 32                 # Minimum neural network batch size
+  batch_size_max: 64                 # Maximum neural network batch size (optimal for RTX 3060 Ti)
+  inference_timeout_ms: 1.0          # Max wait time for batch formation (optimal: 0.5-1.0ms)
+                                      # Research shows: 1.0ms = 85% GPU util, 24k throughput
+                                      # Higher values (3.0ms): 92% GPU util but only 23k throughput
+
+  # Exploration parameters
+  temperature: 1.0                    # Move selection temperature
+  temperature_decay: 0.95             # Temperature decay per move
+  dirichlet_alpha: 0.3                # Dirichlet noise alpha (game-specific)
+  dirichlet_weight: 0.25              # Dirichlet noise mixing weight
+
+# =============================================================================
+# Neural Network Configuration
+# =============================================================================
+neural_network:
+  # Model architecture
+  channels: 256                       # ResNet channel count
+  blocks: 20                          # Number of ResNet blocks
+  se_ratio: 0.25                      # Squeeze-Excitation ratio
+  dropout: 0.0                        # Dropout rate (0.0 = disabled)
+
+  # Training parameters
+  learning_rate: 0.001                # Initial learning rate
+  weight_decay: 0.0001                # AdamW weight decay
+  momentum: 0.9                       # SGD momentum (if used)
+
+  # Mixed precision training
+  use_mixed_precision: true           # Enable fp16 training
+  gradient_clipping: 1.0              # Gradient clipping threshold
+
+  # Inference optimization
+  batch_size_preferred: 64            # Preferred inference batch size
+  use_tensorrt: false                 # Enable TensorRT optimization
+  use_pinned_memory: true             # Use pinned CUDA memory buffers
+
+  # Device configuration
+  device: "cuda"                      # Target device (cuda/cpu)
+  gpu_id: 0                           # GPU device ID
+  cpu_threads: 0                      # CPU thread count (0 = auto-detect)
+
+# =============================================================================
+# Training Pipeline Configuration
+# =============================================================================
+training:
+  # Self-play generation
+  self_play_games_per_iteration: 50   # Games generated per training iteration
+  parallel_self_play_games: 4         # Concurrent self-play games
+  max_game_length: 450                # Maximum moves per game
+
+  # Training parameters
+  training_steps_per_iteration: 1000  # Training steps per iteration
+  batch_size: 512                     # Training batch size
+  validation_split: 0.1               # Validation data fraction
+
+  # Experience buffer
+  experience_buffer_size: 1000000     # Maximum experience examples
+  min_experience_size: 10000          # Minimum examples before training
+  sampling_temperature: 1.0          # Experience sampling temperature
+
+  # Learning schedule
+  lr_schedule: "cosine"               # Learning rate schedule (cosine/exponential/constant)
+  lr_warmup_steps: 1000              # Warmup steps for learning rate
+  lr_min: 0.000001                   # Minimum learning rate
+
+  # Evaluation and checkpointing
+  evaluation_frequency: 10           # Evaluate every N iterations
+  evaluation_games: 100              # Games per evaluation
+  save_frequency: 5                  # Save checkpoint every N iterations
+  max_checkpoints: 10                # Maximum checkpoints to keep
+
+  # Early stopping
+  patience: 50                       # Iterations without improvement
+  min_delta: 0.001                   # Minimum improvement threshold
+
+# =============================================================================
+# Game Configuration
+# =============================================================================
+game:
+  # Game selection
+  game_type: "gomoku"                # Game type: gomoku/chess/go
+
+  # Game-specific parameters
+  board_size: 15                     # Board size (Gomoku: 15, Go: 9-19, Chess: 8)
+  win_condition: 5                   # Win condition (Gomoku: 5-in-a-row)
+  rule_variant: "standard"           # Rule variant (standard/renju/chinese/etc.)
+
+  # Feature extraction
+  history_length: 8                  # Number of move history planes
+  use_enhanced_features: true        # Use enhanced feature extraction
+
+  # Game-specific MCTS tuning
+  dirichlet_alpha_overrides:
+    gomoku: 0.3                     # Dirichlet alpha for Gomoku
+    chess: 0.2                      # Dirichlet alpha for Chess
+    go: 0.03                        # Dirichlet alpha for Go
+
+# =============================================================================
+# System Configuration
+# =============================================================================
+system:
+  # Logging
+  log_level: "INFO"                  # Log level: DEBUG/INFO/WARNING/ERROR
+  log_file: "logs/alphazero.log"     # Log file path
+  enable_tensorboard: true           # Enable TensorBoard logging
+  tensorboard_log_dir: "logs/tensorboard"  # TensorBoard log directory
+
+  # Performance monitoring
+  enable_profiling: false            # Enable performance profiling
+  profile_output_dir: "logs/profiles"  # Profiling output directory
+  metrics_update_frequency: 10      # Metrics update interval (seconds)
+
+  # Resource limits
+  max_memory_gb: 32.0               # Maximum system memory usage
+  max_gpu_memory_fraction: 0.9      # Maximum GPU memory fraction
+  enable_memory_growth: true        # Enable dynamic GPU memory growth
+
+  # Directory paths
+  model_dir: "models"               # Model storage directory
+  checkpoint_dir: "checkpoints"     # Checkpoint storage directory
+  data_dir: "training_data"         # Training data directory
+  results_dir: "results"            # Results output directory
+
+# =============================================================================
+# Performance Targets (for reference and validation)
+# =============================================================================
+# These values are used for performance monitoring and regression detection:
+#
+# Target Performance Metrics:
+# - 30,000-40,000 simulations/second including neural network inference
+# - 80-92% GPU utilization during search operations
+# - <1GB memory usage for 10M node MCTS trees
+# - 200-300 self-play games/hour generation rate
+# - Thread-safe operation with 8-12 parallel workers
+# - No memory leaks during 24-hour continuous operation

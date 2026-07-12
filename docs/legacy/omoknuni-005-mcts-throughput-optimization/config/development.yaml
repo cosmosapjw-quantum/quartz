@@ -1,0 +1,62 @@
+# Development Configuration for AlphaZero Engine
+# =============================================
+#
+# Optimized for development workflow with faster iterations,
+# verbose logging, and development-friendly settings.
+
+# Include base configuration
+config_version: "1.0"
+created_by: "alphazero-engine"
+
+# Development-optimized MCTS settings
+mcts:
+  simulations: 400                   # Reduced for faster development cycles
+  exploration_constant: 1.5         # Higher exploration for diverse games
+  threads: 4                        # Fewer threads for easier debugging
+  max_tree_size_mb: 512             # Reduced memory usage
+  batch_size_min: 16                # Smaller batches for faster feedback
+  batch_size_max: 32
+
+# Development neural network settings
+neural_network:
+  channels: 128                      # Smaller model for faster training
+  blocks: 10                         # Fewer blocks for development
+  learning_rate: 0.01               # Higher LR for faster convergence
+  use_mixed_precision: false        # Disabled for easier debugging
+
+# Development training settings
+training:
+  self_play_games_per_iteration: 10  # Fewer games for faster iterations
+  parallel_self_play_games: 2       # Fewer parallel games
+  training_steps_per_iteration: 100 # Fewer training steps
+  batch_size: 64                    # Smaller batch size
+  experience_buffer_size: 50000     # Smaller buffer
+  min_experience_size: 1000         # Lower minimum for faster start
+  evaluation_frequency: 5           # More frequent evaluation
+  evaluation_games: 20              # Fewer evaluation games
+  save_frequency: 2                 # Save more frequently
+
+# Development game settings (same as default)
+game:
+  game_type: "gomoku"
+  board_size: 15
+  win_condition: 5
+  rule_variant: "standard"
+  history_length: 8
+  use_enhanced_features: true
+  dirichlet_alpha_overrides:
+    gomoku: 0.3
+    chess: 0.2
+    go: 0.03
+
+# Development system settings
+system:
+  log_level: "DEBUG"                 # Verbose logging for development
+  log_file: "logs/dev-alphazero.log"
+  enable_tensorboard: true
+  tensorboard_log_dir: "logs/dev-tensorboard"
+  enable_profiling: true             # Enable profiling for development
+  profile_output_dir: "logs/dev-profiles"
+  metrics_update_frequency: 5       # More frequent updates
+  max_memory_gb: 16.0               # Lower memory limit for development
+  max_gpu_memory_fraction: 0.7     # Conservative GPU usage

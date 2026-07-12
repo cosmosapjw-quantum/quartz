@@ -1,0 +1,220 @@
+# Lock-Free Queue API Specification
+# Version: 1.0.0
+
+api_name: MPMCRingBuffer
+description: |
+  Multi-producer multi-consumer lock-free ring buffer for high-throughput
+  inference request queuing with optional blocking wait support.
+
+template_parameters:
+  T:
+    description: Type of items stored in queue
+    requirements:
+      - Must be movable
+      - Should be trivially destructible for best performance
+  Capacity:
+    description: Fixed capacity of ring buffer
+    type: size_t
+    default: 4096
+    constraints:
+      - Must be power of 2 for efficient modulo
+
+classes:
+  MPMCRingBuffer:
+    description: Lock-free bounded MPMC queue using ring buffer
+
+    constructor:
+      description: Initialize ring buffer with specified capacity
+      postconditions:
+        - All cells initialized with incrementing sequence numbers
+        - Head and tail point to position 0
+
+    methods:
+      try_enqueue:
+        description: Attempt to add item to queue (non-blocking)
+        thread_safe: true
+        parameters:
+          - name: item
+            type: T&&
+            description: Item to enqueue (moved)
+        returns:
+          type: bool
+          description: True if successful, false if queue full
+        complexity: O(1) amortized, wait-free for single producer
+        implementation_notes: |
+          Uses compare-and-swap (CAS) on tail position
+
+      try_enqueue_bulk:
+        description: Enqueue multiple items atomically
+        thread_safe: true
+        parameters:
+          - name: items
+            type: const T*
+            description: Array of items to enqueue
+          - name: count
+            type: size_t
+            description: Number of items
+        returns:
+          type: size_t
+          description: Number of items actually enqueued
+
+      try_dequeue:
+        description: Attempt to remove item from queue (non-blocking)
+        thread_safe: true
+        parameters:
+          - name: item
+            type: T&
+            description: Output parameter for dequeued item
+        returns:
+          type: bool
+          description: True if item dequeued, false if queue empty
+        complexity: O(1) amortized, wait-free for single consumer
+
+      wait_dequeue:
+        description: Dequeue with timeout (blocking)
+        thread_safe: true
+        parameters:
+          - name: item
+            type: T&
+            description: Output parameter for dequeued item
+          - name: timeout_ms
+            type: int
+            description: Maximum wait time in milliseconds (-1 for infinite)
+        returns:
+          type: bool
+          description: True if item dequeued, false if timeout
+        implementation_notes: |
+          Uses condition variable for efficient waiting
+
+      try_dequeue_bulk:
+        description: Dequeue multiple items up to specified count
+        thread_safe: true
+        parameters:
+          - name: items
+            type: T*
+            description: Output array for items
+          - name: max_count
+            type: size_t
+            description: Maximum items to dequeue
+        returns:
+          type: size_t
+          description: Actual number of items dequeued
+
+      size_approx:
+        description: Get approximate number of items in queue
+        thread_safe: true
+        const: true
+        returns:
+          type: size_t
+          description: Approximate item count (may be stale)
+        notes: |
+          Result may be immediately outdated in concurrent environment
+
+      is_empty:
+        description: Check if queue appears empty
+        thread_safe: true
+        const: true
+        returns:
+          type: bool
+          description: True if queue appears empty
+
+      is_full:
+        description: Check if queue appears full
+        thread_safe: true
+        const: true
+        returns:
+          type: bool
+          description: True if queue appears full
+
+memory_layout:
+  cell_structure: |
+    struct Cell {
+        std::atomic<uint64_t> sequence;  // 8 bytes
+        T data;                          // sizeof(T)
+        char padding[CACHE_LINE - ...];  // Pad to 64 bytes
+    };
+
+  queue_structure: |
+    alignas(64) std::array<Cell, Capacity> buffer_;
+    alignas(64) std::atomic<uint64_t> head_;
+    alignas(64) std::atomic<uint64_t> tail_;
+
+performance:
+  enqueue:
+    best_case: 50ns (no contention)
+    worst_case: 500ns (high contention)
+    scaling: Linear with producers up to CPU count
+
+  dequeue:
+    best_case: 50ns (no contention)
+    worst_case: 500ns (high contention)
+    scaling: Linear with consumers up to CPU count
+
+  memory_usage: Capacity * 64 bytes (cache-line per element)
+
+usage_example: |
+  ```cpp
+  // Create queue for inference requests
+  MPMCRingBuffer<InferenceRequest, 4096> queue;
+
+  // Producer thread
+  void submit_request(InferenceRequest req) {
+      if (!queue.try_enqueue(std::move(req))) {
+          // Handle queue full (rare with proper sizing)
+          LOG(WARNING) << "Inference queue full";
+      }
+  }
+
+  // Consumer thread (inference worker)
+  void process_requests() {
+      InferenceRequest req;
+      while (running) {
+          if (queue.wait_dequeue(req, 100)) {  // 100ms timeout
+              process_inference(req);
+          }
+      }
+  }
+
+  // Batch collection for GPU inference
+  std::vector<InferenceRequest> collect_batch(size_t target_size) {
+      std::vector<InferenceRequest> batch;
+      batch.reserve(target_size);
+
+      InferenceRequest req;
+      auto deadline = steady_clock::now() + 1ms;
+
+      while (batch.size() < target_size && steady_clock::now() < deadline) {
+          if (queue.try_dequeue(req)) {
+              batch.push_back(std::move(req));
+          }
+      }
+      return batch;
+  }
+  ```
+
+comparison_with_mutex_queue:
+  throughput:
+    mutex_queue: ~2M ops/sec (high contention)
+    lock_free: ~20M ops/sec (high contention)
+    improvement: 10x
+
+  latency:
+    mutex_queue: 500ns - 5μs (variable)
+    lock_free: 50ns - 500ns (predictable)
+    improvement: 10x lower, more consistent
+
+  scalability:
+    mutex_queue: Degrades with thread count
+    lock_free: Scales linearly to CPU count
+
+correctness_requirements:
+  - ABA problem prevention via sequence numbers
+  - Memory ordering: acquire-release for head/tail
+  - No memory leaks on destruction
+  - Thread-safe even during destruction
+
+testing_requirements:
+  - ThreadSanitizer clean
+  - Stress test with 16+ threads
+  - Verify FIFO ordering under contention
+  - Benchmark against std::queue with mutex

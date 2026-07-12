@@ -1,0 +1,292 @@
+# Thread Management API Specification
+# Version: 1.0.0
+
+api_name: ThreadManager
+description: |
+  Optimized thread management for MCTS with CPU affinity, memory arenas,
+  and persistent Python inference thread for GIL optimization.
+
+classes:
+  ThreadAffinityManager:
+    description: Manages thread-to-CPU binding for cache optimization
+
+    constructor:
+      parameters:
+        - name: auto_detect
+          type: bool
+          default: true
+          description: Auto-detect CPU topology
+
+    methods:
+      detect_topology:
+        description: Detect CPU topology (cores, CCDs, caches)
+        returns:
+          type: CPUTopology
+          struct_definition: |
+            struct CPUTopology {
+                int total_cores;
+                int cores_per_ccd;
+                int num_ccds;
+                int l3_cache_size_mb;
+                bool is_zen3;  // Ryzen 5000 series
+                std::vector<int> core_to_ccd;
+            };
+
+      bind_thread_to_ccd:
+        description: Bind current thread to specific CCD
+        parameters:
+          - name: ccd_id
+            type: int
+            description: CCD index (0 or 1 for Ryzen 5900X)
+        returns:
+          type: bool
+          description: True if binding successful
+        implementation: |
+          Uses pthread_setaffinity_np on Linux
+
+      bind_mcts_threads:
+        description: Bind MCTS worker threads optimally
+        parameters:
+          - name: thread_ids
+            type: std::vector<std::thread::id>
+            description: Thread IDs to bind
+        strategy: |
+          - First 6 threads → CCD0 (shared L3 cache)
+          - Next 6 threads → CCD1
+          - Minimizes cross-CCD communication
+
+      bind_inference_thread:
+        description: Bind inference thread to isolated cores
+        parameters:
+          - name: thread_id
+            type: std::thread::id
+            description: Inference thread ID
+        strategy: |
+          - Bind to CCD1 cores 6-11
+          - Isolated from MCTS threads
+          - Consistent memory access
+
+  ThreadLocalArena:
+    description: Per-thread memory arena for allocation
+
+    static_methods:
+      allocate:
+        description: Allocate memory from thread-local arena
+        thread_safe: false  # Thread-local only
+        parameters:
+          - name: size
+            type: size_t
+            description: Bytes to allocate
+          - name: alignment
+            type: size_t
+            default: 8
+            description: Memory alignment
+        returns:
+          type: void*
+          description: Allocated memory (never null)
+        implementation_notes: |
+          - O(1) allocation from current block
+          - New block allocated if insufficient space
+          - No synchronization needed (thread-local)
+
+      deallocate:
+        description: Return memory to arena (optional)
+        thread_safe: false
+        parameters:
+          - name: ptr
+            type: void*
+            description: Memory to free
+          - name: size
+            type: size_t
+            description: Size of allocation
+
+      reset:
+        description: Reset all allocations in current thread
+        thread_safe: false
+        notes: |
+          Bulk deallocation for temporary allocations
+
+      stats:
+        description: Get arena statistics for current thread
+        thread_safe: false
+        returns:
+          type: ArenaStats
+          struct_definition: |
+            struct ArenaStats {
+                size_t total_allocated;
+                size_t current_usage;
+                size_t block_count;
+                size_t reset_count;
+            };
+
+  PersistentInferenceThread:
+    description: Dedicated Python thread holding GIL permanently
+
+    constructor:
+      parameters:
+        - name: model_path
+          type: std::string
+          description: Path to PyTorch model
+        - name: device
+          type: std::string
+          default: "cuda:0"
+          description: Inference device
+        - name: max_batch_size
+          type: int
+          default: 64
+
+    methods:
+      start:
+        description: Start persistent inference thread
+        postconditions:
+          - Thread running with GIL acquired
+          - Model loaded and warmed up
+          - Queue processing loop active
+
+      submit_batch:
+        description: Submit batch for inference (non-blocking)
+        thread_safe: true
+        parameters:
+          - name: request
+            type: BatchInferenceRequest
+            description: Batch to process
+        returns:
+          type: uint64_t
+          description: Request ID for tracking
+
+      get_result:
+        description: Retrieve inference result
+        thread_safe: true
+        parameters:
+          - name: request_id
+            type: uint64_t
+            description: Request ID from submit_batch
+          - name: timeout_ms
+            type: int
+            default: 100
+            description: Max wait time
+        returns:
+          type: std::optional<BatchInferenceResult>
+
+      stop:
+        description: Stop inference thread gracefully
+        thread_safe: true
+
+    implementation_notes: |
+      ```python
+      # Python side (runs in persistent thread)
+      class InferenceWorker:
+          def __init__(self, model_path):
+              self.model = torch.jit.load(model_path)
+              self.model.eval()
+
+          def run_forever(self):
+              # Never releases GIL during operation
+              while not self.stop_flag:
+                  batch = self.queue.get(timeout=0.001)
+                  if batch:
+                      with torch.no_grad():
+                          result = self.model(batch)
+                      self.results[batch.id] = result
+      ```
+
+thread_pool_configuration:
+  optimal_settings:
+    ryzen_5900x:
+      mcts_threads: 6-8  # One CCD
+      inference_threads: 1
+      io_threads: 2
+      total: 9-11  # Leave cores for OS
+
+    generic_multicore:
+      mcts_threads: "num_cores * 0.75"
+      inference_threads: 1
+      io_threads: 2
+
+performance_impact:
+  thread_affinity:
+    baseline: "100%"
+    with_affinity: "115-120%"
+    reason: "Reduced cache misses, no cross-CCD traffic"
+
+  memory_arenas:
+    malloc_overhead: 150ns
+    arena_overhead: 10ns
+    improvement: 15x
+    memory_usage: "+100MB (10MB per thread typical)"
+
+  persistent_inference:
+    gil_acquisition: 500ns per call
+    persistent: 0ns (always held)
+    improvement: "Eliminates GIL overhead completely"
+
+usage_example: |
+  ```cpp
+  class OptimizedMCTS {
+      ThreadAffinityManager affinity_;
+      PersistentInferenceThread inference_;
+      std::vector<std::thread> workers_;
+
+      void initialize() {
+          // Detect CPU topology
+          auto topology = affinity_.detect_topology();
+
+          // Start persistent inference thread
+          inference_.start();
+          affinity_.bind_inference_thread(inference_.thread_id());
+
+          // Start MCTS workers with affinity
+          for (int i = 0; i < 8; ++i) {
+              workers_.emplace_back([this, i] {
+                  // Bind to CCD0
+                  affinity_.bind_thread_to_ccd(0);
+
+                  // Thread-local arena for allocations
+                  while (running_) {
+                      run_simulation();
+                      ThreadLocalArena::reset();  // Bulk free
+                  }
+              });
+          }
+      }
+
+      void run_simulation() {
+          // Allocate from thread-local arena (no contention)
+          auto* buffer = ThreadLocalArena::allocate(1024);
+
+          // Select and expand...
+          auto batch = collect_positions();
+
+          // Submit to persistent inference thread
+          auto request_id = inference_.submit_batch(batch);
+
+          // Continue with other work...
+
+          // Get result (may block briefly)
+          auto result = inference_.get_result(request_id);
+      }
+  };
+  ```
+
+testing_requirements:
+  affinity:
+    - Verify CPU bindings with taskset
+    - Measure cache miss rates
+    - Profile cross-CCD traffic
+
+  arenas:
+    - Verify thread-local isolation
+    - Test allocation performance
+    - Check memory usage patterns
+
+  inference_thread:
+    - Verify GIL is held continuously
+    - Measure inference latency
+    - Test graceful shutdown
+
+monitoring_metrics:
+  - Thread CPU usage per core
+  - Cache miss rates (perf counters)
+  - Arena allocation rates
+  - Inference queue depths
+  - GIL acquisition counts (should be ~0)

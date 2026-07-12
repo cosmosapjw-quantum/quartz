@@ -1,0 +1,181 @@
+# AlphaZero Gomoku 48-Hour Training Configuration
+# ==============================================
+#
+# This configuration is optimized for achieving superhuman Gomoku performance
+# within 48 hours of training on the target hardware:
+# - AMD Ryzen 5900X (12 cores / 24 threads)
+# - 64GB DDR4 RAM
+# - NVIDIA RTX 3060 Ti (8GB VRAM)
+#
+# Expected outcomes after 48 hours:
+# - Superhuman Gomoku play (defeating strong amateur players)
+# - ~20-30 training iterations completed
+# - ~4,000-6,000 self-play games generated
+# - Model converges to stable policy and value predictions
+
+config_version: "1.0"
+created_by: "alphazero-engine"
+environment: "production"
+training_mode: "gomoku_48h_superhuman"
+
+# =============================================================================
+# MCTS Search Configuration - Optimized for Training Speed
+# =============================================================================
+mcts:
+  # Balanced search for good training data at reasonable speed
+  # Note: Use higher simulations (1600) for evaluation/play, not training
+  simulations: 800                     # Balanced simulation count for training
+  exploration_constant: 1.25           # Higher exploration during training
+  virtual_loss: 1.0                    # Standard virtual loss magnitude
+  threads: 10                          # Optimal for Ryzen 5900X (8-12 threads)
+
+  # Tree management - generous memory allocation
+  max_tree_size_mb: 2048              # Allow larger trees for deep searches
+  transposition_table_size_mb: 512    # Large transposition table
+  enable_transposition_table: true    # Enable position reuse
+
+  # Performance tuning for RTX 3060 Ti
+  batch_size_min: 48                  # Optimized for 8GB VRAM
+  batch_size_max: 96                  # Maximum batch size
+  inference_timeout_ms: 4.0           # Slightly relaxed timeout for larger batches
+
+  # Exploration parameters - Gomoku specific
+  temperature: 1.0                    # Full exploration early game
+  temperature_decay: 0.9              # Gradual temperature reduction
+  dirichlet_alpha: 0.3                # Gomoku-optimized Dirichlet noise
+  dirichlet_weight: 0.25              # Standard noise mixing weight
+
+# =============================================================================
+# Neural Network Configuration - Production Quality
+# =============================================================================
+neural_network:
+  # Model architecture - balanced for 8GB VRAM
+  channels: 256                       # Full 256 channels for capacity
+  blocks: 20                          # 20 ResNet blocks for deep reasoning
+  se_ratio: 0.25                      # Squeeze-Excitation attention
+  dropout: 0.0                        # No dropout for final model
+
+  # Training parameters - aggressive learning
+  learning_rate: 0.002                # Higher initial LR for faster convergence
+  weight_decay: 0.0001                # Standard L2 regularization
+  momentum: 0.9                       # Momentum for stability
+
+  # Mixed precision training - critical for performance
+  use_mixed_precision: true           # FP16 for 2x throughput
+  gradient_clipping: 2.0              # Higher clipping threshold
+
+  # Inference optimization - maximize GPU utilization
+  batch_size_preferred: 96            # Large batches for efficiency
+  use_tensorrt: false                 # Disable TensorRT for compatibility
+  use_pinned_memory: true             # Pinned memory for fast transfers
+
+  # Device configuration
+  device: "cuda"                      # GPU training required
+  gpu_id: 0                           # Primary GPU
+  cpu_threads: 12                     # Full CPU utilization for data loading
+
+# =============================================================================
+# Training Pipeline Configuration - 48-Hour Optimized
+# =============================================================================
+training:
+  # Self-play generation - maximize data quality
+  self_play_games_per_iteration: 200  # Generate 200 games per iteration
+  parallel_self_play_games: 8         # 8 parallel games (2 per CPU core cluster)
+  max_game_length: 450                # Gomoku rarely exceeds 225 moves
+
+  # Training parameters - intensive learning
+  training_steps_per_iteration: 2000  # Deep learning per iteration
+  batch_size: 512                     # Large batches for stable gradients
+  validation_split: 0.05              # Small validation set (more training data)
+
+  # Experience buffer - large replay buffer
+  experience_buffer_size: 2000000     # 2M positions for diverse experience
+  min_experience_size: 50000          # Wait for substantial data before training
+  sampling_temperature: 1.0           # Uniform sampling from buffer
+
+  # Learning schedule - cosine annealing for smooth convergence
+  lr_schedule: "cosine"               # Cosine decay to minimum LR
+  lr_warmup_steps: 2000               # Warmup over first 2k steps
+  lr_min: 0.00001                     # Low final learning rate
+
+  # Evaluation and checkpointing - frequent evaluation
+  evaluation_frequency: 5             # Evaluate every 5 iterations
+  evaluation_games: 100               # 100 games for stable rating estimate
+  save_frequency: 2                   # Save checkpoint every 2 iterations
+  max_checkpoints: 25                 # Keep last 25 checkpoints (48h coverage)
+
+  # Early stopping - prevent overfitting
+  patience: 100                       # High patience for long training
+  min_delta: 0.0001                   # Small improvement threshold
+
+# =============================================================================
+# Game Configuration - Freestyle Gomoku
+# =============================================================================
+game:
+  # Game selection
+  game_type: "gomoku"                # Gomoku game
+
+  # Freestyle Gomoku (no restrictions)
+  board_size: 15                     # Standard 15x15 board
+  win_condition: 5                   # 5-in-a-row to win
+  rule_variant: "freestyle"          # Pure freestyle (no renju/omok restrictions)
+
+  # Feature extraction - enhanced tactical features
+  history_length: 8                  # 8 moves of history per player
+  use_enhanced_features: true        # Use 36-plane enhanced features
+
+  # Gomoku-specific MCTS tuning
+  dirichlet_alpha_overrides:
+    gomoku: 0.3                     # Optimal Dirichlet alpha for Gomoku
+
+# =============================================================================
+# System Configuration - Production Environment
+# =============================================================================
+system:
+  # Logging - comprehensive tracking
+  log_level: "INFO"                  # Standard logging level
+  log_file: "logs/gomoku_48h_training.log"
+  enable_tensorboard: true           # TensorBoard for monitoring
+  tensorboard_log_dir: "logs/tensorboard/gomoku_48h"
+
+  # Performance monitoring
+  enable_profiling: false            # Disable profiling for max performance
+  profile_output_dir: "logs/profiles"
+  metrics_update_frequency: 30      # Update metrics every 30 seconds
+
+  # Resource limits - full hardware utilization
+  max_memory_gb: 60.0               # Use up to 60GB RAM
+  max_gpu_memory_fraction: 0.92     # 92% GPU memory (leave headroom for CUDA)
+  enable_memory_growth: true        # Dynamic GPU memory allocation
+
+  # Directory paths
+  model_dir: "models/gomoku_48h"
+  checkpoint_dir: "checkpoints/gomoku_48h"
+  data_dir: "training_data/gomoku_48h"
+  results_dir: "results/gomoku_48h"
+
+# =============================================================================
+# Expected Performance Metrics (48-Hour Training)
+# =============================================================================
+# Target metrics to validate during training:
+#
+# Throughput:
+# - 30,000-40,000 MCTS simulations/second (with neural network inference)
+# - 80-92% GPU utilization sustained during search operations
+# - 4-6 self-play games/hour per parallel worker (32-48 games/hour total)
+#
+# Training Progress:
+# - Iteration 1-5: Random play, policy entropy ~5.0, value uncertainty high
+# - Iteration 6-10: Basic tactics emerge, policy entropy ~3.5, winning rate improves
+# - Iteration 11-20: Strong tactical play, policy entropy ~2.5, defeats random baseline
+# - Iteration 21-30: Superhuman play, policy entropy ~2.0, defeats strong amateur
+#
+# Resource Usage:
+# - Peak memory: 50-55GB system RAM, 7.2-7.5GB GPU VRAM
+# - Tree memory: 400-800MB per search worker
+# - Experience buffer: 2-4GB on disk (memory-mapped)
+#
+# Quality Gates:
+# - By iteration 10: Win rate > 95% vs random player
+# - By iteration 20: Win rate > 80% vs baseline MCTS (800 sims, no NN)
+# - By iteration 30: Win rate > 70% vs strong amateur player (estimated 1800+ rating)

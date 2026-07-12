@@ -1,0 +1,312 @@
+# Optimized Inference Pipeline API Specification
+# Version: 1.0.0
+
+api_name: OptimizedInferencePipeline
+description: |
+  Complete inference pipeline with zero-copy tensors, lock-free queuing,
+  and persistent Python thread for maximum throughput.
+
+classes:
+  OptimizedInferencePipeline:
+    description: End-to-end optimized inference system
+
+    constructor:
+      parameters:
+        - name: config
+          type: InferenceConfig
+          struct_definition: |
+            struct InferenceConfig {
+                std::string model_path;
+                std::string device = "cuda:0";
+                int max_batch_size = 64;
+                int min_batch_size = 32;
+                float timeout_ms = 1.0;
+                bool use_mixed_precision = true;
+                bool use_pinned_memory = true;
+                size_t pinned_pool_size = 32 * 1024 * 1024;  // 32MB
+            };
+
+    methods:
+      initialize:
+        description: Initialize all pipeline components
+        returns:
+          type: bool
+          description: True if initialization successful
+        operations:
+          - Create lock-free queue
+          - Initialize DLPack bridge
+          - Start persistent Python thread
+          - Warm up GPU with dummy batch
+
+      submit_for_inference:
+        description: Submit single position for batched inference
+        thread_safe: true
+        parameters:
+          - name: state
+            type: std::unique_ptr<IGameState>
+            description: Game state to evaluate
+          - name: node_index
+            type: NodeIndex
+            description: Tree node being expanded
+          - name: path
+            type: std::vector<NodeIndex>
+            description: Path from root to node
+        returns:
+          type: uint64_t
+          description: Request ID for result retrieval
+
+      collect_and_process_batch:
+        description: Collect requests and process as batch
+        thread_safe: true
+        returns:
+          type: int
+          description: Number of requests processed
+        implementation_flow: |
+          1. Collect from lock-free queue (timeout or count)
+          2. Create DLPack tensor (zero-copy)
+          3. Submit to persistent Python thread
+          4. Return results via lock-free queue
+
+      get_result:
+        description: Retrieve inference result (non-blocking)
+        thread_safe: true
+        parameters:
+          - name: request_id
+            type: uint64_t
+            description: Request ID from submission
+        returns:
+          type: std::optional<InferenceResult>
+          struct_definition: |
+            struct InferenceResult {
+                uint64_t request_id;
+                std::vector<float> policy;
+                float value;
+                NodeIndex node_index;
+                std::vector<NodeIndex> path;
+            };
+
+      wait_for_result:
+        description: Wait for inference result (blocking)
+        thread_safe: true
+        parameters:
+          - name: request_id
+            type: uint64_t
+          - name: timeout_ms
+            type: int
+            default: 100
+        returns:
+          type: std::optional<InferenceResult>
+
+      get_metrics:
+        description: Get pipeline performance metrics
+        const: true
+        returns:
+          type: PipelineMetrics
+          struct_definition: |
+            struct PipelineMetrics {
+                // Throughput
+                uint64_t total_requests;
+                uint64_t total_batches;
+                double avg_batch_size;
+                double requests_per_second;
+
+                // Latency
+                double avg_queue_time_ms;
+                double avg_inference_time_ms;
+                double avg_total_latency_ms;
+
+                // Efficiency
+                double gpu_utilization;
+                double batch_efficiency;  // actual/max batch size
+                uint64_t timeout_triggers;
+                uint64_t size_triggers;
+            };
+
+  BatchCollector:
+    description: Collects individual requests into efficient batches
+
+    methods:
+      collect_batch:
+        description: Collect requests for batching
+        parameters:
+          - name: queue
+            type: MPMCRingBuffer<InferenceRequest>&
+          - name: min_size
+            type: int
+          - name: max_size
+            type: int
+          - name: timeout_ms
+            type: float
+        returns:
+          type: std::vector<InferenceRequest>
+        algorithm: |
+          while (batch.size() < max_size) {
+              if (batch.size() >= min_size && elapsed > timeout_ms) {
+                  break;  // Timeout triggered
+              }
+              if (queue.try_dequeue(request)) {
+                  batch.push_back(request);
+              }
+              if (batch.size() >= max_size) {
+                  break;  // Size triggered
+              }
+          }
+
+python_integration:
+  worker_thread: |
+    ```python
+    class PersistentInferenceWorker:
+        def __init__(self, config):
+            # Never release GIL after this point
+            self.model = torch.jit.load(config.model_path)
+            self.model.eval()
+            self.model = self.model.to(config.device)
+
+            # Pre-allocate output buffers
+            self.policy_buffer = torch.zeros(
+                (config.max_batch_size, 225),  # Max moves
+                device=config.device
+            )
+            self.value_buffer = torch.zeros(
+                (config.max_batch_size, 1),
+                device=config.device
+            )
+
+        def process_batch_dlpack(self, dlpack_tensor):
+            # Zero-copy receive from C++
+            input_tensor = torch.from_dlpack(dlpack_tensor)
+
+            with torch.no_grad():
+                if self.config.use_mixed_precision:
+                    with torch.cuda.amp.autocast():
+                        policy, value = self.model(input_tensor)
+                else:
+                    policy, value = self.model(input_tensor)
+
+            return policy.cpu().numpy(), value.cpu().numpy()
+    ```
+
+performance_optimizations:
+  zero_copy_path: |
+    C++ GameState → DLPack (pinned) → PyTorch (GPU) → Results (pinned) → C++
+    Total copies: 0 (only GPU transfers)
+
+  batch_formation:
+    strategy: "Dynamic batching with timeout"
+    min_batch: 32  # Don't waste GPU on small batches
+    max_batch: 64  # GPU memory limit
+    timeout: 1ms   # Low latency when queue light
+
+  pipeline_parallelism:
+    - Request submission: Lock-free, wait-free
+    - Batch collection: One dedicated thread
+    - GPU inference: One persistent Python thread
+    - Result distribution: Lock-free, wait-free
+
+benchmarks:
+  throughput:
+    baseline_profiled: 2,659 sims/sec (profiling_suite_20251016_124134, 560 trials)
+    old_baseline_deprecated: 3,831 sims/sec (pre-profiling, outdated)
+    old_partial_deprecated: 2,147 sims/sec (partial measurement, outdated)
+    target_after_T018: 9,838 sims/sec (state pooling, 3.7× improvement)
+    target_minimum: 8,000 sims/sec (exceeds with state pooling alone)
+    improvement_expected: 3.7× from profiled baseline
+
+  validation_results_2025_10_16:
+    state_clone_bottleneck: 86.6% of execution time (418μs per clone)
+    gpu_inference_time: 2.1% of execution time (20.66ms per batch-64)
+    fp16_speedup: 1.72× (52.83ms → 30.69ms @ batch-64, T-VALID-1)
+    openmp_working: 8.64ms → 1.57ms @ 12 threads (but 0/560 trials active)
+    thread_efficiency: 12.7% @ 8 threads (target ≥60% after T018)
+
+  latency:
+    baseline:
+      queue: 2ms (estimated)
+      inference: 3ms (estimated)
+      total: 5ms (estimated)
+    target_optimized:
+      queue: <0.5ms
+      inference_fp32: ~8ms @ batch-64
+      inference_fp16: ~5ms @ batch-64 (validated: 1.72× speedup)
+      tensor_creation: <1ms (after OpenMP fix, currently 7.5ms)
+      total: <6ms
+
+  gpu_utilization:
+    baseline: ~55-68%
+    target: 80-85%
+
+  hardware_limits_2025_10_13:
+    gpu_model: RTX 3060 Ti
+    max_throughput_fp16: 8,000-10,000 states/sec
+    rationale: Hardware physically cannot exceed 10k states/sec @ FP16
+
+usage_example: |
+  ```cpp
+  class MCTSWithOptimizedInference {
+      OptimizedInferencePipeline pipeline_;
+      std::atomic<uint64_t> pending_requests_{0};
+
+      void run_simulations(int num_threads, int num_sims) {
+          // Start inference pipeline
+          InferenceConfig config;
+          config.max_batch_size = 64;
+          config.timeout_ms = 1.0;
+          pipeline_.initialize(config);
+
+          // Launch simulation threads
+          std::vector<std::thread> threads;
+          for (int i = 0; i < num_threads; ++i) {
+              threads.emplace_back([this, num_sims] {
+                  run_thread_simulations(num_sims);
+              });
+          }
+
+          // Process batches in main thread
+          while (pending_requests_ > 0) {
+              pipeline_.collect_and_process_batch();
+          }
+      }
+
+      void run_thread_simulations(int num_sims) {
+          for (int i = 0; i < num_sims; ++i) {
+              // Select path
+              auto [leaf, path] = select_leaf();
+
+              // Submit for inference (non-blocking)
+              auto request_id = pipeline_.submit_for_inference(
+                  leaf->get_state(), leaf->index, path
+              );
+              pending_requests_++;
+
+              // Continue with other work or wait
+              auto result = pipeline_.wait_for_result(request_id);
+
+              // Process result
+              expand_node(result->node_index, result->policy);
+              backup_value(result->path, result->value);
+              pending_requests_--;
+          }
+      }
+  };
+  ```
+
+testing_requirements:
+  correctness:
+    - Verify inference results match baseline
+    - Test request-response matching
+    - Validate thread safety with TSan
+
+  performance:
+    - Measure throughput vs batch size
+    - Profile GPU utilization
+    - Benchmark queue operations
+
+  stress:
+    - 24-hour continuous operation
+    - Queue overflow handling
+    - Memory leak detection
+
+  edge_cases:
+    - Single request latency
+    - Maximum batch handling
+    - Pipeline stalls recovery

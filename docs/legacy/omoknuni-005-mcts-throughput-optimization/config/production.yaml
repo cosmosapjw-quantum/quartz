@@ -1,0 +1,66 @@
+# Production Configuration for AlphaZero Engine
+# ============================================
+#
+# Optimized for production deployment with maximum performance,
+# reliability, and resource utilization.
+
+# Include base configuration
+config_version: "1.0"
+created_by: "alphazero-engine"
+
+# Production-optimized MCTS settings
+mcts:
+  simulations: 1600                  # Higher simulation count for stronger play
+  exploration_constant: 1.0         # Well-tuned exploration
+  threads: 12                       # Maximum thread utilization
+  max_tree_size_mb: 2048            # Large tree for deep search
+  transposition_table_size_mb: 512  # Large TT for position reuse
+  batch_size_min: 64                # Large batches for GPU efficiency
+  batch_size_max: 128
+  inference_timeout_ms: 5.0         # Longer timeout for larger batches
+
+# Production neural network settings
+neural_network:
+  channels: 256                      # Full model capacity
+  blocks: 20                        # Full depth
+  learning_rate: 0.0005             # Conservative learning rate
+  use_mixed_precision: true         # Memory and speed optimization
+  use_tensorrt: true                # Enable TensorRT optimization
+  batch_size_preferred: 128         # Large preferred batch size
+
+# Production training settings
+training:
+  self_play_games_per_iteration: 100 # More games per iteration
+  parallel_self_play_games: 8       # High parallelism
+  training_steps_per_iteration: 2000 # More training steps
+  batch_size: 1024                  # Large batch size
+  experience_buffer_size: 2000000   # Large experience buffer
+  min_experience_size: 50000        # Substantial minimum
+  evaluation_frequency: 20          # Less frequent evaluation
+  evaluation_games: 200             # Thorough evaluation
+  save_frequency: 10                # Less frequent saves
+  patience: 100                     # More patience for convergence
+
+# Production game settings (same as default)
+game:
+  game_type: "gomoku"
+  board_size: 15
+  win_condition: 5
+  rule_variant: "standard"
+  history_length: 8
+  use_enhanced_features: true
+  dirichlet_alpha_overrides:
+    gomoku: 0.3
+    chess: 0.2
+    go: 0.03
+
+# Production system settings
+system:
+  log_level: "WARNING"              # Minimal logging for production
+  log_file: "logs/prod-alphazero.log"
+  enable_tensorboard: false         # Disabled for production
+  enable_profiling: false           # Disabled for production
+  metrics_update_frequency: 30      # Less frequent updates
+  max_memory_gb: 64.0               # Full memory utilization
+  max_gpu_memory_fraction: 0.95    # Maximum GPU usage
+  enable_memory_growth: false       # Pre-allocate for stability

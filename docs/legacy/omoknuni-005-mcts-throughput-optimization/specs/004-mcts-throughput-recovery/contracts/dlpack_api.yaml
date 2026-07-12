@@ -1,0 +1,255 @@
+# DLPack Tensor Bridge API Specification
+# Version: 1.0.0
+
+api_name: DLPackTensorBridge
+description: |
+  Zero-copy tensor bridge between C++ and Python using DLPack protocol
+  for efficient GPU inference without data copying or GIL overhead.
+
+  **⚠️ PERFORMANCE CRITICAL (2025-10-13 Validation):**
+  - Current Implementation: 7.5ms tensor creation overhead (T-VALID-2)
+  - Root Cause: Feature extraction loop NOT parallelized with OpenMP
+  - Required Fix: Add `#pragma omp parallel for` to dlpack_bridge.cpp:431-434
+  - Expected Improvement: 7.5ms → <1.0ms with 12-thread parallelization
+
+  **Memory Model Clarification:**
+  - Uses PINNED CPU MEMORY (kDLCUDAHost), NOT direct GPU device memory (kDLCUDA)
+  - Tensor resides in pinned host memory for fast H2D GPU transfers (~0.24ms)
+  - PyTorch receives CPU-accessible tensor, then transfers to GPU as needed
+
+dependencies:
+  - dlpack.h (DLPack protocol headers)
+  - CUDA runtime (for pinned host memory allocation via cudaMallocHost)
+  - PyTorch 2.0+ (DLPack support)
+  - OpenMP (CRITICAL: for parallel feature extraction)
+
+classes:
+  DLPackTensorBridge:
+    description: Manages zero-copy tensor creation and pinned memory
+
+    constructor:
+      parameters:
+        - name: device_type
+          type: DLDeviceType
+          default: kDLCPU
+          description: Target device (CPU/CUDA)
+        - name: device_id
+          type: int
+          default: 0
+          description: Device index for CUDA
+        - name: pinned_pool_size
+          type: size_t
+          default: 33554432  # 32MB
+          description: Size of pinned memory pool
+
+    methods:
+      create_batch_tensor:
+        description: Create DLPack tensor from game states (zero-copy)
+        parameters:
+          - name: states
+            type: const std::vector<std::unique_ptr<IGameState>>&
+            description: Game states to convert
+          - name: max_batch_size
+            type: int
+            description: Maximum batch size (for pre-allocation)
+        returns:
+          type: DLManagedTensor*
+          description: DLPack tensor ready for Python consumption
+        implementation_notes: |
+          - Extracts features directly into pinned memory
+          - Returns DLPack capsule for PyTorch torch.from_dlpack()
+          - Memory ownership transferred to Python
+
+      create_empty_tensor:
+        description: Pre-allocate tensor for feature extraction
+        parameters:
+          - name: shape
+            type: std::vector<int64_t>
+            description: Tensor dimensions [batch, channels, height, width]
+          - name: dtype
+            type: DLDataType
+            default: {kDLFloat, 32, 1}
+            description: Data type (default float32)
+        returns:
+          type: DLManagedTensor*
+          description: Empty tensor backed by pinned memory
+
+      extract_features_direct:
+        description: Extract features directly into tensor memory
+        parameters:
+          - name: state
+            type: const IGameState*
+            description: Game state to extract from
+          - name: tensor
+            type: DLTensor*
+            description: Target tensor (must have allocated memory)
+          - name: batch_index
+            type: int
+            description: Index in batch dimension
+        returns:
+          type: bool
+          description: True if successful
+        preconditions:
+          - Tensor must have sufficient capacity
+          - batch_index < tensor.shape[0]
+
+      allocate_pinned:
+        description: Allocate pinned (page-locked) memory
+        thread_safe: true
+        parameters:
+          - name: size
+            type: size_t
+            description: Bytes to allocate
+        returns:
+          type: void*
+          description: Pinned memory pointer or nullptr if failed
+        notes: |
+          - Uses memory pool to avoid allocation overhead
+          - Pinned memory enables fast GPU transfers
+
+      free_pinned:
+        description: Return pinned memory to pool
+        thread_safe: true
+        parameters:
+          - name: ptr
+            type: void*
+            description: Pointer to free
+
+      get_pool_stats:
+        description: Get memory pool statistics
+        const: true
+        returns:
+          type: PoolStats
+          struct_definition: |
+            struct PoolStats {
+                size_t total_size;
+                size_t allocated_size;
+                size_t free_size;
+                size_t allocation_count;
+                size_t high_water_mark;
+            };
+
+python_integration:
+  pytorch_example: |
+    ```python
+    # Python side (zero-copy receive)
+    def process_batch_dlpack(dlpack_capsule):
+        # Zero-copy conversion to PyTorch tensor
+        tensor = torch.from_dlpack(dlpack_capsule)
+
+        # Tensor is already on correct device if CUDA
+        # Shape: [batch_size, channels, height, width]
+
+        with torch.no_grad():
+            # Direct inference (no copies)
+            policy, value = model(tensor)
+
+        return policy.cpu().numpy(), value.cpu().numpy()
+    ```
+
+  cpp_example: |
+    ```cpp
+    // C++ side (zero-copy send)
+    class InferenceBridge {
+        DLPackTensorBridge bridge_;
+
+        py::capsule submit_batch(const std::vector<GameState>& states) {
+            // Create tensor with features extracted directly
+            DLManagedTensor* tensor = bridge_.create_batch_tensor(states, 64);
+
+            // Wrap in Python capsule for zero-copy transfer
+            return py::capsule(tensor, "dltensor", [](void* ptr) {
+                auto* tensor = static_cast<DLManagedTensor*>(ptr);
+                if (tensor->deleter) {
+                    tensor->deleter(tensor);
+                }
+            });
+        }
+    };
+    ```
+
+memory_management:
+  pinned_pool:
+    description: |
+      Pre-allocated pinned memory pool to avoid allocation overhead
+    structure: |
+      class PinnedMemoryPool {
+          struct Block {
+              void* ptr;
+              size_t size;
+              bool in_use;
+          };
+          std::vector<Block> blocks_;
+          std::mutex mutex_;
+      };
+
+  lifecycle:
+    allocation: O(1) from pool (best case)
+    transfer: Async DMA to GPU (overlapped)
+    ownership: Transferred to Python on capsule creation
+    deallocation: Automatic when Python tensor destroyed
+
+performance_metrics:
+  state_to_tensor:
+    current_method: 1000ns (Python loop + numpy)
+    dlpack_method: 100ns (direct C++ extraction)
+    improvement: 10x
+
+  memory_transfer:
+    pageable: 3.2 GB/s (host to device)
+    pinned: 12.5 GB/s (host to device)
+    improvement: 3.9x
+
+  end_to_end_batch_prep:
+    baseline_python: 5ms (64 states, Python loops)
+    current_implementation: 7.5ms (64 states, T-VALID-2 measured)
+    target_with_openmp: <1.0ms (64 states, parallelized)
+
+  validation_results_2025_10_13:
+    measured_overhead: 7.50 ± 0.20 ms per batch-64
+    bottleneck: Sequential feature extraction loop
+    required_fix: OpenMP parallelization
+    expected_speedup: 7-10× with 12 threads
+
+tensor_format:
+  gomoku:
+    shape: [batch, 36, 15, 15]
+    layout: NCHW (batch, channels, height, width)
+    dtype: float32
+
+  chess:
+    shape: [batch, 30, 8, 8]
+    layout: NCHW
+    dtype: float32
+
+  go:
+    shape: [batch, 25, 19, 19]
+    layout: NCHW
+    dtype: float32
+
+error_handling:
+  allocation_failure:
+    - Returns nullptr from allocate_pinned
+    - Falls back to pageable memory
+    - Logs warning about performance impact
+
+  shape_mismatch:
+    - Validates tensor dimensions before extraction
+    - Returns error status
+    - Preserves tensor integrity
+
+testing_requirements:
+  correctness:
+    - Verify feature extraction matches Python version
+    - Test tensor values preserved through pipeline
+    - Validate memory alignment requirements
+
+  performance:
+    - Benchmark against numpy conversion path
+    - Measure GPU transfer rates
+    - Profile memory allocation overhead
+
+  stress:
+    - Concurrent allocation/deallocation
+    - Pool exhaustion handling
+    - 24-hour stability test

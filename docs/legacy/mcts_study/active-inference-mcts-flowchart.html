@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Active Inference MCTS Flowchart</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+        }
+        .flowchart {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 30px;
+        }
+        .node {
+            background-color: #e3f2fd;
+            border: 2px solid #1976d2;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 10px;
+            text-align: center;
+            position: relative;
+            max-width: 400px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .node.neural {
+            background-color: #f3e5f5;
+            border-color: #7b1fa2;
+        }
+        .node.active-inference {
+            background-color: #e8f5e9;
+            border-color: #388e3c;
+        }
+        .node.mcts {
+            background-color: #fff3e0;
+            border-color: #f57c00;
+        }
+        .arrow {
+            width: 0;
+            height: 40px;
+            border-left: 2px solid #333;
+            margin: 0 auto;
+            position: relative;
+        }
+        .arrow::after {
+            content: "";
+            position: absolute;
+            bottom: -10px;
+            left: -7px;
+            width: 0;
+            height: 0;
+            border-left: 7px solid transparent;
+            border-right: 7px solid transparent;
+            border-top: 10px solid #333;
+        }
+        .horizontal-flow {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 20px 0;
+        }
+        .horizontal-arrow {
+            width: 40px;
+            height: 0;
+            border-top: 2px solid #333;
+            margin: 0 10px;
+            position: relative;
+        }
+        .horizontal-arrow::after {
+            content: "";
+            position: absolute;
+            right: -10px;
+            top: -7px;
+            width: 0;
+            height: 0;
+            border-top: 7px solid transparent;
+            border-bottom: 7px solid transparent;
+            border-left: 10px solid #333;
+        }
+        .label {
+            font-size: 12px;
+            color: #666;
+            margin: 5px 0;
+            font-style: italic;
+        }
+        .equation {
+            background-color: #f5f5f5;
+            padding: 10px;
+            border-radius: 5px;
+            font-family: monospace;
+            margin: 10px 0;
+        }
+        .legend {
+            display: flex;
+            justify-content: center;
+            margin-top: 30px;
+            gap: 20px;
+        }
+        .legend-item {
+            display: flex;
+            align-items: center;
+        }
+        .legend-box {
+            width: 20px;
+            height: 20px;
+            border: 2px solid;
+            border-radius: 5px;
+            margin-right: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Active Inference + Neural MCTS Algorithm (2025 Paper)</h1>
+        
+        <div class="flowchart">
+            <!-- Initial State -->
+            <div class="node">
+                <strong>Initial State s₀</strong>
+                <div class="label">Continuous state vector (e.g., robot configuration)</div>
+            </div>
+            
+            <div class="arrow"></div>
+            
+            <!-- CEM Initialization -->
+            <div class="node active-inference">
+                <strong>Cross-Entropy Method (CEM) Initialization</strong>
+                <div class="equation">μ₀ ~ N(0, I), Σ₀ = σ²I</div>
+                <div class="label">Initialize action distribution parameters</div>
+            </div>
+            
+            <div class="arrow"></div>
+            
+            <!-- Main Loop -->
+            <div class="node" style="background-color: #f0f0f0; border-style: dashed;">
+                <strong>For each CEM iteration k = 1...K</strong>
+            </div>
+            
+            <div class="arrow"></div>
+            
+            <!-- Action Sampling -->
+            <div class="node active-inference">
+                <strong>Sample Action Sequences</strong>
+                <div class="equation">a⁽ⁱ⁾ ~ N(μₖ, Σₖ), i = 1...N</div>
+                <div class="label">Generate N candidate action trajectories</div>
+            </div>
+            
+            <div class="arrow"></div>
+            
+            <!-- Free Energy Evaluation -->
+            <div class="horizontal-flow">
+                <div class="node neural" style="flex: 1;">
+                    <strong>Neural Reward Model</strong>
+                    <div class="equation">R(s,a) = f_reward(s,a)</div>
+                    <div class="label">Predict expected rewards</div>
+                </div>
+                
+                <div class="horizontal-arrow"></div>
+                
+                <div class="node active-inference" style="flex: 1.5;">
+                    <strong>Free Energy Computation</strong>
+                    <div class="equation">F = -R - λ·I(s,a)</div>
+                    <div class="label">R: Expected reward<br>I: Information gain<br>λ: Epistemic weight</div>
+                </div>
+                
+                <div class="horizontal-arrow" style="transform: rotate(180deg);"></div>
+                
+                <div class="node neural" style="flex: 1;">
+                    <strong>Uncertainty Estimator</strong>
+                    <div class="equation">σ²(s) = f_uncertainty(s)</div>
+                    <div class="label">Quantify epistemic uncertainty</div>
+                </div>
+            </div>
+            
+            <div class="arrow"></div>
+            
+            <!-- MCTS Expansion -->
+            <div class="node mcts">
+                <strong>MCTS Tree Expansion</strong>
+                <div class="label">For each promising action sequence:</div>
+                <ul style="text-align: left; margin: 10px 0;">
+                    <li>Expand tree nodes along trajectory</li>
+                    <li>Use neural transition model for state prediction</li>
+                    <li>Add exploration bonus based on uncertainty</li>
+                </ul>
+            </div>
+            
+            <div class="arrow"></div>
+            
+            <!-- Backup -->
+            <div class="node mcts">
+                <strong>Value Backup with Uncertainty</strong>
+                <div class="equation">Q(s,a) ← (1-α)Q(s,a) + α(R + γV(s'))</div>
+                <div class="equation">U(s,a) ← Update uncertainty estimates</div>
+                <div class="label">Maintain both value and uncertainty estimates</div>
+            </div>
+            
+            <div class="arrow"></div>
+            
+            <!-- CEM Update -->
+            <div class="node active-inference">
+                <strong>CEM Distribution Update</strong>
+                <div class="label">Select elite set E (top M actions by free energy)</div>
+                <div class="equation">μₖ₊₁ = mean(E)</div>
+                <div class="equation">Σₖ₊₁ = cov(E)</div>
+            </div>
+            
+            <div class="arrow"></div>
+            
+            <!-- Action Selection -->
+            <div class="node">
+                <strong>Final Action Selection</strong>
+                <div class="equation">a* = argmin_a F(s,a)</div>
+                <div class="label">Execute action that minimizes expected free energy</div>
+            </div>
+        </div>
+        
+        <!-- Key Components -->
+        <div style="margin-top: 40px;">
+            <h2>Key Components Integration</h2>
+            
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 20px;">
+                <div class="node neural">
+                    <strong>Neural Network Components</strong>
+                    <ul style="text-align: left;">
+                        <li><strong>Reward Model:</strong> Predicts R(s,a) without rollouts</li>
+                        <li><strong>Transition Model:</strong> Predicts s' = T(s,a)</li>
+                        <li><strong>Uncertainty Network:</strong> Estimates epistemic uncertainty</li>
+                    </ul>
+                </div>
+                
+                <div class="node active-inference">
+                    <strong>Active Inference Principles</strong>
+                    <ul style="text-align: left;">
+                        <li><strong>Free Energy:</strong> F = -log P(o|s) + KL[Q||P]</li>
+                        <li><strong>Information Gain:</strong> Reduction in uncertainty</li>
+                        <li><strong>Expected Free Energy:</strong> Future uncertainty + goal divergence</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="node mcts" style="margin-top: 20px;">
+                <strong>Modified MCTS Operations</strong>
+                <ul style="text-align: left;">
+                    <li><strong>Selection:</strong> Guided by CEM proposals instead of UCB</li>
+                    <li><strong>Expansion:</strong> Uses neural predictions + exploration bonuses</li>
+                    <li><strong>Simulation:</strong> Replaced by neural value estimates</li>
+                    <li><strong>Backup:</strong> Updates both Q-values and uncertainty</li>
+                </ul>
+            </div>
+        </div>
+        
+        <!-- Legend -->
+        <div class="legend">
+            <div class="legend-item">
+                <div class="legend-box" style="background-color: #f3e5f5; border-color: #7b1fa2;"></div>
+                <span>Neural Network</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-box" style="background-color: #e8f5e9; border-color: #388e3c;"></div>
+                <span>Active Inference</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-box" style="background-color: #fff3e0; border-color: #f57c00;"></div>
+                <span>MCTS</span>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

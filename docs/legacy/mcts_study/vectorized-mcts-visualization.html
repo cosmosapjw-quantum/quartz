@@ -1,0 +1,1039 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Omoknuni AI Engine - Architecture Visualization</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #0a0a0a;
+            color: #e0e0e0;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        h1 {
+            text-align: center;
+            color: #00ff88;
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 0 0 20px rgba(0, 255, 136, 0.5);
+        }
+        
+        .subtitle {
+            text-align: center;
+            color: #888;
+            margin-bottom: 40px;
+        }
+        
+        .nav-tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 30px;
+            border-bottom: 2px solid #333;
+            padding-bottom: 10px;
+        }
+        
+        .nav-tab {
+            padding: 10px 20px;
+            background: #1a1a1a;
+            border: 1px solid #333;
+            border-radius: 5px 5px 0 0;
+            cursor: pointer;
+            transition: all 0.3s;
+            color: #888;
+        }
+        
+        .nav-tab:hover {
+            background: #222;
+            color: #00ff88;
+        }
+        
+        .nav-tab.active {
+            background: #00ff88;
+            color: #000;
+            font-weight: bold;
+            border-bottom: 2px solid #0a0a0a;
+            margin-bottom: -2px;
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+            animation: fadeIn 0.5s;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        /* System Architecture Styles */
+        .architecture-container {
+            background: #111;
+            border-radius: 10px;
+            padding: 30px;
+            border: 1px solid #333;
+        }
+        
+        .component-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .component {
+            background: #1a1a1a;
+            border: 2px solid #333;
+            border-radius: 8px;
+            padding: 20px;
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .component::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, #00ff88, transparent);
+            animation: scan 3s linear infinite;
+        }
+        
+        @keyframes scan {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+        
+        .component:hover {
+            border-color: #00ff88;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(0, 255, 136, 0.3);
+        }
+        
+        .component h3 {
+            color: #00ff88;
+            margin-bottom: 10px;
+            font-size: 1.2em;
+        }
+        
+        .component-type {
+            display: inline-block;
+            padding: 2px 8px;
+            background: #333;
+            border-radius: 3px;
+            font-size: 0.8em;
+            color: #888;
+            margin-bottom: 10px;
+        }
+        
+        .component-type.python { background: #306998; color: #FFD43B; }
+        .component-type.cpp { background: #00599C; color: #fff; }
+        .component-type.cuda { background: #76B900; color: #000; }
+        
+        .component ul {
+            list-style: none;
+            margin-top: 10px;
+        }
+        
+        .component li {
+            padding: 5px 0;
+            color: #aaa;
+            font-size: 0.9em;
+            position: relative;
+            padding-left: 20px;
+        }
+        
+        .component li::before {
+            content: '▸';
+            position: absolute;
+            left: 0;
+            color: #00ff88;
+        }
+        
+        /* Flow Diagram Styles */
+        .flow-container {
+            background: #111;
+            border-radius: 10px;
+            padding: 30px;
+            border: 1px solid #333;
+            overflow-x: auto;
+        }
+        
+        .flow-svg {
+            width: 100%;
+            min-width: 800px;
+            height: auto;
+        }
+        
+        .flow-node {
+            fill: #1a1a1a;
+            stroke: #00ff88;
+            stroke-width: 2;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .flow-node:hover {
+            fill: #00ff88;
+            filter: drop-shadow(0 0 10px rgba(0, 255, 136, 0.8));
+        }
+        
+        .flow-text {
+            fill: #e0e0e0;
+            font-size: 12px;
+            text-anchor: middle;
+            pointer-events: none;
+        }
+        
+        .flow-node:hover + .flow-text {
+            fill: #000;
+            font-weight: bold;
+        }
+        
+        .flow-arrow {
+            stroke: #666;
+            stroke-width: 2;
+            fill: none;
+            marker-end: url(#arrowhead);
+        }
+        
+        .flow-arrow.quantum {
+            stroke: #00ff88;
+            stroke-dasharray: 5,5;
+            animation: dash 20s linear infinite;
+        }
+        
+        @keyframes dash {
+            to { stroke-dashoffset: -100; }
+        }
+        
+        /* Algorithm Details */
+        .algorithm-container {
+            background: #111;
+            border-radius: 10px;
+            padding: 30px;
+            border: 1px solid #333;
+        }
+        
+        .algorithm-card {
+            background: #1a1a1a;
+            border: 1px solid #333;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .algorithm-card h3 {
+            color: #00ff88;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .complexity-badge {
+            padding: 3px 10px;
+            background: #333;
+            border-radius: 15px;
+            font-size: 0.8em;
+            color: #888;
+        }
+        
+        .complexity-badge.optimal { background: #00ff88; color: #000; }
+        .complexity-badge.good { background: #ffaa00; color: #000; }
+        
+        .pseudocode {
+            background: #0a0a0a;
+            border: 1px solid #333;
+            border-radius: 5px;
+            padding: 15px;
+            font-family: 'Consolas', 'Monaco', monospace;
+            font-size: 0.9em;
+            overflow-x: auto;
+            margin-top: 15px;
+        }
+        
+        .pseudocode .keyword {
+            color: #00ff88;
+            font-weight: bold;
+        }
+        
+        .pseudocode .comment {
+            color: #666;
+            font-style: italic;
+        }
+        
+        .pseudocode .function {
+            color: #ffaa00;
+        }
+        
+        /* Data Flow */
+        .dataflow-container {
+            background: #111;
+            border-radius: 10px;
+            padding: 30px;
+            border: 1px solid #333;
+        }
+        
+        .dataflow-stage {
+            background: #1a1a1a;
+            border: 1px solid #333;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            position: relative;
+        }
+        
+        .dataflow-stage::after {
+            content: '↓';
+            position: absolute;
+            bottom: -35px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 24px;
+            color: #00ff88;
+        }
+        
+        .dataflow-stage:last-child::after {
+            display: none;
+        }
+        
+        .dataflow-stage h4 {
+            color: #00ff88;
+            margin-bottom: 10px;
+        }
+        
+        .data-item {
+            display: inline-block;
+            padding: 5px 10px;
+            background: #0a0a0a;
+            border: 1px solid #333;
+            border-radius: 3px;
+            margin: 5px;
+            font-size: 0.9em;
+        }
+        
+        /* Metrics Dashboard */
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+        
+        .metric-card {
+            background: #1a1a1a;
+            border: 1px solid #333;
+            border-radius: 8px;
+            padding: 20px;
+            text-align: center;
+        }
+        
+        .metric-value {
+            font-size: 2em;
+            color: #00ff88;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+        
+        .metric-label {
+            color: #888;
+            font-size: 0.9em;
+        }
+        
+        /* Interactive Elements */
+        .info-tooltip {
+            position: absolute;
+            background: #222;
+            border: 1px solid #00ff88;
+            border-radius: 5px;
+            padding: 10px;
+            display: none;
+            z-index: 1000;
+            max-width: 300px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.8);
+        }
+        
+        .collapsible {
+            cursor: pointer;
+            user-select: none;
+        }
+        
+        .collapsible::before {
+            content: '▼';
+            display: inline-block;
+            margin-right: 5px;
+            transition: transform 0.3s;
+        }
+        
+        .collapsible.collapsed::before {
+            transform: rotate(-90deg);
+        }
+        
+        .collapsible-content {
+            max-height: 1000px;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
+        }
+        
+        .collapsible-content.collapsed {
+            max-height: 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Omoknuni AI Engine</h1>
+        <p class="subtitle">Vectorized Quantum-Inspired MCTS Architecture</p>
+        
+        <div class="nav-tabs">
+            <div class="nav-tab active" onclick="showTab('architecture')">System Architecture</div>
+            <div class="nav-tab" onclick="showTab('flow')">Process Flow</div>
+            <div class="nav-tab" onclick="showTab('algorithms')">Core Algorithms</div>
+            <div class="nav-tab" onclick="showTab('dataflow')">Data Flow</div>
+            <div class="nav-tab" onclick="showTab('metrics')">Performance Metrics</div>
+        </div>
+        
+        <!-- System Architecture Tab -->
+        <div id="architecture" class="tab-content active">
+            <div class="architecture-container">
+                <h2>System Components</h2>
+                
+                <div class="component-grid">
+                    <!-- Game Interface -->
+                    <div class="component">
+                        <h3>Game Interface</h3>
+                        <span class="component-type cpp">C++</span>
+                        <p>Bridge between game logic and AI engine</p>
+                        <ul>
+                            <li>getCurrentState()</li>
+                            <li>getLegalMoves()</li>
+                            <li>applyMove()</li>
+                            <li>boardToTensor()</li>
+                            <li>isTerminal()</li>
+                        </ul>
+                    </div>
+                    
+                    <!-- Vectorized MCTS -->
+                    <div class="component">
+                        <h3>Vectorized MCTS</h3>
+                        <span class="component-type python">Python</span>
+                        <p>Core search engine with wave processing</p>
+                        <ul>
+                            <li>search() - Main entry point</li>
+                            <li>process_wave() - Batch processing</li>
+                            <li>apply_quantum_effects()</li>
+                            <li>select_move() - Final selection</li>
+                        </ul>
+                    </div>
+                    
+                    <!-- Tree Arena -->
+                    <div class="component">
+                        <h3>Tree Arena</h3>
+                        <span class="component-type python">Python</span>
+                        <p>GPU-optimized tree storage</p>
+                        <ul>
+                            <li>allocate_nodes() - Dynamic allocation</li>
+                            <li>get_node_batch() - Coalesced access</li>
+                            <li>page_to_cpu() - Memory overflow</li>
+                            <li>garbage_collect() - Memory management</li>
+                        </ul>
+                    </div>
+                    
+                    <!-- Wave Engine -->
+                    <div class="component">
+                        <h3>Wave Engine</h3>
+                        <span class="component-type python">Python</span>
+                        <p>Orchestrates parallel MCTS iterations</p>
+                        <ul>
+                            <li>select_paths() - Batch selection</li>
+                            <li>evaluate_leaves() - NN evaluation</li>
+                            <li>backup_values() - Parallel backup</li>
+                            <li>adapt_wave_size() - Dynamic sizing</li>
+                        </ul>
+                    </div>
+                    
+                    <!-- Quantum Diversity -->
+                    <div class="component">
+                        <h3>Quantum Diversity</h3>
+                        <span class="component-type python">Python</span>
+                        <p>Quantum-inspired exploration</p>
+                        <ul>
+                            <li>compute_interference() - MinHash O(n log n)</li>
+                            <li>apply_phase_kicks() - Complex policy</li>
+                            <li>calculate_path_integral()</li>
+                            <li>decoherence_model()</li>
+                        </ul>
+                    </div>
+                    
+                    <!-- Neural Evaluator -->
+                    <div class="component">
+                        <h3>Neural Evaluator</h3>
+                        <span class="component-type python">Python</span>
+                        <p>ResNet evaluation with ensemble</p>
+                        <ul>
+                            <li>evaluate_batch() - Batch inference</li>
+                            <li>compute_envariance() - Robustness</li>
+                            <li>get_uncertainty() - Epistemic uncertainty</li>
+                            <li>ensemble_predict() - Multiple models</li>
+                        </ul>
+                    </div>
+                    
+                    <!-- CUDA Kernels -->
+                    <div class="component">
+                        <h3>CUDA Kernels</h3>
+                        <span class="component-type cuda">CUDA</span>
+                        <p>Performance-critical GPU operations</p>
+                        <ul>
+                            <li>batched_ucb_kernel()</li>
+                            <li>minhash_sketch_kernel()</li>
+                            <li>mixed_precision_backup()</li>
+                            <li>phase_kick_kernel()</li>
+                        </ul>
+                    </div>
+                    
+                    <!-- Training Pipeline -->
+                    <div class="component">
+                        <h3>Training Pipeline</h3>
+                        <span class="component-type python">Python</span>
+                        <p>Self-play and network training</p>
+                        <ul>
+                            <li>generate_self_play_games()</li>
+                            <li>train_network() - Distributed</li>
+                            <li>evaluate_checkpoint()</li>
+                            <li>update_best_model()</li>
+                        </ul>
+                    </div>
+                    
+                    <!-- Config Manager -->
+                    <div class="component">
+                        <h3>Config Manager</h3>
+                        <span class="component-type python">Python</span>
+                        <p>Hardware-aware configuration</p>
+                        <ul>
+                            <li>detect_hardware() - Auto-config</li>
+                            <li>load_preset() - Optimized settings</li>
+                            <li>validate_config() - Type checking</li>
+                            <li>export_config() - YAML export</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Process Flow Tab -->
+        <div id="flow" class="tab-content">
+            <div class="flow-container">
+                <h2>MCTS Process Flow</h2>
+                
+                <svg class="flow-svg" viewBox="0 0 1200 800">
+                    <defs>
+                        <marker id="arrowhead" markerWidth="10" markerHeight="7" 
+                                refX="9" refY="3.5" orient="auto">
+                            <polygon points="0 0, 10 3.5, 0 7" fill="#666" />
+                        </marker>
+                    </defs>
+                    
+                    <!-- Game State Input -->
+                    <rect class="flow-node" x="50" y="50" width="160" height="60" rx="5"/>
+                    <text class="flow-text" x="130" y="85">Game State</text>
+                    
+                    <!-- State Encoding -->
+                    <rect class="flow-node" x="300" y="50" width="160" height="60" rx="5"/>
+                    <text class="flow-text" x="380" y="85">State Encoding</text>
+                    <text class="flow-text" x="380" y="100" style="font-size: 10px; fill: #888">20 channels</text>
+                    
+                    <!-- MCTS Engine -->
+                    <rect class="flow-node" x="550" y="50" width="160" height="60" rx="5"/>
+                    <text class="flow-text" x="630" y="85">MCTS Engine</text>
+                    
+                    <!-- Wave Selection -->
+                    <rect class="flow-node" x="300" y="200" width="160" height="60" rx="5"/>
+                    <text class="flow-text" x="380" y="235">Wave Selection</text>
+                    <text class="flow-text" x="380" y="250" style="font-size: 10px; fill: #888">256-2048 paths</text>
+                    
+                    <!-- Tree Arena -->
+                    <rect class="flow-node" x="50" y="200" width="160" height="60" rx="5"/>
+                    <text class="flow-text" x="130" y="235">Tree Arena</text>
+                    <text class="flow-text" x="130" y="250" style="font-size: 10px; fill: #888">GPU Storage</text>
+                    
+                    <!-- Quantum Effects -->
+                    <rect class="flow-node" x="550" y="200" width="160" height="60" rx="5"/>
+                    <text class="flow-text" x="630" y="235">Quantum Effects</text>
+                    <text class="flow-text" x="630" y="250" style="font-size: 10px; fill: #888">Interference</text>
+                    
+                    <!-- Neural Evaluation -->
+                    <rect class="flow-node" x="800" y="200" width="160" height="60" rx="5"/>
+                    <text class="flow-text" x="880" y="235">Neural Eval</text>
+                    <text class="flow-text" x="880" y="250" style="font-size: 10px; fill: #888">ResNet</text>
+                    
+                    <!-- Backup -->
+                    <rect class="flow-node" x="550" y="350" width="160" height="60" rx="5"/>
+                    <text class="flow-text" x="630" y="385">Backup Values</text>
+                    
+                    <!-- Move Selection -->
+                    <rect class="flow-node" x="300" y="500" width="160" height="60" rx="5"/>
+                    <text class="flow-text" x="380" y="535">Move Selection</text>
+                    
+                    <!-- Output -->
+                    <rect class="flow-node" x="550" y="500" width="160" height="60" rx="5"/>
+                    <text class="flow-text" x="630" y="535">Best Move</text>
+                    
+                    <!-- Arrows -->
+                    <path class="flow-arrow" d="M 210,80 L 300,80"/>
+                    <path class="flow-arrow" d="M 460,80 L 550,80"/>
+                    <path class="flow-arrow" d="M 630,110 L 630,180 L 460,180 L 460,210"/>
+                    <path class="flow-arrow" d="M 210,230 L 300,230"/>
+                    <path class="flow-arrow" d="M 460,230 L 550,230"/>
+                    <path class="flow-arrow quantum" d="M 710,230 L 800,230"/>
+                    <path class="flow-arrow" d="M 880,260 L 880,320 L 630,320 L 630,350"/>
+                    <path class="flow-arrow" d="M 630,410 L 630,450 L 380,450 L 380,500"/>
+                    <path class="flow-arrow" d="M 460,530 L 550,530"/>
+                    <path class="flow-arrow" d="M 130,260 L 130,320 L 380,320 L 380,260"/>
+                    
+                    <!-- Loop indicator -->
+                    <path class="flow-arrow" d="M 50,380 L 50,150 L 380,150 L 380,200" 
+                          stroke-dasharray="5,5" opacity="0.5"/>
+                    <text x="200" y="170" fill="#666" font-size="12">Repeat for N simulations</text>
+                </svg>
+            </div>
+        </div>
+        
+        <!-- Algorithms Tab -->
+        <div id="algorithms" class="tab-content">
+            <div class="algorithm-container">
+                <h2>Core Algorithms</h2>
+                
+                <!-- Wave Selection Algorithm -->
+                <div class="algorithm-card">
+                    <h3 class="collapsible" onclick="toggleCollapse(this)">
+                        Wave-Based Selection
+                        <span class="complexity-badge optimal">O(wave_size × depth)</span>
+                    </h3>
+                    <div class="collapsible-content">
+                        <p>Selects multiple paths in parallel using batched UCB calculations.</p>
+                        <div class="pseudocode">
+<span class="keyword">function</span> <span class="function">SELECT_WAVE</span>(tree_arena, wave_size):
+    <span class="comment"># Initialize batch of paths</span>
+    paths = zeros(wave_size, max_depth)
+    current_nodes = get_root_nodes(wave_size)
+    
+    <span class="keyword">for</span> depth <span class="keyword">in</span> 0 to max_depth:
+        <span class="comment"># Batch compute UCB scores</span>
+        ucb_scores = <span class="function">COMPUTE_UCB_BATCH</span>(current_nodes)
+        
+        <span class="comment"># Apply quantum interference</span>
+        <span class="keyword">if</span> use_interference:
+            sketches = <span class="function">COMPUTE_MINHASH</span>(current_nodes)
+            ucb_scores = <span class="function">APPLY_INTERFERENCE</span>(ucb_scores, sketches)
+        
+        <span class="comment"># Select actions and update paths</span>
+        actions = argmax(ucb_scores, axis=1)
+        children = <span class="function">GET_CHILDREN_BATCH</span>(current_nodes, actions)
+        paths[:, depth] = current_nodes
+        
+        <span class="comment"># Check terminal conditions</span>
+        is_leaf = (children < 0)
+        <span class="keyword">if</span> all(is_leaf): <span class="keyword">break</span>
+        
+        current_nodes = where(is_leaf, current_nodes, children)
+    
+    <span class="keyword">return</span> paths
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- MinHash Interference -->
+                <div class="algorithm-card">
+                    <h3 class="collapsible" onclick="toggleCollapse(this)">
+                        MinHash Interference
+                        <span class="complexity-badge optimal">O(n log n)</span>
+                    </h3>
+                    <div class="collapsible-content">
+                        <p>Computes path diversity without O(n²) pairwise comparisons.</p>
+                        <div class="pseudocode">
+<span class="keyword">function</span> <span class="function">MINHASH_INTERFERENCE</span>(paths, num_hashes=4):
+    <span class="comment"># Step 1: Compute MinHash sketches - O(n)</span>
+    sketches = zeros(len(paths), num_hashes)
+    
+    <span class="keyword">for</span> i, path <span class="keyword">in</span> enumerate(paths):
+        <span class="keyword">for</span> j <span class="keyword">in</span> range(num_hashes):
+            sketch_value = infinity
+            <span class="keyword">for</span> node <span class="keyword">in</span> path:
+                hash_value = hash_function[j](node)
+                sketch_value = min(sketch_value, hash_value)
+            sketches[i, j] = sketch_value
+    
+    <span class="comment"># Step 2: Build LSH buckets - O(n log n)</span>
+    buckets = defaultdict(list)
+    <span class="keyword">for</span> i, sketch <span class="keyword">in</span> enumerate(sketches):
+        bucket_id = hash(tuple(sketch))
+        buckets[bucket_id].append(i)
+    
+    <span class="comment"># Step 3: Apply interference - O(n)</span>
+    interference_weights = ones(len(paths))
+    <span class="keyword">for</span> bucket <span class="keyword">in</span> buckets.values():
+        <span class="keyword">if</span> len(bucket) > 1:
+            <span class="keyword">for</span> i <span class="keyword">in</span> bucket:
+                interference_weights[i] *= (1.0 - interference_strength)
+    
+    <span class="keyword">return</span> interference_weights
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Phase-Kicked Priors -->
+                <div class="algorithm-card">
+                    <h3 class="collapsible" onclick="toggleCollapse(this)">
+                        Phase-Kicked Prior Policy
+                        <span class="complexity-badge optimal">O(n)</span>
+                    </h3>
+                    <div class="collapsible-content">
+                        <p>Adds quantum-inspired phase to action probabilities based on uncertainty.</p>
+                        <div class="pseudocode">
+<span class="keyword">function</span> <span class="function">PHASE_KICKED_POLICY</span>(logits, uncertainties, temperature=1.0):
+    <span class="comment"># Compute phase based on uncertainty</span>
+    phase_strength = 0.1
+    phases = phase_strength * uncertainties / temperature
+    
+    <span class="comment"># Apply complex exponential (Euler's formula)</span>
+    complex_logits = logits * exp(1j * phases)
+    
+    <span class="comment"># Interference pattern from magnitude</span>
+    magnitudes = abs(complex_logits)
+    
+    <span class="comment"># Temperature-scaled softmax</span>
+    exp_magnitudes = exp(magnitudes / temperature)
+    probabilities = exp_magnitudes / sum(exp_magnitudes)
+    
+    <span class="keyword">return</span> probabilities
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Envariant Backup -->
+                <div class="algorithm-card">
+                    <h3 class="collapsible" onclick="toggleCollapse(this)">
+                        Envariance-Filtered Backup
+                        <span class="complexity-badge good">O(n × evaluators)</span>
+                    </h3>
+                    <div class="collapsible-content">
+                        <p>Weights backups by robustness across multiple evaluators.</p>
+                        <div class="pseudocode">
+<span class="keyword">function</span> <span class="function">ENVARIANT_BACKUP</span>(paths, evaluator_ensemble):
+    <span class="comment"># Evaluate with multiple models</span>
+    evaluations = []
+    <span class="keyword">for</span> evaluator <span class="keyword">in</span> evaluator_ensemble:
+        values = evaluator.evaluate_batch(paths)
+        evaluations.append(values)
+    
+    <span class="comment"># Compute envariance (robustness)</span>
+    means = mean(evaluations, axis=0)
+    stds = std(evaluations, axis=0)
+    envariances = exp(-stds / (abs(means) + epsilon))
+    
+    <span class="comment"># Weight backup by envariance</span>
+    <span class="keyword">for</span> i, path <span class="keyword">in</span> enumerate(paths):
+        backup_weight = envariances[i]
+        
+        <span class="keyword">for</span> node <span class="keyword">in</span> path:
+            tree_arena.values[node] += means[i] * backup_weight
+            tree_arena.visits[node] += backup_weight
+            tree_arena.envariance[node] = update_average(
+                tree_arena.envariance[node], envariances[i]
+            )
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Data Flow Tab -->
+        <div id="dataflow" class="tab-content">
+            <div class="dataflow-container">
+                <h2>Data Flow Through System</h2>
+                
+                <div class="dataflow-stage">
+                    <h4>1. Input Processing</h4>
+                    <p>Game state converted to neural network input</p>
+                    <div>
+                        <span class="data-item">Board State</span>
+                        <span class="data-item">Player Turn</span>
+                        <span class="data-item">Move History</span>
+                        <span class="data-item">Attack/Defense Scores</span>
+                    </div>
+                    <p style="margin-top: 10px; color: #888;">→ 20-channel tensor (batch_size × 20 × H × W)</p>
+                </div>
+                
+                <div class="dataflow-stage">
+                    <h4>2. Wave Generation</h4>
+                    <p>Parallel path selection through tree</p>
+                    <div>
+                        <span class="data-item">Node Indices</span>
+                        <span class="data-item">Visit Counts</span>
+                        <span class="data-item">Q-Values</span>
+                        <span class="data-item">Prior Probabilities</span>
+                    </div>
+                    <p style="margin-top: 10px; color: #888;">→ Path tensor (wave_size × max_depth)</p>
+                </div>
+                
+                <div class="dataflow-stage">
+                    <h4>3. Quantum Processing</h4>
+                    <p>Apply interference and phase effects</p>
+                    <div>
+                        <span class="data-item">MinHash Sketches</span>
+                        <span class="data-item">Similarity Matrix</span>
+                        <span class="data-item">Phase Values</span>
+                        <span class="data-item">Interference Weights</span>
+                    </div>
+                    <p style="margin-top: 10px; color: #888;">→ Modified selection probabilities</p>
+                </div>
+                
+                <div class="dataflow-stage">
+                    <h4>4. Neural Evaluation</h4>
+                    <p>Batch evaluation of leaf positions</p>
+                    <div>
+                        <span class="data-item">Leaf States</span>
+                        <span class="data-item">Policy Logits</span>
+                        <span class="data-item">Value Estimates</span>
+                        <span class="data-item">Uncertainty Scores</span>
+                    </div>
+                    <p style="margin-top: 10px; color: #888;">→ (values, policies, uncertainties)</p>
+                </div>
+                
+                <div class="dataflow-stage">
+                    <h4>5. Tree Update</h4>
+                    <p>Backup values through selected paths</p>
+                    <div>
+                        <span class="data-item">Path Values</span>
+                        <span class="data-item">Visit Increments</span>
+                        <span class="data-item">Envariance Updates</span>
+                        <span class="data-item">Q-Value Updates</span>
+                    </div>
+                    <p style="margin-top: 10px; color: #888;">→ Updated tree statistics</p>
+                </div>
+                
+                <div class="dataflow-stage">
+                    <h4>6. Move Selection</h4>
+                    <p>Choose best move from root statistics</p>
+                    <div>
+                        <span class="data-item">Root Children Stats</span>
+                        <span class="data-item">Temperature</span>
+                        <span class="data-item">Selection Policy</span>
+                    </div>
+                    <p style="margin-top: 10px; color: #888;">→ Selected move</p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Performance Metrics Tab -->
+        <div id="metrics" class="tab-content">
+            <div class="algorithm-container">
+                <h2>Target Performance Metrics</h2>
+                
+                <div class="metrics-grid">
+                    <div class="metric-card">
+                        <div class="metric-label">Throughput</div>
+                        <div class="metric-value">100K</div>
+                        <div class="metric-label">sims/second</div>
+                    </div>
+                    
+                    <div class="metric-card">
+                        <div class="metric-label">Latency</div>
+                        <div class="metric-value"><100ms</div>
+                        <div class="metric-label">per move</div>
+                    </div>
+                    
+                    <div class="metric-card">
+                        <div class="metric-label">GPU Utilization</div>
+                        <div class="metric-value">>85%</div>
+                        <div class="metric-label">during search</div>
+                    </div>
+                    
+                    <div class="metric-card">
+                        <div class="metric-label">Memory Usage</div>
+                        <div class="metric-value"><4GB</div>
+                        <div class="metric-label">for 1M nodes</div>
+                    </div>
+                    
+                    <div class="metric-card">
+                        <div class="metric-label">Wave Size</div>
+                        <div class="metric-value">256-2048</div>
+                        <div class="metric-label">adaptive</div>
+                    </div>
+                    
+                    <div class="metric-card">
+                        <div class="metric-label">Strength</div>
+                        <div class="metric-value">>2800</div>
+                        <div class="metric-label">Elo rating</div>
+                    </div>
+                </div>
+                
+                <div class="algorithm-card" style="margin-top: 30px;">
+                    <h3>Hardware Configuration Targets</h3>
+                    
+                    <table style="width: 100%; margin-top: 15px; border-collapse: collapse;">
+                        <thead>
+                            <tr style="border-bottom: 2px solid #333;">
+                                <th style="text-align: left; padding: 10px; color: #00ff88;">Configuration</th>
+                                <th style="text-align: center; padding: 10px; color: #00ff88;">GPU</th>
+                                <th style="text-align: center; padding: 10px; color: #00ff88;">RAM</th>
+                                <th style="text-align: center; padding: 10px; color: #00ff88;">Expected Throughput</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr style="border-bottom: 1px solid #333;">
+                                <td style="padding: 10px;">Laptop</td>
+                                <td style="text-align: center; padding: 10px;">RTX 3050 (4GB)</td>
+                                <td style="text-align: center; padding: 10px;">16GB</td>
+                                <td style="text-align: center; padding: 10px;">30-80K sims/s</td>
+                            </tr>
+                            <tr style="border-bottom: 1px solid #333;">
+                                <td style="padding: 10px;">Desktop</td>
+                                <td style="text-align: center; padding: 10px;">RTX 3060 Ti (8GB)</td>
+                                <td style="text-align: center; padding: 10px;">64GB</td>
+                                <td style="text-align: center; padding: 10px;">80-200K sims/s</td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 10px;">Cloud</td>
+                                <td style="text-align: center; padding: 10px;">A10 (24GB)</td>
+                                <td style="text-align: center; padding: 10px;">192GB</td>
+                                <td style="text-align: center; padding: 10px;">150-400K sims/s</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                
+                <div class="algorithm-card" style="margin-top: 20px;">
+                    <h3>Optimization Techniques</h3>
+                    
+                    <ul style="list-style: none; padding: 0;">
+                        <li style="padding: 10px; border-bottom: 1px solid #333;">
+                            <strong style="color: #00ff88;">Coalesced Memory Access:</strong>
+                            Structure-of-arrays layout for GPU efficiency
+                        </li>
+                        <li style="padding: 10px; border-bottom: 1px solid #333;">
+                            <strong style="color: #00ff88;">Mixed Precision:</strong>
+                            FP16 for high visit counts, FP32 for accuracy
+                        </li>
+                        <li style="padding: 10px; border-bottom: 1px solid #333;">
+                            <strong style="color: #00ff88;">JIT Compilation:</strong>
+                            PyTorch JIT and Triton for hot paths
+                        </li>
+                        <li style="padding: 10px; border-bottom: 1px solid #333;">
+                            <strong style="color: #00ff88;">Warp-Aware Kernels:</strong>
+                            32-thread warp optimization in CUDA
+                        </li>
+                        <li style="padding: 10px;">
+                            <strong style="color: #00ff88;">Adaptive Batching:</strong>
+                            Dynamic wave size based on GPU utilization
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="info-tooltip" id="tooltip"></div>
+    
+    <script>
+        function showTab(tabName) {
+            // Hide all tabs
+            const tabs = document.querySelectorAll('.tab-content');
+            tabs.forEach(tab => tab.classList.remove('active'));
+            
+            // Remove active class from all nav tabs
+            const navTabs = document.querySelectorAll('.nav-tab');
+            navTabs.forEach(tab => tab.classList.remove('active'));
+            
+            // Show selected tab
+            document.getElementById(tabName).classList.add('active');
+            
+            // Add active class to clicked nav tab
+            event.target.classList.add('active');
+        }
+        
+        function toggleCollapse(element) {
+            element.classList.toggle('collapsed');
+            const content = element.nextElementSibling;
+            content.classList.toggle('collapsed');
+        }
+        
+        // Add hover effects to components
+        document.querySelectorAll('.component').forEach(comp => {
+            comp.addEventListener('mouseenter', function(e) {
+                const tooltip = document.getElementById('tooltip');
+                tooltip.style.display = 'block';
+                tooltip.style.left = e.pageX + 10 + 'px';
+                tooltip.style.top = e.pageY + 10 + 'px';
+                
+                const componentName = this.querySelector('h3').textContent;
+                const tooltipText = {
+                    'Game Interface': 'Provides efficient C++ bindings for game state manipulation and move generation.',
+                    'Vectorized MCTS': 'Core engine that orchestrates wave-based tree search with quantum enhancements.',
+                    'Tree Arena': 'Manages GPU memory with automatic paging to CPU when needed.',
+                    'Wave Engine': 'Processes batches of MCTS paths in parallel for maximum GPU efficiency.',
+                    'Quantum Diversity': 'Implements MinHash interference and phase-kicked exploration.',
+                    'Neural Evaluator': 'ResNet-based position evaluation with ensemble uncertainty.',
+                    'CUDA Kernels': 'Hand-optimized GPU code for performance-critical operations.',
+                    'Training Pipeline': 'Distributed self-play and network training infrastructure.',
+                    'Config Manager': 'Automatically detects hardware and loads optimal settings.'
+                };
+                
+                tooltip.innerHTML = tooltipText[componentName] || 'Component description';
+            });
+            
+            comp.addEventListener('mouseleave', function() {
+                document.getElementById('tooltip').style.display = 'none';
+            });
+        });
+        
+        // Animate flow arrows on hover
+        document.querySelectorAll('.flow-node').forEach(node => {
+            node.addEventListener('mouseenter', function() {
+                this.style.transform = 'scale(1.05)';
+            });
+            
+            node.addEventListener('mouseleave', function() {
+                this.style.transform = 'scale(1)';
+            });
+        });
+        
+        // Add keyboard navigation
+        document.addEventListener('keydown', function(e) {
+            const tabs = ['architecture', 'flow', 'algorithms', 'dataflow', 'metrics'];
+            const activeTab = document.querySelector('.tab-content.active').id;
+            const currentIndex = tabs.indexOf(activeTab);
+            
+            if (e.key === 'ArrowRight' && currentIndex < tabs.length - 1) {
+                showTab(tabs[currentIndex + 1]);
+                document.querySelectorAll('.nav-tab')[currentIndex + 1].click();
+            } else if (e.key === 'ArrowLeft' && currentIndex > 0) {
+                showTab(tabs[currentIndex - 1]);
+                document.querySelectorAll('.nav-tab')[currentIndex - 1].click();
+            }
+        });
+    </script>
+</body>
+</html>

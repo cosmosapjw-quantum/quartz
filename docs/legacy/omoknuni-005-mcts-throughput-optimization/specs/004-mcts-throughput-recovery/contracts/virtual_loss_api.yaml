@@ -1,0 +1,134 @@
+# Virtual Loss Manager API Specification
+# Version: 1.0.0
+
+api_name: WUUCTVirtualLossManager
+description: |
+  Manages virtual loss using WU-UCT style (visit-only) to prevent thread
+  collisions without distorting Q-values during MCTS selection.
+
+classes:
+  WUUCTVirtualLossManager:
+    description: Thread-safe virtual loss management with WU-UCT algorithm
+
+    constructor:
+      parameters:
+        - name: max_nodes
+          type: size_t
+          description: Maximum number of tree nodes
+        - name: virtual_loss_magnitude
+          type: float
+          default: 1.0
+          description: Virtual loss scaling factor (tunable)
+
+    methods:
+      add_in_flight:
+        description: Apply virtual loss when starting simulation
+        thread_safe: true
+        parameters:
+          - name: node_index
+            type: NodeIndex
+            description: Node being visited
+        returns: void
+        postconditions:
+          - In-flight count incremented atomically
+          - No effect on node's Q-value
+
+      remove_in_flight:
+        description: Remove virtual loss when simulation completes
+        thread_safe: true
+        parameters:
+          - name: node_index
+            type: NodeIndex
+            description: Node to update
+        returns: void
+        preconditions:
+          - Node must have positive in-flight count
+        postconditions:
+          - In-flight count decremented atomically
+
+      get_exploration_adjustment:
+        description: Get exploration term adjustment for PUCT calculation
+        thread_safe: true
+        const: true
+        parameters:
+          - name: node_index
+            type: NodeIndex
+            description: Node to query
+        returns:
+          type: float
+          description: Adjustment to add to visit count in exploration term
+        formula: |
+          adjustment = in_flight_count * virtual_loss_magnitude
+
+      is_busy:
+        description: Check if node is currently being expanded (busy-edge masking)
+        thread_safe: true
+        const: true
+        parameters:
+          - name: node_index
+            type: NodeIndex
+            description: Node to check
+        returns:
+          type: bool
+          description: True if node has active simulations
+
+      get_collision_count:
+        description: Get number of selection collisions detected
+        thread_safe: true
+        const: true
+        returns:
+          type: uint64_t
+          description: Total collision count since creation
+
+      reset_statistics:
+        description: Reset collision tracking statistics
+        thread_safe: false
+        returns: void
+
+performance_guarantees:
+  - All operations are wait-free (no locks)
+  - O(1) time complexity for all methods
+  - Memory usage: 4 bytes per node
+  - Cache-friendly memory layout
+
+thread_safety:
+  - All public methods are thread-safe
+  - Uses atomic operations with relaxed memory ordering
+  - No global locks or mutexes
+
+integration_example: |
+  ```cpp
+  // During selection
+  float compute_puct_score(NodeIndex node) {
+      float q = tree.get_q_value(node);  // True Q-value
+      float prior = tree.get_prior(node);
+      uint32_t n_child = tree.get_visit_count(node);
+      uint32_t n_parent = tree.get_parent_visit_count(node);
+
+      // WU-UCT adjustment (only affects exploration)
+      float adjustment = vl_manager.get_exploration_adjustment(node);
+
+      float exploration = c_puct * prior * sqrt(n_parent) / (1 + n_child + adjustment);
+      return q + exploration;
+  }
+
+  // During simulation
+  void run_simulation() {
+      auto path = select_path();
+      for (NodeIndex node : path) {
+          vl_manager.add_in_flight(node);  // Apply VL
+      }
+
+      auto result = expand_and_evaluate(path.back());
+
+      for (NodeIndex node : path) {
+          vl_manager.remove_in_flight(node);  // Remove VL
+          backup_value(node, result.value);
+      }
+  }
+  ```
+
+migration_notes:
+  - Backward compatible with classic virtual loss (set magnitude = classic_vl_value)
+  - Can coexist with existing virtual loss implementation during transition
+  - Performance improvement measurable via collision_count metric

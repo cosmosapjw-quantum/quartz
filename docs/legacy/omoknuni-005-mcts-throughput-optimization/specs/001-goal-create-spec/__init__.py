@@ -1,0 +1,1 @@
+# Goal create spec package
