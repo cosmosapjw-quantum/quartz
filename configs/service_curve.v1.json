@@ -1,0 +1,30 @@
+{
+  "format_version": 1,
+  "experiment_id": "service_curve_lab_v1",
+  "execution_mode": "measured_gpu_service_curve",
+  "model": {
+    "label": "representative gomoku15-M evaluator body (not the shipped net)",
+    "in_ch": 8,
+    "channels": 128,
+    "blocks": 10,
+    "board": 15,
+    "actions": 225
+  },
+  "default_batch_sizes": [8, 16, 32, 64, 128, 256],
+  "default_inflight_grid": [1, 2, 4, 8],
+  "default_n_waves": 60,
+  "default_warmup": 12,
+  "default_min_gain": 0.05,
+  "assumptions": [
+    "throughput/latency are measured on a representative conv body, not the exact shipped network",
+    "inflight credit is realized as one CUDA stream per outstanding batch, synchronized once per wave",
+    "power is sampled from nvidia-smi around each point when available (best effort)"
+  ],
+  "prohibited_inferences": [
+    "throughput is play strength",
+    "a GPU service curve is a CPU-superiority claim",
+    "a representative conv body is the exact shipped network",
+    "energy numbers are validated without a controlled power measurement",
+    "human or grandmaster mechanism"
+  ]
+}

@@ -354,10 +354,70 @@ python3 -m compileall -q \
   tests/test_pending_flow_lab.py
 ```
 
+## Service-curve laboratory
+
+The fifth implemented assay (`quartz/experiments/service_curve.py`) is the only
+one built on **measured GPU timings**. It characterizes the neural evaluator's
+service curve — throughput (items/s), latency (ms/batch), and best-effort power —
+as a function of **batch size** and **global inflight credit** (one CUDA stream
+per outstanding batch, synchronized once per wave). It is the throughput
+measurement `pending_flow_lab` (Stage 5) deferred, and the design input for any
+H4 scheduler `W(t)`. Quality-free by construction (the re-scoped H4 mandate).
+
+### Quick local run (service-curve)
+
+```bash
+python3 scripts/service_curve_lab.py --device cuda \
+  --output-dir results/metacognitive_root/service_curve_rtx3080ti
+```
+
+Config: [`configs/service_curve.v1.json`](../configs/service_curve.v1.json) — a
+representative gomoku15-M conv body (NOT the shipped net).
+
+### Verdict (service-curve) — H4 inflight-scheduler lane ALIVE
+
+On the RTX 3080 Ti (`run_contract_hash ba5a2f4b…`, representative net, batch
+8..256 × inflight 1..8, 60 waves):
+
+- **best fixed batch** (inflight 1): B=256 → 16.1k items/s;
+- **best overall**: **B=64, inflight=8 → 19.9k items/s (+23.7%)** — the efficient
+  knee is *small-batch, high-inflight*, not large-batch;
+- inflight credit's per-batch throughput gain is negligible at tiny batch
+  (B≤16: <1%, GPU is launch/latency-bound), **peaks at B=64 (+61.9%)** where a
+  single forward underutilizes but 8 concurrent saturate the GPU, then tapers
+  (B=128 +33%, B=256 +15%) as a single large batch nearly saturates alone;
+- latency also improves with inflight at the knee (B=64: 5.20 → 3.21 ms/batch);
+- energy: peak `items/joule` is at B=32/inflight=2 (~70), *not* the
+  max-throughput point (B=64/inflight=8, ~55 it/J) — a real scheduler tradeoff.
+
+So an inflight-credit / adaptive-`W(t)` scheduler is justified: a fixed
+best-batch policy leaves ~24% throughput on the table. This resolves the
+throughput axis that Stage 5 deferred (it is H4's *throughput* claim, measured —
+distinct from the killed dup-rate rationale).
+
+### Claim firewall (service-curve)
+
+Permitted: measured quality-free throughput/latency on a representative body.
+Prohibited: reading throughput as play strength; a GPU service curve as a
+CPU-superiority claim (THESIS P4 is informed, not proven, by this); a
+representative conv body as the exact shipped net; treating best-effort
+nvidia-smi power as a controlled energy measurement.
+
+### Validation (service-curve)
+
+```bash
+python3 -m pytest tests/test_service_curve_lab.py -q
+
+python3 -m compileall -q \
+  quartz/experiments/service_curve.py \
+  scripts/service_curve_lab.py \
+  tests/test_service_curve_lab.py
+```
+
 ## Next independent laboratories
 
 These are separate model families, not options silently folded into the
-Bernoulli assay (1–4 are now implemented — see above):
+Bernoulli assay (all five are now implemented — see above):
 
 1. `candidate_morphology_lab` *(implemented)*: visible/hidden pools, priced
    `WIDEN`, separate omission and ranking regret, and `STOP`;
@@ -368,5 +428,5 @@ Bernoulli assay (1–4 are now implemented — see above):
    telemetry;
 4. `symmetry_orbit_lab` *(implemented)*: board/action permutation equivariance
    and clone robustness;
-5. `service_curve_lab`: measured evaluator latency/throughput/energy versus
-   batch and global inflight credit.
+5. `service_curve_lab` *(implemented)*: measured evaluator latency/throughput/
+   energy versus batch and global inflight credit.

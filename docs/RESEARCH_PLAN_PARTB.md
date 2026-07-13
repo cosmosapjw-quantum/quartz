@@ -412,6 +412,16 @@ supplies synthetic mechanism assays that gate the engine work here:
   rationale. Parallel `NPS` is mostly unpopulated in that harness, so H4
   throughput is deferred to Stage 6. No Stage-7 claim may rest on adaptive VL
   reducing duplication.
+- **`service_curve_lab` → H4 throughput + scheduler input (Stage 6).** Measured
+  GPU service curve (throughput/latency vs batch × global inflight credit) on the
+  RTX 3080 Ti (`run_contract_hash ba5a2f4b…`, representative net). Resolves the
+  throughput axis Stage 5 deferred: the H4 **inflight-scheduler lane is ALIVE** —
+  best fixed batch B=256 → 16.1k items/s vs best overall B=64/inflight=8 → 19.9k
+  items/s (**+23.7%**); the efficient knee is small-batch-high-inflight, inflight
+  gain peaks at B=64 (+61.9%). A fixed best-batch policy leaves ~24% throughput
+  on the table, so an inflight-credit / adaptive-`W(t)` scheduler is justified.
+  Quality-free throughput only (re-scoped H4); THESIS P4 is informed, not proven;
+  re-run on the shipped net before production tuning.
 
 ---
 
