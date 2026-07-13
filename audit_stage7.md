@@ -256,3 +256,29 @@ measured ~6× virtual-loss pessimism reduction at preserved agreement).
   B15 readout burst fields, online H3 burst fetches supra-target + logs
   `burst@16->32`); count tests updated for B15. Regression: phase15 suites 144
   passed; compileall clean. Kill (O6 lift CI vs 1) pre-registered for E2/C9.
+
+### C8 — flip-calibration analyzer
+
+- `scripts/phase15_flip_calibration.py`: reads schema-≥5 trace bundles (with
+  `trace_p_flips` from C6); per sub-target budget computes `s_H1 =
+  argmax_stability(counts(π_b,b))`, `s_Pflip = 1 − p_flip_b`, and `y =
+  1[argmax(π_b)==argmax(π_holdout)]`. `reliability_diagram` (10-bin + ECE +
+  Brier, descriptive); `virtual_stop_budget` (replay a stop rule over the
+  recorded chunk boundaries); `matched_budget_calibration` — the CONFIRMATORY
+  statistic: paired argmax-agreement delta (H1 − P_flip) at the P_flip threshold
+  whose mean realized budget matches H1's within ±5%, `paired_bootstrap_ci`
+  (2000, seed 0). `h1_dies` iff the CI excludes zero in P_flip's favor.
+- Tests (`tests/test_phase15_flip_calibration.py`, 7): reliability/ECE + Brier
+  hand-computed, virtual-stop budget accounting, holdout excluded from decision
+  records, matched-budget h1_dies (P_flip agrees more at matched budget) and
+  h1_survives (tie), analyze end-to-end. All pass; py_compile clean.
+- Live run is E2 (needs Stage 7 online trace bundles).
+
+### Note — training timeline (Lane T)
+
+Measured throughput on the real 200-games/iter gomoku7 loop is ~8 min/iter
+(iter 4 at ~33 min), so 3 seeds × 20 gens ≈ ~8 h — the ~2 h plan estimate came
+from the B13 toy-capped smoke (~116 s/gen) and is wrong for the full loop. Code
+lanes C1-C10 are independent of training and proceed regardless; the experiment
+scope (single-seed mid-training vs full multi-seed) is a timeline decision
+raised with the user before E1-E3.
