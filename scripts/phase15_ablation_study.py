@@ -591,7 +591,10 @@ def build_search_trace(
     store_cached_trace(
         cache_dir,
         cache_key,
-        build_trace_artifact(trace_budgets, policies, latencies, source="fresh", trace_p_flips=p_flips),
+        build_trace_artifact(
+            trace_budgets, policies, latencies, source="fresh", trace_p_flips=p_flips,
+            checkpoint_id=str(checkpoint.id), position_id=harness._position_key(position),
+        ),
     )
     return policies, latencies, False
 

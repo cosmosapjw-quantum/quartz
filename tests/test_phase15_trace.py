@@ -13,17 +13,21 @@ from quartz.phase15_trace import (
 
 
 def test_build_trace_artifact_records_p_flips_and_bumps_schema():
-    assert TRACE_CACHE_SCHEMA_VERSION >= 5
+    assert TRACE_CACHE_SCHEMA_VERSION >= 6
     art = build_trace_artifact(
         [8, 16, 32],
         [np.array([0.7, 0.3]), np.array([0.6, 0.4]), np.array([0.9, 0.1])],
         [1.0, 2.0, 3.0],
         source="fresh",
         trace_p_flips=[0.4, 0.2, 0.05],
+        checkpoint_id="C01", position_id="P0007",
     )
     assert art["trace_cache_schema_version"] == TRACE_CACHE_SCHEMA_VERSION
     assert art["trace_p_flips"] == [0.4, 0.2, 0.05]
     assert len(art["trace_p_flips"]) == len(art["trace_budgets"])
+    # Stage 7: bundles self-identify for the O6 join
+    assert art["checkpoint_id"] == "C01"
+    assert art["position_id"] == "P0007"
 
 
 def test_missing_p_flip_pads_none_backcompat():

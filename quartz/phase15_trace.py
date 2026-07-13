@@ -10,7 +10,7 @@ from typing import Any
 
 import numpy as np
 
-TRACE_CACHE_SCHEMA_VERSION = 5  # Stage 7 / C6: trace bundles carry per-chunk p_flip
+TRACE_CACHE_SCHEMA_VERSION = 6  # Stage 7: bundles carry per-chunk p_flip + checkpoint/position identity
 TRACE_CACHE_RELEVANT_PATHS = (
     "configs/phase15_systems.default.json",
     "quartz/phase15_ablation.py",
@@ -109,6 +109,8 @@ def build_trace_artifact(
     source: str,
     code_salt: str | None = None,
     trace_p_flips: list[float | None] | None = None,
+    checkpoint_id: str | None = None,
+    position_id: str | None = None,
 ) -> dict[str, Any]:
     # Stage 7 / C6: the engine's own per-chunk P_flip is recorded alongside the
     # policy so the flip-calibration lane (C8) can compare H1 argmax-stability
@@ -127,6 +129,10 @@ def build_trace_artifact(
         "trace_p_flips": p_flips,
         "trace_acquire_ms": float(sum(float(x) for x in trace_latencies_ms)),
         "trace_source": str(source),
+        # Stage 7: self-identify so the O6 join (C9) and any bundle-level analysis
+        # can key by (checkpoint, position) without re-deriving the cache key.
+        "checkpoint_id": None if checkpoint_id is None else str(checkpoint_id),
+        "position_id": None if position_id is None else str(position_id),
     }
 
 
