@@ -189,6 +189,16 @@ class FrozenCheckpointHarness:
             self.base_cfg["_encoder"] = None
         self.device = device
         self.rust_binary = rust_binary
+        # Honor the checkpoint's own network architecture: training and the
+        # ablation profiling default can pick different net sizes for the same
+        # game (e.g. gomoku7 train 96f/6b vs profiling default 64f/4b). Each
+        # checkpoint gets its own harness, so overriding the net dims from the
+        # checkpoint's stored cfg lets checkpoints of different sizes be mixed
+        # in one run without an architecture mismatch on load.
+        _ck_cfg = _read_checkpoint_cfg(checkpoint.path)
+        for _dim in ("filters", "blocks", "vh", "ch"):
+            if _dim in _ck_cfg:
+                self.base_cfg[_dim] = _ck_cfg[_dim]
         self.model = AlphaZeroNet(self.base_cfg).to(device)
         self.model.load_state_dict(load_torch_state_dict(checkpoint.path, __import__("torch"), map_location=device))
         self.model.eval()
@@ -347,6 +357,22 @@ class FrozenCheckpointHarness:
         }
         self._search_cache[cache_key] = dict(row)
         return row
+
+
+def _read_checkpoint_cfg(path: str) -> dict[str, Any]:
+    """Best-effort read of a checkpoint's stored training cfg (net dims). Returns
+    {} if the checkpoint has no embedded cfg."""
+    try:
+        import torch
+
+        ck = torch.load(path, map_location="cpu", weights_only=False)
+    except Exception:
+        return {}
+    if isinstance(ck, dict):
+        cfg = ck.get("cfg") or ck.get("config")
+        if isinstance(cfg, dict):
+            return cfg
+    return {}
 
 
 def resolve_checkpoint_refs(args: argparse.Namespace, base_dir: Path) -> list[CheckpointRef]:

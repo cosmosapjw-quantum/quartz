@@ -184,6 +184,9 @@ def build_parser() -> argparse.ArgumentParser:
     p.add_argument("--n-positions", type=int, default=32)
     p.add_argument("--budgets", default="64,128,256")
     p.add_argument("--thresholds", default="1e-4,1e-3,1e-2")
+    p.add_argument("--seed", type=int, default=42)
+    p.add_argument("--position-min-moves", type=int, default=None)
+    p.add_argument("--position-max-moves", type=int, default=None)
     p.add_argument("--device", default="cuda")
     p.add_argument("--rust-binary", default="./target/release/mcts_demo")
     p.add_argument("--output-dir", default="results/phase15_stage7/kg_smoke")
@@ -198,7 +201,10 @@ def main(argv: Sequence[str] | None = None) -> int:
     budgets = [int(x) for x in str(args.budgets).split(",") if x.strip()]
     thresholds = [float(x) for x in str(args.thresholds).split(",") if x.strip()]
     base_cfg, device = sweep.build_base_cfg(args.game, args.device)
-    args.positions_file = args.positions_file
+    # load_or_generate_positions needs these Namespace attrs.
+    args.suite_size = int(args.n_positions)
+    args.position_min_moves = getattr(args, "position_min_moves", None)
+    args.position_max_moves = getattr(args, "position_max_moves", None)
     positions = load_or_generate_positions(args, base_cfg, count=args.n_positions)[: args.n_positions]
 
     rows = run_kg_smoke(
