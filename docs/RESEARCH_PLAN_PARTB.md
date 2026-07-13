@@ -399,6 +399,19 @@ supplies synthetic mechanism assays that gate the engine work here:
   caveat: it audits the **Python readouts only** — the Rust engine and the NN
   are NOT covered, so this is evidence for the readout layer, not an
   engine-wide agnosticism claim.
+- **`pending_flow_lab` → H4/H5 CCoT (Stage 5).** Count-only WU-UCT synthetic
+  screen + a **Rust bridge** to the real engine VL ablation (`src/ablation_vl.rs`,
+  `cargo test vl_ablation_gomoku7 -- --ignored`, exit 0). The pre-registered H5
+  rationale — adaptive VL reduces duplication, high-thread only — is **KILLED**:
+  synthetic adaptive ≈ fixed on `dup_rate` (Δ ≈ 1e-4, below a 2pp material bar,
+  no thread interaction), and the real engine shows adaptive `dup_rate` *higher*
+  than fixed (0.218 vs 0.129, overlap tolerated by design). The bridge reframed
+  the mechanism: adaptive's real, measured benefit is ~6× lower virtual-loss
+  pessimism (`avg_vvalue` 1.000→0.142) at preserved move agreement — which is
+  why `VlMode::Adaptive` is the engine default, independent of the killed dup
+  rationale. Parallel `NPS` is mostly unpopulated in that harness, so H4
+  throughput is deferred to Stage 6. No Stage-7 claim may rest on adaptive VL
+  reducing duplication.
 
 ---
 

@@ -283,17 +283,89 @@ python3 -m compileall -q \
   tests/test_symmetry_orbit_lab.py
 ```
 
+## Pending-flow laboratory
+
+The fourth implemented assay (`quartz/experiments/pending_flow.py`) is a
+count-only WU-UCT pending-flow **simulation** paired with a **Rust bridge** to
+the real engine VL ablation (`src/ablation_vl.rs`). Workers act in waves; within
+a wave each is assigned an arm one at a time and marks it pending, so later
+workers see the updated pending state (virtual-loss de-collision). Three VL
+policies differ only in how pending inflates an arm's effective visit count:
+`disabled` (weight 0), `fixed` (weight 1, standard WU-UCT), `adaptive`
+(weight `1 + dup_rate_ema·(1 + max_pending/W)`, the `ablation_vl.rs` feedback
+controller). Metrics: `dup_rate` (per-wave collisions), `throughput` (unique
+arms/W), `best_arm_visit_share` (quality guard).
+
+### Quick local run (pending-flow)
+
+Synthetic screen, then cross-check against the captured real-engine ablation:
+
+```bash
+cargo test --release vl_ablation_gomoku7 -- --ignored --nocapture > /tmp/vl.log 2>&1
+python3 scripts/pending_flow_lab.py \
+  --seed 20260713 --rust-log /tmp/vl.log \
+  --output-dir results/metacognitive_root/pending_flow_seed_20260713
+```
+
+Config: [`configs/pending_flow_scenarios.v1.json`](../configs/pending_flow_scenarios.v1.json).
+
+### Verdict (pending-flow) — H5 dup-reduction lane KILLED
+
+The pre-registered H5 mechanism ("adaptive VL reduces `dup_rate`, high-thread
+only") is **not supported by either channel** (seed 20260713,
+`run_contract_hash d9739317…`):
+
+- **synthetic** (worker grid 1..32): adaptive ≈ fixed on collisions — the
+  `dup_rate` difference is ≈ 1e-4, far below a 2-percentage-point material
+  threshold, and shows no thread-count interaction. Fixed VL already saturates
+  de-collision; the adaptive amplifier adds nothing on the collision axis.
+- **real engine** (ground truth, `ablation_vl.rs` Ablation 1): adaptive
+  `dup_rate` is *higher* than fixed (0.218 vs 0.129) — it tolerates overlap by
+  design. So `dup_rate` reduction is the wrong success axis.
+- **the real reframing**: adaptive's measured benefit is ~6× lower virtual-loss
+  pessimism (`avg_vvalue` 1.000 → 0.142) at *preserved* move agreement
+  (55% = 55%) and higher root entropy. This is a real engine property but NOT a
+  collision, throughput, or play-strength claim; it is why `VlMode::Adaptive`
+  is the engine default, independent of the (killed) dup-reduction rationale.
+- **H4 throughput**: the parallel-run `NPS` telemetry is mostly unpopulated in
+  this test harness, so throughput is not reliably measured here — deferred to
+  the `service_curve_lab` (Stage 6), the proper throughput measurement.
+
+The Rust bridge was decisive: it showed the cheap synthetic collision model and
+the pre-registered hypothesis both missed the real mechanism. (An earlier
+sign-only kill threshold produced a false "lane alive" on a 1e-4 difference; it
+was corrected to a 2pp material effect size.)
+
+### Claim firewall (pending-flow)
+
+Permitted: the synthetic collision/throughput numbers as an illustration; the
+parsed real telemetry as engine ground truth. Prohibited: reading any of it as a
+wall-clock speedup, a play-strength change, or CPU/energy efficiency; treating
+the synthetic model as a substitute for the Rust measurement.
+
+### Validation (pending-flow)
+
+```bash
+python3 -m pytest tests/test_pending_flow_lab.py -q
+
+python3 -m compileall -q \
+  quartz/experiments/pending_flow.py \
+  scripts/pending_flow_lab.py \
+  tests/test_pending_flow_lab.py
+```
+
 ## Next independent laboratories
 
 These are separate model families, not options silently folded into the
-Bernoulli assay (1, 2, and 4 are now implemented — see above):
+Bernoulli assay (1–4 are now implemented — see above):
 
 1. `candidate_morphology_lab` *(implemented)*: visible/hidden pools, priced
    `WIDEN`, separate omission and ranking regret, and `STOP`;
 2. `forked_voc_lab` *(implemented)*: labels each possible next computation by
    realized root decision change on frozen traces;
-3. `pending_flow_lab`: count-only WU-UCT, fixed/adaptive virtual loss, elastic
-   micro-waves, duplication, and measured wall time;
+3. `pending_flow_lab` *(implemented)*: count-only WU-UCT, fixed/adaptive virtual
+   loss, elastic micro-waves, duplication, and a Rust bridge to the real engine
+   telemetry;
 4. `symmetry_orbit_lab` *(implemented)*: board/action permutation equivariance
    and clone robustness;
 5. `service_curve_lab`: measured evaluator latency/throughput/energy versus

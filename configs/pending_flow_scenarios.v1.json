@@ -1,0 +1,35 @@
+{
+  "format_version": 1,
+  "experiment_id": "pending_flow_lab_v1",
+  "execution_mode": "synthetic_screening",
+  "default_seed": 20260713,
+  "default_waves": 400,
+  "default_latency": 2,
+  "default_c_puct": 1.4,
+  "default_worker_grid": [1, 2, 4, 8, 16, 32],
+  "assumptions": [
+    "count-only WU-UCT selection: pending inflates an arm's effective visit count, no value penalty",
+    "workers are assigned one at a time within a wave and see prior pending updates (VL de-collision)",
+    "a pending evaluation started at wave t completes at wave t+latency",
+    "common random numbers (per-wave, per-worker jitter) are shared across VL policies"
+  ],
+  "prohibited_inferences": [
+    "a synthetic collision/throughput number is a wall-clock speedup",
+    "adaptive VL improves play strength",
+    "CPU or energy efficiency without measured runtime or energy",
+    "transfer of the synthetic collision model to the real engine without the Rust bridge",
+    "human or grandmaster mechanism"
+  ],
+  "scenarios": [
+    {
+      "id": "one_best_cluster_k8",
+      "label": "One best arm above a graded cluster (8 arms)",
+      "arm_values": [0.62, 0.58, 0.55, 0.53, 0.50, 0.48, 0.45, 0.42]
+    },
+    {
+      "id": "flat_top_k12",
+      "label": "Three near-tied leaders among twelve",
+      "arm_values": [0.60, 0.595, 0.59, 0.52, 0.51, 0.50, 0.49, 0.48, 0.47, 0.46, 0.45, 0.44]
+    }
+  ]
+}
