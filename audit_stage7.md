@@ -281,4 +281,21 @@ Measured throughput on the real 200-games/iter gomoku7 loop is ~8 min/iter
 from the B13 toy-capped smoke (~116 s/gen) and is wrong for the full loop. Code
 lanes C1-C10 are independent of training and proceed regardless; the experiment
 scope (single-seed mid-training vs full multi-seed) is a timeline decision
-raised with the user before E1-E3.
+raised with the user before E1-E3. **User chose: reduce to 3 seeds × 8 gens
+(~3.2 h); relaunched unbuffered.**
+
+### C9 — O6 burst-precision analyzer
+
+- `scripts/phase15_o6_burst_precision.py`: joins B15 burst events (online rows,
+  `budget_burst_triggered`) with the external difficulty label `hard :=
+  forked_voc.final_overturns_shallow` on the shared A4 trace bundle, keyed by
+  `(checkpoint_id, position_id)`. `compute_o6_lift` = lift `P(hard|burst)/P(hard)`
+  with a position-level bootstrap CI (seed 0); pre-registered kill = CI includes
+  1; degeneracy demotion = burst rate >0.9/<0.02 or <30 events.
+  `build_records` ORs per-budget rows for the burst flag and excludes (counts)
+  rows whose bundle is missing — never a silent match. Non-circular: the label
+  uses the full ladder above the decision point.
+- Tests (`tests/test_phase15_o6_precision.py`, 5): lift alive when burst tracks
+  difficulty, kill when burst fires at the base rate, degeneracy (too-few
+  events / saturated burst rate), join with missing-bundle exclusion. All pass;
+  py_compile clean. Live run at E2.
