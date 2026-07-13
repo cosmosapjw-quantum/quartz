@@ -147,3 +147,14 @@ measured ~6× virtual-loss pessimism reduction at preserved agreement).
   underpulled-arm-blocks-halt, derives-best-ignores-stub, telemetry, clamp.
 - Regression: `cargo test --bin mcts_demo kg_stop` 24/24 (15 primitive + 9 new);
   full `cargo test --bin mcts_demo` 562 passed / 89 ignored / 0 failed.
+
+### C2 — `kg_stop` env-var registration
+
+- `src/mcts_server.rs`: added a `"kg_stop"` arm to the `QUARTZ_SEARCH_POLICY`
+  dispatch mirroring `kl_lucb_stop` — `KgStop::default_for_budget(max_visits)`
+  with optional env overrides `QUARTZ_KG_THRESHOLD` (f32) and
+  `QUARTZ_KG_MIN_TOTAL` (u32); prints the attach line with resolved params.
+  Updated the unknown-name WARN's expected-name list to include `kg_stop`.
+  Resolves the docs-vs-reality gap: the mechanism is the env var, not a
+  `--policy=` argv flag (no JSON key threaded — out of scope).
+- Regression: `cargo build --bin mcts_demo` clean (exit 0).

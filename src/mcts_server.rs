@@ -1688,6 +1688,29 @@ fn apply_search_profile(mut cfg: MctsConfig, profile: SearchProfile) -> MctsConf
                 ));
                 eprintln!("[bqpp] attached SearchPolicy: kl_lucb_stop (max_visits={max_visits})");
             }
+            "kg_stop" => {
+                // Stage 7: KG-per-cost halt policy. Halt-only (identity
+                // score_adjustment), so it needs no select.rs plumbing.
+                let mut policy = crate::mcts::policy::KgStop::default_for_budget(max_visits);
+                if let Some(v) = std::env::var("QUARTZ_KG_THRESHOLD")
+                    .ok()
+                    .and_then(|s| s.parse::<f32>().ok())
+                {
+                    policy.kg_threshold = v;
+                }
+                if let Some(v) = std::env::var("QUARTZ_KG_MIN_TOTAL")
+                    .ok()
+                    .and_then(|s| s.parse::<u32>().ok())
+                {
+                    policy.min_total = v;
+                }
+                let (thr, mt) = (policy.kg_threshold, policy.min_total);
+                cfg.search_policy = Some(std::sync::Arc::new(policy));
+                eprintln!(
+                    "[bqpp] attached SearchPolicy: kg_stop (max_visits={max_visits}, \
+                     kg_threshold={thr}, min_total={mt})"
+                );
+            }
             "" | "none" => { /* explicit no-policy */ }
             "legacy_quartz" | "bqpp" | "ments" => {
                 eprintln!(
@@ -1700,8 +1723,8 @@ fn apply_search_profile(mut cfg: MctsConfig, profile: SearchProfile) -> MctsConf
             other => {
                 eprintln!(
                     "[bqpp] WARN: unknown QUARTZ_SEARCH_POLICY={other}; expected one of \
-                     {{legacy_az, kl_lucb_stop, legacy_quartz, bqpp, ments, none}}. Falling \
-                     through to no-policy."
+                     {{legacy_az, kl_lucb_stop, kg_stop, legacy_quartz, bqpp, ments, none}}. \
+                     Falling through to no-policy."
                 );
             }
         }
