@@ -53,6 +53,11 @@ venv/bin/python scripts/ablation_study.py \
   --timeout-hours 1 \
   --output results/ablation_smoke_search_vl
 
+# 4b. Run the dependency-light synthetic metacognitive mechanism smoke
+python3 scripts/bernoulli_root_lab.py \
+  --quick \
+  --output-dir results/metacognitive_root/quick
+
 # 5. Train on Gomoku 7×7
 venv/bin/python -m quartz.train --game gomoku7 --iterations 30
 
@@ -78,6 +83,8 @@ scripts/build_gomocup_brain.sh \
 
 See [docs/INSTALL.md](docs/INSTALL.md) for detailed setup and
 [docs/QUICKSTART.md](docs/QUICKSTART.md) for training and experiment guides.
+The pre-MCTS synthetic ranking-risk assay is documented separately in
+[docs/METACOGNITIVE_EXPERIMENTS.md](docs/METACOGNITIVE_EXPERIMENTS.md).
 
 For external review packaging, use:
 

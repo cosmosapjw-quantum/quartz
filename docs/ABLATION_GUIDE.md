@@ -1,5 +1,9 @@
 # Ablation Guide
 
+Mechanism-level synthetic screening that does not invoke the Rust MCTS engine
+is documented in [METACOGNITIVE_EXPERIMENTS.md](METACOGNITIVE_EXPERIMENTS.md).
+Do not mix its IID Bernoulli rows with the search or training ablations below.
+
 ## Levels
 
 ### Level 1: Search-only Rust experiments
