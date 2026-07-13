@@ -299,3 +299,23 @@ raised with the user before E1-E3. **User chose: reduce to 3 seeds × 8 gens
   difficulty, kill when burst fires at the base rate, degeneracy (too-few
   events / saturated burst rate), join with missing-bundle exclusion. All pass;
   py_compile clean. Live run at E2.
+
+### C10 — research-grade gate ported to phase15
+
+- `quartz/phase15_research_grade.py`: encodes the CLAIM_LEDGER Ablation Start
+  Conditions as checkable functions — `check_seed_families` (>= N distinct
+  `seed_<n>` families), `check_paired_coverage` (identical
+  `(checkpoint,position,budget)` set per system), `check_single_salt`,
+  `check_artifact_hashes` (manifest sha256 for every checkpoint + positions +
+  config), `check_rows_preserved` (row count = ckpt×pos×budget×system) + the
+  A2-b interpretation-flags presence. `check_research_grade` aggregates;
+  `enforce_research_grade` raises SystemExit with the unmet list.
+- `scripts/phase15_ablation_study.py`: `--research-grade` + `--min-seed-families`;
+  a fail-fast seed-family precheck after checkpoint resolution (before the
+  expensive run).
+- `scripts/phase15_analyze_results.py`: `--research-grade` + `--manifest`; runs
+  the full gate on the actual rows/manifest/report and enforces at analysis time.
+- Tests (`tests/test_phase15_research_grade.py`, 5): seed-family parse/count,
+  paired coverage equal/mismatch, compliant + failure (missing hash, too-few
+  families) with enforce raising, rows-preserved drop detection. All pass;
+  compileall clean across both scripts + the module.

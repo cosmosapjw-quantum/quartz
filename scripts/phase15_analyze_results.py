@@ -78,6 +78,10 @@ def parse_args() -> argparse.Namespace:
     )
     parser.add_argument("--targets", default="B9,B10,B11,B12")
     parser.add_argument("--baselines", default="A4,B4,B5")
+    parser.add_argument("--research-grade", action="store_true",
+                        help="enforce the full phase15 research-grade gate on the rows/manifest/report")
+    parser.add_argument("--manifest", default=None, help="run manifest json (for artifact-hash gate)")
+    parser.add_argument("--min-seed-families", type=int, default=3)
     parser.add_argument("--output", default=None)
     return parser.parse_args()
 
@@ -691,6 +695,23 @@ def main() -> None:
         targets=parse_csv(args.targets),
         baselines=parse_csv(args.baselines),
     )
+    if getattr(args, "research_grade", False):
+        # Stage 7 / C10: enforce the full research-grade gate on the actual rows.
+        from quartz.phase15_research_grade import check_research_grade, enforce_research_grade
+
+        manifest = json.loads(Path(args.manifest).read_text(encoding="utf-8")) if args.manifest else {}
+        systems = sorted({str(r.get("system")) for r in posthoc_rows if "system" in r})
+        checkpoints = sorted({str(r.get("checkpoint_id")) for r in posthoc_rows if "checkpoint_id" in r})
+        positions = sorted({str(r.get("position_id")) for r in posthoc_rows if "position_id" in r})
+        budgets = sorted({int(r["budget"]) for r in posthoc_rows if "budget" in r})
+        rg = check_research_grade(
+            checkpoints=checkpoints, rows=posthoc_rows, manifest=manifest, systems=systems,
+            n_positions=len(positions), n_budgets=len(budgets),
+            analyzer_report=report, min_seed_families=int(args.min_seed_families),
+        )
+        report["research_grade_gate"] = rg
+        enforce_research_grade(rg)
+
     payload = json.dumps(report, indent=2, sort_keys=True)
     if args.output:
         Path(args.output).write_text(payload + "\n", encoding="utf-8")

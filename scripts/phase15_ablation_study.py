@@ -1169,6 +1169,9 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--root-conflict-topk", type=int, default=2)
     parser.add_argument("--deep-conflict-topk", type=int, default=2)
     parser.add_argument("--search-stall-timeout-s", type=float, default=45.0)
+    parser.add_argument("--research-grade", action="store_true",
+                        help="enforce the phase15 research-grade gate (>=N seed families precheck; full gate at analysis)")
+    parser.add_argument("--min-seed-families", type=int, default=3)
     return parser.parse_args()
 
 
@@ -1182,6 +1185,23 @@ def main() -> None:
     base_cfg["seed"] = int(args.seed)
     checkpoints = resolve_checkpoint_refs(args, base_dir)
     validate_checkpoint_refs(args, checkpoints)
+    if getattr(args, "research_grade", False):
+        # Fail fast BEFORE the expensive run: the research-grade gate needs
+        # >= min_seed_families distinct training-seed families among the
+        # checkpoints (Stage 7 / C10). The full gate (paired coverage, artifact
+        # hashes, single salt, rows-preserved, A2-b) runs at analysis time.
+        from quartz.phase15_research_grade import check_seed_families
+
+        ok_seed, seed_detail = check_seed_families(
+            [ref.id for ref in checkpoints] + [str(ref.path) for ref in checkpoints],
+            int(args.min_seed_families),
+        )
+        if not ok_seed:
+            raise SystemExit(
+                f"--research-grade precheck FAILED: only {seed_detail['n_seed_families']} seed "
+                f"families among checkpoints (need >= {args.min_seed_families}); "
+                f"families={seed_detail['families']}"
+            )
     all_systems = load_systems_config(args.systems_config, base_cfg)
     if args.write_default_systems_config:
         json_dump(Path(args.write_default_systems_config), {"systems": [asdict(system) for system in all_systems]})
