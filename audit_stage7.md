@@ -404,3 +404,28 @@ raised with the user before E1-E3. **User chose: reduce to 3 seeds × 8 gens
   efficacy bar; formal VALIDATED needs the full research-grade artifact-hash gate
   (only the seed-family precheck ran). Decision-neutral (KL-only) readout
   improvement, not a play/P2 claim.
+
+## C12 — Stage 7 closure (conditional gate table)
+
+Each Stage 7 conditional-table row closed with its executed disposition + earned
+tier. Training manifest (6 checkpoint sha256s) at
+`results/phase15_stage7/gomoku7/training/manifest.json`.
+
+| Stage 7 task | Gate | Executed disposition | Tier |
+|---|---|---|---|
+| KG-stop `SearchPolicy` wrapper + `kg_stop` env registration | Stage 1 GREEN | BUILT + wired + engine-tested; E3 smoke shows it does NOT engage on real gomoku7 backups (2/480 halts, no savings) — low-budget-unreachable like KL-LUCB. Lane CLOSED at low budgets | IMPLEMENTED + SMOKE-VALIDATED (halts on resolved roots); efficiency NOT earned |
+| H1 online halt + flip-calibration vs P_flip | Stage 3 GREEN | WIRED (B14, continuation early-stop); E2 shows H1 stability is far better CALIBRATED than P_flip (ECE 0.08 vs 0.50), confirmatory matched-budget INSUFFICIENT (both stops mis-tuned at 8-32) — H1 NOT demoted | SMOKE-VALIDATED (calibration win; stop threshold needs recalibration) |
+| H3 backflow burst + O6 precision via forked_voc | Stage 2 GREEN | WIRED (B15, 2-signal gate); E2 shows 0/288 bursts at default floors → O6 unmeasurable (degeneracy demotion). Difficulty labels healthy (p_hard 0.79) | SMOKE-VALIDATED (wired); O6 unproven — recalibrate floors |
+| B13 research-grade verdict | unconditional | RAN on trained 3-seed net: CI-separated KL-to-oracle improvement (Bonferroni), decisions unchanged. FLIPS the random-init harm | SMOKE-VALIDATED (efficacy direction; formal VALIDATED needs artifact-hash gate) |
+| Danihelka ranking restoration | Stage 3 net-total = 0 | CANCELLED (C0), DEPRECATED — no evidenced payoff path | — |
+| Constraint: no adaptive-VL dup claim (Stage 5) | — | In force through closure; not cited anywhere | — |
+
+**Stage 7 theme.** Every wrapper/operator/analyzer works (code proven by unit +
+engine tests). On real trained-net traces, the STOP/BURST mechanisms (KG-stop,
+H1, H3) are calibrated too conservatively for the 8-64 budget regime and do not
+engage — a consistent, honest negative that mirrors the KL-LUCB A1-a history.
+The two POSITIVE Stage-7 results are offline/readout: **B13's one-loop readout
+lowers KL-to-oracle (CI-separated) on a trained net**, and **H1's stability
+signal is dramatically better-calibrated than the incumbent P_flip**. No result
+was promoted above SMOKE-VALIDATED; the synthetic-lab tiers (Stages 1-6) remain
+pinned at `synthetic_screening`.

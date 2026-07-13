@@ -422,6 +422,22 @@ supplies synthetic mechanism assays that gate the engine work here:
   on the table, so an inflight-credit / adaptive-`W(t)` scheduler is justified.
   Quality-free throughput only (re-scoped H4); THESIS P4 is informed, not proven;
   re-run on the shipped net before production tuning.
+- **Stage 7 live-engine (conditional lanes executed).** All four green-lit lanes
+  wired + run; see `audit_stage7.md` and CLAIM_LEDGER. Verdicts: **KG-stop**
+  wrapper built + engine-tested but does NOT engage on real gomoku7 backups
+  (2/480 halts, no savings — low-budget-unreachable like KL-LUCB); **H1** online
+  halt wired, its stability signal is dramatically better CALIBRATED than the
+  incumbent P_flip (ECE 0.08 vs 0.50) but the matched-budget confirmatory is
+  insufficient (both stops mis-tuned at 8-32) — H1 survives, not demoted;
+  **H3/O6** wired but the 2-signal burst gate fires 0/288 at default floors →
+  O6 unmeasurable (degeneracy demotion; difficulty labels healthy, p_hard 0.79);
+  **B13** one-loop readout lowers KL-to-oracle on a trained 3-seed net
+  (CI-separated, Bonferroni: −0.030 @ curvature 1.0, −0.010 @ 0.25), decisions
+  unchanged — flips the random-init harm. **Danihelka** cancelled (Stage 3
+  net-total 0). Theme: the code all works; the STOP/BURST mechanisms are
+  calibrated too conservatively for the 8-64 regime and don't engage (KL-LUCB
+  A1-a echo); the positive results are offline/readout. Nothing promoted above
+  SMOKE-VALIDATED; synthetic labs stay pinned at `synthetic_screening`.
 
 ---
 
