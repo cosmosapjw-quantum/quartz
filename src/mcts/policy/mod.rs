@@ -32,7 +32,7 @@ pub use gumbel_sh::{
     gumbel_top_m, initial_bracket, sample_gumbel, SequentialHalvingBracket,
 };
 pub use kg_stop::{
-    compute_kg_array, expected_improvement, kg_per_arm, should_halt_by_kg,
+    compute_kg_array, expected_improvement, kg_per_arm, should_halt_by_kg, KgCostSource, KgStop,
 };
 pub use ments::{kl_visit_to_soft, soft_policy, soft_value};
 pub use reservoir::{lambda_score, quantile, Reservoir};

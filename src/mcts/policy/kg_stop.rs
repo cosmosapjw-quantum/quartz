@@ -167,6 +167,238 @@ pub fn should_halt_by_kg(
     let max_kg = kg_array.iter().cloned().fold(f32::NEG_INFINITY, f32::max);
     max_kg < kg_threshold * cost_per_pull_ms
 }
+// ────────────────────────────────────────────────────────────────────────
+// Stage 7 / C1: `KgStop` — the `SearchPolicy` wrapper around the primitives.
+// ────────────────────────────────────────────────────────────────────────
+
+use parking_lot::Mutex;
+
+use super::trait_def::{
+    ControllerTelemetry, EdgeView, HaltDecision, ScoreAdjustment, SearchPolicy, SearchSnapshot,
+};
+use crate::mcts::quartz::HaltReason;
+
+/// Source of the per-pull cost used in the KG-per-cost stop predicate.
+/// `MeasuredPerIter` derives it from `snap.elapsed_ms / snap.iteration` (the
+/// real amortized NN-eval + backup latency, no fitted constant — FORBIDDEN-safe).
+/// `Fixed` is for deterministic unit tests only.
+#[derive(Clone, Copy, Debug)]
+pub enum KgCostSource {
+    MeasuredPerIter,
+    Fixed(f32),
+}
+
+impl Default for KgCostSource {
+    fn default() -> Self {
+        KgCostSource::MeasuredPerIter
+    }
+}
+
+/// Cached KG state. Written at each `observe`; read O(1) by `should_halt`
+/// and `telemetry`.
+#[derive(Clone, Copy, Debug, Default)]
+struct KgCache {
+    /// Guards `should_halt` until the first successful `observe`. Without this,
+    /// the default cache (`max_kg = 0`) would spuriously satisfy the stop
+    /// predicate once `n_total >= min_total`, even though no KG was ever
+    /// computed — the dominant failure mode at the 8-64 budgets this project
+    /// targets, where `observe` may not have fired yet (check_interval cadence).
+    observed: bool,
+    /// max_a KG_a from the last observe (leader's KG is 0 by convention).
+    max_kg: f32,
+    /// Empirical-best arm index at last observe.
+    best_idx: u16,
+    /// Amortized per-pull cost (ms) used in the stop threshold.
+    cost_per_pull_ms: f32,
+    /// Root visits at last observe (diagnostics).
+    n_total_at_observe: u32,
+    /// Mean per-arm posterior std at last observe (telemetry).
+    mean_sigma_a: f32,
+}
+
+/// Knowledge-Gradient-per-cost halt policy. Pure PUCT selection (identity
+/// `score_adjustment`); the only halt path is `max_a KG_a < kg_threshold *
+/// cost_per_pull_ms` once `n_total >= min_total`. Wraps the audit-corrected
+/// primitives (`compute_kg_array`, `should_halt_by_kg`) exactly as
+/// `KLLUCBStop` wraps its KL helpers.
+pub struct KgStop {
+    /// Stop-confidence knob (value-per-ms). Larger ⇒ stops sooner. Default
+    /// 1e-3 — the scale pinned by this module's primitive tests. This is a
+    /// stop-confidence parameter (KL-LUCB's `delta` is the precedent), NOT a
+    /// fitted exploration coefficient.
+    pub kg_threshold: f32,
+    /// Empirical-Bayes pseudo-count for `EdgeView::sigma_a` and `kg_per_arm`.
+    pub lambda0: f32,
+    /// Minimum visits for an arm to be eligible as the empirical best (an
+    /// unvetted single lucky rollout should not become b̂). Kept low (4) for
+    /// the 8-64 budget regime; the KL-LUCB value of 30 made low-budget stops
+    /// unreachable (A1-a history).
+    pub min_pulls: u32,
+    /// Minimum total root visits before any halt is allowed.
+    pub min_total: u32,
+    /// Hard ceiling on root visits (host controller owns `BudgetExhausted`).
+    pub max_visits: u32,
+    /// Where `cost_per_pull_ms` comes from.
+    pub cost_source: KgCostSource,
+    cached: Mutex<KgCache>,
+}
+
+impl KgStop {
+    pub fn new(
+        kg_threshold: f32,
+        lambda0: f32,
+        min_pulls: u32,
+        min_total: u32,
+        max_visits: u32,
+        cost_source: KgCostSource,
+    ) -> Self {
+        Self {
+            kg_threshold,
+            lambda0,
+            min_pulls,
+            min_total,
+            max_visits,
+            cost_source,
+            cached: Mutex::new(KgCache::default()),
+        }
+    }
+
+    /// Default tuning: `kg_threshold=1e-3`, `lambda0=4.0`, `min_pulls=4`,
+    /// `min_total = clamp(budget/4, 20, 200)` (KL-LUCB precedent),
+    /// `max_visits = u32::MAX` so the certificate is the sole policy-side halt,
+    /// cost measured from the snapshot.
+    pub fn default_for_budget(budget: u32) -> Self {
+        let min_total = (budget / 4).clamp(20, 200);
+        Self::new(1e-3, 4.0, 4, min_total, u32::MAX, KgCostSource::MeasuredPerIter)
+    }
+
+    fn cost_per_pull_ms(&self, snap: &SearchSnapshot) -> f32 {
+        match self.cost_source {
+            KgCostSource::Fixed(c) => c,
+            KgCostSource::MeasuredPerIter => {
+                let iters = snap.iteration.max(1) as f32;
+                // Amortized wall-clock per iteration; floored so a not-yet-timed
+                // early snapshot (elapsed_ms=0) yields a tiny positive cost
+                // rather than 0 (which would make the threshold 0 and forbid
+                // every stop). 1e-3 ms floor = the sigma_a floor scale.
+                (snap.elapsed_ms as f32 / iters).max(1e-3)
+            }
+        }
+    }
+}
+
+impl SearchPolicy for KgStop {
+    fn name(&self) -> &'static str {
+        "kg_stop"
+    }
+
+    fn observe(&self, snap: &SearchSnapshot, edges: &[EdgeView<'_>]) {
+        if edges.len() < 2 {
+            return;
+        }
+        // Empirical best = argmax q over arms with >= min_pulls visits (never
+        // trust the stubbed snap.best_idx). Fallback to argmax n if no arm
+        // clears the eligibility gate, so we still populate a cache and the
+        // KG(leader)=0 convention holds.
+        let mut best_idx = u16::MAX;
+        let mut best_q = f32::NEG_INFINITY;
+        for e in edges {
+            if e.n >= self.min_pulls && e.q > best_q {
+                best_q = e.q;
+                best_idx = e.idx;
+            }
+        }
+        if best_idx == u16::MAX {
+            let mut most_n = 0u32;
+            for e in edges {
+                if e.n >= most_n {
+                    most_n = e.n;
+                    best_idx = e.idx;
+                }
+            }
+        }
+
+        // Build the KG inputs from edges. `best_pos` is the position of
+        // `best_idx` within the `edges` slice order.
+        let k = edges.len();
+        let mut mu_hats: smallvec::SmallVec<[f32; 32]> = smallvec::SmallVec::with_capacity(k);
+        let mut n_pulls: smallvec::SmallVec<[u32; 32]> = smallvec::SmallVec::with_capacity(k);
+        let mut sigma2s: smallvec::SmallVec<[f32; 32]> = smallvec::SmallVec::with_capacity(k);
+        let mut best_pos = 0u16;
+        let mut sigma_sum = 0.0f32;
+        for (pos, e) in edges.iter().enumerate() {
+            if e.idx == best_idx {
+                best_pos = pos as u16;
+            }
+            let sigma = e.sigma_a(self.lambda0);
+            sigma_sum += sigma;
+            mu_hats.push(e.q);
+            n_pulls.push(e.n);
+            sigma2s.push(sigma * sigma);
+        }
+
+        let kg = compute_kg_array(&mu_hats, &n_pulls, &sigma2s, best_pos, self.lambda0);
+        let max_kg = kg.iter().cloned().fold(f32::NEG_INFINITY, f32::max);
+
+        *self.cached.lock() = KgCache {
+            observed: true,
+            max_kg,
+            best_idx,
+            cost_per_pull_ms: self.cost_per_pull_ms(snap),
+            n_total_at_observe: snap.root_visits,
+            mean_sigma_a: sigma_sum / k as f32,
+        };
+    }
+
+    fn score_adjustment(&self, _e: EdgeView<'_>) -> ScoreAdjustment {
+        // Pure PUCT: KG-stop is a halt-only policy.
+        ScoreAdjustment::default()
+    }
+
+    fn should_halt(&self, snap: &SearchSnapshot, _edges: &[EdgeView<'_>]) -> HaltDecision {
+        if snap.root_visits >= self.max_visits {
+            return HaltDecision::Stop(HaltReason::MaxVisits);
+        }
+        if snap.root_visits < self.min_total {
+            return HaltDecision::Continue;
+        }
+        let cache = *self.cached.lock();
+        if !cache.observed {
+            // No KG computed yet — never halt on the default cache (R3 guard).
+            return HaltDecision::Continue;
+        }
+        if should_halt_by_kg(
+            &[cache.max_kg],
+            snap.root_visits,
+            self.min_total,
+            self.kg_threshold,
+            cache.cost_per_pull_ms,
+        ) {
+            HaltDecision::Stop(HaltReason::PolicyConverged)
+        } else {
+            HaltDecision::Continue
+        }
+    }
+
+    fn telemetry(&self) -> ControllerTelemetry {
+        let cache = *self.cached.lock();
+        ControllerTelemetry {
+            schema_version: 1,
+            policy_name: self.name().to_string(),
+            halt_reason: None,
+            gap_bits: 0.0,
+            glr_z: 0.0,
+            mean_sigma_a: cache.mean_sigma_a,
+            chi2: 0.0,
+            chi2_dof: 0,
+            // Russo-Van Roy one-step VOI — max KG is exactly this quantity;
+            // the field's doc reserves it for the KG-stop rule.
+            bayes_voi: cache.max_kg,
+            eval_sigma: 0.0,
+            iters_at_halt: 0,
+        }
+    }
+}
 
 #[cfg(test)]
 mod tests {
@@ -335,5 +567,198 @@ mod tests {
         // The Python prototype computed ~9.8e-6 for this exact case.
         // Allow 50% relative tolerance for f32 erf approximation drift.
         assert!(kg > 5e-6 && kg < 5e-5, "kg = {kg}, expected ~ 1e-5");
+    }
+
+    // ── Stage 7 / C1: KgStop wrapper tests ──────────────────────────────
+    // Fixtures mirror kl_lucb.rs:226-264.
+
+    fn make_snap(root_visits: u32, n_children: u16) -> SearchSnapshot {
+        SearchSnapshot {
+            root_visits,
+            n_children,
+            n_visible: n_children,
+            elapsed_ms: root_visits as u64, // ~1 ms/iter so measured cost ≈ 1.0
+            depth_max: 1,
+            mean_q_root: 0.0,
+            sigma_q_root: 0.3,
+            sigma_eval: None,
+            iteration: root_visits.max(1) as u64,
+            best_idx: 0,
+            second_idx: 1,
+        }
+    }
+
+    fn make_edge<'a>(
+        idx: u16,
+        n: u32,
+        q: f32,
+        m2: f64,
+        snap: &'a SearchSnapshot,
+        n_total: &'a u32,
+    ) -> EdgeView<'a> {
+        EdgeView {
+            idx,
+            n,
+            n_virtual: 0,
+            o_a: 0,
+            q,
+            q_sum: q * n as f32,
+            m2,
+            prior: 1.0 / snap.n_children as f32,
+            depth: 0,
+            last_value: q,
+            envar_partial: 0.0,
+            root_total_n: n_total,
+            stats: snap,
+        }
+    }
+
+    /// KG-stop never modifies the prior or adds a penalty — pure PUCT.
+    #[test]
+    fn test_s7_kg_stop_score_adjustment_is_identity() {
+        let policy = KgStop::default_for_budget(10000);
+        let snap = make_snap(100, 3);
+        let n_total = 100u32;
+        let e = make_edge(0, 40, 0.5, 0.0, &snap, &n_total);
+        let adj = policy.score_adjustment(e);
+        assert_eq!(adj.penalty, 0.0);
+        assert_eq!(adj.fisher_alpha, 0.0);
+        assert!(adj.q_override.is_none());
+    }
+
+    /// The default cache (never observed) must NOT halt, even past min_total.
+    #[test]
+    fn test_s7_kg_stop_no_halt_before_first_observe() {
+        let policy = KgStop::new(1e-3, 4.0, 4, 20, u32::MAX, KgCostSource::Fixed(1.0));
+        let snap = make_snap(200, 3); // well past min_total
+        let n_total = 200u32;
+        let edges = [
+            make_edge(0, 80, 0.6, 0.0, &snap, &n_total),
+            make_edge(1, 60, 0.2, 0.0, &snap, &n_total),
+        ];
+        // observe() has never been called → observed=false → Continue.
+        assert!(matches!(
+            policy.should_halt(&snap, &edges),
+            HaltDecision::Continue
+        ));
+    }
+
+    /// Below min_total there is no halt regardless of KG.
+    #[test]
+    fn test_s7_kg_stop_below_min_total_continues() {
+        let policy = KgStop::new(1e-3, 4.0, 4, 100, u32::MAX, KgCostSource::Fixed(1.0));
+        let snap = make_snap(50, 3);
+        let n_total = 50u32;
+        let edges = [
+            make_edge(0, 30, 0.9, 0.0, &snap, &n_total),
+            make_edge(1, 10, -0.5, 0.0, &snap, &n_total),
+        ];
+        policy.observe(&snap, &edges);
+        assert!(matches!(
+            policy.should_halt(&snap, &edges),
+            HaltDecision::Continue
+        ));
+    }
+
+    /// max_visits ceiling halts with MaxVisits.
+    #[test]
+    fn test_s7_kg_stop_halt_at_max_visits() {
+        let policy = KgStop::new(1e-3, 4.0, 4, 20, 100, KgCostSource::Fixed(1.0));
+        let snap = make_snap(100, 3);
+        let n_total = 100u32;
+        let edges = [
+            make_edge(0, 50, 0.5, 0.0, &snap, &n_total),
+            make_edge(1, 50, 0.4, 0.0, &snap, &n_total),
+        ];
+        assert!(matches!(
+            policy.should_halt(&snap, &edges),
+            HaltDecision::Stop(HaltReason::MaxVisits)
+        ));
+    }
+
+    /// A resolved root (one arm far ahead, both well-visited, low variance) has
+    /// tiny KG ⇒ the certificate fires as PolicyConverged.
+    #[test]
+    fn test_s7_kg_stop_resolved_root_halts_policy_converged() {
+        let policy = KgStop::new(1e-3, 4.0, 4, 20, u32::MAX, KgCostSource::Fixed(1.0));
+        let snap = make_snap(200, 3);
+        let n_total = 200u32;
+        // Best arm strongly ahead, everyone well-pulled, near-zero variance.
+        let edges = [
+            make_edge(0, 160, 0.9, 0.01, &snap, &n_total),
+            make_edge(1, 25, -0.6, 0.01, &snap, &n_total),
+            make_edge(2, 15, -0.7, 0.01, &snap, &n_total),
+        ];
+        policy.observe(&snap, &edges);
+        assert!(matches!(
+            policy.should_halt(&snap, &edges),
+            HaltDecision::Stop(HaltReason::PolicyConverged)
+        ));
+    }
+
+    /// An under-pulled high-variance challenger keeps max_kg above the floor
+    /// (the A1-a lesson: sigma_a shrinkage toward sigma_q_root² keeps an
+    /// unsettled arm in play) ⇒ no premature halt.
+    #[test]
+    fn test_s7_kg_stop_underpulled_arm_blocks_halt() {
+        let policy = KgStop::new(1e-3, 4.0, 4, 20, u32::MAX, KgCostSource::Fixed(1.0));
+        let snap = make_snap(60, 3);
+        let n_total = 60u32;
+        // Leader modestly ahead but a barely-visited close challenger has a
+        // large posterior std (few samples), so its KG stays high.
+        let edges = [
+            make_edge(0, 50, 0.30, 1.0, &snap, &n_total),
+            make_edge(1, 5, 0.25, 2.0, &snap, &n_total),
+            make_edge(2, 5, 0.20, 2.0, &snap, &n_total),
+        ];
+        policy.observe(&snap, &edges);
+        assert!(matches!(
+            policy.should_halt(&snap, &edges),
+            HaltDecision::Continue
+        ));
+    }
+
+    /// The best arm is derived from edges (idx 2 here), ignoring the stubbed
+    /// snap.best_idx = 0.
+    #[test]
+    fn test_s7_kg_stop_derives_best_arm_ignores_stubbed_snapshot_best() {
+        let policy = KgStop::new(1e-3, 4.0, 4, 20, u32::MAX, KgCostSource::Fixed(1.0));
+        let snap = make_snap(200, 3); // best_idx stubbed to 0
+        let n_total = 200u32;
+        let edges = [
+            make_edge(0, 60, 0.10, 0.01, &snap, &n_total),
+            make_edge(1, 60, 0.20, 0.01, &snap, &n_total),
+            make_edge(2, 80, 0.90, 0.01, &snap, &n_total), // true best
+        ];
+        policy.observe(&snap, &edges);
+        let cache = *policy.cached.lock();
+        assert_eq!(cache.best_idx, 2, "best must be derived from edge q, not snap.best_idx");
+    }
+
+    /// telemetry exposes max_kg as bayes_voi and the mean sigma_a.
+    #[test]
+    fn test_s7_kg_stop_telemetry_exposes_max_kg_as_bayes_voi() {
+        let policy = KgStop::new(1e-3, 4.0, 4, 20, u32::MAX, KgCostSource::Fixed(1.0));
+        let snap = make_snap(80, 3);
+        let n_total = 80u32;
+        let edges = [
+            make_edge(0, 40, 0.30, 1.0, &snap, &n_total),
+            make_edge(1, 20, 0.28, 1.0, &snap, &n_total),
+        ];
+        policy.observe(&snap, &edges);
+        let tel = policy.telemetry();
+        assert_eq!(tel.policy_name, "kg_stop");
+        let cache = *policy.cached.lock();
+        assert_eq!(tel.bayes_voi, cache.max_kg);
+        assert!(tel.bayes_voi >= 0.0);
+        assert!(tel.mean_sigma_a > 0.0);
+    }
+
+    /// default_for_budget clamps min_total per the KL-LUCB precedent.
+    #[test]
+    fn test_s7_kg_stop_default_for_budget_clamps_min_total() {
+        assert_eq!(KgStop::default_for_budget(40).min_total, 20); // 10 -> clamp 20
+        assert_eq!(KgStop::default_for_budget(400).min_total, 100); // 100
+        assert_eq!(KgStop::default_for_budget(10000).min_total, 200); // 2500 -> clamp 200
     }
 }

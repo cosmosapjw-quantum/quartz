@@ -125,3 +125,25 @@ measured ~6× virtual-loss pessimism reduction at preserved agreement).
   Stage-3 cancel reason above; added Stage 7 SPECIFIED rows referencing this
   file's kill/success criteria; added the adaptive-VL-dup constraint row.
 - No code touched; no regression run required (docs only).
+
+### C1 — `KgStop` `SearchPolicy` wrapper
+
+- `src/mcts/policy/kg_stop.rs`: appended `KgStop` (struct + `impl SearchPolicy`)
+  and `KgCostSource` below the existing tested primitives. Wraps
+  `compute_kg_array` / `should_halt_by_kg` exactly as `KLLUCBStop` wraps its KL
+  helpers: `parking_lot::Mutex<KgCache>`, heavy work in `observe`, O(1)
+  `should_halt`, identity `score_adjustment`, `telemetry` maps `max_kg →
+  bayes_voi`.
+- Design points honoring the exploration facts: best arm derived from edge `q`
+  (gated by `min_pulls`, fallback argmax `n`), **never** the stubbed
+  `snap.best_idx`; per-arm variance = `EdgeView::sigma_a(lambda0)²` (shrinks an
+  unvisited arm toward `sigma_q_root²`); `cost_per_pull_ms =
+  elapsed_ms/iteration` (measured, no fitted constant — FORBIDDEN-safe);
+  `!observed ⇒ Continue` guard (R3: default cache must not spuriously halt);
+  halt reason = reserved `HaltReason::PolicyConverged`.
+- `src/mcts/policy/mod.rs`: export `KgStop`, `KgCostSource`.
+- Tests (9 `test_s7_kg_stop_*`): identity adjustment, no-halt-before-observe,
+  below-min-total, max-visits, resolved-root-halts-PolicyConverged,
+  underpulled-arm-blocks-halt, derives-best-ignores-stub, telemetry, clamp.
+- Regression: `cargo test --bin mcts_demo kg_stop` 24/24 (15 primitive + 9 new);
+  full `cargo test --bin mcts_demo` 562 passed / 89 ignored / 0 failed.
