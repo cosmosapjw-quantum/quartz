@@ -356,6 +356,24 @@ Every lane's *online efficacy* claim stays `SPECIFIED` / `PROPOSED` until a
 paired ablation runs on real traces under `--research-grade`. H3/H4/H5 and
 B3 need the engine/self-play loop and are design-only here.
 
+### Metacognitive-lab campaign (external contribution + follow-ups)
+
+The pulled `metacognitive` experiment family (`docs/METACOGNITIVE_EXPERIMENTS.md`)
+supplies synthetic mechanism assays that gate the engine work here:
+
+- **Bernoulli root lab → KG-stop.** The IID screen (Stage 1) is the
+  pre-registered gate for the B4 `KG-stop`/`kg_rank_risk` disposition:
+  `kg_rank_risk` lowered paired regret in every non-null scenario and was
+  never worse, so the `kg_stop` `SearchPolicy` wrapper is **authorized to be
+  built and re-tested on real MCTS** (CLAIM_LEDGER). Synthetic → not itself a
+  play claim.
+- **`forked_voc_lab` → B1 O3/VOC.** This lab is the offline VOC oracle B1
+  flagged as missing: it labels each frozen-trace computation by realized
+  root-decision change and feeds `voc_tightness`. On real random-init traces
+  the label is non-degenerate. The P3 double-pattern (skill discrimination)
+  still needs a trained checkpoint, and `voc_tightness` itself needs an
+  online/adaptive run (fixed budget ladder → constant budget → undefined).
+
 ---
 
 ## GPU validation session (RTX 3080 Ti; torch 2.11.0+cu128)
