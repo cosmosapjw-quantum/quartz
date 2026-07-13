@@ -34,6 +34,7 @@ def run_online_readout(
     trace_policies: list[np.ndarray] = []
     trace_budgets: list[int] = []
     trace_latencies_ms: list[float] = []
+    trace_p_flips: list[float | None] = []
     decision_notes: list[str] = []
     stop_budget = int(target_budget)
 
@@ -44,6 +45,7 @@ def run_online_readout(
         trace_policies.append(np.asarray(row["search_policy"], dtype=np.float32))
         trace_budgets.append(int(budget))
         trace_latencies_ms.append(float(row.get("latency_ms", 0.0)))
+        trace_p_flips.append(None if row.get("p_flip") is None else float(row.get("p_flip")))
 
         if int(budget) < int(target_budget):
             if system.refresh_operator == "dual_channel_commit" and len(trace_policies) >= 2:
@@ -55,6 +57,7 @@ def run_online_readout(
                         **meta,
                         "trace_budgets": trace_budgets,
                         "trace_latencies_ms": trace_latencies_ms,
+                        "trace_p_flips": trace_p_flips,
                         "trace_acquire_ms": float(sum(trace_latencies_ms)),
                         "effective_runtime_ms": float(sum(trace_latencies_ms)),
                         "readout_ms": 0.0,
@@ -81,6 +84,7 @@ def run_online_readout(
                         **meta,
                         "trace_budgets": trace_budgets,
                         "trace_latencies_ms": trace_latencies_ms,
+                        "trace_p_flips": trace_p_flips,
                         "trace_acquire_ms": float(sum(trace_latencies_ms)),
                         "effective_runtime_ms": float(sum(trace_latencies_ms)),
                         "readout_ms": 0.0,
@@ -122,6 +126,7 @@ def run_online_readout(
             **meta,
             "trace_budgets": trace_budgets,
             "trace_latencies_ms": trace_latencies_ms,
+            "trace_p_flips": trace_p_flips,
             "trace_acquire_ms": float(sum(trace_latencies_ms)),
             "readout_ms": float(readout_ms),
             "effective_runtime_ms": float(sum(trace_latencies_ms) + readout_ms),
@@ -137,6 +142,7 @@ def run_online_readout(
         **meta,
         "trace_budgets": trace_budgets,
         "trace_latencies_ms": trace_latencies_ms,
+        "trace_p_flips": trace_p_flips,
         "trace_acquire_ms": float(sum(trace_latencies_ms)),
         "readout_ms": float(readout_ms),
         "effective_runtime_ms": float(sum(trace_latencies_ms) + readout_ms),

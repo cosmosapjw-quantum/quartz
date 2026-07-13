@@ -278,3 +278,30 @@ def test_continuation_early_stop_fn_prevents_later_steps():
     )
     assert set(rows) == {8}, "should have realized only the opening chunk"
     assert step_calls["n"] == 0, "no session steps should have run after the early stop"
+
+
+def test_run_online_readout_meta_includes_trace_p_flips():
+    """Stage 7 / C6: the online meta carries per-chunk p_flip (None-padded when
+    the search row omits it)."""
+    system = Phase15System(
+        id="B14", label="h1", group="B", substrate="S1", controller="QuartzVL",
+        refresh_operator="argmax_stability_stop",
+        params={"stability_threshold": 0.99, "stability_min_visits": 8, "stability_n_boot": 1000},
+        execution_mode="online",
+    )
+    prior = normalize_policy(np.array([0.34, 0.33, 0.33], dtype=np.float32)).tolist()
+
+    def _fn_with_pflip(position, sys_, budget):
+        return {
+            "search_policy": [0.4, 0.35, 0.25],
+            "latency_ms": 1.0,
+            "p_flip": {8: 0.5, 16: 0.3, 32: 0.1}[int(budget)],
+        }
+
+    _, meta = run_online_readout(
+        system=system, position={"id": "P1"},
+        prior_input=np.asarray(prior, dtype=np.float32),
+        budgets=[8, 16, 32], target_budget=32, search_policy_fn=_fn_with_pflip,
+    )
+    assert meta["trace_p_flips"] == [0.5, 0.3, 0.1]
+    assert len(meta["trace_p_flips"]) == len(meta["trace_budgets"])

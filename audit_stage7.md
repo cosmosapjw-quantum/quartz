@@ -215,3 +215,23 @@ measured ~6× virtual-loss pessimism reduction at preserved agreement).
   continuation `early_stop_fn` prevents later steps). Count tests updated for
   B14 (PARTB/FULL). Regression: phase15 + argmax_stability suites 136 passed;
   compileall clean.
+
+### C6 — trace p_flip channel (single schema-touching commit)
+
+- `quartz/phase15_trace.py`: `TRACE_CACHE_SCHEMA_VERSION` 4→5;
+  `build_trace_artifact(..., trace_p_flips=None)` stores `trace_p_flips`
+  (None-padded, one per budget — back-compat: pre-C6 bundles omit the field).
+  The schema bump + `phase15_trace.py`'s presence in `TRACE_CACHE_RELEVANT_PATHS`
+  auto-flips the cache salt exactly once (R1); Stage 7 uses a fresh
+  `--trace-cache-dir`.
+- `scripts/phase15_ablation_study.py`: `build_search_trace` captures
+  `row["p_flip"]` per chunk and passes `trace_p_flips` to `build_trace_artifact`,
+  so cached trace bundles carry the engine's own incumbent P_flip aligned with
+  each policy — the substrate the flip-calibration lane (C8) reads directly
+  (same approach as `forked_voc_lab` reading trace-cache bundles).
+- `quartz/phase15_online.py`: `run_online_readout` collects per-chunk
+  `trace_p_flips` and includes it in all four return metas.
+- Tests: new `tests/test_phase15_trace.py` (3: records p_flips + schema bump,
+  None-pad back-compat, cache roundtrip) + `test_run_online_readout_meta_
+  includes_trace_p_flips`. Regression: phase15 + trace suites 147 passed;
+  compileall clean.

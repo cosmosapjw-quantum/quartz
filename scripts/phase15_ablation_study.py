@@ -556,14 +556,16 @@ def build_search_trace(
             return policies, latencies, True
     policies = []
     latencies: list[float] = []
+    p_flips: list[float | None] = []
     for budget in trace_budgets:
         row = harness.search_policy(position, system, budget)
         policies.append(np.asarray(row["search_policy"], dtype=np.float32))
         latencies.append(float(row.get("latency_ms", 0.0)))
+        p_flips.append(None if row.get("p_flip") is None else float(row.get("p_flip")))
     store_cached_trace(
         cache_dir,
         cache_key,
-        build_trace_artifact(trace_budgets, policies, latencies, source="fresh"),
+        build_trace_artifact(trace_budgets, policies, latencies, source="fresh", trace_p_flips=p_flips),
     )
     return policies, latencies, False
 

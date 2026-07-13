@@ -10,7 +10,7 @@ from typing import Any
 
 import numpy as np
 
-TRACE_CACHE_SCHEMA_VERSION = 4  # A0-b: cache key no longer includes system.id
+TRACE_CACHE_SCHEMA_VERSION = 5  # Stage 7 / C6: trace bundles carry per-chunk p_flip
 TRACE_CACHE_RELEVANT_PATHS = (
     "configs/phase15_systems.default.json",
     "quartz/phase15_ablation.py",
@@ -108,13 +108,23 @@ def build_trace_artifact(
     *,
     source: str,
     code_salt: str | None = None,
+    trace_p_flips: list[float | None] | None = None,
 ) -> dict[str, Any]:
+    # Stage 7 / C6: the engine's own per-chunk P_flip is recorded alongside the
+    # policy so the flip-calibration lane (C8) can compare H1 argmax-stability
+    # against the incumbent P_flip at IDENTICAL chunk boundaries. Missing values
+    # are stored as None (back-compat: pre-C6 bundles simply omit the field).
+    if trace_p_flips is None:
+        p_flips: list[float | None] = [None for _ in trace_budgets]
+    else:
+        p_flips = [None if v is None else float(v) for v in trace_p_flips]
     return {
         "trace_cache_schema_version": TRACE_CACHE_SCHEMA_VERSION,
         "trace_code_salt": str(code_salt or trace_cache_salt()),
         "trace_budgets": [int(x) for x in trace_budgets],
         "trace_policies": [np.asarray(policy, dtype=np.float32).tolist() for policy in trace_policies],
         "trace_latencies_ms": [float(x) for x in trace_latencies_ms],
+        "trace_p_flips": p_flips,
         "trace_acquire_ms": float(sum(float(x) for x in trace_latencies_ms)),
         "trace_source": str(source),
     }
