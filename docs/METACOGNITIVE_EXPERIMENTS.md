@@ -140,15 +140,95 @@ observation and halt decisions, but score adjustment and these morphology
 actions are not a live selection controller merely because a policy object
 exists.
 
+## Candidate morphology laboratory
+
+The second implemented assay (`quartz/experiments/candidate_morphology.py`) is a
+*separate model family*: the arm set is no longer fully visible. Each trial
+draws a per-arm prior score (true mean + gaussian noise); the top-`n_visible`
+arms by prior form the visible pool and the rest are hidden. A priced `WIDEN`
+reveals the next-highest-prior hidden arm (progressive widening in prior order)
+at a fixed integer price charged against the same budget that funds pulls, so
+two regrets separate and add up exactly:
+
+- **omission regret** = global best mean − best *visible* mean (best still
+  hidden);
+- **ranking regret** = best visible mean − selected mean (wrong pick among the
+  revealed);
+- `total_regret = omission_regret + ranking_regret`.
+
+Three allocators are compared, all facing the identical CRN trial world:
+`no_widen` (baseline — never reveal), `eager_widen` (reveal everything
+affordable, then pull), and `priced_widen` (reveal only when the next arm's
+prior beats the incumbent posterior mean and the price is affordable with pulls
+in reserve, then `STOP` on a normal-approximation commit gate). None uses true
+means or a fitted scalar exploration coefficient; the structural constants
+(`PULL_RESERVE`, `WIDEN_MARGIN`, `COMMIT_MIN_VISITS`, `COMMIT_THRESHOLD`) are
+recorded in the allocator contract — the lab is not hyperparameter-free.
+
+### Quick local run (morphology)
+
+```bash
+python3 scripts/candidate_morphology_lab.py \
+  --quick \
+  --output-dir results/metacognitive_root/candidate_morphology_quick
+```
+
+Full preregistered screen (5 scenarios, seed 20260713):
+
+```bash
+python3 scripts/candidate_morphology_lab.py \
+  --seed 20260713 \
+  --output-dir results/metacognitive_root/candidate_morphology_seed_20260713
+```
+
+The scenario bank is
+[`configs/candidate_morphology_scenarios.v1.json`](../configs/candidate_morphology_scenarios.v1.json):
+omission-dominated (best often hidden), ranking-dominated (best almost always
+visible, so widening should be wasted), and mixed regimes. Each run also drives
+the **H1 discrimination-gate synthetic pre-validation**
+(`quartz/experiments/h1_synthetic_gate.py`) unless `--skip-h1-gate` is passed.
+
+### Kill checks
+
+- **Widening lane** (`widening_kill_verdict`): demoted iff NO widen price in NO
+  scenario gives a CI-separated reduction in paired omission regret vs
+  `no_widen`. The stronger, honest `net_total_improvement_found` flag reports
+  whether any config improves *total* regret — omission relief fully repaid in
+  ranking regret is a net wash and must not be promoted to a widening claim.
+- **H1 gate** (`gate_pass`): False iff the argmax-stability signal is degenerate
+  (saturated at ~1.0, std below `trivial_std_eps`) on synthetic ground truth —
+  which would kill H1 online wiring before the engine work.
+
+### Claim firewall (morphology)
+
+Same discipline as the Bernoulli assay. Permitted: the exact omission/ranking
+decomposition and paired CRN deltas for the enumerated bank; the H1 gate's
+non-degeneracy on synthetic ground truth. Prohibited: reading these synthetic
+regrets as QUARTZ play-strength, a candidate-omission guarantee, transfer to
+neural-MCTS progressive widening, CPU/energy efficiency, or `gate_pass` as
+online-halt efficacy.
+
+### Validation (morphology)
+
+```bash
+python3 -m pytest tests/test_candidate_morphology_lab.py -q
+
+python3 -m compileall -q \
+  quartz/experiments/candidate_morphology.py \
+  quartz/experiments/h1_synthetic_gate.py \
+  scripts/candidate_morphology_lab.py \
+  tests/test_candidate_morphology_lab.py
+```
+
 ## Next independent laboratories
 
 These are separate model families, not options silently folded into the
-Bernoulli assay:
+Bernoulli assay (1 and 2 are now implemented — see above):
 
-1. `candidate_morphology_lab`: visible/hidden pools, priced `WIDEN`, separate
-   omission and ranking regret, and `STOP`;
-2. `forked_voc_lab`: labels each possible next computation by realized root
-   decision change on frozen traces;
+1. `candidate_morphology_lab` *(implemented)*: visible/hidden pools, priced
+   `WIDEN`, separate omission and ranking regret, and `STOP`;
+2. `forked_voc_lab` *(implemented)*: labels each possible next computation by
+   realized root decision change on frozen traces;
 3. `pending_flow_lab`: count-only WU-UCT, fixed/adaptive virtual loss, elastic
    micro-waves, duplication, and measured wall time;
 4. `symmetry_orbit_lab`: board/action permutation equivariance and clone

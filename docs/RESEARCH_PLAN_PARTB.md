@@ -373,6 +373,21 @@ supplies synthetic mechanism assays that gate the engine work here:
   the label is non-degenerate. The P3 double-pattern (skill discrimination)
   still needs a trained checkpoint, and `voc_tightness` itself needs an
   online/adaptive run (fixed budget ladder → constant budget → undefined).
+- **`candidate_morphology_lab` → dual-risk precondition + H1 gate (Stage 3).**
+  Separates omission regret from ranking regret under a priced `WIDEN` with a
+  commit-`STOP`, satisfying the CLAIM_LEDGER "hidden-candidate morphology lab
+  before any dual-risk claim" precondition. Verdict (5 scenarios × 1000 trials,
+  seed 20260713): widening **survives its literal kill** (lowers paired
+  omission regret with CI excluding zero at every price in 4/5 scenarios; the
+  best-always-visible scenario correctly self-demotes) but yields **zero**
+  CI-separated *total*-regret improvements — omission relief is repaid in
+  ranking regret under a shared pull budget, so widening is **not promoted** to
+  a play claim. The bundled **H1 discrimination-gate synthetic pre-validation**
+  (`quartz/experiments/h1_synthetic_gate.py`) returns `gate_pass=True` (signal
+  discriminates, not saturated, monotone in N) → **H1 online-halt wiring is
+  green-lit** for Stage 7 (H1 does not die before the engine work). The
+  commit-`STOP` spends only ~55-60% of budget at matched total regret; whether
+  that net-wins under a *wall-clock* price is deferred to Stages 5-6.
 
 ---
 

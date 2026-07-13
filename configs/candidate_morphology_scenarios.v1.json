@@ -1,0 +1,70 @@
+{
+  "format_version": 1,
+  "experiment_id": "candidate_morphology_lab_v1",
+  "execution_mode": "synthetic_screening",
+  "default_trials": 1000,
+  "default_widen_costs": [1, 2, 4, 8],
+  "assumptions": [
+    "each arm has a fixed Bernoulli mean and a per-trial prior score = mean + gaussian(0, prior_noise)",
+    "the initial visible pool is the top-n_visible arms by prior score; WIDEN reveals the next-highest-prior hidden arm",
+    "WIDEN costs a fixed integer price charged against the same budget that funds pulls; PULL costs 1; STOP costs 0",
+    "terminal decision is the posterior-mean-best arm among the arms made visible",
+    "common random numbers indexed by canonical arm and pull number; the trial world is shared across allocators"
+  ],
+  "prohibited_inferences": [
+    "widening improves QUARTZ play strength",
+    "candidate-omission guarantee",
+    "transfer to adaptive neural MCTS progressive widening",
+    "CPU or energy efficiency",
+    "dual-risk optimality",
+    "human or grandmaster mechanism",
+    "fully hyperparameter-free status"
+  ],
+  "scenarios": [
+    {
+      "id": "best_hidden_highnoise_k12",
+      "family": "omission_regime",
+      "label": "Clear best, noisy prior often hides it (12 arms, 4 visible)",
+      "means": [0.66, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5],
+      "n_visible": 4,
+      "prior_noise": 0.2,
+      "budgets": [16, 32, 64]
+    },
+    {
+      "id": "best_visible_lownoise_k12",
+      "family": "ranking_regime",
+      "label": "Clear best with clean prior, almost always visible (widening should be wasted)",
+      "means": [0.66, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5],
+      "n_visible": 4,
+      "prior_noise": 0.03,
+      "budgets": [16, 32, 64]
+    },
+    {
+      "id": "many_decoys_k16",
+      "family": "omission_regime",
+      "label": "One better arm hidden among sixteen mediocre (2 visible)",
+      "means": [0.62, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5],
+      "n_visible": 2,
+      "prior_noise": 0.15,
+      "budgets": [16, 32, 64, 128]
+    },
+    {
+      "id": "moderate_noise_k8",
+      "family": "mixed_regime",
+      "label": "Moderate prior noise, eight arms, four visible",
+      "means": [0.6, 0.56, 0.53, 0.51, 0.5, 0.49, 0.47, 0.45],
+      "n_visible": 4,
+      "prior_noise": 0.1,
+      "budgets": [16, 32, 64]
+    },
+    {
+      "id": "twin_challengers_k8",
+      "family": "ranking_regime",
+      "label": "Two near-tied best arms usually both visible (ranking-dominated)",
+      "means": [0.6, 0.595, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5],
+      "n_visible": 4,
+      "prior_noise": 0.05,
+      "budgets": [16, 32, 64]
+    }
+  ]
+}
