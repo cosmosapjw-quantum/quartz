@@ -349,3 +349,58 @@ raised with the user before E1-E3. **User chose: reduce to 3 seeds × 8 gens
 - Disposition: KG-stop wrapper stays IMPLEMENTED + SMOKE-VALIDATED (wired, halts
   on a resolved synthetic root per the engine tests, selectable via the env
   var); the low-budget efficiency claim is NOT earned. CLAIM_LEDGER row updated.
+
+### E2-prep — bundles self-identify + short position id
+
+- Trained checkpoints are 96f/6b; bundles now carry `checkpoint_id`/`position_id`
+  (schema 5→6, `47885db`) so the O6 join keys line up. build_search_trace stores
+  the SHORT position id (matches the analysis rows' `position_id`); the full
+  `_position_key` still keys the cache. The 288 existing bundles were patched
+  in place to the short id.
+
+### E1 posthoc run (serves C11b + C11d)
+
+- `phase15_ablation_study.py --systems A4,B5,B13,B13c025,B14,B15 --checkpoints
+  <6: seed_{101,102,103}/{gen_5,latest}> --budgets 8,16,32,64 --oracle-budget 256
+  --suite-size 48 --research-grade`. Produced 288 shared trace bundles (all
+  systems share the A4 signature) + 6912 rows. The `--research-grade`
+  seed-family precheck passed (3 families).
+
+### C11b — H1 flip-calibration: calibration WIN, confirmatory insufficient
+
+- `phase15_flip_calibration.py` on the 288 bundles (864 decision records).
+- **Reliability: H1 stability ECE 0.080 / Brier 0.143 vs P_flip (1−p_flip) ECE
+  0.504 / Brier 0.446** — H1 predicts held-out argmax agreement far better than
+  the incumbent P_flip.
+- **Confirmatory matched-budget: INSUFFICIENT** at every H1 threshold (0.5-0.9):
+  H1 is conservative (mean realized budget ~29-32) while P_flip is
+  degenerate-over-eager (p_flip = 0 at budget 8 ⇒ immediate stop), so no P_flip
+  threshold matches H1's realized budget within ±5% and no paired comparison
+  forms. The kill therefore CANNOT fire ⇒ **H1 is NOT demoted**.
+- Disposition: H1 survives; its stability is the better-calibrated signal, but
+  at 8-32 budgets neither stop saves budget (H1 too conservative, P_flip
+  degenerate). Recalibrate the H1 stop threshold / go to higher budgets before
+  wiring a real online halt.
+
+### C11c — H3/O6 burst precision: degeneracy demotion (gate never fires)
+
+- `phase15_o6_burst_precision.py` on the posthoc B15 burst rows + forked_voc
+  labels from the 288 bundles.
+- **0/288 bursts** (burst rate 0.0) at the default floors (0.0) ⇒ pre-registered
+  degeneracy demotion (<0.02). O6 lift is unmeasurable. The forked_voc
+  difficulty labels are HEALTHY (p_hard = 0.79) — only the burst TRIGGER never
+  engages. H3 remains wired-but-unproven; recalibrate the floors before any O6
+  claim.
+
+### C11d — B13 research-grade: CI-separated KL improvement (positive)
+
+- `phase15_analyze_results.py` on the 6912 posthoc rows (Bonferroni paired CIs).
+- **B13 (curvature 1.0): delta_kl_to_oracle = −0.0297, CI [−0.033, −0.026]
+  excludes 0 favorably; B13c025 (0.25): −0.0104, CI [−0.0115, −0.0093]** — both
+  vs A4 AND B5, with delta_accuracy and delta_topk EXACTLY tied (1152/1152). B13
+  reshapes the full-policy distribution toward the oracle (lower KL) WITHOUT
+  changing any decision — larger at curvature 1.0. This FLIPS the random-init
+  +0.47 KL harm and the gen-5 KL-neutral smoke. Meets the pre-registered
+  efficacy bar; formal VALIDATED needs the full research-grade artifact-hash gate
+  (only the seed-family precheck ran). Decision-neutral (KL-only) readout
+  improvement, not a play/P2 claim.

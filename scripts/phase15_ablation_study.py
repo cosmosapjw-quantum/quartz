@@ -593,7 +593,11 @@ def build_search_trace(
         cache_key,
         build_trace_artifact(
             trace_budgets, policies, latencies, source="fresh", trace_p_flips=p_flips,
-            checkpoint_id=str(checkpoint.id), position_id=harness._position_key(position),
+            # Use the SHORT position id (matches the analysis rows' position_id)
+            # so the O6 join keys line up; the full _position_key still keys the
+            # cache itself.
+            checkpoint_id=str(checkpoint.id),
+            position_id=str(position.get("id") or harness._position_key(position)),
         ),
     )
     return policies, latencies, False
