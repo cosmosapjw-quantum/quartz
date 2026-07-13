@@ -190,3 +190,28 @@ measured ~6× virtual-loss pessimism reduction at preserved agreement).
   halts), demote (anti-conservative), grouping + best cell.
 - The live grid runs at E3 (needs a trained checkpoint + GPU). Regression:
   4/4 pytest, `py_compile` clean.
+
+### C5 — H1 online halt wiring (B14)
+
+- `quartz/phase15_ablation.py`: added `"argmax_stability_stop"` to
+  `POSTHOC_OPERATORS`; `apply_argmax_stability_readout` (final-snapshot policy —
+  H1 is a halt rule, never transforms the policy — plus Dirichlet
+  argmax-stability metadata) + `argmax_stability_stop_params` helper; dispatch
+  branch; **B14** `Phase15System` (`refresh_operator="argmax_stability_stop"`,
+  `search_overrides=a4` ⇒ shares the A4/B13 trace, `execution_mode="online"`,
+  params threshold 0.9 / min_visits 8 / alpha 0.5 / n_boot 4000);
+  `PHASE15_PARTB_SYSTEMS = ("B13", "B14")`.
+- `quartz/phase15_online.py`: 3rd decision point in `run_online_readout` — for
+  `argmax_stability_stop`, at each sub-target chunk compute
+  `should_stop_by_argmax_stability(counts_from_policy(π_b, b))`; on stop
+  early-return with `decision_notes=["h1_stop@b"]` and `online_stop_budget=b`.
+- `scripts/phase15_online_ablation.py`: `run_online_readout_continuation` gains
+  `early_stop_fn` — when it fires the resident session is not stepped further
+  (real compute saved, and positions realize genuinely different budgets, which
+  feeds the voc_tightness P3 bonus); `_early_stop_predicate(system)` builds the
+  H1 predicate; `build_online_trace_bundle` passes it.
+- Tests: +5 (B14 registration + A4-signature share, B14 readout metadata /
+  policy-unchanged, H1 stops-early on stable trace, H1 continues on unstable,
+  continuation `early_stop_fn` prevents later steps). Count tests updated for
+  B14 (PARTB/FULL). Regression: phase15 + argmax_stability suites 136 passed;
+  compileall clean.

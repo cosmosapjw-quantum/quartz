@@ -15,9 +15,11 @@ import numpy as np
 from .phase15_ablation import (
     Phase15System,
     apply_system_readout,
+    argmax_stability_stop_params,
     budget_routing_signal,
     normalize_policy,
 )
+from .phase15_argmax_stability import counts_from_policy, should_stop_by_argmax_stability
 
 
 def run_online_readout(
@@ -57,6 +59,33 @@ def run_online_readout(
                         "effective_runtime_ms": float(sum(trace_latencies_ms)),
                         "readout_ms": 0.0,
                         "online_stop_budget": stop_budget,
+                        "search_continuation": "restart_per_chunk",
+                        "decision_notes": decision_notes,
+                    }
+            if system.refresh_operator == "argmax_stability_stop":
+                # H1 online stop (Part B / B2): halt at the first sub-target
+                # chunk whose Dirichlet argmax-stability clears the threshold.
+                counts = counts_from_policy(
+                    np.asarray(trace_policies[-1], dtype=np.float64), int(budget)
+                )
+                stop, h1meta = should_stop_by_argmax_stability(
+                    counts, **argmax_stability_stop_params(system.params)
+                )
+                if stop:
+                    decision_notes.append(f"h1_stop@{budget}")
+                    stop_budget = int(budget)
+                    effective, meta = apply_system_readout(
+                        system, prior_input, trace_policies, trace_budgets, int(budget)
+                    )
+                    return normalize_policy(effective), {
+                        **meta,
+                        "trace_budgets": trace_budgets,
+                        "trace_latencies_ms": trace_latencies_ms,
+                        "trace_acquire_ms": float(sum(trace_latencies_ms)),
+                        "effective_runtime_ms": float(sum(trace_latencies_ms)),
+                        "readout_ms": 0.0,
+                        "online_stop_budget": stop_budget,
+                        "argmax_stability": float(h1meta["argmax_stability"]),
                         "search_continuation": "restart_per_chunk",
                         "decision_notes": decision_notes,
                     }

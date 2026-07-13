@@ -88,6 +88,7 @@ def test_make_default_systems_exposes_clean_split_groups():
         "B11",
         "B12",
         "B13",
+        "B14",
         "C0",
         "C1",
         "C2",
@@ -144,6 +145,37 @@ def test_b13_readout_runs_and_returns_one_loop_metadata():
     assert meta["belief_revision_operator"] == "one_loop_finite_n"
     assert "one_loop_effect_kl" in meta
     assert float(np.asarray(effective).sum()) == pytest.approx(1.0)
+
+
+def test_b14_partb_registered_and_shares_a4_signature():
+    # Stage 7 / C5: H1 argmax-stability online stop. Part B (FULL only), online
+    # execution_mode, and shares A4's trace signature for same-trace pairing.
+    from quartz.phase15_ablation import search_relevant_signature
+
+    assert "B14" in PHASE15_FULL_SYSTEMS
+    assert "B14" not in PHASE15_CANDIDATE_SYSTEMS
+    assert "B14" not in PHASE15_CI_SMOKE_SYSTEMS
+    by_id = {s.id: s for s in make_default_systems({})}
+    b14 = by_id["B14"]
+    assert b14.refresh_operator == "argmax_stability_stop"
+    assert b14.execution_mode == "online"
+    assert b14.params["stability_threshold"] == 0.9
+    assert search_relevant_signature(b14) == search_relevant_signature(by_id["A4"])
+
+
+def test_b14_readout_returns_argmax_stability_metadata():
+    by_id = {s.id: s for s in make_default_systems({})}
+    b14 = by_id["B14"]
+    prior = np.array([0.25, 0.25, 0.25, 0.25])
+    # concentrated final policy => stable => stop flag set
+    trace = [np.array([0.9, 0.05, 0.03, 0.02])]
+    effective, meta = apply_system_readout(b14, prior, trace, [32], 32)
+    assert "argmax_stability" in meta
+    assert meta["argmax_stability_stop"] in (0, 1)
+    assert 0.0 <= meta["argmax_stability"] <= 1.0
+    assert float(np.asarray(effective).sum()) == pytest.approx(1.0)
+    # H1 never transforms the policy — it is a halt rule.
+    np.testing.assert_allclose(np.asarray(effective), normalize_policy(trace[-1]), rtol=1e-6)
 
 
 def test_group_a_and_b_defaults_do_not_use_refresh_legacy_substrate():
@@ -1133,7 +1165,7 @@ def test_online_trace_bundle_prefers_single_continuation_trace(monkeypatch):
     online_runner = load_phase15_online_runner()
     calls = []
 
-    def fake_continuation(client, position, system, trace_budgets, target_budget):
+    def fake_continuation(client, position, system, trace_budgets, target_budget, early_stop_fn=None):
         calls.append((tuple(trace_budgets), int(target_budget)))
         return {
             8: {"search_policy": [0.7, 0.3], "latency_ms": 5.0},

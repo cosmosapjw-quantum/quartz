@@ -173,3 +173,108 @@ def test_run_online_readout_dual_channel_commit_returns_early():
     assert meta["online_stop_budget"] < 32, "commit should stop before the full target budget"
     assert 32 not in calls, f"budget 32 must not be searched once commit fires early, got calls={calls}"
     assert normalize_policy(effective) is not None
+
+
+def test_run_online_readout_h1_stops_early_on_stable_trace():
+    """Stage 7 / C5: H1 argmax-stability stop halts at the first sub-target
+    chunk whose Dirichlet argmax-stability clears the threshold. A concentrated
+    policy at budget 8 (total visits 8 >= min_visits) is stable => stop@8."""
+    system = Phase15System(
+        id="B14",
+        label="h1",
+        group="B",
+        substrate="S1",
+        controller="QuartzVL",
+        refresh_operator="argmax_stability_stop",
+        params={"stability_threshold": 0.9, "stability_min_visits": 8, "stability_n_boot": 2000},
+        execution_mode="online",
+    )
+    prior = normalize_policy(np.array([0.34, 0.33, 0.33], dtype=np.float32)).tolist()
+    policies_by_budget = {
+        8: [0.92, 0.05, 0.03],
+        16: [0.9, 0.06, 0.04],
+        32: [0.9, 0.06, 0.04],
+    }
+    calls: list[int] = []
+    effective, meta = run_online_readout(
+        system=system,
+        position={"id": "P1"},
+        prior_input=np.asarray(prior, dtype=np.float32),
+        budgets=[8, 16, 32],
+        target_budget=32,
+        search_policy_fn=_make_search_policy_fn(policies_by_budget, calls),
+    )
+    assert meta["online_stop_budget"] == 8
+    assert any(note.startswith("h1_stop@8") for note in meta["decision_notes"])
+    assert 32 not in calls, f"H1 stopped at 8 but later budgets were searched: {calls}"
+    assert meta["argmax_stability"] >= 0.9
+
+
+def test_run_online_readout_h1_continues_on_unstable_trace_to_target():
+    """A near-uniform (unstable) low-budget trace must NOT stop early; H1 runs
+    to the target budget."""
+    system = Phase15System(
+        id="B14",
+        label="h1",
+        group="B",
+        substrate="S1",
+        controller="QuartzVL",
+        refresh_operator="argmax_stability_stop",
+        params={"stability_threshold": 0.9, "stability_min_visits": 8, "stability_n_boot": 2000},
+        execution_mode="online",
+    )
+    prior = normalize_policy(np.array([0.34, 0.33, 0.33], dtype=np.float32)).tolist()
+    policies_by_budget = {
+        8: [0.4, 0.35, 0.25],
+        16: [0.38, 0.34, 0.28],
+        32: [0.36, 0.34, 0.30],
+    }
+    calls: list[int] = []
+    effective, meta = run_online_readout(
+        system=system,
+        position={"id": "P1"},
+        prior_input=np.asarray(prior, dtype=np.float32),
+        budgets=[8, 16, 32],
+        target_budget=32,
+        search_policy_fn=_make_search_policy_fn(policies_by_budget, calls),
+    )
+    assert meta["online_stop_budget"] == 32
+    assert 32 in calls
+    assert not any(note.startswith("h1_stop") for note in meta.get("decision_notes", []))
+
+
+def test_continuation_early_stop_fn_prevents_later_steps():
+    """Stage 7 / C5: run_online_readout_continuation stops stepping the resident
+    session once early_stop_fn fires — real compute saved."""
+    import importlib.util
+    from pathlib import Path
+
+    root = Path(__file__).resolve().parents[1]
+    spec = importlib.util.spec_from_file_location(
+        "phase15_online_ablation_c5", root / "scripts" / "phase15_online_ablation.py"
+    )
+    runner = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(runner)
+
+    step_calls = {"n": 0}
+
+    class DummyClient:
+        cfg = {"actions": 3, "penalty_mode": "None"}
+
+        def open_search_engine_session(self, jobs, penalty_mode="None", iters=0):
+            return {"session_id": "S", "results": [{"policy": [[0, 0.9], [1, 0.05], [2, 0.05]], "latency_ms": 1.0}]}
+
+        def step_search_engine_session(self, session_id, updates=None, iters=0):
+            step_calls["n"] += 1
+            return {"results": [{"policy": [[0, 0.9], [1, 0.05], [2, 0.05]], "latency_ms": 1.0}]}
+
+        def close_search_session(self, session_id):
+            pass
+
+    # Predicate fires immediately at the first chunk.
+    rows = runner.run_online_readout_continuation(
+        DummyClient(), {"id": "P1"}, object(), [8, 16, 32], 32,
+        early_stop_fn=lambda budget, row: True,
+    )
+    assert set(rows) == {8}, "should have realized only the opening chunk"
+    assert step_calls["n"] == 0, "no session steps should have run after the early stop"

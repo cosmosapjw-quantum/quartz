@@ -50,6 +50,7 @@ POSTHOC_OPERATORS = {
     "entropy_expansion_stabilized_posterior",
     "budget_routing",
     "one_loop_finite_n",
+    "argmax_stability_stop",
 }
 ONLINE_OPERATORS = set(POSTHOC_OPERATORS)
 
@@ -60,7 +61,7 @@ PHASE15_CANDIDATE_SYSTEMS = ("B1", "B2", "B3", "B4", "B5", "B6", "B7", "B8", "B9
 # Part B experimental readouts. Deliberately kept OUT of the CANDIDATE /
 # SMALL / CI battery (so default paired ablations and count assertions are
 # unchanged) but included in FULL so they are selectable and registered.
-PHASE15_PARTB_SYSTEMS = ("B13",)
+PHASE15_PARTB_SYSTEMS = ("B13", "B14")
 PHASE15_LEGACY_ANCHOR_SYSTEMS = ("C0", "C1", "C2")
 PHASE15_CI_SMOKE_SYSTEMS = ("A4", "B1", "B2")
 PHASE15_SMALL_ABLATION_SYSTEMS = PHASE15_BASELINE_SYSTEMS + PHASE15_CANDIDATE_SYSTEMS
@@ -1146,6 +1147,48 @@ def apply_budget_routing(
     }
 
 
+def argmax_stability_stop_params(params: dict[str, Any]) -> dict[str, Any]:
+    """Resolve the H1 Dirichlet argmax-stability stop parameters from a
+    Phase15System.params dict, with the module defaults."""
+    return {
+        "threshold": float(params.get("stability_threshold", 0.9)),
+        "min_visits": int(params.get("stability_min_visits", 8)),
+        "alpha": float(params.get("stability_alpha", 0.5)),
+        "n_boot": int(params.get("stability_n_boot", 4000)),
+        "seed": int(params.get("stability_seed", 0)),
+    }
+
+
+def apply_argmax_stability_readout(
+    prior_base: np.ndarray,
+    trace_policies: list[np.ndarray],
+    trace_budgets: list[int],
+    params: dict[str, Any],
+) -> tuple[np.ndarray, dict[str, Any]]:
+    """H1 bootstrap argmax-stability STOP readout. It never transforms the
+    policy — H1 is a halt rule, so the readout is the final-budget snapshot; the
+    metadata records the Dirichlet argmax-stability of that snapshot. The online
+    per-chunk stop decision lives in `run_online_readout`; posthoc this reports
+    "would H1 have halted by the end?"."""
+    from .phase15_argmax_stability import counts_from_policy, should_stop_by_argmax_stability
+
+    final = normalize_policy(trace_policies[-1])
+    budget = int(trace_budgets[-1]) if trace_budgets else 0
+    counts = counts_from_policy(np.asarray(final, dtype=np.float64), budget)
+    stop, meta = should_stop_by_argmax_stability(counts, **argmax_stability_stop_params(params))
+    signal = _trace_signal_metrics(
+        trace_policies, trace_budgets, challenger_k=int(params.get("challenger_k", 4))
+    )
+    return final, {
+        **signal,
+        "argmax_stability_stop": int(stop),
+        "argmax_stability": float(meta["argmax_stability"]),
+        "argmax_stability_total_visits": float(meta["total_visits"]),
+        "argmax_stability_threshold": float(meta["threshold"]),
+        "comparison_role": params.get("comparison_role", "argmax_stability_stop_readout"),
+    }
+
+
 def apply_system_readout(
     system: Phase15System,
     prior_base: np.ndarray,
@@ -1183,6 +1226,8 @@ def apply_system_readout(
         return apply_budget_routing(prior_base, trace_policies, trace_budgets, target_budget, system.params)
     if operator == "one_loop_finite_n":
         return apply_one_loop_readout(prior_base, trace_policies, trace_budgets, system.params)
+    if operator == "argmax_stability_stop":
+        return apply_argmax_stability_readout(prior_base, trace_policies, trace_budgets, system.params)
     raise ValueError(f"unsupported phase15 refresh operator: {operator}")
 
 
@@ -1443,6 +1488,27 @@ def make_default_systems(_base_cfg: dict[str, Any]) -> list[Phase15System]:
                 "one_loop_n_floor": 1.0,
                 "comparison_role": "one_loop_finite_n_readout",
             },
+        ),
+        Phase15System(
+            "B14",
+            "A4 + H1 bootstrap argmax-stability online stop (Part B / B2)",
+            "B",
+            "S1",
+            "QuartzVL",
+            "argmax_stability_stop",
+            # Same search substrate as A4/B13 so B14 shares the SAME trace per
+            # (checkpoint, position) — identical search_relevant_signature keeps
+            # same-trace paired-delta pairing.
+            search_overrides=a4,
+            params={
+                "stability_threshold": 0.9,
+                "stability_min_visits": 8,
+                "stability_alpha": 0.5,
+                "stability_n_boot": 4000,
+                "stability_seed": 0,
+                "comparison_role": "argmax_stability_stop_readout",
+            },
+            execution_mode="online",
         ),
         Phase15System(
             "C0",

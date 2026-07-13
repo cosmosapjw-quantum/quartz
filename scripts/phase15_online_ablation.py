@@ -43,6 +43,29 @@ def build_online_trace_lookup(
     return rows, bool(trace_reused)
 
 
+def _early_stop_predicate(system):
+    """Return an (budget, row) -> bool predicate for online early-stopping
+    systems, or None. H1 (`argmax_stability_stop`) halts the resident session
+    at the first chunk whose Dirichlet argmax-stability clears the threshold, so
+    continuation rows realize genuinely different budgets per position."""
+    if getattr(system, "refresh_operator", None) != "argmax_stability_stop":
+        return None
+    import numpy as np
+
+    from quartz.phase15_ablation import argmax_stability_stop_params
+    from quartz.phase15_argmax_stability import counts_from_policy, should_stop_by_argmax_stability
+
+    params = argmax_stability_stop_params(system.params)
+
+    def _predicate(budget: int, row: dict) -> bool:
+        policy = np.asarray(row.get("search_policy", []), dtype=np.float64)
+        counts = counts_from_policy(policy, int(budget))
+        stop, _ = should_stop_by_argmax_stability(counts, **params)
+        return bool(stop)
+
+    return _predicate
+
+
 def build_online_trace_bundle(
     harness,
     checkpoint,
@@ -60,6 +83,7 @@ def build_online_trace_bundle(
             system,
             ordered_budgets,
             int(ordered_budgets[-1]),
+            early_stop_fn=_early_stop_predicate(system),
         ), False, "root_continuation", None
     except Exception as exc:
         rows, reused = build_online_trace_lookup(
@@ -85,7 +109,9 @@ def build_position_job(position: dict[str, object]) -> dict[str, object]:
     return job
 
 
-def run_online_readout_continuation(client, position, system, trace_budgets, target_budget):
+def run_online_readout_continuation(
+    client, position, system, trace_budgets, target_budget, early_stop_fn=None
+):
     from quartz.replay import dense_policy_from_sparse
 
     session_id = None
@@ -110,6 +136,12 @@ def run_online_readout_continuation(client, position, system, trace_budgets, tar
         first_row["latency_ms"] = float(first_row.get("latency_ms", open_elapsed_ms))
         trace_rows[int(trace_budgets[0])] = first_row
         prev_budget = int(trace_budgets[0])
+        # H1/H3 online early stop: if the predicate fires at the first chunk we
+        # still stepped once (needed to open the session), so honor it only from
+        # the first sub-target chunk onward — real compute saved (the resident
+        # session is not stepped further).
+        if early_stop_fn is not None and early_stop_fn(int(trace_budgets[0]), first_row):
+            return trace_rows
         for budget in trace_budgets[1:]:
             delta = int(budget) - int(prev_budget)
             step_t0 = time.perf_counter()
@@ -125,6 +157,9 @@ def run_online_readout_continuation(client, position, system, trace_budgets, tar
             row["latency_ms"] = float(row.get("latency_ms", step_elapsed_ms))
             trace_rows[int(budget)] = row
             prev_budget = int(budget)
+            if early_stop_fn is not None and int(budget) < int(target_budget) and early_stop_fn(int(budget), row):
+                # Stop stepping the resident session — realized budget < target.
+                break
         return trace_rows
     finally:
         if session_id is not None:
