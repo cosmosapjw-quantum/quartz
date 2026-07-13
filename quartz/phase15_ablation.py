@@ -51,6 +51,7 @@ POSTHOC_OPERATORS = {
     "budget_routing",
     "one_loop_finite_n",
     "argmax_stability_stop",
+    "entropy_burst_routing",
 }
 ONLINE_OPERATORS = set(POSTHOC_OPERATORS)
 
@@ -61,7 +62,7 @@ PHASE15_CANDIDATE_SYSTEMS = ("B1", "B2", "B3", "B4", "B5", "B6", "B7", "B8", "B9
 # Part B experimental readouts. Deliberately kept OUT of the CANDIDATE /
 # SMALL / CI battery (so default paired ablations and count assertions are
 # unchanged) but included in FULL so they are selectable and registered.
-PHASE15_PARTB_SYSTEMS = ("B13", "B14")
+PHASE15_PARTB_SYSTEMS = ("B13", "B14", "B15")
 PHASE15_LEGACY_ANCHOR_SYSTEMS = ("C0", "C1", "C2")
 PHASE15_CI_SMOKE_SYSTEMS = ("A4", "B1", "B2")
 PHASE15_SMALL_ABLATION_SYSTEMS = PHASE15_BASELINE_SYSTEMS + PHASE15_CANDIDATE_SYSTEMS
@@ -1118,14 +1119,19 @@ def budget_routing_signal(
     return {**signal_metrics, "unstable": unstable}
 
 
-def apply_budget_routing(
+def _apply_routing_with_signal(
     prior_base: np.ndarray,
     trace_policies: list[np.ndarray],
     trace_budgets: list[int],
     target_budget: int,
-    params: dict[str, Any],
+    signal: dict[str, Any],
+    burst_reason_label: str,
 ) -> tuple[np.ndarray, dict[str, Any]]:
-    signal = budget_routing_signal(trace_policies, trace_budgets, target_budget, params)
+    """Shared burst-fetch-and-select body for the routing operators. Reads
+    `signal["unstable"]` and, if a supra-target chunk exists, uses it; else
+    returns the sub-target snapshot. The signal itself (budget_routing vs H3
+    entropy-burst) is computed by the caller so the two operators differ ONLY in
+    the instability rule."""
     base_trace = [p for p, b in zip(trace_policies, trace_budgets) if int(b) <= int(target_budget)]
     if not base_trace:
         base_trace = [trace_policies[0]]
@@ -1139,12 +1145,99 @@ def apply_budget_routing(
         "budget_burst_triggered": int(burst_trigger),
         "extra_budget_used": int(max(0, burst_budget - int(target_budget))),
         "burst_budget": int(burst_budget),
-        "burst_reason": (
-            "instability"
-            if burst_trigger
-            else "none"
-        ),
+        "burst_reason": (burst_reason_label if burst_trigger else "none"),
     }
+
+
+def apply_budget_routing(
+    prior_base: np.ndarray,
+    trace_policies: list[np.ndarray],
+    trace_budgets: list[int],
+    target_budget: int,
+    params: dict[str, Any],
+) -> tuple[np.ndarray, dict[str, Any]]:
+    signal = budget_routing_signal(trace_policies, trace_budgets, target_budget, params)
+    return _apply_routing_with_signal(
+        prior_base, trace_policies, trace_budgets, target_budget, signal, "instability"
+    )
+
+
+def h3_burst_signal(
+    trace_policies: list[np.ndarray],
+    trace_budgets: list[int],
+    target_budget: int,
+    params: dict[str, Any],
+) -> dict[str, Any]:
+    """H3 backflow-triggered burst: a 2-signal gate on the sub-target trace.
+
+    Fires iff BOTH (a) root entropy grew on a Dirichlet-smoothed posterior with a
+    minimum-visit floor (`ΔH_root > entropy_floor`) AND (b) the top-2 argmax
+    margin is shrinking (`margin(b_i) − margin(b_{i-1}) < −margin_slope_floor`).
+    The smoothing + min-visit floor de-noise the integer-visit quantization that
+    makes a bare 'entropy went up' trigger circular at 8-64 visits. Root/search
+    statistics only (game-agnostic, FORBIDDEN-safe)."""
+    from .phase15_argmax_stability import counts_from_policy
+
+    base = [(p, int(b)) for p, b in zip(trace_policies, trace_budgets) if int(b) <= int(target_budget)]
+    base_policies = [p for p, _ in base] or [trace_policies[0]]
+    base_budgets = [b for _, b in base] or [int(target_budget)]
+    signal_metrics = _trace_signal_metrics(
+        base_policies, base_budgets, challenger_k=int(params.get("challenger_k", 4))
+    )
+    quiet = {
+        **signal_metrics,
+        "h3_delta_entropy": 0.0,
+        "h3_margin_slope": 0.0,
+        "h3_gate_entropy": False,
+        "h3_gate_margin": False,
+        "unstable": False,
+    }
+    if len(base) < 2:
+        return quiet
+
+    alpha = float(params.get("smooth_alpha", 0.5))
+    min_visit_floor = int(params.get("min_visit_floor", 8))
+    entropy_floor = float(params.get("entropy_floor", 0.0))
+    margin_slope_floor = float(params.get("margin_slope_floor", 0.0))
+
+    def _smoothed_entropy(policy: np.ndarray, budget: int) -> float:
+        counts = counts_from_policy(np.asarray(policy, dtype=np.float64), max(int(budget), min_visit_floor))
+        smoothed = counts.astype(np.float64) + alpha
+        return entropy(smoothed)
+
+    def _top2_margin(policy: np.ndarray) -> float:
+        s = np.sort(np.asarray(policy, dtype=np.float64))[::-1]
+        if s.size >= 2:
+            return float(s[0] - s[1])
+        return float(s[0]) if s.size else 0.0
+
+    prev_p, prev_b = base[-2]
+    last_p, last_b = base[-1]
+    delta_entropy = _smoothed_entropy(last_p, last_b) - _smoothed_entropy(prev_p, prev_b)
+    margin_slope = _top2_margin(last_p) - _top2_margin(prev_p)
+    gate_entropy = delta_entropy > entropy_floor
+    gate_margin = margin_slope < -margin_slope_floor
+    return {
+        **signal_metrics,
+        "h3_delta_entropy": float(delta_entropy),
+        "h3_margin_slope": float(margin_slope),
+        "h3_gate_entropy": bool(gate_entropy),
+        "h3_gate_margin": bool(gate_margin),
+        "unstable": bool(gate_entropy and gate_margin),
+    }
+
+
+def apply_entropy_burst_routing(
+    prior_base: np.ndarray,
+    trace_policies: list[np.ndarray],
+    trace_budgets: list[int],
+    target_budget: int,
+    params: dict[str, Any],
+) -> tuple[np.ndarray, dict[str, Any]]:
+    signal = h3_burst_signal(trace_policies, trace_budgets, target_budget, params)
+    return _apply_routing_with_signal(
+        prior_base, trace_policies, trace_budgets, target_budget, signal, "h3_backflow_burst"
+    )
 
 
 def argmax_stability_stop_params(params: dict[str, Any]) -> dict[str, Any]:
@@ -1228,6 +1321,8 @@ def apply_system_readout(
         return apply_one_loop_readout(prior_base, trace_policies, trace_budgets, system.params)
     if operator == "argmax_stability_stop":
         return apply_argmax_stability_readout(prior_base, trace_policies, trace_budgets, system.params)
+    if operator == "entropy_burst_routing":
+        return apply_entropy_burst_routing(prior_base, trace_policies, trace_budgets, target_budget, system.params)
     raise ValueError(f"unsupported phase15 refresh operator: {operator}")
 
 
@@ -1507,6 +1602,26 @@ def make_default_systems(_base_cfg: dict[str, Any]) -> list[Phase15System]:
                 "stability_n_boot": 4000,
                 "stability_seed": 0,
                 "comparison_role": "argmax_stability_stop_readout",
+            },
+            execution_mode="online",
+        ),
+        Phase15System(
+            "B15",
+            "A4 + H3 entropy-burst routing (online, Part B / B2)",
+            "B",
+            "S1",
+            "QuartzVL",
+            "entropy_burst_routing",
+            # Same search substrate as A4 so B15 shares the SAME trace per
+            # (checkpoint, position) — the burst decision and the forked_voc O6
+            # difficulty label are computed on the identical trace bundle.
+            search_overrides=a4,
+            params={
+                "smooth_alpha": 0.5,
+                "entropy_floor": 0.0,
+                "margin_slope_floor": 0.0,
+                "min_visit_floor": 8,
+                "comparison_role": "entropy_burst_routing_readout",
             },
             execution_mode="online",
         ),

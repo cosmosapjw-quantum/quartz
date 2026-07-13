@@ -305,3 +305,32 @@ def test_run_online_readout_meta_includes_trace_p_flips():
     )
     assert meta["trace_p_flips"] == [0.5, 0.3, 0.1]
     assert len(meta["trace_p_flips"]) == len(meta["trace_budgets"])
+
+
+def test_run_online_readout_h3_bursts_and_logs():
+    """Stage 7 / C7: B15 entropy-burst fetches the supra-target chunk when the
+    2-signal gate fires, and logs a burst@ decision note."""
+    system = Phase15System(
+        id="B15", label="h3", group="B", substrate="S1", controller="QuartzVL",
+        refresh_operator="entropy_burst_routing",
+        params={"smooth_alpha": 0.5, "min_visit_floor": 8, "entropy_floor": 0.0, "margin_slope_floor": 0.0},
+        execution_mode="online",
+    )
+    prior = normalize_policy(np.array([0.34, 0.33, 0.33], dtype=np.float32)).tolist()
+    # 8 -> 16: entropy up (concentrated -> near-uniform) AND margin shrinks => burst
+    policies_by_budget = {
+        8: [0.7, 0.2, 0.1],
+        16: [0.4, 0.35, 0.25],
+        32: [0.1, 0.8, 0.1],
+    }
+    calls: list[int] = []
+    effective, meta = run_online_readout(
+        system=system, position={"id": "P1"},
+        prior_input=np.asarray(prior, dtype=np.float32),
+        budgets=[8, 16, 32], target_budget=16,
+        search_policy_fn=_make_search_policy_fn(policies_by_budget, calls),
+    )
+    assert 32 in calls, f"burst should fetch supra-target chunk 32; calls={calls}"
+    assert int(meta.get("budget_burst_triggered", 0)) == 1
+    assert any(note.startswith("burst@16->32") for note in meta["decision_notes"])
+    assert int(meta.get("extra_budget_used", 0)) == 16

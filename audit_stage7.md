@@ -235,3 +235,24 @@ measured ~6× virtual-loss pessimism reduction at preserved agreement).
   None-pad back-compat, cache roundtrip) + `test_run_online_readout_meta_
   includes_trace_p_flips`. Regression: phase15 + trace suites 147 passed;
   compileall clean.
+
+### C7 — H3 two-signal entropy-burst operator (B15)
+
+- `quartz/phase15_ablation.py`: factored `apply_budget_routing`'s
+  burst-fetch-and-select body into `_apply_routing_with_signal` (shared by both
+  routing operators — they now differ ONLY in the instability rule). New
+  `h3_burst_signal` = the 2-signal gate `(ΔH_root > entropy_floor on a
+  Dirichlet-smoothed posterior with a min-visit floor) AND (top-2 margin
+  shrinking < −margin_slope_floor)`, root/search-stats only (game-agnostic).
+  New `apply_entropy_burst_routing`. Registered operator
+  `"entropy_burst_routing"` + dispatch; **B15** `Phase15System`
+  (`search_overrides=a4`, online, smooth_alpha 0.5 / floors 0 / min_visit_floor
+  8); `PHASE15_PARTB_SYSTEMS = ("B13","B14","B15")`.
+- `quartz/phase15_online.py`: generalized the online burst branch to
+  `_ROUTING_OPERATORS = (budget_routing, entropy_burst_routing)` via
+  `_routing_burst_signal` dispatch; the supra-target chunk's p_flip is appended
+  to `trace_p_flips` too.
+- Tests +4 (B15 registration + A4 signature, h3 2-gate requires BOTH signals,
+  B15 readout burst fields, online H3 burst fetches supra-target + logs
+  `burst@16->32`); count tests updated for B15. Regression: phase15 suites 144
+  passed; compileall clean. Kill (O6 lift CI vs 1) pre-registered for E2/C9.

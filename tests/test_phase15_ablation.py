@@ -89,6 +89,7 @@ def test_make_default_systems_exposes_clean_split_groups():
         "B12",
         "B13",
         "B14",
+        "B15",
         "C0",
         "C1",
         "C2",
@@ -176,6 +177,57 @@ def test_b14_readout_returns_argmax_stability_metadata():
     assert float(np.asarray(effective).sum()) == pytest.approx(1.0)
     # H1 never transforms the policy — it is a halt rule.
     np.testing.assert_allclose(np.asarray(effective), normalize_policy(trace[-1]), rtol=1e-6)
+
+
+def test_b15_partb_registered_and_shares_a4_signature():
+    # Stage 7 / C7: H3 entropy-burst routing. Part B (FULL only), online, shares
+    # A4's trace signature (burst decision + forked_voc O6 label on one bundle).
+    from quartz.phase15_ablation import search_relevant_signature
+
+    assert "B15" in PHASE15_FULL_SYSTEMS
+    assert "B15" not in PHASE15_CANDIDATE_SYSTEMS
+    by_id = {s.id: s for s in make_default_systems({})}
+    b15 = by_id["B15"]
+    assert b15.refresh_operator == "entropy_burst_routing"
+    assert b15.execution_mode == "online"
+    assert search_relevant_signature(b15) == search_relevant_signature(by_id["A4"])
+
+
+def test_h3_burst_signal_requires_both_gates():
+    # Stage 7 / C7: the 2-signal gate fires ONLY when entropy grows AND the
+    # top-2 margin shrinks.
+    from quartz.phase15_ablation import h3_burst_signal
+
+    params = {"smooth_alpha": 0.5, "min_visit_floor": 8, "entropy_floor": 0.0, "margin_slope_floor": 0.0}
+
+    # entropy up (0.7/0.3 -> near-uniform) AND margin shrinking => burst
+    up_and_shrink = [np.array([0.7, 0.2, 0.1]), np.array([0.4, 0.35, 0.25])]
+    sig = h3_burst_signal(up_and_shrink, [8, 16], 16, params)
+    assert sig["h3_gate_entropy"] is True
+    assert sig["h3_gate_margin"] is True
+    assert sig["unstable"] is True
+
+    # settling (near-uniform -> concentrated): entropy DOWN, margin GROWS => quiet
+    settle = [np.array([0.4, 0.35, 0.25]), np.array([0.8, 0.15, 0.05])]
+    sig2 = h3_burst_signal(settle, [8, 16], 16, params)
+    assert sig2["h3_gate_entropy"] is False
+    assert sig2["unstable"] is False
+
+    # single chunk => quiet (no delta available)
+    sig3 = h3_burst_signal([np.array([0.4, 0.35, 0.25])], [8], 8, params)
+    assert sig3["unstable"] is False
+
+
+def test_b15_readout_reports_burst_fields():
+    by_id = {s.id: s for s in make_default_systems({})}
+    b15 = by_id["B15"]
+    prior = np.array([0.34, 0.33, 0.33])
+    # sub-target unstable + a supra-target chunk present => burst uses it
+    trace = [np.array([0.7, 0.2, 0.1]), np.array([0.4, 0.35, 0.25]), np.array([0.1, 0.8, 0.1])]
+    effective, meta = apply_system_readout(b15, prior, trace, [8, 16, 32], 16)
+    assert "budget_burst_triggered" in meta
+    assert meta["burst_reason"] in ("h3_backflow_burst", "none")
+    assert float(np.asarray(effective).sum()) == pytest.approx(1.0)
 
 
 def test_group_a_and_b_defaults_do_not_use_refresh_legacy_substrate():
