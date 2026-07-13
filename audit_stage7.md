@@ -173,3 +173,20 @@ measured ~6× virtual-loss pessimism reduction at preserved agreement).
     FixedIterations(200)` ⇒ `iterations == 200`, PolicyConverged count 0.
 - Regression: both pass; full `cargo test --bin mcts_demo` 564 passed / 89
   ignored / 0 failed.
+
+### C4 — KG-stop engine smoke script
+
+- `scripts/kg_stop_engine_smoke.py`: pure `summarize_kg_smoke(rows)` (per-cell
+  halt_rate / mean_budget_saved / top1_agreement + the pre-registered
+  kill/success/demote flags) and the live `run_kg_smoke(...)` grid. The grid
+  reuses `FrozenCheckpointHarness` but calls `client.search_move` directly to
+  capture `iterations` (the harness row drops it); forces
+  `check_interval=max(4,budget//8)` via a minimal `Phase15System`; sets
+  `QUARTZ_SEARCH_POLICY`/`QUARTZ_KG_THRESHOLD` before constructing the harness
+  so the lazily-started Rust server inherits them; runs a fixed-halt baseline
+  with the env cleared; pairs on `(position, budget)`. Positions via
+  `load_or_generate_positions`, base cfg via `controller_sweep.build_base_cfg`.
+- Tests (`tests/test_kg_stop_smoke_summary.py`, 4): success cell, kill (no
+  halts), demote (anti-conservative), grouping + best cell.
+- The live grid runs at E3 (needs a trained checkpoint + GPU). Regression:
+  4/4 pytest, `py_compile` clean.
