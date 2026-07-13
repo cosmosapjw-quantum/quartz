@@ -168,6 +168,16 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--trace-cache-dir", default=None)
     parser.add_argument("--disable-trace-cache", action="store_true")
     parser.add_argument("--search-stall-timeout-s", type=float, default=45.0)
+    # Bootstrap-if-empty args mirror controller_sweep.build_bootstrap_command
+    # (backend default torch). Restored after the tracking rewrite dropped the
+    # original uncommitted WIP.
+    parser.add_argument("--backend", default="torch", choices=["auto", "torch", "jax"])
+    parser.add_argument("--bootstrap-if-empty", action="store_true")
+    parser.add_argument("--bootstrap-iterations", type=int, default=2)
+    parser.add_argument("--bootstrap-games", type=int, default=8)
+    parser.add_argument("--bootstrap-eval-games", type=int, default=4)
+    parser.add_argument("--bootstrap-seeds", default="41,42")
+    parser.add_argument("--force-bootstrap", action="store_true")
     return parser.parse_args()
 
 

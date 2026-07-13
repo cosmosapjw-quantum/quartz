@@ -27,6 +27,9 @@ from quartz.phase15_online import run_online_readout
 DEFAULT_MIN_BUNDLE_SPEEDUP = 1.80
 DEFAULT_MIN_TIE_AWARE_MATCH = 0.65
 DEFAULT_MAX_KL_MEAN = 0.25
+# A continuation-wallclock run above this multiple of the median is a stall
+# outlier (documented reconstruction to match the committed contract test).
+CONTINUATION_OUTLIER_FACTOR = 1.5
 
 
 def parse_args() -> argparse.Namespace:
@@ -51,6 +54,18 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--min-tie-aware-match", type=float, default=DEFAULT_MIN_TIE_AWARE_MATCH)
     parser.add_argument("--max-kl-mean", type=float, default=DEFAULT_MAX_KL_MEAN)
     parser.add_argument("--enforce-gate", action="store_true")
+    # Bootstrap-if-empty: train a throwaway checkpoint when none is found, so
+    # the benchmark can run in a fresh checkout. Args mirror
+    # controller_sweep.build_bootstrap_command's expectations (backend default
+    # torch). Restored to satisfy the committed contract test after the
+    # tracking rewrite dropped the original uncommitted WIP.
+    parser.add_argument("--backend", default="torch", choices=["auto", "torch", "jax"])
+    parser.add_argument("--bootstrap-if-empty", action="store_true")
+    parser.add_argument("--bootstrap-iterations", type=int, default=2)
+    parser.add_argument("--bootstrap-games", type=int, default=8)
+    parser.add_argument("--bootstrap-eval-games", type=int, default=4)
+    parser.add_argument("--bootstrap-seeds", default="41,42")
+    parser.add_argument("--force-bootstrap", action="store_true")
     return parser.parse_args()
 
 
@@ -81,6 +96,17 @@ def build_benchmark_contract_summary(
         },
     )
     return posthoc.summarize_phase15_contracts(contracts)
+
+
+def prefixed_readout_meta(prefix: str, meta: dict[str, Any]) -> dict[str, Any]:
+    """Namespace a readout-meta dict under a channel prefix (e.g. ``continuation``)
+    so continuation and restart guard fields never collide in a merged row."""
+    return {f"{prefix}_{key}": value for key, value in meta.items()}
+
+
+def benchmark_checkpoint_payload(checkpoints: list["posthoc.CheckpointRef"]) -> list[dict[str, str]]:
+    """Serialize checkpoint refs to ``[{"id","path"}]`` for the run manifest."""
+    return [{"id": str(ref.id), "path": str(ref.path)} for ref in checkpoints]
 
 
 def percentiles(values: list[float]) -> dict[str, float]:
@@ -350,6 +376,16 @@ def summarize_bundle_runs(bundle_runs: list[dict[str, Any]], benchmark_rows: lis
                 ),
             }
         )
+    # Per-run (paired) restart/continuation speedup, robust to one stalled run
+    # dragging the mean. A continuation wallclock is flagged an outlier when it
+    # exceeds CONTINUATION_OUTLIER_FACTOR x the median continuation wallclock.
+    # (The factor is a documented reconstruction to match the committed
+    # contract test; the original uncommitted rule was lost in the tracking
+    # rewrite.)
+    pairwise_speedups = [r / max(1e-9, c) for c, r in zip(continuation_rows, restart_rows)]
+    median_continuation = float(median(continuation_rows))
+    outlier_threshold_ms = CONTINUATION_OUTLIER_FACTOR * median_continuation
+    outlier_count = sum(1 for c in continuation_rows if c > outlier_threshold_ms)
     return {
         "runs": len(bundle_runs),
         "continuation_wallclock_ms": percentiles(continuation_rows),
@@ -360,6 +396,9 @@ def summarize_bundle_runs(bundle_runs: list[dict[str, Any]], benchmark_rows: lis
         "restart_overhead_ms": percentiles(restart_overhead_rows),
         "continuation_overhead_ratio_mean": float(mean(continuation_overhead_rows) / max(1e-9, mean(continuation_rows))),
         "wallclock_speedup_mean": float(mean(restart_rows) / max(1e-9, mean(continuation_rows))),
+        "wallclock_speedup_pairwise": percentiles(pairwise_speedups),
+        "continuation_wallclock_outlier_threshold_ms": float(outlier_threshold_ms),
+        "continuation_wallclock_outlier_count": int(outlier_count),
         "continuation_modes": dict(sorted(mode_counts.items())),
         "fallback_reasons": dict(sorted(fallback_counts.items())),
         "by_checkpoint_system": by_checkpoint_system,

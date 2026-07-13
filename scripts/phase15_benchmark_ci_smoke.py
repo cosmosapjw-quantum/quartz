@@ -15,6 +15,7 @@ sys.path.insert(0, str(SCRIPT_DIR))
 import controller_sweep as sweep
 
 from quartz.models_torch import AlphaZeroNet
+from quartz.phase15_ablation import phase15_systems_csv, resolve_phase15_systems_arg
 
 
 def parse_args() -> argparse.Namespace:
@@ -72,7 +73,7 @@ def write_ci_smoke_inputs(base_dir: Path, *, game: str, seed: int) -> tuple[Path
 
 
 def build_benchmark_command(args: argparse.Namespace, checkpoint_path: Path, positions_path: Path) -> list[str]:
-    return [
+    command = [
         sys.executable,
         str(SCRIPT_DIR / "phase15_benchmark.py"),
         "--game",
@@ -86,7 +87,7 @@ def build_benchmark_command(args: argparse.Namespace, checkpoint_path: Path, pos
         "--max-positions",
         "4",
         "--systems",
-        str(args.systems),
+        phase15_systems_csv(args.systems),
         "--budgets",
         str(args.budgets),
         "--seed",
@@ -99,8 +100,10 @@ def build_benchmark_command(args: argparse.Namespace, checkpoint_path: Path, pos
         str(float(args.search_stall_timeout_s)),
         "--rust-binary",
         str(args.rust_binary),
-        "--enforce-gate",
     ]
+    if getattr(args, "enforce_gate", True):
+        command.append("--enforce-gate")
+    return command
 
 
 def build_ci_smoke_contract_summary(
@@ -114,7 +117,7 @@ def build_ci_smoke_contract_summary(
     return {
         "runner": {
             "game": str(args.game),
-            "systems": str(args.systems),
+            "systems": list(resolve_phase15_systems_arg(args.systems)),
             "budgets": str(args.budgets),
             "seed": int(args.seed),
             "search_stall_timeout_s": float(args.search_stall_timeout_s),
