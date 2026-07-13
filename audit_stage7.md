@@ -319,3 +319,33 @@ raised with the user before E1-E3. **User chose: reduce to 3 seeds × 8 gens
   paired coverage equal/mismatch, compliant + failure (missing hash, too-few
   families) with enforce raising, rows-preserved drop detection. All pass;
   compileall clean across both scripts + the module.
+
+### E-prep — harness honors checkpoint net architecture
+
+- Trained gomoku7 checkpoints are 96f/6b (the training default), while the
+  ablation profiling default (`build_base_cfg`/`GAME_CONFIGS`) is 64f/4b, so the
+  checkpoints would not load into the harness net. Fix (`7dcad72`):
+  `FrozenCheckpointHarness` reads each checkpoint's stored `cfg`
+  (`_read_checkpoint_cfg`) and overrides `filters/blocks/vh/ch` before building
+  `AlphaZeroNet`; each checkpoint has its own harness, so different-sized
+  checkpoints can be mixed in one run. Verified loading + running the real
+  96f/6b checkpoint; 97 phase15/kg-smoke tests still green.
+
+### E3 / C11a — KG-stop engine smoke verdict: lane CLOSED at low budgets
+
+- Run: `seed_101/latest.pt` (gen_8, 96f/6b), 32 positions × budgets {64,128,256}
+  × kg_threshold {1e-4, 1e-3, 1e-2, 0.1, 1.0} (last two diagnostic, to locate the
+  halt regime), `QUARTZ_SEARCH_POLICY=kg_stop` vs env-unset baseline.
+- **Result: 2 halt events across 480 cells; max 0.6% budget saved.** The
+  pre-registered Success (≥20% saved @ ≥0.95 agreement) is NOT met — the rule
+  effectively never fires. `max_kg` stays above `kg_threshold·cost_per_pull_ms`
+  even at threshold 1.0: a formally-correct KG-stop certificate near-unreachable
+  at 8-256 visits — the SAME low-budget-unreachability as KL-LUCB (A1-a). The
+  synthetic Stage-1 KG-**allocation** green did not transfer to the KG-**stop**
+  rule on adaptive shared-tree backups (different mechanism).
+- Honesty note: the top-1 agreement (~0.5) is confounded by cross-process MCTS
+  nondeterminism (halt rate ~0 yet agreement <1), so it is not diagnostic; the
+  no-savings verdict rests on the halt/iteration count, which is robust.
+- Disposition: KG-stop wrapper stays IMPLEMENTED + SMOKE-VALIDATED (wired, halts
+  on a resolved synthetic root per the engine tests, selectable via the env
+  var); the low-budget efficiency claim is NOT earned. CLAIM_LEDGER row updated.
