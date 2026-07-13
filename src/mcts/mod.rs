@@ -3061,6 +3061,60 @@ mod tests {
         );
     }
 
+    /// Stage 7 / C3: an attached `KgStop` policy halts the real engine via
+    /// PolicyConverged before the controller budget is exhausted. Permissive
+    /// threshold (Fixed cost) so the halt is deterministic once `observe` has
+    /// fired (iter 64 in non-quartz) and `min_total` (20) is met.
+    #[test]
+    fn test_s7_kg_stop_engine_halts_before_budget_on_resolved_root() {
+        use crate::mcts::policy::{KgCostSource, KgStop};
+        let state = Gomoku::new(7);
+        let eval: Arc<dyn Evaluator<Gomoku>> = Arc::new(UniformEval);
+        let policy: Arc<dyn SearchPolicy> =
+            Arc::new(KgStop::new(1000.0, 4.0, 4, 20, u32::MAX, KgCostSource::Fixed(1.0)));
+        let cfg = MctsConfig::evaluation(2.0).with_search_policy(policy);
+        let engine = MctsEngine::new(state, eval, cfg);
+        let mut ctrl = FixedIterations::new(400);
+        let stats = engine.run(&mut ctrl);
+
+        assert!(
+            stats.iterations < 400,
+            "kg_stop did not halt; iterations={} (expected < 400)",
+            stats.iterations
+        );
+        let counts = engine.policy_halt_count_snapshot();
+        assert!(
+            counts[crate::mcts::quartz::HaltReason::PolicyConverged as usize] > 0,
+            "no PolicyConverged halt recorded; counts={counts:?}"
+        );
+    }
+
+    /// Stage 7 / C3: `KgStop` never halts below `min_total`, even with a
+    /// permissive threshold. min_total=300 > budget 200 ⇒ runs to the full
+    /// controller budget with no policy halt.
+    #[test]
+    fn test_s7_kg_stop_engine_respects_min_total() {
+        use crate::mcts::policy::{KgCostSource, KgStop};
+        let state = Gomoku::new(7);
+        let eval: Arc<dyn Evaluator<Gomoku>> = Arc::new(UniformEval);
+        let policy: Arc<dyn SearchPolicy> =
+            Arc::new(KgStop::new(1000.0, 4.0, 4, 300, u32::MAX, KgCostSource::Fixed(1.0)));
+        let cfg = MctsConfig::evaluation(2.0).with_search_policy(policy);
+        let engine = MctsEngine::new(state, eval, cfg);
+        let mut ctrl = FixedIterations::new(200);
+        let stats = engine.run(&mut ctrl);
+
+        assert_eq!(
+            stats.iterations, 200,
+            "kg_stop halted below min_total (root_visits never reached 300)"
+        );
+        let counts = engine.policy_halt_count_snapshot();
+        assert_eq!(
+            counts[crate::mcts::quartz::HaltReason::PolicyConverged as usize], 0,
+            "kg_stop halted below min_total; counts={counts:?}"
+        );
+    }
+
     /// BQ++ Phase 8b: a None search_policy preserves bit-identical
     /// existing behavior. This is the back-compat regression guard:
     /// no integration test should change behavior unless cfg.search_policy

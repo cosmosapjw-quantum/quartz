@@ -158,3 +158,18 @@ measured ~6× virtual-loss pessimism reduction at preserved agreement).
   Resolves the docs-vs-reality gap: the mechanism is the env var, not a
   `--policy=` argv flag (no JSON key threaded — out of scope).
 - Regression: `cargo build --bin mcts_demo` clean (exit 0).
+
+### C3 — KG-stop engine-integration tests
+
+- `src/mcts/mod.rs` (test module, beside `EdgeSpyPolicy`): two tests.
+  - `test_s7_kg_stop_engine_halts_before_budget_on_resolved_root`: attach
+    `KgStop::new(1000.0, …, min_total=20, Fixed(1.0))` to
+    `MctsConfig::evaluation(2.0)`, Gomoku7 + `UniformEval`,
+    `FixedIterations(400)`; asserts `iterations < 400` AND
+    `policy_halt_count_snapshot()[PolicyConverged] > 0` — proves the wrapper
+    halts the *real* engine through the policy path (observe fires at iter 64
+    in non-quartz, min_total met, permissive threshold ⇒ deterministic halt).
+  - `test_s7_kg_stop_engine_respects_min_total`: `min_total=300 >
+    FixedIterations(200)` ⇒ `iterations == 200`, PolicyConverged count 0.
+- Regression: both pass; full `cargo test --bin mcts_demo` 564 passed / 89
+  ignored / 0 failed.
