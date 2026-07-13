@@ -68,6 +68,22 @@ The manifest records this explicitly. MC95 intervals are descriptive normal
 Monte Carlo intervals, not correctness guarantees. Pairwise p-values are
 labelled exploratory and unadjusted.
 
+> **Permutations are correlated, not independent replicates.** The reward
+> tapes and the algorithm RNG are keyed by scenario identity, *not* by
+> `permutation_id`; across permutations the canonical reward streams and
+> algorithm randomness are byte-identical and only the *presented arm order*
+> changes. This is a deliberate index-bias / order-robustness probe. Each
+> permutation's summary and contrast rows are kept separate — **do not pool
+> or average metrics across permutations as if they were independent MC
+> replicates**, or the variance will be understated. Future labs that reuse
+> this harness must preserve the per-permutation split.
+>
+> **Two entry points.** `scripts/bernoulli_root_lab.py` is the preregistered
+> harness (manifest, permutations, scenario bank; default seed 20260713).
+> `python3 -m quartz.experiments.bernoulli_root` is a simpler direct runner
+> (no manifest, no permutations; default seed 20260712). Use the script for
+> claim-bearing runs; the module entry point is for quick inspection only.
+
 ### Claim firewall
 
 Permitted:

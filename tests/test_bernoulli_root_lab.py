@@ -189,5 +189,45 @@ class ExperimentTests(unittest.TestCase):
             self.assertIn("selected_canonical_arm", trial_rows[0])
 
 
+def _load_lab_script():
+    import importlib.util
+
+    spec = importlib.util.spec_from_file_location("bernoulli_root_lab_script", SCRIPT)
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    return module
+
+
+class McNemarPValueTests(unittest.TestCase):
+    """Direct unit test of the exact sign-test p-value the harness reuses.
+
+    Previously exercised only through the CLI smoke path; future labs reuse
+    ``two_sided_exact_binomial_pvalue`` for their pairwise contrasts, so its
+    math is pinned here against hand-derived values."""
+
+    def setUp(self):
+        self.script = _load_lab_script()
+
+    def test_zero_trials_is_none(self):
+        self.assertIsNone(self.script.two_sided_exact_binomial_pvalue(0, 0))
+
+    def test_extreme_lower_tail(self):
+        # 0/10 successes: 2 * C(10,0)/2^10 = 2/1024.
+        self.assertAlmostEqual(
+            self.script.two_sided_exact_binomial_pvalue(0, 10), 2.0 / 1024.0, places=12
+        )
+
+    def test_one_of_ten(self):
+        # 2 * (C(10,0)+C(10,1))/2^10 = 2 * 11/1024.
+        self.assertAlmostEqual(
+            self.script.two_sided_exact_binomial_pvalue(1, 10), 2.0 * 11.0 / 1024.0, places=12
+        )
+
+    def test_center_and_upper_tail_cap_at_one(self):
+        # Lower-tail doubling exceeds 1 at/above the median; result is capped.
+        self.assertEqual(self.script.two_sided_exact_binomial_pvalue(5, 10), 1.0)
+        self.assertEqual(self.script.two_sided_exact_binomial_pvalue(10, 10), 1.0)
+
+
 if __name__ == "__main__":
     unittest.main()
