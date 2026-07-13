@@ -388,6 +388,17 @@ supplies synthetic mechanism assays that gate the engine work here:
   green-lit** for Stage 7 (H1 does not die before the engine work). The
   commit-`STOP` spends only ~55-60% of budget at matched total regret; whether
   that net-wins under a *wall-clock* price is deferred to Stages 5-6.
+- **`symmetry_orbit_lab` → game-agnostic FORBIDDEN constraint (Stage 4).** A
+  diagnostic (no kill) that gives empirical evidence for the constraint asserted
+  in `phase15_signatures.py`: it audits the signature operators for their
+  transform law (scalar readouts invariant, committed move equivariant) under
+  action / dihedral-D4 / trace-bundle / move-order permutations, with zero-mass
+  clone robustness and index-dependent negative controls. Verdict (seed
+  20260713, 512 trials): `game_agnostic_constraint_upheld=True`, 0 violations
+  across 15 real operator/channel checks, both negative controls caught. Scope
+  caveat: it audits the **Python readouts only** — the Rust engine and the NN
+  are NOT covered, so this is evidence for the readout layer, not an
+  engine-wide agnosticism claim.
 
 ---
 

@@ -1,0 +1,23 @@
+{
+  "format_version": 1,
+  "experiment_id": "symmetry_orbit_lab_v1",
+  "execution_mode": "synthetic_screening",
+  "default_seed": 20260713,
+  "default_n_trials": 512,
+  "default_n_actions": 12,
+  "default_board_side": 5,
+  "default_eps": 1e-9,
+  "assumptions": [
+    "a game-agnostic scalar readout is invariant under an arbitrary permutation of the action axis",
+    "an index-valued readout (the committed move) is equivariant under that permutation",
+    "the dihedral D4 group of a square board acts on policies as a cell-index permutation",
+    "cross-move dispersion operators are symmetric functions of the per-move series (move-order invariant)"
+  ],
+  "prohibited_inferences": [
+    "a clean audit proves QUARTZ play strength",
+    "a clean audit proves the Rust engine is fully game-independent (only the audited Python readouts are covered)",
+    "a flag is a bug without first checking the operator's intended transform law",
+    "transfer to neural-MCTS equivariance without measuring the network itself",
+    "human or grandmaster mechanism"
+  ]
+}

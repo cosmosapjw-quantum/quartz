@@ -220,10 +220,73 @@ python3 -m compileall -q \
   tests/test_candidate_morphology_lab.py
 ```
 
+## Symmetry orbit laboratory
+
+The third implemented assay (`quartz/experiments/symmetry_orbit.py`) is a
+**diagnostic**, not a screen with a kill-criterion. It supplies empirical
+evidence for the game-agnostic FORBIDDEN constraint that
+`quartz/phase15_signatures.py` asserts ("No game rules, board topology, or move
+semantics are used anywhere") by auditing the project's own signature operators
+against the behavior that constraint demands.
+
+A truly game-agnostic scalar readout must be **invariant** under an arbitrary
+relabeling (permutation) of the action axis; the committed-move index must be
+**equivariant** (move with the permutation). Four symmetry channels are
+exercised — action permutation on single policies, the dihedral **D4** group of
+a square board (cell-index permutations), one consistent relabeling applied to a
+whole trace bundle, and move-order permutation for the cross-move dispersion
+operators — plus **zero-mass clone robustness** and **negative controls**
+(deliberately index-dependent probes that MUST be flagged, so the harness is not
+vacuous).
+
+### Quick local run (symmetry)
+
+```bash
+python3 scripts/symmetry_orbit_lab.py \
+  --seed 20260713 \
+  --output-dir results/metacognitive_root/symmetry_orbit_seed_20260713
+```
+
+Config: [`configs/symmetry_orbit_audit.v1.json`](../configs/symmetry_orbit_audit.v1.json).
+The runner writes `operators.csv` (per-operator defect / equivariance rows),
+`summary.json` (full audit incl. negative controls), and `run_manifest.json`.
+
+### Verdict (symmetry)
+
+`game_agnostic_constraint_upheld` is True iff every real operator obeys its
+transform law (max defect within `eps`, argmax equivariant with zero failures)
+AND every negative control is flagged. On the checked-in run (seed 20260713,
+512 trials, `run_contract_hash 8424eea6…`) all 15 audited real-operator/channel
+checks pass (`policy_entropy`, `k_eff`, `top2_margin`, `forked_voc.voc_proxy`,
+argmax-flip count, O5 revision signatures, `budget_gini`/`budget_entropy`,
+`voc_tightness`; scalar defects ≤ 1e-14, argmax equivariant under both action
+permutation and D4), clone robustness is exact, and both negative controls are
+caught.
+
+### Claim firewall (symmetry)
+
+Permitted: the audited Python readouts obey the action / D4 / move-order
+transform laws on synthetic policies; the harness catches index-dependent
+probes. Prohibited: reading a clean audit as play-strength evidence, as proof
+the Rust engine is fully game-independent (only the audited readouts are
+covered), or as neural-MCTS equivariance without measuring the network itself;
+reading a flag as a bug without checking the operator's intended transform law.
+
+### Validation (symmetry)
+
+```bash
+python3 -m pytest tests/test_symmetry_orbit_lab.py -q
+
+python3 -m compileall -q \
+  quartz/experiments/symmetry_orbit.py \
+  scripts/symmetry_orbit_lab.py \
+  tests/test_symmetry_orbit_lab.py
+```
+
 ## Next independent laboratories
 
 These are separate model families, not options silently folded into the
-Bernoulli assay (1 and 2 are now implemented — see above):
+Bernoulli assay (1, 2, and 4 are now implemented — see above):
 
 1. `candidate_morphology_lab` *(implemented)*: visible/hidden pools, priced
    `WIDEN`, separate omission and ranking regret, and `STOP`;
@@ -231,7 +294,7 @@ Bernoulli assay (1 and 2 are now implemented — see above):
    realized root decision change on frozen traces;
 3. `pending_flow_lab`: count-only WU-UCT, fixed/adaptive virtual loss, elastic
    micro-waves, duplication, and measured wall time;
-4. `symmetry_orbit_lab`: board/action permutation equivariance and clone
-   robustness;
+4. `symmetry_orbit_lab` *(implemented)*: board/action permutation equivariance
+   and clone robustness;
 5. `service_curve_lab`: measured evaluator latency/throughput/energy versus
    batch and global inflight credit.
