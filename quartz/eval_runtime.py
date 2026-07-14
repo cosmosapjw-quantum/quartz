@@ -43,7 +43,13 @@ log = logging.getLogger(__name__)
 
 
 _FUSED_CACHE: dict = {}
-_FUSED_CACHE_LOCK = threading.Lock()
+# Reentrant: a lock-held eviction/clear can drop the last reference to an
+# entry's anchor model, firing the `weakref.finalize(_purge_fused_cache)`
+# callback synchronously on the same thread. That callback re-acquires this
+# lock, so a plain non-reentrant Lock self-deadlocks (see the eviction loop
+# in `_get_or_build_fused_state` and `clear_fused_cache`). RLock permits the
+# same-thread re-entry; the finalizer's critical section is a no-op-safe pop.
+_FUSED_CACHE_LOCK = threading.RLock()
 
 
 def _purge_fused_cache(cache_key: int) -> None:

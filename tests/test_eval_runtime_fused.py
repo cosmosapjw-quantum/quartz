@@ -260,6 +260,40 @@ def test_fused_cache_invalidates_on_model_map_gc():
     assert mm_id not in eval_mod._FUSED_CACHE or len(eval_mod._FUSED_CACHE) <= cache_size_before
 
 
+def test_fused_cache_eviction_under_lock_does_not_deadlock():
+    """Regression (2026-07-14): a lock-held eviction that drops an anchor
+    model's last reference fires `_purge_fused_cache` synchronously on the
+    same thread, which re-acquires `_FUSED_CACHE_LOCK`. With a plain
+    (non-reentrant) `threading.Lock` this self-deadlocks — the exact hang
+    that stalled `test_fused_falls_back_on_arch_mismatch` once earlier
+    tests had filled the cache, timing out the CI pytest job.
+
+    Reproduce the reentrancy directly (no GC/id-reuse flakiness): hold the
+    cache lock exactly as `_get_or_build_fused_state` does, then invoke the
+    finalizer. The lock must tolerate same-thread re-entry.
+    """
+    import threading
+
+    eval_mod = importlib.import_module("quartz.eval_runtime")
+    eval_mod._FUSED_CACHE.clear()
+    eval_mod._FUSED_CACHE[424242] = {"size": 1}
+
+    done = threading.Event()
+
+    def _evict_while_holding_lock():
+        with eval_mod._FUSED_CACHE_LOCK:  # outer hold, as in the eviction loop
+            eval_mod._purge_fused_cache(424242)  # weakref finalizer re-acquires
+        done.set()
+
+    t = threading.Thread(target=_evict_while_holding_lock, daemon=True)
+    t.start()
+    assert done.wait(timeout=10), (
+        "cache lock is not reentrant — the finalizer self-deadlocks under it"
+    )
+    assert 424242 not in eval_mod._FUSED_CACHE
+    eval_mod._FUSED_CACHE.clear()
+
+
 def test_fused_accepts_single_model_via_legacy_path():
     """run_batched_eval_groups with M=1 should NOT call the fused
     helper — it goes through the single-model `model is not None`
