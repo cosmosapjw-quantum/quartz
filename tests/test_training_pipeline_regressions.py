@@ -5892,7 +5892,11 @@ def test_plan_online_runtime_overrides_reduces_batch_when_fresh_data_is_thin():
     assert overrides["batch"] < cfg["batch"]
 
 
-def test_plan_selfplay_runner_chunk_scales_parallel_with_replay_deficit():
+def test_plan_selfplay_runner_chunk_scales_parallel_with_replay_deficit(monkeypatch):
+    from quartz import selfplay_runtime as sp_mod
+
+    # Isolate replay-deficit scaling from the separate host-cap constraint.
+    monkeypatch.setattr(sp_mod, "_LOGICAL_CPU_COUNT", 24)
     az = load_training_module()
     cfg = dict(az.GAME_CONFIGS["gomoku7"])
     cfg.update({

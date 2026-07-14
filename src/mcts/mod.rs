@@ -2183,14 +2183,15 @@ mod tests {
         let eval: Arc<dyn Evaluator<Gomoku>> = Arc::new(UniformEval);
         let engine = MctsEngine::new(state, eval, MctsConfig::evaluation(2.0));
         let ctrl = crate::mcts::search::FixedIterations::new(10_000);
+        let expected_threads = parallel::available_search_threads().min(8);
 
         let decision = engine.auto_thread_decision(
             &ctrl,
             parallel::AutoThreadPolicy::throughput().with_max_threads(8),
         );
 
-        assert_eq!(decision.threads, 8);
-        assert_eq!(decision.requested_cap, 8);
+        assert_eq!(decision.threads, expected_threads);
+        assert_eq!(decision.requested_cap, expected_threads);
         assert_eq!(decision.remaining_visits, Some(10_000));
     }
 
