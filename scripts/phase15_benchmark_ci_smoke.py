@@ -26,6 +26,18 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--systems", default="A4,B1,B2")
     parser.add_argument("--budgets", default="8,16,32,64")
     parser.add_argument("--seed", type=int, default=7)
+    parser.add_argument(
+        "--n-threads",
+        type=int,
+        default=1,
+        help="Search threads for the deterministic CI comparison",
+    )
+    parser.add_argument(
+        "--warmup-rounds",
+        type=int,
+        default=1,
+        help="Unmeasured rounds used to remove process/model cold-start cost from the speed gate",
+    )
     parser.add_argument("--search-stall-timeout-s", type=float, default=180.0)
     return parser.parse_args()
 
@@ -92,10 +104,12 @@ def build_benchmark_command(args: argparse.Namespace, checkpoint_path: Path, pos
         str(args.budgets),
         "--seed",
         str(int(args.seed)),
+        "--n-threads",
+        str(int(args.n_threads)),
         "--repeats",
         "1",
         "--warmup-rounds",
-        "0",
+        str(int(args.warmup_rounds)),
         "--search-stall-timeout-s",
         str(float(args.search_stall_timeout_s)),
         "--rust-binary",
@@ -120,6 +134,8 @@ def build_ci_smoke_contract_summary(
             "systems": list(resolve_phase15_systems_arg(args.systems)),
             "budgets": str(args.budgets),
             "seed": int(args.seed),
+            "n_threads": int(args.n_threads),
+            "warmup_rounds": int(args.warmup_rounds),
             "search_stall_timeout_s": float(args.search_stall_timeout_s),
         },
         "artifacts": {

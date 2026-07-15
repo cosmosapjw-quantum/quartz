@@ -1338,6 +1338,71 @@ def test_online_continuation_helper_emits_dense_search_policy():
     assert rows[16]["latency_ms"] >= 0.0
 
 
+@pytest.mark.parametrize(
+    ("result", "message"),
+    [
+        ({}, "missing policy"),
+        ({"policy": []}, "empty policy"),
+        ({"policy": [[1, float("nan")]]}, "non-finite policy"),
+        ({"policy": [[1, float("inf")]]}, "non-finite policy"),
+        ({"policy": [[1, 0.5], ["bad"]]}, "malformed policy"),
+        ({"policy": [[4, 1.0]]}, "out-of-range policy action"),
+        ({"policy": [[1, 0.5], [1, 0.5]]}, "duplicate policy action"),
+        ({"policy": [[1, -0.25], [3, 1.25]]}, "negative policy weight"),
+        ({"policy": [[1, 0.0], [3, 0.0]]}, "zero-sum policy"),
+    ],
+)
+def test_online_continuation_helper_rejects_invalid_policy(result, message):
+    online_runner = load_phase15_online_runner()
+    closed_sessions = []
+
+    class FakeClient:
+        cfg = {"actions": 4, "penalty_mode": "None"}
+
+        def open_search_engine_session(self, jobs, penalty_mode="None", iters=None):
+            return {"session_id": 7, "results": [result]}
+
+        def close_search_session(self, session_id):
+            closed_sessions.append(session_id)
+
+    with pytest.raises(RuntimeError, match=message):
+        online_runner.run_online_readout_continuation(
+            FakeClient(),
+            {"id": "P1", "board": [0] * 49, "player": 1},
+            Phase15System("A4", "baseline", "A", "S1", "QuartzVL", "none"),
+            [8],
+            8,
+        )
+    assert closed_sessions == [7]
+
+
+def test_online_continuation_helper_rejects_invalid_step_policy():
+    online_runner = load_phase15_online_runner()
+    closed_sessions = []
+
+    class FakeClient:
+        cfg = {"actions": 4, "penalty_mode": "None"}
+
+        def open_search_engine_session(self, jobs, penalty_mode="None", iters=None):
+            return {"session_id": 7, "results": [{"policy": [[1, 1.0]]}]}
+
+        def step_search_engine_session(self, session_id, updates=None, iters=None):
+            return {"results": [{"policy": []}]}
+
+        def close_search_session(self, session_id):
+            closed_sessions.append(session_id)
+
+    with pytest.raises(RuntimeError, match="engine session step returned empty policy"):
+        online_runner.run_online_readout_continuation(
+            FakeClient(),
+            {"id": "P1", "board": [0] * 49, "player": 1},
+            Phase15System("A4", "baseline", "A", "S1", "QuartzVL", "none"),
+            [8, 16],
+            16,
+        )
+    assert closed_sessions == [7]
+
+
 def test_prepare_bucketized_suite_embeds_shared_policy_artifacts():
     runner = load_phase15_runner()
 
@@ -1814,6 +1879,7 @@ def test_benchmark_contract_summary_uses_shared_schema():
         systems,
         [8, 16, 32],
         positions_count=4,
+        effective_n_threads=4,
     )
     assert summary["count"] >= 3
     assert summary["discarded_count"] == 0
@@ -2487,6 +2553,8 @@ def test_phase15_benchmark_ci_smoke_builds_self_contained_command():
         systems="A4,B1,B2,B3",
         budgets="8,16,32,64",
         seed=7,
+        n_threads=1,
+        warmup_rounds=1,
         search_stall_time_s=180.0,
         search_stall_timeout_s=180.0,
     )
@@ -2498,6 +2566,8 @@ def test_phase15_benchmark_ci_smoke_builds_self_contained_command():
     assert "/tmp/positions.json" in command
     assert "--seed" in command
     assert "7" in command
+    assert command[command.index("--n-threads") + 1] == "1"
+    assert command[command.index("--warmup-rounds") + 1] == "1"
     assert "--enforce-gate" in command
 
 
@@ -2510,6 +2580,8 @@ def test_phase15_benchmark_ci_smoke_can_expand_small_candidate_preset_without_ga
         systems="small",
         budgets="8,16,32,64",
         seed=7,
+        n_threads=1,
+        warmup_rounds=1,
         search_stall_timeout_s=180.0,
         enforce_gate=False,
     )
@@ -2526,6 +2598,8 @@ def test_phase15_benchmark_ci_smoke_report_includes_benchmark_contract_summary()
         systems="A4,B1,B2",
         budgets="8,16,32,64",
         seed=7,
+        n_threads=1,
+        warmup_rounds=1,
         search_stall_timeout_s=180.0,
     )
     report = smoke.build_ci_smoke_contract_summary(
@@ -2544,6 +2618,8 @@ def test_phase15_benchmark_ci_smoke_report_includes_benchmark_contract_summary()
     )
     assert report["runner"]["game"] == "gomoku7"
     assert report["runner"]["systems"] == ["A4", "B1", "B2"]
+    assert report["runner"]["n_threads"] == 1
+    assert report["runner"]["warmup_rounds"] == 1
     assert report["artifacts"]["checkpoint_path"] == "/tmp/model.pt"
     assert report["benchmark_contract_summary"]["collection_hash"] == "abc123"
     assert report["benchmark_contract_summary"]["hash_key"] == "stable_json_hash"

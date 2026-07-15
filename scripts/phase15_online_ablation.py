@@ -109,11 +109,44 @@ def build_position_job(position: dict[str, object]) -> dict[str, object]:
     return job
 
 
+def _validated_continuation_policy(row, n_actions, stage):
+    import numpy as np
+
+    from quartz.replay import dense_policy_from_sparse, iter_sparse_policy_entries
+
+    if "policy" not in row or row["policy"] is None:
+        raise RuntimeError(f"engine session {stage} returned missing policy")
+    entries = row["policy"]
+    if not isinstance(entries, (list, tuple)) or len(entries) == 0:
+        raise RuntimeError(f"engine session {stage} returned empty policy")
+
+    parsed_entries = list(iter_sparse_policy_entries(entries))
+    if len(parsed_entries) != len(entries):
+        raise RuntimeError(f"engine session {stage} returned malformed policy")
+    seen_actions = set()
+    for action, value in parsed_entries:
+        if not 0 <= action < int(n_actions):
+            raise RuntimeError(f"engine session {stage} returned out-of-range policy action")
+        if action in seen_actions:
+            raise RuntimeError(f"engine session {stage} returned duplicate policy action")
+        seen_actions.add(action)
+        if not np.isfinite(value):
+            raise RuntimeError(f"engine session {stage} returned non-finite policy")
+        if value < 0.0:
+            raise RuntimeError(f"engine session {stage} returned negative policy weight")
+
+    policy = dense_policy_from_sparse(entries, int(n_actions))
+    total = float(np.asarray(policy, dtype=np.float64).sum())
+    if not np.isfinite(total):
+        raise RuntimeError(f"engine session {stage} returned non-finite policy")
+    if total <= 0.0:
+        raise RuntimeError(f"engine session {stage} returned zero-sum policy")
+    return posthoc.normalize_policy(policy).tolist()
+
+
 def run_online_readout_continuation(
     client, position, system, trace_budgets, target_budget, early_stop_fn=None
 ):
-    from quartz.replay import dense_policy_from_sparse
-
     session_id = None
     prev_budget = 0
     trace_rows = {}
@@ -130,9 +163,9 @@ def run_online_readout_continuation(
         if session_id is None or not isinstance(results, list) or not results:
             raise RuntimeError("engine session open failed")
         first_row = dict(results[0])
-        first_row["search_policy"] = posthoc.normalize_policy(
-            dense_policy_from_sparse(first_row.get("policy", []), int(client.cfg["actions"]))
-        ).tolist()
+        first_row["search_policy"] = _validated_continuation_policy(
+            first_row, int(client.cfg["actions"]), "open"
+        )
         first_row["latency_ms"] = float(first_row.get("latency_ms", open_elapsed_ms))
         trace_rows[int(trace_budgets[0])] = first_row
         prev_budget = int(trace_budgets[0])
@@ -151,9 +184,9 @@ def run_online_readout_continuation(
             if not isinstance(results, list) or not results:
                 raise RuntimeError("engine session step failed")
             row = dict(results[0])
-            row["search_policy"] = posthoc.normalize_policy(
-                dense_policy_from_sparse(row.get("policy", []), int(client.cfg["actions"]))
-            ).tolist()
+            row["search_policy"] = _validated_continuation_policy(
+                row, int(client.cfg["actions"]), "step"
+            )
             row["latency_ms"] = float(row.get("latency_ms", step_elapsed_ms))
             trace_rows[int(budget)] = row
             prev_budget = int(budget)

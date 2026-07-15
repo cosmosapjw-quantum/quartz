@@ -4248,8 +4248,12 @@ struct SearchSession<G: GameState> {
 
 struct EngineSearchSession<G: GameState> {
     engines: Vec<Option<MctsEngine<G>>>,
+    /// Nominal visit target for the current root in each slot. Session step
+    /// requests are deltas, while the search controllers consume absolute
+    /// visit ceilings.
     cumulative_iters: Vec<u32>,
     n_threads: usize,
+    n_actions: usize,
     search_profile: SearchProfile,
 }
 
@@ -4327,15 +4331,21 @@ where
                 let Some(engine) = engine_opt.as_mut() else {
                     return None;
                 };
+                let target_iters = self
+                    .cumulative_iters
+                    .get(idx)
+                    .copied()
+                    .unwrap_or_else(|| engine.root.n_total.load(Ordering::Relaxed))
+                    .saturating_add(iters);
                 let mut result = run_eval_search_step(
                     engine,
                     self.n_threads,
-                    iters,
+                    target_iters,
                     engine.config.quartz.clone(),
                     self.search_profile,
                 )?;
                 if let Some(total) = self.cumulative_iters.get_mut(idx) {
-                    *total = total.saturating_add(iters);
+                    *total = target_iters;
                     result.iterations = *total;
                 }
                 Some(EvalSearchStepCompact {
@@ -4355,14 +4365,21 @@ where
     }
 
     fn search_with_iters(&mut self, iters: u32) -> Vec<serde_json::Value> {
-        self.search_with_iters_compact(iters)
+        let results = self.search_with_iters_compact(iters);
+        results
             .into_iter()
-            .map(|result| {
+            .zip(self.engines.iter())
+            .map(|(result, engine)| {
                 let Some(result) = result else {
                     return serde_json::Value::Null;
                 };
+                let Some(engine) = engine.as_ref() else {
+                    return serde_json::Value::Null;
+                };
+                let (_, policy, _) = collect_sparse_policy(engine, self.n_actions);
                 serde_json::json!({
                     "best_move": result.best_move,
+                    "policy": policy,
                     "time_used_ms": result.time_used_ms,
                     "iterations": result.iterations,
                     "root_visits": result.root_visits,
@@ -4381,11 +4398,18 @@ where
         if let Some(engine) = self.engines.get_mut(slot) {
             *engine = None;
         }
+        if let Some(total) = self.cumulative_iters.get_mut(slot) {
+            *total = 0;
+        }
     }
 
     fn insert_engine(&mut self, slot: usize, engine: MctsEngine<G>) {
+        let root_visits = engine.root.n_total.load(Ordering::Relaxed);
         if let Some(dst) = self.engines.get_mut(slot) {
             *dst = Some(engine);
+        }
+        if let Some(total) = self.cumulative_iters.get_mut(slot) {
+            *total = root_visits;
         }
     }
 
@@ -4395,7 +4419,11 @@ where
         };
         engine
             .apply_action_idx_root(action)
-            .map_err(|err| format!("{} for slot {}", err, slot))
+            .map_err(|err| format!("{} for slot {}", err, slot))?;
+        if let Some(total) = self.cumulative_iters.get_mut(slot) {
+            *total = engine.root.n_total.load(Ordering::Relaxed);
+        }
+        Ok(())
     }
 }
 
@@ -5950,6 +5978,7 @@ fn handle_search_nn_multi_engine_session_open(line: &str) -> SearchCommandReply 
                 engines,
                 cumulative_iters: vec![0; job_count],
                 n_threads,
+                n_actions: 49,
                 search_profile,
             })
         }
@@ -5982,6 +6011,7 @@ fn handle_search_nn_multi_engine_session_open(line: &str) -> SearchCommandReply 
                     engines,
                     cumulative_iters: vec![0; job_count],
                     n_threads,
+                    n_actions: 225,
                     search_profile,
                 },
                 variant,
@@ -6021,6 +6051,7 @@ fn handle_search_nn_multi_engine_session_open(line: &str) -> SearchCommandReply 
                     engines,
                     cumulative_iters: vec![0; job_count],
                     n_threads,
+                    n_actions,
                     search_profile,
                 },
                 size,
@@ -6059,6 +6090,7 @@ fn handle_search_nn_multi_engine_session_open(line: &str) -> SearchCommandReply 
                     engines,
                     cumulative_iters: vec![0; job_count],
                     n_threads,
+                    n_actions: CHESS_POLICY_ACTIONS,
                     search_profile,
                 },
                 default_960,
@@ -6094,6 +6126,7 @@ fn handle_search_nn_multi_engine_session_open(line: &str) -> SearchCommandReply 
                 engines,
                 cumulative_iters: vec![0; job_count],
                 n_threads,
+                n_actions: 9,
                 search_profile,
             })
         }
@@ -6395,6 +6428,7 @@ where
             .collect(),
         cumulative_iters: vec![0; sessions.len()],
         n_threads,
+        n_actions,
         search_profile,
     };
     let started = Instant::now();
@@ -7548,6 +7582,7 @@ mod tests {
             engines: vec![Some(MctsEngine::new(state, eval, cfg))],
             cumulative_iters: vec![0],
             n_threads: 1,
+            n_actions: 49,
             search_profile: SearchProfile::Baseline,
         };
 
@@ -7556,9 +7591,17 @@ mod tests {
             .get("iterations")
             .and_then(|v| v.as_u64())
             .unwrap_or(0);
+        let first_root_visits = first[0]
+            .get("root_visits")
+            .and_then(|v| v.as_u64())
+            .unwrap_or(0);
         let second = session.search_with_iters(8);
         let second_iters = second[0]
             .get("iterations")
+            .and_then(|v| v.as_u64())
+            .unwrap_or(0);
+        let second_root_visits = second[0]
+            .get("root_visits")
             .and_then(|v| v.as_u64())
             .unwrap_or(0);
 
@@ -7568,6 +7611,72 @@ mod tests {
             first_iters,
             second_iters
         );
+        assert_eq!(first_root_visits, 8);
+        assert_eq!(second_root_visits, 16);
+    }
+
+    #[test]
+    fn test_engine_session_delta_rebases_after_root_transition() {
+        let state = Gomoku::new(7);
+        let eval: Arc<ShortRollout> = Arc::new(ShortRollout::new(4));
+        let cfg = MctsConfig::evaluation(2.0);
+        let mut session = EngineSearchSession {
+            engines: vec![Some(MctsEngine::new(state, eval, cfg))],
+            cumulative_iters: vec![0],
+            n_threads: 1,
+            n_actions: 49,
+            search_profile: SearchProfile::Baseline,
+        };
+
+        let first = session.search_with_iters(16);
+        let action = first[0]
+            .get("best_move")
+            .and_then(|value| value.as_u64())
+            .expect("best move") as usize;
+        session.apply_action_idx(0, action).unwrap();
+
+        let inherited_visits = session.engines[0]
+            .as_ref()
+            .expect("active engine")
+            .root
+            .n_total
+            .load(Ordering::Relaxed);
+        assert_eq!(session.cumulative_iters[0], inherited_visits);
+
+        let next = session.search_with_iters_compact(8);
+        let next = next[0].as_ref().expect("search result");
+        assert_eq!(next.iterations, inherited_visits.saturating_add(8));
+        assert_eq!(next.root_visits, inherited_visits.saturating_add(8));
+    }
+
+    #[test]
+    fn test_engine_session_insert_rebases_to_replacement_root_visits() {
+        let eval: Arc<ShortRollout> = Arc::new(ShortRollout::new(4));
+        let cfg = MctsConfig::evaluation(2.0);
+        let mut session = EngineSearchSession {
+            engines: vec![None],
+            cumulative_iters: vec![0],
+            n_threads: 1,
+            n_actions: 49,
+            search_profile: SearchProfile::Baseline,
+        };
+        let replacement = MctsEngine::new(Gomoku::new(7), eval, cfg);
+        run_eval_search_step(
+            &replacement,
+            1,
+            5,
+            replacement.config.quartz.clone(),
+            SearchProfile::Baseline,
+        )
+        .expect("replacement search result");
+
+        session.insert_engine(0, replacement);
+        assert_eq!(session.cumulative_iters[0], 5);
+
+        let next = session.search_with_iters_compact(3);
+        let next = next[0].as_ref().expect("search result");
+        assert_eq!(next.iterations, 8);
+        assert_eq!(next.root_visits, 8);
     }
 
     #[test]
@@ -7584,6 +7693,7 @@ mod tests {
             ],
             cumulative_iters: vec![0, 0],
             n_threads: 1,
+            n_actions: 49,
             search_profile: SearchProfile::Baseline,
         };
 
@@ -7637,6 +7747,7 @@ mod tests {
             engines: vec![Some(MctsEngine::new(state, eval, cfg))],
             cumulative_iters: vec![0],
             n_threads: 1,
+            n_actions: 49,
             search_profile: SearchProfile::Baseline,
         };
 
@@ -7667,12 +7778,14 @@ mod tests {
             ))],
             cumulative_iters: vec![0],
             n_threads: 1,
+            n_actions: 49,
             search_profile: SearchProfile::Baseline,
         };
         let mut json_session = EngineSearchSession {
             engines: vec![Some(MctsEngine::new(state, eval, cfg))],
             cumulative_iters: vec![0],
             n_threads: 1,
+            n_actions: 49,
             search_profile: SearchProfile::Baseline,
         };
 
@@ -7693,6 +7806,22 @@ mod tests {
             json.get("p_flip").and_then(|v| v.as_f64()),
             Some(compact.p_flip as f64)
         );
+        let policy = json
+            .get("policy")
+            .and_then(|value| value.as_array())
+            .expect("sparse policy array");
+        assert!(!policy.is_empty());
+        let policy_sum = policy
+            .iter()
+            .map(|entry| {
+                entry
+                    .as_array()
+                    .and_then(|pair| pair.get(1))
+                    .and_then(|value| value.as_f64())
+                    .expect("sparse policy probability")
+            })
+            .sum::<f64>();
+        assert!((policy_sum - 1.0).abs() < 1e-6, "sum={policy_sum}");
     }
 
     #[test]

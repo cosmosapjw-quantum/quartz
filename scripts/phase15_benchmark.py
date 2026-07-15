@@ -42,6 +42,12 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--positions-file", default="results/controller_sweep_shortlist_v1/gomoku7/stage1_positions.json")
     parser.add_argument("--max-positions", type=int, default=10)
     parser.add_argument("--seed", type=int, default=42)
+    parser.add_argument(
+        "--n-threads",
+        type=int,
+        default=None,
+        help="Override search threads; CI smoke uses 1 for deterministic continuation/restart comparisons",
+    )
     parser.add_argument("--systems-config", default=None)
     parser.add_argument("--systems", default="A4,B1,B2,B3")
     parser.add_argument("--budgets", default="8,16,32,64")
@@ -76,6 +82,7 @@ def build_benchmark_contract_summary(
     budgets: list[int],
     *,
     positions_count: int,
+    effective_n_threads: int,
 ) -> dict[str, Any]:
     contracts = posthoc.build_phase15_contracts(
         execution_mode="benchmark_continuation_vs_restart",
@@ -88,6 +95,7 @@ def build_benchmark_contract_summary(
             "positions_file": str(args.positions_file),
             "positions_count": int(positions_count),
             "seed": int(args.seed),
+            "n_threads": int(effective_n_threads),
             "repeats": int(args.repeats),
             "warmup_rounds": int(args.warmup_rounds),
             "min_bundle_speedup": float(args.min_bundle_speedup),
@@ -459,6 +467,10 @@ def main() -> None:
 
     base_cfg, device = posthoc.sweep.build_base_cfg(args.game, args.device)
     base_cfg["seed"] = int(args.seed)
+    if args.n_threads is not None:
+        if int(args.n_threads) < 1:
+            raise ValueError("--n-threads must be >= 1")
+        base_cfg["n_threads"] = int(args.n_threads)
     checkpoints = posthoc.resolve_checkpoint_refs(args, base_dir)
     posthoc.validate_checkpoint_refs(args, checkpoints)
     systems = [
@@ -480,6 +492,7 @@ def main() -> None:
         systems,
         budgets,
         positions_count=len(positions),
+        effective_n_threads=int(base_cfg.get("n_threads", 1)),
     )
 
     benchmark_rows: list[dict[str, Any]] = []
