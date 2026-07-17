@@ -196,6 +196,9 @@ impl<A: FoundryAxis + 'static> SearchPolicy for ShadowAxisPolicy<A> {
     fn score_adjustment(&self, _edge: EdgeView<'_>) -> ScoreAdjustment { ScoreAdjustment::default() }
 
     fn should_halt(&self, snap: &SearchSnapshot, _edges: &[EdgeView<'_>]) -> HaltDecision {
+        if self.axis.mode() != AxisMode::Online {
+            return HaltDecision::Continue;
+        }
         let cache = self.cache.load();
         if cache.epoch != snap.iteration { return HaltDecision::Continue; }
         if cache.proposals.iter().any(|proposal| proposal.kind == MetaActionKind::Stop) {
