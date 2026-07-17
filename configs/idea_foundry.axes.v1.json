@@ -1,0 +1,31 @@
+{
+  "format_version": 1,
+  "catalog_id": "quartz_idea_foundry_axes_v1",
+  "branch_contract": "agent/local-experiment-foundry",
+  "source_of_truth": "quartz.idea_foundry.registry.AXIS_SPECS",
+  "minimum_axis_count": 16,
+  "registered_axis_count": 24,
+  "planes": [
+    "rust_online",
+    "python_online",
+    "posthoc",
+    "training",
+    "analysis"
+  ],
+  "promotion_order": [
+    "seed",
+    "mechanism_valid",
+    "shadow",
+    "conditional",
+    "active_experimental",
+    "deployment_candidate"
+  ],
+  "rules": [
+    "Online axes may not consume stale certificates.",
+    "Pending and virtual-loss counts shape selection but never count as completed evidence.",
+    "A negative result is scoped to module x role x game x budget x evaluator x hardware.",
+    "Representation changes and controller changes are evaluated in separate campaigns first.",
+    "Synthetic mechanism success does not establish neural-MCTS efficacy.",
+    "Every axis needs a baseline, artifact contract, failure behavior, and revival condition before promotion."
+  ]
+}
