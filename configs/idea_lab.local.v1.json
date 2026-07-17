@@ -1,0 +1,402 @@
+{
+  "format_version": 1,
+  "experiment_id": "quartz_local_idea_lab",
+  "default_suite": "smoke",
+  "description": "Local execution registry for existing QUARTZ experiments plus planned idea-foundry lanes.",
+  "suites": {
+    "smoke": [
+      "tests.idea_lab",
+      "synthetic.bernoulli_root.quick",
+      "synthetic.candidate_morphology.quick",
+      "synthetic.symmetry_orbit.quick",
+      "synthetic.pending_flow.quick"
+    ],
+    "synthetic": [
+      "synthetic.bernoulli_root.quick",
+      "synthetic.candidate_morphology.quick",
+      "synthetic.symmetry_orbit.quick",
+      "synthetic.pending_flow.quick"
+    ],
+    "systems-smoke": [
+      "systems.service_curve.quick",
+      "engine.rust.policy_smoke"
+    ],
+    "engine-bridge": [
+      "engine.rust.policy_smoke",
+      "engine.rust.vl_bridge",
+      "engine.smoke_e2e"
+    ],
+    "stage7-replay": [
+      "stage7.flip_calibration",
+      "stage7.o6_precision",
+      "stage7.b13_analysis"
+    ],
+    "stage7-live": [
+      "stage7.kg_stop_live"
+    ],
+    "all-available": [
+      "tests.idea_lab",
+      "tests.metacognitive_core",
+      "synthetic.bernoulli_root.quick",
+      "synthetic.candidate_morphology.quick",
+      "synthetic.symmetry_orbit.quick",
+      "synthetic.pending_flow.quick",
+      "systems.service_curve.quick",
+      "engine.rust.policy_smoke",
+      "engine.rust.vl_bridge",
+      "engine.smoke_e2e",
+      "stage7.flip_calibration",
+      "stage7.o6_precision",
+      "stage7.b13_analysis",
+      "stage7.kg_stop_live"
+    ],
+    "foundry-roadmap": [
+      "foundry.stop_council",
+      "foundry.static_anchor_rpo",
+      "foundry.residual_evidence_widening",
+      "foundry.counterfactual_meta_teacher",
+      "foundry.jlb_root",
+      "foundry.dls_particle",
+      "foundry.semantic_path_lsh",
+      "foundry.coherence_interference_shadow",
+      "foundry.diffusion_regularized_evaluator",
+      "foundry.rw_rest_lite",
+      "foundry.physics_falsifiers",
+      "foundry.regret_state_archive"
+    ]
+  },
+  "lanes": [
+    {
+      "id": "tests.idea_lab",
+      "title": "Idea-lab orchestrator unit tests",
+      "status": "available",
+      "groups": ["tests", "smoke"],
+      "profiles": ["cpu", "cuda", "rocm"],
+      "description": "Validates registry parsing, template expansion, blockers, doctor shape, and dry-run planning.",
+      "requirements": {
+        "commands": ["python3"],
+        "python_modules": ["pytest"],
+        "paths": ["tests/test_idea_lab.py", "scripts/idea_lab.py", "configs/idea_lab.local.v1.json"]
+      },
+      "steps": [
+        {
+          "name": "pytest",
+          "command": ["{python}", "-m", "pytest", "-q", "tests/test_idea_lab.py"],
+          "timeout_s": 120
+        }
+      ]
+    },
+    {
+      "id": "tests.metacognitive_core",
+      "title": "Core metacognitive and Stage-7 analysis tests",
+      "status": "available",
+      "groups": ["tests", "synthetic", "stage7"],
+      "profiles": ["cpu", "cuda", "rocm"],
+      "description": "Runs cheap mechanism/analyzer regression suites without launching training.",
+      "requirements": {
+        "python_modules": ["pytest", "numpy"],
+        "paths": [
+          "tests/test_candidate_morphology_lab.py",
+          "tests/test_symmetry_orbit_lab.py",
+          "tests/test_pending_flow_lab.py",
+          "tests/test_phase15_flip_calibration.py",
+          "tests/test_phase15_o6_precision.py",
+          "tests/test_phase15_research_grade.py"
+        ]
+      },
+      "steps": [
+        {
+          "name": "pytest",
+          "command": [
+            "{python}", "-m", "pytest", "-q",
+            "tests/test_candidate_morphology_lab.py",
+            "tests/test_symmetry_orbit_lab.py",
+            "tests/test_pending_flow_lab.py",
+            "tests/test_phase15_flip_calibration.py",
+            "tests/test_phase15_o6_precision.py",
+            "tests/test_phase15_research_grade.py"
+          ],
+          "timeout_s": 600
+        }
+      ]
+    },
+    {
+      "id": "synthetic.bernoulli_root.quick",
+      "title": "Bernoulli root ranking-risk quick screen",
+      "status": "available",
+      "groups": ["synthetic", "smoke", "allocation"],
+      "profiles": ["cpu", "cuda", "rocm"],
+      "description": "Dependency-light CRN screen for uniform, raw SH, and KG rank-risk allocation.",
+      "requirements": {
+        "python_modules": ["numpy"],
+        "paths": ["scripts/bernoulli_root_lab.py", "configs/metacognitive_root_scenarios.v1.json"]
+      },
+      "steps": [
+        {"name": "run", "command": ["{python}", "scripts/bernoulli_root_lab.py", "--quick", "--output-dir", "{output}"], "timeout_s": 600}
+      ],
+      "artifact_globs": ["{output}/run_manifest.json", "{output}/summary.json"]
+    },
+    {
+      "id": "synthetic.candidate_morphology.quick",
+      "title": "Candidate omission/ranking morphology quick screen",
+      "status": "available",
+      "groups": ["synthetic", "smoke", "candidates", "halt"],
+      "profiles": ["cpu", "cuda", "rocm"],
+      "description": "Prices WIDEN against a shared pull budget and runs the H1 synthetic discrimination gate.",
+      "requirements": {
+        "python_modules": ["numpy"],
+        "paths": ["scripts/candidate_morphology_lab.py", "configs/candidate_morphology_scenarios.v1.json"]
+      },
+      "steps": [
+        {"name": "run", "command": ["{python}", "scripts/candidate_morphology_lab.py", "--quick", "--output-dir", "{output}"], "timeout_s": 900}
+      ],
+      "artifact_globs": ["{output}/run_manifest.json", "{output}/summary.json"]
+    },
+    {
+      "id": "synthetic.symmetry_orbit.quick",
+      "title": "Game-agnostic symmetry-orbit quick audit",
+      "status": "available",
+      "groups": ["synthetic", "smoke", "invariance"],
+      "profiles": ["cpu", "cuda", "rocm"],
+      "description": "Checks invariant/equivariant transform laws and negative controls on a small orbit bank.",
+      "requirements": {
+        "python_modules": ["numpy"],
+        "paths": ["scripts/symmetry_orbit_lab.py", "configs/symmetry_orbit_audit.v1.json"]
+      },
+      "steps": [
+        {"name": "run", "command": ["{python}", "scripts/symmetry_orbit_lab.py", "--n-trials", "64", "--output-dir", "{output}"], "timeout_s": 300}
+      ],
+      "artifact_globs": ["{output}/run_manifest.json", "{output}/summary.json"]
+    },
+    {
+      "id": "synthetic.pending_flow.quick",
+      "title": "Pending-flow and virtual-loss quick screen",
+      "status": "available",
+      "groups": ["synthetic", "smoke", "parallel"],
+      "profiles": ["cpu", "cuda", "rocm"],
+      "description": "Runs the count-only WU-UCT screen without requiring the Rust bridge log.",
+      "requirements": {
+        "python_modules": ["numpy"],
+        "paths": ["scripts/pending_flow_lab.py", "configs/pending_flow_scenarios.v1.json"]
+      },
+      "steps": [
+        {"name": "run", "command": ["{python}", "scripts/pending_flow_lab.py", "--waves", "120", "--worker-grid", "1,4,8,16", "--output-dir", "{output}"], "timeout_s": 600}
+      ],
+      "artifact_globs": ["{output}/run_manifest.json", "{output}/summary.json"]
+    },
+    {
+      "id": "systems.service_curve.quick",
+      "title": "Evaluator service-curve quick measurement",
+      "status": "available",
+      "groups": ["systems", "smoke", "scheduler"],
+      "profiles": ["cpu", "cuda", "rocm"],
+      "description": "Measures a tiny batch×inflight grid; use a full grid before throughput claims.",
+      "requirements": {
+        "python_modules": ["torch", "numpy"],
+        "paths": ["scripts/service_curve_lab.py", "configs/service_curve.v1.json"]
+      },
+      "steps": [
+        {"name": "run", "command": ["{python}", "scripts/service_curve_lab.py", "--device", "{device}", "--batch-sizes", "4,8", "--inflight-grid", "1,2", "--n-waves", "3", "--warmup", "1", "--output-dir", "{output}"], "timeout_s": 600}
+      ],
+      "artifact_globs": ["{output}/run_manifest.json", "{output}/summary.json"]
+    },
+    {
+      "id": "engine.rust.policy_smoke",
+      "title": "Rust SearchPolicy/KG-stop regression smoke",
+      "status": "available",
+      "groups": ["engine", "systems", "halt"],
+      "profiles": ["cpu", "cuda", "rocm"],
+      "description": "Compiles and runs focused Rust KG-stop policy tests.",
+      "requirements": {"commands": ["cargo"], "paths": ["Cargo.toml", "src/mcts/policy/kg_stop.rs"]},
+      "steps": [
+        {"name": "cargo-test", "command": ["cargo", "test", "--release", "--bin", "mcts_demo", "kg_stop"], "timeout_s": 1800}
+      ]
+    },
+    {
+      "id": "engine.rust.vl_bridge",
+      "title": "Rust virtual-loss bridge plus pending-flow analysis",
+      "status": "available",
+      "groups": ["engine", "parallel", "systems"],
+      "profiles": ["cpu", "cuda", "rocm"],
+      "description": "Captures real engine VL telemetry, then joins it to the synthetic pending-flow report.",
+      "requirements": {"commands": ["cargo"], "python_modules": ["numpy"], "paths": ["src/ablation_vl.rs", "scripts/pending_flow_lab.py"]},
+      "steps": [
+        {"name": "rust-vl", "command": ["cargo", "test", "--release", "vl_ablation_gomoku7", "--", "--ignored", "--nocapture"], "stdout": "{output}/rust_vl_ablation.log", "timeout_s": 3600},
+        {"name": "analyze", "command": ["{python}", "scripts/pending_flow_lab.py", "--waves", "120", "--worker-grid", "1,4,8,16", "--rust-log", "{output}/rust_vl_ablation.log", "--output-dir", "{output}/analysis"], "timeout_s": 900}
+      ],
+      "artifact_globs": ["{output}/rust_vl_ablation.log", "{output}/analysis/summary.json"]
+    },
+    {
+      "id": "engine.smoke_e2e",
+      "title": "Canonical Rust↔Python end-to-end smoke",
+      "status": "available",
+      "groups": ["engine", "integration"],
+      "profiles": ["cpu", "cuda", "rocm"],
+      "description": "Runs the repository's canonical audit smoke. It is a plumbing test, not a benchmark.",
+      "requirements": {"commands": ["cargo"], "python_modules": ["torch", "numpy"], "paths": ["scripts/smoke_e2e.py"]},
+      "steps": [
+        {"name": "smoke-e2e", "command": ["{python}", "scripts/smoke_e2e.py"], "timeout_s": 3600}
+      ]
+    },
+    {
+      "id": "stage7.flip_calibration",
+      "title": "H1 vs P_flip trace replay",
+      "status": "available",
+      "groups": ["stage7", "replay", "halt", "calibration"],
+      "profiles": ["cpu", "cuda", "rocm"],
+      "description": "Replays H1 and P_flip at identical chunk boundaries from an existing schema>=5 trace cache.",
+      "requirements": {"python_modules": ["numpy"], "variables": ["trace_dir"], "paths": ["scripts/phase15_flip_calibration.py", "{trace_dir}"]},
+      "steps": [
+        {"name": "analyze", "command": ["{python}", "scripts/phase15_flip_calibration.py", "--trace-dir", "{trace_dir}", "--n-boot", "1000", "--output", "{output}/summary.json"], "timeout_s": 1800}
+      ],
+      "artifact_globs": ["{output}/summary.json"]
+    },
+    {
+      "id": "stage7.o6_precision",
+      "title": "H3/O6 burst-precision replay",
+      "status": "available",
+      "groups": ["stage7", "replay", "allocation", "calibration"],
+      "profiles": ["cpu", "cuda", "rocm"],
+      "description": "Joins B15 online burst rows to external forked-VOC difficulty labels.",
+      "requirements": {"python_modules": ["numpy"], "variables": ["trace_dir", "online_rows"], "paths": ["scripts/phase15_o6_burst_precision.py", "{trace_dir}", "{online_rows}"]},
+      "steps": [
+        {"name": "analyze", "command": ["{python}", "scripts/phase15_o6_burst_precision.py", "--trace-dir", "{trace_dir}", "--online-rows", "{online_rows}", "--n-boot", "1000", "--output", "{output}/summary.json"], "timeout_s": 1800}
+      ],
+      "artifact_globs": ["{output}/summary.json"]
+    },
+    {
+      "id": "stage7.b13_analysis",
+      "title": "B13/B13c025 posthoc analysis replay",
+      "status": "available",
+      "groups": ["stage7", "replay", "readout"],
+      "profiles": ["cpu", "cuda", "rocm"],
+      "description": "Recomputes paired B13 readout deltas from an existing Phase-15 rows artifact.",
+      "requirements": {"python_modules": ["numpy"], "variables": ["posthoc_rows"], "paths": ["scripts/phase15_analyze_results.py", "{posthoc_rows}"]},
+      "steps": [
+        {"name": "analyze", "command": ["{python}", "scripts/phase15_analyze_results.py", "--posthoc-rows", "{posthoc_rows}", "--targets", "B13,B13c025", "--baselines", "A4,B5", "--output", "{output}/analysis.json"], "timeout_s": 1800}
+      ],
+      "artifact_globs": ["{output}/analysis.json"]
+    },
+    {
+      "id": "stage7.kg_stop_live",
+      "title": "Live trained-checkpoint KG-stop smoke",
+      "status": "available",
+      "groups": ["stage7", "live", "halt", "gpu"],
+      "profiles": ["cuda", "rocm"],
+      "description": "Runs a deliberately small live grid. Existing low-budget negative remains prior evidence.",
+      "requirements": {"commands": ["cargo"], "python_modules": ["torch", "numpy"], "variables": ["checkpoint"], "paths": ["scripts/kg_stop_engine_smoke.py", "target/release/mcts_demo", "{checkpoint}"]},
+      "steps": [
+        {"name": "run", "command": ["{python}", "scripts/kg_stop_engine_smoke.py", "--checkpoint", "{checkpoint}", "--n-positions", "8", "--budgets", "64,128", "--thresholds", "1e-3,1e-2,1e-1", "--device", "{device}", "--output-dir", "{output}"], "timeout_s": 7200}
+      ],
+      "artifact_globs": ["{output}/summary.json"]
+    },
+    {
+      "id": "foundry.stop_council",
+      "title": "Calibrated multi-signal stop council",
+      "status": "planned",
+      "groups": ["foundry", "halt", "calibration"],
+      "profiles": ["cpu", "cuda", "rocm"],
+      "description": "Fit p_wrong from H1, P_flip, margins, entropy slopes, uncertainty radii, and omission risk.",
+      "blocked_by": ["implement quartz/idea_lab/stop_council.py", "define position-grouped train/validation splits", "add held-out oracle labels and calibration tests"]
+    },
+    {
+      "id": "foundry.static_anchor_rpo",
+      "title": "Static-anchor regularized policy improvement",
+      "status": "planned",
+      "groups": ["foundry", "policy", "candidates"],
+      "profiles": ["cpu", "cuda", "rocm"],
+      "description": "Compute temporary KL-regularized root policies from the frozen NN anchor instead of cumulative refresh.",
+      "blocked_by": ["implement quartz/idea_lab/static_anchor_rpo.py", "add Gumbel/RPO/current-no-refresh paired trace baselines", "pin tail-mass preservation tests"]
+    },
+    {
+      "id": "foundry.residual_evidence_widening",
+      "title": "Residual-partition-mass widening",
+      "status": "planned",
+      "groups": ["foundry", "candidates", "widening"],
+      "profiles": ["cpu", "cuda", "rocm"],
+      "description": "Bound truncation error from outside live-set mass and compare against Gumbel/SH and standard PW.",
+      "blocked_by": ["implement calibrated unmaterialized-action upper scores", "implement quartz/idea_lab/residual_mass.py", "add hidden-best candidate bank"]
+    },
+    {
+      "id": "foundry.counterfactual_meta_teacher",
+      "title": "Forked counterfactual meta-action teacher",
+      "status": "planned",
+      "groups": ["foundry", "teacher", "meta-control"],
+      "profiles": ["cpu", "cuda", "rocm"],
+      "description": "Fork STOP/SAMPLE/CHALLENGE/WIDEN/PROVE/SCHEDULE actions from identical resident snapshots.",
+      "blocked_by": ["define serializable SearchSnapshot schema", "add deterministic resident-session fork/replay support", "define decision-loss and measured-cost labels"]
+    },
+    {
+      "id": "foundry.jlb_root",
+      "title": "JSD-preconditioned locally balanced root sampler",
+      "status": "planned",
+      "groups": ["foundry", "allocation", "geometry"],
+      "profiles": ["cpu", "cuda", "rocm"],
+      "description": "Use sibling policy-value JSD as graph geometry and P/Q as the target density.",
+      "blocked_by": ["implement sibling common-support policy-value representations", "implement symmetric JSD kernel and locally balanced transition", "add Gumbel/Boltzmann/prior-sampling comparisons"]
+    },
+    {
+      "id": "foundry.dls_particle",
+      "title": "Dynamic live-set particle root search",
+      "status": "planned",
+      "groups": ["foundry", "allocation", "parallel"],
+      "profiles": ["cpu", "cuda", "rocm"],
+      "description": "Allocate independent particle groups across active/hibernating/resurrectable root candidates.",
+      "blocked_by": ["implement particle-group trace format", "define probability-of-best and robust group statistics", "add PMCTS/SMC/Gumbel baselines"]
+    },
+    {
+      "id": "foundry.semantic_path_lsh",
+      "title": "High-thread semantic path-overlap control",
+      "status": "planned",
+      "groups": ["foundry", "parallel", "path-diversity"],
+      "profiles": ["cpu", "cuda", "rocm"],
+      "description": "Measure and reduce whole-path semantic overlap without reusing the rejected edge-duplication claim.",
+      "blocked_by": ["add path shingles/signatures to engine telemetry", "implement MinHash/LSH shadow analyzer", "gate online use on high thread count and residual semantic overlap"]
+    },
+    {
+      "id": "foundry.coherence_interference_shadow",
+      "title": "Coherence-gated signed path disagreement shadow",
+      "status": "planned",
+      "groups": ["foundry", "physics", "shadow"],
+      "profiles": ["cpu", "cuda", "rocm"],
+      "description": "Log a bounded 2D signed-path feature before considering any online score intervention.",
+      "blocked_by": ["define path amplitude/phase from observable search quantities", "implement clipping and classical-limit gate", "show incremental prediction beyond ordinary disagreement features"]
+    },
+    {
+      "id": "foundry.diffusion_regularized_evaluator",
+      "title": "Deterministic policy-value U-Net with denoising auxiliary",
+      "status": "planned",
+      "groups": ["foundry", "representation", "training"],
+      "profiles": ["cpu", "cuda", "rocm"],
+      "description": "Use latent or discrete denoising only during training; keep MCTS inference direct and deterministic.",
+      "blocked_by": ["implement a parameter/FLOP-matched deterministic U-Net baseline", "add latent-denoising and masked-board ablations", "measure same-time Elo and evaluator throughput"]
+    },
+    {
+      "id": "foundry.rw_rest_lite",
+      "title": "RW-ResT-AZ-40/144-Lite evaluator",
+      "status": "planned",
+      "groups": ["foundry", "representation", "training"],
+      "profiles": ["cuda", "rocm"],
+      "description": "Evaluate a static-pruned sparse RandWire/ResT hybrid separately from controller changes.",
+      "blocked_by": ["implement one-conv residual random nodes and static gate pruning", "add graph-seed proxy screen", "compare against current ResNet and local-global hybrid baselines"]
+    },
+    {
+      "id": "foundry.physics_falsifiers",
+      "title": "Physics-analogy falsification dashboard",
+      "status": "planned",
+      "groups": ["foundry", "physics", "analysis"],
+      "profiles": ["cpu", "cuda", "rocm"],
+      "description": "Measure beta residual fit, redundancy curves, susceptibility, and scale collapse without controlling search.",
+      "blocked_by": ["define explicit observables and null models", "refuse FDT/Jarzynski tests without transition and reverse protocols", "add dashboard artifact schema"]
+    },
+    {
+      "id": "foundry.regret_state_archive",
+      "title": "Regret/instability state archive for training control",
+      "status": "planned",
+      "groups": ["foundry", "training", "meta-control"],
+      "profiles": ["cpu", "cuda", "rocm"],
+      "description": "Reuse high-regret, high-instability, hidden-discovery, and rare-regime states under fixed total compute.",
+      "blocked_by": ["define archive record and deduplication schema", "add position-grouped replay sampling with importance correction", "compare against standard self-play and uniform restart baselines"]
+    }
+  ]
+}
