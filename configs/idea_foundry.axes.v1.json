@@ -1,0 +1,552 @@
+{
+  "axes": [
+    {
+      "claim_scope": "skeleton_or_current_evidence_only",
+      "description": "Fit and calibrate p_wrong from H1, P_flip, margins, slopes, intervals and omission risk.",
+      "documentation": "docs/idea_foundry/01_control_policy.md",
+      "id": "A01",
+      "plane": "control",
+      "python_skeleton": {
+        "module": "quartz/idea_foundry/control.py",
+        "symbol": "A01StopCouncil"
+      },
+      "requirements": [
+        "phase15 trace bundles",
+        "position-grouped oracle labels"
+      ],
+      "rust_skeleton": {
+        "module": "src/mcts/foundry/control.rs",
+        "symbol": "A01StopCouncil"
+      },
+      "slug": "calibrated_stop_council",
+      "status": "shadow"
+    },
+    {
+      "claim_scope": "skeleton_or_current_evidence_only",
+      "description": "Compute temporary KL-regularized root policies from the frozen network anchor.",
+      "documentation": "docs/idea_foundry/01_control_policy.md",
+      "id": "A02",
+      "plane": "policy",
+      "python_skeleton": {
+        "module": "quartz/idea_foundry/control.py",
+        "symbol": "A02StaticAnchorRPO"
+      },
+      "requirements": [
+        "frozen anchor prior",
+        "trace or live edge scores"
+      ],
+      "rust_skeleton": {
+        "module": "src/mcts/foundry/control.rs",
+        "symbol": "A02StaticAnchorRpo"
+      },
+      "slug": "static_anchor_rpo",
+      "status": "shadow"
+    },
+    {
+      "claim_scope": "skeleton_or_current_evidence_only",
+      "description": "Separate MC, epistemic, drift and systematic-bias radii.",
+      "documentation": "docs/idea_foundry/01_control_policy.md",
+      "id": "A03",
+      "plane": "belief",
+      "python_skeleton": {
+        "module": "quartz/idea_foundry/control.py",
+        "symbol": "A03UncertaintyDecomposition"
+      },
+      "requirements": [
+        "completed backup moments",
+        "evaluator uncertainty calibration"
+      ],
+      "rust_skeleton": {
+        "module": "src/mcts/foundry/control.rs",
+        "symbol": "A03UncertaintyDecomposition"
+      },
+      "slug": "uncertainty_decomposition",
+      "status": "shadow"
+    },
+    {
+      "claim_scope": "skeleton_or_current_evidence_only",
+      "description": "Allocate computation by conservative decision-regret reduction per measured cost.",
+      "documentation": "docs/idea_foundry/01_control_policy.md",
+      "id": "A04",
+      "plane": "control",
+      "python_skeleton": {
+        "module": "quartz/idea_foundry/control.py",
+        "symbol": "A04KgVocAllocator"
+      },
+      "requirements": [
+        "cost telemetry",
+        "counterfactual calibration"
+      ],
+      "rust_skeleton": {
+        "module": "src/mcts/foundry/control.rs",
+        "symbol": "A04KgVocAllocator"
+      },
+      "slug": "kg_voc_allocator",
+      "status": "shadow"
+    },
+    {
+      "claim_scope": "skeleton_or_current_evidence_only",
+      "description": "Fork identical resident snapshots into explicit meta-action continuations.",
+      "documentation": "docs/idea_foundry/01_control_policy.md",
+      "id": "A05",
+      "plane": "learning",
+      "python_skeleton": {
+        "module": "quartz/idea_foundry/control.py",
+        "symbol": "A05CounterfactualMetaTeacher"
+      },
+      "requirements": [
+        "deterministic snapshot fork/replay",
+        "decision-loss oracle"
+      ],
+      "rust_skeleton": {
+        "module": "src/mcts/foundry/control.rs",
+        "symbol": "A05CounterfactualMetaTeacher"
+      },
+      "slug": "counterfactual_meta_teacher",
+      "status": "seed"
+    },
+    {
+      "claim_scope": "skeleton_or_current_evidence_only",
+      "description": "Select low-budget candidates without replacement and allocate by resumable halving.",
+      "documentation": "docs/idea_foundry/02_candidates_allocation.md",
+      "id": "A06",
+      "plane": "candidates",
+      "python_skeleton": {
+        "module": "quartz/idea_foundry/search.py",
+        "symbol": "A06GumbelSequentialHalving"
+      },
+      "requirements": [
+        "existing policy/gumbel_sh implementation"
+      ],
+      "rust_skeleton": {
+        "module": "src/mcts/foundry/search.rs",
+        "symbol": "A06GumbelSequentialHalving"
+      },
+      "slug": "gumbel_sequential_halving",
+      "status": "mechanism_valid"
+    },
+    {
+      "claim_scope": "skeleton_or_current_evidence_only",
+      "description": "Bound posterior mass outside the live set and emit WIDEN proposals.",
+      "documentation": "docs/idea_foundry/02_candidates_allocation.md",
+      "id": "A07",
+      "plane": "candidates",
+      "python_skeleton": {
+        "module": "quartz/idea_foundry/search.py",
+        "symbol": "A07ResidualEvidenceWidening"
+      },
+      "requirements": [
+        "calibrated upper scores for unmaterialized actions"
+      ],
+      "rust_skeleton": {
+        "module": "src/mcts/foundry/search.rs",
+        "symbol": "A07ResidualEvidenceWidening"
+      },
+      "slug": "residual_evidence_widening",
+      "status": "seed"
+    },
+    {
+      "claim_scope": "skeleton_or_current_evidence_only",
+      "description": "Protect forced actions with typed game-specific sentinels and proof budgets.",
+      "documentation": "docs/idea_foundry/02_candidates_allocation.md",
+      "id": "A08",
+      "plane": "proof",
+      "python_skeleton": {
+        "module": "quartz/idea_foundry/search.py",
+        "symbol": "A08TacticalProofBackend"
+      },
+      "requirements": [
+        "game-specific proof adapter",
+        "tactical corpus"
+      ],
+      "rust_skeleton": {
+        "module": "src/mcts/foundry/search.rs",
+        "symbol": "A08TacticalProofBackend"
+      },
+      "slug": "tactical_proof_backend",
+      "status": "conditional"
+    },
+    {
+      "claim_scope": "skeleton_or_current_evidence_only",
+      "description": "Use entropy/margin dynamics as continuous regime features rather than a dead fixed gate.",
+      "documentation": "docs/idea_foundry/01_control_policy.md",
+      "id": "A09",
+      "plane": "control",
+      "python_skeleton": {
+        "module": "quartz/idea_foundry/search.py",
+        "symbol": "A09H3ChangePointRouter"
+      },
+      "requirements": [
+        "trace slopes",
+        "forked-VOC hard labels"
+      ],
+      "rust_skeleton": {
+        "module": "src/mcts/foundry/search.rs",
+        "symbol": "A09H3ChangePointRouter"
+      },
+      "slug": "h3_change_point_router",
+      "status": "shadow"
+    },
+    {
+      "claim_scope": "skeleton_or_current_evidence_only",
+      "description": "Retain cumulative refresh only as a bounded conditional expert.",
+      "documentation": "docs/idea_foundry/01_control_policy.md",
+      "id": "A10",
+      "plane": "policy",
+      "python_skeleton": {
+        "module": "quartz/idea_foundry/search.py",
+        "symbol": "A10PriorRefreshSpecialist"
+      },
+      "requirements": [
+        "preregistered OOD/weak-evaluator slice"
+      ],
+      "rust_skeleton": {
+        "module": "src/mcts/foundry/search.rs",
+        "symbol": "A10PriorRefreshSpecialist"
+      },
+      "slug": "prior_refresh_specialist",
+      "status": "dormant"
+    },
+    {
+      "claim_scope": "skeleton_or_current_evidence_only",
+      "description": "Maintain active/hibernating/resurrectable root particle groups.",
+      "documentation": "docs/idea_foundry/03_parallel_backends.md",
+      "id": "A11",
+      "plane": "backend",
+      "python_skeleton": {
+        "module": "quartz/idea_foundry/search.py",
+        "symbol": "A11DynamicLiveSetParticles"
+      },
+      "requirements": [
+        "particle group trace format",
+        "robust independent group statistics"
+      ],
+      "rust_skeleton": {
+        "module": "src/mcts/foundry/search.rs",
+        "symbol": "A11DynamicLiveSetParticles"
+      },
+      "slug": "dynamic_live_set_particles",
+      "status": "seed"
+    },
+    {
+      "claim_scope": "skeleton_or_current_evidence_only",
+      "description": "Use sibling JSD as local geometry and P/Q as a target density.",
+      "documentation": "docs/idea_foundry/02_candidates_allocation.md",
+      "id": "A12",
+      "plane": "geometry",
+      "python_skeleton": {
+        "module": "quartz/idea_foundry/search.py",
+        "symbol": "A12JsdLocallyBalancedSampler"
+      },
+      "requirements": [
+        "cached sibling network outputs",
+        "common-support policy representation"
+      ],
+      "rust_skeleton": {
+        "module": "src/mcts/foundry/search.rs",
+        "symbol": "A12JsdLocallyBalancedSampler"
+      },
+      "slug": "jsd_locally_balanced_sampler",
+      "status": "seed"
+    },
+    {
+      "claim_scope": "skeleton_or_current_evidence_only",
+      "description": "Track unobserved work separately from completed evidence and fixed virtual pessimism.",
+      "documentation": "docs/idea_foundry/03_parallel_backends.md",
+      "id": "A13",
+      "plane": "parallel",
+      "python_skeleton": {
+        "module": "quartz/idea_foundry/search.py",
+        "symbol": "A13PendingFlowWuUct"
+      },
+      "requirements": [
+        "pending-count telemetry"
+      ],
+      "rust_skeleton": {
+        "module": "src/mcts/foundry/search.rs",
+        "symbol": "A13PendingFlowWuUct"
+      },
+      "slug": "pending_flow_wu_uct",
+      "status": "conditional"
+    },
+    {
+      "claim_scope": "skeleton_or_current_evidence_only",
+      "description": "Measure high-thread whole-path semantic redundancy after edge duplicates are controlled.",
+      "documentation": "docs/idea_foundry/03_parallel_backends.md",
+      "id": "A14",
+      "plane": "parallel",
+      "python_skeleton": {
+        "module": "quartz/idea_foundry/search.py",
+        "symbol": "A14SemanticPathLsh"
+      },
+      "requirements": [
+        "path shingle telemetry",
+        "MinHash/LSH analyzer"
+      ],
+      "rust_skeleton": {
+        "module": "src/mcts/foundry/search.rs",
+        "symbol": "A14SemanticPathLsh"
+      },
+      "slug": "semantic_path_lsh",
+      "status": "shadow"
+    },
+    {
+      "claim_scope": "skeleton_or_current_evidence_only",
+      "description": "Choose batch and inflight credit from hardware-specific measured service curves.",
+      "documentation": "docs/idea_foundry/03_parallel_backends.md",
+      "id": "A15",
+      "plane": "systems",
+      "python_skeleton": {
+        "module": "quartz/idea_foundry/search.py",
+        "symbol": "A15ServiceCurveScheduler"
+      },
+      "requirements": [
+        "service curve artifact",
+        "runtime contract match"
+      ],
+      "rust_skeleton": {
+        "module": "src/mcts/foundry/search.rs",
+        "symbol": "A15ServiceCurveScheduler"
+      },
+      "slug": "service_curve_scheduler",
+      "status": "mechanism_valid"
+    },
+    {
+      "claim_scope": "skeleton_or_current_evidence_only",
+      "description": "Separate shared state/evaluation cache from parent-edge search statistics.",
+      "documentation": "docs/idea_foundry/03_parallel_backends.md",
+      "id": "A16",
+      "plane": "graph",
+      "python_skeleton": {
+        "module": "quartz/idea_foundry/search.py",
+        "symbol": "A16MonteCarloGraphSharing"
+      },
+      "requirements": [
+        "typed state key",
+        "DAG sharing mode"
+      ],
+      "rust_skeleton": {
+        "module": "src/mcts/foundry/search.rs",
+        "symbol": "A16MonteCarloGraphSharing"
+      },
+      "slug": "monte_carlo_graph_sharing",
+      "status": "seed"
+    },
+    {
+      "claim_scope": "skeleton_or_current_evidence_only",
+      "description": "Reproduce and extend finite-N decision-neutral policy readout experiments.",
+      "documentation": "docs/idea_foundry/04_representation_training.md",
+      "id": "A17",
+      "plane": "readout",
+      "python_skeleton": {
+        "module": "quartz/idea_foundry/learning.py",
+        "symbol": "A17B13CurvatureReadout"
+      },
+      "requirements": [
+        "Phase-15 B13 implementation and traces"
+      ],
+      "rust_skeleton": {
+        "module": "src/mcts/foundry/systems.rs",
+        "symbol": "A17B13CurvatureReadout"
+      },
+      "slug": "b13_curvature_readout",
+      "status": "mechanism_valid"
+    },
+    {
+      "claim_scope": "skeleton_or_current_evidence_only",
+      "description": "Train deterministic policy-value evaluators with denoising auxiliary losses only.",
+      "documentation": "docs/idea_foundry/04_representation_training.md",
+      "id": "A18",
+      "plane": "representation",
+      "python_skeleton": {
+        "module": "quartz/idea_foundry/learning.py",
+        "symbol": "A18DiffusionRegularizedEvaluator"
+      },
+      "requirements": [
+        "parameter/FLOP matched deterministic baseline"
+      ],
+      "rust_skeleton": {
+        "module": "src/mcts/foundry/systems.rs",
+        "symbol": "A18DiffusionRegularizedEvaluator"
+      },
+      "slug": "diffusion_regularized_evaluator",
+      "status": "seed"
+    },
+    {
+      "claim_scope": "skeleton_or_current_evidence_only",
+      "description": "Test a static-pruned sparse RandWire/ResT local-global evaluator.",
+      "documentation": "docs/idea_foundry/04_representation_training.md",
+      "id": "A19",
+      "plane": "representation",
+      "python_skeleton": {
+        "module": "quartz/idea_foundry/learning.py",
+        "symbol": "A19RwRestLiteEvaluator"
+      },
+      "requirements": [
+        "graph seed proxy screen",
+        "controller frozen"
+      ],
+      "rust_skeleton": {
+        "module": "src/mcts/foundry/systems.rs",
+        "symbol": "A19RwRestLiteEvaluator"
+      },
+      "slug": "rw_rest_lite_evaluator",
+      "status": "seed"
+    },
+    {
+      "claim_scope": "skeleton_or_current_evidence_only",
+      "description": "Archive high-regret/instability states for restart, reanalysis and replay.",
+      "documentation": "docs/idea_foundry/04_representation_training.md",
+      "id": "A20",
+      "plane": "training_control",
+      "python_skeleton": {
+        "module": "quartz/idea_foundry/learning.py",
+        "symbol": "A20RegretStateArchive"
+      },
+      "requirements": [
+        "deduplication schema",
+        "importance correction"
+      ],
+      "rust_skeleton": {
+        "module": "src/mcts/foundry/systems.rs",
+        "symbol": "A20RegretStateArchive"
+      },
+      "slug": "regret_state_archive",
+      "status": "seed"
+    },
+    {
+      "claim_scope": "skeleton_or_current_evidence_only",
+      "description": "Evaluate a bounded signed-path disagreement feature strictly in shadow mode.",
+      "documentation": "docs/idea_foundry/05_analysis_physics.md",
+      "id": "A21",
+      "plane": "analysis",
+      "python_skeleton": {
+        "module": "quartz/idea_foundry/learning.py",
+        "symbol": "A21CoherenceSignedPathShadow"
+      },
+      "requirements": [
+        "path observable definition",
+        "incremental prediction test"
+      ],
+      "rust_skeleton": {
+        "module": "src/mcts/foundry/systems.rs",
+        "symbol": "A21CoherenceSignedPathShadow"
+      },
+      "slug": "coherence_signed_path_shadow",
+      "status": "analysis_only"
+    },
+    {
+      "claim_scope": "skeleton_or_current_evidence_only",
+      "description": "Fit and reject beta, redundancy, susceptibility and scale-flow surrogates with null models.",
+      "documentation": "docs/idea_foundry/05_analysis_physics.md",
+      "id": "A22",
+      "plane": "analysis",
+      "python_skeleton": {
+        "module": "quartz/idea_foundry/learning.py",
+        "symbol": "A22PhysicsFalsificationDashboard"
+      },
+      "requirements": [
+        "observable and null-model schemas"
+      ],
+      "rust_skeleton": {
+        "module": "src/mcts/foundry/systems.rs",
+        "symbol": "A22PhysicsFalsificationDashboard"
+      },
+      "slug": "physics_falsification_dashboard",
+      "status": "analysis_only"
+    },
+    {
+      "claim_scope": "skeleton_or_current_evidence_only",
+      "description": "Distill a quantized make/unmake incremental pattern evaluator for CPU play.",
+      "documentation": "docs/idea_foundry/04_representation_training.md",
+      "id": "A23",
+      "plane": "deployment",
+      "python_skeleton": {
+        "module": "quartz/idea_foundry/learning.py",
+        "symbol": "A23CpuIncrementalPatternStudent"
+      },
+      "requirements": [
+        "incremental feature/update design",
+        "teacher dataset"
+      ],
+      "rust_skeleton": {
+        "module": "src/mcts/foundry/systems.rs",
+        "symbol": "A23CpuIncrementalPatternStudent"
+      },
+      "slug": "cpu_incremental_pattern_student",
+      "status": "seed"
+    },
+    {
+      "claim_scope": "skeleton_or_current_evidence_only",
+      "description": "Choose a discrete state-dependent planning budget on a frozen planner.",
+      "documentation": "docs/idea_foundry/01_control_policy.md",
+      "id": "A24",
+      "plane": "control",
+      "python_skeleton": {
+        "module": "quartz/idea_foundry/control.py",
+        "symbol": "A24LearnedBudgetGate"
+      },
+      "requirements": [
+        "budget ladder labels",
+        "grouped holdout"
+      ],
+      "rust_skeleton": {
+        "module": "src/mcts/foundry/control.rs",
+        "symbol": "A24LearnedBudgetGate"
+      },
+      "slug": "learned_budget_gate",
+      "status": "seed"
+    },
+    {
+      "claim_scope": "skeleton_or_current_evidence_only",
+      "description": "Run root/shallow maximum-entropy backup as an opt-in objective-mismatch ablation.",
+      "documentation": "docs/idea_foundry/02_candidates_allocation.md",
+      "id": "A25",
+      "plane": "policy",
+      "python_skeleton": {
+        "module": "quartz/idea_foundry/search.py",
+        "symbol": "A25MentsSoftBackup"
+      },
+      "requirements": [
+        "existing policy/ments implementation"
+      ],
+      "rust_skeleton": {
+        "module": "src/mcts/foundry/search.rs",
+        "symbol": "A25MentsSoftBackup"
+      },
+      "slug": "ments_soft_backup",
+      "status": "dormant"
+    },
+    {
+      "claim_scope": "skeleton_or_current_evidence_only",
+      "description": "Validate exact finite nested-contour mechanics separately from live particle search.",
+      "documentation": "docs/idea_foundry/02_candidates_allocation.md",
+      "id": "A26",
+      "plane": "analysis_backend",
+      "python_skeleton": {
+        "module": "quartz/idea_foundry/search.py",
+        "symbol": "A26NestedContourExactLab"
+      },
+      "requirements": [
+        "explicit finite prior, score and constrained sampler"
+      ],
+      "rust_skeleton": {
+        "module": "src/mcts/foundry/search.rs",
+        "symbol": "A26NestedContourExactLab"
+      },
+      "slug": "nested_contour_exact_lab",
+      "status": "analysis_only"
+    }
+  ],
+  "branch_target": "agent/local-experiment-foundry",
+  "description": "Machine-readable design registry for candidate experiment axes. Status describes the initial evidence role, not efficacy.",
+  "format_version": 1,
+  "registry_id": "quartz_idea_foundry_axes",
+  "shared_contracts": {
+    "docs": "docs/idea_foundry/README.md",
+    "hot_path": "no allocation or heavy calculation in SearchPolicy::score_adjustment",
+    "online_rule": "axes emit MetaProposal; a single arbiter selects one explicit computation action",
+    "python": "quartz/idea_foundry/contracts.py",
+    "rust": "src/mcts/foundry/types.rs"
+  }
+}
