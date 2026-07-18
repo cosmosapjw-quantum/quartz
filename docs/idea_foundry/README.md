@@ -14,6 +14,12 @@ The companion skeletons live in:
   skeletons.
 - `configs/idea_foundry.axes.v1.json` — machine-readable axis registry.
 
+The earlier remote 24-axis catalog is retained under
+`docs/idea_foundry/legacy_24axis/` and
+`quartz/idea_foundry/legacy_24axis/` as a `DEPRECATED`, non-controlling
+compatibility snapshot. It must not be imported as the current registry or
+used to reduce A01--A26 coverage.
+
 ## 1. Existing repository contracts to preserve
 
 The current repository already provides the correct low-level seams:
