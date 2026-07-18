@@ -43,7 +43,11 @@ FIXTURE = REPO_ROOT / "tests" / "fixtures" / "regression_positions.json"
 RUST_BINARY = REPO_ROOT / "target" / "release" / "mcts_demo"
 
 # Gate for the strict fixture-level checks; see module docstring.
-STRICT_MODE = os.environ.get("QUARTZ_RUN_CONTROLLER_REGRESSION_STRICT", "").lower() in {"1", "true", "yes"}
+STRICT_MODE = os.environ.get("QUARTZ_RUN_CONTROLLER_REGRESSION_STRICT", "").lower() in {
+    "1",
+    "true",
+    "yes",
+}
 
 # Penalty modes that gate arena outcomes in the current controller_axes
 # preset. A regression in any of them invalidates the attribution
@@ -59,7 +63,9 @@ def _load_positions() -> list[dict]:
 def _server_alive() -> bool:
     if not RUST_BINARY.exists():
         return False
-    if shutil.which(str(RUST_BINARY)) is None and not os.access(str(RUST_BINARY), os.X_OK):
+    if shutil.which(str(RUST_BINARY)) is None and not os.access(
+        str(RUST_BINARY), os.X_OK
+    ):
         return False
     return True
 
@@ -94,7 +100,9 @@ def _ask_server(request: dict, timeout: float = 60.0) -> dict:
             proc.wait(timeout=5.0)
 
 
-def _move_in_center_neighborhood(move_idx: int, center=(7, 7), distance: int = 2) -> bool:
+def _move_in_center_neighborhood(
+    move_idx: int, center=(7, 7), distance: int = 2
+) -> bool:
     size = 15
     row, col = divmod(int(move_idx), size)
     return abs(row - center[0]) <= distance and abs(col - center[1]) <= distance
@@ -118,6 +126,7 @@ def test_fixture_has_expected_positions(positions):
 # Tier A — protocol + sanity, always on
 # ─────────────────────────────────────────────
 
+
 @pytest.mark.skipif(not _server_alive(), reason="Rust release binary not built")
 @pytest.mark.parametrize("penalty_mode", PENALTY_MODES)
 def test_protocol_search_returns_legal_move(positions, penalty_mode):
@@ -127,14 +136,16 @@ def test_protocol_search_returns_legal_move(positions, penalty_mode):
     search loop) without depending on evaluator quality.
     """
     for pos in positions:
-        resp = _ask_server({
-            "cmd": "search",
-            "game": "gomoku15_std",
-            "board": pos["board"],
-            "player": pos["player"],
-            "iters": int(pos["budget"]),
-            "penalty_mode": penalty_mode,
-        })
+        resp = _ask_server(
+            {
+                "cmd": "search",
+                "game": "gomoku15_std",
+                "board": pos["board"],
+                "player": pos["player"],
+                "iters": int(pos["budget"]),
+                "penalty_mode": penalty_mode,
+            }
+        )
         assert "error" not in resp, f"mode={penalty_mode} err: {resp}"
         move_idx = int(resp["move"])
         assert 0 <= move_idx < 225, f"mode={penalty_mode} illegal move idx={move_idx}"
@@ -146,7 +157,9 @@ def test_protocol_search_returns_legal_move(positions, penalty_mode):
         assert p_flip is not None, f"mode={penalty_mode} missing p_flip"
         p_flip = float(p_flip)
         # p_flip is a probability; must be in [0, 1].
-        assert 0.0 <= p_flip <= 1.0, f"mode={penalty_mode} p_flip out of [0,1]: {p_flip}"
+        assert 0.0 <= p_flip <= 1.0, (
+            f"mode={penalty_mode} p_flip out of [0,1]: {p_flip}"
+        )
         # iters reported must be positive and <= requested budget (+ small slack).
         it = int(resp.get("iters") or 0)
         assert 0 < it <= int(pos["budget"]) + 64
@@ -156,23 +169,26 @@ def test_protocol_search_returns_legal_move(positions, penalty_mode):
 # Tier B — fixture-level expectations, env-gated
 # ─────────────────────────────────────────────
 
+
 @pytest.mark.skipif(not _server_alive(), reason="Rust release binary not built")
 @pytest.mark.skipif(
     not STRICT_MODE,
     reason="strict fixture expectations require a trained NN evaluator; "
-           "set QUARTZ_RUN_CONTROLLER_REGRESSION_STRICT=1 to enable",
+    "set QUARTZ_RUN_CONTROLLER_REGRESSION_STRICT=1 to enable",
 )
 @pytest.mark.parametrize("penalty_mode", PENALTY_MODES)
 def test_center_stone_prefers_neighborhood(positions, penalty_mode):
     pos = positions[0]  # center stone, white to move
-    resp = _ask_server({
-        "cmd": "search",
-        "game": "gomoku15_std",
-        "board": pos["board"],
-        "player": pos["player"],
-        "iters": int(pos["budget"]),
-        "penalty_mode": penalty_mode,
-    })
+    resp = _ask_server(
+        {
+            "cmd": "search",
+            "game": "gomoku15_std",
+            "board": pos["board"],
+            "player": pos["player"],
+            "iters": int(pos["budget"]),
+            "penalty_mode": penalty_mode,
+        }
+    )
     assert "error" not in resp, resp
     move_idx = int(resp["move"])
     assert _move_in_center_neighborhood(move_idx, center=(7, 7), distance=2), (
@@ -185,19 +201,21 @@ def test_center_stone_prefers_neighborhood(positions, penalty_mode):
 @pytest.mark.skipif(
     not STRICT_MODE,
     reason="strict fixture expectations require a trained NN evaluator; "
-           "set QUARTZ_RUN_CONTROLLER_REGRESSION_STRICT=1 to enable",
+    "set QUARTZ_RUN_CONTROLLER_REGRESSION_STRICT=1 to enable",
 )
 @pytest.mark.parametrize("penalty_mode", PENALTY_MODES)
 def test_open_four_must_block(positions, penalty_mode):
     pos = positions[1]  # open-four; MUST block
-    resp = _ask_server({
-        "cmd": "search",
-        "game": "gomoku15_std",
-        "board": pos["board"],
-        "player": pos["player"],
-        "iters": int(pos["budget"]),
-        "penalty_mode": penalty_mode,
-    })
+    resp = _ask_server(
+        {
+            "cmd": "search",
+            "game": "gomoku15_std",
+            "board": pos["board"],
+            "player": pos["player"],
+            "iters": int(pos["budget"]),
+            "penalty_mode": penalty_mode,
+        }
+    )
     assert "error" not in resp, resp
     move_idx = int(resp["move"])
     expected = set(pos["expected_moves"])

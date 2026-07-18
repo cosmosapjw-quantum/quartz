@@ -101,7 +101,9 @@ def test_plan_resolves_ready_command_and_output(tmp_path):
     assert plan.status == "READY", plan.blockers
     assert plan.commands[0]["command"][:2] == ["python3", "-c"]
     assert plan.output_dir.endswith("available.one")
-    assert plan.artifact_globs == [str(tmp_path / "out" / "abc" / "available.one" / "summary.json")]
+    assert plan.artifact_globs == [
+        str(tmp_path / "out" / "abc" / "available.one" / "summary.json")
+    ]
 
 
 def test_planned_lane_exposes_blockers(tmp_path):

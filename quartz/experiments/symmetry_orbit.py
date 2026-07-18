@@ -66,6 +66,7 @@ _DEFAULT_EPS = 1e-9
 # permutation / group machinery
 # --------------------------------------------------------------------------- #
 
+
 def action_permutation(n: int, rng: np.random.Generator) -> List[int]:
     return [int(i) for i in rng.permutation(n)]
 
@@ -97,6 +98,7 @@ def dihedral_group(side: int) -> List[Tuple[str, List[int]]]:
 
     Each entry maps old cell index -> new cell index, usable directly with
     ``permute_policy`` on a policy defined over board cells."""
+
     def idx(r: int, c: int) -> int:
         return r * side + c
 
@@ -125,7 +127,9 @@ def permute_trace_bundle(bundle: Dict[str, Any], perm: Sequence[int]) -> Dict[st
     """Apply one action relabeling consistently to every policy in a bundle."""
     return {
         "trace_budgets": list(bundle.get("trace_budgets", [])),
-        "trace_policies": [permute_policy(p, perm) for p in bundle.get("trace_policies", [])],
+        "trace_policies": [
+            permute_policy(p, perm) for p in bundle.get("trace_policies", [])
+        ],
     }
 
 
@@ -133,7 +137,10 @@ def permute_trace_bundle(bundle: Dict[str, Any], perm: Sequence[int]) -> Dict[st
 # synthetic inputs
 # --------------------------------------------------------------------------- #
 
-def random_policy(rng: np.random.Generator, n: int, *, zero_frac: float = 0.0) -> np.ndarray:
+
+def random_policy(
+    rng: np.random.Generator, n: int, *, zero_frac: float = 0.0
+) -> np.ndarray:
     p = rng.dirichlet(np.ones(n) * 0.7)
     if zero_frac > 0.0:
         mask = rng.random(n) < zero_frac
@@ -146,7 +153,9 @@ def random_policy(rng: np.random.Generator, n: int, *, zero_frac: float = 0.0) -
     return p
 
 
-def random_trace_bundle(rng: np.random.Generator, n_actions: int, ladder=(8, 16, 32, 64)) -> Dict[str, Any]:
+def random_trace_bundle(
+    rng: np.random.Generator, n_actions: int, ladder=(8, 16, 32, 64)
+) -> Dict[str, Any]:
     return {
         "trace_budgets": list(ladder),
         "trace_policies": [random_policy(rng, n_actions) for _ in ladder],
@@ -163,6 +172,7 @@ POLICY_SCALAR_OPS: Tuple[Tuple[str, Callable[[Any], float]], ...] = (
     ("k_eff", k_eff),
     ("top2_margin", top2_margin),
 )
+
 
 # scalar readouts over a whole budget ladder; INVARIANT under one consistent
 # action relabeling of every policy in the ladder
@@ -219,7 +229,10 @@ NEGATIVE_CONTROL_OPS: Tuple[Tuple[str, Callable[[Any], float]], ...] = (
 # audit
 # --------------------------------------------------------------------------- #
 
-def _invariance_verdict(name: str, channel: str, law: str, defects: List[float], eps: float) -> Dict[str, Any]:
+
+def _invariance_verdict(
+    name: str, channel: str, law: str, defects: List[float], eps: float
+) -> Dict[str, Any]:
     max_defect = float(max(defects)) if defects else 0.0
     return {
         "operator": name,
@@ -252,7 +265,9 @@ def audit(
             pol = random_policy(rng, n_actions, zero_frac=0.2)
             perm = action_permutation(n_actions, rng)
             defects.append(abs(float(op(permute_policy(pol, perm))) - float(op(pol))))
-        per_operator.append(_invariance_verdict(name, "action_permutation", "invariant", defects, eps))
+        per_operator.append(
+            _invariance_verdict(name, "action_permutation", "invariant", defects, eps)
+        )
 
     # committed argmax: equivariant (index moves with the permutation)
     equi_ok = []
@@ -280,8 +295,12 @@ def audit(
         for _ in range(max(1, n_trials // 4)):
             pol = random_policy(rng, n_cells, zero_frac=0.2)
             for _gname, perm in group:
-                defects.append(abs(float(op(permute_policy(pol, perm))) - float(op(pol))))
-        per_operator.append(_invariance_verdict(name, "dihedral_d4", "invariant", defects, eps))
+                defects.append(
+                    abs(float(op(permute_policy(pol, perm))) - float(op(pol)))
+                )
+        per_operator.append(
+            _invariance_verdict(name, "dihedral_d4", "invariant", defects, eps)
+        )
     d4_equi_ok = []
     for _ in range(max(1, n_trials // 4)):
         pol = random_policy(rng, n_cells)
@@ -305,8 +324,14 @@ def audit(
         for _ in range(n_trials):
             bundle = random_trace_bundle(rng, n_actions)
             perm = action_permutation(n_actions, rng)
-            defects.append(abs(float(op(permute_trace_bundle(bundle, perm))) - float(op(bundle))))
-        per_operator.append(_invariance_verdict(name, "trace_bundle_permutation", "invariant", defects, eps))
+            defects.append(
+                abs(float(op(permute_trace_bundle(bundle, perm))) - float(op(bundle)))
+            )
+        per_operator.append(
+            _invariance_verdict(
+                name, "trace_bundle_permutation", "invariant", defects, eps
+            )
+        )
 
     # 4. move-order permutation for cross-move dispersion ops
     for name, op in MOVE_SERIES_OPS:
@@ -315,8 +340,14 @@ def audit(
             series = rng.integers(0, 64, size=n_actions).astype(np.float64)
             perm = action_permutation(n_actions, rng)
             reordered = series[perm]
-            defects.append(abs(float(op(reordered.tolist())) - float(op(series.tolist()))))
-        per_operator.append(_invariance_verdict(name, "move_order_permutation", "invariant", defects, eps))
+            defects.append(
+                abs(float(op(reordered.tolist())) - float(op(series.tolist())))
+            )
+        per_operator.append(
+            _invariance_verdict(
+                name, "move_order_permutation", "invariant", defects, eps
+            )
+        )
 
     # 4b. voc_tightness: invariant under JOINT move-order permutation of the
     # (per_move_budget, voc_proxy) pairs (a correlation is order-free).
@@ -331,7 +362,13 @@ def audit(
             continue
         tight_defects.append(abs(float(moved) - float(base)))
     per_operator.append(
-        _invariance_verdict("voc_tightness", "joint_move_order_permutation", "invariant", tight_defects, eps)
+        _invariance_verdict(
+            "voc_tightness",
+            "joint_move_order_permutation",
+            "invariant",
+            tight_defects,
+            eps,
+        )
     )
 
     # 5. clone robustness: zero-mass clone must not change scalar readouts
@@ -342,7 +379,9 @@ def audit(
             pol = random_policy(rng, n_actions, zero_frac=0.1)
             cloned = np.append(np.asarray(pol, dtype=np.float64), 0.0)
             defects.append(abs(float(op(cloned)) - float(op(pol))))
-        clone_results.append(_invariance_verdict(name, "zero_mass_clone", "invariant", defects, eps))
+        clone_results.append(
+            _invariance_verdict(name, "zero_mass_clone", "invariant", defects, eps)
+        )
 
     # 6. negative controls: index-dependent probes MUST be flagged
     negative_controls: List[Dict[str, Any]] = []
@@ -352,14 +391,18 @@ def audit(
             pol = random_policy(rng, n_actions)
             perm = action_permutation(n_actions, rng)
             defects.append(abs(float(op(permute_policy(pol, perm))) - float(op(pol))))
-        v = _invariance_verdict(name, "action_permutation", "invariant(expected_violation)", defects, eps)
+        v = _invariance_verdict(
+            name, "action_permutation", "invariant(expected_violation)", defects, eps
+        )
         v["flagged_as_violation"] = not v["invariant_within_eps"]
         negative_controls.append(v)
 
     violations = [
         row for row in per_operator + clone_results if not row["invariant_within_eps"]
     ]
-    negative_controls_all_caught = all(row["flagged_as_violation"] for row in negative_controls)
+    negative_controls_all_caught = all(
+        row["flagged_as_violation"] for row in negative_controls
+    )
     return {
         "symmetry_orbit_schema_version": SYMMETRY_ORBIT_SCHEMA_VERSION,
         "experiment_id": EXPERIMENT_ID,
@@ -376,5 +419,7 @@ def audit(
         "negative_controls_all_caught": bool(negative_controls_all_caught),
         # The constraint holds iff every real operator obeys its transform law
         # AND the harness demonstrably catches deliberate violations.
-        "game_agnostic_constraint_upheld": bool(len(violations) == 0 and negative_controls_all_caught),
+        "game_agnostic_constraint_upheld": bool(
+            len(violations) == 0 and negative_controls_all_caught
+        ),
     }

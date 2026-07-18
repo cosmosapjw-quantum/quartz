@@ -84,22 +84,24 @@ def _build_model_and_optimizer(seed: int, board: int, num_actions: int):
     return model, optimizer, cfg
 
 
-def _run_iterations(
-    seed: int, n_iters: int, n_steps_per_iter: int, batch: int = 16
-):
+def _run_iterations(seed: int, n_iters: int, n_steps_per_iter: int, batch: int = 16):
     """Build a fresh model + replay, run `n_iters` calls of train_epoch,
     return the per-iteration mean loss as a list.
     """
     train_loop = importlib.import_module("quartz.train_loop")
     board, num_actions = 7, 49
-    replay = _build_replay(seed=seed, n_examples=128, board=board, num_actions=num_actions)
+    replay = _build_replay(
+        seed=seed, n_examples=128, board=board, num_actions=num_actions
+    )
     model, optimizer, _cfg = _build_model_and_optimizer(seed, board, num_actions)
     cfg = {"batch": batch}
     losses = []
     n_train_rows = 0
     for _ in range(n_iters):
-        avg_loss, _avg_pl, _avg_vl, executed_steps, _inner_stop = train_loop.train_epoch(
-            model, optimizer, replay, cfg, device="cpu", n_steps=n_steps_per_iter
+        avg_loss, _avg_pl, _avg_vl, executed_steps, _inner_stop = (
+            train_loop.train_epoch(
+                model, optimizer, replay, cfg, device="cpu", n_steps=n_steps_per_iter
+            )
         )
         losses.append(float(avg_loss))
         if executed_steps > 0:

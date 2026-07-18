@@ -45,7 +45,7 @@ class ControllerRun:
     halt_reason: str
     pulls_per_arm: list[int]
     means_per_arm: list[float]
-    cert_history: list[float]   # gap_bits at each check
+    cert_history: list[float]  # gap_bits at each check
     selected_arm: int
 
 
@@ -173,30 +173,42 @@ def run_controller(
             # canonical scale per the audit §6.1 recommendation.
             mu_unit = welford[a].mean if n > 0 else 0.5
             sigma2 = empirical_bayes_shrinkage(
-                n=n, M2=welford[a].M2,
-                sigma2_parent=sigma2_parent, lambda0=lambda0,
+                n=n,
+                M2=welford[a].M2,
+                sigma2_parent=sigma2_parent,
+                lambda0=lambda0,
             )
             mu_hats.append(mu_unit)
             sigma2s.append(sigma2)
             n_pulls.append(n)
             intervals.append(
                 eb_interval_from_arm(
-                    mu_hat=mu_unit, n=n, sigma2=sigma2,
-                    K=K, t=max(iteration, 1), delta=delta,
+                    mu_hat=mu_unit,
+                    n=n,
+                    sigma2=sigma2,
+                    K=K,
+                    t=max(iteration, 1),
+                    delta=delta,
                 )
             )
 
         # KG per arm
         kg = compute_kg_array(
-            mu_hats=mu_hats, n_pulls=n_pulls, sigma2s=sigma2s,
+            mu_hats=mu_hats,
+            n_pulls=n_pulls,
+            sigma2s=sigma2s,
             lambda0=lambda0,
         )
 
         # Halt check
         decision = _maybe_halt(
-            intervals=intervals, kg=kg, iteration=iteration,
-            min_total=min_total, min_pulls_per_arm=min_pulls_per_arm,
-            pulls_per_arm=n_pulls, cost_per_pull=cost_per_pull,
+            intervals=intervals,
+            kg=kg,
+            iteration=iteration,
+            min_total=min_total,
+            min_pulls_per_arm=min_pulls_per_arm,
+            pulls_per_arm=n_pulls,
+            cost_per_pull=cost_per_pull,
             kg_threshold=kg_threshold,
         )
         if iteration >= min_total:

@@ -30,6 +30,7 @@ def _tqdm_factory(*args, **kwargs):
     after both modules are fully loaded.
     """
     from quartz.runtime_support import tqdm_factory
+
     return tqdm_factory(*args, **kwargs)
 
 
@@ -95,7 +96,11 @@ def replay_fill_ceiling(cfg, replay_capacity=None, backpressure_ratio=None):
         capacity = int(cfg.get("buf", 0) or 0)
     if capacity <= 0:
         return None
-    ratio = float(backpressure_ratio if backpressure_ratio is not None else SelfPlayWorker.BACKPRESSURE_RATIO)
+    ratio = float(
+        backpressure_ratio
+        if backpressure_ratio is not None
+        else SelfPlayWorker.BACKPRESSURE_RATIO
+    )
     return max(1, int(math.floor(float(capacity) * max(0.0, ratio))))
 
 
@@ -104,8 +109,15 @@ def initial_replay_fill_target(cfg, recent_chunks):
     batch_target = max(1, int(cfg.get("batch_size", 8) or 8))
     base_parallel = max(1, int(cfg.get("bg_parallel", 2) or 2))
     positions_per_game = estimate_selfplay_positions_per_game(cfg, recent_chunks)
-    warm_games = max(base_parallel, int(math.ceil(batch_target / max(positions_per_game, 1.0))))
-    target = int(min(train_batch, max(batch_target, int(math.ceil(warm_games * positions_per_game)))))
+    warm_games = max(
+        base_parallel, int(math.ceil(batch_target / max(positions_per_game, 1.0)))
+    )
+    target = int(
+        min(
+            train_batch,
+            max(batch_target, int(math.ceil(warm_games * positions_per_game))),
+        )
+    )
     target_cap = int(cfg.get("_bootstrap_replay_target_cap", 0) or 0)
     if target_cap > 0:
         target = min(target, target_cap)
@@ -144,7 +156,9 @@ def plan_selfplay_runner_chunk(cfg, replay_size, recent_chunks):
     parallel = base_parallel
     batch_games = base_batch_games
     if cfg_get("_selfplay_runner_mode") == "rust_selfplay_state_machine":
-        parallel_cap = base_parallel if base_parallel > _LOGICAL_CPU_COUNT else _LOGICAL_CPU_COUNT
+        parallel_cap = (
+            base_parallel if base_parallel > _LOGICAL_CPU_COUNT else _LOGICAL_CPU_COUNT
+        )
         if parallel_cap_override > 0 and parallel_cap_override < parallel_cap:
             parallel_cap = parallel_cap_override
         parallel_target = batch_target if batch_target > games_needed else games_needed
@@ -158,7 +172,10 @@ def plan_selfplay_runner_chunk(cfg, replay_size, recent_chunks):
         if quad > train_batch:
             quad = train_batch
         max_batch_games_cap = base_batch_games if base_batch_games > quad else quad
-        if batch_games_cap_override > 0 and batch_games_cap_override < max_batch_games_cap:
+        if (
+            batch_games_cap_override > 0
+            and batch_games_cap_override < max_batch_games_cap
+        ):
             max_batch_games_cap = batch_games_cap_override
 
         candidate = base_batch_games
@@ -166,7 +183,9 @@ def plan_selfplay_runner_chunk(cfg, replay_size, recent_chunks):
             candidate = parallel
         if games_needed > candidate:
             candidate = games_needed
-        batch_games = candidate if candidate < max_batch_games_cap else max_batch_games_cap
+        batch_games = (
+            candidate if candidate < max_batch_games_cap else max_batch_games_cap
+        )
 
     if parallel_cap_override > 0 and parallel > parallel_cap_override:
         parallel = parallel_cap_override
@@ -225,7 +244,9 @@ class RustServerPool:
                 "restart_streak": int(self._restart_streak),
                 "last_restart_reason": self._last_restart_reason,
                 "last_restart_age_s": (
-                    round(max(0.0, time.time() - self._last_restart_ts), 3) if self._last_restart_ts > 0.0 else None
+                    round(max(0.0, time.time() - self._last_restart_ts), 3)
+                    if self._last_restart_ts > 0.0
+                    else None
                 ),
             }
 
@@ -291,8 +312,10 @@ def encode_board_with_history(cfg, board_12_sequence, move_idx, player):
         board_12 = board_12_sequence[hist_idx]
         # [OPT] Vectorized: convert list → numpy array → boolean mask → reshape
         board_arr = np.asarray(board_12, dtype=np.int8).ravel()[:n2]
-        enc[t * 2].ravel()[:len(board_arr)] = (board_arr == my_val).astype(np.float32)
-        enc[t * 2 + 1].ravel()[:len(board_arr)] = (board_arr == opp_val).astype(np.float32)
+        enc[t * 2].ravel()[: len(board_arr)] = (board_arr == my_val).astype(np.float32)
+        enc[t * 2 + 1].ravel()[: len(board_arr)] = (board_arr == opp_val).astype(
+            np.float32
+        )
 
     if player == 1:
         enc[total_ch - 1] = 1.0
@@ -319,7 +342,9 @@ def decode_streamed_selfplay_game(cfg, game_payload):
         )
     states = []
     policies = []
-    for move_idx, (_board_12, raw_player, sparse_pol) in enumerate(zip(board_hist, player_hist, policy_hist)):
+    for move_idx, (_board_12, raw_player, sparse_pol) in enumerate(
+        zip(board_hist, player_hist, policy_hist)
+    ):
         player = 1 if int(raw_player) > 0 else -1
         states.append(encode_board_with_history(cfg, board_hist, move_idx, player))
         policies.append(sparse_policy_from_entries(sparse_pol, n_actions))
@@ -344,7 +369,9 @@ def choose_selfplay_move(policy, legal, move_count, temp_threshold, fallback_bes
     return int(max(legal, key=lambda a: policy[a]))
 
 
-def wait_for_worker_progress(worker, previous_count, min_new=1, timeout_s=30.0, poll_s=0.25):
+def wait_for_worker_progress(
+    worker, previous_count, min_new=1, timeout_s=30.0, poll_s=0.25
+):
     deadline = time.time() + timeout_s
     current = worker.positions_generated
     stall_timeout_s = getattr(worker, "REPLAY_STALL_TIMEOUT_S", 45.0)
@@ -357,10 +384,9 @@ def wait_for_worker_progress(worker, previous_count, min_new=1, timeout_s=30.0, 
                 raise RuntimeError(
                     f"background self-play worker stopped unexpectedly: {status.get('last_error') or 'thread exited'}"
                 )
-            if (
-                status.get("consecutive_errors", 0) >= 3
-                and status.get("last_progress_age_s", 0.0) > min(10.0, stall_timeout_s / 3.0)
-            ):
+            if status.get("consecutive_errors", 0) >= 3 and status.get(
+                "last_progress_age_s", 0.0
+            ) > min(10.0, stall_timeout_s / 3.0):
                 raise RuntimeError(
                     "background self-play made no progress after repeated errors: "
                     f"{status.get('last_error') or 'no progress'}"
@@ -381,7 +407,9 @@ def _supervised_pipeline_collect(pipeline, *, proc, timeout_s, label):
     deadline = time.perf_counter() + max(0.0, float(timeout_s))
     while True:
         if proc is not None and proc.poll() is not None:
-            raise RuntimeError(f"Rust server exited (code={proc.returncode}) while waiting for {label}")
+            raise RuntimeError(
+                f"Rust server exited (code={proc.returncode}) while waiting for {label}"
+            )
         wait_s = min(0.25, max(0.001, deadline - time.perf_counter()))
         if wait_s <= 0.0:
             raise TimeoutError(f"timed out waiting for {label}")
@@ -544,7 +572,9 @@ class NNSearchClient:
             self._rt.cleanup_qipc_transport(self.proc)
             self.proc = None
 
-    def search_move(self, board_flat, player, penalty_mode="GatedRefresh", fen=None, state_meta=None):
+    def search_move(
+        self, board_flat, player, penalty_mode="GatedRefresh", fen=None, state_meta=None
+    ):
         game_name = self._rt.rust_game_name(self.cfg["_name"])
         last_error = None
         for attempt in range(2):
@@ -556,7 +586,9 @@ class NNSearchClient:
                 "player": int(player),
                 "iters": self.cfg["iters"],
             }
-            req_dict.update(self._rt.rust_search_options(self.cfg, penalty_mode=penalty_mode))
+            req_dict.update(
+                self._rt.rust_search_options(self.cfg, penalty_mode=penalty_mode)
+            )
             if self._rt.is_chess_game(game_name) and fen:
                 req_dict["fen"] = fen
                 if state_meta:
@@ -593,7 +625,9 @@ class NNSearchClient:
             "iters": self.cfg["iters"],
             "jobs": jobs,
         }
-        req_dict.update(self._rt.rust_search_options(self.cfg, penalty_mode=penalty_mode))
+        req_dict.update(
+            self._rt.rust_search_options(self.cfg, penalty_mode=penalty_mode)
+        )
         payload = self._exchange_search_request(req_dict)
         if isinstance(payload, dict):
             return payload.get("results", [])
@@ -608,7 +642,9 @@ class NNSearchClient:
             "iters": self.cfg["iters"],
             "jobs": jobs,
         }
-        req_dict.update(self._rt.rust_search_options(self.cfg, penalty_mode=penalty_mode))
+        req_dict.update(
+            self._rt.rust_search_options(self.cfg, penalty_mode=penalty_mode)
+        )
         payload = self._exchange_search_request(req_dict)
         if isinstance(payload, dict):
             return payload
@@ -623,7 +659,9 @@ class NNSearchClient:
             "iters": int(self.cfg["iters"] if iters is None else iters),
             "jobs": jobs,
         }
-        req_dict.update(self._rt.rust_search_options(self.cfg, penalty_mode=penalty_mode))
+        req_dict.update(
+            self._rt.rust_search_options(self.cfg, penalty_mode=penalty_mode)
+        )
         payload = self._exchange_search_request(req_dict)
         if isinstance(payload, dict):
             return payload
@@ -716,7 +754,9 @@ class NNSearchClient:
             "temp_threshold": int(temp_threshold),
             "seed": int(seed),
         }
-        req_dict.update(self._rt.rust_search_options(self.cfg, penalty_mode=penalty_mode))
+        req_dict.update(
+            self._rt.rust_search_options(self.cfg, penalty_mode=penalty_mode)
+        )
         ring = getattr(self.proc, "_quartz_ring_buffer", None)
         if ring is not None:
             try:
@@ -743,7 +783,13 @@ class NNSearchClient:
                     on_progress(obj["selfplay_progress"])
 
             ring_payload = self._rt.shm_eval_loop(
-                ring, self.model, self.device, self.cfg, self.proc, on_json=_on_json, baseline_epoch=baseline_epoch
+                ring,
+                self.model,
+                self.device,
+                self.cfg,
+                self.proc,
+                on_json=_on_json,
+                baseline_epoch=baseline_epoch,
             )
             if isinstance(ring_payload, dict):
                 if "selfplay_done" in ring_payload:
@@ -765,14 +811,20 @@ class NNSearchClient:
                 return payload
             return {"games": aggregated_games}
 
-        base_collect_timeout_s, base_target_eval_items = self._base_eval_collect_config()
+        base_collect_timeout_s, base_target_eval_items = (
+            self._base_eval_collect_config()
+        )
         batch_items_ema = float(base_target_eval_items)
         collect_wait_ema_s = 0.0
         deferred = None
         aggregated_games = []
 
         while True:
-            kind, payload = deferred if deferred is not None else self._rt.proc_read_message(self.proc)
+            kind, payload = (
+                deferred
+                if deferred is not None
+                else self._rt.proc_read_message(self.proc)
+            )
             deferred = None
             first_group, terminal = self._parse_eval_group(kind, payload)
             if terminal is not None:
@@ -797,20 +849,26 @@ class NNSearchClient:
 
             eval_groups = [first_group]
             eval_item_count = len(first_group["requests"])
-            dynamic_target_eval_items, dynamic_collect_timeout_s = self._rt.compute_eval_collect_policy(
-                base_target_eval_items,
-                base_collect_timeout_s,
-                batch_items_ema=batch_items_ema,
-                wait_ema_s=collect_wait_ema_s,
+            dynamic_target_eval_items, dynamic_collect_timeout_s = (
+                self._rt.compute_eval_collect_policy(
+                    base_target_eval_items,
+                    base_collect_timeout_s,
+                    batch_items_ema=batch_items_ema,
+                    wait_ema_s=collect_wait_ema_s,
+                )
             )
             collect_t0 = time.perf_counter()
             deadline = time.perf_counter() + dynamic_collect_timeout_s
             while eval_item_count < dynamic_target_eval_items:
                 timeout_s = max(0.0, deadline - time.perf_counter())
-                if timeout_s <= 0.0 or not self._rt.wait_readable(self.proc.stdout, timeout_s):
+                if timeout_s <= 0.0 or not self._rt.wait_readable(
+                    self.proc.stdout, timeout_s
+                ):
                     break
                 next_kind, next_payload = self._rt.proc_read_message(self.proc)
-                next_group, next_terminal = self._parse_eval_group(next_kind, next_payload)
+                next_group, next_terminal = self._parse_eval_group(
+                    next_kind, next_payload
+                )
                 if next_terminal is not None:
                     deferred = (next_kind, next_payload)
                     break
@@ -820,8 +878,12 @@ class NNSearchClient:
             merged_items = sum(len(group["requests"]) for group in eval_groups)
             collect_wait_s = time.perf_counter() - collect_t0
             batch_items_ema = 0.25 * float(merged_items) + 0.75 * float(batch_items_ema)
-            collect_wait_ema_s = 0.25 * float(collect_wait_s) + 0.75 * float(collect_wait_ema_s)
-            responses = self._rt.run_batched_eval_groups(eval_groups, self.model, self.device, self.cfg)
+            collect_wait_ema_s = 0.25 * float(collect_wait_s) + 0.75 * float(
+                collect_wait_ema_s
+            )
+            responses = self._rt.run_batched_eval_groups(
+                eval_groups, self.model, self.device, self.cfg
+            )
             for response_group in responses:
                 self._rt.write_batched_eval_group(self.proc, response_group)
 
@@ -835,12 +897,12 @@ class NNSearchClient:
         import sys as _sys
 
         msg = (
-            f'  [DutyCycle] cycles={duty["cycles"]}'
-            f' read={duty["read_s"]:.3f}s({duty["read_s"]/total*100:.0f}%)'
-            f' collect={duty["collect_s"]:.3f}s({duty["collect_s"]/total*100:.0f}%)'
-            f' model={duty["model_s"]:.3f}s({duty["model_s"]/total*100:.0f}%)'
-            f' write={duty["write_s"]:.3f}s({duty["write_s"]/total*100:.0f}%)'
-            f' total={total:.3f}s\n'
+            f"  [DutyCycle] cycles={duty['cycles']}"
+            f" read={duty['read_s']:.3f}s({duty['read_s'] / total * 100:.0f}%)"
+            f" collect={duty['collect_s']:.3f}s({duty['collect_s'] / total * 100:.0f}%)"
+            f" model={duty['model_s']:.3f}s({duty['model_s'] / total * 100:.0f}%)"
+            f" write={duty['write_s']:.3f}s({duty['write_s'] / total * 100:.0f}%)"
+            f" total={total:.3f}s\n"
         )
         try:
             _sys.stderr.write(msg)
@@ -853,7 +915,9 @@ class NNSearchClient:
             return None, None
         if kind == "frame":
             frame_kind, frame_payload = payload
-            frame_kind, frame_payload = self._rt.proc_decode_eval_frame(self.proc, frame_kind, frame_payload)
+            frame_kind, frame_payload = self._rt.proc_decode_eval_frame(
+                self.proc, frame_kind, frame_payload
+            )
             if frame_kind == self._rt.qipc_arena_eval_resp:
                 return None, self._rt.unpack_qipc_arena_eval_resp(frame_payload)
             if frame_kind == self._rt.qipc_batch_eval_req:
@@ -877,7 +941,10 @@ class NNSearchClient:
                 return self._rt.make_eval_request_group(
                     "json_batch",
                     [
-                        (int(er.get("num_actions", self.cfg["actions"])), er.get("features", []))
+                        (
+                            int(er.get("num_actions", self.cfg["actions"])),
+                            er.get("features", []),
+                        )
                         for er in requests
                     ],
                     gi=0,
@@ -886,7 +953,12 @@ class NNSearchClient:
                 er = payload["eval_req"]
                 return self._rt.make_eval_request_group(
                     "json_single",
-                    [(int(er.get("num_actions", self.cfg["actions"])), er.get("features", []))],
+                    [
+                        (
+                            int(er.get("num_actions", self.cfg["actions"])),
+                            er.get("features", []),
+                        )
+                    ],
                     gi=0,
                 ), None
             return None, payload
@@ -896,16 +968,25 @@ class NNSearchClient:
         search_opts = self._rt.rust_search_options(self.cfg)
         base_collect_timeout_s = min(
             0.006,
-            max(0.00075, float(search_opts.get("batch_timeout_us", 1500)) / 1_000_000.0 * 0.9),
+            max(
+                0.00075,
+                float(search_opts.get("batch_timeout_us", 1500)) / 1_000_000.0 * 0.9,
+            ),
         )
-        base_target_eval_items = max(1, int(search_opts.get("batch_size", self.cfg.get("batch_size", 8))))
+        base_target_eval_items = max(
+            1, int(search_opts.get("batch_size", self.cfg.get("batch_size", 8)))
+        )
         return base_collect_timeout_s, base_target_eval_items
 
-    def _exchange_search_request(self, req_dict=None, *, frame_kind=None, frame_payload=None):
+    def _exchange_search_request(
+        self, req_dict=None, *, frame_kind=None, frame_payload=None
+    ):
         if not self.proc:
             self.start()
         read_timeout_s = max(1.0, float(self.search_read_timeout_s))
-        base_collect_timeout_s, base_target_eval_items = self._base_eval_collect_config()
+        base_collect_timeout_s, base_target_eval_items = (
+            self._base_eval_collect_config()
+        )
         batch_items_ema = float(base_target_eval_items)
         collect_wait_ema_s = 0.0
         ring = getattr(self.proc, "_quartz_ring_buffer", None)
@@ -922,17 +1003,30 @@ class NNSearchClient:
             self._rt.proc_write_qipc_frame(self.proc, frame_kind, frame_payload or b"")
         if ring is not None:
             ring_payload = self._rt.shm_eval_loop(
-                ring, self.model, self.device, self.cfg, self.proc, baseline_epoch=baseline_epoch
+                ring,
+                self.model,
+                self.device,
+                self.cfg,
+                self.proc,
+                baseline_epoch=baseline_epoch,
             )
             if isinstance(ring_payload, dict):
                 return ring_payload
-            kind, payload = self._rt.proc_read_message(self.proc, timeout_s=read_timeout_s)
+            kind, payload = self._rt.proc_read_message(
+                self.proc, timeout_s=read_timeout_s
+            )
             if kind == "json" and isinstance(payload, dict):
                 return payload
             return {}
 
         deferred = None
-        duty = {"read_s": 0.0, "collect_s": 0.0, "model_s": 0.0, "write_s": 0.0, "cycles": 0}
+        duty = {
+            "read_s": 0.0,
+            "collect_s": 0.0,
+            "model_s": 0.0,
+            "write_s": 0.0,
+            "cycles": 0,
+        }
         duty_log_interval = 16
         pipeline_policy = getattr(self._rt, "should_use_async_pipeline", None)
         if callable(pipeline_policy):
@@ -946,7 +1040,9 @@ class NNSearchClient:
         pipeline = None
         inflight = False
         if use_pipeline:
-            pipeline = self._rt.inference_pipeline_thread_cls(self.model, self.device, self.cfg, max_pending=1)
+            pipeline = self._rt.inference_pipeline_thread_cls(
+                self.model, self.device, self.cfg, max_pending=1
+            )
             pipeline.start()
 
         try:
@@ -987,20 +1083,28 @@ class NNSearchClient:
 
                 eval_groups = [first_group]
                 eval_item_count = len(first_group["requests"])
-                dynamic_target_eval_items, dynamic_collect_timeout_s = self._rt.compute_eval_collect_policy(
-                    base_target_eval_items,
-                    base_collect_timeout_s,
-                    batch_items_ema=batch_items_ema,
-                    wait_ema_s=collect_wait_ema_s,
+                dynamic_target_eval_items, dynamic_collect_timeout_s = (
+                    self._rt.compute_eval_collect_policy(
+                        base_target_eval_items,
+                        base_collect_timeout_s,
+                        batch_items_ema=batch_items_ema,
+                        wait_ema_s=collect_wait_ema_s,
+                    )
                 )
                 collect_t0 = time.perf_counter()
                 deadline = time.perf_counter() + dynamic_collect_timeout_s
                 while eval_item_count < dynamic_target_eval_items:
                     timeout_s = max(0.0, deadline - time.perf_counter())
-                    if timeout_s <= 0.0 or not self._rt.wait_readable(self.proc.stdout, timeout_s):
+                    if timeout_s <= 0.0 or not self._rt.wait_readable(
+                        self.proc.stdout, timeout_s
+                    ):
                         break
-                    next_kind, next_payload = self._rt.proc_read_message(self.proc, timeout_s=read_timeout_s)
-                    next_group, next_terminal = self._parse_eval_group(next_kind, next_payload)
+                    next_kind, next_payload = self._rt.proc_read_message(
+                        self.proc, timeout_s=read_timeout_s
+                    )
+                    next_group, next_terminal = self._parse_eval_group(
+                        next_kind, next_payload
+                    )
                     if next_terminal is not None:
                         deferred = (next_kind, next_payload)
                         break
@@ -1010,15 +1114,21 @@ class NNSearchClient:
                 merged_items = sum(len(group["requests"]) for group in eval_groups)
                 collect_wait_s = time.perf_counter() - collect_t0
                 duty["collect_s"] += collect_wait_s
-                batch_items_ema = 0.25 * float(merged_items) + 0.75 * float(batch_items_ema)
-                collect_wait_ema_s = 0.25 * float(collect_wait_s) + 0.75 * float(collect_wait_ema_s)
+                batch_items_ema = 0.25 * float(merged_items) + 0.75 * float(
+                    batch_items_ema
+                )
+                collect_wait_ema_s = 0.25 * float(collect_wait_s) + 0.75 * float(
+                    collect_wait_ema_s
+                )
 
                 if pipeline is not None:
                     pipeline.submit(eval_groups)
                     inflight = True
                 else:
                     model_t0 = time.perf_counter()
-                    responses = self._rt.run_batched_eval_groups(eval_groups, self.model, self.device, self.cfg)
+                    responses = self._rt.run_batched_eval_groups(
+                        eval_groups, self.model, self.device, self.cfg
+                    )
                     duty["model_s"] += time.perf_counter() - model_t0
                     write_t0 = time.perf_counter()
                     for rg in responses:
@@ -1052,7 +1162,9 @@ class NNSearchClient:
             if len(features) == expected and self.model is not None:
                 x = np.asarray(features, dtype=np.float32).reshape(1, ch, bs, bs)
                 with self._rt.torch_module.inference_mode():
-                    probs, vals_np = self._rt.run_model_batch(self.model, self.device, x)
+                    probs, vals_np = self._rt.run_model_batch(
+                        self.model, self.device, x
+                    )
                 return probs[0][:n_act], float(vals_np[0])
         except Exception as exc:
             import sys
@@ -1069,7 +1181,9 @@ class NNSearchClient:
         return {"eval_resp": {"policy": policy.tolist(), "value": value}}
 
     def _eval_nn_binary(self, payload):
-        num_actions, features, _model_tag, _fp_lo, _fp_hi, _encoder_rev = self._rt.unpack_qipc_eval_req(payload)
+        num_actions, features, _model_tag, _fp_lo, _fp_hi, _encoder_rev = (
+            self._rt.unpack_qipc_eval_req(payload)
+        )
         policy, value = self._eval_from_features(features, num_actions)
         return self._rt.pack_qipc_eval_resp(policy, value)
 
@@ -1092,13 +1206,17 @@ class NNSearchClient:
                 probs, vals_np = self._rt.run_model_batch(
                     self.model,
                     self.device,
-                    np.asarray(features_list, dtype=np.float32).reshape(batch_size, ch, bs, bs),
+                    np.asarray(features_list, dtype=np.float32).reshape(
+                        batch_size, ch, bs, bs
+                    ),
                 )
 
                 responses = []
                 for i, req in enumerate(requests):
                     na = req.get("num_actions", self.cfg["actions"])
-                    responses.append({"policy": probs[i][:na].tolist(), "value": float(vals_np[i])})
+                    responses.append(
+                        {"policy": probs[i][:na].tolist(), "value": float(vals_np[i])}
+                    )
                 return {"batch_eval_resp": {"responses": responses}}
         except Exception as exc:
             import sys
@@ -1118,30 +1236,52 @@ class NNSearchClient:
             features_list = []
             num_actions = []
             for req in requests:
-                na, feats, _model_tag, _fp_lo, _fp_hi, _encoder_rev = self._rt.parse_eval_request(req)
+                na, feats, _model_tag, _fp_lo, _fp_hi, _encoder_rev = (
+                    self._rt.parse_eval_request(req)
+                )
                 num_actions.append(int(na))
                 if feats.size == expected:
-                    features_list.append(np.asarray(feats, dtype=np.float32).reshape(ch, bs, bs))
+                    features_list.append(
+                        np.asarray(feats, dtype=np.float32).reshape(ch, bs, bs)
+                    )
                 else:
                     features_list.append(np.zeros((ch, bs, bs), dtype=np.float32))
-            probs, vals_np = self._rt.run_model_batch(self.model, self.device, np.stack(features_list, axis=0))
+            probs, vals_np = self._rt.run_model_batch(
+                self.model, self.device, np.stack(features_list, axis=0)
+            )
             policies = [probs[i][: num_actions[i]] for i in range(batch_size)]
             values = [float(vals_np[i]) for i in range(batch_size)]
             return self._rt.pack_qipc_batch_eval_resp(policies, values)
         uniform_policies = []
         for req in requests:
-            na, _feats, _model_tag, _fp_lo, _fp_hi, _encoder_rev = self._rt.parse_eval_request(req)
+            na, _feats, _model_tag, _fp_lo, _fp_hi, _encoder_rev = (
+                self._rt.parse_eval_request(req)
+            )
             na = max(1, int(na))
             uniform_policies.append(np.full(na, 1.0 / na, dtype=np.float32))
-        return self._rt.pack_qipc_batch_eval_resp(uniform_policies, [0.0] * len(uniform_policies))
+        return self._rt.pack_qipc_batch_eval_resp(
+            uniform_policies, [0.0] * len(uniform_policies)
+        )
 
 
-def selfplay_rust_nn(cfg, model, device, n_games, rust_binary="./target/release/mcts_demo", *, runtime_hooks):
+def selfplay_rust_nn(
+    cfg,
+    model,
+    device,
+    n_games,
+    rust_binary="./target/release/mcts_demo",
+    *,
+    runtime_hooks,
+):
     """Single-game-loop self-play using Rust search + Python NN callbacks."""
     n_actions = cfg["actions"]
     penalty_mode = cfg.get("penalty_mode", "GatedRefresh")
     is_chess = runtime_hooks.is_chess_game(cfg.get("_name"))
-    max_moves = 500 if is_chess or runtime_hooks.is_go_game(cfg.get("_name")) else (cfg["board"] ** 2 + 5)
+    max_moves = (
+        500
+        if is_chess or runtime_hooks.is_go_game(cfg.get("_name"))
+        else (cfg["board"] ** 2 + 5)
+    )
 
     client = runtime_hooks.search_client_cls(model, cfg, device, rust_binary)
     try:
@@ -1198,7 +1338,9 @@ def selfplay_rust_nn(cfg, model, device, n_games, rust_binary="./target/release/
                         game._board,
                         player,
                         penalty_mode,
-                        state_meta=runtime_hooks.build_rust_state_meta(cfg.get("_name"), game, cfg),
+                        state_meta=runtime_hooks.build_rust_state_meta(
+                            cfg.get("_name"), game, cfg
+                        ),
                     )
                 if not result or "error" in result:
                     break
@@ -1280,12 +1422,19 @@ def arena_rust_nn_impl(
     if same_search_cfg:
         cfg_a.setdefault("_eval_runner_mode", "rust_eval_state_machine")
         cfg_b.setdefault("_eval_runner_mode", "rust_eval_state_machine")
-    same_model_source = same_search_cfg and os.path.abspath(model_a_path) == os.path.abspath(model_b_path)
-    share_same_model_object = same_model_source and cfg_a.get("_eval_runner_mode") != "rust_eval_state_machine"
+    same_model_source = same_search_cfg and os.path.abspath(
+        model_a_path
+    ) == os.path.abspath(model_b_path)
+    share_same_model_object = (
+        same_model_source
+        and cfg_a.get("_eval_runner_mode") != "rust_eval_state_machine"
+    )
 
     model_a = runtime_hooks.alphazero_net_cls(cfg_a).to(device)
     model_a.load_state_dict(
-        runtime_hooks.load_torch_state_dict(model_a_path, runtime_hooks.torch_module, map_location=device)
+        runtime_hooks.load_torch_state_dict(
+            model_a_path, runtime_hooks.torch_module, map_location=device
+        )
     )
     model_a.eval()
     if share_same_model_object:
@@ -1293,7 +1442,9 @@ def arena_rust_nn_impl(
     else:
         model_b = runtime_hooks.alphazero_net_cls(cfg_b).to(device)
         model_b.load_state_dict(
-            runtime_hooks.load_torch_state_dict(model_b_path, runtime_hooks.torch_module, map_location=device)
+            runtime_hooks.load_torch_state_dict(
+                model_b_path, runtime_hooks.torch_module, map_location=device
+            )
         )
         model_b.eval()
 
@@ -1331,7 +1482,9 @@ def arena_rust_nn_impl(
             seed=int(cfg_a.get("seed", 0) or 0),
             max_moves=max_moves,
         )
-        tally = runner.play_match_tally_batched(engine_a, engine_b, n_games, color_swap=True)
+        tally = runner.play_match_tally_batched(
+            engine_a, engine_b, n_games, color_swap=True
+        )
         if strict and (
             getattr(tally, "errors", 0)
             or getattr(tally, "voids", 0)
@@ -1347,7 +1500,9 @@ def arena_rust_nn_impl(
         draws = int(tally.draws)
         decisive = wins_a + wins_b
         if decisive > 0:
-            llr = wins_a * math.log(p1 / p0) + (decisive - wins_a) * math.log((1 - p1) / (1 - p0))
+            llr = wins_a * math.log(p1 / p0) + (decisive - wins_a) * math.log(
+                (1 - p1) / (1 - p0)
+            )
             if llr >= upper_bound:
                 sprt_decided = True
                 sprt_result = "H1_accept"
@@ -1369,11 +1524,15 @@ def arena_rust_nn_impl(
                     f"Run: cargo build --release. "
                     f"Use strict=False for Python TreeMCTS fallback (NOT benchmark-grade)."
                 )
-            print("  [WARN] Rust binary not found, falling back to Python arena (NOT benchmark-grade)")
-            raise RuntimeError("strict=False fallback does not support asymmetric search configs")
+            print(
+                "  [WARN] Rust binary not found, falling back to Python arena (NOT benchmark-grade)"
+            )
+            raise RuntimeError(
+                "strict=False fallback does not support asymmetric search configs"
+            )
 
         board_size = cfg_a["board"]
-        n2 = board_size ** 2
+        n2 = board_size**2
         win_len = cfg_a["win"]
         penalty_mode_a = cfg_a.get("penalty_mode", "GatedRefresh")
         penalty_mode_b = cfg_b.get("penalty_mode", "GatedRefresh")
@@ -1390,16 +1549,24 @@ def arena_rust_nn_impl(
                 board = np.zeros(n2, dtype=np.int8) if not is_chess else None
                 player = 1
                 winner = 0
-                current_fen = runtime_hooks.initial_chess_fen(cfg_a) if is_chess else None
+                current_fen = (
+                    runtime_hooks.initial_chess_fen(cfg_a) if is_chess else None
+                )
                 current_chess_meta = {} if is_chess else None
 
                 for _move_n in range(max_moves):
                     client = first_client if player == 1 else second_client
-                    penalty_mode = penalty_mode_a if client is client_a else penalty_mode_b
+                    penalty_mode = (
+                        penalty_mode_a if client is client_a else penalty_mode_b
+                    )
 
                     if is_chess:
                         result = client.search_move(
-                            None, player, penalty_mode, fen=current_fen, state_meta=current_chess_meta
+                            None,
+                            player,
+                            penalty_mode,
+                            fen=current_fen,
+                            state_meta=current_chess_meta,
                         )
                     else:
                         result = client.search_move(board, player, penalty_mode)
@@ -1442,7 +1609,11 @@ def arena_rust_nn_impl(
                                 cnt = 1
                                 for sign in [1, -1]:
                                     nr, nc = r0 + sign * dr, c0 + sign * dc
-                                    while 0 <= nr < board_size and 0 <= nc < board_size and board[nr * board_size + nc] == player:
+                                    while (
+                                        0 <= nr < board_size
+                                        and 0 <= nc < board_size
+                                        and board[nr * board_size + nc] == player
+                                    ):
                                         cnt += 1
                                         nr += sign * dr
                                         nc += sign * dc
@@ -1481,18 +1652,32 @@ def arena_rust_nn_impl(
                 f"Run: cargo build --release. "
                 f"Use strict=False for Python TreeMCTS fallback (NOT benchmark-grade)."
             )
-        print("  [WARN] Rust binary not found, falling back to Python arena (NOT benchmark-grade)")
+        print(
+            "  [WARN] Rust binary not found, falling back to Python arena (NOT benchmark-grade)"
+        )
         if cfg_a == cfg_b:
-            return runtime_hooks.arena_compare(model_a_path, model_b_path, cfg_a, device, n_games)
-        raise RuntimeError("strict=False fallback does not support asymmetric search configs")
+            return runtime_hooks.arena_compare(
+                model_a_path, model_b_path, cfg_a, device, n_games
+            )
+        raise RuntimeError(
+            "strict=False fallback does not support asymmetric search configs"
+        )
 
     total = wins_a + wins_b + draws
     wr = wins_a / max(total, 1)
     z = 1.96
     n = max(total, 1)
     p_hat = wr
-    ci_lo = (p_hat + z * z / (2 * n) - z * math.sqrt((p_hat * (1 - p_hat) + z * z / (4 * n)) / n)) / (1 + z * z / n)
-    ci_hi = (p_hat + z * z / (2 * n) + z * math.sqrt((p_hat * (1 - p_hat) + z * z / (4 * n)) / n)) / (1 + z * z / n)
+    ci_lo = (
+        p_hat
+        + z * z / (2 * n)
+        - z * math.sqrt((p_hat * (1 - p_hat) + z * z / (4 * n)) / n)
+    ) / (1 + z * z / n)
+    ci_hi = (
+        p_hat
+        + z * z / (2 * n)
+        + z * math.sqrt((p_hat * (1 - p_hat) + z * z / (4 * n)) / n)
+    ) / (1 + z * z / n)
     sprt_str = sprt_result or "inconclusive"
     return wins_a, wins_b, draws, wr, (ci_lo, ci_hi), sprt_str
 
@@ -1518,17 +1703,20 @@ def selfplay_rust_nn_batched(
     penalty_mode = cfg.get("penalty_mode", "GatedRefresh")
     iters = cfg["iters"]
     is_chess = runtime_hooks.is_chess_game(cfg.get("_name"))
-    use_resident_session = (
-        not bool(cfg.get("_disable_resident_session", False))
-        and runtime_hooks.should_use_resident_session(
-            cfg.get("_name"),
-            parallel,
-            n_games,
-            enabled=bool(cfg.get("_resident_session", False)),
-        )
+    use_resident_session = not bool(
+        cfg.get("_disable_resident_session", False)
+    ) and runtime_hooks.should_use_resident_session(
+        cfg.get("_name"),
+        parallel,
+        n_games,
+        enabled=bool(cfg.get("_resident_session", False)),
     )
     rust_game = runtime_hooks.rust_game_name(cfg["_name"])
-    max_moves = 500 if is_chess or runtime_hooks.is_go_game(cfg.get("_name")) else (board_size ** 2 + 5)
+    max_moves = (
+        500
+        if is_chess or runtime_hooks.is_go_game(cfg.get("_name"))
+        else (board_size**2 + 5)
+    )
 
     all_states, all_policies, all_outcomes, all_traces = [], [], [], []
     games_done = 0
@@ -1549,7 +1737,9 @@ def selfplay_rust_nn_batched(
 
             def _handle_stream_chunk(games):
                 for game_payload in games:
-                    states, policies, outcome, traces = runtime_hooks.decode_streamed_selfplay_game(cfg, game_payload)
+                    states, policies, outcome, traces = (
+                        runtime_hooks.decode_streamed_selfplay_game(cfg, game_payload)
+                    )
                     all_states.append(states)
                     all_policies.append(policies)
                     all_outcomes.append(outcome)
@@ -1580,7 +1770,9 @@ def selfplay_rust_nn_batched(
             if isinstance(games, list) and games:
                 _handle_stream_chunk(games)
             if isinstance(payload, dict):
-                completed_games = int(payload.get("completed_games", len(all_states)) or 0)
+                completed_games = int(
+                    payload.get("completed_games", len(all_states)) or 0
+                )
                 if completed_games == len(all_states) == n_games:
                     return all_states, all_policies, all_outcomes, all_traces
         finally:
@@ -1617,7 +1809,11 @@ def selfplay_rust_nn_batched(
     def build_job(gd):
         if is_chess:
             job = {"fen": gd["fen"]}
-            job.update(runtime_hooks.chess_state_meta_from_hashes(gd.get("chess_history_hashes", [])))
+            job.update(
+                runtime_hooks.chess_state_meta_from_hashes(
+                    gd.get("chess_history_hashes", [])
+                )
+            )
             return job
         state = gd["state"]
         player = 1 if state.current_player() == 0 else -1
@@ -1645,7 +1841,11 @@ def selfplay_rust_nn_batched(
 
         policy = sparse_policy_from_entries(pol_entries, n_actions)
 
-        enc = runtime_hooks.encode_chess_fen(gd["fen"]) if is_chess else gd["state"]._encode()
+        enc = (
+            runtime_hooks.encode_chess_fen(gd["fen"])
+            if is_chess
+            else gd["state"]._encode()
+        )
 
         gd["states"].append(enc.copy())
         gd["policies"].append(policy.copy())
@@ -1673,7 +1873,9 @@ def selfplay_rust_nn_batched(
                 gd["winner"] = result.get("value", 0.0) * gd["player"]
             else:
                 gd["fen"] = new_fen
-                gd["chess_history_hashes"] = [int(v) for v in result.get("result_history_hashes", [])]
+                gd["chess_history_hashes"] = [
+                    int(v) for v in result.get("result_history_hashes", [])
+                ]
                 gd["moves"] += 1
                 gd["player"] = -gd["player"]
             return None
@@ -1701,7 +1903,9 @@ def selfplay_rust_nn_batched(
 
     def parse_eval_group(kind, payload):
         if kind == "frame":
-            frame_kind, frame_payload = runtime_hooks.proc_decode_eval_frame(proc, payload[0], payload[1])
+            frame_kind, frame_payload = runtime_hooks.proc_decode_eval_frame(
+                proc, payload[0], payload[1]
+            )
             if frame_kind == runtime_hooks.qipc_batch_eval_req:
                 requests = runtime_hooks.unpack_qipc_batch_eval_req(frame_payload)
                 if perf_stats is not None:
@@ -1714,7 +1918,9 @@ def selfplay_rust_nn_batched(
                     prefer_shm=True,
                 ), None
             if frame_kind == runtime_hooks.qipc_eval_req:
-                na, feats, model_tag, fp_lo, fp_hi, encoder_rev = runtime_hooks.unpack_qipc_eval_req(frame_payload)
+                na, feats, model_tag, fp_lo, fp_hi, encoder_rev = (
+                    runtime_hooks.unpack_qipc_eval_req(frame_payload)
+                )
                 if perf_stats is not None:
                     perf_stats["eval_messages"] += 1
                     perf_stats["eval_items"] += 1
@@ -1735,7 +1941,9 @@ def selfplay_rust_nn_batched(
                 if perf_stats is not None:
                     perf_stats["eval_messages"] += 1
                     perf_stats["eval_items"] += len(reqs)
-                return runtime_hooks.make_eval_request_group("json_batch", reqs, gi=0), None
+                return runtime_hooks.make_eval_request_group(
+                    "json_batch", reqs, gi=0
+                ), None
             if "eval_req" in payload:
                 er = payload["eval_req"]
                 if perf_stats is not None:
@@ -1752,7 +1960,13 @@ def selfplay_rust_nn_batched(
                 return None, payload
         return None, {"error": "unexpected message"}
 
-    duty = {"read_s": 0.0, "collect_s": 0.0, "model_s": 0.0, "write_s": 0.0, "cycles": 0}
+    duty = {
+        "read_s": 0.0,
+        "collect_s": 0.0,
+        "model_s": 0.0,
+        "write_s": 0.0,
+        "cycles": 0,
+    }
     duty_log_interval = 16
     pipeline_policy = getattr(runtime_hooks, "should_use_async_pipeline", None)
     if callable(pipeline_policy):
@@ -1767,8 +1981,16 @@ def selfplay_rust_nn_batched(
     def exchange_search_request(req):
         nonlocal batch_items_ema, collect_wait_ema_s
         req_cmd = req.get("cmd", "?") if isinstance(req, dict) else "?"
-        req_jobs = len(req.get("jobs", [])) if isinstance(req, dict) and isinstance(req.get("jobs"), list) else None
-        req_updates = len(req.get("updates", [])) if isinstance(req, dict) and isinstance(req.get("updates"), list) else None
+        req_jobs = (
+            len(req.get("jobs", []))
+            if isinstance(req, dict) and isinstance(req.get("jobs"), list)
+            else None
+        )
+        req_updates = (
+            len(req.get("updates", []))
+            if isinstance(req, dict) and isinstance(req.get("updates"), list)
+            else None
+        )
         req_t0 = time.perf_counter()
         runtime_hooks.stall_trace(
             "exchange_begin",
@@ -1826,7 +2048,9 @@ def selfplay_rust_nn_batched(
         inflight = False
 
         if use_pipeline:
-            pipeline = runtime_hooks.inference_pipeline_thread_cls(model, device, cfg, max_pending=1)
+            pipeline = runtime_hooks.inference_pipeline_thread_cls(
+                model, device, cfg, max_pending=1
+            )
             pipeline.start()
 
         try:
@@ -1851,7 +2075,11 @@ def selfplay_rust_nn_batched(
                     duty["write_s"] += time.perf_counter() - write_t0
 
                 read_t0 = time.perf_counter()
-                kind, payload = deferred if deferred is not None else runtime_hooks.proc_read_message(proc)
+                kind, payload = (
+                    deferred
+                    if deferred is not None
+                    else runtime_hooks.proc_read_message(proc)
+                )
                 duty["read_s"] += time.perf_counter() - read_t0
                 runtime_hooks.stall_trace(
                     "exchange_message",
@@ -1863,7 +2091,9 @@ def selfplay_rust_nn_batched(
                 )
                 deferred = None
                 if kind is None:
-                    runtime_hooks.stall_trace("exchange_eof", cmd=req_cmd, loop=int(loop_count))
+                    runtime_hooks.stall_trace(
+                        "exchange_eof", cmd=req_cmd, loop=int(loop_count)
+                    )
                     return None
 
                 first_group, terminal = parse_eval_group(kind, payload)
@@ -1874,17 +2104,21 @@ def selfplay_rust_nn_batched(
                         cmd=req_cmd,
                         loop=int(loop_count),
                         elapsed_s=float(time.perf_counter() - req_t0),
-                        keys=sorted(list(terminal.keys())) if isinstance(terminal, dict) else None,
+                        keys=sorted(list(terminal.keys()))
+                        if isinstance(terminal, dict)
+                        else None,
                     )
                     break
 
                 eval_groups = [first_group]
                 eval_item_count = len(first_group["requests"])
-                dynamic_target_eval_items, dynamic_collect_timeout_s = runtime_hooks.compute_eval_collect_policy(
-                    base_target_eval_items,
-                    base_collect_timeout_s,
-                    batch_items_ema=batch_items_ema,
-                    wait_ema_s=collect_wait_ema_s,
+                dynamic_target_eval_items, dynamic_collect_timeout_s = (
+                    runtime_hooks.compute_eval_collect_policy(
+                        base_target_eval_items,
+                        base_collect_timeout_s,
+                        batch_items_ema=batch_items_ema,
+                        wait_ema_s=collect_wait_ema_s,
+                    )
                 )
                 collect_t0 = time.perf_counter()
                 deadline = time.perf_counter() + dynamic_collect_timeout_s
@@ -1895,7 +2129,9 @@ def selfplay_rust_nn_batched(
                     if not runtime_hooks.wait_readable(proc.stdout, timeout_s):
                         break
                     next_kind, next_payload = runtime_hooks.proc_read_message(proc)
-                    next_group, next_terminal = parse_eval_group(next_kind, next_payload)
+                    next_group, next_terminal = parse_eval_group(
+                        next_kind, next_payload
+                    )
                     if next_terminal is not None:
                         deferred = (next_kind, next_payload)
                         break
@@ -1907,8 +2143,12 @@ def selfplay_rust_nn_batched(
                 duty["collect_s"] += collect_wait_s
                 if perf_stats is not None:
                     perf_stats["collect_wait_s"] += float(collect_wait_s)
-                batch_items_ema = 0.25 * float(merged_items) + 0.75 * float(batch_items_ema)
-                collect_wait_ema_s = 0.25 * float(collect_wait_s) + 0.75 * float(collect_wait_ema_s)
+                batch_items_ema = 0.25 * float(merged_items) + 0.75 * float(
+                    batch_items_ema
+                )
+                collect_wait_ema_s = 0.25 * float(collect_wait_s) + 0.75 * float(
+                    collect_wait_ema_s
+                )
 
                 if pipeline is not None:
                     pipeline.submit(eval_groups)
@@ -1927,7 +2167,9 @@ def selfplay_rust_nn_batched(
                     )
                 else:
                     t_eval = time.perf_counter()
-                    responses = runtime_hooks.run_batched_eval_groups(eval_groups, model, device, cfg)
+                    responses = runtime_hooks.run_batched_eval_groups(
+                        eval_groups, model, device, cfg
+                    )
                     eval_elapsed = time.perf_counter() - t_eval
                     duty["model_s"] += eval_elapsed
                     if perf_stats is not None:
@@ -1982,7 +2224,11 @@ def selfplay_rust_nn_batched(
         )
         return results_payload
 
-    proc = proc_pool.acquire(1)[0] if proc_pool is not None else runtime_hooks.launch_server(rust_binary)
+    proc = (
+        proc_pool.acquire(1)[0]
+        if proc_pool is not None
+        else runtime_hooks.launch_server(rust_binary)
+    )
     if active_proc_ref is not None:
         active_proc_ref._active_proc = proc
     try:
@@ -2028,12 +2274,21 @@ def selfplay_rust_nn_batched(
             for gi in range(slot_count):
                 launch_slot(gi)
 
-            search_opts = runtime_hooks.rust_search_options(cfg, penalty_mode=penalty_mode)
+            search_opts = runtime_hooks.rust_search_options(
+                cfg, penalty_mode=penalty_mode
+            )
             base_collect_timeout_s = min(
                 0.006,
-                max(0.00075, float(search_opts.get("batch_timeout_us", 1500)) / 1_000_000.0 * 0.9),
+                max(
+                    0.00075,
+                    float(search_opts.get("batch_timeout_us", 1500))
+                    / 1_000_000.0
+                    * 0.9,
+                ),
             )
-            base_target_eval_items = max(1, int(search_opts.get("batch_size", cfg.get("batch_size", 8))))
+            base_target_eval_items = max(
+                1, int(search_opts.get("batch_size", cfg.get("batch_size", 8)))
+            )
             batch_items_ema = float(base_target_eval_items)
             collect_wait_ema_s = 0.0
             if use_resident_session:
@@ -2047,10 +2302,20 @@ def selfplay_rust_nn_batched(
                 results_payload = exchange_search_request(session_req)
                 if isinstance(results_payload, dict) and results_payload.get("error"):
                     raise RuntimeError(str(results_payload.get("error")))
-                session_id = results_payload.get("session_id") if isinstance(results_payload, dict) else None
+                session_id = (
+                    results_payload.get("session_id")
+                    if isinstance(results_payload, dict)
+                    else None
+                )
                 if session_id is None:
-                    raise RuntimeError("resident self-play session open returned no session_id")
-                results = results_payload.get("results", []) if isinstance(results_payload, dict) else []
+                    raise RuntimeError(
+                        "resident self-play session open returned no session_id"
+                    )
+                results = (
+                    results_payload.get("results", [])
+                    if isinstance(results_payload, dict)
+                    else []
+                )
 
                 while games_done < n_games:
                     if not isinstance(results, list) or len(results) != slot_count:
@@ -2065,7 +2330,9 @@ def selfplay_rust_nn_batched(
                         if gd is None:
                             updates.append({"deactivate": True})
                             continue
-                        chosen = apply_result(gd, result if isinstance(result, dict) else {})
+                        chosen = apply_result(
+                            gd, result if isinstance(result, dict) else {}
+                        )
                         if gd["moves"] >= max_moves and not gd["finished"]:
                             gd["finished"] = True
                             gd["winner"] = 0.0
@@ -2077,7 +2344,9 @@ def selfplay_rust_nn_batched(
                             else:
                                 updates.append({"replace": build_job(gd)})
                         else:
-                            updates.append({"action": int(chosen)} if chosen is not None else {})
+                            updates.append(
+                                {"action": int(chosen)} if chosen is not None else {}
+                            )
 
                     if games_done >= n_games and all(gd is None for gd in game_data):
                         break
@@ -2090,14 +2359,24 @@ def selfplay_rust_nn_batched(
                             "updates": updates,
                         }
                     )
-                    if isinstance(results_payload, dict) and results_payload.get("error"):
+                    if isinstance(results_payload, dict) and results_payload.get(
+                        "error"
+                    ):
                         raise RuntimeError(str(results_payload.get("error")))
-                    results = results_payload.get("results", []) if isinstance(results_payload, dict) else []
+                    results = (
+                        results_payload.get("results", [])
+                        if isinstance(results_payload, dict)
+                        else []
+                    )
 
                 if session_id is not None:
                     try:
                         runtime_hooks.proc_write_json_line(
-                            proc, {"cmd": "search_nn_multi_session_close", "session_id": int(session_id)}
+                            proc,
+                            {
+                                "cmd": "search_nn_multi_session_close",
+                                "session_id": int(session_id),
+                            },
                         )
                         runtime_hooks.proc_read_json_line(proc)
                     except Exception:
@@ -2131,7 +2410,9 @@ def selfplay_rust_nn_batched(
                     }
                     req.update(search_opts)
                     results_payload = exchange_search_request(req)
-                    if isinstance(results_payload, dict) and results_payload.get("error"):
+                    if isinstance(results_payload, dict) and results_payload.get(
+                        "error"
+                    ):
                         raise RuntimeError(str(results_payload.get("error")))
                     results = []
                     if isinstance(results_payload, dict):
@@ -2195,17 +2476,18 @@ class SelfPlayWorker:
     PAUSE_KILL_TIMEOUT_S = 5.0
 
     def __init__(
-            self,
-            cfg,
-            model,
-            device,
-            replay,
-            rust_binary,
-            *,
-            server_pool_factory,
-            clone_actor_model_fn,
-            selfplay_runner,
-            logger=None):
+        self,
+        cfg,
+        model,
+        device,
+        replay,
+        rust_binary,
+        *,
+        server_pool_factory,
+        clone_actor_model_fn,
+        selfplay_runner,
+        logger=None,
+    ):
         self.cfg = cfg
         self.device = device
         self.replay = replay
@@ -2316,7 +2598,9 @@ class SelfPlayWorker:
             self._proc_pool.kill_active()
         if self._idle.wait(timeout=self.PAUSE_KILL_TIMEOUT_S):
             return True
-        self._last_error = "background self-play failed to become idle after pause request"
+        self._last_error = (
+            "background self-play failed to become idle after pause request"
+        )
         self._logger.warning(self._last_error)
         return False
 
@@ -2331,18 +2615,37 @@ class SelfPlayWorker:
         rolling_time = sum(chunk["elapsed_s"] for chunk in self._recent_chunks)
         rolling_positions_per_s = rolling_positions / max(rolling_time, 1e-6)
         mean_chunk_positions = (
-            rolling_positions / max(len(self._recent_chunks), 1) if self._recent_chunks else 0.0
+            rolling_positions / max(len(self._recent_chunks), 1)
+            if self._recent_chunks
+            else 0.0
         )
-        peak_chunk_positions = max((chunk["positions"] for chunk in self._recent_chunks), default=0)
-        burst_ratio = peak_chunk_positions / max(mean_chunk_positions, 1.0) if mean_chunk_positions > 0.0 else 1.0
+        peak_chunk_positions = max(
+            (chunk["positions"] for chunk in self._recent_chunks), default=0
+        )
+        burst_ratio = (
+            peak_chunk_positions / max(mean_chunk_positions, 1.0)
+            if mean_chunk_positions > 0.0
+            else 1.0
+        )
         perf_chunks = [chunk.get("perf") or {} for chunk in self._recent_chunks]
-        perf_model_calls = sum(int(chunk.get("model_calls") or 0) for chunk in perf_chunks)
-        perf_eval_messages = sum(int(chunk.get("eval_messages") or 0) for chunk in perf_chunks)
-        perf_eval_items = sum(int(chunk.get("eval_items") or 0) for chunk in perf_chunks)
-        perf_collect_wait_s = sum(float(chunk.get("collect_wait_s") or 0.0) for chunk in perf_chunks)
-        perf_model_time_s = sum(float(chunk.get("model_time_s") or 0.0) for chunk in perf_chunks)
+        perf_model_calls = sum(
+            int(chunk.get("model_calls") or 0) for chunk in perf_chunks
+        )
+        perf_eval_messages = sum(
+            int(chunk.get("eval_messages") or 0) for chunk in perf_chunks
+        )
+        perf_eval_items = sum(
+            int(chunk.get("eval_items") or 0) for chunk in perf_chunks
+        )
+        perf_collect_wait_s = sum(
+            float(chunk.get("collect_wait_s") or 0.0) for chunk in perf_chunks
+        )
+        perf_model_time_s = sum(
+            float(chunk.get("model_time_s") or 0.0) for chunk in perf_chunks
+        )
         weighted_batch_sum = sum(
-            float(chunk.get("mean_model_batch_size") or 0.0) * int(chunk.get("model_calls") or 0)
+            float(chunk.get("mean_model_batch_size") or 0.0)
+            * int(chunk.get("model_calls") or 0)
             for chunk in perf_chunks
         )
         return {
@@ -2353,16 +2656,22 @@ class SelfPlayWorker:
             "last_cycle_s": round(self._last_cycle_s, 3),
             "last_cycle_positions": self._last_cycle_positions,
             "last_cycle_games": self._last_cycle_games,
-            "rolling_cycle_s": round(rolling_time / max(len(self._recent_chunks), 1), 3),
+            "rolling_cycle_s": round(
+                rolling_time / max(len(self._recent_chunks), 1), 3
+            ),
             "rolling_positions_per_s": round(rolling_positions_per_s, 3),
             "rolling_positions": int(rolling_positions),
             "rolling_games": int(rolling_games),
             "burst_ratio": round(burst_ratio, 3),
             "backpressure_waits": self._backpressure_waits,
-            "worker_alive": bool(self._thread.is_alive()) if self._thread is not None else False,
+            "worker_alive": bool(self._thread.is_alive())
+            if self._thread is not None
+            else False,
             "paused": bool(self._pause.is_set()),
             "idle": bool(self._idle.is_set()),
-            "last_progress_age_s": round(max(0.0, time.time() - self._last_progress_ts), 3),
+            "last_progress_age_s": round(
+                max(0.0, time.time() - self._last_progress_ts), 3
+            ),
             "last_error": self._last_error,
             "consecutive_errors": self._consecutive_errors,
             "last_plan": self._last_plan,
@@ -2396,13 +2705,17 @@ class SelfPlayWorker:
                     else None
                 ),
             },
-            "server_pool": self._proc_pool.snapshot() if hasattr(self._proc_pool, "snapshot") else None,
+            "server_pool": self._proc_pool.snapshot()
+            if hasattr(self._proc_pool, "snapshot")
+            else None,
             "path": "rust+nn",
         }
 
     def status(self):
         return {
-            "alive": bool(self._thread.is_alive()) if self._thread is not None else False,
+            "alive": bool(self._thread.is_alive())
+            if self._thread is not None
+            else False,
             "paused": bool(self._pause.is_set()),
             "idle": bool(self._idle.is_set()),
             "last_progress_age_s": max(0.0, time.time() - self._last_progress_ts),
@@ -2410,7 +2723,9 @@ class SelfPlayWorker:
             "consecutive_errors": self._consecutive_errors,
             "actor_generation": self.actor_generation,
             "actor_id": self.actor_snapshot()[2],
-            "server_pool": self._proc_pool.snapshot() if hasattr(self._proc_pool, "snapshot") else None,
+            "server_pool": self._proc_pool.snapshot()
+            if hasattr(self._proc_pool, "snapshot")
+            else None,
         }
 
     def _run(self):
@@ -2430,7 +2745,9 @@ class SelfPlayWorker:
 
                 t0 = time.time()
                 n_new = 0
-                plan = plan_selfplay_runner_chunk(self.cfg, len(self.replay), self._recent_chunks)
+                plan = plan_selfplay_runner_chunk(
+                    self.cfg, len(self.replay), self._recent_chunks
+                )
                 self._last_plan = dict(plan)
                 batch_games = int(plan["batch_games"])
                 parallel = int(plan["parallel"])
@@ -2439,14 +2756,18 @@ class SelfPlayWorker:
                     if self._pause.is_set():
                         break
                     chunk_t0 = time.time()
-                    chunk_games = min(remaining, int(plan.get("games_per_call", parallel)))
+                    chunk_games = min(
+                        remaining, int(plan.get("games_per_call", parallel))
+                    )
                     streamed_positions = 0
 
                     # Capture one immutable actor snapshot for the chunk. The
                     # runner receives the same model object whose id/generation
                     # are stamped into replay metadata, even if update_model()
                     # fires concurrently while the Rust search is in flight.
-                    chunk_model, chunk_actor_generation, chunk_actor_id = self.actor_snapshot()
+                    chunk_model, chunk_actor_generation, chunk_actor_id = (
+                        self.actor_snapshot()
+                    )
 
                     def _on_game_stream(
                         gs,
@@ -2458,7 +2779,10 @@ class SelfPlayWorker:
                     ):
                         nonlocal n_new, streamed_positions
                         self.replay.add_game(
-                            gs, gp, out, traces=traces,
+                            gs,
+                            gp,
+                            out,
+                            traces=traces,
                             actor_generation=chunk_actor_generation,
                             actor_id=chunk_actor_id,
                         )
@@ -2481,17 +2805,28 @@ class SelfPlayWorker:
                             show_progress=False,
                             proc_pool=self._proc_pool,
                             perf_stats=chunk_perf_stats,
-                            on_game=_on_game_stream if self.cfg.get("_selfplay_runner_mode") == "rust_selfplay_state_machine" else None,
+                            on_game=_on_game_stream
+                            if self.cfg.get("_selfplay_runner_mode")
+                            == "rust_selfplay_state_machine"
+                            else None,
                             active_proc_ref=self,
                         )
                     finally:
                         self._active_proc = None
                         self._idle.set()
                     chunk_positions = streamed_positions
-                    if self.cfg.get("_selfplay_runner_mode") != "rust_selfplay_state_machine":
-                        for gs, gp, out, trace in zip(states, policies, outcomes, traces):
+                    if (
+                        self.cfg.get("_selfplay_runner_mode")
+                        != "rust_selfplay_state_machine"
+                    ):
+                        for gs, gp, out, trace in zip(
+                            states, policies, outcomes, traces
+                        ):
                             self.replay.add_game(
-                                gs, gp, out, traces=trace,
+                                gs,
+                                gp,
+                                out,
+                                traces=trace,
                                 actor_generation=chunk_actor_generation,
                                 actor_id=chunk_actor_id,
                             )
@@ -2508,12 +2843,14 @@ class SelfPlayWorker:
                     chunk_elapsed = max(time.time() - chunk_t0, 1e-6)
                     self.games_generated += len(states)
                     self.positions_generated += chunk_positions
-                    self._recent_chunks.append({
-                        "games": int(len(states)),
-                        "positions": int(chunk_positions),
-                        "elapsed_s": float(chunk_elapsed),
-                        "perf": _summarize_selfplay_perf_stats(chunk_perf_stats),
-                    })
+                    self._recent_chunks.append(
+                        {
+                            "games": int(len(states)),
+                            "positions": int(chunk_positions),
+                            "elapsed_s": float(chunk_elapsed),
+                            "perf": _summarize_selfplay_perf_stats(chunk_perf_stats),
+                        }
+                    )
                     remaining -= chunk_games
                 self._cycles += 1
                 cycle_s = time.time() - t0
@@ -2524,7 +2861,9 @@ class SelfPlayWorker:
             except Exception as exc:
                 self._idle.set()
                 self._active_proc = None
-                cancelled = isinstance(exc, InterruptedError) and (self._pause.is_set() or self._stop.is_set())
+                cancelled = isinstance(exc, InterruptedError) and (
+                    self._pause.is_set() or self._stop.is_set()
+                )
                 if cancelled:
                     self._last_error = None
                     self._consecutive_errors = 0
@@ -2536,7 +2875,9 @@ class SelfPlayWorker:
                 if hasattr(self._proc_pool, "kill_active"):
                     self._proc_pool.kill_active()
                 if self._consecutive_errors <= 3:
-                    self._logger.exception("SelfPlayWorker error (%s): %r", type(exc).__name__, exc)
+                    self._logger.exception(
+                        "SelfPlayWorker error (%s): %r", type(exc).__name__, exc
+                    )
                 time.sleep(min(self._consecutive_errors, 5))
 
 
@@ -2553,7 +2894,12 @@ def is_chess_game(game_name):
 
 
 def is_go_game(game_name):
-    return bool(game_name) and game_name.startswith("go") and len(game_name) > 2 and game_name[2].isdigit()
+    return (
+        bool(game_name)
+        and game_name.startswith("go")
+        and len(game_name) > 2
+        and game_name[2].isdigit()
+    )
 
 
 def rust_search_options(cfg, penalty_mode=None):
@@ -2562,7 +2908,13 @@ def rust_search_options(cfg, penalty_mode=None):
     thread_budget = None
     if isinstance(raw_n_threads, str):
         thread_request = raw_n_threads.strip().lower() or "1"
-        if thread_request in {"auto", "throughput", "auto-throughput", "quality", "auto-quality"}:
+        if thread_request in {
+            "auto",
+            "throughput",
+            "auto-throughput",
+            "quality",
+            "auto-quality",
+        }:
             cap = (
                 cfg.get("thread_cap")
                 or cfg.get("max_threads")
@@ -2582,7 +2934,9 @@ def rust_search_options(cfg, penalty_mode=None):
     batch_timeout_us = int(
         cfg.get(
             "batch_timeout_us",
-            1500 if n_threads <= 1 else min(6000, 1200 + 250 * max(n_threads, batch_size // 2)),
+            1500
+            if n_threads <= 1
+            else min(6000, 1200 + 250 * max(n_threads, batch_size // 2)),
         )
         or 1500
     )
@@ -2599,19 +2953,51 @@ def rust_search_options(cfg, penalty_mode=None):
         "n_threads": thread_request,
         "batch_size": batch_size,
         "batch_timeout_us": batch_timeout_us,
-        **({"seed": int(cfg["seed"])} if "seed" in cfg and cfg.get("seed") is not None else {}),
-        **({"root_only_shaping": bool(cfg["root_only_shaping"])} if "root_only_shaping" in cfg else {}),
+        **(
+            {"seed": int(cfg["seed"])}
+            if "seed" in cfg and cfg.get("seed") is not None
+            else {}
+        ),
+        **(
+            {"root_only_shaping": bool(cfg["root_only_shaping"])}
+            if "root_only_shaping" in cfg
+            else {}
+        ),
         **({"vl_mode": cfg["vl_mode"]} if "vl_mode" in cfg else {}),
         **({"tt_enabled": bool(cfg["tt_enabled"])} if "tt_enabled" in cfg else {}),
-        **({"thread_policy": str(cfg["thread_policy"])} if cfg.get("thread_policy") is not None else {}),
-        **({"auto_thread_policy": str(cfg["auto_thread_policy"])} if cfg.get("auto_thread_policy") is not None else {}),
-        **({"thread_cap": int(cfg["thread_cap"])} if cfg.get("thread_cap") is not None else {}),
-        **({"max_threads": int(cfg["max_threads"])} if cfg.get("max_threads") is not None else {}),
-        **({"n_threads_cap": int(cfg["n_threads_cap"])} if cfg.get("n_threads_cap") is not None else {}),
+        **(
+            {"thread_policy": str(cfg["thread_policy"])}
+            if cfg.get("thread_policy") is not None
+            else {}
+        ),
+        **(
+            {"auto_thread_policy": str(cfg["auto_thread_policy"])}
+            if cfg.get("auto_thread_policy") is not None
+            else {}
+        ),
+        **(
+            {"thread_cap": int(cfg["thread_cap"])}
+            if cfg.get("thread_cap") is not None
+            else {}
+        ),
+        **(
+            {"max_threads": int(cfg["max_threads"])}
+            if cfg.get("max_threads") is not None
+            else {}
+        ),
+        **(
+            {"n_threads_cap": int(cfg["n_threads_cap"])}
+            if cfg.get("n_threads_cap") is not None
+            else {}
+        ),
         # P7 (audit W2): forward `halt_mode` so mcts_server's
         # `parse_halt_mode_override` can pin HaltMode::Fixed for
         # attribution rows.
-        **({"halt_mode": str(cfg["halt_mode"])} if cfg.get("halt_mode") is not None else {}),
+        **(
+            {"halt_mode": str(cfg["halt_mode"])}
+            if cfg.get("halt_mode") is not None
+            else {}
+        ),
     }
 
 
@@ -2625,11 +3011,15 @@ def chess_state_meta_from_hashes(history_hashes):
     return {"chess_history_hashes": hashes} if hashes else {}
 
 
-def build_rust_state_meta(game_name, state, cfg, is_chess_game_fn=None, is_go_game_fn=None):
+def build_rust_state_meta(
+    game_name, state, cfg, is_chess_game_fn=None, is_go_game_fn=None
+):
     is_chess_game_fn = is_chess_game if is_chess_game_fn is None else is_chess_game_fn
     is_go_game_fn = is_go_game if is_go_game_fn is None else is_go_game_fn
     if is_chess_game_fn(game_name) and state is not None:
-        return chess_state_meta_from_hashes(getattr(state, "_chess_history_hashes", None))
+        return chess_state_meta_from_hashes(
+            getattr(state, "_chess_history_hashes", None)
+        )
     if is_go_game_fn(game_name) and state is not None:
         return {
             "go_ruleset": cfg.get("go_ruleset", "chinese"),
@@ -2637,7 +3027,11 @@ def build_rust_state_meta(game_name, state, cfg, is_chess_game_fn=None, is_go_ga
             "go_komi": float(cfg.get("go_komi", 7.5)),
             "go_allow_suicide": bool(cfg.get("go_allow_suicide", False)),
             "passes": int(getattr(state, "_passes", 0)),
-            "ko_point": int(getattr(state, "_ko_point", -1) if getattr(state, "_ko_point", None) is not None else -1),
+            "ko_point": int(
+                getattr(state, "_ko_point", -1)
+                if getattr(state, "_ko_point", None) is not None
+                else -1
+            ),
             "black_caps": int(getattr(state, "_black_caps", 0)),
             "white_caps": int(getattr(state, "_white_caps", 0)),
         }
@@ -2664,7 +3058,18 @@ def chess960_start_fen(index):
                 back[i] = 5
                 break
             empty_idx += 1
-    knight_table = [(0, 1), (0, 2), (0, 3), (0, 4), (1, 2), (1, 3), (1, 4), (2, 3), (2, 4), (3, 4)]
+    knight_table = [
+        (0, 1),
+        (0, 2),
+        (0, 3),
+        (0, 4),
+        (1, 2),
+        (1, 3),
+        (1, 4),
+        (2, 3),
+        (2, 4),
+        (3, 4),
+    ]
     kn1, kn2 = knight_table[n]
     empties = [i for i, piece in enumerate(back) if piece == 0]
     back[empties[kn1]] = 2
@@ -2776,7 +3181,12 @@ class LegacyRustSelfplayHooks:
     tqdm_factory: object
 
 
-def selfplay_rust(cfg, n_games, rust_binary="./target/release/mcts_demo", runtime_hooks: LegacyRustSelfplayHooks | None = None):
+def selfplay_rust(
+    cfg,
+    n_games,
+    rust_binary="./target/release/mcts_demo",
+    runtime_hooks: LegacyRustSelfplayHooks | None = None,
+):
     if runtime_hooks is None:
         raise RuntimeError("runtime_hooks required for selfplay_rust")
     rust_game = runtime_hooks.rust_game_name(cfg["_name"])
@@ -2791,7 +3201,9 @@ def selfplay_rust(cfg, n_games, rust_binary="./target/release/mcts_demo", runtim
         print(f"  [WARN] {e}", file=sys.stderr)
         return [], n_games
 
-    with runtime_hooks.tqdm_factory(total=n_games, desc="Self-play (Rust)", leave=False) as pbar:
+    with runtime_hooks.tqdm_factory(
+        total=n_games, desc="Self-play (Rust)", leave=False
+    ) as pbar:
         while remaining > 0:
             batch = min(remaining, 5)
             req_dict = {
@@ -2802,12 +3214,14 @@ def selfplay_rust(cfg, n_games, rust_binary="./target/release/mcts_demo", runtim
                 "temp_threshold": cfg["temp_th"],
             }
             if runtime_hooks.is_go_game(cfg.get("_name", "")):
-                req_dict.update({
-                    "go_ruleset": cfg.get("go_ruleset", "chinese"),
-                    "go_scoring": cfg.get("go_scoring", "area"),
-                    "go_komi": float(cfg.get("go_komi", 7.5)),
-                    "go_allow_suicide": bool(cfg.get("go_allow_suicide", False)),
-                })
+                req_dict.update(
+                    {
+                        "go_ruleset": cfg.get("go_ruleset", "chinese"),
+                        "go_scoring": cfg.get("go_scoring", "area"),
+                        "go_komi": float(cfg.get("go_komi", 7.5)),
+                        "go_allow_suicide": bool(cfg.get("go_allow_suicide", False)),
+                    }
+                )
             elif cfg.get("chess960", False):
                 if cfg.get("chess960_index") is not None:
                     req_dict["chess960_index"] = int(cfg["chess960_index"])
@@ -2824,10 +3238,15 @@ def selfplay_rust(cfg, n_games, rust_binary="./target/release/mcts_demo", runtim
                         pbar.update(1)
                     remaining -= batch
                 else:
-                    print("  [WARN] Rust server returned empty, falling back", file=sys.stderr)
+                    print(
+                        "  [WARN] Rust server returned empty, falling back",
+                        file=sys.stderr,
+                    )
                     break
             except (json.JSONDecodeError, BrokenPipeError, OSError) as e:
-                print(f"  [WARN] Rust server error ({e}), falling back", file=sys.stderr)
+                print(
+                    f"  [WARN] Rust server error ({e}), falling back", file=sys.stderr
+                )
                 break
     try:
         runtime_hooks.proc_write_json_line(proc, {"cmd": "quit"})
@@ -2843,14 +3262,38 @@ def should_use_resident_session(game_name, parallel, n_games, enabled=False):
     return int(parallel) > 1 and int(n_games) > 1
 
 
-def supports_rust_eval_state_machine(game_name, rust_game_name, game_configs, gomoku15_variants, is_chess_game, is_go_game):
+def supports_rust_eval_state_machine(
+    game_name,
+    rust_game_name,
+    game_configs,
+    gomoku15_variants,
+    is_chess_game,
+    is_go_game,
+):
     rg = rust_game_name(game_name)
-    return rg in game_configs or rg in gomoku15_variants or is_chess_game(rg) or is_go_game(rg)
+    return (
+        rg in game_configs
+        or rg in gomoku15_variants
+        or is_chess_game(rg)
+        or is_go_game(rg)
+    )
 
 
-def supports_rust_selfplay_state_machine(game_name, rust_game_name, game_configs, gomoku15_variants, is_chess_game, is_go_game):
+def supports_rust_selfplay_state_machine(
+    game_name,
+    rust_game_name,
+    game_configs,
+    gomoku15_variants,
+    is_chess_game,
+    is_go_game,
+):
     rg = rust_game_name(game_name)
-    return rg in game_configs or rg in gomoku15_variants or is_chess_game(rg) or is_go_game(rg)
+    return (
+        rg in game_configs
+        or rg in gomoku15_variants
+        or is_chess_game(rg)
+        or is_go_game(rg)
+    )
 
 
 __all__ = [

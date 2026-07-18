@@ -33,13 +33,18 @@ CONTINUATION_OUTLIER_FACTOR = 1.5
 
 
 def parse_args() -> argparse.Namespace:
-    parser = argparse.ArgumentParser(description="Benchmark root continuation vs restart-per-chunk search")
+    parser = argparse.ArgumentParser(
+        description="Benchmark root continuation vs restart-per-chunk search"
+    )
     parser.add_argument("--game", default="gomoku7")
     parser.add_argument("--output", default="results/phase15_benchmarks")
     parser.add_argument("--checkpoints", default=None)
     parser.add_argument("--checkpoint-dir", default=None)
     parser.add_argument("--max-checkpoints", type=int, default=3)
-    parser.add_argument("--positions-file", default="results/controller_sweep_shortlist_v1/gomoku7/stage1_positions.json")
+    parser.add_argument(
+        "--positions-file",
+        default="results/controller_sweep_shortlist_v1/gomoku7/stage1_positions.json",
+    )
     parser.add_argument("--max-positions", type=int, default=10)
     parser.add_argument("--seed", type=int, default=42)
     parser.add_argument(
@@ -56,8 +61,12 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--repeats", type=int, default=3)
     parser.add_argument("--warmup-rounds", type=int, default=1)
     parser.add_argument("--search-stall-timeout-s", type=float, default=180.0)
-    parser.add_argument("--min-bundle-speedup", type=float, default=DEFAULT_MIN_BUNDLE_SPEEDUP)
-    parser.add_argument("--min-tie-aware-match", type=float, default=DEFAULT_MIN_TIE_AWARE_MATCH)
+    parser.add_argument(
+        "--min-bundle-speedup", type=float, default=DEFAULT_MIN_BUNDLE_SPEEDUP
+    )
+    parser.add_argument(
+        "--min-tie-aware-match", type=float, default=DEFAULT_MIN_TIE_AWARE_MATCH
+    )
     parser.add_argument("--max-kl-mean", type=float, default=DEFAULT_MAX_KL_MEAN)
     parser.add_argument("--enforce-gate", action="store_true")
     # Bootstrap-if-empty: train a throwaway checkpoint when none is found, so
@@ -112,7 +121,9 @@ def prefixed_readout_meta(prefix: str, meta: dict[str, Any]) -> dict[str, Any]:
     return {f"{prefix}_{key}": value for key, value in meta.items()}
 
 
-def benchmark_checkpoint_payload(checkpoints: list["posthoc.CheckpointRef"]) -> list[dict[str, str]]:
+def benchmark_checkpoint_payload(
+    checkpoints: list["posthoc.CheckpointRef"],
+) -> list[dict[str, str]]:
     """Serialize checkpoint refs to ``[{"id","path"}]`` for the run manifest."""
     return [{"id": str(ref.id), "path": str(ref.path)} for ref in checkpoints]
 
@@ -140,7 +151,11 @@ def top_tie_set(policy: np.ndarray, eps: float = 1e-6) -> set[int]:
     if policy.size == 0:
         return set()
     max_val = float(policy.max())
-    return {int(idx) for idx, value in enumerate(policy) if abs(float(value) - max_val) <= eps}
+    return {
+        int(idx)
+        for idx, value in enumerate(policy)
+        if abs(float(value) - max_val) <= eps
+    }
 
 
 def clear_harness_search_cache(harness: posthoc.FrozenCheckpointHarness) -> None:
@@ -151,8 +166,12 @@ def trace_bundle_acquire_ms(trace_rows: dict[int, dict[str, Any]]) -> float:
     return float(sum(float(row.get("latency_ms", 0.0)) for row in trace_rows.values()))
 
 
-def orchestration_overhead_ms(bundle_wallclock_ms: float, trace_rows: dict[int, dict[str, Any]]) -> float:
-    return float(max(0.0, float(bundle_wallclock_ms) - trace_bundle_acquire_ms(trace_rows)))
+def orchestration_overhead_ms(
+    bundle_wallclock_ms: float, trace_rows: dict[int, dict[str, Any]]
+) -> float:
+    return float(
+        max(0.0, float(bundle_wallclock_ms) - trace_bundle_acquire_ms(trace_rows))
+    )
 
 
 def evaluate_trace_rows(
@@ -178,7 +197,9 @@ def evaluate_trace_rows(
         prior_input=harness.prior_policy(position),
         budgets=trace_budgets,
         target_budget=int(target_budget),
-        search_policy_fn=lambda _position, _system, budget_value, rows=trace_rows: dict(rows[int(budget_value)]),
+        search_policy_fn=lambda _position, _system, budget_value, rows=trace_rows: dict(
+            rows[int(budget_value)]
+        ),
     )
     trace_meta = dict(trace_meta)
     trace_meta["wallclock_ms"] = float(bundle_wallclock_ms)
@@ -196,19 +217,23 @@ def run_restart_bundle_case(
     budgets: list[int],
 ) -> tuple[dict[int, dict[str, Any]], float]:
     t0 = time.perf_counter()
-    bundle_budgets, trace_bundle_policies, trace_bundle_latencies_ms, _trace_reused = posthoc.build_search_trace_bundle(
-        harness,
-        checkpoint,
-        position,
-        system,
-        budgets,
-        cache_dir=None,
+    bundle_budgets, trace_bundle_policies, trace_bundle_latencies_ms, _trace_reused = (
+        posthoc.build_search_trace_bundle(
+            harness,
+            checkpoint,
+            position,
+            system,
+            budgets,
+            cache_dir=None,
+        )
     )
     wallclock_ms = (time.perf_counter() - t0) * 1000.0
     return (
         {
             int(budget): {
-                "search_policy": posthoc.normalize_policy(trace_bundle_policies[int(budget)]).tolist(),
+                "search_policy": posthoc.normalize_policy(
+                    trace_bundle_policies[int(budget)]
+                ).tolist(),
                 "latency_ms": float(trace_bundle_latencies_ms[int(budget)]),
             }
             for budget in bundle_budgets
@@ -248,7 +273,9 @@ def summarize_rows(rows: list[dict[str, Any]]) -> dict[str, Any]:
     tie_aware_matches = 0
     ambiguous_ties = 0
     for row in rows:
-        by_signature[(row["checkpoint_id"], row["system"], str(row["budget"]))].append(row)
+        by_signature[(row["checkpoint_id"], row["system"], str(row["budget"]))].append(
+            row
+        )
         continuation_wallclocks.append(float(row["continuation_wallclock_ms"]))
         restart_wallclocks.append(float(row["restart_wallclock_ms"]))
         continuation_effective.append(float(row["continuation_effective_runtime_ms"]))
@@ -271,9 +298,15 @@ def summarize_rows(rows: list[dict[str, Any]]) -> dict[str, Any]:
                 "continuation_wallclock_ms": percentiles(c_rows),
                 "restart_wallclock_ms": percentiles(r_rows),
                 "wallclock_speedup_mean": float(mean(r_rows) / max(1e-9, mean(c_rows))),
-                "argmax_match_rate": float(sum(int(item["argmax_match"]) for item in group) / len(group)),
-                "tie_aware_match_rate": float(sum(int(item["tie_aware_match"]) for item in group) / len(group)),
-                "ambiguous_top1_rate": float(sum(int(item["ambiguous_top1_case"]) for item in group) / len(group)),
+                "argmax_match_rate": float(
+                    sum(int(item["argmax_match"]) for item in group) / len(group)
+                ),
+                "tie_aware_match_rate": float(
+                    sum(int(item["tie_aware_match"]) for item in group) / len(group)
+                ),
+                "ambiguous_top1_rate": float(
+                    sum(int(item["ambiguous_top1_case"]) for item in group) / len(group)
+                ),
                 "policy_kl_restart_vs_continuation": percentiles(
                     [float(item["policy_kl_restart_vs_continuation"]) for item in group]
                 ),
@@ -290,7 +323,9 @@ def summarize_rows(rows: list[dict[str, Any]]) -> dict[str, Any]:
         "restart_wallclock_ms": percentiles(restart_wallclocks),
         "continuation_effective_runtime_ms": percentiles(continuation_effective),
         "restart_effective_runtime_ms": percentiles(restart_effective),
-        "wallclock_speedup_mean": float(mean(restart_wallclocks) / max(1e-9, mean(continuation_wallclocks))),
+        "wallclock_speedup_mean": float(
+            mean(restart_wallclocks) / max(1e-9, mean(continuation_wallclocks))
+        ),
         "effective_runtime_speedup_mean": float(
             mean(restart_effective) / max(1e-9, mean(continuation_effective))
         ),
@@ -315,7 +350,9 @@ def classify_speedup_headwind(
     return "search_cost"
 
 
-def summarize_bundle_runs(bundle_runs: list[dict[str, Any]], benchmark_rows: list[dict[str, Any]]) -> dict[str, Any]:
+def summarize_bundle_runs(
+    bundle_runs: list[dict[str, Any]], benchmark_rows: list[dict[str, Any]]
+) -> dict[str, Any]:
     if not bundle_runs:
         return {
             "runs": 0,
@@ -329,12 +366,22 @@ def summarize_bundle_runs(bundle_runs: list[dict[str, Any]], benchmark_rows: lis
             "continuation_modes": {},
             "fallback_reasons": {},
         }
-    continuation_rows = [float(row["continuation_bundle_wallclock_ms"]) for row in bundle_runs]
+    continuation_rows = [
+        float(row["continuation_bundle_wallclock_ms"]) for row in bundle_runs
+    ]
     restart_rows = [float(row["restart_bundle_wallclock_ms"]) for row in bundle_runs]
-    continuation_trace_rows = [float(row["continuation_bundle_trace_acquire_ms"]) for row in bundle_runs]
-    restart_trace_rows = [float(row["restart_bundle_trace_acquire_ms"]) for row in bundle_runs]
-    continuation_overhead_rows = [float(row["continuation_bundle_overhead_ms"]) for row in bundle_runs]
-    restart_overhead_rows = [float(row["restart_bundle_overhead_ms"]) for row in bundle_runs]
+    continuation_trace_rows = [
+        float(row["continuation_bundle_trace_acquire_ms"]) for row in bundle_runs
+    ]
+    restart_trace_rows = [
+        float(row["restart_bundle_trace_acquire_ms"]) for row in bundle_runs
+    ]
+    continuation_overhead_rows = [
+        float(row["continuation_bundle_overhead_ms"]) for row in bundle_runs
+    ]
+    restart_overhead_rows = [
+        float(row["restart_bundle_overhead_ms"]) for row in bundle_runs
+    ]
     mode_counts: dict[str, int] = defaultdict(int)
     fallback_counts: dict[str, int] = defaultdict(int)
     grouped: dict[tuple[str, str], list[dict[str, Any]]] = defaultdict(list)
@@ -350,14 +397,39 @@ def summarize_bundle_runs(bundle_runs: list[dict[str, Any]], benchmark_rows: lis
     for (checkpoint_id, system_id), group in sorted(grouped.items()):
         c_rows = [float(item["continuation_bundle_wallclock_ms"]) for item in group]
         r_rows = [float(item["restart_bundle_wallclock_ms"]) for item in group]
-        c_trace = [float(item["continuation_bundle_trace_acquire_ms"]) for item in group]
+        c_trace = [
+            float(item["continuation_bundle_trace_acquire_ms"]) for item in group
+        ]
         r_trace = [float(item["restart_bundle_trace_acquire_ms"]) for item in group]
         c_over = [float(item["continuation_bundle_overhead_ms"]) for item in group]
         r_over = [float(item["restart_bundle_overhead_ms"]) for item in group]
         sensitivity = sensitivity_groups.get((checkpoint_id, system_id), [])
-        tie_aware_rate = float(sum(int(item["tie_aware_match"]) for item in sensitivity) / len(sensitivity)) if sensitivity else 0.0
-        ambiguous_rate = float(sum(int(item["ambiguous_top1_case"]) for item in sensitivity) / len(sensitivity)) if sensitivity else 0.0
-        kl_mean = float(mean(float(item["policy_kl_restart_vs_continuation"]) for item in sensitivity)) if sensitivity else 0.0
+        tie_aware_rate = (
+            float(
+                sum(int(item["tie_aware_match"]) for item in sensitivity)
+                / len(sensitivity)
+            )
+            if sensitivity
+            else 0.0
+        )
+        ambiguous_rate = (
+            float(
+                sum(int(item["ambiguous_top1_case"]) for item in sensitivity)
+                / len(sensitivity)
+            )
+            if sensitivity
+            else 0.0
+        )
+        kl_mean = (
+            float(
+                mean(
+                    float(item["policy_kl_restart_vs_continuation"])
+                    for item in sensitivity
+                )
+            )
+            if sensitivity
+            else 0.0
+        )
         c_over_ratio = float(mean(c_over) / max(1e-9, mean(c_rows)))
         by_checkpoint_system.append(
             {
@@ -390,7 +462,9 @@ def summarize_bundle_runs(bundle_runs: list[dict[str, Any]], benchmark_rows: lis
     # (The factor is a documented reconstruction to match the committed
     # contract test; the original uncommitted rule was lost in the tracking
     # rewrite.)
-    pairwise_speedups = [r / max(1e-9, c) for c, r in zip(continuation_rows, restart_rows)]
+    pairwise_speedups = [
+        r / max(1e-9, c) for c, r in zip(continuation_rows, restart_rows)
+    ]
     median_continuation = float(median(continuation_rows))
     outlier_threshold_ms = CONTINUATION_OUTLIER_FACTOR * median_continuation
     outlier_count = sum(1 for c in continuation_rows if c > outlier_threshold_ms)
@@ -402,8 +476,12 @@ def summarize_bundle_runs(bundle_runs: list[dict[str, Any]], benchmark_rows: lis
         "restart_trace_acquire_ms": percentiles(restart_trace_rows),
         "continuation_overhead_ms": percentiles(continuation_overhead_rows),
         "restart_overhead_ms": percentiles(restart_overhead_rows),
-        "continuation_overhead_ratio_mean": float(mean(continuation_overhead_rows) / max(1e-9, mean(continuation_rows))),
-        "wallclock_speedup_mean": float(mean(restart_rows) / max(1e-9, mean(continuation_rows))),
+        "continuation_overhead_ratio_mean": float(
+            mean(continuation_overhead_rows) / max(1e-9, mean(continuation_rows))
+        ),
+        "wallclock_speedup_mean": float(
+            mean(restart_rows) / max(1e-9, mean(continuation_rows))
+        ),
         "wallclock_speedup_pairwise": percentiles(pairwise_speedups),
         "continuation_wallclock_outlier_threshold_ms": float(outlier_threshold_ms),
         "continuation_wallclock_outlier_count": int(outlier_count),
@@ -423,7 +501,9 @@ def evaluate_benchmark_gate(
 ) -> dict[str, Any]:
     actual_bundle_speedup = float(bundle_summary.get("wallclock_speedup_mean", 0.0))
     actual_tie_aware_match = float(summary.get("tie_aware_match_rate", 0.0))
-    actual_kl_mean = float(summary.get("policy_kl_restart_vs_continuation", {}).get("mean", 0.0))
+    actual_kl_mean = float(
+        summary.get("policy_kl_restart_vs_continuation", {}).get("mean", 0.0)
+    )
     checks = [
         {
             "name": "bundle_speedup_mean",
@@ -460,7 +540,9 @@ def evaluate_benchmark_gate(
 
 def main() -> None:
     args = parse_args()
-    os.environ["QUARTZ_SEARCH_STALL_TIMEOUT_S"] = str(float(args.search_stall_timeout_s))
+    os.environ["QUARTZ_SEARCH_STALL_TIMEOUT_S"] = str(
+        float(args.search_stall_timeout_s)
+    )
 
     base_dir = Path(args.output) / args.game
     base_dir.mkdir(parents=True, exist_ok=True)
@@ -481,10 +563,12 @@ def main() -> None:
     if not systems:
         raise ValueError("no systems selected for benchmark")
 
-    positions = posthoc.load_or_generate_positions(args, base_cfg, count=int(args.max_positions))
+    positions = posthoc.load_or_generate_positions(
+        args, base_cfg, count=int(args.max_positions)
+    )
     positions = positions[: max(1, int(args.max_positions))]
     for idx, row in enumerate(positions):
-        row.setdefault("id", f"P{idx+1:04d}")
+        row.setdefault("id", f"P{idx + 1:04d}")
     budgets = posthoc.parse_csv_ints(args.budgets)
     contract_summary = build_benchmark_contract_summary(
         args,
@@ -498,14 +582,22 @@ def main() -> None:
     benchmark_rows: list[dict[str, Any]] = []
     bundle_runs: list[dict[str, Any]] = []
     for checkpoint in checkpoints:
-        harness = posthoc.FrozenCheckpointHarness(checkpoint, base_cfg, device, args.rust_binary)
+        harness = posthoc.FrozenCheckpointHarness(
+            checkpoint, base_cfg, device, args.rust_binary
+        )
         try:
             harness.prime_prior_cache(positions)
             for position in positions:
                 for system in systems:
-                    for repeat_idx in range(int(args.warmup_rounds) + int(args.repeats)):
+                    for repeat_idx in range(
+                        int(args.warmup_rounds) + int(args.repeats)
+                    ):
                         measure = repeat_idx >= int(args.warmup_rounds)
-                        order = ("continuation", "restart") if repeat_idx % 2 == 0 else ("restart", "continuation")
+                        order = (
+                            ("continuation", "restart")
+                            if repeat_idx % 2 == 0
+                            else ("restart", "continuation")
+                        )
                         continuation_rows = None
                         continuation_bundle_wallclock_ms = 0.0
                         continuation_mode = "root_continuation"
@@ -528,16 +620,20 @@ def main() -> None:
                                     budgets,
                                 )
                             else:
-                                restart_rows, restart_bundle_wallclock_ms = run_restart_bundle_case(
-                                    harness,
-                                    checkpoint,
-                                    position,
-                                    system,
-                                    budgets,
+                                restart_rows, restart_bundle_wallclock_ms = (
+                                    run_restart_bundle_case(
+                                        harness,
+                                        checkpoint,
+                                        position,
+                                        system,
+                                        budgets,
+                                    )
                                 )
                         if not measure:
                             continue
-                        continuation_trace_ms = trace_bundle_acquire_ms(continuation_rows)
+                        continuation_trace_ms = trace_bundle_acquire_ms(
+                            continuation_rows
+                        )
                         restart_trace_ms = trace_bundle_acquire_ms(restart_rows)
                         bundle_runs.append(
                             {
@@ -545,10 +641,18 @@ def main() -> None:
                                 "position_id": str(position["id"]),
                                 "system": system.id,
                                 "repeat": int(repeat_idx - int(args.warmup_rounds) + 1),
-                                "continuation_bundle_wallclock_ms": float(continuation_bundle_wallclock_ms),
-                                "restart_bundle_wallclock_ms": float(restart_bundle_wallclock_ms),
-                                "continuation_bundle_trace_acquire_ms": float(continuation_trace_ms),
-                                "restart_bundle_trace_acquire_ms": float(restart_trace_ms),
+                                "continuation_bundle_wallclock_ms": float(
+                                    continuation_bundle_wallclock_ms
+                                ),
+                                "restart_bundle_wallclock_ms": float(
+                                    restart_bundle_wallclock_ms
+                                ),
+                                "continuation_bundle_trace_acquire_ms": float(
+                                    continuation_trace_ms
+                                ),
+                                "restart_bundle_trace_acquire_ms": float(
+                                    restart_trace_ms
+                                ),
                                 "continuation_bundle_overhead_ms": orchestration_overhead_ms(
                                     continuation_bundle_wallclock_ms,
                                     continuation_rows,
@@ -562,16 +666,20 @@ def main() -> None:
                             }
                         )
                         for budget in budgets:
-                            continuation_policy, continuation_meta, trace_budgets = evaluate_trace_rows(
-                                harness,
-                                position,
-                                system,
-                                budgets,
-                                int(budget),
-                                continuation_rows,
-                                continuation_mode=continuation_mode,
-                                bundle_wallclock_ms=float(continuation_bundle_wallclock_ms),
-                                fallback_reason=continuation_fallback_reason,
+                            continuation_policy, continuation_meta, trace_budgets = (
+                                evaluate_trace_rows(
+                                    harness,
+                                    position,
+                                    system,
+                                    budgets,
+                                    int(budget),
+                                    continuation_rows,
+                                    continuation_mode=continuation_mode,
+                                    bundle_wallclock_ms=float(
+                                        continuation_bundle_wallclock_ms
+                                    ),
+                                    fallback_reason=continuation_fallback_reason,
+                                )
                             )
                             restart_policy, restart_meta, _ = evaluate_trace_rows(
                                 harness,
@@ -595,13 +703,23 @@ def main() -> None:
                                     "system": system.id,
                                     "budget": int(budget),
                                     "trace_budgets": [int(x) for x in trace_budgets],
-                                    "repeat": int(repeat_idx - int(args.warmup_rounds) + 1),
+                                    "repeat": int(
+                                        repeat_idx - int(args.warmup_rounds) + 1
+                                    ),
                                     "continuation_mode": str(continuation_mode),
                                     "continuation_fallback_reason": continuation_fallback_reason,
-                                    "continuation_bundle_wallclock_ms": float(continuation_bundle_wallclock_ms),
-                                    "restart_bundle_wallclock_ms": float(restart_bundle_wallclock_ms),
-                                    "continuation_bundle_trace_acquire_ms": float(continuation_trace_ms),
-                                    "restart_bundle_trace_acquire_ms": float(restart_trace_ms),
+                                    "continuation_bundle_wallclock_ms": float(
+                                        continuation_bundle_wallclock_ms
+                                    ),
+                                    "restart_bundle_wallclock_ms": float(
+                                        restart_bundle_wallclock_ms
+                                    ),
+                                    "continuation_bundle_trace_acquire_ms": float(
+                                        continuation_trace_ms
+                                    ),
+                                    "restart_bundle_trace_acquire_ms": float(
+                                        restart_trace_ms
+                                    ),
                                     "continuation_bundle_overhead_ms": orchestration_overhead_ms(
                                         continuation_bundle_wallclock_ms,
                                         continuation_rows,
@@ -610,36 +728,68 @@ def main() -> None:
                                         restart_bundle_wallclock_ms,
                                         restart_rows,
                                     ),
-                                    "continuation_wallclock_ms": float(continuation_meta["wallclock_ms"]),
-                                    "restart_wallclock_ms": float(restart_meta["wallclock_ms"]),
-                                    "continuation_effective_runtime_ms": float(
-                                        continuation_meta.get("effective_runtime_ms", 0.0)
+                                    "continuation_wallclock_ms": float(
+                                        continuation_meta["wallclock_ms"]
                                     ),
-                                    "restart_effective_runtime_ms": float(restart_meta.get("effective_runtime_ms", 0.0)),
+                                    "restart_wallclock_ms": float(
+                                        restart_meta["wallclock_ms"]
+                                    ),
+                                    "continuation_effective_runtime_ms": float(
+                                        continuation_meta.get(
+                                            "effective_runtime_ms", 0.0
+                                        )
+                                    ),
+                                    "restart_effective_runtime_ms": float(
+                                        restart_meta.get("effective_runtime_ms", 0.0)
+                                    ),
                                     "continuation_trace_acquire_ms": float(
                                         continuation_meta.get("trace_acquire_ms", 0.0)
                                     ),
-                                    "restart_trace_acquire_ms": float(restart_meta.get("trace_acquire_ms", 0.0)),
-                                    "continuation_readout_ms": float(continuation_meta.get("readout_ms", 0.0)),
-                                    "restart_readout_ms": float(restart_meta.get("readout_ms", 0.0)),
-                                    "continuation_argmax": int(posthoc.policy_argmax(continuation_policy)),
-                                    "restart_argmax": int(posthoc.policy_argmax(restart_policy)),
+                                    "restart_trace_acquire_ms": float(
+                                        restart_meta.get("trace_acquire_ms", 0.0)
+                                    ),
+                                    "continuation_readout_ms": float(
+                                        continuation_meta.get("readout_ms", 0.0)
+                                    ),
+                                    "restart_readout_ms": float(
+                                        restart_meta.get("readout_ms", 0.0)
+                                    ),
+                                    "continuation_argmax": int(
+                                        posthoc.policy_argmax(continuation_policy)
+                                    ),
+                                    "restart_argmax": int(
+                                        posthoc.policy_argmax(restart_policy)
+                                    ),
                                     "argmax_match": int(
                                         posthoc.policy_argmax(continuation_policy)
                                         == posthoc.policy_argmax(restart_policy)
                                     ),
-                                    "tie_aware_match": int(bool(continuation_ties & restart_ties)),
-                                    "ambiguous_top1_case": int(max(continuation_margin, restart_margin) <= 1e-6),
-                                    "continuation_top1_margin": float(continuation_margin),
+                                    "tie_aware_match": int(
+                                        bool(continuation_ties & restart_ties)
+                                    ),
+                                    "ambiguous_top1_case": int(
+                                        max(continuation_margin, restart_margin) <= 1e-6
+                                    ),
+                                    "continuation_top1_margin": float(
+                                        continuation_margin
+                                    ),
                                     "restart_top1_margin": float(restart_margin),
                                     "policy_l1_restart_vs_continuation": float(
-                                        np.abs(restart_policy - continuation_policy).sum()
+                                        np.abs(
+                                            restart_policy - continuation_policy
+                                        ).sum()
                                     ),
                                     "policy_kl_restart_vs_continuation": float(
-                                        posthoc.kl_divergence(restart_policy, continuation_policy)
+                                        posthoc.kl_divergence(
+                                            restart_policy, continuation_policy
+                                        )
                                     ),
-                                    "continuation_decision_notes": list(continuation_meta.get("decision_notes", [])),
-                                    "restart_decision_notes": list(restart_meta.get("decision_notes", [])),
+                                    "continuation_decision_notes": list(
+                                        continuation_meta.get("decision_notes", [])
+                                    ),
+                                    "restart_decision_notes": list(
+                                        restart_meta.get("decision_notes", [])
+                                    ),
                                 }
                             )
         finally:
@@ -672,10 +822,18 @@ def main() -> None:
         "bundle_summary": bundle_summary,
         "gate": gate,
     }
-    posthoc.jsonl_dump(base_dir / "phase15_continuation_benchmark_rows.jsonl", benchmark_rows)
+    posthoc.jsonl_dump(
+        base_dir / "phase15_continuation_benchmark_rows.jsonl", benchmark_rows
+    )
     posthoc.json_dump(base_dir / "phase15_continuation_benchmark_summary.json", payload)
     print(json.dumps(payload["summary"], indent=2), flush=True)
-    print(json.dumps({"bundle_summary": payload["bundle_summary"], "gate": payload["gate"]}, indent=2), flush=True)
+    print(
+        json.dumps(
+            {"bundle_summary": payload["bundle_summary"], "gate": payload["gate"]},
+            indent=2,
+        ),
+        flush=True,
+    )
     if args.enforce_gate and not bool(gate["passed"]):
         raise SystemExit(2)
 

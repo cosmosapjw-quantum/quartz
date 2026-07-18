@@ -79,8 +79,11 @@ def test_diffuse_spreading_policy_top1_delta_not_monotone_but_argmax_preserved()
     # at every step, and the high-budget endpoint magnitude is below the
     # low-budget one (net decrease) — NOT strict monotonicity.
     steps = [
-        (8, np.array([0.40, 0.30, 0.30, 0.0, 0.0, 0.0])),   # concentrated, small support
-        (16, np.array([0.22, 0.20, 0.20, 0.20, 0.18, 0.0])),  # spreads -> top1_delta can grow
+        (8, np.array([0.40, 0.30, 0.30, 0.0, 0.0, 0.0])),  # concentrated, small support
+        (
+            16,
+            np.array([0.22, 0.20, 0.20, 0.20, 0.18, 0.0]),
+        ),  # spreads -> top1_delta can grow
         (64, np.array([0.30, 0.18, 0.16, 0.14, 0.12, 0.10])),  # wider support, larger N
     ]
     mags = []
@@ -184,6 +187,10 @@ def test_readout_reachable_through_apply_system_readout_dispatch():
 def test_params_override_curvature_and_floor():
     prior = np.array([0.5, 0.5])
     trace_policies = [np.array([0.9, 0.08, 0.02])]
-    _, meta_hi = apply_one_loop_readout(prior, trace_policies, [32], {"one_loop_curvature": 3.0})
-    _, meta_lo = apply_one_loop_readout(prior, trace_policies, [32], {"one_loop_curvature": 0.2})
+    _, meta_hi = apply_one_loop_readout(
+        prior, trace_policies, [32], {"one_loop_curvature": 3.0}
+    )
+    _, meta_lo = apply_one_loop_readout(
+        prior, trace_policies, [32], {"one_loop_curvature": 0.2}
+    )
     assert meta_hi["one_loop_effect_kl"] > meta_lo["one_loop_effect_kl"]

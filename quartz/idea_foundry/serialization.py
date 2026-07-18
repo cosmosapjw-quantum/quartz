@@ -259,12 +259,8 @@ def cost_vector_from_payload(payload: Mapping[str, Any]) -> CostVector:
         nn_evals=_nonnegative(
             _required_member(row, "nn_evals", "cost"), "cost.nn_evals"
         ),
-        cpu_ms=_nonnegative(
-            _required_member(row, "cpu_ms", "cost"), "cost.cpu_ms"
-        ),
-        gpu_ms=_nonnegative(
-            _required_member(row, "gpu_ms", "cost"), "cost.gpu_ms"
-        ),
+        cpu_ms=_nonnegative(_required_member(row, "cpu_ms", "cost"), "cost.cpu_ms"),
+        gpu_ms=_nonnegative(_required_member(row, "gpu_ms", "cost"), "cost.gpu_ms"),
         energy_proxy=_nonnegative(
             _required_member(row, "energy_proxy", "cost"),
             "cost.energy_proxy",
@@ -334,9 +330,7 @@ def _edge_from_payload(payload: Mapping[str, Any]) -> EdgeObservation:
         prior_anchor=_finite(row["prior_anchor"], "edge.prior_anchor"),
         prior_current=_finite(row["prior_current"], "edge.prior_current"),
         visits=_wire_uint(row["visits"], "edge.visits", 32),
-        virtual_visits=_wire_uint(
-            row["virtual_visits"], "edge.virtual_visits", 32
-        ),
+        virtual_visits=_wire_uint(row["virtual_visits"], "edge.virtual_visits", 32),
         pending=_wire_uint(row["pending"], "edge.pending", 32),
         q_mean=_finite(row["q_mean"], "edge.q_mean"),
         q_sum=_finite(row["q_sum"], "edge.q_sum"),
@@ -395,9 +389,7 @@ def _edge_to_payload_unchecked(edge: EdgeObservation) -> dict[str, Any]:
         "m2": _finite(edge.m2, "edge.m2"),
         "last_value": _finite(edge.last_value, "edge.last_value"),
         "mc_radius": _finite(edge.mc_radius, "edge.mc_radius"),
-        "epistemic_radius": _finite(
-            edge.epistemic_radius, "edge.epistemic_radius"
-        ),
+        "epistemic_radius": _finite(edge.epistemic_radius, "edge.epistemic_radius"),
         "drift_radius": _finite(edge.drift_radius, "edge.drift_radius"),
         "bias_radius": _finite(edge.bias_radius, "edge.bias_radius"),
         "lower": _finite(edge.lower, "edge.lower"),
@@ -413,9 +405,7 @@ def _runtime_to_payload(runtime: RuntimeObservation) -> dict[str, Any]:
         "batch_size": runtime.batch_size,
         "inflight": runtime.inflight,
         "queue_wait_ms": _finite(runtime.queue_wait_ms, "runtime.queue_wait_ms"),
-        "eval_latency_ms": _finite(
-            runtime.eval_latency_ms, "runtime.eval_latency_ms"
-        ),
+        "eval_latency_ms": _finite(runtime.eval_latency_ms, "runtime.eval_latency_ms"),
         "nps": _finite(runtime.nps, "runtime.nps"),
         "edge_duplicate_rate": _finite(
             runtime.edge_duplicate_rate, "runtime.edge_duplicate_rate"
@@ -452,9 +442,7 @@ def _runtime_from_payload(payload: Mapping[str, Any]) -> RuntimeObservation:
             _required_member(row, "eval_latency_ms", "runtime"),
             "runtime.eval_latency_ms",
         ),
-        nps=_finite(
-            _required_member(row, "nps", "runtime"), "runtime.nps"
-        ),
+        nps=_finite(_required_member(row, "nps", "runtime"), "runtime.nps"),
         edge_duplicate_rate=_finite(
             _required_member(row, "edge_duplicate_rate", "runtime"),
             "runtime.edge_duplicate_rate",
@@ -515,15 +503,9 @@ def foundry_root_extras_to_payload(extras: FoundryRootExtras) -> dict[str, Any]:
         "effective_branching": _finite(
             extras.effective_branching, "foundry_extras.effective_branching"
         ),
-        "top2_margin": _finite(
-            extras.top2_margin, "foundry_extras.top2_margin"
-        ),
-        "margin_slope": _finite(
-            extras.margin_slope, "foundry_extras.margin_slope"
-        ),
-        "entropy_slope": _finite(
-            extras.entropy_slope, "foundry_extras.entropy_slope"
-        ),
+        "top2_margin": _finite(extras.top2_margin, "foundry_extras.top2_margin"),
+        "margin_slope": _finite(extras.margin_slope, "foundry_extras.margin_slope"),
+        "entropy_slope": _finite(extras.entropy_slope, "foundry_extras.entropy_slope"),
         "h1_stability": (
             None
             if extras.h1_stability is None
@@ -639,7 +621,9 @@ def validate_root_observation(observation: RootObservation) -> None:
     for edge in observation.edges:
         _validate_edge_observation(edge)
         if edge.edge_pos >= observation.n_children:
-            raise ContractValidationError("edge.edge_pos must be less than root.n_children")
+            raise ContractValidationError(
+                "edge.edge_pos must be less than root.n_children"
+            )
     fresh = observation.freshness_identity()
     validate_freshness_identity(fresh)
     if (
@@ -648,7 +632,9 @@ def validate_root_observation(observation: RootObservation) -> None:
         or fresh.root_visits != observation.root_visits
         or fresh.iteration != observation.iteration
     ):
-        raise ContractValidationError("freshness identity disagrees with root observation")
+        raise ContractValidationError(
+            "freshness identity disagrees with root observation"
+        )
 
 
 def root_observation_to_payload(observation: RootObservation) -> dict[str, Any]:
@@ -701,9 +687,7 @@ def root_observation_to_payload(observation: RootObservation) -> dict[str, Any]:
 
 def root_observation_from_payload(payload: Mapping[str, Any]) -> RootObservation:
     top = _mapping(payload, "root payload")
-    schema_version = _wire_uint(
-        top.get("schema_version"), "root.schema_version", 16
-    )
+    schema_version = _wire_uint(top.get("schema_version"), "root.schema_version", 16)
     if schema_version != FOUNDRY_CONTRACT_SCHEMA_VERSION:
         raise ContractValidationError("unsupported root observation schema_version")
     if top.get("kind") != "root_observation":
@@ -740,17 +724,13 @@ def root_observation_from_payload(payload: Mapping[str, Any]) -> RootObservation
             else _finite(row["h1_stability"], "root.h1_stability")
         ),
         p_flip=(
-            None
-            if row.get("p_flip") is None
-            else _finite(row["p_flip"], "root.p_flip")
+            None if row.get("p_flip") is None else _finite(row["p_flip"], "root.p_flip")
         ),
         prior_visit_js=_finite(row["prior_visit_js"], "root.prior_visit_js"),
         candidate_omission_bound=_finite(
             row["candidate_omission_bound"], "root.candidate_omission_bound"
         ),
-        revision_count=_wire_uint(
-            row["revision_count"], "root.revision_count", 16
-        ),
+        revision_count=_wire_uint(row["revision_count"], "root.revision_count", 16),
         edges=tuple(_edge_from_payload(item) for item in row["edges"]),
         runtime=runtime,
         extras=dict(_mapping(row.get("extras", {}), "extras")),
@@ -768,9 +748,7 @@ def _action_to_payload(action: MetaAction) -> dict[str, Any]:
         "secondary": action.secondary,
         "amount": action.amount,
         "value": (
-            None
-            if action.value is None
-            else _finite(action.value, "action.value")
+            None if action.value is None else _finite(action.value, "action.value")
         ),
         "label": action.label,
     }
@@ -800,7 +778,9 @@ def _action_from_payload(payload: Mapping[str, Any]) -> MetaAction:
 def validate_meta_action(action: MetaAction) -> None:
     """Mirror Rust MetaActionWire widths and per-kind canonical fields."""
 
-    if not isinstance(action, MetaAction) or not isinstance(action.kind, MetaActionKind):
+    if not isinstance(action, MetaAction) or not isinstance(
+        action.kind, MetaActionKind
+    ):
         raise ContractValidationError("action must have a known MetaActionKind")
     rules = _ACTION_FIELD_RULES[action.kind]
 
@@ -915,15 +895,11 @@ def proposal_from_payload(payload: Mapping[str, Any]) -> MetaProposal:
         action=_action_from_payload(_mapping(row.get("action"), "action")),
         estimate=ProposalEstimate(
             regret_reduction_mean=_finite(
-                _required_member(
-                    estimate_row, "regret_reduction_mean", "estimate"
-                ),
+                _required_member(estimate_row, "regret_reduction_mean", "estimate"),
                 "estimate.regret_reduction_mean",
             ),
             regret_reduction_lcb=_finite(
-                _required_member(
-                    estimate_row, "regret_reduction_lcb", "estimate"
-                ),
+                _required_member(estimate_row, "regret_reduction_lcb", "estimate"),
                 "estimate.regret_reduction_lcb",
             ),
             confidence=_finite(

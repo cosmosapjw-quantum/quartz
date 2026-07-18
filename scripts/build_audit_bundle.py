@@ -133,7 +133,9 @@ def write_manifest(stage_root: Path, bundle_name: str) -> None:
             "",
         ]
     )
-    (stage_root / "AUDIT_PACKAGE_MANIFEST.txt").write_text(manifest_text, encoding="utf-8")
+    (stage_root / "AUDIT_PACKAGE_MANIFEST.txt").write_text(
+        manifest_text, encoding="utf-8"
+    )
     (stage_root / "FILELIST.txt").write_text("\n".join(files) + "\n", encoding="utf-8")
 
 
@@ -162,7 +164,9 @@ def parse_args() -> argparse.Namespace:
     default_name = f"quartz_external_audit_minimal_{today}"
     parser = argparse.ArgumentParser(description="Build the external audit zip bundle.")
     parser.add_argument("--name", default=default_name)
-    parser.add_argument("--stage-dir", default=None, help="Optional explicit staging directory")
+    parser.add_argument(
+        "--stage-dir", default=None, help="Optional explicit staging directory"
+    )
     parser.add_argument("--output", default=None, help="Optional explicit zip path")
     return parser.parse_args()
 
@@ -171,7 +175,11 @@ def main() -> None:
     args = parse_args()
     repo_root = Path(__file__).resolve().parents[1]
     stage_root = Path(args.stage_dir) if args.stage_dir else Path("/tmp") / args.name
-    zip_path = Path(args.output) if args.output else repo_root / "artifacts" / f"{args.name}.zip"
+    zip_path = (
+        Path(args.output)
+        if args.output
+        else repo_root / "artifacts" / f"{args.name}.zip"
+    )
     build_bundle(repo_root, stage_root)
     zip_stage(stage_root, zip_path)
     print(f"Stage: {stage_root}")

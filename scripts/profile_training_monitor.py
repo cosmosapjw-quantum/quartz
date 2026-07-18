@@ -144,9 +144,13 @@ def summarize_existing_artifacts(model_dir: Path) -> dict[str, Any]:
             "overrides": autotune.get("overrides", {}),
             "selfplay_candidates": len(selfplay),
             "selfplay_error_count": sum(1 for row in selfplay if "error" in row),
-            "selfplay_errors": sorted({row.get("error") for row in selfplay if "error" in row}),
+            "selfplay_errors": sorted(
+                {row.get("error") for row in selfplay if "error" in row}
+            ),
             "train_batches": [row.get("batch") for row in train],
-            "best_train_examples_per_s": max((row.get("examples_per_s", 0.0) for row in train), default=0.0),
+            "best_train_examples_per_s": max(
+                (row.get("examples_per_s", 0.0) for row in train), default=0.0
+            ),
         }
 
     iter_rows = [row for row in train_log if row.get("_type") != "eval"]
@@ -173,7 +177,9 @@ def summarize_rust_qipc(profile_jsonl: Path) -> dict[str, Any]:
         "rows": len(rows),
         "single_rows": 0,
         "batch_rows": 0,
-        "transport_kinds": sorted({row.get("transport") for row in rows if row.get("transport")}),
+        "transport_kinds": sorted(
+            {row.get("transport") for row in rows if row.get("transport")}
+        ),
         "single_calls": 0,
         "batch_requests": 0,
         "io_time_s": 0.0,
@@ -199,33 +205,51 @@ def summarize_rust_qipc(profile_jsonl: Path) -> dict[str, Any]:
         if kind == "single":
             out["single_rows"] += 1
             out["single_calls"] += int(row.get("calls", 0) or 0)
-            out["io_time_s"] += float(row.get("write_s", 0.0) or 0.0) + float(row.get("read_s", 0.0) or 0.0)
-            out["codec_time_s"] += float(row.get("encode_s", 0.0) or 0.0) + float(row.get("decode_s", 0.0) or 0.0)
+            out["io_time_s"] += float(row.get("write_s", 0.0) or 0.0) + float(
+                row.get("read_s", 0.0) or 0.0
+            )
+            out["codec_time_s"] += float(row.get("encode_s", 0.0) or 0.0) + float(
+                row.get("decode_s", 0.0) or 0.0
+            )
         elif kind == "batch":
             reqs = int(row.get("requests", 0) or 0)
             mean_batch = float(row.get("mean_batch", 0.0) or 0.0)
             out["batch_rows"] += 1
             out["batch_requests"] += reqs
-            out["io_time_s"] += float(row.get("write_s", 0.0) or 0.0) + float(row.get("read_s", 0.0) or 0.0)
-            out["codec_time_s"] += float(row.get("encode_s", 0.0) or 0.0) + float(row.get("decode_s", 0.0) or 0.0)
+            out["io_time_s"] += float(row.get("write_s", 0.0) or 0.0) + float(
+                row.get("read_s", 0.0) or 0.0
+            )
+            out["codec_time_s"] += float(row.get("encode_s", 0.0) or 0.0) + float(
+                row.get("decode_s", 0.0) or 0.0
+            )
             batch_requests += reqs
             batch_weight_sum += reqs * mean_batch
-            out["max_queue_depth"] = max(out["max_queue_depth"], int(row.get("max_queue_depth", 0) or 0))
+            out["max_queue_depth"] = max(
+                out["max_queue_depth"], int(row.get("max_queue_depth", 0) or 0)
+            )
             out["max_active_waiters"] = max(
                 out["max_active_waiters"], int(row.get("max_active_waiters", 0) or 0)
             )
             out["queue_wait_s"] += float(row.get("queue_wait_s", 0.0) or 0.0)
             out["result_wait_s"] += float(row.get("result_wait_s", 0.0) or 0.0)
             out["singleton_batches"] += int(row.get("singleton_batches", 0) or 0)
-            out["low_concurrency_flushes"] += int(row.get("low_concurrency_flushes", 0) or 0)
-            for key in ("adaptive_timeout_min_us", "adaptive_timeout_max_us", "adaptive_timeout_last_us"):
+            out["low_concurrency_flushes"] += int(
+                row.get("low_concurrency_flushes", 0) or 0
+            )
+            for key in (
+                "adaptive_timeout_min_us",
+                "adaptive_timeout_max_us",
+                "adaptive_timeout_last_us",
+            ):
                 value = row.get(key)
                 if value is not None:
                     out[key] = float(value)
             flush_counts = row.get("flush_reason_counts") or {}
             if isinstance(flush_counts, dict):
                 for key, value in flush_counts.items():
-                    out["flush_reason_counts"][str(key)] = out["flush_reason_counts"].get(str(key), 0) + int(value or 0)
+                    out["flush_reason_counts"][str(key)] = out[
+                        "flush_reason_counts"
+                    ].get(str(key), 0) + int(value or 0)
     if batch_requests > 0:
         out["mean_batch_weighted"] = batch_weight_sum / batch_requests
     out["io_time_s"] = round(out["io_time_s"], 6)
@@ -289,16 +313,20 @@ def summarize_rust_server_trace(path: Path) -> dict[str, Any]:
         out["events"][event] = out["events"].get(event, 0) + 1
         broker = row.get("broker")
         if isinstance(broker, dict):
-            out["max_queue_depth"] = max(out["max_queue_depth"], int(broker.get("max_queue_depth", 0) or 0))
+            out["max_queue_depth"] = max(
+                out["max_queue_depth"], int(broker.get("max_queue_depth", 0) or 0)
+            )
             out["max_active_waiters"] = max(
                 out["max_active_waiters"], int(broker.get("max_active_waiters", 0) or 0)
             )
             # GlobalBroker health: accumulate wait times and flush reasons
             out["broker_queue_wait_s"] = max(
-                out["broker_queue_wait_s"], float(broker.get("queue_wait_s", 0.0) or 0.0)
+                out["broker_queue_wait_s"],
+                float(broker.get("queue_wait_s", 0.0) or 0.0),
             )
             out["broker_result_wait_s"] = max(
-                out["broker_result_wait_s"], float(broker.get("result_wait_s", 0.0) or 0.0)
+                out["broker_result_wait_s"],
+                float(broker.get("result_wait_s", 0.0) or 0.0),
             )
             flush = broker.get("flush_reason_counts") or {}
             if isinstance(flush, dict):
@@ -306,27 +334,35 @@ def summarize_rust_server_trace(path: Path) -> dict[str, Any]:
                     out["broker_flush_fallback"], int(flush.get("fallback", 0) or 0)
                 )
                 out["broker_flush_target_batch"] = max(
-                    out["broker_flush_target_batch"], int(flush.get("target_batch_reached", 0) or 0)
+                    out["broker_flush_target_batch"],
+                    int(flush.get("target_batch_reached", 0) or 0),
                 )
                 out["broker_flush_timeout"] = max(
-                    out["broker_flush_timeout"], int(flush.get("max_wait_reached", 0) or 0)
+                    out["broker_flush_timeout"],
+                    int(flush.get("max_wait_reached", 0) or 0),
                 )
                 out["broker_flush_low_concurrency"] = max(
-                    out["broker_flush_low_concurrency"], int(flush.get("low_concurrency", 0) or 0)
+                    out["broker_flush_low_concurrency"],
+                    int(flush.get("low_concurrency", 0) or 0),
                 )
         if event == "batch_broker_snapshot":
             out["broker_snapshots"] += 1
         runner_mode = row.get("runner_mode")
         if runner_mode:
             mode_key = str(runner_mode)
-            out["runner_mode_counts"][mode_key] = out["runner_mode_counts"].get(mode_key, 0) + 1
-        out["max_queue_depth"] = max(out["max_queue_depth"], int(row.get("max_queue_depth", 0) or 0))
+            out["runner_mode_counts"][mode_key] = (
+                out["runner_mode_counts"].get(mode_key, 0) + 1
+            )
+        out["max_queue_depth"] = max(
+            out["max_queue_depth"], int(row.get("max_queue_depth", 0) or 0)
+        )
         out["max_active_waiters"] = max(
             out["max_active_waiters"], int(row.get("max_active_waiters", 0) or 0)
         )
         try:
             out["max_tt_lock_wait_ms"] = max(
-                out["max_tt_lock_wait_ms"], float(row.get("tt_max_lock_wait_ms", 0.0) or 0.0)
+                out["max_tt_lock_wait_ms"],
+                float(row.get("tt_max_lock_wait_ms", 0.0) or 0.0),
             )
         except (TypeError, ValueError):
             pass
@@ -334,16 +370,25 @@ def summarize_rust_server_trace(path: Path) -> dict[str, Any]:
             out["tt_lock_wait_ms_sum"] += float(row.get("tt_lock_wait_ms", 0.0) or 0.0)
         except (TypeError, ValueError):
             pass
-        out["tt_get_or_create_calls_sum"] += int(row.get("tt_get_or_create_calls", 0) or 0)
+        out["tt_get_or_create_calls_sum"] += int(
+            row.get("tt_get_or_create_calls", 0) or 0
+        )
         out["tt_get_calls_sum"] += int(row.get("tt_get_calls", 0) or 0)
         out["iterate_calls_sum"] += int(row.get("iterate_calls", 0) or 0)
         try:
             out["select_time_ms_sum"] += float(row.get("select_time_ms", 0.0) or 0.0)
-            out["expand_eval_time_ms_sum"] += float(row.get("expand_eval_time_ms", 0.0) or 0.0)
-            out["backprop_time_ms_sum"] += float(row.get("backprop_time_ms", 0.0) or 0.0)
-            out["edges_lock_wait_ms_sum"] += float(row.get("edges_lock_wait_ms", 0.0) or 0.0)
+            out["expand_eval_time_ms_sum"] += float(
+                row.get("expand_eval_time_ms", 0.0) or 0.0
+            )
+            out["backprop_time_ms_sum"] += float(
+                row.get("backprop_time_ms", 0.0) or 0.0
+            )
+            out["edges_lock_wait_ms_sum"] += float(
+                row.get("edges_lock_wait_ms", 0.0) or 0.0
+            )
             out["edges_lock_max_wait_ms"] = max(
-                out["edges_lock_max_wait_ms"], float(row.get("edges_lock_max_wait_ms", 0.0) or 0.0)
+                out["edges_lock_max_wait_ms"],
+                float(row.get("edges_lock_max_wait_ms", 0.0) or 0.0),
             )
         except (TypeError, ValueError):
             pass
@@ -354,50 +399,70 @@ def summarize_rust_server_trace(path: Path) -> dict[str, Any]:
             out["async_batch_jobs_sum"] += jobs
             out["async_batch_max_jobs"] = max(out["async_batch_max_jobs"], jobs)
             out["async_batch_max_inflight_per_job"] = max(
-                out["async_batch_max_inflight_per_job"], int(row.get("max_inflight_per_job", 0) or 0)
+                out["async_batch_max_inflight_per_job"],
+                int(row.get("max_inflight_per_job", 0) or 0),
             )
         elif event == "run_multi_async_batch_done":
             # Support both old (null_results) and new (null_inactive_slot + null_result_miss) formats
             out["async_batch_null_results_sum"] += int(row.get("null_results", 0) or 0)
-            out["async_batch_null_inactive_slot_sum"] += int(row.get("null_inactive_slot", 0) or 0)
-            out["async_batch_null_result_miss_sum"] += int(row.get("null_result_miss", 0) or 0)
+            out["async_batch_null_inactive_slot_sum"] += int(
+                row.get("null_inactive_slot", 0) or 0
+            )
+            out["async_batch_null_result_miss_sum"] += int(
+                row.get("null_result_miss", 0) or 0
+            )
             # Credit system metrics (from PR 2/4)
             if row.get("credit_capacity") is not None:
                 out["credit_capacity"] = max(
-                    int(out.get("credit_capacity") or 0), int(row.get("credit_capacity", 0) or 0)
+                    int(out.get("credit_capacity") or 0),
+                    int(row.get("credit_capacity", 0) or 0),
                 )
             if row.get("peak_inflight") is not None:
                 out["peak_inflight"] = max(
-                    int(out.get("peak_inflight") or 0), int(row.get("peak_inflight", 0) or 0)
+                    int(out.get("peak_inflight") or 0),
+                    int(row.get("peak_inflight", 0) or 0),
                 )
             if row.get("worker_threads") is not None:
                 out["max_worker_threads"] = max(
-                    int(out.get("max_worker_threads") or 0), int(row.get("worker_threads", 0) or 0)
+                    int(out.get("max_worker_threads") or 0),
+                    int(row.get("worker_threads", 0) or 0),
                 )
         elif event == "selfplay_runner_done":
             dur = float(row.get("duration_ms", 0.0) or 0.0)
             out["selfplay_runner_done_count"] += 1
             out["selfplay_runner_done_duration_ms_sum"] += dur
-            out["selfplay_runner_done_duration_ms_max"] = max(out["selfplay_runner_done_duration_ms_max"], dur)
+            out["selfplay_runner_done_duration_ms_max"] = max(
+                out["selfplay_runner_done_duration_ms_max"], dur
+            )
         elif event == "eval_runner_done":
             dur = float(row.get("duration_ms", 0.0) or 0.0)
             out["eval_runner_done_count"] += 1
             out["eval_runner_done_duration_ms_sum"] += dur
-            out["eval_runner_done_duration_ms_max"] = max(out["eval_runner_done_duration_ms_max"], dur)
+            out["eval_runner_done_duration_ms_max"] = max(
+                out["eval_runner_done_duration_ms_max"], dur
+            )
         elif event == "eval_runner_wave":
             active_games = int(row.get("active_games", 0) or 0)
             out["eval_runner_wave_count"] += 1
             out["eval_runner_active_games_sum"] += active_games
-            out["eval_runner_active_games_max"] = max(out["eval_runner_active_games_max"], active_games)
+            out["eval_runner_active_games_max"] = max(
+                out["eval_runner_active_games_max"], active_games
+            )
             out["eval_runner_share_ms_sum"] += float(row.get("share_ms", 0.0) or 0.0)
-            out["eval_runner_batch_elapsed_ms_sum"] += float(row.get("batch_elapsed_ms", 0.0) or 0.0)
+            out["eval_runner_batch_elapsed_ms_sum"] += float(
+                row.get("batch_elapsed_ms", 0.0) or 0.0
+            )
         elif event == "worker_done":
-            out["worker_done_events"].append({
-                "worker_id": int(row.get("worker_id", -1)),
-                "jobs_count": int(row.get("jobs_count", 0) or 0),
-                "iterations_completed": int(row.get("iterations_completed", 0) or 0),
-                "idle_spins": int(row.get("idle_spins", 0) or 0),
-            })
+            out["worker_done_events"].append(
+                {
+                    "worker_id": int(row.get("worker_id", -1)),
+                    "jobs_count": int(row.get("jobs_count", 0) or 0),
+                    "iterations_completed": int(
+                        row.get("iterations_completed", 0) or 0
+                    ),
+                    "idle_spins": int(row.get("idle_spins", 0) or 0),
+                }
+            )
     return out
 
 
@@ -509,7 +574,11 @@ def summarize_phase_samples(path: Path) -> dict[str, Any]:
         phase = str(row.get("phase", "unknown"))
         phase_buckets.setdefault(phase, []).append(row)
     for phase, samples in phase_buckets.items():
-        cpu_vals = [float(s.get("cpu_percent_total") or 0.0) for s in samples if s.get("cpu_percent_total") is not None]
+        cpu_vals = [
+            float(s.get("cpu_percent_total") or 0.0)
+            for s in samples
+            if s.get("cpu_percent_total") is not None
+        ]
         proc_tree_rows = [s.get("proc_tree") or {} for s in samples]
         cpu_thr_vals = [
             float(pt.get("cpu_equiv_threads") or 0.0)
@@ -519,7 +588,10 @@ def summarize_phase_samples(path: Path) -> dict[str, Any]:
         native_vals = [
             float(pt.get("native_threads") or pt.get("total_threads") or 0.0)
             for pt in proc_tree_rows
-            if (pt.get("native_threads") is not None or pt.get("total_threads") is not None)
+            if (
+                pt.get("native_threads") is not None
+                or pt.get("total_threads") is not None
+            )
         ]
         gpu_vals = []
         for s in samples:
@@ -566,9 +638,15 @@ def summarize_runner_progress(path: Path) -> dict[str, Any]:
         if event == "selfplay_runner_wave":
             out["selfplay_wave_count"] += 1
             out["selfplay_completed_games"] += int(row.get("newly_completed", 0) or 0)
-            out["selfplay_positions_emitted"] += int(row.get("wave_positions_emitted", 0) or 0)
-            out["selfplay_replenished_slots"] += int(row.get("replenished_slots", 0) or 0)
-            out["selfplay_wave_elapsed_ms_sum"] += float(row.get("batch_elapsed_ms", 0.0) or 0.0)
+            out["selfplay_positions_emitted"] += int(
+                row.get("wave_positions_emitted", 0) or 0
+            )
+            out["selfplay_replenished_slots"] += int(
+                row.get("replenished_slots", 0) or 0
+            )
+            out["selfplay_wave_elapsed_ms_sum"] += float(
+                row.get("batch_elapsed_ms", 0.0) or 0.0
+            )
             out["selfplay_frontier_slots_sum"] += int(row.get("frontier_slots", 0) or 0)
             out["selfplay_active_games_sum"] += int(row.get("active_games", 0) or 0)
         elif event == "eval_runner_wave":
@@ -594,7 +672,9 @@ def build_bottleneck_report(
     mean_batch = float(rust_qipc_summary.get("mean_batch_weighted") or 0.0)
     tt_wait_ms = float(rust_server_trace_summary.get("tt_lock_wait_ms_sum") or 0.0)
     edge_wait_ms = float(rust_server_trace_summary.get("edges_lock_wait_ms_sum") or 0.0)
-    expand_eval_ms = float(rust_server_trace_summary.get("expand_eval_time_ms_sum") or 0.0)
+    expand_eval_ms = float(
+        rust_server_trace_summary.get("expand_eval_time_ms_sum") or 0.0
+    )
     select_ms = float(rust_server_trace_summary.get("select_time_ms_sum") or 0.0)
     backprop_ms = float(rust_server_trace_summary.get("backprop_time_ms_sum") or 0.0)
     phases = phase_summary.get("phases") or {}
@@ -603,30 +683,62 @@ def build_bottleneck_report(
     training_wait_total_s = float(event_summary.get("training_wait_total_s") or 0.0)
     training_wait_count = int(event_summary.get("training_wait_count") or 0)
     selfplay_wave_count = int(runner_progress_summary.get("selfplay_wave_count") or 0)
-    selfplay_positions_emitted = int(runner_progress_summary.get("selfplay_positions_emitted") or 0)
+    selfplay_positions_emitted = int(
+        runner_progress_summary.get("selfplay_positions_emitted") or 0
+    )
     async_batch_runs = int(rust_server_trace_summary.get("async_batch_runs") or 0)
-    async_batch_jobs_sum = int(rust_server_trace_summary.get("async_batch_jobs_sum") or 0)
-    async_batch_null_results = int(rust_server_trace_summary.get("async_batch_null_results_sum") or 0)
-    async_batch_null_result_miss = int(rust_server_trace_summary.get("async_batch_null_result_miss_sum") or 0)
-    async_batch_null_inactive = int(rust_server_trace_summary.get("async_batch_null_inactive_slot_sum") or 0)
-    max_wait_reached = int((rust_qipc_summary.get("flush_reason_counts") or {}).get("max_wait_reached") or 0)
-    target_batch_reached = int((rust_qipc_summary.get("flush_reason_counts") or {}).get("target_batch_reached") or 0)
-    low_concurrency_flushes = int((rust_qipc_summary.get("flush_reason_counts") or {}).get("low_concurrency") or 0)
+    async_batch_jobs_sum = int(
+        rust_server_trace_summary.get("async_batch_jobs_sum") or 0
+    )
+    async_batch_null_results = int(
+        rust_server_trace_summary.get("async_batch_null_results_sum") or 0
+    )
+    async_batch_null_result_miss = int(
+        rust_server_trace_summary.get("async_batch_null_result_miss_sum") or 0
+    )
+    async_batch_null_inactive = int(
+        rust_server_trace_summary.get("async_batch_null_inactive_slot_sum") or 0
+    )
+    max_wait_reached = int(
+        (rust_qipc_summary.get("flush_reason_counts") or {}).get("max_wait_reached")
+        or 0
+    )
+    target_batch_reached = int(
+        (rust_qipc_summary.get("flush_reason_counts") or {}).get("target_batch_reached")
+        or 0
+    )
+    low_concurrency_flushes = int(
+        (rust_qipc_summary.get("flush_reason_counts") or {}).get("low_concurrency") or 0
+    )
     singleton_batches = int(rust_qipc_summary.get("singleton_batches") or 0)
     eval_wave_count = int(rust_server_trace_summary.get("eval_runner_wave_count") or 0)
-    eval_active_games_sum = int(rust_server_trace_summary.get("eval_runner_active_games_sum") or 0)
-    eval_active_games_max = int(rust_server_trace_summary.get("eval_runner_active_games_max") or 0)
-    eval_share_ms_sum = float(rust_server_trace_summary.get("eval_runner_share_ms_sum") or 0.0)
-    eval_batch_elapsed_ms_sum = float(rust_server_trace_summary.get("eval_runner_batch_elapsed_ms_sum") or 0.0)
+    eval_active_games_sum = int(
+        rust_server_trace_summary.get("eval_runner_active_games_sum") or 0
+    )
+    eval_active_games_max = int(
+        rust_server_trace_summary.get("eval_runner_active_games_max") or 0
+    )
+    eval_share_ms_sum = float(
+        rust_server_trace_summary.get("eval_runner_share_ms_sum") or 0.0
+    )
+    eval_batch_elapsed_ms_sum = float(
+        rust_server_trace_summary.get("eval_runner_batch_elapsed_ms_sum") or 0.0
+    )
     mean_eval_active_games = eval_active_games_sum / max(eval_wave_count, 1)
     batch_vs_active_ratio = mean_batch / max(mean_eval_active_games, 1e-9)
 
     # GlobalBroker health from rust_server_trace
-    broker_queue_wait_s = float(rust_server_trace_summary.get("broker_queue_wait_s") or 0.0)
-    broker_result_wait_s = float(rust_server_trace_summary.get("broker_result_wait_s") or 0.0)
+    broker_queue_wait_s = float(
+        rust_server_trace_summary.get("broker_queue_wait_s") or 0.0
+    )
+    broker_result_wait_s = float(
+        rust_server_trace_summary.get("broker_result_wait_s") or 0.0
+    )
     broker_fallback = int(rust_server_trace_summary.get("broker_flush_fallback") or 0)
     broker_snapshots = int(rust_server_trace_summary.get("broker_snapshots") or 0)
-    broker_low_concurrency = int(rust_server_trace_summary.get("broker_flush_low_concurrency") or 0)
+    broker_low_concurrency = int(
+        rust_server_trace_summary.get("broker_flush_low_concurrency") or 0
+    )
 
     # Promotion audit from event summary
     promotion_verdicts = event_summary.get("promotion_verdicts") or []
@@ -648,11 +760,17 @@ def build_bottleneck_report(
     # Filter to large-wave workers (>= 1000 iterations) to avoid mixing
     # selfplay waves (small, 2 jobs) with eval waves (large, 200 jobs).
     worker_events = rust_server_trace_summary.get("worker_done_events") or []
-    worker_completions = [w.get("iterations_completed", 0) for w in worker_events if w.get("iterations_completed", 0) > 0]
+    worker_completions = [
+        w.get("iterations_completed", 0)
+        for w in worker_events
+        if w.get("iterations_completed", 0) > 0
+    ]
     large_wave_completions = [c for c in worker_completions if c >= 1000]
     worker_imbalance_ratio = 1.0
     if len(large_wave_completions) >= 2:
-        worker_imbalance_ratio = max(large_wave_completions) / max(min(large_wave_completions), 1)
+        worker_imbalance_ratio = max(large_wave_completions) / max(
+            min(large_wave_completions), 1
+        )
         if worker_imbalance_ratio > 1.20:
             findings.append("worker_imbalance_high")
 
@@ -672,7 +790,9 @@ def build_bottleneck_report(
         findings.append("transport_wait_dominant")
     if mean_batch >= 8.0:
         findings.append("batch_fill_not_primary_issue")
-    if (eval_phase.get("cpu_thr_mean") or 0.0) <= 2.0 and (eval_phase.get("native_mean") or 0.0) >= 8.0:
+    if (eval_phase.get("cpu_thr_mean") or 0.0) <= 2.0 and (
+        eval_phase.get("native_mean") or 0.0
+    ) >= 8.0:
         findings.append("many_native_threads_low_effective_cpu")
     if tt_wait_ms < 50.0:
         findings.append("tt_lock_not_primary")
@@ -680,7 +800,10 @@ def build_bottleneck_report(
         findings.append("edge_lock_not_primary")
     if expand_eval_ms > max(select_ms + backprop_ms, 1.0):
         findings.append("expand_eval_phase_heaviest")
-    if int(event_summary.get("evaluation_progress_count") or 0) == 0 and int((event_summary.get("types") or {}).get("evaluation_start", 0) or 0) > 0:
+    if (
+        int(event_summary.get("evaluation_progress_count") or 0) == 0
+        and int((event_summary.get("types") or {}).get("evaluation_start", 0) or 0) > 0
+    ):
         findings.append("evaluation_progress_missing")
     if training_wait_total_s >= 60.0:
         findings.append("replay_starvation_visible")
@@ -694,9 +817,15 @@ def build_bottleneck_report(
             findings.append("async_batch_underfed_jobs")
     if max_wait_reached > target_batch_reached * 2 and max_wait_reached > 0:
         findings.append("flush_timeout_dominant")
-    if eval_wave_count > 0 and mean_eval_active_games <= 3.0 and batch_vs_active_ratio < 0.85:
+    if (
+        eval_wave_count > 0
+        and mean_eval_active_games <= 3.0
+        and batch_vs_active_ratio < 0.85
+    ):
         findings.append("eval_batch_headroom_underfilled")
-    if singleton_batches > 0 and singleton_batches >= max(1, rust_qipc_summary.get("batch_rows", 0)):
+    if singleton_batches > 0 and singleton_batches >= max(
+        1, rust_qipc_summary.get("batch_rows", 0)
+    ):
         findings.append("singleton_batches_dominant")
 
     primary = "undetermined"
@@ -722,15 +851,32 @@ def build_bottleneck_report(
         },
         "runner_progress_summary": {
             "selfplay_wave_count": selfplay_wave_count,
-            "selfplay_completed_games": int(runner_progress_summary.get("selfplay_completed_games") or 0),
+            "selfplay_completed_games": int(
+                runner_progress_summary.get("selfplay_completed_games") or 0
+            ),
             "selfplay_positions_emitted": selfplay_positions_emitted,
-            "selfplay_replenished_slots": int(runner_progress_summary.get("selfplay_replenished_slots") or 0),
+            "selfplay_replenished_slots": int(
+                runner_progress_summary.get("selfplay_replenished_slots") or 0
+            ),
             "eval_wave_count": int(runner_progress_summary.get("eval_wave_count") or 0),
-            "eval_completed_games": int(runner_progress_summary.get("eval_completed_games") or 0),
-            "eval_positions_evaluated": int(runner_progress_summary.get("eval_positions_evaluated") or 0),
-            "selfplay_wave_elapsed_ms_sum": round(float(runner_progress_summary.get("selfplay_wave_elapsed_ms_sum") or 0.0), 3),
-            "selfplay_frontier_slots_sum": int(runner_progress_summary.get("selfplay_frontier_slots_sum") or 0),
-            "selfplay_active_games_sum": int(runner_progress_summary.get("selfplay_active_games_sum") or 0),
+            "eval_completed_games": int(
+                runner_progress_summary.get("eval_completed_games") or 0
+            ),
+            "eval_positions_evaluated": int(
+                runner_progress_summary.get("eval_positions_evaluated") or 0
+            ),
+            "selfplay_wave_elapsed_ms_sum": round(
+                float(
+                    runner_progress_summary.get("selfplay_wave_elapsed_ms_sum") or 0.0
+                ),
+                3,
+            ),
+            "selfplay_frontier_slots_sum": int(
+                runner_progress_summary.get("selfplay_frontier_slots_sum") or 0
+            ),
+            "selfplay_active_games_sum": int(
+                runner_progress_summary.get("selfplay_active_games_sum") or 0
+            ),
         },
         "async_batch_summary": {
             "runs": async_batch_runs,
@@ -738,7 +884,9 @@ def build_bottleneck_report(
             "null_results_sum": async_batch_null_results,
             "null_inactive_slot_sum": async_batch_null_inactive,
             "null_result_miss_sum": async_batch_null_result_miss,
-            "max_inflight_per_job": int(rust_server_trace_summary.get("async_batch_max_inflight_per_job") or 0),
+            "max_inflight_per_job": int(
+                rust_server_trace_summary.get("async_batch_max_inflight_per_job") or 0
+            ),
             "max_jobs": int(rust_server_trace_summary.get("async_batch_max_jobs") or 0),
             "flush_max_wait_reached": max_wait_reached,
             "flush_target_batch_reached": target_batch_reached,
@@ -747,15 +895,23 @@ def build_bottleneck_report(
             "snapshots": broker_snapshots,
             "queue_wait_s": round(broker_queue_wait_s, 6),
             "result_wait_s": round(broker_result_wait_s, 6),
-            "result_vs_queue_ratio": round(broker_result_wait_s / max(broker_queue_wait_s, 1e-9), 3),
+            "result_vs_queue_ratio": round(
+                broker_result_wait_s / max(broker_queue_wait_s, 1e-9), 3
+            ),
             "fallback_count": broker_fallback,
-            "flush_target_batch": int(rust_server_trace_summary.get("broker_flush_target_batch") or 0),
-            "flush_timeout": int(rust_server_trace_summary.get("broker_flush_timeout") or 0),
+            "flush_target_batch": int(
+                rust_server_trace_summary.get("broker_flush_target_batch") or 0
+            ),
+            "flush_timeout": int(
+                rust_server_trace_summary.get("broker_flush_timeout") or 0
+            ),
             "flush_low_concurrency": broker_low_concurrency,
             "singleton_batches": singleton_batches,
             "adaptive_timeout_min_us": rust_qipc_summary.get("adaptive_timeout_min_us"),
             "adaptive_timeout_max_us": rust_qipc_summary.get("adaptive_timeout_max_us"),
-            "adaptive_timeout_last_us": rust_qipc_summary.get("adaptive_timeout_last_us"),
+            "adaptive_timeout_last_us": rust_qipc_summary.get(
+                "adaptive_timeout_last_us"
+            ),
         },
         "eval_headroom": {
             "wave_count": eval_wave_count,
@@ -764,7 +920,9 @@ def build_bottleneck_report(
             "mean_batch_weighted": mean_batch,
             "batch_vs_active_ratio": round(batch_vs_active_ratio, 3),
             "share_ms_mean": round(eval_share_ms_sum / max(eval_wave_count, 1), 3),
-            "batch_elapsed_ms_mean": round(eval_batch_elapsed_ms_sum / max(eval_wave_count, 1), 3),
+            "batch_elapsed_ms_mean": round(
+                eval_batch_elapsed_ms_sum / max(eval_wave_count, 1), 3
+            ),
             "low_concurrency_flushes": low_concurrency_flushes,
         },
         "promotion_audit": {
@@ -788,7 +946,7 @@ def parse_rocm_smi_json(raw: str) -> dict[str, Any]:
     start = raw.find("{")
     end = raw.rfind("}")
     if start >= 0 and end >= start:
-        raw = raw[start:end + 1]
+        raw = raw[start : end + 1]
     try:
         data = json.loads(raw)
     except Exception:
@@ -842,10 +1000,12 @@ def sample_gpu() -> dict[str, Any] | None:
                     timeout=5,
                     check=False,
                 )
-                payload = (proc.stdout or "") + ("\n" + proc.stderr if proc.stderr else "")
+                payload = (proc.stdout or "") + (
+                    "\n" + proc.stderr if proc.stderr else ""
+                )
                 if "{" in payload:
                     parsed = parse_rocm_smi_json(payload)
-                    for gpu_row in (parsed.get("gpus") or []):
+                    for gpu_row in parsed.get("gpus") or []:
                         card = gpu_row.get("card", "?")
                         merged_gpus.setdefault(card, {"card": card}).update(gpu_row)
                 elif payload.strip():
@@ -876,7 +1036,11 @@ def sample_gpu() -> dict[str, Any] | None:
             merged["gpus"] = gpu_list
             return merged
         if errors:
-            return {"tool": "rocm-smi", "error": "no_parseable_json", "attempts": errors}
+            return {
+                "tool": "rocm-smi",
+                "error": "no_parseable_json",
+                "attempts": errors,
+            }
         return {"tool": "rocm-smi", "error": "no_parseable_json", "attempts": errors}
     if shutil.which("nvidia-smi"):
         try:
@@ -893,23 +1057,29 @@ def sample_gpu() -> dict[str, Any] | None:
             )
             rows = []
             for line in proc.stdout.strip().splitlines():
-                idx, gpu_u, mem_u, used, total, power, sm = [part.strip() for part in line.split(",")]
-                rows.append({
-                    "card": idx,
-                    "gpu_util": float(gpu_u),
-                    "mem_util": float(mem_u),
-                    "vram_used_mb": float(used),
-                    "vram_total_mb": float(total),
-                    "power_w": float(power),
-                    "sm_clock_mhz": float(sm),
-                })
+                idx, gpu_u, mem_u, used, total, power, sm = [
+                    part.strip() for part in line.split(",")
+                ]
+                rows.append(
+                    {
+                        "card": idx,
+                        "gpu_util": float(gpu_u),
+                        "mem_util": float(mem_u),
+                        "vram_used_mb": float(used),
+                        "vram_total_mb": float(total),
+                        "power_w": float(power),
+                        "sm_clock_mhz": float(sm),
+                    }
+                )
             return {"tool": "nvidia-smi", "gpus": rows}
         except Exception as exc:  # pragma: no cover
             return {"tool": "nvidia-smi", "error": str(exc)}
     return None
 
 
-def sample_process_tree(root_pid: int, cpu_time_cache: dict[int, tuple[float, float]] | None = None) -> dict[str, Any]:
+def sample_process_tree(
+    root_pid: int, cpu_time_cache: dict[int, tuple[float, float]] | None = None
+) -> dict[str, Any]:
     if psutil is None:
         return {"root_pid": root_pid, "psutil": False}
     try:
@@ -926,7 +1096,15 @@ def sample_process_tree(root_pid: int, cpu_time_cache: dict[int, tuple[float, fl
     for proc in procs:
         try:
             info = proc.as_dict(
-                attrs=["pid", "name", "cmdline", "status", "num_threads", "memory_info", "cpu_times"]
+                attrs=[
+                    "pid",
+                    "name",
+                    "cmdline",
+                    "status",
+                    "num_threads",
+                    "memory_info",
+                    "cpu_times",
+                ]
             )
             cpu = None
             cpu_times = info.get("cpu_times")
@@ -974,7 +1152,9 @@ def sample_process_tree(root_pid: int, cpu_time_cache: dict[int, tuple[float, fl
     }
 
 
-def sample_system(root_pid: int, cpu_time_cache: dict[int, tuple[float, float]] | None = None) -> dict[str, Any]:
+def sample_system(
+    root_pid: int, cpu_time_cache: dict[int, tuple[float, float]] | None = None
+) -> dict[str, Any]:
     sample = {"ts": now_ts()}
     if psutil is not None:
         sample["logical_cpus"] = max(1, int(psutil.cpu_count(logical=True) or 1))
@@ -994,7 +1174,9 @@ def sample_system(root_pid: int, cpu_time_cache: dict[int, tuple[float, float]] 
         logical_cpus = int(sample.get("logical_cpus") or 1)
         cpu_equiv = max(0.0, float(proc_tree.get("total_cpu_percent") or 0.0) / 100.0)
         proc_tree["cpu_equiv_threads"] = round(min(cpu_equiv, float(logical_cpus)), 3)
-        proc_tree["cpu_equiv_threads_ceil"] = min(logical_cpus, max(0, math.ceil(cpu_equiv)))
+        proc_tree["cpu_equiv_threads_ceil"] = min(
+            logical_cpus, max(0, math.ceil(cpu_equiv))
+        )
         sample["proc_tree"] = proc_tree
     sample["gpu"] = sample_gpu()
     return sample
@@ -1066,7 +1248,9 @@ def parse_stdout_event(line: str) -> dict[str, Any] | None:
             if m:
                 evt[key] = float(m.group(1)) if "." in m.group(1) else int(m.group(1))
         return evt
-    wait_match = re.search(r"waiting for self-play: .*? ([0-9]+(?:\\.[0-9]+)?)s$", stripped)
+    wait_match = re.search(
+        r"waiting for self-play: .*? ([0-9]+(?:\\.[0-9]+)?)s$", stripped
+    )
     if wait_match:
         evt["type"] = "training_wait"
         evt["wait_s"] = float(wait_match.group(1))
@@ -1079,7 +1263,9 @@ def parse_stdout_event(line: str) -> dict[str, Any] | None:
     return {"type": "stdout", "line": stripped}
 
 
-def enqueue_stdout(proc: subprocess.Popen[str], out_q: queue.Queue[str], stdout_log: Path) -> None:
+def enqueue_stdout(
+    proc: subprocess.Popen[str], out_q: queue.Queue[str], stdout_log: Path
+) -> None:
     with stdout_log.open("w", encoding="utf-8") as log_f:
         assert proc.stdout is not None
         for line in proc.stdout:
@@ -1088,7 +1274,9 @@ def enqueue_stdout(proc: subprocess.Popen[str], out_q: queue.Queue[str], stdout_
             out_q.put(line.rstrip("\n"))
 
 
-def run_live_monitor(command: list[str], model_dir: Path, output_dir: Path, interval_s: float) -> dict[str, Any]:
+def run_live_monitor(
+    command: list[str], model_dir: Path, output_dir: Path, interval_s: float
+) -> dict[str, Any]:
     artifacts = build_artifacts(output_dir)
     output_dir.mkdir(parents=True, exist_ok=True)
     settings = parse_command_settings(command)
@@ -1131,7 +1319,9 @@ def run_live_monitor(command: list[str], model_dir: Path, output_dir: Path, inte
     cpu_time_cache: dict[int, tuple[float, float]] = {}
     pbar = None
     if tqdm is not None and sys.stderr.isatty():
-        pbar = tqdm(total=expected_iters, desc="train-monitor", unit="iter", dynamic_ncols=True)
+        pbar = tqdm(
+            total=expected_iters, desc="train-monitor", unit="iter", dynamic_ncols=True
+        )
         pbar.set_postfix_str("phase=startup")
     while proc.poll() is None:
         while True:
@@ -1161,8 +1351,8 @@ def run_live_monitor(command: list[str], model_dir: Path, output_dir: Path, inte
                             pbar.update(iter_idx - last_iter)
                             last_iter = iter_idx
                         pbar.set_postfix_str(
-                            f"phase=training loss={evt.get('loss','?')} "
-                            f"replay={evt.get('replay','?')} +{evt.get('new_pos','?')}"
+                            f"phase=training loss={evt.get('loss', '?')} "
+                            f"replay={evt.get('replay', '?')} +{evt.get('new_pos', '?')}"
                         )
                 elif evt["type"] == "evaluation_start":
                     phase = "evaluation"
@@ -1198,12 +1388,14 @@ def run_live_monitor(command: list[str], model_dir: Path, output_dir: Path, inte
             cpu_total = sample.get("cpu_percent_total", "n/a")
             proc_tree = sample.get("proc_tree") or {}
             cpu_threads = proc_tree.get("cpu_equiv_threads_ceil", "n/a")
-            native_threads = proc_tree.get("native_threads", proc_tree.get("total_threads", "n/a"))
+            native_threads = proc_tree.get(
+                "native_threads", proc_tree.get("total_threads", "n/a")
+            )
             status = (
                 last_eval_progress.replace("  ", "", 1)
                 if phase == "evaluation" and last_eval_progress
                 else f"phase={phase} cpu={cpu_total} gpu={gpu_util} "
-                     f"cpu_thr={cpu_threads} native={native_threads}"
+                f"cpu_thr={cpu_threads} native={native_threads}"
             )
             pbar.set_postfix_str(status)
             pbar.refresh()
@@ -1262,10 +1454,14 @@ def run_live_monitor(command: list[str], model_dir: Path, output_dir: Path, inte
         },
         "model_artifacts": summarize_existing_artifacts(model_dir),
         "rust_qipc_summary": summarize_rust_qipc(artifacts.rust_qipc_jsonl),
-        "rust_server_trace_summary": summarize_rust_server_trace(artifacts.rust_server_trace_jsonl),
+        "rust_server_trace_summary": summarize_rust_server_trace(
+            artifacts.rust_server_trace_jsonl
+        ),
         "event_summary": summarize_events(artifacts.events_jsonl),
         "phase_summary": summarize_phase_samples(artifacts.samples_jsonl),
-        "runner_progress_summary": summarize_runner_progress(artifacts.rust_server_trace_jsonl),
+        "runner_progress_summary": summarize_runner_progress(
+            artifacts.rust_server_trace_jsonl
+        ),
     }
     result["bottleneck_report"] = build_bottleneck_report(
         result["rust_qipc_summary"],
@@ -1305,7 +1501,9 @@ def main() -> None:
 
     if args.run.strip():
         command = shlex.split(args.run)
-        summary["live_run"] = run_live_monitor(command, model_dir, output_dir, args.interval_s)
+        summary["live_run"] = run_live_monitor(
+            command, model_dir, output_dir, args.interval_s
+        )
     else:
         # Analysis-only: read all available artifact files from output_dir
         artifacts = build_artifacts(output_dir)
@@ -1314,13 +1512,15 @@ def main() -> None:
         event_s = summarize_events(artifacts.events_jsonl)
         phase_s = summarize_phase_samples(artifacts.samples_jsonl)
         runner_s = summarize_runner_progress(artifacts.rust_server_trace_jsonl)
-        any_data = any([
-            rust_qipc_s.get("present"),
-            rust_trace_s.get("present"),
-            event_s.get("present"),
-            phase_s.get("present"),
-            runner_s.get("present"),
-        ])
+        any_data = any(
+            [
+                rust_qipc_s.get("present"),
+                rust_trace_s.get("present"),
+                event_s.get("present"),
+                phase_s.get("present"),
+                runner_s.get("present"),
+            ]
+        )
         if any_data:
             summary["rust_qipc_summary"] = rust_qipc_s
             summary["rust_server_trace_summary"] = rust_trace_s
@@ -1328,7 +1528,11 @@ def main() -> None:
             summary["phase_summary"] = phase_s
             summary["runner_progress_summary"] = runner_s
             summary["bottleneck_report"] = build_bottleneck_report(
-                rust_qipc_s, rust_trace_s, phase_s, event_s, runner_s,
+                rust_qipc_s,
+                rust_trace_s,
+                phase_s,
+                event_s,
+                runner_s,
             )
         json_dump(output_dir / "summary.json", summary)
 

@@ -148,7 +148,11 @@ def final_sparsity(trace_policies: Sequence[Any], n_legal: int | None = None) ->
     last = _as_prob(trace_policies[-1])
     if last.size == 0 or last.sum() <= 0.0:
         return 0.0
-    denom = n_legal if (n_legal is not None and n_legal > 0) else int(np.count_nonzero(last))
+    denom = (
+        n_legal
+        if (n_legal is not None and n_legal > 0)
+        else int(np.count_nonzero(last))
+    )
     if denom <= 0:
         return 0.0
     return float(k_eff(last) / denom)
@@ -262,7 +266,9 @@ def _rankdata(a: np.ndarray) -> np.ndarray:
     return ranks
 
 
-def trace_signature_summary(trace: dict[str, Any], n_legal: int | None = None) -> dict[str, Any]:
+def trace_signature_summary(
+    trace: dict[str, Any], n_legal: int | None = None
+) -> dict[str, Any]:
     """Bundle the single-trace (per-position) signatures O1/O5 from a
     phase15 trace artifact. Cross-move signatures (O2 budget dispersion,
     VOC-tightness) are computed at the study level from many traces, not

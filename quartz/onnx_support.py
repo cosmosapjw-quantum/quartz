@@ -47,8 +47,8 @@ def export_onnx(model, cfg, output_path, opset_version=17, verbose=False):
         raise ImportError("PyTorch required for ONNX export: pip install torch")
 
     model.eval()
-    ch = cfg['ch']
-    bs = cfg['board']
+    ch = cfg["ch"]
+    bs = cfg["board"]
     dummy_input = torch.randn(1, ch, bs, bs)
 
     output_path = str(output_path)
@@ -77,6 +77,7 @@ def export_onnx(model, cfg, output_path, opset_version=17, verbose=False):
     # Verify with onnx checker if available
     try:
         import onnx
+
         onnx_model = onnx.load(output_path)
         onnx.checker.check_model(onnx_model)
         if verbose:
@@ -104,9 +105,9 @@ def _select_providers():
     preference = [
         "TensorrtExecutionProvider",
         "CUDAExecutionProvider",
-        "ROCMExecutionProvider",       # AMD ROCm
-        "MIGraphXExecutionProvider",   # AMD MIGraphX
-        "DmlExecutionProvider",        # Windows DirectML
+        "ROCMExecutionProvider",  # AMD ROCm
+        "MIGraphXExecutionProvider",  # AMD MIGraphX
+        "DmlExecutionProvider",  # Windows DirectML
         "CPUExecutionProvider",
     ]
 
@@ -168,8 +169,8 @@ class OnnxPredictor:
 
         board_tensor = board_tensor.astype(np.float32)
         outputs = self.session.run(None, {self.input_name: board_tensor})
-        logits = outputs[0]   # (B, n_actions)
-        values = outputs[1]   # (B, 1) or (B,)
+        logits = outputs[0]  # (B, n_actions)
+        values = outputs[1]  # (B, 1) or (B,)
 
         # Softmax
         logits_max = logits - logits.max(axis=-1, keepdims=True)
@@ -218,7 +219,7 @@ class OnnxModelWrapper:
 
         Returns numpy arrays shaped like PyTorch tensors.
         """
-        if hasattr(x, 'numpy'):
+        if hasattr(x, "numpy"):
             x = x.detach().cpu().numpy()
         elif not isinstance(x, np.ndarray):
             x = np.array(x, dtype=np.float32)
@@ -253,7 +254,11 @@ class _FakeTensor:
     """
 
     def __init__(self, data):
-        self._data = np.array(data, dtype=np.float32) if not isinstance(data, np.ndarray) else data
+        self._data = (
+            np.array(data, dtype=np.float32)
+            if not isinstance(data, np.ndarray)
+            else data
+        )
 
     def cpu(self):
         return self
@@ -282,6 +287,7 @@ class _FakeTensor:
 # ════════════════════════════════════════════
 # § Self-tests
 # ════════════════════════════════════════════
+
 
 def _run_tests():
     print("Testing ONNX support...")
@@ -328,9 +334,13 @@ def _run_tests():
             board = np.random.randn(3, 7, 7).astype(np.float32)
             policy, value = pred.predict(board)
             assert policy.shape == (49,), f"Wrong policy shape: {policy.shape}"
-            assert abs(policy.sum() - 1.0) < 0.01, f"Policy not normalized: {policy.sum()}"
+            assert abs(policy.sum() - 1.0) < 0.01, (
+                f"Policy not normalized: {policy.sum()}"
+            )
             assert -1.0 <= value <= 1.0, f"Value out of range: {value}"
-            print(f"  [PASS] ONNX inference (policy sum={policy.sum():.4f}, value={value:.4f})")
+            print(
+                f"  [PASS] ONNX inference (policy sum={policy.sum():.4f}, value={value:.4f})"
+            )
 
             # Test OnnxModelWrapper
             wrapper = OnnxModelWrapper(path, cfg)

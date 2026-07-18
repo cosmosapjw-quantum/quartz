@@ -146,7 +146,11 @@ def simulate(
             # CRN tie-break: seeded jitter independent of the VL policy
             jr = random.Random(stable_seed(seed, "jitter", wave, worker))
             candidates = [i for i, s in enumerate(scores) if s >= top - 1e-12]
-            arm = min(candidates, key=lambda i: (jr.random(), i)) if len(candidates) > 1 else candidates[0]
+            arm = (
+                min(candidates, key=lambda i: (jr.random(), i))
+                if len(candidates) > 1
+                else candidates[0]
+            )
             if arm in seen:
                 collisions += 1
             seen[arm] = seen.get(arm, 0) + 1
@@ -164,7 +168,9 @@ def simulate(
             dup_rates.append(dup_rate)
             throughputs.append(throughput)
             total_visits = sum(n)
-            best_share_samples.append(n[best_arm] / total_visits if total_visits > 0 else 0.0)
+            best_share_samples.append(
+                n[best_arm] / total_visits if total_visits > 0 else 0.0
+            )
 
     return {
         "vl_policy": vl_policy,
@@ -175,7 +181,9 @@ def simulate(
         "mean_dup_rate": statistics.fmean(dup_rates) if dup_rates else 0.0,
         "mean_throughput": statistics.fmean(throughputs) if throughputs else 0.0,
         "max_pending": int(max_pending_seen),
-        "best_arm_visit_share": statistics.fmean(best_share_samples) if best_share_samples else 0.0,
+        "best_arm_visit_share": statistics.fmean(best_share_samples)
+        if best_share_samples
+        else 0.0,
         "final_total_visits": int(sum(n)),
     }
 
@@ -195,7 +203,13 @@ def screen(
         for policy in policies:
             rows.append(
                 simulate(
-                    arm_values, w, policy, waves=waves, latency=latency, c_puct=c_puct, seed=seed
+                    arm_values,
+                    w,
+                    policy,
+                    waves=waves,
+                    latency=latency,
+                    c_puct=c_puct,
+                    seed=seed,
                 )
             )
     return rows
@@ -209,7 +223,10 @@ def _row(rows: Sequence[Dict[str, Any]], policy: str, w: int) -> Dict[str, Any] 
 
 
 def kill_verdict(
-    rows: Sequence[Dict[str, Any]], worker_grid: Sequence[int], *, min_effect: float = 0.02
+    rows: Sequence[Dict[str, Any]],
+    worker_grid: Sequence[int],
+    *,
+    min_effect: float = 0.02,
 ) -> Dict[str, Any]:
     """H5 (dup_rate, thread-dependent) and H4 (throughput) kill checks for the
     adaptive-VL lane vs fixed VL.
@@ -232,13 +249,17 @@ def kill_verdict(
         }
     low_w, high_w = multi[0], multi[-1]
 
-    def dup_gain(w: int) -> float | None:  # fixed - adaptive (positive = adaptive better)
+    def dup_gain(
+        w: int,
+    ) -> float | None:  # fixed - adaptive (positive = adaptive better)
         fx, ad = _row(rows, "fixed", w), _row(rows, "adaptive", w)
         if fx is None or ad is None:
             return None
         return fx["mean_dup_rate"] - ad["mean_dup_rate"]
 
-    def thr_gain(w: int) -> float | None:  # adaptive - fixed (positive = adaptive better)
+    def thr_gain(
+        w: int,
+    ) -> float | None:  # adaptive - fixed (positive = adaptive better)
         fx, ad = _row(rows, "fixed", w), _row(rows, "adaptive", w)
         if fx is None or ad is None:
             return None
@@ -257,7 +278,9 @@ def kill_verdict(
 
     h5_improves = dup_high is not None and dup_high > min_effect
     h5_thread_dependent = (
-        dup_high is not None and dup_low is not None and (dup_high - dup_low) > min_effect
+        dup_high is not None
+        and dup_low is not None
+        and (dup_high - dup_low) > min_effect
     )
     h5_alive = bool(h5_improves and h5_thread_dependent)
     h4_alive = bool(thr_high is not None and thr_high > min_effect)

@@ -71,12 +71,18 @@ def git_provenance(repo_root: str | Path) -> dict[str, Any]:
     return {
         "head": head,
         "dirty": None if status is None else bool(status),
-        "status_sha256": None if status is None else hashlib.sha256(status.encode()).hexdigest(),
-        "tracked_diff_sha256": None if diff is None else hashlib.sha256(diff.encode()).hexdigest(),
+        "status_sha256": None
+        if status is None
+        else hashlib.sha256(status.encode()).hexdigest(),
+        "tracked_diff_sha256": None
+        if diff is None
+        else hashlib.sha256(diff.encode()).hexdigest(),
     }
 
 
-def source_fingerprints(paths: Sequence[str | Path], repo_root: str | Path) -> list[dict[str, str]]:
+def source_fingerprints(
+    paths: Sequence[str | Path], repo_root: str | Path
+) -> list[dict[str, str]]:
     root = Path(repo_root).resolve()
     rows = []
     for raw_path in paths:
@@ -163,7 +169,9 @@ def finalize_run_manifest(
 def atomic_json_dump(path: str | Path, payload: Any) -> None:
     destination = Path(path)
     destination.parent.mkdir(parents=True, exist_ok=True)
-    fd, tmp_name = tempfile.mkstemp(prefix=f".{destination.name}.", dir=destination.parent)
+    fd, tmp_name = tempfile.mkstemp(
+        prefix=f".{destination.name}.", dir=destination.parent
+    )
     try:
         with os.fdopen(fd, "w", encoding="utf-8") as handle:
             json.dump(payload, handle, indent=2, sort_keys=True)

@@ -76,7 +76,10 @@ def load_scenario_bank(path: Path) -> dict[str, Any]:
             raise ValueError(f"scenario {scenario_id} has an invalid Bernoulli mean")
         if not isinstance(n_visible, int) or not 1 <= n_visible <= len(means):
             raise ValueError(f"scenario {scenario_id} has an invalid n_visible")
-        if not isinstance(row.get("prior_noise"), (int, float)) or row["prior_noise"] < 0:
+        if (
+            not isinstance(row.get("prior_noise"), (int, float))
+            or row["prior_noise"] < 0
+        ):
             raise ValueError(f"scenario {scenario_id} has an invalid prior_noise")
         if not isinstance(budgets, list) or not budgets:
             raise ValueError(f"scenario {scenario_id} requires budgets")
@@ -89,7 +92,9 @@ def load_scenario_bank(path: Path) -> dict[str, Any]:
     return payload
 
 
-def choose_scenarios(bank: Mapping[str, Any], requested: Sequence[str] | None) -> list[dict[str, Any]]:
+def choose_scenarios(
+    bank: Mapping[str, Any], requested: Sequence[str] | None
+) -> list[dict[str, Any]]:
     by_id = {str(row["id"]): dict(row) for row in bank["scenarios"]}
     if not requested:
         return [dict(row) for row in bank["scenarios"]]
@@ -132,15 +137,37 @@ def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--scenario-bank", type=Path, default=DEFAULT_SCENARIO_BANK)
     parser.add_argument("--scenarios", nargs="+", default=None)
-    parser.add_argument("--allocators", nargs="+", choices=lab.ALLOCATORS, default=list(lab.ALLOCATORS))
-    parser.add_argument("--widen-costs", type=parse_int_csv, default=None, help="override widen-cost grid")
-    parser.add_argument("--budgets", type=parse_int_csv, default=None, help="optional common budget override")
+    parser.add_argument(
+        "--allocators", nargs="+", choices=lab.ALLOCATORS, default=list(lab.ALLOCATORS)
+    )
+    parser.add_argument(
+        "--widen-costs",
+        type=parse_int_csv,
+        default=None,
+        help="override widen-cost grid",
+    )
+    parser.add_argument(
+        "--budgets",
+        type=parse_int_csv,
+        default=None,
+        help="optional common budget override",
+    )
     parser.add_argument("--trials", type=int, default=None)
     parser.add_argument("--seed", type=int, default=20260713)
     parser.add_argument("--quick", action="store_true", help="use 60 trials")
-    parser.add_argument("--skip-h1-gate", action="store_true", help="skip the H1 synthetic gate pre-validation")
-    parser.add_argument("--h1-boot", type=int, default=4000, help="Dirichlet draws for the H1 gate")
-    parser.add_argument("--output-dir", type=Path, default=Path("results/metacognitive_root/candidate_morphology_v1"))
+    parser.add_argument(
+        "--skip-h1-gate",
+        action="store_true",
+        help="skip the H1 synthetic gate pre-validation",
+    )
+    parser.add_argument(
+        "--h1-boot", type=int, default=4000, help="Dirichlet draws for the H1 gate"
+    )
+    parser.add_argument(
+        "--output-dir",
+        type=Path,
+        default=Path("results/metacognitive_root/candidate_morphology_v1"),
+    )
     parser.add_argument("--overwrite", action="store_true")
     return parser
 
@@ -157,12 +184,18 @@ def main(argv: Sequence[str] | None = None) -> int:
     if len(set(allocators)) != len(allocators):
         raise SystemExit("allocators must be unique")
     if lab.BASELINE_ALLOCATOR not in allocators:
-        raise SystemExit(f"{lab.BASELINE_ALLOCATOR} baseline must be included for paired deltas")
-    default_widen_costs = args.widen_costs or bank.get("default_widen_costs") or [1, 2, 4, 8]
+        raise SystemExit(
+            f"{lab.BASELINE_ALLOCATOR} baseline must be included for paired deltas"
+        )
+    default_widen_costs = (
+        args.widen_costs or bank.get("default_widen_costs") or [1, 2, 4, 8]
+    )
 
     output_dir = args.output_dir.resolve()
     if output_dir.exists() and any(output_dir.iterdir()) and not args.overwrite:
-        raise SystemExit(f"output directory is not empty; pass --overwrite: {output_dir}")
+        raise SystemExit(
+            f"output directory is not empty; pass --overwrite: {output_dir}"
+        )
     output_dir.mkdir(parents=True, exist_ok=True)
 
     resolved_scenarios = []
@@ -174,7 +207,9 @@ def main(argv: Sequence[str] | None = None) -> int:
             raise SystemExit(f"budget override below n_visible for {scenario['id']}")
         resolved = dict(scenario)
         resolved["budgets"] = budgets
-        resolved["widen_costs"] = list(scenario.get("widen_costs") or default_widen_costs)
+        resolved["widen_costs"] = list(
+            scenario.get("widen_costs") or default_widen_costs
+        )
         resolved_scenarios.append(resolved)
 
     resolved_config = {
@@ -182,7 +217,9 @@ def main(argv: Sequence[str] | None = None) -> int:
         "scenario_bank_sha256": file_sha256(bank_path),
         "scenarios": resolved_scenarios,
         "allocators": allocators,
-        "allocator_contracts": {name: lab.ALLOCATOR_CONTRACTS[name] for name in allocators},
+        "allocator_contracts": {
+            name: lab.ALLOCATOR_CONTRACTS[name] for name in allocators
+        },
         "default_widen_costs": default_widen_costs,
         "trials": trials,
         "seed": args.seed,
@@ -241,7 +278,9 @@ def main(argv: Sequence[str] | None = None) -> int:
                     summary_rows.append({**prefix, **row})
                 for record in records:
                     payload = {**prefix, **asdict(record)}
-                    trial_handle.write(json.dumps(payload, sort_keys=True, separators=(",", ":")))
+                    trial_handle.write(
+                        json.dumps(payload, sort_keys=True, separators=(",", ":"))
+                    )
                     trial_handle.write("\n")
             trial_handle.flush()
             trial_handle.detach()
@@ -291,9 +330,15 @@ def main(argv: Sequence[str] | None = None) -> int:
                 "output_dir": str(output_dir),
                 "summary_rows": len(summary_rows),
                 "widening_lane_demoted": global_verdict["widening_lane_demoted"],
-                "widen_prices_with_omission_improvement": global_verdict["widen_prices_with_omission_improvement"],
-                "net_total_improvement_found": global_verdict["net_total_improvement_found"],
-                "h1_gate_pass": (None if h1_verdict is None else h1_verdict["gate_pass"]),
+                "widen_prices_with_omission_improvement": global_verdict[
+                    "widen_prices_with_omission_improvement"
+                ],
+                "net_total_improvement_found": global_verdict[
+                    "net_total_improvement_found"
+                ],
+                "h1_gate_pass": (
+                    None if h1_verdict is None else h1_verdict["gate_pass"]
+                ),
                 "run_contract_hash": manifest["run_contract_hash"],
             },
             sort_keys=True,

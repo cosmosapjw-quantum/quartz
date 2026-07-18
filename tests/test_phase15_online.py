@@ -16,7 +16,9 @@ from quartz.phase15_ablation import Phase15System, normalize_policy, policy_argm
 from quartz.phase15_online import run_online_readout
 
 
-def _make_search_policy_fn(policies_by_budget: dict[int, list[float]], calls: list[int]):
+def _make_search_policy_fn(
+    policies_by_budget: dict[int, list[float]], calls: list[int]
+):
     def _fn(position, system, budget):
         calls.append(int(budget))
         return {
@@ -58,7 +60,9 @@ def test_run_online_readout_budget_routing_bursts_on_instability():
         search_policy_fn=_make_search_policy_fn(policies_by_budget, calls),
     )
 
-    assert calls == [8, 16, 32], f"expected the extra tier (32) to be fetched, got calls={calls}"
+    assert calls == [8, 16, 32], (
+        f"expected the extra tier (32) to be fetched, got calls={calls}"
+    )
     assert meta["budget_burst_triggered"] == 1
     assert meta["extra_budget_used"] == 16
     assert meta["online_stop_budget"] == 32
@@ -98,7 +102,9 @@ def test_run_online_readout_budget_routing_stable_never_fetches_extra_chunk():
         search_policy_fn=_make_search_policy_fn(policies_by_budget, calls),
     )
 
-    assert calls == [8, 16], f"extra tier (32) must not be fetched when stable, got calls={calls}"
+    assert calls == [8, 16], (
+        f"extra tier (32) must not be fetched when stable, got calls={calls}"
+    )
     assert meta["budget_burst_triggered"] == 0
     assert meta["extra_budget_used"] == 0
     assert meta["online_stop_budget"] == 16
@@ -170,8 +176,12 @@ def test_run_online_readout_dual_channel_commit_returns_early():
         search_policy_fn=_make_search_policy_fn(policies_by_budget, calls),
     )
 
-    assert meta["online_stop_budget"] < 32, "commit should stop before the full target budget"
-    assert 32 not in calls, f"budget 32 must not be searched once commit fires early, got calls={calls}"
+    assert meta["online_stop_budget"] < 32, (
+        "commit should stop before the full target budget"
+    )
+    assert 32 not in calls, (
+        f"budget 32 must not be searched once commit fires early, got calls={calls}"
+    )
     assert normalize_policy(effective) is not None
 
 
@@ -186,7 +196,11 @@ def test_run_online_readout_h1_stops_early_on_stable_trace():
         substrate="S1",
         controller="QuartzVL",
         refresh_operator="argmax_stability_stop",
-        params={"stability_threshold": 0.9, "stability_min_visits": 8, "stability_n_boot": 2000},
+        params={
+            "stability_threshold": 0.9,
+            "stability_min_visits": 8,
+            "stability_n_boot": 2000,
+        },
         execution_mode="online",
     )
     prior = normalize_policy(np.array([0.34, 0.33, 0.33], dtype=np.float32)).tolist()
@@ -220,7 +234,11 @@ def test_run_online_readout_h1_continues_on_unstable_trace_to_target():
         substrate="S1",
         controller="QuartzVL",
         refresh_operator="argmax_stability_stop",
-        params={"stability_threshold": 0.9, "stability_min_visits": 8, "stability_n_boot": 2000},
+        params={
+            "stability_threshold": 0.9,
+            "stability_min_visits": 8,
+            "stability_n_boot": 2000,
+        },
         execution_mode="online",
     )
     prior = normalize_policy(np.array([0.34, 0.33, 0.33], dtype=np.float32)).tolist()
@@ -240,7 +258,9 @@ def test_run_online_readout_h1_continues_on_unstable_trace_to_target():
     )
     assert meta["online_stop_budget"] == 32
     assert 32 in calls
-    assert not any(note.startswith("h1_stop") for note in meta.get("decision_notes", []))
+    assert not any(
+        note.startswith("h1_stop") for note in meta.get("decision_notes", [])
+    )
 
 
 def test_continuation_early_stop_fn_prevents_later_steps():
@@ -262,18 +282,31 @@ def test_continuation_early_stop_fn_prevents_later_steps():
         cfg = {"actions": 3, "penalty_mode": "None"}
 
         def open_search_engine_session(self, jobs, penalty_mode="None", iters=0):
-            return {"session_id": "S", "results": [{"policy": [[0, 0.9], [1, 0.05], [2, 0.05]], "latency_ms": 1.0}]}
+            return {
+                "session_id": "S",
+                "results": [
+                    {"policy": [[0, 0.9], [1, 0.05], [2, 0.05]], "latency_ms": 1.0}
+                ],
+            }
 
         def step_search_engine_session(self, session_id, updates=None, iters=0):
             step_calls["n"] += 1
-            return {"results": [{"policy": [[0, 0.9], [1, 0.05], [2, 0.05]], "latency_ms": 1.0}]}
+            return {
+                "results": [
+                    {"policy": [[0, 0.9], [1, 0.05], [2, 0.05]], "latency_ms": 1.0}
+                ]
+            }
 
         def close_search_session(self, session_id):
             pass
 
     # Predicate fires immediately at the first chunk.
     rows = runner.run_online_readout_continuation(
-        DummyClient(), {"id": "P1"}, object(), [8, 16, 32], 32,
+        DummyClient(),
+        {"id": "P1"},
+        object(),
+        [8, 16, 32],
+        32,
         early_stop_fn=lambda budget, row: True,
     )
     assert set(rows) == {8}, "should have realized only the opening chunk"
@@ -284,9 +317,17 @@ def test_run_online_readout_meta_includes_trace_p_flips():
     """Stage 7 / C6: the online meta carries per-chunk p_flip (None-padded when
     the search row omits it)."""
     system = Phase15System(
-        id="B14", label="h1", group="B", substrate="S1", controller="QuartzVL",
+        id="B14",
+        label="h1",
+        group="B",
+        substrate="S1",
+        controller="QuartzVL",
         refresh_operator="argmax_stability_stop",
-        params={"stability_threshold": 0.99, "stability_min_visits": 8, "stability_n_boot": 1000},
+        params={
+            "stability_threshold": 0.99,
+            "stability_min_visits": 8,
+            "stability_n_boot": 1000,
+        },
         execution_mode="online",
     )
     prior = normalize_policy(np.array([0.34, 0.33, 0.33], dtype=np.float32)).tolist()
@@ -299,9 +340,12 @@ def test_run_online_readout_meta_includes_trace_p_flips():
         }
 
     _, meta = run_online_readout(
-        system=system, position={"id": "P1"},
+        system=system,
+        position={"id": "P1"},
         prior_input=np.asarray(prior, dtype=np.float32),
-        budgets=[8, 16, 32], target_budget=32, search_policy_fn=_fn_with_pflip,
+        budgets=[8, 16, 32],
+        target_budget=32,
+        search_policy_fn=_fn_with_pflip,
     )
     assert meta["trace_p_flips"] == [0.5, 0.3, 0.1]
     assert len(meta["trace_p_flips"]) == len(meta["trace_budgets"])
@@ -311,9 +355,18 @@ def test_run_online_readout_h3_bursts_and_logs():
     """Stage 7 / C7: B15 entropy-burst fetches the supra-target chunk when the
     2-signal gate fires, and logs a burst@ decision note."""
     system = Phase15System(
-        id="B15", label="h3", group="B", substrate="S1", controller="QuartzVL",
+        id="B15",
+        label="h3",
+        group="B",
+        substrate="S1",
+        controller="QuartzVL",
         refresh_operator="entropy_burst_routing",
-        params={"smooth_alpha": 0.5, "min_visit_floor": 8, "entropy_floor": 0.0, "margin_slope_floor": 0.0},
+        params={
+            "smooth_alpha": 0.5,
+            "min_visit_floor": 8,
+            "entropy_floor": 0.0,
+            "margin_slope_floor": 0.0,
+        },
         execution_mode="online",
     )
     prior = normalize_policy(np.array([0.34, 0.33, 0.33], dtype=np.float32)).tolist()
@@ -325,9 +378,11 @@ def test_run_online_readout_h3_bursts_and_logs():
     }
     calls: list[int] = []
     effective, meta = run_online_readout(
-        system=system, position={"id": "P1"},
+        system=system,
+        position={"id": "P1"},
         prior_input=np.asarray(prior, dtype=np.float32),
-        budgets=[8, 16, 32], target_budget=16,
+        budgets=[8, 16, 32],
+        target_budget=16,
         search_policy_fn=_make_search_policy_fn(policies_by_budget, calls),
     )
     assert 32 in calls, f"burst should fetch supra-target chunk 32; calls={calls}"

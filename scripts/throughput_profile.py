@@ -14,6 +14,7 @@ Output: JSON dataset for validating training time estimates.
 Usage:
   venv/bin/python scripts/throughput_profile.py [--device cuda] [--games gomoku7,chess] [--quick]
 """
+
 import os, sys, json, time, argparse, subprocess, signal, gc
 import numpy as np
 
@@ -28,12 +29,54 @@ NETWORK_SIZES = {
 }
 
 GAME_SPECS = {
-    "tictactoe": {"board": 3, "ch": 3, "actions": 9, "avg_ply": 6, "iters": 100, "profile_iters": 32},
-    "gomoku7":   {"board": 7, "ch": 3, "actions": 49, "avg_ply": 30, "iters": 200, "profile_iters": 32},
-    "gomoku15":  {"board": 15, "ch": 3, "actions": 225, "avg_ply": 50, "iters": 400, "profile_iters": 32},
-    "chess":     {"board": 8, "ch": 16, "actions": 4096, "avg_ply": 80, "iters": 200, "profile_iters": 16},
-    "go9":       {"board": 9, "ch": 17, "actions": 82, "avg_ply": 60, "iters": 200, "profile_iters": 32},
-    "go19":      {"board": 19, "ch": 17, "actions": 362, "avg_ply": 200, "iters": 200, "profile_iters": 16},
+    "tictactoe": {
+        "board": 3,
+        "ch": 3,
+        "actions": 9,
+        "avg_ply": 6,
+        "iters": 100,
+        "profile_iters": 32,
+    },
+    "gomoku7": {
+        "board": 7,
+        "ch": 3,
+        "actions": 49,
+        "avg_ply": 30,
+        "iters": 200,
+        "profile_iters": 32,
+    },
+    "gomoku15": {
+        "board": 15,
+        "ch": 3,
+        "actions": 225,
+        "avg_ply": 50,
+        "iters": 400,
+        "profile_iters": 32,
+    },
+    "chess": {
+        "board": 8,
+        "ch": 16,
+        "actions": 4096,
+        "avg_ply": 80,
+        "iters": 200,
+        "profile_iters": 16,
+    },
+    "go9": {
+        "board": 9,
+        "ch": 17,
+        "actions": 82,
+        "avg_ply": 60,
+        "iters": 200,
+        "profile_iters": 32,
+    },
+    "go19": {
+        "board": 19,
+        "ch": 17,
+        "actions": 362,
+        "avg_ply": 200,
+        "iters": 200,
+        "profile_iters": 16,
+    },
 }
 
 BATCH_SIZES = [16, 64, 128, 256]
@@ -79,6 +122,7 @@ def make_cfg(game, net_size):
 
 # ── Phase 1: Raw GPU inference benchmark ────────────────────────────
 
+
 def benchmark_raw_inference(model, device, cfg, batch_sizes, warmup=20, n_iters=200):
     """Benchmark raw NN forward pass for each batch size."""
     import torch
@@ -93,7 +137,9 @@ def benchmark_raw_inference(model, device, cfg, batch_sizes, warmup=20, n_iters=
         _run_model_batch(model, device, dummy)
 
     for batch_size in batch_sizes:
-        batch = [np.random.randn(ch, bs, bs).astype(np.float32) for _ in range(batch_size)]
+        batch = [
+            np.random.randn(ch, bs, bs).astype(np.float32) for _ in range(batch_size)
+        ]
         # Warmup this specific size
         for _ in range(10):
             _run_model_batch(model, device, batch)
@@ -108,23 +154,30 @@ def benchmark_raw_inference(model, device, cfg, batch_sizes, warmup=20, n_iters=
 
         ms_per_batch = elapsed / N * 1000
         items_per_s = batch_size * N / elapsed
-        results.append({
-            "batch_size": batch_size,
-            "ms_per_batch": round(ms_per_batch, 3),
-            "items_per_s": round(items_per_s, 1),
-            "leaf_eval_per_s": round(items_per_s, 1),
-        })
+        results.append(
+            {
+                "batch_size": batch_size,
+                "ms_per_batch": round(ms_per_batch, 3),
+                "items_per_s": round(items_per_s, 1),
+                "leaf_eval_per_s": round(items_per_s, 1),
+            }
+        )
     return results
 
 
 # ── Phase 2: Selfplay throughput via Rust server ────────────────────
 
-def benchmark_selfplay(model, device, cfg, rust_binary, n_games=2, parallel=2, timeout_s=90):
+
+def benchmark_selfplay(
+    model, device, cfg, rust_binary, n_games=2, parallel=2, timeout_s=90
+):
     """Run actual selfplay and measure games/s, positions/s.
     Uses a timeout thread to kill the server if games take too long.
     """
     from quartz.alphazero_train import (
-        NNSearchClient, rust_game_name, supports_rust_selfplay_state_machine,
+        NNSearchClient,
+        rust_game_name,
+        supports_rust_selfplay_state_machine,
         clear_nn_eval_cache,
     )
     import random, threading
@@ -137,7 +190,10 @@ def benchmark_selfplay(model, device, cfg, rust_binary, n_games=2, parallel=2, t
         return {"error": f"rust binary not found: {rust_binary}", "games_per_s": 0}
 
     if not supports_rust_selfplay_state_machine(game_name):
-        return {"error": f"rust selfplay not supported for {game_name}", "games_per_s": 0}
+        return {
+            "error": f"rust selfplay not supported for {game_name}",
+            "games_per_s": 0,
+        }
 
     client = NNSearchClient(model, cfg, device, rust_binary)
     result_box = [None]  # mutable container for thread result
@@ -150,7 +206,8 @@ def benchmark_selfplay(model, device, cfg, rust_binary, n_games=2, parallel=2, t
     def run_selfplay():
         try:
             result_box[0] = client.selfplay_run(
-                n_games=n_games, parallel=parallel,
+                n_games=n_games,
+                parallel=parallel,
                 temp_threshold=cfg.get("temp_th", 8),
                 penalty_mode=cfg.get("penalty_mode", "GatedRefresh"),
                 seed=random.randint(0, 2**31),
@@ -194,7 +251,10 @@ def benchmark_selfplay(model, device, cfg, rust_binary, n_games=2, parallel=2, t
 
         if completed == 0:
             suffix = " (timed out)" if timed_out else ""
-            return {"error": f"0 games completed in {elapsed:.0f}s{suffix}", "games_per_s": 0}
+            return {
+                "error": f"0 games completed in {elapsed:.0f}s{suffix}",
+                "games_per_s": 0,
+            }
 
         games_per_s = completed / max(elapsed, 0.001)
         avg_ply = total_positions / max(completed, 1)
@@ -223,6 +283,7 @@ def benchmark_selfplay(model, device, cfg, rust_binary, n_games=2, parallel=2, t
 
 # ── Phase 3: Training step benchmark ────────────────────────────────
 
+
 def benchmark_training_step(model, device, cfg, n_steps=20):
     """Benchmark training throughput (examples/s)."""
     import torch
@@ -234,7 +295,9 @@ def benchmark_training_step(model, device, cfg, n_steps=20):
     actions = cfg["actions"]
     train_batch = cfg.get("batch", 64)
 
-    optimizer = torch.optim.SGD(model.parameters(), lr=0.01, momentum=0.9, weight_decay=1e-4)
+    optimizer = torch.optim.SGD(
+        model.parameters(), lr=0.01, momentum=0.9, weight_decay=1e-4
+    )
     loss_fn_p = torch.nn.CrossEntropyLoss()
     loss_fn_v = torch.nn.MSELoss()
 
@@ -276,10 +339,13 @@ def benchmark_training_step(model, device, cfg, n_steps=20):
 
 # ── Main profiler ───────────────────────────────────────────────────
 
+
 def run_profile(args):
     import torch
+
     torch.set_float32_matmul_precision("high")
     import warnings, logging as _logging
+
     warnings.filterwarnings("ignore", message=".*hipBLASLt.*")
     warnings.filterwarnings("ignore", message=".*TensorFloat32.*")
     warnings.filterwarnings("ignore", message=".*cache_size_limit.*")
@@ -303,7 +369,9 @@ def run_profile(args):
     dataset = {
         "timestamp": time.strftime("%Y-%m-%d %H:%M:%S"),
         "device": str(device),
-        "gpu_name": torch.cuda.get_device_name(0) if torch.cuda.is_available() else "cpu",
+        "gpu_name": torch.cuda.get_device_name(0)
+        if torch.cuda.is_available()
+        else "cpu",
         "results": [],
     }
 
@@ -320,9 +388,9 @@ def run_profile(args):
             cfg = make_cfg(game, net_size)
             ns = NETWORK_SIZES[net_size]
             label = f"{game}/{net_size}({ns['filters']}x{ns['blocks']})"
-            print(f"{'='*60}")
+            print(f"{'=' * 60}")
             print(f"  {label}")
-            print(f"{'='*60}")
+            print(f"{'=' * 60}")
 
             # A3-a: the compiled-model cache now lives as an attribute
             # on each model object (torch_inference_runtime.py), not a
@@ -340,9 +408,13 @@ def run_profile(args):
                 print(f"  Params: {n_params:,}")
             except Exception as e:
                 print(f"  [FAIL] Model creation: {e}")
-                dataset["results"].append({
-                    "game": game, "net_size": net_size, "error": str(e),
-                })
+                dataset["results"].append(
+                    {
+                        "game": game,
+                        "net_size": net_size,
+                        "error": str(e),
+                    }
+                )
                 continue
 
             entry = {
@@ -361,16 +433,27 @@ def run_profile(args):
             # Phase 1: Raw inference
             print(f"  [1/3] Raw inference benchmark...")
             try:
-                bs_list = [bs for bs in BATCH_SIZES if bs * cfg["ch"] * cfg["board"]**2 * 4 < 512 * 1024 * 1024]
+                bs_list = [
+                    bs
+                    for bs in BATCH_SIZES
+                    if bs * cfg["ch"] * cfg["board"] ** 2 * 4 < 512 * 1024 * 1024
+                ]
                 if not bs_list:
                     bs_list = [16, 64]
-                inference = benchmark_raw_inference(model, device, cfg, bs_list,
-                                                   warmup=10 if args.quick else 20,
-                                                   n_iters=50 if args.quick else 200)
+                inference = benchmark_raw_inference(
+                    model,
+                    device,
+                    cfg,
+                    bs_list,
+                    warmup=10 if args.quick else 20,
+                    n_iters=50 if args.quick else 200,
+                )
                 entry["inference"] = inference
                 best = max(inference, key=lambda r: r["items_per_s"])
-                print(f"       Best: BS={best['batch_size']} → {best['items_per_s']:.0f} items/s "
-                      f"({best['ms_per_batch']:.2f} ms/batch)")
+                print(
+                    f"       Best: BS={best['batch_size']} → {best['items_per_s']:.0f} items/s "
+                    f"({best['ms_per_batch']:.2f} ms/batch)"
+                )
             except Exception as e:
                 print(f"       [FAIL] {e}")
                 entry["inference"] = {"error": str(e)}
@@ -382,15 +465,22 @@ def run_profile(args):
                     n_games = 2
                     sp_timeout = 60 if args.quick else 120
                     selfplay = benchmark_selfplay(
-                        model, device, cfg, rust_binary,
-                        n_games=n_games, parallel=min(2, n_games),
-                        timeout_s=sp_timeout)
+                        model,
+                        device,
+                        cfg,
+                        rust_binary,
+                        n_games=n_games,
+                        parallel=min(2, n_games),
+                        timeout_s=sp_timeout,
+                    )
                     entry["selfplay"] = selfplay
                     if selfplay.get("games_per_s", 0) > 0:
                         to = " [partial]" if selfplay.get("timed_out") else ""
-                        print(f"       {selfplay['completed_games']} games in {selfplay['elapsed_s']:.1f}s "
-                              f"→ {selfplay['games_per_s']:.2f} games/s, "
-                              f"{selfplay.get('games_per_day', 0):.0f} games/day{to}")
+                        print(
+                            f"       {selfplay['completed_games']} games in {selfplay['elapsed_s']:.1f}s "
+                            f"→ {selfplay['games_per_s']:.2f} games/s, "
+                            f"{selfplay.get('games_per_day', 0):.0f} games/day{to}"
+                        )
                     else:
                         err = selfplay.get("error", "0 games completed")
                         if "\n" in str(err):
@@ -407,19 +497,23 @@ def run_profile(args):
             print(f"  [3/3] Training step benchmark...")
             try:
                 train_result = benchmark_training_step(
-                    model, device, cfg,
-                    n_steps=5 if args.quick else 20)
+                    model, device, cfg, n_steps=5 if args.quick else 20
+                )
                 entry["training"] = train_result
-                print(f"       {train_result['examples_per_s']:.0f} examples/s "
-                      f"({train_result['ms_per_step']:.1f} ms/step)")
+                print(
+                    f"       {train_result['examples_per_s']:.0f} examples/s "
+                    f"({train_result['ms_per_step']:.1f} ms/step)"
+                )
             except Exception as e:
                 print(f"       [FAIL] {e}")
                 entry["training"] = {"error": str(e)}
 
             # Derived estimates
             try:
-                best_inf = max(entry.get("inference", [{"items_per_s": 0}]),
-                              key=lambda r: r.get("items_per_s", 0))
+                best_inf = max(
+                    entry.get("inference", [{"items_per_s": 0}]),
+                    key=lambda r: r.get("items_per_s", 0),
+                )
                 raw_leaf_eval_s = best_inf.get("items_per_s", 0)
                 avg_ply = GAME_SPECS[game]["avg_ply"]
                 iters = cfg["iters"]
@@ -427,13 +521,16 @@ def run_profile(args):
                 # Selfplay efficiency ratio (actual vs raw)
                 sp = entry.get("selfplay", {})
                 actual_leaf_s = sp.get("leaf_eval_per_s_approx", 0)
-                efficiency = actual_leaf_s / raw_leaf_eval_s if raw_leaf_eval_s > 0 else 0
+                efficiency = (
+                    actual_leaf_s / raw_leaf_eval_s if raw_leaf_eval_s > 0 else 0
+                )
 
                 entry["estimates"] = {
                     "raw_leaf_eval_per_s": round(raw_leaf_eval_s, 0),
                     "selfplay_efficiency": round(efficiency, 3),
-                    "sustained_leaf_eval_per_s": round(actual_leaf_s, 0) if actual_leaf_s > 0
-                        else round(raw_leaf_eval_s * 0.15, 0),  # conservative estimate
+                    "sustained_leaf_eval_per_s": round(actual_leaf_s, 0)
+                    if actual_leaf_s > 0
+                    else round(raw_leaf_eval_s * 0.15, 0),  # conservative estimate
                     "estimated_games_per_day": sp.get("games_per_day", 0),
                 }
             except Exception:
@@ -475,22 +572,28 @@ def print_summary_table(dataset):
     if not results:
         return
 
-    print(f"\n{'='*90}")
+    print(f"\n{'=' * 90}")
     print(f"  THROUGHPUT SUMMARY")
-    print(f"{'='*90}")
-    print(f"{'Game':<12} {'Net':<12} {'Params':>10} {'Best leaf/s':>12} {'Selfplay g/s':>13} {'Games/day':>12} {'Train ex/s':>11}")
-    print(f"{'-'*90}")
+    print(f"{'=' * 90}")
+    print(
+        f"{'Game':<12} {'Net':<12} {'Params':>10} {'Best leaf/s':>12} {'Selfplay g/s':>13} {'Games/day':>12} {'Train ex/s':>11}"
+    )
+    print(f"{'-' * 90}")
 
     for r in results:
         if "error" in r and isinstance(r.get("error"), str):
             continue
         game = r.get("game", "?")
-        net = f"{r.get('net_size','?')}({r.get('filters','?')}x{r.get('blocks','?')})"
+        net = (
+            f"{r.get('net_size', '?')}({r.get('filters', '?')}x{r.get('blocks', '?')})"
+        )
         params = f"{r.get('params', 0):,}"
 
         inf = r.get("inference", [])
         if isinstance(inf, list) and inf:
-            best_leaf = max(inf, key=lambda x: x.get("items_per_s", 0)).get("items_per_s", 0)
+            best_leaf = max(inf, key=lambda x: x.get("items_per_s", 0)).get(
+                "items_per_s", 0
+            )
         else:
             best_leaf = 0
 
@@ -501,22 +604,36 @@ def print_summary_table(dataset):
         tr = r.get("training", {})
         eps = tr.get("examples_per_s", 0)
 
-        print(f"{game:<12} {net:<12} {params:>10} {best_leaf:>12,.0f} {gps:>13.2f} {gpd:>12,.0f} {eps:>11,.0f}")
+        print(
+            f"{game:<12} {net:<12} {params:>10} {best_leaf:>12,.0f} {gps:>13.2f} {gpd:>12,.0f} {eps:>11,.0f}"
+        )
 
-    print(f"{'='*90}")
+    print(f"{'=' * 90}")
 
 
 def main():
     parser = argparse.ArgumentParser(description="QUARTZ Throughput Profiler")
-    parser.add_argument("--device", default="cuda" if "torch" not in sys.modules or __import__("torch").cuda.is_available() else "cpu")
-    parser.add_argument("--games", default="tictactoe,gomoku7,gomoku15,chess,go9",
-                        help="Comma-separated game list")
-    parser.add_argument("--sizes", default="S,M,L",
-                        help="Comma-separated network sizes (S, M, L)")
+    parser.add_argument(
+        "--device",
+        default="cuda"
+        if "torch" not in sys.modules or __import__("torch").cuda.is_available()
+        else "cpu",
+    )
+    parser.add_argument(
+        "--games",
+        default="tictactoe,gomoku7,gomoku15,chess,go9",
+        help="Comma-separated game list",
+    )
+    parser.add_argument(
+        "--sizes", default="S,M,L", help="Comma-separated network sizes (S, M, L)"
+    )
     parser.add_argument("--output", default="tmp/throughput_profile.json")
     parser.add_argument("--rust-binary", default="./target/release/mcts_demo")
-    parser.add_argument("--quick", action="store_true",
-                        help="Fewer iterations for faster results (less accurate)")
+    parser.add_argument(
+        "--quick",
+        action="store_true",
+        help="Fewer iterations for faster results (less accurate)",
+    )
     args = parser.parse_args()
     run_profile(args)
 

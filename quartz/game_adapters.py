@@ -45,9 +45,9 @@ def _encode_board_fallback(cfg, board_flat, player):
     # [OPT] Vectorized board encoding
     board_arr = np.asarray(board_flat, dtype=np.int8).ravel()[:n2]
     my_val = np.int8(player)
-    enc[0].ravel()[:len(board_arr)] = (board_arr == my_val).astype(np.float32)
+    enc[0].ravel()[: len(board_arr)] = (board_arr == my_val).astype(np.float32)
     opp_mask = (board_arr != 0) & (board_arr != my_val)
-    enc[1].ravel()[:len(board_arr)] = opp_mask.astype(np.float32)
+    enc[1].ravel()[: len(board_arr)] = opp_mask.astype(np.float32)
     if player == 1:
         enc[ch - 1] = 1.0
     return enc
@@ -94,7 +94,11 @@ class GomokuGameAdapter:
         cnt = 1
         for sign in (1, -1):
             nr, nc = r0 + sign * dr, c0 + sign * dc
-            while 0 <= nr < self._bs and 0 <= nc < self._bs and self._board[nr * self._bs + nc] == self._player:
+            while (
+                0 <= nr < self._bs
+                and 0 <= nc < self._bs
+                and self._board[nr * self._bs + nc] == self._player
+            ):
                 cnt += 1
                 nr += sign * dr
                 nc += sign * dc
@@ -106,18 +110,32 @@ class GomokuGameAdapter:
         forward = backward = 0
 
         nr, nc = r0 + dr, c0 + dc
-        while 0 <= nr < self._bs and 0 <= nc < self._bs and self._board[nr * self._bs + nc] == stone:
+        while (
+            0 <= nr < self._bs
+            and 0 <= nc < self._bs
+            and self._board[nr * self._bs + nc] == stone
+        ):
             forward += 1
             nr += dr
             nc += dc
-        forward_blocked = not (0 <= nr < self._bs and 0 <= nc < self._bs) or self._board[nr * self._bs + nc] == -stone
+        forward_blocked = (
+            not (0 <= nr < self._bs and 0 <= nc < self._bs)
+            or self._board[nr * self._bs + nc] == -stone
+        )
 
         nr, nc = r0 - dr, c0 - dc
-        while 0 <= nr < self._bs and 0 <= nc < self._bs and self._board[nr * self._bs + nc] == stone:
+        while (
+            0 <= nr < self._bs
+            and 0 <= nc < self._bs
+            and self._board[nr * self._bs + nc] == stone
+        ):
             backward += 1
             nr -= dr
             nc -= dc
-        backward_blocked = not (0 <= nr < self._bs and 0 <= nc < self._bs) or self._board[nr * self._bs + nc] == -stone
+        backward_blocked = (
+            not (0 <= nr < self._bs and 0 <= nc < self._bs)
+            or self._board[nr * self._bs + nc] == -stone
+        )
 
         return 1 + forward + backward, forward_blocked, backward_blocked
 
@@ -173,7 +191,9 @@ class GomokuGameAdapter:
 
     def _encode(self):
         if self._encoder is not None:
-            return self._encoder.encode(np.array(self._board, dtype=np.int8), self._player)
+            return self._encoder.encode(
+                np.array(self._board, dtype=np.int8), self._player
+            )
         enc = np.zeros((self._ch, self._bs, self._bs), dtype=np.float32)
         for i in range(self._bs * self._bs):
             r, c = i // self._bs, i % self._bs
@@ -206,12 +226,20 @@ class TicTacToeGameAdapter:
     def apply_move(self, action):
         self._board[action] = self._player
         lines = (
-            (0, 1, 2), (3, 4, 5), (6, 7, 8),
-            (0, 3, 6), (1, 4, 7), (2, 5, 8),
-            (0, 4, 8), (2, 4, 6),
+            (0, 1, 2),
+            (3, 4, 5),
+            (6, 7, 8),
+            (0, 3, 6),
+            (1, 4, 7),
+            (2, 5, 8),
+            (0, 4, 8),
+            (2, 4, 6),
         )
         for a, b, c in lines:
-            if self._board[a] != 0 and self._board[a] == self._board[b] == self._board[c]:
+            if (
+                self._board[a] != 0
+                and self._board[a] == self._board[b] == self._board[c]
+            ):
                 self._terminal = True
                 self._outcome = 1.0 if self._player == 1 else -1.0
                 self._player = -self._player
@@ -237,7 +265,9 @@ class TicTacToeGameAdapter:
 
     def _encode(self):
         if self._encoder is not None:
-            return self._encoder.encode(np.array(self._board, dtype=np.int8), self._player)
+            return self._encoder.encode(
+                np.array(self._board, dtype=np.int8), self._player
+            )
         enc = np.zeros((3, 3, 3), dtype=np.float32)
         for i, value in enumerate(self._board):
             r, c = divmod(i, 3)
@@ -367,7 +397,10 @@ class GoGameAdapter:
             return False
         if self._ruleset == "chinese":
             next_player = -self._player
-            if self._position_hash(board=board, player=next_player) in self._history_hashes:
+            if (
+                self._position_hash(board=board, player=next_player)
+                in self._history_hashes
+            ):
                 return False
         return True
 
@@ -452,7 +485,12 @@ class GoGameAdapter:
                         visited.add(cur)
                         group.append(cur)
                         row, col = divmod(cur, self._bs)
-                        if row == 0 or row + 1 == self._bs or col == 0 or col + 1 == self._bs:
+                        if (
+                            row == 0
+                            or row + 1 == self._bs
+                            or col == 0
+                            or col + 1 == self._bs
+                        ):
                             touches_edge = True
                         for nb in self._neighbors(cur):
                             if board[nb] == color:
@@ -469,7 +507,12 @@ class GoGameAdapter:
                             eye_count += 1
                         elif owner == 0:
                             touches_neutral = True
-                    if eye_count < 2 and not touches_neutral and touches_opponent and not touches_edge:
+                    if (
+                        eye_count < 2
+                        and not touches_neutral
+                        and touches_opponent
+                        and not touches_edge
+                    ):
                         removed_any = True
                         for stone in group:
                             board[stone] = 0
@@ -510,7 +553,11 @@ class GoGameAdapter:
             self._passes += 1
             self._ko_point = None
             self._player = -self._player
-            if self._ruleset in {"japanese", "korean"} and self._passes < 2 and self._position_hash() in self._history_hashes:
+            if (
+                self._ruleset in {"japanese", "korean"}
+                and self._passes < 2
+                and self._position_hash() in self._history_hashes
+            ):
                 self._cycle_terminal = True
             self._history_hashes.add(self._position_hash())
         else:
@@ -545,7 +592,10 @@ class GoGameAdapter:
                 else:
                     raise ValueError(f"illegal suicide move at {action}")
             self._player = -self._player
-            if self._ruleset in {"japanese", "korean"} and self._position_hash() in self._history_hashes:
+            if (
+                self._ruleset in {"japanese", "korean"}
+                and self._position_hash() in self._history_hashes
+            ):
                 self._cycle_terminal = True
             self._history_hashes.add(self._position_hash())
         if self._passes >= 2 or self._cycle_terminal:
@@ -578,14 +628,22 @@ class GoGameAdapter:
     def legal_moves(self):
         if self._terminal:
             return []
-        moves = [i for i, value in enumerate(self._board) if value == 0 and self._is_legal(i)]
+        moves = [
+            i for i, value in enumerate(self._board) if value == 0 and self._is_legal(i)
+        ]
         moves.append(self._bs * self._bs)
         return moves
 
     def _encode(self):
         if self._encoder is not None:
-            return self._encoder.encode(np.array(self._board, dtype=np.int8), self._player)
-        return self._encode_board_fn({"board": self._bs, "ch": 17}, np.array(self._board, dtype=np.int8), self._player)
+            return self._encoder.encode(
+                np.array(self._board, dtype=np.int8), self._player
+            )
+        return self._encode_board_fn(
+            {"board": self._bs, "ch": 17},
+            np.array(self._board, dtype=np.int8),
+            self._player,
+        )
 
 
 class ChessEvaluationAdapter:
@@ -616,7 +674,9 @@ class ChessEvaluationAdapter:
             _encode_chess_fen_fn=self._encode_chess_fen_fn,
         )
         g._chess_history_hashes = (
-            list(self._chess_history_hashes) if self._chess_history_hashes is not None else None
+            list(self._chess_history_hashes)
+            if self._chess_history_hashes is not None
+            else None
         )
         g._terminal = self._terminal
         g._outcome = self._outcome

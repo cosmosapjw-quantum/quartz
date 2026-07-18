@@ -65,6 +65,7 @@ class _RingBuffer:
         for i in range(size):
             yield buf[(head + i) % cap]
 
+
 _TORCH_MODULE = None
 _DATA_LOADER_CLS = None
 
@@ -205,7 +206,11 @@ def normalize_sparse_policy(policy, n_actions=None):
             raise ValueError("dense policy size mismatch")
         return target
     if n_actions is None:
-        if isinstance(policy, (list, tuple)) and policy and not isinstance(policy[0], (list, tuple, str)):
+        if (
+            isinstance(policy, (list, tuple))
+            and policy
+            and not isinstance(policy[0], (list, tuple, str))
+        ):
             return sparse_policy_from_dense(policy)
         raise ValueError("n_actions is required for sparse policy entries")
     return sparse_policy_from_entries(policy, n_actions)
@@ -227,7 +232,9 @@ class ReplayBuffer:
             metadata=dict(metadata or {}),
         )
 
-    def _make_sparse_example(self, state, policy_entries, value, n_actions, metadata=None):
+    def _make_sparse_example(
+        self, state, policy_entries, value, n_actions, metadata=None
+    ):
         sparse_policy = normalize_sparse_policy(policy_entries, n_actions=n_actions)
         return ReplayExample(
             state=np.asarray(state, dtype=np.float32),
@@ -243,7 +250,9 @@ class ReplayBuffer:
     def add_sparse(self, state, policy_entries, value, n_actions, metadata=None):
         with self._lock:
             self.buf.append(
-                self._make_sparse_example(state, policy_entries, value, n_actions, metadata=metadata)
+                self._make_sparse_example(
+                    state, policy_entries, value, n_actions, metadata=metadata
+                )
             )
 
     @staticmethod
@@ -259,7 +268,16 @@ class ReplayBuffer:
             base["actor_id"] = str(actor_id)
         return base
 
-    def add_game(self, states, policies, outcome, start_player=1, traces=None, actor_generation=None, actor_id=None):
+    def add_game(
+        self,
+        states,
+        policies,
+        outcome,
+        start_player=1,
+        traces=None,
+        actor_generation=None,
+        actor_id=None,
+    ):
         """Add a full game using side-to-move values at each ply.
 
         `actor_generation` and `actor_id`, when provided, are stamped into
@@ -271,18 +289,36 @@ class ReplayBuffer:
                 player_to_move = start_player if (i % 2 == 0) else -start_player
                 value = outcome * player_to_move
                 metadata = traces[i] if traces is not None and i < len(traces) else None
-                metadata = self._stamp_actor_generation(metadata, actor_generation, actor_id=actor_id)
-                self.buf.append(self._make_example(state, policy, value, metadata=metadata))
+                metadata = self._stamp_actor_generation(
+                    metadata, actor_generation, actor_id=actor_id
+                )
+                self.buf.append(
+                    self._make_example(state, policy, value, metadata=metadata)
+                )
 
-    def add_sparse_game(self, states, policies, outcome, n_actions, start_player=1, traces=None, actor_generation=None, actor_id=None):
+    def add_sparse_game(
+        self,
+        states,
+        policies,
+        outcome,
+        n_actions,
+        start_player=1,
+        traces=None,
+        actor_generation=None,
+        actor_id=None,
+    ):
         with self._lock:
             for i, (state, policy) in enumerate(zip(states, policies)):
                 player_to_move = start_player if (i % 2 == 0) else -start_player
                 value = outcome * player_to_move
                 metadata = traces[i] if traces is not None and i < len(traces) else None
-                metadata = self._stamp_actor_generation(metadata, actor_generation, actor_id=actor_id)
+                metadata = self._stamp_actor_generation(
+                    metadata, actor_generation, actor_id=actor_id
+                )
                 self.buf.append(
-                    self._make_sparse_example(state, policy, value, n_actions, metadata=metadata)
+                    self._make_sparse_example(
+                        state, policy, value, n_actions, metadata=metadata
+                    )
                 )
 
     def _sample_indices_from_size(self, total_size, n):
@@ -343,7 +379,9 @@ class ReplayBuffer:
         else:
             examples = []
             for _ in range(n_steps):
-                examples.extend(self._sample_examples_from_snapshot(snapshot, batch_size))
+                examples.extend(
+                    self._sample_examples_from_snapshot(snapshot, batch_size)
+                )
         if not examples:
             return None
         dataset = ReplayDataset(examples)
@@ -408,8 +446,14 @@ class ReplayBuffer:
             ptr = loaded["policy_ptr"]
             idx = loaded["policy_idx"]
             val = loaded["policy_val"]
-            n_actions = loaded["n_actions"] if "n_actions" in loaded else np.zeros(n, dtype=np.int32)
-            metadata_json = loaded["metadata_json"] if "metadata_json" in loaded else None
+            n_actions = (
+                loaded["n_actions"]
+                if "n_actions" in loaded
+                else np.zeros(n, dtype=np.int32)
+            )
+            metadata_json = (
+                loaded["metadata_json"] if "metadata_json" in loaded else None
+            )
             for i in range(n):
                 start = int(ptr[i])
                 end = int(ptr[i + 1])
@@ -424,7 +468,8 @@ class ReplayBuffer:
                         value=float(values[i]),
                         metadata=(
                             json.loads(str(metadata_json[i]))
-                            if metadata_json is not None and str(metadata_json[i]).strip()
+                            if metadata_json is not None
+                            and str(metadata_json[i]).strip()
                             else {}
                         ),
                     )
@@ -432,7 +477,9 @@ class ReplayBuffer:
         else:
             policies = loaded["policies"]
             for i in range(n):
-                self.buf.append(self._make_example(states[i], policies[i], float(values[i])))
+                self.buf.append(
+                    self._make_example(states[i], policies[i], float(values[i]))
+                )
         return n
 
 
@@ -691,7 +738,9 @@ class ReplayMetrics:
         for sample in examples:
             gen_key = "untagged"
             if isinstance(sample, ReplayExample):
-                gen = sample.metadata.get("actor_generation") if sample.metadata else None
+                gen = (
+                    sample.metadata.get("actor_generation") if sample.metadata else None
+                )
                 if gen is not None:
                     gen_key = str(int(gen))
             hist[gen_key] = hist.get(gen_key, 0) + 1
@@ -814,6 +863,7 @@ class ReplayMetrics:
                 }
                 halt_trace_per_mode[mode_key] = bucket
             return bucket
+
         for sample in examples:
             metadata = sample.metadata if isinstance(sample, ReplayExample) else {}
             metadata = metadata or {}
@@ -840,20 +890,35 @@ class ReplayMetrics:
                 penalty_sums.append(float(ctrl["penalty_sum"]))
                 penalty_metric_present += 1
             selection_trace = ctrl.get("selection_trace") or {}
-            if isinstance(selection_trace, dict) and selection_trace.get("root_selects") is not None:
+            if (
+                isinstance(selection_trace, dict)
+                and selection_trace.get("root_selects") is not None
+            ):
                 selection_trace_present += 1
                 root_selects = float(selection_trace.get("root_selects") or 0.0)
                 selection_root_selects.append(root_selects)
-                selection_refresh_selected.append(float(selection_trace.get("refresh_selected_count") or 0.0))
-                selection_penalty_abs_sums.append(float(selection_trace.get("selected_penalty_abs_sum") or 0.0))
-                selection_effective_prior_l1_sums.append(float(selection_trace.get("selected_effective_prior_l1_sum") or 0.0))
+                selection_refresh_selected.append(
+                    float(selection_trace.get("refresh_selected_count") or 0.0)
+                )
+                selection_penalty_abs_sums.append(
+                    float(selection_trace.get("selected_penalty_abs_sum") or 0.0)
+                )
+                selection_effective_prior_l1_sums.append(
+                    float(selection_trace.get("selected_effective_prior_l1_sum") or 0.0)
+                )
                 if selection_trace.get("selected_mean_candidate_count") is not None:
-                    selection_mean_candidate_counts.append(float(selection_trace["selected_mean_candidate_count"]))
+                    selection_mean_candidate_counts.append(
+                        float(selection_trace["selected_mean_candidate_count"])
+                    )
                 if selection_trace.get("selected_max_candidate_count") is not None:
-                    selection_max_candidate_counts.append(float(selection_trace["selected_max_candidate_count"]))
+                    selection_max_candidate_counts.append(
+                        float(selection_trace["selected_max_candidate_count"])
+                    )
             penalty_mode = ctrl.get("penalty_mode")
             if penalty_mode:
-                penalty_mode_counts[str(penalty_mode)] = int(penalty_mode_counts.get(str(penalty_mode), 0)) + 1
+                penalty_mode_counts[str(penalty_mode)] = (
+                    int(penalty_mode_counts.get(str(penalty_mode), 0)) + 1
+                )
             if ctrl.get("prior_refresh_rate") is not None:
                 prior_refresh_rates.append(float(ctrl["prior_refresh_rate"]))
             if ctrl.get("prior_q_divergence") is not None:
@@ -878,9 +943,9 @@ class ReplayMetrics:
                 for label, count in argmax_hist.items():
                     if not label:
                         continue
-                    voc_argmax_channel_hist[str(label)] = (
-                        int(voc_argmax_channel_hist.get(str(label), 0)) + int(count or 0)
-                    )
+                    voc_argmax_channel_hist[str(label)] = int(
+                        voc_argmax_channel_hist.get(str(label), 0)
+                    ) + int(count or 0)
             else:
                 argmax_scalar = ctrl.get("voc_argmax_channel")
                 if argmax_scalar:
@@ -917,12 +982,16 @@ class ReplayMetrics:
                 for reason, count in reason_hist.items():
                     if not reason:
                         continue
-                    halt_reason_hist[str(reason)] = int(halt_reason_hist.get(str(reason), 0)) + int(count or 0)
+                    halt_reason_hist[str(reason)] = int(
+                        halt_reason_hist.get(str(reason), 0)
+                    ) + int(count or 0)
             else:
                 stop_reason = ctrl.get("stop_reason") or metadata.get("stop_reason")
                 if stop_reason:
                     halt_metric_present += 1
-                    halt_reason_hist[str(stop_reason)] = int(halt_reason_hist.get(str(stop_reason), 0)) + 1
+                    halt_reason_hist[str(stop_reason)] = (
+                        int(halt_reason_hist.get(str(stop_reason), 0)) + 1
+                    )
             # P01: aggregate the new `extended` block. Each game-row's
             # extended block carries cumulative counters for that game's
             # search; we sum across games to get a study-level rate. Older
@@ -932,25 +1001,29 @@ class ReplayMetrics:
             if isinstance(extended, dict) and extended:
                 ext_present_count += 1
                 if extended.get("refresh_active_count") is not None:
-                    ext_refresh_active_total += int(extended["refresh_active_count"] or 0)
+                    ext_refresh_active_total += int(
+                        extended["refresh_active_count"] or 0
+                    )
                 if extended.get("refresh_eligible_count") is not None:
-                    ext_refresh_eligible_total += int(extended["refresh_eligible_count"] or 0)
+                    ext_refresh_eligible_total += int(
+                        extended["refresh_eligible_count"] or 0
+                    )
                 pm_counts = extended.get("controller_penalty_mode_counts") or {}
                 if isinstance(pm_counts, dict):
                     for k, v in pm_counts.items():
                         if not k:
                             continue
-                        ext_penalty_mode_counts[str(k)] = (
-                            int(ext_penalty_mode_counts.get(str(k), 0)) + int(v or 0)
-                        )
+                        ext_penalty_mode_counts[str(k)] = int(
+                            ext_penalty_mode_counts.get(str(k), 0)
+                        ) + int(v or 0)
                 hr_counts = extended.get("halt_reason_count") or {}
                 if isinstance(hr_counts, dict):
                     for k, v in hr_counts.items():
                         if not k:
                             continue
-                        ext_halt_reason_counts[str(k)] = (
-                            int(ext_halt_reason_counts.get(str(k), 0)) + int(v or 0)
-                        )
+                        ext_halt_reason_counts[str(k)] = int(
+                            ext_halt_reason_counts.get(str(k), 0)
+                        ) + int(v or 0)
             # Per-penalty-mode halt-trace bookkeeping. This is auditable
             # evidence for the budget-fairness check across controller modes.
             mode_key = str(penalty_mode) if penalty_mode else "unknown"
@@ -967,7 +1040,9 @@ class ReplayMetrics:
                     bucket["p_flip_at_halt"].append(float(pflip_at_halt))
                 if stop_reason_tag:
                     key = str(stop_reason_tag)
-                    bucket["stop_reasons"][key] = int(bucket["stop_reasons"].get(key, 0)) + 1
+                    bucket["stop_reasons"][key] = (
+                        int(bucket["stop_reasons"].get(key, 0)) + 1
+                    )
         return {
             "samples": sample_n,
             "search_profile_counts": profile_counts,
@@ -977,11 +1052,17 @@ class ReplayMetrics:
                 if realized_iterations
                 else None
             ),
-            "mean_dup_rate": float(sum(dup_rates) / len(dup_rates)) if dup_rates else None,
+            "mean_dup_rate": float(sum(dup_rates) / len(dup_rates))
+            if dup_rates
+            else None,
             "mean_p_flip": float(sum(p_flips) / len(p_flips)) if p_flips else None,
             "halt_reason_hist": halt_reason_hist,
-            "mean_refresh_count": float(sum(refresh_counts) / len(refresh_counts)) if refresh_counts else None,
-            "mean_penalty_sum": float(sum(penalty_sums) / len(penalty_sums)) if penalty_sums else None,
+            "mean_refresh_count": float(sum(refresh_counts) / len(refresh_counts))
+            if refresh_counts
+            else None,
+            "mean_penalty_sum": float(sum(penalty_sums) / len(penalty_sums))
+            if penalty_sums
+            else None,
             "mean_selection_root_selects": (
                 float(sum(selection_root_selects) / len(selection_root_selects))
                 if selection_root_selects
@@ -998,12 +1079,18 @@ class ReplayMetrics:
                 else None
             ),
             "mean_selection_effective_prior_l1_sum": (
-                float(sum(selection_effective_prior_l1_sums) / len(selection_effective_prior_l1_sums))
+                float(
+                    sum(selection_effective_prior_l1_sums)
+                    / len(selection_effective_prior_l1_sums)
+                )
                 if selection_effective_prior_l1_sums
                 else None
             ),
             "mean_selection_candidate_count": (
-                float(sum(selection_mean_candidate_counts) / len(selection_mean_candidate_counts))
+                float(
+                    sum(selection_mean_candidate_counts)
+                    / len(selection_mean_candidate_counts)
+                )
                 if selection_mean_candidate_counts
                 else None
             ),
@@ -1028,11 +1115,19 @@ class ReplayMetrics:
                 if root_only_shaping_seen
                 else None
             ),
-            "controller_telemetry_partial_frac": float(telemetry_partial / max(sample_n, 1)),
+            "controller_telemetry_partial_frac": float(
+                telemetry_partial / max(sample_n, 1)
+            ),
             "halt_metric_coverage_frac": float(halt_metric_present / max(sample_n, 1)),
-            "refresh_metric_coverage_frac": float(refresh_metric_present / max(sample_n, 1)),
-            "penalty_metric_coverage_frac": float(penalty_metric_present / max(sample_n, 1)),
-            "selection_trace_coverage_frac": float(selection_trace_present / max(sample_n, 1)),
+            "refresh_metric_coverage_frac": float(
+                refresh_metric_present / max(sample_n, 1)
+            ),
+            "penalty_metric_coverage_frac": float(
+                penalty_metric_present / max(sample_n, 1)
+            ),
+            "selection_trace_coverage_frac": float(
+                selection_trace_present / max(sample_n, 1)
+            ),
             "halt_trace": _finalize_halt_trace(halt_trace_per_mode),
             # P6: voc-channel decomposition (mean across samples) and a
             # schema_version census so a downstream consumer can fail
@@ -1064,9 +1159,15 @@ class ReplayMetrics:
             "voc_argmax_channel_hist": dict(voc_argmax_channel_hist),
             "controller_schema_versions": dict(controller_schema_versions),
             "actuator_coverage_frac": float(actuator_coverage_seen / max(sample_n, 1)),
-            "prior_refresh_rate_configured_frac": float(prior_refresh_rate_configured / max(actuator_coverage_seen, 1)),
-            "prior_refresh_rate_consumed_by_mode_frac": float(prior_refresh_rate_consumed_by_mode / max(actuator_coverage_seen, 1)),
-            "prior_refresh_rate_inert_for_mode_frac": float(prior_refresh_rate_inert_for_mode / max(actuator_coverage_seen, 1)),
+            "prior_refresh_rate_configured_frac": float(
+                prior_refresh_rate_configured / max(actuator_coverage_seen, 1)
+            ),
+            "prior_refresh_rate_consumed_by_mode_frac": float(
+                prior_refresh_rate_consumed_by_mode / max(actuator_coverage_seen, 1)
+            ),
+            "prior_refresh_rate_inert_for_mode_frac": float(
+                prior_refresh_rate_inert_for_mode / max(actuator_coverage_seen, 1)
+            ),
             "prior_refresh_source_counts": dict(prior_refresh_source_counts),
             # P01: extended block aggregation. The legacy
             # `mean_prior_refresh_rate` above averages the configured

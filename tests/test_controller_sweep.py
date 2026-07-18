@@ -14,7 +14,9 @@ def load_module(name: str, path: Path):
 
 def load_controller_sweep_module():
     root = Path(__file__).resolve().parents[1]
-    return load_module("controller_sweep_script", root / "scripts" / "controller_sweep.py")
+    return load_module(
+        "controller_sweep_script", root / "scripts" / "controller_sweep.py"
+    )
 
 
 def test_build_default_search_space_centers_on_base_cfg():
@@ -63,16 +65,46 @@ def test_sample_candidate_pool_includes_anchors_and_unique_rows():
 def test_select_stage2_candidates_keeps_anchor_rows():
     sweep = load_controller_sweep_module()
     candidates = [
-        {"id": "A1_legacy_base", "source": "anchor", "label": "anchor-1", "overrides": {}},
-        {"id": "A2_legacy_krefresh", "source": "anchor", "label": "anchor-2", "overrides": {}},
-        {"id": "A3_theory_base", "source": "anchor", "label": "anchor-3", "overrides": {}},
-        {"id": "A4_theory_krefresh", "source": "anchor", "label": "anchor-4", "overrides": {}},
+        {
+            "id": "A1_legacy_base",
+            "source": "anchor",
+            "label": "anchor-1",
+            "overrides": {},
+        },
+        {
+            "id": "A2_legacy_krefresh",
+            "source": "anchor",
+            "label": "anchor-2",
+            "overrides": {},
+        },
+        {
+            "id": "A3_theory_base",
+            "source": "anchor",
+            "label": "anchor-3",
+            "overrides": {},
+        },
+        {
+            "id": "A4_theory_krefresh",
+            "source": "anchor",
+            "label": "anchor-4",
+            "overrides": {},
+        },
         {"id": "R01_alpha", "source": "random", "label": "random-1", "overrides": {}},
         {"id": "R02_beta", "source": "random", "label": "random-2", "overrides": {}},
     ]
     summary = [
-        {"candidate_id": "R01_alpha", "stage1_score": 0.7, "agreement_rate": 0.7, "reference_policy_mass": 0.5},
-        {"candidate_id": "R02_beta", "stage1_score": 0.6, "agreement_rate": 0.6, "reference_policy_mass": 0.4},
+        {
+            "candidate_id": "R01_alpha",
+            "stage1_score": 0.7,
+            "agreement_rate": 0.7,
+            "reference_policy_mass": 0.5,
+        },
+        {
+            "candidate_id": "R02_beta",
+            "stage1_score": 0.6,
+            "agreement_rate": 0.6,
+            "reference_policy_mass": 0.4,
+        },
     ]
 
     selected = sweep.select_stage2_candidates(candidates, summary, topk=5)
@@ -89,14 +121,39 @@ def test_select_stage2_candidates_keeps_anchor_rows():
 def test_select_stage2_candidates_honors_exact_anchor_cap():
     sweep = load_controller_sweep_module()
     candidates = [
-        {"id": "A1_legacy_base", "source": "anchor", "label": "anchor-1", "overrides": {}},
-        {"id": "A2_legacy_krefresh", "source": "anchor", "label": "anchor-2", "overrides": {}},
-        {"id": "A3_theory_base", "source": "anchor", "label": "anchor-3", "overrides": {}},
-        {"id": "A4_theory_krefresh", "source": "anchor", "label": "anchor-4", "overrides": {}},
+        {
+            "id": "A1_legacy_base",
+            "source": "anchor",
+            "label": "anchor-1",
+            "overrides": {},
+        },
+        {
+            "id": "A2_legacy_krefresh",
+            "source": "anchor",
+            "label": "anchor-2",
+            "overrides": {},
+        },
+        {
+            "id": "A3_theory_base",
+            "source": "anchor",
+            "label": "anchor-3",
+            "overrides": {},
+        },
+        {
+            "id": "A4_theory_krefresh",
+            "source": "anchor",
+            "label": "anchor-4",
+            "overrides": {},
+        },
         {"id": "R01_alpha", "source": "random", "label": "random-1", "overrides": {}},
     ]
     summary = [
-        {"candidate_id": "R01_alpha", "stage1_score": 0.9, "agreement_rate": 0.9, "reference_policy_mass": 0.5},
+        {
+            "candidate_id": "R01_alpha",
+            "stage1_score": 0.9,
+            "agreement_rate": 0.9,
+            "reference_policy_mass": 0.5,
+        },
     ]
 
     selected = sweep.select_stage2_candidates(candidates, summary, topk=4)
@@ -112,8 +169,18 @@ def test_select_stage2_candidates_honors_exact_anchor_cap():
 def test_aggregate_stage2_matches_builds_overall_leaderboard():
     sweep = load_controller_sweep_module()
     candidates = [
-        {"id": "A1_legacy_base", "source": "anchor", "label": "legacy", "overrides": {}},
-        {"id": "A4_theory_krefresh", "source": "anchor", "label": "theory", "overrides": {}},
+        {
+            "id": "A1_legacy_base",
+            "source": "anchor",
+            "label": "legacy",
+            "overrides": {},
+        },
+        {
+            "id": "A4_theory_krefresh",
+            "source": "anchor",
+            "label": "theory",
+            "overrides": {},
+        },
     ]
     matches = [
         {
@@ -175,7 +242,9 @@ def test_generate_random_positions_returns_non_terminal_gomoku_positions():
     sweep = load_controller_sweep_module()
     cfg = {"board": 7, "win": 4}
 
-    rows = sweep.generate_random_positions("gomoku7", cfg, count=6, seed=13, min_moves=4, max_moves=8)
+    rows = sweep.generate_random_positions(
+        "gomoku7", cfg, count=6, seed=13, min_moves=4, max_moves=8
+    )
 
     assert len(rows) == 6
     for row in rows:
@@ -229,15 +298,23 @@ def test_load_resume_state_reads_report_and_shortlist(tmp_path):
         "manifest": {
             "game": "gomoku7",
             "checkpoints": ["a.pt", "b.pt"],
-            "candidates": [{"id": "A1", "label": "anchor", "source": "anchor", "overrides": {}}],
+            "candidates": [
+                {"id": "A1", "label": "anchor", "source": "anchor", "overrides": {}}
+            ],
         },
         "stage1": {
-            "shortlist": [{"id": "A1", "label": "anchor", "source": "anchor", "overrides": {}}],
+            "shortlist": [
+                {"id": "A1", "label": "anchor", "source": "anchor", "overrides": {}}
+            ],
         },
     }
-    (base / "sweep_report.json").write_text(__import__("json").dumps(payload), encoding="utf-8")
+    (base / "sweep_report.json").write_text(
+        __import__("json").dumps(payload), encoding="utf-8"
+    )
 
-    report_dir, manifest, candidates, checkpoints, shortlist = sweep.load_resume_state(str(base))
+    report_dir, manifest, candidates, checkpoints, shortlist = sweep.load_resume_state(
+        str(base)
+    )
 
     assert report_dir == base
     assert manifest["game"] == "gomoku7"
@@ -268,13 +345,17 @@ def test_resolve_explicit_checkpoint_paths_rejects_directories_and_missing(tmp_p
     bad_dir.mkdir()
 
     try:
-        sweep.resolve_explicit_checkpoint_paths(f"{good},{bad_dir},{tmp_path / 'missing.pt'}")
+        sweep.resolve_explicit_checkpoint_paths(
+            f"{good},{bad_dir},{tmp_path / 'missing.pt'}"
+        )
     except ValueError as exc:
         text = str(exc)
         assert "--checkpoints expects checkpoint files" in text
         assert "checkpoint paths do not exist" in text
     else:
-        raise AssertionError("expected ValueError for invalid explicit checkpoint inputs")
+        raise AssertionError(
+            "expected ValueError for invalid explicit checkpoint inputs"
+        )
 
 
 def test_resolve_checkpoint_paths_accepts_explicit_files(tmp_path):

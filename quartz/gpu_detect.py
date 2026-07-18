@@ -33,19 +33,20 @@ from pathlib import Path
 
 @dataclass
 class GpuInfo:
-    vendor: str = "none"          # "nvidia", "amd", "apple", "intel", "none"
-    arch: str = ""                # "sm_86", "gfx1030", "apple_m1", etc.
-    driver: str = ""              # "cuda-12.4", "rocm-6.2", etc.
+    vendor: str = "none"  # "nvidia", "amd", "apple", "intel", "none"
+    arch: str = ""  # "sm_86", "gfx1030", "apple_m1", etc.
+    driver: str = ""  # "cuda-12.4", "rocm-6.2", etc.
     vram_mb: int = 0
     device_name: str = ""
     compute_capability: str = ""  # CUDA compute capability
-    hsa_override: str = ""        # HSA_OVERRIDE_GFX_VERSION if needed
+    hsa_override: str = ""  # HSA_OVERRIDE_GFX_VERSION if needed
     details: dict = field(default_factory=dict)
 
 
 # ════════════════════════════════════════════
 # § Detection
 # ════════════════════════════════════════════
+
 
 def detect_gpu() -> GpuInfo:
     """Auto-detect GPU hardware. Tries nvidia-smi, rocm-smi, sysctl (macOS)."""
@@ -70,9 +71,14 @@ def detect_gpu() -> GpuInfo:
 def _detect_nvidia() -> GpuInfo:
     try:
         out = subprocess.check_output(
-            ["nvidia-smi", "--query-gpu=name,memory.total,driver_version,compute_cap",
-             "--format=csv,noheader,nounits"],
-            stderr=subprocess.DEVNULL, text=True, timeout=5
+            [
+                "nvidia-smi",
+                "--query-gpu=name,memory.total,driver_version,compute_cap",
+                "--format=csv,noheader,nounits",
+            ],
+            stderr=subprocess.DEVNULL,
+            text=True,
+            timeout=5,
         ).strip()
         if not out:
             return GpuInfo()
@@ -85,14 +91,18 @@ def _detect_nvidia() -> GpuInfo:
         # Detect CUDA toolkit version
         cuda_ver = ""
         try:
-            nvcc = subprocess.check_output(["nvcc", "--version"], text=True, stderr=subprocess.DEVNULL, timeout=5)
+            nvcc = subprocess.check_output(
+                ["nvcc", "--version"], text=True, stderr=subprocess.DEVNULL, timeout=5
+            )
             m = re.search(r"release (\d+\.\d+)", nvcc)
             if m:
                 cuda_ver = m.group(1)
         except Exception:
             # Try from nvidia-smi
             try:
-                smi = subprocess.check_output(["nvidia-smi"], text=True, stderr=subprocess.DEVNULL, timeout=5)
+                smi = subprocess.check_output(
+                    ["nvidia-smi"], text=True, stderr=subprocess.DEVNULL, timeout=5
+                )
                 m = re.search(r"CUDA Version:\s*(\d+\.\d+)", smi)
                 if m:
                     cuda_ver = m.group(1)
@@ -107,7 +117,11 @@ def _detect_nvidia() -> GpuInfo:
             device_name=name,
             compute_capability=cc,
         )
-    except (FileNotFoundError, subprocess.TimeoutExpired, subprocess.CalledProcessError):
+    except (
+        FileNotFoundError,
+        subprocess.TimeoutExpired,
+        subprocess.CalledProcessError,
+    ):
         return GpuInfo()
 
 
@@ -120,7 +134,9 @@ def _detect_rocm() -> GpuInfo:
     try:
         out = subprocess.check_output(
             ["rocm-smi", "--showproductname", "--showmeminfo", "vram"],
-            stderr=subprocess.DEVNULL, text=True, timeout=5
+            stderr=subprocess.DEVNULL,
+            text=True,
+            timeout=5,
         )
 
         name = ""
@@ -137,7 +153,10 @@ def _detect_rocm() -> GpuInfo:
         arch = ""
         try:
             agent_out = subprocess.check_output(
-                ["rocm-smi", "--showuniqueid"], text=True, stderr=subprocess.DEVNULL, timeout=5
+                ["rocm-smi", "--showuniqueid"],
+                text=True,
+                stderr=subprocess.DEVNULL,
+                timeout=5,
             )
         except Exception:
             pass
@@ -174,9 +193,15 @@ def _detect_rocm() -> GpuInfo:
         if arch:
             # Known overrides: gfx1031→10.3.0, gfx1032→10.3.0, etc.
             overrides = {
-                "gfx1031": "10.3.0", "gfx1032": "10.3.0", "gfx1033": "10.3.0",
-                "gfx1034": "10.3.0", "gfx1035": "10.3.0", "gfx1036": "10.3.0",
-                "gfx1100": "11.0.0", "gfx1101": "11.0.0", "gfx1102": "11.0.0",
+                "gfx1031": "10.3.0",
+                "gfx1032": "10.3.0",
+                "gfx1033": "10.3.0",
+                "gfx1034": "10.3.0",
+                "gfx1035": "10.3.0",
+                "gfx1036": "10.3.0",
+                "gfx1100": "11.0.0",
+                "gfx1101": "11.0.0",
+                "gfx1102": "11.0.0",
                 "gfx1103": "11.0.0",
             }
             hsa_override = overrides.get(arch, "")
@@ -189,7 +214,11 @@ def _detect_rocm() -> GpuInfo:
             device_name=name,
             hsa_override=hsa_override,
         )
-    except (FileNotFoundError, subprocess.TimeoutExpired, subprocess.CalledProcessError):
+    except (
+        FileNotFoundError,
+        subprocess.TimeoutExpired,
+        subprocess.CalledProcessError,
+    ):
         return GpuInfo()
 
 
@@ -199,8 +228,7 @@ def _detect_apple() -> GpuInfo:
 
     try:
         out = subprocess.check_output(
-            ["sysctl", "-n", "machdep.cpu.brand_string"],
-            text=True, timeout=5
+            ["sysctl", "-n", "machdep.cpu.brand_string"], text=True, timeout=5
         ).strip()
         is_apple_silicon = "Apple" in out
 
@@ -226,6 +254,7 @@ def _detect_apple() -> GpuInfo:
 # § Install Recommendations
 # ════════════════════════════════════════════
 
+
 def recommend_install(gpu: GpuInfo, framework: str = "auto") -> dict:
     """Recommend pip install commands based on detected GPU.
 
@@ -247,9 +276,13 @@ def recommend_install(gpu: GpuInfo, framework: str = "auto") -> dict:
 
         # PyTorch
         if cuda_major and int(cuda_major) >= 12:
-            result["torch"] = [f"pip install torch --index-url https://download.pytorch.org/whl/cu{cuda_major}1"]
+            result["torch"] = [
+                f"pip install torch --index-url https://download.pytorch.org/whl/cu{cuda_major}1"
+            ]
         elif cuda_major:
-            result["torch"] = [f"pip install torch --index-url https://download.pytorch.org/whl/cu{cuda_major}0"]
+            result["torch"] = [
+                f"pip install torch --index-url https://download.pytorch.org/whl/cu{cuda_major}0"
+            ]
         else:
             result["torch"] = ["pip install torch"]
 
@@ -290,7 +323,9 @@ def recommend_install(gpu: GpuInfo, framework: str = "auto") -> dict:
         result["onnx"] = ["pip install onnxruntime"]
 
     else:
-        result["torch"] = ["pip install torch --index-url https://download.pytorch.org/whl/cpu"]
+        result["torch"] = [
+            "pip install torch --index-url https://download.pytorch.org/whl/cpu"
+        ]
         result["jax"] = ["pip install jax"]
         result["onnx"] = ["pip install onnxruntime"]
 
@@ -337,6 +372,7 @@ def install_deps(gpu: GpuInfo = None, framework: str = "torch", dry_run: bool = 
 # § Dockerfile Generator
 # ════════════════════════════════════════════
 
+
 def generate_dockerfile(gpu: GpuInfo = None, framework: str = "torch") -> str:
     """Generate a Dockerfile for the detected GPU environment."""
     if gpu is None:
@@ -356,7 +392,9 @@ def generate_dockerfile(gpu: GpuInfo = None, framework: str = "torch") -> str:
     env_lines = "\n".join(f"ENV {k}={v}" for k, v in recs.get("env", {}).items())
     pip_lines = "\n".join(f"RUN {cmd}" for cmd in pip_cmds)
 
-    ort_suffix = "-gpu" if gpu.vendor == "nvidia" else "-rocm" if gpu.vendor == "amd" else ""
+    ort_suffix = (
+        "-gpu" if gpu.vendor == "nvidia" else "-rocm" if gpu.vendor == "amd" else ""
+    )
     ort_pkg = f"onnxruntime{ort_suffix}"
 
     lines = [
@@ -400,23 +438,32 @@ def generate_dockerfile(gpu: GpuInfo = None, framework: str = "torch") -> str:
 # § CLI
 # ════════════════════════════════════════════
 
+
 def main():
     import argparse
-    parser = argparse.ArgumentParser(description="QUARTZ GPU Detection & Install Helper")
-    parser.add_argument("--install", choices=["torch", "jax", "onnx", "all"],
-                        help="Install dependencies for specified framework")
-    parser.add_argument("--dry-run", action="store_true",
-                        help="Print commands without executing")
-    parser.add_argument("--dockerfile", action="store_true",
-                        help="Generate Dockerfile for detected GPU")
-    parser.add_argument("--json", action="store_true",
-                        help="Output GPU info as JSON")
+
+    parser = argparse.ArgumentParser(
+        description="QUARTZ GPU Detection & Install Helper"
+    )
+    parser.add_argument(
+        "--install",
+        choices=["torch", "jax", "onnx", "all"],
+        help="Install dependencies for specified framework",
+    )
+    parser.add_argument(
+        "--dry-run", action="store_true", help="Print commands without executing"
+    )
+    parser.add_argument(
+        "--dockerfile", action="store_true", help="Generate Dockerfile for detected GPU"
+    )
+    parser.add_argument("--json", action="store_true", help="Output GPU info as JSON")
     args = parser.parse_args()
 
     gpu = detect_gpu()
 
     if args.json:
         import json
+
         print(json.dumps(gpu.__dict__, indent=2))
         return
 
@@ -436,7 +483,9 @@ def main():
         return
 
     if args.install:
-        frameworks = ["torch", "jax", "onnx"] if args.install == "all" else [args.install]
+        frameworks = (
+            ["torch", "jax", "onnx"] if args.install == "all" else [args.install]
+        )
         for fw in frameworks:
             install_deps(gpu, fw, dry_run=args.dry_run)
         return

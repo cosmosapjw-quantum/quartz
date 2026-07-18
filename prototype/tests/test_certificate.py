@@ -91,7 +91,9 @@ def test_eb_width_increases_with_sigma2():
 def test_certificate_fires_on_clear_separation():
     """3-arm case: arm 0 dominates with large n; certificate fires."""
     intervals = [
-        eb_interval_from_arm(mu_hat=0.85, n=2000, sigma2=0.005, K=3, t=2200, delta=0.05),
+        eb_interval_from_arm(
+            mu_hat=0.85, n=2000, sigma2=0.005, K=3, t=2200, delta=0.05
+        ),
         eb_interval_from_arm(mu_hat=0.40, n=200, sigma2=0.005, K=3, t=2200, delta=0.05),
         eb_interval_from_arm(mu_hat=0.30, n=100, sigma2=0.005, K=3, t=2200, delta=0.05),
     ]
@@ -141,11 +143,9 @@ def test_certificate_uses_runner_up_not_just_best():
         assert math.isclose(cert.max_U_runner, max_other_upper, abs_tol=1e-9)
     # In either case, the runner-up bookkeeping must point at the
     # high-upper arm, NOT at a different filler:
-    expected_runner = (
-        max(
-            (i for i in range(len(intervals)) if i != cert.best_pos),
-            key=lambda i: intervals[i].upper,
-        )
+    expected_runner = max(
+        (i for i in range(len(intervals)) if i != cert.best_pos),
+        key=lambda i: intervals[i].upper,
     )
     assert cert.runner_up_pos == expected_runner
 
@@ -164,6 +164,10 @@ def test_certificate_handles_two_arms_only():
 
 def test_certificate_rejects_single_arm():
     with pytest.raises(ValueError):
-        best_vs_runner_certificate([
-            eb_interval_from_arm(mu_hat=0.5, n=10, sigma2=0.01, K=1, t=20, delta=0.05),
-        ])
+        best_vs_runner_certificate(
+            [
+                eb_interval_from_arm(
+                    mu_hat=0.5, n=10, sigma2=0.01, K=1, t=20, delta=0.05
+                ),
+            ]
+        )

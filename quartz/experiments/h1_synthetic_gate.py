@@ -116,12 +116,18 @@ def run_gate(
 
     # Monotone-in-budget diagnostic at a fixed mid peak.
     mono_curve = [
-        argmax_stability(synthetic_counts(monotone_peak, int(total), n_arms), seed=seed, n_boot=n_boot)
+        argmax_stability(
+            synthetic_counts(monotone_peak, int(total), n_arms),
+            seed=seed,
+            n_boot=n_boot,
+        )
         for total in sorted(bank)
     ]
     monotone = all(b >= a - 1e-9 for a, b in zip(mono_curve, mono_curve[1:]))
 
-    discriminates_at_each_budget = bool(discriminates_flags) and all(discriminates_flags)
+    discriminates_at_each_budget = bool(discriminates_flags) and all(
+        discriminates_flags
+    )
     not_saturated = bool(global_min < _SATURATION_CEILING)
     return {
         "h1_synthetic_gate_schema_version": H1_SYNTHETIC_GATE_SCHEMA_VERSION,

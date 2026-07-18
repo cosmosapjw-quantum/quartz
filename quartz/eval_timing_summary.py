@@ -61,7 +61,9 @@ def summarize_ablation_eval_timings(eval_payload: dict | None) -> dict:
                 "startup_s": startup_s,
                 "match_elapsed_s": match_elapsed_s,
                 "total_elapsed_s": total_s,
-                "games_per_s_search_only": (games / match_elapsed_s) if match_elapsed_s > 0 else None,
+                "games_per_s_search_only": (games / match_elapsed_s)
+                if match_elapsed_s > 0
+                else None,
                 "games_per_s_end_to_end": (games / total_s) if total_s > 0 else None,
                 "startup_share": (startup_s / total_s) if total_s > 0 else None,
             }
@@ -74,9 +76,15 @@ def summarize_ablation_eval_timings(eval_payload: dict | None) -> dict:
         "total_startup_s": total_startup_s,
         "total_match_elapsed_s": total_match_elapsed_s,
         "total_elapsed_s": total_elapsed_s,
-        "games_per_s_search_only": (total_games / total_match_elapsed_s) if total_match_elapsed_s > 0 else None,
-        "games_per_s_end_to_end": (total_games / total_elapsed_s) if total_elapsed_s > 0 else None,
-        "startup_share": (total_startup_s / total_elapsed_s) if total_elapsed_s > 0 else None,
+        "games_per_s_search_only": (total_games / total_match_elapsed_s)
+        if total_match_elapsed_s > 0
+        else None,
+        "games_per_s_end_to_end": (total_games / total_elapsed_s)
+        if total_elapsed_s > 0
+        else None,
+        "startup_share": (total_startup_s / total_elapsed_s)
+        if total_elapsed_s > 0
+        else None,
     }
 
 
@@ -91,7 +99,9 @@ def summarize_controller_stage2_timings(stage2_payload: dict | None) -> dict:
     for row in matches:
         games = int(row.get("games", 0) or 0)
         total_games += games
-        total_match_elapsed_s += _safe_float((row.get("timing_s") or {}).get("match_elapsed_s"))
+        total_match_elapsed_s += _safe_float(
+            (row.get("timing_s") or {}).get("match_elapsed_s")
+        )
         by_checkpoint_rows.setdefault(str(row.get("checkpoint_path")), []).append(row)
 
     total_startup_s = 0.0
@@ -115,7 +125,9 @@ def summarize_controller_stage2_timings(stage2_payload: dict | None) -> dict:
                 "startup_s": startup_s,
                 "match_elapsed_s": match_elapsed_s,
                 "total_elapsed_s": total_s,
-                "games_per_s_search_only": (games / match_elapsed_s) if match_elapsed_s > 0 else None,
+                "games_per_s_search_only": (games / match_elapsed_s)
+                if match_elapsed_s > 0
+                else None,
                 "games_per_s_end_to_end": (games / total_s) if total_s > 0 else None,
                 "startup_share": (startup_s / total_s) if total_s > 0 else None,
             }
@@ -128,7 +140,13 @@ def summarize_controller_stage2_timings(stage2_payload: dict | None) -> dict:
         "total_startup_s": total_startup_s,
         "total_match_elapsed_s": total_match_elapsed_s,
         "total_elapsed_s": total_elapsed_s,
-        "games_per_s_search_only": (total_games / total_match_elapsed_s) if total_match_elapsed_s > 0 else None,
-        "games_per_s_end_to_end": (total_games / total_elapsed_s) if total_elapsed_s > 0 else None,
-        "startup_share": (total_startup_s / total_elapsed_s) if total_elapsed_s > 0 else None,
+        "games_per_s_search_only": (total_games / total_match_elapsed_s)
+        if total_match_elapsed_s > 0
+        else None,
+        "games_per_s_end_to_end": (total_games / total_elapsed_s)
+        if total_elapsed_s > 0
+        else None,
+        "startup_share": (total_startup_s / total_elapsed_s)
+        if total_elapsed_s > 0
+        else None,
     }

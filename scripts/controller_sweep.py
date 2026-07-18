@@ -86,7 +86,9 @@ def resolve_resume_report(path_str: str) -> Path:
     return path
 
 
-def load_resume_state(path_str: str) -> tuple[Path, dict, list[dict], list[str], list[dict] | None]:
+def load_resume_state(
+    path_str: str,
+) -> tuple[Path, dict, list[dict], list[str], list[dict] | None]:
     report_path = resolve_resume_report(path_str)
     data = json.loads(report_path.read_text(encoding="utf-8"))
     manifest = data.get("manifest") or {}
@@ -129,21 +131,34 @@ def build_default_search_space(base_cfg: dict) -> dict[str, list]:
     base_cpuct = float(base_cfg.get("c_puct", 2.0) or 2.0)
 
     def around_int(value: int) -> list[int]:
-        return sorted(set([
-            max(4, int(round(value * 0.5))),
-            max(4, int(value)),
-            max(4, int(round(value * 1.5))),
-        ]))
+        return sorted(
+            set(
+                [
+                    max(4, int(round(value * 0.5))),
+                    max(4, int(value)),
+                    max(4, int(round(value * 1.5))),
+                ]
+            )
+        )
 
-    def around_float(value: float, delta: float, lo: float = 0.05, hi: float = 8.0) -> list[float]:
-        return sorted(set(round(max(lo, min(hi, x)), 3) for x in (value - delta, value, value + delta)))
+    def around_float(
+        value: float, delta: float, lo: float = 0.05, hi: float = 8.0
+    ) -> list[float]:
+        return sorted(
+            set(
+                round(max(lo, min(hi, x)), 3)
+                for x in (value - delta, value, value + delta)
+            )
+        )
 
     return {
         "penalty_mode": ["GatedRefreshLegacy", "GatedRefresh"],
         "root_only_shaping": [False, True],
         "prior_refresh_rate": [0.0, 0.25, 0.5, 0.75],
         "prior_refresh_temp": [0.0, 0.5, 1.0],
-        "hbar_penalty_cap": around_float(base_hbar, max(0.1, base_hbar * 0.5), lo=0.05, hi=1.0),
+        "hbar_penalty_cap": around_float(
+            base_hbar, max(0.1, base_hbar * 0.5), lo=0.05, hi=1.0
+        ),
         "sigma_0": around_float(base_sigma, 0.1, lo=0.05, hi=1.0),
         "min_visits": around_int(base_min_visits),
         "check_interval": around_int(base_check_interval),
@@ -153,18 +168,38 @@ def build_default_search_space(base_cfg: dict) -> dict[str, list]:
 
 def canonicalize_candidate(overrides: dict, base_cfg: dict) -> dict:
     out = {
-        "penalty_mode": str(overrides.get("penalty_mode", base_cfg.get("penalty_mode", "GatedRefresh"))),
+        "penalty_mode": str(
+            overrides.get("penalty_mode", base_cfg.get("penalty_mode", "GatedRefresh"))
+        ),
         "root_only_shaping": bool(overrides.get("root_only_shaping", False)),
-        "prior_refresh_rate": float(overrides.get("prior_refresh_rate", base_cfg.get("prior_refresh_rate", 0.0) or 0.0)),
-        "prior_refresh_temp": float(overrides.get("prior_refresh_temp", base_cfg.get("prior_refresh_temp", 1.0) or 1.0)),
-        "hbar_penalty_cap": float(overrides.get("hbar_penalty_cap", base_cfg.get("hbar_penalty_cap", 0.3) or 0.3)),
+        "prior_refresh_rate": float(
+            overrides.get(
+                "prior_refresh_rate", base_cfg.get("prior_refresh_rate", 0.0) or 0.0
+            )
+        ),
+        "prior_refresh_temp": float(
+            overrides.get(
+                "prior_refresh_temp", base_cfg.get("prior_refresh_temp", 1.0) or 1.0
+            )
+        ),
+        "hbar_penalty_cap": float(
+            overrides.get(
+                "hbar_penalty_cap", base_cfg.get("hbar_penalty_cap", 0.3) or 0.3
+            )
+        ),
         "sigma_0": float(overrides.get("sigma_0", base_cfg.get("sigma_0", 0.3) or 0.3)),
-        "min_visits": int(overrides.get("min_visits", base_cfg.get("min_visits", 50) or 50)),
-        "check_interval": int(overrides.get("check_interval", base_cfg.get("check_interval", 100) or 100)),
+        "min_visits": int(
+            overrides.get("min_visits", base_cfg.get("min_visits", 50) or 50)
+        ),
+        "check_interval": int(
+            overrides.get("check_interval", base_cfg.get("check_interval", 100) or 100)
+        ),
         "c_puct": float(overrides.get("c_puct", base_cfg.get("c_puct", 2.0) or 2.0)),
     }
     if out["prior_refresh_rate"] <= 0.0:
-        out["prior_refresh_temp"] = float(base_cfg.get("prior_refresh_temp", 1.0) or 1.0)
+        out["prior_refresh_temp"] = float(
+            base_cfg.get("prior_refresh_temp", 1.0) or 1.0
+        )
     out["hbar_penalty_cap"] = round(out["hbar_penalty_cap"], 4)
     out["sigma_0"] = round(out["sigma_0"], 4)
     out["c_puct"] = round(out["c_puct"], 4)
@@ -233,38 +268,52 @@ def build_stage1_expected_contracts(
 
 def build_anchor_candidates(base_cfg: dict) -> list[dict]:
     anchors = [
-        ("A1_legacy_base", {
-            "penalty_mode": "GatedRefreshLegacy",
-            "root_only_shaping": False,
-            "prior_refresh_rate": 0.0,
-        }),
-        ("A2_legacy_krefresh", {
-            "penalty_mode": "GatedRefreshLegacy",
-            "root_only_shaping": False,
-            "prior_refresh_rate": 0.5,
-            "prior_refresh_temp": 0.0,
-        }),
-        ("A3_theory_base", {
-            "penalty_mode": "GatedRefresh",
-            "root_only_shaping": True,
-            "prior_refresh_rate": 0.0,
-        }),
-        ("A4_theory_krefresh", {
-            "penalty_mode": "GatedRefresh",
-            "root_only_shaping": True,
-            "prior_refresh_rate": 0.5,
-            "prior_refresh_temp": 0.0,
-        }),
+        (
+            "A1_legacy_base",
+            {
+                "penalty_mode": "GatedRefreshLegacy",
+                "root_only_shaping": False,
+                "prior_refresh_rate": 0.0,
+            },
+        ),
+        (
+            "A2_legacy_krefresh",
+            {
+                "penalty_mode": "GatedRefreshLegacy",
+                "root_only_shaping": False,
+                "prior_refresh_rate": 0.5,
+                "prior_refresh_temp": 0.0,
+            },
+        ),
+        (
+            "A3_theory_base",
+            {
+                "penalty_mode": "GatedRefresh",
+                "root_only_shaping": True,
+                "prior_refresh_rate": 0.0,
+            },
+        ),
+        (
+            "A4_theory_krefresh",
+            {
+                "penalty_mode": "GatedRefresh",
+                "root_only_shaping": True,
+                "prior_refresh_rate": 0.5,
+                "prior_refresh_temp": 0.0,
+            },
+        ),
     ]
     rows = []
     for candidate_id, overrides in anchors:
         merged = canonicalize_candidate(overrides, base_cfg)
-        rows.append({
-            "id": candidate_id,
-            "source": "anchor",
-            "label": candidate_label(merged),
-            "overrides": merged,
-        })
+        rows.append(
+            {
+                "id": candidate_id,
+                "source": "anchor",
+                "label": candidate_label(merged),
+                "overrides": merged,
+            }
+        )
     return rows
 
 
@@ -276,22 +325,21 @@ def sample_candidate_pool(base_cfg: dict, n_random: int, seed: int) -> list[dict
     random_rows = []
 
     while len(random_rows) < max(0, int(n_random)):
-        sampled = {
-            key: rng.choice(values)
-            for key, values in space.items()
-        }
+        sampled = {key: rng.choice(values) for key, values in space.items()}
         overrides = canonicalize_candidate(sampled, base_cfg)
         key = candidate_key(overrides)
         if key in seen:
             continue
         seen.add(key)
         digest = hashlib.sha1(key.encode("utf-8")).hexdigest()[:8]
-        random_rows.append({
-            "id": f"R{len(random_rows) + 1:02d}_{digest}",
-            "source": "random",
-            "label": candidate_label(overrides),
-            "overrides": overrides,
-        })
+        random_rows.append(
+            {
+                "id": f"R{len(random_rows) + 1:02d}_{digest}",
+                "source": "random",
+                "label": candidate_label(overrides),
+                "overrides": overrides,
+            }
+        )
 
     return candidates + random_rows
 
@@ -348,11 +396,9 @@ def resolve_training_run_checkpoint(run_dir: Path) -> Path | None:
 def discover_checkpoint_paths(root: Path, limit: int | None = None) -> list[str]:
     if not root.exists():
         return []
-    run_dirs = sorted({
-        path.parent
-        for name in ("best.pt", "latest.pt")
-        for path in root.rglob(name)
-    })
+    run_dirs = sorted(
+        {path.parent for name in ("best.pt", "latest.pt") for path in root.rglob(name)}
+    )
     found = []
     for run_dir in run_dirs:
         candidate = resolve_training_run_checkpoint(run_dir)
@@ -364,13 +410,19 @@ def discover_checkpoint_paths(root: Path, limit: int | None = None) -> list[str]
     return rows
 
 
-def move_creates_line(board: np.ndarray, board_size: int, win_len: int, move: int, player: int) -> bool:
+def move_creates_line(
+    board: np.ndarray, board_size: int, win_len: int, move: int, player: int
+) -> bool:
     row0, col0 = divmod(int(move), board_size)
     for dr, dc in ((0, 1), (1, 0), (1, 1), (1, -1)):
         count = 1
         for sign in (1, -1):
             row, col = row0 + sign * dr, col0 + sign * dc
-            while 0 <= row < board_size and 0 <= col < board_size and board[row * board_size + col] == player:
+            while (
+                0 <= row < board_size
+                and 0 <= col < board_size
+                and board[row * board_size + col] == player
+            ):
                 count += 1
                 row += sign * dr
                 col += sign * dc
@@ -379,16 +431,34 @@ def move_creates_line(board: np.ndarray, board_size: int, win_len: int, move: in
     return False
 
 
-def generate_random_positions(game_name: str, cfg: dict, count: int, seed: int,
-                              min_moves: int | None = None, max_moves: int | None = None) -> list[dict]:
-    if game_name not in {"gomoku7", "gomoku15", "gomoku15_free", "gomoku15_std", "gomoku15_omok",
-                         "gomoku15_renju", "gomoku15_caro", "tictactoe"}:
-        raise ValueError(f"stage1 random position generation is not supported for {game_name}")
+def generate_random_positions(
+    game_name: str,
+    cfg: dict,
+    count: int,
+    seed: int,
+    min_moves: int | None = None,
+    max_moves: int | None = None,
+) -> list[dict]:
+    if game_name not in {
+        "gomoku7",
+        "gomoku15",
+        "gomoku15_free",
+        "gomoku15_std",
+        "gomoku15_omok",
+        "gomoku15_renju",
+        "gomoku15_caro",
+        "tictactoe",
+    }:
+        raise ValueError(
+            f"stage1 random position generation is not supported for {game_name}"
+        )
 
     board_size = int(cfg["board"])
     board_cells = board_size * board_size
     win_len = int(cfg["win"])
-    min_moves = max(2, int(min_moves if min_moves is not None else max(2, board_size // 2)))
+    min_moves = max(
+        2, int(min_moves if min_moves is not None else max(2, board_size // 2))
+    )
     default_max = max(min_moves + 1, min(board_cells - 2, board_cells // 3))
     max_moves = int(max_moves if max_moves is not None else default_max)
     max_moves = max(min_moves + 1, min(max_moves, board_cells - 2))
@@ -415,11 +485,13 @@ def generate_random_positions(game_name: str, cfg: dict, count: int, seed: int,
             continue
         if int(np.count_nonzero(board == 0)) < 2:
             continue
-        positions.append({
-            "board": board.astype(int).tolist(),
-            "player": int(player),
-            "moves_played": int(moves_to_play),
-        })
+        positions.append(
+            {
+                "board": board.astype(int).tolist(),
+                "player": int(player),
+                "moves_played": int(moves_to_play),
+            }
+        )
 
     if len(positions) < count:
         raise RuntimeError(
@@ -428,7 +500,9 @@ def generate_random_positions(game_name: str, cfg: dict, count: int, seed: int,
     return positions
 
 
-def build_bootstrap_command(args: argparse.Namespace, seed: int, output_dir: Path) -> list[str]:
+def build_bootstrap_command(
+    args: argparse.Namespace, seed: int, output_dir: Path
+) -> list[str]:
     cmd = [
         sys.executable,
         "-m",
@@ -487,7 +561,9 @@ def bootstrap_checkpoints(args: argparse.Namespace, base_dir: Path) -> list[str]
         meta["finished_at"] = time.strftime("%Y-%m-%d %H:%M:%S")
         json_dump(run_dir / "bootstrap.json", meta)
         if proc.returncode != 0:
-            raise RuntimeError(f"bootstrap training failed for seed {seed} ({proc.returncode})")
+            raise RuntimeError(
+                f"bootstrap training failed for seed {seed} ({proc.returncode})"
+            )
         model_path = resolve_training_run_checkpoint(run_dir)
         if model_path is not None:
             rows.append(str(model_path))
@@ -510,7 +586,9 @@ def resolve_explicit_checkpoint_paths(raw_values: str | None) -> list[str]:
     problems = []
     if directories:
         joined = ", ".join(directories)
-        problems.append(f"--checkpoints expects checkpoint files, not directories: {joined} (use --checkpoint-dir for directories)")
+        problems.append(
+            f"--checkpoints expects checkpoint files, not directories: {joined} (use --checkpoint-dir for directories)"
+        )
     if missing:
         joined = ", ".join(missing)
         problems.append(f"checkpoint paths do not exist: {joined}")
@@ -523,7 +601,11 @@ def resolve_checkpoint_paths(args: argparse.Namespace, base_dir: Path) -> list[s
     rows: list[str] = []
     rows.extend(resolve_explicit_checkpoint_paths(args.checkpoints))
     if args.checkpoint_dir:
-        rows.extend(discover_checkpoint_paths(Path(args.checkpoint_dir), limit=args.max_checkpoints))
+        rows.extend(
+            discover_checkpoint_paths(
+                Path(args.checkpoint_dir), limit=args.max_checkpoints
+            )
+        )
     deduped = []
     seen = set()
     for row in rows:
@@ -533,19 +615,27 @@ def resolve_checkpoint_paths(args: argparse.Namespace, base_dir: Path) -> list[s
     if deduped:
         return deduped
     if not args.bootstrap_if_empty:
-        raise RuntimeError("no checkpoints found; pass --checkpoints/--checkpoint-dir or enable --bootstrap-if-empty")
+        raise RuntimeError(
+            "no checkpoints found; pass --checkpoints/--checkpoint-dir or enable --bootstrap-if-empty"
+        )
     return bootstrap_checkpoints(args, base_dir)
 
 
 def _new_search_client(model_path: str, cfg: dict, device, rust_binary: str):
     import torch
-    from quartz.alphazero_train import AlphaZeroNet, NNSearchClient, load_torch_state_dict
+    from quartz.alphazero_train import (
+        AlphaZeroNet,
+        NNSearchClient,
+        load_torch_state_dict,
+    )
     from quartz.backend import load_checkpoint_with_metadata
 
     model_cfg = dict(cfg)
     state_dict = None
     try:
-        state_dict, ckpt_cfg = load_checkpoint_with_metadata(model_path, torch, map_location=device)
+        state_dict, ckpt_cfg = load_checkpoint_with_metadata(
+            model_path, torch, map_location=device
+        )
         if ckpt_cfg:
             for key in ("blocks", "filters", "vh"):
                 if key in ckpt_cfg:
@@ -554,7 +644,9 @@ def _new_search_client(model_path: str, cfg: dict, device, rust_binary: str):
             tower_indices = {
                 int(k.split(".")[1])
                 for k in state_dict
-                if isinstance(k, str) and k.startswith("tower.") and k.split(".")[1].isdigit()
+                if isinstance(k, str)
+                and k.startswith("tower.")
+                and k.split(".")[1].isdigit()
             }
             if tower_indices:
                 model_cfg["blocks"] = max(tower_indices) + 1
@@ -579,7 +671,7 @@ def _arena_dual_cfg_with_clients(
     strict: bool = True,
 ) -> tuple[int, int, int, float, list[float], str | None, dict]:
     board_size = int(cfg_a["board"])
-    n2 = board_size ** 2
+    n2 = board_size**2
     win_len = int(cfg_a["win"])
     max_moves = n2
     wins_a = wins_b = draws = 0
@@ -643,7 +735,9 @@ def _arena_dual_cfg_with_clients(
             legal = [i for i in range(n2) if board[i] == 0]
             if best < 0 or best >= n2 or board[best] != 0:
                 if strict:
-                    raise RuntimeError(f"stage2 strict arena produced illegal move: {best}")
+                    raise RuntimeError(
+                        f"stage2 strict arena produced illegal move: {best}"
+                    )
                 if legal:
                     best = random.choice(legal)
                 else:
@@ -690,7 +784,9 @@ def _arena_dual_cfg_with_clients(
 
         decisive = wins_a + wins_b
         if decisive > 0 and not sprt_decided:
-            llr = wins_a * math.log(p1 / p0) + (decisive - wins_a) * math.log((1 - p1) / (1 - p0))
+            llr = wins_a * math.log(p1 / p0) + (decisive - wins_a) * math.log(
+                (1 - p1) / (1 - p0)
+            )
             if llr >= upper_bound:
                 sprt_decided = True
                 sprt_result = "H1_accept"
@@ -700,17 +796,27 @@ def _arena_dual_cfg_with_clients(
 
     wr = (wins_a + 0.5 * draws) / max(1, int(n_games))
     _score_rate, ci = score_rate_ci(wins_a, draws, int(n_games))
-    return wins_a, wins_b, draws, wr, [float(ci[0]), float(ci[1])], sprt_result, {
-        key: _finalize_stage2_search_telemetry(value)
-        for key, value in telemetry.items()
-    }
+    return (
+        wins_a,
+        wins_b,
+        draws,
+        wr,
+        [float(ci[0]), float(ci[1])],
+        sprt_result,
+        {
+            key: _finalize_stage2_search_telemetry(value)
+            for key, value in telemetry.items()
+        },
+    )
 
 
 def _record_stage2_search_telemetry(bucket: dict, result: dict) -> None:
     bucket["search_count"] = int(bucket.get("search_count", 0) or 0) + 1
     manifest = result.get("search_manifest") or {}
     if manifest.get("benchmark_safe") is not False:
-        bucket["benchmark_safe_count"] = int(bucket.get("benchmark_safe_count", 0) or 0) + 1
+        bucket["benchmark_safe_count"] = (
+            int(bucket.get("benchmark_safe_count", 0) or 0) + 1
+        )
     realized = result.get("realized_budget") or {}
     controller = result.get("controller_summary") or {}
     root_visits = realized.get("root_visits")
@@ -735,7 +841,9 @@ def _record_stage2_search_telemetry(bucket: dict, result: dict) -> None:
     trace = controller.get("selection_trace") or {}
     if trace.get("root_selects") is not None:
         try:
-            bucket["selection_root_selects"] = int(bucket.get("selection_root_selects", 0) or 0) + int(trace["root_selects"])
+            bucket["selection_root_selects"] = int(
+                bucket.get("selection_root_selects", 0) or 0
+            ) + int(trace["root_selects"])
         except Exception:
             pass
 
@@ -771,7 +879,9 @@ def _build_stage2_client_pool(
 ) -> tuple[dict[str, dict], dict[str, float]]:
     entries = {}
     t0 = time.perf_counter()
-    runtime_overrides = load_eval_runtime_overrides_from_model(checkpoint_path, str(device))
+    runtime_overrides = load_eval_runtime_overrides_from_model(
+        checkpoint_path, str(device)
+    )
     for candidate in candidates:
         cfg = apply_runtime_overrides(base_cfg, candidate["overrides"])
         if runtime_overrides:
@@ -788,15 +898,24 @@ def _build_stage2_client_pool(
     }
 
 
-def probe_candidate_on_positions(model_path: str, base_cfg: dict, device, positions: list[dict],
-                                 candidate: dict, rust_binary: str, probe_iters: int,
-                                 reference_multiplier: float) -> dict:
+def probe_candidate_on_positions(
+    model_path: str,
+    base_cfg: dict,
+    device,
+    positions: list[dict],
+    candidate: dict,
+    rust_binary: str,
+    probe_iters: int,
+    reference_multiplier: float,
+) -> dict:
     from quartz.alphazero_train import dense_policy_from_sparse
 
     cfg_probe = apply_runtime_overrides(base_cfg, candidate["overrides"])
     cfg_probe["iters"] = max(1, int(probe_iters))
     cfg_ref = copy.deepcopy(cfg_probe)
-    cfg_ref["iters"] = max(cfg_probe["iters"] + 1, int(round(cfg_probe["iters"] * reference_multiplier)))
+    cfg_ref["iters"] = max(
+        cfg_probe["iters"] + 1, int(round(cfg_probe["iters"] * reference_multiplier))
+    )
 
     client_probe = _new_search_client(model_path, cfg_probe, device, rust_binary)
     client_ref = _new_search_client(model_path, cfg_ref, device, rust_binary)
@@ -812,9 +931,13 @@ def probe_candidate_on_positions(model_path: str, base_cfg: dict, device, positi
             player = int(position["player"])
             try:
                 t0 = time.perf_counter()
-                probe = client_probe.search_move(board, player, penalty_mode=cfg_probe["penalty_mode"])
+                probe = client_probe.search_move(
+                    board, player, penalty_mode=cfg_probe["penalty_mode"]
+                )
                 latency_ms_sum += (time.perf_counter() - t0) * 1000.0
-                ref = client_ref.search_move(board, player, penalty_mode=cfg_ref["penalty_mode"])
+                ref = client_ref.search_move(
+                    board, player, penalty_mode=cfg_ref["penalty_mode"]
+                )
             except TimeoutError:
                 timeout_count += 1
                 continue
@@ -825,10 +948,14 @@ def probe_candidate_on_positions(model_path: str, base_cfg: dict, device, positi
             valid += 1
             if best_probe == best_ref:
                 matched += 1
-            policy = dense_policy_from_sparse(probe.get("policy", []), cfg_probe["actions"])
+            policy = dense_policy_from_sparse(
+                probe.get("policy", []), cfg_probe["actions"]
+            )
             if 0 <= best_ref < len(policy):
                 policy_mass_sum += float(policy[best_ref])
-            value_gap_sum += abs(float(probe.get("value", 0.0)) - float(ref.get("value", 0.0)))
+            value_gap_sum += abs(
+                float(probe.get("value", 0.0)) - float(ref.get("value", 0.0))
+            )
     finally:
         client_probe.stop()
         client_ref.stop()
@@ -857,17 +984,31 @@ def probe_candidate_on_positions(model_path: str, base_cfg: dict, device, positi
 
 
 def summarize_stage1_results(candidates: list[dict], rows: list[dict]) -> list[dict]:
-    grouped = {row["id"]: {"candidate_id": row["id"], "candidate_label": row["label"], "candidate_source": row["source"],
-                           "score_sum": 0.0, "weight_sum": 0, "latency_sum": 0.0, "latency_n": 0,
-                           "agreement_sum": 0.0, "policy_mass_sum": 0.0, "value_gap_sum": 0.0, "timeout_count": 0}
-               for row in candidates}
+    grouped = {
+        row["id"]: {
+            "candidate_id": row["id"],
+            "candidate_label": row["label"],
+            "candidate_source": row["source"],
+            "score_sum": 0.0,
+            "weight_sum": 0,
+            "latency_sum": 0.0,
+            "latency_n": 0,
+            "agreement_sum": 0.0,
+            "policy_mass_sum": 0.0,
+            "value_gap_sum": 0.0,
+            "timeout_count": 0,
+        }
+        for row in candidates
+    }
     for row in rows:
         acc = grouped[row["candidate_id"]]
         weight = int(row.get("valid_positions") or 0)
         acc["score_sum"] += float(row.get("stage1_score", 0.0)) * max(1, weight)
         acc["weight_sum"] += max(1, weight)
         acc["agreement_sum"] += float(row.get("agreement_rate", 0.0)) * max(1, weight)
-        acc["policy_mass_sum"] += float(row.get("reference_policy_mass", 0.0)) * max(1, weight)
+        acc["policy_mass_sum"] += float(row.get("reference_policy_mass", 0.0)) * max(
+            1, weight
+        )
         acc["value_gap_sum"] += float(row.get("mean_value_gap", 0.0)) * max(1, weight)
         if row.get("mean_latency_ms") is not None:
             acc["latency_sum"] += float(row["mean_latency_ms"]) * max(1, weight)
@@ -877,23 +1018,29 @@ def summarize_stage1_results(candidates: list[dict], rows: list[dict]) -> list[d
     summary = []
     for acc in grouped.values():
         weight = max(1, acc["weight_sum"])
-        summary.append({
-            "candidate_id": acc["candidate_id"],
-            "candidate_label": acc["candidate_label"],
-            "candidate_source": acc["candidate_source"],
-            "stage1_score": acc["score_sum"] / weight,
-            "agreement_rate": acc["agreement_sum"] / weight,
-            "reference_policy_mass": acc["policy_mass_sum"] / weight,
-            "mean_value_gap": acc["value_gap_sum"] / weight,
-            "mean_latency_ms": (acc["latency_sum"] / acc["latency_n"]) if acc["latency_n"] else None,
-            "timeout_count": acc["timeout_count"],
-        })
+        summary.append(
+            {
+                "candidate_id": acc["candidate_id"],
+                "candidate_label": acc["candidate_label"],
+                "candidate_source": acc["candidate_source"],
+                "stage1_score": acc["score_sum"] / weight,
+                "agreement_rate": acc["agreement_sum"] / weight,
+                "reference_policy_mass": acc["policy_mass_sum"] / weight,
+                "mean_value_gap": acc["value_gap_sum"] / weight,
+                "mean_latency_ms": (acc["latency_sum"] / acc["latency_n"])
+                if acc["latency_n"]
+                else None,
+                "timeout_count": acc["timeout_count"],
+            }
+        )
     summary.sort(
         key=lambda item: (
             -item["stage1_score"],
             -item["agreement_rate"],
             -(item["reference_policy_mass"]),
-            item["mean_latency_ms"] if item["mean_latency_ms"] is not None else float("inf"),
+            item["mean_latency_ms"]
+            if item["mean_latency_ms"] is not None
+            else float("inf"),
             item["candidate_id"],
         )
     )
@@ -943,7 +1090,9 @@ def normalize_stage1_payload(
         seen_keys.add(key)
 
     summary = summarize_stage1_results(candidates, rows)
-    shortlist = select_stage2_candidates(candidates, summary, shortlist_topk) if summary else []
+    shortlist = (
+        select_stage2_candidates(candidates, summary, shortlist_topk) if summary else []
+    )
     payload = {
         "rows": rows,
         "summary": summary,
@@ -953,8 +1102,7 @@ def normalize_stage1_payload(
         "expected_probe_contracts": list(expected_contracts.values()),
     }
     missing = [
-        contract for key, contract in expected_contracts.items()
-        if key not in seen_keys
+        contract for key, contract in expected_contracts.items() if key not in seen_keys
     ]
     return attach_stage1_contract_summary(payload), missing
 
@@ -1040,7 +1188,9 @@ def attach_stage2_contract_summary(payload: dict) -> dict:
     return payload
 
 
-def build_controller_sweep_contract_summary(stage1_payload: dict, stage2_payload: dict | None) -> dict:
+def build_controller_sweep_contract_summary(
+    stage1_payload: dict, stage2_payload: dict | None
+) -> dict:
     return {
         "stage1": summarize_contract_collection(
             stage1_contracts_for_summary(stage1_payload),
@@ -1055,7 +1205,9 @@ def build_controller_sweep_contract_summary(stage1_payload: dict, stage2_payload
     }
 
 
-def select_stage2_candidates(candidates: list[dict], stage1_summary: list[dict], topk: int) -> list[dict]:
+def select_stage2_candidates(
+    candidates: list[dict], stage1_summary: list[dict], topk: int
+) -> list[dict]:
     by_id = {row["id"]: row for row in candidates}
     anchors = [row["id"] for row in candidates if row["source"] == "anchor"]
     target = max(int(topk), len(anchors))
@@ -1097,8 +1249,18 @@ def aggregate_stage2_matches(candidates: list[dict], matches: list[dict]) -> dic
         points_a = float(match["wins_a"]) + 0.5 * float(match["draws"])
         points_b = float(match["wins_b"]) + 0.5 * float(match["draws"])
         for slot, points, wins, losses in (
-            (match["candidate_a"], points_a, int(match["wins_a"]), int(match["wins_b"])),
-            (match["candidate_b"], points_b, int(match["wins_b"]), int(match["wins_a"])),
+            (
+                match["candidate_a"],
+                points_a,
+                int(match["wins_a"]),
+                int(match["wins_b"]),
+            ),
+            (
+                match["candidate_b"],
+                points_b,
+                int(match["wins_b"]),
+                int(match["wins_a"]),
+            ),
         ):
             entry = overall[slot]
             entry["points"] += points
@@ -1121,21 +1283,32 @@ def aggregate_stage2_matches(candidates: list[dict], matches: list[dict]) -> dic
             entry["score_rate"] = row["points"] / games
             entry["win_rate"] = row["wins"] / games
             ordered.append(entry)
-        ordered.sort(key=lambda item: (-item["score_rate"], -item["win_rate"], item["candidate_id"]))
+        ordered.sort(
+            key=lambda item: (
+                -item["score_rate"],
+                -item["win_rate"],
+                item["candidate_id"],
+            )
+        )
         return ordered
 
     return {
         "matches": matches,
         "overall": finalize(overall),
         "by_checkpoint": {
-            checkpoint: finalize(rows)
-            for checkpoint, rows in by_checkpoint.items()
+            checkpoint: finalize(rows) for checkpoint, rows in by_checkpoint.items()
         },
     }
 
 
-def run_stage2_round_robin(candidates: list[dict], checkpoints: list[str], base_cfg: dict, device,
-                           args: argparse.Namespace, output_dir: Path) -> dict | None:
+def run_stage2_round_robin(
+    candidates: list[dict],
+    checkpoints: list[str],
+    base_cfg: dict,
+    device,
+    args: argparse.Namespace,
+    output_dir: Path,
+) -> dict | None:
     if len(candidates) < 2:
         return None
     from quartz import runtime_support as support_mod
@@ -1167,12 +1340,16 @@ def run_stage2_round_robin(candidates: list[dict], checkpoints: list[str], base_
             existing_coarse = {}
 
     expected_contracts = []
-    arena_iters = args.arena_iters if args.arena_iters is not None else int(base_cfg["iters"])
+    arena_iters = (
+        args.arena_iters if args.arena_iters is not None else int(base_cfg["iters"])
+    )
     for checkpoint_path in checkpoints:
         pending_pairs = []
-        runtime_overrides = load_eval_runtime_overrides_from_model(checkpoint_path, str(device))
+        runtime_overrides = load_eval_runtime_overrides_from_model(
+            checkpoint_path, str(device)
+        )
         for idx, candidate_a in enumerate(candidates):
-            for candidate_b in candidates[idx + 1:]:
+            for candidate_b in candidates[idx + 1 :]:
                 cfg_a = apply_runtime_overrides(base_cfg, candidate_a["overrides"])
                 cfg_b = apply_runtime_overrides(base_cfg, candidate_b["overrides"])
                 if runtime_overrides:
@@ -1184,7 +1361,11 @@ def run_stage2_round_robin(candidates: list[dict], checkpoints: list[str], base_
                 manifest_b = support_mod.build_search_manifest(cfg_b)
                 manifest_hash_a = support_mod.search_manifest_hash(cfg_a)
                 manifest_hash_b = support_mod.search_manifest_hash(cfg_b)
-                coarse_key = (str(checkpoint_path), candidate_a["id"], candidate_b["id"])
+                coarse_key = (
+                    str(checkpoint_path),
+                    candidate_a["id"],
+                    candidate_b["id"],
+                )
                 exact_key = coarse_key + (
                     int(args.stage2_games),
                     manifest_hash_a,
@@ -1209,12 +1390,19 @@ def run_stage2_round_robin(candidates: list[dict], checkpoints: list[str], base_
                     stale_games = int(stale.get("games", 0) or 0)
                     stale_hash_a = str(stale.get("manifest_hash_a"))
                     stale_hash_b = str(stale.get("manifest_hash_b"))
-                    if stale_games == int(args.stage2_games) and stale_hash_a == manifest_hash_a and stale_hash_b == manifest_hash_b:
+                    if (
+                        stale_games == int(args.stage2_games)
+                        and stale_hash_a == manifest_hash_a
+                        and stale_hash_b == manifest_hash_b
+                    ):
                         continue
                     reason = "stage2_contract_changed"
                     if stale_games != int(args.stage2_games):
                         reason = "stage2_games_changed"
-                    elif stale_hash_a != manifest_hash_a or stale_hash_b != manifest_hash_b:
+                    elif (
+                        stale_hash_a != manifest_hash_a
+                        or stale_hash_b != manifest_hash_b
+                    ):
                         reason = "stage2_manifest_hash_changed"
                     discarded_matches.append(
                         {
@@ -1256,7 +1444,9 @@ def run_stage2_round_robin(candidates: list[dict], checkpoints: list[str], base_
             checkpoint_timing.update(pool_meta)
             checkpoint_timings[str(checkpoint_path)] = {
                 "pairs": int(checkpoint_timing["pairs"]),
-                "client_bootstrap_s": round(float(checkpoint_timing["client_bootstrap_s"]), 6),
+                "client_bootstrap_s": round(
+                    float(checkpoint_timing["client_bootstrap_s"]), 6
+                ),
                 "client_count": int(checkpoint_timing["client_count"]),
             }
             for pair in pending_pairs:
@@ -1280,33 +1470,39 @@ def run_stage2_round_robin(candidates: list[dict], checkpoints: list[str], base_
                     budget_trace = {}
                 else:
                     wa, wb, draws, wr, ci, sprt, budget_trace = arena_result
-                matches.append({
-                    "checkpoint_path": checkpoint_path,
-                    "candidate_a": candidate_a["id"],
-                    "candidate_b": candidate_b["id"],
-                    "manifest_a": pair["manifest_a"],
-                    "manifest_b": pair["manifest_b"],
-                    "manifest_hash_a": pair["manifest_hash_a"],
-                    "manifest_hash_b": pair["manifest_hash_b"],
-                    "games": int(args.stage2_games),
-                    "wins_a": int(wa),
-                    "wins_b": int(wb),
-                    "draws": int(draws),
-                    "win_rate_a": float(wr),
-                    "ci": [float(ci[0]), float(ci[1])],
-                    "sprt": sprt,
-                    "realized_budget_trace": budget_trace,
-                    "timing_s": {
-                        "client_bootstrap_s": round(float(checkpoint_timing["client_bootstrap_s"]), 6),
-                        "match_elapsed_s": round(time.perf_counter() - match_t0, 6),
-                    },
-                })
+                matches.append(
+                    {
+                        "checkpoint_path": checkpoint_path,
+                        "candidate_a": candidate_a["id"],
+                        "candidate_b": candidate_b["id"],
+                        "manifest_a": pair["manifest_a"],
+                        "manifest_b": pair["manifest_b"],
+                        "manifest_hash_a": pair["manifest_hash_a"],
+                        "manifest_hash_b": pair["manifest_hash_b"],
+                        "games": int(args.stage2_games),
+                        "wins_a": int(wa),
+                        "wins_b": int(wb),
+                        "draws": int(draws),
+                        "win_rate_a": float(wr),
+                        "ci": [float(ci[0]), float(ci[1])],
+                        "sprt": sprt,
+                        "realized_budget_trace": budget_trace,
+                        "timing_s": {
+                            "client_bootstrap_s": round(
+                                float(checkpoint_timing["client_bootstrap_s"]), 6
+                            ),
+                            "match_elapsed_s": round(time.perf_counter() - match_t0, 6),
+                        },
+                    }
+                )
                 payload = aggregate_stage2_matches(candidates, matches)
                 payload["generated_at"] = time.strftime("%Y-%m-%d %H:%M:%S")
                 payload["discarded_matches"] = discarded_matches
                 payload["expected_match_contracts"] = expected_contracts
                 payload["checkpoint_timings"] = checkpoint_timings
-                payload["stage2_timing_summary"] = summarize_controller_stage2_timings(payload)
+                payload["stage2_timing_summary"] = summarize_controller_stage2_timings(
+                    payload
+                )
                 attach_stage2_contract_summary(payload)
                 json_dump(stage2_path, payload)
         finally:
@@ -1326,14 +1522,18 @@ def run_stage2_round_robin(candidates: list[dict], checkpoints: list[str], base_
     return payload
 
 
-def build_report(base_dir: Path, manifest: dict, stage1_payload: dict, stage2_payload: dict | None) -> dict:
+def build_report(
+    base_dir: Path, manifest: dict, stage1_payload: dict, stage2_payload: dict | None
+) -> dict:
     stage2_timing_summary = summarize_controller_stage2_timings(stage2_payload)
     report = {
         "generated_at": time.strftime("%Y-%m-%d %H:%M:%S"),
         "manifest": manifest,
         "stage1": stage1_payload,
         "stage2": stage2_payload,
-        "contract_summary": build_controller_sweep_contract_summary(stage1_payload, stage2_payload),
+        "contract_summary": build_controller_sweep_contract_summary(
+            stage1_payload, stage2_payload
+        ),
         "stage2_timing_summary": stage2_timing_summary,
         "recommended": None,
     }
@@ -1347,17 +1547,23 @@ def build_report(base_dir: Path, manifest: dict, stage1_payload: dict, stage2_pa
 
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="Low-cost QUARTZ controller sweep")
-    parser.add_argument("--game", default="gomoku7", choices=[
-        "gomoku7",
-        "gomoku15",
-        "gomoku15_free",
-        "gomoku15_std",
-        "gomoku15_omok",
-        "gomoku15_renju",
-        "gomoku15_caro",
-        "tictactoe",
-    ])
-    parser.add_argument("--output", default="results/controller_sweep", help="Output root directory")
+    parser.add_argument(
+        "--game",
+        default="gomoku7",
+        choices=[
+            "gomoku7",
+            "gomoku15",
+            "gomoku15_free",
+            "gomoku15_std",
+            "gomoku15_omok",
+            "gomoku15_renju",
+            "gomoku15_caro",
+            "tictactoe",
+        ],
+    )
+    parser.add_argument(
+        "--output", default="results/controller_sweep", help="Output root directory"
+    )
     parser.add_argument(
         "--resume-report",
         default=None,
@@ -1368,8 +1574,14 @@ def parse_args() -> argparse.Namespace:
         default=None,
         help="Comma-separated candidate ids to keep for stage2 when resuming from an existing sweep",
     )
-    parser.add_argument("--checkpoints", default=None, help="Comma-separated checkpoint paths")
-    parser.add_argument("--checkpoint-dir", default=None, help="Directory to scan recursively for best.pt/latest.pt")
+    parser.add_argument(
+        "--checkpoints", default=None, help="Comma-separated checkpoint paths"
+    )
+    parser.add_argument(
+        "--checkpoint-dir",
+        default=None,
+        help="Directory to scan recursively for best.pt/latest.pt",
+    )
     parser.add_argument("--max-checkpoints", type=int, default=3)
     parser.add_argument("--bootstrap-if-empty", action="store_true")
     parser.add_argument("--bootstrap-iterations", type=int, default=2)
@@ -1380,8 +1592,18 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--backend", default="torch", choices=["auto", "torch", "jax"])
     parser.add_argument("--device", default="auto")
     parser.add_argument("--rust-binary", default="./target/release/mcts_demo")
-    parser.add_argument("--seed", type=int, default=42, help="RNG seed for candidate sampling and position suite")
-    parser.add_argument("--samples", type=int, default=12, help="Number of random candidates in addition to anchor configs")
+    parser.add_argument(
+        "--seed",
+        type=int,
+        default=42,
+        help="RNG seed for candidate sampling and position suite",
+    )
+    parser.add_argument(
+        "--samples",
+        type=int,
+        default=12,
+        help="Number of random candidates in addition to anchor configs",
+    )
     parser.add_argument("--probe-iters", type=int, default=96)
     parser.add_argument("--reference-multiplier", type=float, default=4.0)
     parser.add_argument(
@@ -1409,18 +1631,26 @@ def parse_args() -> argparse.Namespace:
 
 def main() -> None:
     args = parse_args()
-    os.environ["QUARTZ_SEARCH_STALL_TIMEOUT_S"] = str(float(args.search_stall_timeout_s))
+    os.environ["QUARTZ_SEARCH_STALL_TIMEOUT_S"] = str(
+        float(args.search_stall_timeout_s)
+    )
 
     resume_stage1 = None
     resume_shortlist = None
     if args.resume_report:
-        base_dir, manifest, candidates, checkpoints, resume_shortlist = load_resume_state(args.resume_report)
+        base_dir, manifest, candidates, checkpoints, resume_shortlist = (
+            load_resume_state(args.resume_report)
+        )
         manifest = dict(manifest)
         game_name = manifest.get("game", args.game)
         base_cfg, device = build_base_cfg(game_name, args.device)
         args.game = game_name
         positions_path = base_dir / "stage1_positions.json"
-        positions_payload = json.loads(positions_path.read_text(encoding="utf-8")) if positions_path.exists() else {"positions": []}
+        positions_payload = (
+            json.loads(positions_path.read_text(encoding="utf-8"))
+            if positions_path.exists()
+            else {"positions": []}
+        )
         positions = list(positions_payload.get("positions") or [])
     else:
         base_dir = Path(args.output) / args.game
@@ -1449,7 +1679,9 @@ def main() -> None:
             "stage1_positions": int(args.stage1_positions),
             "shortlist_topk": int(args.shortlist_topk),
             "stage2_games": int(args.stage2_games),
-            "arena_iters": int(args.arena_iters) if args.arena_iters is not None else None,
+            "arena_iters": int(args.arena_iters)
+            if args.arena_iters is not None
+            else None,
             "checkpoints": checkpoints,
             "candidates": candidates,
             "started_at": time.strftime("%Y-%m-%d %H:%M:%S"),
@@ -1491,7 +1723,9 @@ def main() -> None:
             )
             row.update(contract)
             stage1_payload["rows"].append(row)
-            stage1_payload["summary"] = summarize_stage1_results(candidates, stage1_payload["rows"])
+            stage1_payload["summary"] = summarize_stage1_results(
+                candidates, stage1_payload["rows"]
+            )
             stage1_payload["shortlist"] = select_stage2_candidates(
                 candidates, stage1_payload["summary"], args.shortlist_topk
             )
@@ -1529,14 +1763,20 @@ def main() -> None:
                     args.probe_iters,
                     args.reference_multiplier,
                 )
-                row.update(expected_stage1_contracts[(str(checkpoint_path), str(candidate["id"]))])
+                row.update(
+                    expected_stage1_contracts[
+                        (str(checkpoint_path), str(candidate["id"]))
+                    ]
+                )
                 stage1_rows.append(row)
                 payload = {
                     "rows": stage1_rows,
                     "summary": summarize_stage1_results(candidates, stage1_rows),
                     "generated_at": time.strftime("%Y-%m-%d %H:%M:%S"),
                     "discarded_rows": [],
-                    "expected_probe_contracts": list(expected_stage1_contracts.values()),
+                    "expected_probe_contracts": list(
+                        expected_stage1_contracts.values()
+                    ),
                 }
                 attach_stage1_contract_summary(payload)
                 json_dump(base_dir / "stage1_surrogate.json", payload)
@@ -1550,7 +1790,9 @@ def main() -> None:
         }
         attach_stage1_contract_summary(stage1_payload)
         json_dump(base_dir / "stage1_surrogate.json", stage1_payload)
-        shortlisted = select_stage2_candidates(candidates, stage1_payload["summary"], args.shortlist_topk)
+        shortlisted = select_stage2_candidates(
+            candidates, stage1_payload["summary"], args.shortlist_topk
+        )
         stage1_payload["shortlist"] = shortlisted
         attach_stage1_contract_summary(stage1_payload)
         json_dump(base_dir / "stage1_surrogate.json", stage1_payload)
@@ -1563,16 +1805,22 @@ def main() -> None:
 
     stage2_payload = None
     if not args.skip_stage2:
-        stage2_payload = run_stage2_round_robin(shortlisted, checkpoints, base_cfg, device, args, base_dir)
+        stage2_payload = run_stage2_round_robin(
+            shortlisted, checkpoints, base_cfg, device, args, base_dir
+        )
 
-    manifest["contract_summary"] = build_controller_sweep_contract_summary(stage1_payload, stage2_payload)
+    manifest["contract_summary"] = build_controller_sweep_contract_summary(
+        stage1_payload, stage2_payload
+    )
     manifest["updated_at"] = time.strftime("%Y-%m-%d %H:%M:%S")
     json_dump(base_dir / "sweep_manifest.json", manifest)
     report = build_report(base_dir, manifest, stage1_payload, stage2_payload)
     recommended = report.get("recommended")
     if recommended:
         print(f"\nRecommended: {recommended.get('candidate_id')}")
-        print(f"  score={recommended.get('score_rate', recommended.get('stage1_score'))}")
+        print(
+            f"  score={recommended.get('score_rate', recommended.get('stage1_score'))}"
+        )
         if recommended.get("candidate_label"):
             print(f"  {recommended['candidate_label']}")
     print(f"\nReport saved: {base_dir / 'sweep_report.json'}")

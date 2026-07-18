@@ -190,9 +190,12 @@ def test_cross_language_golden_fixture_matches_canonical_shape():
         telemetry={"fixture": True},
     )
     assert proposal_to_payload(proposal) == fixture["meta_proposal_payload"]
-    assert freshness_to_payload(contract_observation().freshness_identity())[
-        "tt_identity_policy"
-    ] == fixture["freshness"]["tt_identity_policy"]
+    assert (
+        freshness_to_payload(contract_observation().freshness_identity())[
+            "tt_identity_policy"
+        ]
+        == fixture["freshness"]["tt_identity_policy"]
+    )
 
 
 def test_cross_language_root_and_foundry_extras_match_golden_json_exactly():
@@ -211,9 +214,7 @@ def test_cross_language_root_and_foundry_extras_match_golden_json_exactly():
 def test_foundry_root_extras_rejects_noncanonical_schema_versions(schema_version):
     _, extras = _golden_root_observation()
     with pytest.raises(ContractValidationError, match="schema_version"):
-        foundry_root_extras_to_payload(
-            replace(extras, schema_version=schema_version)
-        )
+        foundry_root_extras_to_payload(replace(extras, schema_version=schema_version))
 
     payload = foundry_root_extras_to_payload(extras)
     payload["schema_version"] = schema_version
@@ -296,9 +297,7 @@ def test_root_wire_unsigned_fields_reject_noncanonical_values(
     for malformed in (-1, True, 1.0, "1", 1 << bits):
         with pytest.raises(ContractValidationError, match=field_name):
             root_observation_to_payload(
-                _replace_root_wire_field(
-                    observation, location, field_name, malformed
-                )
+                _replace_root_wire_field(observation, location, field_name, malformed)
             )
 
         payload = root_observation_to_payload(observation)
@@ -387,7 +386,12 @@ def test_every_meta_action_kind_roundtrips_in_its_canonical_shape(action):
             1 << 16,
             False,
         ),
-        (MetaAction(MetaActionKind.SAMPLE, primary=0, amount=1), "primary", True, False),
+        (
+            MetaAction(MetaActionKind.SAMPLE, primary=0, amount=1),
+            "primary",
+            True,
+            False,
+        ),
         (MetaAction(MetaActionKind.SAMPLE, primary=0, amount=1), "primary", 1.0, False),
         (MetaAction(MetaActionKind.SAMPLE, primary=0, amount=1), "amount", -1, False),
         (
@@ -416,9 +420,7 @@ def test_meta_action_rejects_missing_forbidden_and_out_of_range_fields(
     valid_action, field_name, malformed, remove_on_decode
 ):
     with pytest.raises(ContractValidationError, match=field_name):
-        proposal_to_payload(
-            _proposal(replace(valid_action, **{field_name: malformed}))
-        )
+        proposal_to_payload(_proposal(replace(valid_action, **{field_name: malformed})))
 
     payload = proposal_to_payload(_proposal(valid_action))
     action_payload = payload["proposal"]["action"]
@@ -493,9 +495,7 @@ def test_root_wire_floats_reject_bool_and_numeric_strings(location, field_name):
     for malformed in (True, "1.0"):
         with pytest.raises(ContractValidationError, match=field_name):
             root_observation_to_payload(
-                _replace_root_wire_field(
-                    observation, location, field_name, malformed
-                )
+                _replace_root_wire_field(observation, location, field_name, malformed)
             )
 
         payload = root_observation_to_payload(observation)
@@ -516,9 +516,7 @@ def test_root_wire_floats_reject_bool_and_numeric_strings(location, field_name):
         ("cost", "energy_proxy"),
     ],
 )
-def test_proposal_wire_floats_reject_bool_and_numeric_strings(
-    section, field_name
-):
+def test_proposal_wire_floats_reject_bool_and_numeric_strings(section, field_name):
     action = MetaAction(MetaActionKind.NOOP)
     valid = _proposal(action)
     for malformed in (True, "1.0"):
@@ -682,44 +680,51 @@ def test_absent_runtime_object_uses_the_rust_default_snapshot():
 def test_rust_floating_wire_fields_encode_as_canonical_json_floats():
     observation = contract_observation()
     for location, field_name in (
-        *[("root", name) for name in (
-            "entropy",
-            "effective_branching",
-            "top2_margin",
-            "margin_slope",
-            "entropy_slope",
-            "h1_stability",
-            "p_flip",
-            "prior_visit_js",
-            "candidate_omission_bound",
-        )],
-        *[("edge", name) for name in (
-            "prior_anchor",
-            "prior_current",
-            "q_mean",
-            "q_sum",
-            "m2",
-            "last_value",
-            "mc_radius",
-            "epistemic_radius",
-            "drift_radius",
-            "bias_radius",
-            "lower",
-            "upper",
-        )],
-        *[("runtime", name) for name in (
-            "queue_wait_ms",
-            "eval_latency_ms",
-            "nps",
-            "edge_duplicate_rate",
-            "semantic_path_overlap",
-        )],
+        *[
+            ("root", name)
+            for name in (
+                "entropy",
+                "effective_branching",
+                "top2_margin",
+                "margin_slope",
+                "entropy_slope",
+                "h1_stability",
+                "p_flip",
+                "prior_visit_js",
+                "candidate_omission_bound",
+            )
+        ],
+        *[
+            ("edge", name)
+            for name in (
+                "prior_anchor",
+                "prior_current",
+                "q_mean",
+                "q_sum",
+                "m2",
+                "last_value",
+                "mc_radius",
+                "epistemic_radius",
+                "drift_radius",
+                "bias_radius",
+                "lower",
+                "upper",
+            )
+        ],
+        *[
+            ("runtime", name)
+            for name in (
+                "queue_wait_ms",
+                "eval_latency_ms",
+                "nps",
+                "edge_duplicate_rate",
+                "semantic_path_overlap",
+            )
+        ],
     ):
         canonical_int = -1 if field_name == "lower" else 1
         payload = root_observation_to_payload(
-            _replace_root_wire_field(
-                observation, location, field_name, canonical_int
-            )
+            _replace_root_wire_field(observation, location, field_name, canonical_int)
         )
         row = payload["observation"]
         if location == "edge":
@@ -728,9 +733,7 @@ def test_rust_floating_wire_fields_encode_as_canonical_json_floats():
             row = row["runtime"]
         assert type(row[field_name]) is float
 
-    proposal = _proposal(
-        MetaAction(MetaActionKind.ARCHIVE_STATE, value=1)
-    )
+    proposal = _proposal(MetaAction(MetaActionKind.ARCHIVE_STATE, value=1))
     proposal = replace(
         proposal,
         estimate=ProposalEstimate(
@@ -840,9 +843,7 @@ def test_a26_finite_contour_identity_matches_enumeration_for_generated_bank():
         "overflow-prior-total",
     ],
 )
-def test_a26_rejects_nonfinite_inputs_and_overflowed_prior_mass(
-    likelihoods, prior
-):
+def test_a26_rejects_nonfinite_inputs_and_overflowed_prior_mass(likelihoods, prior):
     lab = A26NestedContourExactLab()
 
     for evidence in (lab.enumerated_evidence, lab.finite_contour_evidence):

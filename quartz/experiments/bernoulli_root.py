@@ -28,7 +28,16 @@ import statistics
 from dataclasses import asdict, dataclass
 from fractions import Fraction
 from pathlib import Path
-from typing import Dict, Iterable, List, Mapping, MutableSequence, Optional, Sequence, Tuple
+from typing import (
+    Dict,
+    Iterable,
+    List,
+    Mapping,
+    MutableSequence,
+    Optional,
+    Sequence,
+    Tuple,
+)
 
 
 ALGORITHMS: Tuple[str, ...] = (
@@ -120,10 +129,9 @@ def one_step_kg_exact(posteriors: Sequence[Tuple[int, int]], arm: int) -> Fracti
         (m for index, m in enumerate(means) if index != arm),
         default=Fraction(-1, 1),
     )
-    expected_value = (
-        predictive_success * max(mean_success, other_best)
-        + (Fraction(1, 1) - predictive_success) * max(mean_failure, other_best)
-    )
+    expected_value = predictive_success * max(mean_success, other_best) + (
+        Fraction(1, 1) - predictive_success
+    ) * max(mean_failure, other_best)
     return max(Fraction(0, 1), expected_value - current_value)
 
 
@@ -139,11 +147,15 @@ def _random_argmax(values: Sequence[float | Fraction], rng: random.Random) -> in
     return rng.choice(winners)
 
 
-def _posterior_decision(posteriors: Sequence[Tuple[int, int]], rng: random.Random) -> int:
+def _posterior_decision(
+    posteriors: Sequence[Tuple[int, int]], rng: random.Random
+) -> int:
     return _random_argmax([Fraction(a, a + b) for a, b in posteriors], rng)
 
 
-def _risk_fallback_arm(posteriors: Sequence[Tuple[int, int]], rng: random.Random) -> int:
+def _risk_fallback_arm(
+    posteriors: Sequence[Tuple[int, int]], rng: random.Random
+) -> int:
     """Choose between the posterior-mean incumbent and its riskiest challenger.
 
     The fallback is used only when every exact one-step KG is zero. Candidates
@@ -168,7 +180,9 @@ def _risk_fallback_arm(posteriors: Sequence[Tuple[int, int]], rng: random.Random
             continue
         probability_above = 1.0 - beta_cdf_integer(incumbent_mean, alpha, beta)
         standard_deviation = math.sqrt(beta_variance(alpha, beta))
-        challenger_candidates.append(((probability_above, mean, standard_deviation), arm))
+        challenger_candidates.append(
+            ((probability_above, mean, standard_deviation), arm)
+        )
     best_key = max(key for key, _ in challenger_candidates)
     # Do not let the numerical arm index resolve an otherwise exact tie.
     tied_challengers = [arm for key, arm in challenger_candidates if key == best_key]
@@ -178,7 +192,9 @@ def _risk_fallback_arm(posteriors: Sequence[Tuple[int, int]], rng: random.Random
     ch_alpha, ch_beta = posteriors[challenger]
     incumbent_fragility = beta_cdf_integer(means[challenger], inc_alpha, inc_beta)
     challenger_danger = 1.0 - beta_cdf_integer(incumbent_mean, ch_alpha, ch_beta)
-    incumbent_score = incumbent_fragility * math.sqrt(beta_variance(inc_alpha, inc_beta))
+    incumbent_score = incumbent_fragility * math.sqrt(
+        beta_variance(inc_alpha, inc_beta)
+    )
     challenger_score = challenger_danger * math.sqrt(beta_variance(ch_alpha, ch_beta))
 
     if incumbent_score == challenger_score:
@@ -204,7 +220,9 @@ class RewardTape:
         self._outcomes: List[List[int]] = []
         for arm_key, mean in zip(arm_keys, means):
             rng = random.Random(stable_seed(seed, "reward", trial, arm_key))
-            self._outcomes.append([1 if rng.random() < mean else 0 for _ in range(budget)])
+            self._outcomes.append(
+                [1 if rng.random() < mean else 0 for _ in range(budget)]
+            )
 
     def pull(self, arm: int, pull_index: int) -> int:
         return self._outcomes[arm][pull_index]
@@ -232,7 +250,9 @@ def _update(
     return outcome
 
 
-def run_uniform(num_arms: int, budget: int, tape: RewardTape, rng: random.Random) -> RunResult:
+def run_uniform(
+    num_arms: int, budget: int, tape: RewardTape, rng: random.Random
+) -> RunResult:
     k = int(num_arms)
     pulls = [0] * k
     successes = [0] * k
@@ -328,7 +348,9 @@ def run_kg_rank_risk(
             posteriors[arm] = (alpha, beta + 1)
 
     selected = _posterior_decision(posteriors, rng)
-    return RunResult("kg_rank_risk", selected, pulls, successes, kg_steps, fallback_steps)
+    return RunResult(
+        "kg_rank_risk", selected, pulls, successes, kg_steps, fallback_steps
+    )
 
 
 RUNNERS = {
@@ -394,7 +416,9 @@ def summarize(records: Sequence[TrialRecord], num_arms: int) -> List[Dict[str, o
     }
 
     summaries: List[Dict[str, object]] = []
-    for (algorithm, budget), rows in sorted(groups.items(), key=lambda item: (item[0][1], item[0][0])):
+    for (algorithm, budget), rows in sorted(
+        groups.items(), key=lambda item: (item[0][1], item[0][0])
+    ):
         regrets = [row.simple_regret for row in rows]
         correct = [row.correct_selection for row in rows]
         selected_means = [row.selected_mean for row in rows]
@@ -404,7 +428,9 @@ def summarize(records: Sequence[TrialRecord], num_arms: int) -> List[Dict[str, o
         regret_se = regret_sd / math.sqrt(len(regrets))
         pcs = statistics.fmean(correct)
         pcs_se = math.sqrt(max(0.0, pcs * (1.0 - pcs) / len(rows)))
-        mean_pulls_by_arm = [statistics.fmean(row.pulls[arm] for row in rows) for arm in range(num_arms)]
+        mean_pulls_by_arm = [
+            statistics.fmean(row.pulls[arm] for row in rows) for arm in range(num_arms)
+        ]
 
         paired_rows = [
             (row, uniform_by_trial[(row.budget, row.trial)])
@@ -413,18 +439,28 @@ def summarize(records: Sequence[TrialRecord], num_arms: int) -> List[Dict[str, o
         ]
         if len(paired_rows) == len(rows):
             paired_regret_deltas = [
-                row.simple_regret - uniform.simple_regret for row, uniform in paired_rows
+                row.simple_regret - uniform.simple_regret
+                for row, uniform in paired_rows
             ]
             paired_pcs_deltas = [
-                row.correct_selection - uniform.correct_selection for row, uniform in paired_rows
+                row.correct_selection - uniform.correct_selection
+                for row, uniform in paired_rows
             ]
-            paired_mean_regret_delta: Optional[float] = statistics.fmean(paired_regret_deltas)
+            paired_mean_regret_delta: Optional[float] = statistics.fmean(
+                paired_regret_deltas
+            )
             paired_delta_sd = (
-                statistics.stdev(paired_regret_deltas) if len(paired_regret_deltas) > 1 else 0.0
+                statistics.stdev(paired_regret_deltas)
+                if len(paired_regret_deltas) > 1
+                else 0.0
             )
             paired_delta_se = paired_delta_sd / math.sqrt(len(paired_regret_deltas))
-            paired_regret_low: Optional[float] = paired_mean_regret_delta - 1.96 * paired_delta_se
-            paired_regret_high: Optional[float] = paired_mean_regret_delta + 1.96 * paired_delta_se
+            paired_regret_low: Optional[float] = (
+                paired_mean_regret_delta - 1.96 * paired_delta_se
+            )
+            paired_regret_high: Optional[float] = (
+                paired_mean_regret_delta + 1.96 * paired_delta_se
+            )
             paired_pcs_delta: Optional[float] = statistics.fmean(paired_pcs_deltas)
             paired_trial_count = len(paired_rows)
         else:
@@ -451,7 +487,9 @@ def summarize(records: Sequence[TrialRecord], num_arms: int) -> List[Dict[str, o
                 "mean_allocation_entropy": statistics.fmean(entropies),
                 "mean_pulls_by_arm": mean_pulls_by_arm,
                 "mean_kg_steps": statistics.fmean(row.kg_steps for row in rows),
-                "mean_fallback_steps": statistics.fmean(row.fallback_steps for row in rows),
+                "mean_fallback_steps": statistics.fmean(
+                    row.fallback_steps for row in rows
+                ),
                 # Paired signs are algorithm - uniform: negative regret is
                 # better, while positive PCS is better.
                 "paired_trials_vs_uniform": paired_trial_count,
@@ -494,7 +532,9 @@ def run_experiment(
     if unknown:
         raise ValueError(f"unknown algorithms: {sorted(unknown)}")
     if "raw_sequential_halving" in algorithms and min(budgets) < len(means):
-        raise ValueError("all budgets must be >= number of arms for raw sequential halving")
+        raise ValueError(
+            "all budgets must be >= number of arms for raw sequential halving"
+        )
 
     best_mean = max(means)
     best_arms = {arm for arm, mean in enumerate(means) if mean == best_mean}
@@ -505,7 +545,9 @@ def run_experiment(
         tape = RewardTape(means, max_budget, seed, trial, arm_keys=arm_keys)
         for budget in budgets:
             for algorithm in algorithms:
-                rng = random.Random(stable_seed(seed, "algorithm", trial, budget, algorithm))
+                rng = random.Random(
+                    stable_seed(seed, "algorithm", trial, budget, algorithm)
+                )
                 result = RUNNERS[algorithm](len(means), budget, tape, rng)
                 selected_mean = means[result.selected_arm]
                 records.append(
@@ -571,7 +613,9 @@ def write_outputs(
         writer.writeheader()
         for summary in summaries:
             row = dict(summary)
-            row["mean_pulls_by_arm"] = json.dumps(row["mean_pulls_by_arm"], separators=(",", ":"))
+            row["mean_pulls_by_arm"] = json.dumps(
+                row["mean_pulls_by_arm"], separators=(",", ":")
+            )
             writer.writerow(row)
 
     payload: Dict[str, object] = {
@@ -640,7 +684,9 @@ def build_parser() -> argparse.ArgumentParser:
         default=_parse_int_list("8,16,32,64"),
         help="comma-separated fixed pull budgets; each must be >= number of arms",
     )
-    parser.add_argument("--trials", type=int, default=1000, help="Monte Carlo trials per condition")
+    parser.add_argument(
+        "--trials", type=int, default=1000, help="Monte Carlo trials per condition"
+    )
     parser.add_argument("--seed", type=int, default=20260712, help="base random seed")
     parser.add_argument(
         "--algorithms",
@@ -682,7 +728,12 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
         summaries=summaries,
         include_trials=args.include_trials,
     )
-    print(json.dumps({"status": "ok", "outputs": paths, "conditions": len(summaries)}, sort_keys=True))
+    print(
+        json.dumps(
+            {"status": "ok", "outputs": paths, "conditions": len(summaries)},
+            sort_keys=True,
+        )
+    )
     return 0
 
 

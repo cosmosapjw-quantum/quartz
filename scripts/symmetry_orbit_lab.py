@@ -74,7 +74,11 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument("--n-trials", type=int, default=None)
     parser.add_argument("--n-actions", type=int, default=None)
     parser.add_argument("--board-side", type=int, default=None)
-    parser.add_argument("--output-dir", type=Path, default=Path("results/metacognitive_root/symmetry_orbit_v1"))
+    parser.add_argument(
+        "--output-dir",
+        type=Path,
+        default=Path("results/metacognitive_root/symmetry_orbit_v1"),
+    )
     parser.add_argument("--overwrite", action="store_true")
     return parser
 
@@ -85,14 +89,22 @@ def main(argv: Sequence[str] | None = None) -> int:
     config = load_config(config_path)
 
     seed = int(args.seed if args.seed is not None else config["default_seed"])
-    n_trials = int(args.n_trials if args.n_trials is not None else config["default_n_trials"])
-    n_actions = int(args.n_actions if args.n_actions is not None else config["default_n_actions"])
-    board_side = int(args.board_side if args.board_side is not None else config["default_board_side"])
+    n_trials = int(
+        args.n_trials if args.n_trials is not None else config["default_n_trials"]
+    )
+    n_actions = int(
+        args.n_actions if args.n_actions is not None else config["default_n_actions"]
+    )
+    board_side = int(
+        args.board_side if args.board_side is not None else config["default_board_side"]
+    )
     eps = float(config.get("default_eps", 1e-9))
 
     output_dir = args.output_dir.resolve()
     if output_dir.exists() and any(output_dir.iterdir()) and not args.overwrite:
-        raise SystemExit(f"output directory is not empty; pass --overwrite: {output_dir}")
+        raise SystemExit(
+            f"output directory is not empty; pass --overwrite: {output_dir}"
+        )
     output_dir.mkdir(parents=True, exist_ok=True)
 
     resolved_config = {
@@ -125,9 +137,19 @@ def main(argv: Sequence[str] | None = None) -> int:
     manifest_path = output_dir / "run_manifest.json"
     atomic_json_dump(manifest_path, manifest)
 
-    audit = lab.audit(seed=seed, n_trials=n_trials, n_actions=n_actions, board_side=board_side, eps=eps)
+    audit = lab.audit(
+        seed=seed,
+        n_trials=n_trials,
+        n_actions=n_actions,
+        board_side=board_side,
+        eps=eps,
+    )
 
-    operator_rows = list(audit["operators"]) + list(audit["clone_robustness"]) + list(audit["negative_controls"])
+    operator_rows = (
+        list(audit["operators"])
+        + list(audit["clone_robustness"])
+        + list(audit["negative_controls"])
+    )
     operators_csv = output_dir / "operators.csv"
     summary_json = output_dir / "summary.json"
     write_operator_csv(operators_csv, operator_rows)
@@ -151,7 +173,9 @@ def main(argv: Sequence[str] | None = None) -> int:
             {
                 "status": "ok",
                 "output_dir": str(output_dir),
-                "game_agnostic_constraint_upheld": audit["game_agnostic_constraint_upheld"],
+                "game_agnostic_constraint_upheld": audit[
+                    "game_agnostic_constraint_upheld"
+                ],
                 "n_operator_violations": audit["n_operator_violations"],
                 "negative_controls_all_caught": audit["negative_controls_all_caught"],
                 "run_contract_hash": manifest["run_contract_hash"],

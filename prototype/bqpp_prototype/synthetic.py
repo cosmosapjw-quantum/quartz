@@ -81,7 +81,7 @@ def make_hidden_best_bandit(seed: int = 0, K: int = 20) -> GaussianBandit:
     "hidden win" scenario.
     """
     means = [0.4 + 0.01 * i for i in range(K)]  # rising, but small
-    means[K - 1] = 0.85                         # arm K-1 is true best
+    means[K - 1] = 0.85  # arm K-1 is true best
     sigmas = [0.1] * K
     return GaussianBandit(
         true_means=means,

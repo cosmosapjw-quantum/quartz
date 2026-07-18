@@ -89,9 +89,10 @@ def test_v2_registry_covers_exact_axis_set_and_required_lane_contract():
     assert [axis["id"] for axis in axes["axes"]] == EXPECTED_AXIS_IDS
     assert registry["axis_registry"] == "configs/idea_foundry.axes.v1.json"
     assert registry["axis_registry_contract"]["required_axis_ids"] == EXPECTED_AXIS_IDS
-    assert registry["axis_registry_contract"]["sha256"] == hashlib.sha256(
-        AXIS_PATH.read_bytes()
-    ).hexdigest()
+    assert (
+        registry["axis_registry_contract"]["sha256"]
+        == hashlib.sha256(AXIS_PATH.read_bytes()).hexdigest()
+    )
 
     lanes = registry["lanes"]
     lane_ids = [lane["id"] for lane in lanes]
@@ -166,9 +167,9 @@ def test_stage_contracts_pin_scientific_first_gate_invariants():
         "near_tie",
         "multimodal",
     ]
-    assert "total budget conserved" in contracts["synthetic_candidate_bank"][
-        "invariants"
-    ]
+    assert (
+        "total budget conserved" in contracts["synthetic_candidate_bank"]["invariants"]
+    )
     assert contracts["counterfactual"]["actions"] == [
         "STOP",
         "SAMPLE_INCUMBENT",
@@ -209,9 +210,7 @@ def test_first_gate_steps_call_axis_gate_and_require_versioned_artifacts():
         assert all(item["required"] for item in artifacts.values())
         assert all(item["schema"]["required_keys"] for item in artifacts.values())
         assert lane["seed_contract"]["trace_salt_count"] == 1
-        assert lane["seed_contract"][
-            "restart_and_continuation_kept_separate"
-        ]
+        assert lane["seed_contract"]["restart_and_continuation_kept_separate"]
 
 
 def test_live_multirole_chain_and_hardware_lanes_are_fail_closed():
@@ -219,7 +218,9 @@ def test_live_multirole_chain_and_hardware_lanes_are_fail_closed():
     lanes = {lane["id"]: lane for lane in registry["lanes"]}
 
     for axis_id in ("A06", "A07"):
-        assert {lane["role"] for lane in registry["lanes"] if lane["axis_id"] == axis_id} == {
+        assert {
+            lane["role"] for lane in registry["lanes"] if lane["axis_id"] == axis_id
+        } == {
             "synthetic",
             "live",
         }
@@ -323,13 +324,14 @@ def test_import_receipt_and_payload_manifest_are_pinned():
     for archive_name, metadata in archives.items():
         archive_path = REPO_ROOT / archive_name
         if archive_path.exists():
-            assert hashlib.sha256(archive_path.read_bytes()).hexdigest() == metadata[
-                "sha256"
-            ]
+            assert (
+                hashlib.sha256(archive_path.read_bytes()).hexdigest()
+                == metadata["sha256"]
+            )
 
-    payloads = (REPO_ROOT / "BUNDLE_FILE_LIST.txt").read_text(
-        encoding="utf-8"
-    ).splitlines()
+    payloads = (
+        (REPO_ROOT / "BUNDLE_FILE_LIST.txt").read_text(encoding="utf-8").splitlines()
+    )
     assert len(payloads) == len(set(payloads)) == 21
     assert all(payload and not payload.startswith("./.git/") for payload in payloads)
     assert payloads[0:3] == [

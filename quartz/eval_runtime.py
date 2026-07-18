@@ -203,7 +203,9 @@ def _run_fused_multi_model_batch(model_map, device, features_np, by_tag):
 
     # Padded (M, max_K, *feat_shape) input — empty slots are zeros,
     # whose outputs we discard in the scatter step below.
-    x_padded = torch.zeros((M, max_K) + tuple(feat_shape), device=device, dtype=features_t.dtype)
+    x_padded = torch.zeros(
+        (M, max_K) + tuple(feat_shape), device=device, dtype=features_t.dtype
+    )
     request_index = [[] for _ in range(M)]
     for tag, entries in usable_by_tag.items():
         m_idx = tag_to_idx[int(tag)]
@@ -336,22 +338,28 @@ def parse_eval_request(req):
 
 
 def legacy_eval_cache_key(model_tag, num_actions, feat_array, ch_cfg, bs_cfg):
-    return hash((
-        int(model_tag),
-        int(num_actions),
-        int(ch_cfg),
-        int(bs_cfg),
-        feat_array.tobytes(),
-    ))
+    return hash(
+        (
+            int(model_tag),
+            int(num_actions),
+            int(ch_cfg),
+            int(bs_cfg),
+            feat_array.tobytes(),
+        )
+    )
 
 
-def eval_request_cache_key(model_tag, num_actions, feat_array, ch_cfg, bs_cfg, fp_lo, fp_hi, encoder_rev):
+def eval_request_cache_key(
+    model_tag, num_actions, feat_array, ch_cfg, bs_cfg, fp_lo, fp_hi, encoder_rev
+):
     if fp_lo is not None and fp_hi is not None:
         return (int(model_tag), int(fp_hi), int(fp_lo), int(encoder_rev or 0))
     return legacy_eval_cache_key(model_tag, num_actions, feat_array, ch_cfg, bs_cfg)
 
 
-def run_batched_eval_groups(eval_groups, model, device, cfg, run_model_batch, cache_key_fn=None):
+def run_batched_eval_groups(
+    eval_groups, model, device, cfg, run_model_batch, cache_key_fn=None
+):
     if not eval_groups:
         return []
     ch_cfg, bs_cfg = cfg["ch"], cfg["board"]
@@ -362,10 +370,14 @@ def run_batched_eval_groups(eval_groups, model, device, cfg, run_model_batch, ca
     cached_results = {}
     for group in eval_groups:
         for request in group["requests"]:
-            na, feats, model_tag, fp_lo, fp_hi, encoder_rev = parse_eval_request(request)
+            na, feats, model_tag, fp_lo, fp_hi, encoder_rev = parse_eval_request(
+                request
+            )
             idx = len(flat_requests)
             if len(feats) == expected:
-                features = np.asarray(feats, dtype=np.float32).reshape(ch_cfg, bs_cfg, bs_cfg)
+                features = np.asarray(feats, dtype=np.float32).reshape(
+                    ch_cfg, bs_cfg, bs_cfg
+                )
                 key_builder = cache_key_fn or eval_request_cache_key
                 cache_key = key_builder(
                     model_tag,
@@ -389,7 +401,9 @@ def run_batched_eval_groups(eval_groups, model, device, cfg, run_model_batch, ca
                     continue
             batch_features.append(features)
 
-    model_map = {int(k): v for k, v in model.items()} if isinstance(model, dict) else None
+    model_map = (
+        {int(k): v for k, v in model.items()} if isinstance(model, dict) else None
+    )
 
     all_policies = [None] * len(flat_requests)
     all_values = [0.0] * len(flat_requests)
@@ -399,7 +413,9 @@ def run_batched_eval_groups(eval_groups, model, device, cfg, run_model_batch, ca
         all_values[idx] = value
 
     gpu_indices = [i for i in range(len(flat_requests)) if i not in cached_results]
-    gpu_features = [batch_features[i] for i in gpu_indices if batch_features[i] is not None]
+    gpu_features = [
+        batch_features[i] for i in gpu_indices if batch_features[i] is not None
+    ]
 
     if gpu_features:
         if model_map is not None:
@@ -407,7 +423,9 @@ def run_batched_eval_groups(eval_groups, model, device, cfg, run_model_batch, ca
             by_tag = {}
             for local_i, global_i in enumerate(gpu_indices):
                 na, model_tag, _cache_key = flat_requests[global_i]
-                by_tag.setdefault(int(model_tag), []).append((local_i, global_i, int(na)))
+                by_tag.setdefault(int(model_tag), []).append(
+                    (local_i, global_i, int(na))
+                )
 
             # Phase 7 follow-up (2026-04-27): fused multi-model forward
             # via `torch.func.vmap(functional_call(...))` is implemented
@@ -428,11 +446,9 @@ def run_batched_eval_groups(eval_groups, model, device, cfg, run_model_batch, ca
             # The per-tag for-loop below is the validated production
             # path. The helper + unit tests stay in tree so the fused
             # path can be re-enabled after profile-driven fixes.
-            use_fused = (
-                len(model_map) >= 2
-                and str(os.environ.get("QUARTZ_FUSED_EVAL", "0")).strip().lower()
-                in {"1", "true", "yes", "on"}
-            )
+            use_fused = len(model_map) >= 2 and str(
+                os.environ.get("QUARTZ_FUSED_EVAL", "0")
+            ).strip().lower() in {"1", "true", "yes", "on"}
             fused_out = None
             if use_fused:
                 fused_out = _run_fused_multi_model_batch(
@@ -465,10 +481,14 @@ def run_batched_eval_groups(eval_groups, model, device, cfg, run_model_batch, ca
                             all_values[global_i] = float(vals_np[bi])
                     else:
                         for _, global_i, na in entries:
-                            all_policies[global_i] = np.full(na, 1.0 / na, dtype=np.float32)
+                            all_policies[global_i] = np.full(
+                                na, 1.0 / na, dtype=np.float32
+                            )
                             all_values[global_i] = 0.0
         elif model is not None:
-            probs_batch, vals_np = run_model_batch(model, device, np.stack(gpu_features, axis=0))
+            probs_batch, vals_np = run_model_batch(
+                model, device, np.stack(gpu_features, axis=0)
+            )
             for bi, global_i in enumerate(gpu_indices):
                 na = flat_requests[global_i][0]
                 all_policies[global_i] = probs_batch[bi][:na]
@@ -494,12 +514,14 @@ def run_batched_eval_groups(eval_groups, model, device, cfg, run_model_batch, ca
     offset = 0
     for group in eval_groups:
         count = len(group["requests"])
-        responses.append({
-            "gi": int(group.get("gi", 0)),
-            "kind": group["kind"],
-            "policies": all_policies[offset:offset + count],
-            "values": all_values[offset:offset + count],
-        })
+        responses.append(
+            {
+                "gi": int(group.get("gi", 0)),
+                "kind": group["kind"],
+                "policies": all_policies[offset : offset + count],
+                "values": all_values[offset : offset + count],
+            }
+        )
         offset += count
     return responses
 

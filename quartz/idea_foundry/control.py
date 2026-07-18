@@ -52,7 +52,9 @@ class A01StopCouncil:
         runner = obs.runner_up()
         interval_overlap = 1.0
         if best is not None and runner is not None:
-            interval_overlap = max(0.0, min(best.upper, runner.upper) - max(best.lower, runner.lower))
+            interval_overlap = max(
+                0.0, min(best.upper, runner.upper) - max(best.lower, runner.lower)
+            )
         return {
             "one_minus_h1": 1.0 - float(obs.h1_stability or 0.0),
             "p_flip": float(obs.p_flip if obs.p_flip is not None else 1.0),
@@ -82,7 +84,9 @@ class A01StopCouncil:
         return (
             MetaProposal(
                 axis_id=self.axis_id,
-                action=MetaAction(MetaActionKind.STOP, primary=best.edge_pos, label="risk_council"),
+                action=MetaAction(
+                    MetaActionKind.STOP, primary=best.edge_pos, label="risk_council"
+                ),
                 estimate=ProposalEstimate(
                     regret_reduction_mean=0.0,
                     regret_reduction_lcb=0.0,
@@ -126,12 +130,16 @@ class A02StaticAnchorRPO:
         return (
             MetaProposal(
                 axis_id=self.axis_id,
-                action=MetaAction(MetaActionKind.NOOP, label="publish_temporary_root_policy"),
+                action=MetaAction(
+                    MetaActionKind.NOOP, label="publish_temporary_root_policy"
+                ),
                 estimate=ProposalEstimate(confidence=0.5),
                 activation_guard="root-only; frozen anchor; no cumulative mutation",
                 explanation="temporary KL-regularized root policy ready for posthoc/readout comparison",
                 telemetry={
-                    "policy": {str(edge_pos): weight for edge_pos, weight in policy.items()},
+                    "policy": {
+                        str(edge_pos): weight for edge_pos, weight in policy.items()
+                    },
                     "temperature": self.temperature,
                 },
             ),
@@ -147,7 +155,12 @@ class A03UncertaintyDecomposition:
     combine: str = "sum"
 
     def radius(self, edge: EdgeObservation) -> float:
-        terms = [edge.mc_radius, edge.epistemic_radius, edge.drift_radius, edge.bias_radius]
+        terms = [
+            edge.mc_radius,
+            edge.epistemic_radius,
+            edge.drift_radius,
+            edge.bias_radius,
+        ]
         if self.combine == "rss":
             return sum(max(0.0, x) ** 2 for x in terms) ** 0.5
         return sum(max(0.0, x) for x in terms)
@@ -168,7 +181,9 @@ class A03UncertaintyDecomposition:
         return (
             MetaProposal(
                 axis_id=self.axis_id,
-                action=MetaAction(MetaActionKind.NOOP, label="publish_uncertainty_channels"),
+                action=MetaAction(
+                    MetaActionKind.NOOP, label="publish_uncertainty_channels"
+                ),
                 estimate=ProposalEstimate(confidence=0.5),
                 activation_guard="completed backups only; evaluator version frozen per root epoch",
                 explanation="uncertainty channels computed without assuming independence",
@@ -205,12 +220,17 @@ class A04KgVocAllocator:
             proposals.append(
                 MetaProposal(
                     axis_id=self.axis_id,
-                    action=MetaAction(MetaActionKind.SAMPLE, primary=edge.edge_pos, amount=self.batch),
+                    action=MetaAction(
+                        MetaActionKind.SAMPLE, primary=edge.edge_pos, amount=self.batch
+                    ),
                     estimate=ProposalEstimate(
                         regret_reduction_mean=gain,
                         regret_reduction_lcb=0.5 * gain,
                         confidence=0.25,
-                        cost=CostVector(nn_evals=self.batch, cpu_ms=self.batch * self.cost_per_eval_ms),
+                        cost=CostVector(
+                            nn_evals=self.batch,
+                            cpu_ms=self.batch * self.cost_per_eval_ms,
+                        ),
                     ),
                     activation_guard="allocation only; challenger visible; measured cost replaces constant",
                     explanation=f"KG proxy for edge {edge.edge_pos}",
@@ -285,7 +305,9 @@ class A24LearnedBudgetGate:
                         regret_reduction_mean=gain,
                         regret_reduction_lcb=min(0.0, gain),
                         confidence=0.0 if self.predict_gain is None else 0.5,
-                        cost=CostVector(nn_evals=budget, cpu_ms=budget * self.cost_per_visit_ms),
+                        cost=CostVector(
+                            nn_evals=budget, cpu_ms=budget * self.cost_per_visit_ms
+                        ),
                     ),
                     activation_guard="frozen planner; grouped holdout calibration; hard deadline respected",
                     explanation=f"candidate extra budget={budget}",

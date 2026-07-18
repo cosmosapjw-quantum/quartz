@@ -21,7 +21,9 @@ def _normalize_device_kind(device_name: str | None) -> str:
     return name
 
 
-def load_eval_runtime_overrides_from_model(model_path: str | None, device_name: str | None) -> dict:
+def load_eval_runtime_overrides_from_model(
+    model_path: str | None, device_name: str | None
+) -> dict:
     if not model_path or os.environ.get("QUARTZ_DISABLE_EVAL_AUTOTUNE_PROFILE"):
         return {}
 

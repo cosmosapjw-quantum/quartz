@@ -15,9 +15,16 @@ from types import SimpleNamespace
 import numpy as np
 
 from quartz.backend import load_torch_state_dict
-from quartz.cli_runtime import CliRuntimeHooks, load_actor_source_from_checkpoint as _load_actor_source_from_checkpoint_impl
+from quartz.cli_runtime import (
+    CliRuntimeHooks,
+    load_actor_source_from_checkpoint as _load_actor_source_from_checkpoint_impl,
+)
 from quartz.encoders import get_encoder
-from quartz.eval_runtime import make_eval_request_group, parse_eval_request, run_batched_eval_groups
+from quartz.eval_runtime import (
+    make_eval_request_group,
+    parse_eval_request,
+    run_batched_eval_groups,
+)
 from quartz.evaluation import GameRecord, tally_match
 from quartz.game_adapters import (
     ChessEvaluationAdapter,
@@ -67,7 +74,12 @@ from quartz.selfplay_runtime import (
     rust_search_options,
     supports_rust_eval_state_machine as _supports_rust_eval_state_machine_impl,
 )
-from quartz.training_catalog import CHESS_POLICY_ACTIONS, GAME_CONFIGS, GOMOKU15_VARIANTS, STANDARD_CHESS_FEN
+from quartz.training_catalog import (
+    CHESS_POLICY_ACTIONS,
+    GAME_CONFIGS,
+    GOMOKU15_VARIANTS,
+    STANDARD_CHESS_FEN,
+)
 
 log = logging.getLogger(__name__)
 
@@ -112,13 +124,19 @@ def resolve_search_client_cls(default_cls=None):
         if candidate is not None:
             return candidate
     candidates = []
-    for module_name in ("quartz.alphazero_train", "alphazero_train", "quartz_alphazero_train"):
+    for module_name in (
+        "quartz.alphazero_train",
+        "alphazero_train",
+        "quartz_alphazero_train",
+    ):
         module = sys.modules.get(module_name)
         if module is not None:
             candidates.append(module)
     for module in list(sys.modules.values()):
         module_file = getattr(module, "__file__", None)
-        if isinstance(module_file, str) and module_file.endswith(os.path.join("quartz", "alphazero_train.py")):
+        if isinstance(module_file, str) and module_file.endswith(
+            os.path.join("quartz", "alphazero_train.py")
+        ):
             candidates.append(module)
     seen = set()
     for module in candidates:
@@ -191,7 +209,9 @@ SEARCH_RUNTIME_KEYS = tuple(
 SEARCH_OPTIONS_SCHEMA_VERSION = 1
 
 
-def validate_search_option_keys(payload, *, context="search options", allow_runtime_private=True):
+def validate_search_option_keys(
+    payload, *, context="search options", allow_runtime_private=True
+):
     """Return unknown public search/config keys for a search-condition payload.
 
     This is the Python-side canonical key surface used by ablation manifests
@@ -237,7 +257,9 @@ def initial_chess_fen(cfg, rng=None):
 
 
 def build_rust_state_meta(game_name, state, cfg):
-    return _build_rust_state_meta_impl(game_name, state, cfg, is_chess_game_fn=is_chess_game, is_go_game_fn=is_go_game)
+    return _build_rust_state_meta_impl(
+        game_name, state, cfg, is_chess_game_fn=is_chess_game, is_go_game_fn=is_go_game
+    )
 
 
 def supports_rust_eval_state_machine(game_name):
@@ -262,9 +284,9 @@ def encode_board(cfg, board_flat, player):
     # [OPT] Vectorized board encoding — replaces per-cell Python loop
     board_arr = np.asarray(board_flat, dtype=np.int8).ravel()[:n2]
     my_val = np.int8(player)
-    enc[0].ravel()[:len(board_arr)] = (board_arr == my_val).astype(np.float32)
+    enc[0].ravel()[: len(board_arr)] = (board_arr == my_val).astype(np.float32)
     opp_mask = (board_arr != 0) & (board_arr != my_val)
-    enc[1].ravel()[:len(board_arr)] = opp_mask.astype(np.float32)
+    enc[1].ravel()[: len(board_arr)] = opp_mask.astype(np.float32)
     if player == 1:
         enc[ch - 1] = 1.0
     return enc
@@ -291,7 +313,11 @@ def normalize_rust_board(game_name, board_flat):
     if is_go_game(game_name):
         # [OPT] Vectorized: convert -1→2, keep 1→1, rest→0
         arr = np.asarray(board_flat, dtype=np.int8)
-        out = np.where(arr == 1, np.int8(1), np.where((arr == -1) | (arr == 2), np.int8(2), np.int8(0)))
+        out = np.where(
+            arr == 1,
+            np.int8(1),
+            np.where((arr == -1) | (arr == 2), np.int8(2), np.int8(0)),
+        )
         return out.tolist()
     return board_flat.tolist() if hasattr(board_flat, "tolist") else list(board_flat)
 
@@ -330,7 +356,9 @@ def _run_model_batch(model, device, batch_features):
         batch_np = np.ascontiguousarray(batch_np)
     if hasattr(model, "predict"):
         probs_batch, vals_np = model.predict(batch_np)
-        return np.asarray(probs_batch, dtype=np.float32), np.asarray(vals_np, dtype=np.float32).reshape(-1)
+        return np.asarray(probs_batch, dtype=np.float32), np.asarray(
+            vals_np, dtype=np.float32
+        ).reshape(-1)
     torch = _torch_module()
     # [OPT] Use torch.compile (Triton) for ~2-3x inference speedup on GPU
     run_model = _try_compile_model(model) if str(device) != "cpu" else model
@@ -348,7 +376,9 @@ run_model_batch = _run_model_batch
 class InferencePipelineThread:
     """Background thread that runs model inference while the caller collects the next batch."""
 
-    def __init__(self, model, device, cfg, max_pending=1, run_batched_eval_groups_fn=None):
+    def __init__(
+        self, model, device, cfg, max_pending=1, run_batched_eval_groups_fn=None
+    ):
         self._model = model
         self._device = device
         self._cfg = cfg
@@ -357,11 +387,15 @@ class InferencePipelineThread:
         self._shutdown = threading.Event()
         self._thread = None
         self._run_batched_eval_groups_fn = run_batched_eval_groups_fn or (
-            lambda groups, model_obj, dev, cfg_obj: run_batched_eval_groups(groups, model_obj, dev, cfg_obj, _run_model_batch)
+            lambda groups, model_obj, dev, cfg_obj: run_batched_eval_groups(
+                groups, model_obj, dev, cfg_obj, _run_model_batch
+            )
         )
 
     def start(self):
-        self._thread = threading.Thread(target=self._loop, daemon=True, name="quartz-inference")
+        self._thread = threading.Thread(
+            target=self._loop, daemon=True, name="quartz-inference"
+        )
         self._thread.start()
 
     def stop(self, timeout=5.0):
@@ -391,7 +425,9 @@ class InferencePipelineThread:
             if groups is None:
                 break
             try:
-                responses = self._run_batched_eval_groups_fn(groups, self._model, self._device, self._cfg)
+                responses = self._run_batched_eval_groups_fn(
+                    groups, self._model, self._device, self._cfg
+                )
                 self._outbound.put(responses)
             except Exception as exc:
                 self._outbound.put(exc)
@@ -429,15 +465,31 @@ def _write_batched_eval_group(proc, response_group):
             prefer_shm=bool(response_group.get("prefer_shm")),
         )
     elif kind == "json_batch":
-        proc_write_json_line(proc, {"batch_eval_resp": {"responses": [{"policy": policy.tolist(), "value": float(value)} for policy, value in zip(policies, values)]}})
+        proc_write_json_line(
+            proc,
+            {
+                "batch_eval_resp": {
+                    "responses": [
+                        {"policy": policy.tolist(), "value": float(value)}
+                        for policy, value in zip(policies, values)
+                    ]
+                }
+            },
+        )
     elif kind == "json_single":
-        proc_write_json_line(proc, {"eval_resp": {"policy": policies[0].tolist(), "value": float(values[0])}})
+        proc_write_json_line(
+            proc,
+            {"eval_resp": {"policy": policies[0].tolist(), "value": float(values[0])}},
+        )
     else:
         raise ValueError(f"unknown eval response group kind: {kind}")
 
 
 def _shm_eval_loop(ring, model, device, cfg, proc, on_json=None, baseline_epoch=None):
-    from quartz.evaluator_runtime import ShmEvalRuntimeHooks, shm_eval_loop as _shm_eval_loop_impl
+    from quartz.evaluator_runtime import (
+        ShmEvalRuntimeHooks,
+        shm_eval_loop as _shm_eval_loop_impl,
+    )
 
     return _shm_eval_loop_impl(
         ring,
@@ -448,13 +500,19 @@ def _shm_eval_loop(ring, model, device, cfg, proc, on_json=None, baseline_epoch=
         on_json=on_json,
         baseline_epoch=baseline_epoch,
         runtime_hooks=ShmEvalRuntimeHooks(
-            run_batched_eval_groups=lambda groups, model_obj, dev, cfg_obj: run_batched_eval_groups(groups, model_obj, dev, cfg_obj, _run_model_batch),
+            run_batched_eval_groups=lambda groups, model_obj, dev, cfg_obj: (
+                run_batched_eval_groups(
+                    groups, model_obj, dev, cfg_obj, _run_model_batch
+                )
+            ),
             make_eval_request_group=make_eval_request_group,
             unpack_qipc_batch_eval_req=unpack_qipc_batch_eval_req,
             unpack_shm_search_response=unpack_shm_search_response,
             unpack_qipc_arena_eval_resp=unpack_qipc_arena_eval_resp,
             json_loads_fast=json_loads_fast,
-            emit_duty_cycle=getattr(resolve_search_client_cls(), "_emit_duty_cycle", lambda duty: None),
+            emit_duty_cycle=getattr(
+                resolve_search_client_cls(), "_emit_duty_cycle", lambda duty: None
+            ),
             pack_qipc_batch_eval_resp=pack_qipc_batch_eval_resp,
             logger=log,
             shm_msg_eval_batch_req=SHM_MSG_EVAL_BATCH_REQ,
@@ -497,11 +555,17 @@ class NNSearchClient(_NNSearchClientImpl):
                 unpack_qipc_batch_eval_req=unpack_qipc_batch_eval_req,
                 unpack_qipc_arena_eval_resp=unpack_qipc_arena_eval_resp,
                 unpack_qipc_eval_req=unpack_qipc_eval_req,
-                compute_eval_collect_policy=__import__("quartz.system_runtime", fromlist=["compute_eval_collect_policy"]).compute_eval_collect_policy,
+                compute_eval_collect_policy=__import__(
+                    "quartz.system_runtime", fromlist=["compute_eval_collect_policy"]
+                ).compute_eval_collect_policy,
                 wait_readable=wait_readable,
                 inference_pipeline_thread_cls=InferencePipelineThread,
                 should_use_async_pipeline=should_use_async_pipeline,
-                run_batched_eval_groups=lambda groups, model_obj, dev, cfg_obj: run_batched_eval_groups(groups, model_obj, dev, cfg_obj, _run_model_batch),
+                run_batched_eval_groups=lambda groups, model_obj, dev, cfg_obj: (
+                    run_batched_eval_groups(
+                        groups, model_obj, dev, cfg_obj, _run_model_batch
+                    )
+                ),
                 write_batched_eval_group=_write_batched_eval_group,
                 run_model_batch=_run_model_batch,
                 torch_module=_torch_module(),
@@ -530,7 +594,9 @@ def build_training_game_adapter(cfg):
     )
 
 
-def load_actor_source_from_checkpoint(checkpoint_path, cfg, device, backend_preference="torch", backend_template=None):
+def load_actor_source_from_checkpoint(
+    checkpoint_path, cfg, device, backend_preference="torch", backend_template=None
+):
     return _load_actor_source_from_checkpoint_impl(
         checkpoint_path,
         cfg,
@@ -565,17 +631,20 @@ def detect_checkpoint_backend_hint(path):
 def ensure_best_checkpoint_compatible(best_model_path, backend, model, device):
     if not os.path.exists(best_model_path):
         return None
-    active_backend = getattr(backend, "name", "torch") if backend is not None else "torch"
+    active_backend = (
+        getattr(backend, "name", "torch") if backend is not None else "torch"
+    )
     hint = detect_checkpoint_backend_hint(best_model_path)
-    mismatch = (
-        (active_backend == "torch" and hint == "jax")
-        or (active_backend == "jax" and hint == "torch")
+    mismatch = (active_backend == "torch" and hint == "jax") or (
+        active_backend == "jax" and hint == "torch"
     )
     if not mismatch:
         return hint
     if backend is not None:
         backend.save(best_model_path)
-    raise RuntimeError(f"incompatible best checkpoint for runtime backend: {hint} -> {active_backend}")
+    raise RuntimeError(
+        f"incompatible best checkpoint for runtime backend: {hint} -> {active_backend}"
+    )
 
 
 def default_encoder_cfg(game_name):
@@ -603,7 +672,9 @@ def tqdm_factory(*args, **kwargs):
     """
     if tqdm is None:
         return contextlib.nullcontext(
-            SimpleNamespace(update=lambda *_a, **_k: None, set_postfix_str=lambda *_a, **_k: None)
+            SimpleNamespace(
+                update=lambda *_a, **_k: None, set_postfix_str=lambda *_a, **_k: None
+            )
         )
     # Only apply the auto-disable when the caller didn't already set it.
     if "disable" not in kwargs:

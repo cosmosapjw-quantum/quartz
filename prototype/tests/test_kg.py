@@ -35,14 +35,22 @@ def test_kg_monotone_in_sigma_a():
     mu_hats = [0.8, 0.5]
     n_pulls = [200, 100]
     kg_low_sigma = kg_gaussian_per_arm(
-        mu_hats[1], n_pulls[1], 0.001, mu_hats[0], n_pulls[0], 0.01,
+        mu_hats[1],
+        n_pulls[1],
+        0.001,
+        mu_hats[0],
+        n_pulls[0],
+        0.01,
     )
     kg_high_sigma = kg_gaussian_per_arm(
-        mu_hats[1], n_pulls[1], 0.05, mu_hats[0], n_pulls[0], 0.01,
+        mu_hats[1],
+        n_pulls[1],
+        0.05,
+        mu_hats[0],
+        n_pulls[0],
+        0.01,
     )
-    assert kg_high_sigma > kg_low_sigma, (
-        f"low={kg_low_sigma} vs high={kg_high_sigma}"
-    )
+    assert kg_high_sigma > kg_low_sigma, f"low={kg_low_sigma} vs high={kg_high_sigma}"
 
 
 def test_kg_monotone_in_inverse_n_a():
@@ -50,10 +58,20 @@ def test_kg_monotone_in_inverse_n_a():
     mu_hats = [0.8, 0.5]
     sigma2s = [0.01, 0.01]
     kg_few = kg_gaussian_per_arm(
-        mu_hats[1], 5, sigma2s[1], mu_hats[0], 200, sigma2s[0],
+        mu_hats[1],
+        5,
+        sigma2s[1],
+        mu_hats[0],
+        200,
+        sigma2s[0],
     )
     kg_many = kg_gaussian_per_arm(
-        mu_hats[1], 100, sigma2s[1], mu_hats[0], 200, sigma2s[0],
+        mu_hats[1],
+        100,
+        sigma2s[1],
+        mu_hats[0],
+        200,
+        sigma2s[0],
     )
     assert kg_few > kg_many, f"few={kg_few} vs many={kg_many}"
 
@@ -62,8 +80,12 @@ def test_kg_at_clear_loss_goes_to_zero():
     """Δ_a / s_a → ∞ ⇒ KG → 0."""
     # Big gap, tiny noise
     kg = kg_gaussian_per_arm(
-        mu_a=0.0, n_a=100, sigma2_a=0.0001,
-        mu_b=1.0, n_b=100, sigma2_b=0.0001,
+        mu_a=0.0,
+        n_a=100,
+        sigma2_a=0.0001,
+        mu_b=1.0,
+        n_b=100,
+        sigma2_b=0.0001,
     )
     assert kg < 1e-9
 
@@ -71,6 +93,7 @@ def test_kg_at_clear_loss_goes_to_zero():
 def test_kg_full_formula_matches_voi_for_kg_position():
     """KG_a = expected_improvement(Δ, s) where Δ = mu_b - mu_a."""
     from bqpp_prototype.voi import expected_improvement
+
     mu_a, n_a, sigma2_a = 0.4, 50, 0.04
     mu_b, n_b, sigma2_b = 0.7, 100, 0.04
     lambda0 = 4.0
@@ -78,7 +101,13 @@ def test_kg_full_formula_matches_voi_for_kg_position():
     delta = mu_b - mu_a
     expected = expected_improvement(delta, s)
     actual = kg_gaussian_per_arm(
-        mu_a, n_a, sigma2_a, mu_b, n_b, sigma2_b, lambda0,
+        mu_a,
+        n_a,
+        sigma2_a,
+        mu_b,
+        n_b,
+        sigma2_b,
+        lambda0,
     )
     assert math.isclose(actual, expected, rel_tol=1e-9)
 
@@ -90,8 +119,12 @@ def test_top_m_kg_includes_best():
     sigma2s = [0.01, 0.01, 0.01, 0.01]
     upper_ci = [0.85, 0.6, 0.5, 0.4]
     kg, n_eval = top_m_kg_with_uc_bound(
-        mu_hats, n_pulls, sigma2s, upper_ci,
-        lower_ci_best=0.75, m=2,
+        mu_hats,
+        n_pulls,
+        sigma2s,
+        upper_ci,
+        lower_ci_best=0.75,
+        m=2,
     )
     # arm 0 is best, KG[0] should be exactly 0
     assert kg[0] == 0.0
@@ -107,8 +140,12 @@ def test_top_m_kg_bounds_below_threshold_arms_by_uc():
     upper_ci = [0.85, 0.6, 0.5, 0.4]
     L_b = 0.75
     kg, _ = top_m_kg_with_uc_bound(
-        mu_hats, n_pulls, sigma2s, upper_ci,
-        lower_ci_best=L_b, m=1,
+        mu_hats,
+        n_pulls,
+        sigma2s,
+        upper_ci,
+        lower_ci_best=L_b,
+        m=1,
     )
     # arm 1 is in top-m (highest upper_ci among non-best);
     # arm 2, 3 are NOT in top-m and should get U_a - L_b bound.

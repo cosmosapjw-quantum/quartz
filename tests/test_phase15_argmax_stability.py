@@ -69,16 +69,22 @@ def test_all_zero_counts_is_uniform_posterior():
 
 def test_should_stop_respects_threshold_and_min_visits():
     # Blowout above min_visits → stop.
-    stop, meta = should_stop_by_argmax_stability([40, 1, 1], threshold=0.9, min_visits=8, seed=0)
+    stop, meta = should_stop_by_argmax_stability(
+        [40, 1, 1], threshold=0.9, min_visits=8, seed=0
+    )
     assert stop is True
     assert meta["argmax_index"] == 0
     assert meta["argmax_stability"] > 0.9
     # Same shape but below min_visits → never stop even if "stable".
-    stop2, meta2 = should_stop_by_argmax_stability([4, 0, 0], threshold=0.9, min_visits=8, seed=0)
+    stop2, meta2 = should_stop_by_argmax_stability(
+        [4, 0, 0], threshold=0.9, min_visits=8, seed=0
+    )
     assert stop2 is False
     assert meta2["total_visits"] == 4.0
     # Tight race above min_visits → do not stop.
-    stop3, _ = should_stop_by_argmax_stability([10, 9], threshold=0.9, min_visits=8, seed=0)
+    stop3, _ = should_stop_by_argmax_stability(
+        [10, 9], threshold=0.9, min_visits=8, seed=0
+    )
     assert stop3 is False
 
 

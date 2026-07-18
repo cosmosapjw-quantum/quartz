@@ -30,7 +30,9 @@ def _default_runtime_hooks():
         search_client_cls=runtime_support.resolve_search_client_cls(),
         is_chess_game=runtime_support.is_chess_game,
         build_rust_state_meta=runtime_support.build_rust_state_meta,
-        iter_sparse_policy_entries=__import__("quartz.replay", fromlist=["iter_sparse_policy_entries"]).iter_sparse_policy_entries,
+        iter_sparse_policy_entries=__import__(
+            "quartz.replay", fromlist=["iter_sparse_policy_entries"]
+        ).iter_sparse_policy_entries,
         supports_rust_eval_state_machine=runtime_support.supports_rust_eval_state_machine,
         stall_trace=lambda *args, **kwargs: None,
         game_record_cls=runtime_support.GameRecord,
@@ -48,11 +50,15 @@ def arena_eval_runtime_cfg(base_cfg, num_games):
     n_threads = max(1, int(cfg.get("n_threads", 1) or 1))
     if total_games <= 2:
         cfg["batch_size"] = min(current_batch_size, 2)
-        cfg["batch_timeout_us"] = min(current_timeout_us, 900 if n_threads <= 1 else 700)
+        cfg["batch_timeout_us"] = min(
+            current_timeout_us, 900 if n_threads <= 1 else 700
+        )
         cfg["_arena_low_concurrency_profile"] = "tiny"
     elif total_games <= 4:
         cfg["batch_size"] = min(current_batch_size, 4)
-        cfg["batch_timeout_us"] = min(current_timeout_us, 1200 if n_threads <= 1 else 900)
+        cfg["batch_timeout_us"] = min(
+            current_timeout_us, 1200 if n_threads <= 1 else 900
+        )
         cfg["_arena_low_concurrency_profile"] = "small"
     return cfg
 
@@ -111,18 +117,24 @@ def _summarize_search_summaries(items):
     selection_effective_prior_l1_sum = 0.0
     game_count = 0
     for item in items or []:
-        summary = item.get("search_summary") if isinstance(item, dict) else getattr(item, "search_summary", None)
+        summary = (
+            item.get("search_summary")
+            if isinstance(item, dict)
+            else getattr(item, "search_summary", None)
+        )
         if not isinstance(summary, dict):
             continue
         game_count += 1
-        rv = ((summary.get("root_visits") or {}).get("samples") or [])
+        rv = (summary.get("root_visits") or {}).get("samples") or []
         for value in rv:
             try:
                 root_visits.append(float(value))
             except Exception:
                 pass
         for reason, count in (summary.get("halt_reason_hist") or {}).items():
-            halt_reason_hist[str(reason)] = int(halt_reason_hist.get(str(reason), 0)) + int(count or 0)
+            halt_reason_hist[str(reason)] = int(
+                halt_reason_hist.get(str(reason), 0)
+            ) + int(count or 0)
         if summary.get("mean_p_flip") is not None:
             try:
                 p_flip_values.append(float(summary["mean_p_flip"]))
@@ -141,8 +153,12 @@ def _summarize_search_summaries(items):
             selection_trace_seen += 1
             selection_root_selects += int(trace.get("root_selects") or 0)
             selection_refresh_selected += int(trace.get("refresh_selected_count") or 0)
-            selection_penalty_abs_sum += float(trace.get("selected_penalty_abs_sum") or 0.0)
-            selection_effective_prior_l1_sum += float(trace.get("selected_effective_prior_l1_sum") or 0.0)
+            selection_penalty_abs_sum += float(
+                trace.get("selected_penalty_abs_sum") or 0.0
+            )
+            selection_effective_prior_l1_sum += float(
+                trace.get("selected_effective_prior_l1_sum") or 0.0
+            )
     if game_count == 0:
         return _empty_search_trace()
     return {
@@ -154,7 +170,9 @@ def _summarize_search_summaries(items):
             "samples": root_visits,
         },
         "halt_reason_hist": halt_reason_hist,
-        "mean_p_flip": float(sum(p_flip_values) / len(p_flip_values)) if p_flip_values else None,
+        "mean_p_flip": float(sum(p_flip_values) / len(p_flip_values))
+        if p_flip_values
+        else None,
         "benchmark_safe_frac": (
             float(benchmark_safe / benchmark_seen) if benchmark_seen else None
         ),
@@ -235,7 +253,9 @@ def _run_shared_eval_matches(
 
     def build_job(sess):
         game = sess["game"]
-        mover_tag = sess["black_tag"] if game.current_player() == 0 else sess["white_tag"]
+        mover_tag = (
+            sess["black_tag"] if game.current_player() == 0 else sess["white_tag"]
+        )
         player = 1 if game.current_player() == 0 else -1
         if is_chess_game(game_name):
             job = {
@@ -255,7 +275,11 @@ def _run_shared_eval_matches(
     def apply_result(sess, result, fallback_ms):
         game = sess["game"]
         if not result or "error" in result:
-            sess["error"] = result.get("error", "empty response") if isinstance(result, dict) else "empty response"
+            sess["error"] = (
+                result.get("error", "empty response")
+                if isinstance(result, dict)
+                else "empty response"
+            )
             sess["done"] = True
             return
         pol_entries = result.get("policy", [])
@@ -278,7 +302,11 @@ def _run_shared_eval_matches(
                 sess["search_p_flip"].append(float(result.get("p_flip")))
             except Exception:
                 pass
-        reason = controller.get("stop_reason") or realized.get("stop_reason") or result.get("stop_reason")
+        reason = (
+            controller.get("stop_reason")
+            or realized.get("stop_reason")
+            or result.get("stop_reason")
+        )
         if reason:
             sess["search_halt_reason_hist"][str(reason)] = (
                 int(sess["search_halt_reason_hist"].get(str(reason), 0)) + 1
@@ -286,19 +314,28 @@ def _run_shared_eval_matches(
         if manifest.get("benchmark_safe") is not None:
             sess["search_benchmark_safe"].append(bool(manifest.get("benchmark_safe")))
         if controller.get("telemetry_partial") is not None:
-            sess["search_telemetry_partial"].append(bool(controller.get("telemetry_partial")))
+            sess["search_telemetry_partial"].append(
+                bool(controller.get("telemetry_partial"))
+            )
         trace = controller.get("selection_trace") or {}
         if isinstance(trace, dict):
             sess["selection_root_selects"] += int(trace.get("root_selects") or 0)
-            sess["selection_refresh_selected"] += int(trace.get("refresh_selected_count") or 0)
-            sess["selection_penalty_abs_sum"] += float(trace.get("selected_penalty_abs_sum") or 0.0)
+            sess["selection_refresh_selected"] += int(
+                trace.get("refresh_selected_count") or 0
+            )
+            sess["selection_penalty_abs_sum"] += float(
+                trace.get("selected_penalty_abs_sum") or 0.0
+            )
             sess["selection_effective_prior_l1_sum"] += float(
                 trace.get("selected_effective_prior_l1_sum") or 0.0
             )
         action = int(result.get("best_move", 0))
         meta = {
             "time_used_ms": move_time_ms if move_time_ms > 0.0 else fallback_ms,
-            "simulations": int(result.get("iterations", runtime_cfg.get("iters", 200)) or runtime_cfg.get("iters", 200)),
+            "simulations": int(
+                result.get("iterations", runtime_cfg.get("iters", 200))
+                or runtime_cfg.get("iters", 200)
+            ),
             "p_flip": result.get("p_flip", 0),
             "engine": "rust_nn_shared_eval",
         }
@@ -329,7 +366,9 @@ def _run_shared_eval_matches(
                     if sess.get("search_root_visits")
                     else None
                 ),
-                "max": max(sess["search_root_visits"]) if sess.get("search_root_visits") else None,
+                "max": max(sess["search_root_visits"])
+                if sess.get("search_root_visits")
+                else None,
                 "samples": list(sess.get("search_root_visits") or []),
             },
             "halt_reason_hist": dict(sess.get("search_halt_reason_hist") or {}),
@@ -350,8 +389,12 @@ def _run_shared_eval_matches(
             ),
             "selection_trace": {
                 "root_selects": int(sess.get("selection_root_selects") or 0),
-                "refresh_selected_count": int(sess.get("selection_refresh_selected") or 0),
-                "selected_penalty_abs_sum": float(sess.get("selection_penalty_abs_sum") or 0.0),
+                "refresh_selected_count": int(
+                    sess.get("selection_refresh_selected") or 0
+                ),
+                "selected_penalty_abs_sum": float(
+                    sess.get("selection_penalty_abs_sum") or 0.0
+                ),
                 "selected_effective_prior_l1_sum": float(
                     sess.get("selection_effective_prior_l1_sum") or 0.0
                 ),
@@ -461,7 +504,9 @@ def _run_shared_eval_matches(
             active = [
                 sess
                 for sess in sessions
-                if not sess["done"] and not sess["game"].is_terminal() and sess["ply"] < sess["max_moves"]
+                if not sess["done"]
+                and not sess["game"].is_terminal()
+                and sess["ply"] < sess["max_moves"]
             ]
             if not active:
                 break
@@ -475,7 +520,10 @@ def _run_shared_eval_matches(
             if progress_sig != last_progress_sig:
                 last_progress_sig = progress_sig
                 last_progress_ts = time.time()
-            elif stall_timeout_s > 0.0 and (time.time() - last_progress_ts) > stall_timeout_s:
+            elif (
+                stall_timeout_s > 0.0
+                and (time.time() - last_progress_ts) > stall_timeout_s
+            ):
                 stall_trace(
                     "eval_stall",
                     game=game_name,
@@ -513,7 +561,11 @@ def _run_shared_eval_matches(
             share_ms = 0.0
             updates = []
             for idx, sess in enumerate(sessions):
-                if sess["done"] or sess["game"].is_terminal() or sess["ply"] >= sess["max_moves"]:
+                if (
+                    sess["done"]
+                    or sess["game"].is_terminal()
+                    or sess["ply"] >= sess["max_moves"]
+                ):
                     sess["done"] = True
                     updates.append({"deactivate": True})
                     continue
@@ -535,7 +587,9 @@ def _run_shared_eval_matches(
             )
         return session_id
 
-    def append_session(spec, eng_black, eng_white, black_tag, white_tag, game_id, opening_idx=None):
+    def append_session(
+        spec, eng_black, eng_white, black_tag, white_tag, game_id, opening_idx=None
+    ):
         game = spec["game_factory"]()
         opening_applied = []
         game_seed = spec["rng"].randint(0, 2**31)
@@ -559,7 +613,8 @@ def _run_shared_eval_matches(
                 "seed": game_seed,
                 "ply": len(opening_applied),
                 "total_time_ms": 0.0,
-                "done": bool(game.is_terminal()) or len(opening_applied) >= spec["max_moves"],
+                "done": bool(game.is_terminal())
+                or len(opening_applied) >= spec["max_moves"],
                 "error": None,
                 "max_moves": int(spec["max_moves"]),
                 "search_root_visits": [],
@@ -579,18 +634,41 @@ def _run_shared_eval_matches(
         opening_n = len(spec["opening_book"])
         for i in range(pairs):
             opening_idx = i % opening_n if opening_n else None
-            append_session(spec, spec["engine_a"], spec["engine_b"], spec["tag_a"], spec["tag_b"], f"g{2 * i:04d}", opening_idx)
-            append_session(spec, spec["engine_b"], spec["engine_a"], spec["tag_b"], spec["tag_a"], f"g{2 * i + 1:04d}", opening_idx)
+            append_session(
+                spec,
+                spec["engine_a"],
+                spec["engine_b"],
+                spec["tag_a"],
+                spec["tag_b"],
+                f"g{2 * i:04d}",
+                opening_idx,
+            )
+            append_session(
+                spec,
+                spec["engine_b"],
+                spec["engine_a"],
+                spec["tag_b"],
+                spec["tag_a"],
+                f"g{2 * i + 1:04d}",
+                opening_idx,
+            )
         for idx in range(2 * pairs, spec["num_games"]):
             opening_idx = idx % opening_n if opening_n else None
-            append_session(spec, spec["engine_a"], spec["engine_b"], spec["tag_a"], spec["tag_b"], f"g{idx:04d}", opening_idx)
+            append_session(
+                spec,
+                spec["engine_a"],
+                spec["engine_b"],
+                spec["tag_a"],
+                spec["tag_b"],
+                f"g{idx:04d}",
+                opening_idx,
+            )
 
     session_id = None
     batch_t0 = time.perf_counter()
-    use_rust_eval_runner = (
-        runtime_cfg.get("_eval_runner_mode") == "rust_eval_state_machine"
-        and supports_rust_eval_state_machine(game_name)
-    )
+    use_rust_eval_runner = runtime_cfg.get(
+        "_eval_runner_mode"
+    ) == "rust_eval_state_machine" and supports_rust_eval_state_machine(game_name)
     try:
         if use_rust_eval_runner:
             try:
@@ -622,10 +700,14 @@ def _run_shared_eval_matches(
                     max_moves=max(int(sess["max_moves"]) for sess in sessions),
                     penalty_mode=runtime_cfg.get("penalty_mode", "GatedRefresh"),
                 )
-                raw_records = payload.get("records", []) if isinstance(payload, dict) else []
+                raw_records = (
+                    payload.get("records", []) if isinstance(payload, dict) else []
+                )
                 if isinstance(payload, dict) and payload.get("error"):
                     raise RuntimeError(str(payload.get("error")))
-                if not isinstance(raw_records, list) or len(raw_records) != len(sessions):
+                if not isinstance(raw_records, list) or len(raw_records) != len(
+                    sessions
+                ):
                     raise RuntimeError(
                         f"rust eval runner record length mismatch: expected {len(sessions)} got "
                         f"{len(raw_records) if isinstance(raw_records, list) else 'non-list'}"
@@ -633,11 +715,14 @@ def _run_shared_eval_matches(
                 for rec_data in raw_records:
                     match_id, _ = _decode_match_game_id(rec_data.get("game_id", ""))
                     if match_id not in records_by_match:
-                        raise RuntimeError(f"unknown eval match id returned by runner: {match_id}")
+                        raise RuntimeError(
+                            f"unknown eval match id returned by runner: {match_id}"
+                        )
                     black_tag = int(rec_data.get("black_tag", 0) or 0)
                     white_tag = (
                         int(rec_data["white_tag"])
-                        if "white_tag" in rec_data and rec_data.get("white_tag") is not None
+                        if "white_tag" in rec_data
+                        and rec_data.get("white_tag") is not None
                         else 1
                     )
                     rec = GameRecord(
@@ -653,7 +738,9 @@ def _run_shared_eval_matches(
                         seed=rec_data.get("seed"),
                         error=rec_data.get("error"),
                         is_void=bool(rec_data.get("is_void", False)),
-                        search_summary=rec_data.get("search_summary") if isinstance(rec_data.get("search_summary"), dict) else None,
+                        search_summary=rec_data.get("search_summary")
+                        if isinstance(rec_data.get("search_summary"), dict)
+                        else None,
                         **manifest_fields_for_tags(black_tag, white_tag),
                     )
                     records.append(rec)
@@ -676,8 +763,14 @@ def _run_shared_eval_matches(
                 batch_elapsed_s = time.perf_counter() - batch_t0
                 results = {}
                 for spec in specs:
-                    tally = tally_match(records_by_match[spec["match_id"]], spec["engine_a"].name())
-                    game_share = (float(spec["num_games"]) / float(total_games)) if total_games > 0 else 0.0
+                    tally = tally_match(
+                        records_by_match[spec["match_id"]], spec["engine_a"].name()
+                    )
+                    game_share = (
+                        (float(spec["num_games"]) / float(total_games))
+                        if total_games > 0
+                        else 0.0
+                    )
                     results[spec["match_id"]] = (
                         tally,
                         {
@@ -690,7 +783,9 @@ def _run_shared_eval_matches(
                             "voids": int(tally.voids),
                             "scored_games": int(tally.scored),
                             "total_games": int(tally.total),
-                            "realized_budget_trace": _summarize_search_summaries(records_by_match[spec["match_id"]]),
+                            "realized_budget_trace": _summarize_search_summaries(
+                                records_by_match[spec["match_id"]]
+                            ),
                         },
                     )
                 return results
@@ -723,7 +818,9 @@ def _run_shared_eval_matches(
     results = {}
     for spec in specs:
         tally = tally_match(records_by_match[spec["match_id"]], spec["engine_a"].name())
-        game_share = (float(spec["num_games"]) / float(total_games)) if total_games > 0 else 0.0
+        game_share = (
+            (float(spec["num_games"]) / float(total_games)) if total_games > 0 else 0.0
+        )
         results[spec["match_id"]] = (
             tally,
             {
@@ -736,7 +833,9 @@ def _run_shared_eval_matches(
                 "voids": int(tally.voids),
                 "scored_games": int(tally.scored),
                 "total_games": int(tally.total),
-                "realized_budget_trace": _summarize_search_summaries(records_by_match[spec["match_id"]]),
+                "realized_budget_trace": _summarize_search_summaries(
+                    records_by_match[spec["match_id"]]
+                ),
             },
         )
     return results
@@ -786,7 +885,9 @@ def _run_shared_eval_match(
 class InferencePipelineThread:
     """Background thread that runs model inference while the caller collects the next batch."""
 
-    def __init__(self, model, device, cfg, max_pending=1, run_batched_eval_groups_fn=None):
+    def __init__(
+        self, model, device, cfg, max_pending=1, run_batched_eval_groups_fn=None
+    ):
         self._model = model
         self._device = device
         self._cfg = cfg
@@ -795,13 +896,17 @@ class InferencePipelineThread:
         self._shutdown = threading.Event()
         self._thread = None
         self._run_batched_eval_groups_fn = run_batched_eval_groups_fn or (
-            lambda groups, model_obj, dev, cfg_obj: __import__("quartz.eval_runtime", fromlist=["run_batched_eval_groups"]).run_batched_eval_groups(
+            lambda groups, model_obj, dev, cfg_obj: __import__(
+                "quartz.eval_runtime", fromlist=["run_batched_eval_groups"]
+            ).run_batched_eval_groups(
                 groups, model_obj, dev, cfg_obj, runtime_support.run_model_batch
             )
         )
 
     def start(self):
-        self._thread = threading.Thread(target=self._loop, daemon=True, name="quartz-inference")
+        self._thread = threading.Thread(
+            target=self._loop, daemon=True, name="quartz-inference"
+        )
         self._thread.start()
 
     def stop(self, timeout=5.0):
@@ -831,7 +936,9 @@ class InferencePipelineThread:
             if groups is None:
                 break
             try:
-                responses = self._run_batched_eval_groups_fn(groups, self._model, self._device, self._cfg)
+                responses = self._run_batched_eval_groups_fn(
+                    groups, self._model, self._device, self._cfg
+                )
                 self._outbound.put(responses)
             except Exception as exc:
                 self._outbound.put(exc)
@@ -880,15 +987,23 @@ def _default_shm_eval_runtime_hooks():
             unpack_shm_search_response,
         )
     return ShmEvalRuntimeHooks(
-        run_batched_eval_groups=lambda groups, model_obj, dev, cfg_obj: __import__("quartz.eval_runtime", fromlist=["run_batched_eval_groups"]).run_batched_eval_groups(
+        run_batched_eval_groups=lambda groups, model_obj, dev, cfg_obj: __import__(
+            "quartz.eval_runtime", fromlist=["run_batched_eval_groups"]
+        ).run_batched_eval_groups(
             groups, model_obj, dev, cfg_obj, runtime_support.run_model_batch
         ),
-        make_eval_request_group=__import__("quartz.eval_runtime", fromlist=["make_eval_request_group"]).make_eval_request_group,
+        make_eval_request_group=__import__(
+            "quartz.eval_runtime", fromlist=["make_eval_request_group"]
+        ).make_eval_request_group,
         unpack_qipc_batch_eval_req=unpack_qipc_batch_eval_req,
         unpack_qipc_arena_eval_resp=unpack_qipc_arena_eval_resp,
         unpack_shm_search_response=unpack_shm_search_response,
         json_loads_fast=runtime_support.json_loads_fast,
-        emit_duty_cycle=getattr(runtime_support.resolve_search_client_cls(), "_emit_duty_cycle", lambda duty: None),
+        emit_duty_cycle=getattr(
+            runtime_support.resolve_search_client_cls(),
+            "_emit_duty_cycle",
+            lambda duty: None,
+        ),
         pack_qipc_batch_eval_resp=pack_qipc_batch_eval_resp,
         logger=logging.getLogger(__name__),
         shm_msg_eval_batch_req=SHM_MSG_EVAL_BATCH_REQ,
@@ -902,7 +1017,9 @@ def _default_shm_eval_runtime_hooks():
 
 def shm_write_eval_response(ring, response_group, epoch=0, seq=0, runtime_hooks=None):
     runtime_hooks = runtime_hooks or _default_shm_eval_runtime_hooks()
-    payload = runtime_hooks.pack_qipc_batch_eval_resp(response_group["policies"], response_group["values"])
+    payload = runtime_hooks.pack_qipc_batch_eval_resp(
+        response_group["policies"], response_group["values"]
+    )
     for attempt in range(100000):
         for slot_idx in range(ring.p2r_slot_count):
             if ring.p2r_try_write(slot_idx, 2, payload, epoch=epoch, seq=seq):
@@ -913,10 +1030,21 @@ def shm_write_eval_response(ring, response_group, epoch=0, seq=0, runtime_hooks=
             time.sleep(0.000001)
         else:
             time.sleep(0.00001)
-    runtime_hooks.logger.warning("_shm_write_eval_response: timed out waiting for p2r slot")
+    runtime_hooks.logger.warning(
+        "_shm_write_eval_response: timed out waiting for p2r slot"
+    )
 
 
-def shm_eval_loop(ring, model, device, cfg, proc, on_json=None, runtime_hooks=None, baseline_epoch=None):
+def shm_eval_loop(
+    ring,
+    model,
+    device,
+    cfg,
+    proc,
+    on_json=None,
+    runtime_hooks=None,
+    baseline_epoch=None,
+):
     runtime_hooks = runtime_hooks or _default_shm_eval_runtime_hooks()
     pipeline_policy = runtime_hooks.should_use_async_pipeline
     if callable(pipeline_policy):
@@ -931,11 +1059,19 @@ def shm_eval_loop(ring, model, device, cfg, proc, on_json=None, runtime_hooks=No
     inflight = False
     inflight_epoch = 0
     inflight_seq = 0
-    duty = {"read_s": 0.0, "collect_s": 0.0, "model_s": 0.0, "write_s": 0.0, "cycles": 0}
+    duty = {
+        "read_s": 0.0,
+        "collect_s": 0.0,
+        "model_s": 0.0,
+        "write_s": 0.0,
+        "cycles": 0,
+    }
     duty_log_interval = 16
 
     if use_pipeline:
-        pipeline = runtime_hooks.inference_pipeline_thread_cls(model, device, cfg, max_pending=1)
+        pipeline = runtime_hooks.inference_pipeline_thread_cls(
+            model, device, cfg, max_pending=1
+        )
         pipeline.start()
 
     terminal_payload = None
@@ -959,7 +1095,9 @@ def shm_eval_loop(ring, model, device, cfg, proc, on_json=None, runtime_hooks=No
         if _cancel_requested():
             raise InterruptedError(f"SHM eval loop cancelled while {context}")
         if proc.poll() is not None:
-            raise RuntimeError(f"Rust server exited (code={proc.returncode}) during SHM eval loop")
+            raise RuntimeError(
+                f"Rust server exited (code={proc.returncode}) during SHM eval loop"
+            )
 
     def _collect_pipeline(timeout_s, context):
         deadline = time.perf_counter() + max(0.0, float(timeout_s))
@@ -972,18 +1110,27 @@ def shm_eval_loop(ring, model, device, cfg, proc, on_json=None, runtime_hooks=No
                 return pipeline.collect(timeout=wait_s)
             except queue.Empty:
                 continue
+
     try:
         spin = 0
         while True:
             _raise_if_cancelled_or_dead("waiting for SHM work")
             if inflight and pipeline is not None:
                 model_t0 = time.perf_counter()
-                responses = _collect_pipeline(30.0, "waiting for async SHM eval responses")
+                responses = _collect_pipeline(
+                    30.0, "waiting for async SHM eval responses"
+                )
                 duty["model_s"] += time.perf_counter() - model_t0
                 inflight = False
                 write_t0 = time.perf_counter()
                 for rg in responses:
-                    shm_write_eval_response(ring, rg, epoch=inflight_epoch, seq=inflight_seq, runtime_hooks=runtime_hooks)
+                    shm_write_eval_response(
+                        ring,
+                        rg,
+                        epoch=inflight_epoch,
+                        seq=inflight_seq,
+                        runtime_hooks=runtime_hooks,
+                    )
                 duty["write_s"] += time.perf_counter() - write_t0
 
             read_t0 = time.perf_counter()
@@ -1007,8 +1154,14 @@ def shm_eval_loop(ring, model, device, cfg, proc, on_json=None, runtime_hooks=No
                     ring.r2p_mark_done(slot_idx)
                     duty["read_s"] += time.perf_counter() - read_t0
                     found_eval = True
-                    requests = runtime_hooks.unpack_qipc_batch_eval_req(bytes(payload_bytes))
-                    eval_groups = [runtime_hooks.make_eval_request_group("binary_batch", requests, gi=0)]
+                    requests = runtime_hooks.unpack_qipc_batch_eval_req(
+                        bytes(payload_bytes)
+                    )
+                    eval_groups = [
+                        runtime_hooks.make_eval_request_group(
+                            "binary_batch", requests, gi=0
+                        )
+                    ]
 
                     if pipeline is not None:
                         inflight_epoch = req_epoch
@@ -1017,11 +1170,19 @@ def shm_eval_loop(ring, model, device, cfg, proc, on_json=None, runtime_hooks=No
                         inflight = True
                     else:
                         model_t0 = time.perf_counter()
-                        responses = runtime_hooks.run_batched_eval_groups(eval_groups, model, device, cfg)
+                        responses = runtime_hooks.run_batched_eval_groups(
+                            eval_groups, model, device, cfg
+                        )
                         duty["model_s"] += time.perf_counter() - model_t0
                         write_t0 = time.perf_counter()
                         for rg in responses:
-                            shm_write_eval_response(ring, rg, epoch=req_epoch, seq=req_seq, runtime_hooks=runtime_hooks)
+                            shm_write_eval_response(
+                                ring,
+                                rg,
+                                epoch=req_epoch,
+                                seq=req_seq,
+                                runtime_hooks=runtime_hooks,
+                            )
                         duty["write_s"] += time.perf_counter() - write_t0
 
                     duty["cycles"] += 1
@@ -1032,7 +1193,9 @@ def shm_eval_loop(ring, model, device, cfg, proc, on_json=None, runtime_hooks=No
                 if msg_type == runtime_hooks.shm_msg_json:
                     ring.r2p_mark_done(slot_idx)
                     try:
-                        json_obj = runtime_hooks.json_loads_fast(payload_bytes.decode("utf-8"))
+                        json_obj = runtime_hooks.json_loads_fast(
+                            payload_bytes.decode("utf-8")
+                        )
                         if callable(on_json) and json_obj:
                             on_json(json_obj)
                     except Exception:
@@ -1042,7 +1205,9 @@ def shm_eval_loop(ring, model, device, cfg, proc, on_json=None, runtime_hooks=No
                 if msg_type == runtime_hooks.shm_msg_search_resp:
                     ring.r2p_mark_done(slot_idx)
                     try:
-                        terminal_payload = runtime_hooks.unpack_shm_search_response(payload_bytes)
+                        terminal_payload = runtime_hooks.unpack_shm_search_response(
+                            payload_bytes
+                        )
                     except Exception:
                         terminal_payload = {"error": "invalid shm search response"}
                     continue
@@ -1050,7 +1215,9 @@ def shm_eval_loop(ring, model, device, cfg, proc, on_json=None, runtime_hooks=No
                 if msg_type == runtime_hooks.shm_msg_arena_eval_resp:
                     ring.r2p_mark_done(slot_idx)
                     try:
-                        terminal_payload = runtime_hooks.unpack_qipc_arena_eval_resp(payload_bytes)
+                        terminal_payload = runtime_hooks.unpack_qipc_arena_eval_resp(
+                            payload_bytes
+                        )
                     except Exception:
                         terminal_payload = {"error": "invalid shm arena eval response"}
                     continue
@@ -1077,21 +1244,35 @@ def shm_eval_loop(ring, model, device, cfg, proc, on_json=None, runtime_hooks=No
                             continue
                         if msg_type == runtime_hooks.shm_msg_json:
                             try:
-                                json_obj = runtime_hooks.json_loads_fast(payload_bytes.decode("utf-8"))
+                                json_obj = runtime_hooks.json_loads_fast(
+                                    payload_bytes.decode("utf-8")
+                                )
                                 if callable(on_json) and json_obj:
                                     on_json(json_obj)
                             except Exception:
                                 pass
                         elif msg_type == runtime_hooks.shm_msg_search_resp:
                             try:
-                                terminal_payload = runtime_hooks.unpack_shm_search_response(payload_bytes)
+                                terminal_payload = (
+                                    runtime_hooks.unpack_shm_search_response(
+                                        payload_bytes
+                                    )
+                                )
                             except Exception:
-                                terminal_payload = {"error": "invalid shm search response"}
+                                terminal_payload = {
+                                    "error": "invalid shm search response"
+                                }
                         elif msg_type == runtime_hooks.shm_msg_arena_eval_resp:
                             try:
-                                terminal_payload = runtime_hooks.unpack_qipc_arena_eval_resp(payload_bytes)
+                                terminal_payload = (
+                                    runtime_hooks.unpack_qipc_arena_eval_resp(
+                                        payload_bytes
+                                    )
+                                )
                             except Exception:
-                                terminal_payload = {"error": "invalid shm arena eval response"}
+                                terminal_payload = {
+                                    "error": "invalid shm arena eval response"
+                                }
                     break
 
                 _raise_if_cancelled_or_dead("spinning for SHM results")
@@ -1104,11 +1285,22 @@ def shm_eval_loop(ring, model, device, cfg, proc, on_json=None, runtime_hooks=No
                 else:
                     time.sleep(0.00001)
     finally:
-        if inflight and pipeline is not None and not _cancel_requested() and proc.poll() is None:
+        if (
+            inflight
+            and pipeline is not None
+            and not _cancel_requested()
+            and proc.poll() is None
+        ):
             try:
                 drain = _collect_pipeline(10.0, "draining async SHM eval responses")
                 for rg in drain:
-                    shm_write_eval_response(ring, rg, epoch=inflight_epoch, seq=inflight_seq, runtime_hooks=runtime_hooks)
+                    shm_write_eval_response(
+                        ring,
+                        rg,
+                        epoch=inflight_epoch,
+                        seq=inflight_seq,
+                        runtime_hooks=runtime_hooks,
+                    )
             except Exception:
                 pass
         if pipeline is not None:
@@ -1121,7 +1313,15 @@ def shm_eval_loop(ring, model, device, cfg, proc, on_json=None, runtime_hooks=No
 class RustNNEvaluatorEngine:
     """Evaluator engine using the Rust MCTS + NN stack for promotion evaluation."""
 
-    def __init__(self, engine_name, cfg, model, device, rust_binary="./target/release/mcts_demo", runtime_hooks=None):
+    def __init__(
+        self,
+        engine_name,
+        cfg,
+        model,
+        device,
+        rust_binary="./target/release/mcts_demo",
+        runtime_hooks=None,
+    ):
         self._name = engine_name
         self._cfg = cfg
         self._model = model
@@ -1141,7 +1341,9 @@ class RustNNEvaluatorEngine:
     def _ensure_client(self):
         if self._client is None:
             client_cls = self._runtime_hooks.search_client_cls
-            self._client = client_cls(self._model, self._cfg, self._device, self._rust_binary)
+            self._client = client_cls(
+                self._model, self._cfg, self._device, self._rust_binary
+            )
             self._client.start()
 
     def select_move(self, state):
@@ -1203,7 +1405,9 @@ class RustNNEvaluatorEngine:
                             "p_flip": result.get("p_flip", 0),
                             "engine": "rust_nn",
                             "result_fen": result.get("result_fen", ""),
-                            "result_history_hashes": result.get("result_history_hashes", []),
+                            "result_history_hashes": result.get(
+                                "result_history_hashes", []
+                            ),
                         },
                     )
                 )
@@ -1227,7 +1431,9 @@ class RustNNEvaluatorEngine:
         parsed = []
         for legal, result in zip(legals, results):
             if not result or "error" in result:
-                parsed.append(((legal[0] if legal else 0), {"time_used_ms": 0, "simulations": 0}))
+                parsed.append(
+                    ((legal[0] if legal else 0), {"time_used_ms": 0, "simulations": 0})
+                )
                 continue
             pol_entries = result.get("policy", [])
             if not legal:
@@ -1280,14 +1486,18 @@ class RustNNEvaluatorEngine:
         seed=None,
     ):
         if not isinstance(opponent, RustNNEvaluatorEngine):
-            raise TypeError("shared Rust evaluation requires RustNNEvaluatorEngine opponent")
+            raise TypeError(
+                "shared Rust evaluation requires RustNNEvaluatorEngine opponent"
+            )
 
         runtime_cfg = arena_eval_runtime_cfg(self._cfg, num_games)
         self_manifest = runtime_support.build_search_manifest(runtime_cfg)
         opponent_runtime_cfg = arena_eval_runtime_cfg(opponent._cfg, num_games)
         opponent_manifest = runtime_support.build_search_manifest(opponent_runtime_cfg)
         self_manifest_hash = runtime_support.search_manifest_hash(runtime_cfg)
-        opponent_manifest_hash = runtime_support.search_manifest_hash(opponent_runtime_cfg)
+        opponent_manifest_hash = runtime_support.search_manifest_hash(
+            opponent_runtime_cfg
+        )
         if self_manifest_hash != opponent_manifest_hash:
             raise RuntimeError(
                 "shared Rust evaluation requires matching search manifests: "
@@ -1340,10 +1550,14 @@ class PersistentRustNNEvalCampaign:
     def __init__(self, engines, num_games, *, runtime_hooks=None):
         engines = list(engines)
         if not engines:
-            raise ValueError("PersistentRustNNEvalCampaign requires at least one engine")
+            raise ValueError(
+                "PersistentRustNNEvalCampaign requires at least one engine"
+            )
         first = engines[0]
         if not isinstance(first, RustNNEvaluatorEngine):
-            raise TypeError("persistent eval campaign requires RustNNEvaluatorEngine instances")
+            raise TypeError(
+                "persistent eval campaign requires RustNNEvaluatorEngine instances"
+            )
         self._runtime_hooks = runtime_hooks or first._runtime_hooks
         self._device = first._device
         self._rust_binary = first._rust_binary
@@ -1358,8 +1572,12 @@ class PersistentRustNNEvalCampaign:
         model_map = {}
         for idx, engine in enumerate(self._engines):
             if not isinstance(engine, RustNNEvaluatorEngine):
-                raise TypeError("persistent eval campaign requires RustNNEvaluatorEngine instances")
-            engine_manifest_hash = runtime_support.search_manifest_hash(arena_eval_runtime_cfg(engine._cfg, num_games))
+                raise TypeError(
+                    "persistent eval campaign requires RustNNEvaluatorEngine instances"
+                )
+            engine_manifest_hash = runtime_support.search_manifest_hash(
+                arena_eval_runtime_cfg(engine._cfg, num_games)
+            )
             if engine_manifest_hash != self._manifest_hash:
                 raise RuntimeError(
                     "persistent eval campaign requires matching search manifests: "
@@ -1369,7 +1587,9 @@ class PersistentRustNNEvalCampaign:
             model_map[idx] = engine._model
         client_cls = self._runtime_hooks.search_client_cls
         t0 = time.perf_counter()
-        self._client = client_cls(model_map, self._runtime_cfg, self._device, self._rust_binary)
+        self._client = client_cls(
+            model_map, self._runtime_cfg, self._device, self._rust_binary
+        )
         self._client.start()
         self._timings["client_start_s"] = time.perf_counter() - t0
 
@@ -1460,6 +1680,7 @@ class PersistentRustNNEvalCampaign:
         # if other references to a model still happen to be live.
         try:
             from quartz.eval_runtime import clear_fused_cache as _clear_fused_cache
+
             _clear_fused_cache()
         except Exception:
             pass

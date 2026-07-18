@@ -27,7 +27,10 @@ def load_actor_source_from_checkpoint(
     """Load an inference actor from checkpoint using the matching backend."""
     backend_preference = str(backend_preference or "torch").lower()
     if backend_preference == "jax":
-        if backend_template is not None and getattr(backend_template, "name", "") == "jax":
+        if (
+            backend_template is not None
+            and getattr(backend_template, "name", "") == "jax"
+        ):
             return backend_template.load_actor(checkpoint_path)
         from quartz.backend import create_backend
 
@@ -76,10 +79,20 @@ def serve(model, cfg, device, runtime_hooks: CliRuntimeHooks | None = None):
             expected = cfg["ch"] * cfg["board"] * cfg["board"]
             if runtime_hooks is not None and runtime_hooks.run_model_batch is not None:
                 if len(features) == expected:
-                    batch = [np.array(features, dtype=np.float32).reshape(cfg["ch"], cfg["board"], cfg["board"])]
+                    batch = [
+                        np.array(features, dtype=np.float32).reshape(
+                            cfg["ch"], cfg["board"], cfg["board"]
+                        )
+                    ]
                 else:
-                    batch = [np.zeros((cfg["ch"], cfg["board"], cfg["board"]), dtype=np.float32)]
-                probs_batch, vals_np = runtime_hooks.run_model_batch(model, device, batch)
+                    batch = [
+                        np.zeros(
+                            (cfg["ch"], cfg["board"], cfg["board"]), dtype=np.float32
+                        )
+                    ]
+                probs_batch, vals_np = runtime_hooks.run_model_batch(
+                    model, device, batch
+                )
                 probs = probs_batch[0]
                 value = float(vals_np[0])
             else:
@@ -87,11 +100,15 @@ def serve(model, cfg, device, runtime_hooks: CliRuntimeHooks | None = None):
                 import torch.nn.functional as F
 
                 if len(features) == expected:
-                    x = torch.tensor(features, dtype=torch.float32).reshape(
-                        1, cfg["ch"], cfg["board"], cfg["board"]
-                    ).to(device)
+                    x = (
+                        torch.tensor(features, dtype=torch.float32)
+                        .reshape(1, cfg["ch"], cfg["board"], cfg["board"])
+                        .to(device)
+                    )
                 else:
-                    x = torch.zeros(1, cfg["ch"], cfg["board"], cfg["board"], device=device)
+                    x = torch.zeros(
+                        1, cfg["ch"], cfg["board"], cfg["board"], device=device
+                    )
                 with torch.no_grad():
                     logits, val = model(x)
                     probs = F.softmax(logits, dim=-1).squeeze(0).cpu().numpy()
@@ -103,6 +120,11 @@ def serve(model, cfg, device, runtime_hooks: CliRuntimeHooks | None = None):
             s = masked.sum()
             if s > 1e-8:
                 masked /= s
-            print(json.dumps({"status": "ok", "policy": masked.tolist(), "value": value}), flush=True)
+            print(
+                json.dumps({"status": "ok", "policy": masked.tolist(), "value": value}),
+                flush=True,
+            )
         except Exception:
-            print(json.dumps({"status": "error", "policy": [], "value": 0.0}), flush=True)
+            print(
+                json.dumps({"status": "error", "policy": [], "value": 0.0}), flush=True
+            )

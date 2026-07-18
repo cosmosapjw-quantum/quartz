@@ -10,13 +10,16 @@ import struct
 import numpy as np
 import pytest
 
+
 class MockModel:
     """Mock NN model that returns predictable outputs."""
+
     def __init__(self, n_actions):
         self.n_actions = n_actions
 
     def __call__(self, x):
         import torch
+
         batch_size = x.shape[0]
         # Return uniform logits and zero values
         logits = torch.zeros(batch_size, self.n_actions)
@@ -35,7 +38,8 @@ class MockModel:
 
 class MockNNSearchClient:
     """Mimics NNSearchClient but allows direct method testing."""
-    def __init__(self, model, cfg, device='cpu'):
+
+    def __init__(self, model, cfg, device="cpu"):
         self.model = model
         self.cfg = cfg
         self.device = device
@@ -49,7 +53,7 @@ class MockNNSearchClient:
             batch_req = json.loads(req_line)["batch_eval_req"]
             requests = batch_req["requests"]
             batch_size = len(requests)
-            ch, bs = self.cfg['ch'], self.cfg['board']
+            ch, bs = self.cfg["ch"], self.cfg["board"]
             expected = ch * bs * bs
 
             if self.model is not None and batch_size > 0:
@@ -61,8 +65,11 @@ class MockNNSearchClient:
                     else:
                         features_list.append([0.0] * expected)
 
-                x = torch.tensor(features_list, dtype=torch.float32).reshape(
-                    batch_size, ch, bs, bs).to(self.device)
+                x = (
+                    torch.tensor(features_list, dtype=torch.float32)
+                    .reshape(batch_size, ch, bs, bs)
+                    .to(self.device)
+                )
                 with torch.no_grad():
                     logits, vals = self.model(x)
                     probs = F.softmax(logits, dim=-1).cpu().numpy()
@@ -70,37 +77,36 @@ class MockNNSearchClient:
 
                 responses = []
                 for i, req in enumerate(requests):
-                    na = req.get("num_actions", self.cfg['actions'])
-                    responses.append({
-                        "policy": probs[i][:na].tolist(),
-                        "value": float(vals_np[i])
-                    })
+                    na = req.get("num_actions", self.cfg["actions"])
+                    responses.append(
+                        {"policy": probs[i][:na].tolist(), "value": float(vals_np[i])}
+                    )
                 return {"batch_eval_resp": {"responses": responses}}
         except Exception as e:
             pass
-        na = self.cfg['actions']
-        uniform = {"policy": [1.0/max(1,na)]*na, "value": 0.0}
-        n = batch_req.get("batch_size", 1) if 'batch_req' in dir() else 1
-        return {"batch_eval_resp": {"responses": [uniform]*n}}
+        na = self.cfg["actions"]
+        uniform = {"policy": [1.0 / max(1, na)] * na, "value": 0.0}
+        n = batch_req.get("batch_size", 1) if "batch_req" in dir() else 1
+        return {"batch_eval_resp": {"responses": [uniform] * n}}
 
 
 def test_batch_eval_single_request():
     """Single request in a batch should return valid response."""
-    cfg = {'board': 7, 'ch': 3, 'actions': 49}
+    cfg = {"board": 7, "ch": 3, "actions": 49}
     model = MockModel(49)
     client = MockNNSearchClient(model, cfg)
 
     features = [0.0] * (3 * 7 * 7)  # 147 features
-    req = json.dumps({
-        "batch_eval_req": {
-            "batch_size": 1,
-            "requests": [{
-                "features": features,
-                "action_mask": [1]*49,
-                "num_actions": 49
-            }]
+    req = json.dumps(
+        {
+            "batch_eval_req": {
+                "batch_size": 1,
+                "requests": [
+                    {"features": features, "action_mask": [1] * 49, "num_actions": 49}
+                ],
+            }
         }
-    })
+    )
 
     resp = client._eval_nn_batch(req)
     assert "batch_eval_resp" in resp
@@ -114,20 +120,22 @@ def test_batch_eval_single_request():
 
 def test_batch_eval_multiple_requests():
     """Multiple requests should all get responses."""
-    cfg = {'board': 7, 'ch': 3, 'actions': 49}
+    cfg = {"board": 7, "ch": 3, "actions": 49}
     model = MockModel(49)
     client = MockNNSearchClient(model, cfg)
 
     features = [0.0] * (3 * 7 * 7)
-    req = json.dumps({
-        "batch_eval_req": {
-            "batch_size": 4,
-            "requests": [
-                {"features": features, "action_mask": [1]*49, "num_actions": 49}
-                for _ in range(4)
-            ]
+    req = json.dumps(
+        {
+            "batch_eval_req": {
+                "batch_size": 4,
+                "requests": [
+                    {"features": features, "action_mask": [1] * 49, "num_actions": 49}
+                    for _ in range(4)
+                ],
+            }
         }
-    })
+    )
 
     resp = client._eval_nn_batch(req)
     responses = resp["batch_eval_resp"]["responses"]
@@ -139,20 +147,24 @@ def test_batch_eval_multiple_requests():
 
 def test_batch_eval_wrong_feature_size():
     """Wrong feature size should not crash — should use zero padding."""
-    cfg = {'board': 7, 'ch': 3, 'actions': 49}
+    cfg = {"board": 7, "ch": 3, "actions": 49}
     model = MockModel(49)
     client = MockNNSearchClient(model, cfg)
 
-    req = json.dumps({
-        "batch_eval_req": {
-            "batch_size": 1,
-            "requests": [{
-                "features": [1.0, 2.0, 3.0],  # Wrong size!
-                "action_mask": [1]*49,
-                "num_actions": 49
-            }]
+    req = json.dumps(
+        {
+            "batch_eval_req": {
+                "batch_size": 1,
+                "requests": [
+                    {
+                        "features": [1.0, 2.0, 3.0],  # Wrong size!
+                        "action_mask": [1] * 49,
+                        "num_actions": 49,
+                    }
+                ],
+            }
         }
-    })
+    )
 
     resp = client._eval_nn_batch(req)
     responses = resp["batch_eval_resp"]["responses"]
@@ -162,19 +174,21 @@ def test_batch_eval_wrong_feature_size():
 
 def test_batch_eval_no_model():
     """With no model, should return uniform fallback."""
-    cfg = {'board': 7, 'ch': 3, 'actions': 49}
+    cfg = {"board": 7, "ch": 3, "actions": 49}
     client = MockNNSearchClient(None, cfg)
 
     features = [0.0] * (3 * 7 * 7)
-    req = json.dumps({
-        "batch_eval_req": {
-            "batch_size": 2,
-            "requests": [
-                {"features": features, "action_mask": [1]*49, "num_actions": 49},
-                {"features": features, "action_mask": [1]*49, "num_actions": 49},
-            ]
+    req = json.dumps(
+        {
+            "batch_eval_req": {
+                "batch_size": 2,
+                "requests": [
+                    {"features": features, "action_mask": [1] * 49, "num_actions": 49},
+                    {"features": features, "action_mask": [1] * 49, "num_actions": 49},
+                ],
+            }
         }
-    })
+    )
 
     resp = client._eval_nn_batch(req)
     responses = resp["batch_eval_resp"]["responses"]
@@ -186,21 +200,25 @@ def test_batch_eval_no_model():
 
 def test_batch_eval_chess_actions():
     """Chess with full 4672 actions should work."""
-    cfg = {'board': 8, 'ch': 36, 'actions': 4672}
+    cfg = {"board": 8, "ch": 36, "actions": 4672}
     model = MockModel(4672)
     client = MockNNSearchClient(model, cfg)
 
     features = [0.0] * (36 * 8 * 8)
-    req = json.dumps({
-        "batch_eval_req": {
-            "batch_size": 1,
-            "requests": [{
-                "features": features,
-                "action_mask": [1]*4672,
-                "num_actions": 4672
-            }]
+    req = json.dumps(
+        {
+            "batch_eval_req": {
+                "batch_size": 1,
+                "requests": [
+                    {
+                        "features": features,
+                        "action_mask": [1] * 4672,
+                        "num_actions": 4672,
+                    }
+                ],
+            }
         }
-    })
+    )
 
     resp = client._eval_nn_batch(req)
     responses = resp["batch_eval_resp"]["responses"]
@@ -210,24 +228,26 @@ def test_batch_eval_chess_actions():
 
 def test_batch_eval_response_json_roundtrip():
     """Verify the response can be JSON serialized and parsed back."""
-    cfg = {'board': 7, 'ch': 3, 'actions': 49}
+    cfg = {"board": 7, "ch": 3, "actions": 49}
     model = MockModel(49)
     client = MockNNSearchClient(model, cfg)
 
     features = [0.0] * (3 * 7 * 7)
-    req = json.dumps({
-        "batch_eval_req": {
-            "batch_size": 2,
-            "requests": [
-                {"features": features, "action_mask": [1]*49, "num_actions": 49},
-                {"features": features, "action_mask": [1]*49, "num_actions": 49},
-            ]
+    req = json.dumps(
+        {
+            "batch_eval_req": {
+                "batch_size": 2,
+                "requests": [
+                    {"features": features, "action_mask": [1] * 49, "num_actions": 49},
+                    {"features": features, "action_mask": [1] * 49, "num_actions": 49},
+                ],
+            }
         }
-    })
+    )
 
     resp = client._eval_nn_batch(req)
     # Serialize and parse back (simulates wire transfer)
-    wire = json.dumps(resp, separators=(',', ':'))
+    wire = json.dumps(resp, separators=(",", ":"))
     parsed = json.loads(wire)
     assert "batch_eval_resp" in parsed
     assert len(parsed["batch_eval_resp"]["responses"]) == 2
@@ -251,27 +271,36 @@ def test_unpack_shm_search_response_parses_sparse_binary_payload():
         "BudgetExhausted",
         "e2e4",
         "rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR b KQkq e3 0 1",
-        json.dumps({
-            "profile": "baseline_strict",
-            "requested_iteration_limit": 400,
-            "n_threads": 1,
-            "evaluator_path": "batch_stdio",
-            "benchmark_safe": True,
-        }, separators=(",", ":")),
-        json.dumps({
-            "requested_iteration_limit": 400,
-            "realized_iterations": 321,
-            "stop_reason": "BudgetExhausted",
-        }, separators=(",", ":")),
-        json.dumps({
-            "p_flip": 0.25,
-            "value": -0.5,
-            "sigma_q": 0.125,
-            "hbar_eff": 0.75,
-            "dup_rate": 0.05,
-            "max_pending": 9,
-            "avg_vvalue": -0.125,
-        }, separators=(",", ":")),
+        json.dumps(
+            {
+                "profile": "baseline_strict",
+                "requested_iteration_limit": 400,
+                "n_threads": 1,
+                "evaluator_path": "batch_stdio",
+                "benchmark_safe": True,
+            },
+            separators=(",", ":"),
+        ),
+        json.dumps(
+            {
+                "requested_iteration_limit": 400,
+                "realized_iterations": 321,
+                "stop_reason": "BudgetExhausted",
+            },
+            separators=(",", ":"),
+        ),
+        json.dumps(
+            {
+                "p_flip": 0.25,
+                "value": -0.5,
+                "sigma_q": 0.125,
+                "hbar_eff": 0.75,
+                "dup_rate": 0.05,
+                "max_pending": 9,
+                "avg_vvalue": -0.125,
+            },
+            separators=(",", ":"),
+        ),
     ):
         encoded = text.encode("utf-8")
         payload.extend(struct.pack("<I", len(encoded)))
@@ -353,12 +382,11 @@ def test_unpack_qipc_eval_req_accepts_fingerprint_header():
     from quartz import alphazero_train as az
 
     feats = np.asarray([0.25, -0.5, 0.75, 1.25], dtype="<f4")
-    payload = (
-        struct.pack("<IIIQQI", 7, 9, feats.size, 11, 22, 3)
-        + feats.tobytes()
-    )
+    payload = struct.pack("<IIIQQI", 7, 9, feats.size, 11, 22, 3) + feats.tobytes()
 
-    num_actions, features, model_tag, fp_lo, fp_hi, encoder_rev = az.unpack_qipc_eval_req(payload)
+    num_actions, features, model_tag, fp_lo, fp_hi, encoder_rev = (
+        az.unpack_qipc_eval_req(payload)
+    )
 
     assert num_actions == 9
     assert model_tag == 7
@@ -418,7 +446,9 @@ def test_unpack_qipc_arena_eval_resp_parses_records():
         payload.extend(game_id_b)
         payload.extend(struct.pack("<II", black_tag, white_tag))
         payload.extend(struct.pack("<BB", outcome_code, 1 if is_void else 0))
-        payload.extend(struct.pack("<fIdQ", score_black, move_count, total_time_ms, seed_raw))
+        payload.extend(
+            struct.pack("<fIdQ", score_black, move_count, total_time_ms, seed_raw)
+        )
         payload.extend(struct.pack("<I", len(opening)))
         for mv in opening:
             payload.extend(struct.pack("<I", mv))
@@ -427,7 +457,19 @@ def test_unpack_qipc_arena_eval_resp_parses_records():
         payload.extend(error_b)
 
     append_record("m0::g0000", 0, 1, 1, False, 1.0, 12, 42.0, 7, [3, 5], "")
-    append_record("m1::g0001", 1, 0, 0, True, float("nan"), 8, 21.5, 0xFFFFFFFFFFFFFFFF, [], "void")
+    append_record(
+        "m1::g0001",
+        1,
+        0,
+        0,
+        True,
+        float("nan"),
+        8,
+        21.5,
+        0xFFFFFFFFFFFFFFFF,
+        [],
+        "void",
+    )
 
     decoded = az.unpack_qipc_arena_eval_resp(bytes(payload))
 
@@ -466,7 +508,14 @@ def test_unpack_qipc_arena_eval_resp_v2_preserves_search_summary():
     payload.extend(struct.pack("<fIdQ", 1.0, 5, 10.0, 123))
     payload.extend(struct.pack("<I", 0))
     append_string("")
-    append_string(json.dumps({"root_visits": {"samples": [8, 8]}, "halt_reason_hist": {"BudgetExhausted": 2}}))
+    append_string(
+        json.dumps(
+            {
+                "root_visits": {"samples": [8, 8]},
+                "halt_reason_hist": {"BudgetExhausted": 2},
+            }
+        )
+    )
 
     decoded = az.unpack_qipc_arena_eval_resp(bytes(payload))
 
@@ -481,19 +530,27 @@ def test_game_configs_have_n_threads():
     try:
         # This may fail if torch isn't available
         import importlib.util
+
         spec = importlib.util.spec_from_file_location(
             "quartz_alphazero_train",
-            os.path.join(os.path.dirname(__file__), '..', 'quartz', 'alphazero_train.py'))
+            os.path.join(
+                os.path.dirname(__file__), "..", "quartz", "alphazero_train.py"
+            ),
+        )
         # Just check the file content instead
-        with open(os.path.join(os.path.dirname(__file__), '..', 'quartz', 'alphazero_train.py')) as f:
+        with open(
+            os.path.join(
+                os.path.dirname(__file__), "..", "quartz", "alphazero_train.py"
+            )
+        ) as f:
             content = f.read()
-        assert 'n_threads=' in content, "n_threads should be in game configs"
-        assert 'batch_size=' in content, "batch_size should be in game configs"
+        assert "n_threads=" in content, "n_threads should be in game configs"
+        assert "batch_size=" in content, "batch_size should be in game configs"
     except Exception:
         pass  # OK if import fails (no torch), we verified content
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     test_batch_eval_single_request()
     test_batch_eval_multiple_requests()
     test_batch_eval_wrong_feature_size()

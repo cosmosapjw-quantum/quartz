@@ -187,7 +187,9 @@ def apply_one_loop_readout(
     curvature = float(params.get("one_loop_curvature", _DEFAULT_CURVATURE))
     n_floor = float(params.get("one_loop_n_floor", _DEFAULT_N_FLOOR))
 
-    eff, meta = one_loop_correction(pi_bar, n_total, curvature=curvature, n_floor=n_floor)
+    eff, meta = one_loop_correction(
+        pi_bar, n_total, curvature=curvature, n_floor=n_floor
+    )
     meta = dict(meta)
     meta["belief_revision_operator"] = "one_loop_finite_n"
     meta["effective_policy"] = eff.tolist()

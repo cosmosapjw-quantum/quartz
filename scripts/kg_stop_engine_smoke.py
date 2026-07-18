@@ -48,7 +48,11 @@ def summarize_kg_smoke(rows: Sequence[dict[str, Any]]) -> dict[str, Any]:
         # budget saved: non-halted rows save 0 (ran to full budget).
         saved = [max(0.0, 1.0 - g["kg_iterations"] / max(1, budget)) for g in group]
         mean_saved = sum(saved) / n if n else 0.0
-        agreement = sum(1 for g in group if g["kg_best_move"] == g["fixed_best_move"]) / n if n else 0.0
+        agreement = (
+            sum(1 for g in group if g["kg_best_move"] == g["fixed_best_move"]) / n
+            if n
+            else 0.0
+        )
         per_cell.append(
             {
                 "budget": budget,
@@ -62,12 +66,21 @@ def summarize_kg_smoke(rows: Sequence[dict[str, Any]]) -> dict[str, Any]:
 
     any_halt = any(c["halt_rate"] > 0.0 for c in per_cell)
     success_cells = [
-        c for c in per_cell
+        c
+        for c in per_cell
         if c["mean_budget_saved_pct"] >= 0.20 and c["top1_agreement"] >= 0.95
     ]
     saving_cells = [c for c in per_cell if c["mean_budget_saved_pct"] > 0.0]
-    demote = bool(any_halt and saving_cells and all(c["top1_agreement"] < 0.80 for c in saving_cells))
-    best_cell = max(per_cell, key=lambda c: (c["mean_budget_saved_pct"], c["top1_agreement"]), default=None)
+    demote = bool(
+        any_halt
+        and saving_cells
+        and all(c["top1_agreement"] < 0.80 for c in saving_cells)
+    )
+    best_cell = max(
+        per_cell,
+        key=lambda c: (c["mean_budget_saved_pct"], c["top1_agreement"]),
+        default=None,
+    )
     return {
         "per_cell": per_cell,
         "kill_no_halts": not any_halt,
@@ -109,7 +122,9 @@ def run_kg_smoke(
 
     ckpt = CheckpointRef(id=f"KG_{Path(checkpoint).stem}", path=checkpoint)
 
-    def _grid(env_policy: str | None, threshold: float | None) -> dict[tuple[str, int], dict[str, Any]]:
+    def _grid(
+        env_policy: str | None, threshold: float | None
+    ) -> dict[tuple[str, int], dict[str, Any]]:
         prev = os.environ.get("QUARTZ_SEARCH_POLICY")
         prev_thr = os.environ.get("QUARTZ_KG_THRESHOLD")
         if env_policy:
@@ -128,12 +143,18 @@ def run_kg_smoke(
                 for pos in positions:
                     import numpy as np
 
-                    board = np.asarray(pos.get("board", []), dtype=np.int8) if "board" in pos else None
+                    board = (
+                        np.asarray(pos.get("board", []), dtype=np.int8)
+                        if "board" in pos
+                        else None
+                    )
                     t0 = time.perf_counter()
                     payload = client.search_move(
-                        board, int(pos.get("player", 1)),
+                        board,
+                        int(pos.get("player", 1)),
                         penalty_mode=client.cfg.get("penalty_mode", "None"),
-                        fen=pos.get("fen"), state_meta=dict(pos.get("state_meta") or {}),
+                        fen=pos.get("fen"),
+                        state_meta=dict(pos.get("state_meta") or {}),
                     )
                     out[(harness._position_key(pos), int(budget))] = {
                         "iterations": int(payload.get("iterations", budget)),
@@ -205,26 +226,41 @@ def main(argv: Sequence[str] | None = None) -> int:
     args.suite_size = int(args.n_positions)
     args.position_min_moves = getattr(args, "position_min_moves", None)
     args.position_max_moves = getattr(args, "position_max_moves", None)
-    positions = load_or_generate_positions(args, base_cfg, count=args.n_positions)[: args.n_positions]
+    positions = load_or_generate_positions(args, base_cfg, count=args.n_positions)[
+        : args.n_positions
+    ]
 
     rows = run_kg_smoke(
-        checkpoint=args.checkpoint, positions=positions, budgets=budgets,
-        thresholds=thresholds, device=args.device, rust_binary=args.rust_binary,
+        checkpoint=args.checkpoint,
+        positions=positions,
+        budgets=budgets,
+        thresholds=thresholds,
+        device=args.device,
+        rust_binary=args.rust_binary,
         base_cfg=base_cfg,
     )
     summary = summarize_kg_smoke(rows)
     out = Path(args.output_dir)
     out.mkdir(parents=True, exist_ok=True)
-    (out / "rows.jsonl").write_text("\n".join(json.dumps(r, sort_keys=True) for r in rows) + "\n", encoding="utf-8")
-    (out / "summary.json").write_text(json.dumps(summary, indent=2, sort_keys=True) + "\n", encoding="utf-8")
-    print(json.dumps({
-        "status": "ok",
-        "n_rows": len(rows),
-        "kill_no_halts": summary["kill_no_halts"],
-        "success": summary["success"],
-        "demote_anti_conservative": summary["demote_anti_conservative"],
-        "best_cell": summary["best_cell"],
-    }, sort_keys=True))
+    (out / "rows.jsonl").write_text(
+        "\n".join(json.dumps(r, sort_keys=True) for r in rows) + "\n", encoding="utf-8"
+    )
+    (out / "summary.json").write_text(
+        json.dumps(summary, indent=2, sort_keys=True) + "\n", encoding="utf-8"
+    )
+    print(
+        json.dumps(
+            {
+                "status": "ok",
+                "n_rows": len(rows),
+                "kill_no_halts": summary["kill_no_halts"],
+                "success": summary["success"],
+                "demote_anti_conservative": summary["demote_anti_conservative"],
+                "best_cell": summary["best_cell"],
+            },
+            sort_keys=True,
+        )
+    )
     return 0
 
 

@@ -155,7 +155,9 @@ def test_trace_signature_summary_bundles_o1_o5():
     s = trace_signature_summary(trace, n_legal=3)
     assert s["signature_schema_version"] == SIGNATURE_SCHEMA_VERSION
     assert len(s["k_eff_trajectory"]) == 3
-    assert s["k_eff_trajectory"] == pytest.approx(k_eff_trajectory(trace["trace_policies"]))
+    assert s["k_eff_trajectory"] == pytest.approx(
+        k_eff_trajectory(trace["trace_policies"])
+    )
     assert s["n_budget_steps"] == 3
     assert s["first_revision_step"] is None  # argmax stays 0
     assert s["flip_flop_rate"] == pytest.approx(0.0)

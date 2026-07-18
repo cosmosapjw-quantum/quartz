@@ -27,7 +27,9 @@ def load_ablation_module():
 
 def load_evaluator_calibration_module():
     root = Path(__file__).resolve().parents[1]
-    return load_module("evaluator_calibration_script", root / "scripts" / "evaluator_calibration.py")
+    return load_module(
+        "evaluator_calibration_script", root / "scripts" / "evaluator_calibration.py"
+    )
 
 
 def load_smoke_module():
@@ -41,10 +43,14 @@ def load_gomocup_export_module():
 
 def load_audit_bundle_script():
     root = Path(__file__).resolve().parents[1]
-    return load_module("build_audit_bundle_script", root / "scripts" / "build_audit_bundle.py")
+    return load_module(
+        "build_audit_bundle_script", root / "scripts" / "build_audit_bundle.py"
+    )
 
 
-def write_condition_run(run_dir: Path, condition: str, seed: int | None, elo: float, loss: float) -> None:
+def write_condition_run(
+    run_dir: Path, condition: str, seed: int | None, elo: float, loss: float
+) -> None:
     run_dir.mkdir(parents=True, exist_ok=True)
     meta = {
         "condition": condition,
@@ -58,7 +64,12 @@ def write_condition_run(run_dir: Path, condition: str, seed: int | None, elo: fl
     (run_dir / "best.pt").write_bytes(b"ckpt")
     rows = [
         {"loss": loss},
-        {"_type": "eval", "published_elo": elo, "eval_verdict": "promote", "score_rate": 0.61},
+        {
+            "_type": "eval",
+            "published_elo": elo,
+            "eval_verdict": "promote",
+            "score_rate": 0.61,
+        },
     ]
     (run_dir / "train_log.jsonl").write_text(
         "\n".join(json.dumps(row) for row in rows) + "\n",
@@ -70,9 +81,15 @@ def test_discover_model_runs_handles_flat_and_seeded_layout(tmp_path):
     ablation = load_ablation_module()
     base_dir = tmp_path / "results" / "gomoku15"
 
-    write_condition_run(base_dir / "models" / "T1_noS_noVL", "T1_noS_noVL", None, 1510.0, 1.2)
-    write_condition_run(base_dir / "models" / "T4_S_VL" / "seed_41", "T4_S_VL", 41, 1640.0, 0.9)
-    write_condition_run(base_dir / "models" / "T4_S_VL" / "seed_42", "T4_S_VL", 42, 1655.0, 0.8)
+    write_condition_run(
+        base_dir / "models" / "T1_noS_noVL", "T1_noS_noVL", None, 1510.0, 1.2
+    )
+    write_condition_run(
+        base_dir / "models" / "T4_S_VL" / "seed_41", "T4_S_VL", 41, 1640.0, 0.9
+    )
+    write_condition_run(
+        base_dir / "models" / "T4_S_VL" / "seed_42", "T4_S_VL", 42, 1655.0, 0.8
+    )
 
     runs = sorted(ablation.discover_model_runs(base_dir), key=lambda row: row["id"])
 
@@ -107,9 +124,15 @@ def test_build_study_manifest_uses_controller_preset():
 
     assert manifest["study"] == "controller"
     assert manifest["conditions"] == ["C1_impl_legacy", "C2_theory_doc"]
-    assert manifest["train_conditions"]["C1_impl_legacy"]["penalty_mode"] == "GatedRefreshLegacy"
+    assert (
+        manifest["train_conditions"]["C1_impl_legacy"]["penalty_mode"]
+        == "GatedRefreshLegacy"
+    )
     assert manifest["eval_conditions"]["E2_theory_doc"]["root_only_shaping"] is True
-    assert manifest["train_condition_surfaces"]["C1_impl_legacy"]["penalty_mode"] == "GatedRefreshLegacy"
+    assert (
+        manifest["train_condition_surfaces"]["C1_impl_legacy"]["penalty_mode"]
+        == "GatedRefreshLegacy"
+    )
 
 
 def test_build_study_manifest_uses_controller_factorial_preset():
@@ -142,10 +165,17 @@ def test_build_study_manifest_uses_controller_factorial_preset():
         "F3_theory_base",
         "F4_theory_krefresh",
     ]
-    assert manifest["eval_conditions_selected"] == ["E1_legacy_base", "E4_theory_krefresh"]
-    assert manifest["train_conditions"]["F2_legacy_krefresh"]["prior_refresh_rate"] == 0.5
+    assert manifest["eval_conditions_selected"] == [
+        "E1_legacy_base",
+        "E4_theory_krefresh",
+    ]
+    assert (
+        manifest["train_conditions"]["F2_legacy_krefresh"]["prior_refresh_rate"] == 0.5
+    )
     assert set(manifest["eval_conditions"]) == {"E1_legacy_base", "E4_theory_krefresh"}
-    assert manifest["eval_conditions"]["E4_theory_krefresh"]["prior_refresh_temp"] == 0.0
+    assert (
+        manifest["eval_conditions"]["E4_theory_krefresh"]["prior_refresh_temp"] == 0.0
+    )
 
 
 def test_build_study_manifest_uses_controller_axes_preset():
@@ -178,10 +208,24 @@ def test_build_study_manifest_uses_controller_axes_preset():
         "A3_theory_root_norefresh",
         "A4_theory_root_refresh",
     ]
-    assert manifest["train_conditions"]["A2_legacy_root_norefresh"]["root_only_shaping"] is True
-    assert manifest["train_conditions"]["A3_theory_root_norefresh"]["penalty_mode"] == "GatedRefresh"
-    assert manifest["train_conditions"]["A4_theory_root_refresh"]["prior_refresh_rate"] == 0.5
-    assert manifest["train_condition_surfaces"]["A4_theory_root_refresh"]["prior_refresh_rate"] == 0.5
+    assert (
+        manifest["train_conditions"]["A2_legacy_root_norefresh"]["root_only_shaping"]
+        is True
+    )
+    assert (
+        manifest["train_conditions"]["A3_theory_root_norefresh"]["penalty_mode"]
+        == "GatedRefresh"
+    )
+    assert (
+        manifest["train_conditions"]["A4_theory_root_refresh"]["prior_refresh_rate"]
+        == 0.5
+    )
+    assert (
+        manifest["train_condition_surfaces"]["A4_theory_root_refresh"][
+            "prior_refresh_rate"
+        ]
+        == 0.5
+    )
     assert manifest["runtime_contract"]["config_layout"] == "repo_top_level_configs"
     assert isinstance(manifest["runtime_contract_hash"], str)
     assert len(manifest["runtime_contract_hash"]) == 16
@@ -314,12 +358,8 @@ def test_research_grade_gate_fails_on_incomplete_report():
 def test_seed_protocol_requires_paired_seed_eval_rows_for_claims():
     ablation = load_ablation_module()
     runs = [
-        {"condition": "A", "seed": seed, "id": f"A_s{seed}"}
-        for seed in (1, 2, 3)
-    ] + [
-        {"condition": "B", "seed": seed, "id": f"B_s{seed}"}
-        for seed in (1, 2, 3)
-    ]
+        {"condition": "A", "seed": seed, "id": f"A_s{seed}"} for seed in (1, 2, 3)
+    ] + [{"condition": "B", "seed": seed, "id": f"B_s{seed}"} for seed in (1, 2, 3)]
     eval_payload = {
         "runtime_contract": {"paired_seed_eval": False},
         "matches": [
@@ -369,13 +409,25 @@ def test_p02_pre_flight_check_passes_on_clean_inputs(tmp_path):
     ckpt_b = tmp_path / "b.pt"
     ckpt_b.write_bytes(b"model_b_bytes")
     eligible = [
-        {"id": "A_s42", "condition": "A", "seed": 42,
-         "model_path": str(ckpt_a), "train_contract_hash": "abc"},
-        {"id": "B_s42", "condition": "B", "seed": 42,
-         "model_path": str(ckpt_b), "train_contract_hash": "def"},
+        {
+            "id": "A_s42",
+            "condition": "A",
+            "seed": 42,
+            "model_path": str(ckpt_a),
+            "train_contract_hash": "abc",
+        },
+        {
+            "id": "B_s42",
+            "condition": "B",
+            "seed": 42,
+            "model_path": str(ckpt_b),
+            "train_contract_hash": "def",
+        },
     ]
     args = argparse.Namespace(paired_seed_eval=True, research_grade=False)
-    summary = ablation.pre_flight_check(args, eligible, {"E1": {}}, {"E1": "manifest_hash_x"})
+    summary = ablation.pre_flight_check(
+        args, eligible, {"E1": {}}, {"E1": "manifest_hash_x"}
+    )
     assert summary["ok"] is True
     assert summary["errors"] == []
     assert summary["skipped_pairs"] == []
@@ -392,13 +444,25 @@ def test_p02_pre_flight_check_blocks_missing_checkpoint(tmp_path):
     ckpt_a = tmp_path / "a.pt"
     ckpt_a.write_bytes(b"model_a_bytes")
     eligible = [
-        {"id": "A_s42", "condition": "A", "seed": 42,
-         "model_path": str(ckpt_a), "train_contract_hash": "abc"},
-        {"id": "B_s42", "condition": "B", "seed": 42,
-         "model_path": str(tmp_path / "missing.pt"), "train_contract_hash": "def"},
+        {
+            "id": "A_s42",
+            "condition": "A",
+            "seed": 42,
+            "model_path": str(ckpt_a),
+            "train_contract_hash": "abc",
+        },
+        {
+            "id": "B_s42",
+            "condition": "B",
+            "seed": 42,
+            "model_path": str(tmp_path / "missing.pt"),
+            "train_contract_hash": "def",
+        },
     ]
     args = argparse.Namespace(paired_seed_eval=True, research_grade=False)
-    summary = ablation.pre_flight_check(args, eligible, {"E1": {}}, {"E1": "manifest_hash_x"})
+    summary = ablation.pre_flight_check(
+        args, eligible, {"E1": {}}, {"E1": "manifest_hash_x"}
+    )
     assert summary["ok"] is False
     assert "B_s42" in summary["skipped_pairs"]
     reasons = {e["reason"] for e in summary["errors"]}
@@ -407,7 +471,9 @@ def test_p02_pre_flight_check_blocks_missing_checkpoint(tmp_path):
     # Same inputs under --research-grade fail loudly.
     args_strict = argparse.Namespace(paired_seed_eval=True, research_grade=True)
     with pytest.raises(SystemExit, match="checkpoint_missing_or_unreadable"):
-        ablation.pre_flight_check(args_strict, eligible, {"E1": {}}, {"E1": "manifest_hash_x"})
+        ablation.pre_flight_check(
+            args_strict, eligible, {"E1": {}}, {"E1": "manifest_hash_x"}
+        )
 
 
 def test_p02_pre_flight_check_blocks_null_manifest_hash(tmp_path):
@@ -418,15 +484,24 @@ def test_p02_pre_flight_check_blocks_null_manifest_hash(tmp_path):
     ckpt_a = tmp_path / "a.pt"
     ckpt_a.write_bytes(b"model_a_bytes")
     eligible = [
-        {"id": "A", "condition": "A", "seed": 1,
-         "model_path": str(ckpt_a), "train_contract_hash": "abc"},
+        {
+            "id": "A",
+            "condition": "A",
+            "seed": 1,
+            "model_path": str(ckpt_a),
+            "train_contract_hash": "abc",
+        },
     ]
     args = argparse.Namespace(paired_seed_eval=False, research_grade=False)
     summary = ablation.pre_flight_check(
         args, eligible, {"E1": {}, "E2": {}}, {"E1": None, "E2": "ok"}
     )
     assert summary["ok"] is False
-    bad = [e for e in summary["errors"] if e.get("reason") == "search_manifest_hash_missing"]
+    bad = [
+        e
+        for e in summary["errors"]
+        if e.get("reason") == "search_manifest_hash_missing"
+    ]
     assert len(bad) == 1
     assert bad[0]["eval_condition"] == "E1"
 
@@ -440,10 +515,20 @@ def test_p02_pre_flight_check_catches_drifted_label_under_paired_seed(tmp_path):
     ckpt = tmp_path / "ckpt.pt"
     ckpt.write_bytes(b"x")
     eligible = [
-        {"id": "A_s42_v1", "condition": "A", "seed": 42,
-         "model_path": str(ckpt), "train_contract_hash": "v1_hash"},
-        {"id": "A_s42_v2", "condition": "A", "seed": 42,
-         "model_path": str(ckpt), "train_contract_hash": "v2_hash"},
+        {
+            "id": "A_s42_v1",
+            "condition": "A",
+            "seed": 42,
+            "model_path": str(ckpt),
+            "train_contract_hash": "v1_hash",
+        },
+        {
+            "id": "A_s42_v2",
+            "condition": "A",
+            "seed": 42,
+            "model_path": str(ckpt),
+            "train_contract_hash": "v2_hash",
+        },
     ]
     args = argparse.Namespace(paired_seed_eval=True, research_grade=False)
     summary = ablation.pre_flight_check(args, eligible, {"E1": {}}, {"E1": "ok"})
@@ -521,7 +606,9 @@ def test_write_checkpoint_status_prefers_latest_when_no_promotion_in_rerun(tmp_p
     )
 
     assert payload["preferred_posttrain_checkpoint"] == "latest.pt"
-    on_disk = json.loads((base_dir / "checkpoint_status.json").read_text(encoding="utf-8"))
+    on_disk = json.loads(
+        (base_dir / "checkpoint_status.json").read_text(encoding="utf-8")
+    )
     assert on_disk["preferred_posttrain_checkpoint"] == "latest.pt"
 
 
@@ -611,7 +698,9 @@ def test_select_champion_prefers_eval_leader_and_best_eval_cfg_for_deployment(tm
     assert champion["deployment_search_cfg"]["search_profile"] == "quartz"
     assert champion["deployment_search_cfg"]["vl_mode"] == "adaptive"
     assert champion["deployment_cfg_source"] == "eval_condition:E4_S_VL"
-    assert champion["selection_metrics"]["deployment_eval_condition_score_rate"] == pytest.approx(0.75)
+    assert champion["selection_metrics"][
+        "deployment_eval_condition_score_rate"
+    ] == pytest.approx(0.75)
 
 
 def test_build_eval_cfg_applies_runtime_overrides():
@@ -660,7 +749,11 @@ def test_build_eval_engine_defaults_backend_preference_to_auto(monkeypatch):
 
     captured = {}
 
-    monkeypatch.setattr(ablation, "build_eval_cfg", lambda *args, **kwargs: ({"_name": "gomoku7"}, "cpu"))
+    monkeypatch.setattr(
+        ablation,
+        "build_eval_cfg",
+        lambda *args, **kwargs: ({"_name": "gomoku7"}, "cpu"),
+    )
 
     import quartz.runtime_support as support_mod
     import quartz.evaluator_runtime as eval_mod
@@ -668,12 +761,21 @@ def test_build_eval_engine_defaults_backend_preference_to_auto(monkeypatch):
     monkeypatch.setattr(
         support_mod,
         "load_actor_source_from_checkpoint",
-        lambda model_path, engine_cfg, device, backend_preference=None: captured.setdefault("backend_preference", backend_preference) or object(),
+        lambda model_path, engine_cfg, device, backend_preference=None: (
+            captured.setdefault("backend_preference", backend_preference) or object()
+        ),
     )
     monkeypatch.setattr(eval_mod, "RustNNEvaluatorEngine", FakeEngine)
 
-    args = argparse.Namespace(game="gomoku7", device="cpu", rust_binary="./target/release/mcts_demo")
-    ablation.build_eval_engine({"id": "m1", "model_path": "best.pt"}, args, {"search_profile": "baseline", "vl_mode": "disabled"}, "cpu")
+    args = argparse.Namespace(
+        game="gomoku7", device="cpu", rust_binary="./target/release/mcts_demo"
+    )
+    ablation.build_eval_engine(
+        {"id": "m1", "model_path": "best.pt"},
+        args,
+        {"search_profile": "baseline", "vl_mode": "disabled"},
+        "cpu",
+    )
 
     assert captured["backend_preference"] == "auto"
 
@@ -737,7 +839,9 @@ def test_pyproject_does_not_claim_missing_quartz_configs_package_data():
     assert "configs/*.json" not in quartz_data
 
 
-def test_run_evaluation_matrix_can_limit_to_paired_seed_comparisons(tmp_path, monkeypatch):
+def test_run_evaluation_matrix_can_limit_to_paired_seed_comparisons(
+    tmp_path, monkeypatch
+):
     ablation = load_ablation_module()
     import quartz.evaluator_runtime as eval_mod
 
@@ -779,13 +883,26 @@ def test_run_evaluation_matrix_can_limit_to_paired_seed_comparisons(tmp_path, mo
 
         def compare(self, engine_a, engine_b, *args, **kwargs):
             called_pairs.append((engine_a.name(), engine_b.name()))
-            return types.SimpleNamespace(wins=2, losses=2, draws=0, errors=0, voids=0, scored=4, total=4, score_rate=0.5), {
+            return types.SimpleNamespace(
+                wins=2,
+                losses=2,
+                draws=0,
+                errors=0,
+                voids=0,
+                scored=4,
+                total=4,
+                score_rate=0.5,
+            ), {
                 "runner_mode": "rust_eval_state_machine",
                 "match_elapsed_s": 0.01,
             }
 
     monkeypatch.setattr(ablation, "build_eval_cfg", fake_build_eval_cfg)
-    monkeypatch.setattr(ablation, "build_eval_engine", lambda model_run, args, eval_cfg, device: (FakeEngine(model_run["id"]), {}))
+    monkeypatch.setattr(
+        ablation,
+        "build_eval_engine",
+        lambda model_run, args, eval_cfg, device: (FakeEngine(model_run["id"]), {}),
+    )
     monkeypatch.setattr(eval_mod, "PersistentRustNNEvalCampaign", FakeCampaign)
 
     args = type(
@@ -810,10 +927,34 @@ def test_run_evaluation_matrix_can_limit_to_paired_seed_comparisons(tmp_path, mo
     for fname in ("a41.pt", "b41.pt", "a42.pt", "b42.pt"):
         (base_dir / fname).write_bytes(fname.encode())
     model_runs = [
-        {"id": "C1_impl_legacy_s41", "condition": "C1_impl_legacy", "seed": 41, "success": True, "model_path": str(base_dir / "a41.pt")},
-        {"id": "C2_theory_doc_s41", "condition": "C2_theory_doc", "seed": 41, "success": True, "model_path": str(base_dir / "b41.pt")},
-        {"id": "C1_impl_legacy_s42", "condition": "C1_impl_legacy", "seed": 42, "success": True, "model_path": str(base_dir / "a42.pt")},
-        {"id": "C2_theory_doc_s42", "condition": "C2_theory_doc", "seed": 42, "success": True, "model_path": str(base_dir / "b42.pt")},
+        {
+            "id": "C1_impl_legacy_s41",
+            "condition": "C1_impl_legacy",
+            "seed": 41,
+            "success": True,
+            "model_path": str(base_dir / "a41.pt"),
+        },
+        {
+            "id": "C2_theory_doc_s41",
+            "condition": "C2_theory_doc",
+            "seed": 41,
+            "success": True,
+            "model_path": str(base_dir / "b41.pt"),
+        },
+        {
+            "id": "C1_impl_legacy_s42",
+            "condition": "C1_impl_legacy",
+            "seed": 42,
+            "success": True,
+            "model_path": str(base_dir / "a42.pt"),
+        },
+        {
+            "id": "C2_theory_doc_s42",
+            "condition": "C2_theory_doc",
+            "seed": 42,
+            "success": True,
+            "model_path": str(base_dir / "b42.pt"),
+        },
     ]
 
     payload = ablation.run_evaluation_matrix(
@@ -887,11 +1028,15 @@ def test_summarize_conditions_groups_training_and_eval_rows():
     summary = ablation.summarize_conditions(runs, eval_payload)
 
     assert summary["training"][0]["condition"] == "F4_theory_krefresh"
-    legacy_train = next(row for row in summary["training"] if row["condition"] == "F1_legacy_base")
+    legacy_train = next(
+        row for row in summary["training"] if row["condition"] == "F1_legacy_base"
+    )
     assert legacy_train["mean_elo"] == 15.0
     assert legacy_train["mean_score_rate"] == 0.5
     assert legacy_train["mean_loss"] == 4.1
-    legacy_eval = next(row for row in summary["evaluation"] if row["condition"] == "F1_legacy_base")
+    legacy_eval = next(
+        row for row in summary["evaluation"] if row["condition"] == "F1_legacy_base"
+    )
     assert legacy_eval["entries"] == 2
     assert legacy_eval["score_rate"] == 0.5
 
@@ -910,7 +1055,7 @@ def test_summarize_selection_trace_contract_groups_eval_conditions():
                         "refresh_selected_count": 2,
                         "selected_penalty_abs_sum": 1.0,
                         "selected_effective_prior_l1_sum": 0.5,
-                    }
+                    },
                 },
             },
             {
@@ -923,7 +1068,7 @@ def test_summarize_selection_trace_contract_groups_eval_conditions():
                         "refresh_selected_count": 6,
                         "selected_penalty_abs_sum": 3.0,
                         "selected_effective_prior_l1_sum": 1.5,
-                    }
+                    },
                 },
             },
         ]
@@ -1210,9 +1355,13 @@ def test_evaluator_calibration_metrics_scores_policy_and_value():
                 else:
                     probs.append([0.2, 0.7, 0.1])
                     values.append(-0.25)
-            return np.asarray(probs, dtype=np.float32), np.asarray(values, dtype=np.float32)
+            return np.asarray(probs, dtype=np.float32), np.asarray(
+                values, dtype=np.float32
+            )
 
-    metrics = calibration.calibration_metrics(FakeActor(), "cpu", examples, batch_size=2)
+    metrics = calibration.calibration_metrics(
+        FakeActor(), "cpu", examples, batch_size=2
+    )
 
     assert metrics["n_positions"] == 2
     assert metrics["policy_nll"] == pytest.approx(-0.5 * (np.log(0.8) + np.log(0.7)))
@@ -1228,7 +1377,11 @@ def test_summarize_evaluation_protocol_detects_consistent_protocol():
         {"id": "B_s1", "condition": "B", "seed": 1},
     ]
     eval_payload = {
-        "runtime_contract": {"paired_seed_eval": True, "backend": "torch", "device": "cpu"},
+        "runtime_contract": {
+            "paired_seed_eval": True,
+            "backend": "torch",
+            "device": "cpu",
+        },
         "runtime_contract_hash": "abcd1234abcd1234",
         "expected_eval_seeds": {"E1": 17, "E2": 17},
         "expected_benchmark_safe": {"E1": True, "E2": True},
@@ -1320,7 +1473,11 @@ def test_summarize_budget_fairness_groups_realized_budget_trace():
                 "realized_budget_trace": {
                     "games": 2,
                     "moves": 4,
-                    "root_visits": {"samples": [8, 10, 12, 10], "mean": 10.0, "max": 12.0},
+                    "root_visits": {
+                        "samples": [8, 10, 12, 10],
+                        "mean": 10.0,
+                        "max": 12.0,
+                    },
                     "halt_reason_hist": {"BudgetExhausted": 4},
                     "benchmark_safe_frac": 1.0,
                 },
@@ -1331,7 +1488,11 @@ def test_summarize_budget_fairness_groups_realized_budget_trace():
                 "realized_budget_trace": {
                     "games": 2,
                     "moves": 4,
-                    "root_visits": {"samples": [20, 20, 20, 20], "mean": 20.0, "max": 20.0},
+                    "root_visits": {
+                        "samples": [20, 20, 20, 20],
+                        "mean": 20.0,
+                        "max": 20.0,
+                    },
                     "halt_reason_hist": {"Converged": 4},
                     "benchmark_safe_frac": 1.0,
                 },
@@ -1581,7 +1742,13 @@ def test_q4_halt_attribution_preset_varies_halt_mode():
     halt_modes = sorted(cfg["halt_mode"] for cfg in train.values())
     assert halt_modes == ["fixed", "simple_threshold", "voc"]
     # All other identity fields must be identical across rows.
-    invariants = ("penalty_mode", "root_only_shaping", "prior_refresh_rate", "vl_mode", "search_profile")
+    invariants = (
+        "penalty_mode",
+        "root_only_shaping",
+        "prior_refresh_rate",
+        "vl_mode",
+        "search_profile",
+    )
     first = next(iter(train.values()))
     for cfg in train.values():
         for key in invariants:
@@ -1611,10 +1778,17 @@ def test_q4_resolve_frozen_eval_pins_first_for_halt_attribution():
     """Q4: halt_attribution presets need a single frozen eval condition so
     the comparison varies only halt_mode, not the eval engine itself."""
     ablation = load_ablation_module()
-    eval_conditions = {"EH2_simple_threshold": {}, "EH1_voc_default": {}, "EH3_fixed_full_budget": {}}
+    eval_conditions = {
+        "EH2_simple_threshold": {},
+        "EH1_voc_default": {},
+        "EH3_fixed_full_budget": {},
+    }
     args = _make_p8_args("halt_attribution")
     # Sorted-first must be EH1_voc_default.
-    assert ablation.resolve_frozen_eval_condition(args, eval_conditions) == "EH1_voc_default"
+    assert (
+        ablation.resolve_frozen_eval_condition(args, eval_conditions)
+        == "EH1_voc_default"
+    )
 
 
 def test_q4_attribution_preset_tag_marks_halt_axis_preset():
@@ -1688,6 +1862,7 @@ def test_resolve_frozen_eval_no_flag_opts_out():
 def test_resolve_frozen_eval_unknown_name_raises():
     """P8: explicit unknown name fails fast."""
     import pytest
+
     ablation = load_ablation_module()
     eval_conditions = {"EA1_a": {}}
     args = _make_p8_args("controller_axes", frozen_eval_condition="bogus")
@@ -1707,7 +1882,9 @@ def test_controller_identity_hash_is_stable_under_dict_reordering():
     }
     cfg_b = dict(reversed(list(cfg_a.items())))
 
-    assert ablation.controller_identity_hash(cfg_a) == ablation.controller_identity_hash(cfg_b)
+    assert ablation.controller_identity_hash(
+        cfg_a
+    ) == ablation.controller_identity_hash(cfg_b)
 
 
 def test_controller_identity_hash_changes_with_any_identity_field():
@@ -1727,9 +1904,9 @@ def test_controller_identity_hash_changes_with_any_identity_field():
     for key in ablation.controller_identity_keys():
         perturbed = dict(base)
         perturbed[key] = "PERTURBED-VALUE"
-        assert (
-            ablation.controller_identity_hash(perturbed) != base_hash
-        ), f"hash should change when {key!r} changes"
+        assert ablation.controller_identity_hash(perturbed) != base_hash, (
+            f"hash should change when {key!r} changes"
+        )
 
 
 def test_controller_identity_ignores_unknown_keys():
@@ -1738,7 +1915,9 @@ def test_controller_identity_ignores_unknown_keys():
     cfg = {"penalty_mode": "GatedRefresh", "halt_mode": "VOC"}
     cfg_with_extras = dict(cfg, max_visits=400, eval_games=10, comment="aux")
 
-    assert ablation.controller_identity_hash(cfg) == ablation.controller_identity_hash(cfg_with_extras)
+    assert ablation.controller_identity_hash(cfg) == ablation.controller_identity_hash(
+        cfg_with_extras
+    )
 
 
 def test_assert_single_axis_isolation_passes_when_only_axis_varies():
@@ -1787,7 +1966,7 @@ def test_smoke_count_sgd_rows_counts_only_loss_present_rows(tmp_path):
     smoke = load_smoke_module()
     log_path = tmp_path / "train_log.jsonl"
     log_path.write_text(
-        '\n'.join(
+        "\n".join(
             [
                 json.dumps({"loss": 0.4, "iter": 1}),
                 json.dumps({"loss": None, "iter": 2}),
@@ -1856,7 +2035,9 @@ def test_smoke_e2e_builds_safe_runtime_ablation_command_by_default(tmp_path):
         resident_session=None,
     )
 
-    command = smoke.build_ablation_command(args, tmp_path / "mcts_demo", tmp_path / "out")
+    command = smoke.build_ablation_command(
+        args, tmp_path / "mcts_demo", tmp_path / "out"
+    )
 
     assert "--resident-session" not in command
     assert "--no-autotune" in command
@@ -1867,9 +2048,15 @@ def test_smoke_e2e_summary_includes_log_artifacts(tmp_path):
     output_root = tmp_path / "smoke"
     output_root.mkdir(parents=True)
     artifacts = smoke.smoke_artifact_paths(output_root)
-    artifacts["events_jsonl"].write_text('{"event":"command_begin"}\n{"event":"command_end"}\n', encoding="utf-8")
-    artifacts["python_trace_jsonl"].write_text('{"event":"exchange_begin"}\n', encoding="utf-8")
-    artifacts["rust_server_trace_jsonl"].write_text('{"event":"rust_server_ready"}\n', encoding="utf-8")
+    artifacts["events_jsonl"].write_text(
+        '{"event":"command_begin"}\n{"event":"command_end"}\n', encoding="utf-8"
+    )
+    artifacts["python_trace_jsonl"].write_text(
+        '{"event":"exchange_begin"}\n', encoding="utf-8"
+    )
+    artifacts["rust_server_trace_jsonl"].write_text(
+        '{"event":"rust_server_ready"}\n', encoding="utf-8"
+    )
     args = argparse.Namespace(game="gomoku7", study="search_vl")
 
     summary = smoke.build_smoke_summary(

@@ -37,32 +37,45 @@ def load_module(name: str, path: Path):
 
 def load_phase15_runner():
     root = Path(__file__).resolve().parents[1]
-    return load_module("phase15_runner_script", root / "scripts" / "phase15_ablation_study.py")
+    return load_module(
+        "phase15_runner_script", root / "scripts" / "phase15_ablation_study.py"
+    )
 
 
 def load_phase15_online_runner():
     root = Path(__file__).resolve().parents[1]
-    return load_module("phase15_online_runner_script", root / "scripts" / "phase15_online_ablation.py")
+    return load_module(
+        "phase15_online_runner_script", root / "scripts" / "phase15_online_ablation.py"
+    )
 
 
 def load_phase15_benchmark_runner():
     root = Path(__file__).resolve().parents[1]
-    return load_module("phase15_benchmark_script", root / "scripts" / "phase15_benchmark.py")
+    return load_module(
+        "phase15_benchmark_script", root / "scripts" / "phase15_benchmark.py"
+    )
 
 
 def load_phase15_benchmark_ci_smoke_runner():
     root = Path(__file__).resolve().parents[1]
-    return load_module("phase15_benchmark_ci_smoke_script", root / "scripts" / "phase15_benchmark_ci_smoke.py")
+    return load_module(
+        "phase15_benchmark_ci_smoke_script",
+        root / "scripts" / "phase15_benchmark_ci_smoke.py",
+    )
 
 
 def load_phase15_toy_ablation_runner():
     root = Path(__file__).resolve().parents[1]
-    return load_module("phase15_toy_ablation_script", root / "scripts" / "phase15_toy_ablation.py")
+    return load_module(
+        "phase15_toy_ablation_script", root / "scripts" / "phase15_toy_ablation.py"
+    )
 
 
 def load_phase15_analysis_runner():
     root = Path(__file__).resolve().parents[1]
-    return load_module("phase15_analysis_script", root / "scripts" / "phase15_analyze_results.py")
+    return load_module(
+        "phase15_analysis_script", root / "scripts" / "phase15_analyze_results.py"
+    )
 
 
 def test_make_default_systems_exposes_clean_split_groups():
@@ -101,8 +114,13 @@ def test_make_default_systems_exposes_clean_split_groups():
     assert systems[10].params["comparison_role"] == "a4_equivalence_anchor"
     assert systems[14].params["comparison_role"] == "argmax_tie_guarded_readout"
     assert systems[15].params["comparison_role"] == "snapshot_safe_stabilized_readout"
-    assert systems[16].params["comparison_role"] == "adaptive_snapshot_safe_stabilized_readout"
-    assert systems[17].params["comparison_role"] == "entropy_expansion_stabilized_readout"
+    assert (
+        systems[16].params["comparison_role"]
+        == "adaptive_snapshot_safe_stabilized_readout"
+    )
+    assert (
+        systems[17].params["comparison_role"] == "entropy_expansion_stabilized_readout"
+    )
 
 
 def test_phase15_system_presets_cover_current_candidates():
@@ -134,7 +152,9 @@ def test_b13_shares_a4_trace_signature_for_paired_pairing():
     from quartz.phase15_ablation import search_relevant_signature
 
     by_id = {s.id: s for s in make_default_systems({})}
-    assert search_relevant_signature(by_id["B13"]) == search_relevant_signature(by_id["A4"])
+    assert search_relevant_signature(by_id["B13"]) == search_relevant_signature(
+        by_id["A4"]
+    )
 
 
 def test_b13_readout_runs_and_returns_one_loop_metadata():
@@ -176,7 +196,9 @@ def test_b14_readout_returns_argmax_stability_metadata():
     assert 0.0 <= meta["argmax_stability"] <= 1.0
     assert float(np.asarray(effective).sum()) == pytest.approx(1.0)
     # H1 never transforms the policy — it is a halt rule.
-    np.testing.assert_allclose(np.asarray(effective), normalize_policy(trace[-1]), rtol=1e-6)
+    np.testing.assert_allclose(
+        np.asarray(effective), normalize_policy(trace[-1]), rtol=1e-6
+    )
 
 
 def test_b15_partb_registered_and_shares_a4_signature():
@@ -198,7 +220,12 @@ def test_h3_burst_signal_requires_both_gates():
     # top-2 margin shrinks.
     from quartz.phase15_ablation import h3_burst_signal
 
-    params = {"smooth_alpha": 0.5, "min_visit_floor": 8, "entropy_floor": 0.0, "margin_slope_floor": 0.0}
+    params = {
+        "smooth_alpha": 0.5,
+        "min_visit_floor": 8,
+        "entropy_floor": 0.0,
+        "margin_slope_floor": 0.0,
+    }
 
     # entropy up (0.7/0.3 -> near-uniform) AND margin shrinking => burst
     up_and_shrink = [np.array([0.7, 0.2, 0.1]), np.array([0.4, 0.35, 0.25])]
@@ -223,7 +250,11 @@ def test_b15_readout_reports_burst_fields():
     b15 = by_id["B15"]
     prior = np.array([0.34, 0.33, 0.33])
     # sub-target unstable + a supra-target chunk present => burst uses it
-    trace = [np.array([0.7, 0.2, 0.1]), np.array([0.4, 0.35, 0.25]), np.array([0.1, 0.8, 0.1])]
+    trace = [
+        np.array([0.7, 0.2, 0.1]),
+        np.array([0.4, 0.35, 0.25]),
+        np.array([0.1, 0.8, 0.1]),
+    ]
     effective, meta = apply_system_readout(b15, prior, trace, [8, 16, 32], 16)
     assert "budget_burst_triggered" in meta
     assert meta["burst_reason"] in ("h3_backflow_burst", "none")
@@ -254,7 +285,11 @@ def test_group_a_and_b_defaults_do_not_use_refresh_legacy_substrate():
     ):
         system = systems[system_id]
         assert system.search_overrides.get("root_only_shaping") is True
-        assert system.search_overrides.get("penalty_mode") not in {"GatedRefreshLegacy", "PFlipMixture", "SelfAdaptive"}
+        assert system.search_overrides.get("penalty_mode") not in {
+            "GatedRefreshLegacy",
+            "PFlipMixture",
+            "SelfAdaptive",
+        }
 
 
 def test_legacy_anchor_defaults_are_preserved_only_in_group_c():
@@ -272,7 +307,12 @@ def test_dual_channel_commit_prefers_stable_search_posterior():
         substrate="S1",
         controller="QuartzVL",
         refresh_operator="dual_channel_commit",
-        params={"commit_threshold": 0.4, "gate_scale": 1.0, "divergence_scale": 0.2, "entropy_scale": 0.2},
+        params={
+            "commit_threshold": 0.4,
+            "gate_scale": 1.0,
+            "divergence_scale": 0.2,
+            "entropy_scale": 0.2,
+        },
     )
     prior = normalize_policy(np.array([0.75, 0.20, 0.05], dtype=np.float32))
     trace = [
@@ -308,11 +348,18 @@ def test_root_challenger_refresh_returns_restricted_candidate_set():
 
 def test_root_challenger_set_expands_near_ties_past_k():
     prior = normalize_policy(np.array([0.40, 0.30, 0.20, 0.10], dtype=np.float32))
-    posterior = normalize_policy(np.array([0.10, 0.2999, 0.2998, 0.3001], dtype=np.float32))
+    posterior = normalize_policy(
+        np.array([0.10, 0.2999, 0.2998, 0.3001], dtype=np.float32)
+    )
     candidates, _scores = build_root_challenger_set(
         prior,
         posterior,
-        {"challenger_k": 2, "candidate_score_mix": 0.0, "candidate_tie_eps": 5e-4, "challenger_max_extra": 2},
+        {
+            "challenger_k": 2,
+            "candidate_score_mix": 0.0,
+            "candidate_tie_eps": 5e-4,
+            "challenger_max_extra": 2,
+        },
     )
     assert candidates[:2] == [3, 1]
     assert 2 in candidates
@@ -395,7 +442,9 @@ def test_root_dual_posterior_gate_preserves_prior_on_weak_evidence():
 
 
 def test_root_posterior_snapshot_reports_pure_root_readout_contract():
-    system = Phase15System("B5", "snapshot", "B", "S1", "QuartzVL", "root_posterior_snapshot")
+    system = Phase15System(
+        "B5", "snapshot", "B", "S1", "QuartzVL", "root_posterior_snapshot"
+    )
     prior = normalize_policy(np.array([0.80, 0.10, 0.10], dtype=np.float32))
     posterior = normalize_policy(np.array([0.10, 0.75, 0.15], dtype=np.float32))
 
@@ -416,7 +465,11 @@ def test_confidence_bound_posterior_records_volatility_bound():
         "S1",
         "QuartzVL",
         "confidence_bound_posterior",
-        params={"confidence_threshold": 0.0, "posterior_weight": 0.8, "challenger_k": 2},
+        params={
+            "confidence_threshold": 0.0,
+            "posterior_weight": 0.8,
+            "challenger_k": 2,
+        },
     )
     prior = normalize_policy(np.array([0.60, 0.30, 0.10], dtype=np.float32))
     trace = [
@@ -465,7 +518,11 @@ def test_entropy_annealed_posterior_smooths_unstable_trace():
         "S1",
         "QuartzVL",
         "entropy_annealed_posterior",
-        params={"posterior_weight": 1.0, "temperature_min": 0.5, "temperature_max": 2.0},
+        params={
+            "posterior_weight": 1.0,
+            "temperature_min": 0.5,
+            "temperature_max": 2.0,
+        },
     )
     prior = normalize_policy(np.array([0.60, 0.30, 0.10], dtype=np.float32))
     trace = [
@@ -575,7 +632,9 @@ def test_snapshot_trace_stabilized_posterior_preserves_snapshot_argmax_and_topk(
     effective, meta = apply_system_readout(system, prior, trace, [4, 8, 16], 16)
 
     assert policy_argmax(effective) == policy_argmax(trace[-1])
-    assert set(np.argsort(-effective, kind="stable")[:3]) == set(np.argsort(-trace[-1], kind="stable")[:3])
+    assert set(np.argsort(-effective, kind="stable")[:3]) == set(
+        np.argsort(-trace[-1], kind="stable")[:3]
+    )
     assert meta["belief_revision_operator"] == "snapshot_trace_stabilized_posterior"
     assert meta["stabilizer_applied"] == 1
     assert meta["stabilization_reason"] == "passed"
@@ -637,8 +696,13 @@ def test_adaptive_snapshot_trace_stabilized_posterior_selects_largest_safe_weigh
     effective, meta = apply_system_readout(system, prior, trace, [8, 16], 16)
 
     assert policy_argmax(effective) == policy_argmax(trace[-1])
-    assert set(np.argsort(-effective, kind="stable")[:3]) == set(np.argsort(-trace[-1], kind="stable")[:3])
-    assert meta["belief_revision_operator"] == "adaptive_snapshot_trace_stabilized_posterior"
+    assert set(np.argsort(-effective, kind="stable")[:3]) == set(
+        np.argsort(-trace[-1], kind="stable")[:3]
+    )
+    assert (
+        meta["belief_revision_operator"]
+        == "adaptive_snapshot_trace_stabilized_posterior"
+    )
     assert meta["adaptive_stabilizer"] == 1
     assert meta["stabilizer_applied"] == 1
     assert meta["stabilization_reason"] == "passed"
@@ -754,7 +818,9 @@ def test_build_row_exports_root_dual_revision_metadata():
     runner = load_phase15_runner()
     checkpoint = runner.CheckpointRef(id="C01", path="/tmp/model.pt")
     position = {"id": "P0001", "bucket_tags": ["wrong_top1"]}
-    system = Phase15System("B4", "root dual", "B", "S1", "QuartzVL", "root_dual_posterior")
+    system = Phase15System(
+        "B4", "root dual", "B", "S1", "QuartzVL", "root_dual_posterior"
+    )
     prior = normalize_policy(np.array([0.7, 0.2, 0.1], dtype=np.float32))
     posterior = normalize_policy(np.array([0.1, 0.8, 0.1], dtype=np.float32))
     trace_meta = {
@@ -935,8 +1001,20 @@ def test_build_row_exports_snapshot_stabilizer_metadata():
 def test_build_summary_payload_aggregates_guarded_readout_rates():
     runner = load_phase15_runner()
     rows = [
-        {"group": "B", "system": "B9", "budget": 16, "position_bucket": "ambiguous", "guard_vetoed": 1},
-        {"group": "B", "system": "B9", "budget": 16, "position_bucket": "wrong_top1", "guard_vetoed": 0},
+        {
+            "group": "B",
+            "system": "B9",
+            "budget": 16,
+            "position_bucket": "ambiguous",
+            "guard_vetoed": 1,
+        },
+        {
+            "group": "B",
+            "system": "B9",
+            "budget": 16,
+            "position_bucket": "wrong_top1",
+            "guard_vetoed": 0,
+        },
     ]
 
     summary = runner.build_summary_payload(rows)
@@ -956,8 +1034,20 @@ def test_build_summary_payload_aggregates_guarded_readout_rates():
 def test_build_summary_payload_aggregates_snapshot_stabilizer_rates():
     runner = load_phase15_runner()
     rows = [
-        {"group": "B", "system": "B10", "budget": 16, "position_bucket": "generic", "stabilizer_applied": 1},
-        {"group": "B", "system": "B10", "budget": 16, "position_bucket": "ambiguous", "stabilizer_applied": 0},
+        {
+            "group": "B",
+            "system": "B10",
+            "budget": 16,
+            "position_bucket": "generic",
+            "stabilizer_applied": 1,
+        },
+        {
+            "group": "B",
+            "system": "B10",
+            "budget": 16,
+            "position_bucket": "ambiguous",
+            "stabilizer_applied": 0,
+        },
     ]
 
     summary = runner.build_summary_payload(rows)
@@ -997,7 +1087,10 @@ def test_load_systems_config_accepts_explicit_json(tmp_path: Path):
                         "substrate": "S0",
                         "controller": "none",
                         "refresh_operator": "none",
-                        "search_overrides": {"search_profile": "baseline", "root_only_shaping": True},
+                        "search_overrides": {
+                            "search_profile": "baseline",
+                            "root_only_shaping": True,
+                        },
                         "params": {},
                         "execution_mode": "posthoc",
                     }
@@ -1019,7 +1112,10 @@ def test_validate_phase15_systems_rejects_legacy_mode_in_group_b():
         substrate="S1",
         controller="QuartzVL",
         refresh_operator="none",
-        search_overrides={"root_only_shaping": True, "penalty_mode": "GatedRefreshLegacy"},
+        search_overrides={
+            "root_only_shaping": True,
+            "penalty_mode": "GatedRefreshLegacy",
+        },
     )
     try:
         validate_phase15_systems([system])
@@ -1033,7 +1129,9 @@ def test_build_row_tracks_reference_and_oracle_separately():
     runner = load_phase15_runner()
     checkpoint = runner.CheckpointRef(id="C01", path="/tmp/model.pt")
     position = {"id": "P0001", "bucket_tags": ["easy_good_prior"]}
-    system = Phase15System("A0", "baseline", "A", "S0", "none", "none", execution_mode="posthoc")
+    system = Phase15System(
+        "A0", "baseline", "A", "S0", "none", "none", execution_mode="posthoc"
+    )
     prior = normalize_policy(np.array([0.8, 0.2], dtype=np.float32))
     final = normalize_policy(np.array([0.1, 0.9], dtype=np.float32))
     reference = normalize_policy(np.array([0.2, 0.8], dtype=np.float32))
@@ -1069,7 +1167,15 @@ def test_build_row_keeps_continuation_fallback_reason():
     runner = load_phase15_runner()
     checkpoint = runner.CheckpointRef(id="C01", path="/tmp/model.pt")
     position = {"id": "P0001", "bucket_tags": []}
-    system = Phase15System("B1", "dual", "B", "S1", "QuartzVL", "dual_channel_commit", execution_mode="online")
+    system = Phase15System(
+        "B1",
+        "dual",
+        "B",
+        "S1",
+        "QuartzVL",
+        "dual_channel_commit",
+        execution_mode="online",
+    )
     prior = normalize_policy(np.array([0.6, 0.4], dtype=np.float32))
     final = normalize_policy(np.array([0.5, 0.5], dtype=np.float32))
     reference = normalize_policy(np.array([0.5, 0.5], dtype=np.float32))
@@ -1092,7 +1198,10 @@ def test_build_row_keeps_continuation_fallback_reason():
         },
         trace_reused=False,
     )
-    assert row["continuation_fallback_reason"] == "RuntimeError: resident session unavailable"
+    assert (
+        row["continuation_fallback_reason"]
+        == "RuntimeError: resident session unavailable"
+    )
 
 
 def test_build_semantic_summary_collapses_alias_rows():
@@ -1188,7 +1297,9 @@ def test_build_headwind_summary_collapses_alias_rows_and_classifies():
 def test_online_trace_lookup_preserves_budget_rows(monkeypatch):
     online_runner = load_phase15_online_runner()
 
-    def fake_build_search_trace(harness, checkpoint, position, system, trace_budgets, cache_dir):
+    def fake_build_search_trace(
+        harness, checkpoint, position, system, trace_budgets, cache_dir
+    ):
         return (
             [
                 np.asarray([0.7, 0.3], dtype=np.float32),
@@ -1198,12 +1309,16 @@ def test_online_trace_lookup_preserves_budget_rows(monkeypatch):
             True,
         )
 
-    monkeypatch.setattr(online_runner.posthoc, "build_search_trace", fake_build_search_trace)
+    monkeypatch.setattr(
+        online_runner.posthoc, "build_search_trace", fake_build_search_trace
+    )
     rows, reused = online_runner.build_online_trace_lookup(
         harness=object(),
         checkpoint=object(),
         position={"id": "P1"},
-        system=Phase15System("B1", "dual", "B", "S1", "QuartzVL", "dual_channel_commit"),
+        system=Phase15System(
+            "B1", "dual", "B", "S1", "QuartzVL", "dual_channel_commit"
+        ),
         trace_budgets=[8, 16],
         cache_dir=None,
     )
@@ -1217,7 +1332,9 @@ def test_online_trace_bundle_prefers_single_continuation_trace(monkeypatch):
     online_runner = load_phase15_online_runner()
     calls = []
 
-    def fake_continuation(client, position, system, trace_budgets, target_budget, early_stop_fn=None):
+    def fake_continuation(
+        client, position, system, trace_budgets, target_budget, early_stop_fn=None
+    ):
         calls.append((tuple(trace_budgets), int(target_budget)))
         return {
             8: {"search_policy": [0.7, 0.3], "latency_ms": 5.0},
@@ -1225,11 +1342,15 @@ def test_online_trace_bundle_prefers_single_continuation_trace(monkeypatch):
             32: {"search_policy": [0.1, 0.9], "latency_ms": 13.0},
         }
 
-    monkeypatch.setattr(online_runner, "run_online_readout_continuation", fake_continuation)
+    monkeypatch.setattr(
+        online_runner, "run_online_readout_continuation", fake_continuation
+    )
     monkeypatch.setattr(
         online_runner,
         "build_online_trace_lookup",
-        lambda *args, **kwargs: (_ for _ in ()).throw(AssertionError("fallback should not run")),
+        lambda *args, **kwargs: (_ for _ in ()).throw(
+            AssertionError("fallback should not run")
+        ),
     )
 
     class DummyHarness:
@@ -1241,7 +1362,9 @@ def test_online_trace_bundle_prefers_single_continuation_trace(monkeypatch):
         DummyHarness(),
         checkpoint=object(),
         position={"id": "P1"},
-        system=Phase15System("B1", "dual", "B", "S1", "QuartzVL", "dual_channel_commit"),
+        system=Phase15System(
+            "B1", "dual", "B", "S1", "QuartzVL", "dual_channel_commit"
+        ),
         budgets=[16, 8, 32, 16],
         cache_dir=None,
     )
@@ -1269,7 +1392,9 @@ def test_online_trace_bundle_falls_back_once_per_system_position(monkeypatch):
             True,
         )
 
-    monkeypatch.setattr(online_runner, "run_online_readout_continuation", fake_continuation)
+    monkeypatch.setattr(
+        online_runner, "run_online_readout_continuation", fake_continuation
+    )
     monkeypatch.setattr(online_runner, "build_online_trace_lookup", fake_lookup)
 
     class DummyHarness:
@@ -1443,7 +1568,9 @@ def test_prepare_bucketized_suite_embeds_shared_policy_artifacts():
 
 def test_suite_policy_artifact_reads_embedded_policy():
     runner = load_phase15_runner()
-    policy = runner.suite_policy_artifact({"reference_policy": [0.25, 0.75]}, "reference_policy")
+    policy = runner.suite_policy_artifact(
+        {"reference_policy": [0.25, 0.75]}, "reference_policy"
+    )
     assert policy is not None
     assert policy.tolist() == [0.25, 0.75]
 
@@ -1452,7 +1579,9 @@ def test_build_search_trace_bundle_slices_budget_prefixes(monkeypatch):
     runner = load_phase15_runner()
     calls = []
 
-    def fake_build_search_trace(harness, checkpoint, position, system, trace_budgets, cache_dir):
+    def fake_build_search_trace(
+        harness, checkpoint, position, system, trace_budgets, cache_dir
+    ):
         calls.append(tuple(trace_budgets))
         return (
             [
@@ -1552,7 +1681,9 @@ def test_frozen_checkpoint_harness_position_key_uses_semantic_state_not_only_id(
     assert left != right
 
 
-def test_build_search_trace_cache_key_distinguishes_positions_with_same_id(tmp_path: Path):
+def test_build_search_trace_cache_key_distinguishes_positions_with_same_id(
+    tmp_path: Path,
+):
     runner = load_phase15_runner()
     harness_base = object.__new__(runner.FrozenCheckpointHarness)
 
@@ -1570,8 +1701,12 @@ def test_build_search_trace_cache_key_distinguishes_positions_with_same_id(tmp_p
     checkpoint = runner.CheckpointRef(id="C1", path="/tmp/model.pt")
     pos_a = {"id": "P1", "board": [0, 0, 0, 0], "player": 1}
     pos_b = {"id": "P1", "board": [1, 0, 0, 0], "player": 1}
-    policies_a, _, _ = runner.build_search_trace(DummyHarness(), checkpoint, pos_a, system, [8], tmp_path)
-    policies_b, _, _ = runner.build_search_trace(DummyHarness(), checkpoint, pos_b, system, [8], tmp_path)
+    policies_a, _, _ = runner.build_search_trace(
+        DummyHarness(), checkpoint, pos_a, system, [8], tmp_path
+    )
+    policies_b, _, _ = runner.build_search_trace(
+        DummyHarness(), checkpoint, pos_b, system, [8], tmp_path
+    )
     assert np.allclose(policies_a[0], [0.8, 0.2])
     assert np.allclose(policies_b[0], [0.1, 0.9])
 
@@ -1579,8 +1714,12 @@ def test_build_search_trace_cache_key_distinguishes_positions_with_same_id(tmp_p
 def test_trace_cache_key_changes_with_code_salt():
     from quartz.phase15_trace import trace_cache_key
 
-    key_a = trace_cache_key("C1", "/tmp/model.pt", "P1", ("sig",), [8, 16], code_salt="salt-a")
-    key_b = trace_cache_key("C1", "/tmp/model.pt", "P1", ("sig",), [8, 16], code_salt="salt-b")
+    key_a = trace_cache_key(
+        "C1", "/tmp/model.pt", "P1", ("sig",), [8, 16], code_salt="salt-a"
+    )
+    key_b = trace_cache_key(
+        "C1", "/tmp/model.pt", "P1", ("sig",), [8, 16], code_salt="salt-b"
+    )
     assert key_a != key_b
 
 
@@ -1593,10 +1732,16 @@ def test_trace_cache_key_ignores_system_id_uses_search_signature_only():
 
     key_b1 = trace_cache_key("C1", "/tmp/model.pt", "P1", ("same-search-cfg",), [8, 16])
     key_b2 = trace_cache_key("C1", "/tmp/model.pt", "P1", ("same-search-cfg",), [8, 16])
-    assert key_b1 == key_b2, "identical search signatures must produce identical cache keys"
+    assert key_b1 == key_b2, (
+        "identical search signatures must produce identical cache keys"
+    )
 
-    key_different_cfg = trace_cache_key("C1", "/tmp/model.pt", "P1", ("different-search-cfg",), [8, 16])
-    assert key_b1 != key_different_cfg, "different search signatures must produce different cache keys"
+    key_different_cfg = trace_cache_key(
+        "C1", "/tmp/model.pt", "P1", ("different-search-cfg",), [8, 16]
+    )
+    assert key_b1 != key_different_cfg, (
+        "different search signatures must produce different cache keys"
+    )
 
 
 def test_search_relevant_signature_ignores_readout_but_not_search_overrides():
@@ -1609,24 +1754,45 @@ def test_search_relevant_signature_ignores_readout_but_not_search_overrides():
 
     shared_overrides = {"penalty_mode": "GatedRefresh", "root_only_shaping": True}
     system_b1 = Phase15System(
-        "B1", "dual_channel_commit", "B", "S1", "QuartzVL", "dual_channel_commit",
-        search_overrides=shared_overrides, params={"challenger_k": 4},
+        "B1",
+        "dual_channel_commit",
+        "B",
+        "S1",
+        "QuartzVL",
+        "dual_channel_commit",
+        search_overrides=shared_overrides,
+        params={"challenger_k": 4},
     )
     system_b2 = Phase15System(
-        "B2", "root_challenger", "B", "S1", "QuartzVL", "root_challenger",
-        search_overrides=shared_overrides, params={"snapshot_alpha": 0.5},
+        "B2",
+        "root_challenger",
+        "B",
+        "S1",
+        "QuartzVL",
+        "root_challenger",
+        search_overrides=shared_overrides,
+        params={"snapshot_alpha": 0.5},
     )
     assert search_relevant_signature(system_b1) == search_relevant_signature(system_b2)
 
     system_different_search = Phase15System(
-        "B3", "budget_routing", "B", "S1", "QuartzVL", "budget_routing",
+        "B3",
+        "budget_routing",
+        "B",
+        "S1",
+        "QuartzVL",
+        "budget_routing",
         search_overrides={"penalty_mode": "None", "root_only_shaping": True},
         params={},
     )
-    assert search_relevant_signature(system_b1) != search_relevant_signature(system_different_search)
+    assert search_relevant_signature(system_b1) != search_relevant_signature(
+        system_different_search
+    )
 
 
-def test_build_search_trace_shares_cache_across_systems_with_identical_search_overrides(tmp_path: Path):
+def test_build_search_trace_shares_cache_across_systems_with_identical_search_overrides(
+    tmp_path: Path,
+):
     """A0-b end-to-end regression: build_search_trace must actually
     reuse a cached trace (not just produce an equal hash in isolation)
     across two systems whose search_overrides are identical but whose
@@ -1647,18 +1813,34 @@ def test_build_search_trace_shares_cache_across_systems_with_identical_search_ov
 
     shared_overrides = {"penalty_mode": "GatedRefresh", "root_only_shaping": True}
     system_b1 = Phase15System(
-        "B1", "dual_channel_commit", "B", "S1", "QuartzVL", "dual_channel_commit",
-        search_overrides=shared_overrides, params={"challenger_k": 4},
+        "B1",
+        "dual_channel_commit",
+        "B",
+        "S1",
+        "QuartzVL",
+        "dual_channel_commit",
+        search_overrides=shared_overrides,
+        params={"challenger_k": 4},
     )
     system_b2 = Phase15System(
-        "B2", "root_challenger", "B", "S1", "QuartzVL", "root_challenger",
-        search_overrides=shared_overrides, params={"snapshot_alpha": 0.5},
+        "B2",
+        "root_challenger",
+        "B",
+        "S1",
+        "QuartzVL",
+        "root_challenger",
+        search_overrides=shared_overrides,
+        params={"snapshot_alpha": 0.5},
     )
     checkpoint = runner.CheckpointRef(id="C1", path="/tmp/model.pt")
     pos = {"id": "P1", "board": [0, 0, 0, 0], "player": 1}
 
-    policies_b1, _, reused_b1 = runner.build_search_trace(DummyHarness(), checkpoint, pos, system_b1, [8], tmp_path)
-    policies_b2, _, reused_b2 = runner.build_search_trace(DummyHarness(), checkpoint, pos, system_b2, [8], tmp_path)
+    policies_b1, _, reused_b1 = runner.build_search_trace(
+        DummyHarness(), checkpoint, pos, system_b1, [8], tmp_path
+    )
+    policies_b2, _, reused_b2 = runner.build_search_trace(
+        DummyHarness(), checkpoint, pos, system_b2, [8], tmp_path
+    )
 
     assert calls == ["B1"], (
         f"B1 and B2 share identical search_overrides and must share one cached "
@@ -1684,9 +1866,13 @@ def test_validate_cached_suite_payload_rejects_stale_reference_oracle_contract()
     runner = load_phase15_runner()
     payload = {
         "reference_checkpoint": {"id": "C01", "path": "/tmp/old.pt"},
-        "reference_system": asdict(Phase15System("A0", "baseline", "A", "S0", "none", "none")),
+        "reference_system": asdict(
+            Phase15System("A0", "baseline", "A", "S0", "none", "none")
+        ),
         "oracle_checkpoint": {"id": "C01", "path": "/tmp/old.pt"},
-        "oracle_system": asdict(Phase15System("ORACLE", "oracle", "A", "S0", "none", "none")),
+        "oracle_system": asdict(
+            Phase15System("ORACLE", "oracle", "A", "S0", "none", "none")
+        ),
     }
     try:
         runner.validate_cached_suite_payload(
@@ -1702,19 +1888,32 @@ def test_validate_cached_suite_payload_rejects_stale_reference_oracle_contract()
         raise AssertionError("expected stale cached suite metadata to be rejected")
 
 
-def test_validate_checkpoint_refs_rejects_truncated_lexical_directory_selection(tmp_path: Path):
+def test_validate_checkpoint_refs_rejects_truncated_lexical_directory_selection(
+    tmp_path: Path,
+):
     runner = load_phase15_runner()
     root = tmp_path / "models"
-    for family in ("F1_legacy_base", "F2_legacy_krefresh", "F3_theory_base", "F4_theory_krefresh"):
+    for family in (
+        "F1_legacy_base",
+        "F2_legacy_krefresh",
+        "F3_theory_base",
+        "F4_theory_krefresh",
+    ):
         for seed in ("seed_41", "seed_42", "seed_43"):
             path = root / family / seed
             path.mkdir(parents=True, exist_ok=True)
             (path / "best.pt").write_bytes(b"x")
 
     refs = [
-        runner.CheckpointRef(id="C01_best", path=str(root / "F1_legacy_base" / "seed_41" / "best.pt")),
-        runner.CheckpointRef(id="C02_best", path=str(root / "F1_legacy_base" / "seed_42" / "best.pt")),
-        runner.CheckpointRef(id="C03_best", path=str(root / "F1_legacy_base" / "seed_43" / "best.pt")),
+        runner.CheckpointRef(
+            id="C01_best", path=str(root / "F1_legacy_base" / "seed_41" / "best.pt")
+        ),
+        runner.CheckpointRef(
+            id="C02_best", path=str(root / "F1_legacy_base" / "seed_42" / "best.pt")
+        ),
+        runner.CheckpointRef(
+            id="C03_best", path=str(root / "F1_legacy_base" / "seed_43" / "best.pt")
+        ),
     ]
     args = SimpleNamespace(checkpoints=None, checkpoint_dir=str(root))
 
@@ -1726,30 +1925,44 @@ def test_validate_checkpoint_refs_rejects_truncated_lexical_directory_selection(
         raise AssertionError("expected lexical truncation to be rejected")
 
 
-def test_validate_checkpoint_refs_accepts_explicit_curated_checkpoint_files(tmp_path: Path):
+def test_validate_checkpoint_refs_accepts_explicit_curated_checkpoint_files(
+    tmp_path: Path,
+):
     runner = load_phase15_runner()
     root = tmp_path / "models"
     refs = []
-    for idx, family in enumerate(("F1_legacy_base", "F2_legacy_krefresh", "F3_theory_base"), start=1):
+    for idx, family in enumerate(
+        ("F1_legacy_base", "F2_legacy_krefresh", "F3_theory_base"), start=1
+    ):
         path = root / family / "seed_41"
         path.mkdir(parents=True, exist_ok=True)
         ckpt = path / "best.pt"
         ckpt.write_bytes(b"x")
         refs.append(runner.CheckpointRef(id=f"C{idx:02d}_best", path=str(ckpt)))
 
-    args = SimpleNamespace(checkpoints=",".join(ref.path for ref in refs), checkpoint_dir=None)
+    args = SimpleNamespace(
+        checkpoints=",".join(ref.path for ref in refs), checkpoint_dir=None
+    )
     runner.validate_checkpoint_refs(args, refs)
 
 
-def test_phase15_bootstrap_args_satisfy_controller_sweep_command_contract(monkeypatch, tmp_path: Path):
+def test_phase15_bootstrap_args_satisfy_controller_sweep_command_contract(
+    monkeypatch, tmp_path: Path
+):
     runner = load_phase15_runner()
-    monkeypatch.setattr(sys, "argv", ["phase15_ablation_study.py", "--bootstrap-if-empty"])
+    monkeypatch.setattr(
+        sys, "argv", ["phase15_ablation_study.py", "--bootstrap-if-empty"]
+    )
     args = runner.parse_args()
-    command = runner.sweep.build_bootstrap_command(args, seed=41, output_dir=tmp_path / "seed_41")
+    command = runner.sweep.build_bootstrap_command(
+        args, seed=41, output_dir=tmp_path / "seed_41"
+    )
     assert command[command.index("--backend") + 1] == "torch"
 
 
-def test_phase15_benchmark_args_fail_closed_without_checkpoints(monkeypatch, tmp_path: Path):
+def test_phase15_benchmark_args_fail_closed_without_checkpoints(
+    monkeypatch, tmp_path: Path
+):
     benchmark = load_phase15_benchmark_runner()
     monkeypatch.setattr(sys, "argv", ["phase15_benchmark.py"])
     args = benchmark.parse_args()
@@ -1757,15 +1970,21 @@ def test_phase15_benchmark_args_fail_closed_without_checkpoints(monkeypatch, tmp
         benchmark.posthoc.resolve_checkpoint_refs(args, tmp_path)
 
 
-def test_phase15_benchmark_bootstrap_args_satisfy_controller_sweep_command_contract(monkeypatch, tmp_path: Path):
+def test_phase15_benchmark_bootstrap_args_satisfy_controller_sweep_command_contract(
+    monkeypatch, tmp_path: Path
+):
     benchmark = load_phase15_benchmark_runner()
     monkeypatch.setattr(sys, "argv", ["phase15_benchmark.py", "--bootstrap-if-empty"])
     args = benchmark.parse_args()
-    command = benchmark.posthoc.sweep.build_bootstrap_command(args, seed=41, output_dir=tmp_path / "seed_41")
+    command = benchmark.posthoc.sweep.build_bootstrap_command(
+        args, seed=41, output_dir=tmp_path / "seed_41"
+    )
     assert command[command.index("--backend") + 1] == "torch"
 
 
-def test_phase15_online_args_fail_closed_without_checkpoints(monkeypatch, tmp_path: Path):
+def test_phase15_online_args_fail_closed_without_checkpoints(
+    monkeypatch, tmp_path: Path
+):
     online = load_phase15_online_runner()
     monkeypatch.setattr(sys, "argv", ["phase15_online_ablation.py"])
     args = online.parse_args()
@@ -1773,11 +1992,17 @@ def test_phase15_online_args_fail_closed_without_checkpoints(monkeypatch, tmp_pa
         online.posthoc.resolve_checkpoint_refs(args, tmp_path)
 
 
-def test_phase15_online_bootstrap_args_satisfy_controller_sweep_command_contract(monkeypatch, tmp_path: Path):
+def test_phase15_online_bootstrap_args_satisfy_controller_sweep_command_contract(
+    monkeypatch, tmp_path: Path
+):
     online = load_phase15_online_runner()
-    monkeypatch.setattr(sys, "argv", ["phase15_online_ablation.py", "--bootstrap-if-empty"])
+    monkeypatch.setattr(
+        sys, "argv", ["phase15_online_ablation.py", "--bootstrap-if-empty"]
+    )
     args = online.parse_args()
-    command = online.posthoc.sweep.build_bootstrap_command(args, seed=41, output_dir=tmp_path / "seed_41")
+    command = online.posthoc.sweep.build_bootstrap_command(
+        args, seed=41, output_dir=tmp_path / "seed_41"
+    )
     assert command[command.index("--backend") + 1] == "torch"
 
 
@@ -1935,12 +2160,19 @@ def test_benchmark_bundle_summary_reports_modes_and_fallbacks():
         ],
     )
     assert summary["runs"] == 2
-    assert summary["continuation_modes"] == {"restart_per_chunk": 1, "root_continuation": 1}
-    assert summary["fallback_reasons"] == {"RuntimeError: resident session unavailable": 1}
+    assert summary["continuation_modes"] == {
+        "restart_per_chunk": 1,
+        "root_continuation": 1,
+    }
+    assert summary["fallback_reasons"] == {
+        "RuntimeError: resident session unavailable": 1
+    }
     assert summary["continuation_overhead_ms"]["mean"] == 3.5
     assert summary["wallclock_speedup_pairwise"]["median"] == pytest.approx(1.01)
     assert summary["continuation_wallclock_outlier_count"] == 1
-    assert summary["by_checkpoint_system"][0]["speedup_headwind"] == "readout_sensitivity"
+    assert (
+        summary["by_checkpoint_system"][0]["speedup_headwind"] == "readout_sensitivity"
+    )
 
 
 def test_benchmark_prefixed_readout_meta_exports_guard_fields():
@@ -2031,7 +2263,11 @@ def test_phase15_analysis_reports_paired_posthoc_deltas():
     # bounds are pinned separately in test_paired_bootstrap_ci_*
     # (deterministic seed, but not hand-verifiable here without
     # duplicating the resampling logic).
-    for metric in ("delta_accuracy_to_oracle", "delta_topk_recall_oracle", "delta_kl_to_oracle"):
+    for metric in (
+        "delta_accuracy_to_oracle",
+        "delta_topk_recall_oracle",
+        "delta_kl_to_oracle",
+    ):
         ci = row[f"{metric}_ci"]
         assert isinstance(ci, list) and len(ci) == 2
         assert ci[0] <= ci[1]
@@ -2051,25 +2287,36 @@ def test_paired_bootstrap_ci_pinned_values():
     # with only 2 possible resample-mean values compatible with a
     # 2-element {0,1} population (0, 0.5, 1 at 25/50/25), the interval
     # collapses exactly onto the observed extremes.
-    lo, hi = analysis.paired_bootstrap_ci([0.0, 1.0], alpha=0.05, n_resamples=2000, seed=0)
+    lo, hi = analysis.paired_bootstrap_ci(
+        [0.0, 1.0], alpha=0.05, n_resamples=2000, seed=0
+    )
     assert (lo, hi) == (0.0, 1.0)
 
     # A well-separated, tightly-clustered positive signal: CI stays
     # entirely above zero.
     separated = [0.4, 0.5, 0.45, 0.42, 0.48, 0.5, 0.44]
-    lo, hi = analysis.paired_bootstrap_ci(separated, alpha=0.05, n_resamples=2000, seed=0)
+    lo, hi = analysis.paired_bootstrap_ci(
+        separated, alpha=0.05, n_resamples=2000, seed=0
+    )
     assert lo == pytest.approx(0.43, abs=1e-9)
     assert hi == pytest.approx(0.4814285714285714, abs=1e-9)
     assert lo > 0.0, "well-separated positive signal must exclude zero"
 
     # Degenerate: a single repeated value collapses tightly onto itself.
-    lo, hi = analysis.paired_bootstrap_ci([0.2] * 10, alpha=0.05, n_resamples=2000, seed=0)
+    lo, hi = analysis.paired_bootstrap_ci(
+        [0.2] * 10, alpha=0.05, n_resamples=2000, seed=0
+    )
     assert lo == pytest.approx(0.2, abs=1e-9)
     assert hi == pytest.approx(0.2, abs=1e-9)
 
     # Fewer than 2 observations: no CI can be formed.
-    assert analysis.paired_bootstrap_ci([0.5], alpha=0.05, n_resamples=2000, seed=0) == (0.0, 0.0)
-    assert analysis.paired_bootstrap_ci([], alpha=0.05, n_resamples=2000, seed=0) == (0.0, 0.0)
+    assert analysis.paired_bootstrap_ci(
+        [0.5], alpha=0.05, n_resamples=2000, seed=0
+    ) == (0.0, 0.0)
+    assert analysis.paired_bootstrap_ci([], alpha=0.05, n_resamples=2000, seed=0) == (
+        0.0,
+        0.0,
+    )
 
 
 def test_paired_bootstrap_ci_is_deterministic_across_repeated_calls():
@@ -2091,8 +2338,12 @@ def test_paired_bootstrap_ci_bonferroni_correction_widens_interval():
     underlying data."""
     analysis = load_phase15_analysis_runner()
     deltas = [0.4, 0.5, 0.45, 0.42, 0.48, 0.5, 0.44]
-    base_lo, base_hi = analysis.paired_bootstrap_ci(deltas, alpha=0.05, n_resamples=2000, seed=0)
-    corrected_lo, corrected_hi = analysis.paired_bootstrap_ci(deltas, alpha=0.05 / 36, n_resamples=2000, seed=0)
+    base_lo, base_hi = analysis.paired_bootstrap_ci(
+        deltas, alpha=0.05, n_resamples=2000, seed=0
+    )
+    corrected_lo, corrected_hi = analysis.paired_bootstrap_ci(
+        deltas, alpha=0.05 / 36, n_resamples=2000, seed=0
+    )
     assert corrected_lo <= base_lo
     assert corrected_hi >= base_hi
     assert (corrected_hi - corrected_lo) > (base_hi - base_lo)
@@ -2142,7 +2393,12 @@ def test_phase15_analysis_reports_guard_reasons_by_system_and_budget():
     rows = [
         {"system": "B9", "budget": 8, "guard_vetoed": 1, "guard_reason": "thin_margin"},
         {"system": "B9", "budget": 8, "guard_vetoed": 0, "guard_reason": "passed"},
-        {"system": "B9", "budget": 16, "guard_vetoed": 1, "guard_reason": "unstable_suffix;thin_margin"},
+        {
+            "system": "B9",
+            "budget": 16,
+            "guard_vetoed": 1,
+            "guard_reason": "unstable_suffix;thin_margin",
+        },
     ]
 
     guard = analysis.guard_summary(rows, system="B9")
@@ -2164,7 +2420,12 @@ def test_phase15_analysis_reports_guard_reasons_by_system_and_budget():
 def test_phase15_analysis_reports_stabilizer_reasons_by_system_and_budget():
     analysis = load_phase15_analysis_runner()
     rows = [
-        {"system": "B10", "budget": 8, "stabilizer_applied": 1, "stabilization_reason": "passed"},
+        {
+            "system": "B10",
+            "budget": 8,
+            "stabilizer_applied": 1,
+            "stabilization_reason": "passed",
+        },
         {
             "system": "B10",
             "budget": 8,
@@ -2288,7 +2549,10 @@ def test_phase15_analysis_builds_claim_firewalled_interpretation_flags():
         baselines=("A4",),
     )
 
-    assert report["claim_status"] == "ANALYSIS-ONLY; candidate quality remains ABLATION-PENDING"
+    assert (
+        report["claim_status"]
+        == "ANALYSIS-ONLY; candidate quality remains ABLATION-PENDING"
+    )
     assert "B9_no_accuracy_gain_vs_A4_with_higher_kl" in report["interpretation_flags"]
     assert report["posthoc_guard_summary"][0]["system"] == "B9"
 
@@ -2338,7 +2602,10 @@ def test_phase15_analysis_builds_snapshot_stabilizer_sections():
     assert report["posthoc_stabilizer_summary"][0]["system"] == "B10"
     assert report["benchmark_stabilizer_summary"][0]["system"] == "B10"
     assert report["benchmark_stabilizer_summary"][0]["prefix"] == "continuation"
-    assert "B10_rehearsal_lower_kl_without_accuracy_or_topk_loss_vs_A4" in report["interpretation_flags"]
+    assert (
+        "B10_rehearsal_lower_kl_without_accuracy_or_topk_loss_vs_A4"
+        in report["interpretation_flags"]
+    )
 
 
 def test_phase15_analysis_auto_targets_tracks_telemetry_candidates():
@@ -2398,10 +2665,21 @@ def test_phase15_analysis_auto_targets_tracks_telemetry_candidates():
     )
 
     assert report["targets"] == ["B3", "B10", "B12"]
-    assert [row["target"] for row in report["paired_posthoc_deltas"]] == ["B3", "B10", "B12"]
-    assert report["analysis_coverage"]["telemetry_candidate_systems"] == ["B3", "B10", "B12"]
+    assert [row["target"] for row in report["paired_posthoc_deltas"]] == [
+        "B3",
+        "B10",
+        "B12",
+    ]
+    assert report["analysis_coverage"]["telemetry_candidate_systems"] == [
+        "B3",
+        "B10",
+        "B12",
+    ]
     assert report["analysis_coverage"]["untargeted_telemetry_systems"] == []
-    assert "analysis_targets_omit_available_telemetry_candidates" not in report["interpretation_flags"]
+    assert (
+        "analysis_targets_omit_available_telemetry_candidates"
+        not in report["interpretation_flags"]
+    )
 
 
 def test_phase15_analysis_flags_explicit_targets_that_omit_telemetry_candidates():
@@ -2449,16 +2727,31 @@ def test_phase15_analysis_flags_explicit_targets_that_omit_telemetry_candidates(
     assert report["analysis_coverage"]["telemetry_candidate_systems"] == ["B10", "B12"]
     assert report["analysis_coverage"]["untargeted_telemetry_systems"] == ["B12"]
     assert report["analysis_coverage"]["missing_target_systems"] == []
-    assert "analysis_targets_omit_available_telemetry_candidates" in report["interpretation_flags"]
+    assert (
+        "analysis_targets_omit_available_telemetry_candidates"
+        in report["interpretation_flags"]
+    )
 
 
 def test_phase15_analysis_orders_system_ids_naturally_in_coverage_and_auto_targets():
     analysis = load_phase15_analysis_runner()
     report = analysis.build_analysis_report(
         posthoc_rows=[
-            {"checkpoint_id": "C01", "position_id": "P1", "budget": 8, "system": "B10", "stabilizer_applied": 1},
+            {
+                "checkpoint_id": "C01",
+                "position_id": "P1",
+                "budget": 8,
+                "system": "B10",
+                "stabilizer_applied": 1,
+            },
             {"checkpoint_id": "C01", "position_id": "P1", "budget": 8, "system": "A4"},
-            {"checkpoint_id": "C01", "position_id": "P1", "budget": 8, "system": "B9", "guard_vetoed": 1},
+            {
+                "checkpoint_id": "C01",
+                "position_id": "P1",
+                "budget": 8,
+                "system": "B9",
+                "guard_vetoed": 1,
+            },
         ],
         benchmark_rows=[],
         targets=("auto",),
@@ -2558,7 +2851,9 @@ def test_phase15_benchmark_ci_smoke_builds_self_contained_command():
         search_stall_time_s=180.0,
         search_stall_timeout_s=180.0,
     )
-    command = smoke.build_benchmark_command(args, Path("/tmp/model.pt"), Path("/tmp/positions.json"))
+    command = smoke.build_benchmark_command(
+        args, Path("/tmp/model.pt"), Path("/tmp/positions.json")
+    )
     assert command[0] == sys.executable
     assert "--checkpoints" in command
     assert "/tmp/model.pt" in command
@@ -2585,8 +2880,13 @@ def test_phase15_benchmark_ci_smoke_can_expand_small_candidate_preset_without_ga
         search_stall_timeout_s=180.0,
         enforce_gate=False,
     )
-    command = smoke.build_benchmark_command(args, Path("/tmp/model.pt"), Path("/tmp/positions.json"))
-    assert command[command.index("--systems") + 1] == "A4,B1,B2,B3,B4,B5,B6,B7,B8,B9,B10,B11,B12"
+    command = smoke.build_benchmark_command(
+        args, Path("/tmp/model.pt"), Path("/tmp/positions.json")
+    )
+    assert (
+        command[command.index("--systems") + 1]
+        == "A4,B1,B2,B3,B4,B5,B6,B7,B8,B9,B10,B11,B12"
+    )
     assert "--enforce-gate" not in command
 
 
@@ -2644,12 +2944,25 @@ def test_phase15_toy_ablation_builds_posthoc_and_benchmark_candidate_commands():
         enforce_benchmark_gate=False,
         search_stall_timeout_s=180.0,
     )
-    posthoc_command = toy.build_posthoc_command(args, Path("/tmp/model.pt"), Path("/tmp/positions.json"))
-    benchmark_command = toy.build_benchmark_command(args, Path("/tmp/model.pt"), Path("/tmp/positions.json"))
-    assert posthoc_command[posthoc_command.index("--systems") + 1] == "A4,B1,B2,B3,B4,B5,B6,B7,B8,B9,B10,B11,B12"
+    posthoc_command = toy.build_posthoc_command(
+        args, Path("/tmp/model.pt"), Path("/tmp/positions.json")
+    )
+    benchmark_command = toy.build_benchmark_command(
+        args, Path("/tmp/model.pt"), Path("/tmp/positions.json")
+    )
+    assert (
+        posthoc_command[posthoc_command.index("--systems") + 1]
+        == "A4,B1,B2,B3,B4,B5,B6,B7,B8,B9,B10,B11,B12"
+    )
     assert posthoc_command[posthoc_command.index("--groups") + 1] == "A,B"
-    assert posthoc_command[posthoc_command.index("--reference-checkpoint") + 1] == "/tmp/model.pt"
-    assert benchmark_command[benchmark_command.index("--systems") + 1] == "A4,B1,B2,B3,B4,B5,B6,B7,B8,B9,B10,B11,B12"
+    assert (
+        posthoc_command[posthoc_command.index("--reference-checkpoint") + 1]
+        == "/tmp/model.pt"
+    )
+    assert (
+        benchmark_command[benchmark_command.index("--systems") + 1]
+        == "A4,B1,B2,B3,B4,B5,B6,B7,B8,B9,B10,B11,B12"
+    )
     assert "--enforce-gate" not in benchmark_command
 
 

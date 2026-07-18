@@ -11,6 +11,7 @@ from dataclasses import dataclass
 import numpy as np
 from quartz import runtime_support
 
+
 def arena_compare(model_a_path, model_b_path, cfg, device, n_games=50):
     """Play N games with SPRT early termination."""
     alphazero_net_cls = runtime_support.AlphaZeroNet
@@ -24,8 +25,12 @@ def arena_compare(model_a_path, model_b_path, cfg, device, n_games=50):
 
     model_a = alphazero_net_cls(cfg).to(device)
     model_b = alphazero_net_cls(cfg).to(device)
-    model_a.load_state_dict(load_torch_state_dict(model_a_path, torch_module, map_location=device))
-    model_b.load_state_dict(load_torch_state_dict(model_b_path, torch_module, map_location=device))
+    model_a.load_state_dict(
+        load_torch_state_dict(model_a_path, torch_module, map_location=device)
+    )
+    model_b.load_state_dict(
+        load_torch_state_dict(model_b_path, torch_module, map_location=device)
+    )
     model_a.eval()
     model_b.eval()
 
@@ -55,14 +60,23 @@ def arena_compare(model_a_path, model_b_path, cfg, device, n_games=50):
             winner = 0
 
             for _move_n in range(n2):
-                legal_mask = np.array([1.0 if board[i] == 0 else 0.0 for i in range(min(n2, cfg["actions"]))])
+                legal_mask = np.array(
+                    [
+                        1.0 if board[i] == 0 else 0.0
+                        for i in range(min(n2, cfg["actions"]))
+                    ]
+                )
                 if cfg["actions"] > n2:
-                    legal_mask = np.concatenate([legal_mask, np.zeros(cfg["actions"] - n2)])
+                    legal_mask = np.concatenate(
+                        [legal_mask, np.zeros(cfg["actions"] - n2)]
+                    )
                 legal = [i for i in range(n2) if board[i] == 0]
                 if not legal:
                     break
 
-                encoded = np.zeros((cfg["ch"], cfg["board"], cfg["board"]), dtype=np.float32)
+                encoded = np.zeros(
+                    (cfg["ch"], cfg["board"], cfg["board"]), dtype=np.float32
+                )
                 for i in range(n2):
                     r, c = divmod(i, cfg["board"])
                     if board[i] == player:
@@ -83,7 +97,11 @@ def arena_compare(model_a_path, model_b_path, cfg, device, n_games=50):
                         cnt = 1
                         for sign in [1, -1]:
                             nr, nc = r0 + sign * dr, c0 + sign * dc
-                            while 0 <= nr < cfg["board"] and 0 <= nc < cfg["board"] and board[nr * cfg["board"] + nc] == player:
+                            while (
+                                0 <= nr < cfg["board"]
+                                and 0 <= nc < cfg["board"]
+                                and board[nr * cfg["board"] + nc] == player
+                            ):
                                 cnt += 1
                                 nr += sign * dr
                                 nc += sign * dc
@@ -113,7 +131,9 @@ def arena_compare(model_a_path, model_b_path, cfg, device, n_games=50):
             if decisive > 0 and not sprt_decided:
                 w = wins_a
                 n_dec = decisive
-                llr = w * math.log(p1 / p0) + (n_dec - w) * math.log((1 - p1) / (1 - p0))
+                llr = w * math.log(p1 / p0) + (n_dec - w) * math.log(
+                    (1 - p1) / (1 - p0)
+                )
                 if llr >= upper_bound:
                     sprt_decided = True
                     sprt_result = "H1_accept"
@@ -130,8 +150,16 @@ def arena_compare(model_a_path, model_b_path, cfg, device, n_games=50):
     z = 1.96
     n = max(total, 1)
     p_hat = wr
-    ci_lo = (p_hat + z * z / (2 * n) - z * math.sqrt((p_hat * (1 - p_hat) + z * z / (4 * n)) / n)) / (1 + z * z / n)
-    ci_hi = (p_hat + z * z / (2 * n) + z * math.sqrt((p_hat * (1 - p_hat) + z * z / (4 * n)) / n)) / (1 + z * z / n)
+    ci_lo = (
+        p_hat
+        + z * z / (2 * n)
+        - z * math.sqrt((p_hat * (1 - p_hat) + z * z / (4 * n)) / n)
+    ) / (1 + z * z / n)
+    ci_hi = (
+        p_hat
+        + z * z / (2 * n)
+        + z * math.sqrt((p_hat * (1 - p_hat) + z * z / (4 * n)) / n)
+    ) / (1 + z * z / n)
     sprt_str = sprt_result or "inconclusive"
     return wins_a, wins_b, draws, wr, (ci_lo, ci_hi), sprt_str
 
@@ -216,7 +244,9 @@ class TreeMCTS:
         self.c_puct = cfg.get("c_puct", 2.0)
         self._win_len = cfg.get("win", 0)
         self._encoder = cfg.get("_encoder")
-        self._has_heuristic = hasattr(self._encoder, "heuristic_prior") if self._encoder else False
+        self._has_heuristic = (
+            hasattr(self._encoder, "heuristic_prior") if self._encoder else False
+        )
 
     def _gomoku_heuristic_prior(self, board, player):
         if self._encoder is not None:
@@ -227,7 +257,11 @@ class TreeMCTS:
             if board[i] == 0:
                 legal[i] = 1.0
         s = legal.sum()
-        return legal / s if s > 0 else np.ones(self.n_actions, dtype=np.float32) / self.n_actions
+        return (
+            legal / s
+            if s > 0
+            else np.ones(self.n_actions, dtype=np.float32) / self.n_actions
+        )
 
     def _fast_leaf_value(self, board, last_move, player_who_moved):
         if self._encoder is not None:
@@ -242,7 +276,11 @@ class TreeMCTS:
             torch_module = runtime_support.torch
             encode = self._encode(board, player)
             with torch_module.no_grad():
-                x = torch_module.tensor(encode, dtype=torch_module.float32).unsqueeze(0).to(self.device)
+                x = (
+                    torch_module.tensor(encode, dtype=torch_module.float32)
+                    .unsqueeze(0)
+                    .to(self.device)
+                )
                 logits, val = self.model(x)
                 probs = torch_module.softmax(logits, dim=-1).squeeze(0).cpu().numpy()
                 return probs, val.item()
@@ -259,7 +297,9 @@ class TreeMCTS:
     def search(self, board_enc, player, legal_mask, n_iters):
         board = runtime_support.decode_board(self.cfg, board_enc, player)
         bs = self.board_size
-        legal_indices = [i for i in range(min(self.n_actions, bs * bs)) if board[i] == 0]
+        legal_indices = [
+            i for i in range(min(self.n_actions, bs * bs)) if board[i] == 0
+        ]
         if not legal_indices:
             return np.zeros(self.n_actions, dtype=np.float32)
 
@@ -273,7 +313,9 @@ class TreeMCTS:
 
         root = MCTSNode()
         root.expand(legal_indices, priors)
-        state = _SearchState(root=root, board=board, player=player, root_val=root_val, cfg=self)
+        state = _SearchState(
+            root=root, board=board, player=player, root_val=root_val, cfg=self
+        )
 
         for _ in range(n_iters):
             leaf = state.select_to_leaf()
@@ -283,7 +325,9 @@ class TreeMCTS:
                 priors, val = self._evaluate_leaf(leaf.board, leaf.player)
                 state.expand_and_backup(leaf, priors, val)
             else:
-                child_uniform = np.ones(self.n_actions, dtype=np.float32) / max(self.n_actions, 1)
+                child_uniform = np.ones(self.n_actions, dtype=np.float32) / max(
+                    self.n_actions, 1
+                )
                 val = self._fast_leaf_value(leaf.board, leaf.last_move, -leaf.player)
                 state.expand_and_backup(leaf, child_uniform, val)
 
@@ -340,7 +384,11 @@ class _SearchState:
             unvisited = n == 0
             if unvisited.any():
                 fpu_scores = parent_value - self._fpu_off + p * self._fpu_pw
-                scores = np.where(unvisited, fpu_scores + np.random.random(node.n_children) * 0.001, -1e9)
+                scores = np.where(
+                    unvisited,
+                    fpu_scores + np.random.random(node.n_children) * 0.001,
+                    -1e9,
+                )
                 ci = int(np.argmax(scores))
             else:
                 q = node.child_w / np.maximum(n.astype(np.float32), 1)
@@ -361,7 +409,11 @@ class _SearchState:
                     cnt = 1
                     for sign in (1, -1):
                         nr, nc = r0 + sign * dr, c0 + sign * dc
-                        while 0 <= nr < bs and 0 <= nc < bs and cur_board[nr * bs + nc] == cur_player:
+                        while (
+                            0 <= nr < bs
+                            and 0 <= nc < bs
+                            and cur_board[nr * bs + nc] == cur_player
+                        ):
                             cnt += 1
                             nr += sign * dr
                             nc += sign * dc
@@ -386,7 +438,14 @@ class _SearchState:
             else:
                 break
 
-        return _LeafInfo(node=node, ci=ci, path=path, board=cur_board, player=cur_player, last_move=last_move)
+        return _LeafInfo(
+            node=node,
+            ci=ci,
+            path=path,
+            board=cur_board,
+            player=cur_player,
+            last_move=last_move,
+        )
 
     def expand_and_backup(self, leaf, priors, leaf_val):
         bs = self._bs
@@ -536,7 +595,9 @@ class Glicko2System:
         p = path or self.path
         if p:
             with open(p, "w") as f:
-                json.dump({k: v.to_dict() for k, v in self.ratings.items()}, f, indent=2)
+                json.dump(
+                    {k: v.to_dict() for k, v in self.ratings.items()}, f, indent=2
+                )
 
     def load(self, path=None):
         p = path or self.path
@@ -598,7 +659,11 @@ def arena_3agent(
                     cnt = 1
                     for sign in [1, -1]:
                         nr, nc = r0 + sign * dr, c0 + sign * dc
-                        while 0 <= nr < board_size and 0 <= nc < board_size and board[nr * board_size + nc] == player:
+                        while (
+                            0 <= nr < board_size
+                            and 0 <= nc < board_size
+                            and board[nr * board_size + nc] == player
+                        ):
                             cnt += 1
                             nr += sign * dr
                             nc += sign * dc
@@ -612,12 +677,16 @@ def arena_3agent(
         return (0.5, 0.5)
 
     model_curr = alphazero_net_cls(cfg).to(device)
-    model_curr.load_state_dict(load_torch_state_dict(model_current_path, torch_module, map_location=device))
+    model_curr.load_state_dict(
+        load_torch_state_dict(model_current_path, torch_module, map_location=device)
+    )
     model_curr.eval()
 
     if model_best_path and os.path.exists(model_best_path):
         model_best = alphazero_net_cls(cfg).to(device)
-        model_best.load_state_dict(load_torch_state_dict(model_best_path, torch_module, map_location=device))
+        model_best.load_state_dict(
+            load_torch_state_dict(model_best_path, torch_module, map_location=device)
+        )
         model_best.eval()
     else:
         model_best = model_curr
@@ -627,8 +696,16 @@ def arena_3agent(
     iters = cfg["iters"] // 4
 
     def nn_move(mcts, board, player):
-        enc = encode_board(cfg, np.array(board, dtype=np.int8) if not isinstance(board, np.ndarray) else board, player)
-        legal_mask = np.array([1.0 if board[i] == 0 else 0.0 for i in range(min(n2, cfg["actions"]))])
+        enc = encode_board(
+            cfg,
+            np.array(board, dtype=np.int8)
+            if not isinstance(board, np.ndarray)
+            else board,
+            player,
+        )
+        legal_mask = np.array(
+            [1.0 if board[i] == 0 else 0.0 for i in range(min(n2, cfg["actions"]))]
+        )
         if cfg["actions"] > n2:
             legal_mask = np.concatenate([legal_mask, np.zeros(cfg["actions"] - n2)])
         pol = mcts.search(enc, player, legal_mask, iters)

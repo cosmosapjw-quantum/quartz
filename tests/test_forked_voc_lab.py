@@ -19,7 +19,10 @@ from quartz.experiments.forked_voc import (
 
 
 def _bundle(budgets, policies):
-    return {"trace_budgets": budgets, "trace_policies": [np.asarray(p, float) for p in policies]}
+    return {
+        "trace_budgets": budgets,
+        "trace_policies": [np.asarray(p, float) for p in policies],
+    }
 
 
 # frozen traces of distinct decision character
@@ -43,13 +46,17 @@ def test_top2_margin_and_tv():
 
 
 def test_step_labels_detect_argmax_flip():
-    steps = computation_step_labels(*[LATE_FLIP["trace_budgets"], LATE_FLIP["trace_policies"]])
+    steps = computation_step_labels(
+        *[LATE_FLIP["trace_budgets"], LATE_FLIP["trace_policies"]]
+    )
     assert len(steps) == 3
     # the flip happens on the 8->16 step (argmax 0 -> 1)
     assert steps[0]["argmax_flipped"] is True
     assert all(s["decision_movement"] >= 0.0 for s in steps)
     # stable trace: no flips, zero movement
-    stable_steps = computation_step_labels(STABLE["trace_budgets"], STABLE["trace_policies"])
+    stable_steps = computation_step_labels(
+        STABLE["trace_budgets"], STABLE["trace_policies"]
+    )
     assert all(not s["argmax_flipped"] for s in stable_steps)
     assert sum(s["decision_movement"] for s in stable_steps) == pytest.approx(0.0)
 

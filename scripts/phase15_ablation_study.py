@@ -179,7 +179,13 @@ class CheckpointRef:
 
 
 class FrozenCheckpointHarness:
-    def __init__(self, checkpoint: CheckpointRef, base_cfg: dict[str, Any], device, rust_binary: str):
+    def __init__(
+        self,
+        checkpoint: CheckpointRef,
+        base_cfg: dict[str, Any],
+        device,
+        rust_binary: str,
+    ):
         self.checkpoint = checkpoint
         self.base_cfg = copy.deepcopy(base_cfg)
         self.base_cfg["_name"] = base_cfg["_name"]
@@ -200,7 +206,11 @@ class FrozenCheckpointHarness:
             if _dim in _ck_cfg:
                 self.base_cfg[_dim] = _ck_cfg[_dim]
         self.model = AlphaZeroNet(self.base_cfg).to(device)
-        self.model.load_state_dict(load_torch_state_dict(checkpoint.path, __import__("torch"), map_location=device))
+        self.model.load_state_dict(
+            load_torch_state_dict(
+                checkpoint.path, __import__("torch"), map_location=device
+            )
+        )
         self.model.eval()
         self._clients: dict[str, Any] = {}
         self._search_cache: dict[tuple[str, str, int], dict[str, Any]] = {}
@@ -258,7 +268,9 @@ class FrozenCheckpointHarness:
         self._prior_cache[key] = probs.copy()
         return probs
 
-    def prime_prior_cache(self, positions: list[dict[str, Any]], batch_size: int = 64) -> None:
+    def prime_prior_cache(
+        self, positions: list[dict[str, Any]], batch_size: int = 64
+    ) -> None:
         pending: list[tuple[str, np.ndarray]] = []
         for position in positions:
             key = self._position_key(position)
@@ -270,7 +282,9 @@ class FrozenCheckpointHarness:
         torch = __import__("torch")
         for start in range(0, len(pending), max(1, int(batch_size))):
             chunk = pending[start : start + max(1, int(batch_size))]
-            feat_batch = np.stack([features for _key, features in chunk], axis=0).astype(np.float32, copy=False)
+            feat_batch = np.stack(
+                [features for _key, features in chunk], axis=0
+            ).astype(np.float32, copy=False)
             x = torch.from_numpy(feat_batch).to(self.device)
             with torch.inference_mode():
                 logits, _values = self.model(x)
@@ -324,7 +338,9 @@ class FrozenCheckpointHarness:
         self._clients[key] = client
         return client
 
-    def search_policy(self, position: dict[str, Any], system: Phase15System, budget: int) -> dict[str, Any]:
+    def search_policy(
+        self, position: dict[str, Any], system: Phase15System, budget: int
+    ) -> dict[str, Any]:
         from quartz.replay import dense_policy_from_sparse
 
         pos_key = self._position_key(position)
@@ -334,7 +350,11 @@ class FrozenCheckpointHarness:
             return dict(cached)
 
         client = self._get_client(system, budget)
-        board = np.asarray(position.get("board", []), dtype=np.int8) if "board" in position else None
+        board = (
+            np.asarray(position.get("board", []), dtype=np.int8)
+            if "board" in position
+            else None
+        )
         player = int(position.get("player", 1))
         fen = position.get("fen")
         state_meta = dict(position.get("state_meta") or {})
@@ -347,7 +367,9 @@ class FrozenCheckpointHarness:
             state_meta=state_meta,
         )
         elapsed_ms = (time.perf_counter() - t0) * 1000.0
-        policy = dense_policy_from_sparse(payload.get("policy", []), int(self.base_cfg["actions"]))
+        policy = dense_policy_from_sparse(
+            payload.get("policy", []), int(self.base_cfg["actions"])
+        )
         row = {
             "search_policy": normalize_policy(policy).tolist(),
             "best_move": int(payload.get("best_move", -1)),
@@ -375,12 +397,14 @@ def _read_checkpoint_cfg(path: str) -> dict[str, Any]:
     return {}
 
 
-def resolve_checkpoint_refs(args: argparse.Namespace, base_dir: Path) -> list[CheckpointRef]:
+def resolve_checkpoint_refs(
+    args: argparse.Namespace, base_dir: Path
+) -> list[CheckpointRef]:
     ensure_checkpoint_resolution_args(args)
     rows = sweep.resolve_checkpoint_paths(args, base_dir)
     refs = []
     for idx, row in enumerate(rows):
-        refs.append(CheckpointRef(id=f"C{idx+1:02d}_{Path(row).stem}", path=row))
+        refs.append(CheckpointRef(id=f"C{idx + 1:02d}_{Path(row).stem}", path=row))
     return refs
 
 
@@ -412,7 +436,9 @@ def checkpoint_family_label(path_str: str) -> str:
     return path.parent.name
 
 
-def validate_checkpoint_refs(args: argparse.Namespace, checkpoints: list[CheckpointRef]) -> None:
+def validate_checkpoint_refs(
+    args: argparse.Namespace, checkpoints: list[CheckpointRef]
+) -> None:
     if not checkpoints:
         raise ValueError("no checkpoints resolved")
     if args.checkpoints:
@@ -420,7 +446,9 @@ def validate_checkpoint_refs(args: argparse.Namespace, checkpoints: list[Checkpo
     if not args.checkpoint_dir:
         return
 
-    all_discovered = sweep.discover_checkpoint_paths(Path(args.checkpoint_dir), limit=None)
+    all_discovered = sweep.discover_checkpoint_paths(
+        Path(args.checkpoint_dir), limit=None
+    )
     if len(all_discovered) > len(checkpoints):
         raise ValueError(
             "phase15 assays require curated checkpoint selection; "
@@ -438,7 +466,9 @@ def validate_checkpoint_refs(args: argparse.Namespace, checkpoints: list[Checkpo
         )
 
 
-def choose_reference_checkpoint(checkpoints: list[CheckpointRef], explicit: str | None) -> CheckpointRef:
+def choose_reference_checkpoint(
+    checkpoints: list[CheckpointRef], explicit: str | None
+) -> CheckpointRef:
     if explicit:
         for ref in checkpoints:
             if ref.id == explicit or ref.path == explicit:
@@ -447,7 +477,9 @@ def choose_reference_checkpoint(checkpoints: list[CheckpointRef], explicit: str 
     return checkpoints[-1]
 
 
-def choose_checkpoint(checkpoints: list[CheckpointRef], explicit: str | None, default: CheckpointRef) -> CheckpointRef:
+def choose_checkpoint(
+    checkpoints: list[CheckpointRef], explicit: str | None, default: CheckpointRef
+) -> CheckpointRef:
     if not explicit:
         return default
     for ref in checkpoints:
@@ -486,22 +518,30 @@ def build_oracle_system(
     )
 
 
-def load_or_generate_positions(args: argparse.Namespace, base_cfg: dict[str, Any], *, count: int | None = None) -> list[dict[str, Any]]:
+def load_or_generate_positions(
+    args: argparse.Namespace, base_cfg: dict[str, Any], *, count: int | None = None
+) -> list[dict[str, Any]]:
     if args.positions_file:
         payload = json.loads(Path(args.positions_file).read_text(encoding="utf-8"))
-        positions = payload.get("positions", payload) if isinstance(payload, dict) else payload
+        positions = (
+            payload.get("positions", payload) if isinstance(payload, dict) else payload
+        )
         if not isinstance(positions, list) or not positions:
-            raise ValueError(f"positions file is empty or invalid: {args.positions_file}")
+            raise ValueError(
+                f"positions file is empty or invalid: {args.positions_file}"
+            )
         artifact_path = None
         if isinstance(payload, dict):
             raw_artifact_path = payload.get("suite_artifacts_file")
             if isinstance(raw_artifact_path, str) and raw_artifact_path:
-                artifact_path = (Path(args.positions_file).parent / raw_artifact_path).resolve()
+                artifact_path = (
+                    Path(args.positions_file).parent / raw_artifact_path
+                ).resolve()
         artifacts = read_suite_policy_artifacts(artifact_path)
         out = []
         for idx, row in enumerate(merge_suite_policy_artifacts(positions, artifacts)):
             item = dict(row)
-            item.setdefault("id", f"P{idx+1:04d}")
+            item.setdefault("id", f"P{idx + 1:04d}")
             out.append(item)
         return out
     rows = sweep.generate_random_positions(
@@ -513,7 +553,7 @@ def load_or_generate_positions(args: argparse.Namespace, base_cfg: dict[str, Any
         max_moves=args.position_max_moves,
     )
     for idx, row in enumerate(rows):
-        row["id"] = f"P{idx+1:04d}"
+        row["id"] = f"P{idx + 1:04d}"
     return rows
 
 
@@ -532,24 +572,34 @@ def prepare_bucketized_suite(
         positions,
         prior_policy_fn=reference.prior_policy,
         low_policy_fn=lambda row: np.asarray(
-            reference.search_policy(row, reference_system, low_budget)["search_policy"], dtype=np.float32
+            reference.search_policy(row, reference_system, low_budget)["search_policy"],
+            dtype=np.float32,
         ),
         reference_policy_fn=lambda row: np.asarray(
-            reference.search_policy(row, reference_system, oracle_budget)["search_policy"], dtype=np.float32
+            reference.search_policy(row, reference_system, oracle_budget)[
+                "search_policy"
+            ],
+            dtype=np.float32,
         ),
         oracle_policy_fn=lambda row: np.asarray(
-            oracle.search_policy(row, oracle_system, oracle_budget)["search_policy"], dtype=np.float32
+            oracle.search_policy(row, oracle_system, oracle_budget)["search_policy"],
+            dtype=np.float32,
         ),
         thresholds=bucket_thresholds,
     )
 
 
-def make_trace_budgets(target_budget: int, base_budgets: list[int], allow_extra: bool) -> list[int]:
+def make_trace_budgets(
+    target_budget: int, base_budgets: list[int], allow_extra: bool
+) -> list[int]:
     rows = sorted({int(b) for b in base_budgets if int(b) <= int(target_budget)})
     if target_budget not in rows:
         rows.append(int(target_budget))
     if allow_extra:
-        higher = next((int(b) for b in sorted(set(base_budgets)) if int(b) > int(target_budget)), None)
+        higher = next(
+            (int(b) for b in sorted(set(base_budgets)) if int(b) > int(target_budget)),
+            None,
+        )
         if higher is not None:
             rows.append(higher)
     return rows
@@ -592,7 +642,11 @@ def build_search_trace(
         cache_dir,
         cache_key,
         build_trace_artifact(
-            trace_budgets, policies, latencies, source="fresh", trace_p_flips=p_flips,
+            trace_budgets,
+            policies,
+            latencies,
+            source="fresh",
+            trace_p_flips=p_flips,
             # Use the SHORT position id (matches the analysis rows' position_id)
             # so the O6 join keys line up; the full _position_key still keys the
             # cache itself.
@@ -642,10 +696,15 @@ def slice_trace_bundle(
     base_budgets: list[int],
     allow_extra: bool,
 ) -> tuple[list[int], list[np.ndarray], list[float]]:
-    trace_budgets = make_trace_budgets(target_budget, base_budgets, allow_extra=allow_extra)
+    trace_budgets = make_trace_budgets(
+        target_budget, base_budgets, allow_extra=allow_extra
+    )
     return (
         trace_budgets,
-        [np.asarray(trace_bundle_policies[int(budget)], dtype=np.float32) for budget in trace_budgets],
+        [
+            np.asarray(trace_bundle_policies[int(budget)], dtype=np.float32)
+            for budget in trace_budgets
+        ],
         [float(trace_bundle_latencies_ms[int(budget)]) for budget in trace_budgets],
     )
 
@@ -671,13 +730,17 @@ def build_row(
     bucket_tags = set(position.get("bucket_tags", []))
     trace_acquire_ms = float(trace_meta.get("trace_acquire_ms", 0.0))
     readout_ms = float(trace_meta.get("readout_ms", 0.0))
-    effective_runtime_ms = float(trace_meta.get("effective_runtime_ms", trace_acquire_ms + readout_ms))
+    effective_runtime_ms = float(
+        trace_meta.get("effective_runtime_ms", trace_acquire_ms + readout_ms)
+    )
     row = {
         "group": system.group,
         "system": system.id,
         "system_label": system.label,
         "execution_mode": system.execution_mode,
-        "search_continuation": str(trace_meta.get("search_continuation", "independent_restarts")),
+        "search_continuation": str(
+            trace_meta.get("search_continuation", "independent_restarts")
+        ),
         "checkpoint_id": checkpoint.id,
         "checkpoint_path": checkpoint.path,
         "position_id": str(position["id"]),
@@ -693,17 +756,27 @@ def build_row(
         "topk_recall_oracle": topk_recall(final_policy, oracle_policy, k=3),
         "wrong_prior_vs_reference": int(argmax_prior != reference_best),
         "wrong_prior_vs_oracle": int(argmax_prior != oracle_best),
-        "wrong_prior_correction_reference": int(argmax_prior != reference_best and argmax_effective == reference_best),
-        "wrong_prior_correction_oracle": int(argmax_prior != oracle_best and argmax_effective == oracle_best),
-        "easy_case_regret_reference": int("easy_good_prior" in bucket_tags and argmax_effective != reference_best),
-        "easy_case_regret_oracle": int("easy_good_prior" in bucket_tags and argmax_effective != oracle_best),
+        "wrong_prior_correction_reference": int(
+            argmax_prior != reference_best and argmax_effective == reference_best
+        ),
+        "wrong_prior_correction_oracle": int(
+            argmax_prior != oracle_best and argmax_effective == oracle_best
+        ),
+        "easy_case_regret_reference": int(
+            "easy_good_prior" in bucket_tags and argmax_effective != reference_best
+        ),
+        "easy_case_regret_oracle": int(
+            "easy_good_prior" in bucket_tags and argmax_effective != oracle_best
+        ),
         "kl_to_reference": float(kl_divergence(final_policy, reference_policy)),
         "kl_to_oracle": float(kl_divergence(final_policy, oracle_policy)),
         "trace_acquire_ms": trace_acquire_ms,
         "readout_ms": readout_ms,
         "effective_runtime_ms": effective_runtime_ms,
         "trace_reused": int(trace_reused),
-        "revision_occurred": int(trace_meta.get("revision_occurred", int(argmax_effective != argmax_prior))),
+        "revision_occurred": int(
+            trace_meta.get("revision_occurred", int(argmax_effective != argmax_prior))
+        ),
         "revision_step": first_revision_budget(
             trace_meta.get("argmax_path", []),
             trace_meta.get("trace_budgets", []),
@@ -713,7 +786,9 @@ def build_row(
         "argmax_persistence": float(trace_meta.get("argmax_persistence", 0.0)),
         "top2_margin_stability": float(trace_meta.get("top2_margin_stability", 0.0)),
         "challenger_overlap": float(trace_meta.get("challenger_overlap", 1.0)),
-        "posterior_entropy_slope": float(trace_meta.get("posterior_entropy_slope", 0.0)),
+        "posterior_entropy_slope": float(
+            trace_meta.get("posterior_entropy_slope", 0.0)
+        ),
         "revision_flip_flop_count": int(trace_meta.get("revision_flip_flop_count", 0)),
         "argmax_path": list(trace_meta.get("argmax_path", [])),
         "entropy_path": list(trace_meta.get("entropy_path", [])),
@@ -734,7 +809,9 @@ def build_row(
     if "root_candidate_set" in trace_meta:
         row["root_candidate_set"] = list(trace_meta["root_candidate_set"])
         row["root_candidate_scores"] = list(trace_meta.get("root_candidate_scores", []))
-        row["candidate_undercoverage"] = candidate_undercoverage(row["root_candidate_set"], oracle_best)
+        row["candidate_undercoverage"] = candidate_undercoverage(
+            row["root_candidate_set"], oracle_best
+        )
         row["challenger_recall_k"] = int(trace_meta.get("challenger_recall_k", 0))
     for key in (
         "belief_revision_operator",
@@ -799,7 +876,9 @@ def build_row(
         row["extra_budget_used"] = int(trace_meta.get("extra_budget_used", 0))
         row["burst_budget"] = int(trace_meta.get("burst_budget", budget))
     if "continuation_fallback_reason" in trace_meta:
-        row["continuation_fallback_reason"] = str(trace_meta["continuation_fallback_reason"])
+        row["continuation_fallback_reason"] = str(
+            trace_meta["continuation_fallback_reason"]
+        )
     return row
 
 
@@ -854,12 +933,22 @@ def run_group_rows(
     systems_by_id = {system.id: system for system in systems}
     for checkpoint in checkpoints:
         harness = FrozenCheckpointHarness(checkpoint, base_cfg, device, rust_binary)
-        reference_harness = harness if checkpoint.path == reference_checkpoint.path else FrozenCheckpointHarness(
-            reference_checkpoint, base_cfg, device, rust_binary
+        reference_harness = (
+            harness
+            if checkpoint.path == reference_checkpoint.path
+            else FrozenCheckpointHarness(
+                reference_checkpoint, base_cfg, device, rust_binary
+            )
         )
-        oracle_harness = reference_harness if reference_checkpoint.path == oracle_checkpoint.path else (
-            harness if checkpoint.path == oracle_checkpoint.path else FrozenCheckpointHarness(
-                oracle_checkpoint, base_cfg, device, rust_binary
+        oracle_harness = (
+            reference_harness
+            if reference_checkpoint.path == oracle_checkpoint.path
+            else (
+                harness
+                if checkpoint.path == oracle_checkpoint.path
+                else FrozenCheckpointHarness(
+                    oracle_checkpoint, base_cfg, device, rust_binary
+                )
             )
         )
         try:
@@ -873,38 +962,53 @@ def run_group_rows(
                 reference_policy = suite_policy_artifact(position, "reference_policy")
                 if reference_policy is None:
                     reference_policy = np.asarray(
-                        reference_harness.search_policy(position, reference_system, oracle_budget)["search_policy"],
+                        reference_harness.search_policy(
+                            position, reference_system, oracle_budget
+                        )["search_policy"],
                         dtype=np.float32,
                     )
                 oracle_policy = suite_policy_artifact(position, "oracle_policy")
                 if oracle_policy is None:
                     oracle_policy = np.asarray(
-                        oracle_harness.search_policy(position, oracle_system, oracle_budget)["search_policy"],
+                        oracle_harness.search_policy(
+                            position, oracle_system, oracle_budget
+                        )["search_policy"],
                         dtype=np.float32,
                     )
                 for system in systems:
-                    trace_system = systems_by_id.get(system.report_alias, system) if system.report_alias else system
-                    _bundle_budgets, trace_bundle_policies, trace_bundle_latencies_ms, trace_reused = (
-                        build_search_trace_bundle(
-                            harness,
-                            checkpoint,
-                            position,
-                            trace_system,
-                            budgets,
-                            cache_dir,
-                        )
+                    trace_system = (
+                        systems_by_id.get(system.report_alias, system)
+                        if system.report_alias
+                        else system
+                    )
+                    (
+                        _bundle_budgets,
+                        trace_bundle_policies,
+                        trace_bundle_latencies_ms,
+                        trace_reused,
+                    ) = build_search_trace_bundle(
+                        harness,
+                        checkpoint,
+                        position,
+                        trace_system,
+                        budgets,
+                        cache_dir,
                     )
                     if trace_reused:
                         cache_hits += 1
                     else:
                         cache_misses += 1
                     for budget in budgets:
-                        trace_budgets, search_trace, trace_latencies_ms = slice_trace_bundle(
-                            trace_bundle_policies,
-                            trace_bundle_latencies_ms,
-                            target_budget=budget,
-                            base_budgets=budgets,
-                            allow_extra=(trace_system.refresh_operator == "budget_routing"),
+                        trace_budgets, search_trace, trace_latencies_ms = (
+                            slice_trace_bundle(
+                                trace_bundle_policies,
+                                trace_bundle_latencies_ms,
+                                target_budget=budget,
+                                base_budgets=budgets,
+                                allow_extra=(
+                                    trace_system.refresh_operator == "budget_routing"
+                                ),
+                            )
                         )
                         readout_t0 = time.perf_counter()
                         final_policy, trace_meta = apply_system_readout(
@@ -918,10 +1022,14 @@ def run_group_rows(
                         trace_meta = {
                             **trace_meta,
                             "trace_budgets": [int(x) for x in trace_budgets],
-                            "trace_latencies_ms": [float(x) for x in trace_latencies_ms],
+                            "trace_latencies_ms": [
+                                float(x) for x in trace_latencies_ms
+                            ],
                             "trace_acquire_ms": float(sum(trace_latencies_ms)),
                             "readout_ms": float(readout_ms),
-                            "effective_runtime_ms": float(sum(trace_latencies_ms) + readout_ms),
+                            "effective_runtime_ms": float(
+                                sum(trace_latencies_ms) + readout_ms
+                            ),
                             "search_continuation": "independent_restarts",
                         }
                         rows.append(
@@ -949,7 +1057,9 @@ def run_group_rows(
         "trace_cache_unit": "trace_bundle",
         "trace_bundle_cache_hits": int(cache_hits),
         "trace_bundle_cache_misses": int(cache_misses),
-        "trace_bundle_cache_hit_rate": float(cache_hits / max(1, cache_hits + cache_misses)),
+        "trace_bundle_cache_hit_rate": float(
+            cache_hits / max(1, cache_hits + cache_misses)
+        ),
         "trace_cache_hits": int(cache_hits),
         "trace_cache_misses": int(cache_misses),
         "trace_cache_hit_rate": float(cache_hits / max(1, cache_hits + cache_misses)),
@@ -1052,7 +1162,9 @@ def build_semantic_summary_payload(rows: list[dict[str, Any]]) -> list[dict[str,
             if metric_key in acc:
                 item[metric_key] = acc[metric_key] / n_rows
         out.append(item)
-    out.sort(key=lambda row: (row["budget"], row["source_system"], row["execution_mode"]))
+    out.sort(
+        key=lambda row: (row["budget"], row["source_system"], row["execution_mode"])
+    )
     return out
 
 
@@ -1063,7 +1175,9 @@ def classify_phase15_headwind(
     kl_to_reference_mean: float,
 ) -> str:
     runtime_flag = float(readout_ratio_mean) >= 0.20
-    semantic_flag = float(kl_to_reference_mean) >= 0.20 or float(accuracy_to_reference_mean) < 0.50
+    semantic_flag = (
+        float(kl_to_reference_mean) >= 0.20 or float(accuracy_to_reference_mean) < 0.50
+    )
     if runtime_flag and semantic_flag:
         return "mixed_readout_cost_and_semantic_drift"
     if runtime_flag:
@@ -1146,22 +1260,30 @@ def build_headwind_summary_payload(rows: list[dict[str, Any]]) -> list[dict[str,
                 ),
             }
         )
-    out.sort(key=lambda row: (row["budget"], row["source_system"], row["execution_mode"]))
+    out.sort(
+        key=lambda row: (row["budget"], row["source_system"], row["execution_mode"])
+    )
     return out
 
 
 def parse_args() -> argparse.Namespace:
-    parser = argparse.ArgumentParser(description="Phase 1.5 clean-split frozen-checkpoint ablation runner")
-    parser.add_argument("--game", default="gomoku7", choices=[
-        "gomoku7",
-        "gomoku15",
-        "gomoku15_free",
-        "gomoku15_std",
-        "gomoku15_omok",
-        "gomoku15_renju",
-        "gomoku15_caro",
-        "tictactoe",
-    ])
+    parser = argparse.ArgumentParser(
+        description="Phase 1.5 clean-split frozen-checkpoint ablation runner"
+    )
+    parser.add_argument(
+        "--game",
+        default="gomoku7",
+        choices=[
+            "gomoku7",
+            "gomoku15",
+            "gomoku15_free",
+            "gomoku15_std",
+            "gomoku15_omok",
+            "gomoku15_renju",
+            "gomoku15_caro",
+            "tictactoe",
+        ],
+    )
     parser.add_argument("--output", default="results/phase15_ablation")
     parser.add_argument("--checkpoints", default=None)
     parser.add_argument("--checkpoint-dir", default=None)
@@ -1202,15 +1324,20 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--root-conflict-topk", type=int, default=2)
     parser.add_argument("--deep-conflict-topk", type=int, default=2)
     parser.add_argument("--search-stall-timeout-s", type=float, default=45.0)
-    parser.add_argument("--research-grade", action="store_true",
-                        help="enforce the phase15 research-grade gate (>=N seed families precheck; full gate at analysis)")
+    parser.add_argument(
+        "--research-grade",
+        action="store_true",
+        help="enforce the phase15 research-grade gate (>=N seed families precheck; full gate at analysis)",
+    )
     parser.add_argument("--min-seed-families", type=int, default=3)
     return parser.parse_args()
 
 
 def main() -> None:
     args = parse_args()
-    os.environ["QUARTZ_SEARCH_STALL_TIMEOUT_S"] = str(float(args.search_stall_timeout_s))
+    os.environ["QUARTZ_SEARCH_STALL_TIMEOUT_S"] = str(
+        float(args.search_stall_timeout_s)
+    )
     base_dir = Path(args.output) / args.game
     base_dir.mkdir(parents=True, exist_ok=True)
 
@@ -1237,24 +1364,39 @@ def main() -> None:
             )
     all_systems = load_systems_config(args.systems_config, base_cfg)
     if args.write_default_systems_config:
-        json_dump(Path(args.write_default_systems_config), {"systems": [asdict(system) for system in all_systems]})
+        json_dump(
+            Path(args.write_default_systems_config),
+            {"systems": [asdict(system) for system in all_systems]},
+        )
 
     selected_ids = set(resolve_phase15_systems_arg(args.systems))
     selected_groups = set(parse_csv_strings(args.groups))
-    systems = [system for system in all_systems if system.id in selected_ids and system.group in selected_groups]
+    systems = [
+        system
+        for system in all_systems
+        if system.id in selected_ids and system.group in selected_groups
+    ]
     if not systems:
         raise ValueError("no systems selected")
 
     reference_system = require_system(all_systems, args.reference_system)
-    reference_checkpoint = choose_reference_checkpoint(checkpoints, args.reference_checkpoint)
-    oracle_checkpoint = choose_checkpoint(checkpoints, args.oracle_checkpoint, reference_checkpoint)
+    reference_checkpoint = choose_reference_checkpoint(
+        checkpoints, args.reference_checkpoint
+    )
+    oracle_checkpoint = choose_checkpoint(
+        checkpoints, args.oracle_checkpoint, reference_checkpoint
+    )
     oracle_system = build_oracle_system(
         all_systems,
         oracle_system_id=args.oracle_system,
         oracle_profile=args.oracle_profile,
         reference_system=reference_system,
     )
-    trace_cache_dir = None if args.disable_trace_cache else Path(args.trace_cache_dir or (base_dir / "trace_cache"))
+    trace_cache_dir = (
+        None
+        if args.disable_trace_cache
+        else Path(args.trace_cache_dir or (base_dir / "trace_cache"))
+    )
 
     manifest = {
         "format_version": 2,
@@ -1305,7 +1447,10 @@ def main() -> None:
 
     candidate_count = int(args.suite_size)
     if not args.positions_file and args.suite_source == "mined":
-        candidate_count = max(int(args.suite_size), int(args.suite_size) * int(args.suite_candidate_multiplier))
+        candidate_count = max(
+            int(args.suite_size),
+            int(args.suite_size) * int(args.suite_candidate_multiplier),
+        )
     positions = load_or_generate_positions(args, base_cfg, count=candidate_count)
     suite_path = base_dir / "position_suite.json"
     suite_artifact_path = base_dir / "position_suite_artifacts.npz"
@@ -1319,7 +1464,9 @@ def main() -> None:
             oracle_system=oracle_system,
         )
         suite_artifacts = read_suite_policy_artifacts(suite_artifact_path)
-        suite = merge_suite_policy_artifacts(list(suite_payload.get("positions", [])), suite_artifacts)
+        suite = merge_suite_policy_artifacts(
+            list(suite_payload.get("positions", [])), suite_artifacts
+        )
     else:
         thresholds = bucket_thresholds(
             confident_threshold=float(args.confident_threshold),
@@ -1327,9 +1474,15 @@ def main() -> None:
             root_conflict_topk=int(args.root_conflict_topk),
             deep_conflict_topk=int(args.deep_conflict_topk),
         )
-        ref_harness = FrozenCheckpointHarness(reference_checkpoint, base_cfg, device, args.rust_binary)
-        oracle_harness = ref_harness if oracle_checkpoint.path == reference_checkpoint.path else FrozenCheckpointHarness(
-            oracle_checkpoint, base_cfg, device, args.rust_binary
+        ref_harness = FrozenCheckpointHarness(
+            reference_checkpoint, base_cfg, device, args.rust_binary
+        )
+        oracle_harness = (
+            ref_harness
+            if oracle_checkpoint.path == reference_checkpoint.path
+            else FrozenCheckpointHarness(
+                oracle_checkpoint, base_cfg, device, args.rust_binary
+            )
         )
         try:
             annotated = prepare_bucketized_suite(

@@ -51,6 +51,10 @@ include = ["quartz*"]
 [tool.setuptools.package-data]
 quartz = ["static/play/*"]
 
+[tool.ruff]
+target-version = "py310"
+extend-exclude = ["docs/legacy"]
+
 [tool.pytest.ini_options]
 markers = [
     # P10 (audit_codex_20260425.md W10): slower integration-style tests

@@ -65,7 +65,7 @@ def kl_lucb_beta(t: float, K: float, delta: float, alpha: float = 1.1) -> float:
     the Rust impl in commit ``3370f95``).
     """
     k1 = 405.5
-    return math.log(k1 * K * (t ** alpha) / delta)
+    return math.log(k1 * K * (t**alpha) / delta)
 
 
 def kl_lucb_gap_bits(

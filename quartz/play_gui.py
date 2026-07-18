@@ -125,7 +125,7 @@ def infer_game_from_model_dir(path: Path) -> str | None:
     prefix = "alphazero_"
     if not name.startswith(prefix):
         return None
-    game = name[len(prefix):]
+    game = name[len(prefix) :]
     return game if game in GAME_CONFIGS else None
 
 
@@ -169,7 +169,8 @@ def discover_models(models_dir: Path) -> list[dict[str, Any]]:
                         "path": str(model_path.resolve()),
                         "sha256": checkpoint_digest(model_path),
                         "bytes": int(model_path.stat().st_size),
-                        "preferred": status.get("preferred_posttrain_checkpoint") == filename,
+                        "preferred": status.get("preferred_posttrain_checkpoint")
+                        == filename,
                         "promotionRecorded": bool(status.get("saw_promotion")),
                     }
                 )
@@ -184,7 +185,9 @@ class LoadedModel:
     model: torch.nn.Module
 
 
-def apply_checkpoint_architecture(cfg: dict[str, Any], state_dict: dict[str, Any]) -> dict[str, Any]:
+def apply_checkpoint_architecture(
+    cfg: dict[str, Any], state_dict: dict[str, Any]
+) -> dict[str, Any]:
     tuned = dict(cfg)
     conv_w = state_dict.get("input_conv.0.weight")
     p_fc_w = state_dict.get("p_fc.weight")
@@ -196,7 +199,7 @@ def apply_checkpoint_architecture(cfg: dict[str, Any], state_dict: dict[str, Any
         tuned["actions"] = int(p_fc_w.shape[0])
         flat_policy = int(p_fc_w.shape[1])
         board_sq = flat_policy // 4 if flat_policy % 4 == 0 else 0
-        board = int(round(board_sq ** 0.5)) if board_sq > 0 else 0
+        board = int(round(board_sq**0.5)) if board_sq > 0 else 0
         if board > 0 and board * board == board_sq:
             tuned["board"] = board
     tower_indices = [
@@ -281,7 +284,9 @@ class RustControlClient:
         return self.request({"cmd": "chess_state", "game": game, "fen": fen})
 
     def chess_apply(self, game: str, fen: str, move_uci: str) -> dict[str, Any]:
-        return self.request({"cmd": "chess_apply", "game": game, "fen": fen, "move_uci": move_uci})
+        return self.request(
+            {"cmd": "chess_apply", "game": game, "fen": fen, "move_uci": move_uci}
+        )
 
 
 class GameSession:
@@ -308,8 +313,12 @@ class GameSession:
         self.rust_binary = rust_binary
         self.move_history: list[dict[str, Any]] = []
         self.snapshots: list[dict[str, Any]] = []
-        self.search_client = NNSearchClient(self.model, self.cfg, self.device, self.rust_binary)
-        self.rust_control = RustControlClient(self.rust_binary) if is_chess_game(game) else None
+        self.search_client = NNSearchClient(
+            self.model, self.cfg, self.device, self.rust_binary
+        )
+        self.rust_control = (
+            RustControlClient(self.rust_binary) if is_chess_game(game) else None
+        )
         self.last_search: dict[str, Any] = {}
         self.state = None
         self.fen = ""
@@ -348,7 +357,9 @@ class GameSession:
             return outcome_label(self.game, self.chess_info.get("outcome_white"))
         assert self.state is not None
         void_result = bool(getattr(self.state, "is_void_result", lambda: False)())
-        return outcome_label(self.game, self.state.outcome_for_black(), void_result=void_result)
+        return outcome_label(
+            self.game, self.state.outcome_for_black(), void_result=void_result
+        )
 
     def human_to_move(self) -> bool:
         return (not self.terminal()) and self.current_side() == self.human_side
@@ -358,10 +369,14 @@ class GameSession:
 
     def _push_snapshot(self):
         if is_chess_game(self.game):
-            self.snapshots.append({"fen": self.fen, "move_log_len": len(self.move_history)})
+            self.snapshots.append(
+                {"fen": self.fen, "move_log_len": len(self.move_history)}
+            )
         else:
             assert self.state is not None
-            self.snapshots.append({"state": self.state.clone(), "move_log_len": len(self.move_history)})
+            self.snapshots.append(
+                {"state": self.state.clone(), "move_log_len": len(self.move_history)}
+            )
 
     def undo(self, count: int = 1):
         restore = None
@@ -416,7 +431,9 @@ class GameSession:
             raise ValueError("illegal move")
         self._push_snapshot()
         self.state.apply_move(action)
-        self._append_move("human", grid_coord_label(self.game, self.cfg["board"], action))
+        self._append_move(
+            "human", grid_coord_label(self.game, self.cfg["board"], action)
+        )
 
     def _apply_human_chess_move(self, move_uci: str):
         legal = {mv["uci"] for mv in self._chess_legal_moves()}
@@ -531,7 +548,9 @@ class GameSession:
                 "render": "grid",
                 "board": list(self.state._board),
                 "legalActions": legal_actions,
-                "passAction": self.cfg["board"] * self.cfg["board"] if is_go_game(self.game) else None,
+                "passAction": self.cfg["board"] * self.cfg["board"]
+                if is_go_game(self.game)
+                else None,
             }
         )
         if is_go_game(self.game):
@@ -545,7 +564,9 @@ class GameSession:
                     "komi": float(getattr(self.state, "_komi", 7.5)),
                     "ruleset": getattr(self.state, "_ruleset", "chinese"),
                     "scoring": getattr(self.state, "_scoring", "area"),
-                    "voidResult": bool(getattr(self.state, "is_void_result", lambda: False)()),
+                    "voidResult": bool(
+                        getattr(self.state, "is_void_result", lambda: False)()
+                    ),
                 }
             )
         return base
@@ -573,7 +594,9 @@ class PlayApp:
         candidates = [m for m in self.available_models() if m["game"] == game]
         if not candidates:
             return None
-        candidates.sort(key=lambda row: (0 if row["kind"] == "best" else 1, row["path"]))
+        candidates.sort(
+            key=lambda row: (0 if row["kind"] == "best" else 1, row["path"])
+        )
         return candidates[0]["path"]
 
     def create_session(self, payload: dict[str, Any]) -> GameSession:
@@ -651,22 +674,40 @@ def make_handler(app: PlayApp):
             return json.loads(raw.decode("utf-8") or "{}")
 
         def _path_parts(self) -> list[str]:
-            return [part for part in urllib.parse.urlparse(self.path).path.split("/") if part]
+            return [
+                part
+                for part in urllib.parse.urlparse(self.path).path.split("/")
+                if part
+            ]
 
         def do_GET(self):
             parts = self._path_parts()
             try:
                 if parts == []:
-                    self._send_bytes(200, read_static_asset("index.html"), "text/html; charset=utf-8")
+                    self._send_bytes(
+                        200, read_static_asset("index.html"), "text/html; charset=utf-8"
+                    )
                     return
                 if parts == ["app.js"]:
-                    self._send_bytes(200, read_static_asset("app.js"), "text/javascript; charset=utf-8")
+                    self._send_bytes(
+                        200,
+                        read_static_asset("app.js"),
+                        "text/javascript; charset=utf-8",
+                    )
                     return
                 if parts == ["styles.css"]:
-                    self._send_bytes(200, read_static_asset("styles.css"), "text/css; charset=utf-8")
+                    self._send_bytes(
+                        200, read_static_asset("styles.css"), "text/css; charset=utf-8"
+                    )
                     return
                 if parts == ["api", "models"]:
-                    self._send_json(200, {"models": app.available_models(), "games": sorted(GAME_CONFIGS)})
+                    self._send_json(
+                        200,
+                        {
+                            "models": app.available_models(),
+                            "games": sorted(GAME_CONFIGS),
+                        },
+                    )
                     return
                 if len(parts) == 3 and parts[:2] == ["api", "session"]:
                     session = app.get_session(parts[2])
@@ -698,7 +739,12 @@ def make_handler(app: PlayApp):
                     elif action == "restart":
                         session.restart()
                     elif action == "resign":
-                        session.resign(str(body.get("side") or side_name(session.game, session.human_side)))
+                        session.resign(
+                            str(
+                                body.get("side")
+                                or side_name(session.game, session.human_side)
+                            )
+                        )
                     else:
                         self._send_json(404, {"error": "not found"})
                         return

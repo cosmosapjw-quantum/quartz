@@ -29,7 +29,9 @@ def test_argmax_equivariant_true_and_negative_case():
     # a bogus "permutation" that is really the identity output would break
     # equivariance for a non-identity perm on the raw index — sanity via the
     # negative-control operator instead:
-    changed = so._mass_on_action_zero(so.permute_policy(v, perm)) != so._mass_on_action_zero(v)
+    changed = so._mass_on_action_zero(
+        so.permute_policy(v, perm)
+    ) != so._mass_on_action_zero(v)
     assert changed is True
 
 
@@ -75,11 +77,26 @@ def test_audit_covers_expected_operators_and_channels():
     r = so.audit(seed=7, n_trials=48)
     names = {row["operator"] for row in r["operators"]}
     channels = {row["channel"] for row in r["operators"]}
-    assert {"policy_entropy", "k_eff", "top2_margin", "forked_voc.voc_proxy", "voc_tightness"} <= names
-    assert {"action_permutation", "dihedral_d4", "trace_bundle_permutation", "move_order_permutation"} <= channels
+    assert {
+        "policy_entropy",
+        "k_eff",
+        "top2_margin",
+        "forked_voc.voc_proxy",
+        "voc_tightness",
+    } <= names
+    assert {
+        "action_permutation",
+        "dihedral_d4",
+        "trace_bundle_permutation",
+        "move_order_permutation",
+    } <= channels
     # the committed move is audited as equivariant, not invariant
-    argmax_rows = [row for row in r["operators"] if row["operator"] == "argmax(committed_move)"]
-    assert argmax_rows and all(row["transform_law"] == "equivariant" for row in argmax_rows)
+    argmax_rows = [
+        row for row in r["operators"] if row["operator"] == "argmax(committed_move)"
+    ]
+    assert argmax_rows and all(
+        row["transform_law"] == "equivariant" for row in argmax_rows
+    )
 
 
 def _load_runner():

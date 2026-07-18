@@ -51,7 +51,9 @@ class AlphaZeroNet(nn.Module):
             nn.BatchNorm2d(ch),
             nn.ReLU(),
         )
-        blocks = [ResBlock(ch, se=(i >= cfg["blocks"] - 2)) for i in range(cfg["blocks"])]
+        blocks = [
+            ResBlock(ch, se=(i >= cfg["blocks"] - 2)) for i in range(cfg["blocks"])
+        ]
         self.tower = nn.Sequential(*blocks)
         self.p_head = nn.Sequential(
             nn.Conv2d(ch, 32, 1, bias=False),
@@ -62,7 +64,9 @@ class AlphaZeroNet(nn.Module):
             nn.ReLU(),
         )
         self.p_fc = nn.Linear(4 * n2, cfg["actions"])
-        self.v_head = nn.Sequential(nn.Conv2d(ch, 32, 1, bias=False), nn.BatchNorm2d(32), nn.ReLU())
+        self.v_head = nn.Sequential(
+            nn.Conv2d(ch, 32, 1, bias=False), nn.BatchNorm2d(32), nn.ReLU()
+        )
         self.v_fc = nn.Sequential(
             nn.Linear(32, cfg["vh"]),
             nn.ReLU(),

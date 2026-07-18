@@ -20,7 +20,11 @@ from .contracts import (
 def _normalize(values: Sequence[float]) -> list[float]:
     arr = [max(0.0, float(x)) for x in values]
     total = sum(arr)
-    return [x / total for x in arr] if total > 0.0 else ([1.0 / len(arr)] * len(arr) if arr else [])
+    return (
+        [x / total for x in arr]
+        if total > 0.0
+        else ([1.0 / len(arr)] * len(arr) if arr else [])
+    )
 
 
 @dataclass
@@ -112,7 +116,9 @@ class A19RwRestLiteEvaluator:
             "node_op": "one_conv_pre_activation_residual",
             "topology": "ws_dominant_degree_capped_dag",
             "global_blocks": 2,
-            "routing": "soft_train_then_static_prune" if self.static_pruning else "soft_only",
+            "routing": "soft_train_then_static_prune"
+            if self.static_pruning
+            else "soft_only",
             "graph_seed": self.graph_seed,
         }
 
@@ -163,7 +169,11 @@ class A20RegretStateArchive:
         return (
             MetaProposal(
                 axis_id=self.axis_id,
-                action=MetaAction(MetaActionKind.ARCHIVE_STATE, value=score, label="regret_instability"),
+                action=MetaAction(
+                    MetaActionKind.ARCHIVE_STATE,
+                    value=score,
+                    label="regret_instability",
+                ),
                 estimate=ProposalEstimate(confidence=0.0),
                 activation_guard="training control only; deduplicate by position group; importance correction recorded",
                 explanation=f"archive priority={score:.4f}",
@@ -236,7 +246,11 @@ class A23CpuIncrementalPatternStudent:
             "representation": "line_pattern_codebook_or_nnue_like",
             "quantization": self.quantization,
             "incremental_update": self.incremental,
-            "reference_baselines": ["small_resnet", "onnx_cpu", "rapfi_like_pattern_student"],
+            "reference_baselines": [
+                "small_resnet",
+                "onnx_cpu",
+                "rapfi_like_pattern_student",
+            ],
         }
 
     def propose(self, obs: RootObservation) -> Sequence[MetaProposal]:

@@ -59,20 +59,27 @@ def load_scenario_bank(path: Path) -> dict[str, Any]:
         seen.add(scenario_id)
         if not isinstance(means, list) or len(means) < 2:
             raise ValueError(f"scenario {scenario_id} requires at least two means")
-        if any(not isinstance(value, (int, float)) or not 0 <= value <= 1 for value in means):
+        if any(
+            not isinstance(value, (int, float)) or not 0 <= value <= 1
+            for value in means
+        ):
             raise ValueError(f"scenario {scenario_id} has an invalid Bernoulli mean")
         if not isinstance(budgets, list) or not budgets:
             raise ValueError(f"scenario {scenario_id} requires budgets")
         if len(set(budgets)) != len(budgets):
             raise ValueError(f"scenario {scenario_id} has duplicate budgets")
         if min(budgets) < len(means):
-            raise ValueError(f"scenario {scenario_id} cannot fund raw sequential halving")
+            raise ValueError(
+                f"scenario {scenario_id} cannot fund raw sequential halving"
+            )
         if max(budgets) > lab.MAX_SUPPORTED_BUDGET:
             raise ValueError(f"scenario {scenario_id} exceeds the audited budget scope")
     return payload
 
 
-def choose_scenarios(bank: Mapping[str, Any], requested: Sequence[str] | None) -> list[dict[str, Any]]:
+def choose_scenarios(
+    bank: Mapping[str, Any], requested: Sequence[str] | None
+) -> list[dict[str, Any]]:
     by_id = {str(row["id"]): dict(row) for row in bank["scenarios"]}
     if not requested:
         return [by_id[str(row["id"])] for row in bank["scenarios"]]
@@ -84,9 +91,13 @@ def choose_scenarios(bank: Mapping[str, Any], requested: Sequence[str] | None) -
     return [by_id[item] for item in requested]
 
 
-def arm_permutation(num_arms: int, seed: int, scenario_id: str, permutation_id: int) -> list[int]:
+def arm_permutation(
+    num_arms: int, seed: int, scenario_id: str, permutation_id: int
+) -> list[int]:
     permutation = list(range(num_arms))
-    rng = random.Random(lab.stable_seed(seed, "arm_permutation", scenario_id, permutation_id))
+    rng = random.Random(
+        lab.stable_seed(seed, "arm_permutation", scenario_id, permutation_id)
+    )
     rng.shuffle(permutation)
     return permutation
 
@@ -104,26 +115,32 @@ def pairwise_contrasts(
     records: Sequence[lab.TrialRecord],
     algorithms: Sequence[str],
 ) -> list[dict[str, Any]]:
-    by_key = {
-        (row.algorithm, row.budget, row.trial): row
-        for row in records
-    }
+    by_key = {(row.algorithm, row.budget, row.trial): row for row in records}
     budgets = sorted({row.budget for row in records})
     rows: list[dict[str, Any]] = []
     for budget in budgets:
         trials = sorted({row.trial for row in records if row.budget == budget})
         for left, right in itertools.combinations(algorithms, 2):
-            pairs = [(by_key[(left, budget, trial)], by_key[(right, budget, trial)]) for trial in trials]
+            pairs = [
+                (by_key[(left, budget, trial)], by_key[(right, budget, trial)])
+                for trial in trials
+            ]
             regret_deltas = [a.simple_regret - b.simple_regret for a, b in pairs]
             pcs_deltas = [a.correct_selection - b.correct_selection for a, b in pairs]
             mean_delta = sum(regret_deltas) / len(regret_deltas)
             if len(regret_deltas) > 1:
-                variance = sum((value - mean_delta) ** 2 for value in regret_deltas) / (len(regret_deltas) - 1)
+                variance = sum((value - mean_delta) ** 2 for value in regret_deltas) / (
+                    len(regret_deltas) - 1
+                )
             else:
                 variance = 0.0
             mcse = math.sqrt(variance / len(regret_deltas))
-            left_only_correct = sum(1 for a, b in pairs if a.correct_selection and not b.correct_selection)
-            right_only_correct = sum(1 for a, b in pairs if b.correct_selection and not a.correct_selection)
+            left_only_correct = sum(
+                1 for a, b in pairs if a.correct_selection and not b.correct_selection
+            )
+            right_only_correct = sum(
+                1 for a, b in pairs if b.correct_selection and not a.correct_selection
+            )
             discordant = left_only_correct + right_only_correct
             rows.append(
                 {
@@ -135,7 +152,8 @@ def pairwise_contrasts(
                     "regret_delta_mcse": mcse,
                     "regret_delta_mc95_low": mean_delta - 1.96 * mcse,
                     "regret_delta_mc95_high": mean_delta + 1.96 * mcse,
-                    "mean_pcs_delta_left_minus_right": sum(pcs_deltas) / len(pcs_deltas),
+                    "mean_pcs_delta_left_minus_right": sum(pcs_deltas)
+                    / len(pcs_deltas),
                     "left_only_correct": left_only_correct,
                     "right_only_correct": right_only_correct,
                     "discordant_pairs": discordant,
@@ -172,13 +190,26 @@ def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--scenario-bank", type=Path, default=DEFAULT_SCENARIO_BANK)
     parser.add_argument("--scenarios", nargs="+", default=None)
-    parser.add_argument("--algorithms", nargs="+", choices=lab.ALGORITHMS, default=list(lab.ALGORITHMS))
-    parser.add_argument("--budgets", type=parse_int_csv, default=None, help="optional common budget override")
+    parser.add_argument(
+        "--algorithms", nargs="+", choices=lab.ALGORITHMS, default=list(lab.ALGORITHMS)
+    )
+    parser.add_argument(
+        "--budgets",
+        type=parse_int_csv,
+        default=None,
+        help="optional common budget override",
+    )
     parser.add_argument("--trials", type=int, default=None)
     parser.add_argument("--permutations", type=int, default=None)
     parser.add_argument("--seed", type=int, default=20260713)
-    parser.add_argument("--quick", action="store_true", help="use 50 trials and two permutations")
-    parser.add_argument("--output-dir", type=Path, default=Path("results/metacognitive_root/bernoulli_v1"))
+    parser.add_argument(
+        "--quick", action="store_true", help="use 50 trials and two permutations"
+    )
+    parser.add_argument(
+        "--output-dir",
+        type=Path,
+        default=Path("results/metacognitive_root/bernoulli_v1"),
+    )
     parser.add_argument("--overwrite", action="store_true")
     return parser
 
@@ -189,7 +220,9 @@ def main(argv: Sequence[str] | None = None) -> int:
     bank = load_scenario_bank(bank_path)
     scenarios = choose_scenarios(bank, args.scenarios)
     trials = 50 if args.quick else int(args.trials or bank["default_trials"])
-    permutations = 2 if args.quick else int(args.permutations or bank["default_permutations"])
+    permutations = (
+        2 if args.quick else int(args.permutations or bank["default_permutations"])
+    )
     if trials < 1 or permutations < 1:
         raise SystemExit("trials and permutations must be positive")
     algorithms = list(args.algorithms)
@@ -198,7 +231,9 @@ def main(argv: Sequence[str] | None = None) -> int:
 
     output_dir = args.output_dir.resolve()
     if output_dir.exists() and any(output_dir.iterdir()) and not args.overwrite:
-        raise SystemExit(f"output directory is not empty; pass --overwrite: {output_dir}")
+        raise SystemExit(
+            f"output directory is not empty; pass --overwrite: {output_dir}"
+        )
     output_dir.mkdir(parents=True, exist_ok=True)
 
     resolved_scenarios = []
@@ -217,7 +252,9 @@ def main(argv: Sequence[str] | None = None) -> int:
         "scenario_bank_sha256": file_sha256(bank_path),
         "scenarios": resolved_scenarios,
         "algorithms": algorithms,
-        "algorithm_contracts": {name: lab.ALGORITHM_CONTRACTS[name] for name in algorithms},
+        "algorithm_contracts": {
+            name: lab.ALGORITHM_CONTRACTS[name] for name in algorithms
+        },
         "trials_per_permutation": trials,
         "permutations": permutations,
         "seed": args.seed,
@@ -263,7 +300,10 @@ def main(argv: Sequence[str] | None = None) -> int:
                 experiment_seed = lab.stable_seed(args.seed, "scenario", scenario["id"])
                 for permutation_id in range(permutations):
                     permutation = arm_permutation(
-                        len(canonical_means), args.seed, str(scenario["id"]), permutation_id
+                        len(canonical_means),
+                        args.seed,
+                        str(scenario["id"]),
+                        permutation_id,
                     )
                     presented_means = [canonical_means[index] for index in permutation]
                     records, summaries = lab.run_experiment(

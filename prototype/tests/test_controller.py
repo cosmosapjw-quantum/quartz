@@ -73,14 +73,14 @@ def test_tight_gap_can_halt_via_kg():
         )
         # either reason is acceptable
         assert run.halt_reason in {
-            "EmpBernsteinCertified", "PolicyConverged", "MaxIters",
+            "EmpBernsteinCertified",
+            "PolicyConverged",
+            "MaxIters",
         }
         if run.selected_arm == bandit.best_arm:
             n_correct += 1
     # tight gap: ≥ 50% correct over 10 seeds.
-    assert n_correct >= 5, (
-        f"tight-gap fixture: {n_correct}/10 correct"
-    )
+    assert n_correct >= 5, f"tight-gap fixture: {n_correct}/10 correct"
 
 
 def test_halt_reasons_are_canonical():

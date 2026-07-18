@@ -73,11 +73,19 @@ def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--config", type=Path, default=DEFAULT_CONFIG)
     parser.add_argument("--device", default="cuda")
-    parser.add_argument("--batch-sizes", type=str, default=None, help="comma-separated override")
-    parser.add_argument("--inflight-grid", type=str, default=None, help="comma-separated override")
+    parser.add_argument(
+        "--batch-sizes", type=str, default=None, help="comma-separated override"
+    )
+    parser.add_argument(
+        "--inflight-grid", type=str, default=None, help="comma-separated override"
+    )
     parser.add_argument("--n-waves", type=int, default=None)
     parser.add_argument("--warmup", type=int, default=None)
-    parser.add_argument("--output-dir", type=Path, default=Path("results/metacognitive_root/service_curve_v1"))
+    parser.add_argument(
+        "--output-dir",
+        type=Path,
+        default=Path("results/metacognitive_root/service_curve_v1"),
+    )
     parser.add_argument("--overwrite", action="store_true")
     return parser
 
@@ -95,18 +103,26 @@ def main(argv: Sequence[str] | None = None) -> int:
         raise SystemExit("cuda requested but torch.cuda.is_available() is False")
     device = torch.device(requested)
 
-    batch_sizes = _int_csv(args.batch_sizes) or [int(x) for x in cfg["default_batch_sizes"]]
-    inflight_grid = _int_csv(args.inflight_grid) or [int(x) for x in cfg["default_inflight_grid"]]
+    batch_sizes = _int_csv(args.batch_sizes) or [
+        int(x) for x in cfg["default_batch_sizes"]
+    ]
+    inflight_grid = _int_csv(args.inflight_grid) or [
+        int(x) for x in cfg["default_inflight_grid"]
+    ]
     n_waves = int(args.n_waves if args.n_waves is not None else cfg["default_n_waves"])
     warmup = int(args.warmup if args.warmup is not None else cfg["default_warmup"])
     min_gain = float(cfg.get("default_min_gain", 0.05))
 
     output_dir = args.output_dir.resolve()
     if output_dir.exists() and any(output_dir.iterdir()) and not args.overwrite:
-        raise SystemExit(f"output directory is not empty; pass --overwrite: {output_dir}")
+        raise SystemExit(
+            f"output directory is not empty; pass --overwrite: {output_dir}"
+        )
     output_dir.mkdir(parents=True, exist_ok=True)
 
-    device_name = torch.cuda.get_device_name(0) if device.type == "cuda" else platform.processor()
+    device_name = (
+        torch.cuda.get_device_name(0) if device.type == "cuda" else platform.processor()
+    )
     resolved_config = {
         "config": str(config_path),
         "config_sha256": file_sha256(config_path),
@@ -140,14 +156,27 @@ def main(argv: Sequence[str] | None = None) -> int:
     manifest_path = output_dir / "run_manifest.json"
     atomic_json_dump(manifest_path, manifest)
 
-    model = lab.build_eval_model(
-        in_ch=int(m["in_ch"]), channels=int(m["channels"]), blocks=int(m["blocks"]),
-        board=int(m["board"]), actions=int(m["actions"]),
-    ).to(device).eval()
+    model = (
+        lab.build_eval_model(
+            in_ch=int(m["in_ch"]),
+            channels=int(m["channels"]),
+            blocks=int(m["blocks"]),
+            board=int(m["board"]),
+            actions=int(m["actions"]),
+        )
+        .to(device)
+        .eval()
+    )
 
     rows = lab.service_curve(
-        model, device, batch_sizes=batch_sizes, inflight_grid=inflight_grid,
-        in_ch=int(m["in_ch"]), board=int(m["board"]), n_waves=n_waves, warmup=warmup,
+        model,
+        device,
+        batch_sizes=batch_sizes,
+        inflight_grid=inflight_grid,
+        in_ch=int(m["in_ch"]),
+        board=int(m["board"]),
+        n_waves=n_waves,
+        warmup=warmup,
     )
     verdict = lab.scheduler_verdict(rows, min_gain=min_gain)
 
@@ -173,7 +202,9 @@ def main(argv: Sequence[str] | None = None) -> int:
             ),
         },
     )
-    manifest = finalize_run_manifest(manifest, output_dir=output_dir, artifact_paths=[curve_csv, summary_json])
+    manifest = finalize_run_manifest(
+        manifest, output_dir=output_dir, artifact_paths=[curve_csv, summary_json]
+    )
     atomic_json_dump(manifest_path, manifest)
     print(
         json.dumps(
@@ -185,7 +216,9 @@ def main(argv: Sequence[str] | None = None) -> int:
                 "best_overall_batch": verdict["best_overall_batch"],
                 "best_overall_inflight": verdict["best_overall_inflight"],
                 "inflight_throughput_gain": verdict["inflight_throughput_gain"],
-                "h4_inflight_scheduler_lane_alive": verdict["h4_inflight_scheduler_lane_alive"],
+                "h4_inflight_scheduler_lane_alive": verdict[
+                    "h4_inflight_scheduler_lane_alive"
+                ],
                 "run_contract_hash": manifest["run_contract_hash"],
             },
             sort_keys=True,

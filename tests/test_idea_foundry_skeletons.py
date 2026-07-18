@@ -124,7 +124,9 @@ def test_python_axis_catalog_is_complete_and_unique():
     instances = [axis_type() for axis_type in ALL_AXIS_TYPES]
     ids = [item.axis_id for item in instances]
     assert len(set(ids)) == 26
-    assert {axis_id.split(".", 1)[0] for axis_id in ids} == {f"A{i:02d}" for i in range(1, 27)}
+    assert {axis_id.split(".", 1)[0] for axis_id in ids} == {
+        f"A{i:02d}" for i in range(1, 27)
+    }
 
 
 def test_all_python_skeletons_accept_one_observation():
@@ -177,4 +179,7 @@ def test_arbiter_rejects_negative_non_stop_net_value():
 
 def test_cost_vector_weighting_is_explicit():
     cost = CostVector(nn_evals=2, cpu_ms=3, gpu_ms=4, energy_proxy=5)
-    assert cost.weighted({"nn_evals": 1, "cpu_ms": 2, "gpu_ms": 3, "energy_proxy": 4}) == 40
+    assert (
+        cost.weighted({"nn_evals": 1, "cpu_ms": 2, "gpu_ms": 3, "energy_proxy": 4})
+        == 40
+    )

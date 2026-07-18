@@ -20,8 +20,11 @@ def test_quantile_clean_25th():
 def test_lambda_score_components():
     """Lambda = U + ρ * KG + τ * log_prior_smoothed."""
     s = lambda_score(
-        upper_ci_a=0.6, kg_a=0.05, log_prior_smoothed_a=-1.0,
-        rho=1.0, tau=0.1,
+        upper_ci_a=0.6,
+        kg_a=0.05,
+        log_prior_smoothed_a=-1.0,
+        rho=1.0,
+        tau=0.1,
     )
     # = 0.6 + 1.0 * 0.05 + 0.1 * (-1.0) = 0.55
     assert abs(s - 0.55) < 1e-9

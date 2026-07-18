@@ -144,7 +144,9 @@ def test_q5_real_loop_smoke_closes_the_pipeline(tmp_path: Path) -> None:
         str(output),
     ]
     (tmp_path / "real_loop_cfg.json").write_text(
-        json.dumps({"batch": 1, "steps": 1, "iters": 4, "n_threads": 1, "batch_size": 1}),
+        json.dumps(
+            {"batch": 1, "steps": 1, "iters": 4, "n_threads": 1, "batch_size": 1}
+        ),
         encoding="utf-8",
     )
 
@@ -239,7 +241,9 @@ def test_real_loop_eval_uses_durable_candidate_checkpoint(tmp_path: Path) -> Non
     output = tmp_path / "real_loop_eval_output"
     cfg_path = tmp_path / "real_loop_eval_cfg.json"
     cfg_path.write_text(
-        json.dumps({"batch": 1, "steps": 1, "iters": 4, "n_threads": 1, "batch_size": 1}),
+        json.dumps(
+            {"batch": 1, "steps": 1, "iters": 4, "n_threads": 1, "batch_size": 1}
+        ),
         encoding="utf-8",
     )
     cmd = [

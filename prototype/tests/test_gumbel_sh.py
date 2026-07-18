@@ -101,7 +101,8 @@ def test_sh_select_winner_argmax_mean():
     """final winner is argmax mean over live candidates."""
     bracket = SequentialHalvingBracket(
         candidates=[0, 2],
-        budget=64, n_initial_candidates=4,
+        budget=64,
+        n_initial_candidates=4,
     )
     arm_means = [0.9, 0.5, 0.7, 0.3]
     assert select_winner(bracket, arm_means) == 0
@@ -143,7 +144,9 @@ def test_sh_advance_round_keeps_ceiling_half_on_odd_count():
     )
     arm_means = [0.9, 0.7, 0.5, 0.3, 0.1]
     nb = advance_round(bracket, arm_means)
-    assert len(nb.candidates) == 3, f"5 live arms must keep ceil(5/2)=3, got {nb.candidates}"
+    assert len(nb.candidates) == 3, (
+        f"5 live arms must keep ceil(5/2)=3, got {nb.candidates}"
+    )
     assert sorted(nb.candidates) == [0, 1, 2]
 
 
@@ -155,20 +158,28 @@ def test_sh_new_shrinks_initial_candidates_to_avoid_budget_overshoot():
     8+4+2=14 visits against a declared budget of 8. After the fix,
     the initial candidate count is shrunk so visits_consumed never
     exceeds the declared budget."""
-    bracket = SequentialHalvingBracket(candidates=list(range(8)), budget=8, n_initial_candidates=8)
-    assert len(bracket.candidates) < 8, f"8 candidates at budget=8 must be shrunk, got {bracket.candidates}"
+    bracket = SequentialHalvingBracket(
+        candidates=list(range(8)), budget=8, n_initial_candidates=8
+    )
+    assert len(bracket.candidates) < 8, (
+        f"8 candidates at budget=8 must be shrunk, got {bracket.candidates}"
+    )
     assert bracket.candidates[0] == 0  # highest-scoring prefix preserved
 
     arm_means = [0.9, 0.7, 0.5, 0.3, 0.1, 0.05, 0.02, 0.01]
     current = bracket
     while not current.is_done():
         current = advance_round(current, arm_means)
-    assert current.visits_consumed <= 8, f"must not exceed declared budget, got {current.visits_consumed}"
+    assert current.visits_consumed <= 8, (
+        f"must not exceed declared budget, got {current.visits_consumed}"
+    )
 
 
 def test_sh_new_does_not_shrink_when_budget_is_affordable():
     """A budget that already comfortably affords the requested
     candidate count must NOT be shrunk."""
-    bracket = SequentialHalvingBracket(candidates=list(range(8)), budget=100, n_initial_candidates=8)
+    bracket = SequentialHalvingBracket(
+        candidates=list(range(8)), budget=100, n_initial_candidates=8
+    )
     assert len(bracket.candidates) == 8
     assert bracket.n_initial_candidates == 8

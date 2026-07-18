@@ -42,7 +42,9 @@ def _mean(xs: Sequence[float]) -> float | None:
     return float(np.mean(xs)) if xs else None
 
 
-def compute_o6_lift(records: Sequence[dict[str, Any]], *, n_boot: int = 2000, seed: int = 0) -> dict[str, Any]:
+def compute_o6_lift(
+    records: Sequence[dict[str, Any]], *, n_boot: int = 2000, seed: int = 0
+) -> dict[str, Any]:
     """Compute the O6 lift and a position-level bootstrap CI.
 
     records: [{checkpoint_id, position_id, burst: 0/1, hard: 0/1}].
@@ -57,10 +59,16 @@ def compute_o6_lift(records: Sequence[dict[str, Any]], *, n_boot: int = 2000, se
     p_hard = float(hard.mean())
     p_hard_given_burst = _mean(hard[burst == 1].tolist()) if n_burst > 0 else None
     lift = (
-        None if (p_hard <= 0.0 or p_hard_given_burst is None) else float(p_hard_given_burst / p_hard)
+        None
+        if (p_hard <= 0.0 or p_hard_given_burst is None)
+        else float(p_hard_given_burst / p_hard)
     )
 
-    degenerate = bool(burst_rate > _BURST_RATE_HI or burst_rate < _BURST_RATE_LO or n_burst < _MIN_BURST_EVENTS)
+    degenerate = bool(
+        burst_rate > _BURST_RATE_HI
+        or burst_rate < _BURST_RATE_LO
+        or n_burst < _MIN_BURST_EVENTS
+    )
 
     # position-level bootstrap CI on the lift
     rng = np.random.default_rng(seed)
@@ -79,7 +87,13 @@ def compute_o6_lift(records: Sequence[dict[str, Any]], *, n_boot: int = 2000, se
     ci_high = float(np.percentile(lifts, 97.5)) if lifts else None
 
     ci_includes_one = ci_low is None or ci_high is None or (ci_low <= 1.0 <= ci_high)
-    o6_lane_alive = bool(not degenerate and lift is not None and lift > 1.0 and ci_low is not None and ci_low > 1.0)
+    o6_lane_alive = bool(
+        not degenerate
+        and lift is not None
+        and lift > 1.0
+        and ci_low is not None
+        and ci_low > 1.0
+    )
     return {
         "insufficient": bool(degenerate),
         "n_records": n,
@@ -93,8 +107,11 @@ def compute_o6_lift(records: Sequence[dict[str, Any]], *, n_boot: int = 2000, se
         "lift_ci_includes_one": bool(ci_includes_one),
         "degenerate": degenerate,
         "degenerate_reason": (
-            "burst_rate_out_of_range" if (burst_rate > _BURST_RATE_HI or burst_rate < _BURST_RATE_LO)
-            else "too_few_burst_events" if n_burst < _MIN_BURST_EVENTS else None
+            "burst_rate_out_of_range"
+            if (burst_rate > _BURST_RATE_HI or burst_rate < _BURST_RATE_LO)
+            else "too_few_burst_events"
+            if n_burst < _MIN_BURST_EVENTS
+            else None
         ),
         # kill: lane dies if the CI includes 1 (burst fires at the base rate)
         "o6_kill_lift_ci_includes_one": bool(ci_includes_one),
@@ -102,7 +119,9 @@ def compute_o6_lift(records: Sequence[dict[str, Any]], *, n_boot: int = 2000, se
     }
 
 
-def build_records(online_rows: Sequence[dict[str, Any]], bundles_by_key: dict[tuple, dict[str, Any]]) -> list[dict[str, Any]]:
+def build_records(
+    online_rows: Sequence[dict[str, Any]], bundles_by_key: dict[tuple, dict[str, Any]]
+) -> list[dict[str, Any]]:
     """Join B15 burst events with forked_voc hard labels on (checkpoint, position).
 
     A burst EVENT is any B15 online row with budget_burst_triggered == 1 for a
@@ -126,17 +145,30 @@ def build_records(online_rows: Sequence[dict[str, Any]], bundles_by_key: dict[tu
         if key not in hard_cache:
             lab = label_trace_bundle(bundle)
             hard_cache[key] = int(bool(lab.get("final_overturns_shallow")))
-        records.append({"checkpoint_id": key[0], "position_id": key[1], "burst": int(burst), "hard": hard_cache[key]})
+        records.append(
+            {
+                "checkpoint_id": key[0],
+                "position_id": key[1],
+                "burst": int(burst),
+                "hard": hard_cache[key],
+            }
+        )
     return records
 
 
 def build_parser() -> argparse.ArgumentParser:
     p = argparse.ArgumentParser(description=__doc__)
-    p.add_argument("--online-rows", required=True, help="phase15_online_rows.jsonl (B15 rows)")
-    p.add_argument("--trace-dir", required=True, help="A4 trace-cache dir (for forked_voc labels)")
+    p.add_argument(
+        "--online-rows", required=True, help="phase15_online_rows.jsonl (B15 rows)"
+    )
+    p.add_argument(
+        "--trace-dir", required=True, help="A4 trace-cache dir (for forked_voc labels)"
+    )
     p.add_argument("--n-boot", type=int, default=2000)
     p.add_argument("--seed", type=int, default=0)
-    p.add_argument("--output", default="results/phase15_stage7/o6_precision/summary.json")
+    p.add_argument(
+        "--output", default="results/phase15_stage7/o6_precision/summary.json"
+    )
     return p
 
 
@@ -147,7 +179,9 @@ def main(argv: Sequence[str] | None = None) -> int:
         line = line.strip()
         if line:
             rows.append(json.loads(line))
-    b15_rows = [r for r in rows if str(r.get("system", r.get("system_id", ""))) == "B15"]
+    b15_rows = [
+        r for r in rows if str(r.get("system", r.get("system_id", ""))) == "B15"
+    ]
 
     bundles_by_key: dict[tuple, dict[str, Any]] = {}
     import glob
@@ -163,14 +197,21 @@ def main(argv: Sequence[str] | None = None) -> int:
     result = compute_o6_lift(records, n_boot=args.n_boot, seed=args.seed)
     out = Path(args.output)
     out.parent.mkdir(parents=True, exist_ok=True)
-    out.write_text(json.dumps(result, indent=2, sort_keys=True) + "\n", encoding="utf-8")
-    print(json.dumps({
-        "status": "ok",
-        "n_records": result.get("n_records"),
-        "lift": result.get("lift"),
-        "o6_lane_alive": result.get("o6_lane_alive"),
-        "degenerate": result.get("degenerate"),
-    }, sort_keys=True))
+    out.write_text(
+        json.dumps(result, indent=2, sort_keys=True) + "\n", encoding="utf-8"
+    )
+    print(
+        json.dumps(
+            {
+                "status": "ok",
+                "n_records": result.get("n_records"),
+                "lift": result.get("lift"),
+                "o6_lane_alive": result.get("o6_lane_alive"),
+                "degenerate": result.get("degenerate"),
+            },
+            sort_keys=True,
+        )
+    )
     return 0
 
 

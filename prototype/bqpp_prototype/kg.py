@@ -161,8 +161,13 @@ def top_m_kg_with_uc_bound(
             continue
         if a in top_m:
             kg[a] = kg_gaussian_per_arm(
-                mu_hats[a], n_pulls[a], sigma2s[a],
-                mu_b, n_b, sigma2_b, lambda0,
+                mu_hats[a],
+                n_pulls[a],
+                sigma2s[a],
+                mu_b,
+                n_b,
+                sigma2_b,
+                lambda0,
             )
         else:
             # Conservative bound: U_a - L_b is an over-estimate of true KG

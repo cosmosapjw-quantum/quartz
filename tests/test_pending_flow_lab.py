@@ -93,13 +93,20 @@ def test_runner_smoke_with_rust_bridge(tmp_path):
     log_path = tmp_path / "rust.log"
     log_path.write_text(RUST_LOG_SNIPPET, encoding="utf-8")
     out = tmp_path / "run"
-    rc = runner.main([
-        "--scenarios", "one_best_cluster_k8",
-        "--waves", "120",
-        "--worker-grid", "1,2,4,8",
-        "--rust-log", str(log_path),
-        "--output-dir", str(out),
-    ])
+    rc = runner.main(
+        [
+            "--scenarios",
+            "one_best_cluster_k8",
+            "--waves",
+            "120",
+            "--worker-grid",
+            "1,2,4,8",
+            "--rust-log",
+            str(log_path),
+            "--output-dir",
+            str(out),
+        ]
+    )
     assert rc == 0
     for name in ("run_manifest.json", "summary.json", "rust_vl_ablation.log"):
         assert (out / name).exists()

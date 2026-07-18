@@ -177,7 +177,13 @@ def runtime_thread_budget(cfg, hw=None, fallback=1):
     try:
         if isinstance(raw, str):
             value = raw.strip().lower()
-            if value in {"auto", "throughput", "auto-throughput", "quality", "auto-quality"}:
+            if value in {
+                "auto",
+                "throughput",
+                "auto-throughput",
+                "quality",
+                "auto-quality",
+            }:
                 raw_cap = (
                     cfg.get("thread_cap")
                     or cfg.get("max_threads")
@@ -275,7 +281,9 @@ def eval_worker_candidates(hw, cfg, eval_games):
     return [w for w in sorted(set(int(x) for x in seeds)) if 1 <= w <= cap]
 
 
-def compute_eval_collect_policy(base_target_items, base_timeout_s, batch_items_ema=None, wait_ema_s=None):
+def compute_eval_collect_policy(
+    base_target_items, base_timeout_s, batch_items_ema=None, wait_ema_s=None
+):
     target = max(1, int(base_target_items))
     timeout_s = max(0.0005, float(base_timeout_s))
     items_ema = float(batch_items_ema if batch_items_ema is not None else target)

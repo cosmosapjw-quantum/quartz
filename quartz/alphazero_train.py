@@ -15,6 +15,7 @@ Usage:
 Requirements: torch, numpy, tqdm
 GPU:          install the CUDA/ROCm wheel matching the host driver; see docs/SETUP.md.
 """
+
 import os, sys, json, time, random, logging, atexit
 import numpy as np
 from collections import OrderedDict  # re-exported for tests / utilities
@@ -56,34 +57,39 @@ def encode_board(cfg, board_flat, player):
     """Game-agnostic board encoding using registered encoder.
     For 17-channel history encoding, use _encode_board_with_history instead.
     This function creates a single-timestep snapshot (t=0 only, no history)."""
-    enc_obj = cfg.get('_encoder')
+    enc_obj = cfg.get("_encoder")
     if enc_obj is not None:
         return enc_obj.encode(board_flat, player)
-    bs = cfg['board']; n2 = bs * bs
-    ch = cfg.get('ch', 17)
+    bs = cfg["board"]
+    n2 = bs * bs
+    ch = cfg.get("ch", 17)
     enc = np.zeros((ch, bs, bs), dtype=np.float32)
     # [OPT] Vectorized board encoding
     board_arr = np.asarray(board_flat, dtype=np.int8).ravel()[:n2]
     my_val = np.int8(player)
-    enc[0].ravel()[:len(board_arr)] = (board_arr == my_val).astype(np.float32)
+    enc[0].ravel()[: len(board_arr)] = (board_arr == my_val).astype(np.float32)
     opp_mask = (board_arr != 0) & (board_arr != my_val)
-    enc[1].ravel()[:len(board_arr)] = opp_mask.astype(np.float32)
+    enc[1].ravel()[: len(board_arr)] = opp_mask.astype(np.float32)
     # Color plane (last channel)
-    if player == 1: enc[ch - 1] = 1.0
+    if player == 1:
+        enc[ch - 1] = 1.0
     return enc
 
 
 def decode_board(cfg, enc, player):
     """Reconstruct flat board from encoded tensor."""
-    enc_obj = cfg.get('_encoder')
+    enc_obj = cfg.get("_encoder")
     if enc_obj is not None:
         return enc_obj.decode(enc, player)
     # Legacy fallback
-    bs = cfg['board']; board = np.zeros(bs * bs, dtype=np.int8)
+    bs = cfg["board"]
+    board = np.zeros(bs * bs, dtype=np.int8)
     for r in range(bs):
         for c in range(bs):
-            if enc[0, r, c] > 0.5: board[r * bs + c] = player
-            elif enc[1, r, c] > 0.5: board[r * bs + c] = -player
+            if enc[0, r, c] > 0.5:
+                board[r * bs + c] = player
+            elif enc[1, r, c] > 0.5:
+                board[r * bs + c] = -player
     return board
 
 
@@ -98,6 +104,7 @@ def json_dumps_compact(payload):
         out = orjson.dumps(payload)
         return out.decode("utf-8") if isinstance(out, bytes) else out
     return json.dumps(payload, separators=(",", ":"))
+
 
 try:
     from quartz.replay import (
@@ -479,7 +486,9 @@ def _get_qipc_transport(proc):
 
 
 def _cleanup_qipc_transport(proc):
-    return _cleanup_qipc_transport_impl(proc, unregister_ring_buffer_fn=_unregister_ring_buffer)
+    return _cleanup_qipc_transport_impl(
+        proc, unregister_ring_buffer_fn=_unregister_ring_buffer
+    )
 
 
 def _json_line_bytes(payload):
@@ -487,7 +496,9 @@ def _json_line_bytes(payload):
 
 
 def _read_exact(stream, n_bytes, timeout_s=None):
-    return _read_exact_impl(stream, n_bytes, timeout_s=timeout_s, wait_readable_fn=wait_readable)
+    return _read_exact_impl(
+        stream, n_bytes, timeout_s=timeout_s, wait_readable_fn=wait_readable
+    )
 
 
 def _stall_trace_path():
@@ -499,7 +510,9 @@ def _stall_trace(event, **fields):
 
 
 def proc_write_json_line(proc_or_stream, payload):
-    return _proc_write_json_line_impl(proc_or_stream, payload, json_dumps_compact_fn=json_dumps_compact)
+    return _proc_write_json_line_impl(
+        proc_or_stream, payload, json_dumps_compact_fn=json_dumps_compact
+    )
 
 
 def proc_write_qipc_frame(proc_or_stream, frame_kind, payload):
@@ -511,7 +524,12 @@ def proc_read_json_line(proc_or_stream):
 
 
 def proc_read_message(proc_or_stream, timeout_s=None):
-    return _proc_read_message_impl(proc_or_stream, timeout_s=timeout_s, json_loads_fast_fn=json_loads_fast, logger=log)
+    return _proc_read_message_impl(
+        proc_or_stream,
+        timeout_s=timeout_s,
+        json_loads_fast_fn=json_loads_fast,
+        logger=log,
+    )
 
 
 def proc_decode_eval_frame(proc, frame_kind, payload):
@@ -519,7 +537,10 @@ def proc_decode_eval_frame(proc, frame_kind, payload):
 
 
 def proc_write_eval_response(proc, logical_kind, payload, prefer_shm=False):
-    return _proc_write_eval_response_impl(proc, logical_kind, payload, prefer_shm=prefer_shm)
+    return _proc_write_eval_response_impl(
+        proc, logical_kind, payload, prefer_shm=prefer_shm
+    )
+
 
 class InferencePipelineThread(_InferencePipelineThreadImpl):
     def __init__(self, model, device, cfg, max_pending=1):
@@ -541,10 +562,14 @@ _parse_eval_request = _parse_eval_request_impl
 
 
 def _legacy_eval_cache_key(model_tag, num_actions, feat_array, ch_cfg, bs_cfg):
-    return _legacy_eval_cache_key_impl(model_tag, num_actions, feat_array, ch_cfg, bs_cfg)
+    return _legacy_eval_cache_key_impl(
+        model_tag, num_actions, feat_array, ch_cfg, bs_cfg
+    )
 
 
-def _eval_request_cache_key(model_tag, num_actions, feat_array, ch_cfg, bs_cfg, fp_lo, fp_hi, encoder_rev):
+def _eval_request_cache_key(
+    model_tag, num_actions, feat_array, ch_cfg, bs_cfg, fp_lo, fp_hi, encoder_rev
+):
     if fp_lo is not None and fp_hi is not None:
         return (int(model_tag), int(fp_hi), int(fp_lo), int(encoder_rev or 0))
     return _legacy_eval_cache_key(model_tag, num_actions, feat_array, ch_cfg, bs_cfg)
@@ -602,21 +627,27 @@ def _write_batched_eval_group(proc, response_group):
             prefer_shm=bool(response_group.get("prefer_shm")),
         )
     elif kind == "json_batch":
-        proc_write_json_line(proc, {
-            "batch_eval_resp": {
-                "responses": [
-                    {"policy": policy.tolist(), "value": float(value)}
-                    for policy, value in zip(policies, values)
-                ]
-            }
-        })
+        proc_write_json_line(
+            proc,
+            {
+                "batch_eval_resp": {
+                    "responses": [
+                        {"policy": policy.tolist(), "value": float(value)}
+                        for policy, value in zip(policies, values)
+                    ]
+                }
+            },
+        )
     elif kind == "json_single":
-        proc_write_json_line(proc, {
-            "eval_resp": {
-                "policy": policies[0].tolist(),
-                "value": float(values[0]),
-            }
-        })
+        proc_write_json_line(
+            proc,
+            {
+                "eval_resp": {
+                    "policy": policies[0].tolist(),
+                    "value": float(values[0]),
+                }
+            },
+        )
     else:
         raise ValueError(f"unknown eval response group kind: {kind}")
 
@@ -672,23 +703,46 @@ class RustServerPool(_RustServerPoolImpl):
             stop_server=stop_rust_server,
         )
 
+
 try:
     from tqdm import tqdm
+
     HAS_TQDM = True
 except ImportError:
     HAS_TQDM = False
+
     class tqdm:
         """Fallback when tqdm not installed."""
+
         def __init__(self, iterable=None, total=None, desc="", leave=True, **kw):
-            self.iterable = iterable; self.total = total; self.desc = desc; self.n = 0
+            self.iterable = iterable
+            self.total = total
+            self.desc = desc
+            self.n = 0
+
         def __iter__(self):
-            for x in self.iterable: yield x; self.n += 1
-        def __enter__(self): return self
-        def __exit__(self, *a): pass
-        def update(self, n=1): self.n += n
-        def set_postfix_str(self, s): pass
-        def set_postfix(self, **kw): pass
-        def close(self): pass
+            for x in self.iterable:
+                yield x
+                self.n += 1
+
+        def __enter__(self):
+            return self
+
+        def __exit__(self, *a):
+            pass
+
+        def update(self, n=1):
+            self.n += n
+
+        def set_postfix_str(self, s):
+            pass
+
+        def set_postfix(self, **kw):
+            pass
+
+        def close(self):
+            pass
+
 
 import torch
 
@@ -751,15 +805,23 @@ def ensure_best_checkpoint_compatible(best_model_path, backend, model, device):
     """
     if not os.path.exists(best_model_path):
         return None
-    active_backend = getattr(backend, "name", "torch") if backend is not None else "torch"
-    hint = detect_checkpoint_backend_hint(best_model_path)
-    mismatch = (
-        (active_backend == "torch" and hint == "jax")
-        or (active_backend == "jax" and hint == "torch")
+    active_backend = (
+        getattr(backend, "name", "torch") if backend is not None else "torch"
     )
-    if not mismatch and active_backend == "torch" and model is not None and hint in {"torch", "unknown"}:
+    hint = detect_checkpoint_backend_hint(best_model_path)
+    mismatch = (active_backend == "torch" and hint == "jax") or (
+        active_backend == "jax" and hint == "torch"
+    )
+    if (
+        not mismatch
+        and active_backend == "torch"
+        and model is not None
+        and hint in {"torch", "unknown"}
+    ):
         try:
-            state_dict = load_torch_state_dict(best_model_path, torch, map_location=device)
+            state_dict = load_torch_state_dict(
+                best_model_path, torch, map_location=device
+            )
             mismatch = validate_torch_state_dict(model, state_dict) is not None
         except Exception:
             mismatch = True
@@ -803,6 +865,7 @@ encode_chess_fen = _runtime_support.encode_chess_fen
 # § Rust Server Self-Play
 # ═══════════════════════════════════════════
 
+
 def selfplay_rust(cfg, n_games, rust_binary="./target/release/mcts_demo"):
     return _selfplay_rust_impl(
         cfg,
@@ -824,6 +887,7 @@ def selfplay_rust(cfg, n_games, rust_binary="./target/release/mcts_demo"):
 # ═══════════════════════════════════════════
 # § NN-Backed Rust Search Client (search_nn protocol)
 # ═══════════════════════════════════════════
+
 
 class NNSearchClient(_NNSearchClientImpl):
     def __init__(self, model, cfg, device, rust_binary="./target/release/mcts_demo"):
@@ -881,7 +945,10 @@ _runtime_support.register_search_client_resolver(lambda: NNSearchClient)
 # § Rust NN-Backed Self-Play
 # ═══════════════════════════════════════════
 
-def selfplay_rust_nn(cfg, model, device, n_games, rust_binary="./target/release/mcts_demo"):
+
+def selfplay_rust_nn(
+    cfg, model, device, n_games, rust_binary="./target/release/mcts_demo"
+):
     return _selfplay_rust_nn_impl(
         cfg,
         model,
@@ -931,7 +998,9 @@ _decode_streamed_selfplay_game = _decode_streamed_selfplay_game_impl
 StepEarlyStopping = _StepEarlyStoppingImpl
 
 
-def train_epoch(model, optimizer, replay, cfg, device, n_steps, backend=None, inner_stop_cfg=None):
+def train_epoch(
+    model, optimizer, replay, cfg, device, n_steps, backend=None, inner_stop_cfg=None
+):
     return _train_epoch_impl(
         model,
         optimizer,
@@ -963,7 +1032,9 @@ def _run_model_batch(model, device, batch_features):
 
 
 def choose_selfplay_move(policy, legal, move_count, temp_threshold, fallback_best=-1):
-    return _choose_selfplay_move_impl(policy, legal, move_count, temp_threshold, fallback_best=fallback_best)
+    return _choose_selfplay_move_impl(
+        policy, legal, move_count, temp_threshold, fallback_best=fallback_best
+    )
 
 
 def get_actor_model(training_model, backend):
@@ -980,6 +1051,7 @@ def clone_actor_model(actor_source):
         actor = actor_source.create_actor()
     else:
         import copy
+
         actor = copy.deepcopy(actor_source)
     if hasattr(actor, "eval"):
         actor.eval()
@@ -1005,7 +1077,8 @@ def _make_autotune_runtime_hooks():
 
 
 def load_actor_source_from_checkpoint(
-        checkpoint_path, cfg, device, backend_preference="torch", backend_template=None):
+    checkpoint_path, cfg, device, backend_preference="torch", backend_template=None
+):
     return _load_actor_source_from_checkpoint_impl(
         checkpoint_path,
         cfg,
@@ -1030,7 +1103,9 @@ load_eval_autotune_profile = _load_eval_autotune_profile_impl
 eval_autotune_signature = _eval_autotune_signature_impl
 
 
-def compute_eval_collect_policy(base_target_items, base_timeout_s, batch_items_ema=None, wait_ema_s=None):
+def compute_eval_collect_policy(
+    base_target_items, base_timeout_s, batch_items_ema=None, wait_ema_s=None
+):
     return _compute_eval_collect_policy_impl(
         base_target_items,
         base_timeout_s,
@@ -1040,7 +1115,8 @@ def compute_eval_collect_policy(base_target_items, base_timeout_s, batch_items_e
 
 
 def benchmark_eval_parallel_workers(
-        hw, cfg, eval_games, candidate_factory, champion_factory, game_factory, profile_path):
+    hw, cfg, eval_games, candidate_factory, champion_factory, game_factory, profile_path
+):
     return _benchmark_eval_parallel_workers_impl(
         hw,
         cfg,
@@ -1074,15 +1150,23 @@ def autoscale_model_cfg(cfg, hw):
 
 
 def _probe_inference_batch_size(model, device, cfg, eval_batch_cap):
-    if model is None or hasattr(model, "predict") or getattr(device, "type", "cpu") == "cpu":
+    if (
+        model is None
+        or hasattr(model, "predict")
+        or getattr(device, "type", "cpu") == "cpu"
+    ):
         return cfg.get("batch_size", 8)
     ch, bs = cfg.get("ch", 3), cfg.get("board", 7)
     current_bs = cfg.get("batch_size", 8)
-    candidates = sorted(set([current_bs] + [c for c in [32, 64, 128, 256] if c <= eval_batch_cap]))
+    candidates = sorted(
+        set([current_bs] + [c for c in [32, 64, 128, 256] if c <= eval_batch_cap])
+    )
     best_bs, best_ips = current_bs, 0.0
     for cand in candidates:
         try:
-            batch = [np.random.randn(ch, bs, bs).astype(np.float32) for _ in range(cand)]
+            batch = [
+                np.random.randn(ch, bs, bs).astype(np.float32) for _ in range(cand)
+            ]
             for _ in range(5):
                 _run_model_batch(model, device, batch)
             N = max(20, 200 // cand)
@@ -1120,8 +1204,16 @@ _autotune_parallel_candidates = _autotune_parallel_candidates_impl
 _autotune_batch_game_candidates = _autotune_batch_game_candidates_impl
 
 
-def _score_selfplay_probe(positions_per_s, cycle_s, concurrent, positions=0, eval_messages=0,
-                          model_batch_mean=0.0, parallel=1, n_threads=1):
+def _score_selfplay_probe(
+    positions_per_s,
+    cycle_s,
+    concurrent,
+    positions=0,
+    eval_messages=0,
+    model_batch_mean=0.0,
+    parallel=1,
+    n_threads=1,
+):
     return _score_selfplay_probe_impl(
         positions_per_s,
         cycle_s,
@@ -1134,7 +1226,9 @@ def _score_selfplay_probe(positions_per_s, cycle_s, concurrent, positions=0, eva
     )
 
 
-def _score_train_batch_probe(examples_per_s, batch_n, concurrent=False, target_positions_per_cycle=None):
+def _score_train_batch_probe(
+    examples_per_s, batch_n, concurrent=False, target_positions_per_cycle=None
+):
     return _score_train_batch_probe_impl(
         examples_per_s,
         batch_n,
@@ -1149,19 +1243,31 @@ should_use_resident_session = _should_use_resident_session_impl
 supports_rust_eval_state_machine = _runtime_support.supports_rust_eval_state_machine
 
 
-supports_rust_selfplay_state_machine = _torch_training_runtime.supports_rust_selfplay_state_machine
+supports_rust_selfplay_state_machine = (
+    _torch_training_runtime.supports_rust_selfplay_state_machine
+)
 
 
 def _autotune_progress_bar(total, desc):
     use_tqdm = HAS_TQDM and sys.stderr.isatty()
-    return tqdm(total=total, desc=desc, leave=False, dynamic_ncols=True, disable=not use_tqdm)
+    return tqdm(
+        total=total, desc=desc, leave=False, dynamic_ncols=True, disable=not use_tqdm
+    )
 
 
 benchmark_selfplay_throughput = _torch_training_runtime.benchmark_selfplay_throughput
 
 
-def benchmark_train_batch(cfg, backend, model, optimizer, device, hw,
-                          concurrent=False, target_positions_per_cycle=None):
+def benchmark_train_batch(
+    cfg,
+    backend,
+    model,
+    optimizer,
+    device,
+    hw,
+    concurrent=False,
+    target_positions_per_cycle=None,
+):
     return _benchmark_train_batch_impl(
         cfg,
         backend,
@@ -1206,6 +1312,7 @@ EarlyStopping = _EarlyStoppingImpl
 # § Eval Server (for Rust MCTS PythonIpcEval)
 # ═══════════════════════════════════════════
 
+
 def serve(model, cfg, device):
     return _serve_impl(
         model,
@@ -1213,6 +1320,7 @@ def serve(model, cfg, device):
         device,
         runtime_hooks=_make_cli_runtime_hooks(),
     )
+
 
 # ═══════════════════════════════════════════
 # § Main
@@ -1222,8 +1330,17 @@ def serve(model, cfg, device):
 # § Arena: Head-to-Head Model Comparison
 # ═══════════════════════════════════════════
 
-def _arena_rust_nn_impl(model_a_path, cfg_a, model_b_path, cfg_b, device, n_games=50,
-                        rust_binary="./target/release/mcts_demo", strict=True):
+
+def _arena_rust_nn_impl(
+    model_a_path,
+    cfg_a,
+    model_b_path,
+    cfg_b,
+    device,
+    n_games=50,
+    rust_binary="./target/release/mcts_demo",
+    strict=True,
+):
     return _arena_rust_nn_impl_runtime(
         model_a_path,
         cfg_a,
@@ -1252,8 +1369,16 @@ def _arena_rust_nn_impl(model_a_path, cfg_a, model_b_path, cfg_b, device, n_game
 arena_rust_nn = _torch_training_runtime.arena_rust_nn
 
 
-def arena_rust_nn_dual_cfg(model_a_path, cfg_a, model_b_path, cfg_b, device, n_games=50,
-                           rust_binary="./target/release/mcts_demo", strict=True):
+def arena_rust_nn_dual_cfg(
+    model_a_path,
+    cfg_a,
+    model_b_path,
+    cfg_b,
+    device,
+    n_games=50,
+    rust_binary="./target/release/mcts_demo",
+    strict=True,
+):
     return _arena_rust_nn_impl(
         model_a_path,
         cfg_a,
@@ -1275,18 +1400,29 @@ selfplay_rust_nn_batched = _torch_training_runtime.selfplay_rust_nn_batched
 
 try:
     from quartz.evaluation import (
-        TrainingEvaluator, EvalConfig, PromotionVerdict,
-        RatingLadder, PromotionGate, ChampionTracker,
-        RandomEngine as EvalRandomEngine, MatchRunner, tally_match,
-        GameAdapter, Engine as EvalEngine, GameRecord,
+        TrainingEvaluator,
+        EvalConfig,
+        PromotionVerdict,
+        RatingLadder,
+        PromotionGate,
+        ChampionTracker,
+        RandomEngine as EvalRandomEngine,
+        MatchRunner,
+        tally_match,
+        GameAdapter,
+        Engine as EvalEngine,
+        GameRecord,
     )
+
     HAS_EVAL_SYSTEM = True
 except ImportError:
     HAS_EVAL_SYSTEM = False
 
 
 class RustNNEvaluatorEngine(_RustNNEvaluatorEngineImpl):
-    def __init__(self, engine_name, cfg, model, device, rust_binary="./target/release/mcts_demo"):
+    def __init__(
+        self, engine_name, cfg, model, device, rust_binary="./target/release/mcts_demo"
+    ):
         super().__init__(
             engine_name,
             cfg,
@@ -1397,6 +1533,7 @@ def main():
             generate_training_plots=generate_training_plots,
         ),
     )
+
 
 if __name__ == "__main__":
     main()

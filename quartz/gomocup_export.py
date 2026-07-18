@@ -138,6 +138,8 @@ def export_gomocup_bundle(
         "bundle_dir": str(output_dir),
         "onnx_path": str(onnx_path),
         "manifest_path": str(manifest_path),
-        "checkpoint_copy": str(copied_checkpoint) if copied_checkpoint is not None else None,
+        "checkpoint_copy": str(copied_checkpoint)
+        if copied_checkpoint is not None
+        else None,
         "manifest": manifest,
     }

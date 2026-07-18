@@ -47,7 +47,9 @@ class A06GumbelSequentialHalving:
             gumbel = -log(-log(u))
             scored.append((log(prior) + gumbel, edge.edge_pos))
         scored.sort(reverse=True)
-        return [pos for _, pos in scored[: max(1, min(self.candidate_count, len(scored)))]]
+        return [
+            pos for _, pos in scored[: max(1, min(self.candidate_count, len(scored)))]
+        ]
 
     def propose(self, obs: RootObservation) -> Sequence[MetaProposal]:
         candidates = self.initial_candidates(obs)
@@ -57,7 +59,12 @@ class A06GumbelSequentialHalving:
         return tuple(
             MetaProposal(
                 axis_id=self.axis_id,
-                action=MetaAction(MetaActionKind.SAMPLE, primary=pos, amount=per_arm, label="gumbel_round"),
+                action=MetaAction(
+                    MetaActionKind.SAMPLE,
+                    primary=pos,
+                    amount=per_arm,
+                    label="gumbel_round",
+                ),
                 estimate=ProposalEstimate(
                     regret_reduction_mean=0.0,
                     regret_reduction_lcb=0.0,
@@ -96,7 +103,9 @@ class A07ResidualEvidenceWidening:
         return (
             MetaProposal(
                 axis_id=self.axis_id,
-                action=MetaAction(MetaActionKind.WIDEN, amount=self.widen_count, label="residual_mass"),
+                action=MetaAction(
+                    MetaActionKind.WIDEN, amount=self.widen_count, label="residual_mass"
+                ),
                 estimate=ProposalEstimate(
                     regret_reduction_mean=residual,
                     regret_reduction_lcb=0.0,
@@ -124,7 +133,11 @@ class A08TacticalProofBackend:
                 proposals.append(
                     MetaProposal(
                         axis_id=self.axis_id,
-                        action=MetaAction(MetaActionKind.STOP, primary=edge.edge_pos, label="tactical_forced"),
+                        action=MetaAction(
+                            MetaActionKind.STOP,
+                            primary=edge.edge_pos,
+                            label="tactical_forced",
+                        ),
                         estimate=ProposalEstimate(confidence=1.0),
                         activation_guard="proof object verified by game-specific solver",
                         explanation="verified forced move overrides statistical controller",
@@ -134,7 +147,11 @@ class A08TacticalProofBackend:
                 proposals.append(
                     MetaProposal(
                         axis_id=self.axis_id,
-                        action=MetaAction(MetaActionKind.PROVE, primary=edge.edge_pos, amount=self.proof_budget),
+                        action=MetaAction(
+                            MetaActionKind.PROVE,
+                            primary=edge.edge_pos,
+                            amount=self.proof_budget,
+                        ),
                         estimate=ProposalEstimate(
                             regret_reduction_mean=edge.total_radius,
                             regret_reduction_lcb=0.0,
@@ -244,7 +261,9 @@ class A11DynamicLiveSetParticles:
         return tuple(
             MetaProposal(
                 axis_id=self.axis_id,
-                action=MetaAction(MetaActionKind.RESAMPLE_MODE, primary=pos, amount=self.batch),
+                action=MetaAction(
+                    MetaActionKind.RESAMPLE_MODE, primary=pos, amount=self.batch
+                ),
                 estimate=ProposalEstimate(
                     regret_reduction_mean=score,
                     regret_reduction_lcb=0.0,
@@ -287,7 +306,10 @@ class A12JsdLocallyBalancedSampler:
                 estimate=ProposalEstimate(confidence=0.0),
                 activation_guard="sibling successor policy/value caches on common legal support",
                 explanation="geometry build requested; target density remains P/Q regularized, not JSD penalty",
-                telemetry={"temperature": self.temperature, "bandwidth": self.bandwidth},
+                telemetry={
+                    "temperature": self.temperature,
+                    "bandwidth": self.bandwidth,
+                },
             ),
         )
 
@@ -306,11 +328,16 @@ class A13PendingFlowWuUct:
         return (
             MetaProposal(
                 axis_id=self.axis_id,
-                action=MetaAction(MetaActionKind.NOOP, label="publish_unobserved_counts"),
+                action=MetaAction(
+                    MetaActionKind.NOOP, label="publish_unobserved_counts"
+                ),
                 estimate=ProposalEstimate(confidence=0.5),
                 activation_guard="pending/in-flight counts never enter confidence evidence",
                 explanation=f"separate pending-flow correction for {pending} in-flight evaluations",
-                telemetry={str(edge.edge_pos): self.effective_visits(edge) for edge in obs.edges},
+                telemetry={
+                    str(edge.edge_pos): self.effective_visits(edge)
+                    for edge in obs.edges
+                },
             ),
         )
 
@@ -332,7 +359,10 @@ class A14SemanticPathLsh:
 
     def propose(self, obs: RootObservation) -> Sequence[MetaProposal]:
         rt = obs.runtime
-        if rt.threads < self.min_threads or rt.semantic_path_overlap < self.overlap_threshold:
+        if (
+            rt.threads < self.min_threads
+            or rt.semantic_path_overlap < self.overlap_threshold
+        ):
             return ()
         best = obs.best_edge()
         if best is None:
@@ -466,9 +496,7 @@ class A26NestedContourExactLab:
             raise ValueError("likelihood/prior shape mismatch")
         likelihood_rows = [float(value) for value in likelihoods]
         prior_rows = [float(value) for value in prior]
-        if any(
-            not math.isfinite(value) or value < 0.0 for value in likelihood_rows
-        ):
+        if any(not math.isfinite(value) or value < 0.0 for value in likelihood_rows):
             raise ValueError("likelihoods must be finite and non-negative")
         if any(not math.isfinite(value) or value < 0.0 for value in prior_rows):
             raise ValueError("prior must have non-negative finite mass")
@@ -510,7 +538,9 @@ class A26NestedContourExactLab:
         return (
             MetaProposal(
                 axis_id=self.axis_id,
-                action=MetaAction(MetaActionKind.NOOP, label="offline_exact_nested_contour"),
+                action=MetaAction(
+                    MetaActionKind.NOOP, label="offline_exact_nested_contour"
+                ),
                 estimate=ProposalEstimate(confidence=0.0),
                 activation_guard="enumerable/small-tree lab; explicit prior, likelihood, and constrained sampler",
                 explanation="exact nested-contour validation remains separate from live-set particle search",

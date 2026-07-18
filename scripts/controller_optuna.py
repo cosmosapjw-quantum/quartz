@@ -33,8 +33,15 @@ sys.path.insert(0, str(SCRIPT_DIR))
 import controller_sweep as sweep
 
 
-def load_positions(path_str: str | None, game_name: str, base_cfg: dict, count: int, seed: int,
-                   min_moves: int | None, max_moves: int | None) -> list[dict]:
+def load_positions(
+    path_str: str | None,
+    game_name: str,
+    base_cfg: dict,
+    count: int,
+    seed: int,
+    min_moves: int | None,
+    max_moves: int | None,
+) -> list[dict]:
     if not path_str:
         return sweep.generate_random_positions(
             game_name,
@@ -74,7 +81,9 @@ def build_param_bounds(base_cfg: dict) -> dict[str, dict[str, float | int]]:
         },
         "sigma_0": {
             "low": round_step(max(0.05, base_sigma * 0.5), 0.05),
-            "high": round_step(min(1.0, max(base_sigma * 2.0, base_sigma + 0.15)), 0.05),
+            "high": round_step(
+                min(1.0, max(base_sigma * 2.0, base_sigma + 0.15)), 0.05
+            ),
             "step": 0.05,
         },
         "min_visits": {
@@ -105,7 +114,9 @@ def build_param_bounds(base_cfg: dict) -> dict[str, dict[str, float | int]]:
     }
 
 
-def sample_trial_params(trial: optuna.Trial, base_cfg: dict, allowed_families: list[str]) -> dict[str, Any]:
+def sample_trial_params(
+    trial: optuna.Trial, base_cfg: dict, allowed_families: list[str]
+) -> dict[str, Any]:
     bounds = build_param_bounds(base_cfg)
     families = list(allowed_families) or ["legacy", "theory"]
     controller_family = trial.suggest_categorical("controller_family", families)
@@ -113,7 +124,9 @@ def sample_trial_params(trial: optuna.Trial, base_cfg: dict, allowed_families: l
 
     params: dict[str, Any] = {
         "controller_family": controller_family,
-        "root_only_shaping": trial.suggest_categorical("root_only_shaping", [False, True]),
+        "root_only_shaping": trial.suggest_categorical(
+            "root_only_shaping", [False, True]
+        ),
         "refresh_enabled": refresh_enabled,
         "hbar_penalty_cap": trial.suggest_float(
             "hbar_penalty_cap",
@@ -161,22 +174,44 @@ def sample_trial_params(trial: optuna.Trial, base_cfg: dict, allowed_families: l
         )
     else:
         params["prior_refresh_rate"] = 0.0
-        params["prior_refresh_temp"] = float(base_cfg.get("prior_refresh_temp", 1.0) or 1.0)
+        params["prior_refresh_temp"] = float(
+            base_cfg.get("prior_refresh_temp", 1.0) or 1.0
+        )
     return params
 
 
-def params_to_candidate(params: dict[str, Any], base_cfg: dict, trial_number: int | None = None) -> dict:
+def params_to_candidate(
+    params: dict[str, Any], base_cfg: dict, trial_number: int | None = None
+) -> dict:
     family = str(params.get("controller_family", "legacy"))
     overrides = sweep.canonicalize_candidate(
         {
-            "penalty_mode": "GatedRefreshLegacy" if family == "legacy" else "GatedRefresh",
-            "root_only_shaping": bool(params.get("root_only_shaping", family == "theory")),
+            "penalty_mode": "GatedRefreshLegacy"
+            if family == "legacy"
+            else "GatedRefresh",
+            "root_only_shaping": bool(
+                params.get("root_only_shaping", family == "theory")
+            ),
             "prior_refresh_rate": float(params.get("prior_refresh_rate", 0.0) or 0.0),
-            "prior_refresh_temp": float(params.get("prior_refresh_temp", base_cfg.get("prior_refresh_temp", 1.0) or 1.0)),
-            "hbar_penalty_cap": float(params.get("hbar_penalty_cap", base_cfg.get("hbar_penalty_cap", 0.3) or 0.3)),
-            "sigma_0": float(params.get("sigma_0", base_cfg.get("sigma_0", 0.3) or 0.3)),
-            "min_visits": int(params.get("min_visits", base_cfg.get("min_visits", 15) or 15)),
-            "check_interval": int(params.get("check_interval", base_cfg.get("check_interval", 20) or 20)),
+            "prior_refresh_temp": float(
+                params.get(
+                    "prior_refresh_temp", base_cfg.get("prior_refresh_temp", 1.0) or 1.0
+                )
+            ),
+            "hbar_penalty_cap": float(
+                params.get(
+                    "hbar_penalty_cap", base_cfg.get("hbar_penalty_cap", 0.3) or 0.3
+                )
+            ),
+            "sigma_0": float(
+                params.get("sigma_0", base_cfg.get("sigma_0", 0.3) or 0.3)
+            ),
+            "min_visits": int(
+                params.get("min_visits", base_cfg.get("min_visits", 15) or 15)
+            ),
+            "check_interval": int(
+                params.get("check_interval", base_cfg.get("check_interval", 20) or 20)
+            ),
             "c_puct": float(params.get("c_puct", base_cfg.get("c_puct", 2.0) or 2.0)),
         },
         base_cfg,
@@ -195,7 +230,9 @@ def params_to_candidate(params: dict[str, Any], base_cfg: dict, trial_number: in
 def anchor_candidate_to_params(candidate: dict, base_cfg: dict) -> dict[str, Any]:
     overrides = sweep.canonicalize_candidate(candidate["overrides"], base_cfg)
     return {
-        "controller_family": "legacy" if overrides["penalty_mode"] == "GatedRefreshLegacy" else "theory",
+        "controller_family": "legacy"
+        if overrides["penalty_mode"] == "GatedRefreshLegacy"
+        else "theory",
         "root_only_shaping": bool(overrides["root_only_shaping"]),
         "refresh_enabled": bool(overrides["prior_refresh_rate"] > 0.0),
         "prior_refresh_rate": float(overrides["prior_refresh_rate"]),
@@ -225,7 +262,11 @@ def serialize_trial(trial: optuna.Trial | optuna.trial.FrozenTrial) -> dict[str,
 
 
 def summarize_trials_by_segment(trial_rows: list[dict[str, Any]]) -> dict[str, Any]:
-    completed = [row for row in trial_rows if row.get("state") == "COMPLETE" and row.get("value") is not None]
+    completed = [
+        row
+        for row in trial_rows
+        if row.get("state") == "COMPLETE" and row.get("value") is not None
+    ]
 
     def bucket(rows: list[dict[str, Any]]) -> dict[str, Any]:
         values = [float(row["value"]) for row in rows]
@@ -237,10 +278,18 @@ def summarize_trials_by_segment(trial_rows: list[dict[str, Any]]) -> dict[str, A
             "mean_value": sum(values) / len(values),
         }
 
-    refresh_on = [row for row in completed if bool(row["params"].get("refresh_enabled"))]
-    refresh_off = [row for row in completed if not bool(row["params"].get("refresh_enabled"))]
-    family_legacy = [row for row in completed if row["params"].get("controller_family") == "legacy"]
-    family_theory = [row for row in completed if row["params"].get("controller_family") == "theory"]
+    refresh_on = [
+        row for row in completed if bool(row["params"].get("refresh_enabled"))
+    ]
+    refresh_off = [
+        row for row in completed if not bool(row["params"].get("refresh_enabled"))
+    ]
+    family_legacy = [
+        row for row in completed if row["params"].get("controller_family") == "legacy"
+    ]
+    family_theory = [
+        row for row in completed if row["params"].get("controller_family") == "theory"
+    ]
 
     ranked = sorted(completed, key=lambda row: (-float(row["value"]), row["number"]))
     top_cut = max(1, len(ranked) // 4) if ranked else 0
@@ -251,8 +300,16 @@ def summarize_trials_by_segment(trial_rows: list[dict[str, Any]]) -> dict[str, A
             "on": bucket(refresh_on),
             "top_quartile": {
                 "count": len(top_quartile),
-                "refresh_on": sum(1 for row in top_quartile if bool(row["params"].get("refresh_enabled"))),
-                "refresh_off": sum(1 for row in top_quartile if not bool(row["params"].get("refresh_enabled"))),
+                "refresh_on": sum(
+                    1
+                    for row in top_quartile
+                    if bool(row["params"].get("refresh_enabled"))
+                ),
+                "refresh_off": sum(
+                    1
+                    for row in top_quartile
+                    if not bool(row["params"].get("refresh_enabled"))
+                ),
             },
         },
         "family": {
@@ -262,9 +319,15 @@ def summarize_trials_by_segment(trial_rows: list[dict[str, Any]]) -> dict[str, A
     }
 
 
-def select_top_trial_candidates(trial_rows: list[dict[str, Any]], base_cfg: dict, topk: int) -> list[dict]:
+def select_top_trial_candidates(
+    trial_rows: list[dict[str, Any]], base_cfg: dict, topk: int
+) -> list[dict]:
     ranked = sorted(
-        [row for row in trial_rows if row.get("state") == "COMPLETE" and row.get("value") is not None],
+        [
+            row
+            for row in trial_rows
+            if row.get("state") == "COMPLETE" and row.get("value") is not None
+        ],
         key=lambda row: (-float(row["value"]), int(row["number"])),
     )
     selected: list[dict] = []
@@ -281,8 +344,14 @@ def select_top_trial_candidates(trial_rows: list[dict[str, Any]], base_cfg: dict
     return selected
 
 
-def save_trial_payload(path: Path, trial: optuna.Trial | optuna.trial.FrozenTrial, candidate: dict,
-                       checkpoint_rows: list[dict], summary: dict | None, error: str | None = None) -> None:
+def save_trial_payload(
+    path: Path,
+    trial: optuna.Trial | optuna.trial.FrozenTrial,
+    candidate: dict,
+    checkpoint_rows: list[dict],
+    summary: dict | None,
+    error: str | None = None,
+) -> None:
     payload = {
         "generated_at": time.strftime("%Y-%m-%d %H:%M:%S"),
         "trial": serialize_trial(trial),
@@ -294,10 +363,18 @@ def save_trial_payload(path: Path, trial: optuna.Trial | optuna.trial.FrozenTria
     sweep.json_dump(path, payload)
 
 
-def build_report(base_dir: Path, manifest: dict, study: optuna.Study,
-                 arena_payload: dict | None = None) -> dict[str, Any]:
+def build_report(
+    base_dir: Path,
+    manifest: dict,
+    study: optuna.Study,
+    arena_payload: dict | None = None,
+) -> dict[str, Any]:
     trial_rows = [serialize_trial(trial) for trial in study.trials]
-    completed = [row for row in trial_rows if row["state"] == "COMPLETE" and row["value"] is not None]
+    completed = [
+        row
+        for row in trial_rows
+        if row["state"] == "COMPLETE" and row["value"] is not None
+    ]
     ranked = sorted(completed, key=lambda row: (-float(row["value"]), row["number"]))
     best_trial = ranked[0] if ranked else None
     try:
@@ -326,19 +403,31 @@ def build_report(base_dir: Path, manifest: dict, study: optuna.Study,
 
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="Optuna-based QUARTZ controller sweep")
-    parser.add_argument("--game", default="gomoku7", choices=[
-        "gomoku7",
-        "gomoku15",
-        "gomoku15_free",
-        "gomoku15_std",
-        "gomoku15_omok",
-        "gomoku15_renju",
-        "gomoku15_caro",
-        "tictactoe",
-    ])
-    parser.add_argument("--output", default="results/controller_optuna", help="Output root directory")
-    parser.add_argument("--checkpoints", default=None, help="Comma-separated checkpoint paths")
-    parser.add_argument("--checkpoint-dir", default=None, help="Directory to scan recursively for best.pt/latest.pt")
+    parser.add_argument(
+        "--game",
+        default="gomoku7",
+        choices=[
+            "gomoku7",
+            "gomoku15",
+            "gomoku15_free",
+            "gomoku15_std",
+            "gomoku15_omok",
+            "gomoku15_renju",
+            "gomoku15_caro",
+            "tictactoe",
+        ],
+    )
+    parser.add_argument(
+        "--output", default="results/controller_optuna", help="Output root directory"
+    )
+    parser.add_argument(
+        "--checkpoints", default=None, help="Comma-separated checkpoint paths"
+    )
+    parser.add_argument(
+        "--checkpoint-dir",
+        default=None,
+        help="Directory to scan recursively for best.pt/latest.pt",
+    )
     parser.add_argument("--max-checkpoints", type=int, default=3)
     parser.add_argument("--bootstrap-if-empty", action="store_true")
     parser.add_argument("--bootstrap-iterations", type=int, default=2)
@@ -350,23 +439,45 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--device", default="auto")
     parser.add_argument("--rust-binary", default="./target/release/mcts_demo")
     parser.add_argument("--seed", type=int, default=42)
-    parser.add_argument("--positions-file", default=None, help="Existing stage1_positions.json (or raw list) to reuse")
+    parser.add_argument(
+        "--positions-file",
+        default=None,
+        help="Existing stage1_positions.json (or raw list) to reuse",
+    )
     parser.add_argument("--stage1-positions", type=int, default=12)
     parser.add_argument("--position-min-moves", type=int, default=None)
     parser.add_argument("--position-max-moves", type=int, default=None)
     parser.add_argument("--probe-iters", type=int, default=96)
     parser.add_argument("--reference-multiplier", type=float, default=4.0)
     parser.add_argument("--search-stall-timeout-s", type=float, default=45.0)
-    parser.add_argument("--families", default="legacy,theory", help="Comma-separated controller families to search")
+    parser.add_argument(
+        "--families",
+        default="legacy,theory",
+        help="Comma-separated controller families to search",
+    )
     parser.add_argument("--trials", type=int, default=24)
-    parser.add_argument("--timeout", type=float, default=None, help="Optuna wall-clock timeout in seconds")
+    parser.add_argument(
+        "--timeout",
+        type=float,
+        default=None,
+        help="Optuna wall-clock timeout in seconds",
+    )
     parser.add_argument("--sampler-seed", type=int, default=42)
     parser.add_argument("--startup-trials", type=int, default=8)
     parser.add_argument("--study-name", default=None)
-    parser.add_argument("--storage", default=None, help="Optuna storage URL, e.g. sqlite:///results/study.db")
+    parser.add_argument(
+        "--storage",
+        default=None,
+        help="Optuna storage URL, e.g. sqlite:///results/study.db",
+    )
     parser.add_argument("--load-if-exists", action="store_true")
     parser.add_argument("--enqueue-anchors", action="store_true")
-    parser.add_argument("--arena-topk", type=int, default=0, help="Run stage2 arena on top-k optuna trials")
+    parser.add_argument(
+        "--arena-topk",
+        type=int,
+        default=0,
+        help="Run stage2 arena on top-k optuna trials",
+    )
     parser.add_argument("--arena-include-anchors", action="store_true")
     parser.add_argument("--arena-iters", type=int, default=96)
     parser.add_argument("--stage2-games", type=int, default=6)
@@ -375,7 +486,9 @@ def parse_args() -> argparse.Namespace:
 
 def main() -> None:
     args = parse_args()
-    os.environ["QUARTZ_SEARCH_STALL_TIMEOUT_S"] = str(float(args.search_stall_timeout_s))
+    os.environ["QUARTZ_SEARCH_STALL_TIMEOUT_S"] = str(
+        float(args.search_stall_timeout_s)
+    )
 
     base_dir = Path(args.output) / args.game
     base_dir.mkdir(parents=True, exist_ok=True)
@@ -422,8 +535,12 @@ def main() -> None:
     }
     sweep.json_dump(base_dir / "optuna_manifest.json", manifest)
 
-    sampler = optuna.samplers.TPESampler(seed=args.sampler_seed, multivariate=True, group=True)
-    pruner = optuna.pruners.MedianPruner(n_startup_trials=max(0, int(args.startup_trials)))
+    sampler = optuna.samplers.TPESampler(
+        seed=args.sampler_seed, multivariate=True, group=True
+    )
+    pruner = optuna.pruners.MedianPruner(
+        n_startup_trials=max(0, int(args.startup_trials))
+    )
     study = optuna.create_study(
         direction="maximize",
         study_name=args.study_name,
@@ -457,13 +574,17 @@ def main() -> None:
                     args.reference_multiplier,
                 )
                 checkpoint_rows.append(row)
-                avg_score = sum(float(item["stage1_score"]) for item in checkpoint_rows) / len(checkpoint_rows)
+                avg_score = sum(
+                    float(item["stage1_score"]) for item in checkpoint_rows
+                ) / len(checkpoint_rows)
                 trial.report(avg_score, step)
                 if trial.should_prune():
                     trial.set_user_attr("candidate_id", candidate["id"])
                     trial.set_user_attr("candidate_label", candidate["label"])
                     trial.set_user_attr("candidate_overrides", candidate["overrides"])
-                    summary = sweep.summarize_stage1_results([candidate], checkpoint_rows)[0]
+                    summary = sweep.summarize_stage1_results(
+                        [candidate], checkpoint_rows
+                    )[0]
                     save_trial_payload(
                         trial_dir / f"trial_{trial.number:04d}.json",
                         trial,
@@ -480,7 +601,9 @@ def main() -> None:
             trial.set_user_attr("candidate_label", candidate["label"])
             trial.set_user_attr("candidate_overrides", candidate["overrides"])
             trial.set_user_attr("mean_agreement_rate", float(summary["agreement_rate"]))
-            trial.set_user_attr("mean_policy_mass", float(summary["reference_policy_mass"]))
+            trial.set_user_attr(
+                "mean_policy_mass", float(summary["reference_policy_mass"])
+            )
             trial.set_user_attr("mean_value_gap", float(summary["mean_value_gap"]))
             trial.set_user_attr("mean_latency_ms", summary["mean_latency_ms"])
             save_trial_payload(
@@ -507,7 +630,9 @@ def main() -> None:
             )
             raise
 
-    study.optimize(objective, n_trials=args.trials, timeout=args.timeout, gc_after_trial=True)
+    study.optimize(
+        objective, n_trials=args.trials, timeout=args.timeout, gc_after_trial=True
+    )
 
     arena_payload = None
     if args.arena_topk > 0:
@@ -526,7 +651,9 @@ def main() -> None:
                 seen.add(key)
                 extras.append(anchor)
             arena_candidates = extras + arena_candidates
-        arena_payload = sweep.run_stage2_round_robin(arena_candidates, checkpoints, base_cfg, device, args, base_dir)
+        arena_payload = sweep.run_stage2_round_robin(
+            arena_candidates, checkpoints, base_cfg, device, args, base_dir
+        )
 
     report = build_report(base_dir, manifest, study, arena_payload=arena_payload)
     recommended = report.get("recommended")

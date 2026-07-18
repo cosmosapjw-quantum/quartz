@@ -101,17 +101,27 @@ def computation_step_labels(
             {
                 "from_budget": int(trace_budgets[i - 1]),
                 "to_budget": int(trace_budgets[i]),
-                "argmax_flipped": bool(path[i] >= 0 and path[i - 1] >= 0 and path[i] != path[i - 1]),
-                "decision_movement": total_variation(trace_policies[i - 1], trace_policies[i]),
-                "margin_delta": top2_margin(trace_policies[i]) - top2_margin(trace_policies[i - 1]),
+                "argmax_flipped": bool(
+                    path[i] >= 0 and path[i - 1] >= 0 and path[i] != path[i - 1]
+                ),
+                "decision_movement": total_variation(
+                    trace_policies[i - 1], trace_policies[i]
+                ),
+                "margin_delta": top2_margin(trace_policies[i])
+                - top2_margin(trace_policies[i - 1]),
             }
         )
     return out
 
 
-def decision_movement_curve(trace_budgets: Sequence[int], trace_policies: Sequence[Any]) -> list[float]:
+def decision_movement_curve(
+    trace_budgets: Sequence[int], trace_policies: Sequence[Any]
+) -> list[float]:
     """Per-step TV movement caused by each computation (realized VOC curve)."""
-    return [row["decision_movement"] for row in computation_step_labels(trace_budgets, trace_policies)]
+    return [
+        row["decision_movement"]
+        for row in computation_step_labels(trace_budgets, trace_policies)
+    ]
 
 
 def voc_proxy(trace_budgets: Sequence[int], trace_policies: Sequence[Any]) -> float:
@@ -172,7 +182,9 @@ def label_trace_bundle(bundle: dict[str, Any]) -> dict[str, Any]:
     }
 
 
-def screen_bundles(bundles: Sequence[dict[str, Any]], *, degenerate_eps: float = 1e-9) -> dict[str, Any]:
+def screen_bundles(
+    bundles: Sequence[dict[str, Any]], *, degenerate_eps: float = 1e-9
+) -> dict[str, Any]:
     """Aggregate VOC labels across positions and run the degeneracy kill-check.
 
     Degenerate = every position's VOC proxy is ~equal (std ≈ 0), i.e. the
@@ -190,7 +202,9 @@ def screen_bundles(bundles: Sequence[dict[str, Any]], *, degenerate_eps: float =
             "overturn_rate": None,
         }
     std = float(np.std(proxies))
-    overturn_rate = float(np.mean([1.0 if lab["final_overturns_shallow"] else 0.0 for lab in labels]))
+    overturn_rate = float(
+        np.mean([1.0 if lab["final_overturns_shallow"] else 0.0 for lab in labels])
+    )
     return {
         "forked_voc_schema_version": FORKED_VOC_SCHEMA_VERSION,
         "n_positions": int(proxies.size),
@@ -233,7 +247,9 @@ def discrimination(
     return {
         "weak_voc_proxy_mean": wm,
         "strong_voc_proxy_mean": sm,
-        "delta_strong_minus_weak": (None if (wm is None or sm is None) else float(sm - wm)),
+        "delta_strong_minus_weak": (
+            None if (wm is None or sm is None) else float(sm - wm)
+        ),
         "weak_degenerate": w["degenerate"],
         "strong_degenerate": s["degenerate"],
     }

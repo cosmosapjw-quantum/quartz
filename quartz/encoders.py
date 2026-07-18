@@ -54,15 +54,21 @@ class GameEncoder(ABC):
         """Domain-specific heuristic prior. Default: uniform over legal."""
         legal = (board_flat == 0).astype(np.float32)
         s = legal.sum()
-        return legal / s if s > 0 else np.ones(self.n_actions, dtype=np.float32) / self.n_actions
+        return (
+            legal / s
+            if s > 0
+            else np.ones(self.n_actions, dtype=np.float32) / self.n_actions
+        )
 
-    def fast_leaf_value(self, board_flat: np.ndarray, last_move: int, mover: int) -> float:
+    def fast_leaf_value(
+        self, board_flat: np.ndarray, last_move: int, mover: int
+    ) -> float:
         """O(1) leaf evaluation from last move. Default: 0."""
         return 0.0
 
     def legal_mask(self, board_flat: np.ndarray) -> np.ndarray:
         """Binary mask of legal actions."""
-        bs2 = self.board_size ** 2
+        bs2 = self.board_size**2
         mask = np.zeros(self.n_actions, dtype=np.float32)
         for i in range(min(bs2, self.n_actions)):
             if board_flat[i] == 0:
@@ -73,6 +79,7 @@ class GameEncoder(ABC):
 # ════════════════════════════════════════════
 # § Gomoku Encoder (gomoku7, gomoku15, etc.)
 # ════════════════════════════════════════════
+
 
 class GomokuEncoder(GameEncoder):
     """3-plane encoder for Gomoku variants.
@@ -97,7 +104,7 @@ class GomokuEncoder(GameEncoder):
 
     @property
     def n_actions(self) -> int:
-        return self._board_size ** 2
+        return self._board_size**2
 
     @property
     def win_length(self) -> int:
@@ -108,7 +115,7 @@ class GomokuEncoder(GameEncoder):
         bs = self._board_size
         enc = np.zeros((17, bs, bs), dtype=np.float32)
         arr = np.asarray(board_flat).reshape(bs, bs)
-        enc[0] = (arr == player)
+        enc[0] = arr == player
         enc[1] = (arr != 0) & (arr != player)
         if player == 1:
             enc[16] = 1.0
@@ -138,21 +145,31 @@ class GomokuEncoder(GameEncoder):
         nonzero = (arr != 0).astype(np.int32)
         padded = np.pad(nonzero, 1, mode="constant")
         neighbor_sum = (
-            padded[:-2, :-2] + padded[:-2, 1:-1] + padded[:-2, 2:]
-            + padded[1:-1, :-2] +                 + padded[1:-1, 2:]
-            + padded[2:, :-2]  + padded[2:, 1:-1] + padded[2:, 2:]
+            padded[:-2, :-2]
+            + padded[:-2, 1:-1]
+            + padded[:-2, 2:]
+            + padded[1:-1, :-2]
+            + +padded[1:-1, 2:]
+            + padded[2:, :-2]
+            + padded[2:, 1:-1]
+            + padded[2:, 2:]
         )
-        scores = (neighbor_sum.reshape(n2).astype(np.float32) * 0.5)
+        scores = neighbor_sum.reshape(n2).astype(np.float32) * 0.5
 
         # Vectorized center bias.
         rs, cs = np.indices((bs, bs))
         center = bs // 2
-        bias = np.maximum(0, bs - np.abs(rs - center) - np.abs(cs - center)).astype(np.float32) * 0.2
+        bias = (
+            np.maximum(0, bs - np.abs(rs - center) - np.abs(cs - center)).astype(
+                np.float32
+            )
+            * 0.2
+        )
         scores += bias.reshape(n2)
 
         # Mask out occupied cells from the contributions above (they
         # would have been skipped in the original loop).
-        empty_mask = (arr.reshape(n2) == 0)
+        empty_mask = arr.reshape(n2) == 0
         scores = np.where(empty_mask, scores, 0.0).astype(np.float32)
 
         # Vectorized threat-pattern scan. For each (direction, side),
@@ -169,14 +186,14 @@ class GomokuEncoder(GameEncoder):
             r0, c0 = max(0, -dy), max(0, -dx)
             r1, c1 = bs - max(0, dy), bs - max(0, dx)
             if r0 < r1 and c0 < c1:
-                out[r0:r1, c0:c1] = mask[r0 + dy:r1 + dy, c0 + dx:c1 + dx]
+                out[r0:r1, c0:c1] = mask[r0 + dy : r1 + dy, c0 + dx : c1 + dx]
             return out
 
-        is_empty = (arr == 0)
+        is_empty = arr == 0
         for dr, dc in ((0, 1), (1, 0), (1, 1), (1, -1)):
             for side in (player, opp):
                 mult = 1.0 if side == player else 0.8
-                is_side = (arr == side)
+                is_side = arr == side
 
                 cnt = np.zeros((bs, bs), dtype=np.int32)
                 oe = np.zeros((bs, bs), dtype=np.int32)
@@ -228,7 +245,9 @@ class GomokuEncoder(GameEncoder):
             open_ends = 0
             for sign in (1, -1):
                 nr, nc = r0 + sign * dr, c0 + sign * dc
-                while 0 <= nr < bs and 0 <= nc < bs and board_flat[nr * bs + nc] == mover:
+                while (
+                    0 <= nr < bs and 0 <= nc < bs and board_flat[nr * bs + nc] == mover
+                ):
                     cnt += 1
                     nr += sign * dr
                     nc += sign * dc
@@ -248,6 +267,7 @@ class GomokuEncoder(GameEncoder):
 # ════════════════════════════════════════════
 # § Go Encoder (9×9, 19×19)
 # ════════════════════════════════════════════
+
 
 class GoEncoder(GameEncoder):
     """17-plane encoder for Go.
@@ -272,7 +292,7 @@ class GoEncoder(GameEncoder):
 
     @property
     def n_actions(self) -> int:
-        return self._board_size ** 2 + 1  # +1 for pass
+        return self._board_size**2 + 1  # +1 for pass
 
     def _count_liberties(self, board_flat, pos, color):
         """Count liberties of the group containing `pos`."""
@@ -301,7 +321,7 @@ class GoEncoder(GameEncoder):
         bs = self._board_size
         enc = np.zeros((17, bs, bs), dtype=np.float32)
         arr = np.asarray(board_flat).reshape(bs, bs)
-        enc[0] = (arr == player)
+        enc[0] = arr == player
         enc[1] = (arr != 0) & (arr != player)
         if player == 1:
             enc[16] = 1.0
@@ -319,6 +339,7 @@ class GoEncoder(GameEncoder):
 # ════════════════════════════════════════════
 # § Chess Encoder (8×8)
 # ════════════════════════════════════════════
+
 
 class ChessEncoder(GameEncoder):
     """36-plane encoder for Chess with 4672 AlphaZero-style actions."""
@@ -341,7 +362,7 @@ class ChessEncoder(GameEncoder):
         14-27: history (zero), 28: color, 29: move count,
         30-33: castling, 34: halfmove, 35: EP."""
         enc = np.zeros((36, 8, 8), dtype=np.float32)
-        is_white = (player == 1)
+        is_white = player == 1
         if len(board_flat) == 64:
             for i in range(64):
                 r, c = i // 8, i % 8
@@ -361,7 +382,7 @@ class ChessEncoder(GameEncoder):
 
     def decode(self, enc, player):
         board = np.zeros(64, dtype=np.int8)
-        is_white = (player == 1)
+        is_white = player == 1
         for r in range(8):
             for c in range(8):
                 for p in range(6):
@@ -417,13 +438,15 @@ def get_encoder(game_name: str) -> GameEncoder:
 # § Self-tests
 # ════════════════════════════════════════════
 
+
 def _run_tests():
     print("Testing encoders...")
 
     # Gomoku encode/decode roundtrip
     enc = GomokuEncoder(7, 4)
     board = np.zeros(49, dtype=np.int8)
-    board[24] = 1; board[25] = -1
+    board[24] = 1
+    board[25] = -1
     t = enc.encode(board, 1)
     assert t.shape == (3, 7, 7), f"Wrong shape: {t.shape}"
     assert t[0, 3, 3] == 1.0, "Current player stone missing"
@@ -444,12 +467,16 @@ def _run_tests():
     print("  [PASS] GomokuEncoder 15×15 roundtrip")
 
     # Gomoku heuristic prior
-    board[21] = 1; board[22] = 1; board[23] = 1  # 3-in-a-row
+    board[21] = 1
+    board[22] = 1
+    board[23] = 1  # 3-in-a-row
     prior = enc.heuristic_prior(board, 1)
     assert prior.shape == (49,)
     # Position 24 should be winning (already has a stone, skip to another test)
     board2 = np.zeros(49, dtype=np.int8)
-    board2[21] = 1; board2[22] = 1; board2[23] = 1
+    board2[21] = 1
+    board2[22] = 1
+    board2[23] = 1
     prior2 = enc.heuristic_prior(board2, 1)
     best = np.argmax(prior2)
     assert best == 24 or best == 20, f"Expected winning move, got {best}"
@@ -464,7 +491,8 @@ def _run_tests():
     go_enc = GoEncoder(9)
     assert go_enc.n_channels == 17 and go_enc.n_actions == 82
     go_board = np.zeros(81, dtype=np.int8)
-    go_board[40] = 1; go_board[41] = -1
+    go_board[40] = 1
+    go_board[41] = -1
     gt = go_enc.encode(go_board, 1)
     assert gt.shape == (17, 9, 9)
     gb = go_enc.decode(gt, 1)

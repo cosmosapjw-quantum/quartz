@@ -108,7 +108,9 @@ def detect_backends(preference="auto"):
 
             out["jax"] = True
             try:
-                out["jax_gpu"] = any(d.platform in ("gpu", "rocm", "cuda") for d in jax.devices())
+                out["jax_gpu"] = any(
+                    d.platform in ("gpu", "rocm", "cuda") for d in jax.devices()
+                )
             except Exception:
                 out["jax_gpu"] = False
         except Exception:
@@ -184,7 +186,9 @@ class JAXBackend:
         self.num_params = sum(p.size for p in jax.tree.leaves(self.params))
         print(f"  JAX backend: {self.num_params:,} params on {jax.devices()}")
 
-    def _train_step_impl(self, params, batch_stats, opt_state, states, policies, values):
+    def _train_step_impl(
+        self, params, batch_stats, opt_state, states, policies, values
+    ):
         def loss_fn(p):
             variables = {"params": p, "batch_stats": batch_stats}
             (logits, vals), updates = self.model.apply(
@@ -195,7 +199,11 @@ class JAXBackend:
             )
             p_loss = -(policies * log_probs).sum(axis=-1).mean()
             v_loss = ((vals - values) ** 2).mean()
-            return p_loss + v_loss, (p_loss, v_loss, updates.get("batch_stats", batch_stats))
+            return p_loss + v_loss, (
+                p_loss,
+                v_loss,
+                updates.get("batch_stats", batch_stats),
+            )
 
         (loss, (p_loss, v_loss, new_bs)), grads = self.jax.value_and_grad(
             loss_fn, has_aux=True
@@ -214,8 +222,10 @@ class JAXBackend:
         states = self.jnp.array(states_np)
         policies = self.jnp.array(policies_np)
         values = self.jnp.array(values_np)
-        self.params, self.batch_stats, self.opt_state, loss, p_loss, v_loss = self._jit_train_step(
-            self.params, self.batch_stats, self.opt_state, states, policies, values
+        self.params, self.batch_stats, self.opt_state, loss, p_loss, v_loss = (
+            self._jit_train_step(
+                self.params, self.batch_stats, self.opt_state, states, policies, values
+            )
         )
         return float(loss), float(p_loss), float(v_loss)
 
@@ -368,7 +378,14 @@ class PyTorchBackend:
         payload = self.model.state_dict()
         if cfg is not None:
             # Wrap state_dict with metadata for eval compatibility
-            payload = {"model_state_dict": payload, "cfg": {k: v for k, v in cfg.items() if not k.startswith("_") and not callable(v)}}
+            payload = {
+                "model_state_dict": payload,
+                "cfg": {
+                    k: v
+                    for k, v in cfg.items()
+                    if not k.startswith("_") and not callable(v)
+                },
+            }
         self.torch.save(payload, path)
 
     def load(self, path):
@@ -393,7 +410,11 @@ def create_backend(cfg, device="auto", preference="auto"):
     requested_preference = str(preference or "auto").lower()
     requested_device = str(device or "auto").lower()
     det = detect_backends(preference=preference)
-    jax_status = "skipped" if not det.get("jax_checked", False) else ("✅" if det["jax"] else "❌")
+    jax_status = (
+        "skipped"
+        if not det.get("jax_checked", False)
+        else ("✅" if det["jax"] else "❌")
+    )
     print(
         f"  Backend detection: JAX={jax_status}"
         f"{'(GPU)' if det['jax_gpu'] else ''} "
@@ -420,7 +441,9 @@ def create_backend(cfg, device="auto", preference="auto"):
             be.train_step(dummy, dummy_pol, dummy_val)
             be.predict(dummy)
             jit_time = time.time() - t0
-            print(f"  JAX JIT warmup: {jit_time:.1f}s (subsequent calls ~10-100× faster)")
+            print(
+                f"  JAX JIT warmup: {jit_time:.1f}s (subsequent calls ~10-100× faster)"
+            )
             return be
         except Exception as e:
             if explicit_jax:

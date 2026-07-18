@@ -99,13 +99,24 @@ def build_best_elo_series(elo_points):
         verdict = point.get("eval_verdict")
 
         if champion_elo is not None:
-            running_best = champion_elo if running_best is None else max(running_best, champion_elo)
+            running_best = (
+                champion_elo
+                if running_best is None
+                else max(running_best, champion_elo)
+            )
 
         promoted = verdict == "promote"
         if verdict is None and champion_elo is not None and candidate_elo is not None:
-            promoted = candidate_elo >= champion_elo and (point.get("match_delta_elo") or 0) > 0
+            promoted = (
+                candidate_elo >= champion_elo
+                and (point.get("match_delta_elo") or 0) > 0
+            )
         if promoted and candidate_elo is not None:
-            running_best = candidate_elo if running_best is None else max(running_best, candidate_elo)
+            running_best = (
+                candidate_elo
+                if running_best is None
+                else max(running_best, candidate_elo)
+            )
 
         best_elo.append(running_best)
     return best_elo
@@ -147,7 +158,15 @@ def generate_training_plots(log_path, output_dir):
     plot_metric(v_loss, "v_loss", linewidth=1.5, alpha=0.9)
     if loss_ema:
         xs, ys = zip(*loss_ema)
-        ax.plot(xs, ys, label="loss_ema", linewidth=2.0, linestyle="--", marker="o", markersize=3.0)
+        ax.plot(
+            xs,
+            ys,
+            label="loss_ema",
+            linewidth=2.0,
+            linestyle="--",
+            marker="o",
+            markersize=3.0,
+        )
     ax.set_xlabel("Iteration")
     ax.set_ylabel("Loss")
     ax.set_title("Training Loss")
@@ -166,11 +185,32 @@ def generate_training_plots(log_path, output_dir):
         candidate_elo = [p["candidate_elo"] for p in elo_points]
         champion_elo = [p["champion_elo"] for p in elo_points]
 
-        fig, (ax_elo, ax_sr) = plt.subplots(2, 1, figsize=(10, 7), height_ratios=[3, 1], sharex=True)
+        fig, (ax_elo, ax_sr) = plt.subplots(
+            2, 1, figsize=(10, 7), height_ratios=[3, 1], sharex=True
+        )
         best_elo = build_best_elo_series(elo_points)
 
-        ax_elo.plot(elo_iters, best_elo, color="#2563EB", linewidth=2.5, marker="o", markersize=5, label="Best Elo", zorder=4)
-        ax_elo.plot(elo_iters, candidate_elo, color="#93C5FD", linewidth=1.0, marker=".", markersize=3, label="Candidate", alpha=0.6, zorder=2)
+        ax_elo.plot(
+            elo_iters,
+            best_elo,
+            color="#2563EB",
+            linewidth=2.5,
+            marker="o",
+            markersize=5,
+            label="Best Elo",
+            zorder=4,
+        )
+        ax_elo.plot(
+            elo_iters,
+            candidate_elo,
+            color="#93C5FD",
+            linewidth=1.0,
+            marker=".",
+            markersize=3,
+            label="Candidate",
+            alpha=0.6,
+            zorder=2,
+        )
         if any(v is not None for v in champion_elo):
             ax_elo.plot(
                 elo_iters,
@@ -194,7 +234,14 @@ def generate_training_plots(log_path, output_dir):
             d_it, d_best, d_delta = zip(*delta_data)
             d_lo = [b - abs(d) for b, d in zip(d_best, d_delta)]
             d_hi = [b + abs(d) for b, d in zip(d_best, d_delta)]
-            ax_elo.fill_between(d_it, d_lo, d_hi, alpha=0.12, color="#2563EB", label="\u00b1 match \u0394Elo")
+            ax_elo.fill_between(
+                d_it,
+                d_lo,
+                d_hi,
+                alpha=0.12,
+                color="#2563EB",
+                label="\u00b1 match \u0394Elo",
+            )
 
         ax_elo.set_ylabel("Elo Rating", fontsize=11)
         ax_elo.set_title("Elo Progression", fontsize=13, fontweight="bold")
@@ -227,15 +274,43 @@ def generate_training_plots(log_path, output_dir):
                 edgecolor="none",
                 alpha=0.85,
             )
-            ax_sr.axhline(y=0.5, color="#9CA3AF", linewidth=0.8, linestyle="--", alpha=0.6)
-            ax_sr.axhline(y=0.55, color="#16A34A", linewidth=0.6, linestyle=":", alpha=0.4)
+            ax_sr.axhline(
+                y=0.5, color="#9CA3AF", linewidth=0.8, linestyle="--", alpha=0.6
+            )
+            ax_sr.axhline(
+                y=0.55, color="#16A34A", linewidth=0.6, linestyle=":", alpha=0.4
+            )
             ax_sr.set_ylabel("Score Rate", fontsize=10)
             ax_sr.set_ylim(0, 1)
             ax_sr.legend(
                 handles=[
-                    Line2D([0], [0], color="#16A34A", marker="s", linestyle="", markersize=7, label="Promoted (>55%)"),
-                    Line2D([0], [0], color="#F59E0B", marker="s", linestyle="", markersize=7, label="Marginal"),
-                    Line2D([0], [0], color="#DC2626", marker="s", linestyle="", markersize=7, label="Rejected (<45%)"),
+                    Line2D(
+                        [0],
+                        [0],
+                        color="#16A34A",
+                        marker="s",
+                        linestyle="",
+                        markersize=7,
+                        label="Promoted (>55%)",
+                    ),
+                    Line2D(
+                        [0],
+                        [0],
+                        color="#F59E0B",
+                        marker="s",
+                        linestyle="",
+                        markersize=7,
+                        label="Marginal",
+                    ),
+                    Line2D(
+                        [0],
+                        [0],
+                        color="#DC2626",
+                        marker="s",
+                        linestyle="",
+                        markersize=7,
+                        label="Rejected (<45%)",
+                    ),
                 ],
                 loc="upper right",
                 fontsize=8,
@@ -292,7 +367,14 @@ class EarlyStopping:
 class StepEarlyStopping:
     """Loose within-iteration plateau stopper."""
 
-    def __init__(self, patience=8, min_delta=5e-4, min_fraction=0.7, ema_alpha=0.2, planned_steps=1):
+    def __init__(
+        self,
+        patience=8,
+        min_delta=5e-4,
+        min_fraction=0.7,
+        ema_alpha=0.2,
+        planned_steps=1,
+    ):
         self.patience = max(1, int(patience))
         self.min_delta = float(min_delta)
         self.min_fraction = float(max(0.0, min(1.0, min_fraction)))
@@ -335,7 +417,9 @@ class StepEarlyStopping:
         }
 
 
-def train_epoch(model, optimizer, replay, cfg, device, n_steps, backend=None, inner_stop_cfg=None):
+def train_epoch(
+    model, optimizer, replay, cfg, device, n_steps, backend=None, inner_stop_cfg=None
+):
     """Train for n_steps. Uses backend.train_step if available (JAX JIT)."""
     torch = None
     F = None
@@ -368,7 +452,9 @@ def train_epoch(model, optimizer, replay, cfg, device, n_steps, backend=None, in
     with tqdm_factory(loader, total=n_steps, desc="  Training", leave=False) as pbar:
         for states_t, policies_t, values_t in pbar:
             if backend is not None:
-                loss, pl, vl = backend.train_step(states_t.numpy(), policies_t.numpy(), values_t.numpy())
+                loss, pl, vl = backend.train_step(
+                    states_t.numpy(), policies_t.numpy(), values_t.numpy()
+                )
             else:
                 states_t = states_t.to(device, non_blocking=True)
                 policies_t = policies_t.to(device, non_blocking=True)

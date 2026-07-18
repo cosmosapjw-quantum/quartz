@@ -47,12 +47,16 @@ def count_seed_families(checkpoints: Iterable[str]) -> int:
     return len(fams)
 
 
-def check_seed_families(checkpoints: Sequence[str], min_seed_families: int) -> tuple[bool, dict[str, Any]]:
+def check_seed_families(
+    checkpoints: Sequence[str], min_seed_families: int
+) -> tuple[bool, dict[str, Any]]:
     n = count_seed_families(checkpoints)
     return n >= int(min_seed_families), {
         "n_seed_families": n,
         "min_required": int(min_seed_families),
-        "families": sorted(f for f in {checkpoint_seed_family(c) for c in checkpoints} if f),
+        "families": sorted(
+            f for f in {checkpoint_seed_family(c) for c in checkpoints} if f
+        ),
     }
 
 
@@ -60,7 +64,9 @@ def _coverage_key(row: dict[str, Any]) -> tuple[str, str, int]:
     return (str(row["checkpoint_id"]), str(row["position_id"]), int(row["budget"]))
 
 
-def check_paired_coverage(rows: Sequence[dict[str, Any]], systems: Sequence[str]) -> tuple[bool, dict[str, Any]]:
+def check_paired_coverage(
+    rows: Sequence[dict[str, Any]], systems: Sequence[str]
+) -> tuple[bool, dict[str, Any]]:
     by_system: dict[str, set[tuple[str, str, int]]] = {s: set() for s in systems}
     for row in rows:
         s = str(row.get("system"))
@@ -125,7 +131,11 @@ def _verify_hash_entry(
     if not isinstance(expected, str) or _SHA256_RE.fullmatch(expected) is None:
         return False, {**detail, "reason": "invalid_sha256"}
     if not isinstance(raw_path, str) or not raw_path:
-        return False, {**detail, "reason": "missing_path", "expected_sha256": expected.lower()}
+        return False, {
+            **detail,
+            "reason": "missing_path",
+            "expected_sha256": expected.lower(),
+        }
 
     path = Path(raw_path)
     if not path.is_absolute():
@@ -149,7 +159,9 @@ def check_artifact_hashes(
     *,
     artifact_root: str | Path | None = None,
 ) -> tuple[bool, dict[str, Any]]:
-    hashes = manifest.get("stage7_artifact_hashes") or manifest.get("artifact_hashes") or {}
+    hashes = (
+        manifest.get("stage7_artifact_hashes") or manifest.get("artifact_hashes") or {}
+    )
     ckpt_hashes = hashes.get("checkpoints", {}) if isinstance(hashes, dict) else {}
     root = Path(artifact_root or ".").resolve()
     missing = [str(c) for c in checkpoints if str(c) not in ckpt_hashes]
@@ -161,23 +173,36 @@ def check_artifact_hashes(
         if key not in ckpt_hashes:
             continue
         ok_entry, detail = _verify_hash_entry(
-            ckpt_hashes[key], label=f"checkpoint:{key}", artifact_root=root, fallback_path=key
+            ckpt_hashes[key],
+            label=f"checkpoint:{key}",
+            artifact_root=root,
+            fallback_path=key,
         )
         (verified if ok_entry else invalid).append(detail)
 
     positions_key = next(
-        (key for key in ("positions", "suite", "positions_file") if isinstance(hashes, dict) and key in hashes),
+        (
+            key
+            for key in ("positions", "suite", "positions_file")
+            if isinstance(hashes, dict) and key in hashes
+        ),
         None,
     )
     config_key = next(
-        (key for key in ("systems_config", "config") if isinstance(hashes, dict) and key in hashes),
+        (
+            key
+            for key in ("systems_config", "config")
+            if isinstance(hashes, dict) and key in hashes
+        ),
         None,
     )
     for kind, key in (("positions", positions_key), ("config", config_key)):
         if key is None:
             invalid.append({"label": kind, "reason": "missing_hash_entry"})
             continue
-        ok_entry, detail = _verify_hash_entry(hashes[key], label=kind, artifact_root=root)
+        ok_entry, detail = _verify_hash_entry(
+            hashes[key], label=kind, artifact_root=root
+        )
         (verified if ok_entry else invalid).append(detail)
 
     ok = not missing and not invalid and len(verified) == len(checkpoints) + 2
@@ -225,11 +250,17 @@ def check_research_grade(
     ok_salt, d_salt = check_single_salt(rows)
     checks["single_salt"] = {"ok": ok_salt, **d_salt}
 
-    ok_hash, d_hash = check_artifact_hashes(manifest, checkpoints, artifact_root=artifact_root)
+    ok_hash, d_hash = check_artifact_hashes(
+        manifest, checkpoints, artifact_root=artifact_root
+    )
     checks["artifact_hashes"] = {"ok": ok_hash, **d_hash}
 
     ok_rows, d_rows = check_rows_preserved(
-        rows, n_checkpoints=len(checkpoints), n_positions=n_positions, n_budgets=n_budgets, systems=systems
+        rows,
+        n_checkpoints=len(checkpoints),
+        n_positions=n_positions,
+        n_budgets=n_budgets,
+        systems=systems,
     )
     checks["rows_preserved"] = {"ok": ok_rows, **d_rows}
 
@@ -249,5 +280,6 @@ def enforce_research_grade(report: dict[str, Any]) -> None:
     """Raise SystemExit with the unmet-criteria list when the gate fails."""
     if not report.get("research_grade_ready", False):
         raise SystemExit(
-            "research-grade gate FAILED; unmet criteria: " + ", ".join(report.get("unmet", []))
+            "research-grade gate FAILED; unmet criteria: "
+            + ", ".join(report.get("unmet", []))
         )

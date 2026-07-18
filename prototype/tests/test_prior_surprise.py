@@ -53,6 +53,7 @@ def test_does_not_emit_p_value():
     a false-positive on a string-grep test).
     """
     import bqpp_prototype.prior_surprise as mod
+
     # Module's runtime globals must not contain scipy.stats imports.
     assert "scipy" not in [name.split(".", 1)[0] for name in mod.__dict__]
     # And the module's __dict__ must not contain a function named like

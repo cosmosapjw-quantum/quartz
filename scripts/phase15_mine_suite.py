@@ -23,7 +23,9 @@ from quartz.phase15_suite import (
 
 
 def parse_args() -> argparse.Namespace:
-    parser = argparse.ArgumentParser(description="Mine a bucket-balanced phase 1.5 suite")
+    parser = argparse.ArgumentParser(
+        description="Mine a bucket-balanced phase 1.5 suite"
+    )
     parser.add_argument("--game", default="gomoku7")
     parser.add_argument("--output", default="results/phase15_suite_mining")
     parser.add_argument("--checkpoints", default=None)
@@ -63,8 +65,12 @@ def main() -> None:
     runner.validate_checkpoint_refs(args, checkpoints)
     systems = runner.load_systems_config(args.systems_config, base_cfg)
     reference_system = runner.require_system(systems, args.reference_system)
-    reference_checkpoint = runner.choose_reference_checkpoint(checkpoints, args.reference_checkpoint)
-    oracle_checkpoint = runner.choose_checkpoint(checkpoints, args.oracle_checkpoint, reference_checkpoint)
+    reference_checkpoint = runner.choose_reference_checkpoint(
+        checkpoints, args.reference_checkpoint
+    )
+    oracle_checkpoint = runner.choose_checkpoint(
+        checkpoints, args.oracle_checkpoint, reference_checkpoint
+    )
     oracle_system = runner.build_oracle_system(
         systems,
         oracle_system_id=args.oracle_system,
@@ -77,11 +83,19 @@ def main() -> None:
         root_conflict_topk=int(args.root_conflict_topk),
         deep_conflict_topk=int(args.deep_conflict_topk),
     )
-    positions = runner.load_or_generate_positions(args, base_cfg, count=int(args.candidate_count))
+    positions = runner.load_or_generate_positions(
+        args, base_cfg, count=int(args.candidate_count)
+    )
 
-    ref_harness = runner.FrozenCheckpointHarness(reference_checkpoint, base_cfg, device, args.rust_binary)
-    oracle_harness = ref_harness if oracle_checkpoint.path == reference_checkpoint.path else runner.FrozenCheckpointHarness(
-        oracle_checkpoint, base_cfg, device, args.rust_binary
+    ref_harness = runner.FrozenCheckpointHarness(
+        reference_checkpoint, base_cfg, device, args.rust_binary
+    )
+    oracle_harness = (
+        ref_harness
+        if oracle_checkpoint.path == reference_checkpoint.path
+        else runner.FrozenCheckpointHarness(
+            oracle_checkpoint, base_cfg, device, args.rust_binary
+        )
     )
     try:
         annotated = runner.prepare_bucketized_suite(

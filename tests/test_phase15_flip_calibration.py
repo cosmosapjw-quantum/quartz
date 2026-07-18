@@ -107,8 +107,16 @@ def test_matched_budget_h1_survives_on_tie():
 def test_analyze_runs_end_to_end_on_synthetic_bundles():
     m = _load()
     bundles = [
-        {"trace_budgets": [8, 16, 32], "trace_policies": [[0.5, 0.5], [0.7, 0.3], [0.95, 0.05]], "trace_p_flips": [0.5, 0.2, 0.02]},
-        {"trace_budgets": [8, 16, 32], "trace_policies": [[0.4, 0.6], [0.5, 0.5], [0.9, 0.1]], "trace_p_flips": [0.5, 0.4, 0.05]},
+        {
+            "trace_budgets": [8, 16, 32],
+            "trace_policies": [[0.5, 0.5], [0.7, 0.3], [0.95, 0.05]],
+            "trace_p_flips": [0.5, 0.2, 0.02],
+        },
+        {
+            "trace_budgets": [8, 16, 32],
+            "trace_policies": [[0.4, 0.6], [0.5, 0.5], [0.9, 0.1]],
+            "trace_p_flips": [0.5, 0.4, 0.05],
+        },
     ]
     res = m.analyze(bundles, n_boot=400, seed=0)
     assert res["n_bundles"] == 2

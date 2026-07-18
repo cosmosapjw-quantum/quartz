@@ -13,7 +13,12 @@ import numpy as np
 from .phase15_ablation import classify_position_buckets, policy_argmax
 
 
-SUITE_POLICY_KEYS = ("prior_policy", "low_budget_policy", "reference_policy", "oracle_policy")
+SUITE_POLICY_KEYS = (
+    "prior_policy",
+    "low_budget_policy",
+    "reference_policy",
+    "oracle_policy",
+)
 
 
 def _pack_row_id(row_id: str) -> str:
@@ -57,7 +62,9 @@ def annotate_position_suite(
         reference = np.asarray(reference_policy_fn(row), dtype=np.float32)
         oracle = np.asarray(oracle_policy_fn(row), dtype=np.float32)
         item = dict(row)
-        item["bucket_tags"] = classify_position_buckets(prior, low, oracle, thresholds=thresholds)
+        item["bucket_tags"] = classify_position_buckets(
+            prior, low, oracle, thresholds=thresholds
+        )
         item["prior_argmax"] = policy_argmax(prior)
         item["low_budget_best"] = policy_argmax(low)
         item["reference_best"] = policy_argmax(reference)
@@ -122,7 +129,9 @@ def mine_balanced_suite(
     return selected[: int(suite_size)]
 
 
-def split_suite_policy_artifacts(suite: list[dict[str, Any]]) -> tuple[list[dict[str, Any]], dict[str, dict[str, list[float]]]]:
+def split_suite_policy_artifacts(
+    suite: list[dict[str, Any]],
+) -> tuple[list[dict[str, Any]], dict[str, dict[str, list[float]]]]:
     compact_suite: list[dict[str, Any]] = []
     artifacts: dict[str, dict[str, list[float]]] = {}
     for row in suite:
@@ -158,7 +167,9 @@ def merge_suite_policy_artifacts(
     return merged
 
 
-def write_suite_policy_artifacts(path: Path, artifacts: dict[str, dict[str, list[float]]]) -> None:
+def write_suite_policy_artifacts(
+    path: Path, artifacts: dict[str, dict[str, list[float]]]
+) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     payload = {}
     for row_id, entry in artifacts.items():
@@ -169,7 +180,9 @@ def write_suite_policy_artifacts(path: Path, artifacts: dict[str, dict[str, list
         np.savez_compressed(handle, **payload)
 
 
-def read_suite_policy_artifacts(path: Path | None) -> dict[str, dict[str, list[float]]] | None:
+def read_suite_policy_artifacts(
+    path: Path | None,
+) -> dict[str, dict[str, list[float]]] | None:
     if path is None or not path.exists():
         return None
     out: dict[str, dict[str, list[float]]] = {}

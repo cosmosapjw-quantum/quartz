@@ -46,9 +46,14 @@ def summarize_python_trace(path: Path):
         summary["events"][event] = summary["events"].get(event, 0) + 1
         summary["last_event"] = event
         if event == "exchange_message":
-            summary["max_read_wait_s"] = max(summary["max_read_wait_s"], float(row.get("read_wait_s", 0.0) or 0.0))
+            summary["max_read_wait_s"] = max(
+                summary["max_read_wait_s"], float(row.get("read_wait_s", 0.0) or 0.0)
+            )
         if event == "exchange_end":
-            summary["max_exchange_elapsed_s"] = max(summary["max_exchange_elapsed_s"], float(row.get("elapsed_s", 0.0) or 0.0))
+            summary["max_exchange_elapsed_s"] = max(
+                summary["max_exchange_elapsed_s"],
+                float(row.get("elapsed_s", 0.0) or 0.0),
+            )
         if event == "selfplay_probe_begin":
             summary["probe_begin"] = row
         if event == "selfplay_probe_end":
@@ -104,8 +109,16 @@ def summarize_logs(output_dir: Path):
     summary = {
         "python_trace": summarize_python_trace(py_trace),
         "rust_qipc": summarize_rust_qipc(rust_qipc),
-        "stdout_tail": stdout_log.read_text(encoding="utf-8", errors="replace").splitlines()[-20:] if stdout_log.exists() else [],
-        "stderr_tail": stderr_log.read_text(encoding="utf-8", errors="replace").splitlines()[-20:] if stderr_log.exists() else [],
+        "stdout_tail": stdout_log.read_text(
+            encoding="utf-8", errors="replace"
+        ).splitlines()[-20:]
+        if stdout_log.exists()
+        else [],
+        "stderr_tail": stderr_log.read_text(
+            encoding="utf-8", errors="replace"
+        ).splitlines()[-20:]
+        if stderr_log.exists()
+        else [],
     }
     return summary
 
@@ -145,18 +158,25 @@ def run_child(args):
         ckpt = args.checkpoint
         if ckpt:
             from quartz.backend import load_torch_state_dict_checked
+
             load_torch_state_dict_checked(model, ckpt, torch, map_location=device)
         model.eval()
     elif model_kind == "dummy":
+
         class DummyModel:
             def eval(self):
                 return self
+
             def predict(self, batch_np):
                 import numpy as np
+
                 b = int(batch_np.shape[0])
-                probs = np.full((b, cfg["actions"]), 1.0 / max(cfg["actions"], 1), dtype=np.float32)
+                probs = np.full(
+                    (b, cfg["actions"]), 1.0 / max(cfg["actions"], 1), dtype=np.float32
+                )
                 vals = np.zeros((b,), dtype=np.float32)
                 return probs, vals
+
         model = DummyModel()
     elif model_kind == "uniform":
         model = None
@@ -210,7 +230,9 @@ def run_child(args):
 
 def run_parent(args):
     ts = time.strftime("%Y%m%d_%H%M%S")
-    output_dir = Path(args.output_dir or f"artifacts/repro_selfplay_probe/{args.game}_{ts}")
+    output_dir = Path(
+        args.output_dir or f"artifacts/repro_selfplay_probe/{args.game}_{ts}"
+    )
     output_dir.mkdir(parents=True, exist_ok=True)
     stdout_path = output_dir / "stdout.log"
     stderr_path = output_dir / "stderr.log"
@@ -229,15 +251,24 @@ def run_parent(args):
         sys.executable,
         str(Path(__file__).resolve()),
         "--child",
-        "--game", args.game,
-        "--parallel", str(args.parallel),
-        "--batch-games", str(args.batch_games),
-        "--n-threads", str(args.n_threads),
-        "--iters", str(args.iters),
-        "--rounds", str(args.rounds),
-        "--device", args.device,
-        "--model-mode", args.model_mode,
-        "--rust-binary", args.rust_binary,
+        "--game",
+        args.game,
+        "--parallel",
+        str(args.parallel),
+        "--batch-games",
+        str(args.batch_games),
+        "--n-threads",
+        str(args.n_threads),
+        "--iters",
+        str(args.iters),
+        "--rounds",
+        str(args.rounds),
+        "--device",
+        args.device,
+        "--model-mode",
+        args.model_mode,
+        "--rust-binary",
+        args.rust_binary,
     ]
     if args.batch_size is not None:
         cmd += ["--batch-size", str(args.batch_size)]
@@ -292,10 +323,16 @@ def run_parent(args):
     }
     if stdout_path.exists():
         try:
-            stdout_text = stdout_path.read_text(encoding="utf-8", errors="replace").strip()
+            stdout_text = stdout_path.read_text(
+                encoding="utf-8", errors="replace"
+            ).strip()
             if stdout_text:
                 try:
-                    child_obj = json.loads(stdout_text.splitlines()[-1]) if stdout_text.startswith("{") else None
+                    child_obj = (
+                        json.loads(stdout_text.splitlines()[-1])
+                        if stdout_text.startswith("{")
+                        else None
+                    )
                 except Exception:
                     child_obj = None
                 if child_obj is None:
@@ -316,7 +353,9 @@ def run_parent(args):
 
 
 def parse_args():
-    p = argparse.ArgumentParser(description="Reproduce and localize self-play probe stalls with timeout+kill.")
+    p = argparse.ArgumentParser(
+        description="Reproduce and localize self-play probe stalls with timeout+kill."
+    )
     p.add_argument("--child", action="store_true", help=argparse.SUPPRESS)
     p.add_argument("--game", default="gomoku7")
     p.add_argument("--parallel", type=int, default=1)

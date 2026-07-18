@@ -101,7 +101,9 @@ def benchmark_eval_parallel_workers(
             except Exception:
                 pass
 
-    save_eval_autotune_profile_fn(profile_path, hw, cfg, eval_games, best_workers, benchmarks)
+    save_eval_autotune_profile_fn(
+        profile_path, hw, cfg, eval_games, best_workers, benchmarks
+    )
     return best_workers, benchmarks
 
 

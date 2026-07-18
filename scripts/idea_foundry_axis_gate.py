@@ -205,7 +205,11 @@ def run(axis_id: str, role: str, output_dir: Path, seed: int) -> int:
             "execution_status": "failed",
             "evidence_status": "unchanged",
             "claim_scope": CLAIM_SCOPE,
-            "promotion": {"auto": False, "eligible": False, "reason": "contract_failure"},
+            "promotion": {
+                "auto": False,
+                "eligible": False,
+                "reason": "contract_failure",
+            },
             "error": f"{type(exc).__name__}: {exc}",
         }
         atomic_json_dump(summary_path, summary)

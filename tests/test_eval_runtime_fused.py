@@ -69,7 +69,9 @@ def _build_request(gi: int, na: int, model_tag: int, board: int, ch: int):
     requests with the same `model_tag` would collide on a single
     cache slot and stale-hit each other across our two test runs.
     """
-    feats = np.random.RandomState(gi).rand(ch * board * board).astype(np.float32).tolist()
+    feats = (
+        np.random.RandomState(gi).rand(ch * board * board).astype(np.float32).tolist()
+    )
     return (na, feats, model_tag, None, None, None)
 
 
@@ -132,15 +134,23 @@ def test_fused_path_matches_per_tag_path():
 
     # Element-wise comparison.
     for i, (pf, pp) in enumerate(zip(pol_f, pol_p)):
-        assert pf.shape == pp.shape, f"shape mismatch at i={i}: {pf.shape} vs {pp.shape}"
+        assert pf.shape == pp.shape, (
+            f"shape mismatch at i={i}: {pf.shape} vs {pp.shape}"
+        )
         np.testing.assert_allclose(
-            pf, pp, rtol=1e-4, atol=1e-5,
+            pf,
+            pp,
+            rtol=1e-4,
+            atol=1e-5,
             err_msg=f"policy mismatch at request {i}",
         )
 
     for i, (vf, vp) in enumerate(zip(val_f, val_p)):
         np.testing.assert_allclose(
-            vf, vp, rtol=1e-4, atol=1e-5,
+            vf,
+            vp,
+            rtol=1e-4,
+            atol=1e-5,
             err_msg=f"value mismatch at request {i}",
         )
 
@@ -172,7 +182,10 @@ def test_fused_handles_unbalanced_per_tag_batches():
     groups = [{"gi": 0, "kind": "json_batch", "requests": requests}]
 
     res_fused = eval_mod.run_batched_eval_groups(
-        groups, model_map, device, cfg,
+        groups,
+        model_map,
+        device,
+        cfg,
         run_model_batch=eval_mod_run_model_batch_fallback,
     )
 
@@ -180,7 +193,10 @@ def test_fused_handles_unbalanced_per_tag_batches():
     eval_mod._run_fused_multi_model_batch = lambda *a, **kw: None
     try:
         res_pertag = eval_mod.run_batched_eval_groups(
-            groups, model_map, device, cfg,
+            groups,
+            model_map,
+            device,
+            cfg,
             run_model_batch=eval_mod_run_model_batch_fallback,
         )
     finally:
@@ -228,7 +244,10 @@ def test_fused_falls_back_on_arch_mismatch():
     ]
     groups = [{"gi": 0, "kind": "json_batch", "requests": requests}]
     res = eval_mod.run_batched_eval_groups(
-        groups, model_map, device, cfg,
+        groups,
+        model_map,
+        device,
+        cfg,
         run_model_batch=eval_mod_run_model_batch_fallback,
     )
     assert len(res[0]["policies"]) == 2
@@ -257,7 +276,10 @@ def test_fused_cache_invalidates_on_model_map_gc():
     # weakref.finalize callback may run synchronously or after a tick.
     # We accept either: entry purged OR entry remains but rebuilt on
     # next call with a fresh dict.
-    assert mm_id not in eval_mod._FUSED_CACHE or len(eval_mod._FUSED_CACHE) <= cache_size_before
+    assert (
+        mm_id not in eval_mod._FUSED_CACHE
+        or len(eval_mod._FUSED_CACHE) <= cache_size_before
+    )
 
 
 def test_fused_cache_eviction_under_lock_does_not_deadlock():
@@ -310,12 +332,17 @@ def test_fused_accepts_single_model_via_legacy_path():
     groups = [{"gi": 0, "kind": "json_batch", "requests": requests}]
 
     fused_orig = eval_mod._run_fused_multi_model_batch
+
     def _boom(*a, **kw):
         raise AssertionError("fused helper should not be called for single model")
+
     eval_mod._run_fused_multi_model_batch = _boom
     try:
         res = eval_mod.run_batched_eval_groups(
-            groups, model, device, cfg,
+            groups,
+            model,
+            device,
+            cfg,
             run_model_batch=eval_mod_run_model_batch_fallback,
         )
     finally:

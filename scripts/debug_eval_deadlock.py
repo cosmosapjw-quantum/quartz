@@ -99,8 +99,12 @@ def summarize_rust_qipc(path: Path) -> dict[str, Any]:
     batch_sum = 0.0
     for row in rows:
         kind = row.get("kind")
-        out["io_time_s"] += float(row.get("write_s", 0.0) or 0.0) + float(row.get("read_s", 0.0) or 0.0)
-        out["codec_time_s"] += float(row.get("encode_s", 0.0) or 0.0) + float(row.get("decode_s", 0.0) or 0.0)
+        out["io_time_s"] += float(row.get("write_s", 0.0) or 0.0) + float(
+            row.get("read_s", 0.0) or 0.0
+        )
+        out["codec_time_s"] += float(row.get("encode_s", 0.0) or 0.0) + float(
+            row.get("decode_s", 0.0) or 0.0
+        )
         if kind == "single":
             out["single_rows"] += 1
             out["single_calls"] += int(row.get("calls", 0) or 0)
@@ -110,10 +114,16 @@ def summarize_rust_qipc(path: Path) -> dict[str, Any]:
             out["batch_rows"] += 1
             out["batch_requests"] += reqs
             out["singleton_batches"] += int(row.get("singleton_batches", 0) or 0)
-            out["low_concurrency_flushes"] += int(row.get("low_concurrency_flushes", 0) or 0)
+            out["low_concurrency_flushes"] += int(
+                row.get("low_concurrency_flushes", 0) or 0
+            )
             batch_reqs += reqs
             batch_sum += reqs * mean_batch
-            for key in ("adaptive_timeout_min_us", "adaptive_timeout_max_us", "adaptive_timeout_last_us"):
+            for key in (
+                "adaptive_timeout_min_us",
+                "adaptive_timeout_max_us",
+                "adaptive_timeout_last_us",
+            ):
                 value = row.get(key)
                 if value is not None:
                     out[key] = float(value)
@@ -172,7 +182,9 @@ def build_child_cmd(args, output_dir: Path) -> list[str]:
 
 def run_supervisor(args) -> int:
     ts = time.strftime("%Y%m%d_%H%M%S")
-    output_dir = Path(args.output_dir or f"artifacts/eval_deadlock_debug/{args.game}_{ts}")
+    output_dir = Path(
+        args.output_dir or f"artifacts/eval_deadlock_debug/{args.game}_{ts}"
+    )
     output_dir.mkdir(parents=True, exist_ok=True)
     stdout_path = output_dir / "stdout.log"
     stderr_path = output_dir / "stderr.log"
@@ -192,7 +204,10 @@ def run_supervisor(args) -> int:
 
     timed_out = False
     t0 = time.time()
-    with stdout_path.open("w", encoding="utf-8") as stdout_f, stderr_path.open("w", encoding="utf-8") as stderr_f:
+    with (
+        stdout_path.open("w", encoding="utf-8") as stdout_f,
+        stderr_path.open("w", encoding="utf-8") as stderr_f,
+    ):
         proc = subprocess.Popen(
             child_cmd,
             stdout=stdout_f,
@@ -243,7 +258,9 @@ def run_supervisor(args) -> int:
         },
         "python_trace_summary": summarize_python_trace(python_trace_path),
         "rust_qipc_summary": summarize_rust_qipc(rust_qipc_path),
-        "rust_server_trace_summary": summarize_rust_server_trace(rust_server_trace_path),
+        "rust_server_trace_summary": summarize_rust_server_trace(
+            rust_server_trace_path
+        ),
         "child_result": child_result,
     }
     json_dump(summary_path, summary)
@@ -256,7 +273,9 @@ def run_child(args) -> int:
     traceback_log.parent.mkdir(parents=True, exist_ok=True)
     with traceback_log.open("w", encoding="utf-8") as tf:
         faulthandler.enable(tf)
-        faulthandler.dump_traceback_later(max(1, int(args.stall_timeout_s)), repeat=True, file=tf)
+        faulthandler.dump_traceback_later(
+            max(1, int(args.stall_timeout_s)), repeat=True, file=tf
+        )
         import torch
         from quartz.alphazero_train import (
             AlphaZeroNet,
@@ -270,7 +289,11 @@ def run_child(args) -> int:
             load_torch_state_dict_checked,
             supports_rust_eval_state_machine,
         )
-        from quartz.system_runtime import auto_device_name, configure_torch_rocm_runtime, detect_hardware_spec
+        from quartz.system_runtime import (
+            auto_device_name,
+            configure_torch_rocm_runtime,
+            detect_hardware_spec,
+        )
 
         cfg = dict(GAME_CONFIGS[args.game])
         cfg["_name"] = args.game
@@ -293,7 +316,9 @@ def run_child(args) -> int:
         if args.search_profile:
             cfg["search_profile"] = args.search_profile
 
-        selected_device_name = auto_device_name() if args.device == "auto" else args.device
+        selected_device_name = (
+            auto_device_name() if args.device == "auto" else args.device
+        )
         device = torch.device(selected_device_name)
         hardware = detect_hardware_spec(device)
         configure_torch_rocm_runtime(hardware)
@@ -301,13 +326,21 @@ def run_child(args) -> int:
         model_a = AlphaZeroNet(cfg).to(device)
         model_b = AlphaZeroNet(cfg).to(device)
         if args.checkpoint and os.path.exists(args.checkpoint):
-            load_torch_state_dict_checked(model_a, args.checkpoint, torch, map_location=device)
-            load_torch_state_dict_checked(model_b, args.checkpoint, torch, map_location=device)
+            load_torch_state_dict_checked(
+                model_a, args.checkpoint, torch, map_location=device
+            )
+            load_torch_state_dict_checked(
+                model_b, args.checkpoint, torch, map_location=device
+            )
         model_a.eval()
         model_b.eval()
 
-        eng_a = RustNNEvaluatorEngine("candidate", cfg, clone_actor_model(model_a), device, args.rust_binary)
-        eng_b = RustNNEvaluatorEngine("champion", cfg, clone_actor_model(model_b), device, args.rust_binary)
+        eng_a = RustNNEvaluatorEngine(
+            "candidate", cfg, clone_actor_model(model_a), device, args.rust_binary
+        )
+        eng_b = RustNNEvaluatorEngine(
+            "champion", cfg, clone_actor_model(model_b), device, args.rust_binary
+        )
         game_factory = lambda: build_training_game_adapter(cfg)
 
         t0 = time.time()
@@ -348,7 +381,9 @@ def run_child(args) -> int:
 
 
 def main() -> int:
-    p = argparse.ArgumentParser(description="Debug potentially deadlocked QUARTZ evaluation sessions.")
+    p = argparse.ArgumentParser(
+        description="Debug potentially deadlocked QUARTZ evaluation sessions."
+    )
     p.add_argument("--game", default="gomoku7")
     p.add_argument("--num-games", type=int, default=8)
     p.add_argument("--iters", type=int, default=64)

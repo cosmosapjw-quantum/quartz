@@ -51,7 +51,10 @@ def _import_torch():
     return torch
 
 
-def _resolve_torch(torch_module: Any | None = None, torch_module_factory: Callable[[], Any] | None = None):
+def _resolve_torch(
+    torch_module: Any | None = None,
+    torch_module_factory: Callable[[], Any] | None = None,
+):
     if torch_module is not None:
         return torch_module
     if torch_module_factory is not None:
@@ -68,7 +71,10 @@ def _is_cpu_device(device: Any) -> bool:
 
 
 def _compile_disabled() -> bool:
-    return bool(os.environ.get("QUARTZ_DISABLE_COMPILE")) or os.environ.get("QUARTZ_NO_COMPILE") == "1"
+    return (
+        bool(os.environ.get("QUARTZ_DISABLE_COMPILE"))
+        or os.environ.get("QUARTZ_NO_COMPILE") == "1"
+    )
 
 
 def coerce_batch_features(batch_features: Any) -> np.ndarray:
@@ -108,7 +114,9 @@ def get_compiled_model(
     lifetime bug below is fixed now — it doesn't depend on GPU
     benchmarking.
     """
-    if _compile_disabled() or (device is not None and _is_cpu_device(device) and not compile_on_cpu):
+    if _compile_disabled() or (
+        device is not None and _is_cpu_device(device) and not compile_on_cpu
+    ):
         return model
     compiled = getattr(model, _COMPILED_MODEL_ATTR, None)
     if compiled is not None:
@@ -154,15 +162,21 @@ def get_inference_buffers(
             return gpu[:bs]
 
     max_bs = max(bs * 2, 64)
-    pinned = torch.zeros(max_bs, channels, height, width, dtype=torch.float32).pin_memory()
-    gpu = torch.zeros(max_bs, channels, height, width, dtype=torch.float32, device=device)
+    pinned = torch.zeros(
+        max_bs, channels, height, width, dtype=torch.float32
+    ).pin_memory()
+    gpu = torch.zeros(
+        max_bs, channels, height, width, dtype=torch.float32, device=device
+    )
     _PINNED_BUFS[key] = (pinned, gpu, max_bs)
     pinned[:bs].copy_(torch.from_numpy(batch_np))
     gpu[:bs].copy_(pinned[:bs], non_blocking=True)
     return gpu[:bs]
 
 
-def _tensor_to_device(torch, batch_np: np.ndarray, device: Any, *, use_pinned_transfer: bool):
+def _tensor_to_device(
+    torch, batch_np: np.ndarray, device: Any, *, use_pinned_transfer: bool
+):
     if _is_cpu_device(device):
         return torch.from_numpy(batch_np).to(device)
     if use_pinned_transfer:
@@ -190,10 +204,14 @@ def run_model_batch(
     batch_np = coerce_batch_features(batch_features)
     if hasattr(model, "predict"):
         probs_batch, vals_np = model.predict(batch_np)
-        return np.asarray(probs_batch, dtype=np.float32), np.asarray(vals_np, dtype=np.float32).reshape(-1)
+        return np.asarray(probs_batch, dtype=np.float32), np.asarray(
+            vals_np, dtype=np.float32
+        ).reshape(-1)
 
     torch = _resolve_torch(torch_module, torch_module_factory)
-    x_batch = _tensor_to_device(torch, batch_np, device, use_pinned_transfer=use_pinned_transfer)
+    x_batch = _tensor_to_device(
+        torch, batch_np, device, use_pinned_transfer=use_pinned_transfer
+    )
     run_model = get_compiled_model(
         model,
         device=device,

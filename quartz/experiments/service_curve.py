@@ -77,11 +77,15 @@ def build_eval_model(in_ch: int, channels: int, blocks: int, board: int, actions
             )
             self.body = nn.Sequential(*[ResidualBlock(channels) for _ in range(blocks)])
             self.p_head = nn.Sequential(
-                nn.Conv2d(channels, 2, 1, bias=False), nn.BatchNorm2d(2), nn.ReLU(inplace=True)
+                nn.Conv2d(channels, 2, 1, bias=False),
+                nn.BatchNorm2d(2),
+                nn.ReLU(inplace=True),
             )
             self.p_fc = nn.Linear(2 * board * board, actions)
             self.v_head = nn.Sequential(
-                nn.Conv2d(channels, 1, 1, bias=False), nn.BatchNorm2d(1), nn.ReLU(inplace=True)
+                nn.Conv2d(channels, 1, 1, bias=False),
+                nn.BatchNorm2d(1),
+                nn.ReLU(inplace=True),
             )
             self.v_fc1 = nn.Linear(board * board, channels)
             self.v_fc2 = nn.Linear(channels, 1)
@@ -101,7 +105,10 @@ def _read_gpu_power_watts() -> float | None:
     try:
         out = subprocess.run(
             ["nvidia-smi", "--query-gpu=power.draw", "--format=csv,noheader,nounits"],
-            capture_output=True, text=True, timeout=3, check=False,
+            capture_output=True,
+            text=True,
+            timeout=3,
+            check=False,
         )
     except (OSError, subprocess.SubprocessError):
         return None
@@ -133,8 +140,13 @@ def measure_point(
     import torch
 
     is_cuda = getattr(device, "type", str(device)) == "cuda"
-    streams = [torch.cuda.Stream() for _ in range(inflight)] if is_cuda else [None] * inflight
-    inputs = [torch.randn(batch_size, in_ch, board, board, device=device) for _ in range(inflight)]
+    streams = (
+        [torch.cuda.Stream() for _ in range(inflight)] if is_cuda else [None] * inflight
+    )
+    inputs = [
+        torch.randn(batch_size, in_ch, board, board, device=device)
+        for _ in range(inflight)
+    ]
 
     def run_wave() -> None:
         with torch.no_grad():
@@ -194,14 +206,22 @@ def service_curve(
         for k in inflight_grid:
             rows.append(
                 measure_point(
-                    model, device, batch_size=b, inflight=k, in_ch=in_ch, board=board,
-                    n_waves=n_waves, warmup=warmup,
+                    model,
+                    device,
+                    batch_size=b,
+                    inflight=k,
+                    in_ch=in_ch,
+                    board=board,
+                    n_waves=n_waves,
+                    warmup=warmup,
                 )
             )
     return rows
 
 
-def scheduler_verdict(rows: Sequence[Dict[str, Any]], *, min_gain: float = 0.05) -> Dict[str, Any]:
+def scheduler_verdict(
+    rows: Sequence[Dict[str, Any]], *, min_gain: float = 0.05
+) -> Dict[str, Any]:
     """H4 scheduler-lane check: does inflight credit give a material throughput
     gain over the best fixed batch at inflight 1?
 
@@ -225,9 +245,15 @@ def scheduler_verdict(rows: Sequence[Dict[str, Any]], *, min_gain: float = 0.05)
     # knee: smallest batch (at any inflight) reaching 90% of peak throughput
     knee = None
     for b in sorted({r["batch_size"] for r in rows}):
-        best_at_b = max((r for r in rows if r["batch_size"] == b), key=lambda r: r["items_per_s"])
+        best_at_b = max(
+            (r for r in rows if r["batch_size"] == b), key=lambda r: r["items_per_s"]
+        )
         if best_at_b["items_per_s"] >= 0.9 * peak:
-            knee = {"batch_size": b, "inflight": best_at_b["inflight"], "items_per_s": best_at_b["items_per_s"]}
+            knee = {
+                "batch_size": b,
+                "inflight": best_at_b["inflight"],
+                "items_per_s": best_at_b["items_per_s"],
+            }
             break
 
     # where does inflight help most? largest per-batch gain from inflight>1
@@ -249,7 +275,9 @@ def scheduler_verdict(rows: Sequence[Dict[str, Any]], *, min_gain: float = 0.05)
         "service_curve_schema_version": SERVICE_CURVE_SCHEMA_VERSION,
         "min_gain": min_gain,
         "best_fixed_batch": (None if best_fixed is None else best_fixed["batch_size"]),
-        "best_fixed_items_per_s": (None if best_fixed is None else best_fixed["items_per_s"]),
+        "best_fixed_items_per_s": (
+            None if best_fixed is None else best_fixed["items_per_s"]
+        ),
         "best_overall_batch": best_overall["batch_size"],
         "best_overall_inflight": best_overall["inflight"],
         "best_overall_items_per_s": peak,

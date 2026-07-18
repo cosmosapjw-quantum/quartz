@@ -28,7 +28,9 @@ from quartz.phase15_ablation import phase15_systems_csv, resolve_phase15_systems
 
 
 def parse_args() -> argparse.Namespace:
-    parser = argparse.ArgumentParser(description="Run a deterministic toy Phase15 ablation over current candidates")
+    parser = argparse.ArgumentParser(
+        description="Run a deterministic toy Phase15 ablation over current candidates"
+    )
     parser.add_argument("--game", default="gomoku7")
     parser.add_argument("--output", default="results/phase15_toy_ablation")
     parser.add_argument("--rust-binary", default="./target/release/mcts_demo")
@@ -39,7 +41,9 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--oracle-budget", type=int, default=64)
     parser.add_argument("--seed", type=int, default=7)
     parser.add_argument("--max-positions", type=int, default=4)
-    parser.add_argument("--run", choices=["posthoc", "benchmark", "both"], default="both")
+    parser.add_argument(
+        "--run", choices=["posthoc", "benchmark", "both"], default="both"
+    )
     parser.add_argument("--benchmark-repeats", type=int, default=1)
     parser.add_argument("--benchmark-warmup-rounds", type=int, default=0)
     parser.add_argument("--enforce-benchmark-gate", action="store_true")
@@ -47,7 +51,9 @@ def parse_args() -> argparse.Namespace:
     return parser.parse_args()
 
 
-def build_posthoc_command(args: argparse.Namespace, checkpoint_path: Path, positions_path: Path) -> list[str]:
+def build_posthoc_command(
+    args: argparse.Namespace, checkpoint_path: Path, positions_path: Path
+) -> list[str]:
     return [
         sys.executable,
         str(SCRIPT_DIR / "phase15_ablation_study.py"),
@@ -84,7 +90,9 @@ def build_posthoc_command(args: argparse.Namespace, checkpoint_path: Path, posit
     ]
 
 
-def build_benchmark_command(args: argparse.Namespace, checkpoint_path: Path, positions_path: Path) -> list[str]:
+def build_benchmark_command(
+    args: argparse.Namespace, checkpoint_path: Path, positions_path: Path
+) -> list[str]:
     command = [
         sys.executable,
         str(SCRIPT_DIR / "phase15_benchmark.py"),
@@ -150,9 +158,14 @@ def build_toy_manifest(
             "positions_path": str(positions_path),
         },
         "artifacts": {
-            "posthoc_summary_path": str(root / "posthoc" / str(args.game) / "phase15_summary.json"),
+            "posthoc_summary_path": str(
+                root / "posthoc" / str(args.game) / "phase15_summary.json"
+            ),
             "benchmark_summary_path": str(
-                root / "benchmark" / str(args.game) / "phase15_continuation_benchmark_summary.json"
+                root
+                / "benchmark"
+                / str(args.game)
+                / "phase15_continuation_benchmark_summary.json"
             ),
         },
         "commands": commands,
@@ -164,12 +177,18 @@ def main() -> None:
     base_dir = Path(args.output) / str(args.game)
     base_dir.mkdir(parents=True, exist_ok=True)
 
-    checkpoint_path, positions_path = smoke.write_ci_smoke_inputs(base_dir, game=str(args.game), seed=int(args.seed))
+    checkpoint_path, positions_path = smoke.write_ci_smoke_inputs(
+        base_dir, game=str(args.game), seed=int(args.seed)
+    )
     commands: dict[str, list[str]] = {}
     if args.run in {"posthoc", "both"}:
-        commands["posthoc"] = build_posthoc_command(args, checkpoint_path, positions_path)
+        commands["posthoc"] = build_posthoc_command(
+            args, checkpoint_path, positions_path
+        )
     if args.run in {"benchmark", "both"}:
-        commands["benchmark"] = build_benchmark_command(args, checkpoint_path, positions_path)
+        commands["benchmark"] = build_benchmark_command(
+            args, checkpoint_path, positions_path
+        )
 
     manifest = build_toy_manifest(
         args,
@@ -183,7 +202,12 @@ def main() -> None:
     for command in commands.values():
         subprocess.run(command, check=True)
 
-    print(json.dumps({"manifest_path": str(manifest_path), "commands": commands}, indent=2), flush=True)
+    print(
+        json.dumps(
+            {"manifest_path": str(manifest_path), "commands": commands}, indent=2
+        ),
+        flush=True,
+    )
 
 
 if __name__ == "__main__":

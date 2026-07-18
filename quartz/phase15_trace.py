@@ -10,7 +10,9 @@ from typing import Any
 
 import numpy as np
 
-TRACE_CACHE_SCHEMA_VERSION = 6  # Stage 7: bundles carry per-chunk p_flip + checkpoint/position identity
+TRACE_CACHE_SCHEMA_VERSION = (
+    6  # Stage 7: bundles carry per-chunk p_flip + checkpoint/position identity
+)
 TRACE_CACHE_RELEVANT_PATHS = (
     "configs/phase15_systems.default.json",
     "quartz/phase15_ablation.py",
@@ -91,7 +93,9 @@ def load_cached_trace(cache_dir: Path | None, cache_key: str) -> dict[str, Any] 
     return payload if isinstance(payload, dict) else None
 
 
-def store_cached_trace(cache_dir: Path | None, cache_key: str, payload: dict[str, Any]) -> None:
+def store_cached_trace(
+    cache_dir: Path | None, cache_key: str, payload: dict[str, Any]
+) -> None:
     if cache_dir is None:
         return
     cache_dir.mkdir(parents=True, exist_ok=True)
@@ -124,7 +128,9 @@ def build_trace_artifact(
         "trace_cache_schema_version": TRACE_CACHE_SCHEMA_VERSION,
         "trace_code_salt": str(code_salt or trace_cache_salt()),
         "trace_budgets": [int(x) for x in trace_budgets],
-        "trace_policies": [np.asarray(policy, dtype=np.float32).tolist() for policy in trace_policies],
+        "trace_policies": [
+            np.asarray(policy, dtype=np.float32).tolist() for policy in trace_policies
+        ],
         "trace_latencies_ms": [float(x) for x in trace_latencies_ms],
         "trace_p_flips": p_flips,
         "trace_acquire_ms": float(sum(float(x) for x in trace_latencies_ms)),

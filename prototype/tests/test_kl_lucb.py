@@ -56,7 +56,12 @@ def test_kl_lucb_gap_tight_does_not_fire():
     mu_hats = [0.8, 0.75, 0.7]
     n_pulls = [100, 50, 1]
     gap, best, runner = kl_lucb_gap_bits(
-        mu_hats, n_pulls, K=3, t=151, delta=0.05, min_pulls=30,
+        mu_hats,
+        n_pulls,
+        K=3,
+        t=151,
+        delta=0.05,
+        min_pulls=30,
     )
     assert best == 0
     assert runner == 2
@@ -68,10 +73,15 @@ def test_kl_lucb_gap_wide_fires():
     adequately-sampled arms ⇒ gap > 0. See
     test_kl_lucb_gap_underpulled_arm_blocks_wide_gap_fire below for
     the case where a third, barely-visited candidate is live."""
-    mu_hats = [0.95, 0.5]   # Q=[0.9, 0.0] mapped
+    mu_hats = [0.95, 0.5]  # Q=[0.9, 0.0] mapped
     n_pulls = [10000, 500]
     gap, best, runner = kl_lucb_gap_bits(
-        mu_hats, n_pulls, K=3, t=10501, delta=0.05, min_pulls=30,
+        mu_hats,
+        n_pulls,
+        K=3,
+        t=10501,
+        delta=0.05,
+        min_pulls=30,
     )
     assert best == 0
     assert runner == 1
@@ -86,14 +96,21 @@ def test_kl_lucb_gap_underpulled_arm_blocks_wide_gap_fire():
     runner-up race and the cert fired anyway (anti-conservative — the
     barely-sampled arm was never actually ruled out). After the fix,
     its near-1.0 upper bound correctly blocks the stop."""
-    mu_hats = [0.95, 0.5, 0.25]   # Q=[0.9, 0.0, -0.5] mapped
+    mu_hats = [0.95, 0.5, 0.25]  # Q=[0.9, 0.0, -0.5] mapped
     n_pulls = [10000, 500, 1]
     gap, best, runner = kl_lucb_gap_bits(
-        mu_hats, n_pulls, K=3, t=10501, delta=0.05, min_pulls=30,
+        mu_hats,
+        n_pulls,
+        K=3,
+        t=10501,
+        delta=0.05,
+        min_pulls=30,
     )
     assert best == 0
     assert runner == 2, "the under-sampled arm must win the runner-up slot"
-    assert gap < 0.0, f"an unresolved 1-pull candidate must block certification, got {gap}"
+    assert gap < 0.0, (
+        f"an unresolved 1-pull candidate must block certification, got {gap}"
+    )
 
 
 def test_kl_lucb_gap_decreases_with_t_at_fixed_n():
@@ -124,7 +141,12 @@ def test_kl_lucb_gap_runner_up_ignores_min_pulls():
     mu_hats = [0.8, 0.5, 0.5]
     n_pulls = [100, 5, 5]
     gap, best, runner = kl_lucb_gap_bits(
-        mu_hats, n_pulls, K=3, t=110, delta=0.05, min_pulls=30,
+        mu_hats,
+        n_pulls,
+        K=3,
+        t=110,
+        delta=0.05,
+        min_pulls=30,
     )
     assert best == 0
     assert runner != best, "an under-pulled arm must now win the runner-up slot"
@@ -135,6 +157,11 @@ def test_kl_lucb_gap_single_arm_is_invalid():
     """The only remaining ill-defined case: fewer than 2 candidate
     arms at all (the n_arms < 2 guard), not merely under-pulled ones."""
     gap, best, runner = kl_lucb_gap_bits(
-        [0.8], [100], K=1, t=110, delta=0.05, min_pulls=30,
+        [0.8],
+        [100],
+        K=1,
+        t=110,
+        delta=0.05,
+        min_pulls=30,
     )
     assert runner == best  # invalid comparison sentinel

@@ -16,6 +16,7 @@ REPO_ROOT = Path(__file__).resolve().parents[1]
 # candidate morphology world + regret decomposition
 # --------------------------------------------------------------------------- #
 
+
 def test_build_world_splits_by_prior_and_is_deterministic():
     means = [0.66, 0.5, 0.5, 0.5, 0.5, 0.5]
     a = cm.build_world(means, n_visible=2, prior_noise=0.1, seed=7, trial=3)
@@ -32,7 +33,13 @@ def test_build_world_splits_by_prior_and_is_deterministic():
 def test_regret_decomposition_identity():
     means = [0.62, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5]
     records, _ = cm.run_experiment(
-        means, n_visible=3, prior_noise=0.15, budgets=[16, 32], widen_costs=[1, 4], trials=25, seed=99
+        means,
+        n_visible=3,
+        prior_noise=0.15,
+        budgets=[16, 32],
+        widen_costs=[1, 4],
+        trials=25,
+        seed=99,
     )
     assert records
     for r in records:
@@ -48,7 +55,13 @@ def test_regret_decomposition_identity():
 def test_no_widen_never_reveals_and_spends_full_budget():
     means = [0.62, 0.5, 0.5, 0.5, 0.5, 0.5]
     records, _ = cm.run_experiment(
-        means, n_visible=2, prior_noise=0.2, budgets=[32], widen_costs=[2], trials=10, seed=5,
+        means,
+        n_visible=2,
+        prior_noise=0.2,
+        budgets=[32],
+        widen_costs=[2],
+        trials=10,
+        seed=5,
         allocators=["no_widen"],
     )
     for r in records:
@@ -62,7 +75,13 @@ def test_eager_widen_reveals_all_affordable():
     means = [0.62, 0.5, 0.5, 0.5, 0.5, 0.5]  # 6 arms, 2 visible => 4 hidden
     # cheap widen + ample budget => all four hidden revealed (6 visible at commit)
     records, _ = cm.run_experiment(
-        means, n_visible=2, prior_noise=0.2, budgets=[64], widen_costs=[1], trials=8, seed=3,
+        means,
+        n_visible=2,
+        prior_noise=0.2,
+        budgets=[64],
+        widen_costs=[1],
+        trials=8,
+        seed=3,
         allocators=["eager_widen"],
     )
     for r in records:
@@ -75,7 +94,13 @@ def test_priced_widen_does_not_widen_when_unaffordable():
     means = [0.62, 0.5, 0.5, 0.5, 0.5, 0.5]
     # widen_cost larger than the budget can afford with reserve => no widening
     records, _ = cm.run_experiment(
-        means, n_visible=2, prior_noise=0.2, budgets=[16], widen_costs=[64], trials=8, seed=11,
+        means,
+        n_visible=2,
+        prior_noise=0.2,
+        budgets=[16],
+        widen_costs=[64],
+        trials=8,
+        seed=11,
         allocators=["priced_widen"],
     )
     for r in records:
@@ -85,7 +110,13 @@ def test_priced_widen_does_not_widen_when_unaffordable():
 def test_summarize_paired_delta_linearity():
     means = [0.6, 0.56, 0.53, 0.5, 0.5, 0.5, 0.5, 0.5]
     _, summaries = cm.run_experiment(
-        means, n_visible=4, prior_noise=0.12, budgets=[32], widen_costs=[1, 2], trials=40, seed=42
+        means,
+        n_visible=4,
+        prior_noise=0.12,
+        budgets=[32],
+        widen_costs=[1, 2],
+        trials=40,
+        seed=42,
     )
     non_baseline = [s for s in summaries if s["allocator"] != cm.BASELINE_ALLOCATOR]
     assert non_baseline
@@ -102,20 +133,34 @@ def test_summarize_paired_delta_linearity():
 
 def test_widening_kill_verdict_demote_and_keep():
     demote = [
-        {"scenario_id": "x", "allocator": "priced_widen", "budget": 16, "widen_cost": 1,
-         "paired_omission_delta_vs_baseline": 0.01, "paired_omission_delta_mc95_high": 0.03,
-         "paired_ranking_delta_vs_baseline": 0.0,
-         "paired_total_delta_vs_baseline": 0.01, "paired_total_delta_mc95_high": 0.03},
+        {
+            "scenario_id": "x",
+            "allocator": "priced_widen",
+            "budget": 16,
+            "widen_cost": 1,
+            "paired_omission_delta_vs_baseline": 0.01,
+            "paired_omission_delta_mc95_high": 0.03,
+            "paired_ranking_delta_vs_baseline": 0.0,
+            "paired_total_delta_vs_baseline": 0.01,
+            "paired_total_delta_mc95_high": 0.03,
+        },
     ]
     v = cm.widening_kill_verdict(demote)
     assert v["widening_lane_demoted"] is True
     assert v["n_ci_separated_omission_improvements"] == 0
 
     keep = [
-        {"scenario_id": "y", "allocator": "eager_widen", "budget": 32, "widen_cost": 1,
-         "paired_omission_delta_vs_baseline": -0.04, "paired_omission_delta_mc95_high": -0.02,
-         "paired_ranking_delta_vs_baseline": 0.08,
-         "paired_total_delta_vs_baseline": 0.04, "paired_total_delta_mc95_high": 0.06},
+        {
+            "scenario_id": "y",
+            "allocator": "eager_widen",
+            "budget": 32,
+            "widen_cost": 1,
+            "paired_omission_delta_vs_baseline": -0.04,
+            "paired_omission_delta_mc95_high": -0.02,
+            "paired_ranking_delta_vs_baseline": 0.08,
+            "paired_total_delta_vs_baseline": 0.04,
+            "paired_total_delta_mc95_high": 0.06,
+        },
     ]
     v2 = cm.widening_kill_verdict(keep)
     assert v2["widening_lane_demoted"] is False
@@ -128,6 +173,7 @@ def test_widening_kill_verdict_demote_and_keep():
 # --------------------------------------------------------------------------- #
 # H1 synthetic discrimination gate
 # --------------------------------------------------------------------------- #
+
 
 def test_synthetic_counts_shape_and_total():
     counts = h1.synthetic_counts(0.5, 32, 6)
@@ -158,6 +204,7 @@ def test_h1_gate_detects_saturation():
 # scenario bank + runner smoke
 # --------------------------------------------------------------------------- #
 
+
 def _load_runner():
     path = REPO_ROOT / "scripts" / "candidate_morphology_lab.py"
     spec = importlib.util.spec_from_file_location("candidate_morphology_lab", path)
@@ -176,14 +223,21 @@ def test_checked_in_scenario_bank_validates():
 def test_runner_smoke_writes_artifacts(tmp_path):
     runner = _load_runner()
     out = tmp_path / "run"
-    rc = runner.main([
-        "--scenarios", "moderate_noise_k8",
-        "--trials", "12",
-        "--budgets", "16,32",
-        "--widen-costs", "1,4",
-        "--skip-h1-gate",
-        "--output-dir", str(out),
-    ])
+    rc = runner.main(
+        [
+            "--scenarios",
+            "moderate_noise_k8",
+            "--trials",
+            "12",
+            "--budgets",
+            "16,32",
+            "--widen-costs",
+            "1,4",
+            "--skip-h1-gate",
+            "--output-dir",
+            str(out),
+        ]
+    )
     assert rc == 0
     for name in ("run_manifest.json", "summary.csv", "summary.json", "trials.jsonl.gz"):
         assert (out / name).exists()

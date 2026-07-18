@@ -95,7 +95,9 @@ def summarize_rust_qipc(path: Path) -> dict[str, Any]:
         "rows": len(rows),
         "single_rows": 0,
         "batch_rows": 0,
-        "transport_kinds": sorted({row.get("transport") for row in rows if row.get("transport")}),
+        "transport_kinds": sorted(
+            {row.get("transport") for row in rows if row.get("transport")}
+        ),
         "single_calls": 0,
         "batch_requests": 0,
         "io_time_s": 0.0,
@@ -108,8 +110,12 @@ def summarize_rust_qipc(path: Path) -> dict[str, Any]:
     batch_sum = 0.0
     for row in rows:
         kind = row.get("kind")
-        out["io_time_s"] += float(row.get("write_s", 0.0) or 0.0) + float(row.get("read_s", 0.0) or 0.0)
-        out["codec_time_s"] += float(row.get("encode_s", 0.0) or 0.0) + float(row.get("decode_s", 0.0) or 0.0)
+        out["io_time_s"] += float(row.get("write_s", 0.0) or 0.0) + float(
+            row.get("read_s", 0.0) or 0.0
+        )
+        out["codec_time_s"] += float(row.get("encode_s", 0.0) or 0.0) + float(
+            row.get("decode_s", 0.0) or 0.0
+        )
         if kind == "single":
             out["single_rows"] += 1
             out["single_calls"] += int(row.get("calls", 0) or 0)
@@ -189,7 +195,9 @@ def count_logged_iterations(train_log_path: Path) -> int:
 
 
 def main() -> int:
-    p = argparse.ArgumentParser(description="Trace CPU-only QUARTZ training without live monitoring.")
+    p = argparse.ArgumentParser(
+        description="Trace CPU-only QUARTZ training without live monitoring."
+    )
     p.add_argument("--game", default="gomoku7")
     p.add_argument("--iterations", type=int, default=5)
     p.add_argument("--output-dir", default="")
@@ -202,13 +210,24 @@ def main() -> int:
     p.add_argument("--eval-games", type=int, default=200)
     p.add_argument("--search-profile", choices=["quartz", "baseline"], default="quartz")
     p.add_argument("--rust-binary", default="./target/release/mcts_demo")
-    p.add_argument("--model-dir", default="", help="Training output dir to watch for progress (defaults to models/alphazero_<game>)")
+    p.add_argument(
+        "--model-dir",
+        default="",
+        help="Training output dir to watch for progress (defaults to models/alphazero_<game>)",
+    )
     p.add_argument("--no-retune", action="store_true")
     p.add_argument("--no-pipeline", action="store_true")
     p.add_argument("--disable-shm", action="store_true")
-    p.add_argument("--timeout-s", type=int, default=0, help="Kill the trace run after N seconds (0 disables)")
+    p.add_argument(
+        "--timeout-s",
+        type=int,
+        default=0,
+        help="Kill the trace run after N seconds (0 disables)",
+    )
     p.add_argument("--kill-grace-s", type=int, default=5)
-    p.add_argument("--extra-args", default="", help="Extra args appended verbatim to quartz.train")
+    p.add_argument(
+        "--extra-args", default="", help="Extra args appended verbatim to quartz.train"
+    )
     args = p.parse_args()
 
     ts = time.strftime("%Y%m%d_%H%M%S")
@@ -270,8 +289,15 @@ def main() -> int:
 
     timed_out = False
     t0 = time.time()
-    pbar = tqdm(total=max(1, int(args.iterations)), desc="cpu-trace", unit="iter") if tqdm is not None else None
-    with stdout_path.open("w", encoding="utf-8") as stdout_f, stderr_path.open("w", encoding="utf-8") as stderr_f:
+    pbar = (
+        tqdm(total=max(1, int(args.iterations)), desc="cpu-trace", unit="iter")
+        if tqdm is not None
+        else None
+    )
+    with (
+        stdout_path.open("w", encoding="utf-8") as stdout_f,
+        stderr_path.open("w", encoding="utf-8") as stderr_f,
+    ):
         proc = subprocess.Popen(
             cmd,
             stdout=stdout_f,
@@ -287,12 +313,16 @@ def main() -> int:
                 if pbar is not None:
                     pbar.n = min(max(0, iter_count), pbar.total)
                     pbar.set_postfix_str(
-                        f"elapsed={time.time()-t0:.1f}s trace_rows={len(read_jsonl(python_trace_path))}"
+                        f"elapsed={time.time() - t0:.1f}s trace_rows={len(read_jsonl(python_trace_path))}"
                     )
                     pbar.refresh()
                 if rc is not None:
                     break
-                if args.timeout_s and args.timeout_s > 0 and (time.time() - t0) >= args.timeout_s:
+                if (
+                    args.timeout_s
+                    and args.timeout_s > 0
+                    and (time.time() - t0) >= args.timeout_s
+                ):
                     raise subprocess.TimeoutExpired(cmd=cmd, timeout=args.timeout_s)
                 time.sleep(0.5)
         except subprocess.TimeoutExpired:
@@ -311,7 +341,9 @@ def main() -> int:
                 proc.wait()
         finally:
             if pbar is not None:
-                pbar.n = min(max(0, count_logged_iterations(train_log_path)), pbar.total)
+                pbar.n = min(
+                    max(0, count_logged_iterations(train_log_path)), pbar.total
+                )
                 pbar.refresh()
                 pbar.close()
     duration_s = time.time() - t0

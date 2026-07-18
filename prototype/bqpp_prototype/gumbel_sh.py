@@ -73,7 +73,9 @@ def _rounds_for(m0: int) -> int:
     return max(1, int(math.ceil(math.log2(m0))))
 
 
-def _shrink_to_affordable(candidates: list[int], m0: int, budget: int) -> tuple[list[int], int]:
+def _shrink_to_affordable(
+    candidates: list[int], m0: int, budget: int
+) -> tuple[list[int], int]:
     """A3-c audit fix: shrink to an initial candidate count the budget
     can actually afford (see the Rust port's
     ``SequentialHalvingBracket::new`` docstring for the full
@@ -124,7 +126,10 @@ class SequentialHalvingBracket:
         # This mirrors the Rust port, where advance_round constructs
         # the struct literal directly and never calls ::new() (the
         # only place the shrink logic lives).
-        if self.rounds_completed == 0 and len(self.candidates) == self.n_initial_candidates:
+        if (
+            self.rounds_completed == 0
+            and len(self.candidates) == self.n_initial_candidates
+        ):
             self.candidates, self.n_initial_candidates = _shrink_to_affordable(
                 self.candidates, self.n_initial_candidates, self.budget
             )
@@ -208,7 +213,8 @@ def advance_round(
         budget=bracket.budget,
         n_initial_candidates=bracket.n_initial_candidates,
         rounds_completed=bracket.rounds_completed + 1,
-        visits_consumed=bracket.visits_consumed + bracket.round_budget * len(candidates),
+        visits_consumed=bracket.visits_consumed
+        + bracket.round_budget * len(candidates),
         visit_history=list(bracket.visit_history),
     )
 

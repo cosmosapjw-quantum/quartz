@@ -20,7 +20,10 @@ from .phase15_ablation import (
     h3_burst_signal,
     normalize_policy,
 )
-from .phase15_argmax_stability import counts_from_policy, should_stop_by_argmax_stability
+from .phase15_argmax_stability import (
+    counts_from_policy,
+    should_stop_by_argmax_stability,
+)
 
 _ROUTING_OPERATORS = ("budget_routing", "entropy_burst_routing")
 
@@ -29,8 +32,12 @@ def _routing_burst_signal(system, trace_policies, trace_budgets, budget):
     """Dispatch the online sub-target instability signal for the routing
     operators (B3 budget_routing vs B15 H3 entropy-burst)."""
     if system.refresh_operator == "entropy_burst_routing":
-        return h3_burst_signal(trace_policies, trace_budgets, int(budget), system.params)
-    return budget_routing_signal(trace_policies, trace_budgets, int(budget), system.params)
+        return h3_burst_signal(
+            trace_policies, trace_budgets, int(budget), system.params
+        )
+    return budget_routing_signal(
+        trace_policies, trace_budgets, int(budget), system.params
+    )
 
 
 def run_online_readout(
@@ -50,17 +57,27 @@ def run_online_readout(
     stop_budget = int(target_budget)
 
     for budget in budgets:
-        if int(budget) > int(target_budget) and system.refresh_operator not in _ROUTING_OPERATORS:
+        if (
+            int(budget) > int(target_budget)
+            and system.refresh_operator not in _ROUTING_OPERATORS
+        ):
             break
         row = search_policy_fn(position, system, int(budget))
         trace_policies.append(np.asarray(row["search_policy"], dtype=np.float32))
         trace_budgets.append(int(budget))
         trace_latencies_ms.append(float(row.get("latency_ms", 0.0)))
-        trace_p_flips.append(None if row.get("p_flip") is None else float(row.get("p_flip")))
+        trace_p_flips.append(
+            None if row.get("p_flip") is None else float(row.get("p_flip"))
+        )
 
         if int(budget) < int(target_budget):
-            if system.refresh_operator == "dual_channel_commit" and len(trace_policies) >= 2:
-                effective, meta = apply_system_readout(system, prior_input, trace_policies, trace_budgets, int(budget))
+            if (
+                system.refresh_operator == "dual_channel_commit"
+                and len(trace_policies) >= 2
+            ):
+                effective, meta = apply_system_readout(
+                    system, prior_input, trace_policies, trace_budgets, int(budget)
+                )
                 if int(meta.get("commit_applied", 0)) == 1:
                     decision_notes.append(f"commit@stop={budget}")
                     stop_budget = int(budget)
@@ -114,20 +131,33 @@ def run_online_readout(
             # it — the genuinely adaptive version of the posthoc always-pre-paid
             # burst check. Before the A2-a fix the supra-target burst branch was
             # unreachable dead code.
-            signal = _routing_burst_signal(system, trace_policies, trace_budgets, int(budget))
+            signal = _routing_burst_signal(
+                system, trace_policies, trace_budgets, int(budget)
+            )
             next_budget = next((b for b in budgets if int(b) > int(budget)), None)
             if signal.get("unstable") and next_budget is not None:
                 extra_row = search_policy_fn(position, system, int(next_budget))
-                trace_policies.append(np.asarray(extra_row["search_policy"], dtype=np.float32))
+                trace_policies.append(
+                    np.asarray(extra_row["search_policy"], dtype=np.float32)
+                )
                 trace_budgets.append(int(next_budget))
                 trace_latencies_ms.append(float(extra_row.get("latency_ms", 0.0)))
-                trace_p_flips.append(None if extra_row.get("p_flip") is None else float(extra_row.get("p_flip")))
+                trace_p_flips.append(
+                    None
+                    if extra_row.get("p_flip") is None
+                    else float(extra_row.get("p_flip"))
+                )
 
         t0 = time.perf_counter()
-        effective, meta = apply_system_readout(system, prior_input, trace_policies, trace_budgets, int(budget))
+        effective, meta = apply_system_readout(
+            system, prior_input, trace_policies, trace_budgets, int(budget)
+        )
         readout_ms = (time.perf_counter() - t0) * 1000.0
         stop_budget = int(meta.get("burst_budget", budget))
-        if system.refresh_operator in _ROUTING_OPERATORS and int(meta.get("budget_burst_triggered", 0)) == 1:
+        if (
+            system.refresh_operator in _ROUTING_OPERATORS
+            and int(meta.get("budget_burst_triggered", 0)) == 1
+        ):
             decision_notes.append(f"burst@{budget}->{stop_budget}")
         return normalize_policy(effective), {
             **meta,
@@ -143,7 +173,9 @@ def run_online_readout(
         }
 
     t0 = time.perf_counter()
-    effective, meta = apply_system_readout(system, prior_input, trace_policies, trace_budgets, int(target_budget))
+    effective, meta = apply_system_readout(
+        system, prior_input, trace_policies, trace_budgets, int(target_budget)
+    )
     readout_ms = (time.perf_counter() - t0) * 1000.0
     return normalize_policy(effective), {
         **meta,

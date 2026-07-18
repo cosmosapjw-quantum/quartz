@@ -225,7 +225,9 @@ def proc_read_json_line(proc_or_stream):
     return line or None
 
 
-def proc_read_message(proc_or_stream, timeout_s=None, json_loads_fast_fn=None, logger=None):
+def proc_read_message(
+    proc_or_stream, timeout_s=None, json_loads_fast_fn=None, logger=None
+):
     logger = logger or log
     stream = getattr(proc_or_stream, "stdout", proc_or_stream)
     first = _read_exact(stream, 1, timeout_s=timeout_s)
@@ -247,7 +249,9 @@ def proc_read_message(proc_or_stream, timeout_s=None, json_loads_fast_fn=None, l
             loads = json_loads_fast_fn or json.loads
             return "json", loads(text)
         except (json.JSONDecodeError, ValueError, TypeError) as exc:
-            logger.warning("proc_read_message: JSON parse failed (%s), skipping line", exc)
+            logger.warning(
+                "proc_read_message: JSON parse failed (%s), skipping line", exc
+            )
             return "json", None
     header_rest = _read_exact(stream, QIPC_HEADER.size - 1, timeout_s=timeout_s)
     if header_rest is None:
@@ -255,13 +259,17 @@ def proc_read_message(proc_or_stream, timeout_s=None, json_loads_fast_fn=None, l
     try:
         magic, frame_kind, payload_len = QIPC_HEADER.unpack(first + header_rest)
     except struct.error as exc:
-        logger.warning("proc_read_message: QIPC header unpack failed (%s), skipping", exc)
+        logger.warning(
+            "proc_read_message: QIPC header unpack failed (%s), skipping", exc
+        )
         return None, None
     if magic != QIPC_MAGIC:
         logger.warning("proc_read_message: unexpected IPC frame magic: %r", magic)
         return None, None
     if payload_len > 256 * 1024 * 1024:
-        logger.warning("proc_read_message: unreasonable payload_len=%d, skipping", payload_len)
+        logger.warning(
+            "proc_read_message: unreasonable payload_len=%d, skipping", payload_len
+        )
         return None, None
     payload = _read_exact(stream, payload_len, timeout_s=timeout_s)
     if payload is None:
@@ -278,7 +286,9 @@ def proc_decode_eval_frame(proc, frame_kind, payload):
         return QIPC_EVAL_REQ, transport.read_request(n_bytes)
     if frame_kind == QIPC_BATCH_EVAL_REQ_SHM:
         if transport is None:
-            raise RuntimeError("shared-memory batch eval request received without transport")
+            raise RuntimeError(
+                "shared-memory batch eval request received without transport"
+            )
         (n_bytes,) = QIPC_SHM_LEN.unpack(payload)
         return QIPC_BATCH_EVAL_REQ, transport.read_request(n_bytes)
     return frame_kind, payload
@@ -367,7 +377,12 @@ def launch_rust_server(
     transport = None
     ring_buffer = None
     env = os.environ.copy()
-    disable_shm = str(env.get("QUARTZ_DISABLE_QIPC_SHM", "")).strip().lower() in {"1", "true", "yes", "on"}
+    disable_shm = str(env.get("QUARTZ_DISABLE_QIPC_SHM", "")).strip().lower() in {
+        "1",
+        "true",
+        "yes",
+        "on",
+    }
     qipc_transport_cls = qipc_transport_cls or QipcSharedMemoryTransport
     shm_ring_buffer_cls = shm_ring_buffer_cls or ShmRingBuffer
     try:
@@ -378,9 +393,15 @@ def launch_rust_server(
             env["QUARTZ_QIPC_REQ_SHM_SIZE"] = str(transport.size)
             env["QUARTZ_QIPC_RESP_SHM_SIZE"] = str(transport.size)
             try:
-                r2p_slots = max(2, int(env.get("QUARTZ_QIPC_RING_R2P_SLOTS", "8") or "8"))
-                p2r_slots = max(2, int(env.get("QUARTZ_QIPC_RING_P2R_SLOTS", "8") or "8"))
-                ring_buffer = shm_ring_buffer_cls.create(r2p_slots=r2p_slots, p2r_slots=p2r_slots)
+                r2p_slots = max(
+                    2, int(env.get("QUARTZ_QIPC_RING_R2P_SLOTS", "8") or "8")
+                )
+                p2r_slots = max(
+                    2, int(env.get("QUARTZ_QIPC_RING_P2R_SLOTS", "8") or "8")
+                )
+                ring_buffer = shm_ring_buffer_cls.create(
+                    r2p_slots=r2p_slots, p2r_slots=p2r_slots
+                )
                 env["QUARTZ_QIPC_RING_SHM_NAME"] = ring_buffer.name
                 env["QUARTZ_QIPC_RING_SHM_SIZE"] = str(ring_buffer.size)
                 register_ring_buffer_fn(ring_buffer)
@@ -423,7 +444,12 @@ def launch_rust_server(
     if ring_buffer is not None:
         proc._quartz_ring_buffer = ring_buffer
     _track_rust_proc(proc)
-    stall_trace_fn("rust_server_ready", child_pid=proc.pid, shm=bool(transport), ring=bool(ring_buffer))
+    stall_trace_fn(
+        "rust_server_ready",
+        child_pid=proc.pid,
+        shm=bool(transport),
+        ring=bool(ring_buffer),
+    )
     return proc
 
 
@@ -464,7 +490,9 @@ class QipcSharedMemoryTransport:
 
     @classmethod
     def create(cls, size=None):
-        size = int(size or os.environ.get("QUARTZ_QIPC_SHM_BYTES", QIPC_SHM_DEFAULT_BYTES))
+        size = int(
+            size or os.environ.get("QUARTZ_QIPC_SHM_BYTES", QIPC_SHM_DEFAULT_BYTES)
+        )
         transport = cls(
             req=shared_memory.SharedMemory(create=True, size=size),
             resp=shared_memory.SharedMemory(create=True, size=size),
@@ -514,7 +542,7 @@ class QipcSharedMemoryTransport:
         payload = bytes(payload)
         if len(payload) > self.size:
             return False
-        self.resp.buf[:len(payload)] = payload
+        self.resp.buf[: len(payload)] = payload
         return True
 
 
@@ -554,7 +582,9 @@ class ShmRingBuffer:
     def create(cls, r2p_slots=2, p2r_slots=2, slot_data_size=None):
         total_slots = r2p_slots + p2r_slots
         if slot_data_size is None:
-            size = int(os.environ.get("QUARTZ_QIPC_RING_SHM_SIZE", SHM_RING_DEFAULT_SIZE))
+            size = int(
+                os.environ.get("QUARTZ_QIPC_RING_SHM_SIZE", SHM_RING_DEFAULT_SIZE)
+            )
             slot_data_size = (size - SHM_RING_HEADER_SIZE) // total_slots
         else:
             size = SHM_RING_HEADER_SIZE + total_slots * slot_data_size
@@ -589,7 +619,9 @@ class ShmRingBuffer:
     @classmethod
     def open(cls, name, size):
         shm = shared_memory.SharedMemory(name=name, create=False, size=size)
-        magic, version, r2p_slots, p2r_slots, slot_data_size = struct.unpack_from("<IIIII", shm.buf, 0)
+        magic, version, r2p_slots, p2r_slots, slot_data_size = struct.unpack_from(
+            "<IIIII", shm.buf, 0
+        )
         if magic != SHM_RING_MAGIC or version != SHM_RING_VERSION:
             shm.close()
             return None
@@ -674,7 +706,9 @@ class ShmRingBuffer:
         buf = self._buf
         msg_type = buf[off + 1]
         payload_len = struct.unpack_from("<I", buf, off + 4)[0]
-        payload = bytes(buf[off + SHM_RING_SLOT_HEADER: off + SHM_RING_SLOT_HEADER + payload_len])
+        payload = bytes(
+            buf[off + SHM_RING_SLOT_HEADER : off + SHM_RING_SLOT_HEADER + payload_len]
+        )
         return msg_type, payload
 
     def r2p_try_read_meta(self, slot_idx):
@@ -686,7 +720,9 @@ class ShmRingBuffer:
         payload_len = struct.unpack_from("<I", buf, off + 4)[0]
         epoch = struct.unpack_from("<I", buf, off + 8)[0]
         seq = struct.unpack_from("<I", buf, off + 12)[0]
-        payload = bytes(buf[off + SHM_RING_SLOT_HEADER: off + SHM_RING_SLOT_HEADER + payload_len])
+        payload = bytes(
+            buf[off + SHM_RING_SLOT_HEADER : off + SHM_RING_SLOT_HEADER + payload_len]
+        )
         return msg_type, epoch, seq, payload
 
     def r2p_mark_done(self, slot_idx):
@@ -702,7 +738,9 @@ class ShmRingBuffer:
         buf[off + 2] = SHM_DIR_TO_RUST
         buf[off + 3] = 0
         struct.pack_into("<III", buf, off + 4, len(payload), epoch, seq)
-        buf[off + SHM_RING_SLOT_HEADER: off + SHM_RING_SLOT_HEADER + len(payload)] = payload
+        buf[off + SHM_RING_SLOT_HEADER : off + SHM_RING_SLOT_HEADER + len(payload)] = (
+            payload
+        )
         self.set_slot_state(off, SHM_SLOT_WRITTEN)
         return True
 
@@ -722,22 +760,45 @@ def unpack_qipc_eval_req(payload):
     if len(payload) < QIPC_EVAL_REQ_V0_HEADER.size:
         raise ValueError("short eval_req payload")
     if len(payload) >= QIPC_EVAL_REQ_V2_HEADER.size:
-        model_tag, num_actions, feat_len, fp_lo, fp_hi, encoder_rev = QIPC_EVAL_REQ_V2_HEADER.unpack_from(payload, 0)
+        model_tag, num_actions, feat_len, fp_lo, fp_hi, encoder_rev = (
+            QIPC_EVAL_REQ_V2_HEADER.unpack_from(payload, 0)
+        )
         expected_bytes = QIPC_EVAL_REQ_V2_HEADER.size + feat_len * 4
         if len(payload) == expected_bytes:
-            features = np.frombuffer(payload, dtype="<f4", count=feat_len, offset=QIPC_EVAL_REQ_V2_HEADER.size)
-            return num_actions, features, int(model_tag), int(fp_lo), int(fp_hi), int(encoder_rev)
+            features = np.frombuffer(
+                payload,
+                dtype="<f4",
+                count=feat_len,
+                offset=QIPC_EVAL_REQ_V2_HEADER.size,
+            )
+            return (
+                num_actions,
+                features,
+                int(model_tag),
+                int(fp_lo),
+                int(fp_hi),
+                int(encoder_rev),
+            )
     if len(payload) >= QIPC_EVAL_REQ_V1_HEADER.size:
-        model_tag, num_actions, feat_len = QIPC_EVAL_REQ_V1_HEADER.unpack_from(payload, 0)
+        model_tag, num_actions, feat_len = QIPC_EVAL_REQ_V1_HEADER.unpack_from(
+            payload, 0
+        )
         expected_bytes = QIPC_EVAL_REQ_V1_HEADER.size + feat_len * 4
         if len(payload) == expected_bytes:
-            features = np.frombuffer(payload, dtype="<f4", count=feat_len, offset=QIPC_EVAL_REQ_V1_HEADER.size)
+            features = np.frombuffer(
+                payload,
+                dtype="<f4",
+                count=feat_len,
+                offset=QIPC_EVAL_REQ_V1_HEADER.size,
+            )
             return num_actions, features, int(model_tag), None, None, None
     num_actions, feat_len = QIPC_EVAL_REQ_V0_HEADER.unpack_from(payload, 0)
     expected_bytes = QIPC_EVAL_REQ_V0_HEADER.size + feat_len * 4
     if len(payload) != expected_bytes:
         raise ValueError("eval_req payload length mismatch")
-    features = np.frombuffer(payload, dtype="<f4", count=feat_len, offset=QIPC_EVAL_REQ_V0_HEADER.size)
+    features = np.frombuffer(
+        payload, dtype="<f4", count=feat_len, offset=QIPC_EVAL_REQ_V0_HEADER.size
+    )
     return num_actions, features, 0, None, None, None
 
 
@@ -749,7 +810,9 @@ def _try_unpack_qipc_batch_eval_req(payload, header):
         if header is QIPC_EVAL_REQ_V2_HEADER:
             if offset + header.size > len(payload):
                 return None
-            model_tag, num_actions, feat_len, fp_lo, fp_hi, encoder_rev = header.unpack_from(payload, offset)
+            model_tag, num_actions, feat_len, fp_lo, fp_hi, encoder_rev = (
+                header.unpack_from(payload, offset)
+            )
             offset += header.size
             request_meta = (int(model_tag), int(fp_lo), int(fp_hi), int(encoder_rev))
         elif header is QIPC_EVAL_REQ_V1_HEADER:
@@ -779,7 +842,11 @@ def _try_unpack_qipc_batch_eval_req(payload, header):
 def unpack_qipc_batch_eval_req(payload):
     if len(payload) < 4:
         raise ValueError("short batch_eval_req payload")
-    for header in (QIPC_EVAL_REQ_V2_HEADER, QIPC_EVAL_REQ_V1_HEADER, QIPC_EVAL_REQ_V0_HEADER):
+    for header in (
+        QIPC_EVAL_REQ_V2_HEADER,
+        QIPC_EVAL_REQ_V1_HEADER,
+        QIPC_EVAL_REQ_V0_HEADER,
+    ):
         requests = _try_unpack_qipc_batch_eval_req(payload, header)
         if requests is not None:
             return requests
@@ -788,7 +855,11 @@ def unpack_qipc_batch_eval_req(payload):
 
 def pack_qipc_eval_resp(policy, value):
     policy = np.ascontiguousarray(policy, dtype="<f4")
-    return struct.pack("<I", int(policy.size)) + policy.tobytes() + struct.pack("<f", float(value))
+    return (
+        struct.pack("<I", int(policy.size))
+        + policy.tobytes()
+        + struct.pack("<f", float(value))
+    )
 
 
 def pack_qipc_batch_eval_resp(policies, values):
@@ -808,10 +879,10 @@ def pack_qipc_batch_eval_resp(policies, values):
         pbytes = psize * 4
         needed = offset + 4 + pbytes + 4
         if needed > len(payload):
-            payload.extend(b'\x00' * (needed - len(payload)))
+            payload.extend(b"\x00" * (needed - len(payload)))
         struct.pack_into("<I", payload, offset, psize)
         offset += 4
-        payload[offset:offset + pbytes] = policy.tobytes()
+        payload[offset : offset + pbytes] = policy.tobytes()
         offset += pbytes
         struct.pack_into("<f", payload, offset, float(value))
         offset += 4
@@ -848,8 +919,14 @@ _ARENA_REQ_STATE_BOARD = struct.pack("<B", _ARENA_STATE_BOARD)
 _ARENA_REQ_STATE_GO = struct.pack("<B", _ARENA_STATE_GO)
 _ARENA_REQ_STATE_CHESS = struct.pack("<B", _ARENA_STATE_CHESS)
 _ARENA_GO_KEYS = (
-    "go_ruleset", "go_scoring", "go_komi", "go_allow_suicide",
-    "passes", "ko_point", "black_caps", "white_caps",
+    "go_ruleset",
+    "go_scoring",
+    "go_komi",
+    "go_allow_suicide",
+    "passes",
+    "ko_point",
+    "black_caps",
+    "white_caps",
 )
 _ARENA_SEED_SENTINEL = 0xFFFFFFFFFFFFFFFF
 _ARENA_KO_SENTINEL = 0xFFFFFFFF
@@ -862,7 +939,7 @@ def _unpack_search_string(payload, offset):
     offset += 4
     if offset + byte_len > len(payload):
         raise ValueError("truncated search string payload")
-    raw = payload[offset: offset + byte_len]
+    raw = payload[offset : offset + byte_len]
     offset += byte_len
     return raw.decode("utf-8"), offset
 
@@ -913,7 +990,9 @@ def unpack_shm_search_response(payload):
             raise ValueError("truncated search result scalars")
         best_move, iterations, max_pending = struct.unpack_from("<III", payload, offset)
         offset += 12
-        p_flip, value, sigma_q, hbar_eff, dup_rate, avg_vvalue = struct.unpack_from("<ffffff", payload, offset)
+        p_flip, value, sigma_q, hbar_eff, dup_rate, avg_vvalue = struct.unpack_from(
+            "<ffffff", payload, offset
+        )
         offset += 24
         if offset + 4 > len(payload):
             raise ValueError("truncated sparse policy count")
@@ -940,35 +1019,45 @@ def unpack_shm_search_response(payload):
         stop_reason, offset = _unpack_search_string(payload, offset)
         best_move_uci, offset = _unpack_search_string(payload, offset)
         result_fen, offset = _unpack_search_string(payload, offset)
-        search_manifest_raw, offset, has_search_manifest = _try_unpack_optional_search_string(payload, offset)
+        search_manifest_raw, offset, has_search_manifest = (
+            _try_unpack_optional_search_string(payload, offset)
+        )
         if has_search_manifest:
-            realized_budget_raw, offset, has_realized_budget = _try_unpack_optional_search_string(payload, offset)
+            realized_budget_raw, offset, has_realized_budget = (
+                _try_unpack_optional_search_string(payload, offset)
+            )
             if has_realized_budget:
-                controller_summary_raw, offset, _ = _try_unpack_optional_search_string(payload, offset)
+                controller_summary_raw, offset, _ = _try_unpack_optional_search_string(
+                    payload, offset
+                )
             else:
                 controller_summary_raw = ""
         else:
             realized_budget_raw = ""
             controller_summary_raw = ""
-        results.append({
-            "best_move": int(best_move),
-            "policy": policy,
-            "p_flip": float(p_flip),
-            "value": float(value),
-            "sigma_q": float(sigma_q),
-            "hbar_eff": float(hbar_eff),
-            "stop_reason": stop_reason,
-            "iterations": int(iterations),
-            "dup_rate": float(dup_rate),
-            "max_pending": int(max_pending),
-            "avg_vvalue": float(avg_vvalue),
-            "best_move_uci": best_move_uci,
-            "result_fen": result_fen,
-            "result_history_hashes": history_hashes,
-            "search_manifest": _decode_search_json_string(search_manifest_raw),
-            "realized_budget": _decode_search_json_string(realized_budget_raw),
-            "controller_summary": _decode_search_json_string(controller_summary_raw),
-        })
+        results.append(
+            {
+                "best_move": int(best_move),
+                "policy": policy,
+                "p_flip": float(p_flip),
+                "value": float(value),
+                "sigma_q": float(sigma_q),
+                "hbar_eff": float(hbar_eff),
+                "stop_reason": stop_reason,
+                "iterations": int(iterations),
+                "dup_rate": float(dup_rate),
+                "max_pending": int(max_pending),
+                "avg_vvalue": float(avg_vvalue),
+                "best_move_uci": best_move_uci,
+                "result_fen": result_fen,
+                "result_history_hashes": history_hashes,
+                "search_manifest": _decode_search_json_string(search_manifest_raw),
+                "realized_budget": _decode_search_json_string(realized_budget_raw),
+                "controller_summary": _decode_search_json_string(
+                    controller_summary_raw
+                ),
+            }
+        )
     if offset != len(payload):
         raise ValueError("search response trailing bytes")
     if wrapper_kind == _SEARCH_RESP_SINGLE:
@@ -1075,40 +1164,66 @@ def pack_qipc_arena_eval_req(game, search_options, sessions, *, iters, max_moves
 
     # variable-length opt strings
     sp_b = str(opt_get("search_profile", "quartz") or "").encode("utf-8")
-    extend(_ARENA_REQ_LEN_U32.pack(len(sp_b))); extend(sp_b)
+    extend(_ARENA_REQ_LEN_U32.pack(len(sp_b)))
+    extend(sp_b)
     pm_b = str(opt_get("penalty_mode", "GatedRefresh") or "").encode("utf-8")
-    extend(_ARENA_REQ_LEN_U32.pack(len(pm_b))); extend(pm_b)
+    extend(_ARENA_REQ_LEN_U32.pack(len(pm_b)))
+    extend(pm_b)
     vl_b = str(opt_get("vl_mode", "") or "").encode("utf-8")
-    extend(_ARENA_REQ_LEN_U32.pack(len(vl_b))); extend(vl_b)
+    extend(_ARENA_REQ_LEN_U32.pack(len(vl_b)))
+    extend(vl_b)
 
-    extend(_ARENA_REQ_OPTS_FIXED.pack(
-        int(opt_get("n_threads", 1) or 1),
-        int(opt_get("batch_size", 8) or 8),
-        int(opt_get("batch_timeout_us", 1500) or 1500),
-        float(0.3 if opt_get("hbar_penalty_cap", 0.3) is None else opt_get("hbar_penalty_cap", 0.3)),
-        float(0.3 if opt_get("sigma_0", 0.3) is None else opt_get("sigma_0", 0.3)),
-        int(opt_get("min_visits", 50) or 50),
-        int(opt_get("check_interval", 100) or 100),
-        float(0.0 if opt_get("prior_refresh_rate", 0.0) is None else opt_get("prior_refresh_rate", 0.0)),
-        float(1.0 if opt_get("prior_refresh_temp", 1.0) is None else opt_get("prior_refresh_temp", 1.0)),
-        float(0.0 if opt_get("c_puct", 0.0) is None else opt_get("c_puct", 0.0)),
-    ))
+    extend(
+        _ARENA_REQ_OPTS_FIXED.pack(
+            int(opt_get("n_threads", 1) or 1),
+            int(opt_get("batch_size", 8) or 8),
+            int(opt_get("batch_timeout_us", 1500) or 1500),
+            float(
+                0.3
+                if opt_get("hbar_penalty_cap", 0.3) is None
+                else opt_get("hbar_penalty_cap", 0.3)
+            ),
+            float(0.3 if opt_get("sigma_0", 0.3) is None else opt_get("sigma_0", 0.3)),
+            int(opt_get("min_visits", 50) or 50),
+            int(opt_get("check_interval", 100) or 100),
+            float(
+                0.0
+                if opt_get("prior_refresh_rate", 0.0) is None
+                else opt_get("prior_refresh_rate", 0.0)
+            ),
+            float(
+                1.0
+                if opt_get("prior_refresh_temp", 1.0) is None
+                else opt_get("prior_refresh_temp", 1.0)
+            ),
+            float(0.0 if opt_get("c_puct", 0.0) is None else opt_get("c_puct", 0.0)),
+        )
+    )
 
     if not opt_contains("root_only_shaping"):
         extend(_ARENA_REQ_OPT_BOOL_ABSENT)
     else:
-        extend(_ARENA_REQ_OPT_BOOL_TRUE if opt_get("root_only_shaping") else _ARENA_REQ_OPT_BOOL_FALSE)
+        extend(
+            _ARENA_REQ_OPT_BOOL_TRUE
+            if opt_get("root_only_shaping")
+            else _ARENA_REQ_OPT_BOOL_FALSE
+        )
     if not opt_contains("tt_enabled"):
         extend(_ARENA_REQ_OPT_BOOL_ABSENT)
     else:
-        extend(_ARENA_REQ_OPT_BOOL_TRUE if opt_get("tt_enabled") else _ARENA_REQ_OPT_BOOL_FALSE)
+        extend(
+            _ARENA_REQ_OPT_BOOL_TRUE
+            if opt_get("tt_enabled")
+            else _ARENA_REQ_OPT_BOOL_FALSE
+        )
     seed_val = opt_get("seed") if opt_contains("seed") else None
     if seed_val is None:
         extend(_ARENA_REQ_OPT_U64_ZERO)
     else:
         extend(_ARENA_REQ_OPT_U64.pack(1, int(seed_val or 0)))
     hm_b = str(opt_get("halt_mode", "") or "").encode("utf-8")
-    extend(_ARENA_REQ_LEN_U32.pack(len(hm_b))); extend(hm_b)
+    extend(_ARENA_REQ_LEN_U32.pack(len(hm_b)))
+    extend(hm_b)
 
     extend(_ARENA_REQ_ITERS_MAX.pack(int(iters), int(max_moves)))
 
@@ -1128,7 +1243,8 @@ def pack_qipc_arena_eval_req(game, search_options, sessions, *, iters, max_moves
         sess_contains = sess.__contains__
 
         game_id_b = str(sess_get("game_id", "g0000")).encode("utf-8")
-        extend(len_u32_pack(len(game_id_b))); extend(game_id_b)
+        extend(len_u32_pack(len(game_id_b)))
+        extend(game_id_b)
 
         if sess_contains("white_tag") and sess_get("white_tag") is not None:
             white_tag = int(sess["white_tag"])
@@ -1136,14 +1252,16 @@ def pack_qipc_arena_eval_req(game, search_options, sessions, *, iters, max_moves
             white_tag = 1
         seed_raw = sess_get("seed")
         seed_field = _ARENA_SEED_SENTINEL if seed_raw is None else int(seed_raw)
-        extend(session_header_pack(
-            int(sess_get("black_tag", 0) or 0),
-            white_tag,
-            seed_field,
-            int(sess_get("ply", 0) or 0),
-            float(sess_get("total_time_ms", 0.0) or 0.0),
-            1 if sess_get("done", False) else 0,
-        ))
+        extend(
+            session_header_pack(
+                int(sess_get("black_tag", 0) or 0),
+                white_tag,
+                seed_field,
+                int(sess_get("ply", 0) or 0),
+                float(sess_get("total_time_ms", 0.0) or 0.0),
+                1 if sess_get("done", False) else 0,
+            )
+        )
 
         opening = sess_get("opening") or ()
         extend(len_u32_pack(len(opening)))
@@ -1153,7 +1271,8 @@ def pack_qipc_arena_eval_req(game, search_options, sessions, *, iters, max_moves
         if sess_contains("fen"):
             extend(_ARENA_REQ_STATE_CHESS)
             fen_b = str(sess_get("fen", "")).encode("utf-8")
-            extend(len_u32_pack(len(fen_b))); extend(fen_b)
+            extend(len_u32_pack(len(fen_b)))
+            extend(fen_b)
             hashes = sess_get("chess_history_hashes") or ()
             extend(len_u32_pack(len(hashes)))
             if hashes:
@@ -1173,18 +1292,22 @@ def pack_qipc_arena_eval_req(game, search_options, sessions, *, iters, max_moves
                 extend(bytes(int(v) & 0xFF for v in board))
                 ruleset_b = str(sess_get("go_ruleset", "")).encode("utf-8")
                 scoring_b = str(sess_get("go_scoring", "")).encode("utf-8")
-                extend(len_u32_pack(len(ruleset_b))); extend(ruleset_b)
-                extend(len_u32_pack(len(scoring_b))); extend(scoring_b)
+                extend(len_u32_pack(len(ruleset_b)))
+                extend(ruleset_b)
+                extend(len_u32_pack(len(scoring_b)))
+                extend(scoring_b)
                 ko_raw = sess_get("ko_point")
                 ko_field = _ARENA_KO_SENTINEL if ko_raw is None else int(ko_raw)
-                extend(go_tail_pack(
-                    float(sess_get("go_komi", 7.5) or 7.5),
-                    1 if sess_get("go_allow_suicide", False) else 0,
-                    int(sess_get("passes", 0) or 0),
-                    ko_field,
-                    int(sess_get("black_caps", 0) or 0),
-                    int(sess_get("white_caps", 0) or 0),
-                ))
+                extend(
+                    go_tail_pack(
+                        float(sess_get("go_komi", 7.5) or 7.5),
+                        1 if sess_get("go_allow_suicide", False) else 0,
+                        int(sess_get("passes", 0) or 0),
+                        ko_field,
+                        int(sess_get("black_caps", 0) or 0),
+                        int(sess_get("white_caps", 0) or 0),
+                    )
+                )
             else:
                 extend(_ARENA_REQ_STATE_BOARD)
                 extend(player_len_pack(player, board_len))

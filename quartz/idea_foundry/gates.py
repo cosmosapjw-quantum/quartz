@@ -94,7 +94,9 @@ AXIS_TYPES = (
     A26NestedContourExactLab,
 )
 
-AXIS_TYPE_BY_ID = {axis_type().axis_id.split(".", 1)[0]: axis_type for axis_type in AXIS_TYPES}
+AXIS_TYPE_BY_ID = {
+    axis_type().axis_id.split(".", 1)[0]: axis_type for axis_type in AXIS_TYPES
+}
 
 _EVIDENCE_STATUS_BY_AXIS_STATUS = {
     AxisStatus.SEED: "skeleton_only",
@@ -367,9 +369,16 @@ def run_axis_contract_gate(
         _check(math.isclose(sum(policy.values()), 1.0), "policy_normalized", rows)
     elif axis_id == "A03":
         edge = observation.edges[0]
-        _check(axis.radius(edge) >= A03UncertaintyDecomposition("A03.test", combine="rss").radius(edge), "conservative_sum_ge_rss", rows)
+        _check(
+            axis.radius(edge)
+            >= A03UncertaintyDecomposition("A03.test", combine="rss").radius(edge),
+            "conservative_sum_ge_rss",
+            rows,
+        )
     elif axis_id == "A04":
-        _check(MetaActionKind.STOP not in action_kinds, "kg_allocation_never_stop", rows)
+        _check(
+            MetaActionKind.STOP not in action_kinds, "kg_allocation_never_stop", rows
+        )
     elif axis_id == "A05":
         fork_specs = (
             (MetaAction(MetaActionKind.STOP, primary=0), 0.40, 0.32, CostVector()),
@@ -439,75 +448,129 @@ def run_axis_contract_gate(
                     abs_tol=1e-12,
                 )
                 and label.realized_cost == cost
-                for label, (_, loss_before, loss_after, cost) in zip(
-                    labels, fork_specs
-                )
+                for label, (_, loss_before, loss_after, cost) in zip(labels, fork_specs)
             ),
             "raw_regret_and_cost_vectors_preserved",
             rows,
         )
         freshness = observation.freshness_identity()
         _check(
-            all(
-                label.freshness_identity == freshness for label in labels
-            ),
+            all(label.freshness_identity == freshness for label in labels),
             "root_evaluator_candidate_tt_cache_identity_preserved",
             rows,
         )
     elif axis_id == "A06":
         candidates = axis.initial_candidates(observation)
         _check(len(candidates) == len(set(candidates)), "without_replacement", rows)
-        _check(sum(p.action.amount for p in proposals) <= observation.remaining_visits, "budget_conserved", rows)
+        _check(
+            sum(p.action.amount for p in proposals) <= observation.remaining_visits,
+            "budget_conserved",
+            rows,
+        )
     elif axis_id == "A07":
         bound = axis.bound(observation)
         _check(0.0 <= bound <= 1.0, "residual_mass_is_probability", rows)
         _check(action_kinds == {MetaActionKind.WIDEN}, "explicit_widen", rows)
     elif axis_id == "A08":
-        _check(action_kinds <= {MetaActionKind.STOP, MetaActionKind.PROVE}, "proof_actions_only", rows)
+        _check(
+            action_kinds <= {MetaActionKind.STOP, MetaActionKind.PROVE},
+            "proof_actions_only",
+            rows,
+        )
     elif axis_id == "A09":
         _check(axis.score(observation) > 0.0, "continuous_change_score", rows)
     elif axis_id == "A10":
-        _check(action_kinds == {MetaActionKind.NOOP}, "dormant_audit_no_activation", rows)
+        _check(
+            action_kinds == {MetaActionKind.NOOP}, "dormant_audit_no_activation", rows
+        )
     elif axis_id == "A11":
-        _check(action_kinds == {MetaActionKind.RESAMPLE_MODE}, "root_particle_actions", rows)
+        _check(
+            action_kinds == {MetaActionKind.RESAMPLE_MODE},
+            "root_particle_actions",
+            rows,
+        )
     elif axis_id == "A12":
         p, q = [0.7, 0.3], [0.2, 0.8]
         _check(math.isclose(axis.jsd(p, q), axis.jsd(q, p)), "jsd_symmetric", rows)
         _check(math.isclose(axis.jsd(p, p), 0.0, abs_tol=1e-12), "jsd_identity", rows)
     elif axis_id == "A13":
         edge = observation.edges[1]
-        _check(axis.effective_visits(edge) == edge.visits + edge.pending + edge.virtual_visits, "pending_accounted_separately", rows)
+        _check(
+            axis.effective_visits(edge)
+            == edge.visits + edge.pending + edge.virtual_visits,
+            "pending_accounted_separately",
+            rows,
+        )
     elif axis_id == "A14":
-        _check(axis.signature(["b", "a", "a"]) == axis.signature(["a", "b"]), "signature_set_invariant", rows)
+        _check(
+            axis.signature(["b", "a", "a"]) == axis.signature(["a", "b"]),
+            "signature_set_invariant",
+            rows,
+        )
     elif axis_id == "A15":
         _check(axis.best() == (16, 2), "service_curve_argmax", rows)
     elif axis_id == "A16":
-        _check(action_kinds == {MetaActionKind.MERGE_OR_SHARE}, "cache_share_action", rows)
-        _check(all(p.action.label == "state_cache_only" for p in proposals), "parent_stats_not_merged", rows)
+        _check(
+            action_kinds == {MetaActionKind.MERGE_OR_SHARE}, "cache_share_action", rows
+        )
+        _check(
+            all(p.action.label == "state_cache_only" for p in proposals),
+            "parent_stats_not_merged",
+            rows,
+        )
     elif axis_id == "A17":
         policy = axis.transform(observation)
         _check(math.isclose(sum(policy.values()), 1.0), "readout_normalized", rows)
-        _check(max(policy, key=policy.get) == observation.best_edge().edge_pos, "decision_neutral_fixture", rows)
+        _check(
+            max(policy, key=policy.get) == observation.best_edge().edge_pos,
+            "decision_neutral_fixture",
+            rows,
+        )
     elif axis_id == "A18":
-        _check(axis.loss_contract()["inference"] == "direct_deterministic_policy_value_only", "deterministic_inference_contract", rows)
+        _check(
+            axis.loss_contract()["inference"]
+            == "direct_deterministic_policy_value_only",
+            "deterministic_inference_contract",
+            rows,
+        )
     elif axis_id == "A19":
-        _check(axis.architecture_contract()["routing"] == "soft_train_then_static_prune", "static_deployment_routing", rows)
+        _check(
+            axis.architecture_contract()["routing"] == "soft_train_then_static_prune",
+            "static_deployment_routing",
+            rows,
+        )
     elif axis_id == "A20":
-        _check(action_kinds == {MetaActionKind.ARCHIVE_STATE}, "archive_only_action", rows)
+        _check(
+            action_kinds == {MetaActionKind.ARCHIVE_STATE}, "archive_only_action", rows
+        )
     elif axis_id == "A21":
         _check(0.0 <= axis.coherence(observation) <= 1.0, "bounded_coherence", rows)
     elif axis_id == "A22":
-        _check(len(axis.beta_fit_inputs(observation)["policy"]) == len(observation.edges), "dashboard_support_complete", rows)
+        _check(
+            len(axis.beta_fit_inputs(observation)["policy"]) == len(observation.edges),
+            "dashboard_support_complete",
+            rows,
+        )
     elif axis_id == "A23":
-        _check(bool(axis.deployment_contract()["incremental_update"]), "incremental_contract_explicit", rows)
+        _check(
+            bool(axis.deployment_contract()["incremental_update"]),
+            "incremental_contract_explicit",
+            rows,
+        )
     elif axis_id == "A24":
         _check(action_kinds == {MetaActionKind.NOOP}, "budget_gate_offline_only", rows)
         _check(
-            all("candidate_root_budget" in proposal.telemetry for proposal in proposals),
+            all(
+                "candidate_root_budget" in proposal.telemetry for proposal in proposals
+            ),
             "budget_telemetry_present",
             rows,
         )
-        _check(all(p.estimate.regret_reduction_lcb <= 0.0 for p in proposals), "unearned_gain_not_positive_lcb", rows)
+        _check(
+            all(p.estimate.regret_reduction_lcb <= 0.0 for p in proposals),
+            "unearned_gain_not_positive_lcb",
+            rows,
+        )
     elif axis_id == "A25":
         cold = A25MentsSoftBackup(temperature=1e-6).soft_value([0.2, 0.7], [0.5, 0.5])
         _check(math.isclose(cold, 0.7, abs_tol=1e-5), "temperature_zero_limit", rows)

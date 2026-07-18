@@ -16,9 +16,13 @@ def test_predictor_path_coerces_contiguous_writable_float32_batch():
             seen["dtype"] = batch.dtype
             seen["contiguous"] = batch.flags.c_contiguous
             seen["writeable"] = batch.flags.writeable
-            return np.ones((batch.shape[0], 3), dtype=np.float64), np.array([[0.25], [-0.5]])
+            return np.ones((batch.shape[0], 3), dtype=np.float64), np.array(
+                [[0.25], [-0.5]]
+            )
 
-    batch = np.arange(2 * 1 * 3 * 3, dtype=np.float64).reshape(2, 1, 3, 3)[:, :, :, ::-1]
+    batch = np.arange(2 * 1 * 3 * 3, dtype=np.float64).reshape(2, 1, 3, 3)[
+        :, :, :, ::-1
+    ]
     batch.setflags(write=False)
 
     policies, values = tir.run_model_batch(Predictor(), "cpu", batch)
@@ -47,7 +51,9 @@ def test_torch_cpu_run_model_batch_matches_manual_forward(monkeypatch):
     model = TinyModel().eval()
     batch = np.arange(8, dtype=np.float32).reshape(2, 1, 2, 2)
 
-    policies, values = tir.run_model_batch(model, torch.device("cpu"), batch, torch_module=torch)
+    policies, values = tir.run_model_batch(
+        model, torch.device("cpu"), batch, torch_module=torch
+    )
 
     with torch.inference_mode():
         logits, manual_values = model(torch.from_numpy(batch))
@@ -147,7 +153,9 @@ def test_get_compiled_model_cache_evicts_when_model_is_garbage_collected():
     del stub
     gc.collect()
 
-    assert model_ref() is None, "model must be collectible once external references are dropped"
+    assert model_ref() is None, (
+        "model must be collectible once external references are dropped"
+    )
 
 
 def test_get_compiled_model_falls_back_gracefully_when_attribute_assignment_fails():
@@ -160,7 +168,9 @@ def test_get_compiled_model_falls_back_gracefully_when_attribute_assignment_fail
     first = tir.get_compiled_model(model, torch_module=stub)
     second = tir.get_compiled_model(model, torch_module=stub)
 
-    assert len(stub.compile_calls) == 2, "uncacheable model must recompile on every call"
+    assert len(stub.compile_calls) == 2, (
+        "uncacheable model must recompile on every call"
+    )
     assert first[1] is model
     assert second[1] is model
 

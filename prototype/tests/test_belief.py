@@ -61,9 +61,7 @@ def test_welford_f32_drift_documented():
         f"f32 drift {drift} is too small; the test needs re-tuning, "
         "but it's a sign things are accidentally OK at f32 precision."
     )
-    assert drift < 1e-2, (
-        f"f32 drift {drift} is much larger than expected; investigate."
-    )
+    assert drift < 1e-2, f"f32 drift {drift} is much larger than expected; investigate."
 
 
 def test_empirical_bayes_shrinkage_at_n_zero_gives_parent_variance():
@@ -78,7 +76,10 @@ def test_empirical_bayes_shrinkage_at_n_zero_gives_parent_variance():
     intended behavior.
     """
     sigma2 = empirical_bayes_shrinkage(
-        n=0, M2=0.0, sigma2_parent=0.09, lambda0=4.0,
+        n=0,
+        M2=0.0,
+        sigma2_parent=0.09,
+        lambda0=4.0,
     )
     # (0 + 4 * 0.09) / (max(-1, 1) + 4) = 0.36 / 5 = 0.072
     assert math.isclose(sigma2, 0.072, abs_tol=1e-9)
@@ -114,7 +115,10 @@ def test_empirical_bayes_shrinkage_data_dominates_at_large_n():
     sigma2_data = 0.04
     M2 = (n - 1) * sigma2_data
     sigma2 = empirical_bayes_shrinkage(
-        n=n, M2=M2, sigma2_parent=0.0625, lambda0=4.0,
+        n=n,
+        M2=M2,
+        sigma2_parent=0.0625,
+        lambda0=4.0,
     )
     # Difference should be small (within 5% of data variance)
     rel_err = abs(sigma2 - sigma2_data) / sigma2_data
@@ -124,7 +128,11 @@ def test_empirical_bayes_shrinkage_data_dominates_at_large_n():
 def test_empirical_bayes_shrinkage_floors_at_sigma2_floor():
     """Even when M2=0 and sigma2_parent=0, the result is at least sigma2_floor."""
     sigma2 = empirical_bayes_shrinkage(
-        n=100, M2=0.0, sigma2_parent=0.0, lambda0=4.0, sigma2_floor=1e-6,
+        n=100,
+        M2=0.0,
+        sigma2_parent=0.0,
+        lambda0=4.0,
+        sigma2_floor=1e-6,
     )
     assert sigma2 >= 1e-6
 

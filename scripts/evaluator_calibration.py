@@ -57,7 +57,9 @@ def calibration_metrics(actor, device, examples, batch_size: int = 128) -> dict:
     value_sqerr = 0.0
     for start in range(0, n, batch_size):
         end = min(n, start + batch_size)
-        probs, values = runtime_support.run_model_batch(actor, device, states[start:end])
+        probs, values = runtime_support.run_model_batch(
+            actor, device, states[start:end]
+        )
         probs = np.asarray(probs, dtype=np.float64)
         values = np.asarray(values, dtype=np.float64).reshape(-1)
         targets = np.asarray(target_policies[start:end], dtype=np.float64)
@@ -78,7 +80,9 @@ def calibration_metrics(actor, device, examples, batch_size: int = 128) -> dict:
     }
 
 
-def build_payload(ablation_dir: Path, dataset: Path, device: str, limit: int | None, batch_size: int) -> dict:
+def build_payload(
+    ablation_dir: Path, dataset: Path, device: str, limit: int | None, batch_size: int
+) -> dict:
     examples = load_replay_examples(dataset, limit=limit)
     runs = ablation_study.discover_model_runs(ablation_dir)
     models = {}
@@ -101,9 +105,13 @@ def build_payload(ablation_dir: Path, dataset: Path, device: str, limit: int | N
                 device_obj,
                 backend_preference="torch",
             )
-            models[model_id] = calibration_metrics(actor, device_obj, examples, batch_size=batch_size)
+            models[model_id] = calibration_metrics(
+                actor, device_obj, examples, batch_size=batch_size
+            )
             models[model_id]["model_path"] = str(model_path)
-            models[model_id]["model_sha256"] = sha256_file(Path(model_path), prefix_len=16)
+            models[model_id]["model_sha256"] = sha256_file(
+                Path(model_path), prefix_len=16
+            )
         except Exception as exc:
             errors[model_id] = str(exc)
     return {
@@ -122,12 +130,24 @@ def build_payload(ablation_dir: Path, dataset: Path, device: str, limit: int | N
 
 
 def parse_args() -> argparse.Namespace:
-    parser = argparse.ArgumentParser(description="Generate evaluator_calibration.json from held-out replay NPZ")
-    parser.add_argument("--ablation-dir", required=True, help="Ablation game directory containing model runs")
+    parser = argparse.ArgumentParser(
+        description="Generate evaluator_calibration.json from held-out replay NPZ"
+    )
+    parser.add_argument(
+        "--ablation-dir",
+        required=True,
+        help="Ablation game directory containing model runs",
+    )
     parser.add_argument("--dataset", required=True, help="Held-out ReplayBuffer NPZ")
-    parser.add_argument("--output", default=None, help="Output path; default <ablation-dir>/evaluator_calibration.json")
+    parser.add_argument(
+        "--output",
+        default=None,
+        help="Output path; default <ablation-dir>/evaluator_calibration.json",
+    )
     parser.add_argument("--device", default="cpu")
-    parser.add_argument("--limit", type=int, default=None, help="Maximum positions to evaluate")
+    parser.add_argument(
+        "--limit", type=int, default=None, help="Maximum positions to evaluate"
+    )
     parser.add_argument("--batch-size", type=int, default=128)
     return parser.parse_args()
 
@@ -135,7 +155,11 @@ def parse_args() -> argparse.Namespace:
 def main() -> None:
     args = parse_args()
     ablation_dir = Path(args.ablation_dir)
-    output = Path(args.output) if args.output else ablation_dir / "evaluator_calibration.json"
+    output = (
+        Path(args.output)
+        if args.output
+        else ablation_dir / "evaluator_calibration.json"
+    )
     payload = build_payload(
         ablation_dir,
         Path(args.dataset),
@@ -145,7 +169,9 @@ def main() -> None:
     )
     output.parent.mkdir(parents=True, exist_ok=True)
     output.write_text(json.dumps(payload, indent=2), encoding="utf-8")
-    print(f"wrote {output} ({len(payload['models'])} models, {len(payload['errors'])} errors)")
+    print(
+        f"wrote {output} ({len(payload['models'])} models, {len(payload['errors'])} errors)"
+    )
 
 
 if __name__ == "__main__":

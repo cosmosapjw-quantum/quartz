@@ -64,18 +64,30 @@ def build_arg_parser(game_names):
         action="store_true",
         help="Ignore saved autotune profile and rerun warmup benchmark",
     )
-    parser.add_argument("--rust-nn", action="store_true", default=True, help=argparse.SUPPRESS)
+    parser.add_argument(
+        "--rust-nn", action="store_true", default=True, help=argparse.SUPPRESS
+    )
     parser.add_argument("--model", default=None)
     parser.add_argument("--output", default=None)
     parser.add_argument("--config", default=None)
-    parser.add_argument("--replay-buffer", type=int, default=None, help="Replay buffer capacity override")
+    parser.add_argument(
+        "--replay-buffer",
+        type=int,
+        default=None,
+        help="Replay buffer capacity override",
+    )
     parser.add_argument(
         "--replay-recent-frac",
         type=float,
         default=None,
         help="Fraction of each training batch drawn from recent replay",
     )
-    parser.add_argument("--replay-window", type=int, default=None, help="Recent replay sampling window size")
+    parser.add_argument(
+        "--replay-window",
+        type=int,
+        default=None,
+        help="Recent replay sampling window size",
+    )
     parser.add_argument(
         "--go-ruleset",
         choices=["chinese", "japanese", "korean"],
@@ -89,14 +101,18 @@ def build_arg_parser(game_names):
         help="Override Go scoring mode",
     )
     parser.add_argument("--go-komi", type=float, default=None, help="Override Go komi")
-    parser.add_argument("--go-allow-suicide", action="store_true", help="Allow suicide moves in Go")
+    parser.add_argument(
+        "--go-allow-suicide", action="store_true", help="Allow suicide moves in Go"
+    )
     parser.add_argument(
         "--chess960-index",
         type=int,
         default=None,
         help="Use a fixed Chess960 Scharnagl index (0-959)",
     )
-    parser.add_argument("--patience", type=int, default=15, help="Early stopping patience")
+    parser.add_argument(
+        "--patience", type=int, default=15, help="Early stopping patience"
+    )
     parser.add_argument(
         "--inner-patience",
         type=int,
@@ -122,14 +138,48 @@ def build_arg_parser(game_names):
         help="EMA smoothing for inner-step plateau tracking",
     )
     parser.add_argument("--rust-binary", default="./target/release/mcts_demo")
-    parser.add_argument("--seed", type=int, default=42, help="Random seed for reproducibility")
-    parser.add_argument("--eval-interval", type=int, default=5, help="Run Glicko-2 evaluation every N iterations")
-    parser.add_argument("--eval-games", type=int, default=200, help="Number of games per evaluation")
-    parser.add_argument("--selfplay-parallel", type=int, default=None, help="Override foreground self-play process parallelism")
-    parser.add_argument("--bg-parallel", type=int, default=None, help="Override background self-play process parallelism")
-    parser.add_argument("--bg-batch-games", type=int, default=None, help="Override background self-play games per refill cycle")
-    parser.add_argument("--mcts-threads", type=int, default=None, help="Override Rust MCTS threads per self-play search")
-    parser.add_argument("--nn-batch-size", type=int, default=None, help="Override Rust->Python NN batch size")
+    parser.add_argument(
+        "--seed", type=int, default=42, help="Random seed for reproducibility"
+    )
+    parser.add_argument(
+        "--eval-interval",
+        type=int,
+        default=5,
+        help="Run Glicko-2 evaluation every N iterations",
+    )
+    parser.add_argument(
+        "--eval-games", type=int, default=200, help="Number of games per evaluation"
+    )
+    parser.add_argument(
+        "--selfplay-parallel",
+        type=int,
+        default=None,
+        help="Override foreground self-play process parallelism",
+    )
+    parser.add_argument(
+        "--bg-parallel",
+        type=int,
+        default=None,
+        help="Override background self-play process parallelism",
+    )
+    parser.add_argument(
+        "--bg-batch-games",
+        type=int,
+        default=None,
+        help="Override background self-play games per refill cycle",
+    )
+    parser.add_argument(
+        "--mcts-threads",
+        type=int,
+        default=None,
+        help="Override Rust MCTS threads per self-play search",
+    )
+    parser.add_argument(
+        "--nn-batch-size",
+        type=int,
+        default=None,
+        help="Override Rust->Python NN batch size",
+    )
     parser.add_argument(
         "--search-profile",
         choices=["quartz", "baseline", "baseline_strict"],
@@ -142,7 +192,9 @@ def build_arg_parser(game_names):
         default=None,
         help="Virtual loss mode override for ablation study",
     )
-    parser.add_argument("--games", type=int, default=None, help="Self-play games per iteration override")
+    parser.add_argument(
+        "--games", type=int, default=None, help="Self-play games per iteration override"
+    )
     parser.add_argument(
         "--resident-session",
         action="store_true",
@@ -269,7 +321,10 @@ def _save_model_checkpoint(backend, model, torch_mod, path: str, cfg: dict) -> N
     if backend:
         backend.save(path, cfg=cfg)
         return
-    torch_mod.save({"model_state_dict": model.state_dict(), "cfg": _checkpoint_cfg_payload(cfg)}, path)
+    torch_mod.save(
+        {"model_state_dict": model.state_dict(), "cfg": _checkpoint_cfg_payload(cfg)},
+        path,
+    )
 
 
 def _sha256_file(path: str) -> str | None:
@@ -327,7 +382,9 @@ def _write_checkpoint_status(
     return payload
 
 
-def _replay_fill_worker_error(bg_status, stall_timeout_s, replay_size, no_progress_age_s, repeated_error_limit=3):
+def _replay_fill_worker_error(
+    bg_status, stall_timeout_s, replay_size, no_progress_age_s, repeated_error_limit=3
+):
     if not bg_status.get("alive", True):
         return (
             "background self-play worker exited during replay fill: "
@@ -339,7 +396,10 @@ def _replay_fill_worker_error(bg_status, stall_timeout_s, replay_size, no_progre
     last_error = bg_status.get("last_error") or "no progress"
     if replay_size <= 0 and consecutive_errors >= repeated_error_limit:
         return f"background self-play worker failed to seed replay: {last_error}"
-    if no_progress_age_s > min(10.0, stall_timeout_s / 3.0) and consecutive_errors >= repeated_error_limit:
+    if (
+        no_progress_age_s > min(10.0, stall_timeout_s / 3.0)
+        and consecutive_errors >= repeated_error_limit
+    ):
         return f"background self-play worker made no replay-fill progress: {last_error}"
     if bg_status.get("last_progress_age_s", 0.0) > stall_timeout_s:
         return f"background self-play worker stalled during replay fill: {last_error}"
@@ -353,7 +413,9 @@ def _apply_safe_runtime_env_overrides(cfg):
     safe_cfg["_disable_resident_session"] = True
     bootstrap_cap = int(os.environ.get("QUARTZ_SAFE_BOOTSTRAP_TARGET_CAP", "16") or 16)
     parallel_cap = int(os.environ.get("QUARTZ_SAFE_SELFPLAY_PARALLEL_CAP", "4") or 4)
-    batch_games_cap = int(os.environ.get("QUARTZ_SAFE_SELFPLAY_BATCH_GAMES_CAP", "4") or 4)
+    batch_games_cap = int(
+        os.environ.get("QUARTZ_SAFE_SELFPLAY_BATCH_GAMES_CAP", "4") or 4
+    )
     safe_cfg["_bootstrap_replay_target_cap"] = max(1, bootstrap_cap)
     safe_cfg["_selfplay_parallel_cap"] = max(1, parallel_cap)
     safe_cfg["_selfplay_batch_games_cap"] = max(1, batch_games_cap)
@@ -365,7 +427,9 @@ def prepare_training_context(args, runtime_hooks: CliPrepareHooks):
     np = runtime_hooks.np
     random_mod = runtime_hooks.random_mod
     requested_backend = str(args.backend or "auto").lower()
-    jax_requested = requested_backend == "jax" or str(args.device or "").lower() == "jax"
+    jax_requested = (
+        requested_backend == "jax" or str(args.device or "").lower() == "jax"
+    )
 
     torch.manual_seed(args.seed)
     np.random.seed(args.seed)
@@ -420,7 +484,9 @@ def prepare_training_context(args, runtime_hooks: CliPrepareHooks):
 
     base_dir = args.output or runtime_hooks.default_output_dir(args.game)
     Path(base_dir).mkdir(parents=True, exist_ok=True)
-    paths = runtime_hooks.resolve_runtime_paths(base_dir, explicit_model=args.model, resume=args.resume)
+    paths = runtime_hooks.resolve_runtime_paths(
+        base_dir, explicit_model=args.model, resume=args.resume
+    )
     model_path = paths["load_model_path"]
     latest_model_path = paths["latest_model_path"]
     best_model_path = paths["best_model_path"]
@@ -428,8 +494,14 @@ def prepare_training_context(args, runtime_hooks: CliPrepareHooks):
     log_path = paths["log_path"]
     autotune_profile_path = paths["autotune_profile_path"]
 
-    device = "jax" if jax_requested else (
-        torch.device(runtime_hooks.auto_device_name()) if args.device == "auto" else torch.device(args.device)
+    device = (
+        "jax"
+        if jax_requested
+        else (
+            torch.device(runtime_hooks.auto_device_name())
+            if args.device == "auto"
+            else torch.device(args.device)
+        )
     )
     hw = runtime_hooks.detect_hardware_spec(device)
     if not jax_requested:
@@ -444,7 +516,8 @@ def prepare_training_context(args, runtime_hooks: CliPrepareHooks):
         )
     selfplay_runner_mode = (
         "rust_selfplay_state_machine"
-        if os.path.exists(args.rust_binary) and runtime_hooks.supports_rust_selfplay_state_machine(cfg.get("_name"))
+        if os.path.exists(args.rust_binary)
+        and runtime_hooks.supports_rust_selfplay_state_machine(cfg.get("_name"))
         else "python_batched"
     )
     cfg["_selfplay_topology_version"] = 6
@@ -475,7 +548,13 @@ def prepare_training_context(args, runtime_hooks: CliPrepareHooks):
         try:
             if getattr(device, "type", str(device)) == "cpu":
                 torch.set_num_interop_threads(
-                    max(1, min(runtime_hooks.max_supported_threads(hw), getattr(hw, "physical_cpus", 1) or 1))
+                    max(
+                        1,
+                        min(
+                            runtime_hooks.max_supported_threads(hw),
+                            getattr(hw, "physical_cpus", 1) or 1,
+                        ),
+                    )
                 )
             else:
                 torch.set_num_interop_threads(runtime_hooks.gpu_interop_thread_cap(hw))
@@ -492,7 +571,9 @@ def prepare_training_context(args, runtime_hooks: CliPrepareHooks):
             from quartz.backend import create_backend
 
             backend_device = "jax" if jax_requested else args.device
-            backend = create_backend(cfg, device=backend_device, preference=args.backend)
+            backend = create_backend(
+                cfg, device=backend_device, preference=args.backend
+            )
             if os.path.exists(model_path):
                 backend.load(model_path)
             model = backend.get_torch_model()
@@ -516,34 +597,53 @@ def prepare_training_context(args, runtime_hooks: CliPrepareHooks):
         n_params = sum(p.numel() for p in model.parameters())
         if os.path.exists(model_path):
             try:
-                runtime_hooks.load_torch_state_dict_checked(model, model_path, torch, map_location=device)
+                runtime_hooks.load_torch_state_dict_checked(
+                    model, model_path, torch, map_location=device
+                )
                 print(f"Loaded model: {model_path}")
             except Exception as exc:
                 explicit_model = bool(args.model)
                 if explicit_model:
                     raise
                 print(f"  [WARN] Ignoring incompatible checkpoint {model_path} ({exc})")
-        optimizer = torch.optim.SGD(model.parameters(), lr=0.02, momentum=0.9, weight_decay=1e-4)
+        optimizer = torch.optim.SGD(
+            model.parameters(), lr=0.02, momentum=0.9, weight_decay=1e-4
+        )
     actor_source = runtime_hooks.get_actor_model(model, backend)
     cfg["_backend_name"] = backend.name if backend is not None else "torch"
 
     benchmark_info = None
     if args.autotune and not args.serve and not args.arena and not args.arena_3agent:
-        profile = None if args.retune else runtime_hooks.load_autotune_profile(autotune_profile_path, hw, cfg)
+        profile = (
+            None
+            if args.retune
+            else runtime_hooks.load_autotune_profile(autotune_profile_path, hw, cfg)
+        )
         if profile is not None:
-            cfg = runtime_hooks.apply_runtime_overrides(cfg, profile.get("overrides", {}))
+            cfg = runtime_hooks.apply_runtime_overrides(
+                cfg, profile.get("overrides", {})
+            )
             cfg = runtime_hooks.clamp_runtime_cfg_to_hardware(cfg, hw)
             benchmark_info = profile.get("benchmarks", {})
             print("  Auto-tune profile: loaded cached benchmark")
         else:
             print("  Auto-tune profile: running warmup benchmark...")
             overrides, benchmark_info = runtime_hooks.run_autotune_benchmark(
-                cfg, backend, actor_source, optimizer, device, hw, args.rust_binary, concurrent=args.concurrent
+                cfg,
+                backend,
+                actor_source,
+                optimizer,
+                device,
+                hw,
+                args.rust_binary,
+                concurrent=args.concurrent,
             )
             if overrides:
                 cfg = runtime_hooks.apply_runtime_overrides(cfg, overrides)
                 cfg = runtime_hooks.clamp_runtime_cfg_to_hardware(cfg, hw)
-                runtime_hooks.save_autotune_profile(autotune_profile_path, hw, cfg, overrides, benchmark_info)
+                runtime_hooks.save_autotune_profile(
+                    autotune_profile_path, hw, cfg, overrides, benchmark_info
+                )
                 print(f"  Auto-tune profile: saved to {autotune_profile_path}")
             else:
                 print("  Auto-tune profile: benchmark produced no overrides")
@@ -555,22 +655,30 @@ def prepare_training_context(args, runtime_hooks: CliPrepareHooks):
         probe_model = actor_source if not isinstance(actor_source, dict) else None
         if probe_model is not None and not os.environ.get("QUARTZ_DISABLE_BATCH_PROBE"):
             try:
-                probed_bs = runtime_hooks.probe_inference_batch_size(probe_model, device, cfg, eval_batch_cap)
+                probed_bs = runtime_hooks.probe_inference_batch_size(
+                    probe_model, device, cfg, eval_batch_cap
+                )
                 if probed_bs > cfg.get("batch_size", 8):
                     cfg["batch_size"] = probed_bs
-                    print(f"  Batch size probe: optimal BS={probed_bs} (cap={eval_batch_cap})")
+                    print(
+                        f"  Batch size probe: optimal BS={probed_bs} (cap={eval_batch_cap})"
+                    )
             except Exception as e:
                 print(f"  Batch size probe: skipped ({e})")
 
     manual_runtime_overrides = {}
     if args.selfplay_parallel is not None:
-        manual_runtime_overrides["selfplay_parallel"] = max(1, int(args.selfplay_parallel))
+        manual_runtime_overrides["selfplay_parallel"] = max(
+            1, int(args.selfplay_parallel)
+        )
     if args.bg_parallel is not None:
         manual_runtime_overrides["bg_parallel"] = max(1, int(args.bg_parallel))
     if args.bg_batch_games is not None:
         manual_runtime_overrides["bg_batch_games"] = max(1, int(args.bg_batch_games))
     if args.mcts_threads is not None:
-        manual_runtime_overrides["n_threads"] = runtime_hooks.clamp_thread_count(args.mcts_threads, hw)
+        manual_runtime_overrides["n_threads"] = runtime_hooks.clamp_thread_count(
+            args.mcts_threads, hw
+        )
     if args.nn_batch_size is not None:
         manual_runtime_overrides["batch_size"] = max(1, int(args.nn_batch_size))
     if manual_runtime_overrides:
@@ -598,7 +706,9 @@ def prepare_training_context(args, runtime_hooks: CliPrepareHooks):
     )
 
 
-def run_training_main(args, ctx: PreparedTrainingContext, runtime_hooks: MainRuntimeHooks):
+def run_training_main(
+    args, ctx: PreparedTrainingContext, runtime_hooks: MainRuntimeHooks
+):
     cfg = ctx.cfg
     base_cfg = ctx.base_cfg
     base_dir = ctx.base_dir
@@ -638,14 +748,21 @@ def run_training_main(args, ctx: PreparedTrainingContext, runtime_hooks: MainRun
         if args.rust_nn:
             print("  Arena mode: Rust MCTS + NN (full search stack)")
             wa, wb, d, wr, ci, sprt = runtime_hooks.arena_rust_nn(
-                args.arena[0], args.arena[1], cfg, device, args.arena_games, args.rust_binary
+                args.arena[0],
+                args.arena[1],
+                cfg,
+                device,
+                args.arena_games,
+                args.rust_binary,
             )
         else:
             print("  Arena mode: Python TreeMCTS")
             wa, wb, d, wr, ci, sprt = runtime_hooks.arena_compare(
                 args.arena[0], args.arena[1], cfg, device, args.arena_games
             )
-        print(f"Arena: A={wa} B={wb} D={d} | WinRate_A={wr:.3f} 95%CI=[{ci[0]:.3f},{ci[1]:.3f}] SPRT={sprt}")
+        print(
+            f"Arena: A={wa} B={wb} D={d} | WinRate_A={wr:.3f} 95%CI=[{ci[0]:.3f},{ci[1]:.3f}] SPRT={sprt}"
+        )
         if sprt == "H1_accept":
             print("  → SPRT: Model A is significantly stronger (p<0.05)")
         elif sprt == "H0_accept":
@@ -679,7 +796,9 @@ def run_training_main(args, ctx: PreparedTrainingContext, runtime_hooks: MainRun
         )
     if cfg.get("chess960", False):
         start_desc = cfg.get("chess960_index")
-        print(f"Chess960 start: {'randomized' if start_desc is None else f'index={start_desc}'}")
+        print(
+            f"Chess960 start: {'randomized' if start_desc is None else f'index={start_desc}'}"
+        )
 
     replay = runtime_hooks.replay_buffer_cls(
         cfg["buf"],
@@ -696,7 +815,9 @@ def run_training_main(args, ctx: PreparedTrainingContext, runtime_hooks: MainRun
             warmup=20 if args.concurrent else 10,
             ema_alpha=0.25 if args.concurrent else 0.30,
         )
-        if runtime_hooks.early_stopping_enabled(args.patience, concurrent=args.concurrent)
+        if runtime_hooks.early_stopping_enabled(
+            args.patience, concurrent=args.concurrent
+        )
         else None
     )
     inner_stop_cfg = {
@@ -717,8 +838,11 @@ def run_training_main(args, ctx: PreparedTrainingContext, runtime_hooks: MainRun
     best_checkpoint_bootstrap = False
     saw_promotion = False
     if runtime_hooks.has_eval_system:
-        eval_parallel_workers = cached_eval_parallel_workers or runtime_hooks.recommend_eval_parallel_workers(
-            hw, cfg, args.eval_games, rust_ok=rust_ok
+        eval_parallel_workers = (
+            cached_eval_parallel_workers
+            or runtime_hooks.recommend_eval_parallel_workers(
+                hw, cfg, args.eval_games, rust_ok=rust_ok
+            )
         )
         eval_parallel_workers = max(
             1, min(int(eval_parallel_workers), runtime_hooks.max_supported_threads(hw))
@@ -736,7 +860,9 @@ def run_training_main(args, ctx: PreparedTrainingContext, runtime_hooks: MainRun
         )
         game_factories = {
             game_name: (
-                lambda game_name=game_name: runtime_hooks.build_training_game_adapter(dict(cfg, _name=game_name))
+                lambda game_name=game_name: runtime_hooks.build_training_game_adapter(
+                    dict(cfg, _name=game_name)
+                )
             )
             for game_name in runtime_hooks.game_configs
         }
@@ -754,7 +880,9 @@ def run_training_main(args, ctx: PreparedTrainingContext, runtime_hooks: MainRun
                     saw_promotion=saw_promotion,
                 )
             else:
-                runtime_hooks.ensure_best_checkpoint_compatible(best_model_path, backend, model, device)
+                runtime_hooks.ensure_best_checkpoint_compatible(
+                    best_model_path, backend, model, device
+                )
             eval_worker_msg = str(eval_parallel_workers)
             if not eval_workers_autotuned:
                 eval_worker_msg += " (first eval will benchmark)"
@@ -770,35 +898,43 @@ def run_training_main(args, ctx: PreparedTrainingContext, runtime_hooks: MainRun
         print("  Training requires Rust. Run: cargo build --release")
     cfg["_resident_session"] = bool(cfg.get("_resident_session", False))
 
-    print(f"\n{'='*60}")
+    print(f"\n{'=' * 60}")
     print(f"  Training: {args.iterations} iterations, {cfg['games']} games/iter")
     if args.concurrent:
         print("  Mode: CONCURRENT (background self-play)")
     print(f"  Runtime tuner: {'enabled' if args.runtime_autotune else 'disabled'}")
     if args.concurrent:
-        print(f"  Eval/self-play isolation: {'enabled' if args.eval_selfplay_isolation else 'disabled'}")
+        print(
+            f"  Eval/self-play isolation: {'enabled' if args.eval_selfplay_isolation else 'disabled'}"
+        )
     if outer_stopper is not None:
-        print(f"  Outer early stopping: enabled (patience={args.patience}, warmup={outer_stopper.warmup})")
+        print(
+            f"  Outer early stopping: enabled (patience={args.patience}, warmup={outer_stopper.warmup})"
+        )
     if inner_stop_cfg["patience"] > 0:
         print(
             "  Inner early stopping: "
             f"enabled (patience={inner_stop_cfg['patience']}, min_fraction={inner_stop_cfg['min_fraction']:.2f})"
         )
-    print(f"{'='*60}\n")
+    print(f"{'=' * 60}\n")
 
     bg_worker = None
     if args.concurrent:
         if not rust_ok:
-            print("ERROR: --concurrent requires Rust binary. Run: cargo build --release")
+            print(
+                "ERROR: --concurrent requires Rust binary. Run: cargo build --release"
+            )
             sys.exit(1)
-        bg_worker = runtime_hooks.selfplay_worker_cls(cfg, actor_source, device, replay, args.rust_binary)
+        bg_worker = runtime_hooks.selfplay_worker_cls(
+            cfg, actor_source, device, replay, args.rust_binary
+        )
         bg_worker.start()
         print("  [BG] Self-play worker started (Rust+NN)")
         last_replay_growth = len(replay)
         last_replay_growth_ts = time.time()
-        while len(replay) < runtime_hooks.initial_replay_fill_target(cfg, bg_worker._recent_chunks) and not (
-            outer_stopper and outer_stopper.should_stop
-        ):
+        while len(replay) < runtime_hooks.initial_replay_fill_target(
+            cfg, bg_worker._recent_chunks
+        ) and not (outer_stopper and outer_stopper.should_stop):
             time.sleep(0.5)
             bg_status = bg_worker.status()
             replay_size = len(replay)
@@ -816,7 +952,9 @@ def run_training_main(args, ctx: PreparedTrainingContext, runtime_hooks: MainRun
             status_suffix = ""
             if bg_status.get("consecutive_errors", 0) > 0:
                 status_suffix = f" err={bg_status['consecutive_errors']}"
-            fill_target = runtime_hooks.initial_replay_fill_target(cfg, bg_worker._recent_chunks)
+            fill_target = runtime_hooks.initial_replay_fill_target(
+                cfg, bg_worker._recent_chunks
+            )
             print(
                 f"\r  [BG] Filling replay: {replay_size}/{fill_target}...{status_suffix}",
                 end="",
@@ -837,7 +975,9 @@ def run_training_main(args, ctx: PreparedTrainingContext, runtime_hooks: MainRun
 
     train_search_manifest_hash = _runtime_support_mod.search_manifest_hash(cfg)
     online_tuner = (
-        runtime_hooks.online_autotune_controller_cls(cfg, hw, enabled_iters=min(10, args.iterations), interval=2)
+        runtime_hooks.online_autotune_controller_cls(
+            cfg, hw, enabled_iters=min(10, args.iterations), interval=2
+        )
         if args.concurrent and args.runtime_autotune
         else None
     )
@@ -868,7 +1008,9 @@ def run_training_main(args, ctx: PreparedTrainingContext, runtime_hooks: MainRun
             "loss": None,
             "p_loss": None,
             "v_loss": None,
-            "loss_ema": runtime_hooks.round_or_none(outer_stopper.loss_ema if outer_stopper else None),
+            "loss_ema": runtime_hooks.round_or_none(
+                outer_stopper.loss_ema if outer_stopper else None
+            ),
             "lr": round(lr, 6),
             "replay": len(replay),
             "new_pos": 0,
@@ -900,7 +1042,12 @@ def run_training_main(args, ctx: PreparedTrainingContext, runtime_hooks: MainRun
             bg_worker._prev_count = bg_now
         elif rust_ok:
             states, policies, outcomes, traces = runtime_hooks.selfplay_rust_nn_batched(
-                cfg, actor_source, device, cfg["games"], args.rust_binary, parallel=cfg.get("selfplay_parallel", 4)
+                cfg,
+                actor_source,
+                device,
+                cfg["games"],
+                args.rust_binary,
+                parallel=cfg.get("selfplay_parallel", 4),
             )
             # In the inline path, the actor producing these games is the
             # learner's current actor at the start of this iteration. Use
@@ -908,18 +1055,25 @@ def run_training_main(args, ctx: PreparedTrainingContext, runtime_hooks: MainRun
             # traceable to the learner step that produced them.
             for gs, gp, out, trace in zip(states, policies, outcomes, traces):
                 replay.add_game(
-                    gs, gp, out, traces=trace,
+                    gs,
+                    gp,
+                    out,
+                    traces=trace,
                     actor_generation=int(iteration),
                 )
                 n_new += len(gs)
             all_pflips = [t.get("p_flip", 0) for tr in traces for t in tr if t]
             avg_pflip = sum(all_pflips) / max(len(all_pflips), 1) if all_pflips else 0
         else:
-            print("ERROR: Rust binary required for training. Run: cargo build --release")
+            print(
+                "ERROR: Rust binary required for training. Run: cargo build --release"
+            )
             print(f"  Expected: {args.rust_binary}")
             sys.exit(1)
 
-        entry["replay_freshness"] = round(runtime_hooks.replay_metrics.freshness(n_new, len(replay)), 4)
+        entry["replay_freshness"] = round(
+            runtime_hooks.replay_metrics.freshness(n_new, len(replay)), 4
+        )
         # P03: hoist current_actor_generation up here so it's defined
         # before the SGD-fired branch (where it was originally computed).
         # This lets freshness_summary fire on every iteration including
@@ -935,8 +1089,10 @@ def run_training_main(args, ctx: PreparedTrainingContext, runtime_hooks: MainRun
         # replay buffer's capacity to derive a half-life. Falls back
         # gracefully on test stubs that don't provide the helper.
         if hasattr(runtime_hooks.replay_metrics, "freshness_summary"):
-            entry["replay_freshness_summary"] = runtime_hooks.replay_metrics.freshness_summary(
-                replay, current_actor_generation
+            entry["replay_freshness_summary"] = (
+                runtime_hooks.replay_metrics.freshness_summary(
+                    replay, current_actor_generation
+                )
             )
 
         if len(replay) >= cfg["batch"]:
@@ -975,16 +1131,27 @@ def run_training_main(args, ctx: PreparedTrainingContext, runtime_hooks: MainRun
                         "new_pos": n_new,
                         "time_s": round(elapsed, 1),
                         "pos_per_s": round(n_new / max(elapsed, 0.1), 1),
-                        "replay_search_summary": runtime_hooks.replay_metrics.search_summary(replay),
+                        "replay_search_summary": runtime_hooks.replay_metrics.search_summary(
+                            replay
+                        ),
                     }
                 )
                 print(
-                    f"[{iteration+1:>3}/{args.iterations}] waiting for self-play: "
+                    f"[{iteration + 1:>3}/{args.iterations}] waiting for self-play: "
                     f"replay={len(replay)} +0 {elapsed:.1f}s"
                 )
             else:
-                avg_loss, avg_pl, avg_vl, executed_steps, inner_stop = runtime_hooks.train_epoch(
-                    model, optimizer, replay, cfg, device, train_steps, backend=backend, inner_stop_cfg=inner_stop_cfg
+                avg_loss, avg_pl, avg_vl, executed_steps, inner_stop = (
+                    runtime_hooks.train_epoch(
+                        model,
+                        optimizer,
+                        replay,
+                        cfg,
+                        device,
+                        train_steps,
+                        backend=backend,
+                        inner_stop_cfg=inner_stop_cfg,
+                    )
                 )
                 elapsed = time.time() - t0
                 if outer_stopper:
@@ -1005,7 +1172,9 @@ def run_training_main(args, ctx: PreparedTrainingContext, runtime_hooks: MainRun
                         "loss": round(avg_loss, 4),
                         "p_loss": round(avg_pl, 4),
                         "v_loss": round(avg_vl, 4),
-                        "loss_ema": runtime_hooks.round_or_none(outer_stopper.loss_ema if outer_stopper else None),
+                        "loss_ema": runtime_hooks.round_or_none(
+                            outer_stopper.loss_ema if outer_stopper else None
+                        ),
                         "replay": len(replay),
                         "new_pos": n_new,
                         "train_executed": bool(executed_steps > 0),
@@ -1013,24 +1182,44 @@ def run_training_main(args, ctx: PreparedTrainingContext, runtime_hooks: MainRun
                         "planned_train_steps": train_steps,
                         "time_s": round(elapsed, 1),
                         "pos_per_s": round(n_new / max(elapsed, 0.1), 1),
-                        "avg_pflip": round(avg_pflip, 4) if avg_pflip is not None else None,
-                        "replay_freshness": round(runtime_hooks.replay_metrics.freshness(n_new, len(replay)), 4),
+                        "avg_pflip": round(avg_pflip, 4)
+                        if avg_pflip is not None
+                        else None,
+                        "replay_freshness": round(
+                            runtime_hooks.replay_metrics.freshness(n_new, len(replay)),
+                            4,
+                        ),
                         # P03: principled exponential-decay freshness.
                         # See ReplayMetrics.freshness_summary docstring.
                         "replay_freshness_summary": (
-                            runtime_hooks.replay_metrics.freshness_summary(replay, current_actor_generation)
-                            if hasattr(runtime_hooks.replay_metrics, "freshness_summary")
+                            runtime_hooks.replay_metrics.freshness_summary(
+                                replay, current_actor_generation
+                            )
+                            if hasattr(
+                                runtime_hooks.replay_metrics, "freshness_summary"
+                            )
                             else None
                         ),
-                        "policy_entropy": round(runtime_hooks.replay_metrics.policy_entropy(replay), 3),
-                        "value_std": round(runtime_hooks.replay_metrics.value_std(replay), 4),
-                        "replay_search_summary": runtime_hooks.replay_metrics.search_summary(replay),
+                        "policy_entropy": round(
+                            runtime_hooks.replay_metrics.policy_entropy(replay), 3
+                        ),
+                        "value_std": round(
+                            runtime_hooks.replay_metrics.value_std(replay), 4
+                        ),
+                        "replay_search_summary": runtime_hooks.replay_metrics.search_summary(
+                            replay
+                        ),
                         "actor_generation": current_actor_generation,
                         "replay_actor_gen_hist": (
                             # Not all test stubs provide this helper; fall back
                             # to an empty histogram when it is unavailable.
-                            runtime_hooks.replay_metrics.actor_generation_histogram(replay)
-                            if hasattr(runtime_hooks.replay_metrics, "actor_generation_histogram")
+                            runtime_hooks.replay_metrics.actor_generation_histogram(
+                                replay
+                            )
+                            if hasattr(
+                                runtime_hooks.replay_metrics,
+                                "actor_generation_histogram",
+                            )
                             else {}
                         ),
                     }
@@ -1038,7 +1227,7 @@ def run_training_main(args, ctx: PreparedTrainingContext, runtime_hooks: MainRun
                 if inner_stop is not None:
                     entry["inner_stop"] = inner_stop
                 print(
-                    f"[{iteration+1:>3}/{args.iterations}] loss={avg_loss:.4f} "
+                    f"[{iteration + 1:>3}/{args.iterations}] loss={avg_loss:.4f} "
                     f"(p={avg_pl:.4f} v={avg_vl:.4f}) lr={lr:.5f} replay={len(replay)} "
                     f"+{n_new} steps={executed_steps}/{train_steps} {elapsed:.1f}s"
                 )
@@ -1056,10 +1245,14 @@ def run_training_main(args, ctx: PreparedTrainingContext, runtime_hooks: MainRun
                     "new_pos": n_new,
                     "time_s": round(elapsed, 1),
                     "pos_per_s": round(n_new / max(elapsed, 0.1), 1),
-                    "replay_search_summary": runtime_hooks.replay_metrics.search_summary(replay),
+                    "replay_search_summary": runtime_hooks.replay_metrics.search_summary(
+                        replay
+                    ),
                 }
             )
-            print(f"[{iteration+1:>3}/{args.iterations}] filling replay: {len(replay)}/{cfg['batch']} +{n_new} {elapsed:.1f}s")
+            print(
+                f"[{iteration + 1:>3}/{args.iterations}] filling replay: {len(replay)}/{cfg['batch']} +{n_new} {elapsed:.1f}s"
+            )
 
         # P9 (audit_codex_20260425.md W5): iteration-level actor refresh.
         # The prior per-iteration call was gated on `executed_steps > 0`,
@@ -1075,21 +1268,31 @@ def run_training_main(args, ctx: PreparedTrainingContext, runtime_hooks: MainRun
 
         if online_tuner is not None:
             runtime_overrides = online_tuner.observe(
-                iteration, n_new, time.time() - t0, entry.get("train_steps") or 0, len(replay), bg_worker
+                iteration,
+                n_new,
+                time.time() - t0,
+                entry.get("train_steps") or 0,
+                len(replay),
+                bg_worker,
             )
             if runtime_overrides:
                 entry["runtime_tune"] = dict(runtime_overrides)
                 changes = ", ".join(f"{k}={v}" for k, v in runtime_overrides.items())
-                print(f"  [AutoTune] iter {iteration+1}: adjusted {changes}")
+                print(f"  [AutoTune] iter {iteration + 1}: adjusted {changes}")
 
         if bg_worker is not None:
             telemetry_fn = getattr(bg_worker, "telemetry", None)
             try:
-                selfplay_telemetry = telemetry_fn() if callable(telemetry_fn) else bg_worker.status()
+                selfplay_telemetry = (
+                    telemetry_fn() if callable(telemetry_fn) else bg_worker.status()
+                )
             except Exception:
                 selfplay_telemetry = bg_worker.status()
             entry["selfplay_telemetry"] = selfplay_telemetry
-            if isinstance(selfplay_telemetry, dict) and selfplay_telemetry.get("last_progress_age_s") is not None:
+            if (
+                isinstance(selfplay_telemetry, dict)
+                and selfplay_telemetry.get("last_progress_age_s") is not None
+            ):
                 entry["selfplay_queue_latency_s"] = round(
                     float(selfplay_telemetry.get("last_progress_age_s") or 0.0),
                     3,
@@ -1100,41 +1303,72 @@ def run_training_main(args, ctx: PreparedTrainingContext, runtime_hooks: MainRun
             replay.save(replay_path)
             print(f"  Checkpoint: {latest_model_path} (replay={len(replay)})")
 
-        if training_evaluator and (iteration + 1) % args.eval_interval == 0 and game_factory:
-            print(f"  Evaluating gen_{iteration+1} vs champion...")
-            eval_search_manifest = _eval_runtime_mod.arena_search_manifest(cfg, args.eval_games)
-            eval_search_manifest_hash = _eval_runtime_mod.arena_search_manifest_hash(cfg, args.eval_games)
+        if (
+            training_evaluator
+            and (iteration + 1) % args.eval_interval == 0
+            and game_factory
+        ):
+            print(f"  Evaluating gen_{iteration + 1} vs champion...")
+            eval_search_manifest = _eval_runtime_mod.arena_search_manifest(
+                cfg, args.eval_games
+            )
+            eval_search_manifest_hash = _eval_runtime_mod.arena_search_manifest_hash(
+                cfg, args.eval_games
+            )
             bg_pause_requested = False
             cand_eng = None
             champ_eng = None
             if bg_worker and args.eval_selfplay_isolation:
                 bg_pause_requested = True
                 if not bg_worker.pause(wait=True):
-                    raise RuntimeError("background self-play failed to pause for evaluation")
+                    raise RuntimeError(
+                        "background self-play failed to pause for evaluation"
+                    )
             try:
-                candidate_name = f"gen_{iteration+1}"
+                candidate_name = f"gen_{iteration + 1}"
                 candidate_model_path = os.path.join(base_dir, f"{candidate_name}.pt")
                 _save_model_checkpoint(backend, model, torch, candidate_model_path, cfg)
                 candidate_model_hash = _sha256_file(candidate_model_path)
-                candidate_actor_template = runtime_hooks.load_actor_source_from_checkpoint(
-                    candidate_model_path,
-                    cfg,
-                    device,
-                    backend_preference=backend.name if backend is not None else "torch",
-                    backend_template=backend,
+                candidate_actor_template = (
+                    runtime_hooks.load_actor_source_from_checkpoint(
+                        candidate_model_path,
+                        cfg,
+                        device,
+                        backend_preference=backend.name
+                        if backend is not None
+                        else "torch",
+                        backend_template=backend,
+                    )
                 )
                 if rust_ok:
-                    cand_factory = lambda candidate_name=candidate_name, candidate_actor_template=candidate_actor_template: runtime_hooks.rust_nn_evaluator_engine_cls(
-                        candidate_name,
-                        cfg,
-                        runtime_hooks.clone_actor_model(candidate_actor_template),
-                        device,
-                        args.rust_binary,
+                    cand_factory = (
+                        lambda candidate_name=candidate_name, candidate_actor_template=candidate_actor_template: (
+                            runtime_hooks.rust_nn_evaluator_engine_cls(
+                                candidate_name,
+                                cfg,
+                                runtime_hooks.clone_actor_model(
+                                    candidate_actor_template
+                                ),
+                                device,
+                                args.rust_binary,
+                            )
+                        )
                     )
                 else:
-                    print("  [WARN] Rust binary not found, using TreeMCTS for evaluation (NOT benchmark-grade)")
-                    cand_factory = lambda candidate_name=candidate_name, candidate_actor_template=candidate_actor_template: runtime_hooks.tree_mcts_engine_cls(
-                        candidate_name, cfg, runtime_hooks.clone_actor_model(candidate_actor_template), device
+                    print(
+                        "  [WARN] Rust binary not found, using TreeMCTS for evaluation (NOT benchmark-grade)"
+                    )
+                    cand_factory = (
+                        lambda candidate_name=candidate_name, candidate_actor_template=candidate_actor_template: (
+                            runtime_hooks.tree_mcts_engine_cls(
+                                candidate_name,
+                                cfg,
+                                runtime_hooks.clone_actor_model(
+                                    candidate_actor_template
+                                ),
+                                device,
+                            )
+                        )
                     )
                 cand_eng = cand_factory()
                 champion_actor = runtime_hooks.clone_actor_model(actor_source)
@@ -1143,28 +1377,56 @@ def run_training_main(args, ctx: PreparedTrainingContext, runtime_hooks: MainRun
                         best_model_path,
                         cfg,
                         device,
-                        backend_preference=backend.name if backend is not None else "torch",
+                        backend_preference=backend.name
+                        if backend is not None
+                        else "torch",
                         backend_template=backend,
                     )
-                champion_actor_template = runtime_hooks.clone_actor_model(champion_actor)
+                champion_actor_template = runtime_hooks.clone_actor_model(
+                    champion_actor
+                )
                 if rust_ok:
-                    champ_factory = lambda champion_actor_template=champion_actor_template: runtime_hooks.rust_nn_evaluator_engine_cls(
-                        "champion",
-                        cfg,
-                        runtime_hooks.clone_actor_model(champion_actor_template),
-                        device,
-                        args.rust_binary,
+                    champ_factory = (
+                        lambda champion_actor_template=champion_actor_template: (
+                            runtime_hooks.rust_nn_evaluator_engine_cls(
+                                "champion",
+                                cfg,
+                                runtime_hooks.clone_actor_model(
+                                    champion_actor_template
+                                ),
+                                device,
+                                args.rust_binary,
+                            )
+                        )
                     )
                 else:
-                    champ_factory = lambda champion_actor_template=champion_actor_template: runtime_hooks.tree_mcts_engine_cls(
-                        "champion", cfg, runtime_hooks.clone_actor_model(champion_actor_template), device
+                    champ_factory = (
+                        lambda champion_actor_template=champion_actor_template: (
+                            runtime_hooks.tree_mcts_engine_cls(
+                                "champion",
+                                cfg,
+                                runtime_hooks.clone_actor_model(
+                                    champion_actor_template
+                                ),
+                                device,
+                            )
+                        )
                     )
                 champ_eng = champ_factory()
                 if not eval_workers_autotuned and not (
-                    hasattr(cand_eng, "select_moves_batch") and hasattr(champ_eng, "select_moves_batch")
+                    hasattr(cand_eng, "select_moves_batch")
+                    and hasattr(champ_eng, "select_moves_batch")
                 ):
-                    tuned_workers, eval_benchmarks = runtime_hooks.benchmark_eval_parallel_workers(
-                        hw, cfg, args.eval_games, cand_factory, champ_factory, game_factory, eval_autotune_profile_path
+                    tuned_workers, eval_benchmarks = (
+                        runtime_hooks.benchmark_eval_parallel_workers(
+                            hw,
+                            cfg,
+                            args.eval_games,
+                            cand_factory,
+                            champ_factory,
+                            game_factory,
+                            eval_autotune_profile_path,
+                        )
                     )
                     training_evaluator.cfg.parallel_workers = tuned_workers
                     eval_workers_autotuned = True
@@ -1172,12 +1434,21 @@ def run_training_main(args, ctx: PreparedTrainingContext, runtime_hooks: MainRun
                         f"  [EvalAutoTune] workers={tuned_workers} "
                         f"({len([b for b in eval_benchmarks if 'games_per_s' in b])} candidates benchmarked)"
                     )
-                    entry["eval_worker_tune"] = {"workers": tuned_workers, "benchmarks": eval_benchmarks}
+                    entry["eval_worker_tune"] = {
+                        "workers": tuned_workers,
+                        "benchmarks": eval_benchmarks,
+                    }
                 elif not eval_workers_autotuned:
                     training_evaluator.cfg.parallel_workers = 1
                     eval_workers_autotuned = True
-                    entry["eval_worker_tune"] = {"mode": "batched_rust", "workers": 1, "benchmarks": []}
-                    print("  [EvalAutoTune] batched Rust evaluation active (worker autotune skipped)")
+                    entry["eval_worker_tune"] = {
+                        "mode": "batched_rust",
+                        "workers": 1,
+                        "benchmarks": [],
+                    }
+                    print(
+                        "  [EvalAutoTune] batched Rust evaluation active (worker autotune skipped)"
+                    )
                 eval_result = training_evaluator.evaluate_checkpoint(
                     candidate=cand_eng,
                     champion=champ_eng,
@@ -1206,9 +1477,19 @@ def run_training_main(args, ctx: PreparedTrainingContext, runtime_hooks: MainRun
             v = eval_result.promotion.get("verdict", "?")
             sr = eval_result.tally.get("score_rate", 0) if eval_result.tally else 0
             elo_d = eval_result.elo.get("delta", 0) if eval_result.elo else 0
-            pub = eval_result.published.get("candidate_abs") if eval_result.published else None
-            champ_pub = eval_result.published.get("champion_abs") if eval_result.published else None
-            elo_gap = eval_result.published.get("delta") if eval_result.published else None
+            pub = (
+                eval_result.published.get("candidate_abs")
+                if eval_result.published
+                else None
+            )
+            champ_pub = (
+                eval_result.published.get("champion_abs")
+                if eval_result.published
+                else None
+            )
+            elo_gap = (
+                eval_result.published.get("delta") if eval_result.published else None
+            )
             if eval_valid:
                 latest_eval.update(
                     {
@@ -1220,7 +1501,9 @@ def run_training_main(args, ctx: PreparedTrainingContext, runtime_hooks: MainRun
                         "eval_verdict": v,
                     }
                 )
-                print(f"  Eval: {v} | sr={sr:.3f} | ΔElo={elo_d:+.0f} | AbsElo={pub} | ChampElo={champ_pub}")
+                print(
+                    f"  Eval: {v} | sr={sr:.3f} | ΔElo={elo_d:+.0f} | AbsElo={pub} | ChampElo={champ_pub}"
+                )
                 if v == "promote":
                     saw_promotion = True
                     best_checkpoint_bootstrap = False
@@ -1232,9 +1515,11 @@ def run_training_main(args, ctx: PreparedTrainingContext, runtime_hooks: MainRun
                         best_checkpoint_bootstrap=best_checkpoint_bootstrap,
                         saw_promotion=saw_promotion,
                     )
-                    print(f"  ★ PROMOTED: gen_{iteration+1} is new champion!")
+                    print(f"  ★ PROMOTED: gen_{iteration + 1} is new champion!")
             else:
-                entry["eval_invalid_reason"] = str(eval_invalid_reason or "invalid evaluation")
+                entry["eval_invalid_reason"] = str(
+                    eval_invalid_reason or "invalid evaluation"
+                )
                 print(f"  [EvalInvalid] {entry['eval_invalid_reason']}")
             log_f.write(
                 json.dumps(
@@ -1254,9 +1539,15 @@ def run_training_main(args, ctx: PreparedTrainingContext, runtime_hooks: MainRun
                             "published_elo": pub,
                             "champion_elo": champ_pub,
                             "elo_gap": elo_gap,
-                            "games": eval_result.tally.get("scored", 0) if eval_result.tally else 0,
-                            "errors": eval_result.tally.get("errors", 0) if eval_result.tally else 0,
-                            "voids": eval_result.tally.get("voids", 0) if eval_result.tally else 0,
+                            "games": eval_result.tally.get("scored", 0)
+                            if eval_result.tally
+                            else 0,
+                            "errors": eval_result.tally.get("errors", 0)
+                            if eval_result.tally
+                            else 0,
+                            "voids": eval_result.tally.get("voids", 0)
+                            if eval_result.tally
+                            else 0,
                         }
                     )
                 )
@@ -1278,7 +1569,9 @@ def run_training_main(args, ctx: PreparedTrainingContext, runtime_hooks: MainRun
         log_f.flush()
 
         if should_early_stop:
-            print(f"\n  Early stopping at iter {iteration+1} (patience={args.patience})")
+            print(
+                f"\n  Early stopping at iter {iteration + 1} (patience={args.patience})"
+            )
             break
 
     log_f.close()

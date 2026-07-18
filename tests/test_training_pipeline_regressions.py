@@ -21,7 +21,8 @@ import pytest
 def load_training_module():
     root = Path(__file__).resolve().parents[1]
     spec = importlib.util.spec_from_file_location(
-        "quartz_alphazero_train", root / "quartz" / "alphazero_train.py")
+        "quartz_alphazero_train", root / "quartz" / "alphazero_train.py"
+    )
     module = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(module)
     return module
@@ -30,7 +31,8 @@ def load_training_module():
 def load_train_entry_module():
     root = Path(__file__).resolve().parents[1]
     spec = importlib.util.spec_from_file_location(
-        "quartz_train_entry", root / "quartz" / "train.py")
+        "quartz_train_entry", root / "quartz" / "train.py"
+    )
     module = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(module)
     return module
@@ -39,7 +41,8 @@ def load_train_entry_module():
 def load_cli_main_module():
     root = Path(__file__).resolve().parents[1]
     spec = importlib.util.spec_from_file_location(
-        "quartz_cli_main", root / "quartz" / "cli_main.py")
+        "quartz_cli_main", root / "quartz" / "cli_main.py"
+    )
     module = importlib.util.module_from_spec(spec)
     sys.modules[spec.name] = module
     spec.loader.exec_module(module)
@@ -49,7 +52,8 @@ def load_cli_main_module():
 def load_backend_module():
     root = Path(__file__).resolve().parents[1]
     spec = importlib.util.spec_from_file_location(
-        "quartz_backend", root / "quartz" / "backend.py")
+        "quartz_backend", root / "quartz" / "backend.py"
+    )
     module = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(module)
     return module
@@ -58,7 +62,8 @@ def load_backend_module():
 def load_encoders_module():
     root = Path(__file__).resolve().parents[1]
     spec = importlib.util.spec_from_file_location(
-        "encoders", root / "quartz" / "encoders.py")
+        "encoders", root / "quartz" / "encoders.py"
+    )
     module = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(module)
     return module
@@ -67,7 +72,8 @@ def load_encoders_module():
 def load_monitor_script_module():
     root = Path(__file__).resolve().parents[1]
     spec = importlib.util.spec_from_file_location(
-        "profile_training_monitor", root / "scripts" / "profile_training_monitor.py")
+        "profile_training_monitor", root / "scripts" / "profile_training_monitor.py"
+    )
     module = importlib.util.module_from_spec(spec)
     sys.modules[spec.name] = module
     spec.loader.exec_module(module)
@@ -77,7 +83,8 @@ def load_monitor_script_module():
 def load_ablation_script_module():
     root = Path(__file__).resolve().parents[1]
     spec = importlib.util.spec_from_file_location(
-        "quartz_ablation_study", root / "scripts" / "ablation_study.py")
+        "quartz_ablation_study", root / "scripts" / "ablation_study.py"
+    )
     module = importlib.util.module_from_spec(spec)
     sys.modules[spec.name] = module
     spec.loader.exec_module(module)
@@ -87,7 +94,8 @@ def load_ablation_script_module():
 def load_controller_sweep_script_module():
     root = Path(__file__).resolve().parents[1]
     spec = importlib.util.spec_from_file_location(
-        "quartz_controller_sweep", root / "scripts" / "controller_sweep.py")
+        "quartz_controller_sweep", root / "scripts" / "controller_sweep.py"
+    )
     module = importlib.util.module_from_spec(spec)
     sys.modules[spec.name] = module
     spec.loader.exec_module(module)
@@ -97,7 +105,8 @@ def load_controller_sweep_script_module():
 def load_gpu_detect_module():
     root = Path(__file__).resolve().parents[1]
     spec = importlib.util.spec_from_file_location(
-        "quartz_gpu_detect", root / "quartz" / "gpu_detect.py")
+        "quartz_gpu_detect", root / "quartz" / "gpu_detect.py"
+    )
     module = importlib.util.module_from_spec(spec)
     sys.modules[spec.name] = module
     spec.loader.exec_module(module)
@@ -107,7 +116,8 @@ def load_gpu_detect_module():
 def load_play_gui_module():
     root = Path(__file__).resolve().parents[1]
     spec = importlib.util.spec_from_file_location(
-        "quartz_play_gui", root / "quartz" / "play_gui.py")
+        "quartz_play_gui", root / "quartz" / "play_gui.py"
+    )
     module = importlib.util.module_from_spec(spec)
     sys.modules[spec.name] = module
     spec.loader.exec_module(module)
@@ -119,11 +129,17 @@ def load_module_with_torch_blocked(module_name, relative_path):
     spec = importlib.util.spec_from_file_location(module_name, root / relative_path)
     module = importlib.util.module_from_spec(spec)
     original_import = builtins.__import__
-    saved = {name: sys.modules.pop(name) for name in list(sys.modules) if name == "torch" or name.startswith("torch.")}
+    saved = {
+        name: sys.modules.pop(name)
+        for name in list(sys.modules)
+        if name == "torch" or name.startswith("torch.")
+    }
 
     def guarded_import(name, globals=None, locals=None, fromlist=(), level=0):
         if name == "torch" or name.startswith("torch."):
-            raise AssertionError(f"unexpected torch import while loading {relative_path}: {name}")
+            raise AssertionError(
+                f"unexpected torch import while loading {relative_path}: {name}"
+            )
         return original_import(name, globals, locals, fromlist, level)
 
     try:
@@ -187,8 +203,12 @@ def test_collate_replay_samples_fast_path_matches_tuple_reference():
     replay.add(state_a, policy_a, 0.5)
     replay.add(state_b, policy_b, -0.25)
 
-    states_fast, policies_fast, values_fast = az.collate_replay_samples(list(replay.buf))
-    tuple_batch = [(sample.state, sample.policy.dense(), sample.value) for sample in replay.buf]
+    states_fast, policies_fast, values_fast = az.collate_replay_samples(
+        list(replay.buf)
+    )
+    tuple_batch = [
+        (sample.state, sample.policy.dense(), sample.value) for sample in replay.buf
+    ]
     states_ref, policies_ref, values_ref = az.collate_replay_samples(tuple_batch)
 
     np.testing.assert_allclose(states_fast.numpy(), states_ref.numpy())
@@ -447,7 +467,9 @@ def test_p03_replay_freshness_summary_one_half_life_old():
     # all samples at gen=10, current_generation=20 ⇒ mean_age = 10 = half_life
     for _ in range(60):
         replay.add(state, policy, 0.0, metadata={"actor_generation": 10})
-    summary = az.ReplayMetrics.freshness_summary(replay, current_generation=20, sample_n=60)
+    summary = az.ReplayMetrics.freshness_summary(
+        replay, current_generation=20, sample_n=60
+    )
     assert summary["sample_count"] == 60
     assert summary["mean_age"] == pytest.approx(10.0)
     # exp(-1) ≈ 0.3678794
@@ -612,7 +634,9 @@ def test_p6_replay_summary_handles_missing_voc_fields():
     assert summary["controller_schema_versions"] == {}
 
 
-def test_runtime_support_should_use_async_pipeline_prefers_gpu_and_batching(monkeypatch):
+def test_runtime_support_should_use_async_pipeline_prefers_gpu_and_batching(
+    monkeypatch,
+):
     import quartz.runtime_support as runtime_support
 
     class FakeModel:
@@ -625,8 +649,15 @@ def test_runtime_support_should_use_async_pipeline_prefers_gpu_and_batching(monk
     cfg = {"batch_size": 4}
     assert runtime_support.should_use_async_pipeline(FakeModel(), "cpu", cfg) is False
     assert runtime_support.should_use_async_pipeline(FakeModel(), "cuda", cfg) is True
-    assert runtime_support.should_use_async_pipeline(FakeModel(), "cuda", {"batch_size": 1}) is False
-    assert runtime_support.should_use_async_pipeline(PredictModel(), "cuda", cfg) is False
+    assert (
+        runtime_support.should_use_async_pipeline(
+            FakeModel(), "cuda", {"batch_size": 1}
+        )
+        is False
+    )
+    assert (
+        runtime_support.should_use_async_pipeline(PredictModel(), "cuda", cfg) is False
+    )
 
     monkeypatch.setenv("QUARTZ_FORCE_ASYNC_PIPELINE", "1")
     assert runtime_support.should_use_async_pipeline(FakeModel(), "cpu", cfg) is True
@@ -636,6 +667,7 @@ def test_runtime_support_should_use_async_pipeline_prefers_gpu_and_batching(monk
 def test_ablation_study_discards_stale_eval_cache(monkeypatch, tmp_path):
     module = load_ablation_script_module()
     import quartz.evaluator_runtime as eval_mod
+
     calls = {"campaign": 0, "seeds": []}
 
     def fake_build_eval_cfg(game_name, eval_cfg, device_name, model_path=None):
@@ -675,7 +707,16 @@ def test_ablation_study_discards_stale_eval_cache(monkeypatch, tmp_path):
         def compare(self, engine_a, engine_b, *args, **kwargs):
             calls["campaign"] += 1
             calls["seeds"].append(kwargs.get("seed"))
-            return types.SimpleNamespace(wins=1, losses=0, draws=0, errors=0, voids=0, scored=1, total=1, score_rate=1.0), {
+            return types.SimpleNamespace(
+                wins=1,
+                losses=0,
+                draws=0,
+                errors=0,
+                voids=0,
+                scored=1,
+                total=1,
+                score_rate=1.0,
+            ), {
                 "runner_mode": "rust_eval_state_machine",
                 "match_elapsed_s": 0.02,
             }
@@ -703,7 +744,9 @@ def test_ablation_study_discards_stale_eval_cache(monkeypatch, tmp_path):
             }
         ]
     }
-    (tmp_path / "evaluation_matrix.json").write_text(json.dumps(existing_payload), encoding="utf-8")
+    (tmp_path / "evaluation_matrix.json").write_text(
+        json.dumps(existing_payload), encoding="utf-8"
+    )
 
     args = argparse.Namespace(
         force_eval=False,
@@ -722,8 +765,18 @@ def test_ablation_study_discards_stale_eval_cache(monkeypatch, tmp_path):
     (tmp_path / "a.pt").write_bytes(b"a")
     (tmp_path / "b.pt").write_bytes(b"b")
     model_runs = [
-        {"id": "m1", "model_path": str(tmp_path / "a.pt"), "condition": "T1", "seed": 41},
-        {"id": "m2", "model_path": str(tmp_path / "b.pt"), "condition": "T2", "seed": 41},
+        {
+            "id": "m1",
+            "model_path": str(tmp_path / "a.pt"),
+            "condition": "T1",
+            "seed": 41,
+        },
+        {
+            "id": "m2",
+            "model_path": str(tmp_path / "b.pt"),
+            "condition": "T2",
+            "seed": 41,
+        },
     ]
 
     payload = module.run_evaluation_matrix(
@@ -789,13 +842,26 @@ def test_ablation_study_records_eval_condition_timings(monkeypatch, tmp_path):
             return False
 
         def compare(self, engine_a, engine_b, *args, **kwargs):
-            return types.SimpleNamespace(wins=2, losses=1, draws=1, errors=0, voids=0, scored=4, total=4, score_rate=0.625), {
+            return types.SimpleNamespace(
+                wins=2,
+                losses=1,
+                draws=1,
+                errors=0,
+                voids=0,
+                scored=4,
+                total=4,
+                score_rate=0.625,
+            ), {
                 "runner_mode": "rust_eval_state_machine",
                 "match_elapsed_s": 1.25,
             }
 
     monkeypatch.setattr(module, "build_eval_cfg", fake_build_eval_cfg)
-    monkeypatch.setattr(module, "build_eval_engine", lambda model_run, args, eval_cfg, device: (FakeEngine(model_run["id"]), {}))
+    monkeypatch.setattr(
+        module,
+        "build_eval_engine",
+        lambda model_run, args, eval_cfg, device: (FakeEngine(model_run["id"]), {}),
+    )
     monkeypatch.setattr(eval_mod, "PersistentRustNNEvalCampaign", FakeCampaign)
 
     args = argparse.Namespace(
@@ -813,8 +879,18 @@ def test_ablation_study_records_eval_condition_timings(monkeypatch, tmp_path):
     (tmp_path / "a.pt").write_bytes(b"a")
     (tmp_path / "b.pt").write_bytes(b"b")
     model_runs = [
-        {"id": "m1", "model_path": str(tmp_path / "a.pt"), "condition": "T1", "seed": 41},
-        {"id": "m2", "model_path": str(tmp_path / "b.pt"), "condition": "T2", "seed": 41},
+        {
+            "id": "m1",
+            "model_path": str(tmp_path / "a.pt"),
+            "condition": "T1",
+            "seed": 41,
+        },
+        {
+            "id": "m2",
+            "model_path": str(tmp_path / "b.pt"),
+            "condition": "T2",
+            "seed": 41,
+        },
     ]
 
     payload = module.run_evaluation_matrix(
@@ -825,7 +901,9 @@ def test_ablation_study_records_eval_condition_timings(monkeypatch, tmp_path):
     )
 
     assert payload["eval_condition_timings"]["E1"]["pairs"] == 1
-    assert payload["eval_condition_timings"]["E1"]["campaign_bootstrap_s"] == pytest.approx(0.123, rel=1e-3)
+    assert payload["eval_condition_timings"]["E1"][
+        "campaign_bootstrap_s"
+    ] == pytest.approx(0.123, rel=1e-3)
     assert payload["matches"][0]["runner_mode"] == "rust_eval_state_machine"
     assert payload["matches"][0]["scored_games"] == 4
     assert payload["matches"][0]["score_rate_a"] == pytest.approx(0.625)
@@ -877,14 +955,25 @@ def test_ablation_study_uses_compare_many_when_available(monkeypatch, tmp_path):
 
         def compare(self, *args, **kwargs):
             FakeCampaign.compare_calls += 1
-            raise AssertionError("compare() should not be used when compare_many() is available")
+            raise AssertionError(
+                "compare() should not be used when compare_many() is available"
+            )
 
         def compare_many(self, comparisons):
             FakeCampaign.compare_many_calls += 1
             return [
                 (
                     comparison["match_id"],
-                    types.SimpleNamespace(wins=1, losses=0, draws=1, errors=0, voids=0, scored=2, total=2, score_rate=0.75),
+                    types.SimpleNamespace(
+                        wins=1,
+                        losses=0,
+                        draws=1,
+                        errors=0,
+                        voids=0,
+                        scored=2,
+                        total=2,
+                        score_rate=0.75,
+                    ),
                     {
                         "runner_mode": "rust_eval_state_machine",
                         "match_elapsed_s": 1.0,
@@ -897,7 +986,11 @@ def test_ablation_study_uses_compare_many_when_available(monkeypatch, tmp_path):
             ]
 
     monkeypatch.setattr(module, "build_eval_cfg", fake_build_eval_cfg)
-    monkeypatch.setattr(module, "build_eval_engine", lambda model_run, args, eval_cfg, device: (FakeEngine(model_run["id"]), {}))
+    monkeypatch.setattr(
+        module,
+        "build_eval_engine",
+        lambda model_run, args, eval_cfg, device: (FakeEngine(model_run["id"]), {}),
+    )
     monkeypatch.setattr(eval_mod, "PersistentRustNNEvalCampaign", FakeCampaign)
 
     args = argparse.Namespace(
@@ -914,9 +1007,24 @@ def test_ablation_study_uses_compare_many_when_available(monkeypatch, tmp_path):
     for fname in ("a.pt", "b.pt", "c.pt"):
         (tmp_path / fname).write_bytes(fname.encode())
     model_runs = [
-        {"id": "m1", "model_path": str(tmp_path / "a.pt"), "condition": "T1", "seed": 41},
-        {"id": "m2", "model_path": str(tmp_path / "b.pt"), "condition": "T2", "seed": 41},
-        {"id": "m3", "model_path": str(tmp_path / "c.pt"), "condition": "T3", "seed": 41},
+        {
+            "id": "m1",
+            "model_path": str(tmp_path / "a.pt"),
+            "condition": "T1",
+            "seed": 41,
+        },
+        {
+            "id": "m2",
+            "model_path": str(tmp_path / "b.pt"),
+            "condition": "T2",
+            "seed": 41,
+        },
+        {
+            "id": "m3",
+            "model_path": str(tmp_path / "c.pt"),
+            "condition": "T3",
+            "seed": 41,
+        },
     ]
 
     payload = module.run_evaluation_matrix(
@@ -954,9 +1062,18 @@ def test_ablation_study_attaches_contract_summary():
 def test_ablation_build_eval_cfg_applies_eval_runtime_profile(monkeypatch, tmp_path):
     module = load_ablation_script_module()
 
-    monkeypatch.setattr(module, "load_eval_runtime_overrides_from_model", lambda model_path, device_name: {"batch_size": 32})
+    monkeypatch.setattr(
+        module,
+        "load_eval_runtime_overrides_from_model",
+        lambda model_path, device_name: {"batch_size": 32},
+    )
 
-    cfg, _device = module.build_eval_cfg("gomoku7", {"search_profile": "baseline", "vl_mode": "disabled"}, "cpu", model_path=str(tmp_path / "best.pt"))
+    cfg, _device = module.build_eval_cfg(
+        "gomoku7",
+        {"search_profile": "baseline", "vl_mode": "disabled"},
+        "cpu",
+        model_path=str(tmp_path / "best.pt"),
+    )
 
     assert cfg["batch_size"] == 32
 
@@ -970,11 +1087,25 @@ def test_eval_timing_summary_helpers_expose_throughput_fields():
     ablation_summary = summarize_ablation_eval_timings(
         {
             "matches": [
-                {"eval_condition": "E1", "games": 4, "timing_s": {"match_elapsed_s": 8.0}},
-                {"eval_condition": "E1", "games": 4, "timing_s": {"match_elapsed_s": 4.0}},
+                {
+                    "eval_condition": "E1",
+                    "games": 4,
+                    "timing_s": {"match_elapsed_s": 8.0},
+                },
+                {
+                    "eval_condition": "E1",
+                    "games": 4,
+                    "timing_s": {"match_elapsed_s": 4.0},
+                },
             ],
             "eval_condition_timings": {
-                "E1": {"cfg_build_s": 1.0, "engine_load_s": 2.0, "campaign_bootstrap_s": 1.0, "pairs": 2, "engine_count": 4}
+                "E1": {
+                    "cfg_build_s": 1.0,
+                    "engine_load_s": 2.0,
+                    "campaign_bootstrap_s": 1.0,
+                    "pairs": 2,
+                    "engine_count": 4,
+                }
             },
         }
     )
@@ -986,12 +1117,42 @@ def test_eval_timing_summary_helpers_expose_throughput_fields():
     batched_summary = summarize_ablation_eval_timings(
         {
             "matches": [
-                {"eval_condition": "E1", "games": 2, "timing_s": {"match_elapsed_s": 1.0, "batch_id": "b0", "batch_elapsed_s": 3.0}},
-                {"eval_condition": "E1", "games": 2, "timing_s": {"match_elapsed_s": 1.0, "batch_id": "b0", "batch_elapsed_s": 3.0}},
-                {"eval_condition": "E1", "games": 2, "timing_s": {"match_elapsed_s": 1.0, "batch_id": "b0", "batch_elapsed_s": 3.0}},
+                {
+                    "eval_condition": "E1",
+                    "games": 2,
+                    "timing_s": {
+                        "match_elapsed_s": 1.0,
+                        "batch_id": "b0",
+                        "batch_elapsed_s": 3.0,
+                    },
+                },
+                {
+                    "eval_condition": "E1",
+                    "games": 2,
+                    "timing_s": {
+                        "match_elapsed_s": 1.0,
+                        "batch_id": "b0",
+                        "batch_elapsed_s": 3.0,
+                    },
+                },
+                {
+                    "eval_condition": "E1",
+                    "games": 2,
+                    "timing_s": {
+                        "match_elapsed_s": 1.0,
+                        "batch_id": "b0",
+                        "batch_elapsed_s": 3.0,
+                    },
+                },
             ],
             "eval_condition_timings": {
-                "E1": {"cfg_build_s": 1.0, "engine_load_s": 2.0, "campaign_bootstrap_s": 1.0, "pairs": 3, "engine_count": 3}
+                "E1": {
+                    "cfg_build_s": 1.0,
+                    "engine_load_s": 2.0,
+                    "campaign_bootstrap_s": 1.0,
+                    "pairs": 3,
+                    "engine_count": 3,
+                }
             },
         }
     )
@@ -1001,7 +1162,11 @@ def test_eval_timing_summary_helpers_expose_throughput_fields():
     stage2_summary = summarize_controller_stage2_timings(
         {
             "matches": [
-                {"checkpoint_path": "ckpt.pt", "games": 6, "timing_s": {"match_elapsed_s": 3.0}},
+                {
+                    "checkpoint_path": "ckpt.pt",
+                    "games": 6,
+                    "timing_s": {"match_elapsed_s": 3.0},
+                },
             ],
             "checkpoint_timings": {
                 "ckpt.pt": {"pairs": 1, "client_bootstrap_s": 1.0, "client_count": 2}
@@ -1034,7 +1199,9 @@ def test_eval_runtime_profile_applies_only_safe_gpu_overrides(tmp_path, monkeypa
         encoding="utf-8",
     )
 
-    assert load_eval_runtime_overrides_from_model(str(model_path), "cuda") == {"batch_size": 32}
+    assert load_eval_runtime_overrides_from_model(str(model_path), "cuda") == {
+        "batch_size": 32
+    }
     assert load_eval_runtime_overrides_from_model(str(model_path), "cpu") == {}
 
     monkeypatch.setenv("QUARTZ_DISABLE_EVAL_AUTOTUNE_PROFILE", "1")
@@ -1046,7 +1213,10 @@ def test_shared_contract_summary_helper_exposes_unified_schema():
     from quartz import contract_summary as contract_mod
 
     summary = contract_mod.summarize_contract_collection(
-        [{"probe_contract_hash": "a"}, {"probe_contract_hash": "b", "legacy_partial": True}],
+        [
+            {"probe_contract_hash": "a"},
+            {"probe_contract_hash": "b", "legacy_partial": True},
+        ],
         [{"candidate_id": "c3"}],
         hash_key="probe_contract_hash",
     )
@@ -1059,7 +1229,9 @@ def test_shared_contract_summary_helper_exposes_unified_schema():
     assert len(summary["collection_hash"]) == 16
 
 
-def test_ablation_run_training_reruns_when_train_contract_changes(monkeypatch, tmp_path):
+def test_ablation_run_training_reruns_when_train_contract_changes(
+    monkeypatch, tmp_path
+):
     module = load_ablation_script_module()
 
     args = argparse.Namespace(
@@ -1111,7 +1283,9 @@ def test_ablation_run_training_reruns_when_train_contract_changes(monkeypatch, t
 
     monkeypatch.setattr(module.subprocess, "run", fake_run)
 
-    result = module.run_training(args, tmp_path, "cond1", condition_cfg, 42, multi_seed=False)
+    result = module.run_training(
+        args, tmp_path, "cond1", condition_cfg, 42, multi_seed=False
+    )
 
     assert calls["run"] == 1
     assert result["skipped"] is False
@@ -1136,7 +1310,11 @@ def test_ablation_report_includes_contract_summary(tmp_path):
                 "realized_budget_trace": {
                     "games": 4,
                     "moves": 8,
-                    "root_visits": {"samples": [8, 8, 8, 8, 8, 8, 8, 8], "mean": 8.0, "max": 8.0},
+                    "root_visits": {
+                        "samples": [8, 8, 8, 8, 8, 8, 8, 8],
+                        "mean": 8.0,
+                        "max": 8.0,
+                    },
                     "halt_reason_hist": {"BudgetExhausted": 8},
                     "benchmark_safe_frac": 1.0,
                     "selection_trace_coverage_frac": 1.0,
@@ -1163,7 +1341,11 @@ def test_ablation_report_includes_contract_summary(tmp_path):
             }
         ],
         "expected_search_manifests": {
-            "E1": {"search_profile": "baseline", "vl_mode": "disabled", "eval_seed": 17},
+            "E1": {
+                "search_profile": "baseline",
+                "vl_mode": "disabled",
+                "eval_seed": 17,
+            },
         },
         "expected_eval_seeds": {"E1": 17},
         "expected_benchmark_safe": {"E1": True},
@@ -1176,7 +1358,13 @@ def test_ablation_report_includes_contract_summary(tmp_path):
         },
         "runtime_contract_hash": "abcd1234abcd1234",
         "eval_condition_timings": {
-            "E1": {"cfg_build_s": 1.0, "engine_load_s": 2.0, "campaign_bootstrap_s": 1.0, "pairs": 1, "engine_count": 1}
+            "E1": {
+                "cfg_build_s": 1.0,
+                "engine_load_s": 2.0,
+                "campaign_bootstrap_s": 1.0,
+                "pairs": 1,
+                "engine_count": 1,
+            }
         },
     }
     module.attach_ablation_contract_summary(eval_payload)
@@ -1186,7 +1374,9 @@ def test_ablation_report_includes_contract_summary(tmp_path):
 
     runs_dir = tmp_path / "models" / "cond1"
     runs_dir.mkdir(parents=True, exist_ok=True)
-    (tmp_path / "evaluation_matrix.json").write_text(json.dumps(eval_payload), encoding="utf-8")
+    (tmp_path / "evaluation_matrix.json").write_text(
+        json.dumps(eval_payload), encoding="utf-8"
+    )
     (runs_dir / "train_log.jsonl").write_text(
         json.dumps(
             {
@@ -1200,7 +1390,8 @@ def test_ablation_report_includes_contract_summary(tmp_path):
                 "replay_freshness": 0.5,
                 "pos_per_s": 8.0,
             }
-        ) + "\n",
+        )
+        + "\n",
         encoding="utf-8",
     )
     (runs_dir / "condition.json").write_text(
@@ -1230,27 +1421,58 @@ def test_ablation_report_includes_contract_summary(tmp_path):
     assert report["research_readiness"]["research_grade_ready"] is False
     assert "multi_seed_per_condition" in report["research_readiness"]["unmet_criteria"]
     assert "no_stale_eval_cache_rows" in report["research_readiness"]["unmet_criteria"]
-    assert "selection_trace_recorded" not in report["research_readiness"]["unmet_criteria"]
+    assert (
+        "selection_trace_recorded" not in report["research_readiness"]["unmet_criteria"]
+    )
     assert "budget_trace_recorded" not in report["research_readiness"]["unmet_criteria"]
-    assert "evaluation_protocol_recorded" not in report["research_readiness"]["unmet_criteria"]
-    assert "evaluator_quality_strata_recorded" not in report["research_readiness"]["unmet_criteria"]
-    assert "pipeline_telemetry_recorded" not in report["research_readiness"]["unmet_criteria"]
-    assert "hardware_claim_scope_recorded" not in report["research_readiness"]["unmet_criteria"]
-    assert report["selection_trace_summary"]["conditions"][0]["selection_trace_coverage_frac"] == pytest.approx(1.0)
-    assert report["budget_fairness_summary"]["budget_trace_coverage_frac"] == pytest.approx(1.0)
-    assert report["budget_fairness_summary"]["conditions"][0]["root_visits"]["mean"] == pytest.approx(8.0)
+    assert (
+        "evaluation_protocol_recorded"
+        not in report["research_readiness"]["unmet_criteria"]
+    )
+    assert (
+        "evaluator_quality_strata_recorded"
+        not in report["research_readiness"]["unmet_criteria"]
+    )
+    assert (
+        "pipeline_telemetry_recorded"
+        not in report["research_readiness"]["unmet_criteria"]
+    )
+    assert (
+        "hardware_claim_scope_recorded"
+        not in report["research_readiness"]["unmet_criteria"]
+    )
+    assert report["selection_trace_summary"]["conditions"][0][
+        "selection_trace_coverage_frac"
+    ] == pytest.approx(1.0)
+    assert report["budget_fairness_summary"][
+        "budget_trace_coverage_frac"
+    ] == pytest.approx(1.0)
+    assert report["budget_fairness_summary"]["conditions"][0]["root_visits"][
+        "mean"
+    ] == pytest.approx(8.0)
     assert report["seed_protocol_summary"]["condition_count"] == 1
     assert report["seed_protocol_summary"]["paired_seed_claim_ready"] is True
     assert report["evaluation_protocol_summary"]["protocol_ready"] is True
     assert report["evaluation_protocol_summary"]["complete_pair_eval_matrix"] is True
     assert report["evaluator_quality_summary"]["stratification_ready"] is True
-    assert report["evaluator_quality_summary"]["quality_proxy_pair_coverage_frac"] == pytest.approx(1.0)
-    assert report["evaluator_quality_summary"]["model_quality"]["cond1_s42"]["p_loss"] == pytest.approx(0.07)
-    assert report["pipeline_telemetry_summary"]["aggregate"]["freshness_coverage_frac"] == pytest.approx(1.0)
-    assert report["pipeline_telemetry_summary"]["aggregate"]["throughput_coverage_frac"] == pytest.approx(1.0)
+    assert report["evaluator_quality_summary"][
+        "quality_proxy_pair_coverage_frac"
+    ] == pytest.approx(1.0)
+    assert report["evaluator_quality_summary"]["model_quality"]["cond1_s42"][
+        "p_loss"
+    ] == pytest.approx(0.07)
+    assert report["pipeline_telemetry_summary"]["aggregate"][
+        "freshness_coverage_frac"
+    ] == pytest.approx(1.0)
+    assert report["pipeline_telemetry_summary"]["aggregate"][
+        "throughput_coverage_frac"
+    ] == pytest.approx(1.0)
     assert report["hardware_runtime_summary"]["claim_scope"] == "runtime_telemetry_only"
     assert report["hardware_runtime_summary"]["profiler_artifact_present"] is False
-    assert report["hardware_runtime_summary"]["hardware_performance_claims_allowed"] is False
+    assert (
+        report["hardware_runtime_summary"]["hardware_performance_claims_allowed"]
+        is False
+    )
     saved = json.loads((tmp_path / "ablation_report.json").read_text(encoding="utf-8"))
     assert saved["contract_summary"] == report["contract_summary"]
     assert saved["train_contract_summary"] == report["train_contract_summary"]
@@ -1289,10 +1511,25 @@ def test_controller_sweep_reuses_matching_stage2_cache(monkeypatch, tmp_path):
     monkeypatch.setattr(module, "_build_stage2_client_pool", fake_pool)
     monkeypatch.setattr(module, "_arena_dual_cfg_with_clients", fake_arena)
 
-    base_cfg = {"iters": 8, "search_profile": "quartz", "vl_mode": "adaptive", "_name": "gomoku7"}
+    base_cfg = {
+        "iters": 8,
+        "search_profile": "quartz",
+        "vl_mode": "adaptive",
+        "_name": "gomoku7",
+    }
     candidates = [
-        {"id": "c1", "label": "legacy", "source": "test", "overrides": {"penalty_mode": "GatedRefreshLegacy"}},
-        {"id": "c2", "label": "theory", "source": "test", "overrides": {"penalty_mode": "GatedRefresh"}},
+        {
+            "id": "c1",
+            "label": "legacy",
+            "source": "test",
+            "overrides": {"penalty_mode": "GatedRefreshLegacy"},
+        },
+        {
+            "id": "c2",
+            "label": "theory",
+            "source": "test",
+            "overrides": {"penalty_mode": "GatedRefresh"},
+        },
     ]
     cfg_a = fake_apply_runtime_overrides(base_cfg, candidates[0]["overrides"])
     cfg_b = fake_apply_runtime_overrides(base_cfg, candidates[1]["overrides"])
@@ -1314,10 +1551,16 @@ def test_controller_sweep_reuses_matching_stage2_cache(monkeypatch, tmp_path):
         "ci": [0.25, 0.75],
         "sprt": "continue",
     }
-    (tmp_path / "stage2_round_robin.json").write_text(json.dumps({"matches": [cached_row]}), encoding="utf-8")
+    (tmp_path / "stage2_round_robin.json").write_text(
+        json.dumps({"matches": [cached_row]}), encoding="utf-8"
+    )
 
-    args = argparse.Namespace(arena_iters=None, stage2_games=6, rust_binary="./target/release/mcts_demo")
-    payload = module.run_stage2_round_robin(candidates, ["ckpt.pt"], base_cfg, "cpu", args, tmp_path)
+    args = argparse.Namespace(
+        arena_iters=None, stage2_games=6, rust_binary="./target/release/mcts_demo"
+    )
+    payload = module.run_stage2_round_robin(
+        candidates, ["ckpt.pt"], base_cfg, "cpu", args, tmp_path
+    )
 
     assert calls["pool"] == 0
     assert calls["arena"] == 0
@@ -1340,10 +1583,15 @@ def test_controller_sweep_discards_stale_stage2_cache(monkeypatch, tmp_path):
         def stop(self):
             return None
 
-    def fake_pool(checkpoint_path, candidates_arg, base_cfg_arg, device, rust_binary, arena_iters):
+    def fake_pool(
+        checkpoint_path, candidates_arg, base_cfg_arg, device, rust_binary, arena_iters
+    ):
         calls["pool"] += 1
         return {
-            row["id"]: {"cfg": fake_apply_runtime_overrides(base_cfg_arg, row["overrides"]), "client": FakeClient()}
+            row["id"]: {
+                "cfg": fake_apply_runtime_overrides(base_cfg_arg, row["overrides"]),
+                "client": FakeClient(),
+            }
             for row in candidates_arg
         }, {"client_bootstrap_s": 0.25, "client_count": len(candidates_arg)}
 
@@ -1355,10 +1603,25 @@ def test_controller_sweep_discards_stale_stage2_cache(monkeypatch, tmp_path):
     monkeypatch.setattr(module, "_build_stage2_client_pool", fake_pool)
     monkeypatch.setattr(module, "_arena_dual_cfg_with_clients", fake_arena)
 
-    base_cfg = {"iters": 8, "search_profile": "quartz", "vl_mode": "adaptive", "_name": "gomoku7"}
+    base_cfg = {
+        "iters": 8,
+        "search_profile": "quartz",
+        "vl_mode": "adaptive",
+        "_name": "gomoku7",
+    }
     candidates = [
-        {"id": "c1", "label": "legacy", "source": "test", "overrides": {"penalty_mode": "GatedRefreshLegacy"}},
-        {"id": "c2", "label": "theory", "source": "test", "overrides": {"penalty_mode": "GatedRefresh"}},
+        {
+            "id": "c1",
+            "label": "legacy",
+            "source": "test",
+            "overrides": {"penalty_mode": "GatedRefreshLegacy"},
+        },
+        {
+            "id": "c2",
+            "label": "theory",
+            "source": "test",
+            "overrides": {"penalty_mode": "GatedRefresh"},
+        },
     ]
     stale_row = {
         "checkpoint_path": "ckpt.pt",
@@ -1376,15 +1639,23 @@ def test_controller_sweep_discards_stale_stage2_cache(monkeypatch, tmp_path):
         "ci": [0.25, 0.75],
         "sprt": "continue",
     }
-    (tmp_path / "stage2_round_robin.json").write_text(json.dumps({"matches": [stale_row]}), encoding="utf-8")
+    (tmp_path / "stage2_round_robin.json").write_text(
+        json.dumps({"matches": [stale_row]}), encoding="utf-8"
+    )
 
-    args = argparse.Namespace(arena_iters=None, stage2_games=6, rust_binary="./target/release/mcts_demo")
-    payload = module.run_stage2_round_robin(candidates, ["ckpt.pt"], base_cfg, "cpu", args, tmp_path)
+    args = argparse.Namespace(
+        arena_iters=None, stage2_games=6, rust_binary="./target/release/mcts_demo"
+    )
+    payload = module.run_stage2_round_robin(
+        candidates, ["ckpt.pt"], base_cfg, "cpu", args, tmp_path
+    )
 
     assert calls["pool"] == 1
     assert calls["arena"] == 1
     assert payload["matches"][0]["manifest_hash_a"] != "stalehasha"
-    assert payload["matches"][0]["timing_s"]["client_bootstrap_s"] == pytest.approx(0.25)
+    assert payload["matches"][0]["timing_s"]["client_bootstrap_s"] == pytest.approx(
+        0.25
+    )
     assert payload["checkpoint_timings"]["ckpt.pt"]["client_count"] == 2
     assert payload["stage2_timing_summary"]["total_games"] == 6
     assert payload["discarded_matches"] == [
@@ -1403,7 +1674,9 @@ def test_controller_sweep_discards_stale_stage2_cache(monkeypatch, tmp_path):
     ]
 
 
-def test_controller_sweep_stage2_reuses_client_pool_per_checkpoint(monkeypatch, tmp_path):
+def test_controller_sweep_stage2_reuses_client_pool_per_checkpoint(
+    monkeypatch, tmp_path
+):
     module = load_controller_sweep_script_module()
 
     calls = {"pool": 0, "arena": 0}
@@ -1423,7 +1696,9 @@ def test_controller_sweep_stage2_reuses_client_pool_per_checkpoint(monkeypatch, 
 
     created_clients = {}
 
-    def fake_pool(checkpoint_path, candidates_arg, base_cfg_arg, device, rust_binary, arena_iters):
+    def fake_pool(
+        checkpoint_path, candidates_arg, base_cfg_arg, device, rust_binary, arena_iters
+    ):
         calls["pool"] += 1
         pool = {}
         for row in candidates_arg:
@@ -1446,15 +1721,39 @@ def test_controller_sweep_stage2_reuses_client_pool_per_checkpoint(monkeypatch, 
     monkeypatch.setattr(module, "_build_stage2_client_pool", fake_pool)
     monkeypatch.setattr(module, "_arena_dual_cfg_with_clients", fake_arena)
 
-    base_cfg = {"iters": 8, "search_profile": "quartz", "vl_mode": "adaptive", "_name": "gomoku7"}
+    base_cfg = {
+        "iters": 8,
+        "search_profile": "quartz",
+        "vl_mode": "adaptive",
+        "_name": "gomoku7",
+    }
     candidates = [
-        {"id": "c1", "label": "A", "source": "test", "overrides": {"candidate_id": "c1", "penalty_mode": "GatedRefreshLegacy"}},
-        {"id": "c2", "label": "B", "source": "test", "overrides": {"candidate_id": "c2", "penalty_mode": "GatedRefresh"}},
-        {"id": "c3", "label": "C", "source": "test", "overrides": {"candidate_id": "c3", "penalty_mode": "GatedRefresh"}},
+        {
+            "id": "c1",
+            "label": "A",
+            "source": "test",
+            "overrides": {"candidate_id": "c1", "penalty_mode": "GatedRefreshLegacy"},
+        },
+        {
+            "id": "c2",
+            "label": "B",
+            "source": "test",
+            "overrides": {"candidate_id": "c2", "penalty_mode": "GatedRefresh"},
+        },
+        {
+            "id": "c3",
+            "label": "C",
+            "source": "test",
+            "overrides": {"candidate_id": "c3", "penalty_mode": "GatedRefresh"},
+        },
     ]
-    args = argparse.Namespace(arena_iters=None, stage2_games=4, rust_binary="./target/release/mcts_demo")
+    args = argparse.Namespace(
+        arena_iters=None, stage2_games=4, rust_binary="./target/release/mcts_demo"
+    )
 
-    payload = module.run_stage2_round_robin(candidates, ["ckpt.pt"], base_cfg, "cpu", args, tmp_path)
+    payload = module.run_stage2_round_robin(
+        candidates, ["ckpt.pt"], base_cfg, "cpu", args, tmp_path
+    )
 
     assert calls["pool"] == 1
     assert calls["arena"] == 3
@@ -1467,11 +1766,23 @@ def test_controller_sweep_stage2_reuses_client_pool_per_checkpoint(monkeypatch, 
 def test_controller_sweep_normalizes_stage1_payload_and_discards_stale_rows():
     module = load_controller_sweep_script_module()
     candidates = [
-        {"id": "c1", "label": "legacy", "source": "test", "overrides": {"penalty_mode": "GatedRefreshLegacy"}},
-        {"id": "c2", "label": "theory", "source": "test", "overrides": {"penalty_mode": "GatedRefresh"}},
+        {
+            "id": "c1",
+            "label": "legacy",
+            "source": "test",
+            "overrides": {"penalty_mode": "GatedRefreshLegacy"},
+        },
+        {
+            "id": "c2",
+            "label": "theory",
+            "source": "test",
+            "overrides": {"penalty_mode": "GatedRefresh"},
+        },
     ]
     positions = [{"board": [0] * 49, "player": 1}]
-    valid_contract = module.build_stage1_probe_contract("ckpt.pt", candidates[0], positions, 16, 4.0)
+    valid_contract = module.build_stage1_probe_contract(
+        "ckpt.pt", candidates[0], positions, 16, 4.0
+    )
     stale_contract = dict(valid_contract)
     stale_contract["candidate_id"] = "c2"
     stale_contract["probe_contract_hash"] = "stalecontract000"
@@ -1554,7 +1865,9 @@ def test_controller_sweep_report_includes_contract_summary(tmp_path):
         "checkpoint_timings": {
             "ckpt.pt": {"pairs": 1, "client_bootstrap_s": 1.0, "client_count": 2}
         },
-        "expected_match_contracts": [{"manifest_hash_a": "m1", "manifest_hash_b": "m2"}],
+        "expected_match_contracts": [
+            {"manifest_hash_a": "m1", "manifest_hash_b": "m2"}
+        ],
         "discarded_matches": [{"candidate_a": "c1", "candidate_b": "c2"}],
     }
     module.attach_stage2_contract_summary(stage2_payload)
@@ -1599,7 +1912,9 @@ def test_controller_sweep_contract_summary_falls_back_for_legacy_payloads():
 
     module.attach_stage1_contract_summary(stage1_payload)
     module.attach_stage2_contract_summary(stage2_payload)
-    combined = module.build_controller_sweep_contract_summary(stage1_payload, stage2_payload)
+    combined = module.build_controller_sweep_contract_summary(
+        stage1_payload, stage2_payload
+    )
 
     assert stage1_payload["contract_summary"]["count"] == 1
     assert stage1_payload["contract_summary"]["legacy_partial_count"] == 1
@@ -1626,11 +1941,25 @@ def test_eval_timing_summary_stage2_throughput_fields():
     ablation_summary = summarize_ablation_eval_timings(
         {
             "matches": [
-                {"eval_condition": "E1", "games": 4, "timing_s": {"match_elapsed_s": 8.0}},
-                {"eval_condition": "E1", "games": 4, "timing_s": {"match_elapsed_s": 4.0}},
+                {
+                    "eval_condition": "E1",
+                    "games": 4,
+                    "timing_s": {"match_elapsed_s": 8.0},
+                },
+                {
+                    "eval_condition": "E1",
+                    "games": 4,
+                    "timing_s": {"match_elapsed_s": 4.0},
+                },
             ],
             "eval_condition_timings": {
-                "E1": {"cfg_build_s": 1.0, "engine_load_s": 2.0, "campaign_bootstrap_s": 1.0, "pairs": 2, "engine_count": 4}
+                "E1": {
+                    "cfg_build_s": 1.0,
+                    "engine_load_s": 2.0,
+                    "campaign_bootstrap_s": 1.0,
+                    "pairs": 2,
+                    "engine_count": 4,
+                }
             },
         }
     )
@@ -1642,7 +1971,11 @@ def test_eval_timing_summary_stage2_throughput_fields():
     stage2_summary = summarize_controller_stage2_timings(
         {
             "matches": [
-                {"checkpoint_path": "ckpt.pt", "games": 6, "timing_s": {"match_elapsed_s": 3.0}},
+                {
+                    "checkpoint_path": "ckpt.pt",
+                    "games": 6,
+                    "timing_s": {"match_elapsed_s": 3.0},
+                },
             ],
             "checkpoint_timings": {
                 "ckpt.pt": {"pairs": 1, "client_bootstrap_s": 1.0, "client_count": 2}
@@ -1654,7 +1987,9 @@ def test_eval_timing_summary_stage2_throughput_fields():
     assert stage2_summary["checkpoints"][0]["checkpoint_path"] == "ckpt.pt"
 
 
-def test_controller_sweep_new_search_client_uses_checkpoint_metadata(monkeypatch, tmp_path):
+def test_controller_sweep_new_search_client_uses_checkpoint_metadata(
+    monkeypatch, tmp_path
+):
     module = load_controller_sweep_script_module()
     import quartz.alphazero_train as az
     import quartz.backend as backend_mod
@@ -1693,7 +2028,10 @@ def test_controller_sweep_new_search_client_uses_checkpoint_metadata(monkeypatch
     monkeypatch.setattr(
         backend_mod,
         "load_checkpoint_with_metadata",
-        lambda *args, **kwargs: ({"tower.0.weight": 1}, {"blocks": 6, "filters": 96, "vh": 32}),
+        lambda *args, **kwargs: (
+            {"tower.0.weight": 1},
+            {"blocks": 6, "filters": 96, "vh": 32},
+        ),
     )
 
     ckpt = tmp_path / "model.pt"
@@ -1701,7 +2039,14 @@ def test_controller_sweep_new_search_client_uses_checkpoint_metadata(monkeypatch
 
     client = module._new_search_client(
         str(ckpt),
-        {"_name": "gomoku7", "board": 7, "win": 5, "blocks": 4, "filters": 64, "vh": 16},
+        {
+            "_name": "gomoku7",
+            "board": 7,
+            "win": 5,
+            "blocks": 4,
+            "filters": 64,
+            "vh": 16,
+        },
         "cpu",
         "./target/release/mcts_demo",
     )
@@ -1714,7 +2059,9 @@ def test_controller_sweep_new_search_client_uses_checkpoint_metadata(monkeypatch
     assert client.cfg["blocks"] == 6
 
 
-def test_controller_sweep_stage2_uses_eval_runtime_profile_for_manifests(monkeypatch, tmp_path):
+def test_controller_sweep_stage2_uses_eval_runtime_profile_for_manifests(
+    monkeypatch, tmp_path
+):
     module = load_controller_sweep_script_module()
 
     def fake_apply_runtime_overrides(base_cfg, overrides):
@@ -1723,7 +2070,11 @@ def test_controller_sweep_stage2_uses_eval_runtime_profile_for_manifests(monkeyp
         return cfg
 
     monkeypatch.setattr(module, "apply_runtime_overrides", fake_apply_runtime_overrides)
-    monkeypatch.setattr(module, "load_eval_runtime_overrides_from_model", lambda checkpoint_path, device_name: {"batch_size": 32})
+    monkeypatch.setattr(
+        module,
+        "load_eval_runtime_overrides_from_model",
+        lambda checkpoint_path, device_name: {"batch_size": 32},
+    )
 
     class FakeClient:
         def stop(self):
@@ -1735,7 +2086,11 @@ def test_controller_sweep_stage2_uses_eval_runtime_profile_for_manifests(monkeyp
         lambda checkpoint_path, candidates_arg, base_cfg_arg, device, rust_binary, arena_iters: (
             {
                 row["id"]: {
-                    "cfg": {**fake_apply_runtime_overrides(base_cfg_arg, row["overrides"]), "batch_size": 32, "iters": arena_iters},
+                    "cfg": {
+                        **fake_apply_runtime_overrides(base_cfg_arg, row["overrides"]),
+                        "batch_size": 32,
+                        "iters": arena_iters,
+                    },
                     "client": FakeClient(),
                 }
                 for row in candidates_arg
@@ -1743,16 +2098,39 @@ def test_controller_sweep_stage2_uses_eval_runtime_profile_for_manifests(monkeyp
             {"client_bootstrap_s": 0.2, "client_count": len(candidates_arg)},
         ),
     )
-    monkeypatch.setattr(module, "_arena_dual_cfg_with_clients", lambda *args, **kwargs: (1, 0, 0, 1.0, [1.0, 1.0], "H1_accept"))
+    monkeypatch.setattr(
+        module,
+        "_arena_dual_cfg_with_clients",
+        lambda *args, **kwargs: (1, 0, 0, 1.0, [1.0, 1.0], "H1_accept"),
+    )
 
-    base_cfg = {"iters": 8, "search_profile": "quartz", "vl_mode": "adaptive", "_name": "gomoku7"}
+    base_cfg = {
+        "iters": 8,
+        "search_profile": "quartz",
+        "vl_mode": "adaptive",
+        "_name": "gomoku7",
+    }
     candidates = [
-        {"id": "c1", "label": "A", "source": "test", "overrides": {"penalty_mode": "GatedRefreshLegacy"}},
-        {"id": "c2", "label": "B", "source": "test", "overrides": {"penalty_mode": "GatedRefresh"}},
+        {
+            "id": "c1",
+            "label": "A",
+            "source": "test",
+            "overrides": {"penalty_mode": "GatedRefreshLegacy"},
+        },
+        {
+            "id": "c2",
+            "label": "B",
+            "source": "test",
+            "overrides": {"penalty_mode": "GatedRefresh"},
+        },
     ]
-    args = argparse.Namespace(arena_iters=None, stage2_games=2, rust_binary="./target/release/mcts_demo")
+    args = argparse.Namespace(
+        arena_iters=None, stage2_games=2, rust_binary="./target/release/mcts_demo"
+    )
 
-    payload = module.run_stage2_round_robin(candidates, ["ckpt.pt"], base_cfg, "cuda", args, tmp_path)
+    payload = module.run_stage2_round_robin(
+        candidates, ["ckpt.pt"], base_cfg, "cuda", args, tmp_path
+    )
 
     assert payload["matches"][0]["manifest_a"]["batch_size"] == 32
 
@@ -1776,7 +2154,9 @@ def test_training_module_reexports_eval_runtime_api():
     req = (3, [1.0, 0.0, 0.0, 0.0], 7, 11, 13, 2)
     assert az._parse_eval_request(req) == eval_mod.parse_eval_request(req)
     group = az._make_eval_request_group("json_single", [req], gi=4, prefer_shm=True)
-    assert group == eval_mod.make_eval_request_group("json_single", [req], gi=4, prefer_shm=True)
+    assert group == eval_mod.make_eval_request_group(
+        "json_single", [req], gi=4, prefer_shm=True
+    )
 
 
 def test_training_module_reexports_qipc_api():
@@ -1785,7 +2165,10 @@ def test_training_module_reexports_qipc_api():
 
     assert az.QipcSharedMemoryTransport is qipc_mod.QipcSharedMemoryTransport
     assert az.ShmRingBuffer is qipc_mod.ShmRingBuffer
-    payload = struct.pack("<IIIQQI", 7, 9, 4, 11, 22, 3) + np.asarray([0.25, -0.5, 0.75, 1.25], dtype="<f4").tobytes()
+    payload = (
+        struct.pack("<IIIQQI", 7, 9, 4, 11, 22, 3)
+        + np.asarray([0.25, -0.5, 0.75, 1.25], dtype="<f4").tobytes()
+    )
     lhs = az.unpack_qipc_eval_req(payload)
     rhs = qipc_mod.unpack_qipc_eval_req(payload)
     assert lhs[0] == rhs[0]
@@ -1797,15 +2180,28 @@ def test_training_module_reexports_selfplay_runtime_api():
     az = load_training_module()
     from quartz import selfplay_runtime as sp_mod
 
-    cfg = {"board": 7, "actions": 49, "bg_parallel": 2, "bg_batch_games": 4, "batch_size": 8, "batch": 64}
+    cfg = {
+        "board": 7,
+        "actions": 49,
+        "bg_parallel": 2,
+        "bg_batch_games": 4,
+        "batch_size": 8,
+        "batch": 64,
+    }
     recent_chunks = [{"games": 2, "positions": 30}]
     assert issubclass(az.NNSearchClient, sp_mod.NNSearchClient)
     assert issubclass(az.RustServerPool, sp_mod.RustServerPool)
     assert issubclass(az.SelfPlayWorker, sp_mod.SelfPlayWorker)
-    assert az.plan_selfplay_runner_chunk(cfg, replay_size=16, recent_chunks=recent_chunks) == (
-        sp_mod.plan_selfplay_runner_chunk(cfg, replay_size=16, recent_chunks=recent_chunks)
+    assert az.plan_selfplay_runner_chunk(
+        cfg, replay_size=16, recent_chunks=recent_chunks
+    ) == (
+        sp_mod.plan_selfplay_runner_chunk(
+            cfg, replay_size=16, recent_chunks=recent_chunks
+        )
     )
-    assert az.compute_train_steps(100, 256, 512, concurrent=True) == sp_mod.compute_train_steps(100, 256, 512, concurrent=True)
+    assert az.compute_train_steps(
+        100, 256, 512, concurrent=True
+    ) == sp_mod.compute_train_steps(100, 256, 512, concurrent=True)
     assert az.default_output_dir("gomoku7") == sp_mod.default_output_dir("gomoku7")
 
 
@@ -1912,7 +2308,9 @@ def test_selfplay_worker_pause_escalates_and_reports_failure():
     )
     worker._idle = FakeIdle()
     cancel_calls = []
-    worker._cancel_active_search = lambda kill_proc=False: cancel_calls.append(bool(kill_proc)) or True
+    worker._cancel_active_search = lambda kill_proc=False: (
+        cancel_calls.append(bool(kill_proc)) or True
+    )
 
     assert worker.pause(wait=True) is False
     assert cancel_calls == [False, True]
@@ -1971,18 +2369,60 @@ def test_training_module_reexports_autotune_runtime_api():
     assert az.AUTOTUNE_PROFILE_VERSION == auto_mod.AUTOTUNE_PROFILE_VERSION
     assert issubclass(az.OnlineAutotuneController, auto_mod.OnlineAutotuneController)
     assert az._autotune_parallel_limit is not None
-    assert az.plan_online_runtime_overrides({"bg_parallel": 1, "bg_batch_games": 1, "n_threads": 1, "batch": 256, "batch_size": 8}, az.HardwareSpec(
-        logical_cpus=4, physical_cpus=2, memory_mb=8192,
-        gpu_vendor="none", gpu_name="", gpu_vram_mb=0,
-        gpu_count=0, torch_cuda=False, device_kind="cpu"
-    ), {"last_cycle_s": 1.0, "last_cycle_positions": 16, "positions_per_s": 8.0, "best_positions_per_s": 8.0, "n_new": 64, "train_steps": 2}) == auto_mod.plan_online_runtime_overrides(
-        {"bg_parallel": 1, "bg_batch_games": 1, "n_threads": 1, "batch": 256, "batch_size": 8},
+    assert az.plan_online_runtime_overrides(
+        {
+            "bg_parallel": 1,
+            "bg_batch_games": 1,
+            "n_threads": 1,
+            "batch": 256,
+            "batch_size": 8,
+        },
         az.HardwareSpec(
-            logical_cpus=4, physical_cpus=2, memory_mb=8192,
-            gpu_vendor="none", gpu_name="", gpu_vram_mb=0,
-            gpu_count=0, torch_cuda=False, device_kind="cpu"
+            logical_cpus=4,
+            physical_cpus=2,
+            memory_mb=8192,
+            gpu_vendor="none",
+            gpu_name="",
+            gpu_vram_mb=0,
+            gpu_count=0,
+            torch_cuda=False,
+            device_kind="cpu",
         ),
-        {"last_cycle_s": 1.0, "last_cycle_positions": 16, "positions_per_s": 8.0, "best_positions_per_s": 8.0, "n_new": 64, "train_steps": 2},
+        {
+            "last_cycle_s": 1.0,
+            "last_cycle_positions": 16,
+            "positions_per_s": 8.0,
+            "best_positions_per_s": 8.0,
+            "n_new": 64,
+            "train_steps": 2,
+        },
+    ) == auto_mod.plan_online_runtime_overrides(
+        {
+            "bg_parallel": 1,
+            "bg_batch_games": 1,
+            "n_threads": 1,
+            "batch": 256,
+            "batch_size": 8,
+        },
+        az.HardwareSpec(
+            logical_cpus=4,
+            physical_cpus=2,
+            memory_mb=8192,
+            gpu_vendor="none",
+            gpu_name="",
+            gpu_vram_mb=0,
+            gpu_count=0,
+            torch_cuda=False,
+            device_kind="cpu",
+        ),
+        {
+            "last_cycle_s": 1.0,
+            "last_cycle_positions": 16,
+            "positions_per_s": 8.0,
+            "best_positions_per_s": 8.0,
+            "n_new": 64,
+            "train_steps": 2,
+        },
     )
 
 
@@ -2000,33 +2440,57 @@ def test_training_module_reexports_cli_parser():
     from quartz import cli_main as cli_mod
 
     parser = az.build_arg_parser()
-    parsed = parser.parse_args(["--game", "gomoku7", "--runtime-autotune", "--search-profile", "baseline_strict"])
+    parsed = parser.parse_args(
+        [
+            "--game",
+            "gomoku7",
+            "--runtime-autotune",
+            "--search-profile",
+            "baseline_strict",
+        ]
+    )
 
     assert isinstance(parser, argparse.ArgumentParser)
     assert parsed.game == "gomoku7"
     assert parsed.runtime_autotune is True
     assert parsed.search_profile == "baseline_strict"
-    assert az.build_arg_parser().__class__ is cli_mod.build_arg_parser(az.GAME_CONFIGS.keys()).__class__
+    assert (
+        az.build_arg_parser().__class__
+        is cli_mod.build_arg_parser(az.GAME_CONFIGS.keys()).__class__
+    )
 
 
 def test_training_module_reexports_system_runtime_api():
     az = load_training_module()
     from quartz import system_runtime as sys_mod
 
-    hw = az.HardwareSpec(logical_cpus=8, physical_cpus=4, memory_mb=16000, gpu_vram_mb=0, device_kind="cpu")
+    hw = az.HardwareSpec(
+        logical_cpus=8,
+        physical_cpus=4,
+        memory_mb=16000,
+        gpu_vram_mb=0,
+        device_kind="cpu",
+    )
     assert az.HardwareSpec is sys_mod.HardwareSpec
     assert az.eval_worker_candidates(hw, {"n_threads": 1}, eval_games=16) == (
         sys_mod.eval_worker_candidates(hw, {"n_threads": 1}, eval_games=16)
     )
-    assert az.compute_eval_collect_policy(8, 0.002, batch_items_ema=4.0, wait_ema_s=0.0) == (
-        sys_mod.compute_eval_collect_policy(8, 0.002, batch_items_ema=4.0, wait_ema_s=0.0)
+    assert az.compute_eval_collect_policy(
+        8, 0.002, batch_items_ema=4.0, wait_ema_s=0.0
+    ) == (
+        sys_mod.compute_eval_collect_policy(
+            8, 0.002, batch_items_ema=4.0, wait_ema_s=0.0
+        )
     )
     assert az.max_supported_threads(hw) == sys_mod.max_supported_threads(hw)
     assert az.runtime_thread_budget({"n_threads": "auto", "thread_cap": 6}, hw=hw) == 6
-    assert sys_mod.clamp_runtime_cfg_to_hardware(
-        {"n_threads": "auto", "thread_cap": 99},
-        hw,
-    )["thread_cap"] == 8
+    assert (
+        sys_mod.clamp_runtime_cfg_to_hardware(
+            {"n_threads": "auto", "thread_cap": 99},
+            hw,
+        )["thread_cap"]
+        == 8
+    )
 
 
 def test_training_module_reexports_train_loop_api():
@@ -2035,16 +2499,20 @@ def test_training_module_reexports_train_loop_api():
 
     assert issubclass(az.EarlyStopping, tl_mod.EarlyStopping)
     assert issubclass(az.StepEarlyStopping, tl_mod.StepEarlyStopping)
-    assert az.early_stopping_enabled(5, concurrent=True) == tl_mod.early_stopping_enabled(5, concurrent=True)
+    assert az.early_stopping_enabled(
+        5, concurrent=True
+    ) == tl_mod.early_stopping_enabled(5, concurrent=True)
     assert az.round_or_none(1.23456) == tl_mod.round_or_none(1.23456)
 
 
 def test_replay_loads_legacy_dense_npz_as_sparse_examples(tmp_path):
     az = load_training_module()
-    states = np.stack([
-        np.zeros((3, 7, 7), dtype=np.float32),
-        np.ones((3, 7, 7), dtype=np.float32),
-    ])
+    states = np.stack(
+        [
+            np.zeros((3, 7, 7), dtype=np.float32),
+            np.ones((3, 7, 7), dtype=np.float32),
+        ]
+    )
     policies = np.zeros((2, 49), dtype=np.float32)
     policies[0, 4] = 1.0
     policies[1, 2] = 0.4
@@ -2130,22 +2598,52 @@ def test_prepare_training_context_prefers_backend_actor_for_jax(monkeypatch, tmp
 
     class NeverInstantiateModel:
         def __init__(self, _cfg):
-            raise AssertionError("torch model should not be constructed for jax backend context")
+            raise AssertionError(
+                "torch model should not be constructed for jax backend context"
+            )
 
-    monkeypatch.setattr(backend_mod, "create_backend", lambda cfg, device="auto", preference="auto": FakeJaxBackend())
+    monkeypatch.setattr(
+        backend_mod,
+        "create_backend",
+        lambda cfg, device="auto", preference="auto": FakeJaxBackend(),
+    )
 
     args = cli_mod.build_arg_parser(["gomoku7"]).parse_args(
-        ["--game", "gomoku7", "--backend", "jax", "--output", str(tmp_path), "--no-autotune"]
+        [
+            "--game",
+            "gomoku7",
+            "--backend",
+            "jax",
+            "--output",
+            str(tmp_path),
+            "--no-autotune",
+        ]
     )
 
     hooks = cli_mod.CliPrepareHooks(
         torch=types.SimpleNamespace(
             manual_seed=lambda seed: None,
-            cuda=types.SimpleNamespace(is_available=lambda: False, manual_seed_all=lambda seed: None),
+            cuda=types.SimpleNamespace(
+                is_available=lambda: False, manual_seed_all=lambda seed: None
+            ),
         ),
         np=np,
         random_mod=random,
-        game_configs={"gomoku7": {"board": 7, "ch": 17, "actions": 49, "filters": 32, "blocks": 2, "vh": 32, "buf": 64, "batch": 8, "steps": 4, "batch_size": 8, "games": 2}},
+        game_configs={
+            "gomoku7": {
+                "board": 7,
+                "ch": 17,
+                "actions": 49,
+                "filters": 32,
+                "blocks": 2,
+                "vh": 32,
+                "buf": 64,
+                "batch": 8,
+                "steps": 4,
+                "batch_size": 8,
+                "games": 2,
+            }
+        },
         get_encoder=None,
         apply_config_overrides=lambda cfg, overrides: dict(cfg, **overrides),
         is_go_game=lambda _name: False,
@@ -2159,8 +2657,12 @@ def test_prepare_training_context_prefers_backend_actor_for_jax(monkeypatch, tmp
             "autotune_profile_path": str(tmp_path / "autotune_profile.json"),
         },
         auto_device_name=lambda: "cpu",
-        detect_hardware_spec=lambda device: types.SimpleNamespace(device_kind=str(device), physical_cpus=4),
-        configure_torch_rocm_runtime=lambda hw: (_ for _ in ()).throw(AssertionError("torch runtime should not be configured")),
+        detect_hardware_spec=lambda device: types.SimpleNamespace(
+            device_kind=str(device), physical_cpus=4
+        ),
+        configure_torch_rocm_runtime=lambda hw: (_ for _ in ()).throw(
+            AssertionError("torch runtime should not be configured")
+        ),
         supports_rust_eval_state_machine=lambda _name: False,
         supports_rust_selfplay_state_machine=lambda _name: False,
         autotune_training_cfg=lambda cfg, hw, concurrent=True: cfg,
@@ -2170,12 +2672,16 @@ def test_prepare_training_context_prefers_backend_actor_for_jax(monkeypatch, tmp
         gpu_interop_thread_cap=lambda hw: 1,
         alphazero_net_cls=NeverInstantiateModel,
         load_torch_state_dict_checked=lambda *args, **kwargs: None,
-        get_actor_model=lambda model, backend: backend if backend is not None else model,
+        get_actor_model=lambda model, backend: (
+            backend if backend is not None else model
+        ),
         load_autotune_profile=lambda *args, **kwargs: None,
         apply_runtime_overrides=lambda cfg, overrides: dict(cfg, **overrides),
         run_autotune_benchmark=lambda *args, **kwargs: ({}, {}),
         save_autotune_profile=lambda *args, **kwargs: None,
-        probe_inference_batch_size=lambda model, device, cfg, cap: cfg.get("batch_size", 8),
+        probe_inference_batch_size=lambda model, device, cfg, cap: cfg.get(
+            "batch_size", 8
+        ),
         clamp_thread_count=lambda value, hw: int(value),
     )
 
@@ -2206,38 +2712,50 @@ def test_cli_safe_runtime_env_overrides_apply_caps(monkeypatch):
 
 
 def test_replay_module_imports_without_torch():
-    module = load_module_with_torch_blocked("quartz_replay_no_torch", "quartz/replay.py")
+    module = load_module_with_torch_blocked(
+        "quartz_replay_no_torch", "quartz/replay.py"
+    )
 
     target = module.sparse_policy_from_entries([[3, 1.0]], 9)
     assert target.n_actions == 9
 
 
 def test_train_loop_module_imports_without_torch():
-    module = load_module_with_torch_blocked("quartz_train_loop_no_torch", "quartz/train_loop.py")
+    module = load_module_with_torch_blocked(
+        "quartz_train_loop_no_torch", "quartz/train_loop.py"
+    )
 
     assert module.round_or_none(1.23456) == 1.2346
 
 
 def test_system_runtime_module_imports_without_torch():
-    module = load_module_with_torch_blocked("quartz_system_runtime_no_torch", "quartz/system_runtime.py")
+    module = load_module_with_torch_blocked(
+        "quartz_system_runtime_no_torch", "quartz/system_runtime.py"
+    )
 
     assert module.max_supported_threads(types.SimpleNamespace(logical_cpus=4)) == 4
 
 
 def test_autotune_runtime_module_imports_without_torch():
-    module = load_module_with_torch_blocked("quartz_autotune_runtime_no_torch", "quartz/autotune_runtime.py")
+    module = load_module_with_torch_blocked(
+        "quartz_autotune_runtime_no_torch", "quartz/autotune_runtime.py"
+    )
 
     assert module._round_down_to_multiple(130, 32) == 128
 
 
 def test_runtime_support_module_imports_without_torch():
-    module = load_module_with_torch_blocked("quartz_runtime_support_no_torch", "quartz/runtime_support.py")
+    module = load_module_with_torch_blocked(
+        "quartz_runtime_support_no_torch", "quartz/runtime_support.py"
+    )
 
     assert module.default_encoder_cfg("gomoku7")["_name"] == "gomoku7"
 
 
 def test_evaluator_runtime_module_imports_without_torch():
-    module = load_module_with_torch_blocked("quartz_evaluator_runtime_no_torch", "quartz/evaluator_runtime.py")
+    module = load_module_with_torch_blocked(
+        "quartz_evaluator_runtime_no_torch", "quartz/evaluator_runtime.py"
+    )
 
     hooks = module._default_runtime_hooks()
     assert hooks.search_client_cls is not None
@@ -2260,7 +2778,14 @@ def test_monitor_command_settings_capture_runtime_hygiene_flags():
     monitor = load_monitor_script_module()
 
     settings = monitor.parse_command_settings(
-        ["python", "-m", "quartz.train", "--runtime-autotune", "--search-profile", "baseline_strict"]
+        [
+            "python",
+            "-m",
+            "quartz.train",
+            "--runtime-autotune",
+            "--search-profile",
+            "baseline_strict",
+        ]
     )
 
     assert settings["runtime_tuner_enabled"] is True
@@ -2276,11 +2801,22 @@ def test_monitor_command_settings_capture_runtime_hygiene_flags():
 def test_monitor_parse_stdout_event_captures_async_runtime_markers():
     monitor = load_monitor_script_module()
 
-    assert monitor.parse_stdout_event("  Auto-tune profile: running warmup benchmark...")["type"] == "autotune_warmup_start"
-    assert monitor.parse_stdout_event("  [BG] WARN: self-play pause timed out; evaluation proceeding concurrently")[
-        "type"
-    ] == "bg_pause_timeout"
-    assert monitor.parse_stdout_event("  [BG] Self-play resumed after evaluation")["type"] == "bg_resumed"
+    assert (
+        monitor.parse_stdout_event("  Auto-tune profile: running warmup benchmark...")[
+            "type"
+        ]
+        == "autotune_warmup_start"
+    )
+    assert (
+        monitor.parse_stdout_event(
+            "  [BG] WARN: self-play pause timed out; evaluation proceeding concurrently"
+        )["type"]
+        == "bg_pause_timeout"
+    )
+    assert (
+        monitor.parse_stdout_event("  [BG] Self-play resumed after evaluation")["type"]
+        == "bg_resumed"
+    )
 
 
 def test_monitor_async_trace_summaries_include_wavefront_and_batch_stats(tmp_path):
@@ -2298,11 +2834,17 @@ def test_monitor_async_trace_summaries_include_wavefront_and_batch_stats(tmp_pat
             "frontier_slots": 8,
             "active_games": 10,
         },
-        {"event": "eval_runner_wave", "newly_completed": 2, "wave_positions_evaluated": 16},
+        {
+            "event": "eval_runner_wave",
+            "newly_completed": 2,
+            "wave_positions_evaluated": 16,
+        },
         {"event": "selfplay_runner_done", "duration_ms": 1500.0},
         {"event": "eval_runner_done", "duration_ms": 2300.0},
     ]
-    trace_path.write_text("\n".join(json.dumps(r) for r in rows) + "\n", encoding="utf-8")
+    trace_path.write_text(
+        "\n".join(json.dumps(r) for r in rows) + "\n", encoding="utf-8"
+    )
 
     trace_summary = monitor.summarize_rust_server_trace(trace_path)
     runner_summary = monitor.summarize_runner_progress(trace_path)
@@ -2330,10 +2872,16 @@ def test_gpu_detect_install_deps_uses_shell_aware_split(monkeypatch):
         calls.append(args)
         return 0
 
-    monkeypatch.setattr(gpu_detect, "recommend_install", lambda gpu, framework: {framework: ["pip install 'jax[metal]' flax"]})
+    monkeypatch.setattr(
+        gpu_detect,
+        "recommend_install",
+        lambda gpu, framework: {framework: ["pip install 'jax[metal]' flax"]},
+    )
     monkeypatch.setattr(gpu_detect.subprocess, "check_call", fake_check_call)
 
-    gpu_detect.install_deps(gpu_detect.GpuInfo(vendor="apple"), framework="jax", dry_run=False)
+    gpu_detect.install_deps(
+        gpu_detect.GpuInfo(vendor="apple"), framework="jax", dry_run=False
+    )
 
     assert calls == [["pip", "install", "jax[metal]", "flax"]]
 
@@ -2357,11 +2905,15 @@ def test_play_app_preserves_checkpoint_tuned_cfg(monkeypatch, tmp_path):
         model=object(),
     )
 
-    app = play_gui.PlayApp(tmp_path, play_gui.torch.device("cpu"), "./target/release/mcts_demo")
+    app = play_gui.PlayApp(
+        tmp_path, play_gui.torch.device("cpu"), "./target/release/mcts_demo"
+    )
     monkeypatch.setattr(app.model_store, "load", lambda game, path: loaded)
     monkeypatch.setattr(play_gui, "GameSession", DummySession)
 
-    session = app.create_session({"game": "gomoku7", "modelPath": str(model_path), "humanSide": "black"})
+    session = app.create_session(
+        {"game": "gomoku7", "modelPath": str(model_path), "humanSide": "black"}
+    )
 
     assert session.id == "sess123"
     assert captured["cfg"]["board"] == 9
@@ -2445,7 +2997,9 @@ def test_rust_nn_evaluator_uses_chess_session_payloads(monkeypatch):
 
     tally = eng_a.play_match_tally_against(
         eng_b,
-        lambda: az.ChessEvaluationAdapter(actions=az.CHESS_POLICY_ACTIONS, start_fen=start_fen),
+        lambda: az.ChessEvaluationAdapter(
+            actions=az.CHESS_POLICY_ACTIONS, start_fen=start_fen
+        ),
         opening_book=[],
         num_games=2,
         color_swap=True,
@@ -2535,7 +3089,9 @@ def test_rust_nn_evaluator_uses_rust_eval_state_machine_for_gomoku7(monkeypatch)
 
         def open_search_session(self, jobs, penalty_mode="GatedRefresh"):
             self.open_called = True
-            raise AssertionError("session fallback should not be used when rust eval runner succeeds")
+            raise AssertionError(
+                "session fallback should not be used when rust eval runner succeeds"
+            )
 
     monkeypatch.setattr(az, "NNSearchClient", FakeClient)
     cfg = {
@@ -2624,8 +3180,12 @@ def test_rust_nn_evaluator_reuses_single_model_tag_for_same_model(monkeypatch):
                 )
             return {"records": records}
 
-        def open_search_engine_session(self, jobs, penalty_mode="GatedRefresh", iters=None):
-            raise AssertionError("same-model eval should stay on typed eval_match_run path")
+        def open_search_engine_session(
+            self, jobs, penalty_mode="GatedRefresh", iters=None
+        ):
+            raise AssertionError(
+                "same-model eval should stay on typed eval_match_run path"
+            )
 
     monkeypatch.setattr(az, "NNSearchClient", FakeClient)
     shared_model = object()
@@ -2635,8 +3195,12 @@ def test_rust_nn_evaluator_reuses_single_model_tag_for_same_model(monkeypatch):
         "actions": 49,
         "_eval_runner_mode": "rust_eval_state_machine",
     }
-    eng_a = az.RustNNEvaluatorEngine("candidate", cfg, shared_model, az.torch.device("cpu"))
-    eng_b = az.RustNNEvaluatorEngine("champion", cfg, shared_model, az.torch.device("cpu"))
+    eng_a = az.RustNNEvaluatorEngine(
+        "candidate", cfg, shared_model, az.torch.device("cpu")
+    )
+    eng_b = az.RustNNEvaluatorEngine(
+        "champion", cfg, shared_model, az.torch.device("cpu")
+    )
 
     tally = eng_a.play_match_tally_against(
         eng_b,
@@ -2736,14 +3300,31 @@ def test_persistent_rust_eval_campaign_reuses_single_client(monkeypatch):
         game_record_cls=eval_mod.runtime_support.GameRecord,
         tally_match=eval_mod.runtime_support.tally_match,
     )
-    cfg = {"_name": "gomoku7", "iters": 8, "actions": 49, "_eval_runner_mode": "rust_eval_state_machine"}
-    eng_a = eval_mod.RustNNEvaluatorEngine("A", cfg, object(), "cpu", runtime_hooks=runtime_hooks)
-    eng_b = eval_mod.RustNNEvaluatorEngine("B", cfg, object(), "cpu", runtime_hooks=runtime_hooks)
-    eng_c = eval_mod.RustNNEvaluatorEngine("C", cfg, object(), "cpu", runtime_hooks=runtime_hooks)
+    cfg = {
+        "_name": "gomoku7",
+        "iters": 8,
+        "actions": 49,
+        "_eval_runner_mode": "rust_eval_state_machine",
+    }
+    eng_a = eval_mod.RustNNEvaluatorEngine(
+        "A", cfg, object(), "cpu", runtime_hooks=runtime_hooks
+    )
+    eng_b = eval_mod.RustNNEvaluatorEngine(
+        "B", cfg, object(), "cpu", runtime_hooks=runtime_hooks
+    )
+    eng_c = eval_mod.RustNNEvaluatorEngine(
+        "C", cfg, object(), "cpu", runtime_hooks=runtime_hooks
+    )
 
-    with eval_mod.PersistentRustNNEvalCampaign([eng_a, eng_b, eng_c], 4, runtime_hooks=runtime_hooks) as campaign:
-        tally_ab, meta_ab = campaign.compare(eng_a, eng_b, MiniGame, [], 4, max_moves=4, seed=7)
-        tally_ac, meta_ac = campaign.compare(eng_a, eng_c, MiniGame, [], 4, max_moves=4, seed=7)
+    with eval_mod.PersistentRustNNEvalCampaign(
+        [eng_a, eng_b, eng_c], 4, runtime_hooks=runtime_hooks
+    ) as campaign:
+        tally_ab, meta_ab = campaign.compare(
+            eng_a, eng_b, MiniGame, [], 4, max_moves=4, seed=7
+        )
+        tally_ac, meta_ac = campaign.compare(
+            eng_a, eng_c, MiniGame, [], 4, max_moves=4, seed=7
+        )
 
     assert FakeClient.starts == 1
     assert FakeClient.stops == 1
@@ -2755,9 +3336,14 @@ def test_persistent_rust_eval_campaign_reuses_single_client(monkeypatch):
     assert meta_ac["runner_mode"] == "rust_eval_state_machine"
     assert meta_ab["client_start_s"] >= 0.0
     assert meta_ab["realized_budget_trace"]["games"] == 4
-    assert meta_ab["realized_budget_trace"]["selection_trace_coverage_frac"] == pytest.approx(1.0)
+    assert meta_ab["realized_budget_trace"][
+        "selection_trace_coverage_frac"
+    ] == pytest.approx(1.0)
     assert meta_ab["realized_budget_trace"]["selection_trace"]["root_selects"] == 64
-    assert meta_ab["realized_budget_trace"]["selection_trace"]["refresh_selected_count"] == 16
+    assert (
+        meta_ab["realized_budget_trace"]["selection_trace"]["refresh_selected_count"]
+        == 16
+    )
 
 
 def test_persistent_rust_eval_campaign_compare_many_batches_single_eval_call():
@@ -2826,12 +3412,25 @@ def test_persistent_rust_eval_campaign_compare_many_batches_single_eval_call():
         game_record_cls=eval_mod.runtime_support.GameRecord,
         tally_match=eval_mod.runtime_support.tally_match,
     )
-    cfg = {"_name": "gomoku7", "iters": 8, "actions": 49, "_eval_runner_mode": "rust_eval_state_machine"}
-    eng_a = eval_mod.RustNNEvaluatorEngine("A", cfg, object(), "cpu", runtime_hooks=runtime_hooks)
-    eng_b = eval_mod.RustNNEvaluatorEngine("B", cfg, object(), "cpu", runtime_hooks=runtime_hooks)
-    eng_c = eval_mod.RustNNEvaluatorEngine("C", cfg, object(), "cpu", runtime_hooks=runtime_hooks)
+    cfg = {
+        "_name": "gomoku7",
+        "iters": 8,
+        "actions": 49,
+        "_eval_runner_mode": "rust_eval_state_machine",
+    }
+    eng_a = eval_mod.RustNNEvaluatorEngine(
+        "A", cfg, object(), "cpu", runtime_hooks=runtime_hooks
+    )
+    eng_b = eval_mod.RustNNEvaluatorEngine(
+        "B", cfg, object(), "cpu", runtime_hooks=runtime_hooks
+    )
+    eng_c = eval_mod.RustNNEvaluatorEngine(
+        "C", cfg, object(), "cpu", runtime_hooks=runtime_hooks
+    )
 
-    with eval_mod.PersistentRustNNEvalCampaign([eng_a, eng_b, eng_c], 2, runtime_hooks=runtime_hooks) as campaign:
+    with eval_mod.PersistentRustNNEvalCampaign(
+        [eng_a, eng_b, eng_c], 2, runtime_hooks=runtime_hooks
+    ) as campaign:
         results = campaign.compare_many(
             [
                 {
@@ -2870,18 +3469,27 @@ def test_persistent_rust_eval_campaign_compare_many_batches_single_eval_call():
 def test_arena_eval_runtime_cfg_reduces_low_concurrency_batching():
     from quartz import evaluator_runtime as eval_mod
 
-    tiny = eval_mod.arena_eval_runtime_cfg({"batch_size": 8, "batch_timeout_us": 1500, "n_threads": 4}, 2)
+    tiny = eval_mod.arena_eval_runtime_cfg(
+        {"batch_size": 8, "batch_timeout_us": 1500, "n_threads": 4}, 2
+    )
     assert tiny["batch_size"] == 2
     assert tiny["batch_timeout_us"] == 700
     assert tiny["_arena_low_concurrency_profile"] == "tiny"
 
-    small = eval_mod.arena_eval_runtime_cfg({"batch_size": 8, "batch_timeout_us": 1500, "n_threads": 1}, 4)
+    small = eval_mod.arena_eval_runtime_cfg(
+        {"batch_size": 8, "batch_timeout_us": 1500, "n_threads": 1}, 4
+    )
     assert small["batch_size"] == 4
     assert small["batch_timeout_us"] == 1200
     assert small["_arena_low_concurrency_profile"] == "small"
 
     untouched = eval_mod.arena_eval_runtime_cfg(
-        {"batch_size": 8, "batch_timeout_us": 1500, "n_threads": 4, "_arena_eval_topology_override": False},
+        {
+            "batch_size": 8,
+            "batch_timeout_us": 1500,
+            "n_threads": 4,
+            "_arena_eval_topology_override": False,
+        },
         2,
     )
     assert untouched["batch_size"] == 8
@@ -2910,10 +3518,19 @@ def test_rust_nn_evaluator_rejects_manifest_mismatch():
             self._board[action] = 1 if self._player == 0 else -1
             self._player = 1 - self._player
 
-    cfg_a = {"_name": "gomoku7", "iters": 8, "actions": 49, "search_profile": "baseline"}
+    cfg_a = {
+        "_name": "gomoku7",
+        "iters": 8,
+        "actions": 49,
+        "search_profile": "baseline",
+    }
     cfg_b = {"_name": "gomoku7", "iters": 8, "actions": 49, "search_profile": "quartz"}
-    eng_a = az.RustNNEvaluatorEngine("candidate", cfg_a, object(), az.torch.device("cpu"))
-    eng_b = az.RustNNEvaluatorEngine("champion", cfg_b, object(), az.torch.device("cpu"))
+    eng_a = az.RustNNEvaluatorEngine(
+        "candidate", cfg_a, object(), az.torch.device("cpu")
+    )
+    eng_b = az.RustNNEvaluatorEngine(
+        "champion", cfg_b, object(), az.torch.device("cpu")
+    )
 
     with pytest.raises(RuntimeError, match="matching search manifests"):
         eng_a.play_match_tally_against(
@@ -2956,7 +3573,13 @@ def test_rust_nn_evaluator_select_moves_batch_handles_non_chess_games(monkeypatc
 
         def search_moves_multi(self, jobs, penalty_mode="GatedRefresh"):
             assert len(jobs) == 1
-            return [{"best_move": 7, "policy": [[2, 0.1], [7, 0.8], [11, 0.1]], "p_flip": 0.0}]
+            return [
+                {
+                    "best_move": 7,
+                    "policy": [[2, 0.1], [7, 0.8], [11, 0.1]],
+                    "p_flip": 0.0,
+                }
+            ]
 
     monkeypatch.setattr(az, "NNSearchClient", FakeClient)
     cfg = {"_name": "gomoku7", "iters": 8, "actions": 49}
@@ -3005,7 +3628,9 @@ def test_selfplay_batched_uses_rust_state_machine_payload(monkeypatch):
         def stop(self):
             self.stopped = True
 
-        def selfplay_run(self, n_games, parallel, temp_threshold, penalty_mode="GatedRefresh", seed=0):
+        def selfplay_run(
+            self, n_games, parallel, temp_threshold, penalty_mode="GatedRefresh", seed=0
+        ):
             self.calls.append((n_games, parallel, temp_threshold))
             return {
                 "games": [
@@ -3043,7 +3668,12 @@ def test_selfplay_batched_uses_rust_state_machine_payload(monkeypatch):
     fake = FakeClient.last_instance
     assert fake is not None and fake.started and fake.stopped
     assert fake.calls == [(2, 2, cfg["temp_th"])]
-    assert len(states) == 2 and len(policies) == 2 and len(outcomes) == 2 and len(traces) == 2
+    assert (
+        len(states) == 2
+        and len(policies) == 2
+        and len(outcomes) == 2
+        and len(traces) == 2
+    )
     assert states[0][0].shape == (cfg["ch"], cfg["board"], cfg["board"])
     assert float(policies[0][0][0]) == pytest.approx(1.0)
     assert outcomes == [1.0, -1.0]
@@ -3067,7 +3697,14 @@ def test_selfplay_rust_nn_uses_training_module_search_client(monkeypatch):
         def stop(self):
             self.stopped = True
 
-        def search_move(self, board_flat, player, penalty_mode="GatedRefresh", fen=None, state_meta=None):
+        def search_move(
+            self,
+            board_flat,
+            player,
+            penalty_mode="GatedRefresh",
+            fen=None,
+            state_meta=None,
+        ):
             self.calls += 1
             if self.calls == 1:
                 return {"best_move": 0, "policy": ["0:1.0"], "value": 0.0}
@@ -3114,7 +3751,14 @@ def test_arena_rust_nn_impl_uses_shared_eval_runner(monkeypatch, tmp_path):
     built_games = []
 
     class FakeRustEngine:
-        def __init__(self, engine_name, cfg, model, device, rust_binary="./target/release/mcts_demo"):
+        def __init__(
+            self,
+            engine_name,
+            cfg,
+            model,
+            device,
+            rust_binary="./target/release/mcts_demo",
+        ):
             self.engine_name = engine_name
             self.cfg = cfg
             self.model = model
@@ -3139,7 +3783,9 @@ def test_arena_rust_nn_impl_uses_shared_eval_runner(monkeypatch, tmp_path):
             self.play_calls = []
             FakeRunner.instances.append(self)
 
-        def play_match_tally_batched(self, eng_a, eng_b, num_games, color_swap=True, logger=None):
+        def play_match_tally_batched(
+            self, eng_a, eng_b, num_games, color_swap=True, logger=None
+        ):
             built_games.append(self.game_factory())
             self.play_calls.append((eng_a.name(), eng_b.name(), num_games, color_swap))
             return types.SimpleNamespace(wins=1, losses=0, draws=1)
@@ -3148,7 +3794,9 @@ def test_arena_rust_nn_impl_uses_shared_eval_runner(monkeypatch, tmp_path):
     monkeypatch.setattr(az, "load_torch_state_dict", lambda *args, **kwargs: {})
     monkeypatch.setattr(az, "RustNNEvaluatorEngine", FakeRustEngine)
     monkeypatch.setattr(az, "MatchRunner", FakeRunner)
-    monkeypatch.setattr(az, "build_training_game_adapter", lambda cfg: {"game": cfg["_name"]})
+    monkeypatch.setattr(
+        az, "build_training_game_adapter", lambda cfg: {"game": cfg["_name"]}
+    )
 
     model_a = tmp_path / "a.pt"
     model_b = tmp_path / "b.pt"
@@ -3169,14 +3817,21 @@ def test_arena_rust_nn_impl_uses_shared_eval_runner(monkeypatch, tmp_path):
 
     assert len(created_engines) == 2
     assert {engine.engine_name for engine in created_engines} == {"arena_a", "arena_b"}
-    assert all(engine.cfg.get("_eval_runner_mode") == "rust_eval_state_machine" for engine in created_engines)
-    assert FakeRunner.instances and FakeRunner.instances[0].play_calls == [("arena_a", "arena_b", 2, True)]
+    assert all(
+        engine.cfg.get("_eval_runner_mode") == "rust_eval_state_machine"
+        for engine in created_engines
+    )
+    assert FakeRunner.instances and FakeRunner.instances[0].play_calls == [
+        ("arena_a", "arena_b", 2, True)
+    ]
     assert built_games == [{"game": "gomoku7"}]
     assert (wins_a, wins_b, draws) == (1, 0, 1)
     assert wr == pytest.approx(0.5)
 
 
-def test_arena_rust_nn_impl_uses_distinct_models_for_same_source_under_eval_runner(monkeypatch, tmp_path):
+def test_arena_rust_nn_impl_uses_distinct_models_for_same_source_under_eval_runner(
+    monkeypatch, tmp_path
+):
     az = load_training_module()
 
     class DummyNet:
@@ -3199,7 +3854,14 @@ def test_arena_rust_nn_impl_uses_distinct_models_for_same_source_under_eval_runn
     created_engines = []
 
     class FakeRustEngine:
-        def __init__(self, engine_name, cfg, model, device, rust_binary="./target/release/mcts_demo"):
+        def __init__(
+            self,
+            engine_name,
+            cfg,
+            model,
+            device,
+            rust_binary="./target/release/mcts_demo",
+        ):
             self.engine_name = engine_name
             self.cfg = dict(cfg)
             self.model = model
@@ -3215,14 +3877,18 @@ def test_arena_rust_nn_impl_uses_distinct_models_for_same_source_under_eval_runn
         def __init__(self, game_factory, opening_book=None, seed=None, max_moves=500):
             self.game_factory = game_factory
 
-        def play_match_tally_batched(self, eng_a, eng_b, num_games, color_swap=True, logger=None):
+        def play_match_tally_batched(
+            self, eng_a, eng_b, num_games, color_swap=True, logger=None
+        ):
             return types.SimpleNamespace(wins=1, losses=0, draws=0)
 
     monkeypatch.setattr(az, "AlphaZeroNet", DummyNet)
     monkeypatch.setattr(az, "load_torch_state_dict", lambda *args, **kwargs: {"w": 1})
     monkeypatch.setattr(az, "RustNNEvaluatorEngine", FakeRustEngine)
     monkeypatch.setattr(az, "MatchRunner", FakeRunner)
-    monkeypatch.setattr(az, "build_training_game_adapter", lambda cfg: {"game": cfg["_name"]})
+    monkeypatch.setattr(
+        az, "build_training_game_adapter", lambda cfg: {"game": cfg["_name"]}
+    )
 
     model_path = tmp_path / "shared.pt"
     model_path.write_bytes(b"a")
@@ -3281,7 +3947,14 @@ def test_arena_rust_nn_impl_keeps_legacy_dual_cfg_path(monkeypatch, tmp_path):
         def stop(self):
             self.stopped = True
 
-        def search_move(self, board_flat, player, penalty_mode="GatedRefresh", fen=None, state_meta=None):
+        def search_move(
+            self,
+            board_flat,
+            player,
+            penalty_mode="GatedRefresh",
+            fen=None,
+            state_meta=None,
+        ):
             self.calls += 1
             if self.calls == 1:
                 return {"best_move": 0, "policy": ["0:1.0"], "value": 0.0}
@@ -3334,7 +4007,14 @@ def test_arena_rust_nn_impl_rejects_unscored_strict_tally(monkeypatch, tmp_path)
             return self
 
     class FakeRustEngine:
-        def __init__(self, engine_name, cfg, model, device, rust_binary="./target/release/mcts_demo"):
+        def __init__(
+            self,
+            engine_name,
+            cfg,
+            model,
+            device,
+            rust_binary="./target/release/mcts_demo",
+        ):
             self.engine_name = engine_name
 
         def reset(self):
@@ -3347,7 +4027,9 @@ def test_arena_rust_nn_impl_rejects_unscored_strict_tally(monkeypatch, tmp_path)
         def __init__(self, game_factory, opening_book=None, seed=None, max_moves=500):
             self.game_factory = game_factory
 
-        def play_match_tally_batched(self, eng_a, eng_b, num_games, color_swap=True, logger=None):
+        def play_match_tally_batched(
+            self, eng_a, eng_b, num_games, color_swap=True, logger=None
+        ):
             return types.SimpleNamespace(
                 wins=0,
                 losses=0,
@@ -3362,7 +4044,9 @@ def test_arena_rust_nn_impl_rejects_unscored_strict_tally(monkeypatch, tmp_path)
     monkeypatch.setattr(az, "load_torch_state_dict", lambda *args, **kwargs: {})
     monkeypatch.setattr(az, "RustNNEvaluatorEngine", FakeRustEngine)
     monkeypatch.setattr(az, "MatchRunner", FakeRunner)
-    monkeypatch.setattr(az, "build_training_game_adapter", lambda cfg: {"game": cfg["_name"]})
+    monkeypatch.setattr(
+        az, "build_training_game_adapter", lambda cfg: {"game": cfg["_name"]}
+    )
 
     model_a = tmp_path / "a.pt"
     model_b = tmp_path / "b.pt"
@@ -3390,7 +4074,9 @@ def test_detect_backends_skips_jax_probe_when_torch_is_available(monkeypatch):
 
     def guarded_import(name, *args, **kwargs):
         if name == "jax":
-            raise AssertionError("auto backend detection should not import jax when torch is available")
+            raise AssertionError(
+                "auto backend detection should not import jax when torch is available"
+            )
         return original_import(name, *args, **kwargs)
 
     monkeypatch.setattr(builtins, "__import__", guarded_import)
@@ -3407,17 +4093,21 @@ def test_load_torch_state_dict_falls_back_when_weights_only_rejects_checkpoint()
             self.calls = []
 
         def load(self, path, map_location=None, weights_only=None):
-            self.calls.append({
-                "path": path,
-                "map_location": map_location,
-                "weights_only": weights_only,
-            })
+            self.calls.append(
+                {
+                    "path": path,
+                    "map_location": map_location,
+                    "weights_only": weights_only,
+                }
+            )
             if weights_only:
                 raise RuntimeError("Weights only load failed. Unsupported operand 149")
             return {"ok": True}
 
     fake_torch = FakeTorch()
-    payload = backend_mod.load_torch_state_dict("demo.pt", fake_torch, map_location="cpu")
+    payload = backend_mod.load_torch_state_dict(
+        "demo.pt", fake_torch, map_location="cpu"
+    )
 
     assert payload == {"ok": True}
     assert fake_torch.calls == [
@@ -3429,8 +4119,18 @@ def test_load_torch_state_dict_falls_back_when_weights_only_rejects_checkpoint()
 def test_profile_monitor_parses_expected_iterations():
     monitor = load_monitor_script_module()
 
-    assert monitor.parse_expected_iterations(["python", "-m", "quartz.train", "--iterations", "30"]) == 30
-    assert monitor.parse_expected_iterations(["python", "-m", "quartz.train", "--iterations=12"]) == 12
+    assert (
+        monitor.parse_expected_iterations(
+            ["python", "-m", "quartz.train", "--iterations", "30"]
+        )
+        == 30
+    )
+    assert (
+        monitor.parse_expected_iterations(
+            ["python", "-m", "quartz.train", "--iterations=12"]
+        )
+        == 12
+    )
     assert monitor.parse_expected_iterations(["python", "-m", "quartz.train"]) is None
 
 
@@ -3461,7 +4161,9 @@ def test_ensure_best_checkpoint_compatible_resets_mismatched_jax_checkpoint(tmp_
             Path(path).write_bytes(b"PK\x03\x04demo-latest/data.pkl")
 
     backend = FakeBackend()
-    hint = az.ensure_best_checkpoint_compatible(best, backend, model=None, device=az.torch.device("cpu"))
+    hint = az.ensure_best_checkpoint_compatible(
+        best, backend, model=None, device=az.torch.device("cpu")
+    )
 
     assert hint == "torch"
     assert Path(backend.saved) == best
@@ -3487,12 +4189,30 @@ def test_validate_torch_state_dict_reports_shape_mismatch():
 def test_should_use_resident_session_only_for_multi_game_and_explicit_enable():
     az = load_training_module()
 
-    assert az.should_use_resident_session("gomoku7", parallel=1, n_games=1, enabled=False) is False
-    assert az.should_use_resident_session("gomoku7", parallel=1, n_games=4, enabled=False) is False
-    assert az.should_use_resident_session("gomoku7", parallel=2, n_games=1, enabled=False) is False
-    assert az.should_use_resident_session("gomoku7", parallel=2, n_games=4, enabled=False) is False
-    assert az.should_use_resident_session("gomoku7", parallel=2, n_games=4, enabled=True) is True
-    assert az.should_use_resident_session("chess", parallel=4, n_games=8, enabled=True) is True
+    assert (
+        az.should_use_resident_session("gomoku7", parallel=1, n_games=1, enabled=False)
+        is False
+    )
+    assert (
+        az.should_use_resident_session("gomoku7", parallel=1, n_games=4, enabled=False)
+        is False
+    )
+    assert (
+        az.should_use_resident_session("gomoku7", parallel=2, n_games=1, enabled=False)
+        is False
+    )
+    assert (
+        az.should_use_resident_session("gomoku7", parallel=2, n_games=4, enabled=False)
+        is False
+    )
+    assert (
+        az.should_use_resident_session("gomoku7", parallel=2, n_games=4, enabled=True)
+        is True
+    )
+    assert (
+        az.should_use_resident_session("chess", parallel=4, n_games=8, enabled=True)
+        is True
+    )
 
 
 def test_wait_for_worker_progress_raises_when_worker_exits():
@@ -3511,8 +4231,12 @@ def test_wait_for_worker_progress_raises_when_worker_exits():
                 "consecutive_errors": 1,
             }
 
-    with pytest.raises(RuntimeError, match="background self-play worker stopped unexpectedly"):
-        az.wait_for_worker_progress(FakeWorker(), 0, min_new=1, timeout_s=0.1, poll_s=0.0)
+    with pytest.raises(
+        RuntimeError, match="background self-play worker stopped unexpectedly"
+    ):
+        az.wait_for_worker_progress(
+            FakeWorker(), 0, min_new=1, timeout_s=0.1, poll_s=0.0
+        )
 
 
 def test_wait_for_worker_progress_raises_when_worker_stalls_after_errors():
@@ -3532,7 +4256,9 @@ def test_wait_for_worker_progress_raises_when_worker_stalls_after_errors():
             }
 
     with pytest.raises(RuntimeError, match="background self-play stalled"):
-        az.wait_for_worker_progress(FakeWorker(), 0, min_new=1, timeout_s=0.1, poll_s=0.0)
+        az.wait_for_worker_progress(
+            FakeWorker(), 0, min_new=1, timeout_s=0.1, poll_s=0.0
+        )
 
 
 def test_wait_for_worker_progress_raises_on_repeated_errors_without_progress():
@@ -3551,8 +4277,13 @@ def test_wait_for_worker_progress_raises_on_repeated_errors_without_progress():
                 "consecutive_errors": 3,
             }
 
-    with pytest.raises(RuntimeError, match="background self-play made no progress after repeated errors"):
-        az.wait_for_worker_progress(FakeWorker(), 0, min_new=1, timeout_s=0.1, poll_s=0.0)
+    with pytest.raises(
+        RuntimeError,
+        match="background self-play made no progress after repeated errors",
+    ):
+        az.wait_for_worker_progress(
+            FakeWorker(), 0, min_new=1, timeout_s=0.1, poll_s=0.0
+        )
 
 
 def test_replay_fill_worker_error_fails_fast_after_bootstrap_errors():
@@ -3570,7 +4301,9 @@ def test_replay_fill_worker_error_fails_fast_after_bootstrap_errors():
         no_progress_age_s=1.0,
     )
 
-    assert message == "background self-play worker failed to seed replay: bootstrap failed"
+    assert (
+        message == "background self-play worker failed to seed replay: bootstrap failed"
+    )
 
 
 def test_probe_cfg_disables_resident_session():
@@ -3598,7 +4331,9 @@ def test_autotune_parallel_candidates_drop_single_process_on_gpu_concurrent():
         torch_cuda=True,
         device_kind="cuda",
     )
-    candidates = az._autotune_parallel_candidates({"bg_parallel": 6}, hw, concurrent=True)
+    candidates = az._autotune_parallel_candidates(
+        {"bg_parallel": 6}, hw, concurrent=True
+    )
     assert 1 not in candidates
     assert 2 in candidates
 
@@ -3629,11 +4364,14 @@ def test_compute_eval_collect_policy_adapts_timeout_and_target():
     az = load_training_module()
 
     low_fill_target, low_fill_timeout = az.compute_eval_collect_policy(
-        16, 0.002, batch_items_ema=4.0, wait_ema_s=0.0003)
+        16, 0.002, batch_items_ema=4.0, wait_ema_s=0.0003
+    )
     high_fill_target, high_fill_timeout = az.compute_eval_collect_policy(
-        16, 0.002, batch_items_ema=16.0, wait_ema_s=0.0003)
+        16, 0.002, batch_items_ema=16.0, wait_ema_s=0.0003
+    )
     wait_bound_target, wait_bound_timeout = az.compute_eval_collect_policy(
-        16, 0.002, batch_items_ema=5.0, wait_ema_s=0.01)
+        16, 0.002, batch_items_ema=5.0, wait_ema_s=0.01
+    )
 
     assert low_fill_timeout > 0.002
     assert high_fill_target >= 16
@@ -3679,16 +4417,20 @@ def test_plan_online_runtime_overrides_penalizes_bursty_batch_games():
         "steps": 100,
     }
 
-    overrides = az.plan_online_runtime_overrides(cfg, hw, {
-        "rolling_cycle_s": 2.2,
-        "rolling_positions_per_s": 20.0,
-        "best_positions_per_s": 21.0,
-        "burst_ratio": 2.4,
-        "n_new": 120,
-        "train_steps": 3,
-        "rolling_positions": 180,
-        "last_cycle_positions": 180,
-    })
+    overrides = az.plan_online_runtime_overrides(
+        cfg,
+        hw,
+        {
+            "rolling_cycle_s": 2.2,
+            "rolling_positions_per_s": 20.0,
+            "best_positions_per_s": 21.0,
+            "burst_ratio": 2.4,
+            "n_new": 120,
+            "train_steps": 3,
+            "rolling_positions": 180,
+            "last_cycle_positions": 180,
+        },
+    )
 
     assert overrides["bg_batch_games"] < 12
 
@@ -3781,7 +4523,9 @@ def test_run_batched_eval_groups_defaults_missing_group_index():
     assert responses[0]["policies"][0].shape == (2,)
 
 
-def test_run_batched_eval_groups_preserves_model_outputs_when_cache_disabled(monkeypatch):
+def test_run_batched_eval_groups_preserves_model_outputs_when_cache_disabled(
+    monkeypatch,
+):
     az = load_training_module()
 
     class FakeModel:
@@ -3806,15 +4550,21 @@ def test_run_batched_eval_groups_preserves_model_outputs_when_cache_disabled(mon
     model_with_cache = FakeModel()
     az.clear_nn_eval_cache()
     monkeypatch.delenv("QUARTZ_DISABLE_NN_CACHE", raising=False)
-    with_cache = az._run_batched_eval_groups(groups, model_with_cache, az.torch.device("cpu"), cfg)
+    with_cache = az._run_batched_eval_groups(
+        groups, model_with_cache, az.torch.device("cpu"), cfg
+    )
 
     model_without_cache = FakeModel()
     az.clear_nn_eval_cache()
     monkeypatch.setenv("QUARTZ_DISABLE_NN_CACHE", "1")
-    without_cache = az._run_batched_eval_groups(groups, model_without_cache, az.torch.device("cpu"), cfg)
+    without_cache = az._run_batched_eval_groups(
+        groups, model_without_cache, az.torch.device("cpu"), cfg
+    )
 
     np.testing.assert_allclose(with_cache[0]["policies"][0], [0.05, 0.15, 0.8])
-    np.testing.assert_allclose(without_cache[0]["policies"][0], with_cache[0]["policies"][0])
+    np.testing.assert_allclose(
+        without_cache[0]["policies"][0], with_cache[0]["policies"][0]
+    )
     assert with_cache[0]["values"] == [0.375]
     assert without_cache[0]["values"] == [0.375]
     assert model_with_cache.calls == 1
@@ -3884,7 +4634,9 @@ def test_read_exact_timeout_raises(monkeypatch):
 
     class FakeStream:
         def read(self, _n):
-            raise AssertionError("read should not be called when the stream is not readable")
+            raise AssertionError(
+                "read should not be called when the stream is not readable"
+            )
 
     monkeypatch.setattr(az, "wait_readable", lambda stream, timeout_s: False)
 
@@ -3895,13 +4647,21 @@ def test_read_exact_timeout_raises(monkeypatch):
 def test_search_move_retries_after_timeout(monkeypatch):
     az = load_training_module()
 
-    client = az.NNSearchClient(model=None, cfg={"_name": "gomoku7", "iters": 8}, device="cpu")
+    client = az.NNSearchClient(
+        model=None, cfg={"_name": "gomoku7", "iters": 8}, device="cpu"
+    )
     starts = []
     stops = []
     calls = {"n": 0}
 
-    monkeypatch.setattr(client, "start", lambda: starts.append("start") or setattr(client, "proc", object()))
-    monkeypatch.setattr(client, "stop", lambda: stops.append("stop") or setattr(client, "proc", None))
+    monkeypatch.setattr(
+        client,
+        "start",
+        lambda: starts.append("start") or setattr(client, "proc", object()),
+    )
+    monkeypatch.setattr(
+        client, "stop", lambda: stops.append("stop") or setattr(client, "proc", None)
+    )
 
     def fake_exchange(req):
         calls["n"] += 1
@@ -3966,12 +4726,14 @@ def test_proc_write_eval_response_prefers_shared_memory_when_available():
     try:
         az.proc_write_eval_response(proc, az.QIPC_EVAL_RESP, payload, prefer_shm=True)
         proc.stdin.seek(0)
-        kind, meta = az.proc_read_message(type("ReadProc", (), {"stdout": proc.stdin})())
+        kind, meta = az.proc_read_message(
+            type("ReadProc", (), {"stdout": proc.stdin})()
+        )
         assert kind == "frame"
         frame_kind, frame_payload = meta
         assert frame_kind == az.QIPC_EVAL_RESP_SHM
         assert az.QIPC_SHM_LEN.unpack(frame_payload)[0] == len(payload)
-        assert bytes(transport.resp.buf[:len(payload)]) == payload
+        assert bytes(transport.resp.buf[: len(payload)]) == payload
     finally:
         transport.destroy()
 
@@ -3992,7 +4754,9 @@ def test_shm_ring_buffer_roundtrip_preserves_epoch_seq_and_payload():
         ring._buf[mirror_off + 1] = 9
         struct.pack_into("<III", ring._buf, mirror_off + 4, len(payload), 13, 31)
         ring._buf[
-            mirror_off + qipc_mod.SHM_RING_SLOT_HEADER : mirror_off + qipc_mod.SHM_RING_SLOT_HEADER + len(payload)
+            mirror_off + qipc_mod.SHM_RING_SLOT_HEADER : mirror_off
+            + qipc_mod.SHM_RING_SLOT_HEADER
+            + len(payload)
         ] = payload
         ring.set_slot_state(mirror_off, qipc_mod.SHM_SLOT_WRITTEN)
 
@@ -4036,7 +4800,11 @@ def test_shm_eval_loop_ignores_stale_cmd_done_until_epoch_advances():
 
     hooks = eval_runtime_mod.ShmEvalRuntimeHooks(
         run_batched_eval_groups=lambda groups, model_obj, dev, cfg_obj: [],
-        make_eval_request_group=lambda kind, requests, gi=0: {"kind": kind, "requests": requests, "gi": gi},
+        make_eval_request_group=lambda kind, requests, gi=0: {
+            "kind": kind,
+            "requests": requests,
+            "gi": gi,
+        },
         unpack_qipc_batch_eval_req=lambda payload: [],
         unpack_qipc_arena_eval_resp=lambda payload: {"valid_eval": True, "records": []},
         unpack_shm_search_response=lambda payload: {"decoded": True},
@@ -4109,9 +4877,16 @@ def test_shm_eval_loop_returns_binary_arena_eval_payload():
 
     hooks = eval_runtime_mod.ShmEvalRuntimeHooks(
         run_batched_eval_groups=lambda groups, model_obj, dev, cfg_obj: [],
-        make_eval_request_group=lambda kind, requests, gi=0: {"kind": kind, "requests": requests, "gi": gi},
+        make_eval_request_group=lambda kind, requests, gi=0: {
+            "kind": kind,
+            "requests": requests,
+            "gi": gi,
+        },
         unpack_qipc_batch_eval_req=lambda payload: [],
-        unpack_qipc_arena_eval_resp=lambda raw: {"valid_eval": True, "records": [{"game_id": "m0::g0000"}]},
+        unpack_qipc_arena_eval_resp=lambda raw: {
+            "valid_eval": True,
+            "records": [{"game_id": "m0::g0000"}],
+        },
         unpack_shm_search_response=lambda payload: {"decoded": True},
         json_loads_fast=lambda s: {},
         emit_duty_cycle=lambda duty: None,
@@ -4160,7 +4935,11 @@ def test_shm_eval_loop_raises_interrupted_error_when_cancel_requested():
 
     hooks = eval_runtime_mod.ShmEvalRuntimeHooks(
         run_batched_eval_groups=lambda groups, model_obj, dev, cfg_obj: [],
-        make_eval_request_group=lambda kind, requests, gi=0: {"kind": kind, "requests": requests, "gi": gi},
+        make_eval_request_group=lambda kind, requests, gi=0: {
+            "kind": kind,
+            "requests": requests,
+            "gi": gi,
+        },
         unpack_qipc_batch_eval_req=lambda payload: [],
         unpack_qipc_arena_eval_resp=lambda raw: {"valid_eval": True, "records": []},
         unpack_shm_search_response=lambda payload: {"decoded": True},
@@ -4190,7 +4969,9 @@ def test_shm_eval_loop_raises_interrupted_error_when_cancel_requested():
 
 def test_eval_match_run_requests_typed_arena_eval_response(monkeypatch):
     az = load_training_module()
-    client = az.NNSearchClient(model=None, cfg={"_name": "gomoku7", "iters": 8}, device="cpu")
+    client = az.NNSearchClient(
+        model=None, cfg={"_name": "gomoku7", "iters": 8}, device="cpu"
+    )
 
     seen = {}
     monkeypatch.setattr(client, "start", lambda: setattr(client, "proc", object()))
@@ -4214,7 +4995,9 @@ def test_eval_match_run_requests_typed_arena_eval_response(monkeypatch):
 
 def test_eval_match_run_typed_request_preserves_zero_white_tag(monkeypatch):
     az = load_training_module()
-    client = az.NNSearchClient(model=None, cfg={"_name": "gomoku7", "iters": 8}, device="cpu")
+    client = az.NNSearchClient(
+        model=None, cfg={"_name": "gomoku7", "iters": 8}, device="cpu"
+    )
 
     seen = {}
     monkeypatch.setattr(client, "start", lambda: setattr(client, "proc", object()))
@@ -4300,7 +5083,9 @@ def test_launch_rust_server_honors_ring_slot_env(monkeypatch):
     monkeypatch.setenv("QUARTZ_QIPC_RING_R2P_SLOTS", "5")
     monkeypatch.setenv("QUARTZ_QIPC_RING_P2R_SLOTS", "7")
 
-    proc = qipc_mod.launch_rust_server("/bin/echo", popen_fn=lambda *args, **kwargs: FakeProc())
+    proc = qipc_mod.launch_rust_server(
+        "/bin/echo", popen_fn=lambda *args, **kwargs: FakeProc()
+    )
     try:
         ring = proc._quartz_ring_buffer
         assert ring.r2p_slot_count == 5
@@ -4312,7 +5097,9 @@ def test_launch_rust_server_honors_ring_slot_env(monkeypatch):
 def test_rust_search_options_includes_adaptive_batch_timeout():
     az = load_training_module()
 
-    opts = az.rust_search_options({"n_threads": 4, "batch_size": 16, "search_profile": "baseline"})
+    opts = az.rust_search_options(
+        {"n_threads": 4, "batch_size": 16, "search_profile": "baseline"}
+    )
 
     assert opts["n_threads"] == 4
     assert opts["batch_size"] == 16
@@ -4323,12 +5110,14 @@ def test_rust_search_options_includes_adaptive_batch_timeout():
 def test_rust_search_options_forwards_auto_thread_policy():
     az = load_training_module()
 
-    opts = az.rust_search_options({
-        "n_threads": "auto",
-        "thread_policy": "quality",
-        "thread_cap": 8,
-        "batch_size": 16,
-    })
+    opts = az.rust_search_options(
+        {
+            "n_threads": "auto",
+            "thread_policy": "quality",
+            "thread_cap": 8,
+            "batch_size": 16,
+        }
+    )
 
     assert opts["n_threads"] == "auto"
     assert opts["thread_policy"] == "quality"
@@ -4347,10 +5136,12 @@ def test_rust_search_options_preserves_baseline_strict_profile():
 def test_rust_search_options_passes_controller_runtime_overrides():
     az = load_training_module()
 
-    opts = az.rust_search_options({
-        "penalty_mode": "GatedRefreshLegacy",
-        "root_only_shaping": False,
-    })
+    opts = az.rust_search_options(
+        {
+            "penalty_mode": "GatedRefreshLegacy",
+            "root_only_shaping": False,
+        }
+    )
 
     assert opts["penalty_mode"] == "GatedRefreshLegacy"
     assert opts["root_only_shaping"] is False
@@ -4360,7 +5151,9 @@ def test_search_manifest_key_surfaces_stay_in_sync():
     from quartz import runtime_support
     from quartz import selfplay_runtime
 
-    assert selfplay_runtime._SEARCH_MANIFEST_KEYS == runtime_support.SEARCH_MANIFEST_KEYS
+    assert (
+        selfplay_runtime._SEARCH_MANIFEST_KEYS == runtime_support.SEARCH_MANIFEST_KEYS
+    )
 
 
 def test_search_manifest_hash_is_sensitive_to_halt_mode_and_eval_seed():
@@ -4379,9 +5172,15 @@ def test_search_manifest_hash_is_sensitive_to_halt_mode_and_eval_seed():
     cfg_halt = dict(cfg, halt_mode="voc")
     cfg_seed = dict(cfg, eval_seed=18)
 
-    assert runtime_support.search_manifest_hash(cfg) == selfplay_runtime._search_manifest_hash(cfg)
-    assert runtime_support.search_manifest_hash(cfg) != runtime_support.search_manifest_hash(cfg_halt)
-    assert runtime_support.search_manifest_hash(cfg) != runtime_support.search_manifest_hash(cfg_seed)
+    assert runtime_support.search_manifest_hash(
+        cfg
+    ) == selfplay_runtime._search_manifest_hash(cfg)
+    assert runtime_support.search_manifest_hash(
+        cfg
+    ) != runtime_support.search_manifest_hash(cfg_halt)
+    assert runtime_support.search_manifest_hash(
+        cfg
+    ) != runtime_support.search_manifest_hash(cfg_seed)
 
 
 def test_decode_streamed_selfplay_game_rejects_mismatched_lengths():
@@ -4445,9 +5244,11 @@ def test_score_selfplay_probe_rewards_lower_ipc_message_density():
     az = load_training_module()
 
     single_frame_score = az._score_selfplay_probe(
-        10.5, 35.0, True, positions=370, eval_messages=67000)
+        10.5, 35.0, True, positions=370, eval_messages=67000
+    )
     batched_score = az._score_selfplay_probe(
-        10.2, 22.5, True, positions=230, eval_messages=15000)
+        10.2, 22.5, True, positions=230, eval_messages=15000
+    )
 
     assert batched_score > single_frame_score
 
@@ -4572,12 +5373,20 @@ def test_benchmark_train_batch_supports_generic_backend():
 
     cfg = dict(az.GAME_CONFIGS["gomoku7"])
     hw = az.HardwareSpec(
-        logical_cpus=8, physical_cpus=4, memory_mb=16384,
-        gpu_vendor="amd", gpu_name="GPU", gpu_vram_mb=8192,
-        gpu_count=1, torch_cuda=False, device_kind="cpu")
+        logical_cpus=8,
+        physical_cpus=4,
+        memory_mb=16384,
+        gpu_vendor="amd",
+        gpu_name="GPU",
+        gpu_vram_mb=8192,
+        gpu_count=1,
+        torch_cuda=False,
+        device_kind="cpu",
+    )
 
     overrides, results = az.benchmark_train_batch(
-        cfg, FakeBackend(), None, None, az.torch.device("cpu"), hw)
+        cfg, FakeBackend(), None, None, az.torch.device("cpu"), hw
+    )
 
     assert "batch" in overrides
     assert any("examples_per_s" in row for row in results)
@@ -4586,15 +5395,22 @@ def test_benchmark_train_batch_supports_generic_backend():
 def test_jax_model_init_and_forward_if_available():
     root = Path(__file__).resolve().parents[1]
     spec = importlib.util.spec_from_file_location(
-        "quartz_jax_models", root / "quartz" / "jax_models.py")
+        "quartz_jax_models", root / "quartz" / "jax_models.py"
+    )
     module = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(module)
     if not getattr(module, "HAS_JAX", False):
         pytest.skip("JAX not installed in test environment")
 
     model = module.AlphaZeroJAX(
-        board_size=7, in_ch=3, n_actions=49,
-        n_filters=96, n_blocks=6, value_hidden=128, se_blocks=2)
+        board_size=7,
+        in_ch=3,
+        n_actions=49,
+        n_filters=96,
+        n_blocks=6,
+        value_hidden=128,
+        se_blocks=2,
+    )
     rng = module.jax.random.PRNGKey(0)
     x = module.jnp.ones((2, 3, 7, 7), dtype=module.jnp.float32)
     variables = model.init(rng, x, train=False)
@@ -4633,7 +5449,9 @@ def test_load_actor_source_from_checkpoint_reuses_jax_backend_template(tmp_path)
     assert backend.loaded == str(ckpt)
 
 
-def test_load_actor_source_from_checkpoint_uses_training_module_model_wrapper(tmp_path, monkeypatch):
+def test_load_actor_source_from_checkpoint_uses_training_module_model_wrapper(
+    tmp_path, monkeypatch
+):
     az = load_training_module()
 
     ckpt = tmp_path / "dummy_torch.pt"
@@ -4675,7 +5493,8 @@ def test_choose_selfplay_move_uses_policy_before_temperature_cutoff():
     policy = np.array([0.0, 1.0, 0.0], dtype=np.float32)
 
     chosen = az.choose_selfplay_move(
-        policy, legal=[0, 1], move_count=0, temp_threshold=8, fallback_best=0)
+        policy, legal=[0, 1], move_count=0, temp_threshold=8, fallback_best=0
+    )
 
     assert chosen == 1
 
@@ -4698,7 +5517,9 @@ def test_default_output_dir_uses_models_subdirectory():
 def test_rust_search_options_propagates_tt_enabled_flag():
     az = load_training_module()
 
-    opts = az.rust_search_options({"n_threads": 2, "batch_size": 16, "tt_enabled": False})
+    opts = az.rust_search_options(
+        {"n_threads": 2, "batch_size": 16, "tt_enabled": False}
+    )
 
     assert opts["tt_enabled"] is False
 
@@ -4765,8 +5586,14 @@ def test_load_epoch_history_filters_eval_records(tmp_path):
 def test_build_elo_plot_series_prefers_logged_absolute_gap():
     az = load_training_module()
     history = [
-        {"iter": 5, "published_elo": 140.0, "champion_elo": 100.0, "elo_gap": 40.0,
-         "delta_elo": 75.0, "score_rate": 0.62},
+        {
+            "iter": 5,
+            "published_elo": 140.0,
+            "champion_elo": 100.0,
+            "elo_gap": 40.0,
+            "delta_elo": 75.0,
+            "score_rate": 0.62,
+        },
     ]
 
     series = az.build_elo_plot_series(history)
@@ -4848,7 +5675,9 @@ def test_generate_training_plots_avoids_single_point_warnings(tmp_path):
     assert not any("No artists with labels found" in message for message in messages)
 
 
-def test_cli_main_refreshes_bg_actor_after_each_update_and_writes_checkpoint_status(tmp_path):
+def test_cli_main_refreshes_bg_actor_after_each_update_and_writes_checkpoint_status(
+    tmp_path,
+):
     cli = load_cli_main_module()
     rust_binary = tmp_path / "mcts_demo"
     rust_binary.write_text("stub", encoding="utf-8")
@@ -4896,7 +5725,12 @@ def test_cli_main_refreshes_bg_actor_after_each_update_and_writes_checkpoint_sta
             self.stopped = True
 
         def status(self):
-            return {"alive": True, "consecutive_errors": 0, "last_progress_age_s": 0.0, "last_error": None}
+            return {
+                "alive": True,
+                "consecutive_errors": 0,
+                "last_progress_age_s": 0.0,
+                "last_error": None,
+            }
 
         def update_model(self, actor_source):
             self.update_calls.append(actor_source)
@@ -4986,7 +5820,10 @@ def test_cli_main_refreshes_bg_actor_after_each_update_and_writes_checkpoint_sta
         online_autotune_controller_cls=lambda *args, **kwargs: None,
         clear_nn_eval_cache=lambda: None,
         round_or_none=lambda value: value,
-        wait_for_worker_progress=lambda worker, prev_bg, min_new=1, timeout_s=30.0: (4, prev_bg + 4),
+        wait_for_worker_progress=lambda worker, prev_bg, min_new=1, timeout_s=30.0: (
+            4,
+            prev_bg + 4,
+        ),
         selfplay_rust_nn_batched=lambda *args, **kwargs: ([], [], [], []),
         compute_train_steps=lambda *args, **kwargs: 1,
         train_epoch=lambda *args, **kwargs: (0.5, 0.3, 0.2, 1, None),
@@ -5008,7 +5845,9 @@ def test_cli_main_refreshes_bg_actor_after_each_update_and_writes_checkpoint_sta
     cli.run_training_main(args, ctx, runtime_hooks)
 
     worker = FakeWorker.instances[0]
-    status = json.loads((tmp_path / "checkpoint_status.json").read_text(encoding="utf-8"))
+    status = json.loads(
+        (tmp_path / "checkpoint_status.json").read_text(encoding="utf-8")
+    )
 
     assert worker.started is True
     assert worker.stopped is True
@@ -5071,7 +5910,12 @@ def test_iteration_level_actor_refresh_fires_when_sgd_skipped(tmp_path):
             self.stopped = True
 
         def status(self):
-            return {"alive": True, "consecutive_errors": 0, "last_progress_age_s": 0.0, "last_error": None}
+            return {
+                "alive": True,
+                "consecutive_errors": 0,
+                "last_progress_age_s": 0.0,
+                "last_error": None,
+            }
 
         def update_model(self, actor_source):
             self.update_calls.append(actor_source)
@@ -5163,7 +6007,10 @@ def test_iteration_level_actor_refresh_fires_when_sgd_skipped(tmp_path):
         online_autotune_controller_cls=lambda *args, **kwargs: None,
         clear_nn_eval_cache=lambda: None,
         round_or_none=lambda value: value,
-        wait_for_worker_progress=lambda worker, prev_bg, min_new=1, timeout_s=30.0: (1, prev_bg + 1),
+        wait_for_worker_progress=lambda worker, prev_bg, min_new=1, timeout_s=30.0: (
+            1,
+            prev_bg + 1,
+        ),
         selfplay_rust_nn_batched=lambda *args, **kwargs: ([], [], [], []),
         compute_train_steps=lambda *args, **kwargs: 1,
         train_epoch=lambda *args, **kwargs: (0.0, 0.0, 0.0, 0, None),
@@ -5190,7 +6037,9 @@ def test_iteration_level_actor_refresh_fires_when_sgd_skipped(tmp_path):
     assert worker.update_calls == ["actor-source", "actor-source", "actor-source"]
 
 
-def test_main_runs_eval_at_interval_even_when_train_steps_are_zero(monkeypatch, tmp_path):
+def test_main_runs_eval_at_interval_even_when_train_steps_are_zero(
+    monkeypatch, tmp_path
+):
     az = load_training_module()
     backend_module = sys.modules["quartz.backend"]
     output_dir = tmp_path / "run"
@@ -5200,7 +6049,9 @@ def test_main_runs_eval_at_interval_even_when_train_steps_are_zero(monkeypatch, 
     def fake_create_backend(*args, **kwargs):
         raise RuntimeError("skip unified backend")
 
-    monkeypatch.setattr(backend_module, "create_backend", fake_create_backend, raising=False)
+    monkeypatch.setattr(
+        backend_module, "create_backend", fake_create_backend, raising=False
+    )
     monkeypatch.setattr(az, "auto_device_name", lambda: "cpu")
     monkeypatch.setattr(
         az,
@@ -5229,23 +6080,35 @@ def test_main_runs_eval_at_interval_even_when_train_steps_are_zero(monkeypatch, 
     monkeypatch.setattr(az, "clear_nn_eval_cache", lambda: None)
     monkeypatch.setattr(az, "get_actor_model", lambda model, backend: "candidate-actor")
     monkeypatch.setattr(az, "clone_actor_model", lambda actor: actor)
-    monkeypatch.setattr(az, "load_actor_source_from_checkpoint", lambda *args, **kwargs: "champion-actor")
+    monkeypatch.setattr(
+        az,
+        "load_actor_source_from_checkpoint",
+        lambda *args, **kwargs: "champion-actor",
+    )
     monkeypatch.setattr(az, "generate_training_plots", lambda *args, **kwargs: False)
     monkeypatch.setattr(az, "compute_train_steps", lambda *args, **kwargs: 0)
-    monkeypatch.setattr(az, "selfplay_rust_nn_batched", lambda *args, **kwargs: ([], [], [], []))
+    monkeypatch.setattr(
+        az, "selfplay_rust_nn_batched", lambda *args, **kwargs: ([], [], [], [])
+    )
     monkeypatch.setattr(az, "supports_rust_eval_state_machine", lambda game: False)
     monkeypatch.setattr(az, "supports_rust_selfplay_state_machine", lambda game: False)
     monkeypatch.setattr(az, "load_eval_autotune_profile", lambda *args, **kwargs: None)
-    monkeypatch.setattr(az, "recommend_eval_parallel_workers", lambda *args, **kwargs: 1)
+    monkeypatch.setattr(
+        az, "recommend_eval_parallel_workers", lambda *args, **kwargs: 1
+    )
     monkeypatch.setattr(az, "build_training_game_adapter", lambda cfg: object())
-    monkeypatch.setattr(az, "ensure_best_checkpoint_compatible", lambda *args, **kwargs: None)
+    monkeypatch.setattr(
+        az, "ensure_best_checkpoint_compatible", lambda *args, **kwargs: None
+    )
     monkeypatch.setattr(az, "HAS_EVAL_SYSTEM", True)
 
     class FakeOptimizer:
         def __init__(self, params):
             self.param_groups = [{"lr": 0.0}]
 
-    monkeypatch.setattr(az.torch.optim, "SGD", lambda params, **kwargs: FakeOptimizer(params))
+    monkeypatch.setattr(
+        az.torch.optim, "SGD", lambda params, **kwargs: FakeOptimizer(params)
+    )
 
     class FakeModel:
         def __init__(self, cfg):
@@ -5273,7 +6136,11 @@ def test_main_runs_eval_at_interval_even_when_train_steps_are_zero(monkeypatch, 
             Path(path).write_text("replay", encoding="utf-8")
 
     monkeypatch.setattr(az, "ReplayBuffer", FakeReplayBuffer)
-    monkeypatch.setattr(az.torch, "save", lambda payload, path: Path(path).write_text("model", encoding="utf-8"))
+    monkeypatch.setattr(
+        az.torch,
+        "save",
+        lambda payload, path: Path(path).write_text("model", encoding="utf-8"),
+    )
 
     class FakeRustEngine:
         def __init__(self, name, cfg, actor, device, rust_binary):
@@ -5341,11 +6208,15 @@ def test_main_runs_eval_at_interval_even_when_train_steps_are_zero(monkeypatch, 
 
     log_rows = [
         json.loads(line)
-        for line in (output_dir / "train_log.jsonl").read_text(encoding="utf-8").splitlines()
+        for line in (output_dir / "train_log.jsonl")
+        .read_text(encoding="utf-8")
+        .splitlines()
         if line.strip()
     ]
     eval_row = next(row for row in log_rows if row.get("_type") == "eval")
-    iter_row = next(row for row in log_rows if row.get("_type") is None and row.get("iter") == 5)
+    iter_row = next(
+        row for row in log_rows if row.get("_type") is None and row.get("iter") == 5
+    )
 
     assert eval_row["iter"] == 5
     assert iter_row["published_elo"] == 100.0
@@ -5355,9 +6226,16 @@ def test_main_runs_eval_at_interval_even_when_train_steps_are_zero(monkeypatch, 
 def test_autotune_profile_roundtrip(tmp_path):
     az = load_training_module()
     hw = az.HardwareSpec(
-        logical_cpus=8, physical_cpus=4, memory_mb=16384,
-        gpu_vendor="amd", gpu_name="GPU", gpu_vram_mb=8192,
-        gpu_count=1, torch_cuda=True, device_kind="cuda")
+        logical_cpus=8,
+        physical_cpus=4,
+        memory_mb=16384,
+        gpu_vendor="amd",
+        gpu_name="GPU",
+        gpu_vram_mb=8192,
+        gpu_count=1,
+        torch_cuda=True,
+        device_kind="cuda",
+    )
     cfg = {
         "_name": "gomoku7",
         "iters": 200,
@@ -5381,9 +6259,16 @@ def test_autotune_profile_roundtrip(tmp_path):
 def test_autotune_profile_rejects_old_version(tmp_path):
     az = load_training_module()
     hw = az.HardwareSpec(
-        logical_cpus=8, physical_cpus=4, memory_mb=16384,
-        gpu_vendor="amd", gpu_name="GPU", gpu_vram_mb=8192,
-        gpu_count=1, torch_cuda=True, device_kind="cuda")
+        logical_cpus=8,
+        physical_cpus=4,
+        memory_mb=16384,
+        gpu_vendor="amd",
+        gpu_name="GPU",
+        gpu_vram_mb=8192,
+        gpu_count=1,
+        torch_cuda=True,
+        device_kind="cuda",
+    )
     cfg = {
         "_name": "gomoku7",
         "iters": 200,
@@ -5497,7 +6382,11 @@ def test_build_training_game_adapter_supports_new_games():
     }
 
     for game_name, expected_type in cases.items():
-        cfg = dict(az.GAME_CONFIGS[game_name], _name=game_name, _encoder=encoders.get_encoder(game_name))
+        cfg = dict(
+            az.GAME_CONFIGS[game_name],
+            _name=game_name,
+            _encoder=encoders.get_encoder(game_name),
+        )
         game = az.build_training_game_adapter(cfg)
         assert isinstance(game, expected_type)
         assert len(game.legal_moves()) > 0
@@ -5531,7 +6420,9 @@ def test_go_chinese_adapter_rejects_repeated_position_hash():
 
 def test_go_korean_adapter_marks_repetition_as_draw():
     az = load_training_module()
-    game = az.GoGameAdapter(board_size=9, komi=6.5, ruleset="korean", scoring="territory")
+    game = az.GoGameAdapter(
+        board_size=9, komi=6.5, ruleset="korean", scoring="territory"
+    )
 
     probe = game.clone()
     probe.apply_move(40)
@@ -5544,7 +6435,9 @@ def test_go_korean_adapter_marks_repetition_as_draw():
 
 def test_go_japanese_adapter_marks_repetition_as_void():
     az = load_training_module()
-    game = az.GoGameAdapter(board_size=9, komi=6.5, ruleset="japanese", scoring="territory")
+    game = az.GoGameAdapter(
+        board_size=9, komi=6.5, ruleset="japanese", scoring="territory"
+    )
 
     probe = game.clone()
     probe.apply_move(40)
@@ -5558,13 +6451,26 @@ def test_go_japanese_adapter_marks_repetition_as_void():
 
 def test_go_territory_cleanup_removes_surrounded_one_eye_group():
     az = load_training_module()
-    game = az.GoGameAdapter(board_size=5, komi=6.5, ruleset="japanese", scoring="territory")
+    game = az.GoGameAdapter(
+        board_size=5, komi=6.5, ruleset="japanese", scoring="territory"
+    )
     black = {
-        0, 1, 2, 3, 4,
-        5, 9,
-        10, 14,
-        15, 19,
-        20, 21, 22, 23, 24,
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        9,
+        10,
+        14,
+        15,
+        19,
+        20,
+        21,
+        22,
+        23,
+        24,
     }
     white = {6, 7, 8, 11, 13, 16, 17, 18}
     for pos in black:
@@ -5633,7 +6539,9 @@ def test_chess960_start_fen_and_encoding_preserve_castling_and_ep():
     az = load_training_module()
 
     fen = az.chess960_start_fen(0)
-    enc = az.encode_chess_fen("bbqnnrkr/pppppppp/8/8/8/8/PPPPPPPP/BBQNNRKR b HFhf e3 0 1")
+    enc = az.encode_chess_fen(
+        "bbqnnrkr/pppppppp/8/8/8/8/PPPPPPPP/BBQNNRKR b HFhf e3 0 1"
+    )
 
     assert fen.split()[2] != "KQkq"
     assert enc.shape == (36, 8, 8)
@@ -5663,11 +6571,21 @@ def test_chess_evaluation_adapter_tracks_turn_and_engine_meta():
     game = az.ChessEvaluationAdapter(start_fen=az.STANDARD_CHESS_FEN)
     assert game.current_player() == 1
 
-    assert game.apply_engine_meta(0, {"result_fen": "rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR b KQkq e3 0 1"}) is True
+    assert (
+        game.apply_engine_meta(
+            0,
+            {
+                "result_fen": "rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR b KQkq e3 0 1"
+            },
+        )
+        is True
+    )
     assert game.current_player() == 0
     assert game.is_terminal() is False
 
-    assert game.apply_engine_meta(0, {"terminal": True, "outcome_for_black": -1.0}) is True
+    assert (
+        game.apply_engine_meta(0, {"terminal": True, "outcome_for_black": -1.0}) is True
+    )
     assert game.is_terminal() is True
     assert game.outcome_for_black() == -1.0
 
@@ -5694,9 +6612,16 @@ def test_autotune_training_cfg_scales_parallelism_for_strong_hardware():
     az = load_training_module()
     cfg = dict(az.GAME_CONFIGS["gomoku7"])
     hw = az.HardwareSpec(
-        logical_cpus=32, physical_cpus=16, memory_mb=65536,
-        gpu_vendor="amd", gpu_name="Test GPU", gpu_vram_mb=24576,
-        gpu_count=1, torch_cuda=True, device_kind="cuda")
+        logical_cpus=32,
+        physical_cpus=16,
+        memory_mb=65536,
+        gpu_vendor="amd",
+        gpu_name="Test GPU",
+        gpu_vram_mb=24576,
+        gpu_count=1,
+        torch_cuda=True,
+        device_kind="cuda",
+    )
 
     tuned = az.autotune_training_cfg(cfg, hw, concurrent=True)
 
@@ -5710,9 +6635,16 @@ def test_autotune_training_cfg_scales_parallelism_for_strong_hardware():
 def test_autotune_parallel_limit_caps_gpu_concurrent_process_count():
     az = load_training_module()
     hw = az.HardwareSpec(
-        logical_cpus=24, physical_cpus=12, memory_mb=65536,
-        gpu_vendor="amd", gpu_name="Test GPU", gpu_vram_mb=16384,
-        gpu_count=1, torch_cuda=True, device_kind="cuda")
+        logical_cpus=24,
+        physical_cpus=12,
+        memory_mb=65536,
+        gpu_vendor="amd",
+        gpu_name="Test GPU",
+        gpu_vram_mb=16384,
+        gpu_count=1,
+        torch_cuda=True,
+        device_kind="cuda",
+    )
 
     assert az._autotune_parallel_limit(hw, concurrent=True) == 6
     assert az._autotune_parallel_limit(hw, concurrent=False) == 12
@@ -5722,9 +6654,16 @@ def test_autotune_parallel_candidates_focus_on_ipc_friendly_gpu_range():
     az = load_training_module()
     cfg = dict(az.GAME_CONFIGS["gomoku7"])
     hw = az.HardwareSpec(
-        logical_cpus=24, physical_cpus=12, memory_mb=65536,
-        gpu_vendor="amd", gpu_name="Test GPU", gpu_vram_mb=16384,
-        gpu_count=1, torch_cuda=True, device_kind="cuda")
+        logical_cpus=24,
+        physical_cpus=12,
+        memory_mb=65536,
+        gpu_vendor="amd",
+        gpu_name="Test GPU",
+        gpu_vram_mb=16384,
+        gpu_count=1,
+        torch_cuda=True,
+        device_kind="cuda",
+    )
 
     candidates = az._autotune_parallel_candidates(cfg, hw, concurrent=True)
 
@@ -5734,9 +6673,16 @@ def test_autotune_parallel_candidates_focus_on_ipc_friendly_gpu_range():
 def test_autotune_batch_game_candidates_scale_with_parallelism():
     az = load_training_module()
     hw = az.HardwareSpec(
-        logical_cpus=24, physical_cpus=12, memory_mb=65536,
-        gpu_vendor="amd", gpu_name="Test GPU", gpu_vram_mb=16384,
-        gpu_count=1, torch_cuda=True, device_kind="cuda")
+        logical_cpus=24,
+        physical_cpus=12,
+        memory_mb=65536,
+        gpu_vendor="amd",
+        gpu_name="Test GPU",
+        gpu_vram_mb=16384,
+        gpu_count=1,
+        torch_cuda=True,
+        device_kind="cuda",
+    )
 
     candidates = az._autotune_batch_game_candidates(hw, parallel=12, concurrent=True)
 
@@ -5747,9 +6693,16 @@ def test_autotune_training_cfg_keeps_games_stable_in_concurrent_mode():
     az = load_training_module()
     cfg = dict(az.GAME_CONFIGS["gomoku7"])
     hw = az.HardwareSpec(
-        logical_cpus=24, physical_cpus=12, memory_mb=65536,
-        gpu_vendor="amd", gpu_name="Test GPU", gpu_vram_mb=16384,
-        gpu_count=1, torch_cuda=True, device_kind="cuda")
+        logical_cpus=24,
+        physical_cpus=12,
+        memory_mb=65536,
+        gpu_vendor="amd",
+        gpu_name="Test GPU",
+        gpu_vram_mb=16384,
+        gpu_count=1,
+        torch_cuda=True,
+        device_kind="cuda",
+    )
 
     tuned = az.autotune_training_cfg(cfg, hw, concurrent=True)
 
@@ -5760,9 +6713,16 @@ def test_autotune_training_cfg_autoscales_tiny_model_on_large_gpu():
     az = load_training_module()
     cfg = dict(az.GAME_CONFIGS["gomoku7"])
     hw = az.HardwareSpec(
-        logical_cpus=24, physical_cpus=12, memory_mb=65536,
-        gpu_vendor="amd", gpu_name="Fast GPU", gpu_vram_mb=16384,
-        gpu_count=1, torch_cuda=True, device_kind="cuda")
+        logical_cpus=24,
+        physical_cpus=12,
+        memory_mb=65536,
+        gpu_vendor="amd",
+        gpu_name="Fast GPU",
+        gpu_vram_mb=16384,
+        gpu_count=1,
+        torch_cuda=True,
+        device_kind="cuda",
+    )
 
     tuned = az.autotune_training_cfg(cfg, hw, concurrent=True)
 
@@ -5776,9 +6736,16 @@ def test_autotune_training_cfg_keeps_large_model_when_already_sized():
     az = load_training_module()
     cfg = dict(az.GAME_CONFIGS["chess"])
     hw = az.HardwareSpec(
-        logical_cpus=24, physical_cpus=12, memory_mb=65536,
-        gpu_vendor="amd", gpu_name="Fast GPU", gpu_vram_mb=16384,
-        gpu_count=1, torch_cuda=True, device_kind="cuda")
+        logical_cpus=24,
+        physical_cpus=12,
+        memory_mb=65536,
+        gpu_vendor="amd",
+        gpu_name="Fast GPU",
+        gpu_vram_mb=16384,
+        gpu_count=1,
+        torch_cuda=True,
+        device_kind="cuda",
+    )
 
     tuned = az.autotune_training_cfg(cfg, hw, concurrent=True)
 
@@ -5791,9 +6758,16 @@ def test_autotune_training_cfg_stays_conservative_on_small_hardware():
     az = load_training_module()
     cfg = dict(az.GAME_CONFIGS["gomoku7"])
     hw = az.HardwareSpec(
-        logical_cpus=4, physical_cpus=2, memory_mb=8192,
-        gpu_vendor="none", gpu_name="", gpu_vram_mb=0,
-        gpu_count=0, torch_cuda=False, device_kind="cpu")
+        logical_cpus=4,
+        physical_cpus=2,
+        memory_mb=8192,
+        gpu_vendor="none",
+        gpu_name="",
+        gpu_vram_mb=0,
+        gpu_count=0,
+        torch_cuda=False,
+        device_kind="cpu",
+    )
 
     tuned = az.autotune_training_cfg(cfg, hw, concurrent=True)
 
@@ -5806,9 +6780,16 @@ def test_autotune_training_cfg_stays_conservative_on_small_hardware():
 def test_autotune_signatures_track_topology_fields():
     az = load_training_module()
     hw = az.HardwareSpec(
-        logical_cpus=24, physical_cpus=12, memory_mb=65536,
-        gpu_vendor="amd", gpu_name="Test GPU", gpu_vram_mb=16384,
-        gpu_count=1, torch_cuda=True, device_kind="cuda")
+        logical_cpus=24,
+        physical_cpus=12,
+        memory_mb=65536,
+        gpu_vendor="amd",
+        gpu_name="Test GPU",
+        gpu_vram_mb=16384,
+        gpu_count=1,
+        torch_cuda=True,
+        device_kind="cuda",
+    )
     cfg = dict(az.GAME_CONFIGS["gomoku7"])
     cfg["_name"] = "gomoku7"
     cfg["_eval_runner_mode"] = "python_batched"
@@ -5841,9 +6822,11 @@ def test_train_batch_score_penalizes_oversized_batches_in_concurrent_mode():
     az = load_training_module()
 
     right_sized = az._score_train_batch_probe(
-        1000.0, 256, concurrent=True, target_positions_per_cycle=80)
+        1000.0, 256, concurrent=True, target_positions_per_cycle=80
+    )
     oversized = az._score_train_batch_probe(
-        1000.0, 640, concurrent=True, target_positions_per_cycle=80)
+        1000.0, 640, concurrent=True, target_positions_per_cycle=80
+    )
 
     assert right_sized > oversized
 
@@ -5851,11 +6834,26 @@ def test_train_batch_score_penalizes_oversized_batches_in_concurrent_mode():
 def test_plan_online_runtime_overrides_reduces_bursty_batch_games():
     az = load_training_module()
     cfg = dict(az.GAME_CONFIGS["gomoku7"])
-    cfg.update({"bg_parallel": 4, "bg_batch_games": 8, "n_threads": 3, "batch": 256, "batch_size": 12})
+    cfg.update(
+        {
+            "bg_parallel": 4,
+            "bg_batch_games": 8,
+            "n_threads": 3,
+            "batch": 256,
+            "batch_size": 12,
+        }
+    )
     hw = az.HardwareSpec(
-        logical_cpus=24, physical_cpus=12, memory_mb=65536,
-        gpu_vendor="amd", gpu_name="Fast GPU", gpu_vram_mb=16384,
-        gpu_count=1, torch_cuda=True, device_kind="cuda")
+        logical_cpus=24,
+        physical_cpus=12,
+        memory_mb=65536,
+        gpu_vendor="amd",
+        gpu_name="Fast GPU",
+        gpu_vram_mb=16384,
+        gpu_count=1,
+        torch_cuda=True,
+        device_kind="cuda",
+    )
     sample = {
         "last_cycle_s": 5.9,
         "last_cycle_positions": 126,
@@ -5873,11 +6871,26 @@ def test_plan_online_runtime_overrides_reduces_bursty_batch_games():
 def test_plan_online_runtime_overrides_reduces_batch_when_fresh_data_is_thin():
     az = load_training_module()
     cfg = dict(az.GAME_CONFIGS["gomoku7"])
-    cfg.update({"bg_parallel": 4, "bg_batch_games": 4, "n_threads": 3, "batch": 256, "batch_size": 12})
+    cfg.update(
+        {
+            "bg_parallel": 4,
+            "bg_batch_games": 4,
+            "n_threads": 3,
+            "batch": 256,
+            "batch_size": 12,
+        }
+    )
     hw = az.HardwareSpec(
-        logical_cpus=24, physical_cpus=12, memory_mb=65536,
-        gpu_vendor="amd", gpu_name="Fast GPU", gpu_vram_mb=16384,
-        gpu_count=1, torch_cuda=True, device_kind="cuda")
+        logical_cpus=24,
+        physical_cpus=12,
+        memory_mb=65536,
+        gpu_vendor="amd",
+        gpu_name="Fast GPU",
+        gpu_vram_mb=16384,
+        gpu_count=1,
+        torch_cuda=True,
+        device_kind="cuda",
+    )
     sample = {
         "last_cycle_s": 2.6,
         "last_cycle_positions": 58,
@@ -5899,13 +6912,15 @@ def test_plan_selfplay_runner_chunk_scales_parallel_with_replay_deficit(monkeypa
     monkeypatch.setattr(sp_mod, "_LOGICAL_CPU_COUNT", 24)
     az = load_training_module()
     cfg = dict(az.GAME_CONFIGS["gomoku7"])
-    cfg.update({
-        "_selfplay_runner_mode": "rust_selfplay_state_machine",
-        "bg_parallel": 6,
-        "bg_batch_games": 6,
-        "batch_size": 18,
-        "batch": 192,
-    })
+    cfg.update(
+        {
+            "_selfplay_runner_mode": "rust_selfplay_state_machine",
+            "bg_parallel": 6,
+            "bg_batch_games": 6,
+            "batch_size": 18,
+            "batch": 192,
+        }
+    )
 
     plan = az.plan_selfplay_runner_chunk(cfg, replay_size=32, recent_chunks=[])
 
@@ -5917,19 +6932,23 @@ def test_plan_selfplay_runner_chunk_scales_parallel_with_replay_deficit(monkeypa
 def test_plan_selfplay_runner_chunk_uses_recent_positions_per_game_to_bound_batch_games():
     az = load_training_module()
     cfg = dict(az.GAME_CONFIGS["gomoku7"])
-    cfg.update({
-        "_selfplay_runner_mode": "rust_selfplay_state_machine",
-        "bg_parallel": 6,
-        "bg_batch_games": 6,
-        "batch_size": 18,
-        "batch": 192,
-    })
+    cfg.update(
+        {
+            "_selfplay_runner_mode": "rust_selfplay_state_machine",
+            "bg_parallel": 6,
+            "bg_batch_games": 6,
+            "batch_size": 18,
+            "batch": 192,
+        }
+    )
     recent_chunks = [
         {"games": 18, "positions": 540, "elapsed_s": 12.0},
         {"games": 18, "positions": 576, "elapsed_s": 11.0},
     ]
 
-    plan = az.plan_selfplay_runner_chunk(cfg, replay_size=180, recent_chunks=recent_chunks)
+    plan = az.plan_selfplay_runner_chunk(
+        cfg, replay_size=180, recent_chunks=recent_chunks
+    )
 
     assert plan["estimated_positions_per_game"] > 20.0
     assert plan["batch_games"] <= 18

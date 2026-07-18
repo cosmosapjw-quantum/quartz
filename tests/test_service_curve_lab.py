@@ -25,7 +25,9 @@ def test_build_eval_model_output_shapes():
 def test_measure_point_fields_on_cpu():
     m = sc.build_eval_model(in_ch=4, channels=8, blocks=1, board=5, actions=25).eval()
     dev = torch.device("cpu")
-    r = sc.measure_point(m, dev, batch_size=4, inflight=2, in_ch=4, board=5, n_waves=3, warmup=1)
+    r = sc.measure_point(
+        m, dev, batch_size=4, inflight=2, in_ch=4, board=5, n_waves=3, warmup=1
+    )
     assert r["batch_size"] == 4 and r["inflight"] == 2
     assert r["items_per_s"] > 0.0
     assert r["ms_per_batch"] > 0.0
@@ -41,7 +43,15 @@ def test_measure_point_deterministic_with_injected_clock():
         return next(ticks)
 
     r = sc.measure_point(
-        m, dev, batch_size=10, inflight=2, in_ch=4, board=5, n_waves=5, warmup=1, time_fn=fake_clock
+        m,
+        dev,
+        batch_size=10,
+        inflight=2,
+        in_ch=4,
+        board=5,
+        n_waves=5,
+        warmup=1,
+        time_fn=fake_clock,
     )
     # items = batch*inflight*n_waves = 10*2*5 = 100 over 2.0s => 50 items/s
     assert r["items_per_s"] == pytest.approx(50.0)
@@ -100,14 +110,22 @@ def test_config_loads():
 def test_runner_smoke_on_cpu(tmp_path):
     runner = _load_runner()
     out = tmp_path / "run"
-    rc = runner.main([
-        "--device", "cpu",
-        "--batch-sizes", "4,8",
-        "--inflight-grid", "1,2",
-        "--n-waves", "2",
-        "--warmup", "1",
-        "--output-dir", str(out),
-    ])
+    rc = runner.main(
+        [
+            "--device",
+            "cpu",
+            "--batch-sizes",
+            "4,8",
+            "--inflight-grid",
+            "1,2",
+            "--n-waves",
+            "2",
+            "--warmup",
+            "1",
+            "--output-dir",
+            str(out),
+        ]
+    )
     assert rc == 0
     for name in ("run_manifest.json", "service_curve.csv", "summary.json"):
         assert (out / name).exists()

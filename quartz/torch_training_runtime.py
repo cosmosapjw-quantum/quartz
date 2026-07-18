@@ -30,7 +30,10 @@ from quartz.cli_main import (
 )
 from quartz.cli_runtime import CliRuntimeHooks, serve as _serve_impl
 from quartz.evaluation import EvalConfig, TrainingEvaluator
-from quartz.evaluator_runtime import EvaluatorRuntimeHooks, RustNNEvaluatorEngine as _RustNNEvaluatorEngineImpl
+from quartz.evaluator_runtime import (
+    EvaluatorRuntimeHooks,
+    RustNNEvaluatorEngine as _RustNNEvaluatorEngineImpl,
+)
 from quartz.qipc import (
     QIPC_BATCH_EVAL_REQ,
     QIPC_EVAL_REQ,
@@ -71,9 +74,23 @@ from quartz.system_runtime import (
     recommend_eval_parallel_workers,
     save_eval_autotune_profile,
 )
-from quartz.train_loop import EarlyStopping, early_stopping_enabled, generate_training_plots, round_or_none, train_epoch
-from quartz.training_catalog import GAME_CONFIGS, GOMOKU15_VARIANTS, apply_config_overrides, resolve_runtime_paths
-from quartz.training_runtime_utils import benchmark_eval_parallel_workers, make_json_safe
+from quartz.train_loop import (
+    EarlyStopping,
+    early_stopping_enabled,
+    generate_training_plots,
+    round_or_none,
+    train_epoch,
+)
+from quartz.training_catalog import (
+    GAME_CONFIGS,
+    GOMOKU15_VARIANTS,
+    apply_config_overrides,
+    resolve_runtime_paths,
+)
+from quartz.training_runtime_utils import (
+    benchmark_eval_parallel_workers,
+    make_json_safe,
+)
 
 log = logging.getLogger(__name__)
 
@@ -147,14 +164,18 @@ def arena_rust_nn(
             arena_compare=arena_compare,
             build_training_game_adapter=runtime_support.build_training_game_adapter,
             rust_nn_evaluator_engine_cls=RustNNEvaluatorEngine,
-            match_runner_cls=__import__("quartz.evaluation", fromlist=["MatchRunner"]).MatchRunner,
+            match_runner_cls=__import__(
+                "quartz.evaluation", fromlist=["MatchRunner"]
+            ).MatchRunner,
         ),
     )
 
 
 class RustServerPool(_RustServerPoolImpl):
     def __init__(self, rust_binary):
-        super().__init__(rust_binary, launch_server=launch_rust_server, stop_server=stop_rust_server)
+        super().__init__(
+            rust_binary, launch_server=launch_rust_server, stop_server=stop_rust_server
+        )
 
 
 def selfplay_rust_nn_batched(
@@ -200,9 +221,15 @@ def selfplay_rust_nn_batched(
             proc_decode_eval_frame=proc_decode_eval_frame,
             qipc_batch_eval_req=QIPC_BATCH_EVAL_REQ,
             qipc_eval_req=QIPC_EVAL_REQ,
-            unpack_qipc_batch_eval_req=__import__("quartz.qipc", fromlist=["unpack_qipc_batch_eval_req"]).unpack_qipc_batch_eval_req,
-            unpack_qipc_eval_req=__import__("quartz.qipc", fromlist=["unpack_qipc_eval_req"]).unpack_qipc_eval_req,
-            make_eval_request_group=__import__("quartz.eval_runtime", fromlist=["make_eval_request_group"]).make_eval_request_group,
+            unpack_qipc_batch_eval_req=__import__(
+                "quartz.qipc", fromlist=["unpack_qipc_batch_eval_req"]
+            ).unpack_qipc_batch_eval_req,
+            unpack_qipc_eval_req=__import__(
+                "quartz.qipc", fromlist=["unpack_qipc_eval_req"]
+            ).unpack_qipc_eval_req,
+            make_eval_request_group=__import__(
+                "quartz.eval_runtime", fromlist=["make_eval_request_group"]
+            ).make_eval_request_group,
             stall_trace=lambda *args, **kwargs: None,
             proc_write_json_line=proc_write_json_line,
             proc_read_json_line=proc_read_json_line,
@@ -212,12 +239,20 @@ def selfplay_rust_nn_batched(
             compute_eval_collect_policy=compute_eval_collect_policy,
             inference_pipeline_thread_cls=runtime_support.InferencePipelineThread,
             should_use_async_pipeline=runtime_support.should_use_async_pipeline,
-            run_batched_eval_groups=lambda groups, model_obj, dev, cfg_obj: __import__("quartz.eval_runtime", fromlist=["run_batched_eval_groups"]).run_batched_eval_groups(groups, model_obj, dev, cfg_obj, runtime_support.run_model_batch),
+            run_batched_eval_groups=lambda groups, model_obj, dev, cfg_obj: __import__(
+                "quartz.eval_runtime", fromlist=["run_batched_eval_groups"]
+            ).run_batched_eval_groups(
+                groups, model_obj, dev, cfg_obj, runtime_support.run_model_batch
+            ),
             write_batched_eval_group=runtime_support._write_batched_eval_group,
             rust_search_options=runtime_support.rust_search_options,
             launch_server=launch_rust_server,
             stop_server=stop_rust_server,
-            emit_duty_cycle=getattr(runtime_support.resolve_search_client_cls(), "_emit_duty_cycle", lambda duty: None),
+            emit_duty_cycle=getattr(
+                runtime_support.resolve_search_client_cls(),
+                "_emit_duty_cycle",
+                lambda duty: None,
+            ),
         ),
     )
 
@@ -238,7 +273,9 @@ class SelfPlayWorker(_SelfPlayWorkerImpl):
 
 
 class RustNNEvaluatorEngine(_RustNNEvaluatorEngineImpl):
-    def __init__(self, engine_name, cfg, model, device, rust_binary="./target/release/mcts_demo"):
+    def __init__(
+        self, engine_name, cfg, model, device, rust_binary="./target/release/mcts_demo"
+    ):
         super().__init__(
             engine_name,
             cfg,
@@ -276,24 +313,41 @@ def benchmark_selfplay_throughput(cfg, model, device, rust_binary, hw, concurren
     )
 
 
-def run_autotune_benchmark(cfg, backend, model, optimizer, device, hw, rust_binary, concurrent=True):
+def run_autotune_benchmark(
+    cfg, backend, model, optimizer, device, hw, rust_binary, concurrent=True
+):
     # Use fast inference-only benchmark by default (~10-30s instead of 5-15min)
     return _run_autotune_benchmark_fast_impl(
-        cfg, backend, model, optimizer, device, hw,
-        rust_binary=rust_binary, runtime_hooks=None, concurrent=concurrent,
+        cfg,
+        backend,
+        model,
+        optimizer,
+        device,
+        hw,
+        rust_binary=rust_binary,
+        runtime_hooks=None,
+        concurrent=concurrent,
     )
 
 
 def _probe_inference_batch_size(model, device, cfg, eval_batch_cap):
-    if model is None or hasattr(model, "predict") or getattr(device, "type", "cpu") == "cpu":
+    if (
+        model is None
+        or hasattr(model, "predict")
+        or getattr(device, "type", "cpu") == "cpu"
+    ):
         return cfg.get("batch_size", 8)
     ch, bs = cfg.get("ch", 3), cfg.get("board", 7)
     current_bs = cfg.get("batch_size", 8)
-    candidates = sorted(set([current_bs] + [c for c in [32, 64, 128, 256] if c <= eval_batch_cap]))
+    candidates = sorted(
+        set([current_bs] + [c for c in [32, 64, 128, 256] if c <= eval_batch_cap])
+    )
     best_bs, best_ips = current_bs, 0.0
     for cand in candidates:
         try:
-            batch = [np.random.randn(ch, bs, bs).astype(np.float32) for _ in range(cand)]
+            batch = [
+                np.random.randn(ch, bs, bs).astype(np.float32) for _ in range(cand)
+            ]
             for _ in range(5):
                 runtime_support.run_model_batch(model, device, batch)
             loops = max(20, 200 // cand)
@@ -311,7 +365,12 @@ def _probe_inference_batch_size(model, device, cfg, eval_batch_cap):
 
 
 def detect_hw(device):
-    return detect_hardware_spec(device, detect_gpu_fn=__import__("quartz.gpu_detect", fromlist=["detect_gpu"]).detect_gpu)
+    return detect_hardware_spec(
+        device,
+        detect_gpu_fn=__import__(
+            "quartz.gpu_detect", fromlist=["detect_gpu"]
+        ).detect_gpu,
+    )
 
 
 def load_autotune_profile(profile_path, hw, cfg):
@@ -319,11 +378,15 @@ def load_autotune_profile(profile_path, hw, cfg):
 
 
 def save_autotune_profile(profile_path, hw, cfg, overrides, benchmarks):
-    return _save_autotune_profile_impl(profile_path, hw, cfg, overrides, benchmarks, hardware_signature)
+    return _save_autotune_profile_impl(
+        profile_path, hw, cfg, overrides, benchmarks, hardware_signature
+    )
 
 
 def autotune_training_cfg(cfg, hw, concurrent=True):
-    return _autotune_training_cfg_impl(cfg, hw, concurrent=concurrent, alphazero_net_cls=runtime_support.AlphaZeroNet)
+    return _autotune_training_cfg_impl(
+        cfg, hw, concurrent=concurrent, alphazero_net_cls=runtime_support.AlphaZeroNet
+    )
 
 
 def serve(model, cfg, device):
@@ -347,12 +410,18 @@ def prepare_training_context(args):
             np=np,
             random_mod=random,
             game_configs=GAME_CONFIGS,
-            get_encoder=__import__("quartz.encoders", fromlist=["get_encoder"]).get_encoder,
+            get_encoder=__import__(
+                "quartz.encoders", fromlist=["get_encoder"]
+            ).get_encoder,
             apply_config_overrides=apply_config_overrides,
             is_go_game=runtime_support.is_go_game,
-            default_output_dir=__import__("quartz.selfplay_runtime", fromlist=["default_output_dir"]).default_output_dir,
+            default_output_dir=__import__(
+                "quartz.selfplay_runtime", fromlist=["default_output_dir"]
+            ).default_output_dir,
             resolve_runtime_paths=resolve_runtime_paths,
-            auto_device_name=__import__("quartz.system_runtime", fromlist=["auto_device_name"]).auto_device_name,
+            auto_device_name=__import__(
+                "quartz.system_runtime", fromlist=["auto_device_name"]
+            ).auto_device_name,
             detect_hardware_spec=detect_hw,
             configure_torch_rocm_runtime=configure_torch_rocm_runtime,
             supports_rust_eval_state_machine=supports_rust_eval_state_machine,
@@ -363,7 +432,9 @@ def prepare_training_context(args):
             gpu_host_thread_cap=gpu_host_thread_cap,
             gpu_interop_thread_cap=gpu_interop_thread_cap,
             alphazero_net_cls=runtime_support.AlphaZeroNet,
-            load_torch_state_dict_checked=__import__("quartz.backend", fromlist=["load_torch_state_dict_checked"]).load_torch_state_dict_checked,
+            load_torch_state_dict_checked=__import__(
+                "quartz.backend", fromlist=["load_torch_state_dict_checked"]
+            ).load_torch_state_dict_checked,
             get_actor_model=get_actor_model,
             load_autotune_profile=load_autotune_profile,
             apply_runtime_overrides=apply_runtime_overrides,
@@ -389,9 +460,13 @@ def main(argv: list[str] | None = None):
             np=np,
             game_configs=GAME_CONFIGS,
             serve=serve,
-            arena_3agent=__import__("quartz.arena_runtime", fromlist=["arena_3agent"]).arena_3agent,
+            arena_3agent=__import__(
+                "quartz.arena_runtime", fromlist=["arena_3agent"]
+            ).arena_3agent,
             arena_rust_nn=arena_rust_nn,
-            arena_compare=__import__("quartz.arena_runtime", fromlist=["arena_compare"]).arena_compare,
+            arena_compare=__import__(
+                "quartz.arena_runtime", fromlist=["arena_compare"]
+            ).arena_compare,
             print_autotune_summary=print_autotune_summary,
             is_go_game=runtime_support.is_go_game,
             replay_buffer_cls=ReplayBuffer,
@@ -408,7 +483,9 @@ def main(argv: list[str] | None = None):
             selfplay_worker_cls=SelfPlayWorker,
             initial_replay_fill_target=initial_replay_fill_target,
             online_autotune_controller_cls=OnlineAutotuneController,
-            clear_nn_eval_cache=__import__("quartz.eval_runtime", fromlist=["clear_nn_eval_cache"]).clear_nn_eval_cache,
+            clear_nn_eval_cache=__import__(
+                "quartz.eval_runtime", fromlist=["clear_nn_eval_cache"]
+            ).clear_nn_eval_cache,
             round_or_none=round_or_none,
             wait_for_worker_progress=wait_for_worker_progress,
             selfplay_rust_nn_batched=selfplay_rust_nn_batched,
@@ -418,20 +495,26 @@ def main(argv: list[str] | None = None):
             rust_nn_evaluator_engine_cls=RustNNEvaluatorEngine,
             clone_actor_model=clone_actor_model,
             load_actor_source_from_checkpoint=runtime_support.load_actor_source_from_checkpoint,
-            tree_mcts_engine_cls=__import__("quartz.arena_runtime", fromlist=["TreeMCTSEngine"]).TreeMCTSEngine,
-            benchmark_eval_parallel_workers=lambda hw, cfg, eval_games, candidate_factory, champion_factory, game_factory, profile_path: benchmark_eval_parallel_workers(
-                hw,
-                cfg,
-                eval_games,
-                candidate_factory,
-                champion_factory,
-                game_factory,
-                profile_path,
-                has_eval_system=True,
-                eval_worker_candidates_fn=__import__("quartz.system_runtime", fromlist=["eval_worker_candidates"]).eval_worker_candidates,
-                eval_config_cls=EvalConfig,
-                training_evaluator_cls=TrainingEvaluator,
-                save_eval_autotune_profile_fn=save_eval_autotune_profile,
+            tree_mcts_engine_cls=__import__(
+                "quartz.arena_runtime", fromlist=["TreeMCTSEngine"]
+            ).TreeMCTSEngine,
+            benchmark_eval_parallel_workers=lambda hw, cfg, eval_games, candidate_factory, champion_factory, game_factory, profile_path: (
+                benchmark_eval_parallel_workers(
+                    hw,
+                    cfg,
+                    eval_games,
+                    candidate_factory,
+                    champion_factory,
+                    game_factory,
+                    profile_path,
+                    has_eval_system=True,
+                    eval_worker_candidates_fn=__import__(
+                        "quartz.system_runtime", fromlist=["eval_worker_candidates"]
+                    ).eval_worker_candidates,
+                    eval_config_cls=EvalConfig,
+                    training_evaluator_cls=TrainingEvaluator,
+                    save_eval_autotune_profile_fn=save_eval_autotune_profile,
+                )
             ),
             make_json_safe=make_json_safe,
             generate_training_plots=generate_training_plots,

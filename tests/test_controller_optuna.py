@@ -17,7 +17,9 @@ def load_module(name: str, path: Path):
 
 def load_controller_optuna_module():
     root = Path(__file__).resolve().parents[1]
-    return load_module("controller_optuna_script", root / "scripts" / "controller_optuna.py")
+    return load_module(
+        "controller_optuna_script", root / "scripts" / "controller_optuna.py"
+    )
 
 
 def test_params_to_candidate_disables_refresh_cleanly():

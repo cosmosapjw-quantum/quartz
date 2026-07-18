@@ -78,10 +78,15 @@ def run(
     if stdout_log is None or stderr_log is None:
         subprocess.run(cmd, cwd=cwd, check=True, env=merged_env)
         if events_jsonl is not None:
-            jsonl_append(events_jsonl, {"event": "command_end", **event, "returncode": 0})
+            jsonl_append(
+                events_jsonl, {"event": "command_end", **event, "returncode": 0}
+            )
         return
 
-    with stdout_log.open("a", encoding="utf-8") as stdout_handle, stderr_log.open("a", encoding="utf-8") as stderr_handle:
+    with (
+        stdout_log.open("a", encoding="utf-8") as stdout_handle,
+        stderr_log.open("a", encoding="utf-8") as stderr_handle,
+    ):
         stdout_handle.write(f"\n$ {' '.join(cmd)}\n")
         stderr_handle.write(f"\n$ {' '.join(cmd)}\n")
         stdout_handle.flush()
@@ -136,7 +141,9 @@ def sha256_file_prefix(path: Path, prefix_len: int = 16) -> str | None:
 
 
 def parse_args() -> argparse.Namespace:
-    parser = argparse.ArgumentParser(description="Run a minimal QUARTZ end-to-end smoke.")
+    parser = argparse.ArgumentParser(
+        description="Run a minimal QUARTZ end-to-end smoke."
+    )
     parser.add_argument("--rust-binary", default="./target/release/mcts_demo")
     parser.add_argument("--output", default="results/audit_e2e_smoke")
     parser.add_argument("--game", default="gomoku7")
@@ -226,7 +233,9 @@ def parse_args() -> argparse.Namespace:
     return parser.parse_args()
 
 
-def build_ablation_command(args: argparse.Namespace, rust_binary: Path, output_root: Path) -> list[str]:
+def build_ablation_command(
+    args: argparse.Namespace, rust_binary: Path, output_root: Path
+) -> list[str]:
     cmd = [
         sys.executable,
         "scripts/ablation_study.py",
@@ -256,7 +265,11 @@ def build_ablation_command(args: argparse.Namespace, rust_binary: Path, output_r
         "--output",
         str(output_root),
     ]
-    resident_session = bool(args.resident_session) if args.resident_session is not None else not bool(args.safe_runtime)
+    resident_session = (
+        bool(args.resident_session)
+        if args.resident_session is not None
+        else not bool(args.safe_runtime)
+    )
     if resident_session:
         cmd.append("--resident-session")
     if args.no_autotune:
@@ -340,7 +353,9 @@ def build_smoke_summary(
         "trace_counts": {
             "events": count_jsonl_rows(artifact_paths["events_jsonl"]),
             "python_trace": count_jsonl_rows(artifact_paths["python_trace_jsonl"]),
-            "rust_server_trace": count_jsonl_rows(artifact_paths["rust_server_trace_jsonl"]),
+            "rust_server_trace": count_jsonl_rows(
+                artifact_paths["rust_server_trace_jsonl"]
+            ),
         },
     }
 
@@ -348,7 +363,11 @@ def build_smoke_summary(
 def main() -> None:
     args = parse_args()
     repo_root = Path(__file__).resolve().parents[1]
-    rust_binary = (repo_root / args.rust_binary).resolve() if not Path(args.rust_binary).is_absolute() else Path(args.rust_binary)
+    rust_binary = (
+        (repo_root / args.rust_binary).resolve()
+        if not Path(args.rust_binary).is_absolute()
+        else Path(args.rust_binary)
+    )
     output_root = repo_root / args.output
     if output_root.exists() and not args.keep_output:
         shutil.rmtree(output_root)
@@ -406,13 +425,21 @@ def main() -> None:
         "disable_torch_compile": bool(args.disable_torch_compile),
         "eval_stall_timeout_s": float(args.eval_stall_timeout_s),
         "safe_runtime": bool(args.safe_runtime),
-        "resident_session": bool(args.resident_session) if args.resident_session is not None else None,
+        "resident_session": bool(args.resident_session)
+        if args.resident_session is not None
+        else None,
         "no_pipeline": bool(args.no_pipeline),
         "safe_runtime_overrides": (
             {
-                "bootstrap_target_cap": int(base_env["QUARTZ_SAFE_BOOTSTRAP_TARGET_CAP"]),
-                "selfplay_parallel_cap": int(base_env["QUARTZ_SAFE_SELFPLAY_PARALLEL_CAP"]),
-                "selfplay_batch_games_cap": int(base_env["QUARTZ_SAFE_SELFPLAY_BATCH_GAMES_CAP"]),
+                "bootstrap_target_cap": int(
+                    base_env["QUARTZ_SAFE_BOOTSTRAP_TARGET_CAP"]
+                ),
+                "selfplay_parallel_cap": int(
+                    base_env["QUARTZ_SAFE_SELFPLAY_PARALLEL_CAP"]
+                ),
+                "selfplay_batch_games_cap": int(
+                    base_env["QUARTZ_SAFE_SELFPLAY_BATCH_GAMES_CAP"]
+                ),
             }
             if args.safe_runtime
             else None
@@ -434,7 +461,9 @@ def main() -> None:
             "mode": "source_level_smoke",
         },
     }
-    (output_root / "smoke_contract.json").write_text(json.dumps(smoke_contract, indent=2), encoding="utf-8")
+    (output_root / "smoke_contract.json").write_text(
+        json.dumps(smoke_contract, indent=2), encoding="utf-8"
+    )
 
     summary_error = None
     missing = []
@@ -444,7 +473,9 @@ def main() -> None:
         ablation_env["QUARTZ_NO_COMPILE"] = "1"
         ablation_env["QUARTZ_DISABLE_COMPILE"] = "1"
     if args.eval_stall_timeout_s > 0:
-        ablation_env["QUARTZ_EVAL_STALL_TIMEOUT_S"] = str(float(args.eval_stall_timeout_s))
+        ablation_env["QUARTZ_EVAL_STALL_TIMEOUT_S"] = str(
+            float(args.eval_stall_timeout_s)
+        )
     ablation_cmd = build_ablation_command(args, rust_binary, output_root)
     try:
         run(
@@ -455,7 +486,11 @@ def main() -> None:
             artifact_paths=artifact_paths,
         )
         run(
-            [sys.executable, "-c", "from quartz.evaluation import _run_all; _run_all()"],
+            [
+                sys.executable,
+                "-c",
+                "from quartz.evaluation import _run_all; _run_all()",
+            ],
             repo_root,
             env=base_env,
             label="evaluation_probe",
@@ -476,7 +511,9 @@ def main() -> None:
         ]
         missing = [str(path) for path in expected if not path.exists()]
         if missing:
-            raise SystemExit(f"Smoke completed but expected artifacts are missing: {', '.join(missing)}")
+            raise SystemExit(
+                f"Smoke completed but expected artifacts are missing: {', '.join(missing)}"
+            )
         # P3 (audit_codex_20260425.md W6): explicit post-run assertion that
         # at least one SGD row fired across all conditions. Without this
         # the smoke certifies imports/transport but not training.
@@ -501,7 +538,9 @@ def main() -> None:
             missing_outputs=missing,
             error=summary_error,
         )
-        artifact_paths["summary_json"].write_text(json.dumps(summary, indent=2), encoding="utf-8")
+        artifact_paths["summary_json"].write_text(
+            json.dumps(summary, indent=2), encoding="utf-8"
+        )
 
 
 if __name__ == "__main__":

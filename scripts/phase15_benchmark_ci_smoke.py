@@ -19,7 +19,9 @@ from quartz.phase15_ablation import phase15_systems_csv, resolve_phase15_systems
 
 
 def parse_args() -> argparse.Namespace:
-    parser = argparse.ArgumentParser(description="Generate deterministic smoke inputs and run the phase15 benchmark gate")
+    parser = argparse.ArgumentParser(
+        description="Generate deterministic smoke inputs and run the phase15 benchmark gate"
+    )
     parser.add_argument("--game", default="gomoku7")
     parser.add_argument("--output", default="results/phase15_ci_gate")
     parser.add_argument("--rust-binary", default="./target/release/mcts_demo")
@@ -84,7 +86,9 @@ def write_ci_smoke_inputs(base_dir: Path, *, game: str, seed: int) -> tuple[Path
     return checkpoint_path, positions_path
 
 
-def build_benchmark_command(args: argparse.Namespace, checkpoint_path: Path, positions_path: Path) -> list[str]:
+def build_benchmark_command(
+    args: argparse.Namespace, checkpoint_path: Path, positions_path: Path
+) -> list[str]:
     command = [
         sys.executable,
         str(SCRIPT_DIR / "phase15_benchmark.py"),
@@ -141,7 +145,11 @@ def build_ci_smoke_contract_summary(
         "artifacts": {
             "checkpoint_path": str(checkpoint_path),
             "positions_path": str(positions_path),
-            "summary_path": str(Path(args.output) / args.game / "phase15_continuation_benchmark_summary.json"),
+            "summary_path": str(
+                Path(args.output)
+                / args.game
+                / "phase15_continuation_benchmark_summary.json"
+            ),
         },
         "benchmark_contract_summary": benchmark_contract,
     }
@@ -151,7 +159,9 @@ def main() -> None:
     args = parse_args()
     base_dir = Path(args.output) / args.game
     base_dir.mkdir(parents=True, exist_ok=True)
-    checkpoint_path, positions_path = write_ci_smoke_inputs(base_dir, game=args.game, seed=int(args.seed))
+    checkpoint_path, positions_path = write_ci_smoke_inputs(
+        base_dir, game=args.game, seed=int(args.seed)
+    )
     command = build_benchmark_command(args, checkpoint_path, positions_path)
     subprocess.run(command, check=True)
     summary_path = base_dir / "phase15_continuation_benchmark_summary.json"
@@ -168,7 +178,9 @@ def main() -> None:
             benchmark_payload=payload,
         ),
     }
-    (base_dir / "phase15_ci_smoke_report.json").write_text(json.dumps(report, indent=2), encoding="utf-8")
+    (base_dir / "phase15_ci_smoke_report.json").write_text(
+        json.dumps(report, indent=2), encoding="utf-8"
+    )
     print(json.dumps(report, indent=2), flush=True)
 
 

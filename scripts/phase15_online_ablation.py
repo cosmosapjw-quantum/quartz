@@ -35,7 +35,9 @@ def build_online_trace_lookup(
         cache_dir,
     )
     rows = {}
-    for budget, policy, latency_ms in zip(trace_budgets, trace_policies, trace_latencies_ms, strict=False):
+    for budget, policy, latency_ms in zip(
+        trace_budgets, trace_policies, trace_latencies_ms, strict=False
+    ):
         rows[int(budget)] = {
             "search_policy": posthoc.normalize_policy(policy).tolist(),
             "latency_ms": float(latency_ms),
@@ -53,7 +55,10 @@ def _early_stop_predicate(system):
     import numpy as np
 
     from quartz.phase15_ablation import argmax_stability_stop_params
-    from quartz.phase15_argmax_stability import counts_from_policy, should_stop_by_argmax_stability
+    from quartz.phase15_argmax_stability import (
+        counts_from_policy,
+        should_stop_by_argmax_stability,
+    )
 
     params = argmax_stability_stop_params(system.params)
 
@@ -74,17 +79,24 @@ def build_online_trace_bundle(
     budgets,
     cache_dir,
 ):
-    ordered_budgets = [int(budget) for budget in sorted({int(item) for item in budgets})]
+    ordered_budgets = [
+        int(budget) for budget in sorted({int(item) for item in budgets})
+    ]
     try:
         client = harness._get_client(system, int(ordered_budgets[0]))
-        return run_online_readout_continuation(
-            client,
-            position,
-            system,
-            ordered_budgets,
-            int(ordered_budgets[-1]),
-            early_stop_fn=_early_stop_predicate(system),
-        ), False, "root_continuation", None
+        return (
+            run_online_readout_continuation(
+                client,
+                position,
+                system,
+                ordered_budgets,
+                int(ordered_budgets[-1]),
+                early_stop_fn=_early_stop_predicate(system),
+            ),
+            False,
+            "root_continuation",
+            None,
+        )
     except Exception as exc:
         rows, reused = build_online_trace_lookup(
             harness,
@@ -126,14 +138,20 @@ def _validated_continuation_policy(row, n_actions, stage):
     seen_actions = set()
     for action, value in parsed_entries:
         if not 0 <= action < int(n_actions):
-            raise RuntimeError(f"engine session {stage} returned out-of-range policy action")
+            raise RuntimeError(
+                f"engine session {stage} returned out-of-range policy action"
+            )
         if action in seen_actions:
-            raise RuntimeError(f"engine session {stage} returned duplicate policy action")
+            raise RuntimeError(
+                f"engine session {stage} returned duplicate policy action"
+            )
         seen_actions.add(action)
         if not np.isfinite(value):
             raise RuntimeError(f"engine session {stage} returned non-finite policy")
         if value < 0.0:
-            raise RuntimeError(f"engine session {stage} returned negative policy weight")
+            raise RuntimeError(
+                f"engine session {stage} returned negative policy weight"
+            )
 
     policy = dense_policy_from_sparse(entries, int(n_actions))
     total = float(np.asarray(policy, dtype=np.float64).sum())
@@ -158,8 +176,12 @@ def run_online_readout_continuation(
             iters=int(trace_budgets[0]),
         )
         open_elapsed_ms = (time.perf_counter() - open_t0) * 1000.0
-        session_id = open_payload.get("session_id") if isinstance(open_payload, dict) else None
-        results = open_payload.get("results", []) if isinstance(open_payload, dict) else []
+        session_id = (
+            open_payload.get("session_id") if isinstance(open_payload, dict) else None
+        )
+        results = (
+            open_payload.get("results", []) if isinstance(open_payload, dict) else []
+        )
         if session_id is None or not isinstance(results, list) or not results:
             raise RuntimeError("engine session open failed")
         first_row = dict(results[0])
@@ -173,12 +195,16 @@ def run_online_readout_continuation(
         # still stepped once (needed to open the session), so honor it only from
         # the first sub-target chunk onward — real compute saved (the resident
         # session is not stepped further).
-        if early_stop_fn is not None and early_stop_fn(int(trace_budgets[0]), first_row):
+        if early_stop_fn is not None and early_stop_fn(
+            int(trace_budgets[0]), first_row
+        ):
             return trace_rows
         for budget in trace_budgets[1:]:
             delta = int(budget) - int(prev_budget)
             step_t0 = time.perf_counter()
-            payload = client.step_search_engine_session(session_id, updates=[{}], iters=delta)
+            payload = client.step_search_engine_session(
+                session_id, updates=[{}], iters=delta
+            )
             step_elapsed_ms = (time.perf_counter() - step_t0) * 1000.0
             results = payload.get("results", []) if isinstance(payload, dict) else []
             if not isinstance(results, list) or not results:
@@ -190,7 +216,11 @@ def run_online_readout_continuation(
             row["latency_ms"] = float(row.get("latency_ms", step_elapsed_ms))
             trace_rows[int(budget)] = row
             prev_budget = int(budget)
-            if early_stop_fn is not None and int(budget) < int(target_budget) and early_stop_fn(int(budget), row):
+            if (
+                early_stop_fn is not None
+                and int(budget) < int(target_budget)
+                and early_stop_fn(int(budget), row)
+            ):
                 # Stop stepping the resident session — realized budget < target.
                 break
         return trace_rows
@@ -203,7 +233,9 @@ def run_online_readout_continuation(
 
 
 def parse_args() -> argparse.Namespace:
-    parser = argparse.ArgumentParser(description="Phase 1.5 online chunked ablation runner")
+    parser = argparse.ArgumentParser(
+        description="Phase 1.5 online chunked ablation runner"
+    )
     parser.add_argument("--game", default="gomoku7")
     parser.add_argument("--output", default="results/phase15_online_ablation")
     parser.add_argument("--checkpoints", default=None)
@@ -251,7 +283,9 @@ def parse_args() -> argparse.Namespace:
 
 def main() -> None:
     args = parse_args()
-    os.environ["QUARTZ_SEARCH_STALL_TIMEOUT_S"] = str(float(args.search_stall_timeout_s))
+    os.environ["QUARTZ_SEARCH_STALL_TIMEOUT_S"] = str(
+        float(args.search_stall_timeout_s)
+    )
     base_dir = Path(args.output) / args.game
     base_dir.mkdir(parents=True, exist_ok=True)
 
@@ -262,25 +296,42 @@ def main() -> None:
     all_systems = posthoc.load_systems_config(args.systems_config, base_cfg)
     selected_ids = set(posthoc.parse_csv_strings(args.systems))
     selected_groups = set(posthoc.parse_csv_strings(args.groups))
-    systems = [system for system in all_systems if system.id in selected_ids and system.group in selected_groups]
+    systems = [
+        system
+        for system in all_systems
+        if system.id in selected_ids and system.group in selected_groups
+    ]
     if not systems:
         raise ValueError("no online systems selected")
 
     reference_system = posthoc.require_system(all_systems, args.reference_system)
-    reference_checkpoint = posthoc.choose_reference_checkpoint(checkpoints, args.reference_checkpoint)
-    oracle_checkpoint = posthoc.choose_checkpoint(checkpoints, args.oracle_checkpoint, reference_checkpoint)
+    reference_checkpoint = posthoc.choose_reference_checkpoint(
+        checkpoints, args.reference_checkpoint
+    )
+    oracle_checkpoint = posthoc.choose_checkpoint(
+        checkpoints, args.oracle_checkpoint, reference_checkpoint
+    )
     oracle_system = posthoc.build_oracle_system(
         all_systems,
         oracle_system_id=args.oracle_system,
         oracle_profile=args.oracle_profile,
         reference_system=reference_system,
     )
-    trace_cache_dir = None if args.disable_trace_cache else Path(args.trace_cache_dir or (base_dir / "trace_cache"))
+    trace_cache_dir = (
+        None
+        if args.disable_trace_cache
+        else Path(args.trace_cache_dir or (base_dir / "trace_cache"))
+    )
 
     candidate_count = int(args.suite_size)
     if not args.positions_file and args.suite_source == "mined":
-        candidate_count = max(int(args.suite_size), int(args.suite_size) * int(args.suite_candidate_multiplier))
-    positions = posthoc.load_or_generate_positions(args, base_cfg, count=candidate_count)
+        candidate_count = max(
+            int(args.suite_size),
+            int(args.suite_size) * int(args.suite_candidate_multiplier),
+        )
+    positions = posthoc.load_or_generate_positions(
+        args, base_cfg, count=candidate_count
+    )
     thresholds = bucket_thresholds(
         confident_threshold=float(args.confident_threshold),
         ambiguous_margin=float(args.ambiguous_margin),
@@ -288,9 +339,15 @@ def main() -> None:
         deep_conflict_topk=int(args.deep_conflict_topk),
     )
 
-    ref_harness = posthoc.FrozenCheckpointHarness(reference_checkpoint, base_cfg, device, args.rust_binary)
-    oracle_harness = ref_harness if oracle_checkpoint.path == reference_checkpoint.path else posthoc.FrozenCheckpointHarness(
-        oracle_checkpoint, base_cfg, device, args.rust_binary
+    ref_harness = posthoc.FrozenCheckpointHarness(
+        reference_checkpoint, base_cfg, device, args.rust_binary
+    )
+    oracle_harness = (
+        ref_harness
+        if oracle_checkpoint.path == reference_checkpoint.path
+        else posthoc.FrozenCheckpointHarness(
+            oracle_checkpoint, base_cfg, device, args.rust_binary
+        )
     )
     try:
         annotated = posthoc.prepare_bucketized_suite(
@@ -362,7 +419,9 @@ def main() -> None:
             "search_continuation": "root_continuation_preferred",
         },
     )
-    manifest["contract_summary"] = posthoc.summarize_phase15_contracts(phase15_contracts)
+    manifest["contract_summary"] = posthoc.summarize_phase15_contracts(
+        phase15_contracts
+    )
     posthoc.json_dump(base_dir / "phase15_online_manifest.json", manifest)
 
     rows = []
@@ -373,13 +432,25 @@ def main() -> None:
     continuation_fallback_reasons: dict[str, int] = {}
     budgets = posthoc.parse_csv_ints(args.budgets)
     for checkpoint in checkpoints:
-        harness = posthoc.FrozenCheckpointHarness(checkpoint, base_cfg, device, args.rust_binary)
-        reference_eval = harness if checkpoint.path == reference_checkpoint.path else posthoc.FrozenCheckpointHarness(
-            reference_checkpoint, base_cfg, device, args.rust_binary
+        harness = posthoc.FrozenCheckpointHarness(
+            checkpoint, base_cfg, device, args.rust_binary
         )
-        oracle_eval = reference_eval if reference_checkpoint.path == oracle_checkpoint.path else (
-            harness if checkpoint.path == oracle_checkpoint.path else posthoc.FrozenCheckpointHarness(
-                oracle_checkpoint, base_cfg, device, args.rust_binary
+        reference_eval = (
+            harness
+            if checkpoint.path == reference_checkpoint.path
+            else posthoc.FrozenCheckpointHarness(
+                reference_checkpoint, base_cfg, device, args.rust_binary
+            )
+        )
+        oracle_eval = (
+            reference_eval
+            if reference_checkpoint.path == oracle_checkpoint.path
+            else (
+                harness
+                if checkpoint.path == oracle_checkpoint.path
+                else posthoc.FrozenCheckpointHarness(
+                    oracle_checkpoint, base_cfg, device, args.rust_binary
+                )
             )
         )
         try:
@@ -390,26 +461,34 @@ def main() -> None:
                 oracle_eval.prime_prior_cache(suite)
             for position in suite:
                 prior_input = harness.prior_policy(position)
-                reference_policy = posthoc.suite_policy_artifact(position, "reference_policy")
+                reference_policy = posthoc.suite_policy_artifact(
+                    position, "reference_policy"
+                )
                 if reference_policy is None:
                     reference_policy = posthoc.np.asarray(
-                        reference_eval.search_policy(position, reference_system, int(args.oracle_budget))["search_policy"],
+                        reference_eval.search_policy(
+                            position, reference_system, int(args.oracle_budget)
+                        )["search_policy"],
                         dtype=posthoc.np.float32,
                     )
                 oracle_policy = posthoc.suite_policy_artifact(position, "oracle_policy")
                 if oracle_policy is None:
                     oracle_policy = posthoc.np.asarray(
-                        oracle_eval.search_policy(position, oracle_system, int(args.oracle_budget))["search_policy"],
+                        oracle_eval.search_policy(
+                            position, oracle_system, int(args.oracle_budget)
+                        )["search_policy"],
                         dtype=posthoc.np.float32,
                     )
                 for system in systems:
-                    trace_rows, trace_reused, continuation_mode, fallback_reason = build_online_trace_bundle(
-                        harness,
-                        checkpoint,
-                        position,
-                        system,
-                        budgets,
-                        trace_cache_dir,
+                    trace_rows, trace_reused, continuation_mode, fallback_reason = (
+                        build_online_trace_bundle(
+                            harness,
+                            checkpoint,
+                            position,
+                            system,
+                            budgets,
+                            trace_cache_dir,
+                        )
                     )
                     if continuation_mode == "root_continuation":
                         continuation_traces += 1
@@ -417,7 +496,8 @@ def main() -> None:
                         continuation_fallback_traces += 1
                         if fallback_reason:
                             continuation_fallback_reasons[fallback_reason] = (
-                                continuation_fallback_reasons.get(fallback_reason, 0) + 1
+                                continuation_fallback_reasons.get(fallback_reason, 0)
+                                + 1
                             )
                         if trace_reused:
                             trace_cache_hits += 1
@@ -435,8 +515,8 @@ def main() -> None:
                             prior_input=prior_input,
                             budgets=trace_budgets,
                             target_budget=int(budget),
-                            search_policy_fn=lambda _position, _system, budget_value, rows=trace_rows: dict(
-                                rows[int(budget_value)]
+                            search_policy_fn=lambda _position, _system, budget_value, rows=trace_rows: (
+                                dict(rows[int(budget_value)])
                             ),
                         )
                         trace_meta["search_continuation"] = continuation_mode
@@ -449,7 +529,9 @@ def main() -> None:
                                 system,
                                 budget,
                                 prior_input,
-                                posthoc.np.asarray(final_policy, dtype=posthoc.np.float32),
+                                posthoc.np.asarray(
+                                    final_policy, dtype=posthoc.np.float32
+                                ),
                                 reference_policy,
                                 oracle_policy,
                                 trace_meta,
@@ -476,10 +558,14 @@ def main() -> None:
                 "trace_cache_unit": "trace_bundle",
                 "trace_bundle_cache_hits": int(trace_cache_hits),
                 "trace_bundle_cache_misses": int(trace_cache_misses),
-                "trace_bundle_cache_hit_rate": float(trace_cache_hits / max(1, trace_cache_hits + trace_cache_misses)),
+                "trace_bundle_cache_hit_rate": float(
+                    trace_cache_hits / max(1, trace_cache_hits + trace_cache_misses)
+                ),
                 "trace_cache_hits": int(trace_cache_hits),
                 "trace_cache_misses": int(trace_cache_misses),
-                "trace_cache_hit_rate": float(trace_cache_hits / max(1, trace_cache_hits + trace_cache_misses)),
+                "trace_cache_hit_rate": float(
+                    trace_cache_hits / max(1, trace_cache_hits + trace_cache_misses)
+                ),
             },
             "continuation_stats": {
                 "root_continuation_traces": int(continuation_traces),

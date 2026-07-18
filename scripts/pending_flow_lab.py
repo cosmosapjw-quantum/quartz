@@ -79,12 +79,16 @@ def parse_rust_ablation(text: str) -> Dict[str, Any]:
     if fixed and adaptive:
         verdict.update(
             {
-                "real_adaptive_reduces_dup_rate": bool(adaptive["dup_rate"] < fixed["dup_rate"]),
+                "real_adaptive_reduces_dup_rate": bool(
+                    adaptive["dup_rate"] < fixed["dup_rate"]
+                ),
                 "real_dup_rate_fixed": fixed["dup_rate"],
                 "real_dup_rate_adaptive": adaptive["dup_rate"],
                 "real_avg_vvalue_fixed": fixed["avg_vvalue"],
                 "real_avg_vvalue_adaptive": adaptive["avg_vvalue"],
-                "real_adaptive_lowers_pessimism": bool(adaptive["avg_vvalue"] < fixed["avg_vvalue"]),
+                "real_adaptive_lowers_pessimism": bool(
+                    adaptive["avg_vvalue"] < fixed["avg_vvalue"]
+                ),
                 "real_agreement_fixed_pct": fixed["agreement_pct"],
                 "real_agreement_adaptive_pct": adaptive["agreement_pct"],
                 "real_agreement_preserved": bool(
@@ -101,14 +105,27 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument("--scenarios", nargs="+", default=None)
     parser.add_argument("--seed", type=int, default=None)
     parser.add_argument("--waves", type=int, default=None)
-    parser.add_argument("--worker-grid", type=str, default=None, help="comma-separated worker counts")
-    parser.add_argument("--rust-log", type=Path, default=None, help="captured cargo VL-ablation output to cross-check")
-    parser.add_argument("--output-dir", type=Path, default=Path("results/metacognitive_root/pending_flow_v1"))
+    parser.add_argument(
+        "--worker-grid", type=str, default=None, help="comma-separated worker counts"
+    )
+    parser.add_argument(
+        "--rust-log",
+        type=Path,
+        default=None,
+        help="captured cargo VL-ablation output to cross-check",
+    )
+    parser.add_argument(
+        "--output-dir",
+        type=Path,
+        default=Path("results/metacognitive_root/pending_flow_v1"),
+    )
     parser.add_argument("--overwrite", action="store_true")
     return parser
 
 
-def _choose_scenarios(cfg: Mapping[str, Any], requested: Sequence[str] | None) -> List[dict[str, Any]]:
+def _choose_scenarios(
+    cfg: Mapping[str, Any], requested: Sequence[str] | None
+) -> List[dict[str, Any]]:
     by_id = {str(s["id"]): dict(s) for s in cfg["scenarios"]}
     if not requested:
         return [dict(s) for s in cfg["scenarios"]]
@@ -134,7 +151,9 @@ def main(argv: Sequence[str] | None = None) -> int:
 
     output_dir = args.output_dir.resolve()
     if output_dir.exists() and any(output_dir.iterdir()) and not args.overwrite:
-        raise SystemExit(f"output directory is not empty; pass --overwrite: {output_dir}")
+        raise SystemExit(
+            f"output directory is not empty; pass --overwrite: {output_dir}"
+        )
     output_dir.mkdir(parents=True, exist_ok=True)
 
     resolved_config = {
@@ -173,7 +192,12 @@ def main(argv: Sequence[str] | None = None) -> int:
     per_scenario: List[Dict[str, Any]] = []
     for scenario in scenarios:
         rows = lab.screen(
-            scenario["arm_values"], worker_grid, waves=waves, latency=latency, c_puct=c_puct, seed=seed
+            scenario["arm_values"],
+            worker_grid,
+            waves=waves,
+            latency=latency,
+            c_puct=c_puct,
+            seed=seed,
         )
         verdict = lab.kill_verdict(rows, worker_grid)
         per_scenario.append(
@@ -186,8 +210,14 @@ def main(argv: Sequence[str] | None = None) -> int:
         )
 
     # any scenario showing the adaptive dup lane alive keeps it; else killed
-    synthetic_h5_alive = any(s["synthetic_kill_verdict"].get("h5_adaptive_dup_lane_alive") for s in per_scenario)
-    synthetic_h4_alive = any(s["synthetic_kill_verdict"].get("h4_adaptive_throughput_lane_alive") for s in per_scenario)
+    synthetic_h5_alive = any(
+        s["synthetic_kill_verdict"].get("h5_adaptive_dup_lane_alive")
+        for s in per_scenario
+    )
+    synthetic_h4_alive = any(
+        s["synthetic_kill_verdict"].get("h4_adaptive_throughput_lane_alive")
+        for s in per_scenario
+    )
 
     artifact_paths: List[Path] = []
     rust_bridge: Dict[str, Any] | None = None
@@ -204,12 +234,23 @@ def main(argv: Sequence[str] | None = None) -> int:
         "synthetic_h5_adaptive_dup_lane_alive": synthetic_h5_alive,
         "synthetic_h4_adaptive_throughput_lane_alive": synthetic_h4_alive,
         "rust_bridge_present": rust_bridge is not None,
-        "rust_adaptive_reduces_dup_rate": (None if rust_bridge is None else rust_bridge.get("real_adaptive_reduces_dup_rate")),
-        "rust_adaptive_lowers_pessimism": (None if rust_bridge is None else rust_bridge.get("real_adaptive_lowers_pessimism")),
+        "rust_adaptive_reduces_dup_rate": (
+            None
+            if rust_bridge is None
+            else rust_bridge.get("real_adaptive_reduces_dup_rate")
+        ),
+        "rust_adaptive_lowers_pessimism": (
+            None
+            if rust_bridge is None
+            else rust_bridge.get("real_adaptive_lowers_pessimism")
+        ),
         # H5 dup-reduction lane is demoted iff neither synthetic nor real supports it
         "h5_dup_reduction_lane_demoted": bool(
             not synthetic_h5_alive
-            and (rust_bridge is None or not rust_bridge.get("real_adaptive_reduces_dup_rate", False))
+            and (
+                rust_bridge is None
+                or not rust_bridge.get("real_adaptive_reduces_dup_rate", False)
+            )
         ),
     }
 
@@ -235,7 +276,9 @@ def main(argv: Sequence[str] | None = None) -> int:
         },
     )
     artifact_paths.insert(0, summary_json)
-    manifest = finalize_run_manifest(manifest, output_dir=output_dir, artifact_paths=artifact_paths)
+    manifest = finalize_run_manifest(
+        manifest, output_dir=output_dir, artifact_paths=artifact_paths
+    )
     atomic_json_dump(manifest_path, manifest)
 
     print(
@@ -245,9 +288,15 @@ def main(argv: Sequence[str] | None = None) -> int:
                 "output_dir": str(output_dir),
                 "synthetic_h5_dup_lane_alive": synthetic_h5_alive,
                 "synthetic_h4_throughput_lane_alive": synthetic_h4_alive,
-                "rust_adaptive_reduces_dup_rate": combined["rust_adaptive_reduces_dup_rate"],
-                "rust_adaptive_lowers_pessimism": combined["rust_adaptive_lowers_pessimism"],
-                "h5_dup_reduction_lane_demoted": combined["h5_dup_reduction_lane_demoted"],
+                "rust_adaptive_reduces_dup_rate": combined[
+                    "rust_adaptive_reduces_dup_rate"
+                ],
+                "rust_adaptive_lowers_pessimism": combined[
+                    "rust_adaptive_lowers_pessimism"
+                ],
+                "h5_dup_reduction_lane_demoted": combined[
+                    "h5_dup_reduction_lane_demoted"
+                ],
                 "run_contract_hash": manifest["run_contract_hash"],
             },
             sort_keys=True,

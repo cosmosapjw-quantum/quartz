@@ -175,7 +175,10 @@ class BatchedFirstMoveEngine(FirstMoveEngine):
 
     def select_moves_batch(self, states):
         self.batch_calls += 1
-        return [(state.legal_moves()[0], {"time_used_ms": 0, "simulations": 1}) for state in states]
+        return [
+            (state.legal_moves()[0], {"time_used_ms": 0, "simulations": 1})
+            for state in states
+        ]
 
 
 class BatchedLastMoveEngine(LastMoveEngine):
@@ -185,7 +188,10 @@ class BatchedLastMoveEngine(LastMoveEngine):
 
     def select_moves_batch(self, states):
         self.batch_calls += 1
-        return [(state.legal_moves()[-1], {"time_used_ms": 0, "simulations": 1}) for state in states]
+        return [
+            (state.legal_moves()[-1], {"time_used_ms": 0, "simulations": 1})
+            for state in states
+        ]
 
 
 class FailingBatchedEngine(FirstMoveEngine):
@@ -199,8 +205,17 @@ class SharedTallyEngine(FirstMoveEngine):
         self.shared_calls = 0
         self._tally_cls = tally_cls
 
-    def play_match_tally_against(self, opponent, game_factory, opening_book, num_games,
-                                 color_swap=True, logger=None, max_moves=500, seed=None):
+    def play_match_tally_against(
+        self,
+        opponent,
+        game_factory,
+        opening_book,
+        num_games,
+        color_swap=True,
+        logger=None,
+        max_moves=500,
+        seed=None,
+    ):
         self.shared_calls += 1
         return self._tally_cls(
             engine_name=self.name(),
@@ -226,7 +241,12 @@ def test_play_match_tally_matches_reference():
         fast = runner.play_match_tally(eng_a, eng_b, 12, color_swap=True)
 
         assert (fast.wins, fast.draws, fast.losses, fast.errors, fast.total) == (
-            ref.wins, ref.draws, ref.losses, ref.errors, ref.total)
+            ref.wins,
+            ref.draws,
+            ref.losses,
+            ref.errors,
+            ref.total,
+        )
         assert fast.score_rate == ref.score_rate
 
 
@@ -237,7 +257,9 @@ def test_weighted_glicko_matches_repeated_terms():
         mu_b, phi_b = module.Glicko2.to_g2(1495.0, 95.0, params)
         g_b = module.Glicko2.g(phi_b)
         e_b = module.Glicko2.E(mu_a, mu_b, phi_b)
-        repeated = [(g_b, e_b, 1.0)] * 11 + [(g_b, e_b, 0.5)] * 3 + [(g_b, e_b, 0.0)] * 6
+        repeated = (
+            [(g_b, e_b, 1.0)] * 11 + [(g_b, e_b, 0.5)] * 3 + [(g_b, e_b, 0.0)] * 6
+        )
         weighted = [(g_b, e_b, 1.0, 11), (g_b, e_b, 0.5, 3), (g_b, e_b, 0.0, 6)]
 
         ref = module.Glicko2.update(mu_a, phi_a, 0.06, repeated, params.tau)
@@ -338,14 +360,25 @@ def test_batched_match_tally_matches_reference_and_uses_batch_api():
         runner = module.MatchRunner(ToyGame, seed=7, max_moves=10)
         batched_a = BatchedFirstMoveEngine("candidate")
         batched_b = BatchedLastMoveEngine("champion")
-        tally = runner.play_match_tally_batched(batched_a, batched_b, 12, color_swap=True)
+        tally = runner.play_match_tally_batched(
+            batched_a, batched_b, 12, color_swap=True
+        )
 
         runner = module.MatchRunner(ToyGame, seed=7, max_moves=10)
-        records = runner.play_match(FirstMoveEngine("candidate"), LastMoveEngine("champion"), 12, color_swap=True)
+        records = runner.play_match(
+            FirstMoveEngine("candidate"),
+            LastMoveEngine("champion"),
+            12,
+            color_swap=True,
+        )
         ref = module.tally_match(records, "candidate")
 
         assert (tally.wins, tally.draws, tally.losses, tally.errors, tally.total) == (
-            ref.wins, ref.draws, ref.losses, ref.errors, ref.total
+            ref.wins,
+            ref.draws,
+            ref.losses,
+            ref.errors,
+            ref.total,
         )
         assert batched_a.batch_calls > 0
         assert batched_b.batch_calls > 0
@@ -527,19 +560,23 @@ def test_champion_tracker_round_trips_current_champion_state(tmp_path):
 
 def test_match_runner_can_advance_engine_driven_game_states():
     for module in EVAL_MODULES:
+
         class EngineDrivenGame:
             def __init__(self):
                 self.turn = 0
                 self.terminal = False
                 self.outcome = None
+
             def clone(self):
                 g = EngineDrivenGame()
                 g.turn = self.turn
                 g.terminal = self.terminal
                 g.outcome = self.outcome
                 return g
+
             def apply_move(self, action):
                 raise AssertionError("engine metadata should handle transitions")
+
             def apply_engine_meta(self, action, meta):
                 if meta.get("terminal", False):
                     self.terminal = True
@@ -547,12 +584,16 @@ def test_match_runner_can_advance_engine_driven_game_states():
                     return True
                 self.turn += 1
                 return True
+
             def is_terminal(self):
                 return self.terminal
+
             def outcome_for_black(self):
                 return self.outcome
+
             def current_player(self):
                 return self.turn % 2
+
             def legal_moves(self):
                 return [] if self.terminal else [0]
 
@@ -560,16 +601,21 @@ def test_match_runner_can_advance_engine_driven_game_states():
             def __init__(self, name, script):
                 self._name = name
                 self._script = list(script)
+
             def select_move(self, state):
                 return self._script.pop(0)
+
             def reset(self):
                 pass
+
             def name(self):
                 return self._name
 
         runner = module.MatchRunner(EngineDrivenGame, max_moves=8)
         black = ScriptedEngine("black", [(0, {"result_fen": "after_black"})])
-        white = ScriptedEngine("white", [(0, {"terminal": True, "outcome_for_black": -1.0})])
+        white = ScriptedEngine(
+            "white", [(0, {"terminal": True, "outcome_for_black": -1.0})]
+        )
         rec = runner.play_game(black, white, "g0000", collect_moves=False)
 
         assert rec.outcome == "white_win"
@@ -578,30 +624,40 @@ def test_match_runner_can_advance_engine_driven_game_states():
 
 def test_match_runner_tracks_void_games_without_counting_engine_errors():
     for module in EVAL_MODULES:
+
         class VoidGame:
             def __init__(self):
                 self.turn = 0
                 self.terminal = False
+
             def clone(self):
                 other = VoidGame()
                 other.turn = self.turn
                 other.terminal = self.terminal
                 return other
+
             def apply_move(self, action):
                 self.terminal = True
+
             def is_terminal(self):
                 return self.terminal
+
             def outcome_for_black(self):
                 return None
+
             def is_void_result(self):
                 return self.terminal
+
             def current_player(self):
                 return self.turn
+
             def legal_moves(self):
                 return [] if self.terminal else [0]
 
         runner = module.MatchRunner(VoidGame, max_moves=4)
-        rec = runner.play_game(FirstMoveEngine("candidate"), LastMoveEngine("champion"), "g0001")
+        rec = runner.play_game(
+            FirstMoveEngine("candidate"), LastMoveEngine("champion"), "g0001"
+        )
         tally = module.tally_match([rec], "candidate")
 
         assert rec.outcome == "void"

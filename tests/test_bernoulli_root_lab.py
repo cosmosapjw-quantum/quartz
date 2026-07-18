@@ -37,7 +37,9 @@ class BetaMathTests(unittest.TestCase):
         # Current value 1/2. A success raises one arm to 2/3; a failure
         # leaves the other arm at 1/2, so KG = (1/2)(2/3)+(1/2)(1/2)-1/2.
         self.assertEqual(lab.one_step_kg_exact(posteriors, 0), Fraction(1, 12))
-        self.assertEqual(lab.one_step_kg_exact(posteriors, 0), lab.one_step_kg_exact(posteriors, 1))
+        self.assertEqual(
+            lab.one_step_kg_exact(posteriors, 0), lab.one_step_kg_exact(posteriors, 1)
+        )
 
 
 class AllocationTests(unittest.TestCase):
@@ -49,7 +51,9 @@ class AllocationTests(unittest.TestCase):
     def test_runners_receive_no_true_means_and_use_exact_budget(self):
         for name, runner in lab.RUNNERS.items():
             with self.subTest(name=name):
-                self.assertEqual(next(iter(inspect.signature(runner).parameters)), "num_arms")
+                self.assertEqual(
+                    next(iter(inspect.signature(runner).parameters)), "num_arms"
+                )
                 result = runner(
                     len(self.means),
                     self.budget,
@@ -60,7 +64,9 @@ class AllocationTests(unittest.TestCase):
                 self.assertIn(result.selected_arm, range(len(self.means)))
 
     def test_uniform_balance_and_sequential_halving_guard(self):
-        result = lab.run_uniform(len(self.means), self.budget, self.tape, lab.random.Random(7))
+        result = lab.run_uniform(
+            len(self.means), self.budget, self.tape, lab.random.Random(7)
+        )
         self.assertEqual(result.pulls, [4, 4, 4, 4])
         with self.assertRaises(ValueError):
             lab.run_raw_sequential_halving(
@@ -75,12 +81,19 @@ class AllocationTests(unittest.TestCase):
             len(self.means), self.budget, self.tape, lab.random.Random(99)
         )
         self.assertEqual(result.kg_steps + result.fallback_steps, self.budget)
-        self.assertTrue(all(success <= pulls for success, pulls in zip(result.successes, result.pulls)))
+        self.assertTrue(
+            all(
+                success <= pulls
+                for success, pulls in zip(result.successes, result.pulls)
+            )
+        )
 
     def test_canonical_reward_tape_is_permutation_coupled(self):
         canonical_means = [0.61, 0.53, 0.47, 0.39]
         permutation = [2, 0, 3, 1]
-        direct = lab.RewardTape(canonical_means, 12, seed=5, trial=7, arm_keys=[0, 1, 2, 3])
+        direct = lab.RewardTape(
+            canonical_means, 12, seed=5, trial=7, arm_keys=[0, 1, 2, 3]
+        )
         permuted = lab.RewardTape(
             [canonical_means[index] for index in permutation],
             12,
@@ -115,7 +128,9 @@ class AllocationTests(unittest.TestCase):
 
 class ExperimentTests(unittest.TestCase):
     def test_reproducibility_pairing_and_validation(self):
-        kwargs = dict(means=[0.60, 0.55, 0.50, 0.45], budgets=[4, 8], trials=25, seed=123)
+        kwargs = dict(
+            means=[0.60, 0.55, 0.50, 0.45], budgets=[4, 8], trials=25, seed=123
+        )
         records_a, summaries_a = lab.run_experiment(**kwargs)
         records_b, summaries_b = lab.run_experiment(**kwargs)
         self.assertEqual(records_a, records_b)
@@ -174,16 +189,22 @@ class ExperimentTests(unittest.TestCase):
                 "--output-dir",
                 str(output),
             ]
-            proc = subprocess.run(command, cwd=Path(tmp), capture_output=True, text=True, check=False)
+            proc = subprocess.run(
+                command, cwd=Path(tmp), capture_output=True, text=True, check=False
+            )
             self.assertEqual(proc.returncode, 0, proc.stderr)
-            manifest = json.loads((output / "run_manifest.json").read_text(encoding="utf-8"))
+            manifest = json.loads(
+                (output / "run_manifest.json").read_text(encoding="utf-8")
+            )
             self.assertEqual(manifest["status"], "completed")
             self.assertEqual(manifest["claim_status"], "synthetic_screening_only")
             self.assertEqual(len(manifest["artifacts"]), 4)
             for row in manifest["artifacts"]:
                 path = output / row["path"]
                 self.assertEqual(experiment_manifest.file_sha256(path), row["sha256"])
-            with gzip.open(output / "trials.jsonl.gz", "rt", encoding="utf-8") as handle:
+            with gzip.open(
+                output / "trials.jsonl.gz", "rt", encoding="utf-8"
+            ) as handle:
                 trial_rows = [json.loads(line) for line in handle]
             self.assertEqual(len(trial_rows), 50 * 2 * 4 * len(lab.ALGORITHMS))
             self.assertIn("selected_canonical_arm", trial_rows[0])
@@ -220,7 +241,9 @@ class McNemarPValueTests(unittest.TestCase):
     def test_one_of_ten(self):
         # 2 * (C(10,0)+C(10,1))/2^10 = 2 * 11/1024.
         self.assertAlmostEqual(
-            self.script.two_sided_exact_binomial_pvalue(1, 10), 2.0 * 11.0 / 1024.0, places=12
+            self.script.two_sided_exact_binomial_pvalue(1, 10),
+            2.0 * 11.0 / 1024.0,
+            places=12,
         )
 
     def test_center_and_upper_tail_cap_at_one(self):

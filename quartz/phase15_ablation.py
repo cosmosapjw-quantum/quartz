@@ -58,7 +58,20 @@ ONLINE_OPERATORS = set(POSTHOC_OPERATORS)
 PHASE15_GROUP_A_SYSTEMS = ("A0", "A1", "A2", "A3", "A4")
 PHASE15_BASELINE_SYSTEMS = ("A4",)
 PHASE15_GROUP_B_ALIAS_SYSTEMS = ("B0",)
-PHASE15_CANDIDATE_SYSTEMS = ("B1", "B2", "B3", "B4", "B5", "B6", "B7", "B8", "B9", "B10", "B11", "B12")
+PHASE15_CANDIDATE_SYSTEMS = (
+    "B1",
+    "B2",
+    "B3",
+    "B4",
+    "B5",
+    "B6",
+    "B7",
+    "B8",
+    "B9",
+    "B10",
+    "B11",
+    "B12",
+)
 # Part B experimental readouts. Deliberately kept OUT of the CANDIDATE /
 # SMALL / CI battery (so default paired ablations and count assertions are
 # unchanged) but included in FULL so they are selectable and registered.
@@ -66,7 +79,9 @@ PHASE15_PARTB_SYSTEMS = ("B13", "B14", "B15")
 PHASE15_LEGACY_ANCHOR_SYSTEMS = ("C0", "C1", "C2")
 PHASE15_CI_SMOKE_SYSTEMS = ("A4", "B1", "B2")
 PHASE15_SMALL_ABLATION_SYSTEMS = PHASE15_BASELINE_SYSTEMS + PHASE15_CANDIDATE_SYSTEMS
-PHASE15_ONLINE_EXPLORATORY_SYSTEMS = PHASE15_CANDIDATE_SYSTEMS + PHASE15_LEGACY_ANCHOR_SYSTEMS
+PHASE15_ONLINE_EXPLORATORY_SYSTEMS = (
+    PHASE15_CANDIDATE_SYSTEMS + PHASE15_LEGACY_ANCHOR_SYSTEMS
+)
 PHASE15_FULL_SYSTEMS = (
     PHASE15_GROUP_A_SYSTEMS
     + PHASE15_GROUP_B_ALIAS_SYSTEMS
@@ -153,33 +168,59 @@ def validate_phase15_systems(systems: list[Phase15System]) -> None:
         if system.group not in {"A", "B", "C"}:
             raise ValueError(f"{system.id}: unsupported group {system.group!r}")
         if system.execution_mode not in {"posthoc", "online"}:
-            raise ValueError(f"{system.id}: unsupported execution_mode {system.execution_mode!r}")
+            raise ValueError(
+                f"{system.id}: unsupported execution_mode {system.execution_mode!r}"
+            )
         root_only = system.search_overrides.get("root_only_shaping")
         penalty_mode = str(system.search_overrides.get("penalty_mode", "None"))
         if system.group in {"A", "B"}:
             if root_only is not True:
-                raise ValueError(f"{system.id}: clean A/B systems require root_only_shaping=true")
+                raise ValueError(
+                    f"{system.id}: clean A/B systems require root_only_shaping=true"
+                )
             if penalty_mode in LEGACY_PENALTY_MODES:
-                raise ValueError(f"{system.id}: clean A/B systems may not use legacy penalty mode {penalty_mode}")
+                raise ValueError(
+                    f"{system.id}: clean A/B systems may not use legacy penalty mode {penalty_mode}"
+                )
             if system.substrate == "legacy":
-                raise ValueError(f"{system.id}: clean A/B systems may not declare legacy substrate")
+                raise ValueError(
+                    f"{system.id}: clean A/B systems may not declare legacy substrate"
+                )
         if system.group == "A":
             if system.refresh_operator != "none":
-                raise ValueError(f"{system.id}: Group A must not enable refresh_operator")
+                raise ValueError(
+                    f"{system.id}: Group A must not enable refresh_operator"
+                )
             if system.execution_mode != "posthoc":
-                raise ValueError(f"{system.id}: Group A should remain posthoc/readout-only")
+                raise ValueError(
+                    f"{system.id}: Group A should remain posthoc/readout-only"
+                )
         elif system.group == "B":
             if system.refresh_operator not in POSTHOC_OPERATORS | ONLINE_OPERATORS:
-                raise ValueError(f"{system.id}: unsupported Group B refresh operator {system.refresh_operator!r}")
+                raise ValueError(
+                    f"{system.id}: unsupported Group B refresh operator {system.refresh_operator!r}"
+                )
         elif system.group == "C":
             if penalty_mode not in LEGACY_PENALTY_MODES:
                 raise ValueError(f"{system.id}: Group C must remain legacy-anchor only")
         if system.report_alias is not None and system.report_alias not in alias_targets:
-            raise ValueError(f"{system.id}: unknown report_alias target {system.report_alias}")
-        if system.execution_mode == "posthoc" and system.refresh_operator not in POSTHOC_OPERATORS:
-            raise ValueError(f"{system.id}: posthoc mode cannot run {system.refresh_operator!r}")
-        if system.execution_mode == "online" and system.refresh_operator not in ONLINE_OPERATORS:
-            raise ValueError(f"{system.id}: online mode cannot run {system.refresh_operator!r}")
+            raise ValueError(
+                f"{system.id}: unknown report_alias target {system.report_alias}"
+            )
+        if (
+            system.execution_mode == "posthoc"
+            and system.refresh_operator not in POSTHOC_OPERATORS
+        ):
+            raise ValueError(
+                f"{system.id}: posthoc mode cannot run {system.refresh_operator!r}"
+            )
+        if (
+            system.execution_mode == "online"
+            and system.refresh_operator not in ONLINE_OPERATORS
+        ):
+            raise ValueError(
+                f"{system.id}: online mode cannot run {system.refresh_operator!r}"
+            )
 
 
 def normalize_policy(values: np.ndarray) -> np.ndarray:
@@ -290,7 +331,9 @@ def compute_argmax_path_metrics(argmax_path: list[int]) -> dict[str, Any]:
     }
 
 
-def first_revision_budget(argmax_path: list[int], budgets: list[int], argmax_prior: int) -> int | None:
+def first_revision_budget(
+    argmax_path: list[int], budgets: list[int], argmax_prior: int
+) -> int | None:
     for budget, argmax_eff in zip(budgets, argmax_path):
         if int(argmax_eff) != int(argmax_prior):
             return int(budget)
@@ -348,7 +391,9 @@ def classify_position_buckets(
     return sorted(buckets)
 
 
-def _trace_signal_metrics(policies: list[np.ndarray], budgets: list[int], challenger_k: int = 4) -> dict[str, Any]:
+def _trace_signal_metrics(
+    policies: list[np.ndarray], budgets: list[int], challenger_k: int = 4
+) -> dict[str, Any]:
     if not policies:
         return {
             "argmax_path": [],
@@ -367,9 +412,20 @@ def _trace_signal_metrics(policies: list[np.ndarray], budgets: list[int], challe
     metrics = compute_argmax_path_metrics(argmax_path)
     overlap = 1.0
     if len(policies) >= 2:
-        overlap = jaccard_overlap(topk_indices(policies[-2], challenger_k), topk_indices(policies[-1], challenger_k))
-    margin_std = float(np.std(np.asarray(margin_path, dtype=np.float32))) if len(margin_path) > 1 else 0.0
-    margin_mean = float(np.mean(np.asarray(margin_path, dtype=np.float32))) if margin_path else 0.0
+        overlap = jaccard_overlap(
+            topk_indices(policies[-2], challenger_k),
+            topk_indices(policies[-1], challenger_k),
+        )
+    margin_std = (
+        float(np.std(np.asarray(margin_path, dtype=np.float32)))
+        if len(margin_path) > 1
+        else 0.0
+    )
+    margin_mean = (
+        float(np.mean(np.asarray(margin_path, dtype=np.float32)))
+        if margin_path
+        else 0.0
+    )
     margin_stability = 1.0 / (1.0 + (margin_std / max(margin_mean, 1e-6)))
     return {
         "argmax_path": argmax_path,
@@ -378,7 +434,9 @@ def _trace_signal_metrics(policies: list[np.ndarray], budgets: list[int], challe
         "argmax_persistence": float(metrics["argmax_persistence"]),
         "top2_margin_stability": float(np.clip(margin_stability, 0.0, 1.0)),
         "challenger_overlap": float(np.clip(overlap, 0.0, 1.0)),
-        "posterior_entropy_slope": float(entropy_path[-1] - entropy_path[0]) if len(entropy_path) >= 2 else 0.0,
+        "posterior_entropy_slope": float(entropy_path[-1] - entropy_path[0])
+        if len(entropy_path) >= 2
+        else 0.0,
         "revision_flip_flop_count": int(metrics["oscillation_count"]),
         "num_revisions": int(metrics["num_revisions"]),
         "rank_swap_count": int(metrics["rank_swap_count"]),
@@ -399,8 +457,12 @@ def compute_commit_confidence(
 ) -> float:
     divergence = kl_divergence(prior_base, posterior_now)
     entropy_gain = max(0.0, entropy(prior_base) - entropy(posterior_now))
-    posterior_shift = 0.0 if posterior_prev is None else kl_divergence(posterior_prev, posterior_now)
-    posterior_stability = 1.0 - _clipped_unit(posterior_shift, float(params.get("posterior_shift_scale", 0.35)))
+    posterior_shift = (
+        0.0 if posterior_prev is None else kl_divergence(posterior_prev, posterior_now)
+    )
+    posterior_stability = 1.0 - _clipped_unit(
+        posterior_shift, float(params.get("posterior_shift_scale", 0.35))
+    )
 
     score = (
         0.35 * _clipped_unit(divergence, float(params.get("divergence_scale", 0.40)))
@@ -419,13 +481,20 @@ def apply_dual_channel_commit(
     params: dict[str, Any],
 ) -> tuple[np.ndarray, dict[str, Any]]:
     posterior_now = normalize_policy(trace_policies[-1])
-    posterior_prev = normalize_policy(trace_policies[-2]) if len(trace_policies) >= 2 else None
-    signal_metrics = _trace_signal_metrics(trace_policies, trace_budgets, challenger_k=int(params.get("challenger_k", 4)))
-    commit_confidence = compute_commit_confidence(prior_base, posterior_prev, posterior_now, signal_metrics, params)
+    posterior_prev = (
+        normalize_policy(trace_policies[-2]) if len(trace_policies) >= 2 else None
+    )
+    signal_metrics = _trace_signal_metrics(
+        trace_policies, trace_budgets, challenger_k=int(params.get("challenger_k", 4))
+    )
+    commit_confidence = compute_commit_confidence(
+        prior_base, posterior_prev, posterior_now, signal_metrics, params
+    )
     commit_threshold = float(params.get("commit_threshold", 0.55))
     if commit_confidence >= commit_threshold:
         effective = normalize_policy(
-            (1.0 - commit_confidence) * normalize_policy(prior_base) + commit_confidence * posterior_now
+            (1.0 - commit_confidence) * normalize_policy(prior_base)
+            + commit_confidence * posterior_now
         )
     else:
         effective = normalize_policy(prior_base)
@@ -436,7 +505,9 @@ def apply_dual_channel_commit(
         "commit_threshold": float(commit_threshold),
         "commit_applied": int(commit_confidence >= commit_threshold),
         "commit_latency": first_revision_budget(
-            signal_metrics["argmax_path"], signal_metrics["trace_budgets"], policy_argmax(prior_base)
+            signal_metrics["argmax_path"],
+            signal_metrics["trace_budgets"],
+            policy_argmax(prior_base),
         ),
     }
 
@@ -480,7 +551,9 @@ def build_root_challenger_set(
 def _trace_policy_matrix(trace_policies: list[np.ndarray]) -> np.ndarray:
     if not trace_policies:
         return np.zeros((0, 0), dtype=np.float32)
-    return np.stack([normalize_policy(policy) for policy in trace_policies], axis=0).astype(np.float32, copy=False)
+    return np.stack(
+        [normalize_policy(policy) for policy in trace_policies], axis=0
+    ).astype(np.float32, copy=False)
 
 
 def _candidate_policy_from_scores(
@@ -496,7 +569,9 @@ def _candidate_policy_from_scores(
     idx = np.asarray(candidates, dtype=np.int64)
     local_scores = normalize_policy(np.asarray(scores, dtype=np.float32)[idx])
     local_prior = normalize_policy(effective[idx])
-    effective[idx] = normalize_policy((1.0 - prior_weight) * local_scores + prior_weight * local_prior)
+    effective[idx] = normalize_policy(
+        (1.0 - prior_weight) * local_scores + prior_weight * local_prior
+    )
     return normalize_policy(effective)
 
 
@@ -516,13 +591,20 @@ def apply_root_challenger_refresh(
     params: dict[str, Any],
 ) -> tuple[np.ndarray, dict[str, Any]]:
     posterior_now = normalize_policy(trace_policies[-1])
-    candidates, candidate_scores = build_root_challenger_set(prior_base, posterior_now, params)
-    signal_metrics = _trace_signal_metrics(trace_policies, trace_budgets, challenger_k=len(candidates))
+    candidates, candidate_scores = build_root_challenger_set(
+        prior_base, posterior_now, params
+    )
+    signal_metrics = _trace_signal_metrics(
+        trace_policies, trace_budgets, challenger_k=len(candidates)
+    )
     alpha = float(np.clip(params.get("snapshot_alpha", 0.75), 0.0, 1.0))
     effective = normalize_policy(prior_base)
     if candidates:
         idx = np.asarray(candidates, dtype=np.int64)
-        effective[idx] = normalize_policy(alpha * normalize_policy(prior_base)[idx] + (1.0 - alpha) * posterior_now[idx])
+        effective[idx] = normalize_policy(
+            alpha * normalize_policy(prior_base)[idx]
+            + (1.0 - alpha) * posterior_now[idx]
+        )
         effective = normalize_policy(effective)
     return effective, {
         **signal_metrics,
@@ -555,7 +637,9 @@ def apply_root_posterior_snapshot(
         "posterior_weight": 1.0,
         "kl_prior_to_effective": kl_divergence(prior, posterior_now),
         "revision_step": first_revision_budget(
-            signal_metrics["argmax_path"], signal_metrics["trace_budgets"], policy_argmax(prior)
+            signal_metrics["argmax_path"],
+            signal_metrics["trace_budgets"],
+            policy_argmax(prior),
         ),
     }
 
@@ -568,11 +652,21 @@ def apply_root_dual_posterior(
 ) -> tuple[np.ndarray, dict[str, Any]]:
     prior = normalize_policy(prior_base)
     posterior_now = normalize_policy(trace_policies[-1])
-    posterior_prev = normalize_policy(trace_policies[-2]) if len(trace_policies) >= 2 else None
-    candidates, candidate_scores = build_root_challenger_set(prior, posterior_now, params)
-    signal_metrics = _trace_signal_metrics(trace_policies, trace_budgets, challenger_k=max(1, len(candidates)))
-    gate_confidence = compute_commit_confidence(prior, posterior_prev, posterior_now, signal_metrics, params)
-    gate_threshold = float(params.get("revision_threshold", params.get("commit_threshold", 0.50)))
+    posterior_prev = (
+        normalize_policy(trace_policies[-2]) if len(trace_policies) >= 2 else None
+    )
+    candidates, candidate_scores = build_root_challenger_set(
+        prior, posterior_now, params
+    )
+    signal_metrics = _trace_signal_metrics(
+        trace_policies, trace_budgets, challenger_k=max(1, len(candidates))
+    )
+    gate_confidence = compute_commit_confidence(
+        prior, posterior_prev, posterior_now, signal_metrics, params
+    )
+    gate_threshold = float(
+        params.get("revision_threshold", params.get("commit_threshold", 0.50))
+    )
     revision_applied = gate_confidence >= gate_threshold
     max_weight = float(np.clip(params.get("max_posterior_weight", 0.85), 0.0, 1.0))
     posterior_weight = min(max_weight, gate_confidence) if revision_applied else 0.0
@@ -580,7 +674,9 @@ def apply_root_dual_posterior(
     effective = prior.copy()
     if revision_applied and candidates:
         idx = np.asarray(candidates, dtype=np.int64)
-        effective[idx] = (1.0 - posterior_weight) * prior[idx] + posterior_weight * posterior_now[idx]
+        effective[idx] = (1.0 - posterior_weight) * prior[
+            idx
+        ] + posterior_weight * posterior_now[idx]
         effective = normalize_policy(effective)
 
     return effective, {
@@ -604,7 +700,9 @@ def apply_root_dual_posterior(
         "kl_prior_to_effective": kl_divergence(prior, effective),
         "kl_posterior_to_effective": kl_divergence(posterior_now, effective),
         "revision_step": first_revision_budget(
-            signal_metrics["argmax_path"], signal_metrics["trace_budgets"], policy_argmax(prior)
+            signal_metrics["argmax_path"],
+            signal_metrics["trace_budgets"],
+            policy_argmax(prior),
         ),
     }
 
@@ -620,9 +718,15 @@ def apply_confidence_bound_posterior(
     matrix = _trace_policy_matrix(trace_policies)
     volatility = np.std(matrix, axis=0) if matrix.size else np.zeros_like(posterior_now)
     penalty = float(params.get("volatility_penalty", 1.0))
-    bound_scores = normalize_policy(np.maximum(posterior_now - penalty * volatility, 0.0))
-    candidates, candidate_scores = build_root_challenger_set(prior, bound_scores, params)
-    signal_metrics = _trace_signal_metrics(trace_policies, trace_budgets, challenger_k=max(1, len(candidates)))
+    bound_scores = normalize_policy(
+        np.maximum(posterior_now - penalty * volatility, 0.0)
+    )
+    candidates, candidate_scores = build_root_challenger_set(
+        prior, bound_scores, params
+    )
+    signal_metrics = _trace_signal_metrics(
+        trace_policies, trace_budgets, challenger_k=max(1, len(candidates))
+    )
     confidence = float(
         np.clip(
             0.45 * signal_metrics.get("argmax_persistence", 0.0)
@@ -633,9 +737,13 @@ def apply_confidence_bound_posterior(
         )
     )
     threshold = float(params.get("confidence_threshold", 0.45))
-    prior_weight = 1.0 - float(np.clip(params.get("posterior_weight", confidence), 0.0, 1.0))
+    prior_weight = 1.0 - float(
+        np.clip(params.get("posterior_weight", confidence), 0.0, 1.0)
+    )
     effective = (
-        _candidate_policy_from_scores(prior, bound_scores, candidates, prior_weight=prior_weight)
+        _candidate_policy_from_scores(
+            prior, bound_scores, candidates, prior_weight=prior_weight
+        )
         if confidence >= threshold
         else prior
     )
@@ -650,7 +758,9 @@ def apply_confidence_bound_posterior(
         "confidence_bound_scores": bound_scores.tolist(),
         "revision_confidence": float(confidence),
         "revision_threshold": float(threshold),
-        "revision_occurred": int(confidence >= threshold and policy_argmax(effective) != policy_argmax(prior)),
+        "revision_occurred": int(
+            confidence >= threshold and policy_argmax(effective) != policy_argmax(prior)
+        ),
         "mean_trace_volatility": float(np.mean(volatility)) if volatility.size else 0.0,
         "kl_prior_to_effective": kl_divergence(prior, effective),
     }
@@ -665,7 +775,12 @@ def apply_robust_valley_posterior(
     prior = normalize_policy(prior_base)
     matrix = _trace_policy_matrix(trace_policies)
     if matrix.size:
-        weights = np.linspace(float(params.get("early_weight", 0.6)), 1.0, matrix.shape[0], dtype=np.float32)
+        weights = np.linspace(
+            float(params.get("early_weight", 0.6)),
+            1.0,
+            matrix.shape[0],
+            dtype=np.float32,
+        )
         weights = weights / max(float(weights.sum()), 1e-8)
         mean_policy = normalize_policy((matrix * weights[:, None]).sum(axis=0))
         volatility = np.std(matrix, axis=0)
@@ -673,11 +788,19 @@ def apply_robust_valley_posterior(
         mean_policy = prior
         volatility = np.zeros_like(prior)
     stability = 1.0 / (1.0 + volatility / np.maximum(mean_policy, 1e-6))
-    robust_scores = normalize_policy(mean_policy * (float(params.get("stability_floor", 0.20)) + stability))
-    candidates, candidate_scores = build_root_challenger_set(prior, robust_scores, params)
-    signal_metrics = _trace_signal_metrics(trace_policies, trace_budgets, challenger_k=max(1, len(candidates)))
+    robust_scores = normalize_policy(
+        mean_policy * (float(params.get("stability_floor", 0.20)) + stability)
+    )
+    candidates, candidate_scores = build_root_challenger_set(
+        prior, robust_scores, params
+    )
+    signal_metrics = _trace_signal_metrics(
+        trace_policies, trace_budgets, challenger_k=max(1, len(candidates))
+    )
     prior_weight = float(np.clip(params.get("prior_weight", 0.25), 0.0, 1.0))
-    effective = _candidate_policy_from_scores(prior, robust_scores, candidates, prior_weight=prior_weight)
+    effective = _candidate_policy_from_scores(
+        prior, robust_scores, candidates, prior_weight=prior_weight
+    )
     return effective, {
         **signal_metrics,
         "belief_revision_operator": "robust_valley_posterior",
@@ -709,7 +832,9 @@ def apply_entropy_annealed_posterior(
     temperature = temp_max - np.clip(stability, 0.0, 1.0) * (temp_max - temp_min)
     annealed = _tempered_policy(posterior_now, temperature)
     posterior_weight = float(np.clip(params.get("posterior_weight", 0.75), 0.0, 1.0))
-    effective = normalize_policy((1.0 - posterior_weight) * prior + posterior_weight * annealed)
+    effective = normalize_policy(
+        (1.0 - posterior_weight) * prior + posterior_weight * annealed
+    )
     return effective, {
         **signal_metrics,
         "belief_revision_operator": "entropy_annealed_posterior",
@@ -735,7 +860,9 @@ def apply_guarded_root_dual_posterior(
 ) -> tuple[np.ndarray, dict[str, Any]]:
     prior = normalize_policy(prior_base)
     posterior_now = normalize_policy(trace_policies[-1])
-    proposal, proposal_meta = apply_root_dual_posterior(prior, trace_policies, trace_budgets, params)
+    proposal, proposal_meta = apply_root_dual_posterior(
+        prior, trace_policies, trace_budgets, params
+    )
     signal_metrics = {
         key: proposal_meta[key]
         for key in (
@@ -762,7 +889,10 @@ def apply_guarded_root_dual_posterior(
     flip_flops = int(proposal_meta.get("revision_flip_flop_count", 0))
     reasons: list[str] = []
 
-    if bool(params.get("guard_require_revision", True)) and int(proposal_meta.get("revision_occurred", 0)) == 0:
+    if (
+        bool(params.get("guard_require_revision", True))
+        and int(proposal_meta.get("revision_occurred", 0)) == 0
+    ):
         reasons.append("proposal_inactive")
     if proposal_argmax != posterior_argmax:
         reasons.append("argmax_mismatch")
@@ -788,9 +918,17 @@ def apply_guarded_root_dual_posterior(
         "root_candidate_set": list(proposal_meta.get("root_candidate_set", [])),
         "root_candidate_scores": list(proposal_meta.get("root_candidate_scores", [])),
         "revision_confidence": float(proposal_meta.get("revision_confidence", 0.0)),
-        "revision_threshold": float(proposal_meta.get("revision_threshold", params.get("revision_threshold", 0.0))),
-        "revision_occurred": int(not vetoed and int(proposal_meta.get("revision_occurred", 0)) == 1),
-        "posterior_weight": float(0.0 if vetoed else proposal_meta.get("posterior_weight", 0.0)),
+        "revision_threshold": float(
+            proposal_meta.get(
+                "revision_threshold", params.get("revision_threshold", 0.0)
+            )
+        ),
+        "revision_occurred": int(
+            not vetoed and int(proposal_meta.get("revision_occurred", 0)) == 1
+        ),
+        "posterior_weight": float(
+            0.0 if vetoed else proposal_meta.get("posterior_weight", 0.0)
+        ),
         "prior_entropy": entropy(prior),
         "posterior_entropy": entropy(posterior_now),
         "effective_entropy": entropy(effective),
@@ -807,7 +945,9 @@ def apply_guarded_root_dual_posterior(
         "guard_argmax_persistence": float(persistence),
         "guard_persistence_floor": float(params.get("guard_persistence_floor", 0.67)),
         "guard_margin_stability": float(margin_stability),
-        "guard_margin_stability_floor": float(params.get("guard_margin_stability_floor", 0.45)),
+        "guard_margin_stability_floor": float(
+            params.get("guard_margin_stability_floor", 0.45)
+        ),
         "guard_flip_flop_count": int(flip_flops),
         "guard_max_flip_flops": int(params.get("guard_max_flip_flops", 0)),
         "proposal_argmax": int(proposal_argmax),
@@ -827,13 +967,19 @@ def apply_snapshot_trace_stabilized_posterior(
     signal_metrics = _trace_signal_metrics(trace_policies, trace_budgets)
     trace_mean = _weighted_trace_mean(trace_policies, params, fallback=posterior_now)
 
-    stabilization_weight = float(np.clip(params.get("stabilization_weight", 0.20), 0.0, 1.0))
-    proposal = normalize_policy((1.0 - stabilization_weight) * posterior_now + stabilization_weight * trace_mean)
-    reasons, anchor_k, anchor_preserved, snapshot_argmax, proposal_argmax = _snapshot_stabilization_reasons(
-        posterior_now,
-        proposal,
-        signal_metrics,
-        params,
+    stabilization_weight = float(
+        np.clip(params.get("stabilization_weight", 0.20), 0.0, 1.0)
+    )
+    proposal = normalize_policy(
+        (1.0 - stabilization_weight) * posterior_now + stabilization_weight * trace_mean
+    )
+    reasons, anchor_k, anchor_preserved, snapshot_argmax, proposal_argmax = (
+        _snapshot_stabilization_reasons(
+            posterior_now,
+            proposal,
+            signal_metrics,
+            params,
+        )
     )
 
     applied = not reasons
@@ -898,15 +1044,33 @@ def _snapshot_stabilization_reasons(
         reasons.append("argmax_break")
     if not anchor_preserved:
         reasons.append("topk_anchor_break")
-    if float(signal_metrics.get("argmax_persistence", 0.0)) < float(params.get("stability_floor", 0.50)):
+    if float(signal_metrics.get("argmax_persistence", 0.0)) < float(
+        params.get("stability_floor", 0.50)
+    ):
         reasons.append("unstable_suffix")
-    if float(signal_metrics.get("top2_margin_stability", 0.0)) < float(params.get("margin_stability_floor", 0.50)):
+    if float(signal_metrics.get("top2_margin_stability", 0.0)) < float(
+        params.get("margin_stability_floor", 0.50)
+    ):
         reasons.append("unstable_margin_path")
-    return reasons, int(anchor_k), bool(anchor_preserved), int(snapshot_argmax), int(proposal_argmax)
+    return (
+        reasons,
+        int(anchor_k),
+        bool(anchor_preserved),
+        int(snapshot_argmax),
+        int(proposal_argmax),
+    )
 
 
 def _adaptive_stabilization_weights(params: dict[str, Any]) -> list[float]:
-    max_weight = float(np.clip(params.get("max_stabilization_weight", params.get("stabilization_weight", 0.45)), 0.0, 1.0))
+    max_weight = float(
+        np.clip(
+            params.get(
+                "max_stabilization_weight", params.get("stabilization_weight", 0.45)
+            ),
+            0.0,
+            1.0,
+        )
+    )
     step = float(params.get("candidate_weight_step", 0.05))
     if step <= 0.0:
         step = max(max_weight, 1.0)
@@ -948,12 +1112,16 @@ def apply_adaptive_snapshot_trace_stabilized_posterior(
     selected_proposal_argmax = first_proposal_argmax
 
     for idx, weight in enumerate(candidate_weights):
-        proposal = normalize_policy((1.0 - weight) * posterior_now + weight * trace_mean)
-        reasons, anchor_k, anchor_preserved, snapshot_argmax, proposal_argmax = _snapshot_stabilization_reasons(
-            posterior_now,
-            proposal,
-            signal_metrics,
-            params,
+        proposal = normalize_policy(
+            (1.0 - weight) * posterior_now + weight * trace_mean
+        )
+        reasons, anchor_k, anchor_preserved, snapshot_argmax, proposal_argmax = (
+            _snapshot_stabilization_reasons(
+                posterior_now,
+                proposal,
+                signal_metrics,
+                params,
+            )
         )
         if idx == 0:
             first_reasons = list(reasons)
@@ -981,9 +1149,19 @@ def apply_adaptive_snapshot_trace_stabilized_posterior(
         if "no_safe_weight" not in first_reasons:
             first_reasons.append("no_safe_weight")
 
-    max_weight = float(np.clip(params.get("max_stabilization_weight", params.get("stabilization_weight", 0.45)), 0.0, 1.0))
+    max_weight = float(
+        np.clip(
+            params.get(
+                "max_stabilization_weight", params.get("stabilization_weight", 0.45)
+            ),
+            0.0,
+            1.0,
+        )
+    )
     step = float(params.get("candidate_weight_step", 0.05))
-    min_weight = float(params.get("min_stabilization_weight", step if step > 0.0 else max_weight))
+    min_weight = float(
+        params.get("min_stabilization_weight", step if step > 0.0 else max_weight)
+    )
     return effective, {
         **signal_metrics,
         "belief_revision_operator": "adaptive_snapshot_trace_stabilized_posterior",
@@ -1046,9 +1224,19 @@ def apply_entropy_expansion_stabilized_posterior(
     candidate_weights = _adaptive_stabilization_weights(params)
     snapshot_argmax = policy_argmax(posterior_now)
     anchor_k = max(1, int(params.get("snapshot_anchor_k", 3)))
-    max_weight = float(np.clip(params.get("max_stabilization_weight", params.get("stabilization_weight", 0.45)), 0.0, 1.0))
+    max_weight = float(
+        np.clip(
+            params.get(
+                "max_stabilization_weight", params.get("stabilization_weight", 0.45)
+            ),
+            0.0,
+            1.0,
+        )
+    )
     step = float(params.get("candidate_weight_step", 0.05))
-    min_weight = float(params.get("min_stabilization_weight", step if step > 0.0 else max_weight))
+    min_weight = float(
+        params.get("min_stabilization_weight", step if step > 0.0 else max_weight)
+    )
     return posterior_now, {
         **signal_metrics,
         "belief_revision_operator": "entropy_expansion_stabilized_posterior",
@@ -1107,14 +1295,21 @@ def budget_routing_signal(
     decision `apply_budget_routing` makes when the full trace bundle
     is already available (the posthoc path).
     """
-    base_trace = [p for p, b in zip(trace_policies, trace_budgets) if int(b) <= int(target_budget)]
+    base_trace = [
+        p for p, b in zip(trace_policies, trace_budgets) if int(b) <= int(target_budget)
+    ]
     if not base_trace:
         base_trace = [trace_policies[0]]
-    base_budgets = [int(b) for b in trace_budgets if int(b) <= int(target_budget)] or [int(target_budget)]
-    signal_metrics = _trace_signal_metrics(base_trace, base_budgets, challenger_k=int(params.get("challenger_k", 4)))
-    unstable = (
-        float(signal_metrics["argmax_persistence"]) < float(params.get("persistence_floor", 0.60))
-        or float(signal_metrics["top2_margin_stability"]) < float(params.get("margin_stability_floor", 0.72))
+    base_budgets = [int(b) for b in trace_budgets if int(b) <= int(target_budget)] or [
+        int(target_budget)
+    ]
+    signal_metrics = _trace_signal_metrics(
+        base_trace, base_budgets, challenger_k=int(params.get("challenger_k", 4))
+    )
+    unstable = float(signal_metrics["argmax_persistence"]) < float(
+        params.get("persistence_floor", 0.60)
+    ) or float(signal_metrics["top2_margin_stability"]) < float(
+        params.get("margin_stability_floor", 0.72)
     )
     return {**signal_metrics, "unstable": unstable}
 
@@ -1132,14 +1327,29 @@ def _apply_routing_with_signal(
     returns the sub-target snapshot. The signal itself (budget_routing vs H3
     entropy-burst) is computed by the caller so the two operators differ ONLY in
     the instability rule."""
-    base_trace = [p for p, b in zip(trace_policies, trace_budgets) if int(b) <= int(target_budget)]
+    base_trace = [
+        p for p, b in zip(trace_policies, trace_budgets) if int(b) <= int(target_budget)
+    ]
     if not base_trace:
         base_trace = [trace_policies[0]]
     base_policy = normalize_policy(base_trace[-1])
-    burst_idx = next((idx for idx, budget in enumerate(trace_budgets) if int(budget) > int(target_budget)), None)
+    burst_idx = next(
+        (
+            idx
+            for idx, budget in enumerate(trace_budgets)
+            if int(budget) > int(target_budget)
+        ),
+        None,
+    )
     burst_trigger = burst_idx is not None and bool(signal["unstable"])
-    effective = normalize_policy(trace_policies[burst_idx]) if burst_trigger else base_policy
-    burst_budget = int(trace_budgets[burst_idx]) if burst_trigger and burst_idx is not None else int(target_budget)
+    effective = (
+        normalize_policy(trace_policies[burst_idx]) if burst_trigger else base_policy
+    )
+    burst_budget = (
+        int(trace_budgets[burst_idx])
+        if burst_trigger and burst_idx is not None
+        else int(target_budget)
+    )
     return effective, {
         **{key: value for key, value in signal.items() if key != "unstable"},
         "budget_burst_triggered": int(burst_trigger),
@@ -1178,7 +1388,11 @@ def h3_burst_signal(
     statistics only (game-agnostic, FORBIDDEN-safe)."""
     from .phase15_argmax_stability import counts_from_policy
 
-    base = [(p, int(b)) for p, b in zip(trace_policies, trace_budgets) if int(b) <= int(target_budget)]
+    base = [
+        (p, int(b))
+        for p, b in zip(trace_policies, trace_budgets)
+        if int(b) <= int(target_budget)
+    ]
     base_policies = [p for p, _ in base] or [trace_policies[0]]
     base_budgets = [b for _, b in base] or [int(target_budget)]
     signal_metrics = _trace_signal_metrics(
@@ -1201,7 +1415,9 @@ def h3_burst_signal(
     margin_slope_floor = float(params.get("margin_slope_floor", 0.0))
 
     def _smoothed_entropy(policy: np.ndarray, budget: int) -> float:
-        counts = counts_from_policy(np.asarray(policy, dtype=np.float64), max(int(budget), min_visit_floor))
+        counts = counts_from_policy(
+            np.asarray(policy, dtype=np.float64), max(int(budget), min_visit_floor)
+        )
         smoothed = counts.astype(np.float64) + alpha
         return entropy(smoothed)
 
@@ -1213,7 +1429,9 @@ def h3_burst_signal(
 
     prev_p, prev_b = base[-2]
     last_p, last_b = base[-1]
-    delta_entropy = _smoothed_entropy(last_p, last_b) - _smoothed_entropy(prev_p, prev_b)
+    delta_entropy = _smoothed_entropy(last_p, last_b) - _smoothed_entropy(
+        prev_p, prev_b
+    )
     margin_slope = _top2_margin(last_p) - _top2_margin(prev_p)
     gate_entropy = delta_entropy > entropy_floor
     gate_margin = margin_slope < -margin_slope_floor
@@ -1236,7 +1454,12 @@ def apply_entropy_burst_routing(
 ) -> tuple[np.ndarray, dict[str, Any]]:
     signal = h3_burst_signal(trace_policies, trace_budgets, target_budget, params)
     return _apply_routing_with_signal(
-        prior_base, trace_policies, trace_budgets, target_budget, signal, "h3_backflow_burst"
+        prior_base,
+        trace_policies,
+        trace_budgets,
+        target_budget,
+        signal,
+        "h3_backflow_burst",
     )
 
 
@@ -1263,12 +1486,17 @@ def apply_argmax_stability_readout(
     metadata records the Dirichlet argmax-stability of that snapshot. The online
     per-chunk stop decision lives in `run_online_readout`; posthoc this reports
     "would H1 have halted by the end?"."""
-    from .phase15_argmax_stability import counts_from_policy, should_stop_by_argmax_stability
+    from .phase15_argmax_stability import (
+        counts_from_policy,
+        should_stop_by_argmax_stability,
+    )
 
     final = normalize_policy(trace_policies[-1])
     budget = int(trace_budgets[-1]) if trace_budgets else 0
     counts = counts_from_policy(np.asarray(final, dtype=np.float64), budget)
-    stop, meta = should_stop_by_argmax_stability(counts, **argmax_stability_stop_params(params))
+    stop, meta = should_stop_by_argmax_stability(
+        counts, **argmax_stability_stop_params(params)
+    )
     signal = _trace_signal_metrics(
         trace_policies, trace_budgets, challenger_k=int(params.get("challenger_k", 4))
     )
@@ -1278,7 +1506,9 @@ def apply_argmax_stability_readout(
         "argmax_stability": float(meta["argmax_stability"]),
         "argmax_stability_total_visits": float(meta["total_visits"]),
         "argmax_stability_threshold": float(meta["threshold"]),
-        "comparison_role": params.get("comparison_role", "argmax_stability_stop_readout"),
+        "comparison_role": params.get(
+            "comparison_role", "argmax_stability_stop_readout"
+        ),
     }
 
 
@@ -1291,38 +1521,72 @@ def apply_system_readout(
 ) -> tuple[np.ndarray, dict[str, Any]]:
     operator = system.refresh_operator
     if operator == "none":
-        signal_metrics = _trace_signal_metrics(trace_policies, trace_budgets, challenger_k=int(system.params.get("challenger_k", 4)))
+        signal_metrics = _trace_signal_metrics(
+            trace_policies,
+            trace_budgets,
+            challenger_k=int(system.params.get("challenger_k", 4)),
+        )
         return normalize_policy(trace_policies[-1]), signal_metrics
     if operator == "dual_channel_commit":
-        return apply_dual_channel_commit(prior_base, trace_policies, trace_budgets, system.params)
+        return apply_dual_channel_commit(
+            prior_base, trace_policies, trace_budgets, system.params
+        )
     if operator == "root_challenger":
-        return apply_root_challenger_refresh(prior_base, trace_policies, trace_budgets, system.params)
+        return apply_root_challenger_refresh(
+            prior_base, trace_policies, trace_budgets, system.params
+        )
     if operator == "root_dual_posterior":
-        return apply_root_dual_posterior(prior_base, trace_policies, trace_budgets, system.params)
+        return apply_root_dual_posterior(
+            prior_base, trace_policies, trace_budgets, system.params
+        )
     if operator == "root_posterior_snapshot":
-        return apply_root_posterior_snapshot(prior_base, trace_policies, trace_budgets, system.params)
+        return apply_root_posterior_snapshot(
+            prior_base, trace_policies, trace_budgets, system.params
+        )
     if operator == "confidence_bound_posterior":
-        return apply_confidence_bound_posterior(prior_base, trace_policies, trace_budgets, system.params)
+        return apply_confidence_bound_posterior(
+            prior_base, trace_policies, trace_budgets, system.params
+        )
     if operator == "robust_valley_posterior":
-        return apply_robust_valley_posterior(prior_base, trace_policies, trace_budgets, system.params)
+        return apply_robust_valley_posterior(
+            prior_base, trace_policies, trace_budgets, system.params
+        )
     if operator == "entropy_annealed_posterior":
-        return apply_entropy_annealed_posterior(prior_base, trace_policies, trace_budgets, system.params)
+        return apply_entropy_annealed_posterior(
+            prior_base, trace_policies, trace_budgets, system.params
+        )
     if operator == "guarded_root_dual_posterior":
-        return apply_guarded_root_dual_posterior(prior_base, trace_policies, trace_budgets, system.params)
+        return apply_guarded_root_dual_posterior(
+            prior_base, trace_policies, trace_budgets, system.params
+        )
     if operator == "snapshot_trace_stabilized_posterior":
-        return apply_snapshot_trace_stabilized_posterior(prior_base, trace_policies, trace_budgets, system.params)
+        return apply_snapshot_trace_stabilized_posterior(
+            prior_base, trace_policies, trace_budgets, system.params
+        )
     if operator == "adaptive_snapshot_trace_stabilized_posterior":
-        return apply_adaptive_snapshot_trace_stabilized_posterior(prior_base, trace_policies, trace_budgets, system.params)
+        return apply_adaptive_snapshot_trace_stabilized_posterior(
+            prior_base, trace_policies, trace_budgets, system.params
+        )
     if operator == "entropy_expansion_stabilized_posterior":
-        return apply_entropy_expansion_stabilized_posterior(prior_base, trace_policies, trace_budgets, system.params)
+        return apply_entropy_expansion_stabilized_posterior(
+            prior_base, trace_policies, trace_budgets, system.params
+        )
     if operator == "budget_routing":
-        return apply_budget_routing(prior_base, trace_policies, trace_budgets, target_budget, system.params)
+        return apply_budget_routing(
+            prior_base, trace_policies, trace_budgets, target_budget, system.params
+        )
     if operator == "one_loop_finite_n":
-        return apply_one_loop_readout(prior_base, trace_policies, trace_budgets, system.params)
+        return apply_one_loop_readout(
+            prior_base, trace_policies, trace_budgets, system.params
+        )
     if operator == "argmax_stability_stop":
-        return apply_argmax_stability_readout(prior_base, trace_policies, trace_budgets, system.params)
+        return apply_argmax_stability_readout(
+            prior_base, trace_policies, trace_budgets, system.params
+        )
     if operator == "entropy_burst_routing":
-        return apply_entropy_burst_routing(prior_base, trace_policies, trace_budgets, target_budget, system.params)
+        return apply_entropy_burst_routing(
+            prior_base, trace_policies, trace_budgets, target_budget, system.params
+        )
     raise ValueError(f"unsupported phase15 refresh operator: {operator}")
 
 
@@ -1333,18 +1597,66 @@ def _clean_overrides(base: dict[str, Any], **updates: Any) -> dict[str, Any]:
 
 
 def make_default_systems(_base_cfg: dict[str, Any]) -> list[Phase15System]:
-    a0 = _clean_overrides({}, search_profile="baseline", vl_mode="disabled", root_only_shaping=True)
-    a1 = _clean_overrides({}, search_profile="quartz", vl_mode="disabled", penalty_mode="None", root_only_shaping=True)
-    a2 = _clean_overrides({}, search_profile="quartz", vl_mode="adaptive", penalty_mode="None", root_only_shaping=True)
-    a3 = _clean_overrides({}, search_profile="quartz", vl_mode="disabled", penalty_mode="EffectiveV2", root_only_shaping=True)
-    a4 = _clean_overrides({}, search_profile="quartz", vl_mode="adaptive", penalty_mode="EffectiveV2", root_only_shaping=True)
+    a0 = _clean_overrides(
+        {}, search_profile="baseline", vl_mode="disabled", root_only_shaping=True
+    )
+    a1 = _clean_overrides(
+        {},
+        search_profile="quartz",
+        vl_mode="disabled",
+        penalty_mode="None",
+        root_only_shaping=True,
+    )
+    a2 = _clean_overrides(
+        {},
+        search_profile="quartz",
+        vl_mode="adaptive",
+        penalty_mode="None",
+        root_only_shaping=True,
+    )
+    a3 = _clean_overrides(
+        {},
+        search_profile="quartz",
+        vl_mode="disabled",
+        penalty_mode="EffectiveV2",
+        root_only_shaping=True,
+    )
+    a4 = _clean_overrides(
+        {},
+        search_profile="quartz",
+        vl_mode="adaptive",
+        penalty_mode="EffectiveV2",
+        root_only_shaping=True,
+    )
 
     return [
-        Phase15System("A0", "S0 substrate only", "A", "S0", "none", "none", search_overrides=a0),
-        Phase15System("A1", "S0 + Quartz stop-only", "A", "S0", "QuartzStopOnly", "none", search_overrides=a1),
-        Phase15System("A2", "S0 + Quartz + VL", "A", "S0", "QuartzVL", "none", search_overrides=a2),
-        Phase15System("A3", "S1 + Quartz stop-only", "A", "S1", "QuartzStopOnly", "none", search_overrides=a3),
-        Phase15System("A4", "S1 + Quartz + VL", "A", "S1", "QuartzVL", "none", search_overrides=a4),
+        Phase15System(
+            "A0", "S0 substrate only", "A", "S0", "none", "none", search_overrides=a0
+        ),
+        Phase15System(
+            "A1",
+            "S0 + Quartz stop-only",
+            "A",
+            "S0",
+            "QuartzStopOnly",
+            "none",
+            search_overrides=a1,
+        ),
+        Phase15System(
+            "A2", "S0 + Quartz + VL", "A", "S0", "QuartzVL", "none", search_overrides=a2
+        ),
+        Phase15System(
+            "A3",
+            "S1 + Quartz stop-only",
+            "A",
+            "S1",
+            "QuartzStopOnly",
+            "none",
+            search_overrides=a3,
+        ),
+        Phase15System(
+            "A4", "S1 + Quartz + VL", "A", "S1", "QuartzVL", "none", search_overrides=a4
+        ),
         Phase15System(
             "B0",
             "A4 report alias (posthoc no-refresh baseline)",
@@ -1363,7 +1675,12 @@ def make_default_systems(_base_cfg: dict[str, Any]) -> list[Phase15System]:
             "QuartzVL",
             "dual_channel_commit",
             search_overrides=a4,
-            params={"commit_threshold": 0.55, "gate_scale": 1.0, "divergence_scale": 0.40, "entropy_scale": 0.35},
+            params={
+                "commit_threshold": 0.55,
+                "gate_scale": 1.0,
+                "divergence_scale": 0.40,
+                "entropy_scale": 0.35,
+            },
         ),
         Phase15System(
             "B2",
@@ -1427,7 +1744,10 @@ def make_default_systems(_base_cfg: dict[str, Any]) -> list[Phase15System]:
             "QuartzVL",
             "root_posterior_snapshot",
             search_overrides=a4,
-            params={"comparison_role": "a4_equivalence_anchor", "equivalence_anchor": "A4"},
+            params={
+                "comparison_role": "a4_equivalence_anchor",
+                "equivalence_anchor": "A4",
+            },
             report_alias="A4",
         ),
         Phase15System(
@@ -1679,7 +1999,9 @@ def make_default_systems(_base_cfg: dict[str, Any]) -> list[Phase15System]:
     ]
 
 
-def load_systems_config(path_str: str | None, base_cfg: dict[str, Any]) -> list[Phase15System]:
+def load_systems_config(
+    path_str: str | None, base_cfg: dict[str, Any]
+) -> list[Phase15System]:
     if not path_str:
         systems = make_default_systems(base_cfg)
         validate_phase15_systems(systems)
@@ -1701,20 +2023,30 @@ def load_systems_config(path_str: str | None, base_cfg: dict[str, Any]) -> list[
                 search_overrides=dict(row.get("search_overrides") or {}),
                 params=dict(row.get("params") or {}),
                 execution_mode=str(row.get("execution_mode", "posthoc")),
-                report_alias=str(row["report_alias"]) if row.get("report_alias") is not None else None,
+                report_alias=str(row["report_alias"])
+                if row.get("report_alias") is not None
+                else None,
             )
         )
     validate_phase15_systems(systems)
     return systems
 
 
-def summarize_rows(rows: list[dict[str, Any]], metric_keys: list[str]) -> list[dict[str, Any]]:
+def summarize_rows(
+    rows: list[dict[str, Any]], metric_keys: list[str]
+) -> list[dict[str, Any]]:
     grouped: dict[tuple[str, str, int], dict[str, Any]] = {}
     for row in rows:
         key = (str(row["group"]), str(row["system"]), int(row["budget"]))
         acc = grouped.setdefault(
             key,
-            {"group": key[0], "system": key[1], "budget": key[2], "rows": 0, "_bucket_counts": {}},
+            {
+                "group": key[0],
+                "system": key[1],
+                "budget": key[2],
+                "rows": 0,
+                "_bucket_counts": {},
+            },
         )
         acc["rows"] += 1
         bucket = str(row.get("position_bucket", "all"))

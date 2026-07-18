@@ -28,7 +28,7 @@ def _arg_value(argv: list[str], flag: str) -> str | None:
         if arg == flag and i + 1 < len(argv):
             return argv[i + 1]
         if arg.startswith(prefix):
-            return arg[len(prefix):]
+            return arg[len(prefix) :]
     return None
 
 

@@ -182,10 +182,18 @@ CONTROLLER_AXES_TRAIN_CONDITIONS = {
 }
 
 CONTROLLER_AXES_EVAL_CONDITIONS = {
-    "EA1_legacy_tree_norefresh": copy.deepcopy(CONTROLLER_AXES_TRAIN_CONDITIONS["A1_legacy_tree_norefresh"]),
-    "EA2_legacy_root_norefresh": copy.deepcopy(CONTROLLER_AXES_TRAIN_CONDITIONS["A2_legacy_root_norefresh"]),
-    "EA3_theory_root_norefresh": copy.deepcopy(CONTROLLER_AXES_TRAIN_CONDITIONS["A3_theory_root_norefresh"]),
-    "EA4_theory_root_refresh": copy.deepcopy(CONTROLLER_AXES_TRAIN_CONDITIONS["A4_theory_root_refresh"]),
+    "EA1_legacy_tree_norefresh": copy.deepcopy(
+        CONTROLLER_AXES_TRAIN_CONDITIONS["A1_legacy_tree_norefresh"]
+    ),
+    "EA2_legacy_root_norefresh": copy.deepcopy(
+        CONTROLLER_AXES_TRAIN_CONDITIONS["A2_legacy_root_norefresh"]
+    ),
+    "EA3_theory_root_norefresh": copy.deepcopy(
+        CONTROLLER_AXES_TRAIN_CONDITIONS["A3_theory_root_norefresh"]
+    ),
+    "EA4_theory_root_refresh": copy.deepcopy(
+        CONTROLLER_AXES_TRAIN_CONDITIONS["A4_theory_root_refresh"]
+    ),
 }
 
 # Q4 (audit_codex_20260428.md W'4): the existing controller_axes /
@@ -225,9 +233,15 @@ HALT_ATTRIBUTION_TRAIN_CONDITIONS = {
 }
 
 HALT_ATTRIBUTION_EVAL_CONDITIONS = {
-    "EH1_voc_default": copy.deepcopy(HALT_ATTRIBUTION_TRAIN_CONDITIONS["H1_voc_default"]),
-    "EH2_simple_threshold": copy.deepcopy(HALT_ATTRIBUTION_TRAIN_CONDITIONS["H2_simple_threshold"]),
-    "EH3_fixed_full_budget": copy.deepcopy(HALT_ATTRIBUTION_TRAIN_CONDITIONS["H3_fixed_full_budget"]),
+    "EH1_voc_default": copy.deepcopy(
+        HALT_ATTRIBUTION_TRAIN_CONDITIONS["H1_voc_default"]
+    ),
+    "EH2_simple_threshold": copy.deepcopy(
+        HALT_ATTRIBUTION_TRAIN_CONDITIONS["H2_simple_threshold"]
+    ),
+    "EH3_fixed_full_budget": copy.deepcopy(
+        HALT_ATTRIBUTION_TRAIN_CONDITIONS["H3_fixed_full_budget"]
+    ),
 }
 
 STRICT_REFERENCE_CONDITION = {
@@ -368,8 +382,7 @@ def resolve_frozen_eval_condition(
     # Q4: halt_attribution presets also need a frozen eval condition so the
     # comparison varies only `halt_mode`, not the eval engine itself.
     if (
-        study in CONTROLLER_ATTRIBUTION_PRESETS
-        or study in HALT_ATTRIBUTION_PRESETS
+        study in CONTROLLER_ATTRIBUTION_PRESETS or study in HALT_ATTRIBUTION_PRESETS
     ) and eval_conditions:
         return sorted(eval_conditions)[0]
     return None
@@ -415,7 +428,9 @@ def json_dump(path: Path, payload: dict) -> None:
     path.write_text(json.dumps(payload, indent=2), encoding="utf-8")
 
 
-def summarize_ablation_contracts(expected_manifests: dict | None, discarded_matches: list[dict] | None) -> dict:
+def summarize_ablation_contracts(
+    expected_manifests: dict | None, discarded_matches: list[dict] | None
+) -> dict:
     return summarize_named_contract_map(
         expected_manifests,
         discarded_matches,
@@ -434,7 +449,11 @@ def attach_ablation_contract_summary(payload: dict) -> dict:
 def build_runtime_contract(args: argparse.Namespace) -> dict:
     rust_binary = getattr(args, "rust_binary", "./target/release/mcts_demo")
     rust_binary_path = Path(rust_binary).expanduser()
-    rust_binary_abs = str(rust_binary_path.resolve()) if rust_binary_path.exists() else str(rust_binary_path)
+    rust_binary_abs = (
+        str(rust_binary_path.resolve())
+        if rust_binary_path.exists()
+        else str(rust_binary_path)
+    )
     return {
         "backend": getattr(args, "backend", "auto"),
         "device": getattr(args, "device", "auto"),
@@ -450,7 +469,9 @@ def build_runtime_contract(args: argparse.Namespace) -> dict:
         "allow_unsafe_benchmark": bool(getattr(args, "allow_unsafe_benchmark", False)),
         "eval_seed": getattr(args, "eval_seed", None),
         "paired_seed_eval": bool(getattr(args, "paired_seed_eval", False)),
-        "include_strict_reference": bool(getattr(args, "include_strict_reference", False)),
+        "include_strict_reference": bool(
+            getattr(args, "include_strict_reference", False)
+        ),
         "python": sys.executable,
         "cwd": str(Path.cwd()),
         "config_layout": "repo_top_level_configs",
@@ -628,7 +649,9 @@ def condition_runtime_overrides(condition_cfg: dict) -> dict:
     }
 
 
-def condition_run_dir(base_dir: Path, condition_name: str, seed: int, multi_seed: bool) -> Path:
+def condition_run_dir(
+    base_dir: Path, condition_name: str, seed: int, multi_seed: bool
+) -> Path:
     root = base_dir / "models" / condition_name
     return root / f"seed_{seed}" if multi_seed else root
 
@@ -659,8 +682,12 @@ def effective_search_config_view(condition_cfg: dict | None) -> dict:
         "penalty_mode": cfg.get("penalty_mode", "GatedRefresh"),
         "halt_mode": cfg.get("halt_mode"),
         "root_only_shaping": cfg.get("root_only_shaping"),
-        "prior_refresh_rate": 0.0 if cfg.get("prior_refresh_rate") is None else cfg.get("prior_refresh_rate"),
-        "prior_refresh_temp": 1.0 if cfg.get("prior_refresh_temp") is None else cfg.get("prior_refresh_temp"),
+        "prior_refresh_rate": 0.0
+        if cfg.get("prior_refresh_rate") is None
+        else cfg.get("prior_refresh_rate"),
+        "prior_refresh_temp": 1.0
+        if cfg.get("prior_refresh_temp") is None
+        else cfg.get("prior_refresh_temp"),
         "c_puct": cfg.get("c_puct"),
         "sigma_0": cfg.get("sigma_0"),
         "min_visits": cfg.get("min_visits"),
@@ -786,9 +813,7 @@ def controller_identity_hash_for_axes(
     cfg = condition_cfg or {}
     excluded = set(axis_keys)
     payload = {
-        key: cfg.get(key)
-        for key in controller_identity_keys()
-        if key not in excluded
+        key: cfg.get(key) for key in controller_identity_keys() if key not in excluded
     }
     return stable_json_hash(payload)
 
@@ -959,22 +984,25 @@ def discover_model_runs(base_dir: Path) -> list[dict]:
                     "train_cfg": meta.get("train_cfg", {}),
                     "legacy_partial": True,
                 }
-            runs.append({
-                "id": run_id,
-                "condition": meta.get("condition", condition_dir.name),
-                "seed": seed,
-                "game": meta.get("game"),
-                "train_cfg": meta.get("train_cfg", {}),
-                "controller_surface": controller_surface(meta.get("train_cfg", {})),
-                "train_contract": train_contract,
-                "train_contract_hash": meta.get("train_contract_hash") or stable_json_hash(train_contract),
-                "run_dir": str(run_dir),
-                "elapsed_s": meta.get("elapsed_s", 0),
-                "returncode": meta.get("returncode"),
-                "success": meta.get("returncode") == 0,
-                "model_path": str(model_path) if model_path is not None else None,
-                "metrics": metrics,
-            })
+            runs.append(
+                {
+                    "id": run_id,
+                    "condition": meta.get("condition", condition_dir.name),
+                    "seed": seed,
+                    "game": meta.get("game"),
+                    "train_cfg": meta.get("train_cfg", {}),
+                    "controller_surface": controller_surface(meta.get("train_cfg", {})),
+                    "train_contract": train_contract,
+                    "train_contract_hash": meta.get("train_contract_hash")
+                    or stable_json_hash(train_contract),
+                    "run_dir": str(run_dir),
+                    "elapsed_s": meta.get("elapsed_s", 0),
+                    "returncode": meta.get("returncode"),
+                    "success": meta.get("returncode") == 0,
+                    "model_path": str(model_path) if model_path is not None else None,
+                    "metrics": metrics,
+                }
+            )
     return runs
 
 
@@ -1014,7 +1042,9 @@ def summarize_pipeline_telemetry(runs: list[dict]) -> dict:
         if concurrent:
             concurrent_runs += 1
         run_dir = Path(run.get("run_dir") or "")
-        rows = [row for row in _iter_train_log_rows(run_dir) if row.get("_type") != "eval"]
+        rows = [
+            row for row in _iter_train_log_rows(run_dir) if row.get("_type") != "eval"
+        ]
         run_freshness = []
         run_pos_per_s = []
         run_worker_queue_latency = []
@@ -1082,7 +1112,9 @@ def summarize_pipeline_telemetry(runs: list[dict]) -> dict:
                 "freshness": _numeric_summary(run_freshness),
                 "pos_per_s": _numeric_summary(run_pos_per_s),
                 "selfplay_queue_latency_s": _numeric_summary(run_worker_queue_latency),
-                "worker_rolling_positions_per_s": _numeric_summary(run_worker_rolling_pps),
+                "worker_rolling_positions_per_s": _numeric_summary(
+                    run_worker_rolling_pps
+                ),
                 "new_pos_sum": int(run_new_pos),
                 "train_steps_sum": int(run_train_steps),
                 "backpressure_waits_max": int(run_backpressure_waits),
@@ -1095,9 +1127,15 @@ def summarize_pipeline_telemetry(runs: list[dict]) -> dict:
         "run_count": len(runs),
         "concurrent_run_count": int(concurrent_runs),
         "row_count": int(row_count),
-        "freshness_coverage_frac": float(freshness_rows / row_count) if row_count else None,
-        "throughput_coverage_frac": float(throughput_rows / row_count) if row_count else None,
-        "worker_telemetry_coverage_frac": float(worker_rows / row_count) if row_count else None,
+        "freshness_coverage_frac": float(freshness_rows / row_count)
+        if row_count
+        else None,
+        "throughput_coverage_frac": float(throughput_rows / row_count)
+        if row_count
+        else None,
+        "worker_telemetry_coverage_frac": float(worker_rows / row_count)
+        if row_count
+        else None,
         "freshness": _numeric_summary(all_freshness),
         "pos_per_s": _numeric_summary(all_pos_per_s),
         "selfplay_queue_latency_s": _numeric_summary(all_worker_queue_latency),
@@ -1137,7 +1175,9 @@ def summarize_seed_protocol(runs: list[dict], eval_payload: dict | None = None) 
     common_seeds = set.intersection(*seed_sets) if seed_sets else set()
     union_seeds = set.union(*seed_sets) if seed_sets else set()
     min_seed_count = min((len(seeds) for seeds in seed_sets), default=0)
-    seed_sets_aligned = bool(seed_sets) and all(seeds == seed_sets[0] for seeds in seed_sets)
+    seed_sets_aligned = bool(seed_sets) and all(
+        seeds == seed_sets[0] for seeds in seed_sets
+    )
 
     eval_matches = list((eval_payload or {}).get("matches") or [])
     known_eval_pairs = 0
@@ -1157,18 +1197,19 @@ def summarize_seed_protocol(runs: list[dict], eval_payload: dict | None = None) 
             cross_condition_eval_pairs += 1
         if seed_a == seed_b:
             same_seed_eval_pairs += 1
-    paired_seed_eval_requested = bool(((eval_payload or {}).get("runtime_contract") or {}).get("paired_seed_eval"))
-    same_seed_pair_frac = float(same_seed_eval_pairs / known_eval_pairs) if known_eval_pairs else None
-    paired_seed_claim_ready = (
-        len(seeds_by_condition) <= 1
-        or (
-            len(common_seeds) >= 3
-            and bool(seed_sets_aligned)
-            and bool(paired_seed_eval_requested)
-            and cross_condition_eval_pairs > 0
-            and same_seed_pair_frac is not None
-            and same_seed_pair_frac >= 1.0
-        )
+    paired_seed_eval_requested = bool(
+        ((eval_payload or {}).get("runtime_contract") or {}).get("paired_seed_eval")
+    )
+    same_seed_pair_frac = (
+        float(same_seed_eval_pairs / known_eval_pairs) if known_eval_pairs else None
+    )
+    paired_seed_claim_ready = len(seeds_by_condition) <= 1 or (
+        len(common_seeds) >= 3
+        and bool(seed_sets_aligned)
+        and bool(paired_seed_eval_requested)
+        and cross_condition_eval_pairs > 0
+        and same_seed_pair_frac is not None
+        and same_seed_pair_frac >= 1.0
     )
     return {
         "schema_version": 1,
@@ -1193,7 +1234,9 @@ def summarize_seed_protocol(runs: list[dict], eval_payload: dict | None = None) 
     }
 
 
-def summarize_evaluation_protocol(runs: list[dict], eval_payload: dict | None = None) -> dict:
+def summarize_evaluation_protocol(
+    runs: list[dict], eval_payload: dict | None = None
+) -> dict:
     """Summarize whether eval rows support same-protocol comparison claims.
 
     This is passive report metadata. It does not decide who won; it records
@@ -1240,7 +1283,9 @@ def summarize_evaluation_protocol(runs: list[dict], eval_payload: dict | None = 
         manifest_hash = row.get("search_manifest_hash")
         if manifest_hash:
             rows_with_search_manifest_hash += 1
-            search_hashes_by_condition.setdefault(condition, set()).add(str(manifest_hash))
+            search_hashes_by_condition.setdefault(condition, set()).add(
+                str(manifest_hash)
+            )
 
         if row.get("games") is not None:
             games_per_row.add(int(row.get("games") or 0))
@@ -1264,17 +1309,24 @@ def summarize_evaluation_protocol(runs: list[dict], eval_payload: dict | None = 
         len(search_hashes_by_condition.get(condition, set())) == 1
         for condition in eval_conditions
     )
-    expected_eval_seed_coverage = bool(eval_condition_set) and eval_condition_set.issubset(
-        expected_seed_conditions
-    )
-    expected_benchmark_coverage = bool(eval_condition_set) and eval_condition_set.issubset(
-        expected_benchmark_conditions
-    )
-    complete_pair_eval_matrix = bool(matches) and bool(pair_condition_coverage) and all(
-        coverage == eval_condition_set for coverage in pair_condition_coverage.values()
+    expected_eval_seed_coverage = bool(
+        eval_condition_set
+    ) and eval_condition_set.issubset(expected_seed_conditions)
+    expected_benchmark_coverage = bool(
+        eval_condition_set
+    ) and eval_condition_set.issubset(expected_benchmark_conditions)
+    complete_pair_eval_matrix = (
+        bool(matches)
+        and bool(pair_condition_coverage)
+        and all(
+            coverage == eval_condition_set
+            for coverage in pair_condition_coverage.values()
+        )
     )
     game_count_consistent = bool(matches) and len(games_per_row) <= 1
-    eval_seed_consistent = bool(expected_eval_seeds) and len(set(expected_eval_seeds.values())) <= 1
+    eval_seed_consistent = (
+        bool(expected_eval_seeds) and len(set(expected_eval_seeds.values())) <= 1
+    )
     benchmark_safe_all_expected = (
         bool(expected_benchmark)
         and expected_benchmark_coverage
@@ -1369,7 +1421,9 @@ def _loss_pair_stratum(bucket_a: str, bucket_b: str) -> str:
     return "__".join(sorted((bucket_a, bucket_b)))
 
 
-def summarize_evaluator_quality_strata(runs: list[dict], eval_payload: dict | None = None) -> dict:
+def summarize_evaluator_quality_strata(
+    runs: list[dict], eval_payload: dict | None = None
+) -> dict:
     """Group evaluation rows by available NN/evaluator quality proxies.
 
     The runner does not currently run a held-out value/policy calibration set.
@@ -1458,8 +1512,12 @@ def summarize_evaluator_quality_strata(runs: list[dict], eval_payload: dict | No
             rows_with_known_models += 1
             has_proxy_pair = bool(qa["has_quality_proxy"] and qb["has_quality_proxy"])
             has_loss_pair = qa["loss"] is not None and qb["loss"] is not None
-            has_elo_pair = qa["published_elo"] is not None and qb["published_elo"] is not None
-            has_score_pair = qa["score_rate"] is not None and qb["score_rate"] is not None
+            has_elo_pair = (
+                qa["published_elo"] is not None and qb["published_elo"] is not None
+            )
+            has_score_pair = (
+                qa["score_rate"] is not None and qb["score_rate"] is not None
+            )
             rows_with_quality_proxy_pair += int(has_proxy_pair)
             rows_with_loss_pair += int(has_loss_pair)
             rows_with_elo_pair += int(has_elo_pair)
@@ -1533,7 +1591,9 @@ def summarize_evaluator_quality_strata(runs: list[dict], eval_payload: dict | No
     quality_proxy_pair_coverage = (
         float(rows_with_quality_proxy_pair / match_count) if match_count else None
     )
-    loss_pair_coverage = float(rows_with_loss_pair / match_count) if match_count else None
+    loss_pair_coverage = (
+        float(rows_with_loss_pair / match_count) if match_count else None
+    )
     stratification_ready = (
         bool(matches)
         and rows_with_known_models == match_count
@@ -1548,9 +1608,7 @@ def summarize_evaluator_quality_strata(runs: list[dict], eval_payload: dict | No
         "models_with_published_elo": int(elo_models),
         "models_with_score_rate": int(score_models),
         "loss_bucket_counts": dict(sorted(loss_bucket_counts.items())),
-        "model_quality": {
-            key: model_quality[key] for key in sorted(model_quality)
-        },
+        "model_quality": {key: model_quality[key] for key in sorted(model_quality)},
         "match_count": int(match_count),
         "rows_with_known_models": int(rows_with_known_models),
         "rows_with_quality_proxy_pair": int(rows_with_quality_proxy_pair),
@@ -1623,7 +1681,9 @@ def summarize_heldout_calibration(base_dir: Path, runs: list[dict]) -> dict:
         }
     raw_models = payload.get("models") or {}
     if isinstance(raw_models, list):
-        models = {str(row.get("id")): row for row in raw_models if row.get("id") is not None}
+        models = {
+            str(row.get("id")): row for row in raw_models if row.get("id") is not None
+        }
     else:
         models = {str(key): value for key, value in dict(raw_models).items()}
     metric_keys = ("n_positions", "policy_nll", "value_mse", "top1_acc", "brier")
@@ -1646,9 +1706,7 @@ def summarize_heldout_calibration(base_dir: Path, runs: list[dict]) -> dict:
         "model_count": int(len(required_ids)),
         "covered_model_count": int(len(covered)),
         "coverage_frac": (
-            float(len(covered) / len(required_ids))
-            if required_ids
-            else None
+            float(len(covered) / len(required_ids)) if required_ids else None
         ),
         "calibration_ready": bool(required_ids and not missing_ids),
         "missing_model_ids": missing_ids,
@@ -1718,12 +1776,16 @@ def summarize_hardware_runtime(
     runtime_contracts = []
     eval_runtime = (eval_payload or {}).get("runtime_contract") or {}
     if eval_runtime:
-        runtime_contracts.append({"source": "evaluation_matrix", "runtime_contract": eval_runtime})
+        runtime_contracts.append(
+            {"source": "evaluation_matrix", "runtime_contract": eval_runtime}
+        )
     for run in runs:
         train_contract = run.get("train_contract") or {}
         runtime_contract = train_contract.get("runtime_contract") or {}
         if runtime_contract:
-            runtime_contracts.append({"source": run.get("id"), "runtime_contract": runtime_contract})
+            runtime_contracts.append(
+                {"source": run.get("id"), "runtime_contract": runtime_contract}
+            )
         else:
             runtime_contract = {
                 "backend": train_contract.get("backend"),
@@ -1743,23 +1805,34 @@ def summarize_hardware_runtime(
     pipeline_aggregate = (pipeline_telemetry_summary or {}).get("aggregate") or {}
     observed_runtime_telemetry = {
         "pipeline_rows": int(pipeline_aggregate.get("row_count") or 0),
-        "pipeline_pos_per_s_mean": (pipeline_aggregate.get("pos_per_s") or {}).get("mean"),
-        "pipeline_freshness_mean": (pipeline_aggregate.get("freshness") or {}).get("mean"),
+        "pipeline_pos_per_s_mean": (pipeline_aggregate.get("pos_per_s") or {}).get(
+            "mean"
+        ),
+        "pipeline_freshness_mean": (pipeline_aggregate.get("freshness") or {}).get(
+            "mean"
+        ),
         "worker_rolling_positions_per_s_mean": (
             pipeline_aggregate.get("worker_rolling_positions_per_s") or {}
         ).get("mean"),
-        "inference_eval_items": int(pipeline_aggregate.get("inference_eval_items") or 0),
-        "inference_model_calls": int(pipeline_aggregate.get("inference_model_calls") or 0),
+        "inference_eval_items": int(
+            pipeline_aggregate.get("inference_eval_items") or 0
+        ),
+        "inference_model_calls": int(
+            pipeline_aggregate.get("inference_model_calls") or 0
+        ),
     }
     has_profiler = bool(profiler_artifacts)
     has_runtime_telemetry = any(
-        value not in (None, 0, 0.0)
-        for value in observed_runtime_telemetry.values()
+        value not in (None, 0, 0.0) for value in observed_runtime_telemetry.values()
     )
     claim_scope = (
         "hardware_profiled"
         if has_profiler
-        else ("runtime_telemetry_only" if has_runtime_telemetry else "requested_runtime_only")
+        else (
+            "runtime_telemetry_only"
+            if has_runtime_telemetry
+            else "requested_runtime_only"
+        )
     )
     return {
         "schema_version": 1,
@@ -1784,8 +1857,12 @@ def build_study_manifest(args: argparse.Namespace) -> dict:
     preset = pin_halt_mode_for_attribution(resolve_study_preset(args.study), args.study)
     train_conditions = preset["train_conditions"]
     eval_conditions = preset["eval_conditions"]
-    selected_train_conditions = parse_selected_conditions(args.conditions, train_conditions)
-    selected_eval_conditions = parse_selected_conditions(args.eval_conditions, eval_conditions)
+    selected_train_conditions = parse_selected_conditions(
+        args.conditions, train_conditions
+    )
+    selected_eval_conditions = parse_selected_conditions(
+        args.eval_conditions, eval_conditions
+    )
     from quartz import runtime_support as support_mod
 
     unknown_keys = {}
@@ -1821,16 +1898,20 @@ def build_study_manifest(args: argparse.Namespace) -> dict:
         "conditions": selected_train_conditions,
         "eval_conditions_selected": selected_eval_conditions,
         "train_conditions": {
-            name: copy.deepcopy(train_conditions[name]) for name in selected_train_conditions
+            name: copy.deepcopy(train_conditions[name])
+            for name in selected_train_conditions
         },
         "eval_conditions": {
-            name: copy.deepcopy(eval_conditions[name]) for name in selected_eval_conditions
+            name: copy.deepcopy(eval_conditions[name])
+            for name in selected_eval_conditions
         },
         "train_condition_surfaces": {
-            name: controller_surface(train_conditions[name]) for name in selected_train_conditions
+            name: controller_surface(train_conditions[name])
+            for name in selected_train_conditions
         },
         "eval_condition_surfaces": {
-            name: controller_surface(eval_conditions[name]) for name in selected_eval_conditions
+            name: controller_surface(eval_conditions[name])
+            for name in selected_eval_conditions
         },
         "train_condition_effective_search_config": {
             name: effective_search_config_view(train_conditions[name])
@@ -1871,7 +1952,9 @@ def build_study_manifest(args: argparse.Namespace) -> dict:
     return manifest
 
 
-def compute_match_statistics(wins_a: int, wins_b: int, draws: int) -> tuple[float, list[float], str, dict]:
+def compute_match_statistics(
+    wins_a: int, wins_b: int, draws: int
+) -> tuple[float, list[float], str, dict]:
     total = int(wins_a) + int(wins_b) + int(draws)
     score_rate, ci = score_rate_ci(int(wins_a), int(draws), total)
     decisive = int(wins_a) + int(wins_b)
@@ -1981,7 +2064,9 @@ def run_training(
         except Exception:
             previous = None
         if previous and previous.get("returncode") == 0 and existing_model is not None:
-            expected_train_contract = build_training_contract(args, condition_name, condition_cfg, seed)
+            expected_train_contract = build_training_contract(
+                args, condition_name, condition_cfg, seed
+            )
             expected_train_contract_hash = stable_json_hash(expected_train_contract)
             if previous.get("train_contract_hash") == expected_train_contract_hash:
                 return {
@@ -2009,8 +2094,12 @@ def run_training(
     json_dump(condition_path, meta)
 
     print(f"\n{'=' * 76}")
-    print(f"TRAIN {meta['run_id']}  game={args.game}  iter={args.iterations}  seed={seed}")
-    print(f"search={condition_cfg['search_profile']}  vl={condition_cfg['vl_mode']}  out={output_dir}")
+    print(
+        f"TRAIN {meta['run_id']}  game={args.game}  iter={args.iterations}  seed={seed}"
+    )
+    print(
+        f"search={condition_cfg['search_profile']}  vl={condition_cfg['vl_mode']}  out={output_dir}"
+    )
     overrides = condition_runtime_overrides(condition_cfg)
     if overrides:
         print(f"overrides={json.dumps(overrides, sort_keys=True)}")
@@ -2035,7 +2124,9 @@ def run_training(
         try:
             train_log_path.unlink()
         except OSError as exc:
-            print(f"  [WARN] could not truncate stale train_log {train_log_path}: {exc}")
+            print(
+                f"  [WARN] could not truncate stale train_log {train_log_path}: {exc}"
+            )
 
     # P05: forward calibration directory to the Rust server process via
     # the shared env var. The server's apply_search_profile reads this on
@@ -2058,7 +2149,9 @@ def run_training(
             proc_env["QUARTZ_SEARCH_POLICY"] = str(search_policy)
     t0 = time.time()
     try:
-        proc = subprocess.run(meta["cmd"], check=False, timeout=args.timeout_hours * 3600, env=proc_env)
+        proc = subprocess.run(
+            meta["cmd"], check=False, timeout=args.timeout_hours * 3600, env=proc_env
+        )
         returncode = proc.returncode
     except subprocess.TimeoutExpired:
         print(f"  [TIMEOUT] {meta['run_id']} exceeded {args.timeout_hours}h")
@@ -2080,7 +2173,9 @@ def run_training(
     }
 
 
-def build_eval_cfg(game_name: str, eval_cfg: dict, device_name: str, model_path: str | None = None) -> tuple[dict, object]:
+def build_eval_cfg(
+    game_name: str, eval_cfg: dict, device_name: str, model_path: str | None = None
+) -> tuple[dict, object]:
     import torch
     from quartz.alphazero_train import (
         GAME_CONFIGS,
@@ -2099,14 +2194,19 @@ def build_eval_cfg(game_name: str, eval_cfg: dict, device_name: str, model_path:
     if model_path is not None:
         try:
             from quartz.backend import load_checkpoint_with_metadata
-            sd, ckpt_cfg = load_checkpoint_with_metadata(model_path, torch, map_location="cpu")
+
+            sd, ckpt_cfg = load_checkpoint_with_metadata(
+                model_path, torch, map_location="cpu"
+            )
             if ckpt_cfg:
                 for k in ("blocks", "filters", "vh"):
                     if k in ckpt_cfg:
                         cfg[k] = ckpt_cfg[k]
             else:
                 # Legacy checkpoint: infer block count from state_dict keys
-                tower_indices = {int(k.split(".")[1]) for k in sd if k.startswith("tower.")}
+                tower_indices = {
+                    int(k.split(".")[1]) for k in sd if k.startswith("tower.")
+                }
                 if tower_indices:
                     actual_blocks = max(tower_indices) + 1
                     if actual_blocks != cfg.get("blocks"):
@@ -2119,7 +2219,9 @@ def build_eval_cfg(game_name: str, eval_cfg: dict, device_name: str, model_path:
     except Exception:
         cfg["_encoder"] = None
     resolved_device = auto_device_name() if device_name == "auto" else device_name
-    runtime_overrides = load_eval_runtime_overrides_from_model(model_path, resolved_device)
+    runtime_overrides = load_eval_runtime_overrides_from_model(
+        model_path, resolved_device
+    )
     if runtime_overrides:
         cfg = apply_config_overrides(cfg, runtime_overrides)
     try:
@@ -2132,11 +2234,15 @@ def build_eval_cfg(game_name: str, eval_cfg: dict, device_name: str, model_path:
     return cfg, torch.device(resolved_device)
 
 
-def build_eval_engine(model_run: dict, args: argparse.Namespace, eval_cfg: dict, device) -> tuple[object, dict]:
+def build_eval_engine(
+    model_run: dict, args: argparse.Namespace, eval_cfg: dict, device
+) -> tuple[object, dict]:
     from quartz import runtime_support as support_mod
     from quartz.evaluator_runtime import RustNNEvaluatorEngine
 
-    engine_cfg, _ = build_eval_cfg(args.game, eval_cfg, args.device, model_path=model_run["model_path"])
+    engine_cfg, _ = build_eval_cfg(
+        args.game, eval_cfg, args.device, model_path=model_run["model_path"]
+    )
     apply_eval_seed_contract(engine_cfg, args, None, eval_cfg)
     actor = support_mod.load_actor_source_from_checkpoint(
         model_run["model_path"],
@@ -2163,7 +2269,17 @@ def build_opening_book(game_name: str) -> list[list[int]]:
 def aggregate_matches(model_runs: list[dict], matches: list[dict]) -> dict:
     by_id = {run["id"]: run for run in model_runs}
     totals = {}
-    overall = {run["id"]: {"id": run["id"], "points": 0.0, "games": 0, "wins": 0, "losses": 0, "draws": 0} for run in model_runs}
+    overall = {
+        run["id"]: {
+            "id": run["id"],
+            "points": 0.0,
+            "games": 0,
+            "wins": 0,
+            "losses": 0,
+            "draws": 0,
+        }
+        for run in model_runs
+    }
 
     for match in matches:
         if match["a_id"] not in by_id or match["b_id"] not in by_id:
@@ -2173,7 +2289,14 @@ def aggregate_matches(model_runs: list[dict], matches: list[dict]) -> dict:
         for run in model_runs:
             totals[eval_name].setdefault(
                 run["id"],
-                {"id": run["id"], "points": 0.0, "games": 0, "wins": 0, "losses": 0, "draws": 0},
+                {
+                    "id": run["id"],
+                    "points": 0.0,
+                    "games": 0,
+                    "wins": 0,
+                    "losses": 0,
+                    "draws": 0,
+                },
             )
 
         points_a = float(match["wins_a"]) + 0.5 * float(match["draws"])
@@ -2209,7 +2332,9 @@ def aggregate_matches(model_runs: list[dict], matches: list[dict]) -> dict:
             entry["condition"] = by_id.get(row["id"], {}).get("condition")
             entry["seed"] = by_id.get(row["id"], {}).get("seed")
             ordered.append(entry)
-        ordered.sort(key=lambda item: (-item["score_rate"], -item["win_rate"], item["id"]))
+        ordered.sort(
+            key=lambda item: (-item["score_rate"], -item["win_rate"], item["id"])
+        )
         leaderboards[eval_name] = ordered
 
     overall_rows = []
@@ -2221,7 +2346,9 @@ def aggregate_matches(model_runs: list[dict], matches: list[dict]) -> dict:
         entry["condition"] = by_id.get(row["id"], {}).get("condition")
         entry["seed"] = by_id.get(row["id"], {}).get("seed")
         overall_rows.append(entry)
-    overall_rows.sort(key=lambda item: (-item["score_rate"], -item["win_rate"], item["id"]))
+    overall_rows.sort(
+        key=lambda item: (-item["score_rate"], -item["win_rate"], item["id"])
+    )
 
     return {
         "matches": matches,
@@ -2245,8 +2372,8 @@ def _across_seed_summary(values: list[float]) -> dict:
         return {"n": n, "mean": mean, "std": None, "sem": None, "ci95": None}
     # Sample standard deviation (Bessel's correction).
     var = sum((float(v) - mean) ** 2 for v in values) / (n - 1)
-    std = var ** 0.5
-    sem = std / (n ** 0.5)
+    std = var**0.5
+    sem = std / (n**0.5)
     # 1.96 × SEM is the 95% normal-approx CI half-width; cf. score_rate_ci.
     half = 1.96 * sem
     return {
@@ -2309,7 +2436,11 @@ def summarize_conditions(runs: list[dict], eval_payload: dict | None = None) -> 
     training_rows.sort(
         key=lambda item: (
             -(item["mean_elo"] if item["mean_elo"] is not None else float("-inf")),
-            -(item["mean_score_rate"] if item["mean_score_rate"] is not None else float("-inf")),
+            -(
+                item["mean_score_rate"]
+                if item["mean_score_rate"] is not None
+                else float("-inf")
+            ),
             item["condition"],
         )
     )
@@ -2323,7 +2454,15 @@ def summarize_conditions(runs: list[dict], eval_payload: dict | None = None) -> 
                 continue
             acc = grouped.setdefault(
                 cond,
-                {"condition": cond, "points": 0.0, "games": 0, "wins": 0, "losses": 0, "draws": 0, "entries": 0},
+                {
+                    "condition": cond,
+                    "points": 0.0,
+                    "games": 0,
+                    "wins": 0,
+                    "losses": 0,
+                    "draws": 0,
+                    "entries": 0,
+                },
             )
             acc["points"] += float(row.get("points", 0.0))
             acc["games"] += int(row.get("games", 0))
@@ -2346,7 +2485,9 @@ def summarize_conditions(runs: list[dict], eval_payload: dict | None = None) -> 
                     "win_rate": row["wins"] / games,
                 }
             )
-        evaluation_rows.sort(key=lambda item: (-item["score_rate"], -item["win_rate"], item["condition"]))
+        evaluation_rows.sort(
+            key=lambda item: (-item["score_rate"], -item["win_rate"], item["condition"])
+        )
 
     return {
         "training": training_rows,
@@ -2360,7 +2501,7 @@ def summarize_selection_trace_contract(eval_payload: dict | None) -> dict:
     for match in (eval_payload or {}).get("matches", []):
         eval_name = match.get("eval_condition") or "unknown"
         realized_budget = match.get("realized_budget_trace") or {}
-        trace = (realized_budget.get("selection_trace") or {})
+        trace = realized_budget.get("selection_trace") or {}
         row = rows.setdefault(
             eval_name,
             {
@@ -2384,7 +2525,9 @@ def summarize_selection_trace_contract(eval_payload: dict | None) -> dict:
             row["_coverage_weighted_sum"] += float(coverage) * games
         row["root_selects"] += int(trace.get("root_selects") or 0)
         row["refresh_selected_count"] += int(trace.get("refresh_selected_count") or 0)
-        row["selected_penalty_abs_sum"] += float(trace.get("selected_penalty_abs_sum") or 0.0)
+        row["selected_penalty_abs_sum"] += float(
+            trace.get("selected_penalty_abs_sum") or 0.0
+        )
         row["selected_effective_prior_l1_sum"] += float(
             trace.get("selected_effective_prior_l1_sum") or 0.0
         )
@@ -2398,13 +2541,19 @@ def summarize_selection_trace_contract(eval_payload: dict | None) -> dict:
             float(coverage_weighted_sum / coverage_games) if coverage_games else None
         )
         item["refresh_selected_frac"] = (
-            float(row["refresh_selected_count"] / root_selects) if root_selects else None
+            float(row["refresh_selected_count"] / root_selects)
+            if root_selects
+            else None
         )
         item["mean_penalty_abs_per_root_select"] = (
-            float(row["selected_penalty_abs_sum"] / root_selects) if root_selects else None
+            float(row["selected_penalty_abs_sum"] / root_selects)
+            if root_selects
+            else None
         )
         item["mean_prior_l1_per_root_select"] = (
-            float(row["selected_effective_prior_l1_sum"] / root_selects) if root_selects else None
+            float(row["selected_effective_prior_l1_sum"] / root_selects)
+            if root_selects
+            else None
         )
         out.append(item)
     out.sort(key=lambda item: item["eval_condition"])
@@ -2459,20 +2608,32 @@ def summarize_budget_fairness(eval_payload: dict | None) -> dict:
             row["_root_visit_samples"].extend(samples)
             rows_with_trace += 1
         elif root_visits.get("mean") is not None and moves > 0:
-            row["_root_visit_weighted_sum"] += float(root_visits.get("mean") or 0.0) * moves
+            row["_root_visit_weighted_sum"] += (
+                float(root_visits.get("mean") or 0.0) * moves
+            )
             row["_root_visit_weight"] += moves
             rows_with_trace += 1
         if root_visits.get("max") is not None:
             rv_max = float(root_visits.get("max") or 0.0)
-            row["_max_root_visit"] = rv_max if row["_max_root_visit"] is None else max(row["_max_root_visit"], rv_max)
+            row["_max_root_visit"] = (
+                rv_max
+                if row["_max_root_visit"] is None
+                else max(row["_max_root_visit"], rv_max)
+            )
         for reason, count in (budget.get("halt_reason_hist") or {}).items():
             key = str(reason)
-            row["halt_reason_hist"][key] = int(row["halt_reason_hist"].get(key, 0)) + int(count or 0)
+            row["halt_reason_hist"][key] = int(
+                row["halt_reason_hist"].get(key, 0)
+            ) + int(count or 0)
         if budget.get("benchmark_safe_frac") is not None and games > 0:
-            row["_benchmark_safe_weighted_sum"] += float(budget["benchmark_safe_frac"]) * games
+            row["_benchmark_safe_weighted_sum"] += (
+                float(budget["benchmark_safe_frac"]) * games
+            )
             row["_benchmark_safe_weight"] += games
         if budget.get("telemetry_partial_frac") is not None and games > 0:
-            row["_telemetry_partial_weighted_sum"] += float(budget["telemetry_partial_frac"]) * games
+            row["_telemetry_partial_weighted_sum"] += (
+                float(budget["telemetry_partial_frac"]) * games
+            )
             row["_telemetry_partial_weight"] += games
 
     out = []
@@ -2494,12 +2655,16 @@ def summarize_budget_fairness(eval_payload: dict | None) -> dict:
         elif weighted_n > 0:
             mean_root_visits = float(weighted_sum / weighted_n)
             min_root_visits = None
-            max_root_visits = float(max_root_visit) if max_root_visit is not None else None
+            max_root_visits = (
+                float(max_root_visit) if max_root_visit is not None else None
+            )
             sample_count = 0
         else:
             mean_root_visits = None
             min_root_visits = None
-            max_root_visits = float(max_root_visit) if max_root_visit is not None else None
+            max_root_visits = (
+                float(max_root_visit) if max_root_visit is not None else None
+            )
             sample_count = 0
         if mean_root_visits is not None:
             condition_means.append(mean_root_visits)
@@ -2630,7 +2795,10 @@ def pre_flight_check(
 
     ok = not errors
     if not ok and getattr(args, "research_grade", False):
-        msg = "; ".join(f"{e.get('reason')}={e.get('run_id') or e.get('eval_condition') or e.get('condition')}" for e in errors)
+        msg = "; ".join(
+            f"{e.get('reason')}={e.get('run_id') or e.get('eval_condition') or e.get('condition')}"
+            for e in errors
+        )
         raise SystemExit(f"pre_flight_check failed under --research-grade: {msg}")
     return {
         "schema_version": 1,
@@ -2674,8 +2842,12 @@ def run_evaluation_matrix(
     reference_model_path = eligible[0]["model_path"]
     eval_condition_timings = {}
     for eval_name, eval_cfg in eval_conditions.items():
-        cfg, _ = build_eval_cfg(args.game, eval_cfg, args.device, model_path=reference_model_path)
-        expected_eval_seeds[eval_name] = apply_eval_seed_contract(cfg, args, eval_name, eval_cfg)
+        cfg, _ = build_eval_cfg(
+            args.game, eval_cfg, args.device, model_path=reference_model_path
+        )
+        expected_eval_seeds[eval_name] = apply_eval_seed_contract(
+            cfg, args, eval_name, eval_cfg
+        )
         expected_manifest_hashes[eval_name] = support_mod.search_manifest_hash(cfg)
         expected_manifests[eval_name] = support_mod.build_search_manifest(cfg)
         expected_effective_configs[eval_name] = effective_search_config_view(cfg)
@@ -2691,7 +2863,9 @@ def run_evaluation_matrix(
     # P02: pre-flight gate. Runs once before any eval pair launches; under
     # `--research-grade` raises on any error so an entire campaign isn't
     # spent on missing checkpoints or drifted contracts.
-    pre_flight_summary = pre_flight_check(args, eligible, eval_conditions, expected_manifest_hashes)
+    pre_flight_summary = pre_flight_check(
+        args, eligible, eval_conditions, expected_manifest_hashes
+    )
     pre_flight_skip = set(pre_flight_summary.get("skipped_pairs") or [])
 
     existing_path = base_dir / "evaluation_matrix.json"
@@ -2701,7 +2875,10 @@ def run_evaluation_matrix(
         try:
             existing = json.loads(existing_path.read_text(encoding="utf-8"))
             for row in existing.get("matches", []):
-                if row.get("a_id") not in eligible_ids or row.get("b_id") not in eligible_ids:
+                if (
+                    row.get("a_id") not in eligible_ids
+                    or row.get("b_id") not in eligible_ids
+                ):
                     continue
                 eval_name = row.get("eval_condition")
                 expected_hash = expected_manifest_hashes.get(eval_name)
@@ -2747,7 +2924,7 @@ def run_evaluation_matrix(
         pending_pairs = []
         needed_ids = set()
         for idx, model_a in enumerate(eligible):
-            for model_b in eligible[idx + 1:]:
+            for model_b in eligible[idx + 1 :]:
                 if not should_compare(model_a, model_b):
                     continue
                 key = (eval_name, model_a["id"], model_b["id"])
@@ -2760,7 +2937,9 @@ def run_evaluation_matrix(
             continue
 
         cfg_t0 = time.perf_counter()
-        cfg, device = build_eval_cfg(args.game, eval_cfg, args.device, model_path=reference_model_path)
+        cfg, device = build_eval_cfg(
+            args.game, eval_cfg, args.device, model_path=reference_model_path
+        )
         eval_seed = apply_eval_seed_contract(cfg, args, eval_name, eval_cfg)
         cfg_build_s = time.perf_counter() - cfg_t0
 
@@ -2775,14 +2954,20 @@ def run_evaluation_matrix(
 
         opening_book = build_opening_book(args.game)
         board_size = int(cfg.get("board", 0) or 0)
-        max_moves = 500 if support_mod.is_chess_game(args.game) else max(1, board_size) ** 2
+        max_moves = (
+            500 if support_mod.is_chess_game(args.game) else max(1, board_size) ** 2
+        )
 
         from quartz.evaluator_runtime import PersistentRustNNEvalCampaign
 
         campaign_t0 = time.perf_counter()
         try:
-            with PersistentRustNNEvalCampaign(engines.values(), args.eval_games) as campaign:
-                campaign_bootstrap_s = float(campaign.timings.get("client_start_s", 0.0) or 0.0)
+            with PersistentRustNNEvalCampaign(
+                engines.values(), args.eval_games
+            ) as campaign:
+                campaign_bootstrap_s = float(
+                    campaign.timings.get("client_start_s", 0.0) or 0.0
+                )
                 eval_condition_timings[eval_name] = {
                     "cfg_build_s": round(cfg_build_s, 6),
                     "engine_load_s": round(engine_load_s, 6),
@@ -2819,17 +3004,25 @@ def run_evaluation_matrix(
                     wa = int(tally.wins)
                     wb = int(tally.losses)
                     draws = int(tally.draws)
-                    score_rate, ci, sprt, sprt_meta = compute_match_statistics(wa, wb, draws)
+                    score_rate, ci, sprt, sprt_meta = compute_match_statistics(
+                        wa, wb, draws
+                    )
                     timing_s = {
                         "cfg_build_s": round(_cfg_build_s, 6),
                         "engine_load_s": round(_engine_load_s, 6),
                         "campaign_bootstrap_s": round(_campaign_bootstrap_s, 6),
-                        "match_elapsed_s": round(float(timing_meta.get("match_elapsed_s", 0.0) or 0.0), 6),
+                        "match_elapsed_s": round(
+                            float(timing_meta.get("match_elapsed_s", 0.0) or 0.0), 6
+                        ),
                     }
                     if timing_meta.get("batch_id"):
                         timing_s["batch_id"] = str(timing_meta.get("batch_id"))
-                        timing_s["batch_elapsed_s"] = round(float(timing_meta.get("batch_elapsed_s", 0.0) or 0.0), 6)
-                        timing_s["batch_total_games"] = int(timing_meta.get("batch_total_games", 0) or 0)
+                        timing_s["batch_elapsed_s"] = round(
+                            float(timing_meta.get("batch_elapsed_s", 0.0) or 0.0), 6
+                        )
+                        timing_s["batch_total_games"] = int(
+                            timing_meta.get("batch_total_games", 0) or 0
+                        )
                     return {
                         "eval_condition": _eval_name,
                         "search_profile": _eval_cfg["search_profile"],
@@ -2837,13 +3030,19 @@ def run_evaluation_matrix(
                         "search_manifest": _search_manifest,
                         "search_manifest_hash": _search_manifest_hash,
                         "requested_eval_cfg": copy.deepcopy(_eval_cfg),
-                        "effective_search_config": expected_effective_configs.get(_eval_name, {}),
+                        "effective_search_config": expected_effective_configs.get(
+                            _eval_name, {}
+                        ),
                         "requested_effective_delta": config_delta(
                             effective_search_config_view(_eval_cfg),
                             expected_effective_configs.get(_eval_name, {}),
                         ),
-                        "benchmark_safe_expected": bool(expected_benchmark_safe.get(_eval_name, False)),
-                        "realized_budget_trace": timing_meta.get("realized_budget_trace", {}),
+                        "benchmark_safe_expected": bool(
+                            expected_benchmark_safe.get(_eval_name, False)
+                        ),
+                        "realized_budget_trace": timing_meta.get(
+                            "realized_budget_trace", {}
+                        ),
                         "a_id": model_a["id"],
                         "b_id": model_b["id"],
                         "games": int(args.eval_games),
@@ -2863,7 +3062,10 @@ def run_evaluation_matrix(
                         "runner_mode": timing_meta.get("runner_mode"),
                     }
 
-                used_batched_compare = bool(getattr(campaign, "compare_many", None)) and len(pending_pairs) > 1
+                used_batched_compare = (
+                    bool(getattr(campaign, "compare_many", None))
+                    and len(pending_pairs) > 1
+                )
                 if used_batched_compare:
                     print(
                         f"  EVAL {eval_name}: batching {len(pending_pairs)} pairings "
@@ -2879,7 +3081,11 @@ def run_evaluation_matrix(
                                 "match_id": match_id,
                                 "engine_a": engines[model_a["id"]],
                                 "engine_b": engines[model_b["id"]],
-                                "game_factory": lambda cfg_ref=cfg: support_mod.build_training_game_adapter(dict(cfg_ref)),
+                                "game_factory": lambda cfg_ref=cfg: (
+                                    support_mod.build_training_game_adapter(
+                                        dict(cfg_ref)
+                                    )
+                                ),
                                 "opening_book": opening_book,
                                 "num_games": args.eval_games,
                                 "color_swap": True,
@@ -2888,17 +3094,23 @@ def run_evaluation_matrix(
                                 "seed": eval_seed,
                             }
                         )
-                    for match_id, tally, timing_meta in campaign.compare_many(comparisons):
+                    for match_id, tally, timing_meta in campaign.compare_many(
+                        comparisons
+                    ):
                         key, model_a, model_b = match_id_map[match_id]
                         row = _build_row(key, model_a, model_b, tally, timing_meta)
                         match_index[key] = row
                 else:
                     for key, model_a, model_b in pending_pairs:
-                        print(f"  EVAL {eval_name}: {model_a['id']} vs {model_b['id']} ({args.eval_games} games)")
+                        print(
+                            f"  EVAL {eval_name}: {model_a['id']} vs {model_b['id']} ({args.eval_games} games)"
+                        )
                         tally, timing_meta = campaign.compare(
                             engines[model_a["id"]],
                             engines[model_b["id"]],
-                            lambda cfg_ref=cfg: support_mod.build_training_game_adapter(dict(cfg_ref)),
+                            lambda cfg_ref=cfg: support_mod.build_training_game_adapter(
+                                dict(cfg_ref)
+                            ),
                             opening_book,
                             args.eval_games,
                             color_swap=True,
@@ -2918,9 +3130,13 @@ def run_evaluation_matrix(
                 payload["expected_benchmark_safe"] = expected_benchmark_safe
                 payload["expected_eval_seeds"] = expected_eval_seeds
                 payload["runtime_contract"] = build_runtime_contract(args)
-                payload["runtime_contract_hash"] = stable_json_hash(payload["runtime_contract"])
+                payload["runtime_contract_hash"] = stable_json_hash(
+                    payload["runtime_contract"]
+                )
                 payload["eval_condition_timings"] = eval_condition_timings
-                payload["eval_timing_summary"] = summarize_ablation_eval_timings(payload)
+                payload["eval_timing_summary"] = summarize_ablation_eval_timings(
+                    payload
+                )
                 payload["pre_flight"] = pre_flight_summary
                 attach_ablation_contract_summary(payload)
                 json_dump(existing_path, payload)
@@ -2959,7 +3175,9 @@ def select_champion(
     by_id = {run["id"]: run for run in model_runs}
     eval_conditions = eval_conditions or SEARCH_VL_EVAL_CONDITIONS
 
-    def best_eval_condition_for_model(model_id: str) -> tuple[str | None, dict | None, dict]:
+    def best_eval_condition_for_model(
+        model_id: str,
+    ) -> tuple[str | None, dict | None, dict]:
         if not eval_payload:
             return None, None, {}
         candidates = []
@@ -2984,29 +3202,37 @@ def select_champion(
         score_rate, win_rate, points, games, neg_rank, eval_name, row = candidates[0]
         cfg = eval_conditions.get(eval_name)
         if cfg is None:
-            return None, None, {
-                "deployment_eval_condition_missing": eval_name,
+            return (
+                None,
+                None,
+                {
+                    "deployment_eval_condition_missing": eval_name,
+                    "deployment_eval_condition_score_rate": score_rate,
+                    "deployment_eval_condition_win_rate": win_rate,
+                    "deployment_eval_condition_points": points,
+                    "deployment_eval_condition_games": games,
+                    "deployment_eval_condition_rank": -int(neg_rank),
+                },
+            )
+        return (
+            eval_name,
+            copy.deepcopy(cfg),
+            {
+                "deployment_eval_condition": eval_name,
                 "deployment_eval_condition_score_rate": score_rate,
                 "deployment_eval_condition_win_rate": win_rate,
                 "deployment_eval_condition_points": points,
                 "deployment_eval_condition_games": games,
                 "deployment_eval_condition_rank": -int(neg_rank),
-            }
-        return eval_name, copy.deepcopy(cfg), {
-            "deployment_eval_condition": eval_name,
-            "deployment_eval_condition_score_rate": score_rate,
-            "deployment_eval_condition_win_rate": win_rate,
-            "deployment_eval_condition_points": points,
-            "deployment_eval_condition_games": games,
-            "deployment_eval_condition_rank": -int(neg_rank),
-            "deployment_eval_condition_row": copy.deepcopy(row),
-        }
+                "deployment_eval_condition_row": copy.deepcopy(row),
+            },
+        )
 
     if eval_payload and eval_payload.get("overall"):
         top = eval_payload["overall"][0]
         champion_run = by_id[top["id"]]
-        deployment_condition, deployment_cfg, deployment_metrics = best_eval_condition_for_model(
-            champion_run["id"]
+        deployment_condition, deployment_cfg, deployment_metrics = (
+            best_eval_condition_for_model(champion_run["id"])
         )
         if deployment_cfg is None:
             deployment_condition = None
@@ -3051,7 +3277,8 @@ def select_champion(
         "seed": champion_run["seed"],
         "game": champion_run["game"],
         "train_cfg": champion_run["train_cfg"],
-        "controller_surface": champion_run.get("controller_surface") or controller_surface(champion_run.get("train_cfg")),
+        "controller_surface": champion_run.get("controller_surface")
+        or controller_surface(champion_run.get("train_cfg")),
         "training_metrics": champion_run["metrics"],
         "deployment_eval_condition": deployment_condition,
         "deployment_search_cfg": deployment_cfg,
@@ -3063,7 +3290,9 @@ def select_champion(
     return payload
 
 
-def prepare_gomocup_bundle(args: argparse.Namespace, base_dir: Path, champion: dict | None) -> dict | None:
+def prepare_gomocup_bundle(
+    args: argparse.Namespace, base_dir: Path, champion: dict | None
+) -> dict | None:
     if not champion:
         return None
     from quartz.gomocup_export import export_gomocup_bundle
@@ -3146,10 +3375,7 @@ def research_readiness_summary(
         and float(throughput_coverage) > 0.0
         and (
             concurrent_runs == 0
-            or (
-                worker_coverage is not None
-                and float(worker_coverage) > 0.0
-            )
+            or (worker_coverage is not None and float(worker_coverage) > 0.0)
         )
     )
     budget_trace_ready = (
@@ -3182,7 +3408,10 @@ def research_readiness_summary(
         criterion(
             "multi_seed_per_condition",
             bool(runs) and min_seed_count >= 3,
-            {"min_seed_count": min_seed_count, "conditions": {k: sorted(v) for k, v in seeds_by_condition.items()}},
+            {
+                "min_seed_count": min_seed_count,
+                "conditions": {k: sorted(v) for k, v in seeds_by_condition.items()},
+            },
             ">=3 explicit seeds per condition",
             "Single-seed results are engineering signals, not publication-grade evidence.",
             "Run with at least three seeds per condition and paired-seed eval when comparing controller conditions.",
@@ -3211,8 +3440,19 @@ def research_readiness_summary(
         ),
         criterion(
             "score_ci_present",
-            bool(matches) and all(isinstance(row.get("ci"), list) and len(row.get("ci")) == 2 for row in matches),
-            {"rows_with_ci": sum(1 for row in matches if isinstance(row.get("ci"), list) and len(row.get("ci")) == 2), "match_count": len(matches)},
+            bool(matches)
+            and all(
+                isinstance(row.get("ci"), list) and len(row.get("ci")) == 2
+                for row in matches
+            ),
+            {
+                "rows_with_ci": sum(
+                    1
+                    for row in matches
+                    if isinstance(row.get("ci"), list) and len(row.get("ci")) == 2
+                ),
+                "match_count": len(matches),
+            },
             "every eval row has score-rate confidence interval",
             "Win-rate point estimates are not enough for interpretation.",
             "Use the current evaluation matrix path; do not reuse legacy rows without CI.",
@@ -3227,7 +3467,8 @@ def research_readiness_summary(
         ),
         criterion(
             "benchmark_safe_recorded",
-            bool(expected_benchmark) and all(bool(v) for v in expected_benchmark.values()),
+            bool(expected_benchmark)
+            and all(bool(v) for v in expected_benchmark.values()),
             {"expected_benchmark_safe": expected_benchmark},
             "all eval conditions record benchmark-safe expected path",
             "Fallback/serial paths should not be mixed into claims.",
@@ -3236,7 +3477,10 @@ def research_readiness_summary(
         criterion(
             "eval_seed_recorded",
             bool(expected_eval_seeds)
-            and all("eval_seed" in (expected_manifests.get(name) or {}) for name in expected_eval_seeds),
+            and all(
+                "eval_seed" in (expected_manifests.get(name) or {})
+                for name in expected_eval_seeds
+            ),
             {"expected_eval_seeds": expected_eval_seeds},
             "eval_seed recorded in expected eval manifests",
             "Evaluation RNG must be part of cache invalidation and reproduction.",
@@ -3247,13 +3491,25 @@ def research_readiness_summary(
             bool(evaluation_protocol.get("protocol_ready")),
             {
                 "match_count": evaluation_protocol.get("match_count"),
-                "runtime_contract_hash": evaluation_protocol.get("runtime_contract_hash"),
-                "expected_eval_seed_coverage": evaluation_protocol.get("expected_eval_seed_coverage"),
+                "runtime_contract_hash": evaluation_protocol.get(
+                    "runtime_contract_hash"
+                ),
+                "expected_eval_seed_coverage": evaluation_protocol.get(
+                    "expected_eval_seed_coverage"
+                ),
                 "eval_seed_consistent": evaluation_protocol.get("eval_seed_consistent"),
-                "benchmark_safe_all_expected": evaluation_protocol.get("benchmark_safe_all_expected"),
-                "game_count_consistent": evaluation_protocol.get("game_count_consistent"),
-                "one_manifest_per_eval_condition": evaluation_protocol.get("one_manifest_per_eval_condition"),
-                "complete_pair_eval_matrix": evaluation_protocol.get("complete_pair_eval_matrix"),
+                "benchmark_safe_all_expected": evaluation_protocol.get(
+                    "benchmark_safe_all_expected"
+                ),
+                "game_count_consistent": evaluation_protocol.get(
+                    "game_count_consistent"
+                ),
+                "one_manifest_per_eval_condition": evaluation_protocol.get(
+                    "one_manifest_per_eval_condition"
+                ),
+                "complete_pair_eval_matrix": evaluation_protocol.get(
+                    "complete_pair_eval_matrix"
+                ),
             },
             "evaluation protocol summary records same-runtime, same-seed, same-game, same-pair metadata",
             "Same-evaluator and same-game-distribution claims need explicit protocol evidence, not just scored rows.",
@@ -3264,9 +3520,15 @@ def research_readiness_summary(
             bool(evaluator_quality.get("stratification_ready")),
             {
                 "match_count": evaluator_quality.get("match_count"),
-                "quality_proxy_pair_coverage_frac": evaluator_quality.get("quality_proxy_pair_coverage_frac"),
-                "loss_pair_coverage_frac": evaluator_quality.get("loss_pair_coverage_frac"),
-                "models_with_quality_proxy": evaluator_quality.get("models_with_quality_proxy"),
+                "quality_proxy_pair_coverage_frac": evaluator_quality.get(
+                    "quality_proxy_pair_coverage_frac"
+                ),
+                "loss_pair_coverage_frac": evaluator_quality.get(
+                    "loss_pair_coverage_frac"
+                ),
+                "models_with_quality_proxy": evaluator_quality.get(
+                    "models_with_quality_proxy"
+                ),
                 "strata_count": evaluator_quality.get("strata_count"),
                 "missing_model_ids": evaluator_quality.get("missing_model_ids"),
             },
@@ -3301,8 +3563,12 @@ def research_readiness_summary(
             "budget_trace_recorded",
             budget_trace_ready,
             {
-                "budget_trace_coverage_frac": budget_summary.get("budget_trace_coverage_frac"),
-                "root_visit_mean_relative_spread": budget_summary.get("root_visit_mean_relative_spread"),
+                "budget_trace_coverage_frac": budget_summary.get(
+                    "budget_trace_coverage_frac"
+                ),
+                "root_visit_mean_relative_spread": budget_summary.get(
+                    "root_visit_mean_relative_spread"
+                ),
                 "budget_fairness_flag": budget_summary.get("budget_fairness_flag"),
             },
             "eval rows record realized root-visit and halt-reason budget traces",
@@ -3326,8 +3592,12 @@ def research_readiness_summary(
             and isinstance(hardware_summary.get("profiler_artifact_present"), bool),
             {
                 "claim_scope": hardware_summary.get("claim_scope"),
-                "profiler_artifact_present": hardware_summary.get("profiler_artifact_present"),
-                "hardware_performance_claims_allowed": hardware_summary.get("hardware_performance_claims_allowed"),
+                "profiler_artifact_present": hardware_summary.get(
+                    "profiler_artifact_present"
+                ),
+                "hardware_performance_claims_allowed": hardware_summary.get(
+                    "hardware_performance_claims_allowed"
+                ),
             },
             "hardware runtime summary records claim scope and profiler-artifact presence",
             "Backend/device names and throughput telemetry are not the same as hardware profiling evidence.",
@@ -3335,9 +3605,12 @@ def research_readiness_summary(
         ),
         criterion(
             "deployment_source_explicit",
-            champion is None
-            or bool(champion.get("deployment_cfg_source")),
-            {"deployment_cfg_source": None if champion is None else champion.get("deployment_cfg_source")},
+            champion is None or bool(champion.get("deployment_cfg_source")),
+            {
+                "deployment_cfg_source": None
+                if champion is None
+                else champion.get("deployment_cfg_source")
+            },
             "champion deployment config source is explicit",
             "Deployment export must state whether train_cfg or a specific eval condition supplied the search config.",
             "Regenerate champion.json with the current ablation runner.",
@@ -3355,7 +3628,9 @@ def research_readiness_summary(
     }
 
 
-def generate_report(base_dir: Path, selected_conditions: set[str] | None = None) -> dict:
+def generate_report(
+    base_dir: Path, selected_conditions: set[str] | None = None
+) -> dict:
     runs = discover_model_runs(base_dir)
     if selected_conditions:
         runs = [run for run in runs if run.get("condition") in selected_conditions]
@@ -3600,7 +3875,11 @@ def generate_report(base_dir: Path, selected_conditions: set[str] | None = None)
         "runs": runs,
         "evaluation": eval_payload,
         "train_contract_summary": summarize_training_contracts(
-            [run.get("train_contract") for run in runs if run.get("train_contract") is not None]
+            [
+                run.get("train_contract")
+                for run in runs
+                if run.get("train_contract") is not None
+            ]
         ),
         "contract_summary": summarize_ablation_contracts(
             (eval_payload or {}).get("expected_search_manifests"),
@@ -3648,24 +3927,43 @@ def parse_args() -> argparse.Namespace:
             "tictactoe",
         ],
     )
-    parser.add_argument("--iterations", type=int, default=10, help="Training iterations per condition")
-    parser.add_argument("--eval-games", type=int, default=40, help="Games per pairwise post-train evaluation match")
-    parser.add_argument("--eval-interval", type=int, default=5, help="Training-time checkpoint tournament cadence")
-    parser.add_argument("--output", default="results/ablation", help="Output root directory")
+    parser.add_argument(
+        "--iterations", type=int, default=10, help="Training iterations per condition"
+    )
+    parser.add_argument(
+        "--eval-games",
+        type=int,
+        default=40,
+        help="Games per pairwise post-train evaluation match",
+    )
+    parser.add_argument(
+        "--eval-interval",
+        type=int,
+        default=5,
+        help="Training-time checkpoint tournament cadence",
+    )
+    parser.add_argument(
+        "--output", default="results/ablation", help="Output root directory"
+    )
     parser.add_argument("--rust-binary", default="./target/release/mcts_demo")
     parser.add_argument("--backend", default="torch", choices=["auto", "torch", "jax"])
     parser.add_argument("--device", default="auto")
     parser.add_argument("--games-per-iter", type=int, default=None)
     parser.add_argument("--timeout-hours", type=int, default=24)
-    parser.add_argument("--quick", action="store_true", help="Reduce self-play games per iteration")
+    parser.add_argument(
+        "--quick", action="store_true", help="Reduce self-play games per iteration"
+    )
     parser.add_argument("--no-autotune", action="store_true")
     parser.add_argument("--resident-session", action="store_true")
     parser.add_argument("--runtime-autotune", action="store_true")
     # Smoke runs need inline self-play so a single short iteration fills
     # replay above the SGD batch threshold; concurrent mode only waits
     # for `min_new=1` per iter and won't block until batch is reached.
-    parser.add_argument("--no-pipeline", action="store_true",
-                        help="Pass --no-pipeline to quartz.train (inline self-play; needed for short smokes).")
+    parser.add_argument(
+        "--no-pipeline",
+        action="store_true",
+        help="Pass --no-pipeline to quartz.train (inline self-play; needed for short smokes).",
+    )
     parser.add_argument(
         "--allow-unsafe-benchmark",
         action="store_true",
@@ -3694,7 +3992,15 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument(
         "--search-policy",
         default=None,
-        choices=[None, "legacy_az", "kl_lucb_stop", "legacy_quartz", "bqpp", "ments", "none"],
+        choices=[
+            None,
+            "legacy_az",
+            "kl_lucb_stop",
+            "legacy_quartz",
+            "bqpp",
+            "ments",
+            "none",
+        ],
         help=(
             "BQ++ Phase 8b: attach a SearchPolicy trait object to every "
             "search invocation in this study. Forwarded to the Rust server "
@@ -3706,16 +4012,27 @@ def parse_args() -> argparse.Namespace:
         ),
     )
     parser.add_argument("--seeds", default="42", help="Comma-separated training seeds")
-    parser.add_argument("--conditions", help="Comma-separated condition names to run (default: all)")
-    parser.add_argument("--eval-conditions", help="Comma-separated eval condition names to run (default: all)")
+    parser.add_argument(
+        "--conditions", help="Comma-separated condition names to run (default: all)"
+    )
+    parser.add_argument(
+        "--eval-conditions",
+        help="Comma-separated eval condition names to run (default: all)",
+    )
     parser.add_argument("--skip-train", action="store_true")
     parser.add_argument("--skip-eval", action="store_true")
     parser.add_argument("--force-train", action="store_true")
     parser.add_argument("--force-eval", action="store_true")
-    parser.add_argument("--paired-seed-eval", action="store_true",
-                        help="Only evaluate runs that share the same seed across different conditions")
-    parser.add_argument("--include-strict-reference", action="store_true",
-                        help="Also evaluate under baseline_strict search settings")
+    parser.add_argument(
+        "--paired-seed-eval",
+        action="store_true",
+        help="Only evaluate runs that share the same seed across different conditions",
+    )
+    parser.add_argument(
+        "--include-strict-reference",
+        action="store_true",
+        help="Also evaluate under baseline_strict search settings",
+    )
     # P8 (audit_codex_20260425.md W7): for attribution presets, every
     # row should be evaluated under a single fixed eval engine so that
     # cross-row deltas reflect model quality, not (model × eval search
@@ -3726,20 +4043,29 @@ def parse_args() -> argparse.Namespace:
         "--frozen-eval-condition",
         default=None,
         help="Pin every pair's eval to this single named condition. "
-             "Defaults to the first eval condition for attribution presets, "
-             "no-op otherwise.",
+        "Defaults to the first eval condition for attribution presets, "
+        "no-op otherwise.",
     )
     parser.add_argument(
         "--no-frozen-eval",
         action="store_true",
         help="Opt out of P8 frozen-eval pinning even for attribution presets.",
     )
-    parser.add_argument("--prepare-gomocup", action="store_true",
-                        help="Export the selected champion as a Gomocup bundle")
-    parser.add_argument("--gomocup-dir", default=None, help="Output directory for the Gomocup bundle")
-    parser.add_argument("--target-name", default="pbrain-quartz", help="Suggested Gomocup binary name")
+    parser.add_argument(
+        "--prepare-gomocup",
+        action="store_true",
+        help="Export the selected champion as a Gomocup bundle",
+    )
+    parser.add_argument(
+        "--gomocup-dir", default=None, help="Output directory for the Gomocup bundle"
+    )
+    parser.add_argument(
+        "--target-name", default="pbrain-quartz", help="Suggested Gomocup binary name"
+    )
     parser.add_argument("--verbose-export", action="store_true")
-    parser.add_argument("--report", metavar="DIR", help="Report on an existing ablation directory")
+    parser.add_argument(
+        "--report", metavar="DIR", help="Report on an existing ablation directory"
+    )
     parser.add_argument(
         "--research-grade",
         action="store_true",
@@ -3826,8 +4152,7 @@ def enforce_research_grade(args: argparse.Namespace, report: dict | None) -> Non
         return
     unmet = ", ".join(readiness.get("unmet_criteria") or [])
     raise SystemExit(
-        "research-grade gate failed: "
-        f"{unmet or 'research_readiness missing'}"
+        f"research-grade gate failed: {unmet or 'research_readiness missing'}"
     )
 
 
@@ -3848,10 +4173,16 @@ def main() -> None:
             known = manifest.get("train_conditions", SEARCH_VL_TRAIN_CONDITIONS)
             selected_conditions = set(parse_selected_conditions(args.conditions, known))
             runs = [run for run in runs if run.get("condition") in selected_conditions]
-        eval_payload = None if args.skip_eval else (
-            json.loads((base_dir / "evaluation_matrix.json").read_text(encoding="utf-8"))
-            if (base_dir / "evaluation_matrix.json").exists()
-            else None
+        eval_payload = (
+            None
+            if args.skip_eval
+            else (
+                json.loads(
+                    (base_dir / "evaluation_matrix.json").read_text(encoding="utf-8")
+                )
+                if (base_dir / "evaluation_matrix.json").exists()
+                else None
+            )
         )
         champion = select_champion(
             base_dir,
@@ -3883,29 +4214,38 @@ def main() -> None:
         for condition_name in selected_conditions:
             condition_cfg = train_conditions[condition_name]
             for seed in seeds:
-                result = run_training(args, base_dir, condition_name, condition_cfg, seed, multi_seed)
+                result = run_training(
+                    args, base_dir, condition_name, condition_cfg, seed, multi_seed
+                )
                 training_results.append(result)
 
         print(f"\n{'=' * 76}")
         print("TRAINING PHASE COMPLETE")
         print(f"{'=' * 76}")
         for row in training_results:
-            status = "SKIP" if row.get("skipped") else ("OK" if row["success"] else "FAIL")
+            status = (
+                "SKIP" if row.get("skipped") else ("OK" if row["success"] else "FAIL")
+            )
             print(
                 f"  [{status}] {row['condition']:<16} seed={row['seed']:<6} "
                 f"{row['elapsed_s'] / 60:.1f} min"
             )
 
     model_runs = [
-        run for run in discover_model_runs(base_dir)
+        run
+        for run in discover_model_runs(base_dir)
         if run.get("condition") in selected_condition_set
     ]
     eval_payload = None
     if not args.skip_eval:
-        eval_payload = run_evaluation_matrix(args, base_dir, model_runs, eval_conditions)
+        eval_payload = run_evaluation_matrix(
+            args, base_dir, model_runs, eval_conditions
+        )
     manifest["train_contract_summary"] = summarize_training_contracts(
         [
-            build_training_contract(args, condition_name, train_conditions[condition_name], seed)
+            build_training_contract(
+                args, condition_name, train_conditions[condition_name], seed
+            )
             for condition_name in selected_conditions
             for seed in seeds
         ]

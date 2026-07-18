@@ -115,7 +115,9 @@ class RewardTape:
         self._outcomes: List[List[int]] = []
         for arm, mean in enumerate(means):
             rng = random.Random(stable_seed(seed, "reward", trial, arm))
-            self._outcomes.append([1 if rng.random() < mean else 0 for _ in range(budget)])
+            self._outcomes.append(
+                [1 if rng.random() < mean else 0 for _ in range(budget)]
+            )
 
     def pull(self, arm: int, pull_index: int) -> int:
         return self._outcomes[arm][pull_index]
@@ -153,7 +155,9 @@ def build_world(
     # Present in descending prior order; ties broken by a per-trial jitter so the
     # canonical index never silently resolves an exact prior tie.
     jitter = [rng.random() for _ in range(k)]
-    order = sorted(range(k), key=lambda arm: (prior_scores[arm], jitter[arm]), reverse=True)
+    order = sorted(
+        range(k), key=lambda arm: (prior_scores[arm], jitter[arm]), reverse=True
+    )
     return CandidateWorld(
         means=[float(m) for m in means],
         prior_scores=prior_scores,
@@ -163,8 +167,13 @@ def build_world(
     )
 
 
-def _posteriors(visible: Sequence[int], pulls: Mapping[int, int], succ: Mapping[int, int]):
-    return {arm: (1 + succ.get(arm, 0), 1 + pulls.get(arm, 0) - succ.get(arm, 0)) for arm in visible}
+def _posteriors(
+    visible: Sequence[int], pulls: Mapping[int, int], succ: Mapping[int, int]
+):
+    return {
+        arm: (1 + succ.get(arm, 0), 1 + pulls.get(arm, 0) - succ.get(arm, 0))
+        for arm in visible
+    }
 
 
 def _incumbent(visible: Sequence[int], post, rng: random.Random) -> int:
@@ -241,7 +250,13 @@ def _final_result(
     )
 
 
-def run_no_widen(world: CandidateWorld, budget: int, widen_cost: int, tape: RewardTape, rng: random.Random) -> RunResult:
+def run_no_widen(
+    world: CandidateWorld,
+    budget: int,
+    widen_cost: int,
+    tape: RewardTape,
+    rng: random.Random,
+) -> RunResult:
     visible = list(world.visible)
     pulls: Dict[int, int] = {}
     succ: Dict[int, int] = {}
@@ -256,7 +271,13 @@ def run_no_widen(world: CandidateWorld, budget: int, widen_cost: int, tape: Rewa
     return _final_result("no_widen", visible, pulls, succ, 0, 0, spent, False, rng)
 
 
-def run_eager_widen(world: CandidateWorld, budget: int, widen_cost: int, tape: RewardTape, rng: random.Random) -> RunResult:
+def run_eager_widen(
+    world: CandidateWorld,
+    budget: int,
+    widen_cost: int,
+    tape: RewardTape,
+    rng: random.Random,
+) -> RunResult:
     visible = list(world.visible)
     hidden = list(world.hidden_queue)
     pulls: Dict[int, int] = {}
@@ -276,10 +297,26 @@ def run_eager_widen(world: CandidateWorld, budget: int, widen_cost: int, tape: R
         pulls[target] = pulls.get(target, 0) + 1
         succ[target] = succ.get(target, 0) + outcome
         pull_spend += 1
-    return _final_result("eager_widen", visible, pulls, succ, n_widens, widen_spend, pull_spend, False, rng)
+    return _final_result(
+        "eager_widen",
+        visible,
+        pulls,
+        succ,
+        n_widens,
+        widen_spend,
+        pull_spend,
+        False,
+        rng,
+    )
 
 
-def run_priced_widen(world: CandidateWorld, budget: int, widen_cost: int, tape: RewardTape, rng: random.Random) -> RunResult:
+def run_priced_widen(
+    world: CandidateWorld,
+    budget: int,
+    widen_cost: int,
+    tape: RewardTape,
+    rng: random.Random,
+) -> RunResult:
     visible = list(world.visible)
     hidden = list(world.hidden_queue)
     pulls: Dict[int, int] = {}
@@ -306,9 +343,20 @@ def run_priced_widen(world: CandidateWorld, budget: int, widen_cost: int, tape: 
                 continue
 
         # STOP: commit early once the incumbent is confidently ahead.
-        if total_visits >= COMMIT_MIN_VISITS and _commit_confidence(visible, post) >= COMMIT_THRESHOLD:
+        if (
+            total_visits >= COMMIT_MIN_VISITS
+            and _commit_confidence(visible, post) >= COMMIT_THRESHOLD
+        ):
             return _final_result(
-                "priced_widen", visible, pulls, succ, n_widens, widen_spend, pull_spend, True, rng
+                "priced_widen",
+                visible,
+                pulls,
+                succ,
+                n_widens,
+                widen_spend,
+                pull_spend,
+                True,
+                rng,
             )
 
         target = _pull_target(visible, post, rng)
@@ -316,7 +364,17 @@ def run_priced_widen(world: CandidateWorld, budget: int, widen_cost: int, tape: 
         pulls[target] = pulls.get(target, 0) + 1
         succ[target] = succ.get(target, 0) + outcome
         pull_spend += 1
-    return _final_result("priced_widen", visible, pulls, succ, n_widens, widen_spend, pull_spend, False, rng)
+    return _final_result(
+        "priced_widen",
+        visible,
+        pulls,
+        succ,
+        n_widens,
+        widen_spend,
+        pull_spend,
+        False,
+        rng,
+    )
 
 
 RUNNERS = {
@@ -374,7 +432,9 @@ def run_experiment(
     if len(set(int(b) for b in budgets)) != len(budgets):
         raise ValueError("budgets must be unique")
     if max(budgets) > MAX_SUPPORTED_BUDGET:
-        raise ValueError(f"budgets above {MAX_SUPPORTED_BUDGET} are outside the audited scope")
+        raise ValueError(
+            f"budgets above {MAX_SUPPORTED_BUDGET} are outside the audited scope"
+        )
     if not widen_costs or any(c < 1 for c in widen_costs):
         raise ValueError("widen_costs must be positive integers")
     unknown = set(allocators) - set(ALLOCATORS)
@@ -385,7 +445,9 @@ def run_experiment(
     # Every allocator must be pullable on the smallest budget with the initial
     # pool; the visible pool alone should be samplable.
     if min(budgets) < n_visible:
-        raise ValueError("smallest budget must cover at least one pull per initial visible arm")
+        raise ValueError(
+            "smallest budget must cover at least one pull per initial visible arm"
+        )
 
     max_budget = max(budgets)
     records: List[TrialRecord] = []
@@ -395,7 +457,9 @@ def run_experiment(
         for budget in budgets:
             for widen_cost in widen_costs:
                 for allocator in allocators:
-                    rng = random.Random(stable_seed(seed, "alloc", trial, budget, widen_cost, allocator))
+                    rng = random.Random(
+                        stable_seed(seed, "alloc", trial, budget, widen_cost, allocator)
+                    )
                     result = RUNNERS[allocator](world, budget, widen_cost, tape, rng)
                     selected_mean = world.means[result.selected_arm]
                     best_visible = _best_visible_mean(world, result.visible_at_commit)
@@ -414,8 +478,12 @@ def run_experiment(
                             ranking_regret=ranking,
                             omission_regret=omission,
                             total_regret=ranking + omission,
-                            correct_selection=int(selected_mean >= world.global_best_mean - 1e-12),
-                            best_revealed=int(best_visible >= world.global_best_mean - 1e-12),
+                            correct_selection=int(
+                                selected_mean >= world.global_best_mean - 1e-12
+                            ),
+                            best_revealed=int(
+                                best_visible >= world.global_best_mean - 1e-12
+                            ),
                             n_widens=result.n_widens,
                             widen_spend=result.widen_spend,
                             pull_spend=result.pull_spend,
@@ -463,11 +531,15 @@ def summarize(records: Sequence[TrialRecord]) -> List[Dict[str, Any]]:
             "mean_total_regret": statistics.fmean(r.total_regret for r in rows),
             "mean_omission_regret": statistics.fmean(r.omission_regret for r in rows),
             "mean_ranking_regret": statistics.fmean(r.ranking_regret for r in rows),
-            "probability_correct_selection": statistics.fmean(r.correct_selection for r in rows),
+            "probability_correct_selection": statistics.fmean(
+                r.correct_selection for r in rows
+            ),
             "best_reveal_rate": statistics.fmean(r.best_revealed for r in rows),
             "mean_n_widens": statistics.fmean(r.n_widens for r in rows),
             "mean_budget_used": statistics.fmean(r.budget_used for r in rows),
-            "mean_n_visible_at_commit": statistics.fmean(r.n_visible_at_commit for r in rows),
+            "mean_n_visible_at_commit": statistics.fmean(
+                r.n_visible_at_commit for r in rows
+            ),
             "early_stop_rate": statistics.fmean(r.stopped_early for r in rows),
         }
         paired = [
@@ -476,9 +548,15 @@ def summarize(records: Sequence[TrialRecord]) -> List[Dict[str, Any]]:
             if (r.budget, r.widen_cost, r.trial) in baseline_by_trial
         ]
         if allocator != BASELINE_ALLOCATOR and len(paired) == n and n > 0:
-            omission_d = _paired_delta([a.omission_regret - b.omission_regret for a, b in paired])
-            ranking_d = _paired_delta([a.ranking_regret - b.ranking_regret for a, b in paired])
-            total_d = _paired_delta([a.total_regret - b.total_regret for a, b in paired])
+            omission_d = _paired_delta(
+                [a.omission_regret - b.omission_regret for a, b in paired]
+            )
+            ranking_d = _paired_delta(
+                [a.ranking_regret - b.ranking_regret for a, b in paired]
+            )
+            total_d = _paired_delta(
+                [a.total_regret - b.total_regret for a, b in paired]
+            )
             summary.update(
                 {
                     "paired_trials_vs_baseline": len(paired),
@@ -496,7 +574,9 @@ def summarize(records: Sequence[TrialRecord]) -> List[Dict[str, Any]]:
         else:
             summary.update(
                 {
-                    "paired_trials_vs_baseline": 0 if allocator != BASELINE_ALLOCATOR else n,
+                    "paired_trials_vs_baseline": 0
+                    if allocator != BASELINE_ALLOCATOR
+                    else n,
                     "paired_omission_delta_vs_baseline": None,
                     "paired_omission_delta_mc95_low": None,
                     "paired_omission_delta_mc95_high": None,
@@ -532,9 +612,15 @@ def widening_kill_verdict(summaries: Sequence[Mapping[str, Any]]) -> Dict[str, A
             "allocator": row["allocator"],
             "budget": row["budget"],
             "widen_cost": row["widen_cost"],
-            "paired_omission_delta_vs_baseline": row.get("paired_omission_delta_vs_baseline"),
-            "paired_omission_delta_mc95_high": row.get("paired_omission_delta_mc95_high"),
-            "paired_ranking_delta_vs_baseline": row.get("paired_ranking_delta_vs_baseline"),
+            "paired_omission_delta_vs_baseline": row.get(
+                "paired_omission_delta_vs_baseline"
+            ),
+            "paired_omission_delta_mc95_high": row.get(
+                "paired_omission_delta_mc95_high"
+            ),
+            "paired_ranking_delta_vs_baseline": row.get(
+                "paired_ranking_delta_vs_baseline"
+            ),
             "paired_total_delta_vs_baseline": row.get("paired_total_delta_vs_baseline"),
             "paired_total_delta_mc95_high": row.get("paired_total_delta_mc95_high"),
         }
@@ -547,9 +633,13 @@ def widening_kill_verdict(summaries: Sequence[Mapping[str, Any]]) -> Dict[str, A
     return {
         "candidate_morphology_schema_version": CANDIDATE_MORPHOLOGY_SCHEMA_VERSION,
         "n_ci_separated_omission_improvements": len(omission_hits),
-        "widen_prices_with_omission_improvement": sorted({r["widen_cost"] for r in omission_hits}),
+        "widen_prices_with_omission_improvement": sorted(
+            {r["widen_cost"] for r in omission_hits}
+        ),
         "n_ci_separated_total_improvements": len(total_hits),
-        "widen_prices_with_total_improvement": sorted({r["widen_cost"] for r in total_hits}),
+        "widen_prices_with_total_improvement": sorted(
+            {r["widen_cost"] for r in total_hits}
+        ),
         "widening_lane_demoted": len(omission_hits) == 0,
         "net_total_improvement_found": len(total_hits) > 0,
         "ci_separated_omission_improvements": omission_hits,
