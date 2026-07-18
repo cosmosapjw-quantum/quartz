@@ -33,10 +33,7 @@ pub fn soft_value(q_values: &[f32], tau: f32) -> f32 {
         return f32::NEG_INFINITY;
     }
     if tau <= 0.0 {
-        return q_values
-            .iter()
-            .cloned()
-            .fold(f32::NEG_INFINITY, f32::max);
+        return q_values.iter().cloned().fold(f32::NEG_INFINITY, f32::max);
     }
     let max_q = q_values.iter().cloned().fold(f32::NEG_INFINITY, f32::max);
     let mut sum = 0.0_f32;
@@ -60,12 +57,7 @@ pub fn soft_value(q_values: &[f32], tau: f32) -> f32 {
 ///
 /// Returns the soft-policy probabilities, len() == q_values.len().
 /// Numerically stable via the same log-sum-exp shift as `soft_value`.
-pub fn soft_policy(
-    q_values: &[f32],
-    n_state: u32,
-    tau: f32,
-    epsilon: f32,
-) -> SmallVec<[f32; 32]> {
+pub fn soft_policy(q_values: &[f32], n_state: u32, tau: f32, epsilon: f32) -> SmallVec<[f32; 32]> {
     let k = q_values.len();
     let mut out: SmallVec<[f32; 32]> = SmallVec::new();
     if k == 0 {
@@ -201,9 +193,7 @@ mod tests {
         let p_eps_high = soft_policy(&q, 100, 0.01, 1.0);
         let p_eps_low = soft_policy(&q, 100, 0.01, 0.0);
         // uniform = 1/3 ≈ 0.333 each
-        let uniform_dev = |p: &[f32]| -> f32 {
-            p.iter().map(|x| (x - 0.333).abs()).sum::<f32>()
-        };
+        let uniform_dev = |p: &[f32]| -> f32 { p.iter().map(|x| (x - 0.333).abs()).sum::<f32>() };
         assert!(
             uniform_dev(&p_eps_high) < uniform_dev(&p_eps_low),
             "high ε should be closer to uniform"
@@ -241,7 +231,7 @@ mod tests {
     #[test]
     fn test_phase7_kl_positive_on_divergence() {
         let p_soft = [0.5_f32, 0.5];
-        let visits = [90_u32, 10];   // visit policy = [0.9, 0.1]
+        let visits = [90_u32, 10]; // visit policy = [0.9, 0.1]
         let kl = kl_visit_to_soft(&visits, &p_soft);
         // KL([0.9, 0.1] || [0.5, 0.5]) = 0.9 log(1.8) + 0.1 log(0.2)
         //                              ≈ 0.529 - 0.161 ≈ 0.368
@@ -252,7 +242,7 @@ mod tests {
     #[test]
     fn test_phase7_kl_zero_visit_arm() {
         let p_soft = [0.5_f32, 0.4, 0.1];
-        let visits = [50_u32, 50, 0];   // visit policy = [0.5, 0.5, 0]
+        let visits = [50_u32, 50, 0]; // visit policy = [0.5, 0.5, 0]
         let kl = kl_visit_to_soft(&visits, &p_soft);
         // Hand: 0.5 log(1.0) + 0.5 log(1.25) + 0 (third term)
         //     ≈ 0 + 0.5 · 0.223 ≈ 0.112

@@ -1,0 +1,35 @@
+{
+  "schema_version": 1,
+  "axis_id": "A19",
+  "artifact_kind": "frozen_controller_contract",
+  "immutable_during_ablation": true,
+  "is_model_checkpoint": false,
+  "game": "gomoku7",
+  "controller_identity": {
+    "search_profile": "quartz",
+    "vl_mode": "adaptive",
+    "penalty_mode": "GatedRefresh",
+    "halt_mode": "VOC",
+    "root_only_shaping": true,
+    "prior_refresh_rate": 0.0,
+    "prior_refresh_temp": 1.0,
+    "sigma_0": 0.3,
+    "hbar_penalty_cap": 0.3,
+    "c_puct": 2.0,
+    "min_visits": 15,
+    "check_interval": 20
+  },
+  "runtime_contract": {
+    "iterations": 200,
+    "n_threads": 4,
+    "batch_size": 4,
+    "batch_timeout_us": 900,
+    "eval_runner_mode": "rust_eval_state_machine"
+  },
+  "allowed_mutations": [],
+  "prohibited_inferences": [
+    "This JSON is a frozen controller contract, not a neural-model checkpoint.",
+    "Holding this contract fixed does not validate any A19 evaluator.",
+    "No controller field may change between evaluator variants or graph seeds."
+  ]
+}

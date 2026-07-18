@@ -1,0 +1,69 @@
+{
+  "schema_version": 1,
+  "axis_id": "A18",
+  "artifact_kind": "repo_local_study_input_receipt",
+  "claim_scope": "input_provenance_only",
+  "study_config": {
+    "path": "configs/a18_evaluator_ablation.study.v1.json",
+    "sha256": "5e73f4454d02a9139611f6d06e3bcd96374839173ae8143c0c30a5b8625a0c36"
+  },
+  "derivation": {
+    "command": "venv/bin/python scripts/a18_prepare_holdouts.py",
+    "script": {
+      "path": "scripts/a18_prepare_holdouts.py",
+      "sha256": "7978f2241be9c8d436ce5be0f10e7f9261cdd069a02da8a874b2e719c6064973"
+    },
+    "module": {
+      "path": "quartz/idea_foundry/a18_ablation.py",
+      "sha256": "b61d7eca524fee11ce1e3a7f674a96a82982dec6b9769224d7d25c0e0b0a0312"
+    },
+    "bundle": {
+      "path": "results/idea_foundry_inputs/a18_study_v1/holdout_derivation_bundle.v1.json",
+      "sha256": "d9aa52ae1c7770dbc151694523614ac28aa53f1760dfaa288010a2f3a9b548f9"
+    }
+  },
+  "artifacts": [
+    {
+      "path": "results/idea_foundry_inputs/a18_study_v1/train_seed_41.eval_from_seed_42.exact_state_disjoint.npz",
+      "sha256": "6866cf8a5e7097fd053eaff152d6645f76187c81e163f180c3d271e8c7b64a8f",
+      "receipt_path": "results/idea_foundry_inputs/a18_study_v1/train_seed_41.eval_from_seed_42.exact_state_disjoint.receipt.v1.json",
+      "receipt_sha256": "802e875d8a1e0c0beb0d127cc74429b3b47141e7314b80285b8e04b4e76e2155",
+      "training_seed": 41,
+      "evaluation_source_seed": 42,
+      "retained_positions": 243,
+      "excluded_positions": 23,
+      "exact_state_overlap_groups": 0
+    },
+    {
+      "path": "results/idea_foundry_inputs/a18_study_v1/train_seed_42.eval_from_seed_43.exact_state_disjoint.npz",
+      "sha256": "606c2e976df5bfdb18b64e5ad994a40f69c46e86440ea550370c6314befbeb49",
+      "receipt_path": "results/idea_foundry_inputs/a18_study_v1/train_seed_42.eval_from_seed_43.exact_state_disjoint.receipt.v1.json",
+      "receipt_sha256": "d7ea73f96ded88d580f98cae6fc4abe0fefa74a28ef89aef6c8e92795b4ae825",
+      "training_seed": 42,
+      "evaluation_source_seed": 43,
+      "retained_positions": 251,
+      "excluded_positions": 27,
+      "exact_state_overlap_groups": 0
+    },
+    {
+      "path": "results/idea_foundry_inputs/a18_study_v1/train_seed_43.eval_from_seed_41.exact_state_disjoint.npz",
+      "sha256": "525e8d9e5c617ea2cee8f2e79a8f77617ced7f2696c37ed3f7dd21a802cadb2e",
+      "receipt_path": "results/idea_foundry_inputs/a18_study_v1/train_seed_43.eval_from_seed_41.exact_state_disjoint.receipt.v1.json",
+      "receipt_sha256": "447b5037fd7e7f9539c2e6fa914b69a762fe9c9de20d248c1027a9414332a2f6",
+      "training_seed": 43,
+      "evaluation_source_seed": 41,
+      "retained_positions": 272,
+      "excluded_positions": 26,
+      "exact_state_overlap_groups": 0
+    }
+  ],
+  "portability_status": "repo_local_regenerable_not_embedded",
+  "scientific_status": "DERIVED_INPUT_NOT_EFFICACY",
+  "automatic_promotion": false,
+  "prohibited_inferences": [
+    "independent_game_holdout",
+    "trajectory_group_generalization",
+    "play_strength",
+    "production_readiness"
+  ]
+}

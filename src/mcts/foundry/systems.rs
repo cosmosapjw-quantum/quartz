@@ -4,7 +4,7 @@ use std::collections::BTreeMap;
 
 use super::types::{
     AxisStatus, CostVector, FoundryAxis, FoundryObservation, MetaAction, MetaProposal,
-    ProposalEstimate,
+    ProposalEstimate, FOUNDRY_CONTRACT_SCHEMA_VERSION, SKELETON_EVIDENCE_SCOPE,
 };
 
 #[derive(Clone, Debug)]
@@ -29,16 +29,19 @@ impl FoundryAxis for A17B13CurvatureReadout {
 
     fn propose(&self, _observation: &FoundryObservation<'_>, out: &mut Vec<MetaProposal>) {
         let mut telemetry = BTreeMap::new();
-        telemetry.insert("curvature".into(), self.curvature as f64);
+        telemetry.insert("curvature".into(), serde_json::json!(self.curvature));
         out.push(MetaProposal {
-            axis_id: self.id(),
+            schema_version: FOUNDRY_CONTRACT_SCHEMA_VERSION,
+            axis_id: self.id().to_string(),
             action: MetaAction::Noop,
             estimate: ProposalEstimate {
                 confidence: 0.5,
                 ..ProposalEstimate::default()
             },
-            activation_guard: "readout-only by default; selection and training-target roles separate",
+            activation_guard:
+                "readout-only by default; selection and training-target roles separate".into(),
             explanation: "invoke the pinned Phase-15 one-loop readout implementation".into(),
+            evidence_scope: SKELETON_EVIDENCE_SCOPE.to_string(),
             telemetry,
         });
     }
@@ -104,15 +107,18 @@ impl FoundryAxis for A19RwRestLiteEvaluator {
 
     fn propose(&self, _observation: &FoundryObservation<'_>, out: &mut Vec<MetaProposal>) {
         let mut telemetry = BTreeMap::new();
-        telemetry.insert("nodes".into(), self.nodes as f64);
-        telemetry.insert("channels".into(), self.channels as f64);
-        telemetry.insert("graph_seed".into(), self.graph_seed as f64);
+        telemetry.insert("nodes".into(), serde_json::json!(self.nodes));
+        telemetry.insert("channels".into(), serde_json::json!(self.channels));
+        telemetry.insert("graph_seed".into(), serde_json::json!(self.graph_seed));
         out.push(MetaProposal {
-            axis_id: self.id(),
+            schema_version: FOUNDRY_CONTRACT_SCHEMA_VERSION,
+            axis_id: self.id().to_string(),
             action: MetaAction::Noop,
             estimate: ProposalEstimate::default(),
-            activation_guard: "controller frozen; graph-seed screen; static-pruned deployment graph",
+            activation_guard:
+                "controller frozen; graph-seed screen; static-pruned deployment graph".into(),
             explanation: "register evaluator architecture ablation".into(),
+            evidence_scope: SKELETON_EVIDENCE_SCOPE.to_string(),
             telemetry,
         });
     }
@@ -134,17 +140,20 @@ impl FoundryAxis for A20RegretStateArchive {
         let instability = 1.0 - observation.extras.h1_stability.unwrap_or(0.0);
         let priority = instability.max(0.0)
             + observation.extras.omission_bound.max(0.0)
-            + 0.25 * observation.extras.revision_count as f32
+            + 0.25 * f64::from(observation.extras.revision_count)
             + observation.extras.prior_visit_js.max(0.0);
         if priority <= 0.0 {
             return;
         }
         out.push(MetaProposal {
-            axis_id: self.id(),
+            schema_version: FOUNDRY_CONTRACT_SCHEMA_VERSION,
+            axis_id: self.id().to_string(),
             action: MetaAction::ArchiveState { priority },
             estimate: ProposalEstimate::default(),
-            activation_guard: "training-only; deduplicate by position group; sampling bias recorded",
+            activation_guard:
+                "training-only; deduplicate by position group; sampling bias recorded".into(),
             explanation: format!("archive priority={priority:.4}"),
+            evidence_scope: SKELETON_EVIDENCE_SCOPE.to_string(),
             telemetry: BTreeMap::new(),
         });
     }
@@ -172,16 +181,19 @@ impl FoundryAxis for A21CoherenceSignedPathShadow {
 
     fn propose(&self, observation: &FoundryObservation<'_>, out: &mut Vec<MetaProposal>) {
         let stability = observation.extras.h1_stability.unwrap_or(0.0);
-        let coherence = (-self.decay * observation.snap.root_visits as f32).exp()
+        let coherence = (-f64::from(self.decay) * f64::from(observation.snap.root_visits)).exp()
             * (1.0 - stability).max(0.0);
         let mut telemetry = BTreeMap::new();
-        telemetry.insert("coherence".into(), coherence as f64);
+        telemetry.insert("coherence".into(), serde_json::json!(coherence));
         out.push(MetaProposal {
-            axis_id: self.id(),
+            schema_version: FOUNDRY_CONTRACT_SCHEMA_VERSION,
+            axis_id: self.id().to_string(),
             action: MetaAction::Noop,
             estimate: ProposalEstimate::default(),
-            activation_guard: "shadow-only until predictive lift beyond ordinary disagreement is proven",
+            activation_guard:
+                "shadow-only until predictive lift beyond ordinary disagreement is proven".into(),
             explanation: format!("coherence gate={coherence:.6}"),
+            evidence_scope: SKELETON_EVIDENCE_SCOPE.to_string(),
             telemetry,
         });
     }
@@ -201,18 +213,29 @@ impl FoundryAxis for A22PhysicsFalsificationDashboard {
 
     fn propose(&self, observation: &FoundryObservation<'_>, out: &mut Vec<MetaProposal>) {
         let mut telemetry = BTreeMap::new();
-        telemetry.insert("budget".into(), observation.snap.root_visits as f64);
-        telemetry.insert("entropy".into(), observation.extras.entropy as f64);
+        telemetry.insert(
+            "budget".into(),
+            serde_json::json!(observation.snap.root_visits),
+        );
+        telemetry.insert(
+            "entropy".into(),
+            serde_json::json!(observation.extras.entropy),
+        );
         telemetry.insert(
             "effective_branching".into(),
-            observation.extras.effective_branching as f64,
+            serde_json::json!(observation.extras.effective_branching),
         );
         out.push(MetaProposal {
-            axis_id: self.id(),
+            schema_version: FOUNDRY_CONTRACT_SCHEMA_VERSION,
+            axis_id: self.id().to_string(),
             action: MetaAction::Noop,
             estimate: ProposalEstimate::default(),
-            activation_guard: "analysis-only; explicit nulls; no FDT/Jarzynski without protocols",
-            explanation: "record beta residual, redundancy, susceptibility, and scale-flow observables".into(),
+            activation_guard: "analysis-only; explicit nulls; no FDT/Jarzynski without protocols"
+                .into(),
+            explanation:
+                "record beta residual, redundancy, susceptibility, and scale-flow observables"
+                    .into(),
+            evidence_scope: SKELETON_EVIDENCE_SCOPE.to_string(),
             telemetry,
         });
     }
@@ -244,7 +267,8 @@ impl FoundryAxis for A23CpuIncrementalPatternStudent {
 
     fn propose(&self, observation: &FoundryObservation<'_>, out: &mut Vec<MetaProposal>) {
         out.push(MetaProposal {
-            axis_id: self.id(),
+            schema_version: FOUNDRY_CONTRACT_SCHEMA_VERSION,
+            axis_id: self.id().to_string(),
             action: MetaAction::Noop,
             estimate: ProposalEstimate {
                 cost: CostVector {
@@ -253,8 +277,10 @@ impl FoundryAxis for A23CpuIncrementalPatternStudent {
                 },
                 ..ProposalEstimate::default()
             },
-            activation_guard: "teacher/controller frozen; incremental cache correctness and fixed-time Elo",
+            activation_guard:
+                "teacher/controller frozen; incremental cache correctness and fixed-time Elo".into(),
             explanation: "register pattern-codebook/NNUE-like CPU evaluator comparison".into(),
+            evidence_scope: SKELETON_EVIDENCE_SCOPE.to_string(),
             telemetry: BTreeMap::new(),
         });
     }

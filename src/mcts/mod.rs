@@ -3,6 +3,8 @@
 pub mod backup;
 pub mod eval;
 pub mod expand;
+#[cfg(feature = "idea-foundry")]
+pub mod foundry;
 pub mod gvoc;
 pub mod mod_types;
 pub mod node;

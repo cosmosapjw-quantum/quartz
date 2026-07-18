@@ -2512,7 +2512,10 @@ mod tests {
         };
         let (cfg, diags) = base.with_calibration(dir.path(), Some("any"), None, 2.0);
         assert!((cfg.sigma_0 - 0.3).abs() < 1e-6);
-        assert!(matches!(diags.first(), Some(CalibrationDiagnostic::Info(_))));
+        assert!(matches!(
+            diags.first(),
+            Some(CalibrationDiagnostic::Info(_))
+        ));
     }
 
     /// P05: a strength-stratified file (e.g. weak.json) takes priority
@@ -2529,8 +2532,10 @@ mod tests {
                 "schema_version": 1, "tool": "x", "target": "x", "tie_break": "x",
                 "per_game_rows": {},
                 "recommendations": { "__cross_game__": 0.3 },
-            })).unwrap(),
-        ).unwrap();
+            }))
+            .unwrap(),
+        )
+        .unwrap();
         // weak.json → 0.5 (weaker eval ⇒ larger uncertainty reference)
         std::fs::write(
             dir.path().join("weak.json"),
@@ -2538,8 +2543,10 @@ mod tests {
                 "schema_version": 1, "tool": "x", "target": "x", "tie_break": "x",
                 "per_game_rows": {},
                 "recommendations": { "__cross_game__": 0.5 },
-            })).unwrap(),
-        ).unwrap();
+            }))
+            .unwrap(),
+        )
+        .unwrap();
         let base = QuartzConfig::default();
         let (cfg, _) = base.with_calibration(
             dir.path(),
@@ -2547,7 +2554,11 @@ mod tests {
             Some(EvalStrength::Weak),
             10.0, // generous warn_factor
         );
-        assert!((cfg.sigma_0 - 0.5).abs() < 1e-6, "got sigma_0={}", cfg.sigma_0);
+        assert!(
+            (cfg.sigma_0 - 0.5).abs() < 1e-6,
+            "got sigma_0={}",
+            cfg.sigma_0
+        );
     }
 
     /// P05: schema_version != 1 must be skipped (forward-compat guard).

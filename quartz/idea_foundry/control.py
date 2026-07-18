@@ -7,9 +7,9 @@ must not be interpreted as efficacy claims.
 
 from __future__ import annotations
 
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 from math import exp, log
-from typing import Callable, Mapping, Sequence
+from typing import Callable, Sequence
 
 from .contracts import (
     AxisStatus,
@@ -130,7 +130,10 @@ class A02StaticAnchorRPO:
                 estimate=ProposalEstimate(confidence=0.5),
                 activation_guard="root-only; frozen anchor; no cumulative mutation",
                 explanation="temporary KL-regularized root policy ready for posthoc/readout comparison",
-                telemetry={"policy": policy, "temperature": self.temperature},
+                telemetry={
+                    "policy": {str(edge_pos): weight for edge_pos, weight in policy.items()},
+                    "temperature": self.temperature,
+                },
             ),
         )
 
@@ -155,7 +158,7 @@ class A03UncertaintyDecomposition:
 
     def propose(self, obs: RootObservation) -> Sequence[MetaProposal]:
         rows = {
-            edge.edge_pos: {
+            str(edge.edge_pos): {
                 "radius": self.radius(edge),
                 "lower": self.bounds(edge)[0],
                 "upper": self.bounds(edge)[1],
@@ -237,6 +240,7 @@ class A05CounterfactualMetaTeacher:
             checkpoint_id=obs.checkpoint_id,
             position_id=obs.position_id,
             budget=obs.root_visits,
+            freshness_identity=obs.freshness_identity(),
             action=action,
             decision_loss_before=float(loss_before),
             decision_loss_after=float(loss_after),
@@ -276,7 +280,7 @@ class A24LearnedBudgetGate:
             proposals.append(
                 MetaProposal(
                     axis_id=self.axis_id,
-                    action=MetaAction(MetaActionKind.SAMPLE, amount=budget, label="budget_gate"),
+                    action=MetaAction(MetaActionKind.NOOP, label="budget_gate_offline"),
                     estimate=ProposalEstimate(
                         regret_reduction_mean=gain,
                         regret_reduction_lcb=min(0.0, gain),
@@ -285,6 +289,7 @@ class A24LearnedBudgetGate:
                     ),
                     activation_guard="frozen planner; grouped holdout calibration; hard deadline respected",
                     explanation=f"candidate extra budget={budget}",
+                    telemetry={"candidate_root_budget": budget},
                 )
             )
         return tuple(proposals)

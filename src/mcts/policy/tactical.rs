@@ -208,13 +208,13 @@ mod tests {
     fn test_phase5_gomoku_terminal_state_no_forced() {
         let mut g = Gomoku::new_with_win(7, 4);
         // Black wins by 4-in-a-row at row 3
-        g.apply_move_in_place_no_undo(3 * 7);          // black (3, 0)
-        g.apply_move_in_place_no_undo(0);              // white (0, 0)
-        g.apply_move_in_place_no_undo(3 * 7 + 1);      // black (3, 1)
-        g.apply_move_in_place_no_undo(1);              // white (0, 1)
-        g.apply_move_in_place_no_undo(3 * 7 + 2);      // black (3, 2)
-        g.apply_move_in_place_no_undo(2);              // white (0, 2)
-        g.apply_move_in_place_no_undo(3 * 7 + 3);      // black (3, 3) — wins
+        g.apply_move_in_place_no_undo(3 * 7); // black (3, 0)
+        g.apply_move_in_place_no_undo(0); // white (0, 0)
+        g.apply_move_in_place_no_undo(3 * 7 + 1); // black (3, 1)
+        g.apply_move_in_place_no_undo(1); // white (0, 1)
+        g.apply_move_in_place_no_undo(3 * 7 + 2); // black (3, 2)
+        g.apply_move_in_place_no_undo(2); // white (0, 2)
+        g.apply_move_in_place_no_undo(3 * 7 + 3); // black (3, 3) — wins
         assert!(g.is_terminal());
         let r = tactical_sentinel(&g);
         assert_eq!(r, TacticalResult::None);
@@ -239,13 +239,13 @@ mod tests {
     fn test_phase5_gomoku_immediate_win_priority_over_block() {
         let mut g = Gomoku::new_with_win(7, 4);
         // Black: (0, 0), (0, 1), (0, 2)  — needs (0, 3) to win
-        g.apply_move_in_place_no_undo(0);                // black (0, 0)
-        g.apply_move_in_place_no_undo(6 * 7);            // white (6, 0)
-        g.apply_move_in_place_no_undo(1);                // black (0, 1)
-        g.apply_move_in_place_no_undo(6 * 7 + 1);        // white (6, 1)
-        g.apply_move_in_place_no_undo(2);                // black (0, 2)
-        g.apply_move_in_place_no_undo(6 * 7 + 2);        // white (6, 2) — both sides have 3-in-a-row
-        // Now black to move. Both win positions are at (0, 3) and (6, 3).
+        g.apply_move_in_place_no_undo(0); // black (0, 0)
+        g.apply_move_in_place_no_undo(6 * 7); // white (6, 0)
+        g.apply_move_in_place_no_undo(1); // black (0, 1)
+        g.apply_move_in_place_no_undo(6 * 7 + 1); // white (6, 1)
+        g.apply_move_in_place_no_undo(2); // black (0, 2)
+        g.apply_move_in_place_no_undo(6 * 7 + 2); // white (6, 2) — both sides have 3-in-a-row
+                                                  // Now black to move. Both win positions are at (0, 3) and (6, 3).
         let r = tactical_sentinel(&g);
         // Black takes the win at (0, 3), not the block at (6, 3).
         assert_eq!(r, TacticalResult::Forced(3));
@@ -265,7 +265,7 @@ mod tests {
         t.apply_move_in_place_no_undo(3); // O (1,0)
         t.apply_move_in_place_no_undo(1); // X (0,1)
         t.apply_move_in_place_no_undo(4); // O (1,1)
-        // X to move; (0,2) completes the top row.
+                                          // X to move; (0,2) completes the top row.
         let r = tactical_sentinel(&t);
         assert_eq!(r, TacticalResult::Forced(2));
     }

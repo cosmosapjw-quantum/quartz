@@ -13,6 +13,9 @@ from enum import Enum
 from typing import Any, Mapping, Protocol, Sequence
 
 
+FOUNDRY_CONTRACT_SCHEMA_VERSION = 1
+
+
 class AxisStatus(str, Enum):
     SEED = "seed"
     MECHANISM_VALID = "mechanism_valid"
@@ -49,8 +52,12 @@ class CostVector:
     energy_proxy: float = 0.0
 
     def weighted(self, prices: Mapping[str, float]) -> float:
+        # ``nn_evals`` is the canonical cross-language wire key.  Accept the
+        # old singular spelling while v1 idea-lab registries are still
+        # readable, but never emit it from the v2 serializers.
+        nn_eval_price = float(prices.get("nn_evals", prices.get("nn_eval", 0.0)))
         return (
-            self.nn_evals * float(prices.get("nn_evals", 0.0))
+            self.nn_evals * nn_eval_price
             + self.cpu_ms * float(prices.get("cpu_ms", 0.0))
             + self.gpu_ms * float(prices.get("gpu_ms", 0.0))
             + self.energy_proxy * float(prices.get("energy_proxy", 0.0))
@@ -85,6 +92,7 @@ class MetaProposal:
     estimate: ProposalEstimate
     activation_guard: str
     explanation: str
+    schema_version: int = FOUNDRY_CONTRACT_SCHEMA_VERSION
     evidence_scope: str = "skeleton_only"
     telemetry: Mapping[str, Any] = field(default_factory=dict)
 
@@ -137,6 +145,45 @@ class RuntimeObservation:
 
 
 @dataclass(frozen=True)
+class FreshnessIdentity:
+    """Identity that makes a live STOP/PROVE decision replay-auditable.
+
+    Every field participates in equality.  The identity intentionally keeps
+    evaluator, candidate-generation, transposition-table, and cache versions
+    separate instead of hiding them in one opaque hash.
+    """
+
+    root_hash: int
+    checkpoint_id: str
+    evaluator_id: str
+    edge_set_hash: str
+    candidate_epoch: int
+    tt_identity_policy: str
+    cache_schema_version: int
+    root_visits: int
+    iteration: int
+
+
+@dataclass(frozen=True)
+class FoundryRootExtras:
+    """Versioned Python mirror of Rust ``FoundryRootExtras`` replay data."""
+
+    freshness: FreshnessIdentity
+    entropy: float
+    effective_branching: float
+    top2_margin: float
+    margin_slope: float
+    entropy_slope: float
+    h1_stability: float | None
+    p_flip: float | None
+    prior_visit_js: float
+    omission_bound: float
+    revision_count: int
+    runtime: RuntimeObservation = field(default_factory=RuntimeObservation)
+    schema_version: int = FOUNDRY_CONTRACT_SCHEMA_VERSION
+
+
+@dataclass(frozen=True)
 class RootObservation:
     root_hash: int
     checkpoint_id: str
@@ -161,6 +208,7 @@ class RootObservation:
     edges: tuple[EdgeObservation, ...]
     runtime: RuntimeObservation = field(default_factory=RuntimeObservation)
     extras: Mapping[str, Any] = field(default_factory=dict)
+    freshness: FreshnessIdentity | None = None
 
     def best_edge(self) -> EdgeObservation | None:
         return max(self.edges, key=lambda edge: edge.q_mean, default=None)
@@ -169,12 +217,30 @@ class RootObservation:
         ranked = sorted(self.edges, key=lambda edge: edge.q_mean, reverse=True)
         return ranked[1] if len(ranked) > 1 else None
 
+    def freshness_identity(self) -> FreshnessIdentity:
+        if self.freshness is not None:
+            return self.freshness
+        return FreshnessIdentity(
+            root_hash=self.root_hash,
+            checkpoint_id=self.checkpoint_id,
+            evaluator_id=str(self.extras.get("evaluator_id", self.checkpoint_id)),
+            edge_set_hash=str(self.extras.get("edge_set_hash", "")),
+            candidate_epoch=int(self.extras.get("candidate_epoch", 0)),
+            tt_identity_policy=str(
+                self.extras.get("tt_identity_policy", "state_eval_cache_only")
+            ),
+            cache_schema_version=int(self.extras.get("cache_schema_version", 1)),
+            root_visits=self.root_visits,
+            iteration=self.iteration,
+        )
+
 
 @dataclass(frozen=True)
 class CounterfactualLabel:
     checkpoint_id: str
     position_id: str
     budget: int
+    freshness_identity: FreshnessIdentity
     action: MetaAction
     decision_loss_before: float
     decision_loss_after: float

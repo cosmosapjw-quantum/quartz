@@ -1,0 +1,6405 @@
+{
+  "format_version": 2,
+  "experiment_id": "quartz_idea_foundry_26_axis_campaign",
+  "source_dependencies": [
+    "scripts/a15_matched_service_curve.py",
+    "scripts/a18_evaluator_ablation.py",
+    "scripts/a18_prepare_holdouts.py",
+    "scripts/a19_prepare_ablation.py",
+    "scripts/idea_foundry_axis_gate.py",
+    "quartz/experiment_manifest.py",
+    "quartz/experiments/a15_matched_service_curve.py",
+    "quartz/idea_foundry/__init__.py",
+    "quartz/idea_foundry/a18_ablation.py",
+    "quartz/idea_foundry/a19_ablation.py",
+    "quartz/idea_foundry/contracts.py",
+    "quartz/idea_foundry/control.py",
+    "quartz/idea_foundry/gates.py",
+    "quartz/idea_foundry/learning.py",
+    "quartz/idea_foundry/search.py",
+    "quartz/idea_foundry/serialization.py"
+  ],
+  "axis_registry": "configs/idea_foundry.axes.v1.json",
+  "axis_registry_contract": {
+    "sha256": "f7a520fec1592295e64febec00138e4a585934285fc5394720a865922b3d90d4",
+    "required_axis_ids": [
+      "A01",
+      "A02",
+      "A03",
+      "A04",
+      "A05",
+      "A06",
+      "A07",
+      "A08",
+      "A09",
+      "A10",
+      "A11",
+      "A12",
+      "A13",
+      "A14",
+      "A15",
+      "A16",
+      "A17",
+      "A18",
+      "A19",
+      "A20",
+      "A21",
+      "A22",
+      "A23",
+      "A24",
+      "A25",
+      "A26"
+    ]
+  },
+  "default_suite": "first-gate-all",
+  "description": "Fail-closed sequential contract-preflight campaign for all 26 Idea Foundry axes. Lane roles describe later evidence work; this suite itself is synthetic contract evidence only. Execution state and evidence state are independent.",
+  "campaign_policy": {
+    "runtime_statuses": [
+      "planned",
+      "blocked",
+      "running",
+      "succeeded",
+      "completed_no_promotion",
+      "failed",
+      "timeout",
+      "interrupted",
+      "skipped"
+    ],
+    "technical_failure_statuses": [
+      "failed",
+      "timeout",
+      "interrupted"
+    ],
+    "scientific_negative_status": "completed_no_promotion",
+    "fail_closed_on_contract_error": true,
+    "automatic_claim_promotion": false,
+    "main_dependency_condition": "terminal_without_technical_failure",
+    "resume_requires_verified_hashes": true,
+    "campaign_summary": "{run_root}/campaign_summary.json"
+  },
+  "stage_contracts": {
+    "trace_shadow": {
+      "order": [
+        "A03",
+        "A09",
+        "A01",
+        "A02",
+        "A17",
+        "A21",
+        "A22"
+      ],
+      "invariants": [
+        "position-grouped split",
+        "exactly one trace salt",
+        "actual input hashes recorded",
+        "restart and continuation rows remain separate",
+        "A17 is decision-neutral",
+        "A21 and A22 are analysis-only"
+      ]
+    },
+    "synthetic_candidate_bank": {
+      "order": [
+        "A06",
+        "A07",
+        "A12",
+        "A25",
+        "A26"
+      ],
+      "fixture_bank": [
+        "hidden_best",
+        "near_tie",
+        "multimodal"
+      ],
+      "invariants": [
+        "fixed common seeds",
+        "total budget conserved",
+        "candidate omission and ranking error reported separately",
+        "A25 includes the zero-temperature limit",
+        "A26 compares against an enumerable exact result"
+      ]
+    },
+    "counterfactual": {
+      "order": [
+        "A05"
+      ],
+      "actions": [
+        "STOP",
+        "SAMPLE_INCUMBENT",
+        "SAMPLE_CHALLENGER",
+        "WIDEN"
+      ],
+      "invariants": [
+        "one resident root is frozen then forked",
+        "root evaluator candidate TT and cache identities match",
+        "raw regret reduction and realized cost vectors are preserved"
+      ]
+    },
+    "live_allocation": {
+      "promotion_order": [
+        "A04.live",
+        "A06.live",
+        "A07.live",
+        "A08.live"
+      ],
+      "invariants": [
+        "one explicit action per checkpoint",
+        "fresh snapshot guard",
+        "matched NN-evaluation and wall-clock accounting",
+        "A04 is KG allocation only and does not reopen low-budget KG-stop"
+      ]
+    },
+    "parallel_system": {
+      "order": [
+        "A13",
+        "A15",
+        "A14",
+        "A16",
+        "A11"
+      ],
+      "invariants": [
+        "pending work is separate from completed evidence",
+        "service curves are hardware-profile specific",
+        "A14 remains shadow-only before predictive evidence",
+        "A16 shares evaluation cache only at the first gate",
+        "A11 starts with a root-level particle backend"
+      ]
+    },
+    "representation_training": {
+      "order": [
+        "A18",
+        "A19",
+        "A23",
+        "A20",
+        "A24"
+      ],
+      "invariants": [
+        "controller stays frozen during evaluator comparisons",
+        "A18 inference uses a deterministic direct path",
+        "A19 screens graph seeds before a shortlist",
+        "A23 checks make and unmake incremental equivalence",
+        "A20 and A24 use grouped splits and matched total compute"
+      ]
+    },
+    "conditional_audit": {
+      "order": [
+        "A10"
+      ],
+      "eligibility": "preregistered weak-evaluator or OOD slice only",
+      "no_eligible_outcome": "DORMANT_NO_ELIGIBLE_SLICE",
+      "default_policy": "no_refresh"
+    }
+  },
+  "suites": {
+    "first-gate-all": [
+      "A03.trace",
+      "A09.trace",
+      "A01.trace",
+      "A02.shadow",
+      "A17.trace",
+      "A21.analysis",
+      "A22.analysis",
+      "A06.synthetic",
+      "A07.synthetic",
+      "A12.synthetic",
+      "A25.synthetic",
+      "A26.analysis",
+      "A05.counterfactual",
+      "A04.shadow",
+      "A08.conditional_audit",
+      "A13.synthetic",
+      "A15.system",
+      "A14.shadow",
+      "A16.cache_only",
+      "A11.synthetic",
+      "A18.representation",
+      "A19.representation",
+      "A23.deployment",
+      "A20.training_control",
+      "A24.training_control",
+      "A10.conditional_audit"
+    ],
+    "trace-shadow": [
+      "A03.trace",
+      "A09.trace",
+      "A01.trace",
+      "A02.shadow",
+      "A17.trace",
+      "A21.analysis",
+      "A22.analysis"
+    ],
+    "synthetic-bank": [
+      "A06.synthetic",
+      "A07.synthetic",
+      "A12.synthetic",
+      "A25.synthetic",
+      "A26.analysis"
+    ],
+    "counterfactual": [
+      "A05.counterfactual"
+    ],
+    "live-allocation-first-gates": [
+      "A04.shadow",
+      "A08.conditional_audit"
+    ],
+    "parallel-system": [
+      "A13.synthetic",
+      "A15.system",
+      "A14.shadow",
+      "A16.cache_only",
+      "A11.synthetic"
+    ],
+    "representation-training": [
+      "A18.representation",
+      "A19.representation",
+      "A23.deployment",
+      "A20.training_control",
+      "A24.training_control"
+    ],
+    "conditional-audit": [
+      "A10.conditional_audit"
+    ],
+    "a15-a19-ablation-readiness": [
+      "A15.ablation_readiness",
+      "A18.ablation_readiness",
+      "A19.ablation_readiness"
+    ],
+    "live-promotion-blocked": [
+      "A04.live",
+      "A06.live",
+      "A07.live",
+      "A08.live"
+    ],
+    "accelerator-promotion-blocked": [
+      "A15.cuda",
+      "A18.cuda",
+      "A19.cuda"
+    ],
+    "all-registered": [
+      "A03.trace",
+      "A09.trace",
+      "A01.trace",
+      "A02.shadow",
+      "A17.trace",
+      "A21.analysis",
+      "A22.analysis",
+      "A06.synthetic",
+      "A07.synthetic",
+      "A12.synthetic",
+      "A25.synthetic",
+      "A26.analysis",
+      "A05.counterfactual",
+      "A04.shadow",
+      "A08.conditional_audit",
+      "A13.synthetic",
+      "A15.system",
+      "A14.shadow",
+      "A16.cache_only",
+      "A11.synthetic",
+      "A18.representation",
+      "A19.representation",
+      "A23.deployment",
+      "A20.training_control",
+      "A24.training_control",
+      "A10.conditional_audit",
+      "A15.ablation_readiness",
+      "A18.ablation_readiness",
+      "A19.ablation_readiness",
+      "A04.live",
+      "A06.live",
+      "A07.live",
+      "A08.live",
+      "A15.cuda",
+      "A18.cuda",
+      "A19.cuda"
+    ]
+  },
+  "lanes": [
+    {
+      "id": "A03.trace",
+      "title": "A03 uncertainty_decomposition trace first gate",
+      "axis_id": "A03",
+      "role": "trace",
+      "execution_status": "available",
+      "evidence_status": "shadow_only",
+      "claim_scope": "synthetic_contract_gate_only",
+      "groups": [
+        "idea-foundry",
+        "first-gate",
+        "trace-shadow"
+      ],
+      "profiles": [
+        "cpu"
+      ],
+      "description": "Separate MC, epistemic, drift and systematic-bias radii. This lane exercises only the deterministic first-gate contract.",
+      "depends_on": [],
+      "dependency_condition": "terminal_without_technical_failure",
+      "resource_profile": {
+        "allowed": [
+          "cpu"
+        ],
+        "accelerator": null,
+        "hardware_gate": null,
+        "budget_class": "lightweight_first_gate"
+      },
+      "inputs": [
+        {
+          "name": "axis_registry",
+          "kind": "tracked_file",
+          "path": "configs/idea_foundry.axes.v1.json",
+          "required": true
+        },
+        {
+          "name": "python_skeleton",
+          "kind": "tracked_source",
+          "path": "quartz/idea_foundry/control.py",
+          "required": true
+        }
+      ],
+      "seed_contract": {
+        "mode": "fixed",
+        "seeds": [
+          20260718
+        ],
+        "grouping_unit": "position",
+        "trace_salt_count": 1,
+        "restart_and_continuation_kept_separate": true,
+        "common_random_numbers_within_axis": true
+      },
+      "requirements": {
+        "python_modules": [
+          "numpy"
+        ],
+        "paths": [
+          "scripts/idea_foundry_axis_gate.py",
+          "configs/idea_foundry.axes.v1.json",
+          "quartz/idea_foundry/control.py"
+        ]
+      },
+      "steps": [
+        {
+          "name": "first-gate",
+          "command": [
+            "{python}",
+            "scripts/idea_foundry_axis_gate.py",
+            "--axis",
+            "A03",
+            "--role",
+            "trace",
+            "--seed",
+            "20260718",
+            "--output-dir",
+            "{output}"
+          ],
+          "timeout_s": 180
+        }
+      ],
+      "expected_artifacts": [
+        {
+          "path": "{output}/run_manifest.json",
+          "kind": "json",
+          "required": true,
+          "schema": {
+            "required_keys": [
+              "schema_version",
+              "axis_id",
+              "role",
+              "claim_scope",
+              "source_hashes",
+              "input_hashes",
+              "seed_contract",
+              "auto_promoted"
+            ]
+          }
+        },
+        {
+          "path": "{output}/rows.jsonl",
+          "kind": "jsonl",
+          "required": true,
+          "schema": {
+            "min_rows": 1,
+            "required_keys": [
+              "schema_version",
+              "axis_id",
+              "role",
+              "fixture_id",
+              "metric",
+              "value"
+            ]
+          }
+        },
+        {
+          "path": "{output}/summary.json",
+          "kind": "json",
+          "required": true,
+          "schema": {
+            "required_keys": [
+              "schema_version",
+              "axis_id",
+              "role",
+              "execution_status",
+              "evidence_status",
+              "promotion"
+            ]
+          }
+        }
+      ],
+      "promotion_gate": {
+        "mode": "manual_claim_ledger",
+        "allow_auto_promotion": false,
+        "negative_result_status": "completed_no_promotion",
+        "ledger": "docs/CLAIM_LEDGER.md",
+        "required_evidence": [
+          "paired_seeds",
+          "matched_checkpoint_and_runtime_contract",
+          "reference_oracle_separation",
+          "artifact_sha256",
+          "failure_rows_preserved"
+        ]
+      },
+      "resume_policy": {
+        "mode": "verified_artifacts_only",
+        "require_registry_hash_match": true,
+        "require_git_commit_match": true,
+        "require_source_hash_match": true,
+        "require_input_hash_match": true,
+        "require_artifact_schema_and_sha256": true,
+        "overwrite_is_resume": false
+      },
+      "prohibited_inferences": [
+        "Do not infer play-strength improvement from this lane.",
+        "Do not infer production readiness from skeleton, smoke, or contract success.",
+        "Do not convert execution success into VALIDATED evidence automatically."
+      ]
+    },
+    {
+      "id": "A09.trace",
+      "title": "A09 h3_change_point_router trace first gate",
+      "axis_id": "A09",
+      "role": "trace",
+      "execution_status": "available",
+      "evidence_status": "shadow_only",
+      "claim_scope": "synthetic_contract_gate_only",
+      "groups": [
+        "idea-foundry",
+        "first-gate",
+        "trace-shadow"
+      ],
+      "profiles": [
+        "cpu"
+      ],
+      "description": "Use entropy/margin dynamics as continuous regime features rather than a dead fixed gate. This lane exercises only the deterministic first-gate contract.",
+      "depends_on": [
+        "A03.trace"
+      ],
+      "dependency_condition": "terminal_without_technical_failure",
+      "resource_profile": {
+        "allowed": [
+          "cpu"
+        ],
+        "accelerator": null,
+        "hardware_gate": null,
+        "budget_class": "lightweight_first_gate"
+      },
+      "inputs": [
+        {
+          "name": "axis_registry",
+          "kind": "tracked_file",
+          "path": "configs/idea_foundry.axes.v1.json",
+          "required": true
+        },
+        {
+          "name": "python_skeleton",
+          "kind": "tracked_source",
+          "path": "quartz/idea_foundry/search.py",
+          "required": true
+        }
+      ],
+      "seed_contract": {
+        "mode": "fixed",
+        "seeds": [
+          20260718
+        ],
+        "grouping_unit": "position",
+        "trace_salt_count": 1,
+        "restart_and_continuation_kept_separate": true,
+        "common_random_numbers_within_axis": true
+      },
+      "requirements": {
+        "python_modules": [
+          "numpy"
+        ],
+        "paths": [
+          "scripts/idea_foundry_axis_gate.py",
+          "configs/idea_foundry.axes.v1.json",
+          "quartz/idea_foundry/search.py"
+        ]
+      },
+      "steps": [
+        {
+          "name": "first-gate",
+          "command": [
+            "{python}",
+            "scripts/idea_foundry_axis_gate.py",
+            "--axis",
+            "A09",
+            "--role",
+            "trace",
+            "--seed",
+            "20260718",
+            "--output-dir",
+            "{output}"
+          ],
+          "timeout_s": 180
+        }
+      ],
+      "expected_artifacts": [
+        {
+          "path": "{output}/run_manifest.json",
+          "kind": "json",
+          "required": true,
+          "schema": {
+            "required_keys": [
+              "schema_version",
+              "axis_id",
+              "role",
+              "claim_scope",
+              "source_hashes",
+              "input_hashes",
+              "seed_contract",
+              "auto_promoted"
+            ]
+          }
+        },
+        {
+          "path": "{output}/rows.jsonl",
+          "kind": "jsonl",
+          "required": true,
+          "schema": {
+            "min_rows": 1,
+            "required_keys": [
+              "schema_version",
+              "axis_id",
+              "role",
+              "fixture_id",
+              "metric",
+              "value"
+            ]
+          }
+        },
+        {
+          "path": "{output}/summary.json",
+          "kind": "json",
+          "required": true,
+          "schema": {
+            "required_keys": [
+              "schema_version",
+              "axis_id",
+              "role",
+              "execution_status",
+              "evidence_status",
+              "promotion"
+            ]
+          }
+        }
+      ],
+      "promotion_gate": {
+        "mode": "manual_claim_ledger",
+        "allow_auto_promotion": false,
+        "negative_result_status": "completed_no_promotion",
+        "ledger": "docs/CLAIM_LEDGER.md",
+        "required_evidence": [
+          "paired_seeds",
+          "matched_checkpoint_and_runtime_contract",
+          "reference_oracle_separation",
+          "artifact_sha256",
+          "failure_rows_preserved"
+        ]
+      },
+      "resume_policy": {
+        "mode": "verified_artifacts_only",
+        "require_registry_hash_match": true,
+        "require_git_commit_match": true,
+        "require_source_hash_match": true,
+        "require_input_hash_match": true,
+        "require_artifact_schema_and_sha256": true,
+        "overwrite_is_resume": false
+      },
+      "prohibited_inferences": [
+        "Do not infer play-strength improvement from this lane.",
+        "Do not infer production readiness from skeleton, smoke, or contract success.",
+        "Do not convert execution success into VALIDATED evidence automatically."
+      ]
+    },
+    {
+      "id": "A01.trace",
+      "title": "A01 calibrated_stop_council trace first gate",
+      "axis_id": "A01",
+      "role": "trace",
+      "execution_status": "available",
+      "evidence_status": "shadow_only",
+      "claim_scope": "synthetic_contract_gate_only",
+      "groups": [
+        "idea-foundry",
+        "first-gate",
+        "trace-shadow"
+      ],
+      "profiles": [
+        "cpu"
+      ],
+      "description": "Fit and calibrate p_wrong from H1, P_flip, margins, slopes, intervals and omission risk. This lane exercises only the deterministic first-gate contract.",
+      "depends_on": [
+        "A09.trace"
+      ],
+      "dependency_condition": "terminal_without_technical_failure",
+      "resource_profile": {
+        "allowed": [
+          "cpu"
+        ],
+        "accelerator": null,
+        "hardware_gate": null,
+        "budget_class": "lightweight_first_gate"
+      },
+      "inputs": [
+        {
+          "name": "axis_registry",
+          "kind": "tracked_file",
+          "path": "configs/idea_foundry.axes.v1.json",
+          "required": true
+        },
+        {
+          "name": "python_skeleton",
+          "kind": "tracked_source",
+          "path": "quartz/idea_foundry/control.py",
+          "required": true
+        }
+      ],
+      "seed_contract": {
+        "mode": "fixed",
+        "seeds": [
+          20260718
+        ],
+        "grouping_unit": "position",
+        "trace_salt_count": 1,
+        "restart_and_continuation_kept_separate": true,
+        "common_random_numbers_within_axis": true
+      },
+      "requirements": {
+        "python_modules": [
+          "numpy"
+        ],
+        "paths": [
+          "scripts/idea_foundry_axis_gate.py",
+          "configs/idea_foundry.axes.v1.json",
+          "quartz/idea_foundry/control.py"
+        ]
+      },
+      "steps": [
+        {
+          "name": "first-gate",
+          "command": [
+            "{python}",
+            "scripts/idea_foundry_axis_gate.py",
+            "--axis",
+            "A01",
+            "--role",
+            "trace",
+            "--seed",
+            "20260718",
+            "--output-dir",
+            "{output}"
+          ],
+          "timeout_s": 180
+        }
+      ],
+      "expected_artifacts": [
+        {
+          "path": "{output}/run_manifest.json",
+          "kind": "json",
+          "required": true,
+          "schema": {
+            "required_keys": [
+              "schema_version",
+              "axis_id",
+              "role",
+              "claim_scope",
+              "source_hashes",
+              "input_hashes",
+              "seed_contract",
+              "auto_promoted"
+            ]
+          }
+        },
+        {
+          "path": "{output}/rows.jsonl",
+          "kind": "jsonl",
+          "required": true,
+          "schema": {
+            "min_rows": 1,
+            "required_keys": [
+              "schema_version",
+              "axis_id",
+              "role",
+              "fixture_id",
+              "metric",
+              "value"
+            ]
+          }
+        },
+        {
+          "path": "{output}/summary.json",
+          "kind": "json",
+          "required": true,
+          "schema": {
+            "required_keys": [
+              "schema_version",
+              "axis_id",
+              "role",
+              "execution_status",
+              "evidence_status",
+              "promotion"
+            ]
+          }
+        }
+      ],
+      "promotion_gate": {
+        "mode": "manual_claim_ledger",
+        "allow_auto_promotion": false,
+        "negative_result_status": "completed_no_promotion",
+        "ledger": "docs/CLAIM_LEDGER.md",
+        "required_evidence": [
+          "paired_seeds",
+          "matched_checkpoint_and_runtime_contract",
+          "reference_oracle_separation",
+          "artifact_sha256",
+          "failure_rows_preserved"
+        ]
+      },
+      "resume_policy": {
+        "mode": "verified_artifacts_only",
+        "require_registry_hash_match": true,
+        "require_git_commit_match": true,
+        "require_source_hash_match": true,
+        "require_input_hash_match": true,
+        "require_artifact_schema_and_sha256": true,
+        "overwrite_is_resume": false
+      },
+      "prohibited_inferences": [
+        "Do not infer play-strength improvement from this lane.",
+        "Do not infer production readiness from skeleton, smoke, or contract success.",
+        "Do not convert execution success into VALIDATED evidence automatically."
+      ]
+    },
+    {
+      "id": "A02.shadow",
+      "title": "A02 static_anchor_rpo shadow first gate",
+      "axis_id": "A02",
+      "role": "shadow",
+      "execution_status": "available",
+      "evidence_status": "shadow_only",
+      "claim_scope": "synthetic_contract_gate_only",
+      "groups": [
+        "idea-foundry",
+        "first-gate",
+        "trace-shadow"
+      ],
+      "profiles": [
+        "cpu"
+      ],
+      "description": "Compute temporary KL-regularized root policies from the frozen network anchor. This lane exercises only the deterministic first-gate contract.",
+      "depends_on": [
+        "A01.trace"
+      ],
+      "dependency_condition": "terminal_without_technical_failure",
+      "resource_profile": {
+        "allowed": [
+          "cpu"
+        ],
+        "accelerator": null,
+        "hardware_gate": null,
+        "budget_class": "lightweight_first_gate"
+      },
+      "inputs": [
+        {
+          "name": "axis_registry",
+          "kind": "tracked_file",
+          "path": "configs/idea_foundry.axes.v1.json",
+          "required": true
+        },
+        {
+          "name": "python_skeleton",
+          "kind": "tracked_source",
+          "path": "quartz/idea_foundry/control.py",
+          "required": true
+        }
+      ],
+      "seed_contract": {
+        "mode": "fixed",
+        "seeds": [
+          20260718
+        ],
+        "grouping_unit": "position",
+        "trace_salt_count": 1,
+        "restart_and_continuation_kept_separate": true,
+        "common_random_numbers_within_axis": true
+      },
+      "requirements": {
+        "python_modules": [
+          "numpy"
+        ],
+        "paths": [
+          "scripts/idea_foundry_axis_gate.py",
+          "configs/idea_foundry.axes.v1.json",
+          "quartz/idea_foundry/control.py"
+        ]
+      },
+      "steps": [
+        {
+          "name": "first-gate",
+          "command": [
+            "{python}",
+            "scripts/idea_foundry_axis_gate.py",
+            "--axis",
+            "A02",
+            "--role",
+            "shadow",
+            "--seed",
+            "20260718",
+            "--output-dir",
+            "{output}"
+          ],
+          "timeout_s": 180
+        }
+      ],
+      "expected_artifacts": [
+        {
+          "path": "{output}/run_manifest.json",
+          "kind": "json",
+          "required": true,
+          "schema": {
+            "required_keys": [
+              "schema_version",
+              "axis_id",
+              "role",
+              "claim_scope",
+              "source_hashes",
+              "input_hashes",
+              "seed_contract",
+              "auto_promoted"
+            ]
+          }
+        },
+        {
+          "path": "{output}/rows.jsonl",
+          "kind": "jsonl",
+          "required": true,
+          "schema": {
+            "min_rows": 1,
+            "required_keys": [
+              "schema_version",
+              "axis_id",
+              "role",
+              "fixture_id",
+              "metric",
+              "value"
+            ]
+          }
+        },
+        {
+          "path": "{output}/summary.json",
+          "kind": "json",
+          "required": true,
+          "schema": {
+            "required_keys": [
+              "schema_version",
+              "axis_id",
+              "role",
+              "execution_status",
+              "evidence_status",
+              "promotion"
+            ]
+          }
+        }
+      ],
+      "promotion_gate": {
+        "mode": "manual_claim_ledger",
+        "allow_auto_promotion": false,
+        "negative_result_status": "completed_no_promotion",
+        "ledger": "docs/CLAIM_LEDGER.md",
+        "required_evidence": [
+          "paired_seeds",
+          "matched_checkpoint_and_runtime_contract",
+          "reference_oracle_separation",
+          "artifact_sha256",
+          "failure_rows_preserved"
+        ]
+      },
+      "resume_policy": {
+        "mode": "verified_artifacts_only",
+        "require_registry_hash_match": true,
+        "require_git_commit_match": true,
+        "require_source_hash_match": true,
+        "require_input_hash_match": true,
+        "require_artifact_schema_and_sha256": true,
+        "overwrite_is_resume": false
+      },
+      "prohibited_inferences": [
+        "Do not infer play-strength improvement from this lane.",
+        "Do not infer production readiness from skeleton, smoke, or contract success.",
+        "Do not convert execution success into VALIDATED evidence automatically."
+      ]
+    },
+    {
+      "id": "A17.trace",
+      "title": "A17 b13_curvature_readout trace first gate",
+      "axis_id": "A17",
+      "role": "trace",
+      "execution_status": "available",
+      "evidence_status": "mechanism_valid",
+      "claim_scope": "synthetic_contract_gate_only",
+      "groups": [
+        "idea-foundry",
+        "first-gate",
+        "trace-shadow"
+      ],
+      "profiles": [
+        "cpu"
+      ],
+      "description": "Reproduce and extend finite-N decision-neutral policy readout experiments. This lane exercises only the deterministic first-gate contract.",
+      "depends_on": [
+        "A02.shadow"
+      ],
+      "dependency_condition": "terminal_without_technical_failure",
+      "resource_profile": {
+        "allowed": [
+          "cpu"
+        ],
+        "accelerator": null,
+        "hardware_gate": null,
+        "budget_class": "lightweight_first_gate"
+      },
+      "inputs": [
+        {
+          "name": "axis_registry",
+          "kind": "tracked_file",
+          "path": "configs/idea_foundry.axes.v1.json",
+          "required": true
+        },
+        {
+          "name": "python_skeleton",
+          "kind": "tracked_source",
+          "path": "quartz/idea_foundry/learning.py",
+          "required": true
+        }
+      ],
+      "seed_contract": {
+        "mode": "fixed",
+        "seeds": [
+          20260718
+        ],
+        "grouping_unit": "position",
+        "trace_salt_count": 1,
+        "restart_and_continuation_kept_separate": true,
+        "common_random_numbers_within_axis": true
+      },
+      "requirements": {
+        "python_modules": [
+          "numpy"
+        ],
+        "paths": [
+          "scripts/idea_foundry_axis_gate.py",
+          "configs/idea_foundry.axes.v1.json",
+          "quartz/idea_foundry/learning.py"
+        ]
+      },
+      "steps": [
+        {
+          "name": "first-gate",
+          "command": [
+            "{python}",
+            "scripts/idea_foundry_axis_gate.py",
+            "--axis",
+            "A17",
+            "--role",
+            "trace",
+            "--seed",
+            "20260718",
+            "--output-dir",
+            "{output}"
+          ],
+          "timeout_s": 180
+        }
+      ],
+      "expected_artifacts": [
+        {
+          "path": "{output}/run_manifest.json",
+          "kind": "json",
+          "required": true,
+          "schema": {
+            "required_keys": [
+              "schema_version",
+              "axis_id",
+              "role",
+              "claim_scope",
+              "source_hashes",
+              "input_hashes",
+              "seed_contract",
+              "auto_promoted"
+            ]
+          }
+        },
+        {
+          "path": "{output}/rows.jsonl",
+          "kind": "jsonl",
+          "required": true,
+          "schema": {
+            "min_rows": 1,
+            "required_keys": [
+              "schema_version",
+              "axis_id",
+              "role",
+              "fixture_id",
+              "metric",
+              "value"
+            ]
+          }
+        },
+        {
+          "path": "{output}/summary.json",
+          "kind": "json",
+          "required": true,
+          "schema": {
+            "required_keys": [
+              "schema_version",
+              "axis_id",
+              "role",
+              "execution_status",
+              "evidence_status",
+              "promotion"
+            ]
+          }
+        }
+      ],
+      "promotion_gate": {
+        "mode": "manual_claim_ledger",
+        "allow_auto_promotion": false,
+        "negative_result_status": "completed_no_promotion",
+        "ledger": "docs/CLAIM_LEDGER.md",
+        "required_evidence": [
+          "paired_seeds",
+          "matched_checkpoint_and_runtime_contract",
+          "reference_oracle_separation",
+          "artifact_sha256",
+          "failure_rows_preserved"
+        ]
+      },
+      "resume_policy": {
+        "mode": "verified_artifacts_only",
+        "require_registry_hash_match": true,
+        "require_git_commit_match": true,
+        "require_source_hash_match": true,
+        "require_input_hash_match": true,
+        "require_artifact_schema_and_sha256": true,
+        "overwrite_is_resume": false
+      },
+      "prohibited_inferences": [
+        "Do not infer play-strength improvement from this lane.",
+        "Do not infer production readiness from skeleton, smoke, or contract success.",
+        "Do not convert execution success into VALIDATED evidence automatically.",
+        "This lane is decision-neutral and must not emit a live meta-action."
+      ]
+    },
+    {
+      "id": "A21.analysis",
+      "title": "A21 coherence_signed_path_shadow analysis first gate",
+      "axis_id": "A21",
+      "role": "analysis",
+      "execution_status": "available",
+      "evidence_status": "analysis_only",
+      "claim_scope": "synthetic_contract_gate_only",
+      "groups": [
+        "idea-foundry",
+        "first-gate",
+        "trace-shadow"
+      ],
+      "profiles": [
+        "cpu"
+      ],
+      "description": "Evaluate a bounded signed-path disagreement feature strictly in shadow mode. This lane exercises only the deterministic first-gate contract.",
+      "depends_on": [
+        "A17.trace"
+      ],
+      "dependency_condition": "terminal_without_technical_failure",
+      "resource_profile": {
+        "allowed": [
+          "cpu"
+        ],
+        "accelerator": null,
+        "hardware_gate": null,
+        "budget_class": "lightweight_first_gate"
+      },
+      "inputs": [
+        {
+          "name": "axis_registry",
+          "kind": "tracked_file",
+          "path": "configs/idea_foundry.axes.v1.json",
+          "required": true
+        },
+        {
+          "name": "python_skeleton",
+          "kind": "tracked_source",
+          "path": "quartz/idea_foundry/learning.py",
+          "required": true
+        }
+      ],
+      "seed_contract": {
+        "mode": "deterministic_fixture",
+        "seeds": [
+          20260718
+        ],
+        "grouping_unit": "position",
+        "trace_salt_count": 1,
+        "restart_and_continuation_kept_separate": true,
+        "common_random_numbers_within_axis": true
+      },
+      "requirements": {
+        "python_modules": [
+          "numpy"
+        ],
+        "paths": [
+          "scripts/idea_foundry_axis_gate.py",
+          "configs/idea_foundry.axes.v1.json",
+          "quartz/idea_foundry/learning.py"
+        ]
+      },
+      "steps": [
+        {
+          "name": "first-gate",
+          "command": [
+            "{python}",
+            "scripts/idea_foundry_axis_gate.py",
+            "--axis",
+            "A21",
+            "--role",
+            "analysis",
+            "--seed",
+            "20260718",
+            "--output-dir",
+            "{output}"
+          ],
+          "timeout_s": 180
+        }
+      ],
+      "expected_artifacts": [
+        {
+          "path": "{output}/run_manifest.json",
+          "kind": "json",
+          "required": true,
+          "schema": {
+            "required_keys": [
+              "schema_version",
+              "axis_id",
+              "role",
+              "claim_scope",
+              "source_hashes",
+              "input_hashes",
+              "seed_contract",
+              "auto_promoted"
+            ]
+          }
+        },
+        {
+          "path": "{output}/rows.jsonl",
+          "kind": "jsonl",
+          "required": true,
+          "schema": {
+            "min_rows": 1,
+            "required_keys": [
+              "schema_version",
+              "axis_id",
+              "role",
+              "fixture_id",
+              "metric",
+              "value"
+            ]
+          }
+        },
+        {
+          "path": "{output}/summary.json",
+          "kind": "json",
+          "required": true,
+          "schema": {
+            "required_keys": [
+              "schema_version",
+              "axis_id",
+              "role",
+              "execution_status",
+              "evidence_status",
+              "promotion"
+            ]
+          }
+        }
+      ],
+      "promotion_gate": {
+        "mode": "manual_claim_ledger",
+        "allow_auto_promotion": false,
+        "negative_result_status": "completed_no_promotion",
+        "ledger": "docs/CLAIM_LEDGER.md",
+        "required_evidence": [
+          "paired_seeds",
+          "matched_checkpoint_and_runtime_contract",
+          "reference_oracle_separation",
+          "artifact_sha256",
+          "failure_rows_preserved"
+        ]
+      },
+      "resume_policy": {
+        "mode": "verified_artifacts_only",
+        "require_registry_hash_match": true,
+        "require_git_commit_match": true,
+        "require_source_hash_match": true,
+        "require_input_hash_match": true,
+        "require_artifact_schema_and_sha256": true,
+        "overwrite_is_resume": false
+      },
+      "prohibited_inferences": [
+        "Do not infer play-strength improvement from this lane.",
+        "Do not infer production readiness from skeleton, smoke, or contract success.",
+        "Do not convert execution success into VALIDATED evidence automatically.",
+        "This lane is decision-neutral and must not emit a live meta-action."
+      ]
+    },
+    {
+      "id": "A22.analysis",
+      "title": "A22 physics_falsification_dashboard analysis first gate",
+      "axis_id": "A22",
+      "role": "analysis",
+      "execution_status": "available",
+      "evidence_status": "analysis_only",
+      "claim_scope": "synthetic_contract_gate_only",
+      "groups": [
+        "idea-foundry",
+        "first-gate",
+        "trace-shadow"
+      ],
+      "profiles": [
+        "cpu"
+      ],
+      "description": "Fit and reject beta, redundancy, susceptibility and scale-flow surrogates with null models. This lane exercises only the deterministic first-gate contract.",
+      "depends_on": [
+        "A21.analysis"
+      ],
+      "dependency_condition": "terminal_without_technical_failure",
+      "resource_profile": {
+        "allowed": [
+          "cpu"
+        ],
+        "accelerator": null,
+        "hardware_gate": null,
+        "budget_class": "lightweight_first_gate"
+      },
+      "inputs": [
+        {
+          "name": "axis_registry",
+          "kind": "tracked_file",
+          "path": "configs/idea_foundry.axes.v1.json",
+          "required": true
+        },
+        {
+          "name": "python_skeleton",
+          "kind": "tracked_source",
+          "path": "quartz/idea_foundry/learning.py",
+          "required": true
+        }
+      ],
+      "seed_contract": {
+        "mode": "deterministic_fixture",
+        "seeds": [
+          20260718
+        ],
+        "grouping_unit": "position",
+        "trace_salt_count": 1,
+        "restart_and_continuation_kept_separate": true,
+        "common_random_numbers_within_axis": true
+      },
+      "requirements": {
+        "python_modules": [
+          "numpy"
+        ],
+        "paths": [
+          "scripts/idea_foundry_axis_gate.py",
+          "configs/idea_foundry.axes.v1.json",
+          "quartz/idea_foundry/learning.py"
+        ]
+      },
+      "steps": [
+        {
+          "name": "first-gate",
+          "command": [
+            "{python}",
+            "scripts/idea_foundry_axis_gate.py",
+            "--axis",
+            "A22",
+            "--role",
+            "analysis",
+            "--seed",
+            "20260718",
+            "--output-dir",
+            "{output}"
+          ],
+          "timeout_s": 180
+        }
+      ],
+      "expected_artifacts": [
+        {
+          "path": "{output}/run_manifest.json",
+          "kind": "json",
+          "required": true,
+          "schema": {
+            "required_keys": [
+              "schema_version",
+              "axis_id",
+              "role",
+              "claim_scope",
+              "source_hashes",
+              "input_hashes",
+              "seed_contract",
+              "auto_promoted"
+            ]
+          }
+        },
+        {
+          "path": "{output}/rows.jsonl",
+          "kind": "jsonl",
+          "required": true,
+          "schema": {
+            "min_rows": 1,
+            "required_keys": [
+              "schema_version",
+              "axis_id",
+              "role",
+              "fixture_id",
+              "metric",
+              "value"
+            ]
+          }
+        },
+        {
+          "path": "{output}/summary.json",
+          "kind": "json",
+          "required": true,
+          "schema": {
+            "required_keys": [
+              "schema_version",
+              "axis_id",
+              "role",
+              "execution_status",
+              "evidence_status",
+              "promotion"
+            ]
+          }
+        }
+      ],
+      "promotion_gate": {
+        "mode": "manual_claim_ledger",
+        "allow_auto_promotion": false,
+        "negative_result_status": "completed_no_promotion",
+        "ledger": "docs/CLAIM_LEDGER.md",
+        "required_evidence": [
+          "paired_seeds",
+          "matched_checkpoint_and_runtime_contract",
+          "reference_oracle_separation",
+          "artifact_sha256",
+          "failure_rows_preserved"
+        ]
+      },
+      "resume_policy": {
+        "mode": "verified_artifacts_only",
+        "require_registry_hash_match": true,
+        "require_git_commit_match": true,
+        "require_source_hash_match": true,
+        "require_input_hash_match": true,
+        "require_artifact_schema_and_sha256": true,
+        "overwrite_is_resume": false
+      },
+      "prohibited_inferences": [
+        "Do not infer play-strength improvement from this lane.",
+        "Do not infer production readiness from skeleton, smoke, or contract success.",
+        "Do not convert execution success into VALIDATED evidence automatically.",
+        "This lane is decision-neutral and must not emit a live meta-action."
+      ]
+    },
+    {
+      "id": "A06.synthetic",
+      "title": "A06 gumbel_sequential_halving synthetic first gate",
+      "axis_id": "A06",
+      "role": "synthetic",
+      "execution_status": "available",
+      "evidence_status": "mechanism_valid",
+      "claim_scope": "synthetic_contract_gate_only",
+      "groups": [
+        "idea-foundry",
+        "first-gate",
+        "synthetic-bank"
+      ],
+      "profiles": [
+        "cpu"
+      ],
+      "description": "Select low-budget candidates without replacement and allocate by resumable halving. This lane exercises only the deterministic first-gate contract.",
+      "depends_on": [
+        "A22.analysis"
+      ],
+      "dependency_condition": "terminal_without_technical_failure",
+      "resource_profile": {
+        "allowed": [
+          "cpu"
+        ],
+        "accelerator": null,
+        "hardware_gate": null,
+        "budget_class": "lightweight_first_gate"
+      },
+      "inputs": [
+        {
+          "name": "axis_registry",
+          "kind": "tracked_file",
+          "path": "configs/idea_foundry.axes.v1.json",
+          "required": true
+        },
+        {
+          "name": "python_skeleton",
+          "kind": "tracked_source",
+          "path": "quartz/idea_foundry/search.py",
+          "required": true
+        }
+      ],
+      "seed_contract": {
+        "mode": "fixed",
+        "seeds": [
+          20260718
+        ],
+        "grouping_unit": "position",
+        "trace_salt_count": 1,
+        "restart_and_continuation_kept_separate": true,
+        "common_random_numbers_within_axis": true
+      },
+      "requirements": {
+        "python_modules": [
+          "numpy"
+        ],
+        "paths": [
+          "scripts/idea_foundry_axis_gate.py",
+          "configs/idea_foundry.axes.v1.json",
+          "quartz/idea_foundry/search.py"
+        ]
+      },
+      "steps": [
+        {
+          "name": "first-gate",
+          "command": [
+            "{python}",
+            "scripts/idea_foundry_axis_gate.py",
+            "--axis",
+            "A06",
+            "--role",
+            "synthetic",
+            "--seed",
+            "20260718",
+            "--output-dir",
+            "{output}"
+          ],
+          "timeout_s": 180
+        }
+      ],
+      "expected_artifacts": [
+        {
+          "path": "{output}/run_manifest.json",
+          "kind": "json",
+          "required": true,
+          "schema": {
+            "required_keys": [
+              "schema_version",
+              "axis_id",
+              "role",
+              "claim_scope",
+              "source_hashes",
+              "input_hashes",
+              "seed_contract",
+              "auto_promoted"
+            ]
+          }
+        },
+        {
+          "path": "{output}/rows.jsonl",
+          "kind": "jsonl",
+          "required": true,
+          "schema": {
+            "min_rows": 1,
+            "required_keys": [
+              "schema_version",
+              "axis_id",
+              "role",
+              "fixture_id",
+              "metric",
+              "value"
+            ]
+          }
+        },
+        {
+          "path": "{output}/summary.json",
+          "kind": "json",
+          "required": true,
+          "schema": {
+            "required_keys": [
+              "schema_version",
+              "axis_id",
+              "role",
+              "execution_status",
+              "evidence_status",
+              "promotion"
+            ]
+          }
+        }
+      ],
+      "promotion_gate": {
+        "mode": "manual_claim_ledger",
+        "allow_auto_promotion": false,
+        "negative_result_status": "completed_no_promotion",
+        "ledger": "docs/CLAIM_LEDGER.md",
+        "required_evidence": [
+          "paired_seeds",
+          "matched_checkpoint_and_runtime_contract",
+          "reference_oracle_separation",
+          "artifact_sha256",
+          "failure_rows_preserved"
+        ]
+      },
+      "resume_policy": {
+        "mode": "verified_artifacts_only",
+        "require_registry_hash_match": true,
+        "require_git_commit_match": true,
+        "require_source_hash_match": true,
+        "require_input_hash_match": true,
+        "require_artifact_schema_and_sha256": true,
+        "overwrite_is_resume": false
+      },
+      "prohibited_inferences": [
+        "Do not infer play-strength improvement from this lane.",
+        "Do not infer production readiness from skeleton, smoke, or contract success.",
+        "Do not convert execution success into VALIDATED evidence automatically."
+      ]
+    },
+    {
+      "id": "A07.synthetic",
+      "title": "A07 residual_evidence_widening synthetic first gate",
+      "axis_id": "A07",
+      "role": "synthetic",
+      "execution_status": "available",
+      "evidence_status": "skeleton_only",
+      "claim_scope": "synthetic_contract_gate_only",
+      "groups": [
+        "idea-foundry",
+        "first-gate",
+        "synthetic-bank"
+      ],
+      "profiles": [
+        "cpu"
+      ],
+      "description": "Bound posterior mass outside the live set and emit WIDEN proposals. This lane exercises only the deterministic first-gate contract.",
+      "depends_on": [
+        "A06.synthetic"
+      ],
+      "dependency_condition": "terminal_without_technical_failure",
+      "resource_profile": {
+        "allowed": [
+          "cpu"
+        ],
+        "accelerator": null,
+        "hardware_gate": null,
+        "budget_class": "lightweight_first_gate"
+      },
+      "inputs": [
+        {
+          "name": "axis_registry",
+          "kind": "tracked_file",
+          "path": "configs/idea_foundry.axes.v1.json",
+          "required": true
+        },
+        {
+          "name": "python_skeleton",
+          "kind": "tracked_source",
+          "path": "quartz/idea_foundry/search.py",
+          "required": true
+        }
+      ],
+      "seed_contract": {
+        "mode": "fixed",
+        "seeds": [
+          20260718
+        ],
+        "grouping_unit": "position",
+        "trace_salt_count": 1,
+        "restart_and_continuation_kept_separate": true,
+        "common_random_numbers_within_axis": true
+      },
+      "requirements": {
+        "python_modules": [
+          "numpy"
+        ],
+        "paths": [
+          "scripts/idea_foundry_axis_gate.py",
+          "configs/idea_foundry.axes.v1.json",
+          "quartz/idea_foundry/search.py"
+        ]
+      },
+      "steps": [
+        {
+          "name": "first-gate",
+          "command": [
+            "{python}",
+            "scripts/idea_foundry_axis_gate.py",
+            "--axis",
+            "A07",
+            "--role",
+            "synthetic",
+            "--seed",
+            "20260718",
+            "--output-dir",
+            "{output}"
+          ],
+          "timeout_s": 180
+        }
+      ],
+      "expected_artifacts": [
+        {
+          "path": "{output}/run_manifest.json",
+          "kind": "json",
+          "required": true,
+          "schema": {
+            "required_keys": [
+              "schema_version",
+              "axis_id",
+              "role",
+              "claim_scope",
+              "source_hashes",
+              "input_hashes",
+              "seed_contract",
+              "auto_promoted"
+            ]
+          }
+        },
+        {
+          "path": "{output}/rows.jsonl",
+          "kind": "jsonl",
+          "required": true,
+          "schema": {
+            "min_rows": 1,
+            "required_keys": [
+              "schema_version",
+              "axis_id",
+              "role",
+              "fixture_id",
+              "metric",
+              "value"
+            ]
+          }
+        },
+        {
+          "path": "{output}/summary.json",
+          "kind": "json",
+          "required": true,
+          "schema": {
+            "required_keys": [
+              "schema_version",
+              "axis_id",
+              "role",
+              "execution_status",
+              "evidence_status",
+              "promotion"
+            ]
+          }
+        }
+      ],
+      "promotion_gate": {
+        "mode": "manual_claim_ledger",
+        "allow_auto_promotion": false,
+        "negative_result_status": "completed_no_promotion",
+        "ledger": "docs/CLAIM_LEDGER.md",
+        "required_evidence": [
+          "paired_seeds",
+          "matched_checkpoint_and_runtime_contract",
+          "reference_oracle_separation",
+          "artifact_sha256",
+          "failure_rows_preserved"
+        ]
+      },
+      "resume_policy": {
+        "mode": "verified_artifacts_only",
+        "require_registry_hash_match": true,
+        "require_git_commit_match": true,
+        "require_source_hash_match": true,
+        "require_input_hash_match": true,
+        "require_artifact_schema_and_sha256": true,
+        "overwrite_is_resume": false
+      },
+      "prohibited_inferences": [
+        "Do not infer play-strength improvement from this lane.",
+        "Do not infer production readiness from skeleton, smoke, or contract success.",
+        "Do not convert execution success into VALIDATED evidence automatically."
+      ]
+    },
+    {
+      "id": "A12.synthetic",
+      "title": "A12 jsd_locally_balanced_sampler synthetic first gate",
+      "axis_id": "A12",
+      "role": "synthetic",
+      "execution_status": "available",
+      "evidence_status": "skeleton_only",
+      "claim_scope": "synthetic_contract_gate_only",
+      "groups": [
+        "idea-foundry",
+        "first-gate",
+        "synthetic-bank"
+      ],
+      "profiles": [
+        "cpu"
+      ],
+      "description": "Use sibling JSD as local geometry and P/Q as a target density. This lane exercises only the deterministic first-gate contract.",
+      "depends_on": [
+        "A07.synthetic"
+      ],
+      "dependency_condition": "terminal_without_technical_failure",
+      "resource_profile": {
+        "allowed": [
+          "cpu"
+        ],
+        "accelerator": null,
+        "hardware_gate": null,
+        "budget_class": "lightweight_first_gate"
+      },
+      "inputs": [
+        {
+          "name": "axis_registry",
+          "kind": "tracked_file",
+          "path": "configs/idea_foundry.axes.v1.json",
+          "required": true
+        },
+        {
+          "name": "python_skeleton",
+          "kind": "tracked_source",
+          "path": "quartz/idea_foundry/search.py",
+          "required": true
+        }
+      ],
+      "seed_contract": {
+        "mode": "fixed",
+        "seeds": [
+          20260718
+        ],
+        "grouping_unit": "position",
+        "trace_salt_count": 1,
+        "restart_and_continuation_kept_separate": true,
+        "common_random_numbers_within_axis": true
+      },
+      "requirements": {
+        "python_modules": [
+          "numpy"
+        ],
+        "paths": [
+          "scripts/idea_foundry_axis_gate.py",
+          "configs/idea_foundry.axes.v1.json",
+          "quartz/idea_foundry/search.py"
+        ]
+      },
+      "steps": [
+        {
+          "name": "first-gate",
+          "command": [
+            "{python}",
+            "scripts/idea_foundry_axis_gate.py",
+            "--axis",
+            "A12",
+            "--role",
+            "synthetic",
+            "--seed",
+            "20260718",
+            "--output-dir",
+            "{output}"
+          ],
+          "timeout_s": 180
+        }
+      ],
+      "expected_artifacts": [
+        {
+          "path": "{output}/run_manifest.json",
+          "kind": "json",
+          "required": true,
+          "schema": {
+            "required_keys": [
+              "schema_version",
+              "axis_id",
+              "role",
+              "claim_scope",
+              "source_hashes",
+              "input_hashes",
+              "seed_contract",
+              "auto_promoted"
+            ]
+          }
+        },
+        {
+          "path": "{output}/rows.jsonl",
+          "kind": "jsonl",
+          "required": true,
+          "schema": {
+            "min_rows": 1,
+            "required_keys": [
+              "schema_version",
+              "axis_id",
+              "role",
+              "fixture_id",
+              "metric",
+              "value"
+            ]
+          }
+        },
+        {
+          "path": "{output}/summary.json",
+          "kind": "json",
+          "required": true,
+          "schema": {
+            "required_keys": [
+              "schema_version",
+              "axis_id",
+              "role",
+              "execution_status",
+              "evidence_status",
+              "promotion"
+            ]
+          }
+        }
+      ],
+      "promotion_gate": {
+        "mode": "manual_claim_ledger",
+        "allow_auto_promotion": false,
+        "negative_result_status": "completed_no_promotion",
+        "ledger": "docs/CLAIM_LEDGER.md",
+        "required_evidence": [
+          "paired_seeds",
+          "matched_checkpoint_and_runtime_contract",
+          "reference_oracle_separation",
+          "artifact_sha256",
+          "failure_rows_preserved"
+        ]
+      },
+      "resume_policy": {
+        "mode": "verified_artifacts_only",
+        "require_registry_hash_match": true,
+        "require_git_commit_match": true,
+        "require_source_hash_match": true,
+        "require_input_hash_match": true,
+        "require_artifact_schema_and_sha256": true,
+        "overwrite_is_resume": false
+      },
+      "prohibited_inferences": [
+        "Do not infer play-strength improvement from this lane.",
+        "Do not infer production readiness from skeleton, smoke, or contract success.",
+        "Do not convert execution success into VALIDATED evidence automatically."
+      ]
+    },
+    {
+      "id": "A25.synthetic",
+      "title": "A25 ments_soft_backup synthetic first gate",
+      "axis_id": "A25",
+      "role": "synthetic",
+      "execution_status": "available",
+      "evidence_status": "skeleton_only",
+      "claim_scope": "synthetic_contract_gate_only",
+      "groups": [
+        "idea-foundry",
+        "first-gate",
+        "synthetic-bank"
+      ],
+      "profiles": [
+        "cpu"
+      ],
+      "description": "Run root/shallow maximum-entropy backup as an opt-in objective-mismatch ablation. This lane exercises only the deterministic first-gate contract.",
+      "depends_on": [
+        "A12.synthetic"
+      ],
+      "dependency_condition": "terminal_without_technical_failure",
+      "resource_profile": {
+        "allowed": [
+          "cpu"
+        ],
+        "accelerator": null,
+        "hardware_gate": null,
+        "budget_class": "lightweight_first_gate"
+      },
+      "inputs": [
+        {
+          "name": "axis_registry",
+          "kind": "tracked_file",
+          "path": "configs/idea_foundry.axes.v1.json",
+          "required": true
+        },
+        {
+          "name": "python_skeleton",
+          "kind": "tracked_source",
+          "path": "quartz/idea_foundry/search.py",
+          "required": true
+        }
+      ],
+      "seed_contract": {
+        "mode": "fixed",
+        "seeds": [
+          20260718
+        ],
+        "grouping_unit": "position",
+        "trace_salt_count": 1,
+        "restart_and_continuation_kept_separate": true,
+        "common_random_numbers_within_axis": true
+      },
+      "requirements": {
+        "python_modules": [
+          "numpy"
+        ],
+        "paths": [
+          "scripts/idea_foundry_axis_gate.py",
+          "configs/idea_foundry.axes.v1.json",
+          "quartz/idea_foundry/search.py"
+        ]
+      },
+      "steps": [
+        {
+          "name": "first-gate",
+          "command": [
+            "{python}",
+            "scripts/idea_foundry_axis_gate.py",
+            "--axis",
+            "A25",
+            "--role",
+            "synthetic",
+            "--seed",
+            "20260718",
+            "--output-dir",
+            "{output}"
+          ],
+          "timeout_s": 180
+        }
+      ],
+      "expected_artifacts": [
+        {
+          "path": "{output}/run_manifest.json",
+          "kind": "json",
+          "required": true,
+          "schema": {
+            "required_keys": [
+              "schema_version",
+              "axis_id",
+              "role",
+              "claim_scope",
+              "source_hashes",
+              "input_hashes",
+              "seed_contract",
+              "auto_promoted"
+            ]
+          }
+        },
+        {
+          "path": "{output}/rows.jsonl",
+          "kind": "jsonl",
+          "required": true,
+          "schema": {
+            "min_rows": 1,
+            "required_keys": [
+              "schema_version",
+              "axis_id",
+              "role",
+              "fixture_id",
+              "metric",
+              "value"
+            ]
+          }
+        },
+        {
+          "path": "{output}/summary.json",
+          "kind": "json",
+          "required": true,
+          "schema": {
+            "required_keys": [
+              "schema_version",
+              "axis_id",
+              "role",
+              "execution_status",
+              "evidence_status",
+              "promotion"
+            ]
+          }
+        }
+      ],
+      "promotion_gate": {
+        "mode": "manual_claim_ledger",
+        "allow_auto_promotion": false,
+        "negative_result_status": "completed_no_promotion",
+        "ledger": "docs/CLAIM_LEDGER.md",
+        "required_evidence": [
+          "paired_seeds",
+          "matched_checkpoint_and_runtime_contract",
+          "reference_oracle_separation",
+          "artifact_sha256",
+          "failure_rows_preserved"
+        ]
+      },
+      "resume_policy": {
+        "mode": "verified_artifacts_only",
+        "require_registry_hash_match": true,
+        "require_git_commit_match": true,
+        "require_source_hash_match": true,
+        "require_input_hash_match": true,
+        "require_artifact_schema_and_sha256": true,
+        "overwrite_is_resume": false
+      },
+      "prohibited_inferences": [
+        "Do not infer play-strength improvement from this lane.",
+        "Do not infer production readiness from skeleton, smoke, or contract success.",
+        "Do not convert execution success into VALIDATED evidence automatically."
+      ]
+    },
+    {
+      "id": "A26.analysis",
+      "title": "A26 nested_contour_exact_lab analysis first gate",
+      "axis_id": "A26",
+      "role": "analysis",
+      "execution_status": "available",
+      "evidence_status": "analysis_only",
+      "claim_scope": "synthetic_contract_gate_only",
+      "groups": [
+        "idea-foundry",
+        "first-gate",
+        "synthetic-bank"
+      ],
+      "profiles": [
+        "cpu"
+      ],
+      "description": "Validate exact finite nested-contour mechanics separately from live particle search. This lane exercises only the deterministic first-gate contract.",
+      "depends_on": [
+        "A25.synthetic"
+      ],
+      "dependency_condition": "terminal_without_technical_failure",
+      "resource_profile": {
+        "allowed": [
+          "cpu"
+        ],
+        "accelerator": null,
+        "hardware_gate": null,
+        "budget_class": "lightweight_first_gate"
+      },
+      "inputs": [
+        {
+          "name": "axis_registry",
+          "kind": "tracked_file",
+          "path": "configs/idea_foundry.axes.v1.json",
+          "required": true
+        },
+        {
+          "name": "python_skeleton",
+          "kind": "tracked_source",
+          "path": "quartz/idea_foundry/search.py",
+          "required": true
+        }
+      ],
+      "seed_contract": {
+        "mode": "deterministic_fixture",
+        "seeds": [
+          20260718
+        ],
+        "grouping_unit": "position",
+        "trace_salt_count": 1,
+        "restart_and_continuation_kept_separate": true,
+        "common_random_numbers_within_axis": true
+      },
+      "requirements": {
+        "python_modules": [
+          "numpy"
+        ],
+        "paths": [
+          "scripts/idea_foundry_axis_gate.py",
+          "configs/idea_foundry.axes.v1.json",
+          "quartz/idea_foundry/search.py"
+        ]
+      },
+      "steps": [
+        {
+          "name": "first-gate",
+          "command": [
+            "{python}",
+            "scripts/idea_foundry_axis_gate.py",
+            "--axis",
+            "A26",
+            "--role",
+            "analysis",
+            "--seed",
+            "20260718",
+            "--output-dir",
+            "{output}"
+          ],
+          "timeout_s": 180
+        }
+      ],
+      "expected_artifacts": [
+        {
+          "path": "{output}/run_manifest.json",
+          "kind": "json",
+          "required": true,
+          "schema": {
+            "required_keys": [
+              "schema_version",
+              "axis_id",
+              "role",
+              "claim_scope",
+              "source_hashes",
+              "input_hashes",
+              "seed_contract",
+              "auto_promoted"
+            ]
+          }
+        },
+        {
+          "path": "{output}/rows.jsonl",
+          "kind": "jsonl",
+          "required": true,
+          "schema": {
+            "min_rows": 1,
+            "required_keys": [
+              "schema_version",
+              "axis_id",
+              "role",
+              "fixture_id",
+              "metric",
+              "value"
+            ]
+          }
+        },
+        {
+          "path": "{output}/summary.json",
+          "kind": "json",
+          "required": true,
+          "schema": {
+            "required_keys": [
+              "schema_version",
+              "axis_id",
+              "role",
+              "execution_status",
+              "evidence_status",
+              "promotion"
+            ]
+          }
+        }
+      ],
+      "promotion_gate": {
+        "mode": "manual_claim_ledger",
+        "allow_auto_promotion": false,
+        "negative_result_status": "completed_no_promotion",
+        "ledger": "docs/CLAIM_LEDGER.md",
+        "required_evidence": [
+          "paired_seeds",
+          "matched_checkpoint_and_runtime_contract",
+          "reference_oracle_separation",
+          "artifact_sha256",
+          "failure_rows_preserved"
+        ]
+      },
+      "resume_policy": {
+        "mode": "verified_artifacts_only",
+        "require_registry_hash_match": true,
+        "require_git_commit_match": true,
+        "require_source_hash_match": true,
+        "require_input_hash_match": true,
+        "require_artifact_schema_and_sha256": true,
+        "overwrite_is_resume": false
+      },
+      "prohibited_inferences": [
+        "Do not infer play-strength improvement from this lane.",
+        "Do not infer production readiness from skeleton, smoke, or contract success.",
+        "Do not convert execution success into VALIDATED evidence automatically.",
+        "Exact finite-lab agreement does not validate an online controller."
+      ]
+    },
+    {
+      "id": "A05.counterfactual",
+      "title": "A05 counterfactual_meta_teacher counterfactual first gate",
+      "axis_id": "A05",
+      "role": "counterfactual",
+      "execution_status": "available",
+      "evidence_status": "skeleton_only",
+      "claim_scope": "synthetic_contract_gate_only",
+      "groups": [
+        "idea-foundry",
+        "first-gate",
+        "counterfactual"
+      ],
+      "profiles": [
+        "cpu"
+      ],
+      "description": "Fork identical resident snapshots into explicit meta-action continuations. This lane exercises only the deterministic first-gate contract.",
+      "depends_on": [
+        "A26.analysis"
+      ],
+      "dependency_condition": "terminal_without_technical_failure",
+      "resource_profile": {
+        "allowed": [
+          "cpu"
+        ],
+        "accelerator": null,
+        "hardware_gate": null,
+        "budget_class": "lightweight_first_gate"
+      },
+      "inputs": [
+        {
+          "name": "axis_registry",
+          "kind": "tracked_file",
+          "path": "configs/idea_foundry.axes.v1.json",
+          "required": true
+        },
+        {
+          "name": "python_skeleton",
+          "kind": "tracked_source",
+          "path": "quartz/idea_foundry/control.py",
+          "required": true
+        }
+      ],
+      "seed_contract": {
+        "mode": "fixed",
+        "seeds": [
+          20260718
+        ],
+        "grouping_unit": "position",
+        "trace_salt_count": 1,
+        "restart_and_continuation_kept_separate": true,
+        "common_random_numbers_within_axis": true
+      },
+      "requirements": {
+        "python_modules": [
+          "numpy"
+        ],
+        "paths": [
+          "scripts/idea_foundry_axis_gate.py",
+          "configs/idea_foundry.axes.v1.json",
+          "quartz/idea_foundry/control.py"
+        ]
+      },
+      "steps": [
+        {
+          "name": "first-gate",
+          "command": [
+            "{python}",
+            "scripts/idea_foundry_axis_gate.py",
+            "--axis",
+            "A05",
+            "--role",
+            "counterfactual",
+            "--seed",
+            "20260718",
+            "--output-dir",
+            "{output}"
+          ],
+          "timeout_s": 180
+        }
+      ],
+      "expected_artifacts": [
+        {
+          "path": "{output}/run_manifest.json",
+          "kind": "json",
+          "required": true,
+          "schema": {
+            "required_keys": [
+              "schema_version",
+              "axis_id",
+              "role",
+              "claim_scope",
+              "source_hashes",
+              "input_hashes",
+              "seed_contract",
+              "auto_promoted"
+            ]
+          }
+        },
+        {
+          "path": "{output}/rows.jsonl",
+          "kind": "jsonl",
+          "required": true,
+          "schema": {
+            "min_rows": 1,
+            "required_keys": [
+              "schema_version",
+              "axis_id",
+              "role",
+              "fixture_id",
+              "metric",
+              "value"
+            ]
+          }
+        },
+        {
+          "path": "{output}/summary.json",
+          "kind": "json",
+          "required": true,
+          "schema": {
+            "required_keys": [
+              "schema_version",
+              "axis_id",
+              "role",
+              "execution_status",
+              "evidence_status",
+              "promotion"
+            ]
+          }
+        }
+      ],
+      "promotion_gate": {
+        "mode": "manual_claim_ledger",
+        "allow_auto_promotion": false,
+        "negative_result_status": "completed_no_promotion",
+        "ledger": "docs/CLAIM_LEDGER.md",
+        "required_evidence": [
+          "paired_seeds",
+          "matched_checkpoint_and_runtime_contract",
+          "reference_oracle_separation",
+          "artifact_sha256",
+          "failure_rows_preserved"
+        ]
+      },
+      "resume_policy": {
+        "mode": "verified_artifacts_only",
+        "require_registry_hash_match": true,
+        "require_git_commit_match": true,
+        "require_source_hash_match": true,
+        "require_input_hash_match": true,
+        "require_artifact_schema_and_sha256": true,
+        "overwrite_is_resume": false
+      },
+      "prohibited_inferences": [
+        "Do not infer play-strength improvement from this lane.",
+        "Do not infer production readiness from skeleton, smoke, or contract success.",
+        "Do not convert execution success into VALIDATED evidence automatically."
+      ]
+    },
+    {
+      "id": "A04.shadow",
+      "title": "A04 kg_voc_allocator shadow first gate",
+      "axis_id": "A04",
+      "role": "shadow",
+      "execution_status": "available",
+      "evidence_status": "shadow_only",
+      "claim_scope": "synthetic_contract_gate_only",
+      "groups": [
+        "idea-foundry",
+        "first-gate",
+        "live-allocation"
+      ],
+      "profiles": [
+        "cpu"
+      ],
+      "description": "Allocate computation by conservative decision-regret reduction per measured cost. This lane exercises only the deterministic first-gate contract.",
+      "depends_on": [
+        "A05.counterfactual"
+      ],
+      "dependency_condition": "terminal_without_technical_failure",
+      "resource_profile": {
+        "allowed": [
+          "cpu"
+        ],
+        "accelerator": null,
+        "hardware_gate": null,
+        "budget_class": "lightweight_first_gate"
+      },
+      "inputs": [
+        {
+          "name": "axis_registry",
+          "kind": "tracked_file",
+          "path": "configs/idea_foundry.axes.v1.json",
+          "required": true
+        },
+        {
+          "name": "python_skeleton",
+          "kind": "tracked_source",
+          "path": "quartz/idea_foundry/control.py",
+          "required": true
+        }
+      ],
+      "seed_contract": {
+        "mode": "fixed",
+        "seeds": [
+          20260718
+        ],
+        "grouping_unit": "position",
+        "trace_salt_count": 1,
+        "restart_and_continuation_kept_separate": true,
+        "common_random_numbers_within_axis": true
+      },
+      "requirements": {
+        "python_modules": [
+          "numpy"
+        ],
+        "paths": [
+          "scripts/idea_foundry_axis_gate.py",
+          "configs/idea_foundry.axes.v1.json",
+          "quartz/idea_foundry/control.py"
+        ]
+      },
+      "steps": [
+        {
+          "name": "first-gate",
+          "command": [
+            "{python}",
+            "scripts/idea_foundry_axis_gate.py",
+            "--axis",
+            "A04",
+            "--role",
+            "shadow",
+            "--seed",
+            "20260718",
+            "--output-dir",
+            "{output}"
+          ],
+          "timeout_s": 180
+        }
+      ],
+      "expected_artifacts": [
+        {
+          "path": "{output}/run_manifest.json",
+          "kind": "json",
+          "required": true,
+          "schema": {
+            "required_keys": [
+              "schema_version",
+              "axis_id",
+              "role",
+              "claim_scope",
+              "source_hashes",
+              "input_hashes",
+              "seed_contract",
+              "auto_promoted"
+            ]
+          }
+        },
+        {
+          "path": "{output}/rows.jsonl",
+          "kind": "jsonl",
+          "required": true,
+          "schema": {
+            "min_rows": 1,
+            "required_keys": [
+              "schema_version",
+              "axis_id",
+              "role",
+              "fixture_id",
+              "metric",
+              "value"
+            ]
+          }
+        },
+        {
+          "path": "{output}/summary.json",
+          "kind": "json",
+          "required": true,
+          "schema": {
+            "required_keys": [
+              "schema_version",
+              "axis_id",
+              "role",
+              "execution_status",
+              "evidence_status",
+              "promotion"
+            ]
+          }
+        }
+      ],
+      "promotion_gate": {
+        "mode": "manual_claim_ledger",
+        "allow_auto_promotion": false,
+        "negative_result_status": "completed_no_promotion",
+        "ledger": "docs/CLAIM_LEDGER.md",
+        "required_evidence": [
+          "paired_seeds",
+          "matched_checkpoint_and_runtime_contract",
+          "reference_oracle_separation",
+          "artifact_sha256",
+          "failure_rows_preserved"
+        ]
+      },
+      "resume_policy": {
+        "mode": "verified_artifacts_only",
+        "require_registry_hash_match": true,
+        "require_git_commit_match": true,
+        "require_source_hash_match": true,
+        "require_input_hash_match": true,
+        "require_artifact_schema_and_sha256": true,
+        "overwrite_is_resume": false
+      },
+      "prohibited_inferences": [
+        "Do not infer play-strength improvement from this lane.",
+        "Do not infer production readiness from skeleton, smoke, or contract success.",
+        "Do not convert execution success into VALIDATED evidence automatically."
+      ]
+    },
+    {
+      "id": "A08.conditional_audit",
+      "title": "A08 tactical_proof_backend conditional_audit first gate",
+      "axis_id": "A08",
+      "role": "conditional_audit",
+      "execution_status": "available",
+      "evidence_status": "conditional_only",
+      "claim_scope": "synthetic_contract_gate_only",
+      "groups": [
+        "idea-foundry",
+        "first-gate",
+        "live-allocation"
+      ],
+      "profiles": [
+        "cpu"
+      ],
+      "description": "Protect forced actions with typed game-specific sentinels and proof budgets. This lane exercises only the deterministic first-gate contract.",
+      "depends_on": [
+        "A04.shadow"
+      ],
+      "dependency_condition": "terminal_without_technical_failure",
+      "resource_profile": {
+        "allowed": [
+          "cpu"
+        ],
+        "accelerator": null,
+        "hardware_gate": null,
+        "budget_class": "lightweight_first_gate"
+      },
+      "inputs": [
+        {
+          "name": "axis_registry",
+          "kind": "tracked_file",
+          "path": "configs/idea_foundry.axes.v1.json",
+          "required": true
+        },
+        {
+          "name": "python_skeleton",
+          "kind": "tracked_source",
+          "path": "quartz/idea_foundry/search.py",
+          "required": true
+        }
+      ],
+      "seed_contract": {
+        "mode": "fixed",
+        "seeds": [
+          20260718
+        ],
+        "grouping_unit": "position",
+        "trace_salt_count": 1,
+        "restart_and_continuation_kept_separate": true,
+        "common_random_numbers_within_axis": true
+      },
+      "requirements": {
+        "python_modules": [
+          "numpy"
+        ],
+        "paths": [
+          "scripts/idea_foundry_axis_gate.py",
+          "configs/idea_foundry.axes.v1.json",
+          "quartz/idea_foundry/search.py"
+        ]
+      },
+      "steps": [
+        {
+          "name": "first-gate",
+          "command": [
+            "{python}",
+            "scripts/idea_foundry_axis_gate.py",
+            "--axis",
+            "A08",
+            "--role",
+            "conditional_audit",
+            "--seed",
+            "20260718",
+            "--output-dir",
+            "{output}"
+          ],
+          "timeout_s": 180
+        }
+      ],
+      "expected_artifacts": [
+        {
+          "path": "{output}/run_manifest.json",
+          "kind": "json",
+          "required": true,
+          "schema": {
+            "required_keys": [
+              "schema_version",
+              "axis_id",
+              "role",
+              "claim_scope",
+              "source_hashes",
+              "input_hashes",
+              "seed_contract",
+              "auto_promoted"
+            ]
+          }
+        },
+        {
+          "path": "{output}/rows.jsonl",
+          "kind": "jsonl",
+          "required": true,
+          "schema": {
+            "min_rows": 1,
+            "required_keys": [
+              "schema_version",
+              "axis_id",
+              "role",
+              "fixture_id",
+              "metric",
+              "value"
+            ]
+          }
+        },
+        {
+          "path": "{output}/summary.json",
+          "kind": "json",
+          "required": true,
+          "schema": {
+            "required_keys": [
+              "schema_version",
+              "axis_id",
+              "role",
+              "execution_status",
+              "evidence_status",
+              "promotion"
+            ]
+          }
+        }
+      ],
+      "promotion_gate": {
+        "mode": "manual_claim_ledger",
+        "allow_auto_promotion": false,
+        "negative_result_status": "completed_no_promotion",
+        "ledger": "docs/CLAIM_LEDGER.md",
+        "required_evidence": [
+          "paired_seeds",
+          "matched_checkpoint_and_runtime_contract",
+          "reference_oracle_separation",
+          "artifact_sha256",
+          "failure_rows_preserved"
+        ]
+      },
+      "resume_policy": {
+        "mode": "verified_artifacts_only",
+        "require_registry_hash_match": true,
+        "require_git_commit_match": true,
+        "require_source_hash_match": true,
+        "require_input_hash_match": true,
+        "require_artifact_schema_and_sha256": true,
+        "overwrite_is_resume": false
+      },
+      "prohibited_inferences": [
+        "Do not infer play-strength improvement from this lane.",
+        "Do not infer production readiness from skeleton, smoke, or contract success.",
+        "Do not convert execution success into VALIDATED evidence automatically."
+      ]
+    },
+    {
+      "id": "A13.synthetic",
+      "title": "A13 pending_flow_wu_uct synthetic first gate",
+      "axis_id": "A13",
+      "role": "synthetic",
+      "execution_status": "available",
+      "evidence_status": "conditional_only",
+      "claim_scope": "synthetic_contract_gate_only",
+      "groups": [
+        "idea-foundry",
+        "first-gate",
+        "parallel-system"
+      ],
+      "profiles": [
+        "cpu"
+      ],
+      "description": "Track unobserved work separately from completed evidence and fixed virtual pessimism. This lane exercises only the deterministic first-gate contract.",
+      "depends_on": [
+        "A08.conditional_audit"
+      ],
+      "dependency_condition": "terminal_without_technical_failure",
+      "resource_profile": {
+        "allowed": [
+          "cpu"
+        ],
+        "accelerator": null,
+        "hardware_gate": null,
+        "budget_class": "lightweight_first_gate"
+      },
+      "inputs": [
+        {
+          "name": "axis_registry",
+          "kind": "tracked_file",
+          "path": "configs/idea_foundry.axes.v1.json",
+          "required": true
+        },
+        {
+          "name": "python_skeleton",
+          "kind": "tracked_source",
+          "path": "quartz/idea_foundry/search.py",
+          "required": true
+        }
+      ],
+      "seed_contract": {
+        "mode": "fixed",
+        "seeds": [
+          20260718
+        ],
+        "grouping_unit": "position",
+        "trace_salt_count": 1,
+        "restart_and_continuation_kept_separate": true,
+        "common_random_numbers_within_axis": true
+      },
+      "requirements": {
+        "python_modules": [
+          "numpy"
+        ],
+        "paths": [
+          "scripts/idea_foundry_axis_gate.py",
+          "configs/idea_foundry.axes.v1.json",
+          "quartz/idea_foundry/search.py"
+        ]
+      },
+      "steps": [
+        {
+          "name": "first-gate",
+          "command": [
+            "{python}",
+            "scripts/idea_foundry_axis_gate.py",
+            "--axis",
+            "A13",
+            "--role",
+            "synthetic",
+            "--seed",
+            "20260718",
+            "--output-dir",
+            "{output}"
+          ],
+          "timeout_s": 180
+        }
+      ],
+      "expected_artifacts": [
+        {
+          "path": "{output}/run_manifest.json",
+          "kind": "json",
+          "required": true,
+          "schema": {
+            "required_keys": [
+              "schema_version",
+              "axis_id",
+              "role",
+              "claim_scope",
+              "source_hashes",
+              "input_hashes",
+              "seed_contract",
+              "auto_promoted"
+            ]
+          }
+        },
+        {
+          "path": "{output}/rows.jsonl",
+          "kind": "jsonl",
+          "required": true,
+          "schema": {
+            "min_rows": 1,
+            "required_keys": [
+              "schema_version",
+              "axis_id",
+              "role",
+              "fixture_id",
+              "metric",
+              "value"
+            ]
+          }
+        },
+        {
+          "path": "{output}/summary.json",
+          "kind": "json",
+          "required": true,
+          "schema": {
+            "required_keys": [
+              "schema_version",
+              "axis_id",
+              "role",
+              "execution_status",
+              "evidence_status",
+              "promotion"
+            ]
+          }
+        }
+      ],
+      "promotion_gate": {
+        "mode": "manual_claim_ledger",
+        "allow_auto_promotion": false,
+        "negative_result_status": "completed_no_promotion",
+        "ledger": "docs/CLAIM_LEDGER.md",
+        "required_evidence": [
+          "paired_seeds",
+          "matched_checkpoint_and_runtime_contract",
+          "reference_oracle_separation",
+          "artifact_sha256",
+          "failure_rows_preserved"
+        ]
+      },
+      "resume_policy": {
+        "mode": "verified_artifacts_only",
+        "require_registry_hash_match": true,
+        "require_git_commit_match": true,
+        "require_source_hash_match": true,
+        "require_input_hash_match": true,
+        "require_artifact_schema_and_sha256": true,
+        "overwrite_is_resume": false
+      },
+      "prohibited_inferences": [
+        "Do not infer play-strength improvement from this lane.",
+        "Do not infer production readiness from skeleton, smoke, or contract success.",
+        "Do not convert execution success into VALIDATED evidence automatically."
+      ]
+    },
+    {
+      "id": "A15.system",
+      "title": "A15 service_curve_scheduler system first gate",
+      "axis_id": "A15",
+      "role": "system",
+      "execution_status": "available",
+      "evidence_status": "mechanism_valid",
+      "claim_scope": "synthetic_contract_gate_only",
+      "groups": [
+        "idea-foundry",
+        "first-gate",
+        "parallel-system"
+      ],
+      "profiles": [
+        "cpu"
+      ],
+      "description": "Choose batch and inflight credit from hardware-specific measured service curves. This lane exercises only the deterministic first-gate contract.",
+      "depends_on": [
+        "A13.synthetic"
+      ],
+      "dependency_condition": "terminal_without_technical_failure",
+      "resource_profile": {
+        "allowed": [
+          "cpu"
+        ],
+        "accelerator": null,
+        "hardware_gate": null,
+        "budget_class": "lightweight_first_gate"
+      },
+      "inputs": [
+        {
+          "name": "axis_registry",
+          "kind": "tracked_file",
+          "path": "configs/idea_foundry.axes.v1.json",
+          "required": true
+        },
+        {
+          "name": "python_skeleton",
+          "kind": "tracked_source",
+          "path": "quartz/idea_foundry/search.py",
+          "required": true
+        }
+      ],
+      "seed_contract": {
+        "mode": "fixed",
+        "seeds": [
+          20260718
+        ],
+        "grouping_unit": "position",
+        "trace_salt_count": 1,
+        "restart_and_continuation_kept_separate": true,
+        "common_random_numbers_within_axis": true
+      },
+      "requirements": {
+        "python_modules": [
+          "numpy"
+        ],
+        "paths": [
+          "scripts/idea_foundry_axis_gate.py",
+          "configs/idea_foundry.axes.v1.json",
+          "quartz/idea_foundry/search.py"
+        ]
+      },
+      "steps": [
+        {
+          "name": "first-gate",
+          "command": [
+            "{python}",
+            "scripts/idea_foundry_axis_gate.py",
+            "--axis",
+            "A15",
+            "--role",
+            "system",
+            "--seed",
+            "20260718",
+            "--output-dir",
+            "{output}"
+          ],
+          "timeout_s": 180
+        }
+      ],
+      "expected_artifacts": [
+        {
+          "path": "{output}/run_manifest.json",
+          "kind": "json",
+          "required": true,
+          "schema": {
+            "required_keys": [
+              "schema_version",
+              "axis_id",
+              "role",
+              "claim_scope",
+              "source_hashes",
+              "input_hashes",
+              "seed_contract",
+              "auto_promoted"
+            ]
+          }
+        },
+        {
+          "path": "{output}/rows.jsonl",
+          "kind": "jsonl",
+          "required": true,
+          "schema": {
+            "min_rows": 1,
+            "required_keys": [
+              "schema_version",
+              "axis_id",
+              "role",
+              "fixture_id",
+              "metric",
+              "value"
+            ]
+          }
+        },
+        {
+          "path": "{output}/summary.json",
+          "kind": "json",
+          "required": true,
+          "schema": {
+            "required_keys": [
+              "schema_version",
+              "axis_id",
+              "role",
+              "execution_status",
+              "evidence_status",
+              "promotion"
+            ]
+          }
+        }
+      ],
+      "promotion_gate": {
+        "mode": "manual_claim_ledger",
+        "allow_auto_promotion": false,
+        "negative_result_status": "completed_no_promotion",
+        "ledger": "docs/CLAIM_LEDGER.md",
+        "required_evidence": [
+          "paired_seeds",
+          "matched_checkpoint_and_runtime_contract",
+          "reference_oracle_separation",
+          "artifact_sha256",
+          "failure_rows_preserved"
+        ]
+      },
+      "resume_policy": {
+        "mode": "verified_artifacts_only",
+        "require_registry_hash_match": true,
+        "require_git_commit_match": true,
+        "require_source_hash_match": true,
+        "require_input_hash_match": true,
+        "require_artifact_schema_and_sha256": true,
+        "overwrite_is_resume": false
+      },
+      "prohibited_inferences": [
+        "Do not infer play-strength improvement from this lane.",
+        "Do not infer production readiness from skeleton, smoke, or contract success.",
+        "Do not convert execution success into VALIDATED evidence automatically."
+      ]
+    },
+    {
+      "id": "A14.shadow",
+      "title": "A14 semantic_path_lsh shadow first gate",
+      "axis_id": "A14",
+      "role": "shadow",
+      "execution_status": "available",
+      "evidence_status": "shadow_only",
+      "claim_scope": "synthetic_contract_gate_only",
+      "groups": [
+        "idea-foundry",
+        "first-gate",
+        "parallel-system"
+      ],
+      "profiles": [
+        "cpu"
+      ],
+      "description": "Measure high-thread whole-path semantic redundancy after edge duplicates are controlled. This lane exercises only the deterministic first-gate contract.",
+      "depends_on": [
+        "A15.system"
+      ],
+      "dependency_condition": "terminal_without_technical_failure",
+      "resource_profile": {
+        "allowed": [
+          "cpu"
+        ],
+        "accelerator": null,
+        "hardware_gate": null,
+        "budget_class": "lightweight_first_gate"
+      },
+      "inputs": [
+        {
+          "name": "axis_registry",
+          "kind": "tracked_file",
+          "path": "configs/idea_foundry.axes.v1.json",
+          "required": true
+        },
+        {
+          "name": "python_skeleton",
+          "kind": "tracked_source",
+          "path": "quartz/idea_foundry/search.py",
+          "required": true
+        }
+      ],
+      "seed_contract": {
+        "mode": "fixed",
+        "seeds": [
+          20260718
+        ],
+        "grouping_unit": "position",
+        "trace_salt_count": 1,
+        "restart_and_continuation_kept_separate": true,
+        "common_random_numbers_within_axis": true
+      },
+      "requirements": {
+        "python_modules": [
+          "numpy"
+        ],
+        "paths": [
+          "scripts/idea_foundry_axis_gate.py",
+          "configs/idea_foundry.axes.v1.json",
+          "quartz/idea_foundry/search.py"
+        ]
+      },
+      "steps": [
+        {
+          "name": "first-gate",
+          "command": [
+            "{python}",
+            "scripts/idea_foundry_axis_gate.py",
+            "--axis",
+            "A14",
+            "--role",
+            "shadow",
+            "--seed",
+            "20260718",
+            "--output-dir",
+            "{output}"
+          ],
+          "timeout_s": 180
+        }
+      ],
+      "expected_artifacts": [
+        {
+          "path": "{output}/run_manifest.json",
+          "kind": "json",
+          "required": true,
+          "schema": {
+            "required_keys": [
+              "schema_version",
+              "axis_id",
+              "role",
+              "claim_scope",
+              "source_hashes",
+              "input_hashes",
+              "seed_contract",
+              "auto_promoted"
+            ]
+          }
+        },
+        {
+          "path": "{output}/rows.jsonl",
+          "kind": "jsonl",
+          "required": true,
+          "schema": {
+            "min_rows": 1,
+            "required_keys": [
+              "schema_version",
+              "axis_id",
+              "role",
+              "fixture_id",
+              "metric",
+              "value"
+            ]
+          }
+        },
+        {
+          "path": "{output}/summary.json",
+          "kind": "json",
+          "required": true,
+          "schema": {
+            "required_keys": [
+              "schema_version",
+              "axis_id",
+              "role",
+              "execution_status",
+              "evidence_status",
+              "promotion"
+            ]
+          }
+        }
+      ],
+      "promotion_gate": {
+        "mode": "manual_claim_ledger",
+        "allow_auto_promotion": false,
+        "negative_result_status": "completed_no_promotion",
+        "ledger": "docs/CLAIM_LEDGER.md",
+        "required_evidence": [
+          "paired_seeds",
+          "matched_checkpoint_and_runtime_contract",
+          "reference_oracle_separation",
+          "artifact_sha256",
+          "failure_rows_preserved"
+        ]
+      },
+      "resume_policy": {
+        "mode": "verified_artifacts_only",
+        "require_registry_hash_match": true,
+        "require_git_commit_match": true,
+        "require_source_hash_match": true,
+        "require_input_hash_match": true,
+        "require_artifact_schema_and_sha256": true,
+        "overwrite_is_resume": false
+      },
+      "prohibited_inferences": [
+        "Do not infer play-strength improvement from this lane.",
+        "Do not infer production readiness from skeleton, smoke, or contract success.",
+        "Do not convert execution success into VALIDATED evidence automatically."
+      ]
+    },
+    {
+      "id": "A16.cache_only",
+      "title": "A16 monte_carlo_graph_sharing cache_only first gate",
+      "axis_id": "A16",
+      "role": "cache_only",
+      "execution_status": "available",
+      "evidence_status": "skeleton_only",
+      "claim_scope": "synthetic_contract_gate_only",
+      "groups": [
+        "idea-foundry",
+        "first-gate",
+        "parallel-system"
+      ],
+      "profiles": [
+        "cpu"
+      ],
+      "description": "Separate shared state/evaluation cache from parent-edge search statistics. This lane exercises only the deterministic first-gate contract.",
+      "depends_on": [
+        "A14.shadow"
+      ],
+      "dependency_condition": "terminal_without_technical_failure",
+      "resource_profile": {
+        "allowed": [
+          "cpu"
+        ],
+        "accelerator": null,
+        "hardware_gate": null,
+        "budget_class": "lightweight_first_gate"
+      },
+      "inputs": [
+        {
+          "name": "axis_registry",
+          "kind": "tracked_file",
+          "path": "configs/idea_foundry.axes.v1.json",
+          "required": true
+        },
+        {
+          "name": "python_skeleton",
+          "kind": "tracked_source",
+          "path": "quartz/idea_foundry/search.py",
+          "required": true
+        }
+      ],
+      "seed_contract": {
+        "mode": "fixed",
+        "seeds": [
+          20260718
+        ],
+        "grouping_unit": "position",
+        "trace_salt_count": 1,
+        "restart_and_continuation_kept_separate": true,
+        "common_random_numbers_within_axis": true
+      },
+      "requirements": {
+        "python_modules": [
+          "numpy"
+        ],
+        "paths": [
+          "scripts/idea_foundry_axis_gate.py",
+          "configs/idea_foundry.axes.v1.json",
+          "quartz/idea_foundry/search.py"
+        ]
+      },
+      "steps": [
+        {
+          "name": "first-gate",
+          "command": [
+            "{python}",
+            "scripts/idea_foundry_axis_gate.py",
+            "--axis",
+            "A16",
+            "--role",
+            "cache_only",
+            "--seed",
+            "20260718",
+            "--output-dir",
+            "{output}"
+          ],
+          "timeout_s": 180
+        }
+      ],
+      "expected_artifacts": [
+        {
+          "path": "{output}/run_manifest.json",
+          "kind": "json",
+          "required": true,
+          "schema": {
+            "required_keys": [
+              "schema_version",
+              "axis_id",
+              "role",
+              "claim_scope",
+              "source_hashes",
+              "input_hashes",
+              "seed_contract",
+              "auto_promoted"
+            ]
+          }
+        },
+        {
+          "path": "{output}/rows.jsonl",
+          "kind": "jsonl",
+          "required": true,
+          "schema": {
+            "min_rows": 1,
+            "required_keys": [
+              "schema_version",
+              "axis_id",
+              "role",
+              "fixture_id",
+              "metric",
+              "value"
+            ]
+          }
+        },
+        {
+          "path": "{output}/summary.json",
+          "kind": "json",
+          "required": true,
+          "schema": {
+            "required_keys": [
+              "schema_version",
+              "axis_id",
+              "role",
+              "execution_status",
+              "evidence_status",
+              "promotion"
+            ]
+          }
+        }
+      ],
+      "promotion_gate": {
+        "mode": "manual_claim_ledger",
+        "allow_auto_promotion": false,
+        "negative_result_status": "completed_no_promotion",
+        "ledger": "docs/CLAIM_LEDGER.md",
+        "required_evidence": [
+          "paired_seeds",
+          "matched_checkpoint_and_runtime_contract",
+          "reference_oracle_separation",
+          "artifact_sha256",
+          "failure_rows_preserved"
+        ]
+      },
+      "resume_policy": {
+        "mode": "verified_artifacts_only",
+        "require_registry_hash_match": true,
+        "require_git_commit_match": true,
+        "require_source_hash_match": true,
+        "require_input_hash_match": true,
+        "require_artifact_schema_and_sha256": true,
+        "overwrite_is_resume": false
+      },
+      "prohibited_inferences": [
+        "Do not infer play-strength improvement from this lane.",
+        "Do not infer production readiness from skeleton, smoke, or contract success.",
+        "Do not convert execution success into VALIDATED evidence automatically."
+      ]
+    },
+    {
+      "id": "A11.synthetic",
+      "title": "A11 dynamic_live_set_particles synthetic first gate",
+      "axis_id": "A11",
+      "role": "synthetic",
+      "execution_status": "available",
+      "evidence_status": "skeleton_only",
+      "claim_scope": "synthetic_contract_gate_only",
+      "groups": [
+        "idea-foundry",
+        "first-gate",
+        "parallel-system"
+      ],
+      "profiles": [
+        "cpu"
+      ],
+      "description": "Maintain active/hibernating/resurrectable root particle groups. This lane exercises only the deterministic first-gate contract.",
+      "depends_on": [
+        "A16.cache_only"
+      ],
+      "dependency_condition": "terminal_without_technical_failure",
+      "resource_profile": {
+        "allowed": [
+          "cpu"
+        ],
+        "accelerator": null,
+        "hardware_gate": null,
+        "budget_class": "lightweight_first_gate"
+      },
+      "inputs": [
+        {
+          "name": "axis_registry",
+          "kind": "tracked_file",
+          "path": "configs/idea_foundry.axes.v1.json",
+          "required": true
+        },
+        {
+          "name": "python_skeleton",
+          "kind": "tracked_source",
+          "path": "quartz/idea_foundry/search.py",
+          "required": true
+        }
+      ],
+      "seed_contract": {
+        "mode": "fixed",
+        "seeds": [
+          20260718
+        ],
+        "grouping_unit": "position",
+        "trace_salt_count": 1,
+        "restart_and_continuation_kept_separate": true,
+        "common_random_numbers_within_axis": true
+      },
+      "requirements": {
+        "python_modules": [
+          "numpy"
+        ],
+        "paths": [
+          "scripts/idea_foundry_axis_gate.py",
+          "configs/idea_foundry.axes.v1.json",
+          "quartz/idea_foundry/search.py"
+        ]
+      },
+      "steps": [
+        {
+          "name": "first-gate",
+          "command": [
+            "{python}",
+            "scripts/idea_foundry_axis_gate.py",
+            "--axis",
+            "A11",
+            "--role",
+            "synthetic",
+            "--seed",
+            "20260718",
+            "--output-dir",
+            "{output}"
+          ],
+          "timeout_s": 180
+        }
+      ],
+      "expected_artifacts": [
+        {
+          "path": "{output}/run_manifest.json",
+          "kind": "json",
+          "required": true,
+          "schema": {
+            "required_keys": [
+              "schema_version",
+              "axis_id",
+              "role",
+              "claim_scope",
+              "source_hashes",
+              "input_hashes",
+              "seed_contract",
+              "auto_promoted"
+            ]
+          }
+        },
+        {
+          "path": "{output}/rows.jsonl",
+          "kind": "jsonl",
+          "required": true,
+          "schema": {
+            "min_rows": 1,
+            "required_keys": [
+              "schema_version",
+              "axis_id",
+              "role",
+              "fixture_id",
+              "metric",
+              "value"
+            ]
+          }
+        },
+        {
+          "path": "{output}/summary.json",
+          "kind": "json",
+          "required": true,
+          "schema": {
+            "required_keys": [
+              "schema_version",
+              "axis_id",
+              "role",
+              "execution_status",
+              "evidence_status",
+              "promotion"
+            ]
+          }
+        }
+      ],
+      "promotion_gate": {
+        "mode": "manual_claim_ledger",
+        "allow_auto_promotion": false,
+        "negative_result_status": "completed_no_promotion",
+        "ledger": "docs/CLAIM_LEDGER.md",
+        "required_evidence": [
+          "paired_seeds",
+          "matched_checkpoint_and_runtime_contract",
+          "reference_oracle_separation",
+          "artifact_sha256",
+          "failure_rows_preserved"
+        ]
+      },
+      "resume_policy": {
+        "mode": "verified_artifacts_only",
+        "require_registry_hash_match": true,
+        "require_git_commit_match": true,
+        "require_source_hash_match": true,
+        "require_input_hash_match": true,
+        "require_artifact_schema_and_sha256": true,
+        "overwrite_is_resume": false
+      },
+      "prohibited_inferences": [
+        "Do not infer play-strength improvement from this lane.",
+        "Do not infer production readiness from skeleton, smoke, or contract success.",
+        "Do not convert execution success into VALIDATED evidence automatically."
+      ]
+    },
+    {
+      "id": "A18.representation",
+      "title": "A18 diffusion_regularized_evaluator representation first gate",
+      "axis_id": "A18",
+      "role": "representation",
+      "execution_status": "available",
+      "evidence_status": "skeleton_only",
+      "claim_scope": "synthetic_contract_gate_only",
+      "groups": [
+        "idea-foundry",
+        "first-gate",
+        "representation-training"
+      ],
+      "profiles": [
+        "cpu"
+      ],
+      "description": "Train deterministic policy-value evaluators with denoising auxiliary losses only. This lane exercises only the deterministic first-gate contract.",
+      "depends_on": [
+        "A11.synthetic"
+      ],
+      "dependency_condition": "terminal_without_technical_failure",
+      "resource_profile": {
+        "allowed": [
+          "cpu"
+        ],
+        "accelerator": null,
+        "hardware_gate": null,
+        "budget_class": "lightweight_first_gate"
+      },
+      "inputs": [
+        {
+          "name": "axis_registry",
+          "kind": "tracked_file",
+          "path": "configs/idea_foundry.axes.v1.json",
+          "required": true
+        },
+        {
+          "name": "python_skeleton",
+          "kind": "tracked_source",
+          "path": "quartz/idea_foundry/learning.py",
+          "required": true
+        }
+      ],
+      "seed_contract": {
+        "mode": "fixed",
+        "seeds": [
+          20260718
+        ],
+        "grouping_unit": "position",
+        "trace_salt_count": 1,
+        "restart_and_continuation_kept_separate": true,
+        "common_random_numbers_within_axis": true
+      },
+      "requirements": {
+        "python_modules": [
+          "numpy"
+        ],
+        "paths": [
+          "scripts/idea_foundry_axis_gate.py",
+          "configs/idea_foundry.axes.v1.json",
+          "quartz/idea_foundry/learning.py"
+        ]
+      },
+      "steps": [
+        {
+          "name": "first-gate",
+          "command": [
+            "{python}",
+            "scripts/idea_foundry_axis_gate.py",
+            "--axis",
+            "A18",
+            "--role",
+            "representation",
+            "--seed",
+            "20260718",
+            "--output-dir",
+            "{output}"
+          ],
+          "timeout_s": 180
+        }
+      ],
+      "expected_artifacts": [
+        {
+          "path": "{output}/run_manifest.json",
+          "kind": "json",
+          "required": true,
+          "schema": {
+            "required_keys": [
+              "schema_version",
+              "axis_id",
+              "role",
+              "claim_scope",
+              "source_hashes",
+              "input_hashes",
+              "seed_contract",
+              "auto_promoted"
+            ]
+          }
+        },
+        {
+          "path": "{output}/rows.jsonl",
+          "kind": "jsonl",
+          "required": true,
+          "schema": {
+            "min_rows": 1,
+            "required_keys": [
+              "schema_version",
+              "axis_id",
+              "role",
+              "fixture_id",
+              "metric",
+              "value"
+            ]
+          }
+        },
+        {
+          "path": "{output}/summary.json",
+          "kind": "json",
+          "required": true,
+          "schema": {
+            "required_keys": [
+              "schema_version",
+              "axis_id",
+              "role",
+              "execution_status",
+              "evidence_status",
+              "promotion"
+            ]
+          }
+        }
+      ],
+      "promotion_gate": {
+        "mode": "manual_claim_ledger",
+        "allow_auto_promotion": false,
+        "negative_result_status": "completed_no_promotion",
+        "ledger": "docs/CLAIM_LEDGER.md",
+        "required_evidence": [
+          "paired_seeds",
+          "matched_checkpoint_and_runtime_contract",
+          "reference_oracle_separation",
+          "artifact_sha256",
+          "failure_rows_preserved"
+        ]
+      },
+      "resume_policy": {
+        "mode": "verified_artifacts_only",
+        "require_registry_hash_match": true,
+        "require_git_commit_match": true,
+        "require_source_hash_match": true,
+        "require_input_hash_match": true,
+        "require_artifact_schema_and_sha256": true,
+        "overwrite_is_resume": false
+      },
+      "prohibited_inferences": [
+        "Do not infer play-strength improvement from this lane.",
+        "Do not infer production readiness from skeleton, smoke, or contract success.",
+        "Do not convert execution success into VALIDATED evidence automatically."
+      ]
+    },
+    {
+      "id": "A19.representation",
+      "title": "A19 rw_rest_lite_evaluator representation first gate",
+      "axis_id": "A19",
+      "role": "representation",
+      "execution_status": "available",
+      "evidence_status": "skeleton_only",
+      "claim_scope": "synthetic_contract_gate_only",
+      "groups": [
+        "idea-foundry",
+        "first-gate",
+        "representation-training"
+      ],
+      "profiles": [
+        "cpu"
+      ],
+      "description": "Test a static-pruned sparse RandWire/ResT local-global evaluator. This lane exercises only the deterministic first-gate contract.",
+      "depends_on": [
+        "A18.representation"
+      ],
+      "dependency_condition": "terminal_without_technical_failure",
+      "resource_profile": {
+        "allowed": [
+          "cpu"
+        ],
+        "accelerator": null,
+        "hardware_gate": null,
+        "budget_class": "lightweight_first_gate"
+      },
+      "inputs": [
+        {
+          "name": "axis_registry",
+          "kind": "tracked_file",
+          "path": "configs/idea_foundry.axes.v1.json",
+          "required": true
+        },
+        {
+          "name": "python_skeleton",
+          "kind": "tracked_source",
+          "path": "quartz/idea_foundry/learning.py",
+          "required": true
+        }
+      ],
+      "seed_contract": {
+        "mode": "fixed",
+        "seeds": [
+          20260718
+        ],
+        "grouping_unit": "position",
+        "trace_salt_count": 1,
+        "restart_and_continuation_kept_separate": true,
+        "common_random_numbers_within_axis": true
+      },
+      "requirements": {
+        "python_modules": [
+          "numpy"
+        ],
+        "paths": [
+          "scripts/idea_foundry_axis_gate.py",
+          "configs/idea_foundry.axes.v1.json",
+          "quartz/idea_foundry/learning.py"
+        ]
+      },
+      "steps": [
+        {
+          "name": "first-gate",
+          "command": [
+            "{python}",
+            "scripts/idea_foundry_axis_gate.py",
+            "--axis",
+            "A19",
+            "--role",
+            "representation",
+            "--seed",
+            "20260718",
+            "--output-dir",
+            "{output}"
+          ],
+          "timeout_s": 180
+        }
+      ],
+      "expected_artifacts": [
+        {
+          "path": "{output}/run_manifest.json",
+          "kind": "json",
+          "required": true,
+          "schema": {
+            "required_keys": [
+              "schema_version",
+              "axis_id",
+              "role",
+              "claim_scope",
+              "source_hashes",
+              "input_hashes",
+              "seed_contract",
+              "auto_promoted"
+            ]
+          }
+        },
+        {
+          "path": "{output}/rows.jsonl",
+          "kind": "jsonl",
+          "required": true,
+          "schema": {
+            "min_rows": 1,
+            "required_keys": [
+              "schema_version",
+              "axis_id",
+              "role",
+              "fixture_id",
+              "metric",
+              "value"
+            ]
+          }
+        },
+        {
+          "path": "{output}/summary.json",
+          "kind": "json",
+          "required": true,
+          "schema": {
+            "required_keys": [
+              "schema_version",
+              "axis_id",
+              "role",
+              "execution_status",
+              "evidence_status",
+              "promotion"
+            ]
+          }
+        }
+      ],
+      "promotion_gate": {
+        "mode": "manual_claim_ledger",
+        "allow_auto_promotion": false,
+        "negative_result_status": "completed_no_promotion",
+        "ledger": "docs/CLAIM_LEDGER.md",
+        "required_evidence": [
+          "paired_seeds",
+          "matched_checkpoint_and_runtime_contract",
+          "reference_oracle_separation",
+          "artifact_sha256",
+          "failure_rows_preserved"
+        ]
+      },
+      "resume_policy": {
+        "mode": "verified_artifacts_only",
+        "require_registry_hash_match": true,
+        "require_git_commit_match": true,
+        "require_source_hash_match": true,
+        "require_input_hash_match": true,
+        "require_artifact_schema_and_sha256": true,
+        "overwrite_is_resume": false
+      },
+      "prohibited_inferences": [
+        "Do not infer play-strength improvement from this lane.",
+        "Do not infer production readiness from skeleton, smoke, or contract success.",
+        "Do not convert execution success into VALIDATED evidence automatically."
+      ]
+    },
+    {
+      "id": "A23.deployment",
+      "title": "A23 cpu_incremental_pattern_student deployment first gate",
+      "axis_id": "A23",
+      "role": "deployment",
+      "execution_status": "available",
+      "evidence_status": "skeleton_only",
+      "claim_scope": "synthetic_contract_gate_only",
+      "groups": [
+        "idea-foundry",
+        "first-gate",
+        "representation-training"
+      ],
+      "profiles": [
+        "cpu"
+      ],
+      "description": "Distill a quantized make/unmake incremental pattern evaluator for CPU play. This lane exercises only the deterministic first-gate contract.",
+      "depends_on": [
+        "A19.representation"
+      ],
+      "dependency_condition": "terminal_without_technical_failure",
+      "resource_profile": {
+        "allowed": [
+          "cpu"
+        ],
+        "accelerator": null,
+        "hardware_gate": null,
+        "budget_class": "lightweight_first_gate"
+      },
+      "inputs": [
+        {
+          "name": "axis_registry",
+          "kind": "tracked_file",
+          "path": "configs/idea_foundry.axes.v1.json",
+          "required": true
+        },
+        {
+          "name": "python_skeleton",
+          "kind": "tracked_source",
+          "path": "quartz/idea_foundry/learning.py",
+          "required": true
+        }
+      ],
+      "seed_contract": {
+        "mode": "fixed",
+        "seeds": [
+          20260718
+        ],
+        "grouping_unit": "position",
+        "trace_salt_count": 1,
+        "restart_and_continuation_kept_separate": true,
+        "common_random_numbers_within_axis": true
+      },
+      "requirements": {
+        "python_modules": [
+          "numpy"
+        ],
+        "paths": [
+          "scripts/idea_foundry_axis_gate.py",
+          "configs/idea_foundry.axes.v1.json",
+          "quartz/idea_foundry/learning.py"
+        ]
+      },
+      "steps": [
+        {
+          "name": "first-gate",
+          "command": [
+            "{python}",
+            "scripts/idea_foundry_axis_gate.py",
+            "--axis",
+            "A23",
+            "--role",
+            "deployment",
+            "--seed",
+            "20260718",
+            "--output-dir",
+            "{output}"
+          ],
+          "timeout_s": 180
+        }
+      ],
+      "expected_artifacts": [
+        {
+          "path": "{output}/run_manifest.json",
+          "kind": "json",
+          "required": true,
+          "schema": {
+            "required_keys": [
+              "schema_version",
+              "axis_id",
+              "role",
+              "claim_scope",
+              "source_hashes",
+              "input_hashes",
+              "seed_contract",
+              "auto_promoted"
+            ]
+          }
+        },
+        {
+          "path": "{output}/rows.jsonl",
+          "kind": "jsonl",
+          "required": true,
+          "schema": {
+            "min_rows": 1,
+            "required_keys": [
+              "schema_version",
+              "axis_id",
+              "role",
+              "fixture_id",
+              "metric",
+              "value"
+            ]
+          }
+        },
+        {
+          "path": "{output}/summary.json",
+          "kind": "json",
+          "required": true,
+          "schema": {
+            "required_keys": [
+              "schema_version",
+              "axis_id",
+              "role",
+              "execution_status",
+              "evidence_status",
+              "promotion"
+            ]
+          }
+        }
+      ],
+      "promotion_gate": {
+        "mode": "manual_claim_ledger",
+        "allow_auto_promotion": false,
+        "negative_result_status": "completed_no_promotion",
+        "ledger": "docs/CLAIM_LEDGER.md",
+        "required_evidence": [
+          "paired_seeds",
+          "matched_checkpoint_and_runtime_contract",
+          "reference_oracle_separation",
+          "artifact_sha256",
+          "failure_rows_preserved"
+        ]
+      },
+      "resume_policy": {
+        "mode": "verified_artifacts_only",
+        "require_registry_hash_match": true,
+        "require_git_commit_match": true,
+        "require_source_hash_match": true,
+        "require_input_hash_match": true,
+        "require_artifact_schema_and_sha256": true,
+        "overwrite_is_resume": false
+      },
+      "prohibited_inferences": [
+        "Do not infer play-strength improvement from this lane.",
+        "Do not infer production readiness from skeleton, smoke, or contract success.",
+        "Do not convert execution success into VALIDATED evidence automatically."
+      ]
+    },
+    {
+      "id": "A20.training_control",
+      "title": "A20 regret_state_archive training_control first gate",
+      "axis_id": "A20",
+      "role": "training_control",
+      "execution_status": "available",
+      "evidence_status": "skeleton_only",
+      "claim_scope": "synthetic_contract_gate_only",
+      "groups": [
+        "idea-foundry",
+        "first-gate",
+        "representation-training"
+      ],
+      "profiles": [
+        "cpu"
+      ],
+      "description": "Archive high-regret/instability states for restart, reanalysis and replay. This lane exercises only the deterministic first-gate contract.",
+      "depends_on": [
+        "A23.deployment"
+      ],
+      "dependency_condition": "terminal_without_technical_failure",
+      "resource_profile": {
+        "allowed": [
+          "cpu"
+        ],
+        "accelerator": null,
+        "hardware_gate": null,
+        "budget_class": "lightweight_first_gate"
+      },
+      "inputs": [
+        {
+          "name": "axis_registry",
+          "kind": "tracked_file",
+          "path": "configs/idea_foundry.axes.v1.json",
+          "required": true
+        },
+        {
+          "name": "python_skeleton",
+          "kind": "tracked_source",
+          "path": "quartz/idea_foundry/learning.py",
+          "required": true
+        }
+      ],
+      "seed_contract": {
+        "mode": "fixed",
+        "seeds": [
+          20260718
+        ],
+        "grouping_unit": "position",
+        "trace_salt_count": 1,
+        "restart_and_continuation_kept_separate": true,
+        "common_random_numbers_within_axis": true
+      },
+      "requirements": {
+        "python_modules": [
+          "numpy"
+        ],
+        "paths": [
+          "scripts/idea_foundry_axis_gate.py",
+          "configs/idea_foundry.axes.v1.json",
+          "quartz/idea_foundry/learning.py"
+        ]
+      },
+      "steps": [
+        {
+          "name": "first-gate",
+          "command": [
+            "{python}",
+            "scripts/idea_foundry_axis_gate.py",
+            "--axis",
+            "A20",
+            "--role",
+            "training_control",
+            "--seed",
+            "20260718",
+            "--output-dir",
+            "{output}"
+          ],
+          "timeout_s": 180
+        }
+      ],
+      "expected_artifacts": [
+        {
+          "path": "{output}/run_manifest.json",
+          "kind": "json",
+          "required": true,
+          "schema": {
+            "required_keys": [
+              "schema_version",
+              "axis_id",
+              "role",
+              "claim_scope",
+              "source_hashes",
+              "input_hashes",
+              "seed_contract",
+              "auto_promoted"
+            ]
+          }
+        },
+        {
+          "path": "{output}/rows.jsonl",
+          "kind": "jsonl",
+          "required": true,
+          "schema": {
+            "min_rows": 1,
+            "required_keys": [
+              "schema_version",
+              "axis_id",
+              "role",
+              "fixture_id",
+              "metric",
+              "value"
+            ]
+          }
+        },
+        {
+          "path": "{output}/summary.json",
+          "kind": "json",
+          "required": true,
+          "schema": {
+            "required_keys": [
+              "schema_version",
+              "axis_id",
+              "role",
+              "execution_status",
+              "evidence_status",
+              "promotion"
+            ]
+          }
+        }
+      ],
+      "promotion_gate": {
+        "mode": "manual_claim_ledger",
+        "allow_auto_promotion": false,
+        "negative_result_status": "completed_no_promotion",
+        "ledger": "docs/CLAIM_LEDGER.md",
+        "required_evidence": [
+          "paired_seeds",
+          "matched_checkpoint_and_runtime_contract",
+          "reference_oracle_separation",
+          "artifact_sha256",
+          "failure_rows_preserved"
+        ]
+      },
+      "resume_policy": {
+        "mode": "verified_artifacts_only",
+        "require_registry_hash_match": true,
+        "require_git_commit_match": true,
+        "require_source_hash_match": true,
+        "require_input_hash_match": true,
+        "require_artifact_schema_and_sha256": true,
+        "overwrite_is_resume": false
+      },
+      "prohibited_inferences": [
+        "Do not infer play-strength improvement from this lane.",
+        "Do not infer production readiness from skeleton, smoke, or contract success.",
+        "Do not convert execution success into VALIDATED evidence automatically."
+      ]
+    },
+    {
+      "id": "A24.training_control",
+      "title": "A24 learned_budget_gate training_control first gate",
+      "axis_id": "A24",
+      "role": "training_control",
+      "execution_status": "available",
+      "evidence_status": "skeleton_only",
+      "claim_scope": "synthetic_contract_gate_only",
+      "groups": [
+        "idea-foundry",
+        "first-gate",
+        "representation-training"
+      ],
+      "profiles": [
+        "cpu"
+      ],
+      "description": "Choose a discrete state-dependent planning budget on a frozen planner. This lane exercises only the deterministic first-gate contract.",
+      "depends_on": [
+        "A20.training_control"
+      ],
+      "dependency_condition": "terminal_without_technical_failure",
+      "resource_profile": {
+        "allowed": [
+          "cpu"
+        ],
+        "accelerator": null,
+        "hardware_gate": null,
+        "budget_class": "lightweight_first_gate"
+      },
+      "inputs": [
+        {
+          "name": "axis_registry",
+          "kind": "tracked_file",
+          "path": "configs/idea_foundry.axes.v1.json",
+          "required": true
+        },
+        {
+          "name": "python_skeleton",
+          "kind": "tracked_source",
+          "path": "quartz/idea_foundry/control.py",
+          "required": true
+        }
+      ],
+      "seed_contract": {
+        "mode": "fixed",
+        "seeds": [
+          20260718
+        ],
+        "grouping_unit": "position",
+        "trace_salt_count": 1,
+        "restart_and_continuation_kept_separate": true,
+        "common_random_numbers_within_axis": true
+      },
+      "requirements": {
+        "python_modules": [
+          "numpy"
+        ],
+        "paths": [
+          "scripts/idea_foundry_axis_gate.py",
+          "configs/idea_foundry.axes.v1.json",
+          "quartz/idea_foundry/control.py"
+        ]
+      },
+      "steps": [
+        {
+          "name": "first-gate",
+          "command": [
+            "{python}",
+            "scripts/idea_foundry_axis_gate.py",
+            "--axis",
+            "A24",
+            "--role",
+            "training_control",
+            "--seed",
+            "20260718",
+            "--output-dir",
+            "{output}"
+          ],
+          "timeout_s": 180
+        }
+      ],
+      "expected_artifacts": [
+        {
+          "path": "{output}/run_manifest.json",
+          "kind": "json",
+          "required": true,
+          "schema": {
+            "required_keys": [
+              "schema_version",
+              "axis_id",
+              "role",
+              "claim_scope",
+              "source_hashes",
+              "input_hashes",
+              "seed_contract",
+              "auto_promoted"
+            ]
+          }
+        },
+        {
+          "path": "{output}/rows.jsonl",
+          "kind": "jsonl",
+          "required": true,
+          "schema": {
+            "min_rows": 1,
+            "required_keys": [
+              "schema_version",
+              "axis_id",
+              "role",
+              "fixture_id",
+              "metric",
+              "value"
+            ]
+          }
+        },
+        {
+          "path": "{output}/summary.json",
+          "kind": "json",
+          "required": true,
+          "schema": {
+            "required_keys": [
+              "schema_version",
+              "axis_id",
+              "role",
+              "execution_status",
+              "evidence_status",
+              "promotion"
+            ]
+          }
+        }
+      ],
+      "promotion_gate": {
+        "mode": "manual_claim_ledger",
+        "allow_auto_promotion": false,
+        "negative_result_status": "completed_no_promotion",
+        "ledger": "docs/CLAIM_LEDGER.md",
+        "required_evidence": [
+          "paired_seeds",
+          "matched_checkpoint_and_runtime_contract",
+          "reference_oracle_separation",
+          "artifact_sha256",
+          "failure_rows_preserved"
+        ]
+      },
+      "resume_policy": {
+        "mode": "verified_artifacts_only",
+        "require_registry_hash_match": true,
+        "require_git_commit_match": true,
+        "require_source_hash_match": true,
+        "require_input_hash_match": true,
+        "require_artifact_schema_and_sha256": true,
+        "overwrite_is_resume": false
+      },
+      "prohibited_inferences": [
+        "Do not infer play-strength improvement from this lane.",
+        "Do not infer production readiness from skeleton, smoke, or contract success.",
+        "Do not convert execution success into VALIDATED evidence automatically."
+      ]
+    },
+    {
+      "id": "A10.conditional_audit",
+      "title": "A10 prior_refresh_specialist conditional_audit first gate",
+      "axis_id": "A10",
+      "role": "conditional_audit",
+      "execution_status": "available",
+      "evidence_status": "skeleton_only",
+      "claim_scope": "synthetic_contract_gate_only",
+      "groups": [
+        "idea-foundry",
+        "first-gate",
+        "conditional-audit"
+      ],
+      "profiles": [
+        "cpu"
+      ],
+      "description": "Retain cumulative refresh only as a bounded conditional expert. This lane exercises only the deterministic first-gate contract.",
+      "depends_on": [
+        "A24.training_control"
+      ],
+      "dependency_condition": "terminal_without_technical_failure",
+      "resource_profile": {
+        "allowed": [
+          "cpu"
+        ],
+        "accelerator": null,
+        "hardware_gate": null,
+        "budget_class": "lightweight_first_gate"
+      },
+      "inputs": [
+        {
+          "name": "axis_registry",
+          "kind": "tracked_file",
+          "path": "configs/idea_foundry.axes.v1.json",
+          "required": true
+        },
+        {
+          "name": "python_skeleton",
+          "kind": "tracked_source",
+          "path": "quartz/idea_foundry/search.py",
+          "required": true
+        }
+      ],
+      "seed_contract": {
+        "mode": "fixed",
+        "seeds": [
+          20260718
+        ],
+        "grouping_unit": "position",
+        "trace_salt_count": 1,
+        "restart_and_continuation_kept_separate": true,
+        "common_random_numbers_within_axis": true
+      },
+      "requirements": {
+        "python_modules": [
+          "numpy"
+        ],
+        "paths": [
+          "scripts/idea_foundry_axis_gate.py",
+          "configs/idea_foundry.axes.v1.json",
+          "quartz/idea_foundry/search.py"
+        ]
+      },
+      "steps": [
+        {
+          "name": "first-gate",
+          "command": [
+            "{python}",
+            "scripts/idea_foundry_axis_gate.py",
+            "--axis",
+            "A10",
+            "--role",
+            "conditional_audit",
+            "--seed",
+            "20260718",
+            "--output-dir",
+            "{output}"
+          ],
+          "timeout_s": 180
+        }
+      ],
+      "expected_artifacts": [
+        {
+          "path": "{output}/run_manifest.json",
+          "kind": "json",
+          "required": true,
+          "schema": {
+            "required_keys": [
+              "schema_version",
+              "axis_id",
+              "role",
+              "claim_scope",
+              "source_hashes",
+              "input_hashes",
+              "seed_contract",
+              "auto_promoted"
+            ]
+          }
+        },
+        {
+          "path": "{output}/rows.jsonl",
+          "kind": "jsonl",
+          "required": true,
+          "schema": {
+            "min_rows": 1,
+            "required_keys": [
+              "schema_version",
+              "axis_id",
+              "role",
+              "fixture_id",
+              "metric",
+              "value"
+            ]
+          }
+        },
+        {
+          "path": "{output}/summary.json",
+          "kind": "json",
+          "required": true,
+          "schema": {
+            "required_keys": [
+              "schema_version",
+              "axis_id",
+              "role",
+              "execution_status",
+              "evidence_status",
+              "promotion"
+            ]
+          }
+        }
+      ],
+      "promotion_gate": {
+        "mode": "manual_claim_ledger",
+        "allow_auto_promotion": false,
+        "negative_result_status": "completed_no_promotion",
+        "ledger": "docs/CLAIM_LEDGER.md",
+        "required_evidence": [
+          "paired_seeds",
+          "matched_checkpoint_and_runtime_contract",
+          "reference_oracle_separation",
+          "artifact_sha256",
+          "failure_rows_preserved"
+        ]
+      },
+      "resume_policy": {
+        "mode": "verified_artifacts_only",
+        "require_registry_hash_match": true,
+        "require_git_commit_match": true,
+        "require_source_hash_match": true,
+        "require_input_hash_match": true,
+        "require_artifact_schema_and_sha256": true,
+        "overwrite_is_resume": false
+      },
+      "prohibited_inferences": [
+        "Do not infer play-strength improvement from this lane.",
+        "Do not infer production readiness from skeleton, smoke, or contract success.",
+        "Do not convert execution success into VALIDATED evidence automatically.",
+        "Do not enable prior refresh outside a preregistered weak-evaluator or OOD slice."
+      ],
+      "conditional_outcomes": {
+        "no_eligible_slice": "DORMANT_NO_ELIGIBLE_SLICE",
+        "runtime_terminal_status": "completed_no_promotion",
+        "default_policy_after_audit": "no_refresh"
+      }
+    },
+    {
+      "id": "A04.live",
+      "title": "A04 kg_voc_allocator blocked live promotion",
+      "axis_id": "A04",
+      "role": "live",
+      "execution_status": "blocked",
+      "evidence_status": "shadow_only",
+      "claim_scope": "blocked_live_promotion_only",
+      "groups": [
+        "idea-foundry",
+        "promotion",
+        "live"
+      ],
+      "profiles": [
+        "cpu",
+        "cuda",
+        "rocm"
+      ],
+      "description": "Allocate computation by conservative decision-regret reduction per measured cost. This promotion lane is registered but cannot run until every blocker is resolved.",
+      "depends_on": [
+        "A05.counterfactual",
+        "A04.shadow"
+      ],
+      "dependency_condition": "all_succeeded",
+      "blocked_by": [
+        "resident root snapshot fork/replay contract is not available",
+        "counterfactual cost calibration has not passed",
+        "an input-consuming live promotion command is intentionally not registered"
+      ],
+      "resource_profile": {
+        "allowed": [
+          "cpu",
+          "cuda",
+          "rocm"
+        ],
+        "accelerator": null,
+        "hardware_gate": null,
+        "budget_class": "promotion"
+      },
+      "inputs": [
+        {
+          "name": "axis_registry",
+          "kind": "tracked_file",
+          "path": "configs/idea_foundry.axes.v1.json",
+          "required": true
+        },
+        {
+          "name": "python_skeleton",
+          "kind": "tracked_source",
+          "path": "quartz/idea_foundry/control.py",
+          "required": true
+        },
+        {
+          "name": "resident_snapshot",
+          "kind": "external_artifact",
+          "path": "{resident_snapshot}",
+          "required": true
+        }
+      ],
+      "seed_contract": {
+        "mode": "fixed",
+        "seeds": [
+          20260718
+        ],
+        "grouping_unit": "position",
+        "trace_salt_count": 1,
+        "restart_and_continuation_kept_separate": true,
+        "common_random_numbers_within_axis": true
+      },
+      "requirements": {
+        "variables": [
+          "resident_snapshot"
+        ],
+        "python_modules": [
+          "numpy"
+        ],
+        "paths": [
+          "scripts/idea_foundry_axis_gate.py",
+          "configs/idea_foundry.axes.v1.json",
+          "quartz/idea_foundry/control.py"
+        ]
+      },
+      "steps": [],
+      "expected_artifacts": [
+        {
+          "path": "{output}/run_manifest.json",
+          "kind": "json",
+          "required": true,
+          "schema": {
+            "required_keys": [
+              "schema_version",
+              "axis_id",
+              "role",
+              "claim_scope",
+              "source_hashes",
+              "input_hashes",
+              "seed_contract",
+              "auto_promoted"
+            ]
+          }
+        },
+        {
+          "path": "{output}/rows.jsonl",
+          "kind": "jsonl",
+          "required": true,
+          "schema": {
+            "min_rows": 1,
+            "required_keys": [
+              "schema_version",
+              "axis_id",
+              "role",
+              "fixture_id",
+              "metric",
+              "value"
+            ]
+          }
+        },
+        {
+          "path": "{output}/summary.json",
+          "kind": "json",
+          "required": true,
+          "schema": {
+            "required_keys": [
+              "schema_version",
+              "axis_id",
+              "role",
+              "execution_status",
+              "evidence_status",
+              "promotion"
+            ]
+          }
+        }
+      ],
+      "promotion_gate": {
+        "mode": "manual_claim_ledger",
+        "allow_auto_promotion": false,
+        "negative_result_status": "completed_no_promotion",
+        "ledger": "docs/CLAIM_LEDGER.md",
+        "required_evidence": [
+          "paired_seeds",
+          "matched_checkpoint_and_runtime_contract",
+          "reference_oracle_separation",
+          "artifact_sha256",
+          "failure_rows_preserved"
+        ]
+      },
+      "resume_policy": {
+        "mode": "verified_artifacts_only",
+        "require_registry_hash_match": true,
+        "require_git_commit_match": true,
+        "require_source_hash_match": true,
+        "require_input_hash_match": true,
+        "require_artifact_schema_and_sha256": true,
+        "overwrite_is_resume": false
+      },
+      "prohibited_inferences": [
+        "Do not infer play-strength improvement from this lane.",
+        "Do not infer production readiness from skeleton, smoke, or contract success.",
+        "Do not convert execution success into VALIDATED evidence automatically.",
+        "Do not bypass blocked inputs or hardware evidence."
+      ]
+    },
+    {
+      "id": "A06.live",
+      "title": "A06 gumbel_sequential_halving blocked live promotion",
+      "axis_id": "A06",
+      "role": "live",
+      "execution_status": "blocked",
+      "evidence_status": "mechanism_valid",
+      "claim_scope": "blocked_live_promotion_only",
+      "groups": [
+        "idea-foundry",
+        "promotion",
+        "live"
+      ],
+      "profiles": [
+        "cpu",
+        "cuda",
+        "rocm"
+      ],
+      "description": "Select low-budget candidates without replacement and allocate by resumable halving. This promotion lane is registered but cannot run until every blocker is resolved.",
+      "depends_on": [
+        "A04.live",
+        "A06.synthetic"
+      ],
+      "dependency_condition": "all_succeeded",
+      "blocked_by": [
+        "FoundryCoordinator live checkpoint bridge is not promoted",
+        "fresh snapshot identity proof is not available",
+        "an input-consuming live promotion command is intentionally not registered"
+      ],
+      "resource_profile": {
+        "allowed": [
+          "cpu",
+          "cuda",
+          "rocm"
+        ],
+        "accelerator": null,
+        "hardware_gate": null,
+        "budget_class": "promotion"
+      },
+      "inputs": [
+        {
+          "name": "axis_registry",
+          "kind": "tracked_file",
+          "path": "configs/idea_foundry.axes.v1.json",
+          "required": true
+        },
+        {
+          "name": "python_skeleton",
+          "kind": "tracked_source",
+          "path": "quartz/idea_foundry/search.py",
+          "required": true
+        },
+        {
+          "name": "resident_snapshot",
+          "kind": "external_artifact",
+          "path": "{resident_snapshot}",
+          "required": true
+        },
+        {
+          "name": "checkpoint",
+          "kind": "checkpoint",
+          "path": "{checkpoint}",
+          "required": true
+        }
+      ],
+      "seed_contract": {
+        "mode": "fixed",
+        "seeds": [
+          20260718
+        ],
+        "grouping_unit": "position",
+        "trace_salt_count": 1,
+        "restart_and_continuation_kept_separate": true,
+        "common_random_numbers_within_axis": true
+      },
+      "requirements": {
+        "variables": [
+          "resident_snapshot",
+          "checkpoint"
+        ],
+        "python_modules": [
+          "numpy"
+        ],
+        "paths": [
+          "scripts/idea_foundry_axis_gate.py",
+          "configs/idea_foundry.axes.v1.json",
+          "quartz/idea_foundry/search.py"
+        ]
+      },
+      "steps": [],
+      "expected_artifacts": [
+        {
+          "path": "{output}/run_manifest.json",
+          "kind": "json",
+          "required": true,
+          "schema": {
+            "required_keys": [
+              "schema_version",
+              "axis_id",
+              "role",
+              "claim_scope",
+              "source_hashes",
+              "input_hashes",
+              "seed_contract",
+              "auto_promoted"
+            ]
+          }
+        },
+        {
+          "path": "{output}/rows.jsonl",
+          "kind": "jsonl",
+          "required": true,
+          "schema": {
+            "min_rows": 1,
+            "required_keys": [
+              "schema_version",
+              "axis_id",
+              "role",
+              "fixture_id",
+              "metric",
+              "value"
+            ]
+          }
+        },
+        {
+          "path": "{output}/summary.json",
+          "kind": "json",
+          "required": true,
+          "schema": {
+            "required_keys": [
+              "schema_version",
+              "axis_id",
+              "role",
+              "execution_status",
+              "evidence_status",
+              "promotion"
+            ]
+          }
+        }
+      ],
+      "promotion_gate": {
+        "mode": "manual_claim_ledger",
+        "allow_auto_promotion": false,
+        "negative_result_status": "completed_no_promotion",
+        "ledger": "docs/CLAIM_LEDGER.md",
+        "required_evidence": [
+          "paired_seeds",
+          "matched_checkpoint_and_runtime_contract",
+          "reference_oracle_separation",
+          "artifact_sha256",
+          "failure_rows_preserved"
+        ]
+      },
+      "resume_policy": {
+        "mode": "verified_artifacts_only",
+        "require_registry_hash_match": true,
+        "require_git_commit_match": true,
+        "require_source_hash_match": true,
+        "require_input_hash_match": true,
+        "require_artifact_schema_and_sha256": true,
+        "overwrite_is_resume": false
+      },
+      "prohibited_inferences": [
+        "Do not infer play-strength improvement from this lane.",
+        "Do not infer production readiness from skeleton, smoke, or contract success.",
+        "Do not convert execution success into VALIDATED evidence automatically.",
+        "Do not bypass blocked inputs or hardware evidence."
+      ]
+    },
+    {
+      "id": "A07.live",
+      "title": "A07 residual_evidence_widening blocked live promotion",
+      "axis_id": "A07",
+      "role": "live",
+      "execution_status": "blocked",
+      "evidence_status": "skeleton_only",
+      "claim_scope": "blocked_live_promotion_only",
+      "groups": [
+        "idea-foundry",
+        "promotion",
+        "live"
+      ],
+      "profiles": [
+        "cpu",
+        "cuda",
+        "rocm"
+      ],
+      "description": "Bound posterior mass outside the live set and emit WIDEN proposals. This promotion lane is registered but cannot run until every blocker is resolved.",
+      "depends_on": [
+        "A06.live",
+        "A07.synthetic"
+      ],
+      "dependency_condition": "all_succeeded",
+      "blocked_by": [
+        "live residual-mass calibration artifact is not available",
+        "single-arbiter integration is not promoted",
+        "an input-consuming live promotion command is intentionally not registered"
+      ],
+      "resource_profile": {
+        "allowed": [
+          "cpu",
+          "cuda",
+          "rocm"
+        ],
+        "accelerator": null,
+        "hardware_gate": null,
+        "budget_class": "promotion"
+      },
+      "inputs": [
+        {
+          "name": "axis_registry",
+          "kind": "tracked_file",
+          "path": "configs/idea_foundry.axes.v1.json",
+          "required": true
+        },
+        {
+          "name": "python_skeleton",
+          "kind": "tracked_source",
+          "path": "quartz/idea_foundry/search.py",
+          "required": true
+        },
+        {
+          "name": "resident_snapshot",
+          "kind": "external_artifact",
+          "path": "{resident_snapshot}",
+          "required": true
+        },
+        {
+          "name": "checkpoint",
+          "kind": "checkpoint",
+          "path": "{checkpoint}",
+          "required": true
+        }
+      ],
+      "seed_contract": {
+        "mode": "fixed",
+        "seeds": [
+          20260718
+        ],
+        "grouping_unit": "position",
+        "trace_salt_count": 1,
+        "restart_and_continuation_kept_separate": true,
+        "common_random_numbers_within_axis": true
+      },
+      "requirements": {
+        "variables": [
+          "resident_snapshot",
+          "checkpoint"
+        ],
+        "python_modules": [
+          "numpy"
+        ],
+        "paths": [
+          "scripts/idea_foundry_axis_gate.py",
+          "configs/idea_foundry.axes.v1.json",
+          "quartz/idea_foundry/search.py"
+        ]
+      },
+      "steps": [],
+      "expected_artifacts": [
+        {
+          "path": "{output}/run_manifest.json",
+          "kind": "json",
+          "required": true,
+          "schema": {
+            "required_keys": [
+              "schema_version",
+              "axis_id",
+              "role",
+              "claim_scope",
+              "source_hashes",
+              "input_hashes",
+              "seed_contract",
+              "auto_promoted"
+            ]
+          }
+        },
+        {
+          "path": "{output}/rows.jsonl",
+          "kind": "jsonl",
+          "required": true,
+          "schema": {
+            "min_rows": 1,
+            "required_keys": [
+              "schema_version",
+              "axis_id",
+              "role",
+              "fixture_id",
+              "metric",
+              "value"
+            ]
+          }
+        },
+        {
+          "path": "{output}/summary.json",
+          "kind": "json",
+          "required": true,
+          "schema": {
+            "required_keys": [
+              "schema_version",
+              "axis_id",
+              "role",
+              "execution_status",
+              "evidence_status",
+              "promotion"
+            ]
+          }
+        }
+      ],
+      "promotion_gate": {
+        "mode": "manual_claim_ledger",
+        "allow_auto_promotion": false,
+        "negative_result_status": "completed_no_promotion",
+        "ledger": "docs/CLAIM_LEDGER.md",
+        "required_evidence": [
+          "paired_seeds",
+          "matched_checkpoint_and_runtime_contract",
+          "reference_oracle_separation",
+          "artifact_sha256",
+          "failure_rows_preserved"
+        ]
+      },
+      "resume_policy": {
+        "mode": "verified_artifacts_only",
+        "require_registry_hash_match": true,
+        "require_git_commit_match": true,
+        "require_source_hash_match": true,
+        "require_input_hash_match": true,
+        "require_artifact_schema_and_sha256": true,
+        "overwrite_is_resume": false
+      },
+      "prohibited_inferences": [
+        "Do not infer play-strength improvement from this lane.",
+        "Do not infer production readiness from skeleton, smoke, or contract success.",
+        "Do not convert execution success into VALIDATED evidence automatically.",
+        "Do not bypass blocked inputs or hardware evidence."
+      ]
+    },
+    {
+      "id": "A08.live",
+      "title": "A08 tactical_proof_backend blocked live promotion",
+      "axis_id": "A08",
+      "role": "live",
+      "execution_status": "blocked",
+      "evidence_status": "conditional_only",
+      "claim_scope": "blocked_live_promotion_only",
+      "groups": [
+        "idea-foundry",
+        "promotion",
+        "live"
+      ],
+      "profiles": [
+        "cpu",
+        "cuda",
+        "rocm"
+      ],
+      "description": "Protect forced actions with typed game-specific sentinels and proof budgets. This promotion lane is registered but cannot run until every blocker is resolved.",
+      "depends_on": [
+        "A07.live",
+        "A08.conditional_audit"
+      ],
+      "dependency_condition": "all_succeeded",
+      "blocked_by": [
+        "game-specific proof adapter is not available",
+        "tactical corpus and proof-budget contract are not supplied",
+        "an input-consuming live promotion command is intentionally not registered"
+      ],
+      "resource_profile": {
+        "allowed": [
+          "cpu",
+          "cuda",
+          "rocm"
+        ],
+        "accelerator": null,
+        "hardware_gate": null,
+        "budget_class": "promotion"
+      },
+      "inputs": [
+        {
+          "name": "axis_registry",
+          "kind": "tracked_file",
+          "path": "configs/idea_foundry.axes.v1.json",
+          "required": true
+        },
+        {
+          "name": "python_skeleton",
+          "kind": "tracked_source",
+          "path": "quartz/idea_foundry/search.py",
+          "required": true
+        },
+        {
+          "name": "tactical_corpus",
+          "kind": "external_artifact",
+          "path": "{tactical_corpus}",
+          "required": true
+        }
+      ],
+      "seed_contract": {
+        "mode": "fixed",
+        "seeds": [
+          20260718
+        ],
+        "grouping_unit": "position",
+        "trace_salt_count": 1,
+        "restart_and_continuation_kept_separate": true,
+        "common_random_numbers_within_axis": true
+      },
+      "requirements": {
+        "variables": [
+          "tactical_corpus"
+        ],
+        "python_modules": [
+          "numpy"
+        ],
+        "paths": [
+          "scripts/idea_foundry_axis_gate.py",
+          "configs/idea_foundry.axes.v1.json",
+          "quartz/idea_foundry/search.py"
+        ]
+      },
+      "steps": [],
+      "expected_artifacts": [
+        {
+          "path": "{output}/run_manifest.json",
+          "kind": "json",
+          "required": true,
+          "schema": {
+            "required_keys": [
+              "schema_version",
+              "axis_id",
+              "role",
+              "claim_scope",
+              "source_hashes",
+              "input_hashes",
+              "seed_contract",
+              "auto_promoted"
+            ]
+          }
+        },
+        {
+          "path": "{output}/rows.jsonl",
+          "kind": "jsonl",
+          "required": true,
+          "schema": {
+            "min_rows": 1,
+            "required_keys": [
+              "schema_version",
+              "axis_id",
+              "role",
+              "fixture_id",
+              "metric",
+              "value"
+            ]
+          }
+        },
+        {
+          "path": "{output}/summary.json",
+          "kind": "json",
+          "required": true,
+          "schema": {
+            "required_keys": [
+              "schema_version",
+              "axis_id",
+              "role",
+              "execution_status",
+              "evidence_status",
+              "promotion"
+            ]
+          }
+        }
+      ],
+      "promotion_gate": {
+        "mode": "manual_claim_ledger",
+        "allow_auto_promotion": false,
+        "negative_result_status": "completed_no_promotion",
+        "ledger": "docs/CLAIM_LEDGER.md",
+        "required_evidence": [
+          "paired_seeds",
+          "matched_checkpoint_and_runtime_contract",
+          "reference_oracle_separation",
+          "artifact_sha256",
+          "failure_rows_preserved"
+        ]
+      },
+      "resume_policy": {
+        "mode": "verified_artifacts_only",
+        "require_registry_hash_match": true,
+        "require_git_commit_match": true,
+        "require_source_hash_match": true,
+        "require_input_hash_match": true,
+        "require_artifact_schema_and_sha256": true,
+        "overwrite_is_resume": false
+      },
+      "prohibited_inferences": [
+        "Do not infer play-strength improvement from this lane.",
+        "Do not infer production readiness from skeleton, smoke, or contract success.",
+        "Do not convert execution success into VALIDATED evidence automatically.",
+        "Do not bypass blocked inputs or hardware evidence."
+      ]
+    },
+    {
+      "id": "A15.ablation_readiness",
+      "title": "A15 matched CPU/CUDA service-curve readiness",
+      "axis_id": "A15",
+      "role": "ablation_readiness",
+      "execution_status": "available",
+      "evidence_status": "skeleton_only",
+      "claim_scope": "ablation_readiness_only",
+      "groups": [
+        "idea-foundry",
+        "ablation-readiness",
+        "accelerator"
+      ],
+      "profiles": [
+        "cuda"
+      ],
+      "description": "Run a four-cell matched CPU/CUDA measurement-contract smoke with identical model state and paired input bytes. This is not the full service curve or a scheduler-quality claim.",
+      "depends_on": [],
+      "dependency_condition": "terminal_without_technical_failure",
+      "resource_profile": {
+        "allowed": [
+          "cuda"
+        ],
+        "accelerator": "cuda",
+        "hardware_gate": "cuda",
+        "budget_class": "diagnostic_ablation_readiness"
+      },
+      "inputs": [
+        {
+          "name": "a15_matched_config",
+          "kind": "tracked_config",
+          "path": "configs/a15_matched_service_curve.v1.json",
+          "required": true
+        }
+      ],
+      "seed_contract": {
+        "mode": "fixed_common_random_numbers",
+        "seeds": [
+          20260718,
+          150120260718,
+          150220260718
+        ],
+        "grouping_unit": "batch_inflight_repetition_cell",
+        "backend_order": "alternating_by_cell_and_repetition",
+        "same_model_state_across_backends": true,
+        "same_input_bytes_within_backend_pair": true
+      },
+      "requirements": {
+        "python_modules": [
+          "torch",
+          "numpy",
+          "matplotlib"
+        ],
+        "paths": [
+          "scripts/a15_matched_service_curve.py",
+          "quartz/experiments/a15_matched_service_curve.py",
+          "quartz/experiments/service_curve.py",
+          "configs/a15_matched_service_curve.v1.json"
+        ]
+      },
+      "steps": [
+        {
+          "name": "matched-diagnostic",
+          "command": [
+            "{python}",
+            "scripts/a15_matched_service_curve.py",
+            "--config",
+            "configs/a15_matched_service_curve.v1.json",
+            "--profile",
+            "diagnostic",
+            "--cuda-device",
+            "0",
+            "--output-dir",
+            "{output}/artifacts"
+          ],
+          "timeout_s": 900
+        }
+      ],
+      "expected_artifacts": [
+        {
+          "path": "{output}/artifacts/run_manifest.json",
+          "kind": "json",
+          "required": true,
+          "schema": {
+            "required_keys": [
+              "schema_version",
+              "axis_id",
+              "role",
+              "evidence_status",
+              "claim_scope",
+              "source_hashes",
+              "input_hashes",
+              "seed_contract",
+              "promotion",
+              "auto_promoted",
+              "semantic_parity",
+              "workload_identity_sha256"
+            ]
+          }
+        },
+        {
+          "path": "{output}/artifacts/rows.jsonl",
+          "kind": "jsonl",
+          "required": true,
+          "schema": {
+            "min_rows": 8,
+            "required_keys": [
+              "schema_version",
+              "axis_id",
+              "role",
+              "evidence_status",
+              "claim_scope",
+              "fixture_id",
+              "backend",
+              "input_sha256",
+              "workload_identity_sha256",
+              "metric",
+              "value"
+            ]
+          }
+        },
+        {
+          "path": "{output}/artifacts/summary.json",
+          "kind": "json",
+          "required": true,
+          "schema": {
+            "required_keys": [
+              "schema_version",
+              "axis_id",
+              "role",
+              "execution_status",
+              "evidence_status",
+              "claim_scope",
+              "semantic_parity",
+              "matched_pair_contract_complete",
+              "promotion"
+            ]
+          }
+        },
+        {
+          "path": "{output}/artifacts/service_curve_rows.v1.csv",
+          "kind": "file",
+          "required": true
+        },
+        {
+          "path": "{output}/artifacts/paired_backend_rows.v1.csv",
+          "kind": "file",
+          "required": true
+        },
+        {
+          "path": "{output}/artifacts/plot_metadata.v1.json",
+          "kind": "json",
+          "required": true,
+          "schema": {
+            "required_keys": [
+              "schema_version",
+              "axis_id",
+              "role",
+              "evidence_status",
+              "claim_scope",
+              "plot_category",
+              "source_data",
+              "workload_identity_sha256"
+            ]
+          }
+        },
+        {
+          "path": "{output}/artifacts/diagnostic.png",
+          "kind": "file",
+          "required": true
+        }
+      ],
+      "promotion_gate": {
+        "mode": "manual_claim_ledger",
+        "allow_auto_promotion": false,
+        "negative_result_status": "completed_no_promotion",
+        "ledger": "docs/CLAIM_LEDGER.md",
+        "required_evidence": [
+          "full_matched_service_curve",
+          "actual_checkpoint_workload",
+          "paired_search_quality_per_wall_clock",
+          "artifact_sha256",
+          "failure_rows_preserved"
+        ]
+      },
+      "resume_policy": {
+        "mode": "verified_artifacts_only",
+        "require_registry_hash_match": true,
+        "require_git_commit_match": true,
+        "require_source_hash_match": true,
+        "require_input_hash_match": true,
+        "require_artifact_schema_and_sha256": true,
+        "overwrite_is_resume": false
+      },
+      "prohibited_inferences": [
+        "Do not infer play strength or search decision quality from service throughput.",
+        "Do not infer energy efficiency without controlled power measurements.",
+        "Do not generalize the representative workload to the shipped evaluator.",
+        "Do not promote a production scheduler from the readiness grid."
+      ]
+    },
+    {
+      "id": "A18.ablation_readiness",
+      "title": "A18 paired deterministic-evaluator readiness smoke",
+      "axis_id": "A18",
+      "role": "ablation_readiness",
+      "execution_status": "available",
+      "evidence_status": "skeleton_only",
+      "claim_scope": "ablation_readiness_only",
+      "groups": [
+        "idea-foundry",
+        "ablation-readiness",
+        "accelerator"
+      ],
+      "profiles": [
+        "cuda"
+      ],
+      "description": "Train parameter/FLOP-matched direct evaluators from three real non-promoted latest.pt bootstrap checkpoints under an identical frozen controller and diagnostic compute contract.",
+      "depends_on": [
+        "A15.ablation_readiness"
+      ],
+      "dependency_condition": "terminal_without_technical_failure",
+      "resource_profile": {
+        "allowed": [
+          "cuda"
+        ],
+        "accelerator": "cuda",
+        "hardware_gate": "cuda",
+        "budget_class": "diagnostic_ablation_readiness"
+      },
+      "inputs": [
+        {
+          "name": "a18_smoke_spec",
+          "kind": "tracked_config",
+          "path": "configs/a18_evaluator_ablation.smoke.v1.json",
+          "required": true
+        },
+        {
+          "name": "seed_41_checkpoint",
+          "kind": "checkpoint",
+          "path": "results/phase15_ablation/gomoku7/bootstrap/seed_41/latest.pt",
+          "required": true
+        },
+        {
+          "name": "seed_41_checkpoint_status",
+          "kind": "receipt",
+          "path": "results/phase15_ablation/gomoku7/bootstrap/seed_41/checkpoint_status.json",
+          "required": true
+        },
+        {
+          "name": "seed_41_replay",
+          "kind": "replay",
+          "path": "results/phase15_ablation/gomoku7/bootstrap/seed_41/replay.npz",
+          "required": true
+        },
+        {
+          "name": "seed_42_checkpoint",
+          "kind": "checkpoint",
+          "path": "results/phase15_ablation/gomoku7/bootstrap/seed_42/latest.pt",
+          "required": true
+        },
+        {
+          "name": "seed_42_checkpoint_status",
+          "kind": "receipt",
+          "path": "results/phase15_ablation/gomoku7/bootstrap/seed_42/checkpoint_status.json",
+          "required": true
+        },
+        {
+          "name": "seed_42_replay",
+          "kind": "replay",
+          "path": "results/phase15_ablation/gomoku7/bootstrap/seed_42/replay.npz",
+          "required": true
+        },
+        {
+          "name": "seed_43_checkpoint",
+          "kind": "checkpoint",
+          "path": "results/phase15_ablation/gomoku7/bootstrap/seed_43/latest.pt",
+          "required": true
+        },
+        {
+          "name": "seed_43_checkpoint_status",
+          "kind": "receipt",
+          "path": "results/phase15_ablation/gomoku7/bootstrap/seed_43/checkpoint_status.json",
+          "required": true
+        },
+        {
+          "name": "seed_43_replay",
+          "kind": "replay",
+          "path": "results/phase15_ablation/gomoku7/bootstrap/seed_43/replay.npz",
+          "required": true
+        }
+      ],
+      "seed_contract": {
+        "mode": "paired_fixed",
+        "seeds": [
+          41,
+          42,
+          43
+        ],
+        "grouping_unit": "position_state_hash",
+        "same_bootstrap_within_seed": true,
+        "same_replay_batches_within_seed": true,
+        "controller_frozen": true
+      },
+      "requirements": {
+        "python_modules": [
+          "torch",
+          "numpy",
+          "matplotlib"
+        ],
+        "paths": [
+          "scripts/a18_evaluator_ablation.py",
+          "quartz/idea_foundry/a18_ablation.py",
+          "configs/a18_evaluator_ablation.smoke.v1.json"
+        ]
+      },
+      "steps": [
+        {
+          "name": "paired-readiness-smoke",
+          "command": [
+            "{python}",
+            "scripts/a18_evaluator_ablation.py",
+            "--spec",
+            "configs/a18_evaluator_ablation.smoke.v1.json",
+            "--output",
+            "{output}/artifacts",
+            "--device",
+            "cuda",
+            "run"
+          ],
+          "timeout_s": 1800
+        }
+      ],
+      "expected_artifacts": [
+        {
+          "path": "{output}/artifacts/run_manifest.json",
+          "kind": "json",
+          "required": true,
+          "schema": {
+            "required_keys": [
+              "schema_version",
+              "axis_id",
+              "role",
+              "evidence_status",
+              "claim_scope",
+              "source_hashes",
+              "input_hashes",
+              "seed_contract",
+              "controller_contract_hash",
+              "compute_contract_hash",
+              "promotion"
+            ]
+          }
+        },
+        {
+          "path": "{output}/artifacts/rows.jsonl",
+          "kind": "jsonl",
+          "required": true,
+          "schema": {
+            "min_rows": 6,
+            "required_keys": [
+              "schema_version",
+              "axis_id",
+              "role",
+              "evidence_status",
+              "claim_scope",
+              "seed",
+              "variant",
+              "checkpoint_sha256",
+              "parameter_count",
+              "direct_inference_flops",
+              "promotion"
+            ]
+          }
+        },
+        {
+          "path": "{output}/artifacts/summary.json",
+          "kind": "json",
+          "required": true,
+          "schema": {
+            "required_keys": [
+              "schema_version",
+              "axis_id",
+              "role",
+              "execution_status",
+              "evidence_status",
+              "claim_scope",
+              "parameter_match",
+              "direct_inference_flop_match",
+              "controller_match",
+              "compute_match",
+              "promotion"
+            ]
+          }
+        },
+        {
+          "path": "{output}/artifacts/training_rows.v1.json",
+          "kind": "json",
+          "required": true,
+          "schema": {
+            "required_keys": [
+              "schema_version",
+              "axis_id",
+              "role",
+              "spec_hash",
+              "controller_contract_hash",
+              "compute_contract_hash",
+              "seed_contract",
+              "rows"
+            ]
+          }
+        },
+        {
+          "path": "{output}/artifacts/models",
+          "kind": "directory",
+          "required": true
+        },
+        {
+          "path": "{output}/artifacts/manifest.v1.json",
+          "kind": "json",
+          "required": true,
+          "schema": {
+            "required_keys": [
+              "schema_version",
+              "axis_id",
+              "role",
+              "evidence_status",
+              "claim_scope",
+              "source_hashes",
+              "input_hashes",
+              "seed_contract",
+              "artifacts",
+              "promotion"
+            ]
+          }
+        },
+        {
+          "path": "{output}/artifacts/data.v1.json",
+          "kind": "json",
+          "required": true,
+          "schema": {
+            "required_keys": [
+              "schema_version",
+              "axis_id",
+              "role",
+              "evidence_status",
+              "claim_scope",
+              "rows",
+              "paired_contracts",
+              "automatic_promotion"
+            ]
+          }
+        },
+        {
+          "path": "{output}/artifacts/DIAGNOSTIC_a18_evaluator_ablation.png",
+          "kind": "file",
+          "required": true
+        },
+        {
+          "path": "{output}/artifacts/diagnostic.png",
+          "kind": "file",
+          "required": true
+        }
+      ],
+      "promotion_gate": {
+        "mode": "manual_claim_ledger",
+        "allow_auto_promotion": false,
+        "negative_result_status": "completed_no_promotion",
+        "ledger": "docs/CLAIM_LEDGER.md",
+        "required_evidence": [
+          "group_disjoint_heldout_replays",
+          "paired_fixed_seeds",
+          "matched_controller_checkpoint_and_runtime",
+          "fixed_total_compute",
+          "artifact_sha256",
+          "failure_rows_preserved"
+        ]
+      },
+      "resume_policy": {
+        "mode": "verified_artifacts_only",
+        "require_registry_hash_match": true,
+        "require_git_commit_match": true,
+        "require_source_hash_match": true,
+        "require_input_hash_match": true,
+        "require_artifact_schema_and_sha256": true,
+        "overwrite_is_resume": false
+      },
+      "prohibited_inferences": [
+        "Do not infer held-out evaluator efficacy from training-replay smoke metrics.",
+        "Do not infer play strength or production readiness.",
+        "Do not treat bootstrap-seeded best.pt as promoted evidence.",
+        "Do not allow the controller or compute contract to differ between evaluator arms."
+      ]
+    },
+    {
+      "id": "A19.ablation_readiness",
+      "title": "A19 graph-seed screening launch readiness",
+      "axis_id": "A19",
+      "role": "ablation_readiness",
+      "execution_status": "available",
+      "evidence_status": "skeleton_only",
+      "claim_scope": "ablation_readiness_only",
+      "groups": [
+        "idea-foundry",
+        "ablation-readiness",
+        "accelerator"
+      ],
+      "profiles": [
+        "cuda"
+      ],
+      "description": "Validate three real replay/status inputs and hash-bind their non-promoted latest.pt sources, a frozen controller contract, and eight density-matched graph topologies. This launch lane does not parse the model state or emit a shortlist.",
+      "depends_on": [
+        "A18.ablation_readiness"
+      ],
+      "dependency_condition": "terminal_without_technical_failure",
+      "resource_profile": {
+        "allowed": [
+          "cuda"
+        ],
+        "accelerator": "cuda",
+        "hardware_gate": "cuda",
+        "budget_class": "diagnostic_ablation_readiness"
+      },
+      "inputs": [
+        {
+          "name": "a19_screen_plan",
+          "kind": "tracked_config",
+          "path": "configs/idea_foundry.a19.screen.v1.json",
+          "required": true
+        },
+        {
+          "name": "a19_replay_manifest",
+          "kind": "tracked_config",
+          "path": "configs/idea_foundry.a19.replays.v1.json",
+          "required": true
+        },
+        {
+          "name": "a19_frozen_controller",
+          "kind": "tracked_config",
+          "path": "configs/idea_foundry.a19.controller.v1.json",
+          "required": true,
+          "sha256": "abd6f7c2ec7ca87b612228430c0af21deafa99d81e7fcb2a37c73d37bc2ff8aa"
+        },
+        {
+          "name": "seed_41_checkpoint",
+          "kind": "checkpoint",
+          "path": "results/phase15_ablation/gomoku7/bootstrap/seed_41/latest.pt",
+          "required": true
+        },
+        {
+          "name": "seed_41_checkpoint_status",
+          "kind": "receipt",
+          "path": "results/phase15_ablation/gomoku7/bootstrap/seed_41/checkpoint_status.json",
+          "required": true
+        },
+        {
+          "name": "seed_41_replay",
+          "kind": "replay",
+          "path": "results/phase15_ablation/gomoku7/bootstrap/seed_41/replay.npz",
+          "required": true
+        },
+        {
+          "name": "seed_42_checkpoint",
+          "kind": "checkpoint",
+          "path": "results/phase15_ablation/gomoku7/bootstrap/seed_42/latest.pt",
+          "required": true
+        },
+        {
+          "name": "seed_42_checkpoint_status",
+          "kind": "receipt",
+          "path": "results/phase15_ablation/gomoku7/bootstrap/seed_42/checkpoint_status.json",
+          "required": true
+        },
+        {
+          "name": "seed_42_replay",
+          "kind": "replay",
+          "path": "results/phase15_ablation/gomoku7/bootstrap/seed_42/replay.npz",
+          "required": true
+        },
+        {
+          "name": "seed_43_checkpoint",
+          "kind": "checkpoint",
+          "path": "results/phase15_ablation/gomoku7/bootstrap/seed_43/latest.pt",
+          "required": true
+        },
+        {
+          "name": "seed_43_checkpoint_status",
+          "kind": "receipt",
+          "path": "results/phase15_ablation/gomoku7/bootstrap/seed_43/checkpoint_status.json",
+          "required": true
+        },
+        {
+          "name": "seed_43_replay",
+          "kind": "replay",
+          "path": "results/phase15_ablation/gomoku7/bootstrap/seed_43/replay.npz",
+          "required": true
+        }
+      ],
+      "seed_contract": {
+        "mode": "paired_fixed_graph_seed_screen",
+        "seeds": [
+          41,
+          42,
+          43
+        ],
+        "graph_seeds": [
+          1901,
+          1902,
+          1903,
+          1904,
+          1905,
+          1906,
+          1907,
+          1908
+        ],
+        "grouping_unit": "deduplicated_state_hash",
+        "controller_frozen": true,
+        "shortlist_requires_complete_measured_proxy": true
+      },
+      "requirements": {
+        "python_modules": [
+          "numpy",
+          "matplotlib"
+        ],
+        "paths": [
+          "scripts/a19_prepare_ablation.py",
+          "quartz/idea_foundry/a19_ablation.py",
+          "configs/idea_foundry.a19.screen.v1.json",
+          "configs/idea_foundry.a19.replays.v1.json",
+          "configs/idea_foundry.a19.controller.v1.json"
+        ]
+      },
+      "steps": [
+        {
+          "name": "graph-screen-launch-contract",
+          "command": [
+            "{python}",
+            "scripts/a19_prepare_ablation.py",
+            "--screen-plan",
+            "configs/idea_foundry.a19.screen.v1.json",
+            "--replay-manifest",
+            "configs/idea_foundry.a19.replays.v1.json",
+            "--controller-checkpoint",
+            "configs/idea_foundry.a19.controller.v1.json",
+            "--controller-sha256",
+            "abd6f7c2ec7ca87b612228430c0af21deafa99d81e7fcb2a37c73d37bc2ff8aa",
+            "--output-dir",
+            "{output}/artifacts",
+            "--run-id",
+            "{run_id}-A19-readiness"
+          ],
+          "timeout_s": 300
+        }
+      ],
+      "expected_artifacts": [
+        {
+          "path": "{output}/artifacts/run_manifest.json",
+          "kind": "json",
+          "required": true,
+          "schema": {
+            "required_keys": [
+              "schema_version",
+              "axis_id",
+              "role",
+              "evidence_status",
+              "claim_scope",
+              "source_hashes",
+              "input_hashes",
+              "seed_contract",
+              "promotion",
+              "auto_promoted"
+            ]
+          }
+        },
+        {
+          "path": "{output}/artifacts/rows.jsonl",
+          "kind": "jsonl",
+          "required": true,
+          "schema": {
+            "min_rows": 8,
+            "required_keys": [
+              "schema_version",
+              "axis_id",
+              "role",
+              "evidence_status",
+              "claim_scope",
+              "graph_seed",
+              "resources",
+              "metric",
+              "value"
+            ]
+          }
+        },
+        {
+          "path": "{output}/artifacts/summary.json",
+          "kind": "json",
+          "required": true,
+          "schema": {
+            "required_keys": [
+              "schema_version",
+              "axis_id",
+              "role",
+              "execution_status",
+              "evidence_status",
+              "claim_scope",
+              "shortlist_status",
+              "shortlisted_graph_seeds",
+              "promotion"
+            ],
+            "equals": {
+              "shortlist_status": "not_measured",
+              "shortlisted_graph_seeds": []
+            }
+          }
+        },
+        {
+          "path": "{output}/artifacts/a19_graph_seed_shortlist.v1.json",
+          "kind": "json",
+          "required": true,
+          "schema": {
+            "required_keys": [
+              "schema_version",
+              "axis_id",
+              "role",
+              "claim_scope",
+              "status",
+              "shortlisted_graph_seeds",
+              "promotion"
+            ],
+            "equals": {
+              "status": "not_measured",
+              "shortlisted_graph_seeds": []
+            }
+          }
+        },
+        {
+          "path": "{output}/artifacts/a19_ablation_contract.v1.json",
+          "kind": "json",
+          "required": true,
+          "schema": {
+            "required_keys": [
+              "schema_version",
+              "axis_id",
+              "claim_scope",
+              "controller_contract",
+              "replay_sources",
+              "graph_seeds",
+              "replicate_seeds",
+              "shortlist_status",
+              "shortlisted_graph_seeds",
+              "auto_promoted"
+            ]
+          }
+        },
+        {
+          "path": "{output}/artifacts/a19_split_contract.v1.json",
+          "kind": "json",
+          "required": true,
+          "schema": {
+            "required_keys": [
+              "schema_version",
+              "axis_id",
+              "role",
+              "evidence_status",
+              "claim_scope",
+              "split_method",
+              "contracts"
+            ]
+          }
+        },
+        {
+          "path": "{output}/artifacts/diagnostic_interpretation.md",
+          "kind": "file",
+          "required": true
+        },
+        {
+          "path": "{output}/artifacts/diagnostic.png",
+          "kind": "file",
+          "required": true
+        }
+      ],
+      "promotion_gate": {
+        "mode": "manual_claim_ledger",
+        "allow_auto_promotion": false,
+        "negative_result_status": "completed_no_promotion",
+        "ledger": "docs/CLAIM_LEDGER.md",
+        "required_evidence": [
+          "complete_eight_by_three_proxy_rows",
+          "fixed_graph_and_replicate_seeds",
+          "exact_resource_match",
+          "frozen_controller",
+          "group_disjoint_replays",
+          "artifact_sha256",
+          "failure_rows_preserved"
+        ]
+      },
+      "resume_policy": {
+        "mode": "verified_artifacts_only",
+        "require_registry_hash_match": true,
+        "require_git_commit_match": true,
+        "require_source_hash_match": true,
+        "require_input_hash_match": true,
+        "require_artifact_schema_and_sha256": true,
+        "overwrite_is_resume": false
+      },
+      "prohibited_inferences": [
+        "Do not call an unmeasured launch contract a graph-seed shortlist.",
+        "Do not infer evaluator quality or play strength from topology parity.",
+        "Do not use the unmatched heavier upper bound for efficiency claims.",
+        "Do not promote any A19 evaluator automatically."
+      ]
+    },
+    {
+      "id": "A15.cuda",
+      "title": "A15 service_curve_scheduler blocked system promotion",
+      "axis_id": "A15",
+      "role": "system",
+      "execution_status": "blocked",
+      "evidence_status": "mechanism_valid",
+      "claim_scope": "blocked_promotion_prerequisites_only",
+      "groups": [
+        "idea-foundry",
+        "promotion",
+        "accelerator"
+      ],
+      "profiles": [
+        "cuda"
+      ],
+      "description": "Choose batch and inflight credit from hardware-specific measured service curves. This promotion lane is registered but cannot run until every blocker is resolved.",
+      "depends_on": [
+        "A15.ablation_readiness"
+      ],
+      "dependency_condition": "all_succeeded",
+      "blocked_by": [
+        "the full 24-cell matched service curve has not been run with the actual shipped checkpoint workload",
+        "paired search-quality-per-wall-clock and live scheduler commands are not registered"
+      ],
+      "resource_profile": {
+        "allowed": [
+          "cuda"
+        ],
+        "accelerator": "cuda",
+        "hardware_gate": "cuda",
+        "budget_class": "promotion"
+      },
+      "inputs": [
+        {
+          "name": "axis_registry",
+          "kind": "tracked_file",
+          "path": "configs/idea_foundry.axes.v1.json",
+          "required": true
+        },
+        {
+          "name": "python_skeleton",
+          "kind": "tracked_source",
+          "path": "quartz/idea_foundry/search.py",
+          "required": true
+        }
+      ],
+      "seed_contract": {
+        "mode": "fixed",
+        "seeds": [
+          20260718
+        ],
+        "grouping_unit": "position",
+        "trace_salt_count": 1,
+        "restart_and_continuation_kept_separate": true,
+        "common_random_numbers_within_axis": true
+      },
+      "requirements": {
+        "variables": [],
+        "python_modules": [
+          "numpy"
+        ],
+        "paths": [
+          "scripts/idea_foundry_axis_gate.py",
+          "configs/idea_foundry.axes.v1.json",
+          "quartz/idea_foundry/search.py"
+        ]
+      },
+      "steps": [],
+      "expected_artifacts": [
+        {
+          "path": "{output}/run_manifest.json",
+          "kind": "json",
+          "required": true,
+          "schema": {
+            "required_keys": [
+              "schema_version",
+              "axis_id",
+              "role",
+              "claim_scope",
+              "source_hashes",
+              "input_hashes",
+              "seed_contract",
+              "auto_promoted"
+            ]
+          }
+        },
+        {
+          "path": "{output}/rows.jsonl",
+          "kind": "jsonl",
+          "required": true,
+          "schema": {
+            "min_rows": 1,
+            "required_keys": [
+              "schema_version",
+              "axis_id",
+              "role",
+              "fixture_id",
+              "metric",
+              "value"
+            ]
+          }
+        },
+        {
+          "path": "{output}/summary.json",
+          "kind": "json",
+          "required": true,
+          "schema": {
+            "required_keys": [
+              "schema_version",
+              "axis_id",
+              "role",
+              "execution_status",
+              "evidence_status",
+              "promotion"
+            ]
+          }
+        }
+      ],
+      "promotion_gate": {
+        "mode": "manual_claim_ledger",
+        "allow_auto_promotion": false,
+        "negative_result_status": "completed_no_promotion",
+        "ledger": "docs/CLAIM_LEDGER.md",
+        "required_evidence": [
+          "paired_seeds",
+          "matched_checkpoint_and_runtime_contract",
+          "reference_oracle_separation",
+          "artifact_sha256",
+          "failure_rows_preserved"
+        ]
+      },
+      "resume_policy": {
+        "mode": "verified_artifacts_only",
+        "require_registry_hash_match": true,
+        "require_git_commit_match": true,
+        "require_source_hash_match": true,
+        "require_input_hash_match": true,
+        "require_artifact_schema_and_sha256": true,
+        "overwrite_is_resume": false
+      },
+      "prohibited_inferences": [
+        "Do not infer play-strength improvement from this lane.",
+        "Do not infer production readiness from skeleton, smoke, or contract success.",
+        "Do not convert execution success into VALIDATED evidence automatically.",
+        "Do not bypass blocked inputs or hardware evidence."
+      ]
+    },
+    {
+      "id": "A18.cuda",
+      "title": "A18 diffusion_regularized_evaluator blocked representation promotion",
+      "axis_id": "A18",
+      "role": "representation",
+      "execution_status": "blocked",
+      "evidence_status": "skeleton_only",
+      "claim_scope": "blocked_promotion_prerequisites_only",
+      "groups": [
+        "idea-foundry",
+        "promotion",
+        "accelerator"
+      ],
+      "profiles": [
+        "cuda"
+      ],
+      "description": "Train deterministic policy-value evaluators with denoising auxiliary losses only. This promotion lane is registered but cannot run until every blocker is resolved.",
+      "depends_on": [
+        "A18.ablation_readiness",
+        "A15.cuda"
+      ],
+      "dependency_condition": "all_succeeded",
+      "blocked_by": [
+        "available replay metadata cannot prove game- or trajectory-group holdout separation",
+        "production-compatible direct-path export and loader are not implemented",
+        "fixed-evaluation and fixed-wall-clock play-strength commands are not registered"
+      ],
+      "resource_profile": {
+        "allowed": [
+          "cuda"
+        ],
+        "accelerator": "cuda",
+        "hardware_gate": "cuda",
+        "budget_class": "promotion"
+      },
+      "inputs": [
+        {
+          "name": "axis_registry",
+          "kind": "tracked_file",
+          "path": "configs/idea_foundry.axes.v1.json",
+          "required": true
+        },
+        {
+          "name": "python_skeleton",
+          "kind": "tracked_source",
+          "path": "quartz/idea_foundry/learning.py",
+          "required": true
+        },
+        {
+          "name": "baseline_checkpoint",
+          "kind": "checkpoint",
+          "path": "{baseline_checkpoint}",
+          "required": true
+        }
+      ],
+      "seed_contract": {
+        "mode": "fixed",
+        "seeds": [
+          20260718
+        ],
+        "grouping_unit": "position",
+        "trace_salt_count": 1,
+        "restart_and_continuation_kept_separate": true,
+        "common_random_numbers_within_axis": true
+      },
+      "requirements": {
+        "variables": [
+          "baseline_checkpoint"
+        ],
+        "python_modules": [
+          "numpy"
+        ],
+        "paths": [
+          "scripts/idea_foundry_axis_gate.py",
+          "configs/idea_foundry.axes.v1.json",
+          "quartz/idea_foundry/learning.py"
+        ]
+      },
+      "steps": [],
+      "expected_artifacts": [
+        {
+          "path": "{output}/run_manifest.json",
+          "kind": "json",
+          "required": true,
+          "schema": {
+            "required_keys": [
+              "schema_version",
+              "axis_id",
+              "role",
+              "claim_scope",
+              "source_hashes",
+              "input_hashes",
+              "seed_contract",
+              "auto_promoted"
+            ]
+          }
+        },
+        {
+          "path": "{output}/rows.jsonl",
+          "kind": "jsonl",
+          "required": true,
+          "schema": {
+            "min_rows": 1,
+            "required_keys": [
+              "schema_version",
+              "axis_id",
+              "role",
+              "fixture_id",
+              "metric",
+              "value"
+            ]
+          }
+        },
+        {
+          "path": "{output}/summary.json",
+          "kind": "json",
+          "required": true,
+          "schema": {
+            "required_keys": [
+              "schema_version",
+              "axis_id",
+              "role",
+              "execution_status",
+              "evidence_status",
+              "promotion"
+            ]
+          }
+        }
+      ],
+      "promotion_gate": {
+        "mode": "manual_claim_ledger",
+        "allow_auto_promotion": false,
+        "negative_result_status": "completed_no_promotion",
+        "ledger": "docs/CLAIM_LEDGER.md",
+        "required_evidence": [
+          "paired_seeds",
+          "matched_checkpoint_and_runtime_contract",
+          "reference_oracle_separation",
+          "artifact_sha256",
+          "failure_rows_preserved"
+        ]
+      },
+      "resume_policy": {
+        "mode": "verified_artifacts_only",
+        "require_registry_hash_match": true,
+        "require_git_commit_match": true,
+        "require_source_hash_match": true,
+        "require_input_hash_match": true,
+        "require_artifact_schema_and_sha256": true,
+        "overwrite_is_resume": false
+      },
+      "prohibited_inferences": [
+        "Do not infer play-strength improvement from this lane.",
+        "Do not infer production readiness from skeleton, smoke, or contract success.",
+        "Do not convert execution success into VALIDATED evidence automatically.",
+        "Do not bypass blocked inputs or hardware evidence."
+      ]
+    },
+    {
+      "id": "A19.cuda",
+      "title": "A19 rw_rest_lite_evaluator blocked representation promotion",
+      "axis_id": "A19",
+      "role": "representation",
+      "execution_status": "blocked",
+      "evidence_status": "skeleton_only",
+      "claim_scope": "blocked_promotion_prerequisites_only",
+      "groups": [
+        "idea-foundry",
+        "promotion",
+        "accelerator"
+      ],
+      "profiles": [
+        "cuda"
+      ],
+      "description": "Test a static-pruned sparse RandWire/ResT local-global evaluator. This promotion lane is registered but cannot run until every blocker is resolved.",
+      "depends_on": [
+        "A19.ablation_readiness",
+        "A18.cuda"
+      ],
+      "dependency_condition": "all_succeeded",
+      "blocked_by": [
+        "the eight-by-three fixed-replay proxy has not been executed, so no measured graph-seed shortlist exists",
+        "an in-repository proxy trainer/evaluator that parses source model state and recomputes raw metrics is not registered",
+        "a shortlisted full self-play command is not registered"
+      ],
+      "resource_profile": {
+        "allowed": [
+          "cuda"
+        ],
+        "accelerator": "cuda",
+        "hardware_gate": "cuda",
+        "budget_class": "promotion"
+      },
+      "inputs": [
+        {
+          "name": "axis_registry",
+          "kind": "tracked_file",
+          "path": "configs/idea_foundry.axes.v1.json",
+          "required": true
+        },
+        {
+          "name": "python_skeleton",
+          "kind": "tracked_source",
+          "path": "quartz/idea_foundry/learning.py",
+          "required": true
+        },
+        {
+          "name": "controller_checkpoint",
+          "kind": "checkpoint",
+          "path": "{controller_checkpoint}",
+          "required": true
+        },
+        {
+          "name": "graph_seed_shortlist",
+          "kind": "external_artifact",
+          "path": "{graph_seed_shortlist}",
+          "required": true
+        }
+      ],
+      "seed_contract": {
+        "mode": "fixed",
+        "seeds": [
+          20260718
+        ],
+        "grouping_unit": "position",
+        "trace_salt_count": 1,
+        "restart_and_continuation_kept_separate": true,
+        "common_random_numbers_within_axis": true
+      },
+      "requirements": {
+        "variables": [
+          "controller_checkpoint",
+          "graph_seed_shortlist"
+        ],
+        "python_modules": [
+          "numpy"
+        ],
+        "paths": [
+          "scripts/idea_foundry_axis_gate.py",
+          "configs/idea_foundry.axes.v1.json",
+          "quartz/idea_foundry/learning.py"
+        ]
+      },
+      "steps": [],
+      "expected_artifacts": [
+        {
+          "path": "{output}/run_manifest.json",
+          "kind": "json",
+          "required": true,
+          "schema": {
+            "required_keys": [
+              "schema_version",
+              "axis_id",
+              "role",
+              "claim_scope",
+              "source_hashes",
+              "input_hashes",
+              "seed_contract",
+              "auto_promoted"
+            ]
+          }
+        },
+        {
+          "path": "{output}/rows.jsonl",
+          "kind": "jsonl",
+          "required": true,
+          "schema": {
+            "min_rows": 1,
+            "required_keys": [
+              "schema_version",
+              "axis_id",
+              "role",
+              "fixture_id",
+              "metric",
+              "value"
+            ]
+          }
+        },
+        {
+          "path": "{output}/summary.json",
+          "kind": "json",
+          "required": true,
+          "schema": {
+            "required_keys": [
+              "schema_version",
+              "axis_id",
+              "role",
+              "execution_status",
+              "evidence_status",
+              "promotion"
+            ]
+          }
+        }
+      ],
+      "promotion_gate": {
+        "mode": "manual_claim_ledger",
+        "allow_auto_promotion": false,
+        "negative_result_status": "completed_no_promotion",
+        "ledger": "docs/CLAIM_LEDGER.md",
+        "required_evidence": [
+          "paired_seeds",
+          "matched_checkpoint_and_runtime_contract",
+          "reference_oracle_separation",
+          "artifact_sha256",
+          "failure_rows_preserved"
+        ]
+      },
+      "resume_policy": {
+        "mode": "verified_artifacts_only",
+        "require_registry_hash_match": true,
+        "require_git_commit_match": true,
+        "require_source_hash_match": true,
+        "require_input_hash_match": true,
+        "require_artifact_schema_and_sha256": true,
+        "overwrite_is_resume": false
+      },
+      "prohibited_inferences": [
+        "Do not infer play-strength improvement from this lane.",
+        "Do not infer production readiness from skeleton, smoke, or contract success.",
+        "Do not convert execution success into VALIDATED evidence automatically.",
+        "Do not bypass blocked inputs or hardware evidence."
+      ]
+    }
+  ]
+}

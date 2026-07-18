@@ -1,25 +1,27 @@
-# Applying the QUARTZ Idea Foundry skeleton bundle
+# QUARTZ Idea Foundry skeleton import status
 
-The archive mirrors repository-relative paths.  From the QUARTZ repository
-root, unpack or copy the archive contents without deleting existing files.
-All paths in this bundle are new.
+> **Already applied — do not reapply the ZIP or patch.**
 
-```bash
-unzip quartz_idea_foundry_skeleton.zip -d /path/to/quartz
-cd /path/to/quartz
-venv/bin/python -m pytest -q tests/test_idea_foundry_skeletons.py
-```
+The 21 repository-relative payload files from
+`quartz_idea_foundry_skeleton.zip` were applied in commit
+`7f332d60f7152548717a671cbda690697e06a040`. Applying either the archive or
+`quartz_idea_foundry_skeleton.patch` again can overwrite the subsequent local
+campaign-runner work.
 
-The Rust `src/mcts/foundry/` directory is deliberately **not imported** from
-`src/mcts/mod.rs`; therefore unpacking the bundle does not change or compile
-production search behavior.  Read `docs/idea_foundry/00_INDEX_KO.md` and
-`docs/idea_foundry/README.md` before wiring it.
+The immutable import hashes, baseline commit, and payload-count check are in
+`docs/idea_foundry/IMPORT_RECEIPT.json`. `BUNDLE_FILE_LIST.txt` lists payload
+files only; archive directory entries are intentionally omitted.
 
-Suggested Git workflow:
+The Rust `src/mcts/foundry/` implementation is gated behind the Cargo
+`idea-foundry` feature. It must remain absent from the default production build
+until its feature-gated contract tests and the applicable experiment gate pass.
 
-```bash
-git checkout agent/local-experiment-foundry
-git add docs/idea_foundry quartz/idea_foundry src/mcts/foundry \
-        configs/idea_foundry.axes.v1.json tests/test_idea_foundry_skeletons.py
-git commit -m "Add idea foundry experiment atlas and code skeletons"
-```
+Before working on an experiment, read:
+
+1. `docs/idea_foundry/00_INDEX_KO.md`;
+2. `docs/idea_foundry/README.md`;
+3. `docs/LOCAL_EXPERIMENT_LAB.md`;
+4. `configs/idea_lab.local.v2.json`.
+
+The original ZIP and patch are provenance inputs. Do not delete, regenerate, or
+overwrite them.

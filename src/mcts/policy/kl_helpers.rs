@@ -102,7 +102,10 @@ mod tests {
         let beta = 5.0_f32;
         let q = kl_upper(mu, n, beta);
         let target = (n as f32) * bernoulli_kl(mu, q);
-        assert!((target - beta).abs() < 1e-2, "target={target}, beta={beta}, q={q}");
+        assert!(
+            (target - beta).abs() < 1e-2,
+            "target={target}, beta={beta}, q={q}"
+        );
         // Sanity: q > mu (the upper CI is above the mean).
         assert!(q > mu);
     }
@@ -115,7 +118,10 @@ mod tests {
         let beta = 5.0_f32;
         let q = kl_lower(mu, n, beta);
         let target = (n as f32) * bernoulli_kl(mu, q);
-        assert!((target - beta).abs() < 1e-2, "target={target}, beta={beta}, q={q}");
+        assert!(
+            (target - beta).abs() < 1e-2,
+            "target={target}, beta={beta}, q={q}"
+        );
         assert!(q < mu);
     }
 

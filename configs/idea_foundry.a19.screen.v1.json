@@ -1,0 +1,105 @@
+{
+  "schema_version": 1,
+  "axis_id": "A19",
+  "claim_scope": "graph_seed_screen_preparation_only",
+  "graph_seeds": [1901, 1902, 1903, 1904, 1905, 1906, 1907, 1908],
+  "replicate_seeds": [41, 42, 43],
+  "shortlist_size": 3,
+  "metrics": [
+    {
+      "name": "policy_kl",
+      "direction": "min",
+      "weight": 0.65
+    },
+    {
+      "name": "value_mse",
+      "direction": "min",
+      "weight": 0.35
+    }
+  ],
+  "budget_contract": {
+    "optimizer_steps": 128,
+    "batch_size": 32,
+    "train_positions": 160,
+    "validation_positions": 48
+  },
+  "resource_match": {
+    "fields": [
+      "parameters",
+      "flops",
+      "topology_edges",
+      "nodes",
+      "channels",
+      "global_blocks"
+    ],
+    "relative_tolerance": 0.0
+  },
+  "architecture": {
+    "nodes": 40,
+    "channels": 144,
+    "cells": 2,
+    "nodes_per_cell": 20,
+    "max_in_degree": 3,
+    "global_blocks": 2,
+    "node_op": "one_conv_pre_activation_residual",
+    "routing": "soft_train_then_static_prune"
+  },
+  "proxy_training": {
+    "optimizer": "adamw",
+    "learning_rate": 0.0003,
+    "weight_decay": 0.0001,
+    "deterministic_algorithms": true,
+    "split_method": "deduplicated_state_hash_v1",
+    "required_device_type": "cuda"
+  },
+  "ablation_variants": [
+    {
+      "id": "resnet_fcn",
+      "graph_seed_policy": "none",
+      "parameter_match_class": "matched_primary",
+      "purpose": "deterministic convolutional reference"
+    },
+    {
+      "id": "static_ws_lite",
+      "graph_seed_policy": "shortlisted",
+      "parameter_match_class": "matched_primary",
+      "purpose": "static random wiring without learned routing or attention"
+    },
+    {
+      "id": "learnable_static_weights",
+      "graph_seed_policy": "shortlisted",
+      "parameter_match_class": "matched_primary",
+      "purpose": "learn edge weights but freeze routing topology"
+    },
+    {
+      "id": "soft_routing",
+      "graph_seed_policy": "shortlisted",
+      "parameter_match_class": "matched_primary",
+      "purpose": "soft random routing without global mixing blocks"
+    },
+    {
+      "id": "attention_only",
+      "graph_seed_policy": "none",
+      "parameter_match_class": "matched_primary",
+      "purpose": "global mixing without random wiring"
+    },
+    {
+      "id": "combined",
+      "graph_seed_policy": "shortlisted",
+      "parameter_match_class": "matched_primary",
+      "purpose": "random wiring plus two global mixing blocks"
+    },
+    {
+      "id": "heavier_upper_bound",
+      "graph_seed_policy": "none",
+      "parameter_match_class": "unmatched_upper_bound",
+      "purpose": "explicitly unmatched capacity ceiling"
+    }
+  ],
+  "prohibited_inferences": [
+    "A proxy shortlist is not play-strength evidence.",
+    "A launch contract is not a measured shortlist.",
+    "The unmatched heavier upper bound cannot support parameter-efficiency claims.",
+    "No A19 artifact may promote production readiness automatically."
+  ]
+}

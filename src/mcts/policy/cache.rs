@@ -21,6 +21,8 @@
 //! guard ensures stale-but-not-bad is the worst case).
 
 use std::sync::atomic::{AtomicU64, Ordering};
+#[cfg(feature = "idea-foundry")]
+use std::sync::Mutex;
 
 use arc_swap::ArcSwap;
 use smallvec::SmallVec;
@@ -138,6 +140,12 @@ pub struct PolicyCachePublisher {
     inner: ArcSwap<PolicyCache>,
     /// Monotone epoch counter for `observe` sequencing.
     next_epoch: AtomicU64,
+    /// In Foundry builds, serialize all writers while readers remain
+    /// lock-free.  Default production builds retain the original direct-store
+    /// path.  An older writer may not reserve an epoch, pause, and overwrite a
+    /// newer Foundry CAS publish when it resumes.
+    #[cfg(feature = "idea-foundry")]
+    writer_lock: Mutex<()>,
 }
 
 impl PolicyCachePublisher {
@@ -145,6 +153,8 @@ impl PolicyCachePublisher {
         Self {
             inner: ArcSwap::new(Arc::new(PolicyCache::empty())),
             next_epoch: AtomicU64::new(1),
+            #[cfg(feature = "idea-foundry")]
+            writer_lock: Mutex::new(()),
         }
     }
 
@@ -155,9 +165,72 @@ impl PolicyCachePublisher {
 
     /// Atomic publish. The `epoch` field on `cache` will be overwritten
     /// with the next monotone counter value.
-    pub fn store(&self, mut cache: PolicyCache) {
-        cache.epoch = self.next_epoch.fetch_add(1, Ordering::AcqRel);
+    pub fn store(&self, cache: PolicyCache) {
+        #[cfg(feature = "idea-foundry")]
+        {
+            self.store_inner(cache, |_| {});
+        }
+        #[cfg(not(feature = "idea-foundry"))]
+        {
+            let mut cache = cache;
+            cache.epoch = self.next_epoch.fetch_add(1, Ordering::AcqRel);
+            self.inner.store(Arc::new(cache));
+        }
+    }
+
+    #[cfg(feature = "idea-foundry")]
+    fn store_inner<F>(&self, mut cache: PolicyCache, before_publish: F)
+    where
+        F: FnOnce(u64),
+    {
+        let _writer = self
+            .writer_lock
+            .lock()
+            .unwrap_or_else(|poisoned| poisoned.into_inner());
+        let epoch = self.next_epoch.fetch_add(1, Ordering::AcqRel);
+        cache.epoch = epoch;
+        before_publish(epoch);
         self.inner.store(Arc::new(cache));
+    }
+
+    /// Deterministic test seam for the epoch-reserved/pre-publish interval.
+    #[cfg(all(test, feature = "idea-foundry"))]
+    pub(crate) fn store_with_before_publish_hook<F>(&self, cache: PolicyCache, hook: F)
+    where
+        F: FnOnce(u64),
+    {
+        self.store_inner(cache, hook);
+    }
+
+    /// Feature-gated compare-and-swap publish used by the Idea Foundry score
+    /// vector bridge.  A concurrent `observe()` publish wins rather than being
+    /// overwritten; the caller receives that newer cache and must revalidate
+    /// its expected epoch and freshness before retrying.
+    #[cfg(feature = "idea-foundry")]
+    pub(crate) fn compare_and_store(
+        &self,
+        expected: &Arc<PolicyCache>,
+        mut replacement: PolicyCache,
+    ) -> Result<u64, Arc<PolicyCache>> {
+        let _writer = self
+            .writer_lock
+            .lock()
+            .unwrap_or_else(|poisoned| poisoned.into_inner());
+        let current = self.inner.load_full();
+        if !Arc::ptr_eq(&current, expected) {
+            return Err(current);
+        }
+        let replacement_epoch = self.next_epoch.fetch_add(1, Ordering::AcqRel);
+        replacement.epoch = replacement_epoch;
+        let replacement = Arc::new(replacement);
+        let previous = self
+            .inner
+            .compare_and_swap(expected, Arc::clone(&replacement));
+        if Arc::ptr_eq(&*previous, expected) {
+            Ok(replacement_epoch)
+        } else {
+            Err(arc_swap::Guard::into_inner(previous))
+        }
     }
 
     /// Convenience: snapshot the current cache contents (clones the

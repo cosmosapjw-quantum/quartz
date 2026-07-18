@@ -2,9 +2,11 @@
 
 use std::collections::BTreeMap;
 
+use super::coordinator::EFFECTIVE_PRIOR_SCORE_VECTOR_TELEMETRY_KEY;
 use super::types::{
     AxisStatus, CostVector, FoundryAxis, FoundryObservation, MetaAction, MetaProposal,
-    ProposalEstimate, UncertaintyChannels,
+    ProposalEstimate, UncertaintyChannels, FOUNDRY_CONTRACT_SCHEMA_VERSION,
+    SKELETON_EVIDENCE_SCOPE,
 };
 
 fn best_two(observation: &FoundryObservation<'_>) -> Option<(usize, Option<usize>)> {
@@ -32,7 +34,7 @@ impl Default for A01StopCouncil {
 }
 
 impl A01StopCouncil {
-    pub fn fallback_risk(&self, observation: &FoundryObservation<'_>) -> f32 {
+    pub fn fallback_risk(&self, observation: &FoundryObservation<'_>) -> f64 {
         let h1_risk = 1.0 - observation.extras.h1_stability.unwrap_or(0.0);
         let p_flip = observation.extras.p_flip.unwrap_or(1.0);
         h1_risk
@@ -53,16 +55,17 @@ impl FoundryAxis for A01StopCouncil {
 
     fn propose(&self, observation: &FoundryObservation<'_>, out: &mut Vec<MetaProposal>) {
         let risk = self.fallback_risk(observation);
-        if observation.snap.root_visits < self.min_visits || risk > self.risk_limit {
+        if observation.snap.root_visits < self.min_visits || risk > f64::from(self.risk_limit) {
             return;
         }
         let Some((best, _)) = best_two(observation) else {
             return;
         };
         let mut telemetry = BTreeMap::new();
-        telemetry.insert("risk".to_string(), risk as f64);
+        telemetry.insert("risk".to_string(), serde_json::json!(risk));
         out.push(MetaProposal {
-            axis_id: self.id(),
+            schema_version: FOUNDRY_CONTRACT_SCHEMA_VERSION,
+            axis_id: self.id().to_string(),
             action: MetaAction::Stop {
                 edge_pos: Some(observation.edges[best].idx),
             },
@@ -71,8 +74,10 @@ impl FoundryAxis for A01StopCouncil {
                 ..ProposalEstimate::default()
             },
             activation_guard:
-                "fresh snapshot; calibrated risk; arbiter verifies all non-stop net values <= 0",
+                "fresh snapshot; calibrated risk; arbiter verifies all non-stop net values <= 0"
+                    .to_string(),
             explanation: format!("fallback stop-council risk={risk:.4}"),
+            evidence_scope: SKELETON_EVIDENCE_SCOPE.to_string(),
             telemetry,
         });
     }
@@ -135,17 +140,29 @@ impl FoundryAxis for A02StaticAnchorRpo {
         let lower: Vec<f32> = observation.edges.iter().map(|edge| edge.q).collect();
         let policy = self.solve(observation, &lower);
         let mut telemetry = BTreeMap::new();
-        telemetry.insert("temperature".to_string(), self.temperature as f64);
-        telemetry.insert("policy_sum".to_string(), policy.iter().sum::<f32>() as f64);
+        telemetry.insert(
+            "temperature".to_string(),
+            serde_json::json!(self.temperature),
+        );
+        telemetry.insert(
+            "policy_sum".to_string(),
+            serde_json::json!(policy.iter().sum::<f32>()),
+        );
+        telemetry.insert(
+            EFFECTIVE_PRIOR_SCORE_VECTOR_TELEMETRY_KEY.to_string(),
+            serde_json::json!(policy),
+        );
         out.push(MetaProposal {
-            axis_id: self.id(),
+            schema_version: FOUNDRY_CONTRACT_SCHEMA_VERSION,
+            axis_id: self.id().to_string(),
             action: MetaAction::Noop,
             estimate: ProposalEstimate {
                 confidence: 0.5,
                 ..ProposalEstimate::default()
             },
-            activation_guard: "root-only; frozen NN anchor; no recursive prior mutation",
+            activation_guard: "root-only; frozen NN anchor; no recursive prior mutation".into(),
             explanation: "temporary KL-regularized policy ready for cache/readout ablation".into(),
+            evidence_scope: SKELETON_EVIDENCE_SCOPE.to_string(),
             telemetry,
         });
     }
@@ -176,16 +193,21 @@ impl FoundryAxis for A03UncertaintyDecomposition {
 
     fn propose(&self, observation: &FoundryObservation<'_>, out: &mut Vec<MetaProposal>) {
         let mut telemetry = BTreeMap::new();
-        telemetry.insert("edge_count".to_string(), observation.edges.len() as f64);
+        telemetry.insert(
+            "edge_count".to_string(),
+            serde_json::json!(observation.edges.len()),
+        );
         out.push(MetaProposal {
-            axis_id: self.id(),
+            schema_version: FOUNDRY_CONTRACT_SCHEMA_VERSION,
+            axis_id: self.id().to_string(),
             action: MetaAction::Noop,
             estimate: ProposalEstimate {
                 confidence: 0.5,
                 ..ProposalEstimate::default()
             },
-            activation_guard: "completed backups only; model version frozen for root epoch",
+            activation_guard: "completed backups only; model version frozen for root epoch".into(),
             explanation: "publish MC/epistemic/drift/bias channels separately".into(),
+            evidence_scope: SKELETON_EVIDENCE_SCOPE.to_string(),
             telemetry,
         });
     }
@@ -232,24 +254,27 @@ impl FoundryAxis for A04KgVocAllocator {
         for edge in observation.edges {
             let gain = self.proxy(edge.q, edge.sigma_a(4.0), best.q, best_sigma);
             out.push(MetaProposal {
-                axis_id: self.id(),
+                schema_version: FOUNDRY_CONTRACT_SCHEMA_VERSION,
+                axis_id: self.id().to_string(),
                 action: MetaAction::Sample {
                     edge_pos: edge.idx,
                     visits: self.batch,
                 },
                 estimate: ProposalEstimate {
-                    regret_reduction_mean: gain,
-                    regret_reduction_lcb: 0.5 * gain,
+                    regret_reduction_mean: f64::from(gain),
+                    regret_reduction_lcb: f64::from(0.5 * gain),
                     confidence: 0.25,
                     cost: CostVector {
-                        nn_evals: self.batch as f32,
-                        cpu_ms: self.batch as f32 * self.cost_per_eval_ms,
+                        nn_evals: f64::from(self.batch),
+                        cpu_ms: f64::from(self.batch) * f64::from(self.cost_per_eval_ms),
                         ..CostVector::default()
                     },
                 },
                 activation_guard:
-                    "allocation only; measured costs; low-budget KG-stop claim remains closed",
+                    "allocation only; measured costs; low-budget KG-stop claim remains closed"
+                        .to_string(),
                 explanation: format!("KG proxy for edge_pos={}", edge.idx),
+                evidence_scope: SKELETON_EVIDENCE_SCOPE.to_string(),
                 telemetry: BTreeMap::new(),
             });
         }
@@ -270,13 +295,18 @@ impl FoundryAxis for A05CounterfactualMetaTeacher {
 
     fn propose(&self, observation: &FoundryObservation<'_>, out: &mut Vec<MetaProposal>) {
         let mut telemetry = BTreeMap::new();
-        telemetry.insert("budget".to_string(), observation.snap.root_visits as f64);
+        telemetry.insert(
+            "budget".to_string(),
+            serde_json::json!(observation.snap.root_visits),
+        );
         out.push(MetaProposal {
-            axis_id: self.id(),
+            schema_version: FOUNDRY_CONTRACT_SCHEMA_VERSION,
+            axis_id: self.id().to_string(),
             action: MetaAction::Noop,
             estimate: ProposalEstimate::default(),
-            activation_guard: "offline or deterministic resident-session fork only",
+            activation_guard: "offline or deterministic resident-session fork only".into(),
             explanation: "serialize/fork identical snapshot for STOP/SAMPLE/WIDEN labels".into(),
+            evidence_scope: SKELETON_EVIDENCE_SCOPE.to_string(),
             telemetry,
         });
     }
@@ -308,23 +338,29 @@ impl FoundryAxis for A24LearnedBudgetGate {
 
     fn propose(&self, _observation: &FoundryObservation<'_>, out: &mut Vec<MetaProposal>) {
         for &visits in &self.budgets {
+            let mut telemetry = BTreeMap::new();
+            telemetry.insert(
+                "offline_root_budget_visits".to_string(),
+                serde_json::json!(visits),
+            );
+            telemetry.insert("offline_only".to_string(), serde_json::json!(true));
             out.push(MetaProposal {
-                axis_id: self.id(),
-                action: MetaAction::Sample {
-                    edge_pos: u16::MAX,
-                    visits,
-                },
+                schema_version: FOUNDRY_CONTRACT_SCHEMA_VERSION,
+                axis_id: self.id().to_string(),
+                action: MetaAction::Noop,
                 estimate: ProposalEstimate {
                     cost: CostVector {
-                        nn_evals: visits as f32,
-                        cpu_ms: visits as f32 * self.cost_per_visit_ms,
+                        nn_evals: f64::from(visits),
+                        cpu_ms: f64::from(visits) * f64::from(self.cost_per_visit_ms),
                         ..CostVector::default()
                     },
                     ..ProposalEstimate::default()
                 },
-                activation_guard: "frozen planner; grouped cross-game calibration; hard deadline",
-                explanation: format!("candidate extra root budget={visits}"),
-                telemetry: BTreeMap::new(),
+                activation_guard:
+                    "offline-only; no executable root-budget action exists in contract v1".into(),
+                explanation: format!("offline candidate root budget={visits}; NOOP only"),
+                evidence_scope: SKELETON_EVIDENCE_SCOPE.to_string(),
+                telemetry,
             });
         }
     }

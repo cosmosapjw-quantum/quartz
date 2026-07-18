@@ -1,0 +1,35 @@
+{
+  "schema_version": 1,
+  "axis_id": "A19",
+  "game": "gomoku7",
+  "source_status": "trained_bootstrap_non_promoted",
+  "sources": [
+    {
+      "replicate_seed": 41,
+      "replay_path": "results/phase15_ablation/gomoku7/bootstrap/seed_41/replay.npz",
+      "replay_sha256": "6154d1c2be2d6eaa95640134bc1fda7b19acec0d525800a4c7284c027c049116",
+      "checkpoint_path": "results/phase15_ablation/gomoku7/bootstrap/seed_41/latest.pt",
+      "checkpoint_sha256": "021b34222d706a9314f006f7809b121a26283a4c255256a8a32ccf8cd4a2c726",
+      "checkpoint_status_path": "results/phase15_ablation/gomoku7/bootstrap/seed_41/checkpoint_status.json",
+      "checkpoint_status_sha256": "0244df8549ed827a468cf810e4b793368dd8ac66eabc9f949e6c14c3a6c68a01"
+    },
+    {
+      "replicate_seed": 42,
+      "replay_path": "results/phase15_ablation/gomoku7/bootstrap/seed_42/replay.npz",
+      "replay_sha256": "4b357000472c4659af322cd745644ec31fd6675606522475210ab4fdb8cf2984",
+      "checkpoint_path": "results/phase15_ablation/gomoku7/bootstrap/seed_42/latest.pt",
+      "checkpoint_sha256": "0be1333453f9b9e502f4bdb1cb527b08cb765ec632c6c7aa861635c2044db19d",
+      "checkpoint_status_path": "results/phase15_ablation/gomoku7/bootstrap/seed_42/checkpoint_status.json",
+      "checkpoint_status_sha256": "40d3cdfaaaf8834b94c0de679a8adc506ae12dde87eb6b9f4088e2bed756eab5"
+    },
+    {
+      "replicate_seed": 43,
+      "replay_path": "results/phase15_ablation/gomoku7/bootstrap/seed_43/replay.npz",
+      "replay_sha256": "60d64f12995cf39f93774aca364291d00cd91d94f6660e05bd90fe96e2e53002",
+      "checkpoint_path": "results/phase15_ablation/gomoku7/bootstrap/seed_43/latest.pt",
+      "checkpoint_sha256": "05b2ea8ecce18591fec5d993fdaa3661cff47f2402f9ced35565f020c77fca3d",
+      "checkpoint_status_path": "results/phase15_ablation/gomoku7/bootstrap/seed_43/checkpoint_status.json",
+      "checkpoint_status_sha256": "08b0aaa5606647d03f114d3ab765fe5a06ab025c4251304446acc02ce091e95d"
+    }
+  ]
+}

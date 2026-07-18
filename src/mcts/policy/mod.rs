@@ -28,19 +28,17 @@ pub mod tactical;
 pub mod trait_def;
 
 pub use cache::{EdgeRef, PolicyCache, PolicyCachePublisher};
-pub use gumbel_sh::{
-    gumbel_top_m, initial_bracket, sample_gumbel, SequentialHalvingBracket,
-};
+pub use gumbel_sh::{gumbel_top_m, initial_bracket, sample_gumbel, SequentialHalvingBracket};
 pub use kg_stop::{
     compute_kg_array, expected_improvement, kg_per_arm, should_halt_by_kg, KgCostSource, KgStop,
 };
-pub use ments::{kl_visit_to_soft, soft_policy, soft_value};
-pub use reservoir::{lambda_score, quantile, Reservoir};
-pub use tactical::{tactical_sentinel, TacticalResult};
 pub use kl_helpers::{bernoulli_kl, kl_lower, kl_lucb_beta, kl_upper};
 pub use kl_lucb::KLLUCBStop;
 pub use legacy_az::LegacyAlphaZero;
 pub use legacy_quartz::LegacyQuartz;
+pub use ments::{kl_visit_to_soft, soft_policy, soft_value};
+pub use reservoir::{lambda_score, quantile, Reservoir};
+pub use tactical::{tactical_sentinel, TacticalResult};
 pub use trait_def::{
     BoxedPolicy, ControllerTelemetry, EdgeView, EffectivePrior, HaltDecision, ScoreAdjustment,
     SearchPolicy, SearchSnapshot,
@@ -255,9 +253,9 @@ mod tests {
         // lambda0=4, sigma_root=0.3 (prior_var=0.09), M2=0 throughout.
         // n_eff = max(n-1,1) + 4; sigma_a = sqrt((4*0.09)/n_eff).
         let cases: [(u32, f32); 4] = [
-            (0, 0.2683), // n_eff = max(-1,1)+4 = 5
-            (1, 0.2683), // n_eff = max(0,1)+4  = 5
-            (2, 0.2683), // n_eff = max(1,1)+4  = 5
+            (0, 0.2683),  // n_eff = max(-1,1)+4 = 5
+            (1, 0.2683),  // n_eff = max(0,1)+4  = 5
+            (2, 0.2683),  // n_eff = max(1,1)+4  = 5
             (10, 0.1664), // n_eff = max(9,1)+4 = 13
         ];
         for (n, expected) in cases {

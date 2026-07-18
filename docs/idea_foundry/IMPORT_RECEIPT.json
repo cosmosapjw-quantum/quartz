@@ -1,0 +1,43 @@
+{
+  "schema_version": 1,
+  "bundle_id": "quartz_idea_foundry_skeleton",
+  "recorded_at": "2026-07-18T07:54:53Z",
+  "archives": [
+    {
+      "path": "quartz_idea_foundry_skeleton.zip",
+      "sha256": "b2919ea8ee4e9451fb44fee6b35b3b4a25540008dc79e83127215f78444ca464",
+      "payload_file_count": 21,
+      "preserve_unchanged": true
+    },
+    {
+      "path": "quartz_idea_foundry_skeleton.patch",
+      "sha256": "3563cf51a373138a8ed6a72ba03acb70b844ab9f885e710055cd53b49d86d014",
+      "preserve_unchanged": true
+    }
+  ],
+  "applied_commit": {
+    "commit": "7f332d60f7152548717a671cbda690697e06a040",
+    "tree": "d81cfb76c7f7988c19b410e0718b0354f9160600",
+    "subject": "Add idea foundry experiment atlas and code skeletons",
+    "committed_at": "2026-07-17T12:46:45+00:00"
+  },
+  "baseline_verification": {
+    "payload_manifest": "BUNDLE_FILE_LIST.txt",
+    "payload_file_count": 21,
+    "commit_payloads_byte_identical_to_zip": true,
+    "verification_scope": "files as stored in applied_commit",
+    "working_tree_divergence_policy": {
+      "baseline": "the applied commit is immutable provenance; later implementation may modify payload paths",
+      "receipt_authored_documentation_corrections": [
+        "APPLY_TO_REPO.md",
+        "BUNDLE_FILE_LIST.txt"
+      ],
+      "correction_list_is_exhaustive_for_later_implementation": false
+    }
+  },
+  "policy": {
+    "reapply_allowed": false,
+    "delete_or_overwrite_source_archives": false,
+    "claim_scope": "import provenance only; no experiment efficacy or play-strength claim"
+  }
+}

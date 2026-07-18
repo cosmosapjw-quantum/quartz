@@ -33,13 +33,7 @@ use std::collections::HashMap;
 ///   `rho = 1.0` (certification phase) or `1.5` (exploration phase),
 ///   and `tau` = entropy temperature derived from budget + uncertainty.
 #[inline]
-pub fn lambda_score(
-    upper_ci: f32,
-    kg: f32,
-    log_prior_smoothed: f32,
-    rho: f32,
-    tau: f32,
-) -> f32 {
+pub fn lambda_score(upper_ci: f32, kg: f32, log_prior_smoothed: f32, rho: f32, tau: f32) -> f32 {
     upper_ci + rho * kg + tau * log_prior_smoothed
 }
 
@@ -167,7 +161,7 @@ impl Reservoir {
             .copied()
             .filter(|i| match scores.get(i) {
                 Some(&s) => s < threshold,
-                None => true,  // missing score ⇒ always prune
+                None => true, // missing score ⇒ always prune
             })
             .collect();
         for idx in &to_remove {

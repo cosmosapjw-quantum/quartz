@@ -4,7 +4,7 @@ use std::collections::BTreeMap;
 
 use super::types::{
     AxisStatus, CostVector, FoundryAxis, FoundryObservation, MetaAction, MetaProposal,
-    ProposalEstimate,
+    ProposalEstimate, FOUNDRY_CONTRACT_SCHEMA_VERSION, SKELETON_EVIDENCE_SCOPE,
 };
 
 fn best_q_and_lower(observation: &FoundryObservation<'_>) -> Option<(f32, f32)> {
@@ -47,7 +47,8 @@ impl FoundryAxis for A06GumbelSequentialHalving {
         let per_arm = (observation.snap.root_visits.max(1) / count as u32).max(1);
         for edge in observation.edges.iter().take(count as usize) {
             out.push(MetaProposal {
-                axis_id: self.id(),
+                schema_version: FOUNDRY_CONTRACT_SCHEMA_VERSION,
+                axis_id: self.id().to_string(),
                 action: MetaAction::Sample {
                     edge_pos: edge.idx,
                     visits: per_arm,
@@ -55,14 +56,16 @@ impl FoundryAxis for A06GumbelSequentialHalving {
                 estimate: ProposalEstimate {
                     confidence: 0.25,
                     cost: CostVector {
-                        nn_evals: per_arm as f32,
+                        nn_evals: f64::from(per_arm),
                         ..CostVector::default()
                     },
                     ..ProposalEstimate::default()
                 },
                 activation_guard:
-                    "use policy::gumbel_sh implementation; without replacement; tactical reserve preserved",
+                    "use policy::gumbel_sh implementation; without replacement; tactical reserve preserved"
+                        .to_string(),
                 explanation: format!("Gumbel/SH bracket candidate edge_pos={}", edge.idx),
+                evidence_scope: SKELETON_EVIDENCE_SCOPE.to_string(),
                 telemetry: BTreeMap::new(),
             });
         }
@@ -119,27 +122,35 @@ impl FoundryAxis for A07ResidualEvidenceWidening {
 
     fn propose(&self, observation: &FoundryObservation<'_>, out: &mut Vec<MetaProposal>) {
         let residual = self.bound(observation);
-        if residual <= self.max_tail_mass || observation.snap.n_visible >= observation.snap.n_children {
+        if residual <= self.max_tail_mass
+            || observation.snap.n_visible >= observation.snap.n_children
+        {
             return;
         }
         let mut telemetry = BTreeMap::new();
-        telemetry.insert("residual_mass_bound".to_string(), residual as f64);
+        telemetry.insert(
+            "residual_mass_bound".to_string(),
+            serde_json::json!(residual),
+        );
         out.push(MetaProposal {
-            axis_id: self.id(),
+            schema_version: FOUNDRY_CONTRACT_SCHEMA_VERSION,
+            axis_id: self.id().to_string(),
             action: MetaAction::Widen {
                 count: self.widen_count,
             },
             estimate: ProposalEstimate {
-                regret_reduction_mean: residual,
+                regret_reduction_mean: f64::from(residual),
                 regret_reduction_lcb: 0.0,
                 confidence: 0.25,
                 cost: CostVector {
-                    nn_evals: self.widen_count as f32,
+                    nn_evals: f64::from(self.widen_count),
                     ..CostVector::default()
                 },
             },
-            activation_guard: "calibrated unmaterialized-action upper scores; fresh edge generation",
+            activation_guard:
+                "calibrated unmaterialized-action upper scores; fresh edge generation".into(),
             explanation: format!("outside posterior mass upper bound={residual:.4}"),
+            evidence_scope: SKELETON_EVIDENCE_SCOPE.to_string(),
             telemetry,
         });
     }
@@ -192,8 +203,8 @@ impl FoundryAxis for A09H3ChangePointRouter {
     }
 
     fn propose(&self, observation: &FoundryObservation<'_>, out: &mut Vec<MetaProposal>) {
-        let score = observation.extras.entropy_slope.max(0.0)
-            * (-observation.extras.margin_slope).max(0.0);
+        let score =
+            observation.extras.entropy_slope.max(0.0) * (-observation.extras.margin_slope).max(0.0);
         if score <= 0.0 {
             return;
         }
@@ -201,7 +212,8 @@ impl FoundryAxis for A09H3ChangePointRouter {
             return;
         };
         out.push(MetaProposal {
-            axis_id: self.id(),
+            schema_version: FOUNDRY_CONTRACT_SCHEMA_VERSION,
+            axis_id: self.id().to_string(),
             action: MetaAction::Deepen {
                 edge_pos: edge.idx,
                 visits: self.burst_visits,
@@ -209,13 +221,15 @@ impl FoundryAxis for A09H3ChangePointRouter {
             estimate: ProposalEstimate {
                 regret_reduction_mean: score,
                 cost: CostVector {
-                    nn_evals: self.burst_visits as f32,
+                    nn_evals: f64::from(self.burst_visits),
                     ..CostVector::default()
                 },
                 ..ProposalEstimate::default()
             },
-            activation_guard: "threshold learned from external hard-state labels; no fixed zero floors",
+            activation_guard:
+                "threshold learned from external hard-state labels; no fixed zero floors".into(),
             explanation: format!("entropy-margin change-point score={score:.6}"),
+            evidence_scope: SKELETON_EVIDENCE_SCOPE.to_string(),
             telemetry: BTreeMap::new(),
         });
     }
@@ -246,18 +260,21 @@ impl FoundryAxis for A10PriorRefreshSpecialist {
     }
 
     fn propose(&self, observation: &FoundryObservation<'_>, out: &mut Vec<MetaProposal>) {
-        if observation.extras.prior_visit_js < self.divergence_threshold {
+        if observation.extras.prior_visit_js < f64::from(self.divergence_threshold) {
             return;
         }
         out.push(MetaProposal {
-            axis_id: self.id(),
+            schema_version: FOUNDRY_CONTRACT_SCHEMA_VERSION,
+            axis_id: self.id().to_string(),
             action: MetaAction::Noop,
             estimate: ProposalEstimate::default(),
-            activation_guard: "OOD/weak-evaluator specialist; static anchor retained; never recursive",
+            activation_guard:
+                "OOD/weak-evaluator specialist; static anchor retained; never recursive".into(),
             explanation: format!(
                 "conditional refresh candidate: JS={:.4}, max_blend={:.3}",
                 observation.extras.prior_visit_js, self.max_blend
             ),
+            evidence_scope: SKELETON_EVIDENCE_SCOPE.to_string(),
             telemetry: BTreeMap::new(),
         });
     }
@@ -300,21 +317,24 @@ impl FoundryAxis for A11DynamicLiveSetParticles {
         ranked.sort_by(|a, b| b.0.total_cmp(&a.0));
         for (score, edge_pos) in ranked.into_iter().take(self.max_active) {
             out.push(MetaProposal {
-                axis_id: self.id(),
+                schema_version: FOUNDRY_CONTRACT_SCHEMA_VERSION,
+                axis_id: self.id().to_string(),
                 action: MetaAction::ResampleMode {
                     mode_id: edge_pos,
                     count: self.batch,
                 },
                 estimate: ProposalEstimate {
-                    regret_reduction_mean: score,
+                    regret_reduction_mean: f64::from(score),
                     cost: CostVector {
-                        nn_evals: self.batch as f32,
+                        nn_evals: f64::from(self.batch),
                         ..CostVector::default()
                     },
                     ..ProposalEstimate::default()
                 },
-                activation_guard: "independent groups; reversible hibernation; resurrection quota",
+                activation_guard: "independent groups; reversible hibernation; resurrection quota"
+                    .into(),
                 explanation: format!("live-set weight={score:.4} for edge_pos={edge_pos}"),
+                evidence_scope: SKELETON_EVIDENCE_SCOPE.to_string(),
                 telemetry: BTreeMap::new(),
             });
         }
@@ -368,16 +388,20 @@ impl FoundryAxis for A13PendingFlowWuUct {
     fn propose(&self, observation: &FoundryObservation<'_>, out: &mut Vec<MetaProposal>) {
         let pending: u32 = observation.edges.iter().map(|edge| edge.n_virtual).sum();
         let mut telemetry = BTreeMap::new();
-        telemetry.insert("pending".to_string(), pending as f64);
+        telemetry.insert("pending".to_string(), serde_json::json!(pending));
         out.push(MetaProposal {
-            axis_id: self.id(),
+            schema_version: FOUNDRY_CONTRACT_SCHEMA_VERSION,
+            axis_id: self.id().to_string(),
             action: MetaAction::Noop,
             estimate: ProposalEstimate {
                 confidence: 0.5,
                 ..ProposalEstimate::default()
             },
-            activation_guard: "unobserved counts shape selection only; never enter confidence evidence",
-            explanation: "separate pending-flow/WU-UCT correction from adaptive virtual value".into(),
+            activation_guard:
+                "unobserved counts shape selection only; never enter confidence evidence".into(),
+            explanation: "separate pending-flow/WU-UCT correction from adaptive virtual value"
+                .into(),
+            evidence_scope: SKELETON_EVIDENCE_SCOPE.to_string(),
             telemetry,
         });
     }
@@ -410,19 +434,22 @@ impl FoundryAxis for A14SemanticPathLsh {
     fn propose(&self, observation: &FoundryObservation<'_>, out: &mut Vec<MetaProposal>) {
         let runtime = observation.extras.runtime;
         if runtime.threads < self.min_threads
-            || runtime.semantic_path_overlap < self.overlap_threshold
+            || runtime.semantic_path_overlap < f64::from(self.overlap_threshold)
         {
             return;
         }
         out.push(MetaProposal {
-            axis_id: self.id(),
+            schema_version: FOUNDRY_CONTRACT_SCHEMA_VERSION,
+            axis_id: self.id().to_string(),
             action: MetaAction::ResampleMode {
                 mode_id: u16::MAX,
                 count: runtime.inflight.max(1),
             },
             estimate: ProposalEstimate::default(),
-            activation_guard: "edge duplication already controlled; high-thread semantic overlap remains",
+            activation_guard:
+                "edge duplication already controlled; high-thread semantic overlap remains".into(),
             explanation: format!("semantic overlap={:.3}", runtime.semantic_path_overlap),
+            evidence_scope: SKELETON_EVIDENCE_SCOPE.to_string(),
             telemetry: BTreeMap::new(),
         });
     }
@@ -446,7 +473,8 @@ impl FoundryAxis for A15ServiceCurveScheduler {
     fn propose(&self, observation: &FoundryObservation<'_>, out: &mut Vec<MetaProposal>) {
         if self.best_batch > 0 && self.best_batch != observation.extras.runtime.batch_size {
             out.push(MetaProposal {
-                axis_id: self.id(),
+                schema_version: FOUNDRY_CONTRACT_SCHEMA_VERSION,
+                axis_id: self.id().to_string(),
                 action: MetaAction::SetBatch {
                     batch_size: self.best_batch,
                 },
@@ -454,14 +482,16 @@ impl FoundryAxis for A15ServiceCurveScheduler {
                     confidence: 0.5,
                     ..ProposalEstimate::default()
                 },
-                activation_guard: "service-curve artifact matches hardware/runtime contract",
+                activation_guard: "service-curve artifact matches hardware/runtime contract".into(),
                 explanation: format!("batch target={}", self.best_batch),
+                evidence_scope: SKELETON_EVIDENCE_SCOPE.to_string(),
                 telemetry: BTreeMap::new(),
             });
         }
         if self.best_inflight > 0 && self.best_inflight != observation.extras.runtime.inflight {
             out.push(MetaProposal {
-                axis_id: self.id(),
+                schema_version: FOUNDRY_CONTRACT_SCHEMA_VERSION,
+                axis_id: self.id().to_string(),
                 action: MetaAction::SetInflight {
                     credit: self.best_inflight,
                 },
@@ -469,8 +499,9 @@ impl FoundryAxis for A15ServiceCurveScheduler {
                     confidence: 0.5,
                     ..ProposalEstimate::default()
                 },
-                activation_guard: "service-curve artifact matches hardware/runtime contract",
+                activation_guard: "service-curve artifact matches hardware/runtime contract".into(),
                 explanation: format!("inflight target={}", self.best_inflight),
+                evidence_scope: SKELETON_EVIDENCE_SCOPE.to_string(),
                 telemetry: BTreeMap::new(),
             });
         }

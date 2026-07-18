@@ -6,6 +6,10 @@ edition = "2021"
 [features]
 default = []
 onnx = ["dep:ort", "dep:ndarray"]
+# Experimental Idea Foundry contracts and coordinator.  This is deliberately
+# excluded from `default` so the production search graph and semantics remain
+# unchanged unless an experiment opts in explicitly.
+idea-foundry = []
 
 [dependencies]
 rand       = "0.8"

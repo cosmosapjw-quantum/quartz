@@ -1,0 +1,69 @@
+{
+  "format_version": 1,
+  "experiment_id": "a15_matched_service_curve_v1",
+  "execution_mode": "matched_cpu_cuda_service_curve_diagnostic",
+  "model": {
+    "label": "representative gomoku15-M evaluator body (not the shipped net)",
+    "in_ch": 8,
+    "channels": 128,
+    "blocks": 10,
+    "board": 15,
+    "actions": 225
+  },
+  "profiles": {
+    "diagnostic": {
+      "batch_sizes": [8, 64],
+      "inflight_grid": [1, 2],
+      "repetitions": 2,
+      "n_waves": 2,
+      "warmup_waves": 1
+    },
+    "full": {
+      "batch_sizes": [8, 16, 32, 64, 128, 256],
+      "inflight_grid": [1, 2, 4, 8],
+      "repetitions": 5,
+      "n_waves": 12,
+      "warmup_waves": 12
+    }
+  },
+  "seed_contract": {
+    "mode": "fixed_common_random_numbers",
+    "model_seed": 20260718,
+    "input_seed": 150120260718,
+    "parity_probe_seed": 150220260718,
+    "same_model_state_across_backends": true,
+    "same_input_bytes_within_backend_pair": true,
+    "backend_order": "alternating_by_cell_and_repetition"
+  },
+  "runtime_contract": {
+    "cpu_intraop_threads": 1,
+    "cpu_interop_threads": 1,
+    "allow_tf32": false,
+    "cudnn_benchmark": false,
+    "cudnn_deterministic": true,
+    "deterministic_algorithms": true
+  },
+  "parity": {
+    "probe_batch": 4,
+    "atol": 0.0001,
+    "rtol": 0.0001,
+    "require_finite": true,
+    "require_policy_top1_agreement": 1.0
+  },
+  "assumptions": [
+    "the evaluator body is exactly the existing service_curve_lab representative model, not the shipped network",
+    "CPU and CUDA receive one deterministic model state and byte-identical CPU-generated inputs within every pair",
+    "CPU inflight batches execute serially while CUDA inflight batches use one stream per outstanding batch",
+    "input generation and host-to-device transfer are excluded from timed regions",
+    "CPU intra-op and inter-op thread counts are pinned to one",
+    "the diagnostic profile is a readiness smoke; the full 24-cell matrix is a separate campaign"
+  ],
+  "prohibited_inferences": [
+    "throughput is play strength or decision quality",
+    "the descriptive CUDA-to-CPU ratio is a general efficiency claim",
+    "the representative evaluator body is the shipped network",
+    "wall-clock rows without controlled CPU and GPU power establish energy efficiency",
+    "a completed diagnostic automatically promotes the A15 scheduler",
+    "diagnostic-profile results substitute for the full matrix"
+  ]
+}

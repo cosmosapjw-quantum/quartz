@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass, field
-from math import cos, exp, log, sin
+from math import cos, exp, sin
 from typing import Any, Mapping, Sequence
 
 from .contracts import (
@@ -56,7 +56,13 @@ class A17B13CurvatureReadout:
                 estimate=ProposalEstimate(confidence=0.5),
                 activation_guard="readout-only by default; decision-neutral evidence not promoted to play strength",
                 explanation="finite-N policy readout ready for oracle-KL replay",
-                telemetry={"policy": self.transform(obs), "curvature": self.curvature},
+                telemetry={
+                    "policy": {
+                        str(edge_pos): weight
+                        for edge_pos, weight in self.transform(obs).items()
+                    },
+                    "curvature": self.curvature,
+                },
             ),
         )
 

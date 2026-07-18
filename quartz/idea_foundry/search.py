@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+import math
+
 from dataclasses import dataclass, field
 from hashlib import blake2b
 from math import exp, log, sqrt
@@ -200,10 +202,11 @@ class A10PriorRefreshSpecialist:
         return (
             MetaProposal(
                 axis_id=self.axis_id,
-                action=MetaAction(MetaActionKind.NOOP, value=self.max_blend, label="conditional_refresh"),
+                action=MetaAction(MetaActionKind.NOOP, label="conditional_refresh"),
                 estimate=ProposalEstimate(confidence=0.0),
                 activation_guard="OOD/weak-evaluator specialist only; frozen anchor retained; never recursive",
                 explanation=f"prior-search divergence={obs.prior_visit_js:.4f}",
+                telemetry={"max_blend": self.max_blend},
             ),
         )
 
@@ -307,7 +310,7 @@ class A13PendingFlowWuUct:
                 estimate=ProposalEstimate(confidence=0.5),
                 activation_guard="pending/in-flight counts never enter confidence evidence",
                 explanation=f"separate pending-flow correction for {pending} in-flight evaluations",
-                telemetry={edge.edge_pos: self.effective_visits(edge) for edge in obs.edges},
+                telemetry={str(edge.edge_pos): self.effective_visits(edge) for edge in obs.edges},
             ),
         )
 
@@ -331,10 +334,18 @@ class A14SemanticPathLsh:
         rt = obs.runtime
         if rt.threads < self.min_threads or rt.semantic_path_overlap < self.overlap_threshold:
             return ()
+        best = obs.best_edge()
+        if best is None:
+            return ()
         return (
             MetaProposal(
                 axis_id=self.axis_id,
-                action=MetaAction(MetaActionKind.RESAMPLE_MODE, amount=max(1, rt.inflight), label="path_diversity"),
+                action=MetaAction(
+                    MetaActionKind.RESAMPLE_MODE,
+                    primary=best.edge_pos,
+                    amount=max(1, rt.inflight),
+                    label="path_diversity",
+                ),
                 estimate=ProposalEstimate(confidence=0.0),
                 activation_guard="edge duplication already controlled; high-thread semantic overlap remains",
                 explanation=f"semantic path overlap={rt.semantic_path_overlap:.3f}",
@@ -386,16 +397,30 @@ class A16MonteCarloGraphSharing:
     status: AxisStatus = AxisStatus.SEED
 
     def propose(self, obs: RootObservation) -> Sequence[MetaProposal]:
-        transpositions = int(obs.extras.get("shareable_transpositions", 0))
-        if transpositions <= 0:
+        transpositions = obs.extras.get("shareable_transpositions", 0)
+        state_key = obs.extras.get("shareable_state_key")
+        if (
+            not isinstance(transpositions, int)
+            or isinstance(transpositions, bool)
+            or transpositions <= 0
+            or not isinstance(state_key, int)
+            or isinstance(state_key, bool)
+            or state_key < 0
+            or state_key >= 2**64
+        ):
             return ()
         return (
             MetaProposal(
                 axis_id=self.axis_id,
-                action=MetaAction(MetaActionKind.MERGE_OR_SHARE, amount=transpositions, label="state_cache_only"),
+                action=MetaAction(
+                    MetaActionKind.MERGE_OR_SHARE,
+                    primary=state_key,
+                    label="state_cache_only",
+                ),
                 estimate=ProposalEstimate(confidence=0.0),
                 activation_guard="state/eval cache sharing first; parent-edge N/W/Q remain parent-specific",
                 explanation=f"shareable transposition states={transpositions}",
+                telemetry={"shareable_transpositions": transpositions},
             ),
         )
 
@@ -432,6 +457,54 @@ class A26NestedContourExactLab:
     status: AxisStatus = AxisStatus.ANALYSIS_ONLY
     live_points: int = 32
     depth: int = 6
+
+    @staticmethod
+    def _finite_inputs(
+        likelihoods: Sequence[float], prior: Sequence[float]
+    ) -> tuple[list[float], list[float]]:
+        if len(likelihoods) != len(prior) or not likelihoods:
+            raise ValueError("likelihood/prior shape mismatch")
+        likelihood_rows = [float(value) for value in likelihoods]
+        prior_rows = [float(value) for value in prior]
+        if any(
+            not math.isfinite(value) or value < 0.0 for value in likelihood_rows
+        ):
+            raise ValueError("likelihoods must be finite and non-negative")
+        if any(not math.isfinite(value) or value < 0.0 for value in prior_rows):
+            raise ValueError("prior must have non-negative finite mass")
+        total = sum(prior_rows)
+        if not math.isfinite(total) or total <= 0.0:
+            raise ValueError("prior must have positive finite mass")
+        return likelihood_rows, [value / total for value in prior_rows]
+
+    @classmethod
+    def enumerated_evidence(
+        cls, likelihoods: Sequence[float], prior: Sequence[float]
+    ) -> float:
+        """Exact finite-state evidence by direct enumeration."""
+
+        likelihood_rows, prior_rows = cls._finite_inputs(likelihoods, prior)
+        return sum(value * mass for value, mass in zip(likelihood_rows, prior_rows))
+
+    @classmethod
+    def finite_contour_evidence(
+        cls, likelihoods: Sequence[float], prior: Sequence[float]
+    ) -> float:
+        """Exact layer-cake/contour form of the same finite-state evidence."""
+
+        likelihood_rows, prior_rows = cls._finite_inputs(likelihoods, prior)
+        levels = sorted(set(likelihood_rows))
+        evidence = 0.0
+        previous = 0.0
+        for level in levels:
+            surviving_mass = sum(
+                mass
+                for likelihood, mass in zip(likelihood_rows, prior_rows)
+                if likelihood >= level
+            )
+            evidence += (level - previous) * surviving_mass
+            previous = level
+        return evidence
 
     def propose(self, obs: RootObservation) -> Sequence[MetaProposal]:
         return (

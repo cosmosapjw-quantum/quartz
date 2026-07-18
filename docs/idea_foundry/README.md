@@ -101,6 +101,7 @@ bonuses to the same score.
 - [03 — Parallel execution, particle backends, path diversity, and graph sharing](03_parallel_backends.md)
 - [04 — Readout, evaluator architectures, deployment, and training control](04_representation_training.md)
 - [05 — Physics-inspired shadows, falsification, and evidence discipline](05_analysis_physics.md)
+- [06 — Per-axis execution, sequential campaigns, and meta-analysis](06_execution_and_meta_analysis.md)
 
 Each axis section includes:
 

@@ -102,7 +102,10 @@ impl SearchPolicy for LegacyQuartz {
             // controller doesn't expose that.
             let reason = match self.ctrl.last_stop_reason() {
                 StopReason::BudgetExhausted { .. } => {
-                    if matches!(self.cfg.halt_mode, crate::mcts::quartz::HaltMode::Fixed { .. }) {
+                    if matches!(
+                        self.cfg.halt_mode,
+                        crate::mcts::quartz::HaltMode::Fixed { .. }
+                    ) {
                         HaltReason::FixedBudget
                     } else {
                         HaltReason::MaxVisits

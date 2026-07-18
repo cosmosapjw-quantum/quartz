@@ -1,0 +1,5377 @@
+From 51a9b40e11207f622dff17bba9cbff3a32cbaa81 Mon Sep 17 00:00:00 2001
+From: OpenAI <noreply@openai.com>
+Date: Fri, 17 Jul 2026 12:46:45 +0000
+Subject: [PATCH] Add idea foundry experiment atlas and code skeletons
+
+---
+ APPLY_TO_REPO.md                              |  25 +
+ BUNDLE_FILE_LIST.txt                          |  86 +++
+ configs/idea_foundry.axes.v1.json             | 552 +++++++++++++++++
+ docs/idea_foundry/00_INDEX_KO.md              | 110 ++++
+ docs/idea_foundry/01_control_policy.md        | 381 ++++++++++++
+ docs/idea_foundry/02_candidates_allocation.md | 308 ++++++++++
+ docs/idea_foundry/03_parallel_backends.md     | 240 ++++++++
+ .../04_representation_training.md             | 249 ++++++++
+ docs/idea_foundry/05_analysis_physics.md      | 205 +++++++
+ docs/idea_foundry/README.md                   | 211 +++++++
+ quartz/idea_foundry/__init__.py               |  76 +++
+ quartz/idea_foundry/contracts.py              | 224 +++++++
+ quartz/idea_foundry/control.py                | 290 +++++++++
+ quartz/idea_foundry/learning.py               | 249 ++++++++
+ quartz/idea_foundry/search.py                 | 446 ++++++++++++++
+ src/mcts/foundry/control.rs                   | 331 +++++++++++
+ src/mcts/foundry/mod.rs                       |  24 +
+ src/mcts/foundry/search.rs                    | 557 ++++++++++++++++++
+ src/mcts/foundry/systems.rs                   | 261 ++++++++
+ src/mcts/foundry/types.rs                     | 193 ++++++
+ tests/test_idea_foundry_skeletons.py          | 180 ++++++
+ 21 files changed, 5198 insertions(+)
+ create mode 100644 APPLY_TO_REPO.md
+ create mode 100644 BUNDLE_FILE_LIST.txt
+ create mode 100644 configs/idea_foundry.axes.v1.json
+ create mode 100644 docs/idea_foundry/00_INDEX_KO.md
+ create mode 100644 docs/idea_foundry/01_control_policy.md
+ create mode 100644 docs/idea_foundry/02_candidates_allocation.md
+ create mode 100644 docs/idea_foundry/03_parallel_backends.md
+ create mode 100644 docs/idea_foundry/04_representation_training.md
+ create mode 100644 docs/idea_foundry/05_analysis_physics.md
+ create mode 100644 docs/idea_foundry/README.md
+ create mode 100644 quartz/idea_foundry/__init__.py
+ create mode 100644 quartz/idea_foundry/contracts.py
+ create mode 100644 quartz/idea_foundry/control.py
+ create mode 100644 quartz/idea_foundry/learning.py
+ create mode 100644 quartz/idea_foundry/search.py
+ create mode 100644 src/mcts/foundry/control.rs
+ create mode 100644 src/mcts/foundry/mod.rs
+ create mode 100644 src/mcts/foundry/search.rs
+ create mode 100644 src/mcts/foundry/systems.rs
+ create mode 100644 src/mcts/foundry/types.rs
+ create mode 100644 tests/test_idea_foundry_skeletons.py
+
+diff --git a/APPLY_TO_REPO.md b/APPLY_TO_REPO.md
+new file mode 100644
+index 0000000..8e4cc88
+--- /dev/null
++++ b/APPLY_TO_REPO.md
+@@ -0,0 +1,25 @@
++# Applying the QUARTZ Idea Foundry skeleton bundle
++
++The archive mirrors repository-relative paths.  From the QUARTZ repository
++root, unpack or copy the archive contents without deleting existing files.
++All paths in this bundle are new.
++
++```bash
++unzip quartz_idea_foundry_skeleton.zip -d /path/to/quartz
++cd /path/to/quartz
++venv/bin/python -m pytest -q tests/test_idea_foundry_skeletons.py
++```
++
++The Rust `src/mcts/foundry/` directory is deliberately **not imported** from
++`src/mcts/mod.rs`; therefore unpacking the bundle does not change or compile
++production search behavior.  Read `docs/idea_foundry/00_INDEX_KO.md` and
++`docs/idea_foundry/README.md` before wiring it.
++
++Suggested Git workflow:
++
++```bash
++git checkout agent/local-experiment-foundry
++git add docs/idea_foundry quartz/idea_foundry src/mcts/foundry \
++        configs/idea_foundry.axes.v1.json tests/test_idea_foundry_skeletons.py
++git commit -m "Add idea foundry experiment atlas and code skeletons"
++```
+diff --git a/BUNDLE_FILE_LIST.txt b/BUNDLE_FILE_LIST.txt
+new file mode 100644
+index 0000000..6dabb4b
+--- /dev/null
++++ b/BUNDLE_FILE_LIST.txt
+@@ -0,0 +1,86 @@
++./.git/COMMIT_EDITMSG
++./.git/HEAD
++./.git/config
++./.git/description
++./.git/hooks/applypatch-msg.sample
++./.git/hooks/commit-msg.sample
++./.git/hooks/fsmonitor-watchman.sample
++./.git/hooks/post-update.sample
++./.git/hooks/pre-applypatch.sample
++./.git/hooks/pre-commit.sample
++./.git/hooks/pre-merge-commit.sample
++./.git/hooks/pre-push.sample
++./.git/hooks/pre-rebase.sample
++./.git/hooks/pre-receive.sample
++./.git/hooks/prepare-commit-msg.sample
++./.git/hooks/push-to-checkout.sample
++./.git/hooks/sendemail-validate.sample
++./.git/hooks/update.sample
++./.git/index
++./.git/info/exclude
++./.git/logs/HEAD
++./.git/logs/refs/heads/master
++./.git/objects/08/ec818e519e46d2e8a169268b46092e8a4dcff2
++./.git/objects/09/e9b2d1017f8fd1b7ff39f221220ec7dcbaa1e6
++./.git/objects/0e/f189fed4127af0b02bd72a54145d7f59946bb5
++./.git/objects/25/d4bf194e8b886668539a12f9774ee28801d39b
++./.git/objects/2f/e08691f1171ade00816a1831cd3241d7302216
++./.git/objects/32/e6b76b6da6cabc2b1c680b26df5101b352e52f
++./.git/objects/33/7a2883a5094cf3370f9d63e71f2be866e3b31e
++./.git/objects/35/d3e87ba3dc0221a1876c6932eedb0a32acdd12
++./.git/objects/36/3036115654fe2954d7d172fb8ba4cbbb2263b1
++./.git/objects/3b/a58ee590e76c8d0f17bb8c5198b5d6843a7996
++./.git/objects/3c/556f90bf848f6789b55284543dee5b83ab3bee
++./.git/objects/45/1823d540b187ae6ce96157da1158ef3d203be4
++./.git/objects/4b/825dc642cb6eb9a060e54bf8d69288fbee4904
++./.git/objects/4c/5eca5cd7886d59b5e709307181b9832aa8ec45
++./.git/objects/51/bd8704d59ff167a5cbdbaf9d1a08e3fcfa85f9
++./.git/objects/69/4bbc37ce23d89a539b64561fa410d77a4e8317
++./.git/objects/6b/972fb7a4c5dd112575382afe834b3a41d6a7c6
++./.git/objects/6f/75d11abd20b41d8dc739419075861055d5fa3d
++./.git/objects/74/8a33e47b9b0ad465a25bed793a2ee9caec81e2
++./.git/objects/82/598b0acbe0f6c969e79c9b968e8dc2fe6be932
++./.git/objects/87/a2b5e1e18220d0e9f006e7d81ced22cc5a04b7
++./.git/objects/87/d1a24fb90ca38b71912421c0b36c01f73cb314
++./.git/objects/89/31c2e06d348ac9b149270d60c1bc237936f3b5
++./.git/objects/89/8c39bee25061f009ef5e61f8a7f3910433b459
++./.git/objects/8d/aaf2d85035c92498dd6dfc0ea72c230cbbe8fe
++./.git/objects/8e/42b2b7bad739ac1f2ed01e42e8564c5a389680
++./.git/objects/8e/4cc8895b1e8c654fdad95cafc43f07f1101bc4
++./.git/objects/94/5c015cf86cd3aa19484fd018e492bd2e47ad9e
++./.git/objects/96/853d82ff25c3197e9233af26e0807ef9ac2b02
++./.git/objects/9b/b4ee1a1762c0be2e0316792f7479302ea169c5
++./.git/objects/ac/c436b27ff14eb7c317e326bc7bc5abbc9cc361
++./.git/objects/ac/d0d5b4f75e6bf74361bb4e96bf8114ee6618de
++./.git/objects/af/f9151cfc5a1fbae50228893a1f39c07e393c23
++./.git/objects/b5/c89570b11db779131c2b46100e2c960af34347
++./.git/objects/be/f808b35f65656c1e32b11f7e2f09acf25418ea
++./.git/objects/c2/cd38b899bf3361b3d3f121c52e8d1bdd865d4e
++./.git/objects/d0/4dcde2469ffb0a6d86f6afe2e31cdb6dbd49dc
++./.git/objects/d2/dc90e582c96c05c9057a3e51112ca75d68edb6
++./.git/objects/d8/598e17fc5a1ffee1e3d50c3edfa5d18f845339
++./.git/objects/e4/4c7ceab8f005a3ae6752cd59a8b0b61279a4b9
++./.git/objects/e9/b73d757298b533971aeb2fd6371ed6631ebf0f
++./.git/objects/f2/da4535700eaa2287bd235d24c7dd6855b9940a
++./.git/refs/heads/master
++./APPLY_TO_REPO.md
++./BUNDLE_FILE_LIST.txt
++./configs/idea_foundry.axes.v1.json
++./docs/idea_foundry/00_INDEX_KO.md
++./docs/idea_foundry/01_control_policy.md
++./docs/idea_foundry/02_candidates_allocation.md
++./docs/idea_foundry/03_parallel_backends.md
++./docs/idea_foundry/04_representation_training.md
++./docs/idea_foundry/05_analysis_physics.md
++./docs/idea_foundry/README.md
++./quartz/idea_foundry/__init__.py
++./quartz/idea_foundry/contracts.py
++./quartz/idea_foundry/control.py
++./quartz/idea_foundry/learning.py
++./quartz/idea_foundry/search.py
++./src/mcts/foundry/control.rs
++./src/mcts/foundry/mod.rs
++./src/mcts/foundry/search.rs
++./src/mcts/foundry/systems.rs
++./src/mcts/foundry/types.rs
++./tests/test_idea_foundry_skeletons.py
+diff --git a/configs/idea_foundry.axes.v1.json b/configs/idea_foundry.axes.v1.json
+new file mode 100644
+index 0000000..d04dcde
+--- /dev/null
++++ b/configs/idea_foundry.axes.v1.json
+@@ -0,0 +1,552 @@
++{
++  "axes": [
++    {
++      "claim_scope": "skeleton_or_current_evidence_only",
++      "description": "Fit and calibrate p_wrong from H1, P_flip, margins, slopes, intervals and omission risk.",
++      "documentation": "docs/idea_foundry/01_control_policy.md",
++      "id": "A01",
++      "plane": "control",
++      "python_skeleton": {
++        "module": "quartz/idea_foundry/control.py",
++        "symbol": "A01StopCouncil"
++      },
++      "requirements": [
++        "phase15 trace bundles",
++        "position-grouped oracle labels"
++      ],
++      "rust_skeleton": {
++        "module": "src/mcts/foundry/control.rs",
++        "symbol": "A01StopCouncil"
++      },
++      "slug": "calibrated_stop_council",
++      "status": "shadow"
++    },
++    {
++      "claim_scope": "skeleton_or_current_evidence_only",
++      "description": "Compute temporary KL-regularized root policies from the frozen network anchor.",
++      "documentation": "docs/idea_foundry/01_control_policy.md",
++      "id": "A02",
++      "plane": "policy",
++      "python_skeleton": {
++        "module": "quartz/idea_foundry/control.py",
++        "symbol": "A02StaticAnchorRPO"
++      },
++      "requirements": [
++        "frozen anchor prior",
++        "trace or live edge scores"
++      ],
++      "rust_skeleton": {
++        "module": "src/mcts/foundry/control.rs",
++        "symbol": "A02StaticAnchorRpo"
++      },
++      "slug": "static_anchor_rpo",
++      "status": "shadow"
++    },
++    {
++      "claim_scope": "skeleton_or_current_evidence_only",
++      "description": "Separate MC, epistemic, drift and systematic-bias radii.",
++      "documentation": "docs/idea_foundry/01_control_policy.md",
++      "id": "A03",
++      "plane": "belief",
++      "python_skeleton": {
++        "module": "quartz/idea_foundry/control.py",
++        "symbol": "A03UncertaintyDecomposition"
++      },
++      "requirements": [
++        "completed backup moments",
++        "evaluator uncertainty calibration"
++      ],
++      "rust_skeleton": {
++        "module": "src/mcts/foundry/control.rs",
++        "symbol": "A03UncertaintyDecomposition"
++      },
++      "slug": "uncertainty_decomposition",
++      "status": "shadow"
++    },
++    {
++      "claim_scope": "skeleton_or_current_evidence_only",
++      "description": "Allocate computation by conservative decision-regret reduction per measured cost.",
++      "documentation": "docs/idea_foundry/01_control_policy.md",
++      "id": "A04",
++      "plane": "control",
++      "python_skeleton": {
++        "module": "quartz/idea_foundry/control.py",
++        "symbol": "A04KgVocAllocator"
++      },
++      "requirements": [
++        "cost telemetry",
++        "counterfactual calibration"
++      ],
++      "rust_skeleton": {
++        "module": "src/mcts/foundry/control.rs",
++        "symbol": "A04KgVocAllocator"
++      },
++      "slug": "kg_voc_allocator",
++      "status": "shadow"
++    },
++    {
++      "claim_scope": "skeleton_or_current_evidence_only",
++      "description": "Fork identical resident snapshots into explicit meta-action continuations.",
++      "documentation": "docs/idea_foundry/01_control_policy.md",
++      "id": "A05",
++      "plane": "learning",
++      "python_skeleton": {
++        "module": "quartz/idea_foundry/control.py",
++        "symbol": "A05CounterfactualMetaTeacher"
++      },
++      "requirements": [
++        "deterministic snapshot fork/replay",
++        "decision-loss oracle"
++      ],
++      "rust_skeleton": {
++        "module": "src/mcts/foundry/control.rs",
++        "symbol": "A05CounterfactualMetaTeacher"
++      },
++      "slug": "counterfactual_meta_teacher",
++      "status": "seed"
++    },
++    {
++      "claim_scope": "skeleton_or_current_evidence_only",
++      "description": "Select low-budget candidates without replacement and allocate by resumable halving.",
++      "documentation": "docs/idea_foundry/02_candidates_allocation.md",
++      "id": "A06",
++      "plane": "candidates",
++      "python_skeleton": {
++        "module": "quartz/idea_foundry/search.py",
++        "symbol": "A06GumbelSequentialHalving"
++      },
++      "requirements": [
++        "existing policy/gumbel_sh implementation"
++      ],
++      "rust_skeleton": {
++        "module": "src/mcts/foundry/search.rs",
++        "symbol": "A06GumbelSequentialHalving"
++      },
++      "slug": "gumbel_sequential_halving",
++      "status": "mechanism_valid"
++    },
++    {
++      "claim_scope": "skeleton_or_current_evidence_only",
++      "description": "Bound posterior mass outside the live set and emit WIDEN proposals.",
++      "documentation": "docs/idea_foundry/02_candidates_allocation.md",
++      "id": "A07",
++      "plane": "candidates",
++      "python_skeleton": {
++        "module": "quartz/idea_foundry/search.py",
++        "symbol": "A07ResidualEvidenceWidening"
++      },
++      "requirements": [
++        "calibrated upper scores for unmaterialized actions"
++      ],
++      "rust_skeleton": {
++        "module": "src/mcts/foundry/search.rs",
++        "symbol": "A07ResidualEvidenceWidening"
++      },
++      "slug": "residual_evidence_widening",
++      "status": "seed"
++    },
++    {
++      "claim_scope": "skeleton_or_current_evidence_only",
++      "description": "Protect forced actions with typed game-specific sentinels and proof budgets.",
++      "documentation": "docs/idea_foundry/02_candidates_allocation.md",
++      "id": "A08",
++      "plane": "proof",
++      "python_skeleton": {
++        "module": "quartz/idea_foundry/search.py",
++        "symbol": "A08TacticalProofBackend"
++      },
++      "requirements": [
++        "game-specific proof adapter",
++        "tactical corpus"
++      ],
++      "rust_skeleton": {
++        "module": "src/mcts/foundry/search.rs",
++        "symbol": "A08TacticalProofBackend"
++      },
++      "slug": "tactical_proof_backend",
++      "status": "conditional"
++    },
++    {
++      "claim_scope": "skeleton_or_current_evidence_only",
++      "description": "Use entropy/margin dynamics as continuous regime features rather than a dead fixed gate.",
++      "documentation": "docs/idea_foundry/01_control_policy.md",
++      "id": "A09",
++      "plane": "control",
++      "python_skeleton": {
++        "module": "quartz/idea_foundry/search.py",
++        "symbol": "A09H3ChangePointRouter"
++      },
++      "requirements": [
++        "trace slopes",
++        "forked-VOC hard labels"
++      ],
++      "rust_skeleton": {
++        "module": "src/mcts/foundry/search.rs",
++        "symbol": "A09H3ChangePointRouter"
++      },
++      "slug": "h3_change_point_router",
++      "status": "shadow"
++    },
++    {
++      "claim_scope": "skeleton_or_current_evidence_only",
++      "description": "Retain cumulative refresh only as a bounded conditional expert.",
++      "documentation": "docs/idea_foundry/01_control_policy.md",
++      "id": "A10",
++      "plane": "policy",
++      "python_skeleton": {
++        "module": "quartz/idea_foundry/search.py",
++        "symbol": "A10PriorRefreshSpecialist"
++      },
++      "requirements": [
++        "preregistered OOD/weak-evaluator slice"
++      ],
++      "rust_skeleton": {
++        "module": "src/mcts/foundry/search.rs",
++        "symbol": "A10PriorRefreshSpecialist"
++      },
++      "slug": "prior_refresh_specialist",
++      "status": "dormant"
++    },
++    {
++      "claim_scope": "skeleton_or_current_evidence_only",
++      "description": "Maintain active/hibernating/resurrectable root particle groups.",
++      "documentation": "docs/idea_foundry/03_parallel_backends.md",
++      "id": "A11",
++      "plane": "backend",
++      "python_skeleton": {
++        "module": "quartz/idea_foundry/search.py",
++        "symbol": "A11DynamicLiveSetParticles"
++      },
++      "requirements": [
++        "particle group trace format",
++        "robust independent group statistics"
++      ],
++      "rust_skeleton": {
++        "module": "src/mcts/foundry/search.rs",
++        "symbol": "A11DynamicLiveSetParticles"
++      },
++      "slug": "dynamic_live_set_particles",
++      "status": "seed"
++    },
++    {
++      "claim_scope": "skeleton_or_current_evidence_only",
++      "description": "Use sibling JSD as local geometry and P/Q as a target density.",
++      "documentation": "docs/idea_foundry/02_candidates_allocation.md",
++      "id": "A12",
++      "plane": "geometry",
++      "python_skeleton": {
++        "module": "quartz/idea_foundry/search.py",
++        "symbol": "A12JsdLocallyBalancedSampler"
++      },
++      "requirements": [
++        "cached sibling network outputs",
++        "common-support policy representation"
++      ],
++      "rust_skeleton": {
++        "module": "src/mcts/foundry/search.rs",
++        "symbol": "A12JsdLocallyBalancedSampler"
++      },
++      "slug": "jsd_locally_balanced_sampler",
++      "status": "seed"
++    },
++    {
++      "claim_scope": "skeleton_or_current_evidence_only",
++      "description": "Track unobserved work separately from completed evidence and fixed virtual pessimism.",
++      "documentation": "docs/idea_foundry/03_parallel_backends.md",
++      "id": "A13",
++      "plane": "parallel",
++      "python_skeleton": {
++        "module": "quartz/idea_foundry/search.py",
++        "symbol": "A13PendingFlowWuUct"
++      },
++      "requirements": [
++        "pending-count telemetry"
++      ],
++      "rust_skeleton": {
++        "module": "src/mcts/foundry/search.rs",
++        "symbol": "A13PendingFlowWuUct"
++      },
++      "slug": "pending_flow_wu_uct",
++      "status": "conditional"
++    },
++    {
++      "claim_scope": "skeleton_or_current_evidence_only",
++      "description": "Measure high-thread whole-path semantic redundancy after edge duplicates are controlled.",
++      "documentation": "docs/idea_foundry/03_parallel_backends.md",
++      "id": "A14",
++      "plane": "parallel",
++      "python_skeleton": {
++        "module": "quartz/idea_foundry/search.py",
++        "symbol": "A14SemanticPathLsh"
++      },
++      "requirements": [
++        "path shingle telemetry",
++        "MinHash/LSH analyzer"
++      ],
++      "rust_skeleton": {
++        "module": "src/mcts/foundry/search.rs",
++        "symbol": "A14SemanticPathLsh"
++      },
++      "slug": "semantic_path_lsh",
++      "status": "shadow"
++    },
++    {
++      "claim_scope": "skeleton_or_current_evidence_only",
++      "description": "Choose batch and inflight credit from hardware-specific measured service curves.",
++      "documentation": "docs/idea_foundry/03_parallel_backends.md",
++      "id": "A15",
++      "plane": "systems",
++      "python_skeleton": {
++        "module": "quartz/idea_foundry/search.py",
++        "symbol": "A15ServiceCurveScheduler"
++      },
++      "requirements": [
++        "service curve artifact",
++        "runtime contract match"
++      ],
++      "rust_skeleton": {
++        "module": "src/mcts/foundry/search.rs",
++        "symbol": "A15ServiceCurveScheduler"
++      },
++      "slug": "service_curve_scheduler",
++      "status": "mechanism_valid"
++    },
++    {
++      "claim_scope": "skeleton_or_current_evidence_only",
++      "description": "Separate shared state/evaluation cache from parent-edge search statistics.",
++      "documentation": "docs/idea_foundry/03_parallel_backends.md",
++      "id": "A16",
++      "plane": "graph",
++      "python_skeleton": {
++        "module": "quartz/idea_foundry/search.py",
++        "symbol": "A16MonteCarloGraphSharing"
++      },
++      "requirements": [
++        "typed state key",
++        "DAG sharing mode"
++      ],
++      "rust_skeleton": {
++        "module": "src/mcts/foundry/search.rs",
++        "symbol": "A16MonteCarloGraphSharing"
++      },
++      "slug": "monte_carlo_graph_sharing",
++      "status": "seed"
++    },
++    {
++      "claim_scope": "skeleton_or_current_evidence_only",
++      "description": "Reproduce and extend finite-N decision-neutral policy readout experiments.",
++      "documentation": "docs/idea_foundry/04_representation_training.md",
++      "id": "A17",
++      "plane": "readout",
++      "python_skeleton": {
++        "module": "quartz/idea_foundry/learning.py",
++        "symbol": "A17B13CurvatureReadout"
++      },
++      "requirements": [
++        "Phase-15 B13 implementation and traces"
++      ],
++      "rust_skeleton": {
++        "module": "src/mcts/foundry/systems.rs",
++        "symbol": "A17B13CurvatureReadout"
++      },
++      "slug": "b13_curvature_readout",
++      "status": "mechanism_valid"
++    },
++    {
++      "claim_scope": "skeleton_or_current_evidence_only",
++      "description": "Train deterministic policy-value evaluators with denoising auxiliary losses only.",
++      "documentation": "docs/idea_foundry/04_representation_training.md",
++      "id": "A18",
++      "plane": "representation",
++      "python_skeleton": {
++        "module": "quartz/idea_foundry/learning.py",
++        "symbol": "A18DiffusionRegularizedEvaluator"
++      },
++      "requirements": [
++        "parameter/FLOP matched deterministic baseline"
++      ],
++      "rust_skeleton": {
++        "module": "src/mcts/foundry/systems.rs",
++        "symbol": "A18DiffusionRegularizedEvaluator"
++      },
++      "slug": "diffusion_regularized_evaluator",
++      "status": "seed"
++    },
++    {
++      "claim_scope": "skeleton_or_current_evidence_only",
++      "description": "Test a static-pruned sparse RandWire/ResT local-global evaluator.",
++      "documentation": "docs/idea_foundry/04_representation_training.md",
++      "id": "A19",
++      "plane": "representation",
++      "python_skeleton": {
++        "module": "quartz/idea_foundry/learning.py",
++        "symbol": "A19RwRestLiteEvaluator"
++      },
++      "requirements": [
++        "graph seed proxy screen",
++        "controller frozen"
++      ],
++      "rust_skeleton": {
++        "module": "src/mcts/foundry/systems.rs",
++        "symbol": "A19RwRestLiteEvaluator"
++      },
++      "slug": "rw_rest_lite_evaluator",
++      "status": "seed"
++    },
++    {
++      "claim_scope": "skeleton_or_current_evidence_only",
++      "description": "Archive high-regret/instability states for restart, reanalysis and replay.",
++      "documentation": "docs/idea_foundry/04_representation_training.md",
++      "id": "A20",
++      "plane": "training_control",
++      "python_skeleton": {
++        "module": "quartz/idea_foundry/learning.py",
++        "symbol": "A20RegretStateArchive"
++      },
++      "requirements": [
++        "deduplication schema",
++        "importance correction"
++      ],
++      "rust_skeleton": {
++        "module": "src/mcts/foundry/systems.rs",
++        "symbol": "A20RegretStateArchive"
++      },
++      "slug": "regret_state_archive",
++      "status": "seed"
++    },
++    {
++      "claim_scope": "skeleton_or_current_evidence_only",
++      "description": "Evaluate a bounded signed-path disagreement feature strictly in shadow mode.",
++      "documentation": "docs/idea_foundry/05_analysis_physics.md",
++      "id": "A21",
++      "plane": "analysis",
++      "python_skeleton": {
++        "module": "quartz/idea_foundry/learning.py",
++        "symbol": "A21CoherenceSignedPathShadow"
++      },
++      "requirements": [
++        "path observable definition",
++        "incremental prediction test"
++      ],
++      "rust_skeleton": {
++        "module": "src/mcts/foundry/systems.rs",
++        "symbol": "A21CoherenceSignedPathShadow"
++      },
++      "slug": "coherence_signed_path_shadow",
++      "status": "analysis_only"
++    },
++    {
++      "claim_scope": "skeleton_or_current_evidence_only",
++      "description": "Fit and reject beta, redundancy, susceptibility and scale-flow surrogates with null models.",
++      "documentation": "docs/idea_foundry/05_analysis_physics.md",
++      "id": "A22",
++      "plane": "analysis",
++      "python_skeleton": {
++        "module": "quartz/idea_foundry/learning.py",
++        "symbol": "A22PhysicsFalsificationDashboard"
++      },
++      "requirements": [
++        "observable and null-model schemas"
++      ],
++      "rust_skeleton": {
++        "module": "src/mcts/foundry/systems.rs",
++        "symbol": "A22PhysicsFalsificationDashboard"
++      },
++      "slug": "physics_falsification_dashboard",
++      "status": "analysis_only"
++    },
++    {
++      "claim_scope": "skeleton_or_current_evidence_only",
++      "description": "Distill a quantized make/unmake incremental pattern evaluator for CPU play.",
++      "documentation": "docs/idea_foundry/04_representation_training.md",
++      "id": "A23",
++      "plane": "deployment",
++      "python_skeleton": {
++        "module": "quartz/idea_foundry/learning.py",
++        "symbol": "A23CpuIncrementalPatternStudent"
++      },
++      "requirements": [
++        "incremental feature/update design",
++        "teacher dataset"
++      ],
++      "rust_skeleton": {
++        "module": "src/mcts/foundry/systems.rs",
++        "symbol": "A23CpuIncrementalPatternStudent"
++      },
++      "slug": "cpu_incremental_pattern_student",
++      "status": "seed"
++    },
++    {
++      "claim_scope": "skeleton_or_current_evidence_only",
++      "description": "Choose a discrete state-dependent planning budget on a frozen planner.",
++      "documentation": "docs/idea_foundry/01_control_policy.md",
++      "id": "A24",
++      "plane": "control",
++      "python_skeleton": {
++        "module": "quartz/idea_foundry/control.py",
++        "symbol": "A24LearnedBudgetGate"
++      },
++      "requirements": [
++        "budget ladder labels",
++        "grouped holdout"
++      ],
++      "rust_skeleton": {
++        "module": "src/mcts/foundry/control.rs",
++        "symbol": "A24LearnedBudgetGate"
++      },
++      "slug": "learned_budget_gate",
++      "status": "seed"
++    },
++    {
++      "claim_scope": "skeleton_or_current_evidence_only",
++      "description": "Run root/shallow maximum-entropy backup as an opt-in objective-mismatch ablation.",
++      "documentation": "docs/idea_foundry/02_candidates_allocation.md",
++      "id": "A25",
++      "plane": "policy",
++      "python_skeleton": {
++        "module": "quartz/idea_foundry/search.py",
++        "symbol": "A25MentsSoftBackup"
++      },
++      "requirements": [
++        "existing policy/ments implementation"
++      ],
++      "rust_skeleton": {
++        "module": "src/mcts/foundry/search.rs",
++        "symbol": "A25MentsSoftBackup"
++      },
++      "slug": "ments_soft_backup",
++      "status": "dormant"
++    },
++    {
++      "claim_scope": "skeleton_or_current_evidence_only",
++      "description": "Validate exact finite nested-contour mechanics separately from live particle search.",
++      "documentation": "docs/idea_foundry/02_candidates_allocation.md",
++      "id": "A26",
++      "plane": "analysis_backend",
++      "python_skeleton": {
++        "module": "quartz/idea_foundry/search.py",
++        "symbol": "A26NestedContourExactLab"
++      },
++      "requirements": [
++        "explicit finite prior, score and constrained sampler"
++      ],
++      "rust_skeleton": {
++        "module": "src/mcts/foundry/search.rs",
++        "symbol": "A26NestedContourExactLab"
++      },
++      "slug": "nested_contour_exact_lab",
++      "status": "analysis_only"
++    }
++  ],
++  "branch_target": "agent/local-experiment-foundry",
++  "description": "Machine-readable design registry for candidate experiment axes. Status describes the initial evidence role, not efficacy.",
++  "format_version": 1,
++  "registry_id": "quartz_idea_foundry_axes",
++  "shared_contracts": {
++    "docs": "docs/idea_foundry/README.md",
++    "hot_path": "no allocation or heavy calculation in SearchPolicy::score_adjustment",
++    "online_rule": "axes emit MetaProposal; a single arbiter selects one explicit computation action",
++    "python": "quartz/idea_foundry/contracts.py",
++    "rust": "src/mcts/foundry/types.rs"
++  }
++}
+diff --git a/docs/idea_foundry/00_INDEX_KO.md b/docs/idea_foundry/00_INDEX_KO.md
+new file mode 100644
+index 0000000..87d1a24
+--- /dev/null
++++ b/docs/idea_foundry/00_INDEX_KO.md
+@@ -0,0 +1,110 @@
++# QUARTZ Idea Foundry — 실험 후보 통합 색인
++
++이 문서 묶음은 현재 QUARTZ의 Rust MCTS 엔진과 Phase-15 Python trace
++인프라 위에서 실험할 후보를 **26개 축**으로 정리한다. 각 축은 처음부터
++성능 향상 기능으로 켜지지 않는다. 먼저 trace replay 또는 synthetic lab에서
++관측되고, 그다음 shadow, 조건부 online, 배포 후보 순으로 승격한다.
++
++## 공통 코드 계약
++
++Rust의 기존 `SearchPolicy`는 루트 통계를 주기적으로 `observe`하고,
++`score_adjustment`에서는 캐시된 값을 O(1)로 읽으며, `should_halt`에서 정지
++여부를 반환한다. 기존 `PolicyCachePublisher`는 `ArcSwap`을 이용하고,
++`edge_pos`와 게임의 `action_id`를 분리하며, stale certificate 정지를 막는다.
++새 foundry 코드는 이 구조를 대체하지 않고 상위에 다음 계약을 추가한다.
++
++```text
++FoundryAxis.observe(snapshot) → MetaProposal[]
++MetaProposal = 계산 행동 + 기대 regret 감소 LCB + 비용 + guard + telemetry
++ConservativeArbiter → checkpoint마다 명시적인 계산 행동 하나만 선택
++```
++
++온라인 모듈이 각자 PUCT에 bonus를 더하지 않는 것이 핵심이다. 동시에 여러
++shadow observer는 실행할 수 있지만, 실제 계산 행동은 한 arbiter가 선택한다.
++
++## 26개 축
++
++| ID | 축 | 초기 상태 | 주요 행동/산출물 |
++|---|---|---|---|
++| A01 | calibrated stop council | SHADOW | `STOP`, 잘못된 결정 위험 보정 |
++| A02 | static-anchor RPO | SHADOW | 누적 refresh 없는 임시 root policy |
++| A03 | 불확실성 분해 | SHADOW | MC/epistemic/drift/bias bounds |
++| A04 | KG/VOC allocator | SHADOW | `SAMPLE`, `CHALLENGE` |
++| A05 | counterfactual meta teacher | SEED | 동일 snapshot의 fork label |
++| A06 | Gumbel + Sequential Halving | MECHANISM_VALID | 저예산 후보 coverage와 배분 |
++| A07 | residual-evidence widening | SEED | `WIDEN`, live-set 밖 mass bound |
++| A08 | tactical proof backend | CONDITIONAL | `PROVE`, 강제 수 보호 |
++| A09 | H3 change-point router | SHADOW | entropy/margin 변화 기반 `DEEPEN` 후보 |
++| A10 | prior-refresh specialist | DORMANT | 약한 evaluator/OOD 전용 조건부 실험 |
++| A11 | dynamic live-set particles | SEED | `RESAMPLE_MODE`, 휴면·부활 후보군 |
++| A12 | JSD locally balanced sampler | SEED | sibling geometry 기반 root sampling |
++| A13 | pending-flow / WU-UCT | CONDITIONAL | 미완료 작업과 완료 evidence 분리 |
++| A14 | semantic path LSH | SHADOW | 고스레드 whole-path 중복 진단 |
++| A15 | service-curve scheduler | MECHANISM_VALID | `SET_BATCH`, `SET_INFLIGHT` |
++| A16 | graph/state sharing | SEED | state cache와 parent-edge stats 분리 |
++| A17 | B13 curvature readout | MECHANISM_VALID | decision-neutral policy readout |
++| A18 | diffusion-regularized evaluator | SEED | 학습 보조 denoising, 직접 추론 |
++| A19 | RW-ResT Lite evaluator | SEED | sparse local-global 평가기 |
++| A20 | regret state archive | SEED | `ARCHIVE_STATE`, 재시작·재분석 데이터 |
++| A21 | signed-path coherence shadow | ANALYSIS_ONLY | bounded disagreement feature |
++| A22 | physics falsification dashboard | ANALYSIS_ONLY | beta/RG/redundancy/null tests |
++| A23 | CPU incremental pattern student | SEED | quantized make/unmake 평가기 |
++| A24 | learned budget gate | SEED | 상태별 추가 budget 또는 stop |
++| A25 | MENTS soft backup | DORMANT | root/shallow entropy backup ablation |
++| A26 | exact nested-contour lab | ANALYSIS_ONLY | 작은 유한 모형의 정확도 검증 |
++
++## 문서 분할
++
++- `01_control_policy.md`: A01–A05, A09, A10, A24
++- `02_candidates_allocation.md`: A06–A08, A12, A25, A26
++- `03_parallel_backends.md`: A11, A13–A16
++- `04_representation_training.md`: A17–A20, A23, A24 학습 데이터
++- `05_analysis_physics.md`: A21, A22, A26 및 물리 유비의 승격 조건
++
++## 코드 위치
++
++```text
++quartz/idea_foundry/
++  contracts.py    공통 snapshot/proposal/cost/arbiter 계약
++  control.py      A01-A05, A24
++  search.py       A06-A16, A25-A26
++  learning.py     A17-A23
++
++src/mcts/foundry/
++  types.rs        공통 Rust 계약
++  control.rs      A01-A05, A24
++  search.rs       A06-A16, A25-A26
++  systems.rs      A17-A23
++
++configs/idea_foundry.axes.v1.json
++  26개 축의 문서, skeleton symbol, 의존조건을 기록한 registry
++
++tests/test_idea_foundry_skeletons.py
++  registry 완전성, 모든 Python skeleton 호출, index 분리, 정책 정규화,
++  conservative cost arbitration을 확인
++```
++
++Rust 모듈은 이 단계에서 의도적으로 `src/mcts/mod.rs`에 연결하지 않는다. 따라서
++production search semantics는 바뀌지 않는다. Python skeleton은 바로 import와
++trace replay 실험에 사용할 수 있다. Rust 연결은 다음 순서로 수행한다.
++
++1. `SearchSnapshot`을 몰래 재해석하지 말고 `FoundryRootExtras`에 새 field를 추가한다.
++2. `observe` checkpoint에서 모든 axis proposal을 생성한다.
++3. arbiter가 고른 proposal만 안전한 executor에 전달한다.
++4. `score_adjustment`에는 `PolicyCache`에 publish된 root-only vector만 노출한다.
++5. fresh snapshot/edge hash가 아닌 경우 `STOP`과 proof certificate를 거부한다.
++6. Rust module을 feature gate 또는 명시적 experiment branch에서만 연결한다.
++
++## 실행 확인
++
++bundle을 repo root에 덮어쓴 뒤:
++
++```bash
++venv/bin/python -m pytest -q tests/test_idea_foundry_skeletons.py
++venv/bin/python -m py_compile quartz/idea_foundry/*.py
++python -m json.tool configs/idea_foundry.axes.v1.json >/dev/null
++```
++
++첫 실제 실험은 새 엔진 기능이 아니라 기존 Stage-7 trace를 이용한 A01/A02/A03/
++A09/A17 replay가 적절하다. 그 다음 A05의 deterministic snapshot fork를 구현하고,
++`STOP/SAMPLE/WIDEN` 세 행동만 counterfactual label로 만든다.
+diff --git a/docs/idea_foundry/01_control_policy.md b/docs/idea_foundry/01_control_policy.md
+new file mode 100644
+index 0000000..748a33e
+--- /dev/null
++++ b/docs/idea_foundry/01_control_policy.md
+@@ -0,0 +1,381 @@
++# 01 — Control, Risk, Policy Improvement, and Counterfactual Learning
++
++This document specifies the foundry axes that decide **whether to continue,
++what computation to buy, and whether the root policy may be changed**.  These
++modules sit above the current `SearchPolicy` interface; they must preserve the
++existing `observe → immutable cache publish → O(1) hot-path read` contract.
++
++Covered axes: **A01, A02, A03, A04, A05, A09, A10, A24**.
++
++## Shared repository design
++
++### Current insertion points
++
++- `src/mcts/policy/trait_def.rs`
++  - `SearchSnapshot` is the periodic root snapshot.
++  - `EdgeView` is the read-only edge surface.
++  - `SearchPolicy::observe` is the heavy-compute boundary.
++  - `SearchPolicy::score_adjustment` must stay O(1).
++  - `SearchPolicy::should_halt` may only use fresh evidence.
++- `src/mcts/policy/cache.rs`
++  - `PolicyCachePublisher` is the approved lock-free publish mechanism.
++  - arrays are indexed by `edge_pos`, never by game action identifiers.
++- `quartz/phase15_ablation.py`
++  - trace-generating search semantics and post-hoc readout semantics are kept
++    separate through `search_relevant_signature`.
++- `scripts/phase15_online_ablation.py`
++  - resident root continuation is the first practical host for online control.
++- `quartz/idea_foundry/contracts.py` and `src/mcts/foundry/types.rs`
++  - new modules emit `MetaProposal`; they do not mutate PUCT independently.
++
++### Missing fields
++
++Do not overload the present `SearchSnapshot` fields.  Add a schema-bumped
++companion (`FoundryRootExtras`) for entropy/margin slopes, H1 stability,
++omission risk, revision count, evaluator identity, and runtime state.  Until
++that lands, Python trace replay is authoritative for these features.
++
++---
++
++## A01 — Calibrated stop council
++
++### Question
++
++Can the controller estimate the probability that the currently committed root
++action disagrees with a held-out deeper-search action, while avoiding the
++known failure modes of any single H1 or `P_flip` threshold?
++
++### Existing evidence and scope
++
++H1 has substantially better calibration than the incumbent `P_flip` on the
++current Stage-7 trace bank, but neither signal has earned a low-budget online
++saving claim.  The council therefore starts as **trace-only calibration**, not
++as a new live stop rule.  The uploaded reviews consistently call for a
++multi-signal risk model rather than letting one miscalibrated statistic control
++halt, widening, and refresh simultaneously.
++
++### Inputs
++
++```text
++H1 argmax stability
++P_flip
++top-2 margin and slope
++root entropy and slope
++best/runner interval overlap
++candidate omission bound
++revision count
++evaluator strength/version
++budget and continuation mode
++```
++
++### Output
++
++`MetaAction::Stop` only when:
++
++1. the upper confidence bound on wrong-decision risk is below the configured
++   risk allowance;
++2. the cache/snapshot is fresh;
++3. tactical and candidate-coverage guards pass; and
++4. the arbiter sees no positive-LCB non-stop proposal.
++
++### Skeletons
++
++- Rust: `A01StopCouncil` in `src/mcts/foundry/control.rs`
++- Python: `A01StopCouncil` in `quartz/idea_foundry/control.py`
++
++### First tests
++
++1. Position-grouped calibration split; no checkpoint from the same position
++   group on both sides.
++2. H1-only, `P_flip`-only, margin-only, logistic council, and isotonic council.
++3. ECE, Brier, log loss, selective risk, and realized budget.
++4. Stratify continuation and restart traces; never pool them.
++
++### Promotion
++
++Promote from `SHADOW` only if the council beats the best scalar baseline on a
++held-out position group and provides a non-inferior matched-budget stop policy.
++
++---
++
++## A02 — Static-anchor regularized policy improvement
++
++### Question
++
++Can search use current value evidence without recursively mutating the network
++prior and amplifying its own selection bias?
++
++### Operator
++
++For a frozen root anchor prior `pi0` and a chosen robust score `s_a`, compute a
++temporary root policy
++
++```text
++q_tau(a) ∝ pi0(a) exp(s_a / tau).
++```
++
++The next checkpoint always recomputes from `pi0`; `q_tau` never becomes the new
++anchor.  Candidate-tail mass must be explicitly preserved when only a visible
++subset is transformed.
++
++### Inputs
++
++- frozen network prior per legal action;
++- completed-backup mean and uncertainty bounds;
++- visible/live candidate mask;
++- KL or displacement allowance;
++- optional safe-step search over temperature.
++
++### Outputs
++
++A post-hoc or cache-published `effective_prior` vector.  It is not a persistent
++`refresh_prior` mutation.
++
++### Skeletons
++
++- Rust: `A02StaticAnchorRpo`
++- Python: `A02StaticAnchorRPO`
++
++### First tests
++
++- identity when all action scores are equal;
++- zero-prior floor and exact normalization;
++- anchor immutability across checkpoints;
++- explicit preservation of unmaterialized mass;
++- compare static anchor, legacy cumulative refresh, Gumbel, and exact RPO on
++  identical trace prefixes.
++
++### Promotion
++
++Requires lower oracle regret or KL-to-oracle without worse hidden-action recall
++under matched evaluations and matched wall-clock.
++
++---
++
++## A03 — Uncertainty decomposition
++
++### Question
++
++Which part of root uncertainty comes from completed Monte-Carlo backups, neural
++model epistemic error, within-search drift, and systematic evaluator bias?
++
++### Contract
++
++```text
++r_total = r_mc + r_epistemic + r_drift + r_bias
++```
++
++is the default.  Root-sum-square is an ablation that may only be promoted after
++covariance calibration.  Virtual visits and unfinished trajectories are never
++used as completed evidence.
++
++### Proposed data sources
++
++- `r_mc`: Welford/anytime bounded-backup statistic;
++- `r_epistemic`: shared trunk with several cheap value heads or calibrated
++  checkpoint ensemble;
++- `r_drift`: recent block mean against earlier block mean;
++- `r_bias`: held-out deeper search, exact tactical labels, or learned residual
++  envelope.
++
++### Skeletons
++
++- Rust: `A03UncertaintyDecomposition`
++- Python: `A03UncertaintyDecomposition`
++
++### First tests
++
++Inject constant, pattern-dependent, heteroscedastic, and correlated errors in a
++synthetic root.  Report interval coverage separately for every channel and for
++the combined interval.  Do not call a Welford dispersion estimator “NN
++posterior uncertainty.”
++
++---
++
++## A04 — KG/VOC computation allocator
++
++### Question
++
++Which visible arm or computation should receive the next measured-cost batch?
++
++### Current disposition
++
++The existing low-budget KG **stop** claim is closed for the tested Gomoku7
++regime.  This does not close KG as an **allocation** feature.  The foundry
++skeleton therefore emits `SAMPLE` or `CHALLENGE`; it does not halt.
++
++### Target utility
++
++```text
++net_value(c) = LCB(expected root simple-regret reduction | c)
++               - measured compute cost(c).
++```
++
++The initial approximation may use a top-m Gaussian/quadrature KG plus a learned
++residual.  Telemetry must label the value as proxy until calibrated against
++counterfactual branches.
++
++### Skeletons
++
++- Rust: `A04KgVocAllocator`
++- Python: `A04KgVocAllocator`
++
++### Tests
++
++- monotonicity under increased challenger uncertainty;
++- no false “stop” output;
++- actual per-action latency rather than a universal cost constant;
++- compare allocation gain with uniform, PUCT, UCB, Gumbel-SH, and forked-oracle
++  best action.
++
++---
++
++## A05 — Forked counterfactual meta-action teacher
++
++### Question
++
++What would have happened if, from exactly the same root snapshot, the system
++had stopped, sampled the incumbent, challenged the runner-up, widened, proved a
++tactical move, or changed scheduler settings?
++
++### Required engine work
++
++The current resident-session interface can continue a root but cannot yet clone
++one immutable search state into several deterministic branches.  The production
++implementation should add:
++
++```text
++serialize/freeze root snapshot
++fork deterministic RNG streams
++resume branch with one explicit MetaAction
++return action, final policy, realized visits/evals/ms, and failure status
++```
++
++State identity must include root hash, evaluator version, candidate-generation
++epoch, TT identity policy, and cache schema.
++
++### Labels
++
++```text
++y_c = decision_loss(STOP) - decision_loss(c)
++      over realized cost(c)
++```
++
++Store raw numerator and cost vector; do not retain only a ratio.
++
++### Skeletons
++
++- Rust: `A05CounterfactualMetaTeacher` documents the executor seam.
++- Python: `A05CounterfactualMetaTeacher` builds `CounterfactualLabel` records.
++
++### First implementation slice
++
++Only `STOP`, `SAMPLE(best, k)`, `SAMPLE(challenger, k)`, and `WIDEN(k)`.
++Add proof and systems actions after deterministic replay is pinned.
++
++---
++
++## A09 — H3 entropy–margin change-point router
++
++### Question
++
++Do increasing root entropy and shrinking top-two margin identify a regime where
++extra exploration/depth is valuable?
++
++### Current disposition
++
++The previous binary gate fired zero times at its default floors.  This axis
++starts with continuous features and change-point labels, not another arbitrary
++threshold.
++
++### Skeletons
++
++- Rust: `A09H3ChangePointRouter`
++- Python: `A09H3ChangePointRouter`
++
++### Tests
++
++- threshold-free precision/recall against forked-VOC hard-state labels;
++- percentile and logistic change scores;
++- false-trigger cost on easy positions;
++- compare `DEEPEN`, `WIDEN`, and no-op branches instead of presuming a burst is
++  the right response.
++
++---
++
++## A10 — Prior-refresh specialist
++
++### Question
++
++Is cumulative prior mutation useful in a narrowly defined weak-evaluator or
++out-of-distribution regime even though it is unsafe as the default?
++
++### Guarded role
++
++`DORMANT` conditional expert.  It may run only in a preregistered slice with:
++
++- frozen baseline and identical candidate coverage;
++- explicit evaluator quality/OOD signal;
++- bounded refresh displacement;
++- tail-mass preservation;
++- rollback to anchor after every root.
++
++### Skeletons
++
++- Rust: `A10PriorRefreshSpecialist`
++- Python: `A10PriorRefreshSpecialist`
++
++A positive narrow result must not change the no-refresh default.
++
++---
++
++## A24 — Learned state-dependent budget gate
++
++### Question
++
++Can a small model select one of a discrete set of planning budgets on top of a
++frozen planner and transfer across checkpoint strength or games?
++
++### Inputs
++
++Use only cheap features available before buying the next budget tier: direct
++policy entropy/margin, network uncertainty, current root statistics, elapsed
++cost, and tactical flags.  Do not give the gate oracle/deeper-search features at
++inference.
++
++### Outputs
++
++A `SAMPLE` continuation amount or `STOP`, represented as an explicit proposal.
++The model is not allowed to change PUCT and budget simultaneously in the first
++ablation.
++
++### Skeletons
++
++- Rust: `A24LearnedBudgetGate`
++- Python: `A24LearnedBudgetGate`
++
++### Evaluation
++
++- fixed-budget grid;
++- hand-built entropy/margin gate;
++- A01 calibrated stop council;
++- learned budget model;
++- cross-game and cross-checkpoint holdout;
++- decision quality per wall-clock, not only average visits.
++
++---
++
++## Group integration order
++
++```text
++Trace features (A03, A09)
++    → risk calibration (A01)
++    → static policy readout (A02)
++    → counterfactual labels (A05)
++    → allocation model (A04)
++    → discrete budget gate (A24)
++    → conditional legacy expert audit (A10)
++```
++
++No combined live controller is enabled until each proposal has a calibrated
++cost and an independently measured causal label.
+diff --git a/docs/idea_foundry/02_candidates_allocation.md b/docs/idea_foundry/02_candidates_allocation.md
+new file mode 100644
+index 0000000..aff9151
+--- /dev/null
++++ b/docs/idea_foundry/02_candidates_allocation.md
+@@ -0,0 +1,308 @@
++# 02 — Candidate Coverage, Widening, Proof, Geometry, and Allocation
++
++This document covers axes that prevent a root controller from becoming very
++confident about the wrong **visible** action set.
++
++Covered axes: **A06, A07, A08, A12, A25, A26**, with A04 as the common
++allocation consumer.
++
++## Shared distinction: omission versus ranking
++
++Every candidate experiment must report two errors separately:
++
++```text
++R_omit = P(best reference action is not visible)
++R_rank = P(best visible action is misranked | reference best is visible).
++```
++
++- `WIDEN` targets omission risk.
++- `SAMPLE`/`CHALLENGE` target ranking risk.
++- `PROVE` targets tactical exactness.
++- `STOP` is illegal while a calibrated omission guard fails.
++
++This distinction is reflected in `RootObservation.candidate_omission_bound` and
++in the foundry `MetaAction` enum.
++
++---
++
++## A06 — Gumbel candidate selection and Sequential Halving
++
++### Question
++
++Can a low-budget search cover more plausible root actions and allocate a fixed
++budget among them more efficiently than ordinary PUCT visits?
++
++### Repository reuse
++
++The repo already contains `src/mcts/policy/gumbel_sh.rs`.  The foundry axis
++should wrap and instrument that implementation instead of creating a second
++Gumbel sampler.
++
++### Root contract
++
++```text
++candidate set = Gumbel top-m without replacement
++                ∪ high-uncertainty reserve
++                ∪ tactical sentinels
++round allocation = resumable Sequential Halving bracket
++```
++
++Training/evaluation randomness must be controlled explicitly.  Deterministic
++evaluation uses pinned Gumbel samples or a deterministic candidate mode.
++
++### Skeletons
++
++- Rust: `A06GumbelSequentialHalving`
++- Python: `A06GumbelSequentialHalving`
++
++### First tests
++
++- no duplicate candidate IDs;
++- reproducibility under pinned seed;
++- exact budget conservation across rounds;
++- low-prior hidden-best fixture;
++- compare top-1 and top-k recall against prior top-k and ordinary PUCT.
++
++---
++
++## A07 — Residual partition-mass widening
++
++### Question
++
++How much regularized posterior mass may still lie outside the live candidate
++set, and is that mass large enough to justify `WIDEN`?
++
++### Core calculation
++
++For a static anchor prior and score `s_a`, define
++
++```text
++Z_L   = Σ_{a in live} pi0(a) exp(s_a / tau)
++Z_out = Σ_{a outside} pi0(a) exp(s_a / tau).
++```
++
++If only upper scores are available outside the live set, use
++`Z_out_upper`.  The conditional truncation error obeys
++
++```text
++TV(full posterior, live-conditional posterior) = Z_out / (Z_L + Z_out),
++```
++
++and is bounded by replacing `Z_out` with `Z_out_upper`.
++
++### Hard part
++
++The formula is cheap; calibrated upper scores for unmaterialized actions are
++not.  Initial sources:
++
++- direct network prior plus value-head uncertainty;
++- cheap tactical features;
++- action-embedding nearest-neighbour bounds;
++- global bounded-value fallback, reported as loose.
++
++### Skeletons
++
++- Rust: `A07ResidualEvidenceWidening`
++- Python: `A07ResidualEvidenceWidening`
++
++### Tests
++
++- exact enumerated roots where all outside scores are known;
++- bound coverage and tightness;
++- zero/live/full edge cases;
++- compare standard progressive widening, Gumbel-SH, and residual-mass widening
++  at identical evaluation and wall-clock budgets.
++
++### Non-claim
++
++This is not a claim to run the full nested-sampling evidence algorithm inside
++MCTS.  It borrows residual-mass reasoning for a finite-action widening error.
++
++---
++
++## A08 — Tactical sentinel and proof backend
++
++### Question
++
++Can cheap exact or shallow tactical checks protect forced actions from a
++miscalibrated neural prior or statistical stop rule?
++
++### Architecture
++
++The generic foundry contract emits `PROVE(edge, budget)`.  Game-specific logic
++stays behind a trait/adapter and does not contaminate the generic controller.
++
++Potential Gomoku/Renju operations:
++
++```text
++immediate win
++mandatory immediate block
++open-four / double-threat candidates
++forbidden-move legality
++bounded threat-space search
++```
++
++Chess and Go require different adapters.  A sentinel flag may force inclusion;
++it may only force final selection when the underlying routine returns an exact
++proof under the game rules.
++
++### Skeletons
++
++- Rust: `A08TacticalProofBackend`
++- Python: `A08TacticalProofBackend`
++
++### Tests
++
++- solved tactical corpus;
++- false-positive and false-negative rates;
++- proof result dominates score only when `proven=true`;
++- proof cost included in the proposal cost vector;
++- generic controller tests use mock proof backends.
++
++---
++
++## A12 — JSD-preconditioned locally balanced root sampler
++
++### Question
++
++Can sibling successor policies define a useful local geometry for moving
++search effort among root actions without treating JSD itself as an energy
++bonus?
++
++### Required separation
++
++```text
++target density μ(a) ← anchor prior and Q/value evidence
++local geometry K_ab ← sibling policy-value JSD
++```
++
++JSD is not directly subtracted from PUCT.  For sibling action successors
++`x_a`, create compatible policy-value representations `rho_a`, then
++
++```text
++d_ab = sqrt(JSD(rho_a, rho_b))
++K_ab = exp(-d_ab² / (2 ell²)) on a symmetric neighbour graph
++R_ab = K_ab * g(μ(b)/μ(a))
++```
++
++with a balancing function such as square-root or Barker.  At a frozen snapshot
++this is a locally balanced discrete transition.  During MCTS it is an adaptive,
++non-stationary sampler; do not claim exact stationary MCMC.
++
++### Support handling
++
++Compare:
++
++1. common-legal-support policy renormalization;
++2. fixed action-space unmasked logits plus explicit legality channel.
++
++The first is the safe default.
++
++### Skeletons
++
++- Rust: `A12JsdLocallyBalancedSampler`
++- Python: `A12JsdLocallyBalancedSampler`
++
++### First implementation
++
++Root-only trace replay with cached child network outputs.  Never reevaluate all
++siblings in every selection call.
++
++### Baselines
++
++prior sampling, Boltzmann, Gumbel, board Hamming kernel, latent cosine kernel,
++and PTSA-style abstraction.
++
++---
++
++## A25 — MENTS / soft-backup ablation
++
++### Question
++
++Does a maximum-entropy/soft backup improve sample efficiency in selected
++uncertain regimes without changing the original game objective or blurring
++forced tactics?
++
++### Scope
++
++`DORMANT` and opt-in.  Apply root-only or shallow-depth soft backup first.
++Temperature must decay or be selected by a target-entropy contract.
++
++### Skeletons
++
++- Rust: `A25MentsSoftBackup`
++- Python: `A25MentsSoftBackup`
++
++### Tests
++
++- temperature → 0 recovers hard/max backup;
++- value sign and player-to-move conventions;
++- tactical suite degradation;
++- compare against existing `src/mcts/policy/ments.rs` rather than duplicating
++  its math.
++
++### Non-claim
++
++A maximum-entropy optimum can differ from the reward-optimal action.  MENTS is
++an experimental allocator/backup, not a universal objective replacement.
++
++---
++
++## A26 — Exact nested-contour validation lab
++
++### Question
++
++Can a precisely defined small discrete trajectory model maintain separated
++modes and estimate its target mass accurately enough to justify a later
++approximate live-set backend?
++
++### Isolation rule
++
++This is an `ANALYSIS_ONLY` backend.  It does not control the production MCTS.
++It needs an explicit:
++
++- trajectory space;
++- reference prior/proposal;
++- score/likelihood;
++- constrained resampling kernel;
++- enumerated or independently computed ground truth.
++
++### Skeletons
++
++- Rust: `A26NestedContourExactLab` (contract only)
++- Python: `A26NestedContourExactLab`
++
++### Test bank
++
++- small finite action/trajectory spaces;
++- disconnected modes with known masses;
++- plateaus;
++- smallest-mode survival;
++- evidence/posterior error;
++- compare SMC and stratified enumeration.
++
++Only after this lab is sound may A11 borrow a live-set heuristic.  A11 must not
++inherit an “exact evidence” claim.
++
++---
++
++## Candidate campaign matrix
++
++Use a shared bank with at least:
++
++```text
++prior correct
++prior badly wrong
++best action in low-prior tail
++near tie
++diffuse many-near-optimal
++forced win
++forced block
++multimodal value
++high branching
++unmaterialized best
++correlated/transposed subtrees
++```
++
++Report discovery probability, discovery latency, omission/ranking regret,
++false-stop rate, NN evaluations, CPU/GPU time, and candidate resurrection rate.
+diff --git a/docs/idea_foundry/03_parallel_backends.md b/docs/idea_foundry/03_parallel_backends.md
+new file mode 100644
+index 0000000..4c5eca5
+--- /dev/null
++++ b/docs/idea_foundry/03_parallel_backends.md
+@@ -0,0 +1,240 @@
++# 03 — Parallel Execution, Particle Search, Path Diversity, and Graph Sharing
++
++This document covers axes whose main effect is **how computation is executed or
++shared**, rather than which root action currently looks best.
++
++Covered axes: **A11, A13, A14, A15, A16**.
++
++## Shared runtime principles
++
++1. Completed backups are evidence; pending work is scheduling state.
++2. Simulation count, NN evaluation count, and wall-clock are distinct budgets.
++3. Throughput gains are not decision-quality gains until paired search results
++   are measured.
++4. CPU, CUDA, and ROCm service curves are distinct artifacts.
++5. Fixed-budget controller comparisons pin threads, batch policy, and runtime
++   contract unless the scheduler itself is the tested factor.
++
++The existing repo already exposes phase timings, virtual-loss telemetry,
++root-continuation sessions, TT contention counters, and a service-curve lab.
++The foundry should extend those paths instead of inventing separate profilers.
++
++---
++
++## A11 — Dynamic live-set particle root search
++
++### Question
++
++Can independent or weakly coupled particle groups preserve several root modes
++and dynamically reallocate parallel search to actions with high decision value?
++
++### States
++
++```text
++ACTIVE       normal allocation
++HIBERNATING  small resurrection quota
++FROZEN       no current quota, but restorable on a regime change
++PROVEN       exact tactical result
++```
++
++### Statistics
++
++Per candidate/group:
++
++- independent-group return summaries;
++- robust mean/median-of-means;
++- probability-of-best proxy;
++- uncertainty and cost;
++- unique trajectory and duplicate-evaluation rates;
++- mode/cluster identity.
++
++### Actions
++
++`SAMPLE`, `RESAMPLE_MODE`, `WIDEN`, and `STOP` proposals.  Permanent pruning is
++not the first implementation.
++
++### Skeletons
++
++- Rust: `A11DynamicLiveSetParticles`
++- Python: `A11DynamicLiveSetParticles`
++
++### Engine design
++
++Use a root-level backend first.  Each particle trajectory still follows legal
++game transitions and uses the current evaluator.  Keep group statistics
++separate from shared state/evaluation caches.  Integrate deeper-node particles
++only after root attribution is clear.
++
++### Comparators
++
++Gumbel-SH, current tree-parallel MCTS, WU-UCT-style pending correction, SMC
++policy improvement, and PMCTS where reproducible.
++
++---
++
++## A13 — Pending-flow / WU-UCT correction
++
++### Question
++
++Can explicitly tracking unobserved in-flight work reduce redundant selection or
++bias without the pessimism of a fixed virtual value?
++
++### Required state
++
++```text
++N_observed(edge)
++N_pending(edge)
++virtual_value(edge) only if the tested mode uses it
++pending age / queue state
++```
++
++Pending counts shape selection but never enter confidence intervals as if they
++were completed outcomes.
++
++### Skeletons
++
++- Rust: `A13PendingFlowWuUct`
++- Python: `A13PendingFlowWuUct`
++
++### Repository seam
++
++Extend the existing `parallel::VlMode`/selection telemetry and the
++`pending_flow_lab.py` bridge.  Do not introduce an unrelated parallel search
++loop.
++
++### Tests
++
++- deterministic delayed evaluator;
++- pending reservation accounting under cancellation/failure;
++- fixed virtual loss, current adaptive split VL, pending-count-only, and hybrid;
++- quality, duplicate rate, average virtual pessimism, p99 selection latency.
++
++---
++
++## A14 — Whole-path semantic LSH diversity
++
++### Question
++
++After edge-level contention is controlled, are parallel workers still spending
++large batches on semantically similar root-to-leaf paths?
++
++### Distinct claim
++
++This is not the rejected claim that MinHash should beat adaptive virtual loss
++on immediate edge duplicates.  It targets different edges or transposed states
++whose path shingles remain highly overlapping.
++
++### Trace representation
++
++```text
++shingle = (state hash, action id, depth bucket, optional tactical motif)
++path signature = MinHash or another fixed-size sketch
++similarity = estimated Jaccard / calibrated semantic overlap
++```
++
++Online repulsion is gated by high thread/inflight count, low residual edge
++duplication, and high measured semantic overlap.
++
++### Skeletons
++
++- Rust: `A14SemanticPathLsh`
++- Python: `A14SemanticPathLsh`
++
++### First stage
++
++Shadow telemetry only.  Test whether overlap predicts duplicated NN leaf
++states, low batch diversity, or lower counterfactual gain.  Promote online only
++if it adds information beyond edge duplicate rate and TT hit rate.
++
++---
++
++## A15 — Evaluator service-curve scheduler
++
++### Question
++
++Which batch size and global inflight credit maximize useful evaluator throughput
++under the current device, model, and search workload?
++
++### Existing base
++
++The repo already has `quartz/experiments/service_curve.py`,
++`scripts/service_curve_lab.py`, tests, and hardware-aware manifests.  The
++foundry skeleton is a decision adapter over those measured curves.
++
++### Actions
++
++`SET_BATCH`, `SET_INFLIGHT`, and later `SET_THREADS`.  Scheduler changes are
++made at safe epochs, not during arbitrary selection steps.
++
++### Skeletons
++
++- Rust: `A15ServiceCurveScheduler`
++- Python: `A15ServiceCurveScheduler`
++
++### Measurements
++
++- items/s and ms/batch;
++- queue wait and batch occupancy;
++- GPU seconds/game and optional power proxy;
++- search decision quality per wall-clock;
++- device/model/checkpoint identity.
++
++The current service-curve lab is quality-free.  Its “lane alive” result only
++authorizes an online quality experiment.
++
++---
++
++## A16 — Monte-Carlo graph/state sharing
++
++### Question
++
++Which information should be shared when transpositions make the search a DAG,
++and which statistics must remain parent-edge specific?
++
++### State split
++
++```text
++Shared state node:
++  game state identity
++  terminal result
++  neural policy/value/uncertainty cache
++  child-state identities
++
++Parent edge:
++  N, W, Q, prior
++  pending/virtual counts
++  root-relative search contribution
++```
++
++Graph-wide visit/value merging is a separate MCGS experimental mode.  The safe
++baseline shares state identity/evaluation only and backs up each parent edge
++independently.
++
++### Skeletons
++
++- Rust: `A16MonteCarloGraphSharing`
++- Python: `A16MonteCarloGraphSharing`
++
++### Tests
++
++- two legal paths reaching the same state;
++- exact state hash includes side to move, rules, repetition/ko where relevant;
++- no parent-edge statistic contamination in cache-only mode;
++- graph-sharing comparator reports memory, eval reuse, contention, and strength;
++- cycle/repetition safeguards for games that are not naturally acyclic.
++
++---
++
++## Recommended backend sequence
++
++```text
++A13 pending accounting correctness
++    → A15 device service curve
++    → A14 semantic shadow telemetry
++    → A16 cache-only graph sharing
++    → A11 root particle backend
++    → optional online A14 and graph-stat sharing
++```
++
++All backend experiments run under a common runtime contract and produce both a
++mechanism report and a paired decision-quality report.
+diff --git a/docs/idea_foundry/04_representation_training.md b/docs/idea_foundry/04_representation_training.md
+new file mode 100644
+index 0000000..0ef189f
+--- /dev/null
++++ b/docs/idea_foundry/04_representation_training.md
+@@ -0,0 +1,249 @@
++# 04 — Readout, Evaluator Architectures, CPU Deployment, and Training Control
++
++Covered axes: **A17, A18, A19, A20, A23, A24**.  A24 is described in the
++control document; this document defines its training/evaluator dependencies.
++
++The central attribution rule is simple: **freeze the search controller when an
++evaluator is compared, and freeze the evaluator when a controller is compared.**
++
++---
++
++## A17 — B13 finite-N curvature readout
++
++### Question
++
++Can a finite-sample curvature correction improve the full root policy target
++without changing the selected action?
++
++### Current evidence
++
++The current trained-network replay result supports a decision-neutral
++KL-to-oracle improvement.  It does not support a play-strength or online score
++claim.
++
++### Three roles must remain separate
++
++1. post-hoc final policy readout;
++2. live selection shaping;
++3. self-play training target.
++
++The first is `MECHANISM_VALID`; the other two are new experiments.
++
++### Repository reuse
++
++Use the pinned `quartz/phase15_one_loop.py` and B13 Phase-15 operator for
++claim-bearing replay.  The foundry class is only a common proposal/readout
++interface.
++
++### Skeletons
++
++- Rust: `A17B13CurvatureReadout`
++- Python: `A17B13CurvatureReadout`
++
++### Tests
++
++- exact decision neutrality when claimed;
++- policy normalization and zero-count behavior;
++- oracle KL, entropy, rare-action mass, and gradient effects;
++- separate training runs for target shaping.
++
++---
++
++## A18 — Diffusion-regularized deterministic evaluator
++
++### Question
++
++Does denoising auxiliary learning improve a direct policy-value evaluator while
++preserving deterministic, low-latency MCTS inference?
++
++### Architecture contract
++
++```text
++clean board → shared deterministic encoder → policy/value heads
++shared latent or masked board → corruption → denoising auxiliary loss
++MCTS inference → clean direct policy/value path only
++```
++
++No random VAE sample, random timestep, denoising loop, reconstruction, or
++state-generation call is allowed in leaf evaluation.
++
++### Variants
++
++1. parameter/FLOP-matched plain U-Net/local-global evaluator;
++2. latent Gaussian denoising auxiliary;
++3. masked categorical board denoising;
++4. policy-map denoising auxiliary;
++5. optional offline policy/value-conditioned position generator, kept outside
++   the evaluator benchmark.
++
++### Skeletons
++
++- Rust: `A18DiffusionRegularizedEvaluator` is a deployment/config contract.
++- Python: `A18DiffusionRegularizedEvaluator` defines loss/inference contracts.
++
++### Required corrections in real model code
++
++- preserve 15×15 spatial alignment via pad/crop or explicit interpolation;
++- spatial policy head, not a giant flattened reconstruction MLP;
++- global/multiscale value pooling;
++- game-level train/validation split;
++- replay buffer across iterations;
++- single batched inference server for multiple self-play workers.
++
++### Evaluation
++
++Policy target KL/top-k, value calibration, batch-1 and search-batch latency,
++positions/s, MCTS nodes/s, fixed-evaluation Elo, and fixed-wall-clock Elo.
++
++---
++
++## A19 — RW-ResT-AZ-40/144-Lite evaluator
++
++### Question
++
++Can a sparse randomly wired local backbone plus a small number of true global
++mixing blocks improve board-size transfer or strength-per-evaluation?
++
++### Proposed architecture
++
++```text
++40 random nodes, 144 channels
++2 cells × 20 nodes
++one-conv pre-activation residual node operation
++WS-dominant degree-capped DAG with mandatory chain
++soft gates during training, dataset-average static pruning for deployment
++2 axial/global-token attention blocks
++spatial policy conv + separate pass logit
++global mean + max (+ token) value head
++```
++
++This is intentionally lighter than forty two-convolution BasicBlocks.  Random
++wiring connects feature blocks, not distant board cells; global attention is
++therefore a separate, measured component.
++
++### Skeletons
++
++- Rust: `A19RwRestLiteEvaluator` captures runtime/deployment metadata.
++- Python: `A19RwRestLiteEvaluator` captures the architecture experiment.
++
++### Experiment design
++
++- screen several graph seeds on a fixed replay proxy;
++- full self-play only for shortlisted graphs;
++- ResNet-FCN, static WS Lite, learnable static weights, soft routing,
++  attention-only, combined, and heavier upper-bound model;
++- same parameter/FLOP, same eval count, and same wall-clock views;
++- held-out board-size test separate from mixed-size training.
++
++---
++
++## A20 — Regret/instability state archive
++
++### Question
++
++Can training compute be redirected toward positions where extra search or a
++better evaluator would have reduced decision regret?
++
++### Archive record
++
++```text
++position identity and serialized state reference
++checkpoint/evaluator identity
++reason: regret, H1 instability, omission, late flip, hidden discovery,
++        prior-search disagreement, rare regime, tactical failure
++priority and importance weight
++search trace and oracle/reference provenance
++deduplication group
++```
++
++### Operations
++
++`ARCHIVE_STATE` is emitted during trace/search collection.  Training later
++chooses restart, reanalysis, extra search, or ordinary replay.  These are
++inter-position control actions and must be budgeted separately from per-move
++search.
++
++### Skeletons
++
++- Rust: `A20RegretStateArchive` emits a compact priority event.
++- Python: `ArchiveRecord` and `A20RegretStateArchive` define the durable record.
++
++### Tests
++
++- deduplication by state/position group;
++- bounded archive size and deterministic eviction;
++- mixture with uniform replay;
++- importance-weight/ESS reporting;
++- fixed total NN evaluations and learner updates;
++- standard self-play, uniform restart, Go-Exploit-like archive, and regret
++  archive comparators.
++
++---
++
++## A23 — CPU incremental pattern student
++
++### Question
++
++Can a game-specialized incremental evaluator beat a generic small CNN at
++fixed CPU move time while remaining faithful to the neural teacher?
++
++### Architecture lane
++
++For Gomoku/Renju, the initial target is a Rapfi/NNUE-like line-pattern or codebook
++student with:
++
++- local pattern indexing;
++- make/unmake incremental updates;
++- int8/int16 accumulation;
++- SIMD-friendly contiguous tables;
++- policy/value distillation;
++- explicit legality/tactical features.
++
++A generic quantized ConvNet remains a separate comparator.  Do not call a
++full-board small ResNet “incremental.”
++
++### Skeletons
++
++- Rust: `A23CpuIncrementalPatternStudent` defines inference/update contracts.
++- Python: `A23CpuIncrementalPatternStudent` defines distillation/deployment
++  metadata.
++
++### Tests
++
++- full recomputation equals incremental update after random make/unmake traces;
++- quantization error and teacher calibration;
++- batch-1 latency, cache update latency, and nodes/s;
++- fixed-time PUCT/PVS comparison using the same evaluator;
++- external CPU engine/tactical suite where licensing and reproducibility allow.
++
++---
++
++## A24 training data for the learned budget gate
++
++A24 uses counterfactual or budget-ladder labels:
++
++```text
++state features at budget b
++chosen action at b
++deep-reference action/value
++incremental time/evaluations to next budget
++realized regret reduction
++```
++
++Group train/test splits by game state and self-play game.  A model that sees a
++deeper checkpoint of the same root in training and an earlier checkpoint in
++test is leaking the answer.
++
++---
++
++## Representation campaign order
++
++```text
++A17 trace-only readout
++    → deterministic evaluator baseline cleanup
++    → A18 auxiliary-loss ablations
++    → A19 graph-seed proxy and shortlisted self-play
++    → A23 CPU student distillation/deployment
++    → A20 training archive
++    → A24 budget gate on frozen planner/evaluator
++```
+diff --git a/docs/idea_foundry/05_analysis_physics.md b/docs/idea_foundry/05_analysis_physics.md
+new file mode 100644
+index 0000000..09e9b2d
+--- /dev/null
++++ b/docs/idea_foundry/05_analysis_physics.md
+@@ -0,0 +1,205 @@
++# 05 — Physics-Inspired Shadows, Falsification, and Evidence Discipline
++
++Covered axes: **A21, A22, A26**, plus the analysis-only interpretation of A17,
++A25, and the free-energy/RG/open-system lineage.
++
++The purpose of this document is to keep the original physical intuitions alive
++without letting them bypass empirical or mathematical contracts.  A physical
++analogy may generate an observable or operator; it does not inherit a physical
++theorem merely because symbols look similar.
++
++## Claim classes
++
++Every analysis artifact assigns one of:
++
++```text
++EXACT_IN_RESTRICTED_MODEL
++  proven for a clearly stated finite/stochastic surrogate
++STRUCTURAL_ANALOGY
++  useful correspondence with explicit points of failure
++OPERATOR_INSPIRATION
++  inspired a measurable algorithmic feature
++FALSIFICATION_ONLY
++  diagnostic that may reject the analogy
++```
++
++No analysis-only class may modify online search.
++
++---
++
++## A21 — Coherence-gated signed path disagreement shadow
++
++### Question
++
++Does retaining a bounded two-dimensional signed memory of path agreement and
++disagreement predict future root revisions beyond ordinary scalar features?
++
++### Safe representation
++
++For path `p`, define a real vector
++
++```text
++z_p = magnitude_p [cos phase_p, sin phase_p].
++```
++
++Magnitude and phase must be built from observable quantities such as confidence,
++prediction-error sign, prior-value disagreement, player parity, or revision
++history.  They are not quantum amplitudes.
++
++A coherence gate decays the feature as the root stabilizes.  The skeleton uses
++H1 and visit count only as a placeholder; the real gate is fitted and tested
++against null features.
++
++### Skeletons
++
++- Rust: `A21CoherenceSignedPathShadow`
++- Python: `A21CoherenceSignedPathShadow`
++
++### Required test
++
++Nested, position-grouped prediction models:
++
++```text
++base = margin, entropy, H1, P_flip, uncertainty, revisions
++base + signed-path feature
++```
++
++Promote only if the added feature improves held-out late-flip/regret prediction
++and remains bounded, symmetry-compatible, and cheap.  Even then it remains an
++operator-inspired feature unless a stronger theorem is proved.
++
++---
++
++## A22 — Physics-analogy falsification dashboard
++
++### Question
++
++Which thermodynamic, RG-like, redundancy, and open-system surrogates actually
++fit root-search traces, and where do they fail?
++
++### Dashboard panels
++
++#### Effective inverse temperature
++
++Fit
++
++```text
++beta_eff = argmin_beta KL(pi_visits || softmax(beta * score))
++```
++
++and always report the residual KL.  A monotone beta without a small residual
++does not establish a thermal model.
++
++#### Redundancy / Darwinism surrogate
++
++Create independent or Dirichlet-bootstrap simulation fragments and measure
++fragment-size versus full-decision agreement, information, and H1 stability.
++Call this classical decision-information redundancy, not quantum mutual
++information unless an actual density-operator model is defined.
++
++#### RG-like scale flow
++
++Track entropy, effective branching, Q gaps, curvature/readout correction, and
++candidate mass over geometric budgets.  Test explicit rescaling/collapse
++hypotheses against null/smooth alternatives.  A visually straight log-log line
++is not enough.
++
++#### Susceptibility
++
++On near-tie roots, perturb a root score/prior by a preregistered small field and
++measure the change of an order parameter such as top-two policy difference.
++Control for finite-budget and saturation effects.
++
++#### Nonequilibrium tests
++
++Do not test FDT, Crooks, or Jarzynski unless all of the following are defined:
++
++- state/energy function;
++- forward transition kernel and protocol;
++- reverse protocol/kernel;
++- work/heat functional;
++- equilibrium or stationary reference;
++- support/absolute-continuity conditions.
++
++Otherwise record `NOT_APPLICABLE_MODEL_UNDEFINED`, not a failed or successful
++physical law.
++
++### Skeletons
++
++- Rust: `A22PhysicsFalsificationDashboard` emits no online action.
++- Python: `A22PhysicsFalsificationDashboard` defines trace inputs.
++
++### Artifacts
++
++Machine-readable panel results, null-model definitions, fit residuals,
++bootstrap intervals, and an explicit conclusion per hypothesis.
++
++---
++
++## A26 — Exact nested-contour lab
++
++A26 is described in the candidate document.  Its role here is to ensure that
++“nested sampling” language is only used where prior mass, likelihood/score,
++constrained replacement, and ground truth are explicit.  Approximate live-set
++search belongs to A11 and receives no evidence-estimation guarantee.
++
++---
++
++## Free energy and path measures
++
++The defensible shared foundation is a classical KL-regularized control/search
++objective:
++
++```text
++F[q] = - E_q[return]
++       + lambda E_q[compute cost]
++       + tau KL(q || proposal/anchor path measure).
++```
++
++Its finite-action variational solution supports A02 and parts of A25.  It does
++not prove a Keldysh, Lindblad, quantum-Darwinism, or Jarzynski model of the live
++Rust search.
++
++## Open-system and non-equilibrium lineage
++
++The original forward selection / backward backup, pending workers,
++interference, decoherence, and pointer-state ideas may be recast as questions:
++
++- Does a closed-time-contour bookkeeping view expose useful forward/backward
++  trace features?
++- Does path diversity act like a repulsive scheduler and reduce duplicate
++  computation?
++- Does decision stability have a calibrated decay/relaxation time?
++- Can a classical stochastic-approximation or MSRJD surrogate predict root
++  covariance or scheduler settings?
++
++These questions live in A21/A22 until they predict something beyond existing
++statistics.
++
++## Geometry / consistency
++
++Graph geometry is initially restricted to measurable engineering quantities:
++
++- transposition path inconsistency;
++- state-sharing gain;
++- path semantic overlap;
++- cheap Jaccard/Forman-like graph summaries as optional teacher features.
++
++Runtime Ollivier-Ricci calculations or artificially inserted loops are not core
++requirements.  Any geometry head must demonstrate incremental predictive value
++against depth, branching, entropy, gap, and uncertainty baselines.
++
++## Evidence discipline
++
++A positive fit is not an online improvement.  The ladder is:
++
++```text
++observable is numerically well-defined
++→ survives invariance/null tests
++→ predicts held-out search behavior
++→ provides a new proposal or calibration signal
++→ improves paired online decision quality per cost
++```
++
++Failure at one role is recorded at `(axis, role, game, budget, evaluator,
++hardware)` scope; it does not erase the broader source idea.
+diff --git a/docs/idea_foundry/README.md b/docs/idea_foundry/README.md
+new file mode 100644
+index 0000000..8931c2e
+--- /dev/null
++++ b/docs/idea_foundry/README.md
+@@ -0,0 +1,211 @@
++# QUARTZ Idea Foundry — Experiment Candidate Atlas
++
++This directory is the design atlas for the experimental program layered on top
++of the current Rust MCTS engine and Phase-15 Python trace infrastructure.  It is
++not a claim that all candidates work.  It is a contract for keeping ideas
++alive, falsifiable, and runnable without merging them into one un-auditable
++score formula.
++
++The companion skeletons live in:
++
++- `src/mcts/foundry/` — Rust runtime and meta-action contracts; deliberately not
++  wired into `mcts::mod.rs` by this scaffold.
++- `quartz/idea_foundry/` — Python replay, counterfactual, model, and analysis
++  skeletons.
++- `configs/idea_foundry.axes.v1.json` — machine-readable axis registry.
++
++## 1. Existing repository contracts to preserve
++
++The current repository already provides the correct low-level seams:
++
++1. `mcts::policy::SearchPolicy` exposes periodic `observe`, O(1)
++   `score_adjustment`, `should_halt`, and telemetry.
++2. `SearchSnapshot` and `EdgeView` expose root and edge statistics without
++   handing a policy mutable tree access.
++3. `PolicyCachePublisher` uses immutable `PolicyCache` values and `ArcSwap`,
++   keeps arrays edge-position indexed, and rejects stale certificates.
++4. Phase-15 distinguishes search-relevant signatures from pure post-hoc
++   readouts so candidate comparisons can reuse one trace.
++5. `experiment_manifest.py` records source hashes, resolved assumptions,
++   prohibited inferences, runtime provenance, and output hashes.
++
++The foundry extends these seams.  It must not bypass them with a second tree,
++a second hidden prior, or untracked in-place mutations.
++
++## 2. Shared design rule
++
++Every online module emits a `MetaProposal`; it does not directly alter PUCT.
++
++```text
++MetaProposal
++  axis_id
++  action: STOP | SAMPLE | CHALLENGE | WIDEN | DEEPEN | PROVE |
++          RESAMPLE_MODE | MERGE_OR_SHARE | SET_BATCH | SET_INFLIGHT |
++          SET_THREADS | REANALYSE | ARCHIVE_STATE | NOOP
++  expected decision-regret reduction: mean + conservative lower bound
++  measured or predicted cost: NN evals, CPU ms, GPU ms, energy proxy
++  confidence
++  activation guard
++  explanation + telemetry
++```
++
++The conservative arbitration score is
++
++```text
++net_lcb = LCB(expected decision-regret reduction)
++          - price_nn * nn_evals
++          - price_cpu * cpu_ms
++          - price_gpu * gpu_ms
++          - price_energy * energy_proxy
++```
++
++Only one explicit computation action is selected at a checkpoint.  Several
++shadow observers may run, but several active modules may not independently add
++bonuses to the same score.
++
++## 3. Candidate atlas
++
++| ID | Axis | Plane | Initial disposition | Rust skeleton | Python skeleton |
++|---|---|---|---|---|---|
++| A01 | Calibrated stop council | control | shadow | `A01StopCouncil` | `A01StopCouncil` |
++| A02 | Static-anchor regularized policy improvement | policy | shadow | `A02StaticAnchorRpo` | `A02StaticAnchorRPO` |
++| A03 | MC/epistemic/drift/bias uncertainty decomposition | belief | shadow | `A03UncertaintyDecomposition` | `A03UncertaintyDecomposition` |
++| A04 | KG/VOC computation allocator | control | shadow; low-budget stop remains closed | `A04KgVocAllocator` | `A04KgVocAllocator` |
++| A05 | Forked counterfactual meta-action teacher | learning | seed | `A05CounterfactualMetaTeacher` | `A05CounterfactualMetaTeacher` |
++| A06 | Gumbel candidate selection + Sequential Halving | candidates | mechanism-valid / challenger | `A06GumbelSequentialHalving` | `A06GumbelSequentialHalving` |
++| A07 | Residual partition-mass widening | candidates | seed | `A07ResidualEvidenceWidening` | `A07ResidualEvidenceWidening` |
++| A08 | Tactical sentinel and proof backend | proof | conditional / game-specific | `A08TacticalProofBackend` | `A08TacticalProofBackend` |
++| A09 | H3 entropy–margin change-point router | control | shadow; old zero-floor trigger not reused | `A09H3ChangePointRouter` | `A09H3ChangePointRouter` |
++| A10 | Prior-refresh specialist | policy | dormant conditional expert | `A10PriorRefreshSpecialist` | `A10PriorRefreshSpecialist` |
++| A11 | Dynamic live-set particle search | search backend | seed | `A11DynamicLiveSetParticles` | `A11DynamicLiveSetParticles` |
++| A12 | JSD-preconditioned locally balanced root sampler | geometry/allocation | seed | `A12JsdLocallyBalancedSampler` | `A12JsdLocallyBalancedSampler` |
++| A13 | Pending-flow / WU-UCT correction | parallel | conditional | `A13PendingFlowWuUct` | `A13PendingFlowWuUct` |
++| A14 | Whole-path semantic LSH diversity | parallel | high-thread shadow | `A14SemanticPathLsh` | `A14SemanticPathLsh` |
++| A15 | Service-curve batch/inflight scheduler | systems | mechanism-valid | `A15ServiceCurveScheduler` | `A15ServiceCurveScheduler` |
++| A16 | Monte-Carlo graph/state sharing | graph | seed | `A16MonteCarloGraphSharing` | `A16MonteCarloGraphSharing` |
++| A17 | B13 finite-N curvature readout | readout | mechanism-valid; decision-neutral evidence | `A17B13CurvatureReadout` | `A17B13CurvatureReadout` |
++| A18 | Diffusion-regularized deterministic evaluator | representation | seed | `A18DiffusionRegularizedEvaluator` | `A18DiffusionRegularizedEvaluator` |
++| A19 | RW-ResT Lite evaluator | representation | seed | `A19RwRestLiteEvaluator` | `A19RwRestLiteEvaluator` |
++| A20 | Regret/instability state archive | training control | seed | `A20RegretStateArchive` | `A20RegretStateArchive` |
++| A21 | Coherence-gated signed path feature | analysis | analysis-only shadow | `A21CoherenceSignedPathShadow` | `A21CoherenceSignedPathShadow` |
++| A22 | Physics-analogy falsification dashboard | analysis | analysis-only | `A22PhysicsFalsificationDashboard` | `A22PhysicsFalsificationDashboard` |
++| A23 | CPU incremental pattern student | deployment | seed | `A23CpuIncrementalPatternStudent` | `A23CpuIncrementalPatternStudent` |
++| A24 | Learned state-dependent budget gate | control | seed | `A24LearnedBudgetGate` | `A24LearnedBudgetGate` |
++| A25 | MENTS / soft-backup ablation | search policy | dormant | `A25MentsSoftBackup` | `A25MentsSoftBackup` |
++| A26 | Exact nested-contour validation lab | analysis backend | analysis-only | `A26NestedContourExactLab` | `A26NestedContourExactLab` |
++
++## 4. Documents
++
++- [01 — Control, risk, policy, and counterfactual learning](01_control_policy.md)
++- [02 — Candidate coverage, widening, proof, and allocation](02_candidates_allocation.md)
++- [03 — Parallel execution, particle backends, path diversity, and graph sharing](03_parallel_backends.md)
++- [04 — Readout, evaluator architectures, deployment, and training control](04_representation_training.md)
++- [05 — Physics-inspired shadows, falsification, and evidence discipline](05_analysis_physics.md)
++
++Each axis section includes:
++
++- the question it answers;
++- current evidence and non-claims;
++- exact repo insertion points;
++- required inputs and outputs;
++- Rust and Python skeleton symbols;
++- the first dependency-light test;
++- the first live-engine test;
++- promotion and demotion criteria.
++
++## 5. Execution order
++
++The recommended order is evidence-driven, not conceptual:
++
++1. **Trace-only:** A01, A02, A03, A09, A17, A21, A22.
++2. **Synthetic candidate bank:** A06, A07, A12, A25, A26.
++3. **Counterfactual resident-root teacher:** A05 with STOP/SAMPLE/WIDEN first.
++4. **Live root allocation:** A04, A06, A07, A08.
++5. **Parallel/system lanes:** A13, A14, A15, A16, then A11.
++6. **Training/deployment:** A18, A19, A20, A23, A24.
++7. Add multi-action arbitration only after individual proposals have calibrated
++   gain and cost labels.
++
++## 6. Promotion ladder
++
++```text
++SEED
++  code skeleton and explicit assumptions
++MECHANISM_VALID
++  unit/synthetic signature works
++SHADOW
++  runs on real traces without changing search
++CONDITIONAL
++  useful in a preregistered regime
++ACTIVE_EXPERIMENTAL
++  causal online effect under paired protocol
++DEPLOYMENT_CANDIDATE
++  repeated matched-time strength/efficiency result
++```
++
++`DORMANT` means a role is currently unsupported, not that the parent idea has
++been deleted.  `ANALYSIS_ONLY` means the module may generate observables but is
++not allowed to control search.
++
++## 7. Baseline stack
++
++Attribution requires a layered baseline rather than one weak PUCT baseline:
++
++```text
++B0 serial PUCT
++B1 tree reuse + eval cache + micro-batching
++B2 B1 + existing tree-parallel virtual-loss path
++B3 B1 + explicit unobserved/pending-count correction
++B4 B3 + TT as state/evaluation cache
++B5 Monte-Carlo graph/DAG statistic sharing
++B6 regularized policy or Gumbel/Sequential Halving
++H1 learned dynamic stopping
++H2 virtual-expansion/policy-stability stopping
++Q  selected foundry module or arbiter
++```
++
++Every runtime result must report both fixed NN-evaluation and fixed wall-clock
++comparisons.  Simulation counts are not comparable across proof, particle,
++MCTS, and neural-evaluator backends.
++
++## 8. Primary literature map
++
++The atlas uses the following papers as controls and counterexamples, not as a
++claim that QUARTZ already inherits their guarantees:
++
++- Gumbel policy improvement: https://openreview.net/forum?id=bERaNdoegnO
++- Regularized policy optimization: https://proceedings.mlr.press/v119/grill20a.html
++- Convex-regularized MCTS: https://proceedings.mlr.press/v139/dam21a.html
++- Value of computation in MCTS: https://proceedings.mlr.press/v124/sezener20a.html
++- BAI-MCTS: https://arxiv.org/abs/1706.02986
++- Dynamic stopping: https://ojs.aaai.org/index.php/AAAI/article/view/16100
++- Virtual-expansion stopping: https://arxiv.org/abs/2210.12628
++- Epistemic MCTS: https://openreview.net/forum?id=Tb8RiXOc3N
++- Bayesian online planning: https://arxiv.org/abs/2406.02103
++- WU-UCT: https://openreview.net/forum?id=I6fJI8kj1Z8H
++- PMCTS: https://arxiv.org/abs/2605.08982
++- PTSA/JSD state abstraction: https://arxiv.org/abs/2310.06513
++- Locally balanced discrete MCMC: https://arxiv.org/abs/1711.07424
++- Dynamic nested sampling: https://arxiv.org/abs/1704.03459
++- Discrete diffusion: https://proceedings.neurips.cc/paper/2021/hash/958c530554f78bcd8e97125b70e6973d-Abstract.html
++- RandWire: https://openaccess.thecvf.com/content_ICCV_2019/html/Xie_Exploring_Randomly_Wired_Neural_Networks_for_Image_Recognition_ICCV_2019_paper.html
++- DDW: https://openaccess.thecvf.com/content/ICCV2021/html/Yuan_Differentiable_Dynamic_Wirings_for_Neural_Networks_ICCV_2021_paper.html
++- Go-Exploit: https://arxiv.org/abs/2302.12359
++- Regret-guided search control: https://arxiv.org/abs/2602.20809
++- Rapfi CPU evaluator: https://arxiv.org/abs/2503.13178
++
++## 9. Non-negotiable safety and attribution rules
++
++- Stop never uses stale cache or pending evaluations as evidence.
++- `edge_pos`, `action_id`, and policy index remain distinct.
++- Search-time, readout-time, training-target, and deployment roles are separate
++  experiments even when they share one formula.
++- Candidate-omission risk and visible-candidate ranking risk are reported
++  separately.
++- Restart-per-chunk and true root-continuation traces are never pooled.
++- A learned controller is split by position/game group, never by adjacent
++  checkpoint rows from the same root.
++- Hardware scheduler artifacts are profile-specific: CPU, CUDA, and ROCm are
++  not interchangeable.
++- Physics-inspired observables do not control search until they add predictive
++  information beyond ordinary statistical features.
+diff --git a/quartz/idea_foundry/__init__.py b/quartz/idea_foundry/__init__.py
+new file mode 100644
+index 0000000..3ba58ee
+--- /dev/null
++++ b/quartz/idea_foundry/__init__.py
+@@ -0,0 +1,76 @@
++"""QUARTZ idea-foundry contracts and experiment skeletons."""
++
++from .contracts import (
++    AxisStatus,
++    ConservativeArbiter,
++    CostVector,
++    CounterfactualLabel,
++    EdgeObservation,
++    MetaAction,
++    MetaActionKind,
++    MetaProposal,
++    ProposalEstimate,
++    RootObservation,
++    RuntimeObservation,
++)
++from .control import (
++    A01StopCouncil,
++    A02StaticAnchorRPO,
++    A03UncertaintyDecomposition,
++    A04KgVocAllocator,
++    A05CounterfactualMetaTeacher,
++    A24LearnedBudgetGate,
++)
++from .search import (
++    A06GumbelSequentialHalving,
++    A07ResidualEvidenceWidening,
++    A08TacticalProofBackend,
++    A09H3ChangePointRouter,
++    A10PriorRefreshSpecialist,
++    A11DynamicLiveSetParticles,
++    A12JsdLocallyBalancedSampler,
++    A13PendingFlowWuUct,
++    A14SemanticPathLsh,
++    A15ServiceCurveScheduler,
++    A16MonteCarloGraphSharing,
++    A25MentsSoftBackup,
++    A26NestedContourExactLab,
++)
++from .learning import (
++    A17B13CurvatureReadout,
++    A18DiffusionRegularizedEvaluator,
++    A19RwRestLiteEvaluator,
++    A20RegretStateArchive,
++    A21CoherenceSignedPathShadow,
++    A22PhysicsFalsificationDashboard,
++    A23CpuIncrementalPatternStudent,
++)
++
++ALL_AXIS_TYPES = (
++    A01StopCouncil,
++    A02StaticAnchorRPO,
++    A03UncertaintyDecomposition,
++    A04KgVocAllocator,
++    A05CounterfactualMetaTeacher,
++    A06GumbelSequentialHalving,
++    A07ResidualEvidenceWidening,
++    A08TacticalProofBackend,
++    A09H3ChangePointRouter,
++    A10PriorRefreshSpecialist,
++    A11DynamicLiveSetParticles,
++    A12JsdLocallyBalancedSampler,
++    A13PendingFlowWuUct,
++    A14SemanticPathLsh,
++    A15ServiceCurveScheduler,
++    A16MonteCarloGraphSharing,
++    A17B13CurvatureReadout,
++    A18DiffusionRegularizedEvaluator,
++    A19RwRestLiteEvaluator,
++    A20RegretStateArchive,
++    A21CoherenceSignedPathShadow,
++    A22PhysicsFalsificationDashboard,
++    A23CpuIncrementalPatternStudent,
++    A24LearnedBudgetGate,
++    A25MentsSoftBackup,
++    A26NestedContourExactLab,
++)
+diff --git a/quartz/idea_foundry/contracts.py b/quartz/idea_foundry/contracts.py
+new file mode 100644
+index 0000000..35d3e87
+--- /dev/null
++++ b/quartz/idea_foundry/contracts.py
+@@ -0,0 +1,224 @@
++"""Shared contracts for QUARTZ idea-foundry experiment skeletons.
++
++These types intentionally sit above the live Rust ``SearchPolicy`` surface.  A
++module reads a frozen root observation and emits a *proposal*; it does not
++silently mutate PUCT.  The Rust arbiter may later translate an accepted
++proposal into a score cache, a root-session action, or a training job.
++"""
++
++from __future__ import annotations
++
++from dataclasses import dataclass, field
++from enum import Enum
++from typing import Any, Mapping, Protocol, Sequence
++
++
++class AxisStatus(str, Enum):
++    SEED = "seed"
++    MECHANISM_VALID = "mechanism_valid"
++    SHADOW = "shadow"
++    CONDITIONAL = "conditional"
++    ACTIVE_EXPERIMENTAL = "active_experimental"
++    DEPLOYMENT_CANDIDATE = "deployment_candidate"
++    DORMANT = "dormant"
++    ANALYSIS_ONLY = "analysis_only"
++
++
++class MetaActionKind(str, Enum):
++    STOP = "stop"
++    SAMPLE = "sample"
++    CHALLENGE = "challenge"
++    WIDEN = "widen"
++    DEEPEN = "deepen"
++    PROVE = "prove"
++    RESAMPLE_MODE = "resample_mode"
++    MERGE_OR_SHARE = "merge_or_share"
++    SET_BATCH = "set_batch"
++    SET_INFLIGHT = "set_inflight"
++    SET_THREADS = "set_threads"
++    REANALYSE = "reanalyse"
++    ARCHIVE_STATE = "archive_state"
++    NOOP = "noop"
++
++
++@dataclass(frozen=True)
++class CostVector:
++    nn_evals: float = 0.0
++    cpu_ms: float = 0.0
++    gpu_ms: float = 0.0
++    energy_proxy: float = 0.0
++
++    def weighted(self, prices: Mapping[str, float]) -> float:
++        return (
++            self.nn_evals * float(prices.get("nn_evals", 0.0))
++            + self.cpu_ms * float(prices.get("cpu_ms", 0.0))
++            + self.gpu_ms * float(prices.get("gpu_ms", 0.0))
++            + self.energy_proxy * float(prices.get("energy_proxy", 0.0))
++        )
++
++
++@dataclass(frozen=True)
++class MetaAction:
++    kind: MetaActionKind
++    primary: int | None = None
++    secondary: int | None = None
++    amount: int = 0
++    value: float | None = None
++    label: str | None = None
++
++
++@dataclass(frozen=True)
++class ProposalEstimate:
++    regret_reduction_mean: float = 0.0
++    regret_reduction_lcb: float = 0.0
++    confidence: float = 0.0
++    cost: CostVector = field(default_factory=CostVector)
++
++    def net_lcb(self, prices: Mapping[str, float]) -> float:
++        return self.regret_reduction_lcb - self.cost.weighted(prices)
++
++
++@dataclass(frozen=True)
++class MetaProposal:
++    axis_id: str
++    action: MetaAction
++    estimate: ProposalEstimate
++    activation_guard: str
++    explanation: str
++    evidence_scope: str = "skeleton_only"
++    telemetry: Mapping[str, Any] = field(default_factory=dict)
++
++
++@dataclass(frozen=True)
++class EdgeObservation:
++    edge_pos: int
++    action_id: int
++    visible: bool
++    prior_anchor: float
++    prior_current: float
++    visits: int
++    virtual_visits: int
++    pending: int
++    q_mean: float
++    q_sum: float
++    m2: float
++    last_value: float = 0.0
++    mc_radius: float = 0.0
++    epistemic_radius: float = 0.0
++    drift_radius: float = 0.0
++    bias_radius: float = 0.0
++    lower: float = -1.0
++    upper: float = 1.0
++    tactical_flags: tuple[str, ...] = ()
++
++    @property
++    def total_radius(self) -> float:
++        # Conservative default until covariance calibration is earned.
++        return (
++            max(0.0, self.mc_radius)
++            + max(0.0, self.epistemic_radius)
++            + max(0.0, self.drift_radius)
++            + max(0.0, self.bias_radius)
++        )
++
++
++@dataclass(frozen=True)
++class RuntimeObservation:
++    threads: int = 1
++    batch_size: int = 1
++    inflight: int = 1
++    queue_wait_ms: float = 0.0
++    eval_latency_ms: float = 0.0
++    nps: float = 0.0
++    edge_duplicate_rate: float = 0.0
++    semantic_path_overlap: float = 0.0
++    max_pending: int = 0
++    tt_wait_ns: int = 0
++
++
++@dataclass(frozen=True)
++class RootObservation:
++    root_hash: int
++    checkpoint_id: str
++    position_id: str
++    game: str
++    root_visits: int
++    iteration: int
++    elapsed_ms: int
++    remaining_visits: int
++    n_children: int
++    n_visible: int
++    entropy: float
++    effective_branching: float
++    top2_margin: float
++    margin_slope: float
++    entropy_slope: float
++    h1_stability: float | None
++    p_flip: float | None
++    prior_visit_js: float
++    candidate_omission_bound: float
++    revision_count: int
++    edges: tuple[EdgeObservation, ...]
++    runtime: RuntimeObservation = field(default_factory=RuntimeObservation)
++    extras: Mapping[str, Any] = field(default_factory=dict)
++
++    def best_edge(self) -> EdgeObservation | None:
++        return max(self.edges, key=lambda edge: edge.q_mean, default=None)
++
++    def runner_up(self) -> EdgeObservation | None:
++        ranked = sorted(self.edges, key=lambda edge: edge.q_mean, reverse=True)
++        return ranked[1] if len(ranked) > 1 else None
++
++
++@dataclass(frozen=True)
++class CounterfactualLabel:
++    checkpoint_id: str
++    position_id: str
++    budget: int
++    action: MetaAction
++    decision_loss_before: float
++    decision_loss_after: float
++    realized_cost: CostVector
++    oracle_action_id: int | None = None
++
++    @property
++    def regret_reduction(self) -> float:
++        return self.decision_loss_before - self.decision_loss_after
++
++
++class FoundryAxis(Protocol):
++    axis_id: str
++    status: AxisStatus
++
++    def propose(self, observation: RootObservation) -> Sequence[MetaProposal]:
++        """Return zero or more proposals without mutating the observation."""
++
++
++class ProposalRanker(Protocol):
++    def choose(
++        self,
++        proposals: Sequence[MetaProposal],
++        prices: Mapping[str, float],
++    ) -> MetaProposal | None:
++        """Choose the highest conservative net-value proposal."""
++
++
++class ConservativeArbiter:
++    """Minimal reference arbiter used by trace-replay experiments.
++
++    Live-engine integration should keep the same ordering but add freshness,
++    budget, tactical, and runtime guards on the Rust side.
++    """
++
++    def choose(
++        self,
++        proposals: Sequence[MetaProposal],
++        prices: Mapping[str, float],
++    ) -> MetaProposal | None:
++        eligible = [p for p in proposals if p.estimate.confidence >= 0.0]
++        if not eligible:
++            return None
++        best = max(eligible, key=lambda p: p.estimate.net_lcb(prices))
++        if best.action.kind is MetaActionKind.STOP:
++            return best
++        return best if best.estimate.net_lcb(prices) > 0.0 else None
+diff --git a/quartz/idea_foundry/control.py b/quartz/idea_foundry/control.py
+new file mode 100644
+index 0000000..32e6b76
+--- /dev/null
++++ b/quartz/idea_foundry/control.py
+@@ -0,0 +1,290 @@
++"""Control-plane experiment skeletons (A01-A05, A24).
++
++Every class is deliberately usable in trace replay before live-engine wiring.
++The default implementations emit conservative proposals or metadata only; they
++must not be interpreted as efficacy claims.
++"""
++
++from __future__ import annotations
++
++from dataclasses import dataclass, field
++from math import exp, log
++from typing import Callable, Mapping, Sequence
++
++from .contracts import (
++    AxisStatus,
++    CostVector,
++    CounterfactualLabel,
++    EdgeObservation,
++    MetaAction,
++    MetaActionKind,
++    MetaProposal,
++    ProposalEstimate,
++    RootObservation,
++)
++
++
++def _normalize(values: Sequence[float]) -> list[float]:
++    clipped = [max(0.0, float(x)) for x in values]
++    total = sum(clipped)
++    if total <= 0.0:
++        return [1.0 / len(clipped)] * len(clipped) if clipped else []
++    return [x / total for x in clipped]
++
++
++@dataclass
++class A01StopCouncil:
++    """Calibrated wrong-decision risk council.
++
++    The predictor is injected so the skeleton remains dependency-light.  A
++    production candidate should fit a position-grouped calibration model from
++    H1, P_flip, interval overlap, slopes, omission risk, and evaluator quality.
++    """
++
++    axis_id: str = "A01.stop_council"
++    status: AxisStatus = AxisStatus.SHADOW
++    risk_limit: float = 0.05
++    min_visits: int = 16
++    predict_wrong: Callable[[RootObservation], float] | None = None
++
++    def features(self, obs: RootObservation) -> dict[str, float]:
++        best = obs.best_edge()
++        runner = obs.runner_up()
++        interval_overlap = 1.0
++        if best is not None and runner is not None:
++            interval_overlap = max(0.0, min(best.upper, runner.upper) - max(best.lower, runner.lower))
++        return {
++            "one_minus_h1": 1.0 - float(obs.h1_stability or 0.0),
++            "p_flip": float(obs.p_flip if obs.p_flip is not None else 1.0),
++            "top2_margin": obs.top2_margin,
++            "margin_slope": obs.margin_slope,
++            "entropy": obs.entropy,
++            "entropy_slope": obs.entropy_slope,
++            "interval_overlap": interval_overlap,
++            "omission_bound": obs.candidate_omission_bound,
++            "revision_count": float(obs.revision_count),
++        }
++
++    def risk(self, obs: RootObservation) -> float:
++        if self.predict_wrong is not None:
++            return min(1.0, max(0.0, float(self.predict_wrong(obs))))
++        # Safe fallback: never claims low risk from a single signal.
++        f = self.features(obs)
++        return min(1.0, max(f["one_minus_h1"], f["p_flip"], f["omission_bound"]))
++
++    def propose(self, obs: RootObservation) -> Sequence[MetaProposal]:
++        risk = self.risk(obs)
++        if obs.root_visits < self.min_visits or risk > self.risk_limit:
++            return ()
++        best = obs.best_edge()
++        if best is None:
++            return ()
++        return (
++            MetaProposal(
++                axis_id=self.axis_id,
++                action=MetaAction(MetaActionKind.STOP, primary=best.edge_pos, label="risk_council"),
++                estimate=ProposalEstimate(
++                    regret_reduction_mean=0.0,
++                    regret_reduction_lcb=0.0,
++                    confidence=1.0 - risk,
++                ),
++                activation_guard="fresh snapshot; calibrated risk below limit; non-stop VOC checked by arbiter",
++                explanation=f"estimated wrong-decision risk={risk:.4f}",
++                telemetry=self.features(obs),
++            ),
++        )
++
++
++@dataclass
++class A02StaticAnchorRPO:
++    """Temporary KL-regularized policy improvement from frozen anchor prior."""
++
++    axis_id: str = "A02.static_anchor_rpo"
++    status: AxisStatus = AxisStatus.SHADOW
++    temperature: float = 0.25
++    prior_floor: float = 1e-8
++    use_lower_confidence: bool = True
++
++    def solve(self, edges: Sequence[EdgeObservation]) -> dict[int, float]:
++        if not edges:
++            return {}
++        tau = max(1e-5, float(self.temperature))
++        logits: list[float] = []
++        for edge in edges:
++            anchor = max(self.prior_floor, edge.prior_anchor)
++            score = edge.lower if self.use_lower_confidence else edge.q_mean
++            logits.append(log(anchor) + score / tau)
++        shift = max(logits)
++        weights = [exp(x - shift) for x in logits]
++        probs = _normalize(weights)
++        return {edge.edge_pos: prob for edge, prob in zip(edges, probs)}
++
++    def propose(self, obs: RootObservation) -> Sequence[MetaProposal]:
++        policy = self.solve(obs.edges)
++        if not policy:
++            return ()
++        return (
++            MetaProposal(
++                axis_id=self.axis_id,
++                action=MetaAction(MetaActionKind.NOOP, label="publish_temporary_root_policy"),
++                estimate=ProposalEstimate(confidence=0.5),
++                activation_guard="root-only; frozen anchor; no cumulative mutation",
++                explanation="temporary KL-regularized root policy ready for posthoc/readout comparison",
++                telemetry={"policy": policy, "temperature": self.temperature},
++            ),
++        )
++
++
++@dataclass
++class A03UncertaintyDecomposition:
++    """Separates MC, epistemic, drift, and bias radii."""
++
++    axis_id: str = "A03.uncertainty_decomposition"
++    status: AxisStatus = AxisStatus.SHADOW
++    combine: str = "sum"
++
++    def radius(self, edge: EdgeObservation) -> float:
++        terms = [edge.mc_radius, edge.epistemic_radius, edge.drift_radius, edge.bias_radius]
++        if self.combine == "rss":
++            return sum(max(0.0, x) ** 2 for x in terms) ** 0.5
++        return sum(max(0.0, x) for x in terms)
++
++    def bounds(self, edge: EdgeObservation) -> tuple[float, float]:
++        r = self.radius(edge)
++        return max(-1.0, edge.q_mean - r), min(1.0, edge.q_mean + r)
++
++    def propose(self, obs: RootObservation) -> Sequence[MetaProposal]:
++        rows = {
++            edge.edge_pos: {
++                "radius": self.radius(edge),
++                "lower": self.bounds(edge)[0],
++                "upper": self.bounds(edge)[1],
++            }
++            for edge in obs.edges
++        }
++        return (
++            MetaProposal(
++                axis_id=self.axis_id,
++                action=MetaAction(MetaActionKind.NOOP, label="publish_uncertainty_channels"),
++                estimate=ProposalEstimate(confidence=0.5),
++                activation_guard="completed backups only; evaluator version frozen per root epoch",
++                explanation="uncertainty channels computed without assuming independence",
++                telemetry={"combine": self.combine, "edges": rows},
++            ),
++        )
++
++
++@dataclass
++class A04KgVocAllocator:
++    """Knowledge-gradient/VOC allocator; not a default low-budget stop rule."""
++
++    axis_id: str = "A04.kg_voc_allocator"
++    status: AxisStatus = AxisStatus.SHADOW
++    batch: int = 8
++    cost_per_eval_ms: float = 1.0
++
++    def proxy(self, edge: EdgeObservation, best: EdgeObservation) -> float:
++        gap = max(0.0, best.q_mean - edge.q_mean)
++        uncertainty = max(1e-6, edge.total_radius + best.total_radius)
++        # Monotone heuristic placeholder. Replace with quadrature or learned
++        # residual; do not call it a calibrated KG estimate.
++        return uncertainty * exp(-gap / uncertainty)
++
++    def propose(self, obs: RootObservation) -> Sequence[MetaProposal]:
++        best = obs.best_edge()
++        if best is None:
++            return ()
++        proposals: list[MetaProposal] = []
++        for edge in obs.edges:
++            gain = self.proxy(edge, best)
++            if gain <= 0.0:
++                continue
++            proposals.append(
++                MetaProposal(
++                    axis_id=self.axis_id,
++                    action=MetaAction(MetaActionKind.SAMPLE, primary=edge.edge_pos, amount=self.batch),
++                    estimate=ProposalEstimate(
++                        regret_reduction_mean=gain,
++                        regret_reduction_lcb=0.5 * gain,
++                        confidence=0.25,
++                        cost=CostVector(nn_evals=self.batch, cpu_ms=self.batch * self.cost_per_eval_ms),
++                    ),
++                    activation_guard="allocation only; challenger visible; measured cost replaces constant",
++                    explanation=f"KG proxy for edge {edge.edge_pos}",
++                )
++            )
++        return tuple(proposals)
++
++
++@dataclass
++class A05CounterfactualMetaTeacher:
++    """Builds labels from forked STOP/SAMPLE/WIDEN/etc. continuations."""
++
++    axis_id: str = "A05.counterfactual_meta_teacher"
++    status: AxisStatus = AxisStatus.SEED
++
++    def build_label(
++        self,
++        *,
++        obs: RootObservation,
++        action: MetaAction,
++        loss_before: float,
++        loss_after: float,
++        cost: CostVector,
++        oracle_action_id: int | None,
++    ) -> CounterfactualLabel:
++        return CounterfactualLabel(
++            checkpoint_id=obs.checkpoint_id,
++            position_id=obs.position_id,
++            budget=obs.root_visits,
++            action=action,
++            decision_loss_before=float(loss_before),
++            decision_loss_after=float(loss_after),
++            realized_cost=cost,
++            oracle_action_id=oracle_action_id,
++        )
++
++    def propose(self, obs: RootObservation) -> Sequence[MetaProposal]:
++        return (
++            MetaProposal(
++                axis_id=self.axis_id,
++                action=MetaAction(MetaActionKind.NOOP, label="fork_snapshot_offline"),
++                estimate=ProposalEstimate(confidence=0.0),
++                activation_guard="offline or deterministic resident-session fork only",
++                explanation="request counterfactual branch generation; never executes inside selection hot path",
++                telemetry={"position_id": obs.position_id, "budget": obs.root_visits},
++            ),
++        )
++
++
++@dataclass
++class A24LearnedBudgetGate:
++    """Selects a discrete planning budget on top of a frozen planner."""
++
++    axis_id: str = "A24.learned_budget_gate"
++    status: AxisStatus = AxisStatus.SEED
++    budgets: tuple[int, ...] = (0, 8, 16, 32, 64, 128)
++    predict_gain: Callable[[RootObservation, int], float] | None = None
++    cost_per_visit_ms: float = 0.1
++
++    def propose(self, obs: RootObservation) -> Sequence[MetaProposal]:
++        proposals: list[MetaProposal] = []
++        for budget in self.budgets:
++            if budget <= 0:
++                continue
++            gain = float(self.predict_gain(obs, budget)) if self.predict_gain else 0.0
++            proposals.append(
++                MetaProposal(
++                    axis_id=self.axis_id,
++                    action=MetaAction(MetaActionKind.SAMPLE, amount=budget, label="budget_gate"),
++                    estimate=ProposalEstimate(
++                        regret_reduction_mean=gain,
++                        regret_reduction_lcb=min(0.0, gain),
++                        confidence=0.0 if self.predict_gain is None else 0.5,
++                        cost=CostVector(nn_evals=budget, cpu_ms=budget * self.cost_per_visit_ms),
++                    ),
++                    activation_guard="frozen planner; grouped holdout calibration; hard deadline respected",
++                    explanation=f"candidate extra budget={budget}",
++                )
++            )
++        return tuple(proposals)
+diff --git a/quartz/idea_foundry/learning.py b/quartz/idea_foundry/learning.py
+new file mode 100644
+index 0000000..3c556f9
+--- /dev/null
++++ b/quartz/idea_foundry/learning.py
+@@ -0,0 +1,249 @@
++"""Readout, representation, training-control, analysis, and deployment skeletons."""
++
++from __future__ import annotations
++
++from dataclasses import dataclass, field
++from math import cos, exp, log, sin
++from typing import Any, Mapping, Sequence
++
++from .contracts import (
++    AxisStatus,
++    CostVector,
++    MetaAction,
++    MetaActionKind,
++    MetaProposal,
++    ProposalEstimate,
++    RootObservation,
++)
++
++
++def _normalize(values: Sequence[float]) -> list[float]:
++    arr = [max(0.0, float(x)) for x in values]
++    total = sum(arr)
++    return [x / total for x in arr] if total > 0.0 else ([1.0 / len(arr)] * len(arr) if arr else [])
++
++
++@dataclass
++class A17B13CurvatureReadout:
++    """Decision-neutral finite-N readout skeleton.
++
++    This module intentionally returns a policy artifact, not a live score
++    mutation. Selection, readout, and training-target roles must be ablated
++    separately.
++    """
++
++    axis_id: str = "A17.b13_curvature_readout"
++    status: AxisStatus = AxisStatus.MECHANISM_VALID
++    curvature: float = 1.0
++    eps: float = 1e-8
++
++    def transform(self, obs: RootObservation) -> dict[int, float]:
++        weights = []
++        for edge in obs.edges:
++            base = max(self.eps, edge.visits + 1.0)
++            # Placeholder shaped by finite-N curvature; replace with the pinned
++            # Phase-15 B13 implementation in efficacy runs.
++            correction = exp(-self.curvature / base)
++            weights.append(max(self.eps, edge.prior_current) * correction)
++        probs = _normalize(weights)
++        return {edge.edge_pos: p for edge, p in zip(obs.edges, probs)}
++
++    def propose(self, obs: RootObservation) -> Sequence[MetaProposal]:
++        return (
++            MetaProposal(
++                axis_id=self.axis_id,
++                action=MetaAction(MetaActionKind.NOOP, label="posthoc_readout"),
++                estimate=ProposalEstimate(confidence=0.5),
++                activation_guard="readout-only by default; decision-neutral evidence not promoted to play strength",
++                explanation="finite-N policy readout ready for oracle-KL replay",
++                telemetry={"policy": self.transform(obs), "curvature": self.curvature},
++            ),
++        )
++
++
++@dataclass
++class A18DiffusionRegularizedEvaluator:
++    axis_id: str = "A18.diffusion_regularized_evaluator"
++    status: AxisStatus = AxisStatus.SEED
++    denoise_weight: float = 0.1
++    corruption: str = "latent_gaussian"
++
++    def loss_contract(self) -> Mapping[str, Any]:
++        return {
++            "policy": "cross_entropy_or_search_target_kl",
++            "value": "mse_or_distributional_value_loss",
++            "denoise": self.corruption,
++            "denoise_weight": self.denoise_weight,
++            "inference": "direct_deterministic_policy_value_only",
++        }
++
++    def propose(self, obs: RootObservation) -> Sequence[MetaProposal]:
++        return (
++            MetaProposal(
++                axis_id=self.axis_id,
++                action=MetaAction(MetaActionKind.NOOP, label="training_ablation"),
++                estimate=ProposalEstimate(confidence=0.0),
++                activation_guard="parameter/FLOP matched deterministic baseline; no diffusion steps in MCTS inference",
++                explanation="register denoising auxiliary evaluator training run",
++                telemetry=dict(self.loss_contract()),
++            ),
++        )
++
++
++@dataclass
++class A19RwRestLiteEvaluator:
++    axis_id: str = "A19.rw_rest_lite_evaluator"
++    status: AxisStatus = AxisStatus.SEED
++    nodes: int = 40
++    channels: int = 144
++    graph_seed: int = 0
++    static_pruning: bool = True
++
++    def architecture_contract(self) -> Mapping[str, Any]:
++        return {
++            "nodes": self.nodes,
++            "channels": self.channels,
++            "node_op": "one_conv_pre_activation_residual",
++            "topology": "ws_dominant_degree_capped_dag",
++            "global_blocks": 2,
++            "routing": "soft_train_then_static_prune" if self.static_pruning else "soft_only",
++            "graph_seed": self.graph_seed,
++        }
++
++    def propose(self, obs: RootObservation) -> Sequence[MetaProposal]:
++        return (
++            MetaProposal(
++                axis_id=self.axis_id,
++                action=MetaAction(MetaActionKind.NOOP, label="architecture_ablation"),
++                estimate=ProposalEstimate(confidence=0.0),
++                activation_guard="controller frozen; same replay, eval count, wall-clock, and graph-seed screen",
++                explanation="register RW-ResT Lite evaluator experiment",
++                telemetry=dict(self.architecture_contract()),
++            ),
++        )
++
++
++@dataclass(frozen=True)
++class ArchiveRecord:
++    position_id: str
++    checkpoint_id: str
++    game: str
++    priority: float
++    reason: str
++    board_ref: str
++    importance_weight: float = 1.0
++    metadata: Mapping[str, Any] = field(default_factory=dict)
++
++
++@dataclass
++class A20RegretStateArchive:
++    axis_id: str = "A20.regret_state_archive"
++    status: AxisStatus = AxisStatus.SEED
++    max_records: int = 100_000
++
++    def priority(self, obs: RootObservation) -> float:
++        instability = max(0.0, 1.0 - float(obs.h1_stability or 0.0))
++        return (
++            instability
++            + obs.candidate_omission_bound
++            + 0.25 * obs.revision_count
++            + max(0.0, obs.prior_visit_js)
++        )
++
++    def propose(self, obs: RootObservation) -> Sequence[MetaProposal]:
++        score = self.priority(obs)
++        if score <= 0.0:
++            return ()
++        return (
++            MetaProposal(
++                axis_id=self.axis_id,
++                action=MetaAction(MetaActionKind.ARCHIVE_STATE, value=score, label="regret_instability"),
++                estimate=ProposalEstimate(confidence=0.0),
++                activation_guard="training control only; deduplicate by position group; importance correction recorded",
++                explanation=f"archive priority={score:.4f}",
++                telemetry={"priority": score, "position_id": obs.position_id},
++            ),
++        )
++
++
++@dataclass
++class A21CoherenceSignedPathShadow:
++    axis_id: str = "A21.coherence_signed_path_shadow"
++    status: AxisStatus = AxisStatus.ANALYSIS_ONLY
++    decay: float = 0.05
++
++    def vector(self, magnitude: float, phase: float) -> tuple[float, float]:
++        return magnitude * cos(phase), magnitude * sin(phase)
++
++    def coherence(self, obs: RootObservation) -> float:
++        stability = float(obs.h1_stability or 0.0)
++        return exp(-self.decay * obs.root_visits) * max(0.0, 1.0 - stability)
++
++    def propose(self, obs: RootObservation) -> Sequence[MetaProposal]:
++        c = self.coherence(obs)
++        return (
++            MetaProposal(
++                axis_id=self.axis_id,
++                action=MetaAction(MetaActionKind.NOOP, label="signed_path_shadow"),
++                estimate=ProposalEstimate(confidence=0.0),
++                activation_guard="shadow only until incremental predictive value beats ordinary disagreement features",
++                explanation=f"coherence gate={c:.6f}",
++                telemetry={"coherence": c},
++            ),
++        )
++
++
++@dataclass
++class A22PhysicsFalsificationDashboard:
++    axis_id: str = "A22.physics_falsification_dashboard"
++    status: AxisStatus = AxisStatus.ANALYSIS_ONLY
++
++    def beta_fit_inputs(self, obs: RootObservation) -> Mapping[str, Any]:
++        return {
++            "policy": [edge.prior_current for edge in obs.edges],
++            "scores": [edge.q_mean for edge in obs.edges],
++            "budget": obs.root_visits,
++        }
++
++    def propose(self, obs: RootObservation) -> Sequence[MetaProposal]:
++        return (
++            MetaProposal(
++                axis_id=self.axis_id,
++                action=MetaAction(MetaActionKind.NOOP, label="physics_dashboard"),
++                estimate=ProposalEstimate(confidence=0.0),
++                activation_guard="analysis-only; null models mandatory; no Jarzynski/FDT without explicit protocols",
++                explanation="record beta residual, redundancy, susceptibility, and scale-flow observables",
++                telemetry=dict(self.beta_fit_inputs(obs)),
++            ),
++        )
++
++
++@dataclass
++class A23CpuIncrementalPatternStudent:
++    axis_id: str = "A23.cpu_incremental_pattern_student"
++    status: AxisStatus = AxisStatus.SEED
++    quantization: str = "int8"
++    incremental: bool = True
++
++    def deployment_contract(self) -> Mapping[str, Any]:
++        return {
++            "representation": "line_pattern_codebook_or_nnue_like",
++            "quantization": self.quantization,
++            "incremental_update": self.incremental,
++            "reference_baselines": ["small_resnet", "onnx_cpu", "rapfi_like_pattern_student"],
++        }
++
++    def propose(self, obs: RootObservation) -> Sequence[MetaProposal]:
++        return (
++            MetaProposal(
++                axis_id=self.axis_id,
++                action=MetaAction(MetaActionKind.NOOP, label="cpu_student_ablation"),
++                estimate=ProposalEstimate(
++                    confidence=0.0,
++                    cost=CostVector(cpu_ms=obs.runtime.eval_latency_ms),
++                ),
++                activation_guard="teacher/controller frozen; incremental cache correctness and fixed-time Elo measured",
++                explanation="register CPU pattern-student deployment experiment",
++                telemetry=dict(self.deployment_contract()),
++            ),
++        )
+diff --git a/quartz/idea_foundry/search.py b/quartz/idea_foundry/search.py
+new file mode 100644
+index 0000000..2fe0869
+--- /dev/null
++++ b/quartz/idea_foundry/search.py
+@@ -0,0 +1,446 @@
++"""Candidate, allocation, and search-backend skeletons (A06-A16, A25-A26)."""
++
++from __future__ import annotations
++
++from dataclasses import dataclass, field
++from hashlib import blake2b
++from math import exp, log, sqrt
++from random import Random
++from typing import Mapping, Sequence
++
++from .contracts import (
++    AxisStatus,
++    CostVector,
++    EdgeObservation,
++    MetaAction,
++    MetaActionKind,
++    MetaProposal,
++    ProposalEstimate,
++    RootObservation,
++)
++
++
++def _softmax(logits: Sequence[float]) -> list[float]:
++    if not logits:
++        return []
++    m = max(logits)
++    weights = [exp(x - m) for x in logits]
++    total = sum(weights)
++    return [x / total for x in weights]
++
++
++@dataclass
++class A06GumbelSequentialHalving:
++    axis_id: str = "A06.gumbel_sequential_halving"
++    status: AxisStatus = AxisStatus.MECHANISM_VALID
++    candidate_count: int = 16
++    seed: int = 0
++
++    def initial_candidates(self, obs: RootObservation) -> list[int]:
++        rng = Random(self.seed ^ obs.root_hash ^ obs.iteration)
++        scored = []
++        for edge in obs.edges:
++            prior = max(1e-12, edge.prior_anchor)
++            u = min(1.0 - 1e-12, max(1e-12, rng.random()))
++            gumbel = -log(-log(u))
++            scored.append((log(prior) + gumbel, edge.edge_pos))
++        scored.sort(reverse=True)
++        return [pos for _, pos in scored[: max(1, min(self.candidate_count, len(scored)))]]
++
++    def propose(self, obs: RootObservation) -> Sequence[MetaProposal]:
++        candidates = self.initial_candidates(obs)
++        if not candidates:
++            return ()
++        per_arm = max(1, obs.remaining_visits // max(1, len(candidates)))
++        return tuple(
++            MetaProposal(
++                axis_id=self.axis_id,
++                action=MetaAction(MetaActionKind.SAMPLE, primary=pos, amount=per_arm, label="gumbel_round"),
++                estimate=ProposalEstimate(
++                    regret_reduction_mean=0.0,
++                    regret_reduction_lcb=0.0,
++                    confidence=0.25,
++                    cost=CostVector(nn_evals=per_arm),
++                ),
++                activation_guard="root epoch fixed; without-replacement bracket; preserve tactical candidates",
++                explanation=f"initial Gumbel/SH candidate edge={pos}",
++                telemetry={"candidate_set": candidates},
++            )
++            for pos in candidates
++        )
++
++
++@dataclass
++class A07ResidualEvidenceWidening:
++    axis_id: str = "A07.residual_evidence_widening"
++    status: AxisStatus = AxisStatus.SEED
++    temperature: float = 0.25
++    max_tail_mass: float = 0.05
++    widen_count: int = 4
++
++    def bound(self, obs: RootObservation) -> float:
++        tau = max(1e-5, self.temperature)
++        visible = [e for e in obs.edges if e.visible]
++        hidden = [e for e in obs.edges if not e.visible]
++        z_live = sum(max(1e-12, e.prior_anchor) * exp(e.q_mean / tau) for e in visible)
++        z_out = sum(max(1e-12, e.prior_anchor) * exp(e.upper / tau) for e in hidden)
++        denom = z_live + z_out
++        return z_out / denom if denom > 0.0 else 1.0
++
++    def propose(self, obs: RootObservation) -> Sequence[MetaProposal]:
++        residual = self.bound(obs)
++        if residual <= self.max_tail_mass or obs.n_visible >= obs.n_children:
++            return ()
++        return (
++            MetaProposal(
++                axis_id=self.axis_id,
++                action=MetaAction(MetaActionKind.WIDEN, amount=self.widen_count, label="residual_mass"),
++                estimate=ProposalEstimate(
++                    regret_reduction_mean=residual,
++                    regret_reduction_lcb=0.0,
++                    confidence=0.25,
++                    cost=CostVector(nn_evals=self.widen_count),
++                ),
++                activation_guard="unmaterialized-action upper scores calibrated; edge set fresh",
++                explanation=f"upper bound on outside posterior mass={residual:.4f}",
++                telemetry={"residual_mass_bound": residual},
++            ),
++        )
++
++
++@dataclass
++class A08TacticalProofBackend:
++    axis_id: str = "A08.tactical_proof_backend"
++    status: AxisStatus = AxisStatus.CONDITIONAL
++    proof_budget: int = 64
++
++    def propose(self, obs: RootObservation) -> Sequence[MetaProposal]:
++        proposals = []
++        for edge in obs.edges:
++            flags = set(edge.tactical_flags)
++            if "forced_win" in flags:
++                proposals.append(
++                    MetaProposal(
++                        axis_id=self.axis_id,
++                        action=MetaAction(MetaActionKind.STOP, primary=edge.edge_pos, label="tactical_forced"),
++                        estimate=ProposalEstimate(confidence=1.0),
++                        activation_guard="proof object verified by game-specific solver",
++                        explanation="verified forced move overrides statistical controller",
++                    )
++                )
++            elif flags & {"candidate_win", "forced_block", "high_threat"}:
++                proposals.append(
++                    MetaProposal(
++                        axis_id=self.axis_id,
++                        action=MetaAction(MetaActionKind.PROVE, primary=edge.edge_pos, amount=self.proof_budget),
++                        estimate=ProposalEstimate(
++                            regret_reduction_mean=edge.total_radius,
++                            regret_reduction_lcb=0.0,
++                            confidence=0.5,
++                            cost=CostVector(cpu_ms=float(self.proof_budget)),
++                        ),
++                        activation_guard="game-specific lane; generic controller records provenance",
++                        explanation=f"tactical proof request for edge {edge.edge_pos}",
++                    )
++                )
++        return tuple(proposals)
++
++
++@dataclass
++class A09H3ChangePointRouter:
++    axis_id: str = "A09.h3_change_point_router"
++    status: AxisStatus = AxisStatus.SHADOW
++    entropy_quantile: float = 0.9
++    shrink_quantile: float = 0.9
++    burst_visits: int = 16
++
++    def score(self, obs: RootObservation) -> float:
++        entropy_backflow = max(0.0, obs.entropy_slope)
++        margin_shrink = max(0.0, -obs.margin_slope)
++        return entropy_backflow * margin_shrink
++
++    def propose(self, obs: RootObservation) -> Sequence[MetaProposal]:
++        score = self.score(obs)
++        # Threshold must be learned from a reference distribution; zero is only
++        # a wiring guard and intentionally does not claim useful calibration.
++        if score <= 0.0:
++            return ()
++        best = obs.best_edge()
++        return (
++            MetaProposal(
++                axis_id=self.axis_id,
++                action=MetaAction(
++                    MetaActionKind.DEEPEN,
++                    primary=None if best is None else best.edge_pos,
++                    amount=self.burst_visits,
++                    label="change_point_burst",
++                ),
++                estimate=ProposalEstimate(
++                    regret_reduction_mean=score,
++                    regret_reduction_lcb=0.0,
++                    confidence=0.0,
++                    cost=CostVector(nn_evals=self.burst_visits),
++                ),
++                activation_guard="threshold calibrated on external difficulty labels; not fixed zero floors",
++                explanation=f"entropy-margin change-point score={score:.6f}",
++            ),
++        )
++
++
++@dataclass
++class A10PriorRefreshSpecialist:
++    axis_id: str = "A10.prior_refresh_specialist"
++    status: AxisStatus = AxisStatus.DORMANT
++    divergence_threshold: float = 0.5
++    max_blend: float = 0.2
++
++    def propose(self, obs: RootObservation) -> Sequence[MetaProposal]:
++        if obs.prior_visit_js < self.divergence_threshold:
++            return ()
++        return (
++            MetaProposal(
++                axis_id=self.axis_id,
++                action=MetaAction(MetaActionKind.NOOP, value=self.max_blend, label="conditional_refresh"),
++                estimate=ProposalEstimate(confidence=0.0),
++                activation_guard="OOD/weak-evaluator specialist only; frozen anchor retained; never recursive",
++                explanation=f"prior-search divergence={obs.prior_visit_js:.4f}",
++            ),
++        )
++
++
++@dataclass
++class ParticleGroup:
++    edge_pos: int
++    active: bool = True
++    hibernating: bool = False
++    pulls: int = 0
++    mean: float = 0.0
++    radius: float = 1.0
++    probability_best: float = 0.0
++
++
++@dataclass
++class A11DynamicLiveSetParticles:
++    axis_id: str = "A11.dynamic_live_set_particles"
++    status: AxisStatus = AxisStatus.SEED
++    batch: int = 4
++    resurrection_fraction: float = 0.05
++
++    def weight(self, edge: EdgeObservation, best_lower: float) -> float:
++        competition = max(0.0, edge.upper - best_lower)
++        uncertainty = edge.total_radius
++        return competition + uncertainty + 0.25 * max(0.0, 1.0 - edge.prior_anchor)
++
++    def propose(self, obs: RootObservation) -> Sequence[MetaProposal]:
++        best = obs.best_edge()
++        best_lower = best.lower if best is not None else -1.0
++        scored = sorted(
++            ((self.weight(edge, best_lower), edge.edge_pos) for edge in obs.edges),
++            reverse=True,
++        )
++        return tuple(
++            MetaProposal(
++                axis_id=self.axis_id,
++                action=MetaAction(MetaActionKind.RESAMPLE_MODE, primary=pos, amount=self.batch),
++                estimate=ProposalEstimate(
++                    regret_reduction_mean=score,
++                    regret_reduction_lcb=0.0,
++                    confidence=0.0,
++                    cost=CostVector(nn_evals=self.batch),
++                ),
++                activation_guard="independent particle groups; hibernation is reversible; mode quota enforced",
++                explanation=f"live-set particle weight={score:.4f}",
++            )
++            for score, pos in scored[: max(1, min(8, len(scored)))]
++        )
++
++
++@dataclass
++class A12JsdLocallyBalancedSampler:
++    axis_id: str = "A12.jsd_locally_balanced_sampler"
++    status: AxisStatus = AxisStatus.SEED
++    temperature: float = 0.25
++    bandwidth: float = 0.2
++
++    @staticmethod
++    def jsd(p: Sequence[float], q: Sequence[float]) -> float:
++        if len(p) != len(q) or not p:
++            raise ValueError("JSD inputs must have equal non-zero length")
++        p_n = _softmax([log(max(1e-12, x)) for x in p])
++        q_n = _softmax([log(max(1e-12, x)) for x in q])
++        m = [(a + b) * 0.5 for a, b in zip(p_n, q_n)]
++        kl_pm = sum(a * log(a / max(1e-12, c)) for a, c in zip(p_n, m))
++        kl_qm = sum(b * log(b / max(1e-12, c)) for b, c in zip(q_n, m))
++        return 0.5 * (kl_pm + kl_qm)
++
++    def transition_rate(self, kernel: float, mu_from: float, mu_to: float) -> float:
++        return max(0.0, kernel) * sqrt(max(1e-12, mu_to) / max(1e-12, mu_from))
++
++    def propose(self, obs: RootObservation) -> Sequence[MetaProposal]:
++        return (
++            MetaProposal(
++                axis_id=self.axis_id,
++                action=MetaAction(MetaActionKind.NOOP, label="build_sibling_geometry"),
++                estimate=ProposalEstimate(confidence=0.0),
++                activation_guard="sibling successor policy/value caches on common legal support",
++                explanation="geometry build requested; target density remains P/Q regularized, not JSD penalty",
++                telemetry={"temperature": self.temperature, "bandwidth": self.bandwidth},
++            ),
++        )
++
++
++@dataclass
++class A13PendingFlowWuUct:
++    axis_id: str = "A13.pending_flow_wu_uct"
++    status: AxisStatus = AxisStatus.CONDITIONAL
++    reservation_penalty: float = 1.0
++
++    def effective_visits(self, edge: EdgeObservation) -> float:
++        return float(edge.visits + edge.pending + edge.virtual_visits)
++
++    def propose(self, obs: RootObservation) -> Sequence[MetaProposal]:
++        pending = sum(edge.pending for edge in obs.edges)
++        return (
++            MetaProposal(
++                axis_id=self.axis_id,
++                action=MetaAction(MetaActionKind.NOOP, label="publish_unobserved_counts"),
++                estimate=ProposalEstimate(confidence=0.5),
++                activation_guard="pending/in-flight counts never enter confidence evidence",
++                explanation=f"separate pending-flow correction for {pending} in-flight evaluations",
++                telemetry={edge.edge_pos: self.effective_visits(edge) for edge in obs.edges},
++            ),
++        )
++
++
++@dataclass
++class A14SemanticPathLsh:
++    axis_id: str = "A14.semantic_path_lsh"
++    status: AxisStatus = AxisStatus.SHADOW
++    min_threads: int = 8
++    overlap_threshold: float = 0.5
++
++    @staticmethod
++    def signature(shingles: Sequence[str], seed: int = 0) -> str:
++        h = blake2b(digest_size=16, person=f"qz{seed}".encode()[:16])
++        for item in sorted(set(shingles)):
++            h.update(item.encode("utf-8"))
++            h.update(b"\0")
++        return h.hexdigest()
++
++    def propose(self, obs: RootObservation) -> Sequence[MetaProposal]:
++        rt = obs.runtime
++        if rt.threads < self.min_threads or rt.semantic_path_overlap < self.overlap_threshold:
++            return ()
++        return (
++            MetaProposal(
++                axis_id=self.axis_id,
++                action=MetaAction(MetaActionKind.RESAMPLE_MODE, amount=max(1, rt.inflight), label="path_diversity"),
++                estimate=ProposalEstimate(confidence=0.0),
++                activation_guard="edge duplication already controlled; high-thread semantic overlap remains",
++                explanation=f"semantic path overlap={rt.semantic_path_overlap:.3f}",
++            ),
++        )
++
++
++@dataclass
++class A15ServiceCurveScheduler:
++    axis_id: str = "A15.service_curve_scheduler"
++    status: AxisStatus = AxisStatus.MECHANISM_VALID
++    table: Mapping[tuple[int, int], float] = field(default_factory=dict)
++
++    def best(self) -> tuple[int, int] | None:
++        return max(self.table, key=self.table.get, default=None)
++
++    def propose(self, obs: RootObservation) -> Sequence[MetaProposal]:
++        target = self.best()
++        if target is None:
++            return ()
++        batch, inflight = target
++        proposals = []
++        if batch != obs.runtime.batch_size:
++            proposals.append(
++                MetaProposal(
++                    axis_id=self.axis_id,
++                    action=MetaAction(MetaActionKind.SET_BATCH, amount=batch),
++                    estimate=ProposalEstimate(confidence=0.5),
++                    activation_guard="hardware/profile-specific service-curve artifact matches runtime contract",
++                    explanation=f"service-curve batch target={batch}",
++                )
++            )
++        if inflight != obs.runtime.inflight:
++            proposals.append(
++                MetaProposal(
++                    axis_id=self.axis_id,
++                    action=MetaAction(MetaActionKind.SET_INFLIGHT, amount=inflight),
++                    estimate=ProposalEstimate(confidence=0.5),
++                    activation_guard="hardware/profile-specific service-curve artifact matches runtime contract",
++                    explanation=f"service-curve inflight target={inflight}",
++                )
++            )
++        return tuple(proposals)
++
++
++@dataclass
++class A16MonteCarloGraphSharing:
++    axis_id: str = "A16.monte_carlo_graph_sharing"
++    status: AxisStatus = AxisStatus.SEED
++
++    def propose(self, obs: RootObservation) -> Sequence[MetaProposal]:
++        transpositions = int(obs.extras.get("shareable_transpositions", 0))
++        if transpositions <= 0:
++            return ()
++        return (
++            MetaProposal(
++                axis_id=self.axis_id,
++                action=MetaAction(MetaActionKind.MERGE_OR_SHARE, amount=transpositions, label="state_cache_only"),
++                estimate=ProposalEstimate(confidence=0.0),
++                activation_guard="state/eval cache sharing first; parent-edge N/W/Q remain parent-specific",
++                explanation=f"shareable transposition states={transpositions}",
++            ),
++        )
++
++
++@dataclass
++class A25MentsSoftBackup:
++    axis_id: str = "A25.ments_soft_backup"
++    status: AxisStatus = AxisStatus.DORMANT
++    temperature: float = 0.1
++
++    def soft_value(self, q: Sequence[float], prior: Sequence[float]) -> float:
++        if len(q) != len(prior) or not q:
++            raise ValueError("q/prior shape mismatch")
++        tau = max(1e-6, self.temperature)
++        logits = [log(max(1e-12, p)) + value / tau for p, value in zip(prior, q)]
++        m = max(logits)
++        return tau * (m + log(sum(exp(x - m) for x in logits)))
++
++    def propose(self, obs: RootObservation) -> Sequence[MetaProposal]:
++        return (
++            MetaProposal(
++                axis_id=self.axis_id,
++                action=MetaAction(MetaActionKind.NOOP, label="soft_backup_ablation"),
++                estimate=ProposalEstimate(confidence=0.0),
++                activation_guard="opt-in shallow/root ablation; final game objective evaluated separately",
++                explanation="maximum-entropy backup candidate; not a default minimax replacement",
++            ),
++        )
++
++
++@dataclass
++class A26NestedContourExactLab:
++    axis_id: str = "A26.nested_contour_exact_lab"
++    status: AxisStatus = AxisStatus.ANALYSIS_ONLY
++    live_points: int = 32
++    depth: int = 6
++
++    def propose(self, obs: RootObservation) -> Sequence[MetaProposal]:
++        return (
++            MetaProposal(
++                axis_id=self.axis_id,
++                action=MetaAction(MetaActionKind.NOOP, label="offline_exact_nested_contour"),
++                estimate=ProposalEstimate(confidence=0.0),
++                activation_guard="enumerable/small-tree lab; explicit prior, likelihood, and constrained sampler",
++                explanation="exact nested-contour validation remains separate from live-set particle search",
++                telemetry={"live_points": self.live_points, "depth": self.depth},
++            ),
++        )
+diff --git a/src/mcts/foundry/control.rs b/src/mcts/foundry/control.rs
+new file mode 100644
+index 0000000..337a288
+--- /dev/null
++++ b/src/mcts/foundry/control.rs
+@@ -0,0 +1,331 @@
++//! Control-plane skeletons: A01-A05 and A24.
++
++use std::collections::BTreeMap;
++
++use super::types::{
++    AxisStatus, CostVector, FoundryAxis, FoundryObservation, MetaAction, MetaProposal,
++    ProposalEstimate, UncertaintyChannels,
++};
++
++fn best_two(observation: &FoundryObservation<'_>) -> Option<(usize, Option<usize>)> {
++    if observation.edges.is_empty() {
++        return None;
++    }
++    let mut order: Vec<usize> = (0..observation.edges.len()).collect();
++    order.sort_by(|&a, &b| observation.edges[b].q.total_cmp(&observation.edges[a].q));
++    Some((order[0], order.get(1).copied()))
++}
++
++#[derive(Clone, Debug)]
++pub struct A01StopCouncil {
++    pub risk_limit: f32,
++    pub min_visits: u32,
++}
++
++impl Default for A01StopCouncil {
++    fn default() -> Self {
++        Self {
++            risk_limit: 0.05,
++            min_visits: 16,
++        }
++    }
++}
++
++impl A01StopCouncil {
++    pub fn fallback_risk(&self, observation: &FoundryObservation<'_>) -> f32 {
++        let h1_risk = 1.0 - observation.extras.h1_stability.unwrap_or(0.0);
++        let p_flip = observation.extras.p_flip.unwrap_or(1.0);
++        h1_risk
++            .max(p_flip)
++            .max(observation.extras.omission_bound)
++            .clamp(0.0, 1.0)
++    }
++}
++
++impl FoundryAxis for A01StopCouncil {
++    fn id(&self) -> &'static str {
++        "A01.stop_council"
++    }
++
++    fn status(&self) -> AxisStatus {
++        AxisStatus::Shadow
++    }
++
++    fn propose(&self, observation: &FoundryObservation<'_>, out: &mut Vec<MetaProposal>) {
++        let risk = self.fallback_risk(observation);
++        if observation.snap.root_visits < self.min_visits || risk > self.risk_limit {
++            return;
++        }
++        let Some((best, _)) = best_two(observation) else {
++            return;
++        };
++        let mut telemetry = BTreeMap::new();
++        telemetry.insert("risk".to_string(), risk as f64);
++        out.push(MetaProposal {
++            axis_id: self.id(),
++            action: MetaAction::Stop {
++                edge_pos: Some(observation.edges[best].idx),
++            },
++            estimate: ProposalEstimate {
++                confidence: 1.0 - risk,
++                ..ProposalEstimate::default()
++            },
++            activation_guard:
++                "fresh snapshot; calibrated risk; arbiter verifies all non-stop net values <= 0",
++            explanation: format!("fallback stop-council risk={risk:.4}"),
++            telemetry,
++        });
++    }
++}
++
++#[derive(Clone, Debug)]
++pub struct A02StaticAnchorRpo {
++    pub temperature: f32,
++    pub prior_floor: f32,
++    pub use_lower_confidence: bool,
++}
++
++impl Default for A02StaticAnchorRpo {
++    fn default() -> Self {
++        Self {
++            temperature: 0.25,
++            prior_floor: 1e-8,
++            use_lower_confidence: true,
++        }
++    }
++}
++
++impl A02StaticAnchorRpo {
++    pub fn solve(&self, observation: &FoundryObservation<'_>, lower: &[f32]) -> Vec<f32> {
++        let tau = self.temperature.max(1e-5);
++        let mut logits = Vec::with_capacity(observation.edges.len());
++        for (i, edge) in observation.edges.iter().enumerate() {
++            let score = if self.use_lower_confidence {
++                lower.get(i).copied().unwrap_or(edge.q)
++            } else {
++                edge.q
++            };
++            logits.push(edge.prior.max(self.prior_floor).ln() + score / tau);
++        }
++        if logits.is_empty() {
++            return logits;
++        }
++        let shift = logits.iter().copied().fold(f32::NEG_INFINITY, f32::max);
++        let mut weights: Vec<f32> = logits.into_iter().map(|x| (x - shift).exp()).collect();
++        let total: f32 = weights.iter().sum();
++        if total > 0.0 {
++            for value in &mut weights {
++                *value /= total;
++            }
++        }
++        weights
++    }
++}
++
++impl FoundryAxis for A02StaticAnchorRpo {
++    fn id(&self) -> &'static str {
++        "A02.static_anchor_rpo"
++    }
++
++    fn status(&self) -> AxisStatus {
++        AxisStatus::Shadow
++    }
++
++    fn propose(&self, observation: &FoundryObservation<'_>, out: &mut Vec<MetaProposal>) {
++        let lower: Vec<f32> = observation.edges.iter().map(|edge| edge.q).collect();
++        let policy = self.solve(observation, &lower);
++        let mut telemetry = BTreeMap::new();
++        telemetry.insert("temperature".to_string(), self.temperature as f64);
++        telemetry.insert("policy_sum".to_string(), policy.iter().sum::<f32>() as f64);
++        out.push(MetaProposal {
++            axis_id: self.id(),
++            action: MetaAction::Noop,
++            estimate: ProposalEstimate {
++                confidence: 0.5,
++                ..ProposalEstimate::default()
++            },
++            activation_guard: "root-only; frozen NN anchor; no recursive prior mutation",
++            explanation: "temporary KL-regularized policy ready for cache/readout ablation".into(),
++            telemetry,
++        });
++    }
++}
++
++#[derive(Clone, Copy, Debug, Default)]
++pub struct A03UncertaintyDecomposition;
++
++impl A03UncertaintyDecomposition {
++    pub fn total(&self, channels: UncertaintyChannels) -> f32 {
++        channels.conservative_sum()
++    }
++
++    pub fn bounds(&self, q: f32, channels: UncertaintyChannels) -> (f32, f32) {
++        let radius = self.total(channels);
++        ((q - radius).max(-1.0), (q + radius).min(1.0))
++    }
++}
++
++impl FoundryAxis for A03UncertaintyDecomposition {
++    fn id(&self) -> &'static str {
++        "A03.uncertainty_decomposition"
++    }
++
++    fn status(&self) -> AxisStatus {
++        AxisStatus::Shadow
++    }
++
++    fn propose(&self, observation: &FoundryObservation<'_>, out: &mut Vec<MetaProposal>) {
++        let mut telemetry = BTreeMap::new();
++        telemetry.insert("edge_count".to_string(), observation.edges.len() as f64);
++        out.push(MetaProposal {
++            axis_id: self.id(),
++            action: MetaAction::Noop,
++            estimate: ProposalEstimate {
++                confidence: 0.5,
++                ..ProposalEstimate::default()
++            },
++            activation_guard: "completed backups only; model version frozen for root epoch",
++            explanation: "publish MC/epistemic/drift/bias channels separately".into(),
++            telemetry,
++        });
++    }
++}
++
++#[derive(Clone, Debug)]
++pub struct A04KgVocAllocator {
++    pub batch: u32,
++    pub cost_per_eval_ms: f32,
++}
++
++impl Default for A04KgVocAllocator {
++    fn default() -> Self {
++        Self {
++            batch: 8,
++            cost_per_eval_ms: 1.0,
++        }
++    }
++}
++
++impl A04KgVocAllocator {
++    fn proxy(&self, q: f32, sigma: f32, best_q: f32, best_sigma: f32) -> f32 {
++        let gap = (best_q - q).max(0.0);
++        let uncertainty = (sigma + best_sigma).max(1e-6);
++        uncertainty * (-gap / uncertainty).exp()
++    }
++}
++
++impl FoundryAxis for A04KgVocAllocator {
++    fn id(&self) -> &'static str {
++        "A04.kg_voc_allocator"
++    }
++
++    fn status(&self) -> AxisStatus {
++        AxisStatus::Shadow
++    }
++
++    fn propose(&self, observation: &FoundryObservation<'_>, out: &mut Vec<MetaProposal>) {
++        let Some((best_idx, _)) = best_two(observation) else {
++            return;
++        };
++        let best = observation.edges[best_idx];
++        let best_sigma = best.sigma_a(4.0);
++        for edge in observation.edges {
++            let gain = self.proxy(edge.q, edge.sigma_a(4.0), best.q, best_sigma);
++            out.push(MetaProposal {
++                axis_id: self.id(),
++                action: MetaAction::Sample {
++                    edge_pos: edge.idx,
++                    visits: self.batch,
++                },
++                estimate: ProposalEstimate {
++                    regret_reduction_mean: gain,
++                    regret_reduction_lcb: 0.5 * gain,
++                    confidence: 0.25,
++                    cost: CostVector {
++                        nn_evals: self.batch as f32,
++                        cpu_ms: self.batch as f32 * self.cost_per_eval_ms,
++                        ..CostVector::default()
++                    },
++                },
++                activation_guard:
++                    "allocation only; measured costs; low-budget KG-stop claim remains closed",
++                explanation: format!("KG proxy for edge_pos={}", edge.idx),
++                telemetry: BTreeMap::new(),
++            });
++        }
++    }
++}
++
++#[derive(Clone, Copy, Debug, Default)]
++pub struct A05CounterfactualMetaTeacher;
++
++impl FoundryAxis for A05CounterfactualMetaTeacher {
++    fn id(&self) -> &'static str {
++        "A05.counterfactual_meta_teacher"
++    }
++
++    fn status(&self) -> AxisStatus {
++        AxisStatus::Seed
++    }
++
++    fn propose(&self, observation: &FoundryObservation<'_>, out: &mut Vec<MetaProposal>) {
++        let mut telemetry = BTreeMap::new();
++        telemetry.insert("budget".to_string(), observation.snap.root_visits as f64);
++        out.push(MetaProposal {
++            axis_id: self.id(),
++            action: MetaAction::Noop,
++            estimate: ProposalEstimate::default(),
++            activation_guard: "offline or deterministic resident-session fork only",
++            explanation: "serialize/fork identical snapshot for STOP/SAMPLE/WIDEN labels".into(),
++            telemetry,
++        });
++    }
++}
++
++#[derive(Clone, Debug)]
++pub struct A24LearnedBudgetGate {
++    pub budgets: Vec<u32>,
++    pub cost_per_visit_ms: f32,
++}
++
++impl Default for A24LearnedBudgetGate {
++    fn default() -> Self {
++        Self {
++            budgets: vec![8, 16, 32, 64, 128],
++            cost_per_visit_ms: 0.1,
++        }
++    }
++}
++
++impl FoundryAxis for A24LearnedBudgetGate {
++    fn id(&self) -> &'static str {
++        "A24.learned_budget_gate"
++    }
++
++    fn status(&self) -> AxisStatus {
++        AxisStatus::Seed
++    }
++
++    fn propose(&self, _observation: &FoundryObservation<'_>, out: &mut Vec<MetaProposal>) {
++        for &visits in &self.budgets {
++            out.push(MetaProposal {
++                axis_id: self.id(),
++                action: MetaAction::Sample {
++                    edge_pos: u16::MAX,
++                    visits,
++                },
++                estimate: ProposalEstimate {
++                    cost: CostVector {
++                        nn_evals: visits as f32,
++                        cpu_ms: visits as f32 * self.cost_per_visit_ms,
++                        ..CostVector::default()
++                    },
++                    ..ProposalEstimate::default()
++                },
++                activation_guard: "frozen planner; grouped cross-game calibration; hard deadline",
++                explanation: format!("candidate extra root budget={visits}"),
++                telemetry: BTreeMap::new(),
++            });
++        }
++    }
++}
+diff --git a/src/mcts/foundry/mod.rs b/src/mcts/foundry/mod.rs
+new file mode 100644
+index 0000000..51bd870
+--- /dev/null
++++ b/src/mcts/foundry/mod.rs
+@@ -0,0 +1,24 @@
++//! QUARTZ idea-foundry meta-control skeletons.
++//!
++//! ## Wiring (deliberately not applied by this scaffold)
++//!
++//! 1. Add `pub mod foundry;` beside `pub mod policy;` in `src/mcts/mod.rs`.
++//! 2. Extend the root observation boundary with `FoundryRootExtras` using an
++//!    explicit telemetry/schema bump.
++//! 3. Run modules in `observe`/checkpoint time, collect `MetaProposal`s, and let
++//!    one arbiter choose at most one explicit `MetaAction`.
++//! 4. Translate score/readout proposals through the existing immutable
++//!    `PolicyCache`; translate SAMPLE/WIDEN/etc. through a separate root-session
++//!    executor.  Do not make `score_adjustment()` perform scheduling work.
++//! 5. Keep this feature gated until the Python trace-replay skeletons and
++//!    counterfactual labels pass their promotion gates.
++
++pub mod control;
++pub mod search;
++pub mod systems;
++pub mod types;
++
++pub use control::*;
++pub use search::*;
++pub use systems::*;
++pub use types::*;
+diff --git a/src/mcts/foundry/search.rs b/src/mcts/foundry/search.rs
+new file mode 100644
+index 0000000..9bb4ee1
+--- /dev/null
++++ b/src/mcts/foundry/search.rs
+@@ -0,0 +1,557 @@
++//! Candidate, allocation, and backend skeletons: A06-A16, A25-A26.
++
++use std::collections::BTreeMap;
++
++use super::types::{
++    AxisStatus, CostVector, FoundryAxis, FoundryObservation, MetaAction, MetaProposal,
++    ProposalEstimate,
++};
++
++fn best_q_and_lower(observation: &FoundryObservation<'_>) -> Option<(f32, f32)> {
++    observation
++        .edges
++        .iter()
++        .max_by(|a, b| a.q.total_cmp(&b.q))
++        .map(|edge| (edge.q, edge.q - edge.sigma_a(4.0)))
++}
++
++#[derive(Clone, Debug)]
++pub struct A06GumbelSequentialHalving {
++    pub candidate_count: u16,
++    pub seed: u64,
++}
++
++impl Default for A06GumbelSequentialHalving {
++    fn default() -> Self {
++        Self {
++            candidate_count: 16,
++            seed: 0,
++        }
++    }
++}
++
++impl FoundryAxis for A06GumbelSequentialHalving {
++    fn id(&self) -> &'static str {
++        "A06.gumbel_sequential_halving"
++    }
++
++    fn status(&self) -> AxisStatus {
++        AxisStatus::MechanismValid
++    }
++
++    fn propose(&self, observation: &FoundryObservation<'_>, out: &mut Vec<MetaProposal>) {
++        let count = self
++            .candidate_count
++            .min(observation.edges.len().try_into().unwrap_or(u16::MAX))
++            .max(1);
++        let per_arm = (observation.snap.root_visits.max(1) / count as u32).max(1);
++        for edge in observation.edges.iter().take(count as usize) {
++            out.push(MetaProposal {
++                axis_id: self.id(),
++                action: MetaAction::Sample {
++                    edge_pos: edge.idx,
++                    visits: per_arm,
++                },
++                estimate: ProposalEstimate {
++                    confidence: 0.25,
++                    cost: CostVector {
++                        nn_evals: per_arm as f32,
++                        ..CostVector::default()
++                    },
++                    ..ProposalEstimate::default()
++                },
++                activation_guard:
++                    "use policy::gumbel_sh implementation; without replacement; tactical reserve preserved",
++                explanation: format!("Gumbel/SH bracket candidate edge_pos={}", edge.idx),
++                telemetry: BTreeMap::new(),
++            });
++        }
++    }
++}
++
++#[derive(Clone, Debug)]
++pub struct A07ResidualEvidenceWidening {
++    pub temperature: f32,
++    pub max_tail_mass: f32,
++    pub widen_count: u16,
++}
++
++impl Default for A07ResidualEvidenceWidening {
++    fn default() -> Self {
++        Self {
++            temperature: 0.25,
++            max_tail_mass: 0.05,
++            widen_count: 4,
++        }
++    }
++}
++
++impl A07ResidualEvidenceWidening {
++    pub fn bound(&self, observation: &FoundryObservation<'_>) -> f32 {
++        let tau = self.temperature.max(1e-5);
++        let mut z_live = 0.0;
++        let mut z_out = 0.0;
++        for (index, edge) in observation.edges.iter().enumerate() {
++            let weight = edge.prior.max(1e-12);
++            if index < observation.snap.n_visible as usize {
++                z_live += weight * (edge.q / tau).exp();
++            } else {
++                let upper = edge.q + edge.sigma_a(4.0);
++                z_out += weight * (upper / tau).exp();
++            }
++        }
++        if z_live + z_out > 0.0 {
++            z_out / (z_live + z_out)
++        } else {
++            1.0
++        }
++    }
++}
++
++impl FoundryAxis for A07ResidualEvidenceWidening {
++    fn id(&self) -> &'static str {
++        "A07.residual_evidence_widening"
++    }
++
++    fn status(&self) -> AxisStatus {
++        AxisStatus::Seed
++    }
++
++    fn propose(&self, observation: &FoundryObservation<'_>, out: &mut Vec<MetaProposal>) {
++        let residual = self.bound(observation);
++        if residual <= self.max_tail_mass || observation.snap.n_visible >= observation.snap.n_children {
++            return;
++        }
++        let mut telemetry = BTreeMap::new();
++        telemetry.insert("residual_mass_bound".to_string(), residual as f64);
++        out.push(MetaProposal {
++            axis_id: self.id(),
++            action: MetaAction::Widen {
++                count: self.widen_count,
++            },
++            estimate: ProposalEstimate {
++                regret_reduction_mean: residual,
++                regret_reduction_lcb: 0.0,
++                confidence: 0.25,
++                cost: CostVector {
++                    nn_evals: self.widen_count as f32,
++                    ..CostVector::default()
++                },
++            },
++            activation_guard: "calibrated unmaterialized-action upper scores; fresh edge generation",
++            explanation: format!("outside posterior mass upper bound={residual:.4}"),
++            telemetry,
++        });
++    }
++}
++
++#[derive(Clone, Debug)]
++pub struct A08TacticalProofBackend {
++    pub proof_budget: u32,
++}
++
++impl Default for A08TacticalProofBackend {
++    fn default() -> Self {
++        Self { proof_budget: 64 }
++    }
++}
++
++impl FoundryAxis for A08TacticalProofBackend {
++    fn id(&self) -> &'static str {
++        "A08.tactical_proof_backend"
++    }
++
++    fn status(&self) -> AxisStatus {
++        AxisStatus::Conditional
++    }
++
++    fn propose(&self, _observation: &FoundryObservation<'_>, _out: &mut Vec<MetaProposal>) {
++        // Game-specific tactical flags are not yet exposed by EdgeView.  Add a
++        // typed sentinel channel; do not overload `last_value` or action ids.
++    }
++}
++
++#[derive(Clone, Debug)]
++pub struct A09H3ChangePointRouter {
++    pub burst_visits: u32,
++}
++
++impl Default for A09H3ChangePointRouter {
++    fn default() -> Self {
++        Self { burst_visits: 16 }
++    }
++}
++
++impl FoundryAxis for A09H3ChangePointRouter {
++    fn id(&self) -> &'static str {
++        "A09.h3_change_point_router"
++    }
++
++    fn status(&self) -> AxisStatus {
++        AxisStatus::Shadow
++    }
++
++    fn propose(&self, observation: &FoundryObservation<'_>, out: &mut Vec<MetaProposal>) {
++        let score = observation.extras.entropy_slope.max(0.0)
++            * (-observation.extras.margin_slope).max(0.0);
++        if score <= 0.0 {
++            return;
++        }
++        let Some(edge) = observation.edges.iter().max_by(|a, b| a.q.total_cmp(&b.q)) else {
++            return;
++        };
++        out.push(MetaProposal {
++            axis_id: self.id(),
++            action: MetaAction::Deepen {
++                edge_pos: edge.idx,
++                visits: self.burst_visits,
++            },
++            estimate: ProposalEstimate {
++                regret_reduction_mean: score,
++                cost: CostVector {
++                    nn_evals: self.burst_visits as f32,
++                    ..CostVector::default()
++                },
++                ..ProposalEstimate::default()
++            },
++            activation_guard: "threshold learned from external hard-state labels; no fixed zero floors",
++            explanation: format!("entropy-margin change-point score={score:.6}"),
++            telemetry: BTreeMap::new(),
++        });
++    }
++}
++
++#[derive(Clone, Debug)]
++pub struct A10PriorRefreshSpecialist {
++    pub divergence_threshold: f32,
++    pub max_blend: f32,
++}
++
++impl Default for A10PriorRefreshSpecialist {
++    fn default() -> Self {
++        Self {
++            divergence_threshold: 0.5,
++            max_blend: 0.2,
++        }
++    }
++}
++
++impl FoundryAxis for A10PriorRefreshSpecialist {
++    fn id(&self) -> &'static str {
++        "A10.prior_refresh_specialist"
++    }
++
++    fn status(&self) -> AxisStatus {
++        AxisStatus::Dormant
++    }
++
++    fn propose(&self, observation: &FoundryObservation<'_>, out: &mut Vec<MetaProposal>) {
++        if observation.extras.prior_visit_js < self.divergence_threshold {
++            return;
++        }
++        out.push(MetaProposal {
++            axis_id: self.id(),
++            action: MetaAction::Noop,
++            estimate: ProposalEstimate::default(),
++            activation_guard: "OOD/weak-evaluator specialist; static anchor retained; never recursive",
++            explanation: format!(
++                "conditional refresh candidate: JS={:.4}, max_blend={:.3}",
++                observation.extras.prior_visit_js, self.max_blend
++            ),
++            telemetry: BTreeMap::new(),
++        });
++    }
++}
++
++#[derive(Clone, Debug)]
++pub struct A11DynamicLiveSetParticles {
++    pub batch: u16,
++    pub max_active: usize,
++}
++
++impl Default for A11DynamicLiveSetParticles {
++    fn default() -> Self {
++        Self {
++            batch: 4,
++            max_active: 8,
++        }
++    }
++}
++
++impl FoundryAxis for A11DynamicLiveSetParticles {
++    fn id(&self) -> &'static str {
++        "A11.dynamic_live_set_particles"
++    }
++
++    fn status(&self) -> AxisStatus {
++        AxisStatus::Seed
++    }
++
++    fn propose(&self, observation: &FoundryObservation<'_>, out: &mut Vec<MetaProposal>) {
++        let (_, best_lower) = best_q_and_lower(observation).unwrap_or((-1.0, -1.0));
++        let mut ranked: Vec<(f32, u16)> = observation
++            .edges
++            .iter()
++            .map(|edge| {
++                let upper = edge.q + edge.sigma_a(4.0);
++                ((upper - best_lower).max(0.0) + edge.sigma_a(4.0), edge.idx)
++            })
++            .collect();
++        ranked.sort_by(|a, b| b.0.total_cmp(&a.0));
++        for (score, edge_pos) in ranked.into_iter().take(self.max_active) {
++            out.push(MetaProposal {
++                axis_id: self.id(),
++                action: MetaAction::ResampleMode {
++                    mode_id: edge_pos,
++                    count: self.batch,
++                },
++                estimate: ProposalEstimate {
++                    regret_reduction_mean: score,
++                    cost: CostVector {
++                        nn_evals: self.batch as f32,
++                        ..CostVector::default()
++                    },
++                    ..ProposalEstimate::default()
++                },
++                activation_guard: "independent groups; reversible hibernation; resurrection quota",
++                explanation: format!("live-set weight={score:.4} for edge_pos={edge_pos}"),
++                telemetry: BTreeMap::new(),
++            });
++        }
++    }
++}
++
++#[derive(Clone, Debug)]
++pub struct A12JsdLocallyBalancedSampler {
++    pub temperature: f32,
++    pub bandwidth: f32,
++}
++
++impl Default for A12JsdLocallyBalancedSampler {
++    fn default() -> Self {
++        Self {
++            temperature: 0.25,
++            bandwidth: 0.2,
++        }
++    }
++}
++
++impl FoundryAxis for A12JsdLocallyBalancedSampler {
++    fn id(&self) -> &'static str {
++        "A12.jsd_locally_balanced_sampler"
++    }
++
++    fn status(&self) -> AxisStatus {
++        AxisStatus::Seed
++    }
++
++    fn propose(&self, _observation: &FoundryObservation<'_>, out: &mut Vec<MetaProposal>) {
++        out.push(MetaProposal::noop(
++            self.id(),
++            "build sibling policy/value geometry on common legal support; JSD is metric, not reward",
++        ));
++    }
++}
++
++#[derive(Clone, Copy, Debug, Default)]
++pub struct A13PendingFlowWuUct;
++
++impl FoundryAxis for A13PendingFlowWuUct {
++    fn id(&self) -> &'static str {
++        "A13.pending_flow_wu_uct"
++    }
++
++    fn status(&self) -> AxisStatus {
++        AxisStatus::Conditional
++    }
++
++    fn propose(&self, observation: &FoundryObservation<'_>, out: &mut Vec<MetaProposal>) {
++        let pending: u32 = observation.edges.iter().map(|edge| edge.n_virtual).sum();
++        let mut telemetry = BTreeMap::new();
++        telemetry.insert("pending".to_string(), pending as f64);
++        out.push(MetaProposal {
++            axis_id: self.id(),
++            action: MetaAction::Noop,
++            estimate: ProposalEstimate {
++                confidence: 0.5,
++                ..ProposalEstimate::default()
++            },
++            activation_guard: "unobserved counts shape selection only; never enter confidence evidence",
++            explanation: "separate pending-flow/WU-UCT correction from adaptive virtual value".into(),
++            telemetry,
++        });
++    }
++}
++
++#[derive(Clone, Debug)]
++pub struct A14SemanticPathLsh {
++    pub min_threads: u16,
++    pub overlap_threshold: f32,
++}
++
++impl Default for A14SemanticPathLsh {
++    fn default() -> Self {
++        Self {
++            min_threads: 8,
++            overlap_threshold: 0.5,
++        }
++    }
++}
++
++impl FoundryAxis for A14SemanticPathLsh {
++    fn id(&self) -> &'static str {
++        "A14.semantic_path_lsh"
++    }
++
++    fn status(&self) -> AxisStatus {
++        AxisStatus::Shadow
++    }
++
++    fn propose(&self, observation: &FoundryObservation<'_>, out: &mut Vec<MetaProposal>) {
++        let runtime = observation.extras.runtime;
++        if runtime.threads < self.min_threads
++            || runtime.semantic_path_overlap < self.overlap_threshold
++        {
++            return;
++        }
++        out.push(MetaProposal {
++            axis_id: self.id(),
++            action: MetaAction::ResampleMode {
++                mode_id: u16::MAX,
++                count: runtime.inflight.max(1),
++            },
++            estimate: ProposalEstimate::default(),
++            activation_guard: "edge duplication already controlled; high-thread semantic overlap remains",
++            explanation: format!("semantic overlap={:.3}", runtime.semantic_path_overlap),
++            telemetry: BTreeMap::new(),
++        });
++    }
++}
++
++#[derive(Clone, Debug, Default)]
++pub struct A15ServiceCurveScheduler {
++    pub best_batch: u16,
++    pub best_inflight: u16,
++}
++
++impl FoundryAxis for A15ServiceCurveScheduler {
++    fn id(&self) -> &'static str {
++        "A15.service_curve_scheduler"
++    }
++
++    fn status(&self) -> AxisStatus {
++        AxisStatus::MechanismValid
++    }
++
++    fn propose(&self, observation: &FoundryObservation<'_>, out: &mut Vec<MetaProposal>) {
++        if self.best_batch > 0 && self.best_batch != observation.extras.runtime.batch_size {
++            out.push(MetaProposal {
++                axis_id: self.id(),
++                action: MetaAction::SetBatch {
++                    batch_size: self.best_batch,
++                },
++                estimate: ProposalEstimate {
++                    confidence: 0.5,
++                    ..ProposalEstimate::default()
++                },
++                activation_guard: "service-curve artifact matches hardware/runtime contract",
++                explanation: format!("batch target={}", self.best_batch),
++                telemetry: BTreeMap::new(),
++            });
++        }
++        if self.best_inflight > 0 && self.best_inflight != observation.extras.runtime.inflight {
++            out.push(MetaProposal {
++                axis_id: self.id(),
++                action: MetaAction::SetInflight {
++                    credit: self.best_inflight,
++                },
++                estimate: ProposalEstimate {
++                    confidence: 0.5,
++                    ..ProposalEstimate::default()
++                },
++                activation_guard: "service-curve artifact matches hardware/runtime contract",
++                explanation: format!("inflight target={}", self.best_inflight),
++                telemetry: BTreeMap::new(),
++            });
++        }
++    }
++}
++
++#[derive(Clone, Copy, Debug, Default)]
++pub struct A16MonteCarloGraphSharing;
++
++impl FoundryAxis for A16MonteCarloGraphSharing {
++    fn id(&self) -> &'static str {
++        "A16.monte_carlo_graph_sharing"
++    }
++
++    fn status(&self) -> AxisStatus {
++        AxisStatus::Seed
++    }
++
++    fn propose(&self, _observation: &FoundryObservation<'_>, _out: &mut Vec<MetaProposal>) {
++        // Add a state-key channel and explicit share candidates.  State/eval
++        // cache sharing lands before graph-wide N/W/Q sharing; parent-edge
++        // statistics remain parent-specific by default.
++    }
++}
++
++#[derive(Clone, Debug)]
++pub struct A25MentsSoftBackup {
++    pub temperature: f32,
++}
++
++impl Default for A25MentsSoftBackup {
++    fn default() -> Self {
++        Self { temperature: 0.1 }
++    }
++}
++
++impl FoundryAxis for A25MentsSoftBackup {
++    fn id(&self) -> &'static str {
++        "A25.ments_soft_backup"
++    }
++
++    fn status(&self) -> AxisStatus {
++        AxisStatus::Dormant
++    }
++
++    fn propose(&self, _observation: &FoundryObservation<'_>, out: &mut Vec<MetaProposal>) {
++        out.push(MetaProposal::noop(
++            self.id(),
++            "opt-in root/shallow soft-backup ablation; evaluate objective mismatch separately",
++        ));
++    }
++}
++
++#[derive(Clone, Debug)]
++pub struct A26NestedContourExactLab {
++    pub live_points: u16,
++    pub depth: u16,
++}
++
++impl Default for A26NestedContourExactLab {
++    fn default() -> Self {
++        Self {
++            live_points: 32,
++            depth: 6,
++        }
++    }
++}
++
++impl FoundryAxis for A26NestedContourExactLab {
++    fn id(&self) -> &'static str {
++        "A26.nested_contour_exact_lab"
++    }
++
++    fn status(&self) -> AxisStatus {
++        AxisStatus::AnalysisOnly
++    }
++
++    fn propose(&self, _observation: &FoundryObservation<'_>, out: &mut Vec<MetaProposal>) {
++        out.push(MetaProposal::noop(
++            self.id(),
++            "offline enumerable-tree nested-contour validation; separate from live-set particle search",
++        ));
++    }
++}
+diff --git a/src/mcts/foundry/systems.rs b/src/mcts/foundry/systems.rs
+new file mode 100644
+index 0000000..8e42b2b
+--- /dev/null
++++ b/src/mcts/foundry/systems.rs
+@@ -0,0 +1,261 @@
++//! Readout, representation, training-control, analysis, and deployment skeletons: A17-A23.
++
++use std::collections::BTreeMap;
++
++use super::types::{
++    AxisStatus, CostVector, FoundryAxis, FoundryObservation, MetaAction, MetaProposal,
++    ProposalEstimate,
++};
++
++#[derive(Clone, Debug)]
++pub struct A17B13CurvatureReadout {
++    pub curvature: f32,
++}
++
++impl Default for A17B13CurvatureReadout {
++    fn default() -> Self {
++        Self { curvature: 1.0 }
++    }
++}
++
++impl FoundryAxis for A17B13CurvatureReadout {
++    fn id(&self) -> &'static str {
++        "A17.b13_curvature_readout"
++    }
++
++    fn status(&self) -> AxisStatus {
++        AxisStatus::MechanismValid
++    }
++
++    fn propose(&self, _observation: &FoundryObservation<'_>, out: &mut Vec<MetaProposal>) {
++        let mut telemetry = BTreeMap::new();
++        telemetry.insert("curvature".into(), self.curvature as f64);
++        out.push(MetaProposal {
++            axis_id: self.id(),
++            action: MetaAction::Noop,
++            estimate: ProposalEstimate {
++                confidence: 0.5,
++                ..ProposalEstimate::default()
++            },
++            activation_guard: "readout-only by default; selection and training-target roles separate",
++            explanation: "invoke the pinned Phase-15 one-loop readout implementation".into(),
++            telemetry,
++        });
++    }
++}
++
++#[derive(Clone, Debug)]
++pub struct A18DiffusionRegularizedEvaluator {
++    pub denoise_weight: f32,
++    pub discrete_masking: bool,
++}
++
++impl Default for A18DiffusionRegularizedEvaluator {
++    fn default() -> Self {
++        Self {
++            denoise_weight: 0.1,
++            discrete_masking: false,
++        }
++    }
++}
++
++impl FoundryAxis for A18DiffusionRegularizedEvaluator {
++    fn id(&self) -> &'static str {
++        "A18.diffusion_regularized_evaluator"
++    }
++
++    fn status(&self) -> AxisStatus {
++        AxisStatus::Seed
++    }
++
++    fn propose(&self, _observation: &FoundryObservation<'_>, out: &mut Vec<MetaProposal>) {
++        out.push(MetaProposal::noop(
++            self.id(),
++            "training-only denoising auxiliary; Rust evaluator remains deterministic and direct",
++        ));
++    }
++}
++
++#[derive(Clone, Debug)]
++pub struct A19RwRestLiteEvaluator {
++    pub nodes: u16,
++    pub channels: u16,
++    pub graph_seed: u64,
++}
++
++impl Default for A19RwRestLiteEvaluator {
++    fn default() -> Self {
++        Self {
++            nodes: 40,
++            channels: 144,
++            graph_seed: 0,
++        }
++    }
++}
++
++impl FoundryAxis for A19RwRestLiteEvaluator {
++    fn id(&self) -> &'static str {
++        "A19.rw_rest_lite_evaluator"
++    }
++
++    fn status(&self) -> AxisStatus {
++        AxisStatus::Seed
++    }
++
++    fn propose(&self, _observation: &FoundryObservation<'_>, out: &mut Vec<MetaProposal>) {
++        let mut telemetry = BTreeMap::new();
++        telemetry.insert("nodes".into(), self.nodes as f64);
++        telemetry.insert("channels".into(), self.channels as f64);
++        telemetry.insert("graph_seed".into(), self.graph_seed as f64);
++        out.push(MetaProposal {
++            axis_id: self.id(),
++            action: MetaAction::Noop,
++            estimate: ProposalEstimate::default(),
++            activation_guard: "controller frozen; graph-seed screen; static-pruned deployment graph",
++            explanation: "register evaluator architecture ablation".into(),
++            telemetry,
++        });
++    }
++}
++
++#[derive(Clone, Copy, Debug, Default)]
++pub struct A20RegretStateArchive;
++
++impl FoundryAxis for A20RegretStateArchive {
++    fn id(&self) -> &'static str {
++        "A20.regret_state_archive"
++    }
++
++    fn status(&self) -> AxisStatus {
++        AxisStatus::Seed
++    }
++
++    fn propose(&self, observation: &FoundryObservation<'_>, out: &mut Vec<MetaProposal>) {
++        let instability = 1.0 - observation.extras.h1_stability.unwrap_or(0.0);
++        let priority = instability.max(0.0)
++            + observation.extras.omission_bound.max(0.0)
++            + 0.25 * observation.extras.revision_count as f32
++            + observation.extras.prior_visit_js.max(0.0);
++        if priority <= 0.0 {
++            return;
++        }
++        out.push(MetaProposal {
++            axis_id: self.id(),
++            action: MetaAction::ArchiveState { priority },
++            estimate: ProposalEstimate::default(),
++            activation_guard: "training-only; deduplicate by position group; sampling bias recorded",
++            explanation: format!("archive priority={priority:.4}"),
++            telemetry: BTreeMap::new(),
++        });
++    }
++}
++
++#[derive(Clone, Debug)]
++pub struct A21CoherenceSignedPathShadow {
++    pub decay: f32,
++}
++
++impl Default for A21CoherenceSignedPathShadow {
++    fn default() -> Self {
++        Self { decay: 0.05 }
++    }
++}
++
++impl FoundryAxis for A21CoherenceSignedPathShadow {
++    fn id(&self) -> &'static str {
++        "A21.coherence_signed_path_shadow"
++    }
++
++    fn status(&self) -> AxisStatus {
++        AxisStatus::AnalysisOnly
++    }
++
++    fn propose(&self, observation: &FoundryObservation<'_>, out: &mut Vec<MetaProposal>) {
++        let stability = observation.extras.h1_stability.unwrap_or(0.0);
++        let coherence = (-self.decay * observation.snap.root_visits as f32).exp()
++            * (1.0 - stability).max(0.0);
++        let mut telemetry = BTreeMap::new();
++        telemetry.insert("coherence".into(), coherence as f64);
++        out.push(MetaProposal {
++            axis_id: self.id(),
++            action: MetaAction::Noop,
++            estimate: ProposalEstimate::default(),
++            activation_guard: "shadow-only until predictive lift beyond ordinary disagreement is proven",
++            explanation: format!("coherence gate={coherence:.6}"),
++            telemetry,
++        });
++    }
++}
++
++#[derive(Clone, Copy, Debug, Default)]
++pub struct A22PhysicsFalsificationDashboard;
++
++impl FoundryAxis for A22PhysicsFalsificationDashboard {
++    fn id(&self) -> &'static str {
++        "A22.physics_falsification_dashboard"
++    }
++
++    fn status(&self) -> AxisStatus {
++        AxisStatus::AnalysisOnly
++    }
++
++    fn propose(&self, observation: &FoundryObservation<'_>, out: &mut Vec<MetaProposal>) {
++        let mut telemetry = BTreeMap::new();
++        telemetry.insert("budget".into(), observation.snap.root_visits as f64);
++        telemetry.insert("entropy".into(), observation.extras.entropy as f64);
++        telemetry.insert(
++            "effective_branching".into(),
++            observation.extras.effective_branching as f64,
++        );
++        out.push(MetaProposal {
++            axis_id: self.id(),
++            action: MetaAction::Noop,
++            estimate: ProposalEstimate::default(),
++            activation_guard: "analysis-only; explicit nulls; no FDT/Jarzynski without protocols",
++            explanation: "record beta residual, redundancy, susceptibility, and scale-flow observables".into(),
++            telemetry,
++        });
++    }
++}
++
++#[derive(Clone, Debug)]
++pub struct A23CpuIncrementalPatternStudent {
++    pub quantized: bool,
++    pub incremental: bool,
++}
++
++impl Default for A23CpuIncrementalPatternStudent {
++    fn default() -> Self {
++        Self {
++            quantized: true,
++            incremental: true,
++        }
++    }
++}
++
++impl FoundryAxis for A23CpuIncrementalPatternStudent {
++    fn id(&self) -> &'static str {
++        "A23.cpu_incremental_pattern_student"
++    }
++
++    fn status(&self) -> AxisStatus {
++        AxisStatus::Seed
++    }
++
++    fn propose(&self, observation: &FoundryObservation<'_>, out: &mut Vec<MetaProposal>) {
++        out.push(MetaProposal {
++            axis_id: self.id(),
++            action: MetaAction::Noop,
++            estimate: ProposalEstimate {
++                cost: CostVector {
++                    cpu_ms: observation.extras.runtime.eval_latency_ms,
++                    ..CostVector::default()
++                },
++                ..ProposalEstimate::default()
++            },
++            activation_guard: "teacher/controller frozen; incremental cache correctness and fixed-time Elo",
++            explanation: "register pattern-codebook/NNUE-like CPU evaluator comparison".into(),
++            telemetry: BTreeMap::new(),
++        });
++    }
++}
+diff --git a/src/mcts/foundry/types.rs b/src/mcts/foundry/types.rs
+new file mode 100644
+index 0000000..c2cd38b
+--- /dev/null
++++ b/src/mcts/foundry/types.rs
+@@ -0,0 +1,193 @@
++//! Shared meta-control contracts for the QUARTZ idea foundry.
++//!
++//! This module is intentionally a skeleton and is not wired into `mcts::mod.rs`
++//! yet.  It extends, rather than replaces, `policy::{SearchSnapshot, EdgeView,
++//! PolicyCache}`.  Heavy modules observe a root epoch and emit proposals; a
++//! single arbiter chooses one explicit computation action.
++
++use std::collections::BTreeMap;
++
++use crate::mcts::policy::{EdgeView, SearchSnapshot};
++
++#[derive(Clone, Copy, Debug, PartialEq, Eq)]
++pub enum AxisStatus {
++    Seed,
++    MechanismValid,
++    Shadow,
++    Conditional,
++    ActiveExperimental,
++    DeploymentCandidate,
++    Dormant,
++    AnalysisOnly,
++}
++
++#[derive(Clone, Copy, Debug, PartialEq)]
++pub enum MetaAction {
++    Stop { edge_pos: Option<u16> },
++    Sample { edge_pos: u16, visits: u32 },
++    Challenge { best_pos: u16, challenger_pos: u16, visits: u32 },
++    Widen { count: u16 },
++    Deepen { edge_pos: u16, visits: u32 },
++    Prove { edge_pos: u16, budget: u32 },
++    ResampleMode { mode_id: u16, count: u16 },
++    MergeOrShare { state_key: u64 },
++    SetBatch { batch_size: u16 },
++    SetInflight { credit: u16 },
++    SetThreads { threads: u16 },
++    Reanalyse { state_key: u64 },
++    ArchiveState { priority: f32 },
++    Noop,
++}
++
++#[derive(Clone, Copy, Debug, Default, PartialEq)]
++pub struct CostVector {
++    pub nn_evals: f32,
++    pub cpu_ms: f32,
++    pub gpu_ms: f32,
++    pub energy_proxy: f32,
++}
++
++#[derive(Clone, Copy, Debug, Default, PartialEq)]
++pub struct CostPrices {
++    pub nn_eval: f32,
++    pub cpu_ms: f32,
++    pub gpu_ms: f32,
++    pub energy_proxy: f32,
++}
++
++impl CostVector {
++    pub fn weighted(self, prices: CostPrices) -> f32 {
++        self.nn_evals * prices.nn_eval
++            + self.cpu_ms * prices.cpu_ms
++            + self.gpu_ms * prices.gpu_ms
++            + self.energy_proxy * prices.energy_proxy
++    }
++}
++
++#[derive(Clone, Copy, Debug, Default, PartialEq)]
++pub struct ProposalEstimate {
++    pub regret_reduction_mean: f32,
++    pub regret_reduction_lcb: f32,
++    pub confidence: f32,
++    pub cost: CostVector,
++}
++
++impl ProposalEstimate {
++    pub fn net_lcb(self, prices: CostPrices) -> f32 {
++        self.regret_reduction_lcb - self.cost.weighted(prices)
++    }
++}
++
++#[derive(Clone, Debug, PartialEq)]
++pub struct MetaProposal {
++    pub axis_id: &'static str,
++    pub action: MetaAction,
++    pub estimate: ProposalEstimate,
++    pub activation_guard: &'static str,
++    pub explanation: String,
++    pub telemetry: BTreeMap<String, f64>,
++}
++
++impl MetaProposal {
++    pub fn noop(axis_id: &'static str, explanation: impl Into<String>) -> Self {
++        Self {
++            axis_id,
++            action: MetaAction::Noop,
++            estimate: ProposalEstimate::default(),
++            activation_guard: "skeleton-only",
++            explanation: explanation.into(),
++            telemetry: BTreeMap::new(),
++        }
++    }
++}
++
++#[derive(Clone, Copy, Debug, Default, PartialEq)]
++pub struct UncertaintyChannels {
++    pub mc: f32,
++    pub epistemic: f32,
++    pub drift: f32,
++    pub bias: f32,
++}
++
++impl UncertaintyChannels {
++    pub fn conservative_sum(self) -> f32 {
++        self.mc.max(0.0) + self.epistemic.max(0.0) + self.drift.max(0.0) + self.bias.max(0.0)
++    }
++
++    pub fn rss(self) -> f32 {
++        (self.mc.max(0.0).powi(2)
++            + self.epistemic.max(0.0).powi(2)
++            + self.drift.max(0.0).powi(2)
++            + self.bias.max(0.0).powi(2))
++        .sqrt()
++    }
++}
++
++#[derive(Clone, Copy, Debug, Default, PartialEq)]
++pub struct RuntimeSnapshot {
++    pub threads: u16,
++    pub batch_size: u16,
++    pub inflight: u16,
++    pub queue_wait_ms: f32,
++    pub eval_latency_ms: f32,
++    pub edge_duplicate_rate: f32,
++    pub semantic_path_overlap: f32,
++    pub max_pending: u16,
++    pub tt_wait_ns: u64,
++}
++
++/// Extra root observations not yet present in the production `SearchSnapshot`.
++///
++/// The live implementation should either extend `SearchSnapshot` in a schema
++/// bump or publish this beside it.  Do not repurpose existing fields silently.
++#[derive(Clone, Debug, Default, PartialEq)]
++pub struct FoundryRootExtras {
++    pub root_hash: u64,
++    pub checkpoint_hash: u64,
++    pub entropy: f32,
++    pub effective_branching: f32,
++    pub top2_margin: f32,
++    pub margin_slope: f32,
++    pub entropy_slope: f32,
++    pub h1_stability: Option<f32>,
++    pub p_flip: Option<f32>,
++    pub prior_visit_js: f32,
++    pub omission_bound: f32,
++    pub revision_count: u16,
++    pub runtime: RuntimeSnapshot,
++}
++
++pub struct FoundryObservation<'a> {
++    pub snap: &'a SearchSnapshot,
++    pub edges: &'a [EdgeView<'a>],
++    pub extras: &'a FoundryRootExtras,
++}
++
++pub trait FoundryAxis: Send + Sync {
++    fn id(&self) -> &'static str;
++    fn status(&self) -> AxisStatus;
++    fn propose(&self, observation: &FoundryObservation<'_>, out: &mut Vec<MetaProposal>);
++}
++
++pub trait FoundryArbiter: Send + Sync {
++    fn choose<'a>(&self, proposals: &'a [MetaProposal], prices: CostPrices) -> Option<&'a MetaProposal>;
++}
++
++#[derive(Default)]
++pub struct ConservativeArbiter;
++
++impl FoundryArbiter for ConservativeArbiter {
++    fn choose<'a>(&self, proposals: &'a [MetaProposal], prices: CostPrices) -> Option<&'a MetaProposal> {
++        proposals
++            .iter()
++            .filter(|proposal| {
++                matches!(proposal.action, MetaAction::Stop { .. })
++                    || proposal.estimate.net_lcb(prices) > 0.0
++            })
++            .max_by(|a, b| {
++                a.estimate
++                    .net_lcb(prices)
++                    .total_cmp(&b.estimate.net_lcb(prices))
++            })
++    }
++}
+diff --git a/tests/test_idea_foundry_skeletons.py b/tests/test_idea_foundry_skeletons.py
+new file mode 100644
+index 0000000..e44c7ce
+--- /dev/null
++++ b/tests/test_idea_foundry_skeletons.py
+@@ -0,0 +1,180 @@
++import json
++from pathlib import Path
++
++import pytest
++
++from quartz.idea_foundry import (
++    ALL_AXIS_TYPES,
++    A01StopCouncil,
++    A02StaticAnchorRPO,
++    A03UncertaintyDecomposition,
++    A07ResidualEvidenceWidening,
++    ConservativeArbiter,
++    CostVector,
++    EdgeObservation,
++    MetaActionKind,
++    RootObservation,
++    RuntimeObservation,
++)
++
++
++REPO_ROOT = Path(__file__).resolve().parents[1]
++REGISTRY = REPO_ROOT / "configs" / "idea_foundry.axes.v1.json"
++
++
++def observation() -> RootObservation:
++    edges = (
++        EdgeObservation(
++            edge_pos=0,
++            action_id=10,
++            visible=True,
++            prior_anchor=0.6,
++            prior_current=0.6,
++            visits=16,
++            virtual_visits=0,
++            pending=0,
++            q_mean=0.4,
++            q_sum=6.4,
++            m2=0.8,
++            mc_radius=0.04,
++            epistemic_radius=0.02,
++            drift_radius=0.01,
++            bias_radius=0.01,
++            lower=0.32,
++            upper=0.48,
++        ),
++        EdgeObservation(
++            edge_pos=1,
++            action_id=481,
++            visible=True,
++            prior_anchor=0.3,
++            prior_current=0.3,
++            visits=8,
++            virtual_visits=1,
++            pending=1,
++            q_mean=0.2,
++            q_sum=1.6,
++            m2=0.6,
++            mc_radius=0.08,
++            epistemic_radius=0.03,
++            drift_radius=0.02,
++            bias_radius=0.01,
++            lower=0.06,
++            upper=0.34,
++        ),
++        EdgeObservation(
++            edge_pos=2,
++            action_id=999,
++            visible=False,
++            prior_anchor=0.1,
++            prior_current=0.1,
++            visits=0,
++            virtual_visits=0,
++            pending=0,
++            q_mean=0.0,
++            q_sum=0.0,
++            m2=0.0,
++            mc_radius=0.2,
++            epistemic_radius=0.1,
++            drift_radius=0.0,
++            bias_radius=0.05,
++            lower=-0.35,
++            upper=0.35,
++        ),
++    )
++    return RootObservation(
++        root_hash=123,
++        checkpoint_id="seed_1/gen_1",
++        position_id="p1",
++        game="gomoku7",
++        root_visits=24,
++        iteration=25,
++        elapsed_ms=12,
++        remaining_visits=40,
++        n_children=3,
++        n_visible=2,
++        entropy=0.9,
++        effective_branching=2.4,
++        top2_margin=0.2,
++        margin_slope=-0.01,
++        entropy_slope=0.02,
++        h1_stability=0.99,
++        p_flip=0.01,
++        prior_visit_js=0.2,
++        candidate_omission_bound=0.01,
++        revision_count=0,
++        edges=edges,
++        runtime=RuntimeObservation(threads=8, batch_size=32, inflight=4),
++    )
++
++
++def test_registry_has_all_26_axes_and_valid_skeleton_paths():
++    payload = json.loads(REGISTRY.read_text(encoding="utf-8"))
++    axes = payload["axes"]
++    assert len(axes) == 26
++    assert [row["id"] for row in axes] == [f"A{i:02d}" for i in range(1, 27)]
++    for row in axes:
++        assert (REPO_ROOT / row["documentation"]).exists()
++        assert (REPO_ROOT / row["rust_skeleton"]["module"]).exists()
++        assert (REPO_ROOT / row["python_skeleton"]["module"]).exists()
++
++
++def test_python_axis_catalog_is_complete_and_unique():
++    assert len(ALL_AXIS_TYPES) == 26
++    instances = [axis_type() for axis_type in ALL_AXIS_TYPES]
++    ids = [item.axis_id for item in instances]
++    assert len(set(ids)) == 26
++    assert {axis_id.split(".", 1)[0] for axis_id in ids} == {f"A{i:02d}" for i in range(1, 27)}
++
++
++def test_all_python_skeletons_accept_one_observation():
++    obs = observation()
++    for axis_type in ALL_AXIS_TYPES:
++        axis = axis_type()
++        proposals = axis.propose(obs)
++        assert proposals is not None, axis.axis_id
++        for proposal in proposals:
++            assert proposal.axis_id == axis.axis_id
++
++
++def test_static_anchor_rpo_is_normalized_and_does_not_use_action_id_as_index():
++    policy = A02StaticAnchorRPO().solve(observation().edges)
++    assert set(policy) == {0, 1, 2}
++    assert sum(policy.values()) == pytest.approx(1.0)
++    assert 481 not in policy
++
++
++def test_uncertainty_default_is_conservative_sum():
++    edge = observation().edges[0]
++    axis = A03UncertaintyDecomposition()
++    assert axis.radius(edge) == pytest.approx(0.08)
++    lo, hi = axis.bounds(edge)
++    assert lo == pytest.approx(0.32)
++    assert hi == pytest.approx(0.48)
++
++
++def test_stop_council_emits_stop_only_for_low_combined_risk():
++    proposals = A01StopCouncil(risk_limit=0.05).propose(observation())
++    assert len(proposals) == 1
++    assert proposals[0].action.kind is MetaActionKind.STOP
++
++
++def test_residual_widening_emits_explicit_widen_action_when_bound_is_large():
++    proposals = A07ResidualEvidenceWidening(max_tail_mass=0.0).propose(observation())
++    assert proposals
++    assert proposals[0].action.kind is MetaActionKind.WIDEN
++
++
++def test_arbiter_rejects_negative_non_stop_net_value():
++    obs = observation()
++    proposal = list(A07ResidualEvidenceWidening(max_tail_mass=0.0).propose(obs))[0]
++    choice = ConservativeArbiter().choose(
++        [proposal],
++        {"nn_eval": 100.0, "cpu_ms": 0.0, "gpu_ms": 0.0, "energy_proxy": 0.0},
++    )
++    assert choice is None
++
++
++def test_cost_vector_weighting_is_explicit():
++    cost = CostVector(nn_evals=2, cpu_ms=3, gpu_ms=4, energy_proxy=5)
++    assert cost.weighted({"nn_evals": 1, "cpu_ms": 2, "gpu_ms": 3, "energy_proxy": 4}) == 40
+-- 
+2.47.3
+

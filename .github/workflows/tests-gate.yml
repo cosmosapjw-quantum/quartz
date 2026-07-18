@@ -10,6 +10,9 @@ on:
       - "tests/**"
       - "quartz/**"
       - "scripts/**"
+      - "configs/idea_foundry*.json"
+      - "configs/idea_lab*.json"
+      - "docs/idea_foundry/**"
       - "pyproject.toml"
   pull_request:
     paths:
@@ -20,6 +23,9 @@ on:
       - "tests/**"
       - "quartz/**"
       - "scripts/**"
+      - "configs/idea_foundry*.json"
+      - "configs/idea_lab*.json"
+      - "docs/idea_foundry/**"
       - "pyproject.toml"
 
 jobs:
@@ -46,7 +52,9 @@ jobs:
             ${{ runner.os }}-cargo-release-
 
       - name: Run cargo test (release)
-        run: cargo test --release --locked
+        run: |
+          cargo test --release --locked
+          cargo test --release --locked --features idea-foundry
 
   python-tests:
     name: pytest tests/

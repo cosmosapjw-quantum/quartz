@@ -699,7 +699,8 @@ def main() -> None:
         # Stage 7 / C10: enforce the full research-grade gate on the actual rows.
         from quartz.phase15_research_grade import check_research_grade, enforce_research_grade
 
-        manifest = json.loads(Path(args.manifest).read_text(encoding="utf-8")) if args.manifest else {}
+        manifest_path = Path(args.manifest).resolve() if args.manifest else None
+        manifest = json.loads(manifest_path.read_text(encoding="utf-8")) if manifest_path else {}
         systems = sorted({str(r.get("system")) for r in posthoc_rows if "system" in r})
         checkpoints = sorted({str(r.get("checkpoint_id")) for r in posthoc_rows if "checkpoint_id" in r})
         positions = sorted({str(r.get("position_id")) for r in posthoc_rows if "position_id" in r})
@@ -708,6 +709,7 @@ def main() -> None:
             checkpoints=checkpoints, rows=posthoc_rows, manifest=manifest, systems=systems,
             n_positions=len(positions), n_budgets=len(budgets),
             analyzer_report=report, min_seed_families=int(args.min_seed_families),
+            artifact_root=manifest_path.parent if manifest_path else None,
         )
         report["research_grade_gate"] = rg
         enforce_research_grade(rg)

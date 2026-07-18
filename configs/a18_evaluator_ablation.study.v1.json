@@ -1,0 +1,103 @@
+{
+  "schema_version": 1,
+  "axis_id": "A18",
+  "study_id": "a18-gomoku7-paired-study-v1",
+  "description": "Preregistered three-seed evaluator ablation. Cyclic source-seed holdouts are deterministically filtered for exact-state overlap; this is not game/trajectory-group validation.",
+  "evidence_tier": "study_candidate",
+  "controller_frozen": true,
+  "controller_contract": {
+    "search_profile": "quartz",
+    "vl_mode": "adaptive",
+    "penalty_mode": "GatedRefresh",
+    "prior_refresh_rate": 0.0,
+    "prior_refresh_temp": 1.0,
+    "c_puct": 2.0,
+    "iters": 200,
+    "n_threads": 4,
+    "batch_size": 8,
+    "root_only_shaping": true
+  },
+  "compute_contract": {
+    "learner_updates": 200,
+    "batch_size": 128,
+    "optimizer": "sgd",
+    "learning_rate": 0.002,
+    "weight_decay": 0.0001,
+    "momentum": 0.9,
+    "grad_clip_norm": 1.0,
+    "scheduler": "none",
+    "denoise_weight": 0.1,
+    "corruption_sigma": 0.1,
+    "evaluation_positions": 200,
+    "latency_batch_sizes": [
+      1,
+      8,
+      32
+    ],
+    "latency_warmups": 10,
+    "latency_repetitions": 50,
+    "flop_convention": "conv_linear_multiply_add_as_two_v1"
+  },
+  "seeds": [
+    41,
+    42,
+    43
+  ],
+  "inputs": [
+    {
+      "seed": 41,
+      "bootstrap_checkpoint": "results/phase15_ablation/gomoku7/bootstrap/seed_41/latest.pt",
+      "bootstrap_checkpoint_sha256": "021b34222d706a9314f006f7809b121a26283a4c255256a8a32ccf8cd4a2c726",
+      "checkpoint_status": "results/phase15_ablation/gomoku7/bootstrap/seed_41/checkpoint_status.json",
+      "checkpoint_status_sha256": "0244df8549ed827a468cf810e4b793368dd8ac66eabc9f949e6c14c3a6c68a01",
+      "training_replay": "results/phase15_ablation/gomoku7/bootstrap/seed_41/replay.npz",
+      "training_replay_sha256": "6154d1c2be2d6eaa95640134bc1fda7b19acec0d525800a4c7284c027c049116",
+      "evaluation_source_seed": 42,
+      "evaluation_source_replay": "results/phase15_ablation/gomoku7/bootstrap/seed_42/replay.npz",
+      "evaluation_source_replay_sha256": "4b357000472c4659af322cd745644ec31fd6675606522475210ab4fdb8cf2984",
+      "evaluation_replay": "results/idea_foundry_inputs/a18_study_v1/train_seed_41.eval_from_seed_42.exact_state_disjoint.npz",
+      "evaluation_replay_sha256": "6866cf8a5e7097fd053eaff152d6645f76187c81e163f180c3d271e8c7b64a8f",
+      "evaluation_derivation_receipt": "results/idea_foundry_inputs/a18_study_v1/train_seed_41.eval_from_seed_42.exact_state_disjoint.receipt.v1.json",
+      "evaluation_derivation_receipt_sha256": "802e875d8a1e0c0beb0d127cc74429b3b47141e7314b80285b8e04b4e76e2155"
+    },
+    {
+      "seed": 42,
+      "bootstrap_checkpoint": "results/phase15_ablation/gomoku7/bootstrap/seed_42/latest.pt",
+      "bootstrap_checkpoint_sha256": "0be1333453f9b9e502f4bdb1cb527b08cb765ec632c6c7aa861635c2044db19d",
+      "checkpoint_status": "results/phase15_ablation/gomoku7/bootstrap/seed_42/checkpoint_status.json",
+      "checkpoint_status_sha256": "40d3cdfaaaf8834b94c0de679a8adc506ae12dde87eb6b9f4088e2bed756eab5",
+      "training_replay": "results/phase15_ablation/gomoku7/bootstrap/seed_42/replay.npz",
+      "training_replay_sha256": "4b357000472c4659af322cd745644ec31fd6675606522475210ab4fdb8cf2984",
+      "evaluation_source_seed": 43,
+      "evaluation_source_replay": "results/phase15_ablation/gomoku7/bootstrap/seed_43/replay.npz",
+      "evaluation_source_replay_sha256": "60d64f12995cf39f93774aca364291d00cd91d94f6660e05bd90fe96e2e53002",
+      "evaluation_replay": "results/idea_foundry_inputs/a18_study_v1/train_seed_42.eval_from_seed_43.exact_state_disjoint.npz",
+      "evaluation_replay_sha256": "606c2e976df5bfdb18b64e5ad994a40f69c46e86440ea550370c6314befbeb49",
+      "evaluation_derivation_receipt": "results/idea_foundry_inputs/a18_study_v1/train_seed_42.eval_from_seed_43.exact_state_disjoint.receipt.v1.json",
+      "evaluation_derivation_receipt_sha256": "d7ea73f96ded88d580f98cae6fc4abe0fefa74a28ef89aef6c8e92795b4ae825"
+    },
+    {
+      "seed": 43,
+      "bootstrap_checkpoint": "results/phase15_ablation/gomoku7/bootstrap/seed_43/latest.pt",
+      "bootstrap_checkpoint_sha256": "05b2ea8ecce18591fec5d993fdaa3661cff47f2402f9ced35565f020c77fca3d",
+      "checkpoint_status": "results/phase15_ablation/gomoku7/bootstrap/seed_43/checkpoint_status.json",
+      "checkpoint_status_sha256": "08b0aaa5606647d03f114d3ab765fe5a06ab025c4251304446acc02ce091e95d",
+      "training_replay": "results/phase15_ablation/gomoku7/bootstrap/seed_43/replay.npz",
+      "training_replay_sha256": "60d64f12995cf39f93774aca364291d00cd91d94f6660e05bd90fe96e2e53002",
+      "evaluation_source_seed": 41,
+      "evaluation_source_replay": "results/phase15_ablation/gomoku7/bootstrap/seed_41/replay.npz",
+      "evaluation_source_replay_sha256": "6154d1c2be2d6eaa95640134bc1fda7b19acec0d525800a4c7284c027c049116",
+      "evaluation_replay": "results/idea_foundry_inputs/a18_study_v1/train_seed_43.eval_from_seed_41.exact_state_disjoint.npz",
+      "evaluation_replay_sha256": "525e8d9e5c617ea2cee8f2e79a8f77617ced7f2696c37ed3f7dd21a802cadb2e",
+      "evaluation_derivation_receipt": "results/idea_foundry_inputs/a18_study_v1/train_seed_43.eval_from_seed_41.exact_state_disjoint.receipt.v1.json",
+      "evaluation_derivation_receipt_sha256": "447b5037fd7e7f9539c2e6fa914b69a762fe9c9de20d248c1027a9414332a2f6"
+    }
+  ],
+  "automatic_promotion": false,
+  "prohibited_inferences": [
+    "play_strength",
+    "efficacy",
+    "production_readiness",
+    "game_or_trajectory_group_generalization"
+  ]
+}

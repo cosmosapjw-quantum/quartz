@@ -200,8 +200,14 @@ impl SequentialHalvingBracket {
         // for reproducibility under tie.
         let mut sorted: SmallVec<[u16; 32]> = self.candidates.clone();
         sorted.sort_by(|&a, &b| {
-            let ma = arm_means.get(a as usize).copied().unwrap_or(f32::NEG_INFINITY);
-            let mb = arm_means.get(b as usize).copied().unwrap_or(f32::NEG_INFINITY);
+            let ma = arm_means
+                .get(a as usize)
+                .copied()
+                .unwrap_or(f32::NEG_INFINITY);
+            let mb = arm_means
+                .get(b as usize)
+                .copied()
+                .unwrap_or(f32::NEG_INFINITY);
             mb.partial_cmp(&ma).unwrap_or(std::cmp::Ordering::Equal)
         });
         // A3-c: ceiling, not floor — Karnin-Koren-Somekh keeps
@@ -230,8 +236,14 @@ impl SequentialHalvingBracket {
             .candidates
             .iter()
             .max_by(|&&a, &&b| {
-                let ma = arm_means.get(a as usize).copied().unwrap_or(f32::NEG_INFINITY);
-                let mb = arm_means.get(b as usize).copied().unwrap_or(f32::NEG_INFINITY);
+                let ma = arm_means
+                    .get(a as usize)
+                    .copied()
+                    .unwrap_or(f32::NEG_INFINITY);
+                let mb = arm_means
+                    .get(b as usize)
+                    .copied()
+                    .unwrap_or(f32::NEG_INFINITY);
                 ma.partial_cmp(&mb).unwrap_or(std::cmp::Ordering::Equal)
             })
             .unwrap()
@@ -253,8 +265,8 @@ pub fn initial_bracket<R: Rng + ?Sized>(
 #[cfg(test)]
 mod tests {
     use super::*;
-    use rand::SeedableRng;
     use rand::rngs::StdRng;
+    use rand::SeedableRng;
 
     /// Phase 3: Gumbel(0, 1) mean ≈ 0.5772 (Euler-Mascheroni constant).
     /// Cross-checked with Python prototype `test_sample_gumbel_distribution_mean`.
@@ -337,10 +349,7 @@ mod tests {
     #[test]
     fn test_phase3_sh_bracket_n_total_rounds() {
         for &(m, expected) in &[(2_u16, 1_u16), (4, 2), (8, 3), (5, 3), (1, 1)] {
-            let bracket = SequentialHalvingBracket::new(
-                (0..m).collect::<SmallVec<_>>(),
-                100,
-            );
+            let bracket = SequentialHalvingBracket::new((0..m).collect::<SmallVec<_>>(), 100);
             assert_eq!(
                 bracket.n_total_rounds(),
                 expected,
@@ -353,10 +362,7 @@ mod tests {
     /// Phase 3: advance_round halves the candidate set by mean.
     #[test]
     fn test_phase3_sh_advance_halves_candidates() {
-        let bracket = SequentialHalvingBracket::new(
-            (0_u16..4).collect::<SmallVec<_>>(),
-            64,
-        );
+        let bracket = SequentialHalvingBracket::new((0_u16..4).collect::<SmallVec<_>>(), 64);
         let arm_means: Vec<f32> = vec![0.9, 0.7, 0.5, 0.3];
         let nb = bracket.advance_round(&arm_means);
         // After round 1: top half = arms 0, 1
@@ -371,10 +377,8 @@ mod tests {
     /// Phase 3: select_winner = argmax mean over live candidates.
     #[test]
     fn test_phase3_sh_select_winner() {
-        let bracket = SequentialHalvingBracket::new(
-            SmallVec::<[u16; 32]>::from_slice(&[0_u16, 2_u16]),
-            64,
-        );
+        let bracket =
+            SequentialHalvingBracket::new(SmallVec::<[u16; 32]>::from_slice(&[0_u16, 2_u16]), 64);
         let arm_means: Vec<f32> = vec![0.9, 0.5, 0.7, 0.3];
         assert_eq!(bracket.select_winner(&arm_means), 0);
     }
@@ -399,7 +403,7 @@ mod tests {
         // Run 2: same seed, manual pause-and-resume
         let mut rng2 = StdRng::seed_from_u64(0);
         let b2 = initial_bracket(&log_priors, 8, 64, &mut rng2);
-        let paused = b2.advance_round(&arm_means);  // round 1 only
+        let paused = b2.advance_round(&arm_means); // round 1 only
         let mut resumed = paused;
         while !resumed.is_done() {
             resumed = resumed.advance_round(&arm_means);
@@ -414,7 +418,7 @@ mod tests {
     fn test_phase3_sh_round_budget_at_least_one() {
         let bracket = SequentialHalvingBracket::new(
             (0_u16..4).collect::<SmallVec<_>>(),
-            8,  // small budget; per-arm-per-round = 8/(4*2) = 1
+            8, // small budget; per-arm-per-round = 8/(4*2) = 1
         );
         assert_eq!(bracket.round_budget(), 1);
     }
@@ -425,10 +429,7 @@ mod tests {
     /// no-op here, isolating the keep_n formula itself.
     #[test]
     fn test_phase3_sh_advance_round_keeps_ceiling_half_on_odd_count() {
-        let bracket = SequentialHalvingBracket::new(
-            (0_u16..5).collect::<SmallVec<_>>(),
-            100,
-        );
+        let bracket = SequentialHalvingBracket::new((0_u16..5).collect::<SmallVec<_>>(), 100);
         let arm_means: Vec<f32> = vec![0.9, 0.7, 0.5, 0.3, 0.1];
         let next = bracket.advance_round(&arm_means);
         assert_eq!(

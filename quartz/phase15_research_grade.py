@@ -11,10 +11,10 @@ Checks (each returns `(ok, detail)`):
    among the checkpoints (parsed from the `seed_<n>` path/id segment).
 2. ``paired_coverage``  — every compared system covers the identical
    `(checkpoint, position, budget)` tuple set (paired protocol).
-3. ``single_salt``      — a single `trace_code_salt` across all rows (no pre/post
-   trace-schema-bump mixing).
-4. ``artifact_hashes``  — the manifest records a sha256 for every checkpoint +
-   the positions/config artifacts.
+3. ``single_salt``      — exactly one `trace_code_salt` across all rows (neither
+   missing salts nor pre/post trace-schema-bump mixing are accepted).
+4. ``artifact_hashes``  — every checkpoint plus the positions/config artifacts
+   exists and its recorded sha256 matches the file bytes.
 5. ``rows_preserved``   — the row count equals
    `len(checkpoints) * len(positions) * len(budgets) * len(systems)` (failure /
    non-improvement rows are preserved, not dropped).
@@ -26,9 +26,13 @@ Checks (each returns `(ok, detail)`):
 from __future__ import annotations
 
 import re
-from typing import Any, Iterable, Sequence
+from pathlib import Path
+from typing import Any, Iterable, Mapping, Sequence
+
+from quartz.experiment_manifest import file_sha256
 
 _SEED_RE = re.compile(r"seed[_\-]?(\d+)")
+_SHA256_RE = re.compile(r"^[0-9a-fA-F]{64}$")
 
 
 def checkpoint_seed_family(checkpoint: str) -> str | None:
@@ -75,21 +79,113 @@ def check_paired_coverage(rows: Sequence[dict[str, Any]], systems: Sequence[str]
 
 
 def check_single_salt(rows: Sequence[dict[str, Any]]) -> tuple[bool, dict[str, Any]]:
-    salts = {str(row.get("trace_code_salt")) for row in rows if row.get("trace_code_salt") is not None}
-    return len(salts) <= 1, {"n_distinct_salts": len(salts), "salts": sorted(salts)}
+    salts = {
+        str(row.get("trace_code_salt"))
+        for row in rows
+        if isinstance(row.get("trace_code_salt"), str)
+        and str(row.get("trace_code_salt")).strip()
+    }
+    missing = sum(
+        1
+        for row in rows
+        if not isinstance(row.get("trace_code_salt"), str)
+        or not str(row.get("trace_code_salt")).strip()
+    )
+    ok = bool(rows) and len(salts) == 1 and missing == 0
+    return ok, {
+        "n_distinct_salts": len(salts),
+        "salts": sorted(salts),
+        "rows_missing_salt": missing,
+    }
 
 
-def check_artifact_hashes(manifest: dict[str, Any], checkpoints: Sequence[str]) -> tuple[bool, dict[str, Any]]:
+def _verify_hash_entry(
+    entry: Any,
+    *,
+    label: str,
+    artifact_root: Path,
+    fallback_path: str | None = None,
+) -> tuple[bool, dict[str, Any]]:
+    """Verify one artifact hash record against bytes on disk.
+
+    The preferred schema is ``{"path": "relative/or/absolute", "sha256":
+    "..."}``.  For checkpoint records only, a plain digest remains readable
+    when the checkpoint map key itself resolves to the artifact path.  A bare
+    digest with no resolvable path is deliberately not treated as proof.
+    """
+
+    if isinstance(entry, Mapping):
+        raw_path = entry.get("path")
+        expected = entry.get("sha256")
+    else:
+        raw_path = fallback_path
+        expected = entry
+
+    detail: dict[str, Any] = {"label": label}
+    if not isinstance(expected, str) or _SHA256_RE.fullmatch(expected) is None:
+        return False, {**detail, "reason": "invalid_sha256"}
+    if not isinstance(raw_path, str) or not raw_path:
+        return False, {**detail, "reason": "missing_path", "expected_sha256": expected.lower()}
+
+    path = Path(raw_path)
+    if not path.is_absolute():
+        path = artifact_root / path
+    path = path.resolve()
+    detail.update({"path": str(path), "expected_sha256": expected.lower()})
+    if not path.is_file():
+        return False, {**detail, "reason": "missing_file"}
+
+    actual = file_sha256(path)
+    detail["actual_sha256"] = actual
+    if actual != expected.lower():
+        return False, {**detail, "reason": "sha256_mismatch"}
+    detail["verified"] = True
+    return True, detail
+
+
+def check_artifact_hashes(
+    manifest: dict[str, Any],
+    checkpoints: Sequence[str],
+    *,
+    artifact_root: str | Path | None = None,
+) -> tuple[bool, dict[str, Any]]:
     hashes = manifest.get("stage7_artifact_hashes") or manifest.get("artifact_hashes") or {}
     ckpt_hashes = hashes.get("checkpoints", {}) if isinstance(hashes, dict) else {}
-    missing = [c for c in checkpoints if str(c) not in ckpt_hashes]
-    has_suite = bool(hashes.get("positions") or hashes.get("suite") or hashes.get("positions_file"))
-    has_config = bool(hashes.get("systems_config") or hashes.get("config"))
-    ok = (not missing) and has_suite and has_config
+    root = Path(artifact_root or ".").resolve()
+    missing = [str(c) for c in checkpoints if str(c) not in ckpt_hashes]
+    verified: list[dict[str, Any]] = []
+    invalid: list[dict[str, Any]] = []
+
+    for checkpoint in checkpoints:
+        key = str(checkpoint)
+        if key not in ckpt_hashes:
+            continue
+        ok_entry, detail = _verify_hash_entry(
+            ckpt_hashes[key], label=f"checkpoint:{key}", artifact_root=root, fallback_path=key
+        )
+        (verified if ok_entry else invalid).append(detail)
+
+    positions_key = next(
+        (key for key in ("positions", "suite", "positions_file") if isinstance(hashes, dict) and key in hashes),
+        None,
+    )
+    config_key = next(
+        (key for key in ("systems_config", "config") if isinstance(hashes, dict) and key in hashes),
+        None,
+    )
+    for kind, key in (("positions", positions_key), ("config", config_key)):
+        if key is None:
+            invalid.append({"label": kind, "reason": "missing_hash_entry"})
+            continue
+        ok_entry, detail = _verify_hash_entry(hashes[key], label=kind, artifact_root=root)
+        (verified if ok_entry else invalid).append(detail)
+
+    ok = not missing and not invalid and len(verified) == len(checkpoints) + 2
     return ok, {
         "missing_checkpoint_hashes": missing,
-        "has_positions_hash": has_suite,
-        "has_config_hash": has_config,
+        "artifact_root": str(root),
+        "verified_artifacts": verified,
+        "invalid_artifacts": invalid,
     }
 
 
@@ -116,6 +212,7 @@ def check_research_grade(
     n_budgets: int,
     analyzer_report: dict[str, Any] | None = None,
     min_seed_families: int = 3,
+    artifact_root: str | Path | None = None,
 ) -> dict[str, Any]:
     checks: dict[str, dict[str, Any]] = {}
 
@@ -128,7 +225,7 @@ def check_research_grade(
     ok_salt, d_salt = check_single_salt(rows)
     checks["single_salt"] = {"ok": ok_salt, **d_salt}
 
-    ok_hash, d_hash = check_artifact_hashes(manifest, checkpoints)
+    ok_hash, d_hash = check_artifact_hashes(manifest, checkpoints, artifact_root=artifact_root)
     checks["artifact_hashes"] = {"ok": ok_hash, **d_hash}
 
     ok_rows, d_rows = check_rows_preserved(

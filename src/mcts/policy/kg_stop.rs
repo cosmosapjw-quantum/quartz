@@ -105,8 +105,16 @@ pub fn kg_per_arm(
 ) -> f32 {
     let n_a_eff = n_a as f32 + lambda0;
     let n_b_eff = n_b as f32 + lambda0;
-    let s2_a = if n_a_eff > 0.0 { sigma2_a / n_a_eff } else { 0.0 };
-    let s2_b = if n_b_eff > 0.0 { sigma2_b / n_b_eff } else { 0.0 };
+    let s2_a = if n_a_eff > 0.0 {
+        sigma2_a / n_a_eff
+    } else {
+        0.0
+    };
+    let s2_b = if n_b_eff > 0.0 {
+        sigma2_b / n_b_eff
+    } else {
+        0.0
+    };
     let s = (s2_b + s2_a).sqrt();
     let delta = (mu_b - mu_a).max(0.0);
     expected_improvement(delta, s)
@@ -141,8 +149,7 @@ pub fn compute_kg_array(
             continue;
         }
         out[a] = kg_per_arm(
-            mu_hats[a], n_pulls[a], sigma2s[a],
-            mu_b, n_b, sigma2_b, lambda0,
+            mu_hats[a], n_pulls[a], sigma2s[a], mu_b, n_b, sigma2_b, lambda0,
         );
     }
     out
@@ -269,7 +276,14 @@ impl KgStop {
     /// cost measured from the snapshot.
     pub fn default_for_budget(budget: u32) -> Self {
         let min_total = (budget / 4).clamp(20, 200);
-        Self::new(1e-3, 4.0, 4, min_total, u32::MAX, KgCostSource::MeasuredPerIter)
+        Self::new(
+            1e-3,
+            4.0,
+            4,
+            min_total,
+            u32::MAX,
+            KgCostSource::MeasuredPerIter,
+        )
     }
 
     fn cost_per_pull_ms(&self, snap: &SearchSnapshot) -> f32 {
@@ -732,7 +746,10 @@ mod tests {
         ];
         policy.observe(&snap, &edges);
         let cache = *policy.cached.lock();
-        assert_eq!(cache.best_idx, 2, "best must be derived from edge q, not snap.best_idx");
+        assert_eq!(
+            cache.best_idx, 2,
+            "best must be derived from edge q, not snap.best_idx"
+        );
     }
 
     /// telemetry exposes max_kg as bayes_voi and the mean sigma_a.
