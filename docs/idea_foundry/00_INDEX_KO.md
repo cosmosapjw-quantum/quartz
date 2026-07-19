@@ -93,6 +93,12 @@ scripts/idea_foundry_run_all.py
 scripts/idea_foundry_analyze_campaign.py
 scripts/idea_foundry_meta_analyze.py
   단일 캠페인 집계와 동일 estimand의 독립 효과만 허용하는 메타분석
+
+configs/idea_foundry.studies.v1.json
+scripts/idea_foundry_study.py
+scripts/idea_foundry_study_all.py
+scripts/idea_foundry_study_analyze.py
+  계약 게이트와 분리된 26축 첫 과학 게이트, 직렬 재개, 축내 메타분석
 ```
 
 Rust 모듈은 이 단계에서 의도적으로 `src/mcts/mod.rs`에 연결하지 않는다. 따라서
@@ -116,10 +122,11 @@ venv/bin/python -m py_compile quartz/idea_foundry/*.py
 python -m json.tool configs/idea_foundry.axes.v1.json >/dev/null
 ```
 
-첫 실제 실험은 새 엔진 기능이 아니라 기존 Stage-7 trace를 이용한 A01/A02/A03/
-A09/A17 replay가 적절하다. 그 다음 A05의 deterministic snapshot fork를 구현하고,
-`STOP/SAMPLE/WIDEN` 세 행동만 counterfactual label로 만든다.
+첫 실제 trace 실험은 새 엔진 기능이 아니라 기존 Phase-15/Stage-7 trace를
+이용한 A01/A02/A03/A09/A17 replay로 구현되어 있다. A05의 현재 첫 게이트는
+`STOP/SAMPLE/WIDEN`만 사용하는 deterministic synthetic freeze/fork이며,
+보존 trace가 independent restart이므로 resident-root 효능으로 승격할 수 없다.
 
-현재 즉시 실행 가능한 26축 first-gate 계약 캠페인과 분석 명령은
+현재 즉시 실행 가능한 26축 first-gate 계약 캠페인과 첫 과학 게이트 명령은
 `06_execution_and_meta_analysis.md`를 따른다. 이 캠페인의 contract pass는
 실험 효능이나 play strength 검증이 아니다.

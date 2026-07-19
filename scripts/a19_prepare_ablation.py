@@ -837,18 +837,18 @@ def run(args: argparse.Namespace) -> int:
         controller_path, args.controller_sha256, "frozen controller"
     )
     _validate_controller_contract(controller_path)
-    if args.proxy_results is not None:
-        raise A19PreparationError(
-            "PROXY_EXECUTOR_NOT_IMPLEMENTED: measured finalize is disabled until "
-            "an in-repository A19 trainer/evaluator recomputes raw validation predictions, "
-            "policy KL, value MSE, parameter count, and FLOPs from versioned candidate artifacts"
-        )
+    proxy_results_path = (
+        _regular_file(args.proxy_results, "proxy results")
+        if args.proxy_results is not None
+        else None
+    )
     expected_source_hashes = _source_hashes()
     expected_input_hashes = _input_hashes(
         screen_plan_path=screen_plan_path,
         replay_manifest_path=replay_manifest_path,
         controller_path=controller_path,
         replay_sources=replay_sources,
+        proxy_results_path=proxy_results_path,
     )
     if output_dir.exists():
         _validate_existing_output(
@@ -920,14 +920,16 @@ def run(args: argparse.Namespace) -> int:
             contract = build_ablation_contract(
                 plan=plan, inputs=inputs, summaries=summaries
             )
+            contract["evidence_status"] = "fixed_replay_proxy"
+            contract["claim_scope"] = "fixed_replay_proxy_diagnostic_only"
             shortlist_status = "measured_proxy_shortlist"
             rows = [
                 {
                     "schema_version": SCHEMA_VERSION,
                     "axis_id": A19_AXIS_ID,
                     "role": ROLE,
-                    "evidence_status": EVIDENCE_STATUS,
-                    "claim_scope": CLAIM_SCOPE,
+                    "evidence_status": "fixed_replay_proxy",
+                    "claim_scope": "fixed_replay_proxy_diagnostic_only",
                     "graph_seed": row["graph_seed"],
                     "replicate_seed": row["replicate_seed"],
                     "metric": "weighted_rank_percentile",
@@ -1026,7 +1028,9 @@ def run(args: argparse.Namespace) -> int:
             "schema_version": SCHEMA_VERSION,
             "axis_id": A19_AXIS_ID,
             "role": ROLE,
-            "claim_scope": CLAIM_SCOPE,
+            "claim_scope": (
+                "fixed_replay_proxy_diagnostic_only" if proxy_path else CLAIM_SCOPE
+            ),
             "status": shortlist_status,
             "shortlisted_graph_seeds": [
                 row["graph_seed"] for row in summaries if row.get("selected")
@@ -1037,6 +1041,9 @@ def run(args: argparse.Namespace) -> int:
         write_json(temp_dir / "a19_graph_seed_shortlist.v1.json", shortlist)
         mode = "measured_fixed_replay_proxy" if proxy_path else "launch_contract_only"
         summary = _base_summary(run_id=run_id, mode=mode)
+        if proxy_path is not None:
+            summary["evidence_status"] = "fixed_replay_proxy"
+            summary["claim_scope"] = "fixed_replay_proxy_diagnostic_only"
         summary.update(
             {
                 "outcome_detail": (
@@ -1053,7 +1060,11 @@ def run(args: argparse.Namespace) -> int:
                 "topology_hashes_unique": True,
                 "diagnostic_category": "DIAGNOSTIC",
                 "split_contracts_persisted": True,
-                "proxy_trainer_status": "absent_not_implemented",
+                "proxy_trainer_status": (
+                    "in_repository_a19_proxy_v1"
+                    if proxy_path is not None
+                    else "absent_not_implemented"
+                ),
                 "blockers": [
                     "A19 proxy candidate trainer/executor is not implemented; no measured shortlist exists."
                 ]
@@ -1077,8 +1088,14 @@ def run(args: argparse.Namespace) -> int:
             "schema_version": SCHEMA_VERSION,
             "axis_id": A19_AXIS_ID,
             "role": ROLE,
-            "evidence_status": EVIDENCE_STATUS,
-            "claim_scope": CLAIM_SCOPE,
+            "evidence_status": (
+                "fixed_replay_proxy" if proxy_path is not None else EVIDENCE_STATUS
+            ),
+            "claim_scope": (
+                "fixed_replay_proxy_diagnostic_only"
+                if proxy_path is not None
+                else CLAIM_SCOPE
+            ),
             "execution_mode": mode,
             "status": "completed_no_promotion",
             "execution_status": "completed_no_promotion",

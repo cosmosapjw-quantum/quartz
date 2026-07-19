@@ -9,6 +9,7 @@ import pytest
 
 from quartz.idea_foundry.a19_ablation import (
     A19PreparationError,
+    _normalize_resource_vector,
     canonical_json_bytes,
     file_sha256,
     generate_topology,
@@ -110,6 +111,34 @@ def test_topology_resource_invariants_hold_across_many_seed_values():
         assert len(topology["edges"]) == 110
         resources.add(canonical_json_bytes(script._resource_estimate(plan, topology)))
     assert len(resources) == 1
+
+
+def test_resource_normalization_preserves_integer_receipt_contract():
+    fields = (
+        "parameters",
+        "flops",
+        "topology_edges",
+        "nodes",
+        "channels",
+        "global_blocks",
+    )
+    raw = {
+        "parameters": 8_041_936,
+        "flops": 785_853_504,
+        "topology_edges": 110,
+        "nodes": 40,
+        "channels": 144,
+        "global_blocks": 2,
+    }
+
+    normalized = _normalize_resource_vector(raw, fields, "resources")
+
+    assert normalized == raw
+    assert all(type(value) is int for value in normalized.values())
+    with pytest.raises(A19PreparationError, match="parameters must be an integer"):
+        _normalize_resource_vector(
+            {**raw, "parameters": 8_041_936.0}, fields, "resources"
+        )
 
 
 def test_launch_contract_consumes_real_replays_without_fabricating_shortlist(tmp_path):
@@ -286,7 +315,7 @@ def test_existing_output_rejects_mode_and_shortlist_status_drift(tmp_path):
         script.run(args)
 
 
-def test_measured_finalize_is_fail_closed_until_proxy_executor_exists(tmp_path):
+def test_measured_finalize_rejects_malformed_proxy_artifacts(tmp_path):
     script = load_script()
     controller_path, controller_hash = controller(tmp_path)
     proxy = tmp_path / "opaque-proxy.jsonl"
@@ -296,7 +325,7 @@ def test_measured_finalize_is_fail_closed_until_proxy_executor_exists(tmp_path):
     args.run_id = "a19-measured-test"
     args.proxy_results = proxy
     args.proxy_results_sha256 = file_sha256(proxy)
-    with pytest.raises(A19PreparationError, match="PROXY_EXECUTOR_NOT_IMPLEMENTED"):
+    with pytest.raises(A19PreparationError, match="proxy row 1"):
         script.run(args)
     assert not args.output_dir.exists()
 

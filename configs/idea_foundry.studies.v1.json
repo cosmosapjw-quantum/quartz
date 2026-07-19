@@ -1,0 +1,40 @@
+{
+  "schema_version": 1,
+  "suite": "first-scientific-gate-all",
+  "description": "Preregistered first scientific gates for A01-A26. These trace, synthetic, shadow, and conditional studies are diagnostic and never imply play strength or production readiness.",
+  "default_seeds": [41, 42, 43],
+  "prohibited_inferences": [
+    "play_strength",
+    "production_readiness",
+    "cross_axis_effect_pooling",
+    "contract_success_as_efficacy"
+  ],
+  "axes": [
+    {"axis_id":"A01","gate_kind":"trace_shadow","runner":"phase15_trace","estimand_id":"early_stop_compute_fraction","effect_scale":"mean_difference","reference_id":"fixed_budget_64","unit":"fraction","higher_is_better":true,"pilot_seconds":4,"full_seconds":18},
+    {"axis_id":"A02","gate_kind":"trace_shadow","runner":"phase15_trace","estimand_id":"oracle_logloss_reduction","effect_scale":"mean_difference","reference_id":"unanchored_budget_16","unit":"nats","higher_is_better":true,"pilot_seconds":4,"full_seconds":18},
+    {"axis_id":"A03","gate_kind":"trace_analysis","runner":"phase15_trace","estimand_id":"conservative_radius_coverage_gain","effect_scale":"mean_difference","reference_id":"rss_radius","unit":"fraction","higher_is_better":true,"pilot_seconds":4,"full_seconds":18},
+    {"axis_id":"A04","gate_kind":"trace_shadow","runner":"phase15_trace","estimand_id":"uncertainty_allocation_correction_gain","effect_scale":"mean_difference","reference_id":"uniform_allocation","unit":"corrected_errors_per_position","higher_is_better":true,"pilot_seconds":4,"full_seconds":18},
+    {"axis_id":"A05","gate_kind":"synthetic_counterfactual","runner":"synthetic_bank","estimand_id":"meta_action_regret_reduction_per_cost","effect_scale":"mean_difference","reference_id":"stop_at_incumbent","unit":"regret_per_cost","higher_is_better":true,"pilot_seconds":3,"full_seconds":20},
+    {"axis_id":"A06","gate_kind":"synthetic_mechanism","runner":"synthetic_bank","estimand_id":"simple_regret_reduction","effect_scale":"mean_difference","reference_id":"uniform_allocation","unit":"reward","higher_is_better":true,"pilot_seconds":4,"full_seconds":35},
+    {"axis_id":"A07","gate_kind":"synthetic_mechanism","runner":"synthetic_bank","estimand_id":"omission_regret_reduction","effect_scale":"mean_difference","reference_id":"fixed_live_set","unit":"reward","higher_is_better":true,"pilot_seconds":4,"full_seconds":30},
+    {"axis_id":"A08","gate_kind":"trace_conditional","runner":"position_suite","estimand_id":"forced_action_recall_gain","effect_scale":"mean_difference","reference_id":"network_prior","unit":"fraction","higher_is_better":true,"pilot_seconds":2,"full_seconds":6},
+    {"axis_id":"A09","gate_kind":"trace_shadow","runner":"phase15_trace","estimand_id":"change_router_brier_gain","effect_scale":"mean_difference","reference_id":"constant_rate","unit":"brier_score","higher_is_better":true,"pilot_seconds":4,"full_seconds":18},
+    {"axis_id":"A10","gate_kind":"trace_conditional","runner":"conditional_audit","estimand_id":"bounded_refresh_oracle_gain","effect_scale":"mean_difference","reference_id":"no_refresh","unit":"fraction","higher_is_better":true,"pilot_seconds":2,"full_seconds":6},
+    {"axis_id":"A11","gate_kind":"synthetic_mechanism","runner":"synthetic_bank","estimand_id":"multimodal_estimation_error_reduction","effect_scale":"mean_difference","reference_id":"single_live_mode","unit":"absolute_error","higher_is_better":true,"pilot_seconds":4,"full_seconds":30},
+    {"axis_id":"A12","gate_kind":"synthetic_mechanism","runner":"synthetic_bank","estimand_id":"target_total_variation_reduction","effect_scale":"mean_difference","reference_id":"uniform_local_walk","unit":"total_variation","higher_is_better":true,"pilot_seconds":4,"full_seconds":35},
+    {"axis_id":"A13","gate_kind":"synthetic_system","runner":"synthetic_bank","estimand_id":"duplicate_dispatch_rate_reduction","effect_scale":"mean_difference","reference_id":"pending_unaware","unit":"fraction","higher_is_better":true,"pilot_seconds":4,"full_seconds":30},
+    {"axis_id":"A14","gate_kind":"trace_shadow","runner":"phase15_paths","estimand_id":"near_duplicate_detection_balanced_accuracy_gain","effect_scale":"mean_difference","reference_id":"edge_duplicate_only","unit":"fraction","higher_is_better":true,"pilot_seconds":3,"full_seconds":12},
+    {"axis_id":"A15","gate_kind":"measured_system","runner":"a15_native","estimand_id":"cuda_throughput_ratio","effect_scale":"log_ratio","reference_id":"matched_cpu","unit":"log_ratio","higher_is_better":true,"pilot_seconds":30,"full_seconds":14400},
+    {"axis_id":"A16","gate_kind":"synthetic_cache_only","runner":"synthetic_bank","estimand_id":"evaluator_call_reduction","effect_scale":"mean_difference","reference_id":"tree_local_cache","unit":"calls","higher_is_better":true,"pilot_seconds":3,"full_seconds":15},
+    {"axis_id":"A17","gate_kind":"trace_analysis","runner":"phase15_stage7","estimand_id":"oracle_kl_reduction","effect_scale":"mean_difference","reference_id":"A4","unit":"nats","higher_is_better":true,"pilot_seconds":4,"full_seconds":18},
+    {"axis_id":"A18","gate_kind":"paired_training","runner":"a18_native","estimand_id":"heldout_joint_loss_reduction","effect_scale":"mean_difference","reference_id":"matched_baseline","unit":"loss","higher_is_better":true,"pilot_seconds":30,"full_seconds":60},
+    {"axis_id":"A19","gate_kind":"paired_training","runner":"a19_native","estimand_id":"weighted_rank_percentile_gain","effect_scale":"mean_difference","reference_id":"median_graph_seed","unit":"rank_percentile","higher_is_better":true,"pilot_seconds":30,"full_seconds":180},
+    {"axis_id":"A20","gate_kind":"trace_training_control","runner":"phase15_trace","estimand_id":"future_error_capture_lift","effect_scale":"mean_difference","reference_id":"uniform_archive","unit":"fraction","higher_is_better":true,"pilot_seconds":4,"full_seconds":18},
+    {"axis_id":"A21","gate_kind":"trace_analysis_only","runner":"phase15_trace","estimand_id":"coherence_brier_gain","effect_scale":"mean_difference","reference_id":"stability_only","unit":"brier_score","higher_is_better":true,"pilot_seconds":4,"full_seconds":18},
+    {"axis_id":"A22","gate_kind":"trace_analysis_only","runner":"phase15_trace","estimand_id":"surrogate_null_r2_gain","effect_scale":"mean_difference","reference_id":"permuted_null","unit":"r_squared","higher_is_better":true,"pilot_seconds":4,"full_seconds":22},
+    {"axis_id":"A23","gate_kind":"trace_parity","runner":"position_suite","estimand_id":"incremental_feature_exact_match","effect_scale":"mean","reference_id":"full_recompute","unit":"fraction","higher_is_better":true,"pilot_seconds":3,"full_seconds":10},
+    {"axis_id":"A24","gate_kind":"trace_training_control","runner":"phase15_trace","estimand_id":"budget_utility_gain","effect_scale":"mean_difference","reference_id":"fixed_budget_64","unit":"utility","higher_is_better":true,"pilot_seconds":4,"full_seconds":20},
+    {"axis_id":"A25","gate_kind":"synthetic_objective_mismatch","runner":"synthetic_bank","estimand_id":"finite_temperature_value_shift","effect_scale":"mean","reference_id":"max_backup","unit":"value","higher_is_better":false,"pilot_seconds":3,"full_seconds":20},
+    {"axis_id":"A26","gate_kind":"synthetic_exact","runner":"synthetic_bank","estimand_id":"contour_enumeration_absolute_error","effect_scale":"mean","reference_id":"finite_enumeration","unit":"absolute_error","higher_is_better":false,"pilot_seconds":3,"full_seconds":20}
+  ]
+}

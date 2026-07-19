@@ -32,6 +32,26 @@ from quartz.idea_foundry.sequential import (  # noqa: E402
 
 PREFLIGHT_SCHEMA_VERSION = 1
 DEFAULT_OUTPUT_ROOT = REPO_ROOT / "results" / "idea_foundry_preflight"
+PREFLIGHT_PYTHON_GLOBS = (
+    "quartz/idea_foundry/**/*.py",
+    "scripts/idea_foundry/*.py",
+    "scripts/idea_foundry_*.py",
+    "tests/test_idea_foundry*.py",
+    "tests/test_idea_lab*.py",
+    "tests/test_a15*.py",
+    "tests/test_a18*.py",
+    "tests/test_a19*.py",
+)
+PREFLIGHT_PYTHON_FILES = (
+    "quartz/experiments/a15_matched_service_curve.py",
+    "quartz/phase15_research_grade.py",
+    "scripts/a15_matched_service_curve.py",
+    "scripts/a18_evaluator_ablation.py",
+    "scripts/a18_prepare_holdouts.py",
+    "scripts/a19_prepare_ablation.py",
+    "scripts/idea_lab.py",
+    "scripts/phase15_analyze_results.py",
+)
 
 
 class PreflightError(RuntimeError):
@@ -99,6 +119,40 @@ def _changed_source_hashes() -> list[dict[str, Any]]:
     return sorted(records, key=lambda row: str(row["path"]))
 
 
+def _preflight_python_paths() -> tuple[str, ...]:
+    """Return the stable lint closure plus any dirty Python source.
+
+    A clean checkout must remain preflightable. Dirty Python files are added to
+    the stable Idea Foundry closure so a pending edit outside that closure is
+    never silently omitted.
+    """
+
+    paths: set[Path] = set()
+    for pattern in PREFLIGHT_PYTHON_GLOBS:
+        paths.update(REPO_ROOT.glob(pattern))
+    for raw_path in PREFLIGHT_PYTHON_FILES:
+        path = REPO_ROOT / raw_path
+        if not path.is_file() or path.is_symlink():
+            raise PreflightError(f"preflight Python source is missing: {raw_path}")
+        paths.add(path)
+    for row in _changed_source_hashes():
+        raw_path = str(row["path"])
+        if raw_path.endswith(".py") and "sha256" in row:
+            paths.add(REPO_ROOT / raw_path)
+
+    invalid = sorted(
+        str(path.relative_to(REPO_ROOT))
+        for path in paths
+        if not path.is_file() or path.is_symlink()
+    )
+    if invalid:
+        raise PreflightError(f"preflight Python inventory is invalid: {invalid}")
+    relative_paths = tuple(sorted(str(path.relative_to(REPO_ROOT)) for path in paths))
+    if not relative_paths:
+        raise PreflightError("preflight Python inventory is empty")
+    return relative_paths
+
+
 def verify_import_receipt() -> dict[str, Any]:
     receipt_path = REPO_ROOT / "docs" / "idea_foundry" / "IMPORT_RECEIPT.json"
     receipt = json.loads(receipt_path.read_text(encoding="utf-8"))
@@ -154,16 +208,12 @@ def build_steps(
 ) -> tuple[PreflightStep, ...]:
     python_cmd = str(python)
     venv_ruff = str(python.parent / "ruff")
-    changed_python_paths = tuple(
-        str(row["path"])
-        for row in _changed_source_hashes()
-        if str(row["path"]).endswith(".py") and "sha256" in row
-    )
-    if not changed_python_paths:
-        raise PreflightError("preflight found no changed Python files to lint")
+    python_paths = _preflight_python_paths()
     artifacts = run_root / "artifacts"
     sequential_root = artifacts / "sequential"
     sequential_run = sequential_root / "first-gate-all"
+    scientific_root = artifacts / "scientific"
+    scientific_run = scientific_root / "pilot-all"
     idea_lab_root = artifacts / "idea_lab"
     phase15_root = artifacts / "phase15_ci_gate"
     a18_inspect_root = artifacts / "a18_study_inspect"
@@ -179,11 +229,12 @@ def build_steps(
         "tests/test_a15_matched_service_curve.py",
         "tests/test_a18_evaluator_ablation.py",
         "tests/test_a19_ablation_readiness.py",
+        "tests/test_idea_foundry_studies.py",
     )
     quick_steps = (
         PreflightStep(
             "ruff-check",
-            (venv_ruff, "check", *changed_python_paths),
+            (venv_ruff, "check", *python_paths),
         ),
         PreflightStep(
             "targeted-preflight-matrix",
@@ -192,6 +243,10 @@ def build_steps(
         PreflightStep(
             "idea-foundry-plan",
             (python_cmd, "scripts/idea_foundry_run_all.py", "plan", "--json"),
+        ),
+        PreflightStep(
+            "idea-foundry-scientific-plan",
+            (python_cmd, "scripts/idea_foundry_study_all.py", "plan", "--json"),
         ),
         PreflightStep(
             "idea-lab-first-gate-plan",
@@ -377,6 +432,51 @@ def build_steps(
                 str(sequential_run / "campaign_analysis" / "campaign_analysis.json"),
                 "--output-dir",
                 str(sequential_run / "meta_analysis"),
+            ),
+        ),
+        PreflightStep(
+            "first-scientific-gate-pilot-run",
+            (
+                python_cmd,
+                "scripts/idea_foundry_study_all.py",
+                "--campaign-root",
+                str(scientific_root),
+                "run",
+                "--run-id",
+                "pilot-all",
+                "--profile",
+                "pilot",
+                "--seed",
+                "20260719",
+                "--timeout-multiplier",
+                "4",
+            ),
+        ),
+        PreflightStep(
+            "first-scientific-gate-pilot-resume",
+            (
+                python_cmd,
+                "scripts/idea_foundry_study_all.py",
+                "--campaign-root",
+                str(scientific_root),
+                "resume",
+                "--run-id",
+                "pilot-all",
+                "--profile",
+                "pilot",
+                "--seed",
+                "20260719",
+                "--timeout-multiplier",
+                "4",
+            ),
+        ),
+        PreflightStep(
+            "first-scientific-gate-analysis",
+            (
+                python_cmd,
+                "scripts/idea_foundry_study_analyze.py",
+                "--campaign-dir",
+                str(scientific_run),
             ),
         ),
         PreflightStep(

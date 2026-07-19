@@ -98,11 +98,13 @@ def _effect(**updates: object) -> dict[str, object]:
 
 def test_release_preflight_inventory_and_import_receipt_are_complete(
     tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
 ) -> None:
     preflight = _load_preflight_script()
     receipt = preflight.verify_import_receipt()
     assert receipt["status"] == "VALIDATED_IMPORT_PROVENANCE_ONLY"
     assert receipt["payload_count"] == 21
+    monkeypatch.setattr(preflight, "_changed_source_hashes", lambda: [])
     quick = preflight.build_steps(
         python=Path(sys.executable), run_root=tmp_path / "quick", mode="quick"
     )
@@ -111,6 +113,21 @@ def test_release_preflight_inventory_and_import_receipt_are_complete(
     )
     quick_names = [step.name for step in quick]
     release_names = [step.name for step in release]
+    ruff_command = next(step.command for step in quick if step.name == "ruff-check")
+    linted_paths = set(ruff_command[2:])
+    assert "scripts/idea_foundry_preflight.py" in linted_paths
+    assert "quartz/idea_foundry/sequential.py" in linted_paths
+    assert "tests/test_idea_foundry_preflight_matrix.py" in linted_paths
+    assert (
+        len(
+            {
+                path
+                for path in linted_paths
+                if path.startswith("scripts/idea_foundry/a") and path.endswith(".py")
+            }
+        )
+        == 26
+    )
     assert len(release_names) == len(set(release_names))
     assert release_names[: len(quick_names)] == quick_names
     assert {

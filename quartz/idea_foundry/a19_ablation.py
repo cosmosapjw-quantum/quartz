@@ -179,6 +179,17 @@ def _require_number(value: Any, label: str, *, minimum: float | None = None) -> 
     return number
 
 
+def _normalize_resource_vector(
+    resources: Mapping[str, Any], fields: Sequence[str], label: str
+) -> dict[str, int]:
+    """Preserve discrete resource counts for receipt/checkpoint validation."""
+
+    return {
+        name: _require_int(resources[name], f"{label}.{name}", minimum=1)
+        for name in fields
+    }
+
+
 def _require_nonempty_string(value: Any, label: str) -> str:
     if not isinstance(value, str) or not value.strip():
         raise A19PreparationError(f"{label} must be a non-empty string")
@@ -1080,15 +1091,14 @@ def validate_proxy_rows(
         _require_exact_keys(
             resources_raw, set(plan.resource_fields), f"{label}.resources"
         )
-        resources = {
-            name: _require_number(value, f"{label}.resources.{name}", minimum=1.0)
-            for name, value in resources_raw.items()
-        }
+        resources = _normalize_resource_vector(
+            resources_raw, plan.resource_fields, f"{label}.resources"
+        )
         structural_expected = {
-            "topology_edges": float(len(topology["edges"])),
-            "nodes": float(plan.architecture["nodes"]),
-            "channels": float(plan.architecture["channels"]),
-            "global_blocks": float(plan.architecture["global_blocks"]),
+            "topology_edges": len(topology["edges"]),
+            "nodes": int(plan.architecture["nodes"]),
+            "channels": int(plan.architecture["channels"]),
+            "global_blocks": int(plan.architecture["global_blocks"]),
         }
         for name, expected in structural_expected.items():
             if name in resources and resources[name] != expected:
