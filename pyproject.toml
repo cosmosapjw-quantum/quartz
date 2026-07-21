@@ -1,5 +1,5 @@
 [build-system]
-requires = ["setuptools>=64", "wheel"]
+requires = ["setuptools>=77,<82", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
@@ -7,7 +7,7 @@ name = "quartz-mcts"
 version = "0.10.0"
 description = "Calibrated metacontroller for neural MCTS (AlphaZero training framework)"
 readme = "README.md"
-requires-python = ">=3.10"
+requires-python = ">=3.12,<3.13"
 license = {text = "MIT"}
 authors = [{name = "QUARTZ Team"}]
 keywords = ["mcts", "alphazero", "reinforcement-learning", "game-ai", "onnx"]
@@ -16,28 +16,42 @@ classifiers = [
     "Intended Audience :: Science/Research",
     "Topic :: Scientific/Engineering :: Artificial Intelligence",
     "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.12",
     "Programming Language :: Rust",
 ]
 
 dependencies = [
-    "numpy>=1.24",
+    "numpy>=2,<3",
     "tqdm",
     "matplotlib>=3.8",
+    "torch==2.11.0",
+    "torchvision==0.26.0",
+    "torchaudio==2.11.0",
+    "scipy>=1.14,<2",
+    "psutil>=7,<8",
 ]
 
 [project.optional-dependencies]
-# Core ML framework (pick one)
-torch = ["torch>=2.0"]
-jax = ["torch>=2.0", "jax[cpu]>=0.4", "flax>=0.7", "optax"]
-
+dev = [
+    "pytest>=9,<10",
+    "pytest-timeout>=2.4,<3",
+    "ruff>=0.15,<0.16",
+    "setuptools>=77,<82",
+]
 # ONNX inference (deploy without torch/jax)
 onnx = ["onnxruntime>=1.16", "onnx>=1.14"]
 onnx-gpu = ["onnxruntime-gpu>=1.16", "onnx>=1.14"]
 search = ["optuna>=3.6"]
 
-# All-in-one
-full = ["torch>=2.0", "onnxruntime>=1.16", "onnx>=1.14"]
-dev = ["pytest", "ruff", "onnx>=1.14", "optuna>=3.6"]
+[[tool.uv.index]]
+name = "pytorch-cu128"
+url = "https://download.pytorch.org/whl/cu128"
+explicit = true
+
+[tool.uv.sources]
+torch = { index = "pytorch-cu128" }
+torchvision = { index = "pytorch-cu128" }
+torchaudio = { index = "pytorch-cu128" }
 
 [project.scripts]
 quartz-train = "quartz.train:main"
@@ -52,7 +66,7 @@ include = ["quartz*"]
 quartz = ["static/play/*"]
 
 [tool.ruff]
-target-version = "py310"
+target-version = "py312"
 extend-exclude = ["docs/legacy"]
 
 [tool.pytest.ini_options]
@@ -67,4 +81,18 @@ markers = [
     # selfplay→replay→SGD→eval pipeline. Minutes-scale; opt-in only.
     # Run via `pytest -m real_loop tests/`.
     "real_loop: full pipeline tests; spawns Rust binary; minutes-scale",
+]
+
+[dependency-groups]
+analysis = [
+    "onnx>=1.21,<2",
+    "onnxruntime-gpu>=1.22,<2",
+    "optuna>=4.8,<5",
+]
+dev = [
+    "pip>=26,<27",
+    "pytest>=9,<10",
+    "pytest-timeout>=2.4,<3",
+    "ruff>=0.15,<0.16",
+    "setuptools>=77,<82",
 ]

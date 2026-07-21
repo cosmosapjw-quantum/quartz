@@ -33,6 +33,7 @@ from quartz.experiment_manifest import (  # noqa: E402
     utc_now,
 )
 from quartz.experiments import a15_matched_service_curve as a15  # noqa: E402
+from quartz.host_resources import prepare_host_resources  # noqa: E402
 
 
 DEFAULT_CONFIG = REPO_ROOT / "configs" / "a15_matched_service_curve.v1.json"
@@ -268,12 +269,16 @@ def build_parser() -> argparse.ArgumentParser:
 
 
 def main(argv: Sequence[str] | None = None) -> int:
-    import torch
-
     args = build_parser().parse_args(argv)
     config_path = args.config.resolve()
     cfg = load_config(config_path)
     profile = a15.validate_config(cfg, args.profile)
+    host_resources = prepare_host_resources(
+        cfg["host_resource_contract"], profile_name=str(profile["name"])
+    )
+
+    import torch
+
     model_spec = dict(cfg["model"])
     runtime_contract = configure_runtime(torch, cfg["runtime_contract"])
     hardware = cuda_runtime_proof(torch, args.cuda_device)
@@ -338,6 +343,7 @@ def main(argv: Sequence[str] | None = None) -> int:
         seed_contract=cfg["seed_contract"],
         runtime_contract={
             **runtime_contract,
+            "host_resources": host_resources,
             "torch_version": str(torch.__version__),
             "torch_cuda_build": str(torch.version.cuda),
         },
@@ -367,6 +373,7 @@ def main(argv: Sequence[str] | None = None) -> int:
         REPO_ROOT / "quartz" / "experiments" / "a15_matched_service_curve.py",
         service_curve_source,
         REPO_ROOT / "quartz" / "experiment_manifest.py",
+        REPO_ROOT / "quartz" / "host_resources.py",
         config_path,
     ]
     resolved_config = {
@@ -378,6 +385,7 @@ def main(argv: Sequence[str] | None = None) -> int:
         "model_state_sha256": state_hash,
         "workload_identity_sha256": workload_hash,
         "runtime_contract": runtime_contract,
+        "host_resources": host_resources,
         "hardware": hardware,
         "semantic_parity": parity,
         "config_path": str(config_path),
@@ -450,6 +458,7 @@ def main(argv: Sequence[str] | None = None) -> int:
                 "model": model_spec,
                 "model_state_sha256": state_hash,
                 "runtime_contract": runtime_contract,
+                "host_resources": host_resources,
                 "hardware": hardware,
                 "workload_identity": workload_contract,
                 "seed_contract": dict(cfg["seed_contract"]),
@@ -555,6 +564,8 @@ def main(argv: Sequence[str] | None = None) -> int:
                 "output_dir": str(final_output_dir),
                 "cpu_intraop_threads": runtime_contract["cpu_intraop_threads"],
                 "cpu_interop_threads": runtime_contract["cpu_interop_threads"],
+                "selected_cpu": host_resources["selected_cpu"],
+                "cpu_isolation_level": host_resources["isolation_level"],
                 "host": platform.node(),
             },
             sort_keys=True,

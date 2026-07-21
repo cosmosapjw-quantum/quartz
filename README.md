@@ -32,9 +32,9 @@ evaluation and search responses.
 cargo build --release
 cargo test --release
 
-# 2. Install Python package. Default training uses PyTorch, so install
-# the torch extra or an explicit CPU/ROCm/CUDA torch wheel.
-pip install -e .[torch]
+# 2. Recreate the Ubuntu 24.04 / Python 3.12 / NVIDIA CUDA environment.
+# Dependencies are locked; JAX and Docker are not part of this baseline.
+scripts/setup_cuda_venv.sh --recreate
 
 # 3. Run the canonical end-to-end audit smoke
 venv/bin/python scripts/smoke_e2e.py

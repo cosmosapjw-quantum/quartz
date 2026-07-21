@@ -5,7 +5,6 @@ import json
 import io
 import logging
 import math
-import os
 import struct
 import sys
 import tomllib
@@ -2937,13 +2936,13 @@ def test_auto_device_name_prefers_mps_when_cuda_unavailable(monkeypatch):
     assert az.auto_device_name() == "mps"
 
 
-def test_pyproject_jax_extra_includes_torch_for_train_entrypoint():
+def test_pyproject_uses_cuda_torch_baseline_without_jax_extra():
     root = Path(__file__).resolve().parents[1]
     data = tomllib.loads((root / "pyproject.toml").read_text(encoding="utf-8"))
 
-    jax_extra = data["project"]["optional-dependencies"]["jax"]
-
-    assert any(dep.startswith("torch") for dep in jax_extra)
+    assert "jax" not in data["project"]["optional-dependencies"]
+    assert "torch==2.11.0" in data["project"]["dependencies"]
+    assert data["tool"]["uv"]["sources"]["torch"] == {"index": "pytorch-cu128"}
 
 
 def test_rust_nn_evaluator_uses_chess_session_payloads(monkeypatch):
@@ -4307,8 +4306,6 @@ def test_replay_fill_worker_error_fails_fast_after_bootstrap_errors():
 
 
 def test_probe_cfg_disables_resident_session():
-    az = load_training_module()
-
     cfg = {"batch_size": 8, "iters": 16}
     probe_cfg = dict(cfg)
     probe_cfg["n_threads"] = 2

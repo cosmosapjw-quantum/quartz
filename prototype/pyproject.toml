@@ -6,7 +6,7 @@ build-backend = "setuptools.build_meta"
 name = "bqpp-prototype"
 version = "0.1.0"
 description = "BQ++ numerical primitive prototype (Python). Math validation before Rust port."
-requires-python = ">=3.10"
+requires-python = ">=3.12,<3.13"
 dependencies = [
     "numpy>=1.26",
     "scipy>=1.11",

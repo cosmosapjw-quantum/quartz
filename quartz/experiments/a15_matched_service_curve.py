@@ -138,6 +138,35 @@ def validate_config(payload: Mapping[str, Any], profile_name: str) -> dict[str, 
         if not isinstance(runtime.get(key), bool):
             raise ValueError(f"runtime_contract.{key} must be boolean")
 
+    host_resources = payload.get("host_resource_contract")
+    if not isinstance(host_resources, dict):
+        raise ValueError("host_resource_contract must be an object")
+    if host_resources.get("cpu_affinity_mode") != "auto_lowest_utilization":
+        raise ValueError(
+            "host_resource_contract.cpu_affinity_mode must be auto_lowest_utilization"
+        )
+    sample_seconds = float(host_resources.get("sample_seconds", 0.0))
+    if not 0.0 < sample_seconds <= 30.0:
+        raise ValueError("host_resource_contract.sample_seconds must be in (0, 30]")
+    for key in (
+        "max_load_per_logical_cpu",
+        "max_target_sibling_utilization_percent",
+        "max_competing_process_cpu_percent",
+    ):
+        value = float(host_resources.get(key, -1.0))
+        if not math.isfinite(value) or value < 0.0:
+            raise ValueError(
+                f"host_resource_contract.{key} must be finite and non-negative"
+            )
+    required_profiles = host_resources.get("require_guard_for_profiles")
+    if not isinstance(required_profiles, list) or not all(
+        isinstance(item, str) and item in profiles for item in required_profiles
+    ):
+        raise ValueError(
+            "host_resource_contract.require_guard_for_profiles must contain "
+            "known profiles"
+        )
+
     parity = payload.get("parity")
     if not isinstance(parity, dict):
         raise ValueError("parity must be an object")

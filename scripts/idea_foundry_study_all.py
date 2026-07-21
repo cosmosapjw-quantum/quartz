@@ -66,6 +66,9 @@ def _campaign_sources() -> tuple[Path, ...]:
         REPO_ROOT / "scripts" / "idea_foundry_study.py",
         Path(__file__).resolve(),
         REPO_ROOT / "scripts" / "a15_matched_service_curve.py",
+        REPO_ROOT / "configs" / "a15_matched_service_curve.v1.json",
+        REPO_ROOT / "quartz" / "experiments" / "a15_matched_service_curve.py",
+        REPO_ROOT / "quartz" / "host_resources.py",
         REPO_ROOT / "scripts" / "a18_evaluator_ablation.py",
         REPO_ROOT / "scripts" / "a19_proxy_screen.py",
     )

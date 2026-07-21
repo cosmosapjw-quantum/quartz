@@ -43,6 +43,14 @@
     "cudnn_deterministic": true,
     "deterministic_algorithms": true
   },
+  "host_resource_contract": {
+    "cpu_affinity_mode": "auto_lowest_utilization",
+    "sample_seconds": 1.0,
+    "max_load_per_logical_cpu": 0.5,
+    "max_target_sibling_utilization_percent": 50.0,
+    "max_competing_process_cpu_percent": 50.0,
+    "require_guard_for_profiles": ["full"]
+  },
   "parity": {
     "probe_batch": 4,
     "atol": 0.0001,
@@ -56,6 +64,8 @@
     "CPU inflight batches execute serially while CUDA inflight batches use one stream per outstanding batch",
     "input generation and host-to-device transfer are excluded from timed regions",
     "CPU intra-op and inter-op thread counts are pinned to one",
+    "the process is pinned to one sampled quiet logical CPU and its SMT sibling is audited",
+    "the full profile fails closed when host load, sibling utilization, or overlapping CPU competitors exceed the preregistered bounds",
     "the diagnostic profile is a readiness smoke; the full 24-cell matrix is a separate campaign"
   ],
   "prohibited_inferences": [
@@ -63,6 +73,8 @@
     "the descriptive CUDA-to-CPU ratio is a general efficiency claim",
     "the representative evaluator body is the shipped network",
     "wall-clock rows without controlled CPU and GPU power establish energy efficiency",
+    "single-CPU affinity means exclusive or kernel-level CPU isolation",
+    "a diagnostic run with a failed host resource guard supports a controlled CPU comparison",
     "a completed diagnostic automatically promotes the A15 scheduler",
     "diagnostic-profile results substitute for the full matrix"
   ]
