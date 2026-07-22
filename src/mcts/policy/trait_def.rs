@@ -210,6 +210,22 @@ pub struct ControllerTelemetry {
     pub eval_sigma: f32,
     /// Iteration count at halt (0 if still running).
     pub iters_at_halt: u64,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub foundry_mode: Option<String>,
+    #[serde(skip_serializing_if = "Vec::is_empty")]
+    pub foundry_axis_ids: Vec<String>,
+    #[serde(skip_serializing_if = "is_zero_u64")]
+    pub metacontroller_decisions: u64,
+    #[serde(skip_serializing_if = "is_zero_u64")]
+    pub metacontroller_proposals: u64,
+    #[serde(skip_serializing_if = "is_zero_u64")]
+    pub metacontroller_actions: u64,
+    #[serde(skip_serializing_if = "is_zero_u64")]
+    pub metacontroller_coordination_errors: u64,
+}
+
+fn is_zero_u64(value: &u64) -> bool {
+    *value == 0
 }
 
 /// The unified policy interface. All current PenaltyMode/HaltMode/

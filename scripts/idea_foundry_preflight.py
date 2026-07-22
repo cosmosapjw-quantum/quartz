@@ -227,9 +227,11 @@ def build_steps(
         "tests/test_idea_lab.py",
         "tests/test_idea_lab_v2.py",
         "tests/test_a15_matched_service_curve.py",
+        "tests/test_host_resources.py",
         "tests/test_a18_evaluator_ablation.py",
         "tests/test_a19_ablation_readiness.py",
         "tests/test_idea_foundry_studies.py",
+        "tests/test_metacontroller_factorial.py",
     )
     quick_steps = (
         PreflightStep(
@@ -279,6 +281,18 @@ def build_steps(
                 python_cmd,
                 "--strict",
                 "--json",
+            ),
+        ),
+        PreflightStep(
+            "a15-host-resource-probe",
+            (
+                python_cmd,
+                "scripts/a15_matched_service_curve.py",
+                "--profile",
+                "full",
+                "--cuda-device",
+                "0",
+                "--host-preflight-only",
             ),
         ),
         PreflightStep(

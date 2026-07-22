@@ -32,7 +32,7 @@ use std::sync::atomic::{AtomicBool, AtomicU32, AtomicU64, Ordering};
 use std::sync::Arc;
 use std::time::Instant;
 
-use crate::game::{Evaluator, GameState};
+use crate::game::{EvalResult, Evaluator, GameState};
 use crate::mcts::backup::backprop;
 use crate::mcts::expand::{expand_and_evaluate, expand_and_evaluate_in_place, expand_with_result};
 use crate::mcts::gvoc::{routing_mode, GvocConfig, GvocState, ProposalMode};
@@ -127,6 +127,11 @@ pub struct MctsConfig {
     /// expected to use lock-free internal state (e.g.
     /// `arc_swap::ArcSwap<Arc<PolicyCache>>` from BQ++ Phase 2).
     pub search_policy: Option<std::sync::Arc<dyn crate::mcts::policy::SearchPolicy>>,
+    /// Feature-gated root-local Foundry policy factory.  Unlike
+    /// `search_policy`, this configuration is cloned across jobs and then
+    /// materialized into a fresh policy after the engine knows the root hash.
+    #[cfg(feature = "idea-foundry")]
+    pub foundry_search: Option<crate::mcts::foundry::FoundrySearchConfig>,
     /// BQ++ Phase 8c followup: per-`HaltReason` increment counters owned
     /// by the engine (parallel to `QuartzController.halt_reason_count`).
     /// Incremented by `policy_halt_check` whenever the attached
@@ -134,9 +139,8 @@ pub struct MctsConfig {
     /// surface in `extended_halt_reason_count` even on async/server
     /// paths that synthesize the controller's counters from scratch.
     /// `None` when no policy is attached.
-    pub policy_halt_counts: Option<
-        std::sync::Arc<[AtomicU32; crate::mcts::quartz::HALT_REASON_COUNT]>,
-    >,
+    pub policy_halt_counts:
+        Option<std::sync::Arc<[AtomicU32; crate::mcts::quartz::HALT_REASON_COUNT]>>,
 }
 
 // BQ++ Phase 8b: manual Debug impl because the new `search_policy`
@@ -169,6 +173,16 @@ impl std::fmt::Debug for MctsConfig {
                     .as_ref()
                     .map(|p| format!("<dyn SearchPolicy: {}>", p.name())),
             )
+            .field("foundry_search", &{
+                #[cfg(feature = "idea-foundry")]
+                {
+                    self.foundry_search.as_ref()
+                }
+                #[cfg(not(feature = "idea-foundry"))]
+                {
+                    Option::<&str>::None
+                }
+            })
             .field(
                 "policy_halt_counts",
                 &self
@@ -198,6 +212,8 @@ impl Default for MctsConfig {
             fpu_reduction: 0.0,
             vl_mode: parallel::VlMode::Adaptive,
             search_policy: None,
+            #[cfg(feature = "idea-foundry")]
+            foundry_search: None,
             // Always allocate the per-HaltReason counter array.
             // `policy_halt_check` increments unconditionally; if no
             // policy is ever attached the array stays at zero and is
@@ -306,10 +322,23 @@ impl MctsConfig {
 // § MctsEngine
 // ─────────────────────────────────────────────
 
+struct CountingEvaluator<G: GameState> {
+    inner: Arc<dyn Evaluator<G> + Send + Sync>,
+    calls: Arc<AtomicU64>,
+}
+
+impl<G: GameState> Evaluator<G> for CountingEvaluator<G> {
+    fn evaluate(&self, state: &G) -> EvalResult<G::Move> {
+        self.calls.fetch_add(1, Ordering::Relaxed);
+        self.inner.evaluate(state)
+    }
+}
+
 pub struct MctsEngine<G: GameState> {
     pub root: ArenaRef<MctsNode<G::Move>>,
     root_state: G,
     pub(crate) evaluator: Arc<dyn Evaluator<G> + Send + Sync>,
+    evaluator_calls: Arc<AtomicU64>,
     /// `tt` owns the per-bucket bumpalo arenas that back every `ArenaRef`
     /// reachable from `root`, edges, and path entries. It is declared
     /// before `config`/etc. so that on engine drop the TT (and thus the
@@ -365,7 +394,11 @@ impl<G: GameState> MctsEngine<G> {
     /// PUCT scoring) is a separate, still-deferred integration (BQ++
     /// design doc §5 item 1); this function only feeds the
     /// halt/observe path.
-    fn build_policy_snapshot(&self, iteration: u64, elapsed_ms: u64) -> crate::mcts::policy::SearchSnapshot {
+    fn build_policy_snapshot(
+        &self,
+        iteration: u64,
+        elapsed_ms: u64,
+    ) -> crate::mcts::policy::SearchSnapshot {
         let root_visits = self.root.n_total.load(Ordering::Relaxed);
         let n_children = self.root.candidate_count() as u16;
         // Mean Q + sigma_q approximation from quartz cache when available;
@@ -496,9 +529,7 @@ impl<G: GameState> MctsEngine<G> {
 
     /// BQ++ Phase 8c followup: snapshot of policy-driven halt counts.
     /// Returns all-zero array when no policy is attached.
-    pub fn policy_halt_count_snapshot(
-        &self,
-    ) -> [u32; crate::mcts::quartz::HALT_REASON_COUNT] {
+    pub fn policy_halt_count_snapshot(&self) -> [u32; crate::mcts::quartz::HALT_REASON_COUNT] {
         let mut out = [0u32; crate::mcts::quartz::HALT_REASON_COUNT];
         if let Some(ref counts) = self.config.policy_halt_counts {
             for (i, slot) in counts.iter().enumerate() {
@@ -506,6 +537,20 @@ impl<G: GameState> MctsEngine<G> {
             }
         }
         out
+    }
+
+    pub fn policy_telemetry_snapshot(&self) -> Option<crate::mcts::policy::ControllerTelemetry> {
+        self.config
+            .search_policy
+            .as_ref()
+            .map(|policy| policy.telemetry())
+    }
+
+    /// Exact number of calls through this engine's evaluator boundary,
+    /// including the initial root expansion. Terminal and TT-resolved
+    /// iterations do not increment this counter.
+    pub fn evaluator_call_count(&self) -> u64 {
+        self.evaluator_calls.load(Ordering::Relaxed)
     }
 
     pub fn new(
@@ -522,6 +567,14 @@ impl<G: GameState> MctsEngine<G> {
         };
         let root = tt.get_or_create(hash, tv);
 
+        #[cfg(feature = "idea-foundry")]
+        if let Some(foundry_config) = config.foundry_search.clone() {
+            config.search_policy = Some(Arc::new(crate::mcts::foundry::FoundrySearchPolicy::new(
+                foundry_config,
+                hash,
+            )));
+        }
+
         // BQ++ Phase 8c followup: each engine gets its OWN
         // policy_halt_counts Arc. Without this, all engines created
         // from the same base config (e.g. async batched self-play
@@ -530,14 +583,21 @@ impl<G: GameState> MctsEngine<G> {
         // the whole server lifetime — over-counting that inflated the
         // legacy_az toy ablation to 465K halts vs the expected ~324K
         // (one per move).
-        config.policy_halt_counts = Some(std::sync::Arc::new(std::array::from_fn(
-            |_| AtomicU32::new(0),
-        )));
+        config.policy_halt_counts = Some(std::sync::Arc::new(std::array::from_fn(|_| {
+            AtomicU32::new(0)
+        })));
+
+        let evaluator_calls = Arc::new(AtomicU64::new(0));
+        let evaluator: Arc<dyn Evaluator<G> + Send + Sync> = Arc::new(CountingEvaluator {
+            inner: evaluator,
+            calls: evaluator_calls.clone(),
+        });
 
         let mut engine = MctsEngine {
             root,
             root_state,
             evaluator,
+            evaluator_calls,
             tt,
             par_ctrl: parallel::ParallelismController::new(config.vl_mode, 1),
             config,
@@ -1091,6 +1151,13 @@ impl<G: GameState> MctsEngine<G> {
                 if rv >= limit {
                     break;
                 }
+                // Foundry and other SearchPolicy overlays must remain live on
+                // the serial Quartz fixed-budget path as well. Previously the
+                // same config worked only when n_threads > 1 because
+                // run_par_quartz polled the policy while this branch did not.
+                if self.policy_halt_check(it as u64, 0) {
+                    break;
+                }
                 self.iterate_with_cached_quartz_snapshot(
                     &mut scratch,
                     use_quartz,
@@ -1161,6 +1228,9 @@ impl<G: GameState> MctsEngine<G> {
             };
 
             if should_stop {
+                break;
+            }
+            if self.policy_halt_check(it as u64, ms) {
                 break;
             }
             self.iterate_with_cached_quartz_snapshot(
@@ -1369,12 +1439,10 @@ impl<G: GameState> MctsEngine<G> {
                                             .map(|q| q.check_interval)
                                             .unwrap_or(64);
                                         if local_it % interval == 0 {
-                                            let rv =
-                                                self.root.n_total.load(Ordering::Relaxed);
+                                            let rv = self.root.n_total.load(Ordering::Relaxed);
                                             let ms = start.elapsed().as_millis() as u64;
                                             if self.policy_halt_check(rv as u64, ms) {
-                                                policy_halted_ref
-                                                    .store(true, Ordering::Relaxed);
+                                                policy_halted_ref.store(true, Ordering::Relaxed);
                                                 break;
                                             }
                                         }
@@ -1427,17 +1495,13 @@ impl<G: GameState> MctsEngine<G> {
                                     }
                                 }
                                 if has_policy {
-                                    let interval = qcfg_ref
-                                        .as_ref()
-                                        .map(|q| q.check_interval)
-                                        .unwrap_or(64);
+                                    let interval =
+                                        qcfg_ref.as_ref().map(|q| q.check_interval).unwrap_or(64);
                                     if local_it % interval == 0 {
                                         let ms_now = start.elapsed().as_millis() as u64;
-                                        let rv_now =
-                                            self.root.n_total.load(Ordering::Relaxed);
+                                        let rv_now = self.root.n_total.load(Ordering::Relaxed);
                                         if self.policy_halt_check(rv_now as u64, ms_now) {
-                                            policy_halted_ref
-                                                .store(true, Ordering::Relaxed);
+                                            policy_halted_ref.store(true, Ordering::Relaxed);
                                             break;
                                         }
                                     }
@@ -1588,9 +1652,7 @@ impl<G: GameState> MctsEngine<G> {
                                 self.refresh_par_ctrl();
                                 let checked_visits = self.root.n_total.load(Ordering::Relaxed);
                                 ctrl_ref.mark_checked(checked_visits);
-                                if has_policy
-                                    && self.policy_halt_check(checked_visits as u64, ms)
-                                {
+                                if has_policy && self.policy_halt_check(checked_visits as u64, ms) {
                                     policy_halted_ref.store(true, Ordering::Relaxed);
                                     break;
                                 }
@@ -2344,6 +2406,43 @@ mod tests {
         );
     }
 
+    #[cfg(feature = "idea-foundry")]
+    #[test]
+    fn test_run_quartz_fixed_budget_polls_foundry_policy() {
+        use crate::mcts::foundry::{FoundryRuntimeMode, FoundrySearchConfig, A01_AXIS_ID};
+
+        let state = Gomoku::new(7);
+        let eval: Arc<dyn Evaluator<Gomoku>> = Arc::new(UniformEval);
+        let qcfg = QuartzConfig {
+            halt_mode: HaltMode::Fixed { budget: 96 },
+            check_interval: 1,
+            min_visits: 8,
+            ..Default::default()
+        };
+        let mut cfg = MctsConfig::evaluation(2.0).with_quartz(qcfg.clone());
+        cfg.foundry_search = Some(FoundrySearchConfig {
+            mode: FoundryRuntimeMode::Active,
+            axis_id: A01_AXIS_ID.to_string(),
+            checkpoint_id: "test-checkpoint".to_string(),
+            evaluator_id: "test-evaluator".to_string(),
+            risk_limit: 1.0,
+            min_visits: 16,
+        });
+        let engine = MctsEngine::new(state, eval, cfg);
+        let mut ctrl = QuartzController::new(256, qcfg);
+
+        let stats = engine.run_quartz(&mut ctrl);
+        let telemetry = engine
+            .policy_telemetry_snapshot()
+            .expect("Foundry policy telemetry must be attached");
+
+        assert_eq!(stats.iterations, 16);
+        assert_eq!(telemetry.foundry_mode.as_deref(), Some("active"));
+        assert!(telemetry.metacontroller_decisions > 0);
+        assert_eq!(telemetry.metacontroller_actions, 1);
+        assert_eq!(telemetry.metacontroller_coordination_errors, 0);
+    }
+
     #[test]
     fn test_apply_action_idx_root_advances_and_restarts_from_new_root() {
         let eval: Arc<dyn Evaluator<TicTacToe>> = Arc::new(UniformEval);
@@ -3044,7 +3143,10 @@ mod tests {
         let mut ctrl = FixedIterations::new(200);
         let stats = engine.run(&mut ctrl);
 
-        assert_eq!(stats.iterations, 200, "sanity: permissive spy must not halt early");
+        assert_eq!(
+            stats.iterations, 200,
+            "sanity: permissive spy must not halt early"
+        );
         let max_edges = *spy.max_edges_seen.lock().unwrap();
         assert!(
             max_edges >= 2,
@@ -3073,8 +3175,14 @@ mod tests {
         use crate::mcts::policy::{KgCostSource, KgStop};
         let state = Gomoku::new(7);
         let eval: Arc<dyn Evaluator<Gomoku>> = Arc::new(UniformEval);
-        let policy: Arc<dyn SearchPolicy> =
-            Arc::new(KgStop::new(1000.0, 4.0, 4, 20, u32::MAX, KgCostSource::Fixed(1.0)));
+        let policy: Arc<dyn SearchPolicy> = Arc::new(KgStop::new(
+            1000.0,
+            4.0,
+            4,
+            20,
+            u32::MAX,
+            KgCostSource::Fixed(1.0),
+        ));
         let cfg = MctsConfig::evaluation(2.0).with_search_policy(policy);
         let engine = MctsEngine::new(state, eval, cfg);
         let mut ctrl = FixedIterations::new(400);
@@ -3100,8 +3208,14 @@ mod tests {
         use crate::mcts::policy::{KgCostSource, KgStop};
         let state = Gomoku::new(7);
         let eval: Arc<dyn Evaluator<Gomoku>> = Arc::new(UniformEval);
-        let policy: Arc<dyn SearchPolicy> =
-            Arc::new(KgStop::new(1000.0, 4.0, 4, 300, u32::MAX, KgCostSource::Fixed(1.0)));
+        let policy: Arc<dyn SearchPolicy> = Arc::new(KgStop::new(
+            1000.0,
+            4.0,
+            4,
+            300,
+            u32::MAX,
+            KgCostSource::Fixed(1.0),
+        ));
         let cfg = MctsConfig::evaluation(2.0).with_search_policy(policy);
         let engine = MctsEngine::new(state, eval, cfg);
         let mut ctrl = FixedIterations::new(200);
@@ -3113,7 +3227,8 @@ mod tests {
         );
         let counts = engine.policy_halt_count_snapshot();
         assert_eq!(
-            counts[crate::mcts::quartz::HaltReason::PolicyConverged as usize], 0,
+            counts[crate::mcts::quartz::HaltReason::PolicyConverged as usize],
+            0,
             "kg_stop halted below min_total; counts={counts:?}"
         );
     }
@@ -3147,10 +3262,18 @@ mod tests {
         let attached = cfg.search_policy.clone().expect("policy attached");
         assert_eq!(attached.name(), "legacy_az");
         let cloned_cfg = cfg.clone();
-        let _ = cloned_cfg.search_policy.expect("clone preserves policy Arc");
+        let _ = cloned_cfg
+            .search_policy
+            .expect("clone preserves policy Arc");
         // Debug formatter renders the dyn opaque, no panic.
-        let dbg = format!("{:?}", MctsConfig::evaluation(2.0).with_search_policy(policy));
-        assert!(dbg.contains("legacy_az"), "debug format missing policy name: {dbg}");
+        let dbg = format!(
+            "{:?}",
+            MctsConfig::evaluation(2.0).with_search_policy(policy)
+        );
+        assert!(
+            dbg.contains("legacy_az"),
+            "debug format missing policy name: {dbg}"
+        );
     }
 
     /// BQ++ Phase 8c followup: pin the policy_halt_counts allocation
@@ -3186,8 +3309,7 @@ mod tests {
             total >= 1,
             "expected at least one policy halt to be counted; got total=0"
         );
-        let fixed_budget_idx =
-            crate::mcts::quartz::HaltReason::FixedBudget as usize;
+        let fixed_budget_idx = crate::mcts::quartz::HaltReason::FixedBudget as usize;
         assert!(
             counts[fixed_budget_idx] >= 1,
             "expected FixedBudget halts to be counted; got {}",

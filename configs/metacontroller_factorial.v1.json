@@ -1,0 +1,124 @@
+{
+  "schema_version": 1,
+  "experiment_id": "quartz_metacontroller_training_runtime_factorial_v1",
+  "claim_scope": "factorial_design_and_analysis_only",
+  "game": "gomoku7",
+  "board_size": 7,
+  "controller_contract": {
+    "implementation": "idea_foundry_coordinator_v1",
+    "training_adapter_status": "not_implemented",
+    "runtime_adapter_status": "not_implemented",
+    "production_loop_wired": false,
+    "execution_ready": false,
+    "active_axis_ids": []
+  },
+  "training_arms": {
+    "off": {
+      "controller_mode": "shadow_noop",
+      "checkpoint_template": "results/metacontroller_factorial_inputs/train_off/seed_{seed}/latest.pt",
+      "manifest_template": "results/metacontroller_factorial_inputs/train_off/seed_{seed}/training_treatment_manifest.json"
+    },
+    "on": {
+      "controller_mode": "active",
+      "checkpoint_template": "results/metacontroller_factorial_inputs/train_on/seed_{seed}/latest.pt",
+      "manifest_template": "results/metacontroller_factorial_inputs/train_on/seed_{seed}/training_treatment_manifest.json"
+    }
+  },
+  "runtime_arms": {
+    "off": {
+      "controller_mode": "shadow_noop",
+      "live_action_authorized": false,
+      "authorized_axis_ids": [],
+      "search_config": {
+        "search_profile": "quartz",
+        "vl_mode": "adaptive",
+        "halt_mode": "fixed",
+        "iters": 64,
+        "n_threads": 1,
+        "batch_size": 1,
+        "batch_timeout_us": 0
+      }
+    },
+    "on": {
+      "controller_mode": "active",
+      "live_action_authorized": true,
+      "authorized_axis_ids": [],
+      "search_config": {
+        "search_profile": "quartz",
+        "vl_mode": "adaptive",
+        "halt_mode": "fixed",
+        "iters": 64,
+        "n_threads": 1,
+        "batch_size": 1,
+        "batch_timeout_us": 0
+      }
+    }
+  },
+  "anchor": {
+    "agent_id": "ANCHOR",
+    "checkpoint": "results/metacontroller_factorial_inputs/anchor/frozen_anchor.pt",
+    "checkpoint_sha256": null,
+    "controller_mode": "shadow_noop",
+    "search_config": {
+      "search_profile": "quartz",
+      "vl_mode": "adaptive",
+      "halt_mode": "fixed",
+      "iters": 64,
+      "n_threads": 1,
+      "batch_size": 1,
+      "batch_timeout_us": 0
+    }
+  },
+  "match_design": {
+    "primary": "fixed_anchor",
+    "include_round_robin": true,
+    "color_swap": true
+  },
+  "analysis_contract": {
+    "primary_endpoint": "paired_score_rate_vs_frozen_anchor",
+    "primary_contrast": "interaction",
+    "effect_scale": "score_rate_difference",
+    "max_realized_budget_relative_spread": 0.01,
+    "required_selection_trace_coverage": 1.0
+  },
+  "profiles": {
+    "smoke": {
+      "seeds": [41],
+      "opening_bank": "configs/metacontroller_factorial.openings.smoke.v1.json",
+      "budget_lane": "fixed_nn_evals",
+      "training_compute_contract": "fixed_nn_evals_and_learner_updates",
+      "eval_seed_base": 20260722,
+      "min_paired_seeds": 3,
+      "require_heldout_opening_bank": false
+    },
+    "resource_frontier_smoke": {
+      "seeds": [41],
+      "opening_bank": "configs/metacontroller_factorial.openings.smoke.v1.json",
+      "budget_lane": "fixed_cap_resource_frontier",
+      "training_compute_contract": "fixed_games_and_learner_updates_resource_frontier",
+      "eval_seed_base": 20260722,
+      "min_paired_seeds": 3,
+      "require_heldout_opening_bank": false
+    },
+    "confirmatory": {
+      "seeds": [41, 42, 43],
+      "opening_bank": "configs/metacontroller_factorial.openings.smoke.v1.json",
+      "budget_lane": "fixed_nn_evals",
+      "training_compute_contract": "fixed_nn_evals_and_learner_updates",
+      "eval_seed_base": 20260722,
+      "min_paired_seeds": 3,
+      "require_heldout_opening_bank": true
+    }
+  },
+  "promotion": {
+    "auto": false,
+    "eligible": false
+  },
+  "prohibited_inferences": [
+    "A READY preflight is not play-strength evidence.",
+    "A smoke result is not evidence of metacontroller efficacy.",
+    "M11 minus M00 alone does not establish training-runtime synergy.",
+    "Equal nominal iterations do not establish equal realized compute.",
+    "An A01-only factorial result does not generalize to the other A02-A26 mechanisms."
+  ]
+}

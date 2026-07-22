@@ -186,6 +186,14 @@ SEARCH_MANIFEST_KEYS = (
     # produce distinct manifest hashes (the eval_matrix uses the hash
     # to detect engine drift across rows).
     "halt_mode",
+    # Experimental Idea Foundry runtime adapter. These keys are inert unless
+    # the Rust binary was built with Cargo's ``idea-foundry`` feature.
+    "foundry_mode",
+    "foundry_axis_id",
+    "foundry_checkpoint_id",
+    "foundry_evaluator_id",
+    "foundry_risk_limit",
+    "foundry_min_visits",
 )
 
 SEARCH_RUNTIME_KEYS = tuple(

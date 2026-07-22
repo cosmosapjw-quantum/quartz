@@ -9,7 +9,26 @@ synthetic/trace/shadow/conditional **계약 게이트**이고,
 
 ## 0. Ablation 진입 전 release preflight
 
-실제 ablation을 시작하기 직전에 다음 단일 진입점을 실행한다.
+실제 ablation을 시작하지 않고 코드·계약·현재 하드웨어 상태만 확인할 때는
+다음 `quick` 진입점을 실행한다. 이 모드는 A01--A26 또는 A15/A18/A19의 실제
+실험 runner를 호출하지 않는다.
+
+```bash
+venv/bin/python scripts/idea_foundry_preflight.py \
+  --run-id pre-ablation-only-<run-id> \
+  --mode quick \
+  --python venv/bin/python \
+  --timeout-seconds 1800
+```
+
+`quick`에는 Ruff, 계약/경계/재개 테스트, 모든 plan, CUDA doctor와 A15의
+5-sample CPU-thread-residency/GPU-process preflight가 포함된다. A15 preflight는
+VS Code·브라우저 같은 broad-affinity 또는 graphics-only 프로세스를 그 이름이나
+존재만으로 차단하지 않는다. 선택 SMT pair에서 반복 측정된 CPU time과
+`nvidia-smi pmon`의 지속 CUDA SM activity만 경쟁 작업으로 판정한다.
+
+실제 진단/pilot 실행까지 포함한 release verification은 별도 승인 후 다음을
+실행한다.
 
 ```bash
 venv/bin/python scripts/idea_foundry_preflight.py \
@@ -44,8 +63,10 @@ lint하고, dirty checkout에서는 그 고정 목록에 모든 변경 Python �
 과학적 효능은 `NOT_EVALUATED`, 자동 claim 승격은 `FORBIDDEN_AUTOMATICALLY`로
 고정된다.
 
-빠른 개발용 부분집합은 `--mode quick`으로 실행할 수 있지만 실제 ablation
-진입 승인에는 `release` 결과만 사용한다. "모든 가능한 경우"는 무한한 임의
+`quick`은 preflight-only 결과이며 실제 ablation 진입 승인에는 진단 실행까지
+포함한 `release` 결과가 별도로 필요하다. `release`는 이름과 달리
+`first-scientific-gate-pilot-run` 및 A15/A18/A19 readiness runner를 실제로
+호출하므로 preflight-only 요청에서는 실행하지 않는다. "모든 가능한 경우"는 무한한 임의
 입력을 뜻하지 않으며, 위 계약이 정의한 유한 분기와 경계값을 완전 열거한다.
 
 ## 1. 축별 스크립트
@@ -276,3 +297,132 @@ venv/bin/python scripts/idea_foundry_study_analyze.py \
 `campaign_analysis.json`, `effect_records.jsonl`,
 `within_axis_meta_rows.jsonl`, `diagnostic.png`, `interpretation.md`,
 `analysis_manifest.json`에 저장된다.
+
+## 7. Metacontroller training × runtime 2×2 하네스
+
+26축 first-gate 캠페인과 별개로, metacontroller의 **훈련 시 개입**과
+**실전 MCTS 시 개입**을 분리하는 2×2 요인실험 하네스가 있다. 네 cell은 다음과
+같다.
+
+| Cell | NN training | Match-time MCTS | 해석 대상 |
+|---|---|---|---|
+| `M00` | shadow/no-op | shadow/no-op | 순수 기준선 |
+| `M01` | shadow/no-op | active | runtime 개입만 |
+| `M10` | active | shadow/no-op | training 개입만 |
+| `M11` | active | active | 결합 stack |
+
+`shadow/no-op`도 동일 checkpoint에서 controller observation과 selection trace를
+기록하되 action은 정확히 0이어야 한다. `active`는 관찰뿐 아니라 최소 한 번의
+사전등록된 action이 실제로 실행되어야 한다. 두 runtime arm의 search config는
+완전히 같아야 하고, fixed NN-evaluation 또는 fixed wall-clock budget은 raw
+telemetry에서 다시 검증한다.
+
+현재 구현은 A01 STOP council을 Cargo `idea-foundry` feature 전용
+`SearchPolicy`로 실제 직렬 MCTS 루프에 연결한다. 기본 production build에는 이
+adapter가 포함되지 않는다. training OFF/ON은 같은 seed별 초기 checkpoint에서
+순차 실행되고, iteration별 원시 trace에서 evaluator call과 controller
+observation/action을 합산한다. 최종 replay는 capacity eviction 때문에 전체
+계산량의 기준으로 사용하지 않는다.
+
+저장소의 base config는 의도적으로 `not_implemented`/`execution_ready=false`를
+유지한다. 실행 시 `prepare-run` 또는 통합 `run`이 anchor hash와 run-local 출력
+경로를 동결한 resolved config를 만든다. config 플래그를 수동으로 바꾸거나
+합성 match row를 실행 증거로 사용하는 것은 금지한다.
+
+```bash
+# 결정론적 match matrix: fixed anchor primary + 보조 6-pair round robin,
+# 모든 opening에 대해 color-swapped 2 games
+venv/bin/python scripts/metacontroller_factorial_study.py \
+  plan --profile smoke
+
+# base config 자체는 아직 blocker를 보존하며 exit code 2가 기대값이다.
+venv/bin/python scripts/metacontroller_factorial_study.py \
+  preflight --profile smoke --json \
+  --output results/metacontroller_factorial/preflight-smoke.json
+
+# 향후 adapter가 생성해야 할 두 artifact schema
+venv/bin/python scripts/metacontroller_factorial_study.py training-schema --json
+venv/bin/python scripts/metacontroller_factorial_study.py raw-schema --json
+
+# feature 격리 build와 동일-root CPU mechanism smoke
+venv/bin/python scripts/metacontroller_factorial_study.py build-runtime --json
+venv/bin/python scripts/metacontroller_factorial_study.py runtime-smoke \
+  --checkpoint results/phase15_ablation/gomoku7/bootstrap/seed_41/latest.pt \
+  --device cpu \
+  --output results/metacontroller_factorial_runtime_smoke.json --json
+```
+
+training treatment manifest는 seed별 ON/OFF arm에 대해 다음을 hash-bind한다.
+
+- 동일 `initial_checkpoint_sha256`;
+- 동일 입력 data/split/generation-schedule를 뜻하는 `source_fingerprint`;
+- arm별로 달라질 수 있는 생성 결과인 `training_trajectory_sha256`;
+- 동일 learner update와 SGD example 수;
+- profile에 따라 동일 `selfplay_nn_evals` 또는 `selfplay_wallclock_s`;
+- controller contract hash, observation/action counts, 최종 checkpoint hash.
+
+active training이 기술적으로 끝났지만 live action을 한 번도 실행하지 않으면
+실패로 위장하지 않고 `completed_no_promotion`으로 기록한다. preflight는
+`TRAINING_TREATMENT_NOT_DELIVERED`를 남기고 arena 승격을 막는다. 중단/실패한
+training은 숨김 attempt 디렉터리에 보존되며, 성공한 attempt만 최종 seed
+디렉터리로 원자적으로 승격된다.
+
+Confirmatory opening bank는 training으로부터 독립된 trajectory group이어야 하며,
+source manifest 경로와 SHA-256이 모두 필요하다. 현재 포함된 8-position bank는
+오직 pipeline smoke용이고 held-out 또는 일반화 증거가 아니다.
+
+통합 캠페인은 다음 명령으로 시작하고 같은 frozen invocation을 재개한다.
+
+```bash
+venv/bin/python scripts/metacontroller_factorial_study.py run \
+  --run-id metacontroller-factorial-smoke-20260722-v1 \
+  --profile resource_frontier_smoke \
+  --anchor-checkpoint results/phase15_ablation/gomoku7/bootstrap/seed_41/latest.pt \
+  --initial-checkpoint-template 'results/phase15_ablation/gomoku7/bootstrap/seed_{seed}/latest.pt' \
+  --iterations 2 --games-per-iteration 2 --device cuda --json
+
+venv/bin/python scripts/metacontroller_factorial_study.py status \
+  --run-id metacontroller-factorial-smoke-20260722-v1 --json
+
+venv/bin/python scripts/metacontroller_factorial_study.py resume \
+  --run-id metacontroller-factorial-smoke-20260722-v1 --json
+```
+
+`run`은 training → live preflight → arena → analysis 순서로만 진행한다. state와
+각 game row는 원자적으로 갱신되며, 재개 시 config/Python/Rust binary/input 및
+기존 artifact hash/schema가 일치하는 성공 단계만 건너뛴다. SIGINT/SIGTERM은
+training 자식 process group을 정리하고 `interrupted` 상태를 보존한다.
+
+`resource_frontier_smoke`는 ON/OFF에 같은 nominal search cap, game 수, learner
+update를 적용하되 A01 STOP이 만든 realized NN-evaluation 차이를 실패로 지우지
+않고 score와 함께 보고한다. 이 profile은 synthetic opening 1 seed의 진단
+lane이므로 `COMPLETED_NO_PROMOTION_INSUFFICIENT_SEEDS`가 정상 종료 상태다.
+`smoke`와 `confirmatory`의 fixed-realized-compute gate는 계속 엄격히 유지된다.
+
+READY preflight와 실제 raw rows가 생긴 뒤 분석만 별도로 반복하려면 다음을 쓴다.
+
+```bash
+venv/bin/python scripts/metacontroller_factorial_study.py analyze \
+  --profile confirmatory \
+  --preflight results/metacontroller_factorial_runs/<run-id>/preflight.json \
+  --rows results/metacontroller_factorial_runs/<run-id>/games.jsonl \
+  --output-dir results/metacontroller_factorial_runs/<run-id>/analysis
+```
+
+Primary endpoint는 동일 frozen anchor에 대한 paired score rate다. 분석은 training
+main effect, runtime main effect, interaction, `M11-M00`과 두 simple effect를
+training seed 단위로 계산한다. `M11-M00`만으로 synergy를 주장할 수 없고,
+interaction도 사전등록된 최소 seed·held-out·budget·trace gate를 통과하기 전에는
+diagnostic이다. 자동 claim promotion은 항상 꺼져 있다.
+
+현재 A01-only adapter는 early STOP으로 실제 evaluator call을 줄이는 기전이다.
+`resource_frontier_smoke`는 이 차이를 endpoint로 보존한다. 반면
+fixed-realized-NN-eval confirmatory lane에서 ON/OFF 계산량을 같게 만들려면 절약분을
+사전등록된 방식으로 재투자하는 별도 adapter가 필요하며, 현재 하네스는 이를
+`SELFPLAY_COMPUTE_MISMATCH` 또는 realized-budget spread로 차단한다. 또한 포함된
+opening bank는 synthetic smoke용이므로 confirmatory profile의 held-out gate를
+통과하지 않는다. 이 두 항목이 해결되기 전 결과는 mechanism/diagnostic 범위다.
+
+이 실험은 기존 `first-scientific-gates-*` run ID를 resume하거나 수정하지 않는다.
+`results/metacontroller_factorial_runs/<새 run-id>/` 아래의 별도 campaign으로만
+실행한다.

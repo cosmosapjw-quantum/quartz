@@ -1,0 +1,52 @@
+{
+  "schema_version": 1,
+  "bank_id": "gomoku7_metacontroller_factorial_smoke_v1",
+  "game": "gomoku7",
+  "board_size": 7,
+  "bank_kind": "synthetic_smoke",
+  "claim_scope": "pipeline_smoke_only",
+  "independent_of_training": false,
+  "source_manifest": null,
+  "openings": [
+    {
+      "opening_id": "S01_center_horizontal",
+      "group_id": "smoke_group_01",
+      "moves": [24, 23, 25, 17]
+    },
+    {
+      "opening_id": "S02_center_diagonal",
+      "group_id": "smoke_group_02",
+      "moves": [24, 16, 32, 25]
+    },
+    {
+      "opening_id": "S03_offset_diagonal",
+      "group_id": "smoke_group_03",
+      "moves": [18, 24, 30, 17]
+    },
+    {
+      "opening_id": "S04_long_diagonal",
+      "group_id": "smoke_group_04",
+      "moves": [8, 24, 40, 16]
+    },
+    {
+      "opening_id": "S05_center_cross",
+      "group_id": "smoke_group_05",
+      "moves": [22, 24, 26, 17]
+    },
+    {
+      "opening_id": "S06_outer_diagonal",
+      "group_id": "smoke_group_06",
+      "moves": [10, 24, 38, 16]
+    },
+    {
+      "opening_id": "S07_vertical_offset",
+      "group_id": "smoke_group_07",
+      "moves": [16, 32, 24, 23]
+    },
+    {
+      "opening_id": "S08_compact_cross",
+      "group_id": "smoke_group_08",
+      "moves": [23, 25, 17, 31]
+    }
+  ]
+}

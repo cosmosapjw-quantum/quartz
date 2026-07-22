@@ -36,23 +36,28 @@ that pair. The recorded outcome was therefore:
 - diagnostic allowed, because it is non-promotional
 - full A15 would fail closed before importing PyTorch or allocating VRAM
 
-This distinction prevents a low instantaneous core-utilization sample from
-being misreported as an isolated CPU comparison when broad-affinity work can
-migrate onto the measured core.
+That 2026-07-19 result used the original conservative affinity-overlap guard.
+It remains historical evidence, but broad affinity alone is no longer a
+blocking observation after the 2026-07-22 refinement. The replacement guard
+measures repeated thread residence and retains affinity only as inventory.
 
 ## Implemented experiment guard
 
 `quartz.host_resources.prepare_host_resources` now performs the following
 before A15 measurement:
 
-1. samples all allowed logical CPUs;
+1. samples all allowed logical CPUs five times;
 2. chooses the quietest CPU after considering its SMT sibling;
 3. pins the experiment to exactly that logical CPU and verifies the mask;
 4. records 1/5/15-minute load and normalized one-minute load;
-5. inventories high-CPU processes whose affinity overlaps the sibling pair;
-6. distinguishes `kernel_isolated`, `pinned_quiescent`, and
+5. combines `/proc/<pid>/task/<tid>/stat` CPU-time deltas with each thread's
+   observed processor and blocks only sustained activity on the selected pair;
+6. retains broad-affinity high-CPU processes as non-blocking inventory;
+7. samples `nvidia-smi pmon`, separating graphics contexts/VRAM reservations
+   from sustained external CUDA SM activity;
+8. distinguishes `kernel_isolated`, `pinned_quiescent`, and
    `pinned_contended` evidence;
-7. enforces the preregistered thresholds for the `full` profile.
+9. enforces complete CPU and GPU process-accounting evidence for `full`.
 
 The thresholds are versioned in
 `configs/a15_matched_service_curve.v1.json`. Diagnostic runs retain failed
@@ -60,11 +65,20 @@ guard evidence but cannot support controlled wall-clock conclusions.
 
 ## Operator precondition for full A15
 
-Before restarting full A15, stop unrelated compute campaigns or give them a
-non-overlapping affinity set. Re-run the diagnostic and require:
+Before restarting full A15, unrelated compute campaigns must be inactive or
+measured away from the selected resources. Desktop applications do not need to
+be closed solely because their affinity mask spans all CPUs. Run the explicit
+preflight and require:
+
+```bash
+venv/bin/python scripts/a15_matched_service_curve.py \
+  --profile full --cuda-device 0 --host-preflight-only
+```
 
 - exactly one selected logical CPU in `affinity_after`;
-- no threshold-exceeding process eligible on the selected SMT pair;
+- no process with threshold-exceeding measured residence on the selected SMT pair;
+- no external process with sustained CUDA SM activity;
+- complete five-sample CPU-residency and GPU-process evidence;
 - sibling utilization and normalized host load below the registered limits;
 - `guard_passed=true`.
 

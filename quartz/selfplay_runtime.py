@@ -16,7 +16,6 @@ from collections import deque
 from dataclasses import dataclass
 
 import numpy as np
-from tqdm import tqdm
 
 from quartz.replay import sparse_policy_from_entries
 
@@ -60,6 +59,12 @@ _SEARCH_MANIFEST_KEYS = (
     "_arena_low_concurrency_profile",
     "eval_seed",
     "halt_mode",
+    "foundry_mode",
+    "foundry_axis_id",
+    "foundry_checkpoint_id",
+    "foundry_evaluator_id",
+    "foundry_risk_limit",
+    "foundry_min_visits",
 )
 
 
@@ -1457,7 +1462,6 @@ def arena_rust_nn_impl(
     alpha, beta = 0.05, 0.05
     lower_bound = math.log(beta / (1 - alpha))
     upper_bound = math.log((1 - beta) / alpha)
-    sprt_decided = False
     sprt_result = None
 
     try:
@@ -1504,10 +1508,8 @@ def arena_rust_nn_impl(
                 (1 - p1) / (1 - p0)
             )
             if llr >= upper_bound:
-                sprt_decided = True
                 sprt_result = "H1_accept"
             elif llr <= lower_bound:
-                sprt_decided = True
                 sprt_result = "H0_accept"
     except RuntimeError as exc:
         if str(exc) != "__arena_use_legacy_dual_cfg__":
@@ -2996,6 +2998,36 @@ def rust_search_options(cfg, penalty_mode=None):
         **(
             {"halt_mode": str(cfg["halt_mode"])}
             if cfg.get("halt_mode") is not None
+            else {}
+        ),
+        **(
+            {"foundry_mode": str(cfg["foundry_mode"])}
+            if cfg.get("foundry_mode") is not None
+            else {}
+        ),
+        **(
+            {"foundry_axis_id": str(cfg["foundry_axis_id"])}
+            if cfg.get("foundry_axis_id") is not None
+            else {}
+        ),
+        **(
+            {"foundry_checkpoint_id": str(cfg["foundry_checkpoint_id"])}
+            if cfg.get("foundry_checkpoint_id") is not None
+            else {}
+        ),
+        **(
+            {"foundry_evaluator_id": str(cfg["foundry_evaluator_id"])}
+            if cfg.get("foundry_evaluator_id") is not None
+            else {}
+        ),
+        **(
+            {"foundry_risk_limit": float(cfg["foundry_risk_limit"])}
+            if cfg.get("foundry_risk_limit") is not None
+            else {}
+        ),
+        **(
+            {"foundry_min_visits": int(cfg["foundry_min_visits"])}
+            if cfg.get("foundry_min_visits") is not None
             else {}
         ),
     }

@@ -139,6 +139,7 @@ impl SearchPolicy for LegacyQuartz {
             bayes_voi: stats.unified.voc_total,
             eval_sigma: 0.0,
             iters_at_halt: 0,
+            ..ControllerTelemetry::default()
         }
     }
 }

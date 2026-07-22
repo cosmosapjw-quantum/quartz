@@ -693,6 +693,12 @@ fn decode_arena_eval_request_payload(payload: &[u8]) -> Result<ArenaEvalFrameReq
                 } else {
                     None
                 },
+                foundry_mode: None,
+                foundry_axis_id: None,
+                foundry_checkpoint_id: None,
+                foundry_evaluator_id: None,
+                foundry_risk_limit: None,
+                foundry_min_visits: None,
             },
             n_threads: cap_search_threads(n_threads.max(1) as usize),
             batch_size: (batch_size as usize).max(1),
@@ -976,6 +982,12 @@ struct SearchOverrides {
     /// so attribution presets can ensure same-budget fairness across
     /// rows that vary penalty mode.
     halt_mode: Option<HaltMode>,
+    foundry_mode: Option<String>,
+    foundry_axis_id: Option<String>,
+    foundry_checkpoint_id: Option<String>,
+    foundry_evaluator_id: Option<String>,
+    foundry_risk_limit: Option<f32>,
+    foundry_min_visits: Option<u32>,
 }
 
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
@@ -1079,6 +1091,12 @@ fn parse_search_overrides(line: &str) -> SearchOverrides {
         tt_enabled: jbool(line, "tt_enabled"),
         seed: jint(line, "seed").map(|v| v.max(0) as u64),
         halt_mode: parse_halt_mode_override(line),
+        foundry_mode: jstr(line, "foundry_mode").map(str::to_string),
+        foundry_axis_id: jstr(line, "foundry_axis_id").map(str::to_string),
+        foundry_checkpoint_id: jstr(line, "foundry_checkpoint_id").map(str::to_string),
+        foundry_evaluator_id: jstr(line, "foundry_evaluator_id").map(str::to_string),
+        foundry_risk_limit: jfloat(line, "foundry_risk_limit").map(|value| value as f32),
+        foundry_min_visits: jint(line, "foundry_min_visits").map(|value| value.max(1) as u32),
     }
 }
 
@@ -1485,10 +1503,7 @@ fn attach_search_metadata(
     };
     let mut pm_invoke_map = serde_json::Map::new();
     for (i, key) in crate::mcts::quartz::PENALTY_MODE_KEYS.iter().enumerate() {
-        let v = pm_invoke_arr
-            .get(i)
-            .and_then(|v| v.as_u64())
-            .unwrap_or(0);
+        let v = pm_invoke_arr.get(i).and_then(|v| v.as_u64()).unwrap_or(0);
         pm_invoke_map.insert((*key).to_string(), serde_json::json!(v));
     }
     let mut halt_reason_map = serde_json::Map::new();
@@ -1505,10 +1520,7 @@ fn attach_search_metadata(
         crate::mcts::quartz::HaltReason::EmpBernsteinSep.as_key(),
     ];
     for (i, key) in halt_reason_keys.iter().enumerate() {
-        let v = halt_reason_arr
-            .get(i)
-            .and_then(|v| v.as_u64())
-            .unwrap_or(0);
+        let v = halt_reason_arr.get(i).and_then(|v| v.as_u64()).unwrap_or(0);
         halt_reason_map.insert((*key).to_string(), serde_json::json!(v));
     }
     let extended_block = serde_json::json!({
@@ -1570,6 +1582,7 @@ fn attach_search_metadata(
         "telemetry_partial": !telemetry_missing_fields.is_empty(),
         "telemetry_missing_fields": telemetry_missing_fields,
         "actuator_coverage": controller_actuator_coverage(qcfg),
+        "search_policy": obj.get("search_policy_telemetry").cloned().unwrap_or(serde_json::Value::Null),
         // P01: see the schema_version comment above for rationale.
         "extended": extended_block,
     });
@@ -1592,6 +1605,7 @@ fn attach_search_metadata(
         serde_json::json!({
             "requested_iteration_limit": requested_iteration_limit,
             "realized_iterations": realized_iterations,
+            "evaluator_calls": obj.get("evaluator_calls").and_then(|v| v.as_u64()).unwrap_or(0),
             "stop_reason": stop_reason,
         }),
     );
@@ -1620,10 +1634,9 @@ fn apply_search_profile(mut cfg: MctsConfig, profile: SearchProfile) -> MctsConf
     // profiles disabled it above. Diagnostics are eprintln'd so they
     // surface in the train_log without artifact inspection.
     if let Some(quartz_cfg) = cfg.quartz.take() {
-        let cal_dir = std::env::var_os("QUARTZ_CALIBRATION_DIR")
-            .map(std::path::PathBuf::from);
-        let game_label = std::env::var_os("QUARTZ_CALIBRATION_GAME")
-            .and_then(|v| v.into_string().ok());
+        let cal_dir = std::env::var_os("QUARTZ_CALIBRATION_DIR").map(std::path::PathBuf::from);
+        let game_label =
+            std::env::var_os("QUARTZ_CALIBRATION_GAME").and_then(|v| v.into_string().ok());
         let strength = std::env::var_os("QUARTZ_CALIBRATION_STRENGTH")
             .and_then(|v| v.into_string().ok())
             .map(|s| match s.as_str() {
@@ -1632,12 +1645,8 @@ fn apply_search_profile(mut cfg: MctsConfig, profile: SearchProfile) -> MctsConf
                 _ => crate::mcts::quartz::EvalStrength::Strong,
             });
         let updated = if let Some(dir) = cal_dir {
-            let (next, diags) = quartz_cfg.with_calibration(
-                &dir,
-                game_label.as_deref(),
-                strength,
-                2.0,
-            );
+            let (next, diags) =
+                quartz_cfg.with_calibration(&dir, game_label.as_deref(), strength, 2.0);
             for d in diags {
                 match d {
                     crate::mcts::quartz::CalibrationDiagnostic::Info(msg) => {
@@ -1666,7 +1675,8 @@ fn apply_search_profile(mut cfg: MctsConfig, profile: SearchProfile) -> MctsConf
     // per-edge plumbing through select.rs and/or a composed-policy
     // implementation; they emit a one-line WARN and skip attachment
     // so the search continues via the legacy path.
-    if let Some(name) = std::env::var_os("QUARTZ_SEARCH_POLICY").and_then(|v| v.into_string().ok()) {
+    if let Some(name) = std::env::var_os("QUARTZ_SEARCH_POLICY").and_then(|v| v.into_string().ok())
+    {
         let max_visits = cfg
             .quartz
             .as_ref()
@@ -1777,6 +1787,42 @@ fn apply_search_overrides(mut cfg: MctsConfig, ov: &SearchOverrides) -> MctsConf
     }
     if let Some(seed) = ov.seed {
         cfg.seed = Some(seed);
+    }
+    #[cfg(feature = "idea-foundry")]
+    if let Some(mode) = ov.foundry_mode.as_deref() {
+        let mode = match mode {
+            "shadow" | "shadow_noop" => Some(crate::mcts::foundry::FoundryRuntimeMode::Shadow),
+            "active" => Some(crate::mcts::foundry::FoundryRuntimeMode::Active),
+            _ => None,
+        };
+        if let Some(mode) = mode {
+            let axis_id = ov
+                .foundry_axis_id
+                .clone()
+                .unwrap_or_else(|| crate::mcts::foundry::A01_AXIS_ID.to_string());
+            let axis_id = if axis_id == "A01" {
+                crate::mcts::foundry::A01_AXIS_ID.to_string()
+            } else {
+                axis_id
+            };
+            let foundry = crate::mcts::foundry::FoundrySearchConfig {
+                mode,
+                axis_id,
+                checkpoint_id: ov
+                    .foundry_checkpoint_id
+                    .clone()
+                    .unwrap_or_else(|| "unregistered-checkpoint".to_string()),
+                evaluator_id: ov
+                    .foundry_evaluator_id
+                    .clone()
+                    .unwrap_or_else(|| "unregistered-evaluator".to_string()),
+                risk_limit: ov.foundry_risk_limit.unwrap_or(0.05),
+                min_visits: ov.foundry_min_visits.unwrap_or(16),
+            };
+            if foundry.is_valid() {
+                cfg.foundry_search = Some(foundry);
+            }
+        }
     }
     cfg
 }
@@ -2349,6 +2395,32 @@ pub fn serve() {
             break;
         }
 
+        if cmd == "foundry_capabilities" {
+            emit_stdout_json_value(&serde_json::json!({
+                "schema_version": 1,
+                "idea_foundry_feature": cfg!(feature = "idea-foundry"),
+                "runtime_adapter": if cfg!(feature = "idea-foundry") {
+                    "foundry_search_policy_v1"
+                } else {
+                    "not_compiled"
+                },
+                "supported_axis_ids": if cfg!(feature = "idea-foundry") {
+                    vec!["A01"]
+                } else {
+                    Vec::<&str>::new()
+                },
+                "supported_modes": if cfg!(feature = "idea-foundry") {
+                    vec!["shadow_noop", "active"]
+                } else {
+                    Vec::<&str>::new()
+                },
+            }));
+            if let Some(ring) = global_ring_buffer() {
+                ring.set_cmd_done(true);
+            }
+            continue;
+        }
+
         if cmd == "search_nn" {
             emit_search_command_reply(handle_search_nn(&line));
             if let Some(ring) = global_ring_buffer() {
@@ -2778,6 +2850,8 @@ fn build_result_value<G: GameState>(
         "selection_refresh_eligible_count": outcome.selection_refresh_eligible_count,
         "selection_refresh_active_count": outcome.selection_refresh_active_count,
         "halt_reason_count": outcome.halt_reason_count.to_vec(),
+        "search_policy_telemetry": engine.policy_telemetry_snapshot(),
+        "evaluator_calls": engine.evaluator_call_count(),
     })
 }
 
@@ -3027,9 +3101,17 @@ where
                 .map(|cfg| controller_diagnostics(engine, &s, cfg))
                 .unwrap_or_default();
             let selection_trace = engine.selection_telemetry.snapshot();
+            let policy_stop_reason = engine
+                .policy_telemetry_snapshot()
+                .and_then(|telemetry| telemetry.halt_reason)
+                .map(|reason| match reason.as_str() {
+                    "policy_converged" => "PolicyConverged".to_string(),
+                    _ => format!("SearchPolicy({reason})"),
+                });
             SearchExecutionOutcome {
                 iterations: engine.root.n_total.load(Ordering::Relaxed),
-                stop_reason: format!("{:?}", ctrl.last_stop_reason()),
+                stop_reason: policy_stop_reason
+                    .unwrap_or_else(|| format!("{:?}", ctrl.last_stop_reason())),
                 requested_threads: thread_spec.requested_threads,
                 effective_threads,
                 thread_policy: thread_spec.policy_name(),

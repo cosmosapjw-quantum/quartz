@@ -410,6 +410,7 @@ impl SearchPolicy for KgStop {
             bayes_voi: cache.max_kg,
             eval_sigma: 0.0,
             iters_at_halt: 0,
+            ..ControllerTelemetry::default()
         }
     }
 }

@@ -33,7 +33,7 @@ from quartz.experiment_manifest import (  # noqa: E402
     utc_now,
 )
 from quartz.experiments import a15_matched_service_curve as a15  # noqa: E402
-from quartz.host_resources import prepare_host_resources  # noqa: E402
+from quartz.host_resources import HostResourceError, prepare_host_resources  # noqa: E402
 
 
 DEFAULT_CONFIG = REPO_ROOT / "configs" / "a15_matched_service_curve.v1.json"
@@ -265,6 +265,11 @@ def build_parser() -> argparse.ArgumentParser:
     )
     parser.add_argument("--cuda-device", type=int, default=0)
     parser.add_argument("--output-dir", type=Path, default=DEFAULT_OUTPUT)
+    parser.add_argument(
+        "--host-preflight-only",
+        action="store_true",
+        help="run only the sustained CPU/GPU contention guard and emit JSON",
+    )
     return parser
 
 
@@ -273,9 +278,48 @@ def main(argv: Sequence[str] | None = None) -> int:
     config_path = args.config.resolve()
     cfg = load_config(config_path)
     profile = a15.validate_config(cfg, args.profile)
-    host_resources = prepare_host_resources(
-        cfg["host_resource_contract"], profile_name=str(profile["name"])
-    )
+    try:
+        host_resources = prepare_host_resources(
+            cfg["host_resource_contract"],
+            profile_name=str(profile["name"]),
+            cuda_device_index=int(args.cuda_device),
+        )
+    except HostResourceError as exc:
+        print(
+            json.dumps(
+                {
+                    "schema_version": 1,
+                    "status": "BLOCKED_HOST_RESOURCES",
+                    "axis_id": "A15",
+                    "profile": profile["name"],
+                    "error": str(exc),
+                    "host_resources": exc.snapshot,
+                },
+                indent=2,
+                sort_keys=True,
+                allow_nan=False,
+            ),
+            file=sys.stderr,
+        )
+        return 2
+    if args.host_preflight_only:
+        print(
+            json.dumps(
+                {
+                    "schema_version": 1,
+                    "status": "READY",
+                    "axis_id": "A15",
+                    "profile": profile["name"],
+                    "claim_scope": "host_resource_preflight_only",
+                    "automatic_claim_promotion": False,
+                    "host_resources": host_resources,
+                },
+                indent=2,
+                sort_keys=True,
+                allow_nan=False,
+            )
+        )
+        return 0
 
     import torch
 

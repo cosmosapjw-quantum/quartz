@@ -7,12 +7,14 @@
 
 pub mod control;
 pub mod coordinator;
+pub mod policy;
 pub mod search;
 pub mod systems;
 pub mod types;
 
 pub use control::*;
 pub use coordinator::*;
+pub use policy::*;
 pub use search::*;
 pub use systems::*;
 pub use types::*;

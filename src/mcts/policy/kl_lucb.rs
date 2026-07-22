@@ -215,6 +215,7 @@ impl SearchPolicy for KLLUCBStop {
             bayes_voi: 0.0,
             eval_sigma: 0.0,
             iters_at_halt: 0,
+            ..ControllerTelemetry::default()
         }
     }
 }

@@ -730,6 +730,12 @@ def run_training_main(
         runtime_hooks.serve(serve_model, cfg, device)
         return
 
+    if cfg.get("foundry_mode") is not None and args.concurrent:
+        raise RuntimeError(
+            "Foundry training treatment requires --no-pipeline so evaluator "
+            "generation identities remain atomic at iteration boundaries"
+        )
+
     if args.arena_3agent:
         rating_path = os.path.join(base_dir, "glicko2_ratings.json")
         runtime_hooks.arena_3agent(
@@ -990,6 +996,10 @@ def run_training_main(
     # not count toward the streak, since "no SGD this iter" is the
     # expected behavior there.
     zero_sgd_streak = 0
+    foundry_checkpoint_identity_base = str(
+        cfg.get("foundry_checkpoint_id") or ""
+    ).strip()
+    foundry_evaluator_identity_base = str(cfg.get("foundry_evaluator_id") or "").strip()
     for iteration in range(args.iterations):
         runtime_hooks.clear_nn_eval_cache()
         t0 = time.time()
@@ -1041,6 +1051,27 @@ def run_training_main(
             )
             bg_worker._prev_count = bg_now
         elif rust_ok:
+            # The executable Foundry adapter is currently admitted only by
+            # the factorial harness's sequential (``--no-pipeline``) path.
+            # Bind every root to the exact learner generation that supplied
+            # its evaluator so STOP proposals cannot be reused after the
+            # actor changes at the next iteration boundary.
+            if cfg.get("foundry_mode") is not None:
+                if not (
+                    foundry_checkpoint_identity_base and foundry_evaluator_identity_base
+                ):
+                    raise RuntimeError(
+                        "Foundry training requires non-empty checkpoint and "
+                        "evaluator identity bases"
+                    )
+                generation = f"actor_gen_{iteration:06d}"
+                cfg["foundry_checkpoint_id"] = (
+                    f"{foundry_checkpoint_identity_base}:{generation}"
+                )
+                cfg["foundry_evaluator_id"] = (
+                    f"{foundry_evaluator_identity_base}:{generation}"
+                )
+            selfplay_started_at = time.perf_counter()
             states, policies, outcomes, traces = runtime_hooks.selfplay_rust_nn_batched(
                 cfg,
                 actor_source,
@@ -1048,6 +1079,39 @@ def run_training_main(
                 cfg["games"],
                 args.rust_binary,
                 parallel=cfg.get("selfplay_parallel", 4),
+            )
+            entry["selfplay_wallclock_s"] = round(
+                time.perf_counter() - selfplay_started_at, 6
+            )
+            # Preserve campaign-wide search compute before replay-capacity
+            # eviction can discard older samples.  These counters are summed
+            # directly from the just-produced Rust metadata and therefore
+            # describe every move generated in this iteration, not merely the
+            # subset that remains in the final replay archive.
+            trace_rows = [item for trace in traces for item in trace if item]
+            entry["selfplay_nn_evals"] = sum(
+                int((item.get("realized_budget") or {}).get("evaluator_calls") or 0)
+                for item in trace_rows
+            )
+            entry["metacontroller_observations"] = sum(
+                int(
+                    (
+                        (item.get("controller_summary") or {}).get("search_policy")
+                        or {}
+                    ).get("metacontroller_decisions")
+                    or 0
+                )
+                for item in trace_rows
+            )
+            entry["metacontroller_actions"] = sum(
+                int(
+                    (
+                        (item.get("controller_summary") or {}).get("search_policy")
+                        or {}
+                    ).get("metacontroller_actions")
+                    or 0
+                )
+                for item in trace_rows
             )
             # In the inline path, the actor producing these games is the
             # learner's current actor at the start of this iteration. Use
@@ -1341,35 +1405,35 @@ def run_training_main(
                     )
                 )
                 if rust_ok:
-                    cand_factory = (
-                        lambda candidate_name=candidate_name, candidate_actor_template=candidate_actor_template: (
-                            runtime_hooks.rust_nn_evaluator_engine_cls(
-                                candidate_name,
-                                cfg,
-                                runtime_hooks.clone_actor_model(
-                                    candidate_actor_template
-                                ),
-                                device,
-                                args.rust_binary,
-                            )
+
+                    def cand_factory(
+                        candidate_name=candidate_name,
+                        candidate_actor_template=candidate_actor_template,
+                    ):
+                        return runtime_hooks.rust_nn_evaluator_engine_cls(
+                            candidate_name,
+                            cfg,
+                            runtime_hooks.clone_actor_model(candidate_actor_template),
+                            device,
+                            args.rust_binary,
                         )
-                    )
+
                 else:
                     print(
                         "  [WARN] Rust binary not found, using TreeMCTS for evaluation (NOT benchmark-grade)"
                     )
-                    cand_factory = (
-                        lambda candidate_name=candidate_name, candidate_actor_template=candidate_actor_template: (
-                            runtime_hooks.tree_mcts_engine_cls(
-                                candidate_name,
-                                cfg,
-                                runtime_hooks.clone_actor_model(
-                                    candidate_actor_template
-                                ),
-                                device,
-                            )
+
+                    def cand_factory(
+                        candidate_name=candidate_name,
+                        candidate_actor_template=candidate_actor_template,
+                    ):
+                        return runtime_hooks.tree_mcts_engine_cls(
+                            candidate_name,
+                            cfg,
+                            runtime_hooks.clone_actor_model(candidate_actor_template),
+                            device,
                         )
-                    )
+
                 cand_eng = cand_factory()
                 champion_actor = runtime_hooks.clone_actor_model(actor_source)
                 if os.path.exists(best_model_path):
@@ -1386,32 +1450,30 @@ def run_training_main(
                     champion_actor
                 )
                 if rust_ok:
-                    champ_factory = (
-                        lambda champion_actor_template=champion_actor_template: (
-                            runtime_hooks.rust_nn_evaluator_engine_cls(
-                                "champion",
-                                cfg,
-                                runtime_hooks.clone_actor_model(
-                                    champion_actor_template
-                                ),
-                                device,
-                                args.rust_binary,
-                            )
+
+                    def champ_factory(
+                        champion_actor_template=champion_actor_template,
+                    ):
+                        return runtime_hooks.rust_nn_evaluator_engine_cls(
+                            "champion",
+                            cfg,
+                            runtime_hooks.clone_actor_model(champion_actor_template),
+                            device,
+                            args.rust_binary,
                         )
-                    )
+
                 else:
-                    champ_factory = (
-                        lambda champion_actor_template=champion_actor_template: (
-                            runtime_hooks.tree_mcts_engine_cls(
-                                "champion",
-                                cfg,
-                                runtime_hooks.clone_actor_model(
-                                    champion_actor_template
-                                ),
-                                device,
-                            )
+
+                    def champ_factory(
+                        champion_actor_template=champion_actor_template,
+                    ):
+                        return runtime_hooks.tree_mcts_engine_cls(
+                            "champion",
+                            cfg,
+                            runtime_hooks.clone_actor_model(champion_actor_template),
+                            device,
                         )
-                    )
+
                 champ_eng = champ_factory()
                 if not eval_workers_autotuned and not (
                     hasattr(cand_eng, "select_moves_batch")

@@ -1391,6 +1391,12 @@ class RustNNEvaluatorEngine:
                                 "engine": "rust_nn",
                                 "terminal": True,
                                 "outcome_for_black": float(outcome_for_black),
+                                "realized_budget": dict(
+                                    result.get("realized_budget") or {}
+                                ),
+                                "controller_summary": dict(
+                                    result.get("controller_summary") or {}
+                                ),
                             },
                         )
                     )
@@ -1407,6 +1413,12 @@ class RustNNEvaluatorEngine:
                             "result_fen": result.get("result_fen", ""),
                             "result_history_hashes": result.get(
                                 "result_history_hashes", []
+                            ),
+                            "realized_budget": dict(
+                                result.get("realized_budget") or {}
+                            ),
+                            "controller_summary": dict(
+                                result.get("controller_summary") or {}
                             ),
                         },
                     )
@@ -1445,6 +1457,12 @@ class RustNNEvaluatorEngine:
                             "simulations": self._simulations,
                             "p_flip": result.get("p_flip", 0),
                             "engine": "rust_nn",
+                            "realized_budget": dict(
+                                result.get("realized_budget") or {}
+                            ),
+                            "controller_summary": dict(
+                                result.get("controller_summary") or {}
+                            ),
                         },
                     )
                 )
@@ -1469,6 +1487,10 @@ class RustNNEvaluatorEngine:
                         "simulations": self._simulations,
                         "p_flip": result.get("p_flip", 0),
                         "engine": "rust_nn",
+                        "realized_budget": dict(result.get("realized_budget") or {}),
+                        "controller_summary": dict(
+                            result.get("controller_summary") or {}
+                        ),
                     },
                 )
             )

@@ -65,6 +65,18 @@ def test_profile_validation_rejects_duplicate_cells():
         a15.validate_config(cfg, "diagnostic")
 
 
+def test_host_sampling_contract_rejects_undersampled_residency():
+    cfg = _config()
+    cfg["host_resource_contract"]["sample_count"] = 2
+    with pytest.raises(ValueError, match="sample_count"):
+        a15.validate_config(cfg, "diagnostic")
+
+    cfg = _config()
+    cfg["host_resource_contract"]["minimum_resident_samples"] = 6
+    with pytest.raises(ValueError, match="minimum_resident_samples"):
+        a15.validate_config(cfg, "diagnostic")
+
+
 def test_seed_order_and_determinism_contract_are_explicit():
     cfg = _config()
     assert a15.validate_config(cfg, "diagnostic")["name"] == "diagnostic"

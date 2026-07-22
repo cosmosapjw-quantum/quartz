@@ -345,7 +345,12 @@ mod tests {
         for i in 1..=10u32 {
             publisher.store(make_cache(0, i, i as u64));
             let g = publisher.load();
-            assert!(g.epoch > last_epoch, "epoch={} last={}", g.epoch, last_epoch);
+            assert!(
+                g.epoch > last_epoch,
+                "epoch={} last={}",
+                g.epoch,
+                last_epoch
+            );
             last_epoch = g.epoch;
         }
     }
@@ -370,14 +375,14 @@ mod tests {
     #[test]
     fn test_phase2_edge_pos_distinct_from_action_id() {
         let edge = EdgeRef {
-            edge_pos: 1, // dense per-search edge index (must be < n_children)
+            edge_pos: 1,    // dense per-search edge index (must be < n_children)
             action_id: 481, // sparse chess action id, much larger than n_children
         };
         // Cache lookup uses edge_pos (within array bounds).
         let cache = make_cache(0, 100, 0);
         let p = cache.p_eff[edge.edge_pos as usize];
         assert_eq!(p, 0.3); // make_cache constructs [0.5, 0.3, 0.2]
-        // action_id is forwarded back to the engine; never indexes the cache.
+                            // action_id is forwarded back to the engine; never indexes the cache.
         assert_eq!(edge.action_id, 481);
         // If we incorrectly indexed by action_id, this would panic.
         assert!(edge.action_id as usize > cache.p_eff.len());

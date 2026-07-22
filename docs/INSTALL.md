@@ -92,16 +92,24 @@ collection, synchronize the device, and clear the cache at step boundaries.
 ## CPU isolation and load contract
 
 A15 CPU/CUDA wall-clock comparisons are sensitive to unrelated CPU work. The
-runner now samples per-CPU utilization, audits SMT siblings, records the
-process affinity before and after pinning, and inventories overlapping
-high-CPU processes. The `full` profile fails closed when the preregistered
-thresholds in `configs/a15_matched_service_curve.v1.json` are exceeded.
+runner takes five sub-samples, audits both SMT siblings, and combines Linux
+per-thread CPU-time deltas with each thread's observed processor. Broad
+affinity is retained as non-blocking inventory; only sustained measured
+residence on the selected pair is a CPU-process blocker. Aggregate sibling
+utilization remains a fail-closed backstop when attribution is incomplete.
+
+The same window runs `nvidia-smi pmon`. Graphics-only contexts and reserved
+VRAM are inventory, not automatic blockers; sustained SM activity from an
+external CUDA compute PID is a blocker. The `full` profile also fails closed
+when this GPU process accounting is unavailable. Thresholds and minimum sample
+counts live in `configs/a15_matched_service_curve.v1.json`.
 
 Affinity to one logical CPU is only pinning. It is reported as kernel-level
 isolation only when `/sys/devices/system/cpu/isolated` contains that CPU and
-the load guard passes. Stop or separately pin unrelated campaigns before a
-full A15 run; diagnostic runs preserve contention evidence but cannot support
-a controlled timing comparison.
+the load guard passes. VS Code and browsers may remain open when their measured
+work stays off the selected SMT pair and they expose no sustained CUDA compute
+activity. Diagnostic runs preserve contention evidence but cannot support a
+controlled timing comparison.
 
 ## Verification
 
