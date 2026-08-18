@@ -5,9 +5,6 @@
 //! configs are cloned across games, while coordinator decisions and freshness
 //! identities are root-local state and may never share a cache.
 
-use std::collections::hash_map::DefaultHasher;
-use std::hash::{Hash, Hasher};
-
 use parking_lot::Mutex;
 
 use crate::mcts::policy::kg_stop::standard_normal_cdf;
@@ -26,6 +23,8 @@ use super::types::{
 };
 
 pub const A01_AXIS_ID: &str = "A01.stop_council";
+pub const A01_LIVE_PFLIP_AXIS_ID: &str = "A01.live_pflip_v1";
+pub const A01_TRACE_STABILITY_AXIS_ID: &str = "A01.trace_stability_v1";
 
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub enum FoundryRuntimeMode {
@@ -54,7 +53,10 @@ pub struct FoundrySearchConfig {
 
 impl FoundrySearchConfig {
     pub fn is_valid(&self) -> bool {
-        self.axis_id == A01_AXIS_ID
+        (self.axis_id == A01_AXIS_ID
+            || self.axis_id == A01_LIVE_PFLIP_AXIS_ID
+            || self.axis_id == A01_TRACE_STABILITY_AXIS_ID
+            || self.axis_id == "A01")
             && !self.checkpoint_id.trim().is_empty()
             && !self.evaluator_id.trim().is_empty()
             && self.risk_limit.is_finite()
@@ -105,12 +107,17 @@ impl FoundrySearchPolicy {
     }
 
     fn edge_set_hash(edges: &[EdgeView<'_>]) -> (String, u64) {
-        let mut hasher = DefaultHasher::new();
+        let mut hash: u64 = 0xcbf29ce484222325;
         for edge in edges {
-            edge.idx.hash(&mut hasher);
-            edge.prior.to_bits().hash(&mut hasher);
+            for b in (edge.idx as u64).to_le_bytes() {
+                hash ^= b as u64;
+                hash = hash.wrapping_mul(0x100000001b3);
+            }
+            for b in edge.prior.to_bits().to_le_bytes() {
+                hash ^= b as u64;
+                hash = hash.wrapping_mul(0x100000001b3);
+            }
         }
-        let hash = hasher.finish();
         (format!("{hash:016x}"), hash)
     }
 

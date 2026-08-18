@@ -1,0 +1,92 @@
+{
+  "schema_version": 1,
+  "bank_id": "gomoku7_metacontroller_factorial_heldout_v1",
+  "game": "gomoku7",
+  "board_size": 7,
+  "bank_kind": "heldout_opening_families",
+  "claim_scope": "confirmatory_evaluation",
+  "independent_of_training": true,
+  "source_manifest": "configs/metacontroller_factorial.v1.json",
+  "openings": [
+    {
+      "opening_id": "H01_corner_approach_a",
+      "group_id": "heldout_corner_01",
+      "moves": [0, 8, 16, 7]
+    },
+    {
+      "opening_id": "H02_corner_approach_b",
+      "group_id": "heldout_corner_02",
+      "moves": [6, 12, 18, 13]
+    },
+    {
+      "opening_id": "H03_corner_approach_c",
+      "group_id": "heldout_corner_03",
+      "moves": [42, 36, 30, 35]
+    },
+    {
+      "opening_id": "H04_corner_approach_d",
+      "group_id": "heldout_corner_04",
+      "moves": [48, 40, 32, 41]
+    },
+    {
+      "opening_id": "H05_wing_split_north",
+      "group_id": "heldout_wing_01",
+      "moves": [3, 10, 17, 11]
+    },
+    {
+      "opening_id": "H06_wing_split_south",
+      "group_id": "heldout_wing_02",
+      "moves": [45, 38, 31, 37]
+    },
+    {
+      "opening_id": "H07_wing_split_west",
+      "group_id": "heldout_wing_03",
+      "moves": [21, 22, 23, 15]
+    },
+    {
+      "opening_id": "H08_wing_split_east",
+      "group_id": "heldout_wing_04",
+      "moves": [27, 26, 25, 33]
+    },
+    {
+      "opening_id": "H09_center_knight_a",
+      "group_id": "heldout_knight_01",
+      "moves": [24, 11, 37, 18]
+    },
+    {
+      "opening_id": "H10_center_knight_b",
+      "group_id": "heldout_knight_02",
+      "moves": [24, 19, 29, 10]
+    },
+    {
+      "opening_id": "H11_center_knight_c",
+      "group_id": "heldout_knight_03",
+      "moves": [24, 39, 9, 38]
+    },
+    {
+      "opening_id": "H12_center_knight_d",
+      "group_id": "heldout_knight_04",
+      "moves": [24, 33, 15, 30]
+    },
+    {
+      "opening_id": "H13_parallel_gap_a",
+      "group_id": "heldout_parallel_01",
+      "moves": [17, 31, 15, 33]
+    },
+    {
+      "opening_id": "H14_parallel_gap_b",
+      "group_id": "heldout_parallel_02",
+      "moves": [9, 37, 11, 39]
+    },
+    {
+      "opening_id": "H15_diagonal_offset_a",
+      "group_id": "heldout_diag_01",
+      "moves": [1, 9, 17, 25]
+    },
+    {
+      "opening_id": "H16_diagonal_offset_b",
+      "group_id": "heldout_diag_02",
+      "moves": [5, 11, 17, 23]
+    }
+  ]
+}

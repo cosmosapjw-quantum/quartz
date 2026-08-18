@@ -102,7 +102,7 @@
     },
     "confirmatory": {
       "seeds": [41, 42, 43],
-      "opening_bank": "configs/metacontroller_factorial.openings.smoke.v1.json",
+      "opening_bank": "configs/metacontroller_factorial.openings.heldout.v1.json",
       "budget_lane": "fixed_nn_evals",
       "training_compute_contract": "fixed_nn_evals_and_learner_updates",
       "eval_seed_base": 20260722,
