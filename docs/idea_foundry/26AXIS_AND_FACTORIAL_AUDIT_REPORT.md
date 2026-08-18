@@ -1,7 +1,7 @@
 # QUARTZ Idea Foundry: Formal Scientific Audit Report (26 Axes & 2x2 Factorial Sweep)
 
 **Campaign Run ID**: `first-scientific-gates-full-20260817` (26-Axis Full Diagnostic Campaign)  
-**Factorial Run ID**: `factorial-smoke-20260818` (Metacontroller 2x2 Factorial Smoke)  
+**Factorial Run ID**: `factorial-confirmatory-frontier-r2-20260818` (Metacontroller 2x2 Confirmatory Factorial, N=3 paired seeds, 960 matches)  
 **Audit Date**: 2026-08-18  
 **Repository Branch**: `agent/local-experiment-foundry`  
 **Hardware Platform**:
@@ -21,12 +21,12 @@ Under the five-status contract framework (`schema_version: 1`), all results dist
 $$\text{execution\_status} \neq \text{contract\_status} \neq \text{effect\_status} \neq \text{evidence\_maturity} \neq \text{promotion\_status}$$
 
 1. **26-Axis Diagnostic Study (`first-scientific-gates-full-20260817`)**:
-   - **Execution & Contract**: 25 axes completed cleanly (`execution_status: completed_no_promotion`, `contract_status: passed`), 1 axis skipped (`A10: dormant`, `contract_status: not_applicable`), 0 technical failures.
+   - **Execution & Contract**: 25 axes completed cleanly (`execution_status: success`, `legacy_status: completed_no_promotion`, `contract_status: passed`), 1 axis skipped (`A10: dormant`, `contract_status: not_applicable`), 0 technical failures.
    - **Scientific Scope**: Diagnostic and mechanism-contract checks only. Code and preregistered configurations explicitly prohibit inferring play-strength, Elo, production readiness, or cross-axis superiority from these first-gate outputs (`promotion.eligible = false`).
 2. **Metacontroller $2\times 2$ Confirmatory Factorial (`factorial-confirmatory-frontier-r2-20260818`)**:
-   - **Execution & Scope**: 960 arena matches executed cleanly across 16 held-out opening families with $N_{\rm paired}=3$ seeds (41, 42, 43) under `resource_frontier_confirmatory` with 100% selection trace coverage.
+   - **Execution & Scope**: 960 arena matches executed cleanly across 8 held-out opening families (2 replicates per family, 16 total opening groups) with $N_{\rm paired}=3$ seeds (41, 42, 43) under `resource_frontier_confirmatory` with 100% selection trace coverage.
    - **Realized Compute Reduction**: Runtime A01 executed 439 early halts per active arm, delivering a paired compute contrast $\Delta C = -16.18$ NN evals/move (**$-27.78\%$ search compute reduction**, $42.06$ vs $58.24$, `compute_reduction_passed: true` across both arms).
-   - **Quality Non-Inferiority**: Main runtime effect point estimate $\Delta Q = -0.03125$ ($0.46875$ vs $0.50000$). Seed-level aggregate CI is $[-0.03125, -0.03125] > -0.05$ (`quality_noninferiority_passed: true`), while hierarchical 48-cluster CI across opening groups is $[-0.1279, +0.0654]$.
+   - **Quality Non-Inferiority**: Main runtime effect point estimate $\Delta Q = -0.03125$ ($0.46875$ vs $0.50000$). Seed-level aggregate CI is $[-0.03125, -0.03125] > -0.05$ (`seed_conditioned_quality_ni_passed: true`), while hierarchical 48-cluster sensitivity CI across opening groups is $[-0.1279, +0.0654]$ (`heldout_generalization_quality_ni_passed: false`, `confirmatory_quality_ni_passed: false`).
    - **Interaction Equivalence**: Factored interaction $\Delta_{TR} = 0.0000$ (seed-level CI $[0.0000, 0.0000] \subset [-0.05, 0.05]$ and hierarchical cluster estimate $0.0000$), satisfying the 95% CI containment equivalence criterion with zero observed antagonism (`interaction_equivalence_passed: true`).
 
 ---
@@ -80,12 +80,12 @@ $$\text{execution\_status} \neq \text{contract\_status} \neq \text{effect\_statu
 | Contrast | Estimand $\hat{\theta}$ | Seed-Level 95% CI ($N=3$) | Hierarchical 48-Cluster 95% CI | Margin $\delta$ | Criterion | Empirical Verdict |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
 | **Compute Reduction ($\Delta C$)** | $-27.78\%$ ($-16.18$ evals) | — | — | $\Delta C < 0$ | $C_{01}<C_{00} \land C_{11}<C_{10}$ | **PASS** ($-16.18$ evals/move) |
-| **Quality Non-Inferiority ($\Delta Q$)** | $-0.03125$ ($0.46875$ vs $0.50000$) | $[-0.03125, -0.03125]$ | $[-0.12786, +0.06536]$ | $\delta_Q = 0.05$ | One-sided 95% LB $> -\delta_Q$ | **PASS** ($\Delta Q = -0.03125 > -0.050$) |
+| **Quality Non-Inferiority ($\Delta Q$)** | $-0.03125$ ($0.46875$ vs $0.50000$) | $[-0.03125, -0.03125]$ | $[-0.12786, +0.06536]$ | $\delta_Q = 0.05$ | One-sided 95% LB $> -\delta_Q$ | **Seed-Conditioned PASS / Generalization NOT ESTABLISHED** |
 | **Interaction Equivalence ($\Delta_{TR}$)** | $0.00000$ | $[0.00000, 0.00000]$ | $[0.00000, 0.00000]$ | $\delta_I = 0.05$ | 95% CI Containment in $[-\delta_I, \delta_I]$ | **PASS** (Zero Antagonism) |
 | **Training Main Effect ($\Delta_T$)** | $0.00000$ | $[0.00000, 0.00000]$ | $[0.00000, 0.00000]$ | — | — | Neutral |
 
 - **Selection Trace Coverage**: $100\%$ ($1.000000$) across all 960 games under canonical `A01.live_pflip_v1`.
-- **Durable Artifacts**: Normalized evidence serialized in [`docs/idea_foundry/evidence/20260818_confirmatory_factorial_evidence.json`](file:///home/cosmosapjw/Dropbox/personal_projects/quartz/docs/idea_foundry/evidence/20260818_confirmatory_factorial_evidence.json).
+- **Durable Artifacts**: Normalized evidence serialized in [20260818_confirmatory_factorial_evidence.json](evidence/20260818_confirmatory_factorial_evidence.json).
 - **Promotion Status**: `COMPLETED_NO_PROMOTION` (first scientific confirmation on Gomoku7; multi-game generalization and larger scale training scheduled under Phase 16).
 
 ---
@@ -99,9 +99,10 @@ $$\text{execution\_status} \neq \text{contract\_status} \neq \text{effect\_statu
 - **Governance Resolution**: Confirmed that Dirichlet stability $H_1$ substantially alleviates the observed small-budget overconfidence pathology on the Stage-7 trace bank. Live search adapter is sealed under canonical variant ID `A01.live_pflip_v1` while $H_1$ continuation calibration is preregistered for Phase 16 multi-game search engine integration.
 
 ### 2. A13 (WU-UCT) & A16 (Graph State Cache) — Immediate Merges Blocked & Protocols Established
-- **A13 (Pending-Flow / WU-UCT)**: Tested against the true production incumbent (**Adaptive Virtual Loss**, `VlMode::Adaptive`). Live engine merge is **STRICTLY BLOCKED** until differential testing proves net search throughput gain ($\Delta Q_{\rm throughput} > +0.05$) under real GPU batching on Gomoku15, Chess, and Go without thread contention. See [A13 Real-Engine Differential Protocol](file:///home/cosmosapjw/Dropbox/personal_projects/quartz/docs/idea_foundry/protocols/A13_REAL_ENGINE_DIFFERENTIAL_PROTOCOL.md).
-- **A16 (Graph State Sharing Cache)**: Proposes a decoupled Tier-2 pure state evaluation cache using composite key $K = (\text{state\_zobrist}, \text{evaluator\_checkpoint\_id}, \text{ruleset}, \text{input\_version}, \text{cache\_schema})$. Live merge is **STRICTLY BLOCKED** until the two-tier cache architecture is implemented in Rust and verified to reduce NN forward passes ($\Delta E_{\rm eval} < -0.10$) without memory bloat or lock contention. See [A16 Graph State Cache Protocol](file:///home/cosmosapjw/Dropbox/personal_projects/quartz/docs/idea_foundry/protocols/A16_GRAPH_STATE_CACHE_PROTOCOL.md).
+- **A13 (Pending-Flow / WU-UCT)**: Tested against the true production incumbent (**Adaptive Virtual Loss**, `VlMode::Adaptive`). Live engine merge is **STRICTLY BLOCKED** until differential testing proves net search throughput gain ($\Delta Q_{\rm throughput} > +0.05$) under real GPU batching on Gomoku15, Chess, and Go without thread contention. See [A13 Real-Engine Differential Protocol](protocols/A13_REAL_ENGINE_DIFFERENTIAL_PROTOCOL.md).
+- **A16 (Graph State Sharing Cache)**: Proposes a decoupled Tier-2 pure state evaluation cache using composite key $K = (\text{state\_zobrist}, \text{evaluator\_checkpoint\_id}, \text{ruleset}, \text{input\_version}, \text{cache\_schema})$. Live merge is **STRICTLY BLOCKED** until the two-tier cache architecture is implemented in Rust and verified to reduce NN forward passes ($\Delta E_{\rm eval} < -0.10$) without memory bloat or lock contention. See [A16 Graph State Cache Protocol](protocols/A16_GRAPH_STATE_CACHE_PROTOCOL.md).
 
 ### 3. A15 (Service Curve) & A19 (Semantic Alignment) Protocols
-- **A15 (Dynamic GPU Queue Scheduler)**: Corrected estimand from raw CUDA vs CPU ratio to a Pareto vector objective $V_{\rm obj} = (\text{QPS}_{p99 \le \tau}, p99, \mathbb{E}[W_q], \text{padding\_fraction}, \text{energy/query})$ under fixed GPU hardware. See [A15 Service Curve Estimand Protocol](file:///home/cosmosapjw/Dropbox/personal_projects/quartz/docs/idea_foundry/protocols/A15_SERVICE_CURVE_ESTIMAND_PROTOCOL.md).
-- **A19 (RW-ResT Lite Evaluator)**: Formally separated `A19.proxy_screen_v1` ($0.65\cdot L_{\rm policy\_KL} + 0.35\cdot L_{\rm value\_MSE}$, implemented adapter, existing $+0.0078$ screen result) from `A19.confirmatory_weighted_loss_v2` ($1.0\cdot L_{\rm policy\_CE} + 1.5\cdot L_{\rm value\_MSE}$, future confirmatory protocol). See [A19 Weighted Proxy Loss Protocol](file:///home/cosmosapjw/Dropbox/personal_projects/quartz/docs/idea_foundry/protocols/A19_WEIGHTED_PROXY_LOSS_PROTOCOL.md).
+- **A15 (Dynamic GPU Queue Scheduler)**: Corrected estimand from raw CUDA vs CPU ratio to a Pareto vector objective $V_{\rm obj} = (\text{QPS}_{p99 \le \tau}, p99, \mathbb{E}[W_q], \text{padding\_fraction}, \text{energy/query})$ under fixed GPU hardware. See [A15 Service Curve Estimand Protocol](protocols/A15_SERVICE_CURVE_ESTIMAND_PROTOCOL.md).
+- **A19 (RW-ResT Lite Evaluator)**: Formally separated `A19.proxy_screen_v1` ($0.65\cdot L_{\rm policy\_KL} + 0.35\cdot L_{\rm value\_MSE}$, implemented adapter, existing $+0.0078$ screen result) from `A19.confirmatory_weighted_loss_v2` ($1.0\cdot L_{\rm policy\_CE} + 1.5\cdot L_{\rm value\_MSE}$, future confirmatory protocol). See [A19 Weighted Proxy Loss Protocol](protocols/A19_WEIGHTED_PROXY_LOSS_PROTOCOL.md).
+

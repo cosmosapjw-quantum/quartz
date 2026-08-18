@@ -66,3 +66,24 @@ def test_hash_drift_fails_closed(tmp_path: Path) -> None:
     )
     with pytest.raises(ValueError, match="hash drift"):
         verify_receipt(bad_receipt)
+
+
+def test_unresolvable_git_commit_fails_closed(tmp_path: Path) -> None:
+    bad_receipt = tmp_path / "bad.receipt.json"
+    bad_receipt.write_text(
+        json.dumps(
+            {
+                "schema_version": 1,
+                "git_head": "0123456789abcdef0123456789abcdef01234567",
+                "runs": [
+                    {
+                        "run_id": "test_run",
+                        "artifacts": [],
+                    }
+                ],
+            }
+        ),
+        encoding="utf-8",
+    )
+    with pytest.raises(ValueError, match="git_head .* cannot be resolved"):
+        verify_receipt(bad_receipt)

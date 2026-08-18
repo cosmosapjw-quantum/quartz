@@ -681,16 +681,17 @@ def run_preflight(
             )
         git_after = git_provenance(REPO_ROOT)
         git_before = state.get("git_before", {})
-        if (
-            git_before.get("head") != git_after.get("head")
-            or git_before.get("is_dirty") != git_after.get("is_dirty")
-        ):
+        if git_before.get("head") != git_after.get("head") or git_before.get(
+            "is_dirty"
+        ) != git_after.get("is_dirty"):
             state["status"] = "failed"
             state["failed_step"] = "git-head-stability"
             state["git_after"] = git_after
             state["completed_at"] = utc_now()
             atomic_json_dump(state_path, state)
-            raise PreflightError("Git HEAD or repository dirty status drifted during preflight")
+            raise PreflightError(
+                "Git HEAD or repository dirty status drifted during preflight"
+            )
         state.update(
             status="passed",
             completed_at=utc_now(),

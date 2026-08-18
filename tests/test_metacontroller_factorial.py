@@ -149,7 +149,9 @@ def test_execution_config_materializes_hash_bound_run_paths(tmp_path: Path) -> N
     assert resolved_path.is_file()
     assert resolved["controller_contract"]["execution_ready"] is True
     assert resolved["controller_contract"]["active_axis_ids"] == ["A01.live_pflip_v1"]
-    assert resolved["runtime_arms"]["on"]["authorized_axis_ids"] == ["A01.live_pflip_v1"]
+    assert resolved["runtime_arms"]["on"]["authorized_axis_ids"] == [
+        "A01.live_pflip_v1"
+    ]
     assert resolved["runtime_arms"]["off"]["search_config"]["check_interval"] == 1
     assert (
         "factorial-smoke-1/training/off/seed_{seed}"
@@ -749,7 +751,9 @@ def test_strict_json_rejects_nonfinite_constants(tmp_path: Path) -> None:
         factorial.load_json_strict(path)
 
 
-def test_repository_confirmatory_config_and_heldout_opening_bank_are_schema_valid() -> None:
+def test_repository_confirmatory_config_and_heldout_opening_bank_are_schema_valid() -> (
+    None
+):
     root = Path(__file__).resolve().parents[1]
     config_path = root / "configs" / "metacontroller_factorial.v1.json"
     cfg = factorial.load_config(config_path)
@@ -762,5 +766,25 @@ def test_repository_confirmatory_config_and_heldout_opening_bank_are_schema_vali
     blocker_codes = {row["code"] for row in preflight.get("blockers", [])}
     assert "OPENING_BANK_NOT_HELDOUT" not in blocker_codes
     assert "OPENING_BANK_TRAINING_LEAKAGE" not in blocker_codes
-    assert "OPENING_BANK_MANIFEST_MISSING" not in blocker_codes
-    assert "OPENING_BANK_MANIFEST_DRIFT" not in blocker_codes
+    assert "OPENING_SOURCE_MANIFEST_MISSING" not in blocker_codes
+    assert "OPENING_SOURCE_MANIFEST_HASH_DRIFT" not in blocker_codes
+
+
+def test_confirmatory_evaluation_separates_seed_conditioned_and_generalization_ni() -> (
+    None
+):
+    root = Path(__file__).resolve().parents[1]
+    evidence_path = (
+        root
+        / "docs"
+        / "idea_foundry"
+        / "evidence"
+        / "20260818_confirmatory_factorial_evidence.json"
+    )
+    assert evidence_path.is_file(), "durable evidence artifact must exist"
+    data = json.loads(evidence_path.read_text(encoding="utf-8"))
+    eval_section = data["confirmatory_evaluation"]
+    assert eval_section["seed_conditioned_quality_ni_passed"] is True
+    assert eval_section["heldout_generalization_quality_ni_passed"] is False
+    assert eval_section["confirmatory_quality_ni_passed"] is False
+    assert eval_section["compute_reduction_passed"] is True

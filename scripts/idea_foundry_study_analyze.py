@@ -87,7 +87,11 @@ def _verify_axis(
         raise StudyError(f"axis manifest contains no artifacts: {axis_dir}")
     for record in artifacts:
         artifact = axis_dir / record.get("path", "")
-        if not artifact.is_file() or artifact.is_symlink() or file_sha256(artifact) != record.get("sha256"):
+        if (
+            not artifact.is_file()
+            or artifact.is_symlink()
+            or file_sha256(artifact) != record.get("sha256")
+        ):
             raise StudyError(f"artifact hash drift: {artifact}")
     rows = _jsonl(axis_dir / "effect_records.jsonl", allow_empty=True)
     normalized = [validate_effect_record(row) for row in rows]
@@ -214,7 +218,12 @@ def analyze_campaign(campaign_dir: Path, output_dir: Path | None) -> dict[str, A
     source_rows_dir.mkdir()
     for axis_id in expected_axes:
         axis_dir = campaign / "axes" / axis_id
-        for child_name in ("summary.json", "run_manifest.json", "rows.jsonl", "effect_records.jsonl"):
+        for child_name in (
+            "summary.json",
+            "run_manifest.json",
+            "rows.jsonl",
+            "effect_records.jsonl",
+        ):
             child_file = axis_dir / child_name
             if child_file.is_file():
                 all_input_paths.append(child_file)
@@ -251,9 +260,15 @@ def analyze_campaign(campaign_dir: Path, output_dir: Path | None) -> dict[str, A
                 bool(existing["higher_is_better"]),
             )
             if existing_compat != compat_key:
-                raise StudyError(f"incompatible effect contracts within axis {axis_key}")
-            if str(existing["independent_group_id"]) == str(record["independent_group_id"]):
-                raise StudyError(f"duplicate independent group {record['independent_group_id']} in axis {axis_key}")
+                raise StudyError(
+                    f"incompatible effect contracts within axis {axis_key}"
+                )
+            if str(existing["independent_group_id"]) == str(
+                record["independent_group_id"]
+            ):
+                raise StudyError(
+                    f"duplicate independent group {record['independent_group_id']} in axis {axis_key}"
+                )
         grouped[axis_key].append(record)
     effect_axis_ids = set(grouped)
     meta_rows = [

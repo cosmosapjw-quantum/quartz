@@ -1282,7 +1282,11 @@ def _load_existing_analysis(*, analysis_dir: Path, root: Path) -> dict[str, Any]
     artifact_paths = set()
     for artifact in artifacts:
         path = _safe_path(analysis_dir, artifact["path"], label="analysis artifact")
-        if not path.is_file() or path.is_symlink() or file_sha256(path) != artifact["sha256"]:
+        if (
+            not path.is_file()
+            or path.is_symlink()
+            or file_sha256(path) != artifact["sha256"]
+        ):
             raise FactorialHarnessError("analysis artifact hash mismatch")
         artifact_paths.add(path.name)
     if "analysis.json" not in artifact_paths:
@@ -1296,7 +1300,11 @@ def _load_existing_analysis(*, analysis_dir: Path, root: Path) -> dict[str, Any]
             path.relative_to(root)
         except ValueError as exc:
             raise FactorialHarnessError("analysis input escapes repository") from exc
-        if not path.is_file() or path.is_symlink() or file_sha256(path) != source["sha256"]:
+        if (
+            not path.is_file()
+            or path.is_symlink()
+            or file_sha256(path) != source["sha256"]
+        ):
             raise FactorialHarnessError("analysis input hash mismatch")
     return dict(load_json_strict(analysis_path))
 

@@ -701,9 +701,21 @@ def validate_opening_bank(
             raise FactorialHarnessError(
                 f"opening {opening_id} reuses an occupied point"
             )
-        normalized.append(
-            {"opening_id": opening_id, "group_id": group_id, "moves": normalized_moves}
-        )
+        norm_dict: dict[str, Any] = {
+            "opening_id": opening_id,
+            "group_id": group_id,
+            "moves": normalized_moves,
+        }
+        if "family_id" in opening:
+            norm_dict["family_id"] = _require_nonempty_string(
+                opening["family_id"], f"openings[{index}].family_id"
+            )
+        if "replicate_within_family" in opening:
+            norm_dict["replicate_within_family"] = _require_nonempty_string(
+                opening["replicate_within_family"],
+                f"openings[{index}].replicate_within_family",
+            )
+        normalized.append(norm_dict)
     bank["openings"] = sorted(normalized, key=lambda row: row["opening_id"])
     return bank
 
@@ -1757,7 +1769,9 @@ def analyze_rows(
     runtime_summary = summaries.get("runtime_main", {})
     interaction_summary = summaries.get("interaction", {})
 
-    quality_noninferiority_passed = None
+    seed_conditioned_quality_ni_passed = None
+    heldout_generalization_quality_ni_passed = None
+    confirmatory_quality_ni_passed = None
     if (
         enough_seeds
         and runtime_summary.get("ci95") is not None
@@ -1770,7 +1784,26 @@ def analyze_rows(
         lower_95 = float(runtime_summary["estimate"]) - t_crit * float(
             runtime_summary["standard_error"]
         )
-        quality_noninferiority_passed = bool(lower_95 > -delta_q)
+        seed_conditioned_quality_ni_passed = bool(lower_95 > -delta_q)
+
+        hier_runtime = hierarchical_summaries.get("runtime_main", {})
+        if (
+            hier_runtime.get("standard_error") is not None
+            and hier_runtime.get("n_paired_seeds", 0) > 1
+        ):
+            df_hier = max(1, int(hier_runtime["n_paired_seeds"]) - 1)
+            t_crit_hier = float(student_t.ppf(0.95, df=df_hier))
+            hier_lower_95 = float(hier_runtime["estimate"]) - t_crit_hier * float(
+                hier_runtime["standard_error"]
+            )
+            heldout_generalization_quality_ni_passed = bool(hier_lower_95 > -delta_q)
+        else:
+            heldout_generalization_quality_ni_passed = False
+
+        confirmatory_quality_ni_passed = bool(
+            seed_conditioned_quality_ni_passed
+            and heldout_generalization_quality_ni_passed
+        )
 
     interaction_equivalence_passed = None
     if enough_seeds and interaction_summary.get("ci95") is not None:
@@ -1782,7 +1815,9 @@ def analyze_rows(
     if validated.get("realized_budget_means"):
         means = validated["realized_budget_means"]
         if all(k in means for k in ("M00", "M01", "M10", "M11")):
-            delta_c = 0.5 * ((means["M01"] - means["M00"]) + (means["M11"] - means["M10"]))
+            delta_c = 0.5 * (
+                (means["M01"] - means["M00"]) + (means["M11"] - means["M10"])
+            )
             compute_reduction_passed = bool(
                 means["M01"] < means["M00"]
                 and means["M11"] < means["M10"]
@@ -1814,7 +1849,10 @@ def analyze_rows(
         "confirmatory_evaluation": {
             "quality_noninferiority_margin": delta_q,
             "quality_noninferiority_criterion": "one-sided 95% lower bound > -delta_q",
-            "quality_noninferiority_passed": quality_noninferiority_passed,
+            "seed_conditioned_quality_ni_passed": seed_conditioned_quality_ni_passed,
+            "heldout_generalization_quality_ni_passed": heldout_generalization_quality_ni_passed,
+            "confirmatory_quality_ni_passed": confirmatory_quality_ni_passed,
+            "quality_noninferiority_passed": seed_conditioned_quality_ni_passed,
             "interaction_equivalence_margin": delta_i,
             "interaction_equivalence_criterion": "95% CI containment within [-delta_i, delta_i]",
             "interaction_equivalence_passed": interaction_equivalence_passed,

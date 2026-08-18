@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "created_at": "2026-08-18T00:08:00Z",
-  "git_head": "f2cb6674e2d3df9856f6424564c7e75a34ec813b",
+  "git_head": "08ad9dec17976eead7b1b80260d29738bca55e93",
   "hardware_fingerprint": {
     "gpu": "NVIDIA GeForce RTX 5070 Ti (16GB VRAM, Driver 595.84, CUDA 13.2 / PyTorch cu128)",
     "cpu": "AMD Ryzen 9 5900X 12-Core Processor (24 threads, 64GB DDR4 RAM)",
@@ -19,7 +19,7 @@
       "artifacts": [
         {
           "path": "docs/idea_foundry/26AXIS_AND_FACTORIAL_AUDIT_REPORT.md",
-          "sha256": "459715bfd8853c8b34b14625b636fefcaed69b7c47cf4373ffc0859f4a57194e"
+          "sha256": "f4bb379e974fea275f826beaa99f169327a36606f82422214882bc9472510345"
         },
         {
           "path": "configs/idea_foundry.studies.v1.json",
@@ -27,7 +27,7 @@
         },
         {
           "path": "quartz/idea_foundry/studies.py",
-          "sha256": "135d32d839d8d9dd4aaa0708709de170d2f88304b61aafe3d5e9bf53a557775c"
+          "sha256": "2d8514837ae168a612b7e6cf4123974bb473eb8ac2724004c928e44efd488dae"
         }
       ]
     },
@@ -38,11 +38,11 @@
       "artifacts": [
         {
           "path": "docs/idea_foundry/26AXIS_AND_FACTORIAL_AUDIT_REPORT.md",
-          "sha256": "459715bfd8853c8b34b14625b636fefcaed69b7c47cf4373ffc0859f4a57194e"
+          "sha256": "f4bb379e974fea275f826beaa99f169327a36606f82422214882bc9472510345"
         },
         {
           "path": "docs/idea_foundry/evidence/20260818_confirmatory_factorial_evidence.json",
-          "sha256": "9b94921749643c6bfaeb6d18393872ea6f9190d825e060903367dce77bf03cd2"
+          "sha256": "4904da51eb9d3563d59fd8d077bceba3de161f096768c26b89b1e89dc868e48f"
         },
         {
           "path": "configs/metacontroller_factorial.v1.json",
@@ -50,7 +50,7 @@
         },
         {
           "path": "configs/metacontroller_factorial.openings.heldout.v1.json",
-          "sha256": "d300eab6e07cbd5d6f29d15ad6f03e6f7ce0718c0271eb06ea43b66c70c6d66d"
+          "sha256": "5b4f1642158e708def2fd116da671921a1e2c1bc61dcfded67d80993572d2aab"
         },
         {
           "path": "configs/metacontroller_factorial.openings.manifest.v1.json",
@@ -62,7 +62,7 @@
         },
         {
           "path": "quartz/idea_foundry/metacontroller_factorial.py",
-          "sha256": "6c97e6581bd45a034eb0541ecaf70a3c00154e2386a5316f48fcb6245549bde6"
+          "sha256": "2a21755db1fbabc12c29b2a174694854594b0f278f84609c1ad43e62d223501a"
         }
       ]
     }

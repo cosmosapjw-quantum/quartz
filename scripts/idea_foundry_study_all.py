@@ -183,7 +183,9 @@ def _validate_artifact_set(axis_dir: Path) -> str | None:
         matching_specs = [
             path
             for path in (REPO_ROOT / "configs").glob("a18_evaluator_ablation.*.v1.json")
-            if path.is_file() and not path.is_symlink() and file_sha256(path) == expected_spec
+            if path.is_file()
+            and not path.is_symlink()
+            and file_sha256(path) == expected_spec
         ]
         if len(matching_specs) != 1:
             return False
@@ -215,7 +217,11 @@ def _validate_artifact_set(axis_dir: Path) -> str | None:
                 path.relative_to(REPO_ROOT.resolve())
             except ValueError:
                 return False
-            if not path.is_file() or path.is_symlink() or file_sha256(path) != expected_hash:
+            if (
+                not path.is_file()
+                or path.is_symlink()
+                or file_sha256(path) != expected_hash
+            ):
                 return False
         return True
 
@@ -255,7 +261,11 @@ def _validate_artifact_set(axis_dir: Path) -> str | None:
                     path.relative_to(REPO_ROOT.resolve())
                 except ValueError:
                     return False
-                if not path.is_file() or path.is_symlink() or file_sha256(path) != expected_hash:
+                if (
+                    not path.is_file()
+                    or path.is_symlink()
+                    or file_sha256(path) != expected_hash
+                ):
                     return False
                 if (
                     inventory_name == "input_hashes"
@@ -279,7 +289,11 @@ def _validate_artifact_set(axis_dir: Path) -> str | None:
                 path.relative_to(resolved_manifest.parent)
             except ValueError:
                 return False
-            if not path.is_file() or path.is_symlink() or file_sha256(path) != expected_hash:
+            if (
+                not path.is_file()
+                or path.is_symlink()
+                or file_sha256(path) != expected_hash
+            ):
                 return False
         return True
 

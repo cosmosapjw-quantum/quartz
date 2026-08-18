@@ -29,13 +29,16 @@ class AxisStatus(str, Enum):
 
 class ExecutionStatus(str, Enum):
     SUCCESS = "success"
+    COMPLETED_NO_PROMOTION = "completed_no_promotion"
     FAILED = "failed"
     SKIPPED = "skipped"
+    DORMANT = "dormant"
 
 
 class ContractStatus(str, Enum):
     PASSED = "passed"
     FAILED = "failed"
+    NOT_APPLICABLE = "not_applicable"
 
 
 class EffectStatus(str, Enum):

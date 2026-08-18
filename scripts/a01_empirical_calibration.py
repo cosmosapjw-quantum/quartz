@@ -16,7 +16,12 @@ from pathlib import Path
 REPO_ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(REPO_ROOT))
 
-from scripts.phase15_flip_calibration import main as phase15_main, analyze, load_bundles, reliability_diagram  # noqa: E402
+from scripts.phase15_flip_calibration import (
+    main as phase15_main,
+    analyze,
+    load_bundles,
+    reliability_diagram,
+)  # noqa: E402
 
 
 def main(argv: list[str] | None = None) -> int:

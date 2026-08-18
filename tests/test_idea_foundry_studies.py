@@ -91,7 +91,8 @@ def test_published_effect_records_are_meta_schema_valid(tmp_path, monkeypatch):
         outcome=outcome,
         extra_sources=(Path(__file__).resolve(),),
     )
-    assert summary["execution_status"] == "completed_no_promotion"
+    assert summary["execution_status"] == "success"
+    assert summary["legacy_status"] == "completed_no_promotion"
     assert summary["contract_status"] == "passed"
     assert summary["effect_status"] == "observed"
     assert summary["evidence_domain"] == "shadow_trace"

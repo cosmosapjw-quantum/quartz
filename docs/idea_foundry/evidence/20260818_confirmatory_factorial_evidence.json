@@ -4,7 +4,7 @@
   "experiment_id": "quartz_metacontroller_training_runtime_factorial_v1",
   "profile": "resource_frontier_confirmatory",
   "created_at": "2026-08-18T05:05:00Z",
-  "git_head": "cb73973cb11bca03f8a42b109e9aa4058d88b438",
+  "git_head": "08ad9dec17976eead7b1b80260d29738bca55e93",
   "hardware": {
     "gpu": "NVIDIA GeForce RTX 5070 Ti (16GB VRAM, Driver 595.84, CUDA 13.2 / PyTorch cu128)",
     "cpu": "AMD Ryzen 9 5900X 12-Core Processor (24 threads, 64GB DDR4 RAM)"
@@ -13,7 +13,9 @@
     "paired_seeds": [41, 42, 43],
     "opening_bank": "configs/metacontroller_factorial.openings.heldout.v1.json",
     "opening_manifest": "configs/metacontroller_factorial.openings.manifest.v1.json",
-    "opening_groups": 16,
+    "family_count": 8,
+    "openings_per_family": 2,
+    "total_openings": 16,
     "games_per_cell": 240,
     "total_games": 960,
     "selection_trace_coverage": 1.0
@@ -90,6 +92,9 @@
   },
   "confirmatory_evaluation": {
     "quality_noninferiority_margin": 0.05,
+    "seed_conditioned_quality_ni_passed": true,
+    "heldout_generalization_quality_ni_passed": false,
+    "confirmatory_quality_ni_passed": false,
     "quality_noninferiority_passed": true,
     "interaction_equivalence_margin": 0.05,
     "interaction_equivalence_passed": true,

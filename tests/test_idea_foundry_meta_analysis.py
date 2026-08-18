@@ -152,18 +152,26 @@ def test_meta_analysis_verifies_source_hash_and_emits_no_promotion(
 
 
 def test_exact_property_conflict_raises_error() -> None:
-    rec1 = _effect(run_id="r1", independent_group_id="g1", effect=1.0, standard_error=0.0)
+    rec1 = _effect(
+        run_id="r1", independent_group_id="g1", effect=1.0, standard_error=0.0
+    )
     rec1["uncertainty_kind"] = "exact"
-    rec2 = _effect(run_id="r2", independent_group_id="g2", effect=0.0, standard_error=0.0)
+    rec2 = _effect(
+        run_id="r2", independent_group_id="g2", effect=0.0, standard_error=0.0
+    )
     rec2["uncertainty_kind"] = "exact"
     with pytest.raises(MetaAnalysisError, match="EXACT_PROPERTY_CONFLICT"):
         pool_effect_group([rec1, rec2])
 
 
 def test_mixed_exact_and_sampling_is_rejected() -> None:
-    rec1 = _effect(run_id="r1", independent_group_id="g1", effect=1.0, standard_error=0.0)
+    rec1 = _effect(
+        run_id="r1", independent_group_id="g1", effect=1.0, standard_error=0.0
+    )
     rec1["uncertainty_kind"] = "exact"
-    rec2 = _effect(run_id="r2", independent_group_id="g2", effect=1.0, standard_error=0.1)
+    rec2 = _effect(
+        run_id="r2", independent_group_id="g2", effect=1.0, standard_error=0.1
+    )
     rec2["uncertainty_kind"] = "sampling"
     with pytest.raises(MetaAnalysisError, match="cannot mix exact and sampling"):
         pool_effect_group([rec1, rec2])

@@ -436,7 +436,10 @@ def _trace_outcome(axis_id: str, profile: str, seed: int) -> StudyOutcome:
                 floored_anchor = _normalized([max(p, prior_floor) for p in anchor])
                 rpo_policy = _normalized(
                     [
-                        math.exp(0.5 * math.log(max(a, 1e-12)) + 0.5 * math.log(max(b, 1e-12)))
+                        math.exp(
+                            0.5 * math.log(max(a, 1e-12))
+                            + 0.5 * math.log(max(b, 1e-12))
+                        )
                         for a, b in zip(floored_anchor, live)
                     ]
                 )
@@ -444,7 +447,11 @@ def _trace_outcome(axis_id: str, profile: str, seed: int) -> StudyOutcome:
                 reference = -math.log(max(live[oracle], 1e-12))
                 candidate = -math.log(max(rpo_policy[oracle], 1e-12))
                 effect = reference - candidate
-                extras = {"anchor_budget": 8, "live_budget": 16, "operator": "rpo_static_anchor"}
+                extras = {
+                    "anchor_budget": 8,
+                    "live_budget": 16,
+                    "operator": "rpo_static_anchor",
+                }
             elif axis_id == "A09":
                 target = float(row16["argmax_effective"] != row64["argmax_effective"])
                 base_rate = 0.25
@@ -459,10 +466,9 @@ def _trace_outcome(axis_id: str, profile: str, seed: int) -> StudyOutcome:
                 effect = reference - candidate
                 extras = {"target_changed": bool(target), "router_probability": score}
             elif axis_id == "A20":
-                score = (
-                    (1.0 - float(row16["top2_margin_stability"]))
-                    + _entropy(row16["effective_policy"]) / math.log(49)
-                )
+                score = (1.0 - float(row16["top2_margin_stability"])) + _entropy(
+                    row16["effective_policy"]
+                ) / math.log(49)
                 target = float(row64["argmax_effective"] != row16["argmax_effective"])
                 candidate = min(1.0, score) * target
                 reference = 0.5 * target
@@ -601,7 +607,9 @@ def _synthetic_outcome(axis_id: str, profile: str, seed: int) -> StudyOutcome:
                 sample_choice = max(range(2), key=sampled.__getitem__)
                 sample_regret = max(means) - means[sample_choice]
                 noisy_priors = [mean + rng.gauss(0.0, 0.05) for mean in means]
-                widen_order = sorted(range(len(means)), key=lambda index: -noisy_priors[index])
+                widen_order = sorted(
+                    range(len(means)), key=lambda index: -noisy_priors[index]
+                )
                 widen_choice = widen_order[0]
                 widen_regret = max(means) - means[widen_choice]
                 reference = stop_regret
@@ -624,17 +632,23 @@ def _synthetic_outcome(axis_id: str, profile: str, seed: int) -> StudyOutcome:
                 # Round 1: 8 arms x 4 draws = 32 draws
                 r1_counts = [4] * 8
                 r1_sums = [_sample_mean(rng, means[i], 4) * 4 for i in range(8)]
-                survivors_r1 = sorted(range(8), key=lambda i: -r1_sums[i] / r1_counts[i])[:4]
+                survivors_r1 = sorted(
+                    range(8), key=lambda i: -r1_sums[i] / r1_counts[i]
+                )[:4]
                 # Round 2: 4 survivors x 4 draws = 16 draws (cumulative counts = 8)
                 for i in survivors_r1:
                     r1_sums[i] += _sample_mean(rng, means[i], 4) * 4
                     r1_counts[i] += 4
-                survivors_r2 = sorted(survivors_r1, key=lambda i: -r1_sums[i] / r1_counts[i])[:2]
+                survivors_r2 = sorted(
+                    survivors_r1, key=lambda i: -r1_sums[i] / r1_counts[i]
+                )[:2]
                 # Round 3: 2 survivors x 8 draws = 16 draws (cumulative counts = 16)
                 for i in survivors_r2:
                     r1_sums[i] += _sample_mean(rng, means[i], 8) * 8
                     r1_counts[i] += 8
-                candidate_choice = max(survivors_r2, key=lambda i: r1_sums[i] / r1_counts[i])
+                candidate_choice = max(
+                    survivors_r2, key=lambda i: r1_sums[i] / r1_counts[i]
+                )
                 uniform_scores = [_sample_mean(rng, mean, 8) for mean in means]
                 reference_choice = max(range(8), key=uniform_scores.__getitem__)
                 candidate = max(means) - means[candidate_choice]
@@ -647,12 +661,14 @@ def _synthetic_outcome(axis_id: str, profile: str, seed: int) -> StudyOutcome:
                 fixed_choice = max(live, key=lambda idx: noisy_prior[idx])
                 p_exp = [math.exp(max(-10.0, min(10.0, p * 3.0))) for p in noisy_prior]
                 total_p = sum(p_exp)
-                residual_mass = sum(p_exp[i] for i in range(8) if i not in live) / total_p
+                residual_mass = (
+                    sum(p_exp[i] for i in range(8) if i not in live) / total_p
+                )
                 widened = list(live)
                 if residual_mass > 0.45:
                     extra = sorted(
                         [i for i in range(8) if i not in live],
-                        key=lambda item: -noisy_prior[item]
+                        key=lambda item: -noisy_prior[item],
                     )[:2]
                     widened.extend(extra)
                 candidate_choice = max(widened, key=lambda idx: noisy_prior[idx])
@@ -1284,17 +1300,23 @@ def publish_outcome(
     else:
         effect_status = "no_effect"
     evidence_domain = _EVIDENCE_DOMAIN_MAP.get(spec.gate_kind, "synthetic_gate")
+    canonical_exec_status = (
+        "success"
+        if outcome.status in {"success", "completed_no_promotion"}
+        else outcome.status
+    )
     summary = {
         "schema_version": STUDY_SCHEMA_VERSION,
         "axis_id": spec.axis_id,
         "profile": profile,
         "gate_kind": spec.gate_kind,
-        "execution_status": outcome.status,
+        "execution_status": canonical_exec_status,
         "contract_status": contract_status,
         "effect_status": effect_status,
         "evidence_domain": evidence_domain,
         "evidence_maturity": "diagnostic",
         "promotion_status": "no_promotion",
+        "legacy_status": outcome.status,
         "outcome_detail": outcome.outcome_detail,
         "row_count": len(outcome.rows),
         "effect_record_count": len(effect_records),

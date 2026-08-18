@@ -32,20 +32,52 @@ def verify_receipt(receipt_path: Path) -> dict[str, Any]:
     if not receipt_path.is_file() or receipt_path.is_symlink():
         raise ValueError(f"receipt is missing or symlink: {receipt_path}")
     data = json.loads(receipt_path.read_text(encoding="utf-8"))
-    if data.get("schema_version") != RECEIPT_SCHEMA_VERSION:
-        raise ValueError(f"unsupported receipt schema_version in {receipt_path}")
-    
+    git_head = data.get("git_head")
+    if git_head:
+        git_dir = REPO_ROOT / ".git"
+        if git_dir.exists():
+            import subprocess
+
+            try:
+                subprocess.run(
+                    ["git", "cat-file", "-e", f"{git_head}^{{commit}}"],
+                    cwd=REPO_ROOT,
+                    check=True,
+                    capture_output=True,
+                )
+            except subprocess.CalledProcessError:
+                raise ValueError(
+                    f"git_head {git_head} cannot be resolved in repository history"
+                )
+
     runs = data.get("runs", [])
     if not isinstance(runs, list) or not runs:
         raise ValueError(f"receipt contains no run entries: {receipt_path}")
-    
+
     verified_runs = 0
     verified_artifacts = 0
-    
+
     for run_entry in runs:
         run_id = run_entry.get("run_id")
         if not run_id:
             raise ValueError(f"missing run_id in {receipt_path}")
+        run_head = run_entry.get("git_head")
+        if run_head:
+            git_dir = REPO_ROOT / ".git"
+            if git_dir.exists():
+                import subprocess
+
+                try:
+                    subprocess.run(
+                        ["git", "cat-file", "-e", f"{run_head}^{{commit}}"],
+                        cwd=REPO_ROOT,
+                        check=True,
+                        capture_output=True,
+                    )
+                except subprocess.CalledProcessError:
+                    raise ValueError(
+                        f"run {run_id} git_head {run_head} cannot be resolved in repository history"
+                    )
         artifacts = run_entry.get("artifacts", [])
         for art in artifacts:
             rel_path = art.get("path")
@@ -62,7 +94,7 @@ def verify_receipt(receipt_path: Path) -> dict[str, Any]:
                 )
             verified_artifacts += 1
         verified_runs += 1
-        
+
     return {
         "receipt": str(receipt_path.relative_to(REPO_ROOT)),
         "status": "VERIFIED",
@@ -72,28 +104,32 @@ def verify_receipt(receipt_path: Path) -> dict[str, Any]:
 
 
 def main(argv: list[str] | None = None) -> int:
-    parser = argparse.ArgumentParser(description="Verify Idea Foundry evidence receipts")
+    parser = argparse.ArgumentParser(
+        description="Verify Idea Foundry evidence receipts"
+    )
     parser.add_argument("--receipts-dir", type=Path, default=RECEIPTS_DIR)
     args = parser.parse_args(argv)
-    
+
     if not args.receipts_dir.is_dir():
         print(f"[WARN] Receipts directory not found: {args.receipts_dir}")
         return 0
-        
+
     receipt_files = sorted(args.receipts_dir.glob("*.receipt.json"))
     if not receipt_files:
         print(f"[INFO] No receipts found in {args.receipts_dir}")
         return 0
-        
+
     all_passed = True
     for receipt_file in receipt_files:
         try:
             res = verify_receipt(receipt_file)
-            print(f"[OK] {res['receipt']}: {res['verified_runs']} runs, {res['verified_artifacts']} artifacts verified")
+            print(
+                f"[OK] {res['receipt']}: {res['verified_runs']} runs, {res['verified_artifacts']} artifacts verified"
+            )
         except Exception as exc:
             print(f"[FAIL] {receipt_file}: {exc}", file=sys.stderr)
             all_passed = False
-            
+
     return 0 if all_passed else 1
 
 

@@ -291,6 +291,7 @@ def main(argv: Sequence[str] | None = None) -> int:
     # Stratify by continuation mode when present (never pool restart vs
     # continuation) — bundles carry trace_source; group and report separately.
     from collections import defaultdict
+
     groups: dict[str, list[dict[str, Any]]] = defaultdict(list)
     for b in bundles:
         src = b.get("trace_source") or b.get("continuation_mode") or "unspecified"
