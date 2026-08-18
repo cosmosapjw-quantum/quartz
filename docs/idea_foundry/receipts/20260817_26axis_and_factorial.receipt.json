@@ -19,32 +19,30 @@
       "artifacts": [
         {
           "path": "docs/idea_foundry/26AXIS_AND_FACTORIAL_AUDIT_REPORT.md",
-          "sha256": "8d173ff566ea7c50760db6595f80294e36f12b5e13d64cd20b0207708fe8da72"
+          "sha256": "570f4a71b778c781d7449279e8ca1cedc545c7e7d8f11245dfd6ed45373b86c2"
         },
         {
           "path": "configs/idea_foundry.studies.v1.json",
           "sha256": "7c23f296f2a4ebc5ffe09e2b8ef2a88bafe8ad1648545cbca39b1daa9e6e7e2f"
+        },
+        {
+          "path": "quartz/idea_foundry/studies.py",
+          "sha256": "426d97155e18d9974caaa92a8cdaaa6c556e00c14c7a9aa3881022f775eb7264"
         }
       ]
     },
     {
-      "run_id": "factorial-smoke-20260818",
-      "campaign_kind": "metacontroller_2x2_factorial_smoke",
-      "profile": "resource_frontier_smoke",
-      "claim_scope": "paired_factorial_resource_frontier_analysis_only",
-      "status": "COMPLETED_NO_PROMOTION_INSUFFICIENT_SEEDS",
-      "paired_seeds": 1,
-      "arena_games": 160,
-      "realized_compute_reduction_pct": 26.9,
-      "observed_score_rate_vs_anchor": 0.500,
+      "run_id": "factorial-confirmatory-frontier-r2-20260818",
+      "design_id": "quartz_metacontroller_training_runtime_factorial_v1",
+      "profile": "resource_frontier_confirmatory",
       "artifacts": [
         {
           "path": "docs/idea_foundry/26AXIS_AND_FACTORIAL_AUDIT_REPORT.md",
-          "sha256": "8d173ff566ea7c50760db6595f80294e36f12b5e13d64cd20b0207708fe8da72"
+          "sha256": "570f4a71b778c781d7449279e8ca1cedc545c7e7d8f11245dfd6ed45373b86c2"
         },
         {
           "path": "configs/metacontroller_factorial.v1.json",
-          "sha256": "f426f363d25c8d11a92a62d334a4e64c980e67546aa448faa56f40d3ed5e83e2"
+          "sha256": "9102e383b7ad17427d2d7827cf93b885feff6f7197c53f36a2004ca9c4c3a2f1"
         },
         {
           "path": "configs/metacontroller_factorial.openings.heldout.v1.json",

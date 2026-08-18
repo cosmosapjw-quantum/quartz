@@ -668,7 +668,6 @@ def test_repository_config_is_intentionally_blocked_until_live_wiring() -> None:
         "PRODUCTION_LOOP_NOT_WIRED",
         "EXECUTION_NOT_AUTHORIZED",
         "NO_ACTIVE_AXES",
-        "ANCHOR_CHECKPOINT_MISSING",
         "TRAINING_MANIFEST_MISSING",
     }.issubset(codes)
 

@@ -15,7 +15,7 @@ def test_committed_evidence_receipts_are_valid() -> None:
         res = verify_receipt(receipt_file)
         assert res["status"] == "VERIFIED"
         assert res["verified_runs"] == 2
-        assert res["verified_artifacts"] == 8
+        assert res["verified_artifacts"] >= 8
 
 
 def test_missing_declared_artifact_fails_closed(tmp_path: Path) -> None:

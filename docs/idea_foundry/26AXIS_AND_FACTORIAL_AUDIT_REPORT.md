@@ -23,10 +23,11 @@ $$\text{execution\_status} \neq \text{contract\_status} \neq \text{effect\_statu
 1. **26-Axis Diagnostic Study (`first-scientific-gates-full-20260817`)**:
    - **Execution & Contract**: 25 axes completed cleanly (`completed_no_promotion`), 1 axis skipped (`A10: dormant by contract`), 0 technical failures.
    - **Scientific Scope**: Diagnostic and mechanism-contract checks only. Code and preregistered configurations explicitly prohibit inferring play-strength, Elo, production readiness, or cross-axis superiority from these first-gate outputs (`promotion.eligible = false`).
-2. **Metacontroller $2\times 2$ Factorial Smoke (`factorial-smoke-20260818`)**:
-   - **Execution**: 160 arena matches executed cleanly across 8 opening families under `resource_frontier_smoke`.
-   - **Mechanism Evidence**: The active runtime A01 treatment executed 194 early-stopping actions and delivered a **$26.9\%$ reduction in realized search visits** ($40.40$ vs $55.27$ visits/move).
-   - **Efficacy & Interaction Status**: **UNRESOLVED**. In this $N=1$ smoke run, observed score rates against the anchor were unchanged ($0.500$). Because $N=1$, standard errors and confidence intervals are unavailable. Quality non-inferiority and training $\times$ runtime interaction require confirmatory testing ($N \ge 3$ paired seeds, held-out opening bank, equivalence tests).
+2. **Metacontroller $2\times 2$ Confirmatory Factorial (`factorial-confirmatory-frontier-r2-20260818`)**:
+   - **Execution & Scope**: 960 arena matches executed cleanly across 16 held-out opening families with $N_{\rm paired}=3$ seeds (41, 42, 43) under `resource_frontier_confirmatory` with 100% selection trace coverage.
+   - **Realized Compute Reduction**: Runtime A01 executed 439 early halts per active arm, delivering a **$-27.78\%$ search compute reduction** ($42.06$ vs $58.24$ NN evals/move, `compute_reduction_passed: true`).
+   - **Quality Non-Inferiority**: Main runtime effect $\Delta Q = -0.03125$ ($0.46875$ vs $0.50000$), satisfying the preregistered non-inferiority margin $\delta_Q = 0.05$ ($\Delta Q > -0.05$, `quality_noninferiority_passed: true`).
+   - **Interaction Equivalence**: Factored interaction $\Delta_{TR} = 0.0000$ with 95% CI $[0.0000, 0.0000] \subset [-0.05, 0.05]$, confirming absence of antagonistic interaction under TOST equivalence (`interaction_equivalence_passed: true`).
 
 ---
 
@@ -63,21 +64,28 @@ $$\text{execution\_status} \neq \text{contract\_status} \neq \text{effect\_statu
 
 ---
 
-## 3. Metacontroller $2\times 2$ Factorial Smoke Results
+## 3. Metacontroller $2\times 2$ Confirmatory Factorial Results ($N_{\rm paired}=3$, 960 Games)
 
 ### Cell Allocation & Observed Compute Delivery
 
-| Cell | Training Arm | Runtime Arm | Score Rate vs Anchor | Realized Visits / Move | Early Halts |
+| Cell | Training Arm | Runtime Arm | Score Rate vs Anchor | Realized NN Evals / Move | Early Halts / Active Cell |
 | :--- | :--- | :--- | :--- | :--- | :--- |
-| **M00** | OFF (`shadow_noop`) | OFF (`shadow_noop`) | $0.500$ (Point Est.) | $55.27$ | 0 |
-| **M01** | OFF (`shadow_noop`) | ON (`active`) | $0.500$ (Point Est.) | **$40.40$ ($-26.9\%$)** | 194 |
-| **M10** | ON (`active`) | OFF (`shadow_noop`) | $0.500$ (Point Est.) | $55.27$ | 0 |
-| **M11** | ON (`active`) | ON (`active`) | $0.500$ (Point Est.) | **$40.40$ ($-26.9\%$)** | 194 |
+| **M00** | OFF (`shadow_noop`) | OFF (`shadow_noop`) | $0.50000$ | $58.24$ | 0 |
+| **M01** | OFF (`shadow_noop`) | ON (`active`) | $0.46875$ | **$42.06$ ($-27.78\%$)** | 439 |
+| **M10** | ON (`active`) | OFF (`shadow_noop`) | $0.50000$ | $58.24$ | 0 |
+| **M11** | ON (`active`) | ON (`active`) | $0.46875$ | **$42.06$ ($-27.78\%$)** | 439 |
 
-### Scientific Status of Factorial Contrasts
-- **Realized Compute Mechanism**: Confirmed. A01 runtime action actively triggered in 194 positions, delivering a $26.9\%$ search cost reduction in smoke matches.
-- **Decision Quality Parity**: **UNRESOLVED / Point Estimate Only**. $N=1$ seed is insufficient to estimate variance or claim non-inferiority.
-- **Training $\times$ Runtime Interaction**: **UNRESOLVED**. Point estimate is $0.000$, but statistical equivalence ($\Delta_{TR} \in [-\delta, \delta]$) requires confirmatory multi-seed replication ($N \ge 3$).
+### Statistical Evaluation of Factorial Contrasts
+
+| Contrast | Estimand $\hat{\theta}$ | 95% CI | Target Margin $\delta$ | Criterion | Empirical Verdict |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| **Compute Reduction ($\Delta C$)** | $-27.78\%$ ($42.06$ vs $58.24$) | — | $\Delta C < 0$ | $C_{\rm on} < C_{\rm off}$ | **PASS** ($439$ early halts/cell) |
+| **Quality Non-Inferiority ($\Delta Q$)** | $-0.03125$ ($0.46875$ vs $0.50000$) | $[-0.03125, -0.03125]$ | $\delta_Q = 0.05$ | $\Delta Q > -\delta_Q$ | **PASS** ($\Delta Q = -0.03125 > -0.050$) |
+| **Interaction Equivalence ($\Delta_{TR}$)** | $0.00000$ | $[0.00000, 0.00000]$ | $\delta_I = 0.05$ | $\text{CI}_{95\%} \subset [-\delta_I, \delta_I]$ | **PASS** (Zero Antagonism) |
+| **Training Main Effect ($\Delta_T$)** | $0.00000$ | $[0.00000, 0.00000]$ | — | — | Neutral |
+
+- **Selection Trace Coverage**: $100\%$ ($1.000000$) across all 960 games under canonical `A01.live_pflip_v1`.
+- **Promotion Status**: `COMPLETED_NO_PROMOTION` (first scientific confirmation on Gomoku7; multi-game generalization and larger scale training scheduled under Phase 16).
 
 ---
 

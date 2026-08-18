@@ -57,7 +57,7 @@
   "anchor": {
     "agent_id": "ANCHOR",
     "checkpoint": "results/metacontroller_factorial_inputs/anchor/frozen_anchor.pt",
-    "checkpoint_sha256": null,
+    "checkpoint_sha256": "ff74ac3cde31a92dd5b202f1080b0104889749ee2be0e65c503998918e7557b5",
     "controller_mode": "shadow_noop",
     "search_config": {
       "search_profile": "quartz",
@@ -107,6 +107,15 @@
       "opening_bank": "configs/metacontroller_factorial.openings.heldout.v1.json",
       "budget_lane": "fixed_nn_evals",
       "training_compute_contract": "fixed_nn_evals_and_learner_updates",
+      "eval_seed_base": 20260722,
+      "min_paired_seeds": 3,
+      "require_heldout_opening_bank": true
+    },
+    "resource_frontier_confirmatory": {
+      "seeds": [41, 42, 43],
+      "opening_bank": "configs/metacontroller_factorial.openings.heldout.v1.json",
+      "budget_lane": "fixed_cap_resource_frontier",
+      "training_compute_contract": "fixed_games_and_learner_updates_resource_frontier",
       "eval_seed_base": 20260722,
       "min_paired_seeds": 3,
       "require_heldout_opening_bank": true

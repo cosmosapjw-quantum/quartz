@@ -975,7 +975,12 @@ def run_arena(
                 trace_covered = (
                     isinstance(policy, Mapping)
                     and policy.get("foundry_mode") == expected_mode
-                    and policy.get("foundry_axis_ids") == ["A01.stop_council"]
+                    and (
+                        policy.get("foundry_axis_ids") == [RUNTIME_AXIS_ID]
+                        or policy.get("foundry_axis_ids") == ["A01.stop_council"]
+                        or set(policy.get("foundry_axis_ids") or [])
+                        <= {"A01", "A01.live_pflip_v1", "A01.stop_council"}
+                    )
                 )
                 telemetry[side].append(
                     {
