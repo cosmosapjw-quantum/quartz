@@ -290,24 +290,45 @@ def main(argv: Sequence[str] | None = None) -> int:
         return 2
     # Stratify by continuation mode when present (never pool restart vs
     # continuation) — bundles carry trace_source; group and report separately.
-    result = analyze(
-        bundles,
-        alpha=args.alpha,
-        n_boot=args.n_boot,
-        seed=args.seed,
-        h1_threshold=args.h1_threshold,
-    )
+    from collections import defaultdict
+    groups: dict[str, list[dict[str, Any]]] = defaultdict(list)
+    for b in bundles:
+        src = b.get("trace_source") or b.get("continuation_mode") or "unspecified"
+        groups[src].append(b)
+
+    stratified: dict[str, Any] = {}
+    for src, src_bundles in sorted(groups.items()):
+        stratified[src] = analyze(
+            src_bundles,
+            alpha=args.alpha,
+            n_boot=args.n_boot,
+            seed=args.seed,
+            h1_threshold=args.h1_threshold,
+        )
+
+    if len(groups) == 1:
+        single_key = next(iter(groups))
+        result = dict(stratified[single_key])
+        result["trace_source"] = single_key
+        result["stratified"] = False
+    else:
+        result = {
+            "n_bundles": len(bundles),
+            "stratified": True,
+            "strata": stratified,
+        }
     out = Path(args.output)
     out.parent.mkdir(parents=True, exist_ok=True)
     out.write_text(
         json.dumps(result, indent=2, sort_keys=True) + "\n", encoding="utf-8"
     )
-    mb = result["matched_budget_calibration"]
+    mb = result.get("matched_budget_calibration") or {}
     print(
         json.dumps(
             {
                 "status": "ok",
                 "n_bundles": result["n_bundles"],
+                "stratified": result.get("stratified", False),
                 "h1_dies": mb.get("h1_dies"),
                 "h1_survives": mb.get("h1_survives"),
                 "mean_agreement_delta": mb.get("mean_agreement_delta_h1_minus_pflip"),

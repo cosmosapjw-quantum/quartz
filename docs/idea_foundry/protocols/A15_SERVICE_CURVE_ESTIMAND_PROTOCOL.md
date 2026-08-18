@@ -15,10 +15,11 @@
 For a strict latency deadline $\tau$ (e.g., $\tau = 5.0\,\text{ms}$ per MCTS search step):
 $$\Delta \text{QPS}_{p99 \le \tau} = \frac{\text{Throughput}_{\rm DynamicServiceCurve}(p99 \le \tau)}{\text{Throughput}_{\rm StaticBatchBaseline}(p99 \le \tau)} - 1$$
 
-### 2. Scheduling Regret ($G_{\rm sched}$)
+### 2. Pareto Objective Vector ($V_{\rm obj}$)
 Let $T_{\rm arrival}(i)$ be the arrival timestamp of query $i$, and $T_{\rm eval}(i)$ be the completion timestamp.
-Under Poisson or empirical MCTS burst arrival rates $\lambda \in [10^2, 10^5]\,\text{queries/sec}$:
-$$G_{\rm sched} = \mathbb{E}\left[ \text{QueueWaitTime} \right] + \lambda \cdot \text{BatchPaddingWaste}$$
+Under Poisson or empirical MCTS burst arrival rates $\lambda \in [10^2, 10^5]\,\text{queries/sec}$, we define the primary endpoints as a tuple (Pareto objective vector):
+$$V_{\rm obj} = (\text{QPS}_{p99 \le \tau}, \quad p99\text{ latency}, \quad \mathbb{E}[W_q], \quad \text{padding\_fraction}, \quad \text{energy\_per\_query})$$
+The promotion gate remains lexicographic.
 
 ---
 

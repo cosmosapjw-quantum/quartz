@@ -92,6 +92,11 @@ def test_published_effect_records_are_meta_schema_valid(tmp_path, monkeypatch):
         extra_sources=(Path(__file__).resolve(),),
     )
     assert summary["execution_status"] == "completed_no_promotion"
+    assert summary["contract_status"] == "passed"
+    assert summary["effect_status"] == "observed"
+    assert summary["evidence_domain"] == "shadow_trace"
+    assert summary["evidence_maturity"] == "diagnostic"
+    assert summary["promotion_status"] == "no_promotion"
     records = [
         json.loads(line)
         for line in (output / "effect_records.jsonl")
@@ -102,6 +107,22 @@ def test_published_effect_records_are_meta_schema_valid(tmp_path, monkeypatch):
     assert all(validate_effect_record(record) for record in records)
     manifest = json.loads((output / "run_manifest.json").read_text(encoding="utf-8"))
     assert manifest["promotion"]["eligible"] is False
+
+
+def test_five_status_state_machine_mappings():
+    from quartz.idea_foundry.contracts import EvidenceDomain
+    from quartz.idea_foundry.studies import _CONTRACT_STATUS_MAP, _EVIDENCE_DOMAIN_MAP
+
+    assert _CONTRACT_STATUS_MAP["completed_no_promotion"] == "passed"
+    assert _CONTRACT_STATUS_MAP["success"] == "passed"
+    assert _CONTRACT_STATUS_MAP["skipped"] == "not_applicable"
+    assert _CONTRACT_STATUS_MAP["dormant"] == "not_applicable"
+    assert _CONTRACT_STATUS_MAP["failed"] == "failed"
+
+    # All mapped evidence domains must be valid values in EvidenceDomain enum
+    valid_domains = {e.value for e in EvidenceDomain}
+    for gate_kind, domain in _EVIDENCE_DOMAIN_MAP.items():
+        assert domain in valid_domains, f"{gate_kind} -> {domain} not in EvidenceDomain"
 
 
 def test_a19_split_and_parameter_contracts_are_seed_deterministic():

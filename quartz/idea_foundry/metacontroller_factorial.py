@@ -674,6 +674,7 @@ def validate_opening_bank(
         _require_exact_keys(
             opening,
             required=("opening_id", "group_id", "moves"),
+            optional=("family_id", "replicate_within_family"),
             label=f"openings[{index}]",
         )
         opening_id = _require_nonempty_string(
@@ -1721,6 +1722,28 @@ def analyze_rows(
             contrast_values[name].append(value)
 
     summaries = {name: _t_summary(contrast_values[name]) for name in PRIMARY_CONTRASTS}
+
+    # Hierarchical / clustered contrast aggregation across (seed, opening_group) pairs
+    distinct_seed_groups: set[tuple[int, str]] = {
+        (s, g) for (s, _c, g) in group_scores.keys()
+    }
+    hierarchical_contrast_values: dict[str, list[float]] = defaultdict(list)
+    for s, g in sorted(distinct_seed_groups):
+        cell_m: dict[str, float] = {}
+        for c in ("M00", "M01", "M10", "M11"):
+            if (s, c, g) in group_scores and group_scores[(s, c, g)]:
+                cell_m[c] = mean(group_scores[(s, c, g)])
+        if len(cell_m) == 4:
+            g_contrasts = _seed_contrasts(cell_m)
+            for name, value in g_contrasts.items():
+                hierarchical_contrast_values[name].append(value)
+
+    hierarchical_summaries = {
+        name: _t_summary(hierarchical_contrast_values[name])
+        for name in PRIMARY_CONTRASTS
+        if hierarchical_contrast_values[name]
+    }
+
     minimum = int(plan["profile_contract"]["min_paired_seeds"])
     enough_seeds = len(seed_rows) >= minimum
 
@@ -1755,9 +1778,17 @@ def analyze_rows(
         interaction_equivalence_passed = bool(ci[0] >= -delta_i and ci[1] <= delta_i)
 
     compute_reduction_passed = None
+    delta_c = None
     if validated.get("realized_budget_means"):
         means = validated["realized_budget_means"]
-        if "M00" in means and "M01" in means:
+        if all(k in means for k in ("M00", "M01", "M10", "M11")):
+            delta_c = 0.5 * ((means["M01"] - means["M00"]) + (means["M11"] - means["M10"]))
+            compute_reduction_passed = bool(
+                means["M01"] < means["M00"]
+                and means["M11"] < means["M10"]
+                and delta_c < 0.0
+            )
+        elif "M00" in means and "M01" in means:
             compute_reduction_passed = bool(means["M01"] < means["M00"])
 
     return {
@@ -1782,13 +1813,17 @@ def analyze_rows(
         "paired_seed_gate_passed": enough_seeds,
         "confirmatory_evaluation": {
             "quality_noninferiority_margin": delta_q,
+            "quality_noninferiority_criterion": "one-sided 95% lower bound > -delta_q",
             "quality_noninferiority_passed": quality_noninferiority_passed,
             "interaction_equivalence_margin": delta_i,
+            "interaction_equivalence_criterion": "95% CI containment within [-delta_i, delta_i]",
             "interaction_equivalence_passed": interaction_equivalence_passed,
+            "compute_reduction_delta_nn_evals": delta_c,
             "compute_reduction_passed": compute_reduction_passed,
         },
         "seed_estimates": seed_rows,
         "contrast_summaries": summaries,
+        "hierarchical_contrast_summaries": hierarchical_summaries,
         "contract_diagnostics": {
             "selection_trace_coverage": validated["selection_trace_coverage"],
             "active_action_counts": validated["active_action_counts"],

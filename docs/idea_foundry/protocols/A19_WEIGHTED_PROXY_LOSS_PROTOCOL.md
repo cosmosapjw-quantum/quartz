@@ -2,13 +2,27 @@
 
 ## 1. Executive Summary & Semantic Clarification
 
-- **Axis ID**: `A19` (`A19.native_rw_rest_lite_v1`)
+- **Axis ID**: `A19`
 - **Evaluator Architecture**: Random-Walk Rest-Tension Lite Policy-Value Architecture.
 - **Previous Reporting Drift**: Variously referenced as policy logloss or win rate in early drafts.
-- **Corrected Estimand & Unit**:
-  - Estimand: `weighted_proxy_loss_delta` ($\Delta L_{\rm weighted}$)
-  - Unit: `weighted_loss` ($L_{\rm weighted} = 1.0 \cdot L_{\rm policy\_ce} + 1.5 \cdot L_{\rm value\_mse}$)
-  - Reference: Paired training against frozen baseline architecture under identical optimizer hyperparameters.
+
+### Protocol Versions
+This protocol explicitly separates two versions to prevent retroactive attribution of results:
+
+1. **`A19.proxy_screen_v1` (Current Implemented Adapter)**
+   - Estimand: `weighted_proxy_loss_delta` ($\Delta L_{\rm weighted}$)
+   - Unit: `weighted_loss` ($L_{\rm weighted} = 0.65 \cdot L_{\rm policy\_KL} + 0.35 \cdot L_{\rm value\_mse}$)
+   - Existing Results: +0.0078 result belongs here.
+   - Validation Positions: $N = 48$
+   - Seeds: 41, 42, 43.
+
+2. **`A19.confirmatory_weighted_loss_v2` (New Proposed Confirmatory Protocol)**
+   - Estimand: `weighted_proxy_loss_delta` ($\Delta L_{\rm weighted}$)
+   - Unit: `weighted_loss` ($L_{\rm weighted} = 1.0 \cdot L_{\rm policy\_ce} + 1.5 \cdot L_{\rm value\_mse}$)
+   - Status: **NOT YET EXECUTED**. Existing results MUST NOT be retroactively attributed to v2. The rest of this document describes v2 as a FUTURE protocol.
+   - Validation Positions: $N \ge 10{,}000$
+   - Seeds: 11, 22, 33.
+
 - **Scope & Non-Inference Invariant**: A reduction in surrogate proxy loss is **diagnostic training convergence evidence**, NOT a direct play-strength or Elo claim (`promotion.eligible = false`).
 
 ---

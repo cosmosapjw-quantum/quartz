@@ -50,6 +50,38 @@ POSITION_SUITE = (
 STUDY_SCHEMA_VERSION = 1
 TERMINAL_STATUS = "completed_no_promotion"
 
+# Execution status -> contract status mapping.
+# These are SEPARATE state machines: execution_status records what
+# happened procedurally; contract_status records whether the
+# preregistered data contract was satisfied.
+_CONTRACT_STATUS_MAP: dict[str, str] = {
+    "completed_no_promotion": "passed",
+    "success": "passed",
+    "skipped": "not_applicable",
+    "dormant": "not_applicable",
+    "failed": "failed",
+}
+
+# gate_kind (from study registry) -> canonical evidence_domain value.
+# The EvidenceDomain enum uses a coarser vocabulary than gate_kind;
+# this mapping bridges the two.
+_EVIDENCE_DOMAIN_MAP: dict[str, str] = {
+    "trace_shadow": "shadow_trace",
+    "trace_analysis": "shadow_trace",
+    "trace_analysis_only": "shadow_trace",
+    "trace_conditional": "shadow_trace",
+    "trace_training_control": "shadow_trace",
+    "trace_parity": "shadow_trace",
+    "synthetic_counterfactual": "synthetic_gate",
+    "synthetic_mechanism": "synthetic_gate",
+    "synthetic_system": "synthetic_gate",
+    "synthetic_cache_only": "synthetic_gate",
+    "synthetic_objective_mismatch": "synthetic_gate",
+    "synthetic_exact": "synthetic_gate",
+    "measured_system": "systems_benchmark",
+    "paired_training": "paired_training",
+}
+
 
 class StudyError(RuntimeError):
     """Raised when a study cannot satisfy its preregistered contract."""
@@ -1244,8 +1276,14 @@ def publish_outcome(
         atomic_jsonl_dump(effects_path, effect_records)
     else:
         effects_path.write_text("", encoding="utf-8")
-    contract_status = "passed" if outcome.status == "success" else "failed"
-    effect_status = "observed" if effect_records else "no_effect"
+    contract_status = _CONTRACT_STATUS_MAP.get(outcome.status, "failed")
+    if outcome.status in {"skipped", "dormant"}:
+        effect_status = "unavailable"
+    elif effect_records:
+        effect_status = "observed"
+    else:
+        effect_status = "no_effect"
+    evidence_domain = _EVIDENCE_DOMAIN_MAP.get(spec.gate_kind, "synthetic_gate")
     summary = {
         "schema_version": STUDY_SCHEMA_VERSION,
         "axis_id": spec.axis_id,
@@ -1254,7 +1292,7 @@ def publish_outcome(
         "execution_status": outcome.status,
         "contract_status": contract_status,
         "effect_status": effect_status,
-        "evidence_domain": spec.gate_kind,
+        "evidence_domain": evidence_domain,
         "evidence_maturity": "diagnostic",
         "promotion_status": "no_promotion",
         "outcome_detail": outcome.outcome_detail,

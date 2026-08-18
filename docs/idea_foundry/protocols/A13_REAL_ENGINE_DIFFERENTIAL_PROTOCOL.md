@@ -27,9 +27,11 @@
    - Timeout: $\tau_{\rm timeout} \in \{0\,\mu\text{s}, 200\,\mu\text{s}, 1000\,\mu\text{s}\}$
 
 ### Compared Arms
-- **Arm 0 (Incumbent Baseline)**: Lockless Transposition Table with Fixed Virtual Loss ($VL = 1.0$).
-- **Arm 1 (A13 WU-UCT Pending-Flow)**: Active in-flight pending visit tracker adjusting prior / Q-value penalty proportional to in-flight queue depth.
-- **Arm 2 (Adaptive VL Reference)**: Depth-attenuated virtual loss ($VL(d) = VL_0 \cdot \gamma^d$).
+- **Arm 0 (Primary Reference / Incumbent)**: Adaptive Virtual Loss (production default `VlMode::Adaptive`).
+- **Arm 1 (Treatment)**: A13 WU-UCT Pending-Flow (Active in-flight pending visit tracker).
+- **Arm 2 (Mechanistic Control)**: Fixed Virtual Loss ($VL = 1.0$).
+
+*Note: The promotion question is whether A13 outperforms the actual production incumbent (Adaptive VL), not just the Fixed VL control.*
 
 ---
 

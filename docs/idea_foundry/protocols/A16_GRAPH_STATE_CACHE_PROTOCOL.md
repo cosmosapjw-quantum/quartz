@@ -26,7 +26,14 @@
         v
 +-----------------------------------------------------------+
 | Tier 2: Pure State/Evaluation Cache (A16 Proposal)        |
-| - Global LRU / Lockless Key-Value Cache: Zobrist -> (P, V)|
+| - Global LRU / Lockless Key-Value Cache:                  |
+|   Key: K = (state_zobrist_hash, evaluator_checkpoint_id,  |
+|             ruleset_id, input_encoding_version,           |
+|             cache_schema_version)                         |
+|   Value: (P, V)                                           |
+| - Note: Bare Zobrist is insufficient because network      |
+|   updates during training/continual learning change the   |
+|   mapping from state to (P, V).                           |
 | - Does NOT share tree statistics or parent edge visits    |
 | - Bypasses neural network inference for known positions   |
 +-----------------------------------------------------------+

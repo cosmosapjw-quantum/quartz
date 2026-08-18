@@ -532,10 +532,19 @@ def pool_effect_group(records: Sequence[Mapping[str, Any]]) -> dict[str, Any]:
     ]
     if not all(math.isfinite(value) for value in numerical_outputs):
         raise MetaAnalysisError("random-effects arithmetic produced a non-finite value")
+    k = len(validated)
+    if k < 3:
+        pooling_tier = "diagnostic_small_k"
+    elif k < 5:
+        pooling_tier = "descriptive_pooling_only"
+    else:
+        pooling_tier = "random_effects_inference"
+
     return {
         **base,
-        "k": len(validated),
+        "k": k,
         "status": "POOLED_ANALYSIS_ONLY",
+        "pooling_tier": pooling_tier,
         "run_ids": sorted({record["run_id"] for record in validated}),
         "fixed_effect": fixed_effect,
         "fixed_standard_error": fixed_se,
