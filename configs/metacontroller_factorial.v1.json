@@ -79,7 +79,9 @@
     "primary_contrast": "interaction",
     "effect_scale": "score_rate_difference",
     "max_realized_budget_relative_spread": 0.01,
-    "required_selection_trace_coverage": 1.0
+    "required_selection_trace_coverage": 1.0,
+    "quality_noninferiority_margin": 0.05,
+    "interaction_equivalence_margin": 0.05
   },
   "profiles": {
     "smoke": {

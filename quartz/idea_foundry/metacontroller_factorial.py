@@ -480,17 +480,27 @@ def validate_config(payload: Any) -> dict[str, Any]:
     config["match_design"] = match_design
 
     analysis = dict(_require_mapping(config["analysis_contract"], "analysis_contract"))
-    _require_exact_keys(
-        analysis,
-        required=(
-            "primary_endpoint",
-            "primary_contrast",
-            "effect_scale",
-            "max_realized_budget_relative_spread",
-            "required_selection_trace_coverage",
-        ),
-        label="analysis_contract",
-    )
+    required_keys = {
+        "primary_endpoint",
+        "primary_contrast",
+        "effect_scale",
+        "max_realized_budget_relative_spread",
+        "required_selection_trace_coverage",
+    }
+    missing = required_keys - set(analysis)
+    if missing:
+        raise FactorialHarnessError(
+            f"analysis_contract missing required keys: {sorted(missing)}"
+        )
+    allowed_keys = required_keys | {
+        "quality_noninferiority_margin",
+        "interaction_equivalence_margin",
+    }
+    unknown = set(analysis) - allowed_keys
+    if unknown:
+        raise FactorialHarnessError(
+            f"analysis_contract has unknown keys: {sorted(unknown)}"
+        )
     if analysis["primary_endpoint"] != "paired_score_rate_vs_frozen_anchor":
         raise FactorialHarnessError("unsupported primary endpoint")
     if analysis["primary_contrast"] not in PRIMARY_CONTRASTS:
@@ -517,6 +527,18 @@ def validate_config(payload: Any) -> dict[str, Any]:
         )
     analysis["max_realized_budget_relative_spread"] = spread
     analysis["required_selection_trace_coverage"] = coverage
+    if "quality_noninferiority_margin" in analysis:
+        analysis["quality_noninferiority_margin"] = _require_finite_number(
+            analysis["quality_noninferiority_margin"],
+            "quality_noninferiority_margin",
+            minimum=0.0,
+        )
+    if "interaction_equivalence_margin" in analysis:
+        analysis["interaction_equivalence_margin"] = _require_finite_number(
+            analysis["interaction_equivalence_margin"],
+            "interaction_equivalence_margin",
+            minimum=0.0,
+        )
     config["analysis_contract"] = analysis
 
     profiles = dict(_require_mapping(config["profiles"], "profiles"))
@@ -1701,6 +1723,43 @@ def analyze_rows(
     summaries = {name: _t_summary(contrast_values[name]) for name in PRIMARY_CONTRASTS}
     minimum = int(plan["profile_contract"]["min_paired_seeds"])
     enough_seeds = len(seed_rows) >= minimum
+
+    delta_q = float(
+        plan["analysis_contract"].get("quality_noninferiority_margin", 0.05)
+    )
+    delta_i = float(
+        plan["analysis_contract"].get("interaction_equivalence_margin", 0.05)
+    )
+
+    runtime_summary = summaries.get("runtime_main", {})
+    interaction_summary = summaries.get("interaction", {})
+
+    quality_noninferiority_passed = None
+    if (
+        enough_seeds
+        and runtime_summary.get("ci95") is not None
+        and runtime_summary.get("standard_error") is not None
+    ):
+        from scipy.stats import t as student_t
+
+        df = max(1, len(seed_rows) - 1)
+        t_crit = float(student_t.ppf(0.95, df=df))
+        lower_95 = float(runtime_summary["estimate"]) - t_crit * float(
+            runtime_summary["standard_error"]
+        )
+        quality_noninferiority_passed = bool(lower_95 > -delta_q)
+
+    interaction_equivalence_passed = None
+    if enough_seeds and interaction_summary.get("ci95") is not None:
+        ci = interaction_summary["ci95"]
+        interaction_equivalence_passed = bool(ci[0] >= -delta_i and ci[1] <= delta_i)
+
+    compute_reduction_passed = None
+    if validated.get("realized_budget_means"):
+        means = validated["realized_budget_means"]
+        if "M00" in means and "M01" in means:
+            compute_reduction_passed = bool(means["M01"] < means["M00"])
+
     return {
         "schema_version": ANALYSIS_SCHEMA_VERSION,
         "status": (
@@ -1721,6 +1780,13 @@ def analyze_rows(
         "paired_seed_count": len(seed_rows),
         "minimum_paired_seed_count": minimum,
         "paired_seed_gate_passed": enough_seeds,
+        "confirmatory_evaluation": {
+            "quality_noninferiority_margin": delta_q,
+            "quality_noninferiority_passed": quality_noninferiority_passed,
+            "interaction_equivalence_margin": delta_i,
+            "interaction_equivalence_passed": interaction_equivalence_passed,
+            "compute_reduction_passed": compute_reduction_passed,
+        },
         "seed_estimates": seed_rows,
         "contrast_summaries": summaries,
         "contract_diagnostics": {

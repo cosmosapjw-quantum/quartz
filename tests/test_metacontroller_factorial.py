@@ -689,6 +689,10 @@ def test_analysis_recovers_known_seed_level_factorial_contrasts(tmp_path: Path) 
     assert summaries["interaction"]["estimate"] == pytest.approx(0.10)
     assert summaries["joint_stack"]["estimate"] == pytest.approx(0.40)
     assert analysis["promotion"] == {"auto": False, "eligible": False}
+    assert "confirmatory_evaluation" in analysis
+    conf = analysis["confirmatory_evaluation"]
+    assert conf["quality_noninferiority_passed"] is True
+    assert conf["quality_noninferiority_margin"] == 0.05
 
 
 def test_analysis_rejects_duplicate_or_missing_game_rows(tmp_path: Path) -> None:
