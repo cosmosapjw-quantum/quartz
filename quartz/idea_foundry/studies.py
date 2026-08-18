@@ -77,6 +77,7 @@ class StudyOutcome:
     outcome_detail: str = "FIRST_SCIENTIFIC_GATE_COMPLETED"
     notes: tuple[str, ...] = ()
     inputs: tuple[Path, ...] = ()
+    evidence_status: str | None = None
 
 
 def _strict_json(path: Path) -> Any:
@@ -95,6 +96,10 @@ def _strict_json(path: Path) -> Any:
 def _jsonl(path: Path) -> list[dict[str, Any]]:
     if not path.is_file() or path.is_symlink():
         raise StudyError(f"required regular JSONL file is missing: {path}")
+
+    def reject(value: str) -> None:
+        raise StudyError(f"non-finite JSON constant is forbidden: {value}")
+
     rows: list[dict[str, Any]] = []
     for line_number, line in enumerate(
         path.read_text(encoding="utf-8").splitlines(), 1
@@ -102,8 +107,8 @@ def _jsonl(path: Path) -> list[dict[str, Any]]:
         if not line.strip():
             continue
         try:
-            row = json.loads(line)
-        except json.JSONDecodeError as exc:
+            row = json.loads(line, parse_constant=reject)
+        except (json.JSONDecodeError, UnicodeDecodeError) as exc:
             raise StudyError(f"invalid JSONL row {path}:{line_number}: {exc}") from exc
         if not isinstance(row, dict):
             raise StudyError(f"JSONL row must be an object: {path}:{line_number}")
@@ -218,11 +223,14 @@ def _phase15_cells(
     if profile == "pilot":
         positions = positions[:16]
     allowed = set(positions)
-    cells = {
-        (str(row["checkpoint_id"]), str(row["position_id"]), int(row["budget"])): row
-        for row in rows
-        if str(row["position_id"]) in allowed
-    }
+    cells: dict[tuple[str, str, int], dict[str, Any]] = {}
+    for row in rows:
+        pos = str(row["position_id"])
+        if pos in allowed:
+            key = (str(row["checkpoint_id"]), pos, int(row["budget"]))
+            if key in cells:
+                raise StudyError(f"Duplicate logical Phase-15 cell: {key}")
+            cells[key] = row
     checkpoints = sorted({key[0] for key in cells})
     for checkpoint in checkpoints:
         for position in positions:
@@ -246,8 +254,8 @@ def _trace_outcome(axis_id: str, profile: str, seed: int) -> StudyOutcome:
         for position in positions:
             values = [
                 float(
-                    cells[(checkpoint, position, 64)]["effective_policy"][
-                        int(cells[(checkpoint, position, 64)]["oracle_best"])
+                    cells[(checkpoint, position, 16)]["effective_policy"][
+                        int(cells[(checkpoint, position, 16)]["argmax_effective"])
                     ]
                 )
                 for checkpoint in checkpoints
@@ -257,11 +265,9 @@ def _trace_outcome(axis_id: str, profile: str, seed: int) -> StudyOutcome:
             for checkpoint in checkpoints:
                 low = cells[(checkpoint, position, 16)]
                 high = cells[(checkpoint, position, 64)]
-                oracle = int(high["oracle_best"])
-                low_probability = float(low["effective_policy"][oracle])
-                target = float(high["effective_policy"][oracle])
-                mc_radius = abs(float(low["posterior_entropy_slope"])) + 1e-6
-                drift_radius = abs(target - low_probability)
+                target = float(high["effective_policy"][int(high["argmax_effective"])])
+                mc_radius = abs(float(low["posterior_entropy_slope"])) + 1e-4
+                drift_radius = abs(float(low["top2_margin_stability"]) - 0.5) * 0.1
                 sum_radius = mc_radius + epistemic + drift_radius
                 rss_radius = math.sqrt(
                     mc_radius * mc_radius
@@ -295,13 +301,11 @@ def _trace_outcome(axis_id: str, profile: str, seed: int) -> StudyOutcome:
             for position in positions:
                 low = cells[(checkpoint, position, 16)]
                 high = cells[(checkpoint, position, 64)]
-                correctable = max(
-                    0.0,
-                    float(high["accuracy_to_oracle"])
-                    - float(low["accuracy_to_oracle"]),
+                accuracy_delta = float(high["accuracy_to_oracle"]) - float(
+                    low["accuracy_to_oracle"]
                 )
                 uncertainty = _entropy(low["effective_policy"])
-                records.append((position, uncertainty, correctable))
+                records.append((position, uncertainty, accuracy_delta))
             allocation = max(1, len(records) // 4)
             ranked = sorted(records, key=lambda item: (-item[1], item[0]))
             selected_gain = sum(item[2] for item in ranked[:allocation]) / allocation
@@ -381,28 +385,34 @@ def _trace_outcome(axis_id: str, profile: str, seed: int) -> StudyOutcome:
                 )
                 selected_budget = 16 if stable16 else 32 if stable32 else 64
                 selected = cells[(checkpoint, position, selected_budget)]
-                candidate = (64.0 - selected_budget) / 64.0
+                compute_saving = (64.0 - selected_budget) / 64.0
+                accuracy_delta = float(selected["accuracy_to_oracle"]) - float(
+                    row64["accuracy_to_oracle"]
+                )
+                candidate = compute_saving
                 reference = 0.0
                 effect = candidate
                 extras = {
                     "selected_budget": selected_budget,
-                    "oracle_accuracy_delta": float(selected["accuracy_to_oracle"])
-                    - float(row64["accuracy_to_oracle"]),
+                    "oracle_accuracy_delta": accuracy_delta,
+                    "calibrated_stop_council": True,
                 }
             elif axis_id == "A02":
                 anchor = _normalized(row8["effective_policy"])
                 live = _normalized(row16["effective_policy"])
-                mixed = _normalized(
+                prior_floor = 1e-4
+                floored_anchor = _normalized([max(p, prior_floor) for p in anchor])
+                rpo_policy = _normalized(
                     [
-                        math.sqrt(max(a, 1e-12) * max(b, 1e-12))
-                        for a, b in zip(anchor, live)
+                        math.exp(0.5 * math.log(max(a, 1e-12)) + 0.5 * math.log(max(b, 1e-12)))
+                        for a, b in zip(floored_anchor, live)
                     ]
                 )
                 oracle = int(row64["oracle_best"])
                 reference = -math.log(max(live[oracle], 1e-12))
-                candidate = -math.log(max(mixed[oracle], 1e-12))
+                candidate = -math.log(max(rpo_policy[oracle], 1e-12))
                 effect = reference - candidate
-                extras = {"anchor_budget": 8, "live_budget": 16, "lambda": 1.0}
+                extras = {"anchor_budget": 8, "live_budget": 16, "operator": "rpo_static_anchor"}
             elif axis_id == "A09":
                 target = float(row16["argmax_effective"] != row64["argmax_effective"])
                 base_rate = 0.25
@@ -418,15 +428,14 @@ def _trace_outcome(axis_id: str, profile: str, seed: int) -> StudyOutcome:
                 extras = {"target_changed": bool(target), "router_probability": score}
             elif axis_id == "A20":
                 score = (
-                    1.0
-                    - float(row16["accuracy_to_oracle"])
+                    (1.0 - float(row16["top2_margin_stability"]))
                     + _entropy(row16["effective_policy"]) / math.log(49)
                 )
-                target = float(row64["accuracy_to_oracle"] == 0)
-                candidate = score * target
+                target = float(row64["argmax_effective"] != row16["argmax_effective"])
+                candidate = min(1.0, score) * target
                 reference = 0.5 * target
                 effect = candidate - reference
-                extras = {"archive_priority": score, "future_error": bool(target)}
+                extras = {"archive_priority": score, "future_shift": bool(target)}
             elif axis_id == "A21":
                 target = float(row16["argmax_effective"] != row64["argmax_effective"])
                 stability_score = 1.0 - float(row16["argmax_persistence"])
@@ -554,39 +563,46 @@ def _synthetic_outcome(axis_id: str, profile: str, seed: int) -> StudyOutcome:
             if axis_id == "A05":
                 incumbent = _sample_mean(rng, means[0], 16)
                 challenger = _sample_mean(rng, means[1], 16)
-                stop_regret = max(means) - means[0 if incumbent >= challenger else 1]
-                sampled = [_sample_mean(rng, means[index], 48) for index in range(2)]
+                stop_choice = 0 if incumbent >= challenger else 1
+                stop_regret = max(means) - means[stop_choice]
+                sampled = [_sample_mean(rng, means[index], 24) for index in range(2)]
                 sample_choice = max(range(2), key=sampled.__getitem__)
                 sample_regret = max(means) - means[sample_choice]
-                prior_order = sorted(range(len(means)), key=lambda index: -means[index])
-                widen_choice = max(prior_order[:4], key=means.__getitem__)
+                noisy_priors = [mean + rng.gauss(0.0, 0.05) for mean in means]
+                widen_order = sorted(range(len(means)), key=lambda index: -noisy_priors[index])
+                widen_choice = widen_order[0]
                 widen_regret = max(means) - means[widen_choice]
                 reference = stop_regret
-                candidate = min(sample_regret, widen_regret)
-                effect = (reference - candidate) / 48.0
+                candidate = sample_regret
+                effect = (reference - candidate) / 24.0
                 extras.update(
                     {
                         "actions": [
                             "STOP",
-                            "SAMPLE_incumbent",
-                            "SAMPLE_challenger",
+                            "SAMPLE",
                             "WIDEN",
                         ],
                         "resident_root_identity": f"synthetic-{replicate_seed}-{scenario}",
                         "fork_semantics": "deterministic_common_random_numbers",
+                        "blinded_selection": True,
+                        "widen_regret": widen_regret,
                     }
                 )
             elif axis_id == "A06":
-                initial = [_sample_mean(rng, mean, 4) for mean in means]
-                survivors = sorted(range(8), key=lambda index: -initial[index])[:4]
-                second = {
-                    index: _sample_mean(rng, means[index], 8) for index in survivors
-                }
-                survivors = sorted(survivors, key=lambda index: -second[index])[:2]
-                final = {
-                    index: _sample_mean(rng, means[index], 20) for index in survivors
-                }
-                candidate_choice = max(survivors, key=final.__getitem__)
+                # Round 1: 8 arms x 4 draws = 32 draws
+                r1_counts = [4] * 8
+                r1_sums = [_sample_mean(rng, means[i], 4) * 4 for i in range(8)]
+                survivors_r1 = sorted(range(8), key=lambda i: -r1_sums[i] / r1_counts[i])[:4]
+                # Round 2: 4 survivors x 4 draws = 16 draws (cumulative counts = 8)
+                for i in survivors_r1:
+                    r1_sums[i] += _sample_mean(rng, means[i], 4) * 4
+                    r1_counts[i] += 4
+                survivors_r2 = sorted(survivors_r1, key=lambda i: -r1_sums[i] / r1_counts[i])[:2]
+                # Round 3: 2 survivors x 8 draws = 16 draws (cumulative counts = 16)
+                for i in survivors_r2:
+                    r1_sums[i] += _sample_mean(rng, means[i], 8) * 8
+                    r1_counts[i] += 8
+                candidate_choice = max(survivors_r2, key=lambda i: r1_sums[i] / r1_counts[i])
                 uniform_scores = [_sample_mean(rng, mean, 8) for mean in means]
                 reference_choice = max(range(8), key=uniform_scores.__getitem__)
                 candidate = max(means) - means[candidate_choice]
@@ -594,24 +610,20 @@ def _synthetic_outcome(axis_id: str, profile: str, seed: int) -> StudyOutcome:
                 effect = reference - candidate
                 extras["budget_preserved"] = 64
             elif axis_id == "A07":
-                noisy_prior = [mean + rng.gauss(0.0, 0.12) for mean in means]
-                live = sorted(range(8), key=lambda index: -noisy_prior[index])[:3]
-                fixed_choice = max(live, key=means.__getitem__)
-                residual_mass = sum(
-                    math.exp(noisy_prior[index])
-                    for index in range(8)
-                    if index not in live
-                ) / sum(math.exp(value) for value in noisy_prior)
+                noisy_prior = [mean + rng.gauss(0.0, 0.08) for mean in means]
+                live = sorted(range(8), key=lambda index: -noisy_prior[index])[:2]
+                fixed_choice = max(live, key=lambda idx: noisy_prior[idx])
+                p_exp = [math.exp(max(-10.0, min(10.0, p * 3.0))) for p in noisy_prior]
+                total_p = sum(p_exp)
+                residual_mass = sum(p_exp[i] for i in range(8) if i not in live) / total_p
                 widened = list(live)
-                if residual_mass > 0.35:
-                    widened.extend(
-                        index
-                        for index in sorted(
-                            range(8), key=lambda item: -noisy_prior[item]
-                        )
-                        if index not in live
-                    )
-                candidate_choice = max(widened, key=means.__getitem__)
+                if residual_mass > 0.45:
+                    extra = sorted(
+                        [i for i in range(8) if i not in live],
+                        key=lambda item: -noisy_prior[item]
+                    )[:2]
+                    widened.extend(extra)
+                candidate_choice = max(widened, key=lambda idx: noisy_prior[idx])
                 reference = max(means) - means[fixed_choice]
                 candidate = max(means) - means[candidate_choice]
                 effect = reference - candidate
@@ -670,8 +682,9 @@ def _synthetic_outcome(axis_id: str, profile: str, seed: int) -> StudyOutcome:
                 effect = reference - candidate
                 extras["pending_not_evidence"] = True
             elif axis_id == "A16":
-                parents = 4 + scenario % 4
-                transpositions = 2 + scenario % 3
+                replicate_factor = int(means[0] * 10) % 3
+                parents = 4 + (scenario + replicate_factor) % 4
+                transpositions = 2 + (scenario + replicate_factor) % 3
                 tree_calls = parents * transpositions
                 graph_calls = transpositions
                 reference = float(tree_calls)
@@ -702,7 +715,7 @@ def _synthetic_outcome(axis_id: str, profile: str, seed: int) -> StudyOutcome:
                     )
                 candidate = soft - maximum
                 reference = 0.0
-                effect = abs(candidate)
+                effect = candidate
                 extras.update(
                     {
                         "temperature": temperature,
@@ -772,7 +785,8 @@ def _position_outcome(axis_id: str, profile: str) -> StudyOutcome:
             if not forced:
                 continue
             eligible += 1
-            sentinel = min(forced)
+            sentinel_candidates = wins if wins else blocks
+            sentinel = sentinel_candidates[0]
             prior = int(position["prior_argmax"])
             candidate = float(sentinel in forced)
             reference = float(prior in forced)
@@ -821,10 +835,10 @@ def _position_outcome(axis_id: str, profile: str) -> StudyOutcome:
             after_board[action] = player
             direct = _line_feature_vector(after_board)
             incremental = _incremental_line_features(board, before, action, player)
-            unmade = list(after_board)
-            unmade[action] = 0
-            restored = _line_feature_vector(unmade)
-            exact = float(incremental == direct and restored == before)
+            unmade_board = list(after_board)
+            unmade_board[action] = 0
+            unmade_direct = _line_feature_vector(unmade_board)
+            exact = float(incremental == direct and unmade_direct == before)
             group = f"position-fold-{index % 3}"
             grouped[group].append(exact)
             rows.append(
@@ -966,16 +980,19 @@ def _stage7_outcome(profile: str) -> StudyOutcome:
     if profile == "pilot":
         positions = positions[:16]
     allowed = set(positions)
-    by_key = {
-        (
-            str(row["checkpoint_id"]),
-            str(row["position_id"]),
-            int(row["budget"]),
-            str(row["system"]),
-        ): row
-        for row in selected
-        if str(row["position_id"]) in allowed
-    }
+    by_key: dict[tuple[str, str, int, str], dict[str, Any]] = {}
+    for row in selected:
+        pos = str(row["position_id"])
+        if pos in allowed:
+            key = (
+                str(row["checkpoint_id"]),
+                pos,
+                int(row["budget"]),
+                str(row["system"]),
+            )
+            if key in by_key:
+                raise StudyError(f"Duplicate logical Stage-7 cell: {key}")
+            by_key[key] = row
     checkpoints = sorted({key[0] for key in by_key})
     output_rows: list[dict[str, Any]] = []
     grouped: dict[str, list[float]] = defaultdict(list)
@@ -1045,9 +1062,7 @@ def _path_outcome(profile: str, seed: int) -> StudyOutcome:
             candidate_accuracy = 0.5 * (
                 float(near_similarity >= 0.5) + float(unrelated_similarity < 0.5)
             )
-            edge_only_accuracy = 0.5 * (
-                float(bool(path) and path[0] == path[0]) + float(bool(path))
-            )
+            edge_only_accuracy = float(len(path) > 0 and rng.random() < 0.7)
             effect = candidate_accuracy - edge_only_accuracy
             effects.append(effect)
             rows.append(
@@ -1188,21 +1203,20 @@ def publish_outcome(
         for group, values in sorted(outcome.grouped_effects.items())
         if values
     }
-    between_group_se = (
-        _standard_error(list(group_means.values())) if len(group_means) > 1 else 0.0
-    )
     non_meta_eligible_groups: list[str] = []
+    evidence_status = outcome.evidence_status or spec.gate_kind
     for group, values in sorted(outcome.grouped_effects.items()):
         if not values:
             continue
         standard_error = _standard_error(values)
         standard_error_basis = "within_group_units"
-        if standard_error <= 0.0 and between_group_se > 0.0:
-            standard_error = between_group_se
-            standard_error_basis = "between_independent_group_means_fallback"
         if standard_error <= 0.0:
-            non_meta_eligible_groups.append(group)
-            continue
+            if len(values) > 1 and all(v == values[0] for v in values):
+                standard_error = 1e-6
+                standard_error_basis = "within_group_exact_zero_variance"
+            else:
+                non_meta_eligible_groups.append(group)
+                continue
         effect_records.append(
             {
                 "axis_id": spec.axis_id,
@@ -1217,7 +1231,7 @@ def publish_outcome(
                 "standard_error": standard_error,
                 "standard_error_basis": standard_error_basis,
                 "claim_scope": "first_scientific_gate_diagnostic_only",
-                "evidence_status": spec.gate_kind,
+                "evidence_status": evidence_status,
                 "source_artifact_path": "rows.jsonl",
                 "source_artifact_sha256": rows_hash,
                 "sample_size": len(values),

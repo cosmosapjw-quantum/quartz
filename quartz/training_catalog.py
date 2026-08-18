@@ -30,6 +30,13 @@ SEARCH_RUNTIME_KEYS = {
     # `HaltMode::Fixed { budget = u32::MAX }`, disabling adaptive halts
     # so attribution presets see same-budget arena rows.
     "halt_mode",
+    # Idea Foundry runtime / metacontroller actuators
+    "foundry_mode",
+    "foundry_axis_id",
+    "foundry_checkpoint_id",
+    "foundry_evaluator_id",
+    "foundry_risk_limit",
+    "foundry_min_visits",
 }
 
 GOMOKU15_VARIANTS = {

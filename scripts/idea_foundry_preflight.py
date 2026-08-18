@@ -655,45 +655,66 @@ def run_preflight(
         "steps": [],
     }
     atomic_json_dump(state_path, state)
-    for step in build_steps(python=python, run_root=run_root, mode=mode):
-        row = _run_step(step, logs_dir=logs_dir, timeout_seconds=timeout_seconds)
-        state["steps"].append(row)
-        state["updated_at"] = utc_now()
-        atomic_json_dump(state_path, state)
-        if row["status"] != "passed":
+    try:
+        for step in build_steps(python=python, run_root=run_root, mode=mode):
+            row = _run_step(step, logs_dir=logs_dir, timeout_seconds=timeout_seconds)
+            state["steps"].append(row)
+            state["updated_at"] = utc_now()
+            atomic_json_dump(state_path, state)
+            if row["status"] != "passed":
+                state["status"] = "failed"
+                state["failed_step"] = step.name
+                state["completed_at"] = utc_now()
+                atomic_json_dump(state_path, state)
+                raise PreflightError(
+                    f"preflight step failed: {step.name} (rc={row['returncode']})"
+                )
+        after_sources = _changed_source_hashes()
+        if after_sources != before_sources:
             state["status"] = "failed"
-            state["failed_step"] = step.name
+            state["failed_step"] = "worktree-source-stability"
+            state["changed_source_hashes_after"] = after_sources
             state["completed_at"] = utc_now()
             atomic_json_dump(state_path, state)
             raise PreflightError(
-                f"preflight step failed: {step.name} (rc={row['returncode']})"
+                "tracked or untracked source files changed during preflight"
             )
-    after_sources = _changed_source_hashes()
-    if after_sources != before_sources:
-        state["status"] = "failed"
-        state["failed_step"] = "worktree-source-stability"
-        state["changed_source_hashes_after"] = after_sources
-        state["completed_at"] = utc_now()
-        atomic_json_dump(state_path, state)
-        raise PreflightError(
-            "tracked or untracked source files changed during preflight"
+        git_after = git_provenance(REPO_ROOT)
+        git_before = state.get("git_before", {})
+        if (
+            git_before.get("head") != git_after.get("head")
+            or git_before.get("is_dirty") != git_after.get("is_dirty")
+        ):
+            state["status"] = "failed"
+            state["failed_step"] = "git-head-stability"
+            state["git_after"] = git_after
+            state["completed_at"] = utc_now()
+            atomic_json_dump(state_path, state)
+            raise PreflightError("Git HEAD or repository dirty status drifted during preflight")
+        state.update(
+            status="passed",
+            completed_at=utc_now(),
+            changed_source_hashes_after=after_sources,
+            git_after=git_after,
+            readiness={
+                "ablation_execution_preflight": "READY",
+                "scientific_efficacy": "NOT_EVALUATED",
+                "claim_promotion": "FORBIDDEN_AUTOMATICALLY",
+            },
         )
-    state.update(
-        status="passed",
-        completed_at=utc_now(),
-        changed_source_hashes_after=after_sources,
-        git_after=git_provenance(REPO_ROOT),
-        readiness={
-            "ablation_execution_preflight": "READY",
-            "scientific_efficacy": "NOT_EVALUATED",
-            "claim_promotion": "FORBIDDEN_AUTOMATICALLY",
-        },
-    )
-    atomic_json_dump(state_path, state)
-    report = dict(state)
-    report["preflight_state_sha256_before_report"] = file_sha256(state_path)
-    atomic_json_dump(run_root / "preflight_report.json", report)
-    return report
+        atomic_json_dump(state_path, state)
+        report = dict(state)
+        report["preflight_state_sha256_before_report"] = file_sha256(state_path)
+        atomic_json_dump(run_root / "preflight_report.json", report)
+        return report
+    except Exception as exc:
+        if state.get("status") == "running":
+            state["status"] = "failed"
+            state["failed_step"] = state.get("failed_step", "unhandled-exception")
+            state["error_message"] = str(exc)
+            state["completed_at"] = utc_now()
+            atomic_json_dump(state_path, state)
+        raise
 
 
 def main(argv: Sequence[str] | None = None) -> int:

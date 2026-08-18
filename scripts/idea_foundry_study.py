@@ -6,6 +6,7 @@ from __future__ import annotations
 import argparse
 import json
 import math
+import statistics
 import subprocess
 import sys
 from collections import defaultdict
@@ -140,6 +141,7 @@ def _a15_outcome(native_dir: Path) -> StudyOutcome:
             native_dir / "rows.jsonl",
             native_dir / "run_manifest.json",
         ),
+        evidence_status="measured_system",
     )
 
 
@@ -193,6 +195,7 @@ def _a18_outcome(native_dir: Path) -> StudyOutcome:
             native_dir / "summary.json",
             native_dir / "run_manifest.json",
         ),
+        evidence_status="paired_training",
     )
 
 
@@ -224,7 +227,7 @@ def _a19_outcome(native_dir: Path) -> StudyOutcome:
             + 0.35 * float(row["metrics"]["value_mse"])
             for row in candidates
         ]
-        median = sorted(scores)[len(scores) // 2]
+        median = statistics.median(scores)
         for row, score in zip(candidates, scores, strict=True):
             effect = median - score
             group = f"seed-{replicate_seed}"
@@ -256,6 +259,7 @@ def _a19_outcome(native_dir: Path) -> StudyOutcome:
             native_dir / "run_manifest.json",
             *extra_inputs,
         ),
+        evidence_status="fixed_replay_proxy",
     )
 
 

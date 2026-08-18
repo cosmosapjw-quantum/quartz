@@ -331,6 +331,34 @@ EFFECT_KEYS = (
     "higher_is_better",
 )
 
+VALID_EVIDENCE_STATUSES = {
+    "trace_shadow",
+    "trace_analysis",
+    "trace_analysis_only",
+    "trace_conditional",
+    "trace_training_control",
+    "trace_parity",
+    "synthetic_counterfactual",
+    "synthetic_mechanism",
+    "synthetic_system",
+    "synthetic_cache_only",
+    "synthetic_objective_mismatch",
+    "synthetic_exact",
+    "measured_system",
+    "paired_training",
+    "fixed_replay_proxy",
+    "skeleton_only",
+    "study_candidate",
+    "preregistered_ablation",
+    "phase15_trace",
+    "synthetic_bank",
+    "position_suite",
+    "conditional_audit",
+    "phase15_stage7",
+    "phase15_paths",
+    "exact_property",
+}
+
 
 def validate_effect_record(raw: Mapping[str, Any]) -> dict[str, Any]:
     if not isinstance(raw, Mapping):
@@ -366,6 +394,10 @@ def validate_effect_record(raw: Mapping[str, Any]) -> dict[str, Any]:
     ):
         if not isinstance(record[key], str) or not record[key]:
             raise MetaAnalysisError(f"effect field must be a non-empty string: {key}")
+    if record["evidence_status"] not in VALID_EVIDENCE_STATUSES:
+        raise MetaAnalysisError(
+            f"invalid or unverified evidence_status: {record['evidence_status']!r}"
+        )
     if not isinstance(record["higher_is_better"], bool):
         raise MetaAnalysisError("higher_is_better must be boolean")
     for key in ("effect", "standard_error"):

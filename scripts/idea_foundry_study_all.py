@@ -62,6 +62,7 @@ def _campaign_sources() -> tuple[Path, ...]:
     return (
         REPO_ROOT / "configs" / "idea_foundry.studies.v1.json",
         REPO_ROOT / "quartz" / "idea_foundry" / "studies.py",
+        REPO_ROOT / "quartz" / "idea_foundry" / "search.py",
         REPO_ROOT / "quartz" / "idea_foundry" / "a19_proxy.py",
         REPO_ROOT / "scripts" / "idea_foundry_study.py",
         Path(__file__).resolve(),
@@ -137,6 +138,13 @@ def _load_state(path: Path, profile: str, seed: int) -> dict[str, Any]:
         raise StudyError(f"invalid campaign state: {exc}") from exc
     if not isinstance(state, dict) or state.get("schema_version") != 1:
         raise StudyError("campaign state schema mismatch")
+    if (
+        state.get("run_id") != path.parent.name
+        or state.get("profile") != profile
+        or state.get("seed") != seed
+        or state.get("suite") != "first-scientific-gate-all"
+    ):
+        raise StudyError("campaign state run_id/profile/seed/suite mismatch")
     if state.get("identity") != _identity(profile, seed):
         raise StudyError(
             "resume refused: profile, seed, Git, source, or interpreter drift"
@@ -175,7 +183,7 @@ def _validate_artifact_set(axis_dir: Path) -> str | None:
         matching_specs = [
             path
             for path in (REPO_ROOT / "configs").glob("a18_evaluator_ablation.*.v1.json")
-            if path.is_file() and file_sha256(path) == expected_spec
+            if path.is_file() and not path.is_symlink() and file_sha256(path) == expected_spec
         ]
         if len(matching_specs) != 1:
             return False
@@ -207,7 +215,7 @@ def _validate_artifact_set(axis_dir: Path) -> str | None:
                 path.relative_to(REPO_ROOT.resolve())
             except ValueError:
                 return False
-            if not path.is_file() or file_sha256(path) != expected_hash:
+            if not path.is_file() or path.is_symlink() or file_sha256(path) != expected_hash:
                 return False
         return True
 
@@ -247,7 +255,7 @@ def _validate_artifact_set(axis_dir: Path) -> str | None:
                     path.relative_to(REPO_ROOT.resolve())
                 except ValueError:
                     return False
-                if not path.is_file() or file_sha256(path) != expected_hash:
+                if not path.is_file() or path.is_symlink() or file_sha256(path) != expected_hash:
                     return False
                 if (
                     inventory_name == "input_hashes"
@@ -256,7 +264,7 @@ def _validate_artifact_set(axis_dir: Path) -> str | None:
                     if not validate_manifest(path, seen):
                         return False
         artifacts = manifest.get("artifacts", [])
-        if not isinstance(artifacts, (list, Mapping)):
+        if not isinstance(artifacts, (list, Mapping)) or not artifacts:
             return False
         for record in records_with_hash(artifacts):
             raw_path = record["path"]
@@ -271,7 +279,7 @@ def _validate_artifact_set(axis_dir: Path) -> str | None:
                 path.relative_to(resolved_manifest.parent)
             except ValueError:
                 return False
-            if not path.is_file() or file_sha256(path) != expected_hash:
+            if not path.is_file() or path.is_symlink() or file_sha256(path) != expected_hash:
                 return False
         return True
 

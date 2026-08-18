@@ -70,6 +70,7 @@ target-version = "py312"
 extend-exclude = ["docs/legacy"]
 
 [tool.pytest.ini_options]
+pythonpath = ["."]
 markers = [
     # P10 (audit_codex_20260425.md W10): slower integration-style tests
     # that build a real torch model + replay and run a few SGD iters.

@@ -43,10 +43,14 @@ RUNTIME_AXIS_ID = "A01"
 RUNTIME_BINARY_RELATIVE = "target/idea-foundry-release/release/mcts_demo"
 RUN_ID_PATTERN = re.compile(r"^[A-Za-z0-9][A-Za-z0-9._-]{0,95}$")
 EXECUTION_SOURCE_PATHS = (
+    "quartz/backend.py",
     "quartz/cli_main.py",
     "quartz/evaluator_runtime.py",
+    "quartz/models_torch.py",
     "quartz/runtime_support.py",
     "quartz/selfplay_runtime.py",
+    "quartz/train.py",
+    "quartz/training_catalog.py",
     "quartz/idea_foundry/metacontroller_factorial.py",
     "quartz/idea_foundry/metacontroller_factorial_execution.py",
     "scripts/metacontroller_factorial_study.py",
@@ -1267,17 +1271,27 @@ def _load_existing_analysis(*, analysis_dir: Path, root: Path) -> dict[str, Any]
     if not manifest_path.is_file() or not analysis_path.is_file():
         raise FactorialHarnessError("partial analysis directory cannot be resumed")
     manifest = load_json_strict(manifest_path)
-    for artifact in manifest.get("artifacts", []):
+    artifacts = manifest.get("artifacts")
+    if not isinstance(artifacts, list) or not artifacts:
+        raise FactorialHarnessError("analysis manifest artifacts must be non-empty")
+    artifact_paths = set()
+    for artifact in artifacts:
         path = _safe_path(analysis_dir, artifact["path"], label="analysis artifact")
-        if not path.is_file() or file_sha256(path) != artifact["sha256"]:
+        if not path.is_file() or path.is_symlink() or file_sha256(path) != artifact["sha256"]:
             raise FactorialHarnessError("analysis artifact hash mismatch")
-    for source in manifest.get("inputs", []):
+        artifact_paths.add(path.name)
+    if "analysis.json" not in artifact_paths:
+        raise FactorialHarnessError("analysis.json missing from manifest artifacts")
+    inputs = manifest.get("inputs")
+    if not isinstance(inputs, list) or not inputs:
+        raise FactorialHarnessError("analysis manifest inputs must be non-empty")
+    for source in inputs:
         path = Path(source["path"]).resolve()
         try:
             path.relative_to(root)
         except ValueError as exc:
             raise FactorialHarnessError("analysis input escapes repository") from exc
-        if not path.is_file() or file_sha256(path) != source["sha256"]:
+        if not path.is_file() or path.is_symlink() or file_sha256(path) != source["sha256"]:
             raise FactorialHarnessError("analysis input hash mismatch")
     return dict(load_json_strict(analysis_path))
 

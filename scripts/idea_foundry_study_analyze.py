@@ -26,9 +26,15 @@ from quartz.idea_foundry.studies import StudyError, load_study_specs  # noqa: E4
 
 
 def _json(path: Path) -> dict[str, Any]:
+    if not path.is_file() or path.is_symlink():
+        raise StudyError(f"required regular JSON file is missing: {path}")
+
+    def reject(value: str) -> None:
+        raise StudyError(f"non-finite JSON constant is forbidden: {value}")
+
     try:
-        payload = json.loads(path.read_text(encoding="utf-8"))
-    except (OSError, json.JSONDecodeError) as exc:
+        payload = json.loads(path.read_text(encoding="utf-8"), parse_constant=reject)
+    except (OSError, json.JSONDecodeError, UnicodeDecodeError) as exc:
         raise StudyError(f"invalid JSON artifact {path}: {exc}") from exc
     if not isinstance(payload, dict):
         raise StudyError(f"JSON artifact must be an object: {path}")
@@ -36,16 +42,22 @@ def _json(path: Path) -> dict[str, Any]:
 
 
 def _jsonl(path: Path, *, allow_empty: bool = False) -> list[dict[str, Any]]:
+    if not path.is_file() or path.is_symlink():
+        raise StudyError(f"required regular JSONL file is missing: {path}")
+
+    def reject(value: str) -> None:
+        raise StudyError(f"non-finite JSON constant is forbidden: {value}")
+
     try:
         lines = path.read_text(encoding="utf-8").splitlines()
-    except OSError as exc:
+    except (OSError, UnicodeDecodeError) as exc:
         raise StudyError(f"cannot read JSONL artifact {path}: {exc}") from exc
     rows: list[dict[str, Any]] = []
     for line_number, line in enumerate(lines, 1):
         if not line.strip():
             continue
         try:
-            row = json.loads(line)
+            row = json.loads(line, parse_constant=reject)
         except json.JSONDecodeError as exc:
             raise StudyError(f"invalid JSONL row {path}:{line_number}: {exc}") from exc
         if not isinstance(row, dict):
@@ -70,9 +82,12 @@ def _verify_axis(
         raise StudyError(f"axis is not scientifically terminal: {expected_axis}")
     if summary.get("promotion", {}).get("eligible") is not False:
         raise StudyError(f"axis may not be promotion eligible: {expected_axis}")
-    for record in manifest.get("artifacts", []):
+    artifacts = manifest.get("artifacts", [])
+    if not isinstance(artifacts, list) or not artifacts:
+        raise StudyError(f"axis manifest contains no artifacts: {axis_dir}")
+    for record in artifacts:
         artifact = axis_dir / record.get("path", "")
-        if not artifact.is_file() or file_sha256(artifact) != record.get("sha256"):
+        if not artifact.is_file() or artifact.is_symlink() or file_sha256(artifact) != record.get("sha256"):
             raise StudyError(f"artifact hash drift: {artifact}")
     rows = _jsonl(axis_dir / "effect_records.jsonl", allow_empty=True)
     normalized = [validate_effect_record(row) for row in rows]
@@ -191,14 +206,23 @@ def analyze_campaign(campaign_dir: Path, output_dir: Path | None) -> dict[str, A
     target.mkdir(parents=True, exist_ok=True)
     axis_summaries: list[dict[str, Any]] = []
     effects: list[dict[str, Any]] = []
+    all_input_paths: list[Path] = [
+        campaign / "campaign_state.json",
+        campaign / "campaign_summary.json",
+    ]
     source_rows_dir = target / "source_rows"
     source_rows_dir.mkdir()
     for axis_id in expected_axes:
-        axis_summary, axis_effects = _verify_axis(campaign / "axes" / axis_id, axis_id)
+        axis_dir = campaign / "axes" / axis_id
+        for child_name in ("summary.json", "run_manifest.json", "rows.jsonl", "effect_records.jsonl"):
+            child_file = axis_dir / child_name
+            if child_file.is_file():
+                all_input_paths.append(child_file)
+        axis_summary, axis_effects = _verify_axis(axis_dir, axis_id)
         axis_summaries.append(axis_summary)
         if axis_effects:
             copied_rows = source_rows_dir / f"{axis_id}.rows.jsonl"
-            shutil.copyfile(campaign / "axes" / axis_id / "rows.jsonl", copied_rows)
+            shutil.copyfile(axis_dir / "rows.jsonl", copied_rows)
             expected_hash = file_sha256(copied_rows)
             for record in axis_effects:
                 if record["source_artifact_sha256"] != expected_hash:
@@ -207,7 +231,30 @@ def analyze_campaign(campaign_dir: Path, output_dir: Path | None) -> dict[str, A
         effects.extend(axis_effects)
     grouped: dict[str, list[dict[str, Any]]] = defaultdict(list)
     for record in effects:
-        grouped[str(record["axis_id"])].append(record)
+        compat_key = (
+            str(record["axis_id"]),
+            str(record["estimand_id"]),
+            str(record["effect_scale"]),
+            str(record["reference_id"]),
+            str(record["unit"]),
+            bool(record["higher_is_better"]),
+        )
+        axis_key = str(record["axis_id"])
+        # Verify compatibility with existing records for this axis
+        for existing in grouped[axis_key]:
+            existing_compat = (
+                str(existing["axis_id"]),
+                str(existing["estimand_id"]),
+                str(existing["effect_scale"]),
+                str(existing["reference_id"]),
+                str(existing["unit"]),
+                bool(existing["higher_is_better"]),
+            )
+            if existing_compat != compat_key:
+                raise StudyError(f"incompatible effect contracts within axis {axis_key}")
+            if str(existing["independent_group_id"]) == str(record["independent_group_id"]):
+                raise StudyError(f"duplicate independent group {record['independent_group_id']} in axis {axis_key}")
+        grouped[axis_key].append(record)
     effect_axis_ids = set(grouped)
     meta_rows = [
         _axis_meta(axis_id, grouped[axis_id])
@@ -274,10 +321,7 @@ def analyze_campaign(campaign_dir: Path, output_dir: Path | None) -> dict[str, A
                     "path": str(path),
                     "sha256": file_sha256(path),
                 }
-                for path in (
-                    campaign / "campaign_state.json",
-                    campaign / "campaign_summary.json",
-                )
+                for path in sorted(set(all_input_paths))
             ],
             "artifacts": [
                 {
