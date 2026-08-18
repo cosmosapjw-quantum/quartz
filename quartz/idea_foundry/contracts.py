@@ -27,6 +27,54 @@ class AxisStatus(str, Enum):
     ANALYSIS_ONLY = "analysis_only"
 
 
+class ExecutionStatus(str, Enum):
+    SUCCESS = "success"
+    FAILED = "failed"
+    SKIPPED = "skipped"
+
+
+class ContractStatus(str, Enum):
+    PASSED = "passed"
+    FAILED = "failed"
+
+
+class EffectStatus(str, Enum):
+    OBSERVED = "observed"
+    NO_EFFECT = "no_effect"
+    REJECTED = "rejected"
+    UNAVAILABLE = "unavailable"
+
+
+class EvidenceDomain(str, Enum):
+    SYNTHETIC_GATE = "synthetic_gate"
+    SHADOW_TRACE = "shadow_trace"
+    PAIRED_TRAINING = "paired_training"
+    ARENA_EVALUATION = "arena_evaluation"
+    SYSTEMS_BENCHMARK = "systems_benchmark"
+
+
+class EvidenceMaturity(str, Enum):
+    SKELETON = "skeleton"
+    DIAGNOSTIC = "diagnostic"
+    STUDY_CANDIDATE = "study_candidate"
+    CONFIRMATORY = "confirmatory"
+    PRODUCTION = "production"
+
+
+class UncertaintyKind(str, Enum):
+    EXACT = "exact"
+    SAMPLING = "sampling"
+    BOOTSTRAP = "bootstrap"
+    MODEL_BASED = "model_based"
+    UNAVAILABLE = "unavailable"
+
+
+class PromotionStatus(str, Enum):
+    PROMOTION_PROHIBITED = "promotion_prohibited"
+    NO_PROMOTION = "no_promotion"
+    PROMOTION_RECOMMENDED = "promotion_recommended"
+
+
 class MetaActionKind(str, Enum):
     STOP = "stop"
     SAMPLE = "sample"

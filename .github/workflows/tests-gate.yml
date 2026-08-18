@@ -10,9 +10,11 @@ on:
       - "tests/**"
       - "quartz/**"
       - "scripts/**"
-      - "configs/idea_foundry*.json"
-      - "configs/idea_lab*.json"
-      - "docs/idea_foundry/**"
+      - "configs/**"
+      - ".agents/**"
+      - "AGENTS.md"
+      - "GEMINI.md"
+      - "docs/**"
       - "pyproject.toml"
   pull_request:
     paths:
@@ -23,9 +25,11 @@ on:
       - "tests/**"
       - "quartz/**"
       - "scripts/**"
-      - "configs/idea_foundry*.json"
-      - "configs/idea_lab*.json"
-      - "docs/idea_foundry/**"
+      - "configs/**"
+      - ".agents/**"
+      - "AGENTS.md"
+      - "GEMINI.md"
+      - "docs/**"
       - "pyproject.toml"
 
 jobs:

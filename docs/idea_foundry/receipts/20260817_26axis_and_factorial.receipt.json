@@ -1,0 +1,44 @@
+{
+  "schema_version": 1,
+  "created_at": "2026-08-18T00:08:00Z",
+  "git_head": "cd6c9684c31149495147814b8a21f7e025ecfc53",
+  "hardware_fingerprint": {
+    "gpu": "NVIDIA GeForce RTX 5070 Ti (16GB VRAM, Driver 595.84, CUDA 13.2 / PyTorch cu128)",
+    "cpu": "AMD Ryzen 9 5900X 12-Core Processor (24 threads, 64GB DDR4 RAM)",
+    "os": "Linux 6.8.0-52-generic x86_64"
+  },
+  "runs": [
+    {
+      "run_id": "first-scientific-gates-full-20260817",
+      "campaign_kind": "26_axis_diagnostic_study",
+      "claim_scope": "first_scientific_gate_diagnostic_only",
+      "total_axes": 26,
+      "completed_no_promotion_axes": 25,
+      "dormant_skipped_axes": 1,
+      "technical_failures": 0,
+      "artifacts": [
+        {
+          "path": "docs/idea_foundry/26AXIS_AND_FACTORIAL_AUDIT_REPORT.md",
+          "sha256": "34662c71a5557e5ea486ddd27a069391be75d418c5860084ea180d823b6aea9c"
+        }
+      ]
+    },
+    {
+      "run_id": "factorial-smoke-20260818",
+      "campaign_kind": "metacontroller_2x2_factorial_smoke",
+      "profile": "resource_frontier_smoke",
+      "claim_scope": "paired_factorial_resource_frontier_analysis_only",
+      "status": "COMPLETED_NO_PROMOTION_INSUFFICIENT_SEEDS",
+      "paired_seeds": 1,
+      "arena_games": 160,
+      "realized_compute_reduction_pct": 26.9,
+      "observed_score_rate_vs_anchor": 0.500,
+      "artifacts": [
+        {
+          "path": "docs/idea_foundry/26AXIS_AND_FACTORIAL_AUDIT_REPORT.md",
+          "sha256": "34662c71a5557e5ea486ddd27a069391be75d418c5860084ea180d823b6aea9c"
+        }
+      ]
+    }
+  ]
+}

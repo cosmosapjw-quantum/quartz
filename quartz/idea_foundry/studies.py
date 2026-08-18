@@ -1210,10 +1210,12 @@ def publish_outcome(
             continue
         standard_error = _standard_error(values)
         standard_error_basis = "within_group_units"
+        uncertainty_kind = "sampling"
         if standard_error <= 0.0:
             if len(values) > 1 and all(v == values[0] for v in values):
-                standard_error = 1e-6
-                standard_error_basis = "within_group_exact_zero_variance"
+                standard_error = 0.0
+                standard_error_basis = "exact_contract_property"
+                uncertainty_kind = "exact"
             else:
                 non_meta_eligible_groups.append(group)
                 continue
@@ -1230,6 +1232,7 @@ def publish_outcome(
                 "effect": group_means[group],
                 "standard_error": standard_error,
                 "standard_error_basis": standard_error_basis,
+                "uncertainty_kind": uncertainty_kind,
                 "claim_scope": "first_scientific_gate_diagnostic_only",
                 "evidence_status": evidence_status,
                 "source_artifact_path": "rows.jsonl",

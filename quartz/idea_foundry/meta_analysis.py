@@ -408,14 +408,22 @@ def validate_effect_record(raw: Mapping[str, Any]) -> dict[str, Any]:
             or not math.isfinite(value)
         ):
             raise MetaAnalysisError(f"effect field must be finite numeric: {key}")
-        record[key] = float(value)
-    if record["standard_error"] <= 0:
-        raise MetaAnalysisError("standard_error must be positive")
-    variance = record["standard_error"] ** 2
-    if not math.isfinite(variance) or variance <= 0:
-        raise MetaAnalysisError(
-            "standard_error variance must be finite and representable"
-        )
+    uncertainty_kind = record.get("uncertainty_kind", "sampling")
+    if uncertainty_kind not in {"exact", "sampling", "bootstrap", "model_based", "unavailable"}:
+        raise MetaAnalysisError(f"invalid uncertainty_kind: {uncertainty_kind!r}")
+    record["uncertainty_kind"] = uncertainty_kind
+    if uncertainty_kind == "exact":
+        record["standard_error"] = float(record.get("standard_error", 0.0))
+        if record["standard_error"] < 0:
+            raise MetaAnalysisError("standard_error cannot be negative")
+    else:
+        if record["standard_error"] <= 0:
+            raise MetaAnalysisError("standard_error must be positive")
+        variance = record["standard_error"] ** 2
+        if not math.isfinite(variance) or variance <= 0:
+            raise MetaAnalysisError(
+                "standard_error variance must be finite and representable"
+            )
     digest = record["source_artifact_sha256"]
     if len(digest) != 64 or any(
         char not in "0123456789abcdef" for char in digest.lower()
@@ -453,6 +461,21 @@ def pool_effect_group(records: Sequence[Mapping[str, Any]]) -> dict[str, Any]:
             **base,
             "k": len(validated),
             "status": "INSUFFICIENT_INDEPENDENT_EFFECTS",
+            "run_ids": sorted({record["run_id"] for record in validated}),
+        }
+    if all(record.get("uncertainty_kind") == "exact" or record["standard_error"] == 0.0 for record in validated):
+        first_effect = validated[0]["effect"]
+        return {
+            **base,
+            "k": len(validated),
+            "status": "EXACT_CONTRACT_PROPERTY",
+            "uncertainty_kind": "exact",
+            "fixed_effect": first_effect,
+            "fixed_ci95": [first_effect, first_effect],
+            "random_effect": first_effect,
+            "random_ci95": [first_effect, first_effect],
+            "heterogeneity_q": 0.0,
+            "heterogeneity_i2_percent": 0.0,
             "run_ids": sorted({record["run_id"] for record in validated}),
         }
     try:
