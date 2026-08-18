@@ -148,8 +148,8 @@ def test_execution_config_materializes_hash_bound_run_paths(tmp_path: Path) -> N
 
     assert resolved_path.is_file()
     assert resolved["controller_contract"]["execution_ready"] is True
-    assert resolved["controller_contract"]["active_axis_ids"] == ["A01"]
-    assert resolved["runtime_arms"]["on"]["authorized_axis_ids"] == ["A01"]
+    assert resolved["controller_contract"]["active_axis_ids"] == ["A01.live_pflip_v1"]
+    assert resolved["runtime_arms"]["on"]["authorized_axis_ids"] == ["A01.live_pflip_v1"]
     assert resolved["runtime_arms"]["off"]["search_config"]["check_interval"] == 1
     assert (
         "factorial-smoke-1/training/off/seed_{seed}"
@@ -744,3 +744,20 @@ def test_strict_json_rejects_nonfinite_constants(tmp_path: Path) -> None:
     path.write_text('{"value": NaN}\n', encoding="utf-8")
     with pytest.raises(factorial.FactorialHarnessError, match="non-finite"):
         factorial.load_json_strict(path)
+
+
+def test_repository_confirmatory_config_and_heldout_opening_bank_are_schema_valid() -> None:
+    root = Path(__file__).resolve().parents[1]
+    config_path = root / "configs" / "metacontroller_factorial.v1.json"
+    cfg = factorial.load_config(config_path)
+    assert "confirmatory" in cfg["profiles"]
+    plan = factorial.build_plan(config_path, "confirmatory", repo_root=root)
+    assert plan["profile"] == "confirmatory"
+    assert len(plan["profile_contract"]["seeds"]) == 3
+    preflight = factorial.run_preflight(config_path, "confirmatory", repo_root=root)
+    # The preflight must not fail on opening bank validation
+    blocker_codes = {row["code"] for row in preflight.get("blockers", [])}
+    assert "OPENING_BANK_NOT_HELDOUT" not in blocker_codes
+    assert "OPENING_BANK_TRAINING_LEAKAGE" not in blocker_codes
+    assert "OPENING_BANK_MANIFEST_MISSING" not in blocker_codes
+    assert "OPENING_BANK_MANIFEST_DRIFT" not in blocker_codes

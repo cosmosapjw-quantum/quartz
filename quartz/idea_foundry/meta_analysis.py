@@ -463,8 +463,14 @@ def pool_effect_group(records: Sequence[Mapping[str, Any]]) -> dict[str, Any]:
             "status": "INSUFFICIENT_INDEPENDENT_EFFECTS",
             "run_ids": sorted({record["run_id"] for record in validated}),
         }
-    if all(record.get("uncertainty_kind") == "exact" or record["standard_error"] == 0.0 for record in validated):
+    has_exact = any(record.get("uncertainty_kind") == "exact" or record["standard_error"] == 0.0 for record in validated)
+    has_sampling = any(record.get("uncertainty_kind") != "exact" and record["standard_error"] > 0.0 for record in validated)
+    if has_exact and has_sampling:
+        raise MetaAnalysisError("cannot mix exact and sampling uncertainty kinds in the same effect pool")
+    if has_exact:
         first_effect = validated[0]["effect"]
+        if any(abs(record["effect"] - first_effect) > 1e-12 for record in validated[1:]):
+            raise MetaAnalysisError("EXACT_PROPERTY_CONFLICT: exact property values differ across records")
         return {
             **base,
             "k": len(validated),

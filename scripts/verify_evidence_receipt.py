@@ -53,13 +53,14 @@ def verify_receipt(receipt_path: Path) -> dict[str, Any]:
             if not rel_path or not expected_sha:
                 raise ValueError(f"malformed artifact entry in {run_id}")
             art_file = REPO_ROOT / rel_path
-            if art_file.is_file():
-                actual_sha = file_sha256(art_file)
-                if actual_sha != expected_sha:
-                    raise ValueError(
-                        f"hash drift for {rel_path}: expected {expected_sha}, got {actual_sha}"
-                    )
-                verified_artifacts += 1
+            if not art_file.is_file() or art_file.is_symlink():
+                raise ValueError(f"declared artifact missing in {run_id}: {rel_path}")
+            actual_sha = file_sha256(art_file)
+            if actual_sha != expected_sha:
+                raise ValueError(
+                    f"hash drift for {rel_path}: expected {expected_sha}, got {actual_sha}"
+                )
+            verified_artifacts += 1
         verified_runs += 1
         
     return {

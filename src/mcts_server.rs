@@ -2405,7 +2405,7 @@ pub fn serve() {
                     "not_compiled"
                 },
                 "supported_axis_ids": if cfg!(feature = "idea-foundry") {
-                    vec!["A01"]
+                    vec!["A01", "A01.live_pflip_v1", "A01.stop_council"]
                 } else {
                     Vec::<&str>::new()
                 },

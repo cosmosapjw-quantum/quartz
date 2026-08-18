@@ -53,10 +53,10 @@ pub struct FoundrySearchConfig {
 
 impl FoundrySearchConfig {
     pub fn is_valid(&self) -> bool {
-        (self.axis_id == A01_AXIS_ID
-            || self.axis_id == A01_LIVE_PFLIP_AXIS_ID
-            || self.axis_id == A01_TRACE_STABILITY_AXIS_ID
+        (self.axis_id == A01_LIVE_PFLIP_AXIS_ID
+            || self.axis_id == A01_AXIS_ID
             || self.axis_id == "A01")
+            && self.axis_id != A01_TRACE_STABILITY_AXIS_ID
             && !self.checkpoint_id.trim().is_empty()
             && !self.evaluator_id.trim().is_empty()
             && self.risk_limit.is_finite()
@@ -418,5 +418,14 @@ mod tests {
         assert_eq!(telemetry.metacontroller_decisions, 1);
         assert_eq!(telemetry.metacontroller_actions, 1);
         assert_eq!(telemetry.metacontroller_coordination_errors, 0);
+    }
+
+    #[test]
+    fn trace_stability_variant_rejected_by_live_search_config() {
+        let mut cfg = config(FoundryRuntimeMode::Active);
+        cfg.axis_id = A01_TRACE_STABILITY_AXIS_ID.to_string();
+        assert!(!cfg.is_valid(), "trace stability must not be accepted as live search policy");
+        cfg.axis_id = A01_LIVE_PFLIP_AXIS_ID.to_string();
+        assert!(cfg.is_valid(), "canonical live_pflip must be accepted");
     }
 }

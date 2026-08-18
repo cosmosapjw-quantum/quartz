@@ -3,10 +3,13 @@
   "bank_id": "gomoku7_metacontroller_factorial_heldout_v1",
   "game": "gomoku7",
   "board_size": 7,
-  "bank_kind": "heldout_opening_families",
+  "bank_kind": "heldout_trajectory_group",
   "claim_scope": "confirmatory_evaluation",
   "independent_of_training": true,
-  "source_manifest": "configs/metacontroller_factorial.v1.json",
+  "source_manifest": {
+    "path": "configs/metacontroller_factorial.openings.manifest.v1.json",
+    "sha256": "195bb1155e22d0c35347089b4e765d77c18a12023199097240bc879a3fbb5107"
+  },
   "openings": [
     {
       "opening_id": "H01_corner_approach_a",

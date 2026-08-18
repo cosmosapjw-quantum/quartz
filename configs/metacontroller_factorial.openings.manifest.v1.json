@@ -1,0 +1,15 @@
+{
+  "schema_version": 1,
+  "manifest_id": "gomoku7_metacontroller_factorial_heldout_manifest_v1",
+  "game": "gomoku7",
+  "board_size": 7,
+  "generator": "deterministic_disjoint_spatial_partition_v1",
+  "seed": 20260818,
+  "family_count": 8,
+  "openings_per_family": 2,
+  "total_openings": 16,
+  "training_exclusions": [
+    "center_standard_openings"
+  ],
+  "claim_scope": "heldout_trajectory_group_provenance"
+}

@@ -39,7 +39,7 @@ from quartz.idea_foundry.metacontroller_factorial import (
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
 EXECUTION_SCHEMA_VERSION = 1
-RUNTIME_AXIS_ID = "A01"
+RUNTIME_AXIS_ID = "A01.live_pflip_v1"
 RUNTIME_BINARY_RELATIVE = "target/idea-foundry-release/release/mcts_demo"
 RUN_ID_PATTERN = re.compile(r"^[A-Za-z0-9][A-Za-z0-9._-]{0,95}$")
 EXECUTION_SOURCE_PATHS = (

@@ -299,7 +299,10 @@ def _validate_runtime_arm(name: str, raw: Any) -> dict[str, Any]:
         )
     if name == "off" and axes:
         raise FactorialHarnessError("runtime OFF may not authorize live axes")
-    allowed_axis_ids = {f"A{index:02d}" for index in range(1, 27)}
+    allowed_axis_ids = {f"A{index:02d}" for index in range(1, 27)} | {
+        "A01.live_pflip_v1",
+        "A01.stop_council",
+    }
     if not set(axes).issubset(allowed_axis_ids):
         raise FactorialHarnessError(
             f"runtime_arms.{name}.authorized_axis_ids contains an unknown axis"

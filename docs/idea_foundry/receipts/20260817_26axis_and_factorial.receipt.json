@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "created_at": "2026-08-18T00:08:00Z",
-  "git_head": "cd6c9684c31149495147814b8a21f7e025ecfc53",
+  "git_head": "69b21c54081796514b0ebe7affee6d0f40b19ebc",
   "hardware_fingerprint": {
     "gpu": "NVIDIA GeForce RTX 5070 Ti (16GB VRAM, Driver 595.84, CUDA 13.2 / PyTorch cu128)",
     "cpu": "AMD Ryzen 9 5900X 12-Core Processor (24 threads, 64GB DDR4 RAM)",
@@ -19,7 +19,11 @@
       "artifacts": [
         {
           "path": "docs/idea_foundry/26AXIS_AND_FACTORIAL_AUDIT_REPORT.md",
-          "sha256": "34662c71a5557e5ea486ddd27a069391be75d418c5860084ea180d823b6aea9c"
+          "sha256": "8d173ff566ea7c50760db6595f80294e36f12b5e13d64cd20b0207708fe8da72"
+        },
+        {
+          "path": "configs/idea_foundry.studies.v1.json",
+          "sha256": "7c23f296f2a4ebc5ffe09e2b8ef2a88bafe8ad1648545cbca39b1daa9e6e7e2f"
         }
       ]
     },
@@ -36,7 +40,27 @@
       "artifacts": [
         {
           "path": "docs/idea_foundry/26AXIS_AND_FACTORIAL_AUDIT_REPORT.md",
-          "sha256": "34662c71a5557e5ea486ddd27a069391be75d418c5860084ea180d823b6aea9c"
+          "sha256": "8d173ff566ea7c50760db6595f80294e36f12b5e13d64cd20b0207708fe8da72"
+        },
+        {
+          "path": "configs/metacontroller_factorial.v1.json",
+          "sha256": "baa5674e90403d9c8df1368d528c6427c8741ac5ca54acb20256257cf78b85c9"
+        },
+        {
+          "path": "configs/metacontroller_factorial.openings.heldout.v1.json",
+          "sha256": "d300eab6e07cbd5d6f29d15ad6f03e6f7ce0718c0271eb06ea43b66c70c6d66d"
+        },
+        {
+          "path": "configs/metacontroller_factorial.openings.manifest.v1.json",
+          "sha256": "195bb1155e22d0c35347089b4e765d77c18a12023199097240bc879a3fbb5107"
+        },
+        {
+          "path": "src/mcts/foundry/policy.rs",
+          "sha256": "8ae21fb0e732e9dbf0bcdc02e1574f5659a3e7e2e635d63e97dc7b5c84f5d21e"
+        },
+        {
+          "path": "quartz/idea_foundry/metacontroller_factorial.py",
+          "sha256": "3c270a3ff94115196074e0824a6d99501a061e3afd25be2599ee5370de8107dd"
         }
       ]
     }

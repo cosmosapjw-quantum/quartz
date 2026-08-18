@@ -34,32 +34,32 @@ $$\text{execution\_status} \neq \text{contract\_status} \neq \text{effect\_statu
 
 | Axis | Axis Name | Estimand | k | Fixed Effect [95% CI] | Random Effect [95% CI] | Uncertainty Kind | Evidence Domain | Maturity | Status |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| **A01** | Calibrated Stop Council | `early_stop_compute_fraction` | 3 | $+0.0129$ $[+0.0016, +0.0241]$ | $+0.0129$ $[+0.0016, +0.0241]$ | Sampling | Trace Analysis | Diagnostic | Pass (Contract) |
-| **A02** | Static-Anchor RPO | `oracle_logloss_reduction` | 3 | $+0.1957$ $[+0.0228, +0.3687]$ | $+0.1957$ $[+0.0228, +0.3687]$ | Sampling | Trace Analysis | Diagnostic | Pass (Contract) |
-| **A03** | Uncertainty Decomposition | `conservative_radius_coverage_gain` | 3 | $+3.20\times 10^{-11}$ $[\pm 1.39\times 10^{-6}]$ | $+3.20\times 10^{-11}$ $[\pm 1.39\times 10^{-6}]$ | Sampling | Trace Analysis | Diagnostic | Pass (Contract) |
-| **A04** | KG/VOC Allocator | `allocation_entropy_shift` | 3 | Validated | Validated | Model Based | Synthetic Gate | Diagnostic | Pass (Contract) |
-| **A05** | Counterfactual Meta Teacher | `meta_action_regret_red_per_cost` | 3 | $+1.96\times 10^{-5}$ $[-4.28\times 10^{-5}, +8.19\times 10^{-5}]$ | $+1.96\times 10^{-5}$ $[-4.28\times 10^{-5}, +8.19\times 10^{-5}]$ | Sampling | Trace Analysis | Diagnostic | Pass (Contract) |
-| **A06** | Gumbel + Sequential Halving | `simple_regret_reduction` | 3 | $-0.0005$ $[-0.0065, +0.0054]$ | $-0.0005$ $[-0.0065, +0.0054]$ | Sampling | Trace Analysis | Diagnostic | Pass (Contract) |
-| **A07** | Residual-Evidence Widening | `omission_regret_reduction` | 3 | $0.0000$ $[\pm 1.13\times 10^{-6}]$ | $0.0000$ $[\pm 1.13\times 10^{-6}]$ | Sampling | Trace Analysis | Diagnostic | Pass (Contract) |
-| **A08** | Tactical Proof Backend | `forced_action_recall_gain` | 3 | $+1.0000$ (Exact) | $+1.0000$ (Exact) | Exact | Position Suite | Diagnostic | Pass (Contract) |
-| **A09** | H3 Change-Point Router | `change_router_brier_gain` | 3 | $+0.2621$ $[+0.2175, +0.3067]$ | $+0.2621$ $[+0.2093, +0.3149]$ | Sampling | Trace Analysis | Diagnostic | Pass (Contract) |
-| **A10** | Prior-Refresh Specialist | `ood_recovery_gain` | — | Skipped (dormant) | Skipped (dormant) | Unavailable | Conditional | Dormant | Skipped |
-| **A11** | Dynamic Live-Set Particles | `multimodal_est_error_reduction` | 3 | $+0.0497$ $[+0.0466, +0.0527]$ | $+0.0497$ $[+0.0466, +0.0527]$ | Sampling | Synthetic Gate | Diagnostic | Pass (Contract) |
-| **A12** | JSD Balanced Sampler | `target_total_variation_reduction` | 3 | $+0.0711$ $[+0.0660, +0.0762]$ | $+0.0711$ $[+0.0655, +0.0767]$ | Sampling | Synthetic Gate | Diagnostic | Pass (Contract) |
-| **A13** | Pending-Flow / WU-UCT | `duplicate_dispatch_rate_reduction`| 3 | $+0.3807$ $[+0.3768, +0.3847]$ | $+0.3807$ $[+0.3768, +0.3847]$ | Sampling | Synthetic Gate | Diagnostic | Pass (Contract) |
-| **A14** | Semantic Path LSH | `near_dup_detection_bal_acc_gain` | 3 | $+0.2495$ $[+0.1817, +0.3172]$ | $+0.2495$ $[+0.1817, +0.3172]$ | Sampling | Synthetic Gate | Diagnostic | Pass (Contract) |
-| **A15** | Service-Curve Scheduler | `cuda_throughput_ratio` | 6 | $+4.9171$ $[+4.9088, +4.9254]$ | $+4.9171$ $[+4.1166, +5.7175]$ | Sampling | Systems Benchmark | Diagnostic | Pass (Contract) |
-| **A16** | Graph / State Sharing | `evaluator_call_reduction` | 3 | $+14.27$ $[+13.92, +14.62]$ calls | $+14.27$ $[+13.92, +14.62]$ calls | Sampling | Synthetic Gate | Diagnostic | Pass (Contract) |
-| **A17** | B13 Curvature Readout | `oracle_kl_reduction` | 6 | $+0.0297$ $[+0.0270, +0.0324]$ | $+0.0297$ $[+0.0270, +0.0324]$ | Sampling | Trace Analysis | Diagnostic | Pass (Contract) |
-| **A18** | Diffusion Evaluator | `heldout_joint_loss_reduction` | 3 | Validated | Validated | Sampling | Paired Training | Diagnostic | Pass (Contract) |
-| **A19** | RW-ResT Lite Evaluator | `weighted_proxy_loss_delta` | 3 | $+0.0078$ $[-0.0124, +0.0279]$ | $+0.0078$ $[-0.0124, +0.0279]$ | Sampling | Paired Training | Diagnostic | Pass (Contract) |
-| **A20** | Regret State Archive | `future_error_capture_lift` | 3 | $+0.3094$ $[+0.2824, +0.3364]$ | $+0.3091$ $[+0.2706, +0.3475]$ | Sampling | Trace Training | Diagnostic | Pass (Contract) |
-| **A21** | Signed-Path Coherence | `coherence_brier_gain` | 3 | $+0.0385$ $[+0.0153, +0.0618]$ | $+0.0385$ $[+0.0153, +0.0618]$ | Sampling | Trace Analysis | Diagnostic | Pass (Contract) |
-| **A22** | Physics Falsification | `surrogate_null_r2_gain` | 3 | Validated | Validated | Model Based | Trace Analysis | Diagnostic | Pass (Contract) |
-| **A23** | Incremental CPU Pattern | `incremental_feature_exact_match` | 3 | $+1.0000$ (Exact) | $+1.0000$ (Exact) | Exact | Position Suite | Diagnostic | Pass (Contract) |
-| **A24** | Learned Budget Gate | `budget_utility_gain` | 3 | $+0.0234$ $[+0.0048, +0.0420]$ | $+0.0234$ $[+0.0048, +0.0420]$ | Sampling | Trace Analysis | Diagnostic | Pass (Contract) |
-| **A25** | MENTS Soft Backup | `finite_temperature_value_shift` | 3 | $-0.0731$ $[-0.0774, -0.0687]$ | $-0.0731$ $[-0.0774, -0.0687]$ | Sampling | Trace Analysis | Diagnostic | Pass (Contract) |
-| **A26** | Exact Nested-Contour Lab | `contour_enum_absolute_error` | 3 | $5.17\times 10^{-17}$ (Exact) | $5.17\times 10^{-17}$ (Exact) | Exact | Synthetic Gate | Diagnostic | Pass (Contract) |
+| **A01** | Calibrated Stop Council | `early_stop_compute_fraction` | 3 | $+0.0129$ $[+0.0016, +0.0241]$ | $+0.0129$ $[+0.0016, +0.0241]$ | Sampling | `trace_analysis` | Diagnostic | Pass (Contract) |
+| **A02** | Static-Anchor RPO | `oracle_logloss_reduction` | 3 | $+0.1957$ $[+0.0228, +0.3687]$ | $+0.1957$ $[+0.0228, +0.3687]$ | Sampling | `trace_analysis` | Diagnostic | Pass (Contract) |
+| **A03** | Uncertainty Decomposition | `conservative_radius_coverage_gain` | 3 | $+3.20\times 10^{-11}$ $[\pm 1.39\times 10^{-6}]$ | $+3.20\times 10^{-11}$ $[\pm 1.39\times 10^{-6}]$ | Sampling | `trace_analysis` | Diagnostic | Pass (Contract) |
+| **A04** | KG/VOC Allocator | `uncertainty_allocation_correction_gain` | 3 | Validated | Validated | Model Based | `synthetic_gate` | Diagnostic | Pass (Contract) |
+| **A05** | Counterfactual Meta Teacher | `meta_action_regret_red_per_cost` | 3 | $+1.96\times 10^{-5}$ $[-4.28\times 10^{-5}, +8.19\times 10^{-5}]$ | $+1.96\times 10^{-5}$ $[-4.28\times 10^{-5}, +8.19\times 10^{-5}]$ | Sampling | `synthetic_counterfactual` | Diagnostic | Pass (Contract) |
+| **A06** | Gumbel + Sequential Halving | `simple_regret_reduction` | 3 | $-0.0005$ $[-0.0065, +0.0054]$ | $-0.0005$ $[-0.0065, +0.0054]$ | Sampling | `synthetic_mechanism` | Diagnostic | Pass (Contract) |
+| **A07** | Residual-Evidence Widening | `omission_regret_reduction` | 3 | $0.0000$ $[\pm 1.13\times 10^{-6}]$ | $0.0000$ $[\pm 1.13\times 10^{-6}]$ | Sampling | `synthetic_mechanism` | Diagnostic | Pass (Contract) |
+| **A08** | Tactical Proof Backend | `forced_action_recall_gain` | 3 | $+1.0000$ (Exact) | $+1.0000$ (Exact) | Exact | `position_suite` | Diagnostic | Pass (Contract) |
+| **A09** | H3 Change-Point Router | `change_router_brier_gain` | 3 | $+0.2621$ $[+0.2175, +0.3067]$ | $+0.2621$ $[+0.2093, +0.3149]$ | Sampling | `trace_analysis` | Diagnostic | Pass (Contract) |
+| **A10** | Prior-Refresh Specialist | `ood_recovery_gain` | — | Skipped (dormant) | Skipped (dormant) | Unavailable | `conditional_audit` | Dormant | Skipped |
+| **A11** | Dynamic Live-Set Particles | `multimodal_est_error_reduction` | 3 | $+0.0497$ $[+0.0466, +0.0527]$ | $+0.0497$ $[+0.0466, +0.0527]$ | Sampling | `synthetic_gate` | Diagnostic | Pass (Contract) |
+| **A12** | JSD Balanced Sampler | `target_total_variation_reduction` | 3 | $+0.0711$ $[+0.0660, +0.0762]$ | $+0.0711$ $[+0.0655, +0.0767]$ | Sampling | `synthetic_gate` | Diagnostic | Pass (Contract) |
+| **A13** | Pending-Flow / WU-UCT | `duplicate_dispatch_rate_reduction`| 3 | $+0.3807$ $[+0.3768, +0.3847]$ | $+0.3807$ $[+0.3768, +0.3847]$ | Sampling | `synthetic_gate` | Diagnostic | Pass (Contract) |
+| **A14** | Semantic Path LSH | `near_dup_detection_bal_acc_gain` | 3 | $+0.2495$ $[+0.1817, +0.3172]$ | $+0.2495$ $[+0.1817, +0.3172]$ | Sampling | `trace_shadow` | Diagnostic | Pass (Contract) |
+| **A15** | Service-Curve Scheduler | `cuda_throughput_ratio` | 6 | $+4.9171$ $[+4.9088, +4.9254]$ | $+4.9171$ $[+4.1166, +5.7175]$ | Sampling | `systems_benchmark` | Diagnostic | Pass (Contract) |
+| **A16** | Graph / State Sharing | `evaluator_call_reduction` | 3 | $+14.27$ $[+13.92, +14.62]$ calls | $+14.27$ $[+13.92, +14.62]$ calls | Sampling | `synthetic_gate` | Diagnostic | Pass (Contract) |
+| **A17** | B13 Curvature Readout | `oracle_kl_reduction` | 6 | $+0.0297$ $[+0.0270, +0.0324]$ | $+0.0297$ $[+0.0270, +0.0324]$ | Sampling | `trace_analysis` | Diagnostic | Pass (Contract) |
+| **A18** | Diffusion Evaluator | `heldout_joint_loss_reduction` | 3 | Validated | Validated | Sampling | `paired_training` | Diagnostic | Pass (Contract) |
+| **A19** | RW-ResT Lite Evaluator | `weighted_proxy_loss_delta` | 3 | $+0.0078$ $[-0.0124, +0.0279]$ | $+0.0078$ $[-0.0124, +0.0279]$ | Sampling | `paired_training` | Diagnostic | Pass (Contract) |
+| **A20** | Regret State Archive | `future_error_capture_lift` | 3 | $+0.3094$ $[+0.2824, +0.3364]$ | $+0.3091$ $[+0.2706, +0.3475]$ | Sampling | `trace_analysis` | Diagnostic | Pass (Contract) |
+| **A21** | Signed-Path Coherence | `coherence_brier_gain` | 3 | $+0.0385$ $[+0.0153, +0.0618]$ | $+0.0385$ $[+0.0153, +0.0618]$ | Sampling | `trace_analysis` | Diagnostic | Pass (Contract) |
+| **A22** | Physics Falsification | `surrogate_null_r2_gain` | 3 | Validated | Validated | Model Based | `trace_analysis` | Diagnostic | Pass (Contract) |
+| **A23** | Incremental CPU Pattern | `incremental_feature_exact_match` | 3 | $+1.0000$ (Exact) | $+1.0000$ (Exact) | Exact | `position_suite` | Diagnostic | Pass (Contract) |
+| **A24** | Learned Budget Gate | `budget_utility_gain` | 3 | $+0.0234$ $[+0.0048, +0.0420]$ | $+0.0234$ $[+0.0048, +0.0420]$ | Sampling | `trace_analysis` | Diagnostic | Pass (Contract) |
+| **A25** | MENTS Soft Backup | `finite_temperature_value_shift` | 3 | $-0.0731$ $[-0.0774, -0.0687]$ | $-0.0731$ $[-0.0774, -0.0687]$ | Sampling | `synthetic_objective_mismatch` | Diagnostic | Pass (Contract) |
+| **A26** | Exact Nested-Contour Lab | `contour_enum_absolute_error` | 3 | $5.17\times 10^{-17}$ (Exact) | $5.17\times 10^{-17}$ (Exact) | Exact | `synthetic_gate` | Diagnostic | Pass (Contract) |
 
 ---
 

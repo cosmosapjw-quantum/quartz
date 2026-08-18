@@ -1244,12 +1244,19 @@ def publish_outcome(
         atomic_jsonl_dump(effects_path, effect_records)
     else:
         effects_path.write_text("", encoding="utf-8")
+    contract_status = "passed" if outcome.status == "success" else "failed"
+    effect_status = "observed" if effect_records else "no_effect"
     summary = {
         "schema_version": STUDY_SCHEMA_VERSION,
         "axis_id": spec.axis_id,
         "profile": profile,
         "gate_kind": spec.gate_kind,
         "execution_status": outcome.status,
+        "contract_status": contract_status,
+        "effect_status": effect_status,
+        "evidence_domain": spec.gate_kind,
+        "evidence_maturity": "diagnostic",
+        "promotion_status": "no_promotion",
         "outcome_detail": outcome.outcome_detail,
         "row_count": len(outcome.rows),
         "effect_record_count": len(effect_records),
