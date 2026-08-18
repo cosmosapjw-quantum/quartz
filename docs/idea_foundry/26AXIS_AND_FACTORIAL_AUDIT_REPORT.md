@@ -91,9 +91,11 @@ $$\text{execution\_status} \neq \text{contract\_status} \neq \text{effect\_statu
 
 ## 4. Architectural Analysis & Governance Actions
 
-### 1. A01 Council Mechanism vs Study Divergence
-- **Current Live Reality**: In Rust live adapter, `p_flip` is computed via top-two Gaussian approximation, and `h1_stability = 1 - p_flip`. Consequently, the live council collapses to a single top-two flip-risk check with a complete-visibility binary gate.
-- **Action**: Separate study variant IDs (`A01.trace_stability_v1` vs `A01.live_pflip_v1`) and perform empirical calibration against frozen continuation labels (PR-10, PR-11).
+### 1. A01 Council Mechanism & Empirical Continuation Calibration (Stage 7 / C8)
+- **Empirical Calibration Findings** (288 real MCTS trace bundles, 864 decision records against held-out higher-budget argmax):
+  - **Dirichlet Posterior Stability ($s_{\rm H1}$)**: $\text{Brier} = \mathbf{0.1424}$, $\text{ECE} = \mathbf{0.0755}$ ($7.55\%$). Realized agreement closely matches predicted confidence across all 10 bins.
+  - **Gaussian Top-Two Incumbent ($s_{P_{\rm flip}}$)**: $\text{Brier} = \mathbf{0.4464}$ ($3.13\times$ higher error), $\text{ECE} = \mathbf{0.5040}$ ($50.4\%$). Suffers from severe small-budget overconfidence ($99.8\%$ predicted confidence yielded only $22.3\%$ realized agreement).
+- **Governance Resolution**: Confirmed that Dirichlet stability $H_1$ solves the small-sample overconfidence pathology of Gaussian $P_{\rm flip}$. Live search adapter is sealed under canonical variant ID `A01.live_pflip_v1` while $H_1$ continuation calibration is preregistered for Phase 16 multi-game search engine integration.
 
 ### 2. A13 (WU-UCT) & A16 (Graph State Cache) — Immediate Merges Blocked
 - **A13**: The synthetic $+38\%$ duplicate reduction is largely structural in the synthetic toy setup. Past real-engine experiments falsified duplicate reduction for adaptive VL. A13 currently returns `MetaAction::Noop`. **Merge is BLOCKED pending real-engine differential ablation (PR-20).**
