@@ -202,6 +202,12 @@ artifact의 실제 hash도 확인한다.
 
 ## 5. 실제 첫 과학 게이트 실행
 
+> **동결된 역사 인터페이스:** 이 절과 6절의 schema-v1 명령은 과거 실행을
+> 설명하기 위한 inspection surface일 뿐이다. `plan`과 기존 캠페인의 `status`
+> 조회만 read-only로 허용되며, run/resume/reuse/publish/analyze는 모두 차단된다.
+> 향후 contract 작업은 `scripts/idea_foundry_run_all.py`의 canonical v2 경로에서
+> 별도 검증하며, 이 문서의 과거 명령은 과학적 실행 권한을 부여하지 않는다.
+
 26축의 실행 계약과 예상 시간을 먼저 확인한다.
 
 ```bash

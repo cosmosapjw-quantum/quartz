@@ -22,7 +22,11 @@ if str(REPO_ROOT) not in sys.path:
 from quartz.experiment_manifest import atomic_json_dump, file_sha256, utc_now  # noqa: E402
 from quartz.idea_foundry.axis_workflow import atomic_jsonl_dump  # noqa: E402
 from quartz.idea_foundry.meta_analysis import validate_effect_record  # noqa: E402
-from quartz.idea_foundry.studies import StudyError, load_study_specs  # noqa: E402
+from quartz.idea_foundry.studies import (  # noqa: E402
+    StudyError,
+    load_study_specs,
+    reject_legacy_study_mutation,
+)
 
 
 def _json(path: Path) -> dict[str, Any]:
@@ -173,6 +177,7 @@ def _plot(path: Path, meta_rows: Sequence[Mapping[str, Any]]) -> None:
 
 
 def analyze_campaign(campaign_dir: Path, output_dir: Path | None) -> dict[str, Any]:
+    reject_legacy_study_mutation()
     campaign = campaign_dir.resolve()
     state = _json(campaign / "campaign_state.json")
     summary = _json(campaign / "campaign_summary.json")

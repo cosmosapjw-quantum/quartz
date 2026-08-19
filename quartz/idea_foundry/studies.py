@@ -49,10 +49,17 @@ POSITION_SUITE = (
 )
 STUDY_SCHEMA_VERSION = 1
 TERMINAL_STATUS = "completed_no_promotion"
+LEGACY_STUDY_FROZEN_MESSAGE = (
+    "legacy scientific study schema v1 is frozen; inspection only"
+)
 
 
 class StudyError(RuntimeError):
     """Raised when a study cannot satisfy its preregistered contract."""
+
+
+def reject_legacy_study_mutation() -> None:
+    raise StudyError(LEGACY_STUDY_FROZEN_MESSAGE)
 
 
 @dataclass(frozen=True)
@@ -1173,6 +1180,7 @@ def publish_outcome(
     outcome: StudyOutcome,
     extra_sources: Sequence[Path] = (),
 ) -> dict[str, Any]:
+    reject_legacy_study_mutation()
     spec = study_spec(axis_id)
     target = _ensure_output(output_dir)
     rows_path = target / "rows.jsonl"
@@ -1322,6 +1330,7 @@ def run_inprocess_study(
     output_dir: Path,
     entrypoint: Path,
 ) -> dict[str, Any]:
+    reject_legacy_study_mutation()
     outcome = execute_inprocess(axis_id, profile, seed)
     return publish_outcome(
         axis_id=axis_id,

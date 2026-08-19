@@ -22,6 +22,7 @@ from quartz.idea_foundry.studies import (  # noqa: E402
     StudyError,
     StudyOutcome,
     publish_outcome,
+    reject_legacy_study_mutation,
     run_inprocess_study,
     study_plan,
     study_spec,
@@ -374,6 +375,7 @@ def main(argv: Sequence[str] | None = None) -> int:
             payload = study_plan()
             print(json.dumps(payload, indent=2, sort_keys=True))
             return 0
+        reject_legacy_study_mutation()
         spec = study_spec(args.axis)
         output = args.output_dir or _default_output(spec.axis_id, args.profile)
         if spec.runner.endswith("_native"):

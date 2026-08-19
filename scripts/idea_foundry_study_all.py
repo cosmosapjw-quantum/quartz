@@ -23,6 +23,7 @@ from quartz.idea_foundry.studies import (  # noqa: E402
     StudyError,
     fingerprint,
     load_study_specs,
+    reject_legacy_study_mutation,
     study_plan,
 )
 
@@ -393,6 +394,7 @@ def run_campaign(
     timeout_multiplier: float,
     campaign_root: Path = CAMPAIGN_ROOT,
 ) -> dict[str, Any]:
+    reject_legacy_study_mutation()
     run_root = _safe_run_root(run_id, campaign_root)
     state_path = run_root / "campaign_state.json"
     if resume:

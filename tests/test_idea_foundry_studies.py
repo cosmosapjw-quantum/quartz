@@ -5,10 +5,10 @@ import importlib.util
 from pathlib import Path
 
 import numpy as np
+import pytest
 
 from quartz.idea_foundry.a19_ablation import generate_topology, load_screen_plan
 from quartz.idea_foundry.a19_proxy import _split_contract, build_model, operator_trace
-from quartz.idea_foundry.meta_analysis import validate_effect_record
 from quartz.idea_foundry.studies import (
     STUDY_REGISTRY,
     execute_inprocess,
@@ -24,6 +24,7 @@ FIXTURES = ROOT / "tests" / "fixtures"
 PHASE15_A4_MINIMAL = FIXTURES / "idea_foundry_phase15_a4_minimal.jsonl"
 STAGE7_A4_B13_MINIMAL = FIXTURES / "idea_foundry_stage7_a4_b13_minimal.jsonl"
 POSITION_SUITE_MINIMAL = FIXTURES / "idea_foundry_position_suite_minimal.json"
+FROZEN_V1 = "legacy scientific study schema v1 is frozen; inspection only"
 
 
 def _assert_fixture_provenance(path: Path) -> None:
@@ -115,36 +116,19 @@ def test_representative_trace_synthetic_conditional_and_exact_recipes_are_distin
     assert max(row["paired_effect"] for row in exact.rows) <= 1e-12
 
 
-def test_published_effect_records_are_meta_schema_valid(tmp_path, monkeypatch):
+def test_legacy_publish_and_inprocess_run_are_frozen_before_work(tmp_path, monkeypatch):
     from quartz.idea_foundry import studies
 
-    _patch_compact_phase15_a4_grid(monkeypatch)
-    monkeypatch.setattr(
-        studies,
-        "_ensure_output",
-        lambda path: path.mkdir(parents=True, exist_ok=True) or path,
-    )
-    outcome = execute_inprocess("A02", "pilot", 20260719)
     output = tmp_path / "A02"
-    summary = publish_outcome(
-        axis_id="A02",
-        profile="pilot",
-        seed=20260719,
-        output_dir=output,
-        outcome=outcome,
-        extra_sources=(Path(__file__).resolve(),),
-    )
-    assert summary["execution_status"] == "completed_no_promotion"
-    records = [
-        json.loads(line)
-        for line in (output / "effect_records.jsonl")
-        .read_text(encoding="utf-8")
-        .splitlines()
-    ]
-    assert len(records) == 3
-    assert all(validate_effect_record(record) for record in records)
-    manifest = json.loads((output / "run_manifest.json").read_text(encoding="utf-8"))
-    assert manifest["promotion"]["eligible"] is False
+    outcome = studies.StudyOutcome([], {})
+    common = dict(profile="pilot", seed=20260719, output_dir=output)
+    monkeypatch.setattr(studies, "_ensure_output", pytest.fail)
+    with pytest.raises(studies.StudyError, match=FROZEN_V1):
+        publish_outcome(axis_id="A02", outcome=outcome, **common)
+    monkeypatch.setattr(studies, "execute_inprocess", pytest.fail)
+    with pytest.raises(studies.StudyError, match=FROZEN_V1):
+        studies.run_inprocess_study("A02", entrypoint=Path(__file__), **common)
+    assert not output.exists()
 
 
 def test_a19_split_and_parameter_contracts_are_seed_deterministic():
@@ -319,3 +303,51 @@ def test_native_recovery_reuses_valid_and_archives_incomplete_outputs(
     assert calls == [("executor",)]
     assert (tmp_path / "A19.native.incomplete-attempt-1").is_dir()
     assert (native_dir / "valid").is_file()
+
+
+def test_legacy_routes_are_frozen_or_read_only(tmp_path, monkeypatch, capsys):
+    from scripts import idea_foundry_study_analyze as analyzer
+
+    axis_runner, campaign_runner = _load_axis_study_runner(), _load_campaign_runner()
+    monkeypatch.setattr(axis_runner, "study_spec", pytest.fail)
+    output = tmp_path / "output"
+    assert axis_runner.main(["run", "--axis", "A01", "--output-dir", str(output)]) == 2
+    assert FROZEN_V1 in capsys.readouterr().err
+    assert axis_runner.main(["plan", "--json"]) == 0 and not output.exists()
+
+    campaign_runner.CAMPAIGN_ROOT = root = tmp_path / "results" / "idea_foundry_studies"
+    with monkeypatch.context() as patch:
+        patch.setattr(campaign_runner, "_safe_run_root", pytest.fail)
+        for command in ("run", "resume"):
+            assert campaign_runner.main([command, "--run-id", "historical"]) == 2
+            assert FROZEN_V1 in capsys.readouterr().err
+    assert not root.exists()
+    campaign_runner.REPO_ROOT = tmp_path
+    run_root = root / "x"
+    run_root.mkdir(parents=True)
+    state = run_root / "campaign_state.json"
+    payload = (
+        '{"schema_version":1,"run_id":"x","suite":"legacy","profile":"full",'
+        '"status":"completed_no_promotion","axes":[]}'
+    )
+    state.write_text(payload, encoding="utf-8")
+    before = state.read_bytes()
+    assert campaign_runner.main(["status", "--run-id", "x"]) == 0
+    assert state.read_bytes() == before and list(run_root.iterdir()) == [state]
+    state.write_text(
+        json.dumps(
+            {
+                "schema_version": 1,
+                "status": "completed_no_promotion",
+                "axes": [{"axis_id": f"A{index:02d}"} for index in range(1, 27)],
+            }
+        ),
+        encoding="utf-8",
+    )
+    summary, target = run_root / "campaign_summary.json", tmp_path / "analysis"
+    summary.write_text('{"status":"completed_no_promotion"}', encoding="utf-8")
+    before = (state.read_bytes(), summary.read_bytes())
+    with pytest.raises(analyzer.StudyError, match=FROZEN_V1):
+        analyzer.analyze_campaign(run_root, target)
+    assert not target.exists()
+    assert (state.read_bytes(), summary.read_bytes()) == before
