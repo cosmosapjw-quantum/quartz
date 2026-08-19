@@ -29,6 +29,7 @@ from quartz.experiment_manifest import (  # noqa: E402
 )
 from quartz.idea_foundry.gates import AXIS_TYPE_BY_ID, run_axis_contract_gate  # noqa: E402
 from quartz.idea_foundry.status_schema import (  # noqa: E402
+    STATUS_SCHEMA_PATH,
     ExecutionStatus,
     first_gate_status,
     transition_status,
@@ -76,6 +77,7 @@ def _source_hashes(axis_id: str) -> list[dict[str, str]]:
         REPO_ROOT / "quartz" / "idea_foundry" / "contracts.py",
         REPO_ROOT / "quartz" / "idea_foundry" / "serialization.py",
         REPO_ROOT / "quartz" / "idea_foundry" / "gates.py",
+        STATUS_SCHEMA_PATH,
         REPO_ROOT / "configs" / "idea_foundry.axes.v1.json",
         module_path,
     )
@@ -97,8 +99,7 @@ def _manifest_base(axis_id: str, role: str, seed: int) -> dict[str, Any]:
         "role": role,
         "claim_scope": CLAIM_SCOPE,
         "execution_mode": "synthetic_contract_gate",
-        "gate_evidence_status": "contract_only",
-        "evidence_status_origin": "axis_registry_preexisting",
+        "registry_evidence_origin": "axis_registry_preexisting",
         "status": transition_status(ExecutionStatus.RUNNING),
         "started_at": utc_now(),
         "completed_at": None,
@@ -116,7 +117,6 @@ def _manifest_base(axis_id: str, role: str, seed: int) -> dict[str, Any]:
             "argv": list(sys.argv),
         },
         "git": git_provenance(REPO_ROOT),
-        "auto_promoted": False,
         "prohibited_inferences": list(PROHIBITED_INFERENCES),
         "artifacts": [],
     }
@@ -172,8 +172,7 @@ def run(axis_id: str, role: str, output_dir: Path, seed: int) -> int:
             "axis_registry_status": result["axis_registry_status"],
             "claim_scope": CLAIM_SCOPE,
             "execution_mode": "synthetic_contract_gate",
-            "gate_evidence_status": "contract_only",
-            "evidence_status_origin": "axis_registry_preexisting",
+            "registry_evidence_origin": "axis_registry_preexisting",
             "fixture_id": result["fixture_id"],
             "fixture_ids": result["fixture_ids"],
             "fixture_hash": result["fixture_hash"],

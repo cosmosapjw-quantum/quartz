@@ -27,16 +27,12 @@ from quartz.idea_foundry.axis_workflow import (
     validate_axis_analysis,
 )
 from quartz.idea_foundry.status_schema import (
-    ContractStatus,
-    EffectStatus,
-    EvidenceMaturity,
-    ExecutionStatus,
-    PromotionStatus,
+    STATUS_SCHEMA_PATH,
     StatusSchemaError,
     first_gate_status,
     is_legacy_status,
-    is_resumable,
-    status_v2,
+    validate_axis_status,
+    validate_campaign_status,
     validate_status_v2,
 )
 
@@ -57,12 +53,19 @@ class MetaAnalysisError(RuntimeError):
     """Raised when analysis inputs are incomplete or statistically incompatible."""
 
 
-def _status(payload: Mapping[str, Any], label: str) -> dict[str, Any]:
+def _expected_status(
+    payload: Mapping[str, Any], label: str, axis_id: str | None = None
+) -> dict[str, Any]:
     value = payload.get("status")
     if is_legacy_status(value) or "execution_status" in payload:
         raise MetaAnalysisError(f"{label}: legacy status schema v1 is inspectable only")
     try:
-        return validate_status_v2(value)
+        status = validate_status_v2(value)
+        return (
+            validate_axis_status(axis_id, status)
+            if axis_id
+            else validate_campaign_status(status)
+        )
     except StatusSchemaError as exc:
         raise MetaAnalysisError(f"{label}: {exc}") from exc
 
@@ -161,9 +164,10 @@ def _artifact_manifest(
         ],
         "sources": [
             {
-                "path": str(Path(__file__).resolve().relative_to(REPO_ROOT)),
-                "sha256": file_sha256(__file__),
+                "path": str(path.relative_to(REPO_ROOT)),
+                "sha256": file_sha256(path),
             }
+            for path in (Path(__file__).resolve(), STATUS_SCHEMA_PATH)
         ],
         "artifacts": [
             {
@@ -173,7 +177,6 @@ def _artifact_manifest(
             }
             for path in artifacts
         ],
-        "promotion": {"auto": False, "eligible": False},
     }
 
 
@@ -191,9 +194,9 @@ def analyze_campaign(
         raise MetaAnalysisError("campaign state or summary schema mismatch")
     if state.get("run_id") != summary.get("run_id"):
         raise MetaAnalysisError("campaign state/summary run identity mismatch")
-    state_status = _status(state, "campaign state")
-    summary_status = _status(summary, "campaign summary")
-    if state_status != summary_status or not is_resumable(state_status):
+    state_status = _expected_status(state, "campaign state")
+    summary_status = _expected_status(summary, "campaign summary")
+    if state_status != summary_status:
         raise MetaAnalysisError("campaign state/summary status mismatch")
     specs = load_workflow_specs()
     axis_rows = state.get("axes")
@@ -211,22 +214,22 @@ def analyze_campaign(
             row.get("axis_id"),
             row.get("lane_id"),
             row.get("role"),
-            _status(row, "campaign state axis"),
+            _expected_status(row, "campaign state axis", spec.axis_id),
             row.get("current_attempt"),
             len(row.get("attempts", [])),
         )
-        for row in axis_rows
+        for spec, row in zip(specs, axis_rows, strict=True)
     ]
     observed_summary_rows = [
         (
             row.get("axis_id"),
             row.get("lane_id"),
             row.get("role"),
-            _status(row, "campaign summary axis"),
+            _expected_status(row, "campaign summary axis", spec.axis_id),
             row.get("current_attempt"),
             row.get("attempt_count"),
         )
-        for row in summary_axes
+        for spec, row in zip(specs, summary_axes, strict=True)
         if isinstance(row, dict)
     ]
     if observed_summary_rows != expected_summary_rows:
@@ -242,8 +245,7 @@ def analyze_campaign(
     effect_records: list[dict[str, Any]] = []
     analysis_inputs: list[Path] = [state_path, summary_path]
     for spec, axis_state in zip(specs, axis_rows, strict=True):
-        if not is_resumable(axis_state.get("status")):
-            raise MetaAnalysisError(f"axis is not complete: {spec.axis_id}")
+        axis_status = _expected_status(axis_state, "campaign state axis", spec.axis_id)
         raw_attempt = axis_state.get("current_attempt")
         if not isinstance(raw_attempt, str):
             raise MetaAnalysisError(f"axis attempt path is missing: {spec.axis_id}")
@@ -253,6 +255,10 @@ def analyze_campaign(
             input_dir=attempt_dir,
             analysis_dir=attempt_dir / "analysis",
         )
+        if analysis["status"] != axis_status:
+            raise MetaAnalysisError(
+                f"axis state/artifact status mismatch: {spec.axis_id}"
+            )
         aggregate = analysis["aggregate"]
         rows.append(
             {
@@ -435,7 +441,7 @@ def pool_effect_group(records: Sequence[Mapping[str, Any]]) -> dict[str, Any]:
         return {
             **base,
             "k": len(validated),
-            "status": "INSUFFICIENT_INDEPENDENT_EFFECTS",
+            "pooling_disposition": "INSUFFICIENT_INDEPENDENT_EFFECTS",
             "run_ids": sorted({record["run_id"] for record in validated}),
         }
     try:
@@ -489,7 +495,7 @@ def pool_effect_group(records: Sequence[Mapping[str, Any]]) -> dict[str, Any]:
     return {
         **base,
         "k": len(validated),
-        "status": "POOLED_ANALYSIS_ONLY",
+        "pooling_disposition": "POOLED_ANALYSIS_ONLY",
         "run_ids": sorted({record["run_id"] for record in validated}),
         "fixed_effect": fixed_effect,
         "fixed_standard_error": fixed_se,
@@ -515,6 +521,27 @@ def pool_effect_records(records: Sequence[Mapping[str, Any]]) -> list[dict[str, 
     ]
 
 
+def _validate_campaign_input(path: Path, payload: Mapping[str, Any]) -> None:
+    payload_status = _expected_status(payload, "campaign analysis")
+    manifest = load_json_strict(path.parent / "analysis_manifest.json")
+    if not isinstance(manifest, dict):
+        raise MetaAnalysisError("campaign analysis manifest must be an object")
+    if _expected_status(manifest, "campaign analysis manifest") != payload_status:
+        raise MetaAnalysisError("campaign analysis manifest/status mismatch")
+    records = manifest.get("artifacts")
+    matches = (
+        [
+            row
+            for row in records
+            if isinstance(row, dict) and row.get("path") == path.name
+        ]
+        if isinstance(records, list)
+        else []
+    )
+    if len(matches) != 1 or matches[0].get("sha256") != file_sha256(path):
+        raise MetaAnalysisError("campaign analysis payload hash mismatch")
+
+
 def _load_effect_records(paths: Sequence[Path]) -> list[dict[str, Any]]:
     records: list[dict[str, Any]] = []
     for path in paths:
@@ -529,7 +556,7 @@ def _load_effect_records(paths: Sequence[Path]) -> list[dict[str, Any]]:
                     f"JSON input has no effect_records list: {path}"
                 )
             if payload.get("analysis_kind") == "idea_foundry_campaign_analysis":
-                _status(payload, "campaign analysis")
+                _validate_campaign_input(path, payload)
             payloads = payload["effect_records"]
         for payload in payloads:
             record = validate_effect_record(payload)
@@ -561,7 +588,9 @@ def _load_effect_records(paths: Sequence[Path]) -> list[dict[str, Any]]:
 
 
 def _write_meta_plot(path: Path, groups: Sequence[Mapping[str, Any]]) -> None:
-    pooled = [row for row in groups if row["status"] == "POOLED_ANALYSIS_ONLY"]
+    pooled = [
+        row for row in groups if row["pooling_disposition"] == "POOLED_ANALYSIS_ONLY"
+    ]
     with tempfile.TemporaryDirectory(prefix="quartz-meta-plot-") as mpl_dir:
         old_mpl = os.environ.get("MPLCONFIGDIR")
         os.environ["MPLCONFIGDIR"] = mpl_dir
@@ -616,22 +645,13 @@ def run_meta_analysis(input_paths: Sequence[Path], output_dir: Path) -> dict[str
     records = _load_effect_records(input_paths)
     groups = pool_effect_records(records)
     _ensure_new_directory(target)
-    pooled_count = sum(row["status"] == "POOLED_ANALYSIS_ONLY" for row in groups)
-    status = (
-        status_v2(
-            ExecutionStatus.SUCCESS,
-            ContractStatus.PASSED,
-            EffectStatus.ESTIMABLE,
-            EvidenceMaturity.DIAGNOSTIC,
-            PromotionStatus.INELIGIBLE,
-        )
-        if pooled_count
-        else first_gate_status("meta")
+    pooled_count = sum(
+        row["pooling_disposition"] == "POOLED_ANALYSIS_ONLY" for row in groups
     )
     rows = groups or [
         {
             "schema_version": ANALYSIS_SCHEMA_VERSION,
-            "status": "NO_COMPARABLE_EFFECTS",
+            "pooling_disposition": "NO_COMPARABLE_EFFECTS",
             "reason": "no explicit admissible effect records were supplied",
         }
     ]
@@ -643,7 +663,7 @@ def run_meta_analysis(input_paths: Sequence[Path], output_dir: Path) -> dict[str
     payload = {
         "schema_version": ANALYSIS_SCHEMA_VERSION,
         "analysis_kind": "idea_foundry_meta_analysis",
-        "status": status,
+        "status": first_gate_status("meta"),
         "effect_record_count": len(records),
         "estimand_group_count": len(groups),
         "pooled_group_count": pooled_count,

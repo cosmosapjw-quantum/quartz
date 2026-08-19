@@ -37,6 +37,7 @@ from quartz.idea_foundry.serialization import (
     freshness_from_payload,
     freshness_to_payload,
 )
+from quartz.idea_foundry.status_schema import first_gate_status
 
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
@@ -877,7 +878,11 @@ def test_axis_gate_cli_writes_validated_artifact_trio(tmp_path):
         json.loads(line)
         for line in (output / "rows.jsonl").read_text(encoding="utf-8").splitlines()
     ]
-    assert manifest["auto_promoted"] is False
-    assert manifest["status"] == "completed_no_promotion"
-    assert summary["promotion"]["auto"] is False
+    assert manifest["status"] == summary["status"] == first_gate_status("A01")
+    assert "auto_promoted" not in manifest
+    assert "gate_evidence_status" not in summary
+    assert any(
+        row["path"] == "quartz/idea_foundry/status_schema.py"
+        for row in manifest["source_hashes"]
+    )
     assert rows and all(row["axis_id"] == "A01" for row in rows)

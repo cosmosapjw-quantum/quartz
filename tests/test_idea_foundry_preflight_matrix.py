@@ -32,6 +32,7 @@ from quartz.idea_foundry.sequential import (
     SequentialCampaignError,
     resolve_run_root,
 )
+from quartz.idea_foundry.status_schema import first_gate_status
 
 
 def _load_preflight_script():
@@ -295,7 +296,9 @@ def test_every_meta_compatibility_key_blocks_cross_contract_pooling(
     second[field] = different
     groups = pool_effect_records([first, second])
     assert len(groups) == 2
-    assert {group["status"] for group in groups} == {"INSUFFICIENT_INDEPENDENT_EFFECTS"}
+    assert {group["pooling_disposition"] for group in groups} == {
+        "INSUFFICIENT_INDEPENDENT_EFFECTS"
+    }
 
 
 def test_effect_record_required_fields_are_exhaustively_enforced() -> None:
@@ -415,6 +418,9 @@ def test_single_verified_effect_remains_unpooled(tmp_path: Path) -> None:
         {"effect_records": [_effect(source_artifact_sha256=file_sha256(source))]},
     )
     payload = run_meta_analysis([input_path], tmp_path / "meta")
-    assert payload["status"] == "NO_COMPARABLE_EFFECTS"
+    assert payload["status"] == first_gate_status("meta")
     assert payload["pooled_group_count"] == 0
-    assert payload["groups"][0]["status"] == "INSUFFICIENT_INDEPENDENT_EFFECTS"
+    assert (
+        payload["groups"][0]["pooling_disposition"]
+        == "INSUFFICIENT_INDEPENDENT_EFFECTS"
+    )

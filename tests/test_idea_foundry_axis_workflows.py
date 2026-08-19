@@ -19,6 +19,7 @@ from quartz.idea_foundry.axis_workflow import (
     run_axis_gate,
     summarize_analysis_rows,
     validate_axis_analysis,
+    workflow_spec,
 )
 from quartz.idea_foundry.meta_analysis import (
     MetaAnalysisError,
@@ -27,6 +28,8 @@ from quartz.idea_foundry.meta_analysis import (
 )
 from quartz.idea_foundry.sequential import (
     SequentialCampaignError,
+    _new_state,
+    _validate_state,
     _validated_attempt,
     run_campaign,
 )
@@ -38,6 +41,23 @@ from quartz.idea_foundry.status_schema import (
     transition_status,
     validate_status_v2,
 )
+
+
+# fmt: off
+def _rewrite_run_status(output: Path, status: object) -> None:
+    summary_path = output / "summary.json"
+    summary = json.loads(summary_path.read_text(encoding="utf-8"))
+    summary["status"] = status
+    summary_path.write_text(json.dumps(summary), encoding="utf-8")
+    manifest_path = output / "run_manifest.json"
+    manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+    manifest["status"] = status
+    next(row for row in manifest["artifacts"] if row["path"] == "summary.json")["sha256"] = file_sha256(summary_path)
+    manifest_path.write_text(json.dumps(manifest), encoding="utf-8")
+
+
+def _run_gate(spec: object, output: Path, seed: int) -> None:
+    assert run_axis_gate(spec.axis_id, role=spec.role, output_dir=output, seed=seed, entrypoint_path=spec.script_path) == 0
 
 
 def test_axis_entrypoints_cover_registered_first_gate_order_exactly() -> None:
@@ -133,43 +153,48 @@ def test_axis_analysis_reuses_only_a_valid_existing_analysis(tmp_path: Path) -> 
     assert file_sha256(output_dir / "analysis" / "analysis.json") == first_hash
 
 
-def test_v2_status_round_trips_through_axis_analysis_and_resume(
-    tmp_path: Path,
-) -> None:
+def test_v2_status_round_trips_through_axis_analysis_and_resume(tmp_path: Path) -> None:
     spec = load_workflow_specs()[0]
     output_dir = tmp_path / "axis"
-    assert (
-        run_axis_gate(
-            spec.axis_id,
-            role=spec.role,
-            output_dir=output_dir,
-            seed=31,
-            entrypoint_path=spec.script_path,
-        )
-        == 0
-    )
+    _run_gate(spec, output_dir, 31)
     status = first_gate_status("A01")
     analysis = analyze_axis(spec.axis_id, input_dir=output_dir)
-    resumable = _validated_attempt(
-        spec.axis_id,
-        tmp_path,
-        {"status": status, "current_attempt": "axis"},
-    )
+    resumable = _validated_attempt(spec.axis_id, tmp_path, {"status": status, "current_attempt": "axis"})
     assert analysis["status"] == status
     assert resumable is True
-    summary_path = output_dir / "summary.json"
-    manifest_path = output_dir / "run_manifest.json"
-    summary = json.loads(summary_path.read_text(encoding="utf-8"))
-    summary["status"] = "completed_no_promotion"
-    summary_path.write_text(json.dumps(summary), encoding="utf-8")
-    manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
-    manifest["status"] = "completed_no_promotion"
-    manifest_path.write_text(json.dumps(manifest), encoding="utf-8")
+    assert _validated_attempt(spec.axis_id, tmp_path, {"status": first_gate_status("A10"), "current_attempt": "axis"}) is False
+    _rewrite_run_status(output_dir, "completed_no_promotion")
     with pytest.raises(AxisWorkflowError, match="legacy status schema v1"):
-        analyze_axis(
-            spec.axis_id, input_dir=output_dir, analysis_dir=tmp_path / "legacy"
-        )
+        analyze_axis(spec.axis_id, input_dir=output_dir, analysis_dir=tmp_path / "legacy")
     assert not (tmp_path / "legacy").exists()
+
+
+@pytest.mark.parametrize("axis_id, wrong_axis", [("A01", "A10"), ("A10", "A01")])
+def test_axis_context_rejects_the_other_terminal_status(tmp_path: Path, axis_id: str, wrong_axis: str) -> None:
+    spec = workflow_spec(axis_id)
+    output = tmp_path / spec.axis_id
+    _run_gate(spec, output, 37)
+    _rewrite_run_status(output, first_gate_status(wrong_axis))
+    target = tmp_path / "analysis"
+    with pytest.raises(AxisWorkflowError, match="axis status"):
+        analyze_axis(spec.axis_id, input_dir=output, analysis_dir=target)
+    assert not target.exists()
+
+
+@pytest.mark.parametrize("bad_axes", [None, 7, [None], ["bad"], [], [{}] * 27, "missing-status"])
+def test_malformed_axis_containers_raise_controlled_error(bad_axes: object) -> None:
+    entrypoint = REPO_ROOT / "scripts" / "idea_foundry_run_all.py"
+    state = _new_state("bad-state", 41, entrypoint)
+    state["status"] = first_gate_status("campaign")
+    if bad_axes == "missing-status":
+        bad_axes = state["axes"]
+        for row in bad_axes:
+            row["status"] = first_gate_status(row["axis_id"])
+        bad_axes[0].pop("status")
+    state["axes"] = bad_axes
+    with pytest.raises(SequentialCampaignError, match="campaign ax|status schema-v2"):
+        _validate_state(state, "bad-state", 41, entrypoint)
+# fmt: on
 
 
 def test_status_v2_rejects_invalid_lattice_and_preserves_special_states() -> None:
@@ -217,6 +242,15 @@ def test_full_sequential_campaign_and_resume_skip_validated_axes() -> None:
         )
         assert all(row["resume_action"] == "verified_skip" for row in state["axes"])
         assert all(len(row["attempts"]) == 1 for row in state["axes"])
+        assert all("process_outcome" in row["attempts"][0] for row in state["axes"])
+        source = next(
+            row
+            for row in state["fingerprint"]["sources"]
+            if row["path"] == "quartz/idea_foundry/status_schema.py"
+        )
+        source["sha256"] = "0" * 64
+        with pytest.raises(SequentialCampaignError, match="source"):
+            _validate_state(state, "sequential-smoke", 29, entrypoint)
 
         run_root = campaign_root / "sequential-smoke"
         campaign_analysis = analyze_campaign(run_root)
@@ -229,6 +263,13 @@ def test_full_sequential_campaign_and_resume_skip_validated_axes() -> None:
         )
         assert meta["status"] == first_gate_status("meta")
         assert meta["effect_record_count"] == 0
+        meta_manifest = json.loads(
+            (run_root / "meta_analysis" / "analysis_manifest.json").read_text()
+        )
+        assert any(
+            row["path"] == "quartz/idea_foundry/status_schema.py"
+            for row in meta_manifest["sources"]
+        )
         campaign_path = run_root / "campaign_analysis" / "campaign_analysis.json"
         legacy_path = campaign_root / "legacy-campaign-analysis.json"
         legacy = json.loads(campaign_path.read_text(encoding="utf-8"))
@@ -240,14 +281,26 @@ def test_full_sequential_campaign_and_resume_skip_validated_axes() -> None:
         assert legacy_path.read_bytes() == frozen_legacy
         assert not (campaign_root / "legacy-meta").exists()
 
+        state_path = run_root / "campaign_state.json"
+        state = json.loads(state_path.read_text(encoding="utf-8"))
         summary_path = run_root / "campaign_summary.json"
         summary = json.loads(summary_path.read_text(encoding="utf-8"))
+        state["status"] = summary["status"] = first_gate_status("A10")
+        state_path.write_text(json.dumps(state), encoding="utf-8")
+        summary_path.write_text(json.dumps(summary), encoding="utf-8")
+        skipped_output = run_root / "skipped-campaign-analysis"
+        with pytest.raises(MetaAnalysisError, match="campaign status"):
+            analyze_campaign(run_root, skipped_output)
+        assert not skipped_output.exists()
+        state["status"] = summary["status"] = first_gate_status("campaign")
+        state_path.write_text(json.dumps(state), encoding="utf-8")
+        summary_path.write_text(json.dumps(summary), encoding="utf-8")
+
         summary["axes"][0]["current_attempt"] = "axes/A03/attempt-999"
         summary_path.write_text(json.dumps(summary), encoding="utf-8")
         with pytest.raises(MetaAnalysisError, match="axis state mismatch"):
             analyze_campaign(run_root, run_root / "tampered-campaign-analysis")
 
-        state_path = run_root / "campaign_state.json"
         state = json.loads(state_path.read_text(encoding="utf-8"))
         state["status"] = "completed_no_promotion"
         state_path.write_text(json.dumps(state), encoding="utf-8")

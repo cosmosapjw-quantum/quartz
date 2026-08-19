@@ -22,12 +22,14 @@ from quartz.idea_foundry.axis_workflow import (
     validate_axis_analysis,
 )
 from quartz.idea_foundry.status_schema import (
+    STATUS_SCHEMA_PATH,
     ExecutionStatus,
     StatusSchemaError,
     first_gate_status,
     is_resumable,
     transition_status,
-    validate_status_v2,
+    validate_axis_status,
+    validate_campaign_status,
 )
 
 SEQUENTIAL_SCHEMA_VERSION = 1
@@ -73,6 +75,7 @@ def _fingerprint(entrypoint: Path) -> dict[str, Any]:
         REPO_ROOT / "configs" / "idea_foundry.axes.v1.json",
         REPO_ROOT / "configs" / "idea_lab.local.v2.json",
         REPO_ROOT / "quartz" / "idea_foundry" / "axis_workflow.py",
+        STATUS_SCHEMA_PATH,
         Path(__file__).resolve(),
         entrypoint.resolve(),
         *(spec.script_path for spec in specs),
@@ -110,7 +113,6 @@ def campaign_plan(entrypoint: Path) -> dict[str, Any]:
             for spec in specs
         ],
         "fingerprint": _fingerprint(entrypoint),
-        "promotion": {"auto": False, "eligible": False},
     }
 
 
@@ -139,7 +141,6 @@ def _new_state(run_id: str, seed: int, entrypoint: Path) -> dict[str, Any]:
             }
             for spec in specs
         ],
-        "promotion": {"auto": False, "eligible": False},
     }
 
 
@@ -156,10 +157,16 @@ def _validate_state(
         or state.get("schema_version") != SEQUENTIAL_SCHEMA_VERSION
     ):
         raise SequentialCampaignError("campaign state schema mismatch")
+    axes = state.get("axes")
+    expected = [spec.axis_id for spec in load_workflow_specs()]
+    if not isinstance(axes, list) or not all(isinstance(row, Mapping) for row in axes):
+        raise SequentialCampaignError("campaign axes must be a list of objects")
+    if [row.get("axis_id") for row in axes] != expected:
+        raise SequentialCampaignError("campaign axis order changed")
     try:
-        validate_status_v2(state.get("status"))
-        for row in state.get("axes", []):
-            validate_status_v2(row.get("status"))
+        validate_campaign_status(state.get("status"))
+        for axis_id, row in zip(expected, axes, strict=True):
+            validate_axis_status(axis_id, row.get("status"))
     except StatusSchemaError as exc:
         raise SequentialCampaignError(str(exc)) from exc
     if state.get("run_id") != run_id or state.get("seed") != seed:
@@ -168,10 +175,6 @@ def _validate_state(
         raise SequentialCampaignError(
             "resume refused: registry, source, or interpreter hash changed"
         )
-    axes = state.get("axes")
-    expected = [spec.axis_id for spec in load_workflow_specs()]
-    if not isinstance(axes, list) or [row.get("axis_id") for row in axes] != expected:
-        raise SequentialCampaignError("campaign axis order changed")
     return state
 
 
@@ -259,7 +262,8 @@ def _validated_attempt(
     axis_id: str, run_root: Path, axis_row: Mapping[str, Any]
 ) -> bool:
     try:
-        resumable = is_resumable(axis_row.get("status"))
+        status = validate_axis_status(axis_id, axis_row.get("status"))
+        resumable = is_resumable(status)
     except StatusSchemaError:
         return False
     if not resumable:
@@ -273,12 +277,12 @@ def _validated_attempt(
     except ValueError:
         return False
     try:
-        validate_axis_analysis(
+        analysis = validate_axis_analysis(
             axis_id, input_dir=attempt_dir, analysis_dir=attempt_dir / "analysis"
         )
     except AxisWorkflowError:
         return False
-    return True
+    return analysis["status"] == status
 
 
 def _campaign_summary(state: Mapping[str, Any]) -> dict[str, Any]:
@@ -302,12 +306,10 @@ def _campaign_summary(state: Mapping[str, Any]) -> dict[str, Any]:
                 "status": row["status"],
                 "current_attempt": row.get("current_attempt"),
                 "attempt_count": len(row.get("attempts", [])),
-                "promotion_eligible": False,
             }
             for row in axes
         ],
         "claim_scope": "synthetic_contract_execution_only",
-        "promotion": {"auto": False, "eligible": False},
         "prohibited_inferences": [
             "play_strength",
             "efficacy",
@@ -376,7 +378,7 @@ def run_campaign(
             "output_dir": str(relative_attempt),
             "stdout": str(stdout_path.relative_to(run_root)),
             "stderr": str(stderr_path.relative_to(run_root)),
-            "status": "running",
+            "process_outcome": "running",
         }
         axis_row.setdefault("attempts", []).append(attempt)
         axis_row["status"] = transition_status(ExecutionStatus.RUNNING)
@@ -393,7 +395,7 @@ def run_campaign(
         )
         attempt["completed_at"] = utc_now()
         attempt["returncode"] = returncode
-        attempt["status"] = process_status
+        attempt["process_outcome"] = process_status
         if returncode == 0:
             try:
                 analysis = validate_axis_analysis(
@@ -404,7 +406,7 @@ def run_campaign(
             except AxisWorkflowError as exc:
                 returncode = 2
                 attempt["returncode"] = returncode
-                attempt["status"] = "failed"
+                attempt["process_outcome"] = "failed"
                 attempt["failure_reason"] = str(exc)
             else:
                 axis_row["status"] = analysis["status"]

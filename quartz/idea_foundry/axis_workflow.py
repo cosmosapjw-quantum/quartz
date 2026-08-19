@@ -19,9 +19,11 @@ from typing import Any, Iterable, Mapping, Sequence
 
 from quartz.experiment_manifest import atomic_json_dump, file_sha256
 from quartz.idea_foundry.status_schema import (
+    STATUS_SCHEMA_PATH,
     StatusSchemaError,
     is_legacy_status,
     is_resumable,
+    validate_axis_status,
     validate_status_v2,
 )
 
@@ -42,12 +44,15 @@ class AxisWorkflowError(RuntimeError):
     """Raised when an axis workflow or artifact contract is invalid."""
 
 
-def _validated_status(payload: Mapping[str, Any], label: str) -> dict[str, Any]:
+def _validated_status(
+    payload: Mapping[str, Any], label: str, axis_id: str | None = None
+) -> dict[str, Any]:
     value = payload.get("status")
     if is_legacy_status(value) or "execution_status" in payload:
         raise AxisWorkflowError(f"{label}: legacy status schema v1 is inspectable only")
     try:
-        return validate_status_v2(value)
+        status = validate_status_v2(value)
+        return validate_axis_status(axis_id, status) if axis_id else status
     except StatusSchemaError as exc:
         raise AxisWorkflowError(f"{label}: {exc}") from exc
 
@@ -316,8 +321,8 @@ def _validate_run_artifacts(
             raise AxisWorkflowError(
                 f"{label} axis/role identity mismatch for {spec.axis_id}"
             )
-    manifest_status = _validated_status(manifest, "run manifest")
-    summary_status = _validated_status(summary, "run summary")
+    manifest_status = _validated_status(manifest, "run manifest", spec.axis_id)
+    summary_status = _validated_status(summary, "run summary", spec.axis_id)
     if manifest_status != summary_status:
         raise AxisWorkflowError("run manifest/summary status mismatch")
     if not is_resumable(summary_status):
@@ -536,7 +541,7 @@ def analyze_axis(
     }
     atomic_json_dump(analysis_path, payload)
     _write_diagnostic_plot(diagnostic_path, spec, aggregate)
-    source_paths = [Path(__file__)]
+    source_paths = [Path(__file__), STATUS_SCHEMA_PATH]
     if entrypoint_path is not None:
         source_paths.append(entrypoint_path)
     manifest = {
@@ -602,8 +607,8 @@ def validate_axis_analysis(
         or payload.get("axis_id") != spec.axis_id
     ):
         raise AxisWorkflowError("analysis axis identity mismatch")
-    manifest_status = _validated_status(manifest, "analysis manifest")
-    payload_status = _validated_status(payload, "analysis payload")
+    manifest_status = _validated_status(manifest, "analysis manifest", spec.axis_id)
+    payload_status = _validated_status(payload, "analysis payload", spec.axis_id)
     if manifest_status != payload_status or not is_resumable(payload_status):
         raise AxisWorkflowError("analysis status is outside the first-gate contract")
     if payload.get("effect_records") != []:

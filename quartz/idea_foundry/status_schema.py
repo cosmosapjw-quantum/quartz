@@ -1,10 +1,12 @@
 """Canonical status-schema-v2 contract for Idea Foundry artifacts."""
 
 from enum import StrEnum
+from pathlib import Path
 from typing import Any, Mapping
 
 # fmt: off
 STATUS_SCHEMA_VERSION = 2
+STATUS_SCHEMA_PATH = Path(__file__).resolve()
 
 def _enum(name: str, values: str) -> type[StrEnum]:
     return StrEnum(name, {value.upper(): value for value in values.split()})
@@ -37,6 +39,18 @@ def first_gate_status(axis_id: str) -> dict[str, Any]:
         EffectStatus.NON_ESTIMABLE, EvidenceMaturity.CONTRACT_ONLY,
         PromotionStatus.INELIGIBLE,
     )
+
+def validate_axis_status(axis_id: str, value: Any) -> dict[str, Any]:
+    status = validate_status_v2(value)
+    if status != first_gate_status(axis_id):
+        raise StatusSchemaError(f"axis status does not match {axis_id}")
+    return status
+
+def validate_campaign_status(value: Any) -> dict[str, Any]:
+    status = validate_status_v2(value)
+    if status != first_gate_status("campaign"):
+        raise StatusSchemaError("campaign status is not exact success")
+    return status
 
 def transition_status(execution: StrEnum) -> dict[str, Any]:
     failed = execution is ExecutionStatus.FAILED

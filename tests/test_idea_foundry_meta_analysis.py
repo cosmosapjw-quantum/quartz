@@ -14,6 +14,11 @@ from quartz.idea_foundry.meta_analysis import (
     pool_effect_records,
     run_meta_analysis,
 )
+from quartz.idea_foundry.status_schema import (
+    ExecutionStatus,
+    first_gate_status,
+    transition_status,
+)
 
 
 def _effect(
@@ -53,7 +58,7 @@ def test_known_inverse_variance_and_random_effects_result() -> None:
             ),
         ]
     )
-    assert pooled["status"] == "POOLED_ANALYSIS_ONLY"
+    assert pooled["pooling_disposition"] == "POOLED_ANALYSIS_ONLY"
     assert pooled["fixed_effect"] == pytest.approx(1.5)
     assert pooled["fixed_standard_error"] == pytest.approx(math.sqrt(0.5))
     assert pooled["cochran_q"] == pytest.approx(0.5)
@@ -96,7 +101,9 @@ def test_incompatible_estimands_are_never_pooled_together() -> None:
         ]
     )
     assert len(groups) == 2
-    assert {row["status"] for row in groups} == {"INSUFFICIENT_INDEPENDENT_EFFECTS"}
+    assert {row["pooling_disposition"] for row in groups} == {
+        "INSUFFICIENT_INDEPENDENT_EFFECTS"
+    }
 
 
 def test_duplicate_independent_group_is_rejected() -> None:
@@ -142,10 +149,36 @@ def test_meta_analysis_verifies_source_hash_and_emits_no_promotion(
     input_path = tmp_path / "effects.json"
     input_path.write_text(json.dumps({"effect_records": records}), encoding="utf-8")
     payload = run_meta_analysis([input_path], tmp_path / "meta")
-    assert payload["status"] == "COMPLETED_ANALYSIS_ONLY"
+    assert payload["status"] == first_gate_status("meta")
     assert payload["pooled_group_count"] == 1
-    assert payload["promotion"]["eligible"] is False
+    assert payload["status"]["effect"] == "non_estimable"
+    manifest = json.loads(
+        (tmp_path / "meta" / "analysis_manifest.json").read_text(encoding="utf-8")
+    )
+    assert any(
+        row["path"] == "quartz/idea_foundry/status_schema.py"
+        for row in manifest["sources"]
+    )
 
     source_path.write_text('{"paired_seeds": [9]}\n', encoding="utf-8")
     with pytest.raises(MetaAnalysisError, match="hash mismatch"):
         run_meta_analysis([input_path], tmp_path / "meta-tampered")
+
+
+# fmt: off
+@pytest.mark.parametrize("case", ["running", "manifest-status", "payload-hash"])
+def test_campaign_input_is_terminal_and_manifest_bound(tmp_path: Path, case: str) -> None:
+    path = tmp_path / "campaign_analysis.json"
+    payload = {"analysis_kind": "idea_foundry_campaign_analysis", "status": first_gate_status("campaign"), "effect_records": []}
+    if case == "running":
+        payload["status"] = transition_status(ExecutionStatus.RUNNING)
+    path.write_text(json.dumps(payload), encoding="utf-8")
+    manifest_status = first_gate_status("A10") if case == "manifest-status" else payload["status"]
+    digest = "0" * 64 if case == "payload-hash" else file_sha256(path)
+    manifest = {"status": manifest_status, "artifacts": [{"path": path.name, "sha256": digest}]}
+    (tmp_path / "analysis_manifest.json").write_text(json.dumps(manifest), encoding="utf-8")
+    output = tmp_path / "meta"
+    with pytest.raises(MetaAnalysisError):
+        run_meta_analysis([path], output)
+    assert not output.exists()
+# fmt: on
