@@ -10,9 +10,11 @@ on:
       - "tests/**"
       - "quartz/**"
       - "scripts/**"
-      - "configs/idea_foundry*.json"
-      - "configs/idea_lab*.json"
-      - "docs/idea_foundry/**"
+      - "configs/**"
+      - ".agents/**"
+      - "AGENTS.md"
+      - "GEMINI.md"
+      - "docs/**"
       - "pyproject.toml"
   pull_request:
     paths:
@@ -23,9 +25,11 @@ on:
       - "tests/**"
       - "quartz/**"
       - "scripts/**"
-      - "configs/idea_foundry*.json"
-      - "configs/idea_lab*.json"
-      - "docs/idea_foundry/**"
+      - "configs/**"
+      - ".agents/**"
+      - "AGENTS.md"
+      - "GEMINI.md"
+      - "docs/**"
       - "pyproject.toml"
 
 jobs:
@@ -43,13 +47,15 @@ jobs:
       - name: Cargo cache
         uses: actions/cache@v4
         with:
+          # `.cargo/config.toml` enables target-cpu=native.  Compiled target
+          # artifacts therefore cannot be reused safely across hosted runners
+          # with different CPU feature sets.
           path: |
             ~/.cargo/registry
             ~/.cargo/git
-            target
-          key: ${{ runner.os }}-cargo-release-${{ hashFiles('Cargo.lock') }}
+          key: ${{ runner.os }}-cargo-registry-v1-${{ hashFiles('Cargo.lock') }}
           restore-keys: |
-            ${{ runner.os }}-cargo-release-
+            ${{ runner.os }}-cargo-registry-v1-
 
       - name: Run cargo test (release)
         run: |
@@ -63,6 +69,9 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          # Receipt and import-provenance tests resolve historical commits.
+          fetch-depth: 0
 
       - name: Set up Python
         uses: actions/setup-python@v5

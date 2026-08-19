@@ -1,6 +1,7 @@
 import json
 import math
 import subprocess
+import sys
 from dataclasses import replace
 from pathlib import Path
 
@@ -855,7 +856,7 @@ def test_axis_gate_cli_writes_validated_artifact_trio(tmp_path):
     output = tmp_path / "A01.trace"
     proc = subprocess.run(
         [
-            str(REPO_ROOT / "venv" / "bin" / "python"),
+            sys.executable,
             str(REPO_ROOT / "scripts" / "idea_foundry_axis_gate.py"),
             "--axis",
             "A01",
