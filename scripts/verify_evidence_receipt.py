@@ -6,6 +6,7 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
+import os
 import re
 import subprocess
 import sys
@@ -19,31 +20,30 @@ INVENTORY_NAMES = tuple(
     f"{name}_inventory" for name in "source input binary artifact".split()
 )
 _IDENTITY_KEYS = {"commit", "dirty", *INVENTORY_NAMES}
-_RUN_KEYS = set(
-    "run_id execution_identity analysis_identity transformation_link".split()
-)
+_EXECUTION, _ANALYSIS = "execution_identity", "analysis_identity"
+_RUN_KEYS = {"run_id", _EXECUTION, _ANALYSIS, "transformation_link"}
 _SHA256 = re.compile(r"[0-9a-f]{64}\Z")
 _FULL_OID = re.compile(r"(?:[0-9a-f]{40}|[0-9a-f]{64})\Z")
 
 
 def file_sha256(path: Path) -> str:
-    """Return a file digest for API compatibility, not receipt binding."""
-    digest = hashlib.sha256()
     with path.open("rb") as stream:
-        while chunk := stream.read(65536):
-            digest.update(chunk)
-    return digest.hexdigest()
+        return hashlib.file_digest(stream, "sha256").hexdigest()
 
 
-def _git(repo_root: Path, *args: str, input: bytes | None = None) -> bytes:
+def _git_context(repo_root: Path, *args: str) -> tuple[list[str], dict[str, str]]:
+    env = {
+        key: value for key, value in os.environ.items() if not key.startswith("GIT_")
+    }
+    env.update(GIT_NO_REPLACE_OBJECTS="1", LC_ALL="C")
+    argv = ["git", "--no-replace-objects", "-C", str(repo_root.absolute()), *args]
+    return argv, env
+
+
+def _git(repo_root: Path, *args: str) -> bytes:
+    argv, env = _git_context(repo_root, *args)
     try:
-        return subprocess.run(
-            ["git", *args],
-            cwd=repo_root,
-            input=input,
-            check=True,
-            capture_output=True,
-        ).stdout
+        return subprocess.run(argv, env=env, check=True, capture_output=True).stdout
     except (OSError, subprocess.CalledProcessError) as exc:
         raise ValueError(f"Git command failed: {' '.join(args[:2])}") from exc
 
@@ -58,8 +58,6 @@ def _exact(value: Any, keys: set[str], label: str) -> dict[str, Any]:
 
 
 def validate_repo_path(value: Any, label: str) -> str:
-    """Return a canonical relative POSIX path or fail before Git invocation."""
-    parts = value.split("/") if isinstance(value, str) else []
     invalid = (
         not isinstance(value, str)
         or not value
@@ -67,14 +65,14 @@ def validate_repo_path(value: Any, label: str) -> str:
         or "\0" in value
         or value.startswith(("/", "-"))
         or value.endswith("/")
-        or any(part in {"", ".", ".."} for part in parts)
+        or any(part in {"", ".", ".."} for part in value.split("/"))
     )
     if invalid:
         raise ValueError(f"{label}.path must be a normalized in-repository POSIX path")
     return value
 
 
-def _descriptor(value: Any, label: str) -> dict[str, str]:
+def validate_descriptor(value: Any, label: str) -> dict[str, str]:
     item = _exact(value, {"path", "sha256"}, label)
     path, digest = validate_repo_path(item["path"], label), item["sha256"]
     if not isinstance(digest, str) or _SHA256.fullmatch(digest) is None:
@@ -83,7 +81,6 @@ def _descriptor(value: Any, label: str) -> dict[str, str]:
 
 
 def validate_identity_contract(value: Any, label: str) -> dict[str, Any]:
-    """Validate an identity without reading Git or the worktree."""
     identity = _exact(value, _IDENTITY_KEYS, label)
     if identity["dirty"] is not False:
         raise ValueError(f"{label}.dirty must be false")
@@ -95,7 +92,7 @@ def validate_identity_contract(value: Any, label: str) -> dict[str, Any]:
         values = identity[name]
         if not isinstance(values, list) or not values:
             raise ValueError(f"{label}.{name} must be nonempty")
-        items = [_descriptor(item, f"{label}.{name}") for item in values]
+        items = [validate_descriptor(item, f"{label}.{name}") for item in values]
         paths = [item["path"] for item in items]
         if len(paths) != len(set(paths)):
             raise ValueError(f"duplicate path in {label}.{name}")
@@ -104,14 +101,13 @@ def validate_identity_contract(value: Any, label: str) -> dict[str, Any]:
 
 
 def validate_raw_manifest_link(value: Any, execution: dict, analysis: dict) -> None:
-    """Bind one raw-manifest descriptor across execution and analysis."""
     link = _exact(value, {"raw_execution_manifest"}, "transformation_link")
-    raw = _descriptor(
+    raw = validate_descriptor(
         link["raw_execution_manifest"], "transformation_link.raw_execution_manifest"
     )
     pairs = (
-        (execution["artifact_inventory"], "execution_identity.artifact_inventory"),
-        (analysis["input_inventory"], "analysis_identity.input_inventory"),
+        (execution["artifact_inventory"], f"{_EXECUTION}.artifact_inventory"),
+        (analysis["input_inventory"], f"{_ANALYSIS}.input_inventory"),
     )
     for inventory, label in pairs:
         matches = [item for item in inventory if item["path"] == raw["path"]]
@@ -121,32 +117,18 @@ def validate_raw_manifest_link(value: Any, execution: dict, analysis: dict) -> N
             raise ValueError("raw execution manifest descriptor mismatch")
 
 
-def _resolve_commit(repo_root: Path, oid: str, label: str) -> None:
-    try:
-        object_format = (
-            _git(repo_root, "rev-parse", "--show-object-format").decode().strip()
-        )
-        if len(oid) != {"sha1": 40, "sha256": 64}[object_format]:
-            raise ValueError
-        if _git(repo_root, "cat-file", "-t", oid).strip() != b"commit":
-            raise ValueError
-    except (KeyError, UnicodeDecodeError, ValueError):
-        raise ValueError(f"{label}.commit cannot be resolved as commit") from None
-
-
 def _blob_sha256(repo_root: Path, oid: str) -> str:
-    digest = hashlib.sha256()
+    argv, env = _git_context(repo_root, "cat-file", "blob", oid)
     try:
         process = subprocess.Popen(
-            ["git", "cat-file", "blob", oid],
-            cwd=repo_root,
+            argv,
+            env=env,
             stdout=subprocess.PIPE,
             stderr=subprocess.DEVNULL,
         )
         if process.stdout is None:
             raise ValueError("Git blob stream unavailable")
-        while chunk := process.stdout.read(65536):
-            digest.update(chunk)
+        digest = hashlib.file_digest(process.stdout, "sha256")
         if process.wait() != 0:
             raise ValueError("Git blob read failed")
     except OSError as exc:
@@ -181,23 +163,47 @@ def _verify_tree_entry(repo_root: Path, commit: str, item: dict, label: str) -> 
         )
 
 
-def _verify_identity(repo_root: Path, value: Any, label: str) -> tuple[dict, int]:
-    identity = validate_identity_contract(value, label)
-    _resolve_commit(repo_root, identity["commit"], label)
+def _verify_identity(repo_root: Path, identity: dict, label: str) -> int:
+    oid = identity["commit"]
+    try:
+        object_format = (
+            _git(repo_root, "rev-parse", "--show-object-format").decode().strip()
+        )
+        if len(oid) != {"sha1": 40, "sha256": 64}[object_format]:
+            raise ValueError
+        if _git(repo_root, "cat-file", "-t", oid).strip() != b"commit":
+            raise ValueError
+    except (KeyError, UnicodeDecodeError, ValueError):
+        raise ValueError(f"{label}.commit cannot be resolved as commit") from None
     for name in INVENTORY_NAMES:
         for item in identity[name]:
             _verify_tree_entry(repo_root, identity["commit"], item, f"{label}.{name}")
-    return identity, sum(len(identity[name]) for name in INVENTORY_NAMES)
+    return sum(len(identity[name]) for name in INVENTORY_NAMES)
+
+
+def _unique_object(pairs: list[tuple[str, Any]]) -> dict[str, Any]:
+    value: dict[str, Any] = {}
+    for key, member in pairs:
+        if key in value:
+            raise ValueError(f"duplicate JSON member: {key}")
+        value[key] = member
+    return value
+
+
+def _has_symlink_component(path: Path) -> bool:
+    absolute = path.absolute()
+    return any(part.is_symlink() for part in (absolute, *absolute.parents))
 
 
 def verify_receipt(
     receipt_path: Path, *, repo_root: Path = REPO_ROOT
 ) -> dict[str, Any]:
-    """Validate one schema-v2 receipt against its declared Git objects."""
     receipt_path, repo_root = Path(receipt_path), Path(repo_root)
-    if not receipt_path.is_file() or receipt_path.is_symlink():
+    if not receipt_path.is_file() or _has_symlink_component(receipt_path):
         raise ValueError(f"receipt is missing or symlink: {receipt_path}")
-    data = json.loads(receipt_path.read_text(encoding="utf-8"))
+    data = json.loads(
+        receipt_path.read_text(encoding="utf-8"), object_pairs_hook=_unique_object
+    )
     version = data.get("schema_version") if isinstance(data, dict) else None
     if type(version) is int and version == 1:
         raise ValueError(
@@ -218,13 +224,11 @@ def verify_receipt(
         if run_id in seen:
             raise ValueError(f"duplicate run_id: {run_id}")
         seen.add(run_id)
-        execution, left = _verify_identity(
-            repo_root, run["execution_identity"], "execution_identity"
-        )
-        analysis, right = _verify_identity(
-            repo_root, run["analysis_identity"], "analysis_identity"
-        )
+        execution = validate_identity_contract(run[_EXECUTION], _EXECUTION)
+        analysis = validate_identity_contract(run[_ANALYSIS], _ANALYSIS)
         validate_raw_manifest_link(run["transformation_link"], execution, analysis)
+        left = _verify_identity(repo_root, execution, _EXECUTION)
+        right = _verify_identity(repo_root, analysis, _ANALYSIS)
         entries += left + right
         artifacts += len(execution["artifact_inventory"]) + len(
             analysis["artifact_inventory"]
@@ -251,22 +255,17 @@ def _empty_result(message: str, allow: bool) -> int:
 
 
 def main(argv: list[str] | None = None) -> int:
-    parser = argparse.ArgumentParser(
-        description="Verify Idea Foundry evidence receipts"
-    )
+    parser = argparse.ArgumentParser(description="Verify Idea Foundry receipts")
     parser.add_argument("--receipts-dir", type=Path, default=RECEIPTS_DIR)
     parser.add_argument("--allow-empty-diagnostic", action="store_true")
     args = parser.parse_args(argv)
     directory = args.receipts_dir
-    if not directory.is_dir() or directory.is_symlink():
-        return _empty_result(
-            f"receipts directory missing: {directory}", args.allow_empty_diagnostic
-        )
+    allow = args.allow_empty_diagnostic
+    if not directory.is_dir() or _has_symlink_component(directory):
+        return _empty_result(f"receipts directory missing: {directory}", allow)
     receipt_files = sorted(directory.glob("*.receipt.json"))
     if not receipt_files:
-        return _empty_result(
-            f"no receipt files found: {directory}", args.allow_empty_diagnostic
-        )
+        return _empty_result(f"no receipt files found: {directory}", allow)
     passed = True
     for receipt_path in receipt_files:
         try:
