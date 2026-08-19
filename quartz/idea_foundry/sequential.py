@@ -21,11 +21,18 @@ from quartz.idea_foundry.axis_workflow import (
     load_workflow_specs,
     validate_axis_analysis,
 )
+from quartz.idea_foundry.status_schema import (
+    ExecutionStatus,
+    StatusSchemaError,
+    first_gate_status,
+    is_resumable,
+    transition_status,
+    validate_status_v2,
+)
 
 SEQUENTIAL_SCHEMA_VERSION = 1
 DEFAULT_CAMPAIGN_ROOT = REPO_ROOT / "results" / "idea_foundry_sequential"
 RUN_ID_PATTERN = re.compile(r"[A-Za-z0-9][A-Za-z0-9._-]{0,95}\Z")
-TERMINAL_SUCCESS = "completed_no_promotion"
 
 
 class SequentialCampaignError(RuntimeError):
@@ -114,7 +121,7 @@ def _new_state(run_id: str, seed: int, entrypoint: Path) -> dict[str, Any]:
         "schema_version": SEQUENTIAL_SCHEMA_VERSION,
         "run_id": run_id,
         "suite": "first-gate-all-sequential",
-        "status": "running",
+        "status": transition_status(ExecutionStatus.RUNNING),
         "seed": seed,
         "created_at": now,
         "updated_at": now,
@@ -127,7 +134,7 @@ def _new_state(run_id: str, seed: int, entrypoint: Path) -> dict[str, Any]:
                 "slug": spec.slug,
                 "lane_id": spec.lane_id,
                 "role": spec.role,
-                "status": "planned",
+                "status": transition_status(ExecutionStatus.PLANNED),
                 "attempts": [],
             }
             for spec in specs
@@ -149,6 +156,12 @@ def _validate_state(
         or state.get("schema_version") != SEQUENTIAL_SCHEMA_VERSION
     ):
         raise SequentialCampaignError("campaign state schema mismatch")
+    try:
+        validate_status_v2(state.get("status"))
+        for row in state.get("axes", []):
+            validate_status_v2(row.get("status"))
+    except StatusSchemaError as exc:
+        raise SequentialCampaignError(str(exc)) from exc
     if state.get("run_id") != run_id or state.get("seed") != seed:
         raise SequentialCampaignError("resume run identity or seed changed")
     if state.get("fingerprint") != _fingerprint(entrypoint):
@@ -245,7 +258,11 @@ def _run_attempt(
 def _validated_attempt(
     axis_id: str, run_root: Path, axis_row: Mapping[str, Any]
 ) -> bool:
-    if axis_row.get("status") != TERMINAL_SUCCESS:
+    try:
+        resumable = is_resumable(axis_row.get("status"))
+    except StatusSchemaError:
+        return False
+    if not resumable:
         return False
     raw_attempt = axis_row.get("current_attempt")
     if not isinstance(raw_attempt, str):
@@ -267,8 +284,8 @@ def _validated_attempt(
 def _campaign_summary(state: Mapping[str, Any]) -> dict[str, Any]:
     axes = state["axes"]
     status_counts = {
-        status: sum(row.get("status") == status for row in axes)
-        for status in sorted({str(row.get("status")) for row in axes})
+        status: sum(row["status"]["execution"] == status for row in axes)
+        for status in sorted({row["status"]["execution"] for row in axes})
     }
     return {
         "schema_version": SEQUENTIAL_SCHEMA_VERSION,
@@ -313,7 +330,7 @@ def run_campaign(
     state_path = run_root / "campaign_state.json"
     if resume:
         state = _validate_state(load_json_strict(state_path), run_id, seed, entrypoint)
-        state["status"] = "running"
+        state["status"] = transition_status(ExecutionStatus.RUNNING)
         state["resumed_at"] = utc_now()
     else:
         if run_root.exists():
@@ -324,10 +341,10 @@ def run_campaign(
 
     specs = load_workflow_specs()
     for spec, axis_row in zip(specs, state["axes"], strict=True):
-        if resume and axis_row.get("status") == TERMINAL_SUCCESS:
+        if resume and is_resumable(axis_row.get("status")):
             if not _validated_attempt(spec.axis_id, run_root, axis_row):
-                state["status"] = "failed"
-                axis_row["status"] = "failed"
+                state["status"] = transition_status(ExecutionStatus.FAILED)
+                axis_row["status"] = transition_status(ExecutionStatus.FAILED)
                 axis_row["failure_reason"] = (
                     "previously successful artifact failed validation"
                 )
@@ -362,7 +379,7 @@ def run_campaign(
             "status": "running",
         }
         axis_row.setdefault("attempts", []).append(attempt)
-        axis_row["status"] = "running"
+        axis_row["status"] = transition_status(ExecutionStatus.RUNNING)
         axis_row["current_attempt"] = str(relative_attempt)
         axis_row.pop("resume_action", None)
         _save_state(state_path, state)
@@ -390,16 +407,13 @@ def run_campaign(
                 attempt["status"] = "failed"
                 attempt["failure_reason"] = str(exc)
             else:
-                axis_row["status"] = TERMINAL_SUCCESS
-                axis_row["analysis_status"] = analysis["analysis_status"]
-                axis_row["evidence_status"] = analysis["source_evidence_status"]
-                axis_row["promotion_eligible"] = False
+                axis_row["status"] = analysis["status"]
         if returncode != 0:
-            axis_row["status"] = attempt["status"]
+            axis_row["status"] = transition_status(ExecutionStatus.FAILED)
             axis_row["failure_reason"] = attempt.get(
                 "failure_reason", f"axis subprocess exited with {returncode}"
             )
-            state["status"] = axis_row["status"]
+            state["status"] = transition_status(ExecutionStatus.FAILED)
             _save_state(state_path, state)
             atomic_json_dump(
                 run_root / "campaign_summary.json", _campaign_summary(state)
@@ -409,7 +423,7 @@ def run_campaign(
             )
         _save_state(state_path, state)
 
-    state["status"] = "completed_no_promotion"
+    state["status"] = first_gate_status("campaign")
     state["completed_at"] = utc_now()
     _save_state(state_path, state)
     summary = _campaign_summary(state)

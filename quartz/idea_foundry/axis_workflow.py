@@ -18,6 +18,12 @@ from pathlib import Path
 from typing import Any, Iterable, Mapping, Sequence
 
 from quartz.experiment_manifest import atomic_json_dump, file_sha256
+from quartz.idea_foundry.status_schema import (
+    StatusSchemaError,
+    is_legacy_status,
+    is_resumable,
+    validate_status_v2,
+)
 
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
@@ -34,6 +40,16 @@ ANALYSIS_FILENAMES = (
 
 class AxisWorkflowError(RuntimeError):
     """Raised when an axis workflow or artifact contract is invalid."""
+
+
+def _validated_status(payload: Mapping[str, Any], label: str) -> dict[str, Any]:
+    value = payload.get("status")
+    if is_legacy_status(value) or "execution_status" in payload:
+        raise AxisWorkflowError(f"{label}: legacy status schema v1 is inspectable only")
+    try:
+        return validate_status_v2(value)
+    except StatusSchemaError as exc:
+        raise AxisWorkflowError(f"{label}: {exc}") from exc
 
 
 @dataclass(frozen=True)
@@ -300,13 +316,14 @@ def _validate_run_artifacts(
             raise AxisWorkflowError(
                 f"{label} axis/role identity mismatch for {spec.axis_id}"
             )
-    if summary.get("execution_status") != "completed_no_promotion":
+    manifest_status = _validated_status(manifest, "run manifest")
+    summary_status = _validated_status(summary, "run summary")
+    if manifest_status != summary_status:
+        raise AxisWorkflowError("run manifest/summary status mismatch")
+    if not is_resumable(summary_status):
         raise AxisWorkflowError(
-            f"axis run is not scientifically terminal: {summary.get('execution_status')!r}"
+            f"axis run is not scientifically terminal: {summary_status!r}"
         )
-    promotion = summary.get("promotion")
-    if not isinstance(promotion, dict) or promotion.get("eligible") is not False:
-        raise AxisWorkflowError("contract-gate summary must prohibit promotion")
     artifacts = manifest.get("artifacts")
     if (
         not isinstance(artifacts, list)
@@ -487,8 +504,8 @@ def analyze_axis(
         return validate_axis_analysis(
             spec.axis_id, input_dir=input_dir, analysis_dir=target
         )
-    _ensure_new_directory(target)
     _, run_summary, source_rows = _validate_run_artifacts(spec.axis_id, input_dir)
+    _ensure_new_directory(target)
     normalized = normalize_analysis_rows(spec.axis_id, spec.role, source_rows)
     aggregate = summarize_analysis_rows(normalized)
     analysis_rows_path = target / "analysis_rows.jsonl"
@@ -504,20 +521,12 @@ def analyze_axis(
         "plane": spec.plane,
         "lane_id": spec.lane_id,
         "role": spec.role,
-        "execution_status": "completed_no_promotion",
-        "analysis_status": "ANALYZED_CONTRACT_ONLY",
+        "status": run_summary["status"],
         "claim_scope": ANALYSIS_CLAIM_SCOPE,
-        "source_execution_status": run_summary["execution_status"],
-        "source_evidence_status": run_summary["evidence_status"],
         "outcome_detail": run_summary["outcome_detail"],
         "aggregate": aggregate,
         "effect_records": [],
         "meta_analysis_eligibility": "NO_COMPARABLE_EFFECT_ESTIMATES",
-        "promotion": {
-            "auto": False,
-            "eligible": False,
-            "reason": "contract analysis is not scientific efficacy evidence",
-        },
         "prohibited_inferences": [
             "play_strength",
             "efficacy",
@@ -536,6 +545,7 @@ def analyze_axis(
         "axis_id": spec.axis_id,
         "role": spec.role,
         "claim_scope": ANALYSIS_CLAIM_SCOPE,
+        "status": payload["status"],
         "inputs": [
             {
                 "path": str(path.relative_to(input_dir)),
@@ -562,7 +572,6 @@ def analyze_axis(
             }
             for path in (analysis_path, analysis_rows_path, diagnostic_path)
         ],
-        "promotion": {"auto": False, "eligible": False},
     }
     atomic_json_dump(manifest_path, manifest)
     return validate_axis_analysis(
@@ -593,11 +602,10 @@ def validate_axis_analysis(
         or payload.get("axis_id") != spec.axis_id
     ):
         raise AxisWorkflowError("analysis axis identity mismatch")
-    if payload.get("analysis_status") != "ANALYZED_CONTRACT_ONLY":
+    manifest_status = _validated_status(manifest, "analysis manifest")
+    payload_status = _validated_status(payload, "analysis payload")
+    if manifest_status != payload_status or not is_resumable(payload_status):
         raise AxisWorkflowError("analysis status is outside the first-gate contract")
-    promotion = payload.get("promotion")
-    if not isinstance(promotion, dict) or promotion.get("eligible") is not False:
-        raise AxisWorkflowError("axis analysis may not be promotion eligible")
     if payload.get("effect_records") != []:
         raise AxisWorkflowError("contract analysis may not manufacture effect records")
     input_records = manifest.get("inputs")

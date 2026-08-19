@@ -28,6 +28,11 @@ from quartz.experiment_manifest import (  # noqa: E402
     git_provenance,
 )
 from quartz.idea_foundry.gates import AXIS_TYPE_BY_ID, run_axis_contract_gate  # noqa: E402
+from quartz.idea_foundry.status_schema import (  # noqa: E402
+    ExecutionStatus,
+    first_gate_status,
+    transition_status,
+)
 
 
 SCHEMA_VERSION = 1
@@ -94,7 +99,7 @@ def _manifest_base(axis_id: str, role: str, seed: int) -> dict[str, Any]:
         "execution_mode": "synthetic_contract_gate",
         "gate_evidence_status": "contract_only",
         "evidence_status_origin": "axis_registry_preexisting",
-        "status": "running",
+        "status": transition_status(ExecutionStatus.RUNNING),
         "started_at": utc_now(),
         "completed_at": None,
         "source_hashes": _source_hashes(axis_id),
@@ -163,8 +168,7 @@ def run(axis_id: str, role: str, output_dir: Path, seed: int) -> int:
             "axis_id": axis_id,
             "axis_symbol": result["axis_symbol"],
             "role": role,
-            "execution_status": result["execution_status"],
-            "evidence_status": result["evidence_status"],
+            "status": first_gate_status(axis_id),
             "axis_registry_status": result["axis_registry_status"],
             "claim_scope": CLAIM_SCOPE,
             "execution_mode": "synthetic_contract_gate",
@@ -176,7 +180,6 @@ def run(axis_id: str, role: str, output_dir: Path, seed: int) -> int:
             "fixture_bank_hash": result["fixture_bank_hash"],
             "proposal_hash": result["proposal_hash"],
             "proposal_count": result["proposal_count"],
-            "promotion": result["promotion"],
             "outcome_detail": result["outcome_detail"],
             "prohibited_inferences": list(PROHIBITED_INFERENCES),
         }
@@ -185,7 +188,7 @@ def run(axis_id: str, role: str, output_dir: Path, seed: int) -> int:
             "contract_fixture": result["fixture_hash"],
             "contract_fixture_bank": result["fixture_bank_hash"],
         }
-        manifest["status"] = result["execution_status"]
+        manifest["status"] = summary["status"]
         manifest["completed_at"] = utc_now()
         manifest["artifacts"] = [
             {
@@ -202,18 +205,12 @@ def run(axis_id: str, role: str, output_dir: Path, seed: int) -> int:
             "schema_version": SCHEMA_VERSION,
             "axis_id": axis_id,
             "role": role,
-            "execution_status": "failed",
-            "evidence_status": "unchanged",
+            "status": transition_status(ExecutionStatus.FAILED),
             "claim_scope": CLAIM_SCOPE,
-            "promotion": {
-                "auto": False,
-                "eligible": False,
-                "reason": "contract_failure",
-            },
             "error": f"{type(exc).__name__}: {exc}",
         }
         atomic_json_dump(summary_path, summary)
-        manifest["status"] = "failed"
+        manifest["status"] = summary["status"]
         manifest["completed_at"] = utc_now()
         manifest["error"] = summary["error"]
         manifest["artifacts"] = [

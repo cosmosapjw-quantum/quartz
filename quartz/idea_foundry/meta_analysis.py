@@ -26,6 +26,19 @@ from quartz.idea_foundry.axis_workflow import (
     load_workflow_specs,
     validate_axis_analysis,
 )
+from quartz.idea_foundry.status_schema import (
+    ContractStatus,
+    EffectStatus,
+    EvidenceMaturity,
+    ExecutionStatus,
+    PromotionStatus,
+    StatusSchemaError,
+    first_gate_status,
+    is_legacy_status,
+    is_resumable,
+    status_v2,
+    validate_status_v2,
+)
 
 ANALYSIS_SCHEMA_VERSION = 1
 CAMPAIGN_ANALYSIS_FILENAMES = (
@@ -42,6 +55,16 @@ META_ANALYSIS_FILENAMES = (
 
 class MetaAnalysisError(RuntimeError):
     """Raised when analysis inputs are incomplete or statistically incompatible."""
+
+
+def _status(payload: Mapping[str, Any], label: str) -> dict[str, Any]:
+    value = payload.get("status")
+    if is_legacy_status(value) or "execution_status" in payload:
+        raise MetaAnalysisError(f"{label}: legacy status schema v1 is inspectable only")
+    try:
+        return validate_status_v2(value)
+    except StatusSchemaError as exc:
+        raise MetaAnalysisError(f"{label}: {exc}") from exc
 
 
 def _ensure_new_directory(path: Path) -> None:
@@ -168,9 +191,9 @@ def analyze_campaign(
         raise MetaAnalysisError("campaign state or summary schema mismatch")
     if state.get("run_id") != summary.get("run_id"):
         raise MetaAnalysisError("campaign state/summary run identity mismatch")
-    if state.get("status") != "completed_no_promotion":
-        raise MetaAnalysisError(f"campaign is not complete: {state.get('status')!r}")
-    if summary.get("status") != state.get("status"):
+    state_status = _status(state, "campaign state")
+    summary_status = _status(summary, "campaign summary")
+    if state_status != summary_status or not is_resumable(state_status):
         raise MetaAnalysisError("campaign state/summary status mismatch")
     specs = load_workflow_specs()
     axis_rows = state.get("axes")
@@ -188,7 +211,7 @@ def analyze_campaign(
             row.get("axis_id"),
             row.get("lane_id"),
             row.get("role"),
-            row.get("status"),
+            _status(row, "campaign state axis"),
             row.get("current_attempt"),
             len(row.get("attempts", [])),
         )
@@ -199,7 +222,7 @@ def analyze_campaign(
             row.get("axis_id"),
             row.get("lane_id"),
             row.get("role"),
-            row.get("status"),
+            _status(row, "campaign summary axis"),
             row.get("current_attempt"),
             row.get("attempt_count"),
         )
@@ -211,20 +234,15 @@ def analyze_campaign(
     if summary.get("axis_count") != len(axis_rows):
         raise MetaAnalysisError("campaign summary axis count mismatch")
     expected_status_counts = dict(
-        sorted(Counter(str(row.get("status")) for row in axis_rows).items())
+        sorted(Counter(row["status"]["execution"] for row in axis_rows).items())
     )
     if summary.get("status_counts") != expected_status_counts:
         raise MetaAnalysisError("campaign summary status counts mismatch")
-    for label, payload in (("state", state), ("summary", summary)):
-        promotion = payload.get("promotion")
-        if not isinstance(promotion, dict) or promotion.get("eligible") is not False:
-            raise MetaAnalysisError(f"campaign {label} may not be promotion eligible")
-
     rows: list[dict[str, Any]] = []
     effect_records: list[dict[str, Any]] = []
     analysis_inputs: list[Path] = [state_path, summary_path]
     for spec, axis_state in zip(specs, axis_rows, strict=True):
-        if axis_state.get("status") != "completed_no_promotion":
+        if not is_resumable(axis_state.get("status")):
             raise MetaAnalysisError(f"axis is not complete: {spec.axis_id}")
         raw_attempt = axis_state.get("current_attempt")
         if not isinstance(raw_attempt, str):
@@ -246,16 +264,13 @@ def analyze_campaign(
                 "plane": spec.plane,
                 "lane_id": spec.lane_id,
                 "role": spec.role,
-                "execution_status": axis_state["status"],
-                "analysis_status": analysis["analysis_status"],
-                "evidence_status": analysis["source_evidence_status"],
+                "status": analysis["status"],
                 "outcome_detail": analysis["outcome_detail"],
                 "contract_check_count": aggregate["contract_check_count"],
                 "contract_checks_passed": aggregate["contract_checks_passed"],
                 "contract_checks_failed": aggregate["contract_checks_failed"],
                 "contract_pass_rate": aggregate["contract_pass_rate"],
                 "fixture_count": aggregate["fixture_count"],
-                "promotion_eligible": False,
             }
         )
         for record in analysis.get("effect_records", []):
@@ -276,17 +291,17 @@ def analyze_campaign(
     manifest_path = target / "analysis_manifest.json"
     atomic_jsonl_dump(rows_path, rows)
     status_counts = dict(
-        sorted(Counter(row["execution_status"] for row in rows).items())
+        sorted(Counter(row["status"]["execution"] for row in rows).items())
     )
     evidence_counts = dict(
-        sorted(Counter(row["evidence_status"] for row in rows).items())
+        sorted(Counter(row["status"]["evidence_maturity"] for row in rows).items())
     )
     payload = {
         "schema_version": ANALYSIS_SCHEMA_VERSION,
         "analysis_kind": "idea_foundry_campaign_analysis",
         "run_id": state["run_id"],
         "axis_count": len(rows),
-        "status": "ANALYZED_CONTRACT_ONLY",
+        "status": first_gate_status("campaign"),
         "status_counts": status_counts,
         "evidence_status_counts": evidence_counts,
         "contract_check_count": sum(row["contract_check_count"] for row in rows),
@@ -302,7 +317,6 @@ def analyze_campaign(
             else "NO_COMPARABLE_EFFECT_ESTIMATES"
         ),
         "claim_scope": "synthetic_contract_analysis_only",
-        "promotion": {"auto": False, "eligible": False},
         "prohibited_inferences": [
             "play_strength",
             "efficacy",
@@ -318,6 +332,7 @@ def analyze_campaign(
         artifacts=[analysis_path, rows_path, plot_path],
         output_dir=target,
     )
+    manifest["status"] = payload["status"]
     atomic_json_dump(manifest_path, manifest)
     return payload
 
@@ -513,6 +528,8 @@ def _load_effect_records(paths: Sequence[Path]) -> list[dict[str, Any]]:
                 raise MetaAnalysisError(
                     f"JSON input has no effect_records list: {path}"
                 )
+            if payload.get("analysis_kind") == "idea_foundry_campaign_analysis":
+                _status(payload, "campaign analysis")
             payloads = payload["effect_records"]
         for payload in payloads:
             record = validate_effect_record(payload)
@@ -600,7 +617,17 @@ def run_meta_analysis(input_paths: Sequence[Path], output_dir: Path) -> dict[str
     groups = pool_effect_records(records)
     _ensure_new_directory(target)
     pooled_count = sum(row["status"] == "POOLED_ANALYSIS_ONLY" for row in groups)
-    status = "COMPLETED_ANALYSIS_ONLY" if pooled_count else "NO_COMPARABLE_EFFECTS"
+    status = (
+        status_v2(
+            ExecutionStatus.SUCCESS,
+            ContractStatus.PASSED,
+            EffectStatus.ESTIMABLE,
+            EvidenceMaturity.DIAGNOSTIC,
+            PromotionStatus.INELIGIBLE,
+        )
+        if pooled_count
+        else first_gate_status("meta")
+    )
     rows = groups or [
         {
             "schema_version": ANALYSIS_SCHEMA_VERSION,
@@ -629,7 +656,6 @@ def run_meta_analysis(input_paths: Sequence[Path], output_dir: Path) -> dict[str
             "minimum_independent_effects": 2,
         },
         "claim_scope": "analysis_only",
-        "promotion": {"auto": False, "eligible": False},
         "prohibited_inferences": [
             "causality_without_randomized_or_valid_counterfactual_design",
             "cross_estimand_pooling",
@@ -645,6 +671,7 @@ def run_meta_analysis(input_paths: Sequence[Path], output_dir: Path) -> dict[str
         artifacts=[analysis_path, rows_path, plot_path],
         output_dir=target,
     )
+    manifest["status"] = payload["status"]
     atomic_json_dump(manifest_path, manifest)
     return payload
 
