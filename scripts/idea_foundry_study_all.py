@@ -322,6 +322,7 @@ def _run_axis(
     stderr_path: Path,
     timeout_seconds: float | None,
 ) -> tuple[int, str]:
+    reject_legacy_study_mutation()
     command = [
         sys.executable,
         str(REPO_ROOT / "scripts" / "idea_foundry_study.py"),
@@ -501,6 +502,7 @@ def main(argv: Sequence[str] | None = None) -> int:
             )
             print(json.dumps(_summary(state), indent=2, sort_keys=True))
             return 0
+        reject_legacy_study_mutation()
         if args.timeout_multiplier <= 0:
             raise StudyError("timeout multiplier must be positive")
         summary = run_campaign(

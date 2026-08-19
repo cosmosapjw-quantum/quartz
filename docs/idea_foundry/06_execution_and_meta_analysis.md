@@ -27,8 +27,8 @@ VS Code·브라우저 같은 broad-affinity 또는 graphics-only 프로세스를
 존재만으로 차단하지 않는다. 선택 SMT pair에서 반복 측정된 CPU time과
 `nvidia-smi pmon`의 지속 CUDA SM activity만 경쟁 작업으로 판정한다.
 
-실제 진단/pilot 실행까지 포함한 release verification은 별도 승인 후 다음을
-실행한다.
+현재 release verification은 동결된 legacy step 때문에 `BLOCKED`이며,
+P0b-C가 matrix를 교체하기 전에는 아래 명령을 실행/`READY` 근거로 사용하지 않는다.
 
 ```bash
 venv/bin/python scripts/idea_foundry_preflight.py \
@@ -59,9 +59,8 @@ SHA-256으로 남는다. 실행 중 source worktree가 바뀌면 마지막 gate�
 깨끗한 checkout에서는 등록된 Idea Foundry Python 실행·분석 소스 전체를
 lint하고, dirty checkout에서는 그 고정 목록에 모든 변경 Python 파일을 합쳐
 검사하므로 커밋 직후에도 preflight를 재현할 수 있다.
-`readiness.ablation_execution_preflight=READY`는 기술적 실행 준비만 뜻한다.
-과학적 효능은 `NOT_EVALUATED`, 자동 claim 승격은 `FORBIDDEN_AUTOMATICALLY`로
-고정된다.
+P0b-C 이후 새 release의 `readiness.ablation_execution_preflight=READY`만 기술 준비를 뜻하며, 현재는 생성·실행 승인 근거가 아니다.
+과학적 효능은 `NOT_EVALUATED`, 자동 claim 승격은 `FORBIDDEN_AUTOMATICALLY`로 고정된다.
 
 `quick`은 preflight-only 결과이며 실제 ablation 진입 승인에는 진단 실행까지
 포함한 `release` 결과가 별도로 필요하다. `release`는 이름과 달리
@@ -202,11 +201,8 @@ artifact의 실제 hash도 확인한다.
 
 ## 5. 실제 첫 과학 게이트 실행
 
-> **동결된 역사 인터페이스:** 이 절과 6절의 schema-v1 명령은 과거 실행을
-> 설명하기 위한 inspection surface일 뿐이다. `plan`과 기존 캠페인의 `status`
-> 조회만 read-only로 허용되며, run/resume/reuse/publish/analyze는 모두 차단된다.
-> 향후 contract 작업은 `scripts/idea_foundry_run_all.py`의 canonical v2 경로에서
-> 별도 검증하며, 이 문서의 과거 명령은 과학적 실행 권한을 부여하지 않는다.
+> Schema-v1은 `plan`/`status` inspection-only이며 run/resume/reuse/publish/analyze가 동결된다.
+> `idea_foundry_run_all.py`는 status-schema-v2 substrate일 뿐이고 envelope-v2/closure는 P0b-C pending이므로 `READY`나 실행 권한 근거가 아니다.
 
 26축의 실행 계약과 예상 시간을 먼저 확인한다.
 

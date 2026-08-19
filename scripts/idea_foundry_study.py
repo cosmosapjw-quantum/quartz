@@ -80,6 +80,7 @@ def _archive_incomplete_output(output_dir: Path) -> Path:
 
 
 def _run_or_reuse_native(command: Sequence[str], native_dir: Path) -> str:
+    reject_legacy_study_mutation()
     if native_dir.exists():
         validated_status = _validate_artifact_set(native_dir)
         if validated_status in TERMINAL:
@@ -267,6 +268,7 @@ def _run_native(
     seed: int,
     output_dir: Path,
 ) -> dict[str, Any]:
+    reject_legacy_study_mutation()
     native_dir = output_dir.with_name(f"{output_dir.name}.native")
     if axis_id == "A15":
         native_profile = "diagnostic" if profile == "pilot" else "full"

@@ -25,6 +25,7 @@ PHASE15_A4_MINIMAL = FIXTURES / "idea_foundry_phase15_a4_minimal.jsonl"
 STAGE7_A4_B13_MINIMAL = FIXTURES / "idea_foundry_stage7_a4_b13_minimal.jsonl"
 POSITION_SUITE_MINIMAL = FIXTURES / "idea_foundry_position_suite_minimal.json"
 FROZEN_V1 = "legacy scientific study schema v1 is frozen; inspection only"
+FROZEN_CAMPAIGN = f"IDEA FOUNDRY CAMPAIGN BLOCKED: {FROZEN_V1}"
 
 
 def _assert_fixture_provenance(path: Path) -> None:
@@ -200,7 +201,7 @@ def test_study_registry_json_is_strictly_versioned():
     assert payload["prohibited_inferences"]
 
 
-def test_campaign_resume_recursively_validates_nested_source_and_input_hashes(
+def test_legacy_historical_artifact_validator_is_read_only(
     tmp_path,
 ):
     runner = _load_campaign_runner()
@@ -258,7 +259,11 @@ def test_campaign_resume_recursively_validates_nested_source_and_input_hashes(
         encoding="utf-8",
     )
 
+    before = {path: path.read_bytes() for path in tmp_path.rglob("*") if path.is_file()}
     assert runner._validate_artifact_set(axis_dir) == "completed_no_promotion"
+    assert {
+        path: path.read_bytes() for path in tmp_path.rglob("*") if path.is_file()
+    } == before
     source.write_text("drift\n", encoding="utf-8")
     assert runner._validate_artifact_set(axis_dir) is None
 
@@ -272,37 +277,41 @@ def test_recovered_axis_clears_stale_blocker():
     assert "blocker" not in axis
 
 
-def test_native_recovery_reuses_valid_and_archives_incomplete_outputs(
+def test_legacy_direct_execution_helpers_are_frozen_before_any_work(
     tmp_path, monkeypatch
 ):
-    runner = _load_axis_study_runner()
+    runner, campaign = _load_axis_study_runner(), _load_campaign_runner()
     native_dir = tmp_path / "A19.native"
     native_dir.mkdir()
-    calls = []
-    monkeypatch.setattr(
-        runner,
-        "_validate_artifact_set",
-        lambda path: "completed_no_promotion" if (path / "valid").exists() else None,
-    )
-    monkeypatch.setattr(
-        runner,
-        "_run_command",
-        lambda command, path: (
-            calls.append(tuple(command)),
-            path.mkdir(),
-            (path / "valid").touch(),
-        ),
-    )
+    marker = native_dir / "marker"
+    marker.write_text("preserve", encoding="utf-8")
+    monkeypatch.setattr(runner, "_validate_artifact_set", pytest.fail)
+    with pytest.raises(runner.StudyError, match=FROZEN_V1):
+        runner._run_or_reuse_native(["executor"], native_dir)
+    monkeypatch.setattr(runner, "_validate_artifact_set", lambda _path: None)
+    monkeypatch.setattr(runner, "_archive_incomplete_output", pytest.fail)
+    monkeypatch.setattr(runner, "_run_command", pytest.fail)
+    with pytest.raises(runner.StudyError, match=FROZEN_V1):
+        runner._run_or_reuse_native(["executor"], native_dir)
+    fresh = tmp_path / "fresh.native"
+    with pytest.raises(runner.StudyError, match=FROZEN_V1):
+        runner._run_or_reuse_native(["executor"], fresh)
+    monkeypatch.setattr(runner, "_run_or_reuse_native", pytest.fail)
+    native_options = dict(profile="pilot", seed=1, output_dir=tmp_path / "A15")
+    with pytest.raises(runner.StudyError, match=FROZEN_V1):
+        runner._run_native("A15", **native_options)
+    monkeypatch.setattr(campaign.subprocess, "Popen", pytest.fail)
+    logs = tmp_path / "logs"
+    paths = tmp_path / "A01", logs / "stdout", logs / "stderr"
+    axis_options = dict(axis_id="A01", profile="pilot", seed=1, timeout_seconds=1)
+    axis_options.update(zip(("output_dir", "stdout_path", "stderr_path"), paths))
+    with pytest.raises(campaign.StudyError, match=FROZEN_V1):
+        campaign._run_axis(**axis_options)
 
-    (native_dir / "valid").touch()
-    assert runner._run_or_reuse_native(["executor"], native_dir) == "verified_reuse"
-    assert calls == []
-
-    (native_dir / "valid").unlink()
-    assert runner._run_or_reuse_native(["executor"], native_dir) == "executed"
-    assert calls == [("executor",)]
-    assert (tmp_path / "A19.native.incomplete-attempt-1").is_dir()
-    assert (native_dir / "valid").is_file()
+    assert marker.read_text(encoding="utf-8") == "preserve"
+    assert not (tmp_path / "A19.native.incomplete-attempt-1").exists()
+    assert not fresh.exists() and not (tmp_path / "A15.native").exists()
+    assert not logs.exists()
 
 
 def test_legacy_routes_are_frozen_or_read_only(tmp_path, monkeypatch, capsys):
@@ -319,8 +328,10 @@ def test_legacy_routes_are_frozen_or_read_only(tmp_path, monkeypatch, capsys):
     with monkeypatch.context() as patch:
         patch.setattr(campaign_runner, "_safe_run_root", pytest.fail)
         for command in ("run", "resume"):
-            assert campaign_runner.main([command, "--run-id", "historical"]) == 2
-            assert FROZEN_V1 in capsys.readouterr().err
+            for timeout in ("0", "-1"):
+                args = [command, "--run-id", "x", "--timeout-multiplier", timeout]
+                assert campaign_runner.main(args) == 2
+                assert capsys.readouterr().err.strip() == FROZEN_CAMPAIGN
     assert not root.exists()
     campaign_runner.REPO_ROOT = tmp_path
     run_root = root / "x"
