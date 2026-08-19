@@ -5,6 +5,7 @@ import importlib.util
 import json
 from pathlib import Path
 
+import numpy as np
 import pytest
 
 from quartz.idea_foundry.a19_ablation import (
@@ -60,10 +61,77 @@ def controller(tmp_path: Path) -> tuple[Path, str]:
     return path, file_sha256(path)
 
 
-def launch_args(tmp_path: Path, controller_path: Path, controller_hash: str):
+def replay_manifest(tmp_path: Path, script, monkeypatch: pytest.MonkeyPatch) -> Path:
+    source_hashes = script._source_hashes()
+    repo_root = tmp_path / "replay-inputs"
+    sources = []
+    for seed in (41, 42, 43):
+        seed_dir = repo_root / "bootstrap" / f"seed_{seed}"
+        seed_dir.mkdir(parents=True)
+        replay_path = seed_dir / "replay.npz"
+        count = 208
+        states = np.zeros((count, 17, 7, 7), dtype=np.float32)
+        states[:, 0, 0, 0] = np.arange(count, dtype=np.float32)
+        np.savez_compressed(
+            replay_path,
+            replay_format=np.array([2], dtype=np.int32),
+            states=states,
+            policy_ptr=np.arange(count + 1, dtype=np.int64),
+            policy_idx=np.zeros(count, dtype=np.int32),
+            policy_val=np.ones(count, dtype=np.float32),
+            n_actions=np.full(count, 49, dtype=np.int32),
+            values=np.zeros(count, dtype=np.float32),
+            metadata_json=np.asarray(["{}"] * count, dtype=np.str_),
+        )
+        checkpoint_path = seed_dir / "latest.pt"
+        checkpoint_path.write_bytes(f"deterministic-test-checkpoint-{seed}".encode())
+        status_path = seed_dir / "checkpoint_status.json"
+        status_path.write_bytes(
+            canonical_json_bytes(
+                {
+                    "preferred_posttrain_checkpoint": "latest.pt",
+                    "best_checkpoint_bootstrap_seeded": True,
+                    "saw_promotion": False,
+                }
+            )
+        )
+        sources.append(
+            {
+                "replicate_seed": seed,
+                "replay_path": str(replay_path.relative_to(repo_root)),
+                "replay_sha256": file_sha256(replay_path),
+                "checkpoint_path": str(checkpoint_path.relative_to(repo_root)),
+                "checkpoint_sha256": file_sha256(checkpoint_path),
+                "checkpoint_status_path": str(status_path.relative_to(repo_root)),
+                "checkpoint_status_sha256": file_sha256(status_path),
+            }
+        )
+    manifest_path = repo_root / "replay_manifest.json"
+    manifest_path.write_bytes(
+        canonical_json_bytes(
+            {
+                "schema_version": 1,
+                "axis_id": "A19",
+                "game": "gomoku7",
+                "source_status": "trained_bootstrap_non_promoted",
+                "sources": sources,
+            }
+        )
+    )
+    monkeypatch.setattr(script, "REPO_ROOT", repo_root)
+    monkeypatch.setattr(script, "_source_hashes", lambda: source_hashes)
+    return manifest_path
+
+
+def launch_args(
+    tmp_path: Path,
+    controller_path: Path,
+    controller_hash: str,
+    replay_manifest_path: Path,
+):
     return argparse.Namespace(
         screen_plan=PLAN_PATH,
-        replay_manifest=REPLAY_MANIFEST_PATH,
+        replay_manifest=replay_manifest_path,
         controller_checkpoint=controller_path,
         controller_sha256=controller_hash,
         output_dir=tmp_path / "a19-launch",
@@ -71,6 +139,14 @@ def launch_args(tmp_path: Path, controller_path: Path, controller_hash: str):
         proxy_results=None,
         proxy_results_sha256=None,
     )
+
+
+@pytest.fixture
+def launch_context(tmp_path: Path, monkeypatch: pytest.MonkeyPatch):
+    script = load_script()
+    manifest_path = replay_manifest(tmp_path, script, monkeypatch)
+    controller_path, controller_hash = controller(tmp_path)
+    return script, controller_path, controller_hash, manifest_path
 
 
 def test_topology_is_deterministic_unique_and_density_matched():
@@ -141,10 +217,24 @@ def test_resource_normalization_preserves_integer_receipt_contract():
         )
 
 
-def test_launch_contract_consumes_real_replays_without_fabricating_shortlist(tmp_path):
+def test_real_manifest_fails_closed_without_preregistered_lineage(tmp_path):
     script = load_script()
     controller_path, controller_hash = controller(tmp_path)
-    args = launch_args(tmp_path, controller_path, controller_hash)
+    args = launch_args(tmp_path, controller_path, controller_hash, REPLAY_MANIFEST_PATH)
+
+    with pytest.raises(
+        A19PreparationError, match="replay source must be an existing regular file"
+    ):
+        script.run(args)
+
+    assert not args.output_dir.exists()
+
+
+def test_launch_contract_consumes_temporary_validated_replays_without_fabricating_shortlist(
+    tmp_path, launch_context
+):
+    script, controller_path, controller_hash, replay_manifest_path = launch_context
+    args = launch_args(tmp_path, controller_path, controller_hash, replay_manifest_path)
     assert script.run(args) == 0
 
     output = args.output_dir
@@ -208,10 +298,11 @@ def test_launch_contract_consumes_real_replays_without_fabricating_shortlist(tmp
         assert len(row["batch_schedule_sha256"]) == 64
 
 
-def test_exact_retry_is_idempotent_and_controller_hash_drift_fails(tmp_path):
-    script = load_script()
-    controller_path, controller_hash = controller(tmp_path)
-    args = launch_args(tmp_path, controller_path, controller_hash)
+def test_exact_retry_is_idempotent_and_controller_hash_drift_fails(
+    tmp_path, launch_context
+):
+    script, controller_path, controller_hash, replay_manifest_path = launch_context
+    args = launch_args(tmp_path, controller_path, controller_hash, replay_manifest_path)
     assert script.run(args) == 0
     before = {
         path.name: (path.read_bytes(), path.stat().st_mtime_ns)
@@ -224,17 +315,23 @@ def test_exact_retry_is_idempotent_and_controller_hash_drift_fails(tmp_path):
     }
     assert after == before
 
-    drift_args = launch_args(tmp_path / "other", controller_path, "0" * 64)
+    drift_args = launch_args(
+        tmp_path / "other", controller_path, "0" * 64, replay_manifest_path
+    )
     with pytest.raises(A19PreparationError, match="hash mismatch"):
         script.run(drift_args)
 
 
-def test_existing_output_rejects_incomplete_and_artifact_drift(tmp_path):
-    script = load_script()
-    controller_path, controller_hash = controller(tmp_path)
+def test_existing_output_rejects_incomplete_and_artifact_drift(
+    tmp_path, launch_context
+):
+    script, controller_path, controller_hash, replay_manifest_path = launch_context
 
     incomplete_args = launch_args(
-        tmp_path / "incomplete", controller_path, controller_hash
+        tmp_path / "incomplete",
+        controller_path,
+        controller_hash,
+        replay_manifest_path,
     )
     assert script.run(incomplete_args) == 0
     (incomplete_args.output_dir / "diagnostic.png").unlink()
@@ -242,7 +339,10 @@ def test_existing_output_rejects_incomplete_and_artifact_drift(tmp_path):
         script.run(incomplete_args)
 
     drift_args = launch_args(
-        tmp_path / "artifact-drift", controller_path, controller_hash
+        tmp_path / "artifact-drift",
+        controller_path,
+        controller_hash,
+        replay_manifest_path,
     )
     assert script.run(drift_args) == 0
     summary_path = drift_args.output_dir / "summary.json"
@@ -252,11 +352,10 @@ def test_existing_output_rejects_incomplete_and_artifact_drift(tmp_path):
 
 
 def test_existing_output_rejects_run_id_source_and_input_hash_drift(
-    tmp_path, monkeypatch
+    tmp_path, monkeypatch, launch_context
 ):
-    script = load_script()
-    controller_path, controller_hash = controller(tmp_path)
-    args = launch_args(tmp_path, controller_path, controller_hash)
+    script, controller_path, controller_hash, replay_manifest_path = launch_context
+    args = launch_args(tmp_path, controller_path, controller_hash, replay_manifest_path)
     assert script.run(args) == 0
 
     wrong_run_id = argparse.Namespace(**vars(args))
@@ -283,10 +382,11 @@ def test_existing_output_rejects_run_id_source_and_input_hash_drift(
         script.run(drifted_input)
 
 
-def test_existing_output_rejects_mode_and_shortlist_status_drift(tmp_path):
-    script = load_script()
-    controller_path, controller_hash = controller(tmp_path)
-    args = launch_args(tmp_path, controller_path, controller_hash)
+def test_existing_output_rejects_mode_and_shortlist_status_drift(
+    tmp_path, launch_context
+):
+    script, controller_path, controller_hash, replay_manifest_path = launch_context
+    args = launch_args(tmp_path, controller_path, controller_hash, replay_manifest_path)
     assert script.run(args) == 0
 
     manifest_path = args.output_dir / "run_manifest.json"
@@ -315,12 +415,11 @@ def test_existing_output_rejects_mode_and_shortlist_status_drift(tmp_path):
         script.run(args)
 
 
-def test_measured_finalize_rejects_malformed_proxy_artifacts(tmp_path):
-    script = load_script()
-    controller_path, controller_hash = controller(tmp_path)
+def test_measured_finalize_rejects_malformed_proxy_artifacts(tmp_path, launch_context):
+    script, controller_path, controller_hash, replay_manifest_path = launch_context
     proxy = tmp_path / "opaque-proxy.jsonl"
     proxy.write_text("{}\n", encoding="utf-8")
-    args = launch_args(tmp_path, controller_path, controller_hash)
+    args = launch_args(tmp_path, controller_path, controller_hash, replay_manifest_path)
     args.output_dir = tmp_path / "a19-measured"
     args.run_id = "a19-measured-test"
     args.proxy_results = proxy

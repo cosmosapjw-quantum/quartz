@@ -20,6 +20,43 @@ from quartz.experiment_manifest import file_sha256
 
 
 ROOT = Path(__file__).resolve().parents[1]
+FIXTURES = ROOT / "tests" / "fixtures"
+PHASE15_A4_MINIMAL = FIXTURES / "idea_foundry_phase15_a4_minimal.jsonl"
+STAGE7_A4_B13_MINIMAL = FIXTURES / "idea_foundry_stage7_a4_b13_minimal.jsonl"
+POSITION_SUITE_MINIMAL = FIXTURES / "idea_foundry_position_suite_minimal.json"
+
+
+def _assert_fixture_provenance(path: Path) -> None:
+    text = path.read_text(encoding="utf-8")
+    rows = (
+        [json.loads(line) for line in text.splitlines() if line.strip()]
+        if path.suffix == ".jsonl"
+        else [json.loads(text)]
+    )
+    assert rows and all(
+        row.get("fixture_provenance") == "synthetic_unit_fixture" for row in rows
+    )
+
+
+def _patch_compact_phase15_a4_grid(monkeypatch) -> None:
+    from quartz.idea_foundry import studies
+
+    _assert_fixture_provenance(PHASE15_A4_MINIMAL)
+    monkeypatch.setattr(studies, "PHASE15_ROWS", PHASE15_A4_MINIMAL)
+
+
+def _patch_compact_stage7_a4_b13_grid(monkeypatch) -> None:
+    from quartz.idea_foundry import studies
+
+    _assert_fixture_provenance(STAGE7_A4_B13_MINIMAL)
+    monkeypatch.setattr(studies, "STAGE7_ROWS", STAGE7_A4_B13_MINIMAL)
+
+
+def _patch_compact_position_suite(monkeypatch) -> None:
+    from quartz.idea_foundry import studies
+
+    _assert_fixture_provenance(POSITION_SUITE_MINIMAL)
+    monkeypatch.setattr(studies, "POSITION_SUITE", POSITION_SUITE_MINIMAL)
 
 
 def _load_campaign_runner():
@@ -56,7 +93,12 @@ def test_study_registry_covers_26_axes_in_order_with_positive_estimates():
     assert plan["estimated_seconds"]["full"] > plan["estimated_seconds"]["pilot"]
 
 
-def test_representative_trace_synthetic_conditional_and_exact_recipes_are_distinct():
+def test_representative_trace_synthetic_conditional_and_exact_recipes_are_distinct(
+    monkeypatch,
+):
+    _patch_compact_phase15_a4_grid(monkeypatch)
+    _patch_compact_stage7_a4_b13_grid(monkeypatch)
+    _patch_compact_position_suite(monkeypatch)
     trace = execute_inprocess("A01", "pilot", 20260719)
     synthetic = execute_inprocess("A06", "pilot", 20260719)
     conditional = execute_inprocess("A10", "pilot", 20260719)
@@ -76,6 +118,7 @@ def test_representative_trace_synthetic_conditional_and_exact_recipes_are_distin
 def test_published_effect_records_are_meta_schema_valid(tmp_path, monkeypatch):
     from quartz.idea_foundry import studies
 
+    _patch_compact_phase15_a4_grid(monkeypatch)
     monkeypatch.setattr(
         studies,
         "_ensure_output",

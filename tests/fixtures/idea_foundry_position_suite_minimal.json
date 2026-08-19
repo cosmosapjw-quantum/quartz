@@ -1,0 +1,49 @@
+{
+  "_test_fixture": "idea_foundry_position_suite_minimal",
+  "fixture_provenance": "synthetic_unit_fixture",
+  "board_size": 7,
+  "positions": [
+    {
+      "id": "fixture-position-01",
+      "board": [
+        0, 0, 0, 0, 0, 0, 0,
+        0, 1, 0, 0, 0, -1, 0,
+        0, 0, 1, 0, 0, 0, 0,
+        0, 0, 0, -1, 0, 0, 0,
+        0, 0, 0, 0, 1, 0, 0,
+        0, -1, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0
+      ],
+      "player": 1,
+      "prior_argmax": 0
+    },
+    {
+      "id": "fixture-position-02",
+      "board": [
+        0, 0, -1, 0, 0, 0, 0,
+        0, 0, 0, 1, 0, 0, 0,
+        1, 0, 0, 0, -1, 0, 0,
+        0, 0, 0, 1, 0, 0, 0,
+        0, -1, 0, 0, 0, 1, 0,
+        0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0
+      ],
+      "player": -1,
+      "prior_argmax": 1
+    },
+    {
+      "id": "fixture-position-03",
+      "board": [
+        0, 1, 0, 0, 0, -1, 0,
+        0, 0, 0, -1, 0, 0, 0,
+        0, 0, 1, 0, 0, 0, 0,
+        -1, 0, 0, 0, 1, 0, 0,
+        0, 0, 0, 0, 0, -1, 0,
+        0, 0, 0, 1, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0
+      ],
+      "player": 1,
+      "prior_argmax": 2
+    }
+  ]
+}
