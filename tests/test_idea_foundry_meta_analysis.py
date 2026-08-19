@@ -14,11 +14,7 @@ from quartz.idea_foundry.meta_analysis import (
     pool_effect_records,
     run_meta_analysis,
 )
-from quartz.idea_foundry.status_schema import (
-    ExecutionStatus,
-    first_gate_status,
-    transition_status,
-)
+from quartz.idea_foundry.status_schema import ExecutionStatus, first_gate_status, transition_status  # fmt: skip
 
 
 def _effect(
@@ -101,9 +97,7 @@ def test_incompatible_estimands_are_never_pooled_together() -> None:
         ]
     )
     assert len(groups) == 2
-    assert {row["pooling_disposition"] for row in groups} == {
-        "INSUFFICIENT_INDEPENDENT_EFFECTS"
-    }
+    assert {row["pooling_disposition"] for row in groups} == {"INSUFFICIENT_INDEPENDENT_EFFECTS"}  # fmt: skip
 
 
 def test_duplicate_independent_group_is_rejected() -> None:
@@ -151,14 +145,8 @@ def test_meta_analysis_verifies_source_hash_and_emits_no_promotion(
     payload = run_meta_analysis([input_path], tmp_path / "meta")
     assert payload["status"] == first_gate_status("meta")
     assert payload["pooled_group_count"] == 1
-    assert payload["status"]["effect"] == "non_estimable"
-    manifest = json.loads(
-        (tmp_path / "meta" / "analysis_manifest.json").read_text(encoding="utf-8")
-    )
-    assert any(
-        row["path"] == "quartz/idea_foundry/status_schema.py"
-        for row in manifest["sources"]
-    )
+    manifest = json.loads((tmp_path / "meta" / "analysis_manifest.json").read_text(encoding="utf-8"))  # fmt: skip
+    assert any(row["path"] == "quartz/idea_foundry/status_schema.py" for row in manifest["sources"])  # fmt: skip
 
     source_path.write_text('{"paired_seeds": [9]}\n', encoding="utf-8")
     with pytest.raises(MetaAnalysisError, match="hash mismatch"):

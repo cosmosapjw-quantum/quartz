@@ -7,19 +7,15 @@ from typing import Any, Mapping
 # fmt: off
 STATUS_SCHEMA_VERSION = 2
 STATUS_SCHEMA_PATH = Path(__file__).resolve()
-
 def _enum(name: str, values: str) -> type[StrEnum]:
     return StrEnum(name, {value.upper(): value for value in values.split()})
-
 ExecutionStatus = _enum("ExecutionStatus", "planned running success failed skipped")
 ContractStatus = _enum("ContractStatus", "not_evaluated passed failed not_applicable")
 EffectStatus = _enum("EffectStatus", "not_evaluated estimable non_estimable invalidated")
 EvidenceMaturity = _enum("EvidenceMaturity", "contract_only diagnostic ablation confirmatory")
 PromotionStatus = _enum("PromotionStatus", "ineligible eligible promoted")
-
 class StatusSchemaError(ValueError):
     pass
-
 _FIELDS = {
     "execution": ExecutionStatus,
     "contract": ContractStatus,
@@ -27,10 +23,8 @@ _FIELDS = {
     "evidence_maturity": EvidenceMaturity,
     "promotion": PromotionStatus,
 }
-
 def status_v2(*values: StrEnum) -> dict[str, Any]:
     return validate_status_v2({"schema_version": 2, **dict(zip(_FIELDS, map(str, values), strict=True))})
-
 def first_gate_status(axis_id: str) -> dict[str, Any]:
     dormant = axis_id == "A10"
     return status_v2(
@@ -39,19 +33,16 @@ def first_gate_status(axis_id: str) -> dict[str, Any]:
         EffectStatus.NON_ESTIMABLE, EvidenceMaturity.CONTRACT_ONLY,
         PromotionStatus.INELIGIBLE,
     )
-
 def validate_axis_status(axis_id: str, value: Any) -> dict[str, Any]:
     status = validate_status_v2(value)
     if status != first_gate_status(axis_id):
         raise StatusSchemaError(f"axis status does not match {axis_id}")
     return status
-
 def validate_campaign_status(value: Any) -> dict[str, Any]:
     status = validate_status_v2(value)
     if status != first_gate_status("campaign"):
         raise StatusSchemaError("campaign status is not exact success")
     return status
-
 def transition_status(execution: StrEnum) -> dict[str, Any]:
     failed = execution is ExecutionStatus.FAILED
     return status_v2(

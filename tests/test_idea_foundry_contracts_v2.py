@@ -881,8 +881,5 @@ def test_axis_gate_cli_writes_validated_artifact_trio(tmp_path):
     assert manifest["status"] == summary["status"] == first_gate_status("A01")
     assert "auto_promoted" not in manifest
     assert "gate_evidence_status" not in summary
-    assert any(
-        row["path"] == "quartz/idea_foundry/status_schema.py"
-        for row in manifest["source_hashes"]
-    )
+    assert any(row["path"] == "quartz/idea_foundry/status_schema.py" for row in manifest["source_hashes"])  # fmt: skip
     assert rows and all(row["axis_id"] == "A01" for row in rows)

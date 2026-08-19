@@ -29,7 +29,7 @@ from quartz.idea_foundry.status_schema import (
     is_resumable,
     transition_status,
     validate_axis_status,
-    validate_campaign_status,
+    validate_status_v2,
 )
 
 SEQUENTIAL_SCHEMA_VERSION = 1
@@ -163,10 +163,20 @@ def _validate_state(
         raise SequentialCampaignError("campaign axes must be a list of objects")
     if [row.get("axis_id") for row in axes] != expected:
         raise SequentialCampaignError("campaign axis order changed")
+    if not all(isinstance(row.get("attempts"), list) for row in axes):
+        raise SequentialCampaignError("campaign axis attempts must be lists")
     try:
-        validate_campaign_status(state.get("status"))
+        # fmt: off
+        partial = [transition_status(item) for item in (ExecutionStatus.PLANNED, ExecutionStatus.RUNNING, ExecutionStatus.FAILED)]
+        campaign_status = validate_status_v2(state.get("status"))
+        if campaign_status not in (*partial[1:], first_gate_status("campaign")):
+            raise StatusSchemaError("campaign status is not writer-representable")
         for axis_id, row in zip(expected, axes, strict=True):
-            validate_axis_status(axis_id, row.get("status"))
+            if validate_status_v2(row.get("status")) not in (*partial, first_gate_status(axis_id)):
+                raise StatusSchemaError("axis status is not writer-representable")
+        if campaign_status == first_gate_status("campaign") and any(row["status"] != first_gate_status(axis_id) for axis_id, row in zip(expected, axes, strict=True)):
+            raise StatusSchemaError("successful campaign contains incomplete axes")
+        # fmt: on
     except StatusSchemaError as exc:
         raise SequentialCampaignError(str(exc)) from exc
     if state.get("run_id") != run_id or state.get("seed") != seed:

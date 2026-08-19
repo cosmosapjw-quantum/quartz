@@ -200,15 +200,17 @@ def analyze_campaign(
         raise MetaAnalysisError("campaign state/summary status mismatch")
     specs = load_workflow_specs()
     axis_rows = state.get("axes")
-    if not isinstance(axis_rows, list) or [row.get("axis_id") for row in axis_rows] != [
-        spec.axis_id for spec in specs
-    ]:
+    # fmt: off
+    if not isinstance(axis_rows, list) or not all(isinstance(row, Mapping) for row in axis_rows) or [row.get("axis_id") for row in axis_rows] != [spec.axis_id for spec in specs]:
         raise MetaAnalysisError(
             "campaign must cover the registered 26-axis order exactly"
         )
+    if any(not isinstance(row.get("attempts"), list) for row in axis_rows):
+        raise MetaAnalysisError("campaign axis attempts must be lists")
     summary_axes = summary.get("axes")
-    if not isinstance(summary_axes, list) or len(summary_axes) != len(axis_rows):
+    if not isinstance(summary_axes, list) or len(summary_axes) != len(axis_rows) or not all(isinstance(row, Mapping) for row in summary_axes):
         raise MetaAnalysisError("campaign summary axis inventory is incomplete")
+    # fmt: on
     expected_summary_rows = [
         (
             row.get("axis_id"),
@@ -230,7 +232,6 @@ def analyze_campaign(
             row.get("attempt_count"),
         )
         for spec, row in zip(specs, summary_axes, strict=True)
-        if isinstance(row, dict)
     ]
     if observed_summary_rows != expected_summary_rows:
         raise MetaAnalysisError("campaign summary axis state mismatch")
