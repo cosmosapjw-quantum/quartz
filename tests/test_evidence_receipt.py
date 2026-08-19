@@ -1,4 +1,3 @@
-import copy
 import hashlib
 import json
 import subprocess
@@ -9,6 +8,7 @@ import pytest
 from scripts import verify_evidence_receipt as verifier
 
 EXEC, ANALYSIS = "execution_identity", "analysis_identity"
+DRIFT = "Git-tree hash drift for execution_identity.artifact_inventory"
 
 
 def _git(repo: Path, *args: str) -> str:
@@ -19,7 +19,7 @@ def _entry(path: str, payload: bytes) -> dict[str, str]:
     return {"path": path, "sha256": hashlib.sha256(payload).hexdigest()}
 
 
-def _id(commit: str, regular: dict, raw: dict, *, execution: bool) -> dict:
+def _id(commit: str, regular: dict, raw: dict, execution: bool) -> dict:
     return {
         "commit": commit,
         "dirty": False,
@@ -78,8 +78,8 @@ def receipt_case(tmp_path: Path):
     derived = _entry("analysis", b"analysis\n")
     run = {
         "run_id": "run-1",
-        EXEC: _id(execution_commit, regular, raw, execution=True),
-        ANALYSIS: _id(_git(repo, "rev-parse", "HEAD"), derived, raw, execution=False),
+        EXEC: _id(execution_commit, regular, raw, True),
+        ANALYSIS: _id(_git(repo, "rev-parse", "HEAD"), derived, raw, False),
         "transformation_link": {"raw_execution_manifest": raw.copy()},
     }
     case = repo, repo / "valid.receipt.json", {"schema_version": 2, "runs": [run]}
@@ -112,32 +112,32 @@ def test_public_structural_seam_has_no_repository_dependency(receipt_case) -> No
     verifier.validate_raw_manifest_link(run["transformation_link"], execution, analysis)
 
 
-@pytest.mark.parametrize("replacement", [None, "blob", "commit"])
-def test_literal_tree_binding(receipt_case, replacement) -> None:
+@pytest.mark.parametrize("attack", [None, "blob", "commit", "corrupt"])
+def test_literal_tree_binding(receipt_case, attack) -> None:
     repo, run, new = receipt_case[0], _run(receipt_case), b"worktree-only\n"
     declared = run[EXEC]["commit"]
     (repo / "raw/manifest").write_bytes(new)
-    if replacement == "blob":
+    if attack in {"blob", "corrupt"}:
         old = _git(repo, "rev-parse", f"{declared}:raw/manifest")
         substitute = _git(repo, "hash-object", "-w", "raw/manifest")
-    elif replacement == "commit":
-        run[ANALYSIS] = copy.deepcopy(run[EXEC])
-        run[ANALYSIS]["input_inventory"] = [
-            run["transformation_link"]["raw_execution_manifest"].copy()
-        ]
-        run[ANALYSIS]["artifact_inventory"] = [
-            run[ANALYSIS]["source_inventory"][0].copy()
-        ]
+    elif attack == "commit":
+        raw = run["transformation_link"]["raw_execution_manifest"]
+        run[ANALYSIS] = _id(declared, run[EXEC]["source_inventory"][0], raw, False)
         _git(repo, "add", "raw/manifest")
         _git(repo, "commit", "-qm", "substitute")
         old, substitute = declared, _git(repo, "rev-parse", "HEAD")
-    if replacement is not None:
+    if attack in {"blob", "commit"}:
         _git(repo, "replace", old, substitute)
+    elif attack == "corrupt":
+        objects = repo / ".git/objects"
+        target = objects / old[:2] / old[2:]
+        forged = objects / substitute[:2] / substitute[2:]
+        target.chmod(0o644)
+        target.write_bytes(forged.read_bytes())
     digest = _set_raw_digest(run, new)
     assert hashlib.sha256((repo / "raw/manifest").read_bytes()).hexdigest() == digest
-    _fails(
-        receipt_case, "Git-tree hash drift for execution_identity.artifact_inventory"
-    )
+    message = "object graph integrity failed" if attack == "corrupt" else DRIFT
+    _fails(receipt_case, message)
 
 
 def test_poisoned_git_dir_cannot_redirect_repo_root(receipt_case, monkeypatch) -> None:
@@ -150,41 +150,37 @@ def test_poisoned_git_dir_cannot_redirect_repo_root(receipt_case, monkeypatch) -
 
 
 @pytest.mark.parametrize(
-    ("key", "first", "second"),
+    ("key", "duplicate"),
     [
-        ("schema_version", "1", "2"),
-        ("schema_version", "2", "1"),
-        ("runs", "[]", None),
-        ("run_id", '"other"', None),
-        ("source_inventory", "[]", None),
-        ("sha256", '"' + "0" * 64 + '"', None),
-        ("raw_execution_manifest", "{}", None),
+        ("schema_version", "1"),
+        ("schema_version", "2"),
+        ("runs", "[]"),
+        ("run_id", '"other"'),
+        ("source_inventory", "[]"),
+        ("sha256", '"' + "0" * 64 + '"'),
+        ("raw_execution_manifest", "{}"),
     ],
 )
-def test_duplicate_json_member_is_rejected(receipt_case, key, first, second) -> None:
+def test_duplicate_json_member_is_rejected(receipt_case, key, duplicate) -> None:
     text = json.dumps(receipt_case[2], separators=(",", ":"))
-    if second is None:
-        text = text.replace(f'"{key}":', f'"{key}":{first},"{key}":', 1)
-    else:
-        text = text.replace(
-            '"schema_version":2',
-            f'"schema_version":{first},"schema_version":{second}',
-            1,
-        )
+    needle, injected = f'"{key}":', f'"{key}":{duplicate},"{key}":'
+    if key == "schema_version" and duplicate == "2":
+        needle, injected = '"schema_version":2', '"schema_version":2,"schema_version":1'
+    text = text.replace(needle, injected, 1)
     receipt_case[1].write_text(text, encoding="utf-8")
     with pytest.raises(ValueError, match=rf"duplicate JSON member: {key}"):
         verifier.verify_receipt(receipt_case[1], repo_root=receipt_case[0])
 
 
-def test_schema_v1_is_legacy_unbound(receipt_case) -> None:
-    receipt_case[2]["schema_version"] = 1
-    _fails(receipt_case, "legacy receipt schema v1 is invalid/unbound")
-
-
-@pytest.mark.parametrize("version", [True, 2.0, "2", 3])
-def test_schema_version_is_exact_integer_two(receipt_case, version) -> None:
+@pytest.mark.parametrize("version", [1, True, 2.0, "2", 3])
+def test_invalid_schema_version_fails(receipt_case, version) -> None:
     receipt_case[2]["schema_version"] = version
-    _fails(receipt_case, "receipt schema_version must be integer 2")
+    message = (
+        "legacy receipt schema v1 is invalid/unbound"
+        if type(version) is int and version == 1
+        else "receipt schema_version must be integer 2"
+    )
+    _fails(receipt_case, message)
 
 
 def test_runs_must_be_nonempty(receipt_case) -> None:
@@ -269,13 +265,8 @@ def test_raw_manifest_link_failures(receipt_case, identity, inventory, absent) -
 @pytest.mark.parametrize("ancestor", [False, True])
 def test_receipt_symlink_or_symlinked_ancestor_fails(receipt_case, ancestor) -> None:
     if ancestor:
-        real = receipt_case[0].parent / "real"
-        real.mkdir()
-        receipt = real / receipt_case[1].name
-        receipt.write_bytes(receipt_case[1].read_bytes())
-        alias = receipt_case[0].parent / "alias"
-        alias.symlink_to(real, target_is_directory=True)
-        link = alias / receipt.name
+        link = receipt_case[0].parent / "alias" / receipt_case[1].name
+        link.parent.symlink_to(receipt_case[0], target_is_directory=True)
     else:
         link = receipt_case[0] / "linked.receipt.json"
         link.symlink_to(receipt_case[1].name)
@@ -283,34 +274,38 @@ def test_receipt_symlink_or_symlinked_ancestor_fails(receipt_case, ancestor) -> 
         verifier.verify_receipt(link, repo_root=receipt_case[0])
 
 
-def _empty_cli(tmp_path, capsys, *, exists: bool, allow: bool):
-    receipts = tmp_path / "receipts"
-    if exists:
-        receipts.mkdir()
-    args = ["--receipts-dir", str(receipts)]
-    return verifier.main(args + (["--allow-empty-diagnostic"] if allow else [])), capsys
-
-
-@pytest.mark.parametrize(
-    ("exists", "message"),
-    [(False, "receipts directory missing:"), (True, "no receipt files found:")],
-)
-def test_empty_receipts_fail_default(tmp_path, capsys, exists, message) -> None:
-    code, captured = _empty_cli(tmp_path, capsys, exists=exists, allow=False)
-    assert code == 1 and f"[FAIL] {message}" in captured.readouterr().err
-
-
-def test_symlinked_receipts_dir_ancestor_fails(tmp_path, capsys) -> None:
-    real = tmp_path / "real"
-    (real / "receipts").mkdir(parents=True)
-    alias = tmp_path / "alias"
-    alias.symlink_to(real, target_is_directory=True)
-    code = verifier.main(["--receipts-dir", str(alias / "receipts")])
-    assert code == 1 and "receipts directory missing:" in capsys.readouterr().err
+def _cli(path: Path, allow: bool) -> int:
+    args = ["--receipts-dir", str(path)]
+    return verifier.main(args + (["--allow-empty-diagnostic"] if allow else []))
 
 
 @pytest.mark.parametrize("exists", [False, True])
-def test_allow_empty_diagnostic_is_explicit(tmp_path, capsys, exists) -> None:
-    code, captured = _empty_cli(tmp_path, capsys, exists=exists, allow=True)
-    output = captured.readouterr().out
-    assert code == 0 and "[DIAGNOSTIC]" in output and "allow-empty accepted" in output
+@pytest.mark.parametrize("allow", [False, True])
+def test_empty_receipts_policy(tmp_path, capsys, exists, allow) -> None:
+    path = tmp_path / "receipts"
+    if exists:
+        path.mkdir()
+    code = _cli(path, allow)
+    captured = capsys.readouterr()
+    output = captured.out if allow else captured.err
+    assert code == (0 if allow else 1)
+    markers = ("[DIAGNOSTIC]", "allow-empty accepted") if allow else ("[FAIL]",)
+    assert all(marker in output for marker in markers)
+    expected = "no receipt files found:" if exists else "receipts directory missing:"
+    assert expected in output
+
+
+@pytest.mark.parametrize("kind", ["file", "final", "ancestor"])
+@pytest.mark.parametrize("allow", [False, True])
+def test_unsafe_receipts_path_always_fails(tmp_path, capsys, kind, allow) -> None:
+    path = tmp_path / "receipts"
+    if kind == "file":
+        path.touch()
+    elif kind == "final":
+        path.symlink_to(tmp_path, target_is_directory=True)
+    else:
+        path = tmp_path / "alias" / "receipts"
+        (tmp_path / "real/receipts").mkdir(parents=True)
+        path.parent.symlink_to(tmp_path / "real", target_is_directory=True)
+    code = _cli(path, allow)
+    assert code == 1 and "[FAIL] receipts directory missing:" in capsys.readouterr().err

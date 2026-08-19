@@ -22,6 +22,8 @@ INVENTORY_NAMES = tuple(
 _IDENTITY_KEYS = {"commit", "dirty", *INVENTORY_NAMES}
 _EXECUTION, _ANALYSIS = "execution_identity", "analysis_identity"
 _RUN_KEYS = {"run_id", _EXECUTION, _ANALYSIS, "transformation_link"}
+_FSCK = ("fsck", "--full", "--strict", "--no-dangling", "--no-reflogs")
+_STREAM = {"stdout": subprocess.PIPE, "stderr": subprocess.DEVNULL}
 _SHA256 = re.compile(r"[0-9a-f]{64}\Z")
 _FULL_OID = re.compile(r"(?:[0-9a-f]{40}|[0-9a-f]{64})\Z")
 
@@ -120,12 +122,7 @@ def validate_raw_manifest_link(value: Any, execution: dict, analysis: dict) -> N
 def _blob_sha256(repo_root: Path, oid: str) -> str:
     argv, env = _git_context(repo_root, "cat-file", "blob", oid)
     try:
-        process = subprocess.Popen(
-            argv,
-            env=env,
-            stdout=subprocess.PIPE,
-            stderr=subprocess.DEVNULL,
-        )
+        process = subprocess.Popen(argv, env=env, **_STREAM)
         if process.stdout is None:
             raise ValueError("Git blob stream unavailable")
         digest = hashlib.file_digest(process.stdout, "sha256")
@@ -163,7 +160,7 @@ def _verify_tree_entry(repo_root: Path, commit: str, item: dict, label: str) -> 
         )
 
 
-def _verify_identity(repo_root: Path, identity: dict, label: str) -> int:
+def _verify_identity(repo_root: Path, identity: dict, label: str, graphs: set) -> int:
     oid = identity["commit"]
     try:
         object_format = (
@@ -175,6 +172,12 @@ def _verify_identity(repo_root: Path, identity: dict, label: str) -> int:
             raise ValueError
     except (KeyError, UnicodeDecodeError, ValueError):
         raise ValueError(f"{label}.commit cannot be resolved as commit") from None
+    if oid not in graphs:
+        try:
+            _git(repo_root, *_FSCK, oid)
+        except ValueError:
+            raise ValueError("Git object graph integrity failed") from None
+        graphs.add(oid)
     for name in INVENTORY_NAMES:
         for item in identity[name]:
             _verify_tree_entry(repo_root, identity["commit"], item, f"{label}.{name}")
@@ -195,9 +198,7 @@ def _has_symlink_component(path: Path) -> bool:
     return any(part.is_symlink() for part in (absolute, *absolute.parents))
 
 
-def verify_receipt(
-    receipt_path: Path, *, repo_root: Path = REPO_ROOT
-) -> dict[str, Any]:
+def verify_receipt(receipt_path: Path, *, repo_root: Path = REPO_ROOT):
     receipt_path, repo_root = Path(receipt_path), Path(repo_root)
     if not receipt_path.is_file() or _has_symlink_component(receipt_path):
         raise ValueError(f"receipt is missing or symlink: {receipt_path}")
@@ -214,7 +215,7 @@ def verify_receipt(
     runs = _exact(data, {"schema_version", "runs"}, "receipt")["runs"]
     if not isinstance(runs, list) or not runs:
         raise ValueError(f"receipt contains no run entries: {receipt_path}")
-    seen: set[str] = set()
+    seen, graphs = set(), set()
     entries = artifacts = 0
     for index, value in enumerate(runs):
         run = _exact(value, _RUN_KEYS, f"runs[{index}]")
@@ -227,8 +228,8 @@ def verify_receipt(
         execution = validate_identity_contract(run[_EXECUTION], _EXECUTION)
         analysis = validate_identity_contract(run[_ANALYSIS], _ANALYSIS)
         validate_raw_manifest_link(run["transformation_link"], execution, analysis)
-        left = _verify_identity(repo_root, execution, _EXECUTION)
-        right = _verify_identity(repo_root, analysis, _ANALYSIS)
+        left = _verify_identity(repo_root, execution, _EXECUTION, graphs)
+        right = _verify_identity(repo_root, analysis, _ANALYSIS, graphs)
         entries += left + right
         artifacts += len(execution["artifact_inventory"]) + len(
             analysis["artifact_inventory"]
@@ -259,10 +260,14 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--receipts-dir", type=Path, default=RECEIPTS_DIR)
     parser.add_argument("--allow-empty-diagnostic", action="store_true")
     args = parser.parse_args(argv)
-    directory = args.receipts_dir
-    allow = args.allow_empty_diagnostic
-    if not directory.is_dir() or _has_symlink_component(directory):
-        return _empty_result(f"receipts directory missing: {directory}", allow)
+    directory, allow = args.receipts_dir, args.allow_empty_diagnostic
+    unsafe = (
+        _has_symlink_component(directory) or directory.exists() != directory.is_dir()
+    )
+    if unsafe or not directory.is_dir():
+        return _empty_result(
+            f"receipts directory missing: {directory}", allow and not unsafe
+        )
     receipt_files = sorted(directory.glob("*.receipt.json"))
     if not receipt_files:
         return _empty_result(f"no receipt files found: {directory}", allow)
