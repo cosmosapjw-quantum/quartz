@@ -15,6 +15,10 @@ on:
       - "AGENTS.md"
       - "GEMINI.md"
       - "docs/**"
+      - "APPLY_TO_REPO.md"
+      - "audit*.md"
+      - "quartz_idea_foundry_skeleton.patch"
+      - "quartz_idea_foundry_skeleton.zip"
       - "pyproject.toml"
   pull_request:
     paths:
@@ -30,6 +34,10 @@ on:
       - "AGENTS.md"
       - "GEMINI.md"
       - "docs/**"
+      - "APPLY_TO_REPO.md"
+      - "audit*.md"
+      - "quartz_idea_foundry_skeleton.patch"
+      - "quartz_idea_foundry_skeleton.zip"
       - "pyproject.toml"
 
 jobs:
