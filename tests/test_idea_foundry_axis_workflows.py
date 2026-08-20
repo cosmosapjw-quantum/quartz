@@ -50,6 +50,8 @@ STRICT_INVALID_JSON = (
     b'{"outer":{"value":NaN}}',
     b'{"outer":{"value":Infinity}}',
     b'{"outer":{"value":-Infinity}}',
+    b'{"outer":{"value":1e400}}',
+    b'{"outer":{"value":-1e400}}',
     b'{"outer":{"value":"\xff"}}',
 )
 

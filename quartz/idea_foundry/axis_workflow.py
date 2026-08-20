@@ -83,6 +83,13 @@ def _reject_nonfinite_constant(value: str) -> None:
     raise AxisWorkflowError(f"non-finite JSON constant is forbidden: {value}")
 
 
+def _parse_finite_float(value: str) -> float:
+    parsed = float(value)
+    if not math.isfinite(parsed):
+        raise AxisWorkflowError(f"non-finite JSON number is forbidden: {value}")
+    return parsed
+
+
 def _reject_duplicate_members(pairs: list[tuple[str, Any]]) -> dict[str, Any]:
     members = dict(pairs)
     if len(members) != len(pairs):
@@ -97,6 +104,7 @@ def load_json_strict(path: Path) -> Any:
         return json.loads(
             path.read_text(encoding="utf-8"),
             parse_constant=_reject_nonfinite_constant,
+            parse_float=_parse_finite_float,
             object_pairs_hook=_reject_duplicate_members,
         )
     except (json.JSONDecodeError, UnicodeDecodeError) as exc:
@@ -115,6 +123,7 @@ def load_jsonl_strict(path: Path) -> list[dict[str, Any]]:
             payload = json.loads(
                 line,
                 parse_constant=_reject_nonfinite_constant,
+                parse_float=_parse_finite_float,
                 object_pairs_hook=_reject_duplicate_members,
             )
         except (json.JSONDecodeError, UnicodeDecodeError, AxisWorkflowError) as exc:
