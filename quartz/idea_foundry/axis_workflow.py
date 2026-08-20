@@ -83,6 +83,13 @@ def _reject_nonfinite_constant(value: str) -> None:
     raise AxisWorkflowError(f"non-finite JSON constant is forbidden: {value}")
 
 
+def _reject_duplicate_members(pairs: list[tuple[str, Any]]) -> dict[str, Any]:
+    members = dict(pairs)
+    if len(members) != len(pairs):
+        raise AxisWorkflowError("duplicate JSON object member is forbidden")
+    return members
+
+
 def load_json_strict(path: Path) -> Any:
     if not path.is_file() or path.is_symlink():
         raise AxisWorkflowError(f"required regular JSON file is missing: {path}")
@@ -90,6 +97,7 @@ def load_json_strict(path: Path) -> Any:
         return json.loads(
             path.read_text(encoding="utf-8"),
             parse_constant=_reject_nonfinite_constant,
+            object_pairs_hook=_reject_duplicate_members,
         )
     except (json.JSONDecodeError, UnicodeDecodeError) as exc:
         raise AxisWorkflowError(f"invalid JSON artifact {path}: {exc}") from exc
@@ -99,14 +107,17 @@ def load_jsonl_strict(path: Path) -> list[dict[str, Any]]:
     if not path.is_file() or path.is_symlink():
         raise AxisWorkflowError(f"required regular JSONL file is missing: {path}")
     rows: list[dict[str, Any]] = []
-    for line_number, line in enumerate(
-        path.read_text(encoding="utf-8").splitlines(), 1
-    ):
-        if not line.strip():
-            continue
+    for line_number, raw_line in enumerate(path.read_bytes().splitlines(), 1):
         try:
-            payload = json.loads(line, parse_constant=_reject_nonfinite_constant)
-        except json.JSONDecodeError as exc:
+            line = raw_line.decode("utf-8")
+            if not line.strip():
+                continue
+            payload = json.loads(
+                line,
+                parse_constant=_reject_nonfinite_constant,
+                object_pairs_hook=_reject_duplicate_members,
+            )
+        except (json.JSONDecodeError, UnicodeDecodeError, AxisWorkflowError) as exc:
             raise AxisWorkflowError(
                 f"invalid JSONL row {path}:{line_number}: {exc}"
             ) from exc

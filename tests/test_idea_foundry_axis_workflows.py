@@ -14,6 +14,8 @@ from quartz.idea_foundry.axis_workflow import (
     REPO_ROOT,
     AxisWorkflowError,
     analyze_axis,
+    load_json_strict,
+    load_jsonl_strict,
     load_workflow_specs,
     normalize_analysis_rows,
     run_axis_gate,
@@ -41,6 +43,50 @@ from quartz.idea_foundry.status_schema import (
     transition_status,
     validate_status_v2,
 )
+
+
+STRICT_INVALID_JSON = (
+    b'{"outer":{"key":1,"key":2}}',
+    b'{"outer":{"value":NaN}}',
+    b'{"outer":{"value":Infinity}}',
+    b'{"outer":{"value":-Infinity}}',
+    b'{"outer":{"value":"\xff"}}',
+)
+
+
+def test_strict_json_loaders_retain_finite_payloads(tmp_path: Path) -> None:
+    payload = {"outer": {"value": 1.25}, "items": [True, None, "ok"]}
+    json_path = tmp_path / "valid.json"
+    json_path.write_text(json.dumps(payload), encoding="utf-8")
+    assert load_json_strict(json_path) == payload
+    jsonl_path = tmp_path / "valid.jsonl"
+    rows = [{"row": 1, "nested": {"finite": -2.0}}, {"row": 2, "ok": True}]
+    jsonl_path.write_text("\n".join(map(json.dumps, rows)), encoding="utf-8")
+    assert load_jsonl_strict(jsonl_path) == rows
+    jsonl_path.write_text("\n", encoding="utf-8")
+    with pytest.raises(AxisWorkflowError, match="has no rows"):
+        load_jsonl_strict(jsonl_path)
+
+
+@pytest.mark.parametrize("document", STRICT_INVALID_JSON)
+def test_strict_json_rejects_ambiguous_nonfinite_or_invalid_utf8(
+    tmp_path: Path, document: bytes
+) -> None:
+    path = tmp_path / "invalid.json"
+    path.write_bytes(document)
+    with pytest.raises(AxisWorkflowError):
+        load_json_strict(path)
+
+
+@pytest.mark.parametrize("row", (*STRICT_INVALID_JSON, b'{"broken":', b"[]"))
+def test_strict_jsonl_errors_report_artifact_and_row(
+    tmp_path: Path, row: bytes
+) -> None:
+    path = tmp_path / "invalid.jsonl"
+    path.write_bytes(b'{"valid":true}\n' + row)
+    with pytest.raises(AxisWorkflowError) as exc_info:
+        load_jsonl_strict(path)
+    assert f"{path}:2" in str(exc_info.value)
 
 
 # fmt: off
