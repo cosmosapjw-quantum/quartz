@@ -97,18 +97,23 @@ def _reject_duplicate_members(pairs: list[tuple[str, Any]]) -> dict[str, Any]:
     return members
 
 
-def load_json_strict(path: Path) -> Any:
-    if not path.is_file() or path.is_symlink():
-        raise AxisWorkflowError(f"required regular JSON file is missing: {path}")
+def decode_json_strict(document: bytes | str) -> Any:
     try:
+        text = document.decode("utf-8") if isinstance(document, bytes) else document
         return json.loads(
-            path.read_text(encoding="utf-8"),
+            text,
             parse_constant=_reject_nonfinite_constant,
             parse_float=_parse_finite_float,
             object_pairs_hook=_reject_duplicate_members,
         )
     except (json.JSONDecodeError, UnicodeDecodeError) as exc:
-        raise AxisWorkflowError(f"invalid JSON artifact {path}: {exc}") from exc
+        raise AxisWorkflowError(f"invalid JSON document: {exc}") from exc
+
+
+def load_json_strict(path: Path) -> Any:
+    if not path.is_file() or path.is_symlink():
+        raise AxisWorkflowError(f"required regular JSON file is missing: {path}")
+    return decode_json_strict(path.read_bytes())
 
 
 def load_jsonl_strict(path: Path) -> list[dict[str, Any]]:

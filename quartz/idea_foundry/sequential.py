@@ -9,6 +9,7 @@ import re
 import signal
 import subprocess
 import sys
+import tempfile
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Mapping, Sequence
@@ -21,6 +22,16 @@ from quartz.idea_foundry.axis_workflow import (
     load_workflow_specs,
     validate_axis_analysis,
 )
+from quartz.idea_foundry.execution_seal import (
+    ExecutionSealError,
+    _exact_json,
+    canonical_json_bytes,
+    capture_execution_seal,
+    claim_run_root,
+    load_canonical_json,
+    publish_execution_seal,
+    read_execution_seal,
+)
 from quartz.idea_foundry.status_schema import (
     STATUS_SCHEMA_PATH,
     ExecutionStatus,
@@ -32,7 +43,7 @@ from quartz.idea_foundry.status_schema import (
     validate_status_v2,
 )
 
-SEQUENTIAL_SCHEMA_VERSION = 1
+SEQUENTIAL_SCHEMA_VERSION = 2
 DEFAULT_CAMPAIGN_ROOT = REPO_ROOT / "results" / "idea_foundry_sequential"
 RUN_ID_PATTERN = re.compile(r"[A-Za-z0-9][A-Za-z0-9._-]{0,95}\Z")
 
@@ -116,7 +127,7 @@ def campaign_plan(entrypoint: Path) -> dict[str, Any]:
     }
 
 
-def _new_state(run_id: str, seed: int, entrypoint: Path) -> dict[str, Any]:
+def _new_state(run_id: str, seed: int, execution_seal_sha256: str) -> dict[str, Any]:
     now = utc_now()
     specs = load_workflow_specs()
     return {
@@ -127,7 +138,7 @@ def _new_state(run_id: str, seed: int, entrypoint: Path) -> dict[str, Any]:
         "seed": seed,
         "created_at": now,
         "updated_at": now,
-        "fingerprint": _fingerprint(entrypoint),
+        "execution_seal_sha256": execution_seal_sha256,
         "claim_scope": "synthetic_contract_execution_only",
         "axes": [
             {
@@ -146,12 +157,25 @@ def _new_state(run_id: str, seed: int, entrypoint: Path) -> dict[str, Any]:
 
 def _save_state(path: Path, state: dict[str, Any]) -> None:
     state["updated_at"] = utc_now()
-    atomic_json_dump(path, state)
+    fd, temporary = tempfile.mkstemp(prefix=f".{path.name}.", dir=path.parent)
+    try:
+        with os.fdopen(fd, "wb") as handle:
+            handle.write(canonical_json_bytes(state))
+            handle.flush()
+            os.fsync(handle.fileno())
+        os.replace(temporary, path)
+    except Exception:
+        try:
+            os.unlink(temporary)
+        except FileNotFoundError:
+            pass
+        raise
 
 
 def _validate_state(
-    state: Any, run_id: str, seed: int, entrypoint: Path
+    state: Any, run_id: str, seed: int, seal_sha256: str
 ) -> dict[str, Any]:
+    _exact_json(state)
     if (
         not isinstance(state, dict)
         or state.get("schema_version") != SEQUENTIAL_SCHEMA_VERSION
@@ -181,11 +205,61 @@ def _validate_state(
         raise SequentialCampaignError(str(exc)) from exc
     if state.get("run_id") != run_id or state.get("seed") != seed:
         raise SequentialCampaignError("resume run identity or seed changed")
-    if state.get("fingerprint") != _fingerprint(entrypoint):
-        raise SequentialCampaignError(
-            "resume refused: registry, source, or interpreter hash changed"
-        )
+    if state.get("execution_seal_sha256") != seal_sha256:
+        raise SequentialCampaignError("resume refused: execution seal changed")
+    _validate_state_shape(state)
     return state
+
+
+# fmt: off
+def _validate_state_shape(state: dict[str, Any]) -> None:
+    def strict_status(value: Any) -> dict[str, Any]:
+        if type(value) is not dict or set(value) != {"schema_version", "execution", "contract", "effect", "evidence_maturity", "promotion"} or type(value["schema_version"]) is not int or any(type(value[key]) is not str for key in set(value) - {"schema_version"}): raise SequentialCampaignError("status fields are malformed")
+        return validate_status_v2(value)
+    base = {"schema_version", "run_id", "suite", "status", "seed", "created_at", "updated_at", "execution_seal_sha256", "claim_scope", "axes"}
+    optional = set(state) - base
+    if set(state) - {"resumed_at", "completed_at"} != base or type(state["schema_version"]) is not int or state["schema_version"] != 2 or type(state["run_id"]) is not str or not state["run_id"] or type(state["seed"]) is not int or state["suite"] != "first-gate-all-sequential" or state["claim_scope"] != "synthetic_contract_execution_only" or type(state["execution_seal_sha256"]) is not str or not re.fullmatch(r"[0-9a-f]{64}", state["execution_seal_sha256"]):
+        raise SequentialCampaignError("campaign state fields are malformed")
+    if any(type(state.get(key)) is not str or not state[key] for key in ("created_at", "updated_at", *optional)):
+        raise SequentialCampaignError("campaign lifecycle timestamp is malformed")
+    running, failed = (transition_status(item) for item in (ExecutionStatus.RUNNING, ExecutionStatus.FAILED))
+    status = strict_status(state["status"])
+    expected_optional = {"completed_at"} if status == first_gate_status("campaign") else ({"resumed_at"} if "resumed_at" in state else set())
+    if status not in (running, failed, first_gate_status("campaign")) or optional != expected_optional | ({"resumed_at"} if status == first_gate_status("campaign") and "resumed_at" in state else set()):
+        raise SequentialCampaignError("campaign lifecycle is invalid")
+    specs = load_workflow_specs(); phases = []
+    for spec, row in zip(specs, state["axes"], strict=True):
+        row_base = {"order_index", "axis_id", "slug", "lane_id", "role", "status", "attempts"}
+        if type(row) is not dict or not row_base <= set(row) or set(row) - row_base - {"current_attempt", "resume_action", "failure_reason"} or [row.get(key) for key in ("order_index", "axis_id", "slug", "lane_id", "role")] != [spec.order_index, spec.axis_id, spec.slug, spec.lane_id, spec.role] or type(row["attempts"]) is not list:
+            raise SequentialCampaignError("axis row fields are malformed")
+        axis_status = strict_status(row["status"]); execution = axis_status["execution"]
+        terminal = first_gate_status(spec.axis_id); allowed = (transition_status(ExecutionStatus.PLANNED), running, failed, terminal)
+        if axis_status not in allowed: raise SequentialCampaignError("axis status is not writer-representable")
+        attempts = row["attempts"]
+        for number, attempt in enumerate(attempts, 1):
+            fixed = {"attempt_number", "started_at", "output_dir", "stdout", "stderr", "process_outcome"}; extra = set(attempt) - fixed
+            stem = f"{spec.axis_id}.attempt-{number:03d}"; output = f"axes/{spec.axis_id}/attempt-{number:03d}"
+            if type(attempt) is not dict or not fixed <= set(attempt) or attempt["attempt_number"] != number or type(attempt["attempt_number"]) is not int or any(type(attempt[key]) is not str or not attempt[key] for key in fixed - {"attempt_number"}) or (attempt["output_dir"], attempt["stdout"], attempt["stderr"]) != (output, f"logs/{stem}.stdout.log", f"logs/{stem}.stderr.log"):
+                raise SequentialCampaignError("attempt fields are malformed")
+            outcome = attempt["process_outcome"]; active = outcome == "running"
+            if active:
+                if extra or number != len(attempts) or execution != "running": raise SequentialCampaignError("active attempt is invalid")
+            else:
+                reason = {"failure_reason"} if outcome == "failed" and attempt.get("returncode") == 2 else set()
+                relations = {"completed": lambda code: code == 0 or code not in {0, 2, 124, 126, 130}, "failed": lambda code: code in {2, 126}, "timeout": lambda code: code == 124, "interrupted": lambda code: code == 130}
+                if outcome not in relations or extra != {"completed_at", "returncode"} | reason or type(attempt.get("completed_at")) is not str or not attempt["completed_at"] or type(attempt.get("returncode")) is not int or not relations[outcome](attempt["returncode"]) or (reason and (type(attempt.get("failure_reason")) is not str or not attempt["failure_reason"])) or (number < len(attempts) and attempt["returncode"] == 0): raise SequentialCampaignError("finished attempt is invalid")
+        current = f"axes/{spec.axis_id}/attempt-{len(attempts):03d}"
+        if execution == "planned" and (attempts or set(row) != row_base): raise SequentialCampaignError("planned axis is invalid")
+        if execution != "planned" and (not attempts or row.get("current_attempt") != current) or execution == "running" and attempts[-1].get("process_outcome") != "running": raise SequentialCampaignError("axis current attempt is invalid")
+        if axis_status == terminal and attempts[-1].get("returncode") != 0 or execution == "failed" and attempts[-1].get("returncode") == 0: raise SequentialCampaignError("axis terminal attempt is invalid")
+        if execution == "failed" and (type(row.get("failure_reason")) is not str or not row["failure_reason"]): raise SequentialCampaignError("failed axis lacks reason")
+        if execution != "failed" and "failure_reason" in row: raise SequentialCampaignError("axis failure reason is misplaced")
+        if "resume_action" in row and (row["resume_action"] != "verified_skip" or "resumed_at" not in state or axis_status != terminal): raise SequentialCampaignError("resume action is invalid")
+        phases.append("terminal" if axis_status == terminal else execution)
+    patterns = {"running": r"(?:terminal)*(?:running)?(?:planned)*", "failed": r"(?:terminal)*failed(?:planned)*", "success": r"(?:terminal)*"}
+    if not re.fullmatch(patterns[status["execution"]], "".join(phases)):
+        raise SequentialCampaignError("campaign axis sequence is invalid")
+# fmt: on
 
 
 def _terminate_process_group(proc: subprocess.Popen[Any]) -> None:
@@ -340,16 +414,52 @@ def run_campaign(
 ) -> dict[str, Any]:
     run_root = resolve_run_root(campaign_root, run_id)
     state_path = run_root / "campaign_state.json"
-    if resume:
-        state = _validate_state(load_json_strict(state_path), run_id, seed, entrypoint)
-        state["status"] = transition_status(ExecutionStatus.RUNNING)
-        state["resumed_at"] = utc_now()
-    else:
-        if run_root.exists():
-            raise SequentialCampaignError(f"new run root already exists: {run_root}")
-        run_root.mkdir(parents=True)
-        state = _new_state(run_id, seed, entrypoint)
-    _save_state(state_path, state)
+    try:
+        if resume:
+            seal, digest = read_execution_seal(run_root)
+            state = _validate_state(
+                load_canonical_json(state_path), run_id, seed, digest
+            )
+            if state["status"] != transition_status(ExecutionStatus.FAILED):
+                raise SequentialCampaignError(
+                    "only an inactive failed campaign may resume"
+                )
+            if canonical_json_bytes(
+                capture_execution_seal(
+                    REPO_ROOT, run_id=run_id, seed=seed, executable=Path(sys.executable)
+                )
+            ) != canonical_json_bytes(seal):
+                raise SequentialCampaignError(
+                    "live workspace changed since execution seal"
+                )
+            state["status"] = transition_status(ExecutionStatus.RUNNING)
+            state["resumed_at"] = utc_now()
+        else:
+            claim_run_root(run_root)
+            seal = capture_execution_seal(
+                REPO_ROOT, run_id=run_id, seed=seed, executable=Path(sys.executable)
+            )
+            raw = publish_execution_seal(run_root, seal)
+            if (
+                canonical_json_bytes(
+                    capture_execution_seal(
+                        REPO_ROOT,
+                        run_id=run_id,
+                        seed=seed,
+                        executable=Path(sys.executable),
+                    )
+                )
+                != raw
+            ):
+                raise SequentialCampaignError(
+                    "live workspace changed after execution seal publication"
+                )
+            state = _new_state(
+                run_id, seed, file_sha256(run_root / "campaign_execution_seal.json")
+            )
+            _save_state(state_path, state)
+    except ExecutionSealError as exc:
+        raise SequentialCampaignError(str(exc)) from exc
 
     specs = load_workflow_specs()
     for spec, axis_row in zip(specs, state["axes"], strict=True):
@@ -366,7 +476,6 @@ def run_campaign(
                 )
                 raise SequentialCampaignError(axis_row["failure_reason"])
             axis_row["resume_action"] = "verified_skip"
-            _save_state(state_path, state)
             continue
 
         attempt_number = len(axis_row.get("attempts", [])) + 1
