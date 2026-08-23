@@ -26,6 +26,21 @@ vocabulary below; none is `VALIDATED`.
 
 ## Current Claims
 
+### Idea Foundry operating model and P0b-C1 authority (2026-08-23)
+
+Idea Foundry is a personal MCTS research project used by one trusted developer
+on a trusted local machine.  Security hardening and deliberate-tamper resistance
+are not project claims or default requirements.  Research reproducibility,
+accidental-drift detection, raw-result preservation, and the scientific claim
+firewall remain required.  The controlling policy is
+[`idea_foundry/RESEARCH_TRUST_MODEL_20260823.md`](idea_foundry/RESEARCH_TRUST_MODEL_20260823.md).
+
+| Claim | Status | Evidence | Risk | Required Fix |
+|---|---|---|---|---|
+| The adversarial security/threat model in P0b-C1 commit `497965b` is the current implementation authority. | DEPRECATED (superseded forensic design only) | `docs/idea_foundry/P0B_C1_EXECUTION_SEAL_SPEC.md`; owner policy decision recorded in `docs/idea_foundry/RESEARCH_TRUST_MODEL_20260823.md` | Reusing the old mount, hostile-Git, symlink-race, or anti-tamper acceptance matrix would spend research effort on an excluded threat model and recreate process inflation | Write a lean trusted-local successor spec before implementation; retain the old document unchanged apart from its superseded banner |
+| P0b-C1 is established under the trusted-local research model. | SPECIFIED (implementation absent; not established) | Trusted-local policy and frozen failed H0/P0b-C1 histories | Treating a policy simplification or a green provenance smoke as implementation proof would reopen scientific claim drift | Implement and review the lean successor contract on an exact clean commit; do not run or resume scientific campaigns before it passes |
+| Security hardening or anti-tamper resistance is required for ordinary local Idea Foundry operation. | DEPRECATED (out of scope by owner decision) | Trusted-local single-developer policy | Security-only mechanisms can dominate the research code and obscure the actual reproducibility invariant | Add such controls only after an explicit new threat-model decision for a named shared or untrusted deployment |
+
 | Claim | Status | Evidence | Risk | Required Fix |
 |---|---|---|---|---|
 | The Bernoulli root ranking-risk lab is a reproducible synthetic mechanism assay with a checked scenario bank, canonical-arm CRN tapes, all-pair paired contrasts, full trial rows, and a provenance manifest. | SMOKE-VALIDATED (synthetic screening only) | `quartz/experiments/bernoulli_root.py`; `scripts/bernoulli_root_lab.py`; `configs/metacognitive_root_scenarios.v1.json`; `tests/test_bernoulli_root_lab.py`; `docs/METACOGNITIVE_EXPERIMENTS.md` | IID Beta-Bernoulli arm results can be misread as neural-MCTS, CPU-efficiency, human-metacognition, or candidate-omission evidence | Preserve `execution_mode=synthetic_screening`, the prohibited-inference list, and the `kg_rank_risk` name; create a separate hidden-candidate morphology lab before any dual-risk claim |

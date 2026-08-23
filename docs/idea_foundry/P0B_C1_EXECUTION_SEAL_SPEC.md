@@ -1,3 +1,13 @@
+> **SUPERSEDED — 2026-08-23**
+>
+> This security-heavy specification is preserved as a forensic design record
+> only.  It is not an implementation authority under the single-developer,
+> trusted-local research policy in
+> [`RESEARCH_TRUST_MODEL_20260823.md`](RESEARCH_TRUST_MODEL_20260823.md).
+> P0b-C1 remains `NOT_ESTABLISHED`; implementation requires a new lean
+> successor specification and must not silently weaken or partially implement
+> the contract below.
+
 # P0b-C1 successor execution-seal specification
 
 ## 1. Authority, status, and one bounded outcome
