@@ -9,8 +9,11 @@ from pathlib import Path
 
 import pytest
 
+import quartz.idea_foundry.axis_workflow as axis_workflow
 from quartz.experiment_manifest import file_sha256
 from quartz.idea_foundry.axis_workflow import (
+    AXIS_REGISTRY_PATH,
+    LAB_REGISTRY_PATH,
     REPO_ROOT,
     AxisWorkflowError,
     analyze_axis,
@@ -78,6 +81,95 @@ def test_strict_json_rejects_ambiguous_nonfinite_or_invalid_utf8(
     path.write_bytes(document)
     with pytest.raises(AxisWorkflowError):
         load_json_strict(path)
+
+
+@pytest.mark.parametrize("document", STRICT_INVALID_JSON)
+def test_decode_json_strict_rejects_duplicate_nonfinite_overflow_and_utf8(
+    document: bytes,
+) -> None:
+    with pytest.raises(AxisWorkflowError, match="captured registry"):
+        axis_workflow.decode_json_strict(document, label="captured registry")
+
+
+def test_parse_workflow_specs_matches_file_loader_exactly() -> None:
+    axes_payload = load_json_strict(AXIS_REGISTRY_PATH)
+    lab_payload = load_json_strict(LAB_REGISTRY_PATH)
+    assert (
+        axis_workflow.parse_workflow_specs(axes_payload, lab_payload)
+        == load_workflow_specs()
+    )
+
+
+def test_parse_workflow_specs_does_not_reread_registry_files(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    axes_payload = load_json_strict(AXIS_REGISTRY_PATH)
+    lab_payload = load_json_strict(LAB_REGISTRY_PATH)
+
+    def fail_if_called(path: Path) -> bytes:
+        pytest.fail(f"parse_workflow_specs re-read registry file: {path}")
+
+    monkeypatch.setattr(Path, "read_bytes", fail_if_called)
+    specs = axis_workflow.parse_workflow_specs(axes_payload, lab_payload)
+    assert len(specs) == 26
+
+
+@pytest.mark.parametrize(
+    "target, value",
+    [
+        ("axis_id", 1),
+        ("axis_slug", 1),
+        ("axis_status", None),
+        ("lane_id", 1),
+        ("lane_axis_id", 1),
+        ("lane_role", None),
+        ("lane_execution_status", None),
+        ("lane_evidence_status", None),
+        ("lane_claim_scope", None),
+        ("suite_lane_id", 1),
+    ],
+)
+def test_parse_workflow_specs_rejects_string_coercion_inputs(
+    target: str, value: object
+) -> None:
+    axes_payload = load_json_strict(AXIS_REGISTRY_PATH)
+    lab_payload = load_json_strict(LAB_REGISTRY_PATH)
+    copied_axes = json.loads(json.dumps(axes_payload))
+    copied_lab = json.loads(json.dumps(lab_payload))
+    axis = copied_axes["axes"][0]
+    lane = copied_lab["lanes"][0]
+    if target == "axis_id":
+        axis["id"] = value
+    elif target == "axis_slug":
+        axis["slug"] = value
+    elif target == "axis_status":
+        axis["status"] = value
+    elif target == "lane_id":
+        lane["id"] = value
+    elif target == "lane_axis_id":
+        lane["axis_id"] = value
+    elif target == "lane_role":
+        lane["role"] = value
+    elif target == "lane_execution_status":
+        lane["execution_status"] = value
+    elif target == "lane_evidence_status":
+        lane["evidence_status"] = value
+    elif target == "lane_claim_scope":
+        lane["claim_scope"] = value
+    else:
+        copied_lab["suites"]["first-gate-all"][0] = value
+    with pytest.raises(AxisWorkflowError, match="non-empty string"):
+        axis_workflow.parse_workflow_specs(copied_axes, copied_lab)
+
+
+def test_parse_workflow_specs_preserves_current_suite_order() -> None:
+    axes_payload = load_json_strict(AXIS_REGISTRY_PATH)
+    lab_payload = load_json_strict(LAB_REGISTRY_PATH)
+    suite = lab_payload["suites"]["first-gate-all"]
+    specs = axis_workflow.parse_workflow_specs(axes_payload, lab_payload)
+    assert [spec.lane_id for spec in specs] == suite
+    assert [spec.order_index for spec in specs] == list(range(26))
+    assert [spec.lane_id for spec in specs] != sorted(spec.lane_id for spec in specs)
 
 
 @pytest.mark.parametrize("row", (*STRICT_INVALID_JSON, b'{"broken":', b"[]"))

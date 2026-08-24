@@ -11,6 +11,7 @@ import argparse
 import json
 import math
 import os
+import re
 import sys
 import tempfile
 from dataclasses import dataclass
@@ -69,6 +70,7 @@ class AxisWorkflowSpec:
     evidence_status: str
     claim_scope: str
     order_index: int
+    repo_root: Path = REPO_ROOT
 
     @property
     def script_name(self) -> str:
@@ -76,7 +78,7 @@ class AxisWorkflowSpec:
 
     @property
     def script_path(self) -> Path:
-        return REPO_ROOT / "scripts" / "idea_foundry" / self.script_name
+        return self.repo_root / "scripts" / "idea_foundry" / self.script_name
 
 
 def _reject_nonfinite_constant(value: str) -> None:
@@ -97,18 +99,28 @@ def _reject_duplicate_members(pairs: list[tuple[str, Any]]) -> dict[str, Any]:
     return members
 
 
-def load_json_strict(path: Path) -> Any:
-    if not path.is_file() or path.is_symlink():
-        raise AxisWorkflowError(f"required regular JSON file is missing: {path}")
+def decode_json_strict(document: bytes | str, *, label: str) -> object:
+    """Decode one JSON document while rejecting ambiguous numeric/object forms."""
+
     try:
+        if isinstance(document, bytes):
+            document = document.decode("utf-8")
+        elif type(document) is not str:
+            raise AxisWorkflowError(f"JSON document must be bytes or string: {label}")
         return json.loads(
-            path.read_text(encoding="utf-8"),
+            document,
             parse_constant=_reject_nonfinite_constant,
             parse_float=_parse_finite_float,
             object_pairs_hook=_reject_duplicate_members,
         )
-    except (json.JSONDecodeError, UnicodeDecodeError) as exc:
-        raise AxisWorkflowError(f"invalid JSON artifact {path}: {exc}") from exc
+    except (json.JSONDecodeError, UnicodeDecodeError, AxisWorkflowError) as exc:
+        raise AxisWorkflowError(f"invalid JSON artifact {label}: {exc}") from exc
+
+
+def load_json_strict(path: Path) -> object:
+    if not path.is_file() or path.is_symlink():
+        raise AxisWorkflowError(f"required regular JSON file is missing: {path}")
+    return decode_json_strict(path.read_bytes(), label=str(path))
 
 
 def load_jsonl_strict(path: Path) -> list[dict[str, Any]]:
@@ -166,9 +178,27 @@ def atomic_jsonl_dump(path: Path, rows: Iterable[Mapping[str, Any]]) -> None:
         raise
 
 
-def load_workflow_specs() -> tuple[AxisWorkflowSpec, ...]:
-    axes_payload = load_json_strict(AXIS_REGISTRY_PATH)
-    lab_payload = load_json_strict(LAB_REGISTRY_PATH)
+def _required_nonempty_string(value: object, *, label: str) -> str:
+    if type(value) is not str or not value:
+        raise AxisWorkflowError(f"{label} must be a non-empty string")
+    return value
+
+
+def _validated_slug(value: object, *, label: str) -> str:
+    slug = _required_nonempty_string(value, label=label)
+    if re.fullmatch(r"[a-z][a-z0-9_]*", slug) is None:
+        raise AxisWorkflowError(f"{label} must be a valid script slug")
+    return slug
+
+
+def parse_workflow_specs(
+    axes_payload: object,
+    lab_payload: object,
+    *,
+    repo_root: Path = REPO_ROOT,
+) -> tuple[AxisWorkflowSpec, ...]:
+    if not isinstance(repo_root, Path):
+        raise AxisWorkflowError("workflow repository root must be a Path")
     axes = axes_payload.get("axes") if isinstance(axes_payload, dict) else None
     lanes = lab_payload.get("lanes") if isinstance(lab_payload, dict) else None
     suite = (
@@ -188,53 +218,84 @@ def load_workflow_specs() -> tuple[AxisWorkflowSpec, ...]:
         raise AxisWorkflowError("every axis registry entry must be an object")
     if not all(isinstance(row, dict) for row in lanes):
         raise AxisWorkflowError("every lane registry entry must be an object")
-    if not all(isinstance(row, str) and row for row in suite):
+    if not all(type(row) is str and row for row in suite):
         raise AxisWorkflowError("every first-gate lane id must be a non-empty string")
-    raw_axis_ids = [str(row.get("id")) for row in axes]
-    raw_lane_ids = [str(row.get("id")) for row in lanes]
+    raw_axis_ids = [
+        _required_nonempty_string(row.get("id"), label="axis registry id")
+        for row in axes
+    ]
+    raw_lane_ids = [
+        _required_nonempty_string(row.get("id"), label="lane registry id")
+        for row in lanes
+    ]
     if len(raw_axis_ids) != len(set(raw_axis_ids)):
         raise AxisWorkflowError("axis registry contains duplicate ids")
     if len(raw_lane_ids) != len(set(raw_lane_ids)):
         raise AxisWorkflowError("lane registry contains duplicate ids")
-    axis_by_id = {str(row.get("id")): row for row in axes if isinstance(row, dict)}
-    lane_by_id = {str(row.get("id")): row for row in lanes if isinstance(row, dict)}
+    axis_by_id = dict(zip(raw_axis_ids, axes))
+    lane_by_id = dict(zip(raw_lane_ids, lanes))
     expected_axis_ids = {f"A{index:02d}" for index in range(1, 27)}
     if set(axis_by_id) != expected_axis_ids:
         raise AxisWorkflowError("axis registry must cover A01 through A26 exactly")
-    if len(suite) != 26 or len(set(map(str, suite))) != 26:
+    if len(suite) != 26 or len(set(suite)) != 26:
         raise AxisWorkflowError("first-gate-all must contain exactly 26 unique lanes")
 
     specs: list[AxisWorkflowSpec] = []
     seen_axes: set[str] = set()
     for order_index, raw_lane_id in enumerate(suite):
-        lane_id = str(raw_lane_id)
+        lane_id = _required_nonempty_string(raw_lane_id, label="first-gate lane id")
         lane = lane_by_id.get(lane_id)
         if lane is None:
             raise AxisWorkflowError(f"first-gate lane is not registered: {lane_id}")
-        axis_id = str(lane.get("axis_id"))
+        axis_id = _required_nonempty_string(
+            lane.get("axis_id"), label=f"lane {lane_id} axis id"
+        )
         axis = axis_by_id.get(axis_id)
         if axis is None or axis_id in seen_axes:
             raise AxisWorkflowError(f"first-gate axis coverage is invalid at {lane_id}")
-        if lane.get("execution_status") != "available":
+        execution_status = _required_nonempty_string(
+            lane.get("execution_status"), label=f"lane {lane_id} execution status"
+        )
+        if execution_status != "available":
             raise AxisWorkflowError(f"first-gate lane must be available: {lane_id}")
         seen_axes.add(axis_id)
         specs.append(
             AxisWorkflowSpec(
                 axis_id=axis_id,
-                slug=str(axis["slug"]),
-                plane=str(axis["plane"]),
-                registry_status=str(axis["status"]),
-                description=str(axis["description"]),
+                slug=_validated_slug(axis.get("slug"), label=f"axis {axis_id} slug"),
+                plane=_required_nonempty_string(
+                    axis.get("plane"), label=f"axis {axis_id} plane"
+                ),
+                registry_status=_required_nonempty_string(
+                    axis.get("status"), label=f"axis {axis_id} status"
+                ),
+                description=_required_nonempty_string(
+                    axis.get("description"), label=f"axis {axis_id} description"
+                ),
                 lane_id=lane_id,
-                role=str(lane["role"]),
-                evidence_status=str(lane["evidence_status"]),
-                claim_scope=str(lane["claim_scope"]),
+                role=_required_nonempty_string(
+                    lane.get("role"), label=f"lane {lane_id} role"
+                ),
+                evidence_status=_required_nonempty_string(
+                    lane.get("evidence_status"), label=f"lane {lane_id} evidence status"
+                ),
+                claim_scope=_required_nonempty_string(
+                    lane.get("claim_scope"), label=f"lane {lane_id} claim scope"
+                ),
                 order_index=order_index,
+                repo_root=repo_root,
             )
         )
     if seen_axes != expected_axis_ids:
         raise AxisWorkflowError("first-gate-all does not cover A01 through A26 exactly")
     return tuple(specs)
+
+
+def load_workflow_specs() -> tuple[AxisWorkflowSpec, ...]:
+    return parse_workflow_specs(
+        load_json_strict(AXIS_REGISTRY_PATH),
+        load_json_strict(LAB_REGISTRY_PATH),
+    )
 
 
 def workflow_spec(axis_id: str) -> AxisWorkflowSpec:
@@ -776,10 +837,12 @@ __all__ = [
     "analyze_axis",
     "axis_main",
     "atomic_jsonl_dump",
+    "decode_json_strict",
     "load_json_strict",
     "load_jsonl_strict",
     "load_workflow_specs",
     "normalize_analysis_rows",
+    "parse_workflow_specs",
     "run_axis_gate",
     "summarize_analysis_rows",
     "validate_axis_analysis",
