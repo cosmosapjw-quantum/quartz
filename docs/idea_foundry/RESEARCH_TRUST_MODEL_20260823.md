@@ -14,8 +14,12 @@ read-only forensic record and is not an implementation authority after this
 policy commit.  A smaller successor specification is required before P0b-C1
 implementation resumes.
 
-The staged implementation and research roadmap is
+The high-level staged research roadmap is
 [`../plans/2026-08-24-idea-foundry-long-term-development.md`](../plans/2026-08-24-idea-foundry-long-term-development.md).
+The controlling machine-oriented audit and stacked-PR execution plan is
+[`../plans/2026-08-24-idea-foundry-trusted-local-audit-and-codex-pr-plan.md`](../plans/2026-08-24-idea-foundry-trusted-local-audit-and-codex-pr-plan.md).
+When the overview and the machine plan differ in implementation detail, the
+machine plan controls; neither document authorizes a scientific run by itself.
 
 ## Trusted operating model
 
