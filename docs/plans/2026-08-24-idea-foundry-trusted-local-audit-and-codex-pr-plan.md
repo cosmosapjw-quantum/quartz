@@ -5,6 +5,10 @@ audited_branch: audit/idea-foundry-research-trust-policy-20260823
 audited_head: 65ffe7fc16ef5ff15f402894590b61bc6c62b426
 policy_anchor: 4db2beee1164d5be119e8ba543eb6e482761f477
 roadmap_anchor: 65ffe7fc16ef5ff15f402894590b61bc6c62b426
+execution_ref: refs/heads/audit/idea-foundry-research-trust-policy-20260823
+execution_base_resolution: fetch_then_rev_parse_execution_ref
+execution_base_record: handoff.execution_base_sha
+audit_anchors_are_execution_bases: false
 threat_model: trusted_local_single_developer_research
 security_hardening: out_of_scope
 research_reproducibility: required
@@ -15,10 +19,14 @@ result_publication_authorized: false
 
 # Idea Foundry Trusted-Local Audit and Codex PR Execution Plan
 
-> **Execution authority:** This document is the machine-oriented implementation
-> plan for the trusted-local policy branch at `65ffe7fc`. It audits the policy and
-> high-level roadmap but does not itself establish P0b-C1, authorize a scientific
-> run, or promote an Idea Foundry claim.
+> **Execution authority:** `audited_head` and `roadmap_anchor` record the
+> `65ffe7fc` snapshot audited by this document; they are not implementation
+> bases.  Before every implementation branch, fetch `execution_ref`, resolve
+> its current SHA into `execution_base_sha`, detach that exact SHA, verify this
+> plan is present in the checked-out tree, and record the SHA in the handoff.
+> The trusted-local audit branch is the stable review ref for this purpose.
+> This document does not itself establish P0b-C1, authorize a scientific run,
+> or promote an Idea Foundry claim.
 >
 > **For Codex and low-cost coding agents:** execute one PR section at a time in
 > dependency order. Do not redesign the interfaces, merge PRs, edit historical
@@ -115,8 +123,12 @@ For PR-00 only:
 
 ```bash
 git fetch origin audit/idea-foundry-research-trust-policy-20260823
-git switch --detach 65ffe7fc16ef5ff15f402894590b61bc6c62b426
+execution_base_sha=$(git rev-parse origin/audit/idea-foundry-research-trust-policy-20260823)
+git switch --detach "$execution_base_sha"
+test -f docs/plans/2026-08-24-idea-foundry-trusted-local-audit-and-codex-pr-plan.md
+test "$(git rev-parse HEAD)" = "$execution_base_sha"
 git switch -c agent/foundry-pr00-lean-spec
+git rev-parse HEAD
 ```
 
 For every later PR:
@@ -129,6 +141,11 @@ git switch -c agent/foundry-<PR_ID>-<slug>
 
 Rules:
 
+- `audited_head` and `roadmap_anchor` are audit references only; never branch
+  an implementation PR from either field.
+- PR-00 must resolve `execution_ref` as shown above and record its resulting
+  `execution_base_sha`; later PRs must descend from the exact accepted SHA
+  recorded by their immediate predecessor.
 - One PR section equals one branch and one primary commit.
 - A repair amends that commit; do not add “fix fix” commit chains.
 - Do not merge two PR sections because they touch the same file.
