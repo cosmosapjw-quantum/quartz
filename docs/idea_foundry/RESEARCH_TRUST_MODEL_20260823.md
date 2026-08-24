@@ -14,6 +14,9 @@ read-only forensic record and is not an implementation authority after this
 policy commit.  A smaller successor specification is required before P0b-C1
 implementation resumes.
 
+The staged implementation and research roadmap is
+[`../plans/2026-08-24-idea-foundry-long-term-development.md`](../plans/2026-08-24-idea-foundry-long-term-development.md).
+
 ## Trusted operating model
 
 The default operating assumptions are:
@@ -65,12 +68,37 @@ research behavior:
 3. interrupted or rejected resume does not rewrite prior attempts or evidence;
 4. duplicate local invocation is rejected with a simple no-overwrite or
    single-writer mechanism sufficient for accidental concurrency;
-5. focused and full repository tests pass on the exact implementation commit.
+5. focused tests for the changed behavior and its declared dependents pass on
+   the exact implementation commit.
 
 The successor must not carry forward security-only filesystem mount probes,
 complete symlink-edge transcripts, hostile local-Git configuration defenses,
 anti-tamper ownership manifests, or adversarial installer rollback machinery.
 Any retained mechanism must name the accidental scientific error it prevents.
+
+## Verification scope policy
+
+Changed-file and changed-cell checks are the default.  Each work unit runs the
+narrowest test nodes that exercise its observable behavior, the affected
+integration boundary, formatting/lint for changed code, and `git diff --check`.
+An unchanged passing cell may carry its existing evidence forward.
+
+A full Python or Rust suite is not a routine completion requirement.  Run one
+only when the reason is recorded before execution and at least one of these
+conditions holds:
+
+- a shared public contract changed and its dependents cannot be bounded by the
+  focused dependency map;
+- a release, merge integration, or toolchain/dependency upgrade needs a broad
+  regression check;
+- the repository is at the final preflight for an explicitly authorized,
+  claim-bearing scientific execution; or
+- a focused failure supplies concrete evidence of a broader regression.
+
+Documentation-only changes use diff, link-target, and targeted content checks;
+they do not require Python or Rust test suites.  Skipping a full suite under
+this policy is a declared scope choice, not evidence that the full repository
+is green.
 
 ## Current status
 
