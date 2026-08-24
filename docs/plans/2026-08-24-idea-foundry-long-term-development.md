@@ -10,6 +10,12 @@
 
 ## Global Constraints
 
+> **Patch-authority boundary (PR-00):** The
+> [audited stacked-PR plan](2026-08-24-idea-foundry-trusted-local-audit-and-codex-pr-plan.md)
+> is the implementation authority for this program.  Task 1–6 prose below is
+> research overview only, not direct patch authority; it must not override that
+> plan's branch, exact file-scope, interface, test, or STOP conditions.
+
 - QUARTZ Idea Foundry is trusted-local, personal, single-developer MCTS
   research.  Security hardening, hostile-owner resistance, mount/path attack
   proofs, signatures, and anti-tamper custody are out of scope.
