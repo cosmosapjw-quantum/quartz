@@ -16,6 +16,13 @@ from .contracts import (
     RootObservation,
     RuntimeObservation,
 )
+from .execution_identity import (
+    ExecutionCapture,
+    ExecutionIdentity,
+    ExecutionIdentityError,
+    FileIdentity,
+    RuntimeIdentity,
+)
 from .serialization import (
     ContractValidationError,
     canonical_json_bytes,
@@ -135,6 +142,11 @@ __all__ = [
     "ProposalEstimate",
     "RootObservation",
     "RuntimeObservation",
+    "ExecutionCapture",
+    "ExecutionIdentity",
+    "ExecutionIdentityError",
+    "FileIdentity",
+    "RuntimeIdentity",
     "canonical_json_bytes",
     "canonical_sha256",
     "foundry_root_extras_from_payload",
