@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import argparse
+import copy
 import json
 import os
 import re
@@ -10,6 +11,7 @@ import signal
 import subprocess
 import sys
 from datetime import datetime, timezone
+from dataclasses import dataclass
 from pathlib import Path
 from typing import Any, Mapping, Sequence
 
@@ -21,6 +23,13 @@ from quartz.idea_foundry.axis_workflow import (
     load_workflow_specs,
     validate_axis_analysis,
 )
+from quartz.idea_foundry.campaign_state import (
+    CAMPAIGN_STATE_SCHEMA_VERSION,
+    build_initial_state_plan,
+    publish_initial_run,
+    validate_campaign_state_v2,
+)
+from quartz.idea_foundry.execution_identity import capture_execution_identity
 from quartz.idea_foundry.status_schema import (
     STATUS_SCHEMA_PATH,
     ExecutionStatus,
@@ -39,6 +48,61 @@ RUN_ID_PATTERN = re.compile(r"[A-Za-z0-9][A-Za-z0-9._-]{0,95}\Z")
 
 class SequentialCampaignError(RuntimeError):
     """Raised when a campaign cannot proceed without violating its contract."""
+
+
+@dataclass(frozen=True)
+class _ExecutionAxisDescriptor:
+    axis_id: str
+    script_path: Path
+
+
+def _captured_execution_descriptors(
+    specs: Sequence[Any],
+) -> tuple[_ExecutionAxisDescriptor, ...]:
+    """Freeze executable descriptors from one captured workflow specification set."""
+
+    descriptors = tuple(
+        _ExecutionAxisDescriptor(spec.axis_id, spec.script_path.resolve())
+        for spec in specs
+    )
+    if not descriptors or len({item.axis_id for item in descriptors}) != len(
+        descriptors
+    ):
+        raise SequentialCampaignError("captured workflow descriptors are malformed")
+    return descriptors
+
+
+def _persisted_execution_descriptors(
+    state: Mapping[str, Any],
+) -> tuple[_ExecutionAxisDescriptor, ...]:
+    """Reconstruct execution descriptors only from persisted campaign axes."""
+
+    axes = state.get("axes")
+    if not isinstance(axes, list):
+        raise SequentialCampaignError("campaign axes must be a list")
+    descriptors: list[_ExecutionAxisDescriptor] = []
+    for row in axes:
+        if not isinstance(row, Mapping):
+            raise SequentialCampaignError("campaign axis descriptor is malformed")
+        axis_id, slug = row.get("axis_id"), row.get("slug")
+        if (
+            type(axis_id) is not str
+            or not re.fullmatch(r"A[0-9]{2}", axis_id)
+            or type(slug) is not str
+            or not re.fullmatch(r"[a-z0-9_]+", slug)
+        ):
+            raise SequentialCampaignError("campaign axis descriptor is malformed")
+        descriptors.append(
+            _ExecutionAxisDescriptor(
+                axis_id,
+                REPO_ROOT / "scripts" / "idea_foundry" / f"{axis_id.lower()}_{slug}.py",
+            )
+        )
+    if not descriptors or len({item.axis_id for item in descriptors}) != len(
+        descriptors
+    ):
+        raise SequentialCampaignError("campaign axis descriptors are malformed")
+    return tuple(descriptors)
 
 
 def utc_now() -> str:
@@ -145,13 +209,28 @@ def _new_state(run_id: str, seed: int, entrypoint: Path) -> dict[str, Any]:
 
 
 def _save_state(path: Path, state: dict[str, Any]) -> None:
-    state["updated_at"] = utc_now()
+    candidate = copy.deepcopy(state)
+    candidate["updated_at"] = utc_now()
+    if candidate.get("schema_version") == CAMPAIGN_STATE_SCHEMA_VERSION:
+        normalized = validate_campaign_state_v2(candidate)
+        state.clear()
+        state.update(normalized)
+    else:
+        state["updated_at"] = candidate["updated_at"]
     atomic_json_dump(path, state)
 
 
 def _validate_state(
     state: Any, run_id: str, seed: int, entrypoint: Path
 ) -> dict[str, Any]:
+    if (
+        isinstance(state, dict)
+        and state.get("schema_version") == CAMPAIGN_STATE_SCHEMA_VERSION
+    ):
+        validated = validate_campaign_state_v2(state, expected_run_id=run_id)
+        if validated.get("seed") != seed:
+            raise SequentialCampaignError("run identity or seed changed")
+        return validated
     if (
         not isinstance(state, dict)
         or state.get("schema_version") != SEQUENTIAL_SCHEMA_VERSION
@@ -342,19 +421,24 @@ def run_campaign(
     state_path = run_root / "campaign_state.json"
     if resume:
         state = _validate_state(load_json_strict(state_path), run_id, seed, entrypoint)
+        descriptors = _persisted_execution_descriptors(state)
         state["status"] = transition_status(ExecutionStatus.RUNNING)
         state["resumed_at"] = utc_now()
     else:
-        if run_root.exists():
-            raise SequentialCampaignError(f"new run root already exists: {run_root}")
-        run_root.mkdir(parents=True)
-        state = _new_state(run_id, seed, entrypoint)
-    _save_state(state_path, state)
+        capture = capture_execution_identity(
+            repo_root=REPO_ROOT,
+            entrypoint=entrypoint,
+            argv=("run", "--run-id", run_id, "--seed", str(seed)),
+        )
+        plan = build_initial_state_plan(run_id, seed, capture, utc_now())
+        state = publish_initial_run(run_root, plan)
+        descriptors = _captured_execution_descriptors(capture.specs)
+    if resume:
+        _save_state(state_path, state)
 
-    specs = load_workflow_specs()
-    for spec, axis_row in zip(specs, state["axes"], strict=True):
+    for descriptor, axis_row in zip(descriptors, state["axes"], strict=True):
         if resume and is_resumable(axis_row.get("status")):
-            if not _validated_attempt(spec.axis_id, run_root, axis_row):
+            if not _validated_attempt(descriptor.axis_id, run_root, axis_row):
                 state["status"] = transition_status(ExecutionStatus.FAILED)
                 axis_row["status"] = transition_status(ExecutionStatus.FAILED)
                 axis_row["failure_reason"] = (
@@ -370,17 +454,19 @@ def run_campaign(
             continue
 
         attempt_number = len(axis_row.get("attempts", [])) + 1
-        relative_attempt = Path("axes") / spec.axis_id / f"attempt-{attempt_number:03d}"
+        relative_attempt = (
+            Path("axes") / descriptor.axis_id / f"attempt-{attempt_number:03d}"
+        )
         attempt_dir = run_root / relative_attempt
         stdout_path = (
             run_root
             / "logs"
-            / f"{spec.axis_id}.attempt-{attempt_number:03d}.stdout.log"
+            / f"{descriptor.axis_id}.attempt-{attempt_number:03d}.stdout.log"
         )
         stderr_path = (
             run_root
             / "logs"
-            / f"{spec.axis_id}.attempt-{attempt_number:03d}.stderr.log"
+            / f"{descriptor.axis_id}.attempt-{attempt_number:03d}.stderr.log"
         )
         attempt = {
             "attempt_number": attempt_number,
@@ -396,7 +482,7 @@ def run_campaign(
         axis_row.pop("resume_action", None)
         _save_state(state_path, state)
         returncode, process_status = _run_attempt(
-            script_path=spec.script_path,
+            script_path=descriptor.script_path,
             output_dir=attempt_dir,
             stdout_path=stdout_path,
             stderr_path=stderr_path,
@@ -409,7 +495,7 @@ def run_campaign(
         if returncode == 0:
             try:
                 analysis = validate_axis_analysis(
-                    spec.axis_id,
+                    descriptor.axis_id,
                     input_dir=attempt_dir,
                     analysis_dir=attempt_dir / "analysis",
                 )
@@ -431,7 +517,7 @@ def run_campaign(
                 run_root / "campaign_summary.json", _campaign_summary(state)
             )
             raise SequentialCampaignError(
-                f"{spec.axis_id} stopped campaign: {axis_row['failure_reason']}"
+                f"{descriptor.axis_id} stopped campaign: {axis_row['failure_reason']}"
             )
         _save_state(state_path, state)
 

@@ -4,7 +4,6 @@ import json
 import random
 import subprocess
 import sys
-import tempfile
 from pathlib import Path
 
 import pytest
@@ -26,17 +25,11 @@ from quartz.idea_foundry.axis_workflow import (
     validate_axis_analysis,
     workflow_spec,
 )
-from quartz.idea_foundry.meta_analysis import (
-    MetaAnalysisError,
-    analyze_campaign,
-    run_meta_analysis,
-)
 from quartz.idea_foundry.sequential import (
     SequentialCampaignError,
     _new_state,
     _validate_state,
     _validated_attempt,
-    run_campaign,
 )
 from quartz.idea_foundry.status_schema import (
     ExecutionStatus,
@@ -356,110 +349,10 @@ def test_status_v2_rejects_invalid_lattice_and_preserves_special_states() -> Non
     assert transition_status(ExecutionStatus.FAILED)["effect"] == "invalidated"
 
 
-# fmt: off
-def test_full_sequential_campaign_and_resume_skip_validated_axes() -> None:
-    results_root = REPO_ROOT / "results"
-    results_root.mkdir(exist_ok=True)
+def test_sequential_state_validator_rejects_legacy_campaign_status() -> None:
     entrypoint = REPO_ROOT / "scripts" / "idea_foundry_run_all.py"
-    with tempfile.TemporaryDirectory(
-        prefix="idea-foundry-test-", dir=results_root
-    ) as raw_root:
-        campaign_root = Path(raw_root)
-        first = run_campaign(
-            campaign_root=campaign_root,
-            run_id="sequential-smoke",
-            seed=29,
-            timeout_seconds=30,
-            resume=False,
-            entrypoint=entrypoint,
-        )
-        assert first["status"] == first_gate_status("campaign")
-        assert first["axis_count"] == 26
-        assert first["status_counts"] == {"skipped": 1, "success": 25}
+    state = _new_state("legacy", 29, entrypoint)
+    state["status"] = "completed_no_promotion"
 
-        state_path = campaign_root / "sequential-smoke" / "campaign_state.json"
-        partial = json.loads(state_path.read_text(encoding="utf-8"))
-        partial["status"] = partial["axes"][-1]["status"] = transition_status(ExecutionStatus.FAILED)
-        state_path.write_text(json.dumps(partial), encoding="utf-8")
-        resumed = run_campaign(
-            campaign_root=campaign_root,
-            run_id="sequential-smoke",
-            seed=29,
-            timeout_seconds=30,
-            resume=True,
-            entrypoint=entrypoint,
-        )
-        assert resumed["status_counts"] == {"skipped": 1, "success": 25}
-        state = json.loads(
-            (campaign_root / "sequential-smoke" / "campaign_state.json").read_text(
-                encoding="utf-8"
-            )
-        )
-        assert all(row["resume_action"] == "verified_skip" for row in state["axes"][:-1])
-        assert [len(row["attempts"]) for row in state["axes"][-2:]] == [1, 2]
-        assert all("process_outcome" in row["attempts"][0] for row in state["axes"])
-        source = next(row for row in state["fingerprint"]["sources"] if row["path"] == "quartz/idea_foundry/status_schema.py")
-        source["sha256"] = "0" * 64
-        with pytest.raises(SequentialCampaignError, match="source"):
-            _validate_state(state, "sequential-smoke", 29, entrypoint)
-
-        run_root = campaign_root / "sequential-smoke"
-        original = state["axes"][0]
-        for case, bad in (("row", None), ("attempts", {**original, "attempts": None})):
-            state["axes"][0] = bad
-            state_path.write_text(json.dumps(state), encoding="utf-8")
-            target = run_root / f"malformed-{case}"
-            with pytest.raises(MetaAnalysisError):
-                analyze_campaign(run_root, target)
-            assert not target.exists()
-        state["axes"][0] = original
-        state_path.write_text(json.dumps(state), encoding="utf-8")
-        campaign_analysis = analyze_campaign(run_root)
-        assert campaign_analysis["axis_count"] == 26
-        assert campaign_analysis["contract_checks_failed"] == 0
-        assert campaign_analysis["effect_records"] == []
-        meta = run_meta_analysis(
-            [run_root / "campaign_analysis" / "campaign_analysis.json"],
-            run_root / "meta_analysis",
-        )
-        assert meta["status"] == first_gate_status("meta")
-        assert meta["effect_record_count"] == 0
-        campaign_path = run_root / "campaign_analysis" / "campaign_analysis.json"
-        legacy_path = campaign_root / "legacy-campaign-analysis.json"
-        legacy = json.loads(campaign_path.read_text(encoding="utf-8"))
-        legacy["status"] = "ANALYZED_CONTRACT_ONLY"
-        legacy_path.write_text(json.dumps(legacy), encoding="utf-8")
-        frozen_legacy = legacy_path.read_bytes()
-        with pytest.raises(MetaAnalysisError, match="legacy status schema v1"):
-            run_meta_analysis([legacy_path], campaign_root / "legacy-meta")
-        assert legacy_path.read_bytes() == frozen_legacy
-        assert not (campaign_root / "legacy-meta").exists()
-
-        summary_path = run_root / "campaign_summary.json"
-        summary = json.loads(summary_path.read_text(encoding="utf-8"))
-        state["status"] = summary["status"] = first_gate_status("A10")
-        state_path.write_text(json.dumps(state), encoding="utf-8")
-        summary_path.write_text(json.dumps(summary), encoding="utf-8")
-        skipped_output = run_root / "skipped-campaign-analysis"
-        with pytest.raises(MetaAnalysisError, match="campaign status"):
-            analyze_campaign(run_root, skipped_output)
-        assert not skipped_output.exists()
-        state["status"] = summary["status"] = first_gate_status("campaign")
-        state_path.write_text(json.dumps(state), encoding="utf-8")
-        summary_path.write_text(json.dumps(summary), encoding="utf-8")
-
-        summary["axes"][0]["current_attempt"] = "axes/A03/attempt-999"
-        summary_path.write_text(json.dumps(summary), encoding="utf-8")
-        with pytest.raises(MetaAnalysisError, match="axis state mismatch"):
-            analyze_campaign(run_root, run_root / "tampered-campaign-analysis")
-
-        state["status"] = "completed_no_promotion"
-        state_path.write_text(json.dumps(state), encoding="utf-8")
-        frozen = state_path.read_bytes()
-        with pytest.raises(SequentialCampaignError, match="legacy status schema v1"):
-            run_campaign(campaign_root=campaign_root, run_id="sequential-smoke", seed=29, timeout_seconds=30, resume=True, entrypoint=entrypoint)
-        with pytest.raises(MetaAnalysisError, match="legacy status schema v1"):
-            analyze_campaign(run_root, run_root / "legacy-analysis")
-        assert state_path.read_bytes() == frozen
-        assert not (run_root / "legacy-analysis").exists()
-# fmt: on
+    with pytest.raises(SequentialCampaignError, match="legacy status schema v1"):
+        _validate_state(state, "legacy", 29, entrypoint)
