@@ -29,7 +29,17 @@ from quartz.idea_foundry.campaign_state import (
     publish_initial_run,
     validate_campaign_state_v2,
 )
-from quartz.idea_foundry.execution_identity import capture_execution_identity
+from quartz.idea_foundry.execution_identity import (
+    ExecutionIdentityError,
+    capture_execution_identity,
+)
+from quartz.idea_foundry.resume import (
+    ResumeError,
+    apply_resume_plan,
+    execution_identity_from_payload,
+    plan_resume,
+    validate_captured_axis_analysis,
+)
 from quartz.idea_foundry.status_schema import (
     STATUS_SCHEMA_PATH,
     ExecutionStatus,
@@ -420,10 +430,49 @@ def run_campaign(
     run_root = resolve_run_root(campaign_root, run_id)
     state_path = run_root / "campaign_state.json"
     if resume:
-        state = _validate_state(load_json_strict(state_path), run_id, seed, entrypoint)
+        try:
+            state_bytes = state_path.read_bytes()
+            identity_payload = load_json_strict(run_root / "execution_identity.json")
+            identity = execution_identity_from_payload(identity_payload)
+            captured_axes_payload = (
+                REPO_ROOT / "configs" / "idea_foundry.axes.v1.json"
+            ).read_bytes()
+            captured_lab_payload = (
+                REPO_ROOT / "configs" / "idea_lab.local.v2.json"
+            ).read_bytes()
+        except (OSError, AxisWorkflowError, ResumeError) as exc:
+            raise SequentialCampaignError(f"resume capture failed: {exc}") from exc
+        try:
+            current_capture = capture_execution_identity(
+                repo_root=REPO_ROOT,
+                entrypoint=entrypoint,
+                argv=identity.runtime.argv,
+            )
+        except ExecutionIdentityError as exc:
+            raise SequentialCampaignError(
+                f"resume source capture failed: {exc}"
+            ) from exc
+        if (
+            current_capture.identity.git_head != identity.git_head
+            or current_capture.identity.source_files != identity.source_files
+            or current_capture.axis_registry_bytes != captured_axes_payload
+            or current_capture.lab_registry_bytes != captured_lab_payload
+        ):
+            raise SequentialCampaignError("resume source or registry identity drifted")
+        try:
+            resume_plan = plan_resume(
+                run_root=run_root,
+                state_bytes=state_bytes,
+                identity=identity,
+                captured_axes_payload=captured_axes_payload,
+                captured_lab_payload=captured_lab_payload,
+                run_id=run_id,
+                seed=seed,
+            )
+            state = apply_resume_plan(state_path=state_path, plan=resume_plan)
+        except ResumeError as exc:
+            raise SequentialCampaignError(f"resume blocked: {exc}") from exc
         descriptors = _persisted_execution_descriptors(state)
-        state["status"] = transition_status(ExecutionStatus.RUNNING)
-        state["resumed_at"] = utc_now()
     else:
         capture = capture_execution_identity(
             repo_root=REPO_ROOT,
@@ -433,54 +482,73 @@ def run_campaign(
         plan = build_initial_state_plan(run_id, seed, capture, utc_now())
         state = publish_initial_run(run_root, plan)
         descriptors = _captured_execution_descriptors(capture.specs)
-    if resume:
-        _save_state(state_path, state)
-
-    for descriptor, axis_row in zip(descriptors, state["axes"], strict=True):
-        if resume and is_resumable(axis_row.get("status")):
-            if not _validated_attempt(descriptor.axis_id, run_root, axis_row):
-                state["status"] = transition_status(ExecutionStatus.FAILED)
-                axis_row["status"] = transition_status(ExecutionStatus.FAILED)
-                axis_row["failure_reason"] = (
-                    "previously successful artifact failed validation"
-                )
-                _save_state(state_path, state)
-                atomic_json_dump(
-                    run_root / "campaign_summary.json", _campaign_summary(state)
-                )
-                raise SequentialCampaignError(axis_row["failure_reason"])
-            axis_row["resume_action"] = "verified_skip"
-            _save_state(state_path, state)
+    for axis_index, descriptor in enumerate(descriptors):
+        axis_rows = state.get("axes")
+        if not isinstance(axis_rows, list) or axis_index >= len(axis_rows):
+            raise SequentialCampaignError(
+                "campaign axis state changed during execution"
+            )
+        axis_row = axis_rows[axis_index]
+        if not isinstance(axis_row, dict):
+            raise SequentialCampaignError("campaign axis row is malformed")
+        if resume and axis_row.get("resume_action") == "verified_skip":
             continue
 
-        attempt_number = len(axis_row.get("attempts", [])) + 1
-        relative_attempt = (
-            Path("axes") / descriptor.axis_id / f"attempt-{attempt_number:03d}"
+        active_retry = bool(
+            resume
+            and axis_row.get("status", {}).get("execution") == "running"
+            and axis_row.get("attempts")
+            and axis_row.get("current_attempt")
+            == axis_row["attempts"][-1].get("output_dir")
+            and axis_row["attempts"][-1].get("process_outcome") == "running"
         )
-        attempt_dir = run_root / relative_attempt
-        stdout_path = (
-            run_root
-            / "logs"
-            / f"{descriptor.axis_id}.attempt-{attempt_number:03d}.stdout.log"
-        )
-        stderr_path = (
-            run_root
-            / "logs"
-            / f"{descriptor.axis_id}.attempt-{attempt_number:03d}.stderr.log"
-        )
-        attempt = {
-            "attempt_number": attempt_number,
-            "started_at": utc_now(),
-            "output_dir": str(relative_attempt),
-            "stdout": str(stdout_path.relative_to(run_root)),
-            "stderr": str(stderr_path.relative_to(run_root)),
-            "process_outcome": "running",
-        }
-        axis_row.setdefault("attempts", []).append(attempt)
-        axis_row["status"] = transition_status(ExecutionStatus.RUNNING)
-        axis_row["current_attempt"] = str(relative_attempt)
-        axis_row.pop("resume_action", None)
-        _save_state(state_path, state)
+        if active_retry:
+            attempt = axis_row["attempts"][-1]
+            attempt_number = int(attempt["attempt_number"])
+            relative_attempt = Path(str(attempt["output_dir"]))
+            attempt_dir = run_root / relative_attempt
+            stdout_path = run_root / str(attempt["stdout"])
+            stderr_path = run_root / str(attempt["stderr"])
+        else:
+            attempt_number = len(axis_row.get("attempts", [])) + 1
+            relative_attempt = (
+                Path("axes") / descriptor.axis_id / f"attempt-{attempt_number:03d}"
+            )
+            attempt_dir = run_root / relative_attempt
+            stdout_path = (
+                run_root
+                / "logs"
+                / f"{descriptor.axis_id}.attempt-{attempt_number:03d}.stdout.log"
+            )
+            stderr_path = (
+                run_root
+                / "logs"
+                / f"{descriptor.axis_id}.attempt-{attempt_number:03d}.stderr.log"
+            )
+            attempt = {
+                "attempt_number": attempt_number,
+                "started_at": utc_now(),
+                "output_dir": str(relative_attempt),
+                "stdout": str(stdout_path.relative_to(run_root)),
+                "stderr": str(stderr_path.relative_to(run_root)),
+                "process_outcome": "running",
+            }
+            axis_row.setdefault("attempts", []).append(attempt)
+            axis_row["status"] = transition_status(ExecutionStatus.RUNNING)
+            axis_row["current_attempt"] = str(relative_attempt)
+            axis_row.pop("resume_action", None)
+            _save_state(state_path, state)
+        axis_rows = state.get("axes")
+        if not isinstance(axis_rows, list) or axis_index >= len(axis_rows):
+            raise SequentialCampaignError(
+                "campaign axis state changed during execution"
+            )
+        axis_row = axis_rows[axis_index]
+        if not isinstance(axis_row, dict) or not axis_row.get("attempts"):
+            raise SequentialCampaignError("campaign attempt state is malformed")
+        attempt = axis_row["attempts"][-1]
+        if not isinstance(attempt, dict):
+            raise SequentialCampaignError("campaign attempt record is malformed")
         returncode, process_status = _run_attempt(
             script_path=descriptor.script_path,
             output_dir=attempt_dir,
@@ -494,12 +562,21 @@ def run_campaign(
         attempt["process_outcome"] = process_status
         if returncode == 0:
             try:
-                analysis = validate_axis_analysis(
-                    descriptor.axis_id,
-                    input_dir=attempt_dir,
-                    analysis_dir=attempt_dir / "analysis",
-                )
-            except AxisWorkflowError as exc:
+                if resume:
+                    analysis = validate_captured_axis_analysis(
+                        descriptor.axis_id,
+                        input_dir=attempt_dir,
+                        analysis_dir=attempt_dir / "analysis",
+                        captured_axes_payload=captured_axes_payload,
+                        captured_lab_payload=captured_lab_payload,
+                    )
+                else:
+                    analysis = validate_axis_analysis(
+                        descriptor.axis_id,
+                        input_dir=attempt_dir,
+                        analysis_dir=attempt_dir / "analysis",
+                    )
+            except (AxisWorkflowError, ResumeError) as exc:
                 returncode = 2
                 attempt["returncode"] = returncode
                 attempt["process_outcome"] = "failed"
@@ -564,7 +641,7 @@ def sequential_main(argv: Sequence[str] | None = None, *, entrypoint: Path) -> i
             )
         print(json.dumps(payload, indent=2, sort_keys=True, allow_nan=False))
         return 0
-    except (AxisWorkflowError, SequentialCampaignError) as exc:
+    except (AxisWorkflowError, ResumeError, SequentialCampaignError) as exc:
         print(f"SEQUENTIAL CAMPAIGN BLOCKED: {exc}", file=sys.stderr)
         return 2
 
