@@ -1,0 +1,685 @@
+schema: audit-compiled-exec-package/v1
+package_id: idea-foundry-pr05-recovery-20260825
+repository: cosmosapjw-quantum/quartz
+audit_branch: audit/idea-foundry-progress-and-failure-log-20260825
+audit_context_sha: dadcc7187bca6a927b5ec5132aba845608611679
+accepted_code_base_sha: 9ddd3471904f2200f4656cb102886c994bd7bed0
+generated_date: '2026-08-25'
+
+trust_model:
+  mode: trusted_local_single_developer_research
+  security_hardening: out_of_scope
+  deliberate_tamper_resistance: out_of_scope
+  accidental_corruption_detection: required
+  scientific_reproducibility: required
+  claim_firewall: required
+
+current_status:
+  PR00_PR04: ACCEPTED_CONTRACT_ONLY_PROGRESS
+  PR05_previous_attempt: STOP_INVALID
+  A26_process_escape: UNRESOLVED_REGRESSION
+  P0B_C1: NOT_ESTABLISHED
+  run_resume: BLOCKED
+  scientific_execution: BLOCKED
+  result_publication: BLOCKED
+  claim_promotion: BLOCKED
+
+source_of_truth_precedence:
+  - docs/idea_foundry/RESEARCH_TRUST_MODEL_20260823.md
+  - this_package
+  - selected_pr_contract
+  - accepted source and focused tests at the declared base SHA
+  - docs/idea_foundry/PR00_PR05_PROGRESS_AND_FAILURE_AUDIT_20260825.md
+  - docs/idea_foundry/FAILURE_LOG_PR04_PR05_20260825.md
+  - superseded or frozen forensic documents
+
+agent_policy:
+  ask_user_questions: false
+  guessing_across_specification_boundary: forbidden
+  changing_tests_to_fit_implementation: forbidden
+  weakening_tolerances: forbidden
+  rewriting_historical_results: forbidden
+  suppressing_failures: forbidden
+  claiming_unrun_verification: forbidden
+  unresolved_spec_action: BLOCKED_BY_UNRESOLVED_SPEC
+  conflicting_authority_action: BLOCKED_BY_CONFLICTING_AUTHORITIES
+  missing_reference_action: BLOCKED_BY_MISSING_REFERENCE
+  baseline_failure_action: BLOCKED_BY_BASELINE_FAILURE
+  scope_violation_action: BLOCKED_BY_SCOPE_VIOLATION
+  evidence_incomplete_action: BLOCKED_BY_EVIDENCE_INCOMPLETE
+  unaccepted_dependency_action: BLOCKED_BY_UNACCEPTED_DEPENDENCY
+
+accepted_sha_registry:
+  PR04: 9ddd3471904f2200f4656cb102886c994bd7bed0
+  PR05_R1_PUBLIC_RESUME: null
+  PR05_R2_PROCESS_BOUNDARY: null
+  PR05_R3_EVIDENCE_REVIEW: null
+  PR06_R1_TERMINAL_CLOSURE: null
+  PR06_R2_ANALYSIS_LINEAGE: null
+  PR06_R3_EFFECT_ADMISSION: null
+
+dependency_dag:
+  - PR04 -> PR05_R1_PUBLIC_RESUME
+  - PR05_R1_PUBLIC_RESUME -> fresh_context_review_R1
+  - fresh_context_review_R1 -> PR05_R2_PROCESS_BOUNDARY
+  - PR05_R2_PROCESS_BOUNDARY -> fresh_context_review_R2
+  - fresh_context_review_R2 -> PR05_R3_EVIDENCE_REVIEW
+  - PR05_R3_EVIDENCE_REVIEW -> P0B_C1_CLOSEOUT
+  - P0B_C1_CLOSEOUT -> PR06_R1_TERMINAL_CLOSURE
+  - PR06_R1_TERMINAL_CLOSURE -> PR06_R2_ANALYSIS_LINEAGE
+  - PR06_R2_ANALYSIS_LINEAGE -> PR06_R3_EFFECT_ADMISSION
+  - PR06_R3_EFFECT_ADMISSION -> PROSPECTIVE_PRIORITY_AXIS_STUDIES
+
+severity_policy:
+  P0: Can silently change a scientific conclusion, mutate or misidentify primary evidence, accept an invalid execution as success, or promote an unsupported claim.
+  P1: Can produce a major incomplete implementation, omit a required boundary, accept a stale fallback path, or leave evidence insufficient for independent acceptance.
+  P2: Important maintainability or bounded edge-case issue that does not independently invalidate the work unit.
+  P3: Minor clarity or non-blocking cleanup.
+
+out_of_scope_security_failures:
+  - malicious same-UID writer
+  - hostile Git configuration
+  - attacker-controlled symlink or mount substitution
+  - cryptographic anti-tamper custody
+  - multi-tenant authorization
+
+p0_p1_catalogue:
+  - id: P0-EXEC-001
+    severity: P0
+    title: Rejected resume mutates prior evidence
+    trigger: Any resume validation failure changes campaign_state.json, campaign_summary.json, attempt metadata, logs, timestamps, or prior artifacts.
+    impact: The failure path destroys the forensic state needed to reproduce the prior run.
+    required_detection:
+      - tests/test_idea_foundry_resume.py::test_public_resume_rejection_is_byte_identical_for_invalid_prior_artifact
+      - tests/test_idea_foundry_resume.py::test_public_resume_rejection_is_byte_identical_for_terminal_running_legacy_and_identity_drift
+    permanent_guard: Public resume constructs a complete immutable plan before the first durable mutation.
+  - id: P0-EXEC-002
+    severity: P0
+    title: State derives from live rereads rather than captured inputs
+    trigger: Registry or config bytes change after identity capture and changed live bytes influence state or resume.
+    impact: Execution identity and treatment semantics diverge.
+    required_detection:
+      - tests/test_idea_foundry_resume.py::test_public_resume_uses_captured_registry_bytes_only
+      - tests/test_idea_foundry_campaign_state.py::test_initial_state_uses_captured_registry_bytes_only
+    permanent_guard: State and resume plans consume captured blobs/specs passed as values and never call live load_workflow_specs.
+  - id: P0-EXEC-003
+    severity: P0
+    title: Retry rewrites history or produces an invalid state
+    trigger: A failed-to-successful retry rewrites attempt 1, retains stale failure_reason in RUNNING or SUCCESS, or writes a state rejected by its own validator.
+    impact: Attempt lineage and completion status are false.
+    required_detection:
+      - tests/test_idea_foundry_resume.py::test_public_resume_failed_to_success_preserves_attempt_history
+      - tests/test_idea_foundry_resume.py::test_retry_running_and_success_states_pass_canonical_validation
+    permanent_guard: Attempt history is append-only; stale axis failure state is cleared on transition out of FAILED; every state is validated before publication.
+  - id: P0-EXEC-004
+    severity: P0
+    title: Nested SystemExit escapes or is treated as success
+    trigger: A library-level axis runner raises SystemExit, including SystemExit(0), and the owner process exits or records success.
+    impact: Missing or partial axis output can be accepted as successful.
+    required_detection:
+      - tests/test_idea_foundry_process_boundary.py::test_run_axis_gate_converts_system_exit_zero_to_controlled_failure
+      - tests/test_idea_foundry_process_boundary.py::test_axis_main_returns_two_and_writes_no_success_artifacts_after_nested_exit
+    permanent_guard: Only the outermost CLI may raise SystemExit; nested run functions return integer status or raise domain exceptions.
+  - id: P0-LIN-001
+    severity: P0
+    title: Hybrid execution and analysis lineage is accepted
+    trigger: Derived analysis combines raw inputs or source identities from different executions without a transformation manifest.
+    impact: A numerical result is attributed to the wrong source, config, or input state.
+    required_detection:
+      - tests/test_idea_foundry_lineage.py::test_hybrid_execution_inputs_are_rejected
+      - tests/test_idea_foundry_lineage.py::test_analysis_identity_requires_exact_raw_manifest_link
+    permanent_guard: Separate ExecutionIdentity and AnalysisIdentity with a hash-bound TransformationManifest.
+  - id: P0-SCI-001
+    severity: P0
+    title: Contract or provenance pass is promoted to scientific evidence
+    trigger: A contract gate, preflight, receipt, or execution-identity pass changes an axis effect, evidence maturity, or claim status.
+    impact: Unsupported efficacy or play-strength claim.
+    required_detection:
+      - tests/test_idea_foundry_scientific_effects.py::test_contract_only_records_cannot_enter_scientific_pool
+      - claim-ledger diff gate permits maturity changes only in an authorized scientific evidence PR
+    permanent_guard: Execution, contract, effect, maturity, and promotion remain independent fields.
+  - id: P0-SCI-002
+    severity: P0
+    title: Resource-frontier saving is relabeled as fixed-compute efficacy or quality non-inferiority
+    trigger: Historical 42.06 versus 58.24 NN-evals per move is used to assert quality preservation, fixed-compute gain, interaction, or generalization.
+    impact: Wrong scientific conclusion from unequal realized compute and unclosed lineage.
+    required_detection:
+      - tests/test_idea_foundry_scientific_effects.py::test_resource_frontier_effect_cannot_satisfy_fixed_compute_claim
+      - STOP_SCI_HISTORICAL_FACTORIAL
+    permanent_guard: Historical factorial remains descriptive; prospective fixed-compute reinvestment and crossed family-generalization NI are required.
+  - id: P0-SCI-003
+    severity: P0
+    title: Dependent observations are treated as independent units
+    trigger: Seeds, openings, repetitions, checkpoints, or repeated states sharing lineage are counted as independent without member lists.
+    impact: Pseudo-replication and false significance.
+    required_detection:
+      - tests/test_idea_foundry_scientific_effects.py::test_independent_group_requires_explicit_unique_members
+      - tests/test_idea_foundry_combination_studies.py::test_four_arm_blocks_preserve_shared_unit_membership
+    permanent_guard: Every effect record carries independent_member_ids and a membership hash; nested levels are explicit.
+  - id: P0-SCI-004
+    severity: P0
+    title: Estimand meaning changes without a version bump
+    trigger: A15 CUDA/CPU ratio becomes same-GPU scheduler gain, or A19 proxy score becomes held-out loss, under the old estimand ID/version.
+    impact: Incompatible effects can be pooled as if identical.
+    required_detection:
+      - tests/test_idea_foundry_scientific_studies.py::test_changed_estimand_semantics_require_new_version
+      - tests/test_idea_foundry_scientific_effects.py::test_estimand_versions_never_pool
+    permanent_guard: Freeze v1 meanings and create v2 registry/modules.
+  - id: P1-API-001
+    severity: P1
+    title: Internal helper passes while the public API violates the contract
+    trigger: Tests exercise plan_resume or apply_resume_plan but not run_campaign with resume=True and the CLI.
+    impact: The accepted entry point bypasses validated logic.
+    required_detection:
+      - tests/test_idea_foundry_resume.py::test_public_run_campaign_resume_uses_resume_plan
+      - tests/test_idea_foundry_resume.py::test_cli_resume_and_python_api_share_the_same_transition
+    permanent_guard: Public entrypoint tests are mandatory; helper-only tests never close a work unit.
+  - id: P1-PROC-001
+    severity: P1
+    title: Partial implementation is marked complete
+    trigger: A helper exists but the public path, negative matrix, or evidence bundle is absent.
+    impact: Later PRs build on an unclosed boundary.
+    required_detection:
+      - completion evidence contains public positive, public negative, and public regression nodes
+      - fresh reviewer checks all observable postconditions
+    permanent_guard: Status remains PARTIAL until every contract row passes.
+  - id: P1-TEST-001
+    severity: P1
+    title: Regression test does not prove detection of the original defect
+    trigger: A new test passes on fixed code but is never shown to fail when the defect is reintroduced.
+    impact: The test can be vacuous or overfit.
+    required_detection:
+      - evidence bundle contains fixed PASS, mutation FAIL, restored PASS for each P0 regression
+    permanent_guard: Mutation-backed red-green evidence is mandatory for P0/P1 regressions.
+  - id: P1-EVID-001
+    severity: P1
+    title: Completion evidence is incomplete or not final-SHA-bound
+    trigger: Missing base/final SHA, dirty status, command outputs, exit codes, skipped-gate reason, or diff.
+    impact: Independent acceptance cannot be reproduced.
+    required_detection:
+      - PR05-R3 evidence verifier rejects absent fields and SHA mismatch
+    permanent_guard: No acceptance without a schema-valid evidence bundle.
+  - id: P1-META-001
+    severity: P1
+    title: Small-k random-effects output is treated as inferential
+    trigger: k less than 5 produces or is counted as inferential random-effects evidence.
+    impact: Overconfident pooled effect.
+    required_detection:
+      - tests/test_idea_foundry_meta_analysis.py::test_k_two_to_four_is_descriptive_only
+      - tests/test_idea_foundry_meta_analysis.py::test_pooled_group_count_counts_only_k_at_least_five
+    permanent_guard: k=1 insufficient; k=2..4 descriptive only; k>=5 eligible only if design-compatible.
+  - id: P1-LEGACY-001
+    severity: P1
+    title: Frozen schema-v1 scientific path is edited or resumed
+    trigger: configs/idea_foundry.studies.v1.json, quartz/idea_foundry/studies.py, or historical 2026-08 artifacts are modified for prospective science.
+    impact: Historical meanings and quarantined claims are rewritten.
+    required_detection:
+      - immutable SHA-256 precondition and postcondition in every prospective scientific PR
+    permanent_guard: Create v2 successors; v1 is read-only.
+  - id: P1-SCI-005
+    severity: P1
+    title: Synthetic or NOOP mechanism is described as real-engine efficacy
+    trigger: A13 duplicate reduction or A16 evaluator-call reduction is promoted without real-engine differential ablation.
+    impact: Mechanism smoke is mistaken for system performance.
+    required_detection:
+      - prospective A13/A16 registry requires real_engine=true and quality non-inferiority endpoint
+    permanent_guard: Synthetic gates generate candidates only.
+  - id: P1-SCI-006
+    severity: P1
+    title: Hardware/model-specific service curve is generalized to production
+    trigger: Representative RTX 3080 Ti conv-body result is cited as shipped-network or current-hardware scheduler efficacy.
+    impact: Scheduler is tuned to a different workload or machine.
+    required_detection:
+      - A15 v2 requires model_source, checkpoint_sha256, hardware_runtime_id, and disjoint calibration/evaluation rows
+    permanent_guard: Historical service curve remains diagnostic.
+  - id: P1-SCI-007
+    severity: P1
+    title: Poorly calibrated P_flip is called calibrated
+    trigger: A01 live P_flip inherits a calibration claim despite Stage-7 evidence and unmatched-budget comparison.
+    impact: Over-eager stopping can silently reduce search quality.
+    required_detection:
+      - A01 v2 requires grouped calibration, wrong-stop upper bound, and fixed-compute quality endpoint
+    permanent_guard: Predictor calibration and stopping efficacy are separate gates.
+  - id: P1-SCI-008
+    severity: P1
+    title: State-disjoint holdout is called trajectory-family generalization
+    trigger: A18 exact-state disjointness is promoted to held-out game, trajectory, or family evidence.
+    impact: Correlated trajectories inflate generalization claims.
+    required_detection:
+      - A18 v2 requires trajectory_id and family_id disjointness with explicit member audit
+    permanent_guard: State-disjoint is diagnostic only.
+
+invariant_test_matrix:
+  - invariant_id: INV-RESUME-001
+    severity: P0
+    statement: Every rejected public resume is byte-identical over all pre-existing run-root files.
+    failure_modes: [P0-EXEC-001, P1-API-001]
+    tests:
+      - tests/test_idea_foundry_resume.py::test_public_resume_rejection_is_byte_identical_for_invalid_prior_artifact
+      - tests/test_idea_foundry_resume.py::test_public_resume_rejection_is_byte_identical_for_terminal_running_legacy_and_identity_drift
+  - invariant_id: INV-RESUME-002
+    severity: P0
+    statement: Resume consumes one captured identity/registry snapshot and does not reread live config before publication.
+    failure_modes: [P0-EXEC-002]
+    tests:
+      - tests/test_idea_foundry_resume.py::test_public_resume_uses_captured_registry_bytes_only
+  - invariant_id: INV-RESUME-003
+    severity: P0
+    statement: Failed-to-success retry is append-only and every published state passes canonical validation.
+    failure_modes: [P0-EXEC-003]
+    tests:
+      - tests/test_idea_foundry_resume.py::test_public_resume_failed_to_success_preserves_attempt_history
+      - tests/test_idea_foundry_resume.py::test_retry_running_and_success_states_pass_canonical_validation
+  - invariant_id: INV-PROC-001
+    severity: P0
+    statement: Nested SystemExit(0) is a technical failure, never success.
+    failure_modes: [P0-EXEC-004]
+    tests:
+      - tests/test_idea_foundry_process_boundary.py::test_run_axis_gate_converts_system_exit_zero_to_controlled_failure
+      - tests/test_idea_foundry_process_boundary.py::test_axis_main_returns_two_and_writes_no_success_artifacts_after_nested_exit
+  - invariant_id: INV-LINEAGE-001
+    severity: P0
+    statement: Analysis inputs descend from one terminal execution identity and one declared transformation.
+    failure_modes: [P0-LIN-001]
+    tests:
+      - tests/test_idea_foundry_lineage.py::test_hybrid_execution_inputs_are_rejected
+      - tests/test_idea_foundry_lineage.py::test_analysis_identity_requires_exact_raw_manifest_link
+  - invariant_id: INV-SCI-001
+    severity: P0
+    statement: Contract/provenance passes cannot emit poolable effects or raise maturity.
+    failure_modes: [P0-SCI-001]
+    tests:
+      - tests/test_idea_foundry_scientific_effects.py::test_contract_only_records_cannot_enter_scientific_pool
+  - invariant_id: INV-SCI-002
+    severity: P0
+    statement: Resource-frontier and fixed-compute estimands cannot satisfy each other's gates.
+    failure_modes: [P0-SCI-002]
+    tests:
+      - tests/test_idea_foundry_scientific_effects.py::test_resource_frontier_effect_cannot_satisfy_fixed_compute_claim
+  - invariant_id: INV-SCI-003
+    severity: P0
+    statement: Independent units are explicit, unique, hash-bound, and not flattened across nested levels.
+    failure_modes: [P0-SCI-003]
+    tests:
+      - tests/test_idea_foundry_scientific_effects.py::test_independent_group_requires_explicit_unique_members
+      - tests/test_idea_foundry_combination_studies.py::test_four_arm_blocks_preserve_shared_unit_membership
+  - invariant_id: INV-SCI-004
+    severity: P0
+    statement: Changed estimand meaning gets a new version and incompatible versions never pool.
+    failure_modes: [P0-SCI-004, P1-LEGACY-001]
+    tests:
+      - tests/test_idea_foundry_scientific_studies.py::test_changed_estimand_semantics_require_new_version
+      - tests/test_idea_foundry_scientific_effects.py::test_estimand_versions_never_pool
+  - invariant_id: INV-EVID-001
+    severity: P1
+    statement: Completion evidence is schema-valid, final-SHA-bound, and includes every executed or skipped gate.
+    failure_modes: [P1-EVID-001, P1-TEST-001]
+    check: PR05-R3 scripts/verify_evidence_bundle.py
+  - invariant_id: INV-META-001
+    severity: P1
+    statement: k below 5 is never counted or plotted as inferential pooling.
+    failure_modes: [P1-META-001]
+    tests:
+      - tests/test_idea_foundry_meta_analysis.py::test_k_two_to_four_is_descriptive_only
+      - tests/test_idea_foundry_meta_analysis.py::test_pooled_group_count_counts_only_k_at_least_five
+
+contracts:
+  PR05-R1:
+    schema: audit-compiled-pr/v1
+    pr_id: PR05-R1
+    title: Public resume admission and immutable transition planning
+    risk_class: critical_research_integrity
+    base_sha: 9ddd3471904f2200f4656cb102886c994bd7bed0
+    branch: agent/idea-foundry-pr05-r1-public-resume
+    commit_message: 'fix(foundry): make public resume plan-before-mutate'
+    objective:
+      statement: Make run_campaign with resume=true use one immutable fully validated ResumePlan before any durable mutation.
+      observable_success: A valid FAILED campaign resumes through the public API, appends one retry, preserves prior attempt values, and can complete successfully; every rejected resume leaves every pre-existing run-root byte unchanged.
+    non_goals:
+      - no P0b-C2 terminal closure
+      - no analysis lineage or meta-analysis change
+      - no scientific run, result, receipt, or claim promotion
+      - no hostile filesystem/Git/security hardening
+    scope:
+      allowed_paths:
+        - quartz/idea_foundry/resume.py
+        - quartz/idea_foundry/sequential.py
+        - tests/test_idea_foundry_resume.py
+      forbidden_paths:
+        - configs/idea_foundry.studies.v1.json
+        - quartz/idea_foundry/studies.py
+        - docs/idea_foundry/evidence/**
+        - docs/idea_foundry/receipts/**
+        - results/**
+        - src/**
+      forbidden_changes:
+        - do not alter scientific estimands, tolerances, or historical outputs
+        - do not mark P0B-C1 established
+        - do not accept helper-only tests as public resume coverage
+        - do not mutate state or summary to record a resume rejection
+        - do not rewrite or delete prior attempt dictionaries
+    current_code_anchors:
+      - path: quartz/idea_foundry/sequential.py
+        symbols: [run_campaign, _save_state, _validate_state, _validated_attempt, _run_attempt]
+        locate: "rg -n '^def (run_campaign|_save_state|_validate_state|_validated_attempt|_run_attempt)\\b' quartz/idea_foundry/sequential.py"
+      - path: quartz/idea_foundry/campaign_state.py
+        symbols: [CampaignState, AttemptState, plan_initial_campaign_state, validate_campaign_state]
+      - path: quartz/idea_foundry/execution_identity.py
+        symbols: [ExecutionIdentity, capture_execution_identity]
+    preconditions:
+      - id: PRE-BASE
+        command: 'test "$(git rev-parse HEAD)" = "9ddd3471904f2200f4656cb102886c994bd7bed0"'
+        expect: exit=0
+      - id: PRE-CLEAN
+        command: 'test -z "$(git status --porcelain=v1)"'
+        expect: exit=0
+      - id: PRE-BASELINE
+        command: "./venv/bin/python -m pytest -q tests/test_idea_foundry_campaign_state.py tests/test_idea_foundry_axis_workflows.py -k 'campaign_state or resume or sequential'"
+        expect: accepted PR04 selected nodes pass; record exact counts
+      - id: PRE-FROZEN
+        command: sha256sum configs/idea_foundry.studies.v1.json quartz/idea_foundry/studies.py
+        expect: record and preserve both hashes
+    required_interface:
+      module: quartz/idea_foundry/resume.py
+      classes:
+        ResumeError: RuntimeError
+        RetryAttemptPlan:
+          fields: [axis_index:int, axis_id:str, attempt_number:int, output_dir:str, stdout:str, stderr:str]
+        ResumePlan:
+          fields: [schema_version:int, run_id:str, seed:int, source_state_sha256:str, terminal_prefix_axis_ids:tuple[str], retry:RetryAttemptPlan, next_state:CampaignState]
+      functions:
+        - 'plan_resume(*, run_root: Path, state_bytes: bytes, identity: ExecutionIdentity, captured_axes_payload: bytes, captured_lab_payload: bytes, run_id: str, seed: int) -> ResumePlan'
+        - 'apply_resume_plan(*, state_path: Path, plan: ResumePlan) -> CampaignState'
+    behavioral_contract:
+      - plan_resume is pure with respect to run_root
+      - only inactive FAILED campaigns are eligible
+      - every terminal-prefix successful or skipped artifact is validated before next_state construction
+      - registry metadata derives from captured bytes, never live load_workflow_specs
+      - next_state sets campaign RUNNING and resumed_at, marks only validated terminal-prefix rows verified_skip, changes the failed axis to RUNNING, removes axis failure_reason, and appends one active retry
+      - prior attempt dictionaries compare equal to source values
+      - apply_resume_plan uses one trusted-local single-writer lock, rechecks source-state SHA-256, validates next_state, and atomically publishes once
+      - stale or duplicate plan fails before replacement
+      - public run_campaign uses plan_resume then apply_resume_plan with no alternate inline resume transition
+      - run loop launches the already-appended retry without adding another attempt
+    ordered_steps:
+      - write public failing tests first
+      - run new tests and require behavior-specific RED
+      - create resume.py with frozen dataclasses and pure planning
+      - refactor only public resume branch in sequential.py
+      - run targeted tests and fix implementation without weakening assertions
+      - perform mutation proof: fixed PASS, old defect FAIL, restored PASS
+      - run Ruff, diff, scope, and frozen-file checks
+      - write evidence bundle, commit once, push, stop for fresh review
+    verification:
+      targeted:
+        - './venv/bin/python -m pytest -q tests/test_idea_foundry_resume.py'
+        - "./venv/bin/python -m pytest -q tests/test_idea_foundry_campaign_state.py tests/test_idea_foundry_axis_workflows.py -k 'campaign_state or resume or sequential'"
+      negative_cases: [invalid prior artifact, RUNNING campaign, SUCCESS campaign, legacy schema, identity drift, stale duplicate plan]
+      regression_cases: [failed-to-success retry, stale failure_reason removal, public API plan/apply, rejected resume byte identity]
+      static:
+        - './venv/bin/ruff check quartz/idea_foundry/resume.py quartz/idea_foundry/sequential.py tests/test_idea_foundry_resume.py'
+        - './venv/bin/ruff format --check quartz/idea_foundry/resume.py quartz/idea_foundry/sequential.py tests/test_idea_foundry_resume.py'
+        - git diff --check
+        - 'git diff --name-only 9ddd3471904f2200f4656cb102886c994bd7bed0...HEAD'
+      full_suite_required: false
+      full_suite_reason: focused public resume and accepted dependency map are bounded; broad gate is PR05-R3
+    completion_evidence:
+      required: [base_sha, final_sha, branch, clean_status, diff_name_status, diff_stat, diff_check, exact command logs, invariant results, mutation results, frozen hashes before and after, skipped gate reasons, unresolved blockers]
+      fixed_values:
+        scientific_runs_executed: false
+        results_or_receipts_created: false
+        claim_status_change: none
+    review_gate:
+      fresh_context_required: true
+      implementer_narrative_allowed: false
+      pass_condition: {contract_completeness: PASS, P0: 0, P1: 0, evidence_bundle: COMPLETE}
+
+  PR05-R2:
+    schema: audit-compiled-pr/v1
+    pr_id: PR05-R2
+    title: Normalize nested axis process escape
+    base_sha_source: accepted_sha_registry.PR05_R1_PUBLIC_RESUME
+    on_null: BLOCKED_BY_UNACCEPTED_DEPENDENCY
+    branch: agent/idea-foundry-pr05-r2-process-boundary
+    commit_message: 'fix(foundry): normalize nested axis process exits'
+    scope:
+      allowed_paths: [quartz/idea_foundry/axis_workflow.py, tests/test_idea_foundry_process_boundary.py]
+      forbidden_paths: [scripts/idea_foundry/a26_nested_contour_exact_lab.py, quartz/idea_foundry/search.py, configs/**, results/**, docs/CLAIM_LEDGER.md]
+    objective: Nested SystemExit, including code 0, becomes AxisWorkflowError and public exit 2 with no success artifacts.
+    required_interface:
+      helper: '_call_nested_axis_runner(runner, *args, **kwargs) -> int'
+      rules:
+        - catch SystemExit only at nested library boundary
+        - SystemExit(0), SystemExit(nonzero), and SystemExit(string) are failures
+        - exact integer return required; bool, None, and string are rejected
+        - outermost CLI convention remains unchanged
+        - production code is generic, not A26-specific
+    required_tests:
+      - test_run_axis_gate_converts_system_exit_zero_to_controlled_failure
+      - test_axis_main_returns_two_and_writes_no_success_artifacts_after_nested_exit
+      - test_nested_runner_rejects_non_integer_and_bool_status
+      - test_process_boundary_is_generic_for_A01_and_A26
+    verification:
+      - './venv/bin/python -m pytest -q tests/test_idea_foundry_process_boundary.py'
+      - "./venv/bin/python -m pytest -q tests/test_idea_foundry_axis_workflows.py -k 'axis_script or a26 or nested_contour'"
+      - './venv/bin/ruff check quartz/idea_foundry/axis_workflow.py tests/test_idea_foundry_process_boundary.py'
+      - './venv/bin/ruff format --check quartz/idea_foundry/axis_workflow.py tests/test_idea_foundry_process_boundary.py'
+      - git diff --check
+    mutation_regression: remove SystemExit catch, require named regression FAIL, restore and PASS
+    review_gate: {fresh_context_required: true, P0: 0, P1: 0, evidence_bundle: COMPLETE}
+
+  PR05-R3:
+    schema: audit-compiled-pr/v1
+    pr_id: PR05-R3
+    title: P0b-C1 closeout evidence and fresh-context review gate
+    base_sha_source: accepted_sha_registry.PR05_R2_PROCESS_BOUNDARY
+    on_null: BLOCKED_BY_UNACCEPTED_DEPENDENCY
+    branch: agent/idea-foundry-pr05-r3-closeout
+    commit_message: 'chore(foundry): add P0b-C1 executable closeout gates'
+    scope:
+      allowed_paths:
+        - schemas/audit_compiled_pr.v1.schema.json
+        - schemas/evidence_bundle.v1.schema.json
+        - schemas/fresh_review_result.v1.schema.json
+        - scripts/verify_audit_compiled_pr.py
+        - scripts/verify_evidence_bundle.py
+        - tests/test_audit_compiled_contracts.py
+        - docs/quality/P0_P1_POLICY.md
+        - AGENTS.md
+      forbidden_paths: [quartz/idea_foundry/**, src/**, configs/**, results/**, docs/CLAIM_LEDGER.md]
+    objective: P0b-C1 acceptance depends on a schema-valid evidence bundle and a verdict-only fresh-context review of the exact SHA/diff.
+    invariants:
+      - evidence is exact-SHA-bound and complete
+      - every declared P0/P1 has test, assertion, or STOP coverage
+      - reviewer receives no implementer reasoning and changes no code in first pass
+      - P0b-C1 closeout cannot change scientific effect or promotion
+    verification:
+      focused:
+        - './venv/bin/python -m pytest -q tests/test_audit_compiled_contracts.py tests/test_idea_foundry_resume.py tests/test_idea_foundry_process_boundary.py'
+        - './venv/bin/python -m pytest -q tests/test_idea_foundry_campaign_state.py tests/test_idea_foundry_resume.py tests/test_idea_foundry_process_boundary.py tests/test_idea_foundry_axis_workflows.py'
+      static:
+        - changed-file Ruff check and format check
+        - git diff --check
+    closeout_required: [schema-valid R1 evidence, schema-valid R2 evidence, fresh reviewer result, contract_completeness=PASS, P0=0, P1=0]
+    allowed_final_recommendation: [ESTABLISHED_CONTRACT_ONLY, BLOCKED]
+
+post_pr05_dag:
+  - id: PR06-R1
+    title: Terminal raw-artifact closure
+    depends_on: PR05-R3 accepted
+    produces: [RawArtifactRecord, TerminalExecutionManifest, close_terminal_campaign]
+    p0_invariants:
+      - success cannot close without every expected raw artifact
+      - failed or incomplete campaign cannot emit successful terminal manifest
+      - closure never rewrites prior attempts
+      - actual file bytes and hashes are inventoried
+    tests: [complete success, missing artifact, stale running attempt, failed/negative preservation, idempotent identical closure and drift rejection]
+  - id: PR06-R2
+    title: Analysis identity and transformation lineage
+    depends_on: PR06-R1 accepted
+    produces: [AnalysisIdentity, TransformationManifest, validate_transformation_manifest]
+    p0_invariants:
+      - no hybrid execution inputs
+      - analysis source identity is separate
+      - raw member list is explicit
+      - changed transformation source invalidates current analysis identity
+  - id: PR06-R3
+    title: EffectRecordV2 and meta-analysis admission
+    depends_on: PR06-R2 accepted
+    required_fields: [axis_id, estimand_id, estimand_version, effect_scale, reference_id, unit, higher_is_better, run_id, independent_group_id, independent_member_ids, independent_members_sha256, effect, uncertainty_kind, standard_error, evidence_maturity, claim_scope, dataset_lineage_id, controller_identity, source_artifact_path, source_artifact_sha256]
+    small_k_policy: {k1: INSUFFICIENT, k2_to_4: DESCRIPTIVE_ONLY_NO_RANDOM_CI, k5_plus: INFERENTIAL_ELIGIBLE_IF_DESIGN_COMPATIBLE}
+    p0_invariants:
+      - contract and diagnostic records cannot enter inferential pool
+      - changed estimand meaning requires a new version
+      - exact properties never use zero-width sampling CI
+      - resource-frontier and fixed-compute effects are incompatible
+  - id: SCI-V2-REGISTRY
+    depends_on: PR06-R3 accepted
+    priority_order: [A01, A15, A19, A13, A16]
+    execution_authorized: false
+    frozen_paths: [configs/idea_foundry.studies.v1.json, quartz/idea_foundry/studies.py]
+  - id: SCI-A01
+    sequence: [predictor identity and grouped calibration, treatment-delivery telemetry, resource-frontier study, fixed-compute reinvestment and family-generalization NI]
+  - id: SCI-A15
+    estimand: same_gpu_scheduler_log_throughput_gain_v2
+    reference: best fixed CUDA inflight=1 selected on calibration rows
+    candidate: latency-constrained schedule selected on disjoint calibration rows
+    independent_unit: heldout workload family x repetition block
+  - id: SCI-A19
+    v1: proxy_screen_v1 frozen and inconclusive
+    v2: heldout_joint_loss_v2 with untouched trajectory/family holdout
+  - id: SCI-A13
+    arms: [adaptive VL incumbent, fixed VL mechanistic control, pending-aware WU-UCT]
+    endpoints: [wall-clock throughput, duplicate dispatch, virtual-value pessimism, decision-quality NI]
+  - id: SCI-A16
+    architecture: immutable eval cache keyed by state+checkpoint+evaluator+ruleset+encoding+schema; parent edge N/W/Q remains parent-specific
+    comparison: [no sharing, eval-only sharing, existing full TT]
+  - id: COMBINATION-STUDIES
+    entry: at least two solo axes qualified
+    cells: [baseline, A_only, B_only, A_plus_B]
+    contrast: Y_AB - Y_A - Y_B + Y_0
+    prohibition: exploratory joint dominance is not formal interaction
+
+scientific_claim_audit:
+  global_verdict:
+    PR00_PR04: CONTRACT_ONLY_NO_SCIENTIFIC_EFFECT
+    PR05: STOP_INVALID
+    historical_26axis_factorial: QUARANTINED_HISTORICAL_DIAGNOSTIC
+    prospective_science: BLOCKED_UNTIL_PR06_R3
+  claims:
+    - id: SCI-SYN-001
+      subject: Bernoulli kg_rank_risk screen
+      verdict: MECHANISM_CANDIDATE_ONLY
+      allowed: candidate for real MCTS study
+      forbidden: [neural-MCTS efficacy, CPU efficiency, play strength, universal dominance]
+    - id: SCI-SYN-002
+      subject: candidate morphology widening
+      observation: omission regret moved but zero CI-separated total-regret improvements
+      verdict: LITERAL_MECHANISM_MOVES_NET_VALUE_NOT_EARNED
+      forbidden: [play improvement, net-regret improvement]
+    - id: SCI-SYN-003
+      subject: H1 synthetic discrimination
+      verdict: SIGNAL_EXISTENCE_ONLY
+      forbidden: [online calibration, compute saving, quality preservation]
+    - id: SCI-SYN-004
+      subject: symmetry orbit lab
+      verdict: VALID_FOR_TESTED_PYTHON_OPERATORS_ONLY
+      forbidden: [full Rust engine agnosticism, neural-network equivariance]
+    - id: SCI-SYS-001
+      subject: adaptive virtual loss duplication rationale
+      observation: real engine adaptive duplicate rate 0.218 versus fixed 0.129; pessimism reduced about sixfold
+      verdict: DUPLICATION_RATIONALE_KILLED
+      allowed: tested pessimism-reduction rationale only
+    - id: SCI-SYS-002
+      subject: historical service curve
+      observation: representative RTX 3080 Ti workload showed about +23.7 percent throughput over best inflight=1 cell
+      verdict: HARDWARE_AND_WORKLOAD_SPECIFIC_DIAGNOSTIC
+      forbidden: [shipped-network scheduler efficacy, current hardware optimum, play strength]
+    - id: SCI-S7-001
+      subject: KG-stop
+      observation: 2 halts across 480 cells and maximum 0.6 percent budget saved
+      verdict: LOW_BUDGET_LANE_CLOSED
+    - id: SCI-S7-002
+      subject: H1 versus P_flip calibration
+      observation: H1 ECE 0.080 and Brier 0.143 versus P_flip-confidence ECE 0.504 and Brier 0.446; matched-budget comparison insufficient
+      verdict: H1_SIGNAL_PREFERRED_PFLIP_NOT_CALIBRATED
+    - id: SCI-S7-003
+      subject: H3/O6
+      observation: 0 of 288 triggers; effect unmeasurable
+      verdict: NO_EFFECT_ESTIMATE
+    - id: SCI-S7-004
+      subject: B13 finite-N readout
+      observation: reported KL deltas -0.0297 [-0.033,-0.026] and -0.0104 [-0.0115,-0.0093] with decision ties
+      verdict: PROMISING_DECISION_NEUTRAL_KL_SIGNAL_REPLICATION_REQUIRED
+      forbidden: [play-strength gain, decision improvement]
+    - id: SCI-HIST-001
+      subject: historical 26-axis run
+      verdict: NO_USABLE_PROSPECTIVE_EFFECTS
+    - id: SCI-HIST-FACTORIAL-001
+      subject: historical A01 resource-frontier factorial
+      observation: 960 games; 42.06 versus 58.24 NN evaluations per move; -27.78 percent
+      verdict: COMPUTE_MECHANISM_OBSERVED_QUALITY_AND_INTERACTION_NOT_ESTABLISHED
+      forbidden: [quality NI, held-out generalization, interaction equivalence, fixed-compute efficacy, promotion]
+    - id: SCI-A15-V2
+      verdict: ELIGIBLE_AFTER_PR06_R3
+      requirement: actual checkpoint workload, same-GPU v2 estimand, disjoint calibration/evaluation
+    - id: SCI-A19-V2
+      verdict: NO_CURRENT_EFFICACY
+      requirement: freeze v1 proxy and use untouched trajectory/family holdout
+    - id: SCI-A13-V2
+      verdict: REAL_ENGINE_DIFFERENTIAL_REQUIRED
+      requirement: adaptive incumbent, fixed control, WU-UCT treatment
+    - id: SCI-A16-V2
+      verdict: SEMANTIC_DECOMPOSITION_REQUIRED
+      requirement: immutable evaluator cache separated from mutable search statistics
+    - id: SCI-A01-V2
+      verdict: HIGHEST_PRIORITY_AFTER_LINEAGE
+      requirement: versioned predictors, grouped calibration, resource-frontier and fixed-compute lanes, family-generalization NI
+    - id: SCI-A18-BOUNDARY
+      verdict: STATE_DISJOINT_IS_NOT_TRAJECTORY_GENERALIZATION
+
+fresh_review_contract:
+  fresh_context_required: true
+  implementer_narrative_allowed: false
+  reviewer_changed_code: false
+  reviewer_inputs: [base_sha, final_sha, base_to_final_diff, selected_contract, p0_p1_catalogue, invariant_matrix, evidence_bundle, exact_command_logs]
+  first_pass: verdict_only
+  required_finding_fields: [severity, exact_path_and_anchor, violated_invariant, reproducer, impact, required_fix]
+  contract_completeness_questions:
+    - What public input or state bypasses all negative tests?
+    - What transition is unrepresented?
+    - What scientific result could be wrong while tests pass?
+    - What legacy behavior is relied on but not pinned?
+    - Does helper-only coverage leave public API untested?
+    - Does a failure path mutate evidence before eligibility is proven?
+  pass_condition: {contract_completeness: PASS, evidence_bundle: COMPLETE, P0: 0, P1: 0}
+  repair_policy:
+    reviewer_fixes_code: false
+    maximum_repairs: 1
+    recheck_context: fresh
+    permanent_absorption: [regression test, invariant, assertion or STOP gate, reviewer checklist]
+
+evidence_bundle_contract:
+  schema: evidence-bundle/v1
+  required_fields:
+    - pr_id
+    - base_sha
+    - final_sha
+    - branch
+    - git_status_porcelain
+    - git_diff_name_status
+    - git_diff_stat
+    - git_diff_check
+    - commands_with_exit_stdout_stderr
+    - invariant_results
+    - mutation_regression_results
+    - frozen_file_hashes_before_after
+    - skipped_gate_reasons
+    - unresolved_blockers
+    - scientific_runs_executed
+    - results_or_receipts_created
+    - claim_status_change
+  fixed_values:
+    scientific_runs_executed: false
+    results_or_receipts_created: false
+    claim_status_change: none
