@@ -1,0 +1,6592 @@
+{
+  "mode": "exploratory_gaussian_two_finalist_diagnostic",
+  "source_commit": "253df550031d816249dac0a414c74596f27142b0",
+  "source_tree": "aee775b5a45194252e7d40d73b31424f6df14f62",
+  "command": [
+    "docs/research/beyond_alphazero_20260907/gaussian_batch_pilot.py",
+    "--output",
+    "docs/research/beyond_alphazero_20260907/evidence/pilot",
+    "--worlds",
+    "4096"
+  ],
+  "worlds_per_scenario": 4096,
+  "versions": {
+    "python": "3.12.13",
+    "numpy": "2.3.5",
+    "scipy": "1.17.0"
+  },
+  "cpu": "x86_64",
+  "noise_variances": [
+    0.04,
+    0.25
+  ],
+  "prior_mean": [
+    0.1,
+    0.0
+  ],
+  "budgets": [
+    8,
+    32,
+    128,
+    512,
+    2048
+  ],
+  "batch_widths": [
+    1,
+    8,
+    32
+  ],
+  "methods": [
+    "equal",
+    "neyman",
+    "stale_batch",
+    "pending_greedy"
+  ],
+  "rows": [
+    {
+      "scenario": "independent",
+      "true_rho": 0.0,
+      "assumed_rho": 0.0,
+      "width": 1,
+      "budget": 8,
+      "method": "equal",
+      "counts": [
+        4,
+        4
+      ],
+      "raw_key": "independent:4:4",
+      "logical_evaluations": 8,
+      "posterior_gap_variance": 0.054355584930601455,
+      "mean_regret": 0.019367497290346865,
+      "wrong_action_rate": 0.129150390625,
+      "coverage95": 0.94921875,
+      "exact_bayes_regret": 0.019717133075018878
+    },
+    {
+      "scenario": "independent",
+      "true_rho": 0.0,
+      "assumed_rho": 0.0,
+      "width": 1,
+      "budget": 8,
+      "method": "neyman",
+      "counts": [
+        2,
+        6
+      ],
+      "raw_key": "independent:2:6",
+      "logical_evaluations": 8,
+      "posterior_gap_variance": 0.050835629017447204,
+      "mean_regret": 0.01837314144820884,
+      "wrong_action_rate": 0.1279296875,
+      "coverage95": 0.952392578125,
+      "exact_bayes_regret": 0.018384487547846967
+    },
+    {
+      "scenario": "independent",
+      "true_rho": 0.0,
+      "assumed_rho": 0.0,
+      "width": 1,
+      "budget": 8,
+      "method": "stale_batch",
+      "counts": [
+        3,
+        5
+      ],
+      "raw_key": "independent:3:5",
+      "logical_evaluations": 8,
+      "posterior_gap_variance": 0.05040293040293041,
+      "mean_regret": 0.017889407348089414,
+      "wrong_action_rate": 0.12548828125,
+      "coverage95": 0.94970703125,
+      "exact_bayes_regret": 0.018221249507310217
+    },
+    {
+      "scenario": "independent",
+      "true_rho": 0.0,
+      "assumed_rho": 0.0,
+      "width": 1,
+      "budget": 8,
+      "method": "pending_greedy",
+      "counts": [
+        3,
+        5
+      ],
+      "raw_key": "independent:3:5",
+      "logical_evaluations": 8,
+      "posterior_gap_variance": 0.05040293040293041,
+      "mean_regret": 0.017889407348089414,
+      "wrong_action_rate": 0.12548828125,
+      "coverage95": 0.94970703125,
+      "exact_bayes_regret": 0.018221249507310217
+    },
+    {
+      "scenario": "independent",
+      "true_rho": 0.0,
+      "assumed_rho": 0.0,
+      "width": 1,
+      "budget": 32,
+      "method": "equal",
+      "counts": [
+        16,
+        16
+      ],
+      "raw_key": "independent:16:16",
+      "logical_evaluations": 32,
+      "posterior_gap_variance": 0.01669641390637832,
+      "mean_regret": 0.006676573253993375,
+      "wrong_action_rate": 0.076171875,
+      "coverage95": 0.947265625,
+      "exact_bayes_regret": 0.005871341072585773
+    },
+    {
+      "scenario": "independent",
+      "true_rho": 0.0,
+      "assumed_rho": 0.0,
+      "width": 1,
+      "budget": 32,
+      "method": "neyman",
+      "counts": [
+        9,
+        23
+      ],
+      "raw_key": "independent:9:23",
+      "logical_evaluations": 32,
+      "posterior_gap_variance": 0.014502441372670382,
+      "mean_regret": 0.005278310463595937,
+      "wrong_action_rate": 0.0703125,
+      "coverage95": 0.952880859375,
+      "exact_bayes_regret": 0.005091051898379717
+    },
+    {
+      "scenario": "independent",
+      "true_rho": 0.0,
+      "assumed_rho": 0.0,
+      "width": 1,
+      "budget": 32,
+      "method": "stale_batch",
+      "counts": [
+        9,
+        23
+      ],
+      "raw_key": "independent:9:23",
+      "logical_evaluations": 32,
+      "posterior_gap_variance": 0.014502441372670382,
+      "mean_regret": 0.005278310463595937,
+      "wrong_action_rate": 0.0703125,
+      "coverage95": 0.952880859375,
+      "exact_bayes_regret": 0.005091051898379717
+    },
+    {
+      "scenario": "independent",
+      "true_rho": 0.0,
+      "assumed_rho": 0.0,
+      "width": 1,
+      "budget": 32,
+      "method": "pending_greedy",
+      "counts": [
+        9,
+        23
+      ],
+      "raw_key": "independent:9:23",
+      "logical_evaluations": 32,
+      "posterior_gap_variance": 0.014502441372670382,
+      "mean_regret": 0.005278310463595937,
+      "wrong_action_rate": 0.0703125,
+      "coverage95": 0.952880859375,
+      "exact_bayes_regret": 0.005091051898379717
+    },
+    {
+      "scenario": "independent",
+      "true_rho": 0.0,
+      "assumed_rho": 0.0,
+      "width": 1,
+      "budget": 128,
+      "method": "equal",
+      "counts": [
+        64,
+        64
+      ],
+      "raw_key": "independent:64:64",
+      "logical_evaluations": 128,
+      "posterior_gap_variance": 0.004435723479467197,
+      "mean_regret": 0.0014653803518098717,
+      "wrong_action_rate": 0.033203125,
+      "coverage95": 0.950927734375,
+      "exact_bayes_regret": 0.001545073205357711
+    },
+    {
+      "scenario": "independent",
+      "true_rho": 0.0,
+      "assumed_rho": 0.0,
+      "width": 1,
+      "budget": 128,
+      "method": "neyman",
+      "counts": [
+        37,
+        91
+      ],
+      "raw_key": "independent:37:91",
+      "logical_evaluations": 128,
+      "posterior_gap_variance": 0.0037747032886359206,
+      "mean_regret": 0.0013116465332843517,
+      "wrong_action_rate": 0.030517578125,
+      "coverage95": 0.95068359375,
+      "exact_bayes_regret": 0.0013141595666535388
+    },
+    {
+      "scenario": "independent",
+      "true_rho": 0.0,
+      "assumed_rho": 0.0,
+      "width": 1,
+      "budget": 128,
+      "method": "stale_batch",
+      "counts": [
+        37,
+        91
+      ],
+      "raw_key": "independent:37:91",
+      "logical_evaluations": 128,
+      "posterior_gap_variance": 0.0037747032886359206,
+      "mean_regret": 0.0013116465332843517,
+      "wrong_action_rate": 0.030517578125,
+      "coverage95": 0.95068359375,
+      "exact_bayes_regret": 0.0013141595666535388
+    },
+    {
+      "scenario": "independent",
+      "true_rho": 0.0,
+      "assumed_rho": 0.0,
+      "width": 1,
+      "budget": 128,
+      "method": "pending_greedy",
+      "counts": [
+        37,
+        91
+      ],
+      "raw_key": "independent:37:91",
+      "logical_evaluations": 128,
+      "posterior_gap_variance": 0.0037747032886359206,
+      "mean_regret": 0.0013116465332843517,
+      "wrong_action_rate": 0.030517578125,
+      "coverage95": 0.95068359375,
+      "exact_bayes_regret": 0.0013141595666535388
+    },
+    {
+      "scenario": "independent",
+      "true_rho": 0.0,
+      "assumed_rho": 0.0,
+      "width": 1,
+      "budget": 512,
+      "method": "equal",
+      "counts": [
+        256,
+        256
+      ],
+      "raw_key": "independent:256:256",
+      "logical_evaluations": 512,
+      "posterior_gap_variance": 0.0011267357555885679,
+      "mean_regret": 0.00029682378701698456,
+      "wrong_action_rate": 0.016357421875,
+      "coverage95": 0.951904296875,
+      "exact_bayes_regret": 0.0003914822959125708
+    },
+    {
+      "scenario": "independent",
+      "true_rho": 0.0,
+      "assumed_rho": 0.0,
+      "width": 1,
+      "budget": 512,
+      "method": "neyman",
+      "counts": [
+        146,
+        366
+      ],
+      "raw_key": "independent:146:366",
+      "logical_evaluations": 512,
+      "posterior_gap_variance": 0.000953660709484549,
+      "mean_regret": 0.0002621799249594771,
+      "wrong_action_rate": 0.015380859375,
+      "coverage95": 0.95263671875,
+      "exact_bayes_regret": 0.00033130418200003064
+    },
+    {
+      "scenario": "independent",
+      "true_rho": 0.0,
+      "assumed_rho": 0.0,
+      "width": 1,
+      "budget": 512,
+      "method": "stale_batch",
+      "counts": [
+        147,
+        365
+      ],
+      "raw_key": "independent:147:365",
+      "logical_evaluations": 512,
+      "posterior_gap_variance": 0.0009536587942920579,
+      "mean_regret": 0.00027545918127542786,
+      "wrong_action_rate": 0.015625,
+      "coverage95": 0.9521484375,
+      "exact_bayes_regret": 0.0003313035161759681
+    },
+    {
+      "scenario": "independent",
+      "true_rho": 0.0,
+      "assumed_rho": 0.0,
+      "width": 1,
+      "budget": 512,
+      "method": "pending_greedy",
+      "counts": [
+        147,
+        365
+      ],
+      "raw_key": "independent:147:365",
+      "logical_evaluations": 512,
+      "posterior_gap_variance": 0.0009536587942920579,
+      "mean_regret": 0.00027545918127542786,
+      "wrong_action_rate": 0.015625,
+      "coverage95": 0.9521484375,
+      "exact_bayes_regret": 0.0003313035161759681
+    },
+    {
+      "scenario": "independent",
+      "true_rho": 0.0,
+      "assumed_rho": 0.0,
+      "width": 1,
+      "budget": 2048,
+      "method": "equal",
+      "counts": [
+        1024,
+        1024
+      ],
+      "raw_key": "independent:1024:1024",
+      "logical_evaluations": 2048,
+      "posterior_gap_variance": 0.00028282162912287624,
+      "mean_regret": 0.00011192665719650665,
+      "wrong_action_rate": 0.010986328125,
+      "coverage95": 0.948974609375,
+      "exact_bayes_regret": 9.820301909554963e-05
+    },
+    {
+      "scenario": "independent",
+      "true_rho": 0.0,
+      "assumed_rho": 0.0,
+      "width": 1,
+      "budget": 2048,
+      "method": "neyman",
+      "counts": [
+        585,
+        1463
+      ],
+      "raw_key": "independent:585:1463",
+      "logical_evaluations": 2048,
+      "posterior_gap_variance": 0.00023904630127543508,
+      "mean_regret": 9.208054542879748e-05,
+      "wrong_action_rate": 0.009765625,
+      "coverage95": 0.94873046875,
+      "exact_bayes_regret": 8.300033617475444e-05
+    },
+    {
+      "scenario": "independent",
+      "true_rho": 0.0,
+      "assumed_rho": 0.0,
+      "width": 1,
+      "budget": 2048,
+      "method": "stale_batch",
+      "counts": [
+        585,
+        1463
+      ],
+      "raw_key": "independent:585:1463",
+      "logical_evaluations": 2048,
+      "posterior_gap_variance": 0.00023904630127543508,
+      "mean_regret": 9.208054542879748e-05,
+      "wrong_action_rate": 0.009765625,
+      "coverage95": 0.94873046875,
+      "exact_bayes_regret": 8.300033617475444e-05
+    },
+    {
+      "scenario": "independent",
+      "true_rho": 0.0,
+      "assumed_rho": 0.0,
+      "width": 1,
+      "budget": 2048,
+      "method": "pending_greedy",
+      "counts": [
+        585,
+        1463
+      ],
+      "raw_key": "independent:585:1463",
+      "logical_evaluations": 2048,
+      "posterior_gap_variance": 0.00023904630127543508,
+      "mean_regret": 9.208054542879748e-05,
+      "wrong_action_rate": 0.009765625,
+      "coverage95": 0.94873046875,
+      "exact_bayes_regret": 8.300033617475444e-05
+    },
+    {
+      "scenario": "independent",
+      "true_rho": 0.0,
+      "assumed_rho": 0.0,
+      "width": 8,
+      "budget": 8,
+      "method": "equal",
+      "counts": [
+        4,
+        4
+      ],
+      "raw_key": "independent:4:4",
+      "logical_evaluations": 8,
+      "posterior_gap_variance": 0.054355584930601455,
+      "mean_regret": 0.019367497290346865,
+      "wrong_action_rate": 0.129150390625,
+      "coverage95": 0.94921875,
+      "exact_bayes_regret": 0.019717133075018878
+    },
+    {
+      "scenario": "independent",
+      "true_rho": 0.0,
+      "assumed_rho": 0.0,
+      "width": 8,
+      "budget": 8,
+      "method": "neyman",
+      "counts": [
+        2,
+        6
+      ],
+      "raw_key": "independent:2:6",
+      "logical_evaluations": 8,
+      "posterior_gap_variance": 0.050835629017447204,
+      "mean_regret": 0.01837314144820884,
+      "wrong_action_rate": 0.1279296875,
+      "coverage95": 0.952392578125,
+      "exact_bayes_regret": 0.018384487547846967
+    },
+    {
+      "scenario": "independent",
+      "true_rho": 0.0,
+      "assumed_rho": 0.0,
+      "width": 8,
+      "budget": 8,
+      "method": "stale_batch",
+      "counts": [
+        8,
+        0
+      ],
+      "raw_key": "independent:8:0",
+      "logical_evaluations": 8,
+      "posterior_gap_variance": 0.16484848484848486,
+      "mean_regret": 0.06983057103566073,
+      "wrong_action_rate": 0.264404296875,
+      "coverage95": 0.952880859375,
+      "exact_bayes_regret": 0.06701531173382869
+    },
+    {
+      "scenario": "independent",
+      "true_rho": 0.0,
+      "assumed_rho": 0.0,
+      "width": 8,
+      "budget": 8,
+      "method": "pending_greedy",
+      "counts": [
+        3,
+        5
+      ],
+      "raw_key": "independent:3:5",
+      "logical_evaluations": 8,
+      "posterior_gap_variance": 0.05040293040293041,
+      "mean_regret": 0.017889407348089414,
+      "wrong_action_rate": 0.12548828125,
+      "coverage95": 0.94970703125,
+      "exact_bayes_regret": 0.018221249507310217
+    },
+    {
+      "scenario": "independent",
+      "true_rho": 0.0,
+      "assumed_rho": 0.0,
+      "width": 8,
+      "budget": 32,
+      "method": "equal",
+      "counts": [
+        16,
+        16
+      ],
+      "raw_key": "independent:16:16",
+      "logical_evaluations": 32,
+      "posterior_gap_variance": 0.01669641390637832,
+      "mean_regret": 0.006676573253993375,
+      "wrong_action_rate": 0.076171875,
+      "coverage95": 0.947265625,
+      "exact_bayes_regret": 0.005871341072585773
+    },
+    {
+      "scenario": "independent",
+      "true_rho": 0.0,
+      "assumed_rho": 0.0,
+      "width": 8,
+      "budget": 32,
+      "method": "neyman",
+      "counts": [
+        9,
+        23
+      ],
+      "raw_key": "independent:9:23",
+      "logical_evaluations": 32,
+      "posterior_gap_variance": 0.014502441372670382,
+      "mean_regret": 0.005278310463595937,
+      "wrong_action_rate": 0.0703125,
+      "coverage95": 0.952880859375,
+      "exact_bayes_regret": 0.005091051898379717
+    },
+    {
+      "scenario": "independent",
+      "true_rho": 0.0,
+      "assumed_rho": 0.0,
+      "width": 8,
+      "budget": 32,
+      "method": "stale_batch",
+      "counts": [
+        8,
+        24
+      ],
+      "raw_key": "independent:8:24",
+      "logical_evaluations": 32,
+      "posterior_gap_variance": 0.014628435948729347,
+      "mean_regret": 0.005197298068024506,
+      "wrong_action_rate": 0.0693359375,
+      "coverage95": 0.957275390625,
+      "exact_bayes_regret": 0.0051357885402307235
+    },
+    {
+      "scenario": "independent",
+      "true_rho": 0.0,
+      "assumed_rho": 0.0,
+      "width": 8,
+      "budget": 32,
+      "method": "pending_greedy",
+      "counts": [
+        9,
+        23
+      ],
+      "raw_key": "independent:9:23",
+      "logical_evaluations": 32,
+      "posterior_gap_variance": 0.014502441372670382,
+      "mean_regret": 0.005278310463595937,
+      "wrong_action_rate": 0.0703125,
+      "coverage95": 0.952880859375,
+      "exact_bayes_regret": 0.005091051898379717
+    },
+    {
+      "scenario": "independent",
+      "true_rho": 0.0,
+      "assumed_rho": 0.0,
+      "width": 8,
+      "budget": 128,
+      "method": "equal",
+      "counts": [
+        64,
+        64
+      ],
+      "raw_key": "independent:64:64",
+      "logical_evaluations": 128,
+      "posterior_gap_variance": 0.004435723479467197,
+      "mean_regret": 0.0014653803518098717,
+      "wrong_action_rate": 0.033203125,
+      "coverage95": 0.950927734375,
+      "exact_bayes_regret": 0.001545073205357711
+    },
+    {
+      "scenario": "independent",
+      "true_rho": 0.0,
+      "assumed_rho": 0.0,
+      "width": 8,
+      "budget": 128,
+      "method": "neyman",
+      "counts": [
+        37,
+        91
+      ],
+      "raw_key": "independent:37:91",
+      "logical_evaluations": 128,
+      "posterior_gap_variance": 0.0037747032886359206,
+      "mean_regret": 0.0013116465332843517,
+      "wrong_action_rate": 0.030517578125,
+      "coverage95": 0.95068359375,
+      "exact_bayes_regret": 0.0013141595666535388
+    },
+    {
+      "scenario": "independent",
+      "true_rho": 0.0,
+      "assumed_rho": 0.0,
+      "width": 8,
+      "budget": 128,
+      "method": "stale_batch",
+      "counts": [
+        40,
+        88
+      ],
+      "raw_key": "independent:40:88",
+      "logical_evaluations": 128,
+      "posterior_gap_variance": 0.003785135644718763,
+      "mean_regret": 0.0012916378446941803,
+      "wrong_action_rate": 0.030517578125,
+      "coverage95": 0.9453125,
+      "exact_bayes_regret": 0.0013178020769185617
+    },
+    {
+      "scenario": "independent",
+      "true_rho": 0.0,
+      "assumed_rho": 0.0,
+      "width": 8,
+      "budget": 128,
+      "method": "pending_greedy",
+      "counts": [
+        37,
+        91
+      ],
+      "raw_key": "independent:37:91",
+      "logical_evaluations": 128,
+      "posterior_gap_variance": 0.0037747032886359206,
+      "mean_regret": 0.0013116465332843517,
+      "wrong_action_rate": 0.030517578125,
+      "coverage95": 0.95068359375,
+      "exact_bayes_regret": 0.0013141595666535388
+    },
+    {
+      "scenario": "independent",
+      "true_rho": 0.0,
+      "assumed_rho": 0.0,
+      "width": 8,
+      "budget": 512,
+      "method": "equal",
+      "counts": [
+        256,
+        256
+      ],
+      "raw_key": "independent:256:256",
+      "logical_evaluations": 512,
+      "posterior_gap_variance": 0.0011267357555885679,
+      "mean_regret": 0.00029682378701698456,
+      "wrong_action_rate": 0.016357421875,
+      "coverage95": 0.951904296875,
+      "exact_bayes_regret": 0.0003914822959125708
+    },
+    {
+      "scenario": "independent",
+      "true_rho": 0.0,
+      "assumed_rho": 0.0,
+      "width": 8,
+      "budget": 512,
+      "method": "neyman",
+      "counts": [
+        146,
+        366
+      ],
+      "raw_key": "independent:146:366",
+      "logical_evaluations": 512,
+      "posterior_gap_variance": 0.000953660709484549,
+      "mean_regret": 0.0002621799249594771,
+      "wrong_action_rate": 0.015380859375,
+      "coverage95": 0.95263671875,
+      "exact_bayes_regret": 0.00033130418200003064
+    },
+    {
+      "scenario": "independent",
+      "true_rho": 0.0,
+      "assumed_rho": 0.0,
+      "width": 8,
+      "budget": 512,
+      "method": "stale_batch",
+      "counts": [
+        152,
+        360
+      ],
+      "raw_key": "independent:152:360",
+      "logical_evaluations": 512,
+      "posterior_gap_variance": 0.0009541691680397609,
+      "mean_regret": 0.00027468117940725265,
+      "wrong_action_rate": 0.015380859375,
+      "coverage95": 0.95556640625,
+      "exact_bayes_regret": 0.00033148094964624564
+    },
+    {
+      "scenario": "independent",
+      "true_rho": 0.0,
+      "assumed_rho": 0.0,
+      "width": 8,
+      "budget": 512,
+      "method": "pending_greedy",
+      "counts": [
+        147,
+        365
+      ],
+      "raw_key": "independent:147:365",
+      "logical_evaluations": 512,
+      "posterior_gap_variance": 0.0009536587942920579,
+      "mean_regret": 0.00027545918127542786,
+      "wrong_action_rate": 0.015625,
+      "coverage95": 0.9521484375,
+      "exact_bayes_regret": 0.0003313035161759681
+    },
+    {
+      "scenario": "independent",
+      "true_rho": 0.0,
+      "assumed_rho": 0.0,
+      "width": 8,
+      "budget": 2048,
+      "method": "equal",
+      "counts": [
+        1024,
+        1024
+      ],
+      "raw_key": "independent:1024:1024",
+      "logical_evaluations": 2048,
+      "posterior_gap_variance": 0.00028282162912287624,
+      "mean_regret": 0.00011192665719650665,
+      "wrong_action_rate": 0.010986328125,
+      "coverage95": 0.948974609375,
+      "exact_bayes_regret": 9.820301909554963e-05
+    },
+    {
+      "scenario": "independent",
+      "true_rho": 0.0,
+      "assumed_rho": 0.0,
+      "width": 8,
+      "budget": 2048,
+      "method": "neyman",
+      "counts": [
+        585,
+        1463
+      ],
+      "raw_key": "independent:585:1463",
+      "logical_evaluations": 2048,
+      "posterior_gap_variance": 0.00023904630127543508,
+      "mean_regret": 9.208054542879748e-05,
+      "wrong_action_rate": 0.009765625,
+      "coverage95": 0.94873046875,
+      "exact_bayes_regret": 8.300033617475444e-05
+    },
+    {
+      "scenario": "independent",
+      "true_rho": 0.0,
+      "assumed_rho": 0.0,
+      "width": 8,
+      "budget": 2048,
+      "method": "stale_batch",
+      "counts": [
+        584,
+        1464
+      ],
+      "raw_key": "independent:584:1464",
+      "logical_evaluations": 2048,
+      "posterior_gap_variance": 0.00023904680982387818,
+      "mean_regret": 9.295369372284501e-05,
+      "wrong_action_rate": 0.010009765625,
+      "coverage95": 0.94921875,
+      "exact_bayes_regret": 8.300051278212206e-05
+    },
+    {
+      "scenario": "independent",
+      "true_rho": 0.0,
+      "assumed_rho": 0.0,
+      "width": 8,
+      "budget": 2048,
+      "method": "pending_greedy",
+      "counts": [
+        585,
+        1463
+      ],
+      "raw_key": "independent:585:1463",
+      "logical_evaluations": 2048,
+      "posterior_gap_variance": 0.00023904630127543508,
+      "mean_regret": 9.208054542879748e-05,
+      "wrong_action_rate": 0.009765625,
+      "coverage95": 0.94873046875,
+      "exact_bayes_regret": 8.300033617475444e-05
+    },
+    {
+      "scenario": "independent",
+      "true_rho": 0.0,
+      "assumed_rho": 0.0,
+      "width": 32,
+      "budget": 8,
+      "method": "equal",
+      "counts": [
+        4,
+        4
+      ],
+      "raw_key": "independent:4:4",
+      "logical_evaluations": 8,
+      "posterior_gap_variance": 0.054355584930601455,
+      "mean_regret": 0.019367497290346865,
+      "wrong_action_rate": 0.129150390625,
+      "coverage95": 0.94921875,
+      "exact_bayes_regret": 0.019717133075018878
+    },
+    {
+      "scenario": "independent",
+      "true_rho": 0.0,
+      "assumed_rho": 0.0,
+      "width": 32,
+      "budget": 8,
+      "method": "neyman",
+      "counts": [
+        2,
+        6
+      ],
+      "raw_key": "independent:2:6",
+      "logical_evaluations": 8,
+      "posterior_gap_variance": 0.050835629017447204,
+      "mean_regret": 0.01837314144820884,
+      "wrong_action_rate": 0.1279296875,
+      "coverage95": 0.952392578125,
+      "exact_bayes_regret": 0.018384487547846967
+    },
+    {
+      "scenario": "independent",
+      "true_rho": 0.0,
+      "assumed_rho": 0.0,
+      "width": 32,
+      "budget": 8,
+      "method": "stale_batch",
+      "counts": [
+        8,
+        0
+      ],
+      "raw_key": "independent:8:0",
+      "logical_evaluations": 8,
+      "posterior_gap_variance": 0.16484848484848486,
+      "mean_regret": 0.06983057103566073,
+      "wrong_action_rate": 0.264404296875,
+      "coverage95": 0.952880859375,
+      "exact_bayes_regret": 0.06701531173382869
+    },
+    {
+      "scenario": "independent",
+      "true_rho": 0.0,
+      "assumed_rho": 0.0,
+      "width": 32,
+      "budget": 8,
+      "method": "pending_greedy",
+      "counts": [
+        3,
+        5
+      ],
+      "raw_key": "independent:3:5",
+      "logical_evaluations": 8,
+      "posterior_gap_variance": 0.05040293040293041,
+      "mean_regret": 0.017889407348089414,
+      "wrong_action_rate": 0.12548828125,
+      "coverage95": 0.94970703125,
+      "exact_bayes_regret": 0.018221249507310217
+    },
+    {
+      "scenario": "independent",
+      "true_rho": 0.0,
+      "assumed_rho": 0.0,
+      "width": 32,
+      "budget": 32,
+      "method": "equal",
+      "counts": [
+        16,
+        16
+      ],
+      "raw_key": "independent:16:16",
+      "logical_evaluations": 32,
+      "posterior_gap_variance": 0.01669641390637832,
+      "mean_regret": 0.006676573253993375,
+      "wrong_action_rate": 0.076171875,
+      "coverage95": 0.947265625,
+      "exact_bayes_regret": 0.005871341072585773
+    },
+    {
+      "scenario": "independent",
+      "true_rho": 0.0,
+      "assumed_rho": 0.0,
+      "width": 32,
+      "budget": 32,
+      "method": "neyman",
+      "counts": [
+        9,
+        23
+      ],
+      "raw_key": "independent:9:23",
+      "logical_evaluations": 32,
+      "posterior_gap_variance": 0.014502441372670382,
+      "mean_regret": 0.005278310463595937,
+      "wrong_action_rate": 0.0703125,
+      "coverage95": 0.952880859375,
+      "exact_bayes_regret": 0.005091051898379717
+    },
+    {
+      "scenario": "independent",
+      "true_rho": 0.0,
+      "assumed_rho": 0.0,
+      "width": 32,
+      "budget": 32,
+      "method": "stale_batch",
+      "counts": [
+        32,
+        0
+      ],
+      "raw_key": "independent:32:0",
+      "logical_evaluations": 32,
+      "posterior_gap_variance": 0.16124031007751938,
+      "mean_regret": 0.06786387180041419,
+      "wrong_action_rate": 0.259765625,
+      "coverage95": 0.952392578125,
+      "exact_bayes_regret": 0.06525556346774865
+    },
+    {
+      "scenario": "independent",
+      "true_rho": 0.0,
+      "assumed_rho": 0.0,
+      "width": 32,
+      "budget": 32,
+      "method": "pending_greedy",
+      "counts": [
+        9,
+        23
+      ],
+      "raw_key": "independent:9:23",
+      "logical_evaluations": 32,
+      "posterior_gap_variance": 0.014502441372670382,
+      "mean_regret": 0.005278310463595937,
+      "wrong_action_rate": 0.0703125,
+      "coverage95": 0.952880859375,
+      "exact_bayes_regret": 0.005091051898379717
+    },
+    {
+      "scenario": "independent",
+      "true_rho": 0.0,
+      "assumed_rho": 0.0,
+      "width": 32,
+      "budget": 128,
+      "method": "equal",
+      "counts": [
+        64,
+        64
+      ],
+      "raw_key": "independent:64:64",
+      "logical_evaluations": 128,
+      "posterior_gap_variance": 0.004435723479467197,
+      "mean_regret": 0.0014653803518098717,
+      "wrong_action_rate": 0.033203125,
+      "coverage95": 0.950927734375,
+      "exact_bayes_regret": 0.001545073205357711
+    },
+    {
+      "scenario": "independent",
+      "true_rho": 0.0,
+      "assumed_rho": 0.0,
+      "width": 32,
+      "budget": 128,
+      "method": "neyman",
+      "counts": [
+        37,
+        91
+      ],
+      "raw_key": "independent:37:91",
+      "logical_evaluations": 128,
+      "posterior_gap_variance": 0.0037747032886359206,
+      "mean_regret": 0.0013116465332843517,
+      "wrong_action_rate": 0.030517578125,
+      "coverage95": 0.95068359375,
+      "exact_bayes_regret": 0.0013141595666535388
+    },
+    {
+      "scenario": "independent",
+      "true_rho": 0.0,
+      "assumed_rho": 0.0,
+      "width": 32,
+      "budget": 128,
+      "method": "stale_batch",
+      "counts": [
+        32,
+        96
+      ],
+      "raw_key": "independent:32:96",
+      "logical_evaluations": 128,
+      "posterior_gap_variance": 0.0038027700390824803,
+      "mean_regret": 0.001450139868768956,
+      "wrong_action_rate": 0.03271484375,
+      "coverage95": 0.950439453125,
+      "exact_bayes_regret": 0.001323959347840381
+    },
+    {
+      "scenario": "independent",
+      "true_rho": 0.0,
+      "assumed_rho": 0.0,
+      "width": 32,
+      "budget": 128,
+      "method": "pending_greedy",
+      "counts": [
+        37,
+        91
+      ],
+      "raw_key": "independent:37:91",
+      "logical_evaluations": 128,
+      "posterior_gap_variance": 0.0037747032886359206,
+      "mean_regret": 0.0013116465332843517,
+      "wrong_action_rate": 0.030517578125,
+      "coverage95": 0.95068359375,
+      "exact_bayes_regret": 0.0013141595666535388
+    },
+    {
+      "scenario": "independent",
+      "true_rho": 0.0,
+      "assumed_rho": 0.0,
+      "width": 32,
+      "budget": 512,
+      "method": "equal",
+      "counts": [
+        256,
+        256
+      ],
+      "raw_key": "independent:256:256",
+      "logical_evaluations": 512,
+      "posterior_gap_variance": 0.0011267357555885679,
+      "mean_regret": 0.00029682378701698456,
+      "wrong_action_rate": 0.016357421875,
+      "coverage95": 0.951904296875,
+      "exact_bayes_regret": 0.0003914822959125708
+    },
+    {
+      "scenario": "independent",
+      "true_rho": 0.0,
+      "assumed_rho": 0.0,
+      "width": 32,
+      "budget": 512,
+      "method": "neyman",
+      "counts": [
+        146,
+        366
+      ],
+      "raw_key": "independent:146:366",
+      "logical_evaluations": 512,
+      "posterior_gap_variance": 0.000953660709484549,
+      "mean_regret": 0.0002621799249594771,
+      "wrong_action_rate": 0.015380859375,
+      "coverage95": 0.95263671875,
+      "exact_bayes_regret": 0.00033130418200003064
+    },
+    {
+      "scenario": "independent",
+      "true_rho": 0.0,
+      "assumed_rho": 0.0,
+      "width": 32,
+      "budget": 512,
+      "method": "stale_batch",
+      "counts": [
+        160,
+        352
+      ],
+      "raw_key": "independent:160:352",
+      "logical_evaluations": 512,
+      "posterior_gap_variance": 0.000956698547241872,
+      "mean_regret": 0.0002412220348455818,
+      "wrong_action_rate": 0.014892578125,
+      "coverage95": 0.9560546875,
+      "exact_bayes_regret": 0.00033236030044944687
+    },
+    {
+      "scenario": "independent",
+      "true_rho": 0.0,
+      "assumed_rho": 0.0,
+      "width": 32,
+      "budget": 512,
+      "method": "pending_greedy",
+      "counts": [
+        147,
+        365
+      ],
+      "raw_key": "independent:147:365",
+      "logical_evaluations": 512,
+      "posterior_gap_variance": 0.0009536587942920579,
+      "mean_regret": 0.00027545918127542786,
+      "wrong_action_rate": 0.015625,
+      "coverage95": 0.9521484375,
+      "exact_bayes_regret": 0.0003313035161759681
+    },
+    {
+      "scenario": "independent",
+      "true_rho": 0.0,
+      "assumed_rho": 0.0,
+      "width": 32,
+      "budget": 2048,
+      "method": "equal",
+      "counts": [
+        1024,
+        1024
+      ],
+      "raw_key": "independent:1024:1024",
+      "logical_evaluations": 2048,
+      "posterior_gap_variance": 0.00028282162912287624,
+      "mean_regret": 0.00011192665719650665,
+      "wrong_action_rate": 0.010986328125,
+      "coverage95": 0.948974609375,
+      "exact_bayes_regret": 9.820301909554963e-05
+    },
+    {
+      "scenario": "independent",
+      "true_rho": 0.0,
+      "assumed_rho": 0.0,
+      "width": 32,
+      "budget": 2048,
+      "method": "neyman",
+      "counts": [
+        585,
+        1463
+      ],
+      "raw_key": "independent:585:1463",
+      "logical_evaluations": 2048,
+      "posterior_gap_variance": 0.00023904630127543508,
+      "mean_regret": 9.208054542879748e-05,
+      "wrong_action_rate": 0.009765625,
+      "coverage95": 0.94873046875,
+      "exact_bayes_regret": 8.300033617475444e-05
+    },
+    {
+      "scenario": "independent",
+      "true_rho": 0.0,
+      "assumed_rho": 0.0,
+      "width": 32,
+      "budget": 2048,
+      "method": "stale_batch",
+      "counts": [
+        608,
+        1440
+      ],
+      "raw_key": "independent:608:1440",
+      "logical_evaluations": 2048,
+      "posterior_gap_variance": 0.00023918536839320675,
+      "mean_regret": 8.40002441004681e-05,
+      "wrong_action_rate": 0.009033203125,
+      "coverage95": 0.94677734375,
+      "exact_bayes_regret": 8.30486310369194e-05
+    },
+    {
+      "scenario": "independent",
+      "true_rho": 0.0,
+      "assumed_rho": 0.0,
+      "width": 32,
+      "budget": 2048,
+      "method": "pending_greedy",
+      "counts": [
+        585,
+        1463
+      ],
+      "raw_key": "independent:585:1463",
+      "logical_evaluations": 2048,
+      "posterior_gap_variance": 0.00023904630127543508,
+      "mean_regret": 9.208054542879748e-05,
+      "wrong_action_rate": 0.009765625,
+      "coverage95": 0.94873046875,
+      "exact_bayes_regret": 8.300033617475444e-05
+    },
+    {
+      "scenario": "positive",
+      "true_rho": 0.9,
+      "assumed_rho": 0.9,
+      "width": 1,
+      "budget": 8,
+      "method": "equal",
+      "counts": [
+        4,
+        4
+      ],
+      "raw_key": "positive:4:4",
+      "logical_evaluations": 8,
+      "posterior_gap_variance": 0.02180584001404411,
+      "mean_regret": 0.022595239049834355,
+      "wrong_action_rate": 0.239990234375,
+      "coverage95": 0.951904296875,
+      "exact_bayes_regret": 0.023667737959385895
+    },
+    {
+      "scenario": "positive",
+      "true_rho": 0.9,
+      "assumed_rho": 0.9,
+      "width": 1,
+      "budget": 8,
+      "method": "neyman",
+      "counts": [
+        2,
+        6
+      ],
+      "raw_key": "positive:2:6",
+      "logical_evaluations": 8,
+      "posterior_gap_variance": 0.020985179473999818,
+      "mean_regret": 0.021995397982270275,
+      "wrong_action_rate": 0.236083984375,
+      "coverage95": 0.95703125,
+      "exact_bayes_regret": 0.022675806670489133
+    },
+    {
+      "scenario": "positive",
+      "true_rho": 0.9,
+      "assumed_rho": 0.9,
+      "width": 1,
+      "budget": 8,
+      "method": "stale_batch",
+      "counts": [
+        2,
+        6
+      ],
+      "raw_key": "positive:2:6",
+      "logical_evaluations": 8,
+      "posterior_gap_variance": 0.020985179473999818,
+      "mean_regret": 0.021995397982270275,
+      "wrong_action_rate": 0.236083984375,
+      "coverage95": 0.95703125,
+      "exact_bayes_regret": 0.022675806670489133
+    },
+    {
+      "scenario": "positive",
+      "true_rho": 0.9,
+      "assumed_rho": 0.9,
+      "width": 1,
+      "budget": 8,
+      "method": "pending_greedy",
+      "counts": [
+        2,
+        6
+      ],
+      "raw_key": "positive:2:6",
+      "logical_evaluations": 8,
+      "posterior_gap_variance": 0.020985179473999818,
+      "mean_regret": 0.021995397982270275,
+      "wrong_action_rate": 0.236083984375,
+      "coverage95": 0.95703125,
+      "exact_bayes_regret": 0.022675806670489133
+    },
+    {
+      "scenario": "positive",
+      "true_rho": 0.9,
+      "assumed_rho": 0.9,
+      "width": 1,
+      "budget": 32,
+      "method": "equal",
+      "counts": [
+        16,
+        16
+      ],
+      "raw_key": "positive:16:16",
+      "logical_evaluations": 32,
+      "posterior_gap_variance": 0.011458321652556286,
+      "mean_regret": 0.01125987851999359,
+      "wrong_action_rate": 0.16796875,
+      "coverage95": 0.95654296875,
+      "exact_bayes_regret": 0.011677047899956845
+    },
+    {
+      "scenario": "positive",
+      "true_rho": 0.9,
+      "assumed_rho": 0.9,
+      "width": 1,
+      "budget": 32,
+      "method": "neyman",
+      "counts": [
+        9,
+        23
+      ],
+      "raw_key": "positive:9:23",
+      "logical_evaluations": 32,
+      "posterior_gap_variance": 0.010327023820772047,
+      "mean_regret": 0.01013338054099579,
+      "wrong_action_rate": 0.15576171875,
+      "coverage95": 0.94775390625,
+      "exact_bayes_regret": 0.010451394425076938
+    },
+    {
+      "scenario": "positive",
+      "true_rho": 0.9,
+      "assumed_rho": 0.9,
+      "width": 1,
+      "budget": 32,
+      "method": "stale_batch",
+      "counts": [
+        9,
+        23
+      ],
+      "raw_key": "positive:9:23",
+      "logical_evaluations": 32,
+      "posterior_gap_variance": 0.010327023820772047,
+      "mean_regret": 0.01013338054099579,
+      "wrong_action_rate": 0.15576171875,
+      "coverage95": 0.94775390625,
+      "exact_bayes_regret": 0.010451394425076938
+    },
+    {
+      "scenario": "positive",
+      "true_rho": 0.9,
+      "assumed_rho": 0.9,
+      "width": 1,
+      "budget": 32,
+      "method": "pending_greedy",
+      "counts": [
+        9,
+        23
+      ],
+      "raw_key": "positive:9:23",
+      "logical_evaluations": 32,
+      "posterior_gap_variance": 0.010327023820772047,
+      "mean_regret": 0.01013338054099579,
+      "wrong_action_rate": 0.15576171875,
+      "coverage95": 0.94775390625,
+      "exact_bayes_regret": 0.010451394425076938
+    },
+    {
+      "scenario": "positive",
+      "true_rho": 0.9,
+      "assumed_rho": 0.9,
+      "width": 1,
+      "budget": 128,
+      "method": "equal",
+      "counts": [
+        64,
+        64
+      ],
+      "raw_key": "positive:64:64",
+      "logical_evaluations": 128,
+      "posterior_gap_variance": 0.003955710771694184,
+      "mean_regret": 0.003920740847370626,
+      "wrong_action_rate": 0.09716796875,
+      "coverage95": 0.94921875,
+      "exact_bayes_regret": 0.0038560443848098987
+    },
+    {
+      "scenario": "positive",
+      "true_rho": 0.9,
+      "assumed_rho": 0.9,
+      "width": 1,
+      "budget": 128,
+      "method": "neyman",
+      "counts": [
+        37,
+        91
+      ],
+      "raw_key": "positive:37:91",
+      "logical_evaluations": 128,
+      "posterior_gap_variance": 0.0034156481740848306,
+      "mean_regret": 0.0033675904395714844,
+      "wrong_action_rate": 0.090576171875,
+      "coverage95": 0.950439453125,
+      "exact_bayes_regret": 0.0033194685766793283
+    },
+    {
+      "scenario": "positive",
+      "true_rho": 0.9,
+      "assumed_rho": 0.9,
+      "width": 1,
+      "budget": 128,
+      "method": "stale_batch",
+      "counts": [
+        37,
+        91
+      ],
+      "raw_key": "positive:37:91",
+      "logical_evaluations": 128,
+      "posterior_gap_variance": 0.0034156481740848306,
+      "mean_regret": 0.0033675904395714844,
+      "wrong_action_rate": 0.090576171875,
+      "coverage95": 0.950439453125,
+      "exact_bayes_regret": 0.0033194685766793283
+    },
+    {
+      "scenario": "positive",
+      "true_rho": 0.9,
+      "assumed_rho": 0.9,
+      "width": 1,
+      "budget": 128,
+      "method": "pending_greedy",
+      "counts": [
+        37,
+        91
+      ],
+      "raw_key": "positive:37:91",
+      "logical_evaluations": 128,
+      "posterior_gap_variance": 0.0034156481740848306,
+      "mean_regret": 0.0033675904395714844,
+      "wrong_action_rate": 0.090576171875,
+      "coverage95": 0.950439453125,
+      "exact_bayes_regret": 0.0033194685766793283
+    },
+    {
+      "scenario": "positive",
+      "true_rho": 0.9,
+      "assumed_rho": 0.9,
+      "width": 1,
+      "budget": 512,
+      "method": "equal",
+      "counts": [
+        256,
+        256
+      ],
+      "raw_key": "positive:256:256",
+      "logical_evaluations": 512,
+      "posterior_gap_variance": 0.0010930510928376987,
+      "mean_regret": 0.0010094190748794352,
+      "wrong_action_rate": 0.050537109375,
+      "coverage95": 0.9521484375,
+      "exact_bayes_regret": 0.0010487093486427103
+    },
+    {
+      "scenario": "positive",
+      "true_rho": 0.9,
+      "assumed_rho": 0.9,
+      "width": 1,
+      "budget": 512,
+      "method": "neyman",
+      "counts": [
+        146,
+        366
+      ],
+      "raw_key": "positive:146:366",
+      "logical_evaluations": 512,
+      "posterior_gap_variance": 0.0009289825381317619,
+      "mean_regret": 0.0008830633764708511,
+      "wrong_action_rate": 0.049072265625,
+      "coverage95": 0.94873046875,
+      "exact_bayes_regret": 0.0008905009597362651
+    },
+    {
+      "scenario": "positive",
+      "true_rho": 0.9,
+      "assumed_rho": 0.9,
+      "width": 1,
+      "budget": 512,
+      "method": "stale_batch",
+      "counts": [
+        146,
+        366
+      ],
+      "raw_key": "positive:146:366",
+      "logical_evaluations": 512,
+      "posterior_gap_variance": 0.0009289825381317619,
+      "mean_regret": 0.0008830633764708511,
+      "wrong_action_rate": 0.049072265625,
+      "coverage95": 0.94873046875,
+      "exact_bayes_regret": 0.0008905009597362651
+    },
+    {
+      "scenario": "positive",
+      "true_rho": 0.9,
+      "assumed_rho": 0.9,
+      "width": 1,
+      "budget": 512,
+      "method": "pending_greedy",
+      "counts": [
+        146,
+        366
+      ],
+      "raw_key": "positive:146:366",
+      "logical_evaluations": 512,
+      "posterior_gap_variance": 0.0009289825381317619,
+      "mean_regret": 0.0008830633764708511,
+      "wrong_action_rate": 0.049072265625,
+      "coverage95": 0.94873046875,
+      "exact_bayes_regret": 0.0008905009597362651
+    },
+    {
+      "scenario": "positive",
+      "true_rho": 0.9,
+      "assumed_rho": 0.9,
+      "width": 1,
+      "budget": 2048,
+      "method": "equal",
+      "counts": [
+        1024,
+        1024
+      ],
+      "raw_key": "positive:1024:1024",
+      "logical_evaluations": 2048,
+      "posterior_gap_variance": 0.0002806508038114533,
+      "mean_regret": 0.0002393480037106303,
+      "wrong_action_rate": 0.0244140625,
+      "coverage95": 0.953369140625,
+      "exact_bayes_regret": 0.000268082660472492
+    },
+    {
+      "scenario": "positive",
+      "true_rho": 0.9,
+      "assumed_rho": 0.9,
+      "width": 1,
+      "budget": 2048,
+      "method": "neyman",
+      "counts": [
+        585,
+        1463
+      ],
+      "raw_key": "positive:585:1463",
+      "logical_evaluations": 2048,
+      "posterior_gap_variance": 0.00023746518991499182,
+      "mean_regret": 0.00021078165776502403,
+      "wrong_action_rate": 0.021728515625,
+      "coverage95": 0.950927734375,
+      "exact_bayes_regret": 0.00022677820293067613
+    },
+    {
+      "scenario": "positive",
+      "true_rho": 0.9,
+      "assumed_rho": 0.9,
+      "width": 1,
+      "budget": 2048,
+      "method": "stale_batch",
+      "counts": [
+        585,
+        1463
+      ],
+      "raw_key": "positive:585:1463",
+      "logical_evaluations": 2048,
+      "posterior_gap_variance": 0.00023746518991499182,
+      "mean_regret": 0.00021078165776502403,
+      "wrong_action_rate": 0.021728515625,
+      "coverage95": 0.950927734375,
+      "exact_bayes_regret": 0.00022677820293067613
+    },
+    {
+      "scenario": "positive",
+      "true_rho": 0.9,
+      "assumed_rho": 0.9,
+      "width": 1,
+      "budget": 2048,
+      "method": "pending_greedy",
+      "counts": [
+        585,
+        1463
+      ],
+      "raw_key": "positive:585:1463",
+      "logical_evaluations": 2048,
+      "posterior_gap_variance": 0.00023746518991499182,
+      "mean_regret": 0.00021078165776502403,
+      "wrong_action_rate": 0.021728515625,
+      "coverage95": 0.950927734375,
+      "exact_bayes_regret": 0.00022677820293067613
+    },
+    {
+      "scenario": "positive",
+      "true_rho": 0.9,
+      "assumed_rho": 0.9,
+      "width": 8,
+      "budget": 8,
+      "method": "equal",
+      "counts": [
+        4,
+        4
+      ],
+      "raw_key": "positive:4:4",
+      "logical_evaluations": 8,
+      "posterior_gap_variance": 0.02180584001404411,
+      "mean_regret": 0.022595239049834355,
+      "wrong_action_rate": 0.239990234375,
+      "coverage95": 0.951904296875,
+      "exact_bayes_regret": 0.023667737959385895
+    },
+    {
+      "scenario": "positive",
+      "true_rho": 0.9,
+      "assumed_rho": 0.9,
+      "width": 8,
+      "budget": 8,
+      "method": "neyman",
+      "counts": [
+        2,
+        6
+      ],
+      "raw_key": "positive:2:6",
+      "logical_evaluations": 8,
+      "posterior_gap_variance": 0.020985179473999818,
+      "mean_regret": 0.021995397982270275,
+      "wrong_action_rate": 0.236083984375,
+      "coverage95": 0.95703125,
+      "exact_bayes_regret": 0.022675806670489133
+    },
+    {
+      "scenario": "positive",
+      "true_rho": 0.9,
+      "assumed_rho": 0.9,
+      "width": 8,
+      "budget": 8,
+      "method": "stale_batch",
+      "counts": [
+        8,
+        0
+      ],
+      "raw_key": "positive:8:0",
+      "logical_evaluations": 8,
+      "posterior_gap_variance": 0.030448484848484832,
+      "mean_regret": 0.03125976825976652,
+      "wrong_action_rate": 0.284423828125,
+      "coverage95": 0.955322265625,
+      "exact_bayes_regret": 0.032164220125625656
+    },
+    {
+      "scenario": "positive",
+      "true_rho": 0.9,
+      "assumed_rho": 0.9,
+      "width": 8,
+      "budget": 8,
+      "method": "pending_greedy",
+      "counts": [
+        2,
+        6
+      ],
+      "raw_key": "positive:2:6",
+      "logical_evaluations": 8,
+      "posterior_gap_variance": 0.020985179473999818,
+      "mean_regret": 0.021995397982270275,
+      "wrong_action_rate": 0.236083984375,
+      "coverage95": 0.95703125,
+      "exact_bayes_regret": 0.022675806670489133
+    },
+    {
+      "scenario": "positive",
+      "true_rho": 0.9,
+      "assumed_rho": 0.9,
+      "width": 8,
+      "budget": 32,
+      "method": "equal",
+      "counts": [
+        16,
+        16
+      ],
+      "raw_key": "positive:16:16",
+      "logical_evaluations": 32,
+      "posterior_gap_variance": 0.011458321652556286,
+      "mean_regret": 0.01125987851999359,
+      "wrong_action_rate": 0.16796875,
+      "coverage95": 0.95654296875,
+      "exact_bayes_regret": 0.011677047899956845
+    },
+    {
+      "scenario": "positive",
+      "true_rho": 0.9,
+      "assumed_rho": 0.9,
+      "width": 8,
+      "budget": 32,
+      "method": "neyman",
+      "counts": [
+        9,
+        23
+      ],
+      "raw_key": "positive:9:23",
+      "logical_evaluations": 32,
+      "posterior_gap_variance": 0.010327023820772047,
+      "mean_regret": 0.01013338054099579,
+      "wrong_action_rate": 0.15576171875,
+      "coverage95": 0.94775390625,
+      "exact_bayes_regret": 0.010451394425076938
+    },
+    {
+      "scenario": "positive",
+      "true_rho": 0.9,
+      "assumed_rho": 0.9,
+      "width": 8,
+      "budget": 32,
+      "method": "stale_batch",
+      "counts": [
+        8,
+        24
+      ],
+      "raw_key": "positive:8:24",
+      "logical_evaluations": 32,
+      "posterior_gap_variance": 0.010382761617735032,
+      "mean_regret": 0.009625532451202456,
+      "wrong_action_rate": 0.152099609375,
+      "coverage95": 0.94921875,
+      "exact_bayes_regret": 0.010511377452704543
+    },
+    {
+      "scenario": "positive",
+      "true_rho": 0.9,
+      "assumed_rho": 0.9,
+      "width": 8,
+      "budget": 32,
+      "method": "pending_greedy",
+      "counts": [
+        9,
+        23
+      ],
+      "raw_key": "positive:9:23",
+      "logical_evaluations": 32,
+      "posterior_gap_variance": 0.010327023820772047,
+      "mean_regret": 0.01013338054099579,
+      "wrong_action_rate": 0.15576171875,
+      "coverage95": 0.94775390625,
+      "exact_bayes_regret": 0.010451394425076938
+    },
+    {
+      "scenario": "positive",
+      "true_rho": 0.9,
+      "assumed_rho": 0.9,
+      "width": 8,
+      "budget": 128,
+      "method": "equal",
+      "counts": [
+        64,
+        64
+      ],
+      "raw_key": "positive:64:64",
+      "logical_evaluations": 128,
+      "posterior_gap_variance": 0.003955710771694184,
+      "mean_regret": 0.003920740847370626,
+      "wrong_action_rate": 0.09716796875,
+      "coverage95": 0.94921875,
+      "exact_bayes_regret": 0.0038560443848098987
+    },
+    {
+      "scenario": "positive",
+      "true_rho": 0.9,
+      "assumed_rho": 0.9,
+      "width": 8,
+      "budget": 128,
+      "method": "neyman",
+      "counts": [
+        37,
+        91
+      ],
+      "raw_key": "positive:37:91",
+      "logical_evaluations": 128,
+      "posterior_gap_variance": 0.0034156481740848306,
+      "mean_regret": 0.0033675904395714844,
+      "wrong_action_rate": 0.090576171875,
+      "coverage95": 0.950439453125,
+      "exact_bayes_regret": 0.0033194685766793283
+    },
+    {
+      "scenario": "positive",
+      "true_rho": 0.9,
+      "assumed_rho": 0.9,
+      "width": 8,
+      "budget": 128,
+      "method": "stale_batch",
+      "counts": [
+        40,
+        88
+      ],
+      "raw_key": "positive:40:88",
+      "logical_evaluations": 128,
+      "posterior_gap_variance": 0.003424880069325527,
+      "mean_regret": 0.003169930447011243,
+      "wrong_action_rate": 0.08544921875,
+      "coverage95": 0.946044921875,
+      "exact_bayes_regret": 0.0033286131277555295
+    },
+    {
+      "scenario": "positive",
+      "true_rho": 0.9,
+      "assumed_rho": 0.9,
+      "width": 8,
+      "budget": 128,
+      "method": "pending_greedy",
+      "counts": [
+        37,
+        91
+      ],
+      "raw_key": "positive:37:91",
+      "logical_evaluations": 128,
+      "posterior_gap_variance": 0.0034156481740848306,
+      "mean_regret": 0.0033675904395714844,
+      "wrong_action_rate": 0.090576171875,
+      "coverage95": 0.950439453125,
+      "exact_bayes_regret": 0.0033194685766793283
+    },
+    {
+      "scenario": "positive",
+      "true_rho": 0.9,
+      "assumed_rho": 0.9,
+      "width": 8,
+      "budget": 512,
+      "method": "equal",
+      "counts": [
+        256,
+        256
+      ],
+      "raw_key": "positive:256:256",
+      "logical_evaluations": 512,
+      "posterior_gap_variance": 0.0010930510928376987,
+      "mean_regret": 0.0010094190748794352,
+      "wrong_action_rate": 0.050537109375,
+      "coverage95": 0.9521484375,
+      "exact_bayes_regret": 0.0010487093486427103
+    },
+    {
+      "scenario": "positive",
+      "true_rho": 0.9,
+      "assumed_rho": 0.9,
+      "width": 8,
+      "budget": 512,
+      "method": "neyman",
+      "counts": [
+        146,
+        366
+      ],
+      "raw_key": "positive:146:366",
+      "logical_evaluations": 512,
+      "posterior_gap_variance": 0.0009289825381317619,
+      "mean_regret": 0.0008830633764708511,
+      "wrong_action_rate": 0.049072265625,
+      "coverage95": 0.94873046875,
+      "exact_bayes_regret": 0.0008905009597362651
+    },
+    {
+      "scenario": "positive",
+      "true_rho": 0.9,
+      "assumed_rho": 0.9,
+      "width": 8,
+      "budget": 512,
+      "method": "stale_batch",
+      "counts": [
+        144,
+        368
+      ],
+      "raw_key": "positive:144:368",
+      "logical_evaluations": 512,
+      "posterior_gap_variance": 0.0009290795493613228,
+      "mean_regret": 0.000900835261298629,
+      "wrong_action_rate": 0.049560546875,
+      "coverage95": 0.94921875,
+      "exact_bayes_regret": 0.0008905944221899928
+    },
+    {
+      "scenario": "positive",
+      "true_rho": 0.9,
+      "assumed_rho": 0.9,
+      "width": 8,
+      "budget": 512,
+      "method": "pending_greedy",
+      "counts": [
+        146,
+        366
+      ],
+      "raw_key": "positive:146:366",
+      "logical_evaluations": 512,
+      "posterior_gap_variance": 0.0009289825381317619,
+      "mean_regret": 0.0008830633764708511,
+      "wrong_action_rate": 0.049072265625,
+      "coverage95": 0.94873046875,
+      "exact_bayes_regret": 0.0008905009597362651
+    },
+    {
+      "scenario": "positive",
+      "true_rho": 0.9,
+      "assumed_rho": 0.9,
+      "width": 8,
+      "budget": 2048,
+      "method": "equal",
+      "counts": [
+        1024,
+        1024
+      ],
+      "raw_key": "positive:1024:1024",
+      "logical_evaluations": 2048,
+      "posterior_gap_variance": 0.0002806508038114533,
+      "mean_regret": 0.0002393480037106303,
+      "wrong_action_rate": 0.0244140625,
+      "coverage95": 0.953369140625,
+      "exact_bayes_regret": 0.000268082660472492
+    },
+    {
+      "scenario": "positive",
+      "true_rho": 0.9,
+      "assumed_rho": 0.9,
+      "width": 8,
+      "budget": 2048,
+      "method": "neyman",
+      "counts": [
+        585,
+        1463
+      ],
+      "raw_key": "positive:585:1463",
+      "logical_evaluations": 2048,
+      "posterior_gap_variance": 0.00023746518991499182,
+      "mean_regret": 0.00021078165776502403,
+      "wrong_action_rate": 0.021728515625,
+      "coverage95": 0.950927734375,
+      "exact_bayes_regret": 0.00022677820293067613
+    },
+    {
+      "scenario": "positive",
+      "true_rho": 0.9,
+      "assumed_rho": 0.9,
+      "width": 8,
+      "budget": 2048,
+      "method": "stale_batch",
+      "counts": [
+        584,
+        1464
+      ],
+      "raw_key": "positive:584:1464",
+      "logical_evaluations": 2048,
+      "posterior_gap_variance": 0.00023746562194869872,
+      "mean_regret": 0.00021401995722978635,
+      "wrong_action_rate": 0.021728515625,
+      "coverage95": 0.949462890625,
+      "exact_bayes_regret": 0.00022677861604886856
+    },
+    {
+      "scenario": "positive",
+      "true_rho": 0.9,
+      "assumed_rho": 0.9,
+      "width": 8,
+      "budget": 2048,
+      "method": "pending_greedy",
+      "counts": [
+        585,
+        1463
+      ],
+      "raw_key": "positive:585:1463",
+      "logical_evaluations": 2048,
+      "posterior_gap_variance": 0.00023746518991499182,
+      "mean_regret": 0.00021078165776502403,
+      "wrong_action_rate": 0.021728515625,
+      "coverage95": 0.950927734375,
+      "exact_bayes_regret": 0.00022677820293067613
+    },
+    {
+      "scenario": "positive",
+      "true_rho": 0.9,
+      "assumed_rho": 0.9,
+      "width": 32,
+      "budget": 8,
+      "method": "equal",
+      "counts": [
+        4,
+        4
+      ],
+      "raw_key": "positive:4:4",
+      "logical_evaluations": 8,
+      "posterior_gap_variance": 0.02180584001404411,
+      "mean_regret": 0.022595239049834355,
+      "wrong_action_rate": 0.239990234375,
+      "coverage95": 0.951904296875,
+      "exact_bayes_regret": 0.023667737959385895
+    },
+    {
+      "scenario": "positive",
+      "true_rho": 0.9,
+      "assumed_rho": 0.9,
+      "width": 32,
+      "budget": 8,
+      "method": "neyman",
+      "counts": [
+        2,
+        6
+      ],
+      "raw_key": "positive:2:6",
+      "logical_evaluations": 8,
+      "posterior_gap_variance": 0.020985179473999818,
+      "mean_regret": 0.021995397982270275,
+      "wrong_action_rate": 0.236083984375,
+      "coverage95": 0.95703125,
+      "exact_bayes_regret": 0.022675806670489133
+    },
+    {
+      "scenario": "positive",
+      "true_rho": 0.9,
+      "assumed_rho": 0.9,
+      "width": 32,
+      "budget": 8,
+      "method": "stale_batch",
+      "counts": [
+        8,
+        0
+      ],
+      "raw_key": "positive:8:0",
+      "logical_evaluations": 8,
+      "posterior_gap_variance": 0.030448484848484832,
+      "mean_regret": 0.03125976825976652,
+      "wrong_action_rate": 0.284423828125,
+      "coverage95": 0.955322265625,
+      "exact_bayes_regret": 0.032164220125625656
+    },
+    {
+      "scenario": "positive",
+      "true_rho": 0.9,
+      "assumed_rho": 0.9,
+      "width": 32,
+      "budget": 8,
+      "method": "pending_greedy",
+      "counts": [
+        2,
+        6
+      ],
+      "raw_key": "positive:2:6",
+      "logical_evaluations": 8,
+      "posterior_gap_variance": 0.020985179473999818,
+      "mean_regret": 0.021995397982270275,
+      "wrong_action_rate": 0.236083984375,
+      "coverage95": 0.95703125,
+      "exact_bayes_regret": 0.022675806670489133
+    },
+    {
+      "scenario": "positive",
+      "true_rho": 0.9,
+      "assumed_rho": 0.9,
+      "width": 32,
+      "budget": 32,
+      "method": "equal",
+      "counts": [
+        16,
+        16
+      ],
+      "raw_key": "positive:16:16",
+      "logical_evaluations": 32,
+      "posterior_gap_variance": 0.011458321652556286,
+      "mean_regret": 0.01125987851999359,
+      "wrong_action_rate": 0.16796875,
+      "coverage95": 0.95654296875,
+      "exact_bayes_regret": 0.011677047899956845
+    },
+    {
+      "scenario": "positive",
+      "true_rho": 0.9,
+      "assumed_rho": 0.9,
+      "width": 32,
+      "budget": 32,
+      "method": "neyman",
+      "counts": [
+        9,
+        23
+      ],
+      "raw_key": "positive:9:23",
+      "logical_evaluations": 32,
+      "posterior_gap_variance": 0.010327023820772047,
+      "mean_regret": 0.01013338054099579,
+      "wrong_action_rate": 0.15576171875,
+      "coverage95": 0.94775390625,
+      "exact_bayes_regret": 0.010451394425076938
+    },
+    {
+      "scenario": "positive",
+      "true_rho": 0.9,
+      "assumed_rho": 0.9,
+      "width": 32,
+      "budget": 32,
+      "method": "stale_batch",
+      "counts": [
+        32,
+        0
+      ],
+      "raw_key": "positive:32:0",
+      "logical_evaluations": 32,
+      "posterior_gap_variance": 0.030412403100775177,
+      "mean_regret": 0.03124196918192616,
+      "wrong_action_rate": 0.28369140625,
+      "coverage95": 0.955078125,
+      "exact_bayes_regret": 0.03215670740267553
+    },
+    {
+      "scenario": "positive",
+      "true_rho": 0.9,
+      "assumed_rho": 0.9,
+      "width": 32,
+      "budget": 32,
+      "method": "pending_greedy",
+      "counts": [
+        9,
+        23
+      ],
+      "raw_key": "positive:9:23",
+      "logical_evaluations": 32,
+      "posterior_gap_variance": 0.010327023820772047,
+      "mean_regret": 0.01013338054099579,
+      "wrong_action_rate": 0.15576171875,
+      "coverage95": 0.94775390625,
+      "exact_bayes_regret": 0.010451394425076938
+    },
+    {
+      "scenario": "positive",
+      "true_rho": 0.9,
+      "assumed_rho": 0.9,
+      "width": 32,
+      "budget": 128,
+      "method": "equal",
+      "counts": [
+        64,
+        64
+      ],
+      "raw_key": "positive:64:64",
+      "logical_evaluations": 128,
+      "posterior_gap_variance": 0.003955710771694184,
+      "mean_regret": 0.003920740847370626,
+      "wrong_action_rate": 0.09716796875,
+      "coverage95": 0.94921875,
+      "exact_bayes_regret": 0.0038560443848098987
+    },
+    {
+      "scenario": "positive",
+      "true_rho": 0.9,
+      "assumed_rho": 0.9,
+      "width": 32,
+      "budget": 128,
+      "method": "neyman",
+      "counts": [
+        37,
+        91
+      ],
+      "raw_key": "positive:37:91",
+      "logical_evaluations": 128,
+      "posterior_gap_variance": 0.0034156481740848306,
+      "mean_regret": 0.0033675904395714844,
+      "wrong_action_rate": 0.090576171875,
+      "coverage95": 0.950439453125,
+      "exact_bayes_regret": 0.0033194685766793283
+    },
+    {
+      "scenario": "positive",
+      "true_rho": 0.9,
+      "assumed_rho": 0.9,
+      "width": 32,
+      "budget": 128,
+      "method": "stale_batch",
+      "counts": [
+        32,
+        96
+      ],
+      "raw_key": "positive:32:96",
+      "logical_evaluations": 128,
+      "posterior_gap_variance": 0.0034374729915956966,
+      "mean_regret": 0.003278716825685572,
+      "wrong_action_rate": 0.0888671875,
+      "coverage95": 0.948486328125,
+      "exact_bayes_regret": 0.0033410884551364033
+    },
+    {
+      "scenario": "positive",
+      "true_rho": 0.9,
+      "assumed_rho": 0.9,
+      "width": 32,
+      "budget": 128,
+      "method": "pending_greedy",
+      "counts": [
+        37,
+        91
+      ],
+      "raw_key": "positive:37:91",
+      "logical_evaluations": 128,
+      "posterior_gap_variance": 0.0034156481740848306,
+      "mean_regret": 0.0033675904395714844,
+      "wrong_action_rate": 0.090576171875,
+      "coverage95": 0.950439453125,
+      "exact_bayes_regret": 0.0033194685766793283
+    },
+    {
+      "scenario": "positive",
+      "true_rho": 0.9,
+      "assumed_rho": 0.9,
+      "width": 32,
+      "budget": 512,
+      "method": "equal",
+      "counts": [
+        256,
+        256
+      ],
+      "raw_key": "positive:256:256",
+      "logical_evaluations": 512,
+      "posterior_gap_variance": 0.0010930510928376987,
+      "mean_regret": 0.0010094190748794352,
+      "wrong_action_rate": 0.050537109375,
+      "coverage95": 0.9521484375,
+      "exact_bayes_regret": 0.0010487093486427103
+    },
+    {
+      "scenario": "positive",
+      "true_rho": 0.9,
+      "assumed_rho": 0.9,
+      "width": 32,
+      "budget": 512,
+      "method": "neyman",
+      "counts": [
+        146,
+        366
+      ],
+      "raw_key": "positive:146:366",
+      "logical_evaluations": 512,
+      "posterior_gap_variance": 0.0009289825381317619,
+      "mean_regret": 0.0008830633764708511,
+      "wrong_action_rate": 0.049072265625,
+      "coverage95": 0.94873046875,
+      "exact_bayes_regret": 0.0008905009597362651
+    },
+    {
+      "scenario": "positive",
+      "true_rho": 0.9,
+      "assumed_rho": 0.9,
+      "width": 32,
+      "budget": 512,
+      "method": "stale_batch",
+      "counts": [
+        160,
+        352
+      ],
+      "raw_key": "positive:160:352",
+      "logical_evaluations": 512,
+      "posterior_gap_variance": 0.0009319252062467216,
+      "mean_regret": 0.0008864683452930309,
+      "wrong_action_rate": 0.049560546875,
+      "coverage95": 0.95458984375,
+      "exact_bayes_regret": 0.0008933360258858228
+    },
+    {
+      "scenario": "positive",
+      "true_rho": 0.9,
+      "assumed_rho": 0.9,
+      "width": 32,
+      "budget": 512,
+      "method": "pending_greedy",
+      "counts": [
+        146,
+        366
+      ],
+      "raw_key": "positive:146:366",
+      "logical_evaluations": 512,
+      "posterior_gap_variance": 0.0009289825381317619,
+      "mean_regret": 0.0008830633764708511,
+      "wrong_action_rate": 0.049072265625,
+      "coverage95": 0.94873046875,
+      "exact_bayes_regret": 0.0008905009597362651
+    },
+    {
+      "scenario": "positive",
+      "true_rho": 0.9,
+      "assumed_rho": 0.9,
+      "width": 32,
+      "budget": 2048,
+      "method": "equal",
+      "counts": [
+        1024,
+        1024
+      ],
+      "raw_key": "positive:1024:1024",
+      "logical_evaluations": 2048,
+      "posterior_gap_variance": 0.0002806508038114533,
+      "mean_regret": 0.0002393480037106303,
+      "wrong_action_rate": 0.0244140625,
+      "coverage95": 0.953369140625,
+      "exact_bayes_regret": 0.000268082660472492
+    },
+    {
+      "scenario": "positive",
+      "true_rho": 0.9,
+      "assumed_rho": 0.9,
+      "width": 32,
+      "budget": 2048,
+      "method": "neyman",
+      "counts": [
+        585,
+        1463
+      ],
+      "raw_key": "positive:585:1463",
+      "logical_evaluations": 2048,
+      "posterior_gap_variance": 0.00023746518991499182,
+      "mean_regret": 0.00021078165776502403,
+      "wrong_action_rate": 0.021728515625,
+      "coverage95": 0.950927734375,
+      "exact_bayes_regret": 0.00022677820293067613
+    },
+    {
+      "scenario": "positive",
+      "true_rho": 0.9,
+      "assumed_rho": 0.9,
+      "width": 32,
+      "budget": 2048,
+      "method": "stale_batch",
+      "counts": [
+        576,
+        1472
+      ],
+      "raw_key": "positive:576:1472",
+      "logical_evaluations": 2048,
+      "posterior_gap_variance": 0.0002374891184457824,
+      "mean_regret": 0.00021523283943733468,
+      "wrong_action_rate": 0.0224609375,
+      "coverage95": 0.951171875,
+      "exact_bayes_regret": 0.00022680108381161607
+    },
+    {
+      "scenario": "positive",
+      "true_rho": 0.9,
+      "assumed_rho": 0.9,
+      "width": 32,
+      "budget": 2048,
+      "method": "pending_greedy",
+      "counts": [
+        585,
+        1463
+      ],
+      "raw_key": "positive:585:1463",
+      "logical_evaluations": 2048,
+      "posterior_gap_variance": 0.00023746518991499182,
+      "mean_regret": 0.00021078165776502403,
+      "wrong_action_rate": 0.021728515625,
+      "coverage95": 0.950927734375,
+      "exact_bayes_regret": 0.00022677820293067613
+    },
+    {
+      "scenario": "negative",
+      "true_rho": -0.6,
+      "assumed_rho": -0.6,
+      "width": 1,
+      "budget": 8,
+      "method": "equal",
+      "counts": [
+        4,
+        4
+      ],
+      "raw_key": "negative:4:4",
+      "logical_evaluations": 8,
+      "posterior_gap_variance": 0.05270509280296411,
+      "mean_regret": 0.01561979742982439,
+      "wrong_action_rate": 0.105224609375,
+      "coverage95": 0.94775390625,
+      "exact_bayes_regret": 0.014936685864029298
+    },
+    {
+      "scenario": "negative",
+      "true_rho": -0.6,
+      "assumed_rho": -0.6,
+      "width": 1,
+      "budget": 8,
+      "method": "neyman",
+      "counts": [
+        2,
+        6
+      ],
+      "raw_key": "negative:2:6",
+      "logical_evaluations": 8,
+      "posterior_gap_variance": 0.05305764781174618,
+      "mean_regret": 0.016754716607669837,
+      "wrong_action_rate": 0.11083984375,
+      "coverage95": 0.944091796875,
+      "exact_bayes_regret": 0.015039349077694247
+    },
+    {
+      "scenario": "negative",
+      "true_rho": -0.6,
+      "assumed_rho": -0.6,
+      "width": 1,
+      "budget": 8,
+      "method": "stale_batch",
+      "counts": [
+        3,
+        5
+      ],
+      "raw_key": "negative:3:5",
+      "logical_evaluations": 8,
+      "posterior_gap_variance": 0.050727879144594853,
+      "mean_regret": 0.014113693355078734,
+      "wrong_action_rate": 0.09814453125,
+      "coverage95": 0.948486328125,
+      "exact_bayes_regret": 0.01436163863235676
+    },
+    {
+      "scenario": "negative",
+      "true_rho": -0.6,
+      "assumed_rho": -0.6,
+      "width": 1,
+      "budget": 8,
+      "method": "pending_greedy",
+      "counts": [
+        3,
+        5
+      ],
+      "raw_key": "negative:3:5",
+      "logical_evaluations": 8,
+      "posterior_gap_variance": 0.050727879144594853,
+      "mean_regret": 0.014113693355078734,
+      "wrong_action_rate": 0.09814453125,
+      "coverage95": 0.948486328125,
+      "exact_bayes_regret": 0.01436163863235676
+    },
+    {
+      "scenario": "negative",
+      "true_rho": -0.6,
+      "assumed_rho": -0.6,
+      "width": 1,
+      "budget": 32,
+      "method": "equal",
+      "counts": [
+        16,
+        16
+      ],
+      "raw_key": "negative:16:16",
+      "logical_evaluations": 32,
+      "posterior_gap_variance": 0.0164031969570041,
+      "mean_regret": 0.004902857075178846,
+      "wrong_action_rate": 0.058837890625,
+      "coverage95": 0.947021484375,
+      "exact_bayes_regret": 0.004564401037219418
+    },
+    {
+      "scenario": "negative",
+      "true_rho": -0.6,
+      "assumed_rho": -0.6,
+      "width": 1,
+      "budget": 32,
+      "method": "neyman",
+      "counts": [
+        9,
+        23
+      ],
+      "raw_key": "negative:9:23",
+      "logical_evaluations": 32,
+      "posterior_gap_variance": 0.014597552938479613,
+      "mean_regret": 0.00421921318469469,
+      "wrong_action_rate": 0.055908203125,
+      "coverage95": 0.952392578125,
+      "exact_bayes_regret": 0.0040583674417306315
+    },
+    {
+      "scenario": "negative",
+      "true_rho": -0.6,
+      "assumed_rho": -0.6,
+      "width": 1,
+      "budget": 32,
+      "method": "stale_batch",
+      "counts": [
+        10,
+        22
+      ],
+      "raw_key": "negative:10:22",
+      "logical_evaluations": 32,
+      "posterior_gap_variance": 0.014559288423403477,
+      "mean_regret": 0.0043405623382063215,
+      "wrong_action_rate": 0.056884765625,
+      "coverage95": 0.952392578125,
+      "exact_bayes_regret": 0.004047653518841204
+    },
+    {
+      "scenario": "negative",
+      "true_rho": -0.6,
+      "assumed_rho": -0.6,
+      "width": 1,
+      "budget": 32,
+      "method": "pending_greedy",
+      "counts": [
+        10,
+        22
+      ],
+      "raw_key": "negative:10:22",
+      "logical_evaluations": 32,
+      "posterior_gap_variance": 0.014559288423403477,
+      "mean_regret": 0.0043405623382063215,
+      "wrong_action_rate": 0.056884765625,
+      "coverage95": 0.952392578125,
+      "exact_bayes_regret": 0.004047653518841204
+    },
+    {
+      "scenario": "negative",
+      "true_rho": -0.6,
+      "assumed_rho": -0.6,
+      "width": 1,
+      "budget": 128,
+      "method": "equal",
+      "counts": [
+        64,
+        64
+      ],
+      "raw_key": "negative:64:64",
+      "logical_evaluations": 128,
+      "posterior_gap_variance": 0.0044116680884888565,
+      "mean_regret": 0.0012393507120032174,
+      "wrong_action_rate": 0.031494140625,
+      "coverage95": 0.95458984375,
+      "exact_bayes_regret": 0.0012204695231673446
+    },
+    {
+      "scenario": "negative",
+      "true_rho": -0.6,
+      "assumed_rho": -0.6,
+      "width": 1,
+      "budget": 128,
+      "method": "neyman",
+      "counts": [
+        37,
+        91
+      ],
+      "raw_key": "negative:37:91",
+      "logical_evaluations": 128,
+      "posterior_gap_variance": 0.0037791729201614725,
+      "mean_regret": 0.0013141174583278896,
+      "wrong_action_rate": 0.0322265625,
+      "coverage95": 0.95361328125,
+      "exact_bayes_regret": 0.0010451739764377188
+    },
+    {
+      "scenario": "negative",
+      "true_rho": -0.6,
+      "assumed_rho": -0.6,
+      "width": 1,
+      "budget": 128,
+      "method": "stale_batch",
+      "counts": [
+        37,
+        91
+      ],
+      "raw_key": "negative:37:91",
+      "logical_evaluations": 128,
+      "posterior_gap_variance": 0.0037791729201614725,
+      "mean_regret": 0.0013141174583278896,
+      "wrong_action_rate": 0.0322265625,
+      "coverage95": 0.95361328125,
+      "exact_bayes_regret": 0.0010451739764377188
+    },
+    {
+      "scenario": "negative",
+      "true_rho": -0.6,
+      "assumed_rho": -0.6,
+      "width": 1,
+      "budget": 128,
+      "method": "pending_greedy",
+      "counts": [
+        37,
+        91
+      ],
+      "raw_key": "negative:37:91",
+      "logical_evaluations": 128,
+      "posterior_gap_variance": 0.0037791729201614725,
+      "mean_regret": 0.0013141174583278896,
+      "wrong_action_rate": 0.0322265625,
+      "coverage95": 0.95361328125,
+      "exact_bayes_regret": 0.0010451739764377188
+    },
+    {
+      "scenario": "negative",
+      "true_rho": -0.6,
+      "assumed_rho": -0.6,
+      "width": 1,
+      "budget": 512,
+      "method": "equal",
+      "counts": [
+        256,
+        256
+      ],
+      "raw_key": "negative:256:256",
+      "logical_evaluations": 512,
+      "posterior_gap_variance": 0.001125123576146863,
+      "mean_regret": 0.0003330199326576792,
+      "wrong_action_rate": 0.016357421875,
+      "coverage95": 0.950927734375,
+      "exact_bayes_regret": 0.00031076942067811975
+    },
+    {
+      "scenario": "negative",
+      "true_rho": -0.6,
+      "assumed_rho": -0.6,
+      "width": 1,
+      "budget": 512,
+      "method": "neyman",
+      "counts": [
+        146,
+        366
+      ],
+      "raw_key": "negative:146:366",
+      "logical_evaluations": 512,
+      "posterior_gap_variance": 0.0009539542552302949,
+      "mean_regret": 0.00025004200797028526,
+      "wrong_action_rate": 0.01611328125,
+      "coverage95": 0.94873046875,
+      "exact_bayes_regret": 0.00026346926542952787
+    },
+    {
+      "scenario": "negative",
+      "true_rho": -0.6,
+      "assumed_rho": -0.6,
+      "width": 1,
+      "budget": 512,
+      "method": "stale_batch",
+      "counts": [
+        147,
+        365
+      ],
+      "raw_key": "negative:147:365",
+      "logical_evaluations": 512,
+      "posterior_gap_variance": 0.0009539381477615613,
+      "mean_regret": 0.0002676577968330749,
+      "wrong_action_rate": 0.0166015625,
+      "coverage95": 0.950439453125,
+      "exact_bayes_regret": 0.00026346481473005223
+    },
+    {
+      "scenario": "negative",
+      "true_rho": -0.6,
+      "assumed_rho": -0.6,
+      "width": 1,
+      "budget": 512,
+      "method": "pending_greedy",
+      "counts": [
+        147,
+        365
+      ],
+      "raw_key": "negative:147:365",
+      "logical_evaluations": 512,
+      "posterior_gap_variance": 0.0009539381477615613,
+      "mean_regret": 0.0002676577968330749,
+      "wrong_action_rate": 0.0166015625,
+      "coverage95": 0.950439453125,
+      "exact_bayes_regret": 0.00026346481473005223
+    },
+    {
+      "scenario": "negative",
+      "true_rho": -0.6,
+      "assumed_rho": -0.6,
+      "width": 1,
+      "budget": 2048,
+      "method": "equal",
+      "counts": [
+        1024,
+        1024
+      ],
+      "raw_key": "negative:1024:1024",
+      "logical_evaluations": 2048,
+      "posterior_gap_variance": 0.00028271908007597673,
+      "mean_regret": 7.011594688975778e-05,
+      "wrong_action_rate": 0.008544921875,
+      "coverage95": 0.95068359375,
+      "exact_bayes_regret": 7.805807653718522e-05
+    },
+    {
+      "scenario": "negative",
+      "true_rho": -0.6,
+      "assumed_rho": -0.6,
+      "width": 1,
+      "budget": 2048,
+      "method": "neyman",
+      "counts": [
+        585,
+        1463
+      ],
+      "raw_key": "negative:585:1463",
+      "logical_evaluations": 2048,
+      "posterior_gap_variance": 0.0002390642056351365,
+      "mean_regret": 6.47609692750081e-05,
+      "wrong_action_rate": 0.008056640625,
+      "coverage95": 0.947021484375,
+      "exact_bayes_regret": 6.600368786496835e-05
+    },
+    {
+      "scenario": "negative",
+      "true_rho": -0.6,
+      "assumed_rho": -0.6,
+      "width": 1,
+      "budget": 2048,
+      "method": "stale_batch",
+      "counts": [
+        586,
+        1462
+      ],
+      "raw_key": "negative:586:1462",
+      "logical_evaluations": 2048,
+      "posterior_gap_variance": 0.00023906403145236473,
+      "mean_regret": 6.386336828453638e-05,
+      "wrong_action_rate": 0.0078125,
+      "coverage95": 0.946533203125,
+      "exact_bayes_regret": 6.60036397689967e-05
+    },
+    {
+      "scenario": "negative",
+      "true_rho": -0.6,
+      "assumed_rho": -0.6,
+      "width": 1,
+      "budget": 2048,
+      "method": "pending_greedy",
+      "counts": [
+        586,
+        1462
+      ],
+      "raw_key": "negative:586:1462",
+      "logical_evaluations": 2048,
+      "posterior_gap_variance": 0.00023906403145236473,
+      "mean_regret": 6.386336828453638e-05,
+      "wrong_action_rate": 0.0078125,
+      "coverage95": 0.946533203125,
+      "exact_bayes_regret": 6.60036397689967e-05
+    },
+    {
+      "scenario": "negative",
+      "true_rho": -0.6,
+      "assumed_rho": -0.6,
+      "width": 8,
+      "budget": 8,
+      "method": "equal",
+      "counts": [
+        4,
+        4
+      ],
+      "raw_key": "negative:4:4",
+      "logical_evaluations": 8,
+      "posterior_gap_variance": 0.05270509280296411,
+      "mean_regret": 0.01561979742982439,
+      "wrong_action_rate": 0.105224609375,
+      "coverage95": 0.94775390625,
+      "exact_bayes_regret": 0.014936685864029298
+    },
+    {
+      "scenario": "negative",
+      "true_rho": -0.6,
+      "assumed_rho": -0.6,
+      "width": 8,
+      "budget": 8,
+      "method": "neyman",
+      "counts": [
+        2,
+        6
+      ],
+      "raw_key": "negative:2:6",
+      "logical_evaluations": 8,
+      "posterior_gap_variance": 0.05305764781174618,
+      "mean_regret": 0.016754716607669837,
+      "wrong_action_rate": 0.11083984375,
+      "coverage95": 0.944091796875,
+      "exact_bayes_regret": 0.015039349077694247
+    },
+    {
+      "scenario": "negative",
+      "true_rho": -0.6,
+      "assumed_rho": -0.6,
+      "width": 8,
+      "budget": 8,
+      "method": "stale_batch",
+      "counts": [
+        8,
+        0
+      ],
+      "raw_key": "negative:8:0",
+      "logical_evaluations": 8,
+      "posterior_gap_variance": 0.11481212121212121,
+      "mean_regret": 0.037659933811223845,
+      "wrong_action_rate": 0.166748046875,
+      "coverage95": 0.955078125,
+      "exact_bayes_regret": 0.03365981847658195
+    },
+    {
+      "scenario": "negative",
+      "true_rho": -0.6,
+      "assumed_rho": -0.6,
+      "width": 8,
+      "budget": 8,
+      "method": "pending_greedy",
+      "counts": [
+        3,
+        5
+      ],
+      "raw_key": "negative:3:5",
+      "logical_evaluations": 8,
+      "posterior_gap_variance": 0.050727879144594853,
+      "mean_regret": 0.014113693355078734,
+      "wrong_action_rate": 0.09814453125,
+      "coverage95": 0.948486328125,
+      "exact_bayes_regret": 0.01436163863235676
+    },
+    {
+      "scenario": "negative",
+      "true_rho": -0.6,
+      "assumed_rho": -0.6,
+      "width": 8,
+      "budget": 32,
+      "method": "equal",
+      "counts": [
+        16,
+        16
+      ],
+      "raw_key": "negative:16:16",
+      "logical_evaluations": 32,
+      "posterior_gap_variance": 0.0164031969570041,
+      "mean_regret": 0.004902857075178846,
+      "wrong_action_rate": 0.058837890625,
+      "coverage95": 0.947021484375,
+      "exact_bayes_regret": 0.004564401037219418
+    },
+    {
+      "scenario": "negative",
+      "true_rho": -0.6,
+      "assumed_rho": -0.6,
+      "width": 8,
+      "budget": 32,
+      "method": "neyman",
+      "counts": [
+        9,
+        23
+      ],
+      "raw_key": "negative:9:23",
+      "logical_evaluations": 32,
+      "posterior_gap_variance": 0.014597552938479613,
+      "mean_regret": 0.00421921318469469,
+      "wrong_action_rate": 0.055908203125,
+      "coverage95": 0.952392578125,
+      "exact_bayes_regret": 0.0040583674417306315
+    },
+    {
+      "scenario": "negative",
+      "true_rho": -0.6,
+      "assumed_rho": -0.6,
+      "width": 8,
+      "budget": 32,
+      "method": "stale_batch",
+      "counts": [
+        8,
+        24
+      ],
+      "raw_key": "negative:8:24",
+      "logical_evaluations": 32,
+      "posterior_gap_variance": 0.014773159108242628,
+      "mean_regret": 0.004192967400971762,
+      "wrong_action_rate": 0.056396484375,
+      "coverage95": 0.948486328125,
+      "exact_bayes_regret": 0.004107541700563183
+    },
+    {
+      "scenario": "negative",
+      "true_rho": -0.6,
+      "assumed_rho": -0.6,
+      "width": 8,
+      "budget": 32,
+      "method": "pending_greedy",
+      "counts": [
+        10,
+        22
+      ],
+      "raw_key": "negative:10:22",
+      "logical_evaluations": 32,
+      "posterior_gap_variance": 0.014559288423403477,
+      "mean_regret": 0.0043405623382063215,
+      "wrong_action_rate": 0.056884765625,
+      "coverage95": 0.952392578125,
+      "exact_bayes_regret": 0.004047653518841204
+    },
+    {
+      "scenario": "negative",
+      "true_rho": -0.6,
+      "assumed_rho": -0.6,
+      "width": 8,
+      "budget": 128,
+      "method": "equal",
+      "counts": [
+        64,
+        64
+      ],
+      "raw_key": "negative:64:64",
+      "logical_evaluations": 128,
+      "posterior_gap_variance": 0.0044116680884888565,
+      "mean_regret": 0.0012393507120032174,
+      "wrong_action_rate": 0.031494140625,
+      "coverage95": 0.95458984375,
+      "exact_bayes_regret": 0.0012204695231673446
+    },
+    {
+      "scenario": "negative",
+      "true_rho": -0.6,
+      "assumed_rho": -0.6,
+      "width": 8,
+      "budget": 128,
+      "method": "neyman",
+      "counts": [
+        37,
+        91
+      ],
+      "raw_key": "negative:37:91",
+      "logical_evaluations": 128,
+      "posterior_gap_variance": 0.0037791729201614725,
+      "mean_regret": 0.0013141174583278896,
+      "wrong_action_rate": 0.0322265625,
+      "coverage95": 0.95361328125,
+      "exact_bayes_regret": 0.0010451739764377188
+    },
+    {
+      "scenario": "negative",
+      "true_rho": -0.6,
+      "assumed_rho": -0.6,
+      "width": 8,
+      "budget": 128,
+      "method": "stale_batch",
+      "counts": [
+        40,
+        88
+      ],
+      "raw_key": "negative:40:88",
+      "logical_evaluations": 128,
+      "posterior_gap_variance": 0.0037869852859593,
+      "mean_regret": 0.0011372672833595584,
+      "wrong_action_rate": 0.030517578125,
+      "coverage95": 0.952392578125,
+      "exact_bayes_regret": 0.0010473385151245629
+    },
+    {
+      "scenario": "negative",
+      "true_rho": -0.6,
+      "assumed_rho": -0.6,
+      "width": 8,
+      "budget": 128,
+      "method": "pending_greedy",
+      "counts": [
+        37,
+        91
+      ],
+      "raw_key": "negative:37:91",
+      "logical_evaluations": 128,
+      "posterior_gap_variance": 0.0037791729201614725,
+      "mean_regret": 0.0013141174583278896,
+      "wrong_action_rate": 0.0322265625,
+      "coverage95": 0.95361328125,
+      "exact_bayes_regret": 0.0010451739764377188
+    },
+    {
+      "scenario": "negative",
+      "true_rho": -0.6,
+      "assumed_rho": -0.6,
+      "width": 8,
+      "budget": 512,
+      "method": "equal",
+      "counts": [
+        256,
+        256
+      ],
+      "raw_key": "negative:256:256",
+      "logical_evaluations": 512,
+      "posterior_gap_variance": 0.001125123576146863,
+      "mean_regret": 0.0003330199326576792,
+      "wrong_action_rate": 0.016357421875,
+      "coverage95": 0.950927734375,
+      "exact_bayes_regret": 0.00031076942067811975
+    },
+    {
+      "scenario": "negative",
+      "true_rho": -0.6,
+      "assumed_rho": -0.6,
+      "width": 8,
+      "budget": 512,
+      "method": "neyman",
+      "counts": [
+        146,
+        366
+      ],
+      "raw_key": "negative:146:366",
+      "logical_evaluations": 512,
+      "posterior_gap_variance": 0.0009539542552302949,
+      "mean_regret": 0.00025004200797028526,
+      "wrong_action_rate": 0.01611328125,
+      "coverage95": 0.94873046875,
+      "exact_bayes_regret": 0.00026346926542952787
+    },
+    {
+      "scenario": "negative",
+      "true_rho": -0.6,
+      "assumed_rho": -0.6,
+      "width": 8,
+      "budget": 512,
+      "method": "stale_batch",
+      "counts": [
+        152,
+        360
+      ],
+      "raw_key": "negative:152:360",
+      "logical_evaluations": 512,
+      "posterior_gap_variance": 0.0009543776418168248,
+      "mean_regret": 0.00025559584716702984,
+      "wrong_action_rate": 0.015625,
+      "coverage95": 0.9501953125,
+      "exact_bayes_regret": 0.0002635862525801336
+    },
+    {
+      "scenario": "negative",
+      "true_rho": -0.6,
+      "assumed_rho": -0.6,
+      "width": 8,
+      "budget": 512,
+      "method": "pending_greedy",
+      "counts": [
+        147,
+        365
+      ],
+      "raw_key": "negative:147:365",
+      "logical_evaluations": 512,
+      "posterior_gap_variance": 0.0009539381477615613,
+      "mean_regret": 0.0002676577968330749,
+      "wrong_action_rate": 0.0166015625,
+      "coverage95": 0.950439453125,
+      "exact_bayes_regret": 0.00026346481473005223
+    },
+    {
+      "scenario": "negative",
+      "true_rho": -0.6,
+      "assumed_rho": -0.6,
+      "width": 8,
+      "budget": 2048,
+      "method": "equal",
+      "counts": [
+        1024,
+        1024
+      ],
+      "raw_key": "negative:1024:1024",
+      "logical_evaluations": 2048,
+      "posterior_gap_variance": 0.00028271908007597673,
+      "mean_regret": 7.011594688975778e-05,
+      "wrong_action_rate": 0.008544921875,
+      "coverage95": 0.95068359375,
+      "exact_bayes_regret": 7.805807653718522e-05
+    },
+    {
+      "scenario": "negative",
+      "true_rho": -0.6,
+      "assumed_rho": -0.6,
+      "width": 8,
+      "budget": 2048,
+      "method": "neyman",
+      "counts": [
+        585,
+        1463
+      ],
+      "raw_key": "negative:585:1463",
+      "logical_evaluations": 2048,
+      "posterior_gap_variance": 0.0002390642056351365,
+      "mean_regret": 6.47609692750081e-05,
+      "wrong_action_rate": 0.008056640625,
+      "coverage95": 0.947021484375,
+      "exact_bayes_regret": 6.600368786496835e-05
+    },
+    {
+      "scenario": "negative",
+      "true_rho": -0.6,
+      "assumed_rho": -0.6,
+      "width": 8,
+      "budget": 2048,
+      "method": "stale_batch",
+      "counts": [
+        584,
+        1464
+      ],
+      "raw_key": "negative:584:1464",
+      "logical_evaluations": 2048,
+      "posterior_gap_variance": 0.00023906493810187237,
+      "mean_regret": 6.386336828453638e-05,
+      "wrong_action_rate": 0.0078125,
+      "coverage95": 0.947021484375,
+      "exact_bayes_regret": 6.600389011623964e-05
+    },
+    {
+      "scenario": "negative",
+      "true_rho": -0.6,
+      "assumed_rho": -0.6,
+      "width": 8,
+      "budget": 2048,
+      "method": "pending_greedy",
+      "counts": [
+        586,
+        1462
+      ],
+      "raw_key": "negative:586:1462",
+      "logical_evaluations": 2048,
+      "posterior_gap_variance": 0.00023906403145236473,
+      "mean_regret": 6.386336828453638e-05,
+      "wrong_action_rate": 0.0078125,
+      "coverage95": 0.946533203125,
+      "exact_bayes_regret": 6.60036397689967e-05
+    },
+    {
+      "scenario": "negative",
+      "true_rho": -0.6,
+      "assumed_rho": -0.6,
+      "width": 32,
+      "budget": 8,
+      "method": "equal",
+      "counts": [
+        4,
+        4
+      ],
+      "raw_key": "negative:4:4",
+      "logical_evaluations": 8,
+      "posterior_gap_variance": 0.05270509280296411,
+      "mean_regret": 0.01561979742982439,
+      "wrong_action_rate": 0.105224609375,
+      "coverage95": 0.94775390625,
+      "exact_bayes_regret": 0.014936685864029298
+    },
+    {
+      "scenario": "negative",
+      "true_rho": -0.6,
+      "assumed_rho": -0.6,
+      "width": 32,
+      "budget": 8,
+      "method": "neyman",
+      "counts": [
+        2,
+        6
+      ],
+      "raw_key": "negative:2:6",
+      "logical_evaluations": 8,
+      "posterior_gap_variance": 0.05305764781174618,
+      "mean_regret": 0.016754716607669837,
+      "wrong_action_rate": 0.11083984375,
+      "coverage95": 0.944091796875,
+      "exact_bayes_regret": 0.015039349077694247
+    },
+    {
+      "scenario": "negative",
+      "true_rho": -0.6,
+      "assumed_rho": -0.6,
+      "width": 32,
+      "budget": 8,
+      "method": "stale_batch",
+      "counts": [
+        8,
+        0
+      ],
+      "raw_key": "negative:8:0",
+      "logical_evaluations": 8,
+      "posterior_gap_variance": 0.11481212121212121,
+      "mean_regret": 0.037659933811223845,
+      "wrong_action_rate": 0.166748046875,
+      "coverage95": 0.955078125,
+      "exact_bayes_regret": 0.03365981847658195
+    },
+    {
+      "scenario": "negative",
+      "true_rho": -0.6,
+      "assumed_rho": -0.6,
+      "width": 32,
+      "budget": 8,
+      "method": "pending_greedy",
+      "counts": [
+        3,
+        5
+      ],
+      "raw_key": "negative:3:5",
+      "logical_evaluations": 8,
+      "posterior_gap_variance": 0.050727879144594853,
+      "mean_regret": 0.014113693355078734,
+      "wrong_action_rate": 0.09814453125,
+      "coverage95": 0.948486328125,
+      "exact_bayes_regret": 0.01436163863235676
+    },
+    {
+      "scenario": "negative",
+      "true_rho": -0.6,
+      "assumed_rho": -0.6,
+      "width": 32,
+      "budget": 32,
+      "method": "equal",
+      "counts": [
+        16,
+        16
+      ],
+      "raw_key": "negative:16:16",
+      "logical_evaluations": 32,
+      "posterior_gap_variance": 0.0164031969570041,
+      "mean_regret": 0.004902857075178846,
+      "wrong_action_rate": 0.058837890625,
+      "coverage95": 0.947021484375,
+      "exact_bayes_regret": 0.004564401037219418
+    },
+    {
+      "scenario": "negative",
+      "true_rho": -0.6,
+      "assumed_rho": -0.6,
+      "width": 32,
+      "budget": 32,
+      "method": "neyman",
+      "counts": [
+        9,
+        23
+      ],
+      "raw_key": "negative:9:23",
+      "logical_evaluations": 32,
+      "posterior_gap_variance": 0.014597552938479613,
+      "mean_regret": 0.00421921318469469,
+      "wrong_action_rate": 0.055908203125,
+      "coverage95": 0.952392578125,
+      "exact_bayes_regret": 0.0040583674417306315
+    },
+    {
+      "scenario": "negative",
+      "true_rho": -0.6,
+      "assumed_rho": -0.6,
+      "width": 32,
+      "budget": 32,
+      "method": "stale_batch",
+      "counts": [
+        32,
+        0
+      ],
+      "raw_key": "negative:32:0",
+      "logical_evaluations": 32,
+      "posterior_gap_variance": 0.10557519379844961,
+      "mean_regret": 0.03475024969928421,
+      "wrong_action_rate": 0.1611328125,
+      "coverage95": 0.954345703125,
+      "exact_bayes_regret": 0.030789026339466008
+    },
+    {
+      "scenario": "negative",
+      "true_rho": -0.6,
+      "assumed_rho": -0.6,
+      "width": 32,
+      "budget": 32,
+      "method": "pending_greedy",
+      "counts": [
+        10,
+        22
+      ],
+      "raw_key": "negative:10:22",
+      "logical_evaluations": 32,
+      "posterior_gap_variance": 0.014559288423403477,
+      "mean_regret": 0.0043405623382063215,
+      "wrong_action_rate": 0.056884765625,
+      "coverage95": 0.952392578125,
+      "exact_bayes_regret": 0.004047653518841204
+    },
+    {
+      "scenario": "negative",
+      "true_rho": -0.6,
+      "assumed_rho": -0.6,
+      "width": 32,
+      "budget": 128,
+      "method": "equal",
+      "counts": [
+        64,
+        64
+      ],
+      "raw_key": "negative:64:64",
+      "logical_evaluations": 128,
+      "posterior_gap_variance": 0.0044116680884888565,
+      "mean_regret": 0.0012393507120032174,
+      "wrong_action_rate": 0.031494140625,
+      "coverage95": 0.95458984375,
+      "exact_bayes_regret": 0.0012204695231673446
+    },
+    {
+      "scenario": "negative",
+      "true_rho": -0.6,
+      "assumed_rho": -0.6,
+      "width": 32,
+      "budget": 128,
+      "method": "neyman",
+      "counts": [
+        37,
+        91
+      ],
+      "raw_key": "negative:37:91",
+      "logical_evaluations": 128,
+      "posterior_gap_variance": 0.0037791729201614725,
+      "mean_regret": 0.0013141174583278896,
+      "wrong_action_rate": 0.0322265625,
+      "coverage95": 0.95361328125,
+      "exact_bayes_regret": 0.0010451739764377188
+    },
+    {
+      "scenario": "negative",
+      "true_rho": -0.6,
+      "assumed_rho": -0.6,
+      "width": 32,
+      "budget": 128,
+      "method": "stale_batch",
+      "counts": [
+        32,
+        96
+      ],
+      "raw_key": "negative:32:96",
+      "logical_evaluations": 128,
+      "posterior_gap_variance": 0.003811669673019674,
+      "mean_regret": 0.0014696276384026934,
+      "wrong_action_rate": 0.03466796875,
+      "coverage95": 0.951171875,
+      "exact_bayes_regret": 0.0010541778195650164
+    },
+    {
+      "scenario": "negative",
+      "true_rho": -0.6,
+      "assumed_rho": -0.6,
+      "width": 32,
+      "budget": 128,
+      "method": "pending_greedy",
+      "counts": [
+        37,
+        91
+      ],
+      "raw_key": "negative:37:91",
+      "logical_evaluations": 128,
+      "posterior_gap_variance": 0.0037791729201614725,
+      "mean_regret": 0.0013141174583278896,
+      "wrong_action_rate": 0.0322265625,
+      "coverage95": 0.95361328125,
+      "exact_bayes_regret": 0.0010451739764377188
+    },
+    {
+      "scenario": "negative",
+      "true_rho": -0.6,
+      "assumed_rho": -0.6,
+      "width": 32,
+      "budget": 512,
+      "method": "equal",
+      "counts": [
+        256,
+        256
+      ],
+      "raw_key": "negative:256:256",
+      "logical_evaluations": 512,
+      "posterior_gap_variance": 0.001125123576146863,
+      "mean_regret": 0.0003330199326576792,
+      "wrong_action_rate": 0.016357421875,
+      "coverage95": 0.950927734375,
+      "exact_bayes_regret": 0.00031076942067811975
+    },
+    {
+      "scenario": "negative",
+      "true_rho": -0.6,
+      "assumed_rho": -0.6,
+      "width": 32,
+      "budget": 512,
+      "method": "neyman",
+      "counts": [
+        146,
+        366
+      ],
+      "raw_key": "negative:146:366",
+      "logical_evaluations": 512,
+      "posterior_gap_variance": 0.0009539542552302949,
+      "mean_regret": 0.00025004200797028526,
+      "wrong_action_rate": 0.01611328125,
+      "coverage95": 0.94873046875,
+      "exact_bayes_regret": 0.00026346926542952787
+    },
+    {
+      "scenario": "negative",
+      "true_rho": -0.6,
+      "assumed_rho": -0.6,
+      "width": 32,
+      "budget": 512,
+      "method": "stale_batch",
+      "counts": [
+        160,
+        352
+      ],
+      "raw_key": "negative:160:352",
+      "logical_evaluations": 512,
+      "posterior_gap_variance": 0.0009567934917747473,
+      "mean_regret": 0.00026629301841428997,
+      "wrong_action_rate": 0.01611328125,
+      "coverage95": 0.94873046875,
+      "exact_bayes_regret": 0.00026425378385463993
+    },
+    {
+      "scenario": "negative",
+      "true_rho": -0.6,
+      "assumed_rho": -0.6,
+      "width": 32,
+      "budget": 512,
+      "method": "pending_greedy",
+      "counts": [
+        147,
+        365
+      ],
+      "raw_key": "negative:147:365",
+      "logical_evaluations": 512,
+      "posterior_gap_variance": 0.0009539381477615613,
+      "mean_regret": 0.0002676577968330749,
+      "wrong_action_rate": 0.0166015625,
+      "coverage95": 0.950439453125,
+      "exact_bayes_regret": 0.00026346481473005223
+    },
+    {
+      "scenario": "negative",
+      "true_rho": -0.6,
+      "assumed_rho": -0.6,
+      "width": 32,
+      "budget": 2048,
+      "method": "equal",
+      "counts": [
+        1024,
+        1024
+      ],
+      "raw_key": "negative:1024:1024",
+      "logical_evaluations": 2048,
+      "posterior_gap_variance": 0.00028271908007597673,
+      "mean_regret": 7.011594688975778e-05,
+      "wrong_action_rate": 0.008544921875,
+      "coverage95": 0.95068359375,
+      "exact_bayes_regret": 7.805807653718522e-05
+    },
+    {
+      "scenario": "negative",
+      "true_rho": -0.6,
+      "assumed_rho": -0.6,
+      "width": 32,
+      "budget": 2048,
+      "method": "neyman",
+      "counts": [
+        585,
+        1463
+      ],
+      "raw_key": "negative:585:1463",
+      "logical_evaluations": 2048,
+      "posterior_gap_variance": 0.0002390642056351365,
+      "mean_regret": 6.47609692750081e-05,
+      "wrong_action_rate": 0.008056640625,
+      "coverage95": 0.947021484375,
+      "exact_bayes_regret": 6.600368786496835e-05
+    },
+    {
+      "scenario": "negative",
+      "true_rho": -0.6,
+      "assumed_rho": -0.6,
+      "width": 32,
+      "budget": 2048,
+      "method": "stale_batch",
+      "counts": [
+        608,
+        1440
+      ],
+      "raw_key": "negative:608:1440",
+      "logical_evaluations": 2048,
+      "posterior_gap_variance": 0.00023919812835352132,
+      "mean_regret": 6.747912146647561e-05,
+      "wrong_action_rate": 0.00830078125,
+      "coverage95": 0.946533203125,
+      "exact_bayes_regret": 6.604066707671663e-05
+    },
+    {
+      "scenario": "negative",
+      "true_rho": -0.6,
+      "assumed_rho": -0.6,
+      "width": 32,
+      "budget": 2048,
+      "method": "pending_greedy",
+      "counts": [
+        586,
+        1462
+      ],
+      "raw_key": "negative:586:1462",
+      "logical_evaluations": 2048,
+      "posterior_gap_variance": 0.00023906403145236473,
+      "mean_regret": 6.386336828453638e-05,
+      "wrong_action_rate": 0.0078125,
+      "coverage95": 0.946533203125,
+      "exact_bayes_regret": 6.60036397689967e-05
+    },
+    {
+      "scenario": "misspecified",
+      "true_rho": -0.6,
+      "assumed_rho": 0.9,
+      "width": 1,
+      "budget": 8,
+      "method": "equal",
+      "counts": [
+        4,
+        4
+      ],
+      "raw_key": "misspecified:4:4",
+      "logical_evaluations": 8,
+      "posterior_gap_variance": 0.02180584001404411,
+      "mean_regret": 0.025110589866134896,
+      "wrong_action_rate": 0.1337890625,
+      "coverage95": 0.453369140625,
+      "exact_bayes_regret": null
+    },
+    {
+      "scenario": "misspecified",
+      "true_rho": -0.6,
+      "assumed_rho": 0.9,
+      "width": 1,
+      "budget": 8,
+      "method": "neyman",
+      "counts": [
+        2,
+        6
+      ],
+      "raw_key": "misspecified:2:6",
+      "logical_evaluations": 8,
+      "posterior_gap_variance": 0.020985179473999818,
+      "mean_regret": 0.021854161586432153,
+      "wrong_action_rate": 0.125732421875,
+      "coverage95": 0.4580078125,
+      "exact_bayes_regret": null
+    },
+    {
+      "scenario": "misspecified",
+      "true_rho": -0.6,
+      "assumed_rho": 0.9,
+      "width": 1,
+      "budget": 8,
+      "method": "stale_batch",
+      "counts": [
+        2,
+        6
+      ],
+      "raw_key": "misspecified:2:6",
+      "logical_evaluations": 8,
+      "posterior_gap_variance": 0.020985179473999818,
+      "mean_regret": 0.021854161586432153,
+      "wrong_action_rate": 0.125732421875,
+      "coverage95": 0.4580078125,
+      "exact_bayes_regret": null
+    },
+    {
+      "scenario": "misspecified",
+      "true_rho": -0.6,
+      "assumed_rho": 0.9,
+      "width": 1,
+      "budget": 8,
+      "method": "pending_greedy",
+      "counts": [
+        2,
+        6
+      ],
+      "raw_key": "misspecified:2:6",
+      "logical_evaluations": 8,
+      "posterior_gap_variance": 0.020985179473999818,
+      "mean_regret": 0.021854161586432153,
+      "wrong_action_rate": 0.125732421875,
+      "coverage95": 0.4580078125,
+      "exact_bayes_regret": null
+    },
+    {
+      "scenario": "misspecified",
+      "true_rho": -0.6,
+      "assumed_rho": 0.9,
+      "width": 1,
+      "budget": 32,
+      "method": "equal",
+      "counts": [
+        16,
+        16
+      ],
+      "raw_key": "misspecified:16:16",
+      "logical_evaluations": 32,
+      "posterior_gap_variance": 0.011458321652556286,
+      "mean_regret": 0.005345603445593296,
+      "wrong_action_rate": 0.060302734375,
+      "coverage95": 0.5576171875,
+      "exact_bayes_regret": null
+    },
+    {
+      "scenario": "misspecified",
+      "true_rho": -0.6,
+      "assumed_rho": 0.9,
+      "width": 1,
+      "budget": 32,
+      "method": "neyman",
+      "counts": [
+        9,
+        23
+      ],
+      "raw_key": "misspecified:9:23",
+      "logical_evaluations": 32,
+      "posterior_gap_variance": 0.010327023820772047,
+      "mean_regret": 0.004523315327123521,
+      "wrong_action_rate": 0.053955078125,
+      "coverage95": 0.5791015625,
+      "exact_bayes_regret": null
+    },
+    {
+      "scenario": "misspecified",
+      "true_rho": -0.6,
+      "assumed_rho": 0.9,
+      "width": 1,
+      "budget": 32,
+      "method": "stale_batch",
+      "counts": [
+        9,
+        23
+      ],
+      "raw_key": "misspecified:9:23",
+      "logical_evaluations": 32,
+      "posterior_gap_variance": 0.010327023820772047,
+      "mean_regret": 0.004523315327123521,
+      "wrong_action_rate": 0.053955078125,
+      "coverage95": 0.5791015625,
+      "exact_bayes_regret": null
+    },
+    {
+      "scenario": "misspecified",
+      "true_rho": -0.6,
+      "assumed_rho": 0.9,
+      "width": 1,
+      "budget": 32,
+      "method": "pending_greedy",
+      "counts": [
+        9,
+        23
+      ],
+      "raw_key": "misspecified:9:23",
+      "logical_evaluations": 32,
+      "posterior_gap_variance": 0.010327023820772047,
+      "mean_regret": 0.004523315327123521,
+      "wrong_action_rate": 0.053955078125,
+      "coverage95": 0.5791015625,
+      "exact_bayes_regret": null
+    },
+    {
+      "scenario": "misspecified",
+      "true_rho": -0.6,
+      "assumed_rho": 0.9,
+      "width": 1,
+      "budget": 128,
+      "method": "equal",
+      "counts": [
+        64,
+        64
+      ],
+      "raw_key": "misspecified:64:64",
+      "logical_evaluations": 128,
+      "posterior_gap_variance": 0.003955710771694184,
+      "mean_regret": 0.0012135929176521917,
+      "wrong_action_rate": 0.02880859375,
+      "coverage95": 0.743408203125,
+      "exact_bayes_regret": null
+    },
+    {
+      "scenario": "misspecified",
+      "true_rho": -0.6,
+      "assumed_rho": 0.9,
+      "width": 1,
+      "budget": 128,
+      "method": "neyman",
+      "counts": [
+        37,
+        91
+      ],
+      "raw_key": "misspecified:37:91",
+      "logical_evaluations": 128,
+      "posterior_gap_variance": 0.0034156481740848306,
+      "mean_regret": 0.0011150165394778527,
+      "wrong_action_rate": 0.02783203125,
+      "coverage95": 0.76953125,
+      "exact_bayes_regret": null
+    },
+    {
+      "scenario": "misspecified",
+      "true_rho": -0.6,
+      "assumed_rho": 0.9,
+      "width": 1,
+      "budget": 128,
+      "method": "stale_batch",
+      "counts": [
+        37,
+        91
+      ],
+      "raw_key": "misspecified:37:91",
+      "logical_evaluations": 128,
+      "posterior_gap_variance": 0.0034156481740848306,
+      "mean_regret": 0.0011150165394778527,
+      "wrong_action_rate": 0.02783203125,
+      "coverage95": 0.76953125,
+      "exact_bayes_regret": null
+    },
+    {
+      "scenario": "misspecified",
+      "true_rho": -0.6,
+      "assumed_rho": 0.9,
+      "width": 1,
+      "budget": 128,
+      "method": "pending_greedy",
+      "counts": [
+        37,
+        91
+      ],
+      "raw_key": "misspecified:37:91",
+      "logical_evaluations": 128,
+      "posterior_gap_variance": 0.0034156481740848306,
+      "mean_regret": 0.0011150165394778527,
+      "wrong_action_rate": 0.02783203125,
+      "coverage95": 0.76953125,
+      "exact_bayes_regret": null
+    },
+    {
+      "scenario": "misspecified",
+      "true_rho": -0.6,
+      "assumed_rho": 0.9,
+      "width": 1,
+      "budget": 512,
+      "method": "equal",
+      "counts": [
+        256,
+        256
+      ],
+      "raw_key": "misspecified:256:256",
+      "logical_evaluations": 512,
+      "posterior_gap_variance": 0.0010930510928376987,
+      "mean_regret": 0.0003046095331240882,
+      "wrong_action_rate": 0.014892578125,
+      "coverage95": 0.8818359375,
+      "exact_bayes_regret": null
+    },
+    {
+      "scenario": "misspecified",
+      "true_rho": -0.6,
+      "assumed_rho": 0.9,
+      "width": 1,
+      "budget": 512,
+      "method": "neyman",
+      "counts": [
+        146,
+        366
+      ],
+      "raw_key": "misspecified:146:366",
+      "logical_evaluations": 512,
+      "posterior_gap_variance": 0.0009289825381317619,
+      "mean_regret": 0.00026495372902654113,
+      "wrong_action_rate": 0.013916015625,
+      "coverage95": 0.88671875,
+      "exact_bayes_regret": null
+    },
+    {
+      "scenario": "misspecified",
+      "true_rho": -0.6,
+      "assumed_rho": 0.9,
+      "width": 1,
+      "budget": 512,
+      "method": "stale_batch",
+      "counts": [
+        146,
+        366
+      ],
+      "raw_key": "misspecified:146:366",
+      "logical_evaluations": 512,
+      "posterior_gap_variance": 0.0009289825381317619,
+      "mean_regret": 0.00026495372902654113,
+      "wrong_action_rate": 0.013916015625,
+      "coverage95": 0.88671875,
+      "exact_bayes_regret": null
+    },
+    {
+      "scenario": "misspecified",
+      "true_rho": -0.6,
+      "assumed_rho": 0.9,
+      "width": 1,
+      "budget": 512,
+      "method": "pending_greedy",
+      "counts": [
+        146,
+        366
+      ],
+      "raw_key": "misspecified:146:366",
+      "logical_evaluations": 512,
+      "posterior_gap_variance": 0.0009289825381317619,
+      "mean_regret": 0.00026495372902654113,
+      "wrong_action_rate": 0.013916015625,
+      "coverage95": 0.88671875,
+      "exact_bayes_regret": null
+    },
+    {
+      "scenario": "misspecified",
+      "true_rho": -0.6,
+      "assumed_rho": 0.9,
+      "width": 1,
+      "budget": 2048,
+      "method": "equal",
+      "counts": [
+        1024,
+        1024
+      ],
+      "raw_key": "misspecified:1024:1024",
+      "logical_evaluations": 2048,
+      "posterior_gap_variance": 0.0002806508038114533,
+      "mean_regret": 8.395557571532115e-05,
+      "wrong_action_rate": 0.0087890625,
+      "coverage95": 0.927001953125,
+      "exact_bayes_regret": null
+    },
+    {
+      "scenario": "misspecified",
+      "true_rho": -0.6,
+      "assumed_rho": 0.9,
+      "width": 1,
+      "budget": 2048,
+      "method": "neyman",
+      "counts": [
+        585,
+        1463
+      ],
+      "raw_key": "misspecified:585:1463",
+      "logical_evaluations": 2048,
+      "posterior_gap_variance": 0.00023746518991499182,
+      "mean_regret": 6.013381844228762e-05,
+      "wrong_action_rate": 0.007568359375,
+      "coverage95": 0.93359375,
+      "exact_bayes_regret": null
+    },
+    {
+      "scenario": "misspecified",
+      "true_rho": -0.6,
+      "assumed_rho": 0.9,
+      "width": 1,
+      "budget": 2048,
+      "method": "stale_batch",
+      "counts": [
+        585,
+        1463
+      ],
+      "raw_key": "misspecified:585:1463",
+      "logical_evaluations": 2048,
+      "posterior_gap_variance": 0.00023746518991499182,
+      "mean_regret": 6.013381844228762e-05,
+      "wrong_action_rate": 0.007568359375,
+      "coverage95": 0.93359375,
+      "exact_bayes_regret": null
+    },
+    {
+      "scenario": "misspecified",
+      "true_rho": -0.6,
+      "assumed_rho": 0.9,
+      "width": 1,
+      "budget": 2048,
+      "method": "pending_greedy",
+      "counts": [
+        585,
+        1463
+      ],
+      "raw_key": "misspecified:585:1463",
+      "logical_evaluations": 2048,
+      "posterior_gap_variance": 0.00023746518991499182,
+      "mean_regret": 6.013381844228762e-05,
+      "wrong_action_rate": 0.007568359375,
+      "coverage95": 0.93359375,
+      "exact_bayes_regret": null
+    },
+    {
+      "scenario": "misspecified",
+      "true_rho": -0.6,
+      "assumed_rho": 0.9,
+      "width": 8,
+      "budget": 8,
+      "method": "equal",
+      "counts": [
+        4,
+        4
+      ],
+      "raw_key": "misspecified:4:4",
+      "logical_evaluations": 8,
+      "posterior_gap_variance": 0.02180584001404411,
+      "mean_regret": 0.025110589866134896,
+      "wrong_action_rate": 0.1337890625,
+      "coverage95": 0.453369140625,
+      "exact_bayes_regret": null
+    },
+    {
+      "scenario": "misspecified",
+      "true_rho": -0.6,
+      "assumed_rho": 0.9,
+      "width": 8,
+      "budget": 8,
+      "method": "neyman",
+      "counts": [
+        2,
+        6
+      ],
+      "raw_key": "misspecified:2:6",
+      "logical_evaluations": 8,
+      "posterior_gap_variance": 0.020985179473999818,
+      "mean_regret": 0.021854161586432153,
+      "wrong_action_rate": 0.125732421875,
+      "coverage95": 0.4580078125,
+      "exact_bayes_regret": null
+    },
+    {
+      "scenario": "misspecified",
+      "true_rho": -0.6,
+      "assumed_rho": 0.9,
+      "width": 8,
+      "budget": 8,
+      "method": "stale_batch",
+      "counts": [
+        8,
+        0
+      ],
+      "raw_key": "misspecified:8:0",
+      "logical_evaluations": 8,
+      "posterior_gap_variance": 0.030448484848484832,
+      "mean_regret": 0.23706599762024977,
+      "wrong_action_rate": 0.447021484375,
+      "coverage95": 0.388916015625,
+      "exact_bayes_regret": null
+    },
+    {
+      "scenario": "misspecified",
+      "true_rho": -0.6,
+      "assumed_rho": 0.9,
+      "width": 8,
+      "budget": 8,
+      "method": "pending_greedy",
+      "counts": [
+        2,
+        6
+      ],
+      "raw_key": "misspecified:2:6",
+      "logical_evaluations": 8,
+      "posterior_gap_variance": 0.020985179473999818,
+      "mean_regret": 0.021854161586432153,
+      "wrong_action_rate": 0.125732421875,
+      "coverage95": 0.4580078125,
+      "exact_bayes_regret": null
+    },
+    {
+      "scenario": "misspecified",
+      "true_rho": -0.6,
+      "assumed_rho": 0.9,
+      "width": 8,
+      "budget": 32,
+      "method": "equal",
+      "counts": [
+        16,
+        16
+      ],
+      "raw_key": "misspecified:16:16",
+      "logical_evaluations": 32,
+      "posterior_gap_variance": 0.011458321652556286,
+      "mean_regret": 0.005345603445593296,
+      "wrong_action_rate": 0.060302734375,
+      "coverage95": 0.5576171875,
+      "exact_bayes_regret": null
+    },
+    {
+      "scenario": "misspecified",
+      "true_rho": -0.6,
+      "assumed_rho": 0.9,
+      "width": 8,
+      "budget": 32,
+      "method": "neyman",
+      "counts": [
+        9,
+        23
+      ],
+      "raw_key": "misspecified:9:23",
+      "logical_evaluations": 32,
+      "posterior_gap_variance": 0.010327023820772047,
+      "mean_regret": 0.004523315327123521,
+      "wrong_action_rate": 0.053955078125,
+      "coverage95": 0.5791015625,
+      "exact_bayes_regret": null
+    },
+    {
+      "scenario": "misspecified",
+      "true_rho": -0.6,
+      "assumed_rho": 0.9,
+      "width": 8,
+      "budget": 32,
+      "method": "stale_batch",
+      "counts": [
+        8,
+        24
+      ],
+      "raw_key": "misspecified:8:24",
+      "logical_evaluations": 32,
+      "posterior_gap_variance": 0.010382761617735032,
+      "mean_regret": 0.004669078311169486,
+      "wrong_action_rate": 0.054443359375,
+      "coverage95": 0.580322265625,
+      "exact_bayes_regret": null
+    },
+    {
+      "scenario": "misspecified",
+      "true_rho": -0.6,
+      "assumed_rho": 0.9,
+      "width": 8,
+      "budget": 32,
+      "method": "pending_greedy",
+      "counts": [
+        9,
+        23
+      ],
+      "raw_key": "misspecified:9:23",
+      "logical_evaluations": 32,
+      "posterior_gap_variance": 0.010327023820772047,
+      "mean_regret": 0.004523315327123521,
+      "wrong_action_rate": 0.053955078125,
+      "coverage95": 0.5791015625,
+      "exact_bayes_regret": null
+    },
+    {
+      "scenario": "misspecified",
+      "true_rho": -0.6,
+      "assumed_rho": 0.9,
+      "width": 8,
+      "budget": 128,
+      "method": "equal",
+      "counts": [
+        64,
+        64
+      ],
+      "raw_key": "misspecified:64:64",
+      "logical_evaluations": 128,
+      "posterior_gap_variance": 0.003955710771694184,
+      "mean_regret": 0.0012135929176521917,
+      "wrong_action_rate": 0.02880859375,
+      "coverage95": 0.743408203125,
+      "exact_bayes_regret": null
+    },
+    {
+      "scenario": "misspecified",
+      "true_rho": -0.6,
+      "assumed_rho": 0.9,
+      "width": 8,
+      "budget": 128,
+      "method": "neyman",
+      "counts": [
+        37,
+        91
+      ],
+      "raw_key": "misspecified:37:91",
+      "logical_evaluations": 128,
+      "posterior_gap_variance": 0.0034156481740848306,
+      "mean_regret": 0.0011150165394778527,
+      "wrong_action_rate": 0.02783203125,
+      "coverage95": 0.76953125,
+      "exact_bayes_regret": null
+    },
+    {
+      "scenario": "misspecified",
+      "true_rho": -0.6,
+      "assumed_rho": 0.9,
+      "width": 8,
+      "budget": 128,
+      "method": "stale_batch",
+      "counts": [
+        40,
+        88
+      ],
+      "raw_key": "misspecified:40:88",
+      "logical_evaluations": 128,
+      "posterior_gap_variance": 0.003424880069325527,
+      "mean_regret": 0.001047592820658005,
+      "wrong_action_rate": 0.0263671875,
+      "coverage95": 0.774169921875,
+      "exact_bayes_regret": null
+    },
+    {
+      "scenario": "misspecified",
+      "true_rho": -0.6,
+      "assumed_rho": 0.9,
+      "width": 8,
+      "budget": 128,
+      "method": "pending_greedy",
+      "counts": [
+        37,
+        91
+      ],
+      "raw_key": "misspecified:37:91",
+      "logical_evaluations": 128,
+      "posterior_gap_variance": 0.0034156481740848306,
+      "mean_regret": 0.0011150165394778527,
+      "wrong_action_rate": 0.02783203125,
+      "coverage95": 0.76953125,
+      "exact_bayes_regret": null
+    },
+    {
+      "scenario": "misspecified",
+      "true_rho": -0.6,
+      "assumed_rho": 0.9,
+      "width": 8,
+      "budget": 512,
+      "method": "equal",
+      "counts": [
+        256,
+        256
+      ],
+      "raw_key": "misspecified:256:256",
+      "logical_evaluations": 512,
+      "posterior_gap_variance": 0.0010930510928376987,
+      "mean_regret": 0.0003046095331240882,
+      "wrong_action_rate": 0.014892578125,
+      "coverage95": 0.8818359375,
+      "exact_bayes_regret": null
+    },
+    {
+      "scenario": "misspecified",
+      "true_rho": -0.6,
+      "assumed_rho": 0.9,
+      "width": 8,
+      "budget": 512,
+      "method": "neyman",
+      "counts": [
+        146,
+        366
+      ],
+      "raw_key": "misspecified:146:366",
+      "logical_evaluations": 512,
+      "posterior_gap_variance": 0.0009289825381317619,
+      "mean_regret": 0.00026495372902654113,
+      "wrong_action_rate": 0.013916015625,
+      "coverage95": 0.88671875,
+      "exact_bayes_regret": null
+    },
+    {
+      "scenario": "misspecified",
+      "true_rho": -0.6,
+      "assumed_rho": 0.9,
+      "width": 8,
+      "budget": 512,
+      "method": "stale_batch",
+      "counts": [
+        144,
+        368
+      ],
+      "raw_key": "misspecified:144:368",
+      "logical_evaluations": 512,
+      "posterior_gap_variance": 0.0009290795493613228,
+      "mean_regret": 0.0002679968761167183,
+      "wrong_action_rate": 0.013916015625,
+      "coverage95": 0.88671875,
+      "exact_bayes_regret": null
+    },
+    {
+      "scenario": "misspecified",
+      "true_rho": -0.6,
+      "assumed_rho": 0.9,
+      "width": 8,
+      "budget": 512,
+      "method": "pending_greedy",
+      "counts": [
+        146,
+        366
+      ],
+      "raw_key": "misspecified:146:366",
+      "logical_evaluations": 512,
+      "posterior_gap_variance": 0.0009289825381317619,
+      "mean_regret": 0.00026495372902654113,
+      "wrong_action_rate": 0.013916015625,
+      "coverage95": 0.88671875,
+      "exact_bayes_regret": null
+    },
+    {
+      "scenario": "misspecified",
+      "true_rho": -0.6,
+      "assumed_rho": 0.9,
+      "width": 8,
+      "budget": 2048,
+      "method": "equal",
+      "counts": [
+        1024,
+        1024
+      ],
+      "raw_key": "misspecified:1024:1024",
+      "logical_evaluations": 2048,
+      "posterior_gap_variance": 0.0002806508038114533,
+      "mean_regret": 8.395557571532115e-05,
+      "wrong_action_rate": 0.0087890625,
+      "coverage95": 0.927001953125,
+      "exact_bayes_regret": null
+    },
+    {
+      "scenario": "misspecified",
+      "true_rho": -0.6,
+      "assumed_rho": 0.9,
+      "width": 8,
+      "budget": 2048,
+      "method": "neyman",
+      "counts": [
+        585,
+        1463
+      ],
+      "raw_key": "misspecified:585:1463",
+      "logical_evaluations": 2048,
+      "posterior_gap_variance": 0.00023746518991499182,
+      "mean_regret": 6.013381844228762e-05,
+      "wrong_action_rate": 0.007568359375,
+      "coverage95": 0.93359375,
+      "exact_bayes_regret": null
+    },
+    {
+      "scenario": "misspecified",
+      "true_rho": -0.6,
+      "assumed_rho": 0.9,
+      "width": 8,
+      "budget": 2048,
+      "method": "stale_batch",
+      "counts": [
+        584,
+        1464
+      ],
+      "raw_key": "misspecified:584:1464",
+      "logical_evaluations": 2048,
+      "posterior_gap_variance": 0.00023746562194869872,
+      "mean_regret": 6.013381844228762e-05,
+      "wrong_action_rate": 0.007568359375,
+      "coverage95": 0.933837890625,
+      "exact_bayes_regret": null
+    },
+    {
+      "scenario": "misspecified",
+      "true_rho": -0.6,
+      "assumed_rho": 0.9,
+      "width": 8,
+      "budget": 2048,
+      "method": "pending_greedy",
+      "counts": [
+        585,
+        1463
+      ],
+      "raw_key": "misspecified:585:1463",
+      "logical_evaluations": 2048,
+      "posterior_gap_variance": 0.00023746518991499182,
+      "mean_regret": 6.013381844228762e-05,
+      "wrong_action_rate": 0.007568359375,
+      "coverage95": 0.93359375,
+      "exact_bayes_regret": null
+    },
+    {
+      "scenario": "misspecified",
+      "true_rho": -0.6,
+      "assumed_rho": 0.9,
+      "width": 32,
+      "budget": 8,
+      "method": "equal",
+      "counts": [
+        4,
+        4
+      ],
+      "raw_key": "misspecified:4:4",
+      "logical_evaluations": 8,
+      "posterior_gap_variance": 0.02180584001404411,
+      "mean_regret": 0.025110589866134896,
+      "wrong_action_rate": 0.1337890625,
+      "coverage95": 0.453369140625,
+      "exact_bayes_regret": null
+    },
+    {
+      "scenario": "misspecified",
+      "true_rho": -0.6,
+      "assumed_rho": 0.9,
+      "width": 32,
+      "budget": 8,
+      "method": "neyman",
+      "counts": [
+        2,
+        6
+      ],
+      "raw_key": "misspecified:2:6",
+      "logical_evaluations": 8,
+      "posterior_gap_variance": 0.020985179473999818,
+      "mean_regret": 0.021854161586432153,
+      "wrong_action_rate": 0.125732421875,
+      "coverage95": 0.4580078125,
+      "exact_bayes_regret": null
+    },
+    {
+      "scenario": "misspecified",
+      "true_rho": -0.6,
+      "assumed_rho": 0.9,
+      "width": 32,
+      "budget": 8,
+      "method": "stale_batch",
+      "counts": [
+        8,
+        0
+      ],
+      "raw_key": "misspecified:8:0",
+      "logical_evaluations": 8,
+      "posterior_gap_variance": 0.030448484848484832,
+      "mean_regret": 0.23706599762024977,
+      "wrong_action_rate": 0.447021484375,
+      "coverage95": 0.388916015625,
+      "exact_bayes_regret": null
+    },
+    {
+      "scenario": "misspecified",
+      "true_rho": -0.6,
+      "assumed_rho": 0.9,
+      "width": 32,
+      "budget": 8,
+      "method": "pending_greedy",
+      "counts": [
+        2,
+        6
+      ],
+      "raw_key": "misspecified:2:6",
+      "logical_evaluations": 8,
+      "posterior_gap_variance": 0.020985179473999818,
+      "mean_regret": 0.021854161586432153,
+      "wrong_action_rate": 0.125732421875,
+      "coverage95": 0.4580078125,
+      "exact_bayes_regret": null
+    },
+    {
+      "scenario": "misspecified",
+      "true_rho": -0.6,
+      "assumed_rho": 0.9,
+      "width": 32,
+      "budget": 32,
+      "method": "equal",
+      "counts": [
+        16,
+        16
+      ],
+      "raw_key": "misspecified:16:16",
+      "logical_evaluations": 32,
+      "posterior_gap_variance": 0.011458321652556286,
+      "mean_regret": 0.005345603445593296,
+      "wrong_action_rate": 0.060302734375,
+      "coverage95": 0.5576171875,
+      "exact_bayes_regret": null
+    },
+    {
+      "scenario": "misspecified",
+      "true_rho": -0.6,
+      "assumed_rho": 0.9,
+      "width": 32,
+      "budget": 32,
+      "method": "neyman",
+      "counts": [
+        9,
+        23
+      ],
+      "raw_key": "misspecified:9:23",
+      "logical_evaluations": 32,
+      "posterior_gap_variance": 0.010327023820772047,
+      "mean_regret": 0.004523315327123521,
+      "wrong_action_rate": 0.053955078125,
+      "coverage95": 0.5791015625,
+      "exact_bayes_regret": null
+    },
+    {
+      "scenario": "misspecified",
+      "true_rho": -0.6,
+      "assumed_rho": 0.9,
+      "width": 32,
+      "budget": 32,
+      "method": "stale_batch",
+      "counts": [
+        32,
+        0
+      ],
+      "raw_key": "misspecified:32:0",
+      "logical_evaluations": 32,
+      "posterior_gap_variance": 0.030412403100775177,
+      "mean_regret": 0.23573605437181575,
+      "wrong_action_rate": 0.4462890625,
+      "coverage95": 0.38818359375,
+      "exact_bayes_regret": null
+    },
+    {
+      "scenario": "misspecified",
+      "true_rho": -0.6,
+      "assumed_rho": 0.9,
+      "width": 32,
+      "budget": 32,
+      "method": "pending_greedy",
+      "counts": [
+        9,
+        23
+      ],
+      "raw_key": "misspecified:9:23",
+      "logical_evaluations": 32,
+      "posterior_gap_variance": 0.010327023820772047,
+      "mean_regret": 0.004523315327123521,
+      "wrong_action_rate": 0.053955078125,
+      "coverage95": 0.5791015625,
+      "exact_bayes_regret": null
+    },
+    {
+      "scenario": "misspecified",
+      "true_rho": -0.6,
+      "assumed_rho": 0.9,
+      "width": 32,
+      "budget": 128,
+      "method": "equal",
+      "counts": [
+        64,
+        64
+      ],
+      "raw_key": "misspecified:64:64",
+      "logical_evaluations": 128,
+      "posterior_gap_variance": 0.003955710771694184,
+      "mean_regret": 0.0012135929176521917,
+      "wrong_action_rate": 0.02880859375,
+      "coverage95": 0.743408203125,
+      "exact_bayes_regret": null
+    },
+    {
+      "scenario": "misspecified",
+      "true_rho": -0.6,
+      "assumed_rho": 0.9,
+      "width": 32,
+      "budget": 128,
+      "method": "neyman",
+      "counts": [
+        37,
+        91
+      ],
+      "raw_key": "misspecified:37:91",
+      "logical_evaluations": 128,
+      "posterior_gap_variance": 0.0034156481740848306,
+      "mean_regret": 0.0011150165394778527,
+      "wrong_action_rate": 0.02783203125,
+      "coverage95": 0.76953125,
+      "exact_bayes_regret": null
+    },
+    {
+      "scenario": "misspecified",
+      "true_rho": -0.6,
+      "assumed_rho": 0.9,
+      "width": 32,
+      "budget": 128,
+      "method": "stale_batch",
+      "counts": [
+        32,
+        96
+      ],
+      "raw_key": "misspecified:32:96",
+      "logical_evaluations": 128,
+      "posterior_gap_variance": 0.0034374729915956966,
+      "mean_regret": 0.0009698598833449924,
+      "wrong_action_rate": 0.026123046875,
+      "coverage95": 0.77587890625,
+      "exact_bayes_regret": null
+    },
+    {
+      "scenario": "misspecified",
+      "true_rho": -0.6,
+      "assumed_rho": 0.9,
+      "width": 32,
+      "budget": 128,
+      "method": "pending_greedy",
+      "counts": [
+        37,
+        91
+      ],
+      "raw_key": "misspecified:37:91",
+      "logical_evaluations": 128,
+      "posterior_gap_variance": 0.0034156481740848306,
+      "mean_regret": 0.0011150165394778527,
+      "wrong_action_rate": 0.02783203125,
+      "coverage95": 0.76953125,
+      "exact_bayes_regret": null
+    },
+    {
+      "scenario": "misspecified",
+      "true_rho": -0.6,
+      "assumed_rho": 0.9,
+      "width": 32,
+      "budget": 512,
+      "method": "equal",
+      "counts": [
+        256,
+        256
+      ],
+      "raw_key": "misspecified:256:256",
+      "logical_evaluations": 512,
+      "posterior_gap_variance": 0.0010930510928376987,
+      "mean_regret": 0.0003046095331240882,
+      "wrong_action_rate": 0.014892578125,
+      "coverage95": 0.8818359375,
+      "exact_bayes_regret": null
+    },
+    {
+      "scenario": "misspecified",
+      "true_rho": -0.6,
+      "assumed_rho": 0.9,
+      "width": 32,
+      "budget": 512,
+      "method": "neyman",
+      "counts": [
+        146,
+        366
+      ],
+      "raw_key": "misspecified:146:366",
+      "logical_evaluations": 512,
+      "posterior_gap_variance": 0.0009289825381317619,
+      "mean_regret": 0.00026495372902654113,
+      "wrong_action_rate": 0.013916015625,
+      "coverage95": 0.88671875,
+      "exact_bayes_regret": null
+    },
+    {
+      "scenario": "misspecified",
+      "true_rho": -0.6,
+      "assumed_rho": 0.9,
+      "width": 32,
+      "budget": 512,
+      "method": "stale_batch",
+      "counts": [
+        160,
+        352
+      ],
+      "raw_key": "misspecified:160:352",
+      "logical_evaluations": 512,
+      "posterior_gap_variance": 0.0009319252062467216,
+      "mean_regret": 0.00026691027719273174,
+      "wrong_action_rate": 0.014404296875,
+      "coverage95": 0.89111328125,
+      "exact_bayes_regret": null
+    },
+    {
+      "scenario": "misspecified",
+      "true_rho": -0.6,
+      "assumed_rho": 0.9,
+      "width": 32,
+      "budget": 512,
+      "method": "pending_greedy",
+      "counts": [
+        146,
+        366
+      ],
+      "raw_key": "misspecified:146:366",
+      "logical_evaluations": 512,
+      "posterior_gap_variance": 0.0009289825381317619,
+      "mean_regret": 0.00026495372902654113,
+      "wrong_action_rate": 0.013916015625,
+      "coverage95": 0.88671875,
+      "exact_bayes_regret": null
+    },
+    {
+      "scenario": "misspecified",
+      "true_rho": -0.6,
+      "assumed_rho": 0.9,
+      "width": 32,
+      "budget": 2048,
+      "method": "equal",
+      "counts": [
+        1024,
+        1024
+      ],
+      "raw_key": "misspecified:1024:1024",
+      "logical_evaluations": 2048,
+      "posterior_gap_variance": 0.0002806508038114533,
+      "mean_regret": 8.395557571532115e-05,
+      "wrong_action_rate": 0.0087890625,
+      "coverage95": 0.927001953125,
+      "exact_bayes_regret": null
+    },
+    {
+      "scenario": "misspecified",
+      "true_rho": -0.6,
+      "assumed_rho": 0.9,
+      "width": 32,
+      "budget": 2048,
+      "method": "neyman",
+      "counts": [
+        585,
+        1463
+      ],
+      "raw_key": "misspecified:585:1463",
+      "logical_evaluations": 2048,
+      "posterior_gap_variance": 0.00023746518991499182,
+      "mean_regret": 6.013381844228762e-05,
+      "wrong_action_rate": 0.007568359375,
+      "coverage95": 0.93359375,
+      "exact_bayes_regret": null
+    },
+    {
+      "scenario": "misspecified",
+      "true_rho": -0.6,
+      "assumed_rho": 0.9,
+      "width": 32,
+      "budget": 2048,
+      "method": "stale_batch",
+      "counts": [
+        576,
+        1472
+      ],
+      "raw_key": "misspecified:576:1472",
+      "logical_evaluations": 2048,
+      "posterior_gap_variance": 0.0002374891184457824,
+      "mean_regret": 6.609124792613312e-05,
+      "wrong_action_rate": 0.00732421875,
+      "coverage95": 0.93212890625,
+      "exact_bayes_regret": null
+    },
+    {
+      "scenario": "misspecified",
+      "true_rho": -0.6,
+      "assumed_rho": 0.9,
+      "width": 32,
+      "budget": 2048,
+      "method": "pending_greedy",
+      "counts": [
+        585,
+        1463
+      ],
+      "raw_key": "misspecified:585:1463",
+      "logical_evaluations": 2048,
+      "posterior_gap_variance": 0.00023746518991499182,
+      "mean_regret": 6.013381844228762e-05,
+      "wrong_action_rate": 0.007568359375,
+      "coverage95": 0.93359375,
+      "exact_bayes_regret": null
+    }
+  ],
+  "paired_comparisons": [
+    {
+      "scenario": "independent",
+      "width": 1,
+      "budget": 8,
+      "contrast": "pending_greedy minus equal",
+      "mean_regret_difference": -0.0014780899422574536,
+      "descriptive_95_interval": [
+        -0.003224542973380534,
+        0.00026836308886562686
+      ]
+    },
+    {
+      "scenario": "independent",
+      "width": 1,
+      "budget": 8,
+      "contrast": "pending_greedy minus neyman",
+      "mean_regret_difference": -0.00048373410011942955,
+      "descriptive_95_interval": [
+        -0.00228438114971092,
+        0.0013169129494720612
+      ]
+    },
+    {
+      "scenario": "independent",
+      "width": 1,
+      "budget": 8,
+      "contrast": "pending_greedy minus stale_batch",
+      "mean_regret_difference": 0.0,
+      "descriptive_95_interval": [
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "scenario": "independent",
+      "width": 1,
+      "budget": 32,
+      "contrast": "pending_greedy minus equal",
+      "mean_regret_difference": -0.001398262790397437,
+      "descriptive_95_interval": [
+        -0.002236245079190292,
+        -0.0005602805016045821
+      ]
+    },
+    {
+      "scenario": "independent",
+      "width": 1,
+      "budget": 32,
+      "contrast": "pending_greedy minus neyman",
+      "mean_regret_difference": 0.0,
+      "descriptive_95_interval": [
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "scenario": "independent",
+      "width": 1,
+      "budget": 32,
+      "contrast": "pending_greedy minus stale_batch",
+      "mean_regret_difference": 0.0,
+      "descriptive_95_interval": [
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "scenario": "independent",
+      "width": 1,
+      "budget": 128,
+      "contrast": "pending_greedy minus equal",
+      "mean_regret_difference": -0.0001537338185255202,
+      "descriptive_95_interval": [
+        -0.0004493718343875759,
+        0.00014190419733653547
+      ]
+    },
+    {
+      "scenario": "independent",
+      "width": 1,
+      "budget": 128,
+      "contrast": "pending_greedy minus neyman",
+      "mean_regret_difference": 0.0,
+      "descriptive_95_interval": [
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "scenario": "independent",
+      "width": 1,
+      "budget": 128,
+      "contrast": "pending_greedy minus stale_batch",
+      "mean_regret_difference": 0.0,
+      "descriptive_95_interval": [
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "scenario": "independent",
+      "width": 1,
+      "budget": 512,
+      "contrast": "pending_greedy minus equal",
+      "mean_regret_difference": -2.136460574155665e-05,
+      "descriptive_95_interval": [
+        -0.00011770055840082393,
+        7.497134691771062e-05
+      ]
+    },
+    {
+      "scenario": "independent",
+      "width": 1,
+      "budget": 512,
+      "contrast": "pending_greedy minus neyman",
+      "mean_regret_difference": 1.3279256315950763e-05,
+      "descriptive_95_interval": [
+        -1.0141581342958361e-05,
+        3.670009397485989e-05
+      ]
+    },
+    {
+      "scenario": "independent",
+      "width": 1,
+      "budget": 512,
+      "contrast": "pending_greedy minus stale_batch",
+      "mean_regret_difference": 0.0,
+      "descriptive_95_interval": [
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "scenario": "independent",
+      "width": 1,
+      "budget": 2048,
+      "contrast": "pending_greedy minus equal",
+      "mean_regret_difference": -1.9846111767709155e-05,
+      "descriptive_95_interval": [
+        -5.375798534307196e-05,
+        1.406576180765365e-05
+      ]
+    },
+    {
+      "scenario": "independent",
+      "width": 1,
+      "budget": 2048,
+      "contrast": "pending_greedy minus neyman",
+      "mean_regret_difference": 0.0,
+      "descriptive_95_interval": [
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "scenario": "independent",
+      "width": 1,
+      "budget": 2048,
+      "contrast": "pending_greedy minus stale_batch",
+      "mean_regret_difference": 0.0,
+      "descriptive_95_interval": [
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "scenario": "independent",
+      "width": 8,
+      "budget": 8,
+      "contrast": "pending_greedy minus equal",
+      "mean_regret_difference": -0.0014780899422574536,
+      "descriptive_95_interval": [
+        -0.003224542973380534,
+        0.00026836308886562686
+      ]
+    },
+    {
+      "scenario": "independent",
+      "width": 8,
+      "budget": 8,
+      "contrast": "pending_greedy minus neyman",
+      "mean_regret_difference": -0.00048373410011942955,
+      "descriptive_95_interval": [
+        -0.00228438114971092,
+        0.0013169129494720612
+      ]
+    },
+    {
+      "scenario": "independent",
+      "width": 8,
+      "budget": 8,
+      "contrast": "pending_greedy minus stale_batch",
+      "mean_regret_difference": -0.051941163687571325,
+      "descriptive_95_interval": [
+        -0.057080168115437216,
+        -0.046802159259705434
+      ]
+    },
+    {
+      "scenario": "independent",
+      "width": 8,
+      "budget": 32,
+      "contrast": "pending_greedy minus equal",
+      "mean_regret_difference": -0.001398262790397437,
+      "descriptive_95_interval": [
+        -0.002236245079190292,
+        -0.0005602805016045821
+      ]
+    },
+    {
+      "scenario": "independent",
+      "width": 8,
+      "budget": 32,
+      "contrast": "pending_greedy minus neyman",
+      "mean_regret_difference": 0.0,
+      "descriptive_95_interval": [
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "scenario": "independent",
+      "width": 8,
+      "budget": 32,
+      "contrast": "pending_greedy minus stale_batch",
+      "mean_regret_difference": 8.101239557143217e-05,
+      "descriptive_95_interval": [
+        -0.00034718089478156757,
+        0.0005092056859244319
+      ]
+    },
+    {
+      "scenario": "independent",
+      "width": 8,
+      "budget": 128,
+      "contrast": "pending_greedy minus equal",
+      "mean_regret_difference": -0.0001537338185255202,
+      "descriptive_95_interval": [
+        -0.0004493718343875759,
+        0.00014190419733653547
+      ]
+    },
+    {
+      "scenario": "independent",
+      "width": 8,
+      "budget": 128,
+      "contrast": "pending_greedy minus neyman",
+      "mean_regret_difference": 0.0,
+      "descriptive_95_interval": [
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "scenario": "independent",
+      "width": 8,
+      "budget": 128,
+      "contrast": "pending_greedy minus stale_batch",
+      "mean_regret_difference": 2.0008688590171403e-05,
+      "descriptive_95_interval": [
+        -0.00015624787759607874,
+        0.00019626525477642158
+      ]
+    },
+    {
+      "scenario": "independent",
+      "width": 8,
+      "budget": 512,
+      "contrast": "pending_greedy minus equal",
+      "mean_regret_difference": -2.136460574155665e-05,
+      "descriptive_95_interval": [
+        -0.00011770055840082393,
+        7.497134691771062e-05
+      ]
+    },
+    {
+      "scenario": "independent",
+      "width": 8,
+      "budget": 512,
+      "contrast": "pending_greedy minus neyman",
+      "mean_regret_difference": 1.3279256315950763e-05,
+      "descriptive_95_interval": [
+        -1.0141581342958361e-05,
+        3.670009397485989e-05
+      ]
+    },
+    {
+      "scenario": "independent",
+      "width": 8,
+      "budget": 512,
+      "contrast": "pending_greedy minus stale_batch",
+      "mean_regret_difference": 7.780018681752431e-07,
+      "descriptive_95_interval": [
+        -1.4984868030983705e-05,
+        1.654087176733419e-05
+      ]
+    },
+    {
+      "scenario": "independent",
+      "width": 8,
+      "budget": 2048,
+      "contrast": "pending_greedy minus equal",
+      "mean_regret_difference": -1.9846111767709155e-05,
+      "descriptive_95_interval": [
+        -5.375798534307196e-05,
+        1.406576180765365e-05
+      ]
+    },
+    {
+      "scenario": "independent",
+      "width": 8,
+      "budget": 2048,
+      "contrast": "pending_greedy minus neyman",
+      "mean_regret_difference": 0.0,
+      "descriptive_95_interval": [
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "scenario": "independent",
+      "width": 8,
+      "budget": 2048,
+      "contrast": "pending_greedy minus stale_batch",
+      "mean_regret_difference": -8.731482940475366e-07,
+      "descriptive_95_interval": [
+        -2.584518950380708e-06,
+        8.382223622856353e-07
+      ]
+    },
+    {
+      "scenario": "independent",
+      "width": 32,
+      "budget": 8,
+      "contrast": "pending_greedy minus equal",
+      "mean_regret_difference": -0.0014780899422574536,
+      "descriptive_95_interval": [
+        -0.003224542973380534,
+        0.00026836308886562686
+      ]
+    },
+    {
+      "scenario": "independent",
+      "width": 32,
+      "budget": 8,
+      "contrast": "pending_greedy minus neyman",
+      "mean_regret_difference": -0.00048373410011942955,
+      "descriptive_95_interval": [
+        -0.00228438114971092,
+        0.0013169129494720612
+      ]
+    },
+    {
+      "scenario": "independent",
+      "width": 32,
+      "budget": 8,
+      "contrast": "pending_greedy minus stale_batch",
+      "mean_regret_difference": -0.051941163687571325,
+      "descriptive_95_interval": [
+        -0.057080168115437216,
+        -0.046802159259705434
+      ]
+    },
+    {
+      "scenario": "independent",
+      "width": 32,
+      "budget": 32,
+      "contrast": "pending_greedy minus equal",
+      "mean_regret_difference": -0.001398262790397437,
+      "descriptive_95_interval": [
+        -0.002236245079190292,
+        -0.0005602805016045821
+      ]
+    },
+    {
+      "scenario": "independent",
+      "width": 32,
+      "budget": 32,
+      "contrast": "pending_greedy minus neyman",
+      "mean_regret_difference": 0.0,
+      "descriptive_95_interval": [
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "scenario": "independent",
+      "width": 32,
+      "budget": 32,
+      "contrast": "pending_greedy minus stale_batch",
+      "mean_regret_difference": -0.06258556133681825,
+      "descriptive_95_interval": [
+        -0.06750695844635032,
+        -0.05766416422728618
+      ]
+    },
+    {
+      "scenario": "independent",
+      "width": 32,
+      "budget": 128,
+      "contrast": "pending_greedy minus equal",
+      "mean_regret_difference": -0.0001537338185255202,
+      "descriptive_95_interval": [
+        -0.0004493718343875759,
+        0.00014190419733653547
+      ]
+    },
+    {
+      "scenario": "independent",
+      "width": 32,
+      "budget": 128,
+      "contrast": "pending_greedy minus neyman",
+      "mean_regret_difference": 0.0,
+      "descriptive_95_interval": [
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "scenario": "independent",
+      "width": 32,
+      "budget": 128,
+      "contrast": "pending_greedy minus stale_batch",
+      "mean_regret_difference": -0.0001384933354846042,
+      "descriptive_95_interval": [
+        -0.00032779655196018577,
+        5.080988099097735e-05
+      ]
+    },
+    {
+      "scenario": "independent",
+      "width": 32,
+      "budget": 512,
+      "contrast": "pending_greedy minus equal",
+      "mean_regret_difference": -2.136460574155665e-05,
+      "descriptive_95_interval": [
+        -0.00011770055840082393,
+        7.497134691771062e-05
+      ]
+    },
+    {
+      "scenario": "independent",
+      "width": 32,
+      "budget": 512,
+      "contrast": "pending_greedy minus neyman",
+      "mean_regret_difference": 1.3279256315950763e-05,
+      "descriptive_95_interval": [
+        -1.0141581342958361e-05,
+        3.670009397485989e-05
+      ]
+    },
+    {
+      "scenario": "independent",
+      "width": 32,
+      "budget": 512,
+      "contrast": "pending_greedy minus stale_batch",
+      "mean_regret_difference": 3.423714642984607e-05,
+      "descriptive_95_interval": [
+        -1.5018562158122933e-05,
+        8.349285501781507e-05
+      ]
+    },
+    {
+      "scenario": "independent",
+      "width": 32,
+      "budget": 2048,
+      "contrast": "pending_greedy minus equal",
+      "mean_regret_difference": -1.9846111767709155e-05,
+      "descriptive_95_interval": [
+        -5.375798534307196e-05,
+        1.406576180765365e-05
+      ]
+    },
+    {
+      "scenario": "independent",
+      "width": 32,
+      "budget": 2048,
+      "contrast": "pending_greedy minus neyman",
+      "mean_regret_difference": 0.0,
+      "descriptive_95_interval": [
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "scenario": "independent",
+      "width": 32,
+      "budget": 2048,
+      "contrast": "pending_greedy minus stale_batch",
+      "mean_regret_difference": 8.080301328329385e-06,
+      "descriptive_95_interval": [
+        -3.5021241630142983e-06,
+        1.9662726819673067e-05
+      ]
+    },
+    {
+      "scenario": "positive",
+      "width": 1,
+      "budget": 8,
+      "contrast": "pending_greedy minus equal",
+      "mean_regret_difference": -0.00059984106756408,
+      "descriptive_95_interval": [
+        -0.0020265372421564756,
+        0.0008268551070283153
+      ]
+    },
+    {
+      "scenario": "positive",
+      "width": 1,
+      "budget": 8,
+      "contrast": "pending_greedy minus neyman",
+      "mean_regret_difference": 0.0,
+      "descriptive_95_interval": [
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "scenario": "positive",
+      "width": 1,
+      "budget": 8,
+      "contrast": "pending_greedy minus stale_batch",
+      "mean_regret_difference": 0.0,
+      "descriptive_95_interval": [
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "scenario": "positive",
+      "width": 1,
+      "budget": 32,
+      "contrast": "pending_greedy minus equal",
+      "mean_regret_difference": -0.0011264979789978003,
+      "descriptive_95_interval": [
+        -0.0020372883421947833,
+        -0.00021570761580081733
+      ]
+    },
+    {
+      "scenario": "positive",
+      "width": 1,
+      "budget": 32,
+      "contrast": "pending_greedy minus neyman",
+      "mean_regret_difference": 0.0,
+      "descriptive_95_interval": [
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "scenario": "positive",
+      "width": 1,
+      "budget": 32,
+      "contrast": "pending_greedy minus stale_batch",
+      "mean_regret_difference": 0.0,
+      "descriptive_95_interval": [
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "scenario": "positive",
+      "width": 1,
+      "budget": 128,
+      "contrast": "pending_greedy minus equal",
+      "mean_regret_difference": -0.000553150407799141,
+      "descriptive_95_interval": [
+        -0.0009729422982823233,
+        -0.0001333585173159587
+      ]
+    },
+    {
+      "scenario": "positive",
+      "width": 1,
+      "budget": 128,
+      "contrast": "pending_greedy minus neyman",
+      "mean_regret_difference": 0.0,
+      "descriptive_95_interval": [
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "scenario": "positive",
+      "width": 1,
+      "budget": 128,
+      "contrast": "pending_greedy minus stale_batch",
+      "mean_regret_difference": 0.0,
+      "descriptive_95_interval": [
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "scenario": "positive",
+      "width": 1,
+      "budget": 512,
+      "contrast": "pending_greedy minus equal",
+      "mean_regret_difference": -0.00012635569840858393,
+      "descriptive_95_interval": [
+        -0.0002942554433223914,
+        4.154404650522352e-05
+      ]
+    },
+    {
+      "scenario": "positive",
+      "width": 1,
+      "budget": 512,
+      "contrast": "pending_greedy minus neyman",
+      "mean_regret_difference": 0.0,
+      "descriptive_95_interval": [
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "scenario": "positive",
+      "width": 1,
+      "budget": 512,
+      "contrast": "pending_greedy minus stale_batch",
+      "mean_regret_difference": 0.0,
+      "descriptive_95_interval": [
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "scenario": "positive",
+      "width": 1,
+      "budget": 2048,
+      "contrast": "pending_greedy minus equal",
+      "mean_regret_difference": -2.856634594560626e-05,
+      "descriptive_95_interval": [
+        -7.716893705219146e-05,
+        2.0036245160978943e-05
+      ]
+    },
+    {
+      "scenario": "positive",
+      "width": 1,
+      "budget": 2048,
+      "contrast": "pending_greedy minus neyman",
+      "mean_regret_difference": 0.0,
+      "descriptive_95_interval": [
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "scenario": "positive",
+      "width": 1,
+      "budget": 2048,
+      "contrast": "pending_greedy minus stale_batch",
+      "mean_regret_difference": 0.0,
+      "descriptive_95_interval": [
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "scenario": "positive",
+      "width": 8,
+      "budget": 8,
+      "contrast": "pending_greedy minus equal",
+      "mean_regret_difference": -0.00059984106756408,
+      "descriptive_95_interval": [
+        -0.0020265372421564756,
+        0.0008268551070283153
+      ]
+    },
+    {
+      "scenario": "positive",
+      "width": 8,
+      "budget": 8,
+      "contrast": "pending_greedy minus neyman",
+      "mean_regret_difference": 0.0,
+      "descriptive_95_interval": [
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "scenario": "positive",
+      "width": 8,
+      "budget": 8,
+      "contrast": "pending_greedy minus stale_batch",
+      "mean_regret_difference": -0.009264370277496246,
+      "descriptive_95_interval": [
+        -0.011245218361638231,
+        -0.007283522193354259
+      ]
+    },
+    {
+      "scenario": "positive",
+      "width": 8,
+      "budget": 32,
+      "contrast": "pending_greedy minus equal",
+      "mean_regret_difference": -0.0011264979789978003,
+      "descriptive_95_interval": [
+        -0.0020372883421947833,
+        -0.00021570761580081733
+      ]
+    },
+    {
+      "scenario": "positive",
+      "width": 8,
+      "budget": 32,
+      "contrast": "pending_greedy minus neyman",
+      "mean_regret_difference": 0.0,
+      "descriptive_95_interval": [
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "scenario": "positive",
+      "width": 8,
+      "budget": 32,
+      "contrast": "pending_greedy minus stale_batch",
+      "mean_regret_difference": 0.0005078480897933328,
+      "descriptive_95_interval": [
+        -0.00010619486024279127,
+        0.0011218910398294569
+      ]
+    },
+    {
+      "scenario": "positive",
+      "width": 8,
+      "budget": 128,
+      "contrast": "pending_greedy minus equal",
+      "mean_regret_difference": -0.000553150407799141,
+      "descriptive_95_interval": [
+        -0.0009729422982823233,
+        -0.0001333585173159587
+      ]
+    },
+    {
+      "scenario": "positive",
+      "width": 8,
+      "budget": 128,
+      "contrast": "pending_greedy minus neyman",
+      "mean_regret_difference": 0.0,
+      "descriptive_95_interval": [
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "scenario": "positive",
+      "width": 8,
+      "budget": 128,
+      "contrast": "pending_greedy minus stale_batch",
+      "mean_regret_difference": 0.00019765999256024088,
+      "descriptive_95_interval": [
+        -4.573631159606538e-05,
+        0.00044105629671654717
+      ]
+    },
+    {
+      "scenario": "positive",
+      "width": 8,
+      "budget": 512,
+      "contrast": "pending_greedy minus equal",
+      "mean_regret_difference": -0.00012635569840858393,
+      "descriptive_95_interval": [
+        -0.0002942554433223914,
+        4.154404650522352e-05
+      ]
+    },
+    {
+      "scenario": "positive",
+      "width": 8,
+      "budget": 512,
+      "contrast": "pending_greedy minus neyman",
+      "mean_regret_difference": 0.0,
+      "descriptive_95_interval": [
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "scenario": "positive",
+      "width": 8,
+      "budget": 512,
+      "contrast": "pending_greedy minus stale_batch",
+      "mean_regret_difference": -1.777188482777783e-05,
+      "descriptive_95_interval": [
+        -5.7678332989568115e-05,
+        2.2134563334012456e-05
+      ]
+    },
+    {
+      "scenario": "positive",
+      "width": 8,
+      "budget": 2048,
+      "contrast": "pending_greedy minus equal",
+      "mean_regret_difference": -2.856634594560626e-05,
+      "descriptive_95_interval": [
+        -7.716893705219146e-05,
+        2.0036245160978943e-05
+      ]
+    },
+    {
+      "scenario": "positive",
+      "width": 8,
+      "budget": 2048,
+      "contrast": "pending_greedy minus neyman",
+      "mean_regret_difference": 0.0,
+      "descriptive_95_interval": [
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "scenario": "positive",
+      "width": 8,
+      "budget": 2048,
+      "contrast": "pending_greedy minus stale_batch",
+      "mean_regret_difference": -3.2382994647623074e-06,
+      "descriptive_95_interval": [
+        -1.092935194197431e-05,
+        4.452753012449696e-06
+      ]
+    },
+    {
+      "scenario": "positive",
+      "width": 32,
+      "budget": 8,
+      "contrast": "pending_greedy minus equal",
+      "mean_regret_difference": -0.00059984106756408,
+      "descriptive_95_interval": [
+        -0.0020265372421564756,
+        0.0008268551070283153
+      ]
+    },
+    {
+      "scenario": "positive",
+      "width": 32,
+      "budget": 8,
+      "contrast": "pending_greedy minus neyman",
+      "mean_regret_difference": 0.0,
+      "descriptive_95_interval": [
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "scenario": "positive",
+      "width": 32,
+      "budget": 8,
+      "contrast": "pending_greedy minus stale_batch",
+      "mean_regret_difference": -0.009264370277496246,
+      "descriptive_95_interval": [
+        -0.011245218361638231,
+        -0.007283522193354259
+      ]
+    },
+    {
+      "scenario": "positive",
+      "width": 32,
+      "budget": 32,
+      "contrast": "pending_greedy minus equal",
+      "mean_regret_difference": -0.0011264979789978003,
+      "descriptive_95_interval": [
+        -0.0020372883421947833,
+        -0.00021570761580081733
+      ]
+    },
+    {
+      "scenario": "positive",
+      "width": 32,
+      "budget": 32,
+      "contrast": "pending_greedy minus neyman",
+      "mean_regret_difference": 0.0,
+      "descriptive_95_interval": [
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "scenario": "positive",
+      "width": 32,
+      "budget": 32,
+      "contrast": "pending_greedy minus stale_batch",
+      "mean_regret_difference": -0.02110858864093037,
+      "descriptive_95_interval": [
+        -0.02326368041616122,
+        -0.01895349686569952
+      ]
+    },
+    {
+      "scenario": "positive",
+      "width": 32,
+      "budget": 128,
+      "contrast": "pending_greedy minus equal",
+      "mean_regret_difference": -0.000553150407799141,
+      "descriptive_95_interval": [
+        -0.0009729422982823233,
+        -0.0001333585173159587
+      ]
+    },
+    {
+      "scenario": "positive",
+      "width": 32,
+      "budget": 128,
+      "contrast": "pending_greedy minus neyman",
+      "mean_regret_difference": 0.0,
+      "descriptive_95_interval": [
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "scenario": "positive",
+      "width": 32,
+      "budget": 128,
+      "contrast": "pending_greedy minus stale_batch",
+      "mean_regret_difference": 8.887361388591217e-05,
+      "descriptive_95_interval": [
+        -0.00020480265917565316,
+        0.00038254988694747747
+      ]
+    },
+    {
+      "scenario": "positive",
+      "width": 32,
+      "budget": 512,
+      "contrast": "pending_greedy minus equal",
+      "mean_regret_difference": -0.00012635569840858393,
+      "descriptive_95_interval": [
+        -0.0002942554433223914,
+        4.154404650522352e-05
+      ]
+    },
+    {
+      "scenario": "positive",
+      "width": 32,
+      "budget": 512,
+      "contrast": "pending_greedy minus neyman",
+      "mean_regret_difference": 0.0,
+      "descriptive_95_interval": [
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "scenario": "positive",
+      "width": 32,
+      "budget": 512,
+      "contrast": "pending_greedy minus stale_batch",
+      "mean_regret_difference": -3.404968822179589e-06,
+      "descriptive_95_interval": [
+        -9.455147533417196e-05,
+        8.774153768981277e-05
+      ]
+    },
+    {
+      "scenario": "positive",
+      "width": 32,
+      "budget": 2048,
+      "contrast": "pending_greedy minus equal",
+      "mean_regret_difference": -2.856634594560626e-05,
+      "descriptive_95_interval": [
+        -7.716893705219146e-05,
+        2.0036245160978943e-05
+      ]
+    },
+    {
+      "scenario": "positive",
+      "width": 32,
+      "budget": 2048,
+      "contrast": "pending_greedy minus neyman",
+      "mean_regret_difference": 0.0,
+      "descriptive_95_interval": [
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "scenario": "positive",
+      "width": 32,
+      "budget": 2048,
+      "contrast": "pending_greedy minus stale_batch",
+      "mean_regret_difference": -4.451181672310637e-06,
+      "descriptive_95_interval": [
+        -1.9855161431654542e-05,
+        1.0952798087033268e-05
+      ]
+    },
+    {
+      "scenario": "negative",
+      "width": 1,
+      "budget": 8,
+      "contrast": "pending_greedy minus equal",
+      "mean_regret_difference": -0.0015061040747456557,
+      "descriptive_95_interval": [
+        -0.0029437440548417118,
+        -6.846409464959942e-05
+      ]
+    },
+    {
+      "scenario": "negative",
+      "width": 1,
+      "budget": 8,
+      "contrast": "pending_greedy minus neyman",
+      "mean_regret_difference": -0.0026410232525911023,
+      "descriptive_95_interval": [
+        -0.004326499792683394,
+        -0.0009555467124988109
+      ]
+    },
+    {
+      "scenario": "negative",
+      "width": 1,
+      "budget": 8,
+      "contrast": "pending_greedy minus stale_batch",
+      "mean_regret_difference": 0.0,
+      "descriptive_95_interval": [
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "scenario": "negative",
+      "width": 1,
+      "budget": 32,
+      "contrast": "pending_greedy minus equal",
+      "mean_regret_difference": -0.0005622947369725247,
+      "descriptive_95_interval": [
+        -0.0012790839161595053,
+        0.00015449444221445595
+      ]
+    },
+    {
+      "scenario": "negative",
+      "width": 1,
+      "budget": 32,
+      "contrast": "pending_greedy minus neyman",
+      "mean_regret_difference": 0.00012134915351162985,
+      "descriptive_95_interval": [
+        -0.0002892672543266528,
+        0.0005319655613499125
+      ]
+    },
+    {
+      "scenario": "negative",
+      "width": 1,
+      "budget": 32,
+      "contrast": "pending_greedy minus stale_batch",
+      "mean_regret_difference": 0.0,
+      "descriptive_95_interval": [
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "scenario": "negative",
+      "width": 1,
+      "budget": 128,
+      "contrast": "pending_greedy minus equal",
+      "mean_regret_difference": 7.476674632467237e-05,
+      "descriptive_95_interval": [
+        -0.00020462472630524773,
+        0.00035415821895459245
+      ]
+    },
+    {
+      "scenario": "negative",
+      "width": 1,
+      "budget": 128,
+      "contrast": "pending_greedy minus neyman",
+      "mean_regret_difference": 0.0,
+      "descriptive_95_interval": [
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "scenario": "negative",
+      "width": 1,
+      "budget": 128,
+      "contrast": "pending_greedy minus stale_batch",
+      "mean_regret_difference": 0.0,
+      "descriptive_95_interval": [
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "scenario": "negative",
+      "width": 1,
+      "budget": 512,
+      "contrast": "pending_greedy minus equal",
+      "mean_regret_difference": -6.536213582460426e-05,
+      "descriptive_95_interval": [
+        -0.0001770478435447163,
+        4.632357189550778e-05
+      ]
+    },
+    {
+      "scenario": "negative",
+      "width": 1,
+      "budget": 512,
+      "contrast": "pending_greedy minus neyman",
+      "mean_regret_difference": 1.761578886278963e-05,
+      "descriptive_95_interval": [
+        -3.642413422750627e-05,
+        7.165571195308553e-05
+      ]
+    },
+    {
+      "scenario": "negative",
+      "width": 1,
+      "budget": 512,
+      "contrast": "pending_greedy minus stale_batch",
+      "mean_regret_difference": 0.0,
+      "descriptive_95_interval": [
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "scenario": "negative",
+      "width": 1,
+      "budget": 2048,
+      "contrast": "pending_greedy minus equal",
+      "mean_regret_difference": -6.252578605221405e-06,
+      "descriptive_95_interval": [
+        -3.105215014247794e-05,
+        1.8546992932035125e-05
+      ]
+    },
+    {
+      "scenario": "negative",
+      "width": 1,
+      "budget": 2048,
+      "contrast": "pending_greedy minus neyman",
+      "mean_regret_difference": -8.976009904717187e-07,
+      "descriptive_95_interval": [
+        -2.656898931796287e-06,
+        8.616969508528498e-07
+      ]
+    },
+    {
+      "scenario": "negative",
+      "width": 1,
+      "budget": 2048,
+      "contrast": "pending_greedy minus stale_batch",
+      "mean_regret_difference": 0.0,
+      "descriptive_95_interval": [
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "scenario": "negative",
+      "width": 8,
+      "budget": 8,
+      "contrast": "pending_greedy minus equal",
+      "mean_regret_difference": -0.0015061040747456557,
+      "descriptive_95_interval": [
+        -0.0029437440548417118,
+        -6.846409464959942e-05
+      ]
+    },
+    {
+      "scenario": "negative",
+      "width": 8,
+      "budget": 8,
+      "contrast": "pending_greedy minus neyman",
+      "mean_regret_difference": -0.0026410232525911023,
+      "descriptive_95_interval": [
+        -0.004326499792683394,
+        -0.0009555467124988109
+      ]
+    },
+    {
+      "scenario": "negative",
+      "width": 8,
+      "budget": 8,
+      "contrast": "pending_greedy minus stale_batch",
+      "mean_regret_difference": -0.02354624045614511,
+      "descriptive_95_interval": [
+        -0.02710777682766779,
+        -0.019984704084622433
+      ]
+    },
+    {
+      "scenario": "negative",
+      "width": 8,
+      "budget": 32,
+      "contrast": "pending_greedy minus equal",
+      "mean_regret_difference": -0.0005622947369725247,
+      "descriptive_95_interval": [
+        -0.0012790839161595053,
+        0.00015449444221445595
+      ]
+    },
+    {
+      "scenario": "negative",
+      "width": 8,
+      "budget": 32,
+      "contrast": "pending_greedy minus neyman",
+      "mean_regret_difference": 0.00012134915351162985,
+      "descriptive_95_interval": [
+        -0.0002892672543266528,
+        0.0005319655613499125
+      ]
+    },
+    {
+      "scenario": "negative",
+      "width": 8,
+      "budget": 32,
+      "contrast": "pending_greedy minus stale_batch",
+      "mean_regret_difference": 0.00014759493723455916,
+      "descriptive_95_interval": [
+        -0.0003113564862051605,
+        0.0006065463606742788
+      ]
+    },
+    {
+      "scenario": "negative",
+      "width": 8,
+      "budget": 128,
+      "contrast": "pending_greedy minus equal",
+      "mean_regret_difference": 7.476674632467237e-05,
+      "descriptive_95_interval": [
+        -0.00020462472630524773,
+        0.00035415821895459245
+      ]
+    },
+    {
+      "scenario": "negative",
+      "width": 8,
+      "budget": 128,
+      "contrast": "pending_greedy minus neyman",
+      "mean_regret_difference": 0.0,
+      "descriptive_95_interval": [
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "scenario": "negative",
+      "width": 8,
+      "budget": 128,
+      "contrast": "pending_greedy minus stale_batch",
+      "mean_regret_difference": 0.00017685017496833113,
+      "descriptive_95_interval": [
+        -2.976470171992614e-06,
+        0.00035667682010865487
+      ]
+    },
+    {
+      "scenario": "negative",
+      "width": 8,
+      "budget": 512,
+      "contrast": "pending_greedy minus equal",
+      "mean_regret_difference": -6.536213582460426e-05,
+      "descriptive_95_interval": [
+        -0.0001770478435447163,
+        4.632357189550778e-05
+      ]
+    },
+    {
+      "scenario": "negative",
+      "width": 8,
+      "budget": 512,
+      "contrast": "pending_greedy minus neyman",
+      "mean_regret_difference": 1.761578886278963e-05,
+      "descriptive_95_interval": [
+        -3.642413422750627e-05,
+        7.165571195308553e-05
+      ]
+    },
+    {
+      "scenario": "negative",
+      "width": 8,
+      "budget": 512,
+      "contrast": "pending_greedy minus stale_batch",
+      "mean_regret_difference": 1.2061949666045044e-05,
+      "descriptive_95_interval": [
+        -2.4922545610800978e-05,
+        4.904644494289106e-05
+      ]
+    },
+    {
+      "scenario": "negative",
+      "width": 8,
+      "budget": 2048,
+      "contrast": "pending_greedy minus equal",
+      "mean_regret_difference": -6.252578605221405e-06,
+      "descriptive_95_interval": [
+        -3.105215014247794e-05,
+        1.8546992932035125e-05
+      ]
+    },
+    {
+      "scenario": "negative",
+      "width": 8,
+      "budget": 2048,
+      "contrast": "pending_greedy minus neyman",
+      "mean_regret_difference": -8.976009904717187e-07,
+      "descriptive_95_interval": [
+        -2.656898931796287e-06,
+        8.616969508528498e-07
+      ]
+    },
+    {
+      "scenario": "negative",
+      "width": 8,
+      "budget": 2048,
+      "contrast": "pending_greedy minus stale_batch",
+      "mean_regret_difference": 0.0,
+      "descriptive_95_interval": [
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "scenario": "negative",
+      "width": 32,
+      "budget": 8,
+      "contrast": "pending_greedy minus equal",
+      "mean_regret_difference": -0.0015061040747456557,
+      "descriptive_95_interval": [
+        -0.0029437440548417118,
+        -6.846409464959942e-05
+      ]
+    },
+    {
+      "scenario": "negative",
+      "width": 32,
+      "budget": 8,
+      "contrast": "pending_greedy minus neyman",
+      "mean_regret_difference": -0.0026410232525911023,
+      "descriptive_95_interval": [
+        -0.004326499792683394,
+        -0.0009555467124988109
+      ]
+    },
+    {
+      "scenario": "negative",
+      "width": 32,
+      "budget": 8,
+      "contrast": "pending_greedy minus stale_batch",
+      "mean_regret_difference": -0.02354624045614511,
+      "descriptive_95_interval": [
+        -0.02710777682766779,
+        -0.019984704084622433
+      ]
+    },
+    {
+      "scenario": "negative",
+      "width": 32,
+      "budget": 32,
+      "contrast": "pending_greedy minus equal",
+      "mean_regret_difference": -0.0005622947369725247,
+      "descriptive_95_interval": [
+        -0.0012790839161595053,
+        0.00015449444221445595
+      ]
+    },
+    {
+      "scenario": "negative",
+      "width": 32,
+      "budget": 32,
+      "contrast": "pending_greedy minus neyman",
+      "mean_regret_difference": 0.00012134915351162985,
+      "descriptive_95_interval": [
+        -0.0002892672543266528,
+        0.0005319655613499125
+      ]
+    },
+    {
+      "scenario": "negative",
+      "width": 32,
+      "budget": 32,
+      "contrast": "pending_greedy minus stale_batch",
+      "mean_regret_difference": -0.030409687361077894,
+      "descriptive_95_interval": [
+        -0.033633758342657624,
+        -0.027185616379498165
+      ]
+    },
+    {
+      "scenario": "negative",
+      "width": 32,
+      "budget": 128,
+      "contrast": "pending_greedy minus equal",
+      "mean_regret_difference": 7.476674632467237e-05,
+      "descriptive_95_interval": [
+        -0.00020462472630524773,
+        0.00035415821895459245
+      ]
+    },
+    {
+      "scenario": "negative",
+      "width": 32,
+      "budget": 128,
+      "contrast": "pending_greedy minus neyman",
+      "mean_regret_difference": 0.0,
+      "descriptive_95_interval": [
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "scenario": "negative",
+      "width": 32,
+      "budget": 128,
+      "contrast": "pending_greedy minus stale_batch",
+      "mean_regret_difference": -0.00015551018007480357,
+      "descriptive_95_interval": [
+        -0.00035219085223507597,
+        4.1170492085468795e-05
+      ]
+    },
+    {
+      "scenario": "negative",
+      "width": 32,
+      "budget": 512,
+      "contrast": "pending_greedy minus equal",
+      "mean_regret_difference": -6.536213582460426e-05,
+      "descriptive_95_interval": [
+        -0.0001770478435447163,
+        4.632357189550778e-05
+      ]
+    },
+    {
+      "scenario": "negative",
+      "width": 32,
+      "budget": 512,
+      "contrast": "pending_greedy minus neyman",
+      "mean_regret_difference": 1.761578886278963e-05,
+      "descriptive_95_interval": [
+        -3.642413422750627e-05,
+        7.165571195308553e-05
+      ]
+    },
+    {
+      "scenario": "negative",
+      "width": 32,
+      "budget": 512,
+      "contrast": "pending_greedy minus stale_batch",
+      "mean_regret_difference": 1.3647784187849517e-06,
+      "descriptive_95_interval": [
+        -3.8324400800350036e-05,
+        4.105395763791994e-05
+      ]
+    },
+    {
+      "scenario": "negative",
+      "width": 32,
+      "budget": 2048,
+      "contrast": "pending_greedy minus equal",
+      "mean_regret_difference": -6.252578605221405e-06,
+      "descriptive_95_interval": [
+        -3.105215014247794e-05,
+        1.8546992932035125e-05
+      ]
+    },
+    {
+      "scenario": "negative",
+      "width": 32,
+      "budget": 2048,
+      "contrast": "pending_greedy minus neyman",
+      "mean_regret_difference": -8.976009904717187e-07,
+      "descriptive_95_interval": [
+        -2.656898931796287e-06,
+        8.616969508528498e-07
+      ]
+    },
+    {
+      "scenario": "negative",
+      "width": 32,
+      "budget": 2048,
+      "contrast": "pending_greedy minus stale_batch",
+      "mean_regret_difference": -3.6157531819392364e-06,
+      "descriptive_95_interval": [
+        -9.140429044081591e-06,
+        1.9089226802031174e-06
+      ]
+    },
+    {
+      "scenario": "misspecified",
+      "width": 1,
+      "budget": 8,
+      "contrast": "pending_greedy minus equal",
+      "mean_regret_difference": -0.00325642827970274,
+      "descriptive_95_interval": [
+        -0.005593127490200423,
+        -0.0009197290692050577
+      ]
+    },
+    {
+      "scenario": "misspecified",
+      "width": 1,
+      "budget": 8,
+      "contrast": "pending_greedy minus neyman",
+      "mean_regret_difference": 0.0,
+      "descriptive_95_interval": [
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "scenario": "misspecified",
+      "width": 1,
+      "budget": 8,
+      "contrast": "pending_greedy minus stale_batch",
+      "mean_regret_difference": 0.0,
+      "descriptive_95_interval": [
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "scenario": "misspecified",
+      "width": 1,
+      "budget": 32,
+      "contrast": "pending_greedy minus equal",
+      "mean_regret_difference": -0.0008222881184697752,
+      "descriptive_95_interval": [
+        -0.0015555812286971245,
+        -8.899500824242586e-05
+      ]
+    },
+    {
+      "scenario": "misspecified",
+      "width": 1,
+      "budget": 32,
+      "contrast": "pending_greedy minus neyman",
+      "mean_regret_difference": 0.0,
+      "descriptive_95_interval": [
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "scenario": "misspecified",
+      "width": 1,
+      "budget": 32,
+      "contrast": "pending_greedy minus stale_batch",
+      "mean_regret_difference": 0.0,
+      "descriptive_95_interval": [
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "scenario": "misspecified",
+      "width": 1,
+      "budget": 128,
+      "contrast": "pending_greedy minus equal",
+      "mean_regret_difference": -9.857637817433888e-05,
+      "descriptive_95_interval": [
+        -0.00038710652750129516,
+        0.00018995377115261743
+      ]
+    },
+    {
+      "scenario": "misspecified",
+      "width": 1,
+      "budget": 128,
+      "contrast": "pending_greedy minus neyman",
+      "mean_regret_difference": 0.0,
+      "descriptive_95_interval": [
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "scenario": "misspecified",
+      "width": 1,
+      "budget": 128,
+      "contrast": "pending_greedy minus stale_batch",
+      "mean_regret_difference": 0.0,
+      "descriptive_95_interval": [
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "scenario": "misspecified",
+      "width": 1,
+      "budget": 512,
+      "contrast": "pending_greedy minus equal",
+      "mean_regret_difference": -3.9655804097546996e-05,
+      "descriptive_95_interval": [
+        -0.00012806631695316427,
+        4.8754708758070274e-05
+      ]
+    },
+    {
+      "scenario": "misspecified",
+      "width": 1,
+      "budget": 512,
+      "contrast": "pending_greedy minus neyman",
+      "mean_regret_difference": 0.0,
+      "descriptive_95_interval": [
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "scenario": "misspecified",
+      "width": 1,
+      "budget": 512,
+      "contrast": "pending_greedy minus stale_batch",
+      "mean_regret_difference": 0.0,
+      "descriptive_95_interval": [
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "scenario": "misspecified",
+      "width": 1,
+      "budget": 2048,
+      "contrast": "pending_greedy minus equal",
+      "mean_regret_difference": -2.3821757273033534e-05,
+      "descriptive_95_interval": [
+        -6.271720078963789e-05,
+        1.5073686243570822e-05
+      ]
+    },
+    {
+      "scenario": "misspecified",
+      "width": 1,
+      "budget": 2048,
+      "contrast": "pending_greedy minus neyman",
+      "mean_regret_difference": 0.0,
+      "descriptive_95_interval": [
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "scenario": "misspecified",
+      "width": 1,
+      "budget": 2048,
+      "contrast": "pending_greedy minus stale_batch",
+      "mean_regret_difference": 0.0,
+      "descriptive_95_interval": [
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "scenario": "misspecified",
+      "width": 8,
+      "budget": 8,
+      "contrast": "pending_greedy minus equal",
+      "mean_regret_difference": -0.00325642827970274,
+      "descriptive_95_interval": [
+        -0.005593127490200423,
+        -0.0009197290692050577
+      ]
+    },
+    {
+      "scenario": "misspecified",
+      "width": 8,
+      "budget": 8,
+      "contrast": "pending_greedy minus neyman",
+      "mean_regret_difference": 0.0,
+      "descriptive_95_interval": [
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "scenario": "misspecified",
+      "width": 8,
+      "budget": 8,
+      "contrast": "pending_greedy minus stale_batch",
+      "mean_regret_difference": -0.21521183603381763,
+      "descriptive_95_interval": [
+        -0.22696277411125382,
+        -0.20346089795638145
+      ]
+    },
+    {
+      "scenario": "misspecified",
+      "width": 8,
+      "budget": 32,
+      "contrast": "pending_greedy minus equal",
+      "mean_regret_difference": -0.0008222881184697752,
+      "descriptive_95_interval": [
+        -0.0015555812286971245,
+        -8.899500824242586e-05
+      ]
+    },
+    {
+      "scenario": "misspecified",
+      "width": 8,
+      "budget": 32,
+      "contrast": "pending_greedy minus neyman",
+      "mean_regret_difference": 0.0,
+      "descriptive_95_interval": [
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "scenario": "misspecified",
+      "width": 8,
+      "budget": 32,
+      "contrast": "pending_greedy minus stale_batch",
+      "mean_regret_difference": -0.00014576298404596536,
+      "descriptive_95_interval": [
+        -0.0006341322993215335,
+        0.00034260633122960274
+      ]
+    },
+    {
+      "scenario": "misspecified",
+      "width": 8,
+      "budget": 128,
+      "contrast": "pending_greedy minus equal",
+      "mean_regret_difference": -9.857637817433888e-05,
+      "descriptive_95_interval": [
+        -0.00038710652750129516,
+        0.00018995377115261743
+      ]
+    },
+    {
+      "scenario": "misspecified",
+      "width": 8,
+      "budget": 128,
+      "contrast": "pending_greedy minus neyman",
+      "mean_regret_difference": 0.0,
+      "descriptive_95_interval": [
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "scenario": "misspecified",
+      "width": 8,
+      "budget": 128,
+      "contrast": "pending_greedy minus stale_batch",
+      "mean_regret_difference": 6.74237188198476e-05,
+      "descriptive_95_interval": [
+        -0.00011500167027648985,
+        0.00024984910791618506
+      ]
+    },
+    {
+      "scenario": "misspecified",
+      "width": 8,
+      "budget": 512,
+      "contrast": "pending_greedy minus equal",
+      "mean_regret_difference": -3.9655804097546996e-05,
+      "descriptive_95_interval": [
+        -0.00012806631695316427,
+        4.8754708758070274e-05
+      ]
+    },
+    {
+      "scenario": "misspecified",
+      "width": 8,
+      "budget": 512,
+      "contrast": "pending_greedy minus neyman",
+      "mean_regret_difference": 0.0,
+      "descriptive_95_interval": [
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "scenario": "misspecified",
+      "width": 8,
+      "budget": 512,
+      "contrast": "pending_greedy minus stale_batch",
+      "mean_regret_difference": -3.0431470901771096e-06,
+      "descriptive_95_interval": [
+        -4.074315004129125e-05,
+        3.465685586093704e-05
+      ]
+    },
+    {
+      "scenario": "misspecified",
+      "width": 8,
+      "budget": 2048,
+      "contrast": "pending_greedy minus equal",
+      "mean_regret_difference": -2.3821757273033534e-05,
+      "descriptive_95_interval": [
+        -6.271720078963789e-05,
+        1.5073686243570822e-05
+      ]
+    },
+    {
+      "scenario": "misspecified",
+      "width": 8,
+      "budget": 2048,
+      "contrast": "pending_greedy minus neyman",
+      "mean_regret_difference": 0.0,
+      "descriptive_95_interval": [
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "scenario": "misspecified",
+      "width": 8,
+      "budget": 2048,
+      "contrast": "pending_greedy minus stale_batch",
+      "mean_regret_difference": 0.0,
+      "descriptive_95_interval": [
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "scenario": "misspecified",
+      "width": 32,
+      "budget": 8,
+      "contrast": "pending_greedy minus equal",
+      "mean_regret_difference": -0.00325642827970274,
+      "descriptive_95_interval": [
+        -0.005593127490200423,
+        -0.0009197290692050577
+      ]
+    },
+    {
+      "scenario": "misspecified",
+      "width": 32,
+      "budget": 8,
+      "contrast": "pending_greedy minus neyman",
+      "mean_regret_difference": 0.0,
+      "descriptive_95_interval": [
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "scenario": "misspecified",
+      "width": 32,
+      "budget": 8,
+      "contrast": "pending_greedy minus stale_batch",
+      "mean_regret_difference": -0.21521183603381763,
+      "descriptive_95_interval": [
+        -0.22696277411125382,
+        -0.20346089795638145
+      ]
+    },
+    {
+      "scenario": "misspecified",
+      "width": 32,
+      "budget": 32,
+      "contrast": "pending_greedy minus equal",
+      "mean_regret_difference": -0.0008222881184697752,
+      "descriptive_95_interval": [
+        -0.0015555812286971245,
+        -8.899500824242586e-05
+      ]
+    },
+    {
+      "scenario": "misspecified",
+      "width": 32,
+      "budget": 32,
+      "contrast": "pending_greedy minus neyman",
+      "mean_regret_difference": 0.0,
+      "descriptive_95_interval": [
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "scenario": "misspecified",
+      "width": 32,
+      "budget": 32,
+      "contrast": "pending_greedy minus stale_batch",
+      "mean_regret_difference": -0.23121273904469225,
+      "descriptive_95_interval": [
+        -0.24277366687720275,
+        -0.21965181121218175
+      ]
+    },
+    {
+      "scenario": "misspecified",
+      "width": 32,
+      "budget": 128,
+      "contrast": "pending_greedy minus equal",
+      "mean_regret_difference": -9.857637817433888e-05,
+      "descriptive_95_interval": [
+        -0.00038710652750129516,
+        0.00018995377115261743
+      ]
+    },
+    {
+      "scenario": "misspecified",
+      "width": 32,
+      "budget": 128,
+      "contrast": "pending_greedy minus neyman",
+      "mean_regret_difference": 0.0,
+      "descriptive_95_interval": [
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "scenario": "misspecified",
+      "width": 32,
+      "budget": 128,
+      "contrast": "pending_greedy minus stale_batch",
+      "mean_regret_difference": 0.0001451566561328603,
+      "descriptive_95_interval": [
+        -4.605766311457647e-05,
+        0.00033637097538029704
+      ]
+    },
+    {
+      "scenario": "misspecified",
+      "width": 32,
+      "budget": 512,
+      "contrast": "pending_greedy minus equal",
+      "mean_regret_difference": -3.9655804097546996e-05,
+      "descriptive_95_interval": [
+        -0.00012806631695316427,
+        4.8754708758070274e-05
+      ]
+    },
+    {
+      "scenario": "misspecified",
+      "width": 32,
+      "budget": 512,
+      "contrast": "pending_greedy minus neyman",
+      "mean_regret_difference": 0.0,
+      "descriptive_95_interval": [
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "scenario": "misspecified",
+      "width": 32,
+      "budget": 512,
+      "contrast": "pending_greedy minus stale_batch",
+      "mean_regret_difference": -1.9565481661906072e-06,
+      "descriptive_95_interval": [
+        -4.712846288446897e-05,
+        4.3215366552087754e-05
+      ]
+    },
+    {
+      "scenario": "misspecified",
+      "width": 32,
+      "budget": 2048,
+      "contrast": "pending_greedy minus equal",
+      "mean_regret_difference": -2.3821757273033534e-05,
+      "descriptive_95_interval": [
+        -6.271720078963789e-05,
+        1.5073686243570822e-05
+      ]
+    },
+    {
+      "scenario": "misspecified",
+      "width": 32,
+      "budget": 2048,
+      "contrast": "pending_greedy minus neyman",
+      "mean_regret_difference": 0.0,
+      "descriptive_95_interval": [
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "scenario": "misspecified",
+      "width": 32,
+      "budget": 2048,
+      "contrast": "pending_greedy minus stale_batch",
+      "mean_regret_difference": -5.9574294838455e-06,
+      "descriptive_95_interval": [
+        -1.8652202918730223e-05,
+        6.737343951039223e-06
+      ]
+    }
+  ],
+  "raw_format": "raw.csv.gz stores each unique (scenario,n0,n1) once; designs reference raw_key; floating values use 9 significant decimal digits",
+  "elapsed_seconds": 5.4587141730007716,
+  "raw_sha256": "292f96302e0bfef4f0c71699b3275cebd8f7e17b0daa0de055b548d124d2d0a7"
+}

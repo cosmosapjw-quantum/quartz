@@ -1,0 +1,37 @@
+[
+  {
+    "id": "math_checks",
+    "command": [
+      "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+      "docs/research/beyond_alphazero_20260907/test_research_math.py"
+    ],
+    "process_exit": 0,
+    "timeout": false,
+    "elapsed_seconds": 0.41762495040893555
+  },
+  {
+    "id": "source_probes",
+    "command": [
+      "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+      "docs/research/beyond_alphazero_20260907/test_research_math.py",
+      "--probes"
+    ],
+    "process_exit": 0,
+    "timeout": false,
+    "elapsed_seconds": 0.41767072677612305
+  },
+  {
+    "id": "pilot",
+    "command": [
+      "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+      "docs/research/beyond_alphazero_20260907/gaussian_batch_pilot.py",
+      "--output",
+      "docs/research/beyond_alphazero_20260907/evidence/pilot",
+      "--worlds",
+      "4096"
+    ],
+    "process_exit": 0,
+    "timeout": false,
+    "elapsed_seconds": 5.732251882553101
+  }
+]

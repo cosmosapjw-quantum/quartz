@@ -1,0 +1,56 @@
+{
+  "wolfram_context": {
+    "status": "fulfilled",
+    "value": {
+      "content": [
+        {
+          "text": "McpServerError: MCP SSE probe returned 404 from wolfram.com",
+          "type": "text"
+        }
+      ],
+      "isError": true,
+      "structuredContent": {
+        "error": "McpServerError: MCP SSE probe returned 404 from wolfram.com",
+        "error_code": "UNAVAILABLE",
+        "error_data": {
+          "content_type": "text/html; charset=iso-8859-1",
+          "level": "error",
+          "message": "MCP SSE probe returned 404 from wolfram.com",
+          "status_code": 404,
+          "type": "invalid_mcp_response",
+          "url": "https://agenttools.wolfram.com/mcp"
+        }
+      }
+    }
+  },
+  "wolfram_evaluator": {
+    "status": "fulfilled",
+    "value": {
+      "content": [
+        {
+          "text": "McpServerError: MCP SSE probe returned 404 from wolfram.com",
+          "type": "text"
+        }
+      ],
+      "isError": true,
+      "structuredContent": {
+        "error": "McpServerError: MCP SSE probe returned 404 from wolfram.com",
+        "error_code": "UNAVAILABLE",
+        "error_data": {
+          "content_type": "text/html; charset=iso-8859-1",
+          "level": "error",
+          "message": "MCP SSE probe returned 404 from wolfram.com",
+          "status_code": 404,
+          "type": "invalid_mcp_response",
+          "url": "https://agenttools.wolfram.com/mcp"
+        }
+      }
+    }
+  },
+  "git_push_dry_run": {
+    "command": "git push --dry-run origin HEAD:refs/heads/research/beyond-alphazero-upgrade-20260907-current",
+    "exit": 128,
+    "stderr": "fatal: could not read Username for 'https://github.com': No such device or address",
+    "fallback": "Connected GitHub Git data API; no access-policy bypass"
+  }
+}

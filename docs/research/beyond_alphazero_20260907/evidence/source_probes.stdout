@@ -1,0 +1,59 @@
+{
+  "leader_kg": {
+    "legacy": 0.0,
+    "exact_two_action_gaussian": 0.23491104749814845,
+    "assumptions": "posterior covariance diag(1,.01), observe leader with noise variance 1"
+  },
+  "kg_scale": {
+    "legacy_proxy": 0.04589770781959265,
+    "exact_one_observation_kg": 6.363335679434933e-05,
+    "legacy_shift_sd": 0.1386750490563073,
+    "correct_shift_sd": 0.009569487529386909,
+    "assumptions": "independent posterior variances 1/104; one challenger observation noise variance 1"
+  },
+  "voc_churn": {
+    "legacy_proxy": 1.6,
+    "true_utilities": [
+      1,
+      0
+    ],
+    "decisions": [
+      0,
+      1,
+      0
+    ],
+    "signed_realized_utility_changes": [
+      -1,
+      1
+    ],
+    "net_utility_change": 0
+  },
+  "omitted_arm": {
+    "input": [
+      0.8,
+      0.2,
+      0.0
+    ],
+    "output": [
+      0.7805898189285714,
+      0.21941018107142862,
+      0.0
+    ],
+    "omitted_arm_can_be_best": true
+  },
+  "acyclic_hessian": {
+    "hessian": [
+      [
+        2,
+        -1
+      ],
+      [
+        -1,
+        2
+      ]
+    ],
+    "determinant": 3,
+    "product_of_diagonals": 4
+  },
+  "claim_ceiling": "source-semantic counterexamples and conditional Gaussian identities only"
+}

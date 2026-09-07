@@ -1,0 +1,30 @@
+{
+  "input_summary_sha256": "7d59bee428dadc825c72a3898b14d7d23767881d15195bd3899bdb1bce1f846d",
+  "analysis_script_sha256": "c7f3ec3a260fdde8bb0e973617b95a48199bcd6503b790bf4488399f7987d6a3",
+  "unique_raw_designs": 82,
+  "raw_units": 335872,
+  "design_rows_verified": 240,
+  "exact_high_budget_comparison": [
+    {
+      "scenario": "independent",
+      "pending_vs_equal_relative_regret_reduction": 0.15480871220469572,
+      "pending_vs_neyman_relative_regret_reduction": 0.0,
+      "pending_vs_stale_relative_regret_reduction": 0.0005815250843025366
+    },
+    {
+      "scenario": "positive",
+      "pending_vs_equal_relative_regret_reduction": 0.1540735886051614,
+      "pending_vs_neyman_relative_regret_reduction": 0.0,
+      "pending_vs_stale_relative_regret_reduction": 0.00010088523632867386
+    },
+    {
+      "scenario": "negative",
+      "pending_vs_equal_relative_regret_reduction": 0.1544290777194085,
+      "pending_vs_neyman_relative_regret_reduction": 7.286861265498601e-07,
+      "pending_vs_stale_relative_regret_reduction": 0.0005606743444447337
+    }
+  ],
+  "coverage_misspecified_b8_pending": 0.4580078125,
+  "coverage_correct_positive_b8_pending": 0.95703125,
+  "interpretation": "exploratory exact Gaussian mechanism; no demonstrated high-budget advantage over known-noise allocation; no NN/MCTS runtime or game result"
+}
