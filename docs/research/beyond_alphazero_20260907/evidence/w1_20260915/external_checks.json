@@ -1,0 +1,34 @@
+{
+  "date": "2026-09-15",
+  "scispace": {
+    "status": "succeeded",
+    "query": "How should epistemic uncertainty from repeated evaluations of the same learned value model be propagated in Monte Carlo tree search without treating correlated backups as independent evidence?",
+    "use": "Discovery only. Returned E-MCTS 2022 and other prior work; final claims cross-checked against primary EMCTS 2025 and Sezener–Dayan 2020 sources. Not a systematic-review completeness claim."
+  },
+  "wolfram": {
+    "context_status": "succeeded",
+    "first_evaluation": {
+      "code": "Clear[n]; r = 1/4 + 3/(4 n); v = FullSimplify[1/(1 + 1/r), Assumptions -> n > 0]; k = n/(n+1); q = FullSimplify[(1-k)^2 + k^2 r, Assumptions -> n > 0]; z = Sqrt[2] InverseErf[19/20]; {v, q, Limit[v,n->Infinity], Table[{m, N[v /. n->m,16], N[Erf[z Sqrt[(1/(n+1))/(2q)]] /. n->m,16]}, {m,{1,8,64,512,4096}}]}",
+      "result_transcription": "Infinity::indet: -- Message text not found -- (0*Infinity)\nGeneral::messages: Messages were generated which may indicate errors.\nOut[1]= {(3+n)/(3+5*n), (4+n*(3+n))/(4*(1+n)^2), 1/5, {{1,.5,.95},{8,.255813953488372093,.779817214609432505},{64,.207430340557275542,.370476292753024601},{512,.200936402653140851,.137269932946914034},{4096,.200117170336376507,.0488270862386587673}}}",
+      "status": "returned formulas and numeric table with Infinity::indet warning; not described as warning-free"
+    },
+    "narrowed_algebra_check": {
+      "code": "Clear[n]; FullSimplify[{1/(1+1/(1/4+3/(4*n))), (1-n/(n+1))^2+(n/(n+1))^2*(1/4+3/(4*n))}, Assumptions -> Element[n, Integers] && n > 0]",
+      "result": {
+        "content": [
+          {
+            "text": "Out[1]= {(3 + n)/(3 + 5*n), (4 + n*(3 + n))/(4*(1 + n)^2)}",
+            "type": "text"
+          }
+        ],
+        "isError": false
+      },
+      "status": "succeeded without reported warnings"
+    },
+    "interpretation": "The narrowed check corroborates the rational formulas; the first internal warning's cause was not established. Local exact rational matrix verification is independent. This does not retroactively change the 2026-09-07 Wolfram access failure."
+  },
+  "primary_sources": [
+    "https://proceedings.iclr.cc/paper_files/paper/2025/file/bcbd670951a6dede2123961de19e5ea3-Paper-Conference.pdf",
+    "https://proceedings.mlr.press/v124/sezener20a.html"
+  ]
+}

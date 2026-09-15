@@ -1,0 +1,5 @@
+2026-09-15, development check, exit_code=1
+Command: python -m unittest discover -s docs/research/beyond_alphazero_20260907/tests_research -p test_duplicate_evidence_diagnostic.py
+Initial test collection failed: ModuleNotFoundError: No module named 'duplicate_evidence_diagnostic'
+Ran 1 loader test; FAILED (errors=1). The diagnostic module had not yet been created.
+This is a missing-feature collection error, not six independently observed assertion failures.

@@ -1,0 +1,16 @@
+{
+  "base_commit": "9c3add3b5b28136bd9153d2650ff02bdf049fb65",
+  "command": [
+    "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+    "docs/research/beyond_alphazero_20260907/evidence/w1_20260915/independent_matrix_oracle.py"
+  ],
+  "cwd": "/workspace/scratch/67d178a1a3e9/quartz",
+  "started_utc": "2026-09-15T05:10:58.693285+00:00",
+  "completed_utc": "2026-09-15T05:10:58.720284+00:00",
+  "python_version": "3.12.14",
+  "source_sha256": "5d2aaa1f823740cefcd3a8143afab840eb1fca8feff1a6333f0dccaaeb15dff4",
+  "stdout_sha256": "fc4269f035f736efbc9b677bc26f720b229762ca21d3decf2349e6354182c215",
+  "exit_code": 0,
+  "stderr": "",
+  "scope": "Exact rational covariance-system verification for n=1,2,3,8; no W1 implementation imported or reviewed."
+}
