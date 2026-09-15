@@ -1,0 +1,189 @@
+{
+  "evidence_kind": "exact_model_diagnostic",
+  "prior_variance": 1.0,
+  "nominal_interval_mass": 0.95,
+  "shared_error_variance": 0.25,
+  "fresh_noise_variance": 0.75,
+  "budgets": [
+    1,
+    8,
+    64,
+    512,
+    4096
+  ],
+  "rows": [
+    {
+      "case": "exact_replay",
+      "n_deliveries_or_draws": 1,
+      "distinct_observations": 1,
+      "true_mean_noise_variance": 1.0,
+      "correct_posterior_variance": 0.5,
+      "iid_posterior_variance": 0.5,
+      "iid_actual_mse": 0.5,
+      "iid_prior_predictive_coverage": 0.95,
+      "correct_prior_predictive_coverage": 0.95
+    },
+    {
+      "case": "exact_replay",
+      "n_deliveries_or_draws": 8,
+      "distinct_observations": 1,
+      "true_mean_noise_variance": 1.0,
+      "correct_posterior_variance": 0.5,
+      "iid_posterior_variance": 0.1111111111111111,
+      "iid_actual_mse": 0.8024691358024691,
+      "iid_prior_predictive_coverage": 0.5341884557825375,
+      "correct_prior_predictive_coverage": 0.95
+    },
+    {
+      "case": "exact_replay",
+      "n_deliveries_or_draws": 64,
+      "distinct_observations": 1,
+      "true_mean_noise_variance": 1.0,
+      "correct_posterior_variance": 0.5,
+      "iid_posterior_variance": 0.015384615384615385,
+      "iid_actual_mse": 0.9697041420118344,
+      "iid_prior_predictive_coverage": 0.194992692351928,
+      "correct_prior_predictive_coverage": 0.95
+    },
+    {
+      "case": "exact_replay",
+      "n_deliveries_or_draws": 512,
+      "distinct_observations": 1,
+      "true_mean_noise_variance": 1.0,
+      "correct_posterior_variance": 0.5,
+      "iid_posterior_variance": 0.001949317738791423,
+      "iid_actual_mse": 0.9961089642017105,
+      "iid_prior_predictive_coverage": 0.06909270335193964,
+      "correct_prior_predictive_coverage": 0.95
+    },
+    {
+      "case": "exact_replay",
+      "n_deliveries_or_draws": 4096,
+      "distinct_observations": 1,
+      "true_mean_noise_variance": 1.0,
+      "correct_posterior_variance": 0.5,
+      "iid_posterior_variance": 0.000244081034903588,
+      "iid_actual_mse": 0.999511957081296,
+      "iid_prior_predictive_coverage": 0.024433927277488682,
+      "correct_prior_predictive_coverage": 0.95
+    },
+    {
+      "case": "shared_error",
+      "n_deliveries_or_draws": 1,
+      "distinct_observations": 1,
+      "true_mean_noise_variance": 1.0,
+      "correct_posterior_variance": 0.5,
+      "iid_posterior_variance": 0.5,
+      "iid_actual_mse": 0.5,
+      "iid_prior_predictive_coverage": 0.95,
+      "correct_prior_predictive_coverage": 0.95
+    },
+    {
+      "case": "shared_error",
+      "n_deliveries_or_draws": 8,
+      "distinct_observations": 8,
+      "true_mean_noise_variance": 0.34375,
+      "correct_posterior_variance": 0.2558139534883721,
+      "iid_posterior_variance": 0.1111111111111111,
+      "iid_actual_mse": 0.2839506172839506,
+      "iid_prior_predictive_coverage": 0.7798172146094324,
+      "correct_prior_predictive_coverage": 0.95
+    },
+    {
+      "case": "shared_error",
+      "n_deliveries_or_draws": 64,
+      "distinct_observations": 64,
+      "true_mean_noise_variance": 0.26171875,
+      "correct_posterior_variance": 0.20743034055727555,
+      "iid_posterior_variance": 0.015384615384615385,
+      "iid_actual_mse": 0.25396449704142016,
+      "iid_prior_predictive_coverage": 0.37047629275302446,
+      "correct_prior_predictive_coverage": 0.95
+    },
+    {
+      "case": "shared_error",
+      "n_deliveries_or_draws": 512,
+      "distinct_observations": 512,
+      "true_mean_noise_variance": 0.25146484375,
+      "correct_posterior_variance": 0.20093640265314086,
+      "iid_posterior_variance": 0.001949317738791423,
+      "iid_actual_mse": 0.2504892293545212,
+      "iid_prior_predictive_coverage": 0.137269932946914,
+      "correct_prior_predictive_coverage": 0.95
+    },
+    {
+      "case": "shared_error",
+      "n_deliveries_or_draws": 4096,
+      "distinct_observations": 4096,
+      "true_mean_noise_variance": 0.25018310546875,
+      "correct_posterior_variance": 0.20011717033637652,
+      "iid_posterior_variance": 0.000244081034903588,
+      "iid_actual_mse": 0.2500610500465017,
+      "iid_prior_predictive_coverage": 0.04882708623865875,
+      "correct_prior_predictive_coverage": 0.95
+    },
+    {
+      "case": "independent",
+      "n_deliveries_or_draws": 1,
+      "distinct_observations": 1,
+      "true_mean_noise_variance": 1.0,
+      "correct_posterior_variance": 0.5,
+      "iid_posterior_variance": 0.5,
+      "iid_actual_mse": 0.5,
+      "iid_prior_predictive_coverage": 0.95,
+      "correct_prior_predictive_coverage": 0.95
+    },
+    {
+      "case": "independent",
+      "n_deliveries_or_draws": 8,
+      "distinct_observations": 8,
+      "true_mean_noise_variance": 0.125,
+      "correct_posterior_variance": 0.1111111111111111,
+      "iid_posterior_variance": 0.1111111111111111,
+      "iid_actual_mse": 0.11111111111111112,
+      "iid_prior_predictive_coverage": 0.9499999999999998,
+      "correct_prior_predictive_coverage": 0.95
+    },
+    {
+      "case": "independent",
+      "n_deliveries_or_draws": 64,
+      "distinct_observations": 64,
+      "true_mean_noise_variance": 0.015625,
+      "correct_posterior_variance": 0.015384615384615385,
+      "iid_posterior_variance": 0.015384615384615385,
+      "iid_actual_mse": 0.015384615384615384,
+      "iid_prior_predictive_coverage": 0.95,
+      "correct_prior_predictive_coverage": 0.95
+    },
+    {
+      "case": "independent",
+      "n_deliveries_or_draws": 512,
+      "distinct_observations": 512,
+      "true_mean_noise_variance": 0.001953125,
+      "correct_posterior_variance": 0.001949317738791423,
+      "iid_posterior_variance": 0.001949317738791423,
+      "iid_actual_mse": 0.001949317738791423,
+      "iid_prior_predictive_coverage": 0.95,
+      "correct_prior_predictive_coverage": 0.95
+    },
+    {
+      "case": "independent",
+      "n_deliveries_or_draws": 4096,
+      "distinct_observations": 4096,
+      "true_mean_noise_variance": 0.000244140625,
+      "correct_posterior_variance": 0.000244081034903588,
+      "iid_posterior_variance": 0.000244081034903588,
+      "iid_actual_mse": 0.000244081034903588,
+      "iid_prior_predictive_coverage": 0.95,
+      "correct_prior_predictive_coverage": 0.95
+    }
+  ],
+  "limitations": [
+    "fixed_n",
+    "known_gaussian_model",
+    "prior_predictive_coverage",
+    "not_fixed_theta_frequentist_coverage",
+    "not_engine_performance",
+    "distinct_ids_do_not_certify_independence"
+  ]
+}

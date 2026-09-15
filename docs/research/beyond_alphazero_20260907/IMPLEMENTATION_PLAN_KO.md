@@ -1,5 +1,7 @@
 # Quartz 고예산 반복 탐색 Implementation Plan
 
+> **2026-09-15 상태 갱신:** W1의 독립 Python 관측 계약과 추가 정확 진단을 완료했다. [수행 결과·구체화된 W2 계획](W1_RESULTS_AND_NEXT_PLAN_KO.md), [실행 기록](evidence/w1_20260915/execution.json)을 따른다. 아래 9월 7일 계획 본문은 원 설계를 보존한다. W1의 Rust/엔진 통합과 W2–W7은 완료한 것으로 읽지 않는다.
+
 > **For agentic workers:** 아래 W1–W7을 작업 단위로 실행하고, 각 단위의 코드·수학·실험 결과를 분리해 기록한다.
 
 **Goal:** 구조적 잠재 효용 belief와 계산 배분이 실제 고예산·반복 검색의 비용 대비 결정 품질을 개선하는지 검증한다.

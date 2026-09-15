@@ -1,5 +1,7 @@
 # Beyond-AlphaZero 연구 평가 — 2026-09-07
 
+**2026-09-15 후속 완료:** [W1 구현·정확 계산 결과와 다음 계획](W1_RESULTS_AND_NEXT_PLAN_KO.md). 관측 계약과 Gaussian 진단 총 27개 검사 통과, 정확 계산 15행을 추가했다. W2–W7과 실제 엔진 고예산 우위는 아직 미수행·미입증이다. [W1 실행 기록](evidence/w1_20260915/execution.json), [수학 검토](W1_INDEPENDENT_REVIEW.md), [코드 검토](W1_CODE_REVIEW.md).
+
 **먼저 읽기:** [한국어 연구 평가](RESEARCH_UPGRADE_KO.md) → [구체적 구현·연구 계획](IMPLEMENTATION_PLAN_KO.md) → [수학적 유도](MATHEMATICAL_UPGRADE_KO.md).
 
 원 직관은 보존하지만 현재 beyond-AlphaZero 성능은 미입증이다. 이번에는 수학·소스 반례 12개 검사와 240조건 Gaussian 실험을 실제 수행했다. 고예산 배분 효과는 알려진 강한 배분법에서도 재현되어 새 성능 우위로 판정하지 않았다. 생산 엔진·기존 캠페인·claim ledger는 수정하지 않았다.

@@ -1,0 +1,54 @@
+{
+  "date_utc": "2026-09-15",
+  "source_commit": "0c72bba36a7114108582161f921c7a1724808db3",
+  "source_tree": "8b66df2e4ba67da3f61da2a975bd812fccba9d26",
+  "source_clean_before_execution": true,
+  "python": "3.12.14 (main, Aug 25 2026, 14:00:49) [Clang 22.1.3 ]",
+  "platform": "Linux-6.18.44-x86_64-with-glibc2.39",
+  "source_sha256": {
+    "observation_contract.py": "252274721bebfd3ce4c3c59756bbf4be1bbda5671a1a89c0ae29a10c13ccbbf5",
+    "duplicate_evidence_diagnostic.py": "a64076d856e268fe704ec7cdd032c05e51b81a68d4cb162895904fd2936ca894",
+    "tests_research/test_observation_contract.py": "fb0f24a74e5fa9bc0ae2c9f93d703cd3a83d3e518e2888087b74f29b6b665b0b",
+    "tests_research/test_duplicate_evidence_diagnostic.py": "0bb49003ca14d7d42c5ee8a1014eaa4519910965393bd454b7f9aa7468398480",
+    "W1_CONTRACT_20260915.md": "d73f9e079b2d7d7a81da35335d3fd9c939eb92874386ab80eac6b331d6301374"
+  },
+  "commands": [
+    {
+      "name": "committed_source_tests",
+      "argv": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "docs/research/beyond_alphazero_20260907/tests_research",
+        "-p",
+        "test_*.py",
+        "-v"
+      ],
+      "cwd": "/workspace/scratch/67d178a1a3e9/quartz",
+      "exit_code": 0,
+      "wall_seconds": 0.11407267300000967
+    },
+    {
+      "name": "exact_diagnostic",
+      "argv": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "docs/research/beyond_alphazero_20260907/duplicate_evidence_diagnostic.py",
+        "--output",
+        "docs/research/beyond_alphazero_20260907/evidence/w1_20260915/exact_diagnostic.json"
+      ],
+      "cwd": "/workspace/scratch/67d178a1a3e9/quartz",
+      "exit_code": 0,
+      "wall_seconds": 0.0666977990003943
+    }
+  ],
+  "scope": "27 focused reference tests and 15 exact model diagnostic rows; no old pilot, engine, GPU or training execution",
+  "artifact_sha256": {
+    "committed_source_tests.stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "exact_diagnostic.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "exact_diagnostic.stdout": "c093bc6c3d37917fe79aa23f1f8b5d9bba5bca647e79eee418a2c9f9b1e915c4",
+    "committed_source_tests.stderr": "c7a52b521a411ffb45911f5a34be25cadae7a9cae4698ea24ec1702faa7205c5",
+    "exact_diagnostic.json": "262238ee0619cb9929a26f11174e997213bdcfe4b0cb984900c7bba5d140aa20"
+  }
+}
