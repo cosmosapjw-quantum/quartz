@@ -1,0 +1,104 @@
+[
+  {
+    "batch_cpu_wall_s": 0.03188570000020263,
+    "checkpoint_id": "C01_gen_5",
+    "device": "cpu",
+    "input_shape": [
+      48,
+      17,
+      7,
+      7
+    ],
+    "path": "results/phase15_stage7/gomoku7/training/seed_101/gen_5.pt",
+    "policy_shape": [
+      48,
+      49
+    ],
+    "sha256": "887b8b9d1861857824e1aec6ca46eb8c89551c7ea3af2774becdd905d661d211"
+  },
+  {
+    "batch_cpu_wall_s": 0.03181728900017333,
+    "checkpoint_id": "C02_latest",
+    "device": "cpu",
+    "input_shape": [
+      48,
+      17,
+      7,
+      7
+    ],
+    "path": "results/phase15_stage7/gomoku7/training/seed_101/latest.pt",
+    "policy_shape": [
+      48,
+      49
+    ],
+    "sha256": "1ee09b661423cc3d55ffb992a692ea7c35d70ee2d4782a3b598bc9a47620c932"
+  },
+  {
+    "batch_cpu_wall_s": 0.028103881000333786,
+    "checkpoint_id": "C03_gen_5",
+    "device": "cpu",
+    "input_shape": [
+      48,
+      17,
+      7,
+      7
+    ],
+    "path": "results/phase15_stage7/gomoku7/training/seed_102/gen_5.pt",
+    "policy_shape": [
+      48,
+      49
+    ],
+    "sha256": "19ba1b53b5f9dae0cb36b5b538ba55d0b1d522d0973a2678172dc5a165e40291"
+  },
+  {
+    "batch_cpu_wall_s": 0.02503448400011621,
+    "checkpoint_id": "C04_latest",
+    "device": "cpu",
+    "input_shape": [
+      48,
+      17,
+      7,
+      7
+    ],
+    "path": "results/phase15_stage7/gomoku7/training/seed_102/latest.pt",
+    "policy_shape": [
+      48,
+      49
+    ],
+    "sha256": "567ecd50eb98910bb3f935d48829f929173fb60bb7d4ddc52c55f635b7ee576c"
+  },
+  {
+    "batch_cpu_wall_s": 0.024779175999810832,
+    "checkpoint_id": "C05_gen_5",
+    "device": "cpu",
+    "input_shape": [
+      48,
+      17,
+      7,
+      7
+    ],
+    "path": "results/phase15_stage7/gomoku7/training/seed_103/gen_5.pt",
+    "policy_shape": [
+      48,
+      49
+    ],
+    "sha256": "a430602a889eba3f568c0a515c8a10dd3bb74d6b6b9adade5c00f0b22b91604b"
+  },
+  {
+    "batch_cpu_wall_s": 0.025001591999625816,
+    "checkpoint_id": "C06_latest",
+    "device": "cpu",
+    "input_shape": [
+      48,
+      17,
+      7,
+      7
+    ],
+    "path": "results/phase15_stage7/gomoku7/training/seed_103/latest.pt",
+    "policy_shape": [
+      48,
+      49
+    ],
+    "sha256": "cde9ce4a025c78f1702e6f6e4620f09d29090726ccade68cce06b00110a4fcaa"
+  }
+]

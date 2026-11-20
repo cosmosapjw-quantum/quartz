@@ -1,0 +1,41 @@
+{
+  "argv": [
+    "docs/research/cognitive_metareasoning_20261120/cpu_realtrace_01/run_cpu_realtrace.py",
+    "--input-root",
+    "/home/cosmosapjw/Dropbox/personal_projects/quartz",
+    "--output-dir",
+    "docs/research/cognitive_metareasoning_20261120/cpu_realtrace_01/evidence/20261120_cpu_full"
+  ],
+  "device": "cpu",
+  "input_git_head_observed": "65e7d3e9596ca259ebfe523b0c74058692b6a755",
+  "input_lock_sha256": "587cab871d73d87e52754d0bff4d1726b61b43f0a8f4eee20b3edc690004e6c6",
+  "nonclaims": [
+    "not_marginal_VOC",
+    "not_minimax_truth",
+    "not_elo",
+    "not_independent_position_sampling",
+    "not_gpu_throughput",
+    "not_novel_neuroscience"
+  ],
+  "numpy": "2.3.5",
+  "output_sha256": {
+    "cpu_model_checks.json": "4cd47bb03f87b1d0c1988f49f529c17ede07178564063f9b44567f5833c8a02f",
+    "predictions_oof.jsonl": "54a1d47d4dbcf48d3a1200ca95016f0dad4ee3f4f94f5632147c933c60cba9c3",
+    "records.jsonl": "3a1f1ade4bf91384d2a1a04dca64673ab614c3ca98255b83fb8ed04fa9e69a80",
+    "summary.json": "68a195212fc72ac254c1e49211da843e3a6b150d66836d5671d28d6467a87c27"
+  },
+  "platform": "Linux-7.0.0-43-generic-x86_64-with-glibc2.39",
+  "python": "3.12.3 (main, Aug 31 2026, 10:18:26) [GCC 13.3.0]",
+  "randomness": {
+    "bootstrap_refits_model": false,
+    "bootstrap_seed": 20261120,
+    "bootstrap_units": "position_id",
+    "crossfit_folds": 6
+  },
+  "repo_head": "e8b1e944e9564725ae7252220297c239af506cbb",
+  "repo_tree": "84867f7ba3dc6aad89dd4cf1b71afbd95f76e3b8",
+  "schema": "quartz_cog01b_cpu_realtrace_manifest_v1",
+  "torch": "2.9.1+cpu",
+  "torch_cuda_version": null,
+  "torch_num_threads": 2
+}

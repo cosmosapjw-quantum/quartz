@@ -1,0 +1,28 @@
+{
+  "M1_minus_random_cluster_bootstrap_CI95_fixed_predictions": [
+    -0.005208333333333333,
+    0.03819444444444445
+  ],
+  "M1_minus_random_delta": 0.015625,
+  "M1_quartile_delta": 0.017361111111111112,
+  "M1_quartile_selected": 72,
+  "bootstrap_seed": 20261120,
+  "fully_untied_transitions": 156,
+  "input_count": 864,
+  "kind": "independent_stdlib_readback_of_frozen_cpu_realtrace_v1",
+  "mse_match_absolute_tolerance": 1e-14,
+  "random_quartile_expected_delta": 0.001736111111111111,
+  "signed_counts": {
+    "-1": 98,
+    "0": 656,
+    "1": 110
+  },
+  "trace_ties_either_side": 708,
+  "warning": [
+    "not incremental VOC",
+    "not game ground truth",
+    "position selection bias",
+    "fixed-prediction bootstrap",
+    "large argmax tie fraction"
+  ]
+}
