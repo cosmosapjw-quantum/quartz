@@ -1,0 +1,46 @@
+{
+  "negative_findings": [
+    "new MLP chosen lambda stops ALL validation roots at budget8"
+  ],
+  "no_test_family_used": true,
+  "roles": {
+    "conv": {
+      "lambda": 0.03,
+      "ridge_normal_equation_checked": true,
+      "training_families": 40,
+      "validation_families": 12,
+      "validation_mean_search_ms": 5.900354166666666,
+      "validation_stop_budgets": {
+        "16": 29,
+        "8": 163
+      }
+    },
+    "new_mlp": {
+      "lambda": 0.1,
+      "ridge_normal_equation_checked": true,
+      "training_families": 40,
+      "validation_families": 12,
+      "validation_mean_search_ms": 2.4432239583333333,
+      "validation_stop_budgets": {
+        "8": 192
+      }
+    },
+    "uniform": {
+      "lambda": 0.05,
+      "ridge_normal_equation_checked": true,
+      "training_families": 40,
+      "validation_families": 12,
+      "validation_mean_search_ms": 4.027265625,
+      "validation_stop_budgets": {
+        "16": 5,
+        "32": 80,
+        "8": 107
+      }
+    }
+  },
+  "schema": "quartz_cog02_costed_signed_gain_independent_validation_v1",
+  "strictly_train_only_ridge_and_cost_forecast": true,
+  "strictly_validation_only_lambda_selection": true,
+  "surrogate_model_SHA256": "5c634a419789382774314aae02aa023106c4e870b79f66716972ad06c2002b41",
+  "train_val_signed_label_rows": 2496
+}
