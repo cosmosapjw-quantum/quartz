@@ -1,0 +1,26 @@
+{
+  "WDL_class_counts": {
+    "replica_A/-1": 46,
+    "replica_A/0": 6,
+    "replica_A/1": 140,
+    "replica_B/-1": 54,
+    "replica_B/0": 11,
+    "replica_B/1": 127
+  },
+  "all_scores_and_targets_verified": 384,
+  "full_source_rows": 384,
+  "labels_sha256": "2220c6959934b26425594a8151948a8c7140300f429303a34be733aff56ed511",
+  "new_5ply_families": 24,
+  "new_solver_mirror_calls": 24,
+  "new_solver_origin_calls": 24,
+  "not_claimed": [
+    "iid root sampling",
+    "new independent stochastic search seed"
+  ],
+  "prior_state_or_mirror_collisions": 0,
+  "schema": "quartz_cog02_calibration09_exact_teacher_readback_v1",
+  "two_disjoint_cohorts": {
+    "replica_A": 192,
+    "replica_B": 192
+  }
+}
