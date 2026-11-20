@@ -70,6 +70,16 @@ fn handle_research_connect4_cpu(line: &str) -> serde_json::Value {
     if time_budget_ms.is_some() && request.get("adaptive_policy").is_some() {
         return serde_json::json!({"error": "cannot combine time cap and learned adaptive policy"});
     }
+    let force_stop_visits = match request.get("force_stop_visits") {
+        None => None,
+        Some(v) => match v.as_u64() {
+            Some(b @ (8 | 16 | 32 | 64)) => Some(b as u32),
+            _ => return serde_json::json!({"error": "force_stop_visits must be one of 8,16,32,64"}),
+        },
+    };
+    if force_stop_visits.is_some() && (time_budget_ms.is_some() || request.get("adaptive_policy").is_some()) {
+        return serde_json::json!({"error": "force_stop_visits cannot combine with costed adaptive/time stop"});
+    }
     let seed = request.get("seed").and_then(|v| v.as_u64()).unwrap_or(17);
     let mut cfg = MctsConfig::evaluation(2.0).with_seed(seed);
     cfg.root_forced_win = false;
@@ -188,6 +198,10 @@ fn handle_research_connect4_cpu(line: &str) -> serde_json::Value {
                 }
             }
         }
+        if force_stop_visits == Some(target) {
+            stopped_at_visits = target;
+            break;
+        }
     }
     let request_wall_us_without_fresh = request_started.elapsed().as_micros();
     // A genuinely new *engine*, with the same exact state and config,
@@ -223,6 +237,7 @@ fn handle_research_connect4_cpu(line: &str) -> serde_json::Value {
         "model_load_wall_us": model_load_wall_us,
         "request_wall_us_without_fresh":request_wall_us_without_fresh,
         "stopped_at_visits":stopped_at_visits,
+        "force_stop_visits":force_stop_visits,
         "adaptive_decisions":adaptive_decisions,
         "time_budget_ms":time_budget_ms,
         "time_budget_stop_decisions":time_budget_stop_decisions,
@@ -7944,6 +7959,31 @@ mod tests {
             panic!("ordinary session transport must remain unchanged");
         };
         assert_eq!(session_id, 7);
+    }
+
+    #[test]
+    fn test_cog02_cal09_live_fixed16_stops_without_future_search() {
+        let request=serde_json::json!({
+            "cmd":"research_connect4_cpu",
+            "history":"4433226223",
+            "seed":17,
+            "budgets":[8,16,32,64],
+            "force_stop_visits":16
+        });
+        let result=handle_research_connect4_cpu(&request.to_string());
+        assert!(result.get("error").is_none(), "{result}");
+        assert_eq!(result["stopped_at_visits"],16);
+        assert_eq!(result["force_stop_visits"],16);
+        assert_eq!(result["steps"].as_array().unwrap().len(),2);
+        assert_eq!(result["steps"][1]["root_visits"],16);
+        assert_eq!(result["fresh16"]["resident_match"],true);
+        assert!(result["adaptive_decisions"].as_array().unwrap().is_empty());
+        assert!(result["request_wall_us_without_fresh"].as_u64().is_some());
+        let invalid=serde_json::json!({
+            "history":"4433226223",
+            "force_stop_visits":15
+        });
+        assert!(handle_research_connect4_cpu(&invalid.to_string()).get("error").is_some());
     }
 
     #[test]
