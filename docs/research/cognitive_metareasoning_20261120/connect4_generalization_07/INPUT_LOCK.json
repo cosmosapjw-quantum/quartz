@@ -1,0 +1,95 @@
+{
+  "base_commit": "c92e77a1e818c0bb1359836dd4d8be09a529d287",
+  "benchmark_budget": [
+    8,
+    16,
+    32,
+    64
+  ],
+  "bounded_oracle_wall_s": 180.0,
+  "external_source_commit": "d6ba50d8aaf2308c769d9bf2abd42d90f34baf41",
+  "families": 64,
+  "frozen_cohort_rows": 1024,
+  "not_owned_public_solver_files_vendored": true,
+  "old_12_final_heldout": true,
+  "previous_192_excluded": true,
+  "schema": "quartz_connect4_generalization07_lock_v1",
+  "source_sha256": [
+    {
+      "bytes": 834901,
+      "path": "/home/cosmosapjw/quantum/research/quartz_cog01_20261120/docs/research/cognitive_metareasoning_20261120/connect4_generalization_07/COHORT_1024_FROZEN.json",
+      "sha256": "cd56b7828a98b8b60f2f8d16e38f841f4a7e6c161446cdf76bfb31a07e1b2b03"
+    },
+    {
+      "bytes": 6838,
+      "path": "/home/cosmosapjw/quantum/research/quartz_cog01_20261120/docs/research/cognitive_metareasoning_20261120/connect4_generalization_07/generate_cohort.py",
+      "sha256": "6fa4cd215338f92454ed36ee6159745b59c461cf5954790872130fd8bd4ab21e"
+    },
+    {
+      "bytes": 155892,
+      "path": "/home/cosmosapjw/quantum/research/quartz_cog01_20261120/docs/research/cognitive_metareasoning_20261120/connect4_recognizer_06/COHORT_FROZEN.json",
+      "sha256": "8717f53c4da338c2082283dab74864cbd9204546ddc653824bbdb745e60864b7"
+    },
+    {
+      "bytes": 242771,
+      "path": "/home/cosmosapjw/quantum/research/quartz_cog01_20261120/docs/research/cognitive_metareasoning_20261120/connect4_recognizer_06/evidence/nn_train_20261120/tiny_mlp_weights.json",
+      "sha256": "1660b450d4ab948afc71d0aeebf1abe1f31120093849e224bc28f777605aff60"
+    },
+    {
+      "bytes": 10257,
+      "path": "/home/cosmosapjw/quantum/research/quartz_cog01_20261120/docs/research/cognitive_metareasoning_20261120/connect4_recognizer_06/train_cpu.py",
+      "sha256": "c1368c3ba663c0009584a82e4ed7d735211553cf436111bb6244e1008e0fd3bb"
+    },
+    {
+      "bytes": 7548,
+      "path": "/home/cosmosapjw/quantum/research/quartz_cog01_20261120/docs/research/cognitive_metareasoning_20261120/connect4_recognizer_06/teacher_cpu.py",
+      "sha256": "e2196c3eb09a54a69023a2d2ab64da2ae29bed546d5593cef0e1871098bd651e"
+    },
+    {
+      "bytes": 45053,
+      "path": "/home/cosmosapjw/quantum/research/quartz_cog01_20261120/docs/research/cognitive_metareasoning_20261120/standard_external_04/POSITIONS_FIXED.json",
+      "sha256": "8dec41c775cfd55ca3448766fbe1a72fe57299f8e58f042feda907791aae9236"
+    },
+    {
+      "bytes": 7282,
+      "path": "/home/cosmosapjw/quantum/research/quartz_cog01_20261120/docs/research/cognitive_metareasoning_20261120/standard_external_04/evidence/20261120_standard_cpu/c4_oracle_results.json",
+      "sha256": "3dbdc674e5607ebd4bdc9b30de822e697f666f2da79e846ca9f0b38678b4d2ca"
+    },
+    {
+      "bytes": 9285,
+      "path": "/home/cosmosapjw/quantum/research/quartz_cog01_20261120/src/games/connect4.rs",
+      "sha256": "e57d10bc239c4809449f4d18dfed3ec713404665174fcab907b1f8aa318d4cd6"
+    },
+    {
+      "bytes": 9613,
+      "path": "/home/cosmosapjw/quantum/research/quartz_cog01_20261120/src/games/connect4_nn.rs",
+      "sha256": "d73bb7a66dd84157671e7aff2c25b4149a6eee80ffc59f561e916abc5dd6095d"
+    },
+    {
+      "bytes": 316672,
+      "path": "/home/cosmosapjw/quantum/research/quartz_cog01_20261120/src/mcts_server.rs",
+      "sha256": "2cf7d236a1f631f07a16c466854991b69e44ca2f1dae632f8ecef8c2938a488b"
+    },
+    {
+      "bytes": 79296,
+      "path": "/home/cosmosapjw/quantum/research/quartz_external_engines_20261120/pascalpons_connect4/c4solver",
+      "sha256": "fca2b665b1b3dbd88f2f50a7e0ba86fd8ae253f2861da1ad51cf110c69f741ed"
+    },
+    {
+      "bytes": 6291513,
+      "path": "/home/cosmosapjw/quantum/research/quartz_external_engines_20261120/pascalpons_connect4/7x6_small.book",
+      "sha256": "38f9834317c37d9516e45a21da598569a5d1556595686593d14c2e63f59c1f38"
+    }
+  ],
+  "study_id": "QUARTZ-COG-01B-RECOGNIZER-GENERALIZATION-07",
+  "training_architectures": [
+    "MLP126-64-8",
+    "CONV3-16x3x3-672-8"
+  ],
+  "training_budget": {
+    "batch": 64,
+    "cpu_torch_threads": 2,
+    "epochs": 80,
+    "seed": 20261121
+  }
+}
