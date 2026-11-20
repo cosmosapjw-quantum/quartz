@@ -1,0 +1,48 @@
+{
+  "complete_wall_s": 14.559348896000301,
+  "cpu_threads": 2,
+  "environment": {
+    "QUARTZ_DISABLE_ASYNC_PIPELINE": "1",
+    "QUARTZ_DISABLE_NN_CACHE": "1",
+    "n_threads": 1
+  },
+  "input_checkout_head": "65e7d3e9596ca259ebfe523b0c74058692b6a755",
+  "input_lock_sha256": "b6a90c1052f7510860b27d24f3d31355271e077b5594a0d983885d34588b3fa1",
+  "model_checkpoints": [
+    {
+      "checkpoint": "C01_gen_5",
+      "checkpoint_path": "results/phase15_stage7/gomoku7/training/seed_101/gen_5.pt",
+      "checkpoint_sha256": "887b8b9d1861857824e1aec6ca46eb8c89551c7ea3af2774becdd905d661d211",
+      "model_forward_batches": 1224,
+      "model_items": 1224
+    },
+    {
+      "checkpoint": "C03_gen_5",
+      "checkpoint_path": "results/phase15_stage7/gomoku7/training/seed_102/gen_5.pt",
+      "checkpoint_sha256": "19ba1b53b5f9dae0cb36b5b538ba55d0b1d522d0973a2678172dc5a165e40291",
+      "model_forward_batches": 1206,
+      "model_items": 1206
+    }
+  ],
+  "output_sha256": {
+    "model_items.json": "63903290d0da5b5251031896bdf1e872b388dafebcd960ad9eabf84da62146c2",
+    "paired_rows.jsonl": "3401df78af75d3a8842fdb8ca3e5cb7fea32e5a1e7ce1854682f0d71e43d5773",
+    "summary.json": "21f87b924886a31261f8881d941e58c3be4238ed91f7fe29352748b926223a3e"
+  },
+  "position_lock_sha256": "83e2929179a593a6c5469b6244377d05e50a90b82e97b53694820807e168653d",
+  "prohibited_interpretations": [
+    "not_true_minimax_regret",
+    "not_Bayesian_expected_VOC",
+    "not_QUARTZ_controller_gain",
+    "not_GPU_throughput",
+    "repeated_seed_signature_may_not_be_statistically_independent"
+  ],
+  "rust_binary_path": "/home/cosmosapjw/quantum/research/quartz_resident_20261120_target/debug/mcts_demo",
+  "rust_binary_sha256": "3fc0d61b5e878fca404daf0ed809508a35a8fb3aff063e69759f261f33f2bf5b",
+  "rust_version": "rustc 1.99.0 (b940084d7 2026-09-28)",
+  "schema": "quartz_resident_fork02_manifest_v1",
+  "study_source_commit": "8c659eea8d6ca964030e5e98d5908690eec09226",
+  "study_source_tree": "43f0956fddb9bf47c8f6e994bdc51ede01bb8c97",
+  "torch_cuda": null,
+  "torch_version": "2.9.1+cpu"
+}

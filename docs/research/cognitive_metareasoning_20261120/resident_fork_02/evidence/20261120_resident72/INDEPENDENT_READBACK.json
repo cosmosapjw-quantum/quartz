@@ -1,0 +1,41 @@
+{
+  "admission": "implementation-verified, descriptive real MCTS CPU finite screen; no statistical independence or causal Bayesian VOC claim",
+  "continue_policy_ties": 42,
+  "extra_evaluator_calls_total": 567,
+  "extra_evaluator_calls_unique_trajectory": 189,
+  "fresh16_mismatches": 0,
+  "groupwise_signed_counts": {
+    "0": 23,
+    "1": 1
+  },
+  "input_files_sha256_checked": 10,
+  "locked_positions_checked": 12,
+  "mean_additional_wall_ms": 17.398378708333333,
+  "mean_extra_evaluator_calls": 7.875,
+  "model_forward_items_total": 2430,
+  "one_nonzero_group": [
+    [
+      "P0012",
+      "C01_gen_5",
+      26,
+      15,
+      15
+    ]
+  ],
+  "output_sha256_checked": 3,
+  "record_rows": 72,
+  "rust_binary_sha256_checked": true,
+  "schema": "quartz_resident_fork02_independent_readback_v1",
+  "scope": "finite_raw_evidence_and_byte_provenance_not_theorem_truth",
+  "seed_is_independent_realization": false,
+  "source_code_commit": "8c659eea8d6ca964030e5e98d5908690eec09226",
+  "stop_policy_ties": 42,
+  "trial_signed_counts": {
+    "0": 69,
+    "1": 3
+  },
+  "unique_position_checkpoint_groups": 24,
+  "unique_trajectory_signatures_per_group": [
+    1
+  ]
+}

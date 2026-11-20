@@ -1,0 +1,82 @@
+{
+  "all_repeated_seed_trajectories_identical": true,
+  "by_checkpoint": {
+    "C01_gen_5": {
+      "mean_extra_evals": 8.0,
+      "mean_reference_signed": 0.08333333333333333,
+      "n": 36,
+      "reference_signed": {
+        "0": 33,
+        "1": 3
+      }
+    },
+    "C03_gen_5": {
+      "mean_extra_evals": 7.75,
+      "mean_reference_signed": 0.0,
+      "n": 36,
+      "reference_signed": {
+        "0": 36
+      }
+    }
+  },
+  "claim": "signed_reference_alignment_for_existing_trained_NN_with_resident_MCTS",
+  "continue_ties": 42,
+  "delta_eval_calls_total": 567,
+  "fresh16_mismatches": 0,
+  "interpretation_caveat": [
+    "mined positions not iid",
+    "three seeds may be algorithmically identical trajectories",
+    "reference and oracle are stronger model proxies",
+    "alignment is not objective regret or full Bayesian VOC",
+    "baseline_strict MCTS not the QUARTZ adaptive controller",
+    "timings are CPU only and exclude GPU inference behavior"
+  ],
+  "mean_delta_eval_calls": 7.875,
+  "mean_signed_ref": 0.041666666666666664,
+  "mean_step_wall_ms": 17.398378708333336,
+  "median_step_wall_ms": 17.273707,
+  "n_checkpoints": 2,
+  "n_positions": 12,
+  "n_search_seeds": 3,
+  "n_trials": 72,
+  "no_intervals_because_independence_not_established": true,
+  "root_position_checkpoint_pairs": 24,
+  "schema": "quartz_resident_fork02_cpu_summary_v1",
+  "signed_oracle": {
+    "-1": 0,
+    "0": 69,
+    "1": 3
+  },
+  "signed_ref": {
+    "-1": 0,
+    "0": 69,
+    "1": 3
+  },
+  "stop_ties": 42,
+  "unique_trajectory_counts_by_root": {
+    "P0003/C01_gen_5": 1,
+    "P0003/C03_gen_5": 1,
+    "P0010/C01_gen_5": 1,
+    "P0010/C03_gen_5": 1,
+    "P0012/C01_gen_5": 1,
+    "P0012/C03_gen_5": 1,
+    "P0018/C01_gen_5": 1,
+    "P0018/C03_gen_5": 1,
+    "P0019/C01_gen_5": 1,
+    "P0019/C03_gen_5": 1,
+    "P0026/C01_gen_5": 1,
+    "P0026/C03_gen_5": 1,
+    "P0028/C01_gen_5": 1,
+    "P0028/C03_gen_5": 1,
+    "P0030/C01_gen_5": 1,
+    "P0030/C03_gen_5": 1,
+    "P0032/C01_gen_5": 1,
+    "P0032/C03_gen_5": 1,
+    "P0033/C01_gen_5": 1,
+    "P0033/C03_gen_5": 1,
+    "P0037/C01_gen_5": 1,
+    "P0037/C03_gen_5": 1,
+    "P0043/C01_gen_5": 1,
+    "P0043/C03_gen_5": 1
+  }
+}
