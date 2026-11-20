@@ -2,6 +2,7 @@
 #![allow(unused_imports)]
 
 pub mod chess;
+pub mod connect4;
 pub mod go;
 pub mod gomoku;
 pub mod gomoku15;

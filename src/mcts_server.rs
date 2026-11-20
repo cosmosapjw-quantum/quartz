@@ -16,7 +16,7 @@ use rand::{Rng, SeedableRng};
 
 use crate::game::{EvalResult, Evaluator, GameState};
 use crate::mcts::eval::{
-    global_ring_buffer, AsyncEvalTicket, BatchStdioEval, GlobalBroker, ShortRollout, SHM_MSG_JSON,
+    global_ring_buffer, AsyncEvalTicket, BatchStdioEval, GlobalBroker, ShortRollout, UniformEval, SHM_MSG_JSON,
     SHM_MSG_SEARCH_RESP,
 };
 use crate::mcts::node::edge_lock_contention_snapshot;
@@ -28,7 +28,127 @@ use crate::mcts::{engine_phase_snapshot, MctsConfig, MctsEngine, PreparedIterati
 use crate::games::chess::{chess_quartz, Chess, ChessMove, CHESS_POLICY_ACTIONS};
 use crate::games::go::{go_quartz, Go, GoRuleset, GoScoring};
 use crate::games::gomoku15::{gomoku15_quartz, Gomoku15, GomokuVariant};
-use crate::games::{Gomoku, TicTacToe};
+use crate::games::{connect4::Connect4, Gomoku, TicTacToe};
+
+/// Bounded, CPU-only real QUARTZ MCTS for *standard gravity Connect4*.
+/// This research-only endpoint intentionally does not consume the external
+/// Connect4 oracle scores. The scientific reader joins those afterwards.
+fn handle_research_connect4_cpu(line: &str) -> serde_json::Value {
+    let request: serde_json::Value = match serde_json::from_str(line) {
+        Ok(value) => value,
+        Err(_) => return serde_json::json!({"error": "malformed Connect4 JSON"}),
+    };
+    let Some(sequence) = request.get("history").and_then(|v| v.as_str()) else {
+        return serde_json::json!({"error": "Connect4 history required"});
+    };
+    let state = match Connect4::from_history(sequence) {
+        Ok(s) if !s.is_terminal() => s,
+        Ok(_) => return serde_json::json!({"error": "terminal Connect4 root is not searched"}),
+        Err(err) => return serde_json::json!({"error": err}),
+    };
+    // The fixed schedule guards CPU cost and keeps an exact 8->16->32->64
+    // experimental contract. More budgets require a new research lock.
+    let expected_budgets = [8u32, 16, 32, 64];
+    let given_budgets = request.get("budgets").and_then(|v| v.as_array());
+    if given_budgets.map(|entries| {
+        entries.len() != 4
+            || entries.iter()
+                .zip(expected_budgets)
+                .any(|(v, expected)| v.as_u64() != Some(expected as u64))
+    }).unwrap_or(false) {
+        return serde_json::json!({"error": "budgets must be [8,16,32,64]"});
+    }
+    let seed = request.get("seed").and_then(|v| v.as_u64()).unwrap_or(17);
+    let mut cfg = MctsConfig::evaluation(2.0).with_seed(seed);
+    cfg.root_forced_win = false;
+    cfg.dirichlet = None;
+    cfg.temperature = 0.0;
+    // UniformEval provides no trained knowledge and no oracle leakage.
+    let eval = Arc::new(UniformEval);
+    let engine = MctsEngine::new(state.clone(), eval.clone(), cfg.clone());
+    let root_hash = format!("{:016x}", engine.root_state().tt_hash());
+    let mut before_calls = engine.evaluator_call_count();
+    let root_initial_calls = before_calls;
+    let mut steps = Vec::with_capacity(4);
+    let mut resident16 = None;
+    for target in expected_budgets {
+        let t = Instant::now();
+        let stats = engine.run(&mut FixedIterations::new(target));
+        let elapsed_wall_us = t.elapsed().as_micros();
+        if stats.root_visits != target {
+            return serde_json::json!({
+                "error": "resident MCTS did not exhaust budget",
+                "target": target, "visits": stats.root_visits,
+            });
+        }
+        let Some(best) = engine.best_move() else {
+            return serde_json::json!({"error": "no legal action after MCTS"});
+        };
+        let calls = engine.evaluator_call_count();
+        if calls < before_calls {
+            return serde_json::json!({"error": "evaluator call count regressed"});
+        }
+        let policy = engine.pi_target(1.0);
+        if target == 16 {
+            resident16 = Some((best, calls, policy.clone()));
+        }
+        steps.push(serde_json::json!({
+            "budget": target,
+            "root_visits": stats.root_visits,
+            "root_hash": root_hash,
+            "best_action": best,
+            "best_column_1based": best + 1,
+            "evaluator_calls": calls,
+            "additional_evaluator_calls": calls - before_calls,
+            "step_wall_us": elapsed_wall_us,
+            "visit_policy": policy,
+            "stop_reason": stats.stop_reason.tag(),
+        }));
+        before_calls = calls;
+    }
+    // A genuinely new *engine*, with the same exact state and config,
+    // checks the 16-visit prefix/continuation identity without cloning the
+    // resident engine or leaking an external game-theoretic oracle.
+    let fresh = MctsEngine::new(state.clone(), eval, cfg);
+    let t = Instant::now();
+    let fresh_stats = fresh.run(&mut FixedIterations::new(16));
+    let fresh_elapsed_wall_us = t.elapsed().as_micros();
+    let fresh_best = fresh.best_move();
+    let fresh_calls = fresh.evaluator_call_count();
+    let fresh_policy = fresh.pi_target(1.0);
+    let (reference_best, reference_calls, reference_policy) =
+        resident16.expect("exact budget sequence includes 16");
+    let resident_match = fresh_stats.root_visits == 16
+        && fresh_best == Some(reference_best)
+        && fresh_calls == reference_calls
+        && fresh_policy == reference_policy;
+    serde_json::json!({
+        "schema": "quartz_connect4_resident_mcts_v1",
+        "game": "connect4_7x6_gravity",
+        "eval_mode": "uniform_no_neural_network",
+        "history": sequence,
+        "side_to_move": state.current_player(),
+        "ply": state.ply_count(),
+        "board_bottom_up": state.board_flat().to_vec(),
+        "legal_columns_0based": state.legal_moves(),
+        "root_hash": root_hash,
+        "root_initial_evaluator_calls": root_initial_calls,
+        "seed": seed,
+        "steps": steps,
+        "fresh16": {
+            "resident_match": resident_match,
+            "best_action": fresh_best,
+            "evaluator_calls": fresh_calls,
+            "root_visits": fresh_stats.root_visits,
+            "wall_us": fresh_elapsed_wall_us,
+        },
+        "scientific_nonclaims": [
+            "not_pretrained_Connect4_NN",
+            "not_Bayesian_VOC",
+            "not_full_game_solution_by_QUARTZ",
+        ],
+    })
+}
 
 fn rust_server_trace_path() -> Option<&'static str> {
     static TRACE_PATH: OnceLock<Option<String>> = OnceLock::new();
@@ -2393,6 +2513,14 @@ pub fn serve() {
         let cmd = jstr(&line, "cmd").unwrap_or("move");
         if cmd == "quit" {
             break;
+        }
+
+        if cmd == "research_connect4_cpu" {
+            emit_stdout_json_value(&handle_research_connect4_cpu(&line));
+            if let Some(ring) = global_ring_buffer() {
+                ring.set_cmd_done(true);
+            }
+            continue;
         }
 
         if cmd == "foundry_capabilities" {
@@ -7719,6 +7847,48 @@ mod tests {
             panic!("ordinary session transport must remain unchanged");
         };
         assert_eq!(session_id, 7);
+    }
+
+    #[test]
+    fn test_research_connect4_cpu_probe_resumes_same_root_and_costs() {
+        let query = serde_json::json!({
+            "cmd": "research_connect4_cpu",
+            "history": "4433226223",
+            "seed": 17,
+            "budgets": [8, 16, 32, 64],
+        }).to_string();
+        let observed = handle_research_connect4_cpu(&query);
+        assert!(observed.get("error").is_none(), "{observed}");
+        assert_eq!(observed["game"], "connect4_7x6_gravity");
+        let steps = observed["steps"].as_array().expect("steps");
+        assert_eq!(steps.len(), 4);
+        let mut prev_calls = 1;
+        let mut root = String::new();
+        for (step, expected_budget) in steps.iter().zip([8u64, 16, 32, 64]) {
+            assert_eq!(step["root_visits"].as_u64(), Some(expected_budget));
+            assert_eq!(step["budget"].as_u64(), Some(expected_budget));
+            let action = step["best_action"].as_u64().expect("best col");
+            assert!(action < 7);
+            let calls = step["evaluator_calls"].as_u64().expect("eval calls");
+            assert!(calls >= prev_calls);
+            prev_calls = calls;
+            let h = step["root_hash"].as_str().expect("root hash");
+            if root.is_empty() { root = h.to_string(); }
+            assert_eq!(h, root);
+        }
+        assert_eq!(observed["fresh16"]["resident_match"], true);
+    }
+
+    #[test]
+    fn test_research_connect4_cpu_probe_rejects_invalid_history_and_budget() {
+        for query in [
+            serde_json::json!({"history": "11223345", "budgets": [8, 16]}),
+            serde_json::json!({"history": "8", "budgets": [8, 16]}),
+            serde_json::json!({"history": "4433226223", "budgets": [16, 8]}),
+        ] {
+            let got = handle_research_connect4_cpu(&query.to_string());
+            assert!(got.get("error").is_some(), "{got}");
+        }
     }
 
     #[test]
