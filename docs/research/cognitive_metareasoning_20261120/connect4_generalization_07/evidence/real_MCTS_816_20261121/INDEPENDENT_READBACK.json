@@ -1,0 +1,236 @@
+{
+  "all_new_192_outcome_recomputed": true,
+  "all_prior_uniform_12_reproduced": true,
+  "binary_sha256_checked": true,
+  "exact_oracle_confirmed_at_12_new_families": 12,
+  "interpretation_limits": [
+    "user provided non-IID roots grouped 12 families",
+    "matched root visits but NOT physical CPU cost",
+    "model file loads repeated per root",
+    "not a Bayesian computation-selection controller",
+    "bootstrap conditional on fixed trained models"
+  ],
+  "model_sha256_checked": 3,
+  "n_model_root_searches": 816,
+  "n_new_test_both_colors": 192,
+  "n_new_test_families": 12,
+  "n_root_states": 204,
+  "raw_output_sha256_checked": 3,
+  "recomputed": {
+    "historical12": {
+      "conv": {
+        "16": {
+          "mean_estimated_end_to_end_us": 13257.083333333334,
+          "mean_evaluator_calls": 8.333333333333334,
+          "mean_regret": 0.0,
+          "optimal_actions": 12
+        },
+        "32": {
+          "mean_estimated_end_to_end_us": 18157.25,
+          "mean_evaluator_calls": 13.666666666666666,
+          "mean_regret": 0.0,
+          "optimal_actions": 12
+        },
+        "64": {
+          "mean_estimated_end_to_end_us": 25043.583333333332,
+          "mean_evaluator_calls": 22.5,
+          "mean_regret": 0.0,
+          "optimal_actions": 12
+        },
+        "8": {
+          "mean_estimated_end_to_end_us": 9465.333333333334,
+          "mean_evaluator_calls": 5.0,
+          "mean_regret": 0.16666666666666666,
+          "optimal_actions": 11
+        }
+      },
+      "new_mlp": {
+        "16": {
+          "mean_estimated_end_to_end_us": 11611.25,
+          "mean_evaluator_calls": 8.583333333333334,
+          "mean_regret": 0.16666666666666666,
+          "optimal_actions": 11
+        },
+        "32": {
+          "mean_estimated_end_to_end_us": 14016.916666666666,
+          "mean_evaluator_calls": 14.583333333333334,
+          "mean_regret": 0.0,
+          "optimal_actions": 12
+        },
+        "64": {
+          "mean_estimated_end_to_end_us": 16666.166666666668,
+          "mean_evaluator_calls": 24.083333333333332,
+          "mean_regret": 0.0,
+          "optimal_actions": 12
+        },
+        "8": {
+          "mean_estimated_end_to_end_us": 9445.0,
+          "mean_evaluator_calls": 5.333333333333333,
+          "mean_regret": 0.16666666666666666,
+          "optimal_actions": 11
+        }
+      },
+      "old_mlp": {
+        "16": {
+          "mean_estimated_end_to_end_us": 11339.666666666666,
+          "mean_evaluator_calls": 7.166666666666667,
+          "mean_regret": 0.08333333333333333,
+          "optimal_actions": 11
+        },
+        "32": {
+          "mean_estimated_end_to_end_us": 13651.083333333334,
+          "mean_evaluator_calls": 12.5,
+          "mean_regret": 0.08333333333333333,
+          "optimal_actions": 11
+        },
+        "64": {
+          "mean_estimated_end_to_end_us": 16078.333333333334,
+          "mean_evaluator_calls": 19.0,
+          "mean_regret": 0.08333333333333333,
+          "optimal_actions": 11
+        },
+        "8": {
+          "mean_estimated_end_to_end_us": 9245.75,
+          "mean_evaluator_calls": 4.666666666666667,
+          "mean_regret": 0.4166666666666667,
+          "optimal_actions": 9
+        }
+      },
+      "uniform": {
+        "16": {
+          "mean_estimated_end_to_end_us": 5918.333333333333,
+          "mean_evaluator_calls": 8.0,
+          "mean_regret": 0.25,
+          "optimal_actions": 10
+        },
+        "32": {
+          "mean_estimated_end_to_end_us": 7918.25,
+          "mean_evaluator_calls": 13.75,
+          "mean_regret": 0.08333333333333333,
+          "optimal_actions": 11
+        },
+        "64": {
+          "mean_estimated_end_to_end_us": 10031.5,
+          "mean_evaluator_calls": 25.833333333333332,
+          "mean_regret": 0.08333333333333333,
+          "optimal_actions": 11
+        },
+        "8": {
+          "mean_estimated_end_to_end_us": 3954.4166666666665,
+          "mean_evaluator_calls": 4.333333333333333,
+          "mean_regret": 0.25,
+          "optimal_actions": 10
+        }
+      }
+    },
+    "new_test192": {
+      "conv": {
+        "16": {
+          "mean_estimated_end_to_end_us": 13855.036458333334,
+          "mean_evaluator_calls": 9.359375,
+          "mean_regret": 0.13541666666666666,
+          "optimal_actions": 177
+        },
+        "32": {
+          "mean_estimated_end_to_end_us": 19701.770833333332,
+          "mean_evaluator_calls": 16.375,
+          "mean_regret": 0.08854166666666667,
+          "optimal_actions": 182
+        },
+        "64": {
+          "mean_estimated_end_to_end_us": 28847.859375,
+          "mean_evaluator_calls": 29.276041666666668,
+          "mean_regret": 0.057291666666666664,
+          "optimal_actions": 185
+        },
+        "8": {
+          "mean_estimated_end_to_end_us": 9842.90625,
+          "mean_evaluator_calls": 5.625,
+          "mean_regret": 0.21875,
+          "optimal_actions": 169
+        }
+      },
+      "new_mlp": {
+        "16": {
+          "mean_estimated_end_to_end_us": 11710.557291666666,
+          "mean_evaluator_calls": 9.90625,
+          "mean_regret": 0.140625,
+          "optimal_actions": 177
+        },
+        "32": {
+          "mean_estimated_end_to_end_us": 14206.546875,
+          "mean_evaluator_calls": 17.234375,
+          "mean_regret": 0.11458333333333333,
+          "optimal_actions": 179
+        },
+        "64": {
+          "mean_estimated_end_to_end_us": 17189.677083333332,
+          "mean_evaluator_calls": 30.744791666666668,
+          "mean_regret": 0.057291666666666664,
+          "optimal_actions": 186
+        },
+        "8": {
+          "mean_estimated_end_to_end_us": 9490.192708333334,
+          "mean_evaluator_calls": 6.010416666666667,
+          "mean_regret": 0.3020833333333333,
+          "optimal_actions": 161
+        }
+      },
+      "old_mlp": {
+        "16": {
+          "mean_estimated_end_to_end_us": 11678.25,
+          "mean_evaluator_calls": 9.713541666666666,
+          "mean_regret": 0.24479166666666666,
+          "optimal_actions": 166
+        },
+        "32": {
+          "mean_estimated_end_to_end_us": 14150.25,
+          "mean_evaluator_calls": 16.380208333333332,
+          "mean_regret": 0.23958333333333334,
+          "optimal_actions": 166
+        },
+        "64": {
+          "mean_estimated_end_to_end_us": 17058.40625,
+          "mean_evaluator_calls": 28.765625,
+          "mean_regret": 0.1875,
+          "optimal_actions": 172
+        },
+        "8": {
+          "mean_estimated_end_to_end_us": 9456.395833333334,
+          "mean_evaluator_calls": 6.026041666666667,
+          "mean_regret": 0.40625,
+          "optimal_actions": 150
+        }
+      },
+      "uniform": {
+        "16": {
+          "mean_estimated_end_to_end_us": 5255.723958333333,
+          "mean_evaluator_calls": 10.739583333333334,
+          "mean_regret": 0.3177083333333333,
+          "optimal_actions": 158
+        },
+        "32": {
+          "mean_estimated_end_to_end_us": 7295.145833333333,
+          "mean_evaluator_calls": 18.395833333333332,
+          "mean_regret": 0.17708333333333334,
+          "optimal_actions": 173
+        },
+        "64": {
+          "mean_estimated_end_to_end_us": 9437.869791666666,
+          "mean_evaluator_calls": 33.572916666666664,
+          "mean_regret": 0.21354166666666666,
+          "optimal_actions": 169
+        },
+        "8": {
+          "mean_estimated_end_to_end_us": 3269.046875,
+          "mean_evaluator_calls": 6.182291666666667,
+          "mean_regret": 0.375,
+          "optimal_actions": 152
+        }
+      }
+    }
+  },
+  "schema": "quartz_connect4_generalization07_independent_MCTS_audit_v1",
+  "solver_mirror_confirmations": 12,
+  "source_commit": "c29a0b35226f305fff9da648737a8235b5771b53"
+}

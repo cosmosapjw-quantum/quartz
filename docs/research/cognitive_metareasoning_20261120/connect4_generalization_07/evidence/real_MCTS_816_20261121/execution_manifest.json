@@ -1,0 +1,29 @@
+{
+  "CPU_model_load_per_root": true,
+  "binary_sha256": "a6058b00154798271a6f0038b8543be7eabef60991c0ac960b66c7454a6ef41a",
+  "cohort_sha256": "cd56b7828a98b8b60f2f8d16e38f841f4a7e6c161446cdf76bfb31a07e1b2b03",
+  "model_modes": [
+    "uniform",
+    "old_mlp",
+    "new_mlp",
+    "conv"
+  ],
+  "model_sha256": {
+    "conv": "161f9e6e26840754384cb47335d1082d837fa014735cbfaa2517209422e29f24",
+    "new_mlp": "a5bd016c019724fab54110458fcdcb7abf9e61fbb959afe76d6c94b8237b3f3d",
+    "old_mlp": "1660b450d4ab948afc71d0aeebf1abe1f31120093849e224bc28f777605aff60"
+  },
+  "no_Bayesian_VOC_controller": true,
+  "no_GPU": true,
+  "old12_oracle_sha256": "3dbdc674e5607ebd4bdc9b30de822e697f666f2da79e846ca9f0b38678b4d2ca",
+  "oracle_label_sha256": "ac90b136cc6df0d8fc4b69b7ee178806c81b156f1f62bed55b5904b43679a22e",
+  "output_sha256": {
+    "joined_WDL.json": "96740c535d22f6fd4dc297b81cdd6dbcad60ce605d6c361a3daa2fabaedb3e74",
+    "raw_rust_results.json": "15618da60357a89577fb03410bedc4618877c7fb2a9dd5968dfe4d2c5f6dcf33",
+    "summary.json": "fd5a6c31e794678db3e3cca06552355ced5fcacb67451c6718b8d28d321991b8"
+  },
+  "schema": "quartz_connect4_generalization07_MCTS_manifest_v1",
+  "source_head": "c29a0b35226f305fff9da648737a8235b5771b53",
+  "source_tree": "656e596ac94b81c870be3ea6226a36ebd27b20f4",
+  "trials": 816
+}

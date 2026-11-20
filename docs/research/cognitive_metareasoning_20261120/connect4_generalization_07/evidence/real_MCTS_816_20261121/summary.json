@@ -1,0 +1,1006 @@
+{
+  "cohorts": {
+    "historical12": {
+      "models": {
+        "conv": {
+          "by_budget": {
+            "16": {
+              "WDL_counts": {
+                "-1": 1,
+                "0": 1,
+                "1": 10
+              },
+              "mean_WDL": 0.75,
+              "mean_estimated_end_to_end_us": 13257.083333333334,
+              "mean_evaluator_calls": 8.333333333333334,
+              "mean_model_load_wall_us": 3425.5833333333335,
+              "mean_regret": 0.0,
+              "mean_root_setup_wall_us": 1867.9166666666667,
+              "mean_stage_cumulative_wall_us": 7963.583333333333,
+              "n": 12,
+              "optimal_action_count": 12
+            },
+            "32": {
+              "WDL_counts": {
+                "-1": 1,
+                "0": 1,
+                "1": 10
+              },
+              "mean_WDL": 0.75,
+              "mean_estimated_end_to_end_us": 18157.25,
+              "mean_evaluator_calls": 13.666666666666666,
+              "mean_model_load_wall_us": 3425.5833333333335,
+              "mean_regret": 0.0,
+              "mean_root_setup_wall_us": 1867.9166666666667,
+              "mean_stage_cumulative_wall_us": 12863.75,
+              "n": 12,
+              "optimal_action_count": 12
+            },
+            "64": {
+              "WDL_counts": {
+                "-1": 1,
+                "0": 1,
+                "1": 10
+              },
+              "mean_WDL": 0.75,
+              "mean_estimated_end_to_end_us": 25043.583333333332,
+              "mean_evaluator_calls": 22.5,
+              "mean_model_load_wall_us": 3425.5833333333335,
+              "mean_regret": 0.0,
+              "mean_root_setup_wall_us": 1867.9166666666667,
+              "mean_stage_cumulative_wall_us": 19750.083333333332,
+              "n": 12,
+              "optimal_action_count": 12
+            },
+            "8": {
+              "WDL_counts": {
+                "-1": 2,
+                "0": 1,
+                "1": 9
+              },
+              "mean_WDL": 0.5833333333333334,
+              "mean_estimated_end_to_end_us": 9465.333333333334,
+              "mean_evaluator_calls": 5.0,
+              "mean_model_load_wall_us": 3425.5833333333335,
+              "mean_regret": 0.16666666666666666,
+              "mean_root_setup_wall_us": 1867.9166666666667,
+              "mean_stage_cumulative_wall_us": 4171.833333333333,
+              "n": 12,
+              "optimal_action_count": 11
+            }
+          },
+          "by_transition": {
+            "16->32": {
+              "mean_additional_evaluator_calls": 5.333333333333333,
+              "mean_gain": 0.0,
+              "signed_counts": {
+                "0": 12
+              }
+            },
+            "32->64": {
+              "mean_additional_evaluator_calls": 8.833333333333334,
+              "mean_gain": 0.0,
+              "signed_counts": {
+                "0": 12
+              }
+            },
+            "8->16": {
+              "mean_additional_evaluator_calls": 3.3333333333333335,
+              "mean_gain": 0.16666666666666666,
+              "signed_counts": {
+                "0": 11,
+                "2": 1
+              }
+            }
+          },
+          "families": 12,
+          "n": 12
+        },
+        "new_mlp": {
+          "by_budget": {
+            "16": {
+              "WDL_counts": {
+                "-1": 2,
+                "0": 1,
+                "1": 9
+              },
+              "mean_WDL": 0.5833333333333334,
+              "mean_estimated_end_to_end_us": 11611.25,
+              "mean_evaluator_calls": 8.583333333333334,
+              "mean_model_load_wall_us": 5710.833333333333,
+              "mean_regret": 0.16666666666666666,
+              "mean_root_setup_wall_us": 1435.6666666666667,
+              "mean_stage_cumulative_wall_us": 4464.75,
+              "n": 12,
+              "optimal_action_count": 11
+            },
+            "32": {
+              "WDL_counts": {
+                "-1": 1,
+                "0": 1,
+                "1": 10
+              },
+              "mean_WDL": 0.75,
+              "mean_estimated_end_to_end_us": 14016.916666666666,
+              "mean_evaluator_calls": 14.583333333333334,
+              "mean_model_load_wall_us": 5710.833333333333,
+              "mean_regret": 0.0,
+              "mean_root_setup_wall_us": 1435.6666666666667,
+              "mean_stage_cumulative_wall_us": 6870.416666666667,
+              "n": 12,
+              "optimal_action_count": 12
+            },
+            "64": {
+              "WDL_counts": {
+                "-1": 1,
+                "0": 1,
+                "1": 10
+              },
+              "mean_WDL": 0.75,
+              "mean_estimated_end_to_end_us": 16666.166666666668,
+              "mean_evaluator_calls": 24.083333333333332,
+              "mean_model_load_wall_us": 5710.833333333333,
+              "mean_regret": 0.0,
+              "mean_root_setup_wall_us": 1435.6666666666667,
+              "mean_stage_cumulative_wall_us": 9519.666666666666,
+              "n": 12,
+              "optimal_action_count": 12
+            },
+            "8": {
+              "WDL_counts": {
+                "-1": 2,
+                "0": 1,
+                "1": 9
+              },
+              "mean_WDL": 0.5833333333333334,
+              "mean_estimated_end_to_end_us": 9445.0,
+              "mean_evaluator_calls": 5.333333333333333,
+              "mean_model_load_wall_us": 5710.833333333333,
+              "mean_regret": 0.16666666666666666,
+              "mean_root_setup_wall_us": 1435.6666666666667,
+              "mean_stage_cumulative_wall_us": 2298.5,
+              "n": 12,
+              "optimal_action_count": 11
+            }
+          },
+          "by_transition": {
+            "16->32": {
+              "mean_additional_evaluator_calls": 6.0,
+              "mean_gain": 0.16666666666666666,
+              "signed_counts": {
+                "0": 11,
+                "2": 1
+              }
+            },
+            "32->64": {
+              "mean_additional_evaluator_calls": 9.5,
+              "mean_gain": 0.0,
+              "signed_counts": {
+                "0": 12
+              }
+            },
+            "8->16": {
+              "mean_additional_evaluator_calls": 3.25,
+              "mean_gain": 0.0,
+              "signed_counts": {
+                "0": 12
+              }
+            }
+          },
+          "families": 12,
+          "n": 12
+        },
+        "old_mlp": {
+          "by_budget": {
+            "16": {
+              "WDL_counts": {
+                "-1": 2,
+                "1": 10
+              },
+              "mean_WDL": 0.6666666666666666,
+              "mean_estimated_end_to_end_us": 11339.666666666666,
+              "mean_evaluator_calls": 7.166666666666667,
+              "mean_model_load_wall_us": 5683.0,
+              "mean_regret": 0.08333333333333333,
+              "mean_root_setup_wall_us": 1381.25,
+              "mean_stage_cumulative_wall_us": 4275.416666666667,
+              "n": 12,
+              "optimal_action_count": 11
+            },
+            "32": {
+              "WDL_counts": {
+                "-1": 2,
+                "1": 10
+              },
+              "mean_WDL": 0.6666666666666666,
+              "mean_estimated_end_to_end_us": 13651.083333333334,
+              "mean_evaluator_calls": 12.5,
+              "mean_model_load_wall_us": 5683.0,
+              "mean_regret": 0.08333333333333333,
+              "mean_root_setup_wall_us": 1381.25,
+              "mean_stage_cumulative_wall_us": 6586.833333333333,
+              "n": 12,
+              "optimal_action_count": 11
+            },
+            "64": {
+              "WDL_counts": {
+                "-1": 2,
+                "1": 10
+              },
+              "mean_WDL": 0.6666666666666666,
+              "mean_estimated_end_to_end_us": 16078.333333333334,
+              "mean_evaluator_calls": 19.0,
+              "mean_model_load_wall_us": 5683.0,
+              "mean_regret": 0.08333333333333333,
+              "mean_root_setup_wall_us": 1381.25,
+              "mean_stage_cumulative_wall_us": 9014.083333333334,
+              "n": 12,
+              "optimal_action_count": 11
+            },
+            "8": {
+              "WDL_counts": {
+                "-1": 4,
+                "1": 8
+              },
+              "mean_WDL": 0.3333333333333333,
+              "mean_estimated_end_to_end_us": 9245.75,
+              "mean_evaluator_calls": 4.666666666666667,
+              "mean_model_load_wall_us": 5683.0,
+              "mean_regret": 0.4166666666666667,
+              "mean_root_setup_wall_us": 1381.25,
+              "mean_stage_cumulative_wall_us": 2181.5,
+              "n": 12,
+              "optimal_action_count": 9
+            }
+          },
+          "by_transition": {
+            "16->32": {
+              "mean_additional_evaluator_calls": 5.333333333333333,
+              "mean_gain": 0.0,
+              "signed_counts": {
+                "0": 12
+              }
+            },
+            "32->64": {
+              "mean_additional_evaluator_calls": 6.5,
+              "mean_gain": 0.0,
+              "signed_counts": {
+                "0": 12
+              }
+            },
+            "8->16": {
+              "mean_additional_evaluator_calls": 2.5,
+              "mean_gain": 0.3333333333333333,
+              "signed_counts": {
+                "0": 10,
+                "2": 2
+              }
+            }
+          },
+          "families": 12,
+          "n": 12
+        },
+        "uniform": {
+          "by_budget": {
+            "16": {
+              "WDL_counts": {
+                "-1": 3,
+                "1": 9
+              },
+              "mean_WDL": 0.5,
+              "mean_estimated_end_to_end_us": 5918.333333333333,
+              "mean_evaluator_calls": 8.0,
+              "mean_model_load_wall_us": 0.0,
+              "mean_regret": 0.25,
+              "mean_root_setup_wall_us": 2000.6666666666667,
+              "mean_stage_cumulative_wall_us": 3917.6666666666665,
+              "n": 12,
+              "optimal_action_count": 10
+            },
+            "32": {
+              "WDL_counts": {
+                "-1": 2,
+                "1": 10
+              },
+              "mean_WDL": 0.6666666666666666,
+              "mean_estimated_end_to_end_us": 7918.25,
+              "mean_evaluator_calls": 13.75,
+              "mean_model_load_wall_us": 0.0,
+              "mean_regret": 0.08333333333333333,
+              "mean_root_setup_wall_us": 2000.6666666666667,
+              "mean_stage_cumulative_wall_us": 5917.583333333333,
+              "n": 12,
+              "optimal_action_count": 11
+            },
+            "64": {
+              "WDL_counts": {
+                "-1": 2,
+                "1": 10
+              },
+              "mean_WDL": 0.6666666666666666,
+              "mean_estimated_end_to_end_us": 10031.5,
+              "mean_evaluator_calls": 25.833333333333332,
+              "mean_model_load_wall_us": 0.0,
+              "mean_regret": 0.08333333333333333,
+              "mean_root_setup_wall_us": 2000.6666666666667,
+              "mean_stage_cumulative_wall_us": 8030.833333333333,
+              "n": 12,
+              "optimal_action_count": 11
+            },
+            "8": {
+              "WDL_counts": {
+                "-1": 3,
+                "1": 9
+              },
+              "mean_WDL": 0.5,
+              "mean_estimated_end_to_end_us": 3954.4166666666665,
+              "mean_evaluator_calls": 4.333333333333333,
+              "mean_model_load_wall_us": 0.0,
+              "mean_regret": 0.25,
+              "mean_root_setup_wall_us": 2000.6666666666667,
+              "mean_stage_cumulative_wall_us": 1953.75,
+              "n": 12,
+              "optimal_action_count": 10
+            }
+          },
+          "by_transition": {
+            "16->32": {
+              "mean_additional_evaluator_calls": 5.75,
+              "mean_gain": 0.16666666666666666,
+              "signed_counts": {
+                "0": 11,
+                "2": 1
+              }
+            },
+            "32->64": {
+              "mean_additional_evaluator_calls": 12.083333333333334,
+              "mean_gain": 0.0,
+              "signed_counts": {
+                "0": 12
+              }
+            },
+            "8->16": {
+              "mean_additional_evaluator_calls": 3.6666666666666665,
+              "mean_gain": 0.0,
+              "signed_counts": {
+                "0": 12
+              }
+            }
+          },
+          "families": 12,
+          "n": 12
+        }
+      },
+      "n": 12
+    },
+    "new_test192": {
+      "models": {
+        "conv": {
+          "by_budget": {
+            "16": {
+              "WDL_counts": {
+                "-1": 57,
+                "0": 3,
+                "1": 132
+              },
+              "mean_WDL": 0.390625,
+              "mean_estimated_end_to_end_us": 13855.036458333334,
+              "mean_evaluator_calls": 9.359375,
+              "mean_model_load_wall_us": 3430.3541666666665,
+              "mean_regret": 0.13541666666666666,
+              "mean_root_setup_wall_us": 1874.2083333333333,
+              "mean_stage_cumulative_wall_us": 8550.473958333334,
+              "n": 192,
+              "optimal_action_count": 177
+            },
+            "32": {
+              "WDL_counts": {
+                "-1": 52,
+                "0": 4,
+                "1": 136
+              },
+              "mean_WDL": 0.4375,
+              "mean_estimated_end_to_end_us": 19701.770833333332,
+              "mean_evaluator_calls": 16.375,
+              "mean_model_load_wall_us": 3430.3541666666665,
+              "mean_regret": 0.08854166666666667,
+              "mean_root_setup_wall_us": 1874.2083333333333,
+              "mean_stage_cumulative_wall_us": 14397.208333333334,
+              "n": 192,
+              "optimal_action_count": 182
+            },
+            "64": {
+              "WDL_counts": {
+                "-1": 49,
+                "0": 4,
+                "1": 139
+              },
+              "mean_WDL": 0.46875,
+              "mean_estimated_end_to_end_us": 28847.859375,
+              "mean_evaluator_calls": 29.276041666666668,
+              "mean_model_load_wall_us": 3430.3541666666665,
+              "mean_regret": 0.057291666666666664,
+              "mean_root_setup_wall_us": 1874.2083333333333,
+              "mean_stage_cumulative_wall_us": 23543.296875,
+              "n": 192,
+              "optimal_action_count": 185
+            },
+            "8": {
+              "WDL_counts": {
+                "-1": 65,
+                "0": 3,
+                "1": 124
+              },
+              "mean_WDL": 0.3072916666666667,
+              "mean_estimated_end_to_end_us": 9842.90625,
+              "mean_evaluator_calls": 5.625,
+              "mean_model_load_wall_us": 3430.3541666666665,
+              "mean_regret": 0.21875,
+              "mean_root_setup_wall_us": 1874.2083333333333,
+              "mean_stage_cumulative_wall_us": 4538.34375,
+              "n": 192,
+              "optimal_action_count": 169
+            }
+          },
+          "by_transition": {
+            "16->32": {
+              "mean_additional_evaluator_calls": 7.015625,
+              "mean_gain": 0.046875,
+              "signed_counts": {
+                "-2": 1,
+                "0": 185,
+                "1": 1,
+                "2": 5
+              }
+            },
+            "32->64": {
+              "mean_additional_evaluator_calls": 12.901041666666666,
+              "mean_gain": 0.03125,
+              "signed_counts": {
+                "-2": 1,
+                "0": 187,
+                "2": 4
+              }
+            },
+            "8->16": {
+              "mean_additional_evaluator_calls": 3.734375,
+              "mean_gain": 0.08333333333333333,
+              "signed_counts": {
+                "-1": 1,
+                "-2": 1,
+                "0": 180,
+                "1": 1,
+                "2": 9
+              }
+            }
+          },
+          "families": 12,
+          "n": 192
+        },
+        "new_mlp": {
+          "by_budget": {
+            "16": {
+              "WDL_counts": {
+                "-1": 58,
+                "0": 2,
+                "1": 132
+              },
+              "mean_WDL": 0.3854166666666667,
+              "mean_estimated_end_to_end_us": 11710.557291666666,
+              "mean_evaluator_calls": 9.90625,
+              "mean_model_load_wall_us": 5749.963541666667,
+              "mean_regret": 0.140625,
+              "mean_root_setup_wall_us": 1418.515625,
+              "mean_stage_cumulative_wall_us": 4542.078125,
+              "n": 192,
+              "optimal_action_count": 177
+            },
+            "32": {
+              "WDL_counts": {
+                "-1": 55,
+                "0": 3,
+                "1": 134
+              },
+              "mean_WDL": 0.4114583333333333,
+              "mean_estimated_end_to_end_us": 14206.546875,
+              "mean_evaluator_calls": 17.234375,
+              "mean_model_load_wall_us": 5749.963541666667,
+              "mean_regret": 0.11458333333333333,
+              "mean_root_setup_wall_us": 1418.515625,
+              "mean_stage_cumulative_wall_us": 7038.067708333333,
+              "n": 192,
+              "optimal_action_count": 179
+            },
+            "64": {
+              "WDL_counts": {
+                "-1": 49,
+                "0": 4,
+                "1": 139
+              },
+              "mean_WDL": 0.46875,
+              "mean_estimated_end_to_end_us": 17189.677083333332,
+              "mean_evaluator_calls": 30.744791666666668,
+              "mean_model_load_wall_us": 5749.963541666667,
+              "mean_regret": 0.057291666666666664,
+              "mean_root_setup_wall_us": 1418.515625,
+              "mean_stage_cumulative_wall_us": 10021.197916666666,
+              "n": 192,
+              "optimal_action_count": 186
+            },
+            "8": {
+              "WDL_counts": {
+                "-1": 74,
+                "0": 1,
+                "1": 117
+              },
+              "mean_WDL": 0.22395833333333334,
+              "mean_estimated_end_to_end_us": 9490.192708333334,
+              "mean_evaluator_calls": 6.010416666666667,
+              "mean_model_load_wall_us": 5749.963541666667,
+              "mean_regret": 0.3020833333333333,
+              "mean_root_setup_wall_us": 1418.515625,
+              "mean_stage_cumulative_wall_us": 2321.7135416666665,
+              "n": 192,
+              "optimal_action_count": 161
+            }
+          },
+          "by_transition": {
+            "16->32": {
+              "mean_additional_evaluator_calls": 7.328125,
+              "mean_gain": 0.026041666666666668,
+              "signed_counts": {
+                "-1": 1,
+                "0": 188,
+                "2": 3
+              }
+            },
+            "32->64": {
+              "mean_additional_evaluator_calls": 13.510416666666666,
+              "mean_gain": 0.057291666666666664,
+              "signed_counts": {
+                "-2": 1,
+                "0": 183,
+                "1": 3,
+                "2": 5
+              }
+            },
+            "8->16": {
+              "mean_additional_evaluator_calls": 3.8958333333333335,
+              "mean_gain": 0.16145833333333334,
+              "signed_counts": {
+                "0": 176,
+                "1": 1,
+                "2": 15
+              }
+            }
+          },
+          "families": 12,
+          "n": 192
+        },
+        "old_mlp": {
+          "by_budget": {
+            "16": {
+              "WDL_counts": {
+                "-1": 68,
+                "0": 2,
+                "1": 122
+              },
+              "mean_WDL": 0.28125,
+              "mean_estimated_end_to_end_us": 11678.25,
+              "mean_evaluator_calls": 9.713541666666666,
+              "mean_model_load_wall_us": 5748.59375,
+              "mean_regret": 0.24479166666666666,
+              "mean_root_setup_wall_us": 1393.9010416666667,
+              "mean_stage_cumulative_wall_us": 4535.755208333333,
+              "n": 192,
+              "optimal_action_count": 166
+            },
+            "32": {
+              "WDL_counts": {
+                "-1": 68,
+                "0": 1,
+                "1": 123
+              },
+              "mean_WDL": 0.2864583333333333,
+              "mean_estimated_end_to_end_us": 14150.25,
+              "mean_evaluator_calls": 16.380208333333332,
+              "mean_model_load_wall_us": 5748.59375,
+              "mean_regret": 0.23958333333333334,
+              "mean_root_setup_wall_us": 1393.9010416666667,
+              "mean_stage_cumulative_wall_us": 7007.755208333333,
+              "n": 192,
+              "optimal_action_count": 166
+            },
+            "64": {
+              "WDL_counts": {
+                "-1": 62,
+                "0": 3,
+                "1": 127
+              },
+              "mean_WDL": 0.3385416666666667,
+              "mean_estimated_end_to_end_us": 17058.40625,
+              "mean_evaluator_calls": 28.765625,
+              "mean_model_load_wall_us": 5748.59375,
+              "mean_regret": 0.1875,
+              "mean_root_setup_wall_us": 1393.9010416666667,
+              "mean_stage_cumulative_wall_us": 9915.911458333334,
+              "n": 192,
+              "optimal_action_count": 172
+            },
+            "8": {
+              "WDL_counts": {
+                "-1": 83,
+                "0": 3,
+                "1": 106
+              },
+              "mean_WDL": 0.11979166666666667,
+              "mean_estimated_end_to_end_us": 9456.395833333334,
+              "mean_evaluator_calls": 6.026041666666667,
+              "mean_model_load_wall_us": 5748.59375,
+              "mean_regret": 0.40625,
+              "mean_root_setup_wall_us": 1393.9010416666667,
+              "mean_stage_cumulative_wall_us": 2313.9010416666665,
+              "n": 192,
+              "optimal_action_count": 150
+            }
+          },
+          "by_transition": {
+            "16->32": {
+              "mean_additional_evaluator_calls": 6.666666666666667,
+              "mean_gain": 0.005208333333333333,
+              "signed_counts": {
+                "-1": 1,
+                "-2": 4,
+                "0": 182,
+                "2": 5
+              }
+            },
+            "32->64": {
+              "mean_additional_evaluator_calls": 12.385416666666666,
+              "mean_gain": 0.052083333333333336,
+              "signed_counts": {
+                "-2": 2,
+                "0": 182,
+                "1": 2,
+                "2": 6
+              }
+            },
+            "8->16": {
+              "mean_additional_evaluator_calls": 3.6875,
+              "mean_gain": 0.16145833333333334,
+              "signed_counts": {
+                "0": 176,
+                "1": 1,
+                "2": 15
+              }
+            }
+          },
+          "families": 12,
+          "n": 192
+        },
+        "uniform": {
+          "by_budget": {
+            "16": {
+              "WDL_counts": {
+                "-1": 75,
+                "0": 2,
+                "1": 115
+              },
+              "mean_WDL": 0.20833333333333334,
+              "mean_estimated_end_to_end_us": 5255.723958333333,
+              "mean_evaluator_calls": 10.739583333333334,
+              "mean_model_load_wall_us": 0.010416666666666666,
+              "mean_regret": 0.3177083333333333,
+              "mean_root_setup_wall_us": 1284.0104166666667,
+              "mean_stage_cumulative_wall_us": 3971.703125,
+              "n": 192,
+              "optimal_action_count": 158
+            },
+            "32": {
+              "WDL_counts": {
+                "-1": 60,
+                "0": 5,
+                "1": 127
+              },
+              "mean_WDL": 0.3489583333333333,
+              "mean_estimated_end_to_end_us": 7295.145833333333,
+              "mean_evaluator_calls": 18.395833333333332,
+              "mean_model_load_wall_us": 0.010416666666666666,
+              "mean_regret": 0.17708333333333334,
+              "mean_root_setup_wall_us": 1284.0104166666667,
+              "mean_stage_cumulative_wall_us": 6011.125,
+              "n": 192,
+              "optimal_action_count": 173
+            },
+            "64": {
+              "WDL_counts": {
+                "-1": 64,
+                "0": 4,
+                "1": 124
+              },
+              "mean_WDL": 0.3125,
+              "mean_estimated_end_to_end_us": 9437.869791666666,
+              "mean_evaluator_calls": 33.572916666666664,
+              "mean_model_load_wall_us": 0.010416666666666666,
+              "mean_regret": 0.21354166666666666,
+              "mean_root_setup_wall_us": 1284.0104166666667,
+              "mean_stage_cumulative_wall_us": 8153.848958333333,
+              "n": 192,
+              "optimal_action_count": 169
+            },
+            "8": {
+              "WDL_counts": {
+                "-1": 80,
+                "0": 3,
+                "1": 109
+              },
+              "mean_WDL": 0.15104166666666666,
+              "mean_estimated_end_to_end_us": 3269.046875,
+              "mean_evaluator_calls": 6.182291666666667,
+              "mean_model_load_wall_us": 0.010416666666666666,
+              "mean_regret": 0.375,
+              "mean_root_setup_wall_us": 1284.0104166666667,
+              "mean_stage_cumulative_wall_us": 1985.0260416666667,
+              "n": 192,
+              "optimal_action_count": 152
+            }
+          },
+          "by_transition": {
+            "16->32": {
+              "mean_additional_evaluator_calls": 7.65625,
+              "mean_gain": 0.140625,
+              "signed_counts": {
+                "-2": 4,
+                "0": 168,
+                "1": 5,
+                "2": 15
+              }
+            },
+            "32->64": {
+              "mean_additional_evaluator_calls": 15.177083333333334,
+              "mean_gain": -0.036458333333333336,
+              "signed_counts": {
+                "-1": 6,
+                "-2": 9,
+                "0": 168,
+                "1": 1,
+                "2": 8
+              }
+            },
+            "8->16": {
+              "mean_additional_evaluator_calls": 4.557291666666667,
+              "mean_gain": 0.057291666666666664,
+              "signed_counts": {
+                "-1": 1,
+                "-2": 6,
+                "0": 171,
+                "1": 4,
+                "2": 10
+              }
+            }
+          },
+          "families": 12,
+          "n": 192
+        }
+      },
+      "n": 192
+    }
+  },
+  "interpretation": {
+    "all_old_12_black_to_move": true,
+    "matched": "MCTS cumulative root visits only",
+    "model_load_cost_repeated_per_root": true,
+    "new_test_wdls_from": "fixed independent exact PascalPons teacher labels",
+    "nonnormal_noniid_families": true,
+    "not_matched": [
+      "evaluator_calls",
+      "model_inference_wall_time",
+      "end_to_end_time"
+    ],
+    "total_request_cost_includes_fresh16_control": true
+  },
+  "mode_names": [
+    "uniform",
+    "old_mlp",
+    "new_mlp",
+    "conv"
+  ],
+  "n_hist": 12,
+  "n_new_test": 192,
+  "n_queries": 816,
+  "new_test_paired_regret_by_family": {
+    "16": {
+      "conv_minus_new_mlp": {
+        "bootstrap_refits_models": false,
+        "bootstrap_seed": 20261121,
+        "conditional_95_interval": [
+          -0.052083333333333336,
+          0.041666666666666664
+        ],
+        "n_families": 12,
+        "n_per_family": 16,
+        "point_mean": -0.005208333333333333
+      },
+      "conv_minus_old_mlp": {
+        "bootstrap_refits_models": false,
+        "bootstrap_seed": 20261121,
+        "conditional_95_interval": [
+          -0.171875,
+          -0.036458333333333336
+        ],
+        "n_families": 12,
+        "n_per_family": 16,
+        "point_mean": -0.109375
+      },
+      "conv_minus_uniform": {
+        "bootstrap_refits_models": false,
+        "bootstrap_seed": 20261121,
+        "conditional_95_interval": [
+          -0.25,
+          -0.11458333333333333
+        ],
+        "n_families": 12,
+        "n_per_family": 16,
+        "point_mean": -0.18229166666666666
+      },
+      "new_mlp_minus_old_mlp": {
+        "bootstrap_refits_models": false,
+        "bootstrap_seed": 20261121,
+        "conditional_95_interval": [
+          -0.17708333333333334,
+          -0.010416666666666666
+        ],
+        "n_families": 12,
+        "n_per_family": 16,
+        "point_mean": -0.10416666666666667
+      }
+    },
+    "32": {
+      "conv_minus_new_mlp": {
+        "bootstrap_refits_models": false,
+        "bootstrap_seed": 20261121,
+        "conditional_95_interval": [
+          -0.09895833333333333,
+          0.041666666666666664
+        ],
+        "n_families": 12,
+        "n_per_family": 16,
+        "point_mean": -0.026041666666666668
+      },
+      "conv_minus_old_mlp": {
+        "bootstrap_refits_models": false,
+        "bootstrap_seed": 20261121,
+        "conditional_95_interval": [
+          -0.22916666666666666,
+          -0.0625
+        ],
+        "n_families": 12,
+        "n_per_family": 16,
+        "point_mean": -0.15104166666666666
+      },
+      "conv_minus_uniform": {
+        "bootstrap_refits_models": false,
+        "bootstrap_seed": 20261121,
+        "conditional_95_interval": [
+          -0.140625,
+          -0.03125
+        ],
+        "n_families": 12,
+        "n_per_family": 16,
+        "point_mean": -0.08854166666666667
+      },
+      "new_mlp_minus_old_mlp": {
+        "bootstrap_refits_models": false,
+        "bootstrap_seed": 20261121,
+        "conditional_95_interval": [
+          -0.22395833333333334,
+          -0.020833333333333332
+        ],
+        "n_families": 12,
+        "n_per_family": 16,
+        "point_mean": -0.125
+      }
+    },
+    "64": {
+      "conv_minus_new_mlp": {
+        "bootstrap_refits_models": false,
+        "bootstrap_seed": 20261121,
+        "conditional_95_interval": [
+          -0.03125,
+          0.03125
+        ],
+        "n_families": 12,
+        "n_per_family": 16,
+        "point_mean": 0.0
+      },
+      "conv_minus_old_mlp": {
+        "bootstrap_refits_models": false,
+        "bootstrap_seed": 20261121,
+        "conditional_95_interval": [
+          -0.21875,
+          -0.057291666666666664
+        ],
+        "n_families": 12,
+        "n_per_family": 16,
+        "point_mean": -0.13020833333333334
+      },
+      "conv_minus_uniform": {
+        "bootstrap_refits_models": false,
+        "bootstrap_seed": 20261121,
+        "conditional_95_interval": [
+          -0.2604166666666667,
+          -0.0625
+        ],
+        "n_families": 12,
+        "n_per_family": 16,
+        "point_mean": -0.15625
+      },
+      "new_mlp_minus_old_mlp": {
+        "bootstrap_refits_models": false,
+        "bootstrap_seed": 20261121,
+        "conditional_95_interval": [
+          -0.21354166666666666,
+          -0.057291666666666664
+        ],
+        "n_families": 12,
+        "n_per_family": 16,
+        "point_mean": -0.13020833333333334
+      }
+    },
+    "8": {
+      "conv_minus_new_mlp": {
+        "bootstrap_refits_models": false,
+        "bootstrap_seed": 20261121,
+        "conditional_95_interval": [
+          -0.15625,
+          -0.005208333333333333
+        ],
+        "n_families": 12,
+        "n_per_family": 16,
+        "point_mean": -0.08333333333333333
+      },
+      "conv_minus_old_mlp": {
+        "bootstrap_refits_models": false,
+        "bootstrap_seed": 20261121,
+        "conditional_95_interval": [
+          -0.3072916666666667,
+          -0.06770833333333333
+        ],
+        "n_families": 12,
+        "n_per_family": 16,
+        "point_mean": -0.1875
+      },
+      "conv_minus_uniform": {
+        "bootstrap_refits_models": false,
+        "bootstrap_seed": 20261121,
+        "conditional_95_interval": [
+          -0.2864583333333333,
+          -0.03125
+        ],
+        "n_families": 12,
+        "n_per_family": 16,
+        "point_mean": -0.15625
+      },
+      "new_mlp_minus_old_mlp": {
+        "bootstrap_refits_models": false,
+        "bootstrap_seed": 20261121,
+        "conditional_95_interval": [
+          -0.18229166666666666,
+          -0.020833333333333332
+        ],
+        "n_families": 12,
+        "n_per_family": 16,
+        "point_mean": -0.10416666666666667
+      }
+    }
+  },
+  "run_source_head": "c29a0b35226f305fff9da648737a8235b5771b53",
+  "schema": "quartz_connect4_generalization07_real_MCTS_v1",
+  "total_server_wall_s": 20.38147472000128,
+  "visit_budget_schedule": [
+    8,
+    16,
+    32,
+    64
+  ]
+}
