@@ -1,0 +1,12 @@
+{
+  "cpu_threads": 2,
+  "epoch_selected": 23,
+  "labels_sha256": "ed52cfd1fa8db6a7ce436eb7e8f48ba669f66eb1d075a5c16f93b30dc07ba641",
+  "model_architecture": "126->64(ReLU)->8(policy[7],value[tanh])",
+  "model_json_sha256": "1660b450d4ab948afc71d0aeebf1abe1f31120093849e224bc28f777605aff60",
+  "schema": "quartz_connect4_tiny_mlp_export_manifest_v1",
+  "source_commit": "abbde64477e251b99877c754078712696ba1e74d",
+  "summary_json_sha256": "592b425065e5b6e970f15850a8dfd573f711b2ba51eb8de5f05d72fc2c803805",
+  "torch_cuda_version": null,
+  "torch_version": "2.9.1+cpu"
+}
