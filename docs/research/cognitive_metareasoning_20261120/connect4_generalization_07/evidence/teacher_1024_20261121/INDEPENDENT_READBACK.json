@@ -1,0 +1,37 @@
+{
+  "all_action_labels_exact_oracle": true,
+  "group_split_count": {
+    "test": 12,
+    "train": 40,
+    "val": 12
+  },
+  "independent_mirrored_solver_requeries": 16,
+  "labels_sha256": "ac90b136cc6df0d8fc4b69b7ee178806c81b156f1f62bed55b5904b43679a22e",
+  "no_imputed_status": true,
+  "old_192_and_12_overlap_count": 0,
+  "optimal_set_sizes": {
+    "1": 309,
+    "2": 165,
+    "3": 74,
+    "4": 41,
+    "5": 76,
+    "6": 133,
+    "7": 226
+  },
+  "root_count": 1024,
+  "schema": "quartz_connect4_generalization07_teacher_independent_v1",
+  "source_head": "2c0857756840504c7e41e449ccf8b1a343a6afc9",
+  "statistical_independence_claimed": false,
+  "unique_board_mirror_classes": 1024,
+  "wdl_counts": {
+    "test/-1": 43,
+    "test/0": 5,
+    "test/1": 144,
+    "train/-1": 165,
+    "train/0": 23,
+    "train/1": 452,
+    "val/-1": 56,
+    "val/0": 6,
+    "val/1": 130
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "cohort_sha256": "cd56b7828a98b8b60f2f8d16e38f841f4a7e6c161446cdf76bfb31a07e1b2b03",
+  "global_cap_s": 180.0,
+  "labels_sha256": "ac90b136cc6df0d8fc4b69b7ee178806c81b156f1f62bed55b5904b43679a22e",
+  "locked_input_sha256": "ad8323a4bbe5f08fb9f2745a1979bdfb4a4fe2bd446c2cd130dd06e12feaa274",
+  "no_imputed_teacher_values": true,
+  "per_position_timeout_s": 5.0,
+  "schema": "quartz_c4_generalization07_teacher_manifest_v1",
+  "source_sha256": "35b7c2a27bb2c9fef3ed0bf1d617ae3dfded7eaf22baacae0a9739004193bd15",
+  "split_status": {
+    "test": {
+      "OK": 192
+    },
+    "train": {
+      "OK": 640
+    },
+    "val": {
+      "OK": 192
+    }
+  },
+  "statuses": {
+    "OK": 1024
+  },
+  "study_source_commit": "2c0857756840504c7e41e449ccf8b1a343a6afc9",
+  "total": 1024
+}
