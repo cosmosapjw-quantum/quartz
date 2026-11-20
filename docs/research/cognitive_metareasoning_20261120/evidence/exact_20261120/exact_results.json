@@ -1,0 +1,421 @@
+{
+  "kind": "exact_finite_bayesian_reference_not_game_engine",
+  "restrictions": [
+    "binary_X",
+    "known_u",
+    "perfect_verification",
+    "fixed_cost",
+    "source_trained_q",
+    "no_neural_checkpoint",
+    "random_rate_is_deployment-matched_diagnostic"
+  ],
+  "rows": [
+    {
+      "metrics": {
+        "always_verify": {
+          "decimal": 0.58,
+          "exact": "29/50"
+        },
+        "full_information_no_cost": {
+          "decimal": 0.68,
+          "exact": "17/25"
+        },
+        "gain_ece": {
+          "decimal": 0.0,
+          "exact": "0"
+        },
+        "learned_selective": {
+          "decimal": 0.635,
+          "exact": "127/200"
+        },
+        "net_improvement_over_stop": {
+          "decimal": 0.035,
+          "exact": "7/200"
+        },
+        "oracle_rate": {
+          "decimal": 0.33,
+          "exact": "33/100"
+        },
+        "oracle_recalibrated": {
+          "decimal": 0.635,
+          "exact": "127/200"
+        },
+        "quality_brier": {
+          "decimal": 0.11108095884215287,
+          "exact": "1228/11055"
+        },
+        "quality_ece": {
+          "decimal": 0.0,
+          "exact": "0"
+        },
+        "random_matched_rate": {
+          "decimal": 0.5934,
+          "exact": "2967/5000"
+        },
+        "random_matched_rate_rate": {
+          "decimal": 0.33,
+          "exact": "33/100"
+        },
+        "selective_minus_random_matched": {
+          "decimal": 0.0416,
+          "exact": "26/625"
+        },
+        "selective_rate": {
+          "decimal": 0.33,
+          "exact": "33/100"
+        },
+        "stop_only": {
+          "decimal": 0.6,
+          "exact": "3/5"
+        }
+      },
+      "scenario": "in_distribution",
+      "true_parameters": {
+        "fpr": {
+          "decimal": 0.2,
+          "exact": "1/5"
+        },
+        "p": {
+          "decimal": 0.2,
+          "exact": "1/5"
+        },
+        "se": {
+          "decimal": 0.85,
+          "exact": "17/20"
+        }
+      }
+    },
+    {
+      "metrics": {
+        "always_verify": {
+          "decimal": 0.58,
+          "exact": "29/50"
+        },
+        "full_information_no_cost": {
+          "decimal": 0.68,
+          "exact": "17/25"
+        },
+        "gain_ece": {
+          "decimal": 0.09407507914970602,
+          "exact": "208/2211"
+        },
+        "learned_selective": {
+          "decimal": 0.59,
+          "exact": "59/100"
+        },
+        "net_improvement_over_stop": {
+          "decimal": -0.01,
+          "exact": "-1/100"
+        },
+        "oracle_rate": {
+          "decimal": 0.0,
+          "exact": "0"
+        },
+        "oracle_recalibrated": {
+          "decimal": 0.6,
+          "exact": "3/5"
+        },
+        "quality_brier": {
+          "decimal": 0.221707465304946,
+          "exact": "5419108/24442605"
+        },
+        "quality_ece": {
+          "decimal": 0.23518769787426505,
+          "exact": "520/2211"
+        },
+        "random_matched_rate": {
+          "decimal": 0.59,
+          "exact": "59/100"
+        },
+        "random_matched_rate_rate": {
+          "decimal": 0.5,
+          "exact": "1/2"
+        },
+        "selective_minus_random_matched": {
+          "decimal": 0.0,
+          "exact": "0"
+        },
+        "selective_rate": {
+          "decimal": 0.5,
+          "exact": "1/2"
+        },
+        "stop_only": {
+          "decimal": 0.6,
+          "exact": "3/5"
+        }
+      },
+      "scenario": "uninformative_cue",
+      "true_parameters": {
+        "fpr": {
+          "decimal": 0.5,
+          "exact": "1/2"
+        },
+        "p": {
+          "decimal": 0.2,
+          "exact": "1/5"
+        },
+        "se": {
+          "decimal": 0.5,
+          "exact": "1/2"
+        }
+      }
+    },
+    {
+      "metrics": {
+        "always_verify": {
+          "decimal": 0.58,
+          "exact": "29/50"
+        },
+        "full_information_no_cost": {
+          "decimal": 0.68,
+          "exact": "17/25"
+        },
+        "gain_ece": {
+          "decimal": 0.19134871099050205,
+          "exact": "17628/92125"
+        },
+        "learned_selective": {
+          "decimal": 0.544,
+          "exact": "68/125"
+        },
+        "net_improvement_over_stop": {
+          "decimal": -0.056,
+          "exact": "-7/125"
+        },
+        "oracle_rate": {
+          "decimal": 0.28,
+          "exact": "7/25"
+        },
+        "oracle_recalibrated": {
+          "decimal": 0.636,
+          "exact": "159/250"
+        },
+        "quality_brier": {
+          "decimal": 0.3360952729874741,
+          "exact": "2738348/8147535"
+        },
+        "quality_ece": {
+          "decimal": 0.4783717774762551,
+          "exact": "8814/18425"
+        },
+        "random_matched_rate": {
+          "decimal": 0.5856,
+          "exact": "366/625"
+        },
+        "random_matched_rate_rate": {
+          "decimal": 0.72,
+          "exact": "18/25"
+        },
+        "selective_minus_random_matched": {
+          "decimal": -0.0416,
+          "exact": "-26/625"
+        },
+        "selective_rate": {
+          "decimal": 0.72,
+          "exact": "18/25"
+        },
+        "stop_only": {
+          "decimal": 0.6,
+          "exact": "3/5"
+        }
+      },
+      "scenario": "inverted_cue",
+      "true_parameters": {
+        "fpr": {
+          "decimal": 0.85,
+          "exact": "17/20"
+        },
+        "p": {
+          "decimal": 0.2,
+          "exact": "1/5"
+        },
+        "se": {
+          "decimal": 0.2,
+          "exact": "1/5"
+        }
+      }
+    },
+    {
+      "metrics": {
+        "always_verify": {
+          "decimal": 0.66,
+          "exact": "33/50"
+        },
+        "full_information_no_cost": {
+          "decimal": 0.76,
+          "exact": "19/25"
+        },
+        "gain_ece": {
+          "decimal": 0.055540479421076434,
+          "exact": "614/11055"
+        },
+        "learned_selective": {
+          "decimal": 0.69,
+          "exact": "69/100"
+        },
+        "net_improvement_over_stop": {
+          "decimal": 0.09,
+          "exact": "9/100"
+        },
+        "oracle_rate": {
+          "decimal": 0.46,
+          "exact": "23/50"
+        },
+        "oracle_recalibrated": {
+          "decimal": 0.69,
+          "exact": "69/100"
+        },
+        "quality_brier": {
+          "decimal": 0.16748178027669308,
+          "exact": "4093691/24442605"
+        },
+        "quality_ece": {
+          "decimal": 0.1388511985526911,
+          "exact": "307/2211"
+        },
+        "random_matched_rate": {
+          "decimal": 0.6276,
+          "exact": "1569/2500"
+        },
+        "random_matched_rate_rate": {
+          "decimal": 0.46,
+          "exact": "23/50"
+        },
+        "selective_minus_random_matched": {
+          "decimal": 0.0624,
+          "exact": "39/625"
+        },
+        "selective_rate": {
+          "decimal": 0.46,
+          "exact": "23/50"
+        },
+        "stop_only": {
+          "decimal": 0.6,
+          "exact": "3/5"
+        }
+      },
+      "scenario": "prevalence_shift",
+      "true_parameters": {
+        "fpr": {
+          "decimal": 0.2,
+          "exact": "1/5"
+        },
+        "p": {
+          "decimal": 0.4,
+          "exact": "2/5"
+        },
+        "se": {
+          "decimal": 0.85,
+          "exact": "17/20"
+        }
+      }
+    },
+    {
+      "metrics": {
+        "always_verify": {
+          "decimal": 0.58,
+          "exact": "29/50"
+        },
+        "full_information_no_cost": {
+          "decimal": 0.68,
+          "exact": "17/25"
+        },
+        "gain_ece": {
+          "decimal": 0.05311623699683401,
+          "exact": "2936/55275"
+        },
+        "learned_selective": {
+          "decimal": 0.66,
+          "exact": "33/50"
+        },
+        "net_improvement_over_stop": {
+          "decimal": 0.06,
+          "exact": "3/50"
+        },
+        "oracle_rate": {
+          "decimal": 0.0,
+          "exact": "0"
+        },
+        "oracle_recalibrated": {
+          "decimal": 0.68,
+          "exact": "17/25"
+        },
+        "quality_brier": {
+          "decimal": 0.04861953134700659,
+          "exact": "1188388/24442605"
+        },
+        "quality_ece": {
+          "decimal": 0.13279059249208502,
+          "exact": "1468/11055"
+        },
+        "random_matched_rate": {
+          "decimal": 0.596,
+          "exact": "149/250"
+        },
+        "random_matched_rate_rate": {
+          "decimal": 0.2,
+          "exact": "1/5"
+        },
+        "selective_minus_random_matched": {
+          "decimal": 0.064,
+          "exact": "8/125"
+        },
+        "selective_rate": {
+          "decimal": 0.2,
+          "exact": "1/5"
+        },
+        "stop_only": {
+          "decimal": 0.6,
+          "exact": "3/5"
+        }
+      },
+      "scenario": "perfect_cue",
+      "true_parameters": {
+        "fpr": {
+          "decimal": 0.0,
+          "exact": "0"
+        },
+        "p": {
+          "decimal": 0.2,
+          "exact": "1/5"
+        },
+        "se": {
+          "decimal": 1.0,
+          "exact": "1"
+        }
+      }
+    }
+  ],
+  "scenario_count": 5,
+  "schema": "quartz_cog01_exact_v1",
+  "source": {
+    "cost": {
+      "decimal": 0.1,
+      "exact": "1/10"
+    },
+    "fpr": {
+      "decimal": 0.2,
+      "exact": "1/5"
+    },
+    "p": {
+      "decimal": 0.2,
+      "exact": "1/5"
+    },
+    "q_minus": {
+      "decimal": 0.04477611940298507,
+      "exact": "3/67"
+    },
+    "q_plus": {
+      "decimal": 0.5151515151515151,
+      "exact": "17/33"
+    },
+    "se": {
+      "decimal": 0.85,
+      "exact": "17/20"
+    },
+    "u": {
+      "decimal": 0.6,
+      "exact": "3/5"
+    }
+  }
+}

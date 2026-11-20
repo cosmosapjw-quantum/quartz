@@ -1,0 +1,29 @@
+{
+  "argv": [
+    "docs/research/cognitive_metareasoning_20261120/run_cog01_exact.py",
+    "--output-dir",
+    "docs/research/cognitive_metareasoning_20261120/evidence/exact_20261120"
+  ],
+  "git_branch": "research/quartz-cog01-recognition-calibration-20261120",
+  "git_head": "5fc71264bbc44c6b1174c32e9a21cfb4988d1687",
+  "git_tree": "f082f284bdd1009d1313341840094a1480e91b86",
+  "not_claimed": [
+    "learned_evaluator_calibration",
+    "MCTS_strength",
+    "human_mechanism_identification",
+    "time_uniform_confidence"
+  ],
+  "platform": "Linux-7.0.0-43-generic-x86_64-with-glibc2.39",
+  "python": "3.12.3",
+  "randomness": "none_exact_rational_enumeration",
+  "raw_output_sha256": "7593205a8cc55e84cb3f18579fac2fb5a89902ee678647428e959d8d6b1efc2b",
+  "schema": "quartz_cog01_run_manifest_v1",
+  "source_clean_before_execution": true,
+  "source_sha256": {
+    "docs/research/cognitive_metareasoning_20261120/COG01_CONTRACT.md": "24b3645d5c9c2926d56f1e10651d5e9110748ce84cbf3768fd7a9acf9c9c9f71",
+    "docs/research/cognitive_metareasoning_20261120/cognitive_exact.py": "4f4c55bc16dc2f0efdf1b26b0867ec4f2795aeb9bf65b651d2b36e45ae79dd61",
+    "docs/research/cognitive_metareasoning_20261120/run_cog01_exact.py": "3f44afcf73695846a9e859a20ed86073c253d8c06943b2487376e374f4f9a59d",
+    "docs/research/cognitive_metareasoning_20261120/tests_research/test_cog01_exact.py": "3135204c15e9355e102152c659a63fa71a658e287c2bf7b3b3540360d4e00832"
+  },
+  "timestamp_utc": "2026-11-20T07:13:07.361492+00:00"
+}
