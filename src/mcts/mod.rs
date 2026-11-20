@@ -2188,8 +2188,14 @@ mod tests {
             "Expected ≥400 visits, got {}",
             stats.root_visits
         );
-        // Should have non-trivial NPS with 4 threads
-        assert!(stats.nps > 0.0);
+        // SearchStats.nps is defined as zero when elapsed_ms is rounded
+        // down to zero. An optimized run may finish in under 1 ms, so a
+        // positive NPS is meaningful only with a measurable millisecond.
+        if stats.elapsed_ms == 0 {
+            assert_eq!(stats.nps, 0.0, "zero-ms timer contract");
+        } else {
+            assert!(stats.nps > 0.0, "nonzero elapsed time must report positive NPS");
+        }
     }
 
     #[test]
