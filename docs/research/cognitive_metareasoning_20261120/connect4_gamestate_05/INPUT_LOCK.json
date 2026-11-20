@@ -1,0 +1,84 @@
+{
+  "expected_outcome": "exact externally reported per-column score for all seven columns; score sign yields game theoretic WDL",
+  "external_files": [
+    {
+      "path": "/home/cosmosapjw/quantum/research/quartz_external_engines_20261120/pascalpons_connect4/c4solver",
+      "sha256": "fca2b665b1b3dbd88f2f50a7e0ba86fd8ae253f2861da1ad51cf110c69f741ed",
+      "size": 79296
+    },
+    {
+      "path": "/home/cosmosapjw/quantum/research/quartz_external_engines_20261120/pascalpons_connect4/7x6_small.book",
+      "sha256": "38f9834317c37d9516e45a21da598569a5d1556595686593d14c2e63f59c1f38",
+      "size": 6291513
+    }
+  ],
+  "game_rules": {
+    "action": "column_index_0_based",
+    "board_layout": "row_major_bottom_up",
+    "connect": 4,
+    "gravity": true,
+    "height": 6,
+    "width": 7
+  },
+  "independent_source_game": "standalone PascalPons C++ solver",
+  "no_pretrained_NN_for_Connect4": true,
+  "num_distinct_win_segments": 69,
+  "oracle_source_commit": "d6ba50d8aaf2308c769d9bf2abd42d90f34baf41",
+  "parent_commit": "bc44e5c85c1f37201f80880f18d59fdb55a509a8",
+  "sample_count": 12,
+  "schema": "quartz_connect4_gamestate05_inputs_v1",
+  "source_files": [
+    {
+      "relative_path": "Cargo.toml",
+      "sha256": "897e6624b41356d2f2ca7fffa30c4479cc0959fee3138cdb30fa4bc8ec5c1994",
+      "size": 1416
+    },
+    {
+      "relative_path": "Cargo.lock",
+      "sha256": "4368560c374c1272000fdd17a48fbe8449c6e471c848698b088d0b6092b2bb36",
+      "size": 29131
+    },
+    {
+      "relative_path": "src/game.rs",
+      "sha256": "b5e1fefb9d9ee72e7eb2fb684edafe3702e11f0f712cc3bd92fb43ccb71ff3e0",
+      "size": 8348
+    },
+    {
+      "relative_path": "src/main.rs",
+      "sha256": "bd4e9aa0f2076c006c3df1f66b6938819c78ac21bd3f460a705cdeefbbf5f122",
+      "size": 239948
+    },
+    {
+      "relative_path": "src/games/mod.rs",
+      "sha256": "84445ec4677b11f0fca0719905fc4cab3634e9c63305ff08b8fe6396a1ca00db",
+      "size": 253
+    },
+    {
+      "relative_path": "src/games/tictactoe.rs",
+      "sha256": "45f552117481ef00e966d461c111e2de41de2d5f504390c376d675d8c1de35f8",
+      "size": 11026
+    },
+    {
+      "relative_path": "src/mcts/mod.rs",
+      "sha256": "868b0758a7a3d0810e0d8010d0685662776d8eac9eef9a65e4e848d62ff58dc2",
+      "size": 128282
+    },
+    {
+      "relative_path": "src/mcts_server.rs",
+      "sha256": "f0cade67269f49ae343f2ff662c9d8184046db4b65c49156776c682db53b7056",
+      "size": 306955
+    },
+    {
+      "relative_path": "docs/research/cognitive_metareasoning_20261120/standard_external_04/POSITIONS_FIXED.json",
+      "sha256": "8dec41c775cfd55ca3448766fbe1a72fe57299f8e58f042feda907791aae9236",
+      "size": 45053
+    },
+    {
+      "relative_path": "docs/research/cognitive_metareasoning_20261120/standard_external_04/evidence/20261120_standard_cpu/c4_oracle_results.json",
+      "sha256": "3dbdc674e5607ebd4bdc9b30de822e697f666f2da79e846ca9f0b38678b4d2ca",
+      "size": 7282
+    }
+  ],
+  "source_legal_column_values": "1..7 in external solver input",
+  "source_sample_policy": "12 fixed nonterminal synthetic histories (3 each at 10,14,18,22 plies)"
+}
