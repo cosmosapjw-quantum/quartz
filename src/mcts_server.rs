@@ -28,12 +28,13 @@ use crate::mcts::{engine_phase_snapshot, MctsConfig, MctsEngine, PreparedIterati
 use crate::games::chess::{chess_quartz, Chess, ChessMove, CHESS_POLICY_ACTIONS};
 use crate::games::go::{go_quartz, Go, GoRuleset, GoScoring};
 use crate::games::gomoku15::{gomoku15_quartz, Gomoku15, GomokuVariant};
-use crate::games::{connect4::Connect4, connect4_nn::TinyConnect4Evaluator, Gomoku, TicTacToe};
+use crate::games::{connect4::Connect4, connect4_nn::TinyConnect4Evaluator, connect4_conv::ConvConnect4Evaluator, Gomoku, TicTacToe};
 
 /// Bounded, CPU-only real QUARTZ MCTS for *standard gravity Connect4*.
 /// This research-only endpoint intentionally does not consume the external
 /// Connect4 oracle scores. The scientific reader joins those afterwards.
 fn handle_research_connect4_cpu(line: &str) -> serde_json::Value {
+    let request_started = Instant::now();
     let request: serde_json::Value = match serde_json::from_str(line) {
         Ok(value) => value,
         Err(_) => return serde_json::json!({"error": "malformed Connect4 JSON"}),
@@ -66,6 +67,7 @@ fn handle_research_connect4_cpu(line: &str) -> serde_json::Value {
     // The oracle is NEVER queried by this function. Only the learned
     // float32 weights influence the optional recognizer evaluator.
     let mode = request.get("eval_mode").and_then(|v| v.as_str()).unwrap_or("uniform");
+    let model_load_started = Instant::now();
     let (eval, mode_label): (Arc<dyn Evaluator<Connect4> + Send + Sync>, &str) = match mode {
         "uniform" => (Arc::new(UniformEval), "uniform_no_neural_network"),
         "tiny_mlp" => {
@@ -80,12 +82,27 @@ fn handle_research_connect4_cpu(line: &str) -> serde_json::Value {
                 Err(err) => return serde_json::json!({"error": format!("tiny_mlp load: {err}")}),
             }
         }
-        _ => return serde_json::json!({"error": "eval_mode must be uniform or tiny_mlp"}),
+        "conv3x3" => {
+            let Some(path) = request.get("model_path").and_then(|v|v.as_str()) else {
+                return serde_json::json!({"error": "conv3x3 requires model_path"});
+            };
+            if path.is_empty() {
+                return serde_json::json!({"error": "empty conv3x3 model_path"});
+            }
+            match ConvConnect4Evaluator::from_file(path) {
+                Ok(model) => (Arc::new(model), "trained_conv3x3_cpu"),
+                Err(err) => return serde_json::json!({"error": format!("conv3x3 load: {err}")}),
+            }
+        }
+        _ => return serde_json::json!({"error": "eval_mode must be uniform, tiny_mlp, or conv3x3"}),
     };
+    let model_load_wall_us = model_load_started.elapsed().as_micros();
+    let root_setup_started = Instant::now();
     let engine = MctsEngine::new(state.clone(), eval.clone(), cfg.clone());
     let root_hash = format!("{:016x}", engine.root_state().tt_hash());
     let mut before_calls = engine.evaluator_call_count();
     let root_initial_calls = before_calls;
+    let root_setup_wall_us = root_setup_started.elapsed().as_micros();
     let mut steps = Vec::with_capacity(4);
     let mut resident16 = None;
     for target in expected_budgets {
@@ -143,6 +160,9 @@ fn handle_research_connect4_cpu(line: &str) -> serde_json::Value {
         "schema": "quartz_connect4_resident_mcts_v1",
         "game": "connect4_7x6_gravity",
         "eval_mode": mode_label,
+        "model_load_wall_us": model_load_wall_us,
+        "root_setup_wall_us": root_setup_wall_us,
+        "total_request_wall_us_including_fresh16": request_started.elapsed().as_micros(),
         "history": sequence,
         "side_to_move": state.current_player(),
         "ply": state.ply_count(),
@@ -7864,6 +7884,34 @@ mod tests {
             panic!("ordinary session transport must remain unchanged");
         };
         assert_eq!(session_id, 7);
+    }
+
+    #[test]
+    fn test_research_connect4_cpu_probe_conv3x3_weighted_mode() {
+        let path = concat!(
+            "docs/research/cognitive_metareasoning_20261120/",
+            "connect4_generalization_07/evidence/mlp_conv_train_20261121/conv_model.json"
+        );
+        let req = serde_json::json!({
+            "cmd":"research_connect4_cpu",
+            "history":"4433226223",
+            "seed":17,
+            "eval_mode":"conv3x3",
+            "model_path":path,
+            "budgets":[8,16,32,64]
+        });
+        let observed=handle_research_connect4_cpu(&req.to_string());
+        assert!(observed.get("error").is_none(), "{observed}");
+        assert_eq!(observed["eval_mode"], "trained_conv3x3_cpu");
+        assert_eq!(observed["steps"][0]["root_visits"],8);
+        assert_eq!(observed["steps"][3]["root_visits"],64);
+        assert_eq!(observed["fresh16"]["resident_match"],true);
+        assert!(observed["model_load_wall_us"].as_u64().is_some());
+        assert!(observed["root_setup_wall_us"].as_u64().is_some());
+        assert!(observed["total_request_wall_us_including_fresh16"].as_u64().is_some());
+        let bad=serde_json::json!({"history":"4433226223",
+            "eval_mode":"conv3x3","model_path":"/missing/model.json"});
+        assert!(handle_research_connect4_cpu(&bad.to_string()).get("error").is_some());
     }
 
     #[test]

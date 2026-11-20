@@ -247,6 +247,44 @@ mod tests {
     }
 
     #[test]
+    fn updated_mlp_matches_generalization07_torch_parity() {
+        let path = concat!(
+            "docs/research/cognitive_metareasoning_20261120/connect4_generalization_07/",
+            "evidence/mlp_conv_train_20261121/mlp_model.json"
+        );
+        let expected = concat!(
+            "docs/research/cognitive_metareasoning_20261120/connect4_generalization_07/",
+            "PARITY_REFERENCE.json"
+        );
+        let model = TinyConnect4Evaluator::from_file(path).expect("2026-11-21 fitted MLP");
+        let raw = std::fs::read_to_string(expected).expect("36 frozen PyTorch traces");
+        let data: serde_json::Value = serde_json::from_str(&raw).unwrap();
+        let samples = data["samples"].as_array().unwrap();
+        assert_eq!(samples.len(), 36);
+        for row in samples {
+            let history = row["history"].as_str().unwrap();
+            let state = Connect4::from_history(history).unwrap();
+            let prediction = model.evaluate(&state);
+            let mut policy = [0f32; 7];
+            for (col, p) in prediction.policy {
+                policy[col] = p;
+            }
+            for (col, expected) in row["mlp_policy"].as_array().unwrap().iter().enumerate() {
+                let x = expected.as_f64().unwrap() as f32;
+                assert!(
+                    (x - policy[col]).abs() <= 3e-5,
+                    "updated MLP policy mismatch {history} {col}"
+                );
+            }
+            let value = row["mlp_value"].as_f64().unwrap() as f32;
+            assert!(
+                (prediction.value - value).abs() <= 3e-5,
+                "updated MLP value mismatch {history}"
+            );
+        }
+    }
+
+    #[test]
     fn tiny_nn_real_export_loads_and_predicts_legal_probabilities() {
         let file = concat!(
             "docs/research/cognitive_metareasoning_20261120/",
