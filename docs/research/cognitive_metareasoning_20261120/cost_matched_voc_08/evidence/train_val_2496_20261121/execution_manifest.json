@@ -1,0 +1,23 @@
+{
+  "cohort_sha256": "cd56b7828a98b8b60f2f8d16e38f841f4a7e6c161446cdf76bfb31a07e1b2b03",
+  "elapsed_s": 59.5911897180049,
+  "fresh16_control_cost_not_in_primary_stage_times": true,
+  "mode_count": 3,
+  "model_cache_enabled": true,
+  "model_shas": {
+    "conv": "161f9e6e26840754384cb47335d1082d837fa014735cbfaa2517209422e29f24",
+    "new_mlp": "a5bd016c019724fab54110458fcdcb7abf9e61fbb959afe76d6c94b8237b3f3d"
+  },
+  "oracle_only_joined_after_batch_search": true,
+  "oracle_teacher_sha256": "ac90b136cc6df0d8fc4b69b7ee178806c81b156f1f62bed55b5904b43679a22e",
+  "output_sha256": {
+    "full_rust_trajectories.json": "25440cf4e8b37ef0cf7251ec675d5a7528671ad7993dce3f4727adebad1b5ca6",
+    "joined_train_val.json": "b73bf7f5a83f6b8b38d9ecded8bdf16dec8ec608af18680432cedb890880d4e6"
+  },
+  "requests": 2496,
+  "rust_binary_sha256": "e833679572b0c60ffc21ccd23d339d40b711f2df9a40549d91f5ab14fe5f53c6",
+  "schema": "quartz_cog02_training_trajectories_manifest_v1",
+  "source_head": "62ab5cfccdc467e6b68b24cd202401a78a2581fc",
+  "source_tree": "b4b2aec751d6e91f54480cae53fd6c0841830df7",
+  "train_val_roots": 832
+}
