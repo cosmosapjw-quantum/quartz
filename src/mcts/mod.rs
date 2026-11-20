@@ -1,6 +1,7 @@
 //! MctsEngine (v0.4) — QUARTZ 통합
 
 pub mod backup;
+pub mod cog02;
 pub mod eval;
 pub mod expand;
 #[cfg(feature = "idea-foundry")]

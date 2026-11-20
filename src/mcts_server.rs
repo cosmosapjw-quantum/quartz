@@ -23,6 +23,7 @@ use crate::mcts::node::edge_lock_contention_snapshot;
 use crate::mcts::parallel::{AutoThreadMode, AutoThreadPolicy};
 use crate::mcts::quartz::{HaltMode, PenaltyMode, QuartzConfig, QuartzController};
 use crate::mcts::search::FixedIterations;
+use crate::mcts::cog02::{CostedSignedGainPolicy, current_root_features, model_for_root};
 use crate::mcts::{engine_phase_snapshot, MctsConfig, MctsEngine, PreparedIteration};
 
 use crate::games::chess::{chess_quartz, Chess, ChessMove, CHESS_POLICY_ACTIONS};
@@ -64,37 +65,28 @@ fn handle_research_connect4_cpu(line: &str) -> serde_json::Value {
     cfg.root_forced_win = false;
     cfg.dirichlet = None;
     cfg.temperature = 0.0;
-    // The oracle is NEVER queried by this function. Only the learned
-    // float32 weights influence the optional recognizer evaluator.
-    let mode = request.get("eval_mode").and_then(|v| v.as_str()).unwrap_or("uniform");
-    let model_load_started = Instant::now();
-    let (eval, mode_label): (Arc<dyn Evaluator<Connect4> + Send + Sync>, &str) = match mode {
-        "uniform" => (Arc::new(UniformEval), "uniform_no_neural_network"),
-        "tiny_mlp" => {
-            let Some(path) = request.get("model_path").and_then(|v| v.as_str()) else {
-                return serde_json::json!({"error": "tiny_mlp requires model_path"});
-            };
-            if path.is_empty() {
-                return serde_json::json!({"error": "empty model_path"});
-            }
-            match TinyConnect4Evaluator::from_file(path) {
-                Ok(model) => (Arc::new(model), "trained_tiny_mlp_cpu"),
-                Err(err) => return serde_json::json!({"error": format!("tiny_mlp load: {err}")}),
-            }
-        }
-        "conv3x3" => {
-            let Some(path) = request.get("model_path").and_then(|v|v.as_str()) else {
-                return serde_json::json!({"error": "conv3x3 requires model_path"});
-            };
-            if path.is_empty() {
-                return serde_json::json!({"error": "empty conv3x3 model_path"});
-            }
-            match ConvConnect4Evaluator::from_file(path) {
-                Ok(model) => (Arc::new(model), "trained_conv3x3_cpu"),
-                Err(err) => return serde_json::json!({"error": format!("conv3x3 load: {err}")}),
-            }
-        }
+    // The exact external oracle is NEVER queried during this root search.
+    let mode = request.get("eval_mode").and_then(|v|v.as_str()).unwrap_or("uniform");
+    let mode_label = match mode {
+        "uniform" => "uniform_no_neural_network",
+        "tiny_mlp" => "trained_tiny_mlp_cpu",
+        "conv3x3" => "trained_conv3x3_cpu",
         _ => return serde_json::json!({"error": "eval_mode must be uniform, tiny_mlp, or conv3x3"}),
+    };
+    let cached = request.get("cache_model").and_then(serde_json::Value::as_bool).unwrap_or(false);
+    let frozen_identity = request.get("model_identity").and_then(serde_json::Value::as_str);
+    let frozen_path = request.get("model_path").and_then(serde_json::Value::as_str);
+    let adaptive_policy = match request.get("adaptive_policy") {
+        None => None,
+        Some(v) => match CostedSignedGainPolicy::parse(v) {
+            Ok(p) => Some(p),
+            Err(err) => return serde_json::json!({"error": format!("bad adaptive policy: {err}")}),
+        },
+    };
+    let model_load_started = Instant::now();
+    let (eval, model_cache_hit) = match model_for_root(mode, frozen_path, frozen_identity, cached) {
+        Ok(x) => x,
+        Err(err) => return serde_json::json!({"error": format!("research model: {err}")}),
     };
     let model_load_wall_us = model_load_started.elapsed().as_micros();
     let root_setup_started = Instant::now();
@@ -105,6 +97,8 @@ fn handle_research_connect4_cpu(line: &str) -> serde_json::Value {
     let root_setup_wall_us = root_setup_started.elapsed().as_micros();
     let mut steps = Vec::with_capacity(4);
     let mut resident16 = None;
+    let mut adaptive_decisions = Vec::with_capacity(3);
+    let mut stopped_at_visits = 64u32;
     for target in expected_budgets {
         let t = Instant::now();
         let stats = engine.run(&mut FixedIterations::new(target));
@@ -123,6 +117,19 @@ fn handle_research_connect4_cpu(line: &str) -> serde_json::Value {
             return serde_json::json!({"error": "evaluator call count regressed"});
         }
         let policy = engine.pi_target(1.0);
+        let next_decision = if let Some(ref fitted) = adaptive_policy {
+            if target < 64 {
+                let features = match current_root_features(&state, &policy, calls, target) {
+                    Ok(x) => x,
+                    Err(err) => return serde_json::json!({"error": format!("bad online root features: {err}")}),
+                };
+                let stage = match target {8=>0,16=>1,32=>2,_=>unreachable!()};
+                match fitted.predict(stage,&features) {
+                    Ok((predicted,cost,cont)) => Some((features,predicted,cost,cont)),
+                    Err(err) => return serde_json::json!({"error": format!("bad online forecast: {err}")}),
+                }
+            } else {None}
+        } else {None};
         if target == 16 {
             resident16 = Some((best, calls, policy.clone()));
         }
@@ -139,28 +146,56 @@ fn handle_research_connect4_cpu(line: &str) -> serde_json::Value {
             "stop_reason": stats.stop_reason.tag(),
         }));
         before_calls = calls;
+        if let Some((features, gain, cost, cont)) = next_decision {
+            adaptive_decisions.push(serde_json::json!({
+                "stage_visits": target,
+                "root_features": features,
+                "predicted_signed_gain": gain,
+                "forecast_next_ms": cost,
+                "net_predicted_gain": gain - adaptive_policy.as_ref().unwrap().lambda_wdl_per_ms*cost,
+                "continue": cont,
+            }));
+            if !cont {
+                stopped_at_visits = target;
+                break;
+            }
+        }
     }
+    let request_wall_us_without_fresh = request_started.elapsed().as_micros();
     // A genuinely new *engine*, with the same exact state and config,
     // checks the 16-visit prefix/continuation identity without cloning the
     // resident engine or leaking an external game-theoretic oracle.
-    let fresh = MctsEngine::new(state.clone(), eval, cfg);
-    let t = Instant::now();
-    let fresh_stats = fresh.run(&mut FixedIterations::new(16));
-    let fresh_elapsed_wall_us = t.elapsed().as_micros();
-    let fresh_best = fresh.best_move();
-    let fresh_calls = fresh.evaluator_call_count();
-    let fresh_policy = fresh.pi_target(1.0);
-    let (reference_best, reference_calls, reference_policy) =
-        resident16.expect("exact budget sequence includes 16");
-    let resident_match = fresh_stats.root_visits == 16
-        && fresh_best == Some(reference_best)
-        && fresh_calls == reference_calls
-        && fresh_policy == reference_policy;
+    let fresh16 = if let Some((reference_best,reference_calls,reference_policy)) = resident16 {
+        let fresh = MctsEngine::new(state.clone(), eval, cfg);
+        let t = Instant::now();
+        let fresh_stats = fresh.run(&mut FixedIterations::new(16));
+        let fresh_elapsed_wall_us = t.elapsed().as_micros();
+        let fresh_best = fresh.best_move();
+        let fresh_calls = fresh.evaluator_call_count();
+        let fresh_policy = fresh.pi_target(1.0);
+        let resident_match = fresh_stats.root_visits == 16
+            && fresh_best == Some(reference_best)
+            && fresh_calls == reference_calls
+            && fresh_policy == reference_policy;
+        serde_json::json!({
+            "available":true, "resident_match":resident_match,
+            "best_action":fresh_best,"evaluator_calls":fresh_calls,
+            "root_visits":fresh_stats.root_visits,
+            "wall_us":fresh_elapsed_wall_us
+        })
+    } else {
+        serde_json::json!({"available":false,"reason":"adaptive_stop_before_16"})
+    };
     serde_json::json!({
         "schema": "quartz_connect4_resident_mcts_v1",
         "game": "connect4_7x6_gravity",
         "eval_mode": mode_label,
+        "model_cache_hit": model_cache_hit,
+        "cache_model": cached,
         "model_load_wall_us": model_load_wall_us,
+        "request_wall_us_without_fresh":request_wall_us_without_fresh,
+        "stopped_at_visits":stopped_at_visits,
+        "adaptive_decisions":adaptive_decisions,
         "root_setup_wall_us": root_setup_wall_us,
         "total_request_wall_us_including_fresh16": request_started.elapsed().as_micros(),
         "history": sequence,
@@ -172,13 +207,7 @@ fn handle_research_connect4_cpu(line: &str) -> serde_json::Value {
         "root_initial_evaluator_calls": root_initial_calls,
         "seed": seed,
         "steps": steps,
-        "fresh16": {
-            "resident_match": resident_match,
-            "best_action": fresh_best,
-            "evaluator_calls": fresh_calls,
-            "root_visits": fresh_stats.root_visits,
-            "wall_us": fresh_elapsed_wall_us,
-        },
+        "fresh16": fresh16,
         "scientific_nonclaims": [
             "not_pretrained_Connect4_NN",
             "not_Bayesian_VOC",
@@ -7884,6 +7913,70 @@ mod tests {
             panic!("ordinary session transport must remain unchanged");
         };
         assert_eq!(session_id, 7);
+    }
+
+    #[test]
+    fn test_cog02_resident_model_cache_and_active_stop() {
+        let path = concat!(
+            "docs/research/cognitive_metareasoning_20261120/",
+            "connect4_generalization_07/evidence/mlp_conv_train_20261121/mlp_model.json"
+        );
+        let stop = serde_json::json!({
+            "schema":"quartz_cog02_signed_gain_surrogate_v1",
+            "features":"root_visits_v1",
+            "coefficients":[
+                [-1.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0],
+                [-1.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0],
+                [-1.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0]
+            ],
+            "forecast_cost_ms":[1.0,1.0,1.0],
+            "lambda_wdl_per_ms":0.0
+        });
+        let request = serde_json::json!({
+            "cmd":"research_connect4_cpu",
+            "history":"4433226223",
+            "eval_mode":"tiny_mlp",
+            "model_path":path,
+            "model_identity":"a5bd016c019724fab54110458fcdcb7abf9e61fbb959afe76d6c94b8237b3f3d",
+            "cache_model":true,
+            "seed":17,
+            "budgets":[8,16,32,64],
+            "adaptive_policy":stop,
+        });
+        let first=handle_research_connect4_cpu(&request.to_string());
+        let second=handle_research_connect4_cpu(&request.to_string());
+        for row in [&first,&second] {
+            assert!(row.get("error").is_none(), "{row}");
+            assert_eq!(row["stopped_at_visits"],8);
+            assert_eq!(row["steps"].as_array().unwrap().len(),1);
+            assert_eq!(row["fresh16"]["available"],false);
+            assert_eq!(row["adaptive_decisions"][0]["continue"],false);
+            assert!(row["request_wall_us_without_fresh"].as_u64().is_some());
+        }
+        assert_eq!(second["model_cache_hit"],true);
+        // A malformed coefficient vector never silently invokes the default.
+        let mut bad=request.clone();
+        bad["adaptive_policy"]["coefficients"][0]=serde_json::json!([0.0]);
+        assert!(handle_research_connect4_cpu(&bad.to_string()).get("error").is_some());
+    }
+
+    #[test]
+    fn test_cog02_adaptive_positive_gain_goes_to_64() {
+        let continue_all = serde_json::json!({
+            "schema":"quartz_cog02_signed_gain_surrogate_v1",
+            "features":"root_visits_v1",
+            "coefficients":vec![vec![1.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0];3],
+            "forecast_cost_ms":[1.0,1.0,1.0],
+            "lambda_wdl_per_ms":0.0
+        });
+        let req=serde_json::json!({"history":"4433226223",
+            "budgets":[8,16,32,64],"adaptive_policy":continue_all});
+        let result=handle_research_connect4_cpu(&req.to_string());
+        assert!(result.get("error").is_none(), "{result}");
+        assert_eq!(result["stopped_at_visits"],64);
+        assert_eq!(result["steps"].as_array().unwrap().len(),4);
+        assert_eq!(result["adaptive_decisions"].as_array().unwrap().len(),3);
+        assert_eq!(result["fresh16"]["resident_match"],true);
     }
 
     #[test]
