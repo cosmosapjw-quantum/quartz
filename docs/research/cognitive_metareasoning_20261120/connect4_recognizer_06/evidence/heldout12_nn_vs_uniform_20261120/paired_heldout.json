@@ -1,0 +1,1142 @@
+[
+  {
+    "exact_action_scores": [
+      16,
+      15,
+      15,
+      15,
+      16,
+      15,
+      15
+    ],
+    "history": "4433226223",
+    "id": "C4_000",
+    "trained": {
+      "action": [
+        4,
+        4,
+        4,
+        4
+      ],
+      "best_root_WDL": 1,
+      "cumulative_eval_calls": [
+        1,
+        3,
+        6,
+        7
+      ],
+      "delta_utility": [
+        0,
+        0,
+        0
+      ],
+      "eval_mode": "trained_tiny_mlp_cpu",
+      "fresh16_verified": true,
+      "regret": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "root_hash": "b298229fa2450efa",
+      "stage_wall_us": [
+        1966,
+        2102,
+        2185,
+        2098
+      ],
+      "utility": [
+        1,
+        1,
+        1,
+        1
+      ]
+    },
+    "uniform": {
+      "action": [
+        0,
+        0,
+        0,
+        4
+      ],
+      "best_root_WDL": 1,
+      "cumulative_eval_calls": [
+        1,
+        2,
+        6,
+        11
+      ],
+      "delta_utility": [
+        0,
+        0,
+        0
+      ],
+      "eval_mode": "uniform_no_neural_network",
+      "fresh16_verified": true,
+      "regret": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "root_hash": "b298229fa2450efa",
+      "stage_wall_us": [
+        1992,
+        2216,
+        2018,
+        2035
+      ],
+      "utility": [
+        1,
+        1,
+        1,
+        1
+      ]
+    }
+  },
+  {
+    "exact_action_scores": [
+      16,
+      -6,
+      -7,
+      -4,
+      -6,
+      -4,
+      -11
+    ],
+    "history": "4535332364",
+    "id": "C4_001",
+    "trained": {
+      "action": [
+        4,
+        0,
+        0,
+        0
+      ],
+      "best_root_WDL": 1,
+      "cumulative_eval_calls": [
+        9,
+        9,
+        10,
+        17
+      ],
+      "delta_utility": [
+        2,
+        0,
+        0
+      ],
+      "eval_mode": "trained_tiny_mlp_cpu",
+      "fresh16_verified": true,
+      "regret": [
+        2,
+        0,
+        0,
+        0
+      ],
+      "root_hash": "e64558476dcd1508",
+      "stage_wall_us": [
+        2606,
+        1962,
+        2048,
+        2520
+      ],
+      "utility": [
+        -1,
+        1,
+        1,
+        1
+      ]
+    },
+    "uniform": {
+      "action": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "best_root_WDL": 1,
+      "cumulative_eval_calls": [
+        1,
+        2,
+        7,
+        13
+      ],
+      "delta_utility": [
+        0,
+        0,
+        0
+      ],
+      "eval_mode": "uniform_no_neural_network",
+      "fresh16_verified": true,
+      "regret": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "root_hash": "e64558476dcd1508",
+      "stage_wall_us": [
+        1930,
+        1973,
+        2038,
+        2028
+      ],
+      "utility": [
+        1,
+        1,
+        1,
+        1
+      ]
+    }
+  },
+  {
+    "exact_action_scores": [
+      -13,
+      -2,
+      -14,
+      -13,
+      0,
+      -12,
+      -13
+    ],
+    "history": "3545444242",
+    "id": "C4_002",
+    "trained": {
+      "action": [
+        2,
+        2,
+        2,
+        2
+      ],
+      "best_root_WDL": 0,
+      "cumulative_eval_calls": [
+        9,
+        17,
+        33,
+        63
+      ],
+      "delta_utility": [
+        0,
+        0,
+        0
+      ],
+      "eval_mode": "trained_tiny_mlp_cpu",
+      "fresh16_verified": true,
+      "regret": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "root_hash": "d74f308c872418ea",
+      "stage_wall_us": [
+        2544,
+        2549,
+        3112,
+        4173
+      ],
+      "utility": [
+        -1,
+        -1,
+        -1,
+        -1
+      ]
+    },
+    "uniform": {
+      "action": [
+        0,
+        1,
+        3,
+        0
+      ],
+      "best_root_WDL": 0,
+      "cumulative_eval_calls": [
+        9,
+        17,
+        33,
+        65
+      ],
+      "delta_utility": [
+        0,
+        0,
+        0
+      ],
+      "eval_mode": "uniform_no_neural_network",
+      "fresh16_verified": true,
+      "regret": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "root_hash": "d74f308c872418ea",
+      "stage_wall_us": [
+        2029,
+        2031,
+        2157,
+        2339
+      ],
+      "utility": [
+        -1,
+        -1,
+        -1,
+        -1
+      ]
+    }
+  },
+  {
+    "exact_action_scores": [
+      -14,
+      -14,
+      13,
+      -14,
+      -14,
+      -14,
+      -14
+    ],
+    "history": "64547341472363",
+    "id": "C4_003",
+    "trained": {
+      "action": [
+        4,
+        2,
+        2,
+        2
+      ],
+      "best_root_WDL": 1,
+      "cumulative_eval_calls": [
+        9,
+        15,
+        17,
+        20
+      ],
+      "delta_utility": [
+        2,
+        0,
+        0
+      ],
+      "eval_mode": "trained_tiny_mlp_cpu",
+      "fresh16_verified": true,
+      "regret": [
+        2,
+        0,
+        0,
+        0
+      ],
+      "root_hash": "0e4b8a3efb67c0d8",
+      "stage_wall_us": [
+        2578,
+        2399,
+        2151,
+        2322
+      ],
+      "utility": [
+        -1,
+        1,
+        1,
+        1
+      ]
+    },
+    "uniform": {
+      "action": [
+        0,
+        1,
+        2,
+        2
+      ],
+      "best_root_WDL": 1,
+      "cumulative_eval_calls": [
+        9,
+        17,
+        27,
+        53
+      ],
+      "delta_utility": [
+        0,
+        2,
+        0
+      ],
+      "eval_mode": "uniform_no_neural_network",
+      "fresh16_verified": true,
+      "regret": [
+        2,
+        2,
+        0,
+        0
+      ],
+      "root_hash": "0e4b8a3efb67c0d8",
+      "stage_wall_us": [
+        2033,
+        2045,
+        2109,
+        2573
+      ],
+      "utility": [
+        -1,
+        -1,
+        1,
+        1
+      ]
+    }
+  },
+  {
+    "exact_action_scores": [
+      3,
+      3,
+      -1000,
+      3,
+      3,
+      3,
+      3
+    ],
+    "history": "35353322533256",
+    "id": "C4_004",
+    "trained": {
+      "action": [
+        3,
+        3,
+        3,
+        3
+      ],
+      "best_root_WDL": 1,
+      "cumulative_eval_calls": [
+        7,
+        9,
+        17,
+        32
+      ],
+      "delta_utility": [
+        0,
+        0,
+        0
+      ],
+      "eval_mode": "trained_tiny_mlp_cpu",
+      "fresh16_verified": true,
+      "regret": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "root_hash": "037537724f6f365c",
+      "stage_wall_us": [
+        2444,
+        2126,
+        2570,
+        3124
+      ],
+      "utility": [
+        1,
+        1,
+        1,
+        1
+      ]
+    },
+    "uniform": {
+      "action": [
+        1,
+        4,
+        1,
+        3
+      ],
+      "best_root_WDL": 1,
+      "cumulative_eval_calls": [
+        9,
+        17,
+        33,
+        60
+      ],
+      "delta_utility": [
+        0,
+        0,
+        0
+      ],
+      "eval_mode": "uniform_no_neural_network",
+      "fresh16_verified": true,
+      "regret": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "root_hash": "037537724f6f365c",
+      "stage_wall_us": [
+        2030,
+        2074,
+        2159,
+        2329
+      ],
+      "utility": [
+        1,
+        1,
+        1,
+        1
+      ]
+    }
+  },
+  {
+    "exact_action_scores": [
+      -2,
+      -14,
+      -14,
+      -14,
+      -14,
+      -14,
+      -14
+    ],
+    "history": "23374242221314",
+    "id": "C4_005",
+    "trained": {
+      "action": [
+        4,
+        4,
+        4,
+        0
+      ],
+      "best_root_WDL": -1,
+      "cumulative_eval_calls": [
+        9,
+        15,
+        29,
+        43
+      ],
+      "delta_utility": [
+        0,
+        0,
+        0
+      ],
+      "eval_mode": "trained_tiny_mlp_cpu",
+      "fresh16_verified": true,
+      "regret": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "root_hash": "86509593e6a80fae",
+      "stage_wall_us": [
+        2566,
+        2391,
+        2966,
+        3048
+      ],
+      "utility": [
+        -1,
+        -1,
+        -1,
+        -1
+      ]
+    },
+    "uniform": {
+      "action": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "best_root_WDL": -1,
+      "cumulative_eval_calls": [
+        9,
+        11,
+        21,
+        47
+      ],
+      "delta_utility": [
+        0,
+        0,
+        0
+      ],
+      "eval_mode": "uniform_no_neural_network",
+      "fresh16_verified": true,
+      "regret": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "root_hash": "86509593e6a80fae",
+      "stage_wall_us": [
+        2072,
+        1998,
+        2097,
+        2345
+      ],
+      "utility": [
+        -1,
+        -1,
+        -1,
+        -1
+      ]
+    }
+  },
+  {
+    "exact_action_scores": [
+      -2,
+      -2,
+      12,
+      -1000,
+      11,
+      -2,
+      -2
+    ],
+    "history": "656644534247443366",
+    "id": "C4_006",
+    "trained": {
+      "action": [
+        2,
+        2,
+        2,
+        2
+      ],
+      "best_root_WDL": 1,
+      "cumulative_eval_calls": [
+        2,
+        2,
+        7,
+        12
+      ],
+      "delta_utility": [
+        0,
+        0,
+        0
+      ],
+      "eval_mode": "trained_tiny_mlp_cpu",
+      "fresh16_verified": true,
+      "regret": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "root_hash": "a4f4c7dcc85db162",
+      "stage_wall_us": [
+        2106,
+        1965,
+        2327,
+        2347
+      ],
+      "utility": [
+        1,
+        1,
+        1,
+        1
+      ]
+    },
+    "uniform": {
+      "action": [
+        2,
+        2,
+        2,
+        2
+      ],
+      "best_root_WDL": 1,
+      "cumulative_eval_calls": [
+        3,
+        6,
+        6,
+        11
+      ],
+      "delta_utility": [
+        0,
+        0,
+        0
+      ],
+      "eval_mode": "uniform_no_neural_network",
+      "fresh16_verified": true,
+      "regret": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "root_hash": "a4f4c7dcc85db162",
+      "stage_wall_us": [
+        1984,
+        2023,
+        1976,
+        2045
+      ],
+      "utility": [
+        1,
+        1,
+        1,
+        1
+      ]
+    }
+  },
+  {
+    "exact_action_scores": [
+      -2,
+      -1,
+      12,
+      -1000,
+      1,
+      1,
+      -3
+    ],
+    "history": "654466534443657435",
+    "id": "C4_007",
+    "trained": {
+      "action": [
+        2,
+        2,
+        2,
+        2
+      ],
+      "best_root_WDL": 1,
+      "cumulative_eval_calls": [
+        1,
+        3,
+        6,
+        6
+      ],
+      "delta_utility": [
+        0,
+        0,
+        0
+      ],
+      "eval_mode": "trained_tiny_mlp_cpu",
+      "fresh16_verified": true,
+      "regret": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "root_hash": "551dc2af199ecb98",
+      "stage_wall_us": [
+        1969,
+        2111,
+        2232,
+        2005
+      ],
+      "utility": [
+        1,
+        1,
+        1,
+        1
+      ]
+    },
+    "uniform": {
+      "action": [
+        2,
+        2,
+        2,
+        2
+      ],
+      "best_root_WDL": 1,
+      "cumulative_eval_calls": [
+        3,
+        6,
+        6,
+        11
+      ],
+      "delta_utility": [
+        0,
+        0,
+        0
+      ],
+      "eval_mode": "uniform_no_neural_network",
+      "fresh16_verified": true,
+      "regret": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "root_hash": "551dc2af199ecb98",
+      "stage_wall_us": [
+        1984,
+        1993,
+        2008,
+        2051
+      ],
+      "utility": [
+        1,
+        1,
+        1,
+        1
+      ]
+    }
+  },
+  {
+    "exact_action_scores": [
+      11,
+      12,
+      12,
+      -1000,
+      11,
+      11,
+      11
+    ],
+    "history": "533524343416554544",
+    "id": "C4_008",
+    "trained": {
+      "action": [
+        2,
+        2,
+        2,
+        2
+      ],
+      "best_root_WDL": 1,
+      "cumulative_eval_calls": [
+        1,
+        3,
+        4,
+        4
+      ],
+      "delta_utility": [
+        0,
+        0,
+        0
+      ],
+      "eval_mode": "trained_tiny_mlp_cpu",
+      "fresh16_verified": true,
+      "regret": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "root_hash": "6fd339cae0654f9e",
+      "stage_wall_us": [
+        1967,
+        2105,
+        2052,
+        2027
+      ],
+      "utility": [
+        1,
+        1,
+        1,
+        1
+      ]
+    },
+    "uniform": {
+      "action": [
+        1,
+        1,
+        2,
+        2
+      ],
+      "best_root_WDL": 1,
+      "cumulative_eval_calls": [
+        2,
+        3,
+        5,
+        9
+      ],
+      "delta_utility": [
+        0,
+        0,
+        0
+      ],
+      "eval_mode": "uniform_no_neural_network",
+      "fresh16_verified": true,
+      "regret": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "root_hash": "6fd339cae0654f9e",
+      "stage_wall_us": [
+        1975,
+        1973,
+        1990,
+        2067
+      ],
+      "utility": [
+        1,
+        1,
+        1,
+        1
+      ]
+    }
+  },
+  {
+    "exact_action_scores": [
+      10,
+      -10,
+      -1000,
+      -1000,
+      -10,
+      -10,
+      -10
+    ],
+    "history": "3543452364334546435572",
+    "id": "C4_009",
+    "trained": {
+      "action": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "best_root_WDL": 1,
+      "cumulative_eval_calls": [
+        4,
+        4,
+        6,
+        7
+      ],
+      "delta_utility": [
+        0,
+        0,
+        0
+      ],
+      "eval_mode": "trained_tiny_mlp_cpu",
+      "fresh16_verified": true,
+      "regret": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "root_hash": "374b53965b6b60fc",
+      "stage_wall_us": [
+        2165,
+        2034,
+        2127,
+        2066
+      ],
+      "utility": [
+        1,
+        1,
+        1,
+        1
+      ]
+    },
+    "uniform": {
+      "action": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "best_root_WDL": 1,
+      "cumulative_eval_calls": [
+        1,
+        5,
+        7,
+        10
+      ],
+      "delta_utility": [
+        0,
+        0,
+        0
+      ],
+      "eval_mode": "uniform_no_neural_network",
+      "fresh16_verified": true,
+      "regret": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "root_hash": "374b53965b6b60fc",
+      "stage_wall_us": [
+        1993,
+        2003,
+        1992,
+        2012
+      ],
+      "utility": [
+        1,
+        1,
+        1,
+        1
+      ]
+    }
+  },
+  {
+    "exact_action_scores": [
+      -10,
+      -10,
+      10,
+      -1000,
+      -1000,
+      -10,
+      0
+    ],
+    "history": "5235444544462526523567",
+    "id": "C4_010",
+    "trained": {
+      "action": [
+        2,
+        2,
+        2,
+        2
+      ],
+      "best_root_WDL": 1,
+      "cumulative_eval_calls": [
+        3,
+        3,
+        10,
+        12
+      ],
+      "delta_utility": [
+        0,
+        0,
+        0
+      ],
+      "eval_mode": "trained_tiny_mlp_cpu",
+      "fresh16_verified": true,
+      "regret": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "root_hash": "8bc9d75468beae22",
+      "stage_wall_us": [
+        2103,
+        1967,
+        2454,
+        2193
+      ],
+      "utility": [
+        1,
+        1,
+        1,
+        1
+      ]
+    },
+    "uniform": {
+      "action": [
+        2,
+        2,
+        2,
+        2
+      ],
+      "best_root_WDL": 1,
+      "cumulative_eval_calls": [
+        3,
+        5,
+        7,
+        10
+      ],
+      "delta_utility": [
+        0,
+        0,
+        0
+      ],
+      "eval_mode": "uniform_no_neural_network",
+      "fresh16_verified": true,
+      "regret": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "root_hash": "8bc9d75468beae22",
+      "stage_wall_us": [
+        1983,
+        2283,
+        2154,
+        2018
+      ],
+      "utility": [
+        1,
+        1,
+        1,
+        1
+      ]
+    }
+  },
+  {
+    "exact_action_scores": [
+      -10,
+      10,
+      -10,
+      -1000,
+      -1000,
+      -10,
+      -10
+    ],
+    "history": "3445463244553645561365",
+    "id": "C4_011",
+    "trained": {
+      "action": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "best_root_WDL": 1,
+      "cumulative_eval_calls": [
+        1,
+        3,
+        5,
+        5
+      ],
+      "delta_utility": [
+        0,
+        0,
+        0
+      ],
+      "eval_mode": "trained_tiny_mlp_cpu",
+      "fresh16_verified": true,
+      "regret": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "root_hash": "31d0831de42bbca2",
+      "stage_wall_us": [
+        1968,
+        2107,
+        2116,
+        1993
+      ],
+      "utility": [
+        1,
+        1,
+        1,
+        1
+      ]
+    },
+    "uniform": {
+      "action": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "best_root_WDL": 1,
+      "cumulative_eval_calls": [
+        2,
+        5,
+        7,
+        10
+      ],
+      "delta_utility": [
+        0,
+        0,
+        0
+      ],
+      "eval_mode": "uniform_no_neural_network",
+      "fresh16_verified": true,
+      "regret": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "root_hash": "31d0831de42bbca2",
+      "stage_wall_us": [
+        1973,
+        1991,
+        2040,
+        2027
+      ],
+      "utility": [
+        1,
+        1,
+        1,
+        1
+      ]
+    }
+  }
+]

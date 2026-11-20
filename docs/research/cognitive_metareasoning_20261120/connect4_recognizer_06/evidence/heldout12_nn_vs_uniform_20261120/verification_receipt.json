@@ -1,0 +1,65 @@
+{
+  "all_old_uniform_responses_reproduced": true,
+  "frozen_result_sha256": {
+    "paired_heldout.json": "497813116e8902833ce20629a453b07a9b7fec76620779038cef36adbc732b14",
+    "rust_raw_responses.json": "864a813e6f0895652bcf9bce247c198d5dee748d6dac0817a1258376350601f4",
+    "summary.json": "90ffc5d3d32f430da9803c675479033df86a162b52508282e7ae99d3c0ec6b1e"
+  },
+  "independent_external_solver_mirror_count": 12,
+  "independent_external_solver_requery_count": 12,
+  "model_selected_epoch": 23,
+  "negative_findings_preserved": true,
+  "nonclaims": [
+    "not wall-time matched",
+    "not Bayesian VOC controller",
+    "not real population skill"
+  ],
+  "python_tests": {
+    "components": [
+      9,
+      4,
+      7,
+      7,
+      7,
+      9,
+      27
+    ],
+    "failed": 0,
+    "passed": 70
+  },
+  "rust_binary_sha256": "150cfca6ceac6dade09595cd5e2b1e431ae8676e69f94f06ee3e84487e4c4ce8",
+  "rust_full_test_command": "CARGO_TARGET_DIR=/home/cosmosapjw/quantum/research/quartz_connect4_20261120_target cargo test --offline --locked -- --test-threads=4",
+  "rust_tests": {
+    "failed": 0,
+    "ignored": 89,
+    "passed": 582
+  },
+  "sample": {
+    "all_black_to_move": true,
+    "n_distinct_heldout_roots": 12
+  },
+  "schema": "quartz_c4_recognizer06_trial_verification_v1",
+  "signed_comparison_counts": {
+    "16": {
+      "0": 11,
+      "2": 1
+    },
+    "32": {
+      "0": 12
+    },
+    "64": {
+      "0": 12
+    },
+    "8": {
+      "-2": 1,
+      "0": 11
+    }
+  },
+  "study_source_commit": "cbaf14b72bee5a7c0b29321065ac86c72cf420cd",
+  "torch_rust_parity": {
+    "n_positions": 12,
+    "passed": true,
+    "tolerance": 3e-05
+  },
+  "trained_weights_sha256": "1660b450d4ab948afc71d0aeebf1abe1f31120093849e224bc28f777605aff60"
+}

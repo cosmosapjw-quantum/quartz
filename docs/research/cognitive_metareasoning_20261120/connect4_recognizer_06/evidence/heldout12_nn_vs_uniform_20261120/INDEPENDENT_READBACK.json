@@ -1,0 +1,92 @@
+{
+  "all_fresh16_reproduced": true,
+  "fresh_mirror_queries": 12,
+  "fresh_oracle_queries": 12,
+  "independent_budget_metrics": {
+    "16": {
+      "trained": {
+        "average_WDL": 0.6666666666666666,
+        "average_evaluator_calls": 7.166666666666667,
+        "average_regret": 0.08333333333333333,
+        "n_optimal": 11
+      },
+      "uniform": {
+        "average_WDL": 0.5,
+        "average_evaluator_calls": 8.0,
+        "average_regret": 0.25,
+        "n_optimal": 10
+      }
+    },
+    "32": {
+      "trained": {
+        "average_WDL": 0.6666666666666666,
+        "average_evaluator_calls": 12.5,
+        "average_regret": 0.08333333333333333,
+        "n_optimal": 11
+      },
+      "uniform": {
+        "average_WDL": 0.6666666666666666,
+        "average_evaluator_calls": 13.75,
+        "average_regret": 0.08333333333333333,
+        "n_optimal": 11
+      }
+    },
+    "64": {
+      "trained": {
+        "average_WDL": 0.6666666666666666,
+        "average_evaluator_calls": 19.0,
+        "average_regret": 0.08333333333333333,
+        "n_optimal": 11
+      },
+      "uniform": {
+        "average_WDL": 0.6666666666666666,
+        "average_evaluator_calls": 25.833333333333332,
+        "average_regret": 0.08333333333333333,
+        "n_optimal": 11
+      }
+    },
+    "8": {
+      "trained": {
+        "average_WDL": 0.3333333333333333,
+        "average_evaluator_calls": 4.666666666666667,
+        "average_regret": 0.4166666666666667,
+        "n_optimal": 9
+      },
+      "uniform": {
+        "average_WDL": 0.5,
+        "average_evaluator_calls": 4.333333333333333,
+        "average_regret": 0.25,
+        "n_optimal": 10
+      }
+    }
+  },
+  "mlp_model_hash_verified": true,
+  "n_old_heldout": 12,
+  "no_training_heldout_family_overlap": true,
+  "paired_model_minus_uniform_WDL_counts": {
+    "16": {
+      "0": 11,
+      "2": 1
+    },
+    "32": {
+      "0": 12
+    },
+    "64": {
+      "0": 12
+    },
+    "8": {
+      "-2": 1,
+      "0": 11
+    }
+  },
+  "schema": "quartz_c4_recognizer06_independent_readback_v1",
+  "science_status": "numerically checked tiny learned recognizer + actual QUARTZ Rust MCTS on 12 non-iid roots, not statistical generalization",
+  "source_output_hashes_verified": 3,
+  "warnings": [
+    "no CPU cost-matched policy comparison: only matched MCTS root visits",
+    "heldout 12 roots all black to move",
+    "small sample/selected opponent positions",
+    "model training family validation generalized poorly",
+    "no Bayesian VOC metacontroller implemented"
+  ]
+}

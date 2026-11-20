@@ -1,0 +1,177 @@
+{
+  "16->32": {
+    "trained": {
+      "delta_counts": {
+        "0": 12
+      },
+      "mean_delta": 0.0,
+      "mean_marginal_evaluator_calls": 5.333333333333333
+    },
+    "uniform": {
+      "delta_counts": {
+        "0": 11,
+        "2": 1
+      },
+      "mean_delta": 0.16666666666666666,
+      "mean_marginal_evaluator_calls": 5.75
+    }
+  },
+  "32->64": {
+    "trained": {
+      "delta_counts": {
+        "0": 12
+      },
+      "mean_delta": 0.0,
+      "mean_marginal_evaluator_calls": 6.5
+    },
+    "uniform": {
+      "delta_counts": {
+        "0": 12
+      },
+      "mean_delta": 0.0,
+      "mean_marginal_evaluator_calls": 12.083333333333334
+    }
+  },
+  "8->16": {
+    "trained": {
+      "delta_counts": {
+        "0": 10,
+        "2": 2
+      },
+      "mean_delta": 0.3333333333333333,
+      "mean_marginal_evaluator_calls": 2.5
+    },
+    "uniform": {
+      "delta_counts": {
+        "0": 12
+      },
+      "mean_delta": 0.0,
+      "mean_marginal_evaluator_calls": 3.6666666666666665
+    }
+  },
+  "by_budget": {
+    "16": {
+      "trained": {
+        "mean_evaluator_calls": 7.166666666666667,
+        "mean_regret": 0.08333333333333333,
+        "mean_stage_wall_us": 2151.5,
+        "mean_utility": 0.6666666666666666,
+        "optimal_WDL_count": 11,
+        "selected_WDL": {
+          "-1": 2,
+          "1": 10
+        }
+      },
+      "trained_minus_uniform_mean_regret": -0.16666666666666669,
+      "trained_minus_uniform_mean_utility": 0.16666666666666663,
+      "uniform": {
+        "mean_evaluator_calls": 8.0,
+        "mean_regret": 0.25,
+        "mean_stage_wall_us": 2050.25,
+        "mean_utility": 0.5,
+        "optimal_WDL_count": 10,
+        "selected_WDL": {
+          "-1": 3,
+          "1": 9
+        }
+      }
+    },
+    "32": {
+      "trained": {
+        "mean_evaluator_calls": 12.5,
+        "mean_regret": 0.08333333333333333,
+        "mean_stage_wall_us": 2361.6666666666665,
+        "mean_utility": 0.6666666666666666,
+        "optimal_WDL_count": 11,
+        "selected_WDL": {
+          "-1": 2,
+          "1": 10
+        }
+      },
+      "trained_minus_uniform_mean_regret": 0.0,
+      "trained_minus_uniform_mean_utility": 0.0,
+      "uniform": {
+        "mean_evaluator_calls": 13.75,
+        "mean_regret": 0.08333333333333333,
+        "mean_stage_wall_us": 2061.5,
+        "mean_utility": 0.6666666666666666,
+        "optimal_WDL_count": 11,
+        "selected_WDL": {
+          "-1": 2,
+          "1": 10
+        }
+      }
+    },
+    "64": {
+      "trained": {
+        "mean_evaluator_calls": 19.0,
+        "mean_regret": 0.08333333333333333,
+        "mean_stage_wall_us": 2493.0,
+        "mean_utility": 0.6666666666666666,
+        "optimal_WDL_count": 11,
+        "selected_WDL": {
+          "-1": 2,
+          "1": 10
+        }
+      },
+      "trained_minus_uniform_mean_regret": 0.0,
+      "trained_minus_uniform_mean_utility": 0.0,
+      "uniform": {
+        "mean_evaluator_calls": 25.833333333333332,
+        "mean_regret": 0.08333333333333333,
+        "mean_stage_wall_us": 2155.75,
+        "mean_utility": 0.6666666666666666,
+        "optimal_WDL_count": 11,
+        "selected_WDL": {
+          "-1": 2,
+          "1": 10
+        }
+      }
+    },
+    "8": {
+      "trained": {
+        "mean_evaluator_calls": 4.666666666666667,
+        "mean_regret": 0.4166666666666667,
+        "mean_stage_wall_us": 2248.5,
+        "mean_utility": 0.3333333333333333,
+        "optimal_WDL_count": 9,
+        "selected_WDL": {
+          "-1": 4,
+          "1": 8
+        }
+      },
+      "trained_minus_uniform_mean_regret": 0.16666666666666669,
+      "trained_minus_uniform_mean_utility": -0.16666666666666669,
+      "uniform": {
+        "mean_evaluator_calls": 4.333333333333333,
+        "mean_regret": 0.25,
+        "mean_stage_wall_us": 1998.1666666666667,
+        "mean_utility": 0.5,
+        "optimal_WDL_count": 10,
+        "selected_WDL": {
+          "-1": 3,
+          "1": 9
+        }
+      }
+    }
+  },
+  "engine_elapsed_s": 0.4678744420016301,
+  "metadata": {
+    "matched": "MCTS cumulative root visit budgets only; NOT evaluator calls or wall-time",
+    "model": "tiny 126-64-8 frozen CPU oracle-set distillation",
+    "nonclaims": [
+      "not Bayesian VOC calibration",
+      "not generalizable Elo",
+      "not independent position sampling"
+    ],
+    "oracle": "external exact Connect4 7x6 game-theoretic signed scores",
+    "root_count": 12,
+    "seed": 17
+  },
+  "model_improvement_not_assumed": true,
+  "n_paired_roots": 12,
+  "previous_frozen_uniform_action_call_discrepancies": [],
+  "schema": "quartz_c4_recognizer06_heldout_evaluation_v1",
+  "training_best_epoch": 23,
+  "training_model_sha256": "1660b450d4ab948afc71d0aeebf1abe1f31120093849e224bc28f777605aff60"
+}

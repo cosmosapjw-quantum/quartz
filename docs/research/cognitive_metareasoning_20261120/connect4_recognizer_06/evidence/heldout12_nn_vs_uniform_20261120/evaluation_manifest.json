@@ -1,0 +1,18 @@
+{
+  "budget_identity": "same visits; evaluator calls/timing can differ",
+  "frozen_heldout_oracle_sha256": "3dbdc674e5607ebd4bdc9b30de822e697f666f2da79e846ca9f0b38678b4d2ca",
+  "frozen_heldout_position_sha256": "8dec41c775cfd55ca3448766fbe1a72fe57299f8e58f042feda907791aae9236",
+  "infer_forward": "in-Rust f32 MLP (one forward per evaluator_call)",
+  "model_weights_sha256": "1660b450d4ab948afc71d0aeebf1abe1f31120093849e224bc28f777605aff60",
+  "no_gpu": true,
+  "outputs_sha256": {
+    "paired_heldout.json": "497813116e8902833ce20629a453b07a9b7fec76620779038cef36adbc732b14",
+    "rust_raw_responses.json": "864a813e6f0895652bcf9bce247c198d5dee748d6dac0817a1258376350601f4",
+    "summary.json": "90ffc5d3d32f430da9803c675479033df86a162b52508282e7ae99d3c0ec6b1e"
+  },
+  "rust_binary_sha256": "150cfca6ceac6dade09595cd5e2b1e431ae8676e69f94f06ee3e84487e4c4ce8",
+  "schema": "quartz_c4_recognizer06_evaluation_run_manifest_v1",
+  "source_head": "cbaf14b72bee5a7c0b29321065ac86c72cf420cd",
+  "source_tree": "4f3f914fb3fe84a6f62a348ccb30764f5258ff7a",
+  "teacher_labels_sha256": "ed52cfd1fa8db6a7ce436eb7e8f48ba669f66eb1d075a5c16f93b30dc07ba641"
+}
