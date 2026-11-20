@@ -28,7 +28,7 @@ use crate::mcts::{engine_phase_snapshot, MctsConfig, MctsEngine, PreparedIterati
 use crate::games::chess::{chess_quartz, Chess, ChessMove, CHESS_POLICY_ACTIONS};
 use crate::games::go::{go_quartz, Go, GoRuleset, GoScoring};
 use crate::games::gomoku15::{gomoku15_quartz, Gomoku15, GomokuVariant};
-use crate::games::{connect4::Connect4, Gomoku, TicTacToe};
+use crate::games::{connect4::Connect4, connect4_nn::TinyConnect4Evaluator, Gomoku, TicTacToe};
 
 /// Bounded, CPU-only real QUARTZ MCTS for *standard gravity Connect4*.
 /// This research-only endpoint intentionally does not consume the external
@@ -63,8 +63,25 @@ fn handle_research_connect4_cpu(line: &str) -> serde_json::Value {
     cfg.root_forced_win = false;
     cfg.dirichlet = None;
     cfg.temperature = 0.0;
-    // UniformEval provides no trained knowledge and no oracle leakage.
-    let eval = Arc::new(UniformEval);
+    // The oracle is NEVER queried by this function. Only the learned
+    // float32 weights influence the optional recognizer evaluator.
+    let mode = request.get("eval_mode").and_then(|v| v.as_str()).unwrap_or("uniform");
+    let (eval, mode_label): (Arc<dyn Evaluator<Connect4> + Send + Sync>, &str) = match mode {
+        "uniform" => (Arc::new(UniformEval), "uniform_no_neural_network"),
+        "tiny_mlp" => {
+            let Some(path) = request.get("model_path").and_then(|v| v.as_str()) else {
+                return serde_json::json!({"error": "tiny_mlp requires model_path"});
+            };
+            if path.is_empty() {
+                return serde_json::json!({"error": "empty model_path"});
+            }
+            match TinyConnect4Evaluator::from_file(path) {
+                Ok(model) => (Arc::new(model), "trained_tiny_mlp_cpu"),
+                Err(err) => return serde_json::json!({"error": format!("tiny_mlp load: {err}")}),
+            }
+        }
+        _ => return serde_json::json!({"error": "eval_mode must be uniform or tiny_mlp"}),
+    };
     let engine = MctsEngine::new(state.clone(), eval.clone(), cfg.clone());
     let root_hash = format!("{:016x}", engine.root_state().tt_hash());
     let mut before_calls = engine.evaluator_call_count();
@@ -125,7 +142,7 @@ fn handle_research_connect4_cpu(line: &str) -> serde_json::Value {
     serde_json::json!({
         "schema": "quartz_connect4_resident_mcts_v1",
         "game": "connect4_7x6_gravity",
-        "eval_mode": "uniform_no_neural_network",
+        "eval_mode": mode_label,
         "history": sequence,
         "side_to_move": state.current_player(),
         "ply": state.ply_count(),
@@ -7847,6 +7864,34 @@ mod tests {
             panic!("ordinary session transport must remain unchanged");
         };
         assert_eq!(session_id, 7);
+    }
+
+    #[test]
+    fn test_research_connect4_cpu_probe_tiny_recognizer_weighted_mode() {
+        let path = concat!(
+            "docs/research/cognitive_metareasoning_20261120/",
+            "connect4_recognizer_06/evidence/nn_train_20261120/tiny_mlp_weights.json"
+        );
+        let query = serde_json::json!({
+            "cmd":"research_connect4_cpu",
+            "history":"4433226223",
+            "seed":17,
+            "eval_mode":"tiny_mlp",
+            "model_path":path,
+            "budgets":[8,16,32,64],
+        });
+        let result=handle_research_connect4_cpu(&query.to_string());
+        assert!(result.get("error").is_none(), "{result}");
+        assert_eq!(result["eval_mode"], "trained_tiny_mlp_cpu");
+        assert_eq!(result["steps"][0]["root_visits"], 8);
+        assert_eq!(result["steps"][3]["root_visits"], 64);
+        assert_eq!(result["fresh16"]["resident_match"], true);
+        let missing=serde_json::json!({
+            "history":"4433226223",
+            "eval_mode":"tiny_mlp",
+            "model_path":"/not-a-real-Connect4-mlp.json",
+        });
+        assert!(handle_research_connect4_cpu(&missing.to_string()).get("error").is_some());
     }
 
     #[test]

@@ -3,6 +3,7 @@
 
 pub mod chess;
 pub mod connect4;
+pub mod connect4_nn;
 pub mod go;
 pub mod gomoku;
 pub mod gomoku15;
