@@ -1,0 +1,59 @@
+{
+  "files": [
+    {
+      "bytes": 45413,
+      "path": "results/phase15_stage7/posthoc/gomoku7/position_suite.json",
+      "sha256": "2eaa84932d6637a03ccb44b571d2df5cbb832f5ee1bfa5bd52d722603de017fd",
+      "source": "input_checkout"
+    },
+    {
+      "bytes": 119831,
+      "path": "docs/research/cognitive_metareasoning_20261120/resident_fork_02/evidence/20261120_resident72/paired_rows.jsonl",
+      "sha256": "3401df78af75d3a8842fdb8ca3e5cb7fea32e5a1e7ce1854682f0d71e43d5773",
+      "source": "study_worktree"
+    },
+    {
+      "bytes": 2176,
+      "path": "docs/research/cognitive_metareasoning_20261120/resident_fork_02/evidence/20261120_resident72/summary.json",
+      "sha256": "21f87b924886a31261f8881d941e58c3be4238ed91f7fe29352748b926223a3e",
+      "source": "study_worktree"
+    },
+    {
+      "bytes": 44636,
+      "path": "src/games/gomoku.rs",
+      "sha256": "b885c4bc8fa503be74d128c49faa475662b0ba0c35595a0666075e92621e0b0b",
+      "source": "study_worktree"
+    },
+    {
+      "bytes": 306955,
+      "path": "src/mcts_server.rs",
+      "sha256": "f0cade67269f49ae343f2ff662c9d8184046db4b65c49156776c682db53b7056",
+      "source": "study_worktree"
+    },
+    {
+      "bytes": 4203643,
+      "path": "results/phase15_stage7/gomoku7/training/seed_101/gen_5.pt",
+      "sha256": "887b8b9d1861857824e1aec6ca46eb8c89551c7ea3af2774becdd905d661d211",
+      "source": "input_checkout"
+    },
+    {
+      "bytes": 4203643,
+      "path": "results/phase15_stage7/gomoku7/training/seed_102/gen_5.pt",
+      "sha256": "19ba1b53b5f9dae0cb36b5b538ba55d0b1d522d0973a2678172dc5a165e40291",
+      "source": "input_checkout"
+    }
+  ],
+  "frozen_case_count": 48,
+  "frozen_suite_sha256": "327b78c21044098096026e773263e5defb971059cbe7eeab0f24117cc5ee3306",
+  "input_checkout_head": "65e7d3e9596ca259ebfe523b0c74058692b6a755",
+  "not_claimed": [
+    "complete_game_solution",
+    "iid_positions",
+    "Bayesian_expected_VOC",
+    "NN_strength_improvement"
+  ],
+  "prior_resident_trials": 72,
+  "research_base_commit": "26d8a4d0bc39338c46d08b189483484d295a0133",
+  "schema": "quartz_cog01b_decision_utility_input_v1",
+  "unique_groups": 24
+}
