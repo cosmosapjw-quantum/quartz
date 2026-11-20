@@ -1,0 +1,1006 @@
+[
+  {
+    "action_scores_ordinal": [
+      16,
+      16,
+      16,
+      16
+    ],
+    "action_utility_by_budget": [
+      1,
+      1,
+      1,
+      1
+    ],
+    "additional_eval_calls_all_budgets": [
+      0,
+      1,
+      4,
+      5
+    ],
+    "best_actions_zero_based": [
+      0,
+      0,
+      0,
+      4
+    ],
+    "best_columns_1based": [
+      1,
+      1,
+      1,
+      5
+    ],
+    "cumulative_eval_calls": [
+      1,
+      2,
+      6,
+      11
+    ],
+    "extra_eval_calls": [
+      1,
+      4,
+      5
+    ],
+    "fresh16_match": true,
+    "game_regret_by_budget": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "history": "4433226223",
+    "nonclaims": [
+      "not_Bayesian_expected_VOC",
+      "not_trained_policy",
+      "not_iid_or_population"
+    ],
+    "optimal_WDL_columns_zero_based": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+    ],
+    "oracle_best_score_columns_zero_based": [
+      0,
+      4
+    ],
+    "oracle_fastest_win_or_slowest_loss_score": 16,
+    "oracle_optimal_WDL": 1,
+    "ply": 10,
+    "policy_kind": "uniform_prior_zero_value_no_NN",
+    "position_id": "C4_000",
+    "root_hash": "b298229fa2450efa",
+    "search_seed": 17,
+    "status": "EXACT_EXTERNAL_WDL_JOINED_TO_REAL_QUARTZ_MCTS",
+    "step_wall_us": [
+      2673,
+      2356,
+      2594,
+      2577
+    ],
+    "utility_delta_by_transition": [
+      0,
+      0,
+      0
+    ]
+  },
+  {
+    "action_scores_ordinal": [
+      16,
+      16,
+      16,
+      16
+    ],
+    "action_utility_by_budget": [
+      1,
+      1,
+      1,
+      1
+    ],
+    "additional_eval_calls_all_budgets": [
+      0,
+      1,
+      5,
+      6
+    ],
+    "best_actions_zero_based": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "best_columns_1based": [
+      1,
+      1,
+      1,
+      1
+    ],
+    "cumulative_eval_calls": [
+      1,
+      2,
+      7,
+      13
+    ],
+    "extra_eval_calls": [
+      1,
+      5,
+      6
+    ],
+    "fresh16_match": true,
+    "game_regret_by_budget": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "history": "4535332364",
+    "nonclaims": [
+      "not_Bayesian_expected_VOC",
+      "not_trained_policy",
+      "not_iid_or_population"
+    ],
+    "optimal_WDL_columns_zero_based": [
+      0
+    ],
+    "oracle_best_score_columns_zero_based": [
+      0
+    ],
+    "oracle_fastest_win_or_slowest_loss_score": 16,
+    "oracle_optimal_WDL": 1,
+    "ply": 10,
+    "policy_kind": "uniform_prior_zero_value_no_NN",
+    "position_id": "C4_001",
+    "root_hash": "e64558476dcd1508",
+    "search_seed": 17,
+    "status": "EXACT_EXTERNAL_WDL_JOINED_TO_REAL_QUARTZ_MCTS",
+    "step_wall_us": [
+      2335,
+      2474,
+      2412,
+      2368
+    ],
+    "utility_delta_by_transition": [
+      0,
+      0,
+      0
+    ]
+  },
+  {
+    "action_scores_ordinal": [
+      -13,
+      -2,
+      -13,
+      -13
+    ],
+    "action_utility_by_budget": [
+      -1,
+      -1,
+      -1,
+      -1
+    ],
+    "additional_eval_calls_all_budgets": [
+      8,
+      8,
+      16,
+      32
+    ],
+    "best_actions_zero_based": [
+      0,
+      1,
+      3,
+      0
+    ],
+    "best_columns_1based": [
+      1,
+      2,
+      4,
+      1
+    ],
+    "cumulative_eval_calls": [
+      9,
+      17,
+      33,
+      65
+    ],
+    "extra_eval_calls": [
+      8,
+      16,
+      32
+    ],
+    "fresh16_match": true,
+    "game_regret_by_budget": [
+      1,
+      1,
+      1,
+      1
+    ],
+    "history": "3545444242",
+    "nonclaims": [
+      "not_Bayesian_expected_VOC",
+      "not_trained_policy",
+      "not_iid_or_population"
+    ],
+    "optimal_WDL_columns_zero_based": [
+      4
+    ],
+    "oracle_best_score_columns_zero_based": [
+      4
+    ],
+    "oracle_fastest_win_or_slowest_loss_score": 0,
+    "oracle_optimal_WDL": 0,
+    "ply": 10,
+    "policy_kind": "uniform_prior_zero_value_no_NN",
+    "position_id": "C4_002",
+    "root_hash": "d74f308c872418ea",
+    "search_seed": 17,
+    "status": "EXACT_EXTERNAL_WDL_JOINED_TO_REAL_QUARTZ_MCTS",
+    "step_wall_us": [
+      2553,
+      2448,
+      2549,
+      2820
+    ],
+    "utility_delta_by_transition": [
+      0,
+      0,
+      0
+    ]
+  },
+  {
+    "action_scores_ordinal": [
+      -14,
+      -14,
+      13,
+      13
+    ],
+    "action_utility_by_budget": [
+      -1,
+      -1,
+      1,
+      1
+    ],
+    "additional_eval_calls_all_budgets": [
+      8,
+      8,
+      10,
+      26
+    ],
+    "best_actions_zero_based": [
+      0,
+      1,
+      2,
+      2
+    ],
+    "best_columns_1based": [
+      1,
+      2,
+      3,
+      3
+    ],
+    "cumulative_eval_calls": [
+      9,
+      17,
+      27,
+      53
+    ],
+    "extra_eval_calls": [
+      8,
+      10,
+      26
+    ],
+    "fresh16_match": true,
+    "game_regret_by_budget": [
+      2,
+      2,
+      0,
+      0
+    ],
+    "history": "64547341472363",
+    "nonclaims": [
+      "not_Bayesian_expected_VOC",
+      "not_trained_policy",
+      "not_iid_or_population"
+    ],
+    "optimal_WDL_columns_zero_based": [
+      2
+    ],
+    "oracle_best_score_columns_zero_based": [
+      2
+    ],
+    "oracle_fastest_win_or_slowest_loss_score": 13,
+    "oracle_optimal_WDL": 1,
+    "ply": 14,
+    "policy_kind": "uniform_prior_zero_value_no_NN",
+    "position_id": "C4_003",
+    "root_hash": "0e4b8a3efb67c0d8",
+    "search_seed": 17,
+    "status": "EXACT_EXTERNAL_WDL_JOINED_TO_REAL_QUARTZ_MCTS",
+    "step_wall_us": [
+      2488,
+      2406,
+      2745,
+      2709
+    ],
+    "utility_delta_by_transition": [
+      0,
+      2,
+      0
+    ]
+  },
+  {
+    "action_scores_ordinal": [
+      3,
+      3,
+      3,
+      3
+    ],
+    "action_utility_by_budget": [
+      1,
+      1,
+      1,
+      1
+    ],
+    "additional_eval_calls_all_budgets": [
+      8,
+      8,
+      16,
+      27
+    ],
+    "best_actions_zero_based": [
+      1,
+      4,
+      1,
+      3
+    ],
+    "best_columns_1based": [
+      2,
+      5,
+      2,
+      4
+    ],
+    "cumulative_eval_calls": [
+      9,
+      17,
+      33,
+      60
+    ],
+    "extra_eval_calls": [
+      8,
+      16,
+      27
+    ],
+    "fresh16_match": true,
+    "game_regret_by_budget": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "history": "35353322533256",
+    "nonclaims": [
+      "not_Bayesian_expected_VOC",
+      "not_trained_policy",
+      "not_iid_or_population"
+    ],
+    "optimal_WDL_columns_zero_based": [
+      0,
+      1,
+      3,
+      4,
+      5,
+      6
+    ],
+    "oracle_best_score_columns_zero_based": [
+      0,
+      1,
+      3,
+      4,
+      5,
+      6
+    ],
+    "oracle_fastest_win_or_slowest_loss_score": 3,
+    "oracle_optimal_WDL": 1,
+    "ply": 14,
+    "policy_kind": "uniform_prior_zero_value_no_NN",
+    "position_id": "C4_004",
+    "root_hash": "037537724f6f365c",
+    "search_seed": 17,
+    "status": "EXACT_EXTERNAL_WDL_JOINED_TO_REAL_QUARTZ_MCTS",
+    "step_wall_us": [
+      2536,
+      2855,
+      2547,
+      2774
+    ],
+    "utility_delta_by_transition": [
+      0,
+      0,
+      0
+    ]
+  },
+  {
+    "action_scores_ordinal": [
+      -2,
+      -2,
+      -2,
+      -2
+    ],
+    "action_utility_by_budget": [
+      -1,
+      -1,
+      -1,
+      -1
+    ],
+    "additional_eval_calls_all_budgets": [
+      8,
+      2,
+      10,
+      26
+    ],
+    "best_actions_zero_based": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "best_columns_1based": [
+      1,
+      1,
+      1,
+      1
+    ],
+    "cumulative_eval_calls": [
+      9,
+      11,
+      21,
+      47
+    ],
+    "extra_eval_calls": [
+      2,
+      10,
+      26
+    ],
+    "fresh16_match": true,
+    "game_regret_by_budget": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "history": "23374242221314",
+    "nonclaims": [
+      "not_Bayesian_expected_VOC",
+      "not_trained_policy",
+      "not_iid_or_population"
+    ],
+    "optimal_WDL_columns_zero_based": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+    ],
+    "oracle_best_score_columns_zero_based": [
+      0
+    ],
+    "oracle_fastest_win_or_slowest_loss_score": -2,
+    "oracle_optimal_WDL": -1,
+    "ply": 14,
+    "policy_kind": "uniform_prior_zero_value_no_NN",
+    "position_id": "C4_005",
+    "root_hash": "86509593e6a80fae",
+    "search_seed": 17,
+    "status": "EXACT_EXTERNAL_WDL_JOINED_TO_REAL_QUARTZ_MCTS",
+    "step_wall_us": [
+      2382,
+      2479,
+      2471,
+      2722
+    ],
+    "utility_delta_by_transition": [
+      0,
+      0,
+      0
+    ]
+  },
+  {
+    "action_scores_ordinal": [
+      12,
+      12,
+      12,
+      12
+    ],
+    "action_utility_by_budget": [
+      1,
+      1,
+      1,
+      1
+    ],
+    "additional_eval_calls_all_budgets": [
+      2,
+      3,
+      0,
+      5
+    ],
+    "best_actions_zero_based": [
+      2,
+      2,
+      2,
+      2
+    ],
+    "best_columns_1based": [
+      3,
+      3,
+      3,
+      3
+    ],
+    "cumulative_eval_calls": [
+      3,
+      6,
+      6,
+      11
+    ],
+    "extra_eval_calls": [
+      3,
+      0,
+      5
+    ],
+    "fresh16_match": true,
+    "game_regret_by_budget": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "history": "656644534247443366",
+    "nonclaims": [
+      "not_Bayesian_expected_VOC",
+      "not_trained_policy",
+      "not_iid_or_population"
+    ],
+    "optimal_WDL_columns_zero_based": [
+      2,
+      4
+    ],
+    "oracle_best_score_columns_zero_based": [
+      2
+    ],
+    "oracle_fastest_win_or_slowest_loss_score": 12,
+    "oracle_optimal_WDL": 1,
+    "ply": 18,
+    "policy_kind": "uniform_prior_zero_value_no_NN",
+    "position_id": "C4_006",
+    "root_hash": "a4f4c7dcc85db162",
+    "search_seed": 17,
+    "status": "EXACT_EXTERNAL_WDL_JOINED_TO_REAL_QUARTZ_MCTS",
+    "step_wall_us": [
+      2421,
+      5661,
+      3859,
+      4853
+    ],
+    "utility_delta_by_transition": [
+      0,
+      0,
+      0
+    ]
+  },
+  {
+    "action_scores_ordinal": [
+      12,
+      12,
+      12,
+      12
+    ],
+    "action_utility_by_budget": [
+      1,
+      1,
+      1,
+      1
+    ],
+    "additional_eval_calls_all_budgets": [
+      2,
+      3,
+      0,
+      5
+    ],
+    "best_actions_zero_based": [
+      2,
+      2,
+      2,
+      2
+    ],
+    "best_columns_1based": [
+      3,
+      3,
+      3,
+      3
+    ],
+    "cumulative_eval_calls": [
+      3,
+      6,
+      6,
+      11
+    ],
+    "extra_eval_calls": [
+      3,
+      0,
+      5
+    ],
+    "fresh16_match": true,
+    "game_regret_by_budget": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "history": "654466534443657435",
+    "nonclaims": [
+      "not_Bayesian_expected_VOC",
+      "not_trained_policy",
+      "not_iid_or_population"
+    ],
+    "optimal_WDL_columns_zero_based": [
+      2,
+      4,
+      5
+    ],
+    "oracle_best_score_columns_zero_based": [
+      2
+    ],
+    "oracle_fastest_win_or_slowest_loss_score": 12,
+    "oracle_optimal_WDL": 1,
+    "ply": 18,
+    "policy_kind": "uniform_prior_zero_value_no_NN",
+    "position_id": "C4_007",
+    "root_hash": "551dc2af199ecb98",
+    "search_seed": 17,
+    "status": "EXACT_EXTERNAL_WDL_JOINED_TO_REAL_QUARTZ_MCTS",
+    "step_wall_us": [
+      2441,
+      2360,
+      2401,
+      2539
+    ],
+    "utility_delta_by_transition": [
+      0,
+      0,
+      0
+    ]
+  },
+  {
+    "action_scores_ordinal": [
+      12,
+      12,
+      12,
+      12
+    ],
+    "action_utility_by_budget": [
+      1,
+      1,
+      1,
+      1
+    ],
+    "additional_eval_calls_all_budgets": [
+      1,
+      1,
+      2,
+      4
+    ],
+    "best_actions_zero_based": [
+      1,
+      1,
+      2,
+      2
+    ],
+    "best_columns_1based": [
+      2,
+      2,
+      3,
+      3
+    ],
+    "cumulative_eval_calls": [
+      2,
+      3,
+      5,
+      9
+    ],
+    "extra_eval_calls": [
+      1,
+      2,
+      4
+    ],
+    "fresh16_match": true,
+    "game_regret_by_budget": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "history": "533524343416554544",
+    "nonclaims": [
+      "not_Bayesian_expected_VOC",
+      "not_trained_policy",
+      "not_iid_or_population"
+    ],
+    "optimal_WDL_columns_zero_based": [
+      0,
+      1,
+      2,
+      4,
+      5,
+      6
+    ],
+    "oracle_best_score_columns_zero_based": [
+      1,
+      2
+    ],
+    "oracle_fastest_win_or_slowest_loss_score": 12,
+    "oracle_optimal_WDL": 1,
+    "ply": 18,
+    "policy_kind": "uniform_prior_zero_value_no_NN",
+    "position_id": "C4_008",
+    "root_hash": "6fd339cae0654f9e",
+    "search_seed": 17,
+    "status": "EXACT_EXTERNAL_WDL_JOINED_TO_REAL_QUARTZ_MCTS",
+    "step_wall_us": [
+      2658,
+      2389,
+      2767,
+      2553
+    ],
+    "utility_delta_by_transition": [
+      0,
+      0,
+      0
+    ]
+  },
+  {
+    "action_scores_ordinal": [
+      10,
+      10,
+      10,
+      10
+    ],
+    "action_utility_by_budget": [
+      1,
+      1,
+      1,
+      1
+    ],
+    "additional_eval_calls_all_budgets": [
+      0,
+      4,
+      2,
+      3
+    ],
+    "best_actions_zero_based": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "best_columns_1based": [
+      1,
+      1,
+      1,
+      1
+    ],
+    "cumulative_eval_calls": [
+      1,
+      5,
+      7,
+      10
+    ],
+    "extra_eval_calls": [
+      4,
+      2,
+      3
+    ],
+    "fresh16_match": true,
+    "game_regret_by_budget": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "history": "3543452364334546435572",
+    "nonclaims": [
+      "not_Bayesian_expected_VOC",
+      "not_trained_policy",
+      "not_iid_or_population"
+    ],
+    "optimal_WDL_columns_zero_based": [
+      0
+    ],
+    "oracle_best_score_columns_zero_based": [
+      0
+    ],
+    "oracle_fastest_win_or_slowest_loss_score": 10,
+    "oracle_optimal_WDL": 1,
+    "ply": 22,
+    "policy_kind": "uniform_prior_zero_value_no_NN",
+    "position_id": "C4_009",
+    "root_hash": "374b53965b6b60fc",
+    "search_seed": 17,
+    "status": "EXACT_EXTERNAL_WDL_JOINED_TO_REAL_QUARTZ_MCTS",
+    "step_wall_us": [
+      2434,
+      2683,
+      2393,
+      2448
+    ],
+    "utility_delta_by_transition": [
+      0,
+      0,
+      0
+    ]
+  },
+  {
+    "action_scores_ordinal": [
+      10,
+      10,
+      10,
+      10
+    ],
+    "action_utility_by_budget": [
+      1,
+      1,
+      1,
+      1
+    ],
+    "additional_eval_calls_all_budgets": [
+      2,
+      2,
+      2,
+      3
+    ],
+    "best_actions_zero_based": [
+      2,
+      2,
+      2,
+      2
+    ],
+    "best_columns_1based": [
+      3,
+      3,
+      3,
+      3
+    ],
+    "cumulative_eval_calls": [
+      3,
+      5,
+      7,
+      10
+    ],
+    "extra_eval_calls": [
+      2,
+      2,
+      3
+    ],
+    "fresh16_match": true,
+    "game_regret_by_budget": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "history": "5235444544462526523567",
+    "nonclaims": [
+      "not_Bayesian_expected_VOC",
+      "not_trained_policy",
+      "not_iid_or_population"
+    ],
+    "optimal_WDL_columns_zero_based": [
+      2
+    ],
+    "oracle_best_score_columns_zero_based": [
+      2
+    ],
+    "oracle_fastest_win_or_slowest_loss_score": 10,
+    "oracle_optimal_WDL": 1,
+    "ply": 22,
+    "policy_kind": "uniform_prior_zero_value_no_NN",
+    "position_id": "C4_010",
+    "root_hash": "8bc9d75468beae22",
+    "search_seed": 17,
+    "status": "EXACT_EXTERNAL_WDL_JOINED_TO_REAL_QUARTZ_MCTS",
+    "step_wall_us": [
+      2437,
+      2556,
+      2425,
+      2519
+    ],
+    "utility_delta_by_transition": [
+      0,
+      0,
+      0
+    ]
+  },
+  {
+    "action_scores_ordinal": [
+      10,
+      10,
+      10,
+      10
+    ],
+    "action_utility_by_budget": [
+      1,
+      1,
+      1,
+      1
+    ],
+    "additional_eval_calls_all_budgets": [
+      1,
+      3,
+      2,
+      3
+    ],
+    "best_actions_zero_based": [
+      1,
+      1,
+      1,
+      1
+    ],
+    "best_columns_1based": [
+      2,
+      2,
+      2,
+      2
+    ],
+    "cumulative_eval_calls": [
+      2,
+      5,
+      7,
+      10
+    ],
+    "extra_eval_calls": [
+      3,
+      2,
+      3
+    ],
+    "fresh16_match": true,
+    "game_regret_by_budget": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "history": "3445463244553645561365",
+    "nonclaims": [
+      "not_Bayesian_expected_VOC",
+      "not_trained_policy",
+      "not_iid_or_population"
+    ],
+    "optimal_WDL_columns_zero_based": [
+      1
+    ],
+    "oracle_best_score_columns_zero_based": [
+      1
+    ],
+    "oracle_fastest_win_or_slowest_loss_score": 10,
+    "oracle_optimal_WDL": 1,
+    "ply": 22,
+    "policy_kind": "uniform_prior_zero_value_no_NN",
+    "position_id": "C4_011",
+    "root_hash": "31d0831de42bbca2",
+    "search_seed": 17,
+    "status": "EXACT_EXTERNAL_WDL_JOINED_TO_REAL_QUARTZ_MCTS",
+    "step_wall_us": [
+      2358,
+      2328,
+      2440,
+      2377
+    ],
+    "utility_delta_by_transition": [
+      0,
+      0,
+      0
+    ]
+  }
+]

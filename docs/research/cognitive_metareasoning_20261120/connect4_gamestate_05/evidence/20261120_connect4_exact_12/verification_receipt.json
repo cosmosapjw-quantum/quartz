@@ -1,0 +1,22 @@
+{
+  "audit_script_sha256": "7dd266819e74d6eac78f3495792f4796734189f16c000246df73b2107eb4e099",
+  "external_mirror_requery": 12,
+  "external_oracle_requery": 12,
+  "external_source_hash": "locked",
+  "new_python_tests": "4/4",
+  "nonclaims": [
+    "not Bayesian expected VOC",
+    "not pretrained model",
+    "not independent population experiment"
+  ],
+  "previous_science_python_tests": "57/57",
+  "raw_result_output_hashes": {
+    "joined_action_utility.json": "35219371bf23b47c694cdbd5fdc9b2df0b870a1e5136909917f8e2b04a389429",
+    "raw_mcts_responses.json": "d7b0e9d79091fb0001cf2c2dd0cea90ff606a28a4d8c9082cb63332bf0c6bd1f",
+    "summary.json": "eed65e6d36f8e3c1b91078b20a6654969ea561daeea6a614a009c32400a6740f"
+  },
+  "rust_full_test_command": "cargo test --offline --locked -- --test-threads=4",
+  "rust_full_test_summary": "576 passed; 0 failed; 89 ignored",
+  "schema": "quartz_c4_stage_c_execution_verification_v1",
+  "source_head": "1a8305f8d7a9c9fdd499364f0646ffe0787ff7ec"
+}

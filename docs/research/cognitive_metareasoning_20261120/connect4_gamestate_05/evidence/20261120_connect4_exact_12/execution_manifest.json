@@ -1,0 +1,23 @@
+{
+  "binary_path": "/home/cosmosapjw/quantum/research/quartz_connect4_20261120_target/debug/mcts_demo",
+  "binary_sha256": "738d7186e883026ad59242cb3007b3ef530ff272f76dd66cc462049a153c955f",
+  "input_lock_sha256": "e2b0d3031b7ff66f624ad224e91d9020639480219a7e2a1e22811250af8f91c4",
+  "not_verified": "the mathematical correctness of the external solver beyond prior independent metamorphic checks",
+  "python": "3.12.3",
+  "result_sha256": {
+    "joined_action_utility.json": "35219371bf23b47c694cdbd5fdc9b2df0b870a1e5136909917f8e2b04a389429",
+    "raw_mcts_responses.json": "d7b0e9d79091fb0001cf2c2dd0cea90ff606a28a4d8c9082cb63332bf0c6bd1f",
+    "summary.json": "eed65e6d36f8e3c1b91078b20a6654969ea561daeea6a614a009c32400a6740f"
+  },
+  "rust_server_stderr": "MCTS server ready (selfplay + move + search_nn protocols)\n",
+  "sample_unit": "12_fixed_non_iid_root_histories",
+  "schema": "quartz_connect4_game_utility_run_manifest_v1",
+  "seed": 17,
+  "source_head": "1a8305f8d7a9c9fdd499364f0646ffe0787ff7ec",
+  "source_sha256": {
+    "run_connect4_utility.py": "ebc0cf131663d4e8ebc7f683788c8105394f81ed2cf6678cdbf36893ea6c659c",
+    "src/games/connect4.rs": "bb507ef6731266c03f48879debba9db946b1824bd6eaeba51608f8fbf1184d32",
+    "src/mcts_server.rs": "7c8cb262aa8abd1d0f80c4b5a6a36ccf074f1309a9954023fa6facb32c7811fa"
+  },
+  "source_tree": "a4465543c3362cc9453e32a2044b62f58c90e5fe"
+}

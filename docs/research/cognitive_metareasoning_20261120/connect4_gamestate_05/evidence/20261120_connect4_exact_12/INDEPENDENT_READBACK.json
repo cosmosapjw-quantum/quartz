@@ -1,0 +1,50 @@
+{
+  "additional_evaluator_calls_total": 298,
+  "board_replay_checks": 12,
+  "changed_action_positions": [
+    "C4_000",
+    "C4_002",
+    "C4_003",
+    "C4_004",
+    "C4_008"
+  ],
+  "exact_wdl_by_budget": {
+    "16": {
+      "-1": 3,
+      "1": 9
+    },
+    "32": {
+      "-1": 2,
+      "1": 10
+    },
+    "64": {
+      "-1": 2,
+      "1": 10
+    },
+    "8": {
+      "-1": 3,
+      "1": 9
+    }
+  },
+  "external_action_score_requeries": 12,
+  "external_mirror_requeries": 12,
+  "fresh16_matches": 12,
+  "n_distinct_roots": 12,
+  "not_claimed": [
+    "no trained Connect4 NN",
+    "not Bayesian expected VOC",
+    "not iid",
+    "not proof of external solver internal correctness"
+  ],
+  "schema": "quartz_connect4_game_utility_independent_audit_v1",
+  "science_status": "computed exact utility from externally reported game-theoretic WDL, finite sample",
+  "signed_change_counts": {
+    "0": 35,
+    "2": 1
+  },
+  "total_signed_changes_by_transition": {
+    "16->32": 2,
+    "32->64": 0,
+    "8->16": 0
+  }
+}

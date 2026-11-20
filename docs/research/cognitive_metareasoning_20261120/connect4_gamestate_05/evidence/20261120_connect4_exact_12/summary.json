@@ -1,0 +1,104 @@
+{
+  "all_signed_delta_counts": {
+    "0": 35,
+    "2": 1
+  },
+  "budgets": {
+    "16": {
+      "mean_evaluator_calls": 8.0,
+      "mean_regret": 0.25,
+      "mean_step_wall_us": 2749.5833333333335,
+      "mean_utility": 0.5,
+      "n": 12,
+      "optimal_WDL_count": 10,
+      "wdl_counts": {
+        "-1": 3,
+        "1": 9
+      }
+    },
+    "32": {
+      "mean_evaluator_calls": 13.75,
+      "mean_regret": 0.08333333333333333,
+      "mean_step_wall_us": 2633.5833333333335,
+      "mean_utility": 0.6666666666666666,
+      "n": 12,
+      "optimal_WDL_count": 11,
+      "wdl_counts": {
+        "-1": 2,
+        "1": 10
+      }
+    },
+    "64": {
+      "mean_evaluator_calls": 25.833333333333332,
+      "mean_regret": 0.08333333333333333,
+      "mean_step_wall_us": 2771.5833333333335,
+      "mean_utility": 0.6666666666666666,
+      "n": 12,
+      "optimal_WDL_count": 11,
+      "wdl_counts": {
+        "-1": 2,
+        "1": 10
+      }
+    },
+    "8": {
+      "mean_evaluator_calls": 4.333333333333333,
+      "mean_regret": 0.25,
+      "mean_step_wall_us": 2476.3333333333335,
+      "mean_utility": 0.5,
+      "n": 12,
+      "optimal_WDL_count": 10,
+      "wdl_counts": {
+        "-1": 3,
+        "1": 9
+      }
+    }
+  },
+  "changed_action_positions": [
+    "C4_000",
+    "C4_002",
+    "C4_003",
+    "C4_004",
+    "C4_008"
+  ],
+  "evaluator": "Rust_UniformEval_no_pretrained_NN",
+  "fresh16_mismatches": 0,
+  "n_distinct_roots": 12,
+  "negative_cases": [],
+  "nonclaims": [
+    "not_Bayesian_expected_VOC",
+    "not_learnt_recognition",
+    "not_iid",
+    "no_GPU"
+  ],
+  "oracle": "external_PascalPons_Connect4_exact_signed_scores",
+  "schema": "quartz_connect4_game_utility_summary_v1",
+  "seed": 17,
+  "transitions": {
+    "16->32": {
+      "mean_additional_eval_calls": 5.75,
+      "mean_step_wall_us": 2633.5833333333335,
+      "signed_gain_counts": {
+        "0": 11,
+        "2": 1
+      },
+      "total_signed_gain": 2
+    },
+    "32->64": {
+      "mean_additional_eval_calls": 12.083333333333334,
+      "mean_step_wall_us": 2771.5833333333335,
+      "signed_gain_counts": {
+        "0": 12
+      },
+      "total_signed_gain": 0
+    },
+    "8->16": {
+      "mean_additional_eval_calls": 3.6666666666666665,
+      "mean_step_wall_us": 2749.5833333333335,
+      "signed_gain_counts": {
+        "0": 12
+      },
+      "total_signed_gain": 0
+    }
+  },
+  "whole_run_s": 0.24478805400212877
+}
