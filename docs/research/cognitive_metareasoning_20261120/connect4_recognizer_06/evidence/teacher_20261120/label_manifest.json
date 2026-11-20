@@ -1,0 +1,25 @@
+{
+  "cohort_sha256": "8717f53c4da338c2082283dab74864cbd9204546ddc653824bbdb745e60864b7",
+  "counts": {
+    "OK": 192
+  },
+  "labels_sha256": "ed52cfd1fa8db6a7ce436eb7e8f48ba669f66eb1d075a5c16f93b30dc07ba641",
+  "lock_sha256": "437ac1d42c3ae40075525f5bdce4cfaa8c081e12cbeed7e7d0acb3d36f2183da",
+  "per_root_timeout_s": 5.0,
+  "schema": "quartz_c4_labels_manifest_v1",
+  "source_head": "72f0e79b95ce6499aea801e07c55c894ec19509d",
+  "splits": {
+    "test": {
+      "OK": 32
+    },
+    "train": {
+      "OK": 128
+    },
+    "val": {
+      "OK": 32
+    }
+  },
+  "teacher_binary_sha256": "fca2b665b1b3dbd88f2f50a7e0ba86fd8ae253f2861da1ad51cf110c69f741ed",
+  "teacher_book_sha256": "38f9834317c37d9516e45a21da598569a5d1556595686593d14c2e63f59c1f38",
+  "wall_time_limit_s": 110.0
+}
