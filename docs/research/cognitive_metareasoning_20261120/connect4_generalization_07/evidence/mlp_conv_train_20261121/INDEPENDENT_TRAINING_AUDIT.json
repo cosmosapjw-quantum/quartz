@@ -1,0 +1,164 @@
+{
+  "conditional_group_bootstrap_resamples": 3000,
+  "conditional_group_bootstrap_seed": 20261121,
+  "independent_portable_predictions_checked": {
+    "conv": 24,
+    "mlp": 24
+  },
+  "mirror_exact_board_classes_unique": true,
+  "n_test_family": 12,
+  "n_train_family": 40,
+  "n_train_val_test_rows": [
+    640,
+    192,
+    192
+  ],
+  "n_val_family": 12,
+  "nonclaims": [
+    "bootstrap ignores retraining/validation stochasticity",
+    "no iid root generalization across unknown opening distributions",
+    "not same-CPU-time training/inference benchmark",
+    "not MCTS performance or VOC evidence"
+  ],
+  "old_model_source": "1660b450d4ab948afc71d0aeebf1abe1f31120093849e224bc28f777605aff60",
+  "output_source_sha256": {
+    "conv_model.json": "161f9e6e26840754384cb47335d1082d837fa014735cbfaa2517209422e29f24",
+    "mlp_model.json": "a5bd016c019724fab54110458fcdcb7abf9e61fbb959afe76d6c94b8237b3f3d",
+    "predictions.json": "de0c9bdd4bb36bf4ac6d94e761e7fc99fd5d257cd771ea0d8335ca4061354d96",
+    "training_results.json": "0de128e7e05781c236341da23245c3677d7f15d35f792d6a253ba0eb34a66778"
+  },
+  "paired_regret_comparisons": {
+    "test": {
+      "conv_minus_mlp": {
+        "conditional_95_interval_family_bootstrap": [
+          -0.21354166666666666,
+          -0.020833333333333332
+        ],
+        "family_mean_differences": {
+          "52": 0.125,
+          "53": 0.0,
+          "54": -0.375,
+          "55": -0.125,
+          "56": -0.125,
+          "57": -0.125,
+          "58": -0.375,
+          "59": 0.0625,
+          "60": 0.0625,
+          "61": -0.125,
+          "62": -0.375,
+          "63": 0.0
+        },
+        "first_minus_second_mean_regret": -0.11458333333333333
+      },
+      "conv_minus_old_mlp": {
+        "conditional_95_interval_family_bootstrap": [
+          -0.3125,
+          -0.09375
+        ],
+        "family_mean_differences": {
+          "52": -0.375,
+          "53": 0.0625,
+          "54": -0.375,
+          "55": 0.0,
+          "56": -0.125,
+          "57": -0.25,
+          "58": -0.25,
+          "59": -0.3125,
+          "60": -0.125,
+          "61": -0.25,
+          "62": -0.5625,
+          "63": 0.125
+        },
+        "first_minus_second_mean_regret": -0.203125
+      },
+      "mlp_minus_old_mlp": {
+        "conditional_95_interval_family_bootstrap": [
+          -0.19791666666666666,
+          0.015625
+        ],
+        "family_mean_differences": {
+          "52": -0.5,
+          "53": 0.0625,
+          "54": 0.0,
+          "55": 0.125,
+          "56": 0.0,
+          "57": -0.125,
+          "58": 0.125,
+          "59": -0.375,
+          "60": -0.1875,
+          "61": -0.125,
+          "62": -0.1875,
+          "63": 0.125
+        },
+        "first_minus_second_mean_regret": -0.08854166666666667
+      }
+    },
+    "val": {
+      "conv_minus_mlp": {
+        "conditional_95_interval_family_bootstrap": [
+          -0.13541666666666666,
+          0.11458333333333333
+        ],
+        "family_mean_differences": {
+          "40": 0.0,
+          "41": 0.25,
+          "42": 0.0,
+          "43": 0.0,
+          "44": -0.1875,
+          "45": 0.125,
+          "46": 0.125,
+          "47": -0.125,
+          "48": 0.0,
+          "49": 0.375,
+          "50": -0.5,
+          "51": -0.125
+        },
+        "first_minus_second_mean_regret": -0.005208333333333333
+      },
+      "conv_minus_old_mlp": {
+        "conditional_95_interval_family_bootstrap": [
+          -0.19791666666666666,
+          0.010416666666666666
+        ],
+        "family_mean_differences": {
+          "40": 0.125,
+          "41": -0.125,
+          "42": 0.0,
+          "43": -0.25,
+          "44": -0.125,
+          "45": 0.125,
+          "46": 0.1875,
+          "47": -0.1875,
+          "48": -0.1875,
+          "49": 0.0625,
+          "50": -0.4375,
+          "51": -0.25
+        },
+        "first_minus_second_mean_regret": -0.08854166666666667
+      },
+      "mlp_minus_old_mlp": {
+        "conditional_95_interval_family_bootstrap": [
+          -0.17708333333333334,
+          0.005208333333333333
+        ],
+        "family_mean_differences": {
+          "40": 0.125,
+          "41": -0.375,
+          "42": 0.0,
+          "43": -0.25,
+          "44": 0.0625,
+          "45": 0.0,
+          "46": 0.0625,
+          "47": -0.0625,
+          "48": -0.1875,
+          "49": -0.3125,
+          "50": 0.0625,
+          "51": -0.125
+        },
+        "first_minus_second_mean_regret": -0.08333333333333333
+      }
+    }
+  },
+  "schema": "quartz_connect4_generalization07_training_audit_v1",
+  "source_commit": "588495c705093b8618f9cc41aa4303677df23f8e"
+}

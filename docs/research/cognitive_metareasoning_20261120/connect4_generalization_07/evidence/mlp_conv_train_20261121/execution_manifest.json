@@ -1,0 +1,28 @@
+{
+  "cpu_threads": 2,
+  "fixed_hyperparameters": {
+    "batch": 64,
+    "epochs": 80,
+    "lr": 0.003,
+    "seed": 20261121,
+    "weight_decay": 0.0001
+  },
+  "label_source_sha256": "ac90b136cc6df0d8fc4b69b7ee178806c81b156f1f62bed55b5904b43679a22e",
+  "locked_cohort_sha256": "cd56b7828a98b8b60f2f8d16e38f841f4a7e6c161446cdf76bfb31a07e1b2b03",
+  "not_claimed": [
+    "model trained on gold standard after validation selection",
+    "full-game strength",
+    "Bayesian VOC controller"
+  ],
+  "python": "3.12.3",
+  "raw_output_sha256": {
+    "conv_model.json": "161f9e6e26840754384cb47335d1082d837fa014735cbfaa2517209422e29f24",
+    "mlp_model.json": "a5bd016c019724fab54110458fcdcb7abf9e61fbb959afe76d6c94b8237b3f3d",
+    "predictions.json": "de0c9bdd4bb36bf4ac6d94e761e7fc99fd5d257cd771ea0d8335ca4061354d96",
+    "training_results.json": "0de128e7e05781c236341da23245c3677d7f15d35f792d6a253ba0eb34a66778"
+  },
+  "schema": "quartz_connect4_generalization07_training_manifest_v1",
+  "source_commit": "588495c705093b8618f9cc41aa4303677df23f8e",
+  "torch": "2.9.1+cpu",
+  "torch_cuda": null
+}
