@@ -1,0 +1,42 @@
+{
+  "schema": "quartz_cog02_calibration09_next_unit_handoff_v1",
+  "completed_id": "QUARTZ-COG-02-VOC-CALIBRATION-09",
+  "source_before_final_report_commit": "2cda651ba0fdb736378514c780d852c92edab91a",
+  "research_branch": "research/quartz-cog02-voc-calibration-20261121",
+  "science_status": {
+    "new_cohort_effect": "NUMERICALLY_CHECKED_CONDITIONAL_24_FAMILIES",
+    "cpu_release_experiment": "IMPLEMENTATION_VERIFIED",
+    "true_bayesian_KG": "UNRESOLVED_NOT_IMPLEMENTED",
+    "independent_search_seed_replication": "NOT_ESTABLISHED",
+    "train_release_wall_cost_calibration": "FAILED_20_TO_30X_FORECAST_SHIFT",
+    "uniform_adaptive_two_cohorts": "OBSERVED_POSITIVE_RELATIVE_TO_GENUINE_LIVE16",
+    "neural_evaluator_VOC_advantage": "NOT_ESTABLISHED"
+  },
+  "source_artifacts": {
+    "frozen_new_cohort": "docs/research/cognitive_metareasoning_20261120/voc_calibration_09/COHORT_384_FROZEN.json",
+    "new_exact_solver_labels": "docs/research/cognitive_metareasoning_20261120/voc_calibration_09/evidence/new384_exact_teacher_20261121/labels.json",
+    "release_val_fixed_clock": "docs/research/cognitive_metareasoning_20261120/voc_calibration_09/evidence/release_validation_1152_20261121/VALIDATION_RELEASE_CAPS.json",
+    "real_new_family_test": "docs/research/cognitive_metareasoning_20261120/voc_calibration_09/evidence/new384_release_4608_20261121/SUMMARY_CALIBRATION.json",
+    "real_new_family_independent_audit": "docs/research/cognitive_metareasoning_20261120/voc_calibration_09/evidence/new384_release_4608_20261121/INDEPENDENT_READBACK.json",
+    "frozen_old_surrogates": "docs/research/cognitive_metareasoning_20261120/cost_matched_voc_08/evidence/frozen_surrogate_20261121/frozen_surrogates.json",
+    "exact_rust_release_binary_sha256": "e3c44f8630c67d0c00929f10b429f35d62805b779e025d73ce16f142100c7f78"
+  },
+  "next_id": "QUARTZ-COG-02-DYNAMIC-VOC-10",
+  "next_objective": "Implement and falsify one 2-step conditional or nonmyopic metacomputation controller with jointly calibrated release CPU costs, without reusing frozen test cohorts for fitting.",
+  "protected_inputs": [
+    "COG07 640 training families and 192 validation families used for new release-cost calibration and policy fitting",
+    "new COG09 replicas A/B remain heldout for retrospective comparison only, not refit",
+    "original exact score oracle never read by runtime controller",
+    "original developer checkout and unrelated worktrees remain unmodified"
+  ],
+  "acceptance": [
+    "finite exact 2-step information synergy counterexample with derivation and independent fractions enumeration",
+    "actual Rust online two-step option and current-root feature transparency",
+    "new from-scratch heldout families or independently verified orthogonal test to avoid calibration/test reuse",
+    "fixed CPU-time matched comparison with genuine live fixed-policy baseline",
+    "negative outcomes and both per-family and side/decisive-action-stratified results retained",
+    "backup and GitHub push each unit with exact remote SHA"
+  ],
+  "not_started": true,
+  "native_subagent": "NOT_RUN"
+}
