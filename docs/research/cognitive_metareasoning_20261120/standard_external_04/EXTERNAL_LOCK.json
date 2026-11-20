@@ -1,0 +1,122 @@
+{
+  "base_commit": "6f6cd0a36ac94642c4cf1958ca96ca5ef9529ed3",
+  "external": [
+    {
+      "game": "Connect Four 7x6 gravity 4-in-line",
+      "license": "AGPL-3.0",
+      "name": "PascalPons/connect4",
+      "score": "signed exact integer",
+      "source_commit": "d6ba50d8aaf2308c769d9bf2abd42d90f34baf41",
+      "source_url": "https://github.com/PascalPons/connect4"
+    },
+    {
+      "game": "Gomoku freestyle 15x15 connect five",
+      "license": "GPL-3.0",
+      "name": "dhbloo/rapfi",
+      "release_tag": "250615",
+      "release_url": "https://github.com/dotb1ue/rapfi/releases/tag/250615",
+      "score": "strong best-move proxy; not exact",
+      "source_url": "https://github.com/dhbloo/rapfi"
+    }
+  ],
+  "input_checkout_sha": "65e7d3e9596ca259ebfe523b0c74058692b6a755",
+  "input_files": [
+    {
+      "path": "/home/cosmosapjw/quantum/research/quartz_external_engines_20261120/pascalpons_connect4/c4solver",
+      "role": "c4_compiled_binary",
+      "sha256": "fca2b665b1b3dbd88f2f50a7e0ba86fd8ae253f2861da1ad51cf110c69f741ed",
+      "size": 79296
+    },
+    {
+      "path": "/home/cosmosapjw/quantum/research/quartz_external_engines_20261120/pascalpons_connect4/7x6_small.book",
+      "role": "c4_opening_book",
+      "sha256": "38f9834317c37d9516e45a21da598569a5d1556595686593d14c2e63f59c1f38",
+      "size": 6291513
+    },
+    {
+      "path": "/home/cosmosapjw/quantum/research/quartz_external_engines_20261120/pascalpons_connect4/LICENSE",
+      "role": "c4_source_license",
+      "sha256": "76a97c878c9c7a8321bb395c2b44d3fe2f8d81314d219b20138ed0e2dddd5182",
+      "size": 34520
+    },
+    {
+      "path": "/home/cosmosapjw/Dropbox/personal_projects/quartz/results/smoke_torch/gomoku15/models/F1_legacy_base/latest.pt",
+      "role": "quartz_gomoku15_smoke_checkpoint",
+      "sha256": "57b93ba867ff8f9b74f91adef6b38f02f94de0bd7dc177785d668d32e1dcc3ae",
+      "size": 15289047
+    },
+    {
+      "path": "/home/cosmosapjw/quantum/research/quartz_resident_20261120_target/debug/mcts_demo",
+      "role": "quartz_rust_binary",
+      "sha256": "3fc0d61b5e878fca404daf0ed809508a35a8fb3aff063e69759f261f33f2bf5b",
+      "size": 47996640
+    },
+    {
+      "path": "/home/cosmosapjw/quantum/research/quartz_cog01_20261120/src/games/gomoku15.rs",
+      "role": "quartz_rust_gomoku15_source",
+      "sha256": "0f8cc3c3fae1819b807f0c0eae27cf77ff8f2d1d893f09f82b019682bcf2ef0d",
+      "size": 83991
+    },
+    {
+      "path": "/home/cosmosapjw/quantum/research/quartz_cog01_20261120/src/mcts_server.rs",
+      "role": "quartz_rust_server_source",
+      "sha256": "f0cade67269f49ae343f2ff662c9d8184046db4b65c49156776c682db53b7056",
+      "size": 306955
+    },
+    {
+      "path": "/home/cosmosapjw/quantum/research/quartz_external_engines_20261120/rapfi_release_250615/unpacked/config.toml",
+      "role": "rapfi_config",
+      "sha256": "32b9180c91247541d399ceef62906d5ffeb48e34eb5f261612987633820d5d3c",
+      "size": 6709
+    },
+    {
+      "path": "/home/cosmosapjw/quantum/research/quartz_external_engines_20261120/rapfi/Copying.txt",
+      "role": "rapfi_license",
+      "sha256": "6bab265559d5ebe9f259f2f54e9640bb4c8c8535bacd37c18125231f6fa9acf7",
+      "size": 35141
+    },
+    {
+      "path": "/home/cosmosapjw/quantum/research/quartz_external_engines_20261120/rapfi_release_250615/Rapfi-engine.7z",
+      "role": "rapfi_official_archive",
+      "sha256": "1a3e24024062a153ac079060ee9589a37c6bdd1ecc54fed3908793c519594e05",
+      "size": 36786619
+    },
+    {
+      "path": "/home/cosmosapjw/quantum/research/quartz_external_engines_20261120/rapfi_release_250615/unpacked/pbrain-rapfi-linux-clang-avx2",
+      "role": "rapfi_prebuilt_avx2",
+      "sha256": "4217c3202cdd8dbb58524110d9064299e314a695e58ddbd055d9a4dd99de201c",
+      "size": 1807152
+    },
+    {
+      "path": "/home/cosmosapjw/quantum/research/quartz_external_engines_20261120/rapfi_release_250615/unpacked/mix9svqfreestyle_bsmix.bin.lz4",
+      "role": "rapfi_pretrained_nnue_freestyle",
+      "sha256": "6bc0d1b0ff8e1d857f7f412923cd458f38f1a435087c91ae71fec3676c23ef62",
+      "size": 10030398
+    }
+  ],
+  "not_claims": [
+    "QUARTZ gomoku15 smoke checkpoint strong",
+    "Rapfi minimax oracle",
+    "Connect4 rules identical to non-gravity 7x7 surrogate",
+    "QUARTZ Connect4 adapter implemented"
+  ],
+  "origin": "public standalone binary & public source; no redistributed third-party payloads",
+  "pretrained_rapfi_nnue_present": true,
+  "rules": {
+    "connect4": {
+      "connect": 4,
+      "gravity": true,
+      "height": 6,
+      "width": 7
+    },
+    "gomoku15": {
+      "connect": 5,
+      "gravity": false,
+      "height": 15,
+      "rule": "freestyle",
+      "width": 15
+    }
+  },
+  "schema": "quartz_external_standard_game_engine_lock_v1",
+  "third_party_vendored": false
+}
