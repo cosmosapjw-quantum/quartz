@@ -1,0 +1,78 @@
+{
+  "all_action_WDL_costs_and_live_decisions_recomputed": true,
+  "all_saved_results_bytes_SHA256_verified": 3,
+  "full_rust_server_calls": 1728,
+  "independent_external_solver_requeries": 12,
+  "independent_mirrored_solver_requeries": 12,
+  "mode_summaries": {
+    "conv": {
+      "adaptive_minus_clock_regret": -0.020833333333333332,
+      "adaptive_minus_fixed16_family_bootstrap_95": [
+        0.020833333333333332,
+        0.11458333333333333
+      ],
+      "adaptive_minus_fixed16_mean_regret": 0.0625,
+      "adaptive_selected_stops": {
+        "16": 22,
+        "8": 170
+      },
+      "relative_actual_search_ms_mismatch": 0.0841919875593111,
+      "validated_frozen_mode_lambda": 0.03
+    },
+    "new_mlp": {
+      "adaptive_minus_clock_regret": 0.0,
+      "adaptive_minus_fixed16_family_bootstrap_95": [
+        0.10416666666666667,
+        0.21875
+      ],
+      "adaptive_minus_fixed16_mean_regret": 0.16145833333333334,
+      "adaptive_selected_stops": {
+        "8": 192
+      },
+      "relative_actual_search_ms_mismatch": 0.004828559689865768,
+      "validated_frozen_mode_lambda": 0.1
+    },
+    "uniform": {
+      "adaptive_minus_clock_regret": -0.14583333333333334,
+      "adaptive_minus_fixed16_family_bootstrap_95": [
+        -0.18229166666666666,
+        -0.015625
+      ],
+      "adaptive_minus_fixed16_mean_regret": -0.09895833333333333,
+      "adaptive_selected_stops": {
+        "16": 7,
+        "32": 76,
+        "8": 109
+      },
+      "relative_actual_search_ms_mismatch": 0.06861837378564968,
+      "validated_frozen_mode_lambda": 0.05
+    }
+  },
+  "model_source_byte_hashes_verified": 2,
+  "not_claimed": [
+    "true Bayesian preposterior KG",
+    "per-root time matching",
+    "one global representative population",
+    "unseen research seed/generalization",
+    "optimized Rust release build"
+  ],
+  "observed_cache_liveness": {
+    "conv": {
+      "hits": 575,
+      "misses": 1
+    },
+    "new_mlp": {
+      "hits": 575,
+      "misses": 1
+    },
+    "uniform": {
+      "hits": 0,
+      "misses": 576
+    }
+  },
+  "schema": "quartz_cog02_live_1728_independent_readback_v1",
+  "source_commit": "8682f805cb8c74deef967e3ed9595bc41bea474b",
+  "status": "implementation verified; finite 12-group conditional external-WDL observation",
+  "test_family_clusters": 12,
+  "unique_test_roots": 192
+}

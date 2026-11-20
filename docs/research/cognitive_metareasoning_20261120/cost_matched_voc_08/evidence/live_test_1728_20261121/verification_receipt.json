@@ -1,0 +1,43 @@
+{
+  "actual_Rust_root_evaluations": 1728,
+  "actual_full_rust_test_command": "cargo test --offline --locked -- --test-threads=4",
+  "actual_source_commit": "8682f805cb8c74deef967e3ed9595bc41bea474b",
+  "compiled_rust_binary_sha256": "f261061a5798c6f47a5b0e94b906ae96fa9fab296b470b069aaea064c94cff48",
+  "exact_solver_and_mirror_requeries": 24,
+  "frozen_training_surrogate_SHA256": "5c634a419789382774314aae02aa023106c4e870b79f66716972ad06c2002b41",
+  "heldout_root_count": 192,
+  "native_subagent": "NOT_RUN",
+  "original_heldout_family_count": 12,
+  "python_related_suites": {
+    "failed": 0,
+    "individual": [
+      7,
+      10,
+      9,
+      4,
+      7,
+      7,
+      7,
+      9,
+      27
+    ],
+    "passed": 87
+  },
+  "raw_file_hashes_verified": {
+    "paired_192_livetest.json": "3da548afc0b271f1a71e195e898b362bbf7039eb9a1788ca98b545efed474c49",
+    "raw_1728_rust_requests.json": "b2da8340f7ca90f53b00815e668f4d5a53401f12a78f510bcf6d508be9cb9de1",
+    "summary.json": "b921bae5e8594c35400b9124b4b21d1454d562fc5d588c56d82b7004200dee30"
+  },
+  "rust_total_tests": {
+    "failed": 0,
+    "ignored": 89,
+    "passed": 592
+  },
+  "schema": "quartz_cog02_cost_matched_voc08_live_verification_receipt_v1",
+  "statistical_claims": "conditional fixed-model 12-family bootstrap only; not population generalization",
+  "theoretical_claims": "signed realized conditional-gain proxy, NOT true KG or Bayesian VOC",
+  "uniform_adaptive_vs_fixed16_mean_regret_difference": -0.09895833333333333,
+  "uniform_adaptive_vs_time_cap_regret_difference": -0.14583333333333331,
+  "uniform_adaptive_vs_time_cap_relative_cpu_cost_difference": 0.06861837378564968,
+  "validation_chosen_time_caps_SHA256": "a970a44be5d22b42cdcf2b44ff404e53c41c63510696970f281873b639617fe7"
+}

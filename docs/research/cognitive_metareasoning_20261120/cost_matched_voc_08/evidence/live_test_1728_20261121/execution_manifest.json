@@ -1,0 +1,24 @@
+{
+  "frozen_heldout_cohort_sha256": "cd56b7828a98b8b60f2f8d16e38f841f4a7e6c161446cdf76bfb31a07e1b2b03",
+  "frozen_surrogate_sha256": "5c634a419789382774314aae02aa023106c4e870b79f66716972ad06c2002b41",
+  "frozen_test_oracle_sha256": "ac90b136cc6df0d8fc4b69b7ee178806c81b156f1f62bed55b5904b43679a22e",
+  "frozen_time_caps_sha256": "a970a44be5d22b42cdcf2b44ff404e53c41c63510696970f281873b639617fe7",
+  "live_fixed_time_cap": true,
+  "model_sha256": {
+    "conv": "161f9e6e26840754384cb47335d1082d837fa014735cbfaa2517209422e29f24",
+    "new_mlp": "a5bd016c019724fab54110458fcdcb7abf9e61fbb959afe76d6c94b8237b3f3d"
+  },
+  "no_oracle_in_rust_runtime": true,
+  "number_queries": 1728,
+  "online_adaptive": true,
+  "output_sha256": {
+    "paired_192_livetest.json": "3da548afc0b271f1a71e195e898b362bbf7039eb9a1788ca98b545efed474c49",
+    "raw_1728_rust_requests.json": "b2da8340f7ca90f53b00815e668f4d5a53401f12a78f510bcf6d508be9cb9de1",
+    "summary.json": "b921bae5e8594c35400b9124b4b21d1454d562fc5d588c56d82b7004200dee30"
+  },
+  "rust_binary_sha256": "f261061a5798c6f47a5b0e94b906ae96fa9fab296b470b069aaea064c94cff48",
+  "sample_unit": "12 test families, 192 correlated roots",
+  "schema": "quartz_cog02_live_eval08_execution_manifest_v1",
+  "source_head": "8682f805cb8c74deef967e3ed9595bc41bea474b",
+  "source_tree": "68d3dd309d3258d40b5d84be4d28bf13b22b9dd1"
+}
