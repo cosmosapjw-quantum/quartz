@@ -81,4 +81,39 @@ class TimeCapContractTests(unittest.TestCase):
         self.assertEqual(selected_budget_and_cost(row,3.0),(16,5.0))
         self.assertEqual(selected_budget_and_cost(row,100.0),(64,14.0))
 
+class LiveSelectionTests(unittest.TestCase):
+    def test_signed_exact_outcome_and_finite_prefix_cost(self):
+        from evaluate_live08 import score_completed_live
+        sample={
+            'history':'444444','side_to_move':1,'ply':6,
+            'legal_columns_0based':[0,1,2,4,5,6],
+            'root_initial_evaluator_calls':1,
+            'root_hash':'abc',
+            'model_load_wall_us':0,'root_setup_wall_us':10,
+            'model_cache_hit':True,'eval_mode':'trained_tiny_mlp_cpu',
+            'stopped_at_visits':16,
+            'steps':[
+                {'budget':8,'root_visits':8,'best_action':1,'root_hash':'abc',
+                 'evaluator_calls':4,'additional_evaluator_calls':3,'step_wall_us':2000,
+                 'visit_policy':[[0,0.7],[1,0.3]]},
+                {'budget':16,'root_visits':16,'best_action':0,'root_hash':'abc',
+                 'evaluator_calls':7,'additional_evaluator_calls':3,'step_wall_us':3000,
+                 'visit_policy':[[0,0.8],[1,0.2]]}],
+            'adaptive_decisions':[],'fresh16':{'available':True,'resident_match':True},
+            'request_wall_us_without_fresh':5150
+        }
+        s=score_completed_live(sample,[-2,-1,0,-1000,2,1,0])
+        # selected action0 has exact losing WDL -1; one more unit counted separately
+        self.assertEqual(s['WDL'],-1)
+        self.assertEqual(s['visits'],16)
+        self.assertAlmostEqual(s['search_ms'],5.0)
+        self.assertEqual(s['evaluator_calls'],7)
+
+    def test_reject_invalid_or_future_step_decision(self):
+        from evaluate_live08 import score_completed_live
+        source={'steps':[{'budget':8,'root_visits':8,'best_action':8}],
+                'stopped_at_visits':8}
+        with self.assertRaises(ValueError):
+            score_completed_live(source,[0]*7)
+
 if __name__=='__main__':unittest.main()
