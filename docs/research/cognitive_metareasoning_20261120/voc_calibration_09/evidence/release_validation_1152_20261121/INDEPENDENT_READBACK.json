@@ -1,0 +1,49 @@
+{
+  "actual_compiled_rust_commit": "1c2b00c1bad2585380fee97bde65e3862dc1f25d",
+  "debug_time_forecast_domain_shift_not_ignored": true,
+  "input_source_sha256_checked": 2,
+  "n_distinct_val_roots": 192,
+  "n_real_validation_release_requests": 1152,
+  "no_new_C09_test_root_used": true,
+  "release_executable_sha256": "e3c44f8630c67d0c00929f10b429f35d62805b779e025d73ce16f142100c7f78",
+  "schema": "quartz_cog02_voc09_release_validation_independent_v1",
+  "selected_caps_recomputed_independently": {
+    "conv": {
+      "original_debug_gain_cost_forecast_ms": [
+        4.1822890625,
+        6.0926124999999995,
+        9.357071875
+      ],
+      "original_lambda_wdl_per_debug_ms": 0.03,
+      "release_mean_adaptive_search_ms": 0.2808645833333333,
+      "release_mean_clock_search_ms": 0.280375,
+      "release_time_cap_ms": 0.18,
+      "release_validation_time_mismatch_fraction": 0.0017431294737232069
+    },
+    "new_mlp": {
+      "original_debug_gain_cost_forecast_ms": [
+        2.345909375,
+        2.6265953125,
+        3.109959375
+      ],
+      "original_lambda_wdl_per_debug_ms": 0.1,
+      "release_mean_adaptive_search_ms": 0.10895833333333332,
+      "release_mean_clock_search_ms": 0.10478124999999999,
+      "release_time_cap_ms": 0.01,
+      "release_validation_time_mismatch_fraction": 0.03833652007648182
+    },
+    "uniform": {
+      "original_debug_gain_cost_forecast_ms": [
+        2.104775,
+        2.1502734375,
+        2.2545328125
+      ],
+      "original_lambda_wdl_per_debug_ms": 0.05,
+      "release_mean_adaptive_search_ms": 0.15366666666666665,
+      "release_mean_clock_search_ms": 0.151296875,
+      "release_time_cap_ms": 0.12,
+      "release_validation_time_mismatch_fraction": 0.015421637744034591
+    }
+  },
+  "val_opening_families": 12
+}

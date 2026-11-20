@@ -1,0 +1,88 @@
+{
+  "fixed_grid_caps_ms": [
+    0.01,
+    10.0,
+    0.01
+  ],
+  "modes": {
+    "conv": {
+      "absolute_cost_mismatch_ms": 0.0004895833333333766,
+      "adaptive_release_validation_mean_search_ms": 0.28086458333333336,
+      "cap_ms": 0.18,
+      "live_validation_adaptive_stop_visits": {
+        "16": 29,
+        "8": 163
+      },
+      "mean_search_ms": 0.280375,
+      "mean_stopped_visits": 12.333333333333334,
+      "original_voc08_cost_forecast_ms": [
+        4.1822890625,
+        6.0926124999999995,
+        9.357071875
+      ],
+      "original_voc08_fixed_lambda": 0.03,
+      "relative_validation_cost_mismatch": 0.0017431294737234042,
+      "stop_visits": {
+        "16": 47,
+        "32": 19,
+        "8": 126
+      }
+    },
+    "new_mlp": {
+      "absolute_cost_mismatch_ms": 0.004177083333333345,
+      "adaptive_release_validation_mean_search_ms": 0.10895833333333334,
+      "cap_ms": 0.01,
+      "live_validation_adaptive_stop_visits": {
+        "8": 192
+      },
+      "mean_search_ms": 0.10478124999999999,
+      "mean_stopped_visits": 8.0,
+      "original_voc08_cost_forecast_ms": [
+        2.345909375,
+        2.6265953125,
+        3.109959375
+      ],
+      "original_voc08_fixed_lambda": 0.1,
+      "relative_validation_cost_mismatch": 0.038336520076481945,
+      "stop_visits": {
+        "8": 192
+      }
+    },
+    "uniform": {
+      "absolute_cost_mismatch_ms": 0.0023697916666666763,
+      "adaptive_release_validation_mean_search_ms": 0.15366666666666667,
+      "cap_ms": 0.12,
+      "live_validation_adaptive_stop_visits": {
+        "16": 5,
+        "32": 80,
+        "8": 107
+      },
+      "mean_search_ms": 0.151296875,
+      "mean_stopped_visits": 15.375,
+      "original_voc08_cost_forecast_ms": [
+        2.104775,
+        2.1502734375,
+        2.2545328125
+      ],
+      "original_voc08_fixed_lambda": 0.05,
+      "relative_validation_cost_mismatch": 0.01542163774403477,
+      "stop_visits": {
+        "16": 177,
+        "8": 15
+      }
+    }
+  },
+  "no_new_test_cohort_access": true,
+  "no_oracle_label_used": true,
+  "no_retrained_or_rethresholded_voc_predictor": true,
+  "old_validation_families": 12,
+  "old_validation_roots": 192,
+  "prior_policies_sha256": "5c634a419789382774314aae02aa023106c4e870b79f66716972ad06c2002b41",
+  "release_binary_built_from_commit": "1c2b00c1bad2585380fee97bde65e3862dc1f25d",
+  "release_rust_binary_sha256": "e3c44f8630c67d0c00929f10b429f35d62805b779e025d73ce16f142100c7f78",
+  "schema": "quartz_cog02_voc09_release_validation_clock_caps_v1",
+  "source_git_head": "0009e5d2da46fa063f8da6714f31380c8835217c",
+  "source_old_validation_cohort_sha256": "cd56b7828a98b8b60f2f8d16e38f841f4a7e6c161446cdf76bfb31a07e1b2b03",
+  "timing_scope": "release Rust actual MCTS search wall; model load amortized in same process",
+  "total_release_validation_wall_s": 1.2141529360014829
+}
