@@ -75,6 +75,10 @@ def main():
 
     import numpy as np
     import torch
+    # Direct script execution starts sys.path at this nested directory.
+    # Import the exact research worktree rather than the other input checkout.
+    if str(repo) not in sys.path:
+        sys.path.insert(0, str(repo))
     from quartz.models_torch import AlphaZeroNet
     from quartz.runtime_support import encode_board
 
