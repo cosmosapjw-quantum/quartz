@@ -1,0 +1,86 @@
+{
+  "budgets": [
+    8,
+    16
+  ],
+  "checkpoint_count": 2,
+  "checkpoint_labels": [
+    "C01_gen_5",
+    "C03_gen_5"
+  ],
+  "frozen_files": [
+    {
+      "bytes": 45413,
+      "identity_path": "results/phase15_stage7/posthoc/gomoku7/position_suite.json",
+      "sha256": "2eaa84932d6637a03ccb44b571d2df5cbb832f5ee1bfa5bd52d722603de017fd",
+      "source": "input_checkout"
+    },
+    {
+      "bytes": 1416,
+      "identity_path": "Cargo.toml",
+      "sha256": "897e6624b41356d2f2ca7fffa30c4479cc0959fee3138cdb30fa4bc8ec5c1994",
+      "source": "input_checkout"
+    },
+    {
+      "bytes": 29131,
+      "identity_path": "Cargo.lock",
+      "sha256": "4368560c374c1272000fdd17a48fbe8449c6e471c848698b088d0b6092b2bb36",
+      "source": "input_checkout"
+    },
+    {
+      "bytes": 302488,
+      "identity_path": "src/mcts_server.rs",
+      "sha256": "6808c60856a4481db728b0670234242d2bfce5d8ef7771d864ae889cff6374e5",
+      "source": "input_checkout"
+    },
+    {
+      "bytes": 128282,
+      "identity_path": "src/mcts/mod.rs",
+      "sha256": "868b0758a7a3d0810e0d8010d0685662776d8eac9eef9a65e4e848d62ff58dc2",
+      "source": "input_checkout"
+    },
+    {
+      "bytes": 126620,
+      "identity_path": "quartz/selfplay_runtime.py",
+      "sha256": "13c0eab3d63b18c6073cb25b5b3ef04b98398ace335a0f2d49fe53e63a04b5ef",
+      "source": "input_checkout"
+    },
+    {
+      "bytes": 23842,
+      "identity_path": "quartz/runtime_support.py",
+      "sha256": "63f404a1bc97f5565525a666837857bd2557fdb98a1efdb672f14792c426b7d9",
+      "source": "input_checkout"
+    },
+    {
+      "bytes": 2346,
+      "identity_path": "quartz/models_torch.py",
+      "sha256": "82feb0cabafd2eaea382acf4fe4f070cbdc324f3c6447a512a769a7b27d30abc",
+      "source": "input_checkout"
+    },
+    {
+      "bytes": 4203643,
+      "identity_path": "results/phase15_stage7/gomoku7/training/seed_101/gen_5.pt",
+      "sha256": "887b8b9d1861857824e1aec6ca46eb8c89551c7ea3af2774becdd905d661d211",
+      "source": "input_checkout"
+    },
+    {
+      "bytes": 4203643,
+      "identity_path": "results/phase15_stage7/gomoku7/training/seed_102/gen_5.pt",
+      "sha256": "19ba1b53b5f9dae0cb36b5b538ba55d0b1d522d0973a2678172dc5a165e40291",
+      "source": "input_checkout"
+    }
+  ],
+  "input_checkout_head": "65e7d3e9596ca259ebfe523b0c74058692b6a755",
+  "permissions": "No edits to inputs, original branches, or other worktrees.",
+  "positions_lock_sha256": "83e2929179a593a6c5469b6244377d05e50a90b82e97b53694820807e168653d",
+  "scenario_count": 12,
+  "schema": "quartz_resident_fork02_inputs_v1",
+  "search_profile": "baseline_strict",
+  "seeds": [
+    17,
+    29,
+    43
+  ],
+  "source_head": "af5f5a95707a0fc443a6ee42aabefaadf9a8c5d4",
+  "threads": 1
+}
