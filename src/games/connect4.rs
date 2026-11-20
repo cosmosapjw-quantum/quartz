@@ -264,6 +264,21 @@ mod tests {
     }
 
     #[test]
+    fn exact_oracle_draw_sequence_ends_with_full_terminal_board() {
+        // Constructed by repeatedly choosing external Connect4 oracle
+        // zero-score actions from a solved drawn root until all 42 cells
+        // are filled. The final state is terminal without either winner.
+        let draw = "354544424252253123243353566766667777711111";
+        let s = Connect4::from_history(draw).expect("42 legal no-winner plies");
+        assert_eq!(s.ply_count(), 42);
+        assert_eq!(s.heights(), [6; 7]);
+        assert!(s.is_terminal());
+        assert_eq!(s.outcome(), 0.0);
+        assert!(s.legal_moves().is_empty());
+        assert!(Connect4::from_history(&(draw.to_owned() + "1")).is_err());
+    }
+
+    #[test]
     fn full_column_is_not_a_legal_move() {
         let state = Connect4::from_history("111111").unwrap();
         assert!(!state.legal_moves().contains(&0));

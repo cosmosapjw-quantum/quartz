@@ -1,0 +1,44 @@
+{
+  "frozen_experiment_binary_sha256": "738d7186e883026ad59242cb3007b3ef530ff272f76dd66cc462049a153c955f",
+  "frozen_experiment_source_commit": "1a8305f8d7a9c9fdd499364f0646ffe0787ff7ec",
+  "independent_mirror_requery_count": 12,
+  "independent_score_requery_count": 12,
+  "last_published_science_commit": "c6e06cb56f6f7ad2089442f8fedec179abd3b400",
+  "nonclaims": [
+    "Bayesian metareasoning benefit",
+    "pretrained Connect4 network",
+    "population player strength"
+  ],
+  "prior_output_hashes": {
+    "joined_action_utility.json": "35219371bf23b47c694cdbd5fdc9b2df0b870a1e5136909917f8e2b04a389429",
+    "raw_mcts_responses.json": "d7b0e9d79091fb0001cf2c2dd0cea90ff606a28a4d8c9082cb63332bf0c6bd1f",
+    "summary.json": "eed65e6d36f8e3c1b91078b20a6654969ea561daeea6a614a009c32400a6740f"
+  },
+  "python_related_research_test_result": {
+    "components": [
+      4,
+      7,
+      7,
+      7,
+      9,
+      27
+    ],
+    "failed": 0,
+    "passed": 61
+  },
+  "rust_full_test_command": "CARGO_TARGET_DIR=/home/cosmosapjw/quantum/research/quartz_connect4_20261120_target cargo test --offline --locked -- --test-threads=4",
+  "rust_full_test_result": {
+    "failed": 0,
+    "ignored": 89,
+    "passed": 577
+  },
+  "rust_source_sha256": "e57d10bc239c4809449f4d18dfed3ec713404665174fcab907b1f8aa318d4cd6",
+  "schema": "quartz_connect4_gamestate05_final_verification_v1",
+  "scientific_report_sha256": "473adb6d0628226de5d29c3547e899b5be7a80b1dd4a84a88a66d9f1553f8b37",
+  "source_scientific_claims": [
+    "finite 12-root exact external WDL utility",
+    "real same-root Rust UniformEval MCTS 8->16->32->64"
+  ],
+  "test_only_addition_after_science_experiment": "42-ply fully-drawn Connect4 terminal regression",
+  "tested_worktree_parent_commit": "c6e06cb56f6f7ad2089442f8fedec179abd3b400"
+}
