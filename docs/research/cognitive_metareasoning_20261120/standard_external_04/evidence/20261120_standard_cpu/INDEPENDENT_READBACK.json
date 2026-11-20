@@ -1,0 +1,30 @@
+{
+  "c4_mirror_symmetry_action_score_matches": 12,
+  "c4_root_score_equals_max_action_score_count": 12,
+  "c4_wdl_counts": {
+    "draw": 1,
+    "loss": 1,
+    "win": 10
+  },
+  "connect4_exact_oracle_rows": 12,
+  "files_sha256_checked": 12,
+  "game_domain_warning": "all frozen synthetic positions have even ply and black to move",
+  "gomoku_pretrained_weight_messages_checked": 12,
+  "gomoku_quartz_Rapfi_matches16": 0,
+  "gomoku_quartz_Rapfi_matches8": 0,
+  "gomoku_quartz_action_changed_count": 0,
+  "gomoku_quartz_extra_physical_nn_items": 96,
+  "gomoku_quartz_resident_root_visits_checked": 12,
+  "nonclaims": [
+    "not independently mathematically proved all Connect4 outcomes",
+    "not exact Gomoku minimax utility",
+    "not Elo or human expertise"
+  ],
+  "primary_output_files_sha256_checked": 3,
+  "schema": "quartz_standard_external_independent_audit_v1",
+  "validity": [
+    "real external Connect4 solver source/score self consistency",
+    "Rapfi NNUE weight observed loaded",
+    "QUARTZ weak smoke model only"
+  ]
+}

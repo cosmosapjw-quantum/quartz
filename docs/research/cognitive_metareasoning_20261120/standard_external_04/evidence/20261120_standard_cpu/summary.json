@@ -1,0 +1,38 @@
+{
+  "connect4": {
+    "exact_wdl_scores_from_pascalpons": true,
+    "n": 12,
+    "not_QUARTZ_search_comparison": true,
+    "status_counts": {
+      "EXACT_EXTERNAL_SOLVER": 12
+    },
+    "wdl_counts": {
+      "draw": 1,
+      "loss": 1,
+      "win": 10
+    }
+  },
+  "duration_s": 12.243405598999743,
+  "gomoku15": {
+    "extra_physical_nn_evals": 96,
+    "match16": 0,
+    "match8": 0,
+    "mean_additional_wall_ms": 100.98694683347276,
+    "n": 12,
+    "quartz_checkpoint_strength": "smoke_not_elo_validated",
+    "rapfi_mean_wall_s": 0.6038915421668207,
+    "rapfi_nnue_weight_source": "official release",
+    "signed_delta_counts": {
+      "0": 12
+    },
+    "statistically_generalizable": false
+  },
+  "nonclaims": [
+    "not_same_rules_between_games",
+    "not_minimax_gomoku_value",
+    "not_trained_strong_quartz_checkpoint",
+    "not_Bayesian_VOC",
+    "not_Elo"
+  ],
+  "schema": "quartz_standard_external_two_games_v1"
+}
