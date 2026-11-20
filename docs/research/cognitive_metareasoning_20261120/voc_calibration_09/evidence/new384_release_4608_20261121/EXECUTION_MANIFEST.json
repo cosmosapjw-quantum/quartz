@@ -1,0 +1,22 @@
+{
+  "binary_sha256": "e3c44f8630c67d0c00929f10b429f35d62805b779e025d73ce16f142100c7f78",
+  "compiled_rust_source_commit": "1c2b00c1bad2585380fee97bde65e3862dc1f25d",
+  "model_weights_resident_within_server": true,
+  "n_clusters": 24,
+  "n_cohorts": 2,
+  "n_real_release_requests": 4608,
+  "new384_cohort_sha256": "30101889eb4c17ff11ace381e6366a53b2af5130341a61e6969ac9ea091fe54e",
+  "new384_teacher_sha256": "2220c6959934b26425594a8151948a8c7140300f429303a34be733aff56ed511",
+  "no_runtime_retraining_or_hyperparam_tuning": true,
+  "old_policy_sha256": "5c634a419789382774314aae02aa023106c4e870b79f66716972ad06c2002b41",
+  "oracle_join_only_after_all_search": true,
+  "output_sha256": {
+    "PAIRED_384_NEW_FAMILY.json": "dd821ff2c65f8ed5a01630c8c7b8f777d2b04d59140757b0a019891862a0135f",
+    "RAW_4608_RELEASE_MCTS.json": "380aa027a3ee3b9ba8dbc6386cb3fcc73999a47b82639b9852f3260425e5001a",
+    "SUMMARY_CALIBRATION.json": "f33c63565b023110e63fef65512259d4c2bbbac8ee087ace229e28372b0a8fa6"
+  },
+  "release_validation_caps_sha256": "04183d8f0f518f363309af00ed07002029bc0e14e4d23e18a86402800fff5743",
+  "schema": "quartz_cog02_voc_cal09_release_test_manifest_v1",
+  "source_commit": "7b854f1b1c05e87ca7fceb6c153d630fafb30469",
+  "source_tree": "8160f793a577bd4e25b94d3da2dad8752c025202"
+}

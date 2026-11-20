@@ -1,0 +1,70 @@
+{
+  "actual_release_Rust_requests": 4608,
+  "compiled_rust_source_commit": "1c2b00c1bad2585380fee97bde65e3862dc1f25d",
+  "genuine_live_fixed16": true,
+  "independent_exact_oracle_and_mirror_queries": 48,
+  "model_cache_in_release": true,
+  "n_distinct_family_clusters": 24,
+  "n_informative_exact_WDL_roots": 229,
+  "n_roots": 384,
+  "native_subagent": "NOT_RUN",
+  "new_cohort_validation": {
+    "pooled": {
+      "adaptive_clock_cost_matched": true,
+      "uniform_adaptive_regret": 0.16927083333333334,
+      "uniform_clock_regret": 0.2578125,
+      "uniform_live16_regret": 0.2552083333333333
+    },
+    "replica_A": {
+      "adaptive_clock_cost_matched": true,
+      "uniform_adaptive_regret": 0.14583333333333334,
+      "uniform_clock_regret": 0.21354166666666666,
+      "uniform_live16_regret": 0.203125
+    },
+    "replica_B": {
+      "adaptive_clock_cost_matched": true,
+      "uniform_adaptive_regret": 0.19270833333333334,
+      "uniform_clock_regret": 0.3020833333333333,
+      "uniform_live16_regret": 0.3072916666666667
+    }
+  },
+  "new_paired_output_hashes": {
+    "PAIRED_384_NEW_FAMILY.json": "dd821ff2c65f8ed5a01630c8c7b8f777d2b04d59140757b0a019891862a0135f",
+    "RAW_4608_RELEASE_MCTS.json": "380aa027a3ee3b9ba8dbc6386cb3fcc73999a47b82639b9852f3260425e5001a",
+    "SUMMARY_CALIBRATION.json": "f33c63565b023110e63fef65512259d4c2bbbac8ee087ace229e28372b0a8fa6"
+  },
+  "old_policy_not_refit_on_new_test_data": true,
+  "python_research_suites": {
+    "components": [
+      6,
+      7,
+      10,
+      9,
+      4,
+      7,
+      7,
+      7,
+      9,
+      27
+    ],
+    "failed": 0,
+    "passed": 93
+  },
+  "release_clock_caps_from_prior_validation_only": true,
+  "rust_debug_full": {
+    "failed": 0,
+    "ignored": 89,
+    "passed": 593
+  },
+  "rust_release_binary_sha256": "e3c44f8630c67d0c00929f10b429f35d62805b779e025d73ce16f142100c7f78",
+  "rust_release_full": {
+    "failed": 0,
+    "ignored": 89,
+    "passed": 593
+  },
+  "schema": "quartz_cog02_voc_calibration09_release_live_verification_v1",
+  "statistical_status": "fixed-model conditional family cluster bootstrap, NOT stochastic search-seed replicate",
+  "study_source_git_commit": "7b854f1b1c05e87ca7fceb6c153d630fafb30469",
+  "theory_status": "empirical signed gain surrogate; true Bayesian KG unresolved",
+  "two_new_different_12family_cohorts": true
+}
