@@ -4447,11 +4447,30 @@ where
     }
 
     fn search_with_iters(&mut self, iters: u32) -> Vec<serde_json::Value> {
+        // This session retains the same MCTS engine/root between calls.
+        // Snapshot the evaluator boundary before adding the requested visits.
+        // Root expansion was already counted on engine construction.
+        let before = self
+            .engines
+            .iter()
+            .map(|maybe| {
+                maybe
+                    .as_ref()
+                    .map(|engine| {
+                        (
+                            engine.evaluator_call_count(),
+                            engine.root.n_total.load(Ordering::Relaxed),
+                        )
+                    })
+                    .unwrap_or((0, 0))
+            })
+            .collect::<Vec<_>>();
         let results = self.search_with_iters_compact(iters);
         results
             .into_iter()
             .zip(self.engines.iter())
-            .map(|(result, engine)| {
+            .zip(before)
+            .map(|((result, engine), (before_evals, before_visits))| {
                 let Some(result) = result else {
                     return serde_json::Value::Null;
                 };
@@ -4459,7 +4478,12 @@ where
                     return serde_json::Value::Null;
                 };
                 let (_, policy, _) = collect_sparse_policy(engine, self.n_actions);
+                let evaluator_calls = engine.evaluator_call_count();
                 serde_json::json!({
+                    "root_hash": format!("{:016x}", engine.root_state().tt_hash()),
+                    "evaluator_calls": evaluator_calls,
+                    "additional_evaluator_calls": evaluator_calls.saturating_sub(before_evals),
+                    "additional_root_visits": result.root_visits.saturating_sub(before_visits),
                     "best_move": result.best_move,
                     "policy": policy,
                     "time_used_ms": result.time_used_ms,
@@ -5988,6 +6012,24 @@ fn handle_search_nn_multi_session_open(line: &str) -> SearchCommandReply {
     })
 }
 
+/// Optional full-fidelity diagnostic output for resident research sessions.
+/// The ordinary binary/QIPC transport remains byte-compatible.
+fn engine_session_reply(
+    session_id: u64,
+    results: Vec<serde_json::Value>,
+    diagnostic_json: bool,
+) -> SearchCommandReply {
+    if diagnostic_json {
+        SearchCommandReply::Json(serde_json::json!({
+            "session_id": session_id,
+            "results": results,
+            "response_schema": "quartz_resident_diag_json_v1",
+        }))
+    } else {
+        SearchCommandReply::Search(SearchResponsePayload::Session { session_id, results })
+    }
+}
+
 fn handle_search_nn_multi_engine_session_open(line: &str) -> SearchCommandReply {
     let Ok(root) = serde_json::from_str::<serde_json::Value>(line) else {
         return SearchCommandReply::Json(serde_json::json!({ "error": "invalid json" }));
@@ -6225,10 +6267,10 @@ fn handle_search_nn_multi_engine_session_open(line: &str) -> SearchCommandReply 
         .lock()
         .unwrap()
         .insert(session_id, session);
-    SearchCommandReply::Search(SearchResponsePayload::Session {
-        session_id,
-        results,
-    })
+    engine_session_reply(
+        session_id, results,
+        root.get("diagnostic_json").and_then(|v| v.as_bool()).unwrap_or(false),
+    )
 }
 
 fn handle_search_nn_multi_session_step(line: &str) -> SearchCommandReply {
@@ -6300,10 +6342,10 @@ fn handle_search_nn_multi_engine_session_step(line: &str) -> SearchCommandReply 
         .lock()
         .unwrap()
         .insert(session_id, session);
-    SearchCommandReply::Search(SearchResponsePayload::Session {
-        session_id,
-        results,
-    })
+    engine_session_reply(
+        session_id, results,
+        root.get("diagnostic_json").and_then(|v| v.as_bool()).unwrap_or(false),
+    )
 }
 
 fn handle_search_nn_multi_session_close(line: &str) -> String {
@@ -7653,6 +7695,60 @@ mod tests {
         assert_eq!(parse_go_game("go9"), Some((9, GoRuleset::Chinese)));
         assert_eq!(parse_go_game("go9_jp"), Some((9, GoRuleset::Japanese)));
         assert_eq!(parse_go_game("go19_kr"), Some((19, GoRuleset::Korean)));
+    }
+
+    #[test]
+    fn test_engine_session_diagnostic_json_preserves_fields_without_changing_default() {
+        let rows = vec![serde_json::json!({
+            "root_hash": "0123456789abcdef",
+            "root_visits": 8,
+            "evaluator_calls": 9,
+            "additional_evaluator_calls": 8
+        })];
+        let diag = engine_session_reply(7, rows.clone(), true);
+        let SearchCommandReply::Json(json) = diag else {
+            panic!("research diagnostic mode must return uncompressed JSON");
+        };
+        assert_eq!(json["session_id"], 7);
+        assert_eq!(json["results"][0]["evaluator_calls"], 9);
+        assert_eq!(json["results"][0]["root_hash"], "0123456789abcdef");
+        let normal = engine_session_reply(7, rows, false);
+        let SearchCommandReply::Search(SearchResponsePayload::Session {
+            session_id, ..
+        }) = normal else {
+            panic!("ordinary session transport must remain unchanged");
+        };
+        assert_eq!(session_id, 7);
+    }
+
+    #[test]
+    fn test_engine_session_exposes_resident_root_and_evaluator_accounting() {
+        let state = Gomoku::new(7);
+        let eval: Arc<ShortRollout> = Arc::new(ShortRollout::new(4));
+        let cfg = MctsConfig::evaluation(2.0).with_seed(29);
+        let mut session = EngineSearchSession {
+            engines: vec![Some(MctsEngine::new(state, eval, cfg))],
+            cumulative_iters: vec![0],
+            n_threads: 1,
+            n_actions: 49,
+            search_profile: SearchProfile::BaselineStrict,
+        };
+        let first = session.search_with_iters(8);
+        let second = session.search_with_iters(8);
+        let prior = first[0].as_object().expect("resident first response");
+        let after = second[0].as_object().expect("resident second response");
+        assert_eq!(prior["root_visits"].as_u64(), Some(8));
+        assert_eq!(after["root_visits"].as_u64(), Some(16));
+        let root0 = prior["root_hash"].as_str().expect("root identity on first chunk");
+        let root1 = after["root_hash"].as_str().expect("root identity on next chunk");
+        assert_eq!(root0, root1, "root identity changed during extra search");
+        let n0 = prior["evaluator_calls"].as_u64().expect("first eval count");
+        let n1 = after["evaluator_calls"].as_u64().expect("second eval count");
+        assert!(n0 >= 1);
+        assert!(n1 >= n0, "cumulative evaluator count regressed");
+        assert!(n1 - n0 <= 8, "one evaluator call per additional iteration maximum");
+        assert_eq!(after["additional_evaluator_calls"].as_u64(), Some(n1 - n0));
+        assert_eq!(after["additional_root_visits"].as_u64(), Some(8));
     }
 
     #[test]
