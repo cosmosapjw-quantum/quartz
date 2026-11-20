@@ -60,6 +60,16 @@ fn handle_research_connect4_cpu(line: &str) -> serde_json::Value {
     }).unwrap_or(false) {
         return serde_json::json!({"error": "budgets must be [8,16,32,64]"});
     }
+    let time_budget_ms = match request.get("time_budget_ms") {
+        None => None,
+        Some(v) => match v.as_f64() {
+            Some(ms) if ms.is_finite() && ms > 0.0 && ms<=10000.0 => Some(ms),
+            _ => return serde_json::json!({"error": "time_budget_ms must be finite >0 and <=10000"}),
+        },
+    };
+    if time_budget_ms.is_some() && request.get("adaptive_policy").is_some() {
+        return serde_json::json!({"error": "cannot combine time cap and learned adaptive policy"});
+    }
     let seed = request.get("seed").and_then(|v| v.as_u64()).unwrap_or(17);
     let mut cfg = MctsConfig::evaluation(2.0).with_seed(seed);
     cfg.root_forced_win = false;
@@ -98,11 +108,14 @@ fn handle_research_connect4_cpu(line: &str) -> serde_json::Value {
     let mut steps = Vec::with_capacity(4);
     let mut resident16 = None;
     let mut adaptive_decisions = Vec::with_capacity(3);
+    let mut time_budget_stop_decisions = Vec::with_capacity(3);
+    let mut cumulative_root_search_wall_us = 0u128;
     let mut stopped_at_visits = 64u32;
     for target in expected_budgets {
         let t = Instant::now();
         let stats = engine.run(&mut FixedIterations::new(target));
         let elapsed_wall_us = t.elapsed().as_micros();
+        cumulative_root_search_wall_us += elapsed_wall_us;
         if stats.root_visits != target {
             return serde_json::json!({
                 "error": "resident MCTS did not exhaust budget",
@@ -160,6 +173,21 @@ fn handle_research_connect4_cpu(line: &str) -> serde_json::Value {
                 break;
             }
         }
+        if let Some(budget_ms) = time_budget_ms {
+            if target < 64 {
+                let stop = (cumulative_root_search_wall_us as f64) >= budget_ms*1000.0;
+                time_budget_stop_decisions.push(serde_json::json!({
+                    "stage_visits":target,
+                    "cumulative_search_wall_us":cumulative_root_search_wall_us,
+                    "time_budget_ms":budget_ms,
+                    "stop":stop
+                }));
+                if stop {
+                    stopped_at_visits=target;
+                    break;
+                }
+            }
+        }
     }
     let request_wall_us_without_fresh = request_started.elapsed().as_micros();
     // A genuinely new *engine*, with the same exact state and config,
@@ -196,6 +224,9 @@ fn handle_research_connect4_cpu(line: &str) -> serde_json::Value {
         "request_wall_us_without_fresh":request_wall_us_without_fresh,
         "stopped_at_visits":stopped_at_visits,
         "adaptive_decisions":adaptive_decisions,
+        "time_budget_ms":time_budget_ms,
+        "time_budget_stop_decisions":time_budget_stop_decisions,
+        "cumulative_root_search_wall_us":cumulative_root_search_wall_us,
         "root_setup_wall_us": root_setup_wall_us,
         "total_request_wall_us_including_fresh16": request_started.elapsed().as_micros(),
         "history": sequence,
@@ -7913,6 +7944,33 @@ mod tests {
             panic!("ordinary session transport must remain unchanged");
         };
         assert_eq!(session_id, 7);
+    }
+
+    #[test]
+    fn test_cog02_time_cap_is_a_real_checkpoint_walltime_stop() {
+        let early=serde_json::json!({
+            "history":"4433226223","time_budget_ms":0.001,
+            "seed":17,"budgets":[8,16,32,64]
+        });
+        let small=handle_research_connect4_cpu(&early.to_string());
+        assert!(small.get("error").is_none(), "{small}");
+        assert_eq!(small["stopped_at_visits"],8);
+        assert_eq!(small["steps"].as_array().unwrap().len(),1);
+        assert_eq!(small["time_budget_stop_decisions"][0]["stop"],true);
+        assert_eq!(small["fresh16"]["available"],false);
+        let long=serde_json::json!({
+            "history":"4433226223","time_budget_ms":1000.0,
+            "seed":17,"budgets":[8,16,32,64]
+        });
+        let full=handle_research_connect4_cpu(&long.to_string());
+        assert!(full.get("error").is_none(), "{full}");
+        assert_eq!(full["stopped_at_visits"],64);
+        assert_eq!(full["steps"].as_array().unwrap().len(),4);
+        assert_eq!(full["fresh16"]["resident_match"],true);
+        let invalid=serde_json::json!({
+            "history":"4433226223","time_budget_ms":-1.0
+        });
+        assert!(handle_research_connect4_cpu(&invalid.to_string()).get("error").is_some());
     }
 
     #[test]

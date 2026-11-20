@@ -73,4 +73,12 @@ class CostedVoc08Tests(unittest.TestCase):
         with self.assertRaises(ValueError):
             classify_outcome(-1000)
 
+class TimeCapContractTests(unittest.TestCase):
+    def test_checkpoint_time_cap_is_not_exact_per_iteration_hard_cap(self):
+        from calibrate_time_cap08 import selected_budget_and_cost
+        row={'search_stage_wall_ms':[2.0,3.0,4.0,5.0]}
+        self.assertEqual(selected_budget_and_cost(row,0.25),(8,2.0))
+        self.assertEqual(selected_budget_and_cost(row,3.0),(16,5.0))
+        self.assertEqual(selected_budget_and_cost(row,100.0),(64,14.0))
+
 if __name__=='__main__':unittest.main()
