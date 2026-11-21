@@ -1,0 +1,17 @@
+{
+  "C14_source_sha256": "a744fa5166cb1cd54ec274128238649e7305a1ae3c4f15b894f35559602f5a9c",
+  "Rapfi_24_real_pretrained_results_sha256": "918698a83d17309e7bd18a0762c248afe5d61f86c613b36f26691958021bda36",
+  "Rust_optimized_binary_sha256": "435dfe735306f5bf4313f466d828e9569394b93ae04c487bc0c5e25e38682b14",
+  "Rust_optimized_source_commit": "7b64a681d7f0be37d10eb4417d079499a3fe1d45",
+  "n_Rust_requests": 192,
+  "n_same_root_stage_executions": 384,
+  "output_sha256": {
+    "PAIRED_24_COMPARISON.json": "b493bb127fd85314d5190e0b4bd43f49015fc4632b10b825881584e9c613bb79",
+    "RAW_192_REAL_RUST_SEARCHES.json": "89ea46a96d095163bdae73a18297c5df1efdb878283c63a8d574a8c4a3daf580",
+    "SUMMARY_REAL_15X15.json": "e43c63c3843ac9da1909f9e983c425be49884c0d3ffd7470a41505a4946b4ff3"
+  },
+  "schema": "quartz_cog04_highbranch14_actual_CPU_trained_reference_execution_v1",
+  "source_commit": "03c85329844adcb953c45ebcfd1f064c0a248cd7",
+  "source_tree": "1d93aaddf247a923c34a35dc6c5ebd7ceb7c7c5b",
+  "teacher_read_only_after_all_Rust_search_finished": true
+}
