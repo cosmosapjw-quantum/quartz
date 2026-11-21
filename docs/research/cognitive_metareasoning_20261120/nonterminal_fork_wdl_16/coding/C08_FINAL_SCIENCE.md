@@ -1,0 +1,31 @@
+# C8. Full actual native CPU root experiment and real complete-game WDL
+
+**Parent provenance:** same C15 frozen log-linear policy SHA256 5ff8286dcc57192b79e960ba096bc5067c78d439a212eaa69d523f68835a3b83; native C16 executable SHA256 1168f2979936a283a9e7e613b869fd30ec9aba826e15ac228c6ee9d7e7e4c4d3. Frozen C04 cohort8349441f247f720028f8534ac4abf656be56f8ac58778191de900722b4af1049. Experiment runner and WDL protocol frozen/published at C07 1a668e53460bd089fccac092ca33cded231f07fb; all 195 source-root results were separately frozen/published at C08A 03599faa0f3fd18becaac8c9470584c9f270bd81. Full 32 games were completed using original C07 code, stored in append-only progress and published at C08B 45af01d5dedd6e9b3ef6afb7754f538640acd3ed. A variable-shadowing bug **after** the last native game caused only summary serialization to fail. Minimal repair reuses the exact same 32 completed-game records with no rerun/retuning, and raw append-only file SHA256 a118b4848d87b441c0a9d46e87da384ebd485c05d17559714d77f91b57a83d84 was unchanged after summary generation.
+
+## I. 39 heldout roots × five REAL Rust policies =195 requests
+
+Source cohorts: 23 independent *constructed RNG* roots with a strongly shared motif, and 16 distinct seed-prefix plus actual QUARTZ-played roots. C05 smoke fork-000 excluded from heldout. C16 20,000us per-move true native wall time includes all new source certificate scans + MCTS, policy eval and setup, not model disk load or serialized output.
+- Constructed: actual certificate reactivation **23/23**; proof-choice explicitly selected a source-only 3-ply certified winning action **23/23**. But original learned_all_legal MCTS, fork mask, proof choice, sham mask and top16 *all* selected a certified action **23/23**. Consequently finite binary forced-win action effect **0**, even though 23 source roots had omitted certified actions. Mask vs full final moves differ only **1/23** (both certified). Achieved wall CPU mean mask 20,083.870us vs full20,052.348us, 0.157% relative mismatch, predeclared separate10% gate PASS.
+- Actually played source: reactivated omitted forks **0/16**; all five arms certified selected action **2/16** and mask-vs-full final move differs **1/16** (top16 restriction alone, not reactivation). Achieved wall CPU mean mask20,078.750us vs full20,084.375us, 0.028% mismatch, separate10% gate PASS. **General played-root conditional reopening impact NOT_ESTIMABLE**, insufficient actual heldout trigger support.
+
+**New posttest, explicitly exploratory derivation:**
+Let F(s) be the set of theorem-certified actions, K16(s) the top16 set, and E(s) all legal actions. Define binary force-win reachability R(S)=1{F(s) intersects S}. Then
+R(E)-R(K16) = 1{F(s) intersects K16 is empty AND F(s) outside K16 is nonempty}.
+This is a simple but crucial *value-equivalence admission* theorem: **having any omitted winning move is not the same as having an effective omitted winning move**. Independently recomputed from archived source (coding/posthoc_reach16.py, explicitly POSTTEST), *all 23 constructed* had both omitted and already-admitted certificates; NONE of 23 had strictly missed binary force-win reachability. On all16 played roots, no omitted certificate was found. Therefore strict effective miss 0/39; structural controller test could not possibly improve *binary existence of a provable winning action*, even if it reopens 23/23 of those redundant candidates. This was derived from observed shortcomings; do not misrepresent it as a prospective success gate.
+
+## II. 32 ACTUAL FULL Freestyle15 games, 8 paired openings, two color swaps
+
+Source histories from C04 actual C15-MCTS-played 12-ply roots (after seeded four-move prefixes); fresh completed games from C07 immutable real native Rust interface. Per-turn source history and final selected move, actual original MCTS per-move wall time, proof trigger and root invariants saved in evidence/real_games16/COMPLETED_GAMES.jsonl (32 lines). Entire full-game trace and scored summaries serialized after the packaging-only repair. No simulated WDL or Rapfi test label.
+
+| Intervention vs learned_all_legal | Games | W | D | L | Score | Actual proof triggers / overrides |
+| --- | ---: | ---: | ---: | ---: | ---: | --- |
+| learned_fork_mask | 16 | 8 | 0 | 8 | 0.500 | 0 / 0 |
+| learned_fork_proof_choice | 16 | 9 | 0 | 7 | 0.5625 | 0 / 0 |
+
+All real games terminated with legal Freestyle5 (independent C9 replay pending), from eight small parent opening clusters with swapped roles. Mean native measured decision CPU wall: mask20,075.07us/move (104 played moves), proof-choice20,075.48us/move (113 played moves). **Neither proof reactivation nor proof override happened in any of the 32 games**. The apparent 9–7 vs8–8 discrepancy is not evidence for the unused proof mechanism: same controller has identical behavior when no cert fires, but finite wall deadlines introduce timing variations. The score difference is an unreplicated finite-sample outcome and no Elo/population WDL can be inferred from eight blocks.
+
+## Scope and next
+
+The constructed case confirms a sound implementation of known threat-space proof logic and equal wall-time comparison. It did not validate independent MCTS benefit from additional proof-backed actions. The real games directly measure complete Freestyle terminal outcomes but observed **zero causal exposure** to the new mechanism. The next scientific model must require effective miss: no already-admitted certified action, some excluded certified action, and ideally independently generated normal played-game source families. Additional 3-ply/5-ply nonterminal cases and matched CPU are needed; do not retune C16 after test.
+
+**Evidence:** evidence/real_root16_blind/{RAW_ROOT_195.json,C08_ROOT_RULE_SCORE.json,C08_POSTTEST_REACHABILITY.json}, evidence/real_games16/{COMPLETED_GAMES.jsonl,RAW_32_ACTUAL_COMPLETE_GAMES.json,C08_WDL_SUMMARY.json}. C9 independent rule, statistics and byte/restoration audit is still required before a final implementation-verified closeout.

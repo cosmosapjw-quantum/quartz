@@ -1,0 +1,50 @@
+{
+  "arms": {
+    "learned_fork_mask": {
+      "D": 0,
+      "L": 8,
+      "W": 8,
+      "mean_game_score": 0.5,
+      "mean_native_cpu_per_move_us": 20075.06730769231,
+      "n_actual_moves_after_openings": 104,
+      "n_fork_reopen_events": 0,
+      "n_games": 16,
+      "n_proof_overrides": 0,
+      "pair_scores_by_opening": [
+        0.5,
+        0.5,
+        0.5,
+        0.5,
+        0.5,
+        0.5,
+        0.5,
+        0.5
+      ]
+    },
+    "learned_fork_proof_choice": {
+      "D": 0,
+      "L": 7,
+      "W": 9,
+      "mean_game_score": 0.5625,
+      "mean_native_cpu_per_move_us": 20075.477876106193,
+      "n_actual_moves_after_openings": 113,
+      "n_fork_reopen_events": 0,
+      "n_games": 16,
+      "n_proof_overrides": 0,
+      "pair_scores_by_opening": [
+        0.5,
+        0.5,
+        1.0,
+        0.5,
+        0.5,
+        0.5,
+        0.5,
+        0.5
+      ]
+    }
+  },
+  "n_games": 32,
+  "n_paired_source_openings": 8,
+  "schema": "quartz_cog06_C08_pair_WDL_summary_v1",
+  "source_raw_sha256": "f710f1fea59d2c44aa08292b1b8a839cbac7ee6617a36b8033ba54537ab21b84"
+}
