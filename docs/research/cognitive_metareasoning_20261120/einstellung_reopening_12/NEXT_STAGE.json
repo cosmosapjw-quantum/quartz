@@ -1,0 +1,106 @@
+{
+  "schema": "quartz_cog03_einstellung12_handoff_v1",
+  "completed_id": "QUARTZ-COG-03-EINSTELLUNG-REOPENING-12",
+  "parent_commit": "6dbdcaeab28b2325fbd7f0a0326c51b214b339f3",
+  "research_branch": "research/quartz-cog03-einstellung-reopening-20261121",
+  "last_experiment_source_commit": "f9b7caa45a420f09f1ed7665c827b8e6a6c8ea6e",
+  "last_published_evidence_commit": "b5e5e2be401a160c5683775dda28752ff0644f2a",
+  "science_state": {
+    "engineered_root_candidate_mask": "IMPLEMENTATION_VERIFIED_ONLY_ROOT_AND_NOT_DESCENDANTS",
+    "actual_tactical_evidence_reopen": "IMPLEMENTATION_VERIFIED_NO_EXACT_ORACLE_RUNTIME",
+    "actual_two_root_searches_each": "8_PLUS_16_FRESH_TREE_NOT_SAME_RESIDENT_TREE",
+    "heldout_MLP_gain_vs_closed_and_random": "NUMERICALLY_CHECKED_CONDITIONAL_24_FAMILIES",
+    "heldout_Conv_gain_vs_closed_and_random": "NUMERICALLY_CHECKED_CONDITIONAL_24_FAMILIES",
+    "Uniform_candidate_recovery": "NEGATIVE_ZERO_WDL_IMPROVEMENT",
+    "unrestricted_root_MCTS": "NUMERICALLY_LOWER_MEAN_REGRET_THAN_SELECTIVE_REOPENING",
+    "superiority_over_unrestricted": "NOT_ESTABLISHED",
+    "human_Einstellung_mechanism": "NOT_TESTED",
+    "true_Bayesian_VOC": "NOT_IMPLEMENTED",
+    "native_subagent": "NOT_RUN"
+  },
+  "sources": {
+    "report": "docs/research/cognitive_metareasoning_20261120/einstellung_reopening_12/RESULTS_AND_NEXT_KO.md",
+    "contract": "docs/research/cognitive_metareasoning_20261120/einstellung_reopening_12/CONTRACT_KO.md",
+    "original_input_lock": "docs/research/cognitive_metareasoning_20261120/einstellung_reopening_12/INPUT_LOCK.json",
+    "new_heldout_cohort": "docs/research/cognitive_metareasoning_20261120/einstellung_reopening_12/COHORT_384_FROZEN.json",
+    "new_exact_oracle": "docs/research/cognitive_metareasoning_20261120/einstellung_reopening_12/evidence/new_384_exact_20261121/EXACT_NEW384_LABELS.json",
+    "actual_release_9216_raw": "docs/research/cognitive_metareasoning_20261120/einstellung_reopening_12/evidence/live_9216_20261121/RAW_9216_RELEASE_ROOT_RESTARTS.json",
+    "actual_release_summary": "docs/research/cognitive_metareasoning_20261120/einstellung_reopening_12/evidence/live_9216_20261121/SUMMARY_REOPEN12.json",
+    "independent_audit": "docs/research/cognitive_metareasoning_20261120/einstellung_reopening_12/evidence/live_9216_20261121/INDEPENDENT_READBACK.json",
+    "verification_receipt": "docs/research/cognitive_metareasoning_20261120/einstellung_reopening_12/evidence/live_9216_20261121/VERIFICATION_RECEIPT.json",
+    "actual_Rust_root_gate": "src/games/connect4.rs",
+    "actual_Rust_legal_tactics": "src/mcts/reopening12.rs",
+    "actual_Rust_CPU_endpoint": "src/mcts_server/reopening12_cpu_server.rs"
+  },
+  "byte_identity": {
+    "frozen_source_sha256": "31e86dcda897a540f7914ee123e929e30dadf8a8e93117f98c8cd137abed380a",
+    "exact_384_7column_oracle_SHA256": "0e018e813e77fc2e0a25688824c63b9adb10d4a9fc047dcdad92a72b48d78012",
+    "compiled_release_CPU_Rust_executable_SHA256": "af4c64eaad0ff325d390d30a661bb292d090a80709cd1ec048964c0d54a07a8e",
+    "compiled_research_Rust_source_commit": "afdc426d8062f227c8affc3d571fd2bc42d1bb36"
+  },
+  "results": {
+    "new_roots": 384,
+    "new_opening_families": 24,
+    "WDl_informative": 240,
+    "actual_Rust_requests": 9216,
+    "actual_independent_tree_searches": 18432,
+    "MLP_regret_closed": 0.2578125,
+    "MLP_regret_evidence": 0.15364583333333334,
+    "MLP_regret_unrestricted": 0.13020833333333334,
+    "MLP_triggered_count": 79,
+    "MLP_eligible_decisive_omission": 38,
+    "MLP_decisive_reopened": 23,
+    "MLP_selected_WDL_improved": 21,
+    "Conv_regret_closed": 0.2109375,
+    "Conv_regret_evidence": 0.140625,
+    "Conv_regret_unrestricted": 0.1171875,
+    "Conv_triggered_count": 54,
+    "Conv_eligible_decisive_omission": 30,
+    "Conv_decisive_reopened": 16,
+    "Conv_selected_WDL_improved": 15,
+    "Uniform_regret_closed": 0.3567708333333333,
+    "Uniform_regret_evidence": 0.3567708333333333,
+    "Uniform_regret_unrestricted": 0.23177083333333334,
+    "Uniform_decisive_reopened": 0,
+    "all_24family_CI_exclude_zero_vs_closed_for_MLP_Conv": true,
+    "all_24family_CI_exclude_zero_vs_random_3arms_for_MLP_Conv": true,
+    "both_new_groups_same_direction_MLP_Conv_vs_closed": true,
+    "unrestricted_better_in_mean_MLP_Conv_Uniform": true
+  },
+  "tests": {
+    "Rust_debug": {
+      "passed": 601,
+      "failed": 0,
+      "ignored": 89
+    },
+    "Rust_release": {
+      "passed": 601,
+      "failed": 0,
+      "ignored": 89
+    },
+    "Python_related": {
+      "passed": 123,
+      "failed": 0
+    },
+    "external_additional_requeries": {
+      "original": 24,
+      "horizontal_mirror": 24
+    }
+  },
+  "next_id": "QUARTZ-COG-03-RESIDENT-REOPENING-13",
+  "next_scope": "Actual same-tree incremental root candidate reactivation and a fair physical CPU test against an unrestricted all-legal root, followed only on separately authorized research node by possible 15x15 Gomoku/Renju pretrained-engine transfer.",
+  "acceptance": [
+    "Real active root edge candidates can be inserted/activated without restarting or losing first-stage tree statistics and without changing full-game descendant legality",
+    "Root TT key and evaluator prior weights remain consistent after resident root expansion, with unit and integration tests",
+    "Freeze a new independently disjoint opening-family test and intervention without reading external score labels",
+    "Demonstrate exact WDL move recovery and root candidate rank transitions with posthoc oracle only",
+    "Compare same-tree reopening versus unrestricted normal MCTS at actually matched wall CPU including tactical probe/overhead; both cohorts and family-cluster CI",
+    "Preserve a negative result and stop rather than undertaking an arbitrary validation meta-loop",
+    "15x15 Gomoku/Renju and Rapfi external pretrained engine require new game-rule and model-protocol identity lock, not extrapolation"
+  ],
+  "not_started": true,
+  "original_developer_checkout_untouched": true,
+  "Dropbox_cloud_sync_and_restore_test": "NOT_RUN",
+  "local_backup_directory": "/home/cosmosapjw/Dropbox/personal_projects/quartz_cog01_backups",
+  "native_subagent": "NOT_RUN"
+}
