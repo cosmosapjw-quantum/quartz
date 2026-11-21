@@ -1,0 +1,8479 @@
+{
+  "C15_policy_model_sha256": "5ff8286dcc57192b79e960ba096bc5067c78d439a212eaa69d523f68835a3b83",
+  "C15_real_native_binary_sha256": "1bf102650e28c9f0bbe9515f2f6e7d1d0c00a15f2646f78498ea79a9710d8527",
+  "C15_real_native_immutable_binary": "/home/cosmosapjw/quantum/research/quartz_cog05_20261121/target/release/mcts_demo",
+  "all_D4_canonical_boards_distinct": true,
+  "constructed_motif_shared_between_sources": true,
+  "construction_is_stratified_not_game_population": true,
+  "data_splits": {
+    "constructed_fork_positive": [
+      {
+        "forks_before_experiment": [
+          {
+            "action": 133,
+            "prior_rank": 1,
+            "winning_endpoints": [
+              73,
+              148
+            ]
+          },
+          {
+            "action": 73,
+            "prior_rank": 2,
+            "winning_endpoints": [
+              58,
+              133
+            ]
+          },
+          {
+            "action": 187,
+            "prior_rank": 3,
+            "winning_endpoints": [
+              183,
+              188
+            ]
+          },
+          {
+            "action": 127,
+            "prior_rank": 4,
+            "winning_endpoints": [
+              123,
+              128
+            ]
+          },
+          {
+            "action": 95,
+            "prior_rank": 5,
+            "winning_endpoints": [
+              91,
+              96
+            ]
+          },
+          {
+            "action": 8,
+            "prior_rank": 7,
+            "winning_endpoints": [
+              4,
+              9
+            ]
+          },
+          {
+            "action": 156,
+            "prior_rank": 9,
+            "winning_endpoints": [
+              152,
+              157
+            ]
+          },
+          {
+            "action": 78,
+            "prior_rank": 10,
+            "winning_endpoints": [
+              48,
+              110
+            ]
+          },
+          {
+            "action": 139,
+            "prior_rank": 11,
+            "winning_endpoints": [
+              109,
+              169
+            ]
+          },
+          {
+            "action": 123,
+            "prior_rank": 13,
+            "winning_endpoints": [
+              122,
+              127
+            ]
+          },
+          {
+            "action": 48,
+            "prior_rank": 14,
+            "winning_endpoints": [
+              20,
+              78
+            ]
+          },
+          {
+            "action": 109,
+            "prior_rank": 15,
+            "winning_endpoints": [
+              79,
+              139
+            ]
+          },
+          {
+            "action": 65,
+            "prior_rank": 16,
+            "winning_endpoints": [
+              61,
+              66
+            ]
+          },
+          {
+            "action": 170,
+            "prior_rank": 17,
+            "winning_endpoints": [
+              140,
+              200
+            ]
+          },
+          {
+            "action": 169,
+            "prior_rank": 18,
+            "winning_endpoints": [
+              139,
+              201
+            ]
+          },
+          {
+            "action": 79,
+            "prior_rank": 19,
+            "winning_endpoints": [
+              49,
+              109
+            ]
+          },
+          {
+            "action": 218,
+            "prior_rank": 20,
+            "winning_endpoints": [
+              214,
+              219
+            ]
+          },
+          {
+            "action": 35,
+            "prior_rank": 21,
+            "winning_endpoints": [
+              31,
+              36
+            ]
+          },
+          {
+            "action": 183,
+            "prior_rank": 25,
+            "winning_endpoints": [
+              182,
+              187
+            ]
+          },
+          {
+            "action": 91,
+            "prior_rank": 26,
+            "winning_endpoints": [
+              90,
+              95
+            ]
+          },
+          {
+            "action": 61,
+            "prior_rank": 27,
+            "winning_endpoints": [
+              60,
+              65
+            ]
+          },
+          {
+            "action": 152,
+            "prior_rank": 28,
+            "winning_endpoints": [
+              151,
+              156
+            ]
+          },
+          {
+            "action": 4,
+            "prior_rank": 30,
+            "winning_endpoints": [
+              3,
+              8
+            ]
+          },
+          {
+            "action": 214,
+            "prior_rank": 31,
+            "winning_endpoints": [
+              213,
+              218
+            ]
+          },
+          {
+            "action": 31,
+            "prior_rank": 32,
+            "winning_endpoints": [
+              30,
+              35
+            ]
+          }
+        ],
+        "history": [
+          126,
+          176,
+          32,
+          41,
+          184,
+          29,
+          154,
+          101,
+          93,
+          207,
+          64,
+          72,
+          34,
+          104,
+          215,
+          12,
+          103,
+          70,
+          185,
+          205,
+          63,
+          59,
+          124,
+          116,
+          5,
+          40,
+          118,
+          209,
+          216,
+          102,
+          7,
+          147,
+          94,
+          26,
+          153,
+          119,
+          217,
+          132,
+          155,
+          221,
+          186,
+          42,
+          33,
+          177,
+          92,
+          115,
+          88,
+          149,
+          125,
+          145,
+          6,
+          131,
+          62,
+          10
+        ],
+        "id": "fork-000",
+        "omitted_forks_before_experiment": [
+          {
+            "action": 170,
+            "prior_rank": 17,
+            "winning_endpoints": [
+              140,
+              200
+            ]
+          },
+          {
+            "action": 169,
+            "prior_rank": 18,
+            "winning_endpoints": [
+              139,
+              201
+            ]
+          },
+          {
+            "action": 79,
+            "prior_rank": 19,
+            "winning_endpoints": [
+              49,
+              109
+            ]
+          },
+          {
+            "action": 218,
+            "prior_rank": 20,
+            "winning_endpoints": [
+              214,
+              219
+            ]
+          },
+          {
+            "action": 35,
+            "prior_rank": 21,
+            "winning_endpoints": [
+              31,
+              36
+            ]
+          },
+          {
+            "action": 183,
+            "prior_rank": 25,
+            "winning_endpoints": [
+              182,
+              187
+            ]
+          },
+          {
+            "action": 91,
+            "prior_rank": 26,
+            "winning_endpoints": [
+              90,
+              95
+            ]
+          },
+          {
+            "action": 61,
+            "prior_rank": 27,
+            "winning_endpoints": [
+              60,
+              65
+            ]
+          },
+          {
+            "action": 152,
+            "prior_rank": 28,
+            "winning_endpoints": [
+              151,
+              156
+            ]
+          },
+          {
+            "action": 4,
+            "prior_rank": 30,
+            "winning_endpoints": [
+              3,
+              8
+            ]
+          },
+          {
+            "action": 214,
+            "prior_rank": 31,
+            "winning_endpoints": [
+              213,
+              218
+            ]
+          },
+          {
+            "action": 31,
+            "prior_rank": 32,
+            "winning_endpoints": [
+              30,
+              35
+            ]
+          }
+        ],
+        "parent_game_id": "constructed_independent_rng_202611210777",
+        "rule": "freestyle",
+        "source_groups_not_independent_motifs": true,
+        "source_seed": 202611210777,
+        "source_type": "engineered_fork_positive_nonIID"
+      },
+      {
+        "forks_before_experiment": [
+          {
+            "action": 73,
+            "prior_rank": 1,
+            "winning_endpoints": [
+              58,
+              133
+            ]
+          },
+          {
+            "action": 133,
+            "prior_rank": 2,
+            "winning_endpoints": [
+              73,
+              148
+            ]
+          },
+          {
+            "action": 97,
+            "prior_rank": 3,
+            "winning_endpoints": [
+              93,
+              98
+            ]
+          },
+          {
+            "action": 66,
+            "prior_rank": 4,
+            "winning_endpoints": [
+              62,
+              67
+            ]
+          },
+          {
+            "action": 125,
+            "prior_rank": 5,
+            "winning_endpoints": [
+              121,
+              126
+            ]
+          },
+          {
+            "action": 157,
+            "prior_rank": 6,
+            "winning_endpoints": [
+              153,
+              158
+            ]
+          },
+          {
+            "action": 79,
+            "prior_rank": 8,
+            "winning_endpoints": [
+              49,
+              109
+            ]
+          },
+          {
+            "action": 93,
+            "prior_rank": 9,
+            "winning_endpoints": [
+              92,
+              97
+            ]
+          },
+          {
+            "action": 109,
+            "prior_rank": 10,
+            "winning_endpoints": [
+              79,
+              139
+            ]
+          },
+          {
+            "action": 153,
+            "prior_rank": 11,
+            "winning_endpoints": [
+              152,
+              157
+            ]
+          },
+          {
+            "action": 49,
+            "prior_rank": 12,
+            "winning_endpoints": [
+              19,
+              79
+            ]
+          },
+          {
+            "action": 139,
+            "prior_rank": 13,
+            "winning_endpoints": [
+              109,
+              169
+            ]
+          },
+          {
+            "action": 35,
+            "prior_rank": 14,
+            "winning_endpoints": [
+              31,
+              36
+            ]
+          },
+          {
+            "action": 185,
+            "prior_rank": 15,
+            "winning_endpoints": [
+              181,
+              186
+            ]
+          },
+          {
+            "action": 48,
+            "prior_rank": 16,
+            "winning_endpoints": [
+              18,
+              80
+            ]
+          },
+          {
+            "action": 217,
+            "prior_rank": 17,
+            "winning_endpoints": [
+              213,
+              218
+            ]
+          },
+          {
+            "action": 6,
+            "prior_rank": 18,
+            "winning_endpoints": [
+              2,
+              7
+            ]
+          },
+          {
+            "action": 169,
+            "prior_rank": 19,
+            "winning_endpoints": [
+              139,
+              199
+            ]
+          },
+          {
+            "action": 62,
+            "prior_rank": 20,
+            "winning_endpoints": [
+              61,
+              66
+            ]
+          },
+          {
+            "action": 121,
+            "prior_rank": 23,
+            "winning_endpoints": [
+              120,
+              125
+            ]
+          },
+          {
+            "action": 213,
+            "prior_rank": 27,
+            "winning_endpoints": [
+              212,
+              217
+            ]
+          },
+          {
+            "action": 31,
+            "prior_rank": 28,
+            "winning_endpoints": [
+              30,
+              35
+            ]
+          },
+          {
+            "action": 181,
+            "prior_rank": 30,
+            "winning_endpoints": [
+              180,
+              185
+            ]
+          },
+          {
+            "action": 2,
+            "prior_rank": 35,
+            "winning_endpoints": [
+              1,
+              6
+            ]
+          }
+        ],
+        "history": [
+          155,
+          10,
+          64,
+          42,
+          183,
+          175,
+          34,
+          205,
+          156,
+          209,
+          63,
+          27,
+          214,
+          85,
+          103,
+          192,
+          124,
+          222,
+          215,
+          102,
+          3,
+          55,
+          122,
+          224,
+          65,
+          206,
+          182,
+          177,
+          94,
+          134,
+          123,
+          26,
+          118,
+          117,
+          32,
+          41,
+          95,
+          57,
+          216,
+          191,
+          5,
+          132,
+          33,
+          14,
+          96,
+          101,
+          88,
+          145,
+          154,
+          25,
+          184,
+          194,
+          4,
+          130
+        ],
+        "id": "fork-001",
+        "omitted_forks_before_experiment": [
+          {
+            "action": 217,
+            "prior_rank": 17,
+            "winning_endpoints": [
+              213,
+              218
+            ]
+          },
+          {
+            "action": 6,
+            "prior_rank": 18,
+            "winning_endpoints": [
+              2,
+              7
+            ]
+          },
+          {
+            "action": 169,
+            "prior_rank": 19,
+            "winning_endpoints": [
+              139,
+              199
+            ]
+          },
+          {
+            "action": 62,
+            "prior_rank": 20,
+            "winning_endpoints": [
+              61,
+              66
+            ]
+          },
+          {
+            "action": 121,
+            "prior_rank": 23,
+            "winning_endpoints": [
+              120,
+              125
+            ]
+          },
+          {
+            "action": 213,
+            "prior_rank": 27,
+            "winning_endpoints": [
+              212,
+              217
+            ]
+          },
+          {
+            "action": 31,
+            "prior_rank": 28,
+            "winning_endpoints": [
+              30,
+              35
+            ]
+          },
+          {
+            "action": 181,
+            "prior_rank": 30,
+            "winning_endpoints": [
+              180,
+              185
+            ]
+          },
+          {
+            "action": 2,
+            "prior_rank": 35,
+            "winning_endpoints": [
+              1,
+              6
+            ]
+          }
+        ],
+        "parent_game_id": "constructed_independent_rng_202611220784",
+        "rule": "freestyle",
+        "source_groups_not_independent_motifs": true,
+        "source_seed": 202611220784,
+        "source_type": "engineered_fork_positive_nonIID"
+      },
+      {
+        "forks_before_experiment": [
+          {
+            "action": 133,
+            "prior_rank": 1,
+            "winning_endpoints": [
+              73,
+              148
+            ]
+          },
+          {
+            "action": 73,
+            "prior_rank": 2,
+            "winning_endpoints": [
+              58,
+              133
+            ]
+          },
+          {
+            "action": 126,
+            "prior_rank": 3,
+            "winning_endpoints": [
+              122,
+              127
+            ]
+          },
+          {
+            "action": 156,
+            "prior_rank": 4,
+            "winning_endpoints": [
+              152,
+              157
+            ]
+          },
+          {
+            "action": 37,
+            "prior_rank": 5,
+            "winning_endpoints": [
+              33,
+              38
+            ]
+          },
+          {
+            "action": 139,
+            "prior_rank": 6,
+            "winning_endpoints": [
+              109,
+              171
+            ]
+          },
+          {
+            "action": 95,
+            "prior_rank": 7,
+            "winning_endpoints": [
+              91,
+              96
+            ]
+          },
+          {
+            "action": 109,
+            "prior_rank": 8,
+            "winning_endpoints": [
+              79,
+              139
+            ]
+          },
+          {
+            "action": 78,
+            "prior_rank": 9,
+            "winning_endpoints": [
+              50,
+              108
+            ]
+          },
+          {
+            "action": 108,
+            "prior_rank": 10,
+            "winning_endpoints": [
+              78,
+              138
+            ]
+          },
+          {
+            "action": 65,
+            "prior_rank": 11,
+            "winning_endpoints": [
+              61,
+              66
+            ]
+          },
+          {
+            "action": 188,
+            "prior_rank": 12,
+            "winning_endpoints": [
+              184,
+              189
+            ]
+          },
+          {
+            "action": 216,
+            "prior_rank": 14,
+            "winning_endpoints": [
+              212,
+              217
+            ]
+          },
+          {
+            "action": 122,
+            "prior_rank": 15,
+            "winning_endpoints": [
+              121,
+              126
+            ]
+          },
+          {
+            "action": 79,
+            "prior_rank": 16,
+            "winning_endpoints": [
+              49,
+              109
+            ]
+          },
+          {
+            "action": 184,
+            "prior_rank": 17,
+            "winning_endpoints": [
+              183,
+              188
+            ]
+          },
+          {
+            "action": 170,
+            "prior_rank": 20,
+            "winning_endpoints": [
+              140,
+              200
+            ]
+          },
+          {
+            "action": 33,
+            "prior_rank": 21,
+            "winning_endpoints": [
+              32,
+              37
+            ]
+          },
+          {
+            "action": 49,
+            "prior_rank": 23,
+            "winning_endpoints": [
+              19,
+              79
+            ]
+          },
+          {
+            "action": 91,
+            "prior_rank": 24,
+            "winning_endpoints": [
+              90,
+              95
+            ]
+          },
+          {
+            "action": 152,
+            "prior_rank": 25,
+            "winning_endpoints": [
+              151,
+              156
+            ]
+          },
+          {
+            "action": 5,
+            "prior_rank": 27,
+            "winning_endpoints": [
+              1,
+              6
+            ]
+          },
+          {
+            "action": 61,
+            "prior_rank": 29,
+            "winning_endpoints": [
+              60,
+              65
+            ]
+          },
+          {
+            "action": 212,
+            "prior_rank": 33,
+            "winning_endpoints": [
+              211,
+              216
+            ]
+          },
+          {
+            "action": 1,
+            "prior_rank": 34,
+            "winning_endpoints": [
+              0,
+              5
+            ]
+          }
+        ],
+        "history": [
+          103,
+          145,
+          34,
+          224,
+          63,
+          41,
+          215,
+          162,
+          155,
+          177,
+          123,
+          130,
+          35,
+          160,
+          94,
+          134,
+          125,
+          191,
+          153,
+          131,
+          4,
+          86,
+          92,
+          222,
+          214,
+          104,
+          64,
+          29,
+          186,
+          87,
+          3,
+          147,
+          88,
+          206,
+          187,
+          85,
+          118,
+          164,
+          124,
+          26,
+          185,
+          72,
+          2,
+          176,
+          213,
+          11,
+          93,
+          40,
+          36,
+          25,
+          62,
+          74,
+          154,
+          44
+        ],
+        "id": "fork-002",
+        "omitted_forks_before_experiment": [
+          {
+            "action": 184,
+            "prior_rank": 17,
+            "winning_endpoints": [
+              183,
+              188
+            ]
+          },
+          {
+            "action": 170,
+            "prior_rank": 20,
+            "winning_endpoints": [
+              140,
+              200
+            ]
+          },
+          {
+            "action": 33,
+            "prior_rank": 21,
+            "winning_endpoints": [
+              32,
+              37
+            ]
+          },
+          {
+            "action": 49,
+            "prior_rank": 23,
+            "winning_endpoints": [
+              19,
+              79
+            ]
+          },
+          {
+            "action": 91,
+            "prior_rank": 24,
+            "winning_endpoints": [
+              90,
+              95
+            ]
+          },
+          {
+            "action": 152,
+            "prior_rank": 25,
+            "winning_endpoints": [
+              151,
+              156
+            ]
+          },
+          {
+            "action": 5,
+            "prior_rank": 27,
+            "winning_endpoints": [
+              1,
+              6
+            ]
+          },
+          {
+            "action": 61,
+            "prior_rank": 29,
+            "winning_endpoints": [
+              60,
+              65
+            ]
+          },
+          {
+            "action": 212,
+            "prior_rank": 33,
+            "winning_endpoints": [
+              211,
+              216
+            ]
+          },
+          {
+            "action": 1,
+            "prior_rank": 34,
+            "winning_endpoints": [
+              0,
+              5
+            ]
+          }
+        ],
+        "parent_game_id": "constructed_independent_rng_202611230791",
+        "rule": "freestyle",
+        "source_groups_not_independent_motifs": true,
+        "source_seed": 202611230791,
+        "source_type": "engineered_fork_positive_nonIID"
+      },
+      {
+        "forks_before_experiment": [
+          {
+            "action": 73,
+            "prior_rank": 1,
+            "winning_endpoints": [
+              58,
+              133
+            ]
+          },
+          {
+            "action": 127,
+            "prior_rank": 2,
+            "winning_endpoints": [
+              123,
+              128
+            ]
+          },
+          {
+            "action": 133,
+            "prior_rank": 3,
+            "winning_endpoints": [
+              73,
+              148
+            ]
+          },
+          {
+            "action": 158,
+            "prior_rank": 4,
+            "winning_endpoints": [
+              154,
+              159
+            ]
+          },
+          {
+            "action": 96,
+            "prior_rank": 5,
+            "winning_endpoints": [
+              92,
+              97
+            ]
+          },
+          {
+            "action": 38,
+            "prior_rank": 7,
+            "winning_endpoints": [
+              34,
+              39
+            ]
+          },
+          {
+            "action": 66,
+            "prior_rank": 8,
+            "winning_endpoints": [
+              62,
+              67
+            ]
+          },
+          {
+            "action": 110,
+            "prior_rank": 9,
+            "winning_endpoints": [
+              80,
+              140
+            ]
+          },
+          {
+            "action": 79,
+            "prior_rank": 10,
+            "winning_endpoints": [
+              51,
+              109
+            ]
+          },
+          {
+            "action": 8,
+            "prior_rank": 11,
+            "winning_endpoints": [
+              4,
+              9
+            ]
+          },
+          {
+            "action": 109,
+            "prior_rank": 12,
+            "winning_endpoints": [
+              79,
+              141
+            ]
+          },
+          {
+            "action": 140,
+            "prior_rank": 13,
+            "winning_endpoints": [
+              110,
+              170
+            ]
+          },
+          {
+            "action": 154,
+            "prior_rank": 15,
+            "winning_endpoints": [
+              153,
+              158
+            ]
+          },
+          {
+            "action": 80,
+            "prior_rank": 17,
+            "winning_endpoints": [
+              50,
+              110
+            ]
+          },
+          {
+            "action": 123,
+            "prior_rank": 18,
+            "winning_endpoints": [
+              122,
+              127
+            ]
+          },
+          {
+            "action": 186,
+            "prior_rank": 19,
+            "winning_endpoints": [
+              182,
+              187
+            ]
+          },
+          {
+            "action": 92,
+            "prior_rank": 21,
+            "winning_endpoints": [
+              91,
+              96
+            ]
+          },
+          {
+            "action": 50,
+            "prior_rank": 22,
+            "winning_endpoints": [
+              20,
+              80
+            ]
+          },
+          {
+            "action": 170,
+            "prior_rank": 23,
+            "winning_endpoints": [
+              140,
+              198
+            ]
+          },
+          {
+            "action": 34,
+            "prior_rank": 25,
+            "winning_endpoints": [
+              33,
+              38
+            ]
+          },
+          {
+            "action": 62,
+            "prior_rank": 29,
+            "winning_endpoints": [
+              61,
+              66
+            ]
+          },
+          {
+            "action": 182,
+            "prior_rank": 31,
+            "winning_endpoints": [
+              181,
+              186
+            ]
+          },
+          {
+            "action": 215,
+            "prior_rank": 32,
+            "winning_endpoints": [
+              211,
+              216
+            ]
+          },
+          {
+            "action": 4,
+            "prior_rank": 33,
+            "winning_endpoints": [
+              3,
+              8
+            ]
+          },
+          {
+            "action": 211,
+            "prior_rank": 37,
+            "winning_endpoints": [
+              210,
+              215
+            ]
+          }
+        ],
+        "history": [
+          63,
+          175,
+          212,
+          206,
+          5,
+          207,
+          35,
+          11,
+          155,
+          71,
+          185,
+          70,
+          37,
+          179,
+          95,
+          41,
+          118,
+          42,
+          65,
+          119,
+          157,
+          132,
+          64,
+          12,
+          125,
+          101,
+          94,
+          224,
+          7,
+          145,
+          156,
+          191,
+          126,
+          100,
+          214,
+          160,
+          36,
+          222,
+          183,
+          74,
+          184,
+          192,
+          6,
+          104,
+          103,
+          44,
+          93,
+          57,
+          213,
+          161,
+          124,
+          14,
+          88,
+          102
+        ],
+        "id": "fork-003",
+        "omitted_forks_before_experiment": [
+          {
+            "action": 80,
+            "prior_rank": 17,
+            "winning_endpoints": [
+              50,
+              110
+            ]
+          },
+          {
+            "action": 123,
+            "prior_rank": 18,
+            "winning_endpoints": [
+              122,
+              127
+            ]
+          },
+          {
+            "action": 186,
+            "prior_rank": 19,
+            "winning_endpoints": [
+              182,
+              187
+            ]
+          },
+          {
+            "action": 92,
+            "prior_rank": 21,
+            "winning_endpoints": [
+              91,
+              96
+            ]
+          },
+          {
+            "action": 50,
+            "prior_rank": 22,
+            "winning_endpoints": [
+              20,
+              80
+            ]
+          },
+          {
+            "action": 170,
+            "prior_rank": 23,
+            "winning_endpoints": [
+              140,
+              198
+            ]
+          },
+          {
+            "action": 34,
+            "prior_rank": 25,
+            "winning_endpoints": [
+              33,
+              38
+            ]
+          },
+          {
+            "action": 62,
+            "prior_rank": 29,
+            "winning_endpoints": [
+              61,
+              66
+            ]
+          },
+          {
+            "action": 182,
+            "prior_rank": 31,
+            "winning_endpoints": [
+              181,
+              186
+            ]
+          },
+          {
+            "action": 215,
+            "prior_rank": 32,
+            "winning_endpoints": [
+              211,
+              216
+            ]
+          },
+          {
+            "action": 4,
+            "prior_rank": 33,
+            "winning_endpoints": [
+              3,
+              8
+            ]
+          },
+          {
+            "action": 211,
+            "prior_rank": 37,
+            "winning_endpoints": [
+              210,
+              215
+            ]
+          }
+        ],
+        "parent_game_id": "constructed_independent_rng_202611240798",
+        "rule": "freestyle",
+        "source_groups_not_independent_motifs": true,
+        "source_seed": 202611240798,
+        "source_type": "engineered_fork_positive_nonIID"
+      },
+      {
+        "forks_before_experiment": [
+          {
+            "action": 73,
+            "prior_rank": 1,
+            "winning_endpoints": [
+              58,
+              133
+            ]
+          },
+          {
+            "action": 133,
+            "prior_rank": 2,
+            "winning_endpoints": [
+              73,
+              148
+            ]
+          },
+          {
+            "action": 127,
+            "prior_rank": 3,
+            "winning_endpoints": [
+              123,
+              128
+            ]
+          },
+          {
+            "action": 67,
+            "prior_rank": 4,
+            "winning_endpoints": [
+              63,
+              68
+            ]
+          },
+          {
+            "action": 7,
+            "prior_rank": 5,
+            "winning_endpoints": [
+              3,
+              8
+            ]
+          },
+          {
+            "action": 95,
+            "prior_rank": 6,
+            "winning_endpoints": [
+              91,
+              96
+            ]
+          },
+          {
+            "action": 37,
+            "prior_rank": 7,
+            "winning_endpoints": [
+              33,
+              38
+            ]
+          },
+          {
+            "action": 50,
+            "prior_rank": 9,
+            "winning_endpoints": [
+              20,
+              78
+            ]
+          },
+          {
+            "action": 123,
+            "prior_rank": 10,
+            "winning_endpoints": [
+              122,
+              127
+            ]
+          },
+          {
+            "action": 155,
+            "prior_rank": 11,
+            "winning_endpoints": [
+              151,
+              156
+            ]
+          },
+          {
+            "action": 168,
+            "prior_rank": 12,
+            "winning_endpoints": [
+              140,
+              198
+            ]
+          },
+          {
+            "action": 109,
+            "prior_rank": 13,
+            "winning_endpoints": [
+              79,
+              139
+            ]
+          },
+          {
+            "action": 79,
+            "prior_rank": 17,
+            "winning_endpoints": [
+              49,
+              109
+            ]
+          },
+          {
+            "action": 139,
+            "prior_rank": 18,
+            "winning_endpoints": [
+              109,
+              169
+            ]
+          },
+          {
+            "action": 63,
+            "prior_rank": 19,
+            "winning_endpoints": [
+              62,
+              67
+            ]
+          },
+          {
+            "action": 185,
+            "prior_rank": 21,
+            "winning_endpoints": [
+              181,
+              186
+            ]
+          },
+          {
+            "action": 49,
+            "prior_rank": 23,
+            "winning_endpoints": [
+              19,
+              79
+            ]
+          },
+          {
+            "action": 169,
+            "prior_rank": 24,
+            "winning_endpoints": [
+              139,
+              199
+            ]
+          },
+          {
+            "action": 33,
+            "prior_rank": 25,
+            "winning_endpoints": [
+              32,
+              37
+            ]
+          },
+          {
+            "action": 91,
+            "prior_rank": 27,
+            "winning_endpoints": [
+              90,
+              95
+            ]
+          },
+          {
+            "action": 151,
+            "prior_rank": 30,
+            "winning_endpoints": [
+              150,
+              155
+            ]
+          },
+          {
+            "action": 181,
+            "prior_rank": 31,
+            "winning_endpoints": [
+              180,
+              185
+            ]
+          },
+          {
+            "action": 215,
+            "prior_rank": 32,
+            "winning_endpoints": [
+              211,
+              216
+            ]
+          },
+          {
+            "action": 3,
+            "prior_rank": 35,
+            "winning_endpoints": [
+              2,
+              7
+            ]
+          },
+          {
+            "action": 211,
+            "prior_rank": 37,
+            "winning_endpoints": [
+              210,
+              215
+            ]
+          }
+        ],
+        "history": [
+          103,
+          72,
+          66,
+          220,
+          92,
+          10,
+          4,
+          176,
+          124,
+          190,
+          213,
+          14,
+          88,
+          71,
+          6,
+          27,
+          34,
+          56,
+          214,
+          146,
+          212,
+          194,
+          36,
+          119,
+          182,
+          102,
+          64,
+          87,
+          93,
+          222,
+          35,
+          89,
+          126,
+          44,
+          5,
+          145,
+          94,
+          205,
+          153,
+          130,
+          65,
+          25,
+          125,
+          177,
+          118,
+          192,
+          152,
+          134,
+          184,
+          116,
+          183,
+          41,
+          154,
+          55
+        ],
+        "id": "fork-004",
+        "omitted_forks_before_experiment": [
+          {
+            "action": 79,
+            "prior_rank": 17,
+            "winning_endpoints": [
+              49,
+              109
+            ]
+          },
+          {
+            "action": 139,
+            "prior_rank": 18,
+            "winning_endpoints": [
+              109,
+              169
+            ]
+          },
+          {
+            "action": 63,
+            "prior_rank": 19,
+            "winning_endpoints": [
+              62,
+              67
+            ]
+          },
+          {
+            "action": 185,
+            "prior_rank": 21,
+            "winning_endpoints": [
+              181,
+              186
+            ]
+          },
+          {
+            "action": 49,
+            "prior_rank": 23,
+            "winning_endpoints": [
+              19,
+              79
+            ]
+          },
+          {
+            "action": 169,
+            "prior_rank": 24,
+            "winning_endpoints": [
+              139,
+              199
+            ]
+          },
+          {
+            "action": 33,
+            "prior_rank": 25,
+            "winning_endpoints": [
+              32,
+              37
+            ]
+          },
+          {
+            "action": 91,
+            "prior_rank": 27,
+            "winning_endpoints": [
+              90,
+              95
+            ]
+          },
+          {
+            "action": 151,
+            "prior_rank": 30,
+            "winning_endpoints": [
+              150,
+              155
+            ]
+          },
+          {
+            "action": 181,
+            "prior_rank": 31,
+            "winning_endpoints": [
+              180,
+              185
+            ]
+          },
+          {
+            "action": 215,
+            "prior_rank": 32,
+            "winning_endpoints": [
+              211,
+              216
+            ]
+          },
+          {
+            "action": 3,
+            "prior_rank": 35,
+            "winning_endpoints": [
+              2,
+              7
+            ]
+          },
+          {
+            "action": 211,
+            "prior_rank": 37,
+            "winning_endpoints": [
+              210,
+              215
+            ]
+          }
+        ],
+        "parent_game_id": "constructed_independent_rng_202611250805",
+        "rule": "freestyle",
+        "source_groups_not_independent_motifs": true,
+        "source_seed": 202611250805,
+        "source_type": "engineered_fork_positive_nonIID"
+      },
+      {
+        "forks_before_experiment": [
+          {
+            "action": 73,
+            "prior_rank": 1,
+            "winning_endpoints": [
+              58,
+              133
+            ]
+          },
+          {
+            "action": 133,
+            "prior_rank": 2,
+            "winning_endpoints": [
+              73,
+              148
+            ]
+          },
+          {
+            "action": 157,
+            "prior_rank": 3,
+            "winning_endpoints": [
+              153,
+              158
+            ]
+          },
+          {
+            "action": 126,
+            "prior_rank": 4,
+            "winning_endpoints": [
+              122,
+              127
+            ]
+          },
+          {
+            "action": 8,
+            "prior_rank": 5,
+            "winning_endpoints": [
+              4,
+              9
+            ]
+          },
+          {
+            "action": 186,
+            "prior_rank": 6,
+            "winning_endpoints": [
+              182,
+              187
+            ]
+          },
+          {
+            "action": 95,
+            "prior_rank": 7,
+            "winning_endpoints": [
+              91,
+              96
+            ]
+          },
+          {
+            "action": 68,
+            "prior_rank": 8,
+            "winning_endpoints": [
+              64,
+              69
+            ]
+          },
+          {
+            "action": 140,
+            "prior_rank": 10,
+            "winning_endpoints": [
+              108,
+              170
+            ]
+          },
+          {
+            "action": 139,
+            "prior_rank": 12,
+            "winning_endpoints": [
+              109,
+              169
+            ]
+          },
+          {
+            "action": 64,
+            "prior_rank": 13,
+            "winning_endpoints": [
+              63,
+              68
+            ]
+          },
+          {
+            "action": 170,
+            "prior_rank": 14,
+            "winning_endpoints": [
+              140,
+              200
+            ]
+          },
+          {
+            "action": 153,
+            "prior_rank": 15,
+            "winning_endpoints": [
+              152,
+              157
+            ]
+          },
+          {
+            "action": 169,
+            "prior_rank": 16,
+            "winning_endpoints": [
+              139,
+              199
+            ]
+          },
+          {
+            "action": 35,
+            "prior_rank": 17,
+            "winning_endpoints": [
+              31,
+              36
+            ]
+          },
+          {
+            "action": 217,
+            "prior_rank": 18,
+            "winning_endpoints": [
+              213,
+              218
+            ]
+          },
+          {
+            "action": 122,
+            "prior_rank": 19,
+            "winning_endpoints": [
+              121,
+              126
+            ]
+          },
+          {
+            "action": 91,
+            "prior_rank": 22,
+            "winning_endpoints": [
+              90,
+              95
+            ]
+          },
+          {
+            "action": 182,
+            "prior_rank": 23,
+            "winning_endpoints": [
+              181,
+              186
+            ]
+          },
+          {
+            "action": 4,
+            "prior_rank": 24,
+            "winning_endpoints": [
+              3,
+              8
+            ]
+          },
+          {
+            "action": 31,
+            "prior_rank": 28,
+            "winning_endpoints": [
+              30,
+              35
+            ]
+          },
+          {
+            "action": 213,
+            "prior_rank": 31,
+            "winning_endpoints": [
+              212,
+              217
+            ]
+          }
+        ],
+        "history": [
+          32,
+          86,
+          67,
+          44,
+          216,
+          115,
+          185,
+          175,
+          215,
+          206,
+          183,
+          72,
+          6,
+          176,
+          214,
+          147,
+          103,
+          10,
+          156,
+          104,
+          118,
+          101,
+          88,
+          25,
+          92,
+          12,
+          94,
+          74,
+          7,
+          29,
+          184,
+          41,
+          5,
+          116,
+          125,
+          164,
+          34,
+          149,
+          155,
+          42,
+          66,
+          205,
+          124,
+          190,
+          65,
+          85,
+          33,
+          87,
+          93,
+          179,
+          123,
+          130,
+          154,
+          11
+        ],
+        "id": "fork-005",
+        "omitted_forks_before_experiment": [
+          {
+            "action": 35,
+            "prior_rank": 17,
+            "winning_endpoints": [
+              31,
+              36
+            ]
+          },
+          {
+            "action": 217,
+            "prior_rank": 18,
+            "winning_endpoints": [
+              213,
+              218
+            ]
+          },
+          {
+            "action": 122,
+            "prior_rank": 19,
+            "winning_endpoints": [
+              121,
+              126
+            ]
+          },
+          {
+            "action": 91,
+            "prior_rank": 22,
+            "winning_endpoints": [
+              90,
+              95
+            ]
+          },
+          {
+            "action": 182,
+            "prior_rank": 23,
+            "winning_endpoints": [
+              181,
+              186
+            ]
+          },
+          {
+            "action": 4,
+            "prior_rank": 24,
+            "winning_endpoints": [
+              3,
+              8
+            ]
+          },
+          {
+            "action": 31,
+            "prior_rank": 28,
+            "winning_endpoints": [
+              30,
+              35
+            ]
+          },
+          {
+            "action": 213,
+            "prior_rank": 31,
+            "winning_endpoints": [
+              212,
+              217
+            ]
+          }
+        ],
+        "parent_game_id": "constructed_independent_rng_202611260812",
+        "rule": "freestyle",
+        "source_groups_not_independent_motifs": true,
+        "source_seed": 202611260812,
+        "source_type": "engineered_fork_positive_nonIID"
+      },
+      {
+        "forks_before_experiment": [
+          {
+            "action": 133,
+            "prior_rank": 1,
+            "winning_endpoints": [
+              73,
+              148
+            ]
+          },
+          {
+            "action": 128,
+            "prior_rank": 2,
+            "winning_endpoints": [
+              124,
+              129
+            ]
+          },
+          {
+            "action": 98,
+            "prior_rank": 3,
+            "winning_endpoints": [
+              94,
+              99
+            ]
+          },
+          {
+            "action": 111,
+            "prior_rank": 4,
+            "winning_endpoints": [
+              81,
+              139
+            ]
+          },
+          {
+            "action": 67,
+            "prior_rank": 5,
+            "winning_endpoints": [
+              63,
+              68
+            ]
+          },
+          {
+            "action": 156,
+            "prior_rank": 6,
+            "winning_endpoints": [
+              152,
+              157
+            ]
+          },
+          {
+            "action": 81,
+            "prior_rank": 9,
+            "winning_endpoints": [
+              51,
+              111
+            ]
+          },
+          {
+            "action": 80,
+            "prior_rank": 10,
+            "winning_endpoints": [
+              50,
+              110
+            ]
+          },
+          {
+            "action": 73,
+            "prior_rank": 11,
+            "winning_endpoints": [
+              58,
+              133
+            ]
+          },
+          {
+            "action": 110,
+            "prior_rank": 12,
+            "winning_endpoints": [
+              80,
+              140
+            ]
+          },
+          {
+            "action": 94,
+            "prior_rank": 13,
+            "winning_endpoints": [
+              93,
+              98
+            ]
+          },
+          {
+            "action": 124,
+            "prior_rank": 14,
+            "winning_endpoints": [
+              123,
+              128
+            ]
+          },
+          {
+            "action": 38,
+            "prior_rank": 15,
+            "winning_endpoints": [
+              34,
+              39
+            ]
+          },
+          {
+            "action": 188,
+            "prior_rank": 16,
+            "winning_endpoints": [
+              184,
+              189
+            ]
+          },
+          {
+            "action": 140,
+            "prior_rank": 17,
+            "winning_endpoints": [
+              110,
+              170
+            ]
+          },
+          {
+            "action": 50,
+            "prior_rank": 18,
+            "winning_endpoints": [
+              20,
+              80
+            ]
+          },
+          {
+            "action": 6,
+            "prior_rank": 19,
+            "winning_endpoints": [
+              2,
+              7
+            ]
+          },
+          {
+            "action": 216,
+            "prior_rank": 20,
+            "winning_endpoints": [
+              212,
+              217
+            ]
+          },
+          {
+            "action": 34,
+            "prior_rank": 22,
+            "winning_endpoints": [
+              33,
+              38
+            ]
+          },
+          {
+            "action": 184,
+            "prior_rank": 23,
+            "winning_endpoints": [
+              183,
+              188
+            ]
+          },
+          {
+            "action": 170,
+            "prior_rank": 24,
+            "winning_endpoints": [
+              140,
+              200
+            ]
+          },
+          {
+            "action": 63,
+            "prior_rank": 25,
+            "winning_endpoints": [
+              62,
+              67
+            ]
+          },
+          {
+            "action": 152,
+            "prior_rank": 30,
+            "winning_endpoints": [
+              151,
+              156
+            ]
+          },
+          {
+            "action": 2,
+            "prior_rank": 35,
+            "winning_endpoints": [
+              1,
+              6
+            ]
+          },
+          {
+            "action": 212,
+            "prior_rank": 36,
+            "winning_endpoints": [
+              211,
+              216
+            ]
+          }
+        ],
+        "history": [
+          215,
+          14,
+          126,
+          87,
+          4,
+          27,
+          66,
+          130,
+          88,
+          116,
+          96,
+          117,
+          95,
+          194,
+          185,
+          176,
+          155,
+          207,
+          64,
+          162,
+          5,
+          74,
+          125,
+          221,
+          37,
+          29,
+          35,
+          56,
+          103,
+          145,
+          127,
+          55,
+          65,
+          41,
+          186,
+          209,
+          153,
+          149,
+          214,
+          160,
+          154,
+          131,
+          118,
+          10,
+          213,
+          102,
+          3,
+          104,
+          36,
+          192,
+          97,
+          134,
+          187,
+          11
+        ],
+        "id": "fork-006",
+        "omitted_forks_before_experiment": [
+          {
+            "action": 140,
+            "prior_rank": 17,
+            "winning_endpoints": [
+              110,
+              170
+            ]
+          },
+          {
+            "action": 50,
+            "prior_rank": 18,
+            "winning_endpoints": [
+              20,
+              80
+            ]
+          },
+          {
+            "action": 6,
+            "prior_rank": 19,
+            "winning_endpoints": [
+              2,
+              7
+            ]
+          },
+          {
+            "action": 216,
+            "prior_rank": 20,
+            "winning_endpoints": [
+              212,
+              217
+            ]
+          },
+          {
+            "action": 34,
+            "prior_rank": 22,
+            "winning_endpoints": [
+              33,
+              38
+            ]
+          },
+          {
+            "action": 184,
+            "prior_rank": 23,
+            "winning_endpoints": [
+              183,
+              188
+            ]
+          },
+          {
+            "action": 170,
+            "prior_rank": 24,
+            "winning_endpoints": [
+              140,
+              200
+            ]
+          },
+          {
+            "action": 63,
+            "prior_rank": 25,
+            "winning_endpoints": [
+              62,
+              67
+            ]
+          },
+          {
+            "action": 152,
+            "prior_rank": 30,
+            "winning_endpoints": [
+              151,
+              156
+            ]
+          },
+          {
+            "action": 2,
+            "prior_rank": 35,
+            "winning_endpoints": [
+              1,
+              6
+            ]
+          },
+          {
+            "action": 212,
+            "prior_rank": 36,
+            "winning_endpoints": [
+              211,
+              216
+            ]
+          }
+        ],
+        "parent_game_id": "constructed_independent_rng_202611270819",
+        "rule": "freestyle",
+        "source_groups_not_independent_motifs": true,
+        "source_seed": 202611270819,
+        "source_type": "engineered_fork_positive_nonIID"
+      },
+      {
+        "forks_before_experiment": [
+          {
+            "action": 158,
+            "prior_rank": 1,
+            "winning_endpoints": [
+              154,
+              159
+            ]
+          },
+          {
+            "action": 128,
+            "prior_rank": 2,
+            "winning_endpoints": [
+              124,
+              129
+            ]
+          },
+          {
+            "action": 98,
+            "prior_rank": 4,
+            "winning_endpoints": [
+              94,
+              99
+            ]
+          },
+          {
+            "action": 111,
+            "prior_rank": 6,
+            "winning_endpoints": [
+              79,
+              141
+            ]
+          },
+          {
+            "action": 133,
+            "prior_rank": 7,
+            "winning_endpoints": [
+              73,
+              148
+            ]
+          },
+          {
+            "action": 141,
+            "prior_rank": 8,
+            "winning_endpoints": [
+              111,
+              171
+            ]
+          },
+          {
+            "action": 73,
+            "prior_rank": 9,
+            "winning_endpoints": [
+              58,
+              133
+            ]
+          },
+          {
+            "action": 187,
+            "prior_rank": 10,
+            "winning_endpoints": [
+              183,
+              188
+            ]
+          },
+          {
+            "action": 94,
+            "prior_rank": 12,
+            "winning_endpoints": [
+              93,
+              98
+            ]
+          },
+          {
+            "action": 124,
+            "prior_rank": 13,
+            "winning_endpoints": [
+              123,
+              128
+            ]
+          },
+          {
+            "action": 65,
+            "prior_rank": 14,
+            "winning_endpoints": [
+              61,
+              66
+            ]
+          },
+          {
+            "action": 171,
+            "prior_rank": 15,
+            "winning_endpoints": [
+              141,
+              199
+            ]
+          },
+          {
+            "action": 48,
+            "prior_rank": 16,
+            "winning_endpoints": [
+              18,
+              80
+            ]
+          },
+          {
+            "action": 140,
+            "prior_rank": 17,
+            "winning_endpoints": [
+              110,
+              170
+            ]
+          },
+          {
+            "action": 154,
+            "prior_rank": 18,
+            "winning_endpoints": [
+              153,
+              158
+            ]
+          },
+          {
+            "action": 170,
+            "prior_rank": 19,
+            "winning_endpoints": [
+              140,
+              198
+            ]
+          },
+          {
+            "action": 35,
+            "prior_rank": 21,
+            "winning_endpoints": [
+              31,
+              36
+            ]
+          },
+          {
+            "action": 183,
+            "prior_rank": 25,
+            "winning_endpoints": [
+              182,
+              187
+            ]
+          },
+          {
+            "action": 215,
+            "prior_rank": 28,
+            "winning_endpoints": [
+              211,
+              216
+            ]
+          },
+          {
+            "action": 61,
+            "prior_rank": 31,
+            "winning_endpoints": [
+              60,
+              65
+            ]
+          },
+          {
+            "action": 31,
+            "prior_rank": 32,
+            "winning_endpoints": [
+              30,
+              35
+            ]
+          },
+          {
+            "action": 5,
+            "prior_rank": 33,
+            "winning_endpoints": [
+              1,
+              6
+            ]
+          },
+          {
+            "action": 1,
+            "prior_rank": 39,
+            "winning_endpoints": [
+              0,
+              5
+            ]
+          },
+          {
+            "action": 211,
+            "prior_rank": 40,
+            "winning_endpoints": [
+              210,
+              215
+            ]
+          }
+        ],
+        "history": [
+          118,
+          222,
+          95,
+          26,
+          125,
+          44,
+          96,
+          86,
+          213,
+          59,
+          62,
+          207,
+          212,
+          27,
+          184,
+          40,
+          88,
+          29,
+          103,
+          209,
+          64,
+          12,
+          157,
+          147,
+          32,
+          194,
+          4,
+          100,
+          127,
+          130,
+          186,
+          190,
+          214,
+          146,
+          63,
+          206,
+          33,
+          220,
+          97,
+          71,
+          185,
+          85,
+          155,
+          10,
+          2,
+          160,
+          3,
+          176,
+          156,
+          132,
+          34,
+          42,
+          126,
+          102
+        ],
+        "id": "fork-007",
+        "omitted_forks_before_experiment": [
+          {
+            "action": 140,
+            "prior_rank": 17,
+            "winning_endpoints": [
+              110,
+              170
+            ]
+          },
+          {
+            "action": 154,
+            "prior_rank": 18,
+            "winning_endpoints": [
+              153,
+              158
+            ]
+          },
+          {
+            "action": 170,
+            "prior_rank": 19,
+            "winning_endpoints": [
+              140,
+              198
+            ]
+          },
+          {
+            "action": 35,
+            "prior_rank": 21,
+            "winning_endpoints": [
+              31,
+              36
+            ]
+          },
+          {
+            "action": 183,
+            "prior_rank": 25,
+            "winning_endpoints": [
+              182,
+              187
+            ]
+          },
+          {
+            "action": 215,
+            "prior_rank": 28,
+            "winning_endpoints": [
+              211,
+              216
+            ]
+          },
+          {
+            "action": 61,
+            "prior_rank": 31,
+            "winning_endpoints": [
+              60,
+              65
+            ]
+          },
+          {
+            "action": 31,
+            "prior_rank": 32,
+            "winning_endpoints": [
+              30,
+              35
+            ]
+          },
+          {
+            "action": 5,
+            "prior_rank": 33,
+            "winning_endpoints": [
+              1,
+              6
+            ]
+          },
+          {
+            "action": 1,
+            "prior_rank": 39,
+            "winning_endpoints": [
+              0,
+              5
+            ]
+          },
+          {
+            "action": 211,
+            "prior_rank": 40,
+            "winning_endpoints": [
+              210,
+              215
+            ]
+          }
+        ],
+        "parent_game_id": "constructed_independent_rng_202611280826",
+        "rule": "freestyle",
+        "source_groups_not_independent_motifs": true,
+        "source_seed": 202611280826,
+        "source_type": "engineered_fork_positive_nonIID"
+      },
+      {
+        "forks_before_experiment": [
+          {
+            "action": 73,
+            "prior_rank": 1,
+            "winning_endpoints": [
+              58,
+              133
+            ]
+          },
+          {
+            "action": 98,
+            "prior_rank": 2,
+            "winning_endpoints": [
+              94,
+              99
+            ]
+          },
+          {
+            "action": 126,
+            "prior_rank": 3,
+            "winning_endpoints": [
+              122,
+              127
+            ]
+          },
+          {
+            "action": 158,
+            "prior_rank": 4,
+            "winning_endpoints": [
+              154,
+              159
+            ]
+          },
+          {
+            "action": 133,
+            "prior_rank": 5,
+            "winning_endpoints": [
+              73,
+              148
+            ]
+          },
+          {
+            "action": 188,
+            "prior_rank": 6,
+            "winning_endpoints": [
+              184,
+              189
+            ]
+          },
+          {
+            "action": 171,
+            "prior_rank": 7,
+            "winning_endpoints": [
+              139,
+              199
+            ]
+          },
+          {
+            "action": 94,
+            "prior_rank": 8,
+            "winning_endpoints": [
+              93,
+              98
+            ]
+          },
+          {
+            "action": 65,
+            "prior_rank": 10,
+            "winning_endpoints": [
+              61,
+              66
+            ]
+          },
+          {
+            "action": 37,
+            "prior_rank": 11,
+            "winning_endpoints": [
+              33,
+              38
+            ]
+          },
+          {
+            "action": 140,
+            "prior_rank": 12,
+            "winning_endpoints": [
+              110,
+              170
+            ]
+          },
+          {
+            "action": 154,
+            "prior_rank": 13,
+            "winning_endpoints": [
+              153,
+              158
+            ]
+          },
+          {
+            "action": 184,
+            "prior_rank": 18,
+            "winning_endpoints": [
+              183,
+              188
+            ]
+          },
+          {
+            "action": 33,
+            "prior_rank": 19,
+            "winning_endpoints": [
+              32,
+              37
+            ]
+          },
+          {
+            "action": 122,
+            "prior_rank": 25,
+            "winning_endpoints": [
+              121,
+              126
+            ]
+          },
+          {
+            "action": 6,
+            "prior_rank": 26,
+            "winning_endpoints": [
+              2,
+              7
+            ]
+          },
+          {
+            "action": 215,
+            "prior_rank": 27,
+            "winning_endpoints": [
+              211,
+              216
+            ]
+          },
+          {
+            "action": 61,
+            "prior_rank": 28,
+            "winning_endpoints": [
+              60,
+              65
+            ]
+          },
+          {
+            "action": 211,
+            "prior_rank": 34,
+            "winning_endpoints": [
+              210,
+              215
+            ]
+          },
+          {
+            "action": 2,
+            "prior_rank": 45,
+            "winning_endpoints": [
+              1,
+              6
+            ]
+          }
+        ],
+        "history": [
+          97,
+          44,
+          34,
+          104,
+          156,
+          132,
+          187,
+          145,
+          125,
+          26,
+          186,
+          130,
+          96,
+          57,
+          157,
+          87,
+          4,
+          146,
+          213,
+          176,
+          63,
+          119,
+          185,
+          192,
+          5,
+          12,
+          103,
+          116,
+          88,
+          207,
+          64,
+          117,
+          36,
+          115,
+          118,
+          55,
+          212,
+          29,
+          35,
+          206,
+          62,
+          71,
+          3,
+          41,
+          155,
+          177,
+          124,
+          164,
+          123,
+          14,
+          95,
+          89,
+          214,
+          205
+        ],
+        "id": "fork-008",
+        "omitted_forks_before_experiment": [
+          {
+            "action": 184,
+            "prior_rank": 18,
+            "winning_endpoints": [
+              183,
+              188
+            ]
+          },
+          {
+            "action": 33,
+            "prior_rank": 19,
+            "winning_endpoints": [
+              32,
+              37
+            ]
+          },
+          {
+            "action": 122,
+            "prior_rank": 25,
+            "winning_endpoints": [
+              121,
+              126
+            ]
+          },
+          {
+            "action": 6,
+            "prior_rank": 26,
+            "winning_endpoints": [
+              2,
+              7
+            ]
+          },
+          {
+            "action": 215,
+            "prior_rank": 27,
+            "winning_endpoints": [
+              211,
+              216
+            ]
+          },
+          {
+            "action": 61,
+            "prior_rank": 28,
+            "winning_endpoints": [
+              60,
+              65
+            ]
+          },
+          {
+            "action": 211,
+            "prior_rank": 34,
+            "winning_endpoints": [
+              210,
+              215
+            ]
+          },
+          {
+            "action": 2,
+            "prior_rank": 45,
+            "winning_endpoints": [
+              1,
+              6
+            ]
+          }
+        ],
+        "parent_game_id": "constructed_independent_rng_202611290833",
+        "rule": "freestyle",
+        "source_groups_not_independent_motifs": true,
+        "source_seed": 202611290833,
+        "source_type": "engineered_fork_positive_nonIID"
+      },
+      {
+        "forks_before_experiment": [
+          {
+            "action": 133,
+            "prior_rank": 1,
+            "winning_endpoints": [
+              73,
+              148
+            ]
+          },
+          {
+            "action": 97,
+            "prior_rank": 2,
+            "winning_endpoints": [
+              93,
+              98
+            ]
+          },
+          {
+            "action": 67,
+            "prior_rank": 3,
+            "winning_endpoints": [
+              63,
+              68
+            ]
+          },
+          {
+            "action": 158,
+            "prior_rank": 4,
+            "winning_endpoints": [
+              154,
+              159
+            ]
+          },
+          {
+            "action": 73,
+            "prior_rank": 5,
+            "winning_endpoints": [
+              58,
+              133
+            ]
+          },
+          {
+            "action": 80,
+            "prior_rank": 7,
+            "winning_endpoints": [
+              48,
+              108
+            ]
+          },
+          {
+            "action": 125,
+            "prior_rank": 8,
+            "winning_endpoints": [
+              121,
+              126
+            ]
+          },
+          {
+            "action": 187,
+            "prior_rank": 9,
+            "winning_endpoints": [
+              183,
+              188
+            ]
+          },
+          {
+            "action": 154,
+            "prior_rank": 10,
+            "winning_endpoints": [
+              153,
+              158
+            ]
+          },
+          {
+            "action": 93,
+            "prior_rank": 12,
+            "winning_endpoints": [
+              92,
+              97
+            ]
+          },
+          {
+            "action": 79,
+            "prior_rank": 14,
+            "winning_endpoints": [
+              49,
+              109
+            ]
+          },
+          {
+            "action": 35,
+            "prior_rank": 15,
+            "winning_endpoints": [
+              31,
+              36
+            ]
+          },
+          {
+            "action": 63,
+            "prior_rank": 16,
+            "winning_endpoints": [
+              62,
+              67
+            ]
+          },
+          {
+            "action": 6,
+            "prior_rank": 18,
+            "winning_endpoints": [
+              2,
+              7
+            ]
+          },
+          {
+            "action": 49,
+            "prior_rank": 20,
+            "winning_endpoints": [
+              19,
+              79
+            ]
+          },
+          {
+            "action": 183,
+            "prior_rank": 22,
+            "winning_endpoints": [
+              182,
+              187
+            ]
+          },
+          {
+            "action": 121,
+            "prior_rank": 24,
+            "winning_endpoints": [
+              120,
+              125
+            ]
+          },
+          {
+            "action": 215,
+            "prior_rank": 25,
+            "winning_endpoints": [
+              211,
+              216
+            ]
+          },
+          {
+            "action": 31,
+            "prior_rank": 31,
+            "winning_endpoints": [
+              30,
+              35
+            ]
+          },
+          {
+            "action": 211,
+            "prior_rank": 34,
+            "winning_endpoints": [
+              210,
+              215
+            ]
+          },
+          {
+            "action": 2,
+            "prior_rank": 40,
+            "winning_endpoints": [
+              1,
+              6
+            ]
+          }
+        ],
+        "history": [
+          186,
+          207,
+          88,
+          177,
+          103,
+          40,
+          65,
+          175,
+          4,
+          57,
+          122,
+          161,
+          124,
+          115,
+          156,
+          27,
+          66,
+          104,
+          34,
+          10,
+          33,
+          131,
+          155,
+          132,
+          212,
+          194,
+          185,
+          147,
+          5,
+          176,
+          157,
+          134,
+          96,
+          85,
+          64,
+          72,
+          32,
+          25,
+          123,
+          222,
+          94,
+          221,
+          213,
+          100,
+          95,
+          101,
+          3,
+          102,
+          118,
+          44,
+          184,
+          160,
+          214,
+          149
+        ],
+        "id": "fork-009",
+        "omitted_forks_before_experiment": [
+          {
+            "action": 6,
+            "prior_rank": 18,
+            "winning_endpoints": [
+              2,
+              7
+            ]
+          },
+          {
+            "action": 49,
+            "prior_rank": 20,
+            "winning_endpoints": [
+              19,
+              79
+            ]
+          },
+          {
+            "action": 183,
+            "prior_rank": 22,
+            "winning_endpoints": [
+              182,
+              187
+            ]
+          },
+          {
+            "action": 121,
+            "prior_rank": 24,
+            "winning_endpoints": [
+              120,
+              125
+            ]
+          },
+          {
+            "action": 215,
+            "prior_rank": 25,
+            "winning_endpoints": [
+              211,
+              216
+            ]
+          },
+          {
+            "action": 31,
+            "prior_rank": 31,
+            "winning_endpoints": [
+              30,
+              35
+            ]
+          },
+          {
+            "action": 211,
+            "prior_rank": 34,
+            "winning_endpoints": [
+              210,
+              215
+            ]
+          },
+          {
+            "action": 2,
+            "prior_rank": 40,
+            "winning_endpoints": [
+              1,
+              6
+            ]
+          }
+        ],
+        "parent_game_id": "constructed_independent_rng_202611300840",
+        "rule": "freestyle",
+        "source_groups_not_independent_motifs": true,
+        "source_seed": 202611300840,
+        "source_type": "engineered_fork_positive_nonIID"
+      },
+      {
+        "forks_before_experiment": [
+          {
+            "action": 73,
+            "prior_rank": 1,
+            "winning_endpoints": [
+              58,
+              133
+            ]
+          },
+          {
+            "action": 133,
+            "prior_rank": 2,
+            "winning_endpoints": [
+              73,
+              148
+            ]
+          },
+          {
+            "action": 127,
+            "prior_rank": 3,
+            "winning_endpoints": [
+              123,
+              128
+            ]
+          },
+          {
+            "action": 98,
+            "prior_rank": 4,
+            "winning_endpoints": [
+              94,
+              99
+            ]
+          },
+          {
+            "action": 187,
+            "prior_rank": 6,
+            "winning_endpoints": [
+              183,
+              188
+            ]
+          },
+          {
+            "action": 158,
+            "prior_rank": 7,
+            "winning_endpoints": [
+              154,
+              159
+            ]
+          },
+          {
+            "action": 141,
+            "prior_rank": 8,
+            "winning_endpoints": [
+              111,
+              171
+            ]
+          },
+          {
+            "action": 8,
+            "prior_rank": 9,
+            "winning_endpoints": [
+              4,
+              9
+            ]
+          },
+          {
+            "action": 110,
+            "prior_rank": 10,
+            "winning_endpoints": [
+              80,
+              140
+            ]
+          },
+          {
+            "action": 37,
+            "prior_rank": 11,
+            "winning_endpoints": [
+              33,
+              38
+            ]
+          },
+          {
+            "action": 140,
+            "prior_rank": 12,
+            "winning_endpoints": [
+              110,
+              170
+            ]
+          },
+          {
+            "action": 66,
+            "prior_rank": 15,
+            "winning_endpoints": [
+              62,
+              67
+            ]
+          },
+          {
+            "action": 94,
+            "prior_rank": 16,
+            "winning_endpoints": [
+              93,
+              98
+            ]
+          },
+          {
+            "action": 171,
+            "prior_rank": 17,
+            "winning_endpoints": [
+              141,
+              201
+            ]
+          },
+          {
+            "action": 154,
+            "prior_rank": 18,
+            "winning_endpoints": [
+              153,
+              158
+            ]
+          },
+          {
+            "action": 80,
+            "prior_rank": 19,
+            "winning_endpoints": [
+              50,
+              110
+            ]
+          },
+          {
+            "action": 50,
+            "prior_rank": 20,
+            "winning_endpoints": [
+              20,
+              80
+            ]
+          },
+          {
+            "action": 170,
+            "prior_rank": 21,
+            "winning_endpoints": [
+              140,
+              200
+            ]
+          },
+          {
+            "action": 218,
+            "prior_rank": 24,
+            "winning_endpoints": [
+              214,
+              219
+            ]
+          },
+          {
+            "action": 123,
+            "prior_rank": 25,
+            "winning_endpoints": [
+              122,
+              127
+            ]
+          },
+          {
+            "action": 33,
+            "prior_rank": 29,
+            "winning_endpoints": [
+              32,
+              37
+            ]
+          },
+          {
+            "action": 62,
+            "prior_rank": 30,
+            "winning_endpoints": [
+              61,
+              66
+            ]
+          },
+          {
+            "action": 183,
+            "prior_rank": 31,
+            "winning_endpoints": [
+              182,
+              187
+            ]
+          },
+          {
+            "action": 4,
+            "prior_rank": 33,
+            "winning_endpoints": [
+              3,
+              8
+            ]
+          },
+          {
+            "action": 214,
+            "prior_rank": 34,
+            "winning_endpoints": [
+              213,
+              218
+            ]
+          }
+        ],
+        "history": [
+          7,
+          55,
+          155,
+          40,
+          184,
+          116,
+          65,
+          190,
+          97,
+          71,
+          118,
+          29,
+          34,
+          224,
+          5,
+          119,
+          157,
+          102,
+          6,
+          115,
+          63,
+          205,
+          64,
+          131,
+          35,
+          56,
+          156,
+          44,
+          36,
+          194,
+          103,
+          161,
+          186,
+          42,
+          217,
+          206,
+          124,
+          117,
+          185,
+          74,
+          95,
+          72,
+          88,
+          191,
+          216,
+          145,
+          126,
+          26,
+          215,
+          85,
+          125,
+          164,
+          96,
+          149
+        ],
+        "id": "fork-010",
+        "omitted_forks_before_experiment": [
+          {
+            "action": 171,
+            "prior_rank": 17,
+            "winning_endpoints": [
+              141,
+              201
+            ]
+          },
+          {
+            "action": 154,
+            "prior_rank": 18,
+            "winning_endpoints": [
+              153,
+              158
+            ]
+          },
+          {
+            "action": 80,
+            "prior_rank": 19,
+            "winning_endpoints": [
+              50,
+              110
+            ]
+          },
+          {
+            "action": 50,
+            "prior_rank": 20,
+            "winning_endpoints": [
+              20,
+              80
+            ]
+          },
+          {
+            "action": 170,
+            "prior_rank": 21,
+            "winning_endpoints": [
+              140,
+              200
+            ]
+          },
+          {
+            "action": 218,
+            "prior_rank": 24,
+            "winning_endpoints": [
+              214,
+              219
+            ]
+          },
+          {
+            "action": 123,
+            "prior_rank": 25,
+            "winning_endpoints": [
+              122,
+              127
+            ]
+          },
+          {
+            "action": 33,
+            "prior_rank": 29,
+            "winning_endpoints": [
+              32,
+              37
+            ]
+          },
+          {
+            "action": 62,
+            "prior_rank": 30,
+            "winning_endpoints": [
+              61,
+              66
+            ]
+          },
+          {
+            "action": 183,
+            "prior_rank": 31,
+            "winning_endpoints": [
+              182,
+              187
+            ]
+          },
+          {
+            "action": 4,
+            "prior_rank": 33,
+            "winning_endpoints": [
+              3,
+              8
+            ]
+          },
+          {
+            "action": 214,
+            "prior_rank": 34,
+            "winning_endpoints": [
+              213,
+              218
+            ]
+          }
+        ],
+        "parent_game_id": "constructed_independent_rng_202611310847",
+        "rule": "freestyle",
+        "source_groups_not_independent_motifs": true,
+        "source_seed": 202611310847,
+        "source_type": "engineered_fork_positive_nonIID"
+      },
+      {
+        "forks_before_experiment": [
+          {
+            "action": 133,
+            "prior_rank": 1,
+            "winning_endpoints": [
+              73,
+              148
+            ]
+          },
+          {
+            "action": 73,
+            "prior_rank": 2,
+            "winning_endpoints": [
+              58,
+              133
+            ]
+          },
+          {
+            "action": 126,
+            "prior_rank": 3,
+            "winning_endpoints": [
+              122,
+              127
+            ]
+          },
+          {
+            "action": 158,
+            "prior_rank": 4,
+            "winning_endpoints": [
+              154,
+              159
+            ]
+          },
+          {
+            "action": 97,
+            "prior_rank": 5,
+            "winning_endpoints": [
+              93,
+              98
+            ]
+          },
+          {
+            "action": 65,
+            "prior_rank": 8,
+            "winning_endpoints": [
+              61,
+              66
+            ]
+          },
+          {
+            "action": 93,
+            "prior_rank": 9,
+            "winning_endpoints": [
+              92,
+              97
+            ]
+          },
+          {
+            "action": 154,
+            "prior_rank": 10,
+            "winning_endpoints": [
+              153,
+              158
+            ]
+          },
+          {
+            "action": 49,
+            "prior_rank": 12,
+            "winning_endpoints": [
+              19,
+              79
+            ]
+          },
+          {
+            "action": 79,
+            "prior_rank": 13,
+            "winning_endpoints": [
+              49,
+              109
+            ]
+          },
+          {
+            "action": 6,
+            "prior_rank": 15,
+            "winning_endpoints": [
+              2,
+              7
+            ]
+          },
+          {
+            "action": 185,
+            "prior_rank": 17,
+            "winning_endpoints": [
+              181,
+              186
+            ]
+          },
+          {
+            "action": 36,
+            "prior_rank": 19,
+            "winning_endpoints": [
+              32,
+              37
+            ]
+          },
+          {
+            "action": 122,
+            "prior_rank": 20,
+            "winning_endpoints": [
+              121,
+              126
+            ]
+          },
+          {
+            "action": 215,
+            "prior_rank": 24,
+            "winning_endpoints": [
+              211,
+              216
+            ]
+          },
+          {
+            "action": 61,
+            "prior_rank": 26,
+            "winning_endpoints": [
+              60,
+              65
+            ]
+          },
+          {
+            "action": 181,
+            "prior_rank": 27,
+            "winning_endpoints": [
+              180,
+              185
+            ]
+          },
+          {
+            "action": 32,
+            "prior_rank": 28,
+            "winning_endpoints": [
+              31,
+              36
+            ]
+          },
+          {
+            "action": 211,
+            "prior_rank": 30,
+            "winning_endpoints": [
+              210,
+              215
+            ]
+          },
+          {
+            "action": 2,
+            "prior_rank": 37,
+            "winning_endpoints": [
+              1,
+              6
+            ]
+          }
+        ],
+        "history": [
+          184,
+          85,
+          155,
+          205,
+          4,
+          147,
+          35,
+          27,
+          95,
+          190,
+          213,
+          89,
+          34,
+          10,
+          33,
+          130,
+          124,
+          29,
+          125,
+          161,
+          63,
+          26,
+          123,
+          207,
+          103,
+          11,
+          183,
+          86,
+          94,
+          41,
+          64,
+          72,
+          118,
+          12,
+          5,
+          209,
+          88,
+          102,
+          182,
+          176,
+          62,
+          160,
+          214,
+          74,
+          96,
+          224,
+          157,
+          222,
+          156,
+          134,
+          212,
+          70,
+          3,
+          132
+        ],
+        "id": "fork-011",
+        "omitted_forks_before_experiment": [
+          {
+            "action": 185,
+            "prior_rank": 17,
+            "winning_endpoints": [
+              181,
+              186
+            ]
+          },
+          {
+            "action": 36,
+            "prior_rank": 19,
+            "winning_endpoints": [
+              32,
+              37
+            ]
+          },
+          {
+            "action": 122,
+            "prior_rank": 20,
+            "winning_endpoints": [
+              121,
+              126
+            ]
+          },
+          {
+            "action": 215,
+            "prior_rank": 24,
+            "winning_endpoints": [
+              211,
+              216
+            ]
+          },
+          {
+            "action": 61,
+            "prior_rank": 26,
+            "winning_endpoints": [
+              60,
+              65
+            ]
+          },
+          {
+            "action": 181,
+            "prior_rank": 27,
+            "winning_endpoints": [
+              180,
+              185
+            ]
+          },
+          {
+            "action": 32,
+            "prior_rank": 28,
+            "winning_endpoints": [
+              31,
+              36
+            ]
+          },
+          {
+            "action": 211,
+            "prior_rank": 30,
+            "winning_endpoints": [
+              210,
+              215
+            ]
+          },
+          {
+            "action": 2,
+            "prior_rank": 37,
+            "winning_endpoints": [
+              1,
+              6
+            ]
+          }
+        ],
+        "parent_game_id": "constructed_independent_rng_202611320854",
+        "rule": "freestyle",
+        "source_groups_not_independent_motifs": true,
+        "source_seed": 202611320854,
+        "source_type": "engineered_fork_positive_nonIID"
+      },
+      {
+        "forks_before_experiment": [
+          {
+            "action": 73,
+            "prior_rank": 1,
+            "winning_endpoints": [
+              58,
+              133
+            ]
+          },
+          {
+            "action": 98,
+            "prior_rank": 2,
+            "winning_endpoints": [
+              94,
+              99
+            ]
+          },
+          {
+            "action": 133,
+            "prior_rank": 3,
+            "winning_endpoints": [
+              73,
+              148
+            ]
+          },
+          {
+            "action": 158,
+            "prior_rank": 4,
+            "winning_endpoints": [
+              154,
+              159
+            ]
+          },
+          {
+            "action": 66,
+            "prior_rank": 5,
+            "winning_endpoints": [
+              62,
+              67
+            ]
+          },
+          {
+            "action": 38,
+            "prior_rank": 6,
+            "winning_endpoints": [
+              34,
+              39
+            ]
+          },
+          {
+            "action": 7,
+            "prior_rank": 7,
+            "winning_endpoints": [
+              3,
+              8
+            ]
+          },
+          {
+            "action": 187,
+            "prior_rank": 8,
+            "winning_endpoints": [
+              183,
+              188
+            ]
+          },
+          {
+            "action": 125,
+            "prior_rank": 9,
+            "winning_endpoints": [
+              121,
+              126
+            ]
+          },
+          {
+            "action": 94,
+            "prior_rank": 10,
+            "winning_endpoints": [
+              93,
+              98
+            ]
+          },
+          {
+            "action": 154,
+            "prior_rank": 12,
+            "winning_endpoints": [
+              153,
+              158
+            ]
+          },
+          {
+            "action": 217,
+            "prior_rank": 16,
+            "winning_endpoints": [
+              213,
+              218
+            ]
+          },
+          {
+            "action": 34,
+            "prior_rank": 17,
+            "winning_endpoints": [
+              33,
+              38
+            ]
+          },
+          {
+            "action": 50,
+            "prior_rank": 18,
+            "winning_endpoints": [
+              20,
+              80
+            ]
+          },
+          {
+            "action": 183,
+            "prior_rank": 22,
+            "winning_endpoints": [
+              182,
+              187
+            ]
+          },
+          {
+            "action": 121,
+            "prior_rank": 24,
+            "winning_endpoints": [
+              120,
+              125
+            ]
+          },
+          {
+            "action": 62,
+            "prior_rank": 25,
+            "winning_endpoints": [
+              61,
+              66
+            ]
+          },
+          {
+            "action": 213,
+            "prior_rank": 28,
+            "winning_endpoints": [
+              212,
+              217
+            ]
+          },
+          {
+            "action": 3,
+            "prior_rank": 40,
+            "winning_endpoints": [
+              2,
+              7
+            ]
+          }
+        ],
+        "history": [
+          186,
+          177,
+          103,
+          87,
+          37,
+          162,
+          155,
+          146,
+          124,
+          190,
+          97,
+          164,
+          215,
+          179,
+          64,
+          222,
+          5,
+          132,
+          157,
+          12,
+          63,
+          42,
+          184,
+          29,
+          156,
+          176,
+          65,
+          10,
+          36,
+          40,
+          95,
+          72,
+          122,
+          130,
+          4,
+          115,
+          214,
+          85,
+          216,
+          161,
+          6,
+          119,
+          96,
+          209,
+          118,
+          11,
+          123,
+          104,
+          185,
+          220,
+          88,
+          71,
+          35,
+          59
+        ],
+        "id": "fork-012",
+        "omitted_forks_before_experiment": [
+          {
+            "action": 34,
+            "prior_rank": 17,
+            "winning_endpoints": [
+              33,
+              38
+            ]
+          },
+          {
+            "action": 50,
+            "prior_rank": 18,
+            "winning_endpoints": [
+              20,
+              80
+            ]
+          },
+          {
+            "action": 183,
+            "prior_rank": 22,
+            "winning_endpoints": [
+              182,
+              187
+            ]
+          },
+          {
+            "action": 121,
+            "prior_rank": 24,
+            "winning_endpoints": [
+              120,
+              125
+            ]
+          },
+          {
+            "action": 62,
+            "prior_rank": 25,
+            "winning_endpoints": [
+              61,
+              66
+            ]
+          },
+          {
+            "action": 213,
+            "prior_rank": 28,
+            "winning_endpoints": [
+              212,
+              217
+            ]
+          },
+          {
+            "action": 3,
+            "prior_rank": 40,
+            "winning_endpoints": [
+              2,
+              7
+            ]
+          }
+        ],
+        "parent_game_id": "constructed_independent_rng_202611330861",
+        "rule": "freestyle",
+        "source_groups_not_independent_motifs": true,
+        "source_seed": 202611330861,
+        "source_type": "engineered_fork_positive_nonIID"
+      },
+      {
+        "forks_before_experiment": [
+          {
+            "action": 73,
+            "prior_rank": 1,
+            "winning_endpoints": [
+              58,
+              133
+            ]
+          },
+          {
+            "action": 133,
+            "prior_rank": 2,
+            "winning_endpoints": [
+              73,
+              148
+            ]
+          },
+          {
+            "action": 66,
+            "prior_rank": 3,
+            "winning_endpoints": [
+              62,
+              67
+            ]
+          },
+          {
+            "action": 108,
+            "prior_rank": 4,
+            "winning_endpoints": [
+              78,
+              140
+            ]
+          },
+          {
+            "action": 158,
+            "prior_rank": 5,
+            "winning_endpoints": [
+              154,
+              159
+            ]
+          },
+          {
+            "action": 95,
+            "prior_rank": 6,
+            "winning_endpoints": [
+              91,
+              96
+            ]
+          },
+          {
+            "action": 125,
+            "prior_rank": 7,
+            "winning_endpoints": [
+              121,
+              126
+            ]
+          },
+          {
+            "action": 36,
+            "prior_rank": 8,
+            "winning_endpoints": [
+              32,
+              37
+            ]
+          },
+          {
+            "action": 186,
+            "prior_rank": 9,
+            "winning_endpoints": [
+              182,
+              187
+            ]
+          },
+          {
+            "action": 49,
+            "prior_rank": 11,
+            "winning_endpoints": [
+              19,
+              79
+            ]
+          },
+          {
+            "action": 79,
+            "prior_rank": 12,
+            "winning_endpoints": [
+              49,
+              109
+            ]
+          },
+          {
+            "action": 154,
+            "prior_rank": 13,
+            "winning_endpoints": [
+              153,
+              158
+            ]
+          },
+          {
+            "action": 78,
+            "prior_rank": 15,
+            "winning_endpoints": [
+              48,
+              108
+            ]
+          },
+          {
+            "action": 6,
+            "prior_rank": 19,
+            "winning_endpoints": [
+              2,
+              7
+            ]
+          },
+          {
+            "action": 62,
+            "prior_rank": 22,
+            "winning_endpoints": [
+              61,
+              66
+            ]
+          },
+          {
+            "action": 91,
+            "prior_rank": 25,
+            "winning_endpoints": [
+              90,
+              95
+            ]
+          },
+          {
+            "action": 48,
+            "prior_rank": 26,
+            "winning_endpoints": [
+              18,
+              78
+            ]
+          },
+          {
+            "action": 121,
+            "prior_rank": 28,
+            "winning_endpoints": [
+              120,
+              125
+            ]
+          },
+          {
+            "action": 32,
+            "prior_rank": 29,
+            "winning_endpoints": [
+              31,
+              36
+            ]
+          },
+          {
+            "action": 182,
+            "prior_rank": 32,
+            "winning_endpoints": [
+              181,
+              186
+            ]
+          },
+          {
+            "action": 215,
+            "prior_rank": 33,
+            "winning_endpoints": [
+              211,
+              216
+            ]
+          },
+          {
+            "action": 2,
+            "prior_rank": 36,
+            "winning_endpoints": [
+              1,
+              6
+            ]
+          },
+          {
+            "action": 211,
+            "prior_rank": 37,
+            "winning_endpoints": [
+              210,
+              215
+            ]
+          }
+        ],
+        "history": [
+          63,
+          41,
+          184,
+          56,
+          124,
+          190,
+          65,
+          115,
+          92,
+          221,
+          4,
+          87,
+          157,
+          119,
+          64,
+          149,
+          103,
+          192,
+          33,
+          207,
+          93,
+          220,
+          88,
+          191,
+          183,
+          40,
+          94,
+          132,
+          34,
+          57,
+          214,
+          71,
+          118,
+          209,
+          212,
+          134,
+          155,
+          10,
+          35,
+          59,
+          122,
+          70,
+          3,
+          72,
+          185,
+          130,
+          156,
+          12,
+          213,
+          14,
+          5,
+          176,
+          123,
+          175
+        ],
+        "id": "fork-013",
+        "omitted_forks_before_experiment": [
+          {
+            "action": 6,
+            "prior_rank": 19,
+            "winning_endpoints": [
+              2,
+              7
+            ]
+          },
+          {
+            "action": 62,
+            "prior_rank": 22,
+            "winning_endpoints": [
+              61,
+              66
+            ]
+          },
+          {
+            "action": 91,
+            "prior_rank": 25,
+            "winning_endpoints": [
+              90,
+              95
+            ]
+          },
+          {
+            "action": 48,
+            "prior_rank": 26,
+            "winning_endpoints": [
+              18,
+              78
+            ]
+          },
+          {
+            "action": 121,
+            "prior_rank": 28,
+            "winning_endpoints": [
+              120,
+              125
+            ]
+          },
+          {
+            "action": 32,
+            "prior_rank": 29,
+            "winning_endpoints": [
+              31,
+              36
+            ]
+          },
+          {
+            "action": 182,
+            "prior_rank": 32,
+            "winning_endpoints": [
+              181,
+              186
+            ]
+          },
+          {
+            "action": 215,
+            "prior_rank": 33,
+            "winning_endpoints": [
+              211,
+              216
+            ]
+          },
+          {
+            "action": 2,
+            "prior_rank": 36,
+            "winning_endpoints": [
+              1,
+              6
+            ]
+          },
+          {
+            "action": 211,
+            "prior_rank": 37,
+            "winning_endpoints": [
+              210,
+              215
+            ]
+          }
+        ],
+        "parent_game_id": "constructed_independent_rng_202611340868",
+        "rule": "freestyle",
+        "source_groups_not_independent_motifs": true,
+        "source_seed": 202611340868,
+        "source_type": "engineered_fork_positive_nonIID"
+      },
+      {
+        "forks_before_experiment": [
+          {
+            "action": 73,
+            "prior_rank": 1,
+            "winning_endpoints": [
+              58,
+              133
+            ]
+          },
+          {
+            "action": 126,
+            "prior_rank": 2,
+            "winning_endpoints": [
+              122,
+              127
+            ]
+          },
+          {
+            "action": 97,
+            "prior_rank": 3,
+            "winning_endpoints": [
+              93,
+              98
+            ]
+          },
+          {
+            "action": 66,
+            "prior_rank": 4,
+            "winning_endpoints": [
+              62,
+              67
+            ]
+          },
+          {
+            "action": 188,
+            "prior_rank": 5,
+            "winning_endpoints": [
+              184,
+              189
+            ]
+          },
+          {
+            "action": 110,
+            "prior_rank": 6,
+            "winning_endpoints": [
+              80,
+              138
+            ]
+          },
+          {
+            "action": 218,
+            "prior_rank": 7,
+            "winning_endpoints": [
+              214,
+              219
+            ]
+          },
+          {
+            "action": 133,
+            "prior_rank": 8,
+            "winning_endpoints": [
+              73,
+              148
+            ]
+          },
+          {
+            "action": 109,
+            "prior_rank": 9,
+            "winning_endpoints": [
+              79,
+              139
+            ]
+          },
+          {
+            "action": 80,
+            "prior_rank": 10,
+            "winning_endpoints": [
+              50,
+              110
+            ]
+          },
+          {
+            "action": 155,
+            "prior_rank": 11,
+            "winning_endpoints": [
+              151,
+              156
+            ]
+          },
+          {
+            "action": 79,
+            "prior_rank": 12,
+            "winning_endpoints": [
+              49,
+              109
+            ]
+          },
+          {
+            "action": 93,
+            "prior_rank": 14,
+            "winning_endpoints": [
+              92,
+              97
+            ]
+          },
+          {
+            "action": 50,
+            "prior_rank": 16,
+            "winning_endpoints": [
+              20,
+              80
+            ]
+          },
+          {
+            "action": 6,
+            "prior_rank": 18,
+            "winning_endpoints": [
+              2,
+              7
+            ]
+          },
+          {
+            "action": 49,
+            "prior_rank": 19,
+            "winning_endpoints": [
+              19,
+              79
+            ]
+          },
+          {
+            "action": 122,
+            "prior_rank": 20,
+            "winning_endpoints": [
+              121,
+              126
+            ]
+          },
+          {
+            "action": 37,
+            "prior_rank": 21,
+            "winning_endpoints": [
+              33,
+              38
+            ]
+          },
+          {
+            "action": 184,
+            "prior_rank": 22,
+            "winning_endpoints": [
+              183,
+              188
+            ]
+          },
+          {
+            "action": 33,
+            "prior_rank": 24,
+            "winning_endpoints": [
+              32,
+              37
+            ]
+          },
+          {
+            "action": 62,
+            "prior_rank": 26,
+            "winning_endpoints": [
+              61,
+              66
+            ]
+          },
+          {
+            "action": 151,
+            "prior_rank": 28,
+            "winning_endpoints": [
+              150,
+              155
+            ]
+          },
+          {
+            "action": 214,
+            "prior_rank": 29,
+            "winning_endpoints": [
+              213,
+              218
+            ]
+          },
+          {
+            "action": 2,
+            "prior_rank": 32,
+            "winning_endpoints": [
+              1,
+              6
+            ]
+          }
+        ],
+        "history": [
+          5,
+          89,
+          65,
+          192,
+          34,
+          176,
+          215,
+          191,
+          187,
+          55,
+          96,
+          70,
+          63,
+          42,
+          64,
+          59,
+          95,
+          102,
+          103,
+          115,
+          154,
+          206,
+          94,
+          132,
+          153,
+          44,
+          3,
+          12,
+          125,
+          149,
+          186,
+          145,
+          88,
+          11,
+          152,
+          209,
+          124,
+          224,
+          217,
+          162,
+          35,
+          87,
+          123,
+          220,
+          185,
+          27,
+          216,
+          10,
+          4,
+          26,
+          36,
+          222,
+          118,
+          179
+        ],
+        "id": "fork-014",
+        "omitted_forks_before_experiment": [
+          {
+            "action": 6,
+            "prior_rank": 18,
+            "winning_endpoints": [
+              2,
+              7
+            ]
+          },
+          {
+            "action": 49,
+            "prior_rank": 19,
+            "winning_endpoints": [
+              19,
+              79
+            ]
+          },
+          {
+            "action": 122,
+            "prior_rank": 20,
+            "winning_endpoints": [
+              121,
+              126
+            ]
+          },
+          {
+            "action": 37,
+            "prior_rank": 21,
+            "winning_endpoints": [
+              33,
+              38
+            ]
+          },
+          {
+            "action": 184,
+            "prior_rank": 22,
+            "winning_endpoints": [
+              183,
+              188
+            ]
+          },
+          {
+            "action": 33,
+            "prior_rank": 24,
+            "winning_endpoints": [
+              32,
+              37
+            ]
+          },
+          {
+            "action": 62,
+            "prior_rank": 26,
+            "winning_endpoints": [
+              61,
+              66
+            ]
+          },
+          {
+            "action": 151,
+            "prior_rank": 28,
+            "winning_endpoints": [
+              150,
+              155
+            ]
+          },
+          {
+            "action": 214,
+            "prior_rank": 29,
+            "winning_endpoints": [
+              213,
+              218
+            ]
+          },
+          {
+            "action": 2,
+            "prior_rank": 32,
+            "winning_endpoints": [
+              1,
+              6
+            ]
+          }
+        ],
+        "parent_game_id": "constructed_independent_rng_202611350875",
+        "rule": "freestyle",
+        "source_groups_not_independent_motifs": true,
+        "source_seed": 202611350875,
+        "source_type": "engineered_fork_positive_nonIID"
+      },
+      {
+        "forks_before_experiment": [
+          {
+            "action": 133,
+            "prior_rank": 1,
+            "winning_endpoints": [
+              73,
+              148
+            ]
+          },
+          {
+            "action": 158,
+            "prior_rank": 2,
+            "winning_endpoints": [
+              154,
+              159
+            ]
+          },
+          {
+            "action": 73,
+            "prior_rank": 3,
+            "winning_endpoints": [
+              58,
+              133
+            ]
+          },
+          {
+            "action": 37,
+            "prior_rank": 4,
+            "winning_endpoints": [
+              33,
+              38
+            ]
+          },
+          {
+            "action": 68,
+            "prior_rank": 6,
+            "winning_endpoints": [
+              64,
+              69
+            ]
+          },
+          {
+            "action": 186,
+            "prior_rank": 7,
+            "winning_endpoints": [
+              182,
+              187
+            ]
+          },
+          {
+            "action": 108,
+            "prior_rank": 8,
+            "winning_endpoints": [
+              80,
+              140
+            ]
+          },
+          {
+            "action": 95,
+            "prior_rank": 9,
+            "winning_endpoints": [
+              91,
+              96
+            ]
+          },
+          {
+            "action": 125,
+            "prior_rank": 10,
+            "winning_endpoints": [
+              121,
+              126
+            ]
+          },
+          {
+            "action": 64,
+            "prior_rank": 11,
+            "winning_endpoints": [
+              63,
+              68
+            ]
+          },
+          {
+            "action": 154,
+            "prior_rank": 12,
+            "winning_endpoints": [
+              153,
+              158
+            ]
+          },
+          {
+            "action": 6,
+            "prior_rank": 14,
+            "winning_endpoints": [
+              2,
+              7
+            ]
+          },
+          {
+            "action": 33,
+            "prior_rank": 22,
+            "winning_endpoints": [
+              32,
+              37
+            ]
+          },
+          {
+            "action": 91,
+            "prior_rank": 24,
+            "winning_endpoints": [
+              90,
+              95
+            ]
+          },
+          {
+            "action": 121,
+            "prior_rank": 25,
+            "winning_endpoints": [
+              120,
+              125
+            ]
+          },
+          {
+            "action": 217,
+            "prior_rank": 26,
+            "winning_endpoints": [
+              213,
+              218
+            ]
+          },
+          {
+            "action": 182,
+            "prior_rank": 28,
+            "winning_endpoints": [
+              181,
+              186
+            ]
+          },
+          {
+            "action": 2,
+            "prior_rank": 30,
+            "winning_endpoints": [
+              1,
+              6
+            ]
+          },
+          {
+            "action": 213,
+            "prior_rank": 34,
+            "winning_endpoints": [
+              212,
+              217
+            ]
+          }
+        ],
+        "history": [
+          93,
+          179,
+          66,
+          42,
+          3,
+          206,
+          4,
+          11,
+          88,
+          101,
+          214,
+          12,
+          156,
+          194,
+          157,
+          205,
+          34,
+          104,
+          36,
+          55,
+          35,
+          134,
+          123,
+          209,
+          5,
+          100,
+          215,
+          72,
+          118,
+          192,
+          155,
+          146,
+          103,
+          87,
+          94,
+          85,
+          184,
+          145,
+          183,
+          10,
+          67,
+          117,
+          216,
+          86,
+          92,
+          190,
+          122,
+          56,
+          65,
+          89,
+          185,
+          222,
+          124,
+          25
+        ],
+        "id": "fork-015",
+        "omitted_forks_before_experiment": [
+          {
+            "action": 33,
+            "prior_rank": 22,
+            "winning_endpoints": [
+              32,
+              37
+            ]
+          },
+          {
+            "action": 91,
+            "prior_rank": 24,
+            "winning_endpoints": [
+              90,
+              95
+            ]
+          },
+          {
+            "action": 121,
+            "prior_rank": 25,
+            "winning_endpoints": [
+              120,
+              125
+            ]
+          },
+          {
+            "action": 217,
+            "prior_rank": 26,
+            "winning_endpoints": [
+              213,
+              218
+            ]
+          },
+          {
+            "action": 182,
+            "prior_rank": 28,
+            "winning_endpoints": [
+              181,
+              186
+            ]
+          },
+          {
+            "action": 2,
+            "prior_rank": 30,
+            "winning_endpoints": [
+              1,
+              6
+            ]
+          },
+          {
+            "action": 213,
+            "prior_rank": 34,
+            "winning_endpoints": [
+              212,
+              217
+            ]
+          }
+        ],
+        "parent_game_id": "constructed_independent_rng_202611360882",
+        "rule": "freestyle",
+        "source_groups_not_independent_motifs": true,
+        "source_seed": 202611360882,
+        "source_type": "engineered_fork_positive_nonIID"
+      },
+      {
+        "forks_before_experiment": [
+          {
+            "action": 73,
+            "prior_rank": 1,
+            "winning_endpoints": [
+              58,
+              133
+            ]
+          },
+          {
+            "action": 158,
+            "prior_rank": 2,
+            "winning_endpoints": [
+              154,
+              159
+            ]
+          },
+          {
+            "action": 188,
+            "prior_rank": 3,
+            "winning_endpoints": [
+              184,
+              189
+            ]
+          },
+          {
+            "action": 133,
+            "prior_rank": 4,
+            "winning_endpoints": [
+              73,
+              148
+            ]
+          },
+          {
+            "action": 171,
+            "prior_rank": 5,
+            "winning_endpoints": [
+              139,
+              201
+            ]
+          },
+          {
+            "action": 67,
+            "prior_rank": 6,
+            "winning_endpoints": [
+              63,
+              68
+            ]
+          },
+          {
+            "action": 37,
+            "prior_rank": 7,
+            "winning_endpoints": [
+              33,
+              38
+            ]
+          },
+          {
+            "action": 108,
+            "prior_rank": 8,
+            "winning_endpoints": [
+              80,
+              140
+            ]
+          },
+          {
+            "action": 95,
+            "prior_rank": 9,
+            "winning_endpoints": [
+              91,
+              96
+            ]
+          },
+          {
+            "action": 125,
+            "prior_rank": 10,
+            "winning_endpoints": [
+              121,
+              126
+            ]
+          },
+          {
+            "action": 50,
+            "prior_rank": 14,
+            "winning_endpoints": [
+              20,
+              78
+            ]
+          },
+          {
+            "action": 217,
+            "prior_rank": 16,
+            "winning_endpoints": [
+              213,
+              218
+            ]
+          },
+          {
+            "action": 154,
+            "prior_rank": 17,
+            "winning_endpoints": [
+              153,
+              158
+            ]
+          },
+          {
+            "action": 79,
+            "prior_rank": 20,
+            "winning_endpoints": [
+              49,
+              109
+            ]
+          },
+          {
+            "action": 63,
+            "prior_rank": 21,
+            "winning_endpoints": [
+              62,
+              67
+            ]
+          },
+          {
+            "action": 184,
+            "prior_rank": 23,
+            "winning_endpoints": [
+              183,
+              188
+            ]
+          },
+          {
+            "action": 91,
+            "prior_rank": 30,
+            "winning_endpoints": [
+              90,
+              95
+            ]
+          },
+          {
+            "action": 121,
+            "prior_rank": 31,
+            "winning_endpoints": [
+              120,
+              125
+            ]
+          },
+          {
+            "action": 33,
+            "prior_rank": 32,
+            "winning_endpoints": [
+              32,
+              37
+            ]
+          },
+          {
+            "action": 8,
+            "prior_rank": 34,
+            "winning_endpoints": [
+              4,
+              9
+            ]
+          },
+          {
+            "action": 4,
+            "prior_rank": 36,
+            "winning_endpoints": [
+              3,
+              8
+            ]
+          },
+          {
+            "action": 213,
+            "prior_rank": 39,
+            "winning_endpoints": [
+              212,
+              217
+            ]
+          }
+        ],
+        "history": [
+          94,
+          176,
+          5,
+          190,
+          66,
+          42,
+          65,
+          132,
+          187,
+          25,
+          34,
+          162,
+          6,
+          130,
+          186,
+          71,
+          118,
+          179,
+          156,
+          86,
+          123,
+          57,
+          155,
+          205,
+          35,
+          55,
+          185,
+          175,
+          64,
+          222,
+          157,
+          59,
+          215,
+          74,
+          92,
+          192,
+          93,
+          116,
+          214,
+          194,
+          122,
+          89,
+          7,
+          149,
+          88,
+          26,
+          103,
+          224,
+          36,
+          85,
+          216,
+          115,
+          124,
+          87
+        ],
+        "id": "fork-016",
+        "omitted_forks_before_experiment": [
+          {
+            "action": 154,
+            "prior_rank": 17,
+            "winning_endpoints": [
+              153,
+              158
+            ]
+          },
+          {
+            "action": 79,
+            "prior_rank": 20,
+            "winning_endpoints": [
+              49,
+              109
+            ]
+          },
+          {
+            "action": 63,
+            "prior_rank": 21,
+            "winning_endpoints": [
+              62,
+              67
+            ]
+          },
+          {
+            "action": 184,
+            "prior_rank": 23,
+            "winning_endpoints": [
+              183,
+              188
+            ]
+          },
+          {
+            "action": 91,
+            "prior_rank": 30,
+            "winning_endpoints": [
+              90,
+              95
+            ]
+          },
+          {
+            "action": 121,
+            "prior_rank": 31,
+            "winning_endpoints": [
+              120,
+              125
+            ]
+          },
+          {
+            "action": 33,
+            "prior_rank": 32,
+            "winning_endpoints": [
+              32,
+              37
+            ]
+          },
+          {
+            "action": 8,
+            "prior_rank": 34,
+            "winning_endpoints": [
+              4,
+              9
+            ]
+          },
+          {
+            "action": 4,
+            "prior_rank": 36,
+            "winning_endpoints": [
+              3,
+              8
+            ]
+          },
+          {
+            "action": 213,
+            "prior_rank": 39,
+            "winning_endpoints": [
+              212,
+              217
+            ]
+          }
+        ],
+        "parent_game_id": "constructed_independent_rng_202611370889",
+        "rule": "freestyle",
+        "source_groups_not_independent_motifs": true,
+        "source_seed": 202611370889,
+        "source_type": "engineered_fork_positive_nonIID"
+      },
+      {
+        "forks_before_experiment": [
+          {
+            "action": 133,
+            "prior_rank": 1,
+            "winning_endpoints": [
+              73,
+              148
+            ]
+          },
+          {
+            "action": 73,
+            "prior_rank": 2,
+            "winning_endpoints": [
+              58,
+              133
+            ]
+          },
+          {
+            "action": 128,
+            "prior_rank": 3,
+            "winning_endpoints": [
+              124,
+              129
+            ]
+          },
+          {
+            "action": 96,
+            "prior_rank": 4,
+            "winning_endpoints": [
+              92,
+              97
+            ]
+          },
+          {
+            "action": 68,
+            "prior_rank": 5,
+            "winning_endpoints": [
+              64,
+              69
+            ]
+          },
+          {
+            "action": 37,
+            "prior_rank": 6,
+            "winning_endpoints": [
+              33,
+              38
+            ]
+          },
+          {
+            "action": 124,
+            "prior_rank": 7,
+            "winning_endpoints": [
+              123,
+              128
+            ]
+          },
+          {
+            "action": 155,
+            "prior_rank": 9,
+            "winning_endpoints": [
+              151,
+              156
+            ]
+          },
+          {
+            "action": 64,
+            "prior_rank": 11,
+            "winning_endpoints": [
+              63,
+              68
+            ]
+          },
+          {
+            "action": 168,
+            "prior_rank": 12,
+            "winning_endpoints": [
+              140,
+              198
+            ]
+          },
+          {
+            "action": 80,
+            "prior_rank": 13,
+            "winning_endpoints": [
+              50,
+              110
+            ]
+          },
+          {
+            "action": 50,
+            "prior_rank": 14,
+            "winning_endpoints": [
+              18,
+              80
+            ]
+          },
+          {
+            "action": 185,
+            "prior_rank": 16,
+            "winning_endpoints": [
+              181,
+              186
+            ]
+          },
+          {
+            "action": 33,
+            "prior_rank": 21,
+            "winning_endpoints": [
+              32,
+              37
+            ]
+          },
+          {
+            "action": 92,
+            "prior_rank": 23,
+            "winning_endpoints": [
+              91,
+              96
+            ]
+          },
+          {
+            "action": 5,
+            "prior_rank": 24,
+            "winning_endpoints": [
+              1,
+              6
+            ]
+          },
+          {
+            "action": 151,
+            "prior_rank": 26,
+            "winning_endpoints": [
+              150,
+              155
+            ]
+          },
+          {
+            "action": 216,
+            "prior_rank": 27,
+            "winning_endpoints": [
+              212,
+              217
+            ]
+          },
+          {
+            "action": 181,
+            "prior_rank": 29,
+            "winning_endpoints": [
+              180,
+              185
+            ]
+          },
+          {
+            "action": 1,
+            "prior_rank": 36,
+            "winning_endpoints": [
+              0,
+              5
+            ]
+          },
+          {
+            "action": 212,
+            "prior_rank": 38,
+            "winning_endpoints": [
+              211,
+              216
+            ]
+          }
+        ],
+        "history": [
+          93,
+          134,
+          4,
+          162,
+          214,
+          145,
+          118,
+          131,
+          2,
+          72,
+          126,
+          27,
+          154,
+          56,
+          88,
+          29,
+          183,
+          222,
+          3,
+          149,
+          67,
+          59,
+          152,
+          161,
+          125,
+          146,
+          34,
+          71,
+          35,
+          12,
+          127,
+          115,
+          36,
+          175,
+          153,
+          100,
+          184,
+          41,
+          95,
+          164,
+          65,
+          224,
+          213,
+          132,
+          103,
+          10,
+          94,
+          117,
+          215,
+          209,
+          182,
+          192,
+          66,
+          74
+        ],
+        "id": "fork-017",
+        "omitted_forks_before_experiment": [
+          {
+            "action": 33,
+            "prior_rank": 21,
+            "winning_endpoints": [
+              32,
+              37
+            ]
+          },
+          {
+            "action": 92,
+            "prior_rank": 23,
+            "winning_endpoints": [
+              91,
+              96
+            ]
+          },
+          {
+            "action": 5,
+            "prior_rank": 24,
+            "winning_endpoints": [
+              1,
+              6
+            ]
+          },
+          {
+            "action": 151,
+            "prior_rank": 26,
+            "winning_endpoints": [
+              150,
+              155
+            ]
+          },
+          {
+            "action": 216,
+            "prior_rank": 27,
+            "winning_endpoints": [
+              212,
+              217
+            ]
+          },
+          {
+            "action": 181,
+            "prior_rank": 29,
+            "winning_endpoints": [
+              180,
+              185
+            ]
+          },
+          {
+            "action": 1,
+            "prior_rank": 36,
+            "winning_endpoints": [
+              0,
+              5
+            ]
+          },
+          {
+            "action": 212,
+            "prior_rank": 38,
+            "winning_endpoints": [
+              211,
+              216
+            ]
+          }
+        ],
+        "parent_game_id": "constructed_independent_rng_202611380896",
+        "rule": "freestyle",
+        "source_groups_not_independent_motifs": true,
+        "source_seed": 202611380896,
+        "source_type": "engineered_fork_positive_nonIID"
+      },
+      {
+        "forks_before_experiment": [
+          {
+            "action": 133,
+            "prior_rank": 1,
+            "winning_endpoints": [
+              73,
+              148
+            ]
+          },
+          {
+            "action": 96,
+            "prior_rank": 2,
+            "winning_endpoints": [
+              92,
+              97
+            ]
+          },
+          {
+            "action": 73,
+            "prior_rank": 3,
+            "winning_endpoints": [
+              58,
+              133
+            ]
+          },
+          {
+            "action": 66,
+            "prior_rank": 4,
+            "winning_endpoints": [
+              62,
+              67
+            ]
+          },
+          {
+            "action": 38,
+            "prior_rank": 5,
+            "winning_endpoints": [
+              34,
+              39
+            ]
+          },
+          {
+            "action": 125,
+            "prior_rank": 6,
+            "winning_endpoints": [
+              121,
+              126
+            ]
+          },
+          {
+            "action": 79,
+            "prior_rank": 7,
+            "winning_endpoints": [
+              51,
+              109
+            ]
+          },
+          {
+            "action": 157,
+            "prior_rank": 8,
+            "winning_endpoints": [
+              153,
+              158
+            ]
+          },
+          {
+            "action": 109,
+            "prior_rank": 9,
+            "winning_endpoints": [
+              79,
+              139
+            ]
+          },
+          {
+            "action": 6,
+            "prior_rank": 13,
+            "winning_endpoints": [
+              2,
+              7
+            ]
+          },
+          {
+            "action": 153,
+            "prior_rank": 14,
+            "winning_endpoints": [
+              152,
+              157
+            ]
+          },
+          {
+            "action": 92,
+            "prior_rank": 15,
+            "winning_endpoints": [
+              91,
+              96
+            ]
+          },
+          {
+            "action": 139,
+            "prior_rank": 16,
+            "winning_endpoints": [
+              109,
+              169
+            ]
+          },
+          {
+            "action": 185,
+            "prior_rank": 17,
+            "winning_endpoints": [
+              181,
+              186
+            ]
+          },
+          {
+            "action": 217,
+            "prior_rank": 18,
+            "winning_endpoints": [
+              213,
+              218
+            ]
+          },
+          {
+            "action": 34,
+            "prior_rank": 19,
+            "winning_endpoints": [
+              33,
+              38
+            ]
+          },
+          {
+            "action": 50,
+            "prior_rank": 20,
+            "winning_endpoints": [
+              20,
+              80
+            ]
+          },
+          {
+            "action": 169,
+            "prior_rank": 22,
+            "winning_endpoints": [
+              139,
+              199
+            ]
+          },
+          {
+            "action": 62,
+            "prior_rank": 23,
+            "winning_endpoints": [
+              61,
+              66
+            ]
+          },
+          {
+            "action": 121,
+            "prior_rank": 25,
+            "winning_endpoints": [
+              120,
+              125
+            ]
+          },
+          {
+            "action": 213,
+            "prior_rank": 28,
+            "winning_endpoints": [
+              212,
+              217
+            ]
+          },
+          {
+            "action": 181,
+            "prior_rank": 29,
+            "winning_endpoints": [
+              180,
+              185
+            ]
+          },
+          {
+            "action": 2,
+            "prior_rank": 32,
+            "winning_endpoints": [
+              1,
+              6
+            ]
+          }
+        ],
+        "history": [
+          35,
+          25,
+          184,
+          179,
+          65,
+          71,
+          37,
+          175,
+          118,
+          192,
+          214,
+          11,
+          124,
+          147,
+          122,
+          57,
+          154,
+          87,
+          3,
+          220,
+          93,
+          115,
+          5,
+          14,
+          95,
+          162,
+          182,
+          176,
+          183,
+          134,
+          123,
+          86,
+          215,
+          10,
+          64,
+          194,
+          94,
+          42,
+          156,
+          222,
+          36,
+          56,
+          63,
+          160,
+          216,
+          44,
+          88,
+          85,
+          103,
+          74,
+          155,
+          146,
+          4,
+          40
+        ],
+        "id": "fork-018",
+        "omitted_forks_before_experiment": [
+          {
+            "action": 185,
+            "prior_rank": 17,
+            "winning_endpoints": [
+              181,
+              186
+            ]
+          },
+          {
+            "action": 217,
+            "prior_rank": 18,
+            "winning_endpoints": [
+              213,
+              218
+            ]
+          },
+          {
+            "action": 34,
+            "prior_rank": 19,
+            "winning_endpoints": [
+              33,
+              38
+            ]
+          },
+          {
+            "action": 50,
+            "prior_rank": 20,
+            "winning_endpoints": [
+              20,
+              80
+            ]
+          },
+          {
+            "action": 169,
+            "prior_rank": 22,
+            "winning_endpoints": [
+              139,
+              199
+            ]
+          },
+          {
+            "action": 62,
+            "prior_rank": 23,
+            "winning_endpoints": [
+              61,
+              66
+            ]
+          },
+          {
+            "action": 121,
+            "prior_rank": 25,
+            "winning_endpoints": [
+              120,
+              125
+            ]
+          },
+          {
+            "action": 213,
+            "prior_rank": 28,
+            "winning_endpoints": [
+              212,
+              217
+            ]
+          },
+          {
+            "action": 181,
+            "prior_rank": 29,
+            "winning_endpoints": [
+              180,
+              185
+            ]
+          },
+          {
+            "action": 2,
+            "prior_rank": 32,
+            "winning_endpoints": [
+              1,
+              6
+            ]
+          }
+        ],
+        "parent_game_id": "constructed_independent_rng_202611390903",
+        "rule": "freestyle",
+        "source_groups_not_independent_motifs": true,
+        "source_seed": 202611390903,
+        "source_type": "engineered_fork_positive_nonIID"
+      },
+      {
+        "forks_before_experiment": [
+          {
+            "action": 133,
+            "prior_rank": 1,
+            "winning_endpoints": [
+              73,
+              148
+            ]
+          },
+          {
+            "action": 96,
+            "prior_rank": 2,
+            "winning_endpoints": [
+              92,
+              97
+            ]
+          },
+          {
+            "action": 128,
+            "prior_rank": 4,
+            "winning_endpoints": [
+              124,
+              129
+            ]
+          },
+          {
+            "action": 73,
+            "prior_rank": 5,
+            "winning_endpoints": [
+              58,
+              133
+            ]
+          },
+          {
+            "action": 156,
+            "prior_rank": 6,
+            "winning_endpoints": [
+              152,
+              157
+            ]
+          },
+          {
+            "action": 124,
+            "prior_rank": 7,
+            "winning_endpoints": [
+              123,
+              128
+            ]
+          },
+          {
+            "action": 110,
+            "prior_rank": 8,
+            "winning_endpoints": [
+              78,
+              140
+            ]
+          },
+          {
+            "action": 65,
+            "prior_rank": 9,
+            "winning_endpoints": [
+              61,
+              66
+            ]
+          },
+          {
+            "action": 79,
+            "prior_rank": 10,
+            "winning_endpoints": [
+              49,
+              111
+            ]
+          },
+          {
+            "action": 37,
+            "prior_rank": 11,
+            "winning_endpoints": [
+              33,
+              38
+            ]
+          },
+          {
+            "action": 140,
+            "prior_rank": 13,
+            "winning_endpoints": [
+              110,
+              168
+            ]
+          },
+          {
+            "action": 169,
+            "prior_rank": 15,
+            "winning_endpoints": [
+              141,
+              199
+            ]
+          },
+          {
+            "action": 185,
+            "prior_rank": 16,
+            "winning_endpoints": [
+              181,
+              186
+            ]
+          },
+          {
+            "action": 217,
+            "prior_rank": 18,
+            "winning_endpoints": [
+              213,
+              218
+            ]
+          },
+          {
+            "action": 92,
+            "prior_rank": 19,
+            "winning_endpoints": [
+              91,
+              96
+            ]
+          },
+          {
+            "action": 33,
+            "prior_rank": 20,
+            "winning_endpoints": [
+              32,
+              37
+            ]
+          },
+          {
+            "action": 49,
+            "prior_rank": 21,
+            "winning_endpoints": [
+              19,
+              79
+            ]
+          },
+          {
+            "action": 152,
+            "prior_rank": 22,
+            "winning_endpoints": [
+              151,
+              156
+            ]
+          },
+          {
+            "action": 5,
+            "prior_rank": 23,
+            "winning_endpoints": [
+              1,
+              6
+            ]
+          },
+          {
+            "action": 61,
+            "prior_rank": 26,
+            "winning_endpoints": [
+              60,
+              65
+            ]
+          },
+          {
+            "action": 213,
+            "prior_rank": 27,
+            "winning_endpoints": [
+              212,
+              217
+            ]
+          },
+          {
+            "action": 181,
+            "prior_rank": 29,
+            "winning_endpoints": [
+              180,
+              185
+            ]
+          },
+          {
+            "action": 1,
+            "prior_rank": 35,
+            "winning_endpoints": [
+              0,
+              5
+            ]
+          }
+        ],
+        "history": [
+          93,
+          207,
+          154,
+          100,
+          127,
+          44,
+          184,
+          115,
+          95,
+          55,
+          94,
+          221,
+          125,
+          12,
+          2,
+          27,
+          35,
+          26,
+          3,
+          179,
+          62,
+          191,
+          64,
+          116,
+          182,
+          89,
+          215,
+          192,
+          34,
+          42,
+          4,
+          164,
+          36,
+          190,
+          216,
+          59,
+          63,
+          40,
+          214,
+          130,
+          103,
+          206,
+          155,
+          209,
+          183,
+          119,
+          88,
+          175,
+          126,
+          10,
+          153,
+          147,
+          118,
+          222
+        ],
+        "id": "fork-019",
+        "omitted_forks_before_experiment": [
+          {
+            "action": 217,
+            "prior_rank": 18,
+            "winning_endpoints": [
+              213,
+              218
+            ]
+          },
+          {
+            "action": 92,
+            "prior_rank": 19,
+            "winning_endpoints": [
+              91,
+              96
+            ]
+          },
+          {
+            "action": 33,
+            "prior_rank": 20,
+            "winning_endpoints": [
+              32,
+              37
+            ]
+          },
+          {
+            "action": 49,
+            "prior_rank": 21,
+            "winning_endpoints": [
+              19,
+              79
+            ]
+          },
+          {
+            "action": 152,
+            "prior_rank": 22,
+            "winning_endpoints": [
+              151,
+              156
+            ]
+          },
+          {
+            "action": 5,
+            "prior_rank": 23,
+            "winning_endpoints": [
+              1,
+              6
+            ]
+          },
+          {
+            "action": 61,
+            "prior_rank": 26,
+            "winning_endpoints": [
+              60,
+              65
+            ]
+          },
+          {
+            "action": 213,
+            "prior_rank": 27,
+            "winning_endpoints": [
+              212,
+              217
+            ]
+          },
+          {
+            "action": 181,
+            "prior_rank": 29,
+            "winning_endpoints": [
+              180,
+              185
+            ]
+          },
+          {
+            "action": 1,
+            "prior_rank": 35,
+            "winning_endpoints": [
+              0,
+              5
+            ]
+          }
+        ],
+        "parent_game_id": "constructed_independent_rng_202611400910",
+        "rule": "freestyle",
+        "source_groups_not_independent_motifs": true,
+        "source_seed": 202611400910,
+        "source_type": "engineered_fork_positive_nonIID"
+      },
+      {
+        "forks_before_experiment": [
+          {
+            "action": 73,
+            "prior_rank": 1,
+            "winning_endpoints": [
+              58,
+              133
+            ]
+          },
+          {
+            "action": 128,
+            "prior_rank": 2,
+            "winning_endpoints": [
+              124,
+              129
+            ]
+          },
+          {
+            "action": 157,
+            "prior_rank": 3,
+            "winning_endpoints": [
+              153,
+              158
+            ]
+          },
+          {
+            "action": 37,
+            "prior_rank": 4,
+            "winning_endpoints": [
+              33,
+              38
+            ]
+          },
+          {
+            "action": 7,
+            "prior_rank": 5,
+            "winning_endpoints": [
+              3,
+              8
+            ]
+          },
+          {
+            "action": 133,
+            "prior_rank": 6,
+            "winning_endpoints": [
+              73,
+              148
+            ]
+          },
+          {
+            "action": 95,
+            "prior_rank": 8,
+            "winning_endpoints": [
+              91,
+              96
+            ]
+          },
+          {
+            "action": 124,
+            "prior_rank": 11,
+            "winning_endpoints": [
+              123,
+              128
+            ]
+          },
+          {
+            "action": 78,
+            "prior_rank": 12,
+            "winning_endpoints": [
+              50,
+              110
+            ]
+          },
+          {
+            "action": 170,
+            "prior_rank": 13,
+            "winning_endpoints": [
+              140,
+              198
+            ]
+          },
+          {
+            "action": 187,
+            "prior_rank": 14,
+            "winning_endpoints": [
+              183,
+              188
+            ]
+          },
+          {
+            "action": 65,
+            "prior_rank": 15,
+            "winning_endpoints": [
+              61,
+              66
+            ]
+          },
+          {
+            "action": 153,
+            "prior_rank": 19,
+            "winning_endpoints": [
+              152,
+              157
+            ]
+          },
+          {
+            "action": 49,
+            "prior_rank": 21,
+            "winning_endpoints": [
+              19,
+              79
+            ]
+          },
+          {
+            "action": 33,
+            "prior_rank": 23,
+            "winning_endpoints": [
+              32,
+              37
+            ]
+          },
+          {
+            "action": 183,
+            "prior_rank": 24,
+            "winning_endpoints": [
+              182,
+              187
+            ]
+          },
+          {
+            "action": 91,
+            "prior_rank": 26,
+            "winning_endpoints": [
+              90,
+              95
+            ]
+          },
+          {
+            "action": 215,
+            "prior_rank": 28,
+            "winning_endpoints": [
+              211,
+              216
+            ]
+          },
+          {
+            "action": 61,
+            "prior_rank": 31,
+            "winning_endpoints": [
+              60,
+              65
+            ]
+          },
+          {
+            "action": 211,
+            "prior_rank": 37,
+            "winning_endpoints": [
+              210,
+              215
+            ]
+          },
+          {
+            "action": 3,
+            "prior_rank": 39,
+            "winning_endpoints": [
+              2,
+              7
+            ]
+          }
+        ],
+        "history": [
+          213,
+          192,
+          126,
+          72,
+          88,
+          86,
+          62,
+          40,
+          4,
+          179,
+          127,
+          175,
+          184,
+          176,
+          156,
+          132,
+          155,
+          14,
+          118,
+          59,
+          154,
+          116,
+          103,
+          87,
+          6,
+          220,
+          185,
+          115,
+          35,
+          89,
+          125,
+          41,
+          64,
+          57,
+          34,
+          10,
+          36,
+          222,
+          212,
+          146,
+          92,
+          149,
+          94,
+          160,
+          93,
+          70,
+          186,
+          11,
+          5,
+          104,
+          214,
+          191,
+          63,
+          56
+        ],
+        "id": "fork-020",
+        "omitted_forks_before_experiment": [
+          {
+            "action": 153,
+            "prior_rank": 19,
+            "winning_endpoints": [
+              152,
+              157
+            ]
+          },
+          {
+            "action": 49,
+            "prior_rank": 21,
+            "winning_endpoints": [
+              19,
+              79
+            ]
+          },
+          {
+            "action": 33,
+            "prior_rank": 23,
+            "winning_endpoints": [
+              32,
+              37
+            ]
+          },
+          {
+            "action": 183,
+            "prior_rank": 24,
+            "winning_endpoints": [
+              182,
+              187
+            ]
+          },
+          {
+            "action": 91,
+            "prior_rank": 26,
+            "winning_endpoints": [
+              90,
+              95
+            ]
+          },
+          {
+            "action": 215,
+            "prior_rank": 28,
+            "winning_endpoints": [
+              211,
+              216
+            ]
+          },
+          {
+            "action": 61,
+            "prior_rank": 31,
+            "winning_endpoints": [
+              60,
+              65
+            ]
+          },
+          {
+            "action": 211,
+            "prior_rank": 37,
+            "winning_endpoints": [
+              210,
+              215
+            ]
+          },
+          {
+            "action": 3,
+            "prior_rank": 39,
+            "winning_endpoints": [
+              2,
+              7
+            ]
+          }
+        ],
+        "parent_game_id": "constructed_independent_rng_202611410917",
+        "rule": "freestyle",
+        "source_groups_not_independent_motifs": true,
+        "source_seed": 202611410917,
+        "source_type": "engineered_fork_positive_nonIID"
+      },
+      {
+        "forks_before_experiment": [
+          {
+            "action": 73,
+            "prior_rank": 1,
+            "winning_endpoints": [
+              58,
+              133
+            ]
+          },
+          {
+            "action": 133,
+            "prior_rank": 2,
+            "winning_endpoints": [
+              73,
+              148
+            ]
+          },
+          {
+            "action": 68,
+            "prior_rank": 3,
+            "winning_endpoints": [
+              64,
+              69
+            ]
+          },
+          {
+            "action": 38,
+            "prior_rank": 4,
+            "winning_endpoints": [
+              34,
+              39
+            ]
+          },
+          {
+            "action": 127,
+            "prior_rank": 5,
+            "winning_endpoints": [
+              123,
+              128
+            ]
+          },
+          {
+            "action": 187,
+            "prior_rank": 6,
+            "winning_endpoints": [
+              183,
+              188
+            ]
+          },
+          {
+            "action": 95,
+            "prior_rank": 7,
+            "winning_endpoints": [
+              91,
+              96
+            ]
+          },
+          {
+            "action": 51,
+            "prior_rank": 8,
+            "winning_endpoints": [
+              21,
+              79
+            ]
+          },
+          {
+            "action": 155,
+            "prior_rank": 10,
+            "winning_endpoints": [
+              151,
+              156
+            ]
+          },
+          {
+            "action": 123,
+            "prior_rank": 11,
+            "winning_endpoints": [
+              122,
+              127
+            ]
+          },
+          {
+            "action": 7,
+            "prior_rank": 13,
+            "winning_endpoints": [
+              3,
+              8
+            ]
+          },
+          {
+            "action": 64,
+            "prior_rank": 14,
+            "winning_endpoints": [
+              63,
+              68
+            ]
+          },
+          {
+            "action": 139,
+            "prior_rank": 15,
+            "winning_endpoints": [
+              109,
+              169
+            ]
+          },
+          {
+            "action": 34,
+            "prior_rank": 17,
+            "winning_endpoints": [
+              33,
+              38
+            ]
+          },
+          {
+            "action": 183,
+            "prior_rank": 19,
+            "winning_endpoints": [
+              182,
+              187
+            ]
+          },
+          {
+            "action": 169,
+            "prior_rank": 20,
+            "winning_endpoints": [
+              139,
+              199
+            ]
+          },
+          {
+            "action": 91,
+            "prior_rank": 24,
+            "winning_endpoints": [
+              90,
+              95
+            ]
+          },
+          {
+            "action": 215,
+            "prior_rank": 25,
+            "winning_endpoints": [
+              211,
+              216
+            ]
+          },
+          {
+            "action": 151,
+            "prior_rank": 29,
+            "winning_endpoints": [
+              150,
+              155
+            ]
+          },
+          {
+            "action": 3,
+            "prior_rank": 31,
+            "winning_endpoints": [
+              2,
+              7
+            ]
+          },
+          {
+            "action": 211,
+            "prior_rank": 35,
+            "winning_endpoints": [
+              210,
+              215
+            ]
+          }
+        ],
+        "history": [
+          4,
+          87,
+          6,
+          134,
+          126,
+          164,
+          92,
+          179,
+          185,
+          131,
+          103,
+          29,
+          125,
+          42,
+          118,
+          220,
+          5,
+          101,
+          66,
+          222,
+          37,
+          100,
+          124,
+          71,
+          213,
+          102,
+          154,
+          10,
+          186,
+          104,
+          67,
+          70,
+          93,
+          175,
+          153,
+          25,
+          88,
+          56,
+          94,
+          176,
+          36,
+          145,
+          214,
+          209,
+          184,
+          221,
+          35,
+          162,
+          212,
+          161,
+          65,
+          44,
+          152,
+          26
+        ],
+        "id": "fork-021",
+        "omitted_forks_before_experiment": [
+          {
+            "action": 34,
+            "prior_rank": 17,
+            "winning_endpoints": [
+              33,
+              38
+            ]
+          },
+          {
+            "action": 183,
+            "prior_rank": 19,
+            "winning_endpoints": [
+              182,
+              187
+            ]
+          },
+          {
+            "action": 169,
+            "prior_rank": 20,
+            "winning_endpoints": [
+              139,
+              199
+            ]
+          },
+          {
+            "action": 91,
+            "prior_rank": 24,
+            "winning_endpoints": [
+              90,
+              95
+            ]
+          },
+          {
+            "action": 215,
+            "prior_rank": 25,
+            "winning_endpoints": [
+              211,
+              216
+            ]
+          },
+          {
+            "action": 151,
+            "prior_rank": 29,
+            "winning_endpoints": [
+              150,
+              155
+            ]
+          },
+          {
+            "action": 3,
+            "prior_rank": 31,
+            "winning_endpoints": [
+              2,
+              7
+            ]
+          },
+          {
+            "action": 211,
+            "prior_rank": 35,
+            "winning_endpoints": [
+              210,
+              215
+            ]
+          }
+        ],
+        "parent_game_id": "constructed_independent_rng_202611420924",
+        "rule": "freestyle",
+        "source_groups_not_independent_motifs": true,
+        "source_seed": 202611420924,
+        "source_type": "engineered_fork_positive_nonIID"
+      },
+      {
+        "forks_before_experiment": [
+          {
+            "action": 133,
+            "prior_rank": 1,
+            "winning_endpoints": [
+              73,
+              148
+            ]
+          },
+          {
+            "action": 73,
+            "prior_rank": 2,
+            "winning_endpoints": [
+              58,
+              133
+            ]
+          },
+          {
+            "action": 96,
+            "prior_rank": 3,
+            "winning_endpoints": [
+              92,
+              97
+            ]
+          },
+          {
+            "action": 158,
+            "prior_rank": 4,
+            "winning_endpoints": [
+              154,
+              159
+            ]
+          },
+          {
+            "action": 67,
+            "prior_rank": 5,
+            "winning_endpoints": [
+              63,
+              68
+            ]
+          },
+          {
+            "action": 38,
+            "prior_rank": 6,
+            "winning_endpoints": [
+              34,
+              39
+            ]
+          },
+          {
+            "action": 109,
+            "prior_rank": 7,
+            "winning_endpoints": [
+              79,
+              141
+            ]
+          },
+          {
+            "action": 126,
+            "prior_rank": 10,
+            "winning_endpoints": [
+              122,
+              127
+            ]
+          },
+          {
+            "action": 80,
+            "prior_rank": 11,
+            "winning_endpoints": [
+              50,
+              110
+            ]
+          },
+          {
+            "action": 110,
+            "prior_rank": 13,
+            "winning_endpoints": [
+              80,
+              140
+            ]
+          },
+          {
+            "action": 79,
+            "prior_rank": 14,
+            "winning_endpoints": [
+              51,
+              109
+            ]
+          },
+          {
+            "action": 154,
+            "prior_rank": 15,
+            "winning_endpoints": [
+              153,
+              158
+            ]
+          },
+          {
+            "action": 140,
+            "prior_rank": 16,
+            "winning_endpoints": [
+              110,
+              170
+            ]
+          },
+          {
+            "action": 186,
+            "prior_rank": 18,
+            "winning_endpoints": [
+              182,
+              187
+            ]
+          },
+          {
+            "action": 34,
+            "prior_rank": 19,
+            "winning_endpoints": [
+              33,
+              38
+            ]
+          },
+          {
+            "action": 63,
+            "prior_rank": 20,
+            "winning_endpoints": [
+              62,
+              67
+            ]
+          },
+          {
+            "action": 92,
+            "prior_rank": 21,
+            "winning_endpoints": [
+              91,
+              96
+            ]
+          },
+          {
+            "action": 170,
+            "prior_rank": 22,
+            "winning_endpoints": [
+              140,
+              198
+            ]
+          },
+          {
+            "action": 122,
+            "prior_rank": 23,
+            "winning_endpoints": [
+              121,
+              126
+            ]
+          },
+          {
+            "action": 182,
+            "prior_rank": 26,
+            "winning_endpoints": [
+              181,
+              186
+            ]
+          },
+          {
+            "action": 5,
+            "prior_rank": 27,
+            "winning_endpoints": [
+              1,
+              6
+            ]
+          },
+          {
+            "action": 215,
+            "prior_rank": 28,
+            "winning_endpoints": [
+              211,
+              216
+            ]
+          },
+          {
+            "action": 211,
+            "prior_rank": 32,
+            "winning_endpoints": [
+              210,
+              215
+            ]
+          },
+          {
+            "action": 1,
+            "prior_rank": 33,
+            "winning_endpoints": [
+              0,
+              5
+            ]
+          }
+        ],
+        "history": [
+          3,
+          146,
+          118,
+          40,
+          125,
+          220,
+          93,
+          89,
+          103,
+          27,
+          66,
+          179,
+          88,
+          162,
+          4,
+          26,
+          157,
+          134,
+          65,
+          160,
+          37,
+          119,
+          155,
+          175,
+          2,
+          100,
+          123,
+          177,
+          95,
+          101,
+          185,
+          194,
+          184,
+          191,
+          94,
+          41,
+          183,
+          85,
+          35,
+          59,
+          214,
+          206,
+          213,
+          11,
+          212,
+          209,
+          156,
+          147,
+          124,
+          221,
+          36,
+          115,
+          64,
+          72
+        ],
+        "id": "fork-022",
+        "omitted_forks_before_experiment": [
+          {
+            "action": 186,
+            "prior_rank": 18,
+            "winning_endpoints": [
+              182,
+              187
+            ]
+          },
+          {
+            "action": 34,
+            "prior_rank": 19,
+            "winning_endpoints": [
+              33,
+              38
+            ]
+          },
+          {
+            "action": 63,
+            "prior_rank": 20,
+            "winning_endpoints": [
+              62,
+              67
+            ]
+          },
+          {
+            "action": 92,
+            "prior_rank": 21,
+            "winning_endpoints": [
+              91,
+              96
+            ]
+          },
+          {
+            "action": 170,
+            "prior_rank": 22,
+            "winning_endpoints": [
+              140,
+              198
+            ]
+          },
+          {
+            "action": 122,
+            "prior_rank": 23,
+            "winning_endpoints": [
+              121,
+              126
+            ]
+          },
+          {
+            "action": 182,
+            "prior_rank": 26,
+            "winning_endpoints": [
+              181,
+              186
+            ]
+          },
+          {
+            "action": 5,
+            "prior_rank": 27,
+            "winning_endpoints": [
+              1,
+              6
+            ]
+          },
+          {
+            "action": 215,
+            "prior_rank": 28,
+            "winning_endpoints": [
+              211,
+              216
+            ]
+          },
+          {
+            "action": 211,
+            "prior_rank": 32,
+            "winning_endpoints": [
+              210,
+              215
+            ]
+          },
+          {
+            "action": 1,
+            "prior_rank": 33,
+            "winning_endpoints": [
+              0,
+              5
+            ]
+          }
+        ],
+        "parent_game_id": "constructed_independent_rng_202611430931",
+        "rule": "freestyle",
+        "source_groups_not_independent_motifs": true,
+        "source_seed": 202611430931,
+        "source_type": "engineered_fork_positive_nonIID"
+      },
+      {
+        "forks_before_experiment": [
+          {
+            "action": 133,
+            "prior_rank": 1,
+            "winning_endpoints": [
+              73,
+              148
+            ]
+          },
+          {
+            "action": 73,
+            "prior_rank": 2,
+            "winning_endpoints": [
+              58,
+              133
+            ]
+          },
+          {
+            "action": 128,
+            "prior_rank": 3,
+            "winning_endpoints": [
+              124,
+              129
+            ]
+          },
+          {
+            "action": 96,
+            "prior_rank": 4,
+            "winning_endpoints": [
+              92,
+              97
+            ]
+          },
+          {
+            "action": 68,
+            "prior_rank": 5,
+            "winning_endpoints": [
+              64,
+              69
+            ]
+          },
+          {
+            "action": 157,
+            "prior_rank": 7,
+            "winning_endpoints": [
+              153,
+              158
+            ]
+          },
+          {
+            "action": 36,
+            "prior_rank": 8,
+            "winning_endpoints": [
+              32,
+              37
+            ]
+          },
+          {
+            "action": 140,
+            "prior_rank": 9,
+            "winning_endpoints": [
+              110,
+              168
+            ]
+          },
+          {
+            "action": 124,
+            "prior_rank": 10,
+            "winning_endpoints": [
+              123,
+              128
+            ]
+          },
+          {
+            "action": 110,
+            "prior_rank": 11,
+            "winning_endpoints": [
+              80,
+              140
+            ]
+          },
+          {
+            "action": 64,
+            "prior_rank": 12,
+            "winning_endpoints": [
+              63,
+              68
+            ]
+          },
+          {
+            "action": 80,
+            "prior_rank": 13,
+            "winning_endpoints": [
+              50,
+              110
+            ]
+          },
+          {
+            "action": 185,
+            "prior_rank": 14,
+            "winning_endpoints": [
+              181,
+              186
+            ]
+          },
+          {
+            "action": 7,
+            "prior_rank": 15,
+            "winning_endpoints": [
+              3,
+              8
+            ]
+          },
+          {
+            "action": 153,
+            "prior_rank": 17,
+            "winning_endpoints": [
+              152,
+              157
+            ]
+          },
+          {
+            "action": 50,
+            "prior_rank": 18,
+            "winning_endpoints": [
+              20,
+              80
+            ]
+          },
+          {
+            "action": 169,
+            "prior_rank": 20,
+            "winning_endpoints": [
+              141,
+              199
+            ]
+          },
+          {
+            "action": 92,
+            "prior_rank": 21,
+            "winning_endpoints": [
+              91,
+              96
+            ]
+          },
+          {
+            "action": 217,
+            "prior_rank": 25,
+            "winning_endpoints": [
+              213,
+              218
+            ]
+          },
+          {
+            "action": 32,
+            "prior_rank": 27,
+            "winning_endpoints": [
+              31,
+              36
+            ]
+          },
+          {
+            "action": 213,
+            "prior_rank": 29,
+            "winning_endpoints": [
+              212,
+              217
+            ]
+          },
+          {
+            "action": 181,
+            "prior_rank": 32,
+            "winning_endpoints": [
+              180,
+              185
+            ]
+          },
+          {
+            "action": 3,
+            "prior_rank": 36,
+            "winning_endpoints": [
+              2,
+              7
+            ]
+          }
+        ],
+        "history": [
+          154,
+          25,
+          95,
+          72,
+          88,
+          55,
+          182,
+          190,
+          216,
+          209,
+          118,
+          224,
+          67,
+          160,
+          34,
+          44,
+          5,
+          100,
+          94,
+          162,
+          6,
+          12,
+          155,
+          191,
+          126,
+          176,
+          184,
+          117,
+          4,
+          89,
+          66,
+          119,
+          65,
+          149,
+          214,
+          131,
+          156,
+          205,
+          125,
+          194,
+          127,
+          116,
+          33,
+          101,
+          93,
+          74,
+          35,
+          130,
+          103,
+          42,
+          215,
+          70,
+          183,
+          11
+        ],
+        "id": "fork-023",
+        "omitted_forks_before_experiment": [
+          {
+            "action": 153,
+            "prior_rank": 17,
+            "winning_endpoints": [
+              152,
+              157
+            ]
+          },
+          {
+            "action": 50,
+            "prior_rank": 18,
+            "winning_endpoints": [
+              20,
+              80
+            ]
+          },
+          {
+            "action": 169,
+            "prior_rank": 20,
+            "winning_endpoints": [
+              141,
+              199
+            ]
+          },
+          {
+            "action": 92,
+            "prior_rank": 21,
+            "winning_endpoints": [
+              91,
+              96
+            ]
+          },
+          {
+            "action": 217,
+            "prior_rank": 25,
+            "winning_endpoints": [
+              213,
+              218
+            ]
+          },
+          {
+            "action": 32,
+            "prior_rank": 27,
+            "winning_endpoints": [
+              31,
+              36
+            ]
+          },
+          {
+            "action": 213,
+            "prior_rank": 29,
+            "winning_endpoints": [
+              212,
+              217
+            ]
+          },
+          {
+            "action": 181,
+            "prior_rank": 32,
+            "winning_endpoints": [
+              180,
+              185
+            ]
+          },
+          {
+            "action": 3,
+            "prior_rank": 36,
+            "winning_endpoints": [
+              2,
+              7
+            ]
+          }
+        ],
+        "parent_game_id": "constructed_independent_rng_202611440938",
+        "rule": "freestyle",
+        "source_groups_not_independent_motifs": true,
+        "source_seed": 202611440938,
+        "source_type": "engineered_fork_positive_nonIID"
+      }
+    ],
+    "independent_MCTS_played_roots": [
+      {
+        "actual_quartz_MCTS_moves": [
+          81,
+          82,
+          95,
+          67,
+          65,
+          50,
+          110,
+          125
+        ],
+        "family": "distinct_seeded_MCTS_played_game",
+        "history": [
+          80,
+          66,
+          109,
+          145,
+          81,
+          82,
+          95,
+          67,
+          65,
+          50,
+          110,
+          125
+        ],
+        "id": "played-000",
+        "initial_seeded_prefix": [
+          80,
+          66,
+          109,
+          145
+        ],
+        "parent_game_id": "mcts_selfplay_prefix_000",
+        "rule": "freestyle",
+        "source_seed": 202611210616,
+        "source_type": "original_sequential_quartz_MCTS_play_after_frozen_seed_prefix"
+      },
+      {
+        "actual_quartz_MCTS_moves": [
+          66,
+          68,
+          64,
+          63,
+          81,
+          96,
+          95,
+          53
+        ],
+        "family": "distinct_seeded_MCTS_played_game",
+        "history": [
+          65,
+          130,
+          67,
+          97,
+          66,
+          68,
+          64,
+          63,
+          81,
+          96,
+          95,
+          53
+        ],
+        "id": "played-001",
+        "initial_seeded_prefix": [
+          65,
+          130,
+          67,
+          97
+        ],
+        "parent_game_id": "mcts_selfplay_prefix_001",
+        "rule": "freestyle",
+        "source_seed": 202611211725,
+        "source_type": "original_sequential_quartz_MCTS_play_after_frozen_seed_prefix"
+      },
+      {
+        "actual_quartz_MCTS_moves": [
+          96,
+          110,
+          98,
+          99,
+          113,
+          125,
+          140,
+          80
+        ],
+        "family": "distinct_seeded_MCTS_played_game",
+        "history": [
+          100,
+          95,
+          97,
+          141,
+          96,
+          110,
+          98,
+          99,
+          113,
+          125,
+          140,
+          80
+        ],
+        "id": "played-002",
+        "initial_seeded_prefix": [
+          100,
+          95,
+          97,
+          141
+        ],
+        "parent_game_id": "mcts_selfplay_prefix_002",
+        "rule": "freestyle",
+        "source_seed": 202611212834,
+        "source_type": "original_sequential_quartz_MCTS_play_after_frozen_seed_prefix"
+      },
+      {
+        "actual_quartz_MCTS_moves": [
+          109,
+          79,
+          124,
+          139,
+          110,
+          111,
+          127,
+          63
+        ],
+        "family": "distinct_seeded_MCTS_played_game",
+        "history": [
+          94,
+          95,
+          154,
+          99,
+          109,
+          79,
+          124,
+          139,
+          110,
+          111,
+          127,
+          63
+        ],
+        "id": "played-003",
+        "initial_seeded_prefix": [
+          94,
+          95,
+          154,
+          99
+        ],
+        "parent_game_id": "mcts_selfplay_prefix_003",
+        "rule": "freestyle",
+        "source_seed": 202611213943,
+        "source_type": "original_sequential_quartz_MCTS_play_after_frozen_seed_prefix"
+      },
+      {
+        "actual_quartz_MCTS_moves": [
+          128,
+          114,
+          144,
+          99,
+          143,
+          84,
+          69,
+          83
+        ],
+        "family": "distinct_seeded_MCTS_played_game",
+        "history": [
+          142,
+          67,
+          66,
+          129,
+          128,
+          114,
+          144,
+          99,
+          143,
+          84,
+          69,
+          83
+        ],
+        "id": "played-004",
+        "initial_seeded_prefix": [
+          142,
+          67,
+          66,
+          129
+        ],
+        "parent_game_id": "mcts_selfplay_prefix_004",
+        "rule": "freestyle",
+        "source_seed": 202611215052,
+        "source_type": "original_sequential_quartz_MCTS_play_after_frozen_seed_prefix"
+      },
+      {
+        "actual_quartz_MCTS_moves": [
+          125,
+          140,
+          80,
+          141,
+          95,
+          65,
+          109,
+          142
+        ],
+        "family": "distinct_seeded_MCTS_played_game",
+        "history": [
+          81,
+          145,
+          110,
+          139,
+          125,
+          140,
+          80,
+          141,
+          95,
+          65,
+          109,
+          142
+        ],
+        "id": "played-005",
+        "initial_seeded_prefix": [
+          81,
+          145,
+          110,
+          139
+        ],
+        "parent_game_id": "mcts_selfplay_prefix_005",
+        "rule": "freestyle",
+        "source_seed": 202611216161,
+        "source_type": "original_sequential_quartz_MCTS_play_after_frozen_seed_prefix"
+      },
+      {
+        "actual_quartz_MCTS_moves": [
+          112,
+          80,
+          144,
+          160,
+          82,
+          97,
+          68,
+          110
+        ],
+        "family": "distinct_seeded_MCTS_played_game",
+        "history": [
+          128,
+          64,
+          96,
+          81,
+          112,
+          80,
+          144,
+          160,
+          82,
+          97,
+          68,
+          110
+        ],
+        "id": "played-006",
+        "initial_seeded_prefix": [
+          128,
+          64,
+          96,
+          81
+        ],
+        "parent_game_id": "mcts_selfplay_prefix_006",
+        "rule": "freestyle",
+        "source_seed": 202611217270,
+        "source_type": "original_sequential_quartz_MCTS_play_after_frozen_seed_prefix"
+      },
+      {
+        "actual_quartz_MCTS_moves": [
+          125,
+          126,
+          141,
+          127,
+          140,
+          128,
+          129,
+          142
+        ],
+        "family": "distinct_seeded_MCTS_played_game",
+        "history": [
+          139,
+          130,
+          159,
+          111,
+          125,
+          126,
+          141,
+          127,
+          140,
+          128,
+          129,
+          142
+        ],
+        "id": "played-007",
+        "initial_seeded_prefix": [
+          139,
+          130,
+          159,
+          111
+        ],
+        "parent_game_id": "mcts_selfplay_prefix_007",
+        "rule": "freestyle",
+        "source_seed": 202611218379,
+        "source_type": "original_sequential_quartz_MCTS_play_after_frozen_seed_prefix"
+      },
+      {
+        "actual_quartz_MCTS_moves": [
+          124,
+          96,
+          110,
+          54,
+          40,
+          111,
+          109,
+          81
+        ],
+        "family": "distinct_seeded_MCTS_played_game",
+        "history": [
+          115,
+          68,
+          139,
+          82,
+          124,
+          96,
+          110,
+          54,
+          40,
+          111,
+          109,
+          81
+        ],
+        "id": "played-008",
+        "initial_seeded_prefix": [
+          115,
+          68,
+          139,
+          82
+        ],
+        "parent_game_id": "mcts_selfplay_prefix_008",
+        "rule": "freestyle",
+        "source_seed": 202611219488,
+        "source_type": "original_sequential_quartz_MCTS_play_after_frozen_seed_prefix"
+      },
+      {
+        "actual_quartz_MCTS_moves": [
+          129,
+          159,
+          99,
+          84,
+          98,
+          158,
+          157,
+          160
+        ],
+        "family": "distinct_seeded_MCTS_played_game",
+        "history": [
+          144,
+          156,
+          114,
+          69,
+          129,
+          159,
+          99,
+          84,
+          98,
+          158,
+          157,
+          160
+        ],
+        "id": "played-009",
+        "initial_seeded_prefix": [
+          144,
+          156,
+          114,
+          69
+        ],
+        "parent_game_id": "mcts_selfplay_prefix_009",
+        "rule": "freestyle",
+        "source_seed": 202611220597,
+        "source_type": "original_sequential_quartz_MCTS_play_after_frozen_seed_prefix"
+      },
+      {
+        "actual_quartz_MCTS_moves": [
+          142,
+          111,
+          112,
+          108,
+          107,
+          126,
+          127,
+          97
+        ],
+        "family": "distinct_seeded_MCTS_played_game",
+        "history": [
+          65,
+          110,
+          158,
+          109,
+          142,
+          111,
+          112,
+          108,
+          107,
+          126,
+          127,
+          97
+        ],
+        "id": "played-010",
+        "initial_seeded_prefix": [
+          65,
+          110,
+          158,
+          109
+        ],
+        "parent_game_id": "mcts_selfplay_prefix_010",
+        "rule": "freestyle",
+        "source_seed": 202611221706,
+        "source_type": "original_sequential_quartz_MCTS_play_after_frozen_seed_prefix"
+      },
+      {
+        "actual_quartz_MCTS_moves": [
+          98,
+          114,
+          112,
+          116,
+          117,
+          99,
+          126,
+          140
+        ],
+        "family": "distinct_seeded_MCTS_played_game",
+        "history": [
+          154,
+          113,
+          83,
+          115,
+          98,
+          114,
+          112,
+          116,
+          117,
+          99,
+          126,
+          140
+        ],
+        "id": "played-011",
+        "initial_seeded_prefix": [
+          154,
+          113,
+          83,
+          115
+        ],
+        "parent_game_id": "mcts_selfplay_prefix_011",
+        "rule": "freestyle",
+        "source_seed": 202611222815,
+        "source_type": "original_sequential_quartz_MCTS_play_after_frozen_seed_prefix"
+      },
+      {
+        "actual_quartz_MCTS_moves": [
+          113,
+          97,
+          161,
+          177,
+          112,
+          67,
+          114,
+          52
+        ],
+        "family": "distinct_seeded_MCTS_played_game",
+        "history": [
+          145,
+          82,
+          129,
+          70,
+          113,
+          97,
+          161,
+          177,
+          112,
+          67,
+          114,
+          52
+        ],
+        "id": "played-012",
+        "initial_seeded_prefix": [
+          145,
+          82,
+          129,
+          70
+        ],
+        "parent_game_id": "mcts_selfplay_prefix_012",
+        "rule": "freestyle",
+        "source_seed": 202611223924,
+        "source_type": "original_sequential_quartz_MCTS_play_after_frozen_seed_prefix"
+      },
+      {
+        "actual_quartz_MCTS_moves": [
+          96,
+          81,
+          126,
+          141,
+          140,
+          67,
+          112,
+          109
+        ],
+        "family": "distinct_seeded_MCTS_played_game",
+        "history": [
+          111,
+          139,
+          65,
+          95,
+          96,
+          81,
+          126,
+          141,
+          140,
+          67,
+          112,
+          109
+        ],
+        "id": "played-013",
+        "initial_seeded_prefix": [
+          111,
+          139,
+          65,
+          95
+        ],
+        "parent_game_id": "mcts_selfplay_prefix_013",
+        "rule": "freestyle",
+        "source_seed": 202611225033,
+        "source_type": "original_sequential_quartz_MCTS_play_after_frozen_seed_prefix"
+      },
+      {
+        "actual_quartz_MCTS_moves": [
+          97,
+          82,
+          80,
+          84,
+          85,
+          95,
+          125,
+          67
+        ],
+        "family": "distinct_seeded_MCTS_played_game",
+        "history": [
+          65,
+          83,
+          111,
+          81,
+          97,
+          82,
+          80,
+          84,
+          85,
+          95,
+          125,
+          67
+        ],
+        "id": "played-014",
+        "initial_seeded_prefix": [
+          65,
+          83,
+          111,
+          81
+        ],
+        "parent_game_id": "mcts_selfplay_prefix_014",
+        "rule": "freestyle",
+        "source_seed": 202611226142,
+        "source_type": "original_sequential_quartz_MCTS_play_after_frozen_seed_prefix"
+      },
+      {
+        "actual_quartz_MCTS_moves": [
+          111,
+          97,
+          96,
+          81,
+          141,
+          156,
+          113,
+          82
+        ],
+        "family": "distinct_seeded_MCTS_played_game",
+        "history": [
+          95,
+          129,
+          126,
+          83,
+          111,
+          97,
+          96,
+          81,
+          141,
+          156,
+          113,
+          82
+        ],
+        "id": "played-015",
+        "initial_seeded_prefix": [
+          95,
+          129,
+          126,
+          83
+        ],
+        "parent_game_id": "mcts_selfplay_prefix_015",
+        "rule": "freestyle",
+        "source_seed": 202611227251,
+        "source_type": "original_sequential_quartz_MCTS_play_after_frozen_seed_prefix"
+      }
+    ],
+    "paired_fullgame_openings": [
+      "played-000",
+      "played-001",
+      "played-002",
+      "played-003",
+      "played-004",
+      "played-005",
+      "played-006",
+      "played-007"
+    ]
+  },
+  "no_external_teacher_oracle_or_test_label_used": true,
+  "original_user_Git_untouched": true,
+  "parent_C15_commit": "a85bc0ded6bf67f81256e93645dc7147838c6f88",
+  "predeclared_min_constructed_activated_source_groups": 20,
+  "primary_heldout_sanity": "all 24 constructed positive sources are deliberately conditional, not general natural coverage",
+  "rule": "freestyle15",
+  "schema": "quartz_cog06_source_cohorts_frozen_v1"
+}
