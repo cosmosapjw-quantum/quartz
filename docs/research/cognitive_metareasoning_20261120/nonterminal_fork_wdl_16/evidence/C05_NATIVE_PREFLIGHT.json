@@ -1,0 +1,62 @@
+{
+  "actual_debug_native_binary_sha256": "233c045f386a075edfab374c522416a61f7af7f63cedf2e0104079d24d70b909",
+  "certificates_all": 25,
+  "expected_omitted": 12,
+  "per_arm": [
+    {
+      "added_count": 0,
+      "arm": "learned_all_legal",
+      "cpu_us": 20564,
+      "final_move": 133,
+      "mcts_move": 133,
+      "proof_override": false,
+      "root_visits": 11
+    },
+    {
+      "added_count": 4,
+      "arm": "learned_fork_mask",
+      "cpu_us": 21843,
+      "final_move": 133,
+      "mcts_move": 133,
+      "proof_override": false,
+      "root_visits": 12
+    },
+    {
+      "added_count": 4,
+      "arm": "learned_fork_proof_choice",
+      "cpu_us": 22579,
+      "final_move": 170,
+      "mcts_move": 133,
+      "proof_override": true,
+      "root_visits": 13
+    },
+    {
+      "added_count": 4,
+      "arm": "learned_sham_mask",
+      "cpu_us": 21240,
+      "final_move": 133,
+      "mcts_move": 133,
+      "proof_override": false,
+      "root_visits": 12
+    },
+    {
+      "added_count": 0,
+      "arm": "learned_top16",
+      "cpu_us": 21938,
+      "final_move": 133,
+      "mcts_move": 133,
+      "proof_override": false,
+      "root_visits": 13
+    }
+  ],
+  "real_server_arms": [
+    "learned_all_legal",
+    "learned_fork_mask",
+    "learned_fork_proof_choice",
+    "learned_sham_mask",
+    "learned_top16"
+  ],
+  "schema": "c16_C05_native_preflight_v1",
+  "source_id": "fork-000",
+  "status": "PASS"
+}

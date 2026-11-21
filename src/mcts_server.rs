@@ -41,6 +41,9 @@ use resident13_cpu_server::handle_research_connect4_resident_cpu;
 #[path = "mcts_server/highbranch14_cpu_server.rs"]
 mod highbranch14_cpu_server;
 use highbranch14_cpu_server::handle_research_gomoku15_highbranch_cpu;
+#[path = "mcts_server/fork16_cpu_server.rs"]
+mod fork16_cpu_server;
+use fork16_cpu_server::handle_research_gomoku15_fork_cpu;
 #[path = "mcts_server/prior15_cpu_server.rs"]
 mod prior15_cpu_server;
 use prior15_cpu_server::handle_research_gomoku15_prior_cpu;
@@ -2705,6 +2708,11 @@ pub fn serve() {
             break;
         }
 
+        if cmd == "research_gomoku15_fork_cpu" || cmd == "research_gomoku15_fork_inspect" {
+            emit_stdout_json_value(&handle_research_gomoku15_fork_cpu(&line));
+            if let Some(ring) = global_ring_buffer() {ring.set_cmd_done(true);}
+            continue;
+        }
         if cmd == "research_gomoku15_prior_cpu" || cmd == "research_gomoku15_prior_features" {
             emit_stdout_json_value(&handle_research_gomoku15_prior_cpu(&line));
             if let Some(ring) = global_ring_buffer() {ring.set_cmd_done(true);}

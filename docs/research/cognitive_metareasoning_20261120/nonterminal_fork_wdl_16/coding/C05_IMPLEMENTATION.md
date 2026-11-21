@@ -1,0 +1,15 @@
+# C5. Actually implemented nonterminal fork native QUARTZ endpoint, red-green evidence
+
+## Red (before runtime code)
+
+New public research command research_gomoku15_fork_inspect was routed to an intentional "not implemented" stub. Real cargo test --offline --locked c16_nonterminal_two_endpoints_returns_valid_certificate -- --nocapture exited **101**, with a clean runtime assertion failure: certificate list missing. The test used a real 15x15 Freestyle source history [31,160,32,177,33,190], expected nonterminal a=34 and two independent immediate-win endpoints c1=30,c2=35. It did not fail at build/fixture setup; the red assertion was direct expected behavior.
+
+## Green and complete source path
+
+Implemented src/mcts_server/fork16_cpu_server.rs using real Gomoku15 rules and actual loaded C15 Policy13. Limited visibility change in original src/mcts_server/prior15_cpu_server.rs exposes Policy13 model loader/type to a sibling research-only module, without editing original C15 protocol behavior. src/mcts_server.rs registers C16 inspect and real CPU search commands.
+
+The exact, all-legal nonterminal proof checker uses independent direct 0/1/2 board five-in-row, prechecks no own/opponent immediate win, skips terminal a, examines collinear candidate endpoints within four axis steps (max32), requires two distinct empty winning endpoints. It reports original source-only proof witnesses and their exact action indices. Online request rejects teacher/oracle data and illegitimate rule/history; no Rapfi binary/NNUE is used. Multiple arms isolate full-legal same trained prior, pure root fork reactivation, proof-choice override, sham same-cardinality noncertified reactivation, top16 closed. All first8 visits and continuation run on original MCTS root, preserving P/N/W/M2/hash and evaluator-call count at activation. Final action is actual MCTS best except explicit proof-choice. Active CPU includes online fork scan, all MCTS, root setup and policy inference, excludes model disk read/JSON serialization.
+
+Reran same focused cargo test suite **3 PASS,0 FAIL**; includes legitimate example, opponent counter-threat suppression and forbidden external teacher/illegal history. Native debug binary build succeeded and real server production smoke coding/smoke_c05.py exercised 5 live 20ms MCTS arms + independent inspect on frozen C4 first engineered control: 25 all-board certified forks, 4 newly added actions for fork mask and proof-choice, 4 for sham, 0 for full/top16, all final moves legal and same-root conservation true. Explicit proof-choice selected a certified action (different from original learned MCTS best), so certificate and final search intervention are separable. Actual target-budget wall times varied 20.56..22.58ms on smoke (not considered matched CPU on cohort yet).
+
+Scientific claim as of C5 is a **working implementation**, not improved full-game win rate or general cognitive mechanism. C6 must run full debug/release regression and independent Python-vs-Rust certificate parity before C7/C8. Source/compiled binary identities recorded in later C6 manifest.

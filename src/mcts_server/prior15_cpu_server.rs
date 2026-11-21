@@ -72,7 +72,7 @@ fn features(board: &[u8;225], side:u8, action:u16) -> [f32;D] {
 }
 
 #[derive(Clone)]
-struct Policy13 { theta:[f32;D] }
+pub(super) struct Policy13 { theta:[f32;D] }
 impl Policy13 {
     fn score(&self, board:&[u8;225], side:u8, a:u16)->f32 {
         features(board,side,a).iter().zip(self.theta.iter()).map(|(x,w)|x*w).sum()
@@ -92,7 +92,7 @@ impl Evaluator<Gomoku15> for Policy13 {
         EvalResult{policy:legal.into_iter().zip(exps.into_iter().map(|e|e/sum)).collect(),value:0.}
     }
 }
-fn load_model(path:&str)->Result<Policy13,String> {
+pub(super) fn load_model(path:&str)->Result<Policy13,String> {
     let v:serde_json::Value=serde_json::from_slice(&std::fs::read(Path::new(path))
          .map_err(|e|format!("model file read: {e}"))?)
          .map_err(|e|format!("model JSON: {e}"))?;
