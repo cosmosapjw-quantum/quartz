@@ -1,0 +1,12 @@
+# R6. Bounded adversarial audit of the adopted construction
+
+1. Counterexample to conflating teacher with truth: Rapfi 300ms and 600ms disagree on at least one previously observed natural board, so loss against a 300ms teacher label is a *finite-budget imitation* metric. A model could reduce this loss without winning more games. Keep teacher agreement as a proxy, not exact WDL.
+2. Counterexample to "prior caused attention improvement": comparing Uniform-gated against Learned-all-legal changes both prior and attention and is not identified. Use Learned-gated vs Learned-all-legal with same exact frozen weights, same CPU target and same source board/seed, then separately Learned-all-legal vs Uniform-all-legal.
+3. Leakage failure: D8 mirrored/rotated board histories can appear different in byte sequence while representing the same experiment. Allocate by trajectory groups before transformations, prohibit any C14 source or its equivalence class in model fitting/selection, report independent group counts.
+4. Degenerate legal sets and terminal histories: softmax over empty set is undefined; terminal roots must be rejected before evaluator, all legal actions receive finite positive model probability and every chosen move must be currently legal.
+5. Feature symmetry: center distances, locality counts and line-run maxima must be invariant under D4 rotations/reflections; ties require predeclared stable action index order, not hidden teacher-label tie breaking.
+6. Selection variance: a fixed MCTS seed does not remove variance across source positions. Single-diagnostic tactical motifs are positive controls, not IID population inference. No normal-theory population CI without independent source families.
+7. Time precision: microsecond wall timing has start/stop overhead, turbo and thermal effects; use multiple registered repeats, alternating arm order and a physical target much longer than a single simulation. If mean mismatch >10% in either stratum, state NOT_COST_MATCHED even when one metric appears better.
+8. Optimization convexity depends on a fixed feature map and legal set. If feature extraction or data filters are changed after test, prior minimizer and claims no longer reuse the frozen model proof.
+
+Decision: retain interpretable log-linear learner as a bounded scientific surrogate; engineering fixes to source/parity are allowed before test unblinding; no additional audit tree.
