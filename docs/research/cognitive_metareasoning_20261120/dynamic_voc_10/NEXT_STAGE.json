@@ -1,0 +1,91 @@
+{
+  "schema": "quartz_cog02_dynamic10_handoff_v1",
+  "closed_research_id": "QUARTZ-COG-02-DYNAMIC-VOC-10",
+  "parent_source_commit": "93e8e46cb8bfb6a891f8a38ef5ca0539d108611f",
+  "research_branch": "research/quartz-cog02-dynamic-voc-20261121",
+  "last_experimental_source_commit": "83e02589c4b39236354636f3ec9de9bd6bfc6c1e",
+  "last_published_evidence_commit": "910187115e93f6d5854c4969ce09f477a35450c1",
+  "scientific_status": {
+    "exact_XOR_joint_information_value": "DERIVED_AND_WOLFRAM_EXACT_CHECKED",
+    "Rust_two_step_commit_online": "IMPLEMENTATION_VERIFIED",
+    "release_train_val_Ridge_and_cost": "NUMERICALLY_CHECKED_TRAIN_VAL_SEALED",
+    "real_8064_Rust_test_wdl": "NUMERICALLY_CHECKED_CONDITIONAL_24_FAMILIES",
+    "uniform_dynamic_vs_clock": "BETTER_AT_MEAN_SEARCH_COST_MISMATCH_6_60_PERCENT",
+    "uniform_dynamic_vs_myopic": "NONMYOPIC_INDEPENDENT_BENEFIT_UNRESOLVED_COST_MISMATCH",
+    "new_MLP_and_Conv_dynamic_policy": "DEGENERATE_STOP_AT8",
+    "true_Bayesian_VOC": "NOT_IMPLEMENTED",
+    "out_of_family_generalization": "TWO_SYNTHETIC_DRAWS_ONLY",
+    "native_subagent": "NOT_RUN"
+  },
+  "source_paths": {
+    "frozen_new_test": "docs/research/cognitive_metareasoning_20261120/dynamic_voc_10/COHORT_384_FROZEN.json",
+    "finite_exact_XOR": "docs/research/cognitive_metareasoning_20261120/dynamic_voc_10/EXACT_XOR_SYNERGY.json",
+    "frozen_models": "docs/research/cognitive_metareasoning_20261120/dynamic_voc_10/evidence/frozen_release_policies_20261121/FROZEN_RELEASE_POLICIES.json",
+    "new_exact_teacher": "docs/research/cognitive_metareasoning_20261120/dynamic_voc_10/evidence/teacher_new384_20261121/EXACT_384_LABELS.json",
+    "release_8064_summary": "docs/research/cognitive_metareasoning_20261120/dynamic_voc_10/evidence/heldout_8064_release_20261121/SUMMARY_TWO_STEP.json",
+    "release_8064_manifest": "docs/research/cognitive_metareasoning_20261120/dynamic_voc_10/evidence/heldout_8064_release_20261121/EXECUTION_MANIFEST.json",
+    "release_8064_independent_audit": "docs/research/cognitive_metareasoning_20261120/dynamic_voc_10/evidence/heldout_8064_release_20261121/INDEPENDENT_READBACK.json",
+    "research_report": "docs/research/cognitive_metareasoning_20261120/dynamic_voc_10/RESULTS_AND_NEXT_KO.md",
+    "source_rust": "src/mcts/dynamic10.rs",
+    "training_code": "docs/research/cognitive_metareasoning_20261120/dynamic_voc_10/fit_release10.py"
+  },
+  "provenance": {
+    "frozen_cohort_sha256": "c12c86ab08adb614a80d196d842f31ddf3fc78f7929ddee17523b9569db46ce5",
+    "frozen_model_sha256": "112acbaa6e31be7cd49ba8ad6347daa191059b31056439554d956d8828e123ad",
+    "new_external_oracle_labels_sha256": "4af28f7a4e61b1f5c3d2a0d9790f093c29200d91e72026fd4b8ab2b2034e76fa",
+    "Rust_release_binary_sha256": "4db989b0ede0c56077de77a820a99cd777adcf87c98d7faedc62611491eb8a03",
+    "Rust_release_build_source_commit": "4c7d490d3c23e05dbe0bbf74be55ad4b45c7f4f2"
+  },
+  "scoped_numeric": {
+    "n_new_roots": 384,
+    "n_families": 24,
+    "n_WDL_informative": 209,
+    "n_real_Rust_test_requests": 8064,
+    "uniform_dynamic_2step_commit_count": 216,
+    "uniform_regret_dynamic": 0.11979166666666667,
+    "uniform_regret_myopic": 0.12760416666666666,
+    "uniform_regret_myopic_time_match": 0.11979166666666667,
+    "uniform_regret_clock": 0.21354166666666666,
+    "uniform_actual_mean_dynamic_search_ms": 0.19794270833333336,
+    "uniform_actual_mean_clock_search_ms": 0.18486979166666664,
+    "uniform_dynamic_clock_cost_mismatch_fraction": 0.06604394158663356,
+    "uniform_dynamic_myopic_time_match_cost_mismatch_fraction": 0.11681357716090003,
+    "uniform_dynamic_minus_clock_regret": -0.09375,
+    "uniform_dynamic_minus_myopic_regret": -0.0078125,
+    "uniform_dynamic_minus_myopic_time_match_regret": 0
+  },
+  "verification": {
+    "Rust_debug": {
+      "passed": 596,
+      "failed": 0,
+      "ignored": 89
+    },
+    "Rust_release": {
+      "passed": 596,
+      "failed": 0,
+      "ignored": 89
+    },
+    "Python_related": {
+      "passed": 105,
+      "failed": 0
+    },
+    "source_reference_oracle_mirror_queries": 48
+  },
+  "next_research_id": "QUARTZ-COG-02-DYNAMIC-OPTION-COSTMATCH-11",
+  "next_objective": "Test whether the two-step commitment yields independent, out-of-family, cost-matched benefit over randomized single-step myopic computation policies, controlling for actual release CPU search time.",
+  "boundary": {
+    "do_not_automatically_execute": true,
+    "strict_holdout": "C10 new A/B and C09 A/B remain evaluation evidence, not inputs to any new threshold, probability mixture, cost model or coefficient fit",
+    "candidate_baseline": "validation-only randomized mixture of myopic lambda/stop policies with ex-ante probability, true online Rust stopping, actual matched mean CPU time and real clock checks",
+    "need_new_data": "new disjoint opening families frozen before constructing exact oracle labels or reading test performance",
+    "report_errors": "negative gain, wasted computation, false stop, cost mismatch, uneven true WDL classes, model cost error",
+    "statistical_unit": "opening family, not descendant root; no inert search seed counted independent",
+    "success": "two-step vs myopic at <=10% mean actual release search cost difference, same coefficient source, per-family conditional interval, no tuning on tested groups",
+    "other_worktrees": "original developer checkout and third-party source strictly preserved",
+    "publication": "commit + local Dropbox tarball with SHA256 + GitHub push + remote SHA readback each completed stage"
+  },
+  "backup_location": "/home/cosmosapjw/Dropbox/personal_projects/quartz_cog01_backups",
+  "Dropbox_cloud_sync_and_restore_verified": false,
+  "native_subagent": "NOT_RUN",
+  "next_not_started": true
+}
