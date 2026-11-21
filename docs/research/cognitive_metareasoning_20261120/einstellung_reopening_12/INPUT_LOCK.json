@@ -1,0 +1,147 @@
+{
+  "exact_new_oracle_exists_before_contract": false,
+  "freeze_new_cohort_seeds": {
+    "reopen_A": 202611210221,
+    "reopen_B": 202611210222
+  },
+  "fresh_restart_MCTS_visits": 16,
+  "initial_MCTS_visits": 8,
+  "matched_cost_gate_fraction": 0.1,
+  "min_fixation_visit_share": 0.5,
+  "native_subagent": "NOT_RUN",
+  "new_cohort_exists_before_contract": false,
+  "new_sources_include_previous_c11": true,
+  "no_exact_external_oracle_data_enter_Rust": true,
+  "no_new_source_for_policy_selection": true,
+  "number_new_families": 24,
+  "number_new_roots": 384,
+  "prior_top_k": 3,
+  "project_baseline_commit": "6dbdcaeab28b2325fbd7f0a0326c51b214b339f3",
+  "random_reopen_seed_selection": [
+    202611210201,
+    202611210202,
+    202611210203
+  ],
+  "reopen_extra_max": 2,
+  "research_arms": [
+    "closed_sham",
+    "evidence_reopen",
+    "random_reopen",
+    "always_full_reopen",
+    "plain_full",
+    "closed_no_probe"
+  ],
+  "research_branch": "research/quartz-cog03-einstellung-reopening-20261121",
+  "schema": "quartz_cog03_einstellung12_before_new_source_or_oracle_v1",
+  "source_entries": [
+    {
+      "bytes": 6256,
+      "identity": "prior_C11_science_handoff",
+      "path": "/home/cosmosapjw/quantum/research/quartz_cog01_20261120/docs/research/cognitive_metareasoning_20261120/dynamic_costmatch_11/NEXT_STAGE.json",
+      "sha256": "7d885ff56e16dbe0a54a3a5d46d868a08d2ad67f7154bf1c422e893a134abbe7"
+    },
+    {
+      "bytes": 834901,
+      "identity": "G07_cohort",
+      "path": "/home/cosmosapjw/quantum/research/quartz_cog01_20261120/docs/research/cognitive_metareasoning_20261120/connect4_generalization_07/COHORT_1024_FROZEN.json",
+      "sha256": "cd56b7828a98b8b60f2f8d16e38f841f4a7e6c161446cdf76bfb31a07e1b2b03"
+    },
+    {
+      "bytes": 155892,
+      "identity": "C06_cohort",
+      "path": "/home/cosmosapjw/quantum/research/quartz_cog01_20261120/docs/research/cognitive_metareasoning_20261120/connect4_recognizer_06/COHORT_FROZEN.json",
+      "sha256": "8717f53c4da338c2082283dab74864cbd9204546ddc653824bbdb745e60864b7"
+    },
+    {
+      "bytes": 45053,
+      "identity": "old12_cohort",
+      "path": "/home/cosmosapjw/quantum/research/quartz_cog01_20261120/docs/research/cognitive_metareasoning_20261120/standard_external_04/POSITIONS_FIXED.json",
+      "sha256": "8dec41c775cfd55ca3448766fbe1a72fe57299f8e58f042feda907791aae9236"
+    },
+    {
+      "bytes": 318362,
+      "identity": "C09_cohort",
+      "path": "/home/cosmosapjw/quantum/research/quartz_cog01_20261120/docs/research/cognitive_metareasoning_20261120/voc_calibration_09/COHORT_384_FROZEN.json",
+      "sha256": "30101889eb4c17ff11ace381e6366a53b2af5130341a61e6969ac9ea091fe54e"
+    },
+    {
+      "bytes": 317473,
+      "identity": "C10_cohort",
+      "path": "/home/cosmosapjw/quantum/research/quartz_cog01_20261120/docs/research/cognitive_metareasoning_20261120/dynamic_voc_10/COHORT_384_FROZEN.json",
+      "sha256": "c12c86ab08adb614a80d196d842f31ddf3fc78f7929ddee17523b9569db46ce5"
+    },
+    {
+      "bytes": 316139,
+      "identity": "C11_cohort",
+      "path": "/home/cosmosapjw/quantum/research/quartz_cog01_20261120/docs/research/cognitive_metareasoning_20261120/dynamic_costmatch_11/COHORT_384_FROZEN.json",
+      "sha256": "ec95fdffdfa9a35bc009e607bd3882229e27fb2ea2c72f7fe8ee1eb7f5b14edb"
+    },
+    {
+      "bytes": 242575,
+      "identity": "trained_MLP",
+      "path": "/home/cosmosapjw/quantum/research/quartz_cog01_20261120/docs/research/cognitive_metareasoning_20261120/connect4_generalization_07/evidence/mlp_conv_train_20261121/mlp_model.json",
+      "sha256": "a5bd016c019724fab54110458fcdcb7abf9e61fbb959afe76d6c94b8237b3f3d"
+    },
+    {
+      "bytes": 168970,
+      "identity": "trained_Conv",
+      "path": "/home/cosmosapjw/quantum/research/quartz_cog01_20261120/docs/research/cognitive_metareasoning_20261120/connect4_generalization_07/evidence/mlp_conv_train_20261121/conv_model.json",
+      "sha256": "161f9e6e26840754384cb47335d1082d837fa014735cbfaa2517209422e29f24"
+    },
+    {
+      "bytes": 9285,
+      "identity": "RustConnect4",
+      "path": "/home/cosmosapjw/quantum/research/quartz_cog01_20261120/src/games/connect4.rs",
+      "sha256": "e57d10bc239c4809449f4d18dfed3ec713404665174fcab907b1f8aa318d4cd6"
+    },
+    {
+      "bytes": 128663,
+      "identity": "RustMCTS",
+      "path": "/home/cosmosapjw/quantum/research/quartz_cog01_20261120/src/mcts/mod.rs",
+      "sha256": "df7ae4b3422b3aad714c282e5cf160c01b4a8d6f106fae84de55a6dea190e52c"
+    },
+    {
+      "bytes": 9046,
+      "identity": "RustCOG02Evaluator",
+      "path": "/home/cosmosapjw/quantum/research/quartz_cog01_20261120/src/mcts/cog02.rs",
+      "sha256": "7b3013e52a21f23cddaba41006ccde7b53f8b0ca586011b0b00e1141ef76ec68"
+    },
+    {
+      "bytes": 333534,
+      "identity": "RustResearchServer",
+      "path": "/home/cosmosapjw/quantum/research/quartz_cog01_20261120/src/mcts_server.rs",
+      "sha256": "d9e6130820624fb308a57a9e0d81c9fd08b54873f6399683fc65e50fd8cb6b04"
+    },
+    {
+      "bytes": 1416,
+      "identity": "CargoManifest",
+      "path": "/home/cosmosapjw/quantum/research/quartz_cog01_20261120/Cargo.toml",
+      "sha256": "897e6624b41356d2f2ca7fffa30c4479cc0959fee3138cdb30fa4bc8ec5c1994"
+    },
+    {
+      "bytes": 29131,
+      "identity": "CargoLock",
+      "path": "/home/cosmosapjw/quantum/research/quartz_cog01_20261120/Cargo.lock",
+      "sha256": "4368560c374c1272000fdd17a48fbe8449c6e471c848698b088d0b6092b2bb36"
+    },
+    {
+      "bytes": 3665752,
+      "identity": "RustReleaseBinary",
+      "path": "/home/cosmosapjw/quantum/research/quartz_connect4_20261120_target/release/mcts_demo",
+      "sha256": "4db989b0ede0c56077de77a820a99cd777adcf87c98d7faedc62611491eb8a03"
+    },
+    {
+      "bytes": 79296,
+      "identity": "ExternalSolver",
+      "path": "/home/cosmosapjw/quantum/research/quartz_external_engines_20261120/pascalpons_connect4/c4solver",
+      "sha256": "fca2b665b1b3dbd88f2f50a7e0ba86fd8ae253f2861da1ad51cf110c69f741ed"
+    },
+    {
+      "bytes": 6291513,
+      "identity": "ExternalBook",
+      "path": "/home/cosmosapjw/quantum/research/quartz_external_engines_20261120/pascalpons_connect4/7x6_small.book",
+      "sha256": "38f9834317c37d9516e45a21da598569a5d1556595686593d14c2e63f59c1f38"
+    }
+  ],
+  "tactical_probe_type": "oneply immediate current player win OR excluded safe when initial selected move allows immediate opponent win"
+}
