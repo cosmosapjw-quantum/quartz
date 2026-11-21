@@ -1,0 +1,9 @@
+# R1. QUARTZ-COG-05-TRAINED-PRIOR-FAIR-COST-15: research contract
+
+Date 2026-11-21 KST. Parent source eaff0ae3809eaf5c0e8b2573e1e5fac64f900da7; new isolated research worktree only. Target: genuine teacher-trained, locally executed policy-only Gomoku15 prior, then same-trained-evaluator attention reopening vs all-legal at actual wall-clock matched budgets. Secondary separation: learned-all-legal vs Uniform-all-legal with the same physical budget. Primary game: 15x15 Freestyle, no gravity, >=5 wins. Renju is outside scope. C14 source 24 roots (a744fa...) is prior heldout and NOT model-training, tuning, or selection input.
+
+Questions: (1) can a compact policy-only log-linear model predict independent finite-time pretrained Rapfi decisions above untrained uniform baseline on newly frozen source groups? (2) after fixing the learned policy model, does root candidate control improve finite recommended-action agreement or immediate-win selection at independently matched CPU cost? Comparators: learned+all-legal, learned+controlled reopening, uniform+all-legal, geometry-only+all-legal optional. A fully trained value network, exact oracle, Elo improvement, and any cognitive-process claims are NOT in scope.
+
+Precommitted admission: separate natural and deliberate tactical diagnostic strata; no pooling to meet 10% mean CPU mismatch; teacher labels must never enter online search; train/validation/test disjoint by source trajectory/family; fixed model hash before test labels; no posthoc controller threshold change on test. Training/teacher and Rust inference consume actual measured CPU; report performance even if worse. Every R/C stage publishes its own Git commit and hash-checked local archive, cloud Dropbox sync unverified until separately confirmed.
+
+Protected: original developer worktree and C14 published branch untouched; Rapfi GPLv3 binaries/NNUE never copied into project Git/backup. Native subagent NOT_RUN (none exposed).
