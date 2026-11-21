@@ -1,0 +1,46 @@
+{
+  "all_normal_equations_and_train_positive_costs_checked": true,
+  "input_train_val_SHA256": "a9bc711f092a87d5813cd93bad37772bdacf189b31e6300b0cbba17a2e3fd6f3",
+  "mode_receipts": {
+    "conv": {
+      "dynamic_val_commits": 0,
+      "release_positive_cost_scaled_to_train_mean": true,
+      "ridge_gradients_small": true,
+      "selected_val_lambda": {
+        "dynamic": 4.0,
+        "myopic": 4.0
+      },
+      "test_data_was_not_read": true,
+      "validation_cap_ms": 0.01
+    },
+    "new_mlp": {
+      "dynamic_val_commits": 0,
+      "release_positive_cost_scaled_to_train_mean": true,
+      "ridge_gradients_small": true,
+      "selected_val_lambda": {
+        "dynamic": 4.0,
+        "myopic": 4.0
+      },
+      "test_data_was_not_read": true,
+      "validation_cap_ms": 0.01
+    },
+    "uniform": {
+      "dynamic_val_commits": 109,
+      "release_positive_cost_scaled_to_train_mean": true,
+      "ridge_gradients_small": true,
+      "selected_val_lambda": {
+        "dynamic": 1.0,
+        "myopic": 1.0
+      },
+      "test_data_was_not_read": true,
+      "validation_cap_ms": 0.14
+    }
+  },
+  "model_sha256": "112acbaa6e31be7cd49ba8ad6347daa191059b31056439554d956d8828e123ad",
+  "no_new_holdout_used_for_selection": true,
+  "schema": "quartz_cog02_dynamic10_ridge_and_val_independent_v1",
+  "source_commit": "f10dc235dd12b0710a9dc1f4d7e5cbfde790f173",
+  "training_roots_per_mode": 640,
+  "val_best_lambda_clock_cost_recomputed": true,
+  "validation_roots_per_mode": 192
+}
