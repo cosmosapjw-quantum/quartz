@@ -1,0 +1,2332 @@
+{
+  "G07_val_position_count": 24,
+  "actual_release_requests": 288,
+  "all_actual_Rust_dynamic_stops_and_two_stage_skips_agree_with_Python": true,
+  "dynamic_option_counts": {
+    "('conv', ('stop',))": 24,
+    "('new_mlp', ('stop',))": 24,
+    "('uniform', ('commit_two', 'stop'))": 20,
+    "('uniform', ('single', 'stop'))": 4
+  },
+  "frozen_policy_SHA256": "112acbaa6e31be7cd49ba8ad6347daa191059b31056439554d956d8828e123ad",
+  "release_binary_sha256": "4db989b0ede0c56077de77a820a99cd777adcf87c98d7faedc62611491eb8a03",
+  "results": [
+    {
+      "arm": "dynamic",
+      "committed_skipped_stage": [
+        16
+      ],
+      "decisions": [
+        "commit_two",
+        "stop"
+      ],
+      "id": "G07_F40_R00",
+      "mode": "uniform",
+      "stop_visits": 32
+    },
+    {
+      "arm": "myopic",
+      "committed_skipped_stage": [],
+      "decisions": [
+        "single",
+        "single",
+        "stop"
+      ],
+      "id": "G07_F40_R00",
+      "mode": "uniform",
+      "stop_visits": 32
+    },
+    {
+      "arm": "myopic_time_match",
+      "committed_skipped_stage": [],
+      "decisions": [
+        "single",
+        "single",
+        "stop"
+      ],
+      "id": "G07_F40_R00",
+      "mode": "uniform",
+      "stop_visits": 32
+    },
+    {
+      "arm": "dynamic",
+      "committed_skipped_stage": [],
+      "decisions": [
+        "stop"
+      ],
+      "id": "G07_F40_R00",
+      "mode": "new_mlp",
+      "stop_visits": 8
+    },
+    {
+      "arm": "myopic",
+      "committed_skipped_stage": [],
+      "decisions": [
+        "stop"
+      ],
+      "id": "G07_F40_R00",
+      "mode": "new_mlp",
+      "stop_visits": 8
+    },
+    {
+      "arm": "myopic_time_match",
+      "committed_skipped_stage": [],
+      "decisions": [
+        "stop"
+      ],
+      "id": "G07_F40_R00",
+      "mode": "new_mlp",
+      "stop_visits": 8
+    },
+    {
+      "arm": "dynamic",
+      "committed_skipped_stage": [],
+      "decisions": [
+        "stop"
+      ],
+      "id": "G07_F40_R00",
+      "mode": "conv",
+      "stop_visits": 8
+    },
+    {
+      "arm": "myopic",
+      "committed_skipped_stage": [],
+      "decisions": [
+        "stop"
+      ],
+      "id": "G07_F40_R00",
+      "mode": "conv",
+      "stop_visits": 8
+    },
+    {
+      "arm": "myopic_time_match",
+      "committed_skipped_stage": [],
+      "decisions": [
+        "stop"
+      ],
+      "id": "G07_F40_R00",
+      "mode": "conv",
+      "stop_visits": 8
+    },
+    {
+      "arm": "dynamic",
+      "committed_skipped_stage": [],
+      "decisions": [
+        "single",
+        "stop"
+      ],
+      "id": "G07_F40_R01",
+      "mode": "uniform",
+      "stop_visits": 16
+    },
+    {
+      "arm": "myopic",
+      "committed_skipped_stage": [],
+      "decisions": [
+        "single",
+        "stop"
+      ],
+      "id": "G07_F40_R01",
+      "mode": "uniform",
+      "stop_visits": 16
+    },
+    {
+      "arm": "myopic_time_match",
+      "committed_skipped_stage": [],
+      "decisions": [
+        "single",
+        "stop"
+      ],
+      "id": "G07_F40_R01",
+      "mode": "uniform",
+      "stop_visits": 16
+    },
+    {
+      "arm": "dynamic",
+      "committed_skipped_stage": [],
+      "decisions": [
+        "stop"
+      ],
+      "id": "G07_F40_R01",
+      "mode": "new_mlp",
+      "stop_visits": 8
+    },
+    {
+      "arm": "myopic",
+      "committed_skipped_stage": [],
+      "decisions": [
+        "stop"
+      ],
+      "id": "G07_F40_R01",
+      "mode": "new_mlp",
+      "stop_visits": 8
+    },
+    {
+      "arm": "myopic_time_match",
+      "committed_skipped_stage": [],
+      "decisions": [
+        "stop"
+      ],
+      "id": "G07_F40_R01",
+      "mode": "new_mlp",
+      "stop_visits": 8
+    },
+    {
+      "arm": "dynamic",
+      "committed_skipped_stage": [],
+      "decisions": [
+        "stop"
+      ],
+      "id": "G07_F40_R01",
+      "mode": "conv",
+      "stop_visits": 8
+    },
+    {
+      "arm": "myopic",
+      "committed_skipped_stage": [],
+      "decisions": [
+        "stop"
+      ],
+      "id": "G07_F40_R01",
+      "mode": "conv",
+      "stop_visits": 8
+    },
+    {
+      "arm": "myopic_time_match",
+      "committed_skipped_stage": [],
+      "decisions": [
+        "stop"
+      ],
+      "id": "G07_F40_R01",
+      "mode": "conv",
+      "stop_visits": 8
+    },
+    {
+      "arm": "dynamic",
+      "committed_skipped_stage": [
+        16
+      ],
+      "decisions": [
+        "commit_two",
+        "stop"
+      ],
+      "id": "G07_F41_R00",
+      "mode": "uniform",
+      "stop_visits": 32
+    },
+    {
+      "arm": "myopic",
+      "committed_skipped_stage": [],
+      "decisions": [
+        "single",
+        "single",
+        "stop"
+      ],
+      "id": "G07_F41_R00",
+      "mode": "uniform",
+      "stop_visits": 32
+    },
+    {
+      "arm": "myopic_time_match",
+      "committed_skipped_stage": [],
+      "decisions": [
+        "single",
+        "single",
+        "stop"
+      ],
+      "id": "G07_F41_R00",
+      "mode": "uniform",
+      "stop_visits": 32
+    },
+    {
+      "arm": "dynamic",
+      "committed_skipped_stage": [],
+      "decisions": [
+        "stop"
+      ],
+      "id": "G07_F41_R00",
+      "mode": "new_mlp",
+      "stop_visits": 8
+    },
+    {
+      "arm": "myopic",
+      "committed_skipped_stage": [],
+      "decisions": [
+        "stop"
+      ],
+      "id": "G07_F41_R00",
+      "mode": "new_mlp",
+      "stop_visits": 8
+    },
+    {
+      "arm": "myopic_time_match",
+      "committed_skipped_stage": [],
+      "decisions": [
+        "stop"
+      ],
+      "id": "G07_F41_R00",
+      "mode": "new_mlp",
+      "stop_visits": 8
+    },
+    {
+      "arm": "dynamic",
+      "committed_skipped_stage": [],
+      "decisions": [
+        "stop"
+      ],
+      "id": "G07_F41_R00",
+      "mode": "conv",
+      "stop_visits": 8
+    },
+    {
+      "arm": "myopic",
+      "committed_skipped_stage": [],
+      "decisions": [
+        "stop"
+      ],
+      "id": "G07_F41_R00",
+      "mode": "conv",
+      "stop_visits": 8
+    },
+    {
+      "arm": "myopic_time_match",
+      "committed_skipped_stage": [],
+      "decisions": [
+        "stop"
+      ],
+      "id": "G07_F41_R00",
+      "mode": "conv",
+      "stop_visits": 8
+    },
+    {
+      "arm": "dynamic",
+      "committed_skipped_stage": [
+        16
+      ],
+      "decisions": [
+        "commit_two",
+        "stop"
+      ],
+      "id": "G07_F41_R01",
+      "mode": "uniform",
+      "stop_visits": 32
+    },
+    {
+      "arm": "myopic",
+      "committed_skipped_stage": [],
+      "decisions": [
+        "single",
+        "single",
+        "stop"
+      ],
+      "id": "G07_F41_R01",
+      "mode": "uniform",
+      "stop_visits": 32
+    },
+    {
+      "arm": "myopic_time_match",
+      "committed_skipped_stage": [],
+      "decisions": [
+        "single",
+        "single",
+        "stop"
+      ],
+      "id": "G07_F41_R01",
+      "mode": "uniform",
+      "stop_visits": 32
+    },
+    {
+      "arm": "dynamic",
+      "committed_skipped_stage": [],
+      "decisions": [
+        "stop"
+      ],
+      "id": "G07_F41_R01",
+      "mode": "new_mlp",
+      "stop_visits": 8
+    },
+    {
+      "arm": "myopic",
+      "committed_skipped_stage": [],
+      "decisions": [
+        "stop"
+      ],
+      "id": "G07_F41_R01",
+      "mode": "new_mlp",
+      "stop_visits": 8
+    },
+    {
+      "arm": "myopic_time_match",
+      "committed_skipped_stage": [],
+      "decisions": [
+        "stop"
+      ],
+      "id": "G07_F41_R01",
+      "mode": "new_mlp",
+      "stop_visits": 8
+    },
+    {
+      "arm": "dynamic",
+      "committed_skipped_stage": [],
+      "decisions": [
+        "stop"
+      ],
+      "id": "G07_F41_R01",
+      "mode": "conv",
+      "stop_visits": 8
+    },
+    {
+      "arm": "myopic",
+      "committed_skipped_stage": [],
+      "decisions": [
+        "stop"
+      ],
+      "id": "G07_F41_R01",
+      "mode": "conv",
+      "stop_visits": 8
+    },
+    {
+      "arm": "myopic_time_match",
+      "committed_skipped_stage": [],
+      "decisions": [
+        "stop"
+      ],
+      "id": "G07_F41_R01",
+      "mode": "conv",
+      "stop_visits": 8
+    },
+    {
+      "arm": "dynamic",
+      "committed_skipped_stage": [
+        16
+      ],
+      "decisions": [
+        "commit_two",
+        "stop"
+      ],
+      "id": "G07_F42_R00",
+      "mode": "uniform",
+      "stop_visits": 32
+    },
+    {
+      "arm": "myopic",
+      "committed_skipped_stage": [],
+      "decisions": [
+        "single",
+        "single",
+        "stop"
+      ],
+      "id": "G07_F42_R00",
+      "mode": "uniform",
+      "stop_visits": 32
+    },
+    {
+      "arm": "myopic_time_match",
+      "committed_skipped_stage": [],
+      "decisions": [
+        "single",
+        "single",
+        "stop"
+      ],
+      "id": "G07_F42_R00",
+      "mode": "uniform",
+      "stop_visits": 32
+    },
+    {
+      "arm": "dynamic",
+      "committed_skipped_stage": [],
+      "decisions": [
+        "stop"
+      ],
+      "id": "G07_F42_R00",
+      "mode": "new_mlp",
+      "stop_visits": 8
+    },
+    {
+      "arm": "myopic",
+      "committed_skipped_stage": [],
+      "decisions": [
+        "stop"
+      ],
+      "id": "G07_F42_R00",
+      "mode": "new_mlp",
+      "stop_visits": 8
+    },
+    {
+      "arm": "myopic_time_match",
+      "committed_skipped_stage": [],
+      "decisions": [
+        "stop"
+      ],
+      "id": "G07_F42_R00",
+      "mode": "new_mlp",
+      "stop_visits": 8
+    },
+    {
+      "arm": "dynamic",
+      "committed_skipped_stage": [],
+      "decisions": [
+        "stop"
+      ],
+      "id": "G07_F42_R00",
+      "mode": "conv",
+      "stop_visits": 8
+    },
+    {
+      "arm": "myopic",
+      "committed_skipped_stage": [],
+      "decisions": [
+        "stop"
+      ],
+      "id": "G07_F42_R00",
+      "mode": "conv",
+      "stop_visits": 8
+    },
+    {
+      "arm": "myopic_time_match",
+      "committed_skipped_stage": [],
+      "decisions": [
+        "stop"
+      ],
+      "id": "G07_F42_R00",
+      "mode": "conv",
+      "stop_visits": 8
+    },
+    {
+      "arm": "dynamic",
+      "committed_skipped_stage": [
+        16
+      ],
+      "decisions": [
+        "commit_two",
+        "stop"
+      ],
+      "id": "G07_F42_R01",
+      "mode": "uniform",
+      "stop_visits": 32
+    },
+    {
+      "arm": "myopic",
+      "committed_skipped_stage": [],
+      "decisions": [
+        "single",
+        "single",
+        "stop"
+      ],
+      "id": "G07_F42_R01",
+      "mode": "uniform",
+      "stop_visits": 32
+    },
+    {
+      "arm": "myopic_time_match",
+      "committed_skipped_stage": [],
+      "decisions": [
+        "single",
+        "single",
+        "stop"
+      ],
+      "id": "G07_F42_R01",
+      "mode": "uniform",
+      "stop_visits": 32
+    },
+    {
+      "arm": "dynamic",
+      "committed_skipped_stage": [],
+      "decisions": [
+        "stop"
+      ],
+      "id": "G07_F42_R01",
+      "mode": "new_mlp",
+      "stop_visits": 8
+    },
+    {
+      "arm": "myopic",
+      "committed_skipped_stage": [],
+      "decisions": [
+        "stop"
+      ],
+      "id": "G07_F42_R01",
+      "mode": "new_mlp",
+      "stop_visits": 8
+    },
+    {
+      "arm": "myopic_time_match",
+      "committed_skipped_stage": [],
+      "decisions": [
+        "stop"
+      ],
+      "id": "G07_F42_R01",
+      "mode": "new_mlp",
+      "stop_visits": 8
+    },
+    {
+      "arm": "dynamic",
+      "committed_skipped_stage": [],
+      "decisions": [
+        "stop"
+      ],
+      "id": "G07_F42_R01",
+      "mode": "conv",
+      "stop_visits": 8
+    },
+    {
+      "arm": "myopic",
+      "committed_skipped_stage": [],
+      "decisions": [
+        "stop"
+      ],
+      "id": "G07_F42_R01",
+      "mode": "conv",
+      "stop_visits": 8
+    },
+    {
+      "arm": "myopic_time_match",
+      "committed_skipped_stage": [],
+      "decisions": [
+        "stop"
+      ],
+      "id": "G07_F42_R01",
+      "mode": "conv",
+      "stop_visits": 8
+    },
+    {
+      "arm": "dynamic",
+      "committed_skipped_stage": [
+        16
+      ],
+      "decisions": [
+        "commit_two",
+        "stop"
+      ],
+      "id": "G07_F43_R00",
+      "mode": "uniform",
+      "stop_visits": 32
+    },
+    {
+      "arm": "myopic",
+      "committed_skipped_stage": [],
+      "decisions": [
+        "single",
+        "single",
+        "stop"
+      ],
+      "id": "G07_F43_R00",
+      "mode": "uniform",
+      "stop_visits": 32
+    },
+    {
+      "arm": "myopic_time_match",
+      "committed_skipped_stage": [],
+      "decisions": [
+        "single",
+        "single",
+        "stop"
+      ],
+      "id": "G07_F43_R00",
+      "mode": "uniform",
+      "stop_visits": 32
+    },
+    {
+      "arm": "dynamic",
+      "committed_skipped_stage": [],
+      "decisions": [
+        "stop"
+      ],
+      "id": "G07_F43_R00",
+      "mode": "new_mlp",
+      "stop_visits": 8
+    },
+    {
+      "arm": "myopic",
+      "committed_skipped_stage": [],
+      "decisions": [
+        "stop"
+      ],
+      "id": "G07_F43_R00",
+      "mode": "new_mlp",
+      "stop_visits": 8
+    },
+    {
+      "arm": "myopic_time_match",
+      "committed_skipped_stage": [],
+      "decisions": [
+        "stop"
+      ],
+      "id": "G07_F43_R00",
+      "mode": "new_mlp",
+      "stop_visits": 8
+    },
+    {
+      "arm": "dynamic",
+      "committed_skipped_stage": [],
+      "decisions": [
+        "stop"
+      ],
+      "id": "G07_F43_R00",
+      "mode": "conv",
+      "stop_visits": 8
+    },
+    {
+      "arm": "myopic",
+      "committed_skipped_stage": [],
+      "decisions": [
+        "stop"
+      ],
+      "id": "G07_F43_R00",
+      "mode": "conv",
+      "stop_visits": 8
+    },
+    {
+      "arm": "myopic_time_match",
+      "committed_skipped_stage": [],
+      "decisions": [
+        "stop"
+      ],
+      "id": "G07_F43_R00",
+      "mode": "conv",
+      "stop_visits": 8
+    },
+    {
+      "arm": "dynamic",
+      "committed_skipped_stage": [],
+      "decisions": [
+        "single",
+        "stop"
+      ],
+      "id": "G07_F43_R01",
+      "mode": "uniform",
+      "stop_visits": 16
+    },
+    {
+      "arm": "myopic",
+      "committed_skipped_stage": [],
+      "decisions": [
+        "single",
+        "stop"
+      ],
+      "id": "G07_F43_R01",
+      "mode": "uniform",
+      "stop_visits": 16
+    },
+    {
+      "arm": "myopic_time_match",
+      "committed_skipped_stage": [],
+      "decisions": [
+        "single",
+        "stop"
+      ],
+      "id": "G07_F43_R01",
+      "mode": "uniform",
+      "stop_visits": 16
+    },
+    {
+      "arm": "dynamic",
+      "committed_skipped_stage": [],
+      "decisions": [
+        "stop"
+      ],
+      "id": "G07_F43_R01",
+      "mode": "new_mlp",
+      "stop_visits": 8
+    },
+    {
+      "arm": "myopic",
+      "committed_skipped_stage": [],
+      "decisions": [
+        "stop"
+      ],
+      "id": "G07_F43_R01",
+      "mode": "new_mlp",
+      "stop_visits": 8
+    },
+    {
+      "arm": "myopic_time_match",
+      "committed_skipped_stage": [],
+      "decisions": [
+        "stop"
+      ],
+      "id": "G07_F43_R01",
+      "mode": "new_mlp",
+      "stop_visits": 8
+    },
+    {
+      "arm": "dynamic",
+      "committed_skipped_stage": [],
+      "decisions": [
+        "stop"
+      ],
+      "id": "G07_F43_R01",
+      "mode": "conv",
+      "stop_visits": 8
+    },
+    {
+      "arm": "myopic",
+      "committed_skipped_stage": [],
+      "decisions": [
+        "stop"
+      ],
+      "id": "G07_F43_R01",
+      "mode": "conv",
+      "stop_visits": 8
+    },
+    {
+      "arm": "myopic_time_match",
+      "committed_skipped_stage": [],
+      "decisions": [
+        "stop"
+      ],
+      "id": "G07_F43_R01",
+      "mode": "conv",
+      "stop_visits": 8
+    },
+    {
+      "arm": "dynamic",
+      "committed_skipped_stage": [
+        16
+      ],
+      "decisions": [
+        "commit_two",
+        "stop"
+      ],
+      "id": "G07_F44_R00",
+      "mode": "uniform",
+      "stop_visits": 32
+    },
+    {
+      "arm": "myopic",
+      "committed_skipped_stage": [],
+      "decisions": [
+        "single",
+        "single",
+        "stop"
+      ],
+      "id": "G07_F44_R00",
+      "mode": "uniform",
+      "stop_visits": 32
+    },
+    {
+      "arm": "myopic_time_match",
+      "committed_skipped_stage": [],
+      "decisions": [
+        "single",
+        "single",
+        "stop"
+      ],
+      "id": "G07_F44_R00",
+      "mode": "uniform",
+      "stop_visits": 32
+    },
+    {
+      "arm": "dynamic",
+      "committed_skipped_stage": [],
+      "decisions": [
+        "stop"
+      ],
+      "id": "G07_F44_R00",
+      "mode": "new_mlp",
+      "stop_visits": 8
+    },
+    {
+      "arm": "myopic",
+      "committed_skipped_stage": [],
+      "decisions": [
+        "stop"
+      ],
+      "id": "G07_F44_R00",
+      "mode": "new_mlp",
+      "stop_visits": 8
+    },
+    {
+      "arm": "myopic_time_match",
+      "committed_skipped_stage": [],
+      "decisions": [
+        "stop"
+      ],
+      "id": "G07_F44_R00",
+      "mode": "new_mlp",
+      "stop_visits": 8
+    },
+    {
+      "arm": "dynamic",
+      "committed_skipped_stage": [],
+      "decisions": [
+        "stop"
+      ],
+      "id": "G07_F44_R00",
+      "mode": "conv",
+      "stop_visits": 8
+    },
+    {
+      "arm": "myopic",
+      "committed_skipped_stage": [],
+      "decisions": [
+        "stop"
+      ],
+      "id": "G07_F44_R00",
+      "mode": "conv",
+      "stop_visits": 8
+    },
+    {
+      "arm": "myopic_time_match",
+      "committed_skipped_stage": [],
+      "decisions": [
+        "stop"
+      ],
+      "id": "G07_F44_R00",
+      "mode": "conv",
+      "stop_visits": 8
+    },
+    {
+      "arm": "dynamic",
+      "committed_skipped_stage": [
+        16
+      ],
+      "decisions": [
+        "commit_two",
+        "stop"
+      ],
+      "id": "G07_F44_R01",
+      "mode": "uniform",
+      "stop_visits": 32
+    },
+    {
+      "arm": "myopic",
+      "committed_skipped_stage": [],
+      "decisions": [
+        "single",
+        "single",
+        "stop"
+      ],
+      "id": "G07_F44_R01",
+      "mode": "uniform",
+      "stop_visits": 32
+    },
+    {
+      "arm": "myopic_time_match",
+      "committed_skipped_stage": [],
+      "decisions": [
+        "single",
+        "single",
+        "stop"
+      ],
+      "id": "G07_F44_R01",
+      "mode": "uniform",
+      "stop_visits": 32
+    },
+    {
+      "arm": "dynamic",
+      "committed_skipped_stage": [],
+      "decisions": [
+        "stop"
+      ],
+      "id": "G07_F44_R01",
+      "mode": "new_mlp",
+      "stop_visits": 8
+    },
+    {
+      "arm": "myopic",
+      "committed_skipped_stage": [],
+      "decisions": [
+        "stop"
+      ],
+      "id": "G07_F44_R01",
+      "mode": "new_mlp",
+      "stop_visits": 8
+    },
+    {
+      "arm": "myopic_time_match",
+      "committed_skipped_stage": [],
+      "decisions": [
+        "stop"
+      ],
+      "id": "G07_F44_R01",
+      "mode": "new_mlp",
+      "stop_visits": 8
+    },
+    {
+      "arm": "dynamic",
+      "committed_skipped_stage": [],
+      "decisions": [
+        "stop"
+      ],
+      "id": "G07_F44_R01",
+      "mode": "conv",
+      "stop_visits": 8
+    },
+    {
+      "arm": "myopic",
+      "committed_skipped_stage": [],
+      "decisions": [
+        "stop"
+      ],
+      "id": "G07_F44_R01",
+      "mode": "conv",
+      "stop_visits": 8
+    },
+    {
+      "arm": "myopic_time_match",
+      "committed_skipped_stage": [],
+      "decisions": [
+        "stop"
+      ],
+      "id": "G07_F44_R01",
+      "mode": "conv",
+      "stop_visits": 8
+    },
+    {
+      "arm": "dynamic",
+      "committed_skipped_stage": [
+        16
+      ],
+      "decisions": [
+        "commit_two",
+        "stop"
+      ],
+      "id": "G07_F45_R00",
+      "mode": "uniform",
+      "stop_visits": 32
+    },
+    {
+      "arm": "myopic",
+      "committed_skipped_stage": [],
+      "decisions": [
+        "single",
+        "single",
+        "stop"
+      ],
+      "id": "G07_F45_R00",
+      "mode": "uniform",
+      "stop_visits": 32
+    },
+    {
+      "arm": "myopic_time_match",
+      "committed_skipped_stage": [],
+      "decisions": [
+        "single",
+        "single",
+        "stop"
+      ],
+      "id": "G07_F45_R00",
+      "mode": "uniform",
+      "stop_visits": 32
+    },
+    {
+      "arm": "dynamic",
+      "committed_skipped_stage": [],
+      "decisions": [
+        "stop"
+      ],
+      "id": "G07_F45_R00",
+      "mode": "new_mlp",
+      "stop_visits": 8
+    },
+    {
+      "arm": "myopic",
+      "committed_skipped_stage": [],
+      "decisions": [
+        "stop"
+      ],
+      "id": "G07_F45_R00",
+      "mode": "new_mlp",
+      "stop_visits": 8
+    },
+    {
+      "arm": "myopic_time_match",
+      "committed_skipped_stage": [],
+      "decisions": [
+        "stop"
+      ],
+      "id": "G07_F45_R00",
+      "mode": "new_mlp",
+      "stop_visits": 8
+    },
+    {
+      "arm": "dynamic",
+      "committed_skipped_stage": [],
+      "decisions": [
+        "stop"
+      ],
+      "id": "G07_F45_R00",
+      "mode": "conv",
+      "stop_visits": 8
+    },
+    {
+      "arm": "myopic",
+      "committed_skipped_stage": [],
+      "decisions": [
+        "stop"
+      ],
+      "id": "G07_F45_R00",
+      "mode": "conv",
+      "stop_visits": 8
+    },
+    {
+      "arm": "myopic_time_match",
+      "committed_skipped_stage": [],
+      "decisions": [
+        "stop"
+      ],
+      "id": "G07_F45_R00",
+      "mode": "conv",
+      "stop_visits": 8
+    },
+    {
+      "arm": "dynamic",
+      "committed_skipped_stage": [
+        16
+      ],
+      "decisions": [
+        "commit_two",
+        "stop"
+      ],
+      "id": "G07_F45_R01",
+      "mode": "uniform",
+      "stop_visits": 32
+    },
+    {
+      "arm": "myopic",
+      "committed_skipped_stage": [],
+      "decisions": [
+        "single",
+        "single",
+        "stop"
+      ],
+      "id": "G07_F45_R01",
+      "mode": "uniform",
+      "stop_visits": 32
+    },
+    {
+      "arm": "myopic_time_match",
+      "committed_skipped_stage": [],
+      "decisions": [
+        "single",
+        "single",
+        "stop"
+      ],
+      "id": "G07_F45_R01",
+      "mode": "uniform",
+      "stop_visits": 32
+    },
+    {
+      "arm": "dynamic",
+      "committed_skipped_stage": [],
+      "decisions": [
+        "stop"
+      ],
+      "id": "G07_F45_R01",
+      "mode": "new_mlp",
+      "stop_visits": 8
+    },
+    {
+      "arm": "myopic",
+      "committed_skipped_stage": [],
+      "decisions": [
+        "stop"
+      ],
+      "id": "G07_F45_R01",
+      "mode": "new_mlp",
+      "stop_visits": 8
+    },
+    {
+      "arm": "myopic_time_match",
+      "committed_skipped_stage": [],
+      "decisions": [
+        "stop"
+      ],
+      "id": "G07_F45_R01",
+      "mode": "new_mlp",
+      "stop_visits": 8
+    },
+    {
+      "arm": "dynamic",
+      "committed_skipped_stage": [],
+      "decisions": [
+        "stop"
+      ],
+      "id": "G07_F45_R01",
+      "mode": "conv",
+      "stop_visits": 8
+    },
+    {
+      "arm": "myopic",
+      "committed_skipped_stage": [],
+      "decisions": [
+        "stop"
+      ],
+      "id": "G07_F45_R01",
+      "mode": "conv",
+      "stop_visits": 8
+    },
+    {
+      "arm": "myopic_time_match",
+      "committed_skipped_stage": [],
+      "decisions": [
+        "stop"
+      ],
+      "id": "G07_F45_R01",
+      "mode": "conv",
+      "stop_visits": 8
+    },
+    {
+      "arm": "dynamic",
+      "committed_skipped_stage": [
+        16
+      ],
+      "decisions": [
+        "commit_two",
+        "stop"
+      ],
+      "id": "G07_F46_R00",
+      "mode": "uniform",
+      "stop_visits": 32
+    },
+    {
+      "arm": "myopic",
+      "committed_skipped_stage": [],
+      "decisions": [
+        "single",
+        "single",
+        "stop"
+      ],
+      "id": "G07_F46_R00",
+      "mode": "uniform",
+      "stop_visits": 32
+    },
+    {
+      "arm": "myopic_time_match",
+      "committed_skipped_stage": [],
+      "decisions": [
+        "single",
+        "single",
+        "stop"
+      ],
+      "id": "G07_F46_R00",
+      "mode": "uniform",
+      "stop_visits": 32
+    },
+    {
+      "arm": "dynamic",
+      "committed_skipped_stage": [],
+      "decisions": [
+        "stop"
+      ],
+      "id": "G07_F46_R00",
+      "mode": "new_mlp",
+      "stop_visits": 8
+    },
+    {
+      "arm": "myopic",
+      "committed_skipped_stage": [],
+      "decisions": [
+        "stop"
+      ],
+      "id": "G07_F46_R00",
+      "mode": "new_mlp",
+      "stop_visits": 8
+    },
+    {
+      "arm": "myopic_time_match",
+      "committed_skipped_stage": [],
+      "decisions": [
+        "stop"
+      ],
+      "id": "G07_F46_R00",
+      "mode": "new_mlp",
+      "stop_visits": 8
+    },
+    {
+      "arm": "dynamic",
+      "committed_skipped_stage": [],
+      "decisions": [
+        "stop"
+      ],
+      "id": "G07_F46_R00",
+      "mode": "conv",
+      "stop_visits": 8
+    },
+    {
+      "arm": "myopic",
+      "committed_skipped_stage": [],
+      "decisions": [
+        "stop"
+      ],
+      "id": "G07_F46_R00",
+      "mode": "conv",
+      "stop_visits": 8
+    },
+    {
+      "arm": "myopic_time_match",
+      "committed_skipped_stage": [],
+      "decisions": [
+        "stop"
+      ],
+      "id": "G07_F46_R00",
+      "mode": "conv",
+      "stop_visits": 8
+    },
+    {
+      "arm": "dynamic",
+      "committed_skipped_stage": [
+        16
+      ],
+      "decisions": [
+        "commit_two",
+        "stop"
+      ],
+      "id": "G07_F46_R01",
+      "mode": "uniform",
+      "stop_visits": 32
+    },
+    {
+      "arm": "myopic",
+      "committed_skipped_stage": [],
+      "decisions": [
+        "single",
+        "single",
+        "stop"
+      ],
+      "id": "G07_F46_R01",
+      "mode": "uniform",
+      "stop_visits": 32
+    },
+    {
+      "arm": "myopic_time_match",
+      "committed_skipped_stage": [],
+      "decisions": [
+        "single",
+        "single",
+        "stop"
+      ],
+      "id": "G07_F46_R01",
+      "mode": "uniform",
+      "stop_visits": 32
+    },
+    {
+      "arm": "dynamic",
+      "committed_skipped_stage": [],
+      "decisions": [
+        "stop"
+      ],
+      "id": "G07_F46_R01",
+      "mode": "new_mlp",
+      "stop_visits": 8
+    },
+    {
+      "arm": "myopic",
+      "committed_skipped_stage": [],
+      "decisions": [
+        "stop"
+      ],
+      "id": "G07_F46_R01",
+      "mode": "new_mlp",
+      "stop_visits": 8
+    },
+    {
+      "arm": "myopic_time_match",
+      "committed_skipped_stage": [],
+      "decisions": [
+        "stop"
+      ],
+      "id": "G07_F46_R01",
+      "mode": "new_mlp",
+      "stop_visits": 8
+    },
+    {
+      "arm": "dynamic",
+      "committed_skipped_stage": [],
+      "decisions": [
+        "stop"
+      ],
+      "id": "G07_F46_R01",
+      "mode": "conv",
+      "stop_visits": 8
+    },
+    {
+      "arm": "myopic",
+      "committed_skipped_stage": [],
+      "decisions": [
+        "stop"
+      ],
+      "id": "G07_F46_R01",
+      "mode": "conv",
+      "stop_visits": 8
+    },
+    {
+      "arm": "myopic_time_match",
+      "committed_skipped_stage": [],
+      "decisions": [
+        "stop"
+      ],
+      "id": "G07_F46_R01",
+      "mode": "conv",
+      "stop_visits": 8
+    },
+    {
+      "arm": "dynamic",
+      "committed_skipped_stage": [
+        16
+      ],
+      "decisions": [
+        "commit_two",
+        "stop"
+      ],
+      "id": "G07_F47_R00",
+      "mode": "uniform",
+      "stop_visits": 32
+    },
+    {
+      "arm": "myopic",
+      "committed_skipped_stage": [],
+      "decisions": [
+        "single",
+        "single",
+        "stop"
+      ],
+      "id": "G07_F47_R00",
+      "mode": "uniform",
+      "stop_visits": 32
+    },
+    {
+      "arm": "myopic_time_match",
+      "committed_skipped_stage": [],
+      "decisions": [
+        "single",
+        "single",
+        "stop"
+      ],
+      "id": "G07_F47_R00",
+      "mode": "uniform",
+      "stop_visits": 32
+    },
+    {
+      "arm": "dynamic",
+      "committed_skipped_stage": [],
+      "decisions": [
+        "stop"
+      ],
+      "id": "G07_F47_R00",
+      "mode": "new_mlp",
+      "stop_visits": 8
+    },
+    {
+      "arm": "myopic",
+      "committed_skipped_stage": [],
+      "decisions": [
+        "stop"
+      ],
+      "id": "G07_F47_R00",
+      "mode": "new_mlp",
+      "stop_visits": 8
+    },
+    {
+      "arm": "myopic_time_match",
+      "committed_skipped_stage": [],
+      "decisions": [
+        "stop"
+      ],
+      "id": "G07_F47_R00",
+      "mode": "new_mlp",
+      "stop_visits": 8
+    },
+    {
+      "arm": "dynamic",
+      "committed_skipped_stage": [],
+      "decisions": [
+        "stop"
+      ],
+      "id": "G07_F47_R00",
+      "mode": "conv",
+      "stop_visits": 8
+    },
+    {
+      "arm": "myopic",
+      "committed_skipped_stage": [],
+      "decisions": [
+        "stop"
+      ],
+      "id": "G07_F47_R00",
+      "mode": "conv",
+      "stop_visits": 8
+    },
+    {
+      "arm": "myopic_time_match",
+      "committed_skipped_stage": [],
+      "decisions": [
+        "stop"
+      ],
+      "id": "G07_F47_R00",
+      "mode": "conv",
+      "stop_visits": 8
+    },
+    {
+      "arm": "dynamic",
+      "committed_skipped_stage": [
+        16
+      ],
+      "decisions": [
+        "commit_two",
+        "stop"
+      ],
+      "id": "G07_F47_R01",
+      "mode": "uniform",
+      "stop_visits": 32
+    },
+    {
+      "arm": "myopic",
+      "committed_skipped_stage": [],
+      "decisions": [
+        "single",
+        "single",
+        "stop"
+      ],
+      "id": "G07_F47_R01",
+      "mode": "uniform",
+      "stop_visits": 32
+    },
+    {
+      "arm": "myopic_time_match",
+      "committed_skipped_stage": [],
+      "decisions": [
+        "single",
+        "single",
+        "stop"
+      ],
+      "id": "G07_F47_R01",
+      "mode": "uniform",
+      "stop_visits": 32
+    },
+    {
+      "arm": "dynamic",
+      "committed_skipped_stage": [],
+      "decisions": [
+        "stop"
+      ],
+      "id": "G07_F47_R01",
+      "mode": "new_mlp",
+      "stop_visits": 8
+    },
+    {
+      "arm": "myopic",
+      "committed_skipped_stage": [],
+      "decisions": [
+        "stop"
+      ],
+      "id": "G07_F47_R01",
+      "mode": "new_mlp",
+      "stop_visits": 8
+    },
+    {
+      "arm": "myopic_time_match",
+      "committed_skipped_stage": [],
+      "decisions": [
+        "stop"
+      ],
+      "id": "G07_F47_R01",
+      "mode": "new_mlp",
+      "stop_visits": 8
+    },
+    {
+      "arm": "dynamic",
+      "committed_skipped_stage": [],
+      "decisions": [
+        "stop"
+      ],
+      "id": "G07_F47_R01",
+      "mode": "conv",
+      "stop_visits": 8
+    },
+    {
+      "arm": "myopic",
+      "committed_skipped_stage": [],
+      "decisions": [
+        "stop"
+      ],
+      "id": "G07_F47_R01",
+      "mode": "conv",
+      "stop_visits": 8
+    },
+    {
+      "arm": "myopic_time_match",
+      "committed_skipped_stage": [],
+      "decisions": [
+        "stop"
+      ],
+      "id": "G07_F47_R01",
+      "mode": "conv",
+      "stop_visits": 8
+    },
+    {
+      "arm": "dynamic",
+      "committed_skipped_stage": [
+        16
+      ],
+      "decisions": [
+        "commit_two",
+        "stop"
+      ],
+      "id": "G07_F48_R00",
+      "mode": "uniform",
+      "stop_visits": 32
+    },
+    {
+      "arm": "myopic",
+      "committed_skipped_stage": [],
+      "decisions": [
+        "single",
+        "single",
+        "stop"
+      ],
+      "id": "G07_F48_R00",
+      "mode": "uniform",
+      "stop_visits": 32
+    },
+    {
+      "arm": "myopic_time_match",
+      "committed_skipped_stage": [],
+      "decisions": [
+        "single",
+        "single",
+        "stop"
+      ],
+      "id": "G07_F48_R00",
+      "mode": "uniform",
+      "stop_visits": 32
+    },
+    {
+      "arm": "dynamic",
+      "committed_skipped_stage": [],
+      "decisions": [
+        "stop"
+      ],
+      "id": "G07_F48_R00",
+      "mode": "new_mlp",
+      "stop_visits": 8
+    },
+    {
+      "arm": "myopic",
+      "committed_skipped_stage": [],
+      "decisions": [
+        "stop"
+      ],
+      "id": "G07_F48_R00",
+      "mode": "new_mlp",
+      "stop_visits": 8
+    },
+    {
+      "arm": "myopic_time_match",
+      "committed_skipped_stage": [],
+      "decisions": [
+        "stop"
+      ],
+      "id": "G07_F48_R00",
+      "mode": "new_mlp",
+      "stop_visits": 8
+    },
+    {
+      "arm": "dynamic",
+      "committed_skipped_stage": [],
+      "decisions": [
+        "stop"
+      ],
+      "id": "G07_F48_R00",
+      "mode": "conv",
+      "stop_visits": 8
+    },
+    {
+      "arm": "myopic",
+      "committed_skipped_stage": [],
+      "decisions": [
+        "stop"
+      ],
+      "id": "G07_F48_R00",
+      "mode": "conv",
+      "stop_visits": 8
+    },
+    {
+      "arm": "myopic_time_match",
+      "committed_skipped_stage": [],
+      "decisions": [
+        "stop"
+      ],
+      "id": "G07_F48_R00",
+      "mode": "conv",
+      "stop_visits": 8
+    },
+    {
+      "arm": "dynamic",
+      "committed_skipped_stage": [
+        16
+      ],
+      "decisions": [
+        "commit_two",
+        "stop"
+      ],
+      "id": "G07_F48_R01",
+      "mode": "uniform",
+      "stop_visits": 32
+    },
+    {
+      "arm": "myopic",
+      "committed_skipped_stage": [],
+      "decisions": [
+        "single",
+        "single",
+        "stop"
+      ],
+      "id": "G07_F48_R01",
+      "mode": "uniform",
+      "stop_visits": 32
+    },
+    {
+      "arm": "myopic_time_match",
+      "committed_skipped_stage": [],
+      "decisions": [
+        "single",
+        "single",
+        "stop"
+      ],
+      "id": "G07_F48_R01",
+      "mode": "uniform",
+      "stop_visits": 32
+    },
+    {
+      "arm": "dynamic",
+      "committed_skipped_stage": [],
+      "decisions": [
+        "stop"
+      ],
+      "id": "G07_F48_R01",
+      "mode": "new_mlp",
+      "stop_visits": 8
+    },
+    {
+      "arm": "myopic",
+      "committed_skipped_stage": [],
+      "decisions": [
+        "stop"
+      ],
+      "id": "G07_F48_R01",
+      "mode": "new_mlp",
+      "stop_visits": 8
+    },
+    {
+      "arm": "myopic_time_match",
+      "committed_skipped_stage": [],
+      "decisions": [
+        "stop"
+      ],
+      "id": "G07_F48_R01",
+      "mode": "new_mlp",
+      "stop_visits": 8
+    },
+    {
+      "arm": "dynamic",
+      "committed_skipped_stage": [],
+      "decisions": [
+        "stop"
+      ],
+      "id": "G07_F48_R01",
+      "mode": "conv",
+      "stop_visits": 8
+    },
+    {
+      "arm": "myopic",
+      "committed_skipped_stage": [],
+      "decisions": [
+        "stop"
+      ],
+      "id": "G07_F48_R01",
+      "mode": "conv",
+      "stop_visits": 8
+    },
+    {
+      "arm": "myopic_time_match",
+      "committed_skipped_stage": [],
+      "decisions": [
+        "stop"
+      ],
+      "id": "G07_F48_R01",
+      "mode": "conv",
+      "stop_visits": 8
+    },
+    {
+      "arm": "dynamic",
+      "committed_skipped_stage": [
+        16
+      ],
+      "decisions": [
+        "commit_two",
+        "stop"
+      ],
+      "id": "G07_F49_R00",
+      "mode": "uniform",
+      "stop_visits": 32
+    },
+    {
+      "arm": "myopic",
+      "committed_skipped_stage": [],
+      "decisions": [
+        "single",
+        "single",
+        "stop"
+      ],
+      "id": "G07_F49_R00",
+      "mode": "uniform",
+      "stop_visits": 32
+    },
+    {
+      "arm": "myopic_time_match",
+      "committed_skipped_stage": [],
+      "decisions": [
+        "single",
+        "single",
+        "stop"
+      ],
+      "id": "G07_F49_R00",
+      "mode": "uniform",
+      "stop_visits": 32
+    },
+    {
+      "arm": "dynamic",
+      "committed_skipped_stage": [],
+      "decisions": [
+        "stop"
+      ],
+      "id": "G07_F49_R00",
+      "mode": "new_mlp",
+      "stop_visits": 8
+    },
+    {
+      "arm": "myopic",
+      "committed_skipped_stage": [],
+      "decisions": [
+        "stop"
+      ],
+      "id": "G07_F49_R00",
+      "mode": "new_mlp",
+      "stop_visits": 8
+    },
+    {
+      "arm": "myopic_time_match",
+      "committed_skipped_stage": [],
+      "decisions": [
+        "stop"
+      ],
+      "id": "G07_F49_R00",
+      "mode": "new_mlp",
+      "stop_visits": 8
+    },
+    {
+      "arm": "dynamic",
+      "committed_skipped_stage": [],
+      "decisions": [
+        "stop"
+      ],
+      "id": "G07_F49_R00",
+      "mode": "conv",
+      "stop_visits": 8
+    },
+    {
+      "arm": "myopic",
+      "committed_skipped_stage": [],
+      "decisions": [
+        "stop"
+      ],
+      "id": "G07_F49_R00",
+      "mode": "conv",
+      "stop_visits": 8
+    },
+    {
+      "arm": "myopic_time_match",
+      "committed_skipped_stage": [],
+      "decisions": [
+        "stop"
+      ],
+      "id": "G07_F49_R00",
+      "mode": "conv",
+      "stop_visits": 8
+    },
+    {
+      "arm": "dynamic",
+      "committed_skipped_stage": [],
+      "decisions": [
+        "single",
+        "stop"
+      ],
+      "id": "G07_F49_R01",
+      "mode": "uniform",
+      "stop_visits": 16
+    },
+    {
+      "arm": "myopic",
+      "committed_skipped_stage": [],
+      "decisions": [
+        "single",
+        "stop"
+      ],
+      "id": "G07_F49_R01",
+      "mode": "uniform",
+      "stop_visits": 16
+    },
+    {
+      "arm": "myopic_time_match",
+      "committed_skipped_stage": [],
+      "decisions": [
+        "single",
+        "stop"
+      ],
+      "id": "G07_F49_R01",
+      "mode": "uniform",
+      "stop_visits": 16
+    },
+    {
+      "arm": "dynamic",
+      "committed_skipped_stage": [],
+      "decisions": [
+        "stop"
+      ],
+      "id": "G07_F49_R01",
+      "mode": "new_mlp",
+      "stop_visits": 8
+    },
+    {
+      "arm": "myopic",
+      "committed_skipped_stage": [],
+      "decisions": [
+        "stop"
+      ],
+      "id": "G07_F49_R01",
+      "mode": "new_mlp",
+      "stop_visits": 8
+    },
+    {
+      "arm": "myopic_time_match",
+      "committed_skipped_stage": [],
+      "decisions": [
+        "stop"
+      ],
+      "id": "G07_F49_R01",
+      "mode": "new_mlp",
+      "stop_visits": 8
+    },
+    {
+      "arm": "dynamic",
+      "committed_skipped_stage": [],
+      "decisions": [
+        "stop"
+      ],
+      "id": "G07_F49_R01",
+      "mode": "conv",
+      "stop_visits": 8
+    },
+    {
+      "arm": "myopic",
+      "committed_skipped_stage": [],
+      "decisions": [
+        "stop"
+      ],
+      "id": "G07_F49_R01",
+      "mode": "conv",
+      "stop_visits": 8
+    },
+    {
+      "arm": "myopic_time_match",
+      "committed_skipped_stage": [],
+      "decisions": [
+        "stop"
+      ],
+      "id": "G07_F49_R01",
+      "mode": "conv",
+      "stop_visits": 8
+    },
+    {
+      "arm": "dynamic",
+      "committed_skipped_stage": [
+        16
+      ],
+      "decisions": [
+        "commit_two",
+        "stop"
+      ],
+      "id": "G07_F50_R00",
+      "mode": "uniform",
+      "stop_visits": 32
+    },
+    {
+      "arm": "myopic",
+      "committed_skipped_stage": [],
+      "decisions": [
+        "single",
+        "single",
+        "stop"
+      ],
+      "id": "G07_F50_R00",
+      "mode": "uniform",
+      "stop_visits": 32
+    },
+    {
+      "arm": "myopic_time_match",
+      "committed_skipped_stage": [],
+      "decisions": [
+        "single",
+        "single",
+        "stop"
+      ],
+      "id": "G07_F50_R00",
+      "mode": "uniform",
+      "stop_visits": 32
+    },
+    {
+      "arm": "dynamic",
+      "committed_skipped_stage": [],
+      "decisions": [
+        "stop"
+      ],
+      "id": "G07_F50_R00",
+      "mode": "new_mlp",
+      "stop_visits": 8
+    },
+    {
+      "arm": "myopic",
+      "committed_skipped_stage": [],
+      "decisions": [
+        "stop"
+      ],
+      "id": "G07_F50_R00",
+      "mode": "new_mlp",
+      "stop_visits": 8
+    },
+    {
+      "arm": "myopic_time_match",
+      "committed_skipped_stage": [],
+      "decisions": [
+        "stop"
+      ],
+      "id": "G07_F50_R00",
+      "mode": "new_mlp",
+      "stop_visits": 8
+    },
+    {
+      "arm": "dynamic",
+      "committed_skipped_stage": [],
+      "decisions": [
+        "stop"
+      ],
+      "id": "G07_F50_R00",
+      "mode": "conv",
+      "stop_visits": 8
+    },
+    {
+      "arm": "myopic",
+      "committed_skipped_stage": [],
+      "decisions": [
+        "stop"
+      ],
+      "id": "G07_F50_R00",
+      "mode": "conv",
+      "stop_visits": 8
+    },
+    {
+      "arm": "myopic_time_match",
+      "committed_skipped_stage": [],
+      "decisions": [
+        "stop"
+      ],
+      "id": "G07_F50_R00",
+      "mode": "conv",
+      "stop_visits": 8
+    },
+    {
+      "arm": "dynamic",
+      "committed_skipped_stage": [],
+      "decisions": [
+        "single",
+        "stop"
+      ],
+      "id": "G07_F50_R01",
+      "mode": "uniform",
+      "stop_visits": 16
+    },
+    {
+      "arm": "myopic",
+      "committed_skipped_stage": [],
+      "decisions": [
+        "single",
+        "stop"
+      ],
+      "id": "G07_F50_R01",
+      "mode": "uniform",
+      "stop_visits": 16
+    },
+    {
+      "arm": "myopic_time_match",
+      "committed_skipped_stage": [],
+      "decisions": [
+        "single",
+        "stop"
+      ],
+      "id": "G07_F50_R01",
+      "mode": "uniform",
+      "stop_visits": 16
+    },
+    {
+      "arm": "dynamic",
+      "committed_skipped_stage": [],
+      "decisions": [
+        "stop"
+      ],
+      "id": "G07_F50_R01",
+      "mode": "new_mlp",
+      "stop_visits": 8
+    },
+    {
+      "arm": "myopic",
+      "committed_skipped_stage": [],
+      "decisions": [
+        "stop"
+      ],
+      "id": "G07_F50_R01",
+      "mode": "new_mlp",
+      "stop_visits": 8
+    },
+    {
+      "arm": "myopic_time_match",
+      "committed_skipped_stage": [],
+      "decisions": [
+        "stop"
+      ],
+      "id": "G07_F50_R01",
+      "mode": "new_mlp",
+      "stop_visits": 8
+    },
+    {
+      "arm": "dynamic",
+      "committed_skipped_stage": [],
+      "decisions": [
+        "stop"
+      ],
+      "id": "G07_F50_R01",
+      "mode": "conv",
+      "stop_visits": 8
+    },
+    {
+      "arm": "myopic",
+      "committed_skipped_stage": [],
+      "decisions": [
+        "stop"
+      ],
+      "id": "G07_F50_R01",
+      "mode": "conv",
+      "stop_visits": 8
+    },
+    {
+      "arm": "myopic_time_match",
+      "committed_skipped_stage": [],
+      "decisions": [
+        "stop"
+      ],
+      "id": "G07_F50_R01",
+      "mode": "conv",
+      "stop_visits": 8
+    },
+    {
+      "arm": "dynamic",
+      "committed_skipped_stage": [
+        16
+      ],
+      "decisions": [
+        "commit_two",
+        "stop"
+      ],
+      "id": "G07_F51_R00",
+      "mode": "uniform",
+      "stop_visits": 32
+    },
+    {
+      "arm": "myopic",
+      "committed_skipped_stage": [],
+      "decisions": [
+        "single",
+        "single",
+        "stop"
+      ],
+      "id": "G07_F51_R00",
+      "mode": "uniform",
+      "stop_visits": 32
+    },
+    {
+      "arm": "myopic_time_match",
+      "committed_skipped_stage": [],
+      "decisions": [
+        "single",
+        "single",
+        "stop"
+      ],
+      "id": "G07_F51_R00",
+      "mode": "uniform",
+      "stop_visits": 32
+    },
+    {
+      "arm": "dynamic",
+      "committed_skipped_stage": [],
+      "decisions": [
+        "stop"
+      ],
+      "id": "G07_F51_R00",
+      "mode": "new_mlp",
+      "stop_visits": 8
+    },
+    {
+      "arm": "myopic",
+      "committed_skipped_stage": [],
+      "decisions": [
+        "stop"
+      ],
+      "id": "G07_F51_R00",
+      "mode": "new_mlp",
+      "stop_visits": 8
+    },
+    {
+      "arm": "myopic_time_match",
+      "committed_skipped_stage": [],
+      "decisions": [
+        "stop"
+      ],
+      "id": "G07_F51_R00",
+      "mode": "new_mlp",
+      "stop_visits": 8
+    },
+    {
+      "arm": "dynamic",
+      "committed_skipped_stage": [],
+      "decisions": [
+        "stop"
+      ],
+      "id": "G07_F51_R00",
+      "mode": "conv",
+      "stop_visits": 8
+    },
+    {
+      "arm": "myopic",
+      "committed_skipped_stage": [],
+      "decisions": [
+        "stop"
+      ],
+      "id": "G07_F51_R00",
+      "mode": "conv",
+      "stop_visits": 8
+    },
+    {
+      "arm": "myopic_time_match",
+      "committed_skipped_stage": [],
+      "decisions": [
+        "stop"
+      ],
+      "id": "G07_F51_R00",
+      "mode": "conv",
+      "stop_visits": 8
+    },
+    {
+      "arm": "dynamic",
+      "committed_skipped_stage": [
+        16
+      ],
+      "decisions": [
+        "commit_two",
+        "stop"
+      ],
+      "id": "G07_F51_R01",
+      "mode": "uniform",
+      "stop_visits": 32
+    },
+    {
+      "arm": "myopic",
+      "committed_skipped_stage": [],
+      "decisions": [
+        "single",
+        "single",
+        "stop"
+      ],
+      "id": "G07_F51_R01",
+      "mode": "uniform",
+      "stop_visits": 32
+    },
+    {
+      "arm": "myopic_time_match",
+      "committed_skipped_stage": [],
+      "decisions": [
+        "single",
+        "single",
+        "stop"
+      ],
+      "id": "G07_F51_R01",
+      "mode": "uniform",
+      "stop_visits": 32
+    },
+    {
+      "arm": "dynamic",
+      "committed_skipped_stage": [],
+      "decisions": [
+        "stop"
+      ],
+      "id": "G07_F51_R01",
+      "mode": "new_mlp",
+      "stop_visits": 8
+    },
+    {
+      "arm": "myopic",
+      "committed_skipped_stage": [],
+      "decisions": [
+        "stop"
+      ],
+      "id": "G07_F51_R01",
+      "mode": "new_mlp",
+      "stop_visits": 8
+    },
+    {
+      "arm": "myopic_time_match",
+      "committed_skipped_stage": [],
+      "decisions": [
+        "stop"
+      ],
+      "id": "G07_F51_R01",
+      "mode": "new_mlp",
+      "stop_visits": 8
+    },
+    {
+      "arm": "dynamic",
+      "committed_skipped_stage": [],
+      "decisions": [
+        "stop"
+      ],
+      "id": "G07_F51_R01",
+      "mode": "conv",
+      "stop_visits": 8
+    },
+    {
+      "arm": "myopic",
+      "committed_skipped_stage": [],
+      "decisions": [
+        "stop"
+      ],
+      "id": "G07_F51_R01",
+      "mode": "conv",
+      "stop_visits": 8
+    },
+    {
+      "arm": "myopic_time_match",
+      "committed_skipped_stage": [],
+      "decisions": [
+        "stop"
+      ],
+      "id": "G07_F51_R01",
+      "mode": "conv",
+      "stop_visits": 8
+    }
+  ],
+  "root_prefix_action_eval_and_visit_distribution_reproduced": true,
+  "schema": "quartz_cog02_dynamic10_actual_Rust_vs_Python_parity_v1",
+  "source_commit": "1d5cf0e7ff3802b5bdac657548bca414cc6631c5",
+  "tested_new_C10_holdout": false,
+  "val_families": 12
+}
