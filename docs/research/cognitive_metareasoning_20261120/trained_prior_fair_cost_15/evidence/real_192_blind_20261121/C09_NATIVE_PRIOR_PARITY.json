@@ -1,0 +1,10 @@
+{
+  "actual_trained_Rust_root_prior_calls_compared": 128,
+  "binary_sha256": "1bf102650e28c9f0bbe9515f2f6e7d1d0c00a15f2646f78498ea79a9710d8527",
+  "max_abs_Rust_probability_normalization_error": 9.051636880030856e-07,
+  "max_abs_probability_difference_vs_independent_numpy_softmax": 6.375933194746608e-07,
+  "model_sha256": "5ff8286dcc57192b79e960ba096bc5067c78d439a212eaa69d523f68835a3b83",
+  "no_Rapfi_online": true,
+  "status": "PASS",
+  "validation": "Python NumPy double precision vs actual Rust float32 loaded-policy, across all legal actions in 128 trained real MCTS roots"
+}

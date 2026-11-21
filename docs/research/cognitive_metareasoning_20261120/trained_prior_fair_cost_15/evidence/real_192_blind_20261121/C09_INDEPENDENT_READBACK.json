@@ -1,0 +1,74 @@
+{
+  "225_mask_words_and_all_initial_edges_check": true,
+  "MCTS_root_prior_visits_and_same_tree_reactivation_check": true,
+  "finite_teacher_test_labels_sha256": "3c3bfea6d1f928bf7320a6115dfee7763659087a39e16dbb2deff2ecc981d4ad",
+  "frozen_model_sha256": "5ff8286dcc57192b79e960ba096bc5067c78d439a212eaa69d523f68835a3b83",
+  "frozen_source_sha256": "604d6d8a9d7baff889715225842f17279a91401848e4678a5b95349cbb476982",
+  "n_actual_Rust_executions": 192,
+  "n_real_pretrained_Rapfi_test_labels": 64,
+  "no_population_or_Elo_claims": true,
+  "no_trained_value_head_or_undisclosed_teacher_online": true,
+  "real_Rust_raw_sha256": "09dc3b61dce9f4fdf0ce387b67f2669ace9811718fb08ab2498df4628316e5af",
+  "results": {
+    "test_natural": {
+      "arms": {
+        "learned_all_legal": {
+          "immediate_win_choice_count": 2,
+          "mean_root_visits": 125.79166666666667,
+          "teacher_agreement_count": 22
+        },
+        "learned_gated": {
+          "immediate_win_choice_count": 2,
+          "mean_root_visits": 131.33333333333334,
+          "teacher_agreement_count": 22
+        },
+        "uniform_all_legal": {
+          "immediate_win_choice_count": 2,
+          "mean_root_visits": 195.625,
+          "teacher_agreement_count": 2
+        }
+      },
+      "cost_matched_10pct": true,
+      "cost_mean_mismatch_fraction": 0.0001577264152314513,
+      "immediate_win_root_count": 2,
+      "learned_teacher_top16_coverage": 44,
+      "learned_teacher_top1_coverage": 17,
+      "mean_us_learned_all_legal": 20080.125,
+      "mean_us_learned_gated": 20076.958333333332,
+      "mean_us_uniform_all_legal": 20052.833333333332,
+      "n": 48
+    },
+    "test_tactical": {
+      "arms": {
+        "learned_all_legal": {
+          "immediate_win_choice_count": 16,
+          "mean_root_visits": 302.5625,
+          "teacher_agreement_count": 7
+        },
+        "learned_gated": {
+          "immediate_win_choice_count": 16,
+          "mean_root_visits": 306.0,
+          "teacher_agreement_count": 7
+        },
+        "uniform_all_legal": {
+          "immediate_win_choice_count": 13,
+          "mean_root_visits": 239.375,
+          "teacher_agreement_count": 13
+        }
+      },
+      "cost_matched_10pct": true,
+      "cost_mean_mismatch_fraction": 0.00016845257592064012,
+      "immediate_win_root_count": 16,
+      "learned_teacher_top16_coverage": 16,
+      "learned_teacher_top1_coverage": 7,
+      "mean_us_learned_all_legal": 20031.9375,
+      "mean_us_learned_gated": 20035.3125,
+      "mean_us_uniform_all_legal": 20039.875,
+      "n": 16
+    }
+  },
+  "root_replay_game_legality_check": true,
+  "schema": "quartz_cog05_C09_independent_actual_readback_v1",
+  "separate_per_stratum_CPU_cost_gate": true,
+  "status": "PASS"
+}

@@ -1,0 +1,39 @@
+{
+  "Dropbox_sync_acknowledged": false,
+  "exact_byte_readback": [
+    {
+      "file": "COHORT_224_FROZEN.json",
+      "sha256": "604d6d8a9d7baff889715225842f17279a91401848e4678a5b95349cbb476982"
+    },
+    {
+      "file": "evidence/model/MODEL_TRAINED.json",
+      "sha256": "5ff8286dcc57192b79e960ba096bc5067c78d439a212eaa69d523f68835a3b83"
+    },
+    {
+      "file": "evidence/teacher_train_validation/TEACHER_TRAIN_VALIDATION.json",
+      "sha256": "d4e66ba0f9af0006e1efff9af9ce5224b56ea6e9d7c00fba7a97e0078ba2eb71"
+    },
+    {
+      "file": "evidence/teacher_heldout/TEACHER_HELDOUT.json",
+      "sha256": "3c3bfea6d1f928bf7320a6115dfee7763659087a39e16dbb2deff2ecc981d4ad"
+    },
+    {
+      "file": "evidence/real_192_blind_20261121/RAW_192_RUST.json",
+      "sha256": "09dc3b61dce9f4fdf0ce387b67f2669ace9811718fb08ab2498df4628316e5af"
+    },
+    {
+      "file": "evidence/real_192_blind_20261121/C08_SCORED_RESULTS.json",
+      "sha256": "4839522238beaa1c830790cdfb1d99f8a7e7fcfae7b6d00f4043b7101f29063c"
+    },
+    {
+      "file": "coding/C08_REAL_RESULTS.md",
+      "sha256": "ea561ae641fa9188b9ff6e788bdec80af6ff3910d0bf94118ab758f3f77a577e"
+    }
+  ],
+  "external_Rapfi_binary_and_weights_not_in_archive": true,
+  "restore_status": "PASS",
+  "restored_C08_archive_file": "/home/cosmosapjw/Dropbox/personal_projects/quartz_cog01_backups/QUARTZ_COG05_FAIRCOST15_C08_4f98b07bbea9.tar.gz",
+  "restored_C08_archive_sha256": "37d6ae0fb63ab23fda17ad60501f2d1676c5e489c4d4220d9d3f109ed2e6df44",
+  "schema": "quartz_cog05_C09_archive_independent_restore_v1",
+  "verified_stage_local_archives_at_least": 21
+}
