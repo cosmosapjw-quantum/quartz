@@ -1,0 +1,9 @@
+# R3. Definitions, estimands, and leakage boundary
+
+Position s: terminal-free valid Freestyle15 board produced by legal alternating histories. A(s) subset of {0,...,224}, t(s) current side; board-as-12 encoding. Teacher label y(s): one legal finite-time Piskvork rule0 Rapfi recommended action with identified executable, mix9svq weights, config and wall-time. Label y is neither exact minimax nor WDL truth.
+
+Feature phi(s,a) in R^d must depend exclusively on s and candidate a. Learned logit z_theta(s,a)=theta·phi(s,a); p_theta(a|s)=exp(z_a-max_A z)/sum_{b in A}exp(z_b-max_A z); p=0 for illegal. Policy-only leaf value v(s)=0 is intentionally not learned. The comparator's all-legal evaluator must be the SAME learned model when estimating candidate-control effect. Source/model identity and loader numerics are independently checked.
+
+Per-stratum paired estimands: teacher action agreement difference Delta_agree=(1/n)sum_i[1{a_A(i)=y(i)}-1{a_B(i)=y(i)}]; tactical immediate-win difference analogously for constructed boards only. CPU mismatch E=|mean_i tau_A(i)-mean_i tau_B(i)|/mean_i tau_A(i). 10% threshold applied independently to each stratum with runtime including BOTH policy inference and attention/probe/actual MCTS; matched simulations alone are insufficient. Primary comparison COG-control-on-learned vs all-legal-on-learned; learned vs Uniform is a distinct factor, not attributed to cognitive search.
+
+Source trajectories and symmetry transforms are clusters; no train/validation/test overlap within the same parent game or D8-equivalent history. Randomized source and test assignment are fixed before external label collection. Test labels remain unread until trained coefficients and policy-control hyperparameters are fixed.
