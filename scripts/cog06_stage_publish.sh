@@ -9,7 +9,8 @@ test "$(git branch --show-current)" = "$BRANCH"
 test "$#" -gt 0
 git add -- "$@"
 if git diff --cached --quiet; then echo "NO_STAGE_DELTA $STAGE";exit 3; fi
-git diff --cached --check
+# Preserve authentic raw test log bytes; text whitespace hygiene only applies to source/document changes.
+git diff --cached --check -- . ':(exclude,glob)**/*.log'
 git commit -m "research(cog06 $STAGE): nonterminal fork and matched-CPU WDL" >/dev/null
 SHA="$(git rev-parse HEAD)"
 mkdir -p "$ARCHIVES"

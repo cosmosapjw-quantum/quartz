@@ -1,0 +1,12 @@
+# C6. Actual release/debug tests, rules parity and native identity
+
+Source C5 Git commit 29e1b8ce74f7c512b5b7165d728b8a3a2e2b2345. All checks used that source; C16 extra 3 actual Rust tests plus previous unmodified regression suite.
+
+**Executed fresh**:
+- cargo test --offline --locked: **611 passed, 0 failed, 89 ignored**. Log evidence/C06/CARGO_DEBUG_TEST.log.
+- cargo test --offline --locked --release: **611 passed, 0 failed, 89 ignored**. Log evidence/C06/CARGO_RELEASE_TEST.log.
+- cargo build --offline --locked --release: exit0; executable SHA256 **1168f2979936a283a9e7e613b869fd30ec9aba826e15ac228c6ee9d7e7e4c4d3**. Log evidence/C06/CARGO_RELEASE_BUILD.log. No general claim from inherited compiler warnings, retained in logs.
+- Native Rust vs truly separate Python source-only checker: executed coding/audit_c06_parity.py on **all 40 newly frozen source histories** (24 constructed fork-positive and 16 actually C15-MCTS-played), actual release binary --server. Python enumerates *every legal root action*, hypothetically plays it, and enumerates *all* 225 possible subsequent winning actions. Rust independently uses the 32-local theorem, and both returned the SAME exact action->first-two-endpoint witness dictionary on every source. Overall **548 matching nonterminal certified fork actions** (not independent wins), with 35 of 40 sources satisfying the zero-immediate-win preconditions. C16 Rust correct limit: first2 distinct winning endpoints; one-ply actual native game legality and C15 source replay are independently reconstructed. Exact output evidence/C06_INDEPENDENT_RULE_PARITY.json, status PASS.
+- Source/model identity: 40-source cohort SHA256 **8349441f247f720028f8534ac4abf656be56f8ac58778191de900722b4af1049**; policy-only model SHA256 **5ff8286dcc57192b79e960ba096bc5067c78d439a212eaa69d523f68835a3b83**; no Rapfi model loaded into QUARTZ. Testing 548 witness actions across 40 deliberate/grouped source positions does NOT prove population coverage, hardware-portable timing or overall WDL.
+
+Next: C7 freeze before all 39 heldout source×five-arm real MCTS trials and 8×2-side paired full-game openings, excluding previously inspected fork-000 from the heldout effect tally. C8 will evaluate physical stratum cost separately; if 20 independently generated heldout activated groups are not reached in an eligible population, conditional treatment effect is NOT_ESTIMABLE. No tightening/widening of thresholds after looking at outcomes.

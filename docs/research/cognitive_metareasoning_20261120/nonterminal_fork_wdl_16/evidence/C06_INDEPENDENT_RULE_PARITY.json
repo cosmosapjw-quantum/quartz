@@ -1,0 +1,296 @@
+{
+  "actual_compiled_native_binary_sha256": "1168f2979936a283a9e7e613b869fd30ec9aba826e15ac228c6ee9d7e7e4c4d3",
+  "frozen_cohort_sha256": "8349441f247f720028f8534ac4abf656be56f8ac58778191de900722b4af1049",
+  "independent_checker": "Python full 225-cell candidate and 225-cell winning endpoint search, not native Rust local-32 code",
+  "model_sha256": "5ff8286dcc57192b79e960ba096bc5067c78d439a212eaa69d523f68835a3b83",
+  "n_actual_source_without_immediate_win": 35,
+  "n_constructed": 24,
+  "n_distinct_win_endpoint_pairs": 548,
+  "n_equivalent_fork_actions": 548,
+  "n_frozen_sources": 40,
+  "n_played_game_roots": 16,
+  "schema": "quartz_cog06_C06_native_Python_exhaustive_parity_v1",
+  "sources": [
+    {
+      "certificates_source_type": "engineered_fork_positive_nonIID",
+      "id": "fork-000",
+      "legal_actions": 171,
+      "n_probed_candidates": 171,
+      "n_proof_certificates": 25
+    },
+    {
+      "certificates_source_type": "engineered_fork_positive_nonIID",
+      "id": "fork-001",
+      "legal_actions": 171,
+      "n_probed_candidates": 171,
+      "n_proof_certificates": 24
+    },
+    {
+      "certificates_source_type": "engineered_fork_positive_nonIID",
+      "id": "fork-002",
+      "legal_actions": 171,
+      "n_probed_candidates": 171,
+      "n_proof_certificates": 25
+    },
+    {
+      "certificates_source_type": "engineered_fork_positive_nonIID",
+      "id": "fork-003",
+      "legal_actions": 171,
+      "n_probed_candidates": 171,
+      "n_proof_certificates": 25
+    },
+    {
+      "certificates_source_type": "engineered_fork_positive_nonIID",
+      "id": "fork-004",
+      "legal_actions": 171,
+      "n_probed_candidates": 171,
+      "n_proof_certificates": 25
+    },
+    {
+      "certificates_source_type": "engineered_fork_positive_nonIID",
+      "id": "fork-005",
+      "legal_actions": 171,
+      "n_probed_candidates": 171,
+      "n_proof_certificates": 22
+    },
+    {
+      "certificates_source_type": "engineered_fork_positive_nonIID",
+      "id": "fork-006",
+      "legal_actions": 171,
+      "n_probed_candidates": 171,
+      "n_proof_certificates": 25
+    },
+    {
+      "certificates_source_type": "engineered_fork_positive_nonIID",
+      "id": "fork-007",
+      "legal_actions": 171,
+      "n_probed_candidates": 171,
+      "n_proof_certificates": 24
+    },
+    {
+      "certificates_source_type": "engineered_fork_positive_nonIID",
+      "id": "fork-008",
+      "legal_actions": 171,
+      "n_probed_candidates": 171,
+      "n_proof_certificates": 20
+    },
+    {
+      "certificates_source_type": "engineered_fork_positive_nonIID",
+      "id": "fork-009",
+      "legal_actions": 171,
+      "n_probed_candidates": 171,
+      "n_proof_certificates": 21
+    },
+    {
+      "certificates_source_type": "engineered_fork_positive_nonIID",
+      "id": "fork-010",
+      "legal_actions": 171,
+      "n_probed_candidates": 171,
+      "n_proof_certificates": 25
+    },
+    {
+      "certificates_source_type": "engineered_fork_positive_nonIID",
+      "id": "fork-011",
+      "legal_actions": 171,
+      "n_probed_candidates": 171,
+      "n_proof_certificates": 20
+    },
+    {
+      "certificates_source_type": "engineered_fork_positive_nonIID",
+      "id": "fork-012",
+      "legal_actions": 171,
+      "n_probed_candidates": 171,
+      "n_proof_certificates": 19
+    },
+    {
+      "certificates_source_type": "engineered_fork_positive_nonIID",
+      "id": "fork-013",
+      "legal_actions": 171,
+      "n_probed_candidates": 171,
+      "n_proof_certificates": 23
+    },
+    {
+      "certificates_source_type": "engineered_fork_positive_nonIID",
+      "id": "fork-014",
+      "legal_actions": 171,
+      "n_probed_candidates": 171,
+      "n_proof_certificates": 24
+    },
+    {
+      "certificates_source_type": "engineered_fork_positive_nonIID",
+      "id": "fork-015",
+      "legal_actions": 171,
+      "n_probed_candidates": 171,
+      "n_proof_certificates": 19
+    },
+    {
+      "certificates_source_type": "engineered_fork_positive_nonIID",
+      "id": "fork-016",
+      "legal_actions": 171,
+      "n_probed_candidates": 171,
+      "n_proof_certificates": 22
+    },
+    {
+      "certificates_source_type": "engineered_fork_positive_nonIID",
+      "id": "fork-017",
+      "legal_actions": 171,
+      "n_probed_candidates": 171,
+      "n_proof_certificates": 21
+    },
+    {
+      "certificates_source_type": "engineered_fork_positive_nonIID",
+      "id": "fork-018",
+      "legal_actions": 171,
+      "n_probed_candidates": 171,
+      "n_proof_certificates": 23
+    },
+    {
+      "certificates_source_type": "engineered_fork_positive_nonIID",
+      "id": "fork-019",
+      "legal_actions": 171,
+      "n_probed_candidates": 171,
+      "n_proof_certificates": 23
+    },
+    {
+      "certificates_source_type": "engineered_fork_positive_nonIID",
+      "id": "fork-020",
+      "legal_actions": 171,
+      "n_probed_candidates": 171,
+      "n_proof_certificates": 21
+    },
+    {
+      "certificates_source_type": "engineered_fork_positive_nonIID",
+      "id": "fork-021",
+      "legal_actions": 171,
+      "n_probed_candidates": 171,
+      "n_proof_certificates": 21
+    },
+    {
+      "certificates_source_type": "engineered_fork_positive_nonIID",
+      "id": "fork-022",
+      "legal_actions": 171,
+      "n_probed_candidates": 171,
+      "n_proof_certificates": 24
+    },
+    {
+      "certificates_source_type": "engineered_fork_positive_nonIID",
+      "id": "fork-023",
+      "legal_actions": 171,
+      "n_probed_candidates": 171,
+      "n_proof_certificates": 23
+    },
+    {
+      "certificates_source_type": "original_sequential_quartz_MCTS_play_after_frozen_seed_prefix",
+      "id": "played-000",
+      "legal_actions": 213,
+      "n_probed_candidates": 213,
+      "n_proof_certificates": 0
+    },
+    {
+      "certificates_source_type": "original_sequential_quartz_MCTS_play_after_frozen_seed_prefix",
+      "id": "played-001",
+      "legal_actions": 213,
+      "n_probed_candidates": 213,
+      "n_proof_certificates": 0
+    },
+    {
+      "certificates_source_type": "original_sequential_quartz_MCTS_play_after_frozen_seed_prefix",
+      "id": "played-002",
+      "legal_actions": 213,
+      "n_probed_candidates": 0,
+      "n_proof_certificates": 0
+    },
+    {
+      "certificates_source_type": "original_sequential_quartz_MCTS_play_after_frozen_seed_prefix",
+      "id": "played-003",
+      "legal_actions": 213,
+      "n_probed_candidates": 0,
+      "n_proof_certificates": 0
+    },
+    {
+      "certificates_source_type": "original_sequential_quartz_MCTS_play_after_frozen_seed_prefix",
+      "id": "played-004",
+      "legal_actions": 213,
+      "n_probed_candidates": 213,
+      "n_proof_certificates": 2
+    },
+    {
+      "certificates_source_type": "original_sequential_quartz_MCTS_play_after_frozen_seed_prefix",
+      "id": "played-005",
+      "legal_actions": 213,
+      "n_probed_candidates": 0,
+      "n_proof_certificates": 0
+    },
+    {
+      "certificates_source_type": "original_sequential_quartz_MCTS_play_after_frozen_seed_prefix",
+      "id": "played-006",
+      "legal_actions": 213,
+      "n_probed_candidates": 213,
+      "n_proof_certificates": 0
+    },
+    {
+      "certificates_source_type": "original_sequential_quartz_MCTS_play_after_frozen_seed_prefix",
+      "id": "played-007",
+      "legal_actions": 213,
+      "n_probed_candidates": 213,
+      "n_proof_certificates": 0
+    },
+    {
+      "certificates_source_type": "original_sequential_quartz_MCTS_play_after_frozen_seed_prefix",
+      "id": "played-008",
+      "legal_actions": 213,
+      "n_probed_candidates": 213,
+      "n_proof_certificates": 2
+    },
+    {
+      "certificates_source_type": "original_sequential_quartz_MCTS_play_after_frozen_seed_prefix",
+      "id": "played-009",
+      "legal_actions": 213,
+      "n_probed_candidates": 213,
+      "n_proof_certificates": 0
+    },
+    {
+      "certificates_source_type": "original_sequential_quartz_MCTS_play_after_frozen_seed_prefix",
+      "id": "played-010",
+      "legal_actions": 213,
+      "n_probed_candidates": 213,
+      "n_proof_certificates": 0
+    },
+    {
+      "certificates_source_type": "original_sequential_quartz_MCTS_play_after_frozen_seed_prefix",
+      "id": "played-011",
+      "legal_actions": 213,
+      "n_probed_candidates": 213,
+      "n_proof_certificates": 0
+    },
+    {
+      "certificates_source_type": "original_sequential_quartz_MCTS_play_after_frozen_seed_prefix",
+      "id": "played-012",
+      "legal_actions": 213,
+      "n_probed_candidates": 0,
+      "n_proof_certificates": 0
+    },
+    {
+      "certificates_source_type": "original_sequential_quartz_MCTS_play_after_frozen_seed_prefix",
+      "id": "played-013",
+      "legal_actions": 213,
+      "n_probed_candidates": 0,
+      "n_proof_certificates": 0
+    },
+    {
+      "certificates_source_type": "original_sequential_quartz_MCTS_play_after_frozen_seed_prefix",
+      "id": "played-014",
+      "legal_actions": 213,
+      "n_probed_candidates": 213,
+      "n_proof_certificates": 0
+    },
+    {
+      "certificates_source_type": "original_sequential_quartz_MCTS_play_after_frozen_seed_prefix",
+      "id": "played-015",
+      "legal_actions": 213,
+      "n_probed_candidates": 213,
+      "n_proof_certificates": 0
+    }
+  ],
+  "status": "PASS"
+}

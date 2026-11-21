@@ -1,0 +1,1178 @@
+   Compiling libc v0.2.184
+   Compiling cfg-if v1.0.4
+   Compiling crossbeam-utils v0.8.21
+   Compiling zerocopy v0.8.48
+   Compiling proc-macro2 v1.0.106
+   Compiling quote v1.0.45
+   Compiling unicode-ident v1.0.24
+   Compiling libm v0.2.16
+   Compiling autocfg v1.5.0
+   Compiling serde_core v1.0.228
+   Compiling rustversion v1.0.22
+   Compiling zmij v1.0.21
+   Compiling getrandom v0.4.2
+   Compiling rayon-core v1.13.0
+   Compiling rustix v1.1.4
+   Compiling parking_lot_core v0.9.12
+   Compiling serde_json v1.0.149
+   Compiling scopeguard v1.2.0
+   Compiling smallvec v1.15.1
+   Compiling serde v1.0.228
+   Compiling linux-raw-sys v0.12.1
+   Compiling bitflags v2.11.1
+   Compiling once_cell v1.21.4
+   Compiling fastrand v2.4.1
+   Compiling either v1.15.0
+   Compiling lock_api v0.4.14
+   Compiling itoa v1.0.18
+   Compiling memchr v2.8.0
+   Compiling bumpalo v3.20.2
+   Compiling num-traits v0.2.19
+   Compiling arc-swap v1.9.1
+   Compiling crossbeam-epoch v0.9.18
+   Compiling crossbeam-channel v0.5.15
+   Compiling syn v2.0.117
+   Compiling crossbeam-deque v0.8.6
+   Compiling getrandom v0.2.17
+   Compiling rand_core v0.6.4
+   Compiling parking_lot v0.12.5
+   Compiling rayon v1.11.0
+   Compiling tempfile v3.27.0
+   Compiling serde_derive v1.0.228
+   Compiling ppv-lite86 v0.2.21
+   Compiling rand_chacha v0.3.1
+   Compiling rand v0.8.5
+   Compiling rand_distr v0.4.3
+   Compiling mcts_demo v0.3.0 (/home/cosmosapjw/quantum/research/quartz_cog06_20261121)
+warning: unused import: `crate::mcts::quartz::HaltReason`
+  --> src/mcts/policy/cache.rs:35:9
+   |
+35 | pub use crate::mcts::quartz::HaltReason;
+   |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   |
+   = note: `#[warn(unused_imports)]` (part of `#[warn(unused)]`) on by default
+
+warning: unused import: `std::sync::atomic::AtomicBool`
+   --> src/mcts/policy/cache.rs:265:9
+    |
+265 |     use std::sync::atomic::AtomicBool;
+    |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: unused import: `bernoulli_kl`
+  --> src/mcts/policy/kl_lucb.rs:26:25
+   |
+26 | use super::kl_helpers::{bernoulli_kl, kl_lower, kl_lucb_beta, kl_upper};
+   |                         ^^^^^^^^^^^^
+
+warning: unused imports: `EdgeRef`, `PolicyCachePublisher`, and `PolicyCache`
+  --> src/mcts/policy/mod.rs:30:17
+   |
+30 | pub use cache::{EdgeRef, PolicyCache, PolicyCachePublisher};
+   |                 ^^^^^^^  ^^^^^^^^^^^  ^^^^^^^^^^^^^^^^^^^^
+
+warning: unused imports: `SequentialHalvingBracket`, `gumbel_top_m`, `initial_bracket`, and `sample_gumbel`
+  --> src/mcts/policy/mod.rs:31:21
+   |
+31 | ...::{gumbel_top_m, initial_bracket, sample_gumbel, SequentialHalvingBracket};
+   |       ^^^^^^^^^^^^  ^^^^^^^^^^^^^^^  ^^^^^^^^^^^^^  ^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: unused imports: `compute_kg_array`, `expected_improvement`, `kg_per_arm`, and `should_halt_by_kg`
+  --> src/mcts/policy/mod.rs:33:5
+   |
+33 |     compute_kg_array, expected_improvement, kg_per_arm, should_halt_by_kg, K...
+   |     ^^^^^^^^^^^^^^^^  ^^^^^^^^^^^^^^^^^^^^  ^^^^^^^^^^  ^^^^^^^^^^^^^^^^^
+
+warning: unused imports: `bernoulli_kl`, `kl_lower`, `kl_lucb_beta`, and `kl_upper`
+  --> src/mcts/policy/mod.rs:35:22
+   |
+35 | pub use kl_helpers::{bernoulli_kl, kl_lower, kl_lucb_beta, kl_upper};
+   |                      ^^^^^^^^^^^^  ^^^^^^^^  ^^^^^^^^^^^^  ^^^^^^^^
+
+warning: unused import: `legacy_quartz::LegacyQuartz`
+  --> src/mcts/policy/mod.rs:38:9
+   |
+38 | pub use legacy_quartz::LegacyQuartz;
+   |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: unused imports: `kl_visit_to_soft`, `soft_policy`, and `soft_value`
+  --> src/mcts/policy/mod.rs:39:17
+   |
+39 | pub use ments::{kl_visit_to_soft, soft_policy, soft_value};
+   |                 ^^^^^^^^^^^^^^^^  ^^^^^^^^^^^  ^^^^^^^^^^
+
+warning: unused imports: `Reservoir`, `lambda_score`, and `quantile`
+  --> src/mcts/policy/mod.rs:40:21
+   |
+40 | pub use reservoir::{lambda_score, quantile, Reservoir};
+   |                     ^^^^^^^^^^^^  ^^^^^^^^  ^^^^^^^^^
+
+warning: unused imports: `TacticalResult` and `tactical_sentinel`
+  --> src/mcts/policy/mod.rs:41:20
+   |
+41 | pub use tactical::{tactical_sentinel, TacticalResult};
+   |                    ^^^^^^^^^^^^^^^^^  ^^^^^^^^^^^^^^
+
+warning: unused import: `EffectivePrior`
+  --> src/mcts/policy/mod.rs:43:49
+   |
+43 |     BoxedPolicy, ControllerTelemetry, EdgeView, EffectivePrior, HaltDeci...
+   |                                                 ^^^^^^^^^^^^^^
+
+warning: unused imports: `connect4_conv::ConvConnect4Evaluator` and `connect4_nn::TinyConnect4Evaluator`
+  --> src/mcts_server.rs:33:40
+   |
+33 | ...4, connect4_nn::TinyConnect4Evaluator, connect4_conv::ConvConnect4Evaluator, G...
+   |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: unused import: `std::sync::atomic::Ordering`
+ --> src/mcts_server/highbranch14_cpu_server.rs:8:5
+  |
+8 | use std::sync::atomic::Ordering;
+  |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: unnecessary parentheses around assigned value
+   --> src/mcts_server/highbranch14_cpu_server.rs:245:22
+    |
+245 |     let same_stats = (first_edges == after_edges);
+    |                      ^                          ^
+    |
+    = note: `#[warn(unused_parens)]` (part of `#[warn(unused)]`) on by default
+help: remove these parentheses
+    |
+245 -     let same_stats = (first_edges == after_edges);
+245 +     let same_stats = first_edges == after_edges;
+    |
+
+warning: use of deprecated constant `std::f32::NEG_INFINITY`: replaced by the `NEG_INFINITY` associated constant on `f32`
+  --> src/mcts/policy/ments.rs:33:21
+   |
+33 |         return f32::NEG_INFINITY;
+   |                     ^^^^^^^^^^^^
+   |
+   = note: `#[warn(deprecated)]` on by default
+
+warning: use of deprecated constant `std::f32::NEG_INFINITY`: replaced by the `NEG_INFINITY` associated constant on `f32`
+  --> src/mcts/policy/ments.rs:36:51
+   |
+36 |         return q_values.iter().cloned().fold(f32::NEG_INFINITY, f32::max);
+   |                                                   ^^^^^^^^^^^^
+
+warning: use of deprecated constant `std::f32::NEG_INFINITY`: replaced by the `NEG_INFINITY` associated constant on `f32`
+  --> src/mcts/policy/ments.rs:38:52
+   |
+38 |     let max_q = q_values.iter().cloned().fold(f32::NEG_INFINITY, f32::max);
+   |                                                    ^^^^^^^^^^^^
+
+warning: use of deprecated constant `std::f32::NEG_INFINITY`: replaced by the `NEG_INFINITY` associated constant on `f32`
+  --> src/mcts/policy/ments.rs:82:52
+   |
+82 |     let max_q = q_values.iter().cloned().fold(f32::NEG_INFINITY, f32::max);
+   |                                                    ^^^^^^^^^^^^
+
+warning: use of deprecated constant `std::f32::NEG_INFINITY`: replaced by the `NEG_INFINITY` associated constant on `f32`
+   --> src/mcts/policy/ments.rs:163:47
+    |
+163 |         assert_eq!(soft_value(&[], 1.0), f32::NEG_INFINITY);
+    |                                               ^^^^^^^^^^^^
+
+warning: associated items `from_board`, `group_stones_and_liberties_on_board`, and `remove_group` are never used
+   --> src/games/go.rs:371:12
+    |
+305 | impl Go {
+    | ------- associated items in this implementation
+...
+371 |     pub fn from_board(size: usize, komi: f32, board: &[u8], side: u8) -...
+    |            ^^^^^^^^^^
+...
+677 |     fn group_stones_and_liberties_on_board(
+    |        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+...
+693 |     fn remove_group(&mut self, pos: usize) -> u16 {
+    |        ^^^^^^^^^^^^
+    |
+    = note: `#[warn(dead_code)]` (part of `#[warn(unused)]`) on by default
+
+warning: methods `size_dim`, `win_len_dim`, `current_player_sign`, `cell_is_empty`, and `cell_is_player` are never used
+   --> src/games/gomoku.rs:417:12
+    |
+414 | impl Gomoku {
+    | ----------- methods in this implementation
+...
+417 |     pub fn size_dim(&self) -> usize {
+    |            ^^^^^^^^
+...
+424 |     pub fn win_len_dim(&self) -> usize {
+    |            ^^^^^^^^^^^
+...
+429 |     pub fn current_player_sign(&self) -> i8 {
+    |            ^^^^^^^^^^^^^^^^^^^
+...
+436 |     pub fn cell_is_empty(&self, pos: usize) -> bool {
+    |            ^^^^^^^^^^^^^
+...
+445 |     pub fn cell_is_player(&self, pos: usize, player: i8) -> bool {
+    |            ^^^^^^^^^^^^^^
+
+warning: associated function `caro` is never used
+   --> src/games/gomoku15.rs:260:12
+    |
+164 | impl Gomoku15 {
+    | ------------- associated function in this implementation
+...
+260 |     pub fn caro() -> Self {
+    |            ^^^^
+
+warning: method `with_tt_enabled` is never used
+   --> src/mcts/mod.rs:318:12
+    |
+235 | impl MctsConfig {
+    | --------------- method in this implementation
+...
+318 |     pub fn with_tt_enabled(mut self, tt_enabled: bool) -> Self {
+    |            ^^^^^^^^^^^^^^^
+
+warning: methods `root_entropy`, `root_value`, and `print_stats` are never used
+    --> src/mcts/mod.rs:1841:12
+     |
+ 393 | impl<G: GameState> MctsEngine<G> {
+     | -------------------------------- methods in this implementation
+...
+1841 |     pub fn root_entropy(&self) -> f32 {
+     |            ^^^^^^^^^^^^
+...
+1853 |     pub fn root_value(&self) -> f32 {
+     |            ^^^^^^^^^^
+...
+1879 |     pub fn print_stats(&self, label: &str) {
+     |            ^^^^^^^^^^^
+
+warning: constant `SHM_DIR_TO_RUST` is never used
+   --> src/mcts/eval.rs:499:7
+    |
+499 | const SHM_DIR_TO_RUST: u8 = 1;
+    |       ^^^^^^^^^^^^^^^
+
+warning: fields `virtual_losses` and `virtual_value` are never read
+   --> src/mcts/node.rs:329:9
+    |
+322 | pub struct MctsEdgeSnapshot<M> {
+    |            ---------------- fields in this struct
+...
+329 |     pub virtual_losses: i32,
+    |         ^^^^^^^^^^^^^^
+330 |     pub virtual_value: f64,
+    |         ^^^^^^^^^^^^^
+    |
+    = note: `MctsEdgeSnapshot` has a derived impl for the trait `Clone`, but this is intentionally ignored during dead code analysis
+
+warning: method `q_eff` is never used
+   --> src/mcts/node.rs:343:12
+    |
+333 | impl<M: Copy + Send + Sync + 'static> MctsEdgeSnapshot<M> {
+    | --------------------------------------------------------- method in this implementation
+...
+343 |     pub fn q_eff(&self) -> f32 {
+    |            ^^^^^
+
+warning: fields `q_ctrl`, `penalty`, `max_kg_per_ms`, and `prior_surprise` are never read
+  --> src/mcts/policy/cache.rs:63:9
+   |
+45 | pub struct PolicyCache {
+   |            ----------- fields in this struct
+...
+63 |     pub q_ctrl: SmallVec<[f32; 32]>,
+   |         ^^^^^^
+64 |     /// Additive PUCT penalty per arm.
+65 |     pub penalty: SmallVec<[f32; 32]>,
+   |         ^^^^^^^
+...
+80 |     pub max_kg_per_ms: f32,
+   |         ^^^^^^^^^^^^^
+...
+83 |     pub prior_surprise: f32,
+   |         ^^^^^^^^^^^^^^
+   |
+   = note: `PolicyCache` has derived impls for the traits `Debug` and `Clone`, but these are intentionally ignored during dead code analysis
+
+warning: method `snapshot` is never used
+   --> src/mcts/policy/cache.rs:238:12
+    |
+151 | impl PolicyCachePublisher {
+    | ------------------------- method in this implementation
+...
+238 |     pub fn snapshot(&self) -> Arc<PolicyCache> {
+    |            ^^^^^^^^
+
+warning: field `n_total_at_observe` is never read
+   --> src/mcts/policy/kg_stop.rs:221:5
+    |
+207 | struct KgCache {
+    |        ------- field in this struct
+...
+221 |     n_total_at_observe: u32,
+    |     ^^^^^^^^^^^^^^^^^^
+    |
+    = note: `KgCache` has derived impls for the traits `Debug` and `Clone`, but these are intentionally ignored during dead code analysis
+
+warning: fields `best_mu` and `second_ucb` are never read
+  --> src/mcts/policy/kl_lucb.rs:44:5
+   |
+36 | struct Cache {
+   |        ----- fields in this struct
+...
+44 |     best_mu: f32,
+   |     ^^^^^^^
+...
+47 |     second_ucb: f32,
+   |     ^^^^^^^^^^
+   |
+   = note: `Cache` has derived impls for the traits `Debug` and `Clone`, but these are intentionally ignored during dead code analysis
+
+warning: associated function `default_for_budget` is never used
+  --> src/mcts/policy/reservoir.rs:86:12
+   |
+74 | impl Reservoir {
+   | -------------- associated function in this implementation
+...
+86 |     pub fn default_for_budget(_budget: u32) -> Self {
+   |            ^^^^^^^^^^^^^^^^^^
+
+warning: fields `n_visible`, `depth_max`, `mean_q_root`, `sigma_eval`, `best_idx`, and `second_idx` are never read
+  --> src/mcts/policy/trait_def.rs:38:9
+   |
+30 | pub struct SearchSnapshot {
+   |            -------------- fields in this struct
+...
+38 |     pub n_visible: u16,
+   |         ^^^^^^^^^
+...
+42 |     pub depth_max: u16,
+   |         ^^^^^^^^^
+...
+45 |     pub mean_q_root: f32,
+   |         ^^^^^^^^^^^
+...
+52 |     pub sigma_eval: Option<f32>,
+   |         ^^^^^^^^^^
+...
+61 |     pub best_idx: u16,
+   |         ^^^^^^^^
+...
+64 |     pub second_idx: u16,
+   |         ^^^^^^^^^^
+   |
+   = note: `SearchSnapshot` has derived impls for the traits `Debug` and `Clone`, but these are intentionally ignored during dead code analysis
+
+warning: fields `n_virtual`, `q_sum`, `depth`, `last_value`, and `envar_partial` are never read
+  --> src/mcts/policy/trait_def.rs:82:9
+   |
+77 | pub struct EdgeView<'a> {
+   |            -------- fields in this struct
+...
+82 |     pub n_virtual: u32,
+   |         ^^^^^^^^^
+...
+88 |     pub q_sum: f32,
+   |         ^^^^^
+...
+93 |     pub depth: u16,
+   |         ^^^^^
+94 |     /// Last leaf value backed up through this edge.
+95 |     pub last_value: f32,
+   |         ^^^^^^^^^^
+...
+98 |     pub envar_partial: f32,
+   |         ^^^^^^^^^^^^^
+   |
+   = note: `EdgeView` has derived impls for the traits `Debug` and `Clone`, but these are intentionally ignored during dead code analysis
+
+warning: struct `EffectivePrior` is never constructed
+   --> src/mcts/policy/trait_def.rs:173:12
+    |
+173 | pub struct EffectivePrior {
+    |            ^^^^^^^^^^^^^^
+
+warning: method `refresh_prior` is never used
+   --> src/mcts/policy/trait_def.rs:266:8
+    |
+245 | pub trait SearchPolicy: Send + Sync {
+    |           ------------ method in this trait
+...
+266 |     fn refresh_prior(&self, _e: EdgeView<'_>) -> Option<EffectivePrior> {
+    |        ^^^^^^^^^^^^^
+
+warning: associated function `from_value_loss` is never used
+   --> src/mcts/quartz.rs:401:12
+    |
+391 | impl EvalStrength {
+    | ----------------- associated function in this implementation
+...
+401 |     pub fn from_value_loss(vl: f32) -> Self {
+    |            ^^^^^^^^^^^^^^^
+
+warning: field `budget_ms` is never read
+   --> src/mcts/search.rs:130:5
+    |
+129 | pub struct TimeManager {
+    |            ----------- field in this struct
+130 |     budget_ms: u64,
+    |     ^^^^^^^^^
+
+warning: method `with_hard_cap` is never used
+   --> src/mcts/search.rs:144:12
+    |
+136 | impl TimeManager {
+    | ---------------- method in this implementation
+...
+144 |     pub fn with_hard_cap(mut self, cap_ms: u64) -> Self {
+    |            ^^^^^^^^^^^^^
+
+warning: function `root_entropy` is never used
+   --> src/mcts/search.rs:173:8
+    |
+173 | pub fn root_entropy(visit_counts: &[u32]) -> f32 {
+    |        ^^^^^^^^^^^^
+
+warning: function `root_entropy_from_node` is never used
+   --> src/mcts/search.rs:191:8
+    |
+191 | pub fn root_entropy_from_node<M: Copy + Send + Sync + 'static>(
+    |        ^^^^^^^^^^^^^^^^^^^^^^
+
+warning: fields `foundry_mode`, `foundry_axis_id`, `foundry_checkpoint_id`, `foundry_evaluator_id`, `foundry_risk_limit`, and `foundry_min_visits` are never read
+    --> src/mcts_server.rs:1298:5
+     |
+1280 | struct SearchOverrides {
+     |        --------------- fields in this struct
+...
+1298 |     foundry_mode: Option<String>,
+     |     ^^^^^^^^^^^^
+1299 |     foundry_axis_id: Option<String>,
+     |     ^^^^^^^^^^^^^^^
+1300 |     foundry_checkpoint_id: Option<String>,
+     |     ^^^^^^^^^^^^^^^^^^^^^
+1301 |     foundry_evaluator_id: Option<String>,
+     |     ^^^^^^^^^^^^^^^^^^^^
+1302 |     foundry_risk_limit: Option<f32>,
+     |     ^^^^^^^^^^^^^^^^^^
+1303 |     foundry_min_visits: Option<u32>,
+     |     ^^^^^^^^^^^^^^^^^^
+     |
+     = note: `SearchOverrides` has a derived impl for the trait `Clone`, but this is intentionally ignored during dead code analysis
+
+warning: function `cog03_resident13_real_CPU_endpoint_retains_root_and_counter_statistics` should have a snake case name
+    --> src/mcts_server.rs:8101:8
+     |
+8101 | ...fn cog03_resident13_real_CPU_endpoint_retains_root_and_counter_statistics() {
+     |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ help: convert the identifier to snake case: `cog03_resident13_real_cpu_endpoint_retains_root_and_counter_statistics`
+     |
+     = note: `#[warn(non_snake_case)]` (part of `#[warn(nonstandard_style)]`) on by default
+
+warning: `mcts_demo` (bin "mcts_demo" test) generated 44 warnings (run `cargo fix --bin "mcts_demo" -p mcts_demo --tests` to apply 15 suggestions)
+    Finished `release` profile [optimized] target(s) in 45.14s
+     Running unittests src/main.rs (target/release/deps/mcts_demo-989e5fe954f15b06)
+
+running 700 tests
+test ablation_flip_rate::flip_rate_comparison ... ignored
+test ablation_g2_g5::g2_g5_pw_nn ... ignored
+test ablation_h3::tests::cpuct_sweep ... ignored
+test ablation_h3::tests::h3_adaptive_benchmark ... ignored
+test ablation_h3::tests::observe_d_values ... ignored
+test ablation_pflip::tests::adaptive_stopping_validation ... ignored
+test ablation_pflip::tests::pflip_convergence_curves ... ignored
+test ablation_pflip::tests::quartz_mode_comparison ... ignored
+test ablation_phase1b::tests::phase_1b_comprehensive ... ignored
+test ablation_pw_nn::pw_nn_ablation ... ignored
+test ablation_refresh::tests::phase_0a_ttt_ci ... ignored
+test ablation_refresh::tests::phase_0b_gomoku_ci ... ignored
+test ablation_refresh::tests::phase_1a_extended_n200 ... ignored
+test ablation_refresh::tests::phase_1a_penalty_only ... ignored
+test ablation_refresh_v2::tests::exp_a_biased_prior_ttt ... ignored
+test ablation_refresh_v2::tests::exp_b_low_budget_ttt ... ignored
+test ablation_refresh_v2::tests::exp_c_gomoku_refresh ... ignored
+test ablation_refresh_v2::tests::exp_d_sa_refresh_isolation ... ignored
+test ablation_round1::round1_g7_g8_ablation ... ignored
+test ablation_round2::round2_g1_g2_ablation ... ignored
+test ablation_round3::round3_g4_g5_g9 ... ignored
+test ablation_vl::tests::vl_ablation_gomoku7 ... ignored
+test bench::nps_baseline ... ignored
+test budget_scaling::budget_scale_test ... ignored
+test calibration::tests::cross_game_sigma_calibration ... ignored
+test calibration::tests::cross_game_sigma_with_rollout ... ignored
+test ablation_refresh::tests::test_ci_overlap ... ok
+test calibration::tests::test_q9_recommend_sigma_0_picks_minimum_hbar_distance ... ok
+test calibration_exp1::exp1_pflip_calibration ... ignored
+test controller_nn_exp9b::exp9b_nn_adaptive_stopping ... ignored
+test controller_onoff_exp9::exp9_controller_comparison ... ignored
+test experiment_chess::tests::bench_chess_nps ... ignored
+test experiment_chess::tests::selfplay_chess ... ignored
+test experiment_go::tests::bench_go_nps ... ignored
+test experiment_go::tests::selfplay_go_9x9 ... ignored
+test calibration::tests::test_q9_write_sigma_recommendation_serializes_per_game_and_cross_game ... ok
+test experiment_gomoku15::tests::test_nps_benchmark ... ignored
+test experiment_gomoku15::tests::test_sigma0_scan ... ignored
+test experiment_gomoku15::tests::test_gomoku15_quartz_preset_smoke ... ok
+test experiment_gomoku15::tests::test_tournament_omok ... ignored
+test experiment_gomoku15::tests::test_tournament_standard ... ignored
+test final_validation::v091_final ... ignored
+test games::chess::tests::bench_chess_hotpaths ... ignored
+test games::chess::tests::test_960_castling ... ok
+test games::chess::tests::test_960_castling_execution ... ok
+test games::chess::tests::test_960_fen_roundtrip_preserves_castling_files ... ok
+test games::chess::tests::test_960_position_518_is_standard ... ok
+test games::chess::tests::test_960_all_valid ... ok
+test ablation_refresh::tests::test_bootstrap_ci_all_true ... ok
+test ablation_refresh::tests::test_bootstrap_ci_none ... ok
+test ablation_refresh::tests::test_bootstrap_ci_half ... ok
+test games::chess::tests::test_apply_move_pure ... ok
+test games::chess::tests::test_back_rank_mate ... ok
+test games::chess::tests::test_board_history_ring_keeps_last_seven_positions ... ok
+test games::chess::tests::test_castle_blocked_by_piece ... ok
+test games::chess::tests::test_castle_execute_kingside ... ok
+test games::chess::tests::test_castle_execute_queenside ... ok
+test games::chess::tests::test_castle_out_of_check ... ok
+test games::chess::tests::test_castle_rights_removed_on_king_move ... ok
+test games::chess::tests::test_960_unique_positions ... ok
+test games::chess::tests::test_castle_rights_removed_on_rook_move ... ok
+test games::chess::tests::test_castle_through_check ... ok
+test games::chess::tests::test_castling_kingside ... ok
+test games::chess::tests::test_discovered_check_legal ... ok
+test games::chess::tests::test_double_check_only_king_moves ... ok
+test games::chess::tests::test_en_passant ... ok
+test games::chess::tests::test_encode_planes_matches_reference_and_reuse_on_edge_cases ... ok
+test games::chess::tests::test_ep_execute_and_verify ... ok
+test games::chess::tests::test_ep_expires ... ok
+test games::chess::tests::test_fast_legal_filter_matches_full_apply_reference_on_edge_cases ... ok
+test games::chess::tests::test_fen_parse ... ok
+test games::chess::tests::test_fen_roundtrip ... ok
+test games::chess::tests::test_fifty_move ... ok
+test games::chess::tests::test_hash_consistency ... ok
+test games::chess::tests::test_hash_different_positions ... ok
+test games::chess::tests::test_hash_incremental_vs_full ... ok
+test games::chess::tests::test_fivefold_repetition_auto_draw ... ok
+test games::chess::tests::test_history_always_tracks_current_hash_on_edge_cases ... ok
+test games::chess::tests::test_initial_position ... ok
+test games::chess::tests::test_insufficient_kbk ... ok
+test games::chess::tests::test_insufficient_kbk_vs_knk ... ok
+test games::chess::tests::test_insufficient_kbkb_same_color ... ok
+test games::chess::tests::test_insufficient_kk ... ok
+test games::chess::tests::test_insufficient_knk ... ok
+test games::chess::tests::test_insufficient_knnk ... ok
+test games::chess::tests::test_kiwipete_perft_1 ... ok
+test games::chess::tests::test_kiwipete_perft_2 ... ok
+test games::chess::tests::test_negamax_black_wins ... ok
+test games::chess::tests::test_not_insufficient_krk ... ok
+test games::chess::tests::test_not_insufficient_kbkb_diff_color ... ok
+test games::chess::tests::test_perft_1 ... ok
+test games::chess::tests::test_not_threefold_after_one_cycle ... ok
+test games::chess::tests::test_perft_2 ... ok
+test games::chess::tests::test_pinned_piece ... ok
+test games::chess::tests::test_position3_perft_1 ... ok
+test games::chess::tests::test_send_sync ... ok
+test games::chess::tests::test_seventy_five_move_auto_draw ... ok
+test games::chess::tests::test_policy_index_roundtrip_for_quiet_promotions ... ok
+test games::chess::tests::test_stalemate ... ok
+test games::chess::tests::test_stalemate_kqk ... ok
+test games::chess::tests::test_scholars_mate ... ok
+test games::chess::tests::test_promotion_capture ... ok
+test games::chess::tests::test_struct_size ... ok
+test games::chess::tests::test_threefold_repetition ... ok
+test games::chess::tests::test_tt_hash_distinguishes_halfmove_clock ... ok
+test games::chess::tests::test_tt_hash_distinguishes_same_board_with_different_repetition_histories ... ok
+test games::connect4::tests::apply_undo_restores_full_identity ... ok
+test games::connect4::tests::cog03_root_only_candidate_mask_never_changes_descendant_game_rules ... ok
+test games::connect4::tests::diagonal_winning_trajectory_is_terminal ... ok
+test games::chess::tests::test_perft_3 ... ok
+test games::chess::tests::test_fools_mate ... ok
+test games::chess::tests::test_promotion ... ok
+test games::go::tests::bench_go_hotpaths ... ignored
+test games::chess::tests::test_kiwipete_perft_3 ... ok
+test games::connect4::tests::exact_oracle_draw_sequence_ends_with_full_terminal_board ... ok
+test games::go::tests::test_19x19_play_and_capture ... ok
+test games::connect4::tests::full_column_is_not_a_legal_move ... ok
+test games::go::tests::test_all_occupied_illegal ... ok
+test games::go::tests::test_apply_move_in_place_roundtrip_matches_pure ... ok
+test games::connect4::tests::gravity_and_column_actions_reconstruct_sequence ... ok
+test games::connect4::tests::horizontal_and_vertical_wins_have_negamax_sign ... ok
+test games::connect4::tests::invalid_column_and_post_terminal_play_rejected ... ok
+test games::connect4_conv::tests::rejects_truncated_or_invalid_conv_models ... ok
+test experiment_chess::tests::test_chess_quartz_preset_smoke ... ok
+test games::go::tests::test_connected_group_liberties ... ok
+test games::go::tests::test_apply_move_in_place_roundtrip_with_capture ... ok
+test games::go::tests::test_apply_move_pure ... ok
+test games::go::tests::test_basic_19x19 ... ok
+test games::go::tests::test_corner_stone ... ok
+test games::go::tests::test_basic_9x9 ... ok
+test games::go::tests::test_board_13x13 ... ok
+test games::go::tests::test_cant_play_occupied ... ok
+test games::go::tests::test_capture_not_suicide ... ok
+test games::go::tests::test_capture_trumps_suicide ... ok
+test games::connect4_conv::tests::zero_conv_weights_respect_gravity_legality ... ok
+test games::go::tests::test_double_pass_terminal ... ok
+test games::go::tests::test_edge_stone ... ok
+test games::go::tests::test_encode_planes_matches_reference_and_board_ring_on_edge_cases ... ok
+test games::go::tests::test_hash_changes ... ok
+test games::go::tests::test_center_stone ... ok
+test games::go::tests::test_ko_cleared_after_play_elsewhere ... ok
+test games::go::tests::test_ko_cleared_on_pass ... ok
+test games::go::tests::test_ko_rule ... ok
+test games::go::tests::test_large_group_capture ... ok
+test games::connect4_nn::tests::tiny_nn_zero_weights_produce_legal_uniform_policy ... ok
+test games::go::tests::test_korean_ruleset_marks_repetition_as_draw ... ok
+test games::go::tests::test_multi_capture ... ok
+test games::go::tests::test_negamax_convention ... ok
+test games::go::tests::test_pass_preserves_board ... ok
+test games::go::tests::test_scoring_empty_board ... ok
+test games::go::tests::test_scoring_one_stone ... ok
+test games::go::tests::test_scoring_territory ... ok
+test games::go::tests::test_chinese_ruleset_rejects_repeated_position_hash ... ok
+test games::go::tests::test_move_count ... ok
+test games::go::tests::test_self_atari_legal ... ok
+test games::go::tests::test_send_sync ... ok
+test games::go::tests::test_single_capture ... ok
+test games::go::tests::test_single_pass_not_terminal ... ok
+test games::go::tests::test_suicide_forbidden ... ok
+test games::gomoku15::tests::bench_gomoku15_hotpaths ... ignored
+test games::go::tests::test_territory_cleanup_removes_surrounded_one_eye_group ... ok
+test games::go::tests::test_tt_hash_distinguishes_ko_point_on_same_board ... ok
+test games::go::tests::test_tt_hash_distinguishes_pass_count_on_same_board ... ok
+test games::go::tests::test_tt_hash_distinguishes_superko_history_on_same_board ... ok
+test games::gomoku15::tests::bench_gomoku15_renju_hotpaths ... ignored
+test games::gomoku15::tests::bench_gomoku_hotpaths ... ignored
+test games::gomoku15::tests::bench_tictactoe_hotpaths ... ignored
+test games::gomoku15::tests::test_all_directions_diagonal_dr ... ok
+test games::chess::tests::test_perft_4 ... ok
+test games::gomoku15::tests::test_all_directions_diagonal_ur ... ok
+test games::gomoku15::tests::test_all_directions_vertical ... ok
+test games::gomoku15::tests::test_apply_move_in_place_roundtrip_matches_pure ... ok
+test games::connect4_nn::tests::tiny_nn_rejects_invalid_or_wrong_shape_weights ... ok
+test games::gomoku15::tests::test_apply_move_pure ... ok
+test experiment_go::tests::test_go_quartz_preset_smoke ... ok
+test games::gomoku15::tests::test_caro_blocked_five_is_not_win ... ok
+test games::gomoku15::tests::test_caro_exact_six_is_not_win ... ok
+test games::gomoku15::tests::test_caro_open_five_wins ... ok
+test games::gomoku15::tests::test_caro_seven_is_not_win ... ok
+test games::gomoku15::tests::test_corner_diagonal ... ok
+test games::gomoku15::tests::test_draw_not_terminal_at_start ... ok
+test games::gomoku15::tests::test_edge_right ... ok
+test games::gomoku15::tests::test_encode_planes_matches_reference_and_occupied_consistency_across_variants ... ok
+test games::gomoku15::tests::test_freestyle_overline_wins ... ok
+test games::gomoku15::tests::test_freestyle_overline_wins_legacy_path ... ok
+test games::gomoku15::tests::test_gomocup_standard_overline_does_not_win ... ok
+test games::gomoku15::tests::test_hash_transposition ... ok
+test games::gomoku15::tests::test_initial_state ... ok
+test games::gomoku15::tests::test_is_winning_move ... ok
+test games::gomoku15::tests::test_legal_move_count_matches ... ok
+test games::gomoku15::tests::test_encode_planes ... ok
+test games::gomoku15::tests::test_four_no_win ... ok
+test games::gomoku15::tests::test_edge_bottom ... ok
+test games::gomoku15::tests::test_negamax_convention ... ok
+test games::gomoku15::tests::test_num_actions ... ok
+test games::gomoku15::tests::test_omok_double_three_forbidden ... ok
+test games::gomoku15::tests::test_omok_exactly_five_wins ... ok
+test games::gomoku15::tests::test_omok_gap_three_double ... ok
+test games::chess::tests::test_960_mcts_integration ... ok
+test games::chess::tests::test_sliding_attack_tables_match_reference ... ok
+test games::gomoku15::tests::test_omok_kr_variant_preserved ... ok
+test games::gomoku15::tests::test_omok_overline_forbidden ... ok
+test games::gomoku15::tests::test_move_to_idx_roundtrip ... ok
+test games::gomoku15::tests::test_omok_vs_renju_double_three_with_white_blocking ... ok
+test games::gomoku15::tests::test_omok_white_no_restrictions ... ok
+test games::gomoku15::tests::test_omok_winning_move_overrides_forbidden ... ok
+test games::gomoku15::tests::test_renju_200_move_limit_is_draw ... ok
+test games::gomoku15::tests::test_renju_diagonal_double_four ... ok
+test games::gomoku15::tests::test_renju_double_four_broken ... ok
+test games::gomoku15::tests::test_renju_double_four_straight_x_broken ... ok
+test games::gomoku15::tests::test_renju_double_four_straight_x_straight ... ok
+test games::gomoku15::tests::test_renju_double_three_forbidden ... ok
+test games::gomoku15::tests::test_omok_overline_not_forbidden_for_white ... ok
+test games::gomoku15::tests::test_renju_double_three_with_open_ends ... ok
+test games::gomoku15::tests::test_renju_exactly_five_wins ... ok
+test games::gomoku15::tests::test_omok_single_three_ok ... ok
+test games::gomoku15::tests::test_omok_three_not_open_if_blocked ... ok
+test games::gomoku15::tests::test_renju_five_overrides_double_three ... ok
+test games::gomoku15::tests::test_renju_five_overrides_overline ... ok
+test games::gomoku15::tests::test_renju_four_at_edge_not_double ... ok
+test games::gomoku15::tests::test_renju_overline_blocks_four_count ... ok
+test games::gomoku15::tests::test_renju_overline_forbidden ... ok
+test games::gomoku15::tests::test_renju_overline_not_forbidden_for_white ... ok
+test games::gomoku15::tests::test_renju_single_broken_four_ok ... ok
+test games::gomoku15::tests::test_renju_single_four_ok ... ok
+test games::gomoku15::tests::test_renju_single_three_ok ... ok
+test games::gomoku15::tests::test_renju_variant_preserved ... ok
+test games::gomoku15::tests::test_renju_five_overrides_double_four ... ok
+test games::gomoku15::tests::test_renju_vs_omok_double_four_difference ... ok
+test games::gomoku15::tests::test_renju_white_can_make_overline ... ok
+test games::gomoku15::tests::test_renju_white_double_four_ok ... ok
+test games::gomoku15::tests::test_send_sync ... ok
+test games::gomoku15::tests::test_white_wins ... ok
+test games::gomoku::tests::semantics_audit_apply_in_place_undo_equivalence ... ok
+test games::gomoku15::tests::test_white_freestyle_overline_wins ... ok
+test games::gomoku::tests::semantics_audit_board_state_record_bounded_to_size ... ok
+test games::gomoku::tests::semantics_audit_from_board_12_no_phantom_winner ... ok
+test games::gomoku::tests::semantics_audit_legal_moves_bounded_to_size ... ok
+test games::gomoku::tests::semantics_audit_random_legal_move_inside_board ... ok
+test games::gomoku::tests::test_4a1_gomoku15_after_moves ... ok
+test games::gomoku::tests::test_4a1_gomoku15_legal_moves ... ok
+test games::gomoku15::tests::test_variant_preserved_after_apply ... ok
+test games::gomoku15::tests::test_standard_five_horizontal ... ok
+test games::gomoku::tests::test_4a2_gomoku15_diagonal_win ... ok
+test games::gomoku::tests::test_4a2_gomoku15_four_no_win ... ok
+test games::gomoku::tests::test_4a2_gomoku15_horizontal_win ... ok
+test games::gomoku::tests::test_4a2_gomoku15_vertical_win ... ok
+test games::gomoku::tests::test_4a_gomoku15_hash ... ok
+test games::gomoku::tests::test_7x4_four_in_row_wins ... ok
+test games::gomoku::tests::test_7x4_three_no_win ... ok
+test games::gomoku::tests::test_9x5_four_no_win ... ok
+test games::gomoku::tests::test_apply_move_pure ... ok
+test games::gomoku::tests::test_diagonal_win ... ok
+test games::gomoku15::tests::test_mcts_integration_renju ... ok
+test games::gomoku::tests::test_encode_planes ... ok
+test games::gomoku::tests::test_from_board_12 ... ok
+test games::gomoku::tests::test_encode_planes_matches_reference_and_occupied_consistency ... ok
+test games::gomoku::tests::test_hash_transposition ... ok
+test games::gomoku::tests::test_horizontal_win ... ok
+test games::gomoku::tests::test_initial_state ... ok
+test games::gomoku::tests::test_no_win_four_in_row ... ok
+test games::gomoku::tests::test_wins_if ... ok
+test games::tictactoe::tests::test_apply_move_pure ... ok
+test games::tictactoe::tests::test_hash_transposition ... ok
+test gated_refresh_exp7::exp7_gated_refresh ... ignored
+test games::tictactoe::tests::test_negamax_outcome ... ok
+test gomocup_brain::tests::test_budget_respects_timeout_turn ... ok
+test gomocup_brain::tests::test_about_format ... ok
+test gomocup_brain::tests::test_begin_returns_center_on_empty_board ... ok
+test gomocup_brain::tests::test_budget_uses_time_increment ... ok
+test gomocup_brain::tests::test_info_parses_folder_and_thread_num ... ok
+test games::tictactoe::tests::test_draw ... ok
+test gomocup_brain::tests::test_rule_code_mapping ... ok
+test gomocup_brain::tests::test_should_run_gomocup_mode_detects_pbrain_name ... ok
+test gomocup_brain::tests::test_start_rejects_invalid_size_rule_combo ... ok
+test gomocup_bundle::tests::test_apply_bundle_search_config_respects_manifest_overrides ... ok
+test gomocup_bundle::tests::test_bundle_supports_exact_variant_only ... ok
+test gomocup_brain::tests::test_takeback_clears_cell ... ok
+test gomoku_nn_experiments::exp_gomoku_nn_penalty_and_calibration ... ignored
+test mcts::cog02::tests::current_root_features_normalized_and_no_oracle ... ok
+test mcts::cog02::tests::reject_malformed_surrogate ... ok
+test mcts::dynamic10::tests::invalid_shape_and_nonfinite_or_negative_cost_rejected ... ok
+test mcts::dynamic10::tests::joint_value_dominates_even_if_single_computation_negative ... ok
+test mcts::eval::tests::test_batch_config_default ... ok
+test mcts::eval::tests::test_build_policy_from_dense_bytes_matches_dense ... ok
+test gomocup_bundle::tests::test_load_bundle_uses_default_onnx_name_without_manifest ... ok
+test mcts::eval::tests::test_distribute_binary_batch_falls_back_uniform_on_truncated_payload ... ok
+test mcts::eval::tests::test_distribute_binary_batch_parses_dense_payload_without_intermediate_batch_vec ... ok
+test mcts::eval::tests::test_encode_eval_req_payload_includes_fingerprint_header ... ok
+test mcts::eval::tests::test_parse_empty_policy_fallback ... ok
+test mcts::eval::tests::test_parse_malformed_response_fallback ... ok
+test mcts::eval::tests::test_parse_multi_response ... ok
+test mcts::eval::tests::test_parse_negative_value ... ok
+test mcts::eval::tests::test_parse_single_response ... ok
+test mcts::eval::tests::test_parse_zero_sum_policy_normalized ... ok
+test mcts::eval::tests::test_retune_adaptive_timeout_prefers_lower_latency_for_low_concurrency ... ok
+test mcts::eval::tests::test_send_uniform_fallback ... ok
+test games::go::tests::test_go_quartz_preset ... ok
+test mcts::gvoc::tests::test_gvoc_contract_on_low_voc ... ok
+test mcts::gvoc::tests::test_gvoc_expand_on_high_voc ... ok
+test mcts::parallel::tests::bench_parallel_vl_hot_path ... ignored
+test mcts::gvoc::tests::test_routing_mode ... ok
+test mcts::parallel::tests::test_adaptive_depth_decay ... ok
+test mcts::parallel::tests::test_adaptive_sigma_scaling ... ok
+test mcts::parallel::tests::test_auto_threads_quality_caps_low_branching ... ok
+test mcts::parallel::tests::test_auto_threads_caps_tiny_budgets ... ok
+test mcts::parallel::tests::test_auto_threads_respects_caller_cap ... ok
+test mcts::parallel::tests::test_auto_threads_throughput_uses_host_when_budget_allows ... ok
+test mcts::parallel::tests::test_cached_entropy_factor_matches_reference_formula ... ok
+test mcts::parallel::tests::test_disabled_vl ... ok
+test mcts::parallel::tests::test_entropy_modulation ... ok
+test mcts::parallel::tests::test_fixed_vl ... ok
+test mcts::parallel::tests::test_telemetry ... ok
+test mcts::parallel::tests::test_telemetry_reset ... ok
+test mcts::policy::cache::tests::test_phase2_cache_epoch_monotone ... ok
+test mcts::policy::cache::tests::test_phase2_cache_fresh_when_both_match ... ok
+test games::chess::tests::test_mcts_integration ... ok
+test mcts::policy::cache::tests::test_phase2_cache_stale_edge_hash_rejected ... ok
+test mcts::eval::tests::test_channel_concurrent_requests ... ok
+test mcts::policy::cache::tests::test_phase2_empty_cache_has_zero_arrays ... ok
+test games::gomoku15::tests::test_mcts_integration_omok ... ok
+test games::connect4_conv::tests::trained_conv_matches_frozen_python_pytorch_outputs ... ok
+test mcts::policy::gumbel_sh::tests::test_phase3_gumbel_sample_mean ... ok
+test mcts::policy::cache::tests::test_phase2_edge_pos_distinct_from_action_id ... ok
+test mcts::policy::cache::tests::test_phase2_cache_publish_visible_to_concurrent_reader ... ok
+test mcts::policy::gumbel_sh::tests::test_phase3_gumbel_top_m_count ... ok
+test mcts::policy::gumbel_sh::tests::test_phase3_gumbel_top_m_concentrates_on_strong_prior ... ok
+test mcts::policy::gumbel_sh::tests::test_phase3_gumbel_top_m_empty_input ... ok
+test mcts::policy::gumbel_sh::tests::test_phase3_sh_advance_halves_candidates ... ok
+test mcts::policy::gumbel_sh::tests::test_phase3_sh_advance_round_keeps_ceiling_half_on_odd_count ... ok
+test mcts::policy::gumbel_sh::tests::test_phase3_sh_bracket_n_total_rounds ... ok
+test mcts::policy::cache::tests::test_phase2_cache_stale_root_visits_rejected ... ok
+test mcts::policy::gumbel_sh::tests::test_phase3_sh_new_shrinks_initial_candidates_to_avoid_budget_overshoot ... ok
+test mcts::policy::gumbel_sh::tests::test_phase3_gumbel_top_m_uniform_distributes ... ok
+test mcts::policy::gumbel_sh::tests::test_phase3_sh_resumable_property ... ok
+test mcts::policy::gumbel_sh::tests::test_phase3_sh_round_budget_at_least_one ... ok
+test mcts::policy::gumbel_sh::tests::test_phase3_sh_select_winner ... ok
+test mcts::policy::kg_stop::tests::test_phase4_ei_at_large_delta_decays ... ok
+test mcts::policy::gumbel_sh::tests::test_phase3_sh_new_does_not_shrink_when_budget_is_affordable ... ok
+test mcts::policy::kg_stop::tests::test_phase4_ei_decreases_with_delta ... ok
+test mcts::policy::kg_stop::tests::test_phase4_ei_negative_delta_clamped ... ok
+test mcts::policy::kg_stop::tests::test_phase4_kg_cross_check_with_python ... ok
+test mcts::policy::kg_stop::tests::test_phase4_kg_monotone_in_inverse_n_a ... ok
+test mcts::policy::kg_stop::tests::test_phase4_kg_monotone_in_sigma_a ... ok
+test mcts::policy::kg_stop::tests::test_phase4_ei_at_delta_zero ... ok
+test mcts::policy::kg_stop::tests::test_phase4_ei_at_zero_uncertainty_is_zero ... ok
+test mcts::parallel::tests::test_telemetry_vvalue_accumulates_under_concurrency ... ok
+test mcts::policy::kg_stop::tests::test_phase4_kg_positive_for_subopt_arms ... ok
+test mcts::policy::kg_stop::tests::test_phase4_kg_stop_does_not_fire_at_high_kg ... ok
+test mcts::policy::kg_stop::tests::test_phase4_kg_stop_fires_at_low_kg ... ok
+test mcts::policy::kg_stop::tests::test_phase4_kg_stop_respects_min_total ... ok
+test mcts::policy::kg_stop::tests::test_phase4_kg_zero_at_empirical_best ... ok
+test mcts::policy::kg_stop::tests::test_phase4_phi_at_zero ... ok
+test mcts::policy::kg_stop::tests::test_phase4_phi_cdf_symmetry ... ok
+test mcts::policy::kg_stop::tests::test_s7_kg_stop_default_for_budget_clamps_min_total ... ok
+test mcts::policy::kg_stop::tests::test_s7_kg_stop_derives_best_arm_ignores_stubbed_snapshot_best ... ok
+test mcts::policy::kg_stop::tests::test_s7_kg_stop_halt_at_max_visits ... ok
+test mcts::policy::kg_stop::tests::test_s7_kg_stop_no_halt_before_first_observe ... ok
+test mcts::policy::kg_stop::tests::test_s7_kg_stop_resolved_root_halts_policy_converged ... ok
+test mcts::policy::kg_stop::tests::test_s7_kg_stop_score_adjustment_is_identity ... ok
+test mcts::policy::kg_stop::tests::test_s7_kg_stop_below_min_total_continues ... ok
+test mcts::policy::kg_stop::tests::test_s7_kg_stop_telemetry_exposes_max_kg_as_bayes_voi ... ok
+test mcts::policy::kg_stop::tests::test_s7_kg_stop_underpulled_arm_blocks_halt ... ok
+test games::gomoku15::tests::test_mcts_integration_standard ... ok
+test mcts::policy::kl_helpers::tests::bernoulli_kl_non_negative ... ok
+test mcts::policy::kl_helpers::tests::bernoulli_kl_zero_on_diagonal ... ok
+test mcts::policy::kl_helpers::tests::kl_lower_inverts_bisection ... ok
+test mcts::policy::kl_helpers::tests::kl_lucb_beta_kk13_sanity ... ok
+test mcts::policy::kl_helpers::tests::kl_upper_inverts_bisection ... ok
+test mcts::policy::kl_lucb::tests::test_p08_kl_lucb_stop_below_min_total_continues ... ok
+test mcts::policy::kl_lucb::tests::test_p08_kl_lucb_stop_empty_edges_no_op ... ok
+test mcts::policy::kl_lucb::tests::test_p08_kl_lucb_stop_a1a_underpulled_arm_blocks_premature_stop ... ok
+test mcts::policy::kl_lucb::tests::test_p08_kl_lucb_stop_halt_at_max_visits ... ok
+test mcts::policy::kl_lucb::tests::test_p08_kl_lucb_stop_min_pulls_guard ... ok
+test mcts::policy::kl_lucb::tests::test_p08_kl_lucb_stop_telemetry ... ok
+test mcts::policy::kl_lucb::tests::test_p08_kl_lucb_stop_tight_gap_does_not_halt ... ok
+test mcts::policy::kl_lucb::tests::test_p08_kl_lucb_stop_wide_gap_halts ... ok
+test mcts::policy::legacy_az::tests::test_p07_legacy_az_halt_at_budget ... ok
+test mcts::policy::legacy_az::tests::test_p07_legacy_az_score_adjustment_is_identity ... ok
+test mcts::policy::legacy_az::tests::test_p07_legacy_az_telemetry ... ok
+test mcts::policy::legacy_quartz::tests::test_p07_legacy_quartz_continue_below_budget ... ok
+test mcts::policy::kl_lucb::tests::test_p08_kl_lucb_stop_q_mapping_preserves_ranking ... ok
+test mcts::policy::legacy_quartz::tests::test_p07_legacy_quartz_halt_fixed_budget ... ok
+test mcts::policy::legacy_quartz::tests::test_p07_legacy_quartz_halt_max_visits ... ok
+test games::go::tests::test_mcts_integration ... ok
+test games::connect4_nn::tests::tiny_nn_real_export_loads_and_predicts_legal_probabilities ... ok
+test mcts::policy::kl_lucb::tests::test_p08_kl_lucb_stop_score_adjustment_is_identity ... ok
+test mcts::policy::legacy_quartz::tests::test_p07_legacy_quartz_score_adjustment_none_mode ... ok
+test mcts::policy::legacy_quartz::tests::test_p07_legacy_quartz_telemetry_shape ... ok
+test mcts::policy::ments::tests::test_phase7_kl_positive_on_divergence ... ok
+test mcts::policy::ments::tests::test_phase7_kl_visit_to_soft_convergence ... ok
+test mcts::policy::ments::tests::test_phase7_kl_zero_on_match ... ok
+test mcts::policy::ments::tests::test_phase7_kl_zero_visit_arm ... ok
+test mcts::policy::ments::tests::test_phase7_soft_policy_delta_at_zero_tau ... ok
+test mcts::policy::ments::tests::test_phase7_soft_policy_high_epsilon_is_near_uniform ... ok
+test mcts::policy::ments::tests::test_phase7_soft_policy_sums_to_one ... ok
+test mcts::policy::ments::tests::test_phase7_soft_value_at_unit_tau ... ok
+test mcts::policy::ments::tests::test_phase7_soft_value_at_zero_tau ... ok
+test mcts::policy::ments::tests::test_phase7_soft_value_empty ... ok
+test mcts::policy::ments::tests::test_phase7_soft_value_entropy_bonus ... ok
+test mcts::policy::reservoir::tests::test_phase6_reservoir_quantile_pruning ... ok
+test mcts::policy::reservoir::tests::test_phase6_reservoir_remove_starts_cooldown ... ok
+test mcts::policy::tactical::tests::test_a4a_tactical_sentinel_no_false_positive_when_multiple_moves_are_safe ... ok
+test mcts::policy::reservoir::tests::test_phase6_lambda_score_components ... ok
+test mcts::policy::reservoir::tests::test_phase6_quantile_clean_25th ... ok
+test mcts::policy::tactical::tests::test_phase5_gomoku_empty_board_no_forced ... ok
+test mcts::policy::tactical::tests::test_phase5_gomoku_forced_block_detected ... ok
+test mcts::policy::tactical::tests::test_phase5_gomoku_immediate_four_detected ... ok
+test mcts::policy::reservoir::tests::test_phase6_quantile_empty ... ok
+test mcts::policy::reservoir::tests::test_phase6_quantile_single_value ... ok
+test mcts::policy::reservoir::tests::test_phase6_quantile_two_values ... ok
+test mcts::policy::reservoir::tests::test_phase6_reservoir_add_respects_max_size ... ok
+test mcts::policy::reservoir::tests::test_phase6_reservoir_empty_prune_noop ... ok
+test mcts::policy::reservoir::tests::test_phase6_reservoir_missing_score_pruned ... ok
+test mcts::policy::reservoir::tests::test_phase6_reservoir_no_thrashing ... ok
+test mcts::policy::tactical::tests::test_a4a_tactical_sentinel_is_generic_over_tictactoe ... ok
+test mcts::policy::tactical::tests::test_phase5_gomoku_immediate_win_priority_over_block ... ok
+test games::connect4_nn::tests::updated_mlp_matches_generalization07_torch_parity ... ok
+test mcts::policy::tactical::tests::test_phase5_gomoku_terminal_state_no_forced ... ok
+test mcts::policy::tactical::tests::test_phase5_gomoku_two_in_row_not_forced ... ok
+test mcts::policy::tactical::tests::test_phase5_tactical_result_api ... ok
+test mcts::policy::tests::test_a1c_edge_view_sigma_a_matches_prototype_formula_across_n ... ok
+test mcts::policy::tests::test_p06_default_bridge_no_op ... ok
+test mcts::policy::tests::test_p06_edge_view_sigma_a_smoothing_after_one_observation ... ok
+test mcts::policy::tests::test_p06_edge_view_sigma_a_smoothing_at_zero_visits ... ok
+test mcts::policy::tests::test_p06_halt_decision_carries_reason ... ok
+test mcts::profiling::tests::test_hot_path_metrics_override_disable_blocks_timer_records ... ok
+test mcts::gvoc::tests::test_q6_gvoc_update_with_real_root_respects_bounds_and_advances_iters ... ok
+test mcts::quartz::tests::test_1a_degenerate_sigma_no_panic ... ok
+test mcts::quartz::tests::test_1a_fixed_halt_exhausts_budget ... ok
+test mcts::profiling::tests::test_hot_path_metrics_override_enable_records_timer ... ok
+test mcts::quartz::tests::test_1a_fixed_ignores_convergence ... ok
+test mcts::quartz::tests::test_1a_halt_mode_builder ... ok
+test mcts::quartz::tests::test_1a_halt_mode_default_is_voc ... ok
+test mcts::quartz::tests::test_1a_voc_default_unchanged ... ok
+test mcts::quartz::tests::test_1b_defaults_all_true ... ok
+test games::connect4_nn::tests::tiny_nn_real_weights_agree_with_independent_pytorch_parity_reference ... ok
+test mcts::quartz::tests::test_1b_expand_off_forces_zero ... ok
+test mcts::quartz::tests::test_1b_fisher_switch_affects_score ... ok
+test mcts::quartz::tests::test_1b_merge_off_forces_zero ... ok
+test mcts::quartz::tests::test_1b_all_off_equals_puct ... ok
+test mcts::quartz::tests::test_1b_all_off_still_computes_pflip ... ok
+test mcts::quartz::tests::test_3a2_time_driven_no_budget ... ok
+test mcts::quartz::tests::test_3a3_termination_guarantee ... ok
+test mcts::quartz::tests::test_3a_cost_mode_builder ... ok
+test mcts::quartz::tests::test_3a1_constant_cost_baseline ... ok
+test mcts::quartz::tests::test_3a_cost_mode_default_is_legacy ... ok
+test mcts::quartz::tests::test_3a_cost_modes_differ ... ok
+test mcts::quartz::tests::test_6a1_conf_formula_values ... ok
+test mcts::quartz::tests::test_6a2_conf_monotone ... ok
+test mcts::quartz::tests::test_6a4_conf_adaptive_no_panic ... ok
+test mcts::quartz::tests::test_6a5_p_hidden_dormant ... ok
+test mcts::quartz::tests::test_3a2_time_driven_cost_profile ... ok
+test mcts::quartz::tests::test_6a3_theta_conf_adaptation ... ok
+test mcts::quartz::tests::test_6b2_kurtosis_effect ... ok
+test mcts::quartz::tests::test_6b1_saddlepoint_gaussian_limit ... ok
+test mcts::quartz::tests::test_6b2_saddlepoint_skewed ... ok
+test mcts::quartz::tests::test_6b1_various_mu ... ok
+test mcts::quartz::tests::test_6b3_gated_insufficient_data ... ok
+test mcts::quartz::tests::test_6b4_stability ... ok
+test mcts::quartz::tests::test_6b3_saddlepoint_gated ... ok
+test mcts::quartz::tests::test_6b_diagnostic_fields ... ok
+test mcts::quartz::tests::test_6c1_initial_kappa ... ok
+test mcts::quartz::tests::test_6c1_three_buckets ... ok
+test mcts::quartz::tests::test_6c2_kappa_update ... ok
+test mcts::quartz::tests::test_6c3_calibrate_sigma ... ok
+test mcts::quartz::tests::test_6d1_wimp_root_is_one ... ok
+test mcts::quartz::tests::test_6d4_root_only_equivalent ... ok
+test mcts::quartz::tests::test_6e1_mom_gaussian ... ok
+test mcts::quartz::tests::test_6e2_mom_outlier_robust ... ok
+test mcts::quartz::tests::test_6e3_circular_buffer ... ok
+test mcts::quartz::tests::test_6f4_ns_gate_surprise ... ok
+test mcts::quartz::tests::test_cost_derived_from_hbar ... ok
+test mcts::quartz::tests::test_envariance_is_pinsker_bound ... ok
+test mcts::quartz::tests::test_epsilon_envariance_adaptive ... ok
+test mcts::quartz::tests::test_fisher_alpha_fixed ... ok
+test mcts::quartz::tests::test_flip_thresh_one_sigma ... ok
+test mcts::quartz::tests::test_hbar_eff_scale ... ok
+test mcts::quartz::tests::test_6e_insufficient_data ... ok
+test mcts::quartz::tests::test_6f1_ns_gate_all_false ... ok
+test mcts::quartz::tests::test_6f2_ns_gate_heavy_tail ... ok
+test mcts::gvoc::tests::test_q6_gvoc_disabled_when_below_score_interval ... ok
+test mcts::quartz::tests::test_6f_gate_reset ... ok
+test mcts::quartz::tests::test_one_loop_penalty_diagonal ... ok
+test mcts::quartz::tests::test_cdf_pdf ... ok
+test mcts::quartz::tests::test_6f3_ns_gate_multimodal ... ok
+test mcts::quartz::tests::test_p6_halt_check_serializes_with_schema_version_2 ... ok
+test mcts::quartz::tests::test_p6_halt_telemetry_records_fixed_budget ... ok
+test mcts::quartz::tests::test_p6_halt_telemetry_records_max_visits_terminal ... ok
+test mcts::quartz::tests::test_q3_voc_argmax_channel_helper ... ok
+test mcts::quartz::tests::test_rho_hat_off_diagonal_oneloop ... ok
+test mcts::quartz::tests::test_rtt_welford ... ok
+test mcts::quartz::tests::test_voc_channel_cost_ordering ... ok
+test mcts::reopening12::tests::actual_connect4_omitted_vertical_winning_action_triggered_by_legal_probe ... ok
+test mcts::reopening12::tests::oracle_blind_random_ranks_are_deterministic_and_limited ... ok
+test mcts::quartz::tests::test_p05_with_calibration_applies_per_game_recommendation ... ok
+test mcts::search::tests::test_0b1_stop_reason_always_set_after_stop ... ok
+test mcts::reopening12::tests::uniform_ties_rank_center_3_2_4_and_include_all ... ok
+test mcts::quartz::tests::test_p05_with_calibration_missing_file_keeps_default ... ok
+test mcts::search::tests::test_0b1_stop_reason_default ... ok
+test mcts::search::tests::test_0b2_fixed_iterations_reason ... ok
+test mcts::quartz::tests::test_p05_with_calibration_falls_back_to_cross_game ... ok
+test mcts::search::tests::test_0b2_stop_reason_categories ... ok
+test mcts::search::tests::test_0b2_time_manager_reason ... ok
+test mcts::search::tests::test_0b4_stop_reason_deterministic ... ok
+test mcts::quartz::tests::test_p05_with_calibration_skips_unknown_schema_version ... ok
+test mcts::select::tests::bench_linear_scan_vs_reference ... ignored
+test mcts::search::tests::test_fixed_iterations_hints ... ok
+test mcts::search::tests::test_search_stats_has_stop_reason ... ok
+test mcts::quartz::tests::test_p05_with_calibration_strength_stratified_file_wins ... ok
+test mcts::select::tests::test_fpu_improves_unvisited_child_score_without_affecting_visited_edge ... ok
+test mcts::quartz::tests::test_p05_with_calibration_warns_on_large_divergence ... ok
+test mcts::select::tests::test_gated_refresh_ignores_pflip_when_other_state_matches ... ok
+test mcts::select::tests::test_gated_refresh_opens_on_prior_divergence ... ok
+test mcts::select::tests::test_legacy_gated_refresh_depends_on_pflip ... ok
+test mcts::select::tests::test_linear_scan_matches_reference_puct ... ok
+test mcts::select::tests::test_legacy_profile_can_shape_shallow_nonroot_nodes ... ok
+test mcts::select::tests::test_linear_scan_matches_reference_quartz_root ... ok
+test mcts::select::tests::test_q8_pflip_mixture_divergence_gate_default_off_is_noop ... ok
+test mcts::select::tests::test_quartz_scoring_is_root_only ... ok
+test mcts::select::tests::test_should_replace_best_keeps_lower_index_on_tie_and_nan ... ok
+test mcts::tests::bench_fpu_accuracy_tradeoff ... ignored
+test mcts::tests::bench_search_controller_fixed_iterations_fast_path ... ignored
+test mcts::select::tests::test_snapshot_edge_skips_vvalue_without_reservation_except_vvalue_only ... ok
+test mcts::tests::bench_terminal_child_accuracy_tradeoff ... ignored
+test mcts::tests::bench_terminal_child_forced_win_hit_rate ... ignored
+test mcts::select::tests::test_q8_pflip_mixture_divergence_gate_on_masks_below_threshold ... ok
+test games::gomoku::tests::test_4a3_gomoku15_engine_integration ... ok
+test games::gomoku15::tests::test_gomoku15_quartz_preset ... ok
+test mcts::tests::test_async_prepare_forces_virtual_loss_reservation ... ok
+test mcts::tests::test_best_move_prefers_immediate_root_win ... ok
+test mcts::tests::cog04_gomoku15_resident_four_word_root_mask_reactivates_high_index_actions ... ok
+test mcts::quartz::tests::test_6a_conf_in_engine_stats ... ok
+test mcts::tests::test_advance_root_clears_quartz_cache_epoch ... ok
+test mcts::tests::test_phase8b_with_search_policy_builder ... ok
+test games::gomoku15::tests::test_quartz_integration ... ok
+test mcts::tests::test_root_priors_matches_edge_snapshot_priors ... ok
+test mcts::tests::test_phase8c_policy_halt_counts_increment_via_direct_assignment ... ok
+test mcts::tests::cog03_resident13_reject_restricting_a_previously_unrestricted_searched_root ... ok
+test mcts::tests::test_phase8b_search_policy_halt_signal_is_honored ... ok
+test mcts::tests::test_phase8b_no_search_policy_is_back_compat ... ok
+test mcts::tests::test_best_effort_materialization_skips_busy_lock_after_first_edge ... ok
+test mcts::tests::test_auto_thread_decision_uses_remaining_fixed_budget ... ok
+test mcts::tests::cog03_resident13_mask_activation_reuses_actual_root_and_old_edge_statistics ... ok
+test mcts::tests::test_best_effort_materialization_skips_duplicate_preparation_claim ... ok
+test mcts::tests::test_greedy_root_selection_matches_edge_snapshot_reference ... ok
+test mcts::tests::test_advance_root_resets_parallel_telemetry ... ok
+test mcts::tests::test_a0a_policy_halt_check_feeds_real_root_edges ... ok
+test mcts::tests::test_apply_action_idx_root_advances_and_restarts_from_new_root ... ok
+test mcts::tests::test_materialize_edges_concurrent_preserves_order_and_uniqueness ... ok
+test mcts::tests::test_run_par_quartz_budget_one ... ok
+test mcts::tests::test_run_par_quartz_fixed_budget_reservation_is_exact ... ok
+test mcts::tests::test_parallel_run_uses_virtual_loss_reservations ... ok
+test mcts::tests::test_run_auto_fixed_budget_is_exact ... ok
+test mcts::tests::test_phase8c_run_par_quartz_honors_search_policy_halt ... ok
+test mcts::tests::test_run_par_quartz_high_threads_no_panic ... ok
+test mcts::tests::test_set_n_threads ... ok
+test mcts::tests::test_run_par_quartz_stats_updated ... ok
+test mcts::tests::test_phase8c_run_par_honors_search_policy_halt ... ok
+test mcts::tests::test_run_par_quartz_four_threads ... ok
+test mcts::tests::test_run_par_quartz_fixed_budget_chunking_is_exact_when_not_divisible ... ok
+test mcts::tests::tt_uses_exact_tt_hash_for_child_transpositions ... ok
+test mcts::tests::test_run_par_fixed_budget_reservation_is_exact ... ok
+test mcts::tests::test_visit_distribution_matches_edge_snapshot_reference ... ok
+test mcts::tests::test_s7_kg_stop_engine_halts_before_budget_on_resolved_root ... ok
+test mcts::tt::tests::bucket_and_slot_indices_use_disjoint_hash_bits ... ok
+test mcts_server::fork16_cpu_server::c16_tests::c16_existing_opponent_immediate_win_disables_unconditional_certificate ... ok
+test mcts_server::fork16_cpu_server::c16_tests::c16_nonterminal_two_endpoints_returns_valid_certificate ... ok
+test mcts_server::fork16_cpu_server::c16_tests::c16_teacher_input_and_duplicate_history_rejected ... ok
+test mcts::tests::test_run_par_quartz_single_thread ... ok
+test mcts::tests::test_run_quartz_auto_fixed_budget_is_exact ... ok
+test mcts::tt::tests::disabled_table_does_not_merge_or_store_nodes ... ok
+test mcts::tests::test_serial_run_skips_virtual_loss_reservations ... ok
+test mcts::tests::test_run_par_quartz_basic ... ok
+test mcts_server::prior15_cpu_server::cog05_tests::feature_inspection_accepts_index224_and_rejects_duplicate ... ok
+test mcts::tt::tests::identity_hasher_preserves_distinct_u64_keys ... ok
+test mcts_server::prior15_cpu_server::cog05_tests::policy13_legal_normalization_and_no_value_head ... ok
+test mcts::tests::test_run_par_fixed_budget_chunking_is_exact_when_not_divisible ... ok
+test mcts::tt::tests::batch_get_or_create_uses_existing_nodes ... ok
+test mcts::tests::test_run_quartz_fixed_budget_fast_path_is_exact ... ok
+test mcts::tests::test_sync_run_reuses_select_scratch_for_compact_undo_games ... ok
+test mcts_server::tests::cog03_resident13_real_CPU_endpoint_retains_root_and_counter_statistics ... ok
+test mcts::tt::tests::batch_get_or_create_matches_sequential_duplicate_semantics ... ok
+test mcts_server::tests::test_baseline_strict_forces_batched_eval_even_single_thread ... ok
+test mcts_server::tests::test_attach_search_metadata_preserves_auto_thread_manifest ... ok
+test mcts_server::tests::test_chess_apply_advances_fen ... ok
+test mcts_server::tests::test_chess_session_updates_apply_action_and_deactivate ... ok
+test mcts_server::tests::test_chess_state_lists_legal_moves ... ok
+test mcts_server::tests::test_controller_summary_extended_block_has_all_keys ... ok
+test mcts_server::tests::test_controller_summary_extended_handles_zero_eligible ... ok
+test mcts_server::tests::test_chess ... ok
+test mcts_server::tests::cog04_highbranch_15x15_real_same_root_tactical_activation ... ok
+test mcts_server::tests::test_chess960 ... ok
+test mcts_server::tests::test_controller_summary_marks_inert_prior_refresh_rate ... ok
+test mcts_server::tests::test_decode_arena_eval_request_payload_v1_restores_board_session ... ok
+test mcts_server::tests::test_decode_arena_eval_request_payload_v2_restores_typed_options_and_board_session ... ok
+test mcts_server::tests::test_engine_session_diagnostic_json_preserves_fields_without_changing_default ... ok
+test mcts_server::tests::test_encode_search_response_payload_supports_single_result_wrapper ... ok
+test mcts_server::tests::test_credit_permit_raii_on_panic ... ok
+test mcts::tests::test_s7_kg_stop_engine_respects_min_total ... ok
+test games::go::tests::test_fast_rollout_mcts ... ok
+test mcts::tests::test_fixed_iterations_fast_path_matches_reference ... ok
+test mcts_server::tests::test_engine_session_exposes_resident_root_and_evaluator_accounting ... ok
+test mcts_server::tests::test_global_inflight_credit_basic ... ok
+test mcts::tt::tests::concurrent_get_or_create_same_hash_publishes_one_node ... ok
+test mcts_server::tests::test_engine_session_step_iters_are_delta_not_absolute ... ok
+test mcts_server::tests::test_engine_session_insert_rebases_to_replacement_root_visits ... ok
+test mcts_server::tests::test_execute_search_auto_threads_records_metadata ... ok
+test mcts_server::tests::test_go13 ... ok
+test mcts_server::tests::test_cog02_dynamic10_two_step_commit_skips_intervening_stop ... ok
+test games::chess::tests::test_perft_5 ... ok
+test mcts_server::tests::test_parse_chess_job_preserves_history_hashes_for_exact_tt ... ok
+test mcts_server::tests::test_parse_go_game_aliases ... ok
+test mcts_server::tests::test_parse_gomoku15_variant_aliases ... ok
+test mcts_server::tests::test_parse_search_thread_spec_auto_with_cap ... ok
+test mcts_server::tests::test_cog02_adaptive_positive_gain_goes_to_64 ... ok
+test mcts_server::tests::test_cog02_cal09_live_fixed16_stops_without_future_search ... ok
+test mcts_server::tests::test_credits_in_equals_credits_out ... ok
+test mcts_server::tests::test_json ... ok
+test mcts_server::tests::test_p7_apply_search_overrides_pins_halt_mode ... ok
+test mcts_server::tests::test_p7_parse_halt_mode_override_fixed ... ok
+test mcts_server::tests::test_p7_parse_halt_mode_override_unknown_returns_none ... ok
+test mcts_server::tests::test_p7_parse_halt_mode_override_voc ... ok
+test mcts_server::tests::test_go9 ... ok
+test mcts_server::tests::test_parse_sparse_policy_value_accepts_legacy_and_numeric_pairs ... ok
+test mcts_server::tests::test_parse_search_thread_spec_explicit ... ok
+test mcts_server::tests::test_research_connect4_cpu_probe_rejects_invalid_history_and_budget ... ok
+test mcts_server::tests::test_parse_search_thread_spec_quality_alias ... ok
+test mcts_server::tests::test_search_overrides_apply_seed_to_mcts_config ... ok
+test mcts_server::tests::test_tagged_shared_evaluator_switches_model_by_atomic_tag ... ok
+test mcts_server_parsers::tests::test_q10_jarr_returns_empty_for_missing_or_malformed ... ok
+test mcts_server_parsers::tests::test_q10_jbool_strict_literal_match ... ok
+test nn_parallel_verify::v6_parallel_nn ... ignored
+test nn_parallel_verify::v7_selfplay_game ... ignored
+test nn_pw_experiment::pw_nn_ablation ... ignored
+test mcts_server_parsers::tests::test_q10_jfloat_with_decimal_and_negative ... ok
+test mcts_server_parsers::tests::test_q10_jint_signed_and_missing ... ok
+test mcts_server_parsers::tests::test_q10_jstr_round_trips_simple_string_value ... ok
+test mcts_server::tests::test_engine_session_delta_rebases_after_root_transition ... ok
+test penalty_ablation_exp5::exp5_penalty_ablation_ttt ... ignored
+test penalty_fix_test::penalty_cap_flip_test ... ignored
+test profile_all_games::profile_mcts_all_supported_games ... ignored
+test profile_all_games::profile_mcts_chess ... ignored
+test profile_all_games::profile_mcts_go13 ... ignored
+test profile_all_games::profile_mcts_go19 ... ignored
+test profile_all_games::profile_mcts_go9 ... ignored
+test profile_all_games::profile_mcts_gomoku15_caro ... ignored
+test profile_all_games::profile_mcts_gomoku15_freestyle ... ignored
+test profile_all_games::profile_mcts_gomoku15_omok ... ignored
+test profile_all_games::profile_mcts_gomoku15_renju ... ignored
+test profile_all_games::profile_mcts_gomoku15_standard ... ignored
+test profile_all_games::profile_mcts_gomoku7 ... ignored
+test profile_all_games::profile_mcts_parallel_all_supported_games ... ignored
+test profile_all_games::profile_mcts_parallel_chess ... ignored
+test profile_all_games::profile_mcts_parallel_go13 ... ignored
+test profile_all_games::profile_mcts_parallel_go19 ... ignored
+test profile_all_games::profile_mcts_parallel_go9 ... ignored
+test profile_all_games::profile_mcts_parallel_gomoku15_caro ... ignored
+test profile_all_games::profile_mcts_parallel_gomoku15_freestyle ... ignored
+test profile_all_games::profile_mcts_parallel_gomoku15_omok ... ignored
+test profile_all_games::profile_mcts_parallel_gomoku15_renju ... ignored
+test profile_all_games::profile_mcts_parallel_gomoku15_standard ... ignored
+test profile_all_games::profile_mcts_parallel_gomoku7 ... ignored
+test profile_all_games::profile_mcts_parallel_tictactoe ... ignored
+test profile_all_games::profile_mcts_tictactoe ... ignored
+test self_adaptive_exp8::exp8_self_adaptive ... ignored
+test simd_utils::tests::normalize_clamps_and_scales ... ok
+test simd_utils::tests::normalize_zero_sum_stays_zero ... ok
+test tests::q_eft_gate ... ok
+test theory_v5_ablation::exp6_gomoku_nn_ablation ... ignored
+test tests::q_normal_cdf ... ok
+test mcts_server::tests::test_cog03_actual_masked_root_reopening_cpu_endpoint ... ok
+test mcts_server::tests::test_tictactoe ... ok
+test mcts_server::tests::test_engine_session_compact_step_iters_are_delta_not_absolute ... ok
+test theory_v5_ablation::exp6_ttt_full_ablation ... ignored
+test voc_debug::voc_halt_debug ... ignored
+test tests::q_stats_ranges ... ok
+test tests::q_p_flip_eq ... ok
+test mcts::tests::test_run_auto_quality_caps_low_branching_game ... ok
+test voc_halt_shortrollout::voc_halt_sr_budget500 ... ignored
+test voc_halt_test::voc_adaptive_halt ... ignored
+test voc_halt_v2::voc_halt_easy_hard ... ignored
+test zobrist_tt_parallel_verify::v4_tt_nn_integrity ... ignored
+test tests::r_ttt_block ... ok
+test tests::r_ttt_win ... ok
+test mcts_server::tests::test_cog02_time_cap_is_a_real_checkpoint_walltime_stop ... ok
+test mcts_server::tests::test_gomoku15 ... ok
+test zobrist_tt_parallel_verify::v1_zobrist_collision_rate ... ok
+test zobrist_tt_parallel_verify::v2_virtual_loss_balance ... ok
+test zobrist_tt_parallel_verify::v3_parallel_vs_sequential ... ok
+test mcts_server::tests::test_cog02_resident_model_cache_and_active_stop ... ok
+test mcts_server::tests::test_engine_session_compact_matches_json_reference ... ok
+test mcts_server::tests::test_research_connect4_cpu_probe_resumes_same_root_and_costs ... ok
+test mcts_server::tests::test_research_connect4_cpu_probe_conv3x3_weighted_mode ... ok
+test mcts_server::tests::test_research_connect4_cpu_probe_tiny_recognizer_weighted_mode ... ok
+test mcts_server::tests::test_engine_session_multi_engine_matches_serial_reference ... ok
+test zobrist_tt_parallel_verify::v5_stress_parallel ... ok
+test tests::q_gomoku_no_crash ... ok
+test gomocup_brain::tests::test_yxboard_done_returns_valid_move ... ok
+test gomocup_brain::tests::test_board_done_returns_valid_move ... ok
+
+test result: ok. 611 passed; 0 failed; 89 ignored; 0 measured; 0 filtered out; finished in 0.66s
+
