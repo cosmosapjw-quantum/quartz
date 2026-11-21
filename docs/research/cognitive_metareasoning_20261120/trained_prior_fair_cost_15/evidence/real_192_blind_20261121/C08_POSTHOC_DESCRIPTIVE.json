@@ -1,0 +1,41 @@
+{
+  "status": "EXPLORATORY_AFTER_TEST_UNBLINDING",
+  "strata": {
+    "test_natural": {
+      "different_final_move_gated_vs_learned_full": 0,
+      "gated_reopened_at_least_one": 0,
+      "gated_root_vs_full_root_visit_difference_mean": 5.541666666666667,
+      "gated_teacher_gains_vs_learned_full": 0,
+      "gated_teacher_losses_vs_learned_full": 0,
+      "immediate_win_counts_summary": {
+        "0": 46,
+        "1": 2
+      },
+      "learned_full_teacher_gains_vs_uniform": 20,
+      "learned_full_teacher_losses_vs_uniform": 0,
+      "learned_model_winning_moves_not_exact_teacher": 0,
+      "n": 48,
+      "same_final_move_gated_vs_learned_full": 48,
+      "teacher_terminal_win_count": 2,
+      "total_reopened_actions": 0
+    },
+    "test_tactical": {
+      "different_final_move_gated_vs_learned_full": 0,
+      "gated_reopened_at_least_one": 0,
+      "gated_root_vs_full_root_visit_difference_mean": 3.4375,
+      "gated_teacher_gains_vs_learned_full": 0,
+      "gated_teacher_losses_vs_learned_full": 0,
+      "immediate_win_counts_summary": {
+        "1": 2,
+        "2": 14
+      },
+      "learned_full_teacher_gains_vs_uniform": 1,
+      "learned_full_teacher_losses_vs_uniform": 7,
+      "learned_model_winning_moves_not_exact_teacher": 9,
+      "n": 16,
+      "same_final_move_gated_vs_learned_full": 16,
+      "teacher_terminal_win_count": 16,
+      "total_reopened_actions": 0
+    }
+  }
+}

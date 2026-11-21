@@ -1,0 +1,22 @@
+# C8. Real 192 search /64 independent Rapfi test labels: factorized physical CPU experiment
+
+**Source and causal safeguards.** Pretrained policy-only model from C07 (committed 917e11e...) SHA256 5ff8286dcc57192b79e960ba096bc5067c78d439a212eaa69d523f68835a3b83. Native Rust trial runner/score were frozen before test in C07A; arm-order balancing and independent auditor precommitted in C08A e9231eee... . 64 frozen source histories were searched blind in 192 real Rust native requests and immediately published as C08B 0a04323cc3fc28795f9ee55f2848455bea1820ac, BEFORE heldout teacher results were requested. Subsequent **64 actual pretrained Rapfi rule0 300ms responses** all OK, mean 216.56ms, test labels SHA256 3c3bfea6d1f928bf7320a6115dfee7763659087a39e16dbb2deff2ecc981d4ad. Rapfi is an independent finite alpha-beta/NNUE teacher, not exact minimax. No teacher result or label enters Rust MCTS. The 13-feature log-linear QUARTZ policy was trained only on 128+32 separate synthetic source groups.
+
+**Primary separately verified elapsed wall-cost gate:** learned_gated vs learned_all_legal target 20,000µs each, including policy/leaf evaluation, setup, mask, probe, MCTS, excluding model file load/JSON serialization.
+- Synthetic natural48: 20,076.958 vs20,080.125µs, absolute relative mismatch 0.01577% PASS (<10%).
+- Deliberately constructed tactical16: 20,035.313 vs20,031.938µs, relative mismatch 0.01685% PASS (<10%).
+- Unlike C14, **both** strata pass independently; pooled cancellation is not used.
+
+**Measured finite-board policy and actual action outcomes:**
+| Source split | Learned gated: Rapfi top1 / n | Learned all-legal: Rapfi top1 / n | Uniform all-legal: Rapfi top1 / n | Learned gated: actual immediate wins | Learned full: wins | Uniform full: wins |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: |
+| 48 seeded synthetic natural |22/48|22/48|2/48|2/2 available|2/2|2/2|
+| 16 engineered terminal-one diagnostic |7/16|7/16|13/16|16/16|16/16|13/16|
+
+Learned teacher top16 coverage: 44/48 synthetic natural, 16/16 deliberate tactical. Natural top1 teacher prior agreement 17/48; full learned MCTS improves to22/48, but teacher action is not exact game truth. The learned-versus-uniform all-legal teacher agreement improvement on synthetic natural is **20 paired gains and zero losses**, descriptive on 48 fixed seeded boards; no population inference or whole-game strength/Elo claim. Uniform prior runs achieved more root visits on natural (195.625 vs125.79 on learned all-legal at same wall clock), emphasizing learned feature inference cost vs selection quality.
+
+**Critical negative outcome for the cognitive-gating hypothesis:** learned_gated and learned_all_legal choose identical final moves **48/48 +16/16**, with zero teacher-agreement difference and identical immediate-win counts. The rule-based reopening witness was triggered on **0/64** trials; there were zero added root candidates. Therefore these data CANNOT establish that dynamic reactivation improves a trained-policy MCTS. The full and top16 masks differ but final actions did not; this is a meaningful null result. Do not mislabel a positive trained prior effect as a cognitive reopening effect.
+
+**Diagnostic metric trap:** engineered terminal-one16 have 14 positions with TWO legal immediate winning actions, and two with one. Rapfi itself picked a legal win on16/16. Learned all-legal selected a legal immediate win16/16 yet its *exact teacher move* matched only7/16 (nine alternative winning moves). Uniform all-legal matched teacher13/16 but only selected any immediate win13/16. Thus exact teacher move agreement is misleading in multi-winning positions; use rules-only terminal win equivalence as primary diagnostic and keep teacher top1 strictly as proxy. Natural synthetic roots had two immediate-win situations (both learned/uniform selected the win).
+
+**Provenance:** raw frozen file evidence/real_192_blind_20261121/RAW_192_RUST.json SHA256 09dc3b61dce9f4fdf0ce387b67f2669ace9811718fb08ab2498df4628316e5af; scored and posthoc descriptive files separate. The posthoc alternative-winning-move check is explicitly **EXPLORATORY** and does not reset policy thresholds. C9 independent rule, mask, model-byte and source readback is required before declaring implementation verification; no added parameter tuning or stronger retrospective claim.

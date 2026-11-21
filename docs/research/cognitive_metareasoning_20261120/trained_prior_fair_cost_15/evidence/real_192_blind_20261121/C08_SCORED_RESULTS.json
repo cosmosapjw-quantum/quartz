@@ -1,0 +1,2176 @@
+{
+  "conclusions_scoped_to_frozen_synthetic_roots": true,
+  "exact_minimax": false,
+  "full_games_tested": false,
+  "model_sha256": "5ff8286dcc57192b79e960ba096bc5067c78d439a212eaa69d523f68835a3b83",
+  "native_binary_sha256": "1bf102650e28c9f0bbe9515f2f6e7d1d0c00a15f2646f78498ea79a9710d8527",
+  "per_source_scored": [
+    {
+      "arms": {
+        "learned_all_legal": {
+          "immediate_win": 0,
+          "root_visits": 125,
+          "selected": 77,
+          "teacher_agree": 1,
+          "wall_us": 20174
+        },
+        "learned_gated": {
+          "immediate_win": 0,
+          "root_visits": 110,
+          "selected": 77,
+          "teacher_agree": 1,
+          "wall_us": 20014
+        },
+        "uniform_all_legal": {
+          "immediate_win": 0,
+          "root_visits": 155,
+          "selected": 173,
+          "teacher_agree": 0,
+          "wall_us": 20054
+        }
+      },
+      "id": "test_natural-000",
+      "known_immediate_wins": [],
+      "learned_prior_rank_of_teacher": 1,
+      "split": "seeded_synthetic_neighbor_growth",
+      "teacher": 77,
+      "teacher_in_learned_top16": true,
+      "test_split": "test_natural"
+    },
+    {
+      "arms": {
+        "learned_all_legal": {
+          "immediate_win": 0,
+          "root_visits": 94,
+          "selected": 97,
+          "teacher_agree": 1,
+          "wall_us": 20141
+        },
+        "learned_gated": {
+          "immediate_win": 0,
+          "root_visits": 93,
+          "selected": 97,
+          "teacher_agree": 1,
+          "wall_us": 20178
+        },
+        "uniform_all_legal": {
+          "immediate_win": 0,
+          "root_visits": 187,
+          "selected": 213,
+          "teacher_agree": 0,
+          "wall_us": 20032
+        }
+      },
+      "id": "test_natural-001",
+      "known_immediate_wins": [],
+      "learned_prior_rank_of_teacher": 1,
+      "split": "seeded_synthetic_neighbor_growth",
+      "teacher": 97,
+      "teacher_in_learned_top16": true,
+      "test_split": "test_natural"
+    },
+    {
+      "arms": {
+        "learned_all_legal": {
+          "immediate_win": 0,
+          "root_visits": 93,
+          "selected": 128,
+          "teacher_agree": 0,
+          "wall_us": 20011
+        },
+        "learned_gated": {
+          "immediate_win": 0,
+          "root_visits": 95,
+          "selected": 128,
+          "teacher_agree": 0,
+          "wall_us": 20016
+        },
+        "uniform_all_legal": {
+          "immediate_win": 0,
+          "root_visits": 187,
+          "selected": 209,
+          "teacher_agree": 0,
+          "wall_us": 20015
+        }
+      },
+      "id": "test_natural-002",
+      "known_immediate_wins": [],
+      "learned_prior_rank_of_teacher": 9,
+      "split": "seeded_synthetic_neighbor_growth",
+      "teacher": 176,
+      "teacher_in_learned_top16": true,
+      "test_split": "test_natural"
+    },
+    {
+      "arms": {
+        "learned_all_legal": {
+          "immediate_win": 0,
+          "root_visits": 97,
+          "selected": 115,
+          "teacher_agree": 1,
+          "wall_us": 20012
+        },
+        "learned_gated": {
+          "immediate_win": 0,
+          "root_visits": 114,
+          "selected": 115,
+          "teacher_agree": 1,
+          "wall_us": 20074
+        },
+        "uniform_all_legal": {
+          "immediate_win": 0,
+          "root_visits": 185,
+          "selected": 209,
+          "teacher_agree": 0,
+          "wall_us": 20187
+        }
+      },
+      "id": "test_natural-003",
+      "known_immediate_wins": [],
+      "learned_prior_rank_of_teacher": 1,
+      "split": "seeded_synthetic_neighbor_growth",
+      "teacher": 115,
+      "teacher_in_learned_top16": true,
+      "test_split": "test_natural"
+    },
+    {
+      "arms": {
+        "learned_all_legal": {
+          "immediate_win": 0,
+          "root_visits": 87,
+          "selected": 140,
+          "teacher_agree": 0,
+          "wall_us": 20012
+        },
+        "learned_gated": {
+          "immediate_win": 0,
+          "root_visits": 96,
+          "selected": 140,
+          "teacher_agree": 0,
+          "wall_us": 20242
+        },
+        "uniform_all_legal": {
+          "immediate_win": 0,
+          "root_visits": 184,
+          "selected": 195,
+          "teacher_agree": 0,
+          "wall_us": 20050
+        }
+      },
+      "id": "test_natural-004",
+      "known_immediate_wins": [],
+      "learned_prior_rank_of_teacher": 3,
+      "split": "seeded_synthetic_neighbor_growth",
+      "teacher": 125,
+      "teacher_in_learned_top16": true,
+      "test_split": "test_natural"
+    },
+    {
+      "arms": {
+        "learned_all_legal": {
+          "immediate_win": 0,
+          "root_visits": 110,
+          "selected": 84,
+          "teacher_agree": 1,
+          "wall_us": 20171
+        },
+        "learned_gated": {
+          "immediate_win": 0,
+          "root_visits": 113,
+          "selected": 84,
+          "teacher_agree": 1,
+          "wall_us": 20072
+        },
+        "uniform_all_legal": {
+          "immediate_win": 0,
+          "root_visits": 190,
+          "selected": 208,
+          "teacher_agree": 0,
+          "wall_us": 20037
+        }
+      },
+      "id": "test_natural-005",
+      "known_immediate_wins": [],
+      "learned_prior_rank_of_teacher": 1,
+      "split": "seeded_synthetic_neighbor_growth",
+      "teacher": 84,
+      "teacher_in_learned_top16": true,
+      "test_split": "test_natural"
+    },
+    {
+      "arms": {
+        "learned_all_legal": {
+          "immediate_win": 0,
+          "root_visits": 81,
+          "selected": 99,
+          "teacher_agree": 0,
+          "wall_us": 20074
+        },
+        "learned_gated": {
+          "immediate_win": 0,
+          "root_visits": 91,
+          "selected": 99,
+          "teacher_agree": 0,
+          "wall_us": 20167
+        },
+        "uniform_all_legal": {
+          "immediate_win": 0,
+          "root_visits": 193,
+          "selected": 204,
+          "teacher_agree": 0,
+          "wall_us": 20013
+        }
+      },
+      "id": "test_natural-006",
+      "known_immediate_wins": [],
+      "learned_prior_rank_of_teacher": 21,
+      "split": "seeded_synthetic_neighbor_growth",
+      "teacher": 143,
+      "teacher_in_learned_top16": false,
+      "test_split": "test_natural"
+    },
+    {
+      "arms": {
+        "learned_all_legal": {
+          "immediate_win": 0,
+          "root_visits": 104,
+          "selected": 156,
+          "teacher_agree": 0,
+          "wall_us": 20176
+        },
+        "learned_gated": {
+          "immediate_win": 0,
+          "root_visits": 110,
+          "selected": 156,
+          "teacher_agree": 0,
+          "wall_us": 20141
+        },
+        "uniform_all_legal": {
+          "immediate_win": 0,
+          "root_visits": 188,
+          "selected": 213,
+          "teacher_agree": 0,
+          "wall_us": 20019
+        }
+      },
+      "id": "test_natural-007",
+      "known_immediate_wins": [],
+      "learned_prior_rank_of_teacher": 19,
+      "split": "seeded_synthetic_neighbor_growth",
+      "teacher": 126,
+      "teacher_in_learned_top16": false,
+      "test_split": "test_natural"
+    },
+    {
+      "arms": {
+        "learned_all_legal": {
+          "immediate_win": 0,
+          "root_visits": 148,
+          "selected": 110,
+          "teacher_agree": 1,
+          "wall_us": 20060
+        },
+        "learned_gated": {
+          "immediate_win": 0,
+          "root_visits": 143,
+          "selected": 110,
+          "teacher_agree": 1,
+          "wall_us": 20143
+        },
+        "uniform_all_legal": {
+          "immediate_win": 0,
+          "root_visits": 198,
+          "selected": 219,
+          "teacher_agree": 0,
+          "wall_us": 20030
+        }
+      },
+      "id": "test_natural-008",
+      "known_immediate_wins": [],
+      "learned_prior_rank_of_teacher": 1,
+      "split": "seeded_synthetic_neighbor_growth",
+      "teacher": 110,
+      "teacher_in_learned_top16": true,
+      "test_split": "test_natural"
+    },
+    {
+      "arms": {
+        "learned_all_legal": {
+          "immediate_win": 0,
+          "root_visits": 104,
+          "selected": 108,
+          "teacher_agree": 0,
+          "wall_us": 20173
+        },
+        "learned_gated": {
+          "immediate_win": 0,
+          "root_visits": 106,
+          "selected": 108,
+          "teacher_agree": 0,
+          "wall_us": 20048
+        },
+        "uniform_all_legal": {
+          "immediate_win": 0,
+          "root_visits": 209,
+          "selected": 224,
+          "teacher_agree": 0,
+          "wall_us": 20002
+        }
+      },
+      "id": "test_natural-009",
+      "known_immediate_wins": [],
+      "learned_prior_rank_of_teacher": 11,
+      "split": "seeded_synthetic_neighbor_growth",
+      "teacher": 62,
+      "teacher_in_learned_top16": true,
+      "test_split": "test_natural"
+    },
+    {
+      "arms": {
+        "learned_all_legal": {
+          "immediate_win": 0,
+          "root_visits": 109,
+          "selected": 112,
+          "teacher_agree": 0,
+          "wall_us": 20177
+        },
+        "learned_gated": {
+          "immediate_win": 0,
+          "root_visits": 110,
+          "selected": 112,
+          "teacher_agree": 0,
+          "wall_us": 20128
+        },
+        "uniform_all_legal": {
+          "immediate_win": 0,
+          "root_visits": 204,
+          "selected": 1,
+          "teacher_agree": 0,
+          "wall_us": 20092
+        }
+      },
+      "id": "test_natural-010",
+      "known_immediate_wins": [],
+      "learned_prior_rank_of_teacher": 18,
+      "split": "seeded_synthetic_neighbor_growth",
+      "teacher": 174,
+      "teacher_in_learned_top16": false,
+      "test_split": "test_natural"
+    },
+    {
+      "arms": {
+        "learned_all_legal": {
+          "immediate_win": 0,
+          "root_visits": 98,
+          "selected": 140,
+          "teacher_agree": 0,
+          "wall_us": 20048
+        },
+        "learned_gated": {
+          "immediate_win": 0,
+          "root_visits": 90,
+          "selected": 140,
+          "teacher_agree": 0,
+          "wall_us": 20003
+        },
+        "uniform_all_legal": {
+          "immediate_win": 0,
+          "root_visits": 202,
+          "selected": 212,
+          "teacher_agree": 0,
+          "wall_us": 20006
+        }
+      },
+      "id": "test_natural-011",
+      "known_immediate_wins": [],
+      "learned_prior_rank_of_teacher": 4,
+      "split": "seeded_synthetic_neighbor_growth",
+      "teacher": 109,
+      "teacher_in_learned_top16": true,
+      "test_split": "test_natural"
+    },
+    {
+      "arms": {
+        "learned_all_legal": {
+          "immediate_win": 0,
+          "root_visits": 121,
+          "selected": 168,
+          "teacher_agree": 0,
+          "wall_us": 20053
+        },
+        "learned_gated": {
+          "immediate_win": 0,
+          "root_visits": 124,
+          "selected": 168,
+          "teacher_agree": 0,
+          "wall_us": 20057
+        },
+        "uniform_all_legal": {
+          "immediate_win": 0,
+          "root_visits": 186,
+          "selected": 205,
+          "teacher_agree": 0,
+          "wall_us": 20043
+        }
+      },
+      "id": "test_natural-012",
+      "known_immediate_wins": [],
+      "learned_prior_rank_of_teacher": 1,
+      "split": "seeded_synthetic_neighbor_growth",
+      "teacher": 139,
+      "teacher_in_learned_top16": true,
+      "test_split": "test_natural"
+    },
+    {
+      "arms": {
+        "learned_all_legal": {
+          "immediate_win": 0,
+          "root_visits": 119,
+          "selected": 114,
+          "teacher_agree": 0,
+          "wall_us": 20114
+        },
+        "learned_gated": {
+          "immediate_win": 0,
+          "root_visits": 127,
+          "selected": 114,
+          "teacher_agree": 0,
+          "wall_us": 20112
+        },
+        "uniform_all_legal": {
+          "immediate_win": 0,
+          "root_visits": 186,
+          "selected": 205,
+          "teacher_agree": 0,
+          "wall_us": 20110
+        }
+      },
+      "id": "test_natural-013",
+      "known_immediate_wins": [],
+      "learned_prior_rank_of_teacher": 3,
+      "split": "seeded_synthetic_neighbor_growth",
+      "teacher": 98,
+      "teacher_in_learned_top16": true,
+      "test_split": "test_natural"
+    },
+    {
+      "arms": {
+        "learned_all_legal": {
+          "immediate_win": 0,
+          "root_visits": 117,
+          "selected": 111,
+          "teacher_agree": 1,
+          "wall_us": 20190
+        },
+        "learned_gated": {
+          "immediate_win": 0,
+          "root_visits": 117,
+          "selected": 111,
+          "teacher_agree": 1,
+          "wall_us": 20047
+        },
+        "uniform_all_legal": {
+          "immediate_win": 0,
+          "root_visits": 181,
+          "selected": 199,
+          "teacher_agree": 0,
+          "wall_us": 20041
+        }
+      },
+      "id": "test_natural-014",
+      "known_immediate_wins": [],
+      "learned_prior_rank_of_teacher": 1,
+      "split": "seeded_synthetic_neighbor_growth",
+      "teacher": 111,
+      "teacher_in_learned_top16": true,
+      "test_split": "test_natural"
+    },
+    {
+      "arms": {
+        "learned_all_legal": {
+          "immediate_win": 0,
+          "root_visits": 149,
+          "selected": 66,
+          "teacher_agree": 0,
+          "wall_us": 20008
+        },
+        "learned_gated": {
+          "immediate_win": 0,
+          "root_visits": 271,
+          "selected": 66,
+          "teacher_agree": 0,
+          "wall_us": 20018
+        },
+        "uniform_all_legal": {
+          "immediate_win": 0,
+          "root_visits": 196,
+          "selected": 215,
+          "teacher_agree": 0,
+          "wall_us": 20088
+        }
+      },
+      "id": "test_natural-015",
+      "known_immediate_wins": [],
+      "learned_prior_rank_of_teacher": 4,
+      "split": "seeded_synthetic_neighbor_growth",
+      "teacher": 71,
+      "teacher_in_learned_top16": true,
+      "test_split": "test_natural"
+    },
+    {
+      "arms": {
+        "learned_all_legal": {
+          "immediate_win": 0,
+          "root_visits": 151,
+          "selected": 127,
+          "teacher_agree": 1,
+          "wall_us": 20082
+        },
+        "learned_gated": {
+          "immediate_win": 0,
+          "root_visits": 152,
+          "selected": 127,
+          "teacher_agree": 1,
+          "wall_us": 20114
+        },
+        "uniform_all_legal": {
+          "immediate_win": 0,
+          "root_visits": 214,
+          "selected": 16,
+          "teacher_agree": 0,
+          "wall_us": 20039
+        }
+      },
+      "id": "test_natural-016",
+      "known_immediate_wins": [],
+      "learned_prior_rank_of_teacher": 1,
+      "split": "seeded_synthetic_neighbor_growth",
+      "teacher": 127,
+      "teacher_in_learned_top16": true,
+      "test_split": "test_natural"
+    },
+    {
+      "arms": {
+        "learned_all_legal": {
+          "immediate_win": 0,
+          "root_visits": 99,
+          "selected": 141,
+          "teacher_agree": 0,
+          "wall_us": 20031
+        },
+        "learned_gated": {
+          "immediate_win": 0,
+          "root_visits": 101,
+          "selected": 141,
+          "teacher_agree": 0,
+          "wall_us": 20033
+        },
+        "uniform_all_legal": {
+          "immediate_win": 0,
+          "root_visits": 201,
+          "selected": 215,
+          "teacher_agree": 0,
+          "wall_us": 20084
+        }
+      },
+      "id": "test_natural-017",
+      "known_immediate_wins": [],
+      "learned_prior_rank_of_teacher": 41,
+      "split": "seeded_synthetic_neighbor_growth",
+      "teacher": 127,
+      "teacher_in_learned_top16": false,
+      "test_split": "test_natural"
+    },
+    {
+      "arms": {
+        "learned_all_legal": {
+          "immediate_win": 0,
+          "root_visits": 130,
+          "selected": 97,
+          "teacher_agree": 0,
+          "wall_us": 20098
+        },
+        "learned_gated": {
+          "immediate_win": 0,
+          "root_visits": 144,
+          "selected": 97,
+          "teacher_agree": 0,
+          "wall_us": 20000
+        },
+        "uniform_all_legal": {
+          "immediate_win": 0,
+          "root_visits": 185,
+          "selected": 210,
+          "teacher_agree": 0,
+          "wall_us": 20013
+        }
+      },
+      "id": "test_natural-018",
+      "known_immediate_wins": [],
+      "learned_prior_rank_of_teacher": 2,
+      "split": "seeded_synthetic_neighbor_growth",
+      "teacher": 81,
+      "teacher_in_learned_top16": true,
+      "test_split": "test_natural"
+    },
+    {
+      "arms": {
+        "learned_all_legal": {
+          "immediate_win": 0,
+          "root_visits": 151,
+          "selected": 171,
+          "teacher_agree": 0,
+          "wall_us": 20076
+        },
+        "learned_gated": {
+          "immediate_win": 0,
+          "root_visits": 266,
+          "selected": 171,
+          "teacher_agree": 0,
+          "wall_us": 20026
+        },
+        "uniform_all_legal": {
+          "immediate_win": 0,
+          "root_visits": 175,
+          "selected": 194,
+          "teacher_agree": 0,
+          "wall_us": 20025
+        }
+      },
+      "id": "test_natural-019",
+      "known_immediate_wins": [],
+      "learned_prior_rank_of_teacher": 3,
+      "split": "seeded_synthetic_neighbor_growth",
+      "teacher": 176,
+      "teacher_in_learned_top16": true,
+      "test_split": "test_natural"
+    },
+    {
+      "arms": {
+        "learned_all_legal": {
+          "immediate_win": 0,
+          "root_visits": 146,
+          "selected": 99,
+          "teacher_agree": 1,
+          "wall_us": 20063
+        },
+        "learned_gated": {
+          "immediate_win": 0,
+          "root_visits": 136,
+          "selected": 99,
+          "teacher_agree": 1,
+          "wall_us": 20072
+        },
+        "uniform_all_legal": {
+          "immediate_win": 0,
+          "root_visits": 190,
+          "selected": 209,
+          "teacher_agree": 0,
+          "wall_us": 20044
+        }
+      },
+      "id": "test_natural-020",
+      "known_immediate_wins": [],
+      "learned_prior_rank_of_teacher": 1,
+      "split": "seeded_synthetic_neighbor_growth",
+      "teacher": 99,
+      "teacher_in_learned_top16": true,
+      "test_split": "test_natural"
+    },
+    {
+      "arms": {
+        "learned_all_legal": {
+          "immediate_win": 0,
+          "root_visits": 104,
+          "selected": 125,
+          "teacher_agree": 0,
+          "wall_us": 20008
+        },
+        "learned_gated": {
+          "immediate_win": 0,
+          "root_visits": 109,
+          "selected": 125,
+          "teacher_agree": 0,
+          "wall_us": 20015
+        },
+        "uniform_all_legal": {
+          "immediate_win": 0,
+          "root_visits": 184,
+          "selected": 206,
+          "teacher_agree": 0,
+          "wall_us": 20111
+        }
+      },
+      "id": "test_natural-021",
+      "known_immediate_wins": [],
+      "learned_prior_rank_of_teacher": 5,
+      "split": "seeded_synthetic_neighbor_growth",
+      "teacher": 52,
+      "teacher_in_learned_top16": true,
+      "test_split": "test_natural"
+    },
+    {
+      "arms": {
+        "learned_all_legal": {
+          "immediate_win": 0,
+          "root_visits": 131,
+          "selected": 173,
+          "teacher_agree": 1,
+          "wall_us": 20017
+        },
+        "learned_gated": {
+          "immediate_win": 0,
+          "root_visits": 133,
+          "selected": 173,
+          "teacher_agree": 1,
+          "wall_us": 20199
+        },
+        "uniform_all_legal": {
+          "immediate_win": 0,
+          "root_visits": 171,
+          "selected": 192,
+          "teacher_agree": 0,
+          "wall_us": 20079
+        }
+      },
+      "id": "test_natural-022",
+      "known_immediate_wins": [],
+      "learned_prior_rank_of_teacher": 1,
+      "split": "seeded_synthetic_neighbor_growth",
+      "teacher": 173,
+      "teacher_in_learned_top16": true,
+      "test_split": "test_natural"
+    },
+    {
+      "arms": {
+        "learned_all_legal": {
+          "immediate_win": 0,
+          "root_visits": 103,
+          "selected": 84,
+          "teacher_agree": 0,
+          "wall_us": 20016
+        },
+        "learned_gated": {
+          "immediate_win": 0,
+          "root_visits": 95,
+          "selected": 84,
+          "teacher_agree": 0,
+          "wall_us": 20033
+        },
+        "uniform_all_legal": {
+          "immediate_win": 0,
+          "root_visits": 178,
+          "selected": 196,
+          "teacher_agree": 0,
+          "wall_us": 20033
+        }
+      },
+      "id": "test_natural-023",
+      "known_immediate_wins": [],
+      "learned_prior_rank_of_teacher": 8,
+      "split": "seeded_synthetic_neighbor_growth",
+      "teacher": 125,
+      "teacher_in_learned_top16": true,
+      "test_split": "test_natural"
+    },
+    {
+      "arms": {
+        "learned_all_legal": {
+          "immediate_win": 0,
+          "root_visits": 107,
+          "selected": 124,
+          "teacher_agree": 0,
+          "wall_us": 20190
+        },
+        "learned_gated": {
+          "immediate_win": 0,
+          "root_visits": 101,
+          "selected": 124,
+          "teacher_agree": 0,
+          "wall_us": 20050
+        },
+        "uniform_all_legal": {
+          "immediate_win": 0,
+          "root_visits": 195,
+          "selected": 212,
+          "teacher_agree": 0,
+          "wall_us": 20130
+        }
+      },
+      "id": "test_natural-024",
+      "known_immediate_wins": [],
+      "learned_prior_rank_of_teacher": 3,
+      "split": "seeded_synthetic_neighbor_growth",
+      "teacher": 110,
+      "teacher_in_learned_top16": true,
+      "test_split": "test_natural"
+    },
+    {
+      "arms": {
+        "learned_all_legal": {
+          "immediate_win": 0,
+          "root_visits": 133,
+          "selected": 121,
+          "teacher_agree": 1,
+          "wall_us": 20014
+        },
+        "learned_gated": {
+          "immediate_win": 0,
+          "root_visits": 139,
+          "selected": 121,
+          "teacher_agree": 1,
+          "wall_us": 20000
+        },
+        "uniform_all_legal": {
+          "immediate_win": 0,
+          "root_visits": 198,
+          "selected": 219,
+          "teacher_agree": 0,
+          "wall_us": 20015
+        }
+      },
+      "id": "test_natural-025",
+      "known_immediate_wins": [],
+      "learned_prior_rank_of_teacher": 3,
+      "split": "seeded_synthetic_neighbor_growth",
+      "teacher": 121,
+      "teacher_in_learned_top16": true,
+      "test_split": "test_natural"
+    },
+    {
+      "arms": {
+        "learned_all_legal": {
+          "immediate_win": 1,
+          "root_visits": 286,
+          "selected": 172,
+          "teacher_agree": 1,
+          "wall_us": 20003
+        },
+        "learned_gated": {
+          "immediate_win": 1,
+          "root_visits": 292,
+          "selected": 172,
+          "teacher_agree": 1,
+          "wall_us": 20041
+        },
+        "uniform_all_legal": {
+          "immediate_win": 1,
+          "root_visits": 229,
+          "selected": 172,
+          "teacher_agree": 1,
+          "wall_us": 20038
+        }
+      },
+      "id": "test_natural-026",
+      "known_immediate_wins": [
+        172
+      ],
+      "learned_prior_rank_of_teacher": 1,
+      "split": "seeded_synthetic_neighbor_growth",
+      "teacher": 172,
+      "teacher_in_learned_top16": true,
+      "test_split": "test_natural"
+    },
+    {
+      "arms": {
+        "learned_all_legal": {
+          "immediate_win": 0,
+          "root_visits": 98,
+          "selected": 125,
+          "teacher_agree": 1,
+          "wall_us": 20158
+        },
+        "learned_gated": {
+          "immediate_win": 0,
+          "root_visits": 100,
+          "selected": 125,
+          "teacher_agree": 1,
+          "wall_us": 20072
+        },
+        "uniform_all_legal": {
+          "immediate_win": 0,
+          "root_visits": 195,
+          "selected": 208,
+          "teacher_agree": 0,
+          "wall_us": 20084
+        }
+      },
+      "id": "test_natural-027",
+      "known_immediate_wins": [],
+      "learned_prior_rank_of_teacher": 1,
+      "split": "seeded_synthetic_neighbor_growth",
+      "teacher": 125,
+      "teacher_in_learned_top16": true,
+      "test_split": "test_natural"
+    },
+    {
+      "arms": {
+        "learned_all_legal": {
+          "immediate_win": 0,
+          "root_visits": 137,
+          "selected": 22,
+          "teacher_agree": 1,
+          "wall_us": 20003
+        },
+        "learned_gated": {
+          "immediate_win": 0,
+          "root_visits": 127,
+          "selected": 22,
+          "teacher_agree": 1,
+          "wall_us": 20053
+        },
+        "uniform_all_legal": {
+          "immediate_win": 0,
+          "root_visits": 181,
+          "selected": 203,
+          "teacher_agree": 0,
+          "wall_us": 20064
+        }
+      },
+      "id": "test_natural-028",
+      "known_immediate_wins": [],
+      "learned_prior_rank_of_teacher": 1,
+      "split": "seeded_synthetic_neighbor_growth",
+      "teacher": 22,
+      "teacher_in_learned_top16": true,
+      "test_split": "test_natural"
+    },
+    {
+      "arms": {
+        "learned_all_legal": {
+          "immediate_win": 0,
+          "root_visits": 116,
+          "selected": 140,
+          "teacher_agree": 1,
+          "wall_us": 20061
+        },
+        "learned_gated": {
+          "immediate_win": 0,
+          "root_visits": 113,
+          "selected": 140,
+          "teacher_agree": 1,
+          "wall_us": 20094
+        },
+        "uniform_all_legal": {
+          "immediate_win": 0,
+          "root_visits": 174,
+          "selected": 189,
+          "teacher_agree": 0,
+          "wall_us": 20001
+        }
+      },
+      "id": "test_natural-029",
+      "known_immediate_wins": [],
+      "learned_prior_rank_of_teacher": 1,
+      "split": "seeded_synthetic_neighbor_growth",
+      "teacher": 140,
+      "teacher_in_learned_top16": true,
+      "test_split": "test_natural"
+    },
+    {
+      "arms": {
+        "learned_all_legal": {
+          "immediate_win": 0,
+          "root_visits": 119,
+          "selected": 156,
+          "teacher_agree": 0,
+          "wall_us": 20154
+        },
+        "learned_gated": {
+          "immediate_win": 0,
+          "root_visits": 119,
+          "selected": 156,
+          "teacher_agree": 0,
+          "wall_us": 20009
+        },
+        "uniform_all_legal": {
+          "immediate_win": 0,
+          "root_visits": 204,
+          "selected": 2,
+          "teacher_agree": 0,
+          "wall_us": 20109
+        }
+      },
+      "id": "test_natural-030",
+      "known_immediate_wins": [],
+      "learned_prior_rank_of_teacher": 9,
+      "split": "seeded_synthetic_neighbor_growth",
+      "teacher": 84,
+      "teacher_in_learned_top16": true,
+      "test_split": "test_natural"
+    },
+    {
+      "arms": {
+        "learned_all_legal": {
+          "immediate_win": 0,
+          "root_visits": 105,
+          "selected": 141,
+          "teacher_agree": 0,
+          "wall_us": 20128
+        },
+        "learned_gated": {
+          "immediate_win": 0,
+          "root_visits": 103,
+          "selected": 141,
+          "teacher_agree": 0,
+          "wall_us": 20003
+        },
+        "uniform_all_legal": {
+          "immediate_win": 0,
+          "root_visits": 190,
+          "selected": 203,
+          "teacher_agree": 0,
+          "wall_us": 20084
+        }
+      },
+      "id": "test_natural-031",
+      "known_immediate_wins": [],
+      "learned_prior_rank_of_teacher": 7,
+      "split": "seeded_synthetic_neighbor_growth",
+      "teacher": 140,
+      "teacher_in_learned_top16": true,
+      "test_split": "test_natural"
+    },
+    {
+      "arms": {
+        "learned_all_legal": {
+          "immediate_win": 0,
+          "root_visits": 135,
+          "selected": 168,
+          "teacher_agree": 1,
+          "wall_us": 20095
+        },
+        "learned_gated": {
+          "immediate_win": 0,
+          "root_visits": 141,
+          "selected": 168,
+          "teacher_agree": 1,
+          "wall_us": 20094
+        },
+        "uniform_all_legal": {
+          "immediate_win": 0,
+          "root_visits": 194,
+          "selected": 210,
+          "teacher_agree": 0,
+          "wall_us": 20010
+        }
+      },
+      "id": "test_natural-032",
+      "known_immediate_wins": [],
+      "learned_prior_rank_of_teacher": 1,
+      "split": "seeded_synthetic_neighbor_growth",
+      "teacher": 168,
+      "teacher_in_learned_top16": true,
+      "test_split": "test_natural"
+    },
+    {
+      "arms": {
+        "learned_all_legal": {
+          "immediate_win": 0,
+          "root_visits": 146,
+          "selected": 64,
+          "teacher_agree": 1,
+          "wall_us": 20032
+        },
+        "learned_gated": {
+          "immediate_win": 0,
+          "root_visits": 143,
+          "selected": 64,
+          "teacher_agree": 1,
+          "wall_us": 20159
+        },
+        "uniform_all_legal": {
+          "immediate_win": 0,
+          "root_visits": 196,
+          "selected": 216,
+          "teacher_agree": 0,
+          "wall_us": 20020
+        }
+      },
+      "id": "test_natural-033",
+      "known_immediate_wins": [],
+      "learned_prior_rank_of_teacher": 2,
+      "split": "seeded_synthetic_neighbor_growth",
+      "teacher": 64,
+      "teacher_in_learned_top16": true,
+      "test_split": "test_natural"
+    },
+    {
+      "arms": {
+        "learned_all_legal": {
+          "immediate_win": 0,
+          "root_visits": 106,
+          "selected": 126,
+          "teacher_agree": 0,
+          "wall_us": 20093
+        },
+        "learned_gated": {
+          "immediate_win": 0,
+          "root_visits": 103,
+          "selected": 126,
+          "teacher_agree": 0,
+          "wall_us": 20067
+        },
+        "uniform_all_legal": {
+          "immediate_win": 0,
+          "root_visits": 204,
+          "selected": 217,
+          "teacher_agree": 0,
+          "wall_us": 20087
+        }
+      },
+      "id": "test_natural-034",
+      "known_immediate_wins": [],
+      "learned_prior_rank_of_teacher": 2,
+      "split": "seeded_synthetic_neighbor_growth",
+      "teacher": 97,
+      "teacher_in_learned_top16": true,
+      "test_split": "test_natural"
+    },
+    {
+      "arms": {
+        "learned_all_legal": {
+          "immediate_win": 0,
+          "root_visits": 151,
+          "selected": 167,
+          "teacher_agree": 1,
+          "wall_us": 20038
+        },
+        "learned_gated": {
+          "immediate_win": 0,
+          "root_visits": 150,
+          "selected": 167,
+          "teacher_agree": 1,
+          "wall_us": 20063
+        },
+        "uniform_all_legal": {
+          "immediate_win": 0,
+          "root_visits": 188,
+          "selected": 203,
+          "teacher_agree": 0,
+          "wall_us": 20088
+        }
+      },
+      "id": "test_natural-035",
+      "known_immediate_wins": [],
+      "learned_prior_rank_of_teacher": 2,
+      "split": "seeded_synthetic_neighbor_growth",
+      "teacher": 167,
+      "teacher_in_learned_top16": true,
+      "test_split": "test_natural"
+    },
+    {
+      "arms": {
+        "learned_all_legal": {
+          "immediate_win": 0,
+          "root_visits": 155,
+          "selected": 80,
+          "teacher_agree": 0,
+          "wall_us": 20022
+        },
+        "learned_gated": {
+          "immediate_win": 0,
+          "root_visits": 157,
+          "selected": 80,
+          "teacher_agree": 0,
+          "wall_us": 20101
+        },
+        "uniform_all_legal": {
+          "immediate_win": 0,
+          "root_visits": 198,
+          "selected": 224,
+          "teacher_agree": 0,
+          "wall_us": 20051
+        }
+      },
+      "id": "test_natural-036",
+      "known_immediate_wins": [],
+      "learned_prior_rank_of_teacher": 14,
+      "split": "seeded_synthetic_neighbor_growth",
+      "teacher": 16,
+      "teacher_in_learned_top16": true,
+      "test_split": "test_natural"
+    },
+    {
+      "arms": {
+        "learned_all_legal": {
+          "immediate_win": 0,
+          "root_visits": 105,
+          "selected": 127,
+          "teacher_agree": 1,
+          "wall_us": 20008
+        },
+        "learned_gated": {
+          "immediate_win": 0,
+          "root_visits": 107,
+          "selected": 127,
+          "teacher_agree": 1,
+          "wall_us": 20064
+        },
+        "uniform_all_legal": {
+          "immediate_win": 0,
+          "root_visits": 185,
+          "selected": 195,
+          "teacher_agree": 0,
+          "wall_us": 20065
+        }
+      },
+      "id": "test_natural-037",
+      "known_immediate_wins": [],
+      "learned_prior_rank_of_teacher": 1,
+      "split": "seeded_synthetic_neighbor_growth",
+      "teacher": 127,
+      "teacher_in_learned_top16": true,
+      "test_split": "test_natural"
+    },
+    {
+      "arms": {
+        "learned_all_legal": {
+          "immediate_win": 0,
+          "root_visits": 136,
+          "selected": 65,
+          "teacher_agree": 1,
+          "wall_us": 20064
+        },
+        "learned_gated": {
+          "immediate_win": 0,
+          "root_visits": 138,
+          "selected": 65,
+          "teacher_agree": 1,
+          "wall_us": 20008
+        },
+        "uniform_all_legal": {
+          "immediate_win": 0,
+          "root_visits": 214,
+          "selected": 12,
+          "teacher_agree": 0,
+          "wall_us": 20004
+        }
+      },
+      "id": "test_natural-038",
+      "known_immediate_wins": [],
+      "learned_prior_rank_of_teacher": 2,
+      "split": "seeded_synthetic_neighbor_growth",
+      "teacher": 65,
+      "teacher_in_learned_top16": true,
+      "test_split": "test_natural"
+    },
+    {
+      "arms": {
+        "learned_all_legal": {
+          "immediate_win": 0,
+          "root_visits": 136,
+          "selected": 112,
+          "teacher_agree": 0,
+          "wall_us": 20084
+        },
+        "learned_gated": {
+          "immediate_win": 0,
+          "root_visits": 140,
+          "selected": 112,
+          "teacher_agree": 0,
+          "wall_us": 20167
+        },
+        "uniform_all_legal": {
+          "immediate_win": 0,
+          "root_visits": 206,
+          "selected": 2,
+          "teacher_agree": 0,
+          "wall_us": 20091
+        }
+      },
+      "id": "test_natural-039",
+      "known_immediate_wins": [],
+      "learned_prior_rank_of_teacher": 2,
+      "split": "seeded_synthetic_neighbor_growth",
+      "teacher": 92,
+      "teacher_in_learned_top16": true,
+      "test_split": "test_natural"
+    },
+    {
+      "arms": {
+        "learned_all_legal": {
+          "immediate_win": 0,
+          "root_visits": 140,
+          "selected": 81,
+          "teacher_agree": 1,
+          "wall_us": 20025
+        },
+        "learned_gated": {
+          "immediate_win": 0,
+          "root_visits": 140,
+          "selected": 81,
+          "teacher_agree": 1,
+          "wall_us": 20048
+        },
+        "uniform_all_legal": {
+          "immediate_win": 0,
+          "root_visits": 215,
+          "selected": 17,
+          "teacher_agree": 0,
+          "wall_us": 20047
+        }
+      },
+      "id": "test_natural-040",
+      "known_immediate_wins": [],
+      "learned_prior_rank_of_teacher": 4,
+      "split": "seeded_synthetic_neighbor_growth",
+      "teacher": 81,
+      "teacher_in_learned_top16": true,
+      "test_split": "test_natural"
+    },
+    {
+      "arms": {
+        "learned_all_legal": {
+          "immediate_win": 1,
+          "root_visits": 303,
+          "selected": 64,
+          "teacher_agree": 1,
+          "wall_us": 20017
+        },
+        "learned_gated": {
+          "immediate_win": 1,
+          "root_visits": 297,
+          "selected": 64,
+          "teacher_agree": 1,
+          "wall_us": 20026
+        },
+        "uniform_all_legal": {
+          "immediate_win": 1,
+          "root_visits": 285,
+          "selected": 64,
+          "teacher_agree": 1,
+          "wall_us": 20045
+        }
+      },
+      "id": "test_natural-041",
+      "known_immediate_wins": [
+        64
+      ],
+      "learned_prior_rank_of_teacher": 1,
+      "split": "seeded_synthetic_neighbor_growth",
+      "teacher": 64,
+      "teacher_in_learned_top16": true,
+      "test_split": "test_natural"
+    },
+    {
+      "arms": {
+        "learned_all_legal": {
+          "immediate_win": 0,
+          "root_visits": 112,
+          "selected": 172,
+          "teacher_agree": 0,
+          "wall_us": 20159
+        },
+        "learned_gated": {
+          "immediate_win": 0,
+          "root_visits": 109,
+          "selected": 172,
+          "teacher_agree": 0,
+          "wall_us": 20076
+        },
+        "uniform_all_legal": {
+          "immediate_win": 0,
+          "root_visits": 215,
+          "selected": 9,
+          "teacher_agree": 0,
+          "wall_us": 20012
+        }
+      },
+      "id": "test_natural-042",
+      "known_immediate_wins": [],
+      "learned_prior_rank_of_teacher": 16,
+      "split": "seeded_synthetic_neighbor_growth",
+      "teacher": 148,
+      "teacher_in_learned_top16": true,
+      "test_split": "test_natural"
+    },
+    {
+      "arms": {
+        "learned_all_legal": {
+          "immediate_win": 0,
+          "root_visits": 112,
+          "selected": 101,
+          "teacher_agree": 0,
+          "wall_us": 20062
+        },
+        "learned_gated": {
+          "immediate_win": 0,
+          "root_visits": 115,
+          "selected": 101,
+          "teacher_agree": 0,
+          "wall_us": 20116
+        },
+        "uniform_all_legal": {
+          "immediate_win": 0,
+          "root_visits": 191,
+          "selected": 204,
+          "teacher_agree": 0,
+          "wall_us": 20076
+        }
+      },
+      "id": "test_natural-043",
+      "known_immediate_wins": [],
+      "learned_prior_rank_of_teacher": 2,
+      "split": "seeded_synthetic_neighbor_growth",
+      "teacher": 87,
+      "teacher_in_learned_top16": true,
+      "test_split": "test_natural"
+    },
+    {
+      "arms": {
+        "learned_all_legal": {
+          "immediate_win": 0,
+          "root_visits": 108,
+          "selected": 113,
+          "teacher_agree": 0,
+          "wall_us": 20110
+        },
+        "learned_gated": {
+          "immediate_win": 0,
+          "root_visits": 106,
+          "selected": 113,
+          "teacher_agree": 0,
+          "wall_us": 20144
+        },
+        "uniform_all_legal": {
+          "immediate_win": 0,
+          "root_visits": 197,
+          "selected": 219,
+          "teacher_agree": 0,
+          "wall_us": 20064
+        }
+      },
+      "id": "test_natural-044",
+      "known_immediate_wins": [],
+      "learned_prior_rank_of_teacher": 3,
+      "split": "seeded_synthetic_neighbor_growth",
+      "teacher": 129,
+      "teacher_in_learned_top16": true,
+      "test_split": "test_natural"
+    },
+    {
+      "arms": {
+        "learned_all_legal": {
+          "immediate_win": 0,
+          "root_visits": 107,
+          "selected": 109,
+          "teacher_agree": 1,
+          "wall_us": 20088
+        },
+        "learned_gated": {
+          "immediate_win": 0,
+          "root_visits": 111,
+          "selected": 109,
+          "teacher_agree": 1,
+          "wall_us": 20058
+        },
+        "uniform_all_legal": {
+          "immediate_win": 0,
+          "root_visits": 196,
+          "selected": 210,
+          "teacher_agree": 0,
+          "wall_us": 20038
+        }
+      },
+      "id": "test_natural-045",
+      "known_immediate_wins": [],
+      "learned_prior_rank_of_teacher": 2,
+      "split": "seeded_synthetic_neighbor_growth",
+      "teacher": 109,
+      "teacher_in_learned_top16": true,
+      "test_split": "test_natural"
+    },
+    {
+      "arms": {
+        "learned_all_legal": {
+          "immediate_win": 0,
+          "root_visits": 109,
+          "selected": 145,
+          "teacher_agree": 0,
+          "wall_us": 20139
+        },
+        "learned_gated": {
+          "immediate_win": 0,
+          "root_visits": 106,
+          "selected": 145,
+          "teacher_agree": 0,
+          "wall_us": 20152
+        },
+        "uniform_all_legal": {
+          "immediate_win": 0,
+          "root_visits": 202,
+          "selected": 217,
+          "teacher_agree": 0,
+          "wall_us": 20062
+        }
+      },
+      "id": "test_natural-046",
+      "known_immediate_wins": [],
+      "learned_prior_rank_of_teacher": 4,
+      "split": "seeded_synthetic_neighbor_growth",
+      "teacher": 146,
+      "teacher_in_learned_top16": true,
+      "test_split": "test_natural"
+    },
+    {
+      "arms": {
+        "learned_all_legal": {
+          "immediate_win": 0,
+          "root_visits": 105,
+          "selected": 128,
+          "teacher_agree": 0,
+          "wall_us": 20114
+        },
+        "learned_gated": {
+          "immediate_win": 0,
+          "root_visits": 101,
+          "selected": 128,
+          "teacher_agree": 0,
+          "wall_us": 20077
+        },
+        "uniform_all_legal": {
+          "immediate_win": 0,
+          "root_visits": 209,
+          "selected": 222,
+          "teacher_agree": 0,
+          "wall_us": 20004
+        }
+      },
+      "id": "test_natural-047",
+      "known_immediate_wins": [],
+      "learned_prior_rank_of_teacher": 3,
+      "split": "seeded_synthetic_neighbor_growth",
+      "teacher": 114,
+      "teacher_in_learned_top16": true,
+      "test_split": "test_natural"
+    },
+    {
+      "arms": {
+        "learned_all_legal": {
+          "immediate_win": 1,
+          "root_visits": 304,
+          "selected": 207,
+          "teacher_agree": 0,
+          "wall_us": 20010
+        },
+        "learned_gated": {
+          "immediate_win": 1,
+          "root_visits": 319,
+          "selected": 207,
+          "teacher_agree": 0,
+          "wall_us": 20059
+        },
+        "uniform_all_legal": {
+          "immediate_win": 1,
+          "root_visits": 202,
+          "selected": 202,
+          "teacher_agree": 1,
+          "wall_us": 20048
+        }
+      },
+      "id": "test_tactical-000",
+      "known_immediate_wins": [
+        202,
+        207
+      ],
+      "learned_prior_rank_of_teacher": 2,
+      "split": "constructed_terminal1",
+      "teacher": 202,
+      "teacher_in_learned_top16": true,
+      "test_split": "test_tactical"
+    },
+    {
+      "arms": {
+        "learned_all_legal": {
+          "immediate_win": 1,
+          "root_visits": 306,
+          "selected": 186,
+          "teacher_agree": 0,
+          "wall_us": 20060
+        },
+        "learned_gated": {
+          "immediate_win": 1,
+          "root_visits": 319,
+          "selected": 186,
+          "teacher_agree": 0,
+          "wall_us": 20028
+        },
+        "uniform_all_legal": {
+          "immediate_win": 1,
+          "root_visits": 215,
+          "selected": 181,
+          "teacher_agree": 1,
+          "wall_us": 20001
+        }
+      },
+      "id": "test_tactical-001",
+      "known_immediate_wins": [
+        181,
+        186
+      ],
+      "learned_prior_rank_of_teacher": 2,
+      "split": "constructed_terminal1",
+      "teacher": 181,
+      "teacher_in_learned_top16": true,
+      "test_split": "test_tactical"
+    },
+    {
+      "arms": {
+        "learned_all_legal": {
+          "immediate_win": 1,
+          "root_visits": 311,
+          "selected": 7,
+          "teacher_agree": 1,
+          "wall_us": 20054
+        },
+        "learned_gated": {
+          "immediate_win": 1,
+          "root_visits": 308,
+          "selected": 7,
+          "teacher_agree": 1,
+          "wall_us": 20053
+        },
+        "uniform_all_legal": {
+          "immediate_win": 1,
+          "root_visits": 305,
+          "selected": 7,
+          "teacher_agree": 1,
+          "wall_us": 20055
+        }
+      },
+      "id": "test_tactical-002",
+      "known_immediate_wins": [
+        7,
+        12
+      ],
+      "learned_prior_rank_of_teacher": 1,
+      "split": "constructed_terminal1",
+      "teacher": 7,
+      "teacher_in_learned_top16": true,
+      "test_split": "test_tactical"
+    },
+    {
+      "arms": {
+        "learned_all_legal": {
+          "immediate_win": 1,
+          "root_visits": 306,
+          "selected": 187,
+          "teacher_agree": 1,
+          "wall_us": 20050
+        },
+        "learned_gated": {
+          "immediate_win": 1,
+          "root_visits": 306,
+          "selected": 187,
+          "teacher_agree": 1,
+          "wall_us": 20042
+        },
+        "uniform_all_legal": {
+          "immediate_win": 1,
+          "root_visits": 205,
+          "selected": 187,
+          "teacher_agree": 1,
+          "wall_us": 20022
+        }
+      },
+      "id": "test_tactical-003",
+      "known_immediate_wins": [
+        187,
+        192
+      ],
+      "learned_prior_rank_of_teacher": 1,
+      "split": "constructed_terminal1",
+      "teacher": 187,
+      "teacher_in_learned_top16": true,
+      "test_split": "test_tactical"
+    },
+    {
+      "arms": {
+        "learned_all_legal": {
+          "immediate_win": 1,
+          "root_visits": 306,
+          "selected": 218,
+          "teacher_agree": 1,
+          "wall_us": 20035
+        },
+        "learned_gated": {
+          "immediate_win": 1,
+          "root_visits": 310,
+          "selected": 218,
+          "teacher_agree": 1,
+          "wall_us": 20030
+        },
+        "uniform_all_legal": {
+          "immediate_win": 0,
+          "root_visits": 187,
+          "selected": 190,
+          "teacher_agree": 0,
+          "wall_us": 20029
+        }
+      },
+      "id": "test_tactical-004",
+      "known_immediate_wins": [
+        218,
+        223
+      ],
+      "learned_prior_rank_of_teacher": 1,
+      "split": "constructed_terminal1",
+      "teacher": 218,
+      "teacher_in_learned_top16": true,
+      "test_split": "test_tactical"
+    },
+    {
+      "arms": {
+        "learned_all_legal": {
+          "immediate_win": 1,
+          "root_visits": 310,
+          "selected": 201,
+          "teacher_agree": 0,
+          "wall_us": 20049
+        },
+        "learned_gated": {
+          "immediate_win": 1,
+          "root_visits": 303,
+          "selected": 201,
+          "teacher_agree": 0,
+          "wall_us": 20003
+        },
+        "uniform_all_legal": {
+          "immediate_win": 0,
+          "root_visits": 191,
+          "selected": 194,
+          "teacher_agree": 0,
+          "wall_us": 20062
+        }
+      },
+      "id": "test_tactical-005",
+      "known_immediate_wins": [
+        196,
+        201
+      ],
+      "learned_prior_rank_of_teacher": 2,
+      "split": "constructed_terminal1",
+      "teacher": 196,
+      "teacher_in_learned_top16": true,
+      "test_split": "test_tactical"
+    },
+    {
+      "arms": {
+        "learned_all_legal": {
+          "immediate_win": 1,
+          "root_visits": 301,
+          "selected": 39,
+          "teacher_agree": 1,
+          "wall_us": 20010
+        },
+        "learned_gated": {
+          "immediate_win": 1,
+          "root_visits": 315,
+          "selected": 39,
+          "teacher_agree": 1,
+          "wall_us": 20051
+        },
+        "uniform_all_legal": {
+          "immediate_win": 1,
+          "root_visits": 279,
+          "selected": 39,
+          "teacher_agree": 1,
+          "wall_us": 20007
+        }
+      },
+      "id": "test_tactical-006",
+      "known_immediate_wins": [
+        39,
+        44
+      ],
+      "learned_prior_rank_of_teacher": 1,
+      "split": "constructed_terminal1",
+      "teacher": 39,
+      "teacher_in_learned_top16": true,
+      "test_split": "test_tactical"
+    },
+    {
+      "arms": {
+        "learned_all_legal": {
+          "immediate_win": 1,
+          "root_visits": 300,
+          "selected": 20,
+          "teacher_agree": 0,
+          "wall_us": 20021
+        },
+        "learned_gated": {
+          "immediate_win": 1,
+          "root_visits": 291,
+          "selected": 20,
+          "teacher_agree": 0,
+          "wall_us": 20039
+        },
+        "uniform_all_legal": {
+          "immediate_win": 1,
+          "root_visits": 291,
+          "selected": 15,
+          "teacher_agree": 1,
+          "wall_us": 20055
+        }
+      },
+      "id": "test_tactical-007",
+      "known_immediate_wins": [
+        15,
+        20
+      ],
+      "learned_prior_rank_of_teacher": 2,
+      "split": "constructed_terminal1",
+      "teacher": 15,
+      "teacher_in_learned_top16": true,
+      "test_split": "test_tactical"
+    },
+    {
+      "arms": {
+        "learned_all_legal": {
+          "immediate_win": 1,
+          "root_visits": 308,
+          "selected": 215,
+          "teacher_agree": 0,
+          "wall_us": 20013
+        },
+        "learned_gated": {
+          "immediate_win": 1,
+          "root_visits": 306,
+          "selected": 215,
+          "teacher_agree": 0,
+          "wall_us": 20016
+        },
+        "uniform_all_legal": {
+          "immediate_win": 0,
+          "root_visits": 169,
+          "selected": 172,
+          "teacher_agree": 0,
+          "wall_us": 20096
+        }
+      },
+      "id": "test_tactical-008",
+      "known_immediate_wins": [
+        210,
+        215
+      ],
+      "learned_prior_rank_of_teacher": 2,
+      "split": "constructed_terminal1",
+      "teacher": 210,
+      "teacher_in_learned_top16": true,
+      "test_split": "test_tactical"
+    },
+    {
+      "arms": {
+        "learned_all_legal": {
+          "immediate_win": 1,
+          "root_visits": 296,
+          "selected": 4,
+          "teacher_agree": 1,
+          "wall_us": 20035
+        },
+        "learned_gated": {
+          "immediate_win": 1,
+          "root_visits": 301,
+          "selected": 4,
+          "teacher_agree": 1,
+          "wall_us": 20057
+        },
+        "uniform_all_legal": {
+          "immediate_win": 1,
+          "root_visits": 302,
+          "selected": 4,
+          "teacher_agree": 1,
+          "wall_us": 20013
+        }
+      },
+      "id": "test_tactical-009",
+      "known_immediate_wins": [
+        4
+      ],
+      "learned_prior_rank_of_teacher": 1,
+      "split": "constructed_terminal1",
+      "teacher": 4,
+      "teacher_in_learned_top16": true,
+      "test_split": "test_tactical"
+    },
+    {
+      "arms": {
+        "learned_all_legal": {
+          "immediate_win": 1,
+          "root_visits": 301,
+          "selected": 36,
+          "teacher_agree": 0,
+          "wall_us": 20000
+        },
+        "learned_gated": {
+          "immediate_win": 1,
+          "root_visits": 304,
+          "selected": 36,
+          "teacher_agree": 0,
+          "wall_us": 20027
+        },
+        "uniform_all_legal": {
+          "immediate_win": 1,
+          "root_visits": 292,
+          "selected": 31,
+          "teacher_agree": 1,
+          "wall_us": 20016
+        }
+      },
+      "id": "test_tactical-010",
+      "known_immediate_wins": [
+        31,
+        36
+      ],
+      "learned_prior_rank_of_teacher": 2,
+      "split": "constructed_terminal1",
+      "teacher": 31,
+      "teacher_in_learned_top16": true,
+      "test_split": "test_tactical"
+    },
+    {
+      "arms": {
+        "learned_all_legal": {
+          "immediate_win": 1,
+          "root_visits": 267,
+          "selected": 186,
+          "teacher_agree": 0,
+          "wall_us": 20071
+        },
+        "learned_gated": {
+          "immediate_win": 1,
+          "root_visits": 306,
+          "selected": 186,
+          "teacher_agree": 0,
+          "wall_us": 20003
+        },
+        "uniform_all_legal": {
+          "immediate_win": 1,
+          "root_visits": 207,
+          "selected": 181,
+          "teacher_agree": 1,
+          "wall_us": 20060
+        }
+      },
+      "id": "test_tactical-011",
+      "known_immediate_wins": [
+        181,
+        186
+      ],
+      "learned_prior_rank_of_teacher": 2,
+      "split": "constructed_terminal1",
+      "teacher": 181,
+      "teacher_in_learned_top16": true,
+      "test_split": "test_tactical"
+    },
+    {
+      "arms": {
+        "learned_all_legal": {
+          "immediate_win": 1,
+          "root_visits": 301,
+          "selected": 186,
+          "teacher_agree": 0,
+          "wall_us": 20014
+        },
+        "learned_gated": {
+          "immediate_win": 1,
+          "root_visits": 272,
+          "selected": 186,
+          "teacher_agree": 0,
+          "wall_us": 20054
+        },
+        "uniform_all_legal": {
+          "immediate_win": 1,
+          "root_visits": 204,
+          "selected": 181,
+          "teacher_agree": 1,
+          "wall_us": 20026
+        }
+      },
+      "id": "test_tactical-012",
+      "known_immediate_wins": [
+        181,
+        186
+      ],
+      "learned_prior_rank_of_teacher": 2,
+      "split": "constructed_terminal1",
+      "teacher": 181,
+      "teacher_in_learned_top16": true,
+      "test_split": "test_tactical"
+    },
+    {
+      "arms": {
+        "learned_all_legal": {
+          "immediate_win": 1,
+          "root_visits": 304,
+          "selected": 37,
+          "teacher_agree": 1,
+          "wall_us": 20038
+        },
+        "learned_gated": {
+          "immediate_win": 1,
+          "root_visits": 302,
+          "selected": 37,
+          "teacher_agree": 1,
+          "wall_us": 20037
+        },
+        "uniform_all_legal": {
+          "immediate_win": 1,
+          "root_visits": 265,
+          "selected": 37,
+          "teacher_agree": 1,
+          "wall_us": 20030
+        }
+      },
+      "id": "test_tactical-013",
+      "known_immediate_wins": [
+        37,
+        42
+      ],
+      "learned_prior_rank_of_teacher": 1,
+      "split": "constructed_terminal1",
+      "teacher": 37,
+      "teacher_in_learned_top16": true,
+      "test_split": "test_tactical"
+    },
+    {
+      "arms": {
+        "learned_all_legal": {
+          "immediate_win": 1,
+          "root_visits": 312,
+          "selected": 186,
+          "teacher_agree": 0,
+          "wall_us": 20019
+        },
+        "learned_gated": {
+          "immediate_win": 1,
+          "root_visits": 316,
+          "selected": 186,
+          "teacher_agree": 0,
+          "wall_us": 20009
+        },
+        "uniform_all_legal": {
+          "immediate_win": 1,
+          "root_visits": 218,
+          "selected": 181,
+          "teacher_agree": 1,
+          "wall_us": 20061
+        }
+      },
+      "id": "test_tactical-014",
+      "known_immediate_wins": [
+        181,
+        186
+      ],
+      "learned_prior_rank_of_teacher": 2,
+      "split": "constructed_terminal1",
+      "teacher": 181,
+      "teacher_in_learned_top16": true,
+      "test_split": "test_tactical"
+    },
+    {
+      "arms": {
+        "learned_all_legal": {
+          "immediate_win": 1,
+          "root_visits": 308,
+          "selected": 34,
+          "teacher_agree": 1,
+          "wall_us": 20032
+        },
+        "learned_gated": {
+          "immediate_win": 1,
+          "root_visits": 318,
+          "selected": 34,
+          "teacher_agree": 1,
+          "wall_us": 20057
+        },
+        "uniform_all_legal": {
+          "immediate_win": 1,
+          "root_visits": 298,
+          "selected": 34,
+          "teacher_agree": 1,
+          "wall_us": 20057
+        }
+      },
+      "id": "test_tactical-015",
+      "known_immediate_wins": [
+        34
+      ],
+      "learned_prior_rank_of_teacher": 1,
+      "split": "constructed_terminal1",
+      "teacher": 34,
+      "teacher_in_learned_top16": true,
+      "test_split": "test_tactical"
+    }
+  ],
+  "primary_criterion": "learned_gated vs learned_all_legal physical wall cost within 10 percent PER STRATUM",
+  "schema": "quartz_cog05_C08_heldout_finite_teacher_cost_comparison_v1",
+  "source_blind_Rust_sha256": "09dc3b61dce9f4fdf0ce387b67f2669ace9811718fb08ab2498df4628316e5af",
+  "source_cohort_sha256": "604d6d8a9d7baff889715225842f17279a91401848e4678a5b95349cbb476982",
+  "source_finite_teacher_label_sha256": "3c3bfea6d1f928bf7320a6115dfee7763659087a39e16dbb2deff2ecc981d4ad",
+  "strata": {
+    "test_natural": {
+      "admissible_CPU_matched_claim": true,
+      "arms": {
+        "learned_all_legal": {
+          "immediate_win_choice_count": 2,
+          "mean_root_visits": 125.79166666666667,
+          "teacher_agreement_count": 22
+        },
+        "learned_gated": {
+          "immediate_win_choice_count": 2,
+          "mean_root_visits": 131.33333333333334,
+          "teacher_agreement_count": 22
+        },
+        "uniform_all_legal": {
+          "immediate_win_choice_count": 2,
+          "mean_root_visits": 195.625,
+          "teacher_agreement_count": 2
+        }
+      },
+      "cost_matched_10pct": true,
+      "cost_mean_mismatch_fraction": 0.0001577264152314513,
+      "gated_minus_all_tactical_win_count": 0,
+      "gated_minus_all_teacher_agree_count": 0,
+      "immediate_win_root_count": 2,
+      "learned_teacher_top16_coverage": 44,
+      "learned_teacher_top1_coverage": 17,
+      "mean_us_learned_all_legal": 20080.125,
+      "mean_us_learned_gated": 20076.958333333332,
+      "mean_us_uniform_all_legal": 20052.833333333332,
+      "n": 48
+    },
+    "test_tactical": {
+      "admissible_CPU_matched_claim": true,
+      "arms": {
+        "learned_all_legal": {
+          "immediate_win_choice_count": 16,
+          "mean_root_visits": 302.5625,
+          "teacher_agreement_count": 7
+        },
+        "learned_gated": {
+          "immediate_win_choice_count": 16,
+          "mean_root_visits": 306.0,
+          "teacher_agreement_count": 7
+        },
+        "uniform_all_legal": {
+          "immediate_win_choice_count": 13,
+          "mean_root_visits": 239.375,
+          "teacher_agreement_count": 13
+        }
+      },
+      "cost_matched_10pct": true,
+      "cost_mean_mismatch_fraction": 0.00016845257592064012,
+      "gated_minus_all_tactical_win_count": 0,
+      "gated_minus_all_teacher_agree_count": 0,
+      "immediate_win_root_count": 16,
+      "learned_teacher_top16_coverage": 16,
+      "learned_teacher_top1_coverage": 7,
+      "mean_us_learned_all_legal": 20031.9375,
+      "mean_us_learned_gated": 20035.3125,
+      "mean_us_uniform_all_legal": 20039.875,
+      "n": 16
+    }
+  }
+}
