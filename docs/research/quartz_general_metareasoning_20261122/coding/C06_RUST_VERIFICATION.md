@@ -1,0 +1,11 @@
+# C6. Independent Rust reference implementation and actual verification
+
+Built a game-neutral finite metalevel reference in `src/mcts/policy/finite_metalevel.rs` and a standalone `src/bin/quartz_metalevel_reference.rs`. Neither enters live SearchPolicy dispatch, GameState nor PUCT. Rust implementation independently validates finite posterior, state×action utilities, per-computation observation matrices, positive compute cost and resource price; implements Bayesian posterior update, terminal regret, EVSI, separate gross/cost index and priced net, and bounded Bellman H≤4.
+
+**Actual RED/GREEN:** an initial Rust stub `bayes_risk` returned zero, focused test expected 1/2 and exited101 with assertion "Bayes regret must reflect available terminal actions". After implementation, focused tests 6/6 PASS. The new standalone executable's seven tests PASS.
+
+**Fresh full regression C6:** `cargo test --offline --locked`: primary mcts_demo **617 PASS,0 FAIL,89 ignored**, plus standalone binary **7 PASS,0 FAIL**. `cargo test --offline --locked --release`: primary **617 PASS,0 FAIL,89 ignored**, binary **7 PASS,0 FAIL**. `cargo build --offline --locked --release --bin quartz_metalevel_reference`: PASS, binary SHA256 **0a61ddacae5523acef3f4a55a8fe8372e57ac645013ddfa019c57d9dd261d741**. `python3 -m unittest discover -s tests -p test_metalevel_decision.py -v`: **7 PASS,0 FAIL**. Source logs `evidence/C06/`.
+
+**Real independent cross-language execution:** `PYTHONPATH=. python3 coding/check_c06_cross_language.py` runs actual compiled Rust binary on exactly the FIVE frozen JSON tasks and separately computes Python values. **52 floating numerical equalities within 1e-10 and all stop/computation actions equal**, receipt `evidence/C06_CROSS_LANGUAGE.json`. An initial direct script invocation failed with `ModuleNotFoundError: No module named quartz` because PYTHONPATH had not included repository root; corrected command specified PYTHONPATH explicitly, no mathematical code change, **runtime environment** failure separately preserved.
+
+Main limitation: reference finite conditional IID Bayesian computations only. No trained MCTS observation model, production integration, real gameplay, VOC-tightness or empirical compute-saving claim. C7 will freeze execution and cost/accuracy experiment protocol before C8 results.

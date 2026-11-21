@@ -16,6 +16,7 @@
 //! a single named author with one set of hyperparameters.
 
 pub mod cache;
+pub mod finite_metalevel;
 pub mod gumbel_sh;
 pub mod kg_stop;
 pub mod kl_helpers;
