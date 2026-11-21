@@ -1,0 +1,138 @@
+{
+  "Rust_binary_SHA256": "5dd61a01cc87dd715183f3d4145367b471182e0676a9a6bde7c38c9c225eede0",
+  "Rust_debug_test": {
+    "failed": 0,
+    "ignored": 89,
+    "passed": 604
+  },
+  "Rust_executable_source_commit": "8c63a60973ac11b9e1fa4cdf93d387083c65ee57",
+  "Rust_release_test": {
+    "failed": 0,
+    "ignored": 89,
+    "passed": 604
+  },
+  "WDL_informative_root_count": 252,
+  "actual_Rust_requests": 9216,
+  "actual_trial_source_commit": "bf5bda76ba817476f635a8d245603d8c95949211",
+  "all_engine_root_N_W_M2_prior_conservation_verified": true,
+  "all_exact_WDL_action_utilities_and_costs_recomputed": true,
+  "all_legal24_comparison_matched_10pct_both_new_groups": true,
+  "all_oneply_tactical_moves_and_FNV_random_reopenings_independently_recomputed": true,
+  "complete_external_WDL_SHA256": "73cf3b37ddbcc7f14298ee0634b760f5008bfb2194bd5cd5fc31dc24ceb1a817",
+  "external_original_plus_horizontal_mirror_requeries": 48,
+  "group_summaries": {
+    "pooled": {
+      "conv": {
+        "actual_CPU_mismatch_fraction": 0.043416931647022323,
+        "exact_WDL_regret_delta": 0.020833333333333343,
+        "family_CI95": [
+          -0.013020833333333334,
+          0.059895833333333336
+        ],
+        "regret_all_legal24": 0.07552083333333333,
+        "regret_resident_evidence": 0.09635416666666667
+      },
+      "new_mlp": {
+        "actual_CPU_mismatch_fraction": 0.0031091488926986537,
+        "exact_WDL_regret_delta": 0.018229166666666657,
+        "family_CI95": [
+          -0.013020833333333334,
+          0.052083333333333336
+        ],
+        "regret_all_legal24": 0.08854166666666667,
+        "regret_resident_evidence": 0.10677083333333333
+      },
+      "uniform": {
+        "actual_CPU_mismatch_fraction": 0.013143969859882365,
+        "exact_WDL_regret_delta": 0.06770833333333331,
+        "family_CI95": [
+          -0.015625,
+          0.15364583333333334
+        ],
+        "regret_all_legal24": 0.2578125,
+        "regret_resident_evidence": 0.3255208333333333
+      }
+    },
+    "resident_A": {
+      "conv": {
+        "actual_CPU_mismatch_fraction": 0.052459971805029315,
+        "exact_WDL_regret_delta": 0.03645833333333334,
+        "family_CI95": [
+          -0.005208333333333333,
+          0.09895833333333333
+        ],
+        "regret_all_legal24": 0.08333333333333333,
+        "regret_resident_evidence": 0.11979166666666667
+      },
+      "new_mlp": {
+        "actual_CPU_mismatch_fraction": 0.034031276695897734,
+        "exact_WDL_regret_delta": 0.03125,
+        "family_CI95": [
+          -0.005208333333333333,
+          0.08333333333333333
+        ],
+        "regret_all_legal24": 0.07291666666666667,
+        "regret_resident_evidence": 0.10416666666666667
+      },
+      "uniform": {
+        "actual_CPU_mismatch_fraction": 0.031490047080201616,
+        "exact_WDL_regret_delta": 0.05729166666666663,
+        "family_CI95": [
+          -0.06770833333333333,
+          0.16666666666666666
+        ],
+        "regret_all_legal24": 0.2604166666666667,
+        "regret_resident_evidence": 0.3177083333333333
+      }
+    },
+    "resident_B": {
+      "conv": {
+        "actual_CPU_mismatch_fraction": 0.03415625579688509,
+        "exact_WDL_regret_delta": 0.005208333333333343,
+        "family_CI95": [
+          -0.036458333333333336,
+          0.0625
+        ],
+        "regret_all_legal24": 0.06770833333333333,
+        "regret_resident_evidence": 0.07291666666666667
+      },
+      "new_mlp": {
+        "actual_CPU_mismatch_fraction": 0.029015431427950388,
+        "exact_WDL_regret_delta": 0.005208333333333329,
+        "family_CI95": [
+          -0.041666666666666664,
+          0.052083333333333336
+        ],
+        "regret_all_legal24": 0.10416666666666667,
+        "regret_resident_evidence": 0.109375
+      },
+      "uniform": {
+        "actual_CPU_mismatch_fraction": 0.006143626259117738,
+        "exact_WDL_regret_delta": 0.078125,
+        "family_CI95": [
+          -0.041666666666666664,
+          0.203125
+        ],
+        "regret_all_legal24": 0.2552083333333333,
+        "regret_resident_evidence": 0.3333333333333333
+      }
+    }
+  },
+  "native_subagent": "NOT_RUN",
+  "new_distinct_family_clusters": 24,
+  "new_root_positions": 384,
+  "new_source_384_sha256": "3b79dd2341e0e56405a2219f41fb0e28047bf642a7372f417f23513459450b31",
+  "raw_artifact_SHA256": {
+    "PAIRED_384_RESIDENT_WDL.json": "ca2bb1c79b4a3f56438cecc17c7671593120f88acf944de9962d7e473f6d6bb7",
+    "RAW_9216_RESIDENT_ROOTS.json": "7a76d87f7f50b318dd8b4e83e8a1e17de431ff54ec5fdae417c40b79cb40763d",
+    "SUMMARY_RESIDENT13.json": "52ea66b4a23955320f1db0172d00288755fe29347db721572f3025ef06ae231e"
+  },
+  "real_same_root_8_and_24_stage_executions": 18432,
+  "related_Python_unittest": {
+    "components": 14,
+    "failed": 0,
+    "passed": 132
+  },
+  "schema": "quartz_cog03_resident13_C09_independent_actual_9216_v1",
+  "selective_resident_unpruning_superior_to_unrestricted": "NOT_ESTABLISHED"
+}
