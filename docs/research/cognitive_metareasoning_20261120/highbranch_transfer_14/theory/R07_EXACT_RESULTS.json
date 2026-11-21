@@ -1,0 +1,27 @@
+{
+  "all_225_action_pairs_tested": 25200,
+  "all_225_singletons_tested": 225,
+  "claim_status": "DERIVED_AND_EXACT_FINITE_CHECKED",
+  "confirmed_below_stable_prior_action_score_point2": true,
+  "exact_small_B7_subsets_enumerated": 6,
+  "exclusion": "NOT real Rust MCTS implementation or game playing strength",
+  "four_word_boundary_actions": [
+    0,
+    63,
+    64,
+    127,
+    128,
+    191,
+    192,
+    224
+  ],
+  "last_valid_index": 224,
+  "m1_probability_decimal": "0.019138755980861244019138755980861244019138755980861",
+  "m5_probability_decimal": "0.092959988180045499367442892359023971296526894047500",
+  "p_hit_B225_k16_r4_m1": "4/209",
+  "p_hit_B225_k16_r4_m5": "2393375/25746292",
+  "p_hit_B7_k3_r2_m1": "1/2",
+  "random_monotone_four_word_subset_checks": 1000,
+  "schema": "quartz_cog04_highbranch14_exact_combinatorial_r7_v1",
+  "unvisited_bonus_at_Nmax32_prior001_c2": "0.11313708498984760390413509793677584628557375003016"
+}
