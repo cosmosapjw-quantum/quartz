@@ -1,0 +1,65 @@
+{
+  "schema": "quartz_general_meta17_next_scientific_stage_v1",
+  "completed_cycle": "QUARTZ-GENERAL-METAREASONING-17",
+  "next_research_id": "QUARTZ-GENERAL-18-CALIBRATED-COMPUTATION-OBSERVATION",
+  "next_not_executed": true,
+  "project_mission": "General bounded-rational metalevel computation selection, allocation and STOP, not optimization for a specific game",
+  "authority": {
+    "source_document": "docs/THESIS.md",
+    "original_claims": "P1 game-agnostic principle; P2 budget-quality benchmark target; P3 emergent untuned signatures; P4 CPU gate",
+    "new_interpretation": "docs/research/quartz_general_metareasoning_20261122/QUARTZ_GENERAL_MASTER_PLAN_v1.md",
+    "restoration_status": "Separate companion research document. Original THESIS and CLAIM_LEDGER unchanged.",
+    "prior_C16_parent_git": "41febde4561644d7287fd4d3411847e485f5f646",
+    "frozen_five_task_SHA256": "46d69d13ea327c23e02b76c53a0a78aadc1f77ee9e405dbef1c203a6d0b471dd"
+  },
+  "current_science": {
+    "exact_counterexample": "Rates 4 vs 5/2 select partial; net 3/20 vs 3/10 select complete",
+    "multitask_reference": "Finite Bayesian observation models, no games in five test cases",
+    "comparison": "5 task families × 4 strategies × 512 samples = 10240, exact expected total loss and independent Fraction audit",
+    "cross_language": "52 Rust/Python numerical equalities and choice parity within 1e-10",
+    "source_provenance": "413 Git commits and 30 remote branch refs scanned at baseline; zero actual GitHub PR objects in repository query",
+    "not_verified": [
+      "Adaptive MCTS observation likelihood calibration",
+      "Production SearchPolicy integration",
+      "Cross-domain transfer/actual game efficiency",
+      "P3 emergent human search statistics"
+    ]
+  },
+  "next_goal": "Calibrate a model of observations produced by ACTUAL computation actions from correlated, adaptive search and a structurally different non-game decision task; use it to predict heldout change in terminal decision risk and compute price before proposing a shadow live controller.",
+  "theory_stages": [
+    "R1 identify source/status and pose concrete prediction target",
+    "R2 recover primary metareasoning and correlated observation literature",
+    "R3 define state-conditional observation and dependency, latent belief and payoffs",
+    "R4 construct alternative likelihood/calibration models and conditional counterexamples",
+    "R5 derive predictive posterior regret and error sensitivity with computation cost",
+    "R6 independently challenge correlation, nonstationarity, missing candidates and frame changes",
+    "R7 execute exact/small numerical experiments against frozen observations",
+    "R8 admit claims only per source family and heldout calibration",
+    "R9 freeze source→theory→computational benchmark contract",
+    "R10 hand off derivations, failure cases and audited readback"
+  ],
+  "coding_stages": [
+    "C1 verify exact C17, original thesis and associated source/tool SHA",
+    "C2 map observation model to typed Rust/Python project interfaces without domain logic leakage",
+    "C3 cost and numerical stability/predeclared calibration tolerance",
+    "C4 freeze two distinct sources, evaluator revisions, grouped splits and denominator before training",
+    "C5 implement observation likelihood estimator and task adapter with RED/GREEN",
+    "C6 Rust integration in SHADOW mode plus independent Python semantic tests",
+    "C7 freeze matched-budget benchmarks and evaluation runner before test data unblinding",
+    "C8 run actual continued Rust MCTS and a separate non-game decision task with heldout predictions",
+    "C9 independently audit calibration, actual costs, wrong-stop rate and archive restore",
+    "C10 conclude with negative/positive results, stagewise Git push/archive hash and next handoff"
+  ],
+  "admission": [
+    "At least two structurally different decision domains/task families and truly independent parent-source grouped train/calibration/test",
+    "Use actual measured wall or NN cost with explicit unit and utility/resource conversion; no equal-visits-equal-time assumptions",
+    "Check heldout predictive likelihood reliability and noninferiority of terminal decision quality separately from compute savings",
+    "Controller cannot read offline oracle or human signature metrics at runtime",
+    "Remain SHADOW if observation model is uncalibrated or wrong-stop risk is unacceptable",
+    "Preserve negative evidence, no retrospective tuning to fix failures",
+    "Every R/C stage produces its own source-valid commit, exact GitHub remote SHA equality and locally sha256-checked Git tar archive; Dropbox cloud acknowledgment separate",
+    "No branch merge, deletion, extra plugin installation or PR until specifically requested"
+  ],
+  "next_action": "Start from clean separate worktree at final C17 branch. Prioritize real posterior observation calibration rather than adding another chess/Gomoku tactic.",
+  "native_subagent": "NOT_RUN"
+}
