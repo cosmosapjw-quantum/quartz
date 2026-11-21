@@ -1,0 +1,42 @@
+{
+  "schema": "quartz_cog05_next_stage_contract_v1",
+  "current_research": "QUARTZ-COG-04-TRAINED-PRIOR-FAIR-COST-15",
+  "next_research_id": "QUARTZ-COG-05-NONTERMINAL-MISS-AND-GAME-WDL-16",
+  "next_research_title": "Independent nonterminal tactical-miss witness, learned-prior attention and real paired game outcome validation",
+  "basis": {
+    "frozen_model_sha256": "5ff8286dcc57192b79e960ba096bc5067c78d439a212eaa69d523f68835a3b83",
+    "prior_heldout_trained_all_teacher_agree": "22/48 on 48 seeded synthetic natural positions",
+    "uniform_all_teacher_agree": "2/48",
+    "gated_vs_all_action_disagreement": 0,
+    "gated_reopenings": 0,
+    "cpu_cost_stratum_match": "PASS for both studied strata",
+    "conclusion": "prior contribution supported only for finite synthetic proxy task; no identified reopening effect"
+  },
+  "scientific_question": "Under a fixed trained evaluator, can source-only online rule/probe witnesses detect previously excluded strategically decisive but nonterminal continuations and yield additional actual WDL at matched wall time, beyond learned prior quality alone?",
+  "required_work": [
+    "R1-R10 ten-stage theory research: formalize delayed-regret witness and exact-game-policy confound, derive conditional claim and failed-activation stop rule, literature/novelty, offline toy counterexample, adversarial comparison, validate math, freeze contract",
+    "C1-C10 ten-stage coding: isolate clean branch/source, implement native search-only two-ply witness, reject any teacher test-action leakage, prefreeze nonterminal forcing source family and all split hashes",
+    "Construct truly independent played-game openings or selfplay trajectories, paired across side/color and source game families; explicitly keep engineered diagnostics separate",
+    "Retain trained vs trained full-legal vs uniform controls, add sham/irrelevant activation and all-after8; use same frozen evaluator, same-root statistics and real physical wall-time budgets",
+    "Calibrate thresholds only on training/calibration split and never touch test groups after unblinding, record prospective trigger counts",
+    "Require at least 20 independently generated activated heldout roots before estimating conditional reopening benefit; if unavailable, declare NOT_ESTIMABLE and stop",
+    "Score equivalence class of immediate wins/forced continuations separately from exact finite-budget teacher move",
+    "Conduct real paired full-game WDL with balanced openings and two-sided play under identical per-move wall budget, report confidence bounds and game count, no Elo from one-ply agreement",
+    "Independent source/model/run byte audit, archive restore test, backup and GitHub publish after every stage and explicit reason for any block"
+  ],
+  "prohibited_claims": [
+    "new progressive unpruning invention",
+    "human cognitive mechanism from 0 reopenings",
+    "exact minimax from Rapfi finite search",
+    "Elo or WDL from C15 64 one-ply roots",
+    "trained value-network capability of C15 model"
+  ],
+  "success_conditions": [
+    "independent nonterminal missed-action families, source-registered before model/control adjustment",
+    "online witness triggers on new heldout roots and preserves same-root P/N/W/M2 at reactivation",
+    "both cost strata <=10% measured wall mismatch with source and evaluator held fixed",
+    "positive WDL/forced-regret differential against trained all-legal baseline conditional on activated families with a bounded uncertainty analysis",
+    "or defensible negative/null/NOT_ESTIMABLE closeout without metric or source tuning"
+  ],
+  "next_stage_is_not_executed_here": true
+}
