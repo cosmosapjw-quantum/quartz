@@ -2,6 +2,7 @@
 
 pub mod backup;
 pub mod cog02;
+pub mod dynamic10;
 pub mod eval;
 pub mod expand;
 #[cfg(feature = "idea-foundry")]

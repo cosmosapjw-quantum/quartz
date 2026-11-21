@@ -24,6 +24,7 @@ use crate::mcts::parallel::{AutoThreadMode, AutoThreadPolicy};
 use crate::mcts::quartz::{HaltMode, PenaltyMode, QuartzConfig, QuartzController};
 use crate::mcts::search::FixedIterations;
 use crate::mcts::cog02::{CostedSignedGainPolicy, current_root_features, model_for_root};
+use crate::mcts::dynamic10::{DynamicTwoStepPolicy, Action as DynamicAction};
 use crate::mcts::{engine_phase_snapshot, MctsConfig, MctsEngine, PreparedIteration};
 
 use crate::games::chess::{chess_quartz, Chess, ChessMove, CHESS_POLICY_ACTIONS};
@@ -103,6 +104,17 @@ fn handle_research_connect4_cpu(line: &str) -> serde_json::Value {
             Err(err) => return serde_json::json!({"error": format!("bad adaptive policy: {err}")}),
         },
     };
+    let dynamic_policy = match request.get("dynamic_policy") {
+        None => None,
+        Some(v) => match DynamicTwoStepPolicy::parse(v) {
+            Ok(p) => Some(p),
+            Err(err) => return serde_json::json!({"error": format!("invalid dynamic10 policy: {err}")}),
+        }
+    };
+    if dynamic_policy.is_some() && (adaptive_policy.is_some()
+        || time_budget_ms.is_some() || force_stop_visits.is_some()) {
+        return serde_json::json!({"error": "dynamic10 cannot combine with other stopping policies"});
+    }
     let model_load_started = Instant::now();
     let (eval, model_cache_hit) = match model_for_root(mode, frozen_path, frozen_identity, cached) {
         Ok(x) => x,
@@ -118,6 +130,9 @@ fn handle_research_connect4_cpu(line: &str) -> serde_json::Value {
     let mut steps = Vec::with_capacity(4);
     let mut resident16 = None;
     let mut adaptive_decisions = Vec::with_capacity(3);
+    let mut dynamic_decisions = Vec::with_capacity(3);
+    let mut dynamic_skipped_checkpoints: Vec<u32> = Vec::with_capacity(1);
+    let mut dynamic_commit_until: Option<u32> = None;
     let mut time_budget_stop_decisions = Vec::with_capacity(3);
     let mut cumulative_root_search_wall_us = 0u128;
     let mut stopped_at_visits = 64u32;
@@ -153,6 +168,27 @@ fn handle_research_connect4_cpu(line: &str) -> serde_json::Value {
                 }
             } else {None}
         } else {None};
+        // Select the next operation using CURRENT root information only.
+        // If a previous option committed two batches, the intervening
+        // checkpoint is visible in the trace but cannot override that choice.
+        let next_dynamic = if let Some(ref fitted) = dynamic_policy {
+            if target < 64 {
+                if matches!(dynamic_commit_until,Some(until) if target < until) {
+                    dynamic_skipped_checkpoints.push(target);
+                    None
+                } else {
+                    let features = match current_root_features(&state, &policy, calls, target) {
+                        Ok(x) => x,
+                        Err(err) => return serde_json::json!({"error": format!("dynamic10 current features: {err}")}),
+                    };
+                    let stage = match target {8=>0,16=>1,32=>2,_=>unreachable!()};
+                    match fitted.predict(stage,&features) {
+                        Ok(decision) => Some((features,decision)),
+                        Err(err) => return serde_json::json!({"error": format!("dynamic10 forecast: {err}")}),
+                    }
+                }
+            } else {None}
+        } else {None};
         if target == 16 {
             resident16 = Some((best, calls, policy.clone()));
         }
@@ -181,6 +217,33 @@ fn handle_research_connect4_cpu(line: &str) -> serde_json::Value {
             if !cont {
                 stopped_at_visits = target;
                 break;
+            }
+        }
+        if let Some((features, decision)) = next_dynamic {
+            dynamic_decisions.push(serde_json::json!({
+                "at_visits":target,
+                "root_features":features,
+                "action":decision.action.label(),
+                "predicted_single_gain":decision.predicted_single_gain,
+                "predicted_joint_gain":decision.predicted_joint_gain,
+                "predicted_single_cost_ms":decision.predicted_single_cost_ms,
+                "predicted_joint_cost_ms":decision.predicted_joint_cost_ms,
+                "net_single":decision.net_single,
+                "net_joint":decision.net_joint
+            }));
+            match decision.action {
+                DynamicAction::Stop => {
+                    stopped_at_visits=target;
+                    break;
+                }
+                DynamicAction::Single => {}
+                DynamicAction::CommitTwo => {
+                    dynamic_commit_until=Some(match target {
+                        8=>32,
+                        16=>64,
+                        _=>return serde_json::json!({"error": "invalid dynamic10 two-step stage"}),
+                    });
+                }
             }
         }
         if let Some(budget_ms) = time_budget_ms {
@@ -239,6 +302,8 @@ fn handle_research_connect4_cpu(line: &str) -> serde_json::Value {
         "stopped_at_visits":stopped_at_visits,
         "force_stop_visits":force_stop_visits,
         "adaptive_decisions":adaptive_decisions,
+        "dynamic_decisions":dynamic_decisions,
+        "dynamic_skipped_checkpoints":dynamic_skipped_checkpoints,
         "time_budget_ms":time_budget_ms,
         "time_budget_stop_decisions":time_budget_stop_decisions,
         "cumulative_root_search_wall_us":cumulative_root_search_wall_us,
@@ -7959,6 +8024,46 @@ mod tests {
             panic!("ordinary session transport must remain unchanged");
         };
         assert_eq!(session_id, 7);
+    }
+
+    #[test]
+    fn test_cog02_dynamic10_two_step_commit_skips_intervening_stop() {
+        let mut one = vec![vec![0.0f64;9];3];
+        one[1][0]=10.0; // would request another step at 16, but is not consulted
+        one[2][0]=-1.0; // the post-commit decision at 32 stops
+        let mut joint = vec![vec![0.0f64;9];2];
+        joint[0][0]=1.0; // positive joint value 8->32, zero one-step value 8->16
+        let model=serde_json::json!({
+            "schema":"quartz_cog02_dynamic_two_step_v1",
+            "features":"root_visits_v1",
+            "one_step_gain_coefficients":one,
+            "two_step_gain_coefficients":joint,
+            "one_step_cost_log_coefficients":vec![vec![0.0f64;9];3],
+            "two_step_cost_log_coefficients":vec![vec![0.0f64;9];2],
+            "one_step_cost_scale":[0.1,0.1,0.1],
+            "two_step_cost_scale":[0.2,0.2],
+            "lambda_wdl_per_ms":0.5
+        });
+        let req=serde_json::json!({
+            "cmd":"research_connect4_cpu","history":"4433226223",
+            "budgets":[8,16,32,64],"seed":17,
+            "dynamic_policy":model
+        });
+        let result=handle_research_connect4_cpu(&req.to_string());
+        assert!(result.get("error").is_none(), "{result}");
+        assert_eq!(result["stopped_at_visits"],32);
+        assert_eq!(result["steps"].as_array().unwrap().len(),3);
+        assert_eq!(result["dynamic_decisions"].as_array().unwrap().len(),2);
+        assert_eq!(result["dynamic_decisions"][0]["action"],"commit_two");
+        assert_eq!(result["dynamic_decisions"][0]["at_visits"],8);
+        assert_eq!(result["dynamic_decisions"][1]["at_visits"],32);
+        assert_eq!(result["dynamic_decisions"][1]["action"],"stop");
+        assert_eq!(result["dynamic_skipped_checkpoints"][0],16);
+        assert_eq!(result["fresh16"]["resident_match"],true);
+        let mut malformed=req.clone();
+        malformed["dynamic_policy"]["two_step_gain_coefficients"]=
+            serde_json::json!([[1.0]]);
+        assert!(handle_research_connect4_cpu(&malformed.to_string()).get("error").is_some());
     }
 
     #[test]
