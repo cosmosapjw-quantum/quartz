@@ -764,7 +764,7 @@ impl Gomoku15 {
     }
 
     /// Board as 0/1/2 encoding (for JSON protocol compatibility)
-    #[cfg(test)]
+    /// Read-only source board for a verified native policy evaluator (0 empty, 1 black, 2 white).
     pub fn board_as_12(&self) -> &[u8; N2] {
         &self.board
     }

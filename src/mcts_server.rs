@@ -41,6 +41,9 @@ use resident13_cpu_server::handle_research_connect4_resident_cpu;
 #[path = "mcts_server/highbranch14_cpu_server.rs"]
 mod highbranch14_cpu_server;
 use highbranch14_cpu_server::handle_research_gomoku15_highbranch_cpu;
+#[path = "mcts_server/prior15_cpu_server.rs"]
+mod prior15_cpu_server;
+use prior15_cpu_server::handle_research_gomoku15_prior_cpu;
 
 /// Bounded, CPU-only real QUARTZ MCTS for *standard gravity Connect4*.
 /// This research-only endpoint intentionally does not consume the external
@@ -2700,6 +2703,12 @@ pub fn serve() {
         let cmd = jstr(&line, "cmd").unwrap_or("move");
         if cmd == "quit" {
             break;
+        }
+
+        if cmd == "research_gomoku15_prior_cpu" || cmd == "research_gomoku15_prior_features" {
+            emit_stdout_json_value(&handle_research_gomoku15_prior_cpu(&line));
+            if let Some(ring) = global_ring_buffer() {ring.set_cmd_done(true);}
+            continue;
         }
 
         if cmd == "research_gomoku15_highbranch_cpu" {
