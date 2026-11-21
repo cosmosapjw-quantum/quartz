@@ -1,0 +1,15 @@
+# R9. Executable contract for game-neutral priced metareasoning
+
+Reference objects (no game knowledge):
+- FiniteDecisionProblem: posterior b over N latent states; N×K terminal utility matrix (state row, action column); one or more computations c each with positive cost κ and N×M_c observation likelihood matrix; utility/resource exchange λ>0.
+- Terminal score M(b)=max_a Σ_i b_i U_ia, oracle K(b)=Σ_i b_i max_a U_ia, risk R=K−M.
+- Compute gross EVSI G_c=Σ_y p_y M(b_y)−M(b) and net gain N_c=G_c−λκ_c. Deterministic tie order on computation index, STOP on nonpositive net gain.
+- H-step Bellman V_0=R; V_h=min{R,min_c(λκ_c+Σ_y p_y V_{h−1}(b_y))}. Repeated computation outcome conditionally IID given latent state within this reference; tests will detect invalid probabilities/dimensions instead of accepting mock belief.
+
+Python reference expected source: quartz/experiments/metalevel_decision.py; exact rational independent theorem checker: docs/research/quartz_general_metareasoning_20261122/theory/verify_R07_exact.py; tests: tests/test_metalevel_decision.py and a bounded script generating the read-only scenario science receipt. Rust counterpart: src/mcts/policy/finite_metalevel.rs as a **game-neutral non-production reference**. New Rust module must not mutate GameState trait, current PUCT search, frozen QUARTZ source THESIS, existing controller dispatch or game-specific endpoints. It may compile into policy module for tests and future guarded integration. Distinct contract declarations: numeric f64, normalization tolerance1e-10 for channel/probability, nonfinite and negative inputs rejected. Error states explicit.
+
+Validation: observe RED test for missing Python module and missing Rust reference behavior before production code; implement exact models with H0..H3 and heterogenous cost. Independently check with R7 Fraction arithmetic; full Rust debug and release cargo tests plus focused Python unittest. Test null info, relabelling, two objective rankings, equal-cost dispatch agreement, cost-unit invariance, horizon monotonicity, no silent q=0 invalid updates. Add a fourth source/problem with non-identity payoff to avoid hardcoding counterexample. No claim of general Bayesian calculation from tests alone.
+
+C1 exact parent Git and authority locks; C2 definition-to-function map; C3 numeric/resource contract; C4 freeze structured task fixtures and acceptance metric before all new outcomes; C5 Python reference with true RED/GREEN; C6 Rust reference with true RED/GREEN and full regression; C7 freeze evaluation script source and resource limit; C8 run finite exact/scenario experiments plus paired reference vs heuristic metrics; C9 independent mathematical/implementation audit and archive-restore; C10 honest final verdict and next general agent step.
+
+Key novelty boundary: a finite verification of a previously unresolved *project consistency question* is a useful research result, but the theorem itself is standard metareasoning. Cross-domain empirical transport to adaptive neural MCTS still requires conditional observation-law calibration. Every stage commit, local SHA archive and remote head readback are required.
