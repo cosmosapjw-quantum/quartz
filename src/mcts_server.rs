@@ -31,6 +31,10 @@ use crate::games::chess::{chess_quartz, Chess, ChessMove, CHESS_POLICY_ACTIONS};
 use crate::games::go::{go_quartz, Go, GoRuleset, GoScoring};
 use crate::games::gomoku15::{gomoku15_quartz, Gomoku15, GomokuVariant};
 use crate::games::{connect4::Connect4, connect4_nn::TinyConnect4Evaluator, connect4_conv::ConvConnect4Evaluator, Gomoku, TicTacToe};
+use crate::mcts::reopening12::{ordered_legal_prior,tactical_probe,random_reopen,TOP_K};
+#[path = "mcts_server/reopening12_cpu_server.rs"]
+mod reopening12_cpu_server;
+use reopening12_cpu_server::handle_research_connect4_reopen_cpu;
 
 /// Bounded, CPU-only real QUARTZ MCTS for *standard gravity Connect4*.
 /// This research-only endpoint intentionally does not consume the external
@@ -2690,6 +2694,12 @@ pub fn serve() {
         let cmd = jstr(&line, "cmd").unwrap_or("move");
         if cmd == "quit" {
             break;
+        }
+
+        if cmd == "research_connect4_reopen_cpu" {
+            emit_stdout_json_value(&handle_research_connect4_reopen_cpu(&line));
+            if let Some(ring)=global_ring_buffer() {ring.set_cmd_done(true);}
+            continue;
         }
 
         if cmd == "research_connect4_cpu" {
@@ -8024,6 +8034,37 @@ mod tests {
             panic!("ordinary session transport must remain unchanged");
         };
         assert_eq!(session_id, 7);
+    }
+
+    #[test]
+    fn test_cog03_actual_masked_root_reopening_cpu_endpoint() {
+        // Current player has a legal vertical immediate win in column 0,
+        // outside uniformly-ranked top3 center columns 3,2,4.
+        let q=serde_json::json!({
+            "cmd":"research_connect4_reopen_cpu",
+            "history":"121213","eval_mode":"uniform",
+            "arm":"evidence_reopen","seed":17
+        });
+        let r=handle_research_connect4_reopen_cpu(&q.to_string());
+        assert!(r.get("error").is_none(), "{r}");
+        assert_eq!(r["first_search"]["root_visits"],8);
+        assert_eq!(r["second_search"]["root_visits"],16);
+        assert_eq!(r["initial_candidates"],serde_json::json!([3,2,4]));
+        assert!(r["legal_columns_0based"].as_array().unwrap().len()>=5);
+        let selected=r["second_search"]["best_action"].as_u64().unwrap() as usize;
+        assert!(r["final_candidates"].as_array().unwrap().iter().any(|x|x.as_u64()==Some(selected as u64)));
+        assert!(r["total_decision_wall_us_without_model_load"].as_u64().is_some());
+
+        let mut sham=q.clone();
+        sham["arm"]=serde_json::json!("closed_sham");
+        let closed=handle_research_connect4_reopen_cpu(&sham.to_string());
+        assert!(closed.get("error").is_none(),"{closed}");
+        assert_eq!(closed["initial_candidates"],closed["final_candidates"]);
+        assert_eq!(closed["second_search"]["root_visits"],16);
+
+        let mut bad=q.clone();
+        bad["arm"]=serde_json::json!("malformed_controller");
+        assert!(handle_research_connect4_reopen_cpu(&bad.to_string()).get("error").is_some());
     }
 
     #[test]
