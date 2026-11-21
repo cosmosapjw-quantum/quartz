@@ -1,0 +1,11 @@
+# R8. Convergent claim decisions and stop conditions
+
+The theory now selects **resident root selection reactivation** over unsafe late slab insertion. This is intentional: new candidate edges are **already in the immutable original root slab**, but become *selectable* only at the second checkpoint. It retains first-stage statistics, but root expansion cost is paid upfront and needs to be measured. This meets the specific current experiment's same-tree activation objective, **not the stronger absent-edge insertion objective**.
+
+**Admitted exact claim:** If a serial root selection gate is the only state changed, pre-checkpoint edge statistics are preserved at the instant; no monotone action utility guarantee follows. This follows from the proof and finite PUCT counterexample in R5/R7, not from web opinions.
+
+**Still empirical:** correctness of Rust resident gating, exact source-level negamax semantics, elapsed CPU time, recovered decisive moves, family-level exact WDL difference versus unrestricted full-legal root, game performance on a true high-branching board. No general no-go is asserted, so no NG1–NG7 theorem request is triggered.
+
+**Predeclared finite study:** two new mirror-disjoint opening-family draws each12×16 positions, total384; modes Uniform, trained tiny MLP, trained Conv3×3. Fixed root visits first8 + additional16=24. Resident evidence root, sham closed, random equal-size openings seeds [202611210301,202611210302,202611210303], all-open-at8, all-legal24. Current `tactical_probe` fixation/share ≥0.5, initial candidates top3, at most two new legal moves, one-ply immediate win / safe reply only. Never tune using exact new test labels. Additional restart-only C12 readback is descriptive (different prior normalization and computational path).
+
+**Primary success:** root hash unchanged across 8→24, first N/W/M2 preserved, all-legal prior unchanged, source false-allowed selection count0. Utility advantage requires `mean Reg_resident-mean Reg_full < 0` plus ≤10% physical end-to-end time mismatch in both new groups, 24-family conditional bootstrap interval strictly below zero and no selective-root oracle leakage. If not, outcome is `RESIDENT_UNPRUNING_NOT_BETTER_THAN_ALL_LEGAL`, and transition to 15×15 engine transfer study rather than endlessly re-tuning.
