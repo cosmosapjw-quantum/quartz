@@ -1,0 +1,330 @@
+{
+  "schema": "quartz_general_meta17_frozen_finite_Bayes_tasks_v1",
+  "authoritative_thesis": "docs/THESIS.md",
+  "source_identity_rule": "fixed task family; no game-specific labels or features",
+  "execution_mode": "synthetic_finite_known_observation_channels",
+  "source_fixed_before_algorithm_execution": true,
+  "uniform_utility_resource_lambda": "1",
+  "interpretation": "Tasks are mathematical test cases; no claim that posterior/likelihood represent adaptive MCTS",
+  "cases": [
+    {
+      "id": "heterogeneous_complete_vs_partial",
+      "family": "three_state_identity",
+      "posterior": [
+        "1/2",
+        "3/10",
+        "1/5"
+      ],
+      "utilities": [
+        [
+          "1",
+          "0",
+          "0"
+        ],
+        [
+          "0",
+          "1",
+          "0"
+        ],
+        [
+          "0",
+          "0",
+          "1"
+        ]
+      ],
+      "horizon": 2,
+      "lambda": "1",
+      "experiments": [
+        {
+          "name": "partial_state_3",
+          "cost": "1/20",
+          "likelihood": [
+            [
+              "1",
+              "0"
+            ],
+            [
+              "1",
+              "0"
+            ],
+            [
+              "0",
+              "1"
+            ]
+          ]
+        },
+        {
+          "name": "reveal_all",
+          "cost": "1/5",
+          "likelihood": [
+            [
+              "1",
+              "0",
+              "0"
+            ],
+            [
+              "0",
+              "1",
+              "0"
+            ],
+            [
+              "0",
+              "0",
+              "1"
+            ]
+          ]
+        }
+      ],
+      "precommitted_exact": {
+        "risk": "1/2",
+        "gross": [
+          "1/5",
+          "1/2"
+        ],
+        "ratio": [
+          "4",
+          "5/2"
+        ],
+        "net": [
+          "3/20",
+          "3/10"
+        ],
+        "preferred_by_rate": "partial_state_3",
+        "preferred_by_net": "reveal_all",
+        "bellman_h1": "1/5"
+      }
+    },
+    {
+      "id": "one_action_always_dominant",
+      "family": "irrelevant_information",
+      "posterior": [
+        "1/2",
+        "1/2"
+      ],
+      "utilities": [
+        [
+          "2",
+          "1"
+        ],
+        [
+          "2",
+          "1"
+        ]
+      ],
+      "horizon": 2,
+      "lambda": "1",
+      "experiments": [
+        {
+          "name": "perfect_state_reveal",
+          "cost": "1/10",
+          "likelihood": [
+            [
+              "1",
+              "0"
+            ],
+            [
+              "0",
+              "1"
+            ]
+          ]
+        }
+      ],
+      "precommitted_exact": {
+        "risk": "0",
+        "gross": [
+          "0"
+        ],
+        "preferred_by_net": "STOP"
+      }
+    },
+    {
+      "id": "equal_cost_complete_and_partial",
+      "family": "equal_cost_control",
+      "posterior": [
+        "1/2",
+        "3/10",
+        "1/5"
+      ],
+      "utilities": [
+        [
+          "1",
+          "0",
+          "0"
+        ],
+        [
+          "0",
+          "1",
+          "0"
+        ],
+        [
+          "0",
+          "0",
+          "1"
+        ]
+      ],
+      "horizon": 1,
+      "lambda": "1",
+      "experiments": [
+        {
+          "name": "partial_state_3",
+          "cost": "1/10",
+          "likelihood": [
+            [
+              "1",
+              "0"
+            ],
+            [
+              "1",
+              "0"
+            ],
+            [
+              "0",
+              "1"
+            ]
+          ]
+        },
+        {
+          "name": "reveal_all",
+          "cost": "1/10",
+          "likelihood": [
+            [
+              "1",
+              "0",
+              "0"
+            ],
+            [
+              "0",
+              "1",
+              "0"
+            ],
+            [
+              "0",
+              "0",
+              "1"
+            ]
+          ]
+        }
+      ],
+      "precommitted_exact": {
+        "preferred_by_rate": "reveal_all",
+        "preferred_by_net": "reveal_all"
+      }
+    },
+    {
+      "id": "nonidentity_signed_utility",
+      "family": "asymmetric_reward",
+      "posterior": [
+        "1/2",
+        "1/3",
+        "1/6"
+      ],
+      "utilities": [
+        [
+          "2",
+          "-1"
+        ],
+        [
+          "-1",
+          "3"
+        ],
+        [
+          "0",
+          "1"
+        ]
+      ],
+      "horizon": 2,
+      "lambda": "1",
+      "experiments": [
+        {
+          "name": "observe_first_state",
+          "cost": "1/10",
+          "likelihood": [
+            [
+              "1",
+              "0"
+            ],
+            [
+              "0",
+              "1"
+            ],
+            [
+              "0",
+              "1"
+            ]
+          ]
+        },
+        {
+          "name": "observe_three_state",
+          "cost": "1/3",
+          "likelihood": [
+            [
+              "1",
+              "0",
+              "0"
+            ],
+            [
+              "0",
+              "1",
+              "0"
+            ],
+            [
+              "0",
+              "0",
+              "1"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "two_state_noisy_sensor",
+      "family": "noisy_observation",
+      "posterior": [
+        "3/5",
+        "2/5"
+      ],
+      "utilities": [
+        [
+          "1",
+          "0"
+        ],
+        [
+          "0",
+          "1"
+        ]
+      ],
+      "horizon": 3,
+      "lambda": "1",
+      "experiments": [
+        {
+          "name": "noisy_sensor",
+          "cost": "1/20",
+          "likelihood": [
+            [
+              "4/5",
+              "1/5"
+            ],
+            [
+              "1/5",
+              "4/5"
+            ]
+          ]
+        },
+        {
+          "name": "reveal_state",
+          "cost": "1/4",
+          "likelihood": [
+            [
+              "1",
+              "0"
+            ],
+            [
+              "0",
+              "1"
+            ]
+          ]
+        }
+      ]
+    }
+  ]
+}

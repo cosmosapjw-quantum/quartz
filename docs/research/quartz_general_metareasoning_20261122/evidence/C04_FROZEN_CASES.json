@@ -1,0 +1,19 @@
+{
+  "all_probability_rows_exact_Fraction_normalized": true,
+  "case_canonicalization": "bytes_locked",
+  "case_file_sha256": "46d69d13ea327c23e02b76c53a0a78aadc1f77ee9e405dbef1c203a6d0b471dd",
+  "n_game_specific_tasks": 0,
+  "n_heterogeneous_cost_tasks": 3,
+  "n_tasks": 5,
+  "no_stochastic_trials_or_metric_tuning_pre-freeze": true,
+  "schema": "quartz_meta17_C04_frozen_case_lock_v1",
+  "source_file": "configs/metalevel_reference_cases.v1.json",
+  "source_scope": "finite exact reference only",
+  "task_ids": [
+    "equal_cost_complete_and_partial",
+    "heterogeneous_complete_vs_partial",
+    "nonidentity_signed_utility",
+    "one_action_always_dominant",
+    "two_state_noisy_sensor"
+  ]
+}
