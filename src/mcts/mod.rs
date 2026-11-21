@@ -350,6 +350,10 @@ pub struct MctsEngine<G: GameState> {
     pub tt: Arc<TranspositionTable<G::Move>>,
     pub config: MctsConfig,
     root_noise: Option<Vec<f32>>,
+    /// Research-only selection gate on an already FULL legal root edge slab.
+    /// Zero means unrestricted. Changed only through &mut self between serial
+    /// searches, so old edge N/W/M2 are never modified by activation.
+    root_action_mask: AtomicU64,
     /// 현재 QUARTZ 통계 (EFT-PUCT에 사용)
     pub(crate) quartz_cache: RwLock<Option<QuartzStats>>,
     /// Monotonic version for `quartz_cache`. Search loops keep a local
@@ -605,6 +609,7 @@ impl<G: GameState> MctsEngine<G> {
             par_ctrl: parallel::ParallelismController::new(config.vl_mode, 1),
             config,
             root_noise: None,
+            root_action_mask: AtomicU64::new(0),
             quartz_cache: RwLock::new(None),
             quartz_cache_epoch: AtomicU64::new(0),
             selection_telemetry: SelectionTelemetry::new(),
@@ -812,6 +817,7 @@ impl<G: GameState> MctsEngine<G> {
             self.config.c_puct,
             self.root_noise.as_deref(),
             self.config.pw.as_ref(),
+            self.resident_root_mask_snapshot(),
             self.config.max_depth,
             &self.tt,
             qstate,
@@ -862,6 +868,7 @@ impl<G: GameState> MctsEngine<G> {
             self.config.c_puct,
             self.root_noise.as_deref(),
             self.config.pw.as_ref(),
+            self.resident_root_mask_snapshot(),
             self.config.max_depth,
             &self.tt,
             qstate,
@@ -911,6 +918,7 @@ impl<G: GameState> MctsEngine<G> {
             self.config.c_puct,
             self.root_noise.as_deref(),
             self.config.pw.as_ref(),
+            self.resident_root_mask_snapshot(),
             self.config.max_depth,
             &self.tt,
             qstate,
@@ -1713,6 +1721,9 @@ impl<G: GameState> MctsEngine<G> {
                 self.root = edge.child.clone();
                 self.root_state = self.root_state.apply_move(chosen_move);
                 self.root_noise = None;
+                // A resident selection gate always belongs to the previous
+                // root only; promoted child resumes ordinary full legal MCTS.
+                self.root_action_mask.store(0, Ordering::Release);
                 // Clear quartz cache for new root
                 self.clear_quartz_stats();
                 self.par_ctrl.reset_for_search();
@@ -1752,6 +1763,47 @@ impl<G: GameState> MctsEngine<G> {
     /// Get a reference to the current root state.
     pub fn root_state(&self) -> &G {
         &self.root_state
+    }
+
+    /// Snapshot the mask restricting only root selection. Mask=0 denotes all.
+    pub fn resident_root_mask_snapshot(&self) -> u64 {
+        self.root_action_mask.load(Ordering::Acquire)
+    }
+
+    /// Activate a nonempty subset of ORIGINAL FULL-LEGAL root edge actions.
+    /// Strictly monotone after any visits; this never edits edges or priors.
+    /// The exclusive mutable borrow disallows live search during activation.
+    pub fn set_resident_root_allowed_moves(&mut self, moves: &[G::Move]) -> Result<(), String> {
+        if moves.is_empty() {
+            return Err("resident root action subset must not be empty".into());
+        }
+        if self.root.candidate_count() == 0 ||
+           self.root.materialized_count() != self.root.candidate_count() {
+            return Err("resident root gate requires fully materialized legal root edges".into());
+        }
+        let legal = self.root_state.legal_moves();
+        let mut mask = 0_u64;
+        for &mv in moves {
+            if !legal.contains(&mv) {
+                return Err("resident root gate requires a fully legal original action".into());
+            }
+            let idx = self.root_state.move_to_idx(mv);
+            if idx >= 64 {
+                return Err("resident root mask only supports move indices below 64".into());
+            }
+            let bit = 1_u64 << idx;
+            if mask & bit != 0 {
+                return Err("duplicate move in resident root action mask".into());
+            }
+            mask |= bit;
+        }
+        let before = self.root_action_mask.load(Ordering::Acquire);
+        let n_root = self.root.n_total.load(Ordering::Acquire);
+        if n_root > 0 && (before == 0 || before & mask != before) {
+            return Err("cannot restrict a previously searched resident root".into());
+        }
+        self.root_action_mask.store(mask, Ordering::Release);
+        Ok(())
     }
 
     pub fn best_move(&self) -> Option<G::Move> {
@@ -1890,6 +1942,68 @@ mod tests {
 
     static SCRATCH_CLONE_COUNT: AtomicUsize = AtomicUsize::new(0);
     static EDGE_COUNTER_TEST_LOCK: Mutex<()> = Mutex::new(());
+
+    #[test]
+    fn cog03_resident13_mask_activation_reuses_actual_root_and_old_edge_statistics() {
+        use crate::games::connect4::Connect4;
+        let state=Connect4::from_history("121213").unwrap();
+        let original_hash=state.tt_hash();
+        let mut cfg=MctsConfig::evaluation(2.0).with_seed(17);
+        cfg.root_forced_win=false;
+        cfg.dirichlet=None;
+        let mut engine=MctsEngine::new(state,Arc::new(UniformEval),cfg);
+        assert_eq!(engine.root.candidate_count(),7);
+        assert_eq!(engine.root.materialized_count(),7);
+        let ptr=ArenaRef::as_ptr(&engine.root);
+        assert_eq!(engine.root.hash,original_hash);
+        engine.set_resident_root_allowed_moves(&[5]).unwrap();
+        assert_eq!(engine.resident_root_mask_snapshot(),1_u64<<5);
+        let first=engine.run(&mut FixedIterations::new(8));
+        assert_eq!(first.root_visits,8);
+        let previous=engine.root.edge_snapshot(7);
+        assert_eq!(previous.iter().map(|e|e.n).sum::<u32>(),8);
+        assert_eq!(previous.iter().find(|e|e.mv==5).unwrap().n,8);
+        assert!(previous.iter().all(|e|e.mv==5||e.n==0));
+        let eval_calls=engine.evaluator_call_count();
+        let precise_old=previous.iter().map(|e|(
+            e.mv,e.n,e.p.to_bits(),e.w.to_bits(),e.m2.to_bits()
+        )).collect::<Vec<_>>();
+        engine.set_resident_root_allowed_moves(&[5,0]).unwrap();
+        assert_eq!(engine.resident_root_mask_snapshot(),(1_u64<<5)|1);
+        assert_eq!(engine.root.hash,original_hash);
+        assert_eq!(ArenaRef::as_ptr(&engine.root),ptr);
+        assert_eq!(engine.evaluator_call_count(),eval_calls);
+        let precise_now=engine.root.edge_snapshot(7).iter().map(|e|(
+            e.mv,e.n,e.p.to_bits(),e.w.to_bits(),e.m2.to_bits()
+        )).collect::<Vec<_>>();
+        assert_eq!(precise_old,precise_now);
+        assert!(engine.set_resident_root_allowed_moves(&[5]).is_err());
+        assert!(engine.set_resident_root_allowed_moves(&[]).is_err());
+        assert!(engine.set_resident_root_allowed_moves(&[5,5,0]).is_err());
+        assert!(engine.set_resident_root_allowed_moves(&[7]).is_err());
+        let later=engine.run(&mut FixedIterations::new(24));
+        assert_eq!(later.root_visits,24);
+        let after=engine.root.edge_snapshot(7);
+        assert_eq!(after.iter().map(|e|e.n).sum::<u32>(),24);
+        assert!(after.iter().all(|e|e.mv==0||e.mv==5||e.n==0));
+        assert_eq!(ArenaRef::as_ptr(&engine.root),ptr);
+        assert_eq!(engine.root_state().legal_moves().len(),7);
+    }
+
+    #[test]
+    fn cog03_resident13_reject_restricting_a_previously_unrestricted_searched_root() {
+        use crate::games::connect4::Connect4;
+        let mut cfg=MctsConfig::evaluation(2.0).with_seed(17);
+        cfg.root_forced_win=false;
+        cfg.dirichlet=None;
+        let mut engine=MctsEngine::new(
+            Connect4::from_history("1212").unwrap(),Arc::new(UniformEval),cfg
+        );
+        assert_eq!(engine.resident_root_mask_snapshot(),0);
+        assert_eq!(engine.run(&mut FixedIterations::new(8)).root_visits,8);
+        assert!(engine.set_resident_root_allowed_moves(&[2,3,4]).is_err());
+        assert_eq!(engine.resident_root_mask_snapshot(),0);
+    }
 
     struct HotPathMetricsGuard;
 

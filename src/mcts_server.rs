@@ -35,6 +35,9 @@ use crate::mcts::reopening12::{ordered_legal_prior,tactical_probe,random_reopen,
 #[path = "mcts_server/reopening12_cpu_server.rs"]
 mod reopening12_cpu_server;
 use reopening12_cpu_server::handle_research_connect4_reopen_cpu;
+#[path = "mcts_server/resident13_cpu_server.rs"]
+mod resident13_cpu_server;
+use resident13_cpu_server::handle_research_connect4_resident_cpu;
 
 /// Bounded, CPU-only real QUARTZ MCTS for *standard gravity Connect4*.
 /// This research-only endpoint intentionally does not consume the external
@@ -2694,6 +2697,12 @@ pub fn serve() {
         let cmd = jstr(&line, "cmd").unwrap_or("move");
         if cmd == "quit" {
             break;
+        }
+
+        if cmd == "research_connect4_resident_cpu" {
+            emit_stdout_json_value(&handle_research_connect4_resident_cpu(&line));
+            if let Some(ring) = global_ring_buffer() {ring.set_cmd_done(true);}
+            continue;
         }
 
         if cmd == "research_connect4_reopen_cpu" {
@@ -8034,6 +8043,39 @@ mod tests {
             panic!("ordinary session transport must remain unchanged");
         };
         assert_eq!(session_id, 7);
+    }
+
+    #[test]
+    fn cog03_resident13_real_CPU_endpoint_retains_root_and_counter_statistics() {
+        let req=serde_json::json!({
+            "cmd":"research_connect4_resident_cpu",
+            "history":"121213","eval_mode":"uniform",
+            "arm":"resident_all_after8","seed":17
+        });
+        let r=handle_research_connect4_resident_cpu(&req.to_string());
+        assert!(r.get("error").is_none(),"{r}");
+        assert_eq!(r["first_search"]["root_visits"],8);
+        assert_eq!(r["second_search"]["root_visits"],24);
+        assert_eq!(r["second_search"]["additional_root_visits"],16);
+        assert_eq!(r["initial_candidates"],serde_json::json!([3,2,4]));
+        assert_eq!(r["original_full_root_edges"],7);
+        assert_eq!(r["resident_same_root_node"],true);
+        assert_eq!(r["prior_and_edge_stats_identical_immediately_after_activation"],true);
+        assert_eq!(r["root_evaluator_calls_identical_during_activation"],true);
+        assert_eq!(r["first_search"]["edge_visit_sum"],8);
+        assert_eq!(r["second_search"]["edge_visit_sum"],24);
+        assert_eq!(r["root_hash_before"],r["root_hash_after"]);
+        assert_eq!(r["no_external_exact_oracle_in_runtime"],true);
+        assert!(r["total_wall_us_without_model_load"].as_u64().unwrap()>0);
+        let action=r["second_search"]["best_action"].as_u64().unwrap();
+        assert!(r["final_candidates"].as_array().unwrap().iter().any(|x|x.as_u64()==Some(action)));
+
+        let mut fake_oracle=req.clone();
+        fake_oracle["exact_action_scores"]=serde_json::json!([1,0,1,0,0,0,-1]);
+        assert!(handle_research_connect4_resident_cpu(&fake_oracle.to_string()).get("error").is_some());
+        let mut illegal=req.clone();
+        illegal["arm"]=serde_json::json!("not_registered");
+        assert!(handle_research_connect4_resident_cpu(&illegal.to_string()).get("error").is_some());
     }
 
     #[test]
