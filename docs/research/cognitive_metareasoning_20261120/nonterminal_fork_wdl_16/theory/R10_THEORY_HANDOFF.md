@@ -1,0 +1,7 @@
+# R10. Theory cycle closeout and code start
+
+Produced meaningful results: R5 exact 3-ply sufficient tactical certificate with assumptions, R5 exact 32 local candidate lemma, R6 opponent immediate-win counterexample and distinct-endpoint issue, R7 complete white response enumeration (218/218), full/local action comparison (90/90), Wolfram set checks (32). These are directly reusable for Rust code, not a broad Gomoku novelty or game-strength theorem.
+
+Original research and constraints preserved: exact C15 v=0 learned policy, 225 full original edges, same root MCTS statistics, frozen 20ms online CPU budget, physical per-stratum <=10% comparison, prospective source split, paired full WDL, no teacher/oracle online. If triggering heldout source families <20, conditional reactivation treatment effect NOT_ESTIMABLE. An exact winning certificate can still be implementation-verified on constructed controls; do not make a population claim from such controls.
+
+Execution handoff: C1-C10 scope in R09_EXECUTABLE_CONTRACT.md. Each stage must commit/push same isolated research branch and SHA-hash local Git backup. Native delegation tools absent: serial fallback, not simulated subagents. Prepublication checkpoint before first test outcome; honest negative/zero effects are valid scientific outputs. Stage R10 is not permission to silently retune prior experiments after testing.
