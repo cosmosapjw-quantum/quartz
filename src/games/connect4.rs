@@ -10,6 +10,9 @@ pub struct Connect4 {
     next: i8,
     winner: i8,
     ply: u8,
+    /// Research-only root candidate gate. Descendants use full gravity rules.
+    /// The protected root is uniquely keyed in the TT; child hashes are unchanged.
+    root_gate: Option<(u8,u8)>,
 }
 
 impl Connect4 {
@@ -43,6 +46,33 @@ impl Connect4 {
         self.heights
     }
 
+    /// Restrict only this position's root action set, never descendant turns.
+    /// A distinct TT key protects the masked root from full-game root reuse.
+    pub fn with_root_candidates(mut self, columns: &[usize]) -> Result<Self,String> {
+        if self.is_terminal() || columns.is_empty() {
+            return Err("nonterminal root and nonempty candidate set required".into());
+        }
+        if self.root_gate.is_some() {
+            return Err("root candidate gate already applied".into());
+        }
+        let mut mask=0u8;
+        for &col in columns {
+            if col>=7 || self.heights[col]>=6 {
+                return Err("root candidate out of full-game legal columns".into());
+            }
+            let bit=1u8<<col;
+            if mask&bit!=0 {return Err("duplicate root candidate".into())}
+            mask|=bit;
+        }
+        self.root_gate=Some((self.ply,mask));
+        Ok(self)
+    }
+
+    /// Expose the current gated action set without changing board contents.
+    pub fn active_root_gate_mask(&self) -> Option<u8> {
+        self.root_gate.and_then(|(ply,mask)| (ply==self.ply).then_some(mask))
+    }
+
     fn check_from_cell(&self, x: usize, y: usize, color: i8) -> bool {
         for (dx, dy) in [(1i32, 0i32), (0, 1), (1, 1), (1, -1)] {
             let mut count = 1;
@@ -71,6 +101,7 @@ impl Connect4 {
     #[inline]
     fn can_play(&self, col: usize) -> bool {
         col < 7 && self.heights[col] < 6 && !self.is_terminal()
+            && self.active_root_gate_mask().map_or(true, |mask| (mask & (1u8<<col))!=0)
     }
 }
 
@@ -86,6 +117,7 @@ impl GameState for Connect4 {
             next: 1,
             winner: 0,
             ply: 0,
+            root_gate: None,
         }
     }
     fn current_player(&self) -> i8 {
@@ -95,7 +127,7 @@ impl GameState for Connect4 {
         if self.is_terminal() {
             return Vec::new();
         }
-        (0..7).filter(|&col| self.heights[col] < 6).collect()
+        (0..7).filter(|&col| self.can_play(col)).collect()
     }
     fn apply_move(&self, col: Self::Move) -> Self {
         assert!(self.can_play(col), "illegal or post-terminal Connect4 move");
@@ -146,6 +178,10 @@ impl GameState for Connect4 {
         }
         value ^= (self.next as i16 + 2) as u64;
         value = value.wrapping_mul(0x100000001b3);
+        if let Some(mask)=self.active_root_gate_mask() {
+            value ^= (mask as u64) ^ 0xdec0_ded0_0000_0001u64;
+            value = value.wrapping_mul(0x100000001b3);
+        }
         value
     }
     fn num_actions(&self) -> usize {
@@ -173,7 +209,7 @@ impl GameState for Connect4 {
         if self.is_terminal() {
             0
         } else {
-            self.heights.iter().filter(|&&height| height < 6).count()
+            (0..7).filter(|&col| self.can_play(col)).count()
         }
     }
     fn board_state_record(&self) -> Vec<i64> {
@@ -210,6 +246,25 @@ impl GameState for Connect4 {
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[test]
+    fn cog03_root_only_candidate_mask_never_changes_descendant_game_rules() {
+        let original=Connect4::from_history("1212").unwrap();
+        let restricted=original.clone().with_root_candidates(&[2,4]).unwrap();
+        assert_eq!(restricted.legal_moves(),vec![2,4]);
+        assert_eq!(restricted.board_flat(),original.board_flat());
+        assert_eq!(restricted.idx_to_move(1),None);
+        assert_ne!(restricted.tt_hash(),original.tt_hash());
+        assert_eq!(restricted.legal_move_count(),2);
+        let masked_child=restricted.apply_move(2);
+        let full_child=original.apply_move(2);
+        assert_eq!(masked_child.legal_moves(),full_child.legal_moves());
+        assert_eq!(masked_child.tt_hash(),full_child.tt_hash());
+        assert_eq!(masked_child.board_flat(),full_child.board_flat());
+        assert!(original.clone().with_root_candidates(&[]).is_err());
+        assert!(original.clone().with_root_candidates(&[2,2]).is_err());
+        assert!(original.clone().with_root_candidates(&[7]).is_err());
+    }
 
     #[test]
     fn gravity_and_column_actions_reconstruct_sequence() {
