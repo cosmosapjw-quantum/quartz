@@ -1,0 +1,39 @@
+{
+  "after_B1_and_B2_optimal_utility": "1",
+  "after_B1_optimal_utility": "1/2",
+  "after_B2_optimal_utility": "1/2",
+  "interpretation": "exact Bayes information synergy in abstract XOR four-world model, not a theorem of QUARTZ MCTS",
+  "joint_two_observation_gross_information_gain": "1/2",
+  "myopic_gross_information_gain": "0",
+  "one_step_net_gain": "-1/10",
+  "per_observation_cost": "1/10",
+  "prior_optimal_action_utility": "1/2",
+  "schema": "quartz_cog02_dynamic10_exact_xor_synergy_v1",
+  "two_step_net_gain": "3/10",
+  "worlds": [
+    {
+      "B1": 0,
+      "B2": 0,
+      "probability": "1/4",
+      "target_Z_XOR": 0
+    },
+    {
+      "B1": 0,
+      "B2": 1,
+      "probability": "1/4",
+      "target_Z_XOR": 1
+    },
+    {
+      "B1": 1,
+      "B2": 0,
+      "probability": "1/4",
+      "target_Z_XOR": 1
+    },
+    {
+      "B1": 1,
+      "B2": 1,
+      "probability": "1/4",
+      "target_Z_XOR": 0
+    }
+  ]
+}
