@@ -1,0 +1,51 @@
+{
+  "action_permutations_tested": 6,
+  "compute_cost": [
+    "1/20",
+    "1/5"
+  ],
+  "cost_unit_invariance": "PASS",
+  "finite_horizon_choice": [
+    "STOP",
+    "1",
+    "1",
+    "1"
+  ],
+  "finite_horizon_value": [
+    "1/2",
+    "1/5",
+    "1/5",
+    "1/5"
+  ],
+  "garbling_information_order": "PASS",
+  "gross_EVSI": [
+    "1/5",
+    "1/2"
+  ],
+  "index_choice": "binary_partial",
+  "index_gain_per_cost": [
+    "4",
+    "5/2"
+  ],
+  "initial_posterior_simple_regret": "1/2",
+  "latent_state_permutations_tested": 6,
+  "n_compute_choices": 2,
+  "n_hidden_states": 3,
+  "n_terminal_actions": 3,
+  "net_gain": [
+    "3/20",
+    "3/10"
+  ],
+  "net_optimal_choice": "complete_observation",
+  "one_step_stop_sign_unchanged": true,
+  "posterior": [
+    "1/2",
+    "3/10",
+    "1/5"
+  ],
+  "schema": "quartz_general_meta17_R07_exact_finite_Bayes_v1",
+  "source_python_sha256": "0dfd95746e80ebab99160e4c0d681f19bdcdb4375b02e8a79b4bbd559ba2a1a7",
+  "source_reuse": "not a game or MCTS implementation",
+  "status": "PASS",
+  "uninformative_observation_EVSI": "0"
+}
