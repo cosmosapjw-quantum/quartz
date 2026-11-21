@@ -1,0 +1,42 @@
+{
+  "min_activated_constructed_source_groups": 20,
+  "posthoc_label_unchanged": true,
+  "schema": "quartz_cog06_C08_blind_compute_and_activation_v1",
+  "source_raw_sha256": "6ffcf1b110f7bcfc55964b203c58df46f830fe63d1797f13691d5593e7de7786",
+  "strata": {
+    "MCTS_played": {
+      "activated": 0,
+      "actual_cpu_abs_relative_mismatch": 0.0002801469214966071,
+      "actual_cpu_mean_alllegal_us": 20084.375,
+      "actual_cpu_mean_mask_us": 20078.75,
+      "changed_final_actions_mask_vs_alllegal": 1,
+      "cost_gate_10pct": true,
+      "mean_cpu_other_arms_us": {
+        "learned_all_legal": 20084.375,
+        "learned_fork_mask": 20078.75,
+        "learned_fork_proof_choice": 20098.0,
+        "learned_sham_mask": 20095.625,
+        "learned_top16": 20076.25
+      },
+      "n": 16,
+      "n_certified_proof_choice_actions": 0
+    },
+    "constructed": {
+      "activated": 23,
+      "actual_cpu_abs_relative_mismatch": 0.001569505270290511,
+      "actual_cpu_mean_alllegal_us": 20052.347826086956,
+      "actual_cpu_mean_mask_us": 20083.869565217392,
+      "changed_final_actions_mask_vs_alllegal": 1,
+      "cost_gate_10pct": true,
+      "mean_cpu_other_arms_us": {
+        "learned_all_legal": 20052.347826086956,
+        "learned_fork_mask": 20083.869565217392,
+        "learned_fork_proof_choice": 20061.0,
+        "learned_sham_mask": 20081.434782608696,
+        "learned_top16": 20082.17391304348
+      },
+      "n": 23,
+      "n_certified_proof_choice_actions": 23
+    }
+  }
+}
