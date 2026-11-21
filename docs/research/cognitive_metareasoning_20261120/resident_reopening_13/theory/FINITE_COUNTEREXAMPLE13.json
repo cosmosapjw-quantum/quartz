@@ -1,0 +1,39 @@
+{
+  "c_PUCT": "2",
+  "completed_visits_before_activation": 8,
+  "edge_q_values": [
+    "2/5",
+    "0",
+    "0"
+  ],
+  "edge_visits_before": [
+    8,
+    0,
+    0
+  ],
+  "newly_activated_action_1_beats_old_action_0": true,
+  "original_full_prior_sum": "1",
+  "prior_fractions": [
+    "1/2",
+    "1/3",
+    "1/6"
+  ],
+  "restricted_prior_mass_first_two": "5/6",
+  "schema": "quartz_cog03_resident13_exact_finite_puct_counterexample_v1",
+  "score_0_exact": "2/5 + 2 Sqrt[2]/9",
+  "score_1_exact": "4 Sqrt[2]/3",
+  "score_1_minus_score_0_exact": "10 Sqrt[2]/9 - 2/5 > 0",
+  "score_2_exact": "2 Sqrt[2]/3",
+  "scores_decimal_70digits": [
+    "0.7142696805273544552892641609354884619043715278615440162614843862201628",
+    "1.885618083164126731735584965612930771426229167169264097568906317320976",
+    "0.9428090415820633658677924828064653857131145835846320487844531586604885"
+  ],
+  "status": "DERIVED_FINITE_CONSTRUCTION_NOT_ACTUAL_RUST_MCTS",
+  "untested_claims": [
+    "actual_rust_root_masks",
+    "Connect4 move utility monotonicity",
+    "finite sample win rate"
+  ],
+  "wolfram_crosscheck_tool_output": "{{2/5+2sqrt(2)/9,4sqrt(2)/3,2sqrt(2)/3},{5/6,1},True,{8,8}}"
+}
