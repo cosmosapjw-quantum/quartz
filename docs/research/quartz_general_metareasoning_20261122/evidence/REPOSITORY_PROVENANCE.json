@@ -1,0 +1,283 @@
+{
+  "GitHub_PR_records": [],
+  "GitHub_actual_PR_count": 0,
+  "PR_query_status": "LIVE_GITHUB_API_COMPLETE_UP_TO_FIRST_PAGE",
+  "all_git_commits_in_inventory": 413,
+  "branch_names_containing_pr_not_equal_github_PR": true,
+  "first_commit_date": "2026-04-09",
+  "new_isolated_branch_source_SHA": "41febde4561644d7287fd4d3411847e485f5f646",
+  "original_developer_worktree_sha": "65e7d3e9596ca259ebfe523b0c74058692b6a755",
+  "original_git_root_commits": [
+    "15f3a1986a00d548d3da56dab8233b336e931aee"
+  ],
+  "proof_source_THESIS_id": {
+    "bytes": 9428,
+    "last_affecting_commit": "7241ad0cfe1e92f28bd8cded5ad5f9fe7d4b4eab",
+    "path": "docs/THESIS.md",
+    "sha256": "02ffa31af60ecbb1fa46f8bfebe4590caa365aca22f3c3d17817017a8ef5cb8f"
+  },
+  "protected_prior_main_not_modified": true,
+  "ref_name_group_counts": {
+    "agent": 7,
+    "audit": 4,
+    "main": 1,
+    "research": 18
+  },
+  "refs_origin": [
+    {
+      "date": "2026-08-24",
+      "name": "origin/agent/foundry-pr00-lean-spec",
+      "sha": "9da35b4d6189c38ddfdc30949605765ab0816e11",
+      "subject": "docs(foundry): specify trusted-local execution identity"
+    },
+    {
+      "date": "2026-08-24",
+      "name": "origin/agent/foundry-pr01-status-writers",
+      "sha": "d4998d35ddd155856eaa9367d8198d09850348cd",
+      "subject": "refactor(foundry): make status writer contracts explicit"
+    },
+    {
+      "date": "2026-08-24",
+      "name": "origin/agent/foundry-pr02-registry-snapshot",
+      "sha": "02ff780fe493b74a0e5f353f75cab4c525838665",
+      "subject": "refactor(foundry): parse workflow registry from captured bytes"
+    },
+    {
+      "date": "2026-08-24",
+      "name": "origin/agent/foundry-pr03-execution-identity",
+      "sha": "1976c7f9e108c673fc7ed5131ccf1533a0c23ba3",
+      "subject": "feat(foundry): capture trusted-local execution identity"
+    },
+    {
+      "date": "2026-08-25",
+      "name": "origin/agent/foundry-pr04-initial-state-retry2-20260825",
+      "sha": "9ddd3471904f2200f4656cb102886c994bd7bed0",
+      "subject": "feat(foundry): publish identity-bound campaign state"
+    },
+    {
+      "date": "2026-08-25",
+      "name": "origin/agent/idea-foundry-pr05-r1-public-resume",
+      "sha": "a74adb4e0176b0e7f0ad6cb7c1870a483b787749",
+      "subject": "fix(foundry): make public resume plan-before-mutate"
+    },
+    {
+      "date": "2026-08-18",
+      "name": "origin/agent/local-experiment-foundry",
+      "sha": "65e7d3e9596ca259ebfe523b0c74058692b6a755",
+      "subject": "fix(foundry): fix CI format gate, status enums, 8x2 opening hierarchy, and dual NI gates"
+    },
+    {
+      "date": "2026-08-22",
+      "name": "origin/audit/idea-foundry-p0bc1-implementation-20260822",
+      "sha": "f825c38aa4d1c16146b425f1b768dfbd6ec7ad1a",
+      "subject": "chore(foundry): archive failed P0b-C1 implementation"
+    },
+    {
+      "date": "2026-08-25",
+      "name": "origin/audit/idea-foundry-progress-and-failure-log-20260825",
+      "sha": "e4a37fe1eb3ec40ae336c0014e8e6457954c38df",
+      "subject": "docs(foundry): add Codex PR05-R1 handoff prompt"
+    },
+    {
+      "date": "2026-08-20",
+      "name": "origin/audit/idea-foundry-recovery-checkpoint-20260820",
+      "sha": "0bcbdbf4fe3aeb95f0902e4a9133a3f39102d0e9",
+      "subject": "docs(foundry): publish recovery and harness checkpoint"
+    },
+    {
+      "date": "2026-08-24",
+      "name": "origin/audit/idea-foundry-research-trust-policy-20260823",
+      "sha": "37535065776d4babb0186d21370e3ddd7b4217de",
+      "subject": "docs(foundry): pin audited plan execution base"
+    },
+    {
+      "date": "2026-07-15",
+      "name": "origin/main",
+      "sha": "3e303aef0a0a534d1ccc8b72289a72b7fd0dc901",
+      "subject": "fix gate again"
+    },
+    {
+      "date": "2026-09-15",
+      "name": "origin/research/beyond-alphazero-upgrade-20260907-current",
+      "sha": "6d279096c8b125c8af8d222784fac31a2d36b187",
+      "subject": "research: publish W1 verification, exact results and concrete W2 handoff"
+    },
+    {
+      "date": "2026-11-20",
+      "name": "origin/research/quartz-cog01-recognition-calibration-20261120",
+      "sha": "cc3aa1771460f5a0f608375d985fd02998861364",
+      "subject": "research(cog01): publish exact results, negative shift verdict and next-step handoff"
+    },
+    {
+      "date": "2026-11-20",
+      "name": "origin/research/quartz-cog01b-connect4-gamestate-20261120",
+      "sha": "c4e219f930065c4e4b56eeb4f779f473a6c5b007",
+      "subject": "research(cog01b): close exact Connect4 utility study with full-board draw regression and handoff"
+    },
+    {
+      "date": "2026-11-21",
+      "name": "origin/research/quartz-cog01b-connect4-recognizer-20261120",
+      "sha": "c92e77a1e818c0bb1359836dd4d8be09a529d287",
+      "subject": "research(cog01b): close exact Connect4 recognizer CPU study and hand off generalization"
+    },
+    {
+      "date": "2026-11-20",
+      "name": "origin/research/quartz-cog01b-cpu-realtrace-20261120",
+      "sha": "af5f5a95707a0fc443a6ee42aabefaadf9a8c5d4",
+      "subject": "research(cog01b): close CPU realtrace study with adverse verdict and resident-fork next step"
+    },
+    {
+      "date": "2026-11-20",
+      "name": "origin/research/quartz-cog01b-decision-utility-20261120",
+      "sha": "6f6cd0a36ac94642c4cf1958ca96ca5ef9529ed3",
+      "subject": "research(cog01b): freeze certified action-utility objective and 48-position inputs"
+    },
+    {
+      "date": "2026-11-21",
+      "name": "origin/research/quartz-cog01b-recognizer-generalization-20261121",
+      "sha": "4a4d1381635393715c29d672124cfe32c08d20d5",
+      "subject": "research(cog01b): close grouped Connect4 generalization and hand off cost-matched VOC"
+    },
+    {
+      "date": "2026-11-20",
+      "name": "origin/research/quartz-cog01b-resident-fork-20261120",
+      "sha": "26d8a4d0bc39338c46d08b189483484d295a0133",
+      "subject": "research(cog01b): close resident CPU fork study with scoped scientific verdict and handoff"
+    },
+    {
+      "date": "2026-11-20",
+      "name": "origin/research/quartz-cog01b-standard-external-engines-20261120",
+      "sha": "bc44e5c85c1f37201f80880f18d59fdb55a509a8",
+      "subject": "research(cog01b): record full-size external CPU findings and Connect4/Gomoku handoff"
+    },
+    {
+      "date": "2026-11-21",
+      "name": "origin/research/quartz-cog02-cost-matched-voc-20261121",
+      "sha": "569a3ff106a1f0b84a3cd94c189a48a8b05bcdb1",
+      "subject": "research(cog02): close cost-matched computation-selection experiment and calibration handoff"
+    },
+    {
+      "date": "2026-11-21",
+      "name": "origin/research/quartz-cog02-dynamic-option-costmatch-20261121",
+      "sha": "6dbdcaeab28b2325fbd7f0a0326c51b214b339f3",
+      "subject": "research(cog02): close prospective cost-matched 10368 MCTS near-null finding and hand off attention reopening"
+    },
+    {
+      "date": "2026-11-21",
+      "name": "origin/research/quartz-cog02-dynamic-voc-20261121",
+      "sha": "85a08755e2463538ed0abf84d443f19dacc29e02",
+      "subject": "research(cog02): close two-step conditional release CPU research with cost-matched caveats"
+    },
+    {
+      "date": "2026-11-21",
+      "name": "origin/research/quartz-cog02-voc-calibration-20261121",
+      "sha": "93e8e46cb8bfb6a891f8a38ef5ca0539d108611f",
+      "subject": "research(cog02): close 24-family release VOC calibration, test correction and next handoff"
+    },
+    {
+      "date": "2026-11-21",
+      "name": "origin/research/quartz-cog03-einstellung-reopening-20261121",
+      "sha": "6abccb31f00f5f07b886df6aaae9794a2524b384",
+      "subject": "research(cog03): close real 9216 CPU tactical candidate reopening with unrestricted baseline caveat"
+    },
+    {
+      "date": "2026-11-21",
+      "name": "origin/research/quartz-cog03-resident-reopening-20261121",
+      "sha": "d6875102ebc07d2eba899d073ac7214a7f7d9dad",
+      "subject": "coding(cog03 C10): close resident root theoretical and full scientific code cycle"
+    },
+    {
+      "date": "2026-11-21",
+      "name": "origin/research/quartz-cog04-highbranch-transfer-20261121",
+      "sha": "eaff0ae3809eaf5c0e8b2573e1e5fac64f900da7",
+      "subject": "coding(cog04 C10): close full R1-R10 C1-C10 highbranch transfer with honest cost gate"
+    },
+    {
+      "date": "2026-11-21",
+      "name": "origin/research/quartz-cog05-trained-prior-fair-cpu-20261121",
+      "sha": "a85bc0ded6bf67f81256e93645dc7147838c6f88",
+      "subject": "research(cog05 C10): trained-prior fair-cost research"
+    },
+    {
+      "date": "2026-11-21",
+      "name": "origin/research/quartz-cog06-nonterminal-fork-wdl-20261121",
+      "sha": "41febde4561644d7287fd4d3411847e485f5f646",
+      "subject": "research(cog06 C10): nonterminal fork and matched-CPU WDL"
+    }
+  ],
+  "repo_created_utc": "2026-07-12T09:03:02Z",
+  "repo_default_branch": "main",
+  "repo_name": "cosmosapjw-quantum/quartz",
+  "repo_visibility": "public",
+  "schema": "quartz_general_meta17_read_only_repo_provenance_v1",
+  "source_C16_parent_sha": "41febde4561644d7287fd4d3411847e485f5f646",
+  "source_documents": [
+    {
+      "bytes": 19065,
+      "last_affecting_commit": "4a68eaa3c91be00772f1e3997466d07ecb6b39a6",
+      "path": "README.md",
+      "sha256": "ab60b8416853bd1946b7ed6c379c632acc611583893ec8bee3c9f43a3e61570e"
+    },
+    {
+      "bytes": 9428,
+      "last_affecting_commit": "7241ad0cfe1e92f28bd8cded5ad5f9fe7d4b4eab",
+      "path": "docs/THESIS.md",
+      "sha256": "02ffa31af60ecbb1fa46f8bfebe4590caa365aca22f3c3d17817017a8ef5cb8f"
+    },
+    {
+      "bytes": 53456,
+      "last_affecting_commit": "9da35b4d6189c38ddfdc30949605765ab0816e11",
+      "path": "docs/CLAIM_LEDGER.md",
+      "sha256": "dc8e16678d67d90a4970e665a320e1ed969910b79f0d8268dd501c3769c5a4b1"
+    },
+    {
+      "bytes": 10224,
+      "last_affecting_commit": "2805585996ccf3578e39d591f96f580bea6451a9",
+      "path": "docs/BQ_PLUS_PLUS_DESIGN.md",
+      "sha256": "3782424f9f1def15ee7a0bb3b4f4bfef9f3460079477c8fb512b2684c44fe5ef"
+    },
+    {
+      "bytes": 27754,
+      "last_affecting_commit": "cd7be22e95122a7ddb5254add0485a2ff50d3369",
+      "path": "docs/RESEARCH_PLAN_PARTB.md",
+      "sha256": "d4dffdc98d3ca9fea809657cf30fcf11860aadf0d5dd095308b7191e9989e3a0"
+    },
+    {
+      "bytes": 6914,
+      "last_affecting_commit": "8209c9cc1d347dd802e43d38662b825dc02bc7e3",
+      "path": "docs/RESEARCH_READINESS.md",
+      "sha256": "1c0ce5f921ec3507e090d46ee53e3e40763ba941f1fe95430dddc01ee0eb6ae8"
+    },
+    {
+      "bytes": 19270,
+      "last_affecting_commit": "7aebe85031870ac86549a28d9998ef8eac6dd643",
+      "path": "docs/METACOGNITIVE_EXPERIMENTS.md",
+      "sha256": "29aa87d8d32636a96a9a6548a3d78f4b945bbb548b4880cd1a34baabef8318a3"
+    },
+    {
+      "bytes": 20634,
+      "last_affecting_commit": "7dee66fbd9cae8e7d13a445899f2907650cd98d6",
+      "path": "docs/LOCAL_EXPERIMENT_LAB.md",
+      "sha256": "c0c7166654d30b168c8f70483626364053d91631a8434700428051954fab8534"
+    },
+    {
+      "bytes": 11257,
+      "last_affecting_commit": "7f332d60f7152548717a671cbda690697e06a040",
+      "path": "docs/idea_foundry/01_control_policy.md",
+      "sha256": "3f6c68b2106df93ac5c2c6f128745e853187f7fd1cf35514e819266cdf8f10e3"
+    },
+    {
+      "bytes": 55750,
+      "last_affecting_commit": "8ce67a9123d0913e5e36d3c7d1cf9ad2a995bf32",
+      "path": "docs/LEGACY_VS_BAYESIAN_QUARTZ.md",
+      "sha256": "5b80d787938bc6ca309d32765e8d84f85717bd2b377a12cfd5cc775a28d28d69"
+    },
+    {
+      "bytes": 30332,
+      "last_affecting_commit": "3bcaa435b6bdca2f821f8990230ea05ddf251a2f",
+      "path": "docs/legacy/mcts_study/v6.0/quantum_mcts_foundation.md",
+      "sha256": "fc8bb41be8b8ec43a924d17c41a9a7528bc185a7df96a0d7da1a059d065389c6"
+    }
+  ],
+  "status_distinguishes_text_claims_and_actual_merged_PR": true
+}
