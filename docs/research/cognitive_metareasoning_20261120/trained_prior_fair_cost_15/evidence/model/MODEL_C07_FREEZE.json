@@ -1,0 +1,17 @@
+{
+  "frozen_prior_not_a_deep_value_network": true,
+  "heldout_teacher_labels_used": false,
+  "model_sha256": "5ff8286dcc57192b79e960ba096bc5067c78d439a212eaa69d523f68835a3b83",
+  "model_training_source_sha256": "24badc76eb27e038fea2033fb1adfbdc53e27763817ffb9f5bc29e6060664d8a",
+  "n_train": 128,
+  "n_validation": 32,
+  "schema": "quartz_cog05_model_frozen_before_test_v1",
+  "source_frozen_cohort_sha256": "604d6d8a9d7baff889715225842f17279a91401848e4678a5b95349cbb476982",
+  "teacher_train_validation_sha256": "d4e66ba0f9af0006e1efff9af9ce5224b56ea6e9d7c00fba7a97e0078ba2eb71",
+  "train_and_validation_only": true,
+  "training_final_gradient_inf": 5.365274197144387e-12,
+  "training_source_current_git_commit": "54965ec95c94d4763d7afa12ef5d9515c3906169",
+  "training_top1": 0.3828125,
+  "validation_top1": 0.34375,
+  "validation_top16": 0.90625
+}

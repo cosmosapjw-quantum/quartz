@@ -1,0 +1,58 @@
+{
+  "C14_roots_used_in_training": false,
+  "cohort_sha256": "604d6d8a9d7baff889715225842f17279a91401848e4678a5b95349cbb476982",
+  "feature_order": [
+    "bias",
+    "center_cheb",
+    "center_manhattan",
+    "own_r1",
+    "opp_r1",
+    "own_r2",
+    "opp_r2",
+    "own_run5",
+    "opp_run5",
+    "own_window5",
+    "opp_window5",
+    "own_immediate5",
+    "opp_immediate5"
+  ],
+  "final_grad_inf": 5.365274197144387e-12,
+  "frozen_after_training_before_test": true,
+  "heldout_test_teacher_labels_used": false,
+  "iterations": 7,
+  "l2": 0.01,
+  "model_type": "finite_teacher_supervised_legal_action_policy_only",
+  "schema": "quartz_cog05_loglinear_policy13_v1",
+  "teacher_is_finite_search_not_minimax": true,
+  "theta": [
+    6.071532165918825e-16,
+    0.39242609619695223,
+    1.2526829234470402,
+    2.655455809629096,
+    -0.6628023624680284,
+    1.2022381704089482,
+    0.7559321735613755,
+    4.5152455923844945,
+    2.9022262482505696,
+    4.76159986629292,
+    2.4164387756965975,
+    1.2580817493008205,
+    2.206280434053159
+  ],
+  "train_validation_labels_sha256": "d4e66ba0f9af0006e1efff9af9ce5224b56ea6e9d7c00fba7a97e0078ba2eb71",
+  "trained_value_head": false,
+  "training_algorithm": "deterministic_full_batch_damped_newton",
+  "training_metrics": {
+    "mean_NLL": 2.332365828901226,
+    "n": 128,
+    "top16_coverage": 0.9609375,
+    "top1_accuracy": 0.3828125
+  },
+  "validation_metrics": {
+    "mean_NLL": 2.5957691397992653,
+    "n": 32,
+    "top16_coverage": 0.90625,
+    "top1_accuracy": 0.34375
+  },
+  "value": 0.0
+}
