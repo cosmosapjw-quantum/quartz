@@ -1,0 +1,16 @@
+# C9. Independent mathematical, numerical, runtime and preservation audit
+
+2026-11-22 KST. Sources frozen/published by C07 commit `5325998f3783eb998b03f14494b452b22d2fdd75`; real five-task exact+MC results independently published C08 commit `b8b0959d72098716498d4f3d54e12159b00bbd3f`. Original authority `docs/THESIS.md`, `docs/CLAIM_LEDGER.md` and developer worktree not mutated.
+
+**Independent finite-problem audit**, `coding/audit_c09.py`: imports **neither** the Python implementation `quartz.experiments.metalevel_decision` **nor** the C8 runner. Uses separate Python `Fraction` implementation to recompute Bayesian posterior updates, terminal risk, gross EVSI, rate/net/STOP policy and full horizon Bellman. All **20 exact policy×scenario expected loss values** matched C08 within 1e-10. Parsed **10,240 raw MC rows**, independently tested their unique source/trial-policy keys and recomputed all 20 group means. Independently reconstructed the complete latent state, channel-observation draws, posterior and end decision/cost for the first 128 trial IDs from each of the 20 combinations, **2,560 complete paths**, using the frozen SHA seed and exact fractional posterior. **PASS**, `evidence/C09_INDEPENDENT_FRACTION_AUDIT.json`. Exact heterogeneous-case outcomes: STOP .50, gain/cost index .21, priced net .20, full finite Bellman .20. The latter selection is better on this finite case, not established generally.
+
+**Full fresh regression C9** on the authorized workstation:
+- `cargo test --offline --locked`: existing mcts_demo **617 PASS, 0 FAIL, 89 ignored**, standalone Rust CLI **7 PASS, 0 FAIL**.
+- `cargo test --offline --locked --release`: mcts_demo **617 PASS, 0 FAIL, 89 ignored**, CLI **7 PASS, 0 FAIL**.
+- Python `python3 -m unittest discover -s tests -p test_metalevel_decision.py -v`: **7 PASS, 0 FAIL**.
+- `git diff --check`: clean.
+- Rust reference SHA256 (C6 executable): `0a61ddacae5523acef3f4a55a8fe8372e57ac645013ddfa019c57d9dd261d741`. All outcomes are source-limited floating and exact checks, not actual neural-MCTS production policy trials. Raw logs `evidence/C09`.
+
+**Actual backup restoration:** `coding/verify_c09_backup.py` extracted the C08 Git archive `QUARTZ_META17_C08_b8b0959d7209.tar.gz`, SHA256 `80cf6891ca2090db8c70281b33a9730c9038bb003856191904b1b66801a7ad12` into a fresh temporary folder. Compared byte SHA256 of **9 key files** including original thesis-independent research inventory, frozen five-task bank, both Rust and Python reference code, 10,240 raw traces, contract and scored output. All 9 exact byte matches **PASS**. This is verified **local** archive restoration; remote Dropbox cloud synchronization ACK **NOT_VERIFIED**.
+
+Evidence classes: original Quartz research mission and actual GitHub PR count SOURCE-VERIFIED, finite Bayesian mathematical identities DERIVED, exact rational finite case NUMERICALLY CHECKED, Python/Rust reference code and synthetic bounded sample IMPLEMENTATION-VERIFIED, deployed general QUARTZ SearchPolicy optimality and cross-domain search performance UNRESOLVED/NOT_TESTED. No physical speedup, human-metacognition mechanism or new Bayesian theorem claim. C10 should close the bounded cycle with a project-identity restoration and subsequent calibrated adaptive-MCTS observation-model research plan, not add another repetitive audit.

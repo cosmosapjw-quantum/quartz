@@ -1,0 +1,56 @@
+{
+  "Dropbox_cloud_sync_ack": "NOT_VERIFIED",
+  "files": [
+    {
+      "bytes": 6027,
+      "relative_path": "configs/metalevel_reference_cases.v1.json",
+      "sha256": "46d69d13ea327c23e02b76c53a0a78aadc1f77ee9e405dbef1c203a6d0b471dd"
+    },
+    {
+      "bytes": 8749,
+      "relative_path": "quartz/experiments/metalevel_decision.py",
+      "sha256": "47f33420223c3c05e495a705ef0ef838825781c3fe9b989b0a351ab479a0c47f"
+    },
+    {
+      "bytes": 12218,
+      "relative_path": "src/mcts/policy/finite_metalevel.rs",
+      "sha256": "ab84f60581ec0d001e358ce7ae37f8386c084d5b9ab885962eaa49f7511c2720"
+    },
+    {
+      "bytes": 3835,
+      "relative_path": "src/bin/quartz_metalevel_reference.rs",
+      "sha256": "7064bd395b0a9e603f2e51c3e9fb51006b76985641f6bfd914b5d55efa4776d5"
+    },
+    {
+      "bytes": 11729,
+      "relative_path": "docs/research/quartz_general_metareasoning_20261122/evidence/REPOSITORY_PROVENANCE.json",
+      "sha256": "2b4364b5072230a47f26ea0a21b0e5327fcbbc4d441328f7f7d46cdc141bb82c"
+    },
+    {
+      "bytes": 728,
+      "relative_path": "docs/research/quartz_general_metareasoning_20261122/evidence/C06_CROSS_LANGUAGE.json",
+      "sha256": "8aee696e24d71ae2446562812d71501726dd0609d71dafb97cfd4cc734c04757"
+    },
+    {
+      "bytes": 635,
+      "relative_path": "docs/research/quartz_general_metareasoning_20261122/evidence/C08/EXECUTION_CONTRACT.json",
+      "sha256": "91cbd54388117d876076a87cf087a230a32c452eb8ada6029de408e3ef0e8630"
+    },
+    {
+      "bytes": 9669,
+      "relative_path": "docs/research/quartz_general_metareasoning_20261122/evidence/C08/C08_RESULTS.json",
+      "sha256": "e279c3a2937e6dc77cd4fe67ce6d6b116ef5af9e1abc2db75565a39b0a300a1d"
+    },
+    {
+      "bytes": 1716779,
+      "relative_path": "docs/research/quartz_general_metareasoning_20261122/evidence/C08/PAIRED_MC_10240.jsonl",
+      "sha256": "dc394b70540753ed6fe120c29bbf4215a2a27c33c7a661f5a140631a86a22c9d"
+    }
+  ],
+  "independently_byte_identical_files_count": 9,
+  "restore_only_local_directory": "TRUE",
+  "schema": "quartz_meta17_C09_independent_local_restore_v1",
+  "source_C08_local_tar_archive": "/home/cosmosapjw/Dropbox/personal_projects/quartz_general_meta17_backups/QUARTZ_META17_C08_b8b0959d7209.tar.gz",
+  "source_C08_tar_archive_sha256": "80cf6891ca2090db8c70281b33a9730c9038bb003856191904b1b66801a7ad12",
+  "status": "PASS"
+}
