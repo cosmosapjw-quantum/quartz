@@ -1,0 +1,122 @@
+{
+  "schema": "quartz_cog02_dynamic_costmatch11_handoff_v1",
+  "completed_node": "QUARTZ-COG-02-DYNAMIC-OPTION-COSTMATCH-11",
+  "base_commit": "85a08755e2463538ed0abf84d443f19dacc29e02",
+  "research_branch": "research/quartz-cog02-dynamic-option-costmatch-20261121",
+  "source_actual_experiment_commit": "348ce4e0ad311ea0c14cd512b1ad15d2ca19b95c",
+  "evidence_commit": "94fb6f8a5cbe592cc4410b5141b49eee7332e256",
+  "science_status": {
+    "real_10368_Rust_release_root_searches": "IMPLEMENTATION_VERIFIED",
+    "external_PascalPons_exact_new384": "384_OF_384_OK_PLUS_48_INDEPENDENT_REQUERIES",
+    "validation_only_randomization": "LOCKED_BEFORE_C11_COHORT_GENERATION_AND_ORACLE",
+    "two_step_online_commit": "ACTUALLY_EXECUTED_218_UNIFORM_ROOTS",
+    "mean_CPU_cost_gate": "ALL_THREE_SEEDS_PASSED_IN_BOTH_NEW_TEST_GROUPS",
+    "independent_two_step_vs_myopic_WDL_advantage": "NOT_ESTABLISHED_ALL_CLUSTER_INTERVALS_TOUCH_ZERO",
+    "MLP_and_Conv_adaptive": "DEGENERATE_STOP8_NO_JOINT_COMPUTATION",
+    "Bayesian_preposterior_VOC": "NOT_IMPLEMENTED",
+    "global_no_go_theorem": "NOT_CLAIMED",
+    "native_subagent": "NOT_RUN"
+  },
+  "source_paths": {
+    "contract": "docs/research/cognitive_metareasoning_20261120/dynamic_costmatch_11/CONTRACT_KO.md",
+    "input_lock": "docs/research/cognitive_metareasoning_20261120/dynamic_costmatch_11/INPUT_LOCK.json",
+    "frozen_validation_myopic_mix": "docs/research/cognitive_metareasoning_20261120/dynamic_costmatch_11/MIXTURE_PLAN_FROZEN.json",
+    "frozen_new24_families": "docs/research/cognitive_metareasoning_20261120/dynamic_costmatch_11/COHORT_384_FROZEN.json",
+    "blocked_random_assigments": "docs/research/cognitive_metareasoning_20261120/dynamic_costmatch_11/ASSIGNMENTS_FROZEN.json",
+    "external_exact384": "docs/research/cognitive_metareasoning_20261120/dynamic_costmatch_11/evidence/exact_new384_20261121/EXACT_NEW384_LABELS.json",
+    "real_cpu_10368": "docs/research/cognitive_metareasoning_20261120/dynamic_costmatch_11/evidence/live_heldout_20261121/RAW_10368_RELEASE_ROOTS.json",
+    "cost_match_summary": "docs/research/cognitive_metareasoning_20261120/dynamic_costmatch_11/evidence/live_heldout_20261121/SUMMARY_C11_COST_MATCH.json",
+    "independent_audit": "docs/research/cognitive_metareasoning_20261120/dynamic_costmatch_11/evidence/live_heldout_20261121/INDEPENDENT_READBACK.json",
+    "verified_receipt": "docs/research/cognitive_metareasoning_20261120/dynamic_costmatch_11/evidence/live_heldout_20261121/VERIFICATION_RECEIPT.json",
+    "report": "docs/research/cognitive_metareasoning_20261120/dynamic_costmatch_11/RESULTS_AND_NEXT_KO.md"
+  },
+  "provenance_sha256": {
+    "old_C10_frozen_released_gain_cost_models": "112acbaa6e31be7cd49ba8ad6347daa191059b31056439554d956d8828e123ad",
+    "validation_only_myopic_mix": "faad5102c2a45f37cd2b0981aad00cc33e050ede3a2546ea1ac4c21f31f0fa63",
+    "new_384_roots": "ec95fdffdfa9a35bc009e607bd3882229e27fb2ea2c72f7fe8ee1eb7f5b14edb",
+    "preassigned_all_three_seed_maps": "146e1d0afa835e98de457c0221e02bb103e957067d6b6971de22a7573dabda30",
+    "external_complete_384_oracle_labels": "25f16693b73766f5bdd6983f5a79d1fced3464cbbbef754d9c7279af12a577c6",
+    "actual_optimized_Rust_binary": "4db989b0ede0c56077de77a820a99cd777adcf87c98d7faedc62611491eb8a03"
+  },
+  "scoped_observations": {
+    "new_root_count": 384,
+    "opening_family_count": 24,
+    "decision_informative_count": 215,
+    "original_external_solver_followup_requeries": 24,
+    "mirror_external_solver_followup_requeries": 24,
+    "real_Rust_release_MCTS_searches": 10368,
+    "uniform_actual_two_step_commit_root_count": 218,
+    "uniform_dynamic_regret": 0.15885416666666666,
+    "uniform_randomized_mixture_three_regrets": [
+      0.16145833333333334,
+      0.15885416666666666,
+      0.16145833333333334
+    ],
+    "uniform_dynamic_mean_search_ms": 0.16511458333333334,
+    "uniform_mixture_three_mean_search_ms": [
+      0.16169010416666665,
+      0.16198177083333332,
+      0.16398958333333333
+    ],
+    "uniform_dynamic_minus_mix_regret": [
+      -0.002604166666666685,
+      0,
+      -0.002604166666666685
+    ],
+    "uniform_mixture_bootstrap_conditional_95": [
+      [
+        -0.0078125,
+        0
+      ],
+      [
+        0,
+        0
+      ],
+      [
+        -0.0078125,
+        0
+      ]
+    ],
+    "count_mixed_wdl_regret_different_roots": [
+      1,
+      0,
+      1
+    ],
+    "uniform_ex_post_randomization_expected_regret": 0.15990875440836677,
+    "uniform_ex_post_randomization_expected_search_ms": 0.1620781088486562,
+    "selection_target": "Exact game WDL sign, not engine Elo or win-rate"
+  },
+  "verification": {
+    "Rust_release": {
+      "passed": 596,
+      "failed": 0,
+      "ignored": 89
+    },
+    "Rust_debug": {
+      "passed": 596,
+      "failed": 0,
+      "ignored": 89
+    },
+    "Python": {
+      "passed": 116,
+      "failed": 0,
+      "suites": 12
+    }
+  },
+  "next_node": "QUARTZ-COG-03-EINSTELLUNG-REOPENING-12",
+  "next_objective": "Test root-level candidate fixation, omission and evidence-triggered reopening of low-prior decisive Connect4 moves at matched actual CPU time, then separately evaluate external stronger Gomoku/Renju engine transfer.",
+  "next_constraints": [
+    "Do not run a new cost-matching meta-loop to rescue C11 null nonmyopic result",
+    "Freeze new families and decision criteria before external complete-game oracle is consulted",
+    "Use posthoc external oracle WDL only for experimental scoring, never for online reopening",
+    "One independent low-prior decisive candidate retrieval and reopening mechanism implemented in actual Rust MCTS",
+    "Matched physical release CPU with dynamic11, single-stage myopic and fixed-clock controls",
+    "Compute both final chosen action WDL improvement and root candidate-reopening success, preserving negative outcomes",
+    "Control non-IID opening families and the absence of independent stochastic MCTS search seeds",
+    "Protect personal working tree and maintain per-unit sha256 local backup and GitHub remote push equality"
+  ],
+  "next_not_started": true,
+  "native_subagent": "NOT_RUN",
+  "local_backup_directory": "/home/cosmosapjw/Dropbox/personal_projects/quartz_cog01_backups",
+  "Dropbox_cloud_sync_and_archive_restore_verified": false
+}
