@@ -1,0 +1,64 @@
+{
+  "Python_related_suites": {
+    "failed": 0,
+    "n_suites": 15,
+    "passed": 140
+  },
+  "Rust_actual_experiment_source_commit": "03c85329844adcb953c45ebcfd1f064c0a248cd7",
+  "Rust_debug": {
+    "failed": 0,
+    "ignored": 89,
+    "passed": 606
+  },
+  "Rust_engine_build_source_commit": "7b64a681d7f0be37d10eb4417d079499a3fe1d45",
+  "Rust_engine_executable_sha256": "435dfe735306f5bf4313f466d828e9569394b93ae04c487bc0c5e25e38682b14",
+  "Rust_release": {
+    "failed": 0,
+    "ignored": 89,
+    "passed": 606
+  },
+  "actual_C09_validation_log": "/tmp/c14_C09_independent_audit.log",
+  "actual_Rust_requests": 192,
+  "actual_same_root_search_stage_calls": 384,
+  "all_fixed_tactical_witnesses_and_random_openings_recomputed": true,
+  "all_root_action_mask_legality_and_stats_independently_recomputed": true,
+  "external_pretrained_Rapfi_reference_sha256": "918698a83d17309e7bd18a0762c248afe5d61f86c613b36f26691958021bda36",
+  "external_teacher_is_not_exact_minimax": true,
+  "native_subagent": "NOT_RUN",
+  "negative_general_claim": "NOT_ESTABLISHED",
+  "new_freestyle_cohort_sha256": "a744fa5166cb1cd54ec274128238649e7305a1ae3c4f15b894f35559602f5a9c",
+  "no_iid_claim_from_two_tactical_templates": true,
+  "original_Rapfi_assets_verified": true,
+  "pooled_cost_gate_not_admissible_due_to_stratum_cancellation": true,
+  "prior_original_developer_tree_preserved": true,
+  "real_trained_Rapfi_search_calls": 48,
+  "schema": "quartz_cog04_highbranch14_C09_final_independent_192_v1",
+  "source_file_sha256": {
+    "PAIRED_24_COMPARISON.json": "b493bb127fd85314d5190e0b4bd43f49015fc4632b10b825881584e9c613bb79",
+    "RAW_192_REAL_RUST_SEARCHES.json": "89ea46a96d095163bdae73a18297c5df1efdb878283c63a8d574a8c4a3daf580",
+    "SUMMARY_REAL_15X15.json": "e43c63c3843ac9da1909f9e983c425be49884c0d3ffd7470a41505a4946b4ff3"
+  },
+  "status": "AUDITED_SCOPED_NOT_COST_MATCHED",
+  "stratum_results": {
+    "neutral": {
+      "all_legal_wins": 0,
+      "cost_admission": "NOT_MATCHED_10_PERCENT",
+      "cpu_fractional_mismatch": 0.19809650287737937,
+      "evidence_elapsed_ms": 1.506,
+      "evidence_teacher_agree_300": 0,
+      "evidence_wins": 0,
+      "full_elapsed_ms": 1.2076666666666667,
+      "n": 12
+    },
+    "tactical_stress": {
+      "all_legal_wins": 6,
+      "cost_admission": "NOT_MATCHED_10_PERCENT",
+      "cpu_fractional_mismatch": 0.47143020725981905,
+      "evidence_elapsed_ms": 0.72775,
+      "evidence_teacher_agree_300": 12,
+      "evidence_wins": 12,
+      "full_elapsed_ms": 1.0708333333333333,
+      "n": 12
+    }
+  }
+}

@@ -1,0 +1,171 @@
+{
+  "Rapfi_is_not_exact_minimax_or_native_QUARTZ_NNUE": true,
+  "Rust_executable_source_commit": "7b64a681d7f0be37d10eb4417d079499a3fe1d45",
+  "all_final_Rapfi_teacher_agreement_independently_rechecked": true,
+  "all_immediate_wins_rederived_without_generation_module": true,
+  "all_measured_CPU_wall_mean_and_cost_gates_independently_rechecked": true,
+  "all_original_225_cell_source_legal_replayed": true,
+  "all_root_mask_four_words_and_edge_visits_rederived": true,
+  "all_rule_only_tactical_omissions_and_FNV_random_seeds_rederived": true,
+  "correct_primary_cost_admission": "NOT_MATCHED_IN_EITHER_12_POSITION_STRATUM",
+  "cost_pooled_gate_is_misleading_due_to_stratum_cancellation": true,
+  "excluded_claims": [
+    "human Einstellung",
+    "game Elo",
+    "strong general algorithm improvement",
+    "exact minimax score"
+  ],
+  "input_file_hashes": {
+    "PAIRED_24_COMPARISON.json": "b493bb127fd85314d5190e0b4bd43f49015fc4632b10b825881584e9c613bb79",
+    "RAW_192_REAL_RUST_SEARCHES.json": "89ea46a96d095163bdae73a18297c5df1efdb878283c63a8d574a8c4a3daf580",
+    "SUMMARY_REAL_15X15.json": "e43c63c3843ac9da1909f9e983c425be49884c0d3ffd7470a41505a4946b4ff3"
+  },
+  "new_freestyle_positions": 24,
+  "real_Rapfi_pretrained_reference_calls": 48,
+  "real_Rust_calls": 192,
+  "real_completed_same_root_search_stage_calls": 384,
+  "result_summary": {
+    "neutral": {
+      "arms": {
+        "all_after8": {
+          "Rapfi_300ms_agreement": 0,
+          "end_to_end_CPU_ms": 1.3983333333333332,
+          "exact_immediate_win": 0
+        },
+        "closed": {
+          "Rapfi_300ms_agreement": 0,
+          "end_to_end_CPU_ms": 1.6576666666666668,
+          "exact_immediate_win": 0
+        },
+        "closed_no_probe": {
+          "Rapfi_300ms_agreement": 0,
+          "end_to_end_CPU_ms": 1.3294166666666667,
+          "exact_immediate_win": 0
+        },
+        "evidence": {
+          "Rapfi_300ms_agreement": 0,
+          "end_to_end_CPU_ms": 1.506,
+          "exact_immediate_win": 0
+        },
+        "full32": {
+          "Rapfi_300ms_agreement": 0,
+          "end_to_end_CPU_ms": 1.2076666666666667,
+          "exact_immediate_win": 0
+        },
+        "random_1": {
+          "Rapfi_300ms_agreement": 0,
+          "end_to_end_CPU_ms": 1.603,
+          "exact_immediate_win": 0
+        },
+        "random_2": {
+          "Rapfi_300ms_agreement": 0,
+          "end_to_end_CPU_ms": 1.50575,
+          "exact_immediate_win": 0
+        },
+        "random_3": {
+          "Rapfi_300ms_agreement": 0,
+          "end_to_end_CPU_ms": 1.4605,
+          "exact_immediate_win": 0
+        }
+      },
+      "cost_gate": "NOT_MATCHED_10_PERCENT",
+      "evidence_to_full_CPU_cost_mismatch": 0.19809650287737937
+    },
+    "pooled": {
+      "arms": {
+        "all_after8": {
+          "Rapfi_300ms_agreement": 3,
+          "end_to_end_CPU_ms": 1.3136666666666668,
+          "exact_immediate_win": 3
+        },
+        "closed": {
+          "Rapfi_300ms_agreement": 0,
+          "end_to_end_CPU_ms": 1.4715833333333332,
+          "exact_immediate_win": 0
+        },
+        "closed_no_probe": {
+          "Rapfi_300ms_agreement": 0,
+          "end_to_end_CPU_ms": 1.2838333333333332,
+          "exact_immediate_win": 0
+        },
+        "evidence": {
+          "Rapfi_300ms_agreement": 12,
+          "end_to_end_CPU_ms": 1.116875,
+          "exact_immediate_win": 12
+        },
+        "full32": {
+          "Rapfi_300ms_agreement": 6,
+          "end_to_end_CPU_ms": 1.13925,
+          "exact_immediate_win": 6
+        },
+        "random_1": {
+          "Rapfi_300ms_agreement": 0,
+          "end_to_end_CPU_ms": 1.464125,
+          "exact_immediate_win": 0
+        },
+        "random_2": {
+          "Rapfi_300ms_agreement": 1,
+          "end_to_end_CPU_ms": 1.374375,
+          "exact_immediate_win": 1
+        },
+        "random_3": {
+          "Rapfi_300ms_agreement": 0,
+          "end_to_end_CPU_ms": 1.4362083333333333,
+          "exact_immediate_win": 0
+        }
+      },
+      "cost_gate": "MATCHED_10_PERCENT",
+      "evidence_to_full_CPU_cost_mismatch": 0.020033575825405738
+    },
+    "tactical_stress": {
+      "arms": {
+        "all_after8": {
+          "Rapfi_300ms_agreement": 3,
+          "end_to_end_CPU_ms": 1.229,
+          "exact_immediate_win": 3
+        },
+        "closed": {
+          "Rapfi_300ms_agreement": 0,
+          "end_to_end_CPU_ms": 1.2855,
+          "exact_immediate_win": 0
+        },
+        "closed_no_probe": {
+          "Rapfi_300ms_agreement": 0,
+          "end_to_end_CPU_ms": 1.23825,
+          "exact_immediate_win": 0
+        },
+        "evidence": {
+          "Rapfi_300ms_agreement": 12,
+          "end_to_end_CPU_ms": 0.72775,
+          "exact_immediate_win": 12
+        },
+        "full32": {
+          "Rapfi_300ms_agreement": 6,
+          "end_to_end_CPU_ms": 1.0708333333333333,
+          "exact_immediate_win": 6
+        },
+        "random_1": {
+          "Rapfi_300ms_agreement": 0,
+          "end_to_end_CPU_ms": 1.32525,
+          "exact_immediate_win": 0
+        },
+        "random_2": {
+          "Rapfi_300ms_agreement": 1,
+          "end_to_end_CPU_ms": 1.243,
+          "exact_immediate_win": 1
+        },
+        "random_3": {
+          "Rapfi_300ms_agreement": 0,
+          "end_to_end_CPU_ms": 1.4119166666666667,
+          "exact_immediate_win": 0
+        }
+      },
+      "cost_gate": "NOT_MATCHED_10_PERCENT",
+      "evidence_to_full_CPU_cost_mismatch": 0.47143020725981905
+    }
+  },
+  "run_source_commit": "03c85329844adcb953c45ebcfd1f064c0a248cd7",
+  "same_root_stats_preserved_verifiable_from_actual_Rust_snapshots": true,
+  "schema": "quartz_cog04_highbranch14_C09_independent_actual_192_cpu_teacher_tactics_v1",
+  "stress_templates_reused_not_IID": true
+}
