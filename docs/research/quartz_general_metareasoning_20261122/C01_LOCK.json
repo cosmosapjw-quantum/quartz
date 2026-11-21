@@ -1,0 +1,88 @@
+{
+  "authoritative_history_survey_sha256": "2b4364b5072230a47f26ea0a21b0e5327fcbbc4d441328f7f7d46cdc141bb82c",
+  "do_not_modify": [
+    "docs/THESIS.md",
+    "docs/CLAIM_LEDGER.md",
+    "src/game.rs",
+    "existing production SearchPolicy behavior",
+    "existing COG15/16 source"
+  ],
+  "documents": [
+    {
+      "bytes": 9428,
+      "name": "docs/THESIS.md",
+      "sha256": "02ffa31af60ecbb1fa46f8bfebe4590caa365aca22f3c3d17817017a8ef5cb8f"
+    },
+    {
+      "bytes": 53456,
+      "name": "docs/CLAIM_LEDGER.md",
+      "sha256": "dc8e16678d67d90a4970e665a320e1ed969910b79f0d8268dd501c3769c5a4b1"
+    },
+    {
+      "bytes": 10224,
+      "name": "docs/BQ_PLUS_PLUS_DESIGN.md",
+      "sha256": "3782424f9f1def15ee7a0bb3b4f4bfef9f3460079477c8fb512b2684c44fe5ef"
+    },
+    {
+      "bytes": 27754,
+      "name": "docs/RESEARCH_PLAN_PARTB.md",
+      "sha256": "d4dffdc98d3ca9fea809657cf30fcf11860aadf0d5dd095308b7191e9989e3a0"
+    },
+    {
+      "bytes": 19270,
+      "name": "docs/METACOGNITIVE_EXPERIMENTS.md",
+      "sha256": "29aa87d8d32636a96a9a6548a3d78f4b945bbb548b4880cd1a34baabef8318a3"
+    },
+    {
+      "bytes": 11257,
+      "name": "docs/idea_foundry/01_control_policy.md",
+      "sha256": "3f6c68b2106df93ac5c2c6f128745e853187f7fd1cf35514e819266cdf8f10e3"
+    },
+    {
+      "bytes": 20634,
+      "name": "docs/LOCAL_EXPERIMENT_LAB.md",
+      "sha256": "c0c7166654d30b168c8f70483626364053d91631a8434700428051954fab8534"
+    },
+    {
+      "bytes": 25907,
+      "name": "quartz/experiments/bernoulli_root.py",
+      "sha256": "3f862221417b8f1f392e3796f8cf8b9fb5a9df54482bc8416a7dc0698e126999"
+    },
+    {
+      "bytes": 25158,
+      "name": "quartz/experiments/candidate_morphology.py",
+      "sha256": "35bcc3995823320e0ae233a669f0c168902cfa644262701a67d6603cba395024"
+    },
+    {
+      "bytes": 10590,
+      "name": "src/mcts/policy/mod.rs",
+      "sha256": "c6a69cf305ef9b80bd1982669b4892ab41cf78a2bc9afda0df45b46965d35247"
+    },
+    {
+      "bytes": 12205,
+      "name": "src/mcts/policy/trait_def.rs",
+      "sha256": "17904e81685e1e10c07c0482fce6a3cb1a4989f1336d083e60e73cb12a85735e"
+    },
+    {
+      "bytes": 1416,
+      "name": "Cargo.toml",
+      "sha256": "897e6624b41356d2f2ca7fffa30c4479cc0959fee3138cdb30fa4bc8ec5c1994"
+    },
+    {
+      "bytes": 29131,
+      "name": "Cargo.lock",
+      "sha256": "4368560c374c1272000fdd17a48fbe8449c6e471c848698b088d0b6092b2bb36"
+    }
+  ],
+  "expected_reference_implementation": [
+    "quartz/experiments/metalevel_decision.py",
+    "src/mcts/policy/finite_metalevel.rs"
+  ],
+  "game_independent_reference": "finite posterior, utility, observation channels and priced computation",
+  "new_branch": "research/quartz-general-metareasoning-identity-20261122",
+  "not_game_strategy_or_pattern_injection": true,
+  "original_dev_untracked_file_left_untouched": true,
+  "production_MCTS_integration": "NOT_AUTHORIZED_IN_THIS_STAGE",
+  "schema": "quartz_meta17_C01_source_and_scope_lock_v1",
+  "source_parent": "b24ffe53bc67cd0c898797f9c3aa208727811e34"
+}

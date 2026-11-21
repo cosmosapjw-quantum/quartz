@@ -1,0 +1,7 @@
+# C1. Baseline source lock and protected authority
+
+The isolated research branch is based on actual C16 parent 41febde4561644d7287fd4d3411847e485f5f646. Theory R01..R10 has been independently committed/published and creates a *new* general reference track. A fresh source lock reads 13 tracked authority and existing generic module files directly, stores byte SHA256 and input identities in C01_LOCK.json. The protected original developer worktree at agent/local-experiment-foundry retains its existing untracked QUARTZ_CLAUE_SCIENTIST_AGENT_CONTEXT.md file, and the frozen original thesis is not overwritten.
+
+Scientific scope: a finite decision-theoretic metalevel controller reference, not real game quality, human cognitive inference, or production policy replacement. Input utility units, posterior probabilities, conditional computation observations and resource exchange λ must be explicit. The C15/C16 Gomoku tactically customized endpoints remain historical evidence but are NOT reused or wired into the new general selector. Expected code paths: Python quartz/experiments/metalevel_decision.py, Rust src/mcts/policy/finite_metalevel.rs; tests are game-neutral.
+
+Acceptance C1: source locks and R1 GitHub ref inventory verified; no hidden changes to original THESIS/CLAIM_LEDGER. Per-stage local Git tar SHA, Git remote SHA equality. Next C2 maps exact equations to source; C3 freezes probability/numerical and cost contract.
