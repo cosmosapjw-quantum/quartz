@@ -1,0 +1,57 @@
+{
+  "archive": "/home/cosmosapjw/Dropbox/personal_projects/quartz_cog01_backups/QUARTZ_COG06_NONTERMINAL16_C08_3db40e654b49.tar.gz",
+  "archive_SHA256": "520451b32456d4f196529fd07b3883e68485eac4435dad26407db16f84d4f234",
+  "exact_original_vs_independent_restored_content": [
+    {
+      "byte_count": 171412,
+      "relative": "COHORT_40_FROZEN.json",
+      "sha256": "8349441f247f720028f8534ac4abf656be56f8ac58778191de900722b4af1049"
+    },
+    {
+      "byte_count": 2386,
+      "relative": "C01_SOURCE_LOCK.json",
+      "sha256": "3b9fa0ba2ed93c7710251620abf87233885b4e78ff7f9c3cf2b33cc2d66e6ee9"
+    },
+    {
+      "byte_count": 6027,
+      "relative": "coding/C08_FINAL_SCIENCE.md",
+      "sha256": "bc3148f16a70c6e532601059f972a32ef865f9b3477c76d77a0223b71f97f571"
+    },
+    {
+      "byte_count": 10249085,
+      "relative": "evidence/real_root16_blind/RAW_ROOT_195.json",
+      "sha256": "6ffcf1b110f7bcfc55964b203c58df46f830fe63d1797f13691d5593e7de7786"
+    },
+    {
+      "byte_count": 63011,
+      "relative": "evidence/real_root16_blind/C08_ROOT_RULE_SCORE.json",
+      "sha256": "3266c8bdb5cf0eb4064c85b4986b191c4cfd8b6d3224d1477743ef4c3d4be67e"
+    },
+    {
+      "byte_count": 9745,
+      "relative": "evidence/real_root16_blind/C08_POSTTEST_REACHABILITY.json",
+      "sha256": "dc621b6074093aa1be0688946f98bb3e9b116a3f120e0984f0c89a0e58e16cd9"
+    },
+    {
+      "byte_count": 88333,
+      "relative": "evidence/real_games16/COMPLETED_GAMES.jsonl",
+      "sha256": "a118b4848d87b441c0a9d46e87da384ebd485c05d17559714d77f91b57a83d84"
+    },
+    {
+      "byte_count": 140591,
+      "relative": "evidence/real_games16/RAW_32_ACTUAL_COMPLETE_GAMES.json",
+      "sha256": "f710f1fea59d2c44aa08292b1b8a839cbac7ee6617a36b8033ba54537ab21b84"
+    },
+    {
+      "byte_count": 1094,
+      "relative": "evidence/real_games16/C08_WDL_SUMMARY.json",
+      "sha256": "2400ab7cc42a0d5b70d32a50609bf3617d2f57a5f0843d6105ee2a75b2c8f9b0"
+    }
+  ],
+  "local_archive_and_restore": "VERIFIED",
+  "n_checked_files": 9,
+  "remote_Dropbox_cloud_sync_ack": "NOT_VERIFIED",
+  "restoration": "PASS",
+  "schema": "quartz_cog06_C09_C08_archive_restore_v1",
+  "source_RUST_and_model_unchanged_by_restoration": true
+}

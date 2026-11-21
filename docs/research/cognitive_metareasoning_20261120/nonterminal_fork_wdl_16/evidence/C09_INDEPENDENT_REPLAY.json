@@ -1,0 +1,60 @@
+{
+  "actual_full_game_raw_sha256": "f710f1fea59d2c44aa08292b1b8a839cbac7ee6617a36b8033ba54537ab21b84",
+  "actual_original_game_ledger_sha256": "a118b4848d87b441c0a9d46e87da384ebd485c05d17559714d77f91b57a83d84",
+  "both_cost_strata_10percent_gate": true,
+  "game_WDL": {
+    "learned_fork_mask": {
+      "D": 0,
+      "L": 8,
+      "W": 8
+    },
+    "learned_fork_proof_choice": {
+      "D": 0,
+      "L": 7,
+      "W": 9
+    }
+  },
+  "independent_actual_complete_game_WDL_rule_replay_checked": true,
+  "independent_root_rules_mcts_mask_prior_NW_M2_checked": true,
+  "model_sha256": "5ff8286dcc57192b79e960ba096bc5067c78d439a212eaa69d523f68835a3b83",
+  "n_actual_native_game_moves": 217,
+  "n_actual_source_roots": 39,
+  "n_native_verified_completed_games": 32,
+  "n_real_Rust_root_requests": 195,
+  "n_reopening_or_override_game_events": 0,
+  "no_Elo_or_general_population_claim": true,
+  "root_evidence_sha256": "6ffcf1b110f7bcfc55964b203c58df46f830fe63d1797f13691d5593e7de7786",
+  "schema": "quartz_cog06_C09_external_independent_replay_v1",
+  "separate_science_claim": "0 strict effective missing source candidates, zero general heldout reactivation, no identifiable cognitive mechanism gain",
+  "source40_sha256": "8349441f247f720028f8534ac4abf656be56f8ac58778191de900722b4af1049",
+  "status": "PASS",
+  "strata": {
+    "MCTS_played": {
+      "cost_matched_10pct": true,
+      "cost_mismatch_abs_rel": 0.0002801469214966071,
+      "mean_cpu_full": 20084.375,
+      "mean_cpu_mask": 20078.75,
+      "n": 16,
+      "n_any_omitted_cert": 0,
+      "n_full_final_choice_cert": 2,
+      "n_full_vs_mask_diff": 1,
+      "n_mask_final_choice_cert": 2,
+      "n_strict_reachability_miss": 0,
+      "n_top16_has_cert": 2
+    },
+    "constructed": {
+      "cost_matched_10pct": true,
+      "cost_mismatch_abs_rel": 0.001569505270290511,
+      "mean_cpu_full": 20052.347826086956,
+      "mean_cpu_mask": 20083.869565217392,
+      "n": 23,
+      "n_any_omitted_cert": 23,
+      "n_full_final_choice_cert": 23,
+      "n_full_vs_mask_diff": 1,
+      "n_mask_final_choice_cert": 23,
+      "n_strict_reachability_miss": 0,
+      "n_top16_has_cert": 23
+    }
+  },
+  "total_fork_certificates_at_source_roots": 523
+}
