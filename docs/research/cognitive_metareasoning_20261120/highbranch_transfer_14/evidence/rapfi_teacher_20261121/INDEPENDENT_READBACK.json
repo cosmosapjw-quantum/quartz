@@ -1,0 +1,33 @@
+{
+  "all_48_moves_legal_and_model_loaded": true,
+  "moves_that_are_exact_immediate_freestyle_wins": {
+    "neutral/300": 0,
+    "neutral/600": 0,
+    "tactical_stress/300": 12,
+    "tactical_stress/600": 12
+  },
+  "new_source_sha256": "a744fa5166cb1cd54ec274128238649e7305a1ae3c4f15b894f35559602f5a9c",
+  "original_pretrained_binary_SHA256": "4217c3202cdd8dbb58524110d9064299e314a695e58ddbd055d9a4dd99de201c",
+  "pretrained_NNUE_SHA256": "6bc0d1b0ff8e1d857f7f412923cd458f38f1a435087c91ae71fec3676c23ef62",
+  "same_move_across_300_and_600ms_per_stratum": {
+    "neutral": 11,
+    "tactical_stress": 12
+  },
+  "schema": "quartz_cog04_C07_independently_validated_24_pretrained_Rapfi_v1",
+  "stress_sources_are_constructions_not_IID_random_games": true,
+  "teacher_is_not_exact_full_game_oracle": true,
+  "teacher_moves_in_original_center_top16": {
+    "neutral/300": 6,
+    "neutral/600": 7,
+    "tactical_stress/300": 0,
+    "tactical_stress/600": 0
+  },
+  "teacher_result_sha256": "918698a83d17309e7bd18a0762c248afe5d61f86c613b36f26691958021bda36",
+  "teacher_source_commit": "d449fb9c5a276d0e1318f522abdbf869b1a6ed4b",
+  "valid_reference_calls": {
+    "neutral/300": 12,
+    "neutral/600": 12,
+    "tactical_stress/300": 12,
+    "tactical_stress/600": 12
+  }
+}

@@ -1,0 +1,1175 @@
+{
+  "Piskvork_rule_number": 0,
+  "Rapfi_binary_sha256": "4217c3202cdd8dbb58524110d9064299e314a695e58ddbd055d9a4dd99de201c",
+  "Rapfi_classical_model_sha256": "2fa08cb15cf240d9533548c3e011b03d46809f6858362e97ee873d0632aa2015",
+  "Rapfi_config_sha256": "32b9180c91247541d399ceef62906d5ffeb48e34eb5f261612987633820d5d3c",
+  "Rapfi_trained_NNUE_sha256": "6bc0d1b0ff8e1d857f7f412923cd458f38f1a435087c91ae71fec3676c23ef62",
+  "no_Rapfi_labels_passed_to_QUARTZ_at_evaluation_time": true,
+  "reference_300ms_status_counts": {
+    "OK": 24
+  },
+  "release_origin": "local official Rapfi 250615 packaged engine+matching model",
+  "rows": [
+    {
+      "both_budgets_same_action": false,
+      "history": [
+        64,
+        34,
+        81,
+        33,
+        3,
+        79,
+        1,
+        110,
+        46,
+        82
+      ],
+      "id": "C14_neutral_00",
+      "reference_300ms": {
+        "compatible_weight_reported": true,
+        "elapsed_wall_ms": 414.7995889943559,
+        "engine_error_messages": [],
+        "flat_action": 2,
+        "loaded_expected_weight_name": "mix9svqfreestyle_bsmix.bin.lz4",
+        "saw_loaded_nnue": true,
+        "status": "OK",
+        "stdout_prefix": "MESSAGE Load config from \"config.toml\"\nMESSAGE Evaluator set to mix9svq.\nOK\nMESSAGE mix9svq nnue: load weight from mix9svqfreestyle_bsmix.bin.lz4\nMESSAGE OptiTime 243ms | MaxTime 270ms\nMESSAGE Depth 2-3 | Eval -560 | Time 2ms | G3 F4\nMESSAGE Depth 3-4 | Eval -618 | Time 2ms | G3 F4 G5\nMESSAGE Depth 4-4 | Eval -618 | Time 2ms | G3 F4 G5\nMESSAGE Depth 5-5 | Eval 4 | Time 2ms | G3 F4 G5 G4\nMESSAGE Depth 6-6 | Eval -649 | Time 2ms | G3 F4 G5 G4 F5\nMESSAGE Depth 7-6 | Eval -649 | Time 2ms | G3 F4 G5 G4 F5\nMESSAGE Depth 8-13 | Eval -347 | Time 3ms | G3 G4 F4 D6 E1 F1 C3 B2 C1 A1\nMESSAGE Depth 9-15 | Eval -347 | Time 3ms | G3 G4 F4 D6 E1 F1 C3 B2 C1 A1\nMESSAGE Depth 10-15 | Eval -431 | Time 6ms | G3 I5 G7 G5 F4 D6 D4 F6 E1 C1\nMESSAGE Depth 11-15 | Eval -431 | Time 6ms | G3 I5 G7 G5 F4 D6 D4 F6 E1 C1\nMESSAGE Depth 12-15 | Eval -431 | Time 6ms | G3 I5 G7 G5 F4 D6 D4 F6 E1 C1\nMESSAGE Depth 13-22 | Eval -588 | Time 31ms | E1 C1 G3 D6 G5 G4 F5 D5 D4 I5 G7 F6 H7 I8 F7 E7\nMESSAGE Depth 14-17 | Eval -588 | Time 34ms | E1 C1 G3 D6 G5 G4 F5 D5 D4 I5 G7 F6 H7 I8\nMESSAGE Depth 14-28 | Eval -668 | Time 271ms | C1 E1\nMESSAGE Speed 453K | Depth 14-28 | Eval -668 | Node 122K | Time 271ms\n2,0\n",
+        "wall_budget_requested_ms": 300,
+        "xy": [
+          2,
+          0
+        ]
+      },
+      "rule": 0,
+      "stability_600ms": {
+        "compatible_weight_reported": true,
+        "elapsed_wall_ms": 715.9595489938511,
+        "engine_error_messages": [],
+        "flat_action": 96,
+        "loaded_expected_weight_name": "mix9svqfreestyle_bsmix.bin.lz4",
+        "saw_loaded_nnue": true,
+        "status": "OK",
+        "stdout_prefix": "MESSAGE Load config from \"config.toml\"\nMESSAGE Evaluator set to mix9svq.\nOK\nMESSAGE mix9svq nnue: load weight from mix9svqfreestyle_bsmix.bin.lz4\nMESSAGE OptiTime 513ms | MaxTime 570ms\nMESSAGE Depth 2-3 | Eval -560 | Time 2ms | G3 F4\nMESSAGE Depth 3-4 | Eval -618 | Time 2ms | G3 F4 G5\nMESSAGE Depth 4-4 | Eval -618 | Time 2ms | G3 F4 G5\nMESSAGE Depth 5-5 | Eval 4 | Time 2ms | G3 F4 G5 G4\nMESSAGE Depth 6-6 | Eval -649 | Time 2ms | G3 F4 G5 G4 F5\nMESSAGE Depth 7-6 | Eval -649 | Time 2ms | G3 F4 G5 G4 F5\nMESSAGE Depth 8-13 | Eval -347 | Time 3ms | G3 G4 F4 D6 E1 F1 C3 B2 C1 A1\nMESSAGE Depth 9-15 | Eval -347 | Time 3ms | G3 G4 F4 D6 E1 F1 C3 B2 C1 A1\nMESSAGE Depth 10-15 | Eval -431 | Time 6ms | G3 I5 G7 G5 F4 D6 D4 F6 E1 C1\nMESSAGE Depth 11-15 | Eval -431 | Time 6ms | G3 I5 G7 G5 F4 D6 D4 F6 E1 C1\nMESSAGE Depth 12-15 | Eval -431 | Time 7ms | G3 I5 G7 G5 F4 D6 D4 F6 E1 C1\nMESSAGE Depth 13-22 | Eval -588 | Time 32ms | E1 C1 G3 D6 G5 G4 F5 D5 D4 I5 G7 F6 H7 I8 F7 E7\nMESSAGE Depth 14-17 | Eval -588 | Time 35ms | E1 C1 G3 D6 G5 G4 F5 D5 D4 I5 G7 F6 H7 I8\nMESSAGE Depth 15-33 | Eval -553 | Time 328ms | E1 C1 G4 G7 I5 H4 H5 G5 F3 E2 F4 F6 I3 I4 D6 C7 E7 E9 D10 D8 C5 A3 G3 H2 I6 J7\nMESSAGE Depth 16-27 | Eval -550 | Time 330ms | E1 C1 G4 G7 I5 H4 H5 G5 F3 E2 F4 F6 I3 I4 D6 C7 E7 E9 D10 D8 C5 A3 G3 H2 J3 H3\nMESSAGE Depth 16-32 | Eval -430 | Time 572ms | G7\nMESSAGE Speed 450K | Depth 16-32 | Eval -430 | Node 257K | Time 572ms\n6,6\n",
+        "wall_budget_requested_ms": 600,
+        "xy": [
+          6,
+          6
+        ]
+      },
+      "stratum": "neutral"
+    },
+    {
+      "both_budgets_same_action": true,
+      "history": [
+        110,
+        125,
+        157,
+        144,
+        160,
+        127,
+        170,
+        191,
+        188,
+        128,
+        145
+      ],
+      "id": "C14_neutral_01",
+      "reference_300ms": {
+        "compatible_weight_reported": true,
+        "elapsed_wall_ms": 144.14603399927728,
+        "engine_error_messages": [],
+        "flat_action": 126,
+        "loaded_expected_weight_name": "mix9svqfreestyle_bsmix.bin.lz4",
+        "saw_loaded_nnue": true,
+        "status": "OK",
+        "stdout_prefix": "MESSAGE Load config from \"config.toml\"\nMESSAGE Evaluator set to mix9svq.\nOK\nMESSAGE mix9svq nnue: load weight from mix9svqfreestyle_bsmix.bin.lz4\nMESSAGE OptiTime 243ms | MaxTime 270ms\nMESSAGE Depth 2-2 | Eval +M3 | Time 0ms | G9\nMESSAGE Depth 3-2 | Eval +M3 | Time 0ms | G9\nMESSAGE Depth 4-2 | Eval +M3 | Time 0ms | G9\nMESSAGE Depth 5-2 | Eval +M3 | Time 0ms | G9\nMESSAGE Depth 6-2 | Eval +M3 | Time 0ms | G9\nMESSAGE Depth 7-2 | Eval +M3 | Time 0ms | G9\nMESSAGE Depth 8-2 | Eval +M3 | Time 0ms | G9\nMESSAGE Depth 9-2 | Eval +M3 | Time 0ms | G9\nMESSAGE Depth 10-2 | Eval +M3 | Time 0ms | G9\nMESSAGE Depth 11-2 | Eval +M3 | Time 0ms | G9\nMESSAGE Depth 12-2 | Eval +M3 | Time 0ms | G9\nMESSAGE Depth 13-2 | Eval +M3 | Time 0ms | G9\nMESSAGE Depth 14-2 | Eval +M3 | Time 0ms | G9\nMESSAGE Depth 15-2 | Eval +M3 | Time 0ms | G9\nMESSAGE Depth 16-2 | Eval +M3 | Time 0ms | G9\nMESSAGE Depth 17-2 | Eval +M3 | Time 0ms | G9\nMESSAGE Depth 18-2 | Eval +M3 | Time 0ms | G9\nMESSAGE Depth 19-2 | Eval +M3 | Time 0ms | G9\nMESSAGE Depth 20-2 | Eval +M3 | Time 0ms | G9\nMESSAGE Depth 21-2 | Eval +M3 | Time 0ms | G9\nMESSAGE Depth 22-2 | Eval +M3 | Time 0ms | G9\nMESSAGE Depth 23-2 | Eval +M3 | Time 0ms | G9\nMESSAGE Depth 24-2 | Eval +M3 | Time 0ms | G9\nMESSAGE Depth 25-2 | Eval +M3 | Time 0ms | G9\nMESSAGE Depth 26-2 | Eval +M3 | Time 0ms | G9\nMESSAGE Speed 50000 | Depth 26-2 | Eval +M3 | Node 50 | Time 0ms\n6,8\n",
+        "wall_budget_requested_ms": 300,
+        "xy": [
+          6,
+          8
+        ]
+      },
+      "rule": 0,
+      "stability_600ms": {
+        "compatible_weight_reported": true,
+        "elapsed_wall_ms": 143.73687100305688,
+        "engine_error_messages": [],
+        "flat_action": 126,
+        "loaded_expected_weight_name": "mix9svqfreestyle_bsmix.bin.lz4",
+        "saw_loaded_nnue": true,
+        "status": "OK",
+        "stdout_prefix": "MESSAGE Load config from \"config.toml\"\nMESSAGE Evaluator set to mix9svq.\nOK\nMESSAGE mix9svq nnue: load weight from mix9svqfreestyle_bsmix.bin.lz4\nMESSAGE OptiTime 513ms | MaxTime 570ms\nMESSAGE Depth 2-2 | Eval +M3 | Time 1ms | G9\nMESSAGE Depth 3-2 | Eval +M3 | Time 1ms | G9\nMESSAGE Depth 4-2 | Eval +M3 | Time 1ms | G9\nMESSAGE Depth 5-2 | Eval +M3 | Time 1ms | G9\nMESSAGE Depth 6-2 | Eval +M3 | Time 1ms | G9\nMESSAGE Depth 7-2 | Eval +M3 | Time 1ms | G9\nMESSAGE Depth 8-2 | Eval +M3 | Time 1ms | G9\nMESSAGE Depth 9-2 | Eval +M3 | Time 1ms | G9\nMESSAGE Depth 10-2 | Eval +M3 | Time 1ms | G9\nMESSAGE Depth 11-2 | Eval +M3 | Time 1ms | G9\nMESSAGE Depth 12-2 | Eval +M3 | Time 1ms | G9\nMESSAGE Depth 13-2 | Eval +M3 | Time 1ms | G9\nMESSAGE Depth 14-2 | Eval +M3 | Time 1ms | G9\nMESSAGE Depth 15-2 | Eval +M3 | Time 1ms | G9\nMESSAGE Depth 16-2 | Eval +M3 | Time 1ms | G9\nMESSAGE Depth 17-2 | Eval +M3 | Time 1ms | G9\nMESSAGE Depth 18-2 | Eval +M3 | Time 1ms | G9\nMESSAGE Depth 19-2 | Eval +M3 | Time 1ms | G9\nMESSAGE Depth 20-2 | Eval +M3 | Time 1ms | G9\nMESSAGE Depth 21-2 | Eval +M3 | Time 1ms | G9\nMESSAGE Depth 22-2 | Eval +M3 | Time 1ms | G9\nMESSAGE Depth 23-2 | Eval +M3 | Time 1ms | G9\nMESSAGE Depth 24-2 | Eval +M3 | Time 1ms | G9\nMESSAGE Depth 25-2 | Eval +M3 | Time 1ms | G9\nMESSAGE Depth 26-2 | Eval +M3 | Time 1ms | G9\nMESSAGE Speed 50000 | Depth 26-2 | Eval +M3 | Node 50 | Time 1ms\n6,8\n",
+        "wall_budget_requested_ms": 600,
+        "xy": [
+          6,
+          8
+        ]
+      },
+      "stratum": "neutral"
+    },
+    {
+      "both_budgets_same_action": true,
+      "history": [
+        156,
+        187,
+        155,
+        184,
+        124,
+        110,
+        142,
+        80,
+        203,
+        114,
+        123,
+        94
+      ],
+      "id": "C14_neutral_02",
+      "reference_300ms": {
+        "compatible_weight_reported": true,
+        "elapsed_wall_ms": 251.2892560043838,
+        "engine_error_messages": [],
+        "flat_action": 139,
+        "loaded_expected_weight_name": "mix9svqfreestyle_bsmix.bin.lz4",
+        "saw_loaded_nnue": true,
+        "status": "OK",
+        "stdout_prefix": "MESSAGE Load config from \"config.toml\"\nMESSAGE Evaluator set to mix9svq.\nOK\nMESSAGE mix9svq nnue: load weight from mix9svqfreestyle_bsmix.bin.lz4\nMESSAGE OptiTime 243ms | MaxTime 270ms\nMESSAGE Depth 2-3 | Eval 1268 | Time 1ms | D8 F10\nMESSAGE Depth 3-4 | Eval 1271 | Time 1ms | D8 F10 F9\nMESSAGE Depth 4-4 | Eval 1271 | Time 1ms | D8 F10 F9\nMESSAGE Depth 5-7 | Eval 471 | Time 1ms | D8 F10 H11 F9 F7\nMESSAGE Depth 6-9 | Eval 1262 | Time 2ms | D8 F10 E11 D11 F9 G9\nMESSAGE Depth 7-9 | Eval 1262 | Time 2ms | D8 F10 E11 D11 F9 G9\nMESSAGE Depth 8-9 | Eval +M7 | Time 3ms | E10 C8\nMESSAGE Depth 9-3 | Eval +M7 | Time 4ms | E10 C8\nMESSAGE Depth 10-3 | Eval +M7 | Time 5ms | E10 C8\nMESSAGE Depth 11-3 | Eval +M7 | Time 5ms | E10 C8\nMESSAGE Depth 12-3 | Eval +M7 | Time 6ms | E10 C8\nMESSAGE Depth 13-3 | Eval +M7 | Time 7ms | E10 C8\nMESSAGE Depth 14-3 | Eval +M7 | Time 8ms | E10 C8\nMESSAGE Depth 15-3 | Eval +M7 | Time 9ms | E10 C8\nMESSAGE Depth 16-3 | Eval +M7 | Time 11ms | E10 C8\nMESSAGE Depth 17-3 | Eval +M7 | Time 13ms | E10 C8\nMESSAGE Depth 18-3 | Eval +M7 | Time 15ms | E10 C8\nMESSAGE Depth 19-3 | Eval +M7 | Time 18ms | E10 C8\nMESSAGE Depth 20-3 | Eval +M7 | Time 21ms | E10 C8\nMESSAGE Depth 21-3 | Eval +M7 | Time 25ms | E10 C8\nMESSAGE Depth 22-3 | Eval +M7 | Time 30ms | E10 C8\nMESSAGE Depth 23-3 | Eval +M7 | Time 35ms | E10 C8\nMESSAGE Depth 24-3 | Eval +M7 | Time 40ms | E10 C8\nMESSAGE Depth 25-3 | Eval +M7 | Time 45ms | E10 C8\nMESSAGE Depth 26-3 | Eval +M7 | Time 50ms | E10 C8\nMESSAGE Depth 27-3 | Eval +M7 | Time 57ms | E10 C8\nMESSAGE Depth 28-3 | Eval +M7 | Time 65ms | E10 C8\nMESSAGE Depth 29-3 | Eval +M7 | Time 73ms | E10 C8\nMESSAGE Depth 30-3 | Eval +M7 | Time 84ms | E10 C8\nMESSAGE Depth 31-3 | Eval +M7 | Time 95ms | E10 C8\nMESSAGE Depth 32-3 | Eval +M7 | Time 109ms | E10 C8\nMESSAGE Speed 620K | Depth 32-3 | Eval +M7 | Node 67K | Time 109ms\n4,9\n",
+        "wall_budget_requested_ms": 300,
+        "xy": [
+          4,
+          9
+        ]
+      },
+      "rule": 0,
+      "stability_600ms": {
+        "compatible_weight_reported": true,
+        "elapsed_wall_ms": 263.35696601017844,
+        "engine_error_messages": [],
+        "flat_action": 139,
+        "loaded_expected_weight_name": "mix9svqfreestyle_bsmix.bin.lz4",
+        "saw_loaded_nnue": true,
+        "status": "OK",
+        "stdout_prefix": "MESSAGE Load config from \"config.toml\"\nMESSAGE Evaluator set to mix9svq.\nOK\nMESSAGE mix9svq nnue: load weight from mix9svqfreestyle_bsmix.bin.lz4\nMESSAGE OptiTime 513ms | MaxTime 570ms\nMESSAGE Depth 2-3 | Eval 1268 | Time 0ms | D8 F10\nMESSAGE Depth 3-4 | Eval 1271 | Time 1ms | D8 F10 F9\nMESSAGE Depth 4-4 | Eval 1271 | Time 1ms | D8 F10 F9\nMESSAGE Depth 5-7 | Eval 471 | Time 1ms | D8 F10 H11 F9 F7\nMESSAGE Depth 6-9 | Eval 1262 | Time 1ms | D8 F10 E11 D11 F9 G9\nMESSAGE Depth 7-9 | Eval 1262 | Time 1ms | D8 F10 E11 D11 F9 G9\nMESSAGE Depth 8-9 | Eval +M7 | Time 3ms | E10 C8\nMESSAGE Depth 9-3 | Eval +M7 | Time 3ms | E10 C8\nMESSAGE Depth 10-3 | Eval +M7 | Time 4ms | E10 C8\nMESSAGE Depth 11-3 | Eval +M7 | Time 5ms | E10 C8\nMESSAGE Depth 12-3 | Eval +M7 | Time 6ms | E10 C8\nMESSAGE Depth 13-3 | Eval +M7 | Time 7ms | E10 C8\nMESSAGE Depth 14-3 | Eval +M7 | Time 7ms | E10 C8\nMESSAGE Depth 15-3 | Eval +M7 | Time 9ms | E10 C8\nMESSAGE Depth 16-3 | Eval +M7 | Time 10ms | E10 C8\nMESSAGE Depth 17-3 | Eval +M7 | Time 13ms | E10 C8\nMESSAGE Depth 18-3 | Eval +M7 | Time 16ms | E10 C8\nMESSAGE Depth 19-3 | Eval +M7 | Time 18ms | E10 C8\nMESSAGE Depth 20-3 | Eval +M7 | Time 22ms | E10 C8\nMESSAGE Depth 21-3 | Eval +M7 | Time 26ms | E10 C8\nMESSAGE Depth 22-3 | Eval +M7 | Time 31ms | E10 C8\nMESSAGE Depth 23-3 | Eval +M7 | Time 35ms | E10 C8\nMESSAGE Depth 24-3 | Eval +M7 | Time 40ms | E10 C8\nMESSAGE Depth 25-3 | Eval +M7 | Time 47ms | E10 C8\nMESSAGE Depth 26-3 | Eval +M7 | Time 54ms | E10 C8\nMESSAGE Depth 27-3 | Eval +M7 | Time 61ms | E10 C8\nMESSAGE Depth 28-3 | Eval +M7 | Time 69ms | E10 C8\nMESSAGE Depth 29-3 | Eval +M7 | Time 78ms | E10 C8\nMESSAGE Depth 30-3 | Eval +M7 | Time 89ms | E10 C8\nMESSAGE Depth 31-3 | Eval +M7 | Time 102ms | E10 C8\nMESSAGE Depth 32-3 | Eval +M7 | Time 116ms | E10 C8\nMESSAGE Speed 583K | Depth 32-3 | Eval +M7 | Node 67K | Time 116ms\n4,9\n",
+        "wall_budget_requested_ms": 600,
+        "xy": [
+          4,
+          9
+        ]
+      },
+      "stratum": "neutral"
+    },
+    {
+      "both_budgets_same_action": true,
+      "history": [
+        97,
+        65,
+        67,
+        82,
+        34,
+        125,
+        109,
+        113,
+        141,
+        5,
+        171,
+        172,
+        139
+      ],
+      "id": "C14_neutral_03",
+      "reference_300ms": {
+        "compatible_weight_reported": true,
+        "elapsed_wall_ms": 417.58253499574494,
+        "engine_error_messages": [],
+        "flat_action": 95,
+        "loaded_expected_weight_name": "mix9svqfreestyle_bsmix.bin.lz4",
+        "saw_loaded_nnue": true,
+        "status": "OK",
+        "stdout_prefix": "MESSAGE Load config from \"config.toml\"\nMESSAGE Evaluator set to mix9svq.\nOK\nMESSAGE mix9svq nnue: load weight from mix9svqfreestyle_bsmix.bin.lz4\nMESSAGE OptiTime 243ms | MaxTime 270ms\nMESSAGE Depth 2-5 | Eval -619 | Time 3ms | F6 F7\nMESSAGE Depth 3-4 | Eval -654 | Time 3ms | F6 F7 G6\nMESSAGE Depth 4-4 | Eval -654 | Time 3ms | F6 F7 G6\nMESSAGE Depth 5-7 | Eval -291 | Time 4ms | F6 F7 G6 E6\nMESSAGE Depth 6-7 | Eval -565 | Time 4ms | F6 F7 G6 E6 I6 J6\nMESSAGE Depth 7-10 | Eval -685 | Time 4ms | F6 F11 D9 E9 E11 F7 E6\nMESSAGE Depth 8-10 | Eval -685 | Time 4ms | F6 F11 D9 E9 E11 F7 E6\nMESSAGE Depth 9-10 | Eval -685 | Time 5ms | F6 F11 D9 E9 E11 F7 E6\nMESSAGE Depth 10-26 | Eval -M28 | Time 43ms | F7 F10 D10 F8 F4 F3 E7 G9 G11 H10 I10 E11\nMESSAGE Depth 11-13 | Eval -M28 | Time 43ms | F7 F10 D10 F8 F4 F3 E7 G9 G11 H10 I10 E11\nMESSAGE Depth 12-13 | Eval -M28 | Time 44ms | F7 F10 D10 F8 F4 F3 E7 G9 G11 H10 I10 E11\nMESSAGE Depth 13-24 | Eval -M24 | Time 51ms | E7 F10 D10 F7 G6 G9 G11 E11 D12 E12 E9 E13 E14 H10 I10 H8 I7 H9 H11\nMESSAGE Depth 14-24 | Eval -M18 | Time 65ms | F7 F10 D10 F8 F4 F3 I7 G9 J8 G5 K9 L10 G11\nMESSAGE Depth 15-14 | Eval -M18 | Time 72ms | F7 F10 D10 F8 F4 F3 I7 G9 J8 G5 K9 L10 G11\nMESSAGE Depth 16-14 | Eval -M18 | Time 78ms | F7 F10 D10 F8 F4 F3 I7 G9 J8 G5 K9 L10 G11\nMESSAGE Depth 17-14 | Eval -M18 | Time 92ms | F7 F10 D10 F8 F4 F3 I7 G9 J8 G5 K9 L10 G11\nMESSAGE Depth 18-14 | Eval -M16 | Time 134ms | F7 F8 F4 F3 E9 D8 C8 G9 G11 F10 H10\nMESSAGE Depth 19-12 | Eval -M16 | Time 147ms | F7 F8 F4 F3 E9 D8 C8 G9 G11 F10 H10\nMESSAGE Depth 20-12 | Eval -M16 | Time 171ms | F7 F8 F4 F3 E9 D8 C8 G9 G11 F10 H10\nMESSAGE Depth 21-12 | Eval -M16 | Time 202ms | F7 F8 F4 F3 E9 D8 C8 G9 G11 F10 H10\nMESSAGE Depth 22-12 | Eval -M16 | Time 239ms | F7 F8 F4 F3 E9 D8 C8 G9 G11 F10 H10\nMESSAGE Depth 22-12 | Eval -M16 | Time 271ms | F7 F8 F4 F3 E9 D8 C8 G9 G11 F10 H10\nMESSAGE Speed 456K | Depth 22-12 | Eval -M16 | Node 123K | Time 271ms\n5,6\n",
+        "wall_budget_requested_ms": 300,
+        "xy": [
+          5,
+          6
+        ]
+      },
+      "rule": 0,
+      "stability_600ms": {
+        "compatible_weight_reported": true,
+        "elapsed_wall_ms": 673.0047419987386,
+        "engine_error_messages": [],
+        "flat_action": 95,
+        "loaded_expected_weight_name": "mix9svqfreestyle_bsmix.bin.lz4",
+        "saw_loaded_nnue": true,
+        "status": "OK",
+        "stdout_prefix": "MESSAGE Load config from \"config.toml\"\nMESSAGE Evaluator set to mix9svq.\nOK\nMESSAGE mix9svq nnue: load weight from mix9svqfreestyle_bsmix.bin.lz4\nMESSAGE OptiTime 513ms | MaxTime 570ms\nMESSAGE Depth 2-5 | Eval -619 | Time 2ms | F6 F7\nMESSAGE Depth 3-4 | Eval -654 | Time 2ms | F6 F7 G6\nMESSAGE Depth 4-4 | Eval -654 | Time 2ms | F6 F7 G6\nMESSAGE Depth 5-7 | Eval -291 | Time 2ms | F6 F7 G6 E6\nMESSAGE Depth 6-7 | Eval -565 | Time 3ms | F6 F7 G6 E6 I6 J6\nMESSAGE Depth 7-10 | Eval -685 | Time 3ms | F6 F11 D9 E9 E11 F7 E6\nMESSAGE Depth 8-10 | Eval -685 | Time 4ms | F6 F11 D9 E9 E11 F7 E6\nMESSAGE Depth 9-10 | Eval -685 | Time 4ms | F6 F11 D9 E9 E11 F7 E6\nMESSAGE Depth 10-26 | Eval -M28 | Time 43ms | F7 F10 D10 F8 F4 F3 E7 G9 G11 H10 I10 E11\nMESSAGE Depth 11-13 | Eval -M28 | Time 43ms | F7 F10 D10 F8 F4 F3 E7 G9 G11 H10 I10 E11\nMESSAGE Depth 12-13 | Eval -M28 | Time 45ms | F7 F10 D10 F8 F4 F3 E7 G9 G11 H10 I10 E11\nMESSAGE Depth 13-24 | Eval -M24 | Time 52ms | E7 F10 D10 F7 G6 G9 G11 E11 D12 E12 E9 E13 E14 H10 I10 H8 I7 H9 H11\nMESSAGE Depth 14-24 | Eval -M18 | Time 65ms | F7 F10 D10 F8 F4 F3 I7 G9 J8 G5 K9 L10 G11\nMESSAGE Depth 15-14 | Eval -M18 | Time 72ms | F7 F10 D10 F8 F4 F3 I7 G9 J8 G5 K9 L10 G11\nMESSAGE Depth 16-14 | Eval -M18 | Time 78ms | F7 F10 D10 F8 F4 F3 I7 G9 J8 G5 K9 L10 G11\nMESSAGE Depth 17-14 | Eval -M18 | Time 92ms | F7 F10 D10 F8 F4 F3 I7 G9 J8 G5 K9 L10 G11\nMESSAGE Depth 18-14 | Eval -M16 | Time 132ms | F7 F8 F4 F3 E9 D8 C8 G9 G11 F10 H10\nMESSAGE Depth 19-12 | Eval -M16 | Time 144ms | F7 F8 F4 F3 E9 D8 C8 G9 G11 F10 H10\nMESSAGE Depth 20-12 | Eval -M16 | Time 167ms | F7 F8 F4 F3 E9 D8 C8 G9 G11 F10 H10\nMESSAGE Depth 21-12 | Eval -M16 | Time 197ms | F7 F8 F4 F3 E9 D8 C8 G9 G11 F10 H10\nMESSAGE Depth 22-12 | Eval -M16 | Time 232ms | F7 F8 F4 F3 E9 D8 C8 G9 G11 F10 H10\nMESSAGE Depth 23-12 | Eval -M16 | Time 282ms | F7 F8 F4 F3 E9 D8 C8 G9 G11 F10 H10\nMESSAGE Depth 24-12 | Eval -M16 | Time 346ms | F7 F8 F4 F3 E9 D8 C8 G9 G11 F10 H10\nMESSAGE Depth 25-12 | Eval -M16 | Time 427ms | F7 F8 F4 F3 E9 D8 C8 G9 G11 F10 H10\nMESSAGE Depth 26-12 | Eval -M16 | Time 528ms | F7 F8 F4 F3 E9 D8 C8 G9 G11 F10 H10\nMESSAGE Speed 471K | Depth 26-12 | Eval -M16 | Node 249K | Time 528ms\n5,6\n",
+        "wall_budget_requested_ms": 600,
+        "xy": [
+          5,
+          6
+        ]
+      },
+      "stratum": "neutral"
+    },
+    {
+      "both_budgets_same_action": true,
+      "history": [
+        143,
+        175,
+        159,
+        158,
+        126,
+        110,
+        113,
+        82,
+        112,
+        162
+      ],
+      "id": "C14_neutral_04",
+      "reference_300ms": {
+        "compatible_weight_reported": true,
+        "elapsed_wall_ms": 395.11177598615177,
+        "engine_error_messages": [],
+        "flat_action": 114,
+        "loaded_expected_weight_name": "mix9svqfreestyle_bsmix.bin.lz4",
+        "saw_loaded_nnue": true,
+        "status": "OK",
+        "stdout_prefix": "MESSAGE Load config from \"config.toml\"\nMESSAGE Evaluator set to mix9svq.\nOK\nMESSAGE mix9svq nnue: load weight from mix9svqfreestyle_bsmix.bin.lz4\nMESSAGE OptiTime 243ms | MaxTime 270ms\nMESSAGE Depth 2-9 | Eval 1305 | Time 0ms | I7 F10\nMESSAGE Depth 3-4 | Eval 1463 | Time 0ms | I7 F10 G7\nMESSAGE Depth 4-4 | Eval 1463 | Time 1ms | I7 F10 G7\nMESSAGE Depth 5-11 | Eval 1003 | Time 1ms | I7 F10 I9 I6 G7 F6\nMESSAGE Depth 6-11 | Eval 1003 | Time 1ms | I7 F10 I9 I6 G7 F6\nMESSAGE Depth 7-17 | Eval +M15 | Time 7ms | G7 L6 I7 J6 I9 I6 K6 J10 F7\nMESSAGE Depth 8-12 | Eval +M11 | Time 7ms | G7 J10 I7 J6 F7 H7\nMESSAGE Depth 9-7 | Eval +M11 | Time 9ms | G7 F6 I7 F10 F7 H7\nMESSAGE Depth 10-7 | Eval +M11 | Time 10ms | G7 F6 I7 F10 F7 H7\nMESSAGE Depth 11-7 | Eval +M11 | Time 11ms | G7 F6 I7 F10 F7 H7\nMESSAGE Depth 12-7 | Eval +M9 | Time 14ms | J8 K8 I9 I7\nMESSAGE Depth 13-5 | Eval +M9 | Time 15ms | J8 K8 I9 I7\nMESSAGE Depth 14-5 | Eval +M9 | Time 17ms | J8 K8 I9 I7\nMESSAGE Depth 15-5 | Eval +M9 | Time 20ms | J8 K8 I9 I7\nMESSAGE Depth 16-5 | Eval +M9 | Time 24ms | J8 K8 I9 I7\nMESSAGE Depth 17-5 | Eval +M9 | Time 28ms | J8 K8 I9 I7\nMESSAGE Depth 18-5 | Eval +M9 | Time 33ms | J8 K8 I9 I7\nMESSAGE Depth 19-5 | Eval +M9 | Time 39ms | J8 K8 I9 I7\nMESSAGE Depth 20-5 | Eval +M9 | Time 48ms | J8 K8 I9 I7\nMESSAGE Depth 21-5 | Eval +M9 | Time 58ms | J8 K8 I9 I7\nMESSAGE Depth 22-5 | Eval +M9 | Time 70ms | J8 K8 I9 I7\nMESSAGE Depth 23-5 | Eval +M9 | Time 85ms | J8 K8 I9 I7\nMESSAGE Depth 24-5 | Eval +M9 | Time 102ms | J8 K8 I9 I7\nMESSAGE Depth 25-5 | Eval +M9 | Time 123ms | J8 K8 I9 I7\nMESSAGE Depth 26-5 | Eval +M9 | Time 147ms | J8 K8 I9 I7\nMESSAGE Depth 27-5 | Eval +M9 | Time 176ms | J8 K8 I9 I7\nMESSAGE Depth 28-5 | Eval +M9 | Time 210ms | J8 K8 I9 I7\nMESSAGE Depth 29-5 | Eval +M9 | Time 250ms | J8 K8 I9 I7\nMESSAGE Speed 482K | Depth 29-5 | Eval +M9 | Node 120K | Time 250ms\n9,7\n",
+        "wall_budget_requested_ms": 300,
+        "xy": [
+          9,
+          7
+        ]
+      },
+      "rule": 0,
+      "stability_600ms": {
+        "compatible_weight_reported": true,
+        "elapsed_wall_ms": 495.2206049929373,
+        "engine_error_messages": [],
+        "flat_action": 114,
+        "loaded_expected_weight_name": "mix9svqfreestyle_bsmix.bin.lz4",
+        "saw_loaded_nnue": true,
+        "status": "OK",
+        "stdout_prefix": "MESSAGE Load config from \"config.toml\"\nMESSAGE Evaluator set to mix9svq.\nOK\nMESSAGE mix9svq nnue: load weight from mix9svqfreestyle_bsmix.bin.lz4\nMESSAGE OptiTime 513ms | MaxTime 570ms\nMESSAGE Depth 2-9 | Eval 1305 | Time 0ms | I7 F10\nMESSAGE Depth 3-4 | Eval 1463 | Time 1ms | I7 F10 G7\nMESSAGE Depth 4-4 | Eval 1463 | Time 1ms | I7 F10 G7\nMESSAGE Depth 5-11 | Eval 1003 | Time 1ms | I7 F10 I9 I6 G7 F6\nMESSAGE Depth 6-11 | Eval 1003 | Time 1ms | I7 F10 I9 I6 G7 F6\nMESSAGE Depth 7-17 | Eval +M15 | Time 6ms | G7 L6 I7 J6 I9 I6 K6 J10 F7\nMESSAGE Depth 8-12 | Eval +M11 | Time 7ms | G7 J10 I7 J6 F7 H7\nMESSAGE Depth 9-7 | Eval +M11 | Time 8ms | G7 F6 I7 F10 F7 H7\nMESSAGE Depth 10-7 | Eval +M11 | Time 9ms | G7 F6 I7 F10 F7 H7\nMESSAGE Depth 11-7 | Eval +M11 | Time 11ms | G7 F6 I7 F10 F7 H7\nMESSAGE Depth 12-7 | Eval +M9 | Time 13ms | J8 K8 I9 I7\nMESSAGE Depth 13-5 | Eval +M9 | Time 15ms | J8 K8 I9 I7\nMESSAGE Depth 14-5 | Eval +M9 | Time 17ms | J8 K8 I9 I7\nMESSAGE Depth 15-5 | Eval +M9 | Time 20ms | J8 K8 I9 I7\nMESSAGE Depth 16-5 | Eval +M9 | Time 23ms | J8 K8 I9 I7\nMESSAGE Depth 17-5 | Eval +M9 | Time 27ms | J8 K8 I9 I7\nMESSAGE Depth 18-5 | Eval +M9 | Time 33ms | J8 K8 I9 I7\nMESSAGE Depth 19-5 | Eval +M9 | Time 39ms | J8 K8 I9 I7\nMESSAGE Depth 20-5 | Eval +M9 | Time 47ms | J8 K8 I9 I7\nMESSAGE Depth 21-5 | Eval +M9 | Time 57ms | J8 K8 I9 I7\nMESSAGE Depth 22-5 | Eval +M9 | Time 69ms | J8 K8 I9 I7\nMESSAGE Depth 23-5 | Eval +M9 | Time 84ms | J8 K8 I9 I7\nMESSAGE Depth 24-5 | Eval +M9 | Time 101ms | J8 K8 I9 I7\nMESSAGE Depth 25-5 | Eval +M9 | Time 122ms | J8 K8 I9 I7\nMESSAGE Depth 26-5 | Eval +M9 | Time 146ms | J8 K8 I9 I7\nMESSAGE Depth 27-5 | Eval +M9 | Time 175ms | J8 K8 I9 I7\nMESSAGE Depth 28-5 | Eval +M9 | Time 208ms | J8 K8 I9 I7\nMESSAGE Depth 29-5 | Eval +M9 | Time 248ms | J8 K8 I9 I7\nMESSAGE Depth 30-5 | Eval +M9 | Time 295ms | J8 K8 I9 I7\nMESSAGE Depth 31-5 | Eval +M9 | Time 350ms | J8 K8 I9 I7\nMESSAGE Speed 499K | Depth 31-5 | Eval +M9 | Node 174K | Time 350ms\n9,7\n",
+        "wall_budget_requested_ms": 600,
+        "xy": [
+          9,
+          7
+        ]
+      },
+      "stratum": "neutral"
+    },
+    {
+      "both_budgets_same_action": true,
+      "history": [
+        84,
+        116,
+        68,
+        36,
+        99,
+        148,
+        52,
+        147,
+        22,
+        179,
+        24
+      ],
+      "id": "C14_neutral_05",
+      "reference_300ms": {
+        "compatible_weight_reported": true,
+        "elapsed_wall_ms": 393.3629589882912,
+        "engine_error_messages": [],
+        "flat_action": 146,
+        "loaded_expected_weight_name": "mix9svqfreestyle_bsmix.bin.lz4",
+        "saw_loaded_nnue": true,
+        "status": "OK",
+        "stdout_prefix": "MESSAGE Load config from \"config.toml\"\nMESSAGE Evaluator set to mix9svq.\nOK\nMESSAGE mix9svq nnue: load weight from mix9svqfreestyle_bsmix.bin.lz4\nMESSAGE OptiTime 243ms | MaxTime 270ms\nMESSAGE Depth 2-5 | Eval 514 | Time 0ms | L10 J10\nMESSAGE Depth 3-8 | Eval 327 | Time 1ms | L10 J10 L9 J8 J9\nMESSAGE Depth 4-8 | Eval 327 | Time 1ms | L10 J10 L9 J8 J9\nMESSAGE Depth 5-9 | Eval 484 | Time 1ms | L10 K10 L9 L11 K8 N11\nMESSAGE Depth 6-8 | Eval 70 | Time 1ms | L10 K10 L9 L11 K8 N11 M8\nMESSAGE Depth 7-8 | Eval 70 | Time 2ms | L10 K10 L9 L11 K8 N11 M8\nMESSAGE Depth 8-8 | Eval 70 | Time 2ms | L10 K10 L9 L11 K8 N11 M8\nMESSAGE Depth 9-18 | Eval 392 | Time 3ms | L10 K10 L11 L9 K12 N9 L12 M8\nMESSAGE Depth 10-18 | Eval 392 | Time 3ms | L10 K10 L11 L9 K12 N9 L12 M8\nMESSAGE Depth 11-18 | Eval 392 | Time 3ms | L10 K10 L11 L9 K12 N9 L12 M8\nMESSAGE Depth 12-16 | Eval 1315 | Time 6ms | L10 K10 L11 L9 N9 K12 N11 N12 K11 J11 N8 N7 M8 I12 H13\nMESSAGE Depth 13-14 | Eval 1315 | Time 6ms | L10 K10 L11 L9 N9 K12 N11 N12 K11 J11 N8 N7\nMESSAGE Depth 14-14 | Eval 1315 | Time 7ms | L10 K10 L11 L9 N9 K12 N11 N12 K11 J11 N8 N7\nMESSAGE Depth 15-16 | Eval 1315 | Time 8ms | L10 K10 L11 L9 N9 K12 N11 N12 K11 J11 N8 N7 M8 I12 H13\nMESSAGE Depth 16-17 | Eval +M17 | Time 14ms | L10 K10 L11 L9 N9 K12 N11 N12 K11 J11 O11 M11\nMESSAGE Depth 17-13 | Eval +M15 | Time 20ms | L10 K10 L9 L11 K8 N11 J8 I8 J9 L7\nMESSAGE Depth 18-11 | Eval +M15 | Time 25ms | L10 K10 L9 L11 K8 N11 J8 I8 J9 L7\nMESSAGE Depth 19-11 | Eval +M15 | Time 33ms | L10 K10 L9 L11 K8 N11 J8 I8 J9 L7\nMESSAGE Depth 20-11 | Eval +M15 | Time 43ms | L10 K10 L9 L11 K8 N11 J8 I8 J9 L7\nMESSAGE Depth 21-11 | Eval +M15 | Time 56ms | L10 K10 L9 L11 K8 N11 J8 I8 J9 L7\nMESSAGE Depth 22-11 | Eval +M15 | Time 73ms | L10 K10 L9 L11 K8 N11 J8 I8 J9 L7\nMESSAGE Depth 23-11 | Eval +M15 | Time 93ms | L10 K10 L9 L11 K8 N11 J8 I8 J9 L7\nMESSAGE Depth 24-11 | Eval +M15 | Time 119ms | L10 K10 L9 L11 K8 N11 J8 I8 J9 L7\nMESSAGE Depth 25-11 | Eval +M15 | Time 153ms | L10 K10 L9 L11 K8 N11 J8 I8 J9 L7\nMESSAGE Depth 26-11 | Eval +M15 | Time 197ms | L10 K10 L9 L11 K8 N11 J8 I8 J9 L7\nMESSAGE Depth 27-11 | Eval +M15 | Time 252ms | L10 K10 L9 L11 K8 N11 J8 I8 J9 L7\nMESSAGE Speed 519K | Depth 27-11 | Eval +M15 | Node 130K | Time 252ms\n11,9\n",
+        "wall_budget_requested_ms": 300,
+        "xy": [
+          11,
+          9
+        ]
+      },
+      "rule": 0,
+      "stability_600ms": {
+        "compatible_weight_reported": true,
+        "elapsed_wall_ms": 670.3163049969589,
+        "engine_error_messages": [],
+        "flat_action": 146,
+        "loaded_expected_weight_name": "mix9svqfreestyle_bsmix.bin.lz4",
+        "saw_loaded_nnue": true,
+        "status": "OK",
+        "stdout_prefix": "MESSAGE Load config from \"config.toml\"\nMESSAGE Evaluator set to mix9svq.\nOK\nMESSAGE mix9svq nnue: load weight from mix9svqfreestyle_bsmix.bin.lz4\nMESSAGE OptiTime 513ms | MaxTime 570ms\nMESSAGE Depth 2-5 | Eval 514 | Time 1ms | L10 J10\nMESSAGE Depth 3-8 | Eval 327 | Time 1ms | L10 J10 L9 J8 J9\nMESSAGE Depth 4-8 | Eval 327 | Time 1ms | L10 J10 L9 J8 J9\nMESSAGE Depth 5-9 | Eval 484 | Time 1ms | L10 K10 L9 L11 K8 N11\nMESSAGE Depth 6-8 | Eval 70 | Time 2ms | L10 K10 L9 L11 K8 N11 M8\nMESSAGE Depth 7-8 | Eval 70 | Time 2ms | L10 K10 L9 L11 K8 N11 M8\nMESSAGE Depth 8-8 | Eval 70 | Time 2ms | L10 K10 L9 L11 K8 N11 M8\nMESSAGE Depth 9-18 | Eval 392 | Time 3ms | L10 K10 L11 L9 K12 N9 L12 M8\nMESSAGE Depth 10-18 | Eval 392 | Time 3ms | L10 K10 L11 L9 K12 N9 L12 M8\nMESSAGE Depth 11-18 | Eval 392 | Time 4ms | L10 K10 L11 L9 K12 N9 L12 M8\nMESSAGE Depth 12-16 | Eval 1315 | Time 6ms | L10 K10 L11 L9 N9 K12 N11 N12 K11 J11 N8 N7 M8 I12 H13\nMESSAGE Depth 13-14 | Eval 1315 | Time 6ms | L10 K10 L11 L9 N9 K12 N11 N12 K11 J11 N8 N7\nMESSAGE Depth 14-14 | Eval 1315 | Time 7ms | L10 K10 L11 L9 N9 K12 N11 N12 K11 J11 N8 N7\nMESSAGE Depth 15-16 | Eval 1315 | Time 8ms | L10 K10 L11 L9 N9 K12 N11 N12 K11 J11 N8 N7 M8 I12 H13\nMESSAGE Depth 16-17 | Eval +M17 | Time 14ms | L10 K10 L11 L9 N9 K12 N11 N12 K11 J11 O11 M11\nMESSAGE Depth 17-13 | Eval +M15 | Time 21ms | L10 K10 L9 L11 K8 N11 J8 I8 J9 L7\nMESSAGE Depth 18-11 | Eval +M15 | Time 27ms | L10 K10 L9 L11 K8 N11 J8 I8 J9 L7\nMESSAGE Depth 19-11 | Eval +M15 | Time 34ms | L10 K10 L9 L11 K8 N11 J8 I8 J9 L7\nMESSAGE Depth 20-11 | Eval +M15 | Time 44ms | L10 K10 L9 L11 K8 N11 J8 I8 J9 L7\nMESSAGE Depth 21-11 | Eval +M15 | Time 57ms | L10 K10 L9 L11 K8 N11 J8 I8 J9 L7\nMESSAGE Depth 22-11 | Eval +M15 | Time 73ms | L10 K10 L9 L11 K8 N11 J8 I8 J9 L7\nMESSAGE Depth 23-11 | Eval +M15 | Time 94ms | L10 K10 L9 L11 K8 N11 J8 I8 J9 L7\nMESSAGE Depth 24-11 | Eval +M15 | Time 119ms | L10 K10 L9 L11 K8 N11 J8 I8 J9 L7\nMESSAGE Depth 25-11 | Eval +M15 | Time 152ms | L10 K10 L9 L11 K8 N11 J8 I8 J9 L7\nMESSAGE Depth 26-11 | Eval +M15 | Time 196ms | L10 K10 L9 L11 K8 N11 J8 I8 J9 L7\nMESSAGE Depth 27-11 | Eval +M15 | Time 251ms | L10 K10 L9 L11 K8 N11 J8 I8 J9 L7\nMESSAGE Depth 28-11 | Eval +M15 | Time 324ms | L10 K10 L9 L11 K8 N11 J8 I8 J9 L7\nMESSAGE Depth 29-11 | Eval +M15 | Time 415ms | L10 K10 L9 L11 K8 N11 J8 I8 J9 L7\nMESSAGE Depth 30-11 | Eval +M15 | Time 529ms | L10 K10 L9 L11 K8 N11 J8 I8 J9 L7\nMESSAGE Speed 520K | Depth 30-11 | Eval +M15 | Node 275K | Time 529ms\n11,9\n",
+        "wall_budget_requested_ms": 600,
+        "xy": [
+          11,
+          9
+        ]
+      },
+      "stratum": "neutral"
+    },
+    {
+      "both_budgets_same_action": true,
+      "history": [
+        130,
+        116,
+        117,
+        131,
+        144,
+        147,
+        89,
+        128,
+        148,
+        111,
+        173,
+        73
+      ],
+      "id": "C14_neutral_06",
+      "reference_300ms": {
+        "compatible_weight_reported": true,
+        "elapsed_wall_ms": 415.98688800877426,
+        "engine_error_messages": [],
+        "flat_action": 101,
+        "loaded_expected_weight_name": "mix9svqfreestyle_bsmix.bin.lz4",
+        "saw_loaded_nnue": true,
+        "status": "OK",
+        "stdout_prefix": "MESSAGE Load config from \"config.toml\"\nMESSAGE Evaluator set to mix9svq.\nOK\nMESSAGE mix9svq nnue: load weight from mix9svqfreestyle_bsmix.bin.lz4\nMESSAGE OptiTime 243ms | MaxTime 270ms\nMESSAGE Depth 2-3 | Eval 138 | Time 2ms | L7 K6\nMESSAGE Depth 3-4 | Eval -143 | Time 2ms | K8 K7\nMESSAGE Depth 4-4 | Eval -213 | Time 2ms | K8 K7 J8\nMESSAGE Depth 5-5 | Eval -199 | Time 2ms | K8 K7 J8 I7\nMESSAGE Depth 6-5 | Eval -199 | Time 2ms | K8 K7 J8 I7\nMESSAGE Depth 7-9 | Eval -18 | Time 3ms | L7 J8 K6 J5 K7 K8\nMESSAGE Depth 8-11 | Eval -103 | Time 5ms | L7 K7 J8 J6 I5 I7 K6 J5 N9 O10\nMESSAGE Depth 9-11 | Eval -103 | Time 5ms | L7 K7 J8 J6 I5 I7 K6 J5\nMESSAGE Depth 10-11 | Eval -103 | Time 5ms | L7 K7 J8 J6 I5 I7 K6 J5\nMESSAGE Depth 11-11 | Eval -103 | Time 5ms | L7 K7 J8 J6 I5 I7 K6 J5\nMESSAGE Depth 12-11 | Eval -103 | Time 6ms | L7 K7 J8 J6 I5 I7 K6 J5 N9 O10\nMESSAGE Depth 13-11 | Eval -103 | Time 7ms | L7 K7 J8 J6 I5 I7 K6 J5 N9 O10\nMESSAGE Depth 14-35 | Eval -417 | Time 113ms | L7 K7 J8 J6 I5 I7 J5 K6 K5 H5 J9 J7 I6 G7 H7 G6 L5 M5 K4 L3 G9\nMESSAGE Depth 15-37 | Eval -385 | Time 185ms | L7 K7 J8 J6 I5 I7 K6 J5 N9 O10 N11 N12 J9 J7 H7 K5 L4 I10 I8 G6\nMESSAGE Depth 16-19 | Eval -385 | Time 187ms | L7 K7 J8 J6 I5 I7 K6 J5 N9 O10 N11 N12 J9 J7 H7 K5 L4 I10\nMESSAGE Depth 17-28 | Eval -385 | Time 190ms | L7 K7 J8 J6 I5 I7 K6 J5 N9 O10 N11 N12 J9 J7 H7 K5 L4\nMESSAGE Depth 17-29 | Eval -417 | Time 272ms | L7 K7\nMESSAGE Speed 409K | Depth 17-29 | Eval -417 | Node 111K | Time 272ms\n11,6\n",
+        "wall_budget_requested_ms": 300,
+        "xy": [
+          11,
+          6
+        ]
+      },
+      "rule": 0,
+      "stability_600ms": {
+        "compatible_weight_reported": true,
+        "elapsed_wall_ms": 719.0429140027845,
+        "engine_error_messages": [],
+        "flat_action": 101,
+        "loaded_expected_weight_name": "mix9svqfreestyle_bsmix.bin.lz4",
+        "saw_loaded_nnue": true,
+        "status": "OK",
+        "stdout_prefix": "MESSAGE Load config from \"config.toml\"\nMESSAGE Evaluator set to mix9svq.\nOK\nMESSAGE mix9svq nnue: load weight from mix9svqfreestyle_bsmix.bin.lz4\nMESSAGE OptiTime 513ms | MaxTime 570ms\nMESSAGE Depth 2-3 | Eval 138 | Time 1ms | L7 K6\nMESSAGE Depth 3-4 | Eval -143 | Time 1ms | K8 K7\nMESSAGE Depth 4-4 | Eval -213 | Time 2ms | K8 K7 J8\nMESSAGE Depth 5-5 | Eval -199 | Time 2ms | K8 K7 J8 I7\nMESSAGE Depth 6-5 | Eval -199 | Time 2ms | K8 K7 J8 I7\nMESSAGE Depth 7-9 | Eval -18 | Time 3ms | L7 J8 K6 J5 K7 K8\nMESSAGE Depth 8-11 | Eval -103 | Time 4ms | L7 K7 J8 J6 I5 I7 K6 J5 N9 O10\nMESSAGE Depth 9-11 | Eval -103 | Time 4ms | L7 K7 J8 J6 I5 I7 K6 J5\nMESSAGE Depth 10-11 | Eval -103 | Time 5ms | L7 K7 J8 J6 I5 I7 K6 J5\nMESSAGE Depth 11-11 | Eval -103 | Time 5ms | L7 K7 J8 J6 I5 I7 K6 J5\nMESSAGE Depth 12-11 | Eval -103 | Time 6ms | L7 K7 J8 J6 I5 I7 K6 J5 N9 O10\nMESSAGE Depth 13-11 | Eval -103 | Time 7ms | L7 K7 J8 J6 I5 I7 K6 J5 N9 O10\nMESSAGE Depth 14-35 | Eval -417 | Time 116ms | L7 K7 J8 J6 I5 I7 J5 K6 K5 H5 J9 J7 I6 G7 H7 G6 L5 M5 K4 L3 G9\nMESSAGE Depth 15-37 | Eval -385 | Time 191ms | L7 K7 J8 J6 I5 I7 K6 J5 N9 O10 N11 N12 J9 J7 H7 K5 L4 I10 I8 G6\nMESSAGE Depth 16-19 | Eval -385 | Time 194ms | L7 K7 J8 J6 I5 I7 K6 J5 N9 O10 N11 N12 J9 J7 H7 K5 L4 I10\nMESSAGE Depth 17-28 | Eval -385 | Time 197ms | L7 K7 J8 J6 I5 I7 K6 J5 N9 O10 N11 N12 J9 J7 H7 K5 L4\nMESSAGE Depth 18-37 | Eval -401 | Time 310ms | L7 K7 J8 J6 I5 I7 K6 J5 N9 O10 N11 N12 J9 J7 H7 K5 L4 I10 I8 G6 G9 I6 K8 F7 J11 J12 H5\nMESSAGE Depth 19-40 | Eval -436 | Time 424ms | L7 K7 I10 J6 I5 G9 H10 G10 G7 H9 J9 K8 J7 J8 H8 F9 E9 F11 E12 F8 F10 I6 K10 L10\nMESSAGE Depth 19-46 | Eval -326 | Time 572ms | L7\nMESSAGE Speed 410K | Depth 19-46 | Eval -326 | Node 234K | Time 572ms\n11,6\n",
+        "wall_budget_requested_ms": 600,
+        "xy": [
+          11,
+          6
+        ]
+      },
+      "stratum": "neutral"
+    },
+    {
+      "both_budgets_same_action": true,
+      "history": [
+        64,
+        50,
+        20,
+        52,
+        5,
+        22,
+        23,
+        94,
+        21,
+        19,
+        34,
+        122,
+        33
+      ],
+      "id": "C14_neutral_07",
+      "reference_300ms": {
+        "compatible_weight_reported": true,
+        "elapsed_wall_ms": 413.7665099988226,
+        "engine_error_messages": [],
+        "flat_action": 35,
+        "loaded_expected_weight_name": "mix9svqfreestyle_bsmix.bin.lz4",
+        "saw_loaded_nnue": true,
+        "status": "OK",
+        "stdout_prefix": "MESSAGE Load config from \"config.toml\"\nMESSAGE Evaluator set to mix9svq.\nOK\nMESSAGE mix9svq nnue: load weight from mix9svqfreestyle_bsmix.bin.lz4\nMESSAGE OptiTime 243ms | MaxTime 270ms\nMESSAGE Depth 2-3 | Eval 419 | Time 1ms | D4 G4\nMESSAGE Depth 3-5 | Eval 332 | Time 1ms | D4 G4 G5\nMESSAGE Depth 4-4 | Eval 332 | Time 1ms | D4 G4 G5\nMESSAGE Depth 5-5 | Eval 459 | Time 1ms | D4 G4 G5 F6\nMESSAGE Depth 6-8 | Eval 413 | Time 3ms | D4 G4 H3 H5 G5 F6\nMESSAGE Depth 7-7 | Eval 413 | Time 3ms | D4 G4 H3 H5 G5 F6\nMESSAGE Depth 8-7 | Eval 413 | Time 3ms | D4 G4 H3 H5 G5 F6\nMESSAGE Depth 9-7 | Eval 413 | Time 3ms | D4 G4 H3 H5 G5 F6\nMESSAGE Depth 10-20 | Eval 260 | Time 11ms | H5 H3 F6 F3 G3 G5 D5 F5 G4 I4 J5 C3 B3 D4\nMESSAGE Depth 11-19 | Eval 348 | Time 15ms | H5 H3 F6 G5 F3 G4 F5 F7 G6 D4 G1 D5 D6 C5 B6 E6\nMESSAGE Depth 12-27 | Eval 390 | Time 19ms | F3 G4 F6 G5 F5 F7 G6 H6 D8 B10 D6 C5 D4 D5 E6 C6 E9 C3 C7 B5 A5 B6\nMESSAGE Depth 13-27 | Eval 390 | Time 20ms | F3 G4 F6 G5 F5 F7 G6 H6 D8 B10 D6 C5 D4 D5 E6 C6 E9 C3 C7\nMESSAGE Depth 14-21 | Eval 390 | Time 22ms | F3 G4 F6 G5 F5 F7 G6 H6 D8 B10 D6 C5 D4 D5 E6 C6 E9 C3\nMESSAGE Depth 15-41 | Eval 355 | Time 106ms | F3 G4 F6 G5 F5 F7 G6 I6 D6 E6 C5 F8 D8 B10 D9 D7 E9 F9 F10 C7 G8 G10\nMESSAGE Depth 16-25 | Eval 355 | Time 108ms | F3 G4 F6 G5 F5 F7 G6 I6 D6 E6 C5 F8 D8 B10 D9 D7 E9 F9 F10 C7 G8 G10\nMESSAGE Depth 16-31 | Eval 475 | Time 271ms | F3\nMESSAGE Speed 388K | Depth 16-31 | Eval 475 | Node 105K | Time 271ms\n5,2\n",
+        "wall_budget_requested_ms": 300,
+        "xy": [
+          5,
+          2
+        ]
+      },
+      "rule": 0,
+      "stability_600ms": {
+        "compatible_weight_reported": true,
+        "elapsed_wall_ms": 710.7290860003559,
+        "engine_error_messages": [],
+        "flat_action": 35,
+        "loaded_expected_weight_name": "mix9svqfreestyle_bsmix.bin.lz4",
+        "saw_loaded_nnue": true,
+        "status": "OK",
+        "stdout_prefix": "MESSAGE Load config from \"config.toml\"\nMESSAGE Evaluator set to mix9svq.\nOK\nMESSAGE mix9svq nnue: load weight from mix9svqfreestyle_bsmix.bin.lz4\nMESSAGE OptiTime 513ms | MaxTime 570ms\nMESSAGE Depth 2-3 | Eval 419 | Time 1ms | D4 G4\nMESSAGE Depth 3-5 | Eval 332 | Time 1ms | D4 G4 G5\nMESSAGE Depth 4-4 | Eval 332 | Time 1ms | D4 G4 G5\nMESSAGE Depth 5-5 | Eval 459 | Time 1ms | D4 G4 G5 F6\nMESSAGE Depth 6-8 | Eval 413 | Time 2ms | D4 G4 H3 H5 G5 F6\nMESSAGE Depth 7-7 | Eval 413 | Time 2ms | D4 G4 H3 H5 G5 F6\nMESSAGE Depth 8-7 | Eval 413 | Time 2ms | D4 G4 H3 H5 G5 F6\nMESSAGE Depth 9-7 | Eval 413 | Time 3ms | D4 G4 H3 H5 G5 F6\nMESSAGE Depth 10-20 | Eval 260 | Time 11ms | H5 H3 F6 F3 G3 G5 D5 F5 G4 I4 J5 C3 B3 D4\nMESSAGE Depth 11-19 | Eval 348 | Time 15ms | H5 H3 F6 G5 F3 G4 F5 F7 G6 D4 G1 D5 D6 C5 B6 E6\nMESSAGE Depth 12-27 | Eval 390 | Time 20ms | F3 G4 F6 G5 F5 F7 G6 H6 D8 B10 D6 C5 D4 D5 E6 C6 E9 C3 C7 B5 A5 B6\nMESSAGE Depth 13-27 | Eval 390 | Time 20ms | F3 G4 F6 G5 F5 F7 G6 H6 D8 B10 D6 C5 D4 D5 E6 C6 E9 C3 C7\nMESSAGE Depth 14-21 | Eval 390 | Time 22ms | F3 G4 F6 G5 F5 F7 G6 H6 D8 B10 D6 C5 D4 D5 E6 C6 E9 C3\nMESSAGE Depth 15-41 | Eval 355 | Time 108ms | F3 G4 F6 G5 F5 F7 G6 I6 D6 E6 C5 F8 D8 B10 D9 D7 E9 F9 F10 C7 G8 G10\nMESSAGE Depth 16-25 | Eval 355 | Time 110ms | F3 G4 F6 G5 F5 F7 G6 I6 D6 E6 C5 F8 D8 B10 D9 D7 E9 F9 F10 C7 G8 G10\nMESSAGE Depth 17-39 | Eval 377 | Time 338ms | F3 G4 F5 F6 G7 H6 D7 F7 G6 G8 E6 C8 E9 E10 F9 D9 F11 F10 G10\nMESSAGE Depth 18-42 | Eval 469 | Time 563ms | F3 G4 F6 G5 F5 F7 G6 E6 C5 G8 H9 J5 I6 K5 I8 H7 J7 K6 I5\nMESSAGE Speed 382K | Depth 18-42 | Eval 469 | Node 215K | Time 563ms\n5,2\n",
+        "wall_budget_requested_ms": 600,
+        "xy": [
+          5,
+          2
+        ]
+      },
+      "stratum": "neutral"
+    },
+    {
+      "both_budgets_same_action": true,
+      "history": [
+        110,
+        126,
+        109,
+        96,
+        97,
+        93,
+        80,
+        142,
+        140,
+        99
+      ],
+      "id": "C14_neutral_08",
+      "reference_300ms": {
+        "compatible_weight_reported": true,
+        "elapsed_wall_ms": 208.51171799586155,
+        "engine_error_messages": [],
+        "flat_action": 111,
+        "loaded_expected_weight_name": "mix9svqfreestyle_bsmix.bin.lz4",
+        "saw_loaded_nnue": true,
+        "status": "OK",
+        "stdout_prefix": "MESSAGE Load config from \"config.toml\"\nMESSAGE Evaluator set to mix9svq.\nOK\nMESSAGE mix9svq nnue: load weight from mix9svqfreestyle_bsmix.bin.lz4\nMESSAGE OptiTime 243ms | MaxTime 270ms\nMESSAGE Depth 2-3 | Eval +M7 | Time 2ms | G8 D8\nMESSAGE Depth 3-3 | Eval +M7 | Time 2ms | G8 D8\nMESSAGE Depth 4-3 | Eval +M7 | Time 2ms | G8 D8\nMESSAGE Depth 5-3 | Eval +M7 | Time 2ms | G8 D8\nMESSAGE Depth 6-3 | Eval +M7 | Time 2ms | G8 D8\nMESSAGE Depth 7-3 | Eval +M7 | Time 2ms | G8 D8\nMESSAGE Depth 8-3 | Eval +M7 | Time 3ms | G8 D8\nMESSAGE Depth 9-3 | Eval +M7 | Time 3ms | G8 D8\nMESSAGE Depth 10-3 | Eval +M7 | Time 4ms | G8 D8\nMESSAGE Depth 11-3 | Eval +M7 | Time 5ms | G8 D8\nMESSAGE Depth 12-3 | Eval +M7 | Time 5ms | G8 D8\nMESSAGE Depth 13-3 | Eval +M7 | Time 7ms | G8 D8\nMESSAGE Depth 14-3 | Eval +M7 | Time 8ms | G8 D8\nMESSAGE Depth 15-3 | Eval +M7 | Time 10ms | G8 D8\nMESSAGE Depth 16-3 | Eval +M7 | Time 12ms | G8 D8\nMESSAGE Depth 17-3 | Eval +M7 | Time 14ms | G8 D8\nMESSAGE Depth 18-3 | Eval +M7 | Time 17ms | G8 D8\nMESSAGE Depth 19-3 | Eval +M7 | Time 20ms | G8 D8\nMESSAGE Depth 20-3 | Eval +M7 | Time 24ms | G8 D8\nMESSAGE Depth 21-3 | Eval +M7 | Time 29ms | G8 D8\nMESSAGE Depth 22-3 | Eval +M7 | Time 34ms | G8 D8\nMESSAGE Depth 23-3 | Eval +M7 | Time 40ms | G8 D8\nMESSAGE Depth 24-3 | Eval +M7 | Time 47ms | G8 D8\nMESSAGE Depth 25-3 | Eval +M7 | Time 54ms | G8 D8\nMESSAGE Depth 26-3 | Eval +M7 | Time 63ms | G8 D8\nMESSAGE Speed 448K | Depth 26-3 | Eval +M7 | Node 28K | Time 63ms\n6,7\n",
+        "wall_budget_requested_ms": 300,
+        "xy": [
+          6,
+          7
+        ]
+      },
+      "rule": 0,
+      "stability_600ms": {
+        "compatible_weight_reported": true,
+        "elapsed_wall_ms": 208.54878099635243,
+        "engine_error_messages": [],
+        "flat_action": 111,
+        "loaded_expected_weight_name": "mix9svqfreestyle_bsmix.bin.lz4",
+        "saw_loaded_nnue": true,
+        "status": "OK",
+        "stdout_prefix": "MESSAGE Load config from \"config.toml\"\nMESSAGE Evaluator set to mix9svq.\nOK\nMESSAGE mix9svq nnue: load weight from mix9svqfreestyle_bsmix.bin.lz4\nMESSAGE OptiTime 513ms | MaxTime 570ms\nMESSAGE Depth 2-3 | Eval +M7 | Time 2ms | G8 D8\nMESSAGE Depth 3-3 | Eval +M7 | Time 2ms | G8 D8\nMESSAGE Depth 4-3 | Eval +M7 | Time 2ms | G8 D8\nMESSAGE Depth 5-3 | Eval +M7 | Time 3ms | G8 D8\nMESSAGE Depth 6-3 | Eval +M7 | Time 3ms | G8 D8\nMESSAGE Depth 7-3 | Eval +M7 | Time 3ms | G8 D8\nMESSAGE Depth 8-3 | Eval +M7 | Time 3ms | G8 D8\nMESSAGE Depth 9-3 | Eval +M7 | Time 4ms | G8 D8\nMESSAGE Depth 10-3 | Eval +M7 | Time 4ms | G8 D8\nMESSAGE Depth 11-3 | Eval +M7 | Time 5ms | G8 D8\nMESSAGE Depth 12-3 | Eval +M7 | Time 6ms | G8 D8\nMESSAGE Depth 13-3 | Eval +M7 | Time 7ms | G8 D8\nMESSAGE Depth 14-3 | Eval +M7 | Time 9ms | G8 D8\nMESSAGE Depth 15-3 | Eval +M7 | Time 10ms | G8 D8\nMESSAGE Depth 16-3 | Eval +M7 | Time 12ms | G8 D8\nMESSAGE Depth 17-3 | Eval +M7 | Time 15ms | G8 D8\nMESSAGE Depth 18-3 | Eval +M7 | Time 18ms | G8 D8\nMESSAGE Depth 19-3 | Eval +M7 | Time 21ms | G8 D8\nMESSAGE Depth 20-3 | Eval +M7 | Time 25ms | G8 D8\nMESSAGE Depth 21-3 | Eval +M7 | Time 30ms | G8 D8\nMESSAGE Depth 22-3 | Eval +M7 | Time 35ms | G8 D8\nMESSAGE Depth 23-3 | Eval +M7 | Time 41ms | G8 D8\nMESSAGE Depth 24-3 | Eval +M7 | Time 47ms | G8 D8\nMESSAGE Depth 25-3 | Eval +M7 | Time 55ms | G8 D8\nMESSAGE Depth 26-3 | Eval +M7 | Time 62ms | G8 D8\nMESSAGE Speed 455K | Depth 26-3 | Eval +M7 | Node 28K | Time 62ms\n6,7\n",
+        "wall_budget_requested_ms": 600,
+        "xy": [
+          6,
+          7
+        ]
+      },
+      "stratum": "neutral"
+    },
+    {
+      "both_budgets_same_action": true,
+      "history": [
+        156,
+        184,
+        200,
+        167,
+        124,
+        166,
+        197,
+        169,
+        96,
+        173,
+        217
+      ],
+      "id": "C14_neutral_09",
+      "reference_300ms": {
+        "compatible_weight_reported": true,
+        "elapsed_wall_ms": 149.18767800554633,
+        "engine_error_messages": [],
+        "flat_action": 168,
+        "loaded_expected_weight_name": "mix9svqfreestyle_bsmix.bin.lz4",
+        "saw_loaded_nnue": true,
+        "status": "OK",
+        "stdout_prefix": "MESSAGE Load config from \"config.toml\"\nMESSAGE Evaluator set to mix9svq.\nOK\nMESSAGE mix9svq nnue: load weight from mix9svqfreestyle_bsmix.bin.lz4\nMESSAGE OptiTime 243ms | MaxTime 270ms\nMESSAGE Depth 2-2 | Eval +M3 | Time 0ms | D12\nMESSAGE Depth 3-2 | Eval +M3 | Time 0ms | D12\nMESSAGE Depth 4-2 | Eval +M3 | Time 0ms | D12\nMESSAGE Depth 5-2 | Eval +M3 | Time 0ms | D12\nMESSAGE Depth 6-2 | Eval +M3 | Time 0ms | D12\nMESSAGE Depth 7-2 | Eval +M3 | Time 0ms | D12\nMESSAGE Depth 8-2 | Eval +M3 | Time 0ms | D12\nMESSAGE Depth 9-2 | Eval +M3 | Time 0ms | D12\nMESSAGE Depth 10-2 | Eval +M3 | Time 0ms | D12\nMESSAGE Depth 11-2 | Eval +M3 | Time 0ms | D12\nMESSAGE Depth 12-2 | Eval +M3 | Time 0ms | D12\nMESSAGE Depth 13-2 | Eval +M3 | Time 0ms | D12\nMESSAGE Depth 14-2 | Eval +M3 | Time 0ms | D12\nMESSAGE Depth 15-2 | Eval +M3 | Time 0ms | D12\nMESSAGE Depth 16-2 | Eval +M3 | Time 0ms | D12\nMESSAGE Depth 17-2 | Eval +M3 | Time 0ms | D12\nMESSAGE Depth 18-2 | Eval +M3 | Time 0ms | D12\nMESSAGE Depth 19-2 | Eval +M3 | Time 0ms | D12\nMESSAGE Depth 20-2 | Eval +M3 | Time 0ms | D12\nMESSAGE Depth 21-2 | Eval +M3 | Time 0ms | D12\nMESSAGE Depth 22-2 | Eval +M3 | Time 0ms | D12\nMESSAGE Depth 23-2 | Eval +M3 | Time 0ms | D12\nMESSAGE Depth 24-2 | Eval +M3 | Time 0ms | D12\nMESSAGE Depth 25-2 | Eval +M3 | Time 0ms | D12\nMESSAGE Depth 26-2 | Eval +M3 | Time 0ms | D12\nMESSAGE Speed 50000 | Depth 26-2 | Eval +M3 | Node 50 | Time 0ms\n3,11\n",
+        "wall_budget_requested_ms": 300,
+        "xy": [
+          3,
+          11
+        ]
+      },
+      "rule": 0,
+      "stability_600ms": {
+        "compatible_weight_reported": true,
+        "elapsed_wall_ms": 145.73256600124296,
+        "engine_error_messages": [],
+        "flat_action": 168,
+        "loaded_expected_weight_name": "mix9svqfreestyle_bsmix.bin.lz4",
+        "saw_loaded_nnue": true,
+        "status": "OK",
+        "stdout_prefix": "MESSAGE Load config from \"config.toml\"\nMESSAGE Evaluator set to mix9svq.\nOK\nMESSAGE mix9svq nnue: load weight from mix9svqfreestyle_bsmix.bin.lz4\nMESSAGE OptiTime 513ms | MaxTime 570ms\nMESSAGE Depth 2-2 | Eval +M3 | Time 0ms | D12\nMESSAGE Depth 3-2 | Eval +M3 | Time 0ms | D12\nMESSAGE Depth 4-2 | Eval +M3 | Time 0ms | D12\nMESSAGE Depth 5-2 | Eval +M3 | Time 0ms | D12\nMESSAGE Depth 6-2 | Eval +M3 | Time 0ms | D12\nMESSAGE Depth 7-2 | Eval +M3 | Time 0ms | D12\nMESSAGE Depth 8-2 | Eval +M3 | Time 0ms | D12\nMESSAGE Depth 9-2 | Eval +M3 | Time 0ms | D12\nMESSAGE Depth 10-2 | Eval +M3 | Time 0ms | D12\nMESSAGE Depth 11-2 | Eval +M3 | Time 0ms | D12\nMESSAGE Depth 12-2 | Eval +M3 | Time 0ms | D12\nMESSAGE Depth 13-2 | Eval +M3 | Time 0ms | D12\nMESSAGE Depth 14-2 | Eval +M3 | Time 0ms | D12\nMESSAGE Depth 15-2 | Eval +M3 | Time 0ms | D12\nMESSAGE Depth 16-2 | Eval +M3 | Time 0ms | D12\nMESSAGE Depth 17-2 | Eval +M3 | Time 0ms | D12\nMESSAGE Depth 18-2 | Eval +M3 | Time 0ms | D12\nMESSAGE Depth 19-2 | Eval +M3 | Time 0ms | D12\nMESSAGE Depth 20-2 | Eval +M3 | Time 0ms | D12\nMESSAGE Depth 21-2 | Eval +M3 | Time 0ms | D12\nMESSAGE Depth 22-2 | Eval +M3 | Time 0ms | D12\nMESSAGE Depth 23-2 | Eval +M3 | Time 0ms | D12\nMESSAGE Depth 24-2 | Eval +M3 | Time 0ms | D12\nMESSAGE Depth 25-2 | Eval +M3 | Time 0ms | D12\nMESSAGE Depth 26-2 | Eval +M3 | Time 0ms | D12\nMESSAGE Speed 50000 | Depth 26-2 | Eval +M3 | Node 50 | Time 0ms\n3,11\n",
+        "wall_budget_requested_ms": 600,
+        "xy": [
+          3,
+          11
+        ]
+      },
+      "stratum": "neutral"
+    },
+    {
+      "both_budgets_same_action": true,
+      "history": [
+        97,
+        129,
+        111,
+        116,
+        110,
+        103,
+        132,
+        134,
+        89,
+        157,
+        173,
+        57
+      ],
+      "id": "C14_neutral_10",
+      "reference_300ms": {
+        "compatible_weight_reported": true,
+        "elapsed_wall_ms": 417.8048280009534,
+        "engine_error_messages": [],
+        "flat_action": 125,
+        "loaded_expected_weight_name": "mix9svqfreestyle_bsmix.bin.lz4",
+        "saw_loaded_nnue": true,
+        "status": "OK",
+        "stdout_prefix": "MESSAGE Load config from \"config.toml\"\nMESSAGE Evaluator set to mix9svq.\nOK\nMESSAGE mix9svq nnue: load weight from mix9svqfreestyle_bsmix.bin.lz4\nMESSAGE OptiTime 243ms | MaxTime 270ms\nMESSAGE Depth 2-3 | Eval 1126 | Time 0ms | I10 I11\nMESSAGE Depth 3-4 | Eval 1027 | Time 1ms | I10 I11 J11\nMESSAGE Depth 4-4 | Eval 1027 | Time 1ms | I10 I11 J11\nMESSAGE Depth 5-5 | Eval 263 | Time 1ms | I10 I11 H9\nMESSAGE Depth 6-6 | Eval 1210 | Time 1ms | I10 I11 J11 H9 F9\nMESSAGE Depth 7-6 | Eval 1210 | Time 2ms | I10 I11 J11 H9 F9\nMESSAGE Depth 8-13 | Eval +M13 | Time 5ms | F9 E10 F7 F10 I10 H9 I6 J5\nMESSAGE Depth 9-9 | Eval +M11 | Time 7ms | F9 E10 H8 I8 F7 F10\nMESSAGE Depth 10-7 | Eval +M11 | Time 8ms | F9 E10 H8 I8 F7 F10\nMESSAGE Depth 11-7 | Eval +M11 | Time 11ms | F9 E10 H8 I8 F7 F10\nMESSAGE Depth 12-7 | Eval +M11 | Time 14ms | F9 E10 H8 I8 F7 F10\nMESSAGE Depth 13-7 | Eval +M11 | Time 18ms | F9 E10 H8 I8 F7 F10\nMESSAGE Depth 14-7 | Eval +M11 | Time 25ms | F9 E10 H8 I8 F7 F10\nMESSAGE Depth 15-7 | Eval +M11 | Time 33ms | F9 E10 H8 I8 F7 F10\nMESSAGE Depth 16-7 | Eval +M11 | Time 45ms | F9 E10 H8 I8 F7 F10\nMESSAGE Depth 17-7 | Eval +M11 | Time 61ms | F9 E10 H8 I8 F7 F10\nMESSAGE Depth 18-7 | Eval +M11 | Time 79ms | F9 E10 H8 I8 F7 F10\nMESSAGE Depth 19-7 | Eval +M11 | Time 106ms | F9 E10 H8 I8 F7 F10\nMESSAGE Depth 20-7 | Eval +M11 | Time 135ms | F9 E10 H8 I8 F7 F10\nMESSAGE Depth 21-7 | Eval +M11 | Time 174ms | F9 E10 H8 I8 F7 F10\nMESSAGE Depth 22-7 | Eval +M11 | Time 219ms | F9 E10 H8 I8 F7 F10\nMESSAGE Depth 22-7 | Eval +M11 | Time 272ms | F9 E10 H8 I8 F7 F10\nMESSAGE Speed 410K | Depth 22-7 | Eval +M11 | Node 111K | Time 272ms\n5,8\n",
+        "wall_budget_requested_ms": 300,
+        "xy": [
+          5,
+          8
+        ]
+      },
+      "rule": 0,
+      "stability_600ms": {
+        "compatible_weight_reported": true,
+        "elapsed_wall_ms": 706.0175689985044,
+        "engine_error_messages": [],
+        "flat_action": 125,
+        "loaded_expected_weight_name": "mix9svqfreestyle_bsmix.bin.lz4",
+        "saw_loaded_nnue": true,
+        "status": "OK",
+        "stdout_prefix": "MESSAGE Load config from \"config.toml\"\nMESSAGE Evaluator set to mix9svq.\nOK\nMESSAGE mix9svq nnue: load weight from mix9svqfreestyle_bsmix.bin.lz4\nMESSAGE OptiTime 513ms | MaxTime 570ms\nMESSAGE Depth 2-3 | Eval 1126 | Time 1ms | I10 I11\nMESSAGE Depth 3-4 | Eval 1027 | Time 1ms | I10 I11 J11\nMESSAGE Depth 4-4 | Eval 1027 | Time 1ms | I10 I11 J11\nMESSAGE Depth 5-5 | Eval 263 | Time 1ms | I10 I11 H9\nMESSAGE Depth 6-6 | Eval 1210 | Time 2ms | I10 I11 J11 H9 F9\nMESSAGE Depth 7-6 | Eval 1210 | Time 2ms | I10 I11 J11 H9 F9\nMESSAGE Depth 8-13 | Eval +M13 | Time 5ms | F9 E10 F7 F10 I10 H9 I6 J5\nMESSAGE Depth 9-9 | Eval +M11 | Time 7ms | F9 E10 H8 I8 F7 F10\nMESSAGE Depth 10-7 | Eval +M11 | Time 9ms | F9 E10 H8 I8 F7 F10\nMESSAGE Depth 11-7 | Eval +M11 | Time 11ms | F9 E10 H8 I8 F7 F10\nMESSAGE Depth 12-7 | Eval +M11 | Time 15ms | F9 E10 H8 I8 F7 F10\nMESSAGE Depth 13-7 | Eval +M11 | Time 20ms | F9 E10 H8 I8 F7 F10\nMESSAGE Depth 14-7 | Eval +M11 | Time 28ms | F9 E10 H8 I8 F7 F10\nMESSAGE Depth 15-7 | Eval +M11 | Time 36ms | F9 E10 H8 I8 F7 F10\nMESSAGE Depth 16-7 | Eval +M11 | Time 47ms | F9 E10 H8 I8 F7 F10\nMESSAGE Depth 17-7 | Eval +M11 | Time 63ms | F9 E10 H8 I8 F7 F10\nMESSAGE Depth 18-7 | Eval +M11 | Time 81ms | F9 E10 H8 I8 F7 F10\nMESSAGE Depth 19-7 | Eval +M11 | Time 105ms | F9 E10 H8 I8 F7 F10\nMESSAGE Depth 20-7 | Eval +M11 | Time 134ms | F9 E10 H8 I8 F7 F10\nMESSAGE Depth 21-7 | Eval +M11 | Time 172ms | F9 E10 H8 I8 F7 F10\nMESSAGE Depth 22-7 | Eval +M11 | Time 220ms | F9 E10 H8 I8 F7 F10\nMESSAGE Depth 23-7 | Eval +M11 | Time 282ms | F9 E10 H8 I8 F7 F10\nMESSAGE Depth 24-7 | Eval +M11 | Time 354ms | F9 E10 H8 I8 F7 F10\nMESSAGE Depth 25-7 | Eval +M11 | Time 437ms | F9 E10 H8 I8 F7 F10\nMESSAGE Depth 26-7 | Eval +M11 | Time 543ms | F9 E10 H8 I8 F7 F10\nMESSAGE Speed 418K | Depth 26-7 | Eval +M11 | Node 227K | Time 543ms\n5,8\n",
+        "wall_budget_requested_ms": 600,
+        "xy": [
+          5,
+          8
+        ]
+      },
+      "stratum": "neutral"
+    },
+    {
+      "both_budgets_same_action": true,
+      "history": [
+        143,
+        175,
+        127,
+        113,
+        204,
+        141,
+        172,
+        144,
+        125,
+        81,
+        140,
+        96,
+        220
+      ],
+      "id": "C14_neutral_11",
+      "reference_300ms": {
+        "compatible_weight_reported": true,
+        "elapsed_wall_ms": 410.83920099481475,
+        "engine_error_messages": [],
+        "flat_action": 128,
+        "loaded_expected_weight_name": "mix9svqfreestyle_bsmix.bin.lz4",
+        "saw_loaded_nnue": true,
+        "status": "OK",
+        "stdout_prefix": "MESSAGE Load config from \"config.toml\"\nMESSAGE Evaluator set to mix9svq.\nOK\nMESSAGE mix9svq nnue: load weight from mix9svqfreestyle_bsmix.bin.lz4\nMESSAGE OptiTime 243ms | MaxTime 270ms\nMESSAGE Depth 2-7 | Eval -184 | Time 2ms | I9 H8\nMESSAGE Depth 3-10 | Eval -128 | Time 2ms | G11 F7\nMESSAGE Depth 4-7 | Eval -209 | Time 2ms | J8 H8 G9 G8\nMESSAGE Depth 5-12 | Eval -741 | Time 4ms | I9 H8 G11 G9 I7\nMESSAGE Depth 6-12 | Eval -741 | Time 4ms | I9 H8 G11 G9 I7\nMESSAGE Depth 7-12 | Eval -741 | Time 4ms | I9 H8 G11 G9 I7\nMESSAGE Depth 8-14 | Eval -718 | Time 5ms | I9 H8 G11 G9 I7 H10 H11 F8\nMESSAGE Depth 9-12 | Eval -M16 | Time 14ms | I9 H8 I7 H11 H10 G11 I13 E9 D8 G9 D9\nMESSAGE Depth 10-12 | Eval -M16 | Time 15ms | I9 H8 I7 H11 H10 G11 I13 E9 D8 G9 D9\nMESSAGE Depth 11-12 | Eval -M16 | Time 16ms | I9 H8 I7 H11 H10 G11 I13 E9 D8 G9 D9\nMESSAGE Depth 12-12 | Eval -M16 | Time 18ms | I9 H8 I7 H11 H10 G11 I13 E9 D8 G9 D9\nMESSAGE Depth 13-12 | Eval -M14 | Time 20ms | I9 H8 I7 G9 E9 G11 I13 H11 H10\nMESSAGE Depth 14-10 | Eval -M14 | Time 22ms | I9 H8 I7 G9 E9 G11 I13 H11 H10\nMESSAGE Depth 15-10 | Eval -M14 | Time 24ms | I9 H8 I7 G9 E9 G11 I13 H11 H10\nMESSAGE Depth 16-10 | Eval -M14 | Time 27ms | I9 H8 I7 G9 E9 G11 I13 H11 H10\nMESSAGE Depth 17-10 | Eval -M14 | Time 31ms | I9 H8 I7 G9 E9 G11 I13 H11 H10\nMESSAGE Depth 18-10 | Eval -M14 | Time 36ms | I9 H8 I7 G9 E9 G11 I13 H11 H10\nMESSAGE Depth 19-10 | Eval -M14 | Time 42ms | I9 H8 I7 G9 E9 G11 I13 H11 H10\nMESSAGE Depth 20-10 | Eval -M14 | Time 48ms | I9 H8 I7 G9 E9 G11 I13 H11 H10\nMESSAGE Depth 21-10 | Eval -M14 | Time 56ms | I9 H8 I7 G9 E9 G11 I13 H11 H10\nMESSAGE Depth 22-10 | Eval -M14 | Time 66ms | I9 H8 I7 G9 E9 G11 I13 H11 H10\nMESSAGE Depth 23-10 | Eval -M14 | Time 77ms | I9 H8 I7 G9 E9 G11 I13 H11 H10\nMESSAGE Depth 24-10 | Eval -M14 | Time 90ms | I9 H8 I7 G9 E9 G11 I13 H11 H10\nMESSAGE Depth 25-10 | Eval -M14 | Time 106ms | I9 H8 I7 G9 E9 G11 I13 H11 H10\nMESSAGE Depth 26-10 | Eval -M14 | Time 124ms | I9 H8 I7 G9 E9 G11 I13 H11 H10\nMESSAGE Depth 27-10 | Eval -M14 | Time 146ms | I9 H8 I7 G9 E9 G11 I13 H11 H10\nMESSAGE Depth 28-10 | Eval -M14 | Time 171ms | I9 H8 I7 G9 E9 G11 I13 H11 H10\nMESSAGE Depth 29-10 | Eval -M14 | Time 197ms | I9 H8 I7 G9 E9 G11 I13 H11 H10\nMESSAGE Depth 30-10 | Eval -M14 | Time 226ms | I9 H8 I7 G9 E9 G11 I13 H11 H10\nMESSAGE Depth 31-10 | Eval -M14 | Time 267ms | I9 H8 I7 G9 E9 G11 I13 H11 H10\nMESSAGE Speed 664K | Depth 31-10 | Eval -M14 | Node 177K | Time 267ms\n8,8\n",
+        "wall_budget_requested_ms": 300,
+        "xy": [
+          8,
+          8
+        ]
+      },
+      "rule": 0,
+      "stability_600ms": {
+        "compatible_weight_reported": true,
+        "elapsed_wall_ms": 522.4650929885684,
+        "engine_error_messages": [],
+        "flat_action": 128,
+        "loaded_expected_weight_name": "mix9svqfreestyle_bsmix.bin.lz4",
+        "saw_loaded_nnue": true,
+        "status": "OK",
+        "stdout_prefix": "MESSAGE Load config from \"config.toml\"\nMESSAGE Evaluator set to mix9svq.\nOK\nMESSAGE mix9svq nnue: load weight from mix9svqfreestyle_bsmix.bin.lz4\nMESSAGE OptiTime 513ms | MaxTime 570ms\nMESSAGE Depth 2-7 | Eval -184 | Time 2ms | I9 H8\nMESSAGE Depth 3-10 | Eval -128 | Time 2ms | G11 F7\nMESSAGE Depth 4-7 | Eval -209 | Time 2ms | J8 H8 G9 G8\nMESSAGE Depth 5-12 | Eval -741 | Time 5ms | I9 H8 G11 G9 I7\nMESSAGE Depth 6-12 | Eval -741 | Time 5ms | I9 H8 G11 G9 I7\nMESSAGE Depth 7-12 | Eval -741 | Time 5ms | I9 H8 G11 G9 I7\nMESSAGE Depth 8-14 | Eval -718 | Time 5ms | I9 H8 G11 G9 I7 H10 H11 F8\nMESSAGE Depth 9-12 | Eval -M16 | Time 15ms | I9 H8 I7 H11 H10 G11 I13 E9 D8 G9 D9\nMESSAGE Depth 10-12 | Eval -M16 | Time 16ms | I9 H8 I7 H11 H10 G11 I13 E9 D8 G9 D9\nMESSAGE Depth 11-12 | Eval -M16 | Time 17ms | I9 H8 I7 H11 H10 G11 I13 E9 D8 G9 D9\nMESSAGE Depth 12-12 | Eval -M16 | Time 18ms | I9 H8 I7 H11 H10 G11 I13 E9 D8 G9 D9\nMESSAGE Depth 13-12 | Eval -M14 | Time 21ms | I9 H8 I7 G9 E9 G11 I13 H11 H10\nMESSAGE Depth 14-10 | Eval -M14 | Time 22ms | I9 H8 I7 G9 E9 G11 I13 H11 H10\nMESSAGE Depth 15-10 | Eval -M14 | Time 25ms | I9 H8 I7 G9 E9 G11 I13 H11 H10\nMESSAGE Depth 16-10 | Eval -M14 | Time 28ms | I9 H8 I7 G9 E9 G11 I13 H11 H10\nMESSAGE Depth 17-10 | Eval -M14 | Time 32ms | I9 H8 I7 G9 E9 G11 I13 H11 H10\nMESSAGE Depth 18-10 | Eval -M14 | Time 37ms | I9 H8 I7 G9 E9 G11 I13 H11 H10\nMESSAGE Depth 19-10 | Eval -M14 | Time 43ms | I9 H8 I7 G9 E9 G11 I13 H11 H10\nMESSAGE Depth 20-10 | Eval -M14 | Time 50ms | I9 H8 I7 G9 E9 G11 I13 H11 H10\nMESSAGE Depth 21-10 | Eval -M14 | Time 58ms | I9 H8 I7 G9 E9 G11 I13 H11 H10\nMESSAGE Depth 22-10 | Eval -M14 | Time 69ms | I9 H8 I7 G9 E9 G11 I13 H11 H10\nMESSAGE Depth 23-10 | Eval -M14 | Time 81ms | I9 H8 I7 G9 E9 G11 I13 H11 H10\nMESSAGE Depth 24-10 | Eval -M14 | Time 95ms | I9 H8 I7 G9 E9 G11 I13 H11 H10\nMESSAGE Depth 25-10 | Eval -M14 | Time 111ms | I9 H8 I7 G9 E9 G11 I13 H11 H10\nMESSAGE Depth 26-10 | Eval -M14 | Time 129ms | I9 H8 I7 G9 E9 G11 I13 H11 H10\nMESSAGE Depth 27-10 | Eval -M14 | Time 150ms | I9 H8 I7 G9 E9 G11 I13 H11 H10\nMESSAGE Depth 28-10 | Eval -M14 | Time 175ms | I9 H8 I7 G9 E9 G11 I13 H11 H10\nMESSAGE Depth 29-10 | Eval -M14 | Time 202ms | I9 H8 I7 G9 E9 G11 I13 H11 H10\nMESSAGE Depth 30-10 | Eval -M14 | Time 230ms | I9 H8 I7 G9 E9 G11 I13 H11 H10\nMESSAGE Depth 31-10 | Eval -M14 | Time 270ms | I9 H8 I7 G9 E9 G11 I13 H11 H10\nMESSAGE Depth 32-10 | Eval -M14 | Time 318ms | I9 H8 I7 G9 E9 G11 I13 H11 H10\nMESSAGE Depth 33-10 | Eval -M14 | Time 375ms | I9 H8 I7 G9 E9 G11 I13 H11 H10\nMESSAGE Speed 660K | Depth 33-10 | Eval -M14 | Node 247K | Time 375ms\n8,8\n",
+        "wall_budget_requested_ms": 600,
+        "xy": [
+          8,
+          8
+        ]
+      },
+      "stratum": "neutral"
+    },
+    {
+      "both_budgets_same_action": true,
+      "history": [
+        31,
+        160,
+        32,
+        177,
+        33,
+        190,
+        34,
+        207
+      ],
+      "id": "C14_tactical_stress_00",
+      "reference_300ms": {
+        "compatible_weight_reported": true,
+        "elapsed_wall_ms": 144.2581750015961,
+        "engine_error_messages": [],
+        "flat_action": 30,
+        "loaded_expected_weight_name": "mix9svqfreestyle_bsmix.bin.lz4",
+        "saw_loaded_nnue": true,
+        "status": "OK",
+        "stdout_prefix": "MESSAGE Load config from \"config.toml\"\nMESSAGE Evaluator set to mix9svq.\nOK\nMESSAGE mix9svq nnue: load weight from mix9svqfreestyle_bsmix.bin.lz4\n0,2\n",
+        "wall_budget_requested_ms": 300,
+        "xy": [
+          0,
+          2
+        ]
+      },
+      "rule": 0,
+      "stability_600ms": {
+        "compatible_weight_reported": true,
+        "elapsed_wall_ms": 141.91975300491322,
+        "engine_error_messages": [],
+        "flat_action": 30,
+        "loaded_expected_weight_name": "mix9svqfreestyle_bsmix.bin.lz4",
+        "saw_loaded_nnue": true,
+        "status": "OK",
+        "stdout_prefix": "MESSAGE Load config from \"config.toml\"\nMESSAGE Evaluator set to mix9svq.\nOK\nMESSAGE mix9svq nnue: load weight from mix9svqfreestyle_bsmix.bin.lz4\n0,2\n",
+        "wall_budget_requested_ms": 600,
+        "xy": [
+          0,
+          2
+        ]
+      },
+      "stratum": "tactical_stress"
+    },
+    {
+      "both_budgets_same_action": true,
+      "history": [
+        67,
+        193,
+        95,
+        192,
+        122,
+        191,
+        171,
+        190,
+        33
+      ],
+      "id": "C14_tactical_stress_01",
+      "reference_300ms": {
+        "compatible_weight_reported": true,
+        "elapsed_wall_ms": 145.0541670055827,
+        "engine_error_messages": [],
+        "flat_action": 189,
+        "loaded_expected_weight_name": "mix9svqfreestyle_bsmix.bin.lz4",
+        "saw_loaded_nnue": true,
+        "status": "OK",
+        "stdout_prefix": "MESSAGE Load config from \"config.toml\"\nMESSAGE Evaluator set to mix9svq.\nOK\nMESSAGE mix9svq nnue: load weight from mix9svqfreestyle_bsmix.bin.lz4\n9,12\n",
+        "wall_budget_requested_ms": 300,
+        "xy": [
+          9,
+          12
+        ]
+      },
+      "rule": 0,
+      "stability_600ms": {
+        "compatible_weight_reported": true,
+        "elapsed_wall_ms": 151.1032679991331,
+        "engine_error_messages": [],
+        "flat_action": 189,
+        "loaded_expected_weight_name": "mix9svqfreestyle_bsmix.bin.lz4",
+        "saw_loaded_nnue": true,
+        "status": "OK",
+        "stdout_prefix": "MESSAGE Load config from \"config.toml\"\nMESSAGE Evaluator set to mix9svq.\nOK\nMESSAGE mix9svq nnue: load weight from mix9svqfreestyle_bsmix.bin.lz4\n9,12\n",
+        "wall_budget_requested_ms": 600,
+        "xy": [
+          9,
+          12
+        ]
+      },
+      "stratum": "tactical_stress"
+    },
+    {
+      "both_budgets_same_action": true,
+      "history": [
+        27,
+        154,
+        42,
+        183,
+        57,
+        152,
+        72,
+        181
+      ],
+      "id": "C14_tactical_stress_02",
+      "reference_300ms": {
+        "compatible_weight_reported": true,
+        "elapsed_wall_ms": 145.77297499636188,
+        "engine_error_messages": [],
+        "flat_action": 12,
+        "loaded_expected_weight_name": "mix9svqfreestyle_bsmix.bin.lz4",
+        "saw_loaded_nnue": true,
+        "status": "OK",
+        "stdout_prefix": "MESSAGE Load config from \"config.toml\"\nMESSAGE Evaluator set to mix9svq.\nOK\nMESSAGE mix9svq nnue: load weight from mix9svqfreestyle_bsmix.bin.lz4\n12,0\n",
+        "wall_budget_requested_ms": 300,
+        "xy": [
+          12,
+          0
+        ]
+      },
+      "rule": 0,
+      "stability_600ms": {
+        "compatible_weight_reported": true,
+        "elapsed_wall_ms": 152.25474299222697,
+        "engine_error_messages": [],
+        "flat_action": 12,
+        "loaded_expected_weight_name": "mix9svqfreestyle_bsmix.bin.lz4",
+        "saw_loaded_nnue": true,
+        "status": "OK",
+        "stdout_prefix": "MESSAGE Load config from \"config.toml\"\nMESSAGE Evaluator set to mix9svq.\nOK\nMESSAGE mix9svq nnue: load weight from mix9svqfreestyle_bsmix.bin.lz4\n12,0\n",
+        "wall_budget_requested_ms": 600,
+        "xy": [
+          12,
+          0
+        ]
+      },
+      "stratum": "tactical_stress"
+    },
+    {
+      "both_budgets_same_action": true,
+      "history": [
+        115,
+        197,
+        83,
+        182,
+        36,
+        167,
+        93,
+        152,
+        57
+      ],
+      "id": "C14_tactical_stress_03",
+      "reference_300ms": {
+        "compatible_weight_reported": true,
+        "elapsed_wall_ms": 144.21946099901106,
+        "engine_error_messages": [],
+        "flat_action": 137,
+        "loaded_expected_weight_name": "mix9svqfreestyle_bsmix.bin.lz4",
+        "saw_loaded_nnue": true,
+        "status": "OK",
+        "stdout_prefix": "MESSAGE Load config from \"config.toml\"\nMESSAGE Evaluator set to mix9svq.\nOK\nMESSAGE mix9svq nnue: load weight from mix9svqfreestyle_bsmix.bin.lz4\n2,9\n",
+        "wall_budget_requested_ms": 300,
+        "xy": [
+          2,
+          9
+        ]
+      },
+      "rule": 0,
+      "stability_600ms": {
+        "compatible_weight_reported": true,
+        "elapsed_wall_ms": 142.6958090014523,
+        "engine_error_messages": [],
+        "flat_action": 137,
+        "loaded_expected_weight_name": "mix9svqfreestyle_bsmix.bin.lz4",
+        "saw_loaded_nnue": true,
+        "status": "OK",
+        "stdout_prefix": "MESSAGE Load config from \"config.toml\"\nMESSAGE Evaluator set to mix9svq.\nOK\nMESSAGE mix9svq nnue: load weight from mix9svqfreestyle_bsmix.bin.lz4\n2,9\n",
+        "wall_budget_requested_ms": 600,
+        "xy": [
+          2,
+          9
+        ]
+      },
+      "stratum": "tactical_stress"
+    },
+    {
+      "both_budgets_same_action": true,
+      "history": [
+        193,
+        64,
+        192,
+        47,
+        191,
+        34,
+        190,
+        17
+      ],
+      "id": "C14_tactical_stress_04",
+      "reference_300ms": {
+        "compatible_weight_reported": true,
+        "elapsed_wall_ms": 143.31170699733775,
+        "engine_error_messages": [],
+        "flat_action": 189,
+        "loaded_expected_weight_name": "mix9svqfreestyle_bsmix.bin.lz4",
+        "saw_loaded_nnue": true,
+        "status": "OK",
+        "stdout_prefix": "MESSAGE Load config from \"config.toml\"\nMESSAGE Evaluator set to mix9svq.\nOK\nMESSAGE mix9svq nnue: load weight from mix9svqfreestyle_bsmix.bin.lz4\n9,12\n",
+        "wall_budget_requested_ms": 300,
+        "xy": [
+          9,
+          12
+        ]
+      },
+      "rule": 0,
+      "stability_600ms": {
+        "compatible_weight_reported": true,
+        "elapsed_wall_ms": 142.3114560020622,
+        "engine_error_messages": [],
+        "flat_action": 189,
+        "loaded_expected_weight_name": "mix9svqfreestyle_bsmix.bin.lz4",
+        "saw_loaded_nnue": true,
+        "status": "OK",
+        "stdout_prefix": "MESSAGE Load config from \"config.toml\"\nMESSAGE Evaluator set to mix9svq.\nOK\nMESSAGE mix9svq nnue: load weight from mix9svqfreestyle_bsmix.bin.lz4\n9,12\n",
+        "wall_budget_requested_ms": 600,
+        "xy": [
+          9,
+          12
+        ]
+      },
+      "stratum": "tactical_stress"
+    },
+    {
+      "both_budgets_same_action": true,
+      "history": [
+        157,
+        31,
+        129,
+        32,
+        102,
+        33,
+        53,
+        34,
+        191
+      ],
+      "id": "C14_tactical_stress_05",
+      "reference_300ms": {
+        "compatible_weight_reported": true,
+        "elapsed_wall_ms": 143.78008600033354,
+        "engine_error_messages": [],
+        "flat_action": 30,
+        "loaded_expected_weight_name": "mix9svqfreestyle_bsmix.bin.lz4",
+        "saw_loaded_nnue": true,
+        "status": "OK",
+        "stdout_prefix": "MESSAGE Load config from \"config.toml\"\nMESSAGE Evaluator set to mix9svq.\nOK\nMESSAGE mix9svq nnue: load weight from mix9svqfreestyle_bsmix.bin.lz4\n0,2\n",
+        "wall_budget_requested_ms": 300,
+        "xy": [
+          0,
+          2
+        ]
+      },
+      "rule": 0,
+      "stability_600ms": {
+        "compatible_weight_reported": true,
+        "elapsed_wall_ms": 143.55237199924886,
+        "engine_error_messages": [],
+        "flat_action": 30,
+        "loaded_expected_weight_name": "mix9svqfreestyle_bsmix.bin.lz4",
+        "saw_loaded_nnue": true,
+        "status": "OK",
+        "stdout_prefix": "MESSAGE Load config from \"config.toml\"\nMESSAGE Evaluator set to mix9svq.\nOK\nMESSAGE mix9svq nnue: load weight from mix9svqfreestyle_bsmix.bin.lz4\n0,2\n",
+        "wall_budget_requested_ms": 600,
+        "xy": [
+          0,
+          2
+        ]
+      },
+      "stratum": "tactical_stress"
+    },
+    {
+      "both_budgets_same_action": true,
+      "history": [
+        197,
+        70,
+        182,
+        41,
+        167,
+        72,
+        152,
+        43
+      ],
+      "id": "C14_tactical_stress_06",
+      "reference_300ms": {
+        "compatible_weight_reported": true,
+        "elapsed_wall_ms": 144.17373300238978,
+        "engine_error_messages": [],
+        "flat_action": 137,
+        "loaded_expected_weight_name": "mix9svqfreestyle_bsmix.bin.lz4",
+        "saw_loaded_nnue": true,
+        "status": "OK",
+        "stdout_prefix": "MESSAGE Load config from \"config.toml\"\nMESSAGE Evaluator set to mix9svq.\nOK\nMESSAGE mix9svq nnue: load weight from mix9svqfreestyle_bsmix.bin.lz4\n2,9\n",
+        "wall_budget_requested_ms": 300,
+        "xy": [
+          2,
+          9
+        ]
+      },
+      "rule": 0,
+      "stability_600ms": {
+        "compatible_weight_reported": true,
+        "elapsed_wall_ms": 142.2488819953287,
+        "engine_error_messages": [],
+        "flat_action": 137,
+        "loaded_expected_weight_name": "mix9svqfreestyle_bsmix.bin.lz4",
+        "saw_loaded_nnue": true,
+        "status": "OK",
+        "stdout_prefix": "MESSAGE Load config from \"config.toml\"\nMESSAGE Evaluator set to mix9svq.\nOK\nMESSAGE mix9svq nnue: load weight from mix9svqfreestyle_bsmix.bin.lz4\n2,9\n",
+        "wall_budget_requested_ms": 600,
+        "xy": [
+          2,
+          9
+        ]
+      },
+      "stratum": "tactical_stress"
+    },
+    {
+      "both_budgets_same_action": true,
+      "history": [
+        109,
+        27,
+        141,
+        42,
+        188,
+        57,
+        131,
+        72,
+        167
+      ],
+      "id": "C14_tactical_stress_07",
+      "reference_300ms": {
+        "compatible_weight_reported": true,
+        "elapsed_wall_ms": 142.0509919989854,
+        "engine_error_messages": [],
+        "flat_action": 12,
+        "loaded_expected_weight_name": "mix9svqfreestyle_bsmix.bin.lz4",
+        "saw_loaded_nnue": true,
+        "status": "OK",
+        "stdout_prefix": "MESSAGE Load config from \"config.toml\"\nMESSAGE Evaluator set to mix9svq.\nOK\nMESSAGE mix9svq nnue: load weight from mix9svqfreestyle_bsmix.bin.lz4\n12,0\n",
+        "wall_budget_requested_ms": 300,
+        "xy": [
+          12,
+          0
+        ]
+      },
+      "rule": 0,
+      "stability_600ms": {
+        "compatible_weight_reported": true,
+        "elapsed_wall_ms": 143.07582800392993,
+        "engine_error_messages": [],
+        "flat_action": 12,
+        "loaded_expected_weight_name": "mix9svqfreestyle_bsmix.bin.lz4",
+        "saw_loaded_nnue": true,
+        "status": "OK",
+        "stdout_prefix": "MESSAGE Load config from \"config.toml\"\nMESSAGE Evaluator set to mix9svq.\nOK\nMESSAGE mix9svq nnue: load weight from mix9svqfreestyle_bsmix.bin.lz4\n12,0\n",
+        "wall_budget_requested_ms": 600,
+        "xy": [
+          12,
+          0
+        ]
+      },
+      "stratum": "tactical_stress"
+    },
+    {
+      "both_budgets_same_action": true,
+      "history": [
+        32,
+        161,
+        33,
+        178,
+        34,
+        191,
+        35,
+        208
+      ],
+      "id": "C14_tactical_stress_08",
+      "reference_300ms": {
+        "compatible_weight_reported": true,
+        "elapsed_wall_ms": 147.28147999267094,
+        "engine_error_messages": [],
+        "flat_action": 31,
+        "loaded_expected_weight_name": "mix9svqfreestyle_bsmix.bin.lz4",
+        "saw_loaded_nnue": true,
+        "status": "OK",
+        "stdout_prefix": "MESSAGE Load config from \"config.toml\"\nMESSAGE Evaluator set to mix9svq.\nOK\nMESSAGE mix9svq nnue: load weight from mix9svqfreestyle_bsmix.bin.lz4\n1,2\n",
+        "wall_budget_requested_ms": 300,
+        "xy": [
+          1,
+          2
+        ]
+      },
+      "rule": 0,
+      "stability_600ms": {
+        "compatible_weight_reported": true,
+        "elapsed_wall_ms": 144.34131199959666,
+        "engine_error_messages": [],
+        "flat_action": 31,
+        "loaded_expected_weight_name": "mix9svqfreestyle_bsmix.bin.lz4",
+        "saw_loaded_nnue": true,
+        "status": "OK",
+        "stdout_prefix": "MESSAGE Load config from \"config.toml\"\nMESSAGE Evaluator set to mix9svq.\nOK\nMESSAGE mix9svq nnue: load weight from mix9svqfreestyle_bsmix.bin.lz4\n1,2\n",
+        "wall_budget_requested_ms": 600,
+        "xy": [
+          1,
+          2
+        ]
+      },
+      "stratum": "tactical_stress"
+    },
+    {
+      "both_budgets_same_action": true,
+      "history": [
+        68,
+        194,
+        96,
+        193,
+        123,
+        192,
+        172,
+        191,
+        34
+      ],
+      "id": "C14_tactical_stress_09",
+      "reference_300ms": {
+        "compatible_weight_reported": true,
+        "elapsed_wall_ms": 142.40056299604475,
+        "engine_error_messages": [],
+        "flat_action": 190,
+        "loaded_expected_weight_name": "mix9svqfreestyle_bsmix.bin.lz4",
+        "saw_loaded_nnue": true,
+        "status": "OK",
+        "stdout_prefix": "MESSAGE Load config from \"config.toml\"\nMESSAGE Evaluator set to mix9svq.\nOK\nMESSAGE mix9svq nnue: load weight from mix9svqfreestyle_bsmix.bin.lz4\n10,12\n",
+        "wall_budget_requested_ms": 300,
+        "xy": [
+          10,
+          12
+        ]
+      },
+      "rule": 0,
+      "stability_600ms": {
+        "compatible_weight_reported": true,
+        "elapsed_wall_ms": 145.70627399371006,
+        "engine_error_messages": [],
+        "flat_action": 190,
+        "loaded_expected_weight_name": "mix9svqfreestyle_bsmix.bin.lz4",
+        "saw_loaded_nnue": true,
+        "status": "OK",
+        "stdout_prefix": "MESSAGE Load config from \"config.toml\"\nMESSAGE Evaluator set to mix9svq.\nOK\nMESSAGE mix9svq nnue: load weight from mix9svqfreestyle_bsmix.bin.lz4\n10,12\n",
+        "wall_budget_requested_ms": 600,
+        "xy": [
+          10,
+          12
+        ]
+      },
+      "stratum": "tactical_stress"
+    },
+    {
+      "both_budgets_same_action": true,
+      "history": [
+        28,
+        155,
+        43,
+        184,
+        58,
+        153,
+        73,
+        182
+      ],
+      "id": "C14_tactical_stress_10",
+      "reference_300ms": {
+        "compatible_weight_reported": true,
+        "elapsed_wall_ms": 143.39726499747485,
+        "engine_error_messages": [],
+        "flat_action": 13,
+        "loaded_expected_weight_name": "mix9svqfreestyle_bsmix.bin.lz4",
+        "saw_loaded_nnue": true,
+        "status": "OK",
+        "stdout_prefix": "MESSAGE Load config from \"config.toml\"\nMESSAGE Evaluator set to mix9svq.\nOK\nMESSAGE mix9svq nnue: load weight from mix9svqfreestyle_bsmix.bin.lz4\n13,0\n",
+        "wall_budget_requested_ms": 300,
+        "xy": [
+          13,
+          0
+        ]
+      },
+      "rule": 0,
+      "stability_600ms": {
+        "compatible_weight_reported": true,
+        "elapsed_wall_ms": 141.59735599241685,
+        "engine_error_messages": [],
+        "flat_action": 13,
+        "loaded_expected_weight_name": "mix9svqfreestyle_bsmix.bin.lz4",
+        "saw_loaded_nnue": true,
+        "status": "OK",
+        "stdout_prefix": "MESSAGE Load config from \"config.toml\"\nMESSAGE Evaluator set to mix9svq.\nOK\nMESSAGE mix9svq nnue: load weight from mix9svqfreestyle_bsmix.bin.lz4\n13,0\n",
+        "wall_budget_requested_ms": 600,
+        "xy": [
+          13,
+          0
+        ]
+      },
+      "stratum": "tactical_stress"
+    },
+    {
+      "both_budgets_same_action": true,
+      "history": [
+        116,
+        198,
+        84,
+        183,
+        37,
+        168,
+        94,
+        153,
+        58
+      ],
+      "id": "C14_tactical_stress_11",
+      "reference_300ms": {
+        "compatible_weight_reported": true,
+        "elapsed_wall_ms": 146.10433400957845,
+        "engine_error_messages": [],
+        "flat_action": 138,
+        "loaded_expected_weight_name": "mix9svqfreestyle_bsmix.bin.lz4",
+        "saw_loaded_nnue": true,
+        "status": "OK",
+        "stdout_prefix": "MESSAGE Load config from \"config.toml\"\nMESSAGE Evaluator set to mix9svq.\nOK\nMESSAGE mix9svq nnue: load weight from mix9svqfreestyle_bsmix.bin.lz4\n3,9\n",
+        "wall_budget_requested_ms": 300,
+        "xy": [
+          3,
+          9
+        ]
+      },
+      "rule": 0,
+      "stability_600ms": {
+        "compatible_weight_reported": true,
+        "elapsed_wall_ms": 145.27022698894143,
+        "engine_error_messages": [],
+        "flat_action": 138,
+        "loaded_expected_weight_name": "mix9svqfreestyle_bsmix.bin.lz4",
+        "saw_loaded_nnue": true,
+        "status": "OK",
+        "stdout_prefix": "MESSAGE Load config from \"config.toml\"\nMESSAGE Evaluator set to mix9svq.\nOK\nMESSAGE mix9svq nnue: load weight from mix9svqfreestyle_bsmix.bin.lz4\n3,9\n",
+        "wall_budget_requested_ms": 600,
+        "xy": [
+          3,
+          9
+        ]
+      },
+      "stratum": "tactical_stress"
+    }
+  ],
+  "rule": "FREESTYLE_15",
+  "same_action_across_two_budgets_count": 23,
+  "schema": "quartz_cog04_highbranch14_public_trained_Rapfi_reference_v1",
+  "source_commit": "d449fb9c5a276d0e1318f522abdbf869b1a6ed4b",
+  "source_strata_24_sha256": "a744fa5166cb1cd54ec274128238649e7305a1ae3c4f15b894f35559602f5a9c",
+  "stability_600ms_status_counts": {
+    "OK": 24
+  },
+  "teacher_is_finite_depth_alpha_beta_not_exact_game_WDL": true
+}
