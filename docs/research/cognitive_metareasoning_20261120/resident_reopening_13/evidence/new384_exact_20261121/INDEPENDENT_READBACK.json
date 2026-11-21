@@ -1,0 +1,23 @@
+{
+  "all_384_independent_legal_and_optimal_actions_verified": true,
+  "cohort_sha256": "3b79dd2341e0e56405a2219f41fb0e28047bf642a7372f417f23513459450b31",
+  "decision_informative_WDL_by_cohort": {
+    "resident_A": 125,
+    "resident_B": 127
+  },
+  "labels_sha256": "73cf3b37ddbcc7f14298ee0634b760f5008bfb2194bd5cd5fc31dc24ceb1a817",
+  "n_frozen_roots": 384,
+  "n_new_mirror_disjoint_families": 24,
+  "n_re_solved_mirror": 24,
+  "n_re_solved_original": 24,
+  "oracle_only_posthoc_no_online_injection": true,
+  "root_WDL_counts": {
+    "resident_A/-1": 48,
+    "resident_A/0": 8,
+    "resident_A/1": 136,
+    "resident_B/-1": 41,
+    "resident_B/0": 12,
+    "resident_B/1": 139
+  },
+  "schema": "quartz_cog03_resident13_C07_independent_oracle_audit_v1"
+}
