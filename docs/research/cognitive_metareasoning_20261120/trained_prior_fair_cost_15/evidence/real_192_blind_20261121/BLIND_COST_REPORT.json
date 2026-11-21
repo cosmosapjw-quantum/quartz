@@ -1,0 +1,22 @@
+{
+  "cost_gate_mean_10pct_by_stratum": {
+    "test_natural": {
+      "abs_mismatch_rel_gated": 0.0001577264152314513,
+      "all_legal_mean_wall_us": 20080.125,
+      "cost_matched_10percent": true,
+      "gated_mean_wall_us": 20076.958333333332,
+      "uniform_all_legal_mean_wall_us": 20052.833333333332
+    },
+    "test_tactical": {
+      "abs_mismatch_rel_gated": 0.00016845257592064012,
+      "all_legal_mean_wall_us": 20031.9375,
+      "cost_matched_10percent": true,
+      "gated_mean_wall_us": 20035.3125,
+      "uniform_all_legal_mean_wall_us": 20039.875
+    }
+  },
+  "n_roots": 64,
+  "raw_file_sha256": "09dc3b61dce9f4fdf0ce387b67f2669ace9811718fb08ab2498df4628316e5af",
+  "schema": "quartz_cog05_C08_blind_summary_v1",
+  "teacher_test_labels_not_yet_opened": true
+}
