@@ -35,10 +35,12 @@ def main():
  if labels.exists():raise RuntimeError("test teacher labels already exist: blind Rust must execute first")
  cases=[(split,source) for split in ("test_natural","test_tactical")
                          for source in cohort["splits"][split]]
+ def arm_order(i):
+    return ARMS[i%3:]+ARMS[:i%3]
  requests=[{"cmd":"research_gomoku15_prior_cpu","rule":"freestyle",
             "history":src["history"],"arm":arm,"seed":17,"cpu_budget_us":20000,
             **({"model_path":str(model_file)} if arm!="uniform_all_legal" else {})}
-           for split,src in cases for arm in ARMS]
+           for i,(split,src) in enumerate(cases) for arm in arm_order(i)]
  payload="\n".join(json.dumps(q,separators=(",",":")) for q in requests+[{"cmd":"quit"}])+"\n"
  began=time.perf_counter()
  proc=subprocess.run([str(binary),"--server"],input=payload,text=True,
@@ -48,10 +50,10 @@ def main():
  outputs=[json.loads(row) for row in proc.stdout.splitlines() if row.strip()]
  if len(outputs)!=len(requests):raise RuntimeError(f"responses={len(outputs)} requests={len(requests)}")
  rows=[]
- for (split,src), k in zip(cases,range(0,len(outputs),3)):
+ for j,(split,src) in enumerate(cases):
     dct={}
-    for i,arm in enumerate(ARMS):
-       row=outputs[k+i]
+    for i,arm in enumerate(arm_order(j)):
+       row=outputs[3*j+i]
        if "error" in row:raise RuntimeError(f"actual Rust root failed on {src['id']} /{arm}: {row['error']}")
        if row["arm"]!=arm or row["history"]!=src["history"]:
           raise RuntimeError("misbound JSON response")
