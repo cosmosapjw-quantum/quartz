@@ -1,0 +1,21 @@
+# R2. Repository originals and primary mathematical literature
+
+## Local authoritative evidence (all files actually read)
+- docs/THESIS.md (frozen original): governing equation E[ΔR(B_t)|c]/cost(c), P1 single principle, P2 >=30% nn_evals_per_move *target* with non-inferior quality in a specific game test, P3 emergence and non-circular offline VOC-tightness criterion, P4 CPU gate. Explicit no game-pattern injection and all propositions specified/proposed, not already validated.
+- docs/BQ_PLUS_PLUS_DESIGN.md: exact knowledge-gradient sub-primitives, posterior confidence, candidate reservoir, staged engine integration explicitly deferred in early version. Its module catalog is not a completed composed policy proof.
+- docs/CLAIM_LEDGER.md: claim-state and evidence-type firewall; exploratory smoke tests are not a real adaptive search trial.
+- docs/RESEARCH_PLAN_PARTB.md: game-agnostic signature battery, VOC-tightness as offline external statistic, distinction between skill-invariant macro counts and skill-discriminating hypotheses. These remain hypotheses unless direct experiments establish the joint pattern.
+- docs/METACOGNITIVE_EXPERIMENTS.md; quartz/experiments/bernoulli_root.py and candidate_morphology.py: source-limited synthetic root selection, independent Beta-Bernoulli ranking, and additive decomposition into candidate omission and ranking regret. Important: neither is a general priced sequential Bellman decision model with arbitrary observation channels, state-dependent outcomes and multiple action costs.
+- docs/LOCAL_EXPERIMENT_LAB.md and docs/idea_foundry/01_control_policy.md: the 26-axis foundry has preflight/shadow capabilities, not automatic live-controller science. Generic SearchPolicy observation, immutable cache and O(1) hot-path requirements should remain unchanged.
+- Original April 9 commit 15f3a198... README documents a multi-game Rust MCTS plus Python learning system; the earliest project README already names a state-derived controller, not "become best Gomoku player". README does include Gomoku7 as first benchmark: one benchmark does not turn this into a Gomoku-specific objective.
+- November C15/C16 reports contain actual prior/CPU/TDD results for 15x15 Freestyle. Reuse *methodology* (isolation, paired compute budget, source locks and negative claims), not tactical rules as governing-law assumptions.
+File-specific commit and SHA256 values for all 11 documentary anchors are preserved in evidence/REPOSITORY_PROVENANCE.json, not invented in this prose. The GitHub pulls API returned zero actual PR objects for this repository; historical agent PR-labelled branches remain traceable as branch/commit evidence only.
+
+## Independent prior art (no novelty claims for these identities)
+- Russell & Wefald, "Principles of metareasoning", Artificial Intelligence 49 (1991), 361–395, DOI 10.1016/0004-3702(91)90015-C. Computation utility derives from effect on external action, with costs: https://www.sciencedirect.com/science/article/pii/000437029190015C
+- Hay, Russell, Tolpin, Shimony, "Selecting Computations: Theory and Applications", UAI 2012: https://proceedings.mlr.press/r10/hay12a.html ; develops Bayesian selection/metalevel policy, not bandit cumulative-regret objective.
+- Sezener & Dayan, "Static and Dynamic Values of Computation in MCTS", PMLR 2020: https://proceedings.mlr.press/v124/sezener20a.html . Distinguishes one-step and future-computation-aware valuations.
+- Callaway et al., "Learning to Select Computations", 2017+ Bayesian metalevel policy learning: https://arxiv.org/abs/1711.06892
+The finite Bellman equation and information-value nonnegativity are textbook decision theory and predate QUARTZ. This cycle's new *local outcome* is an exact original-registry counterexample and source-verified cross-domain reference/test contract, not a new optimal metareasoning theorem or externally established human mechanism.
+
+**Reuse policy:** original frozen documents stay immutable; construct an addendum explaining that a rate index G/cost is an admissible *scheduling heuristic* under appropriate throughput assumptions, but is not in general identical to the finite priced one-step net-optimal computation. Preserve this distinction rather than changing original project objective on authority alone.
