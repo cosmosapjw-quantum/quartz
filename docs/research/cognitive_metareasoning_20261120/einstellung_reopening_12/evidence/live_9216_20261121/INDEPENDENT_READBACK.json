@@ -1,0 +1,888 @@
+{
+  "WDL_changes_evidence_vs_sham": {
+    "('conv', 'better')": 15,
+    "('conv', 'same')": 369,
+    "('new_mlp', 'better')": 21,
+    "('new_mlp', 'same')": 363,
+    "('uniform', 'same')": 384
+  },
+  "all_Rust_oneply_tactical_evidence_rederived_from_gravity_game_rules": true,
+  "all_action_WDL_regret_cost_and_parent_trees_recomputed": true,
+  "all_current_root_priors_and_first_second_root_candidate_masks_recomputed": true,
+  "all_family_cluster_bootstrap_statistics_recomputed": true,
+  "all_true_online_trigger_and_random_reopen_seeds_checked": true,
+  "cohort_results": {
+    "pooled": {
+      "conv": {
+        "arms": {
+          "always_full_reopen": {
+            "decision_wall_ms": 0.8853697916666666,
+            "regret": 0.1171875
+          },
+          "closed_no_probe": {
+            "decision_wall_ms": 0.8819453125,
+            "regret": 0.2109375
+          },
+          "closed_sham": {
+            "decision_wall_ms": 0.91365625,
+            "regret": 0.2109375
+          },
+          "evidence_reopen": {
+            "decision_wall_ms": 0.8675260416666667,
+            "regret": 0.140625
+          },
+          "plain_full": {
+            "decision_wall_ms": 0.8883255208333334,
+            "regret": 0.1171875
+          },
+          "random_1": {
+            "decision_wall_ms": 0.8952682291666667,
+            "regret": 0.19270833333333334
+          },
+          "random_2": {
+            "decision_wall_ms": 0.9042239583333332,
+            "regret": 0.18229166666666666
+          },
+          "random_3": {
+            "decision_wall_ms": 0.8616536458333334,
+            "regret": 0.18489583333333334
+          }
+        },
+        "paired": {
+          "always_full_reopen": {
+            "CI95": [
+              -0.010416666666666666,
+              0.06510416666666667
+            ],
+            "cost_mismatch": 0.020568546813556195,
+            "delta": 0.0234375,
+            "match": "MATCHED_10_PERCENT"
+          },
+          "closed_sham": {
+            "CI95": [
+              -0.10677083333333333,
+              -0.036458333333333336
+            ],
+            "cost_mismatch": 0.0531744364062077,
+            "delta": -0.0703125,
+            "match": "MATCHED_10_PERCENT"
+          },
+          "plain_full": {
+            "CI95": [
+              -0.010416666666666666,
+              0.06510416666666667
+            ],
+            "cost_mismatch": 0.023975625131330138,
+            "delta": 0.0234375,
+            "match": "MATCHED_10_PERCENT"
+          },
+          "random_1": {
+            "CI95": [
+              -0.08072916666666667,
+              -0.0234375
+            ],
+            "cost_mismatch": 0.03197850688920243,
+            "delta": -0.05208333333333334,
+            "match": "MATCHED_10_PERCENT"
+          },
+          "random_2": {
+            "CI95": [
+              -0.06510416666666667,
+              -0.018229166666666668
+            ],
+            "cost_mismatch": 0.042301804100501175,
+            "delta": -0.04166666666666666,
+            "match": "MATCHED_10_PERCENT"
+          },
+          "random_3": {
+            "CI95": [
+              -0.07291666666666667,
+              -0.018229166666666668
+            ],
+            "cost_mismatch": 0.00676912916879295,
+            "delta": -0.04427083333333334,
+            "match": "MATCHED_10_PERCENT"
+          }
+        },
+        "posthoc_decisive_omission_count": 30,
+        "trigger_count": 54
+      },
+      "new_mlp": {
+        "arms": {
+          "always_full_reopen": {
+            "decision_wall_ms": 0.46171875,
+            "regret": 0.13020833333333334
+          },
+          "closed_no_probe": {
+            "decision_wall_ms": 0.4727838541666667,
+            "regret": 0.2578125
+          },
+          "closed_sham": {
+            "decision_wall_ms": 0.4682369791666667,
+            "regret": 0.2578125
+          },
+          "evidence_reopen": {
+            "decision_wall_ms": 0.4623880208333333,
+            "regret": 0.15364583333333334
+          },
+          "plain_full": {
+            "decision_wall_ms": 0.4819973958333333,
+            "regret": 0.13020833333333334
+          },
+          "random_1": {
+            "decision_wall_ms": 0.47208072916666666,
+            "regret": 0.21875
+          },
+          "random_2": {
+            "decision_wall_ms": 0.46686458333333336,
+            "regret": 0.22395833333333334
+          },
+          "random_3": {
+            "decision_wall_ms": 0.45644531250000003,
+            "regret": 0.2265625
+          }
+        },
+        "paired": {
+          "always_full_reopen": {
+            "CI95": [
+              -0.0078125,
+              0.059895833333333336
+            ],
+            "cost_mismatch": 0.0014474225178392499,
+            "delta": 0.0234375,
+            "match": "MATCHED_10_PERCENT"
+          },
+          "closed_sham": {
+            "CI95": [
+              -0.1484375,
+              -0.06510416666666667
+            ],
+            "cost_mismatch": 0.01264945904695403,
+            "delta": -0.10416666666666666,
+            "match": "MATCHED_10_PERCENT"
+          },
+          "plain_full": {
+            "CI95": [
+              -0.0078125,
+              0.059895833333333336
+            ],
+            "cost_mismatch": 0.042408916573269395,
+            "delta": 0.0234375,
+            "match": "MATCHED_10_PERCENT"
+          },
+          "random_1": {
+            "CI95": [
+              -0.1015625,
+              -0.03125
+            ],
+            "cost_mismatch": 0.020962282534622734,
+            "delta": -0.06510416666666666,
+            "match": "MATCHED_10_PERCENT"
+          },
+          "random_2": {
+            "CI95": [
+              -0.10677083333333333,
+              -0.036458333333333336
+            ],
+            "cost_mismatch": 0.009681398086248487,
+            "delta": -0.0703125,
+            "match": "MATCHED_10_PERCENT"
+          },
+          "random_3": {
+            "CI95": [
+              -0.11979166666666667,
+              -0.033854166666666664
+            ],
+            "cost_mismatch": 0.012852210839335961,
+            "delta": -0.07291666666666666,
+            "match": "MATCHED_10_PERCENT"
+          }
+        },
+        "posthoc_decisive_omission_count": 38,
+        "trigger_count": 79
+      },
+      "uniform": {
+        "arms": {
+          "always_full_reopen": {
+            "decision_wall_ms": 0.40222395833333335,
+            "regret": 0.23177083333333334
+          },
+          "closed_no_probe": {
+            "decision_wall_ms": 0.3986328125,
+            "regret": 0.3567708333333333
+          },
+          "closed_sham": {
+            "decision_wall_ms": 0.4294505208333333,
+            "regret": 0.3567708333333333
+          },
+          "evidence_reopen": {
+            "decision_wall_ms": 0.41011458333333334,
+            "regret": 0.3567708333333333
+          },
+          "plain_full": {
+            "decision_wall_ms": 0.3896119791666666,
+            "regret": 0.23177083333333334
+          },
+          "random_1": {
+            "decision_wall_ms": 0.3816927083333333,
+            "regret": 0.3567708333333333
+          },
+          "random_2": {
+            "decision_wall_ms": 0.37959114583333337,
+            "regret": 0.3567708333333333
+          },
+          "random_3": {
+            "decision_wall_ms": 0.39162760416666664,
+            "regret": 0.3567708333333333
+          }
+        },
+        "paired": {
+          "always_full_reopen": {
+            "CI95": [
+              0.041666666666666664,
+              0.21354166666666666
+            ],
+            "cost_mismatch": 0.019240049782835042,
+            "delta": 0.12499999999999997,
+            "match": "MATCHED_10_PERCENT"
+          },
+          "closed_sham": {
+            "CI95": [
+              0.0,
+              0.0
+            ],
+            "cost_mismatch": 0.04714764674506606,
+            "delta": 0.0,
+            "match": "MATCHED_10_PERCENT"
+          },
+          "plain_full": {
+            "CI95": [
+              0.041666666666666664,
+              0.21354166666666666
+            ],
+            "cost_mismatch": 0.049992380178303944,
+            "delta": 0.12499999999999997,
+            "match": "MATCHED_10_PERCENT"
+          },
+          "random_1": {
+            "CI95": [
+              0.0,
+              0.0
+            ],
+            "cost_mismatch": 0.06930227832668726,
+            "delta": 0.0,
+            "match": "MATCHED_10_PERCENT"
+          },
+          "random_2": {
+            "CI95": [
+              0.0,
+              0.0
+            ],
+            "cost_mismatch": 0.07442660841736297,
+            "delta": 0.0,
+            "match": "MATCHED_10_PERCENT"
+          },
+          "random_3": {
+            "CI95": [
+              0.0,
+              0.0
+            ],
+            "cost_mismatch": 0.045077595184272755,
+            "delta": 0.0,
+            "match": "MATCHED_10_PERCENT"
+          }
+        },
+        "posthoc_decisive_omission_count": 49,
+        "trigger_count": 30
+      }
+    },
+    "reopen_A": {
+      "conv": {
+        "arms": {
+          "always_full_reopen": {
+            "decision_wall_ms": 0.90315625,
+            "regret": 0.13541666666666666
+          },
+          "closed_no_probe": {
+            "decision_wall_ms": 0.9240885416666668,
+            "regret": 0.2552083333333333
+          },
+          "closed_sham": {
+            "decision_wall_ms": 0.9508229166666666,
+            "regret": 0.2552083333333333
+          },
+          "evidence_reopen": {
+            "decision_wall_ms": 0.9022916666666667,
+            "regret": 0.16666666666666666
+          },
+          "plain_full": {
+            "decision_wall_ms": 0.924046875,
+            "regret": 0.13541666666666666
+          },
+          "random_1": {
+            "decision_wall_ms": 0.9114375,
+            "regret": 0.23958333333333334
+          },
+          "random_2": {
+            "decision_wall_ms": 0.9512864583333333,
+            "regret": 0.21875
+          },
+          "random_3": {
+            "decision_wall_ms": 0.8970729166666667,
+            "regret": 0.22395833333333334
+          }
+        },
+        "paired": {
+          "always_full_reopen": {
+            "CI95": [
+              -0.036458333333333336,
+              0.109375
+            ],
+            "cost_mismatch": 0.0009582082659893194,
+            "delta": 0.03125,
+            "match": "MATCHED_10_PERCENT"
+          },
+          "closed_sham": {
+            "CI95": [
+              -0.15104166666666666,
+              -0.03125
+            ],
+            "cost_mismatch": 0.05378665435234347,
+            "delta": -0.08854166666666666,
+            "match": "MATCHED_10_PERCENT"
+          },
+          "plain_full": {
+            "CI95": [
+              -0.036458333333333336,
+              0.109375
+            ],
+            "cost_mismatch": 0.024111059801431536,
+            "delta": 0.03125,
+            "match": "MATCHED_10_PERCENT"
+          },
+          "random_1": {
+            "CI95": [
+              -0.125,
+              -0.026041666666666668
+            ],
+            "cost_mismatch": 0.0101362271992611,
+            "delta": -0.07291666666666669,
+            "match": "MATCHED_10_PERCENT"
+          },
+          "random_2": {
+            "CI95": [
+              -0.09375,
+              -0.015625
+            ],
+            "cost_mismatch": 0.05430039251904857,
+            "delta": -0.05208333333333334,
+            "match": "MATCHED_10_PERCENT"
+          },
+          "random_3": {
+            "CI95": [
+              -0.10416666666666667,
+              -0.015625
+            ],
+            "cost_mismatch": 0.005783883629646788,
+            "delta": -0.057291666666666685,
+            "match": "MATCHED_10_PERCENT"
+          }
+        },
+        "posthoc_decisive_omission_count": 19,
+        "trigger_count": 27
+      },
+      "new_mlp": {
+        "arms": {
+          "always_full_reopen": {
+            "decision_wall_ms": 0.485203125,
+            "regret": 0.140625
+          },
+          "closed_no_probe": {
+            "decision_wall_ms": 0.5090625,
+            "regret": 0.2552083333333333
+          },
+          "closed_sham": {
+            "decision_wall_ms": 0.47641145833333337,
+            "regret": 0.2552083333333333
+          },
+          "evidence_reopen": {
+            "decision_wall_ms": 0.4907447916666667,
+            "regret": 0.17708333333333334
+          },
+          "plain_full": {
+            "decision_wall_ms": 0.4930364583333333,
+            "regret": 0.140625
+          },
+          "random_1": {
+            "decision_wall_ms": 0.4926510416666667,
+            "regret": 0.24479166666666666
+          },
+          "random_2": {
+            "decision_wall_ms": 0.49238020833333335,
+            "regret": 0.22395833333333334
+          },
+          "random_3": {
+            "decision_wall_ms": 0.4870625,
+            "regret": 0.22395833333333334
+          }
+        },
+        "paired": {
+          "always_full_reopen": {
+            "CI95": [
+              -0.010416666666666666,
+              0.09895833333333333
+            ],
+            "cost_mismatch": 0.011292359614956008,
+            "delta": 0.03645833333333334,
+            "match": "MATCHED_10_PERCENT"
+          },
+          "closed_sham": {
+            "CI95": [
+              -0.125,
+              -0.036458333333333336
+            ],
+            "cost_mismatch": 0.029207306071765866,
+            "delta": -0.07812499999999997,
+            "match": "MATCHED_10_PERCENT"
+          },
+          "plain_full": {
+            "CI95": [
+              -0.010416666666666666,
+              0.09895833333333333
+            ],
+            "cost_mismatch": 0.004669772773102047,
+            "delta": 0.03645833333333334,
+            "match": "MATCHED_10_PERCENT"
+          },
+          "random_1": {
+            "CI95": [
+              -0.11458333333333333,
+              -0.026041666666666668
+            ],
+            "cost_mismatch": 0.0038844018976258413,
+            "delta": -0.06770833333333331,
+            "match": "MATCHED_10_PERCENT"
+          },
+          "random_2": {
+            "CI95": [
+              -0.08333333333333333,
+              -0.015625
+            ],
+            "cost_mismatch": 0.0033325196608046874,
+            "delta": -0.046875,
+            "match": "MATCHED_10_PERCENT"
+          },
+          "random_3": {
+            "CI95": [
+              -0.09375,
+              -0.010416666666666666
+            ],
+            "cost_mismatch": 0.007503475796779987,
+            "delta": -0.046875,
+            "match": "MATCHED_10_PERCENT"
+          }
+        },
+        "posthoc_decisive_omission_count": 21,
+        "trigger_count": 37
+      },
+      "uniform": {
+        "arms": {
+          "always_full_reopen": {
+            "decision_wall_ms": 0.42915624999999996,
+            "regret": 0.2864583333333333
+          },
+          "closed_no_probe": {
+            "decision_wall_ms": 0.42689062499999997,
+            "regret": 0.4322916666666667
+          },
+          "closed_sham": {
+            "decision_wall_ms": 0.4562083333333333,
+            "regret": 0.4322916666666667
+          },
+          "evidence_reopen": {
+            "decision_wall_ms": 0.44290625,
+            "regret": 0.4322916666666667
+          },
+          "plain_full": {
+            "decision_wall_ms": 0.41627604166666665,
+            "regret": 0.2864583333333333
+          },
+          "random_1": {
+            "decision_wall_ms": 0.39824479166666665,
+            "regret": 0.4322916666666667
+          },
+          "random_2": {
+            "decision_wall_ms": 0.40631770833333336,
+            "regret": 0.4322916666666667
+          },
+          "random_3": {
+            "decision_wall_ms": 0.4197916666666666,
+            "regret": 0.4322916666666667
+          }
+        },
+        "paired": {
+          "always_full_reopen": {
+            "CI95": [
+              0.015625,
+              0.2708333333333333
+            ],
+            "cost_mismatch": 0.031044944612996634,
+            "delta": 0.14583333333333337,
+            "match": "MATCHED_10_PERCENT"
+          },
+          "closed_sham": {
+            "CI95": [
+              0.0,
+              0.0
+            ],
+            "cost_mismatch": 0.030033632023330727,
+            "delta": 0.0,
+            "match": "MATCHED_10_PERCENT"
+          },
+          "plain_full": {
+            "CI95": [
+              0.015625,
+              0.2708333333333333
+            ],
+            "cost_mismatch": 0.06012606129024675,
+            "delta": 0.14583333333333337,
+            "match": "MATCHED_10_PERCENT"
+          },
+          "random_1": {
+            "CI95": [
+              0.0,
+              0.0
+            ],
+            "cost_mismatch": 0.10083727274865358,
+            "delta": 0.0,
+            "match": "NOT_MATCHED_10_PERCENT"
+          },
+          "random_2": {
+            "CI95": [
+              0.0,
+              0.0
+            ],
+            "cost_mismatch": 0.08261012723723506,
+            "delta": 0.0,
+            "match": "MATCHED_10_PERCENT"
+          },
+          "random_3": {
+            "CI95": [
+              0.0,
+              0.0
+            ],
+            "cost_mismatch": 0.052188433406242025,
+            "delta": 0.0,
+            "match": "MATCHED_10_PERCENT"
+          }
+        },
+        "posthoc_decisive_omission_count": 30,
+        "trigger_count": 13
+      }
+    },
+    "reopen_B": {
+      "conv": {
+        "arms": {
+          "always_full_reopen": {
+            "decision_wall_ms": 0.8675833333333333,
+            "regret": 0.09895833333333333
+          },
+          "closed_no_probe": {
+            "decision_wall_ms": 0.8398020833333333,
+            "regret": 0.16666666666666666
+          },
+          "closed_sham": {
+            "decision_wall_ms": 0.8764895833333334,
+            "regret": 0.16666666666666666
+          },
+          "evidence_reopen": {
+            "decision_wall_ms": 0.8327604166666666,
+            "regret": 0.11458333333333333
+          },
+          "plain_full": {
+            "decision_wall_ms": 0.8526041666666666,
+            "regret": 0.09895833333333333
+          },
+          "random_1": {
+            "decision_wall_ms": 0.8790989583333334,
+            "regret": 0.14583333333333334
+          },
+          "random_2": {
+            "decision_wall_ms": 0.8571614583333332,
+            "regret": 0.14583333333333334
+          },
+          "random_3": {
+            "decision_wall_ms": 0.826234375,
+            "regret": 0.14583333333333334
+          }
+        },
+        "paired": {
+          "always_full_reopen": {
+            "CI95": [
+              0.0,
+              0.041666666666666664
+            ],
+            "cost_mismatch": 0.041816248670961335,
+            "delta": 0.015625,
+            "match": "MATCHED_10_PERCENT"
+          },
+          "closed_sham": {
+            "CI95": [
+              -0.08333333333333333,
+              -0.020833333333333332
+            ],
+            "cost_mismatch": 0.05251110138220045,
+            "delta": -0.05208333333333333,
+            "match": "MATCHED_10_PERCENT"
+          },
+          "plain_full": {
+            "CI95": [
+              0.0,
+              0.041666666666666664
+            ],
+            "cost_mismatch": 0.02382888235662024,
+            "delta": 0.015625,
+            "match": "MATCHED_10_PERCENT"
+          },
+          "random_1": {
+            "CI95": [
+              -0.0625,
+              0.0
+            ],
+            "cost_mismatch": 0.05564450559759857,
+            "delta": -0.031250000000000014,
+            "match": "MATCHED_10_PERCENT"
+          },
+          "random_2": {
+            "CI95": [
+              -0.0625,
+              0.0
+            ],
+            "cost_mismatch": 0.029301394708862363,
+            "delta": -0.031250000000000014,
+            "match": "MATCHED_10_PERCENT"
+          },
+          "random_3": {
+            "CI95": [
+              -0.0625,
+              0.0
+            ],
+            "cost_mismatch": 0.007836637688410695,
+            "delta": -0.031250000000000014,
+            "match": "MATCHED_10_PERCENT"
+          }
+        },
+        "posthoc_decisive_omission_count": 11,
+        "trigger_count": 27
+      },
+      "new_mlp": {
+        "arms": {
+          "always_full_reopen": {
+            "decision_wall_ms": 0.438234375,
+            "regret": 0.11979166666666667
+          },
+          "closed_no_probe": {
+            "decision_wall_ms": 0.43650520833333334,
+            "regret": 0.2604166666666667
+          },
+          "closed_sham": {
+            "decision_wall_ms": 0.4600625,
+            "regret": 0.2604166666666667
+          },
+          "evidence_reopen": {
+            "decision_wall_ms": 0.43403125000000004,
+            "regret": 0.13020833333333334
+          },
+          "plain_full": {
+            "decision_wall_ms": 0.47095833333333337,
+            "regret": 0.11979166666666667
+          },
+          "random_1": {
+            "decision_wall_ms": 0.45151041666666664,
+            "regret": 0.19270833333333334
+          },
+          "random_2": {
+            "decision_wall_ms": 0.4413489583333334,
+            "regret": 0.22395833333333334
+          },
+          "random_3": {
+            "decision_wall_ms": 0.425828125,
+            "regret": 0.22916666666666666
+          }
+        },
+        "paired": {
+          "always_full_reopen": {
+            "CI95": [
+              -0.020833333333333332,
+              0.041666666666666664
+            ],
+            "cost_mismatch": 0.009683922528619712,
+            "delta": 0.010416666666666671,
+            "match": "MATCHED_10_PERCENT"
+          },
+          "closed_sham": {
+            "CI95": [
+              -0.19791666666666666,
+              -0.07291666666666667
+            ],
+            "cost_mismatch": 0.059975520195838315,
+            "delta": -0.13020833333333334,
+            "match": "MATCHED_10_PERCENT"
+          },
+          "plain_full": {
+            "CI95": [
+              -0.020833333333333332,
+              0.041666666666666664
+            ],
+            "cost_mismatch": 0.08507931936544506,
+            "delta": 0.010416666666666671,
+            "match": "MATCHED_10_PERCENT"
+          },
+          "random_1": {
+            "CI95": [
+              -0.125,
+              -0.010416666666666666
+            ],
+            "cost_mismatch": 0.040271677826577236,
+            "delta": -0.0625,
+            "match": "MATCHED_10_PERCENT"
+          },
+          "random_2": {
+            "CI95": [
+              -0.15625,
+              -0.041666666666666664
+            ],
+            "cost_mismatch": 0.016859865121079044,
+            "delta": -0.09375,
+            "match": "MATCHED_10_PERCENT"
+          },
+          "random_3": {
+            "CI95": [
+              -0.17708333333333334,
+              -0.03125
+            ],
+            "cost_mismatch": 0.018899848801209665,
+            "delta": -0.09895833333333331,
+            "match": "MATCHED_10_PERCENT"
+          }
+        },
+        "posthoc_decisive_omission_count": 17,
+        "trigger_count": 42
+      },
+      "uniform": {
+        "arms": {
+          "always_full_reopen": {
+            "decision_wall_ms": 0.37529166666666663,
+            "regret": 0.17708333333333334
+          },
+          "closed_no_probe": {
+            "decision_wall_ms": 0.37037499999999995,
+            "regret": 0.28125
+          },
+          "closed_sham": {
+            "decision_wall_ms": 0.4026927083333333,
+            "regret": 0.28125
+          },
+          "evidence_reopen": {
+            "decision_wall_ms": 0.3773229166666667,
+            "regret": 0.28125
+          },
+          "plain_full": {
+            "decision_wall_ms": 0.36294791666666665,
+            "regret": 0.17708333333333334
+          },
+          "random_1": {
+            "decision_wall_ms": 0.365140625,
+            "regret": 0.28125
+          },
+          "random_2": {
+            "decision_wall_ms": 0.3528645833333333,
+            "regret": 0.28125
+          },
+          "random_3": {
+            "decision_wall_ms": 0.36346354166666667,
+            "regret": 0.28125
+          }
+        },
+        "paired": {
+          "always_full_reopen": {
+            "CI95": [
+              0.005208333333333333,
+              0.21875
+            ],
+            "cost_mismatch": 0.005383319990061669,
+            "delta": 0.10416666666666666,
+            "match": "MATCHED_10_PERCENT"
+          },
+          "closed_sham": {
+            "CI95": [
+              0.0,
+              0.0
+            ],
+            "cost_mismatch": 0.06723628633740987,
+            "delta": 0.0,
+            "match": "MATCHED_10_PERCENT"
+          },
+          "plain_full": {
+            "CI95": [
+              0.005208333333333333,
+              0.21875
+            ],
+            "cost_mismatch": 0.03809734146812806,
+            "delta": 0.10416666666666666,
+            "match": "MATCHED_10_PERCENT"
+          },
+          "random_1": {
+            "CI95": [
+              0.0,
+              0.0
+            ],
+            "cost_mismatch": 0.03228611655577951,
+            "delta": 0.0,
+            "match": "MATCHED_10_PERCENT"
+          },
+          "random_2": {
+            "CI95": [
+              0.0,
+              0.0
+            ],
+            "cost_mismatch": 0.06482069403417724,
+            "delta": 0.0,
+            "match": "MATCHED_10_PERCENT"
+          },
+          "random_3": {
+            "CI95": [
+              0.0,
+              0.0
+            ],
+            "cost_mismatch": 0.03673080639372776,
+            "delta": 0.0,
+            "match": "MATCHED_10_PERCENT"
+          }
+        },
+        "posthoc_decisive_omission_count": 19,
+        "trigger_count": 17
+      }
+    }
+  },
+  "independent_new_exact_solver_queries": 24,
+  "independent_new_horizontal_mirror_queries": 24,
+  "n_Rust_endpoint_requests": 9216,
+  "n_real_MCTS_root_searches": 18432,
+  "new_game_roots": 384,
+  "new_mirror_disjoint_families": 24,
+  "not_claimed": [
+    "genuine human Einstellung",
+    "same-tree re-expansion",
+    "general engine superiority over all-legal full reopening"
+  ],
+  "schema": "quartz_cog03_reopening12_independent_9216_CPU_and_exact_WDL_v1",
+  "source_commit": "f9b7caa45a420f09f1ed7665c827b8e6a6c8ea6e",
+  "warm_model_cache_counts": {
+    "('conv', False)": 1,
+    "('conv', True)": 3071,
+    "('new_mlp', False)": 1,
+    "('new_mlp', True)": 3071,
+    "('uniform', False)": 3072
+  }
+}

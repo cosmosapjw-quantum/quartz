@@ -1,0 +1,102 @@
+{
+  "Python_related_suites": {
+    "failed": 0,
+    "individual": [
+      7,
+      11,
+      12,
+      6,
+      7,
+      10,
+      9,
+      4,
+      7,
+      7,
+      7,
+      9,
+      27
+    ],
+    "passed": 123
+  },
+  "Rust_debug": {
+    "failed": 0,
+    "ignored": 89,
+    "passed": 601
+  },
+  "Rust_release": {
+    "failed": 0,
+    "ignored": 89,
+    "passed": 601
+  },
+  "actual_CPU_times_include_both_new_root_setups_original_prior_and_oneply_probe": true,
+  "actual_Rust_endpoint_requests": 9216,
+  "actual_separate_root_MCTS_searches": 18432,
+  "all_current_root_tactical_witnesses_recomputed_independently": true,
+  "all_model_weights_and_output_hashes_verified": true,
+  "artifact_hashes": {
+    "PAIRED_384_WDL_ATTENTION.json": "e7e4912232af4b9bc98fbacb0c1ee4f08c1844db733cfaf5ccc4f1f5b140fb36",
+    "RAW_9216_RELEASE_ROOT_RESTARTS.json": "72edb8560e87fcc7549b972ae982f3d7db5ec8b2793ff0461212242ba9cc852d",
+    "SUMMARY_REOPEN12.json": "3ed3442414313572bdf8c913f750731354e43ee0eb6d563957d478b497cc6071"
+  },
+  "compiled_engine_Rust_source_commit": "afdc426d8062f227c8affc3d571fd2bc42d1bb36",
+  "compiled_release_binary_sha256": "af4c64eaad0ff325d390d30a661bb292d090a80709cd1ec048964c0d54a07a8e",
+  "decision_informative_roots_by_group": {
+    "reopen_A": 126,
+    "reopen_B": 114
+  },
+  "independently_repeated_external_oracle_original_and_mirror_queries": 48,
+  "means": {
+    "conv": {
+      "closed_regret": 0.2109375,
+      "evidence_reopen_regret": 0.140625,
+      "evidence_vs_closed_CPU_gate": "MATCHED_10_PERCENT",
+      "evidence_vs_closed_cluster_CI95": [
+        -0.10677083333333333,
+        -0.036458333333333336
+      ],
+      "rescued_strictly_decisive_omissions": 16,
+      "triggered_roots": 54,
+      "unrestricted_plain_regret": 0.1171875
+    },
+    "new_mlp": {
+      "closed_regret": 0.2578125,
+      "evidence_reopen_regret": 0.15364583333333334,
+      "evidence_vs_closed_CPU_gate": "MATCHED_10_PERCENT",
+      "evidence_vs_closed_cluster_CI95": [
+        -0.1484375,
+        -0.06510416666666667
+      ],
+      "rescued_strictly_decisive_omissions": 23,
+      "triggered_roots": 79,
+      "unrestricted_plain_regret": 0.13020833333333334
+    },
+    "uniform": {
+      "closed_regret": 0.3567708333333333,
+      "evidence_reopen_regret": 0.3567708333333333,
+      "evidence_vs_closed_CPU_gate": "MATCHED_10_PERCENT",
+      "evidence_vs_closed_cluster_CI95": [
+        0.0,
+        0.0
+      ],
+      "rescued_strictly_decisive_omissions": 0,
+      "triggered_roots": 30,
+      "unrestricted_plain_regret": 0.23177083333333334
+    }
+  },
+  "native_subagent": "NOT_RUN",
+  "new384_exact_external_labels_sha256": "0e018e813e77fc2e0a25688824c63b9adb10d4a9fc047dcdad92a72b48d78012",
+  "new384_heldout_cohort_sha256": "31e86dcda897a540f7914ee123e929e30dadf8a8e93117f98c8cd137abed380a",
+  "new_distinct_opening_families": 24,
+  "new_test_roots": 384,
+  "no_actual_external_exact_action_scores_in_Rust_runtime": true,
+  "original_model_byte_sha256": {
+    "conv": "161f9e6e26840754384cb47335d1082d837fa014735cbfaa2517209422e29f24",
+    "new_mlp": "a5bd016c019724fab54110458fcdcb7abf9e61fbb959afe76d6c94b8237b3f3d"
+  },
+  "original_oracle_original_and_mirror_requeries": 48,
+  "real_Rust_evaluator_8_16_restart_not_same_tree": true,
+  "root_gate_only_at_root_ply_and_child_unmasked": true,
+  "schema": "quartz_cog03_reopening12_real_cpu_MCTS_scoped_verification_v1",
+  "science_claim": "positive evidence-based recovery conditional on artificially masked top3 for trained MLP/Conv, not a result over all-legal MCTS or human Einstellung",
+  "source_experiment_commit": "f9b7caa45a420f09f1ed7665c827b8e6a6c8ea6e"
+}
