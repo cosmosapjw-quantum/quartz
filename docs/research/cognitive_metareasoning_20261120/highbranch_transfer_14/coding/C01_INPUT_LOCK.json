@@ -1,0 +1,108 @@
+{
+  "MCTS_checkpoint_first": 8,
+  "MCTS_final_target_visits": 32,
+  "MCTS_search_seed": 17,
+  "Rapfi_protocol_rule": 0,
+  "Renju_control_protocol_rule": 4,
+  "all_legal_baseline_required": true,
+  "base_theory_commit": "617692a7ed85f619b33b6c33cd1ef9b8ec2840b6",
+  "cost_gate_fraction": 0.1,
+  "external_model_is_not_QUARTZ_ONNX": true,
+  "game_action_count_max": 225,
+  "initial_active_candidates": 16,
+  "main_board_width": 15,
+  "main_rule": "FREESTYLE15",
+  "max_reopened": 4,
+  "native_subagent": "NOT_RUN",
+  "no_new_test_positions_at_lock": true,
+  "random_candidate_seeds": [
+    202611210411,
+    202611210412,
+    202611210413
+  ],
+  "root_mask_words": 4,
+  "schema": "quartz_cog04_highbranch14_C01_immutable_rule_model_source_v1",
+  "source_seed_neutral": 202611210401,
+  "source_seed_stress": 202611210402,
+  "sources": [
+    {
+      "bytes": 83991,
+      "name": "QUARTZ_gomoku15",
+      "path": "/home/cosmosapjw/quantum/research/quartz_cog01_20261120/src/games/gomoku15.rs",
+      "sha256": "0f8cc3c3fae1819b807f0c0eae27cf77ff8f2d1d893f09f82b019682bcf2ef0d"
+    },
+    {
+      "bytes": 134476,
+      "name": "QUARTZ_mcts",
+      "path": "/home/cosmosapjw/quantum/research/quartz_cog01_20261120/src/mcts/mod.rs",
+      "sha256": "ce9f1e602753eee34e702b070c7009077470022db4a059c91fdd239d58c72cfc"
+    },
+    {
+      "bytes": 66036,
+      "name": "QUARTZ_selection",
+      "path": "/home/cosmosapjw/quantum/research/quartz_cog01_20261120/src/mcts/select.rs",
+      "sha256": "c40ca720323fd41f27a6e2d8eca6402efecc5d713a9fc88f2659fd76cbe5acff"
+    },
+    {
+      "bytes": 337900,
+      "name": "QUARTZ_server",
+      "path": "/home/cosmosapjw/quantum/research/quartz_cog01_20261120/src/mcts_server.rs",
+      "sha256": "bcf667eb34497acab9a15d916f6f3e85c7270a52090f4a2246f6d76a2a43175c"
+    },
+    {
+      "bytes": 1416,
+      "name": "QUARTZ_Cargo",
+      "path": "/home/cosmosapjw/quantum/research/quartz_cog01_20261120/Cargo.toml",
+      "sha256": "897e6624b41356d2f2ca7fffa30c4479cc0959fee3138cdb30fa4bc8ec5c1994"
+    },
+    {
+      "bytes": 1807152,
+      "name": "Rapfi_executable",
+      "path": "/home/cosmosapjw/quantum/research/quartz_external_engines_20261120/rapfi_release_250615/unpacked/pbrain-rapfi-linux-clang-avx2",
+      "sha256": "4217c3202cdd8dbb58524110d9064299e314a695e58ddbd055d9a4dd99de201c"
+    },
+    {
+      "bytes": 6709,
+      "name": "Rapfi_config",
+      "path": "/home/cosmosapjw/quantum/research/quartz_external_engines_20261120/rapfi_release_250615/unpacked/config.toml",
+      "sha256": "32b9180c91247541d399ceef62906d5ffeb48e34eb5f261612987633820d5d3c"
+    },
+    {
+      "bytes": 23204,
+      "name": "Rapfi_classical_model",
+      "path": "/home/cosmosapjw/quantum/research/quartz_external_engines_20261120/rapfi_release_250615/unpacked/model210901.bin",
+      "sha256": "2fa08cb15cf240d9533548c3e011b03d46809f6858362e97ee873d0632aa2015"
+    },
+    {
+      "bytes": 10030398,
+      "name": "Rapfi_NNUE_freestyle",
+      "path": "/home/cosmosapjw/quantum/research/quartz_external_engines_20261120/rapfi_release_250615/unpacked/mix9svqfreestyle_bsmix.bin.lz4",
+      "sha256": "6bc0d1b0ff8e1d857f7f412923cd458f38f1a435087c91ae71fec3676c23ef62"
+    },
+    {
+      "bytes": 10345775,
+      "name": "Rapfi_NNUE_standard",
+      "path": "/home/cosmosapjw/quantum/research/quartz_external_engines_20261120/rapfi_release_250615/unpacked/mix9svqstandard_bs15.bin.lz4",
+      "sha256": "84334f5db96f45b3e36ebdde06d2259d878ae1eb347b7cf74574ac908b8d9e7d"
+    },
+    {
+      "bytes": 9984172,
+      "name": "Rapfi_NNUE_renju_black",
+      "path": "/home/cosmosapjw/quantum/research/quartz_external_engines_20261120/rapfi_release_250615/unpacked/mix9svqrenju_bs15_black.bin.lz4",
+      "sha256": "7ab8c974c30da07717ce6a504616a62ac8c981500503f0ced0fadefd3f46c5ec"
+    },
+    {
+      "bytes": 9844944,
+      "name": "Rapfi_NNUE_renju_white",
+      "path": "/home/cosmosapjw/quantum/research/quartz_external_engines_20261120/rapfi_release_250615/unpacked/mix9svqrenju_bs15_white.bin.lz4",
+      "sha256": "a31f318518d3b5630489054d9eb013fd5353c553999640c2bcfd8d95e6fe4e4e"
+    }
+  ],
+  "strata": {
+    "neutral": 12,
+    "tactical_stress": 12
+  },
+  "teacher_secondary_budget_ms": 600,
+  "teacher_timeout_turn_ms": 300,
+  "user_project": "quartz"
+}
