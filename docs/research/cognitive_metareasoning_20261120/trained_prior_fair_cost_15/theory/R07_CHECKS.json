@@ -1,0 +1,12 @@
+{
+  "D4_center_geometry_invariance_checks": 1800,
+  "Wolfram_exact_cross_check": "4/209 verified; 3-action logsumexp gradient difference ==0",
+  "discovery_fraction": "4/209",
+  "max_finite_diff_grad_error": 3.374884816054191e-10,
+  "method": "NumPy analytic vs centered finite differences and independent eigenspectrum",
+  "min_hessian_eigenvalue": 0.1312290525753647,
+  "no_actual_Gomoku_model_trained": true,
+  "softmax_sum": 1.0000000000000002,
+  "stage": "R07",
+  "status": "PASS"
+}
