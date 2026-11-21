@@ -119,8 +119,8 @@ def main():
     for game_id,opening,arm,color in schedule:
       if game_id in completed:continue
       result=play(proc,game_id,opening,arm,color)
-      with progress.open("a") as f:
-        f.write(json.dumps(result,separators=(",",":"),sort_keys=True)+"\n");f.flush()
+      with progress.open("a") as progress_handle:
+        progress_handle.write(json.dumps(result,separators=(",",":"),sort_keys=True)+"\n");progress_handle.flush()
       completed[game_id]=result
       print("GAME_FINISHED",len(completed),"/",len(schedule),game_id,
           "WDL",result["active_score"],"n_new_moves",result["n_moves_after_opening"],flush=True)
