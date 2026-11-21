@@ -1,0 +1,11 @@
+# C5. Actual Rust four-word resident root mask and 15x15 Freestyle server
+
+TDD RED: new Gomoku15 full-225 root mask test first failed because the full-four-word snapshot API was missing (Rust E0599). New full-game research endpoint test first failed because the registered 15x15 handler did not exist (E0425). After adding the minimal feature both tests became GREEN.
+
+Core source: src/mcts/mod.rs now stores [AtomicU64;4] opt-in mask, exposes resident_root_mask_words_snapshot(), preserves legacy first-word snapshot method for Connect4, validates unique original legal action indices under256, rejects nonmonotonic post-visit shrinking, resets all words after root advancement. src/mcts/select.rs takes a four-word mask snapshot and checks membership ONLY at root depth0, not child states. The already materialized root candidates, prior and edge slab remain immutable. No late slab append or fake same-tree continuation.
+
+Real endpoint: src/mcts_server/highbranch14_cpu_server.rs command research_gomoku15_highbranch_cpu accepts sequential freestyle flat indices y*15+x and registered arms closed, evidence, random1-3, all_after8, full32, closed_no_probe. All execute actual same-root MCTS first8 then total32; initial top16 center-radius ordering is a disclosed artificial heuristic, original MCTS evaluation remains UniformEval, NOT a pretrained policy. Tactical witness checks omitted legal immediate wins (up to4) before a visit concentration gate; if none, checks first leader one-ply opponent safety under exposure. Teacher move or exact labels are explicitly rejected online.
+
+Every response includes original full-root edge count, old/new four-word masks, first8/after-activation/final edge statistics, root hash and pointer identity booleans, actual evaluator-call and physical wall cost, original model prior, suggested/added/final actions, and selected legal move. No claim of strength until C8 actual matched source.
+
+Focused tests: new code TDD RED→GREEN, 15x15 full225 root actions with active ids 64,128,192,224 and all stats preserved through 8→32, invalid 225 and duplicate rejected; actual tactical stress source 31,160,32,177,33,190,34,207 has two immediate winning omitted moves 30/35. Existing C13 Connect4 regression tested green before this commit. Full Rust debug/release and optimized executable are C6 responsibilities.

@@ -989,7 +989,7 @@ fn select_core<G, F>(
     c_puct: f32,
     root_prior_noise: Option<&[f32]>,
     pw: Option<&PwConfig>,
-    root_action_mask: u64,
+    root_action_mask: [u64; 4],
     max_depth: usize,
     tt: &TranspositionTable<G::Move>,
     // QUARTZ EFT-PUCT (None = standard PUCT)
@@ -1091,9 +1091,10 @@ where
         for (idx, edge) in edges.iter().enumerate() {
             // A resident mask applies only to the original root. It never
             // changes legal game moves, original edge priors or descendants.
-            if depth == 0 && root_action_mask != 0 {
+            if depth == 0 && root_action_mask.iter().any(|bits| *bits != 0) {
                 let action_idx = cur_state.move_to_idx(edge.mv);
-                if action_idx >= 64 || (root_action_mask & (1_u64 << action_idx)) == 0 {
+                if action_idx >= 256 ||
+                   (root_action_mask[action_idx / 64] & (1_u64 << (action_idx % 64))) == 0 {
                     continue;
                 }
             }
@@ -1233,7 +1234,7 @@ pub fn select<G: GameState>(
     c_puct: f32,
     root_prior_noise: Option<&[f32]>,
     pw: Option<&PwConfig>,
-    root_action_mask: u64,
+    root_action_mask: [u64; 4],
     max_depth: usize,
     tt: &TranspositionTable<G::Move>,
     // QUARTZ EFT-PUCT (None = standard PUCT)
@@ -1277,7 +1278,7 @@ pub fn select_in_place<G: GameState>(
     c_puct: f32,
     root_prior_noise: Option<&[f32]>,
     pw: Option<&PwConfig>,
-    root_action_mask: u64,
+    root_action_mask: [u64; 4],
     max_depth: usize,
     tt: &TranspositionTable<G::Move>,
     quartz: Option<(&QuartzStats, &QuartzConfig)>,

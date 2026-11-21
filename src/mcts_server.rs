@@ -38,6 +38,9 @@ use reopening12_cpu_server::handle_research_connect4_reopen_cpu;
 #[path = "mcts_server/resident13_cpu_server.rs"]
 mod resident13_cpu_server;
 use resident13_cpu_server::handle_research_connect4_resident_cpu;
+#[path = "mcts_server/highbranch14_cpu_server.rs"]
+mod highbranch14_cpu_server;
+use highbranch14_cpu_server::handle_research_gomoku15_highbranch_cpu;
 
 /// Bounded, CPU-only real QUARTZ MCTS for *standard gravity Connect4*.
 /// This research-only endpoint intentionally does not consume the external
@@ -2697,6 +2700,12 @@ pub fn serve() {
         let cmd = jstr(&line, "cmd").unwrap_or("move");
         if cmd == "quit" {
             break;
+        }
+
+        if cmd == "research_gomoku15_highbranch_cpu" {
+            emit_stdout_json_value(&handle_research_gomoku15_highbranch_cpu(&line));
+            if let Some(ring) = global_ring_buffer() { ring.set_cmd_done(true); }
+            continue;
         }
 
         if cmd == "research_connect4_resident_cpu" {
@@ -8043,6 +8052,32 @@ mod tests {
             panic!("ordinary session transport must remain unchanged");
         };
         assert_eq!(session_id, 7);
+    }
+
+    #[test]
+    fn cog04_highbranch_15x15_real_same_root_tactical_activation() {
+        let req=serde_json::json!({
+            "cmd":"research_gomoku15_highbranch_cpu",
+            "history":[31,160,32,177,33,190,34,207],
+            "rule":"freestyle",
+            "arm":"evidence","seed":17
+        });
+        let result=handle_research_gomoku15_highbranch_cpu(&req.to_string());
+        assert!(result.get("error").is_none(),"{result}");
+        assert_eq!(result["root_full_original_legal_count"],217);
+        assert_eq!(result["first_stage"]["root_visits"],8);
+        assert_eq!(result["second_stage"]["root_visits"],32);
+        assert_eq!(result["second_stage"]["additional_root_visits"],24);
+        assert!(result["same_root_identity_verified"].as_bool().unwrap());
+        assert!(result["edge_stats_preserved_at_activation"].as_bool().unwrap());
+        assert!(result["root_mask_initial"][1].as_u64().unwrap()>0);
+        let added=result["added_candidates"].as_array().unwrap();
+        assert!(added.iter().any(|a|a.as_u64()==Some(30)||a.as_u64()==Some(35)));
+        assert!(result["final_legal_action"].as_u64().unwrap()<225);
+        assert!(result["no_Rapfi_teacher_data_online"].as_bool().unwrap());
+        let mut injected=req.clone();
+        injected["teacher_move"]=serde_json::json!(30);
+        assert!(handle_research_gomoku15_highbranch_cpu(&injected.to_string()).get("error").is_some());
     }
 
     #[test]
