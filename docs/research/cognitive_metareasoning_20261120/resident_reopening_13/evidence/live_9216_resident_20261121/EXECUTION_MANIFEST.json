@@ -1,0 +1,24 @@
+{
+  "actual_Rust_compiled_binary_sha256": "5dd61a01cc87dd715183f3d4145367b471182e0676a9a6bde7c38c9c225eede0",
+  "all_same_root_stats_preserved_implemented": true,
+  "compiled_Rust_source_commit": "8c63a60973ac11b9e1fa4cdf93d387083c65ee57",
+  "n_actual_8_and_24_root_MCTS_invocations": 18432,
+  "n_actual_Rust_resident_search_requests": 9216,
+  "new384_exact_oracle_sha256": "73cf3b37ddbcc7f14298ee0634b760f5008bfb2194bd5cd5fc31dc24ceb1a817",
+  "new384_sha256": "3b79dd2341e0e56405a2219f41fb0e28047bf642a7372f417f23513459450b31",
+  "new_game_groups": 2,
+  "opening_families": 24,
+  "oracle_source_first_loaded_after_all_Rust_responses": true,
+  "output_SHA256": {
+    "PAIRED_384_RESIDENT_WDL.json": "ca2bb1c79b4a3f56438cecc17c7671593120f88acf944de9962d7e473f6d6bb7",
+    "RAW_9216_RESIDENT_ROOTS.json": "7a76d87f7f50b318dd8b4e83e8a1e17de431ff54ec5fdae417c40b79cb40763d",
+    "SUMMARY_RESIDENT13.json": "52ea66b4a23955320f1db0172d00288755fe29347db721572f3025ef06ae231e"
+  },
+  "schema": "quartz_cog03_resident13_real_release_manifest_v1",
+  "source_commit": "bf5bda76ba817476f635a8d245603d8c95949211",
+  "source_tree": "54d17d3669ea6f65700bea2923bdee5382aacfb7",
+  "trained_models_sha256": {
+    "conv": "161f9e6e26840754384cb47335d1082d837fa014735cbfaa2517209422e29f24",
+    "new_mlp": "a5bd016c019724fab54110458fcdcb7abf9e61fbb959afe76d6c94b8237b3f3d"
+  }
+}
