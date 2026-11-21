@@ -1,0 +1,9 @@
+# R6. Exclusion bounds and conditional late-activation starvation
+
+Theorem A counts candidate RECALL only, NOT the probability that MCTS visits or eventually chooses the recovered move. In a PUCT root, an unvisited newly activated action a with original prior p_a and Q_initial=0 has score U_a(N)=c*p_a*sqrt(N) while N_a=0. Assume the total root visit count throughout remaining search is at most Nmax, and at every iteration there is an already visible action with score at least q_min>0. If c*p_a*sqrt(Nmax)<q_min, then a can never be selected during that finite remaining search. Proof: at all times U_a(N) ≤ c*p_a*sqrt(Nmax)<q_min ≤ max_existing U_b(N). This is a conditional deterministic priority bound, NOT a general game-theoretic no-go.
+
+For p_a=0.01, c=2, Nmax=32, q_min=0.2, maximal unvisited bonus=0.113137...<0.2. For a uniform 225-action prior and Nmax32, this bonus is 2sqrt(32)/225≈0.050283; at low search budgets an omitted action can be activated yet never sampled. These numbers alone do not establish the required q_min for actual source. The actual host may use FPU reduction and terminal-valued children; inspect its exact scoring when claiming this mechanism in real roots.
+
+Game-rule counterexample: a move can be an immediate legal freestyle winner but be forbidden for black under Renju's black overline/double-three/double-four rules, so transferring a freestyle tactical witness into Renju without legal_moves is invalid. Likewise Rapfi search action is a fallible finite-budget proxy, unlike Connect4 exact external WDL. Do not interpret a high teacher agreement as exact minimax regret.
+
+Data bias: constructed forced-win stress boards have a high density of witness signals and are intentionally out of typical-game distribution; stratify from neutral generated games. Physical CPU budgets of QUARTZ and Rapfi are different algorithms and cannot be equated by matching raw MCTS visit count. No human chess fixation measured.
