@@ -1,0 +1,186 @@
+{
+  "actual_Rust_source_commit": "8c63a60973ac11b9e1fa4cdf93d387083c65ee57",
+  "all_same_root_stat_and_prior_checks_PASSED": true,
+  "arms": [
+    "resident_evidence",
+    "resident_closed_sham",
+    "resident_full24",
+    "resident_all_after8"
+  ],
+  "compiled_model_sha256": {
+    "conv": "161f9e6e26840754384cb47335d1082d837fa014735cbfaa2517209422e29f24",
+    "new_mlp": "a5bd016c019724fab54110458fcdcb7abf9e61fbb959afe76d6c94b8237b3f3d"
+  },
+  "modes": [
+    "uniform",
+    "new_mlp",
+    "conv"
+  ],
+  "new_release_binary_sha256": "5dd61a01cc87dd715183f3d4145367b471182e0676a9a6bde7c38c9c225eede0",
+  "preflight_actual_Rust_requests": 12,
+  "results": [
+    {
+      "added": [],
+      "arm": "resident_evidence",
+      "best_action": 4,
+      "decision_us": 2743,
+      "first_N": 8,
+      "full_root_edges": 7,
+      "mask_end": 28,
+      "mask_first": 28,
+      "mode": "uniform",
+      "second_N": 24
+    },
+    {
+      "added": [],
+      "arm": "resident_closed_sham",
+      "best_action": 4,
+      "decision_us": 1754,
+      "first_N": 8,
+      "full_root_edges": 7,
+      "mask_end": 28,
+      "mask_first": 28,
+      "mode": "uniform",
+      "second_N": 24
+    },
+    {
+      "added": [],
+      "arm": "resident_full24",
+      "best_action": 0,
+      "decision_us": 213,
+      "first_N": 8,
+      "full_root_edges": 7,
+      "mask_end": 0,
+      "mask_first": 0,
+      "mode": "uniform",
+      "second_N": 24
+    },
+    {
+      "added": [
+        1,
+        5,
+        0,
+        6
+      ],
+      "arm": "resident_all_after8",
+      "best_action": 0,
+      "decision_us": 357,
+      "first_N": 8,
+      "full_root_edges": 7,
+      "mask_end": 127,
+      "mask_first": 28,
+      "mode": "uniform",
+      "second_N": 24
+    },
+    {
+      "added": [
+        0
+      ],
+      "arm": "resident_evidence",
+      "best_action": 0,
+      "decision_us": 2425,
+      "first_N": 8,
+      "full_root_edges": 7,
+      "mask_end": 57,
+      "mask_first": 56,
+      "mode": "new_mlp",
+      "second_N": 24
+    },
+    {
+      "added": [],
+      "arm": "resident_closed_sham",
+      "best_action": 3,
+      "decision_us": 317,
+      "first_N": 8,
+      "full_root_edges": 7,
+      "mask_end": 56,
+      "mask_first": 56,
+      "mode": "new_mlp",
+      "second_N": 24
+    },
+    {
+      "added": [],
+      "arm": "resident_full24",
+      "best_action": 0,
+      "decision_us": 245,
+      "first_N": 8,
+      "full_root_edges": 7,
+      "mask_end": 0,
+      "mask_first": 0,
+      "mode": "new_mlp",
+      "second_N": 24
+    },
+    {
+      "added": [
+        0,
+        2,
+        1,
+        6
+      ],
+      "arm": "resident_all_after8",
+      "best_action": 0,
+      "decision_us": 256,
+      "first_N": 8,
+      "full_root_edges": 7,
+      "mask_end": 127,
+      "mask_first": 56,
+      "mode": "new_mlp",
+      "second_N": 24
+    },
+    {
+      "added": [],
+      "arm": "resident_evidence",
+      "best_action": 0,
+      "decision_us": 1578,
+      "first_N": 8,
+      "full_root_edges": 7,
+      "mask_end": 13,
+      "mask_first": 13,
+      "mode": "conv",
+      "second_N": 24
+    },
+    {
+      "added": [],
+      "arm": "resident_closed_sham",
+      "best_action": 0,
+      "decision_us": 462,
+      "first_N": 8,
+      "full_root_edges": 7,
+      "mask_end": 13,
+      "mask_first": 13,
+      "mode": "conv",
+      "second_N": 24
+    },
+    {
+      "added": [],
+      "arm": "resident_full24",
+      "best_action": 0,
+      "decision_us": 1824,
+      "first_N": 8,
+      "full_root_edges": 7,
+      "mask_end": 0,
+      "mask_first": 0,
+      "mode": "conv",
+      "second_N": 24
+    },
+    {
+      "added": [
+        4,
+        6,
+        1,
+        5
+      ],
+      "arm": "resident_all_after8",
+      "best_action": 0,
+      "decision_us": 397,
+      "first_N": 8,
+      "full_root_edges": 7,
+      "mask_end": 127,
+      "mask_first": 13,
+      "mode": "conv",
+      "second_N": 24
+    }
+  ],
+  "root_8_to_24_visits_observed": true,
+  "schema": "quartz_cog03_resident13_C06_actual_Rust_preflight_v1"
+}
