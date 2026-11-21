@@ -1,0 +1,22 @@
+{
+  "actual_statuses": {
+    "OK": 384
+  },
+  "all_384_exact": true,
+  "by_group": {
+    "fresh_A": {
+      "OK": 192
+    },
+    "fresh_B": {
+      "OK": 192
+    }
+  },
+  "external_binary_sha256": "fca2b665b1b3dbd88f2f50a7e0ba86fd8ae253f2861da1ad51cf110c69f741ed",
+  "external_book_sha256": "38f9834317c37d9516e45a21da598569a5d1556595686593d14c2e63f59c1f38",
+  "external_labels_sha256": "4af28f7a4e61b1f5c3d2a0d9790f093c29200d91e72026fd4b8ab2b2034e76fa",
+  "frozen_cohort_sha256": "c12c86ab08adb614a80d196d842f31ddf3fc78f7929ddee17523b9569db46ce5",
+  "global_timeout_s": 120,
+  "per_root_timeout_s": 5,
+  "schema": "quartz_cog02_dynamic10_external_teacher_manifest_v1",
+  "source_commit": "3ccb276c4f1c782551094a3e95c1b2d411e4dcd4"
+}
