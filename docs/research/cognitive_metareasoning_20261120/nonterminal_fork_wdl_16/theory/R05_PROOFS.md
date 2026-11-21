@@ -1,0 +1,21 @@
+# R5. Constructive depth-3 soundness and locality lemmas
+
+### Lemma 1: Nonterminal two-endpoint win certificate
+
+Let s be a nonterminal turn of player t in ordinary Freestyle Gomoku (stones never removed, unique moves into empty cells, a line length >=5 wins). Suppose no one has an immediate winning action in the original board s: W_t(s)=W_o(s)=empty. Let a be a legal t move, and s'=s+a nonterminal. If there are two distinct empty endpoints c1,c2 in W_t(s'), then **a is a forced win for t in <=3 plies**.
+
+Proof. Since W_o(s)=empty, after placing t's a, there is still no o immediate winning action: adding a t stone cannot create a new o line and can only occupy an empty square. Thus o cannot win with its next move b. Since c1 and c2 were distinct empty cells before b and b occupies at most one cell, at least one ck remains empty. The exact five-or-more-in-a-row line for t at ck remains feasible since no t stone is removed and no opponent can interrupt an already existing t run except by occupying its required empty winning cell. Playing ck after b wins immediately. If o has no legal moves, t already occupies board until terminal, impossible at s' with two empty cells. QED. This proof is constructive: witness (a,c1,c2); we do not assert a globally unique optimal action.
+
+Sharpness of assumptions. With only ONE winning endpoint the opponent may occupy it and prevent 3-ply win; if W_o(s) nonempty, opponent may win immediately after a; with capture/removal or forbidden moves the argument does not transfer. In normal Freestyle both no-winning preconditions may be stronger than necessary; this is an explicitly **sufficient but incomplete** certificate. The terminal move itself (win-in-one) is excluded so the mechanism is not a rebranded C14 immediate-five detector.
+
+### Lemma 2: 32-local-cell completeness for new immediate wins under a zero-wins baseline
+
+Assume W_t(s)=empty and let c be a new t immediate win after playing t at a, i.e. c in W_t(s+a). Any t winning five-line after c was absent in s+c (because W_t(s)=empty), so **some winning five-consecutive-cell segment passes through a**. Hence c lies on a common horizontal, vertical or diagonal line with a at integer Chebyshev separation in {1,2,3,4}. The set of possible c is contained in the 4 axes × 2 signs × 4 distances = at most **32 distinct on-board cells**. Computing future t winning cells by testing only those local c is therefore exact for newly created wins under this assumption; no global 225-action reply enumeration is required.
+
+The forward inclusion is obvious: if c was not on any length-5 segment containing a, adding t at a cannot affect the winning five-line segment for c. Conversely testing all eligible local c by actual is_winning_move after the temporary board a finds every newly created win. Thus no false positive for the certificate and no missed new immediate winning endpoint in the stated domain. Boundary squares reduce candidate count.
+
+### Lemma 3: source-local causal separation, not general game competence
+
+For a frozen board and learned leaf evaluator, if a certificate is absent from top16 but found among excluded actions, the action mask can be extended by 1..4 winning-certificate moves in the same root while keeping original edge prior and N/W/M2 arrays unchanged. This establishes mechanical preservation but *does not* imply final MCTS chooses a certified action: PUCT can still neglect low-prior fresh edges at finite CPU, and an explicit proof-choice override is a separate policy intervention. A correct theorem about mate-in-two does not imply root reopening beats an all-legal solver that may find another good move.
+
+Runtime for naive full check of every candidate is O(B^2 * L), whereas pre-check of W sets once O(B L), and testing at most32 local cells after each of B candidate actions is O(B*32*L), with constant L=4 axes × up to8 contiguous neighbors. The measured CPU cost, not only asymptotics, determines feasibility against 20ms search. No CPU speed guarantee follows from Big-O.
