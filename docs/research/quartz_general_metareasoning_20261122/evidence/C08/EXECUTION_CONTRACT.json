@@ -1,0 +1,17 @@
+{
+  "expected_science_scope": "finite synthetic calibrated conditional channels only",
+  "five_task_bank_sha256": "46d69d13ea327c23e02b76c53a0a78aadc1f77ee9e405dbef1c203a6d0b471dd",
+  "games_or_neural_MCTS_tested": false,
+  "policies": [
+    "stop",
+    "ratio",
+    "net",
+    "bellman"
+  ],
+  "schema": "quartz_meta17_C08_exact_and_paired_MC_v1",
+  "seed": 202611220817,
+  "source_code_sha256": "59c887ea709a98aa857a770a4f88894d53566b69a3598da28d06c6d600dee367",
+  "source_commit_published_before_any_outcome": "5325998f3783eb998b03f14494b452b22d2fdd75",
+  "treatment_costs_charged": true,
+  "trial_count_per_case_and_policy": 512
+}
