@@ -1,0 +1,15 @@
+# C2. Definition→code concrete surface map (parent immutable runtime)
+
+**Game dynamics:** `src/games/connect4.rs::Connect4`: 7×6 gravity, state `board_flat()[y*7+column]`, illegal full-column/terminal rejected, `GameState::current_player` ±1, `hash/tt_hash` deterministic board+side. Existing `with_root_candidates` from COG03-12 applies a *state-local masked ruleset*, and **must not be used on a resident root** because a masked root has another TT hash and immutable candidate list.
+
+**Unmasked edge prior:** `src/mcts/mod.rs::MctsEngine::new` → `expand_root` → `src/mcts/expand.rs::expand_and_evaluate` → `publish_candidates`. `MctsNode::candidates` is immutable once and slab capacity fixed; `root.edge_snapshot(root.materialized_count())` returns (move,prior,N,W,M2) readback. Full legal candidate list and priors are created **before** any research gate: `config.pw=None`, nonterminal Connect4 root.
+
+**Selection change point:** `src/mcts/select.rs::select_core` computes candidate count/materialized edges and scores all edges; extend its call chain (`select`, `select_in_place`, and three `MctsEngine` callers at `src/mcts/mod.rs`) with opt-in u64 enabled-column mask. Only at `depth==0`, filter edges by `state.move_to_idx(edge.mv)`. Descendant move selection and legal game action set unchanged. Avoid initial `best_idx=0` fallback when first edge is disabled: use `found_any`.
+
+**Runtime continuation:** `MctsEngine` owns `AtomicU64 root_enabled_mask` with **0 meaning unrestricted only**, `Release` setter and `Acquire` reader. An explicit validated setter accepts a nonempty, legal unique root move list, validates old mask⊆new mask once root visited, rejects restrict after already unrestricted visited and out-of-64 action ids. Initial top3 set before `run(FixedIterations(8))`. After real tactical probe and monotone reactivation, same engine receives `run(FixedIterations(24))`. Root address and hash, prior, visits/value per edge, and full model source/TT unchanged at transition.
+
+**Server endpoint:** add `research_connect4_resident_cpu` command in `src/mcts_server.rs` as a research-only sibling of `research_connect4_reopen_cpu`, reusing `src/mcts/reopening12.rs::{ordered_legal_prior,tactical_probe,random_reopen}` plus `src/mcts/cog02.rs::model_for_root` for actual pretrained CPU models. Controls: root closed; tactical; random3; full at checkpoint; unmasked from first; no-probe closed. Two 8/24 stage snapshots and source end-to-end wall time. Standard server commands unchanged.
+
+**Posthoc exact game utility:** Pascal Pons source outside repo. `U(s,a)=sgn(S(s,a))`, illegal `-1000`; exact WDL labels opened only after all Rust requests. Data families and CI from prior `generate_cohort12.py` pattern, excluding all through C12. Source model SHA from C1 `INPUT_LOCK.json`.
+
+**Risk priority:** (i) edge0 filter bug, (ii) masked root hash drift, (iii) root visits or W changed at mask store, (iv) nonmonotone mask/illegal move, (v) hidden descendant pruning, (vi) CPU baseline unfair root prior overhead. Each has an exact test or runtime evidence field.
