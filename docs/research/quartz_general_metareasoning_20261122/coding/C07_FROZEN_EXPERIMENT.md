@@ -1,0 +1,13 @@
+# C7. Source and experiment freeze before actual C8 finite task outcomes
+
+The predeclared experimental runner `coding/run_c08_value_lab.py` is committed and pushed as C07 before looking at *any* C08 experiment summary. Original five task bank `configs/metalevel_reference_cases.v1.json` SHA256 **46d69d13ea327c23e02b76c53a0a78aadc1f77ee9e405dbef1c203a6d0b471dd** remains unchanged. No game-specific action, chess/gomoku labels or deployed Rust MCTS are used.
+
+**Frozen policies:** STOP immediately, one-step maximum gross-EVSI / resource-cost index (rate), one-step maximum priced net expected decision-loss reduction (net), and optimal ≤H finite-horizon Bellman under exact known prior/channel. All calculations use the same mathematical utility/cost λ and full action set. Policy chooses STOP if positive computed value fails; Bellman uses full future computation tree. No post hoc threshold tuning.
+
+**Exact evaluation:** independently enumerate each latent true state with probability b and each observation path under its conditional channel; terminal loss = max_a U(a,true world)−U(posterior Bayes action,true world), plus λ×actual cumulative computation cost. Exact expectation of Bellman policy must equal V_H(b) within 1e-10. Compare all other policies on exact expected total loss, not a proxy win metric.
+
+**Paired MC validation:** exactly 512 seeded synthetic trials per one of 5 frozen task families and 4 policies = **10,240 complete task traces**. Stable SHA256 counter-based draws keyed on task, trial, true state and computation channel keep shared random numbers for valid paired comparisons; repeated sensors use independent occurrence indices. Pseudorandom seed **202611220817**, source-bounded H<=4. Report mean, MC SE and full raw JSONL. Diagnostic tolerance abs(sample mean−exact)≤6SE+0.04, fixed before results; this is a finite-run smoke criterion, not a statistical guarantee or publication gate. No additional fifth policy or competing model chosen after outcomes.
+
+**Source/provenance gate:** runner refuses any dirty worktree or Git HEAD not equal to GitHub remote HEAD, and demands C04 bank exact SHA. First C07 publish, then run C08 real experiment. The random observation model is known by construction, NOT observed neural MCTS backs up. Claim ceiling is finite Bayesian reference and software semantics, no cross-domain MCTS policy effect, CPU speedup, human signatures or stronger metareasoning novelty.
+
+Next C8 saves actual exact and MC evidence; C9 independently recalculates and restores local Git archive; C10 final scientific verdict and next cross-domain calibration handoff.
