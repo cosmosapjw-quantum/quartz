@@ -1,0 +1,63 @@
+{
+  "schema": "quartz_cog06_effective_miss_next_contract_v1",
+  "current_completed_research": "QUARTZ-COG-05-NONTERMINAL-MISS-AND-GAME-WDL-16",
+  "next_research_id": "QUARTZ-COG-06-EFFECTIVE-MISS-COUNTERFACTUAL-17",
+  "question": "With an unchanged trained Gomoku15 Policy13, can a genuinely *necessary* excluded theorem-certified action be found online, and does reopening it change actual game result at matched CPU?",
+  "science_predecessor": {
+    "constructed_missed_but_redundant": 23,
+    "real_played_source_with_omitted_certificate": 0,
+    "strict_effective_miss_on_39_sources": 0,
+    "actual_games": 32,
+    "game_cert_trigger_or_override_count": 0,
+    "WDL_fork_mask": "8W 0D 8L among 16 games",
+    "WDL_proof_choice": "9W 0D 7L among 16 games",
+    "interpretation": "No identified positive incremental reopening effect, even though 23 constructed roots activated"
+  },
+  "formal_marginal_coverage": "For certified forced winning actions F(s), top16 K(s), full legal E(s), reachability R(S)=I[F intersect S is nonempty], R(E)-R(K)=I[F intersect K is empty AND F intersect (E\\K) is nonempty]. This is binary reachability only, not a proof of MCTS action superiority.",
+  "research_tracks": {
+    "theory": [
+      "R1 goal and source identity",
+      "R2 primary source literature and novelty limits",
+      "R3 formal definitions and conditional estimands",
+      "R4 multiple strict-miss source constructions",
+      "R5 constructive direct derivation",
+      "R6 adverse counterexamples and independent audit",
+      "R7 exact CAS/Python falsification",
+      "R8 finite science claim gates",
+      "R9 code/data/theory validation contract",
+      "R10 theory handoff"
+    ],
+    "coding": [
+      "C1 frozen source/model baseline",
+      "C2 equation to Rust functions",
+      "C3 numerical search/cost design",
+      "C4 prespecified source groups, exposure and split locks",
+      "C5 native implementation with observed RED/GREEN tests",
+      "C6 full debug/release and Python/Rust exact semantics",
+      "C7 freeze source/arms/budget before heldout",
+      "C8 actually run per-stratum 20ms matched CPU and paired-game WDL",
+      "C9 independently reproduce and restore byte verified archives",
+      "C10 final publish and next handoff"
+    ]
+  },
+  "admission": [
+    "At least 20 genuinely separately generated and actually played source groups with strict effective miss and actual reactivation for a played-source conditional effect; if lacking NOT_ESTIMABLE",
+    "Record raw denominator of all sampled games, not only chosen positive cases",
+    "Engineered positive controls independently reported as source-conditioned and not IID of game population",
+    "Physical CPU mean mismatch <=10% in EACH stratum at frozen evaluator and 20ms active move budget",
+    "Compare identical pretrained evaluator with all-legal, sham, top16, mask, and explicit proof-choice arms",
+    "Record paired complete legal games with swapped colors; no Elo without valid sufficient games and uncertainty",
+    "Never train or calibrate on unblinded C15/C16 test roots; do not manipulate thresholds to obtain a desired effect",
+    "Never claim novel Gomoku threat-space search itself; original Allis classical result predates C16",
+    "All R/C stages individually SHA-hashed local Git archives with confirmed GitHub branch push"
+  ],
+  "protected_sources": {
+    "C15_model_sha256": "5ff8286dcc57192b79e960ba096bc5067c78d439a212eaa69d523f68835a3b83",
+    "C16_source_cohort_sha256": "8349441f247f720028f8534ac4abf656be56f8ac58778191de900722b4af1049",
+    "C16_native_binary_sha256": "1168f2979936a283a9e7e613b869fd30ec9aba826e15ac228c6ee9d7e7e4c4d3",
+    "C16_real_root_sha256": "6ffcf1b110f7bcfc55964b203c58df46f830fe63d1797f13691d5593e7de7786",
+    "C16_real_games_ledger_sha256": "a118b4848d87b441c0a9d46e87da384ebd485c05d17559714d77f91b57a83d84",
+    "C16_evidence": "docs/research/cognitive_metareasoning_20261120/nonterminal_fork_wdl_16"
+  },
+  "next_is_not_executed_in_current_C16_cycle": true
+}

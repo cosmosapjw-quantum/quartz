@@ -1,0 +1,187 @@
+{
+  "Dropbox_cloud_sync_ack": "NOT_VERIFIED",
+  "actual_game_moves_independently_replayed": 217,
+  "actual_games_32_SHA256": "f710f1fea59d2c44aa08292b1b8a839cbac7ee6617a36b8033ba54537ab21b84",
+  "actual_native_MCTS_root_requests": 195,
+  "actual_native_Rust_binary_SHA256": "1168f2979936a283a9e7e613b869fd30ec9aba826e15ac228c6ee9d7e7e4c4d3",
+  "actual_native_root_195_SHA256": "6ffcf1b110f7bcfc55964b203c58df46f830fe63d1797f13691d5593e7de7786",
+  "actual_real_complete_games": 32,
+  "append_only_games_32_SHA256": "a118b4848d87b441c0a9d46e87da384ebd485c05d17559714d77f91b57a83d84",
+  "archived_stages_before_C10": 21,
+  "branch": "research/quartz-cog06-nonterminal-fork-wdl-20261121",
+  "completed_coding_stages_before_C10": 9,
+  "completed_theory_stages": 10,
+  "constructed_source_active_fork_positives": 23,
+  "extra_preoutcome_stage_snapshots": [
+    "C08A",
+    "C08B"
+  ],
+  "final_C10_self_archive": "to_be_generated_after_this_manifest_is_committed",
+  "frozen_model_SHA256": "5ff8286dcc57192b79e960ba096bc5067c78d439a212eaa69d523f68835a3b83",
+  "game_WDL": {
+    "mask": [
+      8,
+      0,
+      8
+    ],
+    "proof_choice": [
+      9,
+      0,
+      7
+    ]
+  },
+  "game_reopening_or_proof_override_event_count": 0,
+  "implied_elo": "NOT_ESTIMATED",
+  "independent_C09_readback_SHA256": "1a1ee8df8805a558399922682f02762a09b43ecf0c74c96514da7399b090fe7e",
+  "local_C08_archive_restore_verified_9_files": true,
+  "native_subagents": "NOT_RUN",
+  "next_research_id": "QUARTZ-COG-06-EFFECTIVE-MISS-COUNTERFACTUAL-17",
+  "original_C15_base_commit": "a85bc0ded6bf67f81256e93645dc7147838c6f88",
+  "physical_CPU_gate_per_source_stratum": "PASS",
+  "played_game_population_conditional_effect": "NOT_ESTIMABLE",
+  "played_source_omitted_certificate_activations": 0,
+  "positive_new_tactical_mechanism_effect": "NOT_IDENTIFIED",
+  "pre_C10_stage_git_and_archive_identities": {
+    "C01": {
+      "archive_bytes": 22801643,
+      "archive_sha256": "6633e6ca8e4ef72da0c6f73132393fd900cd6da543cf24b898d3c67712146f46",
+      "commit": "b1ce4861a7c38aec8f8626126756ad4777d7d83d",
+      "local_git_archive": "/home/cosmosapjw/Dropbox/personal_projects/quartz_cog01_backups/QUARTZ_COG06_NONTERMINAL16_C01_b1ce4861a7c3.tar.gz"
+    },
+    "C02": {
+      "archive_bytes": 22802950,
+      "archive_sha256": "d09afd49cf6bdd93e7138236441fd8d7bd42bc4748fd257b999f60c9ab86e82c",
+      "commit": "b6dcbd2fe8d38341be5a94eef1a08abc5ef3565e",
+      "local_git_archive": "/home/cosmosapjw/Dropbox/personal_projects/quartz_cog01_backups/QUARTZ_COG06_NONTERMINAL16_C02_b6dcbd2fe8d3.tar.gz"
+    },
+    "C03": {
+      "archive_bytes": 22802562,
+      "archive_sha256": "936543085131ab82dbca4a7e1281e73021e90e885edd64f1a7ff7cdb8f40ec3d",
+      "commit": "aa25aaf9c42955676484e02e70de4680676676e1",
+      "local_git_archive": "/home/cosmosapjw/Dropbox/personal_projects/quartz_cog01_backups/QUARTZ_COG06_NONTERMINAL16_C03_aa25aaf9c429.tar.gz"
+    },
+    "C04": {
+      "archive_bytes": 22818721,
+      "archive_sha256": "8dd85069076423b2632b70b25cfbccf380c17796e6cf9521253e13007d078974",
+      "commit": "9accad8663cbcc3fd42028fd3a51dd67ddc80230",
+      "local_git_archive": "/home/cosmosapjw/Dropbox/personal_projects/quartz_cog01_backups/QUARTZ_COG06_NONTERMINAL16_C04_9accad8663cb.tar.gz"
+    },
+    "C05": {
+      "archive_bytes": 22825990,
+      "archive_sha256": "4b4e6fbeaa4e73edcd51614c55e0ea4df59e885917598017cb632520052551f4",
+      "commit": "29e1b8ce74f7c512b5b7165d728b8a3a2e2b2345",
+      "local_git_archive": "/home/cosmosapjw/Dropbox/personal_projects/quartz_cog01_backups/QUARTZ_COG06_NONTERMINAL16_C05_29e1b8ce74f7.tar.gz"
+    },
+    "C06": {
+      "archive_bytes": 22858281,
+      "archive_sha256": "1c560df3f22094f5e595bf5a0ac081d3aee9ee791d8f03ac2f308732cefaa4b6",
+      "commit": "da6ba6571afd7f7dffaf41cd3c85fdd9fd79b520",
+      "local_git_archive": "/home/cosmosapjw/Dropbox/personal_projects/quartz_cog01_backups/QUARTZ_COG06_NONTERMINAL16_C06_da6ba6571afd.tar.gz"
+    },
+    "C07": {
+      "archive_bytes": 22865513,
+      "archive_sha256": "7d3d13d55661abed5578d6b538d64981b365caf0f2e1d76f1ce1afaa8e955f03",
+      "commit": "1a668e53460bd089fccac092ca33cded231f07fb",
+      "local_git_archive": "/home/cosmosapjw/Dropbox/personal_projects/quartz_cog01_backups/QUARTZ_COG06_NONTERMINAL16_C07_1a668e53460b.tar.gz"
+    },
+    "C08": {
+      "archive_bytes": 23911487,
+      "archive_sha256": "520451b32456d4f196529fd07b3883e68485eac4435dad26407db16f84d4f234",
+      "commit": "3db40e654b49192cdd1b4f2b1dbf5eef67f4e370",
+      "local_git_archive": "/home/cosmosapjw/Dropbox/personal_projects/quartz_cog01_backups/QUARTZ_COG06_NONTERMINAL16_C08_3db40e654b49.tar.gz"
+    },
+    "C08A": {
+      "archive_bytes": 23895662,
+      "archive_sha256": "d47d8ace55fb88b07901a778cfd633d6fba383512581b4f1fca44d74cb268396",
+      "commit": "03599faa0f3fd18becaac8c9470584c9f270bd81",
+      "local_git_archive": "/home/cosmosapjw/Dropbox/personal_projects/quartz_cog01_backups/QUARTZ_COG06_NONTERMINAL16_C08A_03599faa0f3f.tar.gz"
+    },
+    "C08B": {
+      "archive_bytes": 23899809,
+      "archive_sha256": "3645f6b2cd393d456a7b034bb5ad4c26588d9296569775662328b50ab9c70165",
+      "commit": "45af01d5dedd6e9b3ef6afb7754f538640acd3ed",
+      "local_git_archive": "/home/cosmosapjw/Dropbox/personal_projects/quartz_cog01_backups/QUARTZ_COG06_NONTERMINAL16_C08B_45af01d5dedd.tar.gz"
+    },
+    "C09": {
+      "archive_bytes": 23940751,
+      "archive_sha256": "473a17211a05aec0a7368735355594970dd49564f6a4f692fd635c6f0c823380",
+      "commit": "c2355b469efeda6497af8bf528d4b4780398d2eb",
+      "local_git_archive": "/home/cosmosapjw/Dropbox/personal_projects/quartz_cog01_backups/QUARTZ_COG06_NONTERMINAL16_C09_c2355b469efe.tar.gz"
+    },
+    "R01": {
+      "archive_bytes": 22787398,
+      "archive_sha256": "a19008b439ce5f43f25b70e6c2361c95408d87c816b1646ae471090203890f18",
+      "commit": "31759e0974c7060a6cf6bccaba182339f2d32de5",
+      "local_git_archive": "/home/cosmosapjw/Dropbox/personal_projects/quartz_cog01_backups/QUARTZ_COG06_NONTERMINAL16_R01_31759e0974c7.tar.gz"
+    },
+    "R02": {
+      "archive_bytes": 22787797,
+      "archive_sha256": "37bc2930e662c3667cbbd831bd2d3ecc370a4b78071c0da5acee8cff74c127c0",
+      "commit": "f31615a23f0ccac701d29053216c98240c7e28d8",
+      "local_git_archive": "/home/cosmosapjw/Dropbox/personal_projects/quartz_cog01_backups/QUARTZ_COG06_NONTERMINAL16_R02_f31615a23f0c.tar.gz"
+    },
+    "R03": {
+      "archive_bytes": 22789516,
+      "archive_sha256": "9d3bca81306f9f9cf56e5e87082d96f45a0699c7976c9fff09da01e710324cf5",
+      "commit": "2a996df703d8971fb32d9ea3a1580cdea7d2fbc4",
+      "local_git_archive": "/home/cosmosapjw/Dropbox/personal_projects/quartz_cog01_backups/QUARTZ_COG06_NONTERMINAL16_R03_2a996df703d8.tar.gz"
+    },
+    "R04": {
+      "archive_bytes": 22790611,
+      "archive_sha256": "f490935ff62bc7f64e89a8ea1b8f5a2a810415a68a10c446e37cc2c267872b4e",
+      "commit": "376a0c68b8d0d74ee9664329947ae038416ca378",
+      "local_git_archive": "/home/cosmosapjw/Dropbox/personal_projects/quartz_cog01_backups/QUARTZ_COG06_NONTERMINAL16_R04_376a0c68b8d0.tar.gz"
+    },
+    "R05": {
+      "archive_bytes": 22793107,
+      "archive_sha256": "f7ce054dabcaec39e747cb3fa2b2e71a3f81b659a1ce767df0a21d7087ed755d",
+      "commit": "b7986d9aaa518be564ac56329c6fbf5f6d195f16",
+      "local_git_archive": "/home/cosmosapjw/Dropbox/personal_projects/quartz_cog01_backups/QUARTZ_COG06_NONTERMINAL16_R05_b7986d9aaa51.tar.gz"
+    },
+    "R06": {
+      "archive_bytes": 22795804,
+      "archive_sha256": "ff15d93076e9bb82ccb86fbef625ab8e2ccd8f6e8c2182d3fcb61bfe23253417",
+      "commit": "a0c7ee300f89886f5730cd775ee0f8025c34750f",
+      "local_git_archive": "/home/cosmosapjw/Dropbox/personal_projects/quartz_cog01_backups/QUARTZ_COG06_NONTERMINAL16_R06_a0c7ee300f89.tar.gz"
+    },
+    "R07": {
+      "archive_bytes": 22795719,
+      "archive_sha256": "d2ea320fdee2746b3cbf9c7dcb99953707466dc37df1fb5d92997d36797dbe80",
+      "commit": "4b34d8d975883ec670009ce05aab6adb990dbb29",
+      "local_git_archive": "/home/cosmosapjw/Dropbox/personal_projects/quartz_cog01_backups/QUARTZ_COG06_NONTERMINAL16_R07_4b34d8d97588.tar.gz"
+    },
+    "R08": {
+      "archive_bytes": 22796620,
+      "archive_sha256": "4e607921bfc077849a7fc9e9441d9511e1305a27c0c7fc66c64eaa613c633bc5",
+      "commit": "dfcd05ec28c605ce73b4ffa3286d4af75c61d232",
+      "local_git_archive": "/home/cosmosapjw/Dropbox/personal_projects/quartz_cog01_backups/QUARTZ_COG06_NONTERMINAL16_R08_dfcd05ec28c6.tar.gz"
+    },
+    "R09": {
+      "archive_bytes": 22797928,
+      "archive_sha256": "684d3663a0600ed73b5f36952028c29e48abcd852fa259a824c02ae4be36eee8",
+      "commit": "d99212bd5dec5a31d43f1aa895c9fbce19ad3382",
+      "local_git_archive": "/home/cosmosapjw/Dropbox/personal_projects/quartz_cog01_backups/QUARTZ_COG06_NONTERMINAL16_R09_d99212bd5dec.tar.gz"
+    },
+    "R10": {
+      "archive_bytes": 22800104,
+      "archive_sha256": "bf9e519c25097264d01aec355bbe04088909a8006d30e2a3966f6aec3cda1fd4",
+      "commit": "f428586f0e25edf686dd0f6f8318fe8492e21096",
+      "local_git_archive": "/home/cosmosapjw/Dropbox/personal_projects/quartz_cog01_backups/QUARTZ_COG06_NONTERMINAL16_R10_f428586f0e25.tar.gz"
+    }
+  },
+  "raw_cohort_SHA256": "8349441f247f720028f8534ac4abf656be56f8ac58778191de900722b4af1049",
+  "remote_before_C10_git_commit": "c2355b469efeda6497af8bf528d4b4780398d2eb",
+  "schema": "quartz_cog06_C10_final_release_manifest_v1",
+  "source_before_C10_git_commit": "c2355b469efeda6497af8bf528d4b4780398d2eb",
+  "strict_effective_miss_count": 0,
+  "tested_Rust_debug": {
+    "failed": 0,
+    "ignored": 89,
+    "passed": 611
+  },
+  "tested_Rust_release": {
+    "failed": 0,
+    "ignored": 89,
+    "passed": 611
+  }
+}
