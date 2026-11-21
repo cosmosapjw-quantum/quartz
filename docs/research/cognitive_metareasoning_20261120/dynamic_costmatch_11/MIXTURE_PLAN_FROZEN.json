@@ -1,0 +1,139 @@
+{
+  "assignment_seeds": [
+    202611210101,
+    202611210102,
+    202611210103
+  ],
+  "mode_mixtures": {
+    "conv": {
+      "expected_mean_ms": 0.23600520833333336,
+      "experiment_scope": "G07 old validation search time only, not WDL labels or heldout",
+      "higher_cpu_cost_ms": 0.23600520833333336,
+      "higher_cpu_lambda": 4.0,
+      "higher_cpu_probability": 0.0,
+      "lower_cpu_cost_ms": 0.23600520833333336,
+      "lower_cpu_lambda": 4.0,
+      "source_old_frozen_dynamic_lambda": 4.0,
+      "source_old_frozen_myopic_lambda": 4.0,
+      "target_dynamic_validation_mean_ms": 0.23600520833333336,
+      "validation_cost_bracket": "EXACT_VALIDATION_COST",
+      "validation_myopic_candidates_cost_only": [
+        {
+          "cost_ms": 0.7284999999999999,
+          "lambda": 0.0
+        },
+        {
+          "cost_ms": 0.392125,
+          "lambda": 0.25
+        },
+        {
+          "cost_ms": 0.30484375,
+          "lambda": 0.5
+        },
+        {
+          "cost_ms": 0.23600520833333336,
+          "lambda": 1.0
+        },
+        {
+          "cost_ms": 0.23600520833333336,
+          "lambda": 2.0
+        },
+        {
+          "cost_ms": 0.23600520833333336,
+          "lambda": 4.0
+        }
+      ]
+    },
+    "new_mlp": {
+      "expected_mean_ms": 0.10781770833333333,
+      "experiment_scope": "G07 old validation search time only, not WDL labels or heldout",
+      "higher_cpu_cost_ms": 0.10781770833333333,
+      "higher_cpu_lambda": 4.0,
+      "higher_cpu_probability": 0.0,
+      "lower_cpu_cost_ms": 0.10781770833333333,
+      "lower_cpu_lambda": 4.0,
+      "source_old_frozen_dynamic_lambda": 4.0,
+      "source_old_frozen_myopic_lambda": 4.0,
+      "target_dynamic_validation_mean_ms": 0.10781770833333333,
+      "validation_cost_bracket": "EXACT_VALIDATION_COST",
+      "validation_myopic_candidates_cost_only": [
+        {
+          "cost_ms": 0.32928125,
+          "lambda": 0.0
+        },
+        {
+          "cost_ms": 0.25723958333333335,
+          "lambda": 0.25
+        },
+        {
+          "cost_ms": 0.22028645833333335,
+          "lambda": 0.5
+        },
+        {
+          "cost_ms": 0.13199479166666667,
+          "lambda": 1.0
+        },
+        {
+          "cost_ms": 0.10781770833333333,
+          "lambda": 2.0
+        },
+        {
+          "cost_ms": 0.10781770833333333,
+          "lambda": 4.0
+        }
+      ]
+    },
+    "uniform": {
+      "expected_mean_ms": 0.17375,
+      "experiment_scope": "G07 old validation search time only, not WDL labels or heldout",
+      "higher_cpu_cost_ms": 0.17953125,
+      "higher_cpu_lambda": 0.5,
+      "higher_cpu_probability": 0.5950383071871573,
+      "lower_cpu_cost_ms": 0.16525520833333332,
+      "lower_cpu_lambda": 1.0,
+      "source_old_frozen_dynamic_lambda": 1.0,
+      "source_old_frozen_myopic_lambda": 1.0,
+      "target_dynamic_validation_mean_ms": 0.17375,
+      "validation_cost_bracket": "VALIDATION_TIME_BRACKET",
+      "validation_myopic_candidates_cost_only": [
+        {
+          "cost_ms": 0.203421875,
+          "lambda": 0.0
+        },
+        {
+          "cost_ms": 0.18617708333333335,
+          "lambda": 0.25
+        },
+        {
+          "cost_ms": 0.17953125,
+          "lambda": 0.5
+        },
+        {
+          "cost_ms": 0.16525520833333332,
+          "lambda": 1.0
+        },
+        {
+          "cost_ms": 0.12171875,
+          "lambda": 2.0
+        },
+        {
+          "cost_ms": 0.07943750000000001,
+          "lambda": 4.0
+        }
+      ]
+    }
+  },
+  "no_C09_C10_test_outcome_or_future_C11_data_used": true,
+  "quota_rule": "per cohort: 12x16 roots, round(192 p) higher-cost assignments; family-level quota floor(16p) + up to one",
+  "randomization": "predeclared SHA256 family+position ranking without oracle, balanced block randomization within each new 12-family test cohort",
+  "schema": "quartz_cog02_dynamic_option_costmatch11_validation_only_random_mixture_v1",
+  "selection_only_validation_release_CPU_times": true,
+  "source_frozen_C10_policy_sha256": "112acbaa6e31be7cd49ba8ad6347daa191059b31056439554d956d8828e123ad",
+  "source_original_G07_trainval_2496_sha256": "a9bc711f092a87d5813cd93bad37772bdacf189b31e6300b0cbba17a2e3fd6f3",
+  "source_parent_git_head": "85a08755e2463538ed0abf84d443f19dacc29e02",
+  "test_cohort_groups": [
+    "new_A",
+    "new_B"
+  ],
+  "three_assignments_all_reported_not_cherry_picked": true
+}

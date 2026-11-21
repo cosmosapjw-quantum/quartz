@@ -1,0 +1,127 @@
+{
+  "all_three_randomization_seeds_precommitted": [
+    202611210101,
+    202611210102,
+    202611210103
+  ],
+  "candidate_set": [
+    "conv",
+    "new_mlp",
+    "uniform"
+  ],
+  "claim_bounds": [
+    "no test outcome used for mixture or coefficient fitting",
+    "no Bayesian VOC theorem",
+    "mixture randomization does not imply stochastic game search sampling"
+  ],
+  "n_locked_source_files": 20,
+  "new_C11_external_teacher_exists_at_freeze": false,
+  "new_C11_test_cohort_exists_at_freeze": false,
+  "new_C11_test_runs_exist_at_freeze": false,
+  "original_source_sha256": [
+    {
+      "bytes": 4382,
+      "path": "/home/cosmosapjw/quantum/research/quartz_cog01_20261120/docs/research/cognitive_metareasoning_20261120/dynamic_costmatch_11/MIXTURE_PLAN_FROZEN.json",
+      "sha256": "faad5102c2a45f37cd2b0981aad00cc33e050ede3a2546ea1ac4c21f31f0fa63"
+    },
+    {
+      "bytes": 93358,
+      "path": "/home/cosmosapjw/quantum/research/quartz_cog01_20261120/docs/research/cognitive_metareasoning_20261120/dynamic_voc_10/evidence/frozen_release_policies_20261121/FROZEN_RELEASE_POLICIES.json",
+      "sha256": "112acbaa6e31be7cd49ba8ad6347daa191059b31056439554d956d8828e123ad"
+    },
+    {
+      "bytes": 540,
+      "path": "/home/cosmosapjw/quantum/research/quartz_cog01_20261120/docs/research/cognitive_metareasoning_20261120/dynamic_voc_10/evidence/frozen_release_policies_20261121/FIT_MANIFEST.json",
+      "sha256": "855d185f3f33cb0067968ae9028117e8fcb40d108d14d4c8d20bb237aaa03b7c"
+    },
+    {
+      "bytes": 1795094,
+      "path": "/home/cosmosapjw/quantum/research/quartz_cog01_20261120/docs/research/cognitive_metareasoning_20261120/dynamic_voc_10/evidence/release_train_val_2496_20261121/JOINED_TRAIN_VAL_RELEASE.json",
+      "sha256": "a9bc711f092a87d5813cd93bad37772bdacf189b31e6300b0cbba17a2e3fd6f3"
+    },
+    {
+      "bytes": 1162,
+      "path": "/home/cosmosapjw/quantum/research/quartz_cog01_20261120/docs/research/cognitive_metareasoning_20261120/dynamic_voc_10/evidence/release_train_val_2496_20261121/EXECUTION_MANIFEST.json",
+      "sha256": "3338df6a9dbdcea22a97d00d3cfc055384606f3a8ecf928bfc1de0f0cf8ec494"
+    },
+    {
+      "bytes": 834901,
+      "path": "/home/cosmosapjw/quantum/research/quartz_cog01_20261120/docs/research/cognitive_metareasoning_20261120/connect4_generalization_07/COHORT_1024_FROZEN.json",
+      "sha256": "cd56b7828a98b8b60f2f8d16e38f841f4a7e6c161446cdf76bfb31a07e1b2b03"
+    },
+    {
+      "bytes": 155892,
+      "path": "/home/cosmosapjw/quantum/research/quartz_cog01_20261120/docs/research/cognitive_metareasoning_20261120/connect4_recognizer_06/COHORT_FROZEN.json",
+      "sha256": "8717f53c4da338c2082283dab74864cbd9204546ddc653824bbdb745e60864b7"
+    },
+    {
+      "bytes": 45053,
+      "path": "/home/cosmosapjw/quantum/research/quartz_cog01_20261120/docs/research/cognitive_metareasoning_20261120/standard_external_04/POSITIONS_FIXED.json",
+      "sha256": "8dec41c775cfd55ca3448766fbe1a72fe57299f8e58f042feda907791aae9236"
+    },
+    {
+      "bytes": 318362,
+      "path": "/home/cosmosapjw/quantum/research/quartz_cog01_20261120/docs/research/cognitive_metareasoning_20261120/voc_calibration_09/COHORT_384_FROZEN.json",
+      "sha256": "30101889eb4c17ff11ace381e6366a53b2af5130341a61e6969ac9ea091fe54e"
+    },
+    {
+      "bytes": 317473,
+      "path": "/home/cosmosapjw/quantum/research/quartz_cog01_20261120/docs/research/cognitive_metareasoning_20261120/dynamic_voc_10/COHORT_384_FROZEN.json",
+      "sha256": "c12c86ab08adb614a80d196d842f31ddf3fc78f7929ddee17523b9569db46ce5"
+    },
+    {
+      "bytes": 242575,
+      "path": "/home/cosmosapjw/quantum/research/quartz_cog01_20261120/docs/research/cognitive_metareasoning_20261120/connect4_generalization_07/evidence/mlp_conv_train_20261121/mlp_model.json",
+      "sha256": "a5bd016c019724fab54110458fcdcb7abf9e61fbb959afe76d6c94b8237b3f3d"
+    },
+    {
+      "bytes": 168970,
+      "path": "/home/cosmosapjw/quantum/research/quartz_cog01_20261120/docs/research/cognitive_metareasoning_20261120/connect4_generalization_07/evidence/mlp_conv_train_20261121/conv_model.json",
+      "sha256": "161f9e6e26840754384cb47335d1082d837fa014735cbfaa2517209422e29f24"
+    },
+    {
+      "bytes": 8130,
+      "path": "/home/cosmosapjw/quantum/research/quartz_cog01_20261120/src/mcts/dynamic10.rs",
+      "sha256": "e207eabe82611fc8773588dd49e984f70ed3932dce5f0f3a996cb79cea46d52c"
+    },
+    {
+      "bytes": 9046,
+      "path": "/home/cosmosapjw/quantum/research/quartz_cog01_20261120/src/mcts/cog02.rs",
+      "sha256": "7b3013e52a21f23cddaba41006ccde7b53f8b0ca586011b0b00e1141ef76ec68"
+    },
+    {
+      "bytes": 333534,
+      "path": "/home/cosmosapjw/quantum/research/quartz_cog01_20261120/src/mcts_server.rs",
+      "sha256": "d9e6130820624fb308a57a9e0d81c9fd08b54873f6399683fc65e50fd8cb6b04"
+    },
+    {
+      "bytes": 1416,
+      "path": "/home/cosmosapjw/quantum/research/quartz_cog01_20261120/Cargo.toml",
+      "sha256": "897e6624b41356d2f2ca7fffa30c4479cc0959fee3138cdb30fa4bc8ec5c1994"
+    },
+    {
+      "bytes": 29131,
+      "path": "/home/cosmosapjw/quantum/research/quartz_cog01_20261120/Cargo.lock",
+      "sha256": "4368560c374c1272000fdd17a48fbe8449c6e471c848698b088d0b6092b2bb36"
+    },
+    {
+      "bytes": 79296,
+      "path": "/home/cosmosapjw/quantum/research/quartz_external_engines_20261120/pascalpons_connect4/c4solver",
+      "sha256": "fca2b665b1b3dbd88f2f50a7e0ba86fd8ae253f2861da1ad51cf110c69f741ed"
+    },
+    {
+      "bytes": 6291513,
+      "path": "/home/cosmosapjw/quantum/research/quartz_external_engines_20261120/pascalpons_connect4/7x6_small.book",
+      "sha256": "38f9834317c37d9516e45a21da598569a5d1556595686593d14c2e63f59c1f38"
+    },
+    {
+      "bytes": 3665752,
+      "path": "/home/cosmosapjw/quantum/research/quartz_connect4_20261120_target/release/mcts_demo",
+      "sha256": "4db989b0ede0c56077de77a820a99cd777adcf87c98d7faedc62611491eb8a03"
+    }
+  ],
+  "parent_commit": "85a08755e2463538ed0abf84d443f19dacc29e02",
+  "precommitted_mode_mix_sha256": "faad5102c2a45f37cd2b0981aad00cc33e050ede3a2546ea1ac4c21f31f0fa63",
+  "schema": "quartz_cog02_dynamic_costmatch11_A_input_lock_v1",
+  "two_new_12family_cohorts_planned": true
+}
