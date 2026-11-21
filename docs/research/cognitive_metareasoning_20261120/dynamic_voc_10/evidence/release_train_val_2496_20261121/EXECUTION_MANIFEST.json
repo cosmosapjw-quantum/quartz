@@ -1,0 +1,21 @@
+{
+  "compiled_release_binary_sha256": "4db989b0ede0c56077de77a820a99cd777adcf87c98d7faedc62611491eb8a03",
+  "compiled_rust_commit": "4c7d490d3c23e05dbe0bbf74be55ad4b45c7f4f2",
+  "files_sha256": {
+    "JOINED_TRAIN_VAL_RELEASE.json": "a9bc711f092a87d5813cd93bad37772bdacf189b31e6300b0cbba17a2e3fd6f3",
+    "RAW_2496_RELEASE_FULL64.json": "8fb0f6f86f7139c070f1fb046a63bcd7b38871c1f9531d8db488089a2b787d63"
+  },
+  "model_sha256": {
+    "conv": "161f9e6e26840754384cb47335d1082d837fa014735cbfaa2517209422e29f24",
+    "new_mlp": "a5bd016c019724fab54110458fcdcb7abf9e61fbb959afe76d6c94b8237b3f3d"
+  },
+  "number_real_Rust_searches": 2496,
+  "oracle_loaded_after_all_full64_traces": true,
+  "schema": "quartz_cog02_dynamic10_release_train_collection_manifest_v1",
+  "source_commit": "0e36f3bf0ab5f43142ce2a33028d9845a76b67ca",
+  "source_only_G07_train_val": true,
+  "source_training_cohort_sha256": "cd56b7828a98b8b60f2f8d16e38f841f4a7e6c161446cdf76bfb31a07e1b2b03",
+  "source_tree": "bf40d93e8b4a88a58fcd40e0f6225c282c9c5d0e",
+  "teacher_label_sha256": "ac90b136cc6df0d8fc4b69b7ee178806c81b156f1f62bed55b5904b43679a22e",
+  "wall_elapsed_seconds": 3.3496258199957083
+}
