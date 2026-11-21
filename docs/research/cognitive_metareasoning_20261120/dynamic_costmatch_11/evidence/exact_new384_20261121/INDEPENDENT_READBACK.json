@@ -1,0 +1,25 @@
+{
+  "all_384_exact_WDL_root_legal_and_policy_targets_verified": true,
+  "decision_informative_WDL_counts": {
+    "new_A": 98,
+    "new_B": 117
+  },
+  "exact_root_WDL_counts": {
+    "new_A/-1": 69,
+    "new_A/0": 8,
+    "new_A/1": 115,
+    "new_B/-1": 55,
+    "new_B/0": 11,
+    "new_B/1": 126
+  },
+  "mirror_solver_new_requeries": 24,
+  "mixture_assignment_sha256": "146e1d0afa835e98de457c0221e02bb103e957067d6b6971de22a7573dabda30",
+  "n_frozen_new_roots": 384,
+  "n_new_families": 24,
+  "new_test_labels_sha256": "25f16693b73766f5bdd6983f5a79d1fced3464cbbbef754d9c7279af12a577c6",
+  "original_solver_new_requeries": 24,
+  "schema": "quartz_cog02_costmatch11_new384_exact_independent_readback_v1",
+  "source_commit": "d2f6995c5fa9b87b844d66c46f5e79fb19f30904",
+  "source_new_cohort_sha256": "ec95fdffdfa9a35bc009e607bd3882229e27fb2ea2c72f7fe8ee1eb7f5b14edb",
+  "test_results_not_used_for_fit": true
+}
