@@ -1,0 +1,81 @@
+{
+  "actual_compiled_rust_source_commit": "4c7d490d3c23e05dbe0bbf74be55ad4b45c7f4f2",
+  "actual_later_root_features_never_leaked_to_decisions": true,
+  "all_related_Python_unit_tests": {
+    "components": [
+      12,
+      6,
+      7,
+      10,
+      9,
+      4,
+      7,
+      7,
+      7,
+      9,
+      27
+    ],
+    "failed": 0,
+    "passed": 105
+  },
+  "decision_informative_new_test_roots": 209,
+  "exact_external_384_labels_sha256": "4af28f7a4e61b1f5c3d2a0d9790f093c29200d91e72026fd4b8ab2b2034e76fa",
+  "fitted_trained_val_policy_sha256": "112acbaa6e31be7cd49ba8ad6347daa191059b31056439554d956d8828e123ad",
+  "frozen_new384_cohort_sha256": "c12c86ab08adb614a80d196d842f31ddf3fc78f7929ddee17523b9569db46ce5",
+  "full_debug_Rust_tests": {
+    "failed": 0,
+    "ignored": 89,
+    "passed": 596
+  },
+  "full_release_Rust_tests": {
+    "failed": 0,
+    "ignored": 89,
+    "passed": 596
+  },
+  "main_results": {
+    "fresh_A": {
+      "uniform_clock_regret": 0.203125,
+      "uniform_dynamic_clock_time_matched": "MATCHED_10_PERCENT",
+      "uniform_dynamic_myopic_timematch_time_matched": "MATCHED_10_PERCENT",
+      "uniform_dynamic_regret": 0.078125,
+      "uniform_dynamic_two_step_commits": 118,
+      "uniform_myopic_regret": 0.08854166666666667,
+      "uniform_myopic_timematch_regret": 0.078125
+    },
+    "fresh_B": {
+      "uniform_clock_regret": 0.22395833333333334,
+      "uniform_dynamic_clock_time_matched": "MATCHED_10_PERCENT",
+      "uniform_dynamic_myopic_timematch_time_matched": "NOT_MATCHED_10_PERCENT",
+      "uniform_dynamic_regret": 0.16145833333333334,
+      "uniform_dynamic_two_step_commits": 98,
+      "uniform_myopic_regret": 0.16666666666666666,
+      "uniform_myopic_timematch_regret": 0.16145833333333334
+    },
+    "pooled": {
+      "uniform_clock_regret": 0.21354166666666666,
+      "uniform_dynamic_clock_time_matched": "MATCHED_10_PERCENT",
+      "uniform_dynamic_myopic_timematch_time_matched": "NOT_MATCHED_10_PERCENT",
+      "uniform_dynamic_regret": 0.11979166666666667,
+      "uniform_dynamic_two_step_commits": 216,
+      "uniform_myopic_regret": 0.12760416666666666,
+      "uniform_myopic_timematch_regret": 0.11979166666666667
+    }
+  },
+  "native_subagent": "NOT_RUN",
+  "new_distinct_test_families": 24,
+  "new_exact_original_plus_mirror_requeries": 48,
+  "new_test_roots": 384,
+  "one_step_and_two_step_wdl_gains_signed": true,
+  "real_cpp_rust_and_python_parity_val_requests": 288,
+  "real_release_root_search_requests": 8064,
+  "release_binary_sha256": "4db989b0ede0c56077de77a820a99cd777adcf87c98d7faedc62611491eb8a03",
+  "run_heldout_only_after_coeff_and_lambda_freeze": true,
+  "schema": "quartz_cog02_dynamic10_full_release_test_verification_v1",
+  "science_source_commit": "83e02589c4b39236354636f3ec9de9bd6bfc6c1e",
+  "science_status": "conditional finite empirical support vs fixed-clock; marginal independent two-step advantage unresolved",
+  "source_output_sha256": {
+    "PAIRED_384_NEW_ROOTS.json": "382fb1409799f4c17c30a8f15ee4b73dd0ee0de715b531a3b0cfe0502f0e41f1",
+    "RAW_8064_RELEASE_ROOTS.json": "0e938f1f935f49c877d0380debdf26d4e3aff894c9a75b175eda0aadf210001d",
+    "SUMMARY_TWO_STEP.json": "d6c3e5d4794464ff79ff2d0038a6fd939d9673c4f46860f4f606a86a5d3ab2bd"
+  }
+}

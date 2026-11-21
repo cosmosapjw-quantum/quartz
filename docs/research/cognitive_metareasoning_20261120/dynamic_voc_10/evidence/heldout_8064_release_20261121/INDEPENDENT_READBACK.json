@@ -1,0 +1,372 @@
+{
+  "actual_Rust_release_requests": 8064,
+  "actual_two_step_model_forecasts_and_skips_Rust_vs_independent_Python": true,
+  "all_actual_actions_WDL_costs_and_prefixes_recomputed": true,
+  "cohort_model_results": {
+    "fresh_A": {
+      "conv": {
+        "arms": {
+          "dynamic": {
+            "mean_regret": 0.1875,
+            "mean_search_ms": 0.25039062500000003
+          },
+          "full64": {
+            "mean_regret": 0.0625,
+            "mean_search_ms": 1.17340625
+          },
+          "legacy_debug_myopic": {
+            "mean_regret": 0.17708333333333334,
+            "mean_search_ms": 0.26284375
+          },
+          "live_fixed16": {
+            "mean_regret": 0.13020833333333334,
+            "mean_search_ms": 0.417859375
+          },
+          "myopic": {
+            "mean_regret": 0.1875,
+            "mean_search_ms": 0.22619270833333335
+          },
+          "myopic_time_match": {
+            "mean_regret": 0.1875,
+            "mean_search_ms": 0.22319270833333335
+          },
+          "validation_clock": {
+            "mean_regret": 0.1875,
+            "mean_search_ms": 0.24178124999999998
+          }
+        },
+        "clock_matched": "MATCHED_10_PERCENT",
+        "dynamic_minus_release_myopic_regret": 0.0,
+        "dynamic_two_step_commits": 0,
+        "n_decision_informative_roots": 98
+      },
+      "new_mlp": {
+        "arms": {
+          "dynamic": {
+            "mean_regret": 0.13541666666666666,
+            "mean_search_ms": 0.11566145833333334
+          },
+          "full64": {
+            "mean_regret": 0.07291666666666667,
+            "mean_search_ms": 0.4304322916666667
+          },
+          "legacy_debug_myopic": {
+            "mean_regret": 0.13541666666666666,
+            "mean_search_ms": 0.092515625
+          },
+          "live_fixed16": {
+            "mean_regret": 0.13020833333333334,
+            "mean_search_ms": 0.18016666666666667
+          },
+          "myopic": {
+            "mean_regret": 0.13541666666666666,
+            "mean_search_ms": 0.09564583333333333
+          },
+          "myopic_time_match": {
+            "mean_regret": 0.13541666666666666,
+            "mean_search_ms": 0.09328645833333334
+          },
+          "validation_clock": {
+            "mean_regret": 0.13541666666666666,
+            "mean_search_ms": 0.10433333333333333
+          }
+        },
+        "clock_matched": "MATCHED_10_PERCENT",
+        "dynamic_minus_release_myopic_regret": 0.0,
+        "dynamic_two_step_commits": 0,
+        "n_decision_informative_roots": 98
+      },
+      "uniform": {
+        "arms": {
+          "dynamic": {
+            "mean_regret": 0.078125,
+            "mean_search_ms": 0.19140625
+          },
+          "full64": {
+            "mean_regret": 0.171875,
+            "mean_search_ms": 0.32069270833333335
+          },
+          "legacy_debug_myopic": {
+            "mean_regret": 0.11979166666666667,
+            "mean_search_ms": 0.14528645833333334
+          },
+          "live_fixed16": {
+            "mean_regret": 0.2864583333333333,
+            "mean_search_ms": 0.14627604166666666
+          },
+          "myopic": {
+            "mean_regret": 0.08854166666666667,
+            "mean_search_ms": 0.16616666666666666
+          },
+          "myopic_time_match": {
+            "mean_regret": 0.078125,
+            "mean_search_ms": 0.18290104166666665
+          },
+          "validation_clock": {
+            "mean_regret": 0.203125,
+            "mean_search_ms": 0.18420833333333334
+          }
+        },
+        "clock_matched": "MATCHED_10_PERCENT",
+        "dynamic_minus_release_myopic_regret": -0.010416666666666671,
+        "dynamic_two_step_commits": 118,
+        "n_decision_informative_roots": 98
+      }
+    },
+    "fresh_B": {
+      "conv": {
+        "arms": {
+          "dynamic": {
+            "mean_regret": 0.16145833333333334,
+            "mean_search_ms": 0.2612552083333333
+          },
+          "full64": {
+            "mean_regret": 0.09895833333333333,
+            "mean_search_ms": 1.09584375
+          },
+          "legacy_debug_myopic": {
+            "mean_regret": 0.16145833333333334,
+            "mean_search_ms": 0.252453125
+          },
+          "live_fixed16": {
+            "mean_regret": 0.13020833333333334,
+            "mean_search_ms": 0.4111458333333333
+          },
+          "myopic": {
+            "mean_regret": 0.16145833333333334,
+            "mean_search_ms": 0.212828125
+          },
+          "myopic_time_match": {
+            "mean_regret": 0.16145833333333334,
+            "mean_search_ms": 0.20853645833333334
+          },
+          "validation_clock": {
+            "mean_regret": 0.16145833333333334,
+            "mean_search_ms": 0.21371874999999999
+          }
+        },
+        "clock_matched": "NOT_MATCHED_10_PERCENT",
+        "dynamic_minus_release_myopic_regret": 0.0,
+        "dynamic_two_step_commits": 0,
+        "n_decision_informative_roots": 111
+      },
+      "new_mlp": {
+        "arms": {
+          "dynamic": {
+            "mean_regret": 0.203125,
+            "mean_search_ms": 0.14114583333333333
+          },
+          "full64": {
+            "mean_regret": 0.078125,
+            "mean_search_ms": 0.4157135416666667
+          },
+          "legacy_debug_myopic": {
+            "mean_regret": 0.203125,
+            "mean_search_ms": 0.09466145833333334
+          },
+          "live_fixed16": {
+            "mean_regret": 0.13020833333333334,
+            "mean_search_ms": 0.19216145833333334
+          },
+          "myopic": {
+            "mean_regret": 0.203125,
+            "mean_search_ms": 0.10034375000000001
+          },
+          "myopic_time_match": {
+            "mean_regret": 0.203125,
+            "mean_search_ms": 0.09759895833333333
+          },
+          "validation_clock": {
+            "mean_regret": 0.203125,
+            "mean_search_ms": 0.10010416666666666
+          }
+        },
+        "clock_matched": "NOT_MATCHED_10_PERCENT",
+        "dynamic_minus_release_myopic_regret": 0.0,
+        "dynamic_two_step_commits": 0,
+        "n_decision_informative_roots": 111
+      },
+      "uniform": {
+        "arms": {
+          "dynamic": {
+            "mean_regret": 0.16145833333333334,
+            "mean_search_ms": 0.20447916666666666
+          },
+          "full64": {
+            "mean_regret": 0.296875,
+            "mean_search_ms": 0.3146979166666667
+          },
+          "legacy_debug_myopic": {
+            "mean_regret": 0.17708333333333334,
+            "mean_search_ms": 0.14652604166666666
+          },
+          "live_fixed16": {
+            "mean_regret": 0.2708333333333333,
+            "mean_search_ms": 0.15658333333333332
+          },
+          "myopic": {
+            "mean_regret": 0.16666666666666666,
+            "mean_search_ms": 0.1541875
+          },
+          "myopic_time_match": {
+            "mean_regret": 0.16145833333333334,
+            "mean_search_ms": 0.16673958333333336
+          },
+          "validation_clock": {
+            "mean_regret": 0.22395833333333334,
+            "mean_search_ms": 0.18553125
+          }
+        },
+        "clock_matched": "MATCHED_10_PERCENT",
+        "dynamic_minus_release_myopic_regret": -0.005208333333333315,
+        "dynamic_two_step_commits": 98,
+        "n_decision_informative_roots": 111
+      }
+    },
+    "pooled": {
+      "conv": {
+        "arms": {
+          "dynamic": {
+            "mean_regret": 0.17447916666666666,
+            "mean_search_ms": 0.2558229166666667
+          },
+          "full64": {
+            "mean_regret": 0.08072916666666667,
+            "mean_search_ms": 1.134625
+          },
+          "legacy_debug_myopic": {
+            "mean_regret": 0.16927083333333334,
+            "mean_search_ms": 0.2576484375
+          },
+          "live_fixed16": {
+            "mean_regret": 0.13020833333333334,
+            "mean_search_ms": 0.4145026041666667
+          },
+          "myopic": {
+            "mean_regret": 0.17447916666666666,
+            "mean_search_ms": 0.21951041666666668
+          },
+          "myopic_time_match": {
+            "mean_regret": 0.17447916666666666,
+            "mean_search_ms": 0.21586458333333333
+          },
+          "validation_clock": {
+            "mean_regret": 0.17447916666666666,
+            "mean_search_ms": 0.22775
+          }
+        },
+        "clock_matched": "NOT_MATCHED_10_PERCENT",
+        "dynamic_minus_release_myopic_regret": 0.0,
+        "dynamic_two_step_commits": 0,
+        "n_decision_informative_roots": 209
+      },
+      "new_mlp": {
+        "arms": {
+          "dynamic": {
+            "mean_regret": 0.16927083333333334,
+            "mean_search_ms": 0.12840364583333333
+          },
+          "full64": {
+            "mean_regret": 0.07552083333333333,
+            "mean_search_ms": 0.4230729166666667
+          },
+          "legacy_debug_myopic": {
+            "mean_regret": 0.16927083333333334,
+            "mean_search_ms": 0.09358854166666668
+          },
+          "live_fixed16": {
+            "mean_regret": 0.13020833333333334,
+            "mean_search_ms": 0.18616406249999998
+          },
+          "myopic": {
+            "mean_regret": 0.16927083333333334,
+            "mean_search_ms": 0.09799479166666668
+          },
+          "myopic_time_match": {
+            "mean_regret": 0.16927083333333334,
+            "mean_search_ms": 0.09544270833333333
+          },
+          "validation_clock": {
+            "mean_regret": 0.16927083333333334,
+            "mean_search_ms": 0.10221875000000001
+          }
+        },
+        "clock_matched": "NOT_MATCHED_10_PERCENT",
+        "dynamic_minus_release_myopic_regret": 0.0,
+        "dynamic_two_step_commits": 0,
+        "n_decision_informative_roots": 209
+      },
+      "uniform": {
+        "arms": {
+          "dynamic": {
+            "mean_regret": 0.11979166666666667,
+            "mean_search_ms": 0.19794270833333336
+          },
+          "full64": {
+            "mean_regret": 0.234375,
+            "mean_search_ms": 0.3176953125
+          },
+          "legacy_debug_myopic": {
+            "mean_regret": 0.1484375,
+            "mean_search_ms": 0.14590625
+          },
+          "live_fixed16": {
+            "mean_regret": 0.2786458333333333,
+            "mean_search_ms": 0.1514296875
+          },
+          "myopic": {
+            "mean_regret": 0.12760416666666666,
+            "mean_search_ms": 0.16017708333333333
+          },
+          "myopic_time_match": {
+            "mean_regret": 0.11979166666666667,
+            "mean_search_ms": 0.1748203125
+          },
+          "validation_clock": {
+            "mean_regret": 0.21354166666666666,
+            "mean_search_ms": 0.18486979166666664
+          }
+        },
+        "clock_matched": "MATCHED_10_PERCENT",
+        "dynamic_minus_release_myopic_regret": -0.007812499999999986,
+        "dynamic_two_step_commits": 216,
+        "n_decision_informative_roots": 209
+      }
+    }
+  },
+  "correct_cost_match_admission": true,
+  "decision_counts": {
+    "('conv', 'dynamic', 'stop')": 384,
+    "('conv', 'myopic', 'stop')": 384,
+    "('conv', 'myopic_time_match', 'stop')": 384,
+    "('new_mlp', 'dynamic', 'stop')": 384,
+    "('new_mlp', 'myopic', 'stop')": 384,
+    "('new_mlp', 'myopic_time_match', 'stop')": 384,
+    "('uniform', 'dynamic', 'commit_two')": 216,
+    "('uniform', 'dynamic', 'single')": 30,
+    "('uniform', 'dynamic', 'stop')": 383,
+    "('uniform', 'myopic', 'single')": 419,
+    "('uniform', 'myopic', 'stop')": 384,
+    "('uniform', 'myopic_time_match', 'single')": 496,
+    "('uniform', 'myopic_time_match', 'stop')": 381
+  },
+  "independent_external_solver_mirror_requeries": 24,
+  "independent_external_solver_origin_requeries": 24,
+  "informative_WDL_roots_by_group": {
+    "fresh_A": 98,
+    "fresh_B": 111
+  },
+  "model_cache_hit_counts": {
+    "('conv', 'False')": 1,
+    "('conv', 'True')": 2687,
+    "('new_mlp', 'False')": 1,
+    "('new_mlp', 'True')": 2687,
+    "('uniform', 'False')": 2688
+  },
+  "new_family_clusters": 24,
+  "new_roots": 384,
+  "schema": "quartz_cog02_dynamic10_8064_release_independent_audit_v1",
+  "source_commit": "83e02589c4b39236354636f3ec9de9bd6bfc6c1e",
+  "strong_nonmyopic_benefit_claim": "NOT_ESTABLISHED_WITHOUT_MATCHED_MYOPIC_COST",
+  "theory": "empirical signed realized gain and finite XOR synergy, NOT true Bayesian preposterior KG"
+}
