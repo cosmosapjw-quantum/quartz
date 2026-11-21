@@ -1,0 +1,13 @@
+# R4. Candidate constructions and discriminating test
+
+Original construction protected: C15's full original MCTS root is allocated up front, first 8 visits restricted to top16, then reopens selected omitted candidates without resetting root prior or statistics. Replace its one-ply win-in-one witness with a certificate of a **nonterminal fork**; keep same-root proof and physical costs.
+
+Alternative 1 (selected): linear-scan bounded tactical witness. If both sides have no existing immediate winning cells, after a hypothetical candidate action any *new* immediate win must involve a and therefore its empty winning endpoint c is collinear with a at distance <=4, in one of four axes. At most 32 local candidate cells per a; test endpoints exactly by board rules. If two distinct endpoints exist, record proof pair. No opponent response enumeration needed because monotonicity excludes counterthreat creation by t's move. This is a conditional sound (not complete) depth3 certificate.
+
+Alternative 2: exhaustive 3-ply AND/OR search over all b opponent replies and c wins, potentially more complete but more expensive; predefine a comparison on small toy boards. Do not silently promote a certificate to exhaustive strategic understanding.
+
+Alternative 3: external Rapfi teacher / minimax: NOT used online; may serve later posthoc descriptive comparison but is not a proof or direct source of actions.
+
+Interventions explicitly separated: learned_full (no mask/witness), learned_top16+fork_reopen (certificate scan + admit up to4 omitted), learned_top16+sham_reopen (same number irrelevant omitted candidates using deterministic seed), learned_top16+fork_proof_choice (same mask but select a certified mate-in-two candidate at final root even if visits lower). Option learned_top16_no_witness characterizes overhead and search bias if needed. Preserve equal CPU budget and counterbalance per-root order. Precommit settings rather than tune after heldout.
+
+Positive diagnostic: construct multiple legal alternate histories with central distractor motifs and edge open-three nonterminal fork. Preserve distinct original game-source IDs and D4-canonical uniqueness; do not misstate transformed/stressed boards as IID natural or professional games. Negative diagnostic: actual independently played-game opening roots, expected low trigger prevalence. Full-game WDL is a separate transfer experiment from no-outcome-leakage heldout initial histories; this evaluates actual play strength, not a proof of universal Gomoku advantage.
