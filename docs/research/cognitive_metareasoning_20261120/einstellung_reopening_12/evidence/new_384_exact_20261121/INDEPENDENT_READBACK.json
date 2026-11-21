@@ -1,0 +1,22 @@
+{
+  "all_384_full_legal_score_vectors_verified": true,
+  "complete_score_only_not_mcts_policy": true,
+  "decision_informative_root_count_by_group": {
+    "reopen_A": 126,
+    "reopen_B": 114
+  },
+  "external_exact_solver_additional_mirror_queries": 24,
+  "external_exact_solver_additional_original_queries": 24,
+  "external_exact_source_sha256": "0e018e813e77fc2e0a25688824c63b9adb10d4a9fc047dcdad92a72b48d78012",
+  "input_new_cohort_sha256": "31e86dcda897a540f7914ee123e929e30dadf8a8e93117f98c8cd137abed380a",
+  "new_opening_families": 24,
+  "root_WDL_class_counts": {
+    "reopen_A/-1": 47,
+    "reopen_A/0": 7,
+    "reopen_A/1": 138,
+    "reopen_B/-1": 61,
+    "reopen_B/0": 8,
+    "reopen_B/1": 123
+  },
+  "schema": "quartz_cog03_reopening12_external_oracle_independent_v1"
+}
