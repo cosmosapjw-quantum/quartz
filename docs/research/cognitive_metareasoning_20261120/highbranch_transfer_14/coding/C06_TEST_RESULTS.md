@@ -1,0 +1,11 @@
+# C6. Full debug/release Rust verification and actual Freestyle15 server preflight
+
+Source commit 7b64a681d7f0be37d10eb4417d079499a3fe1d45, actual compiled Linux optimized Rust mcts_demo binary SHA256 435dfe735306f5bf4313f466d828e9569394b93ae04c487bc0c5e25e38682b14 (3,878,344 bytes). Built via cargo --offline --locked --release --bin mcts_demo with separate CARGO_TARGET_DIR.
+
+Fresh complete Rust release tests 606 PASS, 0 FAIL, 89 ignored; complete Rust debug tests 606 PASS, 0 FAIL, 89 ignored. C14 new four-u64 root action mask and real 15x15 tactical server RED→GREEN; previous C13 Connect4 root mask legacy targeted test also green. Full crate tests not a claim of external teacher performance.
+
+Real optimized JSON-line server --server preflight: 2 frozen source boards (one neutral and one deliberately tactical stress) x four preregistered root-policy arms (closed/evidence/all_after8/full32) = eight real Rust endpoint requests. Every response had original 215/217 legal full root candidates, masks with >63-index cells, first8 and final32 visits on the same MCTS engine, no root hash/edge stats/evaluator change at mask activation, valid final legal actions and physical wall time. On constructed black four-line stress board with history [31,160,32,177,33,190,34,207], tactical evidence reactivated legal immediate five-winning moves 35 and30, and QUARTZ actually selected action30 after 32 visits, unlike closed central mask. This is a controlled stress success, not game-theoretic generality.
+
+The actual QUARTZ root evaluator in this protocol is UniformEval with separate center-based attention ranking, not pretrained Rapfi. Freestyle only; the external Rapfi pretrained mix9svq is independently validated via Piskvork on a different six-ply board but is not queried on heldout C14 source boards until C7 adapter is frozen. The per-root C6 elapsed range varies across calls; no statistical CPU comparison based on this pilot.
+
+Evidence C06_REAL_PREFLIGHT.json, source Rust tests and full cargo build logs under /tmp/c14_C06_{rust_release,rust_debug,release_build}. Model files remain outside repo. Implementation verdict PASSED; game strength and reference comparison unresolved until C7–C9.
