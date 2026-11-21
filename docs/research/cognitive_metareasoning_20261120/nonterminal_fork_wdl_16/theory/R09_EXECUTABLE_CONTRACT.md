@@ -1,0 +1,17 @@
+# R9. Rust/Python executable contract frozen before coding
+
+Source board: current C15 Gomoku15 game engine, Freestyle, flat 0..224, owner 1 black/2 white, legal actions all empties, alternating histories, no board already terminal. Teacher data/injected model targets prohibited as online request fields. Model path: exact C15 published scalar theta model, content SHA 5ff8286dcc57192b79e960ba096bc5067c78d439a212eaa69d523f68835a3b83 and matching feature order. No retuning.
+
+New research endpoint should share existing Policy13 and its real MCTS evaluator. Existing C15 endpoint and full-game rules unchanged. Strict initial behavior: full root edge slab and original prior materialized, if gated set top16 before first8 visits. Compute fork precheck after first8 using **source-only** board rules: W_t(s) and W_o(s) empty, enumerate omitted (not first16), test placing t nonterminal, count distinct local t winning cells within max4 collinear offsets, each via actual run-of-five logic. Return certificates (a,[c1,c2]) sorted by prior rank, max4 reopen. Verify pointers/hash/all edge N,W,M2,P unchanged when mask expands. Do not introduce new root edges or recalc learned prior during mask change. Measure target20,000µs including prior, scan, root setup and all native tree search. Hard cap 2048 visits as in C15; record if hit and overshoot. Provide inspection-only endpoint for direct external parity tests.
+
+Arms:
+1 learned_all_legal: original full legal root with same learned policy, no fork scan;
+2 learned_fork_mask: top16+up to4 omitted certificates after first8, normal final MCTS;
+3 learned_fork_proof_choice: identical search and mask but after MCTS select a certified winning fork if available (separate action-selection solver contribution);
+4 learned_sham: after proof scan reopen same count non-certified omitted cells using deterministic selection (not teacher);
+5 learned_top16: no proof scan and no reopen, characterizes restriction overhead.
+Eligible measured masked effect depends on C16 new heldout, 20 distinct independently generated source trajectories with actual admitted omitted forks; if fewer, NOT_ESTIMABLE, but still run exploratory diagnostics if budget permits.
+
+C1 source + locked model/input contract; C2 exact formula/function map; C3 algorithm and error budget; C4 prefreeze cohort generation and standalone full-game evaluation schedule/parent game IDs, verify source split disjoint; C5 implement Rust witness/candidate server and independent Python oracle, RED first; C6 build/regression and native parity; C7 witness source preflight and sample flow (trained model unchanged); C8 actual blinded source diagnostics and balanced game WDL (read actual complete game histories); C9 independently replay source/WDL and root/CPU results with separate implementation plus local archive restoration; C10 final verdict and next-stage handoff.
+
+Paired game rules: source starts terminal-free, source game ID fixed before outcomes, for each opening play game with active algorithm as black vs baseline white and color-swapped reversed, same 20ms *per move* active CPU target for both, record exact rule outcome and candidate triggers, real endpoint and selected move. No Elo from small sample; report per-opening matched pairs. Keep constructed stress and actual played opening distinct. Never put the external Rapfi binary/NNUE weights into Git/archive.
