@@ -1,0 +1,65 @@
+{
+  "decision_cpu_budget_us": 20000,
+  "full_original_root_action_count": 225,
+  "game": "Gomoku15 Freestyle >=5, no capture",
+  "git_head_before_new_code": "f428586f0e25edf686dd0f6f8318fe8492e21096",
+  "initial_visits": 8,
+  "min_independently_generated_heldout_activations_for_effect": 20,
+  "model_sha256": "5ff8286dcc57192b79e960ba096bc5067c78d439a212eaa69d523f68835a3b83",
+  "model_training_or_replacement_allowed": false,
+  "no_Rapfi_oracle_in_online_endpoint": true,
+  "original_C15_release": "a85bc0ded6bf67f81256e93645dc7147838c6f88",
+  "per_stratum_mean_relative_wall_mismatch_upper": 0.1,
+  "schema": "quartz_cog06_C01_immutable_source_lock_v1",
+  "software": {
+    "python": "3.12.3"
+  },
+  "source_files": [
+    {
+      "bytes": 1542,
+      "file": "docs/research/cognitive_metareasoning_20261120/trained_prior_fair_cost_15/evidence/model/MODEL_TRAINED.json",
+      "sha256": "5ff8286dcc57192b79e960ba096bc5067c78d439a212eaa69d523f68835a3b83"
+    },
+    {
+      "bytes": 129337,
+      "file": "docs/research/cognitive_metareasoning_20261120/trained_prior_fair_cost_15/COHORT_224_FROZEN.json",
+      "sha256": "604d6d8a9d7baff889715225842f17279a91401848e4678a5b95349cbb476982"
+    },
+    {
+      "bytes": 8387,
+      "file": "docs/research/cognitive_metareasoning_20261120/trained_prior_fair_cost_15/C10_FINAL_RELEASE_MANIFEST.json",
+      "sha256": "9e916c9fc5e2e989286f9f72836a5a39098b6d87d3acaafc3f06bf28ac25a17a"
+    },
+    {
+      "bytes": 84073,
+      "file": "src/games/gomoku15.rs",
+      "sha256": "5251d5c8de75ae980ed385825b0daedb44ebb414940579aacbc10b50c2672383"
+    },
+    {
+      "bytes": 15139,
+      "file": "src/mcts_server/prior15_cpu_server.rs",
+      "sha256": "48f8bb5b2bd0b8627a562a8e393e40af3dbd564953e7ce1b6cdd9bb06a984e12"
+    },
+    {
+      "bytes": 66120,
+      "file": "src/mcts/select.rs",
+      "sha256": "0f71e089d54290ea5be0d3b6f087e98c514ccc479273bb70da2b3355143ce7ab"
+    },
+    {
+      "bytes": 340152,
+      "file": "src/mcts_server.rs",
+      "sha256": "3b0c9cefebf0d3210a0a2ec9268948076d0eb81239498375cd6e526417ec3f20"
+    },
+    {
+      "bytes": 29131,
+      "file": "Cargo.lock",
+      "sha256": "4368560c374c1272000fdd17a48fbe8449c6e471c848698b088d0b6092b2bb36"
+    },
+    {
+      "bytes": 1416,
+      "file": "Cargo.toml",
+      "sha256": "897e6624b41356d2f2ca7fffa30c4479cc0959fee3138cdb30fa4bc8ec5c1994"
+    }
+  ],
+  "top_k": 16
+}

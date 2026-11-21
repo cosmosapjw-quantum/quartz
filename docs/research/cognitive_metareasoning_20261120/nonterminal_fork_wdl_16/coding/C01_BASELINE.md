@@ -1,0 +1,7 @@
+# C1. Baseline source and frozen acceptance
+
+Parent C15 a85bc0ded6bf67f81256e93645dc7147838c6f88 is source SSOT; research branch C16 is isolated. The source lock script C01_sources.py actually rereads immutable 13-feature model and primary Rust source bytes, checking model trained-policy-only schema and SHA256 5ff8286dcc57192b79e960ba096bc5067c78d439a212eaa69d523f68835a3b83. Preserve prior C15 game/feature/evaluator semantics and all existing regression tests.
+
+New behavior: proof-backed nonterminal fork detection and separation of added root candidates from explicit final proof choice, with real 20,000us wall decision, first8+continuation visits, native full root prior/edge unchanged. No training, no new value head, no teacher/oracle data in live search. Expected validation: exact 218-response exemplar, Rust/Python independent witness equivalence and counterexamples; live root mask visitation/statistics; full debug/release regression, synthetic source + selfplay sources, matched CPU per stratum and actual real paired games. Small-sample WDL not population Elo.
+
+Gate: conditional mask-effect inference only with >=20 independent heldout parent source groups **with omitted certified fork actually reactivated**; otherwise NOT_ESTIMABLE and don't promote a positive claim. Existing C15 positive 16/16 terminal-one results don't count as new C16 triggers. Stage snapshot/remote commit/hash archive after each bounded result.
