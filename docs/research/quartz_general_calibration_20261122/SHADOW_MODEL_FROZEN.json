@@ -1,0 +1,69 @@
+{
+  "CAL_L2": 0.25,
+  "L2_weights": 0.5,
+  "cal_groups_by_domain": {
+    "non_game_Bernoulli": 24,
+    "real_Rust_MCTS": 24
+  },
+  "cal_offset": 0.03688539789272929,
+  "clip": 1e-06,
+  "feature_order": [
+    "intercept",
+    "normalized_initial_gap",
+    "log1p(n_actions)"
+  ],
+  "heldout_test_labels_seen": false,
+  "model_domain_feature_used": false,
+  "schema": "quartz_general_c18_shadow_train_cal_frozen_v1",
+  "scientific_status": "FROZEN_SHADOW_NOT_ACTIVE_CONTROLLER",
+  "source_bank_sha256": "52e3654febead1a01253174be0d395f8c2ea6e04ada21e5e0bfbf5938d680445",
+  "split_exposure": "TRAIN and CAL only; TEST raw file neither opened nor needed",
+  "train_baseline_constant_by_domain": {
+    "non_game_Bernoulli": 0.32407407407407407,
+    "real_Rust_MCTS": 0.17523364485981308
+  },
+  "train_cal_descriptive_scores": {
+    "cal/non_game_Bernoulli": {
+      "brier": 0.19887685238997962,
+      "ece10": 0.07374884052766251,
+      "event_rate": 0.3194444444444444,
+      "log_loss": 0.570634874364174,
+      "mean_prediction": 0.34444613479679864,
+      "n": 72
+    },
+    "cal/real_Rust_MCTS": {
+      "brier": 0.12131730800400073,
+      "ece10": 0.07465937592785743,
+      "event_rate": 0.17142857142857143,
+      "log_loss": 0.3632293408102159,
+      "mean_prediction": 0.15850469246540944,
+      "n": 140
+    },
+    "train/non_game_Bernoulli": {
+      "brier": 0.2015297868848432,
+      "ece10": 0.034020498514715204,
+      "event_rate": 0.32407407407407407,
+      "log_loss": 0.5842531143846993,
+      "mean_prediction": 0.3233105888338429,
+      "n": 216
+    },
+    "train/real_Rust_MCTS": {
+      "brier": 0.12039585775226931,
+      "ece10": 0.03207427317434696,
+      "event_rate": 0.17523364485981308,
+      "log_loss": 0.3683488194856223,
+      "mean_prediction": 0.17561895516796713,
+      "n": 428
+    }
+  },
+  "train_cal_raw_sha256": "5a409b89589b3a3a5fd7c2093c297d57c324bc0906933b830f5f11a763e63c4a",
+  "train_groups_by_domain": {
+    "non_game_Bernoulli": 72,
+    "real_Rust_MCTS": 72
+  },
+  "weights": [
+    0.1534339791613846,
+    -4.825294219353853,
+    -0.10828824023012702
+  ]
+}

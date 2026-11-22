@@ -1,0 +1,9 @@
+# C07A. Prospective TRAIN+CAL-only raw evidence and frozen shadow forecast
+
+Frozen and published C07 source commit dd93ff2c5a3ca5eb8d3a09c0989d85fdcb5a7ea7 was clean and independently confirmed at GitHub BEFORE any actual C18 outcome collection. Real Rust source collection used C16 binary 1168f297... under its true 20ms budget, and the separate non-game simulator executed genuine new Bernoulli draws. No test groups were opened.
+
+Actually collected **568 real native Rust MCTS root continuation requests**, 288 actual non-game independent sample transcripts, from **96 independent parent groups in EACH domain** split train72 +cal24. Parent-group heldout TEST24+24 still UNOPENED. Pooled source frequencies: real Rust initial8 visit-modal-to-final revision 0.1742957746478873; non-game posterior-best-arm revision 0.3229166666666667. Full raw source and labels evidence/C07_TRAIN_CAL/SOURCE_RAW.jsonl SHA256 **5a409b89589b3a3a5fd7c2093c297d57c324bc0906933b830f5f11a763e63c4a**.
+
+Actually fit the predeclared fixed algorithm via coding/fit_train_cal.py on 644 TRAIN observations and 212 CAL observations. Shared generic weights [0.1534339791613846, -4.825294219353853, -0.10828824023012702]; CAL-only additive intercept 0.03688539789272929; no game type/domain input coefficient. Source-count-specific baseline event rates frozen from TRAIN: non-game 0.32407407407407407, Rust MCTS 0.17523364485981308. **Model SHA256 2dd987989cb543c692457d0b198d23009917fd5a3001551e300a81beb868218b** in SHADOW_MODEL_FROZEN.json. No TEST labels used, no model revision after TEST permitted.
+
+Preserve source raw and model together with this C07A extra Git+SHA checkpoint, then C08 invokes only --phase test using frozen source code and CLI, separately scoring after raw TEST collection. No future MCTS action, domain ID, signed true utility or offline oracle reaches predictor. The exact 8-visit modal proxy is distinct from engine best_move after 8, so label remains a diagnostic.
