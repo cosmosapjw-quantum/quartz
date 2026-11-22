@@ -1,0 +1,105 @@
+{
+  "all_model_coefficients_frozen_on_CAL_only": true,
+  "claim_scope": "real MCTS decision revision calibration and non-game decision revision; no MCTS regret or CPU savings",
+  "heldout_per_domain": {
+    "non_game_Bernoulli": {
+      "actual_offline_mean_signed_utility_delta": 0.030333552577139947,
+      "calibrated": {
+        "brier": 0.19414174855045666,
+        "ece10": 0.1237568333812203,
+        "event_rate": 0.2361111111111111,
+        "log_loss": 0.581404731704853,
+        "mean_prediction": 0.3351589143073399,
+        "n": 72
+      },
+      "mean_observed_source_wall_us": 3.888888888888889,
+      "n": 72,
+      "n_actual_flip_events": 17,
+      "n_parent_groups": 24,
+      "negative_signed_change_count": 5,
+      "no_revision_but_posterior_updates_possible": 55,
+      "positive_signed_change_count": 12,
+      "shadow_STOP_empirical_wrong_revision_fraction": 0.16666666666666666,
+      "shadow_STOP_missed_revisions": 2,
+      "shadow_proposed_STOP_count": 12,
+      "source_group_bootstrap": {
+        "calibrated_minus_train_constant_Brier_95pct_group_bootstrap": [
+          -0.02394764991848297,
+          0.03470383747609849
+        ],
+        "n_parent_source_groups": 24,
+        "number_bootstrap_draws": 250
+      },
+      "train_constant": {
+        "brier": 0.18810013717421123,
+        "ece10": 0.08796296296296291,
+        "event_rate": 0.2361111111111111,
+        "log_loss": 0.5652397506175316,
+        "mean_prediction": 0.324074074074074,
+        "n": 72
+      },
+      "uncalibrated": {
+        "brier": 0.19239332047528968,
+        "ece10": 0.1164060883043796,
+        "event_rate": 0.2361111111111111,
+        "log_loss": 0.577889052193085,
+        "mean_prediction": 0.3277029687677265,
+        "n": 72
+      },
+      "wall_type": "Python actual additional Bernoulli draws only"
+    },
+    "real_Rust_MCTS": {
+      "actual_game_signed_utility_delta": "NOT_ESTIMABLE",
+      "calibrated": {
+        "brier": 0.11632275561131475,
+        "ece10": 0.07337233488793092,
+        "event_rate": 0.15,
+        "log_loss": 0.37664281886338985,
+        "mean_prediction": 0.1935652572706423,
+        "n": 140
+      },
+      "mean_observed_source_wall_us": 20103.5,
+      "n": 140,
+      "n_actual_flip_events": 21,
+      "n_parent_groups": 24,
+      "shadow_STOP_empirical_wrong_revision_fraction": 0.05555555555555555,
+      "shadow_STOP_missed_revisions": 4,
+      "shadow_proposed_STOP_count": 72,
+      "source_group_bootstrap": {
+        "calibrated_minus_train_constant_Brier_95pct_group_bootstrap": [
+          -0.03141037578987976,
+          0.008462229907175068
+        ],
+        "n_parent_source_groups": 24,
+        "number_bootstrap_draws": 250
+      },
+      "train_constant": {
+        "brier": 0.12813673683291116,
+        "ece10": 0.025233644859813054,
+        "event_rate": 0.15,
+        "log_loss": 0.425002130158048,
+        "mean_prediction": 0.17523364485981305,
+        "n": 140
+      },
+      "uncalibrated": {
+        "brier": 0.11580969544513091,
+        "ece10": 0.07177219079862732,
+        "event_rate": 0.15,
+        "log_loss": 0.3751311014807379,
+        "mean_prediction": 0.18841851575214136,
+        "n": 140
+      },
+      "wall_type": "C16 full active 20ms Rust root search"
+    }
+  },
+  "max_rust_python_shadow_probability_difference": 2.7755575615628914e-17,
+  "model_frozen_before_test_sha256": "2dd987989cb543c692457d0b198d23009917fd5a3001551e300a81beb868218b",
+  "model_is_not_calibrated_utility_VOC": true,
+  "n_actual_test_observations": 212,
+  "n_independent_test_parent_groups_each_domain": 24,
+  "no_active_controller_or_game_change": true,
+  "schema": "quartz_general_c18_C08_heldout_v1",
+  "source_bank_sha256": "52e3654febead1a01253174be0d395f8c2ea6e04ada21e5e0bfbf5938d680445",
+  "source_git_published_before_scoring": "32c8202f953c32a84c29bdaf307822496d8d5208",
+  "test_raw_sha256": "79fbcb968cc09fa0cea2f808fa8449317039792f24a693d6ff1b51095990b527"
+}
