@@ -1,0 +1,1162 @@
+{
+  "schema": "c23_independent_c09_review_v1",
+  "reviewer": "/root/c23_review",
+  "review_status": "COMPLETED_WITH_ONE_NONBLOCKING_OUT_OF_COHORT_DIAGNOSTIC_FINDING",
+  "admission_owner": "parent",
+  "scope": "One bounded C9 scientific/code review of frozen C23; no recursive reviewer; no production source edits or pushes.",
+  "skill_context_used": [
+    {
+      "package": "c43/physmath-research-loop",
+      "version": "1.3.0",
+      "actually_read": [
+        "SKILL.md",
+        "references/POLICY_INTEGRATION.md",
+        "references/CODING_LOOP.md",
+        "references/SUBAGENT_MODE.md"
+      ],
+      "applied": "C9 dangerous assumption review; bounded single pass; typed identity; close resolved defects; parent admission; no recursive delegation."
+    },
+    {
+      "package": "c42/computation-audit",
+      "version": "4.0.0",
+      "actually_read": [
+        "SKILL.md",
+        "references/checklist.md"
+      ],
+      "applied": "Separate exact mathematical identity, finite native assertions, source/transport identity, coverage and interpretation."
+    }
+  ],
+  "claim_contract": {
+    "mathematical_claim": "For SPD A=I+rho L_D and exact real stored inputs/iterates, q-ell=(b-Ax)^T A^-1(b-Ax); outward interval separation certifies the unique maximizer, conditional on IEEE arithmetic contract.",
+    "finite_assertion": "Frozen manufactured source range; seven independent small exact tasks; all TEST timing records and paired summaries; primary full exact source/trace checks reused from C06/C08.",
+    "nonclaims": [
+      "General residual-goal correctness for every accepted f64 RHS",
+      "Overall zero regret at finite primary budget",
+      "Universal runtime gain, fastest-solver optimality, physical continuum prediction, original THESIS P2/P3/P4 promotion"
+    ],
+    "timer": "Native monotonic wall elapsed, including validation, initial solve, response evaluation, gating, continuation and solver workspace destruction; decode/source/oracle/output serialization excluded.",
+    "identity_types": {
+      "binary_and_raw_sources": "BYTE_IDENTITY",
+      "public_numeric_transport": "exact binary64 input bits in trace",
+      "fallback_state": "exact deterministic final state and ell in traced executions",
+      "scientific_truth": "exact Fraction energy/linear solve and interval inequalities",
+      "timing_statistics": "independent recomputation to floating rounding tolerance"
+    }
+  },
+  "block_now": [],
+  "findings": [
+    {
+      "id": "C09-F01",
+      "priority": "FIX_SOON",
+      "blocking_current_C23": false,
+      "status": "OPEN_OUTSIDE_FROZEN_COHORT",
+      "object": "src/bin/quartz_c23_residual_gate.rs: Solver::new/step (dot rr underflow), enclose_response/ordinary_response (bn==0 and rh==0 handling), RESIDUAL_GOAL report",
+      "class": "NUMERICAL_UNDERFLOW_DIAGNOSTIC",
+      "reproducer": {
+        "task": {
+          "id": "c09-underflow",
+          "side": 2,
+          "rho": 1,
+          "scale": "9.332636185032189e-302",
+          "rhs": [
+            [
+              "2.409919865102884e-181",
+              "0.0",
+              "0.0",
+              "0.0"
+            ],
+            [
+              "0.0",
+              "0.0",
+              "0.0",
+              "0.0"
+            ]
+          ]
+        },
+        "additional": 8,
+        "repeats": 1,
+        "warmup": 0,
+        "trace": true
+      },
+      "observed": {
+        "reason": "RESIDUAL_GOAL",
+        "iterations": [
+          0,
+          0
+        ],
+        "residual_relative": [
+          0,
+          0
+        ],
+        "residual_goal_met": true,
+        "certified": false
+      },
+      "expected": "For the nonzero arm, x=0 implies true relative residual ||b-Ax||/||b||=1; an accepted task must not report the 1e-8 goal reached.",
+      "mechanism": "b=2^-600 is a normal nonzero f64 but b*b=2^-1200 underflows. rr0, rr and bn become zero; the solver stops without an iteration and the diagnostic maps 0/0 to zero.",
+      "impact": "False general accepted-input field-accuracy/convergence diagnostic. This does not refute the decision certificate; all 76 checked outward enclosures contain exact u=(23/105)*2^-200 and no gate certified.",
+      "current_cohort_evidence": "TRAIN/CAL/TEST minimum initial squared RHS norms are 416.55/345.70/303.65; tested current source scales are separated from the underflow reproducer.",
+      "minimal_correction": "For C23 record the accepted-domain diagnostic limitation and preserve frozen measurements. Before extending the supported domain, use a scaled sum-of-squares/consistent solver rescaling or reject unsupported nonzero RHS norm ranges. The reproducer must then either report relative residual=1 at x=0 or be explicitly rejected, never report a met goal.",
+      "native_exit_code": 0
+    }
+  ],
+  "interpretation_limits": [
+    {
+      "object": "Primary additional=32 performance comparison",
+      "evidence": "CERT_ONCE mean parent median=2434.33us; PLAIN_ALWAYS=1579.51us; paired time saved=-854.82us [−1204.99,−513.25]. CERT_BLOCK=3061.35us; paired saved=-1481.84us [−2163.24,−844.21].",
+      "impact": "Actual solver work withholding is verified, but overall time improvement over the efficient fixed comparator is unsupported.",
+      "minimal_correction": "Report reduced CG work and the negative total-time comparison together. Do not elevate the positive CERT_ONCE-vs-ALWAYS difference to a solver efficiency claim."
+    },
+    {
+      "object": "Certificate count versus finite-budget whole-cohort quality",
+      "evidence": "Primary CERT_BLOCK has 52 certified parents, 49 earlier-than-ALWAYS exits, and 2 wrong decisions among 72; CERT_ONCE has 17 certified/early exits and the same 2 wrong decisions. All incorrect decisions are uncertified fallback outcomes.",
+      "impact": "Strict certificates are exact-optimal; the full capped policy is noninferior to the fixed fallback, not universally exact-optimal.",
+      "minimal_correction": "Keep certification count, actual work savings and overall regret distinct."
+    },
+    {
+      "object": "Priced economics and no-continuation baseline",
+      "evidence": "At lambda=1e-6 utility/us, primary CERT_ONCE net difference vs measured NEVER is -0.0015477151 and CERT_BLOCK is -0.0021747371. NEVER itself performs an initial outward enclosure.",
+      "impact": "Neither current gate demonstrates positive priced continuation value versus measured NEVER. NEVER is not an optimized bound-free STOP comparator; at budget8 even PLAIN_ALWAYS is faster than measured NEVER.",
+      "minimal_correction": "Use the literal 'measured NEVER' comparator and avoid claims of optimal computation policy or general economic gain; no post-TEST baseline addition is required for the current negative result."
+    },
+    {
+      "object": "Uncertainty and external validity",
+      "evidence": "72 constructed TEST parents, two per fixed stratum; nine physical timing repeats are reduced to one parent median before bootstrap. Unstratified parent bootstrap is a descriptive mixture summary, not a calibrated physical population law.",
+      "impact": "Clock medians, family of manufactured sources and these CG implementations define the evidence domain.",
+      "minimal_correction": "Keep interval estimates descriptive and benchmark-specific; primary budget32 remains primary; no general no-go or fastest-solver inference."
+    }
+  ],
+  "closed_prior_findings": [
+    {
+      "object": "Numeric JSON source/oracle mismatch",
+      "status": "CLOSED_FOR_STUDY_STRING_TRANSPORT",
+      "evidence": "Frozen FromStr adapter, C06/C08 trace input-bit verification and 457 independently checked small-case input components. Numeric compatibility parsing is not asserted to have source byte identity."
+    },
+    {
+      "object": "Unnecessary outward enclosure in fixed comparator",
+      "status": "CLOSED_BY_PLAIN_ALWAYS_FOR_CURRENT_COMPARISON",
+      "evidence": "Ordinary response path inspected; seven independent small-case full-state/ell comparisons agree; all216 TEST timing records give identical exact utility to ALWAYS."
+    },
+    {
+      "object": "Finite fallback mismatch risk",
+      "status": "CLOSED_IN_TESTED_SCOPE_AND_STRUCTURAL_CODE_PATH",
+      "evidence": "Read-only interval checks do not mutate solver state; independent four noncertified exact full-state/ell checks and C08 trace verification are consistent with the shared-state corollary."
+    }
+  ],
+  "independent_small_checks": {
+    "status": "INDEPENDENT_FINITE_CHECKS_PASSED_WITH_ONE_OUT_OF_COHORT_DIAGNOSTIC_DEFECT",
+    "assertion_tested": "Frozen native binary on seven independently assembled exact finite tasks; exact response containment and final residual bounds; same-state fallbacks; transport bits. One tiny-input diagnostic reproducer.",
+    "argv": [
+      "python3",
+      "/tmp/quartz_c23_review.py"
+    ],
+    "python": "3.12.3 (main, Aug 31 2026, 10:18:26) [GCC 13.3.0]",
+    "platform": "Linux-7.0.0-43-generic-x86_64-with-glibc2.39",
+    "input_hashes_before": {
+      "binary": "812c57e75ad193fa4cca3729fc63ee59df73cac7118c50886adb4c0b47118ac0",
+      "rust_source": "8a5aad2d9c8b0a9fd8df0efd5310604f7b498d16447df0f222aa9619a15ad8ed"
+    },
+    "input_hashes_after": {
+      "binary": "812c57e75ad193fa4cca3729fc63ee59df73cac7118c50886adb4c0b47118ac0",
+      "rust_source": "8a5aad2d9c8b0a9fd8df0efd5310604f7b498d16447df0f222aa9619a15ad8ed"
+    },
+    "counts": {
+      "tasks": 7,
+      "native_policy_executions": 42,
+      "scalar_q_containments": 682,
+      "exact_final_residual_bound_checks": 108,
+      "transport_components": 457,
+      "certified_optimal": 10,
+      "noncertified_full_state_matches": 4,
+      "plain_full_state_matches": 7,
+      "native_exit_codes": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    "details": [
+      {
+        "id": "c09-dense2",
+        "oracle_exact": [
+          "23/420",
+          "5/168",
+          "1/192"
+        ],
+        "policies": {
+          "RESIDUAL": {
+            "selected": 0,
+            "certified": false,
+            "iterations": [
+              3,
+              2,
+              1
+            ],
+            "solver_matvecs": 6,
+            "residual_goal_met": true
+          },
+          "PLAIN_ALWAYS": {
+            "selected": 0,
+            "certified": false,
+            "iterations": [
+              3,
+              2,
+              1
+            ],
+            "solver_matvecs": 6,
+            "residual_goal_met": true
+          },
+          "NEVER": {
+            "selected": 0,
+            "certified": false,
+            "iterations": [
+              3,
+              2,
+              1
+            ],
+            "solver_matvecs": 6,
+            "residual_goal_met": true
+          },
+          "ALWAYS": {
+            "selected": 0,
+            "certified": false,
+            "iterations": [
+              3,
+              2,
+              1
+            ],
+            "solver_matvecs": 6,
+            "residual_goal_met": true
+          },
+          "CERT_ONCE": {
+            "selected": 0,
+            "certified": true,
+            "iterations": [
+              3,
+              2,
+              1
+            ],
+            "solver_matvecs": 6,
+            "residual_goal_met": true
+          },
+          "CERT_BLOCK": {
+            "selected": 0,
+            "certified": true,
+            "iterations": [
+              3,
+              2,
+              1
+            ],
+            "solver_matvecs": 6,
+            "residual_goal_met": true
+          }
+        }
+      },
+      {
+        "id": "c09-dense3",
+        "oracle_exact": [
+          "225663409/33626116160",
+          "83207743/33626116160",
+          "61961/2318417920"
+        ],
+        "policies": {
+          "PLAIN_ALWAYS": {
+            "selected": 0,
+            "certified": false,
+            "iterations": [
+              5,
+              5,
+              3
+            ],
+            "solver_matvecs": 13,
+            "residual_goal_met": true
+          },
+          "NEVER": {
+            "selected": 0,
+            "certified": false,
+            "iterations": [
+              4,
+              4,
+              3
+            ],
+            "solver_matvecs": 11,
+            "residual_goal_met": false
+          },
+          "ALWAYS": {
+            "selected": 0,
+            "certified": false,
+            "iterations": [
+              5,
+              5,
+              3
+            ],
+            "solver_matvecs": 13,
+            "residual_goal_met": true
+          },
+          "CERT_ONCE": {
+            "selected": 0,
+            "certified": true,
+            "iterations": [
+              4,
+              4,
+              3
+            ],
+            "solver_matvecs": 11,
+            "residual_goal_met": false
+          },
+          "CERT_BLOCK": {
+            "selected": 0,
+            "certified": true,
+            "iterations": [
+              4,
+              4,
+              3
+            ],
+            "solver_matvecs": 11,
+            "residual_goal_met": false
+          },
+          "RESIDUAL": {
+            "selected": 0,
+            "certified": false,
+            "iterations": [
+              5,
+              5,
+              3
+            ],
+            "solver_matvecs": 13,
+            "residual_goal_met": true
+          }
+        }
+      },
+      {
+        "id": "c09-decimal",
+        "oracle_exact": [
+          "8308702360581651819/92233720368547758080",
+          "0"
+        ],
+        "policies": {
+          "CERT_ONCE": {
+            "selected": 0,
+            "certified": true,
+            "iterations": [
+              3,
+              0
+            ],
+            "solver_matvecs": 3,
+            "residual_goal_met": true
+          },
+          "CERT_BLOCK": {
+            "selected": 0,
+            "certified": true,
+            "iterations": [
+              3,
+              0
+            ],
+            "solver_matvecs": 3,
+            "residual_goal_met": true
+          },
+          "RESIDUAL": {
+            "selected": 0,
+            "certified": false,
+            "iterations": [
+              3,
+              0
+            ],
+            "solver_matvecs": 3,
+            "residual_goal_met": true
+          },
+          "PLAIN_ALWAYS": {
+            "selected": 0,
+            "certified": false,
+            "iterations": [
+              3,
+              0
+            ],
+            "solver_matvecs": 3,
+            "residual_goal_met": true
+          },
+          "NEVER": {
+            "selected": 0,
+            "certified": false,
+            "iterations": [
+              3,
+              0
+            ],
+            "solver_matvecs": 3,
+            "residual_goal_met": true
+          },
+          "ALWAYS": {
+            "selected": 0,
+            "certified": false,
+            "iterations": [
+              3,
+              0
+            ],
+            "solver_matvecs": 3,
+            "residual_goal_met": true
+          }
+        }
+      },
+      {
+        "id": "c09-wide8",
+        "oracle_exact": [
+          "610077/536870912",
+          "610077/34359738368",
+          "610077/137438953472"
+        ],
+        "policies": {
+          "RESIDUAL": {
+            "selected": 0,
+            "certified": false,
+            "iterations": [
+              26,
+              26,
+              26
+            ],
+            "solver_matvecs": 78,
+            "residual_goal_met": true
+          },
+          "PLAIN_ALWAYS": {
+            "selected": 0,
+            "certified": false,
+            "iterations": [
+              32,
+              32,
+              32
+            ],
+            "solver_matvecs": 96,
+            "residual_goal_met": true
+          },
+          "NEVER": {
+            "selected": 0,
+            "certified": false,
+            "iterations": [
+              4,
+              4,
+              4
+            ],
+            "solver_matvecs": 12,
+            "residual_goal_met": false
+          },
+          "ALWAYS": {
+            "selected": 0,
+            "certified": false,
+            "iterations": [
+              32,
+              32,
+              32
+            ],
+            "solver_matvecs": 96,
+            "residual_goal_met": true
+          },
+          "CERT_ONCE": {
+            "selected": 0,
+            "certified": true,
+            "iterations": [
+              4,
+              4,
+              4
+            ],
+            "solver_matvecs": 12,
+            "residual_goal_met": false
+          },
+          "CERT_BLOCK": {
+            "selected": 0,
+            "certified": true,
+            "iterations": [
+              4,
+              4,
+              4
+            ],
+            "solver_matvecs": 12,
+            "residual_goal_met": false
+          }
+        }
+      },
+      {
+        "id": "c09-tie8",
+        "oracle_exact": [
+          "154653/33554432",
+          "154653/33554432",
+          "154653/2147483648"
+        ],
+        "policies": {
+          "CERT_BLOCK": {
+            "selected": 1,
+            "certified": false,
+            "iterations": [
+              32,
+              32,
+              32
+            ],
+            "solver_matvecs": 96,
+            "residual_goal_met": true
+          },
+          "RESIDUAL": {
+            "selected": 0,
+            "certified": false,
+            "iterations": [
+              25,
+              25,
+              25
+            ],
+            "solver_matvecs": 75,
+            "residual_goal_met": true
+          },
+          "PLAIN_ALWAYS": {
+            "selected": 1,
+            "certified": false,
+            "iterations": [
+              32,
+              32,
+              32
+            ],
+            "solver_matvecs": 96,
+            "residual_goal_met": true
+          },
+          "NEVER": {
+            "selected": 1,
+            "certified": false,
+            "iterations": [
+              4,
+              4,
+              4
+            ],
+            "solver_matvecs": 12,
+            "residual_goal_met": false
+          },
+          "ALWAYS": {
+            "selected": 1,
+            "certified": false,
+            "iterations": [
+              32,
+              32,
+              32
+            ],
+            "solver_matvecs": 96,
+            "residual_goal_met": true
+          },
+          "CERT_ONCE": {
+            "selected": 1,
+            "certified": false,
+            "iterations": [
+              32,
+              32,
+              32
+            ],
+            "solver_matvecs": 96,
+            "residual_goal_met": true
+          }
+        }
+      },
+      {
+        "id": "c09-rho0",
+        "oracle_exact": [
+          "15/64",
+          "0"
+        ],
+        "policies": {
+          "CERT_ONCE": {
+            "selected": 0,
+            "certified": true,
+            "iterations": [
+              1,
+              0
+            ],
+            "solver_matvecs": 1,
+            "residual_goal_met": true
+          },
+          "CERT_BLOCK": {
+            "selected": 0,
+            "certified": true,
+            "iterations": [
+              1,
+              0
+            ],
+            "solver_matvecs": 1,
+            "residual_goal_met": true
+          },
+          "RESIDUAL": {
+            "selected": 0,
+            "certified": false,
+            "iterations": [
+              1,
+              0
+            ],
+            "solver_matvecs": 1,
+            "residual_goal_met": true
+          },
+          "PLAIN_ALWAYS": {
+            "selected": 0,
+            "certified": false,
+            "iterations": [
+              1,
+              0
+            ],
+            "solver_matvecs": 1,
+            "residual_goal_met": true
+          },
+          "NEVER": {
+            "selected": 0,
+            "certified": false,
+            "iterations": [
+              1,
+              0
+            ],
+            "solver_matvecs": 1,
+            "residual_goal_met": true
+          },
+          "ALWAYS": {
+            "selected": 0,
+            "certified": false,
+            "iterations": [
+              1,
+              0
+            ],
+            "solver_matvecs": 1,
+            "residual_goal_met": true
+          }
+        }
+      },
+      {
+        "id": "c09-zero",
+        "oracle_exact": [
+          "0",
+          "0"
+        ],
+        "policies": {
+          "ALWAYS": {
+            "selected": 0,
+            "certified": false,
+            "iterations": [
+              0,
+              0
+            ],
+            "solver_matvecs": 0,
+            "residual_goal_met": true
+          },
+          "CERT_ONCE": {
+            "selected": 0,
+            "certified": false,
+            "iterations": [
+              0,
+              0
+            ],
+            "solver_matvecs": 0,
+            "residual_goal_met": true
+          },
+          "CERT_BLOCK": {
+            "selected": 0,
+            "certified": false,
+            "iterations": [
+              0,
+              0
+            ],
+            "solver_matvecs": 0,
+            "residual_goal_met": true
+          },
+          "RESIDUAL": {
+            "selected": 0,
+            "certified": false,
+            "iterations": [
+              0,
+              0
+            ],
+            "solver_matvecs": 0,
+            "residual_goal_met": true
+          },
+          "PLAIN_ALWAYS": {
+            "selected": 0,
+            "certified": false,
+            "iterations": [
+              0,
+              0
+            ],
+            "solver_matvecs": 0,
+            "residual_goal_met": true
+          },
+          "NEVER": {
+            "selected": 0,
+            "certified": false,
+            "iterations": [
+              0,
+              0
+            ],
+            "solver_matvecs": 0,
+            "residual_goal_met": true
+          }
+        }
+      }
+    ],
+    "nonblocking_finding": {
+      "input": {
+        "task": {
+          "id": "c09-underflow",
+          "side": 2,
+          "rho": 1,
+          "scale": "9.332636185032189e-302",
+          "rhs": [
+            [
+              "2.409919865102884e-181",
+              "0.0",
+              "0.0",
+              "0.0"
+            ],
+            [
+              "0.0",
+              "0.0",
+              "0.0",
+              "0.0"
+            ]
+          ]
+        },
+        "additional": 8,
+        "repeats": 1,
+        "warmup": 0,
+        "trace": true
+      },
+      "native_exit_code": 0,
+      "observed": {
+        "reason": "RESIDUAL_GOAL",
+        "iterations": [
+          0,
+          0
+        ],
+        "residual_relative": [
+          0,
+          0
+        ],
+        "residual_goal_met": true,
+        "certified": false
+      },
+      "exact_nonzero_arm_relative_residual": "1",
+      "classification": "nonblocking outside manufactured source range; accepted-input diagnostic defect",
+      "exact_normalized_utility": "23/168728494647193978931906019695822073264831314347193247706644480",
+      "outward_containment_checks": 76,
+      "outward_certificate_remained_enclosing": true
+    }
+  },
+  "underflow_scope_checks": {
+    "splits": {
+      "TRAIN": {
+        "parents": 36,
+        "rhs_norm_squared_min": 416.5525182586799,
+        "rhs_norm_squared_max": 3996371.5560951233,
+        "rhs_abs_nonzero_min": 0.0004626065492630005,
+        "recursive_cutoff_squared_min_for_1e14": 4.165525182586799e-26,
+        "timing_results": 5832,
+        "reported_zero_fresh_relative_residuals": 0,
+        "min_positive_relative_squared_times_bnorm": 5.565288886073841e-27,
+        "sample_trace_id": "c23_train_00_0",
+        "sample_fresh_rr_squared_min": 1.6698833934428076e-14,
+        "sample_fresh_rr_squared_max": 0.058247710392778554,
+        "sample_final_states": 18
+      },
+      "CAL": {
+        "parents": 36,
+        "rhs_norm_squared_min": 345.6976992913429,
+        "rhs_norm_squared_max": 8205996.454014778,
+        "rhs_abs_nonzero_min": 0.0005897730588912964,
+        "recursive_cutoff_squared_min_for_1e14": 3.4569769929134285e-26,
+        "timing_results": 0,
+        "reported_zero_fresh_relative_residuals": 0,
+        "min_positive_relative_squared_times_bnorm": null,
+        "sample_trace_id": "c23_cal_00_0",
+        "sample_fresh_rr_squared_min": 1.0153625173902651e-14,
+        "sample_fresh_rr_squared_max": 0.06737971303957534,
+        "sample_final_states": 18
+      }
+    },
+    "tiny_outward_containment": {
+      "checks": 76,
+      "native_exit": 0,
+      "exact_nonzero_arm_u": "23/168728494647193978931906019695822073264831314347193247706644480",
+      "nonzero_true_relative_residual": "1",
+      "containment_pass": true,
+      "certified_count": 0
+    },
+    "cpu_seconds": 0.357594778
+  },
+  "independent_C08_audit": {
+    "status": "PASS",
+    "assertion_tested": "All 216 TEST timing envelopes cover the frozen 72 parents x 3 budgets; policy/rep completeness, canonical public input hashes, artifact hashes, fixed binary binding, exact paired utility, and independent parent-median/bootstrap recomputation.",
+    "source_strata": {
+      "0": 2,
+      "1": 2,
+      "2": 2,
+      "3": 2,
+      "4": 2,
+      "5": 2,
+      "6": 2,
+      "7": 2,
+      "8": 2,
+      "9": 2,
+      "10": 2,
+      "11": 2,
+      "12": 2,
+      "13": 2,
+      "14": 2,
+      "15": 2,
+      "16": 2,
+      "17": 2,
+      "18": 2,
+      "19": 2,
+      "20": 2,
+      "21": 2,
+      "22": 2,
+      "23": 2,
+      "24": 2,
+      "25": 2,
+      "26": 2,
+      "27": 2,
+      "28": 2,
+      "29": 2,
+      "30": 2,
+      "31": 2,
+      "32": 2,
+      "33": 2,
+      "34": 2,
+      "35": 2
+    },
+    "records": 216,
+    "native_executions": {
+      "NEVER": 1944,
+      "ALWAYS": 1944,
+      "PLAIN_ALWAYS": 1944,
+      "CERT_ONCE": 1944,
+      "CERT_BLOCK": 1944,
+      "RESIDUAL": 1944
+    },
+    "exact_gate_vs_ALWAYS_pairs": 432,
+    "paired_time_mean_and_ci_checks": 36,
+    "source_norm_squared_min": 303.65434036647184,
+    "source_norm_squared_max": 8006405.514351845,
+    "binary_sha256": "812c57e75ad193fa4cca3729fc63ee59df73cac7118c50886adb4c0b47118ac0",
+    "artifact_hashes": {
+      "C23_ORACLE_TEST.jsonl.gz": "420100a728436786e72eb8605f806788fe7f850af942a3ca86b78db8795b21b8",
+      "C23_PUBLIC_TEST.jsonl.gz": "f44a318e8c8ff2e657eae0976788e212dd6b478dbd4f03273ce90bfb6e55a30c",
+      "C23_TEST_TRACE.jsonl.gz": "9fdcc49d8b0d64832a3a0b7dd88f99b84d4caf7b6a7d84a3cf65a2cd1496d396",
+      "C23_TEST_TIMING.jsonl.gz": "91f4dc48591cf56787b9ca1d4eba8cbc8a8aaf9b31596b8834c5037b5395f027"
+    },
+    "budget_results": [
+      {
+        "budget": 8,
+        "policies": {
+          "NEVER": {
+            "mean_parent_median_us": 835.7202777777778,
+            "wrong_decisions": 10,
+            "mean_regret": 0.000051293708944019075,
+            "certified": 0,
+            "earlier_stop": 72,
+            "iterations_saved": 1728,
+            "saved_vs_plain_us": -238.93505555555555,
+            "saved_vs_plain_ci": [
+              -308.2688680555556,
+              -171.40091076388893
+            ],
+            "lambda_1e6_net_vs_measured_NEVER": 0
+          },
+          "ALWAYS": {
+            "mean_parent_median_us": 1769.0781944444445,
+            "wrong_decisions": 5,
+            "mean_regret": 1.5949882821098803e-8,
+            "certified": 0,
+            "earlier_stop": 0,
+            "iterations_saved": 0,
+            "saved_vs_plain_us": -1172.2929722222223,
+            "saved_vs_plain_ci": [
+              -1503.6078725694445,
+              -846.1743142361112
+            ],
+            "lambda_1e6_net_vs_measured_NEVER": -0.0008820801576054692
+          },
+          "PLAIN_ALWAYS": {
+            "mean_parent_median_us": 596.7852222222223,
+            "wrong_decisions": 5,
+            "mean_regret": 1.5949882821098803e-8,
+            "certified": 0,
+            "earlier_stop": 0,
+            "iterations_saved": 0,
+            "saved_vs_plain_us": 0,
+            "saved_vs_plain_ci": [
+              0,
+              0
+            ],
+            "lambda_1e6_net_vs_measured_NEVER": 0.00029021281461675305
+          },
+          "CERT_ONCE": {
+            "mean_parent_median_us": 1613.5399027777776,
+            "wrong_decisions": 5,
+            "mean_regret": 1.5949882821098803e-8,
+            "certified": 17,
+            "earlier_stop": 17,
+            "iterations_saved": 408,
+            "saved_vs_plain_us": -1016.7546805555555,
+            "saved_vs_plain_ci": [
+              -1326.949657638889,
+              -704.1901892361112
+            ],
+            "lambda_1e6_net_vs_measured_NEVER": -0.0007265418659388025
+          },
+          "CERT_BLOCK": {
+            "mean_parent_median_us": 1612.5677777777778,
+            "wrong_decisions": 5,
+            "mean_regret": 1.5949882821098803e-8,
+            "certified": 39,
+            "earlier_stop": 17,
+            "iterations_saved": 408,
+            "saved_vs_plain_us": -1015.7825555555555,
+            "saved_vs_plain_ci": [
+              -1324.1916315972223,
+              -702.3657302083334
+            ],
+            "lambda_1e6_net_vs_measured_NEVER": -0.0007255697409388025
+          },
+          "RESIDUAL": {
+            "mean_parent_median_us": 4674.334027777779,
+            "wrong_decisions": 0,
+            "mean_regret": 0,
+            "certified": 0,
+            "earlier_stop": 0,
+            "iterations_saved": -9301,
+            "saved_vs_plain_us": -4077.548805555555,
+            "saved_vs_plain_ci": [
+              -5491.862832291667,
+              -2699.952834027779
+            ],
+            "lambda_1e6_net_vs_measured_NEVER": -0.003787320041055981
+          }
+        }
+      },
+      {
+        "budget": 32,
+        "policies": {
+          "NEVER": {
+            "mean_parent_median_us": 835.3224583333334,
+            "wrong_decisions": 10,
+            "mean_regret": 0.000051293708944019075,
+            "certified": 0,
+            "earlier_stop": 72,
+            "iterations_saved": 6457,
+            "saved_vs_plain_us": 744.1860833333334,
+            "saved_vs_plain_ci": [
+              540.4560791666667,
+              942.190586458333
+            ],
+            "lambda_1e6_net_vs_measured_NEVER": 0
+          },
+          "ALWAYS": {
+            "mean_parent_median_us": 2752.7597083333335,
+            "wrong_decisions": 2,
+            "mean_regret": 2.360685521032404e-9,
+            "certified": 0,
+            "earlier_stop": 0,
+            "iterations_saved": 0,
+            "saved_vs_plain_us": -1173.2511666666667,
+            "saved_vs_plain_ci": [
+              -1492.9459597222224,
+              -849.4263357638893
+            ],
+            "lambda_1e6_net_vs_measured_NEVER": -0.0018661459017415025
+          },
+          "PLAIN_ALWAYS": {
+            "mean_parent_median_us": 1579.5085416666668,
+            "wrong_decisions": 2,
+            "mean_regret": 2.360685521032404e-9,
+            "certified": 0,
+            "earlier_stop": 0,
+            "iterations_saved": 0,
+            "saved_vs_plain_us": 0,
+            "saved_vs_plain_ci": [
+              0,
+              0
+            ],
+            "lambda_1e6_net_vs_measured_NEVER": -0.0006928947350748357
+          },
+          "CERT_ONCE": {
+            "mean_parent_median_us": 2434.328930555556,
+            "wrong_decisions": 2,
+            "mean_regret": 2.360685521032404e-9,
+            "certified": 17,
+            "earlier_stop": 17,
+            "iterations_saved": 1450,
+            "saved_vs_plain_us": -854.8203888888888,
+            "saved_vs_plain_ci": [
+              -1204.9865038194446,
+              -513.2464284722223
+            ],
+            "lambda_1e6_net_vs_measured_NEVER": -0.0015477151239637246
+          },
+          "CERT_BLOCK": {
+            "mean_parent_median_us": 3061.3509305555554,
+            "wrong_decisions": 2,
+            "mean_regret": 2.360685521032404e-9,
+            "certified": 52,
+            "earlier_stop": 49,
+            "iterations_saved": 3236,
+            "saved_vs_plain_us": -1481.842388888889,
+            "saved_vs_plain_ci": [
+              -2163.2403600694447,
+              -844.2112819444445
+            ],
+            "lambda_1e6_net_vs_measured_NEVER": -0.0021747371239637246
+          },
+          "RESIDUAL": {
+            "mean_parent_median_us": 4680.613222222222,
+            "wrong_decisions": 0,
+            "mean_regret": 0,
+            "certified": 0,
+            "earlier_stop": 40,
+            "iterations_saved": -4572,
+            "saved_vs_plain_us": -3101.1046805555557,
+            "saved_vs_plain_ci": [
+              -4282.657788194445,
+              -1964.0247121527773
+            ],
+            "lambda_1e6_net_vs_measured_NEVER": -0.00379399705494487
+          }
+        }
+      },
+      {
+        "budget": 128,
+        "policies": {
+          "NEVER": {
+            "mean_parent_median_us": 835.3004166666667,
+            "wrong_decisions": 10,
+            "mean_regret": 0.000051293708944019075,
+            "certified": 0,
+            "earlier_stop": 72,
+            "iterations_saved": 15314,
+            "saved_vs_plain_us": 3415.016902777778,
+            "saved_vs_plain_ci": [
+              2310.220713194444,
+              4599.1863465277775
+            ],
+            "lambda_1e6_net_vs_measured_NEVER": 0
+          },
+          "ALWAYS": {
+            "mean_parent_median_us": 5429.929833333333,
+            "wrong_decisions": 0,
+            "mean_regret": 0,
+            "certified": 0,
+            "earlier_stop": 0,
+            "iterations_saved": 0,
+            "saved_vs_plain_us": -1179.6125138888888,
+            "saved_vs_plain_ci": [
+              -1516.5551246527777,
+              -849.8605600694447
+            ],
+            "lambda_1e6_net_vs_measured_NEVER": -0.004543335707722648
+          },
+          "PLAIN_ALWAYS": {
+            "mean_parent_median_us": 4250.317319444444,
+            "wrong_decisions": 0,
+            "mean_regret": 0,
+            "certified": 0,
+            "earlier_stop": 0,
+            "iterations_saved": 0,
+            "saved_vs_plain_us": 0,
+            "saved_vs_plain_ci": [
+              0,
+              0
+            ],
+            "lambda_1e6_net_vs_measured_NEVER": -0.003363723193833759
+          },
+          "CERT_ONCE": {
+            "mean_parent_median_us": 5057.5917500000005,
+            "wrong_decisions": 0,
+            "mean_regret": 0,
+            "certified": 17,
+            "earlier_stop": 17,
+            "iterations_saved": 1628,
+            "saved_vs_plain_us": -807.2744305555556,
+            "saved_vs_plain_ci": [
+              -1196.8175944444445,
+              -417.30268194444466
+            ],
+            "lambda_1e6_net_vs_measured_NEVER": -0.0041709976243893155
+          },
+          "CERT_BLOCK": {
+            "mean_parent_median_us": 5150.744819444445,
+            "wrong_decisions": 0,
+            "mean_regret": 0,
+            "certified": 54,
+            "earlier_stop": 54,
+            "iterations_saved": 9777,
+            "saved_vs_plain_us": -900.4275,
+            "saved_vs_plain_ci": [
+              -2729.744167708333,
+              664.0856541666657
+            ],
+            "lambda_1e6_net_vs_measured_NEVER": -0.004264150693833759
+          },
+          "RESIDUAL": {
+            "mean_parent_median_us": 4675.93275,
+            "wrong_decisions": 0,
+            "mean_regret": 0,
+            "certified": 0,
+            "earlier_stop": 64,
+            "iterations_saved": 4285,
+            "saved_vs_plain_us": -425.6154305555556,
+            "saved_vs_plain_ci": [
+              -790.9746100694445,
+              -85.84968576388914
+            ],
+            "lambda_1e6_net_vs_measured_NEVER": -0.003789338624389315
+          }
+        }
+      }
+    ],
+    "cpu_seconds": 1.704080562
+  },
+  "commands": [
+    {
+      "argv": [
+        "python3",
+        "/tmp/quartz_c23_review.py"
+      ],
+      "pid": 3298327,
+      "exit_code": 0,
+      "observed_exit_source": "Remote read_process_output",
+      "runtime_seconds": 0.12,
+      "reproducer_python": "\"\"\"C09 bounded independent checks. No production imports; no source mutations.\"\"\"\nimport json, math, hashlib, platform, subprocess, sys\nfrom fractions import Fraction as F\nfrom pathlib import Path\n\nROOT = Path('/home/cosmosapjw/quantum/research/quartz_general_meta23_20261123')\nBIN = ROOT/'target/release/quartz_c23_residual_gate'\nSOURCE = ROOT/'src/bin/quartz_c23_residual_gate.rs'\ndef sha(p): return hashlib.sha256(p.read_bytes()).hexdigest()\ndef edge_pairs(m):\n    return [(i*m+j,i*m+j+1) for i in range(m) for j in range(m-1)] + [(i*m+j,(i+1)*m+j) for i in range(m-1) for j in range(m)]\ndef op(v,m,rho):\n    out=list(v)\n    degree=[0]*len(v)\n    for i,j in edge_pairs(m):\n        z=rho*(v[i]-v[j])\n        out[i]+=z; out[j]-=z\n        degree[i]+=1;degree[j]+=1\n    return [z+rho*(4-d)*v[i] for i,(z,d) in enumerate(zip(out,degree))]\ndef dense_solve(b,m,rho):\n    n=len(b)\n    columns=[op([F(i==j) for i in range(n)],m,rho) for j in range(n)]\n    a=[[columns[j][i] for j in range(n)]+[b[i]] for i in range(n)]\n    for i in range(n):\n        pivot=next(j for j in range(i,n) if a[j][i])\n        a[i],a[pivot]=a[pivot],a[i]\n        c=a[i][i];a[i]=[z/c for z in a[i]]\n        for j in range(n):\n            if j!=i:\n                c=a[j][i];a[j]=[z-c*w for z,w in zip(a[j],a[i])]\n    return [row[-1] for row in a]\ndef energy(x,m,rho):\n    degree=[0]*len(x)\n    out=sum(z*z for z in x)\n    for i,j in edge_pairs(m):\n        out+=rho*(x[i]-x[j])**2\n        degree[i]+=1;degree[j]+=1\n    return out+rho*sum((4-d)*z*z for d,z in zip(degree,x))\ndef make_task(ident,m,rho,bs,qs):\n    norm=max(sum(z*z for z in b) for b in bs)\n    scale=F(1)\n    while scale<=2*norm:scale*=2\n    task={'id':ident,'side':m,'rho':rho,'scale':repr(float(scale)),\n          'rhs':[[repr(float(z)) for z in b] for b in bs]}\n    assert all(F(float(z))==z for b in bs for z in b)\n    return task,[q/scale for q in qs]\ndef dense_task(ident,m,rho,bs):\n    bs=[[F(z) for z in b] for b in bs]\n    xs=[dense_solve(b,m,rho) for b in bs]\n    qs=[sum(z*w for z,w in zip(b,x)) for b,x in zip(bs,xs)]\n    return make_task(ident,m,rho,bs,qs)\ndef manufactured_task(ident,m,rho,xs):\n    xs=[[F(z) for z in x] for x in xs]\n    bs=[op(x,m,rho) for x in xs]\n    qs=[energy(x,m,rho) for x in xs]\n    assert qs==[sum(z*w for z,w in zip(x,b)) for x,b in zip(xs,bs)]\n    return make_task(ident,m,rho,bs,qs)\n\ncases=[\n    dense_task('c09-dense2',2,1,[[1,0,0,0],[0,F(1,2),F(1,2),0],[F(1,8)]*4]),\n    dense_task('c09-dense3',3,16,[[F((i*7)%11-5,8) for i in range(9)],[F((i*5)%13-6,16) for i in range(9)],[F(1,64)]*9]),\n    dense_task('c09-decimal',2,1,[[F(1.8920180462300777),F(-10.504335880279541),F(0),F(0)],[F(0)]*4])\n]\nx=[F((i*17)%23-11,4096) for i in range(64)]\ncases.append(manufactured_task('c09-wide8',8,64,[x,[z/8 for z in x],[z/16 for z in x]]))\nreflection=[x[i*8+7-j] for i in range(8) for j in range(8)]\ncases.append(manufactured_task('c09-tie8',8,16,[x,reflection,[z/8 for z in x]]))\ncases.append(manufactured_task('c09-rho0',3,0,[[F(i-4,16) for i in range(9)],[F(0)]*9]))\ncases.append(manufactured_task('c09-zero',2,0,[[F(0)]*4,[F(0)]*4]))\n\nbefore={'binary':sha(BIN),'rust_source':sha(SOURCE)}\ncounts={'tasks':0,'native_policy_executions':0,'scalar_q_containments':0,\n        'exact_final_residual_bound_checks':0,'transport_components':0,\n        'certified_optimal':0,'noncertified_full_state_matches':0,\n        'plain_full_state_matches':0,'native_exit_codes':[]}\ndetail=[]\nfor task,q in cases:\n    req={'task':task,'additional':32,'repeats':1,'warmup':0,'trace':True}\n    cp=subprocess.run([str(BIN)],input=json.dumps(req)+'\\n',capture_output=True,text=True)\n    counts['native_exit_codes'].append(cp.returncode)\n    assert cp.returncode==0,cp.stderr\n    result=json.loads(cp.stdout);assert 'error' not in result,result\n    counts['tasks']+=1\n    bs=[[F(float(z)) for z in b] for b in task['rhs']]\n    scale=F(float(task['scale']));m=task['side'];rho=task['rho']\n    import struct\n    bits=lambda x:struct.unpack('<Q',struct.pack('<d',x))[0]\n    assert result['input_rhs_bits']==[[bits(float(z)) for z in b] for b in task['rhs']]\n    assert result['input_scale_bits']==bits(float(task['scale']))\n    counts['transport_components']+=sum(map(len,bs))\n    policies={r['policy']:r for r in result['results']}\n    assert set(policies)=={'NEVER','ALWAYS','PLAIN_ALWAYS','CERT_ONCE','CERT_BLOCK','RESIDUAL'}\n    for r in result['results']:\n        counts['native_policy_executions']+=1\n        families=[r['initial_bounds'],r['final_bounds'],r['decision_bounds']]\n        for t in r['trace']:families.extend([t['bounds'],t['fresh_bounds']])\n        for family in families:\n            for z,bound in zip(q,family):\n                assert F(bound['lo'])<=z<=F(bound['hi']),(task['id'],r['policy'],'q containment')\n                counts['scalar_q_containments']+=1\n        for b,xhat,bound in zip(bs,r['final_x'],r['final_bounds']):\n            xh=[F(z) for z in xhat];ax=op(xh,m,rho)\n            ell=2*sum(z*w for z,w in zip(b,xh))-sum(z*w for z,w in zip(xh,ax))\n            rr=sum((z-w)**2 for z,w in zip(b,ax))\n            exact_l=max(F(0),(ell+rr/F(1+8*rho))/scale)\n            exact_u=min(F(1),(ell+rr)/scale)\n            assert F(bound['lo'])<=exact_l and F(bound['hi'])>=exact_u,(task['id'],r['policy'],'outward bound')\n            counts['exact_final_residual_bound_checks']+=1\n        if r['certified']:\n            assert q[r['selected']]==max(q)\n            selected=r['decision_bounds'][r['selected']]['lo']\n            assert all(i==r['selected'] or selected>b['hi'] for i,b in enumerate(r['decision_bounds']))\n            counts['certified_optimal']+=1\n    a=policies['ALWAYS'];plain=policies['PLAIN_ALWAYS']\n    assert plain['iterations']==a['iterations'] and plain['final_x']==a['final_x']\n    assert plain['selected']==a['selected']\n    assert [b['ell_hat'] for b in plain['final_bounds']]==[b['ell_hat'] for b in a['final_bounds']]\n    counts['plain_full_state_matches']+=1\n    for name in ['CERT_ONCE','CERT_BLOCK']:\n        r=policies[name]\n        assert q[r['selected']]>=q[a['selected']]\n        if not r['certified']:\n            assert r['iterations']==a['iterations'] and r['final_x']==a['final_x'] and r['selected']==a['selected']\n            assert [b['ell_hat'] for b in r['final_bounds']]==[b['ell_hat'] for b in a['final_bounds']]\n            counts['noncertified_full_state_matches']+=1\n    if task['id']=='c09-tie8':assert all(not policies[p]['certified'] for p in ['CERT_ONCE','CERT_BLOCK'])\n    if task['id']=='c09-wide8':assert policies['CERT_ONCE']['solver_matvecs']<a['solver_matvecs']\n    detail.append({'id':task['id'],'oracle_exact':[str(x) for x in q],\n                   'policies':{p:{k:r[k] for k in ['selected','certified','iterations','solver_matvecs','residual_goal_met']} for p,r in policies.items()}})\n\ntiny={'task':{'id':'c09-underflow','side':2,'rho':1,'scale':repr(math.ldexp(1.,-1000)),\n              'rhs':[[repr(math.ldexp(1.,-600)),'0.0','0.0','0.0'],['0.0']*4]},\n      'additional':8,'repeats':1,'warmup':0,'trace':True}\ncp=subprocess.run([str(BIN)],input=json.dumps(tiny)+'\\n',capture_output=True,text=True)\nassert cp.returncode==0,cp.stderr\nout=json.loads(cp.stdout);assert 'error' not in out,out\nres=next(r for r in out['results'] if r['policy']=='RESIDUAL')\nassert res['iterations']==[0,0] and res['residual_goal_met'] and res['residual_relative']==[0.0,0.0]\nassert all(v==0.0 for v in res['final_x'][0])\ntinyq=[F(23,105)*F(2)**(-200),F(0)]\ntiny_checks=0\nfor rr in out['results']:\n    families=[rr['initial_bounds'],rr['final_bounds'],rr['decision_bounds']]\n    for t in rr['trace']:families.extend([t['bounds'],t['fresh_bounds']])\n    for family in families:\n        for qj,bj in zip(tinyq,family):\n            assert F(bj['lo'])<=qj<=F(bj['hi'])\n            tiny_checks+=1\nunderflow={'input':tiny,'native_exit_code':cp.returncode,'observed':{k:res[k] for k in ['reason','iterations','residual_relative','residual_goal_met','certified']},\n           'exact_nonzero_arm_relative_residual':'1','exact_normalized_utility':str(tinyq[0]),'outward_containment_checks':tiny_checks,'outward_certificate_remained_enclosing':True,'classification':'nonblocking outside manufactured source range; accepted-input diagnostic defect'}\nafter={'binary':sha(BIN),'rust_source':sha(SOURCE)}\nassert before==after\noutput={'status':'INDEPENDENT_FINITE_CHECKS_PASSED_WITH_ONE_OUT_OF_COHORT_DIAGNOSTIC_DEFECT',\n        'assertion_tested':'Frozen native binary on seven independently assembled exact finite tasks; exact response containment and final residual bounds; same-state fallbacks; transport bits. One tiny-input diagnostic reproducer.',\n        'argv':['python3','/tmp/quartz_c23_review.py'],'python':sys.version,'platform':platform.platform(),\n        'input_hashes_before':before,'input_hashes_after':after,'counts':counts,'details':detail,'nonblocking_finding':underflow}\nprint(json.dumps(output,indent=2))\n"
+    },
+    {
+      "shell_command": "cd '/home/cosmosapjw/quantum/research/quartz_general_meta23_20261123' && python3 - <<'PY'\nimport gzip,json,math,subprocess,time,hashlib\nfrom pathlib import Path\nfrom fractions import Fraction as F\nstart=time.process_time()\nev=Path('docs/research/quartz_general_residual_stop_20261123/evidence')\ndef rows(p):\n with gzip.open(p,'rt') as f:\n  for line in f:yield json.loads(line)\nout={'splits':{}}\nfor split in ['TRAIN','CAL']:\n tasks={t['id']:t for t in rows(ev/f'C23_PUBLIC_{split}.jsonl.gz')}\n norms={k:[sum(z*z for z in b) for b in t['rhs']] for k,t in tasks.items()}\n positive=[abs(z) for t in tasks.values() for b in t['rhs'] for z in b if z]\n vals=[z for v in norms.values() for z in v]\n estimates=[];zero_relative=0;native_results=0\n for e in (rows(ev/f'C23_{split}_TIMING.jsonl.gz') if (ev/f'C23_{split}_TIMING.jsonl.gz').exists() else []):\n  bn=norms[e['source_id']]\n  for r in e['native']['results']:\n   native_results+=1\n   for v,n in zip(r['residual_relative'],bn):\n    if v:estimates.append(v*v*n)\n    else:zero_relative+=1\n with gzip.open(ev/f'C23_{split}_TRACE.jsonl.gz','rt') as f:first=json.loads(next(f))\n task=tasks[first['source_id']];m=task['side'];rho=task['rho'];fresh=[]\n for r in first['native']['results']:\n  for b,x in zip(task['rhs'],r['final_x']):\n   residual=[]\n   for i,z in enumerate(x):\n    neighbors=[j for j in [i-1,i+1,i-m,i+m] if 0<=j<len(x) and abs(i//m-j//m)+abs(i%m-j%m)==1]\n    ax=(1+4*rho)*z-rho*sum(x[j] for j in neighbors)\n    residual.append(b[i]-ax)\n   fresh.append(sum(z*z for z in residual))\n out['splits'][split]={'parents':len(tasks),'rhs_norm_squared_min':min(vals),'rhs_norm_squared_max':max(vals),'rhs_abs_nonzero_min':min(positive),'recursive_cutoff_squared_min_for_1e14':min(vals)*1e-28,'timing_results':native_results,'reported_zero_fresh_relative_residuals':zero_relative,'min_positive_relative_squared_times_bnorm':min(estimates) if estimates else None,'sample_trace_id':first['source_id'],'sample_fresh_rr_squared_min':min(fresh),'sample_fresh_rr_squared_max':max(fresh),'sample_final_states':len(fresh)}\ns=math.ldexp(1.,-600)\nreq={'task':{'id':'c09-underflow-containment','side':2,'rho':1,'scale':repr(math.ldexp(1.,-1000)),'rhs':[[repr(s),'0.0','0.0','0.0'],['0.0']*4]},'additional':8,'repeats':1,'warmup':0,'trace':True}\np=subprocess.run(['target/release/quartz_c23_residual_gate'],input=json.dumps(req)+'\\n',text=True,capture_output=True,check=True)\nn=json.loads(p.stdout);q=[F(23,105)*F(2)**-200,F(0)];count=0\nfor r in n['results']:\n families=[r['initial_bounds'],r['final_bounds'],r['decision_bounds']]\n for t in r['trace']:families.extend([t['bounds'],t['fresh_bounds']])\n for family in families:\n  for u,bound in zip(q,family):\n   assert F(bound['lo'])<=u<=F(bound['hi'])\n   count+=1\nout['tiny_outward_containment']={'checks':count,'native_exit':p.returncode,'exact_nonzero_arm_u':str(q[0]),'nonzero_true_relative_residual':'1','containment_pass':True,'certified_count':sum(r['certified'] for r in n['results'])}\nout['cpu_seconds']=time.process_time()-start\nprint(json.dumps(out))\nPY",
+      "pid": 3300438,
+      "exit_code": 0,
+      "observed_exit_source": "Remote read_process_output",
+      "runtime_seconds": 0.42
+    },
+    {
+      "shell_command": "cd '/home/cosmosapjw/quantum/research/quartz_general_meta23_20261123' && python3 - <<'PY'\nimport json,gzip,hashlib,math,statistics,collections,sys,time\nfrom pathlib import Path\nfrom fractions import Fraction as F\nimport numpy as np\nstart=time.process_time()\nroot=Path('.');p=root/'docs/research/quartz_general_residual_stop_20261123';ev=p/'evidence'\ndef sha(p):\n h=hashlib.sha256()\n with p.open('rb') as f:\n  for b in iter(lambda:f.read(2**20),b''):h.update(b)\n return h.hexdigest()\ndef read(name):\n with gzip.open(ev/name,'rt') as f:return [json.loads(line) for line in f]\ncfg=json.loads((p/'SOURCE_SPECS.json').read_text())\nspec={x['id']:x for x in cfg['sources'] if x['split']=='TEST'}\npublic={x['id']:x for x in read('C23_PUBLIC_TEST.jsonl.gz')}\ntruth={x['id']:x for x in read('C23_ORACLE_TEST.jsonl.gz')}\nassert len(spec)==len(public)==len(truth)==72 and spec.keys()==public.keys()==truth.keys()\nassert all(truth[k]['spec']==spec[k] for k in spec)\nexpected={(k,b) for k in spec for b in cfg['additional']}\ntiming=read('C23_TEST_TIMING.jsonl.gz')\nassert len(timing)==216\nassert {(e['source_id'],e['additional']) for e in timing}==expected\npolicies=['NEVER','ALWAYS','PLAIN_ALWAYS','CERT_ONCE','CERT_BLOCK','RESIDUAL']\nrows={};counts=collections.Counter();exact_dominance=0\nfor e in timing:\n k=e['source_id'];task=public[k];n=e['native']\n assert e['split']=='TEST' and e['mode']=='timing'\n assert n['id']==k and n['additional']==e['additional']\n assert e['task_sha256']==hashlib.sha256(json.dumps(task,sort_keys=True,separators=(',',':')).encode()).hexdigest()\n assert len(n['results'])==54\n by={p:[] for p in policies}\n for r in n['results']:\n  assert r['policy'] in policies\n  assert 'trace' not in r and 'final_x' not in r\n  assert math.isfinite(r['total_us']) and r['total_us']>=0\n  by[r['policy']].append(r)\n vals={};q=[F(z) for z in truth[k]['u_exact']]\n for policy,rs in by.items():\n  assert sorted(r['rep'] for r in rs)==list(range(9))\n  assert len({(r['selected'],r['certified'],tuple(r['iterations'])) for r in rs})==1\n  f=rs[0];counts[policy]+=len(rs)\n  vals[policy]={'median':statistics.median(r['total_us'] for r in rs),'u':q[f['selected']],'regret':max(q)-q[f['selected']],\n                'certified':f['certified'],'iters':sum(f['iterations']),'initial':q[f['initial_selected']]}\n assert vals['PLAIN_ALWAYS']['u']==vals['ALWAYS']['u']\n for policy in ['CERT_ONCE','CERT_BLOCK']:\n  assert vals[policy]['u']>=vals['ALWAYS']['u']\n  exact_dominance+=1\n rows[(k,e['additional'])]=vals\nsummary=json.loads((ev/'C23_TEST_SUMMARY.json').read_text())\nrng=np.random.default_rng(cfg['bootstrap_seed'])\nchecked=0;primary=None;review=[]\nfor budget in cfg['additional']:\n group=[rows[(k,budget)] for k in spec]\n inds=rng.integers(0,72,(2000,72))\n reported=next(x for x in summary['summaries'] if x['additional']==budget)\n out={'budget':budget,'policies':{}}\n for policy in policies:\n  rr=reported['policies'][policy]\n  med=[r[policy]['median'] for r in group]\n  assert math.isclose(statistics.mean(med),rr['mean_parent_median_us'],rel_tol=1e-12,abs_tol=1e-12)\n  assert sum(r[policy]['regret']>0 for r in group)==rr['wrong_decision_parents']\n  assert sum(r[policy]['certified'] for r in group)==rr['certified_parents']\n  assert sum(r[policy]['iters']<r['ALWAYS']['iters'] for r in group)==rr['actual_early_stop_parents']\n  assert sum(r['ALWAYS']['iters']-r[policy]['iters'] for r in group)==rr['solver_iterations_saved']\n  assert math.isclose(float(sum(r[policy]['regret'] for r in group)/72),rr['mean_regret'],rel_tol=1e-12,abs_tol=1e-18)\n  for base,key,ci_key in [('ALWAYS','mean_time_saved_vs_ALWAYS_us','paired_parent_bootstrap_time_saved_95_us'),\n                           ('PLAIN_ALWAYS','mean_time_saved_vs_PLAIN_ALWAYS_us','paired_parent_bootstrap_time_saved_vs_PLAIN_ALWAYS_95_us')]:\n   diff=np.array([r[base]['median']-r[policy]['median'] for r in group])\n   ci=np.percentile(diff[inds].mean(axis=1),[2.5,97.5])\n   assert math.isclose(float(np.mean(diff)),rr[key],rel_tol=1e-12,abs_tol=1e-12)\n   assert np.allclose(ci,rr[ci_key],rtol=1e-12,atol=1e-12)\n   checked+=1\n  priced=next(t for t in rr['priced'] if t['lambda_utility_per_us']==1e-6)\n  dnever=[float(r[policy]['u']-r['NEVER']['u'])-1e-6*(r[policy]['median']-r['NEVER']['median']) for r in group]\n  assert math.isclose(statistics.mean(dnever),priced['mean_net_difference_vs_measured_NEVER'],rel_tol=1e-12,abs_tol=1e-16)\n  out['policies'][policy]={'mean_parent_median_us':rr['mean_parent_median_us'],'wrong_decisions':rr['wrong_decision_parents'],\n       'mean_regret':rr['mean_regret'],'certified':rr['certified_parents'],'earlier_stop':rr['actual_early_stop_parents'],\n       'iterations_saved':rr['solver_iterations_saved'],'saved_vs_plain_us':rr['mean_time_saved_vs_PLAIN_ALWAYS_us'],\n       'saved_vs_plain_ci':rr['paired_parent_bootstrap_time_saved_vs_PLAIN_ALWAYS_95_us'],\n       'lambda_1e6_net_vs_measured_NEVER':priced['mean_net_difference_vs_measured_NEVER']}\n review.append(out)\nbindings={}\nsources=json.loads((ev/'C23_SOURCES_TEST.json').read_text())\nassert sha(p/'SOURCE_SPECS.json')==sources['source_specs_sha256']\nassert sha(p/'coding/c23_sources.py')==sources['generator_sha256']\nfor name,v in sources['artifacts'].items():\n digest=sha(ev/name);assert digest==v['sha256'];bindings[name]=digest\nbinary=sha(root/'target/release/quartz_c23_residual_gate')\nfor mode in ['TRACE','TIMING']:\n m=json.loads((ev/f'C23_TEST_{mode}.manifest.json').read_text())\n digest=sha(ev/m['output'])\n assert m['exit_code']==0 and m['requests']==216\n assert digest==m['output_sha256'] and m['public_source_sha256']==bindings['C23_PUBLIC_TEST.jsonl.gz']\n assert m['binary_sha256']==binary\n bindings[m['output']]=digest\nbn=[sum(v*v for v in b) for t in public.values() for b in t['rhs']]\nprint(json.dumps({'status':'PASS','assertion_tested':'All 216 TEST timing envelopes cover the frozen 72 parents x 3 budgets; policy/rep completeness, canonical public input hashes, artifact hashes, fixed binary binding, exact paired utility, and independent parent-median/bootstrap recomputation.',\n 'source_strata':dict(collections.Counter(s['stratum'] for s in spec.values())),'records':len(timing),'native_executions':dict(counts),\n 'exact_gate_vs_ALWAYS_pairs':exact_dominance,'paired_time_mean_and_ci_checks':checked,'source_norm_squared_min':min(bn),\n 'source_norm_squared_max':max(bn),'binary_sha256':binary,'artifact_hashes':bindings,'budget_results':review,'cpu_seconds':time.process_time()-start}))\nPY",
+      "pid": 3303835,
+      "exit_code": 0,
+      "observed_exit_source": "Remote read_process_output",
+      "runtime_seconds": 1.51
+    }
+  ],
+  "preserved_review_failures": [
+    {
+      "object": "First TRAIN/CAL timing diagnostic query",
+      "classification": "ABSENT_ARTIFACT",
+      "observed": "FileNotFoundError for C23_CAL_TIMING.jsonl.gz",
+      "resolution": "Existence-aware targeted query; CAL complete input norm scan and sampled final-state trace checks completed; CAL timing-wide residual diagnostic NOT_RUN. No campaign rerun."
+    },
+    {
+      "object": "Local orchestration edit of reviewer script",
+      "classification": "JAVASCRIPT_SYNTAX",
+      "observed": "Triple-quoted string invalid in JavaScript; no tool call executed",
+      "resolution": "Correct JS template string, same intended reviewer-only edit succeeded."
+    }
+  ],
+  "remaining_obligations": {
+    "C8": "NONE_FOR_THIS_REVIEW; generated results and bindings received and checked",
+    "current_release": "Parent integrates finding and bounded negative performance conclusion, backs up/publishes C9/C10, and owns claim admission.",
+    "future_domain_extension": "Repair or reject norm-underflow inputs before any general accepted-domain residual-goal guarantee.",
+    "not_run": "No retiming, no source mutation, no original THESIS promotion, no full historical audit."
+  }
+}

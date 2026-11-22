@@ -1,0 +1,165 @@
+{
+  "status": "VERIFIED",
+  "utc": "2026-11-22T18:12:10.326653+00:00",
+  "archive_stage": "C08",
+  "archive_commit": "1d7948944a7d7490074a69b61db31c3005cb3b15",
+  "archive_path": "/home/cosmosapjw/Dropbox/personal_projects/quartz_general_meta23_backups/QUARTZ_GENERAL_C23_C08_1d7948944a7d.tar.gz",
+  "archive_sha256": "c4baede1da244418b1125f648843ce0ccd9fe681ca42c9de19a4f7c90eec8bff",
+  "archive_bytes": 299160322,
+  "restored_directory": "/tmp/quartz_c23_c08_restore_b45kqwwp",
+  "selected_files_verified": 22,
+  "checks": [
+    {
+      "path": "src/bin/quartz_c23_residual_gate.rs",
+      "git_blob": "d0140c2f4a0ac251f623b34415df8bd03fca555c",
+      "sha256": "8a5aad2d9c8b0a9fd8df0efd5310604f7b498d16447df0f222aa9619a15ad8ed",
+      "bytes": 23581
+    },
+    {
+      "path": "docs/research/quartz_general_residual_stop_20261123/THEORY.md",
+      "git_blob": "9627a859f95d402caa58594c609197a1e15a503f",
+      "sha256": "977317195bd7ef5dc71ad6cb0425111277e1526f92f23f25358fb31b263301a7",
+      "bytes": 19138
+    },
+    {
+      "path": "docs/research/quartz_general_residual_stop_20261123/CODING.md",
+      "git_blob": "3333ba10cef6d9fb0365ccef8ff350bf7bd57e93",
+      "sha256": "8b957903492c8b37c923f6741800f4a50be0e96052b883f2340d3d028f7ea145",
+      "bytes": 10314
+    },
+    {
+      "path": "docs/research/quartz_general_residual_stop_20261123/SOURCE_SPECS.json",
+      "git_blob": "7e580d5eede3fea9ed39576ce0be1e3f989e05da",
+      "sha256": "67562390a03ef34d3e1758dbd4cb64b6ca4cdd3f3e76d2627bc81e92d8cb73f2",
+      "bytes": 25026
+    },
+    {
+      "path": "docs/research/quartz_general_residual_stop_20261123/coding/c23_sources.py",
+      "git_blob": "8167d5e91f0b5800365dde0deec935f9652accb4",
+      "sha256": "6c4e0d33c012e2db448828e29a37d362677ae8d5c0e05983f366b3be471ede09",
+      "bytes": 4766
+    },
+    {
+      "path": "docs/research/quartz_general_residual_stop_20261123/coding/c23_run.py",
+      "git_blob": "e75cfff1928ad0b55ece94a4c4ff1fa0a8700826",
+      "sha256": "18698525ca09e41fbd371882b7799a7185d3f1d77fccf9c1fb3159214cddc6b1",
+      "bytes": 3787
+    },
+    {
+      "path": "docs/research/quartz_general_residual_stop_20261123/coding/c23_verify.py",
+      "git_blob": "62e66778483f9d2f6f4e61d51b668179915a366e",
+      "sha256": "4f944a05e04a494b62af381f675cab11d05e918334115c98fbc8d4ad2f9bbd7f",
+      "bytes": 4663
+    },
+    {
+      "path": "docs/research/quartz_general_residual_stop_20261123/coding/c23_analyze.py",
+      "git_blob": "24d300de1d5612957105064e46ec63b7d94b4d38",
+      "sha256": "48e30258534ea0ab0c60617c5d4550d2e86af8140610a49f1961ac3b38e14ceb",
+      "bytes": 6076
+    },
+    {
+      "path": "docs/research/quartz_general_residual_stop_20261123/coding/reassemble_c23_trace.py",
+      "git_blob": "5c187192bfff6343b534cd7be6ab795dc6794ac1",
+      "sha256": "d7a4aae225556cd39b14abb0841b1c8d0d64e6209f9f0380f699a84fd60d9cfb",
+      "bytes": 1147
+    },
+    {
+      "path": "docs/research/quartz_general_residual_stop_20261123/evidence/C23_PUBLIC_TEST.jsonl.gz",
+      "git_blob": "dd83d1cca807d936a36c678eaa960454ad77da80",
+      "sha256": "f44a318e8c8ff2e657eae0976788e212dd6b478dbd4f03273ce90bfb6e55a30c",
+      "bytes": 4077821
+    },
+    {
+      "path": "docs/research/quartz_general_residual_stop_20261123/evidence/C23_ORACLE_TEST.jsonl.gz",
+      "git_blob": "1107b6a66155e15bd864b741c3c566e34472b56c",
+      "sha256": "420100a728436786e72eb8605f806788fe7f850af942a3ca86b78db8795b21b8",
+      "bytes": 2438174
+    },
+    {
+      "path": "docs/research/quartz_general_residual_stop_20261123/evidence/C23_TEST_TIMING.jsonl.gz",
+      "git_blob": "2cce342f9fa32ba6217b89808e15b2a1f6decefe",
+      "sha256": "91f4dc48591cf56787b9ca1d4eba8cbc8a8aaf9b31596b8834c5037b5395f027",
+      "bytes": 429217
+    },
+    {
+      "path": "docs/research/quartz_general_residual_stop_20261123/evidence/C23_TEST_TIMING.manifest.json",
+      "git_blob": "67631edb777dc2ffdb99d3b54022d0512703e73b",
+      "sha256": "8692366497826ed3e41d4a980d06f403dc54e4ea835f6de4670119c1788cfbca",
+      "bytes": 866
+    },
+    {
+      "path": "docs/research/quartz_general_residual_stop_20261123/evidence/C23_TEST_TRACE.parts.json",
+      "git_blob": "b5918d3a11d41a857332b3371d828f383bdd5536",
+      "sha256": "1755d62b5ad53d956ad34937202ec87b97fa91950509fcb4b177a49d637e70f8",
+      "bytes": 849
+    },
+    {
+      "path": "docs/research/quartz_general_residual_stop_20261123/evidence/C23_TEST_TRACE.jsonl.gz.part00",
+      "git_blob": "b29b967a9b46fcc8245df9a7ad929690ca2f82b2",
+      "sha256": "8471d28b9ab0e6f8c200fa2493864c2c48574ea59205541881daaba20f34924e",
+      "bytes": 45000000
+    },
+    {
+      "path": "docs/research/quartz_general_residual_stop_20261123/evidence/C23_TEST_TRACE.jsonl.gz.part01",
+      "git_blob": "8c69d7ee79cba8a7f2a6736c422940d7504f1a91",
+      "sha256": "90556910077a802f06819968ddd9415b99cb382b696e24b5c3854792893e5537",
+      "bytes": 45000000
+    },
+    {
+      "path": "docs/research/quartz_general_residual_stop_20261123/evidence/C23_TEST_TRACE.jsonl.gz.part02",
+      "git_blob": "963bd322b38eb6fa9d0ec7f5dddf9bd831d8ae68",
+      "sha256": "d08a1823057b094511a4e15939ca53e55a99534323ae7f481c1e42a5bd4912ba",
+      "bytes": 40197446
+    },
+    {
+      "path": "docs/research/quartz_general_residual_stop_20261123/evidence/C23_TEST_SUMMARY.json",
+      "git_blob": "92691ff6a4b0f129899c71df42b3f393f86bffb4",
+      "sha256": "f36470dba72509cb1a53702b5f628167ec109cf784656ca362e04fdada145616",
+      "bytes": 92752
+    },
+    {
+      "path": "docs/research/quartz_general_residual_stop_20261123/evidence/C23_TEST_PARENT_METRICS.json",
+      "git_blob": "c026222f382b53171a8efe02b6ddcb2a3de9d10a",
+      "sha256": "a3dede1547908912399e1e824a3290691a621e0acdafb27b2d251caac2a77e41",
+      "bytes": 1076300
+    },
+    {
+      "path": "docs/research/quartz_general_residual_stop_20261123/evidence/C23_VERIFY_TEST_TRACE.json",
+      "git_blob": "cf7d658ccb8db8ae67711bf0c276ce669e835dac",
+      "sha256": "3e08bf0aafca042256adc09bf7806438196cde08b52fd3b374e8f441ad73b3a0",
+      "bytes": 504
+    },
+    {
+      "path": "docs/research/quartz_general_residual_stop_20261123/evidence/C23_VERIFY_TEST_TIMING.json",
+      "git_blob": "7b09d08a0ff81446474c6898807bb8bfd8777c36",
+      "sha256": "4b5863b04aa917c1b887e5d39276918ba29b842f3726bf2e8986881c6a615043",
+      "bytes": 507
+    },
+    {
+      "path": "docs/research/quartz_general_residual_stop_20261123/evidence/C23_COST_QUALITY.png",
+      "git_blob": "31906648d03fd37840e5288b6c5a5e9c8b1b10c3",
+      "sha256": "d6791467268b3058aecf95853e78ea24c11c1defccd9014d384d332d064db847",
+      "bytes": 230646
+    }
+  ],
+  "reassembly": {
+    "argv": [
+      "python3",
+      "/tmp/quartz_c23_c08_restore_b45kqwwp/docs/research/quartz_general_residual_stop_20261123/coding/reassemble_c23_trace.py"
+    ],
+    "returncode": 0,
+    "stdout": "/tmp/quartz_c23_c08_restore_b45kqwwp/docs/research/quartz_general_residual_stop_20261123/evidence/C23_TEST_TRACE.jsonl.gz",
+    "whole_sha256": "9fdcc49d8b0d64832a3a0b7dd88f99b84d4caf7b6a7d84a3cf65a2cd1496d396",
+    "whole_bytes": 130197446
+  },
+  "full_original_preserved": {
+    "path": "/home/cosmosapjw/Dropbox/personal_projects/quartz_general_meta23_backups/raw/C23_TEST_TRACE.jsonl.gz",
+    "sha256": "9fdcc49d8b0d64832a3a0b7dd88f99b84d4caf7b6a7d84a3cf65a2cd1496d396"
+  },
+  "independent_review_script": {
+    "path": "docs/research/quartz_general_residual_stop_20261123/coding/c23_independent_review.py",
+    "sha256": "3f82b4e4d4601a4af21f2cf63811cc38aeeaba69505ae44473e10e08205f4fe2"
+  },
+  "dropbox_cloud_ack": "NOT_VERIFIED",
+  "scope": "Actual C08 archive restored selected source, inputs, oracle, raw outputs and figure; no benchmark rerun."
+}
