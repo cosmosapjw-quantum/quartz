@@ -1,0 +1,331 @@
+{
+  "C08A_TEST_raw_SHA256": "5ab524aff074d8f441f09679309807079c694035eded182d86c5517d82cf5c1f",
+  "C20_controlled_live_policy_status": "SHADOW_ONLY",
+  "actual_hardware_saved_by_controller": "NOT_TESTED: source task extra computations always executed",
+  "admission": "two simulator models with exact declared likelihood and utility, not production adaptive search",
+  "frozen_C07A_RESOURCE_MODEL_SHA256": "530ca204c96b5fda4f3b060e8ebd87b52e4c4ec7e97be42dac56da93ca81cb04",
+  "frozen_C19_coarse_reference_SHA256": "5fdd172a13d51c4d17dc8e7829fb7c5518421028046ebac6e418a1158adf6735",
+  "heldout_domains": {
+    "beta_arms": {
+      "C19_frozen_coarse_prediction_MSE": 0.014119182812955619,
+      "exact_EVSI_prediction_MSE": 0.013811469186467985,
+      "exact_minus_coarse_MSE_descriptive_bootstrap": {
+        "descriptive_95pct_parent_bootstrap": [
+          -0.0019576597640253587,
+          0.0010518441935958702
+        ],
+        "mean_delta_over_parent_groups": -0.0003077136264876346,
+        "n_bootstrap": 500,
+        "n_independent_parent_groups": 24
+      },
+      "mean_C19_coarse_predicted_gain": 0.03719916677441079,
+      "mean_actual_C19_coarse_eval_us": 47.608402777777776,
+      "mean_actual_exact_predictor_eval_us": 4621.977569444444,
+      "mean_actual_underlying_task_extra_us": 8.722222222222221,
+      "mean_exact_predicted_EVSI": 0.047165332000772296,
+      "mean_predicted_exact_eval_us_TRAIN_median": 4655.674,
+      "mean_predicted_task_extra_us_TRAIN_median": 4.0,
+      "mean_realized_signed_terminal_gain": 0.0388332661654588,
+      "model_channel_claim": "correct for these simulator families, no real neural MCTS",
+      "model_cost_caveat": "microsecond wall clocks include scheduler and Python interpreter; predicted group median may drift",
+      "n_actual_extra_stochastic_task_computations": 72,
+      "n_decision_revisions": 22,
+      "n_independent_test_parents": 24,
+      "n_negative_realized_utility_gains": 7,
+      "price_sensitivity": {
+        "0.001": {
+          "C20_EXACT_CHARGED_missed_positive_net_task_opportunities": 15,
+          "C20_EXACT_CHARGED_recommends_negative_net_task": 0,
+          "n_C19_COARSE_CHARGED_recommend_COMPUTE": 18,
+          "n_C20_EXACT_CHARGED_recommend_COMPUTE": 0,
+          "n_C20_EXACT_UNCHARGED_recommend_COMPUTE": 70,
+          "paired_CI_EXACT_CHARGED_minus_ALWAYS": {
+            "descriptive_95pct_parent_bootstrap": [
+              -7.119026815727197,
+              -2.5715493524586077
+            ],
+            "mean_delta_over_parent_groups": -4.652088613387681,
+            "n_bootstrap": 500,
+            "n_independent_parent_groups": 24
+          },
+          "paired_CI_EXACT_CHARGED_minus_C19_CHARGED": {
+            "descriptive_95pct_parent_bootstrap": [
+              -6.7119900621218465,
+              -2.1939012384202408
+            ],
+            "mean_delta_over_parent_groups": -4.5859177135791525,
+            "n_bootstrap": 500,
+            "n_independent_parent_groups": 24
+          },
+          "paired_CI_EXACT_UNCHARGED_minus_ALWAYS": {
+            "descriptive_95pct_parent_bootstrap": [
+              0.0,
+              0.00047222222222222224
+            ],
+            "mean_delta_over_parent_groups": 0.00019444444444444443,
+            "n_bootstrap": 500,
+            "n_independent_parent_groups": 24
+          },
+          "policies_mean_paid_net_utility_vs_STOP": {
+            "ALWAYS": 0.03011104394323658,
+            "C19_COARSE_CHARGED": -0.036059855865291694,
+            "C19_COARSE_UNCHARGED": 0.03011104394323658,
+            "C20_EXACT_CHARGED": -4.621977569444445,
+            "C20_EXACT_UNCHARGED": 0.03030548838768102,
+            "NEVER": 0.0
+          }
+        },
+        "0.004": {
+          "C20_EXACT_CHARGED_missed_positive_net_task_opportunities": 13,
+          "C20_EXACT_CHARGED_recommends_negative_net_task": 0,
+          "n_C19_COARSE_CHARGED_recommend_COMPUTE": 0,
+          "n_C20_EXACT_CHARGED_recommend_COMPUTE": 0,
+          "n_C20_EXACT_UNCHARGED_recommend_COMPUTE": 57,
+          "paired_CI_EXACT_CHARGED_minus_ALWAYS": {
+            "descriptive_95pct_parent_bootstrap": [
+              -28.423271810513125,
+              -9.735646195348448
+            ],
+            "mean_delta_over_parent_groups": -18.49185465505435,
+            "n_bootstrap": 500,
+            "n_independent_parent_groups": 24
+          },
+          "paired_CI_EXACT_CHARGED_minus_C19_CHARGED": {
+            "descriptive_95pct_parent_bootstrap": [
+              -26.325001055555557,
+              -9.950405777777778
+            ],
+            "mean_delta_over_parent_groups": -18.297476666666665,
+            "n_bootstrap": 500,
+            "n_independent_parent_groups": 24
+          },
+          "paired_CI_EXACT_UNCHARGED_minus_ALWAYS": {
+            "descriptive_95pct_parent_bootstrap": [
+              0.001437249047297674,
+              0.008444444444444445
+            ],
+            "mean_delta_over_parent_groups": 0.005215026825075453,
+            "n_bootstrap": 500,
+            "n_independent_parent_groups": 24
+          },
+          "policies_mean_paid_net_utility_vs_STOP": {
+            "ALWAYS": 0.003944377276569909,
+            "C19_COARSE_CHARGED": -0.19043361111111112,
+            "C19_COARSE_UNCHARGED": 0.009159404101645362,
+            "C20_EXACT_CHARGED": -18.48791027777778,
+            "C20_EXACT_UNCHARGED": 0.009159404101645362,
+            "NEVER": 0.0
+          }
+        },
+        "0.01": {
+          "C20_EXACT_CHARGED_missed_positive_net_task_opportunities": 10,
+          "C20_EXACT_CHARGED_recommends_negative_net_task": 0,
+          "n_C19_COARSE_CHARGED_recommend_COMPUTE": 0,
+          "n_C20_EXACT_CHARGED_recommend_COMPUTE": 0,
+          "n_C20_EXACT_UNCHARGED_recommend_COMPUTE": 31,
+          "paired_CI_EXACT_CHARGED_minus_ALWAYS": {
+            "descriptive_95pct_parent_bootstrap": [
+              -70.89081254970513,
+              -23.655196932906225
+            ],
+            "mean_delta_over_parent_groups": -46.17138673838769,
+            "n_bootstrap": 500,
+            "n_independent_parent_groups": 24
+          },
+          "paired_CI_EXACT_CHARGED_minus_C19_CHARGED": {
+            "descriptive_95pct_parent_bootstrap": [
+              -66.67888152777778,
+              -25.012860972222224
+            ],
+            "mean_delta_over_parent_groups": -45.74369166666667,
+            "n_bootstrap": 500,
+            "n_independent_parent_groups": 24
+          },
+          "paired_CI_EXACT_UNCHARGED_minus_ALWAYS": {
+            "descriptive_95pct_parent_bootstrap": [
+              0.024130834921784278,
+              0.05376016874025907
+            ],
+            "mean_delta_over_parent_groups": 0.039654115517866566,
+            "n_bootstrap": 500,
+            "n_independent_parent_groups": 24
+          },
+          "policies_mean_paid_net_utility_vs_STOP": {
+            "ALWAYS": -0.048388956056763424,
+            "C19_COARSE_CHARGED": -0.4760840277777778,
+            "C19_COARSE_UNCHARGED": -0.013045165507252722,
+            "C20_EXACT_CHARGED": -46.21977569444445,
+            "C20_EXACT_UNCHARGED": -0.008734840538896857,
+            "NEVER": 0.0
+          }
+        }
+      }
+    },
+    "finite_sensor": {
+      "C19_frozen_coarse_prediction_MSE": 0.011190799301142992,
+      "exact_EVSI_prediction_MSE": 0.010683879751465786,
+      "exact_minus_coarse_MSE_descriptive_bootstrap": {
+        "descriptive_95pct_parent_bootstrap": [
+          -0.002858841098603061,
+          0.001469382132273874
+        ],
+        "mean_delta_over_parent_groups": -0.0005069195496772062,
+        "n_bootstrap": 500,
+        "n_independent_parent_groups": 24
+      },
+      "mean_C19_coarse_predicted_gain": 0.03140974501279277,
+      "mean_actual_C19_coarse_eval_us": 37.31019444444444,
+      "mean_actual_exact_predictor_eval_us": 214.98195833333332,
+      "mean_actual_underlying_task_extra_us": 16.958333333333332,
+      "mean_exact_predicted_EVSI": 0.027752103946410547,
+      "mean_predicted_exact_eval_us_TRAIN_median": 216.7065,
+      "mean_predicted_task_extra_us_TRAIN_median": 8.0,
+      "mean_realized_signed_terminal_gain": 0.003049857543723492,
+      "model_channel_claim": "correct for these simulator families, no real neural MCTS",
+      "model_cost_caveat": "microsecond wall clocks include scheduler and Python interpreter; predicted group median may drift",
+      "n_actual_extra_stochastic_task_computations": 72,
+      "n_decision_revisions": 7,
+      "n_independent_test_parents": 24,
+      "n_negative_realized_utility_gains": 1,
+      "price_sensitivity": {
+        "0.001": {
+          "C20_EXACT_CHARGED_missed_positive_net_task_opportunities": 6,
+          "C20_EXACT_CHARGED_recommends_negative_net_task": 0,
+          "n_C19_COARSE_CHARGED_recommend_COMPUTE": 15,
+          "n_C20_EXACT_CHARGED_recommend_COMPUTE": 0,
+          "n_C20_EXACT_UNCHARGED_recommend_COMPUTE": 31,
+          "paired_CI_EXACT_CHARGED_minus_ALWAYS": {
+            "descriptive_95pct_parent_bootstrap": [
+              -0.22333036199707954,
+              -0.17287442791803728
+            ],
+            "mean_delta_over_parent_groups": -0.20107348254372348,
+            "n_bootstrap": 500,
+            "n_independent_parent_groups": 24
+          },
+          "paired_CI_EXACT_CHARGED_minus_C19_CHARGED": {
+            "descriptive_95pct_parent_bootstrap": [
+              -0.1890221982647239,
+              -0.17452992753515648
+            ],
+            "mean_delta_over_parent_groups": -0.18074012033240064,
+            "n_bootstrap": 500,
+            "n_independent_parent_groups": 24
+          },
+          "paired_CI_EXACT_UNCHARGED_minus_ALWAYS": {
+            "descriptive_95pct_parent_bootstrap": [
+              0.006930555555555555,
+              0.04252719564753168
+            ],
+            "mean_delta_over_parent_groups": 0.01977758373436241,
+            "n_bootstrap": 500,
+            "n_independent_parent_groups": 24
+          },
+          "policies_mean_paid_net_utility_vs_STOP": {
+            "ALWAYS": -0.013908475789609845,
+            "C19_COARSE_CHARGED": -0.034241838000932674,
+            "C19_COARSE_UNCHARGED": -0.012977920234054287,
+            "C20_EXACT_CHARGED": -0.21498195833333333,
+            "C20_EXACT_UNCHARGED": 0.005869107944752567,
+            "NEVER": 0.0
+          }
+        },
+        "0.004": {
+          "C20_EXACT_CHARGED_missed_positive_net_task_opportunities": 4,
+          "C20_EXACT_CHARGED_recommends_negative_net_task": 0,
+          "n_C19_COARSE_CHARGED_recommend_COMPUTE": 0,
+          "n_C20_EXACT_CHARGED_recommend_COMPUTE": 0,
+          "n_C20_EXACT_UNCHARGED_recommend_COMPUTE": 19,
+          "paired_CI_EXACT_CHARGED_minus_ALWAYS": {
+            "descriptive_95pct_parent_bootstrap": [
+              -0.8178508562891983,
+              -0.7624411057100215
+            ],
+            "mean_delta_over_parent_groups": -0.7951443575437235,
+            "n_bootstrap": 500,
+            "n_independent_parent_groups": 24
+          },
+          "paired_CI_EXACT_CHARGED_minus_C19_CHARGED": {
+            "descriptive_95pct_parent_bootstrap": [
+              -0.7171992777777779,
+              -0.7046488888888889
+            ],
+            "mean_delta_over_parent_groups": -0.7106870555555554,
+            "n_bootstrap": 500,
+            "n_independent_parent_groups": 24
+          },
+          "paired_CI_EXACT_UNCHARGED_minus_ALWAYS": {
+            "descriptive_95pct_parent_bootstrap": [
+              0.04069438726932095,
+              0.08565216705996992
+            ],
+            "mean_delta_over_parent_groups": 0.058763666257911774,
+            "n_bootstrap": 500,
+            "n_independent_parent_groups": 24
+          },
+          "policies_mean_paid_net_utility_vs_STOP": {
+            "ALWAYS": -0.06478347578960984,
+            "C19_COARSE_CHARGED": -0.14924077777777778,
+            "C19_COARSE_UNCHARGED": -0.019075365087253625,
+            "C20_EXACT_CHARGED": -0.8599278333333333,
+            "C20_EXACT_UNCHARGED": -0.0060198095316980685,
+            "NEVER": 0.0
+          }
+        },
+        "0.01": {
+          "C20_EXACT_CHARGED_missed_positive_net_task_opportunities": 3,
+          "C20_EXACT_CHARGED_recommends_negative_net_task": 0,
+          "n_C19_COARSE_CHARGED_recommend_COMPUTE": 0,
+          "n_C20_EXACT_CHARGED_recommend_COMPUTE": 0,
+          "n_C20_EXACT_UNCHARGED_recommend_COMPUTE": 9,
+          "paired_CI_EXACT_CHARGED_minus_ALWAYS": {
+            "descriptive_95pct_parent_bootstrap": [
+              -2.018261447821268,
+              -1.9513249878160634
+            ],
+            "mean_delta_over_parent_groups": -1.9832861075437236,
+            "n_bootstrap": 500,
+            "n_independent_parent_groups": 24
+          },
+          "paired_CI_EXACT_CHARGED_minus_C19_CHARGED": {
+            "descriptive_95pct_parent_bootstrap": [
+              -1.7935581944444445,
+              -1.761556388888889
+            ],
+            "mean_delta_over_parent_groups": -1.776717638888889,
+            "n_bootstrap": 500,
+            "n_independent_parent_groups": 24
+          },
+          "paired_CI_EXACT_UNCHARGED_minus_ALWAYS": {
+            "descriptive_95pct_parent_bootstrap": [
+              0.12568309209521353,
+              0.17973502377869255
+            ],
+            "mean_delta_over_parent_groups": 0.15040286083996166,
+            "n_bootstrap": 500,
+            "n_independent_parent_groups": 24
+          },
+          "policies_mean_paid_net_utility_vs_STOP": {
+            "ALWAYS": -0.16653347578960986,
+            "C19_COARSE_CHARGED": -0.37310194444444444,
+            "C19_COARSE_UNCHARGED": 0.0,
+            "C20_EXACT_CHARGED": -2.1498195833333336,
+            "C20_EXACT_UNCHARGED": -0.016130614949648195,
+            "NEVER": 0.0
+          }
+        }
+      }
+    }
+  },
+  "max_Rust_Python_sensor_EVSI_abs_error": 6.661338147750939e-16,
+  "n_Rust_Python_sensor_initial_only_cases": 72,
+  "n_actual_extra_stochastic_computations": 144,
+  "n_distinct_test_parent_worlds": 48,
+  "native_standalone_Rust_compiled_sha256": "7943f2719d26793f0d73c0754933aba14693b970cb8f03a0f594acd3ba6e15f5",
+  "price_units": "terminal expected utility per measured microsecond",
+  "prospective_C20_world_SHA256": "d6cf96c26d9ac913963f702d9b0418f0002038979f6a470da3865999368e4ae7",
+  "same_latent_parent_resampling_unit": true,
+  "schema": "quartz_general_c20_C08_heldout_exact_predictive_EVSI_v1",
+  "source_git_published_before_test_scoring": "a331f8bfb3a94fa9cb331d6fb604eeec4d05e706",
+  "true_neural_MCTS_signed_utility": "NOT_ESTIMABLE"
+}
