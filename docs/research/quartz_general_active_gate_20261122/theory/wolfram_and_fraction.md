@@ -1,0 +1,5 @@
+# R07 | Exact finite independent checks
+
+Wolfram Language evaluated posterior Beta(5,3) future n2 successes predictive probabilities {1/6,5/12,5/12}; posterior-mean expectation 5/8 and variance 1/192, exactly matching n a b/[s²(s+1)(s+n)]. It checked Beta(12,2) vs Beta(2,12), n1, lower winner12/15 greater than other upper3/15, so G0. It evaluated two Beta(1,1) arms n1: exact gross G1/12, predictive posterior score variance each1/36, Cauchy bound sqrt(2)/12, G<=bound.
+
+Separate Python Fraction script theory/verify_r07.py reconstructs Beta-Binomial probability mass and exact posterior value over count combinations, support dominance and the variance/upper expressions without calling C22 native code. This is independent mathematical evidence, not empirical active STOP savings. The C05 Rust implementation must also test actual ZERO draws and unchanged action on certified STOP.

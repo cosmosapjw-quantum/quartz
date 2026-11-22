@@ -1,0 +1,31 @@
+{
+  "beta_5_3_two_future": {
+    "formula_variance": "1/192",
+    "future_score_mean": "5/8",
+    "future_score_variance": "1/192",
+    "pmf": [
+      "1/6",
+      "5/12",
+      "5/12"
+    ]
+  },
+  "claims": "finite exact math, not implementation/real-world game calibration",
+  "independent_two_uniform_arms_one_draw": {
+    "Cauchy_upper_bound_float": 0.11785113019775792,
+    "EVSI": "1/12",
+    "future_score_variances": [
+      "1/36",
+      "1/36"
+    ],
+    "upper_holds": true
+  },
+  "nonnumeric_posteriors": "Beta rational shapes with exact Fraction arithmetic",
+  "schema": "quartz_C22_R07_Fraction_exact_v1",
+  "status": "PASS",
+  "support_dominance": {
+    "EVSI": "0",
+    "all_future_actions_unchanged": true,
+    "competitor_max": "1/5",
+    "winner": "4/5"
+  }
+}
