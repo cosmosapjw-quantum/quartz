@@ -1,0 +1,65 @@
+{
+  "Dropbox_cloud_sync_ack": "NOT_VERIFIED",
+  "archive_sha256": "5247d36e90473660e32a52a302043ea1caa99dd56d7a8d24f54a7bfa20ef61fe",
+  "local_archive": "/home/cosmosapjw/Dropbox/personal_projects/quartz_general_meta18_backups/QUARTZ_GENERAL_C18_C08_d0de51213948.tar.gz",
+  "n_byte_identical_restored_files": 11,
+  "schema": "quartz_general_c18_C09_local_restore_v1",
+  "sources": [
+    {
+      "bytes": 9428,
+      "sha256": "02ffa31af60ecbb1fa46f8bfebe4590caa365aca22f3c3d17817017a8ef5cb8f",
+      "source": "docs/THESIS.md"
+    },
+    {
+      "bytes": 1727,
+      "sha256": "d93997a79d069478e3b4d4bad9331c34bf0003f9d524f2e92b1e7b32fb2fa561",
+      "source": "docs/research/quartz_general_calibration_20261122/C01_SOURCE_LOCK.json"
+    },
+    {
+      "bytes": 161078,
+      "sha256": "52e3654febead1a01253174be0d395f8c2ea6e04ada21e5e0bfbf5938d680445",
+      "source": "docs/research/quartz_general_calibration_20261122/SOURCE_GROUPS_FROZEN.json"
+    },
+    {
+      "bytes": 2101,
+      "sha256": "2dd987989cb543c692457d0b198d23009917fd5a3001551e300a81beb868218b",
+      "source": "docs/research/quartz_general_calibration_20261122/SHADOW_MODEL_FROZEN.json"
+    },
+    {
+      "bytes": 5110771,
+      "sha256": "5a409b89589b3a3a5fd7c2093c297d57c324bc0906933b830f5f11a763e63c4a",
+      "source": "docs/research/quartz_general_calibration_20261122/evidence/C07_TRAIN_CAL/SOURCE_RAW.jsonl"
+    },
+    {
+      "bytes": 1258661,
+      "sha256": "79fbcb968cc09fa0cea2f808fa8449317039792f24a693d6ff1b51095990b527",
+      "source": "docs/research/quartz_general_calibration_20261122/evidence/C08_TEST/SOURCE_RAW.jsonl"
+    },
+    {
+      "bytes": 3939,
+      "sha256": "c5b44c4f7bdc8376e0712617d45e16b5b5152990ffaa4eaf8635f4b651c1f767",
+      "source": "docs/research/quartz_general_calibration_20261122/evidence/C08_TEST/C08_HELDOUT_RESULTS.json"
+    },
+    {
+      "bytes": 5058,
+      "sha256": "b065887d67554be34529a23667ce8445359a7529bc2e1f4fdbbcdff7a22d4414",
+      "source": "quartz/experiments/c18_observation.py"
+    },
+    {
+      "bytes": 3738,
+      "sha256": "4d2a2b3bcbc8c9cef42d2e3149972ac466adc6ee2d9e22a913dfedbb9da2928a",
+      "source": "src/bin/quartz_c18_shadow.rs"
+    },
+    {
+      "bytes": 7261,
+      "sha256": "19114d48a84cb8153679207a827632edbb82f3593336a3800d0aa7f68eb812fa",
+      "source": "docs/research/quartz_general_calibration_20261122/coding/collect_observations.py"
+    },
+    {
+      "bytes": 5874,
+      "sha256": "f12d17f8836b38a7003809b35fb5576c6bfeee0cee22e3966a976851e6e9733e",
+      "source": "docs/research/quartz_general_calibration_20261122/coding/score_c08_test.py"
+    }
+  ],
+  "status": "PASS"
+}
