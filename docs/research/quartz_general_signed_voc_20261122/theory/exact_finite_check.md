@@ -1,0 +1,7 @@
+# R7 | Exact symbolic and finite tests
+
+Wolfram Language independently evaluated the rational same-flip counterexample q=1/4, m+ = 1/2, m− = −1/2, priced cost1/10. Gross signed gains are +1/8, −1/8; net gains +1/40 and −9/40. For q interval[1/4,3/4], m interval[−1/2,1/2], net corner extrema [−19/40,+11/40]. This is a concrete obstruction to pretending flip risk implies net computation value and to promoting an uncalibrated bound as a safe STOP certificate.
+
+Independent local exact Fraction checker theory/verify_r07.py calculates the same values and double-checks endpoint extrema. A hand-simple nonnegative one-step EVSI illustration: a hidden fair binary state, two terminal actions with U(a,theta)=1[a=theta], no observation prior best value1/2. An observation that perfectly reveals theta produces terminal utility1; expected gross EVSI=1/2≥0. For the realized path with mismatched initial guess, utility gain is +1; on an already-correct path utility gain0, not negative. No finite computation supplies a proof of new literature novelty.
+
+R7 checks also include the conditional exact algebra of q*m, no-action-change zero gain, and εg triangle bound on bounded intervals. It does not establish that any logistic/ridge approximation is calibrated in practice, nor that original human signatures or MCTS performance improve.
