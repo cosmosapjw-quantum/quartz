@@ -1,0 +1,9 @@
+# R05 | Conditional proof, information bounds, stop and unit consistency
+
+(1) For independent random variables X_1,...X_K, P(max X_j<=v)=P(intersection_j {X_j<=v})=product_j F_j(v). For the finite score support, the PMF is F_T(v_i)-F_T(v_{i-1}), hence E(max X)=Σ_i v_i ΔF_T(v_i). Probability increments are nonnegative and sum telescopically to1 if all marginal CDFs tend to1. This is an established theorem under independence, not a universal result for correlated arm means.
+
+(2) Exact finite Bayesian EVSI nonnegative: with M(b)=max_a E_b U(a,θ), E_y M(b^y)>=max_a E_y E_{b^y}U=max_a E_b U=M(b) by law of total expectation and max convexity. EVSI<=EVPI, and for U∈[0,1], 0<=G<=1. Realized signed terminal improvement can be negative for a given θ even when E[Z|b]=G>=0.
+
+(3) One-step costed decision criterion: if true expected incremental compute cost c_task and metaevaluation cost c_eval have the same microsecond clock measurement and utility tariff λ>0, N=G−λ(c_task+c_eval). G>λ c_task is NOT sufficient for positive operational net if c_eval>0. Calling an evaluator that predicts STOP but costs positive resources strictly loses versus a free immediate STOP if the caller had no cheaper pre-gate. A threshold from heldout data does not imply safe STOP without conditional calibration.
+
+(4) An event sweep needs at most Σ_j(n_j+1) events; sorting O(ElogE), product updating O(E), independent of exponential joint outcomes ∏_j(n_j+1). At n=0 every action score is deterministic and G=0. Identical arms with tied support are handled by grouping identical values and updating all marginal CDFs before recording a single jump. Rounding tolerance gate verifies mass near1, G>=-1e-9 and bounded utility. Deterministic value semantics is posterior expected utility, not a sampled realized 0/1 reward.
