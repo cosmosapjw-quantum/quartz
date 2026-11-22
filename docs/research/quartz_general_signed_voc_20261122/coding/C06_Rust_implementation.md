@@ -1,0 +1,9 @@
+# C6 | Actual independent Rust shadow numeric controller, full regression
+
+Observed C19 Rust RED: standalone src/bin/quartz_c19_shadow.rs initially returned Err, and the real external test zero_sign_change_but_10us_cost_is_negative_net failed with exit101, no syntax/import trick. First GREEN build hit E0283 type inference compiler error on closure Result; diagnosed exactly and repaired by specifying Result<Value,String>. Rerun focused Rust test 3/3 PASS. This is one substantive compiler repair, not weakening tests.
+
+Fresh full cargo test --offline --locked DEBUG: existing MCTS main **617 PASS/0 FAIL/89 ignored**, C18 CLI3 PASS, C19 shadow CLI3 PASS, C17 finite CLI7 PASS. Same totals on --release: **617+3+3+7=630 tests PASS** across binaries, 0 FAIL; main89 ignored. cargo build --offline --locked --release --bin quartz_c19_shadow PASS. New standalone compiled Rust executable SHA256 **6761476e1901926f85ba3c0410f1221d34834d97c219f90a88f5f5f92bd58f68**. Focused Python C19 5 PASS.
+
+The native CLI is game-independent: float coefficients for Bernoulli flip propensity and conditional signed effect, calibration-only offsets, precomputed generic gap, action count, actual resource price and precommitted incremental cost prediction. It returns probability, conditional signed utility, gross, net and COMPUTE/STOP proposal. It accepts NO domain, future action, signed label, true utility, observed future wall time, model retraining or PUCT behavior. No live policy action occurred.
+
+Coding check_c06_rust_parity.py actually ran the compiled Rust binary on96 independent generic initial-only requests and separately computed Python shadow_predict. All480 float equalities within1e-10, maximum observed error1.1102230246251565e-16, choices identical, evidence/C06_PARITY.json. This validates the reference numeric code only, not the future real source observation model's Brier/utility calibration.
