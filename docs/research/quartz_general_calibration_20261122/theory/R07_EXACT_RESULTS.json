@@ -1,0 +1,23 @@
+{
+  "brier": {
+    "forecast": "4/5",
+    "irreducible": "6/25",
+    "miscalibration": "1/25",
+    "score": "7/25",
+    "true_p": "3/5"
+  },
+  "identical_flip_probability": "1/4",
+  "negative_signed_change": "-1/4",
+  "not_human_cognition_or_game_strength": true,
+  "positive_signed_change": "1/4",
+  "proof_scope": "algebraic identities plus finite counterexample, not MCTS inference",
+  "repeated_cluster_example": {
+    "effective_sample_size": "18",
+    "groups": 12,
+    "per_group": 3,
+    "rho": "1/2",
+    "variance_inflation": "2"
+  },
+  "schema": "quartz_c18_R07_exact_v1",
+  "status": "PASS"
+}

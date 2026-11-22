@@ -1,0 +1,7 @@
+# R7. Exact finite verification completed
+
+Actually executed theory/verify_r07.py with independent Fraction arithmetic: Brier E[(Y-q)^2] for p=3/5 q=4/5 is7/25, irreducible variance6/25 and squared calibration gap1/25. This agrees with a separate Wolfram Language exact rational evaluation (7/25,6/25,0 residual after decomposition). Two toy worlds sharing exactly one-fourth decision-flip probability have opposite average utility change +1/4 and -1/4. Thus a perfect flip-probability predictor is not automatically a value-of-computation predictor.
+
+For a hypothetical exchangeable block design n=12 groups, m=3 repeated observations, pairwise rho=1/2, exact design effect 1+(m-1)rho=2, nominal36 observations have effective count18 for the mean under these explicit assumptions. This is an illustrative derivation, not a measured rho for real Rust traces. Current exact output theory/R07_EXACT_RESULTS.json status PASS and source script are published. No original new mathematical theorem, and no GPU/large Bayesian MCTS work falsely claimed.
+
+C5 and C8 must test real source distributions and report fitted test Brier/log loss and per-domain conditional prevalence. Exact R7 supports design and falsification only.
