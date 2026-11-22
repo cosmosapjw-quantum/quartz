@@ -1,0 +1,5 @@
+# R01. Original authority and decision target
+
+C20 QUARTZ-GENERAL-20-POSTERIOR-PREDICTIVE-VOC-AND-COST starts from C19 exact final 2a359ad049b6a0be4047e52ad281b665cf68e967. Frozen original THESIS.md P1–P4 concerns general bounded-rational compute allocation and STOP, never single-game optimization. C19's empirical weakness: initial gap-based signed forecast is not reliably transferable across two known-utility stochastic decision domains; the original real Rust MCTS has no independently known signed game utility and remains NOT_ESTIMABLE.
+
+Question: Given fully specified Bayesian observation likelihood, initial posterior and public terminal utilities, compute exact expected sample information G without oracle true latent labels. Compare G and a priced one-step shadow selector to a frozen coarse predictor on independently seeded new experimental parents. Distinguish measured underlying sampled-work cost C from evaluator metacomputation cost E. User requires R01–R10 then C01–C10, each a separately pushed Git commit with SHA256 local git archive, no merges or developer worktree changes. Native subagents unavailable NOT_RUN.
