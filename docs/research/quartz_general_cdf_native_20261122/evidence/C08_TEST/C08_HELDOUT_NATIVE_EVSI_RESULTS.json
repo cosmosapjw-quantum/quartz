@@ -1,0 +1,347 @@
+{
+  "C20_sensor_Rust_reference_SHA256": "7943f2719d26793f0d73c0754933aba14693b970cb8f03a0f594acd3ba6e15f5",
+  "C21_beta_Rust_executable_SHA256": "ad49fb9fbb125cb0193e454ee508bc083737bf446754200663143c5b0fcd4650",
+  "TEST_raw_source_SHA256": "cb834de8c9b312e1ac168c42adeee571c116600a32cadefb604dd257442dbd74",
+  "TRAIN_only_price_model_SHA256": "d53b6ffdfa422f5b274d0373d9839e958b96528126a7cc4a66c21a73b4401d01",
+  "all_source_tasks_actually_executed": true,
+  "beta_native_server_first_request_cold_us": 795.56,
+  "domains": {
+    "beta_arms": {
+      "exact_EVSI_MSE_against_realized_utility": 0.00935592016255671,
+      "exact_minus_coarse_MSE_group_CI": {
+        "descriptive_95pct": [
+          -0.0005653222545048835,
+          0.002030062879956675
+        ],
+        "mean_group_delta": 0.0007839575967261379,
+        "n_parent_groups": 24,
+        "n_resamples": 500
+      },
+      "historical_C19_coarse_MSE": 0.008571962565830572,
+      "mean_exact_predicted_EVSI": 0.046171490940354,
+      "mean_historical_coarse_predicted_gain": 0.03626430362684116,
+      "mean_native_end_to_end_boundary_us": 28.283055555555553,
+      "mean_native_function_internal_eval_us": 1.7378055555555556,
+      "mean_task_actual_us": 0.26655555555555555,
+      "mean_true_signed_gain": 0.019665661708344523,
+      "n_changed_terminal_decisions": 18,
+      "n_independent_test_parent_worlds": 24,
+      "n_negative_realized_utility": 7,
+      "n_real_stochastic_extra_task_samples": 72,
+      "n_source_only_reference_matches": 72,
+      "prices": {
+        "0.001": {
+          "CI_native_boundary_minus_ALWAYS": {
+            "descriptive_95pct": [
+              -0.03023040277777778,
+              -0.026275958333333335
+            ],
+            "mean_group_delta": -0.028210708333333334,
+            "n_parent_groups": 24,
+            "n_resamples": 500
+          },
+          "CI_native_function_minus_ALWAYS": {
+            "descriptive_95pct": [
+              -0.001991763888888889,
+              -0.0014871805555555565
+            ],
+            "mean_group_delta": -0.001737805555555556,
+            "n_parent_groups": 24,
+            "n_resamples": 500
+          },
+          "CI_native_function_minus_NEVER": {
+            "descriptive_95pct": [
+              -0.0027411956115136592,
+              0.04285456797151894
+            ],
+            "mean_group_delta": 0.017661300597233413,
+            "n_parent_groups": 24,
+            "n_resamples": 500
+          },
+          "mean_net_utility_gain_vs_immediate_STOP": {
+            "ALWAYS": 0.01939910615278897,
+            "C21_EXACT_UNCHARGED": 0.01939910615278897,
+            "C21_NATIVE_FUNCTION_CHARGED": 0.01766130059723341,
+            "C21_NATIVE_HOST_BOUNDARY_CHARGED": -0.008811602180544366,
+            "HISTORICAL_C19_COARSE_UNCHARGED": 0.01939910615278897,
+            "NEVER": 0.0
+          },
+          "n_native_internal_missed_positive_task_gain": 0,
+          "n_native_internal_selected_negative_task_gain": 61,
+          "n_recommended_COMPUTE": {
+            "NATIVE_FUNCTION": 72,
+            "NATIVE_HOST_BOUNDARY": 53,
+            "UNCHARGED": 72
+          }
+        },
+        "0.004": {
+          "CI_native_boundary_minus_ALWAYS": {
+            "descriptive_95pct": [
+              -0.15818187454376983,
+              -0.10777405897805158
+            ],
+            "mean_group_delta": -0.13207464437403166,
+            "n_parent_groups": 24,
+            "n_resamples": 500
+          },
+          "CI_native_function_minus_ALWAYS": {
+            "descriptive_95pct": [
+              -0.007908888888888889,
+              -0.005990111111111112
+            ],
+            "mean_group_delta": -0.006867722222222223,
+            "n_parent_groups": 24,
+            "n_resamples": 500
+          },
+          "CI_native_function_minus_NEVER": {
+            "descriptive_95pct": [
+              -0.00782732741510895,
+              0.036335561536055515
+            ],
+            "mean_group_delta": 0.011731717263900078,
+            "n_parent_groups": 24,
+            "n_resamples": 500
+          },
+          "mean_net_utility_gain_vs_immediate_STOP": {
+            "ALWAYS": 0.0185994394861223,
+            "C21_EXACT_UNCHARGED": 0.0185994394861223,
+            "C21_NATIVE_FUNCTION_CHARGED": 0.011731717263900078,
+            "C21_NATIVE_HOST_BOUNDARY_CHARGED": -0.11347520488790935,
+            "HISTORICAL_C19_COARSE_UNCHARGED": 0.0185994394861223,
+            "NEVER": 0.0
+          },
+          "n_native_internal_missed_positive_task_gain": 0,
+          "n_native_internal_selected_negative_task_gain": 60,
+          "n_recommended_COMPUTE": {
+            "NATIVE_FUNCTION": 71,
+            "NATIVE_HOST_BOUNDARY": 8,
+            "UNCHARGED": 72
+          }
+        },
+        "0.01": {
+          "CI_native_boundary_minus_ALWAYS": {
+            "descriptive_95pct": [
+              -0.33032591349820867,
+              -0.2692632077639699
+            ],
+            "mean_group_delta": -0.29983066170834455,
+            "n_parent_groups": 24,
+            "n_resamples": 500
+          },
+          "CI_native_function_minus_ALWAYS": {
+            "descriptive_95pct": [
+              -0.01919861111111111,
+              -0.014508055555555557
+            ],
+            "mean_group_delta": -0.016734027777777778,
+            "n_parent_groups": 24,
+            "n_resamples": 500
+          },
+          "CI_native_function_minus_NEVER": {
+            "descriptive_95pct": [
+              -0.019327159410322335,
+              0.025459726803870222
+            ],
+            "mean_group_delta": 0.0002660783750111894,
+            "n_parent_groups": 24,
+            "n_resamples": 500
+          },
+          "mean_net_utility_gain_vs_immediate_STOP": {
+            "ALWAYS": 0.01700010615278897,
+            "C21_EXACT_UNCHARGED": 0.017208856152788967,
+            "C21_NATIVE_FUNCTION_CHARGED": 0.00026607837501118996,
+            "C21_NATIVE_HOST_BOUNDARY_CHARGED": -0.2828305555555556,
+            "HISTORICAL_C19_COARSE_UNCHARGED": 0.01700010615278897,
+            "NEVER": 0.0
+          },
+          "n_native_internal_missed_positive_task_gain": 0,
+          "n_native_internal_selected_negative_task_gain": 45,
+          "n_recommended_COMPUTE": {
+            "NATIVE_FUNCTION": 56,
+            "NATIVE_HOST_BOUNDARY": 0,
+            "UNCHARGED": 71
+          }
+        }
+      },
+      "time_boundary": "matched Rust native Beta stochastic sampler and Beta EVSI evaluator; stream per case"
+    },
+    "finite_sensor": {
+      "exact_EVSI_MSE_against_realized_utility": 0.0431847229362777,
+      "exact_minus_coarse_MSE_group_CI": {
+        "descriptive_95pct": [
+          -0.0071045337898538105,
+          0.001080413468928282
+        ],
+        "mean_group_delta": -0.0025032254375948943,
+        "n_parent_groups": 24,
+        "n_resamples": 500
+      },
+      "historical_C19_coarse_MSE": 0.0456879483738726,
+      "mean_exact_predicted_EVSI": 0.03584255384517741,
+      "mean_historical_coarse_predicted_gain": 0.03275127427475495,
+      "mean_native_end_to_end_boundary_us": 24.160222222222224,
+      "mean_native_function_internal_eval_us": 3.423208333333333,
+      "mean_task_actual_us": 8.902777777777779,
+      "mean_true_signed_gain": 0.04667378185998243,
+      "n_changed_terminal_decisions": 28,
+      "n_independent_test_parent_worlds": 24,
+      "n_negative_realized_utility": 7,
+      "n_real_stochastic_extra_task_samples": 72,
+      "n_source_only_reference_matches": 72,
+      "prices": {
+        "0.001": {
+          "CI_native_boundary_minus_ALWAYS": {
+            "descriptive_95pct": [
+              -0.022174111111111117,
+              0.000836105563170657
+            ],
+            "mean_group_delta": -0.013966700873062378,
+            "n_parent_groups": 24,
+            "n_resamples": 500
+          },
+          "CI_native_function_minus_ALWAYS": {
+            "descriptive_95pct": [
+              -0.002229777777777778,
+              0.02098789722983733
+            ],
+            "mean_group_delta": 0.005909201904715407,
+            "n_parent_groups": 24,
+            "n_resamples": 500
+          },
+          "CI_native_function_minus_NEVER": {
+            "descriptive_95pct": [
+              -0.0018566359659465132,
+              0.10114279380398439
+            ],
+            "mean_group_delta": 0.043680205986920066,
+            "n_parent_groups": 24,
+            "n_resamples": 500
+          },
+          "mean_net_utility_gain_vs_immediate_STOP": {
+            "ALWAYS": 0.03777100408220466,
+            "C21_EXACT_UNCHARGED": 0.039882566657692436,
+            "C21_NATIVE_FUNCTION_CHARGED": 0.04368020598692006,
+            "C21_NATIVE_HOST_BOUNDARY_CHARGED": 0.023804303209142272,
+            "HISTORICAL_C19_COARSE_UNCHARGED": 0.03800711519331576,
+            "NEVER": 0.0
+          },
+          "n_native_internal_missed_positive_task_gain": 0,
+          "n_native_internal_selected_negative_task_gain": 34,
+          "n_recommended_COMPUTE": {
+            "NATIVE_FUNCTION": 52,
+            "NATIVE_HOST_BOUNDARY": 45,
+            "UNCHARGED": 54
+          }
+        },
+        "0.004": {
+          "CI_native_boundary_minus_ALWAYS": {
+            "descriptive_95pct": [
+              -0.1283452439966555,
+              -0.04578794687560734
+            ],
+            "mean_group_delta": -0.08452629933938566,
+            "n_parent_groups": 24,
+            "n_resamples": 500
+          },
+          "CI_native_function_minus_ALWAYS": {
+            "descriptive_95pct": [
+              -0.04133242446939226,
+              0.02617985858310559
+            ],
+            "mean_group_delta": -0.005413174886652915,
+            "n_parent_groups": 24,
+            "n_resamples": 500
+          },
+          "CI_native_function_minus_NEVER": {
+            "descriptive_95pct": [
+              -0.04658948358501469,
+              0.0504594521455101
+            ],
+            "mean_group_delta": 0.005649495862218403,
+            "n_parent_groups": 24,
+            "n_resamples": 500
+          },
+          "mean_net_utility_gain_vs_immediate_STOP": {
+            "ALWAYS": 0.01106267074887132,
+            "C21_EXACT_UNCHARGED": 0.03146991505646305,
+            "C21_NATIVE_FUNCTION_CHARGED": 0.005649495862218402,
+            "C21_NATIVE_HOST_BOUNDARY_CHARGED": -0.07346362859051433,
+            "HISTORICAL_C19_COARSE_UNCHARGED": 0.01523415522054399,
+            "NEVER": 0.0
+          },
+          "n_native_internal_missed_positive_task_gain": 4,
+          "n_native_internal_selected_negative_task_gain": 11,
+          "n_recommended_COMPUTE": {
+            "NATIVE_FUNCTION": 25,
+            "NATIVE_HOST_BOUNDARY": 6,
+            "UNCHARGED": 36
+          }
+        },
+        "0.01": {
+          "CI_native_boundary_minus_ALWAYS": {
+            "descriptive_95pct": [
+              -0.257383424372246,
+              -0.1519218003108225
+            ],
+            "mean_group_delta": -0.19924822630442693,
+            "n_parent_groups": 24,
+            "n_resamples": 500
+          },
+          "CI_native_function_minus_ALWAYS": {
+            "descriptive_95pct": [
+              -0.020741679775865662,
+              0.06500063745955058
+            ],
+            "mean_group_delta": 0.022439172912517583,
+            "n_parent_groups": 24,
+            "n_resamples": 500
+          },
+          "CI_native_function_minus_NEVER": {
+            "descriptive_95pct": [
+              -0.03496166666666667,
+              0.008683284063226987
+            ],
+            "mean_group_delta": -0.019914823005277766,
+            "n_parent_groups": 24,
+            "n_resamples": 500
+          },
+          "mean_net_utility_gain_vs_immediate_STOP": {
+            "ALWAYS": -0.042353995917795345,
+            "C21_EXACT_UNCHARGED": 0.008742105239005843,
+            "C21_NATIVE_FUNCTION_CHARGED": -0.019914823005277766,
+            "C21_NATIVE_HOST_BOUNDARY_CHARGED": -0.24160222222222222,
+            "HISTORICAL_C19_COARSE_UNCHARGED": 0.0,
+            "NEVER": 0.0
+          },
+          "n_native_internal_missed_positive_task_gain": 13,
+          "n_native_internal_selected_negative_task_gain": 0,
+          "n_recommended_COMPUTE": {
+            "NATIVE_FUNCTION": 3,
+            "NATIVE_HOST_BOUNDARY": 0,
+            "UNCHARGED": 10
+          }
+        }
+      },
+      "time_boundary": "Python finite-sensor stochastic work and separately compiled Rust sensor; amortized C20 batch host IO"
+    }
+  },
+  "finite_sensor_amortized_native_batch_host_us_per_case": 24.160222222222224,
+  "generalized_model_calibration": "NOT_ESTABLISHED",
+  "historical_C19_frozen_model_SHA256": "5fdd172a13d51c4d17dc8e7829fb7c5518421028046ebac6e418a1158adf6735",
+  "max_abs_EVSI_discrepancy_vs_separate_Python_reference": 2.7755575615628914e-15,
+  "n_actual_TEST_task_followups": 144,
+  "n_new_independent_TEST_parent_groups": 48,
+  "native_TEST_shadow_records_SHA256": "2b83a0f1d8734fa65153d8df325a75ac2ea8907f2983f2126a2b53f377ab4ec6",
+  "new_SOURCE_C21_SHA256": "036b7c2e77d998558de46ff80845e4b0be382ff4a35d365b03a7174d6c98dad8",
+  "predefined_primary_lambda": 0.004,
+  "price_sensitivity": [
+    0.001,
+    0.004,
+    0.01
+  ],
+  "real_hardware_work_avoided": "NOT_MEASURED",
+  "real_neural_MCTS_signed_utility": "NOT_ESTIMABLE",
+  "schema": "quartz_C21_C08_scoped_heldout_native_exact_EVSI_v1",
+  "shadow_not_actuated": true,
+  "source_code_clean_remote_HEAD_before_scoring": "5e41c2e4f5a0ea8a5ede4ec1fbae458e3be38f96"
+}

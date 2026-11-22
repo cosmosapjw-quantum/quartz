@@ -1,0 +1,24 @@
+# C08 | Prospective heldout real native Beta task and sensor control, mathematically exact EVSI and explicit overhead
+
+C04 source SHA256 **036b7c2e77d998558de46ff80845e4b0be382ff4a35d365b03a7174d6c98dad8**. Entire C07 science/score code frozen/published Git9b6cf2407558d5a2f022196df95f155138cb91f9 before TRAIN outcomes. C07D raw TRAIN/CAL separate source Git8f8244ade4ac099499248837a5a63146c6cd1c23, C07A TRAIN-only resource-price model SHA256 **d53b6ffdfa422f5b274d0373d9839e958b96528126a7cc4a66c21a73b4401d01**, published Git6c9ce294e25b6c3dca7cbd6f96c7ea53f9ca3dbc before any TEST. C08A untouched TEST raw evidence/C08_TEST/RAW_SIGNED_CALCULATIONS.jsonl SHA256 **cb834de8c9b312e1ac168c42adeee571c116600a32cadefb604dd257442dbd74**, archived and published separately Git5e41c2e4f5a0ea8a5ede4ec1fbae458e3be38f96 before actual scientific scores. No test labels or future costs used as native CDF predictor features or for price tuning.
+
+**New TEST n144** from48 independent original latent parents (24 per domain×3 replicates). Beta source actual additional Bernoulli draws were executed by the SAME compiled Rust worker that computes the Beta EVSI, through deliberately disjoint source-only beta_eval and offline-only true-theta bench_task modes. True signed utility Z from the native sampled final action and original latent mean is measured offline, independent of the original Python TEST extra RNG; do not mix these independent future paths. Sensor source actually sampled categorical observations and Bayes action updates in Python; C20 frozen compiled Rust native exact sensor predictor separately evaluated the same initial public prior/channel/utility, with batch-amortized host latency rather than per-case server. All source task extra computations physically executed regardless of SHADOW recommendation.
+
+**Heldout mathematical correctness:** native C21 Rust fast Beta EVSI and independent C20 Python full joint count-grid on each72 Beta source initial-only models; frozen C20 Rust finite sensor and independent C20 Python exact mixture on72 sensor cases. Max abs EVSI discrepancy **2.7755575615628914e-15**, no hidden true theta in either prediction. Mathematical source-valid model does not imply superior pointwise realized Z.
+- Beta n72: predicted G mean0.04617149, mean realized Z_native0.01966566. Exact EVSI signed Z MSE **0.00935592**, historical frozen C19 coarse q×m signed MSE **0.00857196** (exact model pointwise worse). Parent bootstrap500 95% exact-minus-coarse MSE interval **[-0.0005653,+0.0020301]**, includes0.
+- Sensor n72: predicted G mean0.03584255, mean realized Z_python0.04667378. Exact EVSI MSE **0.04318472**, coarse MSE **0.04568795** (exact model pointwise better); bootstrap interval **[-0.0071045,+0.0010804]**, includes0. Neither supports general statistical dominance.
+
+**Actual TEST CPU clock means in microseconds:** Beta native extra task **0.2666**, native exact function **1.7378**, long-lived Rust server JSON/pipe host roundtrip **28.2831**. Sensor Python extra task **8.9028**, C20 native sensor function **3.4232**, amortized one-off native batch host **24.1602**. Not the same code boundaries across families, disclosed.
+
+Prespecified lambda=.004 terminal utility per measured microsecond, prices [.001,.01] available in full JSON:
+| Shadow accounting policy | Beta native | Sensor control |
+|---|---:|---:|
+| NEVER |0|0|
+| ALWAYS task without EVSI predictor | +0.01859944 | +0.01106267 |
+| Native fast Beta / finite sensor exact, ignore evaluation cost | +0.01859944 | +0.03146992 |
+| Native EVSI function-internal **charged**, including cost even at STOP | +0.01173172 | +0.00564950 |
+| Full host boundary **charged** (Beta streaming, sensor batch amortized) | **-0.11347520** | **-0.07346363** |
+
+Beta native function charged minus ALWAYS parent bootstrap500 95% [-0.007909,-0.005990], **negative** under that fixed price and measured boundary; sensor function charged minus ALWAYS interval [-0.041332,+0.026180] includes0. Host-boundary charged minus ALWAYS bootstrap95 Beta[-0.15818,-0.10777], sensor[-0.12835,-0.04579], both negative under THIS measured host setup. At primary price Beta native function recommends71 of72 computations; host boundary recommends8; sensor native function25 and amortized host6. Negative host cost arises from the evaluator/meta-control itself, not evidence computation information lacks value.
+
+All additional computations physically executed, proposed STOP and counterfactual avoided cost were never actuated. Actual hardware CPU saving, correct real adaptive neural-MCTS posterior and human cognition remain NOT_TESTED / NOT_ESTIMABLE. Full report evidence/C08_TEST/C08_HELDOUT_NATIVE_EVSI_RESULTS.json SHA256 **5feecc957bf679b75b6feccc64e7fcbdb70d206ceca37ef477b19b74a67cdd16**, paired native source records evidence/C08_TEST/NATIVE_TEST_SHADOW_RECORDS.jsonl. C09 requires independently replayed source and math with reference and local backup restore.
