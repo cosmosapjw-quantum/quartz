@@ -1,0 +1,87 @@
+{
+  "schema": "quartz_general_c19_next_cycle_handoff_v1",
+  "completed": "QUARTZ-GENERAL-19-SIGNED-VOC-AND-SHADOW-SELECTIVITY",
+  "next_research_id": "QUARTZ-GENERAL-20-POSTERIOR-PREDICTIVE-VOC-AND-COST",
+  "next_not_executed": true,
+  "project_identity": "General resource-bounded computation allocation and STOP, no single game optimization or game-specific pattern injection",
+  "source_parent_C18": "097255bd00ffa436c3d43704ed201815e7cbb8ea",
+  "protected_authority": [
+    "docs/THESIS.md",
+    "docs/CLAIM_LEDGER.md",
+    "src/game.rs",
+    "previous C16/C17/C18 research worktrees"
+  ],
+  "science_lessons": {
+    "signed_value_identity": "E[Z|X]=P(Y=1|X) E[Z|Y=1,X], Z=0 when terminal action identical",
+    "robust_interval_rule": "min/max of q*m over rectangle minus worst/best priced cost requires VALID calibrated intervals",
+    "two_source_mathematical_laws": "Beta(2,2)-Bernoulli arms and 4-world 3-signal noisy categorical decision, utility known offline",
+    "n_heldout_source_parents_per_domain": 24,
+    "n_heldout_executed_stochastic_computations_per_domain": 72,
+    "frozen_source_worlds_SHA256": "8fce353c5efd3a5ac2a643e5a799d46f8d69c6c429cdff0fb5418a43ea43292e",
+    "frozen_model_SHA256": "5fdd172a13d51c4d17dc8e7829fb7c5518421028046ebac6e418a1158adf6735",
+    "source_TEST_raw_SHA256": "c9a8e3671a7612eac3e98c3b861ea72871bd9d28ca931f87f18d25bc8a624340",
+    "C19_Rust_shadow_SHA256": "6761476e1901926f85ba3c0410f1221d34834d97c219f90a88f5f5f92bd58f68",
+    "heldout_price_primary_utility_per_microsecond": 0.004,
+    "beta_primary_mean_net_utility": {
+      "NEVER": 0,
+      "ALWAYS": 0.006305578528175696,
+      "FLIP_ONLY": 0.00875002297262014,
+      "SIGNED_NET_SHADOW": 0.011453023904140436
+    },
+    "sensor_primary_mean_net_utility": {
+      "NEVER": 0,
+      "ALWAYS": 0.012398779320624153,
+      "FLIP_ONLY": 0.02180884768961679,
+      "SIGNED_NET_SHADOW": 0.00029649774435248504
+    },
+    "paired_bootstrap_shadow_minus_always_beta_95pct": [
+      -0.00011925625174751377,
+      0.012234759569237296
+    ],
+    "paired_bootstrap_shadow_minus_always_sensor_95pct": [
+      -0.05904381916618787,
+      0.019485131346339626
+    ],
+    "signed_predictor_MSE_generalization": "NOT_ESTABLISHED",
+    "calibration_CI_coverage": "NOT_PROVEN",
+    "real_neural_MCTS_signed_utility": "NOT_ESTIMABLE",
+    "real_live_SearchPolicy_selection": "NOT_DEPLOYED",
+    "actual_hardware_time_saved": "NOT_OBSERVED_SHADOW_ONLY",
+    "native_subagent": "NOT_RUN"
+  },
+  "next_science_goal": "Replace insufficient initial-margin heuristic with model-grounded posterior predictive observation value and calibrated resource price for general computations, preserving task independence of metalevel controller.",
+  "theory_stages": [
+    "R01 exact original sources and unverified assumptions, no drift to game optimization",
+    "R02 primary work on Bayesian decision value, posterior predictive samples and costs",
+    "R03 generic observation channel with posterior sufficient state, terminal utility and resource price",
+    "R04 alternatives exact EVSI enumeration, structured approximation, static/dynamic value",
+    "R05 derive full Bayes predictive utility gain and finite-horizon admissibility/bounds",
+    "R06 counterexamples to using initial utility gap alone, likelihood misspecification and cost/utility inconsistency",
+    "R07 independent exact finite-source verification and complexity estimates",
+    "R08 source group heldout claim gate and accept/scoped failure decisions",
+    "R09 math-to-Rust/Python typed computation adapter and validation handoff",
+    "R10 closure, stagewise preservation and explicit next research unit"
+  ],
+  "coding_stages": [
+    "C01 check canonical C19 final commit, frozen theory/doc/model and source SHAs",
+    "C02 implement task-neutral public posterior utility and observation-channel interface",
+    "C03 numerical stability, exact combinatorial distribution and cost units",
+    "C04 freeze two known-utility source families with independent original parent splits and counterfactual budgets",
+    "C05 implement exact Bayesian one-step EVSI reference with TDD tests and independent finite math",
+    "C06 use Rust shadow numeric parity plus full existing regression, no live SearchPolicy",
+    "C07 freeze algorithm and error/price metrics before heldout data",
+    "C08 execute actual conditional stochastic calculations and compare exact model-grounded value vs margin-only controls on heldout parents",
+    "C09 independent mathematical/source/cost/utility replay, local archive restore",
+    "C10 bounded scientific verdict, no game efficacy overclaim, postremote backups and next handoff"
+  ],
+  "acceptance": [
+    "Do not claim a human-expert signature or game strength change based on toy task payoff",
+    "No hidden theta, final decision, eventual utility labels fed into pre-computation runtime input",
+    "Source-parent TRAIN/CAL/TEST disjoint and frozen before TEST outcomes",
+    "Admit utility value only under declared model calibration and paid cost, compare actual physical compute costs and resource tariff",
+    "Use source-proven exact posterior predictive EVSI as reference, not as automatically production-valid real neural-MCTS posterior",
+    "Every R/C stage commit, local SHA256 git archive and remote HEAD equality; separately report Dropbox cloud sync unverified",
+    "Reject unvalidated safe STOP and universal dominance from small group bootstrap confidence"
+  ],
+  "continuation_anchor": "docs/research/quartz_general_signed_voc_20261122/RESULTS_AND_NEXT_KO.md"
+}
