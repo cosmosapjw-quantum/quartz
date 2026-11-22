@@ -1,0 +1,367 @@
+{
+  "NO_active_search_computation_or_stop_policy": true,
+  "TEST_fitted_any_coefficients": false,
+  "all_additional_computations_were_actually_executed": true,
+  "avoided_us_only_counterfactual_accounting_not_hardware_measured_saving": true,
+  "heldout_domains": {
+    "beta_arms": {
+      "mean_measured_extra_wall_us": 4.875,
+      "mean_predicted_extra_wall_us_from_TRAIN": 6.0,
+      "mean_true_signed_gain_if_always": 0.025805578528175697,
+      "n_actual_computations": 72,
+      "n_independent_parent_groups": 24,
+      "n_negative_signed_utility": 8,
+      "n_observed_flips": 28,
+      "n_positive_signed_utility": 20,
+      "prices": {
+        "0.001": {
+          "mean_paid_net_utility_gain_vs_STOP": {
+            "ALWAYS": 0.020930578528175692,
+            "FLIP_ONLY_Q_GE_0.20": 0.021541689639286807,
+            "NEVER": 0.0,
+            "SIGNED_NET_SHADOW": 0.020986134083731248
+          },
+          "paired_CI_FLIP_ONLY_minus_ALWAYS": {
+            "descriptive_percentile95": [
+              0.00019444444444444443,
+              0.0011527777777777777
+            ],
+            "mean_parent_group_delta": 0.0006111111111111111,
+            "n_parent_groups": 24,
+            "n_resamples": 500
+          },
+          "paired_CI_SHADOW_minus_ALWAYS": {
+            "descriptive_percentile95": [
+              0.0,
+              0.00016666666666666666
+            ],
+            "mean_parent_group_delta": 5.555555555555555e-05,
+            "n_parent_groups": 24,
+            "n_resamples": 500
+          },
+          "paired_CI_SHADOW_minus_NEVER": {
+            "descriptive_percentile95": [
+              0.00409751896415989,
+              0.044139526903761626
+            ],
+            "mean_parent_group_delta": 0.020986134083731248,
+            "n_parent_groups": 24,
+            "n_resamples": 500
+          },
+          "shadow_avoided_us_accounting_not_executed_savings": 4.0,
+          "shadow_compute_proposals": 71,
+          "shadow_computed_negative_net_events": 51,
+          "shadow_missed_positive_net_events": 0
+        },
+        "0.004": {
+          "mean_paid_net_utility_gain_vs_STOP": {
+            "ALWAYS": 0.006305578528175696,
+            "FLIP_ONLY_Q_GE_0.20": 0.00875002297262014,
+            "NEVER": 0.0,
+            "SIGNED_NET_SHADOW": 0.011453023904140436
+          },
+          "paired_CI_FLIP_ONLY_minus_ALWAYS": {
+            "descriptive_percentile95": [
+              0.0008333333333333334,
+              0.0044444444444444444
+            ],
+            "mean_parent_group_delta": 0.0024444444444444444,
+            "n_parent_groups": 24,
+            "n_resamples": 500
+          },
+          "paired_CI_SHADOW_minus_ALWAYS": {
+            "descriptive_percentile95": [
+              -0.00011925625174751377,
+              0.012234759569237296
+            ],
+            "mean_parent_group_delta": 0.00514744537596474,
+            "n_parent_groups": 24,
+            "n_resamples": 500
+          },
+          "paired_CI_SHADOW_minus_NEVER": {
+            "descriptive_percentile95": [
+              -0.007071829583706273,
+              0.03172073927626741
+            ],
+            "mean_parent_group_delta": 0.011453023904140436,
+            "n_parent_groups": 24,
+            "n_resamples": 500
+          },
+          "shadow_avoided_us_accounting_not_executed_savings": 91.0,
+          "shadow_compute_proposals": 49,
+          "shadow_computed_negative_net_events": 31,
+          "shadow_missed_positive_net_events": 2
+        },
+        "0.01": {
+          "mean_paid_net_utility_gain_vs_STOP": {
+            "ALWAYS": -0.022944421471824305,
+            "FLIP_ONLY_Q_GE_0.20": -0.016833310360713193,
+            "NEVER": 0.0,
+            "SIGNED_NET_SHADOW": -0.007092365322180155
+          },
+          "paired_CI_FLIP_ONLY_minus_ALWAYS": {
+            "descriptive_percentile95": [
+              0.0018055555555555557,
+              0.011527777777777777
+            ],
+            "mean_parent_group_delta": 0.006111111111111111,
+            "n_parent_groups": 24,
+            "n_resamples": 500
+          },
+          "paired_CI_SHADOW_minus_ALWAYS": {
+            "descriptive_percentile95": [
+              -0.00017363301148566558,
+              0.03192377000600322
+            ],
+            "mean_parent_group_delta": 0.01585205614964415,
+            "n_parent_groups": 24,
+            "n_resamples": 500
+          },
+          "paired_CI_SHADOW_minus_NEVER": {
+            "descriptive_percentile95": [
+              -0.02130668507050457,
+              0.007280305683486566
+            ],
+            "mean_parent_group_delta": -0.007092365322180155,
+            "n_parent_groups": 24,
+            "n_resamples": 500
+          },
+          "shadow_avoided_us_accounting_not_executed_savings": 251.0,
+          "shadow_compute_proposals": 15,
+          "shadow_computed_negative_net_events": 12,
+          "shadow_missed_positive_net_events": 15
+        }
+      },
+      "probability_calibration": {
+        "TRAIN_constant_q": {
+          "brier": 0.24949095507544586,
+          "ece10": 0.10879629629629628,
+          "event_rate": 0.3888888888888889,
+          "log_loss": 0.6957447075136235,
+          "mean_prediction": 0.2800925925925926,
+          "n": 72
+        },
+        "two_part_calibrated_q": {
+          "brier": 0.23516823832887646,
+          "ece10": 0.16537512217549216,
+          "event_rate": 0.3888888888888889,
+          "log_loss": 0.6572609655526348,
+          "mean_prediction": 0.25753861325162475,
+          "n": 72
+        }
+      },
+      "signed_gain_prediction": {
+        "TRAIN_constant": {
+          "actual_mean_signed_gain": 0.025805578528175697,
+          "flips": 28,
+          "mae": 0.06425125229612696,
+          "mse": 0.008651738729363163,
+          "n": 72,
+          "predicted_mean_signed_gain": 0.03652566126863232
+        },
+        "flip_probability_times_TRAIN_conditional_mean": {
+          "actual_mean_signed_gain": 0.025805578528175697,
+          "flips": 28,
+          "mae": 0.06052052027129998,
+          "mse": 0.008400361118191561,
+          "n": 72,
+          "predicted_mean_signed_gain": 0.0335844945564295
+        },
+        "two_part_signed": {
+          "actual_mean_signed_gain": 0.025805578528175697,
+          "flips": 28,
+          "mae": 0.06198205693794508,
+          "mse": 0.00849367995934289,
+          "n": 72,
+          "predicted_mean_signed_gain": 0.039016003023763256
+        }
+      }
+    },
+    "finite_sensor": {
+      "mean_measured_extra_wall_us": 9.055555555555555,
+      "mean_predicted_extra_wall_us_from_TRAIN": 11.0,
+      "mean_true_signed_gain_if_always": 0.048621001542846376,
+      "n_actual_computations": 72,
+      "n_independent_parent_groups": 24,
+      "n_negative_signed_utility": 3,
+      "n_observed_flips": 18,
+      "n_positive_signed_utility": 15,
+      "prices": {
+        "0.001": {
+          "mean_paid_net_utility_gain_vs_STOP": {
+            "ALWAYS": 0.039565445987290816,
+            "FLIP_ONLY_Q_GE_0.20": 0.03980884768961679,
+            "NEVER": 0.0,
+            "SIGNED_NET_SHADOW": 0.03980155709840193
+          },
+          "paired_CI_FLIP_ONLY_minus_ALWAYS": {
+            "descriptive_percentile95": [
+              -0.0034690247433592745,
+              0.0032083333333333334
+            ],
+            "mean_parent_group_delta": 0.00024340170232597228,
+            "n_parent_groups": 24,
+            "n_resamples": 500
+          },
+          "paired_CI_SHADOW_minus_ALWAYS": {
+            "descriptive_percentile95": [
+              0.0,
+              0.0005833333333333334
+            ],
+            "mean_parent_group_delta": 0.00023611111111111112,
+            "n_parent_groups": 24,
+            "n_resamples": 500
+          },
+          "paired_CI_SHADOW_minus_NEVER": {
+            "descriptive_percentile95": [
+              0.0005199092125320025,
+              0.0845829267985949
+            ],
+            "mean_parent_group_delta": 0.03980155709840193,
+            "n_parent_groups": 24,
+            "n_resamples": 500
+          },
+          "shadow_avoided_us_accounting_not_executed_savings": 17.0,
+          "shadow_compute_proposals": 70,
+          "shadow_computed_negative_net_events": 55,
+          "shadow_missed_positive_net_events": 0
+        },
+        "0.004": {
+          "mean_paid_net_utility_gain_vs_STOP": {
+            "ALWAYS": 0.012398779320624153,
+            "FLIP_ONLY_Q_GE_0.20": 0.02180884768961679,
+            "NEVER": 0.0,
+            "SIGNED_NET_SHADOW": 0.00029649774435248504
+          },
+          "paired_CI_FLIP_ONLY_minus_ALWAYS": {
+            "descriptive_percentile95": [
+              0.005,
+              0.014094549369715737
+            ],
+            "mean_parent_group_delta": 0.009410068368992639,
+            "n_parent_groups": 24,
+            "n_resamples": 500
+          },
+          "paired_CI_SHADOW_minus_ALWAYS": {
+            "descriptive_percentile95": [
+              -0.05904381916618787,
+              0.019485131346339626
+            ],
+            "mean_parent_group_delta": -0.012102281576271669,
+            "n_parent_groups": 24,
+            "n_resamples": 500
+          },
+          "paired_CI_SHADOW_minus_NEVER": {
+            "descriptive_percentile95": [
+              -0.0177662284701659,
+              0.022596320794587066
+            ],
+            "mean_parent_group_delta": 0.00029649774435248455,
+            "n_parent_groups": 24,
+            "n_resamples": 500
+          },
+          "shadow_avoided_us_accounting_not_executed_savings": 470.0,
+          "shadow_compute_proposals": 20,
+          "shadow_computed_negative_net_events": 14,
+          "shadow_missed_positive_net_events": 9
+        },
+        "0.01": {
+          "mean_paid_net_utility_gain_vs_STOP": {
+            "ALWAYS": -0.04193455401270918,
+            "FLIP_ONLY_Q_GE_0.20": -0.014191152310383207,
+            "NEVER": 0.0,
+            "SIGNED_NET_SHADOW": 0.0
+          },
+          "paired_CI_FLIP_ONLY_minus_ALWAYS": {
+            "descriptive_percentile95": [
+              0.015066771591937958,
+              0.04186698144248054
+            ],
+            "mean_parent_group_delta": 0.027743401702325973,
+            "n_parent_groups": 24,
+            "n_resamples": 500
+          },
+          "paired_CI_SHADOW_minus_ALWAYS": {
+            "descriptive_percentile95": [
+              -0.013462610621881336,
+              0.0838441495989531
+            ],
+            "mean_parent_group_delta": 0.04193455401270918,
+            "n_parent_groups": 24,
+            "n_resamples": 500
+          },
+          "paired_CI_SHADOW_minus_NEVER": {
+            "descriptive_percentile95": [
+              0.0,
+              0.0
+            ],
+            "mean_parent_group_delta": 0.0,
+            "n_parent_groups": 24,
+            "n_resamples": 500
+          },
+          "shadow_avoided_us_accounting_not_executed_savings": 652.0,
+          "shadow_compute_proposals": 0,
+          "shadow_computed_negative_net_events": 0,
+          "shadow_missed_positive_net_events": 12
+        }
+      },
+      "probability_calibration": {
+        "TRAIN_constant_q": {
+          "brier": 0.18840556412894377,
+          "ece10": 0.030092592592592615,
+          "event_rate": 0.25,
+          "log_loss": 0.5646332677104995,
+          "mean_prediction": 0.2800925925925926,
+          "n": 72
+        },
+        "two_part_calibrated_q": {
+          "brier": 0.17751593901308282,
+          "ece10": 0.06431905867703361,
+          "event_rate": 0.25,
+          "log_loss": 0.5327813139709465,
+          "mean_prediction": 0.23037973957137867,
+          "n": 72
+        }
+      },
+      "signed_gain_prediction": {
+        "TRAIN_constant": {
+          "actual_mean_signed_gain": 0.048621001542846376,
+          "flips": 18,
+          "mae": 0.08860618032161674,
+          "mse": 0.022312523727541098,
+          "n": 72,
+          "predicted_mean_signed_gain": 0.03652566126863232
+        },
+        "flip_probability_times_TRAIN_conditional_mean": {
+          "actual_mean_signed_gain": 0.048621001542846376,
+          "flips": 18,
+          "mae": 0.08343032418196339,
+          "mse": 0.022409172016055117,
+          "n": 72,
+          "predicted_mean_signed_gain": 0.030042823527930904
+        },
+        "two_part_signed": {
+          "actual_mean_signed_gain": 0.048621001542846376,
+          "flips": 18,
+          "mae": 0.0848251559224386,
+          "mse": 0.022348267662120877,
+          "n": 72,
+          "predicted_mean_signed_gain": 0.033447069015046064
+        }
+      }
+    }
+  },
+  "max_Rust_Python_numeric_error": 8.326672684688674e-17,
+  "model_SHA256_frozen_before_TEST": "5fdd172a13d51c4d17dc8e7829fb7c5518421028046ebac6e418a1158adf6735",
+  "n_actual_utility_scored_extra_computation_paths": 144,
+  "n_test_parent_groups_total": 48,
+  "native_initial_only_request_SHA256": "e9ed2b5f84d3d8053be7042489ef8a661b0cd1896774fb31569cbc3eeda1e8f3",
+  "native_shadow_readonly_compiled_SHA256": "6761476e1901926f85ba3c0410f1221d34834d97c219f90a88f5f5f92bd58f68",
+  "offline_utility_known_from_task_law_not_from_MCTS": true,
+  "primary_lambda_utility_per_measured_us": 0.004,
+  "schema": "quartz_general_c19_C08_heldout_signed_value_v1",
+  "scientific_scope": "two synthetic-known-utility task families with actual stochastic computations, not real neural MCTS or universal transfer",
+  "test_git_source_published_before_evaluation": "e9b435f580013ea78b670ef1bc65d1a6e001fcbc",
+  "test_raw_SHA256": "c9a8e3671a7612eac3e98c3b861ea72871bd9d28ca931f87f18d25bc8a624340",
+  "two_domain_source_SHA256": "8fce353c5efd3a5ac2a643e5a799d46f8d69c6c429cdff0fb5418a43ea43292e"
+}
