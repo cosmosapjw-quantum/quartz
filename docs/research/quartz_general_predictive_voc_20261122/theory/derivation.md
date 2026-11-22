@@ -1,0 +1,7 @@
+# R05. Direct derivations, computational complexity and constraints
+
+From law of iterated expectation, for each action a, E_y E_{b^y} U(a,theta)=E_b U(a,theta). Convexity of max then gives E_y max_a E_{b^y}U >= max_a E_y E_{b^y}U=M(b), so exact Bayesian EVSI G>=0. Posterior maximal utility does not exceed posterior expectation of max_a U; thus 0<=G<=EVPI=E_b max_a U-M(b)<=1 if U in[0,1]. Actual realized utility difference for an individual hidden theta can be negative without violating this.
+
+For Beta, integrate binomial likelihood over Beta posterior to obtain beta-binomial sufficient counts, not independent marginal Bernoulli sequence probabilities. For sensor, sum over fixed hidden theta before integrating outcomes, generating mixture of multinomials. Exact summed predictive masses must normalize to1; no negative G beyond declared roundoff. Beta complexity O(K*(n+1)^K) with small fixed K, not scalable with number of alternatives; sensor O(states*actions*combinations counts).
+
+Resource price: actual evaluator E must be charged when using a metalevel prediction as an active policy, N_operational=G-lambda*(C_task+E). Merely positive G-lambda*C_task says nothing about deployability when E>>C_task. No unconditional safe STOP without correct utility model, source prior and cost uncertainty.
