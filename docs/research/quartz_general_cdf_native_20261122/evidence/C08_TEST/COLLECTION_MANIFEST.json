@@ -1,0 +1,33 @@
+{
+  "contains_future_test_labels": true,
+  "independent_parent_world_groups": 48,
+  "no_game_Rust_MCTS_or_true_search_regret_claim": true,
+  "phase": "test",
+  "raw_sha256": "cb834de8c9b312e1ac168c42adeee571c116600a32cadefb604dd257442dbd74",
+  "schema": "quartz_general_c21_source_collection_v1",
+  "source_families": {
+    "beta_arms": {
+      "actual_transcripts": 72,
+      "flips": 15,
+      "mean_extra_wall_us": 4.5,
+      "mean_signed_gain": 0.03536013906627772,
+      "parents": 24
+    },
+    "finite_sensor": {
+      "actual_transcripts": 72,
+      "flips": 28,
+      "mean_extra_wall_us": 8.902777777777779,
+      "mean_signed_gain": 0.04667378185998243,
+      "parents": 24
+    }
+  },
+  "source_group_split_before_outcomes": true,
+  "source_published_HEAD_before_generation": "6c9ce294e25b6c3dca7cbd6f96c7ea53f9ca3dbc",
+  "source_worlds_SHA256": "036b7c2e77d998558de46ff80845e4b0be382ff4a35d365b03a7174d6c98dad8",
+  "total_actual_stochastic_computations": 144,
+  "training_features": [
+    "initial utility-margin normalized",
+    "number of terminal actions"
+  ],
+  "true_utility_only_offline": true
+}
