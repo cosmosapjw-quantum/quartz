@@ -1,0 +1,208 @@
+{
+  "Beta_fast_Rust_full_port": "NOT_IMPLEMENTED",
+  "C04_source_parent_bank_sha256": "d6cf96c26d9ac913963f702d9b0418f0002038979f6a470da3865999368e4ae7",
+  "C07A_frozen_cost_model_sha256": "530ca204c96b5fda4f3b060e8ebd87b52e4c4ec7e97be42dac56da93ca81cb04",
+  "C07A_train_raw_sha256": "009774dd99f1e2034e74f449c74a13f3470731737725c60fd7e7a142cfdf4a9e",
+  "C08A_test_raw_sha256": "5ab524aff074d8f441f09679309807079c694035eded182d86c5517d82cf5c1f",
+  "C08_heldout_EVSI_results_sha256": "66cf82d279c0fb366af3f517357bfaf10393738b130b4e097fdc667f2dc0d25c",
+  "C09_bounded_standalone_Rust_sensor_median_us": 2.7255000000000003,
+  "C09_independent_alt_EVSI_checks": {
+    "beta_Polya": 24,
+    "sensor_ordered": 24
+  },
+  "C09_independent_random_source_replay": 144,
+  "C09_independent_source_math_sha256": "83ae17f942df3e8d67932ba3b2a4c14a5fc0c4c71c94a9f391aa8976c6afcf86",
+  "C09_local_restore_sha256": "2cdce499b58fdcce50572f3d2f0ca8146407612135df3a7f8b86ed394381292f",
+  "C09_native_latency_sha256": "063a0b2c93bcdd89ef55faf6419ebd6cfbfe950ca3429b73fdb66a35a9cfa40b",
+  "C10_FAST_CDF_beta_K4_python_median_speed_ratio": 53.94854418214614,
+  "C10_constructive_CDF_witness_sha256": "c60250de1fe8c89ee035f22eabfd5c95fb15f4fab4ba2825fdc10a4a739e5c68",
+  "C10_self_archive": "CREATED_AFTER_THIS_COMMIT",
+  "C10_train_only_fast_CDF_evsi_checks": 216,
+  "C16_C19_prior_refs_unchanged": "PASS",
+  "C19_parent": "2a359ad049b6a0be4047e52ad281b665cf68e967",
+  "C20_PRE_C10_git_head": "f497e0ba9e4047d4805a51dfa3edc3c6af8111b3",
+  "C20_PRE_C10_remote_SHA": "f497e0ba9e4047d4805a51dfa3edc3c6af8111b3",
+  "C20_TEST_general_superiority": "NOT_ESTABLISHED",
+  "C20_actual_priced_Python_meta_policy_primary_net": {
+    "beta": -18.48791027777778,
+    "sensor": -0.8599278333333333
+  },
+  "C20_compiled_Rust_shadow_sha256": "7943f2719d26793f0d73c0754933aba14693b970cb8f03a0f594acd3ba6e15f5",
+  "Python_C20": {
+    "adapter_tests_pass": 2,
+    "exact_tests_pass": 6
+  },
+  "Rust_DEBUG": {
+    "C17": 7,
+    "C18": 3,
+    "C19": 3,
+    "C20": 3,
+    "MCTS": 617,
+    "MCTS_ignored": 89,
+    "failures": 0
+  },
+  "Rust_RELEASE": {
+    "C17": 7,
+    "C18": 3,
+    "C19": 3,
+    "C20": 3,
+    "MCTS": 617,
+    "MCTS_ignored": 89,
+    "failures": 0
+  },
+  "any_actual_hardware_CPU_saved": "NOT_MEASURED_SHADOW_ONLY",
+  "cloud_Dropbox_sync_ACK": "NOT_VERIFIED",
+  "heldout_actual_sample_paths": 144,
+  "heldout_new_two_domain_exact_vs_C19_gain_MSE": {
+    "beta": [
+      0.013811469186467985,
+      0.014119182812955619
+    ],
+    "sensor": [
+      0.010683879751465786,
+      0.011190799301142992
+    ]
+  },
+  "live_SearchPolicy_changed": false,
+  "n_C_stages_pre_C10_verified": 9,
+  "n_R_stages_verified": 10,
+  "n_extra_source_freeze_stages": 2,
+  "n_pre_C10_Git_archive_remote_receipts": 21,
+  "native_subagent": "NOT_RUN",
+  "next_node": "QUARTZ-GENERAL-21-CDF-EXACT-EVSI-NATIVE-RESOURCE-GATE",
+  "next_node_started": false,
+  "original_C01_source_lock_SHA256": "b80fd62593fe699d1140e057688069aba877840043d59130163bc7d9f901e997",
+  "original_THESIS_CLAIM_LEDGER_GameState_byte_protected": "PASS",
+  "real_Game_signed_EVSI": "NOT_ESTIMABLE",
+  "real_extra_stochastic_sample_paths": 720,
+  "schema": "quartz_general_c20_C10_prepublication_full_scientific_manifest_v1",
+  "source_parent_latent_worlds": 240,
+  "stagewise_commit_and_local_sha256_archive": {
+    "C01": {
+      "archive_file": "/home/cosmosapjw/Dropbox/personal_projects/quartz_general_meta20_backups/QUARTZ_GENERAL_C20_C01_198721e70ef6.tar.gz",
+      "archive_sha256": "6f4cd80dd85ecfdbba7232ff3cecb540440bc05f809af3a30769aec2363932b3",
+      "archive_size": 25257807,
+      "commit": "198721e70ef697582af636e70f075b7b921ce26f"
+    },
+    "C02": {
+      "archive_file": "/home/cosmosapjw/Dropbox/personal_projects/quartz_general_meta20_backups/QUARTZ_GENERAL_C20_C02_b7e6530e71c6.tar.gz",
+      "archive_sha256": "4ffde3e29be5442a4a9b320e1e0b23994908a797f33d676d37e5cbf33cdd3336",
+      "archive_size": 25257573,
+      "commit": "b7e6530e71c65f4e2691e9cae2bbdaf32ffe41d8"
+    },
+    "C03": {
+      "archive_file": "/home/cosmosapjw/Dropbox/personal_projects/quartz_general_meta20_backups/QUARTZ_GENERAL_C20_C03_5db4fce2949f.tar.gz",
+      "archive_sha256": "e8cc0c9ee1033b486c1efa9c2f9e2ec01b51a36298b01d2dd2822debbe74a6f4",
+      "archive_size": 25258357,
+      "commit": "5db4fce2949f379c984cadaf3dd0cdc1cd202b1a"
+    },
+    "C04": {
+      "archive_file": "/home/cosmosapjw/Dropbox/personal_projects/quartz_general_meta20_backups/QUARTZ_GENERAL_C20_C04_e5a6fb01de5b.tar.gz",
+      "archive_sha256": "5cf67f631a106fd2ceeaf8e49e3333fccb7e0589d46a0570e997a607f27255ec",
+      "archive_size": 25308179,
+      "commit": "e5a6fb01de5be53568d3aaece4b18d3112967ad0"
+    },
+    "C05": {
+      "archive_file": "/home/cosmosapjw/Dropbox/personal_projects/quartz_general_meta20_backups/QUARTZ_GENERAL_C20_C05_2c24af6f216f.tar.gz",
+      "archive_sha256": "ec85b048d96ef821478f617565d105374001d4352ff0e7c24c20cfb8aae605c0",
+      "archive_size": 25310524,
+      "commit": "2c24af6f216fe5e835afdaa951d0bd3f7fb8c8a4"
+    },
+    "C06": {
+      "archive_file": "/home/cosmosapjw/Dropbox/personal_projects/quartz_general_meta20_backups/QUARTZ_GENERAL_C20_C06_3fbccf8f388f.tar.gz",
+      "archive_sha256": "b760a3f5b2e515746168dd843075bed7df40dc81927177147dd33b36651eee1d",
+      "archive_size": 25343685,
+      "commit": "3fbccf8f388f278737f8979e8fae8c0113c4a323"
+    },
+    "C07": {
+      "archive_file": "/home/cosmosapjw/Dropbox/personal_projects/quartz_general_meta20_backups/QUARTZ_GENERAL_C20_C07_620df8133d41.tar.gz",
+      "archive_sha256": "c4c6c3a5b0fcf27198b95a6763db800b4e9cbbe3151b25c25cd1f582296aea82",
+      "archive_size": 25352175,
+      "commit": "620df8133d416dff9bfaaf94761e358172ddf082"
+    },
+    "C07A": {
+      "archive_file": "/home/cosmosapjw/Dropbox/personal_projects/quartz_general_meta20_backups/QUARTZ_GENERAL_C20_C07A_39f820d7105e.tar.gz",
+      "archive_sha256": "90fbdb48c769dfeab176b6e7fbe37e30ce1036a346d776ef52092ad0b565d069",
+      "archive_size": 25428732,
+      "commit": "39f820d7105e104f93e4a235d889bdc3df7f3512"
+    },
+    "C08": {
+      "archive_file": "/home/cosmosapjw/Dropbox/personal_projects/quartz_general_meta20_backups/QUARTZ_GENERAL_C20_C08_7048a2af49c4.tar.gz",
+      "archive_sha256": "e2c8041c978fc5a54cc284d835b9a5f49d2a549b64b866a381889162a69f9114",
+      "archive_size": 25468554,
+      "commit": "7048a2af49c4743fdceddf2482b486c2ea93e4ad"
+    },
+    "C08A": {
+      "archive_file": "/home/cosmosapjw/Dropbox/personal_projects/quartz_general_meta20_backups/QUARTZ_GENERAL_C20_C08A_a331f8bfb3a9.tar.gz",
+      "archive_sha256": "a8d3c5bbf044683d7de7d758cc931855dec8791a9f34f3cdbb8fe16eacd7afe3",
+      "archive_size": 25450312,
+      "commit": "a331f8bfb3a94fa9cb331d6fb604eeec4d05e706"
+    },
+    "C09": {
+      "archive_file": "/home/cosmosapjw/Dropbox/personal_projects/quartz_general_meta20_backups/QUARTZ_GENERAL_C20_C09_f497e0ba9e40.tar.gz",
+      "archive_sha256": "a3cba49f73380c3a1f70db28a51d62cc9065fd6217ac4f55d236a04cbe76a241",
+      "archive_size": 25505833,
+      "commit": "f497e0ba9e4047d4805a51dfa3edc3c6af8111b3"
+    },
+    "R01": {
+      "archive_file": "/home/cosmosapjw/Dropbox/personal_projects/quartz_general_meta20_backups/QUARTZ_GENERAL_C20_R01_565dba1aec88.tar.gz",
+      "archive_sha256": "ca13acc0b4e684a59caec4734d40089d3f116a0c7107c5686a45f2436e77d6ca",
+      "archive_size": 25250676,
+      "commit": "565dba1aec88965c9638980263a7edcc427e7a8a"
+    },
+    "R02": {
+      "archive_file": "/home/cosmosapjw/Dropbox/personal_projects/quartz_general_meta20_backups/QUARTZ_GENERAL_C20_R02_7d18f9389774.tar.gz",
+      "archive_sha256": "efee3a8c703acd8bf9b257d92dfe80075f760d3e9dc27915cdb82cb7fabaf3c9",
+      "archive_size": 25250869,
+      "commit": "7d18f93897742634a16dbbed01206d00cc172905"
+    },
+    "R03": {
+      "archive_file": "/home/cosmosapjw/Dropbox/personal_projects/quartz_general_meta20_backups/QUARTZ_GENERAL_C20_R03_bb452c4afb87.tar.gz",
+      "archive_sha256": "4d1381b2d8599a77456bdcff66c6cd044dfaf7508d8649df0bbe3bda03f8fb08",
+      "archive_size": 25251895,
+      "commit": "bb452c4afb87f82ce0b5f08e0e5bfbc792ea70de"
+    },
+    "R04": {
+      "archive_file": "/home/cosmosapjw/Dropbox/personal_projects/quartz_general_meta20_backups/QUARTZ_GENERAL_C20_R04_415743ce25d6.tar.gz",
+      "archive_sha256": "e4191d642d59f80b0987c4eb226f9c9950f980e489660e642582b8d1d830e360",
+      "archive_size": 25251316,
+      "commit": "415743ce25d6bd69e55a19368d296e758f5225d6"
+    },
+    "R05": {
+      "archive_file": "/home/cosmosapjw/Dropbox/personal_projects/quartz_general_meta20_backups/QUARTZ_GENERAL_C20_R05_0b9a0fe72e3b.tar.gz",
+      "archive_sha256": "12d9e5f55d3c7f331d52c5b9e1aee4525c387d9987d49c8f1fb58656c410ff3e",
+      "archive_size": 25251545,
+      "commit": "0b9a0fe72e3b8962d38071e6f855856d016d0d32"
+    },
+    "R06": {
+      "archive_file": "/home/cosmosapjw/Dropbox/personal_projects/quartz_general_meta20_backups/QUARTZ_GENERAL_C20_R06_7635d402f2d5.tar.gz",
+      "archive_sha256": "46af3cf3489570022727e2b661ee556ab707925bd4e19bba675cae23e88fc4f5",
+      "archive_size": 25253498,
+      "commit": "7635d402f2d5882ed770981c750f0b8c4a87e4dd"
+    },
+    "R07": {
+      "archive_file": "/home/cosmosapjw/Dropbox/personal_projects/quartz_general_meta20_backups/QUARTZ_GENERAL_C20_R07_ace7b0c060fd.tar.gz",
+      "archive_sha256": "3432faf6aff058e6115c2ebb7b5237d12e79a11857266e7771cb7509f78a5a09",
+      "archive_size": 25255459,
+      "commit": "ace7b0c060fdc43ce664ebbbda2faf32a8a6e43e"
+    },
+    "R08": {
+      "archive_file": "/home/cosmosapjw/Dropbox/personal_projects/quartz_general_meta20_backups/QUARTZ_GENERAL_C20_R08_77dde9c4991f.tar.gz",
+      "archive_sha256": "2116657936883e2d86d5bdfa60d42505f4c26924573929b7d89e1e378fe14499",
+      "archive_size": 25256759,
+      "commit": "77dde9c4991f8800d1933f3a7e7d2e5bd5cd2c38"
+    },
+    "R09": {
+      "archive_file": "/home/cosmosapjw/Dropbox/personal_projects/quartz_general_meta20_backups/QUARTZ_GENERAL_C20_R09_e527cf2d607b.tar.gz",
+      "archive_sha256": "9ce4e23862b23467efa45b492b5f6f1a0f258e2b3db3fd8fe82f92aac9640002",
+      "archive_size": 25256177,
+      "commit": "e527cf2d607b8f9741ac7882260558146c5d8a87"
+    },
+    "R10": {
+      "archive_file": "/home/cosmosapjw/Dropbox/personal_projects/quartz_general_meta20_backups/QUARTZ_GENERAL_C20_R10_d5f34d3a67c0.tar.gz",
+      "archive_sha256": "bc3988d0eac0e0d142d1e332fef35d23969f191a559da52d42969065aa0fdcd2",
+      "archive_size": 25256401,
+      "commit": "d5f34d3a67c02a975ee7a6ef2932a8bbb416d105"
+    }
+  }
+}

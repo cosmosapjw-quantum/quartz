@@ -1,0 +1,87 @@
+{
+  "schema": "quartz_general_c20_next_scientific_cycle_v1",
+  "completed_research": "QUARTZ-GENERAL-20-POSTERIOR-PREDICTIVE-VOC-AND-COST",
+  "next_research_id": "QUARTZ-GENERAL-21-CDF-EXACT-EVSI-NATIVE-RESOURCE-GATE",
+  "next_not_executed": true,
+  "original_project_goal": "Domain-neutral bounded-rational computation choice, allocation and STOP, NOT single-game optimizer",
+  "original_source_authority": "docs/THESIS.md P1-P4",
+  "C20_parent_C19": "2a359ad049b6a0be4047e52ad281b665cf68e967",
+  "current_science": {
+    "full_bayes_evsi_operator": "G(b)=E_y max_a E(U(a,theta)|b,y) - max_a E(U(a,theta)|b)",
+    "beta_predictive": "K arm independent Beta posterior, batch binomial predictive count vectors, exact aggregation; time exponential in K for full joint enumeration",
+    "finite_sensor_predictive": "fixed hidden theta, mixture of categorical multinomial counts, n8 support45",
+    "source_groups_per_family": 120,
+    "heldout_independent_parents_per_family": 24,
+    "actual_extra_stochastic_source_paths": 720,
+    "new_source_C20_SHA256": "d6cf96c26d9ac913963f702d9b0418f0002038979f6a470da3865999368e4ae7",
+    "TRAIN_C07A_cost_source_SHA256": "530ca204c96b5fda4f3b060e8ebd87b52e4c4ec7e97be42dac56da93ca81cb04",
+    "TEST_raw_SHA256": "5ab524aff074d8f441f09679309807079c694035eded182d86c5517d82cf5c1f",
+    "C20_TEST_science_report_SHA256": "66cf82d279c0fb366af3f517357bfaf10393738b130b4e097fdc667f2dc0d25c",
+    "C20_Rust_sensor_reference_sha256": "7943f2719d26793f0d73c0754933aba14693b970cb8f03a0f594acd3ba6e15f5",
+    "heldout_C20_exact_vs_frozen_C19_MSE_beta": [
+      0.013811469186467985,
+      0.014119182812955619
+    ],
+    "heldout_C20_exact_vs_frozen_C19_MSE_sensor": [
+      0.010683879751465786,
+      0.011190799301142992
+    ],
+    "mean_underlying_task_us_beta": 8.722222222222221,
+    "mean_underlying_task_us_sensor": 16.958333333333332,
+    "mean_C20_exact_Python_evaluator_us_beta": 4621.977569444444,
+    "mean_C20_exact_Python_evaluator_us_sensor": 214.98195833333332,
+    "native_Rust_sensor_internal_median_us": 2.7255000000000003,
+    "native_Rust_sensor_standalone_only": true,
+    "primary_lambda_utility_per_us": 0.004,
+    "primary_shadownet_including_actual_Python_evaluator_beta": -18.48791027777778,
+    "primary_shadownet_including_actual_Python_evaluator_sensor": -0.8599278333333333,
+    "finite_source_math_correct": "NUMERICALLY_CHECKED_AND_IMPLEMENTATION_VERIFIED",
+    "generalization_to_real_neural_MCTS": "UNVERIFIED",
+    "original_P2_P3_P4": "NOT_TESTED",
+    "C10_NEW_FAST_CDF_BETA_PROTOTYPE": {
+      "identity": "For independent discrete posterior arm-score variables X_j, CDF(max X<=v)=product F_j(v) and E(max X)=sum_v v*(Fmax(v)-Fmax(v-))",
+      "only_TRAIN_initials_validated": 216,
+      "max_abs_disagreement": 2.9976021664879227e-15,
+      "K2_Python_median_speed_ratio": 0.9428635835419805,
+      "K3_Python_median_speed_ratio": 6.1739391699791195,
+      "K4_Python_median_speed_ratio": 53.94854418214614,
+      "full_Rust_Beta_version": "NOT_IMPLEMENTED",
+      "test_policy_retrofit": "NOT_PERFORMED"
+    }
+  },
+  "next_science_goal": "Replace exponential Beta count-vector enumeration with exact CDF-of-max distribution sweep; implement native Rust posterior predictive computation interface and measured shadow overhead including model interpretation, serialization and call boundary. Demonstrate real net utility at heldout cost without leaking test truth or live game heuristics.",
+  "theory_R1_R10": [
+    "R1 confirm C20 final SHA, original THESIS and CDF exact witness/proof contract",
+    "R2 primary literature on distribution of independent maxima and Bayesian EVSI computation",
+    "R3 derive exact O(K*(n+1)*log(K*n)) or comparable CDF sweep with repeated support degeneracy",
+    "R4 construct stable double/long-double alternatives and exact integer-count probability crosschecks",
+    "R5 prove probability normalization, ordering ties, EVSI monotonicity and cost criteria",
+    "R6 counterexamples with dependent arm utility, stale likelihood, large K and missing candidate",
+    "R7 Wolfram + independent Fraction/symbolic small count examples",
+    "R8 admit only source-scoped mathematical and numerical correctness",
+    "R9 map posterior/cost API to full Rust exact fast reference and separate non-game workload",
+    "R10 verified derivation, provenance and bounded coding handoff"
+  ],
+  "coding_C1_C10": [
+    "C1 freeze exact C20 final SHA and all prior original sources",
+    "C2 implement domain-neutral typed posterior channel, utility action and resource cost interface",
+    "C3 exact Beta CDF sweep, validated numerics and upper bound complexity",
+    "C4 prospectively freeze fresh two-family source parents and staged budgets, no C20 TEST reuse",
+    "C5 implement full Rust fast Beta posterior predictive EVSI with real RED/GREEN tests",
+    "C6 Rust/Python/Wolfram numerical identity on exact finite controls and broad stress ranges",
+    "C7 freeze cost and heldout protocols before TEST data, measure complete boundary overhead",
+    "C8 genuine heldout paid computation proposals with comparable physical execution, separated true labels and shadow outcomes",
+    "C9 independent sequence/analytic source replay, convergence/timing and backup restore",
+    "C10 admitted science/no-go vs production gate, stagewise backup+Git remote readback, next research plan"
+  ],
+  "constraints": [
+    "Never transfer exact synthetic likelihood validity to correlated adaptive neural MCTS without calibration",
+    "Keep frozen original THESIS/CLAIM_LEDGER/PUCT, C16-C20 and developer worktrees untouched",
+    "Use actual unit utility/us, predictor execution and task compute total price not proxy visits",
+    "New TEST independent parent groups, no posttest performance threshold tuning",
+    "Do not retrofit C10 TRAIN-only fast CDF into C20 frozen TEST; validation required in C21",
+    "At every R/C stage actual Git commit+sha256 tar+origin remote HEAD equality, cloud sync ACK separate",
+    "Native subagent NOT_RUN in C20; parallel worker not simulated"
+  ],
+  "continuation_anchor": "docs/research/quartz_general_predictive_voc_20261122/RESULTS_AND_NEXT_KO.md"
+}
