@@ -1,0 +1,12 @@
+# C07A | Source-locked TRAIN-only native Beta task and meta-evaluator prices
+
+Actual C07 frozen source/score/price code remote SHA 9b6cf2407558d5a2f022196df95f155138cb91f9 before any C21 Y/Z. Raw TRAIN/CAL input separately sealed at C07D Git SHA 8f8244ade4ac099499248837a5a63146c6cd1c23, raw SHA256 db100b0ee9b4c8d8669c2c20d2beebabeb7bf3d74d017790259d667c10ae7bea. Current TRAIN price fit read only TRAIN 432 episodes =216 Beta (72 per K2/K3/K4) +216 finite sensor, with CAL144 withheld from cost fit and TEST144 still unopened. Actual native beta_eval and separately sourced offline true-theta bench_task executed in the **same Rust compiled server**; oracle true theta never entered eval. Physical extra-task sample generation used another independent native Bernoulli outcome stream than the saved Python raw source, with matched original latent world and initial observation state. True expected utility labels are for offline audit only.
+
+TRAIN median measured cost (microseconds), task / exact Rust function-only evaluator / Rust long-lived server host roundtrip (except sensor batch):
+- Beta K2: **0.120 / 0.551 / 22.405**, n72.
+- Beta K3: **0.131 / 0.9165 / 23.182**, n72.
+- Beta K4: **0.191 / 1.1575 / 24.094**, n72.
+- Finite-state sensor: **8.0 Python task /2.696 Rust function /12.7183 amortized one-off Rust batch host**, n216.
+Cold-first-request Beta server total 651.531us includes native process startup; separate from warm roundtrips. No actual neural-MCTS hot-path, actor active STOP or physical saved CPU is claimed. The sensor native batch cannot be equated with beta per-decision streaming; sensor task uses Python source and a different clock/runtime boundary. Rust estimator intrinsic cost appears potentially price-worthwhile while JSON/host boundary may dominate.
+
+Frozen train-only FROZEN_C21_RESOURCE_PRICE.json SHA256 **d53b6ffdfa422f5b274d0373d9839e958b96528126a7cc4a66c21a73b4401d01**. Exact native TRAIN sampled task and predictor records saved evidence/C07_TRAIN_CAL/NATIVE_TRAIN_ACTUAL.jsonl with own byte SHA inside cost model. Resource tariff λ=0.004 utility/us primary, sensitivities .001,.010 predeclared. All C07A artifacts committed and GitHub pushed BEFORE any TEST labels generated. C21 exact EVSI has no TRAIN fitted predictive parameters; only measured resource price is estimated.

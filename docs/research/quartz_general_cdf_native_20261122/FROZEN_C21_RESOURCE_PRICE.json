@@ -1,0 +1,75 @@
+{
+  "CAL_parent_world_groups_per_domain": 24,
+  "CAL_rows_per_domain": 72,
+  "TRAIN_CAL_raw_SHA256": "db100b0ee9b4c8d8669c2c20d2beebabeb7bf3d74d017790259d667c10ae7bea",
+  "TRAIN_parent_world_groups_per_domain": 72,
+  "TRAIN_rows_per_domain": 216,
+  "beta_server_first_cold_warmup_us": 651.531,
+  "finite_sensor_batched_host_roundtrip_mean_us": 12.718291666666666,
+  "fixed_primary_lambda_utility_per_us": 0.004,
+  "independent_C20_rust_sensor_compiled_sha256": "7943f2719d26793f0d73c0754933aba14693b970cb8f03a0f594acd3ba6e15f5",
+  "native_TRIALS_train_sha256": "0c175c1fd605b6eefb45e6e8b1ba7d19cd1eb5b29bb17f97749b68ef6df99a73",
+  "native_rust_beta_compiled_sha256": "ad49fb9fbb125cb0193e454ee508bc083737bf446754200663143c5b0fcd4650",
+  "no_TEST_rows_accessed": true,
+  "no_hidden_theta_as_model_input": true,
+  "no_live_stop_or_search_action_mutated": true,
+  "prespecified_lambda_sensitivity": [
+    0.001,
+    0.004,
+    0.01
+  ],
+  "price_by_declared_workload_bucket": {
+    "beta_K2": {
+      "n_train": 72,
+      "predictor_boundary_scope": "long-lived Rust streaming per-case JSON roundtrip",
+      "source_clock_scope": "Rust in-process actual Bernoulli",
+      "train_mean_exact_EVSI": 0.030502315561006868,
+      "train_predictor_boundary_mean_us": 24.36402777777778,
+      "train_predictor_boundary_median_us": 22.405,
+      "train_predictor_function_mean_us": 0.7358888888888889,
+      "train_predictor_function_median_us": 0.551,
+      "train_task_mean_us": 0.13356944444444444,
+      "train_task_median_us": 0.12
+    },
+    "beta_K3": {
+      "n_train": 72,
+      "predictor_boundary_scope": "long-lived Rust streaming per-case JSON roundtrip",
+      "source_clock_scope": "Rust in-process actual Bernoulli",
+      "train_mean_exact_EVSI": 0.037505543857644874,
+      "train_predictor_boundary_mean_us": 24.488847222222223,
+      "train_predictor_boundary_median_us": 23.182000000000002,
+      "train_predictor_function_mean_us": 0.9969861111111111,
+      "train_predictor_function_median_us": 0.9165,
+      "train_task_mean_us": 0.14084722222222223,
+      "train_task_median_us": 0.131
+    },
+    "beta_K4": {
+      "n_train": 72,
+      "predictor_boundary_scope": "long-lived Rust streaming per-case JSON roundtrip",
+      "source_clock_scope": "Rust in-process actual Bernoulli",
+      "train_mean_exact_EVSI": 0.05035511718074247,
+      "train_predictor_boundary_mean_us": 38.75456944444444,
+      "train_predictor_boundary_median_us": 24.094,
+      "train_predictor_function_mean_us": 1.3572083333333333,
+      "train_predictor_function_median_us": 1.1574999999999998,
+      "train_task_mean_us": 0.22340277777777778,
+      "train_task_median_us": 0.191
+    },
+    "sensor_K3": {
+      "n_train": 216,
+      "predictor_boundary_scope": "amortized one-off native sensor batch CLI",
+      "source_clock_scope": "Python actual categorical posterior update",
+      "train_mean_exact_EVSI": 0.026477683036908665,
+      "train_predictor_boundary_mean_us": 12.718291666666666,
+      "train_predictor_boundary_median_us": 12.718291666666666,
+      "train_predictor_function_mean_us": 2.7404166666666665,
+      "train_predictor_function_median_us": 2.696,
+      "train_task_mean_us": 8.546296296296296,
+      "train_task_median_us": 8.0
+    }
+  },
+  "schema": "quartz_C21_C07A_resource_model_frozen_v1",
+  "source_C20_parent_sha": "ba100d13b36a49151fc4a7b5dd379fa2eb79e4c4",
+  "source_code_previously_published_git_head": "8f8244ade4ac099499248837a5a63146c6cd1c23",
+  "source_world_SHA256": "036b7c2e77d998558de46ff80845e4b0be382ff4a35d365b03a7174d6c98dad8"
+}
