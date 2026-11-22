@@ -1,0 +1,5 @@
+# R04. Concrete candidate constructions and discriminators
+
+A: exact posterior predictive enumeration of sufficient-count outcomes with posterior optimal terminal action. Beta count grid O((n+1)^K), sensor count set O(comb(n+2,2)), no neural/game heuristic. B: myopic single next-observation approximation, must be labelled different action budget if used. C: historically frozen C19 logistic×ridge from trained source only, with initial-only [gap,log1p(action count)], not refitted to C20 TEST. D: ALWAYS compute, NEVER compute. All source observations generated irrespective of policy so policy comparison is counterfactual shadow accounting.
+
+Two price conventions must be reported: mathematical/information-only G-lambda C_task using actual C20 TRAIN cost model; operationally charged G-lambda(C_task+C_evaluator), with evaluator CPU overhead measured independently. A full exact evaluator may be computationally more expensive than the observations it evaluates, potentially reversing a gross-utility result. Independent parent source grouped comparisons, signed utility MSE and proper prior-to-posterior consistency are falsifiers.
