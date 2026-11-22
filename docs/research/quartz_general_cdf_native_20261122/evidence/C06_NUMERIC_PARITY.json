@@ -1,0 +1,36 @@
+{
+  "Rust_beta_validation_limits": {
+    "K": [
+      2,
+      32
+    ],
+    "alpha_beta_each": [
+      0.1,
+      100
+    ],
+    "n_each": [
+      0,
+      20
+    ]
+  },
+  "compiled_native_Rust_SHA256": "ad49fb9fbb125cb0193e454ee508bc083737bf446754200663143c5b0fcd4650",
+  "finite_fraction_exact_EVSI": "109/840",
+  "full_C20_Beta_grid_Rust_port": "NOT_INVOKED",
+  "full_grid_independent_cases": 69,
+  "function_internal_median_us_by_K": {
+    "16": 4.373,
+    "2": 0.33099999999999996,
+    "3": 0.551,
+    "32": 12.814,
+    "4": 0.641,
+    "8": 2.3295
+  },
+  "max_abs_discrepancy": 5.6061821851471905e-12,
+  "n_bounded_cases": 163,
+  "n_numeric_float_equalities": 652,
+  "no_true_latent_theta_in_any_case": true,
+  "original_SearchPolicy_untouched": true,
+  "schema": "quartz_C21_C06_native_Rust_vs_independent_lgamma_CDF_and_full_grid_v1",
+  "source_SHA256": "036b7c2e77d998558de46ff80845e4b0be382ff4a35d365b03a7174d6c98dad8",
+  "status": "PASS"
+}
