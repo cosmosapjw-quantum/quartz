@@ -1,0 +1,66 @@
+   Compiling mcts_demo v0.3.0 (/home/cosmosapjw/quantum/research/quartz_general_meta21_20261122)
+warning: fields `before`, `after`, `predictive_mass`, `support_points`, `event_count`, and `function_us` are never read
+  --> src/bin/quartz_c21_fast_evsi.rs:23:5
+   |
+22 | struct BetaEVSI {
+   |        -------- fields in this struct
+23 |     before:f64, after:f64, gain:f64,
+   |     ^^^^^^      ^^^^^
+24 |     predictive_mass:f64, support_points:usize, event_count:usize,
+   |     ^^^^^^^^^^^^^^^      ^^^^^^^^^^^^^^        ^^^^^^^^^^^
+25 |     function_us:f64,
+   |     ^^^^^^^^^^^
+   |
+   = note: `BetaEVSI` has derived impls for the traits `Debug` and `Clone`, but these are intentionally ignored during dead code analysis
+   = note: `#[warn(dead_code)]` (part of `#[warn(unused)]`) on by default
+
+warning: function `array_arms` is never used
+   --> src/bin/quartz_c21_fast_evsi.rs:152:4
+    |
+152 | fn array_arms(v:&Value)->Result<Vec<(f64,f64)>,String> {
+    |    ^^^^^^^^^^
+
+warning: function `array_budgets` is never used
+   --> src/bin/quartz_c21_fast_evsi.rs:163:4
+    |
+163 | fn array_budgets(v:&Value)->Result<Vec<usize>,String>{
+    |    ^^^^^^^^^^^^^
+
+warning: function `strict_keys` is never used
+   --> src/bin/quartz_c21_fast_evsi.rs:171:4
+    |
+171 | fn strict_keys(v:&Value,allowed:&[&str])->Result<(),String> {
+    |    ^^^^^^^^^^^
+
+warning: function `run_eval_case` is never used
+   --> src/bin/quartz_c21_fast_evsi.rs:178:4
+    |
+178 | fn run_eval_case(v:&Value)->Result<Value,String>{
+    |    ^^^^^^^^^^^^^
+
+warning: function `run_sim_task` is never used
+   --> src/bin/quartz_c21_fast_evsi.rs:189:4
+    |
+189 | fn run_sim_task(v:&Value)->Result<Value,String>{
+    |    ^^^^^^^^^^^^
+
+warning: function `run` is never used
+   --> src/bin/quartz_c21_fast_evsi.rs:221:4
+    |
+221 | fn run(req:&Value)->Result<Value,String> {
+    |    ^^^
+
+warning: function `server` is never used
+   --> src/bin/quartz_c21_fast_evsi.rs:250:4
+    |
+250 | fn server(){
+    |    ^^^^^^
+
+warning: function `main` is never used
+   --> src/bin/quartz_c21_fast_evsi.rs:264:4
+    |
+264 | fn main(){
+    |    ^^^^
+
+warning: `mcts_demo` (bin "quartz_c21_grid_reference") generated 9 warnings
+    Finished `release` profile [optimized] target(s) in 2.80s

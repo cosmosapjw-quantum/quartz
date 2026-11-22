@@ -1,0 +1,37 @@
+{
+  "actual_live_policy_efficiency": "NOT_TESTED",
+  "all_Rust_calculations_in_release_mode": true,
+  "benchmark_native_compiled_SHA256": "f4786b642ee0cdbfd7c650872016d5bbde84478e911d62bff5128ed006d85f28",
+  "hotpath_integration": "NOT_IMPLEMENTED",
+  "input_file_SHA256": "2d4f37fc14f56a99a84dd7be1ed171ea5396571c5fcdd6cf5f837a9257e0a1dd",
+  "max_abs_gross_EVSI_difference": 1.965094753586527e-14,
+  "n_posterior_inputs": 216,
+  "no_C21_TEST_examples_in_benchmark": true,
+  "repetitions_per_case": 20,
+  "schema": "quartz_C21_C09_same_compiler_Rust_joint_grid_vs_CDF_TRAIN_only_v1",
+  "source_train_raw_SHA256": "db100b0ee9b4c8d8669c2c20d2beebabeb7bf3d74d017790259d667c10ae7bea",
+  "speed_by_arms": {
+    "2": {
+      "fast_CDF_Rust_median_us": 0.48600000000000004,
+      "full_joint_grid_Rust_median_us": 0.78125,
+      "median_same_compiler_speed_ratio": 1.6090021691973968,
+      "n": 72,
+      "n_future_per_arm": 10
+    },
+    "3": {
+      "fast_CDF_Rust_median_us": 0.7865,
+      "full_joint_grid_Rust_median_us": 5.94425,
+      "median_same_compiler_speed_ratio": 7.718533659976982,
+      "n": 72,
+      "n_future_per_arm": 10
+    },
+    "4": {
+      "fast_CDF_Rust_median_us": 1.022,
+      "full_joint_grid_Rust_median_us": 60.733000000000004,
+      "median_same_compiler_speed_ratio": 60.71665290971351,
+      "n": 72,
+      "n_future_per_arm": 10
+    }
+  },
+  "status": "NUMERICALLY_CHECKED_TRAIN_ONLY_NOT_TEST_POLICY"
+}
