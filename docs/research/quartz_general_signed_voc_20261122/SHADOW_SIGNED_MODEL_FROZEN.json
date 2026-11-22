@@ -1,0 +1,71 @@
+{
+  "TEST_labels_seen_or_used": false,
+  "TRAIN_CAL_raw_SHA256": "5ecef7ca8a3074965f8b335ff98891c66abdf4d5e489246379980aa5651ed8f7",
+  "TRAIN_global_conditional_signed_gain_if_flip": 0.13040566667809225,
+  "TRAIN_global_constant_probability": 0.2800925925925926,
+  "TRAIN_global_constant_signed_gain": 0.03652566126863232,
+  "cal_groups": 48,
+  "cal_n": 144,
+  "calibration_only_intercepts": {
+    "calibration_only_intercepts": true,
+    "m_offset": 0.018842815178765973,
+    "n_cal": 144,
+    "n_cal_flips": 35,
+    "q_offset": -0.22600145954389678
+  },
+  "fixed_flip_only_comparator_threshold": 0.2,
+  "fixed_price_sensitivity": [
+    0.001,
+    0.004,
+    0.01
+  ],
+  "fixed_primary_price_utility_per_microsecond": 0.004,
+  "frozen_cal_descriptive": {
+    "beta_arms": {
+      "calibration_descriptive_Brier": 0.17823747249496819,
+      "calibration_descriptive_signed_mse": 0.01565191293186004,
+      "n_rows": 72
+    },
+    "finite_sensor": {
+      "calibration_descriptive_Brier": 0.15485044351243088,
+      "calibration_descriptive_signed_mse": 0.02258949767842284,
+      "n_rows": 72
+    }
+  },
+  "model_scope": "read-only shadow; two known utility task families; no real MCTS claimed",
+  "no_source_specific_q_or_m_features": true,
+  "no_true_theta_online": true,
+  "predicted_incremental_cost_us_by_compute_kind": {
+    "beta_arms": 6.0,
+    "finite_sensor": 11.0
+  },
+  "schema": "quartz_general_c19_frozen_train_cal_two_part_model_v1",
+  "source_original_C18": "097255bd00ffa436c3d43704ed201815e7cbb8ea",
+  "source_world_SHA256": "8fce353c5efd3a5ac2a643e5a799d46f8d69c6c429cdff0fb5418a43ea43292e",
+  "train_groups": 144,
+  "train_n": 432,
+  "trained_model": {
+    "feature_keys": [
+      "1",
+      "normalized_gap",
+      "log1p_actions"
+    ],
+    "m_coefficients": [
+      -0.023552208076708447,
+      -0.16553875753510175,
+      0.1209259921277036
+    ],
+    "n_train": 432,
+    "n_train_flips": 121,
+    "q_coefficients": [
+      -0.6861073695135551,
+      -4.373513973223344,
+      0.19072281094415913
+    ],
+    "reads_latent_truth_or_domain": false,
+    "ridge": 1.0,
+    "schema": "quartz_general_c19_two_part_signed_v1",
+    "train_conditional_mean_if_flip": 0.13040566667809225,
+    "train_mean_signed_value": 0.03652566126863232
+  }
+}
