@@ -1,0 +1,18 @@
+{
+  "split": "TEST",
+  "mode": "trace",
+  "requests": 216,
+  "native_policy_executions": 1296,
+  "exit_code": 0,
+  "source_head": "c918fbad6255a7e3a1f0a3be3f1e70cbd409326c",
+  "binary_sha256": "812c57e75ad193fa4cca3729fc63ee59df73cac7118c50886adb4c0b47118ac0",
+  "public_source_sha256": "f44a318e8c8ff2e657eae0976788e212dd6b478dbd4f03273ce90bfb6e55a30c",
+  "output": "C23_TEST_TRACE.jsonl.gz",
+  "output_sha256": "9fdcc49d8b0d64832a3a0b7dd88f99b84d4caf7b6a7d84a3cf65a2cd1496d396",
+  "output_bytes": 130197446,
+  "start_utc": "2026-11-22T17:57:33.441438+00:00",
+  "end_utc": "2026-11-22T17:58:11.273208+00:00",
+  "clock": "native Instant monotonic wall elapsed; JSON and source/oracle generation excluded",
+  "repeats_are_independent_parents": false,
+  "wire_encoding": "f64 shortest decimal strings parsed with Rust FromStr; trace asserts exact stored input bits"
+}

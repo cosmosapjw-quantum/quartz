@@ -1,0 +1,18 @@
+{
+  "status": "PASS",
+  "split": "TEST",
+  "mode": "trace",
+  "independent_of_production_imports": true,
+  "source": {
+    "parents": 72,
+    "exact_rhs_components": 741888
+  },
+  "native": {
+    "policy_executions_checked": 1296,
+    "interval_scalar_containments": 26898,
+    "certified_optimal": 196,
+    "identical_noncertified_fallbacks": 236,
+    "byte_exact_transport_requests": 216
+  },
+  "scope": "finite exact dyadic sources and all returned interval endpoints; runtime performance separate"
+}
