@@ -1,0 +1,11 @@
+# C4 | True-utility source and model-input freeze (BEFORE outcome generation)
+
+Actual source generator coding/freeze_c04_worlds.py executed, generated **240 independent parent latent worlds**: 120 per beta_arms and finite_sensor. Each has THREE prospectively independent computation transcripts =720 total observed trials scheduled; no Y, Z, final action or cost outcome has been computed/seen at this stage. By parent index 0..71 TRAIN, 72..95 CAL and 96..119 untouched TEST in each domain, grouped across all 3 replicates. Exact source-world bank byte SHA256 **8fce353c5efd3a5ac2a643e5a799d46f8d69c6c429cdff0fb5418a43ea43292e**.
+
+World A Beta arms: true reward means sampled independently Beta(2,2), 2/3/4 actions, sample initial 3 observations per arm and extra 10 observations each, posterior Beta(2+s,2+f) **matching generating prior**. True utility of final action is latent theta_a known only for external scoring, not predictor.
+
+World B discrete sensor: theta among4 sampled from explicit random prior; 3 terminal actions with public utility matrix [0,1], stochastic three-outcome sensor channel conditional on theta, initial 2 observations then actual extra 8, full posterior Bayes updates. Public task priors, utilities and observation likelihood are available to task adapters but not to the *shared learned predictor*, which sees only dimensionless initial posterior expected utility margin and number of terminal actions. Offline hidden theta is never used in initial action/feature.
+
+Costs in actual microseconds of extra computation, prespecified lambda 0.004 terminal utility/microsecond and sensitivity lambda [0.001,0.004,0.010] fixed before outcomes. No fictitious GPU speedup or claim of comparability to native C18 20ms Rust searches. Parent grouping and exact source bank protected from future outcome-based modification.
+
+Next C5 implement/test actual Python source-only signed-value predictor with RED/GREEN; C6 separate Rust shadow, C7 freeze and publish all train/cal/TEST runner code prior to opening labels.
