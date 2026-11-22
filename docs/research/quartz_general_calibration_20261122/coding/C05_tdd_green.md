@@ -1,0 +1,7 @@
+# C5. Actual game-neutral observation model, TDD RED→GREEN
+
+Implemented executable quartz/experiments/c18_observation.py with source-initial-only features X=[1,gap,log1p(n_actions)], deterministic L2-regularized full-batch logistic Newton, pooled calibration-only additive logit intercept, clipped predictive probabilities, Brier/logloss/descriptive 10-bin ECE, and actual Rust first8 edge-count consistency checks. It does **not** read domain name, future final search action/utility, Rapfi teacher, human labels or any game-specific feature.
+
+Observed preimplementation RED: 5 actual unittest cases failed from explicit NotImplementedError stubs at public methods (not syntax or import errors), command python3 -m unittest discover -s tests -p test_c18_observation.py -v, raw log /tmp/quartz_c18_red.log. After implementing functionally correct code, the exact five-test command returned **5 PASS,0 FAIL** with real normalized scores, null label, cost-independent feature, calibration and invalid-input checks, log /tmp/quartz_c18_green.log. This is TDD evidence, not model quality or production policy performance.
+
+C4 real source cohort was frozen before any Y labels, SHA256 52e3654febead1a01253174be0d395f8c2ea6e04ada21e5e0bfbf5938d680445. C5 only tests small synthetic examples; has not trained on C8 TEST or called any native search. C6 next adds a separate Rust numerical shadow-only consumer, measured semantic parity and full existing Rust regression. No live SearchPolicy mutation.
