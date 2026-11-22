@@ -18,7 +18,7 @@ remote=git('ls-remote','--heads','origin',base['branch']).split()[0]
 assert remote==head
 assert git('status','--porcelain')==''
 receipts=[json.loads(x) for x in (BACKUP/'STAGE_RECEIPTS.jsonl').read_text().splitlines()]
-expected=[f'R{i:02d}' for i in range(1,11)]+[f'C{i:02d}' for i in range(1,7)]+['C07A','C07','C08A','C08','C09','C10']
+expected=[f'R{i:02d}' for i in range(1,11)]+[f'C{i:02d}' for i in range(1,7)]+['C07A','C07','C08A','C08','C09','C10','C10A']
 assert [x['stage'] for x in receipts]==expected
 assert receipts[-1]['commit']==receipts[-1]['remote']==head
 archives=[]
@@ -47,7 +47,13 @@ for path,info in old.items():
 original=Path('/home/cosmosapjw/Dropbox/personal_projects/quartz')
 original_status=git('status','--porcelain',cwd=original)
 assert original_status=='?? QUARTZ_CLAUE_SCIENTIST_AGENT_CONTEXT.md',original_status
-for path,h in base['protected'].items():assert sha(original/path)==h,path
+original_protected=[]
+original_reference=old[str(original)]['HEAD']
+for path in base['protected']:
+    reference_bytes=subprocess.check_output(['git','show',original_reference+':'+path],cwd=original)
+    expected_hash=hashlib.sha256(reference_bytes).hexdigest()
+    assert sha(original/path)==expected_hash,path
+    original_protected.append({'path':path,'reference_commit':original_reference,'sha256':expected_hash})
 for row in manifest['files']:
     p=ROOT/row['path']
     assert p.stat().st_size==row['bytes'] and sha(p)==row['sha256'],row['path']
@@ -64,10 +70,10 @@ with tarfile.open(archive,'r:gz') as tar:
 result={
     'status':'VERIFIED','utc':datetime.datetime.now(datetime.timezone.utc).isoformat(),
     'branch':base['branch'],'head':head,'remote_head':remote,'git_worktree_clean':True,
-    'all_22_stage_archives_hash_verified':True,'stages':archives,
+    'all_stage_archives_hash_verified':True,'verified_archive_count':len(archives),'stages':archives,
     'all_manifest_file_bindings_verified':len(manifest['files']),
     'original_worktrees_unchanged':unchanged,'original_worktree_status_preserved':original_status,
-    'protected_files_unchanged':base['protected'],'final_archive_readback':final_readback,
+    'protected_files_unchanged':base['protected'],'original_worktree_protected_files':original_protected,'final_archive_readback':final_readback,
     'frozen_binary_backup_verified':manifest['frozen_binary'],
     'final_receipt':receipts[-1],'next_cycle':'NOT_EXECUTED',
     'dropbox_cloud_ack':'NOT_VERIFIED',

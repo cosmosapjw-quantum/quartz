@@ -1,0 +1,36 @@
+{
+  "schema": "quartz.audit-reference-correction.v1",
+  "utc": "2026-11-22T18:22:07.735852+00:00",
+  "failed_command": "python3 docs/research/quartz_general_residual_stop_20261123/coding/postrelease_c23.py",
+  "actual_process_pid": 3322786,
+  "observed_failure": "AssertionError: docs/CLAIM_LEDGER.md at comparison of original developer worktree to C22-derived protected hash",
+  "classification": "verification implementation / reference identity error, not scientific source or original-file modification",
+  "original_HEAD": "65e7d3e9596ca259ebfe523b0c74058692b6a755",
+  "original_status": "?? QUARTZ_CLAUE_SCIENTIST_AGENT_CONTEXT.md",
+  "checks": [
+    {
+      "path": "docs/THESIS.md",
+      "original_reference_commit": "65e7d3e9596ca259ebfe523b0c74058692b6a755",
+      "original_reference_sha256": "02ffa31af60ecbb1fa46f8bfebe4590caa365aca22f3c3d17817017a8ef5cb8f",
+      "original_actual_sha256": "02ffa31af60ecbb1fa46f8bfebe4590caa365aca22f3c3d17817017a8ef5cb8f",
+      "C22_reference_sha256": "02ffa31af60ecbb1fa46f8bfebe4590caa365aca22f3c3d17817017a8ef5cb8f"
+    },
+    {
+      "path": "docs/CLAIM_LEDGER.md",
+      "original_reference_commit": "65e7d3e9596ca259ebfe523b0c74058692b6a755",
+      "original_reference_sha256": "9ce928bc711b6d6c9ef9fcbf001688129d6c0223b3acbeacbdeebc5be68cbea2",
+      "original_actual_sha256": "9ce928bc711b6d6c9ef9fcbf001688129d6c0223b3acbeacbdeebc5be68cbea2",
+      "C22_reference_sha256": "dc8e16678d67d90a4970e665a320e1ed969910b79f0d8268dd501c3769c5a4b1"
+    },
+    {
+      "path": "src/game.rs",
+      "original_reference_commit": "65e7d3e9596ca259ebfe523b0c74058692b6a755",
+      "original_reference_sha256": "b5e1fefb9d9ee72e7eb2fb684edafe3702e11f0f712cc3bd92fb43ccb71ff3e0",
+      "original_actual_sha256": "b5e1fefb9d9ee72e7eb2fb684edafe3702e11f0f712cc3bd92fb43ccb71ff3e0",
+      "C22_reference_sha256": "b5e1fefb9d9ee72e7eb2fb684edafe3702e11f0f712cc3bd92fb43ccb71ff3e0"
+    }
+  ],
+  "correction": "Compare each preserved worktree to its own baseline commit. C23 protected paths retain their C22-derived hashes. Preserve original C10 commit and add a C10A correction publication.",
+  "scientific_binary_and_results": "UNCHANGED",
+  "initial_C10_commit": "338ca4cd72486a65e28fd1ea234a579553a0f3ad"
+}

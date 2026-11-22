@@ -10,7 +10,7 @@
 
 ## 1. 판정
 
-C23은 C22의 “작은 작업에서는 계산 중단 판단 비용이 절약한 작업보다 크다”는 결과를 이어받아, 실제 희소 선형계 풀이를 중단하는 구성적 방법을 만들고 측정했다. 이론 R01–R10 뒤에 구현·검증·실험 C01–C10을 수행했다. 데이터 생성 직후의 게시 지점 C07A와 C08A도 별도로 두었다.
+C23은 C22의 “작은 작업에서는 계산 중단 판단 비용이 절약한 작업보다 크다”는 결과를 이어받아, 실제 희소 선형계 풀이를 중단하는 구성적 방법을 만들고 측정했다. 이론 R01–R10 뒤에 구현·검증·실험 C01–C10을 수행했다. 데이터 생성 직후의 게시 지점 C07A와 C08A, 최종 보존 감사의 기준 교정 지점 C10A도 별도로 두었다.
 
 **수학적 결과:** 유효한 잔차 기반 효용 구간이 엄격히 분리되면, 남은 선형계 계산을 수행하지 않고도 정확한 최적 행동을 선택할 수 있다. 인증되지 않으면 기존 고정 예산 풀이와 동일한 상태·선택으로 돌아가는 구현을 구성했다. 이 조건에서 gated policy의 참 효용은 고정 예산 비교군보다 나쁘지 않다. 기반 이차형식 오차 항등식과 스펙트럼 경계는 고전적이며, 전역적인 이론적 신규성을 주장하지 않는다.
 
@@ -231,7 +231,7 @@ b_0=(2^{-600},0,0,0),\quad b_1=0
 
 ## 8. 백업, 게시와 재현
 
-R01–R10, C01–C10 각각에 Git commit, SHA256이 붙은 전체 Git archive, 원격 push, 원격 HEAD 대조를 적용했다. C07A/C08A는 source freeze를 보존하기 위한 추가 게시 지점이다. 최종 release 이후 외부 receipt는 총 22개가 되어야 하며 최종 확인 상태는 backup 디렉터리의 POSTRELEASE_AUDIT.json에 기록한다.
+R01–R10, C01–C10 각각에 Git commit, SHA256이 붙은 전체 Git archive, 원격 push, 원격 HEAD 대조를 적용했다. C07A/C08A는 source freeze, C10A는 보존 감사의 참조 기준 교정을 위한 추가 게시 지점이다. 최종 release 이후 외부 receipt는 총 23개가 되어야 하며 최종 확인 상태는 backup 디렉터리의 POSTRELEASE_AUDIT.json에 기록한다. 첫 보존 감사에서 서로 다른 브랜치의 CLAIM_LEDGER를 동일한 해시와 비교한 오류를 교정했다. 각 worktree를 자신의 기존 commit과 대조한 결과 원본 수정은 없었다. [실패와 교정 근거](evidence/C10_POSTRELEASE_SCOPE_CORRECTION.json)를 보존했으며 과학적 측정 내용은 변경하지 않았다.
 
 - 코드/문서: 이 브랜치와 각 stage commit.
 - backup 디렉터리: /home/cosmosapjw/Dropbox/personal_projects/quartz_general_meta23_backups
