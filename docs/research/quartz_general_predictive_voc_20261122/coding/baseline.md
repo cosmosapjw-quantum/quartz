@@ -1,0 +1,3 @@
+# C01: exact C19 parent and original identity lock
+
+Verified C19 final 2a359ad049b6a0be4047e52ad281b665cf68e967 was clean, remote matched and original developer had one existing untracked note. Isolated C20 worktree created from exact parent. Run coding/lock_source.py to hash original THESIS, CLAIM_LEDGER, src/game.rs and C19 NEXT, code and sources. The new scientific target is mathematically correct EVSI under publicly known posterior/likelihood in two new independent source populations, with measured task and meta-evaluator cost. No game controller or C19 historical TEST reuse.
