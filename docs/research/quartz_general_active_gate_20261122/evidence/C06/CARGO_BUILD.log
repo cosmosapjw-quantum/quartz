@@ -1,0 +1,139 @@
+   Compiling mcts_demo v0.3.0 (/home/cosmosapjw/quantum/research/quartz_general_meta22_20261122)
+warning: unused imports: `BufRead`, `Write`, and `self`
+  --> src/bin/quartz_c22_active_gate.rs:11:15
+   |
+11 | use std::io::{self,BufRead,Write};
+   |               ^^^^ ^^^^^^^ ^^^^^
+   |
+   = note: `#[warn(unused_imports)]` (part of `#[warn(unused)]`) on by default
+
+warning: unnecessary parentheses around type
+   --> src/bin/quartz_c22_active_gate.rs:241:27
+    |
+241 |            let aftermeans:(Vec<f64>)=(0..utilities[0].len())
+    |                           ^        ^
+    |
+    = note: `#[warn(unused_parens)]` (part of `#[warn(unused)]`) on by default
+help: remove these parentheses
+    |
+241 -            let aftermeans:(Vec<f64>)=(0..utilities[0].len())
+241 +            let aftermeans:Vec<f64>=(0..utilities[0].len())
+    |
+
+warning: variable `zero` is assigned to, but never used
+   --> src/bin/quartz_c22_active_gate.rs:156:9
+    |
+156 |     let mut zero=false;
+    |         ^^^^^^^^
+    |
+    = note: consider using `_zero` instead
+    = note: `#[warn(unused_variables)]` (part of `#[warn(unused)]`) on by default
+
+warning: value assigned to `zero` is never read
+   --> src/bin/quartz_c22_active_gate.rs:161:8
+    |
+161 |        zero=z;upper=b;
+    |        ^^^^^^
+    |
+    = help: maybe it is overwritten before being read?
+    = note: `#[warn(unused_assignments)]` (part of `#[warn(unused)]`) on by default
+
+warning: fields `before`, `after`, `predictive_mass`, `support_points`, `event_count`, and `function_us` are never read
+  --> src/bin/quartz_c21_fast_evsi.rs:23:5
+   |
+22 | struct BetaEVSI {
+   |        -------- fields in this struct
+23 |     before:f64, after:f64, gain:f64,
+   |     ^^^^^^      ^^^^^
+24 |     predictive_mass:f64, support_points:usize, event_count:usize,
+   |     ^^^^^^^^^^^^^^^      ^^^^^^^^^^^^^^        ^^^^^^^^^^^
+25 |     function_us:f64,
+   |     ^^^^^^^^^^^
+   |
+   = note: `BetaEVSI` has derived impls for the traits `Debug` and `Clone`, but these are intentionally ignored during dead code analysis
+   = note: `#[warn(dead_code)]` (part of `#[warn(unused)]`) on by default
+
+warning: function `array_arms` is never used
+   --> src/bin/quartz_c21_fast_evsi.rs:152:4
+    |
+152 | fn array_arms(v:&Value)->Result<Vec<(f64,f64)>,String> {
+    |    ^^^^^^^^^^
+
+warning: function `array_budgets` is never used
+   --> src/bin/quartz_c21_fast_evsi.rs:163:4
+    |
+163 | fn array_budgets(v:&Value)->Result<Vec<usize>,String>{
+    |    ^^^^^^^^^^^^^
+
+warning: function `strict_keys` is never used
+   --> src/bin/quartz_c21_fast_evsi.rs:171:4
+    |
+171 | fn strict_keys(v:&Value,allowed:&[&str])->Result<(),String> {
+    |    ^^^^^^^^^^^
+
+warning: function `run_eval_case` is never used
+   --> src/bin/quartz_c21_fast_evsi.rs:178:4
+    |
+178 | fn run_eval_case(v:&Value)->Result<Value,String>{
+    |    ^^^^^^^^^^^^^
+
+warning: function `run_sim_task` is never used
+   --> src/bin/quartz_c21_fast_evsi.rs:189:4
+    |
+189 | fn run_sim_task(v:&Value)->Result<Value,String>{
+    |    ^^^^^^^^^^^^
+
+warning: function `run` is never used
+   --> src/bin/quartz_c21_fast_evsi.rs:221:4
+    |
+221 | fn run(req:&Value)->Result<Value,String> {
+    |    ^^^
+
+warning: function `server` is never used
+   --> src/bin/quartz_c21_fast_evsi.rs:250:4
+    |
+250 | fn server(){
+    |    ^^^^^^
+
+warning: function `main` is never used
+   --> src/bin/quartz_c21_fast_evsi.rs:264:4
+    |
+264 | fn main(){
+    |    ^^^^
+
+warning: fields `mass`, `before`, `after`, `count`, and `elapsed_us` are never read
+ --> src/bin/quartz_c20_shadow.rs:7:31
+  |
+7 | ...ct ResultEVSI { evsi:f64, mass:f64, before:f64, after:f64, count:usize, elapsed_us:f64 }
+  |       ----------             ^^^^      ^^^^^^      ^^^^^      ^^^^^        ^^^^^^^^^^
+  |       |
+  |       fields in this struct
+  |
+  = note: `ResultEVSI` has derived impls for the traits `Debug` and `Clone`, but these are intentionally ignored during dead code analysis
+
+warning: function `read_vec` is never used
+  --> src/bin/quartz_c20_shadow.rs:60:4
+   |
+60 | fn read_vec(v:&Value)->Result<Vec<f64>,String>{
+   |    ^^^^^^^^
+
+warning: function `matrix` is never used
+  --> src/bin/quartz_c20_shadow.rs:64:4
+   |
+64 | fn matrix(v:&Value)->Result<Vec<Vec<f64>>,String>{
+   |    ^^^^^^
+
+warning: function `evaluate` is never used
+  --> src/bin/quartz_c20_shadow.rs:68:4
+   |
+68 | fn evaluate(request:&Value)->Result<Value,String>{
+   |    ^^^^^^^^
+
+warning: function `main` is never used
+  --> src/bin/quartz_c20_shadow.rs:92:4
+   |
+92 | fn main(){
+   |    ^^^^
+
+warning: `mcts_demo` (bin "quartz_c22_active_gate") generated 18 warnings (run `cargo fix --bin "quartz_c22_active_gate" -p mcts_demo` to apply 2 suggestions)
+    Finished `release` profile [optimized] target(s) in 3.33s
