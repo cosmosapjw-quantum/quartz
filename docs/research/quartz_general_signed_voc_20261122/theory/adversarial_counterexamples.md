@@ -1,0 +1,9 @@
+# R6 | Adversarial counterexamples and invalid transports
+
+Counterexample A: same q=1/4 and conditional m=+1/2 vs m=−1/2, lambda*cost=1/10; predicted net values +1/40 and −9/40. A flip-only rule cannot distinguish when computation is beneficial. Wolfram exact arithmetic explicitly computed both numbers. Counterexample B: interval q∈[1/4,3/4], m∈[−1/2,+1/2] and cost1/10 gives net range [−19/40,+11/40]; neither STOP nor COMPUTE can be certified without credible conditional-effect constraints.
+
+Counterexample C: an informative sensor that changes posterior but never changes the optimal action has zero **one-step decision EVSI** despite reduced Shannon entropy; do not equate entropy information gain with terminal decision improvement. Conversely, action change can be negative *realized* utility for a specific latent world even though calibrated expected EVSI≥0.
+
+Sampling failures: repeated observations within one parent world share latent theta, so naive per-row standard errors fail. Conditional effect m can be underdetermined if the event Y is rare; preserve sample denominators and parent source independence. Cost C is measured after computation and cannot be used as the live predictor input. A cheaper or larger computation menu may have unmeasured opportunity costs; a fixed lambda expresses one explicit evaluation convention and is not empirically derived universal utility price.
+
+C18 MCTS game has no exact true U; this cycle must NOT impute signed gain from native best_move disagreement, Rapfi or heuristically chosen value0. The two signed-utility domains are deliberately distinct non-game tasks. Adapter-specific model output cannot be taken as validation of transfer to adaptive neural search; if the two domains differ significantly, report it, not tune the feature to make the result green. No game-specific pattern injection or frozen THESIS modification.
