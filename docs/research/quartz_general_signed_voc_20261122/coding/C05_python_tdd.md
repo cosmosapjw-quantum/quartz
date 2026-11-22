@@ -1,0 +1,7 @@
+# C5 | True RED/GREEN Python signed-value model
+
+Actual focused RED at public interface with 5 tests: initial source quartz/experiments/c19_signed_value.py contained explicitly unimplemented train_signed/calibrate_signed/shadow_predict/score_signed, and all five test cases errored with NotImplementedError, exit nonzero in /tmp/quartz_c19_python_red.log. After implementing, exact same command python3 -m unittest discover -s tests -p test_c19_signed_value.py -v yielded **5 PASS,0 FAIL** (log /tmp/quartz_c19_python_green.log).
+
+The executable model fits independent revision propensity with C18 stable logistic, a conditional ridge effect m among observed Y=1 TRAIN rows, fixed CAL-only q and m intercept corrections and computes predicted gross q*m and net q*m−lambda*known cost forecast. Calibration never adjusts slopes; model cannot use true hidden utility or final action when predicting, and rejects any label/source truth in shadow input. Unit tests check finite model, m∈[-1,1], zero signed gain on unchanged action, exact net cost units under 1000x scaling, and explicit invalid fields. This is a reference/predictive code PASS, NOT source-scientific quality or controlled runtime improvement.
+
+C4 source bank SHA256 8fce353c5efd3a5ac2a643e5a799d46f8d69c6c429cdff0fb5418a43ea43292e is frozen before any data. Next C6 separate Rust read-only numerical implementation and actual executable Rust/Python parity with full Rust regression. No live SearchPolicy writes.
