@@ -1,0 +1,7 @@
+# C08A. Independently frozen untouched TEST actual source observations
+
+Preceding C07A frozen TRAIN/CAL model and actual remote Git SHA: 43e92f63d7cc5fcf47a30f172172fa0ec1236553. The exact SOURCE_GROUPS_FROZEN.json SHA256 52e3654febead1a01253174be0d395f8c2ea6e04ada21e5e0bfbf5938d680445 and fixed Rust C16 real binary SHA256 1168f2979936a283a9e7e613b869fd30ec9aba826e15ac228c6ee9d7e7e4c4d3 were rechecked BEFORE collecting heldout observations.
+
+Actually ran **140 genuine Rust MCTS native root searches** on 24 never-trained original parent game histories, at actual20ms per source root, plus **72 genuine independent non-game Bernoulli sample transcripts** on 24 separate never-trained latent-world parents. Each domain's test source groups had never entered C07A model fit or CAL correction. The new real Rust event prevalence (first8 visit-modal proxy vs final actual MCTS move) was **0.15**, non-game revised-posterior best-arm event prevalence **0.2361111111111111**. These are genuine observed decision changes; neither certifies positive utility.
+
+Raw sealed TEST source evidence/C08_TEST/SOURCE_RAW.jsonl SHA256 **79fbcb968cc09fa0cea2f808fa8449317039792f24a693d6ff1b51095990b527** and COLLECTION_MANIFEST.json; no scoring or test-based model adjustment was performed before this checkpoint. C08 final will use the previously published C07 code and C07A model, score per-domain proper losses/uncertainties and a separately compiled Rust shadow inference comparison. No deployment, no retrospective data selection.
