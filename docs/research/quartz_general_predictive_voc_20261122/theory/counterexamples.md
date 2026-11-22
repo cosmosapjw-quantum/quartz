@@ -1,0 +1,5 @@
+# R06. Adversarial checks and scope
+
+Two states and two equally valued initial actions (gap0). A zero-information channel leaves optimum unchanged in expectation, G0, whereas a noiseless state-revealing channel raises M from1/2 to1, G1/2. Equal gap can have radically different EVSI. Two observations sharing a fixed binary hidden theta and revealing it perfectly are only 00 or11, each half; treating their marginal Bernoulli half readings as IID gives fake01/10 with mass1/4 each. Thus correlated source observations require the joint law.
+
+Finite Beta predicted K4 counts11^4=14641; this may consume too much CPU relative to 10 sampled Bernoulli steps. Numerical overflow, underflow, clipped probabilities and posterior predictive mass drift must be checked. Source model can be correct for simulator and invalid for real adaptive MCTS. Missing terminal alternatives affects global regret; C20 only covers supplied complete finite task options. Latent truth must never be passed to exact evaluator as an oracle. If prospective TEST model benefit fails or evaluator overhead erases the gain, preserve that scientific negative without refitting.
