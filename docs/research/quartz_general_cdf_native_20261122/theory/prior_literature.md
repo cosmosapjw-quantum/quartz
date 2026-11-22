@@ -1,0 +1,10 @@
+# R02 | Prior art and exact novelty ceiling
+
+Verified original scholarly context:
+- Hay, Russell, Tolpin, Shimony (UAI 2012), Selecting Computations: Theory and Applications, https://mlanthology.org/uai/2012/hay2012uai-selecting/ and arXiv:1207.5879. Value and cost of metalevel computation and stopping are existing work.
+- Callaway, Gul, Krueger, Griffiths, Lieder (UAI 2018), Learning to select computations, https://proceedings.mlr.press/r16/callaway18a.html. Approximates bounded rational metalevel policy across different tasks, accounts for deliberation overhead.
+- Hironaka, Giles, Goda, Thom (2019), Multilevel Monte Carlo estimation of expected sample information, arxiv:1909.00549. Efficient Bayesian information valuation beyond brute nested expectations under stated regularity.
+- Fleischhacker, Fok, Madiman, Wu (2023), A Closed-Form EVSI Expression for a Multinomial Data-Generating Process, arxiv:2301.00729. Known special exact EVSI formulas depend on observation/utility form.
+- Christos N. Efrem (2023/2024), Recurrence relations for the joint distribution of the sum and maximum of independent random variables, arxiv:2309.10548. Explicit independent maximum distributions are already well studied; product-CDF identity is elementary established probability, not new.
+
+C20 sources: coding/c10_fast_beta_cdf_prototype.py with integer Beta shapes; evidence/C10_FAST_BETA_MAX_CDF_WITNESS.json SHA256 c60250de1fe8c89ee035f22eabfd5c95fb15f4fab4ba2825fdc10a4a739e5c68. C20 model is exact only within public Bayesian toy source laws; its 216 TRAIN CDF experiment is not a valid prospective C21 TEST. C21 contribution is a PROJECT-specific correct Rust native implementation and resource-cost measurement, not mathematical priority. Source conditional independence is essential; cannot transport to correlated adaptive neural-MCTS backups.
