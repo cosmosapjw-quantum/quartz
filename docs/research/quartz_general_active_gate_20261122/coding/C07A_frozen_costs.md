@@ -1,0 +1,12 @@
+# C07A | Actual TRAIN-only Rust in-process resource-price model sealed before TEST
+
+All C22 C07 algorithm/source/price/score code was previously committed and GitHub published at SHA 1ae243667e69aa17179c0b30e829c393f8d73126 BEFORE generating any observed C22 future outcome. TRAIN/CAL raw576 paths physically sampled in Python, separately sealed as C07D Git SHA 70b76ae4284fcbdd7512f6b24015ee24a822beb8 and SHA256 50819842714731c94b161dc188d69f9c473b71e31788cb8136e54b4252263edc. TEST original parent groups remain UNOPENED.
+
+Executed coding/freeze_c07_costs.py only on TRAIN parent groups72 per domain, 3rep each: **432 actual native Rust C22 active-experiment episodes** in same executable, with NEVER, ALWAYS, CERTIFIED_ONLY, GATED, FULL_EXACT each actually executed as specified and the source truth passed ONLY to the independent offline work sampler. The initial-only public predictor never receives latent true theta or future cost. The C07A pilot used provisional cost values solely for measuring actual Rust task and evaluator timing; no C22 predictive coefficients were fitted to signed utility Z. Per-bucket cost estimates are TRAIN medians from the actually executed ALWAYS future task and FULL_EXACT evaluator, GATED cheap precheck. The frozen model has 12 Beta workload buckets (K2/K3/K4 × extra n1/5/10/20), each18 TRAIN repeated trials, plus three sensor buckets (n1,n3,n8), counts 81,81,54. All estimates in **terminal utility per real Rust microsecond** with λ=.004 primary, [.001,.02,.1] sensitivity locked.
+
+Concrete measured TRAIN medians in microseconds, native extra task / exact EVSI evaluation / cheap precheck:
+- Beta K2 n1: 0.110 / 0.2255 / 0.060; K2 n20:0.191 /1.097 /0.0705.
+- Beta K4 n1:0.120 /0.406 /0.090; K4 n10:0.210 /1.4125 /0.0955; K4 n20:0.2905 /2.525 /0.0805.
+- Sensor n1:0.130 /0.411 /0.110; sensor n3:0.151 /0.812 /0.111; sensor n8:0.211 /3.056 /0.111.
+
+C07A pilot GATED actually STOPped **285 of 432** work cases, physically withheld **3140 future random observations in the GATED active paths**, and separately executed ALWAYS controls for matched scientific comparison. These are TRAIN-only descriptive, not prospective TEST results. Resource cost model exact SHA256 **7814df9043a2814dfc198f0407ca35fc5808236506e2347ea7983e59db0bdab1** stored FROZEN_C22_RESOURCE_PRICE.json, with raw pilot data and source hash. C07A is git archived and remote SHA verified BEFORE any separate TEST future outcomes. All earlier C16-C21 original worktrees and THESIS untouched.

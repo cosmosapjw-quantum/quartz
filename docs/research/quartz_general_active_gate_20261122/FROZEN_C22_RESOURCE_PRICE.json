@@ -1,0 +1,193 @@
+{
+  "CAL_episodes_not_fit": 144,
+  "CAL_original_parent_groups_each_family": 24,
+  "RNG_source_true_theta_only_offline": true,
+  "TEST_outcomes_opened": false,
+  "TRAIN_CAL_raw_SHA256": "50819842714731c94b161dc188d69f9c473b71e31788cb8136e54b4252263edc",
+  "TRAIN_episodes": 432,
+  "TRAIN_original_parent_groups_each_family": 72,
+  "TRAIN_pilot_episodes_sha256": "49dc383a63610ae3b33c3fd5020ec91de63cbcb80194a04bc36b32b828b083a1",
+  "TRAIN_pilot_request_SHA256": "903c96a5c1e34a84979fea77f0e402d8c526bc18525ddff1c08593e10c9fa94c",
+  "active_and_baseline_BOTH_physically_executed_in_pilot": true,
+  "all_paid_clocks_same_Rust_binary": true,
+  "model_gamma_coefficients_fit_to_TEST": false,
+  "native_Rust_active_compiled_sha256": "1dfa410c87422c985e21cd8d6a47f60bf9945aff2c4e199636a8a49325859a8e",
+  "no_real_neural_MCTS_SearchPolicy_mutation": true,
+  "precommitted_primary_lambda": 0.004,
+  "precommitted_sensitivity_lambda": [
+    0.001,
+    0.004,
+    0.02,
+    0.1
+  ],
+  "price_by_bucket": {
+    "beta_K2_n1": {
+      "ALWAYS_total_internal_mean_us": 0.25605555555555554,
+      "GATED_total_internal_mean_us": 0.26566666666666666,
+      "cheap_native_mean_us": 0.06688888888888889,
+      "cheap_native_median_us": 0.06,
+      "exact_native_mean_us": 0.23922222222222222,
+      "exact_native_median_us": 0.22549999999999998,
+      "n_original_train_trials": 18,
+      "task_native_mean_us": 0.15466666666666667,
+      "task_native_median_us": 0.11
+    },
+    "beta_K2_n10": {
+      "ALWAYS_total_internal_mean_us": 0.21505555555555556,
+      "GATED_total_internal_mean_us": 0.8327222222222223,
+      "cheap_native_mean_us": 0.08077777777777778,
+      "cheap_native_median_us": 0.07050000000000001,
+      "exact_native_mean_us": 0.6495,
+      "exact_native_median_us": 0.6365000000000001,
+      "n_original_train_trials": 18,
+      "task_native_mean_us": 0.132,
+      "task_native_median_us": 0.1255
+    },
+    "beta_K2_n20": {
+      "ALWAYS_total_internal_mean_us": 0.28227777777777774,
+      "GATED_total_internal_mean_us": 2.196388888888889,
+      "cheap_native_mean_us": 0.07361111111111111,
+      "cheap_native_median_us": 0.07050000000000001,
+      "exact_native_mean_us": 1.5678333333333334,
+      "exact_native_median_us": 1.097,
+      "n_original_train_trials": 18,
+      "task_native_mean_us": 0.19822222222222222,
+      "task_native_median_us": 0.191
+    },
+    "beta_K2_n5": {
+      "ALWAYS_total_internal_mean_us": 0.20133333333333334,
+      "GATED_total_internal_mean_us": 0.6171111111111112,
+      "cheap_native_mean_us": 0.07616666666666666,
+      "cheap_native_median_us": 0.07500000000000001,
+      "exact_native_mean_us": 0.46855555555555556,
+      "exact_native_median_us": 0.4505,
+      "n_original_train_trials": 18,
+      "task_native_mean_us": 0.119,
+      "task_native_median_us": 0.12
+    },
+    "beta_K3_n1": {
+      "ALWAYS_total_internal_mean_us": 0.20983333333333332,
+      "GATED_total_internal_mean_us": 0.38333333333333336,
+      "cheap_native_mean_us": 0.08072222222222222,
+      "cheap_native_median_us": 0.07500000000000001,
+      "exact_native_mean_us": 0.33694444444444444,
+      "exact_native_median_us": 0.351,
+      "n_original_train_trials": 18,
+      "task_native_mean_us": 0.11694444444444445,
+      "task_native_median_us": 0.111
+    },
+    "beta_K3_n10": {
+      "ALWAYS_total_internal_mean_us": 0.23888888888888887,
+      "GATED_total_internal_mean_us": 2.4344444444444444,
+      "cheap_native_mean_us": 0.08561111111111111,
+      "cheap_native_median_us": 0.08,
+      "exact_native_mean_us": 1.4237777777777778,
+      "exact_native_median_us": 1.117,
+      "n_original_train_trials": 18,
+      "task_native_mean_us": 0.14350000000000002,
+      "task_native_median_us": 0.14
+    },
+    "beta_K3_n20": {
+      "ALWAYS_total_internal_mean_us": 0.315,
+      "GATED_total_internal_mean_us": 2.7827777777777776,
+      "cheap_native_mean_us": 0.08333333333333333,
+      "cheap_native_median_us": 0.08,
+      "exact_native_mean_us": 1.9813333333333334,
+      "exact_native_median_us": 1.713,
+      "n_original_train_trials": 18,
+      "task_native_mean_us": 0.2215,
+      "task_native_median_us": 0.22
+    },
+    "beta_K3_n5": {
+      "ALWAYS_total_internal_mean_us": 0.221,
+      "GATED_total_internal_mean_us": 0.7045555555555556,
+      "cheap_native_mean_us": 0.079,
+      "cheap_native_median_us": 0.08,
+      "exact_native_mean_us": 0.6712222222222223,
+      "exact_native_median_us": 0.681,
+      "n_original_train_trials": 18,
+      "task_native_mean_us": 0.12805555555555556,
+      "task_native_median_us": 0.13
+    },
+    "beta_K4_n1": {
+      "ALWAYS_total_internal_mean_us": 0.22477777777777777,
+      "GATED_total_internal_mean_us": 0.4252777777777778,
+      "cheap_native_mean_us": 0.0925,
+      "cheap_native_median_us": 0.09,
+      "exact_native_mean_us": 0.4092222222222222,
+      "exact_native_median_us": 0.406,
+      "n_original_train_trials": 18,
+      "task_native_mean_us": 0.12183333333333334,
+      "task_native_median_us": 0.12
+    },
+    "beta_K4_n10": {
+      "ALWAYS_total_internal_mean_us": 0.3093888888888889,
+      "GATED_total_internal_mean_us": 3.1224444444444446,
+      "cheap_native_mean_us": 0.09572222222222222,
+      "cheap_native_median_us": 0.0955,
+      "exact_native_mean_us": 1.731,
+      "exact_native_median_us": 1.4125,
+      "n_original_train_trials": 18,
+      "task_native_mean_us": 0.2121111111111111,
+      "task_native_median_us": 0.21
+    },
+    "beta_K4_n20": {
+      "ALWAYS_total_internal_mean_us": 0.3968333333333333,
+      "GATED_total_internal_mean_us": 4.247333333333334,
+      "cheap_native_mean_us": 0.09177777777777778,
+      "cheap_native_median_us": 0.0805,
+      "exact_native_mean_us": 2.9728333333333334,
+      "exact_native_median_us": 2.525,
+      "n_original_train_trials": 18,
+      "task_native_mean_us": 0.2966111111111111,
+      "task_native_median_us": 0.2905
+    },
+    "beta_K4_n5": {
+      "ALWAYS_total_internal_mean_us": 0.23716666666666666,
+      "GATED_total_internal_mean_us": 1.118111111111111,
+      "cheap_native_mean_us": 0.08455555555555555,
+      "cheap_native_median_us": 0.08,
+      "exact_native_mean_us": 0.8943888888888889,
+      "exact_native_median_us": 0.9165,
+      "n_original_train_trials": 18,
+      "task_native_mean_us": 0.14200000000000002,
+      "task_native_median_us": 0.14
+    },
+    "sensor_n1": {
+      "ALWAYS_total_internal_mean_us": 0.3091481481481481,
+      "GATED_total_internal_mean_us": 0.5366543209876543,
+      "cheap_native_mean_us": 0.11444444444444445,
+      "cheap_native_median_us": 0.11,
+      "exact_native_mean_us": 0.42458024691358026,
+      "exact_native_median_us": 0.41100000000000003,
+      "n_original_train_trials": 81,
+      "task_native_mean_us": 0.13240740740740742,
+      "task_native_median_us": 0.13
+    },
+    "sensor_n3": {
+      "ALWAYS_total_internal_mean_us": 0.33625925925925926,
+      "GATED_total_internal_mean_us": 0.9167407407407407,
+      "cheap_native_mean_us": 0.11532098765432099,
+      "cheap_native_median_us": 0.111,
+      "exact_native_mean_us": 0.8228395061728395,
+      "exact_native_median_us": 0.812,
+      "n_original_train_trials": 81,
+      "task_native_mean_us": 0.1574320987654321,
+      "task_native_median_us": 0.151
+    },
+    "sensor_n8": {
+      "ALWAYS_total_internal_mean_us": 0.39716666666666667,
+      "GATED_total_internal_mean_us": 2.5784629629629627,
+      "cheap_native_mean_us": 0.11516666666666667,
+      "cheap_native_median_us": 0.111,
+      "exact_native_mean_us": 3.1568333333333336,
+      "exact_native_median_us": 3.056,
+      "n_original_train_trials": 54,
+      "task_native_mean_us": 0.2200185185185185,
+      "task_native_median_us": 0.211
+    }
+  },
+  "schema": "quartz_C22_C07A_TRAIN_only_frozen_Rust_active_price_v1",
+  "source_bank_SHA256": "f7bffc98710bae151d0ac909ddeb19fc04f74d51a4273f6b16f7e7583f61398d",
+  "source_previously_published_git_sha": "70b76ae4284fcbdd7512f6b24015ee24a822beb8"
+}
