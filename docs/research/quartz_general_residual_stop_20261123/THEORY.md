@@ -51,3 +51,10 @@ Resolved issue 3: a certified exact-optimal action does not ensure every future 
 Counterexample to b.x as a generic lower bound: A=1,b=1,x=2 gives q=1 and b.x=2, whereas ell=0 is valid. Do not substitute a Galerkin identity valid only in exact arithmetic.
 Degenerate limits: zero rhs gives zero utility and no CG work; rho0 gives A=I; equal best utilities defeat a strict unique-winner certificate; finite nonseparated states terminate at budget with an uncertified result. Each is a scientific/algorithmic outcome, not a universal no-go.
 Dimensions: all experiment operator/utility variables are nondimensional; wall time uses us and price utility/us. Dirichlet exterior is exactly zero. The task is the discrete problem, so algebraic accuracy is measured separately from any unperformed continuum discretization convergence.
+
+## R07 — Actual exact arithmetic verification
+Wolfram Language evaluator returned for A diagonal5 with square-neighbour offdiagonal-1:
+(q1,ell1,r1^2,L1,U1)=(23/105,1/5,2/25,47/225,7/25);
+(q2,ell2,r2^2,L2,U2)=(5/42,1/10,2/25,49/450,9/50).
+Both residual-energy identity differences were exactly0, determinant525, eigenvalues{7,5,5,3}, and L1>U2 was True. Initial WolframContext retrieval errored; the independent stateless evaluator succeeded.
+Executed independent Python fractions.Fraction Gaussian elimination in theory/check_r07_fraction.py, without production imports. It verifies the same identities, enclosures and strict ordering. Actual JSON is evidence/R07_EXACT.json. These exact finite examples validate the formula/example, not all future f64 implementation.

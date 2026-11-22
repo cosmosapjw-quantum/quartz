@@ -1,0 +1,23 @@
+{
+  "method": "independent Python Fraction Gaussian elimination; no production imports",
+  "rows": [
+    {
+      "q": "23/105",
+      "ell": "1/5",
+      "norm2": "2/25",
+      "lo": "47/225",
+      "hi": "7/25"
+    },
+    {
+      "q": "5/42",
+      "ell": "1/10",
+      "norm2": "2/25",
+      "lo": "49/450",
+      "hi": "9/50"
+    }
+  ],
+  "strict_choice": 0,
+  "wolfram_output": "{{{23/105,1/5,2/25,47/225,7/25,0},{5/42,1/10,2/25,49/450,9/50,0}},525,{7,5,5,3},True}",
+  "wolfram_context_status": "internal tool error on initial context retrieval; evaluator actually succeeded",
+  "status": "PASS"
+}
