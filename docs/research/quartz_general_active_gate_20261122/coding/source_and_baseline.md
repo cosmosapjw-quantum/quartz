@@ -1,0 +1,3 @@
+# C01 | Frozen C21 authority and separation of environments
+
+New worktree /home/cosmosapjw/quantum/research/quartz_general_meta22_20261122 based on C21 final exact SHA351c63ae810b1fa633fe2a75440bf7d0929f92e4. source_lock.py compares byte identity of original THESIS, CLAIM_LEDGER and src/game.rs plus prior C21 exact source/model and NEXT_STAGE contract. No original C16-C21 developer/older research branches or main will be changed. The C22 scientific scope is *active* in-process known-utility task execution, not modifying the existing search tree. Each completed R/C stage gets a distinct Git commit, SHA256 local Git archive and origin SHA readback, Dropbox cloud ACK separate. Independent native subagent tools absent NOT_RUN.
