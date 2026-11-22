@@ -1,0 +1,3 @@
+# C01 | Frozen authority and baseline
+
+C20 complete HEAD ba100d13b36a49151fc4a7b5dd379fa2eb79e4c4 remote matched, C21 isolated worktree and theory R10 00a536d428b9993741ac2b3fbb2eae617e7caf1d. coding/source_lock.py compares byte hashes of C20 C10 CDF witness, original docs/THESIS.md, CLAIM_LEDGER, src/game.rs, project source and numeric prototype. Original developer untracked note remains untouched. The fixed goal is exact fast Beta posterior predictive value and measured CPU cost, not game optimization. Every stage actually publishes Git and SHA256 tar archive with remote HEAD readback.
