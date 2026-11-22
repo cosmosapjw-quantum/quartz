@@ -1,0 +1,213 @@
+{
+  "Beta_C08_MEAN_net_always": 0.0185994394861223,
+  "Beta_C08_MEAN_net_host_charged": -0.11347520488790935,
+  "Beta_C08_MEAN_net_internal_charged": 0.011731717263900078,
+  "C01_C09_actual_stages": 9,
+  "C09_archive_key_files_byte_restored": 16,
+  "C09_independent_source_audit_sha256": "6802e07fc4dea7b580b25f027344b65db96cedf479da3beaee96a49e6e311191",
+  "C09_local_C08_archive_restore_sha256": "3385884e9529ca3f2f1c6a1ffb45fa3636884c1a0ca5c5c84f1b16d2b402a5fa",
+  "C09_same_compiler_train_only_speed_sha256": "fd2ce4e944f1ffc525cdf84dd119f4c9dde86a86720b218b915a0b314cbd3c97",
+  "C10_own_archive": "CREATED_AFTER_COMMIT; VERIFY_POST_RELEASE",
+  "C20_parent_SHA": "ba100d13b36a49151fc4a7b5dd379fa2eb79e4c4",
+  "Dropbox_cloud_sync_ACK": "NOT_VERIFIED",
+  "R01_R10_actual_stages": 10,
+  "Rust_debug": {
+    "C17_CLI": 7,
+    "C18_CLI": 3,
+    "C19_CLI": 3,
+    "C20_CLI": 3,
+    "C21_fast_CLI": 5,
+    "C21_full_grid_CLI": 7,
+    "fail": 0,
+    "main_MCTS": 617,
+    "main_ignored": 89,
+    "total_pass": 645
+  },
+  "Rust_release": {
+    "C17_CLI": 7,
+    "C18_CLI": 3,
+    "C19_CLI": 3,
+    "C20_CLI": 3,
+    "C21_fast_CLI": 5,
+    "C21_full_grid_CLI": 7,
+    "fail": 0,
+    "main_MCTS": 617,
+    "main_ignored": 89,
+    "total_pass": 645
+  },
+  "TEST_parent_groups": 48,
+  "TEST_raw_sha256": "cb834de8c9b312e1ac168c42adeee571c116600a32cadefb604dd257442dbd74",
+  "TEST_stochastic_future_episodes": 144,
+  "TRAIN_only_cost_model_sha256": "d53b6ffdfa422f5b274d0373d9839e958b96528126a7cc4a66c21a73b4401d01",
+  "active_search_STOP_or_measured_physical_CPU_saving": "NOT_RUN_SHADOW_ONLY",
+  "actual_original_parent_world_groups": 240,
+  "actual_source_stochastic_future_episodes_total": 720,
+  "branch": "research/quartz-general-c21-fast-cdf-20261122",
+  "general_cross_domain_model_gain": "NOT_ESTABLISHED",
+  "heldout_science_sha256": "5feecc957bf679b75b6feccc64e7fcbdb70d206ceca37ef477b19b74a67cdd16",
+  "independent_C06_CDF_numeric_case_count": 163,
+  "independent_C06_max_abs_error": 5.6061821851471905e-12,
+  "independent_C06_numeric_assertions": 652,
+  "independent_C09_Fraction_Beta_EVSI_checks": 24,
+  "independent_C09_Python_RNG_replays": 144,
+  "independent_C09_Rust_native_StdRng_deterministic_replays": 72,
+  "independent_C09_sensor_ordered_6561_EVSI_checks": 24,
+  "n_preC10_archive_and_remote_verified_stages": 22,
+  "native_Beta_release_binary_sha256": "ad49fb9fbb125cb0193e454ee508bc083737bf446754200663143c5b0fcd4650",
+  "native_TEST_records_sha256": "2b83a0f1d8734fa65153d8df325a75ac2ea8907f2983f2126a2b53f377ab4ec6",
+  "native_full_grid_release_binary_sha256": "f4786b642ee0cdbfd7c650872016d5bbde84478e911d62bff5128ed006d85f28",
+  "native_subagent": "NOT_RUN",
+  "next_node_not_executed": true,
+  "next_research_id": "QUARTZ-GENERAL-22-INPROCESS-VOC-GATE-AND-REAL-COMPUTE-ACTION",
+  "original_C01_source_lock_sha256": "47104ebcd08818f6e498a4690ad970cb9c66baf593e7b41f45c6e4b4bb696bb2",
+  "preC10_HEAD": "13ce490169ab3bba2394f2a2f501350775d7abba",
+  "preC10_REMOTE_HEAD": "13ce490169ab3bba2394f2a2f501350775d7abba",
+  "primary_price_utility_per_us": 0.004,
+  "protected_original_authority_and_previous_C16_C20_refs": "PASS",
+  "real_original_neural_MCTS_utility": "NOT_ESTIMABLE",
+  "same_Rust_compiler_C09_K4_train_speedup": 60.71665290971351,
+  "schema": "quartz_general_c21_C10_prepublication_manifest_v1",
+  "sensor_C08_MEAN_net_host_charged": -0.07346362859051433,
+  "source_extra_stages": [
+    "C07D",
+    "C07A",
+    "C08A"
+  ],
+  "source_model_math_and_limited_native_implementation": "PASS_SCOPED",
+  "source_worlds_sha256": "036b7c2e77d998558de46ff80845e4b0be382ff4a35d365b03a7174d6c98dad8",
+  "stagewise_commit_archive_sha256": {
+    "C01": {
+      "archive_bytes": 25530230,
+      "archive_file": "/home/cosmosapjw/Dropbox/personal_projects/quartz_general_meta21_backups/QUARTZ_GENERAL_C21_C01_4f07b7eaed18.tar.gz",
+      "archive_sha256": "0597cf6191f897f40eb320aaeffc82305a91ca0ce19e43ca061ba476eac0cd81",
+      "commit": "4f07b7eaed180e5d04d519c6d6ba4757ea7d324b"
+    },
+    "C02": {
+      "archive_bytes": 25532417,
+      "archive_file": "/home/cosmosapjw/Dropbox/personal_projects/quartz_general_meta21_backups/QUARTZ_GENERAL_C21_C02_fc71bd9aa3e5.tar.gz",
+      "archive_sha256": "4b870aaa4fadad5e17bdfa0bc6ddf186ba88c8596b4405c4b1e405a884cd85e4",
+      "commit": "fc71bd9aa3e5509cce60aea23e1fda601b99e323"
+    },
+    "C03": {
+      "archive_bytes": 25532873,
+      "archive_file": "/home/cosmosapjw/Dropbox/personal_projects/quartz_general_meta21_backups/QUARTZ_GENERAL_C21_C03_4f534a83a183.tar.gz",
+      "archive_sha256": "86a859fa5da7e034cfe2a290bf2cd487cfc3fce75e43547b62938a9b7fa527be",
+      "commit": "4f534a83a183c88ba6cf2395a7b302388b2cc9fb"
+    },
+    "C04": {
+      "archive_bytes": 25582285,
+      "archive_file": "/home/cosmosapjw/Dropbox/personal_projects/quartz_general_meta21_backups/QUARTZ_GENERAL_C21_C04_beb12fad9b5a.tar.gz",
+      "archive_sha256": "bdc41c1bb9cf2a8b9ee2192ede3498410c161d48bf704a81119a92e1b32b3642",
+      "commit": "beb12fad9b5ab8a7aec13f907798c13623026a9a"
+    },
+    "C05": {
+      "archive_bytes": 25586600,
+      "archive_file": "/home/cosmosapjw/Dropbox/personal_projects/quartz_general_meta21_backups/QUARTZ_GENERAL_C21_C05_3fdb0028749f.tar.gz",
+      "archive_sha256": "e5f891d48a086fdfb803b3dd4191117c5966f92b8b68d3f01ee47b9c4064eb2a",
+      "commit": "3fdb0028749fc7d7435c3463189bc957c572bcf6"
+    },
+    "C06": {
+      "archive_bytes": 25621184,
+      "archive_file": "/home/cosmosapjw/Dropbox/personal_projects/quartz_general_meta21_backups/QUARTZ_GENERAL_C21_C06_ff64e84b7341.tar.gz",
+      "archive_sha256": "5f06042ceea09d32278f7cebd3fa220fee79e628ea8f43e3cc1d7e3729ea5211",
+      "commit": "ff64e84b73415afab68ddbb76ec6e0db2a598f43"
+    },
+    "C07": {
+      "archive_bytes": 25630312,
+      "archive_file": "/home/cosmosapjw/Dropbox/personal_projects/quartz_general_meta21_backups/QUARTZ_GENERAL_C21_C07_9b6cf2407558.tar.gz",
+      "archive_sha256": "50f1f0a9edcb5fb0382a1cc02836ece5b95387fc6d29ea10a2fc1e4a09c67591",
+      "commit": "9b6cf2407558d5a2f022196df95f155138cb91f9"
+    },
+    "C07A": {
+      "archive_bytes": 25715343,
+      "archive_file": "/home/cosmosapjw/Dropbox/personal_projects/quartz_general_meta21_backups/QUARTZ_GENERAL_C21_C07A_6c9ce294e25b.tar.gz",
+      "archive_sha256": "b4d68ef5f7b05a5f818d955270e16e2de1b2273f34a16b37656fd91e66b6abbe",
+      "commit": "6c9ce294e25b6c3dca7cbd6f96c7ea53f9ca3dbc"
+    },
+    "C07D": {
+      "archive_bytes": 25705248,
+      "archive_file": "/home/cosmosapjw/Dropbox/personal_projects/quartz_general_meta21_backups/QUARTZ_GENERAL_C21_C07D_8f8244ade4ac.tar.gz",
+      "archive_sha256": "863822863b3fab45bc4ae7a9d86d5bd393bbded0ed2f54122cd805234c66336e",
+      "commit": "8f8244ade4ac099499248837a5a63146c6cd1c23"
+    },
+    "C08": {
+      "archive_bytes": 25748461,
+      "archive_file": "/home/cosmosapjw/Dropbox/personal_projects/quartz_general_meta21_backups/QUARTZ_GENERAL_C21_C08_2c3e73cf16bc.tar.gz",
+      "archive_sha256": "3c08c400866c32b99e328bfd5bf24e129908585255a46a9288a7023753b4992d",
+      "commit": "2c3e73cf16bc0223c4d7c78e986f9b473fc9fc49"
+    },
+    "C08A": {
+      "archive_bytes": 25737757,
+      "archive_file": "/home/cosmosapjw/Dropbox/personal_projects/quartz_general_meta21_backups/QUARTZ_GENERAL_C21_C08A_5e41c2e4f5a0.tar.gz",
+      "archive_sha256": "8f3ebf1ff1aa63ab9fca14c9b29b23bc572d9208aef3641b6acef907190c37dc",
+      "commit": "5e41c2e4f5a0ea8a5ede4ec1fbae458e3be38f96"
+    },
+    "C09": {
+      "archive_bytes": 25787144,
+      "archive_file": "/home/cosmosapjw/Dropbox/personal_projects/quartz_general_meta21_backups/QUARTZ_GENERAL_C21_C09_13ce490169ab.tar.gz",
+      "archive_sha256": "a5c7ccbca7e1869440ee382fb89532d9d6d4e696da447c226ea6a8aa9c9da743",
+      "commit": "13ce490169ab3bba2394f2a2f501350775d7abba"
+    },
+    "R01": {
+      "archive_bytes": 25522230,
+      "archive_file": "/home/cosmosapjw/Dropbox/personal_projects/quartz_general_meta21_backups/QUARTZ_GENERAL_C21_R01_5eed782124d0.tar.gz",
+      "archive_sha256": "38afe21a124a19280c591dec891478e8e6d75608e3336dea980d7d38f5752519",
+      "commit": "5eed782124d0e4407a45040ac6d64ac48a899165"
+    },
+    "R02": {
+      "archive_bytes": 25523173,
+      "archive_file": "/home/cosmosapjw/Dropbox/personal_projects/quartz_general_meta21_backups/QUARTZ_GENERAL_C21_R02_0012226c9984.tar.gz",
+      "archive_sha256": "d42a9c086a3c1f1945e04a46bd3660b7e529438c89de3dbecdc21e5a2465e168",
+      "commit": "0012226c99840dddfebffcb44580ea89bd3108fc"
+    },
+    "R03": {
+      "archive_bytes": 25523155,
+      "archive_file": "/home/cosmosapjw/Dropbox/personal_projects/quartz_general_meta21_backups/QUARTZ_GENERAL_C21_R03_be9486c716a4.tar.gz",
+      "archive_sha256": "4e3556d067c7ffbcf939ec7f9cc2a3ee5c3add9d04633713a34b5cd5fc7ae681",
+      "commit": "be9486c716a4d925305f313d4fb82ae81e68498e"
+    },
+    "R04": {
+      "archive_bytes": 25525325,
+      "archive_file": "/home/cosmosapjw/Dropbox/personal_projects/quartz_general_meta21_backups/QUARTZ_GENERAL_C21_R04_1c5042a3d092.tar.gz",
+      "archive_sha256": "a62de497e07ebe1ae21b9d59c0ed593de359053eb799ae915f720bcc6eeee676",
+      "commit": "1c5042a3d092adeae94b1e7743a97af1a857495c"
+    },
+    "R05": {
+      "archive_bytes": 25523717,
+      "archive_file": "/home/cosmosapjw/Dropbox/personal_projects/quartz_general_meta21_backups/QUARTZ_GENERAL_C21_R05_40d1a9b28d3b.tar.gz",
+      "archive_sha256": "668a4ade5132b0fc3d1a0cd5448b40a598fbd49d2f755f9866e1e4cfc011ebcc",
+      "commit": "40d1a9b28d3b68ebd7a7b24dad2beccb5fa9f0e8"
+    },
+    "R06": {
+      "archive_bytes": 25524781,
+      "archive_file": "/home/cosmosapjw/Dropbox/personal_projects/quartz_general_meta21_backups/QUARTZ_GENERAL_C21_R06_c0b8350d5a9d.tar.gz",
+      "archive_sha256": "f732677b7c30feec4cfa29b638fb56458f9e988a5555689dcec09f5003785581",
+      "commit": "c0b8350d5a9dbbb4fdf7ad11d72c74eb50fcf99d"
+    },
+    "R07": {
+      "archive_bytes": 25528785,
+      "archive_file": "/home/cosmosapjw/Dropbox/personal_projects/quartz_general_meta21_backups/QUARTZ_GENERAL_C21_R07_e5ce5b6e741a.tar.gz",
+      "archive_sha256": "510cfea2a3e186d3ff3ea70d1da10a1e32c23f704f23bb00eae30dfe2a3057e1",
+      "commit": "e5ce5b6e741a9bd6b3464f3bf3b19366c1ab77ee"
+    },
+    "R08": {
+      "archive_bytes": 25529209,
+      "archive_file": "/home/cosmosapjw/Dropbox/personal_projects/quartz_general_meta21_backups/QUARTZ_GENERAL_C21_R08_0c066b16a882.tar.gz",
+      "archive_sha256": "e852f2974cd1b6e24dbbc6a6757e3be805388ff302914dfa5980bf67cea5263d",
+      "commit": "0c066b16a88203990c4b1ccad854945c78e2d24c"
+    },
+    "R09": {
+      "archive_bytes": 25530480,
+      "archive_file": "/home/cosmosapjw/Dropbox/personal_projects/quartz_general_meta21_backups/QUARTZ_GENERAL_C21_R09_c6dea85550f5.tar.gz",
+      "archive_sha256": "6d64ed85c528dc88085c5ecff02fbdee2a7e2c036646fe00217594e73076861d",
+      "commit": "c6dea85550f58b2349b72bf391eaed265b7e27be"
+    },
+    "R10": {
+      "archive_bytes": 25531423,
+      "archive_file": "/home/cosmosapjw/Dropbox/personal_projects/quartz_general_meta21_backups/QUARTZ_GENERAL_C21_R10_00a536d428b9.tar.gz",
+      "archive_sha256": "9e5d775ccd04cc35482e954ccedf37584f2062985e82c1821b9cce018d21f733",
+      "commit": "00a536d428b9993741ac2b3fbb2eae617e7caf1d"
+    }
+  },
+  "train_cal_raw_sha256": "db100b0ee9b4c8d8669c2c20d2beebabeb7bf3d74d017790259d667c10ae7bea"
+}
