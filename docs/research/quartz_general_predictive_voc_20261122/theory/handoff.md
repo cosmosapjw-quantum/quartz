@@ -1,0 +1,5 @@
+# R10. Theory closure and coding handoff
+
+R01–R09 established the current question, primary literature and original THESIS provenance, derived exact finite Bayes EVSI and bounds, challenged independence/margin-only inference, and prepared two exact known-utility Bayesian source adapters. Wolfram exact checks and independent Python Fraction script form a reproducible numerical gate. The central new scientific issue is cost of reasoning about the computation itself; an exact normative model may be too expensive to control a cheap stochastic update. Theoretical EVSI correctness and useful real CPU metareasoning have separate evidence statuses.
+
+Execute C01–C10 in isolated worktree based on C19 final, source-first TEST lock and stagewise Git push plus SHA Git tar backups. Final C20 handoff to C21 should be chosen based on actual overhead and heldout paired utility outcomes, not another open-ended process audit. Original developer/C16/C17/C18/C19 and frozen THESIS protected. Native subagent NOT_RUN and no unrequested merge.
