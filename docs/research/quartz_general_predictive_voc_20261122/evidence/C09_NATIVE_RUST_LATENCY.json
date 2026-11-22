@@ -1,0 +1,20 @@
+{
+  "compilation_SHA256": "7943f2719d26793f0d73c0754933aba14693b970cb8f03a0f594acd3ba6e15f5",
+  "cost_scope": "Rust Instant around finite source computation; excludes binary startup, JSON I/O, Python adapter and real Rust SearchPolicy integration",
+  "initial_only_request_SHA256": "190a246c137fd7d7e1e1063d6ab29d6a80bb369872ae936621a52fa5536134e2",
+  "n_initial_only_sensor_models": 72,
+  "n_native_function_evaluations": 216,
+  "native_function_eval_max_us": 8.947,
+  "native_function_eval_mean_us": 2.965828703703704,
+  "native_function_eval_median_us": 2.7255000000000003,
+  "native_function_eval_min_us": 2.665,
+  "per_run_mean_us": [
+    2.828638888888889,
+    2.8558055555555555,
+    3.213041666666667
+  ],
+  "repetitions": 3,
+  "schema": "quartz_C20_C09_native_Rust_sensor_evaluator_bounded_latency_v1",
+  "status": "MEASURED",
+  "transport_claim": "NOT_ESTABLISHED, separate standalone Rust reference only"
+}

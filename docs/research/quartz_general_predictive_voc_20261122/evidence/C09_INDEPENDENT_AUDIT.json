@@ -1,0 +1,18 @@
+{
+  "C08_heldout_SHA256": "66cf82d279c0fb366af3f517357bfaf10393738b130b4e097fdc667f2dc0d25c",
+  "C20_source_worlds_SHA256": "d6cf96c26d9ac913963f702d9b0418f0002038979f6a470da3865999368e4ae7",
+  "TEST_parent_disjoint": true,
+  "TEST_raw_SHA256": "5ab524aff074d8f441f09679309807079c694035eded182d86c5517d82cf5c1f",
+  "all_actual_TEST_RNG_observation_paths_replayed": 144,
+  "frozen_price_model_SHA256": "530ca204c96b5fda4f3b060e8ebd87b52e4c4ec7e97be42dac56da93ca81cb04",
+  "independent_Beta_Polya_urn_recurrence_exact_EVSI_paths": 24,
+  "independent_price_0_001_0_004_0_010_shadow_net_and_MSE": "PASS",
+  "independent_sensor_ordered_sequence_3_pow_8_EVSI_paths": 24,
+  "independent_true_terminal_utility_gain_and_initial_posterior": "PASS",
+  "max_reference_EVSI_abs_error": 3.097522238704187e-14,
+  "operational_CPU_savings": "NOT_OBSERVED",
+  "real_adaptive_MCTS_signed_regret": "NOT_ESTIMABLE",
+  "schema": "quartz_general_c20_C09_independent_stochastic_replay_and_numeric_audit_v1",
+  "source_law_validity": "ONLY_TWO_CORRECT_FINITE_SIMULATOR_MODELS",
+  "status": "PASS"
+}
