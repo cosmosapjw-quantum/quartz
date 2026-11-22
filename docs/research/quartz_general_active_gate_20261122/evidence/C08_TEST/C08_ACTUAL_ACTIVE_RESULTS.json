@@ -1,0 +1,689 @@
+{
+  "C08A_raw_TEST_SHA256": "807fff205d6b7c4b71d9cbd9e57e05f472635ee609f547b8ac68f9588d769dd0",
+  "C22_compiled_Rust_active_executable_sha256": "1dfa410c87422c985e21cd8d6a47f60bf9945aff2c4e199636a8a49325859a8e",
+  "C22_native_ACTUAL_POLICY_result_records_SHA256": "6f6eb28abd884b9ed4bca1d05933b90d25e293bf9d6f0b5ce05c7526d6d0e0f0",
+  "C22_source_utility_calibration": "simulation correct prior and likelihood, independent Beta arms and finite hidden sensor",
+  "actual_active_STOP_physically_not_sampled": true,
+  "additional_ALWAYS_control_physically_executed_and_timed_separately": true,
+  "frozen_TRAIN_only_price_SHA256": "7814df9043a2814dfc198f0407ca35fc5808236506e2347ea7983e59db0bdab1",
+  "max_abs_model_EVSI_reference_error": 8.326672684688674e-16,
+  "n_TEST_original_examples": 144,
+  "n_independent_TEST_original_parent_worlds": 48,
+  "n_independent_model_value_vs_C20_reference_checked": 144,
+  "n_price_scenarios": 4,
+  "new_frozen_source_world_SHA256": "f7bffc98710bae151d0ac909ddeb19fc04f74d51a4273f6b16f7e7583f61398d",
+  "original_MCTS_utility_signed": "NOT_ESTIMABLE",
+  "physical_GPU_or_live_PUCT_savings_claim": "NOT_TESTED",
+  "price_scenarios": {
+    "0.001": {
+      "families": {
+        "beta_arms": {
+          "C22_actual_exact_estimator_cost_us_mean": 1.8681388888888888,
+          "C22_actual_gate_cost_us_mean": 0.08529166666666667,
+          "CI_GATED_ACTUAL_total_us_saved_vs_ALWAYS": {
+            "bootstrap_draws": 500,
+            "descriptive_percentile95": [
+              -2.9485694444444444,
+              -0.9686527777777777
+            ],
+            "n_independent_parent_groups": 24,
+            "parent_group_mean_delta": -1.8735694444444444
+          },
+          "CI_GATED_minus_ALWAYS_net": {
+            "bootstrap_draws": 500,
+            "descriptive_percentile95": [
+              -0.002918138888888889,
+              -0.0009281944444444462
+            ],
+            "n_independent_parent_groups": 24,
+            "parent_group_mean_delta": -0.0018735694444444453
+          },
+          "CI_GATED_minus_FULL_EXACT_net": {
+            "bootstrap_draws": 500,
+            "descriptive_percentile95": [
+              -0.0014477083333333327,
+              0.00012356944444444478
+            ],
+            "n_independent_parent_groups": 24,
+            "parent_group_mean_delta": -0.0005973472222222219
+          },
+          "CI_GATED_minus_NEVER_net": {
+            "bootstrap_draws": 500,
+            "descriptive_percentile95": [
+              0.0010323740304610024,
+              0.03183280293758336
+            ],
+            "n_independent_parent_groups": 24,
+            "parent_group_mean_delta": 0.014074065456392329
+          },
+          "GATED_ACTUALLY_SKIPPED_future_draw_count": 902,
+          "GATED_STOP_missed_positive_priced_control_net": 0,
+          "GATED_STOP_missed_positive_utility": 0,
+          "GATED_n_CERTIFIED_ZERO": 23,
+          "GATED_n_EXACT_STOP": 21,
+          "GATED_n_PRICE_UPPER_SCREEN": 0,
+          "GATED_n_true_STOP": 44,
+          "n_actual_active_task_cases": 72,
+          "n_original_independent_test_parents": 24,
+          "policy_mean_actual_native_elapsed_us": {
+            "ALWAYS": 0.2785138888888889,
+            "CERTIFIED_ONLY": 0.3429027777777778,
+            "FULL_EXACT": 1.554736111111111,
+            "GATED": 2.152083333333333,
+            "NEVER": 0.08261111111111112
+          },
+          "policy_mean_realized_net_gain_vs_free_STOP": {
+            "ALWAYS": 0.015947634900836772,
+            "CERTIFIED_ONLY": 0.015883246011947884,
+            "FULL_EXACT": 0.014671412678614548,
+            "GATED": 0.014074065456392329,
+            "NEVER": -8.261111111111111e-05
+          },
+          "policy_mean_true_terminal_signed_gain": {
+            "ALWAYS": 0.01622614878972566,
+            "CERTIFIED_ONLY": 0.01622614878972566,
+            "FULL_EXACT": 0.01622614878972566,
+            "GATED": 0.01622614878972566,
+            "NEVER": 0.0
+          },
+          "policy_total_ACTUALLY_EXECUTED_future_draws": {
+            "ALWAYS": 2106,
+            "CERTIFIED_ONLY": 1877,
+            "FULL_EXACT": 1204,
+            "GATED": 1204,
+            "NEVER": 0
+          },
+          "runtime_scope": "same Rust inprocess policy + actual task with separately timed ALWAYS control, excludes one-off host JSON invoke",
+          "source_task_payoff": "known latent expected terminal utility, not single realized Bernoulli reward"
+        },
+        "finite_sensor": {
+          "C22_actual_exact_estimator_cost_us_mean": 1.3651666666666666,
+          "C22_actual_gate_cost_us_mean": 0.12306944444444445,
+          "CI_GATED_ACTUAL_total_us_saved_vs_ALWAYS": {
+            "bootstrap_draws": 500,
+            "descriptive_percentile95": [
+              -2.0172916666666665,
+              -0.9310972222222222
+            ],
+            "n_independent_parent_groups": 24,
+            "parent_group_mean_delta": -1.4192361111111111
+          },
+          "CI_GATED_minus_ALWAYS_net": {
+            "bootstrap_draws": 500,
+            "descriptive_percentile95": [
+              -0.0020404027777777777,
+              -0.0008829583333333331
+            ],
+            "n_independent_parent_groups": 24,
+            "parent_group_mean_delta": -0.001419236111111111
+          },
+          "CI_GATED_minus_FULL_EXACT_net": {
+            "bootstrap_draws": 500,
+            "descriptive_percentile95": [
+              2.5194444444444538e-05,
+              0.0005325416666666667
+            ],
+            "n_independent_parent_groups": 24,
+            "parent_group_mean_delta": 0.0002575972222222226
+          },
+          "CI_GATED_minus_NEVER_net": {
+            "bootstrap_draws": 500,
+            "descriptive_percentile95": [
+              -0.0022362222222222223,
+              0.0052635774269970854
+            ],
+            "n_independent_parent_groups": 24,
+            "parent_group_mean_delta": 0.0004410026608508803
+          },
+          "GATED_ACTUALLY_SKIPPED_future_draw_count": 142,
+          "GATED_STOP_missed_positive_priced_control_net": 0,
+          "GATED_STOP_missed_positive_utility": 0,
+          "GATED_n_CERTIFIED_ZERO": 3,
+          "GATED_n_EXACT_STOP": 32,
+          "GATED_n_PRICE_UPPER_SCREEN": 10,
+          "GATED_n_true_STOP": 45,
+          "n_actual_active_task_cases": 72,
+          "n_original_independent_test_parents": 24,
+          "policy_mean_actual_native_elapsed_us": {
+            "ALWAYS": 0.35247222222222224,
+            "CERTIFIED_ONLY": 0.4862083333333333,
+            "FULL_EXACT": 2.0293055555555557,
+            "GATED": 1.7717083333333334,
+            "NEVER": 0.15619444444444444
+          },
+          "policy_mean_realized_net_gain_vs_free_STOP": {
+            "ALWAYS": 0.0018602387719619915,
+            "CERTIFIED_ONLY": 0.0017265026608508803,
+            "FULL_EXACT": 0.00018340543862865804,
+            "GATED": 0.0004410026608508806,
+            "NEVER": -0.00015619444444444445
+          },
+          "policy_mean_true_terminal_signed_gain": {
+            "ALWAYS": 0.002212710994184214,
+            "CERTIFIED_ONLY": 0.002212710994184214,
+            "FULL_EXACT": 0.002212710994184214,
+            "GATED": 0.002212710994184214,
+            "NEVER": 0.0
+          },
+          "policy_total_ACTUALLY_EXECUTED_future_draws": {
+            "ALWAYS": 297,
+            "CERTIFIED_ONLY": 288,
+            "FULL_EXACT": 155,
+            "GATED": 155,
+            "NEVER": 0
+          },
+          "runtime_scope": "same Rust inprocess policy + actual task with separately timed ALWAYS control, excludes one-off host JSON invoke",
+          "source_task_payoff": "known latent expected terminal utility, not single realized Bernoulli reward"
+        }
+      },
+      "host_binary_launch_json_and_score_us_TOTAL_NOT_IN_PER_CASE": 13716.278,
+      "host_launch_scope": "one CLI batch of 144 cases, NOT per-computation server boundary",
+      "lambda_utility_per_microsecond": 0.001,
+      "total_gated_ACTUALLY_avoided_future_draws": 1044,
+      "total_n_gated_activated_STOPS": 89
+    },
+    "0.004": {
+      "families": {
+        "beta_arms": {
+          "C22_actual_exact_estimator_cost_us_mean": 1.4695,
+          "C22_actual_gate_cost_us_mean": 0.0752638888888889,
+          "CI_GATED_ACTUAL_total_us_saved_vs_ALWAYS": {
+            "bootstrap_draws": 500,
+            "descriptive_percentile95": [
+              -2.0696944444444445,
+              -0.7588750000000001
+            ],
+            "n_independent_parent_groups": 24,
+            "parent_group_mean_delta": -1.3829027777777778
+          },
+          "CI_GATED_minus_ALWAYS_net": {
+            "bootstrap_draws": 500,
+            "descriptive_percentile95": [
+              -0.007973555555555558,
+              -0.0032791111111111124
+            ],
+            "n_independent_parent_groups": 24,
+            "parent_group_mean_delta": -0.005531611111111112
+          },
+          "CI_GATED_minus_FULL_EXACT_net": {
+            "bootstrap_draws": 500,
+            "descriptive_percentile95": [
+              -0.0033667222222222223,
+              0.000901388888888889
+            ],
+            "n_independent_parent_groups": 24,
+            "parent_group_mean_delta": -0.0012805555555555556
+          },
+          "CI_GATED_minus_NEVER_net": {
+            "bootstrap_draws": 500,
+            "descriptive_percentile95": [
+              -0.004791226683562814,
+              0.02750863986763928
+            ],
+            "n_independent_parent_groups": 24,
+            "parent_group_mean_delta": 0.009352426567503437
+          },
+          "GATED_ACTUALLY_SKIPPED_future_draw_count": 1092,
+          "GATED_STOP_missed_positive_priced_control_net": 0,
+          "GATED_STOP_missed_positive_utility": 0,
+          "GATED_n_CERTIFIED_ZERO": 23,
+          "GATED_n_EXACT_STOP": 25,
+          "GATED_n_PRICE_UPPER_SCREEN": 0,
+          "GATED_n_true_STOP": 48,
+          "n_actual_active_task_cases": 72,
+          "n_original_independent_test_parents": 24,
+          "policy_mean_actual_native_elapsed_us": {
+            "ALWAYS": 0.3355277777777778,
+            "CERTIFIED_ONLY": 0.3232777777777778,
+            "FULL_EXACT": 1.3982916666666667,
+            "GATED": 1.7184305555555557,
+            "NEVER": 0.08375
+          },
+          "policy_mean_realized_net_gain_vs_free_STOP": {
+            "ALWAYS": 0.014884037678614551,
+            "CERTIFIED_ONLY": 0.014933037678614551,
+            "FULL_EXACT": 0.010632982123058994,
+            "GATED": 0.009352426567503437,
+            "NEVER": -0.000335
+          },
+          "policy_mean_true_terminal_signed_gain": {
+            "ALWAYS": 0.01622614878972566,
+            "CERTIFIED_ONLY": 0.01622614878972566,
+            "FULL_EXACT": 0.01622614878972566,
+            "GATED": 0.01622614878972566,
+            "NEVER": 0.0
+          },
+          "policy_total_ACTUALLY_EXECUTED_future_draws": {
+            "ALWAYS": 2106,
+            "CERTIFIED_ONLY": 1877,
+            "FULL_EXACT": 1014,
+            "GATED": 1014,
+            "NEVER": 0
+          },
+          "runtime_scope": "same Rust inprocess policy + actual task with separately timed ALWAYS control, excludes one-off host JSON invoke",
+          "source_task_payoff": "known latent expected terminal utility, not single realized Bernoulli reward"
+        },
+        "finite_sensor": {
+          "C22_actual_exact_estimator_cost_us_mean": 1.0825694444444443,
+          "C22_actual_gate_cost_us_mean": 0.11416666666666668,
+          "CI_GATED_ACTUAL_total_us_saved_vs_ALWAYS": {
+            "bootstrap_draws": 500,
+            "descriptive_percentile95": [
+              -1.5941666666666665,
+              -0.6431527777777778
+            ],
+            "n_independent_parent_groups": 24,
+            "parent_group_mean_delta": -1.1029166666666665
+          },
+          "CI_GATED_minus_ALWAYS_net": {
+            "bootstrap_draws": 500,
+            "descriptive_percentile95": [
+              -0.006565611111111112,
+              -0.0025828333333333332
+            ],
+            "n_independent_parent_groups": 24,
+            "parent_group_mean_delta": -0.004411666666666667
+          },
+          "CI_GATED_minus_FULL_EXACT_net": {
+            "bootstrap_draws": 500,
+            "descriptive_percentile95": [
+              8.877777777777762e-05,
+              0.0026907222222222215
+            ],
+            "n_independent_parent_groups": 24,
+            "parent_group_mean_delta": 0.001216833333333333
+          },
+          "CI_GATED_minus_NEVER_net": {
+            "bootstrap_draws": 500,
+            "descriptive_percentile95": [
+              -0.007477,
+              0.00145963298255264
+            ],
+            "n_independent_parent_groups": 24,
+            "parent_group_mean_delta": -0.0035161223391491202
+          },
+          "GATED_ACTUALLY_SKIPPED_future_draw_count": 199,
+          "GATED_STOP_missed_positive_priced_control_net": 0,
+          "GATED_STOP_missed_positive_utility": 0,
+          "GATED_n_CERTIFIED_ZERO": 3,
+          "GATED_n_EXACT_STOP": 36,
+          "GATED_n_PRICE_UPPER_SCREEN": 15,
+          "GATED_n_true_STOP": 54,
+          "n_actual_active_task_cases": 72,
+          "n_original_independent_test_parents": 24,
+          "policy_mean_actual_native_elapsed_us": {
+            "ALWAYS": 0.32929166666666665,
+            "CERTIFIED_ONLY": 0.5018888888888889,
+            "FULL_EXACT": 1.7364166666666667,
+            "GATED": 1.4322083333333333,
+            "NEVER": 0.143875
+          },
+          "policy_mean_realized_net_gain_vs_free_STOP": {
+            "ALWAYS": 0.0008955443275175472,
+            "CERTIFIED_ONLY": 0.00020515543862865802,
+            "FULL_EXACT": -0.004732955672482453,
+            "GATED": -0.00351612233914912,
+            "NEVER": -0.0005755000000000001
+          },
+          "policy_mean_true_terminal_signed_gain": {
+            "ALWAYS": 0.002212710994184214,
+            "CERTIFIED_ONLY": 0.002212710994184214,
+            "FULL_EXACT": 0.002212710994184214,
+            "GATED": 0.002212710994184214,
+            "NEVER": 0.0
+          },
+          "policy_total_ACTUALLY_EXECUTED_future_draws": {
+            "ALWAYS": 297,
+            "CERTIFIED_ONLY": 288,
+            "FULL_EXACT": 98,
+            "GATED": 98,
+            "NEVER": 0
+          },
+          "runtime_scope": "same Rust inprocess policy + actual task with separately timed ALWAYS control, excludes one-off host JSON invoke",
+          "source_task_payoff": "known latent expected terminal utility, not single realized Bernoulli reward"
+        }
+      },
+      "host_binary_launch_json_and_score_us_TOTAL_NOT_IN_PER_CASE": 12845.509,
+      "host_launch_scope": "one CLI batch of 144 cases, NOT per-computation server boundary",
+      "lambda_utility_per_microsecond": 0.004,
+      "total_gated_ACTUALLY_avoided_future_draws": 1291,
+      "total_n_gated_activated_STOPS": 102
+    },
+    "0.02": {
+      "families": {
+        "beta_arms": {
+          "C22_actual_exact_estimator_cost_us_mean": 1.2728333333333335,
+          "C22_actual_gate_cost_us_mean": 0.07951388888888888,
+          "CI_GATED_ACTUAL_total_us_saved_vs_ALWAYS": {
+            "bootstrap_draws": 500,
+            "descriptive_percentile95": [
+              -1.7858194444444446,
+              -0.6692638888888888
+            ],
+            "n_independent_parent_groups": 24,
+            "parent_group_mean_delta": -1.2222638888888888
+          },
+          "CI_GATED_minus_ALWAYS_net": {
+            "bootstrap_draws": 500,
+            "descriptive_percentile95": [
+              -0.03784331244245711,
+              -0.013714166666666666
+            ],
+            "n_independent_parent_groups": 24,
+            "parent_group_mean_delta": -0.025331567110448663
+          },
+          "CI_GATED_minus_FULL_EXACT_net": {
+            "bootstrap_draws": 500,
+            "descriptive_percentile95": [
+              -0.008470277777777776,
+              0.011881111111111113
+            ],
+            "n_independent_parent_groups": 24,
+            "parent_group_mean_delta": 0.0006238888888888911
+          },
+          "CI_GATED_minus_NEVER_net": {
+            "bootstrap_draws": 500,
+            "descriptive_percentile95": [
+              -0.03332248097042589,
+              0.005594095047608248
+            ],
+            "n_independent_parent_groups": 24,
+            "parent_group_mean_delta": -0.014490418320723007
+          },
+          "GATED_ACTUALLY_SKIPPED_future_draw_count": 1727,
+          "GATED_STOP_missed_positive_priced_control_net": 2,
+          "GATED_STOP_missed_positive_utility": 2,
+          "GATED_n_CERTIFIED_ZERO": 23,
+          "GATED_n_EXACT_STOP": 33,
+          "GATED_n_PRICE_UPPER_SCREEN": 2,
+          "GATED_n_true_STOP": 58,
+          "n_actual_active_task_cases": 72,
+          "n_original_independent_test_parents": 24,
+          "policy_mean_actual_native_elapsed_us": {
+            "ALWAYS": 0.26925,
+            "CERTIFIED_ONLY": 0.33186111111111116,
+            "FULL_EXACT": 1.5227083333333333,
+            "GATED": 1.4915138888888888,
+            "NEVER": 0.08686111111111111
+          },
+          "policy_mean_realized_net_gain_vs_free_STOP": {
+            "ALWAYS": 0.010841148789725662,
+            "CERTIFIED_ONLY": 0.009588926567503438,
+            "FULL_EXACT": -0.015114307209611896,
+            "GATED": -0.014490418320723005,
+            "NEVER": -0.0017372222222222222
+          },
+          "policy_mean_true_terminal_signed_gain": {
+            "ALWAYS": 0.01622614878972566,
+            "CERTIFIED_ONLY": 0.01622614878972566,
+            "FULL_EXACT": 0.015339859457054773,
+            "GATED": 0.015339859457054773,
+            "NEVER": 0.0
+          },
+          "policy_total_ACTUALLY_EXECUTED_future_draws": {
+            "ALWAYS": 2106,
+            "CERTIFIED_ONLY": 1877,
+            "FULL_EXACT": 379,
+            "GATED": 379,
+            "NEVER": 0
+          },
+          "runtime_scope": "same Rust inprocess policy + actual task with separately timed ALWAYS control, excludes one-off host JSON invoke",
+          "source_task_payoff": "known latent expected terminal utility, not single realized Bernoulli reward"
+        },
+        "finite_sensor": {
+          "C22_actual_exact_estimator_cost_us_mean": 0.9974027777777779,
+          "C22_actual_gate_cost_us_mean": 0.12000000000000001,
+          "CI_GATED_ACTUAL_total_us_saved_vs_ALWAYS": {
+            "bootstrap_draws": 500,
+            "descriptive_percentile95": [
+              -1.4368611111111111,
+              -0.5262916666666667
+            ],
+            "n_independent_parent_groups": 24,
+            "parent_group_mean_delta": -0.9717916666666667
+          },
+          "CI_GATED_minus_ALWAYS_net": {
+            "bootstrap_draws": 500,
+            "descriptive_percentile95": [
+              -0.029587222222222223,
+              -0.010626111111111112
+            ],
+            "n_independent_parent_groups": 24,
+            "parent_group_mean_delta": -0.019435833333333333
+          },
+          "CI_GATED_minus_FULL_EXACT_net": {
+            "bootstrap_draws": 500,
+            "descriptive_percentile95": [
+              0.002475833333333333,
+              0.016113055555555558
+            ],
+            "n_independent_parent_groups": 24,
+            "parent_group_mean_delta": 0.008688055555555557
+          },
+          "CI_GATED_minus_NEVER_net": {
+            "bootstrap_draws": 500,
+            "descriptive_percentile95": [
+              -0.03475388888888889,
+              -0.014878189122742684
+            ],
+            "n_independent_parent_groups": 24,
+            "parent_group_mean_delta": -0.024095344561371343
+          },
+          "GATED_ACTUALLY_SKIPPED_future_draw_count": 289,
+          "GATED_STOP_missed_positive_priced_control_net": 0,
+          "GATED_STOP_missed_positive_utility": 0,
+          "GATED_n_CERTIFIED_ZERO": 3,
+          "GATED_n_EXACT_STOP": 43,
+          "GATED_n_PRICE_UPPER_SCREEN": 22,
+          "GATED_n_true_STOP": 68,
+          "n_actual_active_task_cases": 72,
+          "n_original_independent_test_parents": 24,
+          "policy_mean_actual_native_elapsed_us": {
+            "ALWAYS": 0.3436111111111111,
+            "CERTIFIED_ONLY": 0.5209166666666667,
+            "FULL_EXACT": 1.7498055555555556,
+            "GATED": 1.315402777777778,
+            "NEVER": 0.15081944444444445
+          },
+          "policy_mean_realized_net_gain_vs_free_STOP": {
+            "ALWAYS": -0.0046595112280380085,
+            "CERTIFIED_ONLY": -0.00820562233914912,
+            "FULL_EXACT": -0.0327834001169269,
+            "GATED": -0.024095344561371343,
+            "NEVER": -0.003016388888888889
+          },
+          "policy_mean_true_terminal_signed_gain": {
+            "ALWAYS": 0.002212710994184214,
+            "CERTIFIED_ONLY": 0.002212710994184214,
+            "FULL_EXACT": 0.002212710994184214,
+            "GATED": 0.002212710994184214,
+            "NEVER": 0.0
+          },
+          "policy_total_ACTUALLY_EXECUTED_future_draws": {
+            "ALWAYS": 297,
+            "CERTIFIED_ONLY": 288,
+            "FULL_EXACT": 8,
+            "GATED": 8,
+            "NEVER": 0
+          },
+          "runtime_scope": "same Rust inprocess policy + actual task with separately timed ALWAYS control, excludes one-off host JSON invoke",
+          "source_task_payoff": "known latent expected terminal utility, not single realized Bernoulli reward"
+        }
+      },
+      "host_binary_launch_json_and_score_us_TOTAL_NOT_IN_PER_CASE": 11406.249,
+      "host_launch_scope": "one CLI batch of 144 cases, NOT per-computation server boundary",
+      "lambda_utility_per_microsecond": 0.02,
+      "total_gated_ACTUALLY_avoided_future_draws": 2016,
+      "total_n_gated_activated_STOPS": 126
+    },
+    "0.1": {
+      "families": {
+        "beta_arms": {
+          "C22_actual_exact_estimator_cost_us_mean": 0.9384861111111111,
+          "C22_actual_gate_cost_us_mean": 0.08116666666666666,
+          "CI_GATED_ACTUAL_total_us_saved_vs_ALWAYS": {
+            "bootstrap_draws": 500,
+            "descriptive_percentile95": [
+              -1.3904583333333331,
+              -0.33995833333333336
+            ],
+            "n_independent_parent_groups": 24,
+            "parent_group_mean_delta": -0.8426666666666667
+          },
+          "CI_GATED_minus_ALWAYS_net": {
+            "bootstrap_draws": 500,
+            "descriptive_percentile95": [
+              -0.17683129150965682,
+              -0.04384227492548589
+            ],
+            "n_independent_parent_groups": 24,
+            "parent_group_mean_delta": -0.10049281545639233
+          },
+          "CI_GATED_minus_FULL_EXACT_net": {
+            "bootstrap_draws": 500,
+            "descriptive_percentile95": [
+              -0.02074861111111111,
+              0.09198472222222222
+            ],
+            "n_independent_parent_groups": 24,
+            "parent_group_mean_delta": 0.04170000000000001
+          },
+          "CI_GATED_minus_NEVER_net": {
+            "bootstrap_draws": 500,
+            "descriptive_percentile95": [
+              -0.17583055555555557,
+              -0.05719305555555556
+            ],
+            "n_independent_parent_groups": 24,
+            "parent_group_mean_delta": -0.1124625
+          },
+          "GATED_ACTUALLY_SKIPPED_future_draw_count": 2102,
+          "GATED_STOP_missed_positive_priced_control_net": 6,
+          "GATED_STOP_missed_positive_utility": 7,
+          "GATED_n_CERTIFIED_ZERO": 23,
+          "GATED_n_EXACT_STOP": 32,
+          "GATED_n_PRICE_UPPER_SCREEN": 16,
+          "GATED_n_true_STOP": 71,
+          "n_actual_active_task_cases": 72,
+          "n_original_independent_test_parents": 24,
+          "policy_mean_actual_native_elapsed_us": {
+            "ALWAYS": 0.2819583333333333,
+            "CERTIFIED_ONLY": 0.3351388888888889,
+            "FULL_EXACT": 1.541625,
+            "GATED": 1.124625,
+            "NEVER": 0.07869444444444446
+          },
+          "policy_mean_realized_net_gain_vs_free_STOP": {
+            "ALWAYS": -0.011969684543607674,
+            "CERTIFIED_ONLY": -0.01728774009916323,
+            "FULL_EXACT": -0.1541625,
+            "GATED": -0.1124625,
+            "NEVER": -0.007869444444444445
+          },
+          "policy_mean_true_terminal_signed_gain": {
+            "ALWAYS": 0.01622614878972566,
+            "CERTIFIED_ONLY": 0.01622614878972566,
+            "FULL_EXACT": 0.0,
+            "GATED": 0.0,
+            "NEVER": 0.0
+          },
+          "policy_total_ACTUALLY_EXECUTED_future_draws": {
+            "ALWAYS": 2106,
+            "CERTIFIED_ONLY": 1877,
+            "FULL_EXACT": 4,
+            "GATED": 4,
+            "NEVER": 0
+          },
+          "runtime_scope": "same Rust inprocess policy + actual task with separately timed ALWAYS control, excludes one-off host JSON invoke",
+          "source_task_payoff": "known latent expected terminal utility, not single realized Bernoulli reward"
+        },
+        "finite_sensor": {
+          "C22_actual_exact_estimator_cost_us_mean": 0.7062638888888889,
+          "C22_actual_gate_cost_us_mean": 0.11431944444444445,
+          "CI_GATED_ACTUAL_total_us_saved_vs_ALWAYS": {
+            "bootstrap_draws": 500,
+            "descriptive_percentile95": [
+              -1.1148333333333333,
+              -0.27087500000000003
+            ],
+            "n_independent_parent_groups": 24,
+            "parent_group_mean_delta": -0.6688333333333333
+          },
+          "CI_GATED_minus_ALWAYS_net": {
+            "bootstrap_draws": 500,
+            "descriptive_percentile95": [
+              -0.11397916666666669,
+              -0.03024305555555556
+            ],
+            "n_independent_parent_groups": 24,
+            "parent_group_mean_delta": -0.06688333333333334
+          },
+          "CI_GATED_minus_FULL_EXACT_net": {
+            "bootstrap_draws": 500,
+            "descriptive_percentile95": [
+              0.03624305555555556,
+              0.12675694444444444
+            ],
+            "n_independent_parent_groups": 24,
+            "parent_group_mean_delta": 0.07555277777777779
+          },
+          "CI_GATED_minus_NEVER_net": {
+            "bootstrap_draws": 500,
+            "descriptive_percentile95": [
+              -0.1411638888888889,
+              -0.05894263356718713
+            ],
+            "n_independent_parent_groups": 24,
+            "parent_group_mean_delta": -0.09939840011692691
+          },
+          "GATED_ACTUALLY_SKIPPED_future_draw_count": 289,
+          "GATED_STOP_missed_positive_priced_control_net": 0,
+          "GATED_STOP_missed_positive_utility": 0,
+          "GATED_n_CERTIFIED_ZERO": 3,
+          "GATED_n_EXACT_STOP": 29,
+          "GATED_n_PRICE_UPPER_SCREEN": 36,
+          "GATED_n_true_STOP": 68,
+          "n_actual_active_task_cases": 72,
+          "n_original_independent_test_parents": 24,
+          "policy_mean_actual_native_elapsed_us": {
+            "ALWAYS": 0.34727777777777774,
+            "CERTIFIED_ONLY": 0.5228194444444445,
+            "FULL_EXACT": 1.771638888888889,
+            "GATED": 1.016111111111111,
+            "NEVER": 0.14916666666666667
+          },
+          "policy_mean_realized_net_gain_vs_free_STOP": {
+            "ALWAYS": -0.03251506678359357,
+            "CERTIFIED_ONLY": -0.050069233450260237,
+            "FULL_EXACT": -0.17495117789470468,
+            "GATED": -0.0993984001169269,
+            "NEVER": -0.014916666666666668
+          },
+          "policy_mean_true_terminal_signed_gain": {
+            "ALWAYS": 0.002212710994184214,
+            "CERTIFIED_ONLY": 0.002212710994184214,
+            "FULL_EXACT": 0.002212710994184214,
+            "GATED": 0.002212710994184214,
+            "NEVER": 0.0
+          },
+          "policy_total_ACTUALLY_EXECUTED_future_draws": {
+            "ALWAYS": 297,
+            "CERTIFIED_ONLY": 288,
+            "FULL_EXACT": 8,
+            "GATED": 8,
+            "NEVER": 0
+          },
+          "runtime_scope": "same Rust inprocess policy + actual task with separately timed ALWAYS control, excludes one-off host JSON invoke",
+          "source_task_payoff": "known latent expected terminal utility, not single realized Bernoulli reward"
+        }
+      },
+      "host_binary_launch_json_and_score_us_TOTAL_NOT_IN_PER_CASE": 12766.463,
+      "host_launch_scope": "one CLI batch of 144 cases, NOT per-computation server boundary",
+      "lambda_utility_per_microsecond": 0.1,
+      "total_gated_ACTUALLY_avoided_future_draws": 2391,
+      "total_n_gated_activated_STOPS": 139
+    }
+  },
+  "schema": "quartz_C22_C08_PROSPECTIVE_ACTUAL_COMPUTE_STOP_TWO_FAMILIES_v1",
+  "score_started_on_clean_published_C08A_Git_sha": "ff88fc16f9c3640f6157d31fc3397ef5b1944ea2"
+}
