@@ -1,0 +1,47 @@
+{
+  "Bayes_expected_value_sample_information": "109/840",
+  "claim": "Finite Beta-binomial exact product-CDF maximum with repeated tied support",
+  "correlated_same_marginal_max_expectation": "1/2",
+  "count_tied_support_half": 3,
+  "fractional_beta_shapes": [
+    "1/2",
+    "3/2"
+  ],
+  "fractional_pmf_n2": [
+    "5/8",
+    "1/4",
+    "1/8"
+  ],
+  "full_joint_expected_max": "529/840",
+  "independent_max_CDF_sweep_expected_max": "529/840",
+  "independent_same_marginal_max_expectation": "3/4",
+  "n_distinct_support": 7,
+  "n_full_grid_cases": 27,
+  "n_future_each": 2,
+  "numerical_claim_ceiling": "exact finite models, not numerical Rust or real MCTS evidence",
+  "schema": "quartz_C21_R07_exact_independent_fraction_v1",
+  "source_params": [
+    [
+      "1",
+      "1"
+    ],
+    [
+      "2",
+      "2"
+    ],
+    [
+      "3",
+      "3"
+    ]
+  ],
+  "status": "PASS",
+  "support": [
+    "1/4",
+    "1/3",
+    "3/8",
+    "1/2",
+    "5/8",
+    "2/3",
+    "3/4"
+  ]
+}

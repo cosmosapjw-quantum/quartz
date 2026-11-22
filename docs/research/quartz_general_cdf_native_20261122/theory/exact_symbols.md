@@ -1,0 +1,7 @@
+# R07 | Exact symbolic value and tie witness
+
+A live independent Wolfram Language kernel calculated for three Beta posteriors (a,b)=(1,1),(2,2),(3,3), n=2 new Bernoulli draws per arm: post-decision distinct action-score support V={1/4,1/3,3/8,1/2,5/8,2/3,3/4}; the score 1/2 occurs for all 3 arms. Joint 3^3=27 count-vector enumeration and exact product-CDF-of-maximum sweep over only 7 unique scores both give E[max_j X_j]=529/840, hence G=109/840 because the initial maximum posterior mean is1/2. The exact difference was identically zero, not a floating tolerance.
+
+The same Wolfram kernel computed Beta(1/2,3/2) predictive count probabilities for n=2 as {5/8,1/4,1/8}, total1. These are noninteger proper Beta shape source cases. Independently runnable Python Fraction script theory/verify_r07.py reconstructs the two examples without the C21 native implementation, checks support tied treatment and correlated-arm counterexample. This is an algebraic/numeric verification of a preexisting probability identity, not a claim to have discovered the maximum distribution theorem.
+
+No validation of large K native speed is inferred from these finite witnesses; C5/C6 need Rust actual implementation, C8 heldout source and cost measurements.
