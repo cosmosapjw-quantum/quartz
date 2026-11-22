@@ -1,0 +1,224 @@
+{
+  "C06_genuine_STOP_count": 78,
+  "C06_standalone_synthetic_cases": 107,
+  "C06_unexecuted_future_draws": 563,
+  "C08_actual_PRIMARY_Beta_STOPS": 48,
+  "C08_actual_PRIMARY_Beta_future_draws_not_executed": 1092,
+  "C08_actual_PRIMARY_sensor_STOPS": 54,
+  "C08_actual_PRIMARY_sensor_future_draws_not_executed": 199,
+  "C08_actual_measured_CPU_time_economic_superiority": "NOT_ESTABLISHED; worse than ALWAYS at all four prices in this bounded TEST",
+  "C08_actual_primary_GATED_vs_ALWAYS_Beta_net_mean": -0.005531611111111114,
+  "C08_actual_primary_GATED_vs_ALWAYS_sensor_net_mean": -0.004411666666666667,
+  "C09_Git_archive_local_keyfiles_byte_restored": 18,
+  "C09_independent_exact_Beta_fraction_checks": 24,
+  "C09_independent_sensor_ordered_checks": 24,
+  "C09_independent_source_sequence_replays": 144,
+  "C09_same_Rust_RNG_deterministic_replay": 144,
+  "C10_self_archive": "CREATE_AFTER_C10_COMMIT",
+  "C22_TEST_actual_native_policy_CASES_per_lambda": 144,
+  "C22_active_non_game_RNG_draw_savings": "ACTUALLY_WITHHELD_FROM_ACTIVE_PATH",
+  "C22_branch": "research/quartz-general-c22-inprocess-gate-20261122",
+  "Dropbox_cloud_sync_ACK": "NOT_VERIFIED",
+  "NEVER_baseline": "MEASURED_NOOP_WRAPPER; free theoretical immediate STOP=0",
+  "Python_C22_source_only_focused_tests": {
+    "FAIL": 0,
+    "PASS": 2
+  },
+  "Python_source_original_future_trajectories": 720,
+  "Rust_DEBUG": {
+    "C17": 7,
+    "C18": 3,
+    "C19": 3,
+    "C20": 3,
+    "C21_fast": 5,
+    "C21_grid": 7,
+    "C22_active": 13,
+    "FAIL": 0,
+    "main_MCTS": 617,
+    "main_ignored": 89,
+    "total_pass": 658
+  },
+  "Rust_RELEASE": {
+    "C17": 7,
+    "C18": 3,
+    "C19": 3,
+    "C20": 3,
+    "C21_fast": 5,
+    "C21_grid": 7,
+    "C22_active": 13,
+    "FAIL": 0,
+    "main_MCTS": 617,
+    "main_ignored": 89,
+    "total_pass": 658
+  },
+  "actual_C01_C09_stages": 9,
+  "actual_R01_R10_stages": 10,
+  "extra_provenance_stages": [
+    "C07D",
+    "C07A",
+    "C08A"
+  ],
+  "global_experiment_total_CPU_saving": "NOT_CLAIMED_SEPARATE_ALWAYS_CONTROLS_PHYSICALLY_EXECUTED",
+  "independent_TEST_world_groups": 48,
+  "live_real_SearchPolicy_STOP": "NOT_DEPLOYED",
+  "n_distinct_preC10_stage_archives": 22,
+  "native_Rust_compiled_sha256": "1dfa410c87422c985e21cd8d6a47f60bf9945aff2c4e199636a8a49325859a8e",
+  "native_subagent": "NOT_RUN",
+  "next_research_id": "QUARTZ-GENERAL-23-CHEAP-GATE-AND-MATCHED-WORKLOAD-ECONOMICS",
+  "next_still_unexecuted": true,
+  "original_THESIS_CLAIM_LEDGER_GameState_and_previous_C16_C21": "UNCHANGED_SHA_VERIFIED",
+  "parent_C21_SHA": "351c63ae810b1fa633fe2a75440bf7d0929f92e4",
+  "per_stage_git_commit_local_archive_SHA256": {
+    "C01": {
+      "archive_sha256": "0abc13255cf6ccb33f674ab9c276e4cae4a172906964f77e98f6ba6364d79dbb",
+      "archive_size": 25815673,
+      "commit": "de6b6ea302514bd2ab16b367a94492f098721510",
+      "local_git_archive": "/home/cosmosapjw/Dropbox/personal_projects/quartz_general_meta22_backups/QUARTZ_GENERAL_C22_C01_de6b6ea30251.tar.gz"
+    },
+    "C02": {
+      "archive_sha256": "3964e7e6d3bcc77746889c38b815217354a26688c3d814f91fcf610f1f53d7a4",
+      "archive_size": 25814937,
+      "commit": "a052ec8003ef89c8e378fd002339bebca298c325",
+      "local_git_archive": "/home/cosmosapjw/Dropbox/personal_projects/quartz_general_meta22_backups/QUARTZ_GENERAL_C22_C02_a052ec8003ef.tar.gz"
+    },
+    "C03": {
+      "archive_sha256": "86683ec727c8d28b70b0042b0b6224e91f5ab043fa5d9f6abc4e085c51221759",
+      "archive_size": 25818919,
+      "commit": "54f548ac9a36b647c4aaf2373d64f671ce127845",
+      "local_git_archive": "/home/cosmosapjw/Dropbox/personal_projects/quartz_general_meta22_backups/QUARTZ_GENERAL_C22_C03_54f548ac9a36.tar.gz"
+    },
+    "C04": {
+      "archive_sha256": "3b05fd390115d08c77455810c954ac2c098b7ad95164eb3cc22a956bb555a0ef",
+      "archive_size": 25864011,
+      "commit": "76f7eebf41bba6fed85fcedc0369704cd796cf82",
+      "local_git_archive": "/home/cosmosapjw/Dropbox/personal_projects/quartz_general_meta22_backups/QUARTZ_GENERAL_C22_C04_76f7eebf41bb.tar.gz"
+    },
+    "C05": {
+      "archive_sha256": "8a8c63a174b8c6b8433c28cad932c385c36bd58dcbf1b29dccedd0d78bc1ef43",
+      "archive_size": 25869678,
+      "commit": "a0600010f016f5f0ec76ef13dc30c16d5fe8fde2",
+      "local_git_archive": "/home/cosmosapjw/Dropbox/personal_projects/quartz_general_meta22_backups/QUARTZ_GENERAL_C22_C05_a0600010f016.tar.gz"
+    },
+    "C06": {
+      "archive_sha256": "b08547c2e1977ac560abe0d545aff53878db96835b027fa69cb206992dd3e9f3",
+      "archive_size": 25904623,
+      "commit": "ffcdab311e5dbc60f76ce838b34f62953618bb06",
+      "local_git_archive": "/home/cosmosapjw/Dropbox/personal_projects/quartz_general_meta22_backups/QUARTZ_GENERAL_C22_C06_ffcdab311e5d.tar.gz"
+    },
+    "C07": {
+      "archive_sha256": "6dfe0dd43a443ea74b17925deb12804ae3cf4291009e77c8e26b64707011dff2",
+      "archive_size": 25915988,
+      "commit": "1ae243667e69aa17179c0b30e829c393f8d73126",
+      "local_git_archive": "/home/cosmosapjw/Dropbox/personal_projects/quartz_general_meta22_backups/QUARTZ_GENERAL_C22_C07_1ae243667e69.tar.gz"
+    },
+    "C07A": {
+      "archive_sha256": "e9f69950bbb27f00bca61bab8c4c1089457fe2497cc3f79591384845de912ed3",
+      "archive_size": 26093902,
+      "commit": "8befc3a18e8a9ee478397309024e7626a8a84c86",
+      "local_git_archive": "/home/cosmosapjw/Dropbox/personal_projects/quartz_general_meta22_backups/QUARTZ_GENERAL_C22_C07A_8befc3a18e8a.tar.gz"
+    },
+    "C07D": {
+      "archive_sha256": "84c2dd79082bbac4cabec81c8fbd5d4984dadf5672d169a410a4bf97eafeef02",
+      "archive_size": 25997894,
+      "commit": "70b76ae4284fcbdd7512f6b24015ee24a822beb8",
+      "local_git_archive": "/home/cosmosapjw/Dropbox/personal_projects/quartz_general_meta22_backups/QUARTZ_GENERAL_C22_C07D_70b76ae4284f.tar.gz"
+    },
+    "C08": {
+      "archive_sha256": "11b219f4b5910956a160691d4a8d925ab9ce43d66fdfafe60b98880c558df79f",
+      "archive_size": 26235977,
+      "commit": "a82c601965b3bc9742f9ec2b6e711046fb8ef013",
+      "local_git_archive": "/home/cosmosapjw/Dropbox/personal_projects/quartz_general_meta22_backups/QUARTZ_GENERAL_C22_C08_a82c601965b3.tar.gz"
+    },
+    "C08A": {
+      "archive_sha256": "459d3b3c5391c891873d10e30d466523e98c76c47425607dab0445f8f151fefe",
+      "archive_size": 26114117,
+      "commit": "ff88fc16f9c3640f6157d31fc3397ef5b1944ea2",
+      "local_git_archive": "/home/cosmosapjw/Dropbox/personal_projects/quartz_general_meta22_backups/QUARTZ_GENERAL_C22_C08A_ff88fc16f9c3.tar.gz"
+    },
+    "C09": {
+      "archive_sha256": "fee1587cc52f897844203dfa36114be850679440ab118139db15d655ba24c30e",
+      "archive_size": 26270103,
+      "commit": "71b169f78b9c4256f7688a37bcd5a2ef5ac17135",
+      "local_git_archive": "/home/cosmosapjw/Dropbox/personal_projects/quartz_general_meta22_backups/QUARTZ_GENERAL_C22_C09_71b169f78b9c.tar.gz"
+    },
+    "R01": {
+      "archive_sha256": "1777ae488e71f5ce6fa1381421d56530be420a44929fec241489a2d859af7a48",
+      "archive_size": 25806036,
+      "commit": "5d5ba8500659f814ab47c88e6e6b3ea3d2b8dc6d",
+      "local_git_archive": "/home/cosmosapjw/Dropbox/personal_projects/quartz_general_meta22_backups/QUARTZ_GENERAL_C22_R01_5d5ba8500659.tar.gz"
+    },
+    "R02": {
+      "archive_sha256": "dff39bd662cc4ce3bfc15b4053077924bcbe1be4327be82f81f8318bf552b4f9",
+      "archive_size": 25806885,
+      "commit": "e90c72f10f5a0d48ba415b4f7fbc11068dd38a51",
+      "local_git_archive": "/home/cosmosapjw/Dropbox/personal_projects/quartz_general_meta22_backups/QUARTZ_GENERAL_C22_R02_e90c72f10f5a.tar.gz"
+    },
+    "R03": {
+      "archive_sha256": "09b7b222bb0942dee53455afad428d59d6a9d149acc74cb76bce19b664db1695",
+      "archive_size": 25805899,
+      "commit": "56df1f60449d5721c3f628b46b36201523d0f3c1",
+      "local_git_archive": "/home/cosmosapjw/Dropbox/personal_projects/quartz_general_meta22_backups/QUARTZ_GENERAL_C22_R03_56df1f60449d.tar.gz"
+    },
+    "R04": {
+      "archive_sha256": "e72bb7fe479553a39a64dddb6d83787293900ce5cb5d8b055821ed4a3e800281",
+      "archive_size": 25808064,
+      "commit": "f4b2fd0159e47e2b0638e113f2e88bce99386b33",
+      "local_git_archive": "/home/cosmosapjw/Dropbox/personal_projects/quartz_general_meta22_backups/QUARTZ_GENERAL_C22_R04_f4b2fd0159e4.tar.gz"
+    },
+    "R05": {
+      "archive_sha256": "90e96cc7587d481cd4de8c586868fa79269db91cc5ea4c49c8e28f654c823885",
+      "archive_size": 25806714,
+      "commit": "1818ef0c7f3691063456a2daf322bdfe00579d42",
+      "local_git_archive": "/home/cosmosapjw/Dropbox/personal_projects/quartz_general_meta22_backups/QUARTZ_GENERAL_C22_R05_1818ef0c7f36.tar.gz"
+    },
+    "R06": {
+      "archive_sha256": "7d08a18af2a6c06c443085bde9d08d912b6b46e15b62acdd964b5a31d92d191e",
+      "archive_size": 25807337,
+      "commit": "f603f543d2b8ed689ee4e74567412ba063d287a9",
+      "local_git_archive": "/home/cosmosapjw/Dropbox/personal_projects/quartz_general_meta22_backups/QUARTZ_GENERAL_C22_R06_f603f543d2b8.tar.gz"
+    },
+    "R07": {
+      "archive_sha256": "7d84d4b68d1842ea02bad2fc4f4c3858203b317813a178ab074b5e65ce7845c6",
+      "archive_size": 25812442,
+      "commit": "f714e0ae24157a47398ee65ad685d62d9a78c9cc",
+      "local_git_archive": "/home/cosmosapjw/Dropbox/personal_projects/quartz_general_meta22_backups/QUARTZ_GENERAL_C22_R07_f714e0ae2415.tar.gz"
+    },
+    "R08": {
+      "archive_sha256": "18d42920d9e17b67789889154de94ce03c5bdd28b447bae0037da9ef3160506e",
+      "archive_size": 25812711,
+      "commit": "16c1db0174d44794f2540de0ea8e1db5b8e95456",
+      "local_git_archive": "/home/cosmosapjw/Dropbox/personal_projects/quartz_general_meta22_backups/QUARTZ_GENERAL_C22_R08_16c1db0174d4.tar.gz"
+    },
+    "R09": {
+      "archive_sha256": "cb2658040b871b2db8a42051458d35c5ca078757122889e38e1c3992e1524818",
+      "archive_size": 25812809,
+      "commit": "4738164fce15fd4879aeac80ddf82ae46dad5185",
+      "local_git_archive": "/home/cosmosapjw/Dropbox/personal_projects/quartz_general_meta22_backups/QUARTZ_GENERAL_C22_R09_4738164fce15.tar.gz"
+    },
+    "R10": {
+      "archive_sha256": "c7b7df34a9e91a60ec44ba7818f442cb6e9e7c8dafaf85eaffd0221b6514832d",
+      "archive_size": 25813906,
+      "commit": "6e1e40ca3d8f498599476b941c0eb058a509260e",
+      "local_git_archive": "/home/cosmosapjw/Dropbox/personal_projects/quartz_general_meta22_backups/QUARTZ_GENERAL_C22_R10_6e1e40ca3d8f.tar.gz"
+    }
+  },
+  "preC10_git_HEAD": "71b169f78b9c4256f7688a37bcd5a2ef5ac17135",
+  "preC10_remote_HEAD": "71b169f78b9c4256f7688a37bcd5a2ef5ac17135",
+  "primary_price_utility_per_measured_us": 0.004,
+  "schema": "quartz_C22_C10_prepublish_manifest_v1",
+  "source_science_file_sha256": {
+    "C03_independent_bound_check": "14f01489f87de7246c8b69e526136cb265ecb766a3b0f9ee2dac0d4c42187841",
+    "C04_new_source": "f7bffc98710bae151d0ac909ddeb19fc04f74d51a4273f6b16f7e7583f61398d",
+    "C06_source_independent_control": "a4eb0f691aac24616975fb965b57ae7ff840fa22410c3a5dee1d69ab5a4e5eff",
+    "C07A_resource_price": "7814df9043a2814dfc198f0407ca35fc5808236506e2347ea7983e59db0bdab1",
+    "C07D_train_cal_raw": "50819842714731c94b161dc188d69f9c473b71e31788cb8136e54b4252263edc",
+    "C08A_test_raw": "807fff205d6b7c4b71d9cbd9e57e05f472635ee609f547b8ac68f9588d769dd0",
+    "C08_active_native_samples": "6f6eb28abd884b9ed4bca1d05933b90d25e293bf9d6f0b5ce05c7526d6d0e0f0",
+    "C08_scientific_score": "b91d6fff56466047b56361ce4cc87b8f60dad365ed4137bf4e3baea7bbb29c64",
+    "C09_independent_source_audit": "253e5a575827a9fd454fcebd2aa480f7432945b7d4d4d4635381845f87dcc9d7",
+    "C09_local_restore": "30ccaf51af6294ef1f5935f569cfe093c150d9e61bc726cdf4e33613cbaf0d58",
+    "R07_exact_Fraction": "00f7f3bd58b26032877d1c38fe893056839818f1ff0ced416bed03bbe982c6cc"
+  },
+  "source_world_parent_groups_total": 240,
+  "true_neural_MCTS_utility": "NOT_ESTIMABLE"
+}
