@@ -1,0 +1,5 @@
+# R08. Typed claims and admission gate
+
+Literature-supported and derived: posterior predictive EVSI and beta-binomial/multinomial mixture count enumeration, 0<=G<=EVPI and complete-channel conditions. Numeric check: Wolfram and independent Fraction on two finite model witnesses. Unresolved until C8/C9: actual C20 fresh source parent posterior predictive calibration, runtime overhead, paid net decision improvements and subgroup uncertainty. A new C20 source population is required because C19 historical TEST was already examined; never retroactively call C19 test a prospective C20 test. Decision: proceed with a bounded exact reference and report engineering impracticality separately from theoretical correct semantics.
+
+No single-game training, PR, main merge or release into live PUCT. No C19 P2 cost saving, P3 cognitive and P4 CPU claims transported from finite stochastic test tasks. Quantities: exact conditional G can be nonnegative while single Z may be negative, and a large predictor cost can make operational N negative.
