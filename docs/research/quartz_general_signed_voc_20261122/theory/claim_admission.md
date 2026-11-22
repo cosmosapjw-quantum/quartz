@@ -1,0 +1,9 @@
+# R8 | Typed claim admissions prior to implementation
+
+ESTABLISHED/LITERATURE-SUPPORTED: Bayes expected utility, EVSI/value-of-computation and finite metalevel stopping are preexisting (Russell & Wefald; Hay et al.; Sezener–Dayan; Callaway et al.). Derived here for program audit: two-part signed gain identity, bilinear interval bound, error decomposition, EVSI Jensen nonnegative under model calibration. Wolfram exact finite outcomes NUMERICALLY CHECKED; no new broad theorem.
+
+C18 source verification: actual native Rust decision-change observations are not exact regret, and groupheldout logistic Brier did not win across non-game and MCTS domains. C19 must not reuse these as signed targets. Two genuine new computational tasks with known utility and actual paid stochastic observations are needed to make signed-Z claims. Their future empirical results and any generalization remain UNRESOLVED until C8.
+
+Admitted science gate: source-locked TRAIN/CAL/TEST parent groups, no use of latent true values as features, frozen fixed lambda and cost estimand, proper per-group heldout scores for Y and Z with bootstrap intervals, paired policy counterfactual risk+priced compute cost. No live SearchPolicy mutation, no physical hardware speedup from offline shadow comparisons, and no claims about P2/P3/P4 without their original metrics.
+
+If a confidence interval spans zero, say comparative effect NOT_ESTABLISHED; do not expand experiments blindly or retune after opening test data. Negative or zero effect is a valid result. Drop empty-event m bins from analysis with NOT_ESTIMABLE, not silently predict zero benefit as if known.
