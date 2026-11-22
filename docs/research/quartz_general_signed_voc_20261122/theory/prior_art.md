@@ -1,0 +1,12 @@
+# R2 | Primary prior art, overlap and executable reuse
+
+Primary scientific sources checked through Exa/SciSpace/Parallel search on 2026-11-22:
+- Russell and Wefald (1989), On Optimal Game-Tree Search using Rational Meta-Reasoning, https://ijcai.org/proceedings/1989/0053.pdf : expected effect on action utility and computational delay, the original metareasoning framing.
+- Hay, Russell, Tolpin and Shimony (2012), Selecting Computations: Theory and Applications, https://www.auai.org/uai2012/papers/123.pdf : Bayesian computation selection, termination and simple regret.
+- Callaway, Gul, Krueger, Griffiths and Lieder (2018), Learning to select computations, https://proceedings.mlr.press/r16/callaway18a.html : learning a domain-general metalevel policy and computation cost; an empirical comparator rather than a new invention of the Bayesian notion.
+- Sezener and Dayan (2020), Static and Dynamic Values of Computation in MCTS, https://proceedings.mlr.press/v124/sezener20a.html : static/dynamic computation values; caution over future computations and terminal choice.
+- Lin et al. (2015), Metareasoning for Planning Under Uncertainty, https://arxiv.org/abs/1505.00399 : metalevel action value and time cost.
+- Malik et al. (2019), Calibrated Model-Based Deep Reinforcement Learning, https://proceedings.mlr.press/v97/malik19a.html : model calibration and proper predictive uncertainty for planning, without directly guaranteeing terminal policy noninferiority.
+- Prior project anchors: frozen THESIS.md P1–P4; C17 finite exact two-policy counterexample and Python/Rust reference; C18 140 real native MCTS +72 separate non-game heldout trajectories, with MCTS true signed utility NOT_ESTIMABLE and non-game Brier worse than constant.
+
+Relevance/novelty: none of E[Z]=qE[Z|Y=1], expected sample information, proper scoring, or cost-aware metalevel control is new in the literature. The *local research contribution under test* is source-frozen implementation, experimental decomposition and failures for two physically executed, utility-labelled computation processes. Do not cite any result from a paper as an implementation pass. Correlated within-parent observations are not independent trials.
