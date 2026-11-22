@@ -1,0 +1,104 @@
+   Compiling mcts_demo v0.3.0 (/home/cosmosapjw/quantum/research/quartz_general_meta23_20261123)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.31s
+     Running unittests src/bin/quartz_c23_residual_gate.rs (target/debug/deps/quartz_c23_residual_gate-bef1d0f41487a19e)
+
+running 8 tests
+test tests::invalid_task_and_oracle_field_are_rejected ... ok
+test tests::rational_response_example_and_one_step_certificate ... ok
+test tests::signed_interval_operations_enclose_known_exact_results ... ok
+test tests::zero_rhs_needs_no_solver_work_and_does_not_claim_unique_winner ... ok
+test tests::conventional_solver_meets_its_stated_residual_goal ... ok
+test tests::actual_stop_withholds_solver_matvecs ... ok
+test tests::tied_uncertified_fallback_has_identical_state_and_action ... ok
+test tests::request_executes_every_control_with_numbered_repetitions ... ok
+
+test result: ok. 8 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+   Compiling mcts_demo v0.3.0 (/home/cosmosapjw/quantum/research/quartz_general_meta23_20261123)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.21s
+     Running unittests src/bin/quartz_c23_residual_gate.rs (target/debug/deps/quartz_c23_residual_gate-bef1d0f41487a19e)
+
+running 1 test
+test tests::trace_metadata_identifies_parsed_public_inputs ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 8 filtered out; finished in 0.00s
+
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.02s
+     Running unittests src/bin/quartz_c23_residual_gate.rs (target/debug/deps/quartz_c23_residual_gate-bef1d0f41487a19e)
+
+running 9 tests
+test tests::invalid_task_and_oracle_field_are_rejected ... ok
+test tests::rational_response_example_and_one_step_certificate ... ok
+test tests::signed_interval_operations_enclose_known_exact_results ... ok
+test tests::zero_rhs_needs_no_solver_work_and_does_not_claim_unique_winner ... ok
+test tests::conventional_solver_meets_its_stated_residual_goal ... ok
+test tests::actual_stop_withholds_solver_matvecs ... ok
+test tests::tied_uncertified_fallback_has_identical_state_and_action ... ok
+test tests::trace_metadata_identifies_parsed_public_inputs ... ok
+test tests::request_executes_every_control_with_numbered_repetitions ... ok
+
+test result: ok. 9 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+   Compiling mcts_demo v0.3.0 (/home/cosmosapjw/quantum/research/quartz_general_meta23_20261123)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.36s
+     Running unittests src/bin/quartz_c23_residual_gate.rs (target/debug/deps/quartz_c23_residual_gate-bef1d0f41487a19e)
+
+running 1 test
+test tests::decimal_string_transport_preserves_exact_binary64_bits ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 9 filtered out; finished in 0.00s
+
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.02s
+     Running unittests src/bin/quartz_c23_residual_gate.rs (target/debug/deps/quartz_c23_residual_gate-bef1d0f41487a19e)
+
+running 10 tests
+test tests::decimal_string_transport_preserves_exact_binary64_bits ... ok
+test tests::invalid_task_and_oracle_field_are_rejected ... ok
+test tests::rational_response_example_and_one_step_certificate ... ok
+test tests::signed_interval_operations_enclose_known_exact_results ... ok
+test tests::zero_rhs_needs_no_solver_work_and_does_not_claim_unique_winner ... ok
+test tests::conventional_solver_meets_its_stated_residual_goal ... ok
+test tests::actual_stop_withholds_solver_matvecs ... ok
+test tests::tied_uncertified_fallback_has_identical_state_and_action ... ok
+test tests::trace_metadata_identifies_parsed_public_inputs ... ok
+test tests::request_executes_every_control_with_numbered_repetitions ... ok
+
+test result: ok. 10 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+   Compiling mcts_demo v0.3.0 (/home/cosmosapjw/quantum/research/quartz_general_meta23_20261123)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.22s
+     Running unittests src/bin/quartz_c23_residual_gate.rs (target/debug/deps/quartz_c23_residual_gate-bef1d0f41487a19e)
+
+running 10 tests
+test tests::decimal_string_transport_preserves_exact_binary64_bits ... ok
+test tests::rational_response_example_and_one_step_certificate ... ok
+test tests::invalid_task_and_oracle_field_are_rejected ... ok
+test tests::signed_interval_operations_enclose_known_exact_results ... ok
+test tests::zero_rhs_needs_no_solver_work_and_does_not_claim_unique_winner ... ok
+test tests::conventional_solver_meets_its_stated_residual_goal ... ok
+test tests::actual_stop_withholds_solver_matvecs ... ok
+test tests::tied_uncertified_fallback_has_identical_state_and_action ... ok
+test tests::trace_metadata_identifies_parsed_public_inputs ... ok
+test tests::request_executes_every_control_with_numbered_repetitions ... ok
+
+test result: ok. 10 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+   Compiling mcts_demo v0.3.0 (/home/cosmosapjw/quantum/research/quartz_general_meta23_20261123)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.30s
+     Running unittests src/bin/quartz_c23_residual_gate.rs (target/debug/deps/quartz_c23_residual_gate-bef1d0f41487a19e)
+
+running 11 tests
+test tests::decimal_string_transport_preserves_exact_binary64_bits ... ok
+test tests::invalid_task_and_oracle_field_are_rejected ... ok
+test tests::signed_interval_operations_enclose_known_exact_results ... ok
+test tests::rational_response_example_and_one_step_certificate ... ok
+test tests::zero_rhs_needs_no_solver_work_and_does_not_claim_unique_winner ... ok
+test tests::conventional_solver_meets_its_stated_residual_goal ... ok
+test tests::actual_stop_withholds_solver_matvecs ... ok
+test tests::plain_baseline_matches_state_and_action_without_interval_enclosures ... ok
+test tests::tied_uncertified_fallback_has_identical_state_and_action ... ok
+test tests::trace_metadata_identifies_parsed_public_inputs ... ok
+test tests::request_executes_every_control_with_numbered_repetitions ... ok
+
+test result: ok. 11 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+

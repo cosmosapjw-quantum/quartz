@@ -1,0 +1,41 @@
+test_deterministic_and_public_only (test_c23_sources.SourcesTest.test_deterministic_and_public_only) ... ERROR
+test_oracle_matches_inverse_of_stored_rhs (test_c23_sources.SourcesTest.test_oracle_matches_inverse_of_stored_rhs) ... ERROR
+test_tie_is_exact_and_distinct (test_c23_sources.SourcesTest.test_tie_is_exact_and_distinct) ... ERROR
+
+======================================================================
+ERROR: test_deterministic_and_public_only (test_c23_sources.SourcesTest.test_deterministic_and_public_only)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/cosmosapjw/quantum/research/quartz_general_meta23_20261123/tests/test_c23_sources.py", line 33, in test_deterministic_and_public_only
+    self.assertEqual(mod.make_source(spec),mod.make_source(spec))
+                     ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/cosmosapjw/quantum/research/quartz_general_meta23_20261123/docs/research/quartz_general_residual_stop_20261123/coding/c23_sources.py", line 3, in make_source
+    raise NotImplementedError("C23 source construction not implemented")
+NotImplementedError: C23 source construction not implemented
+
+======================================================================
+ERROR: test_oracle_matches_inverse_of_stored_rhs (test_c23_sources.SourcesTest.test_oracle_matches_inverse_of_stored_rhs)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/cosmosapjw/quantum/research/quartz_general_meta23_20261123/tests/test_c23_sources.py", line 20, in test_oracle_matches_inverse_of_stored_rhs
+    task,truth=mod.make_source({'id':'unit','side':2,'rho':16,'target_gap':'medium','seed':17,'split':'UNIT','stratum':0})
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/cosmosapjw/quantum/research/quartz_general_meta23_20261123/docs/research/quartz_general_residual_stop_20261123/coding/c23_sources.py", line 3, in make_source
+    raise NotImplementedError("C23 source construction not implemented")
+NotImplementedError: C23 source construction not implemented
+
+======================================================================
+ERROR: test_tie_is_exact_and_distinct (test_c23_sources.SourcesTest.test_tie_is_exact_and_distinct)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/cosmosapjw/quantum/research/quartz_general_meta23_20261123/tests/test_c23_sources.py", line 27, in test_tie_is_exact_and_distinct
+    task,truth=mod.make_source({'id':'tie','side':3,'rho':64,'target_gap':'tie','seed':23,'split':'UNIT','stratum':1})
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/cosmosapjw/quantum/research/quartz_general_meta23_20261123/docs/research/quartz_general_residual_stop_20261123/coding/c23_sources.py", line 3, in make_source
+    raise NotImplementedError("C23 source construction not implemented")
+NotImplementedError: C23 source construction not implemented
+
+----------------------------------------------------------------------
+Ran 3 tests in 0.001s
+
+FAILED (errors=3)

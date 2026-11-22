@@ -1,0 +1,303 @@
+   Compiling libc v0.2.184
+   Compiling cfg-if v1.0.4
+   Compiling crossbeam-utils v0.8.21
+   Compiling proc-macro2 v1.0.106
+   Compiling zerocopy v0.8.48
+   Compiling quote v1.0.45
+   Compiling unicode-ident v1.0.24
+   Compiling libm v0.2.16
+   Compiling autocfg v1.5.0
+   Compiling serde_core v1.0.228
+   Compiling parking_lot_core v0.9.12
+   Compiling zmij v1.0.21
+   Compiling getrandom v0.4.2
+   Compiling rayon-core v1.13.0
+   Compiling rustix v1.1.4
+   Compiling rustversion v1.0.22
+   Compiling linux-raw-sys v0.12.1
+   Compiling bitflags v2.11.1
+   Compiling smallvec v1.15.1
+   Compiling scopeguard v1.2.0
+   Compiling serde_json v1.0.149
+   Compiling serde v1.0.228
+   Compiling memchr v2.8.0
+   Compiling once_cell v1.21.4
+   Compiling fastrand v2.4.1
+   Compiling lock_api v0.4.14
+   Compiling either v1.15.0
+   Compiling itoa v1.0.18
+   Compiling bumpalo v3.20.2
+   Compiling num-traits v0.2.19
+   Compiling crossbeam-epoch v0.9.18
+   Compiling crossbeam-channel v0.5.15
+   Compiling arc-swap v1.9.1
+   Compiling crossbeam-deque v0.8.6
+   Compiling syn v2.0.117
+   Compiling getrandom v0.2.17
+   Compiling rand_core v0.6.4
+   Compiling rayon v1.11.0
+   Compiling parking_lot v0.12.5
+   Compiling tempfile v3.27.0
+   Compiling serde_derive v1.0.228
+   Compiling ppv-lite86 v0.2.21
+   Compiling rand_chacha v0.3.1
+   Compiling rand v0.8.5
+   Compiling rand_distr v0.4.3
+   Compiling mcts_demo v0.3.0 (/home/cosmosapjw/quantum/research/quartz_general_meta23_20261123)
+warning: unused imports: `BufRead`, `Write`, and `self`
+ --> src/bin/quartz_c23_residual_gate.rs:3:15
+  |
+3 | use std::io::{self, BufRead, Write};
+  |               ^^^^  ^^^^^^^  ^^^^^
+  |
+  = note: `#[warn(unused_imports)]` (part of `#[warn(unused)]`) on by default
+
+warning: unused import: `std::time::Instant`
+ --> src/bin/quartz_c23_residual_gate.rs:4:5
+  |
+4 | use std::time::Instant;
+  |     ^^^^^^^^^^^^^^^^^^
+
+warning: fields `id`, `side`, and `rho` are never read
+  --> src/bin/quartz_c23_residual_gate.rs:9:5
+   |
+ 8 | struct Task {
+   |        ---- fields in this struct
+ 9 |     id: String,
+   |     ^^
+10 |     side: usize,
+   |     ^^^^
+11 |     rho: u32,
+   |     ^^^
+   |
+   = note: `Task` has derived impls for the traits `Debug` and `Clone`, but these are intentionally ignored during dead code analysis
+   = note: `#[warn(dead_code)]` (part of `#[warn(unused)]`) on by default
+
+warning: fields `task`, `additional`, `repeats`, `warmup`, and `trace` are never read
+  --> src/bin/quartz_c23_residual_gate.rs:18:5
+   |
+17 | struct Request {
+   |        ------- fields in this struct
+18 |     task: Task,
+   |     ^^^^
+19 |     additional: usize,
+   |     ^^^^^^^^^^
+20 |     #[serde(default = "one")] repeats: usize,
+   |                               ^^^^^^^
+21 |     #[serde(default)] warmup: usize,
+   |                       ^^^^^^
+22 |     #[serde(default)] trace: bool,
+   |                       ^^^^^
+   |
+   = note: `Request` has a derived impl for the trait `Debug`, but this is intentionally ignored during dead code analysis
+
+warning: methods `add` and `sub` are never used
+  --> src/bin/quartz_c23_residual_gate.rs:30:8
+   |
+28 | impl Interval {
+   | ------------- methods in this implementation
+29 |     fn point(x: f64) -> Self { Self {lo:x,hi:x} }
+30 |     fn add(self, _other: Self) -> Self { unimplemented!("outward interva...
+   |        ^^^
+31 |     fn sub(self, _other: Self) -> Self { unimplemented!("outward interva...
+   |        ^^^
+
+warning: variant `Never` is never constructed
+  --> src/bin/quartz_c23_residual_gate.rs:41:15
+   |
+41 | enum Policy { Never, Always, CertOnce, CertBlock, Residual }
+   |      ------   ^^^^^
+   |      |
+   |      variant in this enum
+   |
+   = note: `Policy` has derived impls for the traits `Debug` and `Clone`, but these are intentionally ignored during dead code analysis
+
+warning: method `label` is never used
+  --> src/bin/quartz_c23_residual_gate.rs:43:8
+   |
+42 | impl Policy {
+   | ----------- method in this implementation
+43 |     fn label(self) -> &'static str {
+   |        ^^^^^
+
+warning: struct `Solver` is never constructed
+  --> src/bin/quartz_c23_residual_gate.rs:61:8
+   |
+61 | struct Solver { x: Vec<f64>, r: Vec<f64>, p: Vec<f64>, ap: Vec<f64>, rr:...
+   |        ^^^^^^
+
+warning: associated items `new` and `step` are never used
+  --> src/bin/quartz_c23_residual_gate.rs:63:8
+   |
+62 | impl Solver {
+   | ----------- associated items in this implementation
+63 |     fn new(_b: &[f64]) -> Self { unimplemented!("CG state initialization...
+   |        ^^^
+64 |     fn step(&mut self, _side: usize, _rho: u32, _rel_tol: f64) -> Result...
+   |        ^^^^
+
+warning: function `apply_operator` is never used
+  --> src/bin/quartz_c23_residual_gate.rs:69:4
+   |
+69 | fn apply_operator(_side: usize, _rho: u32, _x:&[f64], _out:&mut[f64]) { ...
+   |    ^^^^^^^^^^^^^^
+
+warning: `mcts_demo` (bin "quartz_c23_residual_gate" test) generated 10 warnings (run `cargo fix --bin "quartz_c23_residual_gate" -p mcts_demo --tests` to apply 2 suggestions)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 3.45s
+     Running unittests src/bin/quartz_c23_residual_gate.rs (target/debug/deps/quartz_c23_residual_gate-bef1d0f41487a19e)
+
+running 8 tests
+test tests::actual_stop_withholds_solver_matvecs ... FAILED
+test tests::invalid_task_and_oracle_field_are_rejected ... FAILED
+test tests::conventional_solver_meets_its_stated_residual_goal ... FAILED
+test tests::request_executes_every_control_with_numbered_repetitions ... FAILED
+test tests::rational_response_example_and_one_step_certificate ... FAILED
+test tests::signed_interval_operations_enclose_known_exact_results ... FAILED
+test tests::tied_uncertified_fallback_has_identical_state_and_action ... FAILED
+test tests::zero_rhs_needs_no_solver_work_and_does_not_claim_unique_winner ... FAILED
+
+failures:
+
+---- tests::actual_stop_withholds_solver_matvecs stdout ----
+
+thread 'tests::actual_stop_withholds_solver_matvecs' (3269555) panicked at src/bin/quartz_c23_residual_gate.rs:75:5:
+not implemented: actual computation policy
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+---- tests::invalid_task_and_oracle_field_are_rejected stdout ----
+
+thread 'tests::invalid_task_and_oracle_field_are_rejected' (3269557) panicked at src/bin/quartz_c23_residual_gate.rs:68:49:
+not implemented: public task validation
+
+---- tests::conventional_solver_meets_its_stated_residual_goal stdout ----
+
+thread 'tests::conventional_solver_meets_its_stated_residual_goal' (3269556) panicked at src/bin/quartz_c23_residual_gate.rs:75:5:
+not implemented: actual computation policy
+
+---- tests::request_executes_every_control_with_numbered_repetitions stdout ----
+
+thread 'tests::request_executes_every_control_with_numbered_repetitions' (3269559) panicked at src/bin/quartz_c23_residual_gate.rs:77:55:
+not implemented: independent timed controls
+
+---- tests::rational_response_example_and_one_step_certificate stdout ----
+
+thread 'tests::rational_response_example_and_one_step_certificate' (3269558) panicked at src/bin/quartz_c23_residual_gate.rs:71:5:
+not implemented: variational response enclosure
+
+---- tests::signed_interval_operations_enclose_known_exact_results stdout ----
+
+thread 'tests::signed_interval_operations_enclose_known_exact_results' (3269560) panicked at src/bin/quartz_c23_residual_gate.rs:32:42:
+not implemented: outward interval multiplication
+
+---- tests::tied_uncertified_fallback_has_identical_state_and_action stdout ----
+
+thread 'tests::tied_uncertified_fallback_has_identical_state_and_action' (3269561) panicked at src/bin/quartz_c23_residual_gate.rs:75:5:
+not implemented: actual computation policy
+
+---- tests::zero_rhs_needs_no_solver_work_and_does_not_claim_unique_winner stdout ----
+
+thread 'tests::zero_rhs_needs_no_solver_work_and_does_not_claim_unique_winner' (3269562) panicked at src/bin/quartz_c23_residual_gate.rs:75:5:
+not implemented: actual computation policy
+
+
+failures:
+    tests::actual_stop_withholds_solver_matvecs
+    tests::conventional_solver_meets_its_stated_residual_goal
+    tests::invalid_task_and_oracle_field_are_rejected
+    tests::rational_response_example_and_one_step_certificate
+    tests::request_executes_every_control_with_numbered_repetitions
+    tests::signed_interval_operations_enclose_known_exact_results
+    tests::tied_uncertified_fallback_has_identical_state_and_action
+    tests::zero_rhs_needs_no_solver_work_and_does_not_claim_unique_winner
+
+test result: FAILED. 0 passed; 8 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+error: test failed, to rerun pass `--bin quartz_c23_residual_gate`
+   Compiling mcts_demo v0.3.0 (/home/cosmosapjw/quantum/research/quartz_general_meta23_20261123)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.29s
+     Running unittests src/bin/quartz_c23_residual_gate.rs (target/debug/deps/quartz_c23_residual_gate-bef1d0f41487a19e)
+
+running 1 test
+test tests::trace_metadata_identifies_parsed_public_inputs ... FAILED
+
+failures:
+
+---- tests::trace_metadata_identifies_parsed_public_inputs stdout ----
+
+thread 'tests::trace_metadata_identifies_parsed_public_inputs' (3277007) panicked at src/bin/quartz_c23_residual_gate.rs:408:9:
+assertion `left == right` failed
+  left: None
+ right: Some([[13827739705887686656, 4600427019358961664, 0, 13823799056213737472, 4604367669032910848, 4599301119452119040, 13812540057145311232, 13824924956120580096, 4603804719079489536, 4598175219545276416, 13817043656772681728, 13826050856027422720, 4603241769126068224, 4595923419731591168, 13819295456586366976, 13826613805980844032, 4602678819172646912, 4593671619917905920, 13821547256400052224, 13827176755934265344, 4601552919265804288, 4589168020290535424, 13822673156306894848, 13827739705887686656, 4600427019358961664, 0, 13823799056213737472, 4604367669032910848, 4599301119452119040, 13812540057145311232, 13824924956120580096, 4603804719079489536, 4598175219545276416, 13817043656772681728, 13826050856027422720, 4603241769126068224, 4595923419731591168, 13819295456586366976, 13826613805980844032, 4602678819172646912, 4593671619917905920, 13821547256400052224, 13827176755934265344, 4601552919265804288, 4589168020290535424, 13822673156306894848, 13827739705887686656, 4600427019358961664, 0, 13823799056213737472, 4604367669032910848, 4599301119452119040, 13812540057145311232, 13824924956120580096, 4603804719079489536, 4598175219545276416, 13817043656772681728, 13826050856027422720, 4603241769126068224, 4595923419731591168, 13819295456586366976, 13826613805980844032, 4602678819172646912, 4593671619917905920], [13799592208216621056, 13790022059008458752, 4572279521687896064, 13797903358356357120, 0, 4574531321501581312, 13795651558542671872, 4566650022153682944, 4576220171361845248, 13792273858822144000, 4571153621781053440, 13799029258263199744, 13785518459381088256, 4573405421594738688, 13796777458449514496, 4562146422526312448, 4575657221408423936, 13794525658635829248, 4568901821967368192, 13799592208216621056, 13790022059008458752, 4572279521687896064, 13797903358356357120, 0, 4574531321501581312, 13795651558542671872, 4566650022153682944, 4576220171361845248, 13792273858822144000, 4571153621781053440, 13799029258263199744, 13785518459381088256, 4573405421594738688, 13796777458449514496, 4562146422526312448, 4575657221408423936, 13794525658635829248, 4568901821967368192, 13799592208216621056, 13790022059008458752, 4572279521687896064, 13797903358356357120, 0, 4574531321501581312, 13795651558542671872, 4566650022153682944, 4576220171361845248, 13792273858822144000, 4571153621781053440, 13799029258263199744, 13785518459381088256, 4573405421594738688, 13796777458449514496, 4562146422526312448, 4575657221408423936, 13794525658635829248, 4568901821967368192, 13799592208216621056, 13790022059008458752, 4572279521687896064, 13797903358356357120, 0, 4574531321501581312, 13795651558542671872]])
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+
+failures:
+    tests::trace_metadata_identifies_parsed_public_inputs
+
+test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 8 filtered out; finished in 0.00s
+
+error: test failed, to rerun pass `--bin quartz_c23_residual_gate`
+   Compiling mcts_demo v0.3.0 (/home/cosmosapjw/quantum/research/quartz_general_meta23_20261123)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.17s
+     Running unittests src/bin/quartz_c23_residual_gate.rs (target/debug/deps/quartz_c23_residual_gate-bef1d0f41487a19e)
+
+running 1 test
+test tests::decimal_string_transport_preserves_exact_binary64_bits ... FAILED
+
+failures:
+
+---- tests::decimal_string_transport_preserves_exact_binary64_bits stdout ----
+
+thread 'tests::decimal_string_transport_preserves_exact_binary64_bits' (3281277) panicked at src/bin/quartz_c23_residual_gate.rs:409:51:
+decimal string transport must be accepted: Error("invalid type: string \"1024.0\", expected f64", line: 1, column: 63)
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+
+failures:
+    tests::decimal_string_transport_preserves_exact_binary64_bits
+
+test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 9 filtered out; finished in 0.00s
+
+error: test failed, to rerun pass `--bin quartz_c23_residual_gate`
+   Compiling mcts_demo v0.3.0 (/home/cosmosapjw/quantum/research/quartz_general_meta23_20261123)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.28s
+     Running unittests src/bin/quartz_c23_residual_gate.rs (target/debug/deps/quartz_c23_residual_gate-bef1d0f41487a19e)
+
+running 11 tests
+test tests::decimal_string_transport_preserves_exact_binary64_bits ... ok
+test tests::invalid_task_and_oracle_field_are_rejected ... ok
+test tests::rational_response_example_and_one_step_certificate ... ok
+test tests::signed_interval_operations_enclose_known_exact_results ... ok
+test tests::zero_rhs_needs_no_solver_work_and_does_not_claim_unique_winner ... ok
+test tests::conventional_solver_meets_its_stated_residual_goal ... ok
+test tests::actual_stop_withholds_solver_matvecs ... ok
+test tests::tied_uncertified_fallback_has_identical_state_and_action ... ok
+test tests::plain_baseline_matches_state_and_action_without_interval_enclosures ... FAILED
+test tests::trace_metadata_identifies_parsed_public_inputs ... ok
+test tests::request_executes_every_control_with_numbered_repetitions ... FAILED
+
+failures:
+
+---- tests::plain_baseline_matches_state_and_action_without_interval_enclosures stdout ----
+
+thread 'tests::plain_baseline_matches_state_and_action_without_interval_enclosures' (3286063) panicked at src/bin/quartz_c23_residual_gate.rs:414:9:
+assertion `left == right` failed
+  left: 4
+ right: 0
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+---- tests::request_executes_every_control_with_numbered_repetitions stdout ----
+
+thread 'tests::request_executes_every_control_with_numbered_repetitions' (3286065) panicked at src/bin/quartz_c23_residual_gate.rs:467:9:
+assertion `left == right` failed
+  left: 10
+ right: 12
+
+
+failures:
+    tests::plain_baseline_matches_state_and_action_without_interval_enclosures
+    tests::request_executes_every_control_with_numbered_repetitions
+
+test result: FAILED. 9 passed; 2 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+error: test failed, to rerun pass `--bin quartz_c23_residual_gate`
