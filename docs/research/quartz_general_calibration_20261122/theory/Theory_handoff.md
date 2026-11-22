@@ -1,0 +1,9 @@
+# R10. Complete theoretical 10-stage handoff to C1–C10
+
+The R1–R9 cycle actually examined C17, core QUARTZ sources, five primary scientific references and sources; derived explicit conditional flip, signed utility and calibration objects; proved utility upper bound and two opposite-utility worlds, Brier proper decomposition and cluster variance; executed Wolfram and Python exact tests with preserved R07 output. It did NOT assert general prior predictive consistency for adaptive MCTS or change frozen original THESIS/CLAIM_LEDGER.
+
+Scientific strategy: first make source-only forecast calibration evidence identifiable; then obtain actual regret labels from an external exact-utility task; finally introduce shadow-only Rust scoring as a declarative future interface, NOT running automatic compute/STOP in main engine. Source G1 Rust MCTS must be real; source G2 non-game bandit uses real stochastic draws with exact latent offline utility. Group splits frozen before outcomes, report separate heldout family metrics, always retain train-only constant and no-future-output features.
+
+Stop after C10 and define next QUARTZ-GENERAL-19-DECISION-VALUE-MODEL-AND-SHADOW-ACTIONS (working name; final C10 may refine from actual results). No forced live deployment or game-specific optimization. Negative/non-estimable findings are publishable as scoped laboratory results with provenance and typed failure. All stage commitments preserved with remote Git receipt and independent hashed local archive; Dropbox cloud sync not automatically verified.
+
+No native subagent dispatch in this host (NOT_RUN); original user selected full theory then full coding serial fallback. Preserve original developer repo, C16 and C17 branch histories byte-for-byte.
