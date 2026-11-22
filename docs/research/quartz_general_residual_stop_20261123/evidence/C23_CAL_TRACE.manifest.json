@@ -1,0 +1,18 @@
+{
+  "split": "CAL",
+  "mode": "trace",
+  "requests": 108,
+  "native_policy_executions": 648,
+  "exit_code": 0,
+  "source_head": "2c266dad0de65d86e683429c8605cda9fa904979",
+  "binary_sha256": "812c57e75ad193fa4cca3729fc63ee59df73cac7118c50886adb4c0b47118ac0",
+  "public_source_sha256": "2ac0945f0e103c199f204e9c885fe9fb26e3b0130a42a7564376eeabfc40fe62",
+  "output": "C23_CAL_TRACE.jsonl.gz",
+  "output_sha256": "6ff6e6271deac3f87faaa619e95eac1211d934464710b6f46d4dcb15dc8674e9",
+  "output_bytes": 64835617,
+  "start_utc": "2026-11-22T17:50:50.621151+00:00",
+  "end_utc": "2026-11-22T17:51:09.960573+00:00",
+  "clock": "native Instant monotonic wall elapsed; JSON and source/oracle generation excluded",
+  "repeats_are_independent_parents": false,
+  "wire_encoding": "f64 shortest decimal strings parsed with Rust FromStr; trace asserts exact stored input bits"
+}

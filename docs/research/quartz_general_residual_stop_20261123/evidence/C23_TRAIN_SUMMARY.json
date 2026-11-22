@@ -1,0 +1,2564 @@
+{
+  "split": "TRAIN",
+  "primary_additional": 32,
+  "unique_parents": 36,
+  "bootstrap_resamples": 2000,
+  "bootstrap_seed": 2300923,
+  "timing_statistic": "median of nine physical runs per parent, then arithmetic parent mean",
+  "clock": "wall elapsed microseconds",
+  "summaries": [
+    {
+      "additional": 8,
+      "policies": {
+        "NEVER": {
+          "parents": 36,
+          "mean_parent_median_us": 832.6015,
+          "mean_regret": 4.290645939260378e-05,
+          "wrong_decision_parents": 7,
+          "certified_parents": 0,
+          "actual_early_stop_parents": 36,
+          "mean_solver_iterations": 12.0,
+          "solver_iterations_saved": 864,
+          "mean_time_saved_vs_ALWAYS_us": 927.182888888889,
+          "paired_parent_bootstrap_time_saved_95_us": [
+            586.8784840277779,
+            1319.2475694444445
+          ],
+          "mean_utility_difference_vs_ALWAYS": -4.2875030019915724e-05,
+          "mean_bounds_us": 604.9385833333332,
+          "priced": [
+            {
+              "lambda_utility_per_us": 0,
+              "mean_net_gain_from_initial": 0.0,
+              "mean_net_difference_vs_ALWAYS": -4.2875030019915724e-05,
+              "paired_parent_bootstrap_net_difference_95": [
+                -0.00012070292872802303,
+                -1.8030831595999328e-08
+              ],
+              "mean_net_difference_vs_measured_NEVER": 0.0,
+              "mean_net_difference_vs_PLAIN_ALWAYS": -4.2875030019915724e-05,
+              "paired_parent_bootstrap_net_difference_vs_PLAIN_ALWAYS_95": [
+                -0.00012070292872802303,
+                -1.8030831595999328e-08
+              ]
+            },
+            {
+              "lambda_utility_per_us": 1e-06,
+              "mean_net_gain_from_initial": -0.0008326014999999999,
+              "mean_net_difference_vs_ALWAYS": 0.0008843078588689731,
+              "paired_parent_bootstrap_net_difference_95": [
+                0.0005419712641334058,
+                0.0012621974448299288
+              ],
+              "mean_net_difference_vs_measured_NEVER": 0.0,
+              "mean_net_difference_vs_PLAIN_ALWAYS": -0.0002791902800199158,
+              "paired_parent_bootstrap_net_difference_vs_PLAIN_ALWAYS_95": [
+                -0.00042234387231114003,
+                -0.00016298556572528174
+              ]
+            },
+            {
+              "lambda_utility_per_us": 1e-05,
+              "mean_net_gain_from_initial": -0.008326015,
+              "mean_net_difference_vs_ALWAYS": 0.009228953858868974,
+              "paired_parent_bootstrap_net_difference_95": [
+                0.005825145156795109,
+                0.01315763222256985
+              ],
+              "mean_net_difference_vs_measured_NEVER": 0.0,
+              "mean_net_difference_vs_PLAIN_ALWAYS": -0.0024060275300199162,
+              "paired_parent_bootstrap_net_difference_vs_PLAIN_ALWAYS_95": [
+                -0.0034540717468660703,
+                -0.0014988303065675004
+              ]
+            }
+          ],
+          "mean_time_saved_vs_PLAIN_ALWAYS_us": -236.31524999999996,
+          "paired_parent_bootstrap_time_saved_vs_PLAIN_ALWAYS_95_us": [
+            -339.54072013888884,
+            -147.2903229166667
+          ]
+        },
+        "ALWAYS": {
+          "parents": 36,
+          "mean_parent_median_us": 1759.784388888889,
+          "mean_regret": 3.1429372688261593e-08,
+          "wrong_decision_parents": 2,
+          "certified_parents": 0,
+          "actual_early_stop_parents": 0,
+          "mean_solver_iterations": 36.0,
+          "solver_iterations_saved": 0,
+          "mean_time_saved_vs_ALWAYS_us": 0.0,
+          "paired_parent_bootstrap_time_saved_95_us": [
+            0.0,
+            0.0
+          ],
+          "mean_utility_difference_vs_ALWAYS": 0.0,
+          "mean_bounds_us": 1205.6939166666668,
+          "priced": [
+            {
+              "lambda_utility_per_us": 0,
+              "mean_net_gain_from_initial": 4.2875030019915514e-05,
+              "mean_net_difference_vs_ALWAYS": 0.0,
+              "paired_parent_bootstrap_net_difference_95": [
+                0.0,
+                0.0
+              ],
+              "mean_net_difference_vs_measured_NEVER": 4.2875030019915724e-05,
+              "mean_net_difference_vs_PLAIN_ALWAYS": 0.0,
+              "paired_parent_bootstrap_net_difference_vs_PLAIN_ALWAYS_95": [
+                0.0,
+                0.0
+              ]
+            },
+            {
+              "lambda_utility_per_us": 1e-06,
+              "mean_net_gain_from_initial": -0.0017169093588689731,
+              "mean_net_difference_vs_ALWAYS": 0.0,
+              "paired_parent_bootstrap_net_difference_95": [
+                0.0,
+                0.0
+              ],
+              "mean_net_difference_vs_measured_NEVER": -0.0008843078588689731,
+              "mean_net_difference_vs_PLAIN_ALWAYS": -0.001163498138888889,
+              "paired_parent_bootstrap_net_difference_vs_PLAIN_ALWAYS_95": [
+                -0.0016577262055555554,
+                -0.0007337762284722222
+              ]
+            },
+            {
+              "lambda_utility_per_us": 1e-05,
+              "mean_net_gain_from_initial": -0.01755496885886897,
+              "mean_net_difference_vs_ALWAYS": 0.0,
+              "paired_parent_bootstrap_net_difference_95": [
+                0.0,
+                0.0
+              ],
+              "mean_net_difference_vs_measured_NEVER": -0.009228953858868974,
+              "mean_net_difference_vs_PLAIN_ALWAYS": -0.011634981388888889,
+              "paired_parent_bootstrap_net_difference_vs_PLAIN_ALWAYS_95": [
+                -0.016577262055555556,
+                -0.007337762284722224
+              ]
+            }
+          ],
+          "mean_time_saved_vs_PLAIN_ALWAYS_us": -1163.498138888889,
+          "paired_parent_bootstrap_time_saved_vs_PLAIN_ALWAYS_95_us": [
+            -1657.7262055555557,
+            -733.7762284722223
+          ]
+        },
+        "PLAIN_ALWAYS": {
+          "parents": 36,
+          "mean_parent_median_us": 596.28625,
+          "mean_regret": 3.1429372688261593e-08,
+          "wrong_decision_parents": 2,
+          "certified_parents": 0,
+          "actual_early_stop_parents": 0,
+          "mean_solver_iterations": 36.0,
+          "solver_iterations_saved": 0,
+          "mean_time_saved_vs_ALWAYS_us": 1163.498138888889,
+          "paired_parent_bootstrap_time_saved_95_us": [
+            733.7762284722223,
+            1657.7262055555555
+          ],
+          "mean_utility_difference_vs_ALWAYS": 0.0,
+          "mean_bounds_us": 41.47141666666667,
+          "priced": [
+            {
+              "lambda_utility_per_us": 0,
+              "mean_net_gain_from_initial": 4.2875030019915514e-05,
+              "mean_net_difference_vs_ALWAYS": 0.0,
+              "paired_parent_bootstrap_net_difference_95": [
+                0.0,
+                0.0
+              ],
+              "mean_net_difference_vs_measured_NEVER": 4.2875030019915724e-05,
+              "mean_net_difference_vs_PLAIN_ALWAYS": 0.0,
+              "paired_parent_bootstrap_net_difference_vs_PLAIN_ALWAYS_95": [
+                0.0,
+                0.0
+              ]
+            },
+            {
+              "lambda_utility_per_us": 1e-06,
+              "mean_net_gain_from_initial": -0.0005534112199800845,
+              "mean_net_difference_vs_ALWAYS": 0.001163498138888889,
+              "paired_parent_bootstrap_net_difference_95": [
+                0.0007337762284722222,
+                0.0016577262055555552
+              ],
+              "mean_net_difference_vs_measured_NEVER": 0.0002791902800199158,
+              "mean_net_difference_vs_PLAIN_ALWAYS": 0.0,
+              "paired_parent_bootstrap_net_difference_vs_PLAIN_ALWAYS_95": [
+                0.0,
+                0.0
+              ]
+            },
+            {
+              "lambda_utility_per_us": 1e-05,
+              "mean_net_gain_from_initial": -0.005919987469980086,
+              "mean_net_difference_vs_ALWAYS": 0.011634981388888889,
+              "paired_parent_bootstrap_net_difference_95": [
+                0.007337762284722224,
+                0.016577262055555556
+              ],
+              "mean_net_difference_vs_measured_NEVER": 0.0024060275300199162,
+              "mean_net_difference_vs_PLAIN_ALWAYS": 0.0,
+              "paired_parent_bootstrap_net_difference_vs_PLAIN_ALWAYS_95": [
+                0.0,
+                0.0
+              ]
+            }
+          ],
+          "mean_time_saved_vs_PLAIN_ALWAYS_us": 0.0,
+          "paired_parent_bootstrap_time_saved_vs_PLAIN_ALWAYS_95_us": [
+            0.0,
+            0.0
+          ]
+        },
+        "CERT_ONCE": {
+          "parents": 36,
+          "mean_parent_median_us": 1607.3116666666667,
+          "mean_regret": 3.1429372688261593e-08,
+          "wrong_decision_parents": 2,
+          "certified_parents": 9,
+          "actual_early_stop_parents": 9,
+          "mean_solver_iterations": 30.0,
+          "solver_iterations_saved": 216,
+          "mean_time_saved_vs_ALWAYS_us": 152.4727222222223,
+          "paired_parent_bootstrap_time_saved_95_us": [
+            8.163176388888955,
+            352.7003104166668
+          ],
+          "mean_utility_difference_vs_ALWAYS": 0.0,
+          "mean_bounds_us": 1108.0688611111113,
+          "priced": [
+            {
+              "lambda_utility_per_us": 0,
+              "mean_net_gain_from_initial": 4.2875030019915514e-05,
+              "mean_net_difference_vs_ALWAYS": 0.0,
+              "paired_parent_bootstrap_net_difference_95": [
+                0.0,
+                0.0
+              ],
+              "mean_net_difference_vs_measured_NEVER": 4.2875030019915724e-05,
+              "mean_net_difference_vs_PLAIN_ALWAYS": 0.0,
+              "paired_parent_bootstrap_net_difference_vs_PLAIN_ALWAYS_95": [
+                0.0,
+                0.0
+              ]
+            },
+            {
+              "lambda_utility_per_us": 1e-06,
+              "mean_net_gain_from_initial": -0.0015644366366467512,
+              "mean_net_difference_vs_ALWAYS": 0.0001524727222222223,
+              "paired_parent_bootstrap_net_difference_95": [
+                8.163176388888955e-06,
+                0.0003527003104166667
+              ],
+              "mean_net_difference_vs_measured_NEVER": -0.0007318351366467509,
+              "mean_net_difference_vs_PLAIN_ALWAYS": -0.0010110254166666667,
+              "paired_parent_bootstrap_net_difference_vs_PLAIN_ALWAYS_95": [
+                -0.0014951947652777778,
+                -0.0006071409472222225
+              ]
+            },
+            {
+              "lambda_utility_per_us": 1e-05,
+              "mean_net_gain_from_initial": -0.01603024163664675,
+              "mean_net_difference_vs_ALWAYS": 0.001524727222222223,
+              "paired_parent_bootstrap_net_difference_95": [
+                8.163176388888957e-05,
+                0.003527003104166668
+              ],
+              "mean_net_difference_vs_measured_NEVER": -0.007704226636646752,
+              "mean_net_difference_vs_PLAIN_ALWAYS": -0.010110254166666667,
+              "paired_parent_bootstrap_net_difference_vs_PLAIN_ALWAYS_95": [
+                -0.014951947652777775,
+                -0.0060714094722222256
+              ]
+            }
+          ],
+          "mean_time_saved_vs_PLAIN_ALWAYS_us": -1011.0254166666667,
+          "paired_parent_bootstrap_time_saved_vs_PLAIN_ALWAYS_95_us": [
+            -1495.1947652777778,
+            -607.1409472222225
+          ]
+        },
+        "CERT_BLOCK": {
+          "parents": 36,
+          "mean_parent_median_us": 1604.1053611111108,
+          "mean_regret": 3.1429372688261593e-08,
+          "wrong_decision_parents": 2,
+          "certified_parents": 18,
+          "actual_early_stop_parents": 9,
+          "mean_solver_iterations": 30.0,
+          "solver_iterations_saved": 216,
+          "mean_time_saved_vs_ALWAYS_us": 155.6790277777779,
+          "paired_parent_bootstrap_time_saved_95_us": [
+            10.976409027777889,
+            357.7228576388889
+          ],
+          "mean_utility_difference_vs_ALWAYS": 0.0,
+          "mean_bounds_us": 1106.0403055555555,
+          "priced": [
+            {
+              "lambda_utility_per_us": 0,
+              "mean_net_gain_from_initial": 4.2875030019915514e-05,
+              "mean_net_difference_vs_ALWAYS": 0.0,
+              "paired_parent_bootstrap_net_difference_95": [
+                0.0,
+                0.0
+              ],
+              "mean_net_difference_vs_measured_NEVER": 4.2875030019915724e-05,
+              "mean_net_difference_vs_PLAIN_ALWAYS": 0.0,
+              "paired_parent_bootstrap_net_difference_vs_PLAIN_ALWAYS_95": [
+                0.0,
+                0.0
+              ]
+            },
+            {
+              "lambda_utility_per_us": 1e-06,
+              "mean_net_gain_from_initial": -0.0015612303310911953,
+              "mean_net_difference_vs_ALWAYS": 0.00015567902777777792,
+              "paired_parent_bootstrap_net_difference_95": [
+                1.0976409027777885e-05,
+                0.0003577228576388889
+              ],
+              "mean_net_difference_vs_measured_NEVER": -0.0007286288310911953,
+              "mean_net_difference_vs_PLAIN_ALWAYS": -0.0010078191111111108,
+              "paired_parent_bootstrap_net_difference_vs_PLAIN_ALWAYS_95": [
+                -0.0014931051493055551,
+                -0.000603694451388889
+              ]
+            },
+            {
+              "lambda_utility_per_us": 1e-05,
+              "mean_net_gain_from_initial": -0.015998178581091194,
+              "mean_net_difference_vs_ALWAYS": 0.0015567902777777792,
+              "paired_parent_bootstrap_net_difference_95": [
+                0.00010976409027777889,
+                0.0035772285763888897
+              ],
+              "mean_net_difference_vs_measured_NEVER": -0.007672163581091195,
+              "mean_net_difference_vs_PLAIN_ALWAYS": -0.01007819111111111,
+              "paired_parent_bootstrap_net_difference_vs_PLAIN_ALWAYS_95": [
+                -0.014931051493055557,
+                -0.0060369445138888905
+              ]
+            }
+          ],
+          "mean_time_saved_vs_PLAIN_ALWAYS_us": -1007.8191111111108,
+          "paired_parent_bootstrap_time_saved_vs_PLAIN_ALWAYS_95_us": [
+            -1493.1051493055554,
+            -603.6944513888888
+          ]
+        },
+        "RESIDUAL": {
+          "parents": 36,
+          "mean_parent_median_us": 4633.579833333333,
+          "mean_regret": 0.0,
+          "wrong_decision_parents": 0,
+          "certified_parents": 0,
+          "actual_early_stop_parents": 0,
+          "mean_solver_iterations": 164.36111111111111,
+          "solver_iterations_saved": -4621,
+          "mean_time_saved_vs_ALWAYS_us": -2873.7954444444445,
+          "paired_parent_bootstrap_time_saved_95_us": [
+            -4618.260934722222,
+            -1460.9649784722237
+          ],
+          "mean_utility_difference_vs_ALWAYS": 3.1429372688174945e-08,
+          "mean_bounds_us": 1206.829722222222,
+          "priced": [
+            {
+              "lambda_utility_per_us": 0,
+              "mean_net_gain_from_initial": 4.290645939260378e-05,
+              "mean_net_difference_vs_ALWAYS": 3.1429372688174945e-08,
+              "paired_parent_bootstrap_net_difference_95": [
+                0.0,
+                9.04620529010958e-08
+              ],
+              "mean_net_difference_vs_measured_NEVER": 4.29064593926039e-05,
+              "mean_net_difference_vs_PLAIN_ALWAYS": 3.1429372688174945e-08,
+              "paired_parent_bootstrap_net_difference_vs_PLAIN_ALWAYS_95": [
+                0.0,
+                9.04620529010958e-08
+              ]
+            },
+            {
+              "lambda_utility_per_us": 1e-06,
+              "mean_net_gain_from_initial": -0.004590673373940729,
+              "mean_net_difference_vs_ALWAYS": -0.0028737640150717563,
+              "paired_parent_bootstrap_net_difference_95": [
+                -0.004618253282591896,
+                -0.0014609612480586895
+              ],
+              "mean_net_difference_vs_measured_NEVER": -0.00375807187394073,
+              "mean_net_difference_vs_PLAIN_ALWAYS": -0.004037262153960646,
+              "paired_parent_bootstrap_net_difference_vs_PLAIN_ALWAYS_95": [
+                -0.006184097424595673,
+                -0.002271764562469609
+              ]
+            },
+            {
+              "lambda_utility_per_us": 1e-05,
+              "mean_net_gain_from_initial": -0.04629289187394074,
+              "mean_net_difference_vs_ALWAYS": -0.02873792301507176,
+              "paired_parent_bootstrap_net_difference_95": [
+                -0.0461826016950919,
+                -0.014609646054308704
+              ],
+              "mean_net_difference_vs_measured_NEVER": -0.03796687687394074,
+              "mean_net_difference_vs_PLAIN_ALWAYS": -0.04037290440396065,
+              "paired_parent_bootstrap_net_difference_vs_PLAIN_ALWAYS_95": [
+                -0.06184108289959568,
+                -0.022717887843719625
+              ]
+            }
+          ],
+          "mean_time_saved_vs_PLAIN_ALWAYS_us": -4037.293583333334,
+          "paired_parent_bootstrap_time_saved_vs_PLAIN_ALWAYS_95_us": [
+            -6184.109497222223,
+            -2271.7914756944456
+          ]
+        }
+      },
+      "subgroups": [
+        {
+          "field": "side",
+          "value": 8,
+          "parents": 12,
+          "policies": {
+            "NEVER": {
+              "mean_parent_median_us": 14.620999999999997,
+              "mean_regret": 3.6298354784009784e-08,
+              "certified": 0,
+              "iterations_saved": 288
+            },
+            "ALWAYS": {
+              "mean_parent_median_us": 31.540833333333335,
+              "mean_regret": 0.0,
+              "certified": 0,
+              "iterations_saved": 0
+            },
+            "PLAIN_ALWAYS": {
+              "mean_parent_median_us": 12.640416666666667,
+              "mean_regret": 0.0,
+              "certified": 0,
+              "iterations_saved": 0
+            },
+            "CERT_ONCE": {
+              "mean_parent_median_us": 24.917083333333334,
+              "mean_regret": 0.0,
+              "certified": 5,
+              "iterations_saved": 120
+            },
+            "CERT_BLOCK": {
+              "mean_parent_median_us": 24.775000000000002,
+              "mean_regret": 0.0,
+              "certified": 9,
+              "iterations_saved": 120
+            },
+            "RESIDUAL": {
+              "mean_parent_median_us": 39.247166666666665,
+              "mean_regret": 0.0,
+              "certified": 0,
+              "iterations_saved": -335
+            }
+          }
+        },
+        {
+          "field": "side",
+          "value": 32,
+          "parents": 12,
+          "policies": {
+            "NEVER": {
+              "mean_parent_median_us": 245.09583333333333,
+              "mean_regret": 2.2901656436489414e-05,
+              "certified": 0,
+              "iterations_saved": 288
+            },
+            "ALWAYS": {
+              "mean_parent_median_us": 519.4659166666667,
+              "mean_regret": 0.0,
+              "certified": 0,
+              "iterations_saved": 0
+            },
+            "PLAIN_ALWAYS": {
+              "mean_parent_median_us": 182.46875,
+              "mean_regret": 0.0,
+              "certified": 0,
+              "iterations_saved": 0
+            },
+            "CERT_ONCE": {
+              "mean_parent_median_us": 474.9496666666666,
+              "mean_regret": 0.0,
+              "certified": 2,
+              "iterations_saved": 48
+            },
+            "CERT_BLOCK": {
+              "mean_parent_median_us": 472.704,
+              "mean_regret": 0.0,
+              "certified": 5,
+              "iterations_saved": 48
+            },
+            "RESIDUAL": {
+              "mean_parent_median_us": 1093.8319166666665,
+              "mean_regret": 0.0,
+              "certified": 0,
+              "iterations_saved": -1639
+            }
+          }
+        },
+        {
+          "field": "side",
+          "value": 96,
+          "parents": 12,
+          "policies": {
+            "NEVER": {
+              "mean_parent_median_us": 2238.087666666667,
+              "mean_regret": 0.0001057814233865379,
+              "certified": 0,
+              "iterations_saved": 288
+            },
+            "ALWAYS": {
+              "mean_parent_median_us": 4728.346416666667,
+              "mean_regret": 9.428811806478478e-08,
+              "certified": 0,
+              "iterations_saved": 0
+            },
+            "PLAIN_ALWAYS": {
+              "mean_parent_median_us": 1593.7495833333332,
+              "mean_regret": 9.428811806478478e-08,
+              "certified": 0,
+              "iterations_saved": 0
+            },
+            "CERT_ONCE": {
+              "mean_parent_median_us": 4322.06825,
+              "mean_regret": 9.428811806478478e-08,
+              "certified": 2,
+              "iterations_saved": 48
+            },
+            "CERT_BLOCK": {
+              "mean_parent_median_us": 4314.837083333333,
+              "mean_regret": 9.428811806478478e-08,
+              "certified": 4,
+              "iterations_saved": 48
+            },
+            "RESIDUAL": {
+              "mean_parent_median_us": 12767.660416666666,
+              "mean_regret": 0.0,
+              "certified": 0,
+              "iterations_saved": -2647
+            }
+          }
+        },
+        {
+          "field": "rho",
+          "value": 1,
+          "parents": 12,
+          "policies": {
+            "NEVER": {
+              "mean_parent_median_us": 813.0896666666667,
+              "mean_regret": 3.2342250634065103e-07,
+              "certified": 0,
+              "iterations_saved": 288
+            },
+            "ALWAYS": {
+              "mean_parent_median_us": 1727.44075,
+              "mean_regret": 0.0,
+              "certified": 0,
+              "iterations_saved": 0
+            },
+            "PLAIN_ALWAYS": {
+              "mean_parent_median_us": 605.0544166666667,
+              "mean_regret": 0.0,
+              "certified": 0,
+              "iterations_saved": 0
+            },
+            "CERT_ONCE": {
+              "mean_parent_median_us": 1269.6510833333332,
+              "mean_regret": 0.0,
+              "certified": 6,
+              "iterations_saved": 144
+            },
+            "CERT_BLOCK": {
+              "mean_parent_median_us": 1267.5019999999997,
+              "mean_regret": 0.0,
+              "certified": 9,
+              "iterations_saved": 144
+            },
+            "RESIDUAL": {
+              "mean_parent_median_us": 2258.8425,
+              "mean_regret": 0.0,
+              "certified": 0,
+              "iterations_saved": -369
+            }
+          }
+        },
+        {
+          "field": "rho",
+          "value": 16,
+          "parents": 12,
+          "policies": {
+            "NEVER": {
+              "mean_parent_median_us": 841.6978333333333,
+              "mean_regret": 0.00010549337157965892,
+              "certified": 0,
+              "iterations_saved": 288
+            },
+            "ALWAYS": {
+              "mean_parent_median_us": 1775.8451666666667,
+              "mean_regret": 8.280992257453496e-08,
+              "certified": 0,
+              "iterations_saved": 0
+            },
+            "PLAIN_ALWAYS": {
+              "mean_parent_median_us": 591.5415,
+              "mean_regret": 8.280992257453496e-08,
+              "certified": 0,
+              "iterations_saved": 0
+            },
+            "CERT_ONCE": {
+              "mean_parent_median_us": 1770.0550833333334,
+              "mean_regret": 8.280992257453496e-08,
+              "certified": 2,
+              "iterations_saved": 48
+            },
+            "CERT_BLOCK": {
+              "mean_parent_median_us": 1767.9244999999999,
+              "mean_regret": 8.280992257453496e-08,
+              "certified": 5,
+              "iterations_saved": 48
+            },
+            "RESIDUAL": {
+              "mean_parent_median_us": 4760.434333333334,
+              "mean_regret": 0.0,
+              "certified": 0,
+              "iterations_saved": -1679
+            }
+          }
+        },
+        {
+          "field": "rho",
+          "value": 64,
+          "parents": 12,
+          "policies": {
+            "NEVER": {
+              "mean_parent_median_us": 843.0170000000002,
+              "mean_regret": 2.290258409181176e-05,
+              "certified": 0,
+              "iterations_saved": 288
+            },
+            "ALWAYS": {
+              "mean_parent_median_us": 1776.0672499999998,
+              "mean_regret": 1.147819549024981e-08,
+              "certified": 0,
+              "iterations_saved": 0
+            },
+            "PLAIN_ALWAYS": {
+              "mean_parent_median_us": 592.2628333333333,
+              "mean_regret": 1.147819549024981e-08,
+              "certified": 0,
+              "iterations_saved": 0
+            },
+            "CERT_ONCE": {
+              "mean_parent_median_us": 1782.2288333333333,
+              "mean_regret": 1.147819549024981e-08,
+              "certified": 1,
+              "iterations_saved": 24
+            },
+            "CERT_BLOCK": {
+              "mean_parent_median_us": 1776.8895833333336,
+              "mean_regret": 1.147819549024981e-08,
+              "certified": 4,
+              "iterations_saved": 24
+            },
+            "RESIDUAL": {
+              "mean_parent_median_us": 6881.462666666666,
+              "mean_regret": 0.0,
+              "certified": 0,
+              "iterations_saved": -2573
+            }
+          }
+        },
+        {
+          "field": "gap",
+          "value": "wide",
+          "parents": 9,
+          "policies": {
+            "NEVER": {
+              "mean_parent_median_us": 845.272,
+              "mean_regret": 0.0,
+              "certified": 0,
+              "iterations_saved": 216
+            },
+            "ALWAYS": {
+              "mean_parent_median_us": 1774.9918888888888,
+              "mean_regret": 0.0,
+              "certified": 0,
+              "iterations_saved": 0
+            },
+            "PLAIN_ALWAYS": {
+              "mean_parent_median_us": 605.9314444444444,
+              "mean_regret": 0.0,
+              "certified": 0,
+              "iterations_saved": 0
+            },
+            "CERT_ONCE": {
+              "mean_parent_median_us": 1467.8357777777778,
+              "mean_regret": 0.0,
+              "certified": 5,
+              "iterations_saved": 120
+            },
+            "CERT_BLOCK": {
+              "mean_parent_median_us": 1460.031111111111,
+              "mean_regret": 0.0,
+              "certified": 8,
+              "iterations_saved": 120
+            },
+            "RESIDUAL": {
+              "mean_parent_median_us": 4651.299666666667,
+              "mean_regret": 0.0,
+              "certified": 0,
+              "iterations_saved": -1142
+            }
+          }
+        },
+        {
+          "field": "gap",
+          "value": "medium",
+          "parents": 9,
+          "policies": {
+            "NEVER": {
+              "mean_parent_median_us": 829.5988888888888,
+              "mean_regret": 0.00017107578434940197,
+              "certified": 0,
+              "iterations_saved": 216
+            },
+            "ALWAYS": {
+              "mean_parent_median_us": 1757.1387777777777,
+              "mean_regret": 0.0,
+              "certified": 0,
+              "iterations_saved": 0
+            },
+            "PLAIN_ALWAYS": {
+              "mean_parent_median_us": 594.6951111111111,
+              "mean_regret": 0.0,
+              "certified": 0,
+              "iterations_saved": 0
+            },
+            "CERT_ONCE": {
+              "mean_parent_median_us": 1456.7717777777777,
+              "mean_regret": 0.0,
+              "certified": 4,
+              "iterations_saved": 96
+            },
+            "CERT_BLOCK": {
+              "mean_parent_median_us": 1451.7756666666667,
+              "mean_regret": 0.0,
+              "certified": 5,
+              "iterations_saved": 96
+            },
+            "RESIDUAL": {
+              "mean_parent_median_us": 4631.813,
+              "mean_regret": 0.0,
+              "certified": 0,
+              "iterations_saved": -1160
+            }
+          }
+        },
+        {
+          "field": "gap",
+          "value": "tight",
+          "parents": 9,
+          "policies": {
+            "NEVER": {
+              "mean_parent_median_us": 825.9518888888888,
+              "mean_regret": 5.500532210131316e-07,
+              "certified": 0,
+              "iterations_saved": 216
+            },
+            "ALWAYS": {
+              "mean_parent_median_us": 1746.3817777777776,
+              "mean_regret": 1.2571749075304637e-07,
+              "certified": 0,
+              "iterations_saved": 0
+            },
+            "PLAIN_ALWAYS": {
+              "mean_parent_median_us": 590.999,
+              "mean_regret": 1.2571749075304637e-07,
+              "certified": 0,
+              "iterations_saved": 0
+            },
+            "CERT_ONCE": {
+              "mean_parent_median_us": 1746.6789999999999,
+              "mean_regret": 1.2571749075304637e-07,
+              "certified": 0,
+              "iterations_saved": 0
+            },
+            "CERT_BLOCK": {
+              "mean_parent_median_us": 1745.1271111111112,
+              "mean_regret": 1.2571749075304637e-07,
+              "certified": 5,
+              "iterations_saved": 0
+            },
+            "RESIDUAL": {
+              "mean_parent_median_us": 4573.660777777778,
+              "mean_regret": 0.0,
+              "certified": 0,
+              "iterations_saved": -1151
+            }
+          }
+        },
+        {
+          "field": "gap",
+          "value": "tie",
+          "parents": 9,
+          "policies": {
+            "NEVER": {
+              "mean_parent_median_us": 829.5832222222222,
+              "mean_regret": 0.0,
+              "certified": 0,
+              "iterations_saved": 216
+            },
+            "ALWAYS": {
+              "mean_parent_median_us": 1760.6251111111112,
+              "mean_regret": 0.0,
+              "certified": 0,
+              "iterations_saved": 0
+            },
+            "PLAIN_ALWAYS": {
+              "mean_parent_median_us": 593.5194444444444,
+              "mean_regret": 0.0,
+              "certified": 0,
+              "iterations_saved": 0
+            },
+            "CERT_ONCE": {
+              "mean_parent_median_us": 1757.960111111111,
+              "mean_regret": 0.0,
+              "certified": 0,
+              "iterations_saved": 0
+            },
+            "CERT_BLOCK": {
+              "mean_parent_median_us": 1759.4875555555554,
+              "mean_regret": 0.0,
+              "certified": 0,
+              "iterations_saved": 0
+            },
+            "RESIDUAL": {
+              "mean_parent_median_us": 4677.545888888889,
+              "mean_regret": 0.0,
+              "certified": 0,
+              "iterations_saved": -1168
+            }
+          }
+        }
+      ]
+    },
+    {
+      "additional": 32,
+      "policies": {
+        "NEVER": {
+          "parents": 36,
+          "mean_parent_median_us": 829.1496666666666,
+          "mean_regret": 4.290645939260378e-05,
+          "wrong_decision_parents": 7,
+          "certified_parents": 0,
+          "actual_early_stop_parents": 36,
+          "mean_solver_iterations": 12.0,
+          "solver_iterations_saved": 3227,
+          "mean_time_saved_vs_ALWAYS_us": 1906.4650555555554,
+          "paired_parent_bootstrap_time_saved_95_us": [
+            1201.9583951388888,
+            2676.2231347222223
+          ],
+          "mean_utility_difference_vs_ALWAYS": -4.2902633327440476e-05,
+          "mean_bounds_us": 604.9696111111111,
+          "priced": [
+            {
+              "lambda_utility_per_us": 0,
+              "mean_net_gain_from_initial": 0.0,
+              "mean_net_difference_vs_ALWAYS": -4.2902633327440476e-05,
+              "paired_parent_bootstrap_net_difference_95": [
+                -0.00012124869671962388,
+                -5.3233707057231304e-08
+              ],
+              "mean_net_difference_vs_measured_NEVER": 0.0,
+              "mean_net_difference_vs_PLAIN_ALWAYS": -4.2902633327440476e-05,
+              "paired_parent_bootstrap_net_difference_vs_PLAIN_ALWAYS_95": [
+                -0.00012124869671962388,
+                -5.3233707057231304e-08
+              ]
+            },
+            {
+              "lambda_utility_per_us": 1e-06,
+              "mean_net_gain_from_initial": -0.0008291496666666665,
+              "mean_net_difference_vs_ALWAYS": 0.0018635624222281151,
+              "paired_parent_bootstrap_net_difference_95": [
+                0.0011590957417845266,
+                0.0026230674343737065
+              ],
+              "mean_net_difference_vs_measured_NEVER": 0.0,
+              "mean_net_difference_vs_PLAIN_ALWAYS": 0.0006978057833392262,
+              "paired_parent_bootstrap_net_difference_vs_PLAIN_ALWAYS_95": [
+                0.0004298823887316641,
+                0.0009823492777566692
+              ]
+            },
+            {
+              "lambda_utility_per_us": 1e-05,
+              "mean_net_gain_from_initial": -0.008291496666666667,
+              "mean_net_difference_vs_ALWAYS": 0.01902174792222812,
+              "paired_parent_bootstrap_net_difference_95": [
+                0.012004815953851711,
+                0.02673886755212838
+              ],
+              "mean_net_difference_vs_measured_NEVER": 0.0,
+              "mean_net_difference_vs_PLAIN_ALWAYS": 0.007364181533339227,
+              "paired_parent_bootstrap_net_difference_vs_PLAIN_ALWAYS_95": [
+                0.004685776198227934,
+                0.010363428431917851
+              ]
+            }
+          ],
+          "mean_time_saved_vs_PLAIN_ALWAYS_us": 740.7084166666667,
+          "paired_parent_bootstrap_time_saved_vs_PLAIN_ALWAYS_95_us": [
+            470.0894972222222,
+            1039.8812624999998
+          ]
+        },
+        "ALWAYS": {
+          "parents": 36,
+          "mean_parent_median_us": 2735.6147222222226,
+          "mean_regret": 3.826065163416603e-09,
+          "wrong_decision_parents": 1,
+          "certified_parents": 0,
+          "actual_early_stop_parents": 0,
+          "mean_solver_iterations": 101.63888888888889,
+          "solver_iterations_saved": 0,
+          "mean_time_saved_vs_ALWAYS_us": 0.0,
+          "paired_parent_bootstrap_time_saved_95_us": [
+            0.0,
+            0.0
+          ],
+          "mean_utility_difference_vs_ALWAYS": 0.0,
+          "mean_bounds_us": 1204.7578888888886,
+          "priced": [
+            {
+              "lambda_utility_per_us": 0,
+              "mean_net_gain_from_initial": 4.290263332744036e-05,
+              "mean_net_difference_vs_ALWAYS": 0.0,
+              "paired_parent_bootstrap_net_difference_95": [
+                0.0,
+                0.0
+              ],
+              "mean_net_difference_vs_measured_NEVER": 4.2902633327440476e-05,
+              "mean_net_difference_vs_PLAIN_ALWAYS": 0.0,
+              "paired_parent_bootstrap_net_difference_vs_PLAIN_ALWAYS_95": [
+                0.0,
+                0.0
+              ]
+            },
+            {
+              "lambda_utility_per_us": 1e-06,
+              "mean_net_gain_from_initial": -0.002692712088894782,
+              "mean_net_difference_vs_ALWAYS": 0.0,
+              "paired_parent_bootstrap_net_difference_95": [
+                0.0,
+                0.0
+              ],
+              "mean_net_difference_vs_measured_NEVER": -0.0018635624222281151,
+              "mean_net_difference_vs_PLAIN_ALWAYS": -0.0011657566388888888,
+              "paired_parent_bootstrap_net_difference_vs_PLAIN_ALWAYS_95": [
+                -0.001637552358333333,
+                -0.0007334335000000002
+              ]
+            },
+            {
+              "lambda_utility_per_us": 1e-05,
+              "mean_net_gain_from_initial": -0.027313244588894784,
+              "mean_net_difference_vs_ALWAYS": 0.0,
+              "paired_parent_bootstrap_net_difference_95": [
+                0.0,
+                0.0
+              ],
+              "mean_net_difference_vs_measured_NEVER": -0.01902174792222812,
+              "mean_net_difference_vs_PLAIN_ALWAYS": -0.011657566388888891,
+              "paired_parent_bootstrap_net_difference_vs_PLAIN_ALWAYS_95": [
+                -0.016375523583333332,
+                -0.007334335000000004
+              ]
+            }
+          ],
+          "mean_time_saved_vs_PLAIN_ALWAYS_us": -1165.756638888889,
+          "paired_parent_bootstrap_time_saved_vs_PLAIN_ALWAYS_95_us": [
+            -1637.5523583333336,
+            -733.4335000000002
+          ]
+        },
+        "PLAIN_ALWAYS": {
+          "parents": 36,
+          "mean_parent_median_us": 1569.8580833333335,
+          "mean_regret": 3.826065163416603e-09,
+          "wrong_decision_parents": 1,
+          "certified_parents": 0,
+          "actual_early_stop_parents": 0,
+          "mean_solver_iterations": 101.63888888888889,
+          "solver_iterations_saved": 0,
+          "mean_time_saved_vs_ALWAYS_us": 1165.756638888889,
+          "paired_parent_bootstrap_time_saved_95_us": [
+            733.4335,
+            1637.5523583333334
+          ],
+          "mean_utility_difference_vs_ALWAYS": 0.0,
+          "mean_bounds_us": 41.38672222222222,
+          "priced": [
+            {
+              "lambda_utility_per_us": 0,
+              "mean_net_gain_from_initial": 4.290263332744036e-05,
+              "mean_net_difference_vs_ALWAYS": 0.0,
+              "paired_parent_bootstrap_net_difference_95": [
+                0.0,
+                0.0
+              ],
+              "mean_net_difference_vs_measured_NEVER": 4.2902633327440476e-05,
+              "mean_net_difference_vs_PLAIN_ALWAYS": 0.0,
+              "paired_parent_bootstrap_net_difference_vs_PLAIN_ALWAYS_95": [
+                0.0,
+                0.0
+              ]
+            },
+            {
+              "lambda_utility_per_us": 1e-06,
+              "mean_net_gain_from_initial": -0.0015269554500058928,
+              "mean_net_difference_vs_ALWAYS": 0.0011657566388888888,
+              "paired_parent_bootstrap_net_difference_95": [
+                0.0007334335,
+                0.0016375523583333326
+              ],
+              "mean_net_difference_vs_measured_NEVER": -0.0006978057833392262,
+              "mean_net_difference_vs_PLAIN_ALWAYS": 0.0,
+              "paired_parent_bootstrap_net_difference_vs_PLAIN_ALWAYS_95": [
+                0.0,
+                0.0
+              ]
+            },
+            {
+              "lambda_utility_per_us": 1e-05,
+              "mean_net_gain_from_initial": -0.015655678200005893,
+              "mean_net_difference_vs_ALWAYS": 0.011657566388888891,
+              "paired_parent_bootstrap_net_difference_95": [
+                0.007334335000000003,
+                0.01637552358333333
+              ],
+              "mean_net_difference_vs_measured_NEVER": -0.007364181533339227,
+              "mean_net_difference_vs_PLAIN_ALWAYS": 0.0,
+              "paired_parent_bootstrap_net_difference_vs_PLAIN_ALWAYS_95": [
+                0.0,
+                0.0
+              ]
+            }
+          ],
+          "mean_time_saved_vs_PLAIN_ALWAYS_us": 0.0,
+          "paired_parent_bootstrap_time_saved_vs_PLAIN_ALWAYS_95_us": [
+            0.0,
+            0.0
+          ]
+        },
+        "CERT_ONCE": {
+          "parents": 36,
+          "mean_parent_median_us": 2416.0846666666666,
+          "mean_regret": 3.826065163416603e-09,
+          "wrong_decision_parents": 1,
+          "certified_parents": 9,
+          "actual_early_stop_parents": 9,
+          "mean_solver_iterations": 80.36111111111111,
+          "solver_iterations_saved": 766,
+          "mean_time_saved_vs_ALWAYS_us": 319.5300555555555,
+          "paired_parent_bootstrap_time_saved_95_us": [
+            20.96314166666668,
+            746.4067062500002
+          ],
+          "mean_utility_difference_vs_ALWAYS": 0.0,
+          "mean_bounds_us": 1105.6891944444444,
+          "priced": [
+            {
+              "lambda_utility_per_us": 0,
+              "mean_net_gain_from_initial": 4.290263332744036e-05,
+              "mean_net_difference_vs_ALWAYS": 0.0,
+              "paired_parent_bootstrap_net_difference_95": [
+                0.0,
+                0.0
+              ],
+              "mean_net_difference_vs_measured_NEVER": 4.2902633327440476e-05,
+              "mean_net_difference_vs_PLAIN_ALWAYS": 0.0,
+              "paired_parent_bootstrap_net_difference_vs_PLAIN_ALWAYS_95": [
+                0.0,
+                0.0
+              ]
+            },
+            {
+              "lambda_utility_per_us": 1e-06,
+              "mean_net_gain_from_initial": -0.002373182033339227,
+              "mean_net_difference_vs_ALWAYS": 0.00031953005555555554,
+              "paired_parent_bootstrap_net_difference_95": [
+                2.096314166666668e-05,
+                0.0007464067062500001
+              ],
+              "mean_net_difference_vs_measured_NEVER": -0.0015440323666725596,
+              "mean_net_difference_vs_PLAIN_ALWAYS": -0.0008462265833333333,
+              "paired_parent_bootstrap_net_difference_vs_PLAIN_ALWAYS_95": [
+                -0.001345358892361111,
+                -0.0003430986013888898
+              ]
+            },
+            {
+              "lambda_utility_per_us": 1e-05,
+              "mean_net_gain_from_initial": -0.024117944033339226,
+              "mean_net_difference_vs_ALWAYS": 0.0031953005555555563,
+              "paired_parent_bootstrap_net_difference_95": [
+                0.00020963141666666685,
+                0.007464067062500002
+              ],
+              "mean_net_difference_vs_measured_NEVER": -0.01582644736667256,
+              "mean_net_difference_vs_PLAIN_ALWAYS": -0.008462265833333335,
+              "paired_parent_bootstrap_net_difference_vs_PLAIN_ALWAYS_95": [
+                -0.013453588923611112,
+                -0.0034309860138888987
+              ]
+            }
+          ],
+          "mean_time_saved_vs_PLAIN_ALWAYS_us": -846.2265833333333,
+          "paired_parent_bootstrap_time_saved_vs_PLAIN_ALWAYS_95_us": [
+            -1345.3588923611112,
+            -343.0986013888898
+          ]
+        },
+        "CERT_BLOCK": {
+          "parents": 36,
+          "mean_parent_median_us": 3037.7050833333333,
+          "mean_regret": 3.826065163416603e-09,
+          "wrong_decision_parents": 1,
+          "certified_parents": 26,
+          "actual_early_stop_parents": 25,
+          "mean_solver_iterations": 57.05555555555556,
+          "solver_iterations_saved": 1605,
+          "mean_time_saved_vs_ALWAYS_us": -302.090361111111,
+          "paired_parent_bootstrap_time_saved_95_us": [
+            -1044.2418840277776,
+            460.3392409722219
+          ],
+          "mean_utility_difference_vs_ALWAYS": 0.0,
+          "mean_bounds_us": 2037.2433333333336,
+          "priced": [
+            {
+              "lambda_utility_per_us": 0,
+              "mean_net_gain_from_initial": 4.290263332744036e-05,
+              "mean_net_difference_vs_ALWAYS": 0.0,
+              "paired_parent_bootstrap_net_difference_95": [
+                0.0,
+                0.0
+              ],
+              "mean_net_difference_vs_measured_NEVER": 4.2902633327440476e-05,
+              "mean_net_difference_vs_PLAIN_ALWAYS": 0.0,
+              "paired_parent_bootstrap_net_difference_vs_PLAIN_ALWAYS_95": [
+                0.0,
+                0.0
+              ]
+            },
+            {
+              "lambda_utility_per_us": 1e-06,
+              "mean_net_gain_from_initial": -0.0029948024500058928,
+              "mean_net_difference_vs_ALWAYS": -0.00030209036111111104,
+              "paired_parent_bootstrap_net_difference_95": [
+                -0.0010442418840277776,
+                0.00046033924097222187
+              ],
+              "mean_net_difference_vs_measured_NEVER": -0.0021656527833392256,
+              "mean_net_difference_vs_PLAIN_ALWAYS": -0.001467847,
+              "paired_parent_bootstrap_net_difference_vs_PLAIN_ALWAYS_95": [
+                -0.0024191683590277773,
+                -0.0005897209361111112
+              ]
+            },
+            {
+              "lambda_utility_per_us": 1e-05,
+              "mean_net_gain_from_initial": -0.030334148200005892,
+              "mean_net_difference_vs_ALWAYS": -0.0030209036111111115,
+              "paired_parent_bootstrap_net_difference_95": [
+                -0.010442418840277775,
+                0.004603392409722219
+              ],
+              "mean_net_difference_vs_measured_NEVER": -0.022042651533339227,
+              "mean_net_difference_vs_PLAIN_ALWAYS": -0.014678470000000002,
+              "paired_parent_bootstrap_net_difference_vs_PLAIN_ALWAYS_95": [
+                -0.024191683590277773,
+                -0.005897209361111113
+              ]
+            }
+          ],
+          "mean_time_saved_vs_PLAIN_ALWAYS_us": -1467.8470000000002,
+          "paired_parent_bootstrap_time_saved_vs_PLAIN_ALWAYS_95_us": [
+            -2419.1683590277776,
+            -589.7209361111112
+          ]
+        },
+        "RESIDUAL": {
+          "parents": 36,
+          "mean_parent_median_us": 4615.985944444445,
+          "mean_regret": 0.0,
+          "wrong_decision_parents": 0,
+          "certified_parents": 0,
+          "actual_early_stop_parents": 20,
+          "mean_solver_iterations": 164.36111111111111,
+          "solver_iterations_saved": -2258,
+          "mean_time_saved_vs_ALWAYS_us": -1880.3712222222223,
+          "paired_parent_bootstrap_time_saved_95_us": [
+            -3247.009198611111,
+            -660.3449833333342
+          ],
+          "mean_utility_difference_vs_ALWAYS": 3.826065163429035e-09,
+          "mean_bounds_us": 1204.7053333333336,
+          "priced": [
+            {
+              "lambda_utility_per_us": 0,
+              "mean_net_gain_from_initial": 4.290645939260378e-05,
+              "mean_net_difference_vs_ALWAYS": 3.826065163429035e-09,
+              "paired_parent_bootstrap_net_difference_95": [
+                0.0,
+                1.1478195490287104e-08
+              ],
+              "mean_net_difference_vs_measured_NEVER": 4.29064593926039e-05,
+              "mean_net_difference_vs_PLAIN_ALWAYS": 3.826065163429035e-09,
+              "paired_parent_bootstrap_net_difference_vs_PLAIN_ALWAYS_95": [
+                0.0,
+                1.1478195490287104e-08
+              ]
+            },
+            {
+              "lambda_utility_per_us": 1e-06,
+              "mean_net_gain_from_initial": -0.004573079485051841,
+              "mean_net_difference_vs_ALWAYS": -0.0018803673961570585,
+              "paired_parent_bootstrap_net_difference_95": [
+                -0.0032470054681975765,
+                -0.0006603449833333341
+              ],
+              "mean_net_difference_vs_measured_NEVER": -0.003743929818385174,
+              "mean_net_difference_vs_PLAIN_ALWAYS": -0.003046124035045948,
+              "paired_parent_bootstrap_net_difference_vs_PLAIN_ALWAYS_95": [
+                -0.004724424116477652,
+                -0.0015193622592094827
+              ]
+            },
+            {
+              "lambda_utility_per_us": 1e-05,
+              "mean_net_gain_from_initial": -0.04611695298505185,
+              "mean_net_difference_vs_ALWAYS": -0.01880370839615706,
+              "paired_parent_bootstrap_net_difference_95": [
+                -0.03247008825569758,
+                -0.006603449833333343
+              ],
+              "mean_net_difference_vs_measured_NEVER": -0.03782545631838517,
+              "mean_net_difference_vs_PLAIN_ALWAYS": -0.03046127478504595,
+              "paired_parent_bootstrap_net_difference_vs_PLAIN_ALWAYS_95": [
+                -0.047244276460227656,
+                -0.015193623452959493
+              ]
+            }
+          ],
+          "mean_time_saved_vs_PLAIN_ALWAYS_us": -3046.127861111111,
+          "paired_parent_bootstrap_time_saved_vs_PLAIN_ALWAYS_95_us": [
+            -4724.428038194445,
+            -1519.362354861112
+          ]
+        }
+      },
+      "subgroups": [
+        {
+          "field": "side",
+          "value": 8,
+          "parents": 12,
+          "policies": {
+            "NEVER": {
+              "mean_parent_median_us": 14.002083333333333,
+              "mean_regret": 3.6298354784009784e-08,
+              "certified": 0,
+              "iterations_saved": 923
+            },
+            "ALWAYS": {
+              "mean_parent_median_us": 44.40941666666666,
+              "mean_regret": 0.0,
+              "certified": 0,
+              "iterations_saved": 0
+            },
+            "PLAIN_ALWAYS": {
+              "mean_parent_median_us": 25.9605,
+              "mean_regret": 0.0,
+              "certified": 0,
+              "iterations_saved": 0
+            },
+            "CERT_ONCE": {
+              "mean_parent_median_us": 31.975166666666667,
+              "mean_regret": 0.0,
+              "certified": 5,
+              "iterations_saved": 382
+            },
+            "CERT_BLOCK": {
+              "mean_parent_median_us": 33.27191666666667,
+              "mean_regret": 0.0,
+              "certified": 9,
+              "iterations_saved": 597
+            },
+            "RESIDUAL": {
+              "mean_parent_median_us": 38.07758333333333,
+              "mean_regret": 0.0,
+              "certified": 0,
+              "iterations_saved": 300
+            }
+          }
+        },
+        {
+          "field": "side",
+          "value": 32,
+          "parents": 12,
+          "policies": {
+            "NEVER": {
+              "mean_parent_median_us": 245.9599166666667,
+              "mean_regret": 2.2901656436489414e-05,
+              "certified": 0,
+              "iterations_saved": 1152
+            },
+            "ALWAYS": {
+              "mean_parent_median_us": 826.1294166666668,
+              "mean_regret": 0.0,
+              "certified": 0,
+              "iterations_saved": 0
+            },
+            "PLAIN_ALWAYS": {
+              "mean_parent_median_us": 484.50174999999996,
+              "mean_regret": 0.0,
+              "certified": 0,
+              "iterations_saved": 0
+            },
+            "CERT_ONCE": {
+              "mean_parent_median_us": 727.8036666666667,
+              "mean_regret": 0.0,
+              "certified": 2,
+              "iterations_saved": 192
+            },
+            "CERT_BLOCK": {
+              "mean_parent_median_us": 832.5515,
+              "mean_regret": 0.0,
+              "certified": 9,
+              "iterations_saved": 552
+            },
+            "RESIDUAL": {
+              "mean_parent_median_us": 1098.2033333333334,
+              "mean_regret": 0.0,
+              "certified": 0,
+              "iterations_saved": -775
+            }
+          }
+        },
+        {
+          "field": "side",
+          "value": 96,
+          "parents": 12,
+          "policies": {
+            "NEVER": {
+              "mean_parent_median_us": 2227.4869999999996,
+              "mean_regret": 0.0001057814233865379,
+              "certified": 0,
+              "iterations_saved": 1152
+            },
+            "ALWAYS": {
+              "mean_parent_median_us": 7336.305333333335,
+              "mean_regret": 1.147819549024981e-08,
+              "certified": 0,
+              "iterations_saved": 0
+            },
+            "PLAIN_ALWAYS": {
+              "mean_parent_median_us": 4199.112,
+              "mean_regret": 1.147819549024981e-08,
+              "certified": 0,
+              "iterations_saved": 0
+            },
+            "CERT_ONCE": {
+              "mean_parent_median_us": 6488.475166666667,
+              "mean_regret": 1.147819549024981e-08,
+              "certified": 2,
+              "iterations_saved": 192
+            },
+            "CERT_BLOCK": {
+              "mean_parent_median_us": 8247.291833333335,
+              "mean_regret": 1.147819549024981e-08,
+              "certified": 8,
+              "iterations_saved": 456
+            },
+            "RESIDUAL": {
+              "mean_parent_median_us": 12711.676916666665,
+              "mean_regret": 0.0,
+              "certified": 0,
+              "iterations_saved": -1783
+            }
+          }
+        },
+        {
+          "field": "rho",
+          "value": 1,
+          "parents": 12,
+          "policies": {
+            "NEVER": {
+              "mean_parent_median_us": 805.7784166666667,
+              "mean_regret": 3.2342250634065103e-07,
+              "certified": 0,
+              "iterations_saved": 1043
+            },
+            "ALWAYS": {
+              "mean_parent_median_us": 2706.5195,
+              "mean_regret": 0.0,
+              "certified": 0,
+              "iterations_saved": 0
+            },
+            "PLAIN_ALWAYS": {
+              "mean_parent_median_us": 1573.27775,
+              "mean_regret": 0.0,
+              "certified": 0,
+              "iterations_saved": 0
+            },
+            "CERT_ONCE": {
+              "mean_parent_median_us": 1751.5259999999998,
+              "mean_regret": 0.0,
+              "certified": 6,
+              "iterations_saved": 522
+            },
+            "CERT_BLOCK": {
+              "mean_parent_median_us": 1938.375,
+              "mean_regret": 0.0,
+              "certified": 9,
+              "iterations_saved": 711
+            },
+            "RESIDUAL": {
+              "mean_parent_median_us": 2239.1346666666664,
+              "mean_regret": 0.0,
+              "certified": 0,
+              "iterations_saved": 386
+            }
+          }
+        },
+        {
+          "field": "rho",
+          "value": 16,
+          "parents": 12,
+          "policies": {
+            "NEVER": {
+              "mean_parent_median_us": 840.3276666666666,
+              "mean_regret": 0.00010549337157965892,
+              "certified": 0,
+              "iterations_saved": 1092
+            },
+            "ALWAYS": {
+              "mean_parent_median_us": 2754.106333333333,
+              "mean_regret": 0.0,
+              "certified": 0,
+              "iterations_saved": 0
+            },
+            "PLAIN_ALWAYS": {
+              "mean_parent_median_us": 1569.046916666667,
+              "mean_regret": 0.0,
+              "certified": 0,
+              "iterations_saved": 0
+            },
+            "CERT_ONCE": {
+              "mean_parent_median_us": 2748.192833333333,
+              "mean_regret": 0.0,
+              "certified": 2,
+              "iterations_saved": 163
+            },
+            "CERT_BLOCK": {
+              "mean_parent_median_us": 3373.6766666666667,
+              "mean_regret": 0.0,
+              "certified": 9,
+              "iterations_saved": 483
+            },
+            "RESIDUAL": {
+              "mean_parent_median_us": 4731.655083333334,
+              "mean_regret": 0.0,
+              "certified": 0,
+              "iterations_saved": -875
+            }
+          }
+        },
+        {
+          "field": "rho",
+          "value": 64,
+          "parents": 12,
+          "policies": {
+            "NEVER": {
+              "mean_parent_median_us": 841.3429166666666,
+              "mean_regret": 2.290258409181176e-05,
+              "certified": 0,
+              "iterations_saved": 1092
+            },
+            "ALWAYS": {
+              "mean_parent_median_us": 2746.218333333333,
+              "mean_regret": 1.147819549024981e-08,
+              "certified": 0,
+              "iterations_saved": 0
+            },
+            "PLAIN_ALWAYS": {
+              "mean_parent_median_us": 1567.2495833333335,
+              "mean_regret": 1.147819549024981e-08,
+              "certified": 0,
+              "iterations_saved": 0
+            },
+            "CERT_ONCE": {
+              "mean_parent_median_us": 2748.5351666666666,
+              "mean_regret": 1.147819549024981e-08,
+              "certified": 1,
+              "iterations_saved": 81
+            },
+            "CERT_BLOCK": {
+              "mean_parent_median_us": 3801.063583333333,
+              "mean_regret": 1.147819549024981e-08,
+              "certified": 8,
+              "iterations_saved": 411
+            },
+            "RESIDUAL": {
+              "mean_parent_median_us": 6877.168083333333,
+              "mean_regret": 0.0,
+              "certified": 0,
+              "iterations_saved": -1769
+            }
+          }
+        },
+        {
+          "field": "gap",
+          "value": "wide",
+          "parents": 9,
+          "policies": {
+            "NEVER": {
+              "mean_parent_median_us": 827.8254444444443,
+              "mean_regret": 0.0,
+              "certified": 0,
+              "iterations_saved": 808
+            },
+            "ALWAYS": {
+              "mean_parent_median_us": 2726.717333333333,
+              "mean_regret": 0.0,
+              "certified": 0,
+              "iterations_saved": 0
+            },
+            "PLAIN_ALWAYS": {
+              "mean_parent_median_us": 1568.4682222222223,
+              "mean_regret": 0.0,
+              "certified": 0,
+              "iterations_saved": 0
+            },
+            "CERT_ONCE": {
+              "mean_parent_median_us": 2098.9423333333334,
+              "mean_regret": 0.0,
+              "certified": 5,
+              "iterations_saved": 424
+            },
+            "CERT_BLOCK": {
+              "mean_parent_median_us": 1724.9805555555556,
+              "mean_regret": 0.0,
+              "certified": 9,
+              "iterations_saved": 688
+            },
+            "RESIDUAL": {
+              "mean_parent_median_us": 4580.156,
+              "mean_regret": 0.0,
+              "certified": 0,
+              "iterations_saved": -550
+            }
+          }
+        },
+        {
+          "field": "gap",
+          "value": "medium",
+          "parents": 9,
+          "policies": {
+            "NEVER": {
+              "mean_parent_median_us": 831.5970000000001,
+              "mean_regret": 0.00017107578434940197,
+              "certified": 0,
+              "iterations_saved": 807
+            },
+            "ALWAYS": {
+              "mean_parent_median_us": 2734.1145555555554,
+              "mean_regret": 0.0,
+              "certified": 0,
+              "iterations_saved": 0
+            },
+            "PLAIN_ALWAYS": {
+              "mean_parent_median_us": 1572.3855555555556,
+              "mean_regret": 0.0,
+              "certified": 0,
+              "iterations_saved": 0
+            },
+            "CERT_ONCE": {
+              "mean_parent_median_us": 2099.824111111111,
+              "mean_regret": 0.0,
+              "certified": 4,
+              "iterations_saved": 342
+            },
+            "CERT_BLOCK": {
+              "mean_parent_median_us": 2349.387888888889,
+              "mean_regret": 0.0,
+              "certified": 9,
+              "iterations_saved": 567
+            },
+            "RESIDUAL": {
+              "mean_parent_median_us": 4618.316555555556,
+              "mean_regret": 0.0,
+              "certified": 0,
+              "iterations_saved": -569
+            }
+          }
+        },
+        {
+          "field": "gap",
+          "value": "tight",
+          "parents": 9,
+          "policies": {
+            "NEVER": {
+              "mean_parent_median_us": 825.8486666666668,
+              "mean_regret": 5.500532210131316e-07,
+              "certified": 0,
+              "iterations_saved": 806
+            },
+            "ALWAYS": {
+              "mean_parent_median_us": 2727.5,
+              "mean_regret": 1.5304260653666412e-08,
+              "certified": 0,
+              "iterations_saved": 0
+            },
+            "PLAIN_ALWAYS": {
+              "mean_parent_median_us": 1568.6418888888886,
+              "mean_regret": 1.5304260653666412e-08,
+              "certified": 0,
+              "iterations_saved": 0
+            },
+            "CERT_ONCE": {
+              "mean_parent_median_us": 2729.447,
+              "mean_regret": 1.5304260653666412e-08,
+              "certified": 0,
+              "iterations_saved": 0
+            },
+            "CERT_BLOCK": {
+              "mean_parent_median_us": 3537.323,
+              "mean_regret": 1.5304260653666412e-08,
+              "certified": 8,
+              "iterations_saved": 350
+            },
+            "RESIDUAL": {
+              "mean_parent_median_us": 4589.779888888889,
+              "mean_regret": 0.0,
+              "certified": 0,
+              "iterations_saved": -561
+            }
+          }
+        },
+        {
+          "field": "gap",
+          "value": "tie",
+          "parents": 9,
+          "policies": {
+            "NEVER": {
+              "mean_parent_median_us": 831.3275555555554,
+              "mean_regret": 0.0,
+              "certified": 0,
+              "iterations_saved": 806
+            },
+            "ALWAYS": {
+              "mean_parent_median_us": 2754.1269999999995,
+              "mean_regret": 0.0,
+              "certified": 0,
+              "iterations_saved": 0
+            },
+            "PLAIN_ALWAYS": {
+              "mean_parent_median_us": 1569.9366666666667,
+              "mean_regret": 0.0,
+              "certified": 0,
+              "iterations_saved": 0
+            },
+            "CERT_ONCE": {
+              "mean_parent_median_us": 2736.1252222222224,
+              "mean_regret": 0.0,
+              "certified": 0,
+              "iterations_saved": 0
+            },
+            "CERT_BLOCK": {
+              "mean_parent_median_us": 4539.128888888889,
+              "mean_regret": 0.0,
+              "certified": 0,
+              "iterations_saved": 0
+            },
+            "RESIDUAL": {
+              "mean_parent_median_us": 4675.691333333332,
+              "mean_regret": 0.0,
+              "certified": 0,
+              "iterations_saved": -578
+            }
+          }
+        }
+      ]
+    },
+    {
+      "additional": 128,
+      "policies": {
+        "NEVER": {
+          "parents": 36,
+          "mean_parent_median_us": 831.0676111111111,
+          "mean_regret": 4.290645939260378e-05,
+          "wrong_decision_parents": 7,
+          "certified_parents": 0,
+          "actual_early_stop_parents": 36,
+          "mean_solver_iterations": 12.0,
+          "solver_iterations_saved": 7660,
+          "mean_time_saved_vs_ALWAYS_us": 4572.552722222222,
+          "paired_parent_bootstrap_time_saved_95_us": [
+            2634.5834395833326,
+            6554.739467361109
+          ],
+          "mean_utility_difference_vs_ALWAYS": -4.29064593926039e-05,
+          "mean_bounds_us": 606.2108611111112,
+          "priced": [
+            {
+              "lambda_utility_per_us": 0,
+              "mean_net_gain_from_initial": 0.0,
+              "mean_net_difference_vs_ALWAYS": -4.29064593926039e-05,
+              "paired_parent_bootstrap_net_difference_95": [
+                -0.00012071423699539432,
+                -4.2958454480651525e-08
+              ],
+              "mean_net_difference_vs_measured_NEVER": 0.0,
+              "mean_net_difference_vs_PLAIN_ALWAYS": -4.29064593926039e-05,
+              "paired_parent_bootstrap_net_difference_vs_PLAIN_ALWAYS_95": [
+                -0.00012071423699539432,
+                -4.2958454480651525e-08
+              ]
+            },
+            {
+              "lambda_utility_per_us": 1e-06,
+              "mean_net_gain_from_initial": -0.000831067611111111,
+              "mean_net_difference_vs_ALWAYS": 0.004529646262829618,
+              "paired_parent_bootstrap_net_difference_95": [
+                0.0025962972126181115,
+                0.006501723828599182
+              ],
+              "mean_net_difference_vs_measured_NEVER": 0.0,
+              "mean_net_difference_vs_PLAIN_ALWAYS": 0.003362630151718507,
+              "paired_parent_bootstrap_net_difference_vs_PLAIN_ALWAYS_95": [
+                0.0018653807365784504,
+                0.004976643972235001
+              ]
+            },
+            {
+              "lambda_utility_per_us": 1e-05,
+              "mean_net_gain_from_initial": -0.008310676111111113,
+              "mean_net_difference_vs_ALWAYS": 0.04568262076282961,
+              "paired_parent_bootstrap_net_difference_95": [
+                0.026275537842134895,
+                0.06547649098032467
+              ],
+              "mean_net_difference_vs_measured_NEVER": 0.0,
+              "mean_net_difference_vs_PLAIN_ALWAYS": 0.03401245965171851,
+              "paired_parent_bootstrap_net_difference_vs_PLAIN_ALWAYS_95": [
+                0.018870748789244537,
+                0.05020096009300549
+              ]
+            }
+          ],
+          "mean_time_saved_vs_PLAIN_ALWAYS_us": 3405.5366111111116,
+          "paired_parent_bootstrap_time_saved_vs_PLAIN_ALWAYS_95_us": [
+            1888.6612444444447,
+            5021.016813888886
+          ]
+        },
+        "ALWAYS": {
+          "parents": 36,
+          "mean_parent_median_us": 5403.620333333333,
+          "mean_regret": 0.0,
+          "wrong_decision_parents": 0,
+          "certified_parents": 0,
+          "actual_early_stop_parents": 0,
+          "mean_solver_iterations": 224.77777777777777,
+          "solver_iterations_saved": 0,
+          "mean_time_saved_vs_ALWAYS_us": 0.0,
+          "paired_parent_bootstrap_time_saved_95_us": [
+            0.0,
+            0.0
+          ],
+          "mean_utility_difference_vs_ALWAYS": 0.0,
+          "mean_bounds_us": 1210.639388888889,
+          "priced": [
+            {
+              "lambda_utility_per_us": 0,
+              "mean_net_gain_from_initial": 4.290645939260378e-05,
+              "mean_net_difference_vs_ALWAYS": 0.0,
+              "paired_parent_bootstrap_net_difference_95": [
+                0.0,
+                0.0
+              ],
+              "mean_net_difference_vs_measured_NEVER": 4.29064593926039e-05,
+              "mean_net_difference_vs_PLAIN_ALWAYS": 0.0,
+              "paired_parent_bootstrap_net_difference_vs_PLAIN_ALWAYS_95": [
+                0.0,
+                0.0
+              ]
+            },
+            {
+              "lambda_utility_per_us": 1e-06,
+              "mean_net_gain_from_initial": -0.005360713873940729,
+              "mean_net_difference_vs_ALWAYS": 0.0,
+              "paired_parent_bootstrap_net_difference_95": [
+                0.0,
+                0.0
+              ],
+              "mean_net_difference_vs_measured_NEVER": -0.004529646262829618,
+              "mean_net_difference_vs_PLAIN_ALWAYS": -0.001167016111111111,
+              "paired_parent_bootstrap_net_difference_vs_PLAIN_ALWAYS_95": [
+                -0.0016273944430555552,
+                -0.0007152852284722224
+              ]
+            },
+            {
+              "lambda_utility_per_us": 1e-05,
+              "mean_net_gain_from_initial": -0.05399329687394074,
+              "mean_net_difference_vs_ALWAYS": 0.0,
+              "paired_parent_bootstrap_net_difference_95": [
+                0.0,
+                0.0
+              ],
+              "mean_net_difference_vs_measured_NEVER": -0.04568262076282961,
+              "mean_net_difference_vs_PLAIN_ALWAYS": -0.011670161111111112,
+              "paired_parent_bootstrap_net_difference_vs_PLAIN_ALWAYS_95": [
+                -0.016273944430555555,
+                -0.007152852284722224
+              ]
+            }
+          ],
+          "mean_time_saved_vs_PLAIN_ALWAYS_us": -1167.016111111111,
+          "paired_parent_bootstrap_time_saved_vs_PLAIN_ALWAYS_95_us": [
+            -1627.3944430555553,
+            -715.2852284722226
+          ]
+        },
+        "PLAIN_ALWAYS": {
+          "parents": 36,
+          "mean_parent_median_us": 4236.604222222222,
+          "mean_regret": 0.0,
+          "wrong_decision_parents": 0,
+          "certified_parents": 0,
+          "actual_early_stop_parents": 0,
+          "mean_solver_iterations": 224.77777777777777,
+          "solver_iterations_saved": 0,
+          "mean_time_saved_vs_ALWAYS_us": 1167.016111111111,
+          "paired_parent_bootstrap_time_saved_95_us": [
+            715.2852284722223,
+            1627.3944430555546
+          ],
+          "mean_utility_difference_vs_ALWAYS": 0.0,
+          "mean_bounds_us": 41.69591666666667,
+          "priced": [
+            {
+              "lambda_utility_per_us": 0,
+              "mean_net_gain_from_initial": 4.290645939260378e-05,
+              "mean_net_difference_vs_ALWAYS": 0.0,
+              "paired_parent_bootstrap_net_difference_95": [
+                0.0,
+                0.0
+              ],
+              "mean_net_difference_vs_measured_NEVER": 4.29064593926039e-05,
+              "mean_net_difference_vs_PLAIN_ALWAYS": 0.0,
+              "paired_parent_bootstrap_net_difference_vs_PLAIN_ALWAYS_95": [
+                0.0,
+                0.0
+              ]
+            },
+            {
+              "lambda_utility_per_us": 1e-06,
+              "mean_net_gain_from_initial": -0.004193697762829619,
+              "mean_net_difference_vs_ALWAYS": 0.001167016111111111,
+              "paired_parent_bootstrap_net_difference_95": [
+                0.0007152852284722222,
+                0.0016273944430555546
+              ],
+              "mean_net_difference_vs_measured_NEVER": -0.003362630151718507,
+              "mean_net_difference_vs_PLAIN_ALWAYS": 0.0,
+              "paired_parent_bootstrap_net_difference_vs_PLAIN_ALWAYS_95": [
+                0.0,
+                0.0
+              ]
+            },
+            {
+              "lambda_utility_per_us": 1e-05,
+              "mean_net_gain_from_initial": -0.04232313576282962,
+              "mean_net_difference_vs_ALWAYS": 0.011670161111111112,
+              "paired_parent_bootstrap_net_difference_95": [
+                0.007152852284722221,
+                0.016273944430555548
+              ],
+              "mean_net_difference_vs_measured_NEVER": -0.03401245965171851,
+              "mean_net_difference_vs_PLAIN_ALWAYS": 0.0,
+              "paired_parent_bootstrap_net_difference_vs_PLAIN_ALWAYS_95": [
+                0.0,
+                0.0
+              ]
+            }
+          ],
+          "mean_time_saved_vs_PLAIN_ALWAYS_us": 0.0,
+          "paired_parent_bootstrap_time_saved_vs_PLAIN_ALWAYS_95_us": [
+            0.0,
+            0.0
+          ]
+        },
+        "CERT_ONCE": {
+          "parents": 36,
+          "mean_parent_median_us": 5025.932916666668,
+          "mean_regret": 0.0,
+          "wrong_decision_parents": 0,
+          "certified_parents": 9,
+          "actual_early_stop_parents": 9,
+          "mean_solver_iterations": 200.88888888888889,
+          "solver_iterations_saved": 860,
+          "mean_time_saved_vs_ALWAYS_us": 377.68741666666654,
+          "paired_parent_bootstrap_time_saved_95_us": [
+            18.176313888888817,
+            892.7541638888886
+          ],
+          "mean_utility_difference_vs_ALWAYS": 0.0,
+          "mean_bounds_us": 1109.2789444444447,
+          "priced": [
+            {
+              "lambda_utility_per_us": 0,
+              "mean_net_gain_from_initial": 4.290645939260378e-05,
+              "mean_net_difference_vs_ALWAYS": 0.0,
+              "paired_parent_bootstrap_net_difference_95": [
+                0.0,
+                0.0
+              ],
+              "mean_net_difference_vs_measured_NEVER": 4.29064593926039e-05,
+              "mean_net_difference_vs_PLAIN_ALWAYS": 0.0,
+              "paired_parent_bootstrap_net_difference_vs_PLAIN_ALWAYS_95": [
+                0.0,
+                0.0
+              ]
+            },
+            {
+              "lambda_utility_per_us": 1e-06,
+              "mean_net_gain_from_initial": -0.004983026457274064,
+              "mean_net_difference_vs_ALWAYS": 0.0003776874166666666,
+              "paired_parent_bootstrap_net_difference_95": [
+                1.817631388888882e-05,
+                0.0008927541638888886
+              ],
+              "mean_net_difference_vs_measured_NEVER": -0.004151958846162952,
+              "mean_net_difference_vs_PLAIN_ALWAYS": -0.0007893286944444445,
+              "paired_parent_bootstrap_net_difference_vs_PLAIN_ALWAYS_95": [
+                -0.0013170824111111113,
+                -0.0002797287451388891
+              ]
+            },
+            {
+              "lambda_utility_per_us": 1e-05,
+              "mean_net_gain_from_initial": -0.050216422707274076,
+              "mean_net_difference_vs_ALWAYS": 0.003776874166666666,
+              "paired_parent_bootstrap_net_difference_95": [
+                0.00018176313888888823,
+                0.008927541638888887
+              ],
+              "mean_net_difference_vs_measured_NEVER": -0.04190574659616295,
+              "mean_net_difference_vs_PLAIN_ALWAYS": -0.007893286944444446,
+              "paired_parent_bootstrap_net_difference_vs_PLAIN_ALWAYS_95": [
+                -0.013170824111111116,
+                -0.002797287451388892
+              ]
+            }
+          ],
+          "mean_time_saved_vs_PLAIN_ALWAYS_us": -789.3286944444445,
+          "paired_parent_bootstrap_time_saved_vs_PLAIN_ALWAYS_95_us": [
+            -1317.0824111111112,
+            -279.72874513888905
+          ]
+        },
+        "CERT_BLOCK": {
+          "parents": 36,
+          "mean_parent_median_us": 5204.979666666666,
+          "mean_regret": 0.0,
+          "wrong_decision_parents": 0,
+          "certified_parents": 27,
+          "actual_early_stop_parents": 27,
+          "mean_solver_iterations": 89.77777777777777,
+          "solver_iterations_saved": 4860,
+          "mean_time_saved_vs_ALWAYS_us": 198.64066666666662,
+          "paired_parent_bootstrap_time_saved_95_us": [
+            -2195.165223611111,
+            2307.128426388887
+          ],
+          "mean_utility_difference_vs_ALWAYS": 0.0,
+          "mean_bounds_us": 3463.153805555556,
+          "priced": [
+            {
+              "lambda_utility_per_us": 0,
+              "mean_net_gain_from_initial": 4.290645939260378e-05,
+              "mean_net_difference_vs_ALWAYS": 0.0,
+              "paired_parent_bootstrap_net_difference_95": [
+                0.0,
+                0.0
+              ],
+              "mean_net_difference_vs_measured_NEVER": 4.29064593926039e-05,
+              "mean_net_difference_vs_PLAIN_ALWAYS": 0.0,
+              "paired_parent_bootstrap_net_difference_vs_PLAIN_ALWAYS_95": [
+                0.0,
+                0.0
+              ]
+            },
+            {
+              "lambda_utility_per_us": 1e-06,
+              "mean_net_gain_from_initial": -0.005162073207274063,
+              "mean_net_difference_vs_ALWAYS": 0.0001986406666666668,
+              "paired_parent_bootstrap_net_difference_95": [
+                -0.0021951652236111108,
+                0.0023071284263888867
+              ],
+              "mean_net_difference_vs_measured_NEVER": -0.004331005596162951,
+              "mean_net_difference_vs_PLAIN_ALWAYS": -0.0009683754444444441,
+              "paired_parent_bootstrap_net_difference_vs_PLAIN_ALWAYS_95": [
+                -0.0035368631500000006,
+                0.0010592610256944424
+              ]
+            },
+            {
+              "lambda_utility_per_us": 1e-05,
+              "mean_net_gain_from_initial": -0.052006890207274066,
+              "mean_net_difference_vs_ALWAYS": 0.0019864066666666676,
+              "paired_parent_bootstrap_net_difference_95": [
+                -0.02195165223611111,
+                0.02307128426388887
+              ],
+              "mean_net_difference_vs_measured_NEVER": -0.04369621409616295,
+              "mean_net_difference_vs_PLAIN_ALWAYS": -0.009683754444444444,
+              "paired_parent_bootstrap_net_difference_vs_PLAIN_ALWAYS_95": [
+                -0.0353686315,
+                0.010592610256944425
+              ]
+            }
+          ],
+          "mean_time_saved_vs_PLAIN_ALWAYS_us": -968.3754444444444,
+          "paired_parent_bootstrap_time_saved_vs_PLAIN_ALWAYS_95_us": [
+            -3536.86315,
+            1059.2610256944427
+          ]
+        },
+        "RESIDUAL": {
+          "parents": 36,
+          "mean_parent_median_us": 4616.150972222222,
+          "mean_regret": 0.0,
+          "wrong_decision_parents": 0,
+          "certified_parents": 0,
+          "actual_early_stop_parents": 32,
+          "mean_solver_iterations": 164.36111111111111,
+          "solver_iterations_saved": 2175,
+          "mean_time_saved_vs_ALWAYS_us": 787.4693611111112,
+          "paired_parent_bootstrap_time_saved_95_us": [
+            287.9907493055555,
+            1372.2626583333322
+          ],
+          "mean_utility_difference_vs_ALWAYS": 0.0,
+          "mean_bounds_us": 1204.1673055555557,
+          "priced": [
+            {
+              "lambda_utility_per_us": 0,
+              "mean_net_gain_from_initial": 4.290645939260378e-05,
+              "mean_net_difference_vs_ALWAYS": 0.0,
+              "paired_parent_bootstrap_net_difference_95": [
+                0.0,
+                0.0
+              ],
+              "mean_net_difference_vs_measured_NEVER": 4.29064593926039e-05,
+              "mean_net_difference_vs_PLAIN_ALWAYS": 0.0,
+              "paired_parent_bootstrap_net_difference_vs_PLAIN_ALWAYS_95": [
+                0.0,
+                0.0
+              ]
+            },
+            {
+              "lambda_utility_per_us": 1e-06,
+              "mean_net_gain_from_initial": -0.004573244512829618,
+              "mean_net_difference_vs_ALWAYS": 0.0007874693611111109,
+              "paired_parent_bootstrap_net_difference_95": [
+                0.00028799074930555544,
+                0.0013722626583333323
+              ],
+              "mean_net_difference_vs_measured_NEVER": -0.003742176901718507,
+              "mean_net_difference_vs_PLAIN_ALWAYS": -0.00037954674999999996,
+              "paired_parent_bootstrap_net_difference_vs_PLAIN_ALWAYS_95": [
+                -0.000958981978472222,
+                0.00010980252708333325
+              ]
+            },
+            {
+              "lambda_utility_per_us": 1e-05,
+              "mean_net_gain_from_initial": -0.04611860326282963,
+              "mean_net_difference_vs_ALWAYS": 0.007874693611111113,
+              "paired_parent_bootstrap_net_difference_95": [
+                0.0028799074930555553,
+                0.013722626583333324
+              ],
+              "mean_net_difference_vs_measured_NEVER": -0.03780792715171851,
+              "mean_net_difference_vs_PLAIN_ALWAYS": -0.0037954674999999996,
+              "paired_parent_bootstrap_net_difference_vs_PLAIN_ALWAYS_95": [
+                -0.00958981978472222,
+                0.0010980252708333322
+              ]
+            }
+          ],
+          "mean_time_saved_vs_PLAIN_ALWAYS_us": -379.5467499999999,
+          "paired_parent_bootstrap_time_saved_vs_PLAIN_ALWAYS_95_us": [
+            -958.9819784722221,
+            109.8025270833332
+          ]
+        }
+      },
+      "subgroups": [
+        {
+          "field": "side",
+          "value": 8,
+          "parents": 12,
+          "policies": {
+            "NEVER": {
+              "mean_parent_median_us": 14.048250000000001,
+              "mean_regret": 3.6298354784009784e-08,
+              "certified": 0,
+              "iterations_saved": 923
+            },
+            "ALWAYS": {
+              "mean_parent_median_us": 44.72083333333334,
+              "mean_regret": 0.0,
+              "certified": 0,
+              "iterations_saved": 0
+            },
+            "PLAIN_ALWAYS": {
+              "mean_parent_median_us": 25.987333333333336,
+              "mean_regret": 0.0,
+              "certified": 0,
+              "iterations_saved": 0
+            },
+            "CERT_ONCE": {
+              "mean_parent_median_us": 31.735583333333338,
+              "mean_regret": 0.0,
+              "certified": 5,
+              "iterations_saved": 382
+            },
+            "CERT_BLOCK": {
+              "mean_parent_median_us": 35.032833333333336,
+              "mean_regret": 0.0,
+              "certified": 9,
+              "iterations_saved": 597
+            },
+            "RESIDUAL": {
+              "mean_parent_median_us": 37.18575,
+              "mean_regret": 0.0,
+              "certified": 0,
+              "iterations_saved": 300
+            }
+          }
+        },
+        {
+          "field": "side",
+          "value": 32,
+          "parents": 12,
+          "policies": {
+            "NEVER": {
+              "mean_parent_median_us": 249.25791666666666,
+              "mean_regret": 2.2901656436489414e-05,
+              "certified": 0,
+              "iterations_saved": 3179
+            },
+            "ALWAYS": {
+              "mean_parent_median_us": 1544.6913333333334,
+              "mean_regret": 0.0,
+              "certified": 0,
+              "iterations_saved": 0
+            },
+            "PLAIN_ALWAYS": {
+              "mean_parent_median_us": 1196.04325,
+              "mean_regret": 0.0,
+              "certified": 0,
+              "iterations_saved": 0
+            },
+            "CERT_ONCE": {
+              "mean_parent_median_us": 1444.3660833333333,
+              "mean_regret": 0.0,
+              "certified": 2,
+              "iterations_saved": 234
+            },
+            "CERT_BLOCK": {
+              "mean_parent_median_us": 1353.7972500000003,
+              "mean_regret": 0.0,
+              "certified": 9,
+              "iterations_saved": 2074
+            },
+            "RESIDUAL": {
+              "mean_parent_median_us": 1105.0915,
+              "mean_regret": 0.0,
+              "certified": 0,
+              "iterations_saved": 1252
+            }
+          }
+        },
+        {
+          "field": "side",
+          "value": 96,
+          "parents": 12,
+          "policies": {
+            "NEVER": {
+              "mean_parent_median_us": 2229.8966666666665,
+              "mean_regret": 0.0001057814233865379,
+              "certified": 0,
+              "iterations_saved": 3558
+            },
+            "ALWAYS": {
+              "mean_parent_median_us": 14621.448833333334,
+              "mean_regret": 0.0,
+              "certified": 0,
+              "iterations_saved": 0
+            },
+            "PLAIN_ALWAYS": {
+              "mean_parent_median_us": 11487.782083333334,
+              "mean_regret": 0.0,
+              "certified": 0,
+              "iterations_saved": 0
+            },
+            "CERT_ONCE": {
+              "mean_parent_median_us": 13601.697083333333,
+              "mean_regret": 0.0,
+              "certified": 2,
+              "iterations_saved": 244
+            },
+            "CERT_BLOCK": {
+              "mean_parent_median_us": 14226.108916666666,
+              "mean_regret": 0.0,
+              "certified": 9,
+              "iterations_saved": 2189
+            },
+            "RESIDUAL": {
+              "mean_parent_median_us": 12706.175666666668,
+              "mean_regret": 0.0,
+              "certified": 0,
+              "iterations_saved": 623
+            }
+          }
+        },
+        {
+          "field": "rho",
+          "value": 1,
+          "parents": 12,
+          "policies": {
+            "NEVER": {
+              "mean_parent_median_us": 800.9562500000001,
+              "mean_regret": 3.2342250634065103e-07,
+              "certified": 0,
+              "iterations_saved": 1230
+            },
+            "ALWAYS": {
+              "mean_parent_median_us": 3054.3608333333336,
+              "mean_regret": 0.0,
+              "certified": 0,
+              "iterations_saved": 0
+            },
+            "PLAIN_ALWAYS": {
+              "mean_parent_median_us": 1915.1205,
+              "mean_regret": 0.0,
+              "certified": 0,
+              "iterations_saved": 0
+            },
+            "CERT_ONCE": {
+              "mean_parent_median_us": 1925.11175,
+              "mean_regret": 0.0,
+              "certified": 6,
+              "iterations_saved": 616
+            },
+            "CERT_BLOCK": {
+              "mean_parent_median_us": 2301.8035833333333,
+              "mean_regret": 0.0,
+              "certified": 9,
+              "iterations_saved": 852
+            },
+            "RESIDUAL": {
+              "mean_parent_median_us": 2239.1347499999997,
+              "mean_regret": 0.0,
+              "certified": 0,
+              "iterations_saved": 573
+            }
+          }
+        },
+        {
+          "field": "rho",
+          "value": 16,
+          "parents": 12,
+          "policies": {
+            "NEVER": {
+              "mean_parent_median_us": 847.4603333333334,
+              "mean_regret": 0.00010549337157965892,
+              "certified": 0,
+              "iterations_saved": 3122
+            },
+            "ALWAYS": {
+              "mean_parent_median_us": 6548.234416666666,
+              "mean_regret": 0.0,
+              "certified": 0,
+              "iterations_saved": 0
+            },
+            "PLAIN_ALWAYS": {
+              "mean_parent_median_us": 5363.480666666666,
+              "mean_regret": 0.0,
+              "certified": 0,
+              "iterations_saved": 0
+            },
+            "CERT_ONCE": {
+              "mean_parent_median_us": 6545.766416666666,
+              "mean_regret": 0.0,
+              "certified": 2,
+              "iterations_saved": 163
+            },
+            "CERT_BLOCK": {
+              "mean_parent_median_us": 6103.877833333332,
+              "mean_regret": 0.0,
+              "certified": 9,
+              "iterations_saved": 2008
+            },
+            "RESIDUAL": {
+              "mean_parent_median_us": 4729.576083333333,
+              "mean_regret": 0.0,
+              "certified": 0,
+              "iterations_saved": 1155
+            }
+          }
+        },
+        {
+          "field": "rho",
+          "value": 64,
+          "parents": 12,
+          "policies": {
+            "NEVER": {
+              "mean_parent_median_us": 844.78625,
+              "mean_regret": 2.290258409181176e-05,
+              "certified": 0,
+              "iterations_saved": 3308
+            },
+            "ALWAYS": {
+              "mean_parent_median_us": 6608.265750000001,
+              "mean_regret": 0.0,
+              "certified": 0,
+              "iterations_saved": 0
+            },
+            "PLAIN_ALWAYS": {
+              "mean_parent_median_us": 5431.2115,
+              "mean_regret": 0.0,
+              "certified": 0,
+              "iterations_saved": 0
+            },
+            "CERT_ONCE": {
+              "mean_parent_median_us": 6606.9205833333335,
+              "mean_regret": 0.0,
+              "certified": 1,
+              "iterations_saved": 81
+            },
+            "CERT_BLOCK": {
+              "mean_parent_median_us": 7209.257583333333,
+              "mean_regret": 0.0,
+              "certified": 9,
+              "iterations_saved": 2000
+            },
+            "RESIDUAL": {
+              "mean_parent_median_us": 6879.7420833333335,
+              "mean_regret": 0.0,
+              "certified": 0,
+              "iterations_saved": 447
+            }
+          }
+        },
+        {
+          "field": "gap",
+          "value": "wide",
+          "parents": 9,
+          "policies": {
+            "NEVER": {
+              "mean_parent_median_us": 831.929888888889,
+              "mean_regret": 0.0,
+              "certified": 0,
+              "iterations_saved": 1916
+            },
+            "ALWAYS": {
+              "mean_parent_median_us": 5396.20588888889,
+              "mean_regret": 0.0,
+              "certified": 0,
+              "iterations_saved": 0
+            },
+            "PLAIN_ALWAYS": {
+              "mean_parent_median_us": 4238.449888888888,
+              "mean_regret": 0.0,
+              "certified": 0,
+              "iterations_saved": 0
+            },
+            "CERT_ONCE": {
+              "mean_parent_median_us": 4646.554222222222,
+              "mean_regret": 0.0,
+              "certified": 5,
+              "iterations_saved": 470
+            },
+            "CERT_BLOCK": {
+              "mean_parent_median_us": 1730.049888888889,
+              "mean_regret": 0.0,
+              "certified": 9,
+              "iterations_saved": 1796
+            },
+            "RESIDUAL": {
+              "mean_parent_median_us": 4576.454555555556,
+              "mean_regret": 0.0,
+              "certified": 0,
+              "iterations_saved": 558
+            }
+          }
+        },
+        {
+          "field": "gap",
+          "value": "medium",
+          "parents": 9,
+          "policies": {
+            "NEVER": {
+              "mean_parent_median_us": 834.9145555555556,
+              "mean_regret": 0.00017107578434940197,
+              "certified": 0,
+              "iterations_saved": 1919
+            },
+            "ALWAYS": {
+              "mean_parent_median_us": 5425.866222222223,
+              "mean_regret": 0.0,
+              "certified": 0,
+              "iterations_saved": 0
+            },
+            "PLAIN_ALWAYS": {
+              "mean_parent_median_us": 4248.730666666666,
+              "mean_regret": 0.0,
+              "certified": 0,
+              "iterations_saved": 0
+            },
+            "CERT_ONCE": {
+              "mean_parent_median_us": 4652.407333333334,
+              "mean_regret": 0.0,
+              "certified": 4,
+              "iterations_saved": 390
+            },
+            "CERT_BLOCK": {
+              "mean_parent_median_us": 2358.2258888888887,
+              "mean_regret": 0.0,
+              "certified": 9,
+              "iterations_saved": 1679
+            },
+            "RESIDUAL": {
+              "mean_parent_median_us": 4621.355666666666,
+              "mean_regret": 0.0,
+              "certified": 0,
+              "iterations_saved": 543
+            }
+          }
+        },
+        {
+          "field": "gap",
+          "value": "tight",
+          "parents": 9,
+          "policies": {
+            "NEVER": {
+              "mean_parent_median_us": 828.1863333333334,
+              "mean_regret": 5.500532210131316e-07,
+              "certified": 0,
+              "iterations_saved": 1913
+            },
+            "ALWAYS": {
+              "mean_parent_median_us": 5400.4508888888895,
+              "mean_regret": 0.0,
+              "certified": 0,
+              "iterations_saved": 0
+            },
+            "PLAIN_ALWAYS": {
+              "mean_parent_median_us": 4236.113666666667,
+              "mean_regret": 0.0,
+              "certified": 0,
+              "iterations_saved": 0
+            },
+            "CERT_ONCE": {
+              "mean_parent_median_us": 5415.984555555556,
+              "mean_regret": 0.0,
+              "certified": 0,
+              "iterations_saved": 0
+            },
+            "CERT_BLOCK": {
+              "mean_parent_median_us": 4376.025666666666,
+              "mean_regret": 0.0,
+              "certified": 9,
+              "iterations_saved": 1385
+            },
+            "RESIDUAL": {
+              "mean_parent_median_us": 4601.556333333333,
+              "mean_regret": 0.0,
+              "certified": 0,
+              "iterations_saved": 546
+            }
+          }
+        },
+        {
+          "field": "gap",
+          "value": "tie",
+          "parents": 9,
+          "policies": {
+            "NEVER": {
+              "mean_parent_median_us": 829.2396666666666,
+              "mean_regret": 0.0,
+              "certified": 0,
+              "iterations_saved": 1912
+            },
+            "ALWAYS": {
+              "mean_parent_median_us": 5391.958333333333,
+              "mean_regret": 0.0,
+              "certified": 0,
+              "iterations_saved": 0
+            },
+            "PLAIN_ALWAYS": {
+              "mean_parent_median_us": 4223.122666666666,
+              "mean_regret": 0.0,
+              "certified": 0,
+              "iterations_saved": 0
+            },
+            "CERT_ONCE": {
+              "mean_parent_median_us": 5388.785555555556,
+              "mean_regret": 0.0,
+              "certified": 0,
+              "iterations_saved": 0
+            },
+            "CERT_BLOCK": {
+              "mean_parent_median_us": 12355.617222222221,
+              "mean_regret": 0.0,
+              "certified": 0,
+              "iterations_saved": 0
+            },
+            "RESIDUAL": {
+              "mean_parent_median_us": 4665.2373333333335,
+              "mean_regret": 0.0,
+              "certified": 0,
+              "iterations_saved": 528
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

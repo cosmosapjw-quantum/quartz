@@ -1,0 +1,18 @@
+{
+  "split": "TRAIN",
+  "mode": "trace",
+  "requests": 108,
+  "native_policy_executions": 648,
+  "exit_code": 0,
+  "source_head": "2c266dad0de65d86e683429c8605cda9fa904979",
+  "binary_sha256": "812c57e75ad193fa4cca3729fc63ee59df73cac7118c50886adb4c0b47118ac0",
+  "public_source_sha256": "93f5d6e2131990a1882aa9fb10ee7260b25c3beacf8f8d6b41ae6cbaead5f29b",
+  "output": "C23_TRAIN_TRACE.jsonl.gz",
+  "output_sha256": "771b2d49bfcf64247fc41a20a4cd52b762929f44e017bd714f54de98926b82c3",
+  "output_bytes": 65046153,
+  "start_utc": "2026-11-22T17:50:27.069234+00:00",
+  "end_utc": "2026-11-22T17:50:46.506990+00:00",
+  "clock": "native Instant monotonic wall elapsed; JSON and source/oracle generation excluded",
+  "repeats_are_independent_parents": false,
+  "wire_encoding": "f64 shortest decimal strings parsed with Rust FromStr; trace asserts exact stored input bits"
+}
