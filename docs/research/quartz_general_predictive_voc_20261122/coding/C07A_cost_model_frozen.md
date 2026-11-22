@@ -1,0 +1,12 @@
+# C07A. Actual TRAIN/CAL source outcomes and frozen true wall price model, TEST untouched
+
+C07 source collector/model/evaluation score scripts were published at exact Git SHA 620df8133d416dff9bfaaf94761e358172ddf082 before any C20 outcome collection. Actually executed 576 stochastic extra-computation paths across 192 independent parents (96 per family), TRAIN432 rows/CAL144 rows with no TEST parents opened. Source raw SHA256 **009774dd99f1e2034e74f449c74a13f3470731737725c60fd7e7a142cfdf4a9e**. Beta family 288 extra draws transcripts,96 revised terminal choices, mean signed utility +0.05045617, mean actual extra task wall4.4826 μs; finite sensor 288 samples sequences,65 revised actions, mean signed utility +0.02228552, actual task wall8.2465 μs. These are source-generator offline true expected action utilities, not neural MCTS game utility.
+
+Exact posterior predictive model has NO coefficients fit to labels. Executed C07A TRAIN-only cost calibration on 432 rows, using initial_only typed source adapter with hidden theta, future observations and signed utility stripped. Resource estimates are a 4-bucket source-aware allowed engineering clock price, not a game-specific controller heuristic. TRAIN median underlying task CPU / exact full-Python evaluator CPU / historical coarse predictor CPU, all in measured microseconds:
+- Beta K2: **3 /113.20 /36.32** (72 TRAIN instances).
+- Beta K3: **4 /1083.13 /40.24** (72).
+- Beta K4: **5 /12770.69 /95.66** (72).
+- Finite hidden sensor: **8 /216.71 /37.53** (216).
+Predictive EVSI algebra is exact only under correct public models. Runtime is exceptionally costly compared to underlying task: for Beta K4 exact Python EVSI approx 12.8 ms vs ~5 microseconds stochastic addition; mathematical correctness does not imply operational efficiency.
+
+Resource and overhead price model frozen SHA256 **530ca204c96b5fda4f3b060e8ebd87b52e4c4ec7e97be42dac56da93ca81cb04** in FROZEN_C20_RESOURCE_PRICE.json, before any TEST collection. Prespecified price lambda=0.004 terminal utility/microsecond and 0.001/0.010 sensitivities unchanged. Historical C19 coarse predictor frozen model SHA256 5fdd172a13d51c4d17dc8e7829fb7c5518421028046ebac6e418a1158adf6735 reused solely as comparator. C08 will measure fresh TEST actual evaluator overhead, latent utility change and paired shadow net, without refitting. Model input has no hidden state and all actual stochastic tasks still execute independent of shadow choice.

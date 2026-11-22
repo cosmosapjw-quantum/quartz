@@ -1,0 +1,60 @@
+{
+  "C19_historical_coarse_model_SHA256": "5fdd172a13d51c4d17dc8e7829fb7c5518421028046ebac6e418a1158adf6735",
+  "CAL_groups_each_family": 24,
+  "CAL_rows": 144,
+  "TRAIN_CAL_raw_SHA256": "009774dd99f1e2034e74f449c74a13f3470731737725c60fd7e7a142cfdf4a9e",
+  "TRAIN_groups_each_family": 72,
+  "TRAIN_rows": 432,
+  "cost_and_predictor_overhead_medians_TRAIN_only": {
+    "beta_arms_K2": {
+      "coarse_predictor_evaluation_median_us": 36.319,
+      "mean_model_EVSI": 0.028202823961752697,
+      "mean_task_actual_us": 3.0,
+      "n_train_rows": 72,
+      "predictor_evaluation_max_us": 158.38,
+      "predictor_evaluation_median_us": 113.19999999999999,
+      "task_incremental_median_us": 3.0
+    },
+    "beta_arms_K3": {
+      "coarse_predictor_evaluation_median_us": 40.236000000000004,
+      "mean_model_EVSI": 0.04147403276938523,
+      "mean_task_actual_us": 4.069444444444445,
+      "n_train_rows": 72,
+      "predictor_evaluation_max_us": 1402.434,
+      "predictor_evaluation_median_us": 1083.128,
+      "task_incremental_median_us": 4.0
+    },
+    "beta_arms_K4": {
+      "coarse_predictor_evaluation_median_us": 95.662,
+      "mean_model_EVSI": 0.05815829115131278,
+      "mean_task_actual_us": 6.083333333333333,
+      "n_train_rows": 72,
+      "predictor_evaluation_max_us": 19480.322,
+      "predictor_evaluation_median_us": 12770.694,
+      "task_incremental_median_us": 5.0
+    },
+    "finite_sensor_K3": {
+      "coarse_predictor_evaluation_median_us": 37.527,
+      "mean_model_EVSI": 0.029515013687942574,
+      "mean_task_actual_us": 8.212962962962964,
+      "n_train_rows": 216,
+      "predictor_evaluation_max_us": 371.906,
+      "predictor_evaluation_median_us": 216.7065,
+      "task_incremental_median_us": 8.0
+    }
+  },
+  "fixed_price_sensitivity": [
+    0.001,
+    0.004,
+    0.01
+  ],
+  "fixed_primary_price_utility_per_microsecond": 0.004,
+  "real_MCTS_true_utility": "NOT_ESTIMABLE",
+  "schema": "quartz_general_c20_frozen_train_priced_exact_EVSI_v1",
+  "shared_exact_bayesian_model_has_no_fitted_decision_parameters": true,
+  "source_bank_SHA256": "d6cf96c26d9ac913963f702d9b0418f0002038979f6a470da3865999368e4ae7",
+  "source_bank_metadata_legacy_field_note": "Inherited source_parent_C18 metadata in C04 generator is a historical template field, not the current C20 base; the actual C20 parent is C19 Git SHA above. Latent worlds/splits unchanged and byte frozen.",
+  "source_world_parent_C19": "2a359ad049b6a0be4047e52ad281b665cf68e967",
+  "test_outcomes_or_labels_accessed": false,
+  "two_domain_source_only_online_inputs": true
+}
