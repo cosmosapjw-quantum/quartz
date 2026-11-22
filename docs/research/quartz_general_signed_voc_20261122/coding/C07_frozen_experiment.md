@@ -1,0 +1,16 @@
+# C7 | Source/algorithm/price/evaluation protocol frozen before any C19 observed labels
+
+The source-world bank frozen under C04 SHA256 8fce353c5efd3a5ac2a643e5a799d46f8d69c6c429cdff0fb5418a43ea43292e consists of 120 independent parents ×3 genuine computation transcripts PER domain beta_arms and finite_sensor. Parent0–71 TRAIN, parent72–95 CAL, parent96–119 TEST; no same latent parent or repeat across folds.
+
+The actual source-only Python runner coding/collect_signed_sources.py emits same source law with time.perf_counter_ns around **additional samples + posterior update + new selected action**, converted to integer microseconds, not initial compute and not guessed 20ms C18 Rust cost. Additional observations are physically executed Python RNG/likelihood operations on authorized workstation. The terminal scored outcome is **latent-state expected utility** under task law: beta reward mean μ[a], finite hidden-state payoff U[θ,a]. The online action and model cannot read theta or offline true means. Signed Z exactly0 if a0=a1.
+
+Selected two-part algorithm is fixed before data: C18 logistic q with L2=.5 and CAL-only offset penalty .25; changed-only ridge m with ridge1.0 and CAL-only signed intercept offset ridge1.0; shared generic features [initial utility gap,log1p actions], no task kind/domain predictor slope. Physical cost forecaster uses per-computation-type TRAIN median additional wall time, legitimate task adapter resource meta-action metadata. Its true expected prediction quality is not presupposed.
+
+Test protocol is immutable in coding/freeze_train_cal.py and coding/score_c08_signed.py:
+- TEST signed Z MSE/MAE for train unconditional constant, q×global training changed-only effect, and two-part q×m; Y Brier/logloss for fixed train constant q vs logistic.
+- For prices lambda [0.001,**0.004** primary,0.010] terminal utility/microsecond, calculate paired realized net utility gain Z−lambda*C for ALWAYS and selection-conditioned equivalents; NEVER0 and flip-only q>=0.2 comparators. Group bootstrap500 parent-resamples for SHADOW−ALWAYS and SHADOW−NEVER intervals, not naive row IID.
+- **All additional physical computations are performed no matter which shadow action would have been selected.** Any avoided-cost amount is counterfactual accounting, NOT a measured hardware runtime saving or live controller efficiency. No SearchPolicy/PUCT mutation.
+- Model trained only on TRAIN and calibration-only intercept and baseline clock cost from CAL/TRAIN. Publish raw TRAIN/CAL and frozen model as separate checkpoint C07A before opening TEST; later publish raw TEST separately as C08A before scoring. TEST metrics never tune features/prices/thresholds/coefficients.
+- Main outcome claims require group-source overlap check, independent finite outcome replayer, source file/hash and loss consistency, actual Rust shadow max abs probability difference<=1e-10; no claim outside these known-utility synthetic processes. Negative/weak metrics explicitly reported.
+
+These scripts/source are frozen and pushed to GitHub at C07 BEFORE any observed trial labels, as checked by collector/source publish preflight. No external teacher inference, trained game NN result or human cognitive signature input.
