@@ -1,0 +1,7502 @@
+{
+  "independence": "parent groups split before outcome labels; repeated queries share parent group",
+  "mcts_model_sha256": "5ff8286dcc57192b79e960ba096bc5067c78d439a212eaa69d523f68835a3b83",
+  "mcts_native_sha256": "1168f2979936a283a9e7e613b869fd30ec9aba826e15ac228c6ee9d7e7e4c4d3",
+  "mcts_real_Rust_groups": [
+    {
+      "actual_native_played_move_count": 6,
+      "canonical_parent_opening_sha256": "0c55668a374b5085350e320d3f629fb34bd4e49db313253575972e7134adfeac",
+      "checkpoints": [
+        [
+          85,
+          65,
+          141,
+          113,
+          127,
+          97
+        ],
+        [
+          85,
+          65,
+          141,
+          113,
+          127,
+          97,
+          81,
+          129
+        ],
+        [
+          85,
+          65,
+          141,
+          113,
+          127,
+          97,
+          81,
+          129,
+          145,
+          111
+        ]
+      ],
+      "frozen_seeded_prefix": [
+        85,
+        65,
+        141,
+        113
+      ],
+      "id": "rust-000",
+      "parent_game_id": "rustplayed-parent-000",
+      "source_kind": "actual_native_Rust_MCTS_after_random_valid_initial_prefix",
+      "source_seed": 18022026,
+      "split": "train"
+    },
+    {
+      "actual_native_played_move_count": 6,
+      "canonical_parent_opening_sha256": "f501eae1176550beca9283a636f6c06960d8a4436901160b81b8702e294d7b86",
+      "checkpoints": [
+        [
+          96,
+          66,
+          98,
+          124,
+          97,
+          95
+        ],
+        [
+          96,
+          66,
+          98,
+          124,
+          97,
+          95,
+          99,
+          100
+        ],
+        [
+          96,
+          66,
+          98,
+          124,
+          97,
+          95,
+          99,
+          100,
+          82,
+          110
+        ]
+      ],
+      "frozen_seeded_prefix": [
+        96,
+        66,
+        98,
+        124
+      ],
+      "id": "rust-001",
+      "parent_game_id": "rustplayed-parent-001",
+      "source_kind": "actual_native_Rust_MCTS_after_random_valid_initial_prefix",
+      "source_seed": 18023803,
+      "split": "train"
+    },
+    {
+      "actual_native_played_move_count": 6,
+      "canonical_parent_opening_sha256": "e736e306570f34449208a93e4e71a6f3e3aa852b7b3093096876001dae000030",
+      "checkpoints": [
+        [
+          64,
+          68,
+          67,
+          83,
+          65,
+          82
+        ],
+        [
+          64,
+          68,
+          67,
+          83,
+          65,
+          82,
+          66,
+          63
+        ],
+        [
+          64,
+          68,
+          67,
+          83,
+          65,
+          82,
+          66,
+          63,
+          81,
+          96
+        ]
+      ],
+      "frozen_seeded_prefix": [
+        64,
+        68,
+        67,
+        83
+      ],
+      "id": "rust-002",
+      "parent_game_id": "rustplayed-parent-002",
+      "source_kind": "actual_native_Rust_MCTS_after_random_valid_initial_prefix",
+      "source_seed": 18025580,
+      "split": "train"
+    },
+    {
+      "actual_native_played_move_count": 6,
+      "canonical_parent_opening_sha256": "9a6a09c651522c925dd8fbb179e74b9b85212b66e54341e993777778c8570a7f",
+      "checkpoints": [
+        [
+          158,
+          126,
+          66,
+          124,
+          142,
+          127
+        ],
+        [
+          158,
+          126,
+          66,
+          124,
+          142,
+          127,
+          128,
+          125
+        ],
+        [
+          158,
+          126,
+          66,
+          124,
+          142,
+          127,
+          128,
+          125,
+          123,
+          143
+        ]
+      ],
+      "frozen_seeded_prefix": [
+        158,
+        126,
+        66,
+        124
+      ],
+      "id": "rust-003",
+      "parent_game_id": "rustplayed-parent-003",
+      "source_kind": "actual_native_Rust_MCTS_after_random_valid_initial_prefix",
+      "source_seed": 18027357,
+      "split": "train"
+    },
+    {
+      "actual_native_played_move_count": 6,
+      "canonical_parent_opening_sha256": "50ea23b7754cda5993f9a1f797abfa459125fb8d5224d908119799b33af47525",
+      "checkpoints": [
+        [
+          130,
+          79,
+          68,
+          112,
+          114,
+          98
+        ],
+        [
+          130,
+          79,
+          68,
+          112,
+          114,
+          98,
+          84,
+          126
+        ],
+        [
+          130,
+          79,
+          68,
+          112,
+          114,
+          98,
+          84,
+          126,
+          99,
+          140
+        ]
+      ],
+      "frozen_seeded_prefix": [
+        130,
+        79,
+        68,
+        112
+      ],
+      "id": "rust-004",
+      "parent_game_id": "rustplayed-parent-004",
+      "source_kind": "actual_native_Rust_MCTS_after_random_valid_initial_prefix",
+      "source_seed": 18029134,
+      "split": "train"
+    },
+    {
+      "actual_native_played_move_count": 5,
+      "canonical_parent_opening_sha256": "3898dd40bbc8465c2eac38990f777a3c5aba222f10c6eb1f0654bb9d83feacf9",
+      "checkpoints": [
+        [
+          97,
+          157,
+          64,
+          155,
+          112,
+          156
+        ],
+        [
+          97,
+          157,
+          64,
+          155,
+          112,
+          156,
+          127,
+          154
+        ]
+      ],
+      "frozen_seeded_prefix": [
+        97,
+        157,
+        64,
+        155
+      ],
+      "id": "rust-005",
+      "parent_game_id": "rustplayed-parent-005",
+      "source_kind": "actual_native_Rust_MCTS_after_random_valid_initial_prefix",
+      "source_seed": 18030911,
+      "split": "train"
+    },
+    {
+      "actual_native_played_move_count": 6,
+      "canonical_parent_opening_sha256": "446c52daca39432ad1e25e989626a18651b83c1f49498cbd316fc926cafc5e7d",
+      "checkpoints": [
+        [
+          114,
+          95,
+          113,
+          69,
+          112,
+          111
+        ],
+        [
+          114,
+          95,
+          113,
+          69,
+          112,
+          111,
+          115,
+          116
+        ],
+        [
+          114,
+          95,
+          113,
+          69,
+          112,
+          111,
+          115,
+          116,
+          127,
+          97
+        ]
+      ],
+      "frozen_seeded_prefix": [
+        114,
+        95,
+        113,
+        69
+      ],
+      "id": "rust-006",
+      "parent_game_id": "rustplayed-parent-006",
+      "source_kind": "actual_native_Rust_MCTS_after_random_valid_initial_prefix",
+      "source_seed": 18032688,
+      "split": "train"
+    },
+    {
+      "actual_native_played_move_count": 6,
+      "canonical_parent_opening_sha256": "2a811187e29ce0c0daae9bf57280ed2186ae4264eaee782c693d279908d6093e",
+      "checkpoints": [
+        [
+          95,
+          81,
+          127,
+          100,
+          111,
+          143
+        ],
+        [
+          95,
+          81,
+          127,
+          100,
+          111,
+          143,
+          79,
+          63
+        ],
+        [
+          95,
+          81,
+          127,
+          100,
+          111,
+          143,
+          79,
+          63,
+          96,
+          97
+        ]
+      ],
+      "frozen_seeded_prefix": [
+        95,
+        81,
+        127,
+        100
+      ],
+      "id": "rust-007",
+      "parent_game_id": "rustplayed-parent-007",
+      "source_kind": "actual_native_Rust_MCTS_after_random_valid_initial_prefix",
+      "source_seed": 18034465,
+      "split": "train"
+    },
+    {
+      "actual_native_played_move_count": 6,
+      "canonical_parent_opening_sha256": "76466fad3c30c7a9f92f285006d48fb2cebb62d750126a520cec599feaee2baa",
+      "checkpoints": [
+        [
+          139,
+          95,
+          100,
+          159,
+          99,
+          111
+        ],
+        [
+          139,
+          95,
+          100,
+          159,
+          99,
+          111,
+          98,
+          127
+        ],
+        [
+          139,
+          95,
+          100,
+          159,
+          99,
+          111,
+          98,
+          127,
+          143,
+          79
+        ]
+      ],
+      "frozen_seeded_prefix": [
+        139,
+        95,
+        100,
+        159
+      ],
+      "id": "rust-008",
+      "parent_game_id": "rustplayed-parent-008",
+      "source_kind": "actual_native_Rust_MCTS_after_random_valid_initial_prefix",
+      "source_seed": 18036242,
+      "split": "train"
+    },
+    {
+      "actual_native_played_move_count": 6,
+      "canonical_parent_opening_sha256": "2876c2bb36f837acfd400fc3e2b4425811ae704e5526a4d5495666ffea345d65",
+      "checkpoints": [
+        [
+          125,
+          79,
+          98,
+          80,
+          82,
+          81
+        ],
+        [
+          125,
+          79,
+          98,
+          80,
+          82,
+          81,
+          66,
+          78
+        ],
+        [
+          125,
+          79,
+          98,
+          80,
+          82,
+          81,
+          66,
+          78,
+          77,
+          95
+        ]
+      ],
+      "frozen_seeded_prefix": [
+        125,
+        79,
+        98,
+        80
+      ],
+      "id": "rust-009",
+      "parent_game_id": "rustplayed-parent-009",
+      "source_kind": "actual_native_Rust_MCTS_after_random_valid_initial_prefix",
+      "source_seed": 18038019,
+      "split": "train"
+    },
+    {
+      "actual_native_played_move_count": 6,
+      "canonical_parent_opening_sha256": "6cd53b36cf982d1e23411be1bc10928266bb7c842c7fa5849396dc49cc973e8c",
+      "checkpoints": [
+        [
+          96,
+          114,
+          144,
+          142,
+          128,
+          112
+        ],
+        [
+          96,
+          114,
+          144,
+          142,
+          128,
+          112,
+          127,
+          113
+        ],
+        [
+          96,
+          114,
+          144,
+          142,
+          128,
+          112,
+          127,
+          113,
+          111,
+          115
+        ]
+      ],
+      "frozen_seeded_prefix": [
+        96,
+        114,
+        144,
+        142
+      ],
+      "id": "rust-010",
+      "parent_game_id": "rustplayed-parent-010",
+      "source_kind": "actual_native_Rust_MCTS_after_random_valid_initial_prefix",
+      "source_seed": 18039796,
+      "split": "train"
+    },
+    {
+      "actual_native_played_move_count": 6,
+      "canonical_parent_opening_sha256": "b765a40901e5ce85a7a3add9d129b81203169d0e7cbb353429abe30bbf643349",
+      "checkpoints": [
+        [
+          144,
+          159,
+          129,
+          158,
+          114,
+          157
+        ],
+        [
+          144,
+          159,
+          129,
+          158,
+          114,
+          157,
+          99,
+          84
+        ],
+        [
+          144,
+          159,
+          129,
+          158,
+          114,
+          157,
+          99,
+          84,
+          160,
+          156
+        ]
+      ],
+      "frozen_seeded_prefix": [
+        144,
+        159,
+        129,
+        158
+      ],
+      "id": "rust-011",
+      "parent_game_id": "rustplayed-parent-011",
+      "source_kind": "actual_native_Rust_MCTS_after_random_valid_initial_prefix",
+      "source_seed": 18041573,
+      "split": "train"
+    },
+    {
+      "actual_native_played_move_count": 6,
+      "canonical_parent_opening_sha256": "5dded797e25a37f80e9ba4a2e01266294bb19edd9b566263c0a9cfdf2e40a19e",
+      "checkpoints": [
+        [
+          129,
+          84,
+          155,
+          125,
+          141,
+          126
+        ],
+        [
+          129,
+          84,
+          155,
+          125,
+          141,
+          126,
+          127,
+          113
+        ],
+        [
+          129,
+          84,
+          155,
+          125,
+          141,
+          126,
+          127,
+          113,
+          169,
+          183
+        ]
+      ],
+      "frozen_seeded_prefix": [
+        129,
+        84,
+        155,
+        125
+      ],
+      "id": "rust-012",
+      "parent_game_id": "rustplayed-parent-012",
+      "source_kind": "actual_native_Rust_MCTS_after_random_valid_initial_prefix",
+      "source_seed": 18043350,
+      "split": "train"
+    },
+    {
+      "actual_native_played_move_count": 6,
+      "canonical_parent_opening_sha256": "0ae3a336c4a54a4c4b7c92d262c6fbba60bd5cfc255e7a52abab44d47fd4ecb5",
+      "checkpoints": [
+        [
+          130,
+          143,
+          114,
+          95,
+          98,
+          146
+        ],
+        [
+          130,
+          143,
+          114,
+          95,
+          98,
+          146,
+          82,
+          66
+        ],
+        [
+          130,
+          143,
+          114,
+          95,
+          98,
+          146,
+          82,
+          66,
+          129,
+          111
+        ]
+      ],
+      "frozen_seeded_prefix": [
+        130,
+        143,
+        114,
+        95
+      ],
+      "id": "rust-013",
+      "parent_game_id": "rustplayed-parent-013",
+      "source_kind": "actual_native_Rust_MCTS_after_random_valid_initial_prefix",
+      "source_seed": 18045127,
+      "split": "train"
+    },
+    {
+      "actual_native_played_move_count": 6,
+      "canonical_parent_opening_sha256": "7266afa3f4c06869c7d3da16ddb63ecd5386bc1a6b8e064016063ffc65318cc2",
+      "checkpoints": [
+        [
+          67,
+          113,
+          155,
+          115,
+          141,
+          114
+        ],
+        [
+          67,
+          113,
+          155,
+          115,
+          141,
+          114,
+          112,
+          116
+        ],
+        [
+          67,
+          113,
+          155,
+          115,
+          141,
+          114,
+          112,
+          116,
+          117,
+          127
+        ]
+      ],
+      "frozen_seeded_prefix": [
+        67,
+        113,
+        155,
+        115
+      ],
+      "id": "rust-014",
+      "parent_game_id": "rustplayed-parent-014",
+      "source_kind": "actual_native_Rust_MCTS_after_random_valid_initial_prefix",
+      "source_seed": 18046904,
+      "split": "train"
+    },
+    {
+      "actual_native_played_move_count": 6,
+      "canonical_parent_opening_sha256": "e5d3cac752b6013a3fc0cc1946a12c29836ec7dbbd90ea3332ba68009d48ccea",
+      "checkpoints": [
+        [
+          157,
+          111,
+          99,
+          79,
+          143,
+          95
+        ],
+        [
+          157,
+          111,
+          99,
+          79,
+          143,
+          95,
+          127,
+          63
+        ],
+        [
+          157,
+          111,
+          99,
+          79,
+          143,
+          95,
+          127,
+          63,
+          47,
+          112
+        ]
+      ],
+      "frozen_seeded_prefix": [
+        157,
+        111,
+        99,
+        79
+      ],
+      "id": "rust-015",
+      "parent_game_id": "rustplayed-parent-015",
+      "source_kind": "actual_native_Rust_MCTS_after_random_valid_initial_prefix",
+      "source_seed": 18048681,
+      "split": "train"
+    },
+    {
+      "actual_native_played_move_count": 6,
+      "canonical_parent_opening_sha256": "a29c1d75c783ccf9d8faeede560f4019978dbc374f829e03a7f7577f9295eb7c",
+      "checkpoints": [
+        [
+          100,
+          155,
+          64,
+          128,
+          114,
+          113
+        ],
+        [
+          100,
+          155,
+          64,
+          128,
+          114,
+          113,
+          98,
+          99
+        ],
+        [
+          100,
+          155,
+          64,
+          128,
+          114,
+          113,
+          98,
+          99,
+          130,
+          127
+        ]
+      ],
+      "frozen_seeded_prefix": [
+        100,
+        155,
+        64,
+        128
+      ],
+      "id": "rust-016",
+      "parent_game_id": "rustplayed-parent-016",
+      "source_kind": "actual_native_Rust_MCTS_after_random_valid_initial_prefix",
+      "source_seed": 18050458,
+      "split": "train"
+    },
+    {
+      "actual_native_played_move_count": 6,
+      "canonical_parent_opening_sha256": "b7dd1bc5f804247b7f46851500a0cf02cacce1ae3ecf35e96c2d20b4f5056b69",
+      "checkpoints": [
+        [
+          79,
+          127,
+          81,
+          85,
+          80,
+          82
+        ],
+        [
+          79,
+          127,
+          81,
+          85,
+          80,
+          82,
+          78,
+          77
+        ],
+        [
+          79,
+          127,
+          81,
+          85,
+          80,
+          82,
+          78,
+          77,
+          97,
+          113
+        ]
+      ],
+      "frozen_seeded_prefix": [
+        79,
+        127,
+        81,
+        85
+      ],
+      "id": "rust-017",
+      "parent_game_id": "rustplayed-parent-017",
+      "source_kind": "actual_native_Rust_MCTS_after_random_valid_initial_prefix",
+      "source_seed": 18052235,
+      "split": "train"
+    },
+    {
+      "actual_native_played_move_count": 6,
+      "canonical_parent_opening_sha256": "9f2b083890fdf38ea93561e95c69914662e5945742357de9040df0e1503e1b5a",
+      "checkpoints": [
+        [
+          112,
+          82,
+          130,
+          115,
+          98,
+          114
+        ],
+        [
+          112,
+          82,
+          130,
+          115,
+          98,
+          114,
+          126,
+          113
+        ],
+        [
+          112,
+          82,
+          130,
+          115,
+          98,
+          114,
+          126,
+          113,
+          84,
+          70
+        ]
+      ],
+      "frozen_seeded_prefix": [
+        112,
+        82,
+        130,
+        115
+      ],
+      "id": "rust-018",
+      "parent_game_id": "rustplayed-parent-018",
+      "source_kind": "actual_native_Rust_MCTS_after_random_valid_initial_prefix",
+      "source_seed": 18054012,
+      "split": "train"
+    },
+    {
+      "actual_native_played_move_count": 6,
+      "canonical_parent_opening_sha256": "d33690a219b1df1f5fbd7cf699a6fbaa9552055b8cb5fc6b436d9413e9d533ae",
+      "checkpoints": [
+        [
+          126,
+          79,
+          111,
+          65,
+          96,
+          81
+        ],
+        [
+          126,
+          79,
+          111,
+          65,
+          96,
+          81,
+          141,
+          156
+        ],
+        [
+          126,
+          79,
+          111,
+          65,
+          96,
+          81,
+          141,
+          156,
+          97,
+          80
+        ]
+      ],
+      "frozen_seeded_prefix": [
+        126,
+        79,
+        111,
+        65
+      ],
+      "id": "rust-019",
+      "parent_game_id": "rustplayed-parent-019",
+      "source_kind": "actual_native_Rust_MCTS_after_random_valid_initial_prefix",
+      "source_seed": 18055789,
+      "split": "train"
+    },
+    {
+      "actual_native_played_move_count": 6,
+      "canonical_parent_opening_sha256": "74b4d9e4ed5ecf137895a2496f074b3e31235fa516a7478cdd480000e48580f1",
+      "checkpoints": [
+        [
+          154,
+          70,
+          95,
+          98,
+          96,
+          84
+        ],
+        [
+          154,
+          70,
+          95,
+          98,
+          96,
+          84,
+          112,
+          56
+        ],
+        [
+          154,
+          70,
+          95,
+          98,
+          96,
+          84,
+          112,
+          56,
+          42,
+          97
+        ]
+      ],
+      "frozen_seeded_prefix": [
+        154,
+        70,
+        95,
+        98
+      ],
+      "id": "rust-020",
+      "parent_game_id": "rustplayed-parent-020",
+      "source_kind": "actual_native_Rust_MCTS_after_random_valid_initial_prefix",
+      "source_seed": 18057566,
+      "split": "train"
+    },
+    {
+      "actual_native_played_move_count": 6,
+      "canonical_parent_opening_sha256": "80de0838e9fdb9c88ce97537e9780c8596114eb6b00cd680efc03db79c3e95c9",
+      "checkpoints": [
+        [
+          140,
+          142,
+          68,
+          158,
+          126,
+          174
+        ],
+        [
+          140,
+          142,
+          68,
+          158,
+          126,
+          174,
+          112,
+          190
+        ],
+        [
+          140,
+          142,
+          68,
+          158,
+          126,
+          174,
+          112,
+          190,
+          206,
+          98
+        ]
+      ],
+      "frozen_seeded_prefix": [
+        140,
+        142,
+        68,
+        158
+      ],
+      "id": "rust-021",
+      "parent_game_id": "rustplayed-parent-021",
+      "source_kind": "actual_native_Rust_MCTS_after_random_valid_initial_prefix",
+      "source_seed": 18059343,
+      "split": "train"
+    },
+    {
+      "actual_native_played_move_count": 6,
+      "canonical_parent_opening_sha256": "db3490f6ed0398b3c7a9caff3a51152f30055c82a6d9559113031123d0da409e",
+      "checkpoints": [
+        [
+          157,
+          85,
+          109,
+          145,
+          141,
+          173
+        ],
+        [
+          157,
+          85,
+          109,
+          145,
+          141,
+          173,
+          125,
+          93
+        ],
+        [
+          157,
+          85,
+          109,
+          145,
+          141,
+          173,
+          125,
+          93,
+          142,
+          159
+        ]
+      ],
+      "frozen_seeded_prefix": [
+        157,
+        85,
+        109,
+        145
+      ],
+      "id": "rust-022",
+      "parent_game_id": "rustplayed-parent-022",
+      "source_kind": "actual_native_Rust_MCTS_after_random_valid_initial_prefix",
+      "source_seed": 18061120,
+      "split": "train"
+    },
+    {
+      "actual_native_played_move_count": 6,
+      "canonical_parent_opening_sha256": "3507c1b13ac69a7e65dc855929eabbee4f14f3e7fb1287300ce0010fecc32844",
+      "checkpoints": [
+        [
+          155,
+          145,
+          115,
+          111,
+          129,
+          143
+        ],
+        [
+          155,
+          145,
+          115,
+          111,
+          129,
+          143,
+          144,
+          127
+        ],
+        [
+          155,
+          145,
+          115,
+          111,
+          129,
+          143,
+          144,
+          127,
+          159,
+          95
+        ]
+      ],
+      "frozen_seeded_prefix": [
+        155,
+        145,
+        115,
+        111
+      ],
+      "id": "rust-023",
+      "parent_game_id": "rustplayed-parent-023",
+      "source_kind": "actual_native_Rust_MCTS_after_random_valid_initial_prefix",
+      "source_seed": 18062897,
+      "split": "train"
+    },
+    {
+      "actual_native_played_move_count": 6,
+      "canonical_parent_opening_sha256": "a17b1e34eb5dce72ea11b399548cb9919228b7e4685380a6da99b14d2da88711",
+      "checkpoints": [
+        [
+          70,
+          97,
+          94,
+          115,
+          95,
+          96
+        ],
+        [
+          70,
+          97,
+          94,
+          115,
+          95,
+          96,
+          93,
+          111
+        ],
+        [
+          70,
+          97,
+          94,
+          115,
+          95,
+          96,
+          93,
+          111,
+          92,
+          91
+        ]
+      ],
+      "frozen_seeded_prefix": [
+        70,
+        97,
+        94,
+        115
+      ],
+      "id": "rust-024",
+      "parent_game_id": "rustplayed-parent-024",
+      "source_kind": "actual_native_Rust_MCTS_after_random_valid_initial_prefix",
+      "source_seed": 18064674,
+      "split": "train"
+    },
+    {
+      "actual_native_played_move_count": 6,
+      "canonical_parent_opening_sha256": "4e5b72141bf1b67cb3dbe7eb931d6f16016aa86ddf0dad91e88784725db1956e",
+      "checkpoints": [
+        [
+          155,
+          80,
+          124,
+          111,
+          125,
+          126
+        ],
+        [
+          155,
+          80,
+          124,
+          111,
+          125,
+          126,
+          140,
+          110
+        ],
+        [
+          155,
+          80,
+          124,
+          111,
+          125,
+          126,
+          140,
+          110,
+          170,
+          185
+        ]
+      ],
+      "frozen_seeded_prefix": [
+        155,
+        80,
+        124,
+        111
+      ],
+      "id": "rust-025",
+      "parent_game_id": "rustplayed-parent-025",
+      "source_kind": "actual_native_Rust_MCTS_after_random_valid_initial_prefix",
+      "source_seed": 18066451,
+      "split": "train"
+    },
+    {
+      "actual_native_played_move_count": 6,
+      "canonical_parent_opening_sha256": "7ef81a21e2f4b1f367b24b0c967440ac8c6585ca301117b86041a8a33799fb8e",
+      "checkpoints": [
+        [
+          127,
+          113,
+          129,
+          156,
+          128,
+          126
+        ],
+        [
+          127,
+          113,
+          129,
+          156,
+          128,
+          126,
+          130,
+          131
+        ],
+        [
+          127,
+          113,
+          129,
+          156,
+          128,
+          126,
+          130,
+          131,
+          141,
+          155
+        ]
+      ],
+      "frozen_seeded_prefix": [
+        127,
+        113,
+        129,
+        156
+      ],
+      "id": "rust-026",
+      "parent_game_id": "rustplayed-parent-026",
+      "source_kind": "actual_native_Rust_MCTS_after_random_valid_initial_prefix",
+      "source_seed": 18068228,
+      "split": "train"
+    },
+    {
+      "actual_native_played_move_count": 6,
+      "canonical_parent_opening_sha256": "01a28a977a6817da33c6dde20cc119442fd0b2afadd1127fa715938659c1904d",
+      "checkpoints": [
+        [
+          113,
+          158,
+          67,
+          141,
+          127,
+          142
+        ],
+        [
+          113,
+          158,
+          67,
+          141,
+          127,
+          142,
+          99,
+          126
+        ],
+        [
+          113,
+          158,
+          67,
+          141,
+          127,
+          142,
+          99,
+          126,
+          85,
+          71
+        ]
+      ],
+      "frozen_seeded_prefix": [
+        113,
+        158,
+        67,
+        141
+      ],
+      "id": "rust-027",
+      "parent_game_id": "rustplayed-parent-027",
+      "source_kind": "actual_native_Rust_MCTS_after_random_valid_initial_prefix",
+      "source_seed": 18070005,
+      "split": "train"
+    },
+    {
+      "actual_native_played_move_count": 6,
+      "canonical_parent_opening_sha256": "0c79ea29ccde479816cfd78bedbbf602254ddf885b2a61277dbd78d2e2a6aa61",
+      "checkpoints": [
+        [
+          96,
+          142,
+          157,
+          128,
+          156,
+          158
+        ],
+        [
+          96,
+          142,
+          157,
+          128,
+          156,
+          158,
+          141,
+          126
+        ],
+        [
+          96,
+          142,
+          157,
+          128,
+          156,
+          158,
+          141,
+          126,
+          110,
+          174
+        ]
+      ],
+      "frozen_seeded_prefix": [
+        96,
+        142,
+        157,
+        128
+      ],
+      "id": "rust-028",
+      "parent_game_id": "rustplayed-parent-028",
+      "source_kind": "actual_native_Rust_MCTS_after_random_valid_initial_prefix",
+      "source_seed": 18071782,
+      "split": "train"
+    },
+    {
+      "actual_native_played_move_count": 6,
+      "canonical_parent_opening_sha256": "7a06f45291a53ceeae640882ef0e903f21c476825637cfd1f0ffb901af38fd71",
+      "checkpoints": [
+        [
+          111,
+          143,
+          64,
+          139,
+          127,
+          142
+        ],
+        [
+          111,
+          143,
+          64,
+          139,
+          127,
+          142,
+          141,
+          126
+        ],
+        [
+          111,
+          143,
+          64,
+          139,
+          127,
+          142,
+          141,
+          126,
+          155,
+          113
+        ]
+      ],
+      "frozen_seeded_prefix": [
+        111,
+        143,
+        64,
+        139
+      ],
+      "id": "rust-029",
+      "parent_game_id": "rustplayed-parent-029",
+      "source_kind": "actual_native_Rust_MCTS_after_random_valid_initial_prefix",
+      "source_seed": 18073559,
+      "split": "train"
+    },
+    {
+      "actual_native_played_move_count": 6,
+      "canonical_parent_opening_sha256": "27e91d9db7b7bc65422c7bcbf03003d8e252631b0555b1d032cd652b1c597a13",
+      "checkpoints": [
+        [
+          68,
+          79,
+          97,
+          67,
+          82,
+          66
+        ],
+        [
+          68,
+          79,
+          97,
+          67,
+          82,
+          66,
+          96,
+          110
+        ],
+        [
+          68,
+          79,
+          97,
+          67,
+          82,
+          66,
+          96,
+          110,
+          54,
+          40
+        ]
+      ],
+      "frozen_seeded_prefix": [
+        68,
+        79,
+        97,
+        67
+      ],
+      "id": "rust-030",
+      "parent_game_id": "rustplayed-parent-030",
+      "source_kind": "actual_native_Rust_MCTS_after_random_valid_initial_prefix",
+      "source_seed": 18075336,
+      "split": "train"
+    },
+    {
+      "actual_native_played_move_count": 6,
+      "canonical_parent_opening_sha256": "c5f7b64f3399705a2bfdbb54ecfb5e6d60366759dbaa70081445b8c84d17fd74",
+      "checkpoints": [
+        [
+          130,
+          99,
+          114,
+          125,
+          98,
+          82
+        ],
+        [
+          130,
+          99,
+          114,
+          125,
+          98,
+          82,
+          146,
+          162
+        ],
+        [
+          130,
+          99,
+          114,
+          125,
+          98,
+          82,
+          146,
+          162,
+          113,
+          83
+        ]
+      ],
+      "frozen_seeded_prefix": [
+        130,
+        99,
+        114,
+        125
+      ],
+      "id": "rust-031",
+      "parent_game_id": "rustplayed-parent-031",
+      "source_kind": "actual_native_Rust_MCTS_after_random_valid_initial_prefix",
+      "source_seed": 18077113,
+      "split": "train"
+    },
+    {
+      "actual_native_played_move_count": 6,
+      "canonical_parent_opening_sha256": "19fe62ed21afc240e3ec0e2f1929faa74b83474635fc97107875e5d5ace5aa06",
+      "checkpoints": [
+        [
+          157,
+          69,
+          128,
+          110,
+          112,
+          96
+        ],
+        [
+          157,
+          69,
+          128,
+          110,
+          112,
+          96,
+          142,
+          97
+        ],
+        [
+          157,
+          69,
+          128,
+          110,
+          112,
+          96,
+          142,
+          97,
+          127,
+          172
+        ]
+      ],
+      "frozen_seeded_prefix": [
+        157,
+        69,
+        128,
+        110
+      ],
+      "id": "rust-032",
+      "parent_game_id": "rustplayed-parent-032",
+      "source_kind": "actual_native_Rust_MCTS_after_random_valid_initial_prefix",
+      "source_seed": 18078890,
+      "split": "train"
+    },
+    {
+      "actual_native_played_move_count": 6,
+      "canonical_parent_opening_sha256": "7e9a9f2e4ee82b5fff5894654bb663352912ef89a6d3a3c031d17c7489e94cbb",
+      "checkpoints": [
+        [
+          140,
+          83,
+          98,
+          85,
+          84,
+          70
+        ],
+        [
+          140,
+          83,
+          98,
+          85,
+          84,
+          70,
+          112,
+          126
+        ],
+        [
+          140,
+          83,
+          98,
+          85,
+          84,
+          70,
+          112,
+          126,
+          100,
+          99
+        ]
+      ],
+      "frozen_seeded_prefix": [
+        140,
+        83,
+        98,
+        85
+      ],
+      "id": "rust-033",
+      "parent_game_id": "rustplayed-parent-033",
+      "source_kind": "actual_native_Rust_MCTS_after_random_valid_initial_prefix",
+      "source_seed": 18080667,
+      "split": "train"
+    },
+    {
+      "actual_native_played_move_count": 6,
+      "canonical_parent_opening_sha256": "a7f95dca944b32642418b0c66f65c42bb6bec1d67f02bda4182282bf5297590f",
+      "checkpoints": [
+        [
+          64,
+          160,
+          144,
+          69,
+          145,
+          146
+        ],
+        [
+          64,
+          160,
+          144,
+          69,
+          145,
+          146,
+          143,
+          174
+        ],
+        [
+          64,
+          160,
+          144,
+          69,
+          145,
+          146,
+          143,
+          174,
+          142,
+          141
+        ]
+      ],
+      "frozen_seeded_prefix": [
+        64,
+        160,
+        144,
+        69
+      ],
+      "id": "rust-034",
+      "parent_game_id": "rustplayed-parent-034",
+      "source_kind": "actual_native_Rust_MCTS_after_random_valid_initial_prefix",
+      "source_seed": 18082444,
+      "split": "train"
+    },
+    {
+      "actual_native_played_move_count": 6,
+      "canonical_parent_opening_sha256": "005673f59a1f8246d6063d398a7bc3d4f5116f0fdf320e2765db270f2c2e7cd8",
+      "checkpoints": [
+        [
+          69,
+          68,
+          142,
+          64,
+          83,
+          67
+        ],
+        [
+          69,
+          68,
+          142,
+          64,
+          83,
+          67,
+          97,
+          65
+        ],
+        [
+          69,
+          68,
+          142,
+          64,
+          83,
+          67,
+          97,
+          65,
+          66,
+          111
+        ]
+      ],
+      "frozen_seeded_prefix": [
+        69,
+        68,
+        142,
+        64
+      ],
+      "id": "rust-035",
+      "parent_game_id": "rustplayed-parent-035",
+      "source_kind": "actual_native_Rust_MCTS_after_random_valid_initial_prefix",
+      "source_seed": 18084221,
+      "split": "train"
+    },
+    {
+      "actual_native_played_move_count": 6,
+      "canonical_parent_opening_sha256": "b474ab9c6f15e881c3eff70193a78bc2c39bcb8e558bc6fe2ed2133499c9e917",
+      "checkpoints": [
+        [
+          84,
+          94,
+          158,
+          67,
+          83,
+          82
+        ],
+        [
+          84,
+          94,
+          158,
+          67,
+          83,
+          82,
+          85,
+          97
+        ],
+        [
+          84,
+          94,
+          158,
+          67,
+          83,
+          82,
+          85,
+          97,
+          86,
+          87
+        ]
+      ],
+      "frozen_seeded_prefix": [
+        84,
+        94,
+        158,
+        67
+      ],
+      "id": "rust-036",
+      "parent_game_id": "rustplayed-parent-036",
+      "source_kind": "actual_native_Rust_MCTS_after_random_valid_initial_prefix",
+      "source_seed": 18085998,
+      "split": "train"
+    },
+    {
+      "actual_native_played_move_count": 6,
+      "canonical_parent_opening_sha256": "fc55cf61a344eda992ab976876a8ecaea1705c7dbfe72a39c19df7642e9447f0",
+      "checkpoints": [
+        [
+          97,
+          79,
+          113,
+          127,
+          81,
+          65
+        ],
+        [
+          97,
+          79,
+          113,
+          127,
+          81,
+          65,
+          129,
+          145
+        ],
+        [
+          97,
+          79,
+          113,
+          127,
+          81,
+          65,
+          129,
+          145,
+          112,
+          111
+        ]
+      ],
+      "frozen_seeded_prefix": [
+        97,
+        79,
+        113,
+        127
+      ],
+      "id": "rust-037",
+      "parent_game_id": "rustplayed-parent-037",
+      "source_kind": "actual_native_Rust_MCTS_after_random_valid_initial_prefix",
+      "source_seed": 18087775,
+      "split": "train"
+    },
+    {
+      "actual_native_played_move_count": 6,
+      "canonical_parent_opening_sha256": "aa862be46e89da2d364cec46554d61754a49f3dc0619e3520d864ee3862f5aa5",
+      "checkpoints": [
+        [
+          130,
+          154,
+          64,
+          109,
+          79,
+          94
+        ],
+        [
+          130,
+          154,
+          64,
+          109,
+          79,
+          94,
+          49,
+          124
+        ],
+        [
+          130,
+          154,
+          64,
+          109,
+          79,
+          94,
+          49,
+          124,
+          139,
+          95
+        ]
+      ],
+      "frozen_seeded_prefix": [
+        130,
+        154,
+        64,
+        109
+      ],
+      "id": "rust-038",
+      "parent_game_id": "rustplayed-parent-038",
+      "source_kind": "actual_native_Rust_MCTS_after_random_valid_initial_prefix",
+      "source_seed": 18089552,
+      "split": "train"
+    },
+    {
+      "actual_native_played_move_count": 6,
+      "canonical_parent_opening_sha256": "18a65025c79eac73222cd5851b5c979259d631f2864115cd00f11be2276e7528",
+      "checkpoints": [
+        [
+          115,
+          130,
+          95,
+          94,
+          110,
+          80
+        ],
+        [
+          115,
+          130,
+          95,
+          94,
+          110,
+          80,
+          125,
+          114
+        ],
+        [
+          115,
+          130,
+          95,
+          94,
+          110,
+          80,
+          125,
+          114,
+          140,
+          155
+        ]
+      ],
+      "frozen_seeded_prefix": [
+        115,
+        130,
+        95,
+        94
+      ],
+      "id": "rust-039",
+      "parent_game_id": "rustplayed-parent-039",
+      "source_kind": "actual_native_Rust_MCTS_after_random_valid_initial_prefix",
+      "source_seed": 18091329,
+      "split": "train"
+    },
+    {
+      "actual_native_played_move_count": 6,
+      "canonical_parent_opening_sha256": "202f76d2fb42330917894c7553789c38a66b6ee6c2cd4a01dcbdb815880add99",
+      "checkpoints": [
+        [
+          125,
+          64,
+          109,
+          110,
+          141,
+          157
+        ],
+        [
+          125,
+          64,
+          109,
+          110,
+          141,
+          157,
+          93,
+          77
+        ],
+        [
+          125,
+          64,
+          109,
+          110,
+          141,
+          157,
+          93,
+          77,
+          126,
+          111
+        ]
+      ],
+      "frozen_seeded_prefix": [
+        125,
+        64,
+        109,
+        110
+      ],
+      "id": "rust-040",
+      "parent_game_id": "rustplayed-parent-040",
+      "source_kind": "actual_native_Rust_MCTS_after_random_valid_initial_prefix",
+      "source_seed": 18093106,
+      "split": "train"
+    },
+    {
+      "actual_native_played_move_count": 4,
+      "canonical_parent_opening_sha256": "5dccf01f799377249bd28e7c194b8397086bbdf695d3fcce26047bafe3924909",
+      "checkpoints": [
+        [
+          80,
+          85,
+          66,
+          84,
+          52,
+          83
+        ],
+        [
+          80,
+          85,
+          66,
+          84,
+          52,
+          83,
+          38,
+          82
+        ]
+      ],
+      "frozen_seeded_prefix": [
+        80,
+        85,
+        66,
+        84
+      ],
+      "id": "rust-041",
+      "parent_game_id": "rustplayed-parent-041",
+      "source_kind": "actual_native_Rust_MCTS_after_random_valid_initial_prefix",
+      "source_seed": 18094883,
+      "split": "train"
+    },
+    {
+      "actual_native_played_move_count": 6,
+      "canonical_parent_opening_sha256": "ee27f68fac6a7e3b3e0337d574fec653599c690dfd1a17ac821a396a88beb415",
+      "checkpoints": [
+        [
+          144,
+          127,
+          98,
+          130,
+          128,
+          112
+        ],
+        [
+          144,
+          127,
+          98,
+          130,
+          128,
+          112,
+          113,
+          143
+        ],
+        [
+          144,
+          127,
+          98,
+          130,
+          128,
+          112,
+          113,
+          143,
+          83,
+          68
+        ]
+      ],
+      "frozen_seeded_prefix": [
+        144,
+        127,
+        98,
+        130
+      ],
+      "id": "rust-042",
+      "parent_game_id": "rustplayed-parent-042",
+      "source_kind": "actual_native_Rust_MCTS_after_random_valid_initial_prefix",
+      "source_seed": 18096660,
+      "split": "train"
+    },
+    {
+      "actual_native_played_move_count": 6,
+      "canonical_parent_opening_sha256": "fd4afb587446e8f5b427256a1c70207ca63fc337968b6483abfe1483ac52efaf",
+      "checkpoints": [
+        [
+          67,
+          115,
+          68,
+          155,
+          66,
+          65
+        ],
+        [
+          67,
+          115,
+          68,
+          155,
+          66,
+          65,
+          69,
+          70
+        ],
+        [
+          67,
+          115,
+          68,
+          155,
+          66,
+          65,
+          69,
+          70,
+          84,
+          100
+        ]
+      ],
+      "frozen_seeded_prefix": [
+        67,
+        115,
+        68,
+        155
+      ],
+      "id": "rust-043",
+      "parent_game_id": "rustplayed-parent-043",
+      "source_kind": "actual_native_Rust_MCTS_after_random_valid_initial_prefix",
+      "source_seed": 18098437,
+      "split": "train"
+    },
+    {
+      "actual_native_played_move_count": 6,
+      "canonical_parent_opening_sha256": "0e995f3d637a520a80efc2bc34c8ea6f2f626cb3307c1a2e0f506fb50ffe9cc7",
+      "checkpoints": [
+        [
+          81,
+          82,
+          67,
+          98,
+          53,
+          95
+        ],
+        [
+          81,
+          82,
+          67,
+          98,
+          53,
+          95,
+          39,
+          25
+        ],
+        [
+          81,
+          82,
+          67,
+          98,
+          53,
+          95,
+          39,
+          25,
+          66,
+          96
+        ]
+      ],
+      "frozen_seeded_prefix": [
+        81,
+        82,
+        67,
+        98
+      ],
+      "id": "rust-044",
+      "parent_game_id": "rustplayed-parent-044",
+      "source_kind": "actual_native_Rust_MCTS_after_random_valid_initial_prefix",
+      "source_seed": 18100214,
+      "split": "train"
+    },
+    {
+      "actual_native_played_move_count": 6,
+      "canonical_parent_opening_sha256": "3f1f61db6975f4cb72b8b0213223a041eff11f14912e83e7a3278130d13e91b8",
+      "checkpoints": [
+        [
+          141,
+          65,
+          125,
+          140,
+          109,
+          93
+        ],
+        [
+          141,
+          65,
+          125,
+          140,
+          109,
+          93,
+          157,
+          173
+        ],
+        [
+          141,
+          65,
+          125,
+          140,
+          109,
+          93,
+          157,
+          173,
+          126,
+          79
+        ]
+      ],
+      "frozen_seeded_prefix": [
+        141,
+        65,
+        125,
+        140
+      ],
+      "id": "rust-045",
+      "parent_game_id": "rustplayed-parent-045",
+      "source_kind": "actual_native_Rust_MCTS_after_random_valid_initial_prefix",
+      "source_seed": 18101991,
+      "split": "train"
+    },
+    {
+      "actual_native_played_move_count": 6,
+      "canonical_parent_opening_sha256": "6cb49a24abfda538b7b2832c5fb15d012eae1a3f1a1f8ce8805a3778361de10b",
+      "checkpoints": [
+        [
+          158,
+          64,
+          83,
+          67,
+          68,
+          65
+        ],
+        [
+          158,
+          64,
+          83,
+          67,
+          68,
+          65,
+          82,
+          66
+        ],
+        [
+          158,
+          64,
+          83,
+          67,
+          68,
+          65,
+          82,
+          66,
+          63,
+          81
+        ]
+      ],
+      "frozen_seeded_prefix": [
+        158,
+        64,
+        83,
+        67
+      ],
+      "id": "rust-046",
+      "parent_game_id": "rustplayed-parent-046",
+      "source_kind": "actual_native_Rust_MCTS_after_random_valid_initial_prefix",
+      "source_seed": 18103768,
+      "split": "train"
+    },
+    {
+      "actual_native_played_move_count": 6,
+      "canonical_parent_opening_sha256": "acfab8efefa8187b2bff5b10a0831fba9d4322748826d66b81485c52da660d79",
+      "checkpoints": [
+        [
+          80,
+          156,
+          66,
+          70,
+          94,
+          108
+        ],
+        [
+          80,
+          156,
+          66,
+          70,
+          94,
+          108,
+          52,
+          38
+        ],
+        [
+          80,
+          156,
+          66,
+          70,
+          94,
+          108,
+          52,
+          38,
+          67,
+          54
+        ]
+      ],
+      "frozen_seeded_prefix": [
+        80,
+        156,
+        66,
+        70
+      ],
+      "id": "rust-047",
+      "parent_game_id": "rustplayed-parent-047",
+      "source_kind": "actual_native_Rust_MCTS_after_random_valid_initial_prefix",
+      "source_seed": 18105545,
+      "split": "train"
+    },
+    {
+      "actual_native_played_move_count": 6,
+      "canonical_parent_opening_sha256": "0ac5c5d3daa9c20e5d6208b1ae7b6f4fd49a549377232e228ac7d1758d878303",
+      "checkpoints": [
+        [
+          64,
+          84,
+          82,
+          109,
+          98,
+          114
+        ],
+        [
+          64,
+          84,
+          82,
+          109,
+          98,
+          114,
+          66,
+          99
+        ],
+        [
+          64,
+          84,
+          82,
+          109,
+          98,
+          114,
+          66,
+          99,
+          50,
+          34
+        ]
+      ],
+      "frozen_seeded_prefix": [
+        64,
+        84,
+        82,
+        109
+      ],
+      "id": "rust-048",
+      "parent_game_id": "rustplayed-parent-048",
+      "source_kind": "actual_native_Rust_MCTS_after_random_valid_initial_prefix",
+      "source_seed": 18107322,
+      "split": "train"
+    },
+    {
+      "actual_native_played_move_count": 6,
+      "canonical_parent_opening_sha256": "d9ec721ebf4422b08a8af746eb39957f19b6431c444fb383e883f403a555d002",
+      "checkpoints": [
+        [
+          95,
+          79,
+          156,
+          140,
+          141,
+          126
+        ],
+        [
+          95,
+          79,
+          156,
+          140,
+          141,
+          126,
+          171,
+          127
+        ],
+        [
+          95,
+          79,
+          156,
+          140,
+          141,
+          126,
+          171,
+          127,
+          186,
+          201
+        ]
+      ],
+      "frozen_seeded_prefix": [
+        95,
+        79,
+        156,
+        140
+      ],
+      "id": "rust-049",
+      "parent_game_id": "rustplayed-parent-049",
+      "source_kind": "actual_native_Rust_MCTS_after_random_valid_initial_prefix",
+      "source_seed": 18109099,
+      "split": "train"
+    },
+    {
+      "actual_native_played_move_count": 6,
+      "canonical_parent_opening_sha256": "4f1afad4fc69b82982d2c0c2a5c8a533292bfb5a10bb336b295a48fdcfe50f81",
+      "checkpoints": [
+        [
+          128,
+          80,
+          68,
+          156,
+          83,
+          142
+        ],
+        [
+          128,
+          80,
+          68,
+          156,
+          83,
+          142,
+          98,
+          113
+        ],
+        [
+          128,
+          80,
+          68,
+          156,
+          83,
+          142,
+          98,
+          113,
+          53,
+          38
+        ]
+      ],
+      "frozen_seeded_prefix": [
+        128,
+        80,
+        68,
+        156
+      ],
+      "id": "rust-050",
+      "parent_game_id": "rustplayed-parent-050",
+      "source_kind": "actual_native_Rust_MCTS_after_random_valid_initial_prefix",
+      "source_seed": 18110876,
+      "split": "train"
+    },
+    {
+      "actual_native_played_move_count": 6,
+      "canonical_parent_opening_sha256": "4dd7504eb8fca30ed07c86eab8726eb198b4d0dff2dca38b59739d4ed7db1c48",
+      "checkpoints": [
+        [
+          112,
+          144,
+          110,
+          127,
+          111,
+          113
+        ],
+        [
+          112,
+          144,
+          110,
+          127,
+          111,
+          113,
+          109,
+          108
+        ],
+        [
+          112,
+          144,
+          110,
+          127,
+          111,
+          113,
+          109,
+          108,
+          126,
+          141
+        ]
+      ],
+      "frozen_seeded_prefix": [
+        112,
+        144,
+        110,
+        127
+      ],
+      "id": "rust-051",
+      "parent_game_id": "rustplayed-parent-051",
+      "source_kind": "actual_native_Rust_MCTS_after_random_valid_initial_prefix",
+      "source_seed": 18112653,
+      "split": "train"
+    },
+    {
+      "actual_native_played_move_count": 6,
+      "canonical_parent_opening_sha256": "c76a17d73c89cb2d813115937edfbf87a2e8b13df9f3e4c0260b6c5d14dc32e2",
+      "checkpoints": [
+        [
+          145,
+          99,
+          112,
+          130,
+          113,
+          114
+        ],
+        [
+          145,
+          99,
+          112,
+          130,
+          113,
+          114,
+          129,
+          97
+        ],
+        [
+          145,
+          99,
+          112,
+          130,
+          113,
+          114,
+          129,
+          97,
+          161,
+          177
+        ]
+      ],
+      "frozen_seeded_prefix": [
+        145,
+        99,
+        112,
+        130
+      ],
+      "id": "rust-052",
+      "parent_game_id": "rustplayed-parent-052",
+      "source_kind": "actual_native_Rust_MCTS_after_random_valid_initial_prefix",
+      "source_seed": 18114430,
+      "split": "train"
+    },
+    {
+      "actual_native_played_move_count": 6,
+      "canonical_parent_opening_sha256": "9868423a3b2866decffed645ebc7fc8b4cf7d6b51bc2bc32055f8576f09fe3c7",
+      "checkpoints": [
+        [
+          81,
+          145,
+          80,
+          142,
+          82,
+          83
+        ],
+        [
+          81,
+          145,
+          80,
+          142,
+          82,
+          83,
+          79,
+          78
+        ],
+        [
+          81,
+          145,
+          80,
+          142,
+          82,
+          83,
+          79,
+          78,
+          94,
+          144
+        ]
+      ],
+      "frozen_seeded_prefix": [
+        81,
+        145,
+        80,
+        142
+      ],
+      "id": "rust-053",
+      "parent_game_id": "rustplayed-parent-053",
+      "source_kind": "actual_native_Rust_MCTS_after_random_valid_initial_prefix",
+      "source_seed": 18116207,
+      "split": "train"
+    },
+    {
+      "actual_native_played_move_count": 6,
+      "canonical_parent_opening_sha256": "977778b8e7337dcb38b4f1a3f384c606fc17790fd6e72aaa4986b90af9f1deda",
+      "checkpoints": [
+        [
+          110,
+          125,
+          70,
+          82,
+          111,
+          109
+        ],
+        [
+          110,
+          125,
+          70,
+          82,
+          111,
+          109,
+          112,
+          141
+        ],
+        [
+          110,
+          125,
+          70,
+          82,
+          111,
+          109,
+          112,
+          141,
+          113,
+          114
+        ]
+      ],
+      "frozen_seeded_prefix": [
+        110,
+        125,
+        70,
+        82
+      ],
+      "id": "rust-054",
+      "parent_game_id": "rustplayed-parent-054",
+      "source_kind": "actual_native_Rust_MCTS_after_random_valid_initial_prefix",
+      "source_seed": 18117984,
+      "split": "train"
+    },
+    {
+      "actual_native_played_move_count": 6,
+      "canonical_parent_opening_sha256": "36565b4931413ea8e5efc368a6969c0764485cf84b6eefed755c614475eb0ce4",
+      "checkpoints": [
+        [
+          139,
+          126,
+          125,
+          155,
+          111,
+          97
+        ],
+        [
+          139,
+          126,
+          125,
+          155,
+          111,
+          97,
+          153,
+          167
+        ],
+        [
+          139,
+          126,
+          125,
+          155,
+          111,
+          97,
+          153,
+          167,
+          110,
+          112
+        ]
+      ],
+      "frozen_seeded_prefix": [
+        139,
+        126,
+        125,
+        155
+      ],
+      "id": "rust-055",
+      "parent_game_id": "rustplayed-parent-055",
+      "source_kind": "actual_native_Rust_MCTS_after_random_valid_initial_prefix",
+      "source_seed": 18119761,
+      "split": "train"
+    },
+    {
+      "actual_native_played_move_count": 6,
+      "canonical_parent_opening_sha256": "1a61bb26609b470fdb004af727383f1744117907bd5990164094a6fe4b7fbd1f",
+      "checkpoints": [
+        [
+          112,
+          160,
+          154,
+          139,
+          140,
+          126
+        ],
+        [
+          112,
+          160,
+          154,
+          139,
+          140,
+          126,
+          168,
+          127
+        ],
+        [
+          112,
+          160,
+          154,
+          139,
+          140,
+          126,
+          168,
+          127,
+          182,
+          196
+        ]
+      ],
+      "frozen_seeded_prefix": [
+        112,
+        160,
+        154,
+        139
+      ],
+      "id": "rust-056",
+      "parent_game_id": "rustplayed-parent-056",
+      "source_kind": "actual_native_Rust_MCTS_after_random_valid_initial_prefix",
+      "source_seed": 18121538,
+      "split": "train"
+    },
+    {
+      "actual_native_played_move_count": 6,
+      "canonical_parent_opening_sha256": "f2db0f55a3442a739ea0687d3c58fc6010598d900909ce469b2fcbfb4c57aee1",
+      "checkpoints": [
+        [
+          160,
+          80,
+          110,
+          139,
+          96,
+          124
+        ],
+        [
+          160,
+          80,
+          110,
+          139,
+          96,
+          124,
+          82,
+          109
+        ],
+        [
+          160,
+          80,
+          110,
+          139,
+          96,
+          124,
+          82,
+          109,
+          68,
+          54
+        ]
+      ],
+      "frozen_seeded_prefix": [
+        160,
+        80,
+        110,
+        139
+      ],
+      "id": "rust-057",
+      "parent_game_id": "rustplayed-parent-057",
+      "source_kind": "actual_native_Rust_MCTS_after_random_valid_initial_prefix",
+      "source_seed": 18123315,
+      "split": "train"
+    },
+    {
+      "actual_native_played_move_count": 6,
+      "canonical_parent_opening_sha256": "a9e93ce88d344a7bf6b249603114c79af98b16b90003ec96a8f846e49f867a06",
+      "checkpoints": [
+        [
+          67,
+          127,
+          100,
+          64,
+          82,
+          112
+        ],
+        [
+          67,
+          127,
+          100,
+          64,
+          82,
+          112,
+          97,
+          142
+        ],
+        [
+          67,
+          127,
+          100,
+          64,
+          82,
+          112,
+          97,
+          142,
+          52,
+          37
+        ]
+      ],
+      "frozen_seeded_prefix": [
+        67,
+        127,
+        100,
+        64
+      ],
+      "id": "rust-058",
+      "parent_game_id": "rustplayed-parent-058",
+      "source_kind": "actual_native_Rust_MCTS_after_random_valid_initial_prefix",
+      "source_seed": 18125092,
+      "split": "train"
+    },
+    {
+      "actual_native_played_move_count": 6,
+      "canonical_parent_opening_sha256": "e752b9ddae29faa75005656cbe58760c9367c28bd283b732c2c70f17cc3baf89",
+      "checkpoints": [
+        [
+          125,
+          128,
+          109,
+          110,
+          141,
+          157
+        ],
+        [
+          125,
+          128,
+          109,
+          110,
+          141,
+          157,
+          93,
+          77
+        ],
+        [
+          125,
+          128,
+          109,
+          110,
+          141,
+          157,
+          93,
+          77,
+          126,
+          111
+        ]
+      ],
+      "frozen_seeded_prefix": [
+        125,
+        128,
+        109,
+        110
+      ],
+      "id": "rust-059",
+      "parent_game_id": "rustplayed-parent-059",
+      "source_kind": "actual_native_Rust_MCTS_after_random_valid_initial_prefix",
+      "source_seed": 18126869,
+      "split": "train"
+    },
+    {
+      "actual_native_played_move_count": 6,
+      "canonical_parent_opening_sha256": "a2f22843b67dfb793f6f289a94cdb792083879076fd6b0d84a5eac15f7ada63f",
+      "checkpoints": [
+        [
+          94,
+          66,
+          139,
+          126,
+          124,
+          154
+        ],
+        [
+          94,
+          66,
+          139,
+          126,
+          124,
+          154,
+          109,
+          79
+        ],
+        [
+          94,
+          66,
+          139,
+          126,
+          124,
+          154,
+          109,
+          79,
+          140,
+          141
+        ]
+      ],
+      "frozen_seeded_prefix": [
+        94,
+        66,
+        139,
+        126
+      ],
+      "id": "rust-060",
+      "parent_game_id": "rustplayed-parent-060",
+      "source_kind": "actual_native_Rust_MCTS_after_random_valid_initial_prefix",
+      "source_seed": 18128646,
+      "split": "train"
+    },
+    {
+      "actual_native_played_move_count": 6,
+      "canonical_parent_opening_sha256": "9ea025ca515e0f19dd557a86945e5efd8d610d48f0cbd4318a1a62e34cd98daa",
+      "checkpoints": [
+        [
+          156,
+          98,
+          67,
+          68,
+          83,
+          99
+        ],
+        [
+          156,
+          98,
+          67,
+          68,
+          83,
+          99,
+          97,
+          82
+        ],
+        [
+          156,
+          98,
+          67,
+          68,
+          83,
+          99,
+          97,
+          82,
+          111,
+          96
+        ]
+      ],
+      "frozen_seeded_prefix": [
+        156,
+        98,
+        67,
+        68
+      ],
+      "id": "rust-061",
+      "parent_game_id": "rustplayed-parent-061",
+      "source_kind": "actual_native_Rust_MCTS_after_random_valid_initial_prefix",
+      "source_seed": 18130423,
+      "split": "train"
+    },
+    {
+      "actual_native_played_move_count": 6,
+      "canonical_parent_opening_sha256": "453478b33a23dc2f144e5f226a06c4a52eb7bbfdae421680a11b8ed91c72a274",
+      "checkpoints": [
+        [
+          143,
+          68,
+          115,
+          145,
+          129,
+          157
+        ],
+        [
+          143,
+          68,
+          115,
+          145,
+          129,
+          157,
+          101,
+          87
+        ],
+        [
+          143,
+          68,
+          115,
+          145,
+          129,
+          157,
+          101,
+          87,
+          144,
+          142
+        ]
+      ],
+      "frozen_seeded_prefix": [
+        143,
+        68,
+        115,
+        145
+      ],
+      "id": "rust-062",
+      "parent_game_id": "rustplayed-parent-062",
+      "source_kind": "actual_native_Rust_MCTS_after_random_valid_initial_prefix",
+      "source_seed": 18132200,
+      "split": "train"
+    },
+    {
+      "actual_native_played_move_count": 6,
+      "canonical_parent_opening_sha256": "2994b24d3be42476d79057ec8cd5398c409cbb43ddd9c8adc1e721796b093850",
+      "checkpoints": [
+        [
+          142,
+          124,
+          125,
+          140,
+          156,
+          108
+        ],
+        [
+          142,
+          124,
+          125,
+          140,
+          156,
+          108,
+          111,
+          92
+        ],
+        [
+          142,
+          124,
+          125,
+          140,
+          156,
+          108,
+          111,
+          92,
+          76,
+          139
+        ]
+      ],
+      "frozen_seeded_prefix": [
+        142,
+        124,
+        125,
+        140
+      ],
+      "id": "rust-063",
+      "parent_game_id": "rustplayed-parent-063",
+      "source_kind": "actual_native_Rust_MCTS_after_random_valid_initial_prefix",
+      "source_seed": 18133977,
+      "split": "train"
+    },
+    {
+      "actual_native_played_move_count": 6,
+      "canonical_parent_opening_sha256": "517c14225307719fc4c0327c13208d16a1d7b1c7f1d53f25ffcb7e0c6a846219",
+      "checkpoints": [
+        [
+          127,
+          109,
+          126,
+          81,
+          125,
+          124
+        ],
+        [
+          127,
+          109,
+          126,
+          81,
+          125,
+          124,
+          128,
+          129
+        ],
+        [
+          127,
+          109,
+          126,
+          81,
+          125,
+          124,
+          128,
+          129,
+          113,
+          139
+        ]
+      ],
+      "frozen_seeded_prefix": [
+        127,
+        109,
+        126,
+        81
+      ],
+      "id": "rust-064",
+      "parent_game_id": "rustplayed-parent-064",
+      "source_kind": "actual_native_Rust_MCTS_after_random_valid_initial_prefix",
+      "source_seed": 18135754,
+      "split": "train"
+    },
+    {
+      "actual_native_played_move_count": 6,
+      "canonical_parent_opening_sha256": "6d71cc2826d8c393d8a93cec01126aacf485a47db8a20ef74122aadbbdcf87c4",
+      "checkpoints": [
+        [
+          129,
+          67,
+          95,
+          126,
+          111,
+          127
+        ],
+        [
+          129,
+          67,
+          95,
+          126,
+          111,
+          127,
+          128,
+          125
+        ],
+        [
+          129,
+          67,
+          95,
+          126,
+          111,
+          127,
+          128,
+          125,
+          112,
+          124
+        ]
+      ],
+      "frozen_seeded_prefix": [
+        129,
+        67,
+        95,
+        126
+      ],
+      "id": "rust-065",
+      "parent_game_id": "rustplayed-parent-065",
+      "source_kind": "actual_native_Rust_MCTS_after_random_valid_initial_prefix",
+      "source_seed": 18137531,
+      "split": "train"
+    },
+    {
+      "actual_native_played_move_count": 6,
+      "canonical_parent_opening_sha256": "142512384d511c96230bbf93be7d31f913161e03312064ca0b4129556e39f9c9",
+      "checkpoints": [
+        [
+          112,
+          160,
+          141,
+          142,
+          127,
+          128
+        ],
+        [
+          112,
+          160,
+          141,
+          142,
+          127,
+          128,
+          113,
+          114
+        ],
+        [
+          112,
+          160,
+          141,
+          142,
+          127,
+          128,
+          113,
+          114,
+          99,
+          156
+        ]
+      ],
+      "frozen_seeded_prefix": [
+        112,
+        160,
+        141,
+        142
+      ],
+      "id": "rust-066",
+      "parent_game_id": "rustplayed-parent-066",
+      "source_kind": "actual_native_Rust_MCTS_after_random_valid_initial_prefix",
+      "source_seed": 18139308,
+      "split": "train"
+    },
+    {
+      "actual_native_played_move_count": 6,
+      "canonical_parent_opening_sha256": "df5c439d598cbb1eda20ebf9bfb895ed7f51cb76e0f38b638d139525c382cc83",
+      "checkpoints": [
+        [
+          113,
+          110,
+          80,
+          70,
+          96,
+          111
+        ],
+        [
+          113,
+          110,
+          80,
+          70,
+          96,
+          111,
+          112,
+          109
+        ],
+        [
+          113,
+          110,
+          80,
+          70,
+          96,
+          111,
+          112,
+          109,
+          128,
+          64
+        ]
+      ],
+      "frozen_seeded_prefix": [
+        113,
+        110,
+        80,
+        70
+      ],
+      "id": "rust-067",
+      "parent_game_id": "rustplayed-parent-067",
+      "source_kind": "actual_native_Rust_MCTS_after_random_valid_initial_prefix",
+      "source_seed": 18141085,
+      "split": "train"
+    },
+    {
+      "actual_native_played_move_count": 6,
+      "canonical_parent_opening_sha256": "fb8ba58251159b44f1024775da29ead1007116d2be67a567377be4f390790622",
+      "checkpoints": [
+        [
+          126,
+          66,
+          94,
+          114,
+          110,
+          142
+        ],
+        [
+          126,
+          66,
+          94,
+          114,
+          110,
+          142,
+          78,
+          62
+        ],
+        [
+          126,
+          66,
+          94,
+          114,
+          110,
+          142,
+          78,
+          62,
+          127,
+          128
+        ]
+      ],
+      "frozen_seeded_prefix": [
+        126,
+        66,
+        94,
+        114
+      ],
+      "id": "rust-068",
+      "parent_game_id": "rustplayed-parent-068",
+      "source_kind": "actual_native_Rust_MCTS_after_random_valid_initial_prefix",
+      "source_seed": 18142862,
+      "split": "train"
+    },
+    {
+      "actual_native_played_move_count": 6,
+      "canonical_parent_opening_sha256": "5547614f294078233b406a0de477021e0d2df822977e77ac9f41f796b037f140",
+      "checkpoints": [
+        [
+          110,
+          157,
+          130,
+          144,
+          129,
+          128
+        ],
+        [
+          110,
+          157,
+          130,
+          144,
+          129,
+          128,
+          131,
+          112
+        ],
+        [
+          110,
+          157,
+          130,
+          144,
+          129,
+          128,
+          131,
+          112,
+          132,
+          133
+        ]
+      ],
+      "frozen_seeded_prefix": [
+        110,
+        157,
+        130,
+        144
+      ],
+      "id": "rust-069",
+      "parent_game_id": "rustplayed-parent-069",
+      "source_kind": "actual_native_Rust_MCTS_after_random_valid_initial_prefix",
+      "source_seed": 18144639,
+      "split": "train"
+    },
+    {
+      "actual_native_played_move_count": 6,
+      "canonical_parent_opening_sha256": "87c49d8a694e0c4cd4159dbc25bcb8f855f565a57d78abfc852d31271936d0f6",
+      "checkpoints": [
+        [
+          144,
+          65,
+          98,
+          139,
+          97,
+          81
+        ],
+        [
+          144,
+          65,
+          98,
+          139,
+          97,
+          81,
+          96,
+          95
+        ],
+        [
+          144,
+          65,
+          98,
+          139,
+          97,
+          81,
+          96,
+          95,
+          99,
+          100
+        ]
+      ],
+      "frozen_seeded_prefix": [
+        144,
+        65,
+        98,
+        139
+      ],
+      "id": "rust-070",
+      "parent_game_id": "rustplayed-parent-070",
+      "source_kind": "actual_native_Rust_MCTS_after_random_valid_initial_prefix",
+      "source_seed": 18146416,
+      "split": "train"
+    },
+    {
+      "actual_native_played_move_count": 6,
+      "canonical_parent_opening_sha256": "cd7abe6f7a1c6f006ac31cfe05a8c558f9f98b640660a8f59a53637d8f49c9bf",
+      "checkpoints": [
+        [
+          129,
+          142,
+          128,
+          156,
+          127,
+          126
+        ],
+        [
+          129,
+          142,
+          128,
+          156,
+          127,
+          126,
+          130,
+          131
+        ],
+        [
+          129,
+          142,
+          128,
+          156,
+          127,
+          126,
+          130,
+          131,
+          141,
+          110
+        ]
+      ],
+      "frozen_seeded_prefix": [
+        129,
+        142,
+        128,
+        156
+      ],
+      "id": "rust-071",
+      "parent_game_id": "rustplayed-parent-071",
+      "source_kind": "actual_native_Rust_MCTS_after_random_valid_initial_prefix",
+      "source_seed": 18148193,
+      "split": "train"
+    },
+    {
+      "actual_native_played_move_count": 6,
+      "canonical_parent_opening_sha256": "02b2179bb95c3e7d3cd55e52bbd9aa11978d640057808bbd97630ab952ecff62",
+      "checkpoints": [
+        [
+          109,
+          81,
+          80,
+          100,
+          95,
+          65
+        ],
+        [
+          109,
+          81,
+          80,
+          100,
+          95,
+          65,
+          110,
+          97
+        ],
+        [
+          109,
+          81,
+          80,
+          100,
+          95,
+          65,
+          110,
+          97,
+          125,
+          140
+        ]
+      ],
+      "frozen_seeded_prefix": [
+        109,
+        81,
+        80,
+        100
+      ],
+      "id": "rust-072",
+      "parent_game_id": "rustplayed-parent-072",
+      "source_kind": "actual_native_Rust_MCTS_after_random_valid_initial_prefix",
+      "source_seed": 18149970,
+      "split": "cal"
+    },
+    {
+      "actual_native_played_move_count": 6,
+      "canonical_parent_opening_sha256": "0454829f3c1e43512a9c14b3c01f12e62addf52828a1a9f6055462e934223fe1",
+      "checkpoints": [
+        [
+          127,
+          139,
+          64,
+          81,
+          113,
+          97
+        ],
+        [
+          127,
+          139,
+          64,
+          81,
+          113,
+          97,
+          141,
+          155
+        ],
+        [
+          127,
+          139,
+          64,
+          81,
+          113,
+          97,
+          141,
+          155,
+          99,
+          85
+        ]
+      ],
+      "frozen_seeded_prefix": [
+        127,
+        139,
+        64,
+        81
+      ],
+      "id": "rust-073",
+      "parent_game_id": "rustplayed-parent-073",
+      "source_kind": "actual_native_Rust_MCTS_after_random_valid_initial_prefix",
+      "source_seed": 18151747,
+      "split": "cal"
+    },
+    {
+      "actual_native_played_move_count": 6,
+      "canonical_parent_opening_sha256": "de5271139d31faf67d32e5908e239d4a23ebbbebff938961a6f88d433ac33a55",
+      "checkpoints": [
+        [
+          143,
+          70,
+          156,
+          127,
+          142,
+          128
+        ],
+        [
+          143,
+          70,
+          156,
+          127,
+          142,
+          128,
+          141,
+          144
+        ],
+        [
+          143,
+          70,
+          156,
+          127,
+          142,
+          128,
+          141,
+          144,
+          140,
+          139
+        ]
+      ],
+      "frozen_seeded_prefix": [
+        143,
+        70,
+        156,
+        127
+      ],
+      "id": "rust-074",
+      "parent_game_id": "rustplayed-parent-074",
+      "source_kind": "actual_native_Rust_MCTS_after_random_valid_initial_prefix",
+      "source_seed": 18153524,
+      "split": "cal"
+    },
+    {
+      "actual_native_played_move_count": 5,
+      "canonical_parent_opening_sha256": "3785b062e5b72d58bbc2b4c4ad7ea2b1764d725e9616a1ccb1f3366cac2ec40b",
+      "checkpoints": [
+        [
+          95,
+          130,
+          70,
+          158,
+          110,
+          144
+        ],
+        [
+          95,
+          130,
+          70,
+          158,
+          110,
+          144,
+          125,
+          116
+        ]
+      ],
+      "frozen_seeded_prefix": [
+        95,
+        130,
+        70,
+        158
+      ],
+      "id": "rust-075",
+      "parent_game_id": "rustplayed-parent-075",
+      "source_kind": "actual_native_Rust_MCTS_after_random_valid_initial_prefix",
+      "source_seed": 18155301,
+      "split": "cal"
+    },
+    {
+      "actual_native_played_move_count": 6,
+      "canonical_parent_opening_sha256": "06d081ed66e65169b7cd8b2419041483b80c4dad42d90aab6dde96e82416f205",
+      "checkpoints": [
+        [
+          143,
+          139,
+          114,
+          158,
+          142,
+          144
+        ],
+        [
+          143,
+          139,
+          114,
+          158,
+          142,
+          144,
+          128,
+          130
+        ],
+        [
+          143,
+          139,
+          114,
+          158,
+          142,
+          144,
+          128,
+          130,
+          156,
+          100
+        ]
+      ],
+      "frozen_seeded_prefix": [
+        143,
+        139,
+        114,
+        158
+      ],
+      "id": "rust-076",
+      "parent_game_id": "rustplayed-parent-076",
+      "source_kind": "actual_native_Rust_MCTS_after_random_valid_initial_prefix",
+      "source_seed": 18157078,
+      "split": "cal"
+    },
+    {
+      "actual_native_played_move_count": 6,
+      "canonical_parent_opening_sha256": "f0573ee6f06984507602553553aed6a18fce4c51b8492da4328df30d46f07a93",
+      "checkpoints": [
+        [
+          145,
+          100,
+          99,
+          82,
+          98,
+          97
+        ],
+        [
+          145,
+          100,
+          99,
+          82,
+          98,
+          97,
+          112,
+          67
+        ],
+        [
+          145,
+          100,
+          99,
+          82,
+          98,
+          97,
+          112,
+          67,
+          84,
+          52
+        ]
+      ],
+      "frozen_seeded_prefix": [
+        145,
+        100,
+        99,
+        82
+      ],
+      "id": "rust-077",
+      "parent_game_id": "rustplayed-parent-077",
+      "source_kind": "actual_native_Rust_MCTS_after_random_valid_initial_prefix",
+      "source_seed": 18158855,
+      "split": "cal"
+    },
+    {
+      "actual_native_played_move_count": 6,
+      "canonical_parent_opening_sha256": "f6e5ba1fa1ecccbc050e4a5fa1e777e1abed7f6a874dfe4128179a6f215d0573",
+      "checkpoints": [
+        [
+          156,
+          145,
+          100,
+          155,
+          142,
+          170
+        ],
+        [
+          156,
+          145,
+          100,
+          155,
+          142,
+          170,
+          128,
+          114
+        ],
+        [
+          156,
+          145,
+          100,
+          155,
+          142,
+          170,
+          128,
+          114,
+          140,
+          141
+        ]
+      ],
+      "frozen_seeded_prefix": [
+        156,
+        145,
+        100,
+        155
+      ],
+      "id": "rust-078",
+      "parent_game_id": "rustplayed-parent-078",
+      "source_kind": "actual_native_Rust_MCTS_after_random_valid_initial_prefix",
+      "source_seed": 18160632,
+      "split": "cal"
+    },
+    {
+      "actual_native_played_move_count": 6,
+      "canonical_parent_opening_sha256": "9fc38230f1c32ec5994b611f83701ddd85cc4b08339802fa86da1f0709a8841b",
+      "checkpoints": [
+        [
+          99,
+          70,
+          66,
+          113,
+          98,
+          97
+        ],
+        [
+          99,
+          70,
+          66,
+          113,
+          98,
+          97,
+          82,
+          114
+        ],
+        [
+          99,
+          70,
+          66,
+          113,
+          98,
+          97,
+          82,
+          114,
+          50,
+          34
+        ]
+      ],
+      "frozen_seeded_prefix": [
+        99,
+        70,
+        66,
+        113
+      ],
+      "id": "rust-079",
+      "parent_game_id": "rustplayed-parent-079",
+      "source_kind": "actual_native_Rust_MCTS_after_random_valid_initial_prefix",
+      "source_seed": 18162409,
+      "split": "cal"
+    },
+    {
+      "actual_native_played_move_count": 6,
+      "canonical_parent_opening_sha256": "675b08e3fc6822a5ffb19f9b8985cdad5fd424bef11482d849903f8feeacb34e",
+      "checkpoints": [
+        [
+          144,
+          158,
+          129,
+          130,
+          114,
+          159
+        ],
+        [
+          144,
+          158,
+          129,
+          130,
+          114,
+          159,
+          99,
+          84
+        ],
+        [
+          144,
+          158,
+          129,
+          130,
+          114,
+          159,
+          99,
+          84,
+          160,
+          157
+        ]
+      ],
+      "frozen_seeded_prefix": [
+        144,
+        158,
+        129,
+        130
+      ],
+      "id": "rust-080",
+      "parent_game_id": "rustplayed-parent-080",
+      "source_kind": "actual_native_Rust_MCTS_after_random_valid_initial_prefix",
+      "source_seed": 18164186,
+      "split": "cal"
+    },
+    {
+      "actual_native_played_move_count": 6,
+      "canonical_parent_opening_sha256": "e052d16a4159361924ce3fa849ebe1b36cb5a76fd32b0b3d0a1890c8e73b3201",
+      "checkpoints": [
+        [
+          155,
+          113,
+          96,
+          94,
+          112,
+          128
+        ],
+        [
+          155,
+          113,
+          96,
+          94,
+          112,
+          128,
+          80,
+          98
+        ],
+        [
+          155,
+          113,
+          96,
+          94,
+          112,
+          128,
+          80,
+          98,
+          64,
+          48
+        ]
+      ],
+      "frozen_seeded_prefix": [
+        155,
+        113,
+        96,
+        94
+      ],
+      "id": "rust-081",
+      "parent_game_id": "rustplayed-parent-081",
+      "source_kind": "actual_native_Rust_MCTS_after_random_valid_initial_prefix",
+      "source_seed": 18165963,
+      "split": "cal"
+    },
+    {
+      "actual_native_played_move_count": 6,
+      "canonical_parent_opening_sha256": "37ac77d6e3dc2dbdc8f6191c9ca703cab0b08907d23dfca83840fd56a24b7e06",
+      "checkpoints": [
+        [
+          126,
+          96,
+          142,
+          69,
+          110,
+          94
+        ],
+        [
+          126,
+          96,
+          142,
+          69,
+          110,
+          94,
+          158,
+          174
+        ],
+        [
+          126,
+          96,
+          142,
+          69,
+          110,
+          94,
+          158,
+          174,
+          95,
+          80
+        ]
+      ],
+      "frozen_seeded_prefix": [
+        126,
+        96,
+        142,
+        69
+      ],
+      "id": "rust-082",
+      "parent_game_id": "rustplayed-parent-082",
+      "source_kind": "actual_native_Rust_MCTS_after_random_valid_initial_prefix",
+      "source_seed": 18167740,
+      "split": "cal"
+    },
+    {
+      "actual_native_played_move_count": 5,
+      "canonical_parent_opening_sha256": "5413793728dad3017d8995c661c77b1bcec9ec189802a7417ae69128c2269f66",
+      "checkpoints": [
+        [
+          140,
+          160,
+          83,
+          145,
+          97,
+          175
+        ],
+        [
+          140,
+          160,
+          83,
+          145,
+          97,
+          175,
+          111,
+          130
+        ]
+      ],
+      "frozen_seeded_prefix": [
+        140,
+        160,
+        83,
+        145
+      ],
+      "id": "rust-083",
+      "parent_game_id": "rustplayed-parent-083",
+      "source_kind": "actual_native_Rust_MCTS_after_random_valid_initial_prefix",
+      "source_seed": 18169517,
+      "split": "cal"
+    },
+    {
+      "actual_native_played_move_count": 6,
+      "canonical_parent_opening_sha256": "69cbfb62d4a391d3bd8544595e8b37c85a146b00cfc7ed56513449874d30aeb0",
+      "checkpoints": [
+        [
+          110,
+          112,
+          98,
+          127,
+          97,
+          142
+        ],
+        [
+          110,
+          112,
+          98,
+          127,
+          97,
+          142,
+          96,
+          157
+        ],
+        [
+          110,
+          112,
+          98,
+          127,
+          97,
+          142,
+          96,
+          157,
+          172,
+          95
+        ]
+      ],
+      "frozen_seeded_prefix": [
+        110,
+        112,
+        98,
+        127
+      ],
+      "id": "rust-084",
+      "parent_game_id": "rustplayed-parent-084",
+      "source_kind": "actual_native_Rust_MCTS_after_random_valid_initial_prefix",
+      "source_seed": 18171294,
+      "split": "cal"
+    },
+    {
+      "actual_native_played_move_count": 6,
+      "canonical_parent_opening_sha256": "83acba6561d85c7c2bae16db69d144d23ea5a30c7a4697917216c8e2b8b1e41e",
+      "checkpoints": [
+        [
+          140,
+          139,
+          65,
+          99,
+          125,
+          155
+        ],
+        [
+          140,
+          139,
+          65,
+          99,
+          125,
+          155,
+          110,
+          95
+        ],
+        [
+          140,
+          139,
+          65,
+          99,
+          125,
+          155,
+          110,
+          95,
+          141,
+          123
+        ]
+      ],
+      "frozen_seeded_prefix": [
+        140,
+        139,
+        65,
+        99
+      ],
+      "id": "rust-085",
+      "parent_game_id": "rustplayed-parent-085",
+      "source_kind": "actual_native_Rust_MCTS_after_random_valid_initial_prefix",
+      "source_seed": 18173071,
+      "split": "cal"
+    },
+    {
+      "actual_native_played_move_count": 6,
+      "canonical_parent_opening_sha256": "135c4ae61f7300aca7656fbcedff924db1a730adf36849da498a0713f82f13c6",
+      "checkpoints": [
+        [
+          154,
+          99,
+          83,
+          85,
+          113,
+          71
+        ],
+        [
+          154,
+          99,
+          83,
+          85,
+          113,
+          71,
+          98,
+          57
+        ],
+        [
+          154,
+          99,
+          83,
+          85,
+          113,
+          71,
+          98,
+          57,
+          43,
+          68
+        ]
+      ],
+      "frozen_seeded_prefix": [
+        154,
+        99,
+        83,
+        85
+      ],
+      "id": "rust-086",
+      "parent_game_id": "rustplayed-parent-086",
+      "source_kind": "actual_native_Rust_MCTS_after_random_valid_initial_prefix",
+      "source_seed": 18174848,
+      "split": "cal"
+    },
+    {
+      "actual_native_played_move_count": 6,
+      "canonical_parent_opening_sha256": "f5ce1373612392a59fb0fe26475658398f322cd6bcd297c9553a90203f08422c",
+      "checkpoints": [
+        [
+          143,
+          159,
+          68,
+          66,
+          82,
+          81
+        ],
+        [
+          143,
+          159,
+          68,
+          66,
+          82,
+          81,
+          96,
+          110
+        ],
+        [
+          143,
+          159,
+          68,
+          66,
+          82,
+          81,
+          96,
+          110,
+          54,
+          40
+        ]
+      ],
+      "frozen_seeded_prefix": [
+        143,
+        159,
+        68,
+        66
+      ],
+      "id": "rust-087",
+      "parent_game_id": "rustplayed-parent-087",
+      "source_kind": "actual_native_Rust_MCTS_after_random_valid_initial_prefix",
+      "source_seed": 18176625,
+      "split": "cal"
+    },
+    {
+      "actual_native_played_move_count": 6,
+      "canonical_parent_opening_sha256": "49c23525f8f6db16cae39f9f53f1e1e53e56c875be9865497ceb96be28460817",
+      "checkpoints": [
+        [
+          142,
+          143,
+          115,
+          70,
+          128,
+          127
+        ],
+        [
+          142,
+          143,
+          115,
+          70,
+          128,
+          127,
+          114,
+          111
+        ],
+        [
+          142,
+          143,
+          115,
+          70,
+          128,
+          127,
+          114,
+          111,
+          100,
+          86
+        ]
+      ],
+      "frozen_seeded_prefix": [
+        142,
+        143,
+        115,
+        70
+      ],
+      "id": "rust-088",
+      "parent_game_id": "rustplayed-parent-088",
+      "source_kind": "actual_native_Rust_MCTS_after_random_valid_initial_prefix",
+      "source_seed": 18178402,
+      "split": "cal"
+    },
+    {
+      "actual_native_played_move_count": 6,
+      "canonical_parent_opening_sha256": "f057a7c8d25fd678d18368074acb6fdb26bbd91a2ee873c818113f6146fd16c8",
+      "checkpoints": [
+        [
+          113,
+          66,
+          97,
+          154,
+          81,
+          65
+        ],
+        [
+          113,
+          66,
+          97,
+          154,
+          81,
+          65,
+          129,
+          145
+        ],
+        [
+          113,
+          66,
+          97,
+          154,
+          81,
+          65,
+          129,
+          145,
+          67,
+          82
+        ]
+      ],
+      "frozen_seeded_prefix": [
+        113,
+        66,
+        97,
+        154
+      ],
+      "id": "rust-089",
+      "parent_game_id": "rustplayed-parent-089",
+      "source_kind": "actual_native_Rust_MCTS_after_random_valid_initial_prefix",
+      "source_seed": 18180179,
+      "split": "cal"
+    },
+    {
+      "actual_native_played_move_count": 6,
+      "canonical_parent_opening_sha256": "aa326cb2f67ae20504965b0f10f41654daefa442c590861df9ec6066243972c5",
+      "checkpoints": [
+        [
+          115,
+          128,
+          85,
+          70,
+          100,
+          130
+        ],
+        [
+          115,
+          128,
+          85,
+          70,
+          100,
+          130,
+          129,
+          143
+        ],
+        [
+          115,
+          128,
+          85,
+          70,
+          100,
+          130,
+          129,
+          143,
+          113,
+          114
+        ]
+      ],
+      "frozen_seeded_prefix": [
+        115,
+        128,
+        85,
+        70
+      ],
+      "id": "rust-090",
+      "parent_game_id": "rustplayed-parent-090",
+      "source_kind": "actual_native_Rust_MCTS_after_random_valid_initial_prefix",
+      "source_seed": 18181956,
+      "split": "cal"
+    },
+    {
+      "actual_native_played_move_count": 6,
+      "canonical_parent_opening_sha256": "83be1e659bfa8f7bd46aa4d311523f95c0a1ad6f4406edddb27f1d6b9161a709",
+      "checkpoints": [
+        [
+          139,
+          160,
+          113,
+          100,
+          114,
+          115
+        ],
+        [
+          139,
+          160,
+          113,
+          100,
+          114,
+          115,
+          130,
+          85
+        ],
+        [
+          139,
+          160,
+          113,
+          100,
+          114,
+          115,
+          130,
+          85,
+          112,
+          70
+        ]
+      ],
+      "frozen_seeded_prefix": [
+        139,
+        160,
+        113,
+        100
+      ],
+      "id": "rust-091",
+      "parent_game_id": "rustplayed-parent-091",
+      "source_kind": "actual_native_Rust_MCTS_after_random_valid_initial_prefix",
+      "source_seed": 18183733,
+      "split": "cal"
+    },
+    {
+      "actual_native_played_move_count": 6,
+      "canonical_parent_opening_sha256": "c68d1ad9a924aa3f33c2937778c25451a659f1056ecc0d9d8fc30120dc38c498",
+      "checkpoints": [
+        [
+          143,
+          81,
+          160,
+          124,
+          128,
+          96
+        ],
+        [
+          143,
+          81,
+          160,
+          124,
+          128,
+          96,
+          112,
+          111
+        ],
+        [
+          143,
+          81,
+          160,
+          124,
+          128,
+          96,
+          112,
+          111,
+          144,
+          176
+        ]
+      ],
+      "frozen_seeded_prefix": [
+        143,
+        81,
+        160,
+        124
+      ],
+      "id": "rust-092",
+      "parent_game_id": "rustplayed-parent-092",
+      "source_kind": "actual_native_Rust_MCTS_after_random_valid_initial_prefix",
+      "source_seed": 18185510,
+      "split": "cal"
+    },
+    {
+      "actual_native_played_move_count": 6,
+      "canonical_parent_opening_sha256": "158afaf958adade4c9fd780d73ce3c73285b58d7089cdeede2c040180ed7bb3a",
+      "checkpoints": [
+        [
+          68,
+          125,
+          114,
+          95,
+          110,
+          111
+        ],
+        [
+          68,
+          125,
+          114,
+          95,
+          110,
+          111,
+          96,
+          97
+        ],
+        [
+          68,
+          125,
+          114,
+          95,
+          110,
+          111,
+          96,
+          97,
+          82,
+          124
+        ]
+      ],
+      "frozen_seeded_prefix": [
+        68,
+        125,
+        114,
+        95
+      ],
+      "id": "rust-093",
+      "parent_game_id": "rustplayed-parent-093",
+      "source_kind": "actual_native_Rust_MCTS_after_random_valid_initial_prefix",
+      "source_seed": 18187287,
+      "split": "cal"
+    },
+    {
+      "actual_native_played_move_count": 6,
+      "canonical_parent_opening_sha256": "fd6c8f7a5ab0e742910276b2b62d1dd874326353415a773c96f05c06b8df7f99",
+      "checkpoints": [
+        [
+          112,
+          70,
+          69,
+          126,
+          127,
+          142
+        ],
+        [
+          112,
+          70,
+          69,
+          126,
+          127,
+          142,
+          97,
+          110
+        ],
+        [
+          112,
+          70,
+          69,
+          126,
+          127,
+          142,
+          97,
+          110,
+          82,
+          67
+        ]
+      ],
+      "frozen_seeded_prefix": [
+        112,
+        70,
+        69,
+        126
+      ],
+      "id": "rust-094",
+      "parent_game_id": "rustplayed-parent-094",
+      "source_kind": "actual_native_Rust_MCTS_after_random_valid_initial_prefix",
+      "source_seed": 18189064,
+      "split": "cal"
+    },
+    {
+      "actual_native_played_move_count": 6,
+      "canonical_parent_opening_sha256": "0d98a4da8f310d468988bd0e63ef82d6ac369b316688d2526a774d04c445c7d5",
+      "checkpoints": [
+        [
+          66,
+          155,
+          99,
+          70,
+          84,
+          69
+        ],
+        [
+          66,
+          155,
+          99,
+          70,
+          84,
+          69,
+          114,
+          68
+        ],
+        [
+          66,
+          155,
+          99,
+          70,
+          84,
+          69,
+          114,
+          68,
+          129,
+          144
+        ]
+      ],
+      "frozen_seeded_prefix": [
+        66,
+        155,
+        99,
+        70
+      ],
+      "id": "rust-095",
+      "parent_game_id": "rustplayed-parent-095",
+      "source_kind": "actual_native_Rust_MCTS_after_random_valid_initial_prefix",
+      "source_seed": 18190841,
+      "split": "cal"
+    },
+    {
+      "actual_native_played_move_count": 6,
+      "canonical_parent_opening_sha256": "95a5aefc57833830438a18e76890c0981d34f86536554d43fbeb0246a91c877f",
+      "checkpoints": [
+        [
+          66,
+          84,
+          154,
+          160,
+          82,
+          98
+        ],
+        [
+          66,
+          84,
+          154,
+          160,
+          82,
+          98,
+          50,
+          112
+        ],
+        [
+          66,
+          84,
+          154,
+          160,
+          82,
+          98,
+          50,
+          112,
+          34,
+          18
+        ]
+      ],
+      "frozen_seeded_prefix": [
+        66,
+        84,
+        154,
+        160
+      ],
+      "id": "rust-096",
+      "parent_game_id": "rustplayed-parent-096",
+      "source_kind": "actual_native_Rust_MCTS_after_random_valid_initial_prefix",
+      "source_seed": 18192618,
+      "split": "test"
+    },
+    {
+      "actual_native_played_move_count": 6,
+      "canonical_parent_opening_sha256": "dc45edd78ce9f57404fe3c2efc5169b06d3288c1269fcff841e5e70eaf692ed0",
+      "checkpoints": [
+        [
+          139,
+          143,
+          94,
+          144,
+          79,
+          142
+        ],
+        [
+          139,
+          143,
+          94,
+          144,
+          79,
+          142,
+          109,
+          124
+        ],
+        [
+          139,
+          143,
+          94,
+          144,
+          79,
+          142,
+          109,
+          124,
+          64,
+          49
+        ]
+      ],
+      "frozen_seeded_prefix": [
+        139,
+        143,
+        94,
+        144
+      ],
+      "id": "rust-097",
+      "parent_game_id": "rustplayed-parent-097",
+      "source_kind": "actual_native_Rust_MCTS_after_random_valid_initial_prefix",
+      "source_seed": 18194395,
+      "split": "test"
+    },
+    {
+      "actual_native_played_move_count": 6,
+      "canonical_parent_opening_sha256": "a30ae59b4ac370fbdeb471952f4b21988bcf8d68ca9a8d6309a4cfaa1b186470",
+      "checkpoints": [
+        [
+          80,
+          114,
+          110,
+          139,
+          125,
+          140
+        ],
+        [
+          80,
+          114,
+          110,
+          139,
+          125,
+          140,
+          95,
+          65
+        ],
+        [
+          80,
+          114,
+          110,
+          139,
+          125,
+          140,
+          95,
+          65,
+          141,
+          138
+        ]
+      ],
+      "frozen_seeded_prefix": [
+        80,
+        114,
+        110,
+        139
+      ],
+      "id": "rust-098",
+      "parent_game_id": "rustplayed-parent-098",
+      "source_kind": "actual_native_Rust_MCTS_after_random_valid_initial_prefix",
+      "source_seed": 18196172,
+      "split": "test"
+    },
+    {
+      "actual_native_played_move_count": 6,
+      "canonical_parent_opening_sha256": "35188c4a1c473cc790d32c5cf91b1ea4db309a62953fee6b50ce7d5db5f4edac",
+      "checkpoints": [
+        [
+          159,
+          83,
+          70,
+          69,
+          55,
+          97
+        ],
+        [
+          159,
+          83,
+          70,
+          69,
+          55,
+          97,
+          111,
+          85
+        ],
+        [
+          159,
+          83,
+          70,
+          69,
+          55,
+          97,
+          111,
+          85,
+          127,
+          143
+        ]
+      ],
+      "frozen_seeded_prefix": [
+        159,
+        83,
+        70,
+        69
+      ],
+      "id": "rust-099",
+      "parent_game_id": "rustplayed-parent-099",
+      "source_kind": "actual_native_Rust_MCTS_after_random_valid_initial_prefix",
+      "source_seed": 18197949,
+      "split": "test"
+    },
+    {
+      "actual_native_played_move_count": 6,
+      "canonical_parent_opening_sha256": "f3db0464859bc717ec84ad46593dc12a6c49b3657de570bf0232d5b13a4b597d",
+      "checkpoints": [
+        [
+          79,
+          97,
+          144,
+          145,
+          129,
+          159
+        ],
+        [
+          79,
+          97,
+          144,
+          145,
+          129,
+          159,
+          114,
+          99
+        ],
+        [
+          79,
+          97,
+          144,
+          145,
+          129,
+          159,
+          114,
+          99,
+          98,
+          173
+        ]
+      ],
+      "frozen_seeded_prefix": [
+        79,
+        97,
+        144,
+        145
+      ],
+      "id": "rust-100",
+      "parent_game_id": "rustplayed-parent-100",
+      "source_kind": "actual_native_Rust_MCTS_after_random_valid_initial_prefix",
+      "source_seed": 18199726,
+      "split": "test"
+    },
+    {
+      "actual_native_played_move_count": 6,
+      "canonical_parent_opening_sha256": "1a54c27369635e027b3817c7279a04a20fcd61d9adf5a011caf7cc15f7bd7eee",
+      "checkpoints": [
+        [
+          111,
+          69,
+          128,
+          143,
+          127,
+          129
+        ],
+        [
+          111,
+          69,
+          128,
+          143,
+          127,
+          129,
+          126,
+          114
+        ],
+        [
+          111,
+          69,
+          128,
+          143,
+          127,
+          129,
+          126,
+          114,
+          125,
+          124
+        ]
+      ],
+      "frozen_seeded_prefix": [
+        111,
+        69,
+        128,
+        143
+      ],
+      "id": "rust-101",
+      "parent_game_id": "rustplayed-parent-101",
+      "source_kind": "actual_native_Rust_MCTS_after_random_valid_initial_prefix",
+      "source_seed": 18201503,
+      "split": "test"
+    },
+    {
+      "actual_native_played_move_count": 6,
+      "canonical_parent_opening_sha256": "829cd5e1b7e9624f721bd836488a89933a46735f06fff2cc83fe46ca95da035f",
+      "checkpoints": [
+        [
+          68,
+          126,
+          143,
+          124,
+          127,
+          125
+        ],
+        [
+          68,
+          126,
+          143,
+          124,
+          127,
+          125,
+          111,
+          123
+        ],
+        [
+          68,
+          126,
+          143,
+          124,
+          127,
+          125,
+          111,
+          123,
+          122,
+          95
+        ]
+      ],
+      "frozen_seeded_prefix": [
+        68,
+        126,
+        143,
+        124
+      ],
+      "id": "rust-102",
+      "parent_game_id": "rustplayed-parent-102",
+      "source_kind": "actual_native_Rust_MCTS_after_random_valid_initial_prefix",
+      "source_seed": 18203280,
+      "split": "test"
+    },
+    {
+      "actual_native_played_move_count": 4,
+      "canonical_parent_opening_sha256": "105f896cbe89798d9f28ad7c2062d0d42c3f13c6125eee136acaa59fa3fbeaa7",
+      "checkpoints": [
+        [
+          129,
+          125,
+          114,
+          141,
+          144,
+          157
+        ],
+        [
+          129,
+          125,
+          114,
+          141,
+          144,
+          157,
+          99,
+          159
+        ]
+      ],
+      "frozen_seeded_prefix": [
+        129,
+        125,
+        114,
+        141
+      ],
+      "id": "rust-103",
+      "parent_game_id": "rustplayed-parent-103",
+      "source_kind": "actual_native_Rust_MCTS_after_random_valid_initial_prefix",
+      "source_seed": 18205057,
+      "split": "test"
+    },
+    {
+      "actual_native_played_move_count": 6,
+      "canonical_parent_opening_sha256": "b36bf8efc193452d02c073c4d76dbc8c19f77033c8d2342fc5559290c8acf985",
+      "checkpoints": [
+        [
+          139,
+          130,
+          85,
+          142,
+          140,
+          141
+        ],
+        [
+          139,
+          130,
+          85,
+          142,
+          140,
+          141,
+          138,
+          126
+        ],
+        [
+          139,
+          130,
+          85,
+          142,
+          140,
+          141,
+          138,
+          126,
+          137,
+          136
+        ]
+      ],
+      "frozen_seeded_prefix": [
+        139,
+        130,
+        85,
+        142
+      ],
+      "id": "rust-104",
+      "parent_game_id": "rustplayed-parent-104",
+      "source_kind": "actual_native_Rust_MCTS_after_random_valid_initial_prefix",
+      "source_seed": 18206834,
+      "split": "test"
+    },
+    {
+      "actual_native_played_move_count": 6,
+      "canonical_parent_opening_sha256": "cb237a0de48ea358299fc8bc1e27761b53e7875c9911f640540876476aed9357",
+      "checkpoints": [
+        [
+          109,
+          114,
+          96,
+          124,
+          110,
+          108
+        ],
+        [
+          109,
+          114,
+          96,
+          124,
+          110,
+          108,
+          111,
+          140
+        ],
+        [
+          109,
+          114,
+          96,
+          124,
+          110,
+          108,
+          111,
+          140,
+          112,
+          113
+        ]
+      ],
+      "frozen_seeded_prefix": [
+        109,
+        114,
+        96,
+        124
+      ],
+      "id": "rust-105",
+      "parent_game_id": "rustplayed-parent-105",
+      "source_kind": "actual_native_Rust_MCTS_after_random_valid_initial_prefix",
+      "source_seed": 18208611,
+      "split": "test"
+    },
+    {
+      "actual_native_played_move_count": 6,
+      "canonical_parent_opening_sha256": "1d38a9d4f4b221460cd9791c85b0fe0be723edd5e85928145276f6171718ff1e",
+      "checkpoints": [
+        [
+          143,
+          80,
+          125,
+          160,
+          144,
+          145
+        ],
+        [
+          143,
+          80,
+          125,
+          160,
+          144,
+          145,
+          142,
+          130
+        ],
+        [
+          143,
+          80,
+          125,
+          160,
+          144,
+          145,
+          142,
+          130,
+          141,
+          140
+        ]
+      ],
+      "frozen_seeded_prefix": [
+        143,
+        80,
+        125,
+        160
+      ],
+      "id": "rust-106",
+      "parent_game_id": "rustplayed-parent-106",
+      "source_kind": "actual_native_Rust_MCTS_after_random_valid_initial_prefix",
+      "source_seed": 18210388,
+      "split": "test"
+    },
+    {
+      "actual_native_played_move_count": 6,
+      "canonical_parent_opening_sha256": "53a77a0d9414bc0e2902710edf39d30b21c43a58aeebc6130a34f0d1287e3f9f",
+      "checkpoints": [
+        [
+          128,
+          156,
+          79,
+          100,
+          113,
+          114
+        ],
+        [
+          128,
+          156,
+          79,
+          100,
+          113,
+          114,
+          98,
+          143
+        ],
+        [
+          128,
+          156,
+          79,
+          100,
+          113,
+          114,
+          98,
+          143,
+          83,
+          68
+        ]
+      ],
+      "frozen_seeded_prefix": [
+        128,
+        156,
+        79,
+        100
+      ],
+      "id": "rust-107",
+      "parent_game_id": "rustplayed-parent-107",
+      "source_kind": "actual_native_Rust_MCTS_after_random_valid_initial_prefix",
+      "source_seed": 18212165,
+      "split": "test"
+    },
+    {
+      "actual_native_played_move_count": 6,
+      "canonical_parent_opening_sha256": "1a62ddfa016654336a4212cd35157b3799559394d710ce963b7eb393085a895d",
+      "checkpoints": [
+        [
+          68,
+          144,
+          113,
+          160,
+          128,
+          143
+        ],
+        [
+          68,
+          144,
+          113,
+          160,
+          128,
+          143,
+          98,
+          83
+        ],
+        [
+          68,
+          144,
+          113,
+          160,
+          128,
+          143,
+          98,
+          83,
+          142,
+          145
+        ]
+      ],
+      "frozen_seeded_prefix": [
+        68,
+        144,
+        113,
+        160
+      ],
+      "id": "rust-108",
+      "parent_game_id": "rustplayed-parent-108",
+      "source_kind": "actual_native_Rust_MCTS_after_random_valid_initial_prefix",
+      "source_seed": 18213942,
+      "split": "test"
+    },
+    {
+      "actual_native_played_move_count": 6,
+      "canonical_parent_opening_sha256": "9857fd7d01301f0d2df5a2ab39ed6339ea268ea9a141a709ad3690efd0636bf1",
+      "checkpoints": [
+        [
+          95,
+          98,
+          142,
+          156,
+          157,
+          172
+        ],
+        [
+          95,
+          98,
+          142,
+          156,
+          157,
+          172,
+          127,
+          112
+        ],
+        [
+          95,
+          98,
+          142,
+          156,
+          157,
+          172,
+          127,
+          112,
+          111,
+          143
+        ]
+      ],
+      "frozen_seeded_prefix": [
+        95,
+        98,
+        142,
+        156
+      ],
+      "id": "rust-109",
+      "parent_game_id": "rustplayed-parent-109",
+      "source_kind": "actual_native_Rust_MCTS_after_random_valid_initial_prefix",
+      "source_seed": 18215719,
+      "split": "test"
+    },
+    {
+      "actual_native_played_move_count": 6,
+      "canonical_parent_opening_sha256": "0d968c77e4b882081edaef03410bee8d9415c3bf7b034ae99e29b64a5d3e0900",
+      "checkpoints": [
+        [
+          155,
+          129,
+          82,
+          70,
+          97,
+          112
+        ],
+        [
+          155,
+          129,
+          82,
+          70,
+          97,
+          112,
+          67,
+          96
+        ],
+        [
+          155,
+          129,
+          82,
+          70,
+          97,
+          112,
+          67,
+          96,
+          52,
+          37
+        ]
+      ],
+      "frozen_seeded_prefix": [
+        155,
+        129,
+        82,
+        70
+      ],
+      "id": "rust-110",
+      "parent_game_id": "rustplayed-parent-110",
+      "source_kind": "actual_native_Rust_MCTS_after_random_valid_initial_prefix",
+      "source_seed": 18217496,
+      "split": "test"
+    },
+    {
+      "actual_native_played_move_count": 6,
+      "canonical_parent_opening_sha256": "214af0d77ee4ef7edd1185890d4474392568fcfd9f198f04ac2ba7df161eb83e",
+      "checkpoints": [
+        [
+          130,
+          68,
+          112,
+          83,
+          98,
+          84
+        ],
+        [
+          130,
+          68,
+          112,
+          83,
+          98,
+          84,
+          114,
+          82
+        ],
+        [
+          130,
+          68,
+          112,
+          83,
+          98,
+          84,
+          114,
+          82,
+          146,
+          162
+        ]
+      ],
+      "frozen_seeded_prefix": [
+        130,
+        68,
+        112,
+        83
+      ],
+      "id": "rust-111",
+      "parent_game_id": "rustplayed-parent-111",
+      "source_kind": "actual_native_Rust_MCTS_after_random_valid_initial_prefix",
+      "source_seed": 18219273,
+      "split": "test"
+    },
+    {
+      "actual_native_played_move_count": 6,
+      "canonical_parent_opening_sha256": "e902cff70fb026745999c9a5e5e6e1734a7382f0a31724dafec3f4cd161e18f4",
+      "checkpoints": [
+        [
+          141,
+          98,
+          140,
+          64,
+          142,
+          143
+        ],
+        [
+          141,
+          98,
+          140,
+          64,
+          142,
+          143,
+          139,
+          138
+        ],
+        [
+          141,
+          98,
+          140,
+          64,
+          142,
+          143,
+          139,
+          138,
+          127,
+          113
+        ]
+      ],
+      "frozen_seeded_prefix": [
+        141,
+        98,
+        140,
+        64
+      ],
+      "id": "rust-112",
+      "parent_game_id": "rustplayed-parent-112",
+      "source_kind": "actual_native_Rust_MCTS_after_random_valid_initial_prefix",
+      "source_seed": 18221050,
+      "split": "test"
+    },
+    {
+      "actual_native_played_move_count": 6,
+      "canonical_parent_opening_sha256": "49b88fdca32443e54e008602a6911788db2bd6ab3f2bfa3339f2581b7ec4388b",
+      "checkpoints": [
+        [
+          111,
+          124,
+          94,
+          69,
+          110,
+          109
+        ],
+        [
+          111,
+          124,
+          94,
+          69,
+          110,
+          109,
+          126,
+          142
+        ],
+        [
+          111,
+          124,
+          94,
+          69,
+          110,
+          109,
+          126,
+          142,
+          78,
+          62
+        ]
+      ],
+      "frozen_seeded_prefix": [
+        111,
+        124,
+        94,
+        69
+      ],
+      "id": "rust-113",
+      "parent_game_id": "rustplayed-parent-113",
+      "source_kind": "actual_native_Rust_MCTS_after_random_valid_initial_prefix",
+      "source_seed": 18222827,
+      "split": "test"
+    },
+    {
+      "actual_native_played_move_count": 5,
+      "canonical_parent_opening_sha256": "a6da6578aaf39651cc1c281f533d1ad074bde2ad37f2cba7bcf7f26e45a69d34",
+      "checkpoints": [
+        [
+          110,
+          94,
+          128,
+          66,
+          95,
+          80
+        ],
+        [
+          110,
+          94,
+          128,
+          66,
+          95,
+          80,
+          125,
+          108
+        ]
+      ],
+      "frozen_seeded_prefix": [
+        110,
+        94,
+        128,
+        66
+      ],
+      "id": "rust-114",
+      "parent_game_id": "rustplayed-parent-114",
+      "source_kind": "actual_native_Rust_MCTS_after_random_valid_initial_prefix",
+      "source_seed": 18224604,
+      "split": "test"
+    },
+    {
+      "actual_native_played_move_count": 6,
+      "canonical_parent_opening_sha256": "d2bfabe1c8712c74fc4575ade1f12d810b200cac8652a6e1856523ce9289b3b6",
+      "checkpoints": [
+        [
+          140,
+          130,
+          115,
+          98,
+          114,
+          113
+        ],
+        [
+          140,
+          130,
+          115,
+          98,
+          114,
+          113,
+          116,
+          128
+        ],
+        [
+          140,
+          130,
+          115,
+          98,
+          114,
+          113,
+          116,
+          128,
+          117,
+          118
+        ]
+      ],
+      "frozen_seeded_prefix": [
+        140,
+        130,
+        115,
+        98
+      ],
+      "id": "rust-115",
+      "parent_game_id": "rustplayed-parent-115",
+      "source_kind": "actual_native_Rust_MCTS_after_random_valid_initial_prefix",
+      "source_seed": 18226381,
+      "split": "test"
+    },
+    {
+      "actual_native_played_move_count": 6,
+      "canonical_parent_opening_sha256": "829f77c160f3904e0f497ae1eac60263cb568ee80fbd94a185ee40f247d5afdf",
+      "checkpoints": [
+        [
+          110,
+          65,
+          141,
+          126,
+          111,
+          112
+        ],
+        [
+          110,
+          65,
+          141,
+          126,
+          111,
+          112,
+          140,
+          98
+        ],
+        [
+          110,
+          65,
+          141,
+          126,
+          111,
+          112,
+          140,
+          98,
+          125,
+          84
+        ]
+      ],
+      "frozen_seeded_prefix": [
+        110,
+        65,
+        141,
+        126
+      ],
+      "id": "rust-116",
+      "parent_game_id": "rustplayed-parent-116",
+      "source_kind": "actual_native_Rust_MCTS_after_random_valid_initial_prefix",
+      "source_seed": 18228158,
+      "split": "test"
+    },
+    {
+      "actual_native_played_move_count": 6,
+      "canonical_parent_opening_sha256": "1bcefb5a3efd0f033c63f1e09b7224532f8b9c964a79bbedb5cf93be300cb714",
+      "checkpoints": [
+        [
+          160,
+          124,
+          68,
+          110,
+          96,
+          138
+        ],
+        [
+          160,
+          124,
+          68,
+          110,
+          96,
+          138,
+          82,
+          152
+        ],
+        [
+          160,
+          124,
+          68,
+          110,
+          96,
+          138,
+          82,
+          152,
+          166,
+          111
+        ]
+      ],
+      "frozen_seeded_prefix": [
+        160,
+        124,
+        68,
+        110
+      ],
+      "id": "rust-117",
+      "parent_game_id": "rustplayed-parent-117",
+      "source_kind": "actual_native_Rust_MCTS_after_random_valid_initial_prefix",
+      "source_seed": 18229935,
+      "split": "test"
+    },
+    {
+      "actual_native_played_move_count": 6,
+      "canonical_parent_opening_sha256": "84481ae84d8d940e3fe09cc2c36b1607ba9c29cfb9d76159b342a9b260aa15db",
+      "checkpoints": [
+        [
+          160,
+          154,
+          65,
+          155,
+          156,
+          153
+        ],
+        [
+          160,
+          154,
+          65,
+          155,
+          156,
+          153,
+          141,
+          152
+        ],
+        [
+          160,
+          154,
+          65,
+          155,
+          156,
+          153,
+          141,
+          152,
+          151,
+          171
+        ]
+      ],
+      "frozen_seeded_prefix": [
+        160,
+        154,
+        65,
+        155
+      ],
+      "id": "rust-118",
+      "parent_game_id": "rustplayed-parent-118",
+      "source_kind": "actual_native_Rust_MCTS_after_random_valid_initial_prefix",
+      "source_seed": 18231712,
+      "split": "test"
+    },
+    {
+      "actual_native_played_move_count": 6,
+      "canonical_parent_opening_sha256": "3f5946a8ae5e51a2abb1c4993282e089102be4fd5c01c8d02ecb32a300ca33e2",
+      "checkpoints": [
+        [
+          110,
+          94,
+          127,
+          159,
+          143,
+          95
+        ],
+        [
+          110,
+          94,
+          127,
+          159,
+          143,
+          95,
+          96,
+          111
+        ],
+        [
+          110,
+          94,
+          127,
+          159,
+          143,
+          95,
+          96,
+          111,
+          124,
+          125
+        ]
+      ],
+      "frozen_seeded_prefix": [
+        110,
+        94,
+        127,
+        159
+      ],
+      "id": "rust-119",
+      "parent_game_id": "rustplayed-parent-119",
+      "source_kind": "actual_native_Rust_MCTS_after_random_valid_initial_prefix",
+      "source_seed": 18233489,
+      "split": "test"
+    }
+  ],
+  "mcts_source_generation_actual_native_moves": 712,
+  "no_external_teacher": true,
+  "non_game_groups": [
+    {
+      "extra_draws_each": 10,
+      "id": "nongame-000",
+      "initial_draws_each": 3,
+      "n_arms": 2,
+      "parent_world_id": "nongame-source-000",
+      "replicates": 3,
+      "source_kind": "sequential_Bernoulli_with_known_laws",
+      "source_seed": 18020226,
+      "split": "train",
+      "true_utility_means_OFFLINE_ONLY": [
+        0.3993292319165287,
+        0.3255286406219525
+      ]
+    },
+    {
+      "extra_draws_each": 10,
+      "id": "nongame-001",
+      "initial_draws_each": 3,
+      "n_arms": 3,
+      "parent_world_id": "nongame-source-001",
+      "replicates": 3,
+      "source_kind": "sequential_Bernoulli_with_known_laws",
+      "source_seed": 18022945,
+      "split": "train",
+      "true_utility_means_OFFLINE_ONLY": [
+        0.7711015562600896,
+        0.8801617306174045,
+        0.5605779496831889
+      ]
+    },
+    {
+      "extra_draws_each": 10,
+      "id": "nongame-002",
+      "initial_draws_each": 3,
+      "n_arms": 4,
+      "parent_world_id": "nongame-source-002",
+      "replicates": 3,
+      "source_kind": "sequential_Bernoulli_with_known_laws",
+      "source_seed": 18025664,
+      "split": "train",
+      "true_utility_means_OFFLINE_ONLY": [
+        0.595992894258055,
+        0.3425589310949825,
+        0.4354929229831115,
+        0.5877091178522539
+      ]
+    },
+    {
+      "extra_draws_each": 10,
+      "id": "nongame-003",
+      "initial_draws_each": 3,
+      "n_arms": 2,
+      "parent_world_id": "nongame-source-003",
+      "replicates": 3,
+      "source_kind": "sequential_Bernoulli_with_known_laws",
+      "source_seed": 18028383,
+      "split": "train",
+      "true_utility_means_OFFLINE_ONLY": [
+        0.7327740873654446,
+        0.5018947354652674
+      ]
+    },
+    {
+      "extra_draws_each": 10,
+      "id": "nongame-004",
+      "initial_draws_each": 3,
+      "n_arms": 3,
+      "parent_world_id": "nongame-source-004",
+      "replicates": 3,
+      "source_kind": "sequential_Bernoulli_with_known_laws",
+      "source_seed": 18031102,
+      "split": "train",
+      "true_utility_means_OFFLINE_ONLY": [
+        0.08606468382614445,
+        0.8945955632339514,
+        0.4224471862526964
+      ]
+    },
+    {
+      "extra_draws_each": 10,
+      "id": "nongame-005",
+      "initial_draws_each": 3,
+      "n_arms": 4,
+      "parent_world_id": "nongame-source-005",
+      "replicates": 3,
+      "source_kind": "sequential_Bernoulli_with_known_laws",
+      "source_seed": 18033821,
+      "split": "train",
+      "true_utility_means_OFFLINE_ONLY": [
+        0.5467424720091358,
+        0.3365701198968773,
+        0.852833240957377,
+        0.7998803059005062
+      ]
+    },
+    {
+      "extra_draws_each": 10,
+      "id": "nongame-006",
+      "initial_draws_each": 3,
+      "n_arms": 2,
+      "parent_world_id": "nongame-source-006",
+      "replicates": 3,
+      "source_kind": "sequential_Bernoulli_with_known_laws",
+      "source_seed": 18036540,
+      "split": "train",
+      "true_utility_means_OFFLINE_ONLY": [
+        0.8762253460473145,
+        0.5157215882256371
+      ]
+    },
+    {
+      "extra_draws_each": 10,
+      "id": "nongame-007",
+      "initial_draws_each": 3,
+      "n_arms": 3,
+      "parent_world_id": "nongame-source-007",
+      "replicates": 3,
+      "source_kind": "sequential_Bernoulli_with_known_laws",
+      "source_seed": 18039259,
+      "split": "train",
+      "true_utility_means_OFFLINE_ONLY": [
+        0.4153366317971792,
+        0.6144979504084881,
+        0.1494457253585896
+      ]
+    },
+    {
+      "extra_draws_each": 10,
+      "id": "nongame-008",
+      "initial_draws_each": 3,
+      "n_arms": 4,
+      "parent_world_id": "nongame-source-008",
+      "replicates": 3,
+      "source_kind": "sequential_Bernoulli_with_known_laws",
+      "source_seed": 18041978,
+      "split": "train",
+      "true_utility_means_OFFLINE_ONLY": [
+        0.7103686130428142,
+        0.24976894614837503,
+        0.404568921163623,
+        0.32596429749798045
+      ]
+    },
+    {
+      "extra_draws_each": 10,
+      "id": "nongame-009",
+      "initial_draws_each": 3,
+      "n_arms": 2,
+      "parent_world_id": "nongame-source-009",
+      "replicates": 3,
+      "source_kind": "sequential_Bernoulli_with_known_laws",
+      "source_seed": 18044697,
+      "split": "train",
+      "true_utility_means_OFFLINE_ONLY": [
+        0.5957102414444551,
+        0.7657507305979445
+      ]
+    },
+    {
+      "extra_draws_each": 10,
+      "id": "nongame-010",
+      "initial_draws_each": 3,
+      "n_arms": 3,
+      "parent_world_id": "nongame-source-010",
+      "replicates": 3,
+      "source_kind": "sequential_Bernoulli_with_known_laws",
+      "source_seed": 18047416,
+      "split": "train",
+      "true_utility_means_OFFLINE_ONLY": [
+        0.48394070606397593,
+        0.2282460041494346,
+        0.896401239402177
+      ]
+    },
+    {
+      "extra_draws_each": 10,
+      "id": "nongame-011",
+      "initial_draws_each": 3,
+      "n_arms": 4,
+      "parent_world_id": "nongame-source-011",
+      "replicates": 3,
+      "source_kind": "sequential_Bernoulli_with_known_laws",
+      "source_seed": 18050135,
+      "split": "train",
+      "true_utility_means_OFFLINE_ONLY": [
+        0.27304150931904164,
+        0.8982218364008867,
+        0.38257148693474047,
+        0.16125109049274416
+      ]
+    },
+    {
+      "extra_draws_each": 10,
+      "id": "nongame-012",
+      "initial_draws_each": 3,
+      "n_arms": 2,
+      "parent_world_id": "nongame-source-012",
+      "replicates": 3,
+      "source_kind": "sequential_Bernoulli_with_known_laws",
+      "source_seed": 18052854,
+      "split": "train",
+      "true_utility_means_OFFLINE_ONLY": [
+        0.7521892227519316,
+        0.23081264132711662
+      ]
+    },
+    {
+      "extra_draws_each": 10,
+      "id": "nongame-013",
+      "initial_draws_each": 3,
+      "n_arms": 3,
+      "parent_world_id": "nongame-source-013",
+      "replicates": 3,
+      "source_kind": "sequential_Bernoulli_with_known_laws",
+      "source_seed": 18055573,
+      "split": "train",
+      "true_utility_means_OFFLINE_ONLY": [
+        0.3656787303616217,
+        0.3082856587718087,
+        0.527662998279555
+      ]
+    },
+    {
+      "extra_draws_each": 10,
+      "id": "nongame-014",
+      "initial_draws_each": 3,
+      "n_arms": 4,
+      "parent_world_id": "nongame-source-014",
+      "replicates": 3,
+      "source_kind": "sequential_Bernoulli_with_known_laws",
+      "source_seed": 18058292,
+      "split": "train",
+      "true_utility_means_OFFLINE_ONLY": [
+        0.7413774888740392,
+        0.35330664354146296,
+        0.7779234730868236,
+        0.5959899122221081
+      ]
+    },
+    {
+      "extra_draws_each": 10,
+      "id": "nongame-015",
+      "initial_draws_each": 3,
+      "n_arms": 2,
+      "parent_world_id": "nongame-source-015",
+      "replicates": 3,
+      "source_kind": "sequential_Bernoulli_with_known_laws",
+      "source_seed": 18061011,
+      "split": "train",
+      "true_utility_means_OFFLINE_ONLY": [
+        0.4785474381677464,
+        0.6677438862087997
+      ]
+    },
+    {
+      "extra_draws_each": 10,
+      "id": "nongame-016",
+      "initial_draws_each": 3,
+      "n_arms": 3,
+      "parent_world_id": "nongame-source-016",
+      "replicates": 3,
+      "source_kind": "sequential_Bernoulli_with_known_laws",
+      "source_seed": 18063730,
+      "split": "train",
+      "true_utility_means_OFFLINE_ONLY": [
+        0.5076097510068927,
+        0.4952664634346506,
+        0.4906998838061943
+      ]
+    },
+    {
+      "extra_draws_each": 10,
+      "id": "nongame-017",
+      "initial_draws_each": 3,
+      "n_arms": 4,
+      "parent_world_id": "nongame-source-017",
+      "replicates": 3,
+      "source_kind": "sequential_Bernoulli_with_known_laws",
+      "source_seed": 18066449,
+      "split": "train",
+      "true_utility_means_OFFLINE_ONLY": [
+        0.601469500196379,
+        0.26183409855242623,
+        0.6119260596085884,
+        0.3627038051933253
+      ]
+    },
+    {
+      "extra_draws_each": 10,
+      "id": "nongame-018",
+      "initial_draws_each": 3,
+      "n_arms": 2,
+      "parent_world_id": "nongame-source-018",
+      "replicates": 3,
+      "source_kind": "sequential_Bernoulli_with_known_laws",
+      "source_seed": 18069168,
+      "split": "train",
+      "true_utility_means_OFFLINE_ONLY": [
+        0.10486751075225449,
+        0.4011230849146865
+      ]
+    },
+    {
+      "extra_draws_each": 10,
+      "id": "nongame-019",
+      "initial_draws_each": 3,
+      "n_arms": 3,
+      "parent_world_id": "nongame-source-019",
+      "replicates": 3,
+      "source_kind": "sequential_Bernoulli_with_known_laws",
+      "source_seed": 18071887,
+      "split": "train",
+      "true_utility_means_OFFLINE_ONLY": [
+        0.23894702699334996,
+        0.5004531606924509,
+        0.8806915378168699
+      ]
+    },
+    {
+      "extra_draws_each": 10,
+      "id": "nongame-020",
+      "initial_draws_each": 3,
+      "n_arms": 4,
+      "parent_world_id": "nongame-source-020",
+      "replicates": 3,
+      "source_kind": "sequential_Bernoulli_with_known_laws",
+      "source_seed": 18074606,
+      "split": "train",
+      "true_utility_means_OFFLINE_ONLY": [
+        0.16997280537553777,
+        0.2448352761037697,
+        0.12504904361484892,
+        0.4775674880327167
+      ]
+    },
+    {
+      "extra_draws_each": 10,
+      "id": "nongame-021",
+      "initial_draws_each": 3,
+      "n_arms": 2,
+      "parent_world_id": "nongame-source-021",
+      "replicates": 3,
+      "source_kind": "sequential_Bernoulli_with_known_laws",
+      "source_seed": 18077325,
+      "split": "train",
+      "true_utility_means_OFFLINE_ONLY": [
+        0.9081206407274086,
+        0.6145836837178503
+      ]
+    },
+    {
+      "extra_draws_each": 10,
+      "id": "nongame-022",
+      "initial_draws_each": 3,
+      "n_arms": 3,
+      "parent_world_id": "nongame-source-022",
+      "replicates": 3,
+      "source_kind": "sequential_Bernoulli_with_known_laws",
+      "source_seed": 18080044,
+      "split": "train",
+      "true_utility_means_OFFLINE_ONLY": [
+        0.8137291831689294,
+        0.2679463579441262,
+        0.6976357414367576
+      ]
+    },
+    {
+      "extra_draws_each": 10,
+      "id": "nongame-023",
+      "initial_draws_each": 3,
+      "n_arms": 4,
+      "parent_world_id": "nongame-source-023",
+      "replicates": 3,
+      "source_kind": "sequential_Bernoulli_with_known_laws",
+      "source_seed": 18082763,
+      "split": "train",
+      "true_utility_means_OFFLINE_ONLY": [
+        0.14517982081941844,
+        0.6506837403828679,
+        0.4402283045474702,
+        0.4833718411904951
+      ]
+    },
+    {
+      "extra_draws_each": 10,
+      "id": "nongame-024",
+      "initial_draws_each": 3,
+      "n_arms": 2,
+      "parent_world_id": "nongame-source-024",
+      "replicates": 3,
+      "source_kind": "sequential_Bernoulli_with_known_laws",
+      "source_seed": 18085482,
+      "split": "train",
+      "true_utility_means_OFFLINE_ONLY": [
+        0.5586318382715336,
+        0.7426182696645464
+      ]
+    },
+    {
+      "extra_draws_each": 10,
+      "id": "nongame-025",
+      "initial_draws_each": 3,
+      "n_arms": 3,
+      "parent_world_id": "nongame-source-025",
+      "replicates": 3,
+      "source_kind": "sequential_Bernoulli_with_known_laws",
+      "source_seed": 18088201,
+      "split": "train",
+      "true_utility_means_OFFLINE_ONLY": [
+        0.19307337719997075,
+        0.5950693299880796,
+        0.900838567227604
+      ]
+    },
+    {
+      "extra_draws_each": 10,
+      "id": "nongame-026",
+      "initial_draws_each": 3,
+      "n_arms": 4,
+      "parent_world_id": "nongame-source-026",
+      "replicates": 3,
+      "source_kind": "sequential_Bernoulli_with_known_laws",
+      "source_seed": 18090920,
+      "split": "train",
+      "true_utility_means_OFFLINE_ONLY": [
+        0.5685802760476143,
+        0.7419180436252711,
+        0.3305992855943123,
+        0.2439343060141619
+      ]
+    },
+    {
+      "extra_draws_each": 10,
+      "id": "nongame-027",
+      "initial_draws_each": 3,
+      "n_arms": 2,
+      "parent_world_id": "nongame-source-027",
+      "replicates": 3,
+      "source_kind": "sequential_Bernoulli_with_known_laws",
+      "source_seed": 18093639,
+      "split": "train",
+      "true_utility_means_OFFLINE_ONLY": [
+        0.10373470641262127,
+        0.42142214090901986
+      ]
+    },
+    {
+      "extra_draws_each": 10,
+      "id": "nongame-028",
+      "initial_draws_each": 3,
+      "n_arms": 3,
+      "parent_world_id": "nongame-source-028",
+      "replicates": 3,
+      "source_kind": "sequential_Bernoulli_with_known_laws",
+      "source_seed": 18096358,
+      "split": "train",
+      "true_utility_means_OFFLINE_ONLY": [
+        0.17101523491631138,
+        0.44373722237795604,
+        0.3886528005176286
+      ]
+    },
+    {
+      "extra_draws_each": 10,
+      "id": "nongame-029",
+      "initial_draws_each": 3,
+      "n_arms": 4,
+      "parent_world_id": "nongame-source-029",
+      "replicates": 3,
+      "source_kind": "sequential_Bernoulli_with_known_laws",
+      "source_seed": 18099077,
+      "split": "train",
+      "true_utility_means_OFFLINE_ONLY": [
+        0.12387654816777463,
+        0.4629056746330913,
+        0.4439134472254713,
+        0.3797155847016035
+      ]
+    },
+    {
+      "extra_draws_each": 10,
+      "id": "nongame-030",
+      "initial_draws_each": 3,
+      "n_arms": 2,
+      "parent_world_id": "nongame-source-030",
+      "replicates": 3,
+      "source_kind": "sequential_Bernoulli_with_known_laws",
+      "source_seed": 18101796,
+      "split": "train",
+      "true_utility_means_OFFLINE_ONLY": [
+        0.6102321137470517,
+        0.3733285703608306
+      ]
+    },
+    {
+      "extra_draws_each": 10,
+      "id": "nongame-031",
+      "initial_draws_each": 3,
+      "n_arms": 3,
+      "parent_world_id": "nongame-source-031",
+      "replicates": 3,
+      "source_kind": "sequential_Bernoulli_with_known_laws",
+      "source_seed": 18104515,
+      "split": "train",
+      "true_utility_means_OFFLINE_ONLY": [
+        0.7686154829497213,
+        0.7001785858630661,
+        0.16367383311092096
+      ]
+    },
+    {
+      "extra_draws_each": 10,
+      "id": "nongame-032",
+      "initial_draws_each": 3,
+      "n_arms": 4,
+      "parent_world_id": "nongame-source-032",
+      "replicates": 3,
+      "source_kind": "sequential_Bernoulli_with_known_laws",
+      "source_seed": 18107234,
+      "split": "train",
+      "true_utility_means_OFFLINE_ONLY": [
+        0.762865805836346,
+        0.6468609962899501,
+        0.5125812887032666,
+        0.8056662552204028
+      ]
+    },
+    {
+      "extra_draws_each": 10,
+      "id": "nongame-033",
+      "initial_draws_each": 3,
+      "n_arms": 2,
+      "parent_world_id": "nongame-source-033",
+      "replicates": 3,
+      "source_kind": "sequential_Bernoulli_with_known_laws",
+      "source_seed": 18109953,
+      "split": "train",
+      "true_utility_means_OFFLINE_ONLY": [
+        0.3333080866389095,
+        0.3402400263369137
+      ]
+    },
+    {
+      "extra_draws_each": 10,
+      "id": "nongame-034",
+      "initial_draws_each": 3,
+      "n_arms": 3,
+      "parent_world_id": "nongame-source-034",
+      "replicates": 3,
+      "source_kind": "sequential_Bernoulli_with_known_laws",
+      "source_seed": 18112672,
+      "split": "train",
+      "true_utility_means_OFFLINE_ONLY": [
+        0.4913730068097088,
+        0.28506699146658987,
+        0.1632783637288861
+      ]
+    },
+    {
+      "extra_draws_each": 10,
+      "id": "nongame-035",
+      "initial_draws_each": 3,
+      "n_arms": 4,
+      "parent_world_id": "nongame-source-035",
+      "replicates": 3,
+      "source_kind": "sequential_Bernoulli_with_known_laws",
+      "source_seed": 18115391,
+      "split": "train",
+      "true_utility_means_OFFLINE_ONLY": [
+        0.7716002676876255,
+        0.15010955591128514,
+        0.6177087714357316,
+        0.4835551575460696
+      ]
+    },
+    {
+      "extra_draws_each": 10,
+      "id": "nongame-036",
+      "initial_draws_each": 3,
+      "n_arms": 2,
+      "parent_world_id": "nongame-source-036",
+      "replicates": 3,
+      "source_kind": "sequential_Bernoulli_with_known_laws",
+      "source_seed": 18118110,
+      "split": "train",
+      "true_utility_means_OFFLINE_ONLY": [
+        0.31372104327746264,
+        0.3714145025571219
+      ]
+    },
+    {
+      "extra_draws_each": 10,
+      "id": "nongame-037",
+      "initial_draws_each": 3,
+      "n_arms": 3,
+      "parent_world_id": "nongame-source-037",
+      "replicates": 3,
+      "source_kind": "sequential_Bernoulli_with_known_laws",
+      "source_seed": 18120829,
+      "split": "train",
+      "true_utility_means_OFFLINE_ONLY": [
+        0.5472550654183372,
+        0.588293714674581,
+        0.15904653477702868
+      ]
+    },
+    {
+      "extra_draws_each": 10,
+      "id": "nongame-038",
+      "initial_draws_each": 3,
+      "n_arms": 4,
+      "parent_world_id": "nongame-source-038",
+      "replicates": 3,
+      "source_kind": "sequential_Bernoulli_with_known_laws",
+      "source_seed": 18123548,
+      "split": "train",
+      "true_utility_means_OFFLINE_ONLY": [
+        0.574740247722004,
+        0.404031591216401,
+        0.6248245882929052,
+        0.08445077734010846
+      ]
+    },
+    {
+      "extra_draws_each": 10,
+      "id": "nongame-039",
+      "initial_draws_each": 3,
+      "n_arms": 2,
+      "parent_world_id": "nongame-source-039",
+      "replicates": 3,
+      "source_kind": "sequential_Bernoulli_with_known_laws",
+      "source_seed": 18126267,
+      "split": "train",
+      "true_utility_means_OFFLINE_ONLY": [
+        0.23581795535589994,
+        0.5213629178781707
+      ]
+    },
+    {
+      "extra_draws_each": 10,
+      "id": "nongame-040",
+      "initial_draws_each": 3,
+      "n_arms": 3,
+      "parent_world_id": "nongame-source-040",
+      "replicates": 3,
+      "source_kind": "sequential_Bernoulli_with_known_laws",
+      "source_seed": 18128986,
+      "split": "train",
+      "true_utility_means_OFFLINE_ONLY": [
+        0.42108544318251223,
+        0.4941644923572713,
+        0.4603322385955836
+      ]
+    },
+    {
+      "extra_draws_each": 10,
+      "id": "nongame-041",
+      "initial_draws_each": 3,
+      "n_arms": 4,
+      "parent_world_id": "nongame-source-041",
+      "replicates": 3,
+      "source_kind": "sequential_Bernoulli_with_known_laws",
+      "source_seed": 18131705,
+      "split": "train",
+      "true_utility_means_OFFLINE_ONLY": [
+        0.2592654675320642,
+        0.3649803539909264,
+        0.2269141291951616,
+        0.5114978917399811
+      ]
+    },
+    {
+      "extra_draws_each": 10,
+      "id": "nongame-042",
+      "initial_draws_each": 3,
+      "n_arms": 2,
+      "parent_world_id": "nongame-source-042",
+      "replicates": 3,
+      "source_kind": "sequential_Bernoulli_with_known_laws",
+      "source_seed": 18134424,
+      "split": "train",
+      "true_utility_means_OFFLINE_ONLY": [
+        0.95,
+        0.5932713024251134
+      ]
+    },
+    {
+      "extra_draws_each": 10,
+      "id": "nongame-043",
+      "initial_draws_each": 3,
+      "n_arms": 3,
+      "parent_world_id": "nongame-source-043",
+      "replicates": 3,
+      "source_kind": "sequential_Bernoulli_with_known_laws",
+      "source_seed": 18137143,
+      "split": "train",
+      "true_utility_means_OFFLINE_ONLY": [
+        0.499399704056764,
+        0.8738907424243456,
+        0.22396359606572191
+      ]
+    },
+    {
+      "extra_draws_each": 10,
+      "id": "nongame-044",
+      "initial_draws_each": 3,
+      "n_arms": 4,
+      "parent_world_id": "nongame-source-044",
+      "replicates": 3,
+      "source_kind": "sequential_Bernoulli_with_known_laws",
+      "source_seed": 18139862,
+      "split": "train",
+      "true_utility_means_OFFLINE_ONLY": [
+        0.4236294188452447,
+        0.7280033210341971,
+        0.725056827688745,
+        0.10845600735922502
+      ]
+    },
+    {
+      "extra_draws_each": 10,
+      "id": "nongame-045",
+      "initial_draws_each": 3,
+      "n_arms": 2,
+      "parent_world_id": "nongame-source-045",
+      "replicates": 3,
+      "source_kind": "sequential_Bernoulli_with_known_laws",
+      "source_seed": 18142581,
+      "split": "train",
+      "true_utility_means_OFFLINE_ONLY": [
+        0.6211360976606635,
+        0.27814863300950876
+      ]
+    },
+    {
+      "extra_draws_each": 10,
+      "id": "nongame-046",
+      "initial_draws_each": 3,
+      "n_arms": 3,
+      "parent_world_id": "nongame-source-046",
+      "replicates": 3,
+      "source_kind": "sequential_Bernoulli_with_known_laws",
+      "source_seed": 18145300,
+      "split": "train",
+      "true_utility_means_OFFLINE_ONLY": [
+        0.5063665745787509,
+        0.8114390571087159,
+        0.32046672693884093
+      ]
+    },
+    {
+      "extra_draws_each": 10,
+      "id": "nongame-047",
+      "initial_draws_each": 3,
+      "n_arms": 4,
+      "parent_world_id": "nongame-source-047",
+      "replicates": 3,
+      "source_kind": "sequential_Bernoulli_with_known_laws",
+      "source_seed": 18148019,
+      "split": "train",
+      "true_utility_means_OFFLINE_ONLY": [
+        0.48643903518666065,
+        0.7711406900286021,
+        0.2561515660805403,
+        0.8349623197780125
+      ]
+    },
+    {
+      "extra_draws_each": 10,
+      "id": "nongame-048",
+      "initial_draws_each": 3,
+      "n_arms": 2,
+      "parent_world_id": "nongame-source-048",
+      "replicates": 3,
+      "source_kind": "sequential_Bernoulli_with_known_laws",
+      "source_seed": 18150738,
+      "split": "train",
+      "true_utility_means_OFFLINE_ONLY": [
+        0.285784239986373,
+        0.3810009109841184
+      ]
+    },
+    {
+      "extra_draws_each": 10,
+      "id": "nongame-049",
+      "initial_draws_each": 3,
+      "n_arms": 3,
+      "parent_world_id": "nongame-source-049",
+      "replicates": 3,
+      "source_kind": "sequential_Bernoulli_with_known_laws",
+      "source_seed": 18153457,
+      "split": "train",
+      "true_utility_means_OFFLINE_ONLY": [
+        0.6433648645193213,
+        0.48811469646240385,
+        0.7330959820260194
+      ]
+    },
+    {
+      "extra_draws_each": 10,
+      "id": "nongame-050",
+      "initial_draws_each": 3,
+      "n_arms": 4,
+      "parent_world_id": "nongame-source-050",
+      "replicates": 3,
+      "source_kind": "sequential_Bernoulli_with_known_laws",
+      "source_seed": 18156176,
+      "split": "train",
+      "true_utility_means_OFFLINE_ONLY": [
+        0.27641976281623604,
+        0.40488772686496866,
+        0.2650072604587567,
+        0.3492333864091129
+      ]
+    },
+    {
+      "extra_draws_each": 10,
+      "id": "nongame-051",
+      "initial_draws_each": 3,
+      "n_arms": 2,
+      "parent_world_id": "nongame-source-051",
+      "replicates": 3,
+      "source_kind": "sequential_Bernoulli_with_known_laws",
+      "source_seed": 18158895,
+      "split": "train",
+      "true_utility_means_OFFLINE_ONLY": [
+        0.31050723324110885,
+        0.3594677605228297
+      ]
+    },
+    {
+      "extra_draws_each": 10,
+      "id": "nongame-052",
+      "initial_draws_each": 3,
+      "n_arms": 3,
+      "parent_world_id": "nongame-source-052",
+      "replicates": 3,
+      "source_kind": "sequential_Bernoulli_with_known_laws",
+      "source_seed": 18161614,
+      "split": "train",
+      "true_utility_means_OFFLINE_ONLY": [
+        0.2892330012198666,
+        0.5121299237483162,
+        0.10101818516013086
+      ]
+    },
+    {
+      "extra_draws_each": 10,
+      "id": "nongame-053",
+      "initial_draws_each": 3,
+      "n_arms": 4,
+      "parent_world_id": "nongame-source-053",
+      "replicates": 3,
+      "source_kind": "sequential_Bernoulli_with_known_laws",
+      "source_seed": 18164333,
+      "split": "train",
+      "true_utility_means_OFFLINE_ONLY": [
+        0.3753655374349919,
+        0.3975603145951247,
+        0.33702272772315434,
+        0.40633050471379517
+      ]
+    },
+    {
+      "extra_draws_each": 10,
+      "id": "nongame-054",
+      "initial_draws_each": 3,
+      "n_arms": 2,
+      "parent_world_id": "nongame-source-054",
+      "replicates": 3,
+      "source_kind": "sequential_Bernoulli_with_known_laws",
+      "source_seed": 18167052,
+      "split": "train",
+      "true_utility_means_OFFLINE_ONLY": [
+        0.2106420748625758,
+        0.45756817255323945
+      ]
+    },
+    {
+      "extra_draws_each": 10,
+      "id": "nongame-055",
+      "initial_draws_each": 3,
+      "n_arms": 3,
+      "parent_world_id": "nongame-source-055",
+      "replicates": 3,
+      "source_kind": "sequential_Bernoulli_with_known_laws",
+      "source_seed": 18169771,
+      "split": "train",
+      "true_utility_means_OFFLINE_ONLY": [
+        0.38953965596265666,
+        0.95,
+        0.633598183462898
+      ]
+    },
+    {
+      "extra_draws_each": 10,
+      "id": "nongame-056",
+      "initial_draws_each": 3,
+      "n_arms": 4,
+      "parent_world_id": "nongame-source-056",
+      "replicates": 3,
+      "source_kind": "sequential_Bernoulli_with_known_laws",
+      "source_seed": 18172490,
+      "split": "train",
+      "true_utility_means_OFFLINE_ONLY": [
+        0.17630802468167797,
+        0.5434124365403398,
+        0.6361323805227376,
+        0.601604532779794
+      ]
+    },
+    {
+      "extra_draws_each": 10,
+      "id": "nongame-057",
+      "initial_draws_each": 3,
+      "n_arms": 2,
+      "parent_world_id": "nongame-source-057",
+      "replicates": 3,
+      "source_kind": "sequential_Bernoulli_with_known_laws",
+      "source_seed": 18175209,
+      "split": "train",
+      "true_utility_means_OFFLINE_ONLY": [
+        0.6068337742841102,
+        0.5343055768265895
+      ]
+    },
+    {
+      "extra_draws_each": 10,
+      "id": "nongame-058",
+      "initial_draws_each": 3,
+      "n_arms": 3,
+      "parent_world_id": "nongame-source-058",
+      "replicates": 3,
+      "source_kind": "sequential_Bernoulli_with_known_laws",
+      "source_seed": 18177928,
+      "split": "train",
+      "true_utility_means_OFFLINE_ONLY": [
+        0.7220163309543238,
+        0.5455639694583363,
+        0.5719184679146823
+      ]
+    },
+    {
+      "extra_draws_each": 10,
+      "id": "nongame-059",
+      "initial_draws_each": 3,
+      "n_arms": 4,
+      "parent_world_id": "nongame-source-059",
+      "replicates": 3,
+      "source_kind": "sequential_Bernoulli_with_known_laws",
+      "source_seed": 18180647,
+      "split": "train",
+      "true_utility_means_OFFLINE_ONLY": [
+        0.4489341093500736,
+        0.22560352823679905,
+        0.9198209087754972,
+        0.7170733684432516
+      ]
+    },
+    {
+      "extra_draws_each": 10,
+      "id": "nongame-060",
+      "initial_draws_each": 3,
+      "n_arms": 2,
+      "parent_world_id": "nongame-source-060",
+      "replicates": 3,
+      "source_kind": "sequential_Bernoulli_with_known_laws",
+      "source_seed": 18183366,
+      "split": "train",
+      "true_utility_means_OFFLINE_ONLY": [
+        0.8585200922302926,
+        0.7113666040177264
+      ]
+    },
+    {
+      "extra_draws_each": 10,
+      "id": "nongame-061",
+      "initial_draws_each": 3,
+      "n_arms": 3,
+      "parent_world_id": "nongame-source-061",
+      "replicates": 3,
+      "source_kind": "sequential_Bernoulli_with_known_laws",
+      "source_seed": 18186085,
+      "split": "train",
+      "true_utility_means_OFFLINE_ONLY": [
+        0.6727730072519372,
+        0.47609857305102127,
+        0.7888782241587956
+      ]
+    },
+    {
+      "extra_draws_each": 10,
+      "id": "nongame-062",
+      "initial_draws_each": 3,
+      "n_arms": 4,
+      "parent_world_id": "nongame-source-062",
+      "replicates": 3,
+      "source_kind": "sequential_Bernoulli_with_known_laws",
+      "source_seed": 18188804,
+      "split": "train",
+      "true_utility_means_OFFLINE_ONLY": [
+        0.842314708930371,
+        0.6737295753241105,
+        0.3780604154558845,
+        0.5442601692765044
+      ]
+    },
+    {
+      "extra_draws_each": 10,
+      "id": "nongame-063",
+      "initial_draws_each": 3,
+      "n_arms": 2,
+      "parent_world_id": "nongame-source-063",
+      "replicates": 3,
+      "source_kind": "sequential_Bernoulli_with_known_laws",
+      "source_seed": 18191523,
+      "split": "train",
+      "true_utility_means_OFFLINE_ONLY": [
+        0.6326860100929796,
+        0.5546094579858943
+      ]
+    },
+    {
+      "extra_draws_each": 10,
+      "id": "nongame-064",
+      "initial_draws_each": 3,
+      "n_arms": 3,
+      "parent_world_id": "nongame-source-064",
+      "replicates": 3,
+      "source_kind": "sequential_Bernoulli_with_known_laws",
+      "source_seed": 18194242,
+      "split": "train",
+      "true_utility_means_OFFLINE_ONLY": [
+        0.5736370841155843,
+        0.5797631837432752,
+        0.3686698347657056
+      ]
+    },
+    {
+      "extra_draws_each": 10,
+      "id": "nongame-065",
+      "initial_draws_each": 3,
+      "n_arms": 4,
+      "parent_world_id": "nongame-source-065",
+      "replicates": 3,
+      "source_kind": "sequential_Bernoulli_with_known_laws",
+      "source_seed": 18196961,
+      "split": "train",
+      "true_utility_means_OFFLINE_ONLY": [
+        0.4071663778924036,
+        0.10082673578876222,
+        0.4285180303913068,
+        0.24997395927809268
+      ]
+    },
+    {
+      "extra_draws_each": 10,
+      "id": "nongame-066",
+      "initial_draws_each": 3,
+      "n_arms": 2,
+      "parent_world_id": "nongame-source-066",
+      "replicates": 3,
+      "source_kind": "sequential_Bernoulli_with_known_laws",
+      "source_seed": 18199680,
+      "split": "train",
+      "true_utility_means_OFFLINE_ONLY": [
+        0.37608137879383563,
+        0.7505080243827589
+      ]
+    },
+    {
+      "extra_draws_each": 10,
+      "id": "nongame-067",
+      "initial_draws_each": 3,
+      "n_arms": 3,
+      "parent_world_id": "nongame-source-067",
+      "replicates": 3,
+      "source_kind": "sequential_Bernoulli_with_known_laws",
+      "source_seed": 18202399,
+      "split": "train",
+      "true_utility_means_OFFLINE_ONLY": [
+        0.05,
+        0.29515807522147525,
+        0.4083335593869242
+      ]
+    },
+    {
+      "extra_draws_each": 10,
+      "id": "nongame-068",
+      "initial_draws_each": 3,
+      "n_arms": 4,
+      "parent_world_id": "nongame-source-068",
+      "replicates": 3,
+      "source_kind": "sequential_Bernoulli_with_known_laws",
+      "source_seed": 18205118,
+      "split": "train",
+      "true_utility_means_OFFLINE_ONLY": [
+        0.3762026638474747,
+        0.688456977222775,
+        0.3346274252999015,
+        0.6325614109845566
+      ]
+    },
+    {
+      "extra_draws_each": 10,
+      "id": "nongame-069",
+      "initial_draws_each": 3,
+      "n_arms": 2,
+      "parent_world_id": "nongame-source-069",
+      "replicates": 3,
+      "source_kind": "sequential_Bernoulli_with_known_laws",
+      "source_seed": 18207837,
+      "split": "train",
+      "true_utility_means_OFFLINE_ONLY": [
+        0.48018448490957,
+        0.6743216374609479
+      ]
+    },
+    {
+      "extra_draws_each": 10,
+      "id": "nongame-070",
+      "initial_draws_each": 3,
+      "n_arms": 3,
+      "parent_world_id": "nongame-source-070",
+      "replicates": 3,
+      "source_kind": "sequential_Bernoulli_with_known_laws",
+      "source_seed": 18210556,
+      "split": "train",
+      "true_utility_means_OFFLINE_ONLY": [
+        0.3372671719130531,
+        0.34627585235218783,
+        0.6115114286963577
+      ]
+    },
+    {
+      "extra_draws_each": 10,
+      "id": "nongame-071",
+      "initial_draws_each": 3,
+      "n_arms": 4,
+      "parent_world_id": "nongame-source-071",
+      "replicates": 3,
+      "source_kind": "sequential_Bernoulli_with_known_laws",
+      "source_seed": 18213275,
+      "split": "train",
+      "true_utility_means_OFFLINE_ONLY": [
+        0.3385560282084022,
+        0.6041560600418655,
+        0.95,
+        0.35704475349949566
+      ]
+    },
+    {
+      "extra_draws_each": 10,
+      "id": "nongame-072",
+      "initial_draws_each": 3,
+      "n_arms": 2,
+      "parent_world_id": "nongame-source-072",
+      "replicates": 3,
+      "source_kind": "sequential_Bernoulli_with_known_laws",
+      "source_seed": 18215994,
+      "split": "cal",
+      "true_utility_means_OFFLINE_ONLY": [
+        0.5911533074322276,
+        0.5144268485810755
+      ]
+    },
+    {
+      "extra_draws_each": 10,
+      "id": "nongame-073",
+      "initial_draws_each": 3,
+      "n_arms": 3,
+      "parent_world_id": "nongame-source-073",
+      "replicates": 3,
+      "source_kind": "sequential_Bernoulli_with_known_laws",
+      "source_seed": 18218713,
+      "split": "cal",
+      "true_utility_means_OFFLINE_ONLY": [
+        0.6351121807108764,
+        0.7938572578437734,
+        0.6190907844190264
+      ]
+    },
+    {
+      "extra_draws_each": 10,
+      "id": "nongame-074",
+      "initial_draws_each": 3,
+      "n_arms": 4,
+      "parent_world_id": "nongame-source-074",
+      "replicates": 3,
+      "source_kind": "sequential_Bernoulli_with_known_laws",
+      "source_seed": 18221432,
+      "split": "cal",
+      "true_utility_means_OFFLINE_ONLY": [
+        0.8294195724096854,
+        0.9388585348476467,
+        0.13360296756604328,
+        0.4074946948907682
+      ]
+    },
+    {
+      "extra_draws_each": 10,
+      "id": "nongame-075",
+      "initial_draws_each": 3,
+      "n_arms": 2,
+      "parent_world_id": "nongame-source-075",
+      "replicates": 3,
+      "source_kind": "sequential_Bernoulli_with_known_laws",
+      "source_seed": 18224151,
+      "split": "cal",
+      "true_utility_means_OFFLINE_ONLY": [
+        0.6407117734292485,
+        0.8782863353850867
+      ]
+    },
+    {
+      "extra_draws_each": 10,
+      "id": "nongame-076",
+      "initial_draws_each": 3,
+      "n_arms": 3,
+      "parent_world_id": "nongame-source-076",
+      "replicates": 3,
+      "source_kind": "sequential_Bernoulli_with_known_laws",
+      "source_seed": 18226870,
+      "split": "cal",
+      "true_utility_means_OFFLINE_ONLY": [
+        0.09514860800702525,
+        0.5066572809804943,
+        0.37059488709393673
+      ]
+    },
+    {
+      "extra_draws_each": 10,
+      "id": "nongame-077",
+      "initial_draws_each": 3,
+      "n_arms": 4,
+      "parent_world_id": "nongame-source-077",
+      "replicates": 3,
+      "source_kind": "sequential_Bernoulli_with_known_laws",
+      "source_seed": 18229589,
+      "split": "cal",
+      "true_utility_means_OFFLINE_ONLY": [
+        0.4518497342511323,
+        0.490367714367699,
+        0.14807095502846784,
+        0.31570348945430027
+      ]
+    },
+    {
+      "extra_draws_each": 10,
+      "id": "nongame-078",
+      "initial_draws_each": 3,
+      "n_arms": 2,
+      "parent_world_id": "nongame-source-078",
+      "replicates": 3,
+      "source_kind": "sequential_Bernoulli_with_known_laws",
+      "source_seed": 18232308,
+      "split": "cal",
+      "true_utility_means_OFFLINE_ONLY": [
+        0.40084997367678227,
+        0.7908020586301202
+      ]
+    },
+    {
+      "extra_draws_each": 10,
+      "id": "nongame-079",
+      "initial_draws_each": 3,
+      "n_arms": 3,
+      "parent_world_id": "nongame-source-079",
+      "replicates": 3,
+      "source_kind": "sequential_Bernoulli_with_known_laws",
+      "source_seed": 18235027,
+      "split": "cal",
+      "true_utility_means_OFFLINE_ONLY": [
+        0.6796023517607943,
+        0.37278063862693955,
+        0.7227199989511986
+      ]
+    },
+    {
+      "extra_draws_each": 10,
+      "id": "nongame-080",
+      "initial_draws_each": 3,
+      "n_arms": 4,
+      "parent_world_id": "nongame-source-080",
+      "replicates": 3,
+      "source_kind": "sequential_Bernoulli_with_known_laws",
+      "source_seed": 18237746,
+      "split": "cal",
+      "true_utility_means_OFFLINE_ONLY": [
+        0.8450429344127458,
+        0.28650082538040106,
+        0.3405314629731365,
+        0.5420390952353938
+      ]
+    },
+    {
+      "extra_draws_each": 10,
+      "id": "nongame-081",
+      "initial_draws_each": 3,
+      "n_arms": 2,
+      "parent_world_id": "nongame-source-081",
+      "replicates": 3,
+      "source_kind": "sequential_Bernoulli_with_known_laws",
+      "source_seed": 18240465,
+      "split": "cal",
+      "true_utility_means_OFFLINE_ONLY": [
+        0.40780592094600593,
+        0.5599902974120429
+      ]
+    },
+    {
+      "extra_draws_each": 10,
+      "id": "nongame-082",
+      "initial_draws_each": 3,
+      "n_arms": 3,
+      "parent_world_id": "nongame-source-082",
+      "replicates": 3,
+      "source_kind": "sequential_Bernoulli_with_known_laws",
+      "source_seed": 18243184,
+      "split": "cal",
+      "true_utility_means_OFFLINE_ONLY": [
+        0.5970166624786827,
+        0.36615232091371125,
+        0.21141899246640536
+      ]
+    },
+    {
+      "extra_draws_each": 10,
+      "id": "nongame-083",
+      "initial_draws_each": 3,
+      "n_arms": 4,
+      "parent_world_id": "nongame-source-083",
+      "replicates": 3,
+      "source_kind": "sequential_Bernoulli_with_known_laws",
+      "source_seed": 18245903,
+      "split": "cal",
+      "true_utility_means_OFFLINE_ONLY": [
+        0.6243940746625409,
+        0.8468113788727116,
+        0.48039203180577716,
+        0.6683410375924662
+      ]
+    },
+    {
+      "extra_draws_each": 10,
+      "id": "nongame-084",
+      "initial_draws_each": 3,
+      "n_arms": 2,
+      "parent_world_id": "nongame-source-084",
+      "replicates": 3,
+      "source_kind": "sequential_Bernoulli_with_known_laws",
+      "source_seed": 18248622,
+      "split": "cal",
+      "true_utility_means_OFFLINE_ONLY": [
+        0.6211038081070119,
+        0.6261393324158608
+      ]
+    },
+    {
+      "extra_draws_each": 10,
+      "id": "nongame-085",
+      "initial_draws_each": 3,
+      "n_arms": 3,
+      "parent_world_id": "nongame-source-085",
+      "replicates": 3,
+      "source_kind": "sequential_Bernoulli_with_known_laws",
+      "source_seed": 18251341,
+      "split": "cal",
+      "true_utility_means_OFFLINE_ONLY": [
+        0.13890894284862207,
+        0.2125669582372354,
+        0.5490434168082595
+      ]
+    },
+    {
+      "extra_draws_each": 10,
+      "id": "nongame-086",
+      "initial_draws_each": 3,
+      "n_arms": 4,
+      "parent_world_id": "nongame-source-086",
+      "replicates": 3,
+      "source_kind": "sequential_Bernoulli_with_known_laws",
+      "source_seed": 18254060,
+      "split": "cal",
+      "true_utility_means_OFFLINE_ONLY": [
+        0.30946850406826226,
+        0.5132922025106352,
+        0.31036889786791233,
+        0.5363683884372231
+      ]
+    },
+    {
+      "extra_draws_each": 10,
+      "id": "nongame-087",
+      "initial_draws_each": 3,
+      "n_arms": 2,
+      "parent_world_id": "nongame-source-087",
+      "replicates": 3,
+      "source_kind": "sequential_Bernoulli_with_known_laws",
+      "source_seed": 18256779,
+      "split": "cal",
+      "true_utility_means_OFFLINE_ONLY": [
+        0.6244574520314822,
+        0.28553361849435077
+      ]
+    },
+    {
+      "extra_draws_each": 10,
+      "id": "nongame-088",
+      "initial_draws_each": 3,
+      "n_arms": 3,
+      "parent_world_id": "nongame-source-088",
+      "replicates": 3,
+      "source_kind": "sequential_Bernoulli_with_known_laws",
+      "source_seed": 18259498,
+      "split": "cal",
+      "true_utility_means_OFFLINE_ONLY": [
+        0.2935120349777804,
+        0.5907714383041134,
+        0.33459900414354904
+      ]
+    },
+    {
+      "extra_draws_each": 10,
+      "id": "nongame-089",
+      "initial_draws_each": 3,
+      "n_arms": 4,
+      "parent_world_id": "nongame-source-089",
+      "replicates": 3,
+      "source_kind": "sequential_Bernoulli_with_known_laws",
+      "source_seed": 18262217,
+      "split": "cal",
+      "true_utility_means_OFFLINE_ONLY": [
+        0.95,
+        0.4563171740468551,
+        0.6897794541634421,
+        0.057436256751392356
+      ]
+    },
+    {
+      "extra_draws_each": 10,
+      "id": "nongame-090",
+      "initial_draws_each": 3,
+      "n_arms": 2,
+      "parent_world_id": "nongame-source-090",
+      "replicates": 3,
+      "source_kind": "sequential_Bernoulli_with_known_laws",
+      "source_seed": 18264936,
+      "split": "cal",
+      "true_utility_means_OFFLINE_ONLY": [
+        0.8719464366016538,
+        0.180002792306436
+      ]
+    },
+    {
+      "extra_draws_each": 10,
+      "id": "nongame-091",
+      "initial_draws_each": 3,
+      "n_arms": 3,
+      "parent_world_id": "nongame-source-091",
+      "replicates": 3,
+      "source_kind": "sequential_Bernoulli_with_known_laws",
+      "source_seed": 18267655,
+      "split": "cal",
+      "true_utility_means_OFFLINE_ONLY": [
+        0.6704357474739766,
+        0.5216891277902167,
+        0.914634487720816
+      ]
+    },
+    {
+      "extra_draws_each": 10,
+      "id": "nongame-092",
+      "initial_draws_each": 3,
+      "n_arms": 4,
+      "parent_world_id": "nongame-source-092",
+      "replicates": 3,
+      "source_kind": "sequential_Bernoulli_with_known_laws",
+      "source_seed": 18270374,
+      "split": "cal",
+      "true_utility_means_OFFLINE_ONLY": [
+        0.06087570078920526,
+        0.5961197842412809,
+        0.20797287940929915,
+        0.49713164847564834
+      ]
+    },
+    {
+      "extra_draws_each": 10,
+      "id": "nongame-093",
+      "initial_draws_each": 3,
+      "n_arms": 2,
+      "parent_world_id": "nongame-source-093",
+      "replicates": 3,
+      "source_kind": "sequential_Bernoulli_with_known_laws",
+      "source_seed": 18273093,
+      "split": "cal",
+      "true_utility_means_OFFLINE_ONLY": [
+        0.8460867809074734,
+        0.7432330584921499
+      ]
+    },
+    {
+      "extra_draws_each": 10,
+      "id": "nongame-094",
+      "initial_draws_each": 3,
+      "n_arms": 3,
+      "parent_world_id": "nongame-source-094",
+      "replicates": 3,
+      "source_kind": "sequential_Bernoulli_with_known_laws",
+      "source_seed": 18275812,
+      "split": "cal",
+      "true_utility_means_OFFLINE_ONLY": [
+        0.7047050299950182,
+        0.34795682828501995,
+        0.43549994131876657
+      ]
+    },
+    {
+      "extra_draws_each": 10,
+      "id": "nongame-095",
+      "initial_draws_each": 3,
+      "n_arms": 4,
+      "parent_world_id": "nongame-source-095",
+      "replicates": 3,
+      "source_kind": "sequential_Bernoulli_with_known_laws",
+      "source_seed": 18278531,
+      "split": "cal",
+      "true_utility_means_OFFLINE_ONLY": [
+        0.5836274131210427,
+        0.8458246252653194,
+        0.95,
+        0.9475293098935391
+      ]
+    },
+    {
+      "extra_draws_each": 10,
+      "id": "nongame-096",
+      "initial_draws_each": 3,
+      "n_arms": 2,
+      "parent_world_id": "nongame-source-096",
+      "replicates": 3,
+      "source_kind": "sequential_Bernoulli_with_known_laws",
+      "source_seed": 18281250,
+      "split": "test",
+      "true_utility_means_OFFLINE_ONLY": [
+        0.7677403913193614,
+        0.6224074849278515
+      ]
+    },
+    {
+      "extra_draws_each": 10,
+      "id": "nongame-097",
+      "initial_draws_each": 3,
+      "n_arms": 3,
+      "parent_world_id": "nongame-source-097",
+      "replicates": 3,
+      "source_kind": "sequential_Bernoulli_with_known_laws",
+      "source_seed": 18283969,
+      "split": "test",
+      "true_utility_means_OFFLINE_ONLY": [
+        0.20288770571375278,
+        0.6173263663708514,
+        0.5396567315948624
+      ]
+    },
+    {
+      "extra_draws_each": 10,
+      "id": "nongame-098",
+      "initial_draws_each": 3,
+      "n_arms": 4,
+      "parent_world_id": "nongame-source-098",
+      "replicates": 3,
+      "source_kind": "sequential_Bernoulli_with_known_laws",
+      "source_seed": 18286688,
+      "split": "test",
+      "true_utility_means_OFFLINE_ONLY": [
+        0.7673304098446052,
+        0.6201338740083046,
+        0.08568854330494197,
+        0.7657471111133515
+      ]
+    },
+    {
+      "extra_draws_each": 10,
+      "id": "nongame-099",
+      "initial_draws_each": 3,
+      "n_arms": 2,
+      "parent_world_id": "nongame-source-099",
+      "replicates": 3,
+      "source_kind": "sequential_Bernoulli_with_known_laws",
+      "source_seed": 18289407,
+      "split": "test",
+      "true_utility_means_OFFLINE_ONLY": [
+        0.4463346892576532,
+        0.5048771508629337
+      ]
+    },
+    {
+      "extra_draws_each": 10,
+      "id": "nongame-100",
+      "initial_draws_each": 3,
+      "n_arms": 3,
+      "parent_world_id": "nongame-source-100",
+      "replicates": 3,
+      "source_kind": "sequential_Bernoulli_with_known_laws",
+      "source_seed": 18292126,
+      "split": "test",
+      "true_utility_means_OFFLINE_ONLY": [
+        0.2817139071394922,
+        0.14613398724771645,
+        0.2660335300947118
+      ]
+    },
+    {
+      "extra_draws_each": 10,
+      "id": "nongame-101",
+      "initial_draws_each": 3,
+      "n_arms": 4,
+      "parent_world_id": "nongame-source-101",
+      "replicates": 3,
+      "source_kind": "sequential_Bernoulli_with_known_laws",
+      "source_seed": 18294845,
+      "split": "test",
+      "true_utility_means_OFFLINE_ONLY": [
+        0.4380236268165171,
+        0.4564245161175621,
+        0.7472301286734983,
+        0.31490045330950944
+      ]
+    },
+    {
+      "extra_draws_each": 10,
+      "id": "nongame-102",
+      "initial_draws_each": 3,
+      "n_arms": 2,
+      "parent_world_id": "nongame-source-102",
+      "replicates": 3,
+      "source_kind": "sequential_Bernoulli_with_known_laws",
+      "source_seed": 18297564,
+      "split": "test",
+      "true_utility_means_OFFLINE_ONLY": [
+        0.4354662723954914,
+        0.2939297488450872
+      ]
+    },
+    {
+      "extra_draws_each": 10,
+      "id": "nongame-103",
+      "initial_draws_each": 3,
+      "n_arms": 3,
+      "parent_world_id": "nongame-source-103",
+      "replicates": 3,
+      "source_kind": "sequential_Bernoulli_with_known_laws",
+      "source_seed": 18300283,
+      "split": "test",
+      "true_utility_means_OFFLINE_ONLY": [
+        0.4687843184149872,
+        0.6615075253340938,
+        0.6155607266973399
+      ]
+    },
+    {
+      "extra_draws_each": 10,
+      "id": "nongame-104",
+      "initial_draws_each": 3,
+      "n_arms": 4,
+      "parent_world_id": "nongame-source-104",
+      "replicates": 3,
+      "source_kind": "sequential_Bernoulli_with_known_laws",
+      "source_seed": 18303002,
+      "split": "test",
+      "true_utility_means_OFFLINE_ONLY": [
+        0.6927159360553665,
+        0.7322533237169159,
+        0.4609582745156103,
+        0.9366048390948168
+      ]
+    },
+    {
+      "extra_draws_each": 10,
+      "id": "nongame-105",
+      "initial_draws_each": 3,
+      "n_arms": 2,
+      "parent_world_id": "nongame-source-105",
+      "replicates": 3,
+      "source_kind": "sequential_Bernoulli_with_known_laws",
+      "source_seed": 18305721,
+      "split": "test",
+      "true_utility_means_OFFLINE_ONLY": [
+        0.7906978214234781,
+        0.47293868803691935
+      ]
+    },
+    {
+      "extra_draws_each": 10,
+      "id": "nongame-106",
+      "initial_draws_each": 3,
+      "n_arms": 3,
+      "parent_world_id": "nongame-source-106",
+      "replicates": 3,
+      "source_kind": "sequential_Bernoulli_with_known_laws",
+      "source_seed": 18308440,
+      "split": "test",
+      "true_utility_means_OFFLINE_ONLY": [
+        0.4640977692090418,
+        0.07824889377094224,
+        0.5043129200800031
+      ]
+    },
+    {
+      "extra_draws_each": 10,
+      "id": "nongame-107",
+      "initial_draws_each": 3,
+      "n_arms": 4,
+      "parent_world_id": "nongame-source-107",
+      "replicates": 3,
+      "source_kind": "sequential_Bernoulli_with_known_laws",
+      "source_seed": 18311159,
+      "split": "test",
+      "true_utility_means_OFFLINE_ONLY": [
+        0.7856760287371757,
+        0.8069610706064567,
+        0.6220285969795623,
+        0.19486974729866757
+      ]
+    },
+    {
+      "extra_draws_each": 10,
+      "id": "nongame-108",
+      "initial_draws_each": 3,
+      "n_arms": 2,
+      "parent_world_id": "nongame-source-108",
+      "replicates": 3,
+      "source_kind": "sequential_Bernoulli_with_known_laws",
+      "source_seed": 18313878,
+      "split": "test",
+      "true_utility_means_OFFLINE_ONLY": [
+        0.4797796762950835,
+        0.403210658502583
+      ]
+    },
+    {
+      "extra_draws_each": 10,
+      "id": "nongame-109",
+      "initial_draws_each": 3,
+      "n_arms": 3,
+      "parent_world_id": "nongame-source-109",
+      "replicates": 3,
+      "source_kind": "sequential_Bernoulli_with_known_laws",
+      "source_seed": 18316597,
+      "split": "test",
+      "true_utility_means_OFFLINE_ONLY": [
+        0.9429175101842449,
+        0.42100051767262064,
+        0.12366861580755571
+      ]
+    },
+    {
+      "extra_draws_each": 10,
+      "id": "nongame-110",
+      "initial_draws_each": 3,
+      "n_arms": 4,
+      "parent_world_id": "nongame-source-110",
+      "replicates": 3,
+      "source_kind": "sequential_Bernoulli_with_known_laws",
+      "source_seed": 18319316,
+      "split": "test",
+      "true_utility_means_OFFLINE_ONLY": [
+        0.7739020498263635,
+        0.3027485352785667,
+        0.25583002071242644,
+        0.4265190517912912
+      ]
+    },
+    {
+      "extra_draws_each": 10,
+      "id": "nongame-111",
+      "initial_draws_each": 3,
+      "n_arms": 2,
+      "parent_world_id": "nongame-source-111",
+      "replicates": 3,
+      "source_kind": "sequential_Bernoulli_with_known_laws",
+      "source_seed": 18322035,
+      "split": "test",
+      "true_utility_means_OFFLINE_ONLY": [
+        0.8750566165740917,
+        0.7494379046578867
+      ]
+    },
+    {
+      "extra_draws_each": 10,
+      "id": "nongame-112",
+      "initial_draws_each": 3,
+      "n_arms": 3,
+      "parent_world_id": "nongame-source-112",
+      "replicates": 3,
+      "source_kind": "sequential_Bernoulli_with_known_laws",
+      "source_seed": 18324754,
+      "split": "test",
+      "true_utility_means_OFFLINE_ONLY": [
+        0.4015647151591249,
+        0.46540112544177464,
+        0.699057079098069
+      ]
+    },
+    {
+      "extra_draws_each": 10,
+      "id": "nongame-113",
+      "initial_draws_each": 3,
+      "n_arms": 4,
+      "parent_world_id": "nongame-source-113",
+      "replicates": 3,
+      "source_kind": "sequential_Bernoulli_with_known_laws",
+      "source_seed": 18327473,
+      "split": "test",
+      "true_utility_means_OFFLINE_ONLY": [
+        0.45519694813594275,
+        0.2770507388564419,
+        0.4633706715736798,
+        0.7812357002088665
+      ]
+    },
+    {
+      "extra_draws_each": 10,
+      "id": "nongame-114",
+      "initial_draws_each": 3,
+      "n_arms": 2,
+      "parent_world_id": "nongame-source-114",
+      "replicates": 3,
+      "source_kind": "sequential_Bernoulli_with_known_laws",
+      "source_seed": 18330192,
+      "split": "test",
+      "true_utility_means_OFFLINE_ONLY": [
+        0.25139908226812274,
+        0.10045160557680362
+      ]
+    },
+    {
+      "extra_draws_each": 10,
+      "id": "nongame-115",
+      "initial_draws_each": 3,
+      "n_arms": 3,
+      "parent_world_id": "nongame-source-115",
+      "replicates": 3,
+      "source_kind": "sequential_Bernoulli_with_known_laws",
+      "source_seed": 18332911,
+      "split": "test",
+      "true_utility_means_OFFLINE_ONLY": [
+        0.7487480854905402,
+        0.36691189971628557,
+        0.6351900570064624
+      ]
+    },
+    {
+      "extra_draws_each": 10,
+      "id": "nongame-116",
+      "initial_draws_each": 3,
+      "n_arms": 4,
+      "parent_world_id": "nongame-source-116",
+      "replicates": 3,
+      "source_kind": "sequential_Bernoulli_with_known_laws",
+      "source_seed": 18335630,
+      "split": "test",
+      "true_utility_means_OFFLINE_ONLY": [
+        0.4539443567078388,
+        0.9272378865082506,
+        0.7095830531737087,
+        0.3369611401731391
+      ]
+    },
+    {
+      "extra_draws_each": 10,
+      "id": "nongame-117",
+      "initial_draws_each": 3,
+      "n_arms": 2,
+      "parent_world_id": "nongame-source-117",
+      "replicates": 3,
+      "source_kind": "sequential_Bernoulli_with_known_laws",
+      "source_seed": 18338349,
+      "split": "test",
+      "true_utility_means_OFFLINE_ONLY": [
+        0.6192364726703661,
+        0.6567960348095343
+      ]
+    },
+    {
+      "extra_draws_each": 10,
+      "id": "nongame-118",
+      "initial_draws_each": 3,
+      "n_arms": 3,
+      "parent_world_id": "nongame-source-118",
+      "replicates": 3,
+      "source_kind": "sequential_Bernoulli_with_known_laws",
+      "source_seed": 18341068,
+      "split": "test",
+      "true_utility_means_OFFLINE_ONLY": [
+        0.95,
+        0.7648263303881216,
+        0.8873591449410457
+      ]
+    },
+    {
+      "extra_draws_each": 10,
+      "id": "nongame-119",
+      "initial_draws_each": 3,
+      "n_arms": 4,
+      "parent_world_id": "nongame-source-119",
+      "replicates": 3,
+      "source_kind": "sequential_Bernoulli_with_known_laws",
+      "source_seed": 18343787,
+      "split": "test",
+      "true_utility_means_OFFLINE_ONLY": [
+        0.2763866379984408,
+        0.520556539129319,
+        0.695928139121109,
+        0.1792801678023992
+      ]
+    }
+  ],
+  "offline_true_utility_means_never_online_features": true,
+  "schema": "quartz_general_c18_frozen_source_bank_v1",
+  "source_generation_not_holdout_labels": true
+}
