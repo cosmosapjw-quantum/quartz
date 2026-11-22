@@ -1,0 +1,46 @@
+{
+  "cases": [
+    {
+      "side": 2,
+      "rho": 1,
+      "components": 12,
+      "mismatch_count": 0,
+      "first_mismatch": [],
+      "scale_exact": true
+    },
+    {
+      "side": 32,
+      "rho": 16,
+      "components": 3072,
+      "mismatch_count": 164,
+      "first_mismatch": [
+        {
+          "action": 1,
+          "index": 13,
+          "expected": 4611199710940626944,
+          "actual": 4611199710940626943,
+          "value": 1.8920180462300777
+        }
+      ],
+      "scale_exact": true
+    },
+    {
+      "side": 96,
+      "rho": 64,
+      "components": 27648,
+      "mismatch_count": 2205,
+      "first_mismatch": [
+        {
+          "action": 0,
+          "index": 17,
+          "expected": 13845475070304059392,
+          "actual": 13845475070304059391,
+          "value": -10.504335880279541
+        }
+      ],
+      "scale_exact": true
+    }
+  ],
+  "schema": "numeric JSON float inputs",
+  "all_exact": false
+}

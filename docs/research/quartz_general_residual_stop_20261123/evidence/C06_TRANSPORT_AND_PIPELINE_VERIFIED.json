@@ -1,0 +1,39 @@
+{
+  "status": "PASS",
+  "wire_encoding": "shortest decimal strings with Rust FromStr",
+  "probes": [
+    {
+      "side": 2,
+      "rho": 1,
+      "components": 12,
+      "mismatches": 0,
+      "policies": 6
+    },
+    {
+      "side": 32,
+      "rho": 16,
+      "components": 3072,
+      "mismatches": 0,
+      "policies": 6
+    },
+    {
+      "side": 96,
+      "rho": 64,
+      "components": 27648,
+      "mismatches": 0,
+      "policies": 6
+    }
+  ],
+  "independent_sources": {
+    "parents": 3,
+    "exact_rhs_components": 30732
+  },
+  "independent_native": {
+    "policy_executions_checked": 18,
+    "interval_scalar_containments": 348,
+    "certified_optimal": 3,
+    "identical_noncertified_fallbacks": 3,
+    "byte_exact_transport_requests": 3
+  },
+  "binary_sha256": "812c57e75ad193fa4cca3729fc63ee59df73cac7118c50886adb4c0b47118ac0"
+}
