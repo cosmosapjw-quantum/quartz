@@ -1,0 +1,3 @@
+# C02
+
+C2 MATH TO CODE: From C16 Rust real root response first8_edge_stats [a,N,P,W,M2], reconstruct deterministic first8 visit-modal proxy, final_mcts_move defines revision label; strictly no future response fields used as predictors. X=[gap between top-two initial normalized visit counts, log(1+n_options)]. Non-game source: K=2/3/4 Bernoulli arms, Beta(1,1) posterior after 3 initial and 10 extra actual stochastic observations per arm, Y whether posterior best arm changes. Latent true means are offline utility-scoring only. Shared Python logistic q=σ(theta·[1,gap,log1p(K)]). Rust companion only reads X, predicts without mutating MCTS/stop policy.
