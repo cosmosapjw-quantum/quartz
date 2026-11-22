@@ -1,0 +1,79 @@
+{
+  "schema": "quartz_general_c18_next_stage_v1",
+  "completed": "QUARTZ-GENERAL-18-CALIBRATED-COMPUTATION-OBSERVATION",
+  "next_research_id": "QUARTZ-GENERAL-19-SIGNED-VOC-AND-SHADOW-SELECTIVITY",
+  "next_not_executed": true,
+  "identity": "QUARTZ general bounded-rational computation selection and stop, not a game optimization project",
+  "original_thesis": "docs/THESIS.md",
+  "next_question": "Can a calibrated observation model predict the signed utility gained by a paid computation, not only whether a post-computation action differs, under group-disjoint multi-domain source assumptions?",
+  "current_results": {
+    "source_C17_sha": "e4dc4d6a0d5db03189d2f8465f6d5f019018f20c",
+    "native_Rust_MCTS_executable_sha256": "1168f2979936a283a9e7e613b869fd30ec9aba826e15ac228c6ee9d7e7e4c4d3",
+    "frozen_C15_policy_only_model_sha256": "5ff8286dcc57192b79e960ba096bc5067c78d439a212eaa69d523f68835a3b83",
+    "source_parent_bank_sha256": "52e3654febead1a01253174be0d395f8c2ea6e04ada21e5e0bfbf5938d680445",
+    "C18_CAL_frozen_model_sha256": "2dd987989cb543c692457d0b198d23009917fd5a3001551e300a81beb868218b",
+    "real_Rust_test_rows": 140,
+    "non_game_test_rows": 72,
+    "test_parent_groups_each_domain": 24,
+    "MCTS_Brier_constant": 0.12813673683291116,
+    "MCTS_Brier_C18": 0.11632275561131475,
+    "non_game_Brier_constant": 0.18810013717421123,
+    "non_game_Brier_C18": 0.19414174855045666,
+    "MCTS_group_bootstrap_C18_minus_constant_95pct": [
+      -0.03141037578987976,
+      0.008462229907175068
+    ],
+    "non_game_group_bootstrap_C18_minus_constant_95pct": [
+      -0.02394764991848297,
+      0.03470383747609849
+    ],
+    "shadow_stop_missed_revisions_MCTS": "4/72 proposed STOP",
+    "shadow_stop_missed_revisions_non_game": "2/12 proposed STOP",
+    "actual_game_signed_utility": "NOT_ESTIMABLE",
+    "general_calibration_claim": "NOT_ESTABLISHED",
+    "non_game_signed_utility_mean": 0.030333552577139947,
+    "native_subagent": "NOT_RUN"
+  },
+  "constraints": [
+    "Two structurally different tasks with exact or independently audited utility labels, not only revisions",
+    "Actual compute cost measured and expressed in known physical or utility/resource units, do not confuse total and marginal time",
+    "Separate conditional event probability q from conditional signed utility E[Z|Y=1,X] and risk calibration",
+    "Source-parent-group disjoint TRAIN/CAL/TEST before any labels, no post-test tuning",
+    "Do not use source true utility, future action, oracle label or human signatures as live controller predictor input",
+    "Calibrate proper probability and signed utility forecast on heldout independent source families with uncertainty",
+    "Maintain train-only baseline constant, cost matched shadow policy comparisons and positive regret/sign safeguards",
+    "Do not activate SearchPolicy until shadow wrong-stop risk and noninferiority separately validated",
+    "Preserve original developer, prior C16/C17/C18 branch and frozen source THESIS/CLAIM_LEDGER"
+  ],
+  "theory_R1_R10": [
+    "R1 determine direct science target and exact utility-labeled sources",
+    "R2 primary literature on value of computation, selective prediction and correlated observation error",
+    "R3 define joint predictive law P(Y,Z,C|X,metaaction) and utility/cost units",
+    "R4 construct competing signed-value/uncertainty predictors and model identification limits",
+    "R5 prove valid bounds and net-value calibrated decision criteria",
+    "R6 counterexamples for surrogate flip probability and post-selection bias",
+    "R7 exact finite examples and independent symbolic/numeric verification",
+    "R8 true claim gates for group-heldout calibration and wrong-stop rates",
+    "R9 frozen source/model/cost computational contract",
+    "R10 theory handoff and effective falsifiers"
+  ],
+  "coding_C1_C10": [
+    "C1 independently freeze C18 SHA, original thesis and source/code identities",
+    "C2 map source-level terminal utility/actions to search observations without game leakage",
+    "C3 numeric stabilization, group samples, cost/error tolerances",
+    "C4 prefreeze two exact-utility task source families and independent group splits",
+    "C5 actual sign-aware value predictor implemented TDD RED/GREEN",
+    "C6 independent Rust/Python SHADOW semantics and full regression",
+    "C7 frozen calibration/run contract before test labels",
+    "C8 actual physically measured computation and group-heldout signed utility/regret",
+    "C9 independent numeric/code/claim audit and local archive restoration",
+    "C10 bounded evidence verdict, per-stage SHA backup+GitHub remote readback, next handoff"
+  ],
+  "required_claims": [
+    "Estimation of probability of revision alone does not imply positive calculation utility",
+    "P2/P3/P4 remain untested until genuine runtime/quality/cognition-specific data",
+    "No numerical or statistical success claim without a real executed test and scoped source"
+  ],
+  "continuation_anchor": "docs/research/quartz_general_calibration_20261122/RESULTS_AND_NEXT_KO.md",
+  "backup_policy": "Each actual R/C stage Git commit, SHA256 local Git tar.gz, remote SHA equality; Dropbox cloud sync status separately stated"
+}
