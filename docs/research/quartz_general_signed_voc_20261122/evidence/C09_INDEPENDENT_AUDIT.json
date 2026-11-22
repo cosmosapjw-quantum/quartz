@@ -1,0 +1,34 @@
+{
+  "Brier_MSE_and_three_price_net_values": "PASS",
+  "actual_native_MCTS_game_regret": "NOT_TESTED_NOT_ESTIMABLE",
+  "all_test_random_streams_replayed": 144,
+  "counterfactual_avoided_CPU_not_live_runtime": "TRUE",
+  "domains": {
+    "beta_arms": {
+      "flips": 28,
+      "heldout_Brier": 0.23516823832887646,
+      "heldout_signed_gain_MSE": 0.00849367995934289,
+      "n_test_rows": 72,
+      "paired_primary_mean_shadow_minus_always": 0.00514744537596474
+    },
+    "finite_sensor": {
+      "flips": 18,
+      "heldout_Brier": 0.17751593901308285,
+      "heldout_signed_gain_MSE": 0.022348267662120877,
+      "n_test_rows": 72,
+      "paired_primary_mean_shadow_minus_always": -0.012102281576271669
+    }
+  },
+  "frozen_model_sha256": "5fdd172a13d51c4d17dc8e7829fb7c5518421028046ebac6e418a1158adf6735",
+  "heldout_report_sha256": "d2364f2e35e36d94ddc338f12b8718a5c604deca10d7f931cdb1af1b68e74ebe",
+  "independent_latent_parent_groups": 48,
+  "schema": "quartz_general_c19_C09_independent_source_and_signed_utility_audit_v1",
+  "separate_posterior_update_algorithms": "PASS",
+  "source_and_test_group_split": "PASS",
+  "source_world_sha256": "8fce353c5efd3a5ac2a643e5a799d46f8d69c6c429cdff0fb5418a43ea43292e",
+  "status": "PASS",
+  "train_cal_raw_sha256": "5ecef7ca8a3074965f8b335ff98891c66abdf4d5e489246379980aa5651ed8f7",
+  "train_only_baselines": "PASS",
+  "train_only_cost_medians": "PASS",
+  "untouched_test_raw_sha256": "c9a8e3671a7612eac3e98c3b861ea72871bd9d28ca931f87f18d25bc8a624340"
+}

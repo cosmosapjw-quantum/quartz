@@ -1,0 +1,76 @@
+{
+  "Dropbox_cloud_sync_ack": "NOT_VERIFIED",
+  "files": [
+    {
+      "file": "docs/THESIS.md",
+      "sha256": "02ffa31af60ecbb1fa46f8bfebe4590caa365aca22f3c3d17817017a8ef5cb8f",
+      "size": 9428
+    },
+    {
+      "file": "docs/CLAIM_LEDGER.md",
+      "sha256": "dc8e16678d67d90a4970e665a320e1ed969910b79f0d8268dd501c3769c5a4b1",
+      "size": 53456
+    },
+    {
+      "file": "docs/research/quartz_general_signed_voc_20261122/C01_SOURCE_LOCK.json",
+      "sha256": "cf93857194472fc1050af6c6dfe7fd8777868512e521257b186b9977bd059445",
+      "size": 1928
+    },
+    {
+      "file": "docs/research/quartz_general_signed_voc_20261122/SOURCE_WORLDS_FROZEN.json",
+      "sha256": "8fce353c5efd3a5ac2a643e5a799d46f8d69c6c429cdff0fb5418a43ea43292e",
+      "size": 237725
+    },
+    {
+      "file": "docs/research/quartz_general_signed_voc_20261122/SHADOW_SIGNED_MODEL_FROZEN.json",
+      "sha256": "5fdd172a13d51c4d17dc8e7829fb7c5518421028046ebac6e418a1158adf6735",
+      "size": 2260
+    },
+    {
+      "file": "docs/research/quartz_general_signed_voc_20261122/evidence/C07_TRAIN_CAL/RAW_SIGNED_CALCULATIONS.jsonl",
+      "sha256": "5ecef7ca8a3074965f8b335ff98891c66abdf4d5e489246379980aa5651ed8f7",
+      "size": 665196
+    },
+    {
+      "file": "docs/research/quartz_general_signed_voc_20261122/evidence/C08_TEST/RAW_SIGNED_CALCULATIONS.jsonl",
+      "sha256": "c9a8e3671a7612eac3e98c3b861ea72871bd9d28ca931f87f18d25bc8a624340",
+      "size": 166031
+    },
+    {
+      "file": "docs/research/quartz_general_signed_voc_20261122/evidence/C08_TEST/C08_HELDOUT_SIGNED_RESULTS.json",
+      "sha256": "d2364f2e35e36d94ddc338f12b8718a5c604deca10d7f931cdb1af1b68e74ebe",
+      "size": 13604
+    },
+    {
+      "file": "quartz/experiments/c19_signed_value.py",
+      "sha256": "3ef076668572fa717df7d535085a7b1112154da05e4f27467c7de0cdda49cfc1",
+      "size": 6211
+    },
+    {
+      "file": "src/bin/quartz_c19_shadow.rs",
+      "sha256": "55d1e2d2f7a2097518e77c004f41bac23c6581cf297a5aba4b4739611b017da1",
+      "size": 5718
+    },
+    {
+      "file": "docs/research/quartz_general_signed_voc_20261122/coding/collect_signed_sources.py",
+      "sha256": "8c6352a1834bf8190333107d9ec128e24db0d7176519144a3ea37f14ec8717be",
+      "size": 8437
+    },
+    {
+      "file": "docs/research/quartz_general_signed_voc_20261122/coding/score_c08_signed.py",
+      "sha256": "8eb749d63e9b7181e1019b7eeebcfd237395ed0260bfa30eab613d6fd5efa5e6",
+      "size": 9764
+    },
+    {
+      "file": "docs/research/quartz_general_signed_voc_20261122/coding/freeze_train_cal.py",
+      "sha256": "fcbb415001a72d0e8cd883984d98c98120c66a8cf49d21ad427de10bccb75060",
+      "size": 3636
+    }
+  ],
+  "local_archive_restored": "YES",
+  "n_files_byte_identical": 13,
+  "schema": "quartz_general_c19_C09_local_restore",
+  "source_C08_archive_sha256": "125f0c028c7ff458b3911dffd1784aca6836c85ae730447bafd238c365ccc25d",
+  "source_C08_git_archive": "/home/cosmosapjw/Dropbox/personal_projects/quartz_general_meta19_backups/QUARTZ_GENERAL_C19_C08_cc54de56c629.tar.gz",
+  "status": "PASS"
+}
