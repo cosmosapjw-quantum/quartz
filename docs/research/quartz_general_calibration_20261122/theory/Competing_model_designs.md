@@ -1,0 +1,13 @@
+# R4. Competing constructive observation models and scientific discriminators
+
+Model M0: constant qhat=mean(Y_train), smoothed/clipped. Under shifted sources this is a transparent train-frequency anchor.
+
+Model M1: domain-neutral logistic revision risk qhat=σ(w0+w1*gap+w2*log1p(exposed actions)), fitted to TRAIN parent groups with regularized NLL. Prediction uses only initial computation statistics, never C16 endpoint final action, signed reward, or high-budget teacher/oracle. A single coefficient set works across structurally different domains. Explicit intercept recalibration may use CAL groups only (temperature scaling or additive logit shift); frozen after CAL and never recalibrated on TEST. Compare global M1 vs domain-stratified descriptive calibrations, not conflate transfer with pooled in-domain fit.
+
+Model M2: independently Bayesian Beta-binomial bins conditioned on coarse margin/source; safe but may be underidentified in some bins. Control against M1 without multiplying model families. Choose M1+constant M0 for this bounded run, retain M2 as alternative if M1 shows severe calibration drift.
+
+Source A: actual Rust MCTS native request learned_all_legal from C16 with original 225 legal candidates, first8 root visit stats and final best action after 20ms physical wall. Each parent-group is a genuinely separate seeded opening/played game sequence; multiple snapshots and repeated searches from same parent are clustered, and group cannot straddle train/CAL/test. The initial-side winner/utility is NOT known, so evaluate Y, not terminal regret.
+
+Source B: non-game sequential stochastic choice of a reward arm from K independent Bernoulli arms with latent utility means; initial 2/4 samples per arm and follow-up 8/16, actual repeated observation draws and posterior mean decision updates. Group by latent-world seed; the full source knows true mean to evaluate Z offline. Distinguish decision revision from positive value, negative flip and no-flip information gain.
+
+Causal/transport discriminator: the same qhat may be empirically predictive in each domain while systematically miscalibrated in the other; pooled Brier does not establish cross-domain guarantee. Pre-register source-only splits, thresholds and no-go gate: without adequate CAL heldout and evidence of safety, no live STOP action. A variance-reducing correlated-repetition measure is a descriptive diagnostic, not a replacement for grouping.
