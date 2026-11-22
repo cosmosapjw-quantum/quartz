@@ -1,0 +1,7 @@
+# R03. Domain-neutral predictive utility operator and conventions
+
+For finite terminal actions a and latent parameters theta, posterior b conditioned on current data H, priced extra computation c with observation y has P(y|b,c)=integral L(y|theta,c,H)db(theta), b^y proportional L*b. M(b)=max_a E_b U(a,theta). Exact G=E_y M(b^y)-M(b), N=G-lambda E[C_c|b]. U normalized to [0,1], lambda in terminal utility per physically observed microsecond. The true world theta is NOT an online predictor input.
+
+Independent Beta(2,2) arm posteriors Beta(alpha_j,beta_j), K<=4, proposed n=10 draws per arm. Counts k_j in0..n have exact beta-binomial mass, joint product over independent *arms*; posterior mean after k successes is (alpha_j+k)/(alpha_j+beta_j+n). Repeated draws within one arm share theta and are NOT unconditionally independent.
+
+Sensor posterior on fixed theta in {0,1,2,3}, 3 possible observations, n=8 new signals and known normalized state-likelihood and 4x3 utility matrix. For counts k_y sum n, p(k|b)=multinomial(n;k)*sum_theta b_theta product_y L_theta,y^k_y; posterior state probabilities normalize b_theta product L^k. Mixture of multinomials, NOT multinomial of averaged channel. Counts total choose(n+2,2)=45 for n=8.
