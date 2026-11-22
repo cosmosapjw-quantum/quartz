@@ -1,0 +1,5 @@
+# R07. Independent rational verification
+
+Wolfram Language live kernel evaluated two exact Bayesian EVSI witnesses: fair hidden binary state with a sensor identifying theta correctly probability3/4 gives M_before1/2 and M_after3/4, G=1/4. Two independent Beta(1,1) arms with one Bernoulli draw each: four outcome pairs each probability1/4; three have M_after2/3 and all-fail has M_after1/3; E M_after7/12, G=1/12. Single Beta(1,1) arm n2 beta-binomial counts0,1,2 each probability1/3, total1.
+
+Separate Python Fraction checker theory/verify_r07.py will reproduce exact two witnesses and normalized Beta PMF from formulas without calling the production implementation; no finite numerical test itself proves model novelty. These exact assertions constrain C5 behavior and help reject invalid independent-marginal approximations.
