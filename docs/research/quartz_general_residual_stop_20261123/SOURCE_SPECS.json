@@ -1,0 +1,1319 @@
+{
+  "additional": [
+    8,
+    32,
+    128
+  ],
+  "block": 8,
+  "bootstrap_resamples": 2000,
+  "bootstrap_seed": 2300923,
+  "initial": 4,
+  "prices": [
+    0,
+    1e-06,
+    1e-05
+  ],
+  "primary_additional": 32,
+  "repeats": 9,
+  "schema": "c23_source_specs_v1",
+  "source_count": 144,
+  "sources": [
+    {
+      "id": "c23_train_00_0",
+      "rho": 1,
+      "seed": 23000011,
+      "side": 8,
+      "split": "TRAIN",
+      "stratum": 0,
+      "target_gap": "wide"
+    },
+    {
+      "id": "c23_cal_00_0",
+      "rho": 1,
+      "seed": 23000307,
+      "side": 8,
+      "split": "CAL",
+      "stratum": 0,
+      "target_gap": "wide"
+    },
+    {
+      "id": "c23_test_00_0",
+      "rho": 1,
+      "seed": 23000601,
+      "side": 8,
+      "split": "TEST",
+      "stratum": 0,
+      "target_gap": "wide"
+    },
+    {
+      "id": "c23_test_00_1",
+      "rho": 1,
+      "seed": 23000638,
+      "side": 8,
+      "split": "TEST",
+      "stratum": 0,
+      "target_gap": "wide"
+    },
+    {
+      "id": "c23_train_01_0",
+      "rho": 1,
+      "seed": 23001020,
+      "side": 8,
+      "split": "TRAIN",
+      "stratum": 1,
+      "target_gap": "medium"
+    },
+    {
+      "id": "c23_cal_01_0",
+      "rho": 1,
+      "seed": 23001316,
+      "side": 8,
+      "split": "CAL",
+      "stratum": 1,
+      "target_gap": "medium"
+    },
+    {
+      "id": "c23_test_01_0",
+      "rho": 1,
+      "seed": 23001610,
+      "side": 8,
+      "split": "TEST",
+      "stratum": 1,
+      "target_gap": "medium"
+    },
+    {
+      "id": "c23_test_01_1",
+      "rho": 1,
+      "seed": 23001647,
+      "side": 8,
+      "split": "TEST",
+      "stratum": 1,
+      "target_gap": "medium"
+    },
+    {
+      "id": "c23_train_02_0",
+      "rho": 1,
+      "seed": 23002029,
+      "side": 8,
+      "split": "TRAIN",
+      "stratum": 2,
+      "target_gap": "tight"
+    },
+    {
+      "id": "c23_cal_02_0",
+      "rho": 1,
+      "seed": 23002325,
+      "side": 8,
+      "split": "CAL",
+      "stratum": 2,
+      "target_gap": "tight"
+    },
+    {
+      "id": "c23_test_02_0",
+      "rho": 1,
+      "seed": 23002619,
+      "side": 8,
+      "split": "TEST",
+      "stratum": 2,
+      "target_gap": "tight"
+    },
+    {
+      "id": "c23_test_02_1",
+      "rho": 1,
+      "seed": 23002656,
+      "side": 8,
+      "split": "TEST",
+      "stratum": 2,
+      "target_gap": "tight"
+    },
+    {
+      "id": "c23_train_03_0",
+      "rho": 1,
+      "seed": 23003038,
+      "side": 8,
+      "split": "TRAIN",
+      "stratum": 3,
+      "target_gap": "tie"
+    },
+    {
+      "id": "c23_cal_03_0",
+      "rho": 1,
+      "seed": 23003334,
+      "side": 8,
+      "split": "CAL",
+      "stratum": 3,
+      "target_gap": "tie"
+    },
+    {
+      "id": "c23_test_03_0",
+      "rho": 1,
+      "seed": 23003628,
+      "side": 8,
+      "split": "TEST",
+      "stratum": 3,
+      "target_gap": "tie"
+    },
+    {
+      "id": "c23_test_03_1",
+      "rho": 1,
+      "seed": 23003665,
+      "side": 8,
+      "split": "TEST",
+      "stratum": 3,
+      "target_gap": "tie"
+    },
+    {
+      "id": "c23_train_04_0",
+      "rho": 16,
+      "seed": 23004047,
+      "side": 8,
+      "split": "TRAIN",
+      "stratum": 4,
+      "target_gap": "wide"
+    },
+    {
+      "id": "c23_cal_04_0",
+      "rho": 16,
+      "seed": 23004343,
+      "side": 8,
+      "split": "CAL",
+      "stratum": 4,
+      "target_gap": "wide"
+    },
+    {
+      "id": "c23_test_04_0",
+      "rho": 16,
+      "seed": 23004637,
+      "side": 8,
+      "split": "TEST",
+      "stratum": 4,
+      "target_gap": "wide"
+    },
+    {
+      "id": "c23_test_04_1",
+      "rho": 16,
+      "seed": 23004674,
+      "side": 8,
+      "split": "TEST",
+      "stratum": 4,
+      "target_gap": "wide"
+    },
+    {
+      "id": "c23_train_05_0",
+      "rho": 16,
+      "seed": 23005056,
+      "side": 8,
+      "split": "TRAIN",
+      "stratum": 5,
+      "target_gap": "medium"
+    },
+    {
+      "id": "c23_cal_05_0",
+      "rho": 16,
+      "seed": 23005352,
+      "side": 8,
+      "split": "CAL",
+      "stratum": 5,
+      "target_gap": "medium"
+    },
+    {
+      "id": "c23_test_05_0",
+      "rho": 16,
+      "seed": 23005646,
+      "side": 8,
+      "split": "TEST",
+      "stratum": 5,
+      "target_gap": "medium"
+    },
+    {
+      "id": "c23_test_05_1",
+      "rho": 16,
+      "seed": 23005683,
+      "side": 8,
+      "split": "TEST",
+      "stratum": 5,
+      "target_gap": "medium"
+    },
+    {
+      "id": "c23_train_06_0",
+      "rho": 16,
+      "seed": 23006065,
+      "side": 8,
+      "split": "TRAIN",
+      "stratum": 6,
+      "target_gap": "tight"
+    },
+    {
+      "id": "c23_cal_06_0",
+      "rho": 16,
+      "seed": 23006361,
+      "side": 8,
+      "split": "CAL",
+      "stratum": 6,
+      "target_gap": "tight"
+    },
+    {
+      "id": "c23_test_06_0",
+      "rho": 16,
+      "seed": 23006655,
+      "side": 8,
+      "split": "TEST",
+      "stratum": 6,
+      "target_gap": "tight"
+    },
+    {
+      "id": "c23_test_06_1",
+      "rho": 16,
+      "seed": 23006692,
+      "side": 8,
+      "split": "TEST",
+      "stratum": 6,
+      "target_gap": "tight"
+    },
+    {
+      "id": "c23_train_07_0",
+      "rho": 16,
+      "seed": 23007074,
+      "side": 8,
+      "split": "TRAIN",
+      "stratum": 7,
+      "target_gap": "tie"
+    },
+    {
+      "id": "c23_cal_07_0",
+      "rho": 16,
+      "seed": 23007370,
+      "side": 8,
+      "split": "CAL",
+      "stratum": 7,
+      "target_gap": "tie"
+    },
+    {
+      "id": "c23_test_07_0",
+      "rho": 16,
+      "seed": 23007664,
+      "side": 8,
+      "split": "TEST",
+      "stratum": 7,
+      "target_gap": "tie"
+    },
+    {
+      "id": "c23_test_07_1",
+      "rho": 16,
+      "seed": 23007701,
+      "side": 8,
+      "split": "TEST",
+      "stratum": 7,
+      "target_gap": "tie"
+    },
+    {
+      "id": "c23_train_08_0",
+      "rho": 64,
+      "seed": 23008083,
+      "side": 8,
+      "split": "TRAIN",
+      "stratum": 8,
+      "target_gap": "wide"
+    },
+    {
+      "id": "c23_cal_08_0",
+      "rho": 64,
+      "seed": 23008379,
+      "side": 8,
+      "split": "CAL",
+      "stratum": 8,
+      "target_gap": "wide"
+    },
+    {
+      "id": "c23_test_08_0",
+      "rho": 64,
+      "seed": 23008673,
+      "side": 8,
+      "split": "TEST",
+      "stratum": 8,
+      "target_gap": "wide"
+    },
+    {
+      "id": "c23_test_08_1",
+      "rho": 64,
+      "seed": 23008710,
+      "side": 8,
+      "split": "TEST",
+      "stratum": 8,
+      "target_gap": "wide"
+    },
+    {
+      "id": "c23_train_09_0",
+      "rho": 64,
+      "seed": 23009092,
+      "side": 8,
+      "split": "TRAIN",
+      "stratum": 9,
+      "target_gap": "medium"
+    },
+    {
+      "id": "c23_cal_09_0",
+      "rho": 64,
+      "seed": 23009388,
+      "side": 8,
+      "split": "CAL",
+      "stratum": 9,
+      "target_gap": "medium"
+    },
+    {
+      "id": "c23_test_09_0",
+      "rho": 64,
+      "seed": 23009682,
+      "side": 8,
+      "split": "TEST",
+      "stratum": 9,
+      "target_gap": "medium"
+    },
+    {
+      "id": "c23_test_09_1",
+      "rho": 64,
+      "seed": 23009719,
+      "side": 8,
+      "split": "TEST",
+      "stratum": 9,
+      "target_gap": "medium"
+    },
+    {
+      "id": "c23_train_10_0",
+      "rho": 64,
+      "seed": 23010101,
+      "side": 8,
+      "split": "TRAIN",
+      "stratum": 10,
+      "target_gap": "tight"
+    },
+    {
+      "id": "c23_cal_10_0",
+      "rho": 64,
+      "seed": 23010397,
+      "side": 8,
+      "split": "CAL",
+      "stratum": 10,
+      "target_gap": "tight"
+    },
+    {
+      "id": "c23_test_10_0",
+      "rho": 64,
+      "seed": 23010691,
+      "side": 8,
+      "split": "TEST",
+      "stratum": 10,
+      "target_gap": "tight"
+    },
+    {
+      "id": "c23_test_10_1",
+      "rho": 64,
+      "seed": 23010728,
+      "side": 8,
+      "split": "TEST",
+      "stratum": 10,
+      "target_gap": "tight"
+    },
+    {
+      "id": "c23_train_11_0",
+      "rho": 64,
+      "seed": 23011110,
+      "side": 8,
+      "split": "TRAIN",
+      "stratum": 11,
+      "target_gap": "tie"
+    },
+    {
+      "id": "c23_cal_11_0",
+      "rho": 64,
+      "seed": 23011406,
+      "side": 8,
+      "split": "CAL",
+      "stratum": 11,
+      "target_gap": "tie"
+    },
+    {
+      "id": "c23_test_11_0",
+      "rho": 64,
+      "seed": 23011700,
+      "side": 8,
+      "split": "TEST",
+      "stratum": 11,
+      "target_gap": "tie"
+    },
+    {
+      "id": "c23_test_11_1",
+      "rho": 64,
+      "seed": 23011737,
+      "side": 8,
+      "split": "TEST",
+      "stratum": 11,
+      "target_gap": "tie"
+    },
+    {
+      "id": "c23_train_12_0",
+      "rho": 1,
+      "seed": 23012119,
+      "side": 32,
+      "split": "TRAIN",
+      "stratum": 12,
+      "target_gap": "wide"
+    },
+    {
+      "id": "c23_cal_12_0",
+      "rho": 1,
+      "seed": 23012415,
+      "side": 32,
+      "split": "CAL",
+      "stratum": 12,
+      "target_gap": "wide"
+    },
+    {
+      "id": "c23_test_12_0",
+      "rho": 1,
+      "seed": 23012709,
+      "side": 32,
+      "split": "TEST",
+      "stratum": 12,
+      "target_gap": "wide"
+    },
+    {
+      "id": "c23_test_12_1",
+      "rho": 1,
+      "seed": 23012746,
+      "side": 32,
+      "split": "TEST",
+      "stratum": 12,
+      "target_gap": "wide"
+    },
+    {
+      "id": "c23_train_13_0",
+      "rho": 1,
+      "seed": 23013128,
+      "side": 32,
+      "split": "TRAIN",
+      "stratum": 13,
+      "target_gap": "medium"
+    },
+    {
+      "id": "c23_cal_13_0",
+      "rho": 1,
+      "seed": 23013424,
+      "side": 32,
+      "split": "CAL",
+      "stratum": 13,
+      "target_gap": "medium"
+    },
+    {
+      "id": "c23_test_13_0",
+      "rho": 1,
+      "seed": 23013718,
+      "side": 32,
+      "split": "TEST",
+      "stratum": 13,
+      "target_gap": "medium"
+    },
+    {
+      "id": "c23_test_13_1",
+      "rho": 1,
+      "seed": 23013755,
+      "side": 32,
+      "split": "TEST",
+      "stratum": 13,
+      "target_gap": "medium"
+    },
+    {
+      "id": "c23_train_14_0",
+      "rho": 1,
+      "seed": 23014137,
+      "side": 32,
+      "split": "TRAIN",
+      "stratum": 14,
+      "target_gap": "tight"
+    },
+    {
+      "id": "c23_cal_14_0",
+      "rho": 1,
+      "seed": 23014433,
+      "side": 32,
+      "split": "CAL",
+      "stratum": 14,
+      "target_gap": "tight"
+    },
+    {
+      "id": "c23_test_14_0",
+      "rho": 1,
+      "seed": 23014727,
+      "side": 32,
+      "split": "TEST",
+      "stratum": 14,
+      "target_gap": "tight"
+    },
+    {
+      "id": "c23_test_14_1",
+      "rho": 1,
+      "seed": 23014764,
+      "side": 32,
+      "split": "TEST",
+      "stratum": 14,
+      "target_gap": "tight"
+    },
+    {
+      "id": "c23_train_15_0",
+      "rho": 1,
+      "seed": 23015146,
+      "side": 32,
+      "split": "TRAIN",
+      "stratum": 15,
+      "target_gap": "tie"
+    },
+    {
+      "id": "c23_cal_15_0",
+      "rho": 1,
+      "seed": 23015442,
+      "side": 32,
+      "split": "CAL",
+      "stratum": 15,
+      "target_gap": "tie"
+    },
+    {
+      "id": "c23_test_15_0",
+      "rho": 1,
+      "seed": 23015736,
+      "side": 32,
+      "split": "TEST",
+      "stratum": 15,
+      "target_gap": "tie"
+    },
+    {
+      "id": "c23_test_15_1",
+      "rho": 1,
+      "seed": 23015773,
+      "side": 32,
+      "split": "TEST",
+      "stratum": 15,
+      "target_gap": "tie"
+    },
+    {
+      "id": "c23_train_16_0",
+      "rho": 16,
+      "seed": 23016155,
+      "side": 32,
+      "split": "TRAIN",
+      "stratum": 16,
+      "target_gap": "wide"
+    },
+    {
+      "id": "c23_cal_16_0",
+      "rho": 16,
+      "seed": 23016451,
+      "side": 32,
+      "split": "CAL",
+      "stratum": 16,
+      "target_gap": "wide"
+    },
+    {
+      "id": "c23_test_16_0",
+      "rho": 16,
+      "seed": 23016745,
+      "side": 32,
+      "split": "TEST",
+      "stratum": 16,
+      "target_gap": "wide"
+    },
+    {
+      "id": "c23_test_16_1",
+      "rho": 16,
+      "seed": 23016782,
+      "side": 32,
+      "split": "TEST",
+      "stratum": 16,
+      "target_gap": "wide"
+    },
+    {
+      "id": "c23_train_17_0",
+      "rho": 16,
+      "seed": 23017164,
+      "side": 32,
+      "split": "TRAIN",
+      "stratum": 17,
+      "target_gap": "medium"
+    },
+    {
+      "id": "c23_cal_17_0",
+      "rho": 16,
+      "seed": 23017460,
+      "side": 32,
+      "split": "CAL",
+      "stratum": 17,
+      "target_gap": "medium"
+    },
+    {
+      "id": "c23_test_17_0",
+      "rho": 16,
+      "seed": 23017754,
+      "side": 32,
+      "split": "TEST",
+      "stratum": 17,
+      "target_gap": "medium"
+    },
+    {
+      "id": "c23_test_17_1",
+      "rho": 16,
+      "seed": 23017791,
+      "side": 32,
+      "split": "TEST",
+      "stratum": 17,
+      "target_gap": "medium"
+    },
+    {
+      "id": "c23_train_18_0",
+      "rho": 16,
+      "seed": 23018173,
+      "side": 32,
+      "split": "TRAIN",
+      "stratum": 18,
+      "target_gap": "tight"
+    },
+    {
+      "id": "c23_cal_18_0",
+      "rho": 16,
+      "seed": 23018469,
+      "side": 32,
+      "split": "CAL",
+      "stratum": 18,
+      "target_gap": "tight"
+    },
+    {
+      "id": "c23_test_18_0",
+      "rho": 16,
+      "seed": 23018763,
+      "side": 32,
+      "split": "TEST",
+      "stratum": 18,
+      "target_gap": "tight"
+    },
+    {
+      "id": "c23_test_18_1",
+      "rho": 16,
+      "seed": 23018800,
+      "side": 32,
+      "split": "TEST",
+      "stratum": 18,
+      "target_gap": "tight"
+    },
+    {
+      "id": "c23_train_19_0",
+      "rho": 16,
+      "seed": 23019182,
+      "side": 32,
+      "split": "TRAIN",
+      "stratum": 19,
+      "target_gap": "tie"
+    },
+    {
+      "id": "c23_cal_19_0",
+      "rho": 16,
+      "seed": 23019478,
+      "side": 32,
+      "split": "CAL",
+      "stratum": 19,
+      "target_gap": "tie"
+    },
+    {
+      "id": "c23_test_19_0",
+      "rho": 16,
+      "seed": 23019772,
+      "side": 32,
+      "split": "TEST",
+      "stratum": 19,
+      "target_gap": "tie"
+    },
+    {
+      "id": "c23_test_19_1",
+      "rho": 16,
+      "seed": 23019809,
+      "side": 32,
+      "split": "TEST",
+      "stratum": 19,
+      "target_gap": "tie"
+    },
+    {
+      "id": "c23_train_20_0",
+      "rho": 64,
+      "seed": 23020191,
+      "side": 32,
+      "split": "TRAIN",
+      "stratum": 20,
+      "target_gap": "wide"
+    },
+    {
+      "id": "c23_cal_20_0",
+      "rho": 64,
+      "seed": 23020487,
+      "side": 32,
+      "split": "CAL",
+      "stratum": 20,
+      "target_gap": "wide"
+    },
+    {
+      "id": "c23_test_20_0",
+      "rho": 64,
+      "seed": 23020781,
+      "side": 32,
+      "split": "TEST",
+      "stratum": 20,
+      "target_gap": "wide"
+    },
+    {
+      "id": "c23_test_20_1",
+      "rho": 64,
+      "seed": 23020818,
+      "side": 32,
+      "split": "TEST",
+      "stratum": 20,
+      "target_gap": "wide"
+    },
+    {
+      "id": "c23_train_21_0",
+      "rho": 64,
+      "seed": 23021200,
+      "side": 32,
+      "split": "TRAIN",
+      "stratum": 21,
+      "target_gap": "medium"
+    },
+    {
+      "id": "c23_cal_21_0",
+      "rho": 64,
+      "seed": 23021496,
+      "side": 32,
+      "split": "CAL",
+      "stratum": 21,
+      "target_gap": "medium"
+    },
+    {
+      "id": "c23_test_21_0",
+      "rho": 64,
+      "seed": 23021790,
+      "side": 32,
+      "split": "TEST",
+      "stratum": 21,
+      "target_gap": "medium"
+    },
+    {
+      "id": "c23_test_21_1",
+      "rho": 64,
+      "seed": 23021827,
+      "side": 32,
+      "split": "TEST",
+      "stratum": 21,
+      "target_gap": "medium"
+    },
+    {
+      "id": "c23_train_22_0",
+      "rho": 64,
+      "seed": 23022209,
+      "side": 32,
+      "split": "TRAIN",
+      "stratum": 22,
+      "target_gap": "tight"
+    },
+    {
+      "id": "c23_cal_22_0",
+      "rho": 64,
+      "seed": 23022505,
+      "side": 32,
+      "split": "CAL",
+      "stratum": 22,
+      "target_gap": "tight"
+    },
+    {
+      "id": "c23_test_22_0",
+      "rho": 64,
+      "seed": 23022799,
+      "side": 32,
+      "split": "TEST",
+      "stratum": 22,
+      "target_gap": "tight"
+    },
+    {
+      "id": "c23_test_22_1",
+      "rho": 64,
+      "seed": 23022836,
+      "side": 32,
+      "split": "TEST",
+      "stratum": 22,
+      "target_gap": "tight"
+    },
+    {
+      "id": "c23_train_23_0",
+      "rho": 64,
+      "seed": 23023218,
+      "side": 32,
+      "split": "TRAIN",
+      "stratum": 23,
+      "target_gap": "tie"
+    },
+    {
+      "id": "c23_cal_23_0",
+      "rho": 64,
+      "seed": 23023514,
+      "side": 32,
+      "split": "CAL",
+      "stratum": 23,
+      "target_gap": "tie"
+    },
+    {
+      "id": "c23_test_23_0",
+      "rho": 64,
+      "seed": 23023808,
+      "side": 32,
+      "split": "TEST",
+      "stratum": 23,
+      "target_gap": "tie"
+    },
+    {
+      "id": "c23_test_23_1",
+      "rho": 64,
+      "seed": 23023845,
+      "side": 32,
+      "split": "TEST",
+      "stratum": 23,
+      "target_gap": "tie"
+    },
+    {
+      "id": "c23_train_24_0",
+      "rho": 1,
+      "seed": 23024227,
+      "side": 96,
+      "split": "TRAIN",
+      "stratum": 24,
+      "target_gap": "wide"
+    },
+    {
+      "id": "c23_cal_24_0",
+      "rho": 1,
+      "seed": 23024523,
+      "side": 96,
+      "split": "CAL",
+      "stratum": 24,
+      "target_gap": "wide"
+    },
+    {
+      "id": "c23_test_24_0",
+      "rho": 1,
+      "seed": 23024817,
+      "side": 96,
+      "split": "TEST",
+      "stratum": 24,
+      "target_gap": "wide"
+    },
+    {
+      "id": "c23_test_24_1",
+      "rho": 1,
+      "seed": 23024854,
+      "side": 96,
+      "split": "TEST",
+      "stratum": 24,
+      "target_gap": "wide"
+    },
+    {
+      "id": "c23_train_25_0",
+      "rho": 1,
+      "seed": 23025236,
+      "side": 96,
+      "split": "TRAIN",
+      "stratum": 25,
+      "target_gap": "medium"
+    },
+    {
+      "id": "c23_cal_25_0",
+      "rho": 1,
+      "seed": 23025532,
+      "side": 96,
+      "split": "CAL",
+      "stratum": 25,
+      "target_gap": "medium"
+    },
+    {
+      "id": "c23_test_25_0",
+      "rho": 1,
+      "seed": 23025826,
+      "side": 96,
+      "split": "TEST",
+      "stratum": 25,
+      "target_gap": "medium"
+    },
+    {
+      "id": "c23_test_25_1",
+      "rho": 1,
+      "seed": 23025863,
+      "side": 96,
+      "split": "TEST",
+      "stratum": 25,
+      "target_gap": "medium"
+    },
+    {
+      "id": "c23_train_26_0",
+      "rho": 1,
+      "seed": 23026245,
+      "side": 96,
+      "split": "TRAIN",
+      "stratum": 26,
+      "target_gap": "tight"
+    },
+    {
+      "id": "c23_cal_26_0",
+      "rho": 1,
+      "seed": 23026541,
+      "side": 96,
+      "split": "CAL",
+      "stratum": 26,
+      "target_gap": "tight"
+    },
+    {
+      "id": "c23_test_26_0",
+      "rho": 1,
+      "seed": 23026835,
+      "side": 96,
+      "split": "TEST",
+      "stratum": 26,
+      "target_gap": "tight"
+    },
+    {
+      "id": "c23_test_26_1",
+      "rho": 1,
+      "seed": 23026872,
+      "side": 96,
+      "split": "TEST",
+      "stratum": 26,
+      "target_gap": "tight"
+    },
+    {
+      "id": "c23_train_27_0",
+      "rho": 1,
+      "seed": 23027254,
+      "side": 96,
+      "split": "TRAIN",
+      "stratum": 27,
+      "target_gap": "tie"
+    },
+    {
+      "id": "c23_cal_27_0",
+      "rho": 1,
+      "seed": 23027550,
+      "side": 96,
+      "split": "CAL",
+      "stratum": 27,
+      "target_gap": "tie"
+    },
+    {
+      "id": "c23_test_27_0",
+      "rho": 1,
+      "seed": 23027844,
+      "side": 96,
+      "split": "TEST",
+      "stratum": 27,
+      "target_gap": "tie"
+    },
+    {
+      "id": "c23_test_27_1",
+      "rho": 1,
+      "seed": 23027881,
+      "side": 96,
+      "split": "TEST",
+      "stratum": 27,
+      "target_gap": "tie"
+    },
+    {
+      "id": "c23_train_28_0",
+      "rho": 16,
+      "seed": 23028263,
+      "side": 96,
+      "split": "TRAIN",
+      "stratum": 28,
+      "target_gap": "wide"
+    },
+    {
+      "id": "c23_cal_28_0",
+      "rho": 16,
+      "seed": 23028559,
+      "side": 96,
+      "split": "CAL",
+      "stratum": 28,
+      "target_gap": "wide"
+    },
+    {
+      "id": "c23_test_28_0",
+      "rho": 16,
+      "seed": 23028853,
+      "side": 96,
+      "split": "TEST",
+      "stratum": 28,
+      "target_gap": "wide"
+    },
+    {
+      "id": "c23_test_28_1",
+      "rho": 16,
+      "seed": 23028890,
+      "side": 96,
+      "split": "TEST",
+      "stratum": 28,
+      "target_gap": "wide"
+    },
+    {
+      "id": "c23_train_29_0",
+      "rho": 16,
+      "seed": 23029272,
+      "side": 96,
+      "split": "TRAIN",
+      "stratum": 29,
+      "target_gap": "medium"
+    },
+    {
+      "id": "c23_cal_29_0",
+      "rho": 16,
+      "seed": 23029568,
+      "side": 96,
+      "split": "CAL",
+      "stratum": 29,
+      "target_gap": "medium"
+    },
+    {
+      "id": "c23_test_29_0",
+      "rho": 16,
+      "seed": 23029862,
+      "side": 96,
+      "split": "TEST",
+      "stratum": 29,
+      "target_gap": "medium"
+    },
+    {
+      "id": "c23_test_29_1",
+      "rho": 16,
+      "seed": 23029899,
+      "side": 96,
+      "split": "TEST",
+      "stratum": 29,
+      "target_gap": "medium"
+    },
+    {
+      "id": "c23_train_30_0",
+      "rho": 16,
+      "seed": 23030281,
+      "side": 96,
+      "split": "TRAIN",
+      "stratum": 30,
+      "target_gap": "tight"
+    },
+    {
+      "id": "c23_cal_30_0",
+      "rho": 16,
+      "seed": 23030577,
+      "side": 96,
+      "split": "CAL",
+      "stratum": 30,
+      "target_gap": "tight"
+    },
+    {
+      "id": "c23_test_30_0",
+      "rho": 16,
+      "seed": 23030871,
+      "side": 96,
+      "split": "TEST",
+      "stratum": 30,
+      "target_gap": "tight"
+    },
+    {
+      "id": "c23_test_30_1",
+      "rho": 16,
+      "seed": 23030908,
+      "side": 96,
+      "split": "TEST",
+      "stratum": 30,
+      "target_gap": "tight"
+    },
+    {
+      "id": "c23_train_31_0",
+      "rho": 16,
+      "seed": 23031290,
+      "side": 96,
+      "split": "TRAIN",
+      "stratum": 31,
+      "target_gap": "tie"
+    },
+    {
+      "id": "c23_cal_31_0",
+      "rho": 16,
+      "seed": 23031586,
+      "side": 96,
+      "split": "CAL",
+      "stratum": 31,
+      "target_gap": "tie"
+    },
+    {
+      "id": "c23_test_31_0",
+      "rho": 16,
+      "seed": 23031880,
+      "side": 96,
+      "split": "TEST",
+      "stratum": 31,
+      "target_gap": "tie"
+    },
+    {
+      "id": "c23_test_31_1",
+      "rho": 16,
+      "seed": 23031917,
+      "side": 96,
+      "split": "TEST",
+      "stratum": 31,
+      "target_gap": "tie"
+    },
+    {
+      "id": "c23_train_32_0",
+      "rho": 64,
+      "seed": 23032299,
+      "side": 96,
+      "split": "TRAIN",
+      "stratum": 32,
+      "target_gap": "wide"
+    },
+    {
+      "id": "c23_cal_32_0",
+      "rho": 64,
+      "seed": 23032595,
+      "side": 96,
+      "split": "CAL",
+      "stratum": 32,
+      "target_gap": "wide"
+    },
+    {
+      "id": "c23_test_32_0",
+      "rho": 64,
+      "seed": 23032889,
+      "side": 96,
+      "split": "TEST",
+      "stratum": 32,
+      "target_gap": "wide"
+    },
+    {
+      "id": "c23_test_32_1",
+      "rho": 64,
+      "seed": 23032926,
+      "side": 96,
+      "split": "TEST",
+      "stratum": 32,
+      "target_gap": "wide"
+    },
+    {
+      "id": "c23_train_33_0",
+      "rho": 64,
+      "seed": 23033308,
+      "side": 96,
+      "split": "TRAIN",
+      "stratum": 33,
+      "target_gap": "medium"
+    },
+    {
+      "id": "c23_cal_33_0",
+      "rho": 64,
+      "seed": 23033604,
+      "side": 96,
+      "split": "CAL",
+      "stratum": 33,
+      "target_gap": "medium"
+    },
+    {
+      "id": "c23_test_33_0",
+      "rho": 64,
+      "seed": 23033898,
+      "side": 96,
+      "split": "TEST",
+      "stratum": 33,
+      "target_gap": "medium"
+    },
+    {
+      "id": "c23_test_33_1",
+      "rho": 64,
+      "seed": 23033935,
+      "side": 96,
+      "split": "TEST",
+      "stratum": 33,
+      "target_gap": "medium"
+    },
+    {
+      "id": "c23_train_34_0",
+      "rho": 64,
+      "seed": 23034317,
+      "side": 96,
+      "split": "TRAIN",
+      "stratum": 34,
+      "target_gap": "tight"
+    },
+    {
+      "id": "c23_cal_34_0",
+      "rho": 64,
+      "seed": 23034613,
+      "side": 96,
+      "split": "CAL",
+      "stratum": 34,
+      "target_gap": "tight"
+    },
+    {
+      "id": "c23_test_34_0",
+      "rho": 64,
+      "seed": 23034907,
+      "side": 96,
+      "split": "TEST",
+      "stratum": 34,
+      "target_gap": "tight"
+    },
+    {
+      "id": "c23_test_34_1",
+      "rho": 64,
+      "seed": 23034944,
+      "side": 96,
+      "split": "TEST",
+      "stratum": 34,
+      "target_gap": "tight"
+    },
+    {
+      "id": "c23_train_35_0",
+      "rho": 64,
+      "seed": 23035326,
+      "side": 96,
+      "split": "TRAIN",
+      "stratum": 35,
+      "target_gap": "tie"
+    },
+    {
+      "id": "c23_cal_35_0",
+      "rho": 64,
+      "seed": 23035622,
+      "side": 96,
+      "split": "CAL",
+      "stratum": 35,
+      "target_gap": "tie"
+    },
+    {
+      "id": "c23_test_35_0",
+      "rho": 64,
+      "seed": 23035916,
+      "side": 96,
+      "split": "TEST",
+      "stratum": 35,
+      "target_gap": "tie"
+    },
+    {
+      "id": "c23_test_35_1",
+      "rho": 64,
+      "seed": 23035953,
+      "side": 96,
+      "split": "TEST",
+      "stratum": 35,
+      "target_gap": "tie"
+    }
+  ],
+  "warmup": 1
+}
