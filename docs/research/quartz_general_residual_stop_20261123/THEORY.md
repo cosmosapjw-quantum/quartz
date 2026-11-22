@@ -1,0 +1,13 @@
+# C23 theory: residual-bounded choice and useful computation
+## R01 — Question, source and execution scope
+2026-11-23 Asia/Seoul. Parent C22: 6e91e3abfbc6727d58c0785ffdf80a7e3e7cabaf, clean and equal to origin at entry.
+Question: can a mathematically valid, inexpensive decision bound terminate genuinely useful numerical work while preserving terminal utility and improving total measured elapsed time?
+Scope: complete R1–R10 then C1–C10, each with its own Git commit, local SHA256 archive, push and remote SHA readback. The user explicitly authorized publication. No extra confirmation is required. C24 will not start in this invocation.
+The original THESIS is preserved byte-for-byte. Its P1 is expected decision-loss reduction per compute cost; its literal P2 is a Gomoku nn-evaluation target and P4 an engineering criterion. C22's description of all P1–P4 as a domain-neutral performance claim was imprecise. Current general-source research is a mechanism study under the user's continuing general Quartz scope; it does not establish those original P2–P4 claims.
+C22 demonstrated actual skipped stochastic draws but higher total native elapsed time for its tiny tasks. Its measured Instant times are elapsed wall time, not CPU cycles. Its historical outputs remain frozen.
+Candidate workload: several independent right-hand-side solves of a two-dimensional screened-diffusion SPD operator; select the action maximizing the normalized quadratic response q=b^T A^{-1}b. The same exact algebraic decision objective is used for every policy. No sleep/busy-loop padding, labels in public controller input, or live game-policy changes.
+The experiment will include initial work, residual/bound evaluation and controller overhead in end-to-end timings. It will separately report continuation work, solver actions and objective regret. A fixed continuation-budget baseline prevents comparing different budgets without disclosure; a conventional residual-tolerance baseline tests the cost of the standard solve-to-accuracy pipeline.
+Assumptions and actual protocol will be frozen before held-out measurements. Numerical proof and finite f64 execution are separate obligations.
+Native stage delegation is actually available and dispatched: /root/c23_literature (R2 primary literature), /root/c23_theory (R4–R6 derivation). Parent alone owns remote canonical edits and publishing.
+## Workflow corrections
+Use selected cloud PhysMath 1.3.0, not the older executor copy 1.0.0. Apply finite review, evidence reuse and typed identity. Publication follows explicit user scope; individual coding skill handoffs add no permission gate.
