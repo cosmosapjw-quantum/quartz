@@ -1,0 +1,160 @@
+{
+  "schema": "quartz.next-stage.v1",
+  "client_date": "2026-11-23 Asia/Seoul",
+  "predecessor": "QUARTZ-GENERAL-23-CHEAP-GATE-AND-MATCHED-WORKLOAD-ECONOMICS",
+  "research_id": "QUARTZ-GENERAL-24-ROUNDING-AWARE-CHEAP-CERTIFICATES",
+  "status": "NOT_EXECUTED",
+  "next_action": "Start R01 from the completed C23 release; do not reuse C23 TEST as a new held-out cohort.",
+  "question": "Can a derived rounding-aware response enclosure preserve correct decision certificates at lower total cost than the C23 per-operation outward evaluator?",
+  "motivation": {
+    "primary_additional": 32,
+    "plain_always_mean_us": 1579.5085416666668,
+    "cert_block_mean_us": 3061.3509305555554,
+    "cert_block_mean_response_evaluation_us": 2053.307708,
+    "cert_block_cg_calls_saved": 3236,
+    "cert_block_baseline_cg_calls": 7321
+  },
+  "prior_claims": {
+    "residual_energy_identity": "established / literature-supported",
+    "strict_separation_certificate": "derived",
+    "frozen_cohort_certificate_and_fallback": "implementation-verified / numerically checked",
+    "primary_wall_time_gain": "NOT_SUPPORTED",
+    "universal_f64_residual_goal": "unresolved"
+  },
+  "mandatory_first_numeric_issue": {
+    "id": "C09-F01",
+    "classification": "numerical underflow in norm/convergence diagnostics",
+    "fixture": {
+      "side": 2,
+      "rho": 1,
+      "scale": "2^-1000",
+      "rhs": [
+        [
+          "2^-600",
+          "0",
+          "0",
+          "0"
+        ],
+        [
+          "0",
+          "0",
+          "0",
+          "0"
+        ]
+      ],
+      "x_initial": "zero"
+    },
+    "incorrect_observed": "residual_relative=0; residual_goal_met=true; no CG iterations",
+    "exact_expected": "Relative residual of the nonzero arm is 1 at x=0.",
+    "acceptance": "Report the correct nonzero residual or explicitly reject an unsupported domain; never falsely report goal met.",
+    "candidates": [
+      "scaled sum-of-squares plus consistent solver rescaling",
+      "explicit validation/rejection of unsupported nonzero norm ranges"
+    ],
+    "c23_source_policy": "Keep the frozen C23 measured source/binary/results unchanged."
+  },
+  "theory_loop": [
+    {
+      "stage": "R01",
+      "action": "Read C23 release identities, full result and C09-F01; fix the new finite supported domain and cost/quality question."
+    },
+    {
+      "stage": "R02",
+      "action": "Read primary floating-point dot/stencil error and scaled-norm sources; reuse verified classical facts with citations."
+    },
+    {
+      "stage": "R03",
+      "action": "Define arithmetic order, IEEE rounding assumptions, subnormal/overflow policy, dimensional normalization and action objective."
+    },
+    {
+      "stage": "R04",
+      "action": "Compare plain forward-error enclosure, mixed interval enclosure and full outward fallback candidates."
+    },
+    {
+      "stage": "R05",
+      "action": "Derive actual stencil, ell and residual-squared forward-error envelopes; retain q-ell=r^T A^-1 r."
+    },
+    {
+      "stage": "R06",
+      "action": "Perform one independent derivation/counterexample check, including the known norm-underflow fixture."
+    },
+    {
+      "stage": "R07",
+      "action": "Execute exact rational and high-precision calculations on small matrices and dynamic-range boundaries."
+    },
+    {
+      "stage": "R08",
+      "action": "Admit only the explicitly proved domain and freeze discriminating accuracy/cost predictions."
+    },
+    {
+      "stage": "R09",
+      "action": "Map each mathematical term and failure mode to implementation, assertions and independent oracles."
+    },
+    {
+      "stage": "R10",
+      "action": "Publish the complete theory conclusion and a frozen implementation/experiment contract before coding."
+    }
+  ],
+  "coding_loop": [
+    {
+      "stage": "C01",
+      "action": "Create an isolated worktree from C23; preserve original project/protected files and measured historical objects."
+    },
+    {
+      "stage": "C02",
+      "action": "Map formulas, arithmetic order, data transport and controller decisions to explicit code interfaces."
+    },
+    {
+      "stage": "C03",
+      "action": "Implement the agreed dynamic-range guard/rescaling design and error budget without unproved tolerance padding."
+    },
+    {
+      "stage": "C04",
+      "action": "Freeze fresh balanced TRAIN/CAL/TEST seeds, budgets, costs, parent statistics and comparators before outcomes."
+    },
+    {
+      "stage": "C05",
+      "action": "Implement with behavioral failure evidence before success, including C09-F01 and noncertified fallback."
+    },
+    {
+      "stage": "C06",
+      "action": "Run focused debug/release checks, independent exact containment and relevant existing regression."
+    },
+    {
+      "stage": "C07",
+      "action": "Validate TRAIN/CAL sources and arithmetic; preserve old full outward reference and freeze candidate before TEST."
+    },
+    {
+      "stage": "C08",
+      "action": "Execute fresh held-out timing/quality/work experiments against PLAIN_ALWAYS and a defined plain initial-STOP baseline."
+    },
+    {
+      "stage": "C09",
+      "action": "Perform one bounded independent science/code review and restore actual archive evidence."
+    },
+    {
+      "stage": "C10",
+      "action": "Record admitted/rejected claims, all actual test outcomes, negatives, final provenance and a concrete next decision."
+    }
+  ],
+  "acceptance": {
+    "validity": "No false strict certificate; exact-oracle interval containment within the admitted numerical domain.",
+    "fallback": "Identical continuation/state/action to the chosen fixed comparator, or a separately proved and disclosed quality guarantee.",
+    "resource": "Actual total native wall time includes initialization, estimation, control and destruction; count solver work separately.",
+    "positive_gain": "Claim positive cost/net benefit only if the frozen paired measurement supports it against the efficient baseline.",
+    "failure": "Preserve correct-but-slow results and reject invalid enclosures; do not manufacture a positive result by padding workload."
+  },
+  "future_execution_policy": {
+    "order": "Complete all 10 theory stages, then all 10 coding stages.",
+    "per_stage": [
+      "substantive deliverable",
+      "scoped Git commit",
+      "SHA256 backup archive",
+      "push existing authorized research remote",
+      "read back remote commit identity"
+    ],
+    "independent_review": "One bounded independent pass; reuse existing evidence; no recursive audit loop.",
+    "cloud_sync": "Keep local restore verification separate from any unverified Dropbox cloud acknowledgment.",
+    "new_cycle": "This file is a proposal and handoff; C24 has not been started in C23."
+  }
+}

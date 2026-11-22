@@ -1,0 +1,453 @@
+{
+  "schema": "quartz.research-release.v1",
+  "client_date": "2026-11-23 Asia/Seoul",
+  "utc": "2026-11-22T18:19:54.401783+00:00",
+  "research_id": "QUARTZ-GENERAL-23-CHEAP-GATE-AND-MATCHED-WORKLOAD-ECONOMICS",
+  "parent": "6e91e3abfbc6727d58c0785ffdf80a7e3e7cabaf",
+  "branch": "research/quartz-general-c23-residual-stop-20261123",
+  "pre_release_head": "d27ef5733dc75512ccf43014638717fa9ebc0623",
+  "scientific_status": "COMPLETED_WITH_NEGATIVE_PRIMARY_RUNTIME_RESULT_AND_EXPLICIT_DOMAIN_LIMIT",
+  "publication_status_at_manifest_creation": "C01-C09 and R01-R10 receipts verified; C10 publication follows this payload.",
+  "self_reference_policy": "The final commit/archive hash and actual post-release audit are external receipts, not self-hashes inside this manifest.",
+  "frozen_rust_source_sha256": "8a5aad2d9c8b0a9fd8df0efd5310604f7b498d16447df0f222aa9619a15ad8ed",
+  "frozen_binary": {
+    "sha256": "812c57e75ad193fa4cca3729fc63ee59df73cac7118c50886adb4c0b47118ac0",
+    "backup": "/home/cosmosapjw/Dropbox/personal_projects/quartz_general_meta23_backups/binaries/quartz_c23_residual_gate_812c57e75ad193fa",
+    "bytes": 567312
+  },
+  "test_execution_head": "c918fbad6255a7e3a1f0a3be3f1e70cbd409326c",
+  "protected": {
+    "docs/THESIS.md": "02ffa31af60ecbb1fa46f8bfebe4590caa365aca22f3c3d17817017a8ef5cb8f",
+    "docs/CLAIM_LEDGER.md": "dc8e16678d67d90a4970e665a320e1ed969910b79f0d8268dd501c3769c5a4b1",
+    "src/game.rs": "b5e1fefb9d9ee72e7eb2fb684edafe3702e11f0f712cc3bd92fb43ccb71ff3e0"
+  },
+  "stage_count_before_release": 21,
+  "stage_count_after_success": 22,
+  "known_open_issue": "C09-F01: norm underflow outside the manufactured cohort; no universal accepted-f64 residual-goal guarantee.",
+  "new_cycle": {
+    "research_id": "QUARTZ-GENERAL-24-ROUNDING-AWARE-CHEAP-CERTIFICATES",
+    "status": "NOT_EXECUTED"
+  },
+  "files": [
+    {
+      "path": "docs/research/quartz_general_residual_stop_20261123/BASELINE.json",
+      "bytes": 2894,
+      "sha256": "836a51a7fac81e943ee27728d7321bb967280609f85ccab382351ae2e8c48f2a"
+    },
+    {
+      "path": "docs/research/quartz_general_residual_stop_20261123/CODING.md",
+      "bytes": 14983,
+      "sha256": "06529750d380eda1d0328965c6c97afe023cfb8c5da7733c825c8e47302bcb3c"
+    },
+    {
+      "path": "docs/research/quartz_general_residual_stop_20261123/NEXT_STAGE.json",
+      "bytes": 6723,
+      "sha256": "1b69a26ce51cf7f82f26d40c8b87b8b23cd4497166cf627ff4566489e72e08fa"
+    },
+    {
+      "path": "docs/research/quartz_general_residual_stop_20261123/RESULTS_AND_NEXT_KO.md",
+      "bytes": 23974,
+      "sha256": "ab38d1cabcd270ca431d22f5bb0eb6251871d778a21debd5d3668d380bdcbdc0"
+    },
+    {
+      "path": "docs/research/quartz_general_residual_stop_20261123/SOURCE_SPECS.json",
+      "bytes": 25026,
+      "sha256": "67562390a03ef34d3e1758dbd4cb64b6ca4cdd3f3e76d2627bc81e92d8cb73f2"
+    },
+    {
+      "path": "docs/research/quartz_general_residual_stop_20261123/STAGE_HISTORY_PRE_C10.json",
+      "bytes": 10886,
+      "sha256": "1da69b32384598f1551944e1a994afdf401d75ae50a33a6a9c4be0eaf77bb4a2"
+    },
+    {
+      "path": "docs/research/quartz_general_residual_stop_20261123/THEORY.md",
+      "bytes": 19138,
+      "sha256": "977317195bd7ef5dc71ad6cb0425111277e1526f92f23f25358fb31b263301a7"
+    },
+    {
+      "path": "docs/research/quartz_general_residual_stop_20261123/coding/C05_PROTOCOL_AMENDMENT.md",
+      "bytes": 1573,
+      "sha256": "e7233ed7196e8380d36a8544e4c1fb97efb6fc10819089fae15f2fe18f2f0d4d"
+    },
+    {
+      "path": "docs/research/quartz_general_residual_stop_20261123/coding/c23_analyze.py",
+      "bytes": 6076,
+      "sha256": "48e30258534ea0ab0c60617c5d4550d2e86af8140610a49f1961ac3b38e14ceb"
+    },
+    {
+      "path": "docs/research/quartz_general_residual_stop_20261123/coding/c23_independent_review.py",
+      "bytes": 8914,
+      "sha256": "3f82b4e4d4601a4af21f2cf63811cc38aeeaba69505ae44473e10e08205f4fe2"
+    },
+    {
+      "path": "docs/research/quartz_general_residual_stop_20261123/coding/c23_plot.py",
+      "bytes": 2892,
+      "sha256": "7fc4d756e3f128602d9bdabadf89f44c3cdec62e8ca74862307a1e7a1aa190e3"
+    },
+    {
+      "path": "docs/research/quartz_general_residual_stop_20261123/coding/c23_run.py",
+      "bytes": 3787,
+      "sha256": "18698525ca09e41fbd371882b7799a7185d3f1d77fccf9c1fb3159214cddc6b1"
+    },
+    {
+      "path": "docs/research/quartz_general_residual_stop_20261123/coding/c23_sources.py",
+      "bytes": 4766,
+      "sha256": "6c4e0d33c012e2db448828e29a37d362677ae8d5c0e05983f366b3be471ede09"
+    },
+    {
+      "path": "docs/research/quartz_general_residual_stop_20261123/coding/c23_verify.py",
+      "bytes": 4663,
+      "sha256": "4f944a05e04a494b62af381f675cab11d05e918334115c98fbc8d4ad2f9bbd7f"
+    },
+    {
+      "path": "docs/research/quartz_general_residual_stop_20261123/coding/check_c06_pipeline.py",
+      "bytes": 2401,
+      "sha256": "f40a8f5df5f478c1e79bfec008afe1a88bd7d4dcf649ee2c327ad62503e7dc36"
+    },
+    {
+      "path": "docs/research/quartz_general_residual_stop_20261123/coding/check_c09_restore.py",
+      "bytes": 4696,
+      "sha256": "f153e224e49ed55c8929d302041055ba660155f121b85c346d34eede3eca8eae"
+    },
+    {
+      "path": "docs/research/quartz_general_residual_stop_20261123/coding/postrelease_c23.py",
+      "bytes": 4277,
+      "sha256": "38318762fa3f443d0920397011f40c12bb81918a70a51e774ead07155d53f645"
+    },
+    {
+      "path": "docs/research/quartz_general_residual_stop_20261123/coding/prepare_c10_release.py",
+      "bytes": 4824,
+      "sha256": "459d5131205c50dc38725d635c6cde23d949bfe6d497daeb5443b23fc6f4df17"
+    },
+    {
+      "path": "docs/research/quartz_general_residual_stop_20261123/coding/reassemble_c23_trace.py",
+      "bytes": 1147,
+      "sha256": "d7a4aae225556cd39b14abb0841b1c8d0d64e6209f9f0380f699a84fd60d9cfb"
+    },
+    {
+      "path": "docs/research/quartz_general_residual_stop_20261123/evidence/C04_ENVIRONMENT.json",
+      "bytes": 368,
+      "sha256": "86b3db15e2c25d07f6ee7e45520457c8098452e66ed6b94d404dd64c0c17643b"
+    },
+    {
+      "path": "docs/research/quartz_general_residual_stop_20261123/evidence/C05_PYTHON_GREEN.log",
+      "bytes": 436,
+      "sha256": "a2d127ed754b9a57e1a3cf703adcd527ac90416a1255cb4f6cd8dda342bbb8b6"
+    },
+    {
+      "path": "docs/research/quartz_general_residual_stop_20261123/evidence/C05_PYTHON_RED.log",
+      "bytes": 3274,
+      "sha256": "1d6940f8e7b9023d36d5c329e2a5d7496f5a5b2cfb3d23e9b8075099747cd578"
+    },
+    {
+      "path": "docs/research/quartz_general_residual_stop_20261123/evidence/C05_PYTHON_RED_ASSERTIONS.log",
+      "bytes": 1474,
+      "sha256": "51ee1f7ed530248d230601e870e1ab70ac037d3f8c8cc782edc2e7a601ef0b40"
+    },
+    {
+      "path": "docs/research/quartz_general_residual_stop_20261123/evidence/C05_RUST_GREEN.log",
+      "bytes": 6181,
+      "sha256": "f37acde4692e30305d047126b2ba4273e7aa7e208f40858bbdab951c9b4085f7"
+    },
+    {
+      "path": "docs/research/quartz_general_residual_stop_20261123/evidence/C05_RUST_IMPLEMENTATION.md",
+      "bytes": 5646,
+      "sha256": "42fb2436dbef51963c9805e3b316ad9872814ed8ac25353f9a6afe364273b52c"
+    },
+    {
+      "path": "docs/research/quartz_general_residual_stop_20261123/evidence/C05_RUST_RED.log",
+      "bytes": 15366,
+      "sha256": "45e165051534c924711cc93161028c867e5bce9022c1c761d2834b44d398f4ec"
+    },
+    {
+      "path": "docs/research/quartz_general_residual_stop_20261123/evidence/C05_RUST_RELEASE.log",
+      "bytes": 7561,
+      "sha256": "3cda51c34bb9049422612b925e1dc58f6680ffdf1541cdf541329651926a6569"
+    },
+    {
+      "path": "docs/research/quartz_general_residual_stop_20261123/evidence/C06_BINDING.json",
+      "bytes": 1524,
+      "sha256": "89710ea64b0ae60a8dd62e2657dc8955cf8addda567f02b4b262557e6db0553c"
+    },
+    {
+      "path": "docs/research/quartz_general_residual_stop_20261123/evidence/C06_EXISTING_MAIN_DEBUG.log",
+      "bytes": 65317,
+      "sha256": "622a22a00fe866a9430c82cbcf8548312d587236a78937902daba9291c1ba9b0"
+    },
+    {
+      "path": "docs/research/quartz_general_residual_stop_20261123/evidence/C06_TRANSPORT_AND_PIPELINE_VERIFIED.json",
+      "bytes": 844,
+      "sha256": "edb6f7082d1c9b6617dcefa889eeb56ad43ceefde282f4152f3aafb56b44111b"
+    },
+    {
+      "path": "docs/research/quartz_general_residual_stop_20261123/evidence/C06_TRANSPORT_NUMERIC_PROBE.json",
+      "bytes": 943,
+      "sha256": "03fe47c26bfa3c34e3d8e8b00bddb6b4cb69918c52dcda57e7a8a29007f6d606"
+    },
+    {
+      "path": "docs/research/quartz_general_residual_stop_20261123/evidence/C07_HARDWARE.json",
+      "bytes": 189,
+      "sha256": "befc5af9856ba2e72d63b95a693f602ef57d9c0e618d7c9b22f85b725bf5b02a"
+    },
+    {
+      "path": "docs/research/quartz_general_residual_stop_20261123/evidence/C07_TRAIN_SUMMARY_STDOUT.log",
+      "bytes": 58983,
+      "sha256": "fc1a422239a39632df90e58821a74b327634f7b1a1bcaee508be099989326737"
+    },
+    {
+      "path": "docs/research/quartz_general_residual_stop_20261123/evidence/C08_RESULT_BRIEF.md",
+      "bytes": 2201,
+      "sha256": "fc6ab9790f80a4bacfc046f983db84fbaa1f228a4d92280304bb682086e8571c"
+    },
+    {
+      "path": "docs/research/quartz_general_residual_stop_20261123/evidence/C08_TEST_SUMMARY_STDOUT.log",
+      "bytes": 59322,
+      "sha256": "8a6ab4693951fb98ef715de3565891a6f753464dfb28ea2205681ef5ac0d1216"
+    },
+    {
+      "path": "docs/research/quartz_general_residual_stop_20261123/evidence/C09_LOCAL_RESTORE.json",
+      "bytes": 7694,
+      "sha256": "8bc639e814407ac07af3efc5f7e5749fd18d346b699aa99b6a6865552aff51d1"
+    },
+    {
+      "path": "docs/research/quartz_general_residual_stop_20261123/evidence/C09_REVIEW.json",
+      "bytes": 56187,
+      "sha256": "fcd5462a5aa92e04cf78faec00957af6bdeec0609b93ffcf4658bb6b6bd7dffc"
+    },
+    {
+      "path": "docs/research/quartz_general_residual_stop_20261123/evidence/C09_REVIEW.md",
+      "bytes": 11154,
+      "sha256": "0be4b49e07b5e23233c4522c3a94941430832c0e1e83126a6ef6989f17d0712e"
+    },
+    {
+      "path": "docs/research/quartz_general_residual_stop_20261123/evidence/C23_CAL_TRACE.jsonl.gz",
+      "bytes": 64835617,
+      "sha256": "6ff6e6271deac3f87faaa619e95eac1211d934464710b6f46d4dcb15dc8674e9"
+    },
+    {
+      "path": "docs/research/quartz_general_residual_stop_20261123/evidence/C23_CAL_TRACE.manifest.json",
+      "bytes": 862,
+      "sha256": "ff6043af44ac840e3df03f2f4ac34714b2ef20eb20f718ffb5af7107b2f757bc"
+    },
+    {
+      "path": "docs/research/quartz_general_residual_stop_20261123/evidence/C23_CAL_TRACE_STDERR.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "docs/research/quartz_general_residual_stop_20261123/evidence/C23_COST_QUALITY.png",
+      "bytes": 230646,
+      "sha256": "d6791467268b3058aecf95853e78ea24c11c1defccd9014d384d332d064db847"
+    },
+    {
+      "path": "docs/research/quartz_general_residual_stop_20261123/evidence/C23_ORACLE_CAL.jsonl.gz",
+      "bytes": 1194725,
+      "sha256": "e7f6d90f876d73faaf3c94269932514a2a1b070f2a8c09246becc5623cebf407"
+    },
+    {
+      "path": "docs/research/quartz_general_residual_stop_20261123/evidence/C23_ORACLE_TEST.jsonl.gz",
+      "bytes": 2438174,
+      "sha256": "420100a728436786e72eb8605f806788fe7f850af942a3ca86b78db8795b21b8"
+    },
+    {
+      "path": "docs/research/quartz_general_residual_stop_20261123/evidence/C23_ORACLE_TRAIN.jsonl.gz",
+      "bytes": 1210904,
+      "sha256": "b3e81b3c09b9a49ce127f2533b4aa043774a063f6e20c08c70e33d0a369d9efc"
+    },
+    {
+      "path": "docs/research/quartz_general_residual_stop_20261123/evidence/C23_PUBLIC_CAL.jsonl.gz",
+      "bytes": 2018646,
+      "sha256": "2ac0945f0e103c199f204e9c885fe9fb26e3b0130a42a7564376eeabfc40fe62"
+    },
+    {
+      "path": "docs/research/quartz_general_residual_stop_20261123/evidence/C23_PUBLIC_TEST.jsonl.gz",
+      "bytes": 4077821,
+      "sha256": "f44a318e8c8ff2e657eae0976788e212dd6b478dbd4f03273ce90bfb6e55a30c"
+    },
+    {
+      "path": "docs/research/quartz_general_residual_stop_20261123/evidence/C23_PUBLIC_TRAIN.jsonl.gz",
+      "bytes": 2048019,
+      "sha256": "93f5d6e2131990a1882aa9fb10ee7260b25c3beacf8f8d6b41ae6cbaead5f29b"
+    },
+    {
+      "path": "docs/research/quartz_general_residual_stop_20261123/evidence/C23_SOURCES_CAL.json",
+      "bytes": 582,
+      "sha256": "3bced3e11cc59d8c4bdd1f1b089b27470f0c22158852753d255b4c6e26539f89"
+    },
+    {
+      "path": "docs/research/quartz_general_residual_stop_20261123/evidence/C23_SOURCES_TEST.json",
+      "bytes": 585,
+      "sha256": "412f6332854332d6c7166ef4ca85aaa20164e29f6b0d29de659385eb5e690281"
+    },
+    {
+      "path": "docs/research/quartz_general_residual_stop_20261123/evidence/C23_SOURCES_TRAIN.json",
+      "bytes": 588,
+      "sha256": "cf4b59c53b1af679bba341c371f74d3e77e02df2ef2b9fe64770cda5a3c43469"
+    },
+    {
+      "path": "docs/research/quartz_general_residual_stop_20261123/evidence/C23_TEST_PARENT_METRICS.json",
+      "bytes": 1076300,
+      "sha256": "a3dede1547908912399e1e824a3290691a621e0acdafb27b2d251caac2a77e41"
+    },
+    {
+      "path": "docs/research/quartz_general_residual_stop_20261123/evidence/C23_TEST_SUMMARY.json",
+      "bytes": 92752,
+      "sha256": "f36470dba72509cb1a53702b5f628167ec109cf784656ca362e04fdada145616"
+    },
+    {
+      "path": "docs/research/quartz_general_residual_stop_20261123/evidence/C23_TEST_TIMING.jsonl.gz",
+      "bytes": 429217,
+      "sha256": "91f4dc48591cf56787b9ca1d4eba8cbc8a8aaf9b31596b8834c5037b5395f027"
+    },
+    {
+      "path": "docs/research/quartz_general_residual_stop_20261123/evidence/C23_TEST_TIMING.manifest.json",
+      "bytes": 866,
+      "sha256": "8692366497826ed3e41d4a980d06f403dc54e4ea835f6de4670119c1788cfbca"
+    },
+    {
+      "path": "docs/research/quartz_general_residual_stop_20261123/evidence/C23_TEST_TIMING_STDERR.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "docs/research/quartz_general_residual_stop_20261123/evidence/C23_TEST_TRACE.jsonl.gz.part00",
+      "bytes": 45000000,
+      "sha256": "8471d28b9ab0e6f8c200fa2493864c2c48574ea59205541881daaba20f34924e"
+    },
+    {
+      "path": "docs/research/quartz_general_residual_stop_20261123/evidence/C23_TEST_TRACE.jsonl.gz.part01",
+      "bytes": 45000000,
+      "sha256": "90556910077a802f06819968ddd9415b99cb382b696e24b5c3854792893e5537"
+    },
+    {
+      "path": "docs/research/quartz_general_residual_stop_20261123/evidence/C23_TEST_TRACE.jsonl.gz.part02",
+      "bytes": 40197446,
+      "sha256": "d08a1823057b094511a4e15939ca53e55a99534323ae7f481c1e42a5bd4912ba"
+    },
+    {
+      "path": "docs/research/quartz_general_residual_stop_20261123/evidence/C23_TEST_TRACE.manifest.json",
+      "bytes": 866,
+      "sha256": "54c1e5c7fe758236b1e2994d2258325176459c07eebbc7c719dc53622ca80a4f"
+    },
+    {
+      "path": "docs/research/quartz_general_residual_stop_20261123/evidence/C23_TEST_TRACE.parts.json",
+      "bytes": 849,
+      "sha256": "1755d62b5ad53d956ad34937202ec87b97fa91950509fcb4b177a49d637e70f8"
+    },
+    {
+      "path": "docs/research/quartz_general_residual_stop_20261123/evidence/C23_TEST_TRACE_STDERR.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "docs/research/quartz_general_residual_stop_20261123/evidence/C23_TRAIN_PARENT_METRICS.json",
+      "bytes": 539430,
+      "sha256": "297b818ec4eedcb51535b1267ee9f6e8f4d296ab7252b203ce7cefae86c57bcc"
+    },
+    {
+      "path": "docs/research/quartz_general_residual_stop_20261123/evidence/C23_TRAIN_SUMMARY.json",
+      "bytes": 92413,
+      "sha256": "3b7b85cc61ff715c8d1bce0f20db4e2d13fe13979d9a4dcbf2a287fc65225de2"
+    },
+    {
+      "path": "docs/research/quartz_general_residual_stop_20261123/evidence/C23_TRAIN_TIMING.jsonl.gz",
+      "bytes": 217851,
+      "sha256": "e9b11c8f1674e29f27d9dd45fe30ba869a1d87ed02a35d24b9a2b690971ebbc2"
+    },
+    {
+      "path": "docs/research/quartz_general_residual_stop_20261123/evidence/C23_TRAIN_TIMING.manifest.json",
+      "bytes": 867,
+      "sha256": "f70d9c3318bfdb1277f50917346c13efbf710a943d28baa45d4b06be15dbc3cd"
+    },
+    {
+      "path": "docs/research/quartz_general_residual_stop_20261123/evidence/C23_TRAIN_TIMING_STDERR.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "docs/research/quartz_general_residual_stop_20261123/evidence/C23_TRAIN_TRACE.jsonl.gz",
+      "bytes": 65046153,
+      "sha256": "771b2d49bfcf64247fc41a20a4cd52b762929f44e017bd714f54de98926b82c3"
+    },
+    {
+      "path": "docs/research/quartz_general_residual_stop_20261123/evidence/C23_TRAIN_TRACE.manifest.json",
+      "bytes": 866,
+      "sha256": "f16d0573d1b46201805d1e52f3f9c55f8902768a6b6894df44a7c1817b5c4ea7"
+    },
+    {
+      "path": "docs/research/quartz_general_residual_stop_20261123/evidence/C23_TRAIN_TRACE_STDERR.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "docs/research/quartz_general_residual_stop_20261123/evidence/C23_VERIFY_CAL_TRACE.json",
+      "bytes": 501,
+      "sha256": "19ca353200f4ce80b055ec554c8abf0e05a8616debba0c3d6067f5bef337f624"
+    },
+    {
+      "path": "docs/research/quartz_general_residual_stop_20261123/evidence/C23_VERIFY_TEST_TIMING.json",
+      "bytes": 507,
+      "sha256": "4b5863b04aa917c1b887e5d39276918ba29b842f3726bf2e8986881c6a615043"
+    },
+    {
+      "path": "docs/research/quartz_general_residual_stop_20261123/evidence/C23_VERIFY_TEST_TRACE.json",
+      "bytes": 504,
+      "sha256": "3e08bf0aafca042256adc09bf7806438196cde08b52fd3b374e8f441ad73b3a0"
+    },
+    {
+      "path": "docs/research/quartz_general_residual_stop_20261123/evidence/C23_VERIFY_TRAIN_TIMING.json",
+      "bytes": 505,
+      "sha256": "527c0add44a2de7ca3867bc8b05a098445ee6f12337ebce242794a651fcf515b"
+    },
+    {
+      "path": "docs/research/quartz_general_residual_stop_20261123/evidence/C23_VERIFY_TRAIN_TRACE.json",
+      "bytes": 503,
+      "sha256": "c3abba06221a7cb3f11b05ae89a33633cb9cb8835a1381ed1b64093936fb146a"
+    },
+    {
+      "path": "docs/research/quartz_general_residual_stop_20261123/evidence/R07_EXACT.json",
+      "bytes": 602,
+      "sha256": "a454bcd386a6ab9c4de275bffa82ad4f74d82aa2354ce6cb8e378a74230d7db9"
+    },
+    {
+      "path": "docs/research/quartz_general_residual_stop_20261123/theory/check_r07_fraction.py",
+      "bytes": 1342,
+      "sha256": "ae4b6d2f723b47db2912f32caee96fd75d326c398ed84fc7b68591615804d522"
+    },
+    {
+      "path": "scripts/quartz_general_c23_publish.py",
+      "bytes": 2216,
+      "sha256": "390da2c18fbc40f1dc49bd9003d3bac608f3bb535dc46ed9e673788362f9ec0e"
+    },
+    {
+      "path": "src/bin/quartz_c23_residual_gate.rs",
+      "bytes": 23581,
+      "sha256": "8a5aad2d9c8b0a9fd8df0efd5310604f7b498d16447df0f222aa9619a15ad8ed"
+    },
+    {
+      "path": "tests/test_c23_sources.py",
+      "bytes": 1986,
+      "sha256": "29f47a7d3a380bcc08d46e72c45c7c6974f828e799727fa42fd8aad5f586f6c0"
+    }
+  ],
+  "local_report_links_verified": [
+    "docs/research/quartz_general_residual_stop_20261123/evidence/R07_EXACT.json",
+    "docs/research/quartz_general_residual_stop_20261123/theory/check_r07_fraction.py",
+    "src/bin/quartz_c23_residual_gate.rs",
+    "docs/research/quartz_general_residual_stop_20261123/coding/C05_PROTOCOL_AMENDMENT.md",
+    "docs/research/quartz_general_residual_stop_20261123/evidence/C23_COST_QUALITY.png",
+    "docs/research/quartz_general_residual_stop_20261123/evidence/C23_TEST_SUMMARY.json",
+    "docs/research/quartz_general_residual_stop_20261123/evidence/C23_TEST_PARENT_METRICS.json",
+    "docs/research/quartz_general_residual_stop_20261123/evidence/C23_TEST_TIMING.jsonl.gz",
+    "docs/research/quartz_general_residual_stop_20261123/evidence/C09_REVIEW.md",
+    "docs/research/quartz_general_residual_stop_20261123/evidence/C09_REVIEW.json",
+    "docs/research/quartz_general_residual_stop_20261123/evidence/C09_LOCAL_RESTORE.json",
+    "docs/research/quartz_general_residual_stop_20261123/evidence/C23_TEST_TRACE.parts.json",
+    "docs/research/quartz_general_residual_stop_20261123/NEXT_STAGE.json",
+    "docs/research/quartz_general_residual_stop_20261123/THEORY.md",
+    "docs/research/quartz_general_residual_stop_20261123/CODING.md"
+  ],
+  "restore_evidence": "docs/research/quartz_general_residual_stop_20261123/evidence/C09_LOCAL_RESTORE.json",
+  "dropbox_cloud_ack": "NOT_VERIFIED",
+  "prepublication_format_correction": "Removed four intentional Markdown hard-line trailing spaces rejected by git diff --check; no scientific source or result changed. Initial C10 publication attempt stopped before commit/archive/push."
+}
