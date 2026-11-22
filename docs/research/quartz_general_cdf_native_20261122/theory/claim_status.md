@@ -1,0 +1,7 @@
+# R08 | Scientific admission before C21 TEST
+
+Established/literature-supported: Bayes EVSI, Beta-binomial conjugacy and product-CDF of maxima for independent discrete random variables (Hay et al. 2012, Efrem 2024, classical probability). Derived for current code: full event-sweep O(E log E), exact max-distribution expression, zero/tie corner cases and priced one-step STOP criterion. Numerically checked by live Wolfram rational example; independent Python Fraction must pass and native Rust tests must separately establish implementation.
+
+C20 prior C10 evidence is 216 TRAIN-only numerical source cases, not a fresh heldout C21 evaluation. Any claimed improvement in CPU performance must report matched workload/hardware and exact evaluation accuracy, with task sample wall and meta evaluator wall and bridging overhead distinguished. If source law is correct, expected G can be nonnegative; if real neural-MCTS backups are correlated, no portability without source-aware calibration and true utility labels. C21 must not promote original P2/P3/P4 or safe production STOP solely from finite synthetic checks.
+
+Decision: develop bounded native exact Beta event sweep, preserve C20 full-grid as independent reference, freeze novel parent sources and C21 price/timing protocol before TEST, then report actual numerical results and failure modes rather than simply adding metadata.
