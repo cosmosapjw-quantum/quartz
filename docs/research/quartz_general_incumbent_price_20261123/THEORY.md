@@ -45,3 +45,7 @@ Cost-model counterexample: both current intervals are [0,1/10], with true incumb
 theory/DERIVATION.md proves retained-utility monotonicity, one-scan closure of certified replacements, box-sharp simple-regret bound, monotonicity of that bound, and the arbitrary paid-continuation price theorem. It separates sunk cost, free certified selection, output-set coverage, and work/time semantics.
 
 Three exact rational SPD constructions exhibit a useful certified switch (+1/10), avoidance of an ordinary-ranking regression (-23/240), and a missed real improvement (+1/10) caused by interval overlap. These are mathematical iterate constructions, not fabricated native CG trajectories. Their exact scripts and results accompany the derivation.
+
+## R06 — Independent mathematical and semantic checks
+
+The parent checked the complete proof and recorded its actual independence and edge-case scope in theory/R06_PARENT_CHECK.md. The max-L choice is not a minimax claim. The charged theorem is valid for its named all-action-readout class; no predictor or measured time is promoted to a universal cost bound.
