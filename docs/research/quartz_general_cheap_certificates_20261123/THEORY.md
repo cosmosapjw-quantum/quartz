@@ -51,3 +51,13 @@ For D0=sum rhat_i² and rounded Dhat, positivity gives |Dhat-D0|<=g D0+F. Thus D
 Form raw qL=max(0,down(ellL+DL/beta)),qU=min(S,up(ellU+DU)); reject an empty interval. Clip in raw units BEFORE dividing by S, then divide outward to obtain utility endpoints. This prevents loose intermediate normalized bounds overflowing although true u is in[0,1]. Historical intersections and strict separation reuse C23's exact-optimal decision theorem.
 
 Validation applies the same positive-dot inversion to sum b², yielding BL,BU. Require S>=BU and BL>0 for a nonzero RHS. Reject the known bmax2^-600 fixture because it lies below the declared2^-400 lower range. Certified relative residual is up_div(up_sqrt(DU),down_sqrt(BL)), avoiding a potentially overflowing DU/BL intermediate. PLAIN diagnostic is explicitly approximate and has no certified goal flag.
+
+## R06 — Independent mathematical integration and domain checks
+
+Parent independently checked the constructor's primitive expansion, stencil operation count, Q operator-error propagation, positive-dot inequality directions and true residual perturbation term. Underflow terms remain positive through sigma, and every budget formula is outward-evaluated. Independence means a separate native derivation plus parent mathematical integration and later exact calculation, not independent statistical samples or a second scientific model.
+
+A notation defect in the draft normalized-score bound was corrected: ell_hat was already divided by S, so the final finite-score inequality bounds |ell_hat|, not |ell_hat|/S. With X<=2^100 B and S>=B², |ell_hat|<n*(2*2^100+2*beta*2^200)<2^226. Raw vector/dot/budget quantities stay below2^450 under B<=2^100,X<=2^200,n<=2^14,beta<2^10. Clipped utility endpoints cannot overflow; sqrt-then-divide relative diagnostics are finite.
+
+Limits checked analytically: rho0 gives A=I; zero b plus zero x gives exact zero response/relative convention; ties cannot satisfy strict unique separation; arbitrary supported non-Galerkin x is permitted because no CG orthogonality is used; tiny components mixed with a normal-max RHS are covered by sigma; the unsupported all-tiny nonzero RHS is rejected before a false solve-success report. A failed domain check is not convergence and not a universal impossibility claim.
+
+The constructor executed two exact-rational stored-iterate checks with nextafter scalar envelopes and no production imports; their command/outcomes are summarized in DERIVATION.md. These are constructor finite checks, not the forthcoming actual Rust implementation verification. Parent R07 will execute a distinct3x3 exact example and a broader prescribed finite envelope check.
