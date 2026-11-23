@@ -1,0 +1,61 @@
+{
+  "schema": "quartz-c28-literature-transport-v1",
+  "anchor_commit": "87c15dc828d6eea519c219fd8a412fa21dfc464d",
+  "inspected_date": "2026-11-23",
+  "timezone": "Asia/Seoul",
+  "primary_sources": [
+    {
+      "id": "S1",
+      "title": "Planning and acting in partially observable stochastic domains",
+      "authors": "Kaelbling, Littman, Cassandra",
+      "year": 1998,
+      "doi": "10.1016/S0004-3702(98)00023-X",
+      "url": "https://people.csail.mit.edu/lpk/papers/aij98-pomdp.pdf",
+      "checked_locations": ["section 4.1 journal pages 109-112", "unnumbered policy-tree equations journal page 110", "section 4.4 journal page 114 fixed-action Q functions"],
+      "read_status": "full text extracted; relevant derivation read",
+      "web_source_ref": "turn837416629view0"
+    },
+    {
+      "id": "S2",
+      "title": "Selecting Computations: Theory and Applications",
+      "authors": "Hay, Russell, Tolpin, Shimony",
+      "year": 2012,
+      "url": "https://aima.eecs.berkeley.edu/~russell/papers/uai12-meta.pdf",
+      "record_url": "https://proceedings.mlr.press/r10/hay12a.html",
+      "checked_locations": ["section 2 Definition 3 PDF page 3", "Definition 6 and Theorem 7 PDF page 4"],
+      "read_status": "full text extracted; terminal reward and selected theorem read",
+      "web_source_ref": "turn837416629view1"
+    },
+    {
+      "id": "S3",
+      "title": "Blackwell's informativeness theorem using diagrams",
+      "authors": "Henrique de Oliveira",
+      "year": 2018,
+      "doi": "10.1016/j.geb.2017.12.008",
+      "url": "https://henriquedeoliveira.com/wp-content/uploads/2020/12/blackwells-informativeness-theorem-using-diagrams.pdf",
+      "version_read": "author preprint 2017-11-30",
+      "checked_locations": ["Theorem 1 preprint page 2", "section 3 preprint page 4", "section 4 proof preprint pages 4-5"],
+      "read_status": "full text extracted; finite theorem and proof read",
+      "web_source_ref": "turn837416629view3"
+    },
+    {
+      "id": "S4",
+      "title": "Coarse-Graining and the Blackwell Order",
+      "authors": "Rauh, Banerjee, Olbrich, Jost, Bertschinger, Wolpert",
+      "year": 2017,
+      "doi": "10.3390/e19100527",
+      "url": "https://arxiv.org/pdf/1701.07602",
+      "version_read": "arXiv:1701.07602v3 2017-11-10",
+      "checked_locations": ["Introduction and Theorem 1 pages 1-2", "section II Example 1 pages 4-5", "section IV page 9 comparison of examples"],
+      "read_status": "full text extracted; order distinction and examples read",
+      "web_source_ref": "turn837416629view2"
+    }
+  ],
+  "not_fulltext_verified": [
+    {"title":"Smallwood and Sondik 1973", "doi":"10.1287/opre.21.5.1071", "status":"publisher abstract inspected; proof not retrieved"},
+    {"title":"Blackwell 1953 Equivalent Comparisons of Experiments", "doi":"10.1214/aoms/1177729032", "status":"publisher metadata and abstract inspected; PDF extraction failed"}
+  ],
+  "source_byte_identity": "not claimed; inspected text retrieval and bibliographic/version identity only",
+  "novelty_status": "not assessed exhaustively; no publication novelty claimed",
+  "repository_mutations": 0
+}
