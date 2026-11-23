@@ -2,7 +2,7 @@
 
 Status: implementation-verified and numerically checked. No C27 CAL/TEST labels or campaign outcomes were used for selection.
 
-The actual C06 rerun passed18 native tests and21 Python tests. The independent exact finite oracle passed53851 assertions across336 joint model cases,5076 posterior histories,3024 initial H2 cases,120 threshold cases and81 policy-transfer cases. Final-native integration checked75 policy runs on3 fixed old TRAIN roots, rejected5 invalid inputs and recovered on the following valid line. Source and logs are retained in evidence/C06_*.
+The actual C06 rerun passed18 native tests and21 Python tests. The independent exact finite oracle passed53851 assertions across336 joint model cases,5076 posterior histories,3024 initial H2 cases,120 threshold cases and81 policy-transfer cases. Final-native integration checked225 policy runs on3 fixed old TRAIN roots (3 rho values ×5 repeats ×5 policies per root), rejected5 invalid inputs and recovered on the following valid line. Source and logs are retained in evidence/C06_*.
 
 The first oracle invocation omitted the required output file and exited1 at output writing. The corrected command exited0. This invocation error, the pre-fix formatting report and scoped style adapters are disclosed separately; no scientific assertion failure or hidden rerun-selected campaign is reported.
 

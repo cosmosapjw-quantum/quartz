@@ -21,3 +21,8 @@ The user explicitly replaced the initial all-checkouts-retained assumption with 
 ## C07 — calibration versus paid decision value
 
 CAL completes without source/parameter drift. Posterior prediction diagnostics and actual paid utility remain distinct: changing a belief does not imply a changed action or an economic gain. The negative CAL wall-priced contrast is preserved and does not trigger retuning or abandonment of the original resource-priced goal.
+
+
+## C08 — original economic objective remains binding
+
+Positive joint-vector likelihood and later conditional prediction diagnostics do not replace the original paid-decision objective. The predeclared net gate fails and remains failed. The actual mechanism changes posterior/Q values while policy trajectories remain identical on this cohort. This motivates decision-boundary and non-saturation research, without claiming Gomoku NN-evaluation savings, human signatures, physical phase transitions or a general no-go. Original P2/P3 goals remain unresolved.

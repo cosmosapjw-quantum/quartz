@@ -17,4 +17,9 @@ R01–R10 completed with primary-source/history inspection, a marginal-preservin
 
 ## Coding through C06
 
-Runnable implementation and frozen TRAIN-only selection are complete. Native18/Python21 tests,75-run integration and53851 exact assertions passed. rho=.75 and the local time price are fixed before CAL/TEST. Inactive checkout and obsolete-backup cleanup is documented under maintenance; source history and unique scientific payloads are recoverable from the consolidated latest backup. No C27 CAL/TEST result is claimed at this checkpoint.
+Runnable implementation and frozen TRAIN-only selection are complete. Native18/Python21 tests,225-run integration and53851 exact assertions passed. rho=.75 and the local time price are fixed before CAL/TEST. Inactive checkout and obsolete-backup cleanup is documented under maintenance; source history and unique scientific payloads are recoverable from the consolidated latest backup. No C27 CAL/TEST result is claimed at this checkpoint.
+
+
+## Frozen C27 outcome
+
+TEST120 completed with12000 validated policy runs. JOINT minus PRODUCT quality is0 on every root, native time increases174.1604167ns on average, and net wall utility changes-0.003573031742 with descriptive95% interval[-0.004426026447,-0.002762436255]. The empirical adoption gate failed. Conditional predictions changed and later TEST loss improved, but observed policy trajectories did not change. C09 review and C10 final delivery follow; C28 is only a proposed next cycle.

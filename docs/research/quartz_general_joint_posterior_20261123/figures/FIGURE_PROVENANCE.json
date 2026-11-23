@@ -1,0 +1,44 @@
+{
+  "source": "coding/make_c27_figures.py",
+  "source_sha256": "37559d40a3a0dd34c9dd8495062ca0d83f38d48c7be9c84e2cf45a3814e9470d",
+  "inputs": {
+    "CAL": "73a0f295c916713e8dd741000a454488d939218d19c368dd4e823490b744a279",
+    "TEST": "6188ea6812fc60569671751fa1afabc8c25ea82dba5b2a5e4c7d272a70639e86"
+  },
+  "plot_values": {
+    "primary": {
+      "CAL": {
+        "ci95": [
+          -0.007998370056361562,
+          -0.0018624188068630484
+        ],
+        "draws": 10000,
+        "mean": -0.004712852674048804,
+        "numpy_version": "2.4.2",
+        "rng": "numpy.PCG64",
+        "roots": 24,
+        "scope": "descriptive unstratified paired source-root resampling; no independent-tree coverage",
+        "seed": 2709
+      },
+      "TEST": {
+        "ci95": [
+          -0.004426026447198135,
+          -0.0027624362548158607
+        ],
+        "draws": 10000,
+        "mean": -0.0035730317416447525,
+        "numpy_version": "2.4.2",
+        "rng": "numpy.PCG64",
+        "roots": 120,
+        "scope": "descriptive unstratified paired source-root resampling; no independent-tree coverage",
+        "seed": 2709
+      }
+    },
+    "test_later_log_loss": {
+      "product": 0.35382120231371555,
+      "initial_projected": 0.33551139006117664,
+      "joint": 0.32593431032917314
+    }
+  },
+  "new_fitting_or_campaign": false
+}

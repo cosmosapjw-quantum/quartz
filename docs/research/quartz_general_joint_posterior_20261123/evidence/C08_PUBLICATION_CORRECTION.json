@@ -1,0 +1,9 @@
+{
+  "classification": "publication formatting failure; no scientific campaign failure",
+  "failure": "Matplotlib SVG path lines carried trailing whitespace; git diff --check exit2 before commit/push",
+  "correction": "trim trailing whitespace in SVG text; re-render from unchanged analysis; PNG bytes identical",
+  "png_sha256_before": "2982fa7c96afbaf1cdf7328b8ff5313748deb4c8ee7ef59505d9508a28c046ce",
+  "png_sha256_after": "2982fa7c96afbaf1cdf7328b8ff5313748deb4c8ee7ef59505d9508a28c046ce",
+  "scientific_campaign_rerun": false,
+  "documentation_correction": "C06 integration225 validated runs, not75; C05 historical75 remains correct"
+}
