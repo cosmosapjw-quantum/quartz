@@ -1,0 +1,27 @@
+{
+  "stage": "C06",
+  "command": [
+    "/usr/bin/python3",
+    "-m",
+    "unittest",
+    "discover",
+    "-s",
+    "tests",
+    "-p",
+    "test_c28_action_geometry.py",
+    "-v"
+  ],
+  "cwd": "/home/cosmosapjw/quantum/research/quartz_c28_action_geometry_20261123_486e",
+  "C28_BINARY": "/home/cosmosapjw/quantum/research/quartz_c28_target_20261123_486e/release/quartz_c28_action_geometry",
+  "exit_code": 0,
+  "duration_seconds": 0.4403046860243194,
+  "log": "/home/cosmosapjw/quantum/research/quartz_c28_action_geometry_20261123_486e/docs/research/quartz_c28_action_geometry_20261123/evidence/C06_PYTHON_TESTS.log",
+  "identities": {
+    "/home/cosmosapjw/quantum/research/quartz_c28_target_20261123_486e/release/quartz_c28_action_geometry": "f8ab538dd1511244963b60c79f8da12f1c4e7e11ef63443087d8f35ca29f607a",
+    "/home/cosmosapjw/quantum/research/quartz_c28_action_geometry_20261123_486e/src/bin/quartz_c28_action_geometry.rs": "c396aad885132e7457fe99b4b16c8bdccff2067427cb1db7f2ed05d13d1603de",
+    "/home/cosmosapjw/quantum/research/quartz_c28_action_geometry_20261123_486e/tests/test_c28_action_geometry.py": "ab905e385c67627da482330619f5eed043ebf1b0cd5de8255f51197c1ec7e09d",
+    "/home/cosmosapjw/quantum/research/quartz_c28_action_geometry_20261123_486e/docs/research/quartz_c28_action_geometry_20261123/coding/c28_campaign.py": "f60e3bcfd54c7e0edeca26b056e00fc1d15f6dd74409e90b36583dc83563c446"
+  },
+  "head": "e69f920e63289ba3fe2e7fe28224af3ff0385a3f",
+  "utc": "2026-11-23T13:41:34.189918+00:00"
+}
