@@ -1,0 +1,80 @@
+{
+  "schema": "quartz-c28-harness-c05-smoke-v1",
+  "status": "ERROR",
+  "stage_scope": "C05 construction and small integration only; full C06/C07/C08 parent-owned",
+  "checks": [
+    {
+      "name": "selected_unit_integration",
+      "command": "/usr/bin/python3 -m unittest tests.test_c28_action_geometry.OracleAndGameControlTests tests.test_c28_action_geometry.NativeContractTests.test_signed_common_product_and_cost_crossing tests.test_c28_action_geometry.NativeContractTests.test_exact_and_near_action_boundaries tests.test_c28_action_geometry.NativeContractTests.test_frozen_public_game_traces_and_independent_costs tests.test_c28_action_geometry.NativeContractTests.test_nonfinite_json_and_invalid_line_stream_recovery tests.test_c28_action_geometry.NativeContractTests.test_game_timing_shape_and_trace_free_summary tests.test_c28_action_geometry.NativeContractTests.test_omitted_active_decision_trace_is_rejected -v",
+      "exit_code": 0,
+      "expected_exit_code": 0,
+      "stdout": "",
+      "stderr": "test_cost_aggregation_divides_iterations_once (tests.test_c28_action_geometry.OracleAndGameControlTests.test_cost_aggregation_divides_iterations_once) ... ok\ntest_exact_constructive_fixtures (tests.test_c28_action_geometry.OracleAndGameControlTests.test_exact_constructive_fixtures) ... ok\ntest_independent_tictactoe_controls_and_root_sign (tests.test_c28_action_geometry.OracleAndGameControlTests.test_independent_tictactoe_controls_and_root_sign) ... ok\ntest_signed_common_product_and_cost_crossing (tests.test_c28_action_geometry.NativeContractTests.test_signed_common_product_and_cost_crossing) ... ok\ntest_exact_and_near_action_boundaries (tests.test_c28_action_geometry.NativeContractTests.test_exact_and_near_action_boundaries) ... ok\ntest_frozen_public_game_traces_and_independent_costs (tests.test_c28_action_geometry.NativeContractTests.test_frozen_public_game_traces_and_independent_costs) ... ok\ntest_nonfinite_json_and_invalid_line_stream_recovery (tests.test_c28_action_geometry.NativeContractTests.test_nonfinite_json_and_invalid_line_stream_recovery) ... ok\ntest_game_timing_shape_and_trace_free_summary (tests.test_c28_action_geometry.NativeContractTests.test_game_timing_shape_and_trace_free_summary) ... ok\ntest_omitted_active_decision_trace_is_rejected (tests.test_c28_action_geometry.NativeContractTests.test_omitted_active_decision_trace_is_rejected) ... ok\n\n----------------------------------------------------------------------\nRan 9 tests in 0.172s\n\nOK\n",
+      "status": "PASS"
+    },
+    {
+      "name": "cli_help",
+      "command": "/usr/bin/python3 /home/cosmosapjw/quantum/research/quartz_c28_action_geometry_20261123_486e/docs/research/quartz_c28_action_geometry_20261123/coding/c28_campaign.py --help",
+      "exit_code": 0,
+      "expected_exit_code": 0,
+      "stdout": "usage: c28_campaign.py [-h] {verify,benchmark,figures} ...\n\nReproduce C28 scientific verification and the frozen native cost comparison.\n\nVerification and benchmarks use only the stdlib.  Figures additionally require\nmatplotlib.  The complete-world Fraction oracle is deliberately independent of\nboth native planner formulas.  Game oracle labels are constructed only in this\noffline checker, never sent to the controller.\n\nExamples (output directories must be new and inside this C28 document tree):\n  python3 coding/c28_campaign.py verify --binary /path/to/binary --suite all       --output evidence/verify_01\n  python3 coding/c28_campaign.py benchmark --binary /path/to/binary       --output evidence/benchmark_01\n  python3 coding/c28_campaign.py figures --benchmark evidence/benchmark_01       --output evidence/figures_01\n\nRun from the repository or use absolute output paths. Relative paths are resolved\nagainst the current working directory, not against this script.\n\npositional arguments:\n  {verify,benchmark,figures}\n\noptions:\n  -h, --help            show this help message and exit\n",
+      "stderr": "",
+      "status": "PASS"
+    },
+    {
+      "name": "cli_verify_smoke",
+      "command": "/usr/bin/python3 /home/cosmosapjw/quantum/research/quartz_c28_action_geometry_20261123_486e/docs/research/quartz_c28_action_geometry_20261123/coding/c28_campaign.py verify --binary /home/cosmosapjw/quantum/research/quartz_c28_target_20261123_486e/release/quartz_c28_action_geometry --suite all --limit 3 --output /home/cosmosapjw/quantum/research/quartz_c28_action_geometry_20261123_486e/docs/research/quartz_c28_action_geometry_20261123/evidence/HARNESS_C05_CLI_SMOKE",
+      "exit_code": 0,
+      "expected_exit_code": 0,
+      "stdout": "{\"counts\": {\"game\": 3, \"synthetic\": 3}, \"exit_code\": 0, \"output\": \"/home/cosmosapjw/quantum/research/quartz_c28_action_geometry_20261123_486e/docs/research/quartz_c28_action_geometry_20261123/evidence/HARNESS_C05_CLI_SMOKE\", \"status\": \"SMOKE_VERIFIED\"}\n",
+      "stderr": "",
+      "status": "PASS"
+    },
+    {
+      "name": "missing_binary_false_pass_guard",
+      "command": "/usr/bin/python3 -m unittest tests.test_c28_action_geometry.NativeContractTests.test_signed_common_product_and_cost_crossing -v",
+      "environment_change": "C28_BINARY removed",
+      "exit_code": 5,
+      "expected_exit_code": 1,
+      "stdout": "",
+      "stderr": "setUpClass (tests.test_c28_action_geometry.NativeContractTests) ... ERROR\n\n======================================================================\nERROR: setUpClass (tests.test_c28_action_geometry.NativeContractTests)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/home/cosmosapjw/quantum/research/quartz_c28_action_geometry_20261123_486e/tests/test_c28_action_geometry.py\", line 71, in setUpClass\n    raise RuntimeError(\"NOT_RUN: set C28_BINARY to an actual built C28 executable\")\nRuntimeError: NOT_RUN: set C28_BINARY to an actual built C28 executable\n\n----------------------------------------------------------------------\nRan 0 tests in 0.000s\n\nFAILED (errors=1)\n",
+      "status": "FAIL",
+      "classification": "EXPECTED_NOT_RUN_ERROR"
+    },
+    {
+      "name": "refuse_output_overwrite",
+      "command": "/usr/bin/python3 /home/cosmosapjw/quantum/research/quartz_c28_action_geometry_20261123_486e/docs/research/quartz_c28_action_geometry_20261123/coding/c28_campaign.py verify --binary /home/cosmosapjw/quantum/research/quartz_c28_target_20261123_486e/release/quartz_c28_action_geometry --suite all --limit 3 --output /home/cosmosapjw/quantum/research/quartz_c28_action_geometry_20261123_486e/docs/research/quartz_c28_action_geometry_20261123/evidence/HARNESS_C05_CLI_SMOKE",
+      "exit_code": 1,
+      "expected_exit_code": 1,
+      "stdout": "",
+      "stderr": "ERROR: [Errno 17] File exists: '/home/cosmosapjw/quantum/research/quartz_c28_action_geometry_20261123_486e/docs/research/quartz_c28_action_geometry_20261123/evidence/HARNESS_C05_CLI_SMOKE'\n",
+      "output_byte_identity_unchanged": true,
+      "status": "PASS",
+      "classification": "EXPECTED_EXISTING_OUTPUT_ERROR"
+    }
+  ],
+  "identities": {
+    "campaign": {
+      "path": "/home/cosmosapjw/quantum/research/quartz_c28_action_geometry_20261123_486e/docs/research/quartz_c28_action_geometry_20261123/coding/c28_campaign.py",
+      "sha256": "f60e3bcfd54c7e0edeca26b056e00fc1d15f6dd74409e90b36583dc83563c446"
+    },
+    "tests": {
+      "path": "/home/cosmosapjw/quantum/research/quartz_c28_action_geometry_20261123_486e/tests/test_c28_action_geometry.py",
+      "sha256": "ab905e385c67627da482330619f5eed043ebf1b0cd5de8255f51197c1ec7e09d"
+    },
+    "binary": {
+      "path": "/home/cosmosapjw/quantum/research/quartz_c28_target_20261123_486e/release/quartz_c28_action_geometry",
+      "sha256": "f8ab538dd1511244963b60c79f8da12f1c4e7e11ef63443087d8f35ca29f607a"
+    },
+    "native_source": {
+      "path": "/home/cosmosapjw/quantum/research/quartz_c28_action_geometry_20261123_486e/src/bin/quartz_c28_action_geometry.rs",
+      "sha256": "c396aad885132e7457fe99b4b16c8bdccff2067427cb1db7f2ed05d13d1603de"
+    }
+  },
+  "python": "3.12.3 (main, Aug 31 2026, 10:18:26) [GCC 13.3.0]",
+  "platform": "Linux-7.0.0-43-generic-x86_64-with-glibc2.39",
+  "elapsed_seconds": 0.5380902829929255,
+  "full_benchmark": "NOT_RUN",
+  "full_unittest_suite": "NOT_RUN",
+  "full_game_300_verification": "NOT_RUN"
+}

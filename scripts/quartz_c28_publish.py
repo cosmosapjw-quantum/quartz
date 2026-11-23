@@ -20,7 +20,7 @@ STAGES = [f'R{i:02}' for i in range(1, 11)] + [f'C{i:02}' for i in range(1, 11)]
 def git(*args, binary=False):
     p = subprocess.run(['git', '-C', str(ROOT), *args], capture_output=True)
     if p.returncode:
-        raise RuntimeError(f'git {args}: {p.stderr.decode(errors="replace")}')
+        raise RuntimeError(f'git {args}: {p.stdout.decode(errors="replace")} {p.stderr.decode(errors="replace")}')
     return p.stdout if binary else p.stdout.decode().strip()
 
 def sha(path):
@@ -52,7 +52,10 @@ def main():
             if path.is_file() and '__pycache__' not in path.parts and path.suffix not in {'.pyc', '.tmp'}:
                 paths.append(str(path.relative_to(ROOT)))
     git('add', '-f', '--', *sorted(paths))
-    git('diff', '--cached', '--check')
+    # Preserve raw process log bytes, including the test runner's blank EOF.
+    # Whitespace checking still covers every staged source/document/data path.
+    checked_paths = [p for p in sorted(paths) if not (p.startswith(DOC + '/evidence/') and p.endswith('.log'))]
+    git('diff', '--cached', '--check', '--', *checked_paths)
     assert git('diff', '--cached', '--name-only'), 'empty stage'
     git('commit', '-m', f'research(c28 {a.stage}): signed decision geometry and lifted Bellman')
     head = git('rev-parse', 'HEAD')

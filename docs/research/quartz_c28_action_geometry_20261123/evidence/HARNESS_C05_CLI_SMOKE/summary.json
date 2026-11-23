@@ -1,0 +1,111 @@
+{
+  "checks": [
+    {
+      "epsilon_choice": 0,
+      "exact_scores": {
+        "0": "1/10",
+        "1": "1/200",
+        "2": "1/200"
+      },
+      "exact_value": "3/5",
+      "full_world_oracle": true,
+      "id": "fixture-signed-c1/100",
+      "max_method_abs_difference": 0.0,
+      "max_oracle_abs_residual": 1.1102230246251565e-16,
+      "mode": "synthetic"
+    },
+    {
+      "epsilon_choice": 0,
+      "exact_scores": {
+        "0": "3/100",
+        "1": "1/200",
+        "2": "1/200"
+      },
+      "exact_value": "53/100",
+      "full_world_oracle": true,
+      "id": "fixture-signed-c2/25",
+      "max_method_abs_difference": 0.0,
+      "max_oracle_abs_residual": 4.163336342344337e-17,
+      "mode": "synthetic"
+    },
+    {
+      "epsilon_choice": 0,
+      "exact_scores": {
+        "0": "9/200",
+        "1": "-1/20",
+        "2": "-1/20"
+      },
+      "exact_value": "109/200",
+      "full_world_oracle": true,
+      "id": "fixture-common-c1/100",
+      "max_method_abs_difference": 0.0,
+      "max_oracle_abs_residual": 2.0816681711721685e-17,
+      "mode": "synthetic"
+    },
+    {
+      "additional_nodes": 71,
+      "complete_world_decisions_checked": 2,
+      "complete_world_status": "CHECKED",
+      "cue_nodes": 73,
+      "id": "C26-p4-0059adf99c0886cf",
+      "independent_minimax_and_charge_check": true,
+      "initial_nodes": 38,
+      "initial_solve_move": 0,
+      "max_oracle_abs_residual": 2.7755575615628914e-17,
+      "mode": "game",
+      "observed_queries": [
+        {
+          "move": 7,
+          "nodes": 47,
+          "utility": "1/2"
+        },
+        {
+          "move": 8,
+          "nodes": 24,
+          "utility": "0"
+        }
+      ],
+      "root_player": 1
+    },
+    {
+      "additional_nodes": 0,
+      "complete_world_decisions_checked": 0,
+      "complete_world_status": "CHECKED",
+      "cue_nodes": 53,
+      "id": "C26-p4-00898be8d07968b5",
+      "independent_minimax_and_charge_check": true,
+      "initial_nodes": 0,
+      "initial_solve_move": null,
+      "max_oracle_abs_residual": 0.0,
+      "mode": "game",
+      "observed_queries": [],
+      "root_player": 1
+    },
+    {
+      "additional_nodes": 0,
+      "complete_world_decisions_checked": 0,
+      "complete_world_status": "CHECKED",
+      "cue_nodes": 52,
+      "id": "C26-p4-046a70529193f957",
+      "independent_minimax_and_charge_check": true,
+      "initial_nodes": 0,
+      "initial_solve_move": null,
+      "max_oracle_abs_residual": 0.0,
+      "mode": "game",
+      "observed_queries": [],
+      "root_player": 1
+    }
+  ],
+  "counts": {
+    "game": 3,
+    "synthetic": 3
+  },
+  "game_complete_world_decisions": 2,
+  "game_observed_additional_queries": 2,
+  "game_status": "already observed retrospective equivalence and engineering benchmark; not fresh confirmatory TEST",
+  "limit": 3,
+  "max_oracle_abs_residual": 1.1102230246251565e-16,
+  "status": "SMOKE_VERIFIED",
+  "suite": "all",
+  "wall_seconds": 0.05976458004442975
+}

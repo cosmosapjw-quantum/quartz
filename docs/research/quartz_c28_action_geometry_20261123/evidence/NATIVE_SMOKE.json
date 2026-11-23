@@ -1,0 +1,30 @@
+{
+  "status": "PASS",
+  "command": [
+    "/home/cosmosapjw/quantum/research/quartz_c28_target_20261123_486e/release/quartz_c28_action_geometry"
+  ],
+  "stdin": "evidence/NATIVE_SMOKE_REQUESTS.jsonl",
+  "exit_code": 0,
+  "exit_evidence": "First wrapper asserted native subprocess returncode==0 before subsequent receipt-path error; retained raw output rechecked after correction.",
+  "elapsed_seconds": null,
+  "elapsed_note": "Native elapsed value was not persisted before bookkeeping error; no timing claim uses smoke.",
+  "input_lines": 5,
+  "response_lines": 5,
+  "expected_errors": 1,
+  "successful_requests": 4,
+  "request_sha256": "7c11b76f5a14dabdf4847b80850d10844c0cadbefa5ba9ab68a7a166235ebddb",
+  "response_sha256": "1fe6021697821d4b09e9b2d3fcb319edca17f397e910b080db2b774e8906b2b3",
+  "source_sha256": "c396aad885132e7457fe99b4b16c8bdccff2067427cb1db7f2ed05d13d1603de",
+  "binary_sha256": "f8ab538dd1511244963b60c79f8da12f1c4e7e11ef63443087d8f35ca29f607a",
+  "model_sha256": "0843447dc755c1d09e1bc69a44dd052e6db9c5c2ace41d1590b668cbfc36a126",
+  "protected_source_hashes": {
+    "src/bin/quartz_c26_game_metareasoning.rs": "145b586fea7ff7526eb30d15d683580678f1c9dd3a433967f536697957327a01",
+    "src/game.rs": "b5e1fefb9d9ee72e7eb2fb684edafe3702e11f0f712cc3bd92fb43ccb71ff3e0",
+    "src/games/tictactoe.rs": "45f552117481ef00e966d461c111e2de41de2d5f504390c376d675d8c1de35f8",
+    "Cargo.toml": "897e6624b41356d2f2ca7fffa30c4479cc0959fee3138cdb30fa4bc8ec5c1994",
+    "Cargo.lock": "4368560c374c1272000fdd17a48fbe8449c6e471c848698b088d0b6092b2bb36"
+  },
+  "protected_tracked_diff": "empty",
+  "c27_note": "Not present in C26-based worktree; read-only external supplemental reference only.",
+  "remaining_scope": "Independent parent/harness campaign, full 300-root equivalence, benchmark, C09 review; no full campaign run by native worker."
+}

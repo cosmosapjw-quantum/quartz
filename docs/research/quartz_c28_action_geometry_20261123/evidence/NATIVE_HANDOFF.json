@@ -1,0 +1,106 @@
+{
+  "schema": "quartz-c28-native-handoff-v1",
+  "status": "RUNNABLE_SCOPED_VERIFICATION_COMPLETE",
+  "owner": "c28_native",
+  "stage": "C05 implementation with targeted C06 prerequisites",
+  "base_commit": "9372bc745fc4f2f687e61c10ed29036098c15e81",
+  "ssot": "87c15dc828d6eea519c219fd8a412fa21dfc464d",
+  "source": "src/bin/quartz_c28_action_geometry.rs",
+  "source_sha256": "c396aad885132e7457fe99b4b16c8bdccff2067427cb1db7f2ed05d13d1603de",
+  "binary": "/home/cosmosapjw/quantum/research/quartz_c28_target_20261123_486e/release/quartz_c28_action_geometry",
+  "binary_sha256": "f8ab538dd1511244963b60c79f8da12f1c4e7e11ef63443087d8f35ca29f607a",
+  "verification": {
+    "scoped_unique_rust_tests": 15,
+    "initial_test_failures": 0,
+    "targeted_asymmetric_initial_reveal_test_passes": 1,
+    "native_build_failures": 0,
+    "release_build_exit_codes": [
+      0,
+      0
+    ],
+    "finite_world_oracle": {
+      "deterministic_problem_states": 80,
+      "horizons": [
+        1,
+        2
+      ],
+      "methods": 2,
+      "planner_comparisons": 320,
+      "score_residual_checks": 640,
+      "value_residual_checks": 320,
+      "absolute_tolerance": 5e-12,
+      "relative_tolerance": 0
+    },
+    "minimal_jsonl": {
+      "request_lines": 5,
+      "deliberate_malformed_lines": 1,
+      "successful_requests": 4,
+      "stream_recovery": true,
+      "game_cases": 2,
+      "synthetic_cases": 2
+    },
+    "records": [
+      "NATIVE_EXECUTION.json",
+      "NATIVE_TESTS_attempt1.log",
+      "NATIVE_TESTS_attempt2.log",
+      "NATIVE_BUILD_attempt1.log",
+      "NATIVE_BUILD_attempt2.log",
+      "NATIVE_SMOKE.json",
+      "NATIVE_SMOKE_REQUESTS.jsonl",
+      "NATIVE_SMOKE_RESPONSES.jsonl",
+      "NATIVE_RECEIPT_REPAIR.json"
+    ]
+  },
+  "implementation": {
+    "primary_comparator": "cached normalized Bayes, one division per first outcome amortized over second candidates",
+    "candidate": "same cached coefficients with lifted positive affine continuation",
+    "game_bridge": "frozen C26 GameState/root frame, four seeded rollouts, mandatory initial exact verification, all known reveals condition prior, H2 then H1, exact-known incumbent, no repeated queries",
+    "synthetic_timing": "both pay law/coefficient preparation every iteration; black_box inputs/results; alternating order",
+    "game_timing": "independent full resident execution including cues/model, initial solve, belief/cache, posterior updates, planning, actual queries and final selection; traces disabled",
+    "timing_exclusions": [
+      "JSON parsing/validation",
+      "history replay",
+      "serialization"
+    ],
+    "decision_fields": [
+      "b",
+      "m",
+      "remaining_moves",
+      "horizon",
+      "scores",
+      "choice"
+    ],
+    "summary_extra_field": "cue_nodes; charged_nodes=cue_nodes+initial_nodes+additional_nodes",
+    "value_semantics": "raw mathematical optimum; choice independently uses fixed 1e-12 STOP and candidate tie tolerance",
+    "posterior_roundoff": "Interior real-observation mean uses Bayes division, rejects errors >8 machine eps outside [-1,1], and projects only endpoint arithmetic spill; endpoint priors remain fixed. Score tolerance is unchanged."
+  },
+  "failure_history": [
+    {
+      "classification": "provenance receipt packaging",
+      "error": "FileNotFoundError for C27 source assumed incorrectly to exist in C26-based worktree",
+      "native_result_impact": "none; native subprocess and checks had already succeeded",
+      "repair": "Protect actual immutable baseline paths; retain C27 as external pinned supplemental reference; reuse raw smoke outputs",
+      "receipt": "NATIVE_RECEIPT_REPAIR.json"
+    }
+  ],
+  "protected_paths": "C26 binary source, game core, TicTacToe, Cargo manifest/lock unchanged; C27 absent and untouched",
+  "publication": "not committed or pushed by worker; parent owns stage publication, backup and cleanup",
+  "remaining_work": [
+    "Independent Python exact/protocol verification",
+    "300-root retrospective game equivalence",
+    "Matched-accuracy benchmark and plots",
+    "Parent-owned C09 independent review",
+    "C05-C10 publication"
+  ],
+  "claim_limits": [
+    "No performance advantage inferred from formula or smoke",
+    "No new game efficacy/generalization claim",
+    "No full historical campaign run",
+    "Whole repository status not asserted"
+  ],
+  "skill_context_used": [
+    "PhysMath Research Loop 1.3.0 SKILL.md",
+    "references/CODING_LOOP.md C05/C06",
+    "references/POLICY_INTEGRATION.md"
+  ]
+}

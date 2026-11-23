@@ -1,0 +1,8 @@
+{
+  "status": "ERROR_RESOLVED",
+  "classification": "receipt/provenance-check error, not native execution",
+  "error_type": "FileNotFoundError",
+  "path": "/home/cosmosapjw/quantum/research/quartz_c28_action_geometry_20261123_486e/src/bin/quartz_c27_joint_posterior.rs",
+  "explanation": "Receipt wrapper incorrectly assumed C27 supplemental source existed in C26-based worktree. The five-line native subprocess completed with exit 0 and all smoke assertions before this failure. Raw request/response/stdout persisted. Corrected to protect only actual baseline paths and record C27 as external supplemental reference. No native rerun needed.",
+  "raw_response_sha256": "1fe6021697821d4b09e9b2d3fcb319edca17f397e910b080db2b774e8906b2b3"
+}

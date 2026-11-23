@@ -1,0 +1,17 @@
+{
+  "classification": "publication validation handling of raw process evidence",
+  "failed_command": "git diff --cached --check",
+  "exit_code": 2,
+  "head_unchanged": "9372bc745fc4f2f687e61c10ed29036098c15e81",
+  "diagnostic": [
+    "NATIVE_TESTS_attempt1.log:68: new blank line at EOF.",
+    "NATIVE_TESTS_attempt2.log:9: new blank line at EOF."
+  ],
+  "repair": "Keep raw logs byte-identical; apply whitespace check to all staged source/doc/data files excluding evidence .log files. Archive verification continues to check exact Git blob bytes and modes for every file, including logs. Include git stdout in future publisher diagnostics.",
+  "raw_log_sha256": {
+    "NATIVE_TESTS_attempt1.log": "a8f6c643a2016efa4d8df3217143c5b9fa06d69a8ff63b5c13adb773c083c17c",
+    "NATIVE_TESTS_attempt2.log": "5dad9e262018a4abfab46398499ffe4ba4c1f240947980e45983b5aa7a3f15ae"
+  },
+  "native_or_scientific_code_changed": false,
+  "publication_state": "failed before commit, push or backup replacement"
+}

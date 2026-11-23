@@ -1,0 +1,16 @@
+{
+  "schema": "quartz-c28-harness-reconciliation-v1",
+  "original_receipt": "/home/cosmosapjw/quantum/research/quartz_c28_action_geometry_20261123_486e/docs/research/quartz_c28_action_geometry_20261123/evidence/HARNESS_C05_SMOKE.json",
+  "original_sha256": "0b937661d10df14fe2c8d65268aa0da030bb573581b751ac0c4d094f897c5c64",
+  "finding": "Receipt wrapper expected unittest exit 1 for a setup-class error, but this Python runtime returns exit 5 when zero tests run.",
+  "acceptance": "Missing native binary must cause nonzero process exit with explicit NOT_RUN; zero tests must not be reported as native PASS.",
+  "observed_exit_code": 5,
+  "observed_not_run": true,
+  "corrected_guard_status": "PASS",
+  "scientific_or_native_source_change": false,
+  "tolerance_change": false,
+  "reexecution": "NOT_NEEDED: original stderr and exit status establish the invariant",
+  "selected_c05_outcome": "SELECTED_CHECKS_PASSED_WITH_RECEIPT_CORRECTION",
+  "full_unittest_suite": "NOT_RUN_BY_WORKER",
+  "full_benchmark": "NOT_RUN_BY_WORKER"
+}
