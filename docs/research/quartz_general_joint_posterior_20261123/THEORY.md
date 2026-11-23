@@ -29,3 +29,7 @@ Three joint-law alternatives were compared. The balanced one-parameter tilt pres
 ## R05 — constructive mathematics completed
 
 R05_DERIVATION.md contains normalization, exact posterior, H2 value decomposition, the profitable information-only boundary rho^2>4epsilon+8c, a negative moving-incumbent correction, and scoped TV bounds. The zero-coupling/degenerate limits and the known-only terminal action are explicit. Empirical validity remains unresolved.
+
+## R06 — independent review
+
+Parent checked normalization, support, covariance, update order, field/log-odds factor2, H2 cap, fixed-threshold convexity, the moving-threshold sign example and TV support/cost assumptions. Wolfram independently returned109/200 and the strict threshold. No general no-go claim was made.
