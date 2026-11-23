@@ -1,0 +1,5372 @@
+{
+  "checks": [
+    {
+      "additional_nodes": 71,
+      "complete_world_decisions_checked": 2,
+      "complete_world_status": "CHECKED",
+      "cue_nodes": 73,
+      "id": "C26-p4-0059adf99c0886cf",
+      "independent_minimax_and_charge_check": true,
+      "initial_nodes": 38,
+      "initial_solve_move": 0,
+      "max_oracle_abs_residual": 2.7755575615628914e-17,
+      "mode": "game",
+      "observed_queries": [
+        {
+          "move": 7,
+          "nodes": 47,
+          "utility": "1/2"
+        },
+        {
+          "move": 8,
+          "nodes": 24,
+          "utility": "0"
+        }
+      ],
+      "root_player": 1
+    },
+    {
+      "additional_nodes": 0,
+      "complete_world_decisions_checked": 0,
+      "complete_world_status": "CHECKED",
+      "cue_nodes": 53,
+      "id": "C26-p4-00898be8d07968b5",
+      "independent_minimax_and_charge_check": true,
+      "initial_nodes": 0,
+      "initial_solve_move": null,
+      "max_oracle_abs_residual": 0.0,
+      "mode": "game",
+      "observed_queries": [],
+      "root_player": 1
+    },
+    {
+      "additional_nodes": 0,
+      "complete_world_decisions_checked": 0,
+      "complete_world_status": "CHECKED",
+      "cue_nodes": 52,
+      "id": "C26-p4-046a70529193f957",
+      "independent_minimax_and_charge_check": true,
+      "initial_nodes": 0,
+      "initial_solve_move": null,
+      "max_oracle_abs_residual": 0.0,
+      "mode": "game",
+      "observed_queries": [],
+      "root_player": 1
+    },
+    {
+      "additional_nodes": 0,
+      "complete_world_decisions_checked": 0,
+      "complete_world_status": "CHECKED",
+      "cue_nodes": 60,
+      "id": "C26-p4-08fb8fdc0a7e12e9",
+      "independent_minimax_and_charge_check": true,
+      "initial_nodes": 0,
+      "initial_solve_move": null,
+      "max_oracle_abs_residual": 0.0,
+      "mode": "game",
+      "observed_queries": [],
+      "root_player": 1
+    },
+    {
+      "additional_nodes": 0,
+      "complete_world_decisions_checked": 0,
+      "complete_world_status": "CHECKED",
+      "cue_nodes": 91,
+      "id": "C26-p4-0903c6f5a58ceb8d",
+      "independent_minimax_and_charge_check": true,
+      "initial_nodes": 39,
+      "initial_solve_move": 8,
+      "max_oracle_abs_residual": 0.0,
+      "mode": "game",
+      "observed_queries": [],
+      "root_player": 1
+    },
+    {
+      "additional_nodes": 0,
+      "complete_world_decisions_checked": 0,
+      "complete_world_status": "CHECKED",
+      "cue_nodes": 53,
+      "id": "C26-p4-137a4af1e5278ada",
+      "independent_minimax_and_charge_check": true,
+      "initial_nodes": 0,
+      "initial_solve_move": null,
+      "max_oracle_abs_residual": 0.0,
+      "mode": "game",
+      "observed_queries": [],
+      "root_player": 1
+    },
+    {
+      "additional_nodes": 0,
+      "complete_world_decisions_checked": 0,
+      "complete_world_status": "CHECKED",
+      "cue_nodes": 70,
+      "id": "C26-p4-1386926002d2ac38",
+      "independent_minimax_and_charge_check": true,
+      "initial_nodes": 39,
+      "initial_solve_move": 4,
+      "max_oracle_abs_residual": 0.0,
+      "mode": "game",
+      "observed_queries": [],
+      "root_player": 1
+    },
+    {
+      "additional_nodes": 0,
+      "complete_world_decisions_checked": 0,
+      "complete_world_status": "CHECKED",
+      "cue_nodes": 65,
+      "id": "C26-p4-158e063fbce0bb60",
+      "independent_minimax_and_charge_check": true,
+      "initial_nodes": 0,
+      "initial_solve_move": null,
+      "max_oracle_abs_residual": 0.0,
+      "mode": "game",
+      "observed_queries": [],
+      "root_player": 1
+    },
+    {
+      "additional_nodes": 0,
+      "complete_world_decisions_checked": 0,
+      "complete_world_status": "CHECKED",
+      "cue_nodes": 53,
+      "id": "C26-p4-16f5dd361154c202",
+      "independent_minimax_and_charge_check": true,
+      "initial_nodes": 0,
+      "initial_solve_move": null,
+      "max_oracle_abs_residual": 0.0,
+      "mode": "game",
+      "observed_queries": [],
+      "root_player": 1
+    },
+    {
+      "additional_nodes": 0,
+      "complete_world_decisions_checked": 0,
+      "complete_world_status": "CHECKED",
+      "cue_nodes": 68,
+      "id": "C26-p4-1734e1483c2e1666",
+      "independent_minimax_and_charge_check": true,
+      "initial_nodes": 0,
+      "initial_solve_move": null,
+      "max_oracle_abs_residual": 0.0,
+      "mode": "game",
+      "observed_queries": [],
+      "root_player": 1
+    },
+    {
+      "additional_nodes": 0,
+      "complete_world_decisions_checked": 0,
+      "complete_world_status": "CHECKED",
+      "cue_nodes": 61,
+      "id": "C26-p4-1da8f2e2b5bea42f",
+      "independent_minimax_and_charge_check": true,
+      "initial_nodes": 0,
+      "initial_solve_move": null,
+      "max_oracle_abs_residual": 0.0,
+      "mode": "game",
+      "observed_queries": [],
+      "root_player": 1
+    },
+    {
+      "additional_nodes": 58,
+      "complete_world_decisions_checked": 2,
+      "complete_world_status": "CHECKED",
+      "cue_nodes": 75,
+      "id": "C26-p4-2345c7f3964425df",
+      "independent_minimax_and_charge_check": true,
+      "initial_nodes": 43,
+      "initial_solve_move": 1,
+      "max_oracle_abs_residual": 2.7755575615628914e-17,
+      "mode": "game",
+      "observed_queries": [
+        {
+          "move": 4,
+          "nodes": 24,
+          "utility": "0"
+        },
+        {
+          "move": 6,
+          "nodes": 34,
+          "utility": "0"
+        }
+      ],
+      "root_player": 1
+    },
+    {
+      "additional_nodes": 0,
+      "complete_world_decisions_checked": 0,
+      "complete_world_status": "CHECKED",
+      "cue_nodes": 74,
+      "id": "C26-p4-2536b90eb73a4dc2",
+      "independent_minimax_and_charge_check": true,
+      "initial_nodes": 35,
+      "initial_solve_move": 4,
+      "max_oracle_abs_residual": 0.0,
+      "mode": "game",
+      "observed_queries": [],
+      "root_player": 1
+    },
+    {
+      "additional_nodes": 0,
+      "complete_world_decisions_checked": 0,
+      "complete_world_status": "CHECKED",
+      "cue_nodes": 90,
+      "id": "C26-p4-2557ec355430fd4f",
+      "independent_minimax_and_charge_check": true,
+      "initial_nodes": 39,
+      "initial_solve_move": 6,
+      "max_oracle_abs_residual": 0.0,
+      "mode": "game",
+      "observed_queries": [],
+      "root_player": 1
+    },
+    {
+      "additional_nodes": 0,
+      "complete_world_decisions_checked": 0,
+      "complete_world_status": "CHECKED",
+      "cue_nodes": 69,
+      "id": "C26-p4-270cc72a9b15d1f7",
+      "independent_minimax_and_charge_check": true,
+      "initial_nodes": 0,
+      "initial_solve_move": null,
+      "max_oracle_abs_residual": 0.0,
+      "mode": "game",
+      "observed_queries": [],
+      "root_player": 1
+    },
+    {
+      "additional_nodes": 0,
+      "complete_world_decisions_checked": 0,
+      "complete_world_status": "CHECKED",
+      "cue_nodes": 57,
+      "id": "C26-p4-2d68a58638049efa",
+      "independent_minimax_and_charge_check": true,
+      "initial_nodes": 0,
+      "initial_solve_move": null,
+      "max_oracle_abs_residual": 0.0,
+      "mode": "game",
+      "observed_queries": [],
+      "root_player": 1
+    },
+    {
+      "additional_nodes": 0,
+      "complete_world_decisions_checked": 0,
+      "complete_world_status": "CHECKED",
+      "cue_nodes": 88,
+      "id": "C26-p4-2f8f6593e7fe563a",
+      "independent_minimax_and_charge_check": true,
+      "initial_nodes": 39,
+      "initial_solve_move": 4,
+      "max_oracle_abs_residual": 0.0,
+      "mode": "game",
+      "observed_queries": [],
+      "root_player": 1
+    },
+    {
+      "additional_nodes": 0,
+      "complete_world_decisions_checked": 0,
+      "complete_world_status": "CHECKED",
+      "cue_nodes": 73,
+      "id": "C26-p4-3617cabcb27c23c6",
+      "independent_minimax_and_charge_check": true,
+      "initial_nodes": 0,
+      "initial_solve_move": null,
+      "max_oracle_abs_residual": 0.0,
+      "mode": "game",
+      "observed_queries": [],
+      "root_player": 1
+    },
+    {
+      "additional_nodes": 0,
+      "complete_world_decisions_checked": 0,
+      "complete_world_status": "CHECKED",
+      "cue_nodes": 67,
+      "id": "C26-p4-38664fa4f60ad0a3",
+      "independent_minimax_and_charge_check": true,
+      "initial_nodes": 0,
+      "initial_solve_move": null,
+      "max_oracle_abs_residual": 0.0,
+      "mode": "game",
+      "observed_queries": [],
+      "root_player": 1
+    },
+    {
+      "additional_nodes": 0,
+      "complete_world_decisions_checked": 0,
+      "complete_world_status": "CHECKED",
+      "cue_nodes": 54,
+      "id": "C26-p4-3e0862e64e79c43d",
+      "independent_minimax_and_charge_check": true,
+      "initial_nodes": 0,
+      "initial_solve_move": null,
+      "max_oracle_abs_residual": 0.0,
+      "mode": "game",
+      "observed_queries": [],
+      "root_player": 1
+    },
+    {
+      "additional_nodes": 108,
+      "complete_world_decisions_checked": 2,
+      "complete_world_status": "CHECKED",
+      "cue_nodes": 81,
+      "id": "C26-p4-412613272125ac34",
+      "independent_minimax_and_charge_check": true,
+      "initial_nodes": 49,
+      "initial_solve_move": 2,
+      "max_oracle_abs_residual": 5.551115123125783e-17,
+      "mode": "game",
+      "observed_queries": [
+        {
+          "move": 6,
+          "nodes": 47,
+          "utility": "1/2"
+        },
+        {
+          "move": 0,
+          "nodes": 61,
+          "utility": "1/2"
+        }
+      ],
+      "root_player": 1
+    },
+    {
+      "additional_nodes": 0,
+      "complete_world_decisions_checked": 0,
+      "complete_world_status": "CHECKED",
+      "cue_nodes": 60,
+      "id": "C26-p4-42fd06544190e8b7",
+      "independent_minimax_and_charge_check": true,
+      "initial_nodes": 0,
+      "initial_solve_move": null,
+      "max_oracle_abs_residual": 0.0,
+      "mode": "game",
+      "observed_queries": [],
+      "root_player": 1
+    },
+    {
+      "additional_nodes": 91,
+      "complete_world_decisions_checked": 2,
+      "complete_world_status": "CHECKED",
+      "cue_nodes": 84,
+      "id": "C26-p4-435c539b9dfea21a",
+      "independent_minimax_and_charge_check": true,
+      "initial_nodes": 30,
+      "initial_solve_move": 5,
+      "max_oracle_abs_residual": 1.1102230246251565e-16,
+      "mode": "game",
+      "observed_queries": [
+        {
+          "move": 6,
+          "nodes": 40,
+          "utility": "0"
+        },
+        {
+          "move": 8,
+          "nodes": 51,
+          "utility": "1/2"
+        }
+      ],
+      "root_player": 1
+    },
+    {
+      "additional_nodes": 0,
+      "complete_world_decisions_checked": 0,
+      "complete_world_status": "CHECKED",
+      "cue_nodes": 66,
+      "id": "C26-p4-479083ee807fcc6b",
+      "independent_minimax_and_charge_check": true,
+      "initial_nodes": 39,
+      "initial_solve_move": 4,
+      "max_oracle_abs_residual": 0.0,
+      "mode": "game",
+      "observed_queries": [],
+      "root_player": 1
+    },
+    {
+      "additional_nodes": 0,
+      "complete_world_decisions_checked": 0,
+      "complete_world_status": "CHECKED",
+      "cue_nodes": 65,
+      "id": "C26-p4-4eb80ac270f1d8d8",
+      "independent_minimax_and_charge_check": true,
+      "initial_nodes": 47,
+      "initial_solve_move": 2,
+      "max_oracle_abs_residual": 0.0,
+      "mode": "game",
+      "observed_queries": [],
+      "root_player": 1
+    },
+    {
+      "additional_nodes": 0,
+      "complete_world_decisions_checked": 0,
+      "complete_world_status": "CHECKED",
+      "cue_nodes": 67,
+      "id": "C26-p4-4f469d85a2fd38cd",
+      "independent_minimax_and_charge_check": true,
+      "initial_nodes": 0,
+      "initial_solve_move": null,
+      "max_oracle_abs_residual": 0.0,
+      "mode": "game",
+      "observed_queries": [],
+      "root_player": 1
+    },
+    {
+      "additional_nodes": 0,
+      "complete_world_decisions_checked": 0,
+      "complete_world_status": "CHECKED",
+      "cue_nodes": 55,
+      "id": "C26-p4-4f756e246b66608c",
+      "independent_minimax_and_charge_check": true,
+      "initial_nodes": 0,
+      "initial_solve_move": null,
+      "max_oracle_abs_residual": 0.0,
+      "mode": "game",
+      "observed_queries": [],
+      "root_player": 1
+    },
+    {
+      "additional_nodes": 108,
+      "complete_world_decisions_checked": 2,
+      "complete_world_status": "CHECKED",
+      "cue_nodes": 91,
+      "id": "C26-p4-4f9c0691ec9352aa",
+      "independent_minimax_and_charge_check": true,
+      "initial_nodes": 47,
+      "initial_solve_move": 4,
+      "max_oracle_abs_residual": 1.3877787807814457e-17,
+      "mode": "game",
+      "observed_queries": [
+        {
+          "move": 1,
+          "nodes": 47,
+          "utility": "1/2"
+        },
+        {
+          "move": 2,
+          "nodes": 61,
+          "utility": "1/2"
+        }
+      ],
+      "root_player": 1
+    },
+    {
+      "additional_nodes": 0,
+      "complete_world_decisions_checked": 0,
+      "complete_world_status": "CHECKED",
+      "cue_nodes": 66,
+      "id": "C26-p4-4fe9d3b2dfe1777b",
+      "independent_minimax_and_charge_check": true,
+      "initial_nodes": 0,
+      "initial_solve_move": null,
+      "max_oracle_abs_residual": 0.0,
+      "mode": "game",
+      "observed_queries": [],
+      "root_player": 1
+    },
+    {
+      "additional_nodes": 0,
+      "complete_world_decisions_checked": 0,
+      "complete_world_status": "CHECKED",
+      "cue_nodes": 54,
+      "id": "C26-p4-5013d1a42fd6d756",
+      "independent_minimax_and_charge_check": true,
+      "initial_nodes": 0,
+      "initial_solve_move": null,
+      "max_oracle_abs_residual": 0.0,
+      "mode": "game",
+      "observed_queries": [],
+      "root_player": 1
+    },
+    {
+      "additional_nodes": 0,
+      "complete_world_decisions_checked": 0,
+      "complete_world_status": "CHECKED",
+      "cue_nodes": 57,
+      "id": "C26-p4-503451f494b57981",
+      "independent_minimax_and_charge_check": true,
+      "initial_nodes": 0,
+      "initial_solve_move": null,
+      "max_oracle_abs_residual": 0.0,
+      "mode": "game",
+      "observed_queries": [],
+      "root_player": 1
+    },
+    {
+      "additional_nodes": 77,
+      "complete_world_decisions_checked": 2,
+      "complete_world_status": "CHECKED",
+      "cue_nodes": 77,
+      "id": "C26-p4-50f55fd16d246319",
+      "independent_minimax_and_charge_check": true,
+      "initial_nodes": 44,
+      "initial_solve_move": 1,
+      "max_oracle_abs_residual": 1.1102230246251565e-16,
+      "mode": "game",
+      "observed_queries": [
+        {
+          "move": 8,
+          "nodes": 47,
+          "utility": "1/2"
+        },
+        {
+          "move": 7,
+          "nodes": 30,
+          "utility": "0"
+        }
+      ],
+      "root_player": 1
+    },
+    {
+      "additional_nodes": 0,
+      "complete_world_decisions_checked": 0,
+      "complete_world_status": "CHECKED",
+      "cue_nodes": 60,
+      "id": "C26-p4-53c96a6297298bf8",
+      "independent_minimax_and_charge_check": true,
+      "initial_nodes": 0,
+      "initial_solve_move": null,
+      "max_oracle_abs_residual": 0.0,
+      "mode": "game",
+      "observed_queries": [],
+      "root_player": 1
+    },
+    {
+      "additional_nodes": 51,
+      "complete_world_decisions_checked": 1,
+      "complete_world_status": "CHECKED",
+      "cue_nodes": 77,
+      "id": "C26-p4-54a46fb634ba3347",
+      "independent_minimax_and_charge_check": true,
+      "initial_nodes": 38,
+      "initial_solve_move": 4,
+      "max_oracle_abs_residual": 5.551115123125783e-17,
+      "mode": "game",
+      "observed_queries": [
+        {
+          "move": 2,
+          "nodes": 51,
+          "utility": "1"
+        }
+      ],
+      "root_player": 1
+    },
+    {
+      "additional_nodes": 0,
+      "complete_world_decisions_checked": 0,
+      "complete_world_status": "CHECKED",
+      "cue_nodes": 66,
+      "id": "C26-p4-56070fac377f1511",
+      "independent_minimax_and_charge_check": true,
+      "initial_nodes": 0,
+      "initial_solve_move": null,
+      "max_oracle_abs_residual": 0.0,
+      "mode": "game",
+      "observed_queries": [],
+      "root_player": 1
+    },
+    {
+      "additional_nodes": 0,
+      "complete_world_decisions_checked": 0,
+      "complete_world_status": "CHECKED",
+      "cue_nodes": 63,
+      "id": "C26-p4-5710027340726958",
+      "independent_minimax_and_charge_check": true,
+      "initial_nodes": 0,
+      "initial_solve_move": null,
+      "max_oracle_abs_residual": 0.0,
+      "mode": "game",
+      "observed_queries": [],
+      "root_player": 1
+    },
+    {
+      "additional_nodes": 0,
+      "complete_world_decisions_checked": 0,
+      "complete_world_status": "CHECKED",
+      "cue_nodes": 66,
+      "id": "C26-p4-5841c612b0834f47",
+      "independent_minimax_and_charge_check": true,
+      "initial_nodes": 0,
+      "initial_solve_move": null,
+      "max_oracle_abs_residual": 0.0,
+      "mode": "game",
+      "observed_queries": [],
+      "root_player": 1
+    },
+    {
+      "additional_nodes": 76,
+      "complete_world_decisions_checked": 2,
+      "complete_world_status": "CHECKED",
+      "cue_nodes": 78,
+      "id": "C26-p4-5a3186ce283e2b07",
+      "independent_minimax_and_charge_check": true,
+      "initial_nodes": 61,
+      "initial_solve_move": 1,
+      "max_oracle_abs_residual": 1.3877787807814457e-17,
+      "mode": "game",
+      "observed_queries": [
+        {
+          "move": 4,
+          "nodes": 38,
+          "utility": "0"
+        },
+        {
+          "move": 8,
+          "nodes": 38,
+          "utility": "0"
+        }
+      ],
+      "root_player": 1
+    },
+    {
+      "additional_nodes": 0,
+      "complete_world_decisions_checked": 0,
+      "complete_world_status": "CHECKED",
+      "cue_nodes": 68,
+      "id": "C26-p4-5ec9265cb6edf7fa",
+      "independent_minimax_and_charge_check": true,
+      "initial_nodes": 0,
+      "initial_solve_move": null,
+      "max_oracle_abs_residual": 0.0,
+      "mode": "game",
+      "observed_queries": [],
+      "root_player": 1
+    },
+    {
+      "additional_nodes": 0,
+      "complete_world_decisions_checked": 0,
+      "complete_world_status": "CHECKED",
+      "cue_nodes": 64,
+      "id": "C26-p4-5f138917c5176674",
+      "independent_minimax_and_charge_check": true,
+      "initial_nodes": 0,
+      "initial_solve_move": null,
+      "max_oracle_abs_residual": 0.0,
+      "mode": "game",
+      "observed_queries": [],
+      "root_player": 1
+    },
+    {
+      "additional_nodes": 91,
+      "complete_world_decisions_checked": 2,
+      "complete_world_status": "CHECKED",
+      "cue_nodes": 76,
+      "id": "C26-p4-62a1964b8e1f02b7",
+      "independent_minimax_and_charge_check": true,
+      "initial_nodes": 30,
+      "initial_solve_move": 6,
+      "max_oracle_abs_residual": 1.6653345369377348e-16,
+      "mode": "game",
+      "observed_queries": [
+        {
+          "move": 8,
+          "nodes": 47,
+          "utility": "1/2"
+        },
+        {
+          "move": 2,
+          "nodes": 44,
+          "utility": "0"
+        }
+      ],
+      "root_player": 1
+    },
+    {
+      "additional_nodes": 0,
+      "complete_world_decisions_checked": 0,
+      "complete_world_status": "CHECKED",
+      "cue_nodes": 90,
+      "id": "C26-p4-62aa722227e96e54",
+      "independent_minimax_and_charge_check": true,
+      "initial_nodes": 41,
+      "initial_solve_move": 4,
+      "max_oracle_abs_residual": 0.0,
+      "mode": "game",
+      "observed_queries": [],
+      "root_player": 1
+    },
+    {
+      "additional_nodes": 0,
+      "complete_world_decisions_checked": 0,
+      "complete_world_status": "CHECKED",
+      "cue_nodes": 73,
+      "id": "C26-p4-684786a6816f0883",
+      "independent_minimax_and_charge_check": true,
+      "initial_nodes": 37,
+      "initial_solve_move": 4,
+      "max_oracle_abs_residual": 0.0,
+      "mode": "game",
+      "observed_queries": [],
+      "root_player": 1
+    },
+    {
+      "additional_nodes": 0,
+      "complete_world_decisions_checked": 0,
+      "complete_world_status": "CHECKED",
+      "cue_nodes": 61,
+      "id": "C26-p4-6af6e0ca671fc2fa",
+      "independent_minimax_and_charge_check": true,
+      "initial_nodes": 0,
+      "initial_solve_move": null,
+      "max_oracle_abs_residual": 0.0,
+      "mode": "game",
+      "observed_queries": [],
+      "root_player": 1
+    },
+    {
+      "additional_nodes": 0,
+      "complete_world_decisions_checked": 0,
+      "complete_world_status": "CHECKED",
+      "cue_nodes": 69,
+      "id": "C26-p4-6c5d00b2680534b3",
+      "independent_minimax_and_charge_check": true,
+      "initial_nodes": 0,
+      "initial_solve_move": null,
+      "max_oracle_abs_residual": 0.0,
+      "mode": "game",
+      "observed_queries": [],
+      "root_player": 1
+    },
+    {
+      "additional_nodes": 0,
+      "complete_world_decisions_checked": 0,
+      "complete_world_status": "CHECKED",
+      "cue_nodes": 57,
+      "id": "C26-p4-752dae9a9b336b53",
+      "independent_minimax_and_charge_check": true,
+      "initial_nodes": 0,
+      "initial_solve_move": null,
+      "max_oracle_abs_residual": 0.0,
+      "mode": "game",
+      "observed_queries": [],
+      "root_player": 1
+    },
+    {
+      "additional_nodes": 0,
+      "complete_world_decisions_checked": 0,
+      "complete_world_status": "CHECKED",
+      "cue_nodes": 75,
+      "id": "C26-p4-783d34e2da3f4a3e",
+      "independent_minimax_and_charge_check": true,
+      "initial_nodes": 33,
+      "initial_solve_move": 8,
+      "max_oracle_abs_residual": 0.0,
+      "mode": "game",
+      "observed_queries": [],
+      "root_player": 1
+    },
+    {
+      "additional_nodes": 0,
+      "complete_world_decisions_checked": 0,
+      "complete_world_status": "CHECKED",
+      "cue_nodes": 83,
+      "id": "C26-p4-7a90ccf4115c6450",
+      "independent_minimax_and_charge_check": true,
+      "initial_nodes": 61,
+      "initial_solve_move": 7,
+      "max_oracle_abs_residual": 0.0,
+      "mode": "game",
+      "observed_queries": [],
+      "root_player": 1
+    },
+    {
+      "additional_nodes": 0,
+      "complete_world_decisions_checked": 0,
+      "complete_world_status": "CHECKED",
+      "cue_nodes": 62,
+      "id": "C26-p4-7d9757144c702ae2",
+      "independent_minimax_and_charge_check": true,
+      "initial_nodes": 0,
+      "initial_solve_move": null,
+      "max_oracle_abs_residual": 0.0,
+      "mode": "game",
+      "observed_queries": [],
+      "root_player": 1
+    },
+    {
+      "additional_nodes": 0,
+      "complete_world_decisions_checked": 0,
+      "complete_world_status": "CHECKED",
+      "cue_nodes": 52,
+      "id": "C26-p4-7e8da39dd403d770",
+      "independent_minimax_and_charge_check": true,
+      "initial_nodes": 0,
+      "initial_solve_move": null,
+      "max_oracle_abs_residual": 0.0,
+      "mode": "game",
+      "observed_queries": [],
+      "root_player": 1
+    },
+    {
+      "additional_nodes": 87,
+      "complete_world_decisions_checked": 2,
+      "complete_world_status": "CHECKED",
+      "cue_nodes": 78,
+      "id": "C26-p4-85ee5ce2cc503f2e",
+      "independent_minimax_and_charge_check": true,
+      "initial_nodes": 34,
+      "initial_solve_move": 0,
+      "max_oracle_abs_residual": 1.1102230246251565e-16,
+      "mode": "game",
+      "observed_queries": [
+        {
+          "move": 2,
+          "nodes": 34,
+          "utility": "0"
+        },
+        {
+          "move": 7,
+          "nodes": 53,
+          "utility": "0"
+        }
+      ],
+      "root_player": 1
+    },
+    {
+      "additional_nodes": 0,
+      "complete_world_decisions_checked": 0,
+      "complete_world_status": "CHECKED",
+      "cue_nodes": 68,
+      "id": "C26-p4-88262217d5e9fe22",
+      "independent_minimax_and_charge_check": true,
+      "initial_nodes": 0,
+      "initial_solve_move": null,
+      "max_oracle_abs_residual": 0.0,
+      "mode": "game",
+      "observed_queries": [],
+      "root_player": 1
+    },
+    {
+      "additional_nodes": 60,
+      "complete_world_decisions_checked": 2,
+      "complete_world_status": "CHECKED",
+      "cue_nodes": 73,
+      "id": "C26-p4-8d2b45763e781ab2",
+      "independent_minimax_and_charge_check": true,
+      "initial_nodes": 45,
+      "initial_solve_move": 2,
+      "max_oracle_abs_residual": 1.1102230246251565e-16,
+      "mode": "game",
+      "observed_queries": [
+        {
+          "move": 4,
+          "nodes": 26,
+          "utility": "0"
+        },
+        {
+          "move": 7,
+          "nodes": 34,
+          "utility": "0"
+        }
+      ],
+      "root_player": 1
+    },
+    {
+      "additional_nodes": 0,
+      "complete_world_decisions_checked": 0,
+      "complete_world_status": "CHECKED",
+      "cue_nodes": 58,
+      "id": "C26-p4-8d837ba619b67ff6",
+      "independent_minimax_and_charge_check": true,
+      "initial_nodes": 0,
+      "initial_solve_move": null,
+      "max_oracle_abs_residual": 0.0,
+      "mode": "game",
+      "observed_queries": [],
+      "root_player": 1
+    },
+    {
+      "additional_nodes": 0,
+      "complete_world_decisions_checked": 0,
+      "complete_world_status": "CHECKED",
+      "cue_nodes": 85,
+      "id": "C26-p4-8ef70287c7e3b816",
+      "independent_minimax_and_charge_check": true,
+      "initial_nodes": 39,
+      "initial_solve_move": 2,
+      "max_oracle_abs_residual": 0.0,
+      "mode": "game",
+      "observed_queries": [],
+      "root_player": 1
+    },
+    {
+      "additional_nodes": 0,
+      "complete_world_decisions_checked": 0,
+      "complete_world_status": "CHECKED",
+      "cue_nodes": 56,
+      "id": "C26-p4-8f0e978e4f6cd3bf",
+      "independent_minimax_and_charge_check": true,
+      "initial_nodes": 0,
+      "initial_solve_move": null,
+      "max_oracle_abs_residual": 0.0,
+      "mode": "game",
+      "observed_queries": [],
+      "root_player": 1
+    },
+    {
+      "additional_nodes": 104,
+      "complete_world_decisions_checked": 2,
+      "complete_world_status": "CHECKED",
+      "cue_nodes": 80,
+      "id": "C26-p4-93c23a97ea6d1fa9",
+      "independent_minimax_and_charge_check": true,
+      "initial_nodes": 51,
+      "initial_solve_move": 2,
+      "max_oracle_abs_residual": 1.3877787807814457e-17,
+      "mode": "game",
+      "observed_queries": [
+        {
+          "move": 1,
+          "nodes": 61,
+          "utility": "1/2"
+        },
+        {
+          "move": 5,
+          "nodes": 43,
+          "utility": "0"
+        }
+      ],
+      "root_player": 1
+    },
+    {
+      "additional_nodes": 118,
+      "complete_world_decisions_checked": 2,
+      "complete_world_status": "CHECKED",
+      "cue_nodes": 97,
+      "id": "C26-p4-94a90050d9db017a",
+      "independent_minimax_and_charge_check": true,
+      "initial_nodes": 51,
+      "initial_solve_move": 4,
+      "max_oracle_abs_residual": 1.3877787807814457e-17,
+      "mode": "game",
+      "observed_queries": [
+        {
+          "move": 2,
+          "nodes": 61,
+          "utility": "1/2"
+        },
+        {
+          "move": 6,
+          "nodes": 57,
+          "utility": "0"
+        }
+      ],
+      "root_player": 1
+    },
+    {
+      "additional_nodes": 106,
+      "complete_world_decisions_checked": 2,
+      "complete_world_status": "CHECKED",
+      "cue_nodes": 88,
+      "id": "C26-p4-9c225cfd6fb6a807",
+      "independent_minimax_and_charge_check": true,
+      "initial_nodes": 51,
+      "initial_solve_move": 1,
+      "max_oracle_abs_residual": 2.7755575615628914e-17,
+      "mode": "game",
+      "observed_queries": [
+        {
+          "move": 6,
+          "nodes": 45,
+          "utility": "0"
+        },
+        {
+          "move": 8,
+          "nodes": 61,
+          "utility": "1/2"
+        }
+      ],
+      "root_player": 1
+    },
+    {
+      "additional_nodes": 0,
+      "complete_world_decisions_checked": 0,
+      "complete_world_status": "CHECKED",
+      "cue_nodes": 47,
+      "id": "C26-p4-9f8b22fdd06f87ba",
+      "independent_minimax_and_charge_check": true,
+      "initial_nodes": 0,
+      "initial_solve_move": null,
+      "max_oracle_abs_residual": 0.0,
+      "mode": "game",
+      "observed_queries": [],
+      "root_player": 1
+    },
+    {
+      "additional_nodes": 68,
+      "complete_world_decisions_checked": 2,
+      "complete_world_status": "CHECKED",
+      "cue_nodes": 69,
+      "id": "C26-p4-a021f0d237cbfae7",
+      "independent_minimax_and_charge_check": true,
+      "initial_nodes": 61,
+      "initial_solve_move": 1,
+      "max_oracle_abs_residual": 1.3877787807814457e-17,
+      "mode": "game",
+      "observed_queries": [
+        {
+          "move": 0,
+          "nodes": 34,
+          "utility": "0"
+        },
+        {
+          "move": 2,
+          "nodes": 34,
+          "utility": "0"
+        }
+      ],
+      "root_player": 1
+    },
+    {
+      "additional_nodes": 0,
+      "complete_world_decisions_checked": 0,
+      "complete_world_status": "CHECKED",
+      "cue_nodes": 85,
+      "id": "C26-p4-a048bb58392ce386",
+      "independent_minimax_and_charge_check": true,
+      "initial_nodes": 61,
+      "initial_solve_move": 2,
+      "max_oracle_abs_residual": 0.0,
+      "mode": "game",
+      "observed_queries": [],
+      "root_player": 1
+    },
+    {
+      "additional_nodes": 0,
+      "complete_world_decisions_checked": 0,
+      "complete_world_status": "CHECKED",
+      "cue_nodes": 53,
+      "id": "C26-p4-a27319b33b821505",
+      "independent_minimax_and_charge_check": true,
+      "initial_nodes": 0,
+      "initial_solve_move": null,
+      "max_oracle_abs_residual": 0.0,
+      "mode": "game",
+      "observed_queries": [],
+      "root_player": 1
+    },
+    {
+      "additional_nodes": 79,
+      "complete_world_decisions_checked": 2,
+      "complete_world_status": "CHECKED",
+      "cue_nodes": 71,
+      "id": "C26-p4-a2cf548320cf2d84",
+      "independent_minimax_and_charge_check": true,
+      "initial_nodes": 30,
+      "initial_solve_move": 2,
+      "max_oracle_abs_residual": 5.551115123125783e-17,
+      "mode": "game",
+      "observed_queries": [
+        {
+          "move": 8,
+          "nodes": 43,
+          "utility": "0"
+        },
+        {
+          "move": 7,
+          "nodes": 36,
+          "utility": "0"
+        }
+      ],
+      "root_player": 1
+    },
+    {
+      "additional_nodes": 0,
+      "complete_world_decisions_checked": 0,
+      "complete_world_status": "CHECKED",
+      "cue_nodes": 65,
+      "id": "C26-p4-a52d30831d1ec55a",
+      "independent_minimax_and_charge_check": true,
+      "initial_nodes": 0,
+      "initial_solve_move": null,
+      "max_oracle_abs_residual": 0.0,
+      "mode": "game",
+      "observed_queries": [],
+      "root_player": 1
+    },
+    {
+      "additional_nodes": 72,
+      "complete_world_decisions_checked": 2,
+      "complete_world_status": "CHECKED",
+      "cue_nodes": 72,
+      "id": "C26-p4-a61516ed8e4b30dc",
+      "independent_minimax_and_charge_check": true,
+      "initial_nodes": 57,
+      "initial_solve_move": 1,
+      "max_oracle_abs_residual": 5.551115123125783e-17,
+      "mode": "game",
+      "observed_queries": [
+        {
+          "move": 4,
+          "nodes": 34,
+          "utility": "0"
+        },
+        {
+          "move": 6,
+          "nodes": 38,
+          "utility": "0"
+        }
+      ],
+      "root_player": 1
+    },
+    {
+      "additional_nodes": 64,
+      "complete_world_decisions_checked": 2,
+      "complete_world_status": "CHECKED",
+      "cue_nodes": 76,
+      "id": "C26-p4-a6bdeadbd9ed9225",
+      "independent_minimax_and_charge_check": true,
+      "initial_nodes": 49,
+      "initial_solve_move": 2,
+      "max_oracle_abs_residual": 5.551115123125783e-17,
+      "mode": "game",
+      "observed_queries": [
+        {
+          "move": 6,
+          "nodes": 26,
+          "utility": "0"
+        },
+        {
+          "move": 3,
+          "nodes": 38,
+          "utility": "0"
+        }
+      ],
+      "root_player": 1
+    },
+    {
+      "additional_nodes": 112,
+      "complete_world_decisions_checked": 2,
+      "complete_world_status": "CHECKED",
+      "cue_nodes": 92,
+      "id": "C26-p4-a90c17ec02bc4b42",
+      "independent_minimax_and_charge_check": true,
+      "initial_nodes": 51,
+      "initial_solve_move": 7,
+      "max_oracle_abs_residual": 2.7755575615628914e-17,
+      "mode": "game",
+      "observed_queries": [
+        {
+          "move": 4,
+          "nodes": 61,
+          "utility": "1/2"
+        },
+        {
+          "move": 6,
+          "nodes": 51,
+          "utility": "1/2"
+        }
+      ],
+      "root_player": 1
+    },
+    {
+      "additional_nodes": 0,
+      "complete_world_decisions_checked": 0,
+      "complete_world_status": "CHECKED",
+      "cue_nodes": 61,
+      "id": "C26-p4-a91e722c2d33a22f",
+      "independent_minimax_and_charge_check": true,
+      "initial_nodes": 0,
+      "initial_solve_move": null,
+      "max_oracle_abs_residual": 0.0,
+      "mode": "game",
+      "observed_queries": [],
+      "root_player": 1
+    },
+    {
+      "additional_nodes": 0,
+      "complete_world_decisions_checked": 0,
+      "complete_world_status": "CHECKED",
+      "cue_nodes": 64,
+      "id": "C26-p4-a94f4dea4cca53c6",
+      "independent_minimax_and_charge_check": true,
+      "initial_nodes": 0,
+      "initial_solve_move": null,
+      "max_oracle_abs_residual": 0.0,
+      "mode": "game",
+      "observed_queries": [],
+      "root_player": 1
+    },
+    {
+      "additional_nodes": 0,
+      "complete_world_decisions_checked": 0,
+      "complete_world_status": "CHECKED",
+      "cue_nodes": 67,
+      "id": "C26-p4-aa32149a80636591",
+      "independent_minimax_and_charge_check": true,
+      "initial_nodes": 0,
+      "initial_solve_move": null,
+      "max_oracle_abs_residual": 0.0,
+      "mode": "game",
+      "observed_queries": [],
+      "root_player": 1
+    },
+    {
+      "additional_nodes": 0,
+      "complete_world_decisions_checked": 0,
+      "complete_world_status": "CHECKED",
+      "cue_nodes": 65,
+      "id": "C26-p4-b049097c8f28c5eb",
+      "independent_minimax_and_charge_check": true,
+      "initial_nodes": 0,
+      "initial_solve_move": null,
+      "max_oracle_abs_residual": 0.0,
+      "mode": "game",
+      "observed_queries": [],
+      "root_player": 1
+    },
+    {
+      "additional_nodes": 0,
+      "complete_world_decisions_checked": 0,
+      "complete_world_status": "CHECKED",
+      "cue_nodes": 55,
+      "id": "C26-p4-b112d1f743def084",
+      "independent_minimax_and_charge_check": true,
+      "initial_nodes": 0,
+      "initial_solve_move": null,
+      "max_oracle_abs_residual": 0.0,
+      "mode": "game",
+      "observed_queries": [],
+      "root_player": 1
+    },
+    {
+      "additional_nodes": 39,
+      "complete_world_decisions_checked": 1,
+      "complete_world_status": "CHECKED",
+      "cue_nodes": 86,
+      "id": "C26-p4-b97dd56622b37046",
+      "independent_minimax_and_charge_check": true,
+      "initial_nodes": 49,
+      "initial_solve_move": 2,
+      "max_oracle_abs_residual": 2.7755575615628914e-17,
+      "mode": "game",
+      "observed_queries": [
+        {
+          "move": 6,
+          "nodes": 39,
+          "utility": "1"
+        }
+      ],
+      "root_player": 1
+    },
+    {
+      "additional_nodes": 0,
+      "complete_world_decisions_checked": 0,
+      "complete_world_status": "CHECKED",
+      "cue_nodes": 62,
+      "id": "C26-p4-ba4230a4891d79bf",
+      "independent_minimax_and_charge_check": true,
+      "initial_nodes": 0,
+      "initial_solve_move": null,
+      "max_oracle_abs_residual": 0.0,
+      "mode": "game",
+      "observed_queries": [],
+      "root_player": 1
+    },
+    {
+      "additional_nodes": 0,
+      "complete_world_decisions_checked": 0,
+      "complete_world_status": "CHECKED",
+      "cue_nodes": 88,
+      "id": "C26-p4-bca75c0ba8932a14",
+      "independent_minimax_and_charge_check": true,
+      "initial_nodes": 47,
+      "initial_solve_move": 5,
+      "max_oracle_abs_residual": 0.0,
+      "mode": "game",
+      "observed_queries": [],
+      "root_player": 1
+    },
+    {
+      "additional_nodes": 0,
+      "complete_world_decisions_checked": 0,
+      "complete_world_status": "CHECKED",
+      "cue_nodes": 79,
+      "id": "C26-p4-be99363b6e4d6436",
+      "independent_minimax_and_charge_check": true,
+      "initial_nodes": 37,
+      "initial_solve_move": 4,
+      "max_oracle_abs_residual": 0.0,
+      "mode": "game",
+      "observed_queries": [],
+      "root_player": 1
+    },
+    {
+      "additional_nodes": 0,
+      "complete_world_decisions_checked": 0,
+      "complete_world_status": "CHECKED",
+      "cue_nodes": 61,
+      "id": "C26-p4-c2b5a68b73673956",
+      "independent_minimax_and_charge_check": true,
+      "initial_nodes": 0,
+      "initial_solve_move": null,
+      "max_oracle_abs_residual": 0.0,
+      "mode": "game",
+      "observed_queries": [],
+      "root_player": 1
+    },
+    {
+      "additional_nodes": 37,
+      "complete_world_decisions_checked": 1,
+      "complete_world_status": "CHECKED",
+      "cue_nodes": 76,
+      "id": "C26-p4-c5d2f128d02f05c4",
+      "independent_minimax_and_charge_check": true,
+      "initial_nodes": 30,
+      "initial_solve_move": 5,
+      "max_oracle_abs_residual": 1.1102230246251565e-16,
+      "mode": "game",
+      "observed_queries": [
+        {
+          "move": 8,
+          "nodes": 37,
+          "utility": "1"
+        }
+      ],
+      "root_player": 1
+    },
+    {
+      "additional_nodes": 95,
+      "complete_world_decisions_checked": 2,
+      "complete_world_status": "CHECKED",
+      "cue_nodes": 79,
+      "id": "C26-p4-c6d2337dc7eebcb6",
+      "independent_minimax_and_charge_check": true,
+      "initial_nodes": 38,
+      "initial_solve_move": 0,
+      "max_oracle_abs_residual": 1.6653345369377348e-16,
+      "mode": "game",
+      "observed_queries": [
+        {
+          "move": 7,
+          "nodes": 61,
+          "utility": "1/2"
+        },
+        {
+          "move": 6,
+          "nodes": 34,
+          "utility": "0"
+        }
+      ],
+      "root_player": 1
+    },
+    {
+      "additional_nodes": 108,
+      "complete_world_decisions_checked": 2,
+      "complete_world_status": "CHECKED",
+      "cue_nodes": 86,
+      "id": "C26-p4-c719f9940688823f",
+      "independent_minimax_and_charge_check": true,
+      "initial_nodes": 49,
+      "initial_solve_move": 2,
+      "max_oracle_abs_residual": 2.7755575615628914e-17,
+      "mode": "game",
+      "observed_queries": [
+        {
+          "move": 8,
+          "nodes": 51,
+          "utility": "1/2"
+        },
+        {
+          "move": 1,
+          "nodes": 57,
+          "utility": "0"
+        }
+      ],
+      "root_player": 1
+    },
+    {
+      "additional_nodes": 0,
+      "complete_world_decisions_checked": 0,
+      "complete_world_status": "CHECKED",
+      "cue_nodes": 86,
+      "id": "C26-p4-c729e24c73953ecd",
+      "independent_minimax_and_charge_check": true,
+      "initial_nodes": 39,
+      "initial_solve_move": 6,
+      "max_oracle_abs_residual": 0.0,
+      "mode": "game",
+      "observed_queries": [],
+      "root_player": 1
+    },
+    {
+      "additional_nodes": 0,
+      "complete_world_decisions_checked": 0,
+      "complete_world_status": "CHECKED",
+      "cue_nodes": 60,
+      "id": "C26-p4-c7d443f7d7afba06",
+      "independent_minimax_and_charge_check": true,
+      "initial_nodes": 0,
+      "initial_solve_move": null,
+      "max_oracle_abs_residual": 0.0,
+      "mode": "game",
+      "observed_queries": [],
+      "root_player": 1
+    },
+    {
+      "additional_nodes": 0,
+      "complete_world_decisions_checked": 0,
+      "complete_world_status": "CHECKED",
+      "cue_nodes": 68,
+      "id": "C26-p4-cdc4cfcec4df6c7e",
+      "independent_minimax_and_charge_check": true,
+      "initial_nodes": 39,
+      "initial_solve_move": 2,
+      "max_oracle_abs_residual": 0.0,
+      "mode": "game",
+      "observed_queries": [],
+      "root_player": 1
+    },
+    {
+      "additional_nodes": 0,
+      "complete_world_decisions_checked": 0,
+      "complete_world_status": "CHECKED",
+      "cue_nodes": 85,
+      "id": "C26-p4-d5914541914276ef",
+      "independent_minimax_and_charge_check": true,
+      "initial_nodes": 39,
+      "initial_solve_move": 2,
+      "max_oracle_abs_residual": 0.0,
+      "mode": "game",
+      "observed_queries": [],
+      "root_player": 1
+    },
+    {
+      "additional_nodes": 110,
+      "complete_world_decisions_checked": 2,
+      "complete_world_status": "CHECKED",
+      "cue_nodes": 94,
+      "id": "C26-p4-d8a73121550b90fd",
+      "independent_minimax_and_charge_check": true,
+      "initial_nodes": 53,
+      "initial_solve_move": 4,
+      "max_oracle_abs_residual": 2.7755575615628914e-17,
+      "mode": "game",
+      "observed_queries": [
+        {
+          "move": 6,
+          "nodes": 49,
+          "utility": "1/2"
+        },
+        {
+          "move": 1,
+          "nodes": 61,
+          "utility": "1/2"
+        }
+      ],
+      "root_player": 1
+    },
+    {
+      "additional_nodes": 102,
+      "complete_world_decisions_checked": 2,
+      "complete_world_status": "CHECKED",
+      "cue_nodes": 86,
+      "id": "C26-p4-db820db39cce8ec3",
+      "independent_minimax_and_charge_check": true,
+      "initial_nodes": 65,
+      "initial_solve_move": 1,
+      "max_oracle_abs_residual": 2.7755575615628914e-17,
+      "mode": "game",
+      "observed_queries": [
+        {
+          "move": 2,
+          "nodes": 51,
+          "utility": "1/2"
+        },
+        {
+          "move": 4,
+          "nodes": 51,
+          "utility": "1/2"
+        }
+      ],
+      "root_player": 1
+    },
+    {
+      "additional_nodes": 62,
+      "complete_world_decisions_checked": 2,
+      "complete_world_status": "CHECKED",
+      "cue_nodes": 84,
+      "id": "C26-p4-deb5bc416ba8f9c9",
+      "independent_minimax_and_charge_check": true,
+      "initial_nodes": 51,
+      "initial_solve_move": 1,
+      "max_oracle_abs_residual": 5.551115123125783e-17,
+      "mode": "game",
+      "observed_queries": [
+        {
+          "move": 7,
+          "nodes": 24,
+          "utility": "0"
+        },
+        {
+          "move": 3,
+          "nodes": 38,
+          "utility": "0"
+        }
+      ],
+      "root_player": 1
+    },
+    {
+      "additional_nodes": 0,
+      "complete_world_decisions_checked": 0,
+      "complete_world_status": "CHECKED",
+      "cue_nodes": 64,
+      "id": "C26-p4-e0a66bb6d3edb463",
+      "independent_minimax_and_charge_check": true,
+      "initial_nodes": 0,
+      "initial_solve_move": null,
+      "max_oracle_abs_residual": 0.0,
+      "mode": "game",
+      "observed_queries": [],
+      "root_player": 1
+    },
+    {
+      "additional_nodes": 0,
+      "complete_world_decisions_checked": 0,
+      "complete_world_status": "CHECKED",
+      "cue_nodes": 79,
+      "id": "C26-p4-e6500ba8d32bf8f0",
+      "independent_minimax_and_charge_check": true,
+      "initial_nodes": 39,
+      "initial_solve_move": 4,
+      "max_oracle_abs_residual": 0.0,
+      "mode": "game",
+      "observed_queries": [],
+      "root_player": 1
+    },
+    {
+      "additional_nodes": 37,
+      "complete_world_decisions_checked": 1,
+      "complete_world_status": "CHECKED",
+      "cue_nodes": 87,
+      "id": "C26-p4-e885f7b18bc45bbf",
+      "independent_minimax_and_charge_check": true,
+      "initial_nodes": 51,
+      "initial_solve_move": 2,
+      "max_oracle_abs_residual": 2.7755575615628914e-17,
+      "mode": "game",
+      "observed_queries": [
+        {
+          "move": 8,
+          "nodes": 37,
+          "utility": "1"
+        }
+      ],
+      "root_player": 1
+    },
+    {
+      "additional_nodes": 0,
+      "complete_world_decisions_checked": 0,
+      "complete_world_status": "CHECKED",
+      "cue_nodes": 71,
+      "id": "C26-p4-e8d33f765aa117f6",
+      "independent_minimax_and_charge_check": true,
+      "initial_nodes": 37,
+      "initial_solve_move": 4,
+      "max_oracle_abs_residual": 0.0,
+      "mode": "game",
+      "observed_queries": [],
+      "root_player": 1
+    },
+    {
+      "additional_nodes": 0,
+      "complete_world_decisions_checked": 0,
+      "complete_world_status": "CHECKED",
+      "cue_nodes": 63,
+      "id": "C26-p4-ebd86a675ecc4748",
+      "independent_minimax_and_charge_check": true,
+      "initial_nodes": 0,
+      "initial_solve_move": null,
+      "max_oracle_abs_residual": 0.0,
+      "mode": "game",
+      "observed_queries": [],
+      "root_player": 1
+    },
+    {
+      "additional_nodes": 0,
+      "complete_world_decisions_checked": 0,
+      "complete_world_status": "CHECKED",
+      "cue_nodes": 62,
+      "id": "C26-p4-ee1cd5d1cc87e98f",
+      "independent_minimax_and_charge_check": true,
+      "initial_nodes": 0,
+      "initial_solve_move": null,
+      "max_oracle_abs_residual": 0.0,
+      "mode": "game",
+      "observed_queries": [],
+      "root_player": 1
+    },
+    {
+      "additional_nodes": 0,
+      "complete_world_decisions_checked": 0,
+      "complete_world_status": "CHECKED",
+      "cue_nodes": 64,
+      "id": "C26-p4-ee320ee76dd81503",
+      "independent_minimax_and_charge_check": true,
+      "initial_nodes": 0,
+      "initial_solve_move": null,
+      "max_oracle_abs_residual": 0.0,
+      "mode": "game",
+      "observed_queries": [],
+      "root_player": 1
+    },
+    {
+      "additional_nodes": 0,
+      "complete_world_decisions_checked": 0,
+      "complete_world_status": "CHECKED",
+      "cue_nodes": 54,
+      "id": "C26-p4-efe720c3c0d1eec8",
+      "independent_minimax_and_charge_check": true,
+      "initial_nodes": 0,
+      "initial_solve_move": null,
+      "max_oracle_abs_residual": 0.0,
+      "mode": "game",
+      "observed_queries": [],
+      "root_player": 1
+    },
+    {
+      "additional_nodes": 0,
+      "complete_world_decisions_checked": 0,
+      "complete_world_status": "CHECKED",
+      "cue_nodes": 58,
+      "id": "C26-p4-f0c8472ff3799ec5",
+      "independent_minimax_and_charge_check": true,
+      "initial_nodes": 0,
+      "initial_solve_move": null,
+      "max_oracle_abs_residual": 0.0,
+      "mode": "game",
+      "observed_queries": [],
+      "root_player": 1
+    },
+    {
+      "additional_nodes": 88,
+      "complete_world_decisions_checked": 2,
+      "complete_world_status": "CHECKED",
+      "cue_nodes": 84,
+      "id": "C26-p4-f18402b42a1d5906",
+      "independent_minimax_and_charge_check": true,
+      "initial_nodes": 61,
+      "initial_solve_move": 8,
+      "max_oracle_abs_residual": 1.3877787807814457e-17,
+      "mode": "game",
+      "observed_queries": [
+        {
+          "move": 6,
+          "nodes": 44,
+          "utility": "0"
+        },
+        {
+          "move": 2,
+          "nodes": 44,
+          "utility": "0"
+        }
+      ],
+      "root_player": 1
+    },
+    {
+      "additional_nodes": 0,
+      "complete_world_decisions_checked": 0,
+      "complete_world_status": "CHECKED",
+      "cue_nodes": 61,
+      "id": "C26-p4-f26d51874f48e541",
+      "independent_minimax_and_charge_check": true,
+      "initial_nodes": 0,
+      "initial_solve_move": null,
+      "max_oracle_abs_residual": 0.0,
+      "mode": "game",
+      "observed_queries": [],
+      "root_player": 1
+    },
+    {
+      "additional_nodes": 0,
+      "complete_world_decisions_checked": 0,
+      "complete_world_status": "CHECKED",
+      "cue_nodes": 87,
+      "id": "C26-p4-f27c763e9e92b5bd",
+      "independent_minimax_and_charge_check": true,
+      "initial_nodes": 39,
+      "initial_solve_move": 4,
+      "max_oracle_abs_residual": 0.0,
+      "mode": "game",
+      "observed_queries": [],
+      "root_player": 1
+    },
+    {
+      "additional_nodes": 0,
+      "complete_world_decisions_checked": 0,
+      "complete_world_status": "CHECKED",
+      "cue_nodes": 37,
+      "id": "C26-p5-05327e9038a9e403",
+      "independent_minimax_and_charge_check": true,
+      "initial_nodes": 0,
+      "initial_solve_move": null,
+      "max_oracle_abs_residual": 0.0,
+      "mode": "game",
+      "observed_queries": [],
+      "root_player": -1
+    },
+    {
+      "additional_nodes": 19,
+      "complete_world_decisions_checked": 2,
+      "complete_world_status": "CHECKED",
+      "cue_nodes": 46,
+      "id": "C26-p5-0666553c50e12e40",
+      "independent_minimax_and_charge_check": true,
+      "initial_nodes": 11,
+      "initial_solve_move": 2,
+      "max_oracle_abs_residual": 2.7755575615628914e-17,
+      "mode": "game",
+      "observed_queries": [
+        {
+          "move": 7,
+          "nodes": 12,
+          "utility": "0"
+        },
+        {
+          "move": 1,
+          "nodes": 7,
+          "utility": "0"
+        }
+      ],
+      "root_player": -1
+    },
+    {
+      "additional_nodes": 0,
+      "complete_world_decisions_checked": 0,
+      "complete_world_status": "CHECKED",
+      "cue_nodes": 40,
+      "id": "C26-p5-07404c1cb25bfb7e",
+      "independent_minimax_and_charge_check": true,
+      "initial_nodes": 0,
+      "initial_solve_move": null,
+      "max_oracle_abs_residual": 0.0,
+      "mode": "game",
+      "observed_queries": [],
+      "root_player": -1
+    },
+    {
+      "additional_nodes": 17,
+      "complete_world_decisions_checked": 2,
+      "complete_world_status": "CHECKED",
+      "cue_nodes": 48,
+      "id": "C26-p5-0b566b8fa411c5e0",
+      "independent_minimax_and_charge_check": true,
+      "initial_nodes": 9,
+      "initial_solve_move": 2,
+      "max_oracle_abs_residual": 2.7755575615628914e-17,
+      "mode": "game",
+      "observed_queries": [
+        {
+          "move": 0,
+          "nodes": 7,
+          "utility": "0"
+        },
+        {
+          "move": 6,
+          "nodes": 10,
+          "utility": "0"
+        }
+      ],
+      "root_player": -1
+    },
+    {
+      "additional_nodes": 22,
+      "complete_world_decisions_checked": 2,
+      "complete_world_status": "CHECKED",
+      "cue_nodes": 56,
+      "id": "C26-p5-0c188053deade01c",
+      "independent_minimax_and_charge_check": true,
+      "initial_nodes": 14,
+      "initial_solve_move": 6,
+      "max_oracle_abs_residual": 1.3877787807814457e-17,
+      "mode": "game",
+      "observed_queries": [
+        {
+          "move": 5,
+          "nodes": 12,
+          "utility": "0"
+        },
+        {
+          "move": 3,
+          "nodes": 10,
+          "utility": "0"
+        }
+      ],
+      "root_player": -1
+    },
+    {
+      "additional_nodes": 0,
+      "complete_world_decisions_checked": 0,
+      "complete_world_status": "CHECKED",
+      "cue_nodes": 51,
+      "id": "C26-p5-0ea1145a3e460f46",
+      "independent_minimax_and_charge_check": true,
+      "initial_nodes": 12,
+      "initial_solve_move": 4,
+      "max_oracle_abs_residual": 0.0,
+      "mode": "game",
+      "observed_queries": [],
+      "root_player": -1
+    },
+    {
+      "additional_nodes": 23,
+      "complete_world_decisions_checked": 2,
+      "complete_world_status": "CHECKED",
+      "cue_nodes": 56,
+      "id": "C26-p5-10659b228d1913fe",
+      "independent_minimax_and_charge_check": true,
+      "initial_nodes": 16,
+      "initial_solve_move": 5,
+      "max_oracle_abs_residual": 1.3877787807814457e-17,
+      "mode": "game",
+      "observed_queries": [
+        {
+          "move": 2,
+          "nodes": 11,
+          "utility": "0"
+        },
+        {
+          "move": 6,
+          "nodes": 12,
+          "utility": "0"
+        }
+      ],
+      "root_player": -1
+    },
+    {
+      "additional_nodes": 32,
+      "complete_world_decisions_checked": 2,
+      "complete_world_status": "CHECKED",
+      "cue_nodes": 64,
+      "id": "C26-p5-14cbd76047e47a8b",
+      "independent_minimax_and_charge_check": true,
+      "initial_nodes": 16,
+      "initial_solve_move": 6,
+      "max_oracle_abs_residual": 6.938893903907228e-18,
+      "mode": "game",
+      "observed_queries": [
+        {
+          "move": 0,
+          "nodes": 16,
+          "utility": "0"
+        },
+        {
+          "move": 8,
+          "nodes": 16,
+          "utility": "0"
+        }
+      ],
+      "root_player": -1
+    },
+    {
+      "additional_nodes": 22,
+      "complete_world_decisions_checked": 2,
+      "complete_world_status": "CHECKED",
+      "cue_nodes": 51,
+      "id": "C26-p5-17a305cab9732712",
+      "independent_minimax_and_charge_check": true,
+      "initial_nodes": 7,
+      "initial_solve_move": 2,
+      "max_oracle_abs_residual": 0.0,
+      "mode": "game",
+      "observed_queries": [
+        {
+          "move": 1,
+          "nodes": 11,
+          "utility": "0"
+        },
+        {
+          "move": 3,
+          "nodes": 11,
+          "utility": "0"
+        }
+      ],
+      "root_player": -1
+    },
+    {
+      "additional_nodes": 0,
+      "complete_world_decisions_checked": 0,
+      "complete_world_status": "CHECKED",
+      "cue_nodes": 42,
+      "id": "C26-p5-1881978ae93380b6",
+      "independent_minimax_and_charge_check": true,
+      "initial_nodes": 0,
+      "initial_solve_move": null,
+      "max_oracle_abs_residual": 0.0,
+      "mode": "game",
+      "observed_queries": [],
+      "root_player": -1
+    },
+    {
+      "additional_nodes": 20,
+      "complete_world_decisions_checked": 2,
+      "complete_world_status": "CHECKED",
+      "cue_nodes": 58,
+      "id": "C26-p5-196aaae3722ba5b7",
+      "independent_minimax_and_charge_check": true,
+      "initial_nodes": 14,
+      "initial_solve_move": 2,
+      "max_oracle_abs_residual": 1.3877787807814457e-17,
+      "mode": "game",
+      "observed_queries": [
+        {
+          "move": 1,
+          "nodes": 9,
+          "utility": "0"
+        },
+        {
+          "move": 4,
+          "nodes": 11,
+          "utility": "0"
+        }
+      ],
+      "root_player": -1
+    },
+    {
+      "additional_nodes": 0,
+      "complete_world_decisions_checked": 0,
+      "complete_world_status": "CHECKED",
+      "cue_nodes": 37,
+      "id": "C26-p5-2015a7f7f074501c",
+      "independent_minimax_and_charge_check": true,
+      "initial_nodes": 0,
+      "initial_solve_move": null,
+      "max_oracle_abs_residual": 0.0,
+      "mode": "game",
+      "observed_queries": [],
+      "root_player": -1
+    },
+    {
+      "additional_nodes": 0,
+      "complete_world_decisions_checked": 0,
+      "complete_world_status": "CHECKED",
+      "cue_nodes": 42,
+      "id": "C26-p5-2097f72949d33c0e",
+      "independent_minimax_and_charge_check": true,
+      "initial_nodes": 0,
+      "initial_solve_move": null,
+      "max_oracle_abs_residual": 0.0,
+      "mode": "game",
+      "observed_queries": [],
+      "root_player": -1
+    },
+    {
+      "additional_nodes": 0,
+      "complete_world_decisions_checked": 0,
+      "complete_world_status": "CHECKED",
+      "cue_nodes": 43,
+      "id": "C26-p5-219f6c81d60cd462",
+      "independent_minimax_and_charge_check": true,
+      "initial_nodes": 0,
+      "initial_solve_move": null,
+      "max_oracle_abs_residual": 0.0,
+      "mode": "game",
+      "observed_queries": [],
+      "root_player": -1
+    },
+    {
+      "additional_nodes": 20,
+      "complete_world_decisions_checked": 2,
+      "complete_world_status": "CHECKED",
+      "cue_nodes": 46,
+      "id": "C26-p5-21d5aecd7e7d9e7b",
+      "independent_minimax_and_charge_check": true,
+      "initial_nodes": 12,
+      "initial_solve_move": 5,
+      "max_oracle_abs_residual": 2.7755575615628914e-17,
+      "mode": "game",
+      "observed_queries": [
+        {
+          "move": 6,
+          "nodes": 12,
+          "utility": "0"
+        },
+        {
+          "move": 7,
+          "nodes": 8,
+          "utility": "0"
+        }
+      ],
+      "root_player": -1
+    },
+    {
+      "additional_nodes": 0,
+      "complete_world_decisions_checked": 0,
+      "complete_world_status": "CHECKED",
+      "cue_nodes": 37,
+      "id": "C26-p5-221fa03c7c072033",
+      "independent_minimax_and_charge_check": true,
+      "initial_nodes": 0,
+      "initial_solve_move": null,
+      "max_oracle_abs_residual": 0.0,
+      "mode": "game",
+      "observed_queries": [],
+      "root_player": -1
+    },
+    {
+      "additional_nodes": 0,
+      "complete_world_decisions_checked": 0,
+      "complete_world_status": "CHECKED",
+      "cue_nodes": 28,
+      "id": "C26-p5-2422615bcaa9ad7f",
+      "independent_minimax_and_charge_check": true,
+      "initial_nodes": 0,
+      "initial_solve_move": null,
+      "max_oracle_abs_residual": 0.0,
+      "mode": "game",
+      "observed_queries": [],
+      "root_player": -1
+    },
+    {
+      "additional_nodes": 32,
+      "complete_world_decisions_checked": 2,
+      "complete_world_status": "CHECKED",
+      "cue_nodes": 64,
+      "id": "C26-p5-24bb57da1635ec2f",
+      "independent_minimax_and_charge_check": true,
+      "initial_nodes": 16,
+      "initial_solve_move": 7,
+      "max_oracle_abs_residual": 6.938893903907228e-18,
+      "mode": "game",
+      "observed_queries": [
+        {
+          "move": 4,
+          "nodes": 16,
+          "utility": "1/2"
+        },
+        {
+          "move": 6,
+          "nodes": 16,
+          "utility": "1/2"
+        }
+      ],
+      "root_player": -1
+    },
+    {
+      "additional_nodes": 28,
+      "complete_world_decisions_checked": 2,
+      "complete_world_status": "CHECKED",
+      "cue_nodes": 54,
+      "id": "C26-p5-25abe6f45ddb38c9",
+      "independent_minimax_and_charge_check": true,
+      "initial_nodes": 11,
+      "initial_solve_move": 1,
+      "max_oracle_abs_residual": 5.551115123125783e-17,
+      "mode": "game",
+      "observed_queries": [
+        {
+          "move": 5,
+          "nodes": 16,
+          "utility": "1/2"
+        },
+        {
+          "move": 6,
+          "nodes": 12,
+          "utility": "0"
+        }
+      ],
+      "root_player": -1
+    },
+    {
+      "additional_nodes": 20,
+      "complete_world_decisions_checked": 2,
+      "complete_world_status": "CHECKED",
+      "cue_nodes": 57,
+      "id": "C26-p5-25f3b9412802f0e0",
+      "independent_minimax_and_charge_check": true,
+      "initial_nodes": 14,
+      "initial_solve_move": 7,
+      "max_oracle_abs_residual": 1.3877787807814457e-17,
+      "mode": "game",
+      "observed_queries": [
+        {
+          "move": 2,
+          "nodes": 11,
+          "utility": "0"
+        },
+        {
+          "move": 1,
+          "nodes": 9,
+          "utility": "0"
+        }
+      ],
+      "root_player": -1
+    },
+    {
+      "additional_nodes": 0,
+      "complete_world_decisions_checked": 0,
+      "complete_world_status": "CHECKED",
+      "cue_nodes": 36,
+      "id": "C26-p5-282a1c448d8b8d6e",
+      "independent_minimax_and_charge_check": true,
+      "initial_nodes": 0,
+      "initial_solve_move": null,
+      "max_oracle_abs_residual": 0.0,
+      "mode": "game",
+      "observed_queries": [],
+      "root_player": -1
+    },
+    {
+      "additional_nodes": 30,
+      "complete_world_decisions_checked": 2,
+      "complete_world_status": "CHECKED",
+      "cue_nodes": 61,
+      "id": "C26-p5-2aaf697f32c44d80",
+      "independent_minimax_and_charge_check": true,
+      "initial_nodes": 14,
+      "initial_solve_move": 1,
+      "max_oracle_abs_residual": 1.3877787807814457e-17,
+      "mode": "game",
+      "observed_queries": [
+        {
+          "move": 2,
+          "nodes": 14,
+          "utility": "1/2"
+        },
+        {
+          "move": 6,
+          "nodes": 16,
+          "utility": "1/2"
+        }
+      ],
+      "root_player": -1
+    },
+    {
+      "additional_nodes": 0,
+      "complete_world_decisions_checked": 0,
+      "complete_world_status": "CHECKED",
+      "cue_nodes": 33,
+      "id": "C26-p5-2df6d7744de96a26",
+      "independent_minimax_and_charge_check": true,
+      "initial_nodes": 0,
+      "initial_solve_move": null,
+      "max_oracle_abs_residual": 0.0,
+      "mode": "game",
+      "observed_queries": [],
+      "root_player": -1
+    },
+    {
+      "additional_nodes": 0,
+      "complete_world_decisions_checked": 0,
+      "complete_world_status": "CHECKED",
+      "cue_nodes": 36,
+      "id": "C26-p5-304d4d7f31e7abe4",
+      "independent_minimax_and_charge_check": true,
+      "initial_nodes": 0,
+      "initial_solve_move": null,
+      "max_oracle_abs_residual": 0.0,
+      "mode": "game",
+      "observed_queries": [],
+      "root_player": -1
+    },
+    {
+      "additional_nodes": 18,
+      "complete_world_decisions_checked": 2,
+      "complete_world_status": "CHECKED",
+      "cue_nodes": 46,
+      "id": "C26-p5-325e93151bf8ff66",
+      "independent_minimax_and_charge_check": true,
+      "initial_nodes": 12,
+      "initial_solve_move": 5,
+      "max_oracle_abs_residual": 1.3877787807814457e-17,
+      "mode": "game",
+      "observed_queries": [
+        {
+          "move": 1,
+          "nodes": 7,
+          "utility": "0"
+        },
+        {
+          "move": 2,
+          "nodes": 11,
+          "utility": "0"
+        }
+      ],
+      "root_player": -1
+    },
+    {
+      "additional_nodes": 11,
+      "complete_world_decisions_checked": 2,
+      "complete_world_status": "CHECKED",
+      "cue_nodes": 40,
+      "id": "C26-p5-32be0d09dc33ddbb",
+      "independent_minimax_and_charge_check": true,
+      "initial_nodes": 6,
+      "initial_solve_move": 4,
+      "max_oracle_abs_residual": 2.7755575615628914e-17,
+      "mode": "game",
+      "observed_queries": [
+        {
+          "move": 7,
+          "nodes": 7,
+          "utility": "0"
+        },
+        {
+          "move": 0,
+          "nodes": 4,
+          "utility": "0"
+        }
+      ],
+      "root_player": -1
+    },
+    {
+      "additional_nodes": 0,
+      "complete_world_decisions_checked": 0,
+      "complete_world_status": "CHECKED",
+      "cue_nodes": 39,
+      "id": "C26-p5-35bd441a0fb5d73f",
+      "independent_minimax_and_charge_check": true,
+      "initial_nodes": 0,
+      "initial_solve_move": null,
+      "max_oracle_abs_residual": 0.0,
+      "mode": "game",
+      "observed_queries": [],
+      "root_player": -1
+    },
+    {
+      "additional_nodes": 22,
+      "complete_world_decisions_checked": 2,
+      "complete_world_status": "CHECKED",
+      "cue_nodes": 51,
+      "id": "C26-p5-36d065a65e5f9a91",
+      "independent_minimax_and_charge_check": true,
+      "initial_nodes": 9,
+      "initial_solve_move": 2,
+      "max_oracle_abs_residual": 2.7755575615628914e-17,
+      "mode": "game",
+      "observed_queries": [
+        {
+          "move": 4,
+          "nodes": 10,
+          "utility": "0"
+        },
+        {
+          "move": 8,
+          "nodes": 12,
+          "utility": "1"
+        }
+      ],
+      "root_player": -1
+    },
+    {
+      "additional_nodes": 0,
+      "complete_world_decisions_checked": 0,
+      "complete_world_status": "CHECKED",
+      "cue_nodes": 31,
+      "id": "C26-p5-38230b428306c4ee",
+      "independent_minimax_and_charge_check": true,
+      "initial_nodes": 0,
+      "initial_solve_move": null,
+      "max_oracle_abs_residual": 0.0,
+      "mode": "game",
+      "observed_queries": [],
+      "root_player": -1
+    },
+    {
+      "additional_nodes": 30,
+      "complete_world_decisions_checked": 2,
+      "complete_world_status": "CHECKED",
+      "cue_nodes": 61,
+      "id": "C26-p5-3a0a492991ee139d",
+      "independent_minimax_and_charge_check": true,
+      "initial_nodes": 14,
+      "initial_solve_move": 8,
+      "max_oracle_abs_residual": 1.3877787807814457e-17,
+      "mode": "game",
+      "observed_queries": [
+        {
+          "move": 6,
+          "nodes": 16,
+          "utility": "1/2"
+        },
+        {
+          "move": 0,
+          "nodes": 14,
+          "utility": "0"
+        }
+      ],
+      "root_player": -1
+    },
+    {
+      "additional_nodes": 30,
+      "complete_world_decisions_checked": 2,
+      "complete_world_status": "CHECKED",
+      "cue_nodes": 62,
+      "id": "C26-p5-3b9bf39b31079462",
+      "independent_minimax_and_charge_check": true,
+      "initial_nodes": 14,
+      "initial_solve_move": 4,
+      "max_oracle_abs_residual": 1.3877787807814457e-17,
+      "mode": "game",
+      "observed_queries": [
+        {
+          "move": 2,
+          "nodes": 16,
+          "utility": "1/2"
+        },
+        {
+          "move": 8,
+          "nodes": 14,
+          "utility": "0"
+        }
+      ],
+      "root_player": -1
+    },
+    {
+      "additional_nodes": 0,
+      "complete_world_decisions_checked": 0,
+      "complete_world_status": "CHECKED",
+      "cue_nodes": 40,
+      "id": "C26-p5-3d36c5a595f8c560",
+      "independent_minimax_and_charge_check": true,
+      "initial_nodes": 0,
+      "initial_solve_move": null,
+      "max_oracle_abs_residual": 0.0,
+      "mode": "game",
+      "observed_queries": [],
+      "root_player": -1
+    },
+    {
+      "additional_nodes": 0,
+      "complete_world_decisions_checked": 0,
+      "complete_world_status": "CHECKED",
+      "cue_nodes": 38,
+      "id": "C26-p5-3e0f94c24f278377",
+      "independent_minimax_and_charge_check": true,
+      "initial_nodes": 0,
+      "initial_solve_move": null,
+      "max_oracle_abs_residual": 0.0,
+      "mode": "game",
+      "observed_queries": [],
+      "root_player": -1
+    },
+    {
+      "additional_nodes": 0,
+      "complete_world_decisions_checked": 0,
+      "complete_world_status": "CHECKED",
+      "cue_nodes": 46,
+      "id": "C26-p5-3eda6af47907b5cb",
+      "independent_minimax_and_charge_check": true,
+      "initial_nodes": 0,
+      "initial_solve_move": null,
+      "max_oracle_abs_residual": 0.0,
+      "mode": "game",
+      "observed_queries": [],
+      "root_player": -1
+    },
+    {
+      "additional_nodes": 0,
+      "complete_world_decisions_checked": 0,
+      "complete_world_status": "CHECKED",
+      "cue_nodes": 33,
+      "id": "C26-p5-3eee92166f31705b",
+      "independent_minimax_and_charge_check": true,
+      "initial_nodes": 0,
+      "initial_solve_move": null,
+      "max_oracle_abs_residual": 0.0,
+      "mode": "game",
+      "observed_queries": [],
+      "root_player": -1
+    },
+    {
+      "additional_nodes": 0,
+      "complete_world_decisions_checked": 0,
+      "complete_world_status": "CHECKED",
+      "cue_nodes": 53,
+      "id": "C26-p5-40af43bb234134c7",
+      "independent_minimax_and_charge_check": true,
+      "initial_nodes": 12,
+      "initial_solve_move": 4,
+      "max_oracle_abs_residual": 0.0,
+      "mode": "game",
+      "observed_queries": [],
+      "root_player": -1
+    },
+    {
+      "additional_nodes": 23,
+      "complete_world_decisions_checked": 2,
+      "complete_world_status": "CHECKED",
+      "cue_nodes": 43,
+      "id": "C26-p5-42b736c69f5373fe",
+      "independent_minimax_and_charge_check": true,
+      "initial_nodes": 7,
+      "initial_solve_move": 1,
+      "max_oracle_abs_residual": 0.0,
+      "mode": "game",
+      "observed_queries": [
+        {
+          "move": 2,
+          "nodes": 11,
+          "utility": "0"
+        },
+        {
+          "move": 3,
+          "nodes": 12,
+          "utility": "0"
+        }
+      ],
+      "root_player": -1
+    },
+    {
+      "additional_nodes": 0,
+      "complete_world_decisions_checked": 0,
+      "complete_world_status": "CHECKED",
+      "cue_nodes": 40,
+      "id": "C26-p5-436da45fa3d4ef26",
+      "independent_minimax_and_charge_check": true,
+      "initial_nodes": 0,
+      "initial_solve_move": null,
+      "max_oracle_abs_residual": 0.0,
+      "mode": "game",
+      "observed_queries": [],
+      "root_player": -1
+    },
+    {
+      "additional_nodes": 27,
+      "complete_world_decisions_checked": 2,
+      "complete_world_status": "CHECKED",
+      "cue_nodes": 59,
+      "id": "C26-p5-43c18165ace61fc9",
+      "independent_minimax_and_charge_check": true,
+      "initial_nodes": 11,
+      "initial_solve_move": 8,
+      "max_oracle_abs_residual": 1.1102230246251565e-16,
+      "mode": "game",
+      "observed_queries": [
+        {
+          "move": 7,
+          "nodes": 16,
+          "utility": "1/2"
+        },
+        {
+          "move": 2,
+          "nodes": 11,
+          "utility": "0"
+        }
+      ],
+      "root_player": -1
+    },
+    {
+      "additional_nodes": 28,
+      "complete_world_decisions_checked": 2,
+      "complete_world_status": "CHECKED",
+      "cue_nodes": 50,
+      "id": "C26-p5-492934fadceb517c",
+      "independent_minimax_and_charge_check": true,
+      "initial_nodes": 11,
+      "initial_solve_move": 1,
+      "max_oracle_abs_residual": 5.551115123125783e-17,
+      "mode": "game",
+      "observed_queries": [
+        {
+          "move": 6,
+          "nodes": 12,
+          "utility": "0"
+        },
+        {
+          "move": 5,
+          "nodes": 16,
+          "utility": "1/2"
+        }
+      ],
+      "root_player": -1
+    },
+    {
+      "additional_nodes": 23,
+      "complete_world_decisions_checked": 2,
+      "complete_world_status": "CHECKED",
+      "cue_nodes": 52,
+      "id": "C26-p5-49d6483256af935a",
+      "independent_minimax_and_charge_check": true,
+      "initial_nodes": 9,
+      "initial_solve_move": 2,
+      "max_oracle_abs_residual": 5.551115123125783e-17,
+      "mode": "game",
+      "observed_queries": [
+        {
+          "move": 8,
+          "nodes": 11,
+          "utility": "0"
+        },
+        {
+          "move": 6,
+          "nodes": 12,
+          "utility": "0"
+        }
+      ],
+      "root_player": -1
+    },
+    {
+      "additional_nodes": 28,
+      "complete_world_decisions_checked": 2,
+      "complete_world_status": "CHECKED",
+      "cue_nodes": 53,
+      "id": "C26-p5-4a84ae0e835de7f1",
+      "independent_minimax_and_charge_check": true,
+      "initial_nodes": 11,
+      "initial_solve_move": 7,
+      "max_oracle_abs_residual": 2.7755575615628914e-17,
+      "mode": "game",
+      "observed_queries": [
+        {
+          "move": 5,
+          "nodes": 16,
+          "utility": "0"
+        },
+        {
+          "move": 6,
+          "nodes": 12,
+          "utility": "0"
+        }
+      ],
+      "root_player": -1
+    },
+    {
+      "additional_nodes": 27,
+      "complete_world_decisions_checked": 2,
+      "complete_world_status": "CHECKED",
+      "cue_nodes": 51,
+      "id": "C26-p5-4ecfe4001bd1a961",
+      "independent_minimax_and_charge_check": true,
+      "initial_nodes": 11,
+      "initial_solve_move": 0,
+      "max_oracle_abs_residual": 1.1102230246251565e-16,
+      "mode": "game",
+      "observed_queries": [
+        {
+          "move": 8,
+          "nodes": 16,
+          "utility": "1/2"
+        },
+        {
+          "move": 2,
+          "nodes": 11,
+          "utility": "0"
+        }
+      ],
+      "root_player": -1
+    },
+    {
+      "additional_nodes": 26,
+      "complete_world_decisions_checked": 2,
+      "complete_world_status": "CHECKED",
+      "cue_nodes": 51,
+      "id": "C26-p5-4ef600356905cf78",
+      "independent_minimax_and_charge_check": true,
+      "initial_nodes": 9,
+      "initial_solve_move": 2,
+      "max_oracle_abs_residual": 1.1102230246251565e-16,
+      "mode": "game",
+      "observed_queries": [
+        {
+          "move": 6,
+          "nodes": 14,
+          "utility": "1/2"
+        },
+        {
+          "move": 5,
+          "nodes": 12,
+          "utility": "0"
+        }
+      ],
+      "root_player": -1
+    },
+    {
+      "additional_nodes": 15,
+      "complete_world_decisions_checked": 2,
+      "complete_world_status": "CHECKED",
+      "cue_nodes": 45,
+      "id": "C26-p5-4f66a9439a41a0f4",
+      "independent_minimax_and_charge_check": true,
+      "initial_nodes": 9,
+      "initial_solve_move": 4,
+      "max_oracle_abs_residual": 0.0,
+      "mode": "game",
+      "observed_queries": [
+        {
+          "move": 6,
+          "nodes": 8,
+          "utility": "0"
+        },
+        {
+          "move": 7,
+          "nodes": 7,
+          "utility": "0"
+        }
+      ],
+      "root_player": -1
+    },
+    {
+      "additional_nodes": 32,
+      "complete_world_decisions_checked": 2,
+      "complete_world_status": "CHECKED",
+      "cue_nodes": 63,
+      "id": "C26-p5-50cc38edc5c72b31",
+      "independent_minimax_and_charge_check": true,
+      "initial_nodes": 14,
+      "initial_solve_move": 4,
+      "max_oracle_abs_residual": 1.3877787807814457e-17,
+      "mode": "game",
+      "observed_queries": [
+        {
+          "move": 0,
+          "nodes": 16,
+          "utility": "0"
+        },
+        {
+          "move": 6,
+          "nodes": 16,
+          "utility": "1/2"
+        }
+      ],
+      "root_player": -1
+    },
+    {
+      "additional_nodes": 0,
+      "complete_world_decisions_checked": 0,
+      "complete_world_status": "CHECKED",
+      "cue_nodes": 38,
+      "id": "C26-p5-513946c1dcb329dd",
+      "independent_minimax_and_charge_check": true,
+      "initial_nodes": 0,
+      "initial_solve_move": null,
+      "max_oracle_abs_residual": 0.0,
+      "mode": "game",
+      "observed_queries": [],
+      "root_player": -1
+    },
+    {
+      "additional_nodes": 0,
+      "complete_world_decisions_checked": 0,
+      "complete_world_status": "CHECKED",
+      "cue_nodes": 44,
+      "id": "C26-p5-51437961574fa1a3",
+      "independent_minimax_and_charge_check": true,
+      "initial_nodes": 0,
+      "initial_solve_move": null,
+      "max_oracle_abs_residual": 0.0,
+      "mode": "game",
+      "observed_queries": [],
+      "root_player": -1
+    },
+    {
+      "additional_nodes": 0,
+      "complete_world_decisions_checked": 0,
+      "complete_world_status": "CHECKED",
+      "cue_nodes": 37,
+      "id": "C26-p5-53487ebb1e2716bd",
+      "independent_minimax_and_charge_check": true,
+      "initial_nodes": 0,
+      "initial_solve_move": null,
+      "max_oracle_abs_residual": 0.0,
+      "mode": "game",
+      "observed_queries": [],
+      "root_player": -1
+    },
+    {
+      "additional_nodes": 30,
+      "complete_world_decisions_checked": 2,
+      "complete_world_status": "CHECKED",
+      "cue_nodes": 61,
+      "id": "C26-p5-53f726687e6fb49f",
+      "independent_minimax_and_charge_check": true,
+      "initial_nodes": 14,
+      "initial_solve_move": 2,
+      "max_oracle_abs_residual": 0.0,
+      "mode": "game",
+      "observed_queries": [
+        {
+          "move": 4,
+          "nodes": 14,
+          "utility": "1/2"
+        },
+        {
+          "move": 5,
+          "nodes": 16,
+          "utility": "1/2"
+        }
+      ],
+      "root_player": -1
+    },
+    {
+      "additional_nodes": 0,
+      "complete_world_decisions_checked": 0,
+      "complete_world_status": "CHECKED",
+      "cue_nodes": 44,
+      "id": "C26-p5-5566418ec4070341",
+      "independent_minimax_and_charge_check": true,
+      "initial_nodes": 0,
+      "initial_solve_move": null,
+      "max_oracle_abs_residual": 0.0,
+      "mode": "game",
+      "observed_queries": [],
+      "root_player": -1
+    },
+    {
+      "additional_nodes": 0,
+      "complete_world_decisions_checked": 0,
+      "complete_world_status": "CHECKED",
+      "cue_nodes": 36,
+      "id": "C26-p5-559648f30e66ae48",
+      "independent_minimax_and_charge_check": true,
+      "initial_nodes": 0,
+      "initial_solve_move": null,
+      "max_oracle_abs_residual": 0.0,
+      "mode": "game",
+      "observed_queries": [],
+      "root_player": -1
+    },
+    {
+      "additional_nodes": 24,
+      "complete_world_decisions_checked": 2,
+      "complete_world_status": "CHECKED",
+      "cue_nodes": 52,
+      "id": "C26-p5-573d9edf4b428594",
+      "independent_minimax_and_charge_check": true,
+      "initial_nodes": 16,
+      "initial_solve_move": 5,
+      "max_oracle_abs_residual": 6.938893903907228e-18,
+      "mode": "game",
+      "observed_queries": [
+        {
+          "move": 4,
+          "nodes": 12,
+          "utility": "0"
+        },
+        {
+          "move": 1,
+          "nodes": 12,
+          "utility": "0"
+        }
+      ],
+      "root_player": -1
+    },
+    {
+      "additional_nodes": 0,
+      "complete_world_decisions_checked": 0,
+      "complete_world_status": "CHECKED",
+      "cue_nodes": 47,
+      "id": "C26-p5-5851d50b0dd02f59",
+      "independent_minimax_and_charge_check": true,
+      "initial_nodes": 0,
+      "initial_solve_move": null,
+      "max_oracle_abs_residual": 0.0,
+      "mode": "game",
+      "observed_queries": [],
+      "root_player": -1
+    },
+    {
+      "additional_nodes": 18,
+      "complete_world_decisions_checked": 2,
+      "complete_world_status": "CHECKED",
+      "cue_nodes": 46,
+      "id": "C26-p5-58ca4803cf9c51bb",
+      "independent_minimax_and_charge_check": true,
+      "initial_nodes": 8,
+      "initial_solve_move": 3,
+      "max_oracle_abs_residual": 6.938893903907228e-18,
+      "mode": "game",
+      "observed_queries": [
+        {
+          "move": 4,
+          "nodes": 10,
+          "utility": "0"
+        },
+        {
+          "move": 5,
+          "nodes": 8,
+          "utility": "0"
+        }
+      ],
+      "root_player": -1
+    },
+    {
+      "additional_nodes": 22,
+      "complete_world_decisions_checked": 2,
+      "complete_world_status": "CHECKED",
+      "cue_nodes": 41,
+      "id": "C26-p5-5b3274e0963ceac8",
+      "independent_minimax_and_charge_check": true,
+      "initial_nodes": 6,
+      "initial_solve_move": 1,
+      "max_oracle_abs_residual": 2.7755575615628914e-17,
+      "mode": "game",
+      "observed_queries": [
+        {
+          "move": 2,
+          "nodes": 11,
+          "utility": "0"
+        },
+        {
+          "move": 7,
+          "nodes": 11,
+          "utility": "0"
+        }
+      ],
+      "root_player": -1
+    },
+    {
+      "additional_nodes": 19,
+      "complete_world_decisions_checked": 2,
+      "complete_world_status": "CHECKED",
+      "cue_nodes": 44,
+      "id": "C26-p5-5b7a634bde6c8b36",
+      "independent_minimax_and_charge_check": true,
+      "initial_nodes": 7,
+      "initial_solve_move": 0,
+      "max_oracle_abs_residual": 2.7755575615628914e-17,
+      "mode": "game",
+      "observed_queries": [
+        {
+          "move": 2,
+          "nodes": 11,
+          "utility": "0"
+        },
+        {
+          "move": 5,
+          "nodes": 8,
+          "utility": "0"
+        }
+      ],
+      "root_player": -1
+    },
+    {
+      "additional_nodes": 22,
+      "complete_world_decisions_checked": 2,
+      "complete_world_status": "CHECKED",
+      "cue_nodes": 54,
+      "id": "C26-p5-5d77e2f5ffb65398",
+      "independent_minimax_and_charge_check": true,
+      "initial_nodes": 14,
+      "initial_solve_move": 2,
+      "max_oracle_abs_residual": 1.3877787807814457e-17,
+      "mode": "game",
+      "observed_queries": [
+        {
+          "move": 1,
+          "nodes": 10,
+          "utility": "0"
+        },
+        {
+          "move": 3,
+          "nodes": 12,
+          "utility": "0"
+        }
+      ],
+      "root_player": -1
+    },
+    {
+      "additional_nodes": 0,
+      "complete_world_decisions_checked": 0,
+      "complete_world_status": "CHECKED",
+      "cue_nodes": 38,
+      "id": "C26-p5-5e1b967d9f41f4a2",
+      "independent_minimax_and_charge_check": true,
+      "initial_nodes": 0,
+      "initial_solve_move": null,
+      "max_oracle_abs_residual": 0.0,
+      "mode": "game",
+      "observed_queries": [],
+      "root_player": -1
+    },
+    {
+      "additional_nodes": 0,
+      "complete_world_decisions_checked": 0,
+      "complete_world_status": "CHECKED",
+      "cue_nodes": 44,
+      "id": "C26-p5-633c1e5c2db785e0",
+      "independent_minimax_and_charge_check": true,
+      "initial_nodes": 0,
+      "initial_solve_move": null,
+      "max_oracle_abs_residual": 0.0,
+      "mode": "game",
+      "observed_queries": [],
+      "root_player": -1
+    },
+    {
+      "additional_nodes": 15,
+      "complete_world_decisions_checked": 2,
+      "complete_world_status": "CHECKED",
+      "cue_nodes": 43,
+      "id": "C26-p5-67f0b6a0b7e6fb65",
+      "independent_minimax_and_charge_check": true,
+      "initial_nodes": 9,
+      "initial_solve_move": 0,
+      "max_oracle_abs_residual": 2.7755575615628914e-17,
+      "mode": "game",
+      "observed_queries": [
+        {
+          "move": 2,
+          "nodes": 7,
+          "utility": "0"
+        },
+        {
+          "move": 5,
+          "nodes": 8,
+          "utility": "0"
+        }
+      ],
+      "root_player": -1
+    },
+    {
+      "additional_nodes": 17,
+      "complete_world_decisions_checked": 2,
+      "complete_world_status": "CHECKED",
+      "cue_nodes": 38,
+      "id": "C26-p5-69a30faed25f03e3",
+      "independent_minimax_and_charge_check": true,
+      "initial_nodes": 9,
+      "initial_solve_move": 2,
+      "max_oracle_abs_residual": 1.3877787807814457e-17,
+      "mode": "game",
+      "observed_queries": [
+        {
+          "move": 1,
+          "nodes": 7,
+          "utility": "0"
+        },
+        {
+          "move": 4,
+          "nodes": 10,
+          "utility": "0"
+        }
+      ],
+      "root_player": -1
+    },
+    {
+      "additional_nodes": 22,
+      "complete_world_decisions_checked": 2,
+      "complete_world_status": "CHECKED",
+      "cue_nodes": 54,
+      "id": "C26-p5-6a6927c5e9def07c",
+      "independent_minimax_and_charge_check": true,
+      "initial_nodes": 14,
+      "initial_solve_move": 4,
+      "max_oracle_abs_residual": 1.3877787807814457e-17,
+      "mode": "game",
+      "observed_queries": [
+        {
+          "move": 8,
+          "nodes": 10,
+          "utility": "0"
+        },
+        {
+          "move": 7,
+          "nodes": 12,
+          "utility": "0"
+        }
+      ],
+      "root_player": -1
+    },
+    {
+      "additional_nodes": 17,
+      "complete_world_decisions_checked": 2,
+      "complete_world_status": "CHECKED",
+      "cue_nodes": 45,
+      "id": "C26-p5-6c99a9280dc85e93",
+      "independent_minimax_and_charge_check": true,
+      "initial_nodes": 9,
+      "initial_solve_move": 4,
+      "max_oracle_abs_residual": 2.7755575615628914e-17,
+      "mode": "game",
+      "observed_queries": [
+        {
+          "move": 7,
+          "nodes": 7,
+          "utility": "0"
+        },
+        {
+          "move": 8,
+          "nodes": 10,
+          "utility": "0"
+        }
+      ],
+      "root_player": -1
+    },
+    {
+      "additional_nodes": 24,
+      "complete_world_decisions_checked": 2,
+      "complete_world_status": "CHECKED",
+      "cue_nodes": 55,
+      "id": "C26-p5-6d3ed9454dac74c6",
+      "independent_minimax_and_charge_check": true,
+      "initial_nodes": 11,
+      "initial_solve_move": 3,
+      "max_oracle_abs_residual": 2.7755575615628914e-17,
+      "mode": "game",
+      "observed_queries": [
+        {
+          "move": 8,
+          "nodes": 14,
+          "utility": "1/2"
+        },
+        {
+          "move": 0,
+          "nodes": 10,
+          "utility": "0"
+        }
+      ],
+      "root_player": -1
+    },
+    {
+      "additional_nodes": 19,
+      "complete_world_decisions_checked": 2,
+      "complete_world_status": "CHECKED",
+      "cue_nodes": 46,
+      "id": "C26-p5-6ee209f740d9b8c9",
+      "independent_minimax_and_charge_check": true,
+      "initial_nodes": 6,
+      "initial_solve_move": 0,
+      "max_oracle_abs_residual": 1.3877787807814457e-17,
+      "mode": "game",
+      "observed_queries": [
+        {
+          "move": 2,
+          "nodes": 11,
+          "utility": "0"
+        },
+        {
+          "move": 4,
+          "nodes": 8,
+          "utility": "0"
+        }
+      ],
+      "root_player": -1
+    },
+    {
+      "additional_nodes": 0,
+      "complete_world_decisions_checked": 0,
+      "complete_world_status": "CHECKED",
+      "cue_nodes": 39,
+      "id": "C26-p5-6fdc9aed2d7a4014",
+      "independent_minimax_and_charge_check": true,
+      "initial_nodes": 0,
+      "initial_solve_move": null,
+      "max_oracle_abs_residual": 0.0,
+      "mode": "game",
+      "observed_queries": [],
+      "root_player": -1
+    },
+    {
+      "additional_nodes": 11,
+      "complete_world_decisions_checked": 2,
+      "complete_world_status": "CHECKED",
+      "cue_nodes": 36,
+      "id": "C26-p5-713285edc618fcc3",
+      "independent_minimax_and_charge_check": true,
+      "initial_nodes": 6,
+      "initial_solve_move": 2,
+      "max_oracle_abs_residual": 2.7755575615628914e-17,
+      "mode": "game",
+      "observed_queries": [
+        {
+          "move": 1,
+          "nodes": 7,
+          "utility": "0"
+        },
+        {
+          "move": 3,
+          "nodes": 4,
+          "utility": "0"
+        }
+      ],
+      "root_player": -1
+    },
+    {
+      "additional_nodes": 18,
+      "complete_world_decisions_checked": 2,
+      "complete_world_status": "CHECKED",
+      "cue_nodes": 43,
+      "id": "C26-p5-71fea341cf754e40",
+      "independent_minimax_and_charge_check": true,
+      "initial_nodes": 9,
+      "initial_solve_move": 4,
+      "max_oracle_abs_residual": 2.7755575615628914e-17,
+      "mode": "game",
+      "observed_queries": [
+        {
+          "move": 8,
+          "nodes": 10,
+          "utility": "0"
+        },
+        {
+          "move": 1,
+          "nodes": 8,
+          "utility": "0"
+        }
+      ],
+      "root_player": -1
+    },
+    {
+      "additional_nodes": 0,
+      "complete_world_decisions_checked": 0,
+      "complete_world_status": "CHECKED",
+      "cue_nodes": 28,
+      "id": "C26-p5-728ac2a58ec0c5c5",
+      "independent_minimax_and_charge_check": true,
+      "initial_nodes": 0,
+      "initial_solve_move": null,
+      "max_oracle_abs_residual": 0.0,
+      "mode": "game",
+      "observed_queries": [],
+      "root_player": -1
+    },
+    {
+      "additional_nodes": 0,
+      "complete_world_decisions_checked": 0,
+      "complete_world_status": "CHECKED",
+      "cue_nodes": 34,
+      "id": "C26-p5-7433b10b355e651d",
+      "independent_minimax_and_charge_check": true,
+      "initial_nodes": 0,
+      "initial_solve_move": null,
+      "max_oracle_abs_residual": 0.0,
+      "mode": "game",
+      "observed_queries": [],
+      "root_player": -1
+    },
+    {
+      "additional_nodes": 0,
+      "complete_world_decisions_checked": 0,
+      "complete_world_status": "CHECKED",
+      "cue_nodes": 36,
+      "id": "C26-p5-74a9a6e999f10ef2",
+      "independent_minimax_and_charge_check": true,
+      "initial_nodes": 0,
+      "initial_solve_move": null,
+      "max_oracle_abs_residual": 0.0,
+      "mode": "game",
+      "observed_queries": [],
+      "root_player": -1
+    },
+    {
+      "additional_nodes": 30,
+      "complete_world_decisions_checked": 2,
+      "complete_world_status": "CHECKED",
+      "cue_nodes": 59,
+      "id": "C26-p5-76ed1f08df65f347",
+      "independent_minimax_and_charge_check": true,
+      "initial_nodes": 14,
+      "initial_solve_move": 4,
+      "max_oracle_abs_residual": 1.3877787807814457e-17,
+      "mode": "game",
+      "observed_queries": [
+        {
+          "move": 6,
+          "nodes": 16,
+          "utility": "1/2"
+        },
+        {
+          "move": 8,
+          "nodes": 14,
+          "utility": "0"
+        }
+      ],
+      "root_player": -1
+    },
+    {
+      "additional_nodes": 0,
+      "complete_world_decisions_checked": 0,
+      "complete_world_status": "CHECKED",
+      "cue_nodes": 38,
+      "id": "C26-p5-77ebeca2382db89a",
+      "independent_minimax_and_charge_check": true,
+      "initial_nodes": 0,
+      "initial_solve_move": null,
+      "max_oracle_abs_residual": 0.0,
+      "mode": "game",
+      "observed_queries": [],
+      "root_player": -1
+    },
+    {
+      "additional_nodes": 24,
+      "complete_world_decisions_checked": 2,
+      "complete_world_status": "CHECKED",
+      "cue_nodes": 60,
+      "id": "C26-p5-79dbddd993782e07",
+      "independent_minimax_and_charge_check": true,
+      "initial_nodes": 16,
+      "initial_solve_move": 6,
+      "max_oracle_abs_residual": 1.3877787807814457e-17,
+      "mode": "game",
+      "observed_queries": [
+        {
+          "move": 1,
+          "nodes": 12,
+          "utility": "0"
+        },
+        {
+          "move": 7,
+          "nodes": 12,
+          "utility": "0"
+        }
+      ],
+      "root_player": -1
+    },
+    {
+      "additional_nodes": 12,
+      "complete_world_decisions_checked": 2,
+      "complete_world_status": "CHECKED",
+      "cue_nodes": 36,
+      "id": "C26-p5-7a825ddf7030bcd0",
+      "independent_minimax_and_charge_check": true,
+      "initial_nodes": 8,
+      "initial_solve_move": 0,
+      "max_oracle_abs_residual": 6.938893903907228e-18,
+      "mode": "game",
+      "observed_queries": [
+        {
+          "move": 3,
+          "nodes": 4,
+          "utility": "0"
+        },
+        {
+          "move": 5,
+          "nodes": 8,
+          "utility": "0"
+        }
+      ],
+      "root_player": -1
+    },
+    {
+      "additional_nodes": 25,
+      "complete_world_decisions_checked": 2,
+      "complete_world_status": "CHECKED",
+      "cue_nodes": 49,
+      "id": "C26-p5-7add0921e820fdd1",
+      "independent_minimax_and_charge_check": true,
+      "initial_nodes": 10,
+      "initial_solve_move": 4,
+      "max_oracle_abs_residual": 2.7755575615628914e-17,
+      "mode": "game",
+      "observed_queries": [
+        {
+          "move": 8,
+          "nodes": 14,
+          "utility": "0"
+        },
+        {
+          "move": 6,
+          "nodes": 11,
+          "utility": "0"
+        }
+      ],
+      "root_player": -1
+    },
+    {
+      "additional_nodes": 26,
+      "complete_world_decisions_checked": 2,
+      "complete_world_status": "CHECKED",
+      "cue_nodes": 53,
+      "id": "C26-p5-7c26a69ff2164a32",
+      "independent_minimax_and_charge_check": true,
+      "initial_nodes": 11,
+      "initial_solve_move": 2,
+      "max_oracle_abs_residual": 5.551115123125783e-17,
+      "mode": "game",
+      "observed_queries": [
+        {
+          "move": 3,
+          "nodes": 12,
+          "utility": "0"
+        },
+        {
+          "move": 8,
+          "nodes": 14,
+          "utility": "1/2"
+        }
+      ],
+      "root_player": -1
+    },
+    {
+      "additional_nodes": 0,
+      "complete_world_decisions_checked": 0,
+      "complete_world_status": "CHECKED",
+      "cue_nodes": 31,
+      "id": "C26-p5-7c7bc1d20d0f4487",
+      "independent_minimax_and_charge_check": true,
+      "initial_nodes": 0,
+      "initial_solve_move": null,
+      "max_oracle_abs_residual": 0.0,
+      "mode": "game",
+      "observed_queries": [],
+      "root_player": -1
+    },
+    {
+      "additional_nodes": 0,
+      "complete_world_decisions_checked": 0,
+      "complete_world_status": "CHECKED",
+      "cue_nodes": 49,
+      "id": "C26-p5-7d2d7add0f1994e3",
+      "independent_minimax_and_charge_check": true,
+      "initial_nodes": 12,
+      "initial_solve_move": 4,
+      "max_oracle_abs_residual": 0.0,
+      "mode": "game",
+      "observed_queries": [],
+      "root_player": -1
+    },
+    {
+      "additional_nodes": 25,
+      "complete_world_decisions_checked": 2,
+      "complete_world_status": "CHECKED",
+      "cue_nodes": 52,
+      "id": "C26-p5-80c2cb267e378290",
+      "independent_minimax_and_charge_check": true,
+      "initial_nodes": 9,
+      "initial_solve_move": 8,
+      "max_oracle_abs_residual": 1.3877787807814457e-17,
+      "mode": "game",
+      "observed_queries": [
+        {
+          "move": 2,
+          "nodes": 11,
+          "utility": "0"
+        },
+        {
+          "move": 4,
+          "nodes": 14,
+          "utility": "1/2"
+        }
+      ],
+      "root_player": -1
+    },
+    {
+      "additional_nodes": 23,
+      "complete_world_decisions_checked": 2,
+      "complete_world_status": "CHECKED",
+      "cue_nodes": 48,
+      "id": "C26-p5-85216477f1f3ed81",
+      "independent_minimax_and_charge_check": true,
+      "initial_nodes": 16,
+      "initial_solve_move": 6,
+      "max_oracle_abs_residual": 1.3877787807814457e-17,
+      "mode": "game",
+      "observed_queries": [
+        {
+          "move": 0,
+          "nodes": 12,
+          "utility": "0"
+        },
+        {
+          "move": 4,
+          "nodes": 11,
+          "utility": "0"
+        }
+      ],
+      "root_player": -1
+    },
+    {
+      "additional_nodes": 22,
+      "complete_world_decisions_checked": 2,
+      "complete_world_status": "CHECKED",
+      "cue_nodes": 47,
+      "id": "C26-p5-8689ad82db0d3f36",
+      "independent_minimax_and_charge_check": true,
+      "initial_nodes": 6,
+      "initial_solve_move": 2,
+      "max_oracle_abs_residual": 0.0,
+      "mode": "game",
+      "observed_queries": [
+        {
+          "move": 1,
+          "nodes": 11,
+          "utility": "0"
+        },
+        {
+          "move": 5,
+          "nodes": 11,
+          "utility": "0"
+        }
+      ],
+      "root_player": -1
+    },
+    {
+      "additional_nodes": 0,
+      "complete_world_decisions_checked": 0,
+      "complete_world_status": "CHECKED",
+      "cue_nodes": 33,
+      "id": "C26-p5-86aa2fc2307a86a1",
+      "independent_minimax_and_charge_check": true,
+      "initial_nodes": 0,
+      "initial_solve_move": null,
+      "max_oracle_abs_residual": 0.0,
+      "mode": "game",
+      "observed_queries": [],
+      "root_player": -1
+    },
+    {
+      "additional_nodes": 16,
+      "complete_world_decisions_checked": 2,
+      "complete_world_status": "CHECKED",
+      "cue_nodes": 41,
+      "id": "C26-p5-8a1be983b69ebfd1",
+      "independent_minimax_and_charge_check": true,
+      "initial_nodes": 9,
+      "initial_solve_move": 8,
+      "max_oracle_abs_residual": 2.7755575615628914e-17,
+      "mode": "game",
+      "observed_queries": [
+        {
+          "move": 4,
+          "nodes": 9,
+          "utility": "0"
+        },
+        {
+          "move": 1,
+          "nodes": 7,
+          "utility": "0"
+        }
+      ],
+      "root_player": -1
+    },
+    {
+      "additional_nodes": 0,
+      "complete_world_decisions_checked": 0,
+      "complete_world_status": "CHECKED",
+      "cue_nodes": 55,
+      "id": "C26-p5-8b9e1606429f246a",
+      "independent_minimax_and_charge_check": true,
+      "initial_nodes": 12,
+      "initial_solve_move": 4,
+      "max_oracle_abs_residual": 0.0,
+      "mode": "game",
+      "observed_queries": [],
+      "root_player": -1
+    },
+    {
+      "additional_nodes": 14,
+      "complete_world_decisions_checked": 2,
+      "complete_world_status": "CHECKED",
+      "cue_nodes": 43,
+      "id": "C26-p5-8d5226fe27cec01e",
+      "independent_minimax_and_charge_check": true,
+      "initial_nodes": 11,
+      "initial_solve_move": 1,
+      "max_oracle_abs_residual": 2.7755575615628914e-17,
+      "mode": "game",
+      "observed_queries": [
+        {
+          "move": 2,
+          "nodes": 7,
+          "utility": "0"
+        },
+        {
+          "move": 3,
+          "nodes": 7,
+          "utility": "0"
+        }
+      ],
+      "root_player": -1
+    },
+    {
+      "additional_nodes": 0,
+      "complete_world_decisions_checked": 0,
+      "complete_world_status": "CHECKED",
+      "cue_nodes": 44,
+      "id": "C26-p5-8ed4532c55c82ac6",
+      "independent_minimax_and_charge_check": true,
+      "initial_nodes": 0,
+      "initial_solve_move": null,
+      "max_oracle_abs_residual": 0.0,
+      "mode": "game",
+      "observed_queries": [],
+      "root_player": -1
+    },
+    {
+      "additional_nodes": 22,
+      "complete_world_decisions_checked": 2,
+      "complete_world_status": "CHECKED",
+      "cue_nodes": 51,
+      "id": "C26-p5-9019af900bdd2cae",
+      "independent_minimax_and_charge_check": true,
+      "initial_nodes": 14,
+      "initial_solve_move": 2,
+      "max_oracle_abs_residual": 1.3877787807814457e-17,
+      "mode": "game",
+      "observed_queries": [
+        {
+          "move": 0,
+          "nodes": 10,
+          "utility": "0"
+        },
+        {
+          "move": 7,
+          "nodes": 12,
+          "utility": "0"
+        }
+      ],
+      "root_player": -1
+    },
+    {
+      "additional_nodes": 19,
+      "complete_world_decisions_checked": 2,
+      "complete_world_status": "CHECKED",
+      "cue_nodes": 40,
+      "id": "C26-p5-9131afd1350b259e",
+      "independent_minimax_and_charge_check": true,
+      "initial_nodes": 12,
+      "initial_solve_move": 6,
+      "max_oracle_abs_residual": 0.0,
+      "mode": "game",
+      "observed_queries": [
+        {
+          "move": 5,
+          "nodes": 11,
+          "utility": "0"
+        },
+        {
+          "move": 0,
+          "nodes": 8,
+          "utility": "0"
+        }
+      ],
+      "root_player": -1
+    },
+    {
+      "additional_nodes": 32,
+      "complete_world_decisions_checked": 2,
+      "complete_world_status": "CHECKED",
+      "cue_nodes": 60,
+      "id": "C26-p5-93133393573201a9",
+      "independent_minimax_and_charge_check": true,
+      "initial_nodes": 14,
+      "initial_solve_move": 2,
+      "max_oracle_abs_residual": 2.7755575615628914e-17,
+      "mode": "game",
+      "observed_queries": [
+        {
+          "move": 5,
+          "nodes": 16,
+          "utility": "1/2"
+        },
+        {
+          "move": 7,
+          "nodes": 16,
+          "utility": "1/2"
+        }
+      ],
+      "root_player": -1
+    },
+    {
+      "additional_nodes": 0,
+      "complete_world_decisions_checked": 0,
+      "complete_world_status": "CHECKED",
+      "cue_nodes": 57,
+      "id": "C26-p5-963a3d1ba87799f4",
+      "independent_minimax_and_charge_check": true,
+      "initial_nodes": 12,
+      "initial_solve_move": 0,
+      "max_oracle_abs_residual": 0.0,
+      "mode": "game",
+      "observed_queries": [],
+      "root_player": -1
+    },
+    {
+      "additional_nodes": 0,
+      "complete_world_decisions_checked": 0,
+      "complete_world_status": "CHECKED",
+      "cue_nodes": 30,
+      "id": "C26-p5-9a65cb001dff23e1",
+      "independent_minimax_and_charge_check": true,
+      "initial_nodes": 0,
+      "initial_solve_move": null,
+      "max_oracle_abs_residual": 0.0,
+      "mode": "game",
+      "observed_queries": [],
+      "root_player": -1
+    },
+    {
+      "additional_nodes": 0,
+      "complete_world_decisions_checked": 0,
+      "complete_world_status": "CHECKED",
+      "cue_nodes": 37,
+      "id": "C26-p5-9a7da25c6fc3959f",
+      "independent_minimax_and_charge_check": true,
+      "initial_nodes": 0,
+      "initial_solve_move": null,
+      "max_oracle_abs_residual": 0.0,
+      "mode": "game",
+      "observed_queries": [],
+      "root_player": -1
+    },
+    {
+      "additional_nodes": 0,
+      "complete_world_decisions_checked": 0,
+      "complete_world_status": "CHECKED",
+      "cue_nodes": 40,
+      "id": "C26-p5-9ae074920de4db10",
+      "independent_minimax_and_charge_check": true,
+      "initial_nodes": 0,
+      "initial_solve_move": null,
+      "max_oracle_abs_residual": 0.0,
+      "mode": "game",
+      "observed_queries": [],
+      "root_player": -1
+    },
+    {
+      "additional_nodes": 0,
+      "complete_world_decisions_checked": 0,
+      "complete_world_status": "CHECKED",
+      "cue_nodes": 57,
+      "id": "C26-p5-9b04e444fdde66d2",
+      "independent_minimax_and_charge_check": true,
+      "initial_nodes": 12,
+      "initial_solve_move": 8,
+      "max_oracle_abs_residual": 0.0,
+      "mode": "game",
+      "observed_queries": [],
+      "root_player": -1
+    },
+    {
+      "additional_nodes": 0,
+      "complete_world_decisions_checked": 0,
+      "complete_world_status": "CHECKED",
+      "cue_nodes": 30,
+      "id": "C26-p5-9d6e70b516b8fc88",
+      "independent_minimax_and_charge_check": true,
+      "initial_nodes": 0,
+      "initial_solve_move": null,
+      "max_oracle_abs_residual": 0.0,
+      "mode": "game",
+      "observed_queries": [],
+      "root_player": -1
+    },
+    {
+      "additional_nodes": 0,
+      "complete_world_decisions_checked": 0,
+      "complete_world_status": "CHECKED",
+      "cue_nodes": 36,
+      "id": "C26-p5-9ef277cbf66e7710",
+      "independent_minimax_and_charge_check": true,
+      "initial_nodes": 0,
+      "initial_solve_move": null,
+      "max_oracle_abs_residual": 0.0,
+      "mode": "game",
+      "observed_queries": [],
+      "root_player": -1
+    },
+    {
+      "additional_nodes": 0,
+      "complete_world_decisions_checked": 0,
+      "complete_world_status": "CHECKED",
+      "cue_nodes": 45,
+      "id": "C26-p5-9fb38078522fa56b",
+      "independent_minimax_and_charge_check": true,
+      "initial_nodes": 0,
+      "initial_solve_move": null,
+      "max_oracle_abs_residual": 0.0,
+      "mode": "game",
+      "observed_queries": [],
+      "root_player": -1
+    },
+    {
+      "additional_nodes": 19,
+      "complete_world_decisions_checked": 2,
+      "complete_world_status": "CHECKED",
+      "cue_nodes": 40,
+      "id": "C26-p5-a0d252cd0c4642b9",
+      "independent_minimax_and_charge_check": true,
+      "initial_nodes": 12,
+      "initial_solve_move": 5,
+      "max_oracle_abs_residual": 3.469446951953614e-18,
+      "mode": "game",
+      "observed_queries": [
+        {
+          "move": 1,
+          "nodes": 8,
+          "utility": "0"
+        },
+        {
+          "move": 6,
+          "nodes": 11,
+          "utility": "0"
+        }
+      ],
+      "root_player": -1
+    },
+    {
+      "additional_nodes": 0,
+      "complete_world_decisions_checked": 0,
+      "complete_world_status": "CHECKED",
+      "cue_nodes": 22,
+      "id": "C26-p6-02b59260b47b1226",
+      "independent_minimax_and_charge_check": true,
+      "initial_nodes": 0,
+      "initial_solve_move": null,
+      "max_oracle_abs_residual": 0.0,
+      "mode": "game",
+      "observed_queries": [],
+      "root_player": 1
+    },
+    {
+      "additional_nodes": 0,
+      "complete_world_decisions_checked": 0,
+      "complete_world_status": "CHECKED",
+      "cue_nodes": 23,
+      "id": "C26-p6-02cd26dc20947476",
+      "independent_minimax_and_charge_check": true,
+      "initial_nodes": 0,
+      "initial_solve_move": null,
+      "max_oracle_abs_residual": 0.0,
+      "mode": "game",
+      "observed_queries": [],
+      "root_player": 1
+    },
+    {
+      "additional_nodes": 0,
+      "complete_world_decisions_checked": 0,
+      "complete_world_status": "CHECKED",
+      "cue_nodes": 25,
+      "id": "C26-p6-04ec73a4c4f82195",
+      "independent_minimax_and_charge_check": true,
+      "initial_nodes": 0,
+      "initial_solve_move": null,
+      "max_oracle_abs_residual": 0.0,
+      "mode": "game",
+      "observed_queries": [],
+      "root_player": 1
+    },
+    {
+      "additional_nodes": 0,
+      "complete_world_decisions_checked": 0,
+      "complete_world_status": "CHECKED",
+      "cue_nodes": 13,
+      "id": "C26-p6-0672f8a7b5a2145b",
+      "independent_minimax_and_charge_check": true,
+      "initial_nodes": 0,
+      "initial_solve_move": null,
+      "max_oracle_abs_residual": 0.0,
+      "mode": "game",
+      "observed_queries": [],
+      "root_player": 1
+    },
+    {
+      "additional_nodes": 0,
+      "complete_world_decisions_checked": 0,
+      "complete_world_status": "CHECKED",
+      "cue_nodes": 23,
+      "id": "C26-p6-06e89bc740b2b794",
+      "independent_minimax_and_charge_check": true,
+      "initial_nodes": 0,
+      "initial_solve_move": null,
+      "max_oracle_abs_residual": 0.0,
+      "mode": "game",
+      "observed_queries": [],
+      "root_player": 1
+    },
+    {
+      "additional_nodes": 0,
+      "complete_world_decisions_checked": 0,
+      "complete_world_status": "CHECKED",
+      "cue_nodes": 25,
+      "id": "C26-p6-07ac4bb5c3fdb3bf",
+      "independent_minimax_and_charge_check": true,
+      "initial_nodes": 0,
+      "initial_solve_move": null,
+      "max_oracle_abs_residual": 0.0,
+      "mode": "game",
+      "observed_queries": [],
+      "root_player": 1
+    },
+    {
+      "additional_nodes": 10,
+      "complete_world_decisions_checked": 2,
+      "complete_world_status": "CHECKED",
+      "cue_nodes": 36,
+      "id": "C26-p6-0c4315ef10427d64",
+      "independent_minimax_and_charge_check": true,
+      "initial_nodes": 5,
+      "initial_solve_move": 4,
+      "max_oracle_abs_residual": 1.3877787807814457e-17,
+      "mode": "game",
+      "observed_queries": [
+        {
+          "move": 2,
+          "nodes": 5,
+          "utility": "1/2"
+        },
+        {
+          "move": 1,
+          "nodes": 5,
+          "utility": "1/2"
+        }
+      ],
+      "root_player": 1
+    },
+    {
+      "additional_nodes": 0,
+      "complete_world_decisions_checked": 0,
+      "complete_world_status": "CHECKED",
+      "cue_nodes": 19,
+      "id": "C26-p6-0def8ccdd0a51f1b",
+      "independent_minimax_and_charge_check": true,
+      "initial_nodes": 0,
+      "initial_solve_move": null,
+      "max_oracle_abs_residual": 0.0,
+      "mode": "game",
+      "observed_queries": [],
+      "root_player": 1
+    },
+    {
+      "additional_nodes": 0,
+      "complete_world_decisions_checked": 0,
+      "complete_world_status": "CHECKED",
+      "cue_nodes": 25,
+      "id": "C26-p6-0e90ff397e7ee8a9",
+      "independent_minimax_and_charge_check": true,
+      "initial_nodes": 0,
+      "initial_solve_move": null,
+      "max_oracle_abs_residual": 0.0,
+      "mode": "game",
+      "observed_queries": [],
+      "root_player": 1
+    },
+    {
+      "additional_nodes": 0,
+      "complete_world_decisions_checked": 0,
+      "complete_world_status": "CHECKED",
+      "cue_nodes": 3,
+      "id": "C26-p6-10f907610daf59ed",
+      "independent_minimax_and_charge_check": true,
+      "initial_nodes": 0,
+      "initial_solve_move": null,
+      "max_oracle_abs_residual": 0.0,
+      "mode": "game",
+      "observed_queries": [],
+      "root_player": 1
+    },
+    {
+      "additional_nodes": 9,
+      "complete_world_decisions_checked": 2,
+      "complete_world_status": "CHECKED",
+      "cue_nodes": 31,
+      "id": "C26-p6-11cb9d78ec4e0ff2",
+      "independent_minimax_and_charge_check": true,
+      "initial_nodes": 4,
+      "initial_solve_move": 5,
+      "max_oracle_abs_residual": 3.469446951953614e-18,
+      "mode": "game",
+      "observed_queries": [
+        {
+          "move": 8,
+          "nodes": 5,
+          "utility": "1/2"
+        },
+        {
+          "move": 1,
+          "nodes": 4,
+          "utility": "0"
+        }
+      ],
+      "root_player": 1
+    },
+    {
+      "additional_nodes": 0,
+      "complete_world_decisions_checked": 0,
+      "complete_world_status": "CHECKED",
+      "cue_nodes": 11,
+      "id": "C26-p6-180a59a4f2f1bcf9",
+      "independent_minimax_and_charge_check": true,
+      "initial_nodes": 0,
+      "initial_solve_move": null,
+      "max_oracle_abs_residual": 0.0,
+      "mode": "game",
+      "observed_queries": [],
+      "root_player": 1
+    },
+    {
+      "additional_nodes": 7,
+      "complete_world_decisions_checked": 2,
+      "complete_world_status": "CHECKED",
+      "cue_nodes": 28,
+      "id": "C26-p6-184ce4c750613d6a",
+      "independent_minimax_and_charge_check": true,
+      "initial_nodes": 4,
+      "initial_solve_move": 1,
+      "max_oracle_abs_residual": 1.3877787807814457e-17,
+      "mode": "game",
+      "observed_queries": [
+        {
+          "move": 6,
+          "nodes": 4,
+          "utility": "0"
+        },
+        {
+          "move": 7,
+          "nodes": 3,
+          "utility": "0"
+        }
+      ],
+      "root_player": 1
+    },
+    {
+      "additional_nodes": 8,
+      "complete_world_decisions_checked": 2,
+      "complete_world_status": "CHECKED",
+      "cue_nodes": 32,
+      "id": "C26-p6-1b8a0756645b12b5",
+      "independent_minimax_and_charge_check": true,
+      "initial_nodes": 5,
+      "initial_solve_move": 2,
+      "max_oracle_abs_residual": 1.3877787807814457e-17,
+      "mode": "game",
+      "observed_queries": [
+        {
+          "move": 6,
+          "nodes": 4,
+          "utility": "0"
+        },
+        {
+          "move": 7,
+          "nodes": 4,
+          "utility": "0"
+        }
+      ],
+      "root_player": 1
+    },
+    {
+      "additional_nodes": 0,
+      "complete_world_decisions_checked": 0,
+      "complete_world_status": "CHECKED",
+      "cue_nodes": 25,
+      "id": "C26-p6-1de01469d53a83c3",
+      "independent_minimax_and_charge_check": true,
+      "initial_nodes": 0,
+      "initial_solve_move": null,
+      "max_oracle_abs_residual": 0.0,
+      "mode": "game",
+      "observed_queries": [],
+      "root_player": 1
+    },
+    {
+      "additional_nodes": 0,
+      "complete_world_decisions_checked": 0,
+      "complete_world_status": "CHECKED",
+      "cue_nodes": 17,
+      "id": "C26-p6-1e9f63e2606f0eda",
+      "independent_minimax_and_charge_check": true,
+      "initial_nodes": 0,
+      "initial_solve_move": null,
+      "max_oracle_abs_residual": 0.0,
+      "mode": "game",
+      "observed_queries": [],
+      "root_player": 1
+    },
+    {
+      "additional_nodes": 0,
+      "complete_world_decisions_checked": 0,
+      "complete_world_status": "CHECKED",
+      "cue_nodes": 10,
+      "id": "C26-p6-20b74ac9fd69374f",
+      "independent_minimax_and_charge_check": true,
+      "initial_nodes": 0,
+      "initial_solve_move": null,
+      "max_oracle_abs_residual": 0.0,
+      "mode": "game",
+      "observed_queries": [],
+      "root_player": 1
+    },
+    {
+      "additional_nodes": 0,
+      "complete_world_decisions_checked": 0,
+      "complete_world_status": "CHECKED",
+      "cue_nodes": 14,
+      "id": "C26-p6-2369bb447bdf6ca5",
+      "independent_minimax_and_charge_check": true,
+      "initial_nodes": 0,
+      "initial_solve_move": null,
+      "max_oracle_abs_residual": 0.0,
+      "mode": "game",
+      "observed_queries": [],
+      "root_player": 1
+    },
+    {
+      "additional_nodes": 7,
+      "complete_world_decisions_checked": 2,
+      "complete_world_status": "CHECKED",
+      "cue_nodes": 26,
+      "id": "C26-p6-248289fe800e634d",
+      "independent_minimax_and_charge_check": true,
+      "initial_nodes": 4,
+      "initial_solve_move": 6,
+      "max_oracle_abs_residual": 5.551115123125783e-17,
+      "mode": "game",
+      "observed_queries": [
+        {
+          "move": 8,
+          "nodes": 4,
+          "utility": "0"
+        },
+        {
+          "move": 7,
+          "nodes": 3,
+          "utility": "0"
+        }
+      ],
+      "root_player": 1
+    },
+    {
+      "additional_nodes": 0,
+      "complete_world_decisions_checked": 0,
+      "complete_world_status": "CHECKED",
+      "cue_nodes": 14,
+      "id": "C26-p6-266e3491ae9589b4",
+      "independent_minimax_and_charge_check": true,
+      "initial_nodes": 0,
+      "initial_solve_move": null,
+      "max_oracle_abs_residual": 0.0,
+      "mode": "game",
+      "observed_queries": [],
+      "root_player": 1
+    },
+    {
+      "additional_nodes": 0,
+      "complete_world_decisions_checked": 0,
+      "complete_world_status": "CHECKED",
+      "cue_nodes": 22,
+      "id": "C26-p6-27d41f13c192c35d",
+      "independent_minimax_and_charge_check": true,
+      "initial_nodes": 0,
+      "initial_solve_move": null,
+      "max_oracle_abs_residual": 0.0,
+      "mode": "game",
+      "observed_queries": [],
+      "root_player": 1
+    },
+    {
+      "additional_nodes": 0,
+      "complete_world_decisions_checked": 0,
+      "complete_world_status": "CHECKED",
+      "cue_nodes": 14,
+      "id": "C26-p6-2a9b623d821eb629",
+      "independent_minimax_and_charge_check": true,
+      "initial_nodes": 0,
+      "initial_solve_move": null,
+      "max_oracle_abs_residual": 0.0,
+      "mode": "game",
+      "observed_queries": [],
+      "root_player": 1
+    },
+    {
+      "additional_nodes": 0,
+      "complete_world_decisions_checked": 0,
+      "complete_world_status": "CHECKED",
+      "cue_nodes": 24,
+      "id": "C26-p6-2bb3b63aaa249e78",
+      "independent_minimax_and_charge_check": true,
+      "initial_nodes": 0,
+      "initial_solve_move": null,
+      "max_oracle_abs_residual": 0.0,
+      "mode": "game",
+      "observed_queries": [],
+      "root_player": 1
+    },
+    {
+      "additional_nodes": 0,
+      "complete_world_decisions_checked": 0,
+      "complete_world_status": "CHECKED",
+      "cue_nodes": 20,
+      "id": "C26-p6-2d02f96726a617e6",
+      "independent_minimax_and_charge_check": true,
+      "initial_nodes": 0,
+      "initial_solve_move": null,
+      "max_oracle_abs_residual": 0.0,
+      "mode": "game",
+      "observed_queries": [],
+      "root_player": 1
+    },
+    {
+      "additional_nodes": 0,
+      "complete_world_decisions_checked": 0,
+      "complete_world_status": "CHECKED",
+      "cue_nodes": 18,
+      "id": "C26-p6-2db5fbd82f971b17",
+      "independent_minimax_and_charge_check": true,
+      "initial_nodes": 0,
+      "initial_solve_move": null,
+      "max_oracle_abs_residual": 0.0,
+      "mode": "game",
+      "observed_queries": [],
+      "root_player": 1
+    },
+    {
+      "additional_nodes": 10,
+      "complete_world_decisions_checked": 2,
+      "complete_world_status": "CHECKED",
+      "cue_nodes": 36,
+      "id": "C26-p6-300c1fefad75776a",
+      "independent_minimax_and_charge_check": true,
+      "initial_nodes": 5,
+      "initial_solve_move": 1,
+      "max_oracle_abs_residual": 1.3877787807814457e-17,
+      "mode": "game",
+      "observed_queries": [
+        {
+          "move": 2,
+          "nodes": 5,
+          "utility": "1/2"
+        },
+        {
+          "move": 4,
+          "nodes": 5,
+          "utility": "1/2"
+        }
+      ],
+      "root_player": 1
+    },
+    {
+      "additional_nodes": 0,
+      "complete_world_decisions_checked": 0,
+      "complete_world_status": "CHECKED",
+      "cue_nodes": 25,
+      "id": "C26-p6-30a0e281965e1a5d",
+      "independent_minimax_and_charge_check": true,
+      "initial_nodes": 0,
+      "initial_solve_move": null,
+      "max_oracle_abs_residual": 0.0,
+      "mode": "game",
+      "observed_queries": [],
+      "root_player": 1
+    },
+    {
+      "additional_nodes": 0,
+      "complete_world_decisions_checked": 0,
+      "complete_world_status": "CHECKED",
+      "cue_nodes": 12,
+      "id": "C26-p6-32351f4dcb282aff",
+      "independent_minimax_and_charge_check": true,
+      "initial_nodes": 0,
+      "initial_solve_move": null,
+      "max_oracle_abs_residual": 0.0,
+      "mode": "game",
+      "observed_queries": [],
+      "root_player": 1
+    },
+    {
+      "additional_nodes": 0,
+      "complete_world_decisions_checked": 0,
+      "complete_world_status": "CHECKED",
+      "cue_nodes": 20,
+      "id": "C26-p6-35c537d50a045edc",
+      "independent_minimax_and_charge_check": true,
+      "initial_nodes": 0,
+      "initial_solve_move": null,
+      "max_oracle_abs_residual": 0.0,
+      "mode": "game",
+      "observed_queries": [],
+      "root_player": 1
+    },
+    {
+      "additional_nodes": 0,
+      "complete_world_decisions_checked": 0,
+      "complete_world_status": "CHECKED",
+      "cue_nodes": 23,
+      "id": "C26-p6-3813861e8b3435e8",
+      "independent_minimax_and_charge_check": true,
+      "initial_nodes": 0,
+      "initial_solve_move": null,
+      "max_oracle_abs_residual": 0.0,
+      "mode": "game",
+      "observed_queries": [],
+      "root_player": 1
+    },
+    {
+      "additional_nodes": 7,
+      "complete_world_decisions_checked": 2,
+      "complete_world_status": "CHECKED",
+      "cue_nodes": 29,
+      "id": "C26-p6-38c331ea3280a52a",
+      "independent_minimax_and_charge_check": true,
+      "initial_nodes": 4,
+      "initial_solve_move": 8,
+      "max_oracle_abs_residual": 2.7755575615628914e-17,
+      "mode": "game",
+      "observed_queries": [
+        {
+          "move": 1,
+          "nodes": 4,
+          "utility": "0"
+        },
+        {
+          "move": 2,
+          "nodes": 3,
+          "utility": "0"
+        }
+      ],
+      "root_player": 1
+    },
+    {
+      "additional_nodes": 0,
+      "complete_world_decisions_checked": 0,
+      "complete_world_status": "CHECKED",
+      "cue_nodes": 22,
+      "id": "C26-p6-397f6f0b6dc122ac",
+      "independent_minimax_and_charge_check": true,
+      "initial_nodes": 0,
+      "initial_solve_move": null,
+      "max_oracle_abs_residual": 0.0,
+      "mode": "game",
+      "observed_queries": [],
+      "root_player": 1
+    },
+    {
+      "additional_nodes": 0,
+      "complete_world_decisions_checked": 0,
+      "complete_world_status": "CHECKED",
+      "cue_nodes": 19,
+      "id": "C26-p6-3c3abe00948e9be5",
+      "independent_minimax_and_charge_check": true,
+      "initial_nodes": 0,
+      "initial_solve_move": null,
+      "max_oracle_abs_residual": 0.0,
+      "mode": "game",
+      "observed_queries": [],
+      "root_player": 1
+    },
+    {
+      "additional_nodes": 0,
+      "complete_world_decisions_checked": 0,
+      "complete_world_status": "CHECKED",
+      "cue_nodes": 32,
+      "id": "C26-p6-3de4e9ab0497ff4e",
+      "independent_minimax_and_charge_check": true,
+      "initial_nodes": 5,
+      "initial_solve_move": 8,
+      "max_oracle_abs_residual": 0.0,
+      "mode": "game",
+      "observed_queries": [],
+      "root_player": 1
+    },
+    {
+      "additional_nodes": 0,
+      "complete_world_decisions_checked": 0,
+      "complete_world_status": "CHECKED",
+      "cue_nodes": 36,
+      "id": "C26-p6-3e5421bee123f5f4",
+      "independent_minimax_and_charge_check": true,
+      "initial_nodes": 5,
+      "initial_solve_move": 6,
+      "max_oracle_abs_residual": 0.0,
+      "mode": "game",
+      "observed_queries": [],
+      "root_player": 1
+    },
+    {
+      "additional_nodes": 0,
+      "complete_world_decisions_checked": 0,
+      "complete_world_status": "CHECKED",
+      "cue_nodes": 22,
+      "id": "C26-p6-3e6a17304172f0bd",
+      "independent_minimax_and_charge_check": true,
+      "initial_nodes": 0,
+      "initial_solve_move": null,
+      "max_oracle_abs_residual": 0.0,
+      "mode": "game",
+      "observed_queries": [],
+      "root_player": 1
+    },
+    {
+      "additional_nodes": 0,
+      "complete_world_decisions_checked": 0,
+      "complete_world_status": "CHECKED",
+      "cue_nodes": 19,
+      "id": "C26-p6-408366dcebde550c",
+      "independent_minimax_and_charge_check": true,
+      "initial_nodes": 0,
+      "initial_solve_move": null,
+      "max_oracle_abs_residual": 0.0,
+      "mode": "game",
+      "observed_queries": [],
+      "root_player": 1
+    },
+    {
+      "additional_nodes": 0,
+      "complete_world_decisions_checked": 0,
+      "complete_world_status": "CHECKED",
+      "cue_nodes": 14,
+      "id": "C26-p6-40e0f5b2ec3b3fdc",
+      "independent_minimax_and_charge_check": true,
+      "initial_nodes": 0,
+      "initial_solve_move": null,
+      "max_oracle_abs_residual": 0.0,
+      "mode": "game",
+      "observed_queries": [],
+      "root_player": 1
+    },
+    {
+      "additional_nodes": 0,
+      "complete_world_decisions_checked": 0,
+      "complete_world_status": "CHECKED",
+      "cue_nodes": 25,
+      "id": "C26-p6-415dd20df6adb337",
+      "independent_minimax_and_charge_check": true,
+      "initial_nodes": 0,
+      "initial_solve_move": null,
+      "max_oracle_abs_residual": 0.0,
+      "mode": "game",
+      "observed_queries": [],
+      "root_player": 1
+    },
+    {
+      "additional_nodes": 0,
+      "complete_world_decisions_checked": 0,
+      "complete_world_status": "CHECKED",
+      "cue_nodes": 25,
+      "id": "C26-p6-43f4e2d4909895b0",
+      "independent_minimax_and_charge_check": true,
+      "initial_nodes": 0,
+      "initial_solve_move": null,
+      "max_oracle_abs_residual": 0.0,
+      "mode": "game",
+      "observed_queries": [],
+      "root_player": 1
+    },
+    {
+      "additional_nodes": 7,
+      "complete_world_decisions_checked": 2,
+      "complete_world_status": "CHECKED",
+      "cue_nodes": 28,
+      "id": "C26-p6-45143b1ef614a1a8",
+      "independent_minimax_and_charge_check": true,
+      "initial_nodes": 4,
+      "initial_solve_move": 1,
+      "max_oracle_abs_residual": 5.551115123125783e-17,
+      "mode": "game",
+      "observed_queries": [
+        {
+          "move": 4,
+          "nodes": 4,
+          "utility": "0"
+        },
+        {
+          "move": 3,
+          "nodes": 3,
+          "utility": "0"
+        }
+      ],
+      "root_player": 1
+    },
+    {
+      "additional_nodes": 0,
+      "complete_world_decisions_checked": 0,
+      "complete_world_status": "CHECKED",
+      "cue_nodes": 3,
+      "id": "C26-p6-45626e22c780e4f4",
+      "independent_minimax_and_charge_check": true,
+      "initial_nodes": 0,
+      "initial_solve_move": null,
+      "max_oracle_abs_residual": 0.0,
+      "mode": "game",
+      "observed_queries": [],
+      "root_player": 1
+    },
+    {
+      "additional_nodes": 0,
+      "complete_world_decisions_checked": 0,
+      "complete_world_status": "CHECKED",
+      "cue_nodes": 24,
+      "id": "C26-p6-4760f37dbb4a39ad",
+      "independent_minimax_and_charge_check": true,
+      "initial_nodes": 0,
+      "initial_solve_move": null,
+      "max_oracle_abs_residual": 0.0,
+      "mode": "game",
+      "observed_queries": [],
+      "root_player": 1
+    },
+    {
+      "additional_nodes": 0,
+      "complete_world_decisions_checked": 0,
+      "complete_world_status": "CHECKED",
+      "cue_nodes": 18,
+      "id": "C26-p6-4792f132c1ce0ab9",
+      "independent_minimax_and_charge_check": true,
+      "initial_nodes": 0,
+      "initial_solve_move": null,
+      "max_oracle_abs_residual": 0.0,
+      "mode": "game",
+      "observed_queries": [],
+      "root_player": 1
+    },
+    {
+      "additional_nodes": 0,
+      "complete_world_decisions_checked": 0,
+      "complete_world_status": "CHECKED",
+      "cue_nodes": 25,
+      "id": "C26-p6-49c79b65a50e69be",
+      "independent_minimax_and_charge_check": true,
+      "initial_nodes": 0,
+      "initial_solve_move": null,
+      "max_oracle_abs_residual": 0.0,
+      "mode": "game",
+      "observed_queries": [],
+      "root_player": 1
+    },
+    {
+      "additional_nodes": 8,
+      "complete_world_decisions_checked": 2,
+      "complete_world_status": "CHECKED",
+      "cue_nodes": 34,
+      "id": "C26-p6-49d92a3347da7e0c",
+      "independent_minimax_and_charge_check": true,
+      "initial_nodes": 5,
+      "initial_solve_move": 3,
+      "max_oracle_abs_residual": 5.551115123125783e-17,
+      "mode": "game",
+      "observed_queries": [
+        {
+          "move": 5,
+          "nodes": 4,
+          "utility": "0"
+        },
+        {
+          "move": 8,
+          "nodes": 4,
+          "utility": "0"
+        }
+      ],
+      "root_player": 1
+    },
+    {
+      "additional_nodes": 7,
+      "complete_world_decisions_checked": 2,
+      "complete_world_status": "CHECKED",
+      "cue_nodes": 29,
+      "id": "C26-p6-4aabedc7a0b46742",
+      "independent_minimax_and_charge_check": true,
+      "initial_nodes": 4,
+      "initial_solve_move": 4,
+      "max_oracle_abs_residual": 5.551115123125783e-17,
+      "mode": "game",
+      "observed_queries": [
+        {
+          "move": 2,
+          "nodes": 4,
+          "utility": "0"
+        },
+        {
+          "move": 5,
+          "nodes": 3,
+          "utility": "0"
+        }
+      ],
+      "root_player": 1
+    },
+    {
+      "additional_nodes": 0,
+      "complete_world_decisions_checked": 0,
+      "complete_world_status": "CHECKED",
+      "cue_nodes": 24,
+      "id": "C26-p6-4c4de2b833cec631",
+      "independent_minimax_and_charge_check": true,
+      "initial_nodes": 0,
+      "initial_solve_move": null,
+      "max_oracle_abs_residual": 0.0,
+      "mode": "game",
+      "observed_queries": [],
+      "root_player": 1
+    },
+    {
+      "additional_nodes": 10,
+      "complete_world_decisions_checked": 2,
+      "complete_world_status": "CHECKED",
+      "cue_nodes": 36,
+      "id": "C26-p6-4d1fb2b7445adaf8",
+      "independent_minimax_and_charge_check": true,
+      "initial_nodes": 5,
+      "initial_solve_move": 1,
+      "max_oracle_abs_residual": 6.938893903907228e-18,
+      "mode": "game",
+      "observed_queries": [
+        {
+          "move": 4,
+          "nodes": 5,
+          "utility": "1/2"
+        },
+        {
+          "move": 8,
+          "nodes": 5,
+          "utility": "1/2"
+        }
+      ],
+      "root_player": 1
+    },
+    {
+      "additional_nodes": 0,
+      "complete_world_decisions_checked": 0,
+      "complete_world_status": "CHECKED",
+      "cue_nodes": 13,
+      "id": "C26-p6-4e30f14e4c1e3312",
+      "independent_minimax_and_charge_check": true,
+      "initial_nodes": 0,
+      "initial_solve_move": null,
+      "max_oracle_abs_residual": 0.0,
+      "mode": "game",
+      "observed_queries": [],
+      "root_player": 1
+    },
+    {
+      "additional_nodes": 0,
+      "complete_world_decisions_checked": 0,
+      "complete_world_status": "CHECKED",
+      "cue_nodes": 34,
+      "id": "C26-p6-51403acd56898439",
+      "independent_minimax_and_charge_check": true,
+      "initial_nodes": 5,
+      "initial_solve_move": 4,
+      "max_oracle_abs_residual": 0.0,
+      "mode": "game",
+      "observed_queries": [],
+      "root_player": 1
+    },
+    {
+      "additional_nodes": 10,
+      "complete_world_decisions_checked": 2,
+      "complete_world_status": "CHECKED",
+      "cue_nodes": 36,
+      "id": "C26-p6-529653c481e7047f",
+      "independent_minimax_and_charge_check": true,
+      "initial_nodes": 5,
+      "initial_solve_move": 2,
+      "max_oracle_abs_residual": 1.3877787807814457e-17,
+      "mode": "game",
+      "observed_queries": [
+        {
+          "move": 4,
+          "nodes": 5,
+          "utility": "1/2"
+        },
+        {
+          "move": 6,
+          "nodes": 5,
+          "utility": "1/2"
+        }
+      ],
+      "root_player": 1
+    },
+    {
+      "additional_nodes": 10,
+      "complete_world_decisions_checked": 2,
+      "complete_world_status": "CHECKED",
+      "cue_nodes": 36,
+      "id": "C26-p6-52ec83fe8563a1ef",
+      "independent_minimax_and_charge_check": true,
+      "initial_nodes": 5,
+      "initial_solve_move": 6,
+      "max_oracle_abs_residual": 0.0,
+      "mode": "game",
+      "observed_queries": [
+        {
+          "move": 4,
+          "nodes": 5,
+          "utility": "1/2"
+        },
+        {
+          "move": 1,
+          "nodes": 5,
+          "utility": "1/2"
+        }
+      ],
+      "root_player": 1
+    },
+    {
+      "additional_nodes": 0,
+      "complete_world_decisions_checked": 0,
+      "complete_world_status": "CHECKED",
+      "cue_nodes": 25,
+      "id": "C26-p6-55b64b4ef9737e92",
+      "independent_minimax_and_charge_check": true,
+      "initial_nodes": 0,
+      "initial_solve_move": null,
+      "max_oracle_abs_residual": 0.0,
+      "mode": "game",
+      "observed_queries": [],
+      "root_player": 1
+    },
+    {
+      "additional_nodes": 0,
+      "complete_world_decisions_checked": 0,
+      "complete_world_status": "CHECKED",
+      "cue_nodes": 24,
+      "id": "C26-p6-55c04f8ccee590e4",
+      "independent_minimax_and_charge_check": true,
+      "initial_nodes": 0,
+      "initial_solve_move": null,
+      "max_oracle_abs_residual": 0.0,
+      "mode": "game",
+      "observed_queries": [],
+      "root_player": 1
+    },
+    {
+      "additional_nodes": 7,
+      "complete_world_decisions_checked": 2,
+      "complete_world_status": "CHECKED",
+      "cue_nodes": 28,
+      "id": "C26-p6-5a00386e7971dee8",
+      "independent_minimax_and_charge_check": true,
+      "initial_nodes": 4,
+      "initial_solve_move": 1,
+      "max_oracle_abs_residual": 1.3877787807814457e-17,
+      "mode": "game",
+      "observed_queries": [
+        {
+          "move": 8,
+          "nodes": 4,
+          "utility": "0"
+        },
+        {
+          "move": 5,
+          "nodes": 3,
+          "utility": "0"
+        }
+      ],
+      "root_player": 1
+    },
+    {
+      "additional_nodes": 7,
+      "complete_world_decisions_checked": 2,
+      "complete_world_status": "CHECKED",
+      "cue_nodes": 27,
+      "id": "C26-p6-5a63a4b786546ec7",
+      "independent_minimax_and_charge_check": true,
+      "initial_nodes": 4,
+      "initial_solve_move": 8,
+      "max_oracle_abs_residual": 1.1102230246251565e-16,
+      "mode": "game",
+      "observed_queries": [
+        {
+          "move": 7,
+          "nodes": 4,
+          "utility": "0"
+        },
+        {
+          "move": 5,
+          "nodes": 3,
+          "utility": "0"
+        }
+      ],
+      "root_player": 1
+    },
+    {
+      "additional_nodes": 0,
+      "complete_world_decisions_checked": 0,
+      "complete_world_status": "CHECKED",
+      "cue_nodes": 22,
+      "id": "C26-p6-5c34954bb5272ced",
+      "independent_minimax_and_charge_check": true,
+      "initial_nodes": 0,
+      "initial_solve_move": null,
+      "max_oracle_abs_residual": 0.0,
+      "mode": "game",
+      "observed_queries": [],
+      "root_player": 1
+    },
+    {
+      "additional_nodes": 7,
+      "complete_world_decisions_checked": 2,
+      "complete_world_status": "CHECKED",
+      "cue_nodes": 27,
+      "id": "C26-p6-5ce6ed7bace3b1e5",
+      "independent_minimax_and_charge_check": true,
+      "initial_nodes": 4,
+      "initial_solve_move": 6,
+      "max_oracle_abs_residual": 1.1102230246251565e-16,
+      "mode": "game",
+      "observed_queries": [
+        {
+          "move": 2,
+          "nodes": 4,
+          "utility": "0"
+        },
+        {
+          "move": 8,
+          "nodes": 3,
+          "utility": "0"
+        }
+      ],
+      "root_player": 1
+    },
+    {
+      "additional_nodes": 8,
+      "complete_world_decisions_checked": 2,
+      "complete_world_status": "CHECKED",
+      "cue_nodes": 33,
+      "id": "C26-p6-5d8cf04823b2d4fc",
+      "independent_minimax_and_charge_check": true,
+      "initial_nodes": 5,
+      "initial_solve_move": 8,
+      "max_oracle_abs_residual": 2.7755575615628914e-17,
+      "mode": "game",
+      "observed_queries": [
+        {
+          "move": 5,
+          "nodes": 4,
+          "utility": "0"
+        },
+        {
+          "move": 2,
+          "nodes": 4,
+          "utility": "0"
+        }
+      ],
+      "root_player": 1
+    },
+    {
+      "additional_nodes": 0,
+      "complete_world_decisions_checked": 0,
+      "complete_world_status": "CHECKED",
+      "cue_nodes": 20,
+      "id": "C26-p6-5e50f1a8b9e0ef7c",
+      "independent_minimax_and_charge_check": true,
+      "initial_nodes": 0,
+      "initial_solve_move": null,
+      "max_oracle_abs_residual": 0.0,
+      "mode": "game",
+      "observed_queries": [],
+      "root_player": 1
+    },
+    {
+      "additional_nodes": 7,
+      "complete_world_decisions_checked": 2,
+      "complete_world_status": "CHECKED",
+      "cue_nodes": 28,
+      "id": "C26-p6-5fecbbb09450965d",
+      "independent_minimax_and_charge_check": true,
+      "initial_nodes": 4,
+      "initial_solve_move": 1,
+      "max_oracle_abs_residual": 1.3877787807814457e-17,
+      "mode": "game",
+      "observed_queries": [
+        {
+          "move": 3,
+          "nodes": 4,
+          "utility": "0"
+        },
+        {
+          "move": 0,
+          "nodes": 3,
+          "utility": "0"
+        }
+      ],
+      "root_player": 1
+    },
+    {
+      "additional_nodes": 0,
+      "complete_world_decisions_checked": 0,
+      "complete_world_status": "CHECKED",
+      "cue_nodes": 23,
+      "id": "C26-p6-601718fe1b14c89c",
+      "independent_minimax_and_charge_check": true,
+      "initial_nodes": 0,
+      "initial_solve_move": null,
+      "max_oracle_abs_residual": 0.0,
+      "mode": "game",
+      "observed_queries": [],
+      "root_player": 1
+    },
+    {
+      "additional_nodes": 0,
+      "complete_world_decisions_checked": 0,
+      "complete_world_status": "CHECKED",
+      "cue_nodes": 22,
+      "id": "C26-p6-63e4992e8a9a58dd",
+      "independent_minimax_and_charge_check": true,
+      "initial_nodes": 0,
+      "initial_solve_move": null,
+      "max_oracle_abs_residual": 0.0,
+      "mode": "game",
+      "observed_queries": [],
+      "root_player": 1
+    },
+    {
+      "additional_nodes": 0,
+      "complete_world_decisions_checked": 0,
+      "complete_world_status": "CHECKED",
+      "cue_nodes": 18,
+      "id": "C26-p6-64bbc35a5e7b8aee",
+      "independent_minimax_and_charge_check": true,
+      "initial_nodes": 0,
+      "initial_solve_move": null,
+      "max_oracle_abs_residual": 0.0,
+      "mode": "game",
+      "observed_queries": [],
+      "root_player": 1
+    },
+    {
+      "additional_nodes": 0,
+      "complete_world_decisions_checked": 0,
+      "complete_world_status": "CHECKED",
+      "cue_nodes": 20,
+      "id": "C26-p6-65f01675bd65d96e",
+      "independent_minimax_and_charge_check": true,
+      "initial_nodes": 0,
+      "initial_solve_move": null,
+      "max_oracle_abs_residual": 0.0,
+      "mode": "game",
+      "observed_queries": [],
+      "root_player": 1
+    },
+    {
+      "additional_nodes": 0,
+      "complete_world_decisions_checked": 0,
+      "complete_world_status": "CHECKED",
+      "cue_nodes": 36,
+      "id": "C26-p6-6725a95e386f61af",
+      "independent_minimax_and_charge_check": true,
+      "initial_nodes": 5,
+      "initial_solve_move": 6,
+      "max_oracle_abs_residual": 0.0,
+      "mode": "game",
+      "observed_queries": [],
+      "root_player": 1
+    },
+    {
+      "additional_nodes": 0,
+      "complete_world_decisions_checked": 0,
+      "complete_world_status": "CHECKED",
+      "cue_nodes": 11,
+      "id": "C26-p6-67577a57f200d40c",
+      "independent_minimax_and_charge_check": true,
+      "initial_nodes": 0,
+      "initial_solve_move": null,
+      "max_oracle_abs_residual": 0.0,
+      "mode": "game",
+      "observed_queries": [],
+      "root_player": 1
+    },
+    {
+      "additional_nodes": 0,
+      "complete_world_decisions_checked": 0,
+      "complete_world_status": "CHECKED",
+      "cue_nodes": 10,
+      "id": "C26-p6-67da36af7f113f57",
+      "independent_minimax_and_charge_check": true,
+      "initial_nodes": 0,
+      "initial_solve_move": null,
+      "max_oracle_abs_residual": 0.0,
+      "mode": "game",
+      "observed_queries": [],
+      "root_player": 1
+    },
+    {
+      "additional_nodes": 0,
+      "complete_world_decisions_checked": 0,
+      "complete_world_status": "CHECKED",
+      "cue_nodes": 10,
+      "id": "C26-p6-6a1f3de1821a16eb",
+      "independent_minimax_and_charge_check": true,
+      "initial_nodes": 0,
+      "initial_solve_move": null,
+      "max_oracle_abs_residual": 0.0,
+      "mode": "game",
+      "observed_queries": [],
+      "root_player": 1
+    },
+    {
+      "additional_nodes": 0,
+      "complete_world_decisions_checked": 0,
+      "complete_world_status": "CHECKED",
+      "cue_nodes": 3,
+      "id": "C26-p6-6b66157f35f9b2bb",
+      "independent_minimax_and_charge_check": true,
+      "initial_nodes": 0,
+      "initial_solve_move": null,
+      "max_oracle_abs_residual": 0.0,
+      "mode": "game",
+      "observed_queries": [],
+      "root_player": 1
+    },
+    {
+      "additional_nodes": 0,
+      "complete_world_decisions_checked": 0,
+      "complete_world_status": "CHECKED",
+      "cue_nodes": 23,
+      "id": "C26-p6-6bc28c9bf557c69e",
+      "independent_minimax_and_charge_check": true,
+      "initial_nodes": 0,
+      "initial_solve_move": null,
+      "max_oracle_abs_residual": 0.0,
+      "mode": "game",
+      "observed_queries": [],
+      "root_player": 1
+    },
+    {
+      "additional_nodes": 0,
+      "complete_world_decisions_checked": 0,
+      "complete_world_status": "CHECKED",
+      "cue_nodes": 14,
+      "id": "C26-p6-6d1dcd75f39fb838",
+      "independent_minimax_and_charge_check": true,
+      "initial_nodes": 0,
+      "initial_solve_move": null,
+      "max_oracle_abs_residual": 0.0,
+      "mode": "game",
+      "observed_queries": [],
+      "root_player": 1
+    },
+    {
+      "additional_nodes": 0,
+      "complete_world_decisions_checked": 0,
+      "complete_world_status": "CHECKED",
+      "cue_nodes": 11,
+      "id": "C26-p6-6f00296cae6df351",
+      "independent_minimax_and_charge_check": true,
+      "initial_nodes": 0,
+      "initial_solve_move": null,
+      "max_oracle_abs_residual": 0.0,
+      "mode": "game",
+      "observed_queries": [],
+      "root_player": 1
+    },
+    {
+      "additional_nodes": 6,
+      "complete_world_decisions_checked": 2,
+      "complete_world_status": "CHECKED",
+      "cue_nodes": 24,
+      "id": "C26-p6-6f69336f12616b7c",
+      "independent_minimax_and_charge_check": true,
+      "initial_nodes": 3,
+      "initial_solve_move": 2,
+      "max_oracle_abs_residual": 2.7755575615628914e-17,
+      "mode": "game",
+      "observed_queries": [
+        {
+          "move": 7,
+          "nodes": 3,
+          "utility": "0"
+        },
+        {
+          "move": 8,
+          "nodes": 3,
+          "utility": "0"
+        }
+      ],
+      "root_player": 1
+    },
+    {
+      "additional_nodes": 8,
+      "complete_world_decisions_checked": 2,
+      "complete_world_status": "CHECKED",
+      "cue_nodes": 32,
+      "id": "C26-p6-6fa42f14016eeac4",
+      "independent_minimax_and_charge_check": true,
+      "initial_nodes": 5,
+      "initial_solve_move": 2,
+      "max_oracle_abs_residual": 2.7755575615628914e-17,
+      "mode": "game",
+      "observed_queries": [
+        {
+          "move": 1,
+          "nodes": 4,
+          "utility": "0"
+        },
+        {
+          "move": 5,
+          "nodes": 4,
+          "utility": "0"
+        }
+      ],
+      "root_player": 1
+    },
+    {
+      "additional_nodes": 8,
+      "complete_world_decisions_checked": 2,
+      "complete_world_status": "CHECKED",
+      "cue_nodes": 32,
+      "id": "C26-p6-7199be4b007c1acc",
+      "independent_minimax_and_charge_check": true,
+      "initial_nodes": 5,
+      "initial_solve_move": 1,
+      "max_oracle_abs_residual": 2.7755575615628914e-17,
+      "mode": "game",
+      "observed_queries": [
+        {
+          "move": 3,
+          "nodes": 4,
+          "utility": "0"
+        },
+        {
+          "move": 4,
+          "nodes": 4,
+          "utility": "0"
+        }
+      ],
+      "root_player": 1
+    },
+    {
+      "additional_nodes": 0,
+      "complete_world_decisions_checked": 0,
+      "complete_world_status": "CHECKED",
+      "cue_nodes": 21,
+      "id": "C26-p6-71f348a38a652269",
+      "independent_minimax_and_charge_check": true,
+      "initial_nodes": 0,
+      "initial_solve_move": null,
+      "max_oracle_abs_residual": 0.0,
+      "mode": "game",
+      "observed_queries": [],
+      "root_player": 1
+    },
+    {
+      "additional_nodes": 0,
+      "complete_world_decisions_checked": 0,
+      "complete_world_status": "CHECKED",
+      "cue_nodes": 21,
+      "id": "C26-p6-732c29d58ae28a57",
+      "independent_minimax_and_charge_check": true,
+      "initial_nodes": 0,
+      "initial_solve_move": null,
+      "max_oracle_abs_residual": 0.0,
+      "mode": "game",
+      "observed_queries": [],
+      "root_player": 1
+    },
+    {
+      "additional_nodes": 7,
+      "complete_world_decisions_checked": 2,
+      "complete_world_status": "CHECKED",
+      "cue_nodes": 29,
+      "id": "C26-p6-738b0fb61af00744",
+      "independent_minimax_and_charge_check": true,
+      "initial_nodes": 4,
+      "initial_solve_move": 2,
+      "max_oracle_abs_residual": 5.551115123125783e-17,
+      "mode": "game",
+      "observed_queries": [
+        {
+          "move": 4,
+          "nodes": 4,
+          "utility": "0"
+        },
+        {
+          "move": 3,
+          "nodes": 3,
+          "utility": "0"
+        }
+      ],
+      "root_player": 1
+    },
+    {
+      "additional_nodes": 0,
+      "complete_world_decisions_checked": 0,
+      "complete_world_status": "CHECKED",
+      "cue_nodes": 36,
+      "id": "C26-p6-7665b42ce34bab43",
+      "independent_minimax_and_charge_check": true,
+      "initial_nodes": 5,
+      "initial_solve_move": 6,
+      "max_oracle_abs_residual": 0.0,
+      "mode": "game",
+      "observed_queries": [],
+      "root_player": 1
+    },
+    {
+      "additional_nodes": 0,
+      "complete_world_decisions_checked": 0,
+      "complete_world_status": "CHECKED",
+      "cue_nodes": 12,
+      "id": "C26-p6-7673f8a4928f897c",
+      "independent_minimax_and_charge_check": true,
+      "initial_nodes": 0,
+      "initial_solve_move": null,
+      "max_oracle_abs_residual": 0.0,
+      "mode": "game",
+      "observed_queries": [],
+      "root_player": 1
+    },
+    {
+      "additional_nodes": 0,
+      "complete_world_decisions_checked": 0,
+      "complete_world_status": "CHECKED",
+      "cue_nodes": 25,
+      "id": "C26-p6-77016bc642debe7f",
+      "independent_minimax_and_charge_check": true,
+      "initial_nodes": 0,
+      "initial_solve_move": null,
+      "max_oracle_abs_residual": 0.0,
+      "mode": "game",
+      "observed_queries": [],
+      "root_player": 1
+    },
+    {
+      "additional_nodes": 0,
+      "complete_world_decisions_checked": 0,
+      "complete_world_status": "CHECKED",
+      "cue_nodes": 10,
+      "id": "C26-p6-7858ba7fb76b72ef",
+      "independent_minimax_and_charge_check": true,
+      "initial_nodes": 0,
+      "initial_solve_move": null,
+      "max_oracle_abs_residual": 0.0,
+      "mode": "game",
+      "observed_queries": [],
+      "root_player": 1
+    },
+    {
+      "additional_nodes": 0,
+      "complete_world_decisions_checked": 0,
+      "complete_world_status": "CHECKED",
+      "cue_nodes": 13,
+      "id": "C26-p6-78676bc55f1daf73",
+      "independent_minimax_and_charge_check": true,
+      "initial_nodes": 0,
+      "initial_solve_move": null,
+      "max_oracle_abs_residual": 0.0,
+      "mode": "game",
+      "observed_queries": [],
+      "root_player": 1
+    },
+    {
+      "additional_nodes": 0,
+      "complete_world_decisions_checked": 0,
+      "complete_world_status": "CHECKED",
+      "cue_nodes": 25,
+      "id": "C26-p6-7acf1996810585a7",
+      "independent_minimax_and_charge_check": true,
+      "initial_nodes": 0,
+      "initial_solve_move": null,
+      "max_oracle_abs_residual": 0.0,
+      "mode": "game",
+      "observed_queries": [],
+      "root_player": 1
+    },
+    {
+      "additional_nodes": 0,
+      "complete_world_decisions_checked": 0,
+      "complete_world_status": "CHECKED",
+      "cue_nodes": 25,
+      "id": "C26-p6-7e0d4b4f2688b96b",
+      "independent_minimax_and_charge_check": true,
+      "initial_nodes": 0,
+      "initial_solve_move": null,
+      "max_oracle_abs_residual": 0.0,
+      "mode": "game",
+      "observed_queries": [],
+      "root_player": 1
+    },
+    {
+      "additional_nodes": 0,
+      "complete_world_decisions_checked": 0,
+      "complete_world_status": "CHECKED",
+      "cue_nodes": 25,
+      "id": "C26-p6-80783e63934cdfde",
+      "independent_minimax_and_charge_check": true,
+      "initial_nodes": 0,
+      "initial_solve_move": null,
+      "max_oracle_abs_residual": 0.0,
+      "mode": "game",
+      "observed_queries": [],
+      "root_player": 1
+    },
+    {
+      "additional_nodes": 0,
+      "complete_world_decisions_checked": 0,
+      "complete_world_status": "CHECKED",
+      "cue_nodes": 25,
+      "id": "C26-p6-807cf751f92c14a8",
+      "independent_minimax_and_charge_check": true,
+      "initial_nodes": 0,
+      "initial_solve_move": null,
+      "max_oracle_abs_residual": 0.0,
+      "mode": "game",
+      "observed_queries": [],
+      "root_player": 1
+    },
+    {
+      "additional_nodes": 0,
+      "complete_world_decisions_checked": 0,
+      "complete_world_status": "CHECKED",
+      "cue_nodes": 24,
+      "id": "C26-p6-80e6507902564c41",
+      "independent_minimax_and_charge_check": true,
+      "initial_nodes": 0,
+      "initial_solve_move": null,
+      "max_oracle_abs_residual": 0.0,
+      "mode": "game",
+      "observed_queries": [],
+      "root_player": 1
+    },
+    {
+      "additional_nodes": 10,
+      "complete_world_decisions_checked": 2,
+      "complete_world_status": "CHECKED",
+      "cue_nodes": 36,
+      "id": "C26-p6-83a5ac32cb8d6bd8",
+      "independent_minimax_and_charge_check": true,
+      "initial_nodes": 5,
+      "initial_solve_move": 2,
+      "max_oracle_abs_residual": 1.3877787807814457e-17,
+      "mode": "game",
+      "observed_queries": [
+        {
+          "move": 6,
+          "nodes": 5,
+          "utility": "1/2"
+        },
+        {
+          "move": 8,
+          "nodes": 5,
+          "utility": "1/2"
+        }
+      ],
+      "root_player": 1
+    },
+    {
+      "additional_nodes": 0,
+      "complete_world_decisions_checked": 0,
+      "complete_world_status": "CHECKED",
+      "cue_nodes": 14,
+      "id": "C26-p6-83d300563886e390",
+      "independent_minimax_and_charge_check": true,
+      "initial_nodes": 0,
+      "initial_solve_move": null,
+      "max_oracle_abs_residual": 0.0,
+      "mode": "game",
+      "observed_queries": [],
+      "root_player": 1
+    },
+    {
+      "additional_nodes": 0,
+      "complete_world_decisions_checked": 0,
+      "complete_world_status": "CHECKED",
+      "cue_nodes": 18,
+      "id": "C26-p6-84298be94c43e4da",
+      "independent_minimax_and_charge_check": true,
+      "initial_nodes": 0,
+      "initial_solve_move": null,
+      "max_oracle_abs_residual": 0.0,
+      "mode": "game",
+      "observed_queries": [],
+      "root_player": 1
+    },
+    {
+      "additional_nodes": 8,
+      "complete_world_decisions_checked": 2,
+      "complete_world_status": "CHECKED",
+      "cue_nodes": 32,
+      "id": "C26-p6-85a9c3fafdc05e5a",
+      "independent_minimax_and_charge_check": true,
+      "initial_nodes": 5,
+      "initial_solve_move": 1,
+      "max_oracle_abs_residual": 2.7755575615628914e-17,
+      "mode": "game",
+      "observed_queries": [
+        {
+          "move": 3,
+          "nodes": 4,
+          "utility": "0"
+        },
+        {
+          "move": 5,
+          "nodes": 4,
+          "utility": "0"
+        }
+      ],
+      "root_player": 1
+    },
+    {
+      "additional_nodes": 0,
+      "complete_world_decisions_checked": 0,
+      "complete_world_status": "CHECKED",
+      "cue_nodes": 19,
+      "id": "C26-p6-8784c7ed953d7d72",
+      "independent_minimax_and_charge_check": true,
+      "initial_nodes": 0,
+      "initial_solve_move": null,
+      "max_oracle_abs_residual": 0.0,
+      "mode": "game",
+      "observed_queries": [],
+      "root_player": 1
+    },
+    {
+      "additional_nodes": 0,
+      "complete_world_decisions_checked": 0,
+      "complete_world_status": "CHECKED",
+      "cue_nodes": 19,
+      "id": "C26-p6-89ef5e31216e267a",
+      "independent_minimax_and_charge_check": true,
+      "initial_nodes": 0,
+      "initial_solve_move": null,
+      "max_oracle_abs_residual": 0.0,
+      "mode": "game",
+      "observed_queries": [],
+      "root_player": 1
+    },
+    {
+      "additional_nodes": 8,
+      "complete_world_decisions_checked": 2,
+      "complete_world_status": "CHECKED",
+      "cue_nodes": 31,
+      "id": "C26-p6-8b59d642328050fd",
+      "independent_minimax_and_charge_check": true,
+      "initial_nodes": 5,
+      "initial_solve_move": 1,
+      "max_oracle_abs_residual": 2.7755575615628914e-17,
+      "mode": "game",
+      "observed_queries": [
+        {
+          "move": 2,
+          "nodes": 4,
+          "utility": "0"
+        },
+        {
+          "move": 5,
+          "nodes": 4,
+          "utility": "0"
+        }
+      ],
+      "root_player": 1
+    },
+    {
+      "additional_nodes": 0,
+      "complete_world_decisions_checked": 0,
+      "complete_world_status": "CHECKED",
+      "cue_nodes": 10,
+      "id": "C26-p6-8bede45678f3dbe3",
+      "independent_minimax_and_charge_check": true,
+      "initial_nodes": 0,
+      "initial_solve_move": null,
+      "max_oracle_abs_residual": 0.0,
+      "mode": "game",
+      "observed_queries": [],
+      "root_player": 1
+    },
+    {
+      "additional_nodes": 0,
+      "complete_world_decisions_checked": 0,
+      "complete_world_status": "CHECKED",
+      "cue_nodes": 25,
+      "id": "C26-p6-8bef1bc9ea689ed9",
+      "independent_minimax_and_charge_check": true,
+      "initial_nodes": 0,
+      "initial_solve_move": null,
+      "max_oracle_abs_residual": 0.0,
+      "mode": "game",
+      "observed_queries": [],
+      "root_player": 1
+    },
+    {
+      "additional_nodes": 0,
+      "complete_world_decisions_checked": 0,
+      "complete_world_status": "CHECKED",
+      "cue_nodes": 25,
+      "id": "C26-p6-8de9420ffd363d5f",
+      "independent_minimax_and_charge_check": true,
+      "initial_nodes": 0,
+      "initial_solve_move": null,
+      "max_oracle_abs_residual": 0.0,
+      "mode": "game",
+      "observed_queries": [],
+      "root_player": 1
+    }
+  ],
+  "counts": {
+    "game": 300
+  },
+  "game_complete_world_decisions": 210,
+  "game_observed_additional_queries": 210,
+  "game_status": "already observed retrospective equivalence and engineering benchmark; not fresh confirmatory TEST",
+  "limit": null,
+  "max_oracle_abs_residual": 1.6653345369377348e-16,
+  "status": "SCOPED_IMPLEMENTATION_VERIFIED",
+  "suite": "game",
+  "wall_seconds": 1.6123749680118635
+}

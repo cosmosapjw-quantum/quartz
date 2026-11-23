@@ -1,0 +1,37 @@
+{
+  "roots": 300,
+  "active_planning_roots": 107,
+  "no_planning_roots": 193,
+  "additional_query_count_histogram": {
+    "0": 193,
+    "1": 4,
+    "2": 103
+  },
+  "h2_decisions": 107,
+  "h1_decisions": 103,
+  "additional_queries": 210,
+  "initial_move_mismatches": 0,
+  "final_move_mismatches": 0,
+  "query_sequence_mismatches": 0,
+  "utility_mismatches": 0,
+  "charged_node_mismatches": 0,
+  "max_oracle_abs_residual": 1.6653345369377348e-16,
+  "complete_world_decision_count": 210,
+  "total_charged_nodes": 20538,
+  "initial_utility_distribution": {
+    "0.0": 59,
+    "0.5": 48,
+    "1.0": 193
+  },
+  "final_utility_distribution": {
+    "0.0": 42,
+    "0.5": 60,
+    "1.0": 198
+  },
+  "game_status": "already observed retrospective equivalence and engineering benchmark; not fresh confirmatory TEST",
+  "exit_codes": {
+    "native": 0,
+    "campaign": 0
+  },
+  "identity_check": "BYTE_IDENTICAL"
+}
