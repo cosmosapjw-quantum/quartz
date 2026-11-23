@@ -1,0 +1,169 @@
+{
+  "schema": "quartz.c24.code-contract.v1",
+  "research_id": "QUARTZ-GENERAL-24-ROUNDING-AWARE-CHEAP-CERTIFICATES",
+  "target_binary": "quartz_c24_cheap_certificate",
+  "source": "src/bin/quartz_c24_cheap_certificate.rs",
+  "source_base": "src/bin/quartz_c23_residual_gate.rs",
+  "formula_document": "theory/DERIVATION.md",
+  "input": {
+    "json_lines": true,
+    "task": [
+      "id",
+      "side",
+      "rho",
+      "scale",
+      "rhs"
+    ],
+    "scientific_wire": "shortest decimal string for every scale/RHS f64, parsed by Rust FromStr",
+    "request": [
+      "task",
+      "additional",
+      "repeats",
+      "warmup",
+      "trace"
+    ],
+    "oracle_fields": "rejected"
+  },
+  "domain": {
+    "side": [
+      2,
+      128
+    ],
+    "rho_integer": [
+      0,
+      64
+    ],
+    "actions": [
+      2,
+      8
+    ],
+    "nonzero_rhs_max_abs": [
+      "2^-400",
+      "2^100"
+    ],
+    "state_max_abs": "min(2^200,2^100*max_abs_rhs)",
+    "zero_rhs": "zero policy state only",
+    "scale": "positive normal power of two >= rigorous squared-norm upper",
+    "invalid": "structured request error before a false-success solve"
+  },
+  "policies": [
+    {
+      "label": "PLAIN_STOP",
+      "rule": "Initial4 CG, ordinary readout only; no certification."
+    },
+    {
+      "label": "PLAIN_ALWAYS",
+      "rule": "Initial4 CG and ordinary initial readout; fixed additional CG then ordinary final readout."
+    },
+    {
+      "label": "FAST_ONCE",
+      "rule": "Initial4 CG plus fast enclosure; certify/return or same fixed continuation and ordinary final readout as PLAIN_ALWAYS."
+    },
+    {
+      "label": "FAST_BLOCK",
+      "rule": "Initial4 CG plus fast enclosure; repeat after blocks8 up to same additional cap; strict certificate or identical final ell fallback."
+    },
+    {
+      "label": "OUTWARD_BLOCK",
+      "rule": "Same checkpoints/solver and common cheap input validation as FAST_BLOCK; use inherited full outward evaluator with raw clipping and certified residual upper."
+    },
+    {
+      "label": "RESIDUAL",
+      "rule": "Initial4 CG then common recursive relative tolerance1e-8 cap512; fast fresh response/relative upper; goal flag only if its upper meets tolerance."
+    }
+  ],
+  "arithmetic": {
+    "ordinary_stencil": "diagonal product; north,south,west,east neighbour product and subtraction",
+    "ordinary_scores": "sequential ph+=b[i]*x[i]; qh+=x[i]*yhat[i]; same fallback (2*ph-qh)/S",
+    "gamma": "upper k*u/(1-k*u); u=2^-53",
+    "underflow_floor": "upper k*MIN_POSITIVE/(1-k*u)",
+    "error_scalars": "outward operations only after the ordinary pass; exact abs/max reductions",
+    "positive_square_sum": "[(h-F)/(1+g),(h+F)/(1-g)] with proper clipping/outward endpoints",
+    "raw_clip": "[0,S] before normalizing q",
+    "residual_upper": "outward sqrt(DU)/sqrt(BL), never DU/BL before sqrt"
+  },
+  "output": {
+    "retain": [
+      "id",
+      "additional",
+      "results",
+      "input_rhs_bits when trace",
+      "input_scale_bits when trace"
+    ],
+    "outcome": [
+      "policy",
+      "rep",
+      "selected",
+      "initial_selected",
+      "certified",
+      "reason",
+      "iterations",
+      "solver_matvecs",
+      "total_us",
+      "validation_us",
+      "initial_us",
+      "solve_us",
+      "bounds_us",
+      "initial_bounds",
+      "final_bounds",
+      "decision_bounds",
+      "trace when requested",
+      "final_x when requested"
+    ],
+    "evaluation_counts": [
+      "fast_evaluations",
+      "outward_evaluations",
+      "ordinary_evaluations",
+      "bound_evaluations=fast+outward"
+    ],
+    "diagnostics": {
+      "residual_relative": "ordinary estimate; explicitly approximate",
+      "residual_upper": "array for final FAST/OUTWARD evaluation; null for final PLAIN",
+      "residual_goal_met": "bool derived only from certified upper; null for final PLAIN"
+    },
+    "trace_checkpoint": [
+      "iterations",
+      "fresh_bounds",
+      "bounds"
+    ],
+    "bounds": [
+      "lo",
+      "hi",
+      "ell_hat"
+    ]
+  },
+  "timing": {
+    "clock": "Instant wall microseconds",
+    "include": [
+      "validation",
+      "allocation",
+      "initial CG",
+      "all readouts/enclosures",
+      "continuation",
+      "controller",
+      "solver workspace destruction"
+    ],
+    "exclude": [
+      "input decode",
+      "output serialization",
+      "source/oracle generation",
+      "offline verification"
+    ],
+    "execution": "every policy is physically executed; warmup1 and repeats9 in cyclic order; no cross-policy state reuse"
+  },
+  "verification": {
+    "known_underflow": "bmax2^-600 fixture must reject with explicit norm-range error, never residual_goal_met=true",
+    "required": [
+      "behavioral RED before new behavior",
+      "exact scalar enclosure example",
+      "actual saved matvecs",
+      "uncertified full-state/ell/action identity",
+      "true ties uncertified",
+      "ordinary controls have no interval counts or certified goal",
+      "string transport actual bits",
+      "debug/release focused tests",
+      "independent exact native/source verifier"
+    ],
+    "source_code_policy": "No existing source/Cargo change; parent owns integration and pushes."
+  }
+}
