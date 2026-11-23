@@ -1,0 +1,16 @@
+{
+  "status": "PASS",
+  "method": "exhaustive rational interval boxes/corners plus deterministic binary64 directed-rounding cases",
+  "counts": {
+    "boxes": 3375,
+    "incumbents": 10125,
+    "corners": 81000,
+    "strict_switches": 2541,
+    "nested_checks": 10125,
+    "charged_comparisons": 87192,
+    "rounded_checks": 20000
+  },
+  "elapsed_seconds": 1.250386736006476,
+  "proof_scope": "finite cross-check of exact published lemmas",
+  "seed": 2500923
+}

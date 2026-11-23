@@ -49,3 +49,9 @@ Three exact rational SPD constructions exhibit a useful certified switch (+1/10)
 ## R06 — Independent mathematical and semantic checks
 
 The parent checked the complete proof and recorded its actual independence and edge-case scope in theory/R06_PARENT_CHECK.md. The max-L choice is not a minimax claim. The charged theorem is valid for its named all-action-readout class; no predictor or measured time is promoted to a universal cost bound.
+
+## R07 — Executed discriminating checks
+
+Parent exact arithmetic enumerated 3,375 interval boxes, 10,125 incumbent states and 81,000 utility corners; checked 2,541 strict switches, 10,125 nested contractions and 87,192 charged comparisons. Another 20,000 binary64 cases checked outward gap and downward price product. The executable checker exited successfully; evidence/R07_EXACT_CROSSCHECK.json binds the counts.
+
+An actual Wolfram evaluation returned True for universal strict-switch and charged-stop implications and exact rational example results. A later expanded symbolic query returned service internal error (-32603), recorded separately and not counted as a pass. The complete proof and independent rational checker provide the remaining gap-monotonicity verification.

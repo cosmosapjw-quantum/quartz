@@ -1,0 +1,14 @@
+{
+  "code": "Clear[li,ui,lj,uj,lk,uk,uiTrue,ujTrue,g,c,lam,final]; switch = Resolve[ForAll[{li,ui,lj,uj,uiTrue,ujTrue},Implies[li<=uiTrue<=ui && lj<=ujTrue<=uj && lj>ui,ujTrue>uiTrue]],Reals]; monotone = Resolve[ForAll[{li,ui,lj,uj,lk,uk},Implies[li<=ui && lj<=uj && lk<=uk && lj>ui,Max[0,ui-lj,uk-lj]<=Max[0,uj-li,uk-li]-(lj-li)]],Reals]; stop=Resolve[ForAll[{g,c,lam,final,uiTrue},Implies[g>=0 && c>=0 && lam>=0 && final-uiTrue<=g && g<=lam*c,final-uiTrue-lam*c<=0]],Reals]; <|\"strict_switch\"->switch,\"three_action_gap_decrease\"->monotone,\"charged_stop\"->stop|>",
+  "result": {
+    "content": [
+      {
+        "type": "text",
+        "text": "tool call error: tool call failed for `codex_apps/wolfram.WolframLanguageEvaluator`\n\nCaused by:\n    Mcp error: -32603: Internal error"
+      }
+    ],
+    "isError": true
+  },
+  "context_call_status": "ATTEMPTED_INTERNAL_ERROR_-32603; evaluator actual returned below",
+  "scope": "universal real inequalities for switch/charged stop and three-action gap decrease; symbolic verification is separate from general proof"
+}

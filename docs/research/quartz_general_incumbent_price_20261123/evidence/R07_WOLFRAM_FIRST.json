@@ -1,0 +1,24 @@
+{
+  "tool": "WolframLanguageEvaluator",
+  "status": "SUCCESS",
+  "record_kind": "faithful transcription of actual returned Out[1] earlier this turn",
+  "universal_strict_switch": true,
+  "universal_charged_stop": true,
+  "exact_switch_example": {
+    "truth": [
+      "3/5",
+      "4/5",
+      "7/10"
+    ],
+    "old_gap": "2/5",
+    "new_gap": "1/20"
+  },
+  "exact_conservative_example": {
+    "truth": [
+      "3/5",
+      "61/100"
+    ],
+    "missed_gain": "1/100"
+  },
+  "later_expanded_query": "Separate R07_WOLFRAM.json records service internal error; it is not a passed check."
+}
