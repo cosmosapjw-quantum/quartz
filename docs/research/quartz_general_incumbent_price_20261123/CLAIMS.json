@@ -13,8 +13,11 @@
       "evidence": [
         "theory/DERIVATION.md",
         "theory/R06_PARENT_CHECK.md",
-        "evidence/R07_EXACT_CROSSCHECK.json"
-      ]
+        "evidence/R07_EXACT_CROSSCHECK.json",
+        "evidence/C08_RESULT_AUDIT.json",
+        "evidence/C25_VERIFY_TEST_TRACE.json"
+      ],
+      "implementation_status": "IMPLEMENTATION_VERIFIED_AND_FRESH_FINITE_CHECKED"
     },
     {
       "id": "T2",
@@ -28,8 +31,11 @@
       "evidence": [
         "theory/DERIVATION.md",
         "theory/R06_PARENT_CHECK.md",
-        "evidence/R07_EXACT_CROSSCHECK.json"
-      ]
+        "evidence/R07_EXACT_CROSSCHECK.json",
+        "evidence/C08_RESULT_AUDIT.json",
+        "evidence/C25_VERIFY_TEST_TRACE.json"
+      ],
+      "implementation_status": "IMPLEMENTATION_VERIFIED_AND_FRESH_FINITE_CHECKED"
     },
     {
       "id": "T3",
@@ -44,17 +50,24 @@
       "evidence": [
         "theory/DERIVATION.md",
         "theory/R06_PARENT_CHECK.md",
-        "evidence/R07_EXACT_CROSSCHECK.json"
-      ]
+        "evidence/R07_EXACT_CROSSCHECK.json",
+        "evidence/C08_RESULT_AUDIT.json",
+        "evidence/C25_VERIFY_TEST_TRACE.json"
+      ],
+      "implementation_status": "IMPLEMENTATION_VERIFIED_AND_FRESH_FINITE_CHECKED"
     },
     {
       "id": "T4",
       "claim": "Wall-time predictor makes economically useful stop decisions at primary price",
-      "status": "CONJECTURAL",
+      "status": "PRIMARY_NET_BENEFIT_NOT_SUPPORTED_ON_FRESH_TEST",
       "premises": [
         "TRAIN-only frozen predictor",
         "realized full timing",
         "fresh TEST exact utility"
+      ],
+      "finding": "At locked price RETAIN_TIME has negative net utility versus PLAIN_STOP; positive net utility and time savings versus PLAIN_ALWAYS, with3 missed optimal selections.",
+      "evidence": [
+        "evidence/C25_TEST_SUMMARY.json"
       ]
     },
     {

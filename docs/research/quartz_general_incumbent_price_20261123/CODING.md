@@ -57,3 +57,23 @@ All36 fresh TRAINparents completed108 trace requests/648 policies and108 timing 
 TRAIN36 and CAL36 each complete all3 budgets and6 policies with exact source/interval/retention/floor verification. The fixed TRAIN model is used unchanged on CAL. Independent manufactured-energy oracles check actual decision quality, not agreement with the same production solver. Detailed coverage is in C07_PRE_TEST_VALIDATION.json.
 
 All source specifications, numerical/controller code, verifier/analyzer, cost predictor, theoretical contract and exact release binary are hash-frozen before TEST sources are generated. C07_PRE_TEST_FREEZE.json records that ordering. The primary72 TESTparents remain unobserved at this commit; no rule, price, or estimator was selected from their outcomes.
+
+## C08 — Fresh heldout outcomes and budget/cost trade-offs
+
+TEST72 completed216 source-budget requests per mode:1,296 trace policy executions and11,664 timing executions plus1,296 warmups. Exact verification passed28,584 trace interval checks,104,976 timing checks,1,529 retained-gap checkpoints,881 admitted fresh-readout floors,76 strict switches and41 certified work-price stops. The frozen nine-parent residual subset checked108 action upper bounds from42 unique vector states.
+
+All648 distinct retained source-budget-policy outcomes are at least their initial PLAIN_STOP true utility. Trace versus timing scientific signatures match all23,328 timed outcomes over TRAIN/CAL/TEST. All pre-TEST scientific hashes remain unchanged.
+
+Primary additional32, within-parent median timing then mean over72 parents:
+- PLAIN_STOP238.08123611111108us,12 wrong.
+- PLAIN_ALWAYS1625.49175us,0 wrong.
+- FAST_BLOCK1092.4213472222223us,0 wrong.
+- RETAIN_BLOCK1090.6769861111109us,1 wrong.
+- RETAIN_WORK929.8645972222221us,2 wrong.
+- RETAIN_TIME729.63325us,3 wrong.
+
+RETAIN_TIME saves55.113075781528885% wall time and64.25741221478344% solver matvecs versus PLAIN_ALWAYS, with3 missed improvements and mean true regret1.1326950421065863e-8. It improves9 of the12 initially wrong decisions without a true-utility decrease. RETAIN_BLOCK's1 missed primary improvement vanishes atadditional128; WORK/TIME keep2/3 respectively. These are measured conservatism/cost trade-offs, not a universal fixed-budget noninferiority claim.
+
+The primary time-priced contrast TIME minus PLAIN_STOP atlambda1e-6 is -0.0004683900086636479, paired-parent95% bootstrap [-0.0006629366545796896,-0.00028780714297975434]. Gain2.3162005225240992e-5 is smaller than price times491.5520138888889us extra cost. TIME minus PLAIN_ALWAYS is +0.000895847173049579 with95% interval[0.0006332512903306129,0.0011888049912116847]. Both comparisons are retained.
+
+All price sensitivity revalues the same frozen policy. No TEST model, rule or price refit occurred. Source-paired percentile bootstrap summarizes this synthetic parent population; it is not a universal coverage or real-game claim. C08_RESULT_AUDIT.json preserves exact trade-off cases and time-predictor errors.
