@@ -90,3 +90,12 @@ The independent checker actually exited0 and reconstructed all216 TEST timing re
 Parent separately restored the C23 base then C24 C08 overlay into/tmp/quartz_c24_restore_hidqdqmf. All2148 Git-tracked objects(798260314bytes) matched the C08 commit content. TRAIN/CAL/TEST raw traces were reconstructed from parts and matched original native-run SHA256 values. The exact tested native executable was additionally compressed, backed up and decompressed for SHA256 readback. This was a restore check, not another solver campaign.
 
 All12 prior worktree HEADs stayed at their own recorded baseline. Original worktree status and THESIS/CLAIM_LEDGER/game files match that original HEAD; its different legitimate CLAIM_LEDGER hash is not compared to the C24 branch ledger. Current C24 protected files remain unchanged. Git publication is checked by remote HEAD; Dropbox server/cloud synchronization acknowledgment is still NOT_VERIFIED.
+
+
+## C10 — Decision, release and next research handoff
+
+C24 is accepted for the stated conditional finite-SPD research scope. The ordinary scalar-envelope implementation preserves exact strict-certificate/fallback semantics and produces a positive primary whole-policy time contrast against PLAIN_ALWAYS on fresh TEST72. The negative economic comparison versus PLAIN_STOP at the frozen price remains a result. Unsupported-range rejection is explicit; original game-engine P2/P3/P4 and arbitrary-range CG are not promoted.
+
+REPORT.md provides the Korean derivation, computational form, empirical results and limitations; CLAIMS.json separates derived, finite-checked, implementation-verified and unresolved assertions. REPRODUCE.md distinguishes exact archive/trace restoration from a new numerical/timing run. NEXT_STAGE.json proposes C25 incumbent/price-aware stopping, with the actual adverse finite-budget case and precise cost-lower-bound caveat, and explicitly records NOT_EXECUTED.
+
+STAGE_PUBLICATIONS.json preserves the21 pre-C10 publication receipts. C10 produces the22nd receipt(the20 requested theory/coding stages plus C07A/C08A source freezes). The final commit cannot contain its own hash: scripts/quartz_general_c24_publish.py records its actual commit/archive/remote readback outside the archive, and coding/check_final_publication.py verifies all22 stage hashes, the complete final overlay against ARTIFACTS.json, frozen science, remote equality and original worktree preservation. The final audit is stored beside the backups as FINAL_PUBLICATION_AUDIT.json. Dropbox cloud acknowledgement remains NOT_VERIFIED.

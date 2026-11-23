@@ -1,0 +1,666 @@
+{
+  "schema": "quartz.c24.artifacts.v1",
+  "utc": "2026-11-23T05:19:08.604011+00:00",
+  "parent_commit": "a4417b081037c4d5b49976ddcaeaa3f0771773b2",
+  "pre_C10_head": "8c1874b64c98a6db9b8a4a2503fa73a70ac2476d",
+  "binding": "Git C10 commit binds this manifest; every changed C24 artifact except this manifest has byte size/SHA below. Whole trace gzip is represented by lossless published parts and native manifest hash.",
+  "file_count": 164,
+  "files": {
+    "docs/research/quartz_general_cheap_certificates_20261123/BASELINE.json": {
+      "bytes": 4258,
+      "sha256": "71b1f74c27071a2246e4a786cb4ca5ffc312e716d8c521115571ae884b191f96"
+    },
+    "docs/research/quartz_general_cheap_certificates_20261123/C04_RUN_CONTRACT.json": {
+      "bytes": 1377,
+      "sha256": "68e123dae4fd5af07392670000a5b474af7c77fb5ee63c6b355c533915aaed90"
+    },
+    "docs/research/quartz_general_cheap_certificates_20261123/CLAIMS.json": {
+      "bytes": 3217,
+      "sha256": "3d05f6cc768238ccafbb34cf76f6fc44bd2444b4ad627bc36467c43547fc8960"
+    },
+    "docs/research/quartz_general_cheap_certificates_20261123/CODE_CONTRACT.json": {
+      "bytes": 5177,
+      "sha256": "a1f6a987277bdb42eb04852088a30ad56acb546c44ef4f27ddaaa636f0dcd257"
+    },
+    "docs/research/quartz_general_cheap_certificates_20261123/CODING.md": {
+      "bytes": 18533,
+      "sha256": "8128073fa7f63d9005697062ab48612a3220a75b08c2c1a4e298e2fc9cc82ff8"
+    },
+    "docs/research/quartz_general_cheap_certificates_20261123/NEXT_STAGE.json": {
+      "bytes": 3324,
+      "sha256": "3d4f4bb21e3e8ff3c9e4138ced1260476af61c9dae7e7a2cc4531cc8d05686af"
+    },
+    "docs/research/quartz_general_cheap_certificates_20261123/README.md": {
+      "bytes": 974,
+      "sha256": "0a7821222486d408ab27b7086fbe4cec2f0a5834eed098a4e8463eb774356553"
+    },
+    "docs/research/quartz_general_cheap_certificates_20261123/REPORT.md": {
+      "bytes": 19605,
+      "sha256": "b1674efbdf306252391e11cb19cb8d4f3313d97f7b0cecd66ff916641ca3a8e9"
+    },
+    "docs/research/quartz_general_cheap_certificates_20261123/REPRODUCE.md": {
+      "bytes": 6779,
+      "sha256": "2e65cc4a009ae2185fdd71bda77d47a062f4a9cef608ac5244d242e52330b5f3"
+    },
+    "docs/research/quartz_general_cheap_certificates_20261123/SOURCE_SPECS.json": {
+      "bytes": 25276,
+      "sha256": "342fbac726767fa9d165adacbcb29fdef52438cc1ce17ae36a1e26cc6ece2197"
+    },
+    "docs/research/quartz_general_cheap_certificates_20261123/STAGE_PUBLICATIONS.json": {
+      "bytes": 19592,
+      "sha256": "fd4b0dffac3b5873912619920d272f3ad2253781f89342f9ec3e1f7b9ec586c4"
+    },
+    "docs/research/quartz_general_cheap_certificates_20261123/THEORY.md": {
+      "bytes": 19406,
+      "sha256": "5aa648c7432adf3534788154c3cf238204ef406810cfb31a785612f7fbc27da9"
+    },
+    "docs/research/quartz_general_cheap_certificates_20261123/coding/c24_analyze.py": {
+      "bytes": 15433,
+      "sha256": "d700852f910840c60ac33af4fc8209cfc6b7a00a3b5554e118db5208c03c0536"
+    },
+    "docs/research/quartz_general_cheap_certificates_20261123/coding/c24_plot.py": {
+      "bytes": 5728,
+      "sha256": "dcf15c60f8e6e26483d6fe5788482b6839c8c801c4d16715d1d0841bd053a831"
+    },
+    "docs/research/quartz_general_cheap_certificates_20261123/coding/c24_run.py": {
+      "bytes": 9798,
+      "sha256": "08f8ca0302e9ac25801216cdff2c164e35492fba1aa8c5b7786c26f5e4f34998"
+    },
+    "docs/research/quartz_general_cheap_certificates_20261123/coding/c24_sources.py": {
+      "bytes": 8612,
+      "sha256": "d7e45b8d944f51e537775a9322c8ad9c4882f80058ebf7093c20fb893eee1a0c"
+    },
+    "docs/research/quartz_general_cheap_certificates_20261123/coding/c24_verify.py": {
+      "bytes": 15750,
+      "sha256": "58836704bed63532260e7daae902fb21d7d95fd484c6524c2e3b2298e457d550"
+    },
+    "docs/research/quartz_general_cheap_certificates_20261123/coding/check_c06_native.py": {
+      "bytes": 9141,
+      "sha256": "45035baae9c0288dbc769a458de42e82b2fe3a7d44f773f90c7e6f55e6414191"
+    },
+    "docs/research/quartz_general_cheap_certificates_20261123/coding/check_c09_restore.py": {
+      "bytes": 5979,
+      "sha256": "acbf2682ff7bcf7260b9db5b85ceec94e134626f34250e4e28123eff9437dcbf"
+    },
+    "docs/research/quartz_general_cheap_certificates_20261123/coding/check_final_publication.py": {
+      "bytes": 5493,
+      "sha256": "3b77444254dee20508ab07bc9480c8aa43be353197f28da7f07b110e22c1c6a5"
+    },
+    "docs/research/quartz_general_cheap_certificates_20261123/coding/reassemble_c24_trace.py": {
+      "bytes": 8169,
+      "sha256": "51dbe9d5a674cdffefb9296e563d0e575ff3a4932b1a6919f1b338487148ed08"
+    },
+    "docs/research/quartz_general_cheap_certificates_20261123/coding/render_c24_report_figure.py": {
+      "bytes": 5817,
+      "sha256": "83409785c595336dc5865a5e5b56be9c1ed53b139b7120cef1141225496e0249"
+    },
+    "docs/research/quartz_general_cheap_certificates_20261123/evidence/.gitignore": {
+      "bytes": 75,
+      "sha256": "422f9cc152ae3b70c2bd97ffbb790ef1bc4887b8d093a64e2325f67672eb0ffc"
+    },
+    "docs/research/quartz_general_cheap_certificates_20261123/evidence/C05_PUBLICATION_PRECHECK.json": {
+      "bytes": 574,
+      "sha256": "dd95d5cd014e741291e24d9a9c4c8adecf72c09b24fd01f98a79c496114e3cbf"
+    },
+    "docs/research/quartz_general_cheap_certificates_20261123/evidence/C05_PYTHON_COUNTER_RED.log": {
+      "bytes": 3451,
+      "sha256": "16c2a1b535c8ffa47760e5aa2b34a935f71e4ea863fd42b6c33ec3aeed253483"
+    },
+    "docs/research/quartz_general_cheap_certificates_20261123/evidence/C05_PYTHON_RED.log": {
+      "bytes": 8663,
+      "sha256": "16d1776f8222379d9929094bab60ca1cc51147610362836f918ee371629b96ea"
+    },
+    "docs/research/quartz_general_cheap_certificates_20261123/evidence/C05_RUST_GREEN.json": {
+      "bytes": 463,
+      "sha256": "6f62036cff93833af563810c8c640a0389fdf40e2c2a12159a580b3d28bcfcfc"
+    },
+    "docs/research/quartz_general_cheap_certificates_20261123/evidence/C05_RUST_GREEN.stderr": {
+      "bytes": 299,
+      "sha256": "10b2244c407806fafe7a245fd2799e6341c10be172843ec7bc2a9dfec019f964"
+    },
+    "docs/research/quartz_general_cheap_certificates_20261123/evidence/C05_RUST_GREEN.stdout": {
+      "bytes": 554,
+      "sha256": "aa80b04170db75bbf668d04f14d67b0c2de98cacbaae1b79e817c701d0bcc4aa"
+    },
+    "docs/research/quartz_general_cheap_certificates_20261123/evidence/C05_RUST_RED.json": {
+      "bytes": 465,
+      "sha256": "ff85c52c912caf6b3dd7a6e616d01284a1cb0753f7a57a75c1dce6d1988209a6"
+    },
+    "docs/research/quartz_general_cheap_certificates_20261123/evidence/C05_RUST_RED.stderr": {
+      "bytes": 4110,
+      "sha256": "c1dce40e6e4866218e3519350ecd626e8ad3aad6dd66af05aff3bddd6097d887"
+    },
+    "docs/research/quartz_general_cheap_certificates_20261123/evidence/C05_RUST_RED.stdout": {
+      "bytes": 996,
+      "sha256": "4f2fa7636fef4254c709c8afe80472a79805d60eaf68bae4051acb558a4c49c4"
+    },
+    "docs/research/quartz_general_cheap_certificates_20261123/evidence/C05_RUST_RED_SOURCE.rs": {
+      "bytes": 26482,
+      "sha256": "163c170d3509997a55d6645da151729718759d3cdc1b24528e6dd0e28ca53c0e"
+    },
+    "docs/research/quartz_general_cheap_certificates_20261123/evidence/C05_RUST_START.json": {
+      "bytes": 731,
+      "sha256": "f7dbe7537cff66ed0d34782fb086fb07cdbff0ba4bc14f363bdbb6a45d83332b"
+    },
+    "docs/research/quartz_general_cheap_certificates_20261123/evidence/C06_NATIVE_CHECK.log": {
+      "bytes": 5992,
+      "sha256": "7b333160336147c867485ad22db70048cd06f414de44d41b745692dba8894407"
+    },
+    "docs/research/quartz_general_cheap_certificates_20261123/evidence/C06_NATIVE_UNIT_INPUT.jsonl.gz": {
+      "bytes": 11157,
+      "sha256": "eb5f4f2557030a2781c6e3be135b8fad0c8a673dd43e2dcdc99b7e8a7099c544"
+    },
+    "docs/research/quartz_general_cheap_certificates_20261123/evidence/C06_NATIVE_UNIT_OUTPUT.jsonl.gz": {
+      "bytes": 656213,
+      "sha256": "eda657b74bd5246f423b3a30d8f853a639e3cd58511ce6f73d860c5b64ddb20b"
+    },
+    "docs/research/quartz_general_cheap_certificates_20261123/evidence/C06_NATIVE_UNIT_VERIFIED.json": {
+      "bytes": 5992,
+      "sha256": "7b333160336147c867485ad22db70048cd06f414de44d41b745692dba8894407"
+    },
+    "docs/research/quartz_general_cheap_certificates_20261123/evidence/C06_PYTHON_COUNTER_GREEN.log": {
+      "bytes": 368,
+      "sha256": "c74157d0c07f8db2def899e9a23cf2e77344d868814b622c28da69926f00afd9"
+    },
+    "docs/research/quartz_general_cheap_certificates_20261123/evidence/C06_PYTHON_FINAL_GREEN.log": {
+      "bytes": 1574,
+      "sha256": "49be11325e9f59d9d0d63623f8192756a856c6599975b09ee00244cc406e80c1"
+    },
+    "docs/research/quartz_general_cheap_certificates_20261123/evidence/C06_PYTHON_GREEN.log": {
+      "bytes": 1414,
+      "sha256": "efa34df7c3724e82056f68e355b6e6564e51f1ba73d7b05481cb69120ef0f387"
+    },
+    "docs/research/quartz_general_cheap_certificates_20261123/evidence/C06_PYTHON_HANDOFF.json": {
+      "bytes": 7228,
+      "sha256": "ec43ef283ded11325d8e85e187c9cf35d0e9ce279edcabbabb0f5ba468f7300f"
+    },
+    "docs/research/quartz_general_cheap_certificates_20261123/evidence/C06_PYTHON_UNIT/C24_ORACLE_UNIT.jsonl.gz": {
+      "bytes": 2139,
+      "sha256": "df9096e4f4093f6df4eb1f0f07b699c6cdb28fa768f097a56a1df3ce97937156"
+    },
+    "docs/research/quartz_general_cheap_certificates_20261123/evidence/C06_PYTHON_UNIT/C24_PUBLIC_UNIT.jsonl.gz": {
+      "bytes": 2534,
+      "sha256": "db50bab705b70e4ef549b6963da084e84fb893c1680fc958736b5d4d9905e1c1"
+    },
+    "docs/research/quartz_general_cheap_certificates_20261123/evidence/C06_PYTHON_UNIT/C24_SOURCES_UNIT.json": {
+      "bytes": 6285,
+      "sha256": "f7db2f788166c7f30c2acd4acb046c20636aa63fecb04879643da15449275e5f"
+    },
+    "docs/research/quartz_general_cheap_certificates_20261123/evidence/C06_PYTHON_UNIT/C24_UNIT_TRACE.jsonl.gz": {
+      "bytes": 32483,
+      "sha256": "badcb14767f855389eaffa2d9d6a6fd252813f89536a2c911f7035206fdaed31"
+    },
+    "docs/research/quartz_general_cheap_certificates_20261123/evidence/C06_PYTHON_UNIT/C24_UNIT_TRACE.manifest.json": {
+      "bytes": 16237,
+      "sha256": "fd5b4c3dcb782eac8e4e4954534e967df19ecb67fb3c064a1d9df7263a0341af"
+    },
+    "docs/research/quartz_general_cheap_certificates_20261123/evidence/C06_PYTHON_UNIT/C24_UNIT_TRACE_STDERR.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "docs/research/quartz_general_cheap_certificates_20261123/evidence/C06_PYTHON_UNIT/C24_VERIFY_UNIT_TRACE.json": {
+      "bytes": 2369,
+      "sha256": "d1606fb068c241b0574d63801d2fd0010b231f8a944d40ee94143f9543c52b50"
+    },
+    "docs/research/quartz_general_cheap_certificates_20261123/evidence/C06_PYTHON_UNIT_1.log": {
+      "bytes": 6318,
+      "sha256": "055039e2812b96c0997cf19361b7c2fd6d752e45cb5078e1f71224c34c1c9509"
+    },
+    "docs/research/quartz_general_cheap_certificates_20261123/evidence/C06_PYTHON_UNIT_2.log": {
+      "bytes": 15942,
+      "sha256": "6df78923dba74647be2be92c663e21dfc767a049928d377b45449d72b44b89a3"
+    },
+    "docs/research/quartz_general_cheap_certificates_20261123/evidence/C06_PYTHON_UNIT_3.log": {
+      "bytes": 2414,
+      "sha256": "3ee9336f7c05ce3421d6cde6da10b3c400b6aa81675314f28e30243a47eccd21"
+    },
+    "docs/research/quartz_general_cheap_certificates_20261123/evidence/C06_PYTHON_UNIT_COMMANDS.json": {
+      "bytes": 1310,
+      "sha256": "14b530f51d527f09e7ba2b403f6b08f4dea837e29b48d4cb8e5758a42cde21b0"
+    },
+    "docs/research/quartz_general_cheap_certificates_20261123/evidence/C06_RUST_DEBUG.json": {
+      "bytes": 437,
+      "sha256": "b35e9569348b2844c74ee668901c0d7b131a9a5546133f6c8aefe3d9fe2ade78"
+    },
+    "docs/research/quartz_general_cheap_certificates_20261123/evidence/C06_RUST_DEBUG.stderr": {
+      "bytes": 299,
+      "sha256": "c6b7c7006f176f2933122919fbc925c7f3140893f5ee2d252ea23f40aae61402"
+    },
+    "docs/research/quartz_general_cheap_certificates_20261123/evidence/C06_RUST_DEBUG.stdout": {
+      "bytes": 2342,
+      "sha256": "42e61690d634df4bd250f4abeb1ee7a6def0c420975cb556a3b829d06f75b988"
+    },
+    "docs/research/quartz_general_cheap_certificates_20261123/evidence/C06_RUST_DEBUG_FINAL.json": {
+      "bytes": 611,
+      "sha256": "b444af0a30f18293c7fad2f26068613b773965a014626a2df6493564ffbf01fd"
+    },
+    "docs/research/quartz_general_cheap_certificates_20261123/evidence/C06_RUST_DEBUG_FINAL.stderr": {
+      "bytes": 202,
+      "sha256": "67be2a488f7476c8889b3ae100bb30378998550cc26a70e7e34dd8ffd1c438f2"
+    },
+    "docs/research/quartz_general_cheap_certificates_20261123/evidence/C06_RUST_DEBUG_FINAL.stdout": {
+      "bytes": 2342,
+      "sha256": "58a779d49c7d6a7cc7f8342bb2092b709934d10d7cd6f214941a051426b56c02"
+    },
+    "docs/research/quartz_general_cheap_certificates_20261123/evidence/C06_RUST_FORMAT.json": {
+      "bytes": 566,
+      "sha256": "09eac5d107a7e25e3aff36fdb424a366de91bc969b53156b4543ed4bfc07a279"
+    },
+    "docs/research/quartz_general_cheap_certificates_20261123/evidence/C06_RUST_FORMAT.stderr": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "docs/research/quartz_general_cheap_certificates_20261123/evidence/C06_RUST_FORMAT.stdout": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "docs/research/quartz_general_cheap_certificates_20261123/evidence/C06_RUST_GREEN_FINAL.json": {
+      "bytes": 637,
+      "sha256": "2b756e0c40f4d7dc44501fd18395667a28ba70a2e0aef661c3a2f1ae2ef52392"
+    },
+    "docs/research/quartz_general_cheap_certificates_20261123/evidence/C06_RUST_GREEN_FINAL.stderr": {
+      "bytes": 299,
+      "sha256": "a5efc8f72669039d59175f74d47c5a5b44459b48c5b98cae0b395df6c25b436c"
+    },
+    "docs/research/quartz_general_cheap_certificates_20261123/evidence/C06_RUST_GREEN_FINAL.stdout": {
+      "bytes": 554,
+      "sha256": "aeb97f5d8cfd06babd146319eef8970cb114904975b17507f6a43b32a473c5ca"
+    },
+    "docs/research/quartz_general_cheap_certificates_20261123/evidence/C06_RUST_HANDOFF.md": {
+      "bytes": 4746,
+      "sha256": "abf6b44ca2c198b39418126565c36be40c41b3660c20313233cd5a8042bcc21f"
+    },
+    "docs/research/quartz_general_cheap_certificates_20261123/evidence/C06_RUST_MANIFEST.json": {
+      "bytes": 11219,
+      "sha256": "84e5d32d42c08aca97683768d64ca90d7a387efd9d594d8265e8a2b7fe295c6d"
+    },
+    "docs/research/quartz_general_cheap_certificates_20261123/evidence/C06_RUST_NATIVE.json": {
+      "bytes": 2776,
+      "sha256": "038b3662badf5283b95f2330ba76f486df6ea087b042aa5fa830aac908471114"
+    },
+    "docs/research/quartz_general_cheap_certificates_20261123/evidence/C06_RUST_NATIVE.stderr": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "docs/research/quartz_general_cheap_certificates_20261123/evidence/C06_RUST_NATIVE.stdin": {
+      "bytes": 3397,
+      "sha256": "e130cd60bf2788b9a6af8c577b6d7991439fcd1f85be183755f334cabb387e8e"
+    },
+    "docs/research/quartz_general_cheap_certificates_20261123/evidence/C06_RUST_NATIVE.stdout": {
+      "bytes": 28839,
+      "sha256": "ff5e451cca923567cf508bd8b11ab167723b95ac8cf974bbbcc2077ba1006544"
+    },
+    "docs/research/quartz_general_cheap_certificates_20261123/evidence/C06_RUST_PROTECTED.stderr": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "docs/research/quartz_general_cheap_certificates_20261123/evidence/C06_RUST_PROTECTED.stdout": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "docs/research/quartz_general_cheap_certificates_20261123/evidence/C06_RUST_RELEASE_BUILD.json": {
+      "bytes": 600,
+      "sha256": "763330a3aa0bbdc1159a6258a1c1c632b495e78be1737be747233c044367cf77"
+    },
+    "docs/research/quartz_general_cheap_certificates_20261123/evidence/C06_RUST_RELEASE_BUILD.stderr": {
+      "bytes": 159,
+      "sha256": "681e607a9d87a09c7b1b03c053d014bbc425a3e39b07aa98d30289c535b39733"
+    },
+    "docs/research/quartz_general_cheap_certificates_20261123/evidence/C06_RUST_RELEASE_BUILD.stdout": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "docs/research/quartz_general_cheap_certificates_20261123/evidence/C06_RUST_RELEASE_TEST.json": {
+      "bytes": 628,
+      "sha256": "8d192ac6504ae8d099dd4838538cee9467dc0b79bae723685da67732dbbd3f36"
+    },
+    "docs/research/quartz_general_cheap_certificates_20261123/evidence/C06_RUST_RELEASE_TEST.stderr": {
+      "bytes": 1672,
+      "sha256": "152531b2a87a89d9465c238922af05ed74f091a8dc741fe60710fdface2ab896"
+    },
+    "docs/research/quartz_general_cheap_certificates_20261123/evidence/C06_RUST_RELEASE_TEST.stdout": {
+      "bytes": 2342,
+      "sha256": "2d3c864eda70694bc5a467edbe231228519244269b62894cfcbe6a1642d3b8d3"
+    },
+    "docs/research/quartz_general_cheap_certificates_20261123/evidence/C07_EXECUTION_COMMANDS.json": {
+      "bytes": 3532,
+      "sha256": "cb2c2f0dfd66919cfd429b669eeb997e176a9acf5ea866b30d85f58b6dda6165"
+    },
+    "docs/research/quartz_general_cheap_certificates_20261123/evidence/C07_PRE_TEST_FREEZE.json": {
+      "bytes": 5576,
+      "sha256": "a3a594f64d6d35184493eed69da4230de45d5b7b860fa3bcbe752db91ffd9d45"
+    },
+    "docs/research/quartz_general_cheap_certificates_20261123/evidence/C07_SOURCE_CAL.log": {
+      "bytes": 4202,
+      "sha256": "69cedeea91bc64aab1c3b6dc409dde3d9c9b90f015579e43abc374785a6c1ce8"
+    },
+    "docs/research/quartz_general_cheap_certificates_20261123/evidence/C07_SOURCE_COMMANDS.json": {
+      "bytes": 733,
+      "sha256": "d88888a8b2b5790b9a4541ec3ebb5ccb4bcd6edab4983361f5d747e0b57d65a3"
+    },
+    "docs/research/quartz_general_cheap_certificates_20261123/evidence/C07_SOURCE_TRAIN.log": {
+      "bytes": 3972,
+      "sha256": "26cc975d1dde37685769dc97577438c3435dc6f19a639336357539475bc420c9"
+    },
+    "docs/research/quartz_general_cheap_certificates_20261123/evidence/C07_TRACE_PACKAGING.json": {
+      "bytes": 8460,
+      "sha256": "56667def421823fb6d06186b64aa795077d2658e79c26800f4a65fba7d33fd83"
+    },
+    "docs/research/quartz_general_cheap_certificates_20261123/evidence/C07_c24_analyze_TRAIN_analysis.log": {
+      "bytes": 1575,
+      "sha256": "81a53c2f9402fe78aed6369a77b73f38eda00136b89cfd16c46152a2b5cfba1c"
+    },
+    "docs/research/quartz_general_cheap_certificates_20261123/evidence/C07_c24_run_CAL_trace.log": {
+      "bytes": 10421,
+      "sha256": "ce9a6ee1c65a972f002c55f722de43ac0577d715b080b24d02eaa038938a26f6"
+    },
+    "docs/research/quartz_general_cheap_certificates_20261123/evidence/C07_c24_run_TRAIN_timing.log": {
+      "bytes": 11774,
+      "sha256": "48f7591a97435124d79a37e325ab70bb6bf1e6922cb46c9ee4dac111401be31f"
+    },
+    "docs/research/quartz_general_cheap_certificates_20261123/evidence/C07_c24_run_TRAIN_trace.log": {
+      "bytes": 9191,
+      "sha256": "6e0f8d76bb07818ad308d8da8e587ad518be60322684872eea13963d5c34f8f9"
+    },
+    "docs/research/quartz_general_cheap_certificates_20261123/evidence/C07_c24_verify_CAL_trace.log": {
+      "bytes": 2082,
+      "sha256": "39e2a2490552b9db080c28589307759ec3b907f82e477af4bc6fefc33fca6c1c"
+    },
+    "docs/research/quartz_general_cheap_certificates_20261123/evidence/C07_c24_verify_TRAIN_timing.log": {
+      "bytes": 2102,
+      "sha256": "bf552c9da3e63151ba2049fa6dd5b62eeb26b23a6bafeb22c13025a58538a24a"
+    },
+    "docs/research/quartz_general_cheap_certificates_20261123/evidence/C07_c24_verify_TRAIN_trace.log": {
+      "bytes": 2096,
+      "sha256": "e2007d8be1dd47bd02658826297fca86f0623690b0c1e3c81f2db61579ff1395"
+    },
+    "docs/research/quartz_general_cheap_certificates_20261123/evidence/C08_EXECUTION_COMMANDS.json": {
+      "bytes": 2987,
+      "sha256": "7a4a88869ab013cc21a4e4a0ccf517d58439c430ac9c55d5543ef367e8eb0bb4"
+    },
+    "docs/research/quartz_general_cheap_certificates_20261123/evidence/C08_FIGURE_FINAL.log": {
+      "bytes": 993,
+      "sha256": "460d3d04bcfa990f5fba6f2a631668d0aa6a4d92a70c7be3a2c0b5857ddd809a"
+    },
+    "docs/research/quartz_general_cheap_certificates_20261123/evidence/C08_RESULT_AUDIT.json": {
+      "bytes": 2649,
+      "sha256": "6aea8762fe51bb2b84d3b9d153a983416c27801c4ff5b1d3a710f34b62b8d531"
+    },
+    "docs/research/quartz_general_cheap_certificates_20261123/evidence/C08_SOURCE_COMMAND.json": {
+      "bytes": 344,
+      "sha256": "3ca416db3d9f6ccffa56a683a1a0431ffb681b2581b38bc10b5f252c0ab4944d"
+    },
+    "docs/research/quartz_general_cheap_certificates_20261123/evidence/C08_SOURCE_TEST.log": {
+      "bytes": 5875,
+      "sha256": "125db8ba8f57e7314d13499b62999252a9d48d276013c4f5913edc800fc23356"
+    },
+    "docs/research/quartz_general_cheap_certificates_20261123/evidence/C08_c24_analyze_TEST_output.log": {
+      "bytes": 1553,
+      "sha256": "8b6ae48fdb1310a1716efb3c03e3035b84d01ac844e8b3dc2eea33be68ad54bd"
+    },
+    "docs/research/quartz_general_cheap_certificates_20261123/evidence/C08_c24_plot_TEST_output.log": {
+      "bytes": 981,
+      "sha256": "14ac9b3a902a861678e76c080f0ca81be634b7d52f3312dd59b798794ebbbecc"
+    },
+    "docs/research/quartz_general_cheap_certificates_20261123/evidence/C08_c24_run_TEST_timing.log": {
+      "bytes": 12905,
+      "sha256": "21ca9565dea62490ef5ce0793de1dd90993931e8219b8494076bf48248efc51b"
+    },
+    "docs/research/quartz_general_cheap_certificates_20261123/evidence/C08_c24_run_TEST_trace.log": {
+      "bytes": 11602,
+      "sha256": "a16d5109a38e9974683313c60056cb31a5c17f3a45294f157885fd9f29ac87ff"
+    },
+    "docs/research/quartz_general_cheap_certificates_20261123/evidence/C08_c24_verify_TEST_timing.log": {
+      "bytes": 2097,
+      "sha256": "39ef8aa962dfe0de18259e0ff691f3f4c4c588de95ce2b978ffb25517fb2d2cc"
+    },
+    "docs/research/quartz_general_cheap_certificates_20261123/evidence/C08_c24_verify_TEST_trace.log": {
+      "bytes": 2243,
+      "sha256": "26c25bc96a7189c4690711bd546e92b4367ef65951c6d27e297fb1e4217b479d"
+    },
+    "docs/research/quartz_general_cheap_certificates_20261123/evidence/C09_RESTORE.json": {
+      "bytes": 8316,
+      "sha256": "e4ce594467fff6c0d042affae5e2ba7b9c4600d725d7cdeada2387a938a2848e"
+    },
+    "docs/research/quartz_general_cheap_certificates_20261123/evidence/C24_CAL_TRACE.manifest.json": {
+      "bytes": 9059,
+      "sha256": "decea94d6770e25dc90b3a3c964b955d1bb36d7981ca6f1817350ed7324b578d"
+    },
+    "docs/research/quartz_general_cheap_certificates_20261123/evidence/C24_CAL_TRACE.part01": {
+      "bytes": 47185920,
+      "sha256": "61f7fa0d8e693dc158b87ff9b41c9e1b548475e0866577880bd37e080cf5ac1e"
+    },
+    "docs/research/quartz_general_cheap_certificates_20261123/evidence/C24_CAL_TRACE.part02": {
+      "bytes": 18447728,
+      "sha256": "89c3dc06d3591b111585b5dcafce1d6f6cdc276928b373e7da89b3460233b35a"
+    },
+    "docs/research/quartz_general_cheap_certificates_20261123/evidence/C24_CAL_TRACE.parts.json": {
+      "bytes": 725,
+      "sha256": "0cc6f483e16e115260f1e6d4a13d9e0e926f4bcecc8ac2382b8dfe951891b903"
+    },
+    "docs/research/quartz_general_cheap_certificates_20261123/evidence/C24_CAL_TRACE_STDERR.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "docs/research/quartz_general_cheap_certificates_20261123/evidence/C24_ORACLE_CAL.jsonl.gz": {
+      "bytes": 1210987,
+      "sha256": "95f88bbce0361016c3c7c5d84f86a444efd4b0b7d9250c83880397a67be75254"
+    },
+    "docs/research/quartz_general_cheap_certificates_20261123/evidence/C24_ORACLE_TEST.jsonl.gz": {
+      "bytes": 2452537,
+      "sha256": "5c097dcb0e216666fc435e630f643abc33bec7f9fa135b617e06216c557122e6"
+    },
+    "docs/research/quartz_general_cheap_certificates_20261123/evidence/C24_ORACLE_TRAIN.jsonl.gz": {
+      "bytes": 1224784,
+      "sha256": "b24f627f923d0ea351d6f06963eda309f39be838d7e77b7e7c27028a6b74898e"
+    },
+    "docs/research/quartz_general_cheap_certificates_20261123/evidence/C24_PUBLIC_CAL.jsonl.gz": {
+      "bytes": 2024069,
+      "sha256": "fe591787ea6b507ae33f63e8dac995a09f9a1672b604838515d65d181990a484"
+    },
+    "docs/research/quartz_general_cheap_certificates_20261123/evidence/C24_PUBLIC_TEST.jsonl.gz": {
+      "bytes": 4060032,
+      "sha256": "9f441298e93878579cb2e88be631686275cfdbd55195c8662bf0cdd227f4daac"
+    },
+    "docs/research/quartz_general_cheap_certificates_20261123/evidence/C24_PUBLIC_TRAIN.jsonl.gz": {
+      "bytes": 2035348,
+      "sha256": "de375493da4a209e879427daeae871a3538160a7faf1a0aa8adbdd639450de79"
+    },
+    "docs/research/quartz_general_cheap_certificates_20261123/evidence/C24_SOURCES_CAL.json": {
+      "bytes": 3172,
+      "sha256": "2007602bf799239754dcff43cc09ef4e8adf2544518770886c26124798dd564d"
+    },
+    "docs/research/quartz_general_cheap_certificates_20261123/evidence/C24_SOURCES_TEST.json": {
+      "bytes": 3569,
+      "sha256": "82db15f8f0f0e33fe15a02a4d63a7e3053a3d527857b38b4acb4fdad3edd9237"
+    },
+    "docs/research/quartz_general_cheap_certificates_20261123/evidence/C24_SOURCES_TRAIN.json": {
+      "bytes": 2854,
+      "sha256": "c001ce0f00a32cc96aefd886f99ab55fc733cb70665bf08527f3c800cae13533"
+    },
+    "docs/research/quartz_general_cheap_certificates_20261123/evidence/C24_TEST_COST_QUALITY.pdf": {
+      "bytes": 29385,
+      "sha256": "aa3dda0e57ac95bae46807e57c8438a332cb5bcb23552a51010661735af6d94c"
+    },
+    "docs/research/quartz_general_cheap_certificates_20261123/evidence/C24_TEST_COST_QUALITY.png": {
+      "bytes": 347868,
+      "sha256": "f30ef57726177bdd1beccad6910aadada7095e2c22c77df6abbd26c83fb41efb"
+    },
+    "docs/research/quartz_general_cheap_certificates_20261123/evidence/C24_TEST_COST_QUALITY_FINAL.pdf": {
+      "bytes": 29339,
+      "sha256": "fc6cba64b7e59b2bbaef1cc43e263eddc5ab393cd779c1e56fc5ecac499e1ed5"
+    },
+    "docs/research/quartz_general_cheap_certificates_20261123/evidence/C24_TEST_COST_QUALITY_FINAL.png": {
+      "bytes": 353522,
+      "sha256": "7ce60100586f1912c1066b376c810d0142329cad6f59a877bcc4e6ffbdf52822"
+    },
+    "docs/research/quartz_general_cheap_certificates_20261123/evidence/C24_TEST_FIGURE.json": {
+      "bytes": 664,
+      "sha256": "d6ce6e3a2c677b21cf506c4d7fe08f24525577f513ad5b6471d0b5905855622f"
+    },
+    "docs/research/quartz_general_cheap_certificates_20261123/evidence/C24_TEST_FIGURE_FINAL.json": {
+      "bytes": 676,
+      "sha256": "29596d68a643fe0ff72bcc70894173f88b7edcee06430d6dd0cdd0d819421fe5"
+    },
+    "docs/research/quartz_general_cheap_certificates_20261123/evidence/C24_TEST_PARENT_METRICS.json": {
+      "bytes": 2058932,
+      "sha256": "a04072af8b25dd8c8a1c6b94ff8e77bfd9badd719cd286296bc5942a33b42dcd"
+    },
+    "docs/research/quartz_general_cheap_certificates_20261123/evidence/C24_TEST_SUMMARY.json": {
+      "bytes": 188851,
+      "sha256": "3a88db0a47c33789f22f62e7b7173c8dd3f31927d90f468803f0081b4158cec2"
+    },
+    "docs/research/quartz_general_cheap_certificates_20261123/evidence/C24_TEST_TIMING.jsonl.gz": {
+      "bytes": 468067,
+      "sha256": "acfd13fa7c4bc88040d90056988e3159597aa0f5c17c48847d1ec43cb2866333"
+    },
+    "docs/research/quartz_general_cheap_certificates_20261123/evidence/C24_TEST_TIMING.manifest.json": {
+      "bytes": 9663,
+      "sha256": "2c5f93694a0a32feb476edda83020786ce5bf2c2b9eb2bed41ec2f2c85f920fc"
+    },
+    "docs/research/quartz_general_cheap_certificates_20261123/evidence/C24_TEST_TIMING_STDERR.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "docs/research/quartz_general_cheap_certificates_20261123/evidence/C24_TEST_TRACE.manifest.json": {
+      "bytes": 8308,
+      "sha256": "3aec1ae0e97b6d6f330c01998605eb9beec59b7c253849b899fbedac10b3af81"
+    },
+    "docs/research/quartz_general_cheap_certificates_20261123/evidence/C24_TEST_TRACE.part01": {
+      "bytes": 47185920,
+      "sha256": "ba97abdab87f821fb4ad7b10e039b165ab5ff16f7ddd7a786da6c108cfaea589"
+    },
+    "docs/research/quartz_general_cheap_certificates_20261123/evidence/C24_TEST_TRACE.part02": {
+      "bytes": 47185920,
+      "sha256": "571bc679aa03bf29b94d192a5f7507c4cb63432fb26b3ac68c6a4707b5db23ce"
+    },
+    "docs/research/quartz_general_cheap_certificates_20261123/evidence/C24_TEST_TRACE.part03": {
+      "bytes": 37030382,
+      "sha256": "d01123924d4f04b613533485685a876d5ca7b165d7e011a02665b0d6c81d334d"
+    },
+    "docs/research/quartz_general_cheap_certificates_20261123/evidence/C24_TEST_TRACE.parts.json": {
+      "bytes": 908,
+      "sha256": "6af2b21a2c7d0358f79865df5dfa6a69f3f0c0ffddee5012e8caa631eed2ffe1"
+    },
+    "docs/research/quartz_general_cheap_certificates_20261123/evidence/C24_TEST_TRACE_STDERR.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "docs/research/quartz_general_cheap_certificates_20261123/evidence/C24_TRAIN_PARENT_METRICS.json": {
+      "bytes": 1027996,
+      "sha256": "bc50a4d3f3bd1140b91fe356c3a3b37ae0cbafa7706488310b045e5c6954a8d7"
+    },
+    "docs/research/quartz_general_cheap_certificates_20261123/evidence/C24_TRAIN_SUMMARY.json": {
+      "bytes": 187881,
+      "sha256": "4da9621f6f68a1b27c7c25e78f909e0d71cea220590a076129a5eca95d42a0c5"
+    },
+    "docs/research/quartz_general_cheap_certificates_20261123/evidence/C24_TRAIN_TIMING.jsonl.gz": {
+      "bytes": 238483,
+      "sha256": "fe97a58c8e2029a5b2fe2faaaa2dbf6e06573c001c09ad60fa2e04da7b48349b"
+    },
+    "docs/research/quartz_general_cheap_certificates_20261123/evidence/C24_TRAIN_TIMING.manifest.json": {
+      "bytes": 10388,
+      "sha256": "1ef1cc55736589b2d9bd5b7f381b5f32941e0bc6dd007a906bae9727b1e4cf6a"
+    },
+    "docs/research/quartz_general_cheap_certificates_20261123/evidence/C24_TRAIN_TIMING_STDERR.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "docs/research/quartz_general_cheap_certificates_20261123/evidence/C24_TRAIN_TRACE.manifest.json": {
+      "bytes": 7701,
+      "sha256": "cb770a35fafc5fad7e03801f80ebfbf3d3bd4e15cb9b5e13672dac29e05d40a7"
+    },
+    "docs/research/quartz_general_cheap_certificates_20261123/evidence/C24_TRAIN_TRACE.part01": {
+      "bytes": 47185920,
+      "sha256": "54bc44a1f916d6212363f67a8cdb7428ccb0839eb178f70f3ca8df65df6d7d58"
+    },
+    "docs/research/quartz_general_cheap_certificates_20261123/evidence/C24_TRAIN_TRACE.part02": {
+      "bytes": 18522447,
+      "sha256": "2def7b938f08d359cb3897276f4ee27c05a6ff5b54c61d791e2f1b817e036304"
+    },
+    "docs/research/quartz_general_cheap_certificates_20261123/evidence/C24_TRAIN_TRACE.parts.json": {
+      "bytes": 733,
+      "sha256": "7690e8f857a111811d1cb3e43a7015eb3645d9791daeda123abbac89073c07ec"
+    },
+    "docs/research/quartz_general_cheap_certificates_20261123/evidence/C24_TRAIN_TRACE_STDERR.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "docs/research/quartz_general_cheap_certificates_20261123/evidence/C24_VERIFY_CAL_TRACE.json": {
+      "bytes": 2238,
+      "sha256": "61f56e93b9e57c908378a257ce8c560a24b39bfd43aa8e8fe40899fda0a8ea69"
+    },
+    "docs/research/quartz_general_cheap_certificates_20261123/evidence/C24_VERIFY_TEST_TIMING.json": {
+      "bytes": 2253,
+      "sha256": "79bc991d67b05cd613b06a21f0cc61eb8fae1a5d5ab6aa134f9096179d53dc74"
+    },
+    "docs/research/quartz_general_cheap_certificates_20261123/evidence/C24_VERIFY_TEST_TRACE.json": {
+      "bytes": 2459,
+      "sha256": "73991479e055dc43f71083dac85961c0735132c9b147a503190ba5643e069a0c"
+    },
+    "docs/research/quartz_general_cheap_certificates_20261123/evidence/C24_VERIFY_TRAIN_TIMING.json": {
+      "bytes": 2258,
+      "sha256": "a6dee95d921c3f146d348e57e820f4f3567a34cd051e7029c01c15a4d4df5aa3"
+    },
+    "docs/research/quartz_general_cheap_certificates_20261123/evidence/C24_VERIFY_TRAIN_TRACE.json": {
+      "bytes": 2252,
+      "sha256": "5d2d85d093a9c4b2293665f4d62e043de09ff22393d537b2148e1f06b93e9481"
+    },
+    "docs/research/quartz_general_cheap_certificates_20261123/evidence/R07_CHECKER_REPAIR.json": {
+      "bytes": 697,
+      "sha256": "16d895b7ac03367dd07a2c421b73416f2ca40b90a8bfa336be236e079a16df76"
+    },
+    "docs/research/quartz_general_cheap_certificates_20261123/evidence/R07_CROSSCHECK.json": {
+      "bytes": 1055,
+      "sha256": "79513bc80bea36636584abc7b571b9302717cbf6aba8655ddcc9f0c6cb89e4b2"
+    },
+    "docs/research/quartz_general_cheap_certificates_20261123/evidence/R07_FINITE_ENVELOPES.json": {
+      "bytes": 23840,
+      "sha256": "06c85ce7f96a286e22d40213d302255c0412f04b76e9131291f77cbb8e8b94d1"
+    },
+    "docs/research/quartz_general_cheap_certificates_20261123/evidence/R07_WOLFRAM.json": {
+      "bytes": 1851,
+      "sha256": "fe03ebae15aa8babbbd5245414b5fd059f22d0ef261646b036ec2f96d99998e3"
+    },
+    "docs/research/quartz_general_cheap_certificates_20261123/review/C09_REVIEW.md": {
+      "bytes": 11292,
+      "sha256": "9daf4df5cd947a974685a2b10a0175ced5b397f800b3586a32d71e478217131e"
+    },
+    "docs/research/quartz_general_cheap_certificates_20261123/review/C09_REVIEW_CHECKS.json": {
+      "bytes": 13438,
+      "sha256": "7e11e014b160513e8a0615d03c89bc4dccc40fdda6e898d4c357bb4d57a40a53"
+    },
+    "docs/research/quartz_general_cheap_certificates_20261123/review/C09_REVIEW_CHECKS.log": {
+      "bytes": 2964,
+      "sha256": "761cee380339e68fc3e146610bc7058964b7bd11c3e67b7eed0b6baa8e5d5efb"
+    },
+    "docs/research/quartz_general_cheap_certificates_20261123/review/C09_REVIEW_CHECKS.py": {
+      "bytes": 7551,
+      "sha256": "63a529fb5a297cbe5949813cbeaa989579256bce9544fb527ef6b0438d741b10"
+    },
+    "docs/research/quartz_general_cheap_certificates_20261123/theory/DERIVATION.md": {
+      "bytes": 13815,
+      "sha256": "9db4ca88aa587ad679c71b30c1468500b40529285a0f5dab4a3843cd4038cf0b"
+    },
+    "docs/research/quartz_general_cheap_certificates_20261123/theory/LITERATURE.md": {
+      "bytes": 7292,
+      "sha256": "e6e3cee7677248085a29700f51683105970e977f8c85c5ac82f8a91812f33afe"
+    },
+    "docs/research/quartz_general_cheap_certificates_20261123/theory/check_r07_envelopes.py": {
+      "bytes": 7030,
+      "sha256": "ae17fde97ba1fb0f1c256a7d36d59dae23b1a66d7d2d23b62645652655b70b86"
+    },
+    "scripts/quartz_general_c24_publish.py": {
+      "bytes": 2919,
+      "sha256": "364316827f6fa3db5d87bed8509ef162c549abcb76c6fd5b626a1a503074e1ba"
+    },
+    "src/bin/quartz_c24_cheap_certificate.rs": {
+      "bytes": 57418,
+      "sha256": "5a7cc595c267d5337f268045d1df8bf5909093ed7920ee50293da76da94cd381"
+    },
+    "tests/test_c24_sources.py": {
+      "bytes": 10045,
+      "sha256": "55ddfd8d34e3934b4657dc4c651582fa05863474c058fa47076e847fd7a78230"
+    }
+  }
+}

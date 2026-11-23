@@ -1,0 +1,88 @@
+{
+  "schema": "quartz.c24.claims.v1",
+  "scope": "Finite nondimensional SPD decision problem; original THESIS/CLAIM_LEDGER unchanged",
+  "claims": [
+    {
+      "id": "C24-T1",
+      "status": "derived",
+      "claim": "Ordinary stored-iterate scalar envelopes enclose exact normalized response under explicit IEEE/domain/outward assumptions.",
+      "evidence": [
+        "theory/DERIVATION.md",
+        "theory/LITERATURE.md"
+      ]
+    },
+    {
+      "id": "C24-T2",
+      "status": "derived",
+      "claim": "Strict interval separation certifies exact unique optimum; unchanged noncertified continuation gives noninferiority to matched PLAIN_ALWAYS.",
+      "evidence": [
+        "theory/DERIVATION.md",
+        "CODE_CONTRACT.json"
+      ]
+    },
+    {
+      "id": "C24-N1",
+      "status": "numerically checked",
+      "claim": "77 finite arithmetic fixtures and a separate Wolfram exact rational example satisfy the declared finite assertions.",
+      "evidence": [
+        "evidence/R07_FINITE_ENVELOPES.json",
+        "evidence/R07_WOLFRAM.json",
+        "evidence/R07_CROSSCHECK.json"
+      ]
+    },
+    {
+      "id": "C24-I1",
+      "status": "implementation-verified",
+      "claim": "New six-policy native pipeline, exact source/transport/interval/fallback/residual-subset assertions and explicit tiny-norm rejection pass in recorded scopes.",
+      "evidence": [
+        "evidence/C06_RUST_MANIFEST.json",
+        "evidence/C06_PYTHON_HANDOFF.json",
+        "evidence/C06_NATIVE_UNIT_VERIFIED.json",
+        "evidence/C24_VERIFY_TEST_TRACE.json",
+        "evidence/C24_VERIFY_TEST_TIMING.json"
+      ]
+    },
+    {
+      "id": "C24-E1",
+      "status": "numerically checked",
+      "claim": "At primary additional32, FAST_BLOCK has exact mean utility difference0 and mean time saving571.7160138888889us versus PLAIN_ALWAYS on72TESTparents.",
+      "evidence": [
+        "evidence/C24_TEST_SUMMARY.json",
+        "review/C09_REVIEW_CHECKS.json"
+      ]
+    },
+    {
+      "id": "C24-E2",
+      "status": "numerically checked",
+      "claim": "At lambda1e-6utility/us, FAST_BLOCK net difference versus PLAIN_STOP is negative(-0.0010419339760477828).",
+      "evidence": [
+        "evidence/C24_TEST_SUMMARY.json"
+      ]
+    },
+    {
+      "id": "C24-R1",
+      "status": "implementation-verified",
+      "claim": "C08 base+overlay restores2148trackedfiles and all three C24 full raw traces exactly; original worktree identity checked against its own baseline.",
+      "evidence": [
+        "evidence/C09_RESTORE.json"
+      ]
+    },
+    {
+      "id": "C24-U1",
+      "status": "unresolved",
+      "claim": "General price-optimal control, arbitrary-dynamic-range CG, performance on other hardware/populations and original P2/P3/P4 are not established.",
+      "next": "NEXT_STAGE.json"
+    },
+    {
+      "id": "C24-P1",
+      "status": "unresolved",
+      "claim": "Dropbox cloud/server synchronization acknowledgment is NOT_VERIFIED; local archive bytes, restoration and Git remote publication are distinct verified observations."
+    }
+  ],
+  "independent_review": {
+    "verdict": "Looks good",
+    "blocking_findings": 0,
+    "evidence": "review/C09_REVIEW.md"
+  },
+  "next_cycle_executed": false
+}

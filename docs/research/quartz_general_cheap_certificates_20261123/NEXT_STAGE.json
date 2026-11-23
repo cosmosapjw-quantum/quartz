@@ -1,0 +1,43 @@
+{
+  "schema": "quartz.next-stage.v1",
+  "status": "PROPOSED_NOT_EXECUTED",
+  "cycle": "C25",
+  "title": "Certified incumbent retention and price-aware computation stopping",
+  "parent_cycle": "C24",
+  "parent_scientific_commit": "df34b7ae1b867f4917c2d302ea97aca40cc55077",
+  "authority": "Resolve final C24 branch HEAD and STAGE_RECEIPTS.jsonl at the next invocation; do not substitute the old original developer worktree.",
+  "execution_protocol": {
+    "theory": "R01-R10 actual construction, derivation, finite/CAS verification and claim decision",
+    "coding": "After theory, C01-C10 actual implementation, scientific checks, held-out measurement and one independent review",
+    "every_stage": "Backup cumulative checkpoint, commit/publish, verify remote identity; preserve failed outputs",
+    "current_invocation": "C25 not started"
+  },
+  "motivation": {
+    "c24_primary_time_reduction": 0.30151465588167503,
+    "c24_exact_utility_difference_vs_plain_always": "0",
+    "c24_primary_net_vs_plain_stop": -0.0010419339760477828,
+    "c24_primary_lambda": 0.000001,
+    "c24_descriptive_break_even": 8.183883610962888e-9,
+    "initial_action_worsened_fixture": "c24_test_34_1 at additional32; exact du=-113146607888822335/1208925819614629174706176"
+  },
+  "starting_relations": [
+    "For incumbent i, simple regret <= G_i = max(0,max_{j!=i} U_j - L_i) under valid intervals.",
+    "Switch only when L_j > U_i to obtain a true-utility-increasing incumbent update; assess lost opportunities.",
+    "If every proposed positive computation has verified cost C_tau >= c_min, its net improvement <= G_i - lambda*c_min.",
+    "Observed median/predicted wall time is not automatically a mathematical cost lower bound."
+  ],
+  "theory_questions": [
+    "Define the controlled regret and incumbent contract; prove conditional guarantees without assuming monotone finite-budget action utility.",
+    "Distinguish exact charged work-count costs from stochastic wall-clock prediction; identify which economic stopping statement is proved and which is empirical.",
+    "Choose one constructive decision rule and preserve efficient PLAIN_STOP, PLAIN_ALWAYS and C24 FAST_BLOCK controls."
+  ],
+  "prospective_acceptance": [
+    "No false optimum/relative-residual certificate; admitted arithmetic domain unchanged unless separately derived and verified.",
+    "Contractually defined incumbent utility nondecrease checked against exact oracles; C24 adverse fixture retained as regression only.",
+    "Primary wall-time economic comparison uses the declared price and normalization fixed before fresh TEST outcomes.",
+    "Count evaluator/controller costs and genuinely skipped operations; report negative results and useful rejected alternatives."
+  ],
+  "data_policy": "Preserve C24 TEST as historical/regression evidence. New primary evidence requires fresh disjoint parent IDs/seeds and pre-execution source/code publication.",
+  "price_policy": "Keep 1e-6 utility/us as the carried primary unless R01 prospectively justifies a different application unit before outcomes; retain the existing prespecified sensitivity range. Do not turn C24 descriptive break-even into a retrospectively favorable success threshold.",
+  "limits": "No C25 implementation, benchmark, proof completion or publication result is claimed in this file."
+}
