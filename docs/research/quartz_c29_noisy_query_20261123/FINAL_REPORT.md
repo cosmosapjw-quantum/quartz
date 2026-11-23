@@ -1,0 +1,51 @@
+# Quartz C29: noisy metareasoning with fixed latent utilities
+
+## Result and exact authority
+
+User SSOT C26 87c15dc828d6eea519c219fd8a412fa21dfc464d is preserved. C29 is an isolated descendant of C28 ebbf21a6a77c0133525c1a9f16f0ee36375a1440 on research/quartz-c29-noisy-query-20261123. The chronological R01–R10 theory research preceded C01–C10 implementation, testing and actual publishing. The old C27 and C28 worktrees, baseline code, data and history are untouched. The original motivation watchdog is ORIGIN_DRIFT_WATCHDOG.md.
+
+Established and literature-supported: finite-horizon POMDP belief-value recursion and terminal Bayesian selection are existing results (Kaelbling–Littman–Cassandra 1998; Hay–Russell–Tolpin–Shimony 2012). C29 does not claim their general theorem as new. Derived: an exact binary-latent factor posterior under repeated noisy observations of fixed candidate utilities; an unnormalized H2 Bellman formula; a strict counterexample to latent-mean-only sufficiency; an exact conditional second-query value improvement. Numerically checked: exact Fraction world/factor equality and Wolfram rational checks. Implementation-verified: synthetic native interface and 300 retrospective GameState roots with real rollout observations. Unresolved: game observation model adequacy, matched-time game advantage, fresh independent TEST, original Gomoku P2, cognition P3, TT geometry or physical equivalence.
+
+## Posterior and Bellman mathematics
+
+Let hidden candidate utilities U_i in {0, 1/2, 1} be drawn once, conditional independently given a shared binary Z in {-1,+1}. The C28 initial signed law is p_i(u)(1+z r_i f_i(u)). A paid query i returns noisy Y with fixed C_i(y|U_i); a repeated query observes the SAME U_i through a new conditionally independent noise draw.
+
+A sufficient posterior is q_z=P(Z=z|h), together with pi_{i,z}(u)=P(U_i=u|Z=z,h). Set a_{i,z}(y)=sum_u pi_{i,z}(u) C_i(y|u), D_i(y)=sum_z q_z a_{i,z}(y). For supported D_i(y)>0:
+q'_z=q_z a_{i,z}(y)/D_i(y);
+pi'_{i,z}(u)=pi_{i,z}(u) C_i(y|u)/a_{i,z}(y), when a_{i,z}(y)>0,
+and pi'_{j,z}=pi_{j,z} for j != i. Zero-likelihood components have zero mixture weight; impossible observations are excluded. A one-dimensional m=E[Z|h] is generally insufficient: an independent Bernoulli candidate observed through a 3/4-accurate BSC changes its own mean 1/2 to 3/4 while m stays zero.
+
+The primary STOP criterion permits deployment among all candidates using their posterior expected utilities T=max{b,max_i E[U_i|h]}, distinct from C28's verified-known-only terminal action. To represent complete worlds without Bayes divisions, let W_h(omega) be nonnegative unnormalized weights and Z_h=sum_omega W_h(omega). Define G_0(W)=max{b Z_h, max_i sum_omega W_h(omega)U_i(omega)}, G_k(W)=max{G_0(W), max_i[-c_i Z_h+sum_y G_{k-1}(W*C_i(y|U_i))]}; G_k(0)=0. This is algebraically the exact normalized finite H Bellman recursion multiplied by Z_h, not a new approximation. Exact-reveal and known-only deployment as a separate compatibility mode recover C28 on the corresponding restricted problem.
+
+A constructive one-candidate fixture with Bernoulli 1/2 utility, known b=3/5, BSC accuracy 3/4 and paid computation cost 1/100 gives V0=3/5, V1=133/200 and V2=543/800. The conditional second observation is worthwhile after positive evidence and is skipped after negative evidence. The H2–H1 increment is 11/800 exactly. Mathematica/Wolfram separately returned {133/200, 543/800, 11/800, 9/10}. Source and proof in theory/noisy_exact.py and stages/R03–R07.
+
+## Executable verification and numerical boundary
+
+The standalone Fraction program theory/noisy_exact.py checked 80 randomized finite cases and deterministic controls, 247 assertion groups, with zero exact rational residual comparing separate full-world unnormalized recursion and local-factor normalized recursion. The native Rust binary src/bin/quartz_c29_noisy_query.rs and independent Python tests/test_c29_noisy_query.py passed 8 Rust tests, 4 Python suites including 100 randomized exact-world comparisons (fixed absolute tolerance 5e-11) and malformed input/zero likelihood/perfect-known-only/no-information controls. Native release compiled with locked offline dependencies and a separate target. The current C09 corrected native source SHA256 is 6cc32bc2ae92af9e7b8710ea7fadfcec9e4f63cd884e612ba315462d029373d8; the actually measured release executable SHA256 is d564dc925751aabd0dc34aa6e9dcc1d9849e1be219f2d07976236c2ad6aa65d0. Those are specific source/binary identities, not universal floating-point or high-branch guarantees.
+
+Game adapter keeps actual TicTacToe GameState and C26 cues, a genuinely paid initial exact verification, real additional random rollouts and entered nodes, with exact minimax labels used only offline to fit TRAIN observation channel and validate final actions. It does not pass oracle truths into runtime requests. TRAIN on the first 180 old roots yielded 737 candidate/rollout observations, fitted global 3-by-3 P(Y_rollout|U_exact) with fixed Laplace count1 smoothing. CAL uses 60 other old roots, and the remaining 60 are descriptive diagnostics. None is a new independent TEST. The global channel and conditional independence given U_exact are modelling hypotheses; actual selection-conditional calibration is not established.
+
+## Corrected C09 scientific finding and measured result
+
+Initial C07/C08 game code incorrectly instantiated known point-mass candidates BEFORE conditioning the latent prior on the mandatory exact verification, contrary to C28's intended order. A bounded C09 code review found and repaired it. Both prior game artifacts remain in Git history, but their game interpretation is SUPERSEDED. Source correction changed semantics in 85 of 300 old game records, so all 300 GameState roots and the timing campaign were rerun, not merely relabeled. A separate Python verifier reconstructed which child was initially exactly solved, applied identity-channel Bayes to the original nondegenerate prior, then checked actual rollout seeds, nodes, posterior weights and selected actions. Corrected C09 CAL results and corrected full-benchmark CAL subsection agree exactly.
+
+| Group | Roots | Extra queries | Action changes | Better/worse realized | Mean realized utility delta | Mean net after paid rollout nodes | Noisy / baseline native time |
+|---|---:|---:|---:|---:|---:|---:|---:|
+| TRAIN, model-fitting | 180 | 108 | 30 | 6/2 | 0.016666667 | 0.014713542 | 5.461x |
+| CAL, retrospective | 60 | 22 | 5 | 1/1 | 0.000000000 | -0.001025391 | 4.599x |
+| DIAGNOSTIC | 60 | 24 | 5 | 1/0 | 0.008333333 | 0.007356771 | 3.852x |
+| ALL, contains TRAIN | 300 | 154 | 40 | 8/3 | 0.011666667 | 0.010094401 | 5.172x |
+
+The corrected CAL realizes exactly zero mean utility improvement and incurs 0.001025390625 additional node-priced utility per root. CAL mean baseline/noisy resident execution is 1.951 / 8.971 microseconds, 4.599x; full-cohort ratio is 5.172x, which is a regression in controller compute cost. The positive ALL average is ineligible for independent efficacy because the channel was fitted on the TRAIN part of the same old cohort; even CAL is already previously seen. Furthermore, charging just 1/1024 utility per entered rollout node omits the many additional microseconds of H2 planner overhead, so the model underprices its actual metareasoning. The old C08 5.332x ratio and 155 extra queries were measured under the superseded game semantics; corrected C09 numbers above supersede them.
+
+The frozen coarse channel has conditional CAL cross-entropy about 0.963502 nats/observation vs unconditional 1.099717 nats/observation on 151 CAL candidate events. A lower log loss is descriptive information in noisy outcomes but not evidence of action-conditional calibration, value gain or matched CPU policy efficacy. All game results are retrospective. The scientific conclusion is a validated finite method and a NEGATIVE CAL resource-price admission, not an effective faster game policy.
+
+## Backup/publication, failures and origin boundaries
+
+Each theory R01–R10 stage and subsequent C01–C10 stage is a substantive research document or executable artifact, separately Git-committed, pushed and read back; after verifying the current bundle plus cumulative archive the superseded C29-only pair was deleted. Every scientific source failure and correction is retained. The code measurement-boundary repair in C07 (baseline had run an unused H2 planner) and the scientifically material initial-conditioning repair in C09 are distinctly classified, with previous evidence preserved. The external retained original-history bundle, C28 continuation bundle and latest C29 cumulative bundle restore the full code history. C09 actually restored C08 from those backups: verified 18 ordered commits, 2,943 Git-tracked file bytes/modes and 52 changed archive items, exact source input hashes and remote HEAD. It removed the temporary restored worktree only after success. The final C10 independent restore is performed AFTER final publication, and its actual outcome is stored outside the versioned commit in the backup directory to avoid self-reference. Dropbox local write is not an independent proof of cloud sync.
+
+This work preserves original resource-priced downstream decision gain, the KL/Gibbs and FOCUS/EXPAND/MERGE/STOP trajectory, and eventual fair CPU/Gomoku aim. Single latent signed law is not TT space geometry or quantum/thermodynamic equivalence. A missed game-science initial conditioning failure was corrected, not hidden. C29's own negative CAL admission informs the next C30 phase. See ORIGIN_DRIFT_WATCHDOG.md and stages/C09.md. No native subagent facility was available; exact-world/CAS/source checks are labelled by their actual independence, not impersonated as a spawned reviewer.
+
+## Next step
+
+Recommend C30: action-conditioned stochastic evaluation likelihood and actual controller-resource pricing, with a cheaper H2 policy/certificate and a fresh non-overlapping root cohort if a generalization claim is desired. Freeze training/calibration before touching the new TEST; if unavailable, report diagnostic/surrogate-only. Full next R01–R10 and C01–C10 executable programme in CONTINUATION.md. Do not re-run C29's same retrospective campaign merely to seek positive timing or utility.

@@ -1,0 +1,27 @@
+{
+  "schema": "C29_C10_DOCUMENT_CHECK",
+  "stage_count": 20,
+  "SHA256": {
+    "FINAL_REPORT.md": "ff25ffbec6420ef733fa01012468745818701f22ea14dce3de7659272f25d16e",
+    "CONTINUATION.md": "b4f73f7ef18f3b6ecba97a597e1ab68226136cff370adf0c859c4d7eb07ed157",
+    "README.md": "ba21dfc9b717c3f3852bc4921e129ac42cf1fb54aef3b6d725f27aa29fd55f2f",
+    "ORIGIN_DRIFT_WATCHDOG.md": "58ca0b832e7f1f7b225b75fbf07195eb7d28e50e0145e9c0aae2ebc12dad13da"
+  },
+  "scientific_native_source_sha256": "6cc32bc2ae92af9e7b8710ea7fadfcec9e4f63cd884e612ba315462d029373d8",
+  "measured_native_binary_sha256": "d564dc925751aabd0dc34aa6e9dcc1d9849e1be219f2d07976236c2ad6aa65d0",
+  "current_CAL_group": {
+    "roots": 60,
+    "queries": 22,
+    "changed": 5,
+    "improved": 1,
+    "worsened": 1,
+    "unchanged": 58,
+    "mean_realized_delta": 0.0,
+    "mean_actual_rollout_price": 0.001025390625,
+    "mean_net_realized_minus_rollout_price": -0.001025390625,
+    "mean_baseline_ns": 1950.6166666666666,
+    "mean_noisy_ns": 8970.9,
+    "ratio_noisy_over_baseline": 4.599007151584542
+  },
+  "publication_status": "PENDING"
+}
