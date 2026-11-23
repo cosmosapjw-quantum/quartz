@@ -88,3 +88,11 @@ CODE_CONTRACT.json gives the complete input/output, policy and operation-order i
 Plain outputs report approximate residual_relative only; residual_upper and residual_goal_met are null. FAST/OUTWARD outputs use fresh true-residual upper and a corresponding certified flag. A noncertified FAST_ONCE final ordinary readout therefore also has null certified diagnostics. These semantic distinctions prevent a cheap baseline acquiring hidden certification cost or an approximate norm becoming a theorem claim.
 
 All timing includes validation,allocation,initial work,evaluator,controller,continuation and solver workspace destruction. Source/JSON/oracle work is outside the declared native timer. Relevant scientific checks are exact source dyadics/native bits, true oracle containment, actual work withheld, exact finite fallback and accepted-domain residual-upper checks. New behavior uses observed behavioral RED then GREEN; existing mechanism reuse is not relabelled newly invented TDD.
+
+## R10 — Theory completion and coding handoff
+
+R01–R10 are completed with a narrow current question, actual primary evidence, explicit arithmetic/domain definitions, alternatives, a complete constructive proof, independent integration, exact/CAS checks and a frozen experiment/code contract. Each stage has its own scoped commit,cumulative-overlay archive,push and remote identity readback.
+
+The admitted advance is a rigorously bounded ordinary-arithmetic response evaluator with O(1) outward scalar budget operations after an O(n) pass, plus an explicit nonzero-norm support rule and certified residual reporting. Both old and new evaluators remain O(n); any speed difference is empirical. Conservative bounds may delay certification, and the support restriction does not solve arbitrary-range CG.
+
+Proceed now to C01–C10 of C24. Preserve C23 source/binary/results and original project files; use fresh sources and the efficient controls. Code ownership will be isolated between Rust implementation and Python data/verification paths, followed by one bounded independent C09 review and an actual base-plus-overlay restore. Do not start C25 in this invocation.
