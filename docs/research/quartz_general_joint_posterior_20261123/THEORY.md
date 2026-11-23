@@ -25,3 +25,7 @@ Definitions, known-only STOP, total2-query horizon, two product controls, units 
 ## R04 — selected construction
 
 Three joint-law alternatives were compared. The balanced one-parameter tilt preserves base marginals and permits an exact binary Gibbs posterior. The information-only example109/200 versus1/2 was symbolically checked; its full proof follows. Primary and post-initial-productized controls estimate different mechanisms.
+
+## R05 — constructive mathematics completed
+
+R05_DERIVATION.md contains normalization, exact posterior, H2 value decomposition, the profitable information-only boundary rho^2>4epsilon+8c, a negative moving-incumbent correction, and scoped TV bounds. The zero-coupling/degenerate limits and the known-only terminal action are explicit. Empirical validity remains unresolved.
