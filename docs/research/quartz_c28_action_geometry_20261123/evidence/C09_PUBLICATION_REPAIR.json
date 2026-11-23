@@ -1,0 +1,9 @@
+{
+  "classification": "publication formatting of valid Markdown hard line breaks",
+  "head_before_commit": "f791e96e651d1849df601dcd7b98c18bcc3fa082",
+  "diagnostic": "git diff --check flagged the five intentional two-space hard line breaks in C09_REVIEW.md at original lines119\u2013123",
+  "repair": "Keep independent report byte-identical. Apply full whitespace lint to source/numeric data, disable blank-at-eol only for Markdown so valid CommonMark hard breaks are preserved; keep raw log/SVG byte-preservation rule. Exact archive verification still covers all payloads.",
+  "review_sha256_unchanged": "55591ad00790b30361c40bd2395bc0bd934e5468cac9fdd58d0cde36c54c0094",
+  "scientific_source_raw_data_or_verdict_changed": false,
+  "timing_repeated": false
+}

@@ -1,0 +1,14 @@
+{
+  "source_review": "C09_REVIEW.md",
+  "reviewed_commit": "f791e96e651d1849df601dcd7b98c18bcc3fa082",
+  "severity": "low; evidence wording/provenance precision",
+  "finding": "timed_game_summary_mismatches overstated what was serialized and compared",
+  "applied_correction": "Renamed derived key to benchmark_request_summary_mismatches; clarified separate unmeasured runs in analysis and C08 text. Actual repeated timed summaries not individually compared.",
+  "original_analysis_sha256": "754c4ad71be15f64a65102e63c25619c447982da980053dc62ca57346c81b81c",
+  "corrected_analysis_sha256": "d652fa9626de67aec3318c09f8447ffffee812383eb7b5e1ec931d0b2cb53c10",
+  "raw_request_response_timing_changed": false,
+  "native_source_binary_changed": false,
+  "numeric_aggregates_changed": false,
+  "benchmark_repeated": false,
+  "parent_disposition": "scope clarification applied; no scientific arithmetic or production repair required"
+}

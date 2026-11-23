@@ -1,0 +1,12 @@
+{
+  "schema": "quartz-c28-measured-executable-backup-v1",
+  "source": "/home/cosmosapjw/quantum/research/quartz_c28_target_20261123_486e/release/quartz_c28_action_geometry",
+  "backup": "/home/cosmosapjw/Dropbox/personal_projects/quartz_c28_action_geometry_backups/MEASURED_NATIVE_f8ab538dd151.bin",
+  "sha256": "f8ab538dd1511244963b60c79f8da12f1c4e7e11ef63443087d8f35ca29f607a",
+  "bytes": 629568,
+  "mode": "0o775",
+  "native_source_sha256": "c396aad885132e7457fe99b4b16c8bdccff2067427cb1db7f2ed05d13d1603de",
+  "same_binary_used_in": "C05 smoke, C06 native/protocol checks, C07 game verification, C08 benchmark",
+  "why_retained": "Preserve the exact measured executable separately from reproducible source/lock and raw timing evidence; avoid relying only on a future rebuild",
+  "cloud_sync": "NOT_INDEPENDENTLY_VERIFIED"
+}

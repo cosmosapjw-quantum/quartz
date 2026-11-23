@@ -105,7 +105,9 @@
   "precision": {
     "max_synthetic_direct_lifted_score_abs_difference": 2.220446049250313e-16,
     "synthetic_choice_mismatches": 0,
-    "timed_game_summary_mismatches": 0
+    "benchmark_request_summary_mismatches": 0,
+    "summary_comparison_scope": "300 benchmark requests: direct/lifted RunSummary objects from separate unmeasured runs; per-repeat timed summaries are black_box-consumed and not serialized or individually compared",
+    "timed_path_evidence": "Same deterministic run_game implementation, fixed seed and inputs; inspected source and separately verified traces. No claim of 9300 individually compared timed summaries."
   },
   "timing_pairs": {
     "synthetic": 1760,

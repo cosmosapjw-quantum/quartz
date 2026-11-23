@@ -55,7 +55,12 @@ def main():
     # Preserve raw process logs and generated SVG bytes verbatim.
     # Whitespace checking still covers staged source/document/numeric-data paths.
     checked_paths = [p for p in sorted(paths) if not (p.startswith(DOC + '/evidence/') and Path(p).suffix in {'.log', '.svg'})]
-    git('diff', '--cached', '--check', '--', *checked_paths)
+    # CommonMark permits two trailing spaces as an intentional hard line break.
+    markdown_paths = [p for p in checked_paths if Path(p).suffix == '.md']
+    strict_paths = [p for p in checked_paths if Path(p).suffix != '.md']
+    git('diff', '--cached', '--check', '--', *strict_paths)
+    if markdown_paths:
+        git('-c', 'core.whitespace=-blank-at-eol', 'diff', '--cached', '--check', '--', *markdown_paths)
     assert git('diff', '--cached', '--name-only'), 'empty stage'
     git('commit', '-m', f'research(c28 {a.stage}): signed decision geometry and lifted Bellman')
     head = git('rev-parse', 'HEAD')

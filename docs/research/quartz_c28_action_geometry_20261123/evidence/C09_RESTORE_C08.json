@@ -1,0 +1,68 @@
+{
+  "schema": "quartz-c28-restoration-audit-v1",
+  "status": "VERIFIED",
+  "audited_stage": "C08",
+  "commit": "f791e96e651d1849df601dcd7b98c18bcc3fa082",
+  "tree": "13c2c0b8a25ce269b3963b12cc19a93ba68e55ee",
+  "ssot": "87c15dc828d6eea519c219fd8a412fa21dfc464d",
+  "remote_head": "f791e96e651d1849df601dcd7b98c18bcc3fa082",
+  "ordered_stage_count": 18,
+  "ordered_stages": [
+    "R01",
+    "R02",
+    "R03",
+    "R04",
+    "R05",
+    "R06",
+    "R07",
+    "R08",
+    "R09",
+    "R10",
+    "C01",
+    "C02",
+    "C03",
+    "C04",
+    "C05",
+    "C06",
+    "C07",
+    "C08"
+  ],
+  "retained_backups": [
+    {
+      "path": "/home/cosmosapjw/Dropbox/personal_projects/quartz_c28_action_geometry_backups/BASE_HISTORY_THROUGH_C27_C05.bundle",
+      "bytes": 875321840,
+      "sha256": "29cf61813426ab83a00f725a856d88d435401b9e9476ad0b9cf5466bfaf58f2c"
+    },
+    {
+      "path": "/home/cosmosapjw/Dropbox/personal_projects/quartz_c28_action_geometry_backups/C28_C08_f791e96e651d.bundle",
+      "bytes": 654452,
+      "sha256": "ea0dc1d8eb534494fba18d2e0b65ce28fa4d37ffb6c855d5a0fd96d107145e01"
+    },
+    {
+      "path": "/home/cosmosapjw/Dropbox/personal_projects/quartz_c28_action_geometry_backups/C28_C08_f791e96e651d.tar.gz",
+      "bytes": 639496,
+      "sha256": "a6bb866ab9edd7f195cc44343c4c758d65c3f5cbdb5fa47548c118d8acb6a1c4"
+    }
+  ],
+  "base_plus_delta_restored": true,
+  "all_tracked_blob_bytes_and_modes_verified": 2875,
+  "tracked_payload_bytes": 1108516250,
+  "cumulative_archive_verified_files": 92,
+  "protected_input_hashes_verified": {
+    "src/bin/quartz_c26_game_metareasoning.rs": "145b586fea7ff7526eb30d15d683580678f1c9dd3a433967f536697957327a01",
+    "src/game.rs": "b5e1fefb9d9ee72e7eb2fb684edafe3702e11f0f712cc3bd92fb43ccb71ff3e0",
+    "src/games/tictactoe.rs": "45f552117481ef00e966d461c111e2de41de2d5f504390c376d675d8c1de35f8",
+    "Cargo.toml": "897e6624b41356d2f2ca7fffa30c4479cc0959fee3138cdb30fa4bc8ec5c1994",
+    "Cargo.lock": "4368560c374c1272000fdd17a48fbe8449c6e471c848698b088d0b6092b2bb36",
+    "docs/research/quartz_general_game_metareasoning_20261123/coding/data/model.json": "0843447dc755c1d09e1bc69a44dd052e6db9c5c2ace41d1590b668cbfc36a126",
+    "docs/research/quartz_general_game_metareasoning_20261123/coding/data/public_sources.jsonl": "9c9f52a0344a4b6c7c25cde6d519479784a0695fcb8f4681486403fb21fe15c1",
+    "docs/research/quartz_c28_action_geometry_20261123/coding/CONTRACT.json": "2bc388e4a1de1ec1c5728c6d8c6294cddf7cfff421dbec677ebed92f6329b4a5"
+  },
+  "duplicate_archives_removed": 34,
+  "duplicate_archive_bytes_unlinked": 2090767,
+  "temporary_restore_removed_after_success": "/home/cosmosapjw/quantum/research/quartz_c28_restore_C08_f791e96e651d",
+  "script_sha256": "2fa07ab38fd507ae339c609b7b89db2ad5e3001ab42d511b80d85e12b9cef576",
+  "cloud_sync": "NOT_INDEPENDENTLY_VERIFIED",
+  "duration_seconds": 52.455795374989975,
+  "utc": "2026-11-23T13:48:36.615197+00:00"
+}
