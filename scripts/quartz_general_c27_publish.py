@@ -7,7 +7,7 @@ import datetime, gzip, hashlib, json, subprocess, sys
 ROOT = Path(__file__).resolve().parents[1]
 DOC = ROOT / "docs/research/quartz_general_joint_posterior_20261123"
 BACKUP = Path(
-    "/home/cosmosapjw/Dropbox/personal_projects/quartz_general_meta26_backups"
+    "/home/cosmosapjw/Dropbox/personal_projects/quartz_general_meta27_backups"
 )
 stage = sys.argv[1]
 paths = sys.argv[2:]

@@ -7,3 +7,7 @@ Initial target: connect C26's selected-query gain miscalibration to actual condi
 Protected goals: resource-priced real game decisions, independent offline evaluation, full candidate retention, P2GomokuNN-evaluation target and P3human-GMsignature hypothesis. Keep P1ratio versus net objective distinction explicit. A prior-weighted actionGibbs law and a joint utility distribution are different objects. Shared latent strength is a proposed closure, not proof of physical/cognitive equivalence.
 
 The original-history investigator will provide current source identities and bounded source observations in R02. C26's known Gaussian-correlation qualification and Lindblad corrections remain reused findings, not new discoveries. No existing policy correction is needed merely to allow this scoped research.
+
+## R02 — history reinspection
+
+The root commit, historical PDF Eq.1/2, THESIS and COG01 primary texts were actually reopened by the context worker. Current THESIS SHA256 is 4f5133edbe04dbef2699c3efab14660b8a81517e800e30822cc2a4a99023876c. Existing C26 corrections are reused, not counted as new discoveries. The five perfect-inspection COG01 screens have gain_ECE=0.4 quality_ECE identically; the separate H/L-channel construction supplies the relevant distinction. C27 therefore tests conditional observation value rather than renaming marginal calibration.

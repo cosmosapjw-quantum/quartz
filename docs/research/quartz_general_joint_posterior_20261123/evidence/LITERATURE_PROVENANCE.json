@@ -1,0 +1,205 @@
+{
+  "schema_version": 1,
+  "agent": "/root/c27_literature",
+  "date_utc": "2026-11-23",
+  "ssot_commit": "87c15dc828d6eea519c219fd8a412fa21dfc464d",
+  "repo": "cosmosapjw-quantum/quartz",
+  "remote_host": "cosmosapjw",
+  "device_id": "edd1b263-56a0-4391-8a2a-677dd00eabf5",
+  "scope": "C27 R02 bounded primary-literature reuse",
+  "sources": [
+    {
+      "id": "S1",
+      "authors": [
+        "Martin Weitzman"
+      ],
+      "title": "Optimal Search for the Best Alternative",
+      "version": "MIT-EL-78-008, May 1978 original report",
+      "primary_url": "https://www.osti.gov/servlets/purl/6795538",
+      "locations": [
+        "Pandora's Problem, printed pp. 4–5",
+        "Eq. (7), printed p. 9",
+        "Selection/stopping rules, printed p. 10"
+      ],
+      "assumptions": [
+        "independent rewards",
+        "known distributions",
+        "fixed costs/delays",
+        "exact reveals",
+        "known-only maximum terminal reward with fallback"
+      ],
+      "transfer": "Independent control/reference; zero-delay specialization d=E[(U-z)+].",
+      "not_transferred": [
+        "fixed-index optimality under dependence"
+      ],
+      "status": "literature-supported",
+      "remote_pdf": "/tmp/quartz_c26_weitzman1978.pdf",
+      "pdf_bytes": 975398,
+      "pdf_sha256": "546b8b0344acd58b96e2ea9ab753a3b70dd87803d9ecd4d7b69b7fdb15373303",
+      "read_status": "targeted original-text extraction; existing PDF identity verified"
+    },
+    {
+      "id": "S2",
+      "authors": [
+        "Nicholas Hay",
+        "Stuart Russell",
+        "David Tolpin",
+        "Solomon Eyal Shimony"
+      ],
+      "title": "Selecting Computations: Theory and Applications",
+      "version": "arXiv:1207.5879v1; UAI 2012",
+      "primary_url": "https://arxiv.org/html/1207.5879v1",
+      "alternative_urls": [
+        "https://aima.cs.berkeley.edu/~russell/papers/uai12-meta.pdf",
+        "https://www.auai.org/uai2012/papers/123.pdf"
+      ],
+      "locations": [
+        "Section 2 Definitions 1, 3",
+        "Theorem 4",
+        "Definition 6",
+        "Theorem 7"
+      ],
+      "assumptions": [
+        "joint utilities and computational outcomes",
+        "countable outcomes/states",
+        "positive constant cost c",
+        "terminal maximization of posterior mean"
+      ],
+      "transfer": "Joint history-conditioned metalevel MDP.",
+      "not_transferred": [
+        "STOP=max posterior means to known-only terminal deployment",
+        "constant-cost theorem without adapting variable cost contract"
+      ],
+      "status": "literature-supported",
+      "web_ref": "turn659083251view0",
+      "read_status": "targeted fulltext"
+    },
+    {
+      "id": "S3",
+      "authors": [
+        "Shuchi Chawla",
+        "Evangelia Gergatsouli",
+        "Yifeng Teng",
+        "Christos Tzamos",
+        "Ruimin Zhang"
+      ],
+      "title": "Pandora's Box with Correlations: Learning and Approximation",
+      "version": "arXiv:1911.01632v2; FOCS 2020",
+      "primary_url": "https://arxiv.org/pdf/1911.01632v2",
+      "doi": "10.1109/FOCS46700.2020.00116",
+      "locations": [
+        "Section 1 pp. 1–2",
+        "Section 2 Definition 2.1 pp. 5–6",
+        "Theorem 3.4 p. 8"
+      ],
+      "assumptions": [
+        "arbitrary correlated scenario distribution",
+        "sample access",
+        "min selected revealed cost plus query time",
+        "PA fixed order/adaptive stopping benchmark"
+      ],
+      "transfer": "Distinguish adaptive ordering from adaptive stopping.",
+      "not_transferred": [
+        "sample-access hardness as a no-go for small explicit model",
+        "minimization approximation factor as Quartz guarantee"
+      ],
+      "status": "literature-supported",
+      "web_ref": "turn659083251view1",
+      "read_status": "targeted PDF sections, initial Exa text cap 32000"
+    },
+    {
+      "id": "S4",
+      "authors": [
+        "Peter Frazier",
+        "Warren Powell",
+        "Savas Dayanik"
+      ],
+      "title": "The Knowledge-Gradient Policy for Correlated Normal Beliefs",
+      "version": "INFORMS Journal on Computing 21(4),599–613,2009",
+      "primary_url": "https://optimallearning.princeton.edu/Papers/Frazier%20Powell%20Dayanik%20CorrelatedKnowledgeGradientJOC.pdf",
+      "alternative_urls": [
+        "https://people.orie.cornell.edu/pfrazier/pub/CorrelatedKG.pdf"
+      ],
+      "doi": "10.1287/ijoc.1080.0314",
+      "locations": [
+        "Section 2.1 equations (5)–(6),p.602",
+        "Section 3 equation (11),p.603",
+        "Remark 1 after (11)"
+      ],
+      "assumptions": [
+        "correlated multivariate-normal means",
+        "independent normal measurement noise",
+        "known variance",
+        "fixed measurement budget",
+        "terminal largest posterior mean"
+      ],
+      "transfer": "Observation of one alternative updates other alternatives; terminal decision value defines information value.",
+      "not_transferred": [
+        "Gaussian update to categorical model",
+        "one-step optimality to H2 or globally unbounded horizon",
+        "fixed-budget guarantees to costly stopping"
+      ],
+      "status": "literature-supported",
+      "web_ref": "turn457162856view0",
+      "read_status": "targeted author-hosted published PDF; equation (11) crosschecked by Parallel"
+    }
+  ],
+  "derived_mappings": [
+    "finite categorical latent Bayes update with all initial evidence",
+    "ignorable adaptive selection likelihood cancellation under stated filtration",
+    "known-only terminal finite-horizon Bellman recursion",
+    "primary common-cue PRODUCT_H2 combined initial/later update contrast; secondary INITIAL_PROJECTED_H2 subsequent-query contrast",
+    "conditional-calibration residual identity for true conditional probabilities"
+  ],
+  "unresolved": [
+    "fitted mixture correctness/calibration",
+    "causal attribution of C26 over-continuation",
+    "C27 empirical net-utility improvement",
+    "global optimality of repeated H2 replanning"
+  ],
+  "tools_used": {
+    "exa": {
+      "discovery_queries": 1,
+      "requested_discovery_results": 5,
+      "primary_fulltext_fetch_urls": 4
+    },
+    "scispace": {
+      "queries": 1,
+      "discovery_records": 8
+    },
+    "parallel": {
+      "queries": 2,
+      "session_id": "session_96e5c0a3bc00e0a9733df91d4c81e4f1"
+    },
+    "search_service": {
+      "primary_open_and_targeted_find": true
+    },
+    "rdc": {
+      "remote_source_hash_checked": true,
+      "artifact_host": "cosmosapjw"
+    }
+  },
+  "failures": [
+    {
+      "type": "source_endpoint",
+      "tool": "search_service",
+      "url": "https://www.osti.gov/servlets/purl/6795538",
+      "error": "502 Bad Gateway",
+      "fallback": "Exa original text and hash-verified existing remote original PDF"
+    }
+  ],
+  "limitations": [
+    "targeted source sections; not exhaustive literature review",
+    "initial fulltext 32000-character caps",
+    "some symbol-poor PDF extraction",
+    "parent must reopen child web refs before final citation"
+  ],
+  "repo_mutations": false,
+  "experiments_executed": false,
+  "code_tests_executed": false,
+  "report_path": "/tmp/quartz_c27_literature.md",
+  "control_estimands": {
+    "PRODUCT_H2": "Product of joint marginals before first paid reveal; combined initial and later cross-candidate information propagation",
+    "INITIAL_PROJECTED_H2": "Product of joint marginals after shared initial reveal; subsequent-query propagation with initial conditional marginals matched"
+  }
+}

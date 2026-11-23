@@ -1,0 +1,8466 @@
+{
+  "C26_public_sources_sha256": "9c9f52a0344a4b6c7c25cde6d519479784a0695fcb8f4681486403fb21fe15c1",
+  "available_by_ply": {
+    "0": 1,
+    "1": 3,
+    "2": 12,
+    "3": 38,
+    "4": 8,
+    "5": 53,
+    "6": 83,
+    "7": 95,
+    "8": 34
+  },
+  "available_count": 327,
+  "available_roots": [
+    {
+      "available_hash": "c9a4692e995a4ee893f771f36975a8f1d66840afc1dbc5cf19d03eb6c7c1c624",
+      "board": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "history": [],
+      "legal_children": 9,
+      "nonterminal_children": 9,
+      "ply": 0,
+      "public_terminal_children": 0
+    },
+    {
+      "available_hash": "0b155639039917058e516a33be628643bc126ffc5ec9a78cbd3637bc332a67bc",
+      "board": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1
+      ],
+      "history": [
+        8
+      ],
+      "legal_children": 8,
+      "nonterminal_children": 8,
+      "ply": 1,
+      "public_terminal_children": 0
+    },
+    {
+      "available_hash": "66c50cf527a8d4c0ab8c677a77a98bf6aa05034cf0676e5f31ca78eb25ba9ccb",
+      "board": [
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0
+      ],
+      "history": [
+        4
+      ],
+      "legal_children": 8,
+      "nonterminal_children": 8,
+      "ply": 1,
+      "public_terminal_children": 0
+    },
+    {
+      "available_hash": "b78c1dcb1fca258449ca500c715eff8a192c4a2e1644f2d14c4825b2b5a97b04",
+      "board": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0
+      ],
+      "history": [
+        7
+      ],
+      "legal_children": 8,
+      "nonterminal_children": 8,
+      "ply": 1,
+      "public_terminal_children": 0
+    },
+    {
+      "available_hash": "04d21d74854251d4e7d5a548451581f2fc252cf175a5ed5f0ee40ac1603ab17f",
+      "board": [
+        0,
+        0,
+        0,
+        0,
+        -1,
+        0,
+        0,
+        1,
+        0
+      ],
+      "history": [
+        7,
+        4
+      ],
+      "legal_children": 7,
+      "nonterminal_children": 7,
+      "ply": 2,
+      "public_terminal_children": 0
+    },
+    {
+      "available_hash": "0f3aedbfa99a54c021595d2abffc97f647ec97f056806b5fef60d724b595bfbf",
+      "board": [
+        -1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0
+      ],
+      "history": [
+        7,
+        0
+      ],
+      "legal_children": 7,
+      "nonterminal_children": 7,
+      "ply": 2,
+      "public_terminal_children": 0
+    },
+    {
+      "available_hash": "1c7a51c8dadb97cc9e77bf540a19b0afaf3baade6571988f6d1be6ad40fe5c93",
+      "board": [
+        0,
+        -1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0
+      ],
+      "history": [
+        7,
+        1
+      ],
+      "legal_children": 7,
+      "nonterminal_children": 7,
+      "ply": 2,
+      "public_terminal_children": 0
+    },
+    {
+      "available_hash": "25b6c4bd435cdc62694c5e2d6c430743ca5463fc82beef541e478adc845d3bb7",
+      "board": [
+        0,
+        0,
+        0,
+        0,
+        -1,
+        0,
+        0,
+        0,
+        1
+      ],
+      "history": [
+        8,
+        4
+      ],
+      "legal_children": 7,
+      "nonterminal_children": 7,
+      "ply": 2,
+      "public_terminal_children": 0
+    },
+    {
+      "available_hash": "2dbf5cb1f6f9df9b18c398c629654e7776e72e313efeb7b733d8ef2497a2163e",
+      "board": [
+        0,
+        -1,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0
+      ],
+      "history": [
+        5,
+        1
+      ],
+      "legal_children": 7,
+      "nonterminal_children": 7,
+      "ply": 2,
+      "public_terminal_children": 0
+    },
+    {
+      "available_hash": "3c3df0ce8dd683a486e32d79938aa81b544ba725c2d3d7955cec1a7adf9b723e",
+      "board": [
+        -1,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "history": [
+        3,
+        0
+      ],
+      "legal_children": 7,
+      "nonterminal_children": 7,
+      "ply": 2,
+      "public_terminal_children": 0
+    },
+    {
+      "available_hash": "7e0a7238e797753deb2cc148dcb522e66eff89e0ba7b3148bc78d08c95afa601",
+      "board": [
+        -1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1
+      ],
+      "history": [
+        8,
+        0
+      ],
+      "legal_children": 7,
+      "nonterminal_children": 7,
+      "ply": 2,
+      "public_terminal_children": 0
+    },
+    {
+      "available_hash": "864c5f54b1545ba7bac5a6b3ca1e8ac8ea07fa7df77b4bd5d60e0caadd43e907",
+      "board": [
+        -1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0
+      ],
+      "history": [
+        6,
+        0
+      ],
+      "legal_children": 7,
+      "nonterminal_children": 7,
+      "ply": 2,
+      "public_terminal_children": 0
+    },
+    {
+      "available_hash": "b90c01a01c75b83a74ae5b9baa46a4cd0d6f0c6a965ab6b604126655d7bfcfd1",
+      "board": [
+        -1,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0
+      ],
+      "history": [
+        4,
+        0
+      ],
+      "legal_children": 7,
+      "nonterminal_children": 7,
+      "ply": 2,
+      "public_terminal_children": 0
+    },
+    {
+      "available_hash": "bc2b7dae06aae20e44f970d5bbea63500a7d15bcef3339e3edcec16a2657ca8d",
+      "board": [
+        0,
+        -1,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "history": [
+        2,
+        1
+      ],
+      "legal_children": 7,
+      "nonterminal_children": 7,
+      "ply": 2,
+      "public_terminal_children": 0
+    },
+    {
+      "available_hash": "cae73539ac6b6abdca3449cee845348cb32c063ece2507212f04aaf82c3045ba",
+      "board": [
+        0,
+        -1,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0
+      ],
+      "history": [
+        4,
+        1
+      ],
+      "legal_children": 7,
+      "nonterminal_children": 7,
+      "ply": 2,
+      "public_terminal_children": 0
+    },
+    {
+      "available_hash": "d90d0386d7eed12506ea52e89997a20848b04354d2a50d48ca341cd36ab89060",
+      "board": [
+        0,
+        -1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1
+      ],
+      "history": [
+        8,
+        1
+      ],
+      "legal_children": 7,
+      "nonterminal_children": 7,
+      "ply": 2,
+      "public_terminal_children": 0
+    },
+    {
+      "available_hash": "061a297475c097070e84fe54e7913c5442643c44d1993e850949278af6d5caa9",
+      "board": [
+        -1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        1,
+        0
+      ],
+      "history": [
+        5,
+        0,
+        7
+      ],
+      "legal_children": 6,
+      "nonterminal_children": 6,
+      "ply": 3,
+      "public_terminal_children": 0
+    },
+    {
+      "available_hash": "0ee4c31fa0f841800bbe0e55e7d6bd14330ce3557555b4b2eccafc3bcf2d4a3a",
+      "board": [
+        0,
+        -1,
+        1,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0
+      ],
+      "history": [
+        2,
+        1,
+        6
+      ],
+      "legal_children": 6,
+      "nonterminal_children": 6,
+      "ply": 3,
+      "public_terminal_children": 0
+    },
+    {
+      "available_hash": "16660784542f8bdb15f1eca166d8c14905f7c2eb3c9295a00cd40ed3af677387",
+      "board": [
+        0,
+        0,
+        0,
+        0,
+        -1,
+        0,
+        0,
+        1,
+        1
+      ],
+      "history": [
+        7,
+        4,
+        8
+      ],
+      "legal_children": 6,
+      "nonterminal_children": 6,
+      "ply": 3,
+      "public_terminal_children": 0
+    },
+    {
+      "available_hash": "185a7f842cc680990442165790fc70de4c8aec852f942d81663b3e72552e523b",
+      "board": [
+        -1,
+        0,
+        1,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "history": [
+        2,
+        0,
+        3
+      ],
+      "legal_children": 6,
+      "nonterminal_children": 6,
+      "ply": 3,
+      "public_terminal_children": 0
+    },
+    {
+      "available_hash": "1af66796cbbf363ee40a1de844ad8748ddc7eb07fd7828c4af68345199c78101",
+      "board": [
+        0,
+        -1,
+        0,
+        0,
+        1,
+        1,
+        0,
+        0,
+        0
+      ],
+      "history": [
+        4,
+        1,
+        5
+      ],
+      "legal_children": 6,
+      "nonterminal_children": 6,
+      "ply": 3,
+      "public_terminal_children": 0
+    },
+    {
+      "available_hash": "1eb47b8ff04fffa3e9a7be77067ade09d181f6605e8f5d4cb375959eb7d9ce9a",
+      "board": [
+        0,
+        -1,
+        0,
+        0,
+        1,
+        0,
+        0,
+        1,
+        0
+      ],
+      "history": [
+        4,
+        1,
+        7
+      ],
+      "legal_children": 6,
+      "nonterminal_children": 6,
+      "ply": 3,
+      "public_terminal_children": 0
+    },
+    {
+      "available_hash": "20e6281c2891049ac83257a7bda771c4e30d69ed7227327d870ed22f9cff3540",
+      "board": [
+        0,
+        -1,
+        0,
+        0,
+        0,
+        1,
+        1,
+        0,
+        0
+      ],
+      "history": [
+        5,
+        1,
+        6
+      ],
+      "legal_children": 6,
+      "nonterminal_children": 6,
+      "ply": 3,
+      "public_terminal_children": 0
+    },
+    {
+      "available_hash": "2322baa148f2c6e2b0bb18f62f449cb6fbdd19b8d007840b08b8eb5386115509",
+      "board": [
+        -1,
+        0,
+        0,
+        0,
+        1,
+        0,
+        1,
+        0,
+        0
+      ],
+      "history": [
+        4,
+        0,
+        6
+      ],
+      "legal_children": 6,
+      "nonterminal_children": 6,
+      "ply": 3,
+      "public_terminal_children": 0
+    },
+    {
+      "available_hash": "243e75fb0f02bf33d45f9d168a0b292301475a96eadae7db5f17c5ba2b21028c",
+      "board": [
+        0,
+        -1,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        1
+      ],
+      "history": [
+        5,
+        1,
+        8
+      ],
+      "legal_children": 6,
+      "nonterminal_children": 6,
+      "ply": 3,
+      "public_terminal_children": 0
+    },
+    {
+      "available_hash": "2bd3cb640a68a3ec48e2900f909105b077c283ae8547e5c86770162b4ea4f2da",
+      "board": [
+        0,
+        -1,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0
+      ],
+      "history": [
+        2,
+        1,
+        7
+      ],
+      "legal_children": 6,
+      "nonterminal_children": 6,
+      "ply": 3,
+      "public_terminal_children": 0
+    },
+    {
+      "available_hash": "3e7cb75b89752aef3d5164b39b25fb47dbd5ca4d212ce3c056f2835cd5af49f5",
+      "board": [
+        0,
+        0,
+        1,
+        0,
+        -1,
+        0,
+        1,
+        0,
+        0
+      ],
+      "history": [
+        2,
+        4,
+        6
+      ],
+      "legal_children": 6,
+      "nonterminal_children": 6,
+      "ply": 3,
+      "public_terminal_children": 0
+    },
+    {
+      "available_hash": "3eab16f098f27abc74b8b122abc7d4ae0238950bb08d7e21ad5b225b321da1f6",
+      "board": [
+        0,
+        0,
+        0,
+        1,
+        -1,
+        1,
+        0,
+        0,
+        0
+      ],
+      "history": [
+        3,
+        4,
+        5
+      ],
+      "legal_children": 6,
+      "nonterminal_children": 6,
+      "ply": 3,
+      "public_terminal_children": 0
+    },
+    {
+      "available_hash": "434cdb3c70a16aec1749a78f8d1c7155d3f25bb127384afdcaab16a1361019a2",
+      "board": [
+        0,
+        -1,
+        1,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0
+      ],
+      "history": [
+        2,
+        1,
+        4
+      ],
+      "legal_children": 6,
+      "nonterminal_children": 6,
+      "ply": 3,
+      "public_terminal_children": 0
+    },
+    {
+      "available_hash": "435d7b836bf5a9fb06c50d91b1468b15857e2c8163bc061fc55ad33ba1ed73a9",
+      "board": [
+        0,
+        -1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        1
+      ],
+      "history": [
+        6,
+        1,
+        8
+      ],
+      "legal_children": 6,
+      "nonterminal_children": 6,
+      "ply": 3,
+      "public_terminal_children": 0
+    },
+    {
+      "available_hash": "4b7390d2ee1c295b9e3459c6b699914bc5c8a06ec662df07b4fd3d9271bb295b",
+      "board": [
+        -1,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        1,
+        0
+      ],
+      "history": [
+        4,
+        0,
+        7
+      ],
+      "legal_children": 6,
+      "nonterminal_children": 6,
+      "ply": 3,
+      "public_terminal_children": 0
+    },
+    {
+      "available_hash": "6dcec9031e81d959a0a000d36c599fb602d5788e12317eae2c94775fd31510b1",
+      "board": [
+        -1,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        1
+      ],
+      "history": [
+        4,
+        0,
+        8
+      ],
+      "legal_children": 6,
+      "nonterminal_children": 6,
+      "ply": 3,
+      "public_terminal_children": 0
+    },
+    {
+      "available_hash": "6f8c62984cbfbe1692dd2fc461193e22ed716305819ae9dc2d290b1d0d7effc4",
+      "board": [
+        0,
+        0,
+        0,
+        0,
+        -1,
+        1,
+        0,
+        1,
+        0
+      ],
+      "history": [
+        5,
+        4,
+        7
+      ],
+      "legal_children": 6,
+      "nonterminal_children": 6,
+      "ply": 3,
+      "public_terminal_children": 0
+    },
+    {
+      "available_hash": "734d358a381dd1165bc7635172ea87a84f47143549234d6487835ed738452f97",
+      "board": [
+        0,
+        -1,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1
+      ],
+      "history": [
+        2,
+        1,
+        8
+      ],
+      "legal_children": 6,
+      "nonterminal_children": 6,
+      "ply": 3,
+      "public_terminal_children": 0
+    },
+    {
+      "available_hash": "7661b4f43238fa4468139e09c2a65fbe63a494767c80f1c2eeaf10e9f78c668f",
+      "board": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        -1,
+        1
+      ],
+      "history": [
+        6,
+        7,
+        8
+      ],
+      "legal_children": 6,
+      "nonterminal_children": 6,
+      "ply": 3,
+      "public_terminal_children": 0
+    },
+    {
+      "available_hash": "81d40a9064872d7de138d6cfbafb696d1b7c130f341ff79dbf139b3267b67550",
+      "board": [
+        -1,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        1,
+        0
+      ],
+      "history": [
+        3,
+        0,
+        7
+      ],
+      "legal_children": 6,
+      "nonterminal_children": 6,
+      "ply": 3,
+      "public_terminal_children": 0
+    },
+    {
+      "available_hash": "832d7ca67b6ac5f95be125ff2b2d3fc202c4543b450ec317610b9168d5587f53",
+      "board": [
+        -1,
+        0,
+        0,
+        1,
+        0,
+        0,
+        1,
+        0,
+        0
+      ],
+      "history": [
+        3,
+        0,
+        6
+      ],
+      "legal_children": 6,
+      "nonterminal_children": 6,
+      "ply": 3,
+      "public_terminal_children": 0
+    },
+    {
+      "available_hash": "8af6f26cb5708f3bd43c7a986dd67dc4472886fdc5e4d024d906f9e8a9c74675",
+      "board": [
+        -1,
+        0,
+        1,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0
+      ],
+      "history": [
+        2,
+        0,
+        6
+      ],
+      "legal_children": 6,
+      "nonterminal_children": 6,
+      "ply": 3,
+      "public_terminal_children": 0
+    },
+    {
+      "available_hash": "9212326ceec02f5684733f4424dfb04895514f59d96bf259cd598ebe02207aa2",
+      "board": [
+        0,
+        -1,
+        1,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0
+      ],
+      "history": [
+        2,
+        1,
+        5
+      ],
+      "legal_children": 6,
+      "nonterminal_children": 6,
+      "ply": 3,
+      "public_terminal_children": 0
+    },
+    {
+      "available_hash": "92d48e9ef3b3048cb3c66c8938ce55cbbe607f78f04e988652f0541211225308",
+      "board": [
+        0,
+        0,
+        0,
+        0,
+        -1,
+        0,
+        1,
+        0,
+        1
+      ],
+      "history": [
+        6,
+        4,
+        8
+      ],
+      "legal_children": 6,
+      "nonterminal_children": 6,
+      "ply": 3,
+      "public_terminal_children": 0
+    },
+    {
+      "available_hash": "9600a040e8bb84a783cda36d28eb2034a3c884578697b5cf39d57f499af02941",
+      "board": [
+        -1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        1,
+        0
+      ],
+      "history": [
+        6,
+        0,
+        7
+      ],
+      "legal_children": 6,
+      "nonterminal_children": 6,
+      "ply": 3,
+      "public_terminal_children": 0
+    },
+    {
+      "available_hash": "a141d0fe12c35a6db53a3a3dd9c895fe0371ea237287b2d5cc1ac0dfc9d7d49a",
+      "board": [
+        0,
+        -1,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        1
+      ],
+      "history": [
+        4,
+        1,
+        8
+      ],
+      "legal_children": 6,
+      "nonterminal_children": 6,
+      "ply": 3,
+      "public_terminal_children": 0
+    },
+    {
+      "available_hash": "a86b996b223dd811cfcb0e069d44acbaa5099065d716199f305df9cf01963957",
+      "board": [
+        -1,
+        1,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "history": [
+        1,
+        0,
+        3
+      ],
+      "legal_children": 6,
+      "nonterminal_children": 6,
+      "ply": 3,
+      "public_terminal_children": 0
+    },
+    {
+      "available_hash": "b4e4b834ccdd3c543ee52dcb28ec0b925442dc0f8d2e6f65f25a75f9388ca28d",
+      "board": [
+        -1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        1,
+        0,
+        0
+      ],
+      "history": [
+        5,
+        0,
+        6
+      ],
+      "legal_children": 6,
+      "nonterminal_children": 6,
+      "ply": 3,
+      "public_terminal_children": 0
+    },
+    {
+      "available_hash": "ca06fa8e29e53ad13a8b33b6f94abdf4676a4a4ebf940dafe13c4a97a288ff3b",
+      "board": [
+        -1,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1
+      ],
+      "history": [
+        3,
+        0,
+        8
+      ],
+      "legal_children": 6,
+      "nonterminal_children": 6,
+      "ply": 3,
+      "public_terminal_children": 0
+    },
+    {
+      "available_hash": "cdc4194f3b2df7a0a9688e2b81c54296fa82eab4b3ff81d4f8639890866c1b8b",
+      "board": [
+        0,
+        -1,
+        0,
+        1,
+        0,
+        1,
+        0,
+        0,
+        0
+      ],
+      "history": [
+        3,
+        1,
+        5
+      ],
+      "legal_children": 6,
+      "nonterminal_children": 6,
+      "ply": 3,
+      "public_terminal_children": 0
+    },
+    {
+      "available_hash": "d26588d60ab3b39dc61a27418b3518aa591c8212c335cf2aa6569c141cd781ac",
+      "board": [
+        -1,
+        0,
+        0,
+        1,
+        1,
+        0,
+        0,
+        0,
+        0
+      ],
+      "history": [
+        3,
+        0,
+        4
+      ],
+      "legal_children": 6,
+      "nonterminal_children": 6,
+      "ply": 3,
+      "public_terminal_children": 0
+    },
+    {
+      "available_hash": "d5778e42d84b50fb7395e53c9c85e66e62388f198f8ec907c55ad7944c0ef3dd",
+      "board": [
+        -1,
+        0,
+        0,
+        1,
+        0,
+        1,
+        0,
+        0,
+        0
+      ],
+      "history": [
+        3,
+        0,
+        5
+      ],
+      "legal_children": 6,
+      "nonterminal_children": 6,
+      "ply": 3,
+      "public_terminal_children": 0
+    },
+    {
+      "available_hash": "dad7175675e97147d0c24532a4d791ef77e56c535ae032787af5a568ba57bfc6",
+      "board": [
+        0,
+        -1,
+        1,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "history": [
+        2,
+        1,
+        3
+      ],
+      "legal_children": 6,
+      "nonterminal_children": 6,
+      "ply": 3,
+      "public_terminal_children": 0
+    },
+    {
+      "available_hash": "e09f32a929b18ad257c1af8edefade985ec01c682680faf77bec42accb7cbca6",
+      "board": [
+        0,
+        0,
+        0,
+        0,
+        -1,
+        1,
+        1,
+        0,
+        0
+      ],
+      "history": [
+        5,
+        4,
+        6
+      ],
+      "legal_children": 6,
+      "nonterminal_children": 6,
+      "ply": 3,
+      "public_terminal_children": 0
+    },
+    {
+      "available_hash": "e3b73943c7439ec837caf6364d59abf4e2acd0fba859939b31c14167b51e8b95",
+      "board": [
+        0,
+        -1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        1
+      ],
+      "history": [
+        7,
+        1,
+        8
+      ],
+      "legal_children": 6,
+      "nonterminal_children": 6,
+      "ply": 3,
+      "public_terminal_children": 0
+    },
+    {
+      "available_hash": "f38f332f0285e6d34ff5bfdff3059360172c52c607437b6c201b87ab6022e327",
+      "board": [
+        -1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        1
+      ],
+      "history": [
+        7,
+        0,
+        8
+      ],
+      "legal_children": 6,
+      "nonterminal_children": 6,
+      "ply": 3,
+      "public_terminal_children": 0
+    },
+    {
+      "available_hash": "f64658dcfde6bf715d70c87cbd87a5b4a3a11445d865542bd0c36c5201cf5e14",
+      "board": [
+        0,
+        -1,
+        0,
+        0,
+        0,
+        1,
+        0,
+        1,
+        0
+      ],
+      "history": [
+        5,
+        1,
+        7
+      ],
+      "legal_children": 6,
+      "nonterminal_children": 6,
+      "ply": 3,
+      "public_terminal_children": 0
+    },
+    {
+      "available_hash": "f8cd44d520367cb201bce25ee8ba559afc48534546ccb4267d2a06949ba18e8a",
+      "board": [
+        -1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        1
+      ],
+      "history": [
+        6,
+        0,
+        8
+      ],
+      "legal_children": 6,
+      "nonterminal_children": 6,
+      "ply": 3,
+      "public_terminal_children": 0
+    },
+    {
+      "available_hash": "1b3e49b4b6fb3720076413871358e8e61432647bdec858c9a78be9230100c7bd",
+      "board": [
+        -1,
+        -1,
+        0,
+        0,
+        0,
+        1,
+        1,
+        0,
+        0
+      ],
+      "history": [
+        5,
+        0,
+        6,
+        1
+      ],
+      "legal_children": 5,
+      "nonterminal_children": 5,
+      "ply": 4,
+      "public_terminal_children": 0
+    },
+    {
+      "available_hash": "72f1fcc3a59ae3d4ba1f285008a85ef1905f5205f9be34db5c1dbcbb2d79b203",
+      "board": [
+        -1,
+        0,
+        0,
+        0,
+        -1,
+        1,
+        1,
+        0,
+        0
+      ],
+      "history": [
+        5,
+        0,
+        6,
+        4
+      ],
+      "legal_children": 5,
+      "nonterminal_children": 5,
+      "ply": 4,
+      "public_terminal_children": 0
+    },
+    {
+      "available_hash": "7ef42a10bb4ef1540a7099eb8f3e7cc071101986532668cf44b7a8ff7fe17c2f",
+      "board": [
+        -1,
+        0,
+        1,
+        1,
+        0,
+        0,
+        0,
+        -1,
+        0
+      ],
+      "history": [
+        2,
+        0,
+        3,
+        7
+      ],
+      "legal_children": 5,
+      "nonterminal_children": 5,
+      "ply": 4,
+      "public_terminal_children": 0
+    },
+    {
+      "available_hash": "85d5de1d7acf402919bfbef1753f864ce828e916818a9238a3e743f77409ff7b",
+      "board": [
+        -1,
+        0,
+        0,
+        0,
+        1,
+        0,
+        1,
+        0,
+        -1
+      ],
+      "history": [
+        4,
+        0,
+        6,
+        8
+      ],
+      "legal_children": 5,
+      "nonterminal_children": 4,
+      "ply": 4,
+      "public_terminal_children": 1
+    },
+    {
+      "available_hash": "8fd227df870c97aaa152dfa4ed1b1572206cf2bd6cbb21992390fe24ca429b5f",
+      "board": [
+        0,
+        -1,
+        1,
+        0,
+        -1,
+        0,
+        1,
+        0,
+        0
+      ],
+      "history": [
+        2,
+        1,
+        6,
+        4
+      ],
+      "legal_children": 5,
+      "nonterminal_children": 5,
+      "ply": 4,
+      "public_terminal_children": 0
+    },
+    {
+      "available_hash": "9412beaa31f89dbf657fe90dcbf3f4a5d065134d36e5477847af55e21b166fbc",
+      "board": [
+        0,
+        -1,
+        1,
+        0,
+        -1,
+        0,
+        0,
+        0,
+        1
+      ],
+      "history": [
+        2,
+        1,
+        8,
+        4
+      ],
+      "legal_children": 5,
+      "nonterminal_children": 4,
+      "ply": 4,
+      "public_terminal_children": 1
+    },
+    {
+      "available_hash": "a9c68caef19f8c43c05312cd34798fdebe3cdd821e4328496e4c9dac2798b80a",
+      "board": [
+        -1,
+        0,
+        0,
+        1,
+        0,
+        0,
+        -1,
+        0,
+        1
+      ],
+      "history": [
+        3,
+        0,
+        8,
+        6
+      ],
+      "legal_children": 5,
+      "nonterminal_children": 5,
+      "ply": 4,
+      "public_terminal_children": 0
+    },
+    {
+      "available_hash": "e6a17cc3f4288c003a4cfb3f6e046f30bf2d73bac94e2e78161a9bee8378710d",
+      "board": [
+        0,
+        -1,
+        0,
+        0,
+        -1,
+        0,
+        0,
+        1,
+        1
+      ],
+      "history": [
+        7,
+        1,
+        8,
+        4
+      ],
+      "legal_children": 5,
+      "nonterminal_children": 4,
+      "ply": 4,
+      "public_terminal_children": 1
+    },
+    {
+      "available_hash": "0170d6ec64dec80b5df383117762b39e63965351c3816e8e513f3d7e838dd438",
+      "board": [
+        0,
+        -1,
+        0,
+        1,
+        -1,
+        1,
+        0,
+        1,
+        0
+      ],
+      "history": [
+        3,
+        1,
+        5,
+        4,
+        7
+      ],
+      "legal_children": 4,
+      "nonterminal_children": 4,
+      "ply": 5,
+      "public_terminal_children": 0
+    },
+    {
+      "available_hash": "01e651e5194810d2000a2610a87dc521909fb9bd288d383f6dbe3090af8ddc52",
+      "board": [
+        -1,
+        0,
+        0,
+        1,
+        0,
+        0,
+        -1,
+        1,
+        1
+      ],
+      "history": [
+        3,
+        0,
+        7,
+        6,
+        8
+      ],
+      "legal_children": 4,
+      "nonterminal_children": 4,
+      "ply": 5,
+      "public_terminal_children": 0
+    },
+    {
+      "available_hash": "09d9759df985bd8bef17d42bb961d54356b91495ba524d76d867bdc696285eff",
+      "board": [
+        0,
+        -1,
+        1,
+        0,
+        0,
+        0,
+        1,
+        -1,
+        1
+      ],
+      "history": [
+        2,
+        1,
+        6,
+        7,
+        8
+      ],
+      "legal_children": 4,
+      "nonterminal_children": 3,
+      "ply": 5,
+      "public_terminal_children": 1
+    },
+    {
+      "available_hash": "103019756f421a0eb17556a19f4b77a9b70958657e6e4d8cad55f50c1282b69b",
+      "board": [
+        -1,
+        -1,
+        0,
+        0,
+        1,
+        0,
+        1,
+        0,
+        1
+      ],
+      "history": [
+        4,
+        0,
+        6,
+        1,
+        8
+      ],
+      "legal_children": 4,
+      "nonterminal_children": 3,
+      "ply": 5,
+      "public_terminal_children": 1
+    },
+    {
+      "available_hash": "1077496efd80f2cf4f9c03509876d1bb5a71fcf442e38398bd8d13b5faca2f49",
+      "board": [
+        0,
+        -1,
+        0,
+        0,
+        1,
+        1,
+        1,
+        -1,
+        0
+      ],
+      "history": [
+        4,
+        1,
+        5,
+        7,
+        6
+      ],
+      "legal_children": 4,
+      "nonterminal_children": 4,
+      "ply": 5,
+      "public_terminal_children": 0
+    },
+    {
+      "available_hash": "1905fff1bdc60c74c3c044eaa3f3ce8167f0c6fa9b3e2fcd338f48948cb90749",
+      "board": [
+        -1,
+        -1,
+        1,
+        0,
+        1,
+        0,
+        0,
+        0,
+        1
+      ],
+      "history": [
+        2,
+        0,
+        4,
+        1,
+        8
+      ],
+      "legal_children": 4,
+      "nonterminal_children": 4,
+      "ply": 5,
+      "public_terminal_children": 0
+    },
+    {
+      "available_hash": "1ac67f3a7739dfa1ce8b8911b251bb8345c6deaa086a5e971cd74d7faf5d635a",
+      "board": [
+        -1,
+        0,
+        0,
+        0,
+        1,
+        0,
+        1,
+        1,
+        -1
+      ],
+      "history": [
+        4,
+        0,
+        6,
+        8,
+        7
+      ],
+      "legal_children": 4,
+      "nonterminal_children": 4,
+      "ply": 5,
+      "public_terminal_children": 0
+    },
+    {
+      "available_hash": "215cc9af2f38422b2d4788979ac17936992c50a1ad469e78cc0536f40103b0e7",
+      "board": [
+        -1,
+        0,
+        0,
+        1,
+        0,
+        1,
+        0,
+        -1,
+        1
+      ],
+      "history": [
+        3,
+        0,
+        5,
+        7,
+        8
+      ],
+      "legal_children": 4,
+      "nonterminal_children": 4,
+      "ply": 5,
+      "public_terminal_children": 0
+    },
+    {
+      "available_hash": "27b7bf182f860563e18729b82caba9adb503b225e2cb1970b890dfc5da87e97d",
+      "board": [
+        0,
+        -1,
+        0,
+        0,
+        0,
+        1,
+        1,
+        -1,
+        1
+      ],
+      "history": [
+        5,
+        1,
+        6,
+        7,
+        8
+      ],
+      "legal_children": 4,
+      "nonterminal_children": 3,
+      "ply": 5,
+      "public_terminal_children": 1
+    },
+    {
+      "available_hash": "27c947728d142049892d0d3c6204ce3bf1a79bc009fc9f576179d9e7c7ea5f53",
+      "board": [
+        -1,
+        0,
+        1,
+        1,
+        0,
+        -1,
+        0,
+        0,
+        1
+      ],
+      "history": [
+        2,
+        0,
+        3,
+        5,
+        8
+      ],
+      "legal_children": 4,
+      "nonterminal_children": 4,
+      "ply": 5,
+      "public_terminal_children": 0
+    },
+    {
+      "available_hash": "2dd0034ce315864e329d684464f357484f598dc6b4f07cc3fa64b7cb7667bde5",
+      "board": [
+        -1,
+        -1,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        1
+      ],
+      "history": [
+        2,
+        0,
+        7,
+        1,
+        8
+      ],
+      "legal_children": 4,
+      "nonterminal_children": 4,
+      "ply": 5,
+      "public_terminal_children": 0
+    },
+    {
+      "available_hash": "2e2bb3f681e638e76e942c9bff825fb22ed9bd45cfadafd006d44835e597cf10",
+      "board": [
+        -1,
+        0,
+        -1,
+        0,
+        1,
+        1,
+        0,
+        0,
+        1
+      ],
+      "history": [
+        4,
+        0,
+        5,
+        2,
+        8
+      ],
+      "legal_children": 4,
+      "nonterminal_children": 3,
+      "ply": 5,
+      "public_terminal_children": 1
+    },
+    {
+      "available_hash": "443963326b002e02e14d6cc29ec037541fa6c977e5b1fd010a1107b1f308fcc3",
+      "board": [
+        -1,
+        0,
+        1,
+        1,
+        0,
+        0,
+        -1,
+        1,
+        0
+      ],
+      "history": [
+        2,
+        0,
+        3,
+        6,
+        7
+      ],
+      "legal_children": 4,
+      "nonterminal_children": 4,
+      "ply": 5,
+      "public_terminal_children": 0
+    },
+    {
+      "available_hash": "44be0d044260f2c6fa4c8b96005c78606a96e6b85f0f40bb67b50ac5a629f9b3",
+      "board": [
+        -1,
+        -1,
+        1,
+        1,
+        0,
+        0,
+        0,
+        1,
+        0
+      ],
+      "history": [
+        2,
+        0,
+        3,
+        1,
+        7
+      ],
+      "legal_children": 4,
+      "nonterminal_children": 4,
+      "ply": 5,
+      "public_terminal_children": 0
+    },
+    {
+      "available_hash": "4962c1a1479812d8dab9954eeb2e95c7478d0b614717dc34df1abfcc6bb7f52e",
+      "board": [
+        -1,
+        0,
+        1,
+        1,
+        0,
+        0,
+        1,
+        -1,
+        0
+      ],
+      "history": [
+        2,
+        0,
+        3,
+        7,
+        6
+      ],
+      "legal_children": 4,
+      "nonterminal_children": 4,
+      "ply": 5,
+      "public_terminal_children": 0
+    },
+    {
+      "available_hash": "4d7a728481a163d3a2cb8bff6dc6d685469761dd11447915ef1671b0b186978a",
+      "board": [
+        -1,
+        1,
+        0,
+        1,
+        -1,
+        0,
+        0,
+        1,
+        0
+      ],
+      "history": [
+        1,
+        0,
+        3,
+        4,
+        7
+      ],
+      "legal_children": 4,
+      "nonterminal_children": 3,
+      "ply": 5,
+      "public_terminal_children": 1
+    },
+    {
+      "available_hash": "4e44aa0534a0516aa32336f298f007f1defb4386dcc896b50e7ccd610f301788",
+      "board": [
+        -1,
+        0,
+        0,
+        1,
+        0,
+        0,
+        1,
+        1,
+        -1
+      ],
+      "history": [
+        3,
+        0,
+        6,
+        8,
+        7
+      ],
+      "legal_children": 4,
+      "nonterminal_children": 3,
+      "ply": 5,
+      "public_terminal_children": 1
+    },
+    {
+      "available_hash": "53e4c0d6fd647b3f8e325a1a289074c671ddffa0c47ccbcbc4ece77f65d79760",
+      "board": [
+        -1,
+        0,
+        0,
+        1,
+        1,
+        0,
+        -1,
+        1,
+        0
+      ],
+      "history": [
+        3,
+        0,
+        4,
+        6,
+        7
+      ],
+      "legal_children": 4,
+      "nonterminal_children": 4,
+      "ply": 5,
+      "public_terminal_children": 0
+    },
+    {
+      "available_hash": "54771ebcacf85597db6ce2e21264d58e9af9f091fdb6799ccbf22d897ee4daeb",
+      "board": [
+        -1,
+        -1,
+        0,
+        1,
+        0,
+        0,
+        1,
+        1,
+        0
+      ],
+      "history": [
+        3,
+        0,
+        6,
+        1,
+        7
+      ],
+      "legal_children": 4,
+      "nonterminal_children": 3,
+      "ply": 5,
+      "public_terminal_children": 1
+    },
+    {
+      "available_hash": "56c55f96c0db52e7564c4db53be06158c0c3b5102c36beae9c63184c0b196ca8",
+      "board": [
+        -1,
+        0,
+        0,
+        1,
+        1,
+        -1,
+        1,
+        0,
+        0
+      ],
+      "history": [
+        3,
+        0,
+        4,
+        5,
+        6
+      ],
+      "legal_children": 4,
+      "nonterminal_children": 4,
+      "ply": 5,
+      "public_terminal_children": 0
+    },
+    {
+      "available_hash": "578de88864a1904d39a756757f896336c6838d7e52efe9edfd9aecad8d385445",
+      "board": [
+        -1,
+        0,
+        0,
+        0,
+        1,
+        1,
+        1,
+        -1,
+        0
+      ],
+      "history": [
+        4,
+        0,
+        5,
+        7,
+        6
+      ],
+      "legal_children": 4,
+      "nonterminal_children": 4,
+      "ply": 5,
+      "public_terminal_children": 0
+    },
+    {
+      "available_hash": "5bd02ab2a0413791653bc092613e19e7db9041bad114d7d44c51b1d5417f0f05",
+      "board": [
+        -1,
+        -1,
+        1,
+        0,
+        0,
+        0,
+        1,
+        0,
+        1
+      ],
+      "history": [
+        2,
+        0,
+        6,
+        1,
+        8
+      ],
+      "legal_children": 4,
+      "nonterminal_children": 4,
+      "ply": 5,
+      "public_terminal_children": 0
+    },
+    {
+      "available_hash": "5e19e2462a92cf517b1eaef6b025c7fa78388de5f9f303277cefdb8ae120a68f",
+      "board": [
+        0,
+        0,
+        1,
+        1,
+        -1,
+        -1,
+        0,
+        0,
+        1
+      ],
+      "history": [
+        2,
+        4,
+        3,
+        5,
+        8
+      ],
+      "legal_children": 4,
+      "nonterminal_children": 4,
+      "ply": 5,
+      "public_terminal_children": 0
+    },
+    {
+      "available_hash": "63875ff348e523ccdb7f51490118b170dc4d8bbe45b923f8f494b0876bd84673",
+      "board": [
+        -1,
+        0,
+        -1,
+        0,
+        1,
+        1,
+        0,
+        1,
+        0
+      ],
+      "history": [
+        4,
+        0,
+        5,
+        2,
+        7
+      ],
+      "legal_children": 4,
+      "nonterminal_children": 3,
+      "ply": 5,
+      "public_terminal_children": 1
+    },
+    {
+      "available_hash": "69b8cf49a1248a5478525156934e712cba2ca3d7ece785dd0e764396a9f54e9d",
+      "board": [
+        -1,
+        0,
+        1,
+        0,
+        -1,
+        0,
+        1,
+        0,
+        1
+      ],
+      "history": [
+        2,
+        0,
+        6,
+        4,
+        8
+      ],
+      "legal_children": 4,
+      "nonterminal_children": 4,
+      "ply": 5,
+      "public_terminal_children": 0
+    },
+    {
+      "available_hash": "71f73214f5f602558b73a97ce72f0a58258e15b9680e74225c68b9b6db5243ce",
+      "board": [
+        -1,
+        0,
+        0,
+        1,
+        -1,
+        1,
+        0,
+        0,
+        1
+      ],
+      "history": [
+        3,
+        0,
+        5,
+        4,
+        8
+      ],
+      "legal_children": 4,
+      "nonterminal_children": 4,
+      "ply": 5,
+      "public_terminal_children": 0
+    },
+    {
+      "available_hash": "740a48e860f6a39323944428c3d58e37b3dd525f4cdfb4efe293c3d687b808ab",
+      "board": [
+        0,
+        -1,
+        0,
+        -1,
+        1,
+        0,
+        1,
+        0,
+        1
+      ],
+      "history": [
+        4,
+        1,
+        6,
+        3,
+        8
+      ],
+      "legal_children": 4,
+      "nonterminal_children": 4,
+      "ply": 5,
+      "public_terminal_children": 0
+    },
+    {
+      "available_hash": "7484b88fc032a2ed865322f97350dfc4db13360ab5a6f80fbfd26bf7067ba596",
+      "board": [
+        0,
+        -1,
+        1,
+        0,
+        -1,
+        1,
+        0,
+        1,
+        0
+      ],
+      "history": [
+        2,
+        1,
+        5,
+        4,
+        7
+      ],
+      "legal_children": 4,
+      "nonterminal_children": 4,
+      "ply": 5,
+      "public_terminal_children": 0
+    },
+    {
+      "available_hash": "8aaad44f5427d503643f1af4c75fa2141194411b348e262ed92791ca2887797a",
+      "board": [
+        -1,
+        -1,
+        0,
+        1,
+        0,
+        1,
+        0,
+        1,
+        0
+      ],
+      "history": [
+        3,
+        0,
+        5,
+        1,
+        7
+      ],
+      "legal_children": 4,
+      "nonterminal_children": 3,
+      "ply": 5,
+      "public_terminal_children": 1
+    },
+    {
+      "available_hash": "8c8441c75d51b95806fe744bebde59b1f85d7084f6f76d1abf1b835ae8e7174e",
+      "board": [
+        -1,
+        0,
+        -1,
+        1,
+        0,
+        1,
+        0,
+        0,
+        1
+      ],
+      "history": [
+        3,
+        0,
+        5,
+        2,
+        8
+      ],
+      "legal_children": 4,
+      "nonterminal_children": 3,
+      "ply": 5,
+      "public_terminal_children": 1
+    },
+    {
+      "available_hash": "8dd8e90c574ddc464821d6136056f372b045571e0a29884c5cbd982dc9aed55a",
+      "board": [
+        0,
+        -1,
+        0,
+        -1,
+        0,
+        1,
+        1,
+        0,
+        1
+      ],
+      "history": [
+        5,
+        1,
+        6,
+        3,
+        8
+      ],
+      "legal_children": 4,
+      "nonterminal_children": 4,
+      "ply": 5,
+      "public_terminal_children": 0
+    },
+    {
+      "available_hash": "8f10c9b05c49517b6e62ad0e153dce574b831427735144b910aab74c83c31a2c",
+      "board": [
+        -1,
+        0,
+        1,
+        0,
+        0,
+        -1,
+        1,
+        0,
+        1
+      ],
+      "history": [
+        2,
+        0,
+        6,
+        5,
+        8
+      ],
+      "legal_children": 4,
+      "nonterminal_children": 4,
+      "ply": 5,
+      "public_terminal_children": 0
+    },
+    {
+      "available_hash": "92423fb5ad2550786a24d6784376e7db8c618859b4e4c6ae03e259a2d0f46737",
+      "board": [
+        0,
+        -1,
+        1,
+        0,
+        0,
+        -1,
+        1,
+        1,
+        0
+      ],
+      "history": [
+        2,
+        1,
+        6,
+        5,
+        7
+      ],
+      "legal_children": 4,
+      "nonterminal_children": 4,
+      "ply": 5,
+      "public_terminal_children": 0
+    },
+    {
+      "available_hash": "92875b9da7bab603a67a447f04929534226ddd09eae9f9ce234291499feeeda0",
+      "board": [
+        -1,
+        0,
+        1,
+        1,
+        -1,
+        1,
+        0,
+        0,
+        0
+      ],
+      "history": [
+        2,
+        0,
+        3,
+        4,
+        5
+      ],
+      "legal_children": 4,
+      "nonterminal_children": 3,
+      "ply": 5,
+      "public_terminal_children": 1
+    },
+    {
+      "available_hash": "a8722b5b2fe3b2ebea0853e1b3e0930b7e95676587e3e5b8902b129d0ad37916",
+      "board": [
+        -1,
+        -1,
+        0,
+        0,
+        1,
+        1,
+        1,
+        0,
+        0
+      ],
+      "history": [
+        4,
+        0,
+        5,
+        1,
+        6
+      ],
+      "legal_children": 4,
+      "nonterminal_children": 3,
+      "ply": 5,
+      "public_terminal_children": 1
+    },
+    {
+      "available_hash": "aaa9730fe89148f651e6ea841d7d1729593133639aa6ea7ef44bc2e3eef654ab",
+      "board": [
+        -1,
+        0,
+        0,
+        1,
+        -1,
+        1,
+        1,
+        0,
+        0
+      ],
+      "history": [
+        3,
+        0,
+        5,
+        4,
+        6
+      ],
+      "legal_children": 4,
+      "nonterminal_children": 3,
+      "ply": 5,
+      "public_terminal_children": 1
+    },
+    {
+      "available_hash": "b00c5c600b9989331650ae4795e661872bdd74a29570d56b2dc4a7c77071e286",
+      "board": [
+        -1,
+        -1,
+        0,
+        0,
+        0,
+        1,
+        0,
+        1,
+        1
+      ],
+      "history": [
+        5,
+        0,
+        7,
+        1,
+        8
+      ],
+      "legal_children": 4,
+      "nonterminal_children": 3,
+      "ply": 5,
+      "public_terminal_children": 1
+    },
+    {
+      "available_hash": "b9baf8c109152f4b185235cdd540825847496ddecc731f5306113cbc0effadaa",
+      "board": [
+        -1,
+        -1,
+        1,
+        0,
+        1,
+        1,
+        0,
+        0,
+        0
+      ],
+      "history": [
+        2,
+        0,
+        4,
+        1,
+        5
+      ],
+      "legal_children": 4,
+      "nonterminal_children": 4,
+      "ply": 5,
+      "public_terminal_children": 0
+    },
+    {
+      "available_hash": "c311dd270ac622ca5678244e2abbe1b5ab4734ca38881086d37cef8bde2ffda7",
+      "board": [
+        0,
+        -1,
+        1,
+        0,
+        1,
+        -1,
+        0,
+        0,
+        1
+      ],
+      "history": [
+        2,
+        1,
+        4,
+        5,
+        8
+      ],
+      "legal_children": 4,
+      "nonterminal_children": 4,
+      "ply": 5,
+      "public_terminal_children": 0
+    },
+    {
+      "available_hash": "c3b6259eb58c112ebdbbd18e85cf4b3917cdad6cb431aa026e2921084644f32d",
+      "board": [
+        -1,
+        0,
+        1,
+        0,
+        -1,
+        0,
+        1,
+        1,
+        0
+      ],
+      "history": [
+        2,
+        0,
+        6,
+        4,
+        7
+      ],
+      "legal_children": 4,
+      "nonterminal_children": 3,
+      "ply": 5,
+      "public_terminal_children": 1
+    },
+    {
+      "available_hash": "ca1cca27921cd8b42f40c5900f60b6d3ab22652666658e1748770029aa7384ed",
+      "board": [
+        -1,
+        -1,
+        0,
+        1,
+        1,
+        0,
+        0,
+        1,
+        0
+      ],
+      "history": [
+        3,
+        0,
+        4,
+        1,
+        7
+      ],
+      "legal_children": 4,
+      "nonterminal_children": 3,
+      "ply": 5,
+      "public_terminal_children": 1
+    },
+    {
+      "available_hash": "d91ce4837a30978eca373dfea49469905fc665647bc4e833afea057e398f9f45",
+      "board": [
+        0,
+        0,
+        1,
+        0,
+        0,
+        -1,
+        1,
+        -1,
+        1
+      ],
+      "history": [
+        2,
+        5,
+        6,
+        7,
+        8
+      ],
+      "legal_children": 4,
+      "nonterminal_children": 4,
+      "ply": 5,
+      "public_terminal_children": 0
+    },
+    {
+      "available_hash": "da522d8a0eb0100bfdcc66a0d8e0bb6b9f2f244245ea7dcfc60b5b53d7f59a03",
+      "board": [
+        -1,
+        0,
+        0,
+        0,
+        -1,
+        1,
+        0,
+        1,
+        1
+      ],
+      "history": [
+        5,
+        0,
+        7,
+        4,
+        8
+      ],
+      "legal_children": 4,
+      "nonterminal_children": 4,
+      "ply": 5,
+      "public_terminal_children": 0
+    },
+    {
+      "available_hash": "ddb989d7c47b8da7eab71c9fa29c27d38c2b1254f1cac94c2ba547cc0f53cb25",
+      "board": [
+        -1,
+        0,
+        0,
+        1,
+        1,
+        0,
+        -1,
+        0,
+        1
+      ],
+      "history": [
+        3,
+        0,
+        4,
+        6,
+        8
+      ],
+      "legal_children": 4,
+      "nonterminal_children": 4,
+      "ply": 5,
+      "public_terminal_children": 0
+    },
+    {
+      "available_hash": "e47f848bb3748186aa7712dab47f605eb26279821175a9ee6b19829686f03d0a",
+      "board": [
+        -1,
+        0,
+        0,
+        1,
+        0,
+        1,
+        0,
+        1,
+        -1
+      ],
+      "history": [
+        3,
+        0,
+        5,
+        8,
+        7
+      ],
+      "legal_children": 4,
+      "nonterminal_children": 3,
+      "ply": 5,
+      "public_terminal_children": 1
+    },
+    {
+      "available_hash": "e6ee4549c568913fb8e3f47e7e8c8ef8df6d3c704efeb0a51d8de8f61eb6027f",
+      "board": [
+        0,
+        -1,
+        1,
+        -1,
+        0,
+        0,
+        1,
+        1,
+        0
+      ],
+      "history": [
+        2,
+        1,
+        6,
+        3,
+        7
+      ],
+      "legal_children": 4,
+      "nonterminal_children": 4,
+      "ply": 5,
+      "public_terminal_children": 0
+    },
+    {
+      "available_hash": "ed15da9f27e1df366e4dde49384009a8baedb0542528dacc45715925740115b6",
+      "board": [
+        0,
+        -1,
+        0,
+        0,
+        1,
+        1,
+        0,
+        -1,
+        1
+      ],
+      "history": [
+        4,
+        1,
+        5,
+        7,
+        8
+      ],
+      "legal_children": 4,
+      "nonterminal_children": 4,
+      "ply": 5,
+      "public_terminal_children": 0
+    },
+    {
+      "available_hash": "eddb18967ce84466c7dc0a621c8f6b4ea0d8c87d7f1ad395084e63e339f13e4b",
+      "board": [
+        0,
+        -1,
+        0,
+        0,
+        1,
+        0,
+        1,
+        -1,
+        1
+      ],
+      "history": [
+        4,
+        1,
+        6,
+        7,
+        8
+      ],
+      "legal_children": 4,
+      "nonterminal_children": 4,
+      "ply": 5,
+      "public_terminal_children": 0
+    },
+    {
+      "available_hash": "ee472c85da260075db1b6e5e8b4cdb4d2319996fa4fbc990bc24354897fe5971",
+      "board": [
+        -1,
+        0,
+        0,
+        1,
+        0,
+        -1,
+        1,
+        0,
+        1
+      ],
+      "history": [
+        3,
+        0,
+        6,
+        5,
+        8
+      ],
+      "legal_children": 4,
+      "nonterminal_children": 4,
+      "ply": 5,
+      "public_terminal_children": 0
+    },
+    {
+      "available_hash": "f3cd8b51b76cfde4efe3c77abce77e37b28ea5c0b31f1b74c8922ddc053c9280",
+      "board": [
+        0,
+        -1,
+        1,
+        0,
+        0,
+        -1,
+        1,
+        0,
+        1
+      ],
+      "history": [
+        2,
+        1,
+        6,
+        5,
+        8
+      ],
+      "legal_children": 4,
+      "nonterminal_children": 4,
+      "ply": 5,
+      "public_terminal_children": 0
+    },
+    {
+      "available_hash": "f7fbc4ab73e47c2c652a00217c25ef91182833abb481ec2ef5e9997a9981e018",
+      "board": [
+        -1,
+        0,
+        0,
+        1,
+        0,
+        -1,
+        0,
+        1,
+        1
+      ],
+      "history": [
+        3,
+        0,
+        7,
+        5,
+        8
+      ],
+      "legal_children": 4,
+      "nonterminal_children": 4,
+      "ply": 5,
+      "public_terminal_children": 0
+    },
+    {
+      "available_hash": "f84941f14c2d97d6610c658e38e476d2a2b75e665c4712e9a3a11d64cb0952c1",
+      "board": [
+        0,
+        -1,
+        1,
+        0,
+        1,
+        -1,
+        0,
+        1,
+        0
+      ],
+      "history": [
+        2,
+        1,
+        4,
+        5,
+        7
+      ],
+      "legal_children": 4,
+      "nonterminal_children": 4,
+      "ply": 5,
+      "public_terminal_children": 0
+    },
+    {
+      "available_hash": "fa557fb4d6c5407eb5ece00727a532bdedd9ec16524ae693fef3df967a53d013",
+      "board": [
+        -1,
+        -1,
+        0,
+        0,
+        1,
+        0,
+        0,
+        1,
+        1
+      ],
+      "history": [
+        4,
+        0,
+        7,
+        1,
+        8
+      ],
+      "legal_children": 4,
+      "nonterminal_children": 3,
+      "ply": 5,
+      "public_terminal_children": 1
+    },
+    {
+      "available_hash": "0916d308a995f3e9405623f1f6453b75f4865c3fd9c4c54ffc20cd5976ea6ebb",
+      "board": [
+        0,
+        -1,
+        1,
+        1,
+        0,
+        -1,
+        0,
+        -1,
+        1
+      ],
+      "history": [
+        2,
+        1,
+        3,
+        5,
+        8,
+        7
+      ],
+      "legal_children": 3,
+      "nonterminal_children": 3,
+      "ply": 6,
+      "public_terminal_children": 0
+    },
+    {
+      "available_hash": "0d9208feead9924319540891d43a8e916d2d9b69e756aceb8b807d356ea6ced1",
+      "board": [
+        -1,
+        -1,
+        0,
+        1,
+        -1,
+        1,
+        0,
+        1,
+        0
+      ],
+      "history": [
+        3,
+        0,
+        5,
+        1,
+        7,
+        4
+      ],
+      "legal_children": 3,
+      "nonterminal_children": 3,
+      "ply": 6,
+      "public_terminal_children": 0
+    },
+    {
+      "available_hash": "1218e10f7b128567bd6bf04487dd3ef80e5243de84ed7f39fd2598c0f559914d",
+      "board": [
+        -1,
+        -1,
+        1,
+        1,
+        -1,
+        0,
+        0,
+        0,
+        1
+      ],
+      "history": [
+        2,
+        0,
+        3,
+        1,
+        8,
+        4
+      ],
+      "legal_children": 3,
+      "nonterminal_children": 2,
+      "ply": 6,
+      "public_terminal_children": 1
+    },
+    {
+      "available_hash": "14e142ee5bb117c0f39e599e3c1a8142e07036746fbc5690b59bc4db71780ccc",
+      "board": [
+        -1,
+        -1,
+        0,
+        0,
+        1,
+        -1,
+        1,
+        0,
+        1
+      ],
+      "history": [
+        4,
+        0,
+        6,
+        1,
+        8,
+        5
+      ],
+      "legal_children": 3,
+      "nonterminal_children": 1,
+      "ply": 6,
+      "public_terminal_children": 2
+    },
+    {
+      "available_hash": "17de0871724a587f992bc3f35ad2bc43e0d672ce01af028bdac8de1db9ccde30",
+      "board": [
+        -1,
+        -1,
+        1,
+        -1,
+        0,
+        0,
+        1,
+        1,
+        0
+      ],
+      "history": [
+        2,
+        0,
+        6,
+        1,
+        7,
+        3
+      ],
+      "legal_children": 3,
+      "nonterminal_children": 1,
+      "ply": 6,
+      "public_terminal_children": 2
+    },
+    {
+      "available_hash": "1c23e29e4a5800d22f1116675865a4f4ca0c640c693abfcc28784e1cbc64d927",
+      "board": [
+        -1,
+        -1,
+        0,
+        1,
+        0,
+        1,
+        1,
+        0,
+        -1
+      ],
+      "history": [
+        3,
+        0,
+        5,
+        1,
+        6,
+        8
+      ],
+      "legal_children": 3,
+      "nonterminal_children": 2,
+      "ply": 6,
+      "public_terminal_children": 1
+    },
+    {
+      "available_hash": "1de8e621417a2f65e21b371b213137937495fcf02df17c65b2014af284d3a505",
+      "board": [
+        -1,
+        -1,
+        0,
+        0,
+        1,
+        1,
+        -1,
+        1,
+        0
+      ],
+      "history": [
+        4,
+        0,
+        5,
+        1,
+        7,
+        6
+      ],
+      "legal_children": 3,
+      "nonterminal_children": 2,
+      "ply": 6,
+      "public_terminal_children": 1
+    },
+    {
+      "available_hash": "23a629bac5b5bf384dc12bb2d7b3462826efecafb1160dbf6c0dd364b09a51e3",
+      "board": [
+        -1,
+        0,
+        -1,
+        0,
+        0,
+        1,
+        -1,
+        1,
+        1
+      ],
+      "history": [
+        5,
+        0,
+        7,
+        2,
+        8,
+        6
+      ],
+      "legal_children": 3,
+      "nonterminal_children": 3,
+      "ply": 6,
+      "public_terminal_children": 0
+    },
+    {
+      "available_hash": "23a7fc4cc88e36b2a8061fbc3be9b344ee43981f7d2966199e497968ba795ec6",
+      "board": [
+        -1,
+        -1,
+        0,
+        1,
+        1,
+        -1,
+        0,
+        1,
+        0
+      ],
+      "history": [
+        3,
+        0,
+        4,
+        1,
+        7,
+        5
+      ],
+      "legal_children": 3,
+      "nonterminal_children": 3,
+      "ply": 6,
+      "public_terminal_children": 0
+    },
+    {
+      "available_hash": "28b04d1dbc2dcc38b7e53aba4cfebb7c2955364b57225185f7b5cd24ce0d2490",
+      "board": [
+        -1,
+        -1,
+        1,
+        0,
+        -1,
+        0,
+        1,
+        0,
+        1
+      ],
+      "history": [
+        2,
+        0,
+        6,
+        1,
+        8,
+        4
+      ],
+      "legal_children": 3,
+      "nonterminal_children": 1,
+      "ply": 6,
+      "public_terminal_children": 2
+    },
+    {
+      "available_hash": "295cbe9b66f39d6347d27ee11502a14dc75eeaccd22431c4894e9cf6edb647ce",
+      "board": [
+        -1,
+        -1,
+        0,
+        -1,
+        1,
+        0,
+        0,
+        1,
+        1
+      ],
+      "history": [
+        4,
+        0,
+        7,
+        1,
+        8,
+        3
+      ],
+      "legal_children": 3,
+      "nonterminal_children": 2,
+      "ply": 6,
+      "public_terminal_children": 1
+    },
+    {
+      "available_hash": "2a8cf352b62db289f8207f5ba22461e71cbd6b9fc86a8cb54e932f33df11052b",
+      "board": [
+        -1,
+        -1,
+        0,
+        1,
+        0,
+        1,
+        0,
+        1,
+        -1
+      ],
+      "history": [
+        3,
+        0,
+        5,
+        1,
+        7,
+        8
+      ],
+      "legal_children": 3,
+      "nonterminal_children": 2,
+      "ply": 6,
+      "public_terminal_children": 1
+    },
+    {
+      "available_hash": "2bad251d024e23ea6b56d6b35c70affb1914ee4caef1db650de329c3f746c0ba",
+      "board": [
+        -1,
+        1,
+        0,
+        1,
+        -1,
+        -1,
+        0,
+        1,
+        0
+      ],
+      "history": [
+        1,
+        0,
+        3,
+        4,
+        7,
+        5
+      ],
+      "legal_children": 3,
+      "nonterminal_children": 3,
+      "ply": 6,
+      "public_terminal_children": 0
+    },
+    {
+      "available_hash": "2cb0402257aa5dcee59fa7c1a7151d5f91e44c38fba5e76d3073e9bba8e8bb05",
+      "board": [
+        -1,
+        -1,
+        0,
+        0,
+        1,
+        0,
+        1,
+        -1,
+        1
+      ],
+      "history": [
+        4,
+        0,
+        6,
+        1,
+        8,
+        7
+      ],
+      "legal_children": 3,
+      "nonterminal_children": 2,
+      "ply": 6,
+      "public_terminal_children": 1
+    },
+    {
+      "available_hash": "378c995be28de5eb39ca89b5484b3f245ab0af6dcf86dbced4510a711de0ee76",
+      "board": [
+        -1,
+        -1,
+        1,
+        1,
+        0,
+        0,
+        0,
+        1,
+        -1
+      ],
+      "history": [
+        2,
+        0,
+        3,
+        1,
+        7,
+        8
+      ],
+      "legal_children": 3,
+      "nonterminal_children": 3,
+      "ply": 6,
+      "public_terminal_children": 0
+    },
+    {
+      "available_hash": "3b0d8107edb38c387e8563ed539af933bfc17e0dd9fcc67a3a2e2327d44a7c57",
+      "board": [
+        0,
+        -1,
+        1,
+        1,
+        -1,
+        -1,
+        0,
+        0,
+        1
+      ],
+      "history": [
+        2,
+        1,
+        3,
+        4,
+        8,
+        5
+      ],
+      "legal_children": 3,
+      "nonterminal_children": 3,
+      "ply": 6,
+      "public_terminal_children": 0
+    },
+    {
+      "available_hash": "3ba3e028198f42d7cb85969e533df60e279885ef5f8c6dac8ace8a1626a5f1bc",
+      "board": [
+        -1,
+        0,
+        1,
+        1,
+        0,
+        -1,
+        1,
+        -1,
+        0
+      ],
+      "history": [
+        2,
+        0,
+        3,
+        5,
+        6,
+        7
+      ],
+      "legal_children": 3,
+      "nonterminal_children": 2,
+      "ply": 6,
+      "public_terminal_children": 1
+    },
+    {
+      "available_hash": "3d810ec92cab1dc2db021f00693ef66b95933893f6a6ab4625a89b09b7a31f01",
+      "board": [
+        -1,
+        0,
+        1,
+        1,
+        0,
+        -1,
+        -1,
+        0,
+        1
+      ],
+      "history": [
+        2,
+        0,
+        3,
+        5,
+        8,
+        6
+      ],
+      "legal_children": 3,
+      "nonterminal_children": 3,
+      "ply": 6,
+      "public_terminal_children": 0
+    },
+    {
+      "available_hash": "3fcc4d0baa4920ba606246d027139accaaa55a178052c07846703e9197527e5b",
+      "board": [
+        -1,
+        -1,
+        1,
+        0,
+        0,
+        1,
+        0,
+        1,
+        -1
+      ],
+      "history": [
+        2,
+        0,
+        5,
+        1,
+        7,
+        8
+      ],
+      "legal_children": 3,
+      "nonterminal_children": 3,
+      "ply": 6,
+      "public_terminal_children": 0
+    },
+    {
+      "available_hash": "488962203432cfefffc93ede7da2cca32301c48c366af4d3cb4ed15c21557fd4",
+      "board": [
+        -1,
+        -1,
+        0,
+        0,
+        1,
+        1,
+        -1,
+        0,
+        1
+      ],
+      "history": [
+        4,
+        0,
+        5,
+        1,
+        8,
+        6
+      ],
+      "legal_children": 3,
+      "nonterminal_children": 1,
+      "ply": 6,
+      "public_terminal_children": 2
+    },
+    {
+      "available_hash": "4d3aa53c35d797ea50869a471850c65afc8efe1cf032176e8115e25518697374",
+      "board": [
+        -1,
+        -1,
+        0,
+        1,
+        -1,
+        0,
+        1,
+        1,
+        0
+      ],
+      "history": [
+        3,
+        0,
+        6,
+        1,
+        7,
+        4
+      ],
+      "legal_children": 3,
+      "nonterminal_children": 2,
+      "ply": 6,
+      "public_terminal_children": 1
+    },
+    {
+      "available_hash": "4eba82cc2376ece2180d9def6642dfcdf24bc2bb0c0b40fd7cceace8720326d2",
+      "board": [
+        -1,
+        0,
+        1,
+        0,
+        -1,
+        -1,
+        1,
+        1,
+        0
+      ],
+      "history": [
+        2,
+        0,
+        6,
+        4,
+        7,
+        5
+      ],
+      "legal_children": 3,
+      "nonterminal_children": 2,
+      "ply": 6,
+      "public_terminal_children": 1
+    },
+    {
+      "available_hash": "4ffe08e32008b4018ec339dd9c6aefed05f198cd4a12fd54851d6ff221c39805",
+      "board": [
+        -1,
+        -1,
+        1,
+        0,
+        1,
+        0,
+        0,
+        1,
+        -1
+      ],
+      "history": [
+        2,
+        0,
+        4,
+        1,
+        7,
+        8
+      ],
+      "legal_children": 3,
+      "nonterminal_children": 2,
+      "ply": 6,
+      "public_terminal_children": 1
+    },
+    {
+      "available_hash": "52499c5cc1ef271708a70077f703138818b50b710482f33ae81ccbd2dcaf8cbb",
+      "board": [
+        -1,
+        0,
+        0,
+        1,
+        -1,
+        -1,
+        0,
+        1,
+        1
+      ],
+      "history": [
+        3,
+        0,
+        7,
+        4,
+        8,
+        5
+      ],
+      "legal_children": 3,
+      "nonterminal_children": 2,
+      "ply": 6,
+      "public_terminal_children": 1
+    },
+    {
+      "available_hash": "534b4e0c8b654da91df6de9c3fed8ab48a2e9e2304c92c8d2c0a134926961f58",
+      "board": [
+        -1,
+        1,
+        0,
+        1,
+        -1,
+        -1,
+        1,
+        0,
+        0
+      ],
+      "history": [
+        1,
+        0,
+        3,
+        4,
+        6,
+        5
+      ],
+      "legal_children": 3,
+      "nonterminal_children": 3,
+      "ply": 6,
+      "public_terminal_children": 0
+    },
+    {
+      "available_hash": "57e3c4068d48db4b13601bc64fc156b0ff6338ed7823637e4e9c9939681e765b",
+      "board": [
+        -1,
+        -1,
+        0,
+        0,
+        1,
+        0,
+        -1,
+        1,
+        1
+      ],
+      "history": [
+        4,
+        0,
+        7,
+        1,
+        8,
+        6
+      ],
+      "legal_children": 3,
+      "nonterminal_children": 3,
+      "ply": 6,
+      "public_terminal_children": 0
+    },
+    {
+      "available_hash": "5ad34606761d939d70b8d7cac4d45f8d139c923266e5a416168eda653b1b3cfc",
+      "board": [
+        -1,
+        0,
+        1,
+        1,
+        -1,
+        -1,
+        0,
+        0,
+        1
+      ],
+      "history": [
+        2,
+        0,
+        3,
+        4,
+        8,
+        5
+      ],
+      "legal_children": 3,
+      "nonterminal_children": 3,
+      "ply": 6,
+      "public_terminal_children": 0
+    },
+    {
+      "available_hash": "5aea767f5a953c8c5ff38fb66209ccab717ae322075bc126a49ca9cbcbd92aa8",
+      "board": [
+        -1,
+        -1,
+        1,
+        0,
+        0,
+        1,
+        1,
+        0,
+        -1
+      ],
+      "history": [
+        2,
+        0,
+        5,
+        1,
+        6,
+        8
+      ],
+      "legal_children": 3,
+      "nonterminal_children": 2,
+      "ply": 6,
+      "public_terminal_children": 1
+    },
+    {
+      "available_hash": "5b51f56d2a7bfe0a7a3a7eb0de9ed34fde91f84b8dd6b536e59155dc64acabbf",
+      "board": [
+        -1,
+        0,
+        1,
+        1,
+        -1,
+        -1,
+        1,
+        0,
+        0
+      ],
+      "history": [
+        2,
+        0,
+        3,
+        4,
+        6,
+        5
+      ],
+      "legal_children": 3,
+      "nonterminal_children": 3,
+      "ply": 6,
+      "public_terminal_children": 0
+    },
+    {
+      "available_hash": "5c2492360239a1dcabc636aba90f30b190f3339794abb63ad98a5e512ace3ba6",
+      "board": [
+        -1,
+        -1,
+        0,
+        -1,
+        0,
+        1,
+        1,
+        1,
+        0
+      ],
+      "history": [
+        5,
+        0,
+        6,
+        1,
+        7,
+        3
+      ],
+      "legal_children": 3,
+      "nonterminal_children": 2,
+      "ply": 6,
+      "public_terminal_children": 1
+    },
+    {
+      "available_hash": "5f3a832c7fa44907e9c44cbd64bf016086b861056ca08271a5cd5ee495a97f43",
+      "board": [
+        -1,
+        1,
+        0,
+        1,
+        0,
+        -1,
+        1,
+        -1,
+        0
+      ],
+      "history": [
+        1,
+        0,
+        3,
+        5,
+        6,
+        7
+      ],
+      "legal_children": 3,
+      "nonterminal_children": 3,
+      "ply": 6,
+      "public_terminal_children": 0
+    },
+    {
+      "available_hash": "63e47224932ecd4a3ab35fe76700e056eb31fac3e72420d81b7bb5616b5799bb",
+      "board": [
+        -1,
+        0,
+        0,
+        1,
+        1,
+        -1,
+        -1,
+        1,
+        0
+      ],
+      "history": [
+        3,
+        0,
+        4,
+        5,
+        7,
+        6
+      ],
+      "legal_children": 3,
+      "nonterminal_children": 2,
+      "ply": 6,
+      "public_terminal_children": 1
+    },
+    {
+      "available_hash": "6548ab6b4951f03c6a770d6969d13c0ffa9b410089ce3551bb73acf8fa199206",
+      "board": [
+        -1,
+        -1,
+        0,
+        1,
+        0,
+        0,
+        1,
+        1,
+        -1
+      ],
+      "history": [
+        3,
+        0,
+        6,
+        1,
+        7,
+        8
+      ],
+      "legal_children": 3,
+      "nonterminal_children": 3,
+      "ply": 6,
+      "public_terminal_children": 0
+    },
+    {
+      "available_hash": "70dfe49bc8e13213921961743436eee545b17f23acd36012edd2ade3cc6d4b47",
+      "board": [
+        -1,
+        -1,
+        0,
+        0,
+        -1,
+        1,
+        1,
+        1,
+        0
+      ],
+      "history": [
+        5,
+        0,
+        6,
+        1,
+        7,
+        4
+      ],
+      "legal_children": 3,
+      "nonterminal_children": 2,
+      "ply": 6,
+      "public_terminal_children": 1
+    },
+    {
+      "available_hash": "71e8287626adc01c532be061db8663cd0d75cfa6c81143dbe28533e4be274a20",
+      "board": [
+        -1,
+        0,
+        1,
+        1,
+        -1,
+        -1,
+        0,
+        1,
+        0
+      ],
+      "history": [
+        2,
+        0,
+        3,
+        4,
+        7,
+        5
+      ],
+      "legal_children": 3,
+      "nonterminal_children": 3,
+      "ply": 6,
+      "public_terminal_children": 0
+    },
+    {
+      "available_hash": "7392810a3e8bba888a14a46d9a704be5f1231321a3f971346d56e7e577ab49b5",
+      "board": [
+        -1,
+        -1,
+        1,
+        0,
+        0,
+        -1,
+        1,
+        1,
+        0
+      ],
+      "history": [
+        2,
+        0,
+        6,
+        1,
+        7,
+        5
+      ],
+      "legal_children": 3,
+      "nonterminal_children": 1,
+      "ply": 6,
+      "public_terminal_children": 2
+    },
+    {
+      "available_hash": "7db8bcfdcfd14f8c470fa08ac08d74130e475d73b66af675220cf4b9e08f4f3d",
+      "board": [
+        -1,
+        0,
+        -1,
+        1,
+        -1,
+        1,
+        0,
+        1,
+        0
+      ],
+      "history": [
+        3,
+        0,
+        5,
+        2,
+        7,
+        4
+      ],
+      "legal_children": 3,
+      "nonterminal_children": 3,
+      "ply": 6,
+      "public_terminal_children": 0
+    },
+    {
+      "available_hash": "7fd7e3ac6961b94aa61b28dae99f25567a659e8ee73d8aaedf2adbaaafde93aa",
+      "board": [
+        -1,
+        -1,
+        0,
+        1,
+        1,
+        0,
+        0,
+        -1,
+        1
+      ],
+      "history": [
+        3,
+        0,
+        4,
+        1,
+        8,
+        7
+      ],
+      "legal_children": 3,
+      "nonterminal_children": 2,
+      "ply": 6,
+      "public_terminal_children": 1
+    },
+    {
+      "available_hash": "8695028156ed1545b9fc46aa516b05dc903abb2a71b11636cb98387fc0d95c9b",
+      "board": [
+        -1,
+        0,
+        1,
+        1,
+        1,
+        -1,
+        0,
+        -1,
+        0
+      ],
+      "history": [
+        2,
+        0,
+        3,
+        5,
+        4,
+        7
+      ],
+      "legal_children": 3,
+      "nonterminal_children": 2,
+      "ply": 6,
+      "public_terminal_children": 1
+    },
+    {
+      "available_hash": "86cbef25c1d54efaa082a001ce1b8016727f220c7d7b8d8284243594f604c6d8",
+      "board": [
+        -1,
+        -1,
+        1,
+        0,
+        1,
+        1,
+        0,
+        0,
+        -1
+      ],
+      "history": [
+        2,
+        0,
+        4,
+        1,
+        5,
+        8
+      ],
+      "legal_children": 3,
+      "nonterminal_children": 1,
+      "ply": 6,
+      "public_terminal_children": 2
+    },
+    {
+      "available_hash": "87488b5c33d02677c207769f5691fbd1256f3dd7ebca91d1fc9ea48f6418839c",
+      "board": [
+        -1,
+        0,
+        0,
+        1,
+        -1,
+        -1,
+        1,
+        1,
+        0
+      ],
+      "history": [
+        3,
+        0,
+        6,
+        4,
+        7,
+        5
+      ],
+      "legal_children": 3,
+      "nonterminal_children": 2,
+      "ply": 6,
+      "public_terminal_children": 1
+    },
+    {
+      "available_hash": "8d3571cc88443201f94d80f95aaa24bca6e8e71e9e55160a02293bf9e9e8d6f7",
+      "board": [
+        -1,
+        -1,
+        0,
+        0,
+        1,
+        1,
+        1,
+        -1,
+        0
+      ],
+      "history": [
+        4,
+        0,
+        5,
+        1,
+        6,
+        7
+      ],
+      "legal_children": 3,
+      "nonterminal_children": 1,
+      "ply": 6,
+      "public_terminal_children": 2
+    },
+    {
+      "available_hash": "8e956091ec25cb39a79b73ff497e226b081e0666ac74c0fc2d621ab789e33fc9",
+      "board": [
+        -1,
+        -1,
+        1,
+        1,
+        1,
+        0,
+        0,
+        0,
+        -1
+      ],
+      "history": [
+        2,
+        0,
+        3,
+        1,
+        4,
+        8
+      ],
+      "legal_children": 3,
+      "nonterminal_children": 1,
+      "ply": 6,
+      "public_terminal_children": 2
+    },
+    {
+      "available_hash": "903e1169c9a7900c132d0c0eb2d74e6ab0700848abee2bc03eca197b46ef13ad",
+      "board": [
+        -1,
+        -1,
+        0,
+        1,
+        -1,
+        0,
+        1,
+        0,
+        1
+      ],
+      "history": [
+        3,
+        0,
+        6,
+        1,
+        8,
+        4
+      ],
+      "legal_children": 3,
+      "nonterminal_children": 2,
+      "ply": 6,
+      "public_terminal_children": 1
+    },
+    {
+      "available_hash": "92c8e7a9a40379a704c21622b4f68a10e7aa1577755209245f5c59da3f3e56e4",
+      "board": [
+        -1,
+        0,
+        -1,
+        1,
+        0,
+        1,
+        0,
+        -1,
+        1
+      ],
+      "history": [
+        3,
+        0,
+        5,
+        2,
+        8,
+        7
+      ],
+      "legal_children": 3,
+      "nonterminal_children": 2,
+      "ply": 6,
+      "public_terminal_children": 1
+    },
+    {
+      "available_hash": "92fd87def42b7fd075e306e33c2d024935f3020d13407e58631d9645e3badc02",
+      "board": [
+        -1,
+        -1,
+        1,
+        1,
+        0,
+        0,
+        0,
+        -1,
+        1
+      ],
+      "history": [
+        2,
+        0,
+        3,
+        1,
+        8,
+        7
+      ],
+      "legal_children": 3,
+      "nonterminal_children": 2,
+      "ply": 6,
+      "public_terminal_children": 1
+    },
+    {
+      "available_hash": "9a874b3c4bca0504aab0997e461fa2c8cfb720482e5c6b1b07927311073c2891",
+      "board": [
+        -1,
+        -1,
+        0,
+        0,
+        1,
+        1,
+        0,
+        -1,
+        1
+      ],
+      "history": [
+        4,
+        0,
+        5,
+        1,
+        8,
+        7
+      ],
+      "legal_children": 3,
+      "nonterminal_children": 1,
+      "ply": 6,
+      "public_terminal_children": 2
+    },
+    {
+      "available_hash": "9c63e6815c7ce2b8259132fa8ffa69a2204daf280290d0069aca8d6479115f40",
+      "board": [
+        -1,
+        -1,
+        0,
+        0,
+        1,
+        -1,
+        0,
+        1,
+        1
+      ],
+      "history": [
+        4,
+        0,
+        7,
+        1,
+        8,
+        5
+      ],
+      "legal_children": 3,
+      "nonterminal_children": 2,
+      "ply": 6,
+      "public_terminal_children": 1
+    },
+    {
+      "available_hash": "9d26c6e7f83a89ff89707c70e63f2631532970dc60593af07ed6807329a7db0b",
+      "board": [
+        -1,
+        -1,
+        1,
+        1,
+        1,
+        -1,
+        0,
+        0,
+        0
+      ],
+      "history": [
+        2,
+        0,
+        3,
+        1,
+        4,
+        5
+      ],
+      "legal_children": 3,
+      "nonterminal_children": 2,
+      "ply": 6,
+      "public_terminal_children": 1
+    },
+    {
+      "available_hash": "9dff6ff1ce2b842cbdfc40e9ea0870ea85497843bc4fa2c3da5e668e6bfa0be3",
+      "board": [
+        0,
+        -1,
+        0,
+        -1,
+        1,
+        -1,
+        0,
+        1,
+        1
+      ],
+      "history": [
+        4,
+        1,
+        7,
+        3,
+        8,
+        5
+      ],
+      "legal_children": 3,
+      "nonterminal_children": 1,
+      "ply": 6,
+      "public_terminal_children": 2
+    },
+    {
+      "available_hash": "9ed988a315f4fa2b9c818cc2bb0b3dd4ad93c4afb6db9b85bba3310317228d81",
+      "board": [
+        0,
+        -1,
+        1,
+        0,
+        -1,
+        -1,
+        1,
+        1,
+        0
+      ],
+      "history": [
+        2,
+        1,
+        6,
+        4,
+        7,
+        5
+      ],
+      "legal_children": 3,
+      "nonterminal_children": 2,
+      "ply": 6,
+      "public_terminal_children": 1
+    },
+    {
+      "available_hash": "a5e2de62ff94d38c0cfc3e31f365aff2c2abfde14338743a0a39f1a11de8bbf5",
+      "board": [
+        0,
+        -1,
+        1,
+        -1,
+        -1,
+        0,
+        1,
+        1,
+        0
+      ],
+      "history": [
+        2,
+        1,
+        6,
+        3,
+        7,
+        4
+      ],
+      "legal_children": 3,
+      "nonterminal_children": 2,
+      "ply": 6,
+      "public_terminal_children": 1
+    },
+    {
+      "available_hash": "a7c151e2dfb5c1925d8044f2596f5b6069061017c9987b82dc2c91a96c22bda5",
+      "board": [
+        -1,
+        0,
+        0,
+        1,
+        1,
+        -1,
+        -1,
+        0,
+        1
+      ],
+      "history": [
+        3,
+        0,
+        4,
+        5,
+        8,
+        6
+      ],
+      "legal_children": 3,
+      "nonterminal_children": 3,
+      "ply": 6,
+      "public_terminal_children": 0
+    },
+    {
+      "available_hash": "a94dd9de5aa80e3b03d20efbb6522e6eea408779e05132a729c383df08232b46",
+      "board": [
+        -1,
+        -1,
+        1,
+        0,
+        1,
+        0,
+        -1,
+        0,
+        1
+      ],
+      "history": [
+        2,
+        0,
+        4,
+        1,
+        8,
+        6
+      ],
+      "legal_children": 3,
+      "nonterminal_children": 2,
+      "ply": 6,
+      "public_terminal_children": 1
+    },
+    {
+      "available_hash": "acb405e4df8f1119a5ca9d43be04fb1a9682b311470e509714b952a3349be298",
+      "board": [
+        -1,
+        0,
+        0,
+        1,
+        -1,
+        1,
+        0,
+        -1,
+        1
+      ],
+      "history": [
+        3,
+        0,
+        5,
+        4,
+        8,
+        7
+      ],
+      "legal_children": 3,
+      "nonterminal_children": 2,
+      "ply": 6,
+      "public_terminal_children": 1
+    },
+    {
+      "available_hash": "aef7131884994de80b1d9a850f70049f878eef5ad86c238317e33b2ed0c0efea",
+      "board": [
+        -1,
+        1,
+        -1,
+        1,
+        0,
+        1,
+        0,
+        -1,
+        0
+      ],
+      "history": [
+        1,
+        0,
+        3,
+        2,
+        5,
+        7
+      ],
+      "legal_children": 3,
+      "nonterminal_children": 2,
+      "ply": 6,
+      "public_terminal_children": 1
+    },
+    {
+      "available_hash": "b20d84d19787f696523d9111eb2eee696ca18c4ffd72b3d860f84bf398f259a0",
+      "board": [
+        -1,
+        -1,
+        0,
+        0,
+        1,
+        -1,
+        1,
+        1,
+        0
+      ],
+      "history": [
+        4,
+        0,
+        6,
+        1,
+        7,
+        5
+      ],
+      "legal_children": 3,
+      "nonterminal_children": 1,
+      "ply": 6,
+      "public_terminal_children": 2
+    },
+    {
+      "available_hash": "b4da6b6aa211098092387522552104a54bdf863cf24590a243dfd627c8e611b2",
+      "board": [
+        -1,
+        -1,
+        1,
+        0,
+        0,
+        0,
+        1,
+        -1,
+        1
+      ],
+      "history": [
+        2,
+        0,
+        6,
+        1,
+        8,
+        7
+      ],
+      "legal_children": 3,
+      "nonterminal_children": 1,
+      "ply": 6,
+      "public_terminal_children": 2
+    },
+    {
+      "available_hash": "bf215749d01ef7fd13dd1b7ec990fab02dc3c7da3662b78726a69ad428b848ef",
+      "board": [
+        -1,
+        -1,
+        0,
+        -1,
+        1,
+        0,
+        1,
+        0,
+        1
+      ],
+      "history": [
+        4,
+        0,
+        6,
+        1,
+        8,
+        3
+      ],
+      "legal_children": 3,
+      "nonterminal_children": 1,
+      "ply": 6,
+      "public_terminal_children": 2
+    },
+    {
+      "available_hash": "bf3821b18ab1231ad7dd8295df85d21ec5fcef980df3073c635939c77f42d265",
+      "board": [
+        -1,
+        0,
+        1,
+        1,
+        -1,
+        0,
+        0,
+        -1,
+        1
+      ],
+      "history": [
+        2,
+        0,
+        3,
+        4,
+        8,
+        7
+      ],
+      "legal_children": 3,
+      "nonterminal_children": 2,
+      "ply": 6,
+      "public_terminal_children": 1
+    },
+    {
+      "available_hash": "bf96bfca973f5b946b690915ca79bf67a272436c4bf5482e9d4edfd6a4d09415",
+      "board": [
+        -1,
+        -1,
+        0,
+        1,
+        1,
+        -1,
+        1,
+        0,
+        0
+      ],
+      "history": [
+        3,
+        0,
+        4,
+        1,
+        6,
+        5
+      ],
+      "legal_children": 3,
+      "nonterminal_children": 2,
+      "ply": 6,
+      "public_terminal_children": 1
+    },
+    {
+      "available_hash": "c4cc73d7c1e3cb6d68957a51509f6e86174c414eabdb04bef5f44badcc0de1a7",
+      "board": [
+        -1,
+        -1,
+        1,
+        1,
+        0,
+        0,
+        1,
+        -1,
+        0
+      ],
+      "history": [
+        2,
+        0,
+        3,
+        1,
+        6,
+        7
+      ],
+      "legal_children": 3,
+      "nonterminal_children": 2,
+      "ply": 6,
+      "public_terminal_children": 1
+    },
+    {
+      "available_hash": "c63bef96879eec11f44721fb29938c444399ade608bd696c8bdc32751afb77d8",
+      "board": [
+        -1,
+        0,
+        0,
+        1,
+        1,
+        0,
+        -1,
+        1,
+        -1
+      ],
+      "history": [
+        3,
+        0,
+        4,
+        6,
+        7,
+        8
+      ],
+      "legal_children": 3,
+      "nonterminal_children": 1,
+      "ply": 6,
+      "public_terminal_children": 2
+    },
+    {
+      "available_hash": "c8189af988dfcf6a3c92c23171a478a4262ce9ca9317e171f0089f46cc1f2a7c",
+      "board": [
+        0,
+        -1,
+        0,
+        -1,
+        1,
+        0,
+        1,
+        -1,
+        1
+      ],
+      "history": [
+        4,
+        1,
+        6,
+        3,
+        8,
+        7
+      ],
+      "legal_children": 3,
+      "nonterminal_children": 1,
+      "ply": 6,
+      "public_terminal_children": 2
+    },
+    {
+      "available_hash": "c8ac170c936e64d3a69862c2c8480012a1645903e9369dbe72d734573461f53c",
+      "board": [
+        -1,
+        -1,
+        0,
+        1,
+        0,
+        0,
+        -1,
+        1,
+        1
+      ],
+      "history": [
+        3,
+        0,
+        7,
+        1,
+        8,
+        6
+      ],
+      "legal_children": 3,
+      "nonterminal_children": 3,
+      "ply": 6,
+      "public_terminal_children": 0
+    },
+    {
+      "available_hash": "cc22bb5bec46f822eb49c9ea183e2d0922b00a1c29e3ac7771cf65be2b33cae9",
+      "board": [
+        -1,
+        0,
+        0,
+        1,
+        -1,
+        1,
+        -1,
+        1,
+        0
+      ],
+      "history": [
+        3,
+        0,
+        5,
+        4,
+        7,
+        6
+      ],
+      "legal_children": 3,
+      "nonterminal_children": 3,
+      "ply": 6,
+      "public_terminal_children": 0
+    },
+    {
+      "available_hash": "cc2907ced1324aa8faefdef71fc6bc94aa5af3b9ad26a1451f15465a99317900",
+      "board": [
+        -1,
+        -1,
+        0,
+        0,
+        1,
+        1,
+        1,
+        0,
+        -1
+      ],
+      "history": [
+        4,
+        0,
+        5,
+        1,
+        6,
+        8
+      ],
+      "legal_children": 3,
+      "nonterminal_children": 1,
+      "ply": 6,
+      "public_terminal_children": 2
+    },
+    {
+      "available_hash": "d429ac00711dc6b7659a013d42e2d23207b57c9ddb0141b9180a587e5c65d633",
+      "board": [
+        -1,
+        -1,
+        0,
+        1,
+        1,
+        0,
+        1,
+        0,
+        -1
+      ],
+      "history": [
+        3,
+        0,
+        4,
+        1,
+        6,
+        8
+      ],
+      "legal_children": 3,
+      "nonterminal_children": 1,
+      "ply": 6,
+      "public_terminal_children": 2
+    },
+    {
+      "available_hash": "d51400a3681bbf39a599fb081bd609bdc9657504d06290d268b0b2a7f0a4487a",
+      "board": [
+        -1,
+        0,
+        -1,
+        0,
+        1,
+        1,
+        1,
+        -1,
+        0
+      ],
+      "history": [
+        4,
+        0,
+        5,
+        2,
+        6,
+        7
+      ],
+      "legal_children": 3,
+      "nonterminal_children": 2,
+      "ply": 6,
+      "public_terminal_children": 1
+    },
+    {
+      "available_hash": "d51e78ae64248fb7e9cfabe1761c9f1cd1d9256ec6303e5647af295aa265fce4",
+      "board": [
+        -1,
+        0,
+        -1,
+        0,
+        1,
+        1,
+        0,
+        1,
+        -1
+      ],
+      "history": [
+        4,
+        0,
+        5,
+        2,
+        7,
+        8
+      ],
+      "legal_children": 3,
+      "nonterminal_children": 1,
+      "ply": 6,
+      "public_terminal_children": 2
+    },
+    {
+      "available_hash": "d68d88adf85ba543eb2a96594c91f324803c7b75e2f5025304200fc262d7bb74",
+      "board": [
+        -1,
+        0,
+        0,
+        1,
+        1,
+        -1,
+        0,
+        -1,
+        1
+      ],
+      "history": [
+        3,
+        0,
+        4,
+        5,
+        8,
+        7
+      ],
+      "legal_children": 3,
+      "nonterminal_children": 3,
+      "ply": 6,
+      "public_terminal_children": 0
+    },
+    {
+      "available_hash": "d8ed6372841245c171f6f966f75f492d323cdda096807ed7ba09924dcd847827",
+      "board": [
+        -1,
+        0,
+        -1,
+        1,
+        0,
+        1,
+        -1,
+        0,
+        1
+      ],
+      "history": [
+        3,
+        0,
+        5,
+        2,
+        8,
+        6
+      ],
+      "legal_children": 3,
+      "nonterminal_children": 2,
+      "ply": 6,
+      "public_terminal_children": 1
+    },
+    {
+      "available_hash": "e2fc666cd0d1b63915a17f55871de3a8f826c6eee74b2d3a213e61faa6a83494",
+      "board": [
+        0,
+        -1,
+        1,
+        -1,
+        0,
+        -1,
+        1,
+        1,
+        0
+      ],
+      "history": [
+        2,
+        1,
+        6,
+        3,
+        7,
+        5
+      ],
+      "legal_children": 3,
+      "nonterminal_children": 1,
+      "ply": 6,
+      "public_terminal_children": 2
+    },
+    {
+      "available_hash": "e349a0b484763ebe266897ccc96bcb3439a8b35d29fce2e4010cf9babb8a9f68",
+      "board": [
+        -1,
+        0,
+        0,
+        1,
+        -1,
+        1,
+        -1,
+        0,
+        1
+      ],
+      "history": [
+        3,
+        0,
+        5,
+        4,
+        8,
+        6
+      ],
+      "legal_children": 3,
+      "nonterminal_children": 2,
+      "ply": 6,
+      "public_terminal_children": 1
+    },
+    {
+      "available_hash": "edc1e32747538490a86909c67cf739a75e8e909d4d4d943ced722c648e9d17e6",
+      "board": [
+        -1,
+        -1,
+        1,
+        0,
+        -1,
+        0,
+        1,
+        1,
+        0
+      ],
+      "history": [
+        2,
+        0,
+        6,
+        1,
+        7,
+        4
+      ],
+      "legal_children": 3,
+      "nonterminal_children": 2,
+      "ply": 6,
+      "public_terminal_children": 1
+    },
+    {
+      "available_hash": "eec0a3d20bc3c8c927daa3003c10a281c802dc50baeb41a39d6578193a5b138d",
+      "board": [
+        -1,
+        -1,
+        0,
+        0,
+        -1,
+        1,
+        0,
+        1,
+        1
+      ],
+      "history": [
+        5,
+        0,
+        7,
+        1,
+        8,
+        4
+      ],
+      "legal_children": 3,
+      "nonterminal_children": 1,
+      "ply": 6,
+      "public_terminal_children": 2
+    },
+    {
+      "available_hash": "eef30a5431e3467005a19f8ca11c31efd5e7a4c73012ae9bc1366cd58dac3888",
+      "board": [
+        -1,
+        -1,
+        0,
+        1,
+        0,
+        -1,
+        0,
+        1,
+        1
+      ],
+      "history": [
+        3,
+        0,
+        7,
+        1,
+        8,
+        5
+      ],
+      "legal_children": 3,
+      "nonterminal_children": 2,
+      "ply": 6,
+      "public_terminal_children": 1
+    },
+    {
+      "available_hash": "f359e095ff4e0a5b66892ea81645b1237bb14c9f58bc890ea3b5919d55ef4165",
+      "board": [
+        -1,
+        -1,
+        1,
+        0,
+        1,
+        0,
+        0,
+        -1,
+        1
+      ],
+      "history": [
+        2,
+        0,
+        4,
+        1,
+        8,
+        7
+      ],
+      "legal_children": 3,
+      "nonterminal_children": 1,
+      "ply": 6,
+      "public_terminal_children": 2
+    },
+    {
+      "available_hash": "f6f4235ffd81591ba455580faba6bd654a926c17c5aa1062073230a44140f6db",
+      "board": [
+        -1,
+        1,
+        0,
+        1,
+        -1,
+        -1,
+        0,
+        0,
+        1
+      ],
+      "history": [
+        1,
+        0,
+        3,
+        4,
+        8,
+        5
+      ],
+      "legal_children": 3,
+      "nonterminal_children": 3,
+      "ply": 6,
+      "public_terminal_children": 0
+    },
+    {
+      "available_hash": "f972f9153a0e935c9496e33992056a34232eeed5c89aae94d9b819c311d1194b",
+      "board": [
+        -1,
+        0,
+        -1,
+        0,
+        -1,
+        1,
+        1,
+        1,
+        0
+      ],
+      "history": [
+        5,
+        0,
+        6,
+        2,
+        7,
+        4
+      ],
+      "legal_children": 3,
+      "nonterminal_children": 2,
+      "ply": 6,
+      "public_terminal_children": 1
+    },
+    {
+      "available_hash": "fbf0caf8dc4f6e23c8e2960eeeaea709c0cdee59eb1d2e17b299a8e48c745e38",
+      "board": [
+        -1,
+        -1,
+        1,
+        0,
+        -1,
+        0,
+        0,
+        1,
+        1
+      ],
+      "history": [
+        2,
+        0,
+        7,
+        1,
+        8,
+        4
+      ],
+      "legal_children": 3,
+      "nonterminal_children": 1,
+      "ply": 6,
+      "public_terminal_children": 2
+    },
+    {
+      "available_hash": "fe01f0130cee0b1604bd6291f3474377e07acaf3ca5e4e3408ae70f4fd0505c7",
+      "board": [
+        -1,
+        -1,
+        1,
+        0,
+        1,
+        -1,
+        0,
+        1,
+        0
+      ],
+      "history": [
+        2,
+        0,
+        4,
+        1,
+        7,
+        5
+      ],
+      "legal_children": 3,
+      "nonterminal_children": 2,
+      "ply": 6,
+      "public_terminal_children": 1
+    },
+    {
+      "available_hash": "ffd8345cd6063dde85d0622f85703c9b05d1081ac222e92d2c4a8f482ee8f568",
+      "board": [
+        -1,
+        -1,
+        1,
+        1,
+        0,
+        0,
+        -1,
+        1,
+        0
+      ],
+      "history": [
+        2,
+        0,
+        3,
+        1,
+        7,
+        6
+      ],
+      "legal_children": 3,
+      "nonterminal_children": 3,
+      "ply": 6,
+      "public_terminal_children": 0
+    },
+    {
+      "available_hash": "03b9f522d5c590cb22b78fec9ecfd1699d7e2def895f55b0109c01b88e3f9b3e",
+      "board": [
+        -1,
+        -1,
+        1,
+        1,
+        1,
+        0,
+        0,
+        1,
+        -1
+      ],
+      "history": [
+        2,
+        0,
+        3,
+        1,
+        4,
+        8,
+        7
+      ],
+      "legal_children": 2,
+      "nonterminal_children": 2,
+      "ply": 7,
+      "public_terminal_children": 0
+    },
+    {
+      "available_hash": "0531c4e4b75d9648034c85cc7b36d7ab464aa384822444344c05d3c0a6fe3907",
+      "board": [
+        -1,
+        -1,
+        0,
+        -1,
+        1,
+        1,
+        1,
+        0,
+        1
+      ],
+      "history": [
+        4,
+        0,
+        5,
+        1,
+        6,
+        3,
+        8
+      ],
+      "legal_children": 2,
+      "nonterminal_children": 1,
+      "ply": 7,
+      "public_terminal_children": 1
+    },
+    {
+      "available_hash": "06ced9abe5b455b8e9703fb40ac521b55db529b03109f0b5ae80414b5a45c50f",
+      "board": [
+        -1,
+        0,
+        1,
+        1,
+        -1,
+        1,
+        1,
+        -1,
+        0
+      ],
+      "history": [
+        2,
+        0,
+        3,
+        4,
+        5,
+        7,
+        6
+      ],
+      "legal_children": 2,
+      "nonterminal_children": 0,
+      "ply": 7,
+      "public_terminal_children": 2
+    },
+    {
+      "available_hash": "0ea0c7b9f91225a8274f561d4f10678ec6d8074ec79e8025c50a8de3a9b7cb2e",
+      "board": [
+        -1,
+        1,
+        -1,
+        1,
+        0,
+        1,
+        0,
+        -1,
+        1
+      ],
+      "history": [
+        1,
+        0,
+        3,
+        2,
+        5,
+        7,
+        8
+      ],
+      "legal_children": 2,
+      "nonterminal_children": 2,
+      "ply": 7,
+      "public_terminal_children": 0
+    },
+    {
+      "available_hash": "0ff9a7943864419e31faaffb4b679cef91dae7f8922331ae05f0033d0e43d40f",
+      "board": [
+        -1,
+        1,
+        0,
+        1,
+        -1,
+        1,
+        1,
+        -1,
+        0
+      ],
+      "history": [
+        1,
+        0,
+        3,
+        4,
+        5,
+        7,
+        6
+      ],
+      "legal_children": 2,
+      "nonterminal_children": 1,
+      "ply": 7,
+      "public_terminal_children": 1
+    },
+    {
+      "available_hash": "13240b936cc5660559a583ef3db4f4f8074490915675497c938b9542cff07517",
+      "board": [
+        -1,
+        -1,
+        0,
+        1,
+        -1,
+        1,
+        0,
+        1,
+        1
+      ],
+      "history": [
+        3,
+        0,
+        5,
+        1,
+        7,
+        4,
+        8
+      ],
+      "legal_children": 2,
+      "nonterminal_children": 1,
+      "ply": 7,
+      "public_terminal_children": 1
+    },
+    {
+      "available_hash": "17050f42b211e450f6118b99055e124ece791406c7ebfa1cb81397f55d5ab05f",
+      "board": [
+        -1,
+        -1,
+        0,
+        1,
+        1,
+        0,
+        1,
+        1,
+        -1
+      ],
+      "history": [
+        3,
+        0,
+        4,
+        1,
+        6,
+        8,
+        7
+      ],
+      "legal_children": 2,
+      "nonterminal_children": 1,
+      "ply": 7,
+      "public_terminal_children": 1
+    },
+    {
+      "available_hash": "19252c314911d4c50d17c7e1b550cf284450bdcfa0bd78c33ae8780a0ed61073",
+      "board": [
+        -1,
+        1,
+        -1,
+        1,
+        -1,
+        1,
+        0,
+        1,
+        0
+      ],
+      "history": [
+        1,
+        0,
+        3,
+        2,
+        5,
+        4,
+        7
+      ],
+      "legal_children": 2,
+      "nonterminal_children": 0,
+      "ply": 7,
+      "public_terminal_children": 2
+    },
+    {
+      "available_hash": "1a78ff79b3152753dc1b8665e4ac993ea0d4442853a8c0f5fa4813d7e0f10437",
+      "board": [
+        -1,
+        -1,
+        0,
+        1,
+        -1,
+        1,
+        1,
+        0,
+        1
+      ],
+      "history": [
+        3,
+        0,
+        5,
+        1,
+        6,
+        4,
+        8
+      ],
+      "legal_children": 2,
+      "nonterminal_children": 0,
+      "ply": 7,
+      "public_terminal_children": 2
+    },
+    {
+      "available_hash": "1b2da2010e9709d0c6719cbc1ab2ec8f8fcf3e5b234b559478a0b55d0d13efe3",
+      "board": [
+        -1,
+        0,
+        1,
+        1,
+        0,
+        -1,
+        -1,
+        1,
+        1
+      ],
+      "history": [
+        2,
+        0,
+        3,
+        5,
+        7,
+        6,
+        8
+      ],
+      "legal_children": 2,
+      "nonterminal_children": 2,
+      "ply": 7,
+      "public_terminal_children": 0
+    },
+    {
+      "available_hash": "2302d032f44bd8a2c18b09c6d4cc4800ca74a645541592363241962c18fda88e",
+      "board": [
+        -1,
+        1,
+        1,
+        1,
+        0,
+        -1,
+        1,
+        -1,
+        0
+      ],
+      "history": [
+        1,
+        0,
+        2,
+        5,
+        3,
+        7,
+        6
+      ],
+      "legal_children": 2,
+      "nonterminal_children": 2,
+      "ply": 7,
+      "public_terminal_children": 0
+    },
+    {
+      "available_hash": "25b6c7619271e0d4c05fcafdc882b72358e0ccbac0c708e36313c1e0d0839645",
+      "board": [
+        -1,
+        0,
+        1,
+        1,
+        -1,
+        -1,
+        0,
+        1,
+        1
+      ],
+      "history": [
+        2,
+        0,
+        3,
+        4,
+        7,
+        5,
+        8
+      ],
+      "legal_children": 2,
+      "nonterminal_children": 2,
+      "ply": 7,
+      "public_terminal_children": 0
+    },
+    {
+      "available_hash": "25ff88323e90dc8758b81decc3b4e191152a47f5cb736c77fb56632f930badf3",
+      "board": [
+        -1,
+        -1,
+        1,
+        1,
+        0,
+        -1,
+        1,
+        1,
+        0
+      ],
+      "history": [
+        2,
+        0,
+        3,
+        1,
+        6,
+        5,
+        7
+      ],
+      "legal_children": 2,
+      "nonterminal_children": 2,
+      "ply": 7,
+      "public_terminal_children": 0
+    },
+    {
+      "available_hash": "2670459ab4601876de94eef3278f3d0ecadb5898e96776e874954b88d10b7bf9",
+      "board": [
+        0,
+        0,
+        1,
+        1,
+        -1,
+        -1,
+        1,
+        -1,
+        1
+      ],
+      "history": [
+        2,
+        4,
+        3,
+        5,
+        6,
+        7,
+        8
+      ],
+      "legal_children": 2,
+      "nonterminal_children": 1,
+      "ply": 7,
+      "public_terminal_children": 1
+    },
+    {
+      "available_hash": "2842ba1da284fedf9e60c10dd753e84f9c1134649a9717ab6332e7cbbbd3969f",
+      "board": [
+        -1,
+        0,
+        0,
+        1,
+        -1,
+        1,
+        1,
+        -1,
+        1
+      ],
+      "history": [
+        3,
+        0,
+        5,
+        4,
+        6,
+        7,
+        8
+      ],
+      "legal_children": 2,
+      "nonterminal_children": 1,
+      "ply": 7,
+      "public_terminal_children": 1
+    },
+    {
+      "available_hash": "29ee0ae222d2808986296e6caad70e562f80aba90f9b61f2db58348bcbadde56",
+      "board": [
+        -1,
+        0,
+        -1,
+        0,
+        1,
+        1,
+        1,
+        1,
+        -1
+      ],
+      "history": [
+        4,
+        0,
+        5,
+        2,
+        6,
+        8,
+        7
+      ],
+      "legal_children": 2,
+      "nonterminal_children": 1,
+      "ply": 7,
+      "public_terminal_children": 1
+    },
+    {
+      "available_hash": "2caacdb05598dbcb60f1565dc3fcd01dab87d9e0447bc978f5f6c8c2817c9ba1",
+      "board": [
+        -1,
+        -1,
+        0,
+        1,
+        1,
+        -1,
+        0,
+        1,
+        1
+      ],
+      "history": [
+        3,
+        0,
+        4,
+        1,
+        7,
+        5,
+        8
+      ],
+      "legal_children": 2,
+      "nonterminal_children": 1,
+      "ply": 7,
+      "public_terminal_children": 1
+    },
+    {
+      "available_hash": "32d37488b1528e2bcc42d58afe9611ed21e16eae67358c9cf82744155a38a051",
+      "board": [
+        -1,
+        0,
+        0,
+        1,
+        -1,
+        1,
+        -1,
+        1,
+        1
+      ],
+      "history": [
+        3,
+        0,
+        5,
+        4,
+        7,
+        6,
+        8
+      ],
+      "legal_children": 2,
+      "nonterminal_children": 1,
+      "ply": 7,
+      "public_terminal_children": 1
+    },
+    {
+      "available_hash": "38e24c3eb8269dd15e12a4b302a4d0c319513d8f11367946eb383d222ef5a023",
+      "board": [
+        -1,
+        -1,
+        0,
+        1,
+        1,
+        -1,
+        1,
+        1,
+        0
+      ],
+      "history": [
+        3,
+        0,
+        4,
+        1,
+        6,
+        5,
+        7
+      ],
+      "legal_children": 2,
+      "nonterminal_children": 1,
+      "ply": 7,
+      "public_terminal_children": 1
+    },
+    {
+      "available_hash": "39e6d464b86481ad894c97de0406c2417579257361ffc900bed9ce64338611d7",
+      "board": [
+        -1,
+        0,
+        1,
+        1,
+        0,
+        -1,
+        1,
+        -1,
+        1
+      ],
+      "history": [
+        2,
+        0,
+        3,
+        5,
+        6,
+        7,
+        8
+      ],
+      "legal_children": 2,
+      "nonterminal_children": 2,
+      "ply": 7,
+      "public_terminal_children": 0
+    },
+    {
+      "available_hash": "3a557de54619b024adc5b6daad65c16dcd740a60e30fe91cf3ef29ce2b93e3e7",
+      "board": [
+        -1,
+        1,
+        1,
+        1,
+        -1,
+        -1,
+        1,
+        0,
+        0
+      ],
+      "history": [
+        1,
+        0,
+        2,
+        4,
+        3,
+        5,
+        6
+      ],
+      "legal_children": 2,
+      "nonterminal_children": 1,
+      "ply": 7,
+      "public_terminal_children": 1
+    },
+    {
+      "available_hash": "3c918aa12a3238f0902ab77c8f23e5a8ad5242354ae545a91f66153da108584a",
+      "board": [
+        -1,
+        -1,
+        1,
+        1,
+        1,
+        0,
+        -1,
+        0,
+        1
+      ],
+      "history": [
+        2,
+        0,
+        3,
+        1,
+        4,
+        6,
+        8
+      ],
+      "legal_children": 2,
+      "nonterminal_children": 2,
+      "ply": 7,
+      "public_terminal_children": 0
+    },
+    {
+      "available_hash": "3ca86c4e3dc1f8987e3011222e7159583cd41f446f2bd2371dc365d5e8139aa5",
+      "board": [
+        -1,
+        0,
+        1,
+        1,
+        1,
+        -1,
+        0,
+        -1,
+        1
+      ],
+      "history": [
+        2,
+        0,
+        3,
+        5,
+        4,
+        7,
+        8
+      ],
+      "legal_children": 2,
+      "nonterminal_children": 2,
+      "ply": 7,
+      "public_terminal_children": 0
+    },
+    {
+      "available_hash": "3ce78153334bd95853d76550708417c02b2352e2bb477845d0a8a304d8352ca7",
+      "board": [
+        -1,
+        1,
+        0,
+        1,
+        -1,
+        -1,
+        0,
+        1,
+        1
+      ],
+      "history": [
+        1,
+        0,
+        3,
+        4,
+        7,
+        5,
+        8
+      ],
+      "legal_children": 2,
+      "nonterminal_children": 2,
+      "ply": 7,
+      "public_terminal_children": 0
+    },
+    {
+      "available_hash": "3e12dde2cf69606334aaeb3cc20e9c3d52f7fccd5f8928117da18287d1f702cc",
+      "board": [
+        -1,
+        1,
+        -1,
+        1,
+        0,
+        1,
+        -1,
+        1,
+        0
+      ],
+      "history": [
+        1,
+        0,
+        3,
+        2,
+        5,
+        6,
+        7
+      ],
+      "legal_children": 2,
+      "nonterminal_children": 1,
+      "ply": 7,
+      "public_terminal_children": 1
+    },
+    {
+      "available_hash": "3edf768e2133637ffb9f82aa4b1c76ad890faa0627dfd4e383b14126c5b27f88",
+      "board": [
+        -1,
+        1,
+        -1,
+        1,
+        -1,
+        1,
+        0,
+        0,
+        1
+      ],
+      "history": [
+        1,
+        0,
+        3,
+        2,
+        5,
+        4,
+        8
+      ],
+      "legal_children": 2,
+      "nonterminal_children": 1,
+      "ply": 7,
+      "public_terminal_children": 1
+    },
+    {
+      "available_hash": "443654eb59f468740d46364462e0960c78ef8ddc862ed1416d95999453a32b9b",
+      "board": [
+        -1,
+        -1,
+        1,
+        1,
+        0,
+        1,
+        0,
+        1,
+        -1
+      ],
+      "history": [
+        2,
+        0,
+        3,
+        1,
+        5,
+        8,
+        7
+      ],
+      "legal_children": 2,
+      "nonterminal_children": 1,
+      "ply": 7,
+      "public_terminal_children": 1
+    },
+    {
+      "available_hash": "45faf7d6c685a20cca4e31b1942f0147c28028f5467514788effc1d34e2e4609",
+      "board": [
+        -1,
+        0,
+        1,
+        1,
+        -1,
+        -1,
+        1,
+        1,
+        0
+      ],
+      "history": [
+        2,
+        0,
+        3,
+        4,
+        6,
+        5,
+        7
+      ],
+      "legal_children": 2,
+      "nonterminal_children": 1,
+      "ply": 7,
+      "public_terminal_children": 1
+    },
+    {
+      "available_hash": "4b8c79639e4dcf04bff0bc497d86e271ed9087df200c9b0087b01c0963b26c3e",
+      "board": [
+        -1,
+        0,
+        1,
+        1,
+        -1,
+        0,
+        1,
+        -1,
+        1
+      ],
+      "history": [
+        2,
+        0,
+        3,
+        4,
+        6,
+        7,
+        8
+      ],
+      "legal_children": 2,
+      "nonterminal_children": 1,
+      "ply": 7,
+      "public_terminal_children": 1
+    },
+    {
+      "available_hash": "4bdcacadbd35bdc7ffc5776ee0245dbff4f264ed91dd939d727646c4389b4d2a",
+      "board": [
+        0,
+        -1,
+        1,
+        1,
+        -1,
+        -1,
+        1,
+        0,
+        1
+      ],
+      "history": [
+        2,
+        1,
+        3,
+        4,
+        6,
+        5,
+        8
+      ],
+      "legal_children": 2,
+      "nonterminal_children": 1,
+      "ply": 7,
+      "public_terminal_children": 1
+    },
+    {
+      "available_hash": "4c0929c7d5f789d1cea6c2bc44a3fb3b3f04426083704a5b4b620776adbe8de9",
+      "board": [
+        -1,
+        0,
+        1,
+        1,
+        -1,
+        1,
+        -1,
+        1,
+        0
+      ],
+      "history": [
+        2,
+        0,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "legal_children": 2,
+      "nonterminal_children": 1,
+      "ply": 7,
+      "public_terminal_children": 1
+    },
+    {
+      "available_hash": "53d3a22c41b9b83ba2bbf6c80586d77096637af9d2c4c60a5d918ea05bc9b2e7",
+      "board": [
+        -1,
+        -1,
+        1,
+        1,
+        1,
+        -1,
+        0,
+        1,
+        0
+      ],
+      "history": [
+        2,
+        0,
+        3,
+        1,
+        4,
+        5,
+        7
+      ],
+      "legal_children": 2,
+      "nonterminal_children": 2,
+      "ply": 7,
+      "public_terminal_children": 0
+    },
+    {
+      "available_hash": "5492c3c8beeb71d8ae96a05d76b21bc248202bf08f842a9516af07e5ec5e0bde",
+      "board": [
+        -1,
+        0,
+        1,
+        1,
+        1,
+        0,
+        -1,
+        1,
+        -1
+      ],
+      "history": [
+        2,
+        0,
+        3,
+        6,
+        4,
+        8,
+        7
+      ],
+      "legal_children": 2,
+      "nonterminal_children": 2,
+      "ply": 7,
+      "public_terminal_children": 0
+    },
+    {
+      "available_hash": "580c22cd57d2a2108e7a0dc2aaf52c5708ea0b151118ef3338997d77a58a8885",
+      "board": [
+        -1,
+        0,
+        -1,
+        1,
+        -1,
+        1,
+        0,
+        1,
+        1
+      ],
+      "history": [
+        3,
+        0,
+        5,
+        2,
+        7,
+        4,
+        8
+      ],
+      "legal_children": 2,
+      "nonterminal_children": 0,
+      "ply": 7,
+      "public_terminal_children": 2
+    },
+    {
+      "available_hash": "59f81a7987e487e1de44d193bf2e867a0606b1fe3522a938e71d73ddb89a4047",
+      "board": [
+        -1,
+        -1,
+        1,
+        1,
+        0,
+        1,
+        1,
+        -1,
+        0
+      ],
+      "history": [
+        2,
+        0,
+        3,
+        1,
+        5,
+        7,
+        6
+      ],
+      "legal_children": 2,
+      "nonterminal_children": 1,
+      "ply": 7,
+      "public_terminal_children": 1
+    },
+    {
+      "available_hash": "5facb973e91a041cee4777dc409bc3bdcc4211f0dd0ec86c274bbf51ab379889",
+      "board": [
+        -1,
+        0,
+        -1,
+        1,
+        0,
+        1,
+        -1,
+        1,
+        1
+      ],
+      "history": [
+        3,
+        0,
+        5,
+        2,
+        7,
+        6,
+        8
+      ],
+      "legal_children": 2,
+      "nonterminal_children": 0,
+      "ply": 7,
+      "public_terminal_children": 2
+    },
+    {
+      "available_hash": "60f4d39965505a021696365573e724073b476e50e3309ba1551e6eda0a521175",
+      "board": [
+        -1,
+        -1,
+        0,
+        1,
+        1,
+        0,
+        1,
+        -1,
+        1
+      ],
+      "history": [
+        3,
+        0,
+        4,
+        1,
+        6,
+        7,
+        8
+      ],
+      "legal_children": 2,
+      "nonterminal_children": 1,
+      "ply": 7,
+      "public_terminal_children": 1
+    },
+    {
+      "available_hash": "623b9d96ec51b5f2fb7a2f491f1da83bbc7b0d417a486c4c6e0717b2dbcce10a",
+      "board": [
+        -1,
+        -1,
+        1,
+        1,
+        -1,
+        0,
+        0,
+        1,
+        1
+      ],
+      "history": [
+        2,
+        0,
+        3,
+        1,
+        7,
+        4,
+        8
+      ],
+      "legal_children": 2,
+      "nonterminal_children": 2,
+      "ply": 7,
+      "public_terminal_children": 0
+    },
+    {
+      "available_hash": "68b10f5cc7142b2e539333b3cc8bdc6a6e5d963f61211c13016d235ee583a577",
+      "board": [
+        -1,
+        -1,
+        0,
+        1,
+        0,
+        1,
+        -1,
+        1,
+        1
+      ],
+      "history": [
+        3,
+        0,
+        5,
+        1,
+        7,
+        6,
+        8
+      ],
+      "legal_children": 2,
+      "nonterminal_children": 1,
+      "ply": 7,
+      "public_terminal_children": 1
+    },
+    {
+      "available_hash": "6b7e19b4ea8316d6a4498e5035c89e486bbc1e46c089a3df72eeebb1a2eb2981",
+      "board": [
+        -1,
+        -1,
+        0,
+        1,
+        0,
+        1,
+        1,
+        -1,
+        1
+      ],
+      "history": [
+        3,
+        0,
+        5,
+        1,
+        6,
+        7,
+        8
+      ],
+      "legal_children": 2,
+      "nonterminal_children": 0,
+      "ply": 7,
+      "public_terminal_children": 2
+    },
+    {
+      "available_hash": "6c01d782e518f86bbe6d66cb235837069246c931455b53a71fd3128fe4c10e36",
+      "board": [
+        -1,
+        -1,
+        1,
+        1,
+        -1,
+        0,
+        1,
+        1,
+        0
+      ],
+      "history": [
+        2,
+        0,
+        3,
+        1,
+        6,
+        4,
+        7
+      ],
+      "legal_children": 2,
+      "nonterminal_children": 1,
+      "ply": 7,
+      "public_terminal_children": 1
+    },
+    {
+      "available_hash": "6df9ce19ae0c4f68010011d5c91f2b295a2d4d256de8b542a77edb932e7386db",
+      "board": [
+        -1,
+        -1,
+        0,
+        1,
+        -1,
+        1,
+        1,
+        1,
+        0
+      ],
+      "history": [
+        3,
+        0,
+        5,
+        1,
+        6,
+        4,
+        7
+      ],
+      "legal_children": 2,
+      "nonterminal_children": 0,
+      "ply": 7,
+      "public_terminal_children": 2
+    },
+    {
+      "available_hash": "7194a40418177fd09656634c99255f55d4fb488f2ddc5b77eec71c2042df9b5e",
+      "board": [
+        -1,
+        1,
+        0,
+        1,
+        0,
+        -1,
+        1,
+        -1,
+        1
+      ],
+      "history": [
+        1,
+        0,
+        3,
+        5,
+        6,
+        7,
+        8
+      ],
+      "legal_children": 2,
+      "nonterminal_children": 2,
+      "ply": 7,
+      "public_terminal_children": 0
+    },
+    {
+      "available_hash": "791bb17e50190eace02ffc9ada2ed39e38b78a69248aaadfb5b1278682cebfc8",
+      "board": [
+        0,
+        -1,
+        0,
+        -1,
+        1,
+        1,
+        1,
+        -1,
+        1
+      ],
+      "history": [
+        4,
+        1,
+        5,
+        3,
+        6,
+        7,
+        8
+      ],
+      "legal_children": 2,
+      "nonterminal_children": 2,
+      "ply": 7,
+      "public_terminal_children": 0
+    },
+    {
+      "available_hash": "7a207d7131f476f90af95083e3eb5d2ff9c0b2f19ac4906f3339b8b5beaa31e2",
+      "board": [
+        -1,
+        -1,
+        0,
+        0,
+        1,
+        1,
+        1,
+        1,
+        -1
+      ],
+      "history": [
+        4,
+        0,
+        5,
+        1,
+        6,
+        8,
+        7
+      ],
+      "legal_children": 2,
+      "nonterminal_children": 1,
+      "ply": 7,
+      "public_terminal_children": 1
+    },
+    {
+      "available_hash": "7cf8fe5bfefc6311bf7f05fb0badc2d67fd0bd2d1908b133384a12745727f82e",
+      "board": [
+        -1,
+        0,
+        -1,
+        1,
+        0,
+        1,
+        1,
+        -1,
+        1
+      ],
+      "history": [
+        3,
+        0,
+        5,
+        2,
+        6,
+        7,
+        8
+      ],
+      "legal_children": 2,
+      "nonterminal_children": 1,
+      "ply": 7,
+      "public_terminal_children": 1
+    },
+    {
+      "available_hash": "851aeba58d36e1b59afe4861086f0d6410672af90d12b3302b88e87d9dc82850",
+      "board": [
+        -1,
+        0,
+        1,
+        1,
+        1,
+        -1,
+        -1,
+        1,
+        0
+      ],
+      "history": [
+        2,
+        0,
+        3,
+        5,
+        4,
+        6,
+        7
+      ],
+      "legal_children": 2,
+      "nonterminal_children": 2,
+      "ply": 7,
+      "public_terminal_children": 0
+    },
+    {
+      "available_hash": "8735e8d4b46250d033fbb8aa447a6e691f14b718108a70552ce259a50c88d28b",
+      "board": [
+        -1,
+        0,
+        1,
+        1,
+        1,
+        -1,
+        -1,
+        0,
+        1
+      ],
+      "history": [
+        2,
+        0,
+        3,
+        5,
+        4,
+        6,
+        8
+      ],
+      "legal_children": 2,
+      "nonterminal_children": 2,
+      "ply": 7,
+      "public_terminal_children": 0
+    },
+    {
+      "available_hash": "8a3544ae2937b1c6eb1f9667ce319c1b2717e975dd027615a332a76f57957693",
+      "board": [
+        0,
+        -1,
+        1,
+        -1,
+        -1,
+        1,
+        1,
+        1,
+        0
+      ],
+      "history": [
+        2,
+        1,
+        5,
+        3,
+        6,
+        4,
+        7
+      ],
+      "legal_children": 2,
+      "nonterminal_children": 2,
+      "ply": 7,
+      "public_terminal_children": 0
+    },
+    {
+      "available_hash": "8a68c400772decf2f38cda55f2fbf5ff424658f3d499fdb102a67225748a9d7b",
+      "board": [
+        0,
+        -1,
+        1,
+        1,
+        -1,
+        -1,
+        1,
+        1,
+        0
+      ],
+      "history": [
+        2,
+        1,
+        3,
+        4,
+        6,
+        5,
+        7
+      ],
+      "legal_children": 2,
+      "nonterminal_children": 2,
+      "ply": 7,
+      "public_terminal_children": 0
+    },
+    {
+      "available_hash": "92669bd2c0df3e2767786f1d6b9f1936fa7b37826f12104112ba3471b3190206",
+      "board": [
+        -1,
+        -1,
+        1,
+        1,
+        0,
+        0,
+        -1,
+        1,
+        1
+      ],
+      "history": [
+        2,
+        0,
+        3,
+        1,
+        7,
+        6,
+        8
+      ],
+      "legal_children": 2,
+      "nonterminal_children": 2,
+      "ply": 7,
+      "public_terminal_children": 0
+    },
+    {
+      "available_hash": "938e715c10b4f6f2364a966a69416a4b0ba739a7993127d3c63c8202ef746341",
+      "board": [
+        -1,
+        -1,
+        1,
+        1,
+        1,
+        0,
+        0,
+        -1,
+        1
+      ],
+      "history": [
+        2,
+        0,
+        3,
+        1,
+        4,
+        7,
+        8
+      ],
+      "legal_children": 2,
+      "nonterminal_children": 2,
+      "ply": 7,
+      "public_terminal_children": 0
+    },
+    {
+      "available_hash": "955f6514af69ef205d604265715a169935c76692644a345938be768b359f5688",
+      "board": [
+        -1,
+        0,
+        -1,
+        1,
+        -1,
+        1,
+        1,
+        0,
+        1
+      ],
+      "history": [
+        3,
+        0,
+        5,
+        2,
+        6,
+        4,
+        8
+      ],
+      "legal_children": 2,
+      "nonterminal_children": 1,
+      "ply": 7,
+      "public_terminal_children": 1
+    },
+    {
+      "available_hash": "a19f2a3a8913ea07d67c5845f47dcf42f9c37a01b3bc21dcc8052cc477884ff6",
+      "board": [
+        -1,
+        0,
+        0,
+        1,
+        1,
+        -1,
+        1,
+        -1,
+        1
+      ],
+      "history": [
+        3,
+        0,
+        4,
+        5,
+        6,
+        7,
+        8
+      ],
+      "legal_children": 2,
+      "nonterminal_children": 2,
+      "ply": 7,
+      "public_terminal_children": 0
+    },
+    {
+      "available_hash": "a5fc867484177e0a9d3b679a7a0588c700db07d758536fecd2207449c1223c97",
+      "board": [
+        -1,
+        -1,
+        1,
+        1,
+        0,
+        -1,
+        0,
+        1,
+        1
+      ],
+      "history": [
+        2,
+        0,
+        3,
+        1,
+        7,
+        5,
+        8
+      ],
+      "legal_children": 2,
+      "nonterminal_children": 2,
+      "ply": 7,
+      "public_terminal_children": 0
+    },
+    {
+      "available_hash": "ac0bca21404336a876c0eda1d51eeb7fb3032347232338350d9a5d034c5ee185",
+      "board": [
+        -1,
+        -1,
+        1,
+        0,
+        1,
+        0,
+        -1,
+        1,
+        1
+      ],
+      "history": [
+        2,
+        0,
+        4,
+        1,
+        7,
+        6,
+        8
+      ],
+      "legal_children": 2,
+      "nonterminal_children": 1,
+      "ply": 7,
+      "public_terminal_children": 1
+    },
+    {
+      "available_hash": "ac20b65cf476dc986bcc70babbc42e538e06deaf318c7bdd0045774fb0e3387a",
+      "board": [
+        -1,
+        -1,
+        1,
+        0,
+        -1,
+        1,
+        1,
+        1,
+        0
+      ],
+      "history": [
+        2,
+        0,
+        5,
+        1,
+        6,
+        4,
+        7
+      ],
+      "legal_children": 2,
+      "nonterminal_children": 1,
+      "ply": 7,
+      "public_terminal_children": 1
+    },
+    {
+      "available_hash": "add015caafb8a21a33389a7f31a8e80fba28eff4b25026c5e424cd09818a1a05",
+      "board": [
+        -1,
+        -1,
+        1,
+        1,
+        0,
+        -1,
+        1,
+        0,
+        1
+      ],
+      "history": [
+        2,
+        0,
+        3,
+        1,
+        6,
+        5,
+        8
+      ],
+      "legal_children": 2,
+      "nonterminal_children": 2,
+      "ply": 7,
+      "public_terminal_children": 0
+    },
+    {
+      "available_hash": "ae946fa0c947e88a52ccdd5b5f29081246acd8b08974874cfeaeac3c3d77d5c9",
+      "board": [
+        -1,
+        0,
+        -1,
+        0,
+        1,
+        1,
+        -1,
+        1,
+        1
+      ],
+      "history": [
+        4,
+        0,
+        5,
+        2,
+        7,
+        6,
+        8
+      ],
+      "legal_children": 2,
+      "nonterminal_children": 0,
+      "ply": 7,
+      "public_terminal_children": 2
+    },
+    {
+      "available_hash": "b03ee80b0b3282cb33a82e85d7e171ee181ecd23d4fa9415a48ca7faf4dea660",
+      "board": [
+        0,
+        -1,
+        1,
+        1,
+        -1,
+        -1,
+        0,
+        1,
+        1
+      ],
+      "history": [
+        2,
+        1,
+        3,
+        4,
+        7,
+        5,
+        8
+      ],
+      "legal_children": 2,
+      "nonterminal_children": 2,
+      "ply": 7,
+      "public_terminal_children": 0
+    },
+    {
+      "available_hash": "b2dbccdfbc04cf5653be355a54aea1c09899ffbd6fc17f07d3f5458ee19f4b84",
+      "board": [
+        -1,
+        -1,
+        0,
+        1,
+        1,
+        0,
+        -1,
+        1,
+        1
+      ],
+      "history": [
+        3,
+        0,
+        4,
+        1,
+        7,
+        6,
+        8
+      ],
+      "legal_children": 2,
+      "nonterminal_children": 1,
+      "ply": 7,
+      "public_terminal_children": 1
+    },
+    {
+      "available_hash": "b7e5e3e8ba855a9997b8fd90b90639a043d4de913a57083b8210a6ffa5c861f0",
+      "board": [
+        -1,
+        -1,
+        0,
+        1,
+        1,
+        -1,
+        1,
+        0,
+        1
+      ],
+      "history": [
+        3,
+        0,
+        4,
+        1,
+        6,
+        5,
+        8
+      ],
+      "legal_children": 2,
+      "nonterminal_children": 1,
+      "ply": 7,
+      "public_terminal_children": 1
+    },
+    {
+      "available_hash": "b9ec67a94e12a8f140bd32b7aa6980ef3dd3201d95af01c23812468e114e2277",
+      "board": [
+        -1,
+        1,
+        0,
+        1,
+        1,
+        -1,
+        0,
+        -1,
+        1
+      ],
+      "history": [
+        1,
+        0,
+        3,
+        5,
+        4,
+        7,
+        8
+      ],
+      "legal_children": 2,
+      "nonterminal_children": 2,
+      "ply": 7,
+      "public_terminal_children": 0
+    },
+    {
+      "available_hash": "bdb552c1eef53db000209c63129acd848149590c0f25ee22ea4bf654d8d9673b",
+      "board": [
+        -1,
+        -1,
+        1,
+        1,
+        0,
+        1,
+        1,
+        0,
+        -1
+      ],
+      "history": [
+        2,
+        0,
+        3,
+        1,
+        5,
+        8,
+        6
+      ],
+      "legal_children": 2,
+      "nonterminal_children": 1,
+      "ply": 7,
+      "public_terminal_children": 1
+    },
+    {
+      "available_hash": "c27b4eb85609888eaabd6a16ecffebb8611f0147f6b7f1cc25a417d81c5e8a1b",
+      "board": [
+        -1,
+        -1,
+        1,
+        -1,
+        0,
+        1,
+        1,
+        1,
+        0
+      ],
+      "history": [
+        2,
+        0,
+        5,
+        1,
+        6,
+        3,
+        7
+      ],
+      "legal_children": 2,
+      "nonterminal_children": 2,
+      "ply": 7,
+      "public_terminal_children": 0
+    },
+    {
+      "available_hash": "c39b730e784acab935e83530ea9a6cbe70dbf6ff53898ec02988a95719836a57",
+      "board": [
+        -1,
+        -1,
+        1,
+        1,
+        -1,
+        0,
+        1,
+        0,
+        1
+      ],
+      "history": [
+        2,
+        0,
+        3,
+        1,
+        6,
+        4,
+        8
+      ],
+      "legal_children": 2,
+      "nonterminal_children": 1,
+      "ply": 7,
+      "public_terminal_children": 1
+    },
+    {
+      "available_hash": "c985c829d98adc1d985fcc0e30123f5b0ff4c0d91c686ef345561e2b3ff5a601",
+      "board": [
+        -1,
+        -1,
+        0,
+        -1,
+        1,
+        1,
+        1,
+        1,
+        0
+      ],
+      "history": [
+        4,
+        0,
+        5,
+        1,
+        6,
+        3,
+        7
+      ],
+      "legal_children": 2,
+      "nonterminal_children": 1,
+      "ply": 7,
+      "public_terminal_children": 1
+    },
+    {
+      "available_hash": "cdf7d24b65ec7775b2e3fcb7afc0f16372708f82e9d34367494ff265fe0babf8",
+      "board": [
+        -1,
+        0,
+        0,
+        1,
+        1,
+        -1,
+        -1,
+        1,
+        1
+      ],
+      "history": [
+        3,
+        0,
+        4,
+        5,
+        7,
+        6,
+        8
+      ],
+      "legal_children": 2,
+      "nonterminal_children": 2,
+      "ply": 7,
+      "public_terminal_children": 0
+    },
+    {
+      "available_hash": "cf0b4b9c7431f86f033cf3caec7257787af86780f47c983897b80b6a73f49be3",
+      "board": [
+        -1,
+        -1,
+        1,
+        1,
+        0,
+        0,
+        1,
+        1,
+        -1
+      ],
+      "history": [
+        2,
+        0,
+        3,
+        1,
+        6,
+        8,
+        7
+      ],
+      "legal_children": 2,
+      "nonterminal_children": 1,
+      "ply": 7,
+      "public_terminal_children": 1
+    },
+    {
+      "available_hash": "cf2aaf80250774a921368297db66983a389d54fec11f3d63082b48bca6e3af6a",
+      "board": [
+        -1,
+        -1,
+        1,
+        1,
+        -1,
+        1,
+        1,
+        0,
+        0
+      ],
+      "history": [
+        2,
+        0,
+        3,
+        1,
+        5,
+        4,
+        6
+      ],
+      "legal_children": 2,
+      "nonterminal_children": 0,
+      "ply": 7,
+      "public_terminal_children": 2
+    },
+    {
+      "available_hash": "d22040fab167a0f04531440107ba88c714e0f4a5bbc632cf25be370dc225fb23",
+      "board": [
+        -1,
+        -1,
+        1,
+        0,
+        1,
+        1,
+        -1,
+        1,
+        0
+      ],
+      "history": [
+        2,
+        0,
+        4,
+        1,
+        5,
+        6,
+        7
+      ],
+      "legal_children": 2,
+      "nonterminal_children": 1,
+      "ply": 7,
+      "public_terminal_children": 1
+    },
+    {
+      "available_hash": "d5ac80cd05b29789ac10aa0a67963064cce78433fbf6dc34835bf6311e912cf2",
+      "board": [
+        -1,
+        -1,
+        0,
+        -1,
+        1,
+        1,
+        0,
+        1,
+        1
+      ],
+      "history": [
+        4,
+        0,
+        5,
+        1,
+        7,
+        3,
+        8
+      ],
+      "legal_children": 2,
+      "nonterminal_children": 0,
+      "ply": 7,
+      "public_terminal_children": 2
+    },
+    {
+      "available_hash": "d6623003662b66bbbf365e071643dc305968db793d06943197d364916f340deb",
+      "board": [
+        -1,
+        1,
+        0,
+        1,
+        -1,
+        0,
+        1,
+        -1,
+        1
+      ],
+      "history": [
+        1,
+        0,
+        3,
+        4,
+        6,
+        7,
+        8
+      ],
+      "legal_children": 2,
+      "nonterminal_children": 2,
+      "ply": 7,
+      "public_terminal_children": 0
+    },
+    {
+      "available_hash": "d7bb9984d00aaba1800967845916e001cf5b3a0f25bdb56cfecf79f4e6af1739",
+      "board": [
+        -1,
+        -1,
+        1,
+        1,
+        1,
+        0,
+        -1,
+        1,
+        0
+      ],
+      "history": [
+        2,
+        0,
+        3,
+        1,
+        4,
+        6,
+        7
+      ],
+      "legal_children": 2,
+      "nonterminal_children": 2,
+      "ply": 7,
+      "public_terminal_children": 0
+    },
+    {
+      "available_hash": "dadd5b50420c7c82c9d721ea77659603bc9d58bfa7091e4f6428ffa8627fe336",
+      "board": [
+        -1,
+        -1,
+        1,
+        1,
+        0,
+        0,
+        1,
+        -1,
+        1
+      ],
+      "history": [
+        2,
+        0,
+        3,
+        1,
+        6,
+        7,
+        8
+      ],
+      "legal_children": 2,
+      "nonterminal_children": 1,
+      "ply": 7,
+      "public_terminal_children": 1
+    },
+    {
+      "available_hash": "dd7db9fb63eb42fb8e7cf8764a66bd7268bc599956a46a27279a3edf91138913",
+      "board": [
+        -1,
+        1,
+        0,
+        1,
+        -1,
+        -1,
+        1,
+        1,
+        0
+      ],
+      "history": [
+        1,
+        0,
+        3,
+        4,
+        6,
+        5,
+        7
+      ],
+      "legal_children": 2,
+      "nonterminal_children": 1,
+      "ply": 7,
+      "public_terminal_children": 1
+    },
+    {
+      "available_hash": "e1cfdbe96428cc64c3ed1de260c0b991511b0504c962a58ab177376e85d86e94",
+      "board": [
+        -1,
+        -1,
+        0,
+        0,
+        1,
+        1,
+        -1,
+        1,
+        1
+      ],
+      "history": [
+        4,
+        0,
+        5,
+        1,
+        7,
+        6,
+        8
+      ],
+      "legal_children": 2,
+      "nonterminal_children": 0,
+      "ply": 7,
+      "public_terminal_children": 2
+    },
+    {
+      "available_hash": "e27efd9dd12ebaa7c5e58c762b158e090258333eeb5fd54768c8c90bc7ab8789",
+      "board": [
+        0,
+        -1,
+        1,
+        1,
+        1,
+        -1,
+        0,
+        -1,
+        1
+      ],
+      "history": [
+        2,
+        1,
+        3,
+        5,
+        4,
+        7,
+        8
+      ],
+      "legal_children": 2,
+      "nonterminal_children": 2,
+      "ply": 7,
+      "public_terminal_children": 0
+    },
+    {
+      "available_hash": "e36a5bcef8e5cdf582de17b56462d90b17d1a41e7f8615e82b67c60a719964a0",
+      "board": [
+        -1,
+        1,
+        0,
+        1,
+        -1,
+        -1,
+        1,
+        0,
+        1
+      ],
+      "history": [
+        1,
+        0,
+        3,
+        4,
+        6,
+        5,
+        8
+      ],
+      "legal_children": 2,
+      "nonterminal_children": 2,
+      "ply": 7,
+      "public_terminal_children": 0
+    },
+    {
+      "available_hash": "e423d994ef96b147d5d25e8ecdd56951c673a7b89d2e1c13da8ee77d398e8dd2",
+      "board": [
+        -1,
+        -1,
+        1,
+        1,
+        0,
+        1,
+        -1,
+        1,
+        0
+      ],
+      "history": [
+        2,
+        0,
+        3,
+        1,
+        5,
+        6,
+        7
+      ],
+      "legal_children": 2,
+      "nonterminal_children": 2,
+      "ply": 7,
+      "public_terminal_children": 0
+    },
+    {
+      "available_hash": "e4540f1df17a66fa72a57139e551bbde38d39eb08891dedc6ffed5f11c759ec1",
+      "board": [
+        -1,
+        0,
+        1,
+        1,
+        -1,
+        -1,
+        1,
+        0,
+        1
+      ],
+      "history": [
+        2,
+        0,
+        3,
+        4,
+        6,
+        5,
+        8
+      ],
+      "legal_children": 2,
+      "nonterminal_children": 2,
+      "ply": 7,
+      "public_terminal_children": 0
+    },
+    {
+      "available_hash": "e5a164757753ca745a02717ec33cb39a782fc739c671fcd3c497ae30b9b25df5",
+      "board": [
+        -1,
+        -1,
+        1,
+        0,
+        1,
+        1,
+        0,
+        1,
+        -1
+      ],
+      "history": [
+        2,
+        0,
+        4,
+        1,
+        5,
+        8,
+        7
+      ],
+      "legal_children": 2,
+      "nonterminal_children": 2,
+      "ply": 7,
+      "public_terminal_children": 0
+    },
+    {
+      "available_hash": "e6762c2f8efb4e945e378704a606d70b560e5ee6fd7a8ef7ec1ae64a020e4034",
+      "board": [
+        1,
+        -1,
+        1,
+        -1,
+        0,
+        -1,
+        1,
+        0,
+        1
+      ],
+      "history": [
+        0,
+        1,
+        2,
+        3,
+        6,
+        5,
+        8
+      ],
+      "legal_children": 2,
+      "nonterminal_children": 1,
+      "ply": 7,
+      "public_terminal_children": 1
+    },
+    {
+      "available_hash": "eb240416892a6f375fcb415c0ebc2188cc7630d41bf284a46c8c449ff36c8216",
+      "board": [
+        -1,
+        -1,
+        0,
+        0,
+        1,
+        1,
+        1,
+        -1,
+        1
+      ],
+      "history": [
+        4,
+        0,
+        5,
+        1,
+        6,
+        7,
+        8
+      ],
+      "legal_children": 2,
+      "nonterminal_children": 1,
+      "ply": 7,
+      "public_terminal_children": 1
+    },
+    {
+      "available_hash": "ebe2df3e1cbeb197a3248d71f30dd197dc795d8a6bdd85be7d91ef9af3abf307",
+      "board": [
+        -1,
+        -1,
+        1,
+        0,
+        1,
+        -1,
+        0,
+        1,
+        1
+      ],
+      "history": [
+        2,
+        0,
+        4,
+        1,
+        7,
+        5,
+        8
+      ],
+      "legal_children": 2,
+      "nonterminal_children": 2,
+      "ply": 7,
+      "public_terminal_children": 0
+    },
+    {
+      "available_hash": "ef57c3a9b0682de8589295bb0868fd73ef9c7297bc9bb13bd3201e570a3593d9",
+      "board": [
+        -1,
+        0,
+        -1,
+        0,
+        1,
+        1,
+        1,
+        -1,
+        1
+      ],
+      "history": [
+        4,
+        0,
+        5,
+        2,
+        6,
+        7,
+        8
+      ],
+      "legal_children": 2,
+      "nonterminal_children": 1,
+      "ply": 7,
+      "public_terminal_children": 1
+    },
+    {
+      "available_hash": "f1c9656e10a49ce50c328c1d1b79343084e17bddd3b2e97da9babe0b2bef655c",
+      "board": [
+        -1,
+        0,
+        1,
+        1,
+        0,
+        1,
+        -1,
+        1,
+        -1
+      ],
+      "history": [
+        2,
+        0,
+        3,
+        6,
+        5,
+        8,
+        7
+      ],
+      "legal_children": 2,
+      "nonterminal_children": 1,
+      "ply": 7,
+      "public_terminal_children": 1
+    },
+    {
+      "available_hash": "f273986aacce576141248cf0b1a92fa1011b4d1f8f2bbb9a2bf222881c314c63",
+      "board": [
+        -1,
+        -1,
+        0,
+        1,
+        0,
+        1,
+        1,
+        1,
+        -1
+      ],
+      "history": [
+        3,
+        0,
+        5,
+        1,
+        6,
+        8,
+        7
+      ],
+      "legal_children": 2,
+      "nonterminal_children": 0,
+      "ply": 7,
+      "public_terminal_children": 2
+    },
+    {
+      "available_hash": "f4eee189fb3e2c4888e63d12e6997a678c2c465829719814775123ac354f9ac0",
+      "board": [
+        -1,
+        -1,
+        1,
+        0,
+        0,
+        1,
+        1,
+        1,
+        -1
+      ],
+      "history": [
+        2,
+        0,
+        5,
+        1,
+        6,
+        8,
+        7
+      ],
+      "legal_children": 2,
+      "nonterminal_children": 1,
+      "ply": 7,
+      "public_terminal_children": 1
+    },
+    {
+      "available_hash": "f4f7a55f737ffeadf5adf4580f53cfb6dc48b59f0f1b519bfbebaa9c42855c57",
+      "board": [
+        -1,
+        1,
+        0,
+        1,
+        1,
+        -1,
+        1,
+        -1,
+        0
+      ],
+      "history": [
+        1,
+        0,
+        3,
+        5,
+        4,
+        7,
+        6
+      ],
+      "legal_children": 2,
+      "nonterminal_children": 2,
+      "ply": 7,
+      "public_terminal_children": 0
+    },
+    {
+      "available_hash": "f546bcb227d68fc3a6ad7b7be33781836185eb633b771b5bc3f3fd2777655942",
+      "board": [
+        -1,
+        0,
+        1,
+        1,
+        -1,
+        0,
+        -1,
+        1,
+        1
+      ],
+      "history": [
+        2,
+        0,
+        3,
+        4,
+        7,
+        6,
+        8
+      ],
+      "legal_children": 2,
+      "nonterminal_children": 2,
+      "ply": 7,
+      "public_terminal_children": 0
+    },
+    {
+      "available_hash": "fd7e757079b30760b4ede5b68e3b4e0d13844945cfe77a815e87b8c9de2dd471",
+      "board": [
+        -1,
+        -1,
+        1,
+        1,
+        -1,
+        1,
+        0,
+        1,
+        0
+      ],
+      "history": [
+        2,
+        0,
+        3,
+        1,
+        5,
+        4,
+        7
+      ],
+      "legal_children": 2,
+      "nonterminal_children": 1,
+      "ply": 7,
+      "public_terminal_children": 1
+    },
+    {
+      "available_hash": "fdaa10121610b8c837c65350b2976b027a6b462a70ee7cae5b6979b351428a6d",
+      "board": [
+        1,
+        -1,
+        1,
+        -1,
+        -1,
+        0,
+        1,
+        0,
+        1
+      ],
+      "history": [
+        0,
+        1,
+        2,
+        3,
+        6,
+        4,
+        8
+      ],
+      "legal_children": 2,
+      "nonterminal_children": 0,
+      "ply": 7,
+      "public_terminal_children": 2
+    },
+    {
+      "available_hash": "fdd60653db23cb8e05397bf0827429e50e9d6d2ec3d98287fa2bdef77a64a792",
+      "board": [
+        -1,
+        -1,
+        1,
+        1,
+        1,
+        -1,
+        0,
+        0,
+        1
+      ],
+      "history": [
+        2,
+        0,
+        3,
+        1,
+        4,
+        5,
+        8
+      ],
+      "legal_children": 2,
+      "nonterminal_children": 2,
+      "ply": 7,
+      "public_terminal_children": 0
+    },
+    {
+      "available_hash": "fdddf92467e56fdc527b1607a2d241029590f6c8704ad15b7c4ffb2a02da7697",
+      "board": [
+        0,
+        -1,
+        1,
+        1,
+        0,
+        -1,
+        1,
+        -1,
+        1
+      ],
+      "history": [
+        2,
+        1,
+        3,
+        5,
+        6,
+        7,
+        8
+      ],
+      "legal_children": 2,
+      "nonterminal_children": 1,
+      "ply": 7,
+      "public_terminal_children": 1
+    },
+    {
+      "available_hash": "15da6cda55748c6968478e579593b45ffb825fc38e99da6031ec8eaac15ed391",
+      "board": [
+        -1,
+        1,
+        0,
+        1,
+        -1,
+        -1,
+        1,
+        -1,
+        1
+      ],
+      "history": [
+        1,
+        0,
+        3,
+        4,
+        6,
+        5,
+        8,
+        7
+      ],
+      "legal_children": 1,
+      "nonterminal_children": 0,
+      "ply": 8,
+      "public_terminal_children": 1
+    },
+    {
+      "available_hash": "2064476c0d0f5d59b227cc6592c766a5931dd05d3f90de43f1a8437c678f52c4",
+      "board": [
+        1,
+        -1,
+        1,
+        -1,
+        0,
+        -1,
+        1,
+        -1,
+        1
+      ],
+      "history": [
+        0,
+        1,
+        2,
+        3,
+        6,
+        5,
+        8,
+        7
+      ],
+      "legal_children": 1,
+      "nonterminal_children": 0,
+      "ply": 8,
+      "public_terminal_children": 1
+    },
+    {
+      "available_hash": "2d615ce442c214671bf45def4af8fc6829cf1cd47a076ba10fa4085dc94ec8f3",
+      "board": [
+        -1,
+        -1,
+        1,
+        1,
+        0,
+        -1,
+        1,
+        1,
+        -1
+      ],
+      "history": [
+        2,
+        0,
+        3,
+        1,
+        6,
+        5,
+        7,
+        8
+      ],
+      "legal_children": 1,
+      "nonterminal_children": 0,
+      "ply": 8,
+      "public_terminal_children": 1
+    },
+    {
+      "available_hash": "32c1577ebf116abadca3699c723cb677b66fa6bbda5ff33633ed4b8ef5daaf9a",
+      "board": [
+        -1,
+        -1,
+        0,
+        1,
+        1,
+        -1,
+        1,
+        1,
+        -1
+      ],
+      "history": [
+        3,
+        0,
+        4,
+        1,
+        6,
+        5,
+        7,
+        8
+      ],
+      "legal_children": 1,
+      "nonterminal_children": 0,
+      "ply": 8,
+      "public_terminal_children": 1
+    },
+    {
+      "available_hash": "35c1ef0b153dc63b2d88073003914f7ae8a4677acc477bb6c5a6cd58e7888b02",
+      "board": [
+        -1,
+        -1,
+        0,
+        1,
+        1,
+        -1,
+        1,
+        -1,
+        1
+      ],
+      "history": [
+        3,
+        0,
+        4,
+        1,
+        6,
+        5,
+        8,
+        7
+      ],
+      "legal_children": 1,
+      "nonterminal_children": 0,
+      "ply": 8,
+      "public_terminal_children": 1
+    },
+    {
+      "available_hash": "39520dfe8c68f30d750df44465a83905403c3e88de9061875c32c531195d4220",
+      "board": [
+        -1,
+        0,
+        -1,
+        1,
+        -1,
+        1,
+        1,
+        -1,
+        1
+      ],
+      "history": [
+        3,
+        0,
+        5,
+        2,
+        6,
+        4,
+        8,
+        7
+      ],
+      "legal_children": 1,
+      "nonterminal_children": 0,
+      "ply": 8,
+      "public_terminal_children": 1
+    },
+    {
+      "available_hash": "3962323eeeea470f19d8c919d067484f9c0ce4903ad3454c55c4a19e3c66ff61",
+      "board": [
+        -1,
+        -1,
+        1,
+        1,
+        1,
+        -1,
+        -1,
+        1,
+        0
+      ],
+      "history": [
+        2,
+        0,
+        3,
+        1,
+        4,
+        5,
+        7,
+        6
+      ],
+      "legal_children": 1,
+      "nonterminal_children": 0,
+      "ply": 8,
+      "public_terminal_children": 1
+    },
+    {
+      "available_hash": "44eb2731731228f8d8329ded51c8da68b05d9fc7ea75296f93e9b0a3e46412ab",
+      "board": [
+        -1,
+        -1,
+        1,
+        1,
+        0,
+        -1,
+        -1,
+        1,
+        1
+      ],
+      "history": [
+        2,
+        0,
+        3,
+        1,
+        7,
+        5,
+        8,
+        6
+      ],
+      "legal_children": 1,
+      "nonterminal_children": 0,
+      "ply": 8,
+      "public_terminal_children": 1
+    },
+    {
+      "available_hash": "4c9c879d3171a6884d6d1854ec7cabd37957ae476da82436a8f37644dcb0138c",
+      "board": [
+        -1,
+        -1,
+        1,
+        1,
+        1,
+        -1,
+        -1,
+        0,
+        1
+      ],
+      "history": [
+        2,
+        0,
+        3,
+        1,
+        4,
+        5,
+        8,
+        6
+      ],
+      "legal_children": 1,
+      "nonterminal_children": 0,
+      "ply": 8,
+      "public_terminal_children": 1
+    },
+    {
+      "available_hash": "6a2ce5a3788f8bbeb0c26925a5151f9ad693a284f8876b7b7954b607395afa04",
+      "board": [
+        -1,
+        -1,
+        0,
+        1,
+        1,
+        -1,
+        -1,
+        1,
+        1
+      ],
+      "history": [
+        3,
+        0,
+        4,
+        1,
+        7,
+        5,
+        8,
+        6
+      ],
+      "legal_children": 1,
+      "nonterminal_children": 0,
+      "ply": 8,
+      "public_terminal_children": 1
+    },
+    {
+      "available_hash": "75831f8113821b0002adbfb346a09b9ddd8af7bfa45ee266ce227bdff7a37044",
+      "board": [
+        -1,
+        -1,
+        1,
+        1,
+        1,
+        0,
+        -1,
+        1,
+        -1
+      ],
+      "history": [
+        2,
+        0,
+        3,
+        1,
+        4,
+        6,
+        7,
+        8
+      ],
+      "legal_children": 1,
+      "nonterminal_children": 0,
+      "ply": 8,
+      "public_terminal_children": 1
+    },
+    {
+      "available_hash": "7d2497333ee591ed094c0a4e0061d58710f82ff99f02855913a48d1af0df8238",
+      "board": [
+        -1,
+        -1,
+        1,
+        1,
+        1,
+        -1,
+        0,
+        1,
+        -1
+      ],
+      "history": [
+        2,
+        0,
+        3,
+        1,
+        4,
+        5,
+        7,
+        8
+      ],
+      "legal_children": 1,
+      "nonterminal_children": 0,
+      "ply": 8,
+      "public_terminal_children": 1
+    },
+    {
+      "available_hash": "7d30670086d43e07a0a7c9057d4505a57f202a166deb4a5426bd3c7e546415b5",
+      "board": [
+        -1,
+        0,
+        1,
+        1,
+        -1,
+        -1,
+        -1,
+        1,
+        1
+      ],
+      "history": [
+        2,
+        0,
+        3,
+        4,
+        7,
+        5,
+        8,
+        6
+      ],
+      "legal_children": 1,
+      "nonterminal_children": 0,
+      "ply": 8,
+      "public_terminal_children": 1
+    },
+    {
+      "available_hash": "85e270c954c8e173fa7f463359ebca8a18ae1c96137ae4ff8f29be8c9d919a48",
+      "board": [
+        -1,
+        -1,
+        1,
+        1,
+        -1,
+        -1,
+        1,
+        0,
+        1
+      ],
+      "history": [
+        2,
+        0,
+        3,
+        1,
+        6,
+        4,
+        8,
+        5
+      ],
+      "legal_children": 1,
+      "nonterminal_children": 0,
+      "ply": 8,
+      "public_terminal_children": 1
+    },
+    {
+      "available_hash": "869eabff9d428c4ea8e73509437282fe0697d34e96233554b3cc1a45f442fb10",
+      "board": [
+        -1,
+        -1,
+        1,
+        -1,
+        -1,
+        1,
+        1,
+        1,
+        0
+      ],
+      "history": [
+        2,
+        0,
+        5,
+        1,
+        6,
+        3,
+        7,
+        4
+      ],
+      "legal_children": 1,
+      "nonterminal_children": 0,
+      "ply": 8,
+      "public_terminal_children": 1
+    },
+    {
+      "available_hash": "893da67e6af4e106a82e7d4e857d227940afc36e8a7939524513476b57b62bce",
+      "board": [
+        -1,
+        -1,
+        1,
+        1,
+        -1,
+        1,
+        -1,
+        1,
+        0
+      ],
+      "history": [
+        2,
+        0,
+        3,
+        1,
+        5,
+        4,
+        7,
+        6
+      ],
+      "legal_children": 1,
+      "nonterminal_children": 0,
+      "ply": 8,
+      "public_terminal_children": 1
+    },
+    {
+      "available_hash": "9217b6c8ea174418561c8ecfa11be982ac7f24ef56c34d33697b519cf307b86c",
+      "board": [
+        -1,
+        0,
+        1,
+        1,
+        -1,
+        -1,
+        1,
+        -1,
+        1
+      ],
+      "history": [
+        2,
+        0,
+        3,
+        4,
+        6,
+        5,
+        8,
+        7
+      ],
+      "legal_children": 1,
+      "nonterminal_children": 0,
+      "ply": 8,
+      "public_terminal_children": 1
+    },
+    {
+      "available_hash": "997b89df6fb6e671cc27c3a3cc6e7fdcacc0bc57f607b9a283355d0a4410e947",
+      "board": [
+        -1,
+        1,
+        -1,
+        1,
+        0,
+        1,
+        -1,
+        1,
+        -1
+      ],
+      "history": [
+        1,
+        0,
+        3,
+        2,
+        5,
+        6,
+        7,
+        8
+      ],
+      "legal_children": 1,
+      "nonterminal_children": 0,
+      "ply": 8,
+      "public_terminal_children": 1
+    },
+    {
+      "available_hash": "9d81b080448582d30ca29c580e07fa10359878074124fae1cc5b82fa73981a3a",
+      "board": [
+        -1,
+        -1,
+        1,
+        -1,
+        0,
+        1,
+        1,
+        1,
+        -1
+      ],
+      "history": [
+        2,
+        0,
+        5,
+        1,
+        6,
+        3,
+        7,
+        8
+      ],
+      "legal_children": 1,
+      "nonterminal_children": 0,
+      "ply": 8,
+      "public_terminal_children": 1
+    },
+    {
+      "available_hash": "9dc5b263bb10f4d5c0a4cf893f20e255ce8e83757f78a870d3f44c72f1cfee39",
+      "board": [
+        -1,
+        -1,
+        1,
+        1,
+        0,
+        -1,
+        1,
+        -1,
+        1
+      ],
+      "history": [
+        2,
+        0,
+        3,
+        1,
+        6,
+        5,
+        8,
+        7
+      ],
+      "legal_children": 1,
+      "nonterminal_children": 0,
+      "ply": 8,
+      "public_terminal_children": 1
+    },
+    {
+      "available_hash": "a53ef782c2dd33b3b60b01eadf53f777e68c9aebab781776016ff1059620fe4e",
+      "board": [
+        -1,
+        -1,
+        1,
+        1,
+        -1,
+        0,
+        -1,
+        1,
+        1
+      ],
+      "history": [
+        2,
+        0,
+        3,
+        1,
+        7,
+        4,
+        8,
+        6
+      ],
+      "legal_children": 1,
+      "nonterminal_children": 0,
+      "ply": 8,
+      "public_terminal_children": 1
+    },
+    {
+      "available_hash": "ac71f1de0452c6233477823a462fd57c3f6d51c75e3e47fdce826f301884360b",
+      "board": [
+        -1,
+        -1,
+        0,
+        -1,
+        1,
+        1,
+        1,
+        1,
+        -1
+      ],
+      "history": [
+        4,
+        0,
+        5,
+        1,
+        6,
+        3,
+        7,
+        8
+      ],
+      "legal_children": 1,
+      "nonterminal_children": 0,
+      "ply": 8,
+      "public_terminal_children": 1
+    },
+    {
+      "available_hash": "aee5b65b035092b23369c4c74900df97efba9bbcfbfa4d7f0e2997f60cf5b7b7",
+      "board": [
+        -1,
+        -1,
+        1,
+        1,
+        0,
+        1,
+        1,
+        -1,
+        -1
+      ],
+      "history": [
+        2,
+        0,
+        3,
+        1,
+        5,
+        7,
+        6,
+        8
+      ],
+      "legal_children": 1,
+      "nonterminal_children": 0,
+      "ply": 8,
+      "public_terminal_children": 1
+    },
+    {
+      "available_hash": "b0af6927e09ed01f0e34f7606cd44786284b204a1c337ed8fbc4e98943cada23",
+      "board": [
+        -1,
+        1,
+        -1,
+        1,
+        -1,
+        1,
+        0,
+        -1,
+        1
+      ],
+      "history": [
+        1,
+        0,
+        3,
+        2,
+        5,
+        4,
+        8,
+        7
+      ],
+      "legal_children": 1,
+      "nonterminal_children": 0,
+      "ply": 8,
+      "public_terminal_children": 1
+    },
+    {
+      "available_hash": "bb357c437008ee02cce92e4d3f24f25d788ca4ac40436b77c282d27a6f560c12",
+      "board": [
+        -1,
+        -1,
+        0,
+        1,
+        -1,
+        1,
+        -1,
+        1,
+        1
+      ],
+      "history": [
+        3,
+        0,
+        5,
+        1,
+        7,
+        4,
+        8,
+        6
+      ],
+      "legal_children": 1,
+      "nonterminal_children": 0,
+      "ply": 8,
+      "public_terminal_children": 1
+    },
+    {
+      "available_hash": "c25cc3559322971996008815cf0403f2f4051cc886277d00150cb1d9a5001f8a",
+      "board": [
+        -1,
+        -1,
+        1,
+        1,
+        1,
+        -1,
+        0,
+        -1,
+        1
+      ],
+      "history": [
+        2,
+        0,
+        3,
+        1,
+        4,
+        5,
+        8,
+        7
+      ],
+      "legal_children": 1,
+      "nonterminal_children": 0,
+      "ply": 8,
+      "public_terminal_children": 1
+    },
+    {
+      "available_hash": "c334b8e0760e9be950838987ff733f809147448a4d2b581cc0c5bcb46658b022",
+      "board": [
+        -1,
+        1,
+        1,
+        1,
+        -1,
+        -1,
+        1,
+        -1,
+        0
+      ],
+      "history": [
+        1,
+        0,
+        2,
+        4,
+        3,
+        5,
+        6,
+        7
+      ],
+      "legal_children": 1,
+      "nonterminal_children": 0,
+      "ply": 8,
+      "public_terminal_children": 1
+    },
+    {
+      "available_hash": "c66b31dec32313780b815d83bbe67001d58750ddf6c2b118132f4e63ae806297",
+      "board": [
+        -1,
+        -1,
+        1,
+        0,
+        1,
+        -1,
+        -1,
+        1,
+        1
+      ],
+      "history": [
+        2,
+        0,
+        4,
+        1,
+        7,
+        5,
+        8,
+        6
+      ],
+      "legal_children": 1,
+      "nonterminal_children": 0,
+      "ply": 8,
+      "public_terminal_children": 1
+    },
+    {
+      "available_hash": "c6af5416457b643741e10d88ce6aa245cefea3f615801e86f9eb1cc658a96984",
+      "board": [
+        -1,
+        -1,
+        1,
+        1,
+        -1,
+        -1,
+        0,
+        1,
+        1
+      ],
+      "history": [
+        2,
+        0,
+        3,
+        1,
+        7,
+        4,
+        8,
+        5
+      ],
+      "legal_children": 1,
+      "nonterminal_children": 0,
+      "ply": 8,
+      "public_terminal_children": 1
+    },
+    {
+      "available_hash": "c96fa2d0ef19d694fdec2c2a427a71acef2fdefa09e3995a823edf0c5abac5e1",
+      "board": [
+        -1,
+        -1,
+        1,
+        1,
+        -1,
+        -1,
+        1,
+        1,
+        0
+      ],
+      "history": [
+        2,
+        0,
+        3,
+        1,
+        6,
+        4,
+        7,
+        5
+      ],
+      "legal_children": 1,
+      "nonterminal_children": 0,
+      "ply": 8,
+      "public_terminal_children": 1
+    },
+    {
+      "available_hash": "d14da39552f28866ca56cc745e635060afc2f815929b83a032b51f7bd01419d2",
+      "board": [
+        -1,
+        -1,
+        1,
+        0,
+        1,
+        1,
+        -1,
+        1,
+        -1
+      ],
+      "history": [
+        2,
+        0,
+        4,
+        1,
+        5,
+        6,
+        7,
+        8
+      ],
+      "legal_children": 1,
+      "nonterminal_children": 0,
+      "ply": 8,
+      "public_terminal_children": 1
+    },
+    {
+      "available_hash": "e49f7f168d45df0a7292c420a35101aa39cabf0186edd83ed1ce8d8f977fb582",
+      "board": [
+        -1,
+        -1,
+        1,
+        1,
+        1,
+        0,
+        -1,
+        -1,
+        1
+      ],
+      "history": [
+        2,
+        0,
+        3,
+        1,
+        4,
+        6,
+        8,
+        7
+      ],
+      "legal_children": 1,
+      "nonterminal_children": 0,
+      "ply": 8,
+      "public_terminal_children": 1
+    },
+    {
+      "available_hash": "eabfbe491cb87c6976caaac7029cc4c3772d5f3415b3404d2da6da4923d007a9",
+      "board": [
+        -1,
+        -1,
+        0,
+        -1,
+        1,
+        1,
+        1,
+        -1,
+        1
+      ],
+      "history": [
+        4,
+        0,
+        5,
+        1,
+        6,
+        3,
+        8,
+        7
+      ],
+      "legal_children": 1,
+      "nonterminal_children": 0,
+      "ply": 8,
+      "public_terminal_children": 1
+    },
+    {
+      "available_hash": "fc265876765de1529ae6854eab93fe95ec690f77274b7f17dd428d9702ae0f9d",
+      "board": [
+        -1,
+        -1,
+        1,
+        1,
+        0,
+        1,
+        -1,
+        1,
+        -1
+      ],
+      "history": [
+        2,
+        0,
+        3,
+        1,
+        5,
+        6,
+        7,
+        8
+      ],
+      "legal_children": 1,
+      "nonterminal_children": 0,
+      "ply": 8,
+      "public_terminal_children": 1
+    }
+  ],
+  "available_with_at_least_3_nonterminal_children_by_ply": {
+    "0": 1,
+    "1": 3,
+    "2": 12,
+    "3": 38,
+    "4": 8,
+    "5": 53,
+    "6": 23
+  },
+  "canonical_nonterminal_count": 627,
+  "canonical_population_by_ply": {
+    "0": 1,
+    "1": 3,
+    "2": 12,
+    "3": 38,
+    "4": 108,
+    "5": 153,
+    "6": 183,
+    "7": 95,
+    "8": 34
+  },
+  "excluded_C26_by_ply": {
+    "4": 100,
+    "5": 100,
+    "6": 100
+  },
+  "new_same_ply_frame": 144,
+  "new_same_ply_pair_count": 10296,
+  "new_same_ply_pairs_sharing_a_descendant": 4249,
+  "new_same_ply_roots_with_a_C26_root_descendant": 53,
+  "oracle_calls": 0,
+  "reachable_board_count": 5478,
+  "schema": "c27-source-context-v1",
+  "scope": "Public legal-state enumeration and canonical identity only. No new minimax labels, fitted parameters, policy runs or outcome-selected eligibility.",
+  "script_sha256": "d829c2593c5a162259b8781b2c5bd19f3ffcccf90ff52aebf3f62ebdbc17a914",
+  "source_harness_sha256": "ee4501d5bfee66adcc15dbfb0b0f93ee50343e3313c7d1ce654143571ecee750",
+  "ssot": "87c15dc828d6eea519c219fd8a412fa21dfc464d"
+}

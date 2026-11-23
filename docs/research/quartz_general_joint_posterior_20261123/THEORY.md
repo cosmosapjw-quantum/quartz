@@ -13,3 +13,7 @@ Explore a tiny latent mixture, an exactly marginal-preserving one-parameter comm
 The user selected all20stages and authorized backup/publication. Existing C26CONTINUATION explicitly calls for new-cycle isolation; the new C27tree preserves that baseline. Generic skill design-approval or blanket baseline-rerun suggestions do not add a pause to this authorized sequence. Stage documents carry real math/code/evidence; one fresh bounded review closes material risk after implementation.
 
 Next: R02source reuse, actual population counts and formula applicability; then R03definitions and R04candidate discrimination.
+
+## R02 — evidence reuse and population
+
+Primary-source transport and limitations are recorded in theory/R02_REUSE.md, R02_SOURCE_CONTEXT.md and R02_LITERATURE.md. Public enumeration found 144 new ply4/5/6 roots. Reuse original90 TRAIN; evaluation allocation will be frozen before outcomes. Source evidence, mathematical claims and empirical efficacy remain distinct.
