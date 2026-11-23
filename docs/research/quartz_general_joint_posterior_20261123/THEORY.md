@@ -33,3 +33,7 @@ R05_DERIVATION.md contains normalization, exact posterior, H2 value decompositio
 ## R06 — independent review
 
 Parent checked normalization, support, covariance, update order, field/log-odds factor2, H2 cap, fixed-threshold convexity, the moving-threshold sign example and TV support/cost assumptions. Wolfram independently returned109/200 and the strict threshold. No general no-go claim was made.
+
+## R07 — actual exact computation
+
+The bounded Fraction oracle completed53851 assertions with exit0;336 models,3024 initial H2 comparisons,5076 conditional histories including4740 nonempty,120 threshold cases and81 transfer-bound cases. Raw evidence and typed source/runner identities are retained. This does not establish actual game efficacy.

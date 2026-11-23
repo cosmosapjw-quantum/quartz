@@ -1,0 +1,1355 @@
+{
+  "actual_execution_root": "/workspace/scratch/3ddaad4e019e/c27_theory_local",
+  "final_executed_script": "theory_check_v2.py",
+  "handoff_model_choice": {
+    "primary": "PRODUCT_H2, common cue prior; combined initial+later update effect",
+    "query_horizon": "Parent plans H2 then H1 with two additional queries",
+    "secondary": "INITIAL_PROJECTED_H2, after initial reveal productization; later-only update effect"
+  },
+  "history_count_interpretation": {
+    "empty_history_cases": 336,
+    "nonempty_history_cases": 4740,
+    "total_conditional_H2_cases": 5076
+  },
+  "literature": "Handled by parent/sibling lane; new formulas are directly derived and exact-finite checked, not a novelty claim.",
+  "oracle_finite_evidence": {
+    "assertion_tested": "Exact finite joint normalization, unchanged initial marginals, latent Bayes update and observation order, rank-one covariance, closed H2 versus independently enumerated joint Bellman, conditional-option and TV bounds, parameter-family threshold, and old correlated fixture.",
+    "check_counts": {
+      "conditional_h2_after_initial_reveals": 5076,
+      "existing_correlated_069_benchmark": 1,
+      "h2_latent_equals_joint_bellman": 3024,
+      "horizon_and_stop_monotonicity": 3024,
+      "information_only_option_nonnegative": 3456,
+      "initial_marginal_identity": 864,
+      "joint_normalization": 5589,
+      "known_win_stops": 3024,
+      "moving_incumbent_correction_can_be_negative": 1,
+      "new_example_109_over_200": 1,
+      "new_example_product_stop": 1,
+      "new_information_family_formula": 120,
+      "new_information_family_threshold": 120,
+      "observation_order_invariance": 5076,
+      "optimal_value_total_variation_bound": 81,
+      "post_initial_product_control_same_marginals": 6900,
+      "posterior_equals_joint_enumeration": 6900,
+      "posterior_option_tv_bound": 7776,
+      "posterior_rank_one_covariance": 2016,
+      "rank_one_covariance": 720,
+      "transferred_policy_regret_bound": 81
+    },
+    "coefficient_domain": "fractions.Fraction exact rational arithmetic; no floating tolerance or RNG",
+    "counts": {
+      "assertions": 53851,
+      "conditional_h2_cases": 5076,
+      "h2_cases": 3024,
+      "joint_model_cases": 336,
+      "new_family_cases": 120,
+      "policy_transfer_cases": 81,
+      "posterior_history_cases": 5076
+    },
+    "moving_incumbent_negative_correction": {
+      "b": "0",
+      "bound": "81/400",
+      "correction": "-1/5",
+      "costs": [
+        "1/10",
+        "1/10"
+      ],
+      "rho": "9/10"
+    },
+    "new_information_family": {
+      "b": "1/2",
+      "condition": "rho^2 > 4 epsilon + 8 c for c>=0,epsilon>=0",
+      "d_A": "c",
+      "d_B": "1/4+epsilon",
+      "example": {
+        "c": "1/100",
+        "epsilon": "1/20",
+        "joint_value": "109/200",
+        "joint_worlds": [
+          {
+            "p": "41/100",
+            "u": [
+              "0",
+              "0"
+            ]
+          },
+          {
+            "p": "9/100",
+            "u": [
+              "0",
+              "1"
+            ]
+          },
+          {
+            "p": "9/100",
+            "u": [
+              "1/2",
+              "0"
+            ]
+          },
+          {
+            "p": "41/100",
+            "u": [
+              "1/2",
+              "1"
+            ]
+          }
+        ],
+        "product_value": "1/2",
+        "rho": "4/5"
+      },
+      "formula": "V2=1/2+max(0,-c+max(0,rho^2/4-epsilon)/2)",
+      "grid": [
+        {
+          "c": "0",
+          "epsilon": "0",
+          "profitable": false,
+          "rho": "0",
+          "value": "1/2"
+        },
+        {
+          "c": "1/1000",
+          "epsilon": "0",
+          "profitable": false,
+          "rho": "0",
+          "value": "1/2"
+        },
+        {
+          "c": "1/100",
+          "epsilon": "0",
+          "profitable": false,
+          "rho": "0",
+          "value": "1/2"
+        },
+        {
+          "c": "1/20",
+          "epsilon": "0",
+          "profitable": false,
+          "rho": "0",
+          "value": "1/2"
+        },
+        {
+          "c": "0",
+          "epsilon": "1/100",
+          "profitable": false,
+          "rho": "0",
+          "value": "1/2"
+        },
+        {
+          "c": "1/1000",
+          "epsilon": "1/100",
+          "profitable": false,
+          "rho": "0",
+          "value": "1/2"
+        },
+        {
+          "c": "1/100",
+          "epsilon": "1/100",
+          "profitable": false,
+          "rho": "0",
+          "value": "1/2"
+        },
+        {
+          "c": "1/20",
+          "epsilon": "1/100",
+          "profitable": false,
+          "rho": "0",
+          "value": "1/2"
+        },
+        {
+          "c": "0",
+          "epsilon": "1/20",
+          "profitable": false,
+          "rho": "0",
+          "value": "1/2"
+        },
+        {
+          "c": "1/1000",
+          "epsilon": "1/20",
+          "profitable": false,
+          "rho": "0",
+          "value": "1/2"
+        },
+        {
+          "c": "1/100",
+          "epsilon": "1/20",
+          "profitable": false,
+          "rho": "0",
+          "value": "1/2"
+        },
+        {
+          "c": "1/20",
+          "epsilon": "1/20",
+          "profitable": false,
+          "rho": "0",
+          "value": "1/2"
+        },
+        {
+          "c": "0",
+          "epsilon": "1/10",
+          "profitable": false,
+          "rho": "0",
+          "value": "1/2"
+        },
+        {
+          "c": "1/1000",
+          "epsilon": "1/10",
+          "profitable": false,
+          "rho": "0",
+          "value": "1/2"
+        },
+        {
+          "c": "1/100",
+          "epsilon": "1/10",
+          "profitable": false,
+          "rho": "0",
+          "value": "1/2"
+        },
+        {
+          "c": "1/20",
+          "epsilon": "1/10",
+          "profitable": false,
+          "rho": "0",
+          "value": "1/2"
+        },
+        {
+          "c": "0",
+          "epsilon": "1/5",
+          "profitable": false,
+          "rho": "0",
+          "value": "1/2"
+        },
+        {
+          "c": "1/1000",
+          "epsilon": "1/5",
+          "profitable": false,
+          "rho": "0",
+          "value": "1/2"
+        },
+        {
+          "c": "1/100",
+          "epsilon": "1/5",
+          "profitable": false,
+          "rho": "0",
+          "value": "1/2"
+        },
+        {
+          "c": "1/20",
+          "epsilon": "1/5",
+          "profitable": false,
+          "rho": "0",
+          "value": "1/2"
+        },
+        {
+          "c": "0",
+          "epsilon": "0",
+          "profitable": true,
+          "rho": "1/4",
+          "value": "65/128"
+        },
+        {
+          "c": "1/1000",
+          "epsilon": "0",
+          "profitable": true,
+          "rho": "1/4",
+          "value": "8109/16000"
+        },
+        {
+          "c": "1/100",
+          "epsilon": "0",
+          "profitable": false,
+          "rho": "1/4",
+          "value": "1/2"
+        },
+        {
+          "c": "1/20",
+          "epsilon": "0",
+          "profitable": false,
+          "rho": "1/4",
+          "value": "1/2"
+        },
+        {
+          "c": "0",
+          "epsilon": "1/100",
+          "profitable": true,
+          "rho": "1/4",
+          "value": "1609/3200"
+        },
+        {
+          "c": "1/1000",
+          "epsilon": "1/100",
+          "profitable": true,
+          "rho": "1/4",
+          "value": "8029/16000"
+        },
+        {
+          "c": "1/100",
+          "epsilon": "1/100",
+          "profitable": false,
+          "rho": "1/4",
+          "value": "1/2"
+        },
+        {
+          "c": "1/20",
+          "epsilon": "1/100",
+          "profitable": false,
+          "rho": "1/4",
+          "value": "1/2"
+        },
+        {
+          "c": "0",
+          "epsilon": "1/20",
+          "profitable": false,
+          "rho": "1/4",
+          "value": "1/2"
+        },
+        {
+          "c": "1/1000",
+          "epsilon": "1/20",
+          "profitable": false,
+          "rho": "1/4",
+          "value": "1/2"
+        },
+        {
+          "c": "1/100",
+          "epsilon": "1/20",
+          "profitable": false,
+          "rho": "1/4",
+          "value": "1/2"
+        },
+        {
+          "c": "1/20",
+          "epsilon": "1/20",
+          "profitable": false,
+          "rho": "1/4",
+          "value": "1/2"
+        },
+        {
+          "c": "0",
+          "epsilon": "1/10",
+          "profitable": false,
+          "rho": "1/4",
+          "value": "1/2"
+        },
+        {
+          "c": "1/1000",
+          "epsilon": "1/10",
+          "profitable": false,
+          "rho": "1/4",
+          "value": "1/2"
+        },
+        {
+          "c": "1/100",
+          "epsilon": "1/10",
+          "profitable": false,
+          "rho": "1/4",
+          "value": "1/2"
+        },
+        {
+          "c": "1/20",
+          "epsilon": "1/10",
+          "profitable": false,
+          "rho": "1/4",
+          "value": "1/2"
+        },
+        {
+          "c": "0",
+          "epsilon": "1/5",
+          "profitable": false,
+          "rho": "1/4",
+          "value": "1/2"
+        },
+        {
+          "c": "1/1000",
+          "epsilon": "1/5",
+          "profitable": false,
+          "rho": "1/4",
+          "value": "1/2"
+        },
+        {
+          "c": "1/100",
+          "epsilon": "1/5",
+          "profitable": false,
+          "rho": "1/4",
+          "value": "1/2"
+        },
+        {
+          "c": "1/20",
+          "epsilon": "1/5",
+          "profitable": false,
+          "rho": "1/4",
+          "value": "1/2"
+        },
+        {
+          "c": "0",
+          "epsilon": "0",
+          "profitable": true,
+          "rho": "1/2",
+          "value": "17/32"
+        },
+        {
+          "c": "1/1000",
+          "epsilon": "0",
+          "profitable": true,
+          "rho": "1/2",
+          "value": "2121/4000"
+        },
+        {
+          "c": "1/100",
+          "epsilon": "0",
+          "profitable": true,
+          "rho": "1/2",
+          "value": "417/800"
+        },
+        {
+          "c": "1/20",
+          "epsilon": "0",
+          "profitable": false,
+          "rho": "1/2",
+          "value": "1/2"
+        },
+        {
+          "c": "0",
+          "epsilon": "1/100",
+          "profitable": true,
+          "rho": "1/2",
+          "value": "421/800"
+        },
+        {
+          "c": "1/1000",
+          "epsilon": "1/100",
+          "profitable": true,
+          "rho": "1/2",
+          "value": "2101/4000"
+        },
+        {
+          "c": "1/100",
+          "epsilon": "1/100",
+          "profitable": true,
+          "rho": "1/2",
+          "value": "413/800"
+        },
+        {
+          "c": "1/20",
+          "epsilon": "1/100",
+          "profitable": false,
+          "rho": "1/2",
+          "value": "1/2"
+        },
+        {
+          "c": "0",
+          "epsilon": "1/20",
+          "profitable": true,
+          "rho": "1/2",
+          "value": "81/160"
+        },
+        {
+          "c": "1/1000",
+          "epsilon": "1/20",
+          "profitable": true,
+          "rho": "1/2",
+          "value": "2021/4000"
+        },
+        {
+          "c": "1/100",
+          "epsilon": "1/20",
+          "profitable": false,
+          "rho": "1/2",
+          "value": "1/2"
+        },
+        {
+          "c": "1/20",
+          "epsilon": "1/20",
+          "profitable": false,
+          "rho": "1/2",
+          "value": "1/2"
+        },
+        {
+          "c": "0",
+          "epsilon": "1/10",
+          "profitable": false,
+          "rho": "1/2",
+          "value": "1/2"
+        },
+        {
+          "c": "1/1000",
+          "epsilon": "1/10",
+          "profitable": false,
+          "rho": "1/2",
+          "value": "1/2"
+        },
+        {
+          "c": "1/100",
+          "epsilon": "1/10",
+          "profitable": false,
+          "rho": "1/2",
+          "value": "1/2"
+        },
+        {
+          "c": "1/20",
+          "epsilon": "1/10",
+          "profitable": false,
+          "rho": "1/2",
+          "value": "1/2"
+        },
+        {
+          "c": "0",
+          "epsilon": "1/5",
+          "profitable": false,
+          "rho": "1/2",
+          "value": "1/2"
+        },
+        {
+          "c": "1/1000",
+          "epsilon": "1/5",
+          "profitable": false,
+          "rho": "1/2",
+          "value": "1/2"
+        },
+        {
+          "c": "1/100",
+          "epsilon": "1/5",
+          "profitable": false,
+          "rho": "1/2",
+          "value": "1/2"
+        },
+        {
+          "c": "1/20",
+          "epsilon": "1/5",
+          "profitable": false,
+          "rho": "1/2",
+          "value": "1/2"
+        },
+        {
+          "c": "0",
+          "epsilon": "0",
+          "profitable": true,
+          "rho": "3/4",
+          "value": "73/128"
+        },
+        {
+          "c": "1/1000",
+          "epsilon": "0",
+          "profitable": true,
+          "rho": "3/4",
+          "value": "9109/16000"
+        },
+        {
+          "c": "1/100",
+          "epsilon": "0",
+          "profitable": true,
+          "rho": "3/4",
+          "value": "1793/3200"
+        },
+        {
+          "c": "1/20",
+          "epsilon": "0",
+          "profitable": true,
+          "rho": "3/4",
+          "value": "333/640"
+        },
+        {
+          "c": "0",
+          "epsilon": "1/100",
+          "profitable": true,
+          "rho": "3/4",
+          "value": "1809/3200"
+        },
+        {
+          "c": "1/1000",
+          "epsilon": "1/100",
+          "profitable": true,
+          "rho": "3/4",
+          "value": "9029/16000"
+        },
+        {
+          "c": "1/100",
+          "epsilon": "1/100",
+          "profitable": true,
+          "rho": "3/4",
+          "value": "1777/3200"
+        },
+        {
+          "c": "1/20",
+          "epsilon": "1/100",
+          "profitable": true,
+          "rho": "3/4",
+          "value": "1649/3200"
+        },
+        {
+          "c": "0",
+          "epsilon": "1/20",
+          "profitable": true,
+          "rho": "3/4",
+          "value": "349/640"
+        },
+        {
+          "c": "1/1000",
+          "epsilon": "1/20",
+          "profitable": true,
+          "rho": "3/4",
+          "value": "8709/16000"
+        },
+        {
+          "c": "1/100",
+          "epsilon": "1/20",
+          "profitable": true,
+          "rho": "3/4",
+          "value": "1713/3200"
+        },
+        {
+          "c": "1/20",
+          "epsilon": "1/20",
+          "profitable": false,
+          "rho": "3/4",
+          "value": "1/2"
+        },
+        {
+          "c": "0",
+          "epsilon": "1/10",
+          "profitable": true,
+          "rho": "3/4",
+          "value": "333/640"
+        },
+        {
+          "c": "1/1000",
+          "epsilon": "1/10",
+          "profitable": true,
+          "rho": "3/4",
+          "value": "8309/16000"
+        },
+        {
+          "c": "1/100",
+          "epsilon": "1/10",
+          "profitable": true,
+          "rho": "3/4",
+          "value": "1633/3200"
+        },
+        {
+          "c": "1/20",
+          "epsilon": "1/10",
+          "profitable": false,
+          "rho": "3/4",
+          "value": "1/2"
+        },
+        {
+          "c": "0",
+          "epsilon": "1/5",
+          "profitable": false,
+          "rho": "3/4",
+          "value": "1/2"
+        },
+        {
+          "c": "1/1000",
+          "epsilon": "1/5",
+          "profitable": false,
+          "rho": "3/4",
+          "value": "1/2"
+        },
+        {
+          "c": "1/100",
+          "epsilon": "1/5",
+          "profitable": false,
+          "rho": "3/4",
+          "value": "1/2"
+        },
+        {
+          "c": "1/20",
+          "epsilon": "1/5",
+          "profitable": false,
+          "rho": "3/4",
+          "value": "1/2"
+        },
+        {
+          "c": "0",
+          "epsilon": "0",
+          "profitable": true,
+          "rho": "9/10",
+          "value": "481/800"
+        },
+        {
+          "c": "1/1000",
+          "epsilon": "0",
+          "profitable": true,
+          "rho": "9/10",
+          "value": "2401/4000"
+        },
+        {
+          "c": "1/100",
+          "epsilon": "0",
+          "profitable": true,
+          "rho": "9/10",
+          "value": "473/800"
+        },
+        {
+          "c": "1/20",
+          "epsilon": "0",
+          "profitable": true,
+          "rho": "9/10",
+          "value": "441/800"
+        },
+        {
+          "c": "0",
+          "epsilon": "1/100",
+          "profitable": true,
+          "rho": "9/10",
+          "value": "477/800"
+        },
+        {
+          "c": "1/1000",
+          "epsilon": "1/100",
+          "profitable": true,
+          "rho": "9/10",
+          "value": "2381/4000"
+        },
+        {
+          "c": "1/100",
+          "epsilon": "1/100",
+          "profitable": true,
+          "rho": "9/10",
+          "value": "469/800"
+        },
+        {
+          "c": "1/20",
+          "epsilon": "1/100",
+          "profitable": true,
+          "rho": "9/10",
+          "value": "437/800"
+        },
+        {
+          "c": "0",
+          "epsilon": "1/20",
+          "profitable": true,
+          "rho": "9/10",
+          "value": "461/800"
+        },
+        {
+          "c": "1/1000",
+          "epsilon": "1/20",
+          "profitable": true,
+          "rho": "9/10",
+          "value": "2301/4000"
+        },
+        {
+          "c": "1/100",
+          "epsilon": "1/20",
+          "profitable": true,
+          "rho": "9/10",
+          "value": "453/800"
+        },
+        {
+          "c": "1/20",
+          "epsilon": "1/20",
+          "profitable": true,
+          "rho": "9/10",
+          "value": "421/800"
+        },
+        {
+          "c": "0",
+          "epsilon": "1/10",
+          "profitable": true,
+          "rho": "9/10",
+          "value": "441/800"
+        },
+        {
+          "c": "1/1000",
+          "epsilon": "1/10",
+          "profitable": true,
+          "rho": "9/10",
+          "value": "2201/4000"
+        },
+        {
+          "c": "1/100",
+          "epsilon": "1/10",
+          "profitable": true,
+          "rho": "9/10",
+          "value": "433/800"
+        },
+        {
+          "c": "1/20",
+          "epsilon": "1/10",
+          "profitable": true,
+          "rho": "9/10",
+          "value": "401/800"
+        },
+        {
+          "c": "0",
+          "epsilon": "1/5",
+          "profitable": true,
+          "rho": "9/10",
+          "value": "401/800"
+        },
+        {
+          "c": "1/1000",
+          "epsilon": "1/5",
+          "profitable": true,
+          "rho": "9/10",
+          "value": "2001/4000"
+        },
+        {
+          "c": "1/100",
+          "epsilon": "1/5",
+          "profitable": false,
+          "rho": "9/10",
+          "value": "1/2"
+        },
+        {
+          "c": "1/20",
+          "epsilon": "1/5",
+          "profitable": false,
+          "rho": "9/10",
+          "value": "1/2"
+        },
+        {
+          "c": "0",
+          "epsilon": "0",
+          "profitable": true,
+          "rho": "1",
+          "value": "5/8"
+        },
+        {
+          "c": "1/1000",
+          "epsilon": "0",
+          "profitable": true,
+          "rho": "1",
+          "value": "78/125"
+        },
+        {
+          "c": "1/100",
+          "epsilon": "0",
+          "profitable": true,
+          "rho": "1",
+          "value": "123/200"
+        },
+        {
+          "c": "1/20",
+          "epsilon": "0",
+          "profitable": true,
+          "rho": "1",
+          "value": "23/40"
+        },
+        {
+          "c": "0",
+          "epsilon": "1/100",
+          "profitable": true,
+          "rho": "1",
+          "value": "31/50"
+        },
+        {
+          "c": "1/1000",
+          "epsilon": "1/100",
+          "profitable": true,
+          "rho": "1",
+          "value": "619/1000"
+        },
+        {
+          "c": "1/100",
+          "epsilon": "1/100",
+          "profitable": true,
+          "rho": "1",
+          "value": "61/100"
+        },
+        {
+          "c": "1/20",
+          "epsilon": "1/100",
+          "profitable": true,
+          "rho": "1",
+          "value": "57/100"
+        },
+        {
+          "c": "0",
+          "epsilon": "1/20",
+          "profitable": true,
+          "rho": "1",
+          "value": "3/5"
+        },
+        {
+          "c": "1/1000",
+          "epsilon": "1/20",
+          "profitable": true,
+          "rho": "1",
+          "value": "599/1000"
+        },
+        {
+          "c": "1/100",
+          "epsilon": "1/20",
+          "profitable": true,
+          "rho": "1",
+          "value": "59/100"
+        },
+        {
+          "c": "1/20",
+          "epsilon": "1/20",
+          "profitable": true,
+          "rho": "1",
+          "value": "11/20"
+        },
+        {
+          "c": "0",
+          "epsilon": "1/10",
+          "profitable": true,
+          "rho": "1",
+          "value": "23/40"
+        },
+        {
+          "c": "1/1000",
+          "epsilon": "1/10",
+          "profitable": true,
+          "rho": "1",
+          "value": "287/500"
+        },
+        {
+          "c": "1/100",
+          "epsilon": "1/10",
+          "profitable": true,
+          "rho": "1",
+          "value": "113/200"
+        },
+        {
+          "c": "1/20",
+          "epsilon": "1/10",
+          "profitable": true,
+          "rho": "1",
+          "value": "21/40"
+        },
+        {
+          "c": "0",
+          "epsilon": "1/5",
+          "profitable": true,
+          "rho": "1",
+          "value": "21/40"
+        },
+        {
+          "c": "1/1000",
+          "epsilon": "1/5",
+          "profitable": true,
+          "rho": "1",
+          "value": "131/250"
+        },
+        {
+          "c": "1/100",
+          "epsilon": "1/5",
+          "profitable": true,
+          "rho": "1",
+          "value": "103/200"
+        },
+        {
+          "c": "1/20",
+          "epsilon": "1/5",
+          "profitable": false,
+          "rho": "1",
+          "value": "1/2"
+        }
+      ],
+      "laws": [
+        [
+          "1/2",
+          "1/2",
+          "0"
+        ],
+        [
+          "1/2",
+          "0",
+          "1/2"
+        ]
+      ]
+    },
+    "non_claims": [
+      "No theorem follows from the finite count alone; direct proofs are in the companion report.",
+      "No game training, CAL, TEST or runtime controller was executed.",
+      "Centered common-strength family only models nonnegative offdiagonal utility covariances.",
+      "The query-cost Bellman excludes its own planner CPU overhead.",
+      "Terminal deployment is restricted to exact-known values; this is not posterior-mean selection of unqueried candidates."
+    ],
+    "schema": "c27-theory-finite-v1",
+    "software": {
+      "python": "3.12.14"
+    }
+  },
+  "remote_script_filename": "/tmp/quartz_c27_theory.py",
+  "report_sha256": "a5cf667be4c4c26a463e5c53ef7772882f13259c1212a31e3498ab446b5a0165",
+  "runs": [
+    {
+      "contract": {
+        "claim_id": "C27_R03_R07_FINITE",
+        "execution_artifacts": [
+          "theory_check.py"
+        ],
+        "mathematics": {
+          "assertion_tested": "Centered two-component joint law preserves marginals; exact Bayes update, covariance, H2 decomposition, information-only threshold and total-variation transfer inequalities match exact finite enumerations.",
+          "bounds": {
+            "candidate_count_max": 3,
+            "horizon": 2,
+            "rho_max": 1,
+            "rho_min": 0,
+            "utility_max": 1,
+            "utility_min": 0
+          },
+          "coefficient_domain": "Q, exact fractions.Fraction",
+          "conventions": "Utility support {0,1/2,1}; exact-known incumbent only; nonnegative query costs; complete utility-vector beliefs; at most two additional queries.",
+          "inputs": [
+            "336 two/three-candidate rational models, 3024 initial H2 cases, all positive histories of length at most two on these models",
+            "120 information-only parameter cases including rho=1 boundary",
+            "81 prior-to-policy transfer cases",
+            "109/200 new example, 69/100 existing correlated fixture, -1/5 moving-incumbent correction"
+          ],
+          "non_claims": [
+            "Finite checking alone is not a universal proof.",
+            "No game evaluation, TRAIN, CAL, TEST, production controller or wall-net gain is tested.",
+            "The two-mixture family is a restricted common-strength dependence hypothesis.",
+            "Planner CPU overhead is not charged inside query-cost Bellman."
+          ]
+        },
+        "randomness": {
+          "generator": "",
+          "seed": null,
+          "used": false
+        },
+        "software": [
+          {
+            "name": "computation Python",
+            "version": "3.12.14"
+          }
+        ]
+      },
+      "id": "check01",
+      "manifest": {
+        "checks": [
+          {
+            "check": "input hashes unchanged",
+            "passed": true
+          },
+          {
+            "check": "process exited successfully within enforced limits",
+            "passed": true
+          },
+          {
+            "check": "declared result files are present and regular",
+            "passed": true
+          }
+        ],
+        "claim_id": "C27_R03_R07_FINITE",
+        "command": [
+          "python3",
+          "theory_check.py",
+          "runs/check01/result.json"
+        ],
+        "declared_results": [
+          "runs/check01/result.json"
+        ],
+        "environment": {
+          "hardware": "Linux-6.18.57-x86_64-with-glibc2.41",
+          "software": [
+            {
+              "name": "runner-python",
+              "version": "3.12.14"
+            },
+            {
+              "name": "computation Python",
+              "version": "3.12.14"
+            }
+          ]
+        },
+        "execution_artifacts": [
+          "theory_check.py"
+        ],
+        "input_artifacts": [
+          {
+            "path": "theory_check.py",
+            "sha256": "ab6f991768c0d0e5ccb96b4bb2e7192e47daa6aaff1cd654ac154448246527fe",
+            "sha256_after": "ab6f991768c0d0e5ccb96b4bb2e7192e47daa6aaff1cd654ac154448246527fe"
+          }
+        ],
+        "mathematics": {
+          "assertion_tested": "Centered two-component joint law preserves marginals; exact Bayes update, covariance, H2 decomposition, information-only threshold and total-variation transfer inequalities match exact finite enumerations.",
+          "bounds": {
+            "candidate_count_max": 3,
+            "horizon": 2,
+            "rho_max": 1,
+            "rho_min": 0,
+            "utility_max": 1,
+            "utility_min": 0
+          },
+          "coefficient_domain": "Q, exact fractions.Fraction",
+          "conventions": "Utility support {0,1/2,1}; exact-known incumbent only; nonnegative query costs; complete utility-vector beliefs; at most two additional queries.",
+          "inputs": [
+            "336 two/three-candidate rational models, 3024 initial H2 cases, all positive histories of length at most two on these models",
+            "120 information-only parameter cases including rho=1 boundary",
+            "81 prior-to-policy transfer cases",
+            "109/200 new example, 69/100 existing correlated fixture, -1/5 moving-incumbent correction"
+          ],
+          "non_claims": [
+            "Finite checking alone is not a universal proof.",
+            "No game evaluation, TRAIN, CAL, TEST, production controller or wall-net gain is tested.",
+            "The two-mixture family is a restricted common-strength dependence hypothesis.",
+            "Planner CPU overhead is not charged inside query-cost Bellman."
+          ]
+        },
+        "output_directory": "runs/check01",
+        "outputs": [
+          {
+            "kind": "log",
+            "path": "runs/check01/stdout.txt",
+            "sha256": "3856b3f58bbfc871969843d86df77992a410f90801be7aaec34c2cc0d427e8b1"
+          },
+          {
+            "kind": "log",
+            "path": "runs/check01/stderr.txt",
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          {
+            "kind": "result",
+            "path": "runs/check01/result.json",
+            "sha256": "c292ae0d5d228c4e349cefa6202a2ab36b0593ec4fc8dca3ddbc0c8d8864835f"
+          }
+        ],
+        "randomness": {
+          "generator": "",
+          "seed": null,
+          "used": false
+        },
+        "repository": {
+          "commit": "unavailable",
+          "dirty": true
+        },
+        "residual_risks": [
+          "Command success does not establish the mathematical interpretation.",
+          "Only listed input artifacts are pinned; external dependencies need recorded versions.",
+          "The thread cap uses conventional environment variables; a child program may ignore them.",
+          "The POSIX CPU-time limit is per process, not an aggregate descendant budget."
+        ],
+        "result": "Run completed; mathematical assertion requires interpretation and review.",
+        "run": {
+          "exit_status": 0,
+          "invalid_results": [],
+          "max_output_bytes": 1048576,
+          "missing_results": [],
+          "resource_limits": {
+            "cpu_seconds": 100,
+            "max_cores": 1,
+            "max_threads": 1,
+            "memory_bytes": 536870912
+          },
+          "runtime_seconds": 7.997255,
+          "started_at": "2026-11-23T11:24:02.268056+00:00",
+          "status": "completed",
+          "timeout_seconds": 120.0
+        },
+        "schema_version": 2
+      },
+      "manifest_validation": {
+        "command": [
+          "python3",
+          "/home/agent/.codex/plugins/cache/openai-curated-remote/mathbox/4.0.0/skills/computation-audit/scripts/validate_manifest.py",
+          "/workspace/scratch/3ddaad4e019e/c27_theory_local/runs/check01/manifest.json",
+          "--root",
+          "/workspace/scratch/3ddaad4e019e/c27_theory_local"
+        ],
+        "exit_code": 0,
+        "stdout": "valid evidence record (run status: completed); mathematical interpretation requires review"
+      },
+      "stderr": "",
+      "stdout": "{\"status\": \"all finite assertions passed\", \"counts\": {\"joint_model_cases\": 336, \"posterior_history_cases\": 5076, \"h2_cases\": 3024, \"new_family_cases\": 120, \"policy_transfer_cases\": 81, \"assertions\": 34783}, \"new_example\": \"109/200 versus product1/2\", \"existing_example\": \"69/100\", \"moving_incumbent_correction\": \"-1/5\"}\n"
+    },
+    {
+      "contract": {
+        "claim_id": "C27_R03_R07_CONDITIONAL_FINITE",
+        "execution_artifacts": [
+          "theory_check_v2.py"
+        ],
+        "mathematics": {
+          "assertion_tested": "Centered two-component joint law preserves marginals; exact Bayes update, covariance, H2 decomposition, information-only threshold and total-variation transfer inequalities match exact finite enumerations. Includes H2 after initial exact reveals, posterior covariance, and productization at the common initial history.",
+          "bounds": {
+            "candidate_count_max": 3,
+            "horizon": 2,
+            "rho_max": 1,
+            "rho_min": 0,
+            "utility_max": 1,
+            "utility_min": 0
+          },
+          "coefficient_domain": "Q, exact fractions.Fraction",
+          "conventions": "Utility support {0,1/2,1}; exact-known incumbent only; nonnegative query costs; complete utility-vector beliefs; at most two additional queries.",
+          "inputs": [
+            "336 two/three-candidate rational models, 3024 initial H2 cases, all positive histories of length at most two on these models",
+            "120 information-only parameter cases including rho=1 boundary",
+            "81 prior-to-policy transfer cases",
+            "109/200 new example, 69/100 existing correlated fixture, -1/5 moving-incumbent correction",
+            "5076 positive histories, with H2 incumbent max(1/2, revealed values) and same-marginal product control formed after those reveals"
+          ],
+          "non_claims": [
+            "Finite checking alone is not a universal proof.",
+            "No game evaluation, TRAIN, CAL, TEST, production controller or wall-net gain is tested.",
+            "The two-mixture family is a restricted common-strength dependence hypothesis.",
+            "Planner CPU overhead is not charged inside query-cost Bellman."
+          ]
+        },
+        "randomness": {
+          "generator": "",
+          "seed": null,
+          "used": false
+        },
+        "software": [
+          {
+            "name": "computation Python",
+            "version": "3.12.14"
+          }
+        ]
+      },
+      "id": "check02",
+      "manifest": {
+        "checks": [
+          {
+            "check": "input hashes unchanged",
+            "passed": true
+          },
+          {
+            "check": "process exited successfully within enforced limits",
+            "passed": true
+          },
+          {
+            "check": "declared result files are present and regular",
+            "passed": true
+          }
+        ],
+        "claim_id": "C27_R03_R07_CONDITIONAL_FINITE",
+        "command": [
+          "python3",
+          "theory_check_v2.py",
+          "runs/check02/result.json"
+        ],
+        "declared_results": [
+          "runs/check02/result.json"
+        ],
+        "environment": {
+          "hardware": "Linux-6.18.57-x86_64-with-glibc2.41",
+          "software": [
+            {
+              "name": "runner-python",
+              "version": "3.12.14"
+            },
+            {
+              "name": "computation Python",
+              "version": "3.12.14"
+            }
+          ]
+        },
+        "execution_artifacts": [
+          "theory_check_v2.py"
+        ],
+        "input_artifacts": [
+          {
+            "path": "theory_check_v2.py",
+            "sha256": "420149645d7f482cb908f8d319fa09017bdb817b8b15173789fc2812d1d6f7a9",
+            "sha256_after": "420149645d7f482cb908f8d319fa09017bdb817b8b15173789fc2812d1d6f7a9"
+          }
+        ],
+        "mathematics": {
+          "assertion_tested": "Centered two-component joint law preserves marginals; exact Bayes update, covariance, H2 decomposition, information-only threshold and total-variation transfer inequalities match exact finite enumerations. Includes H2 after initial exact reveals, posterior covariance, and productization at the common initial history.",
+          "bounds": {
+            "candidate_count_max": 3,
+            "horizon": 2,
+            "rho_max": 1,
+            "rho_min": 0,
+            "utility_max": 1,
+            "utility_min": 0
+          },
+          "coefficient_domain": "Q, exact fractions.Fraction",
+          "conventions": "Utility support {0,1/2,1}; exact-known incumbent only; nonnegative query costs; complete utility-vector beliefs; at most two additional queries.",
+          "inputs": [
+            "336 two/three-candidate rational models, 3024 initial H2 cases, all positive histories of length at most two on these models",
+            "120 information-only parameter cases including rho=1 boundary",
+            "81 prior-to-policy transfer cases",
+            "109/200 new example, 69/100 existing correlated fixture, -1/5 moving-incumbent correction",
+            "5076 positive histories, with H2 incumbent max(1/2, revealed values) and same-marginal product control formed after those reveals"
+          ],
+          "non_claims": [
+            "Finite checking alone is not a universal proof.",
+            "No game evaluation, TRAIN, CAL, TEST, production controller or wall-net gain is tested.",
+            "The two-mixture family is a restricted common-strength dependence hypothesis.",
+            "Planner CPU overhead is not charged inside query-cost Bellman."
+          ]
+        },
+        "output_directory": "runs/check02",
+        "outputs": [
+          {
+            "kind": "log",
+            "path": "runs/check02/stdout.txt",
+            "sha256": "fa1b7a211bbf6ebd57221bcaa6e46150c27c2885a6482dc6d0f2bdf9bd9641dc"
+          },
+          {
+            "kind": "log",
+            "path": "runs/check02/stderr.txt",
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          {
+            "kind": "result",
+            "path": "runs/check02/result.json",
+            "sha256": "450f9f8351affc811eb7d876bbe106f5902e7435f687b20dc67bbca634142c47"
+          }
+        ],
+        "randomness": {
+          "generator": "",
+          "seed": null,
+          "used": false
+        },
+        "repository": {
+          "commit": "unavailable",
+          "dirty": true
+        },
+        "residual_risks": [
+          "Command success does not establish the mathematical interpretation.",
+          "Only listed input artifacts are pinned; external dependencies need recorded versions.",
+          "The thread cap uses conventional environment variables; a child program may ignore them.",
+          "The POSIX CPU-time limit is per process, not an aggregate descendant budget."
+        ],
+        "result": "Run completed; mathematical assertion requires interpretation and review.",
+        "run": {
+          "exit_status": 0,
+          "invalid_results": [],
+          "max_output_bytes": 1048576,
+          "missing_results": [],
+          "resource_limits": {
+            "cpu_seconds": 100,
+            "max_cores": 1,
+            "max_threads": 1,
+            "memory_bytes": 536870912
+          },
+          "runtime_seconds": 6.042682,
+          "started_at": "2026-11-23T11:25:34.149039+00:00",
+          "status": "completed",
+          "timeout_seconds": 120.0
+        },
+        "schema_version": 2
+      },
+      "manifest_validation": {
+        "command": [
+          "python3",
+          "/home/agent/.codex/plugins/cache/openai-curated-remote/mathbox/4.0.0/skills/computation-audit/scripts/validate_manifest.py",
+          "/workspace/scratch/3ddaad4e019e/c27_theory_local/runs/check02/manifest.json",
+          "--root",
+          "/workspace/scratch/3ddaad4e019e/c27_theory_local"
+        ],
+        "exit_code": 0,
+        "stdout": "valid evidence record (run status: completed); mathematical interpretation requires review"
+      },
+      "stderr": "",
+      "stdout": "{\"status\": \"all finite assertions passed\", \"counts\": {\"joint_model_cases\": 336, \"posterior_history_cases\": 5076, \"h2_cases\": 3024, \"conditional_h2_cases\": 5076, \"new_family_cases\": 120, \"policy_transfer_cases\": 81, \"assertions\": 53851}, \"new_example\": \"109/200 versus product1/2\", \"existing_example\": \"69/100\", \"moving_incumbent_correction\": \"-1/5\"}\n"
+    }
+  ],
+  "schema": "c27-theory-handoff-v1",
+  "scope": [
+    "No repository mutations or publication by this lane.",
+    "No TRAIN/CAL/TEST run or fit.",
+    "No production controller or wall-net validation.",
+    "Final script renamed but byte-identical to bounded-run input."
+  ],
+  "script_sha256": "420149645d7f482cb908f8d319fa09017bdb817b8b15173789fc2812d1d6f7a9",
+  "source_authority": {
+    "commit": "87c15dc828d6eea519c219fd8a412fa21dfc464d",
+    "device_id": "edd1b263-56a0-4391-8a2a-677dd00eabf5",
+    "observed_HEAD_matches": true,
+    "observed_working_tree_clean": true,
+    "repository": "/home/cosmosapjw/quantum/research/quartz_general_meta26_20261123"
+  }
+}
