@@ -13,3 +13,4 @@ The requested scope is R01–R10 followed by C01–C10. Each completed stage is 
 - R02: four primary papers compared by formula and assumptions; C24 enclosure reuse and provenance fixed.
 - R03: Definitions, assumptions and claim alignment completed and preserved.
 - R04: Candidate constructions and separating examples completed and preserved.
+- R05: Constructive derivation completed and preserved.

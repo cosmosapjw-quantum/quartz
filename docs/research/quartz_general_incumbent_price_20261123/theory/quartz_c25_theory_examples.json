@@ -1,0 +1,341 @@
+{
+  "schema": "quartz.c25.theory-constructor-check.v1",
+  "status": "completed",
+  "independence": "constructor check; independent parent verification pending",
+  "assertion_tested": "Exact rational SPD examples, nested interval validity, switch gain, retention loss prevention and conservatism, price-predictor counterexample, free-switch and tie cases",
+  "domain": "side=2, rho=1, S=1, alpha=1, beta=9; explicit listed rational states",
+  "python": "3.12.14",
+  "sympy": "1.14.0",
+  "A": [
+    [
+      "5",
+      "-1",
+      "-1",
+      "0"
+    ],
+    [
+      "-1",
+      "5",
+      "0",
+      "-1"
+    ],
+    [
+      "-1",
+      "0",
+      "5",
+      "-1"
+    ],
+    [
+      "0",
+      "-1",
+      "-1",
+      "5"
+    ]
+  ],
+  "A_eigenvalues": [
+    "3",
+    "5",
+    "7"
+  ],
+  "cases": [
+    {
+      "name": "certified_switch_gain",
+      "rhs": [
+        [
+          "1",
+          "0",
+          "0",
+          "0"
+        ],
+        [
+          "0",
+          "1/2",
+          "1/2",
+          "0"
+        ]
+      ],
+      "initial_x": [
+        [
+          "0",
+          "0",
+          "0",
+          "0"
+        ],
+        [
+          "0",
+          "1/10",
+          "1/10",
+          "0"
+        ]
+      ],
+      "next_x": [
+        [
+          "1/5",
+          "0",
+          "0",
+          "0"
+        ],
+        [
+          "0",
+          "1/10",
+          "1/10",
+          "0"
+        ]
+      ],
+      "true_utilities": [
+        "23/105",
+        "5/42"
+      ],
+      "initial_bounds": [
+        {
+          "lo": "1/9",
+          "hi": "1",
+          "ell": "0",
+          "D": "1"
+        },
+        {
+          "lo": "49/450",
+          "hi": "9/50",
+          "ell": "1/10",
+          "D": "2/25"
+        }
+      ],
+      "next_nested_bounds": [
+        {
+          "lo": "47/225",
+          "hi": "7/25",
+          "ell": "1/5",
+          "D": "2/25"
+        },
+        {
+          "lo": "49/450",
+          "hi": "9/50",
+          "ell": "1/10",
+          "D": "2/25"
+        }
+      ],
+      "plain_stop_selected": 1,
+      "next_ordinary_selected": 0,
+      "retained_selected": 0,
+      "retained_gain": "1/10",
+      "ordinary_gain": "1/10",
+      "retained_regret": "0",
+      "initial_G": "401/450",
+      "retained_G": "0"
+    },
+    {
+      "name": "retain_prevents_true_utility_drop",
+      "rhs": [
+        [
+          "1",
+          "0",
+          "0",
+          "0"
+        ],
+        [
+          "3/4",
+          "0",
+          "0",
+          "0"
+        ]
+      ],
+      "initial_x": [
+        [
+          "1/20",
+          "0",
+          "0",
+          "0"
+        ],
+        [
+          "0",
+          "0",
+          "0",
+          "0"
+        ]
+      ],
+      "next_x": [
+        [
+          "1/20",
+          "0",
+          "0",
+          "0"
+        ],
+        [
+          "3/20",
+          "0",
+          "0",
+          "0"
+        ]
+      ],
+      "true_utilities": [
+        "23/105",
+        "69/560"
+      ],
+      "initial_bounds": [
+        {
+          "lo": "271/1800",
+          "hi": "131/200",
+          "ell": "7/80",
+          "D": "227/400"
+        },
+        {
+          "lo": "1/16",
+          "hi": "9/16",
+          "ell": "0",
+          "D": "9/16"
+        }
+      ],
+      "next_nested_bounds": [
+        {
+          "lo": "271/1800",
+          "hi": "131/200",
+          "ell": "7/80",
+          "D": "227/400"
+        },
+        {
+          "lo": "47/400",
+          "hi": "63/400",
+          "ell": "9/80",
+          "D": "9/200"
+        }
+      ],
+      "plain_stop_selected": 0,
+      "next_ordinary_selected": 1,
+      "retained_selected": 0,
+      "retained_gain": "0",
+      "ordinary_gain": "-23/240",
+      "retained_regret": "0",
+      "initial_G": "1483/3600",
+      "retained_G": "1/144"
+    },
+    {
+      "name": "retain_rejects_uncertified_true_gain",
+      "rhs": [
+        [
+          "0",
+          "1/2",
+          "1/2",
+          "0"
+        ],
+        [
+          "1",
+          "0",
+          "0",
+          "0"
+        ]
+      ],
+      "initial_x": [
+        [
+          "0",
+          "1/20",
+          "1/20",
+          "0"
+        ],
+        [
+          "0",
+          "0",
+          "0",
+          "0"
+        ]
+      ],
+      "next_x": [
+        [
+          "0",
+          "1/20",
+          "1/20",
+          "0"
+        ],
+        [
+          "1/20",
+          "0",
+          "0",
+          "0"
+        ]
+      ],
+      "true_utilities": [
+        "5/42",
+        "23/105"
+      ],
+      "initial_bounds": [
+        {
+          "lo": "41/450",
+          "hi": "11/50",
+          "ell": "3/40",
+          "D": "29/200"
+        },
+        {
+          "lo": "1/9",
+          "hi": "1",
+          "ell": "0",
+          "D": "1"
+        }
+      ],
+      "next_nested_bounds": [
+        {
+          "lo": "41/450",
+          "hi": "11/50",
+          "ell": "3/40",
+          "D": "29/200"
+        },
+        {
+          "lo": "271/1800",
+          "hi": "131/200",
+          "ell": "7/80",
+          "D": "227/400"
+        }
+      ],
+      "plain_stop_selected": 0,
+      "next_ordinary_selected": 1,
+      "retained_selected": 0,
+      "retained_gain": "0",
+      "ordinary_gain": "1/10",
+      "retained_regret": "1/10",
+      "initial_G": "409/450",
+      "retained_G": "203/360"
+    }
+  ],
+  "predictor_counterexample": {
+    "current_intervals": [
+      [
+        "0",
+        "1"
+      ],
+      [
+        "0",
+        "1"
+      ]
+    ],
+    "incumbent": 0,
+    "true_utilities": [
+      "0",
+      "1/2"
+    ],
+    "lambda": "1",
+    "G": "1",
+    "predicted_cost": "1",
+    "true_continuation_cost": "1/4",
+    "true_continuation_gain": "1/2",
+    "predicted_stop": "True",
+    "true_net_gain": "1/4"
+  },
+  "free_switch_example": {
+    "bounds": [
+      {
+        "lo": "1/5",
+        "hi": "3/10"
+      },
+      {
+        "lo": "2/5",
+        "hi": "1/2"
+      }
+    ],
+    "old_G": "3/10",
+    "threshold": "1/2",
+    "new_incumbent": 1,
+    "new_G": "0"
+  },
+  "tie_check": {
+    "retained_incumbent": 1,
+    "G": "0"
+  }
+}

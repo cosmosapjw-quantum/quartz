@@ -39,3 +39,9 @@ Constructive three-action example: u=(3/5,4/5,7/10), intervals ([1/2,7/10],[3/4,
 Conservatism example: u=(3/5,61/100), intervals ([1/2,7/10],[11/20,13/20]), i=0. The true gain 1/100 exists but the overlap prevents certification. No finite-budget catch-up guarantee is assumed.
 
 Cost-model counterexample: both current intervals are [0,1/10], with true incumbent u_i=0 and alternative u_j=1/10. No free certified switch is available. G_i=1/10 and a predicted cost 1 at lambda=1 suggest stopping, but a paid continuation costing 1/100 that reveals/selects the alternative gains 9/100 net. A time predictor is not a universal cost lower bound.
+
+## R05 — Constructive derivation
+
+theory/DERIVATION.md proves retained-utility monotonicity, one-scan closure of certified replacements, box-sharp simple-regret bound, monotonicity of that bound, and the arbitrary paid-continuation price theorem. It separates sunk cost, free certified selection, output-set coverage, and work/time semantics.
+
+Three exact rational SPD constructions exhibit a useful certified switch (+1/10), avoidance of an ordinary-ranking regression (-23/240), and a missed real improvement (+1/10) caused by interval overlap. These are mathematical iterate constructions, not fabricated native CG trajectories. Their exact scripts and results accompany the derivation.
