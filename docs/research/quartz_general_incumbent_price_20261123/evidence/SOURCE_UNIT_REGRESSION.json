@@ -1,0 +1,167 @@
+{
+  "status": "PASS",
+  "scope": "UNIT regression only; not a fresh cohort result",
+  "historical_source_id": "c24_test_34_1",
+  "outcomes": [
+    {
+      "additional": 8,
+      "policies": {
+        "PLAIN_STOP": {
+          "selected": 1,
+          "initial_selected": 1,
+          "gain_exact": "0",
+          "regret_exact": "0",
+          "missed_improvement_vs_PLAIN_ALWAYS_exact": "0",
+          "reason": "INITIAL_ONLY"
+        },
+        "PLAIN_ALWAYS": {
+          "selected": 2,
+          "initial_selected": 1,
+          "gain_exact": "-113146607888822335/1208925819614629174706176",
+          "regret_exact": "113146607888822335/1208925819614629174706176",
+          "missed_improvement_vs_PLAIN_ALWAYS_exact": "0",
+          "reason": "FIXED_BUDGET_PLAIN"
+        },
+        "FAST_BLOCK": {
+          "selected": 2,
+          "initial_selected": 1,
+          "gain_exact": "-113146607888822335/1208925819614629174706176",
+          "regret_exact": "113146607888822335/1208925819614629174706176",
+          "missed_improvement_vs_PLAIN_ALWAYS_exact": "0",
+          "reason": "UNSEPARATED_BUDGET"
+        },
+        "RETAIN_BLOCK": {
+          "selected": 1,
+          "initial_selected": 1,
+          "gain_exact": "0",
+          "regret_exact": "0",
+          "missed_improvement_vs_PLAIN_ALWAYS_exact": "0",
+          "reason": "BUDGET"
+        },
+        "RETAIN_WORK": {
+          "selected": 1,
+          "initial_selected": 1,
+          "gain_exact": "0",
+          "regret_exact": "0",
+          "missed_improvement_vs_PLAIN_ALWAYS_exact": "0",
+          "reason": "BUDGET"
+        },
+        "RETAIN_TIME": {
+          "selected": 1,
+          "initial_selected": 1,
+          "gain_exact": "0",
+          "regret_exact": "0",
+          "missed_improvement_vs_PLAIN_ALWAYS_exact": "0",
+          "reason": "BUDGET"
+        }
+      }
+    },
+    {
+      "additional": 32,
+      "policies": {
+        "PLAIN_STOP": {
+          "selected": 1,
+          "initial_selected": 1,
+          "gain_exact": "0",
+          "regret_exact": "0",
+          "missed_improvement_vs_PLAIN_ALWAYS_exact": "0",
+          "reason": "INITIAL_ONLY"
+        },
+        "PLAIN_ALWAYS": {
+          "selected": 2,
+          "initial_selected": 1,
+          "gain_exact": "-113146607888822335/1208925819614629174706176",
+          "regret_exact": "113146607888822335/1208925819614629174706176",
+          "missed_improvement_vs_PLAIN_ALWAYS_exact": "0",
+          "reason": "FIXED_BUDGET_PLAIN"
+        },
+        "FAST_BLOCK": {
+          "selected": 2,
+          "initial_selected": 1,
+          "gain_exact": "-113146607888822335/1208925819614629174706176",
+          "regret_exact": "113146607888822335/1208925819614629174706176",
+          "missed_improvement_vs_PLAIN_ALWAYS_exact": "0",
+          "reason": "UNSEPARATED_BUDGET"
+        },
+        "RETAIN_BLOCK": {
+          "selected": 1,
+          "initial_selected": 1,
+          "gain_exact": "0",
+          "regret_exact": "0",
+          "missed_improvement_vs_PLAIN_ALWAYS_exact": "0",
+          "reason": "BUDGET"
+        },
+        "RETAIN_WORK": {
+          "selected": 1,
+          "initial_selected": 1,
+          "gain_exact": "0",
+          "regret_exact": "0",
+          "missed_improvement_vs_PLAIN_ALWAYS_exact": "0",
+          "reason": "BUDGET"
+        },
+        "RETAIN_TIME": {
+          "selected": 1,
+          "initial_selected": 1,
+          "gain_exact": "0",
+          "regret_exact": "0",
+          "missed_improvement_vs_PLAIN_ALWAYS_exact": "0",
+          "reason": "BUDGET"
+        }
+      }
+    },
+    {
+      "additional": 128,
+      "policies": {
+        "PLAIN_STOP": {
+          "selected": 1,
+          "initial_selected": 1,
+          "gain_exact": "0",
+          "regret_exact": "0",
+          "missed_improvement_vs_PLAIN_ALWAYS_exact": "0",
+          "reason": "INITIAL_ONLY"
+        },
+        "PLAIN_ALWAYS": {
+          "selected": 1,
+          "initial_selected": 1,
+          "gain_exact": "0",
+          "regret_exact": "0",
+          "missed_improvement_vs_PLAIN_ALWAYS_exact": "0",
+          "reason": "FIXED_BUDGET_PLAIN"
+        },
+        "FAST_BLOCK": {
+          "selected": 1,
+          "initial_selected": 1,
+          "gain_exact": "0",
+          "regret_exact": "0",
+          "missed_improvement_vs_PLAIN_ALWAYS_exact": "0",
+          "reason": "BLOCK_CERTIFICATE"
+        },
+        "RETAIN_BLOCK": {
+          "selected": 1,
+          "initial_selected": 1,
+          "gain_exact": "0",
+          "regret_exact": "0",
+          "missed_improvement_vs_PLAIN_ALWAYS_exact": "0",
+          "reason": "BLOCK_CERTIFICATE"
+        },
+        "RETAIN_WORK": {
+          "selected": 1,
+          "initial_selected": 1,
+          "gain_exact": "0",
+          "regret_exact": "0",
+          "missed_improvement_vs_PLAIN_ALWAYS_exact": "0",
+          "reason": "PRICE_WORK"
+        },
+        "RETAIN_TIME": {
+          "selected": 1,
+          "initial_selected": 1,
+          "gain_exact": "0",
+          "regret_exact": "0",
+          "missed_improvement_vs_PLAIN_ALWAYS_exact": "0",
+          "reason": "PRICE_TIME"
+        }
+      }
+    }
+  ],
+  "trace_timing_semantic_identity_policy_executions": 810
+}

@@ -1,0 +1,117 @@
+
+running 13 tests
+test c25_behavior_tests::budget_and_zero_progress_precede_positive_price_gate ... FAILED
+test c25_behavior_tests::endpoint_equality_does_not_switch_and_lower_ties_use_first_index ... FAILED
+test c25_behavior_tests::retained_budget_rejects_a_worse_ordinary_reselection ... FAILED
+test c25_behavior_tests::strict_max_lower_switch_precedes_price_and_is_auditable ... FAILED
+test c25_behavior_tests::time_gate_is_separate_and_zero_prediction_disables_positive_stop ... FAILED
+test c25_behavior_tests::work_gate_uses_outward_gap_and_inward_exact_dyadic_threshold ... FAILED
+test c25_behavior_tests::zero_gap_certifies_weak_optimality_without_a_unique_winner ... FAILED
+test c25_behavior_tests::zero_budget_keeps_initial_action_and_exposes_one_checkpoint ... FAILED
+test c25_behavior_tests::zero_progress_block_still_reads_every_action_once ... FAILED
+test c25_behavior_tests::trace_off_omits_vectors_and_preserves_compact_decision_result ... FAILED
+test c25_behavior_tests::inherited_controls_and_initial_scores_are_identical ... ok
+test c25_behavior_tests::public_input_rejects_negative_nonfinite_prediction_and_oracle_fields ... FAILED
+test c25_behavior_tests::public_suite_runs_exact_six_policies_with_cyclic_repetitions ... FAILED
+
+failures:
+
+failures:
+    c25_behavior_tests::budget_and_zero_progress_precede_positive_price_gate
+    c25_behavior_tests::endpoint_equality_does_not_switch_and_lower_ties_use_first_index
+    c25_behavior_tests::public_input_rejects_negative_nonfinite_prediction_and_oracle_fields
+    c25_behavior_tests::public_suite_runs_exact_six_policies_with_cyclic_repetitions
+    c25_behavior_tests::retained_budget_rejects_a_worse_ordinary_reselection
+    c25_behavior_tests::strict_max_lower_switch_precedes_price_and_is_auditable
+    c25_behavior_tests::time_gate_is_separate_and_zero_prediction_disables_positive_stop
+    c25_behavior_tests::trace_off_omits_vectors_and_preserves_compact_decision_result
+    c25_behavior_tests::work_gate_uses_outward_gap_and_inward_exact_dyadic_threshold
+    c25_behavior_tests::zero_budget_keeps_initial_action_and_exposes_one_checkpoint
+    c25_behavior_tests::zero_gap_certifies_weak_optimality_without_a_unique_winner
+    c25_behavior_tests::zero_progress_block_still_reads_every_action_once
+
+test result: FAILED. 1 passed; 12 failed; 0 ignored; 0 measured; 27 filtered out; finished in 0.00s
+
+   Compiling mcts_demo v0.3.0 (/home/cosmosapjw/quantum/research/quartz_general_meta25_20261123)
+warning: field `predicted_block_us` is never read
+    --> src/bin/quartz_c25_incumbent_price.rs:1786:5
+     |
+1776 | struct C25Request {
+     |        ---------- field in this struct
+...
+1786 |     predicted_block_us: f64,
+     |     ^^^^^^^^^^^^^^^^^^
+     |
+     = note: `C25Request` has a derived impl for the trait `Debug`, but this is intentionally ignored during dead code analysis
+     = note: `#[warn(dead_code)]` (part of `#[warn(unused)]`) on by default
+
+warning: variant `BlockCertificate` is never constructed
+    --> src/bin/quartz_c25_incumbent_price.rs:1814:5
+     |
+1811 | enum C25Reason {
+     |      --------- variant in this enum
+...
+1814 |     BlockCertificate,
+     |     ^^^^^^^^^^^^^^^^
+     |
+     = note: `C25Reason` has derived impls for the traits `Debug` and `Clone`, but these are intentionally ignored during dead code analysis
+
+warning: `mcts_demo` (bin "quartz_c25_incumbent_price" test) generated 2 warnings
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.26s
+     Running unittests src/bin/quartz_c25_incumbent_price.rs (target/debug/deps/quartz_c25_incumbent_price-2858dd6a95d1e9bf)
+
+thread 'c25_behavior_tests::budget_and_zero_progress_precede_positive_price_gate' (4022597) panicked at src/bin/quartz_c25_incumbent_price.rs:2073:9:
+assertion `left == right` failed
+  left: Continue
+ right: Budget
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+thread 'c25_behavior_tests::endpoint_equality_does_not_switch_and_lower_ties_use_first_index' (4022598) panicked at src/bin/quartz_c25_incumbent_price.rs:2025:9:
+assertion `left == right` failed
+  left: 1
+ right: 0
+
+thread 'c25_behavior_tests::retained_budget_rejects_a_worse_ordinary_reselection' (4022602) panicked at src/bin/quartz_c25_incumbent_price.rs:2001:9:
+assertion `left == right` failed
+  left: 1
+ right: 0
+
+thread 'c25_behavior_tests::strict_max_lower_switch_precedes_price_and_is_auditable' (4022603) panicked at src/bin/quartz_c25_incumbent_price.rs:2012:9:
+assertion `left == right` failed
+  left: 0
+ right: 2
+
+thread 'c25_behavior_tests::time_gate_is_separate_and_zero_prediction_disables_positive_stop' (4022604) panicked at src/bin/quartz_c25_incumbent_price.rs:2062:9:
+assertion `left == right` failed
+  left: None
+ right: Some(0.0)
+
+thread 'c25_behavior_tests::work_gate_uses_outward_gap_and_inward_exact_dyadic_threshold' (4022606) panicked at src/bin/quartz_c25_incumbent_price.rs:2047:9:
+assertion `left == right` failed
+  left: 0
+ right: 4485585228861014017
+
+thread 'c25_behavior_tests::zero_gap_certifies_weak_optimality_without_a_unique_winner' (4022608) panicked at src/bin/quartz_c25_incumbent_price.rs:2037:9:
+assertion `left == right` failed
+  left: Continue
+ right: ZeroRegretOptimum
+
+thread 'c25_behavior_tests::zero_budget_keeps_initial_action_and_exposes_one_checkpoint' (4022607) panicked at src/bin/quartz_c25_incumbent_price.rs:2099:9:
+assertion `left == right` failed
+  left: "UNSEPARATED_BUDGET"
+ right: "BUDGET"
+
+thread 'c25_behavior_tests::zero_progress_block_still_reads_every_action_once' (4022609) panicked at src/bin/quartz_c25_incumbent_price.rs:2083:9:
+assertion `left == right` failed
+  left: 0
+ right: 1
+
+thread 'c25_behavior_tests::trace_off_omits_vectors_and_preserves_compact_decision_result' (4022605) panicked at src/bin/quartz_c25_incumbent_price.rs:2170:9:
+assertion failed: value["c25"]["final_gain_upper"].is_number()
+
+thread 'c25_behavior_tests::public_input_rejects_negative_nonfinite_prediction_and_oracle_fields' (4022600) panicked at src/bin/quartz_c25_incumbent_price.rs:2130:13:
+prediction -1.0 must reject
+
+thread 'c25_behavior_tests::public_suite_runs_exact_six_policies_with_cyclic_repetitions' (4022601) panicked at src/bin/quartz_c25_incumbent_price.rs:2118:32:
+missing RETAIN_BLOCK
+error: test failed, to rerun pass `--bin quartz_c25_incumbent_price`

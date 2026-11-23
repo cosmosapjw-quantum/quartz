@@ -31,3 +31,11 @@ Prices and normalization were fixed at R09. Time prediction is a model approxima
 C04_RUN_CONTRACT.json fixes one native CPU worker and sequential cohorts. Rust and Python implementation ownership are disjoint. No timing campaign overlaps a build, another campaign, or a review computation on this device.
 
 After code tests and commit: TRAIN -> exact validation -> TRAIN-only predictor freeze -> CAL -> pre-TEST hash freeze -> TEST -> exact analysis -> one independent review/restore. Trace runs carry vector evidence; timing runs omit trace copies. Each parent chunk stays below45MiB and has byte identity in a manifest. All stages preserve raw failures and named corrective reruns.
+
+## C05 — Complete implementation
+
+The isolated native binary implements six real policies. Its C24 numerical prefix is byte-preserved apart from the renamed unused entry point; protected C24 source itself is unchanged. New retention/controller logic uses a complete all-action readout, directed price comparison and retained budget fallback. Control timing wraps C25 metadata construction too, so policy totals cover the actual feature path.
+
+Six Python modules provide fresh exact sources, decimal transport, hash-bound source chunks, a TRAIN-only predictor, independent Fraction verification and paired-parent analysis. Hidden oracle files are never native inputs. The implemented initial choices and preserved previous adverse case are checked through the public JSONL seam.
+
+Actual changed-behavior RED/GREEN evidence accompanies both implementations. C05C06_RUST_REPORT.md and PYTHON_HANDOFF.json list commands, source/binary hashes, reused tests and failure repairs. No full fresh cohort had been run when this implementation checkpoint was published.

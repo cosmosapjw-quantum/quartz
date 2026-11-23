@@ -1,0 +1,82 @@
+{
+  "schema": "quartz.c25.python-handoff.v1",
+  "status": "C05_C06_IMPLEMENTED_AND_UNIT_VERIFIED",
+  "source_head_before_commit": "b87a559d541aaa3952bc879822ddedd915c45b4d",
+  "files": {
+    "docs/research/quartz_general_incumbent_price_20261123/coding/c25_analyze.py": "f153009c25eca527e1944b7de15d5b52741fa10ea4e9cab92c405593a71f4e63",
+    "docs/research/quartz_general_incumbent_price_20261123/coding/c25_fit_predictor.py": "03425d3553124cc01237415385adeb31bb52345eb3ffdfac27e9293b4bb87227",
+    "docs/research/quartz_general_incumbent_price_20261123/coding/c25_io.py": "8831094288dede41ecfe76a63fc4d526d9f6170738ba35f919ad7411be42b273",
+    "docs/research/quartz_general_incumbent_price_20261123/coding/c25_run.py": "3a0b5753dd2492ae680555c1654decb8944cfc51d3edfe153dbcb2c88228080c",
+    "docs/research/quartz_general_incumbent_price_20261123/coding/c25_sources.py": "35767966eac06878ce4dfd152ce7c4a8a9e4d399b71f179c83ea02c30fbc16a7",
+    "docs/research/quartz_general_incumbent_price_20261123/coding/c25_verify.py": "83d7a4504b3418b14ea13a6a42ab3e8d0c84bdfdaab05607269d9649d9e6dfb3",
+    "tests/test_c25_sources.py": "99213bbc8fa820181d8d28b8c58ed4592b8d5e2d44b711baa824e76dda6d626e"
+  },
+  "unit_sources": 5,
+  "fresh_unit_sources": 4,
+  "historical_regression_sources": 1,
+  "python_tests": 18,
+  "observed_red_green_tests": 12,
+  "regression_tests_after": 6,
+  "unit_native_trace_policy_executions": 90,
+  "unit_native_timing_policy_executions": 810,
+  "unit_native_warmup_policy_executions": 90,
+  "trace_timing_semantic_identity_policy_executions": 810,
+  "trace_verification": {
+    "admitted_blocks_with_fresh_readout_floor": 57,
+    "byte_exact_transport_requests": 15,
+    "certified_optimal": 35,
+    "certified_work_price_stops": 3,
+    "exact_residual_parent_ids": [
+      "c24_test_34_1",
+      "c25_unit_00",
+      "c25_unit_01",
+      "c25_unit_02",
+      "c25_unit_03"
+    ],
+    "exact_residual_upper_action_checks": 180,
+    "exact_residual_vector_evaluations": 60,
+    "heuristic_time_price_stops": 6,
+    "identical_noncertified_fallbacks": 5,
+    "interval_scalar_containments": 1908,
+    "observed_source_budget_pairs": 15,
+    "plain_unverified_diagnostics": 30,
+    "policy_executions_checked": 90,
+    "repeat_consistency_groups": 90,
+    "requests": 15,
+    "retained_utility_noninferiority_checks": 45,
+    "retention_checkpoint_gain_checks": 102,
+    "scope": "All exact utility intervals, final retention/gain/counters/repeats; all trace checkpoints/switches; exact residual vectors only stated trace subset",
+    "weak_optimal_retention_outputs": 25
+  },
+  "timing_verification": {
+    "byte_exact_transport_requests": 0,
+    "certified_optimal": 315,
+    "exact_residual_parent_ids": [],
+    "exact_residual_upper_action_checks": 0,
+    "exact_residual_vector_evaluations": 0,
+    "identical_noncertified_fallbacks": 45,
+    "interval_scalar_containments": 7290,
+    "observed_source_budget_pairs": 15,
+    "plain_unverified_diagnostics": 270,
+    "policy_executions_checked": 810,
+    "repeat_consistency_groups": 90,
+    "requests": 15,
+    "retained_utility_noninferiority_checks": 405,
+    "scope": "All exact utility intervals, final retention/gain/counters/repeats; all trace checkpoints/switches; exact residual vectors only stated trace subset",
+    "weak_optimal_retention_outputs": 225
+  },
+  "full_cohort_runs": "NOT_RUN_PARENT_OWNED",
+  "predictor_fit": "NOT_RUN_PARENT_OWNED",
+  "skill_context_used": [
+    "PhysMath Research Loop 1.3.0 SKILL/CODING C05-C08/POLICY_INTEGRATION/SUBAGENT_MODE",
+    "computation-audit SKILL/checklist",
+    "test-driven-development SKILL; linked writing-good-tests resource unavailable"
+  ],
+  "commands_record": "RUN_UNIT_INTEGRATION.json",
+  "test_records": [
+    "PYTHON_RED.json",
+    "PYTHON_ANALYSIS_RED.json",
+    "PYTHON_GREEN.json"
+  ],
+  "regression": "SOURCE_UNIT_REGRESSION.json"
+}

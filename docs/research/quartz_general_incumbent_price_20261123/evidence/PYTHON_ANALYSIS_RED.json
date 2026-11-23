@@ -1,0 +1,18 @@
+{
+  "command": [
+    "venv/bin/python",
+    "-m",
+    "unittest",
+    "discover",
+    "-s",
+    "tests",
+    "-p",
+    "test_c25_sources.py",
+    "-k",
+    "AnalysisTest",
+    "-v"
+  ],
+  "exit_code": 1,
+  "expected": "missing C25 exact parent aggregation and primary TIME minus STOP contrast",
+  "log": "PYTHON_ANALYSIS_RED.log"
+}

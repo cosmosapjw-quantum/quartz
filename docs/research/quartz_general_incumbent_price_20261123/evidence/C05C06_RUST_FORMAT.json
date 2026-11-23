@@ -1,0 +1,11 @@
+{
+  "command": [
+    "rustfmt",
+    "--edition",
+    "2021",
+    "--emit",
+    "stdout"
+  ],
+  "exit_code": 0,
+  "scope": "Only appended C25 section replaced with formatted output; inherited prefix preserved exactly"
+}

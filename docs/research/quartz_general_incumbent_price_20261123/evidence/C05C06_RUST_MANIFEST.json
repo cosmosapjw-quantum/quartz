@@ -1,0 +1,119 @@
+{
+  "schema": "quartz.c25.native-handoff.v1",
+  "device_id": "edd1b263-56a0-4391-8a2a-677dd00eabf5",
+  "remote_root": "/home/cosmosapjw/quantum/research/quartz_general_meta25_20261123",
+  "production_files": [
+    "src/bin/quartz_c25_incumbent_price.rs"
+  ],
+  "source_sha256": "84c3937e42836431145fbde74999a57f98540e6b65760f2d71c6a4f78271a8d8",
+  "protected_c24_sha256": "5a7cc595c267d5337f268045d1df8bf5909093ed7920ee50293da76da94cd381",
+  "control_timing_change": "outer total_us includes C25 metadata construction; original numerical run_policy unchanged",
+  "new_red_green_tests": 12,
+  "reused_c24_tests": 27,
+  "reused_new_invariant_tests": 1,
+  "full_debug_release_tests_each": 40,
+  "no_worker_build_process_running": true,
+  "remaining": "parent integration, data-agent exact UNIT/adverse regression, campaigns and selected independent review",
+  "artifacts": [
+    {
+      "path": "docs/research/quartz_general_incumbent_price_20261123/evidence/C05C06_RUST_DEBUG_BUILD.log",
+      "bytes": 169,
+      "sha256": "316f14a9a975b0e68bf09ebbaeea565c7f39b36ec21f06761bd1632987fac3b7"
+    },
+    {
+      "path": "docs/research/quartz_general_incumbent_price_20261123/evidence/C05C06_RUST_DEBUG_TEST.log",
+      "bytes": 3819,
+      "sha256": "f94014ef1c5debbfd7f25264094287dcbc09d94eec57fc95f08e19023df7caae"
+    },
+    {
+      "path": "docs/research/quartz_general_incumbent_price_20261123/evidence/C05C06_RUST_FORMAT.json",
+      "bytes": 219,
+      "sha256": "6b02f191299523bb9636232d4199ed3f01070f93a747cd6fe7d947b9999f1d24"
+    },
+    {
+      "path": "docs/research/quartz_general_incumbent_price_20261123/evidence/C05C06_RUST_GREEN.json",
+      "bytes": 294,
+      "sha256": "e7f987c259ea86ca1f0fa4de04698141974ae908dc12a3a9552c7e07bc28b0f5"
+    },
+    {
+      "path": "docs/research/quartz_general_incumbent_price_20261123/evidence/C05C06_RUST_GREEN.log",
+      "bytes": 1593,
+      "sha256": "de8582d0da05f0d0aaaddf4c82b014d02f6bac804c3232c6143b40e9fae0e186"
+    },
+    {
+      "path": "docs/research/quartz_general_incumbent_price_20261123/evidence/C05C06_RUST_NATIVE_CHECKS.json",
+      "bytes": 7076,
+      "sha256": "f3094747c16b0b8044e54997f3db0522186c180bacabc5218783a173a9b7bc17"
+    },
+    {
+      "path": "docs/research/quartz_general_incumbent_price_20261123/evidence/C05C06_RUST_NATIVE_DEBUG.jsonl",
+      "bytes": 17465,
+      "sha256": "2739e266462deccb447b34c80a89d678300eafafa682f96085a644e91b249c3d"
+    },
+    {
+      "path": "docs/research/quartz_general_incumbent_price_20261123/evidence/C05C06_RUST_NATIVE_DEBUG.stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "docs/research/quartz_general_incumbent_price_20261123/evidence/C05C06_RUST_NATIVE_RELEASE.jsonl",
+      "bytes": 17452,
+      "sha256": "de99defd6d9830ac5eb2960ed3b96f353598be40b73dbf5719751544af0fca6e"
+    },
+    {
+      "path": "docs/research/quartz_general_incumbent_price_20261123/evidence/C05C06_RUST_NATIVE_RELEASE.stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "docs/research/quartz_general_incumbent_price_20261123/evidence/C05C06_RUST_NATIVE_REQUESTS.jsonl",
+      "bytes": 3056,
+      "sha256": "fda7aa68f0dc6e558bd8091aeb9ec7d6b45e99e2c5b5e79cc097cd245a819f5c"
+    },
+    {
+      "path": "docs/research/quartz_general_incumbent_price_20261123/evidence/C05C06_RUST_RED.json",
+      "bytes": 449,
+      "sha256": "ac8ea1ecdb5f068c2f1f5fe68c47f962dbf6907bb71f2da61226dd46f53651f3"
+    },
+    {
+      "path": "docs/research/quartz_general_incumbent_price_20261123/evidence/C05C06_RUST_RED.log",
+      "bytes": 7729,
+      "sha256": "881d279ca5b856a53162b63a0697717092884057b3aca1fcbace310f57cbbd17"
+    },
+    {
+      "path": "docs/research/quartz_general_incumbent_price_20261123/evidence/C05C06_RUST_RED_CORRECTED.json",
+      "bytes": 446,
+      "sha256": "d7d747e4a5c228b156d4d42deca66ad9aab18bd682f68329a8e9fd05c69489bf"
+    },
+    {
+      "path": "docs/research/quartz_general_incumbent_price_20261123/evidence/C05C06_RUST_RED_CORRECTED.log",
+      "bytes": 6328,
+      "sha256": "719a6fa9445c0a7f8f946ca7f72901b4d6bb4b03687b720077d1623ae2d05363"
+    },
+    {
+      "path": "docs/research/quartz_general_incumbent_price_20261123/evidence/C05C06_RUST_RED_SOURCE.rs",
+      "bytes": 74123,
+      "sha256": "31d2003fa438d98a320be773bb9bb13bd62a9f93f7cfe79f465f23f3bf55c19a"
+    },
+    {
+      "path": "docs/research/quartz_general_incumbent_price_20261123/evidence/C05C06_RUST_RELEASE_BUILD.log",
+      "bytes": 159,
+      "sha256": "d4be7568d648f14070846c77cb0d7416b3e1e8492f9569b18c22ab0cc19b07c6"
+    },
+    {
+      "path": "docs/research/quartz_general_incumbent_price_20261123/evidence/C05C06_RUST_RELEASE_TEST.log",
+      "bytes": 5193,
+      "sha256": "7872c784534463e66eec4337e0bb69645bacd620d7f1d187a727b35e7861f582"
+    },
+    {
+      "path": "docs/research/quartz_general_incumbent_price_20261123/evidence/C05C06_RUST_REPORT.md",
+      "bytes": 10703,
+      "sha256": "8881f7822e8821ae0b55e8a13dcc247bd543320196f63739fa2d335b414fd6c1"
+    },
+    {
+      "path": "docs/research/quartz_general_incumbent_price_20261123/evidence/C05C06_RUST_VERIFICATION.json",
+      "bytes": 1777,
+      "sha256": "bf39037d659aef2169e438a200081a342f02d2b2b23427e0ef8b0cc9ce85c854"
+    }
+  ]
+}

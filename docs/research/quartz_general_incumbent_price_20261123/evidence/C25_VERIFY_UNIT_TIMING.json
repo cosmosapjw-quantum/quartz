@@ -1,0 +1,54 @@
+{
+  "argv": [
+    "/home/cosmosapjw/quantum/research/quartz_general_meta25_20261123/docs/research/quartz_general_incumbent_price_20261123/coding/c25_verify.py",
+    "--split",
+    "UNIT",
+    "--mode",
+    "timing"
+  ],
+  "assertion_tested": "Exact finite manufactured utilities, all interval/gain containment, safe retention, charged threshold/floor, unchanged FAST fallback, fixed residual subset and repetitions",
+  "independent_of_production_numerical_imports": true,
+  "input_sha256": {
+    "C04_RUN_CONTRACT.json": "d287d19096c00847fe892e83e340f77715223e8fde2ddabe481d84300383ec79",
+    "C25_ORACLE_UNIT.jsonl.gz": "b6a58cb7044ad280b68a1147f9f8aecdd85d0b650584ba1d68570aed8386505f",
+    "C25_PUBLIC_UNIT.jsonl.gz": "6f4252ac8d47079d3b1a47fd98027f30548f059d31d65b873657055256535926",
+    "C25_SOURCES_UNIT.json": "2b952d59a855998ff24d62d9a88ecdb8a050a473eb47352bffaf3b3c88fcab24",
+    "C25_UNIT_TIMING.manifest.json": "ead2c812c303e73363cbce7ee3b6edf96cf3255a57f737fe66ca7fc13c77bc02",
+    "C25_UNIT_TIMING/000_c25_unit_00.jsonl.gz": "5734794628c08614dedc5a467f0b693203bd1cb3f8e2cd0b1753f3dfaf171782",
+    "C25_UNIT_TIMING/001_c25_unit_01.jsonl.gz": "629c42906372b7d6eb68c251336ee359d15a97a53441b5eb57283a8f91a5e509",
+    "C25_UNIT_TIMING/002_c25_unit_02.jsonl.gz": "322599162e9b7afd990ed08ed11d5cf90461534f41021577ca86b66d6267ead4",
+    "C25_UNIT_TIMING/003_c25_unit_03.jsonl.gz": "2c44c2a3157731d836e48b961854b9e73621adfaf2fb31a7c693450729b9ac8a",
+    "C25_UNIT_TIMING/004_c24_test_34_1.jsonl.gz": "df6334624e3fc2aad6b3065aaa86268e015eb7aa5a48458b1ff75c129ae82033",
+    "SOURCE_SPECS.json": "835207224f9ab389d1d8b4efd064fb45509690f0c9e55779c5b85285e43ae7f2"
+  },
+  "mode": "timing",
+  "native": {
+    "byte_exact_transport_requests": 0,
+    "certified_optimal": 315,
+    "exact_residual_parent_ids": [],
+    "exact_residual_upper_action_checks": 0,
+    "exact_residual_vector_evaluations": 0,
+    "identical_noncertified_fallbacks": 45,
+    "interval_scalar_containments": 7290,
+    "observed_source_budget_pairs": 15,
+    "plain_unverified_diagnostics": 270,
+    "policy_executions_checked": 810,
+    "repeat_consistency_groups": 90,
+    "requests": 15,
+    "retained_utility_noninferiority_checks": 405,
+    "scope": "All exact utility intervals, final retention/gain/counters/repeats; all trace checkpoints/switches; exact residual vectors only stated trace subset",
+    "weak_optimal_retention_outputs": 225
+  },
+  "non_claims": "No universal hardware-time bound, global allocation optimality, or theorem from finite tests",
+  "python": "3.12.3 (main, Aug 31 2026, 10:18:26) [GCC 13.3.0]",
+  "schema": "quartz.c25.verification.v1",
+  "source": {
+    "actions": 15,
+    "exact_rhs_components": 27927,
+    "oracle": "independent exact Dirichlet edge energy",
+    "parents": 5
+  },
+  "split": "UNIT",
+  "status": "PASS",
+  "verifier_sha256": "83d7a4504b3418b14ea13a6a42ab3e8d0c84bdfdaab05607269d9649d9e6dfb3"
+}

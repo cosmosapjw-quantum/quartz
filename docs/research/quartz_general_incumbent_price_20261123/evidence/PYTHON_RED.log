@@ -1,0 +1,119 @@
+test_rejects_calibration_or_test_input (test_c25_sources.PredictorTest.test_rejects_calibration_or_test_input) ... FAIL
+test_rejects_side_without_active_training_parent (test_c25_sources.PredictorTest.test_rejects_side_without_active_training_parent) ... FAIL
+test_uses_parent_mean_then_side_median_and_ignores_inactive (test_c25_sources.PredictorTest.test_uses_parent_mean_then_side_median_and_ignores_inactive) ... FAIL
+test_rejects_false_positive_price_stop (test_c25_sources.RetentionTest.test_rejects_false_positive_price_stop) ... FAIL
+test_rejects_missing_fresh_readout_charge (test_c25_sources.RetentionTest.test_rejects_missing_fresh_readout_charge) ... FAIL
+test_rejects_uncertified_incumbent_switch (test_c25_sources.RetentionTest.test_rejects_uncertified_incumbent_switch) ... FAIL
+test_rejects_understated_gain_bound (test_c25_sources.RetentionTest.test_rejects_understated_gain_bound) ... FAIL
+test_rejects_widened_historical_intersection (test_c25_sources.RetentionTest.test_rejects_widened_historical_intersection) ... FAIL
+test_frozen_c25_configuration_is_accepted (test_c25_sources.SourcesTest.test_frozen_c25_configuration_is_accepted) ... FAIL
+test_unit_seeds_are_fresh_c25_seeds (test_c25_sources.SourcesTest.test_unit_seeds_are_fresh_c25_seeds) ... FAIL
+
+======================================================================
+FAIL: test_rejects_calibration_or_test_input (test_c25_sources.PredictorTest.test_rejects_calibration_or_test_input)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/cosmosapjw/quantum/research/quartz_general_meta25_20261123/tests/test_c25_sources.py", line 82, in test_rejects_calibration_or_test_input
+    with self.assertRaises((AssertionError,ValueError)):
+AssertionError: (<class 'AssertionError'>, <class 'ValueError'>) not raised
+
+======================================================================
+FAIL: test_rejects_side_without_active_training_parent (test_c25_sources.PredictorTest.test_rejects_side_without_active_training_parent)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/cosmosapjw/quantum/research/quartz_general_meta25_20261123/tests/test_c25_sources.py", line 91, in test_rejects_side_without_active_training_parent
+    with self.assertRaises((AssertionError,ValueError)):
+AssertionError: (<class 'AssertionError'>, <class 'ValueError'>) not raised
+
+======================================================================
+FAIL: test_uses_parent_mean_then_side_median_and_ignores_inactive (test_c25_sources.PredictorTest.test_uses_parent_mean_then_side_median_and_ignores_inactive)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/cosmosapjw/quantum/research/quartz_general_meta25_20261123/tests/test_c25_sources.py", line 74, in test_uses_parent_mean_then_side_median_and_ignores_inactive
+    self.assertIn("by_side",got)
+AssertionError: 'by_side' not found in {}
+
+======================================================================
+FAIL: test_rejects_false_positive_price_stop (test_c25_sources.RetentionTest.test_rejects_false_positive_price_stop)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/cosmosapjw/quantum/research/quartz_general_meta25_20261123/tests/test_c25_sources.py", line 114, in test_rejects_false_positive_price_stop
+    self.check_rejected(lambda row:row["c25"]["decisions"][0].update(reason="PRICE_WORK"))
+  File "/home/cosmosapjw/quantum/research/quartz_general_meta25_20261123/tests/test_c25_sources.py", line 97, in check_rejected
+    with self.assertRaises((AssertionError,ValueError)):
+AssertionError: (<class 'AssertionError'>, <class 'ValueError'>) not raised
+
+======================================================================
+FAIL: test_rejects_missing_fresh_readout_charge (test_c25_sources.RetentionTest.test_rejects_missing_fresh_readout_charge)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/cosmosapjw/quantum/research/quartz_general_meta25_20261123/tests/test_c25_sources.py", line 111, in test_rejects_missing_fresh_readout_charge
+    self.check_rejected(lambda row:row["c25"]["decisions"][1].update(charged_cell_stencils=60))
+  File "/home/cosmosapjw/quantum/research/quartz_general_meta25_20261123/tests/test_c25_sources.py", line 97, in check_rejected
+    with self.assertRaises((AssertionError,ValueError)):
+AssertionError: (<class 'AssertionError'>, <class 'ValueError'>) not raised
+
+======================================================================
+FAIL: test_rejects_uncertified_incumbent_switch (test_c25_sources.RetentionTest.test_rejects_uncertified_incumbent_switch)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/cosmosapjw/quantum/research/quartz_general_meta25_20261123/tests/test_c25_sources.py", line 105, in test_rejects_uncertified_incumbent_switch
+    self.check_rejected(mutate)
+  File "/home/cosmosapjw/quantum/research/quartz_general_meta25_20261123/tests/test_c25_sources.py", line 97, in check_rejected
+    with self.assertRaises((AssertionError,ValueError)):
+AssertionError: (<class 'AssertionError'>, <class 'ValueError'>) not raised
+
+======================================================================
+FAIL: test_rejects_understated_gain_bound (test_c25_sources.RetentionTest.test_rejects_understated_gain_bound)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/cosmosapjw/quantum/research/quartz_general_meta25_20261123/tests/test_c25_sources.py", line 108, in test_rejects_understated_gain_bound
+    self.check_rejected(lambda row:row["c25"]["decisions"][0].update(gain_upper=0.0))
+  File "/home/cosmosapjw/quantum/research/quartz_general_meta25_20261123/tests/test_c25_sources.py", line 97, in check_rejected
+    with self.assertRaises((AssertionError,ValueError)):
+AssertionError: (<class 'AssertionError'>, <class 'ValueError'>) not raised
+
+======================================================================
+FAIL: test_rejects_widened_historical_intersection (test_c25_sources.RetentionTest.test_rejects_widened_historical_intersection)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/cosmosapjw/quantum/research/quartz_general_meta25_20261123/tests/test_c25_sources.py", line 119, in test_rejects_widened_historical_intersection
+    self.check_rejected(mutate)
+  File "/home/cosmosapjw/quantum/research/quartz_general_meta25_20261123/tests/test_c25_sources.py", line 97, in check_rejected
+    with self.assertRaises((AssertionError,ValueError)):
+AssertionError: (<class 'AssertionError'>, <class 'ValueError'>) not raised
+
+======================================================================
+FAIL: test_frozen_c25_configuration_is_accepted (test_c25_sources.SourcesTest.test_frozen_c25_configuration_is_accepted)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/cosmosapjw/quantum/research/quartz_general_meta25_20261123/tests/test_c25_sources.py", line 64, in test_frozen_c25_configuration_is_accepted
+    sources.validate_configuration(cfg,old)
+  File "/home/cosmosapjw/quantum/research/quartz_general_meta25_20261123/docs/research/quartz_general_incumbent_price_20261123/coding/c25_sources.py", line 99, in validate_configuration
+    assert config["policies"]==["PLAIN_STOP","PLAIN_ALWAYS","FAST_ONCE","FAST_BLOCK","OUTWARD_BLOCK","RESIDUAL"]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError
+
+======================================================================
+FAIL: test_unit_seeds_are_fresh_c25_seeds (test_c25_sources.SourcesTest.test_unit_seeds_are_fresh_c25_seeds)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/cosmosapjw/quantum/research/quartz_general_meta25_20261123/tests/test_c25_sources.py", line 67, in test_unit_seeds_are_fresh_c25_seeds
+    self.assertEqual([x["seed"] for x in sources.UNIT_SPECS[:4]],
+AssertionError: Lists differ: [24090001, 24090002, 24090003, 24090004] != [25090001, 25090002, 25090003, 25090004]
+
+First differing element 0:
+24090001
+25090001
+
+- [24090001, 24090002, 24090003, 24090004]
+?   ^         ^         ^         ^
+
++ [25090001, 25090002, 25090003, 25090004]
+?   ^         ^         ^         ^
+
+
+----------------------------------------------------------------------
+Ran 10 tests in 0.002s
+
+FAILED (failures=10)

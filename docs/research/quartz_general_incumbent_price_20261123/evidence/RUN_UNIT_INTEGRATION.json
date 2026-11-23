@@ -1,0 +1,82 @@
+{
+  "schema": "quartz.c25.unit-integration.v1",
+  "status": "completed",
+  "commands": [
+    {
+      "argv": [
+        "venv/bin/python",
+        "/home/cosmosapjw/quantum/research/quartz_general_meta25_20261123/docs/research/quartz_general_incumbent_price_20261123/coding/c25_sources.py",
+        "--split",
+        "UNIT"
+      ],
+      "exit_code": 0,
+      "start_utc": "2026-11-23T06:30:56.667303+00:00",
+      "log": "RUN_UNIT_00.log"
+    },
+    {
+      "argv": [
+        "venv/bin/python",
+        "/home/cosmosapjw/quantum/research/quartz_general_meta25_20261123/docs/research/quartz_general_incumbent_price_20261123/coding/c25_run.py",
+        "--split",
+        "UNIT",
+        "--mode",
+        "trace",
+        "--allow-dirty"
+      ],
+      "exit_code": 0,
+      "start_utc": "2026-11-23T06:31:11.651932+00:00",
+      "log": "RUN_UNIT_01.log"
+    },
+    {
+      "argv": [
+        "venv/bin/python",
+        "/home/cosmosapjw/quantum/research/quartz_general_meta25_20261123/docs/research/quartz_general_incumbent_price_20261123/coding/c25_run.py",
+        "--split",
+        "UNIT",
+        "--mode",
+        "timing",
+        "--allow-dirty"
+      ],
+      "exit_code": 0,
+      "start_utc": "2026-11-23T06:31:14.662704+00:00",
+      "log": "RUN_UNIT_02.log"
+    },
+    {
+      "argv": [
+        "venv/bin/python",
+        "/home/cosmosapjw/quantum/research/quartz_general_meta25_20261123/docs/research/quartz_general_incumbent_price_20261123/coding/c25_verify.py",
+        "--split",
+        "UNIT",
+        "--mode",
+        "trace"
+      ],
+      "exit_code": 0,
+      "start_utc": "2026-11-23T06:31:15.698818+00:00",
+      "log": "RUN_UNIT_03.log"
+    },
+    {
+      "argv": [
+        "venv/bin/python",
+        "/home/cosmosapjw/quantum/research/quartz_general_meta25_20261123/docs/research/quartz_general_incumbent_price_20261123/coding/c25_verify.py",
+        "--split",
+        "UNIT",
+        "--mode",
+        "timing"
+      ],
+      "exit_code": 0,
+      "start_utc": "2026-11-23T06:31:18.165801+00:00",
+      "log": "RUN_UNIT_04.log"
+    },
+    {
+      "argv": [
+        "venv/bin/python",
+        "/home/cosmosapjw/quantum/research/quartz_general_meta25_20261123/docs/research/quartz_general_incumbent_price_20261123/coding/c25_analyze.py",
+        "--split",
+        "UNIT"
+      ],
+      "exit_code": 0,
+      "start_utc": "2026-11-23T06:31:18.439325+00:00",
+      "log": "RUN_UNIT_05.log"
+    }
+  ]
+}

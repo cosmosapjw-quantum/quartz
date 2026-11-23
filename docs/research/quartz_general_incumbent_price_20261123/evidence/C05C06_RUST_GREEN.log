@@ -1,0 +1,21 @@
+
+running 13 tests
+test c25_behavior_tests::budget_and_zero_progress_precede_positive_price_gate ... ok
+test c25_behavior_tests::endpoint_equality_does_not_switch_and_lower_ties_use_first_index ... ok
+test c25_behavior_tests::public_input_rejects_negative_nonfinite_prediction_and_oracle_fields ... ok
+test c25_behavior_tests::retained_budget_rejects_a_worse_ordinary_reselection ... ok
+test c25_behavior_tests::strict_max_lower_switch_precedes_price_and_is_auditable ... ok
+test c25_behavior_tests::time_gate_is_separate_and_zero_prediction_disables_positive_stop ... ok
+test c25_behavior_tests::work_gate_uses_outward_gap_and_inward_exact_dyadic_threshold ... ok
+test c25_behavior_tests::zero_gap_certifies_weak_optimality_without_a_unique_winner ... ok
+test c25_behavior_tests::zero_budget_keeps_initial_action_and_exposes_one_checkpoint ... ok
+test c25_behavior_tests::trace_off_omits_vectors_and_preserves_compact_decision_result ... ok
+test c25_behavior_tests::zero_progress_block_still_reads_every_action_once ... ok
+test c25_behavior_tests::inherited_controls_and_initial_scores_are_identical ... ok
+test c25_behavior_tests::public_suite_runs_exact_six_policies_with_cyclic_repetitions ... ok
+
+test result: ok. 13 passed; 0 failed; 0 ignored; 0 measured; 27 filtered out; finished in 0.00s
+
+   Compiling mcts_demo v0.3.0 (/home/cosmosapjw/quantum/research/quartz_general_meta25_20261123)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.72s
+     Running unittests src/bin/quartz_c25_incumbent_price.rs (target/debug/deps/quartz_c25_incumbent_price-2858dd6a95d1e9bf)

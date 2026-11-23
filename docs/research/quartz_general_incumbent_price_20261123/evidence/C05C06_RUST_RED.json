@@ -1,0 +1,16 @@
+{
+  "command": [
+    "cargo",
+    "test",
+    "--bin",
+    "quartz_c25_incumbent_price",
+    "c25_behavior_tests",
+    "--",
+    "--nocapture"
+  ],
+  "exit_code": 101,
+  "elapsed_seconds": 4.994812965393066,
+  "source_sha256": "9dbcc0176e457a8ab27a6c41ea42bed00c03cb98a2052207f74691632edc8d99",
+  "phase": "preimplementation legacy-delegating baseline",
+  "inherited_c24_sha256": "5a7cc595c267d5337f268045d1df8bf5909093ed7920ee50293da76da94cd381"
+}

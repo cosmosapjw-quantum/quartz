@@ -1,0 +1,14 @@
+{
+  "command": [
+    "cargo",
+    "test",
+    "--bin",
+    "quartz_c25_incumbent_price",
+    "c25_behavior_tests",
+    "--",
+    "--nocapture"
+  ],
+  "exit_code": 0,
+  "elapsed_seconds": 0.751133918762207,
+  "source_sha256": "b138b0a0d4aeadaf6b72f0d5232b6106806f2047d9e8da3d3aff915a6c9188b8"
+}

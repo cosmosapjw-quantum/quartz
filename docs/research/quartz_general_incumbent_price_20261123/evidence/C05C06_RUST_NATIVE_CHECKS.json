@@ -1,0 +1,225 @@
+{
+  "status": "PASS",
+  "native_stream_exit_semantics": "exit0 with explicit per-line error JSON; process continues to valid requests",
+  "debug_release_semantic_identity_excluding_timing": true,
+  "records": [
+    {
+      "configuration": "debug",
+      "command": [
+        "/home/cosmosapjw/quantum/research/quartz_general_meta25_20261123/target/debug/quartz_c25_incumbent_price"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 0.003423452377319336,
+      "checks": [
+        {
+          "case": "malformed_json",
+          "expected_error": true,
+          "observed_error": "EOF while parsing an object at line 1 column 1",
+          "passed": true
+        },
+        {
+          "case": "top_oracle",
+          "expected_error": true,
+          "observed_error": "unknown field `oracle`, expected one of `task`, `additional`, `repeats`, `warmup`, `trace`, `predicted_block_us` at line 1 column 237",
+          "passed": true
+        },
+        {
+          "case": "task_oracle",
+          "expected_error": true,
+          "observed_error": "unknown field `oracle`, expected one of `id`, `side`, `rho`, `scale`, `rhs` at line 1 column 151",
+          "passed": true
+        },
+        {
+          "case": "negative_prediction",
+          "expected_error": true,
+          "observed_error": "predicted_block_us must be finite and nonnegative",
+          "passed": true
+        },
+        {
+          "case": "string_prediction",
+          "expected_error": true,
+          "observed_error": "invalid type: string \"NaN\", expected f64 at line 1 column 231",
+          "passed": true
+        },
+        {
+          "case": "budget_cap",
+          "expected_error": true,
+          "observed_error": "request repeat/warmup/budget cap violation",
+          "passed": true
+        },
+        {
+          "case": "repeat_zero",
+          "expected_error": true,
+          "observed_error": "request repeat/warmup/budget cap violation",
+          "passed": true
+        },
+        {
+          "case": "warmup_cap",
+          "expected_error": true,
+          "observed_error": "request repeat/warmup/budget cap violation",
+          "passed": true
+        },
+        {
+          "case": "operator_range",
+          "expected_error": true,
+          "observed_error": "operator outside bounded domain",
+          "passed": true
+        },
+        {
+          "case": "nonfinite_rhs",
+          "expected_error": true,
+          "observed_error": "rhs shape or finite-range violation",
+          "passed": true
+        },
+        {
+          "case": "unsupported_rhs",
+          "expected_error": true,
+          "observed_error": "UNSUPPORTED_RHS_NORM_RANGE: nonzero max|b| must lie in [2^-400,2^100]",
+          "passed": true
+        },
+        {
+          "case": "shape",
+          "expected_error": true,
+          "observed_error": "rhs shape or finite-range violation",
+          "passed": true
+        },
+        {
+          "case": "valid_zero_prediction_trace",
+          "expected_error": false,
+          "observed_error": null,
+          "passed": true
+        },
+        {
+          "case": "valid_positive_prediction_timing",
+          "expected_error": false,
+          "observed_error": null,
+          "passed": true
+        }
+      ]
+    },
+    {
+      "configuration": "release",
+      "command": [
+        "/home/cosmosapjw/quantum/research/quartz_general_meta25_20261123/target/release/quartz_c25_incumbent_price"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 0.0018668174743652344,
+      "checks": [
+        {
+          "case": "malformed_json",
+          "expected_error": true,
+          "observed_error": "EOF while parsing an object at line 1 column 1",
+          "passed": true
+        },
+        {
+          "case": "top_oracle",
+          "expected_error": true,
+          "observed_error": "unknown field `oracle`, expected one of `task`, `additional`, `repeats`, `warmup`, `trace`, `predicted_block_us` at line 1 column 237",
+          "passed": true
+        },
+        {
+          "case": "task_oracle",
+          "expected_error": true,
+          "observed_error": "unknown field `oracle`, expected one of `id`, `side`, `rho`, `scale`, `rhs` at line 1 column 151",
+          "passed": true
+        },
+        {
+          "case": "negative_prediction",
+          "expected_error": true,
+          "observed_error": "predicted_block_us must be finite and nonnegative",
+          "passed": true
+        },
+        {
+          "case": "string_prediction",
+          "expected_error": true,
+          "observed_error": "invalid type: string \"NaN\", expected f64 at line 1 column 231",
+          "passed": true
+        },
+        {
+          "case": "budget_cap",
+          "expected_error": true,
+          "observed_error": "request repeat/warmup/budget cap violation",
+          "passed": true
+        },
+        {
+          "case": "repeat_zero",
+          "expected_error": true,
+          "observed_error": "request repeat/warmup/budget cap violation",
+          "passed": true
+        },
+        {
+          "case": "warmup_cap",
+          "expected_error": true,
+          "observed_error": "request repeat/warmup/budget cap violation",
+          "passed": true
+        },
+        {
+          "case": "operator_range",
+          "expected_error": true,
+          "observed_error": "operator outside bounded domain",
+          "passed": true
+        },
+        {
+          "case": "nonfinite_rhs",
+          "expected_error": true,
+          "observed_error": "rhs shape or finite-range violation",
+          "passed": true
+        },
+        {
+          "case": "unsupported_rhs",
+          "expected_error": true,
+          "observed_error": "UNSUPPORTED_RHS_NORM_RANGE: nonzero max|b| must lie in [2^-400,2^100]",
+          "passed": true
+        },
+        {
+          "case": "shape",
+          "expected_error": true,
+          "observed_error": "rhs shape or finite-range violation",
+          "passed": true
+        },
+        {
+          "case": "valid_zero_prediction_trace",
+          "expected_error": false,
+          "observed_error": null,
+          "passed": true
+        },
+        {
+          "case": "valid_positive_prediction_timing",
+          "expected_error": false,
+          "observed_error": null,
+          "passed": true
+        }
+      ]
+    }
+  ],
+  "source_sha256": "84c3937e42836431145fbde74999a57f98540e6b65760f2d71c6a4f78271a8d8",
+  "source_specs_read": {
+    "sources": 144,
+    "splits": [
+      "CAL",
+      "TEST",
+      "TRAIN"
+    ],
+    "sides": [
+      8,
+      32,
+      96
+    ],
+    "additional": [
+      8,
+      32,
+      128
+    ],
+    "predictor": {
+      "TRAIN_input": 0,
+      "aggregation": "median of active parent means",
+      "artifact": "C25_TRAIN_COST_PREDICTOR.json",
+      "fit_additional": 32,
+      "fit_policy": "RETAIN_BLOCK",
+      "fit_split": "TRAIN",
+      "group": "side",
+      "per_parent": "mean over repetitions of continuation_us/executed_blocks for executed_blocks>0",
+      "zero_active_behavior": "error; do not fit from CAL or TEST"
+    }
+  }
+}

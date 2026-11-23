@@ -1,0 +1,68 @@
+{
+  "source_sha256": "84c3937e42836431145fbde74999a57f98540e6b65760f2d71c6a4f78271a8d8",
+  "inherited_c24_sha256": "5a7cc595c267d5337f268045d1df8bf5909093ed7920ee50293da76da94cd381",
+  "inherited_prefix_exact_except_main_rename": true,
+  "commands": [
+    {
+      "name": "DEBUG_TEST",
+      "command": [
+        "cargo",
+        "test",
+        "--bin",
+        "quartz_c25_incumbent_price"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 0.42236781120300293
+    },
+    {
+      "name": "RELEASE_TEST",
+      "command": [
+        "cargo",
+        "test",
+        "--release",
+        "--bin",
+        "quartz_c25_incumbent_price"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 15.144160509109497
+    },
+    {
+      "name": "DEBUG_BUILD",
+      "command": [
+        "cargo",
+        "build",
+        "--bin",
+        "quartz_c25_incumbent_price"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 0.6167252063751221
+    },
+    {
+      "name": "RELEASE_BUILD",
+      "command": [
+        "cargo",
+        "build",
+        "--release",
+        "--bin",
+        "quartz_c25_incumbent_price"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 5.168425798416138
+    }
+  ],
+  "env": {
+    "OMP_NUM_THREADS": "1",
+    "OPENBLAS_NUM_THREADS": "1",
+    "MKL_NUM_THREADS": "1"
+  },
+  "binaries": {
+    "debug": {
+      "path": "/home/cosmosapjw/quantum/research/quartz_general_meta25_20261123/target/debug/quartz_c25_incumbent_price",
+      "sha256": "1209b18ba37cdf8ab3a5e17c8a2c812923c77fcfaa2337c3746d6089581ba7fd"
+    },
+    "release": {
+      "path": "/home/cosmosapjw/quantum/research/quartz_general_meta25_20261123/target/release/quartz_c25_incumbent_price",
+      "sha256": "2ddccac45f1fa9c171509bcc329a37f2f9b575fe3c17797e806a74ee4d8febf5"
+    }
+  }
+}

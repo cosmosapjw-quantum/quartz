@@ -1,0 +1,17 @@
+{
+  "command": [
+    "venv/bin/python",
+    "-m",
+    "unittest",
+    "discover",
+    "-s",
+    "tests",
+    "-p",
+    "test_c25_sources.py",
+    "-v"
+  ],
+  "exit_code": 0,
+  "red_before_green_tests": 12,
+  "additional_regression_tests_after": 6,
+  "log": "PYTHON_GREEN.log"
+}

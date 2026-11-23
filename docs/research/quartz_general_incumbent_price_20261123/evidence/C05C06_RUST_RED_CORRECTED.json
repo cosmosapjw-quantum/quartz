@@ -1,0 +1,15 @@
+{
+  "command": [
+    "cargo",
+    "test",
+    "--bin",
+    "quartz_c25_incumbent_price",
+    "c25_behavior_tests",
+    "--",
+    "--nocapture"
+  ],
+  "exit_code": 101,
+  "elapsed_seconds": 0.2887856960296631,
+  "source_sha256": "31d2003fa438d98a320be773bb9bb13bd62a9f93f7cfe79f465f23f3bf55c19a",
+  "diagnosis": "RED adapter must count legacy OUTWARD readouts to avoid subtraction-underflow setup noise; absent C25 behavior otherwise unchanged"
+}

@@ -1,0 +1,16 @@
+{
+  "command": [
+    "venv/bin/python",
+    "-m",
+    "unittest",
+    "discover",
+    "-s",
+    "tests",
+    "-p",
+    "test_c25_sources.py",
+    "-v"
+  ],
+  "exit_code": 1,
+  "expected": "missing C25 configuration, TRAIN predictor, retention validation behaviors",
+  "log": "PYTHON_RED.log"
+}
