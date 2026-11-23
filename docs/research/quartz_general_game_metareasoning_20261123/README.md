@@ -1,0 +1,11 @@
+# Quartz C26 — Game-root metareasoning from original statistical-physics and cognitive ideas
+
+Parent C25: d6019d674ae76524b1895016f49b82d4f7b001b2.
+
+Question: can retained exact game decisions be controlled by a source-grounded computation-value model, an explicit KL/Gibbs selection objective, and a correctly scoped optimal-search index?
+
+Selected full scope: R01–R10 followed by C01–C10. Each completed stage is committed, backed up as a cumulative C26 overlay over the verified C23+C24+C25 chain, pushed, and verified against the remote HEAD. Original game-quality and fair-computation objectives remain explicit.
+
+## Execution record
+
+- R01: verified C25 local/remote identity and final archive; isolated C26 worktree; preserved14 older worktree identities; original theories traced to actual PDF, ZIP members, Git history and COG sources. See ORIGIN_THEORY_MAP.md.

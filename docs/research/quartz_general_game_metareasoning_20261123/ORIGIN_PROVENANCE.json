@@ -1,0 +1,197 @@
+{
+  "schema": "quartz.c26.origin-theory-map.v1",
+  "status": "READ_ONLY_SOURCE_INVESTIGATION_COMPLETED",
+  "device_id": "edd1b263-56a0-4391-8a2a-677dd00eabf5",
+  "repo": "/home/cosmosapjw/quantum/research/quartz_general_meta25_20261123",
+  "head": "d6019d674ae76524b1895016f49b82d4f7b001b2",
+  "root_commit": "15f3a1986a00d548d3da56dab8233b336e931aee",
+  "legacy_import_commit": "3bcaa435b6bdca2f821f8990230ea05ddf251a2f",
+  "sources": [
+    {
+      "commit": "d6019d674ae76524b1895016f49b82d4f7b001b2",
+      "path": "docs/legacy/QUARTZ_docs.zip",
+      "git_blob_oid": "2257f54b89765b7bf47d3224f6380e6848cc8a29",
+      "sha256": "927d9fd0201aeb3e8a052b9a5e55943d8cf21608320ac93753ec0595ce133fa2"
+    },
+    {
+      "commit": "d6019d674ae76524b1895016f49b82d4f7b001b2",
+      "path": "docs/legacy/QUARTZ_paper.pdf",
+      "git_blob_oid": "f8a981172d0b541cf42d6cf364e94c0a1c5dcaf0",
+      "sha256": "74d8848012f1ad95fbf2320a8f0392654c800c641d3d37ea90b81dead154547b"
+    },
+    {
+      "commit": "d6019d674ae76524b1895016f49b82d4f7b001b2",
+      "path": "docs/legacy/quartz.zip",
+      "git_blob_oid": "02e740a5c9b03591935d8c85c9977180d4f1200c",
+      "sha256": "18585cddf2fed20377cb9507025af886c5e891ba4981d5b24f2b4657ecc17c4f"
+    },
+    {
+      "commit": "d6019d674ae76524b1895016f49b82d4f7b001b2",
+      "path": "docs/THESIS.md",
+      "git_blob_oid": "dbb91db955d6cbc21683d27cf415f0245cf9f02d",
+      "sha256": "02ffa31af60ecbb1fa46f8bfebe4590caa365aca22f3c3d17817017a8ef5cb8f"
+    },
+    {
+      "commit": "d6019d674ae76524b1895016f49b82d4f7b001b2",
+      "path": "docs/BQ_PLUS_PLUS_DESIGN.md",
+      "git_blob_oid": "174e9ac5696fc43cc785109fe5b0ec6dfb61c06a",
+      "sha256": "3782424f9f1def15ee7a0bb3b4f4bfef9f3460079477c8fb512b2684c44fe5ef"
+    },
+    {
+      "commit": "d6019d674ae76524b1895016f49b82d4f7b001b2",
+      "path": "src/mcts/quartz.rs",
+      "git_blob_oid": "0ff803231638809a1e94062a7498cfb9c5312716",
+      "sha256": "0cd43689b32d5903cd0933bb292dedaf4d4a1d9ff94b748fb06c37b4bc4c1faf"
+    },
+    {
+      "commit": "d6019d674ae76524b1895016f49b82d4f7b001b2",
+      "path": "src/mcts/select.rs",
+      "git_blob_oid": "58a35b743d4a7b9055523c45aacb193a3f4907c3",
+      "sha256": "0f71e089d54290ea5be0d3b6f087e98c514ccc479273bb70da2b3355143ce7ab"
+    },
+    {
+      "commit": "d6019d674ae76524b1895016f49b82d4f7b001b2",
+      "path": "src/mcts/gvoc.rs",
+      "git_blob_oid": "2d8b19f5a64c8aaa66e833a1bd53e45507f807a8",
+      "sha256": "0828513f241eb49ba40780a41197d0c568e6140b6c3c5d51734e488e43004d5e"
+    },
+    {
+      "commit": "d6019d674ae76524b1895016f49b82d4f7b001b2",
+      "path": "src/mcts/policy/kg_stop.rs",
+      "git_blob_oid": "9404ffdf5a49ca503c53026797f50fe2ae0feadf",
+      "sha256": "218e56b8306edee2dea622c96b09220e11bb47341b7a5a5932b3d4c985a7bb04"
+    },
+    {
+      "commit": "d6019d674ae76524b1895016f49b82d4f7b001b2",
+      "path": "quartz/phase15_one_loop.py",
+      "git_blob_oid": "3f2f068ae7a10dc0694d226e5dbd36851c2df66e",
+      "sha256": "44204eb2a94bf5456fdc5838c9f75a1fcb897fc6f0e3e546b38cfbba4cd7993e"
+    },
+    {
+      "commit": "d6019d674ae76524b1895016f49b82d4f7b001b2",
+      "path": "quartz/experiments/metalevel_decision.py",
+      "git_blob_oid": "7d874d466502fda70a20b345a71246393f7bf9a6",
+      "sha256": "47f33420223c3c05e495a705ef0ef838825781c3fe9b989b0a351ab479a0c47f"
+    },
+    {
+      "commit": "15f3a1986a00d548d3da56dab8233b336e931aee",
+      "path": "docs/QUARTZ_THEORY.md",
+      "git_blob_oid": "78de060129578a72afb931ff6feb0e96a6dac8e3",
+      "sha256": "f0e69d54e2e947b6be70f05babc5a58e00f09ce8e377364a6c1c6b272c3cfed3"
+    },
+    {
+      "commit": "15f3a1986a00d548d3da56dab8233b336e931aee",
+      "path": "src/mcts/quartz.rs",
+      "git_blob_oid": "75bfe84e59796e66f93a36050ee76eb776cce14a",
+      "sha256": "34e4161f04561db48fa741aae3505d9ffbda4dde419c33def5d365209e9abb11"
+    },
+    {
+      "commit": "15f3a1986a00d548d3da56dab8233b336e931aee",
+      "path": "src/mcts/gvoc.rs",
+      "git_blob_oid": "acd0130270d1f70550e3c8b998ee8817efdd1af4",
+      "sha256": "37c2064557ca66d2fe6c4280eec3710f2d462153d8ad57fd5059f218fbe12527"
+    },
+    {
+      "commit": "15f3a1986a00d548d3da56dab8233b336e931aee",
+      "path": "src/mcts/select.rs",
+      "git_blob_oid": "87c31dd6603c32ca974637931c8d3064ab7e8d4d",
+      "sha256": "03c3e30048cd963b86859f3f591a5c8f7f436dfc56dac912eb09cd8ada8dfe15"
+    },
+    {
+      "commit": "3bcaa435b6bdca2f821f8990230ea05ddf251a2f",
+      "archive": "docs/legacy/QUARTZ_docs.zip",
+      "member": "QUARTZ/PRD.md",
+      "sha256": "0d84ea7f2a30532d14a33a4685a47192e2bf8a1ab76eb2d5b02f1b9b50e64c50"
+    },
+    {
+      "commit": "3bcaa435b6bdca2f821f8990230ea05ddf251a2f",
+      "archive": "docs/legacy/QUARTZ_docs.zip",
+      "member": "QUARTZ/README.md",
+      "sha256": "7354839a5055fdd18b13307dfed9f181e8ded775e97d92c355418262cbb174c6"
+    },
+    {
+      "commit": "3bcaa435b6bdca2f821f8990230ea05ddf251a2f",
+      "archive": "docs/legacy/QUARTZ_docs.zip",
+      "member": "QUARTZ/references/user_uploads/quantum_mcts_foundation.md",
+      "sha256": "fc8bb41be8b8ec43a924d17c41a9a7528bc185a7df96a0d7da1a059d065389c6"
+    },
+    {
+      "commit": "3bcaa435b6bdca2f821f8990230ea05ddf251a2f",
+      "archive": "docs/legacy/QUARTZ_docs.zip",
+      "member": "QUARTZ/references/user_uploads/effective-action-mcts.md",
+      "sha256": "d8638991645cc3803ab363e3c81f9f843d5dc5b0d2afe865c29f4bc80b38386b"
+    },
+    {
+      "commit": "d6019d674ae76524b1895016f49b82d4f7b001b2",
+      "path": "docs/research/cognitive_metareasoning_20261120/COG01_CONTRACT.md",
+      "git_blob_oid": "d8989aeeb5f57b8de4803b694ee64ee6d52eaf8c",
+      "sha256": "24b3645d5c9c2926d56f1e10651d5e9110748ce84cbf3768fd7a9acf9c9c9f71",
+      "first_history": "c183b7210a451ba3445c65b86672609d8807f954 2026-11-20T16:04:48+09:00 research(cog01): freeze recognition and computation-value calibration contract"
+    },
+    {
+      "commit": "d6019d674ae76524b1895016f49b82d4f7b001b2",
+      "path": "docs/research/cognitive_metareasoning_20261120/COG01_RESULTS_AND_NEXT_PLAN_KO.md",
+      "git_blob_oid": "e3fb892fe1c7f1604f5b2af7ea0705986edb1fec",
+      "sha256": "6f7932ac67dd2a1495c5b80a0cf37237bd0beb95d8dac4b2d764f3e6e40fe9a4",
+      "first_history": "cc3aa1771460f5a0f608375d985fd02998861364 2026-11-20T16:20:41+09:00 research(cog01): publish exact results, negative shift verdict and next-step handoff"
+    },
+    {
+      "commit": "d6019d674ae76524b1895016f49b82d4f7b001b2",
+      "path": "docs/research/cognitive_metareasoning_20261120/cognitive_exact.py",
+      "git_blob_oid": "ecd61fa516c38909a08cbee0305c92d7d2829f05",
+      "sha256": "4f4c55bc16dc2f0efdf1b26b0867ec4f2795aeb9bf65b651d2b36e45ae79dd61",
+      "first_history": "8a624e69978a6df18bbd07dfd6b4b0465fc4c371 2026-11-20T16:08:58+09:00 research(cog01): implement exact recognition and verification reference"
+    },
+    {
+      "commit": "d6019d674ae76524b1895016f49b82d4f7b001b2",
+      "path": "docs/research/cognitive_metareasoning_20261120/resident_reopening_13/theory/R10_HANDOFF_TO_CODING.md",
+      "git_blob_oid": "533628f3c9cded28be701835ea54b131836fe8e8",
+      "sha256": "5ed4131915d704bb97ba7ccc0e1a4989a96ebd2b9d8a371c4298b9e2528a9c47",
+      "first_history": "14cec023721f45cac6825a0c6f364a228f36ec2f 2026-11-21T12:53:26+09:00 theory(cog03 R10): resident-root unpruning constructive research stage"
+    },
+    {
+      "commit": "d6019d674ae76524b1895016f49b82d4f7b001b2",
+      "path": "docs/research/cognitive_metareasoning_20261120/highbranch_transfer_14/RESULTS_AND_NEXT_KO.md",
+      "git_blob_oid": "4c2e4ab2afd709988549d0f7dd1c5f9a0fb8d70f",
+      "sha256": "7bbe4c5f020365981df1e97d411664d16aa820b9744082ff68bac15e38eff60e",
+      "first_history": "eaff0ae3809eaf5c0e8b2573e1e5fac64f900da7 2026-11-21T14:25:28+09:00 coding(cog04 C10): close full R1-R10 C1-C10 highbranch transfer with honest cost gate"
+    },
+    {
+      "commit": "d6019d674ae76524b1895016f49b82d4f7b001b2",
+      "path": "docs/METACOGNITIVE_EXPERIMENTS.md",
+      "git_blob_oid": "752b32b0aacfcf93e19bfc93c049b14df7df1820",
+      "sha256": "29aa87d8d32636a96a9a6548a3d78f4b945bbb548b4880cd1a34baabef8318a3",
+      "first_history": "84c7f8f8c4575433a9bfefc479b99f37648208b5 2026-07-13T11:56:23+09:00 Add metacognitive root experiment harness"
+    }
+  ],
+  "report": "/tmp/quartz_c26_history.md",
+  "scope": "R01-R03 historical/source/theory mapping; no experiments or repository mutations",
+  "historical_conclusion": "Original KL/Gibbs/free-energy and rational metareasoning mechanisms are genuine; explicit expert-signature formulation is later; RG/Lindblad/criticality were original conjectural proposals with local derivation defects. Preserve general allocation plus CPU-fair real-game quality.",
+  "policy_corrections": [
+    {
+      "object": "docs/THESIS.md:177-180",
+      "correction": "permit derived statistical-physics mechanisms while excluding unsupported literal superiority"
+    },
+    {
+      "object": "docs/THESIS.md:124-129",
+      "correction": "exclude offline oracle VOC labels from runtime, not legitimate runtime estimated VOC"
+    }
+  ],
+  "cognitive_report_tracking": "COG01_CONTRACT.md explicitly says independent COG R1-R10 report was provided in preceding conversation and not assumed tracked in branch; exact report not found in inspected tracked paths",
+  "candidate_parent_update": "Parent favors actual GameState full-root action queries + TRAIN-only categorical belief + Gibbs net-VOC + Pandora index. Pandora is a new literature bridge, not claimed original QUARTZ source; independence and recall assumptions must be explicit.",
+  "skill_context_used": [
+    "PhysMath Research Loop 1.3.0 SKILL.md",
+    "references/THEORY_LOOP.md R01-R03",
+    "references/POLICY_INTEGRATION.md",
+    "references/SUBAGENT_MODE.md",
+    "Keystone context-survey 2.0.4"
+  ],
+  "experiments_run": false,
+  "repository_mutations": false,
+  "child_agents_spawned": 0,
+  "readback": {
+    "head": "d6019d674ae76524b1895016f49b82d4f7b001b2",
+    "status_porcelain": "",
+    "report_sha256": "0af7a94a0a8e758986d31357a721272ea9fb8632b84d694920dcb841f984c1ab"
+  }
+}

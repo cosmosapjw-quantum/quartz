@@ -1,0 +1,271 @@
+{
+  "schema": "quartz.c26.baseline.v1",
+  "parent": "d6019d674ae76524b1895016f49b82d4f7b001b2",
+  "branch": "research/quartz-general-c26-game-metareasoning-20261123",
+  "root": "/home/cosmosapjw/quantum/research/quartz_general_meta26_20261123",
+  "doc": "/home/cosmosapjw/quantum/research/quartz_general_meta26_20261123/docs/research/quartz_general_game_metareasoning_20261123",
+  "client_date": "2026-11-23 Asia/Seoul",
+  "utc": "2026-11-23T08:47:10.839432+00:00",
+  "base_chain": [
+    {
+      "path": "/home/cosmosapjw/Dropbox/personal_projects/quartz_general_meta26_backups/BASE_C23_a4417b081037.tar.gz",
+      "sha256": "c3bd869039619094905c2bb18f1ea9b427ce8fb2fe1c71f6c62a5a9630b26b05",
+      "bytes": 299211640,
+      "kind": "full C23 tree"
+    },
+    {
+      "path": "/home/cosmosapjw/Dropbox/personal_projects/quartz_general_meta26_backups/QUARTZ_GENERAL_C24_C10_4998c771c087.tar.gz",
+      "sha256": "0d9ff61369ae7b26b1421648f4cc3af13db4b394438b173a4bc678f02faa3efd",
+      "bytes": 278025353,
+      "kind": "cumulative C24 overlay"
+    },
+    {
+      "path": "/home/cosmosapjw/Dropbox/personal_projects/quartz_general_meta26_backups/QUARTZ_GENERAL_C25_C10_d6019d674ae7.tar.gz",
+      "sha256": "14af78f9aaa50eff7515c59fc0f3a0b3937a5636355ceaf092d7fbd0995e55bd",
+      "bytes": 290484038,
+      "kind": "cumulative C25 overlay"
+    }
+  ],
+  "protected": {
+    "src/game.rs": "b5e1fefb9d9ee72e7eb2fb684edafe3702e11f0f712cc3bd92fb43ccb71ff3e0",
+    "src/games/tictactoe.rs": "45f552117481ef00e966d461c111e2de41de2d5f504390c376d675d8c1de35f8",
+    "src/mcts/policy/finite_metalevel.rs": "ab84f60581ec0d001e358ce7ae37f8386c084d5b9ab885962eaa49f7511c2720",
+    "src/mcts/quartz.rs": "0cd43689b32d5903cd0933bb292dedaf4d4a1d9ff94b748fb06c37b4bc4c1faf",
+    "src/mcts/policy/kg_stop.rs": "218e56b8306edee2dea622c96b09220e11bb47341b7a5a5932b3d4c985a7bb04",
+    "Cargo.toml": "897e6624b41356d2f2ca7fffa30c4479cc0959fee3138cdb30fa4bc8ec5c1994",
+    "Cargo.lock": "4368560c374c1272000fdd17a48fbe8449c6e471c848698b088d0b6092b2bb36",
+    "src/bin/quartz_c25_incumbent_price.rs": "84c3937e42836431145fbde74999a57f98540e6b65760f2d71c6a4f78271a8d8",
+    "docs/research/quartz_general_incumbent_price_20261123/SOURCE_SPECS.json": "835207224f9ab389d1d8b4efd064fb45509690f0c9e55779c5b85285e43ae7f2",
+    "docs/research/quartz_general_incumbent_price_20261123/CODE_CONTRACT.json": "fcbbdcf9ce2d0243a5886e8e9d1df69a8779a324e679f55e671aed2d58b525cb"
+  },
+  "old_worktrees": [
+    {
+      "path": "/home/cosmosapjw/Dropbox/personal_projects/quartz",
+      "head": "65e7d3e9596ca259ebfe523b0c74058692b6a755",
+      "status": "?? QUARTZ_CLAUE_SCIENTIST_AGENT_CONTEXT.md",
+      "own_protected": {
+        "src/game.rs": "b5e1fefb9d9ee72e7eb2fb684edafe3702e11f0f712cc3bd92fb43ccb71ff3e0",
+        "src/games/tictactoe.rs": "45f552117481ef00e966d461c111e2de41de2d5f504390c376d675d8c1de35f8",
+        "src/mcts/quartz.rs": "0cd43689b32d5903cd0933bb292dedaf4d4a1d9ff94b748fb06c37b4bc4c1faf",
+        "src/mcts/policy/kg_stop.rs": "218e56b8306edee2dea622c96b09220e11bb47341b7a5a5932b3d4c985a7bb04",
+        "Cargo.toml": "897e6624b41356d2f2ca7fffa30c4479cc0959fee3138cdb30fa4bc8ec5c1994",
+        "Cargo.lock": "4368560c374c1272000fdd17a48fbe8449c6e471c848698b088d0b6092b2bb36",
+        "docs/THESIS.md": "02ffa31af60ecbb1fa46f8bfebe4590caa365aca22f3c3d17817017a8ef5cb8f",
+        "docs/CLAIM_LEDGER.md": "9ce928bc711b6d6c9ef9fcbf001688129d6c0223b3acbeacbdeebc5be68cbea2"
+      }
+    },
+    {
+      "path": "/home/cosmosapjw/quantum/research/quartz_cog01_20261120",
+      "head": "eaff0ae3809eaf5c0e8b2573e1e5fac64f900da7",
+      "status": "",
+      "own_protected": {
+        "src/game.rs": "b5e1fefb9d9ee72e7eb2fb684edafe3702e11f0f712cc3bd92fb43ccb71ff3e0",
+        "src/games/tictactoe.rs": "45f552117481ef00e966d461c111e2de41de2d5f504390c376d675d8c1de35f8",
+        "src/mcts/quartz.rs": "0cd43689b32d5903cd0933bb292dedaf4d4a1d9ff94b748fb06c37b4bc4c1faf",
+        "src/mcts/policy/kg_stop.rs": "218e56b8306edee2dea622c96b09220e11bb47341b7a5a5932b3d4c985a7bb04",
+        "Cargo.toml": "897e6624b41356d2f2ca7fffa30c4479cc0959fee3138cdb30fa4bc8ec5c1994",
+        "Cargo.lock": "4368560c374c1272000fdd17a48fbe8449c6e471c848698b088d0b6092b2bb36",
+        "docs/THESIS.md": "02ffa31af60ecbb1fa46f8bfebe4590caa365aca22f3c3d17817017a8ef5cb8f",
+        "docs/CLAIM_LEDGER.md": "dc8e16678d67d90a4970e665a320e1ed969910b79f0d8268dd501c3769c5a4b1"
+      }
+    },
+    {
+      "path": "/home/cosmosapjw/quantum/research/quartz_cog05_20261121",
+      "head": "a85bc0ded6bf67f81256e93645dc7147838c6f88",
+      "status": "",
+      "own_protected": {
+        "src/game.rs": "b5e1fefb9d9ee72e7eb2fb684edafe3702e11f0f712cc3bd92fb43ccb71ff3e0",
+        "src/games/tictactoe.rs": "45f552117481ef00e966d461c111e2de41de2d5f504390c376d675d8c1de35f8",
+        "src/mcts/quartz.rs": "0cd43689b32d5903cd0933bb292dedaf4d4a1d9ff94b748fb06c37b4bc4c1faf",
+        "src/mcts/policy/kg_stop.rs": "218e56b8306edee2dea622c96b09220e11bb47341b7a5a5932b3d4c985a7bb04",
+        "Cargo.toml": "897e6624b41356d2f2ca7fffa30c4479cc0959fee3138cdb30fa4bc8ec5c1994",
+        "Cargo.lock": "4368560c374c1272000fdd17a48fbe8449c6e471c848698b088d0b6092b2bb36",
+        "docs/THESIS.md": "02ffa31af60ecbb1fa46f8bfebe4590caa365aca22f3c3d17817017a8ef5cb8f",
+        "docs/CLAIM_LEDGER.md": "dc8e16678d67d90a4970e665a320e1ed969910b79f0d8268dd501c3769c5a4b1"
+      }
+    },
+    {
+      "path": "/home/cosmosapjw/quantum/research/quartz_cog06_20261121",
+      "head": "41febde4561644d7287fd4d3411847e485f5f646",
+      "status": "",
+      "own_protected": {
+        "src/game.rs": "b5e1fefb9d9ee72e7eb2fb684edafe3702e11f0f712cc3bd92fb43ccb71ff3e0",
+        "src/games/tictactoe.rs": "45f552117481ef00e966d461c111e2de41de2d5f504390c376d675d8c1de35f8",
+        "src/mcts/quartz.rs": "0cd43689b32d5903cd0933bb292dedaf4d4a1d9ff94b748fb06c37b4bc4c1faf",
+        "src/mcts/policy/kg_stop.rs": "218e56b8306edee2dea622c96b09220e11bb47341b7a5a5932b3d4c985a7bb04",
+        "Cargo.toml": "897e6624b41356d2f2ca7fffa30c4479cc0959fee3138cdb30fa4bc8ec5c1994",
+        "Cargo.lock": "4368560c374c1272000fdd17a48fbe8449c6e471c848698b088d0b6092b2bb36",
+        "docs/THESIS.md": "02ffa31af60ecbb1fa46f8bfebe4590caa365aca22f3c3d17817017a8ef5cb8f",
+        "docs/CLAIM_LEDGER.md": "dc8e16678d67d90a4970e665a320e1ed969910b79f0d8268dd501c3769c5a4b1"
+      }
+    },
+    {
+      "path": "/home/cosmosapjw/quantum/research/quartz_general_meta17_20261122",
+      "head": "e4dc4d6a0d5db03189d2f8465f6d5f019018f20c",
+      "status": "",
+      "own_protected": {
+        "src/game.rs": "b5e1fefb9d9ee72e7eb2fb684edafe3702e11f0f712cc3bd92fb43ccb71ff3e0",
+        "src/games/tictactoe.rs": "45f552117481ef00e966d461c111e2de41de2d5f504390c376d675d8c1de35f8",
+        "src/mcts/policy/finite_metalevel.rs": "ab84f60581ec0d001e358ce7ae37f8386c084d5b9ab885962eaa49f7511c2720",
+        "src/mcts/quartz.rs": "0cd43689b32d5903cd0933bb292dedaf4d4a1d9ff94b748fb06c37b4bc4c1faf",
+        "src/mcts/policy/kg_stop.rs": "218e56b8306edee2dea622c96b09220e11bb47341b7a5a5932b3d4c985a7bb04",
+        "Cargo.toml": "897e6624b41356d2f2ca7fffa30c4479cc0959fee3138cdb30fa4bc8ec5c1994",
+        "Cargo.lock": "4368560c374c1272000fdd17a48fbe8449c6e471c848698b088d0b6092b2bb36",
+        "docs/THESIS.md": "02ffa31af60ecbb1fa46f8bfebe4590caa365aca22f3c3d17817017a8ef5cb8f",
+        "docs/CLAIM_LEDGER.md": "dc8e16678d67d90a4970e665a320e1ed969910b79f0d8268dd501c3769c5a4b1"
+      }
+    },
+    {
+      "path": "/home/cosmosapjw/quantum/research/quartz_general_meta18_20261122",
+      "head": "097255bd00ffa436c3d43704ed201815e7cbb8ea",
+      "status": "",
+      "own_protected": {
+        "src/game.rs": "b5e1fefb9d9ee72e7eb2fb684edafe3702e11f0f712cc3bd92fb43ccb71ff3e0",
+        "src/games/tictactoe.rs": "45f552117481ef00e966d461c111e2de41de2d5f504390c376d675d8c1de35f8",
+        "src/mcts/policy/finite_metalevel.rs": "ab84f60581ec0d001e358ce7ae37f8386c084d5b9ab885962eaa49f7511c2720",
+        "src/mcts/quartz.rs": "0cd43689b32d5903cd0933bb292dedaf4d4a1d9ff94b748fb06c37b4bc4c1faf",
+        "src/mcts/policy/kg_stop.rs": "218e56b8306edee2dea622c96b09220e11bb47341b7a5a5932b3d4c985a7bb04",
+        "Cargo.toml": "897e6624b41356d2f2ca7fffa30c4479cc0959fee3138cdb30fa4bc8ec5c1994",
+        "Cargo.lock": "4368560c374c1272000fdd17a48fbe8449c6e471c848698b088d0b6092b2bb36",
+        "docs/THESIS.md": "02ffa31af60ecbb1fa46f8bfebe4590caa365aca22f3c3d17817017a8ef5cb8f",
+        "docs/CLAIM_LEDGER.md": "dc8e16678d67d90a4970e665a320e1ed969910b79f0d8268dd501c3769c5a4b1"
+      }
+    },
+    {
+      "path": "/home/cosmosapjw/quantum/research/quartz_general_meta19_20261122",
+      "head": "2a359ad049b6a0be4047e52ad281b665cf68e967",
+      "status": "",
+      "own_protected": {
+        "src/game.rs": "b5e1fefb9d9ee72e7eb2fb684edafe3702e11f0f712cc3bd92fb43ccb71ff3e0",
+        "src/games/tictactoe.rs": "45f552117481ef00e966d461c111e2de41de2d5f504390c376d675d8c1de35f8",
+        "src/mcts/policy/finite_metalevel.rs": "ab84f60581ec0d001e358ce7ae37f8386c084d5b9ab885962eaa49f7511c2720",
+        "src/mcts/quartz.rs": "0cd43689b32d5903cd0933bb292dedaf4d4a1d9ff94b748fb06c37b4bc4c1faf",
+        "src/mcts/policy/kg_stop.rs": "218e56b8306edee2dea622c96b09220e11bb47341b7a5a5932b3d4c985a7bb04",
+        "Cargo.toml": "897e6624b41356d2f2ca7fffa30c4479cc0959fee3138cdb30fa4bc8ec5c1994",
+        "Cargo.lock": "4368560c374c1272000fdd17a48fbe8449c6e471c848698b088d0b6092b2bb36",
+        "docs/THESIS.md": "02ffa31af60ecbb1fa46f8bfebe4590caa365aca22f3c3d17817017a8ef5cb8f",
+        "docs/CLAIM_LEDGER.md": "dc8e16678d67d90a4970e665a320e1ed969910b79f0d8268dd501c3769c5a4b1"
+      }
+    },
+    {
+      "path": "/home/cosmosapjw/quantum/research/quartz_general_meta20_20261122",
+      "head": "ba100d13b36a49151fc4a7b5dd379fa2eb79e4c4",
+      "status": "",
+      "own_protected": {
+        "src/game.rs": "b5e1fefb9d9ee72e7eb2fb684edafe3702e11f0f712cc3bd92fb43ccb71ff3e0",
+        "src/games/tictactoe.rs": "45f552117481ef00e966d461c111e2de41de2d5f504390c376d675d8c1de35f8",
+        "src/mcts/policy/finite_metalevel.rs": "ab84f60581ec0d001e358ce7ae37f8386c084d5b9ab885962eaa49f7511c2720",
+        "src/mcts/quartz.rs": "0cd43689b32d5903cd0933bb292dedaf4d4a1d9ff94b748fb06c37b4bc4c1faf",
+        "src/mcts/policy/kg_stop.rs": "218e56b8306edee2dea622c96b09220e11bb47341b7a5a5932b3d4c985a7bb04",
+        "Cargo.toml": "897e6624b41356d2f2ca7fffa30c4479cc0959fee3138cdb30fa4bc8ec5c1994",
+        "Cargo.lock": "4368560c374c1272000fdd17a48fbe8449c6e471c848698b088d0b6092b2bb36",
+        "docs/THESIS.md": "02ffa31af60ecbb1fa46f8bfebe4590caa365aca22f3c3d17817017a8ef5cb8f",
+        "docs/CLAIM_LEDGER.md": "dc8e16678d67d90a4970e665a320e1ed969910b79f0d8268dd501c3769c5a4b1"
+      }
+    },
+    {
+      "path": "/home/cosmosapjw/quantum/research/quartz_general_meta21_20261122",
+      "head": "351c63ae810b1fa633fe2a75440bf7d0929f92e4",
+      "status": "",
+      "own_protected": {
+        "src/game.rs": "b5e1fefb9d9ee72e7eb2fb684edafe3702e11f0f712cc3bd92fb43ccb71ff3e0",
+        "src/games/tictactoe.rs": "45f552117481ef00e966d461c111e2de41de2d5f504390c376d675d8c1de35f8",
+        "src/mcts/policy/finite_metalevel.rs": "ab84f60581ec0d001e358ce7ae37f8386c084d5b9ab885962eaa49f7511c2720",
+        "src/mcts/quartz.rs": "0cd43689b32d5903cd0933bb292dedaf4d4a1d9ff94b748fb06c37b4bc4c1faf",
+        "src/mcts/policy/kg_stop.rs": "218e56b8306edee2dea622c96b09220e11bb47341b7a5a5932b3d4c985a7bb04",
+        "Cargo.toml": "897e6624b41356d2f2ca7fffa30c4479cc0959fee3138cdb30fa4bc8ec5c1994",
+        "Cargo.lock": "4368560c374c1272000fdd17a48fbe8449c6e471c848698b088d0b6092b2bb36",
+        "docs/THESIS.md": "02ffa31af60ecbb1fa46f8bfebe4590caa365aca22f3c3d17817017a8ef5cb8f",
+        "docs/CLAIM_LEDGER.md": "dc8e16678d67d90a4970e665a320e1ed969910b79f0d8268dd501c3769c5a4b1"
+      }
+    },
+    {
+      "path": "/home/cosmosapjw/quantum/research/quartz_general_meta22_20261122",
+      "head": "6e91e3abfbc6727d58c0785ffdf80a7e3e7cabaf",
+      "status": "",
+      "own_protected": {
+        "src/game.rs": "b5e1fefb9d9ee72e7eb2fb684edafe3702e11f0f712cc3bd92fb43ccb71ff3e0",
+        "src/games/tictactoe.rs": "45f552117481ef00e966d461c111e2de41de2d5f504390c376d675d8c1de35f8",
+        "src/mcts/policy/finite_metalevel.rs": "ab84f60581ec0d001e358ce7ae37f8386c084d5b9ab885962eaa49f7511c2720",
+        "src/mcts/quartz.rs": "0cd43689b32d5903cd0933bb292dedaf4d4a1d9ff94b748fb06c37b4bc4c1faf",
+        "src/mcts/policy/kg_stop.rs": "218e56b8306edee2dea622c96b09220e11bb47341b7a5a5932b3d4c985a7bb04",
+        "Cargo.toml": "897e6624b41356d2f2ca7fffa30c4479cc0959fee3138cdb30fa4bc8ec5c1994",
+        "Cargo.lock": "4368560c374c1272000fdd17a48fbe8449c6e471c848698b088d0b6092b2bb36",
+        "docs/THESIS.md": "02ffa31af60ecbb1fa46f8bfebe4590caa365aca22f3c3d17817017a8ef5cb8f",
+        "docs/CLAIM_LEDGER.md": "dc8e16678d67d90a4970e665a320e1ed969910b79f0d8268dd501c3769c5a4b1"
+      }
+    },
+    {
+      "path": "/home/cosmosapjw/quantum/research/quartz_general_meta23_20261123",
+      "head": "a4417b081037c4d5b49976ddcaeaa3f0771773b2",
+      "status": "",
+      "own_protected": {
+        "src/game.rs": "b5e1fefb9d9ee72e7eb2fb684edafe3702e11f0f712cc3bd92fb43ccb71ff3e0",
+        "src/games/tictactoe.rs": "45f552117481ef00e966d461c111e2de41de2d5f504390c376d675d8c1de35f8",
+        "src/mcts/policy/finite_metalevel.rs": "ab84f60581ec0d001e358ce7ae37f8386c084d5b9ab885962eaa49f7511c2720",
+        "src/mcts/quartz.rs": "0cd43689b32d5903cd0933bb292dedaf4d4a1d9ff94b748fb06c37b4bc4c1faf",
+        "src/mcts/policy/kg_stop.rs": "218e56b8306edee2dea622c96b09220e11bb47341b7a5a5932b3d4c985a7bb04",
+        "Cargo.toml": "897e6624b41356d2f2ca7fffa30c4479cc0959fee3138cdb30fa4bc8ec5c1994",
+        "Cargo.lock": "4368560c374c1272000fdd17a48fbe8449c6e471c848698b088d0b6092b2bb36",
+        "docs/THESIS.md": "02ffa31af60ecbb1fa46f8bfebe4590caa365aca22f3c3d17817017a8ef5cb8f",
+        "docs/CLAIM_LEDGER.md": "dc8e16678d67d90a4970e665a320e1ed969910b79f0d8268dd501c3769c5a4b1"
+      }
+    },
+    {
+      "path": "/home/cosmosapjw/quantum/research/quartz_general_meta24_20261123",
+      "head": "4998c771c08788e4f0da8d2723347121ae16fbf2",
+      "status": "",
+      "own_protected": {
+        "src/game.rs": "b5e1fefb9d9ee72e7eb2fb684edafe3702e11f0f712cc3bd92fb43ccb71ff3e0",
+        "src/games/tictactoe.rs": "45f552117481ef00e966d461c111e2de41de2d5f504390c376d675d8c1de35f8",
+        "src/mcts/policy/finite_metalevel.rs": "ab84f60581ec0d001e358ce7ae37f8386c084d5b9ab885962eaa49f7511c2720",
+        "src/mcts/quartz.rs": "0cd43689b32d5903cd0933bb292dedaf4d4a1d9ff94b748fb06c37b4bc4c1faf",
+        "src/mcts/policy/kg_stop.rs": "218e56b8306edee2dea622c96b09220e11bb47341b7a5a5932b3d4c985a7bb04",
+        "Cargo.toml": "897e6624b41356d2f2ca7fffa30c4479cc0959fee3138cdb30fa4bc8ec5c1994",
+        "Cargo.lock": "4368560c374c1272000fdd17a48fbe8449c6e471c848698b088d0b6092b2bb36",
+        "docs/THESIS.md": "02ffa31af60ecbb1fa46f8bfebe4590caa365aca22f3c3d17817017a8ef5cb8f",
+        "docs/CLAIM_LEDGER.md": "dc8e16678d67d90a4970e665a320e1ed969910b79f0d8268dd501c3769c5a4b1"
+      }
+    },
+    {
+      "path": "/home/cosmosapjw/quantum/research/quartz_general_meta25_20261123",
+      "head": "d6019d674ae76524b1895016f49b82d4f7b001b2",
+      "status": "",
+      "own_protected": {
+        "src/game.rs": "b5e1fefb9d9ee72e7eb2fb684edafe3702e11f0f712cc3bd92fb43ccb71ff3e0",
+        "src/games/tictactoe.rs": "45f552117481ef00e966d461c111e2de41de2d5f504390c376d675d8c1de35f8",
+        "src/mcts/policy/finite_metalevel.rs": "ab84f60581ec0d001e358ce7ae37f8386c084d5b9ab885962eaa49f7511c2720",
+        "src/mcts/quartz.rs": "0cd43689b32d5903cd0933bb292dedaf4d4a1d9ff94b748fb06c37b4bc4c1faf",
+        "src/mcts/policy/kg_stop.rs": "218e56b8306edee2dea622c96b09220e11bb47341b7a5a5932b3d4c985a7bb04",
+        "Cargo.toml": "897e6624b41356d2f2ca7fffa30c4479cc0959fee3138cdb30fa4bc8ec5c1994",
+        "Cargo.lock": "4368560c374c1272000fdd17a48fbe8449c6e471c848698b088d0b6092b2bb36",
+        "src/bin/quartz_c25_incumbent_price.rs": "84c3937e42836431145fbde74999a57f98540e6b65760f2d71c6a4f78271a8d8",
+        "docs/research/quartz_general_incumbent_price_20261123/SOURCE_SPECS.json": "835207224f9ab389d1d8b4efd064fb45509690f0c9e55779c5b85285e43ae7f2",
+        "docs/research/quartz_general_incumbent_price_20261123/CODE_CONTRACT.json": "fcbbdcf9ce2d0243a5886e8e9d1df69a8779a324e679f55e671aed2d58b525cb",
+        "docs/THESIS.md": "02ffa31af60ecbb1fa46f8bfebe4590caa365aca22f3c3d17817017a8ef5cb8f",
+        "docs/CLAIM_LEDGER.md": "dc8e16678d67d90a4970e665a320e1ed969910b79f0d8268dd501c3769c5a4b1"
+      }
+    },
+    {
+      "path": "/home/cosmosapjw/quantum/research/reboot_20261120/quartz_mqft_c03_worktree",
+      "head": "65e7d3e9596ca259ebfe523b0c74058692b6a755",
+      "status": "M src/mcts/mod.rs\n?? src/mcts/mqft_c03.rs",
+      "own_protected": {
+        "src/game.rs": "b5e1fefb9d9ee72e7eb2fb684edafe3702e11f0f712cc3bd92fb43ccb71ff3e0",
+        "src/games/tictactoe.rs": "45f552117481ef00e966d461c111e2de41de2d5f504390c376d675d8c1de35f8",
+        "src/mcts/quartz.rs": "0cd43689b32d5903cd0933bb292dedaf4d4a1d9ff94b748fb06c37b4bc4c1faf",
+        "src/mcts/policy/kg_stop.rs": "218e56b8306edee2dea622c96b09220e11bb47341b7a5a5932b3d4c985a7bb04",
+        "Cargo.toml": "897e6624b41356d2f2ca7fffa30c4479cc0959fee3138cdb30fa4bc8ec5c1994",
+        "Cargo.lock": "4368560c374c1272000fdd17a48fbe8449c6e471c848698b088d0b6092b2bb36",
+        "docs/THESIS.md": "02ffa31af60ecbb1fa46f8bfebe4590caa365aca22f3c3d17817017a8ef5cb8f",
+        "docs/CLAIM_LEDGER.md": "9ce928bc711b6d6c9ef9fcbf001688129d6c0223b3acbeacbdeebc5be68cbea2"
+      }
+    }
+  ],
+  "authorized_policy_corrections": {
+    "docs/THESIS.md": "02ffa31af60ecbb1fa46f8bfebe4590caa365aca22f3c3d17817017a8ef5cb8f",
+    "docs/CLAIM_LEDGER.md": "dc8e16678d67d90a4970e665a320e1ed969910b79f0d8268dd501c3769c5a4b1"
+  },
+  "scope": "Full theory R01-R10 then coding C01-C10, actual GameState metareasoning, original statphys/cognition mechanisms, each-stage backup/publish, every-turn origin watchdog",
+  "C27_executed": false
+}
