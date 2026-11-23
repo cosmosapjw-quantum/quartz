@@ -47,3 +47,7 @@ The complete mapping from definitions to exact solver, probability model, reserv
 ## R10: closure
 
 The theory loop is complete. The retained source-to-mechanism map is ORIGIN_DRIFT_WATCHDOG.md; the precise coding entry is theory/R10_HANDOFF.md. Scientific proofs, finite checks, storage acknowledgement and future restore verification are distinguished.
+
+## Coding feedback retained at C10
+
+The product-prior/fixed-predicted-cost bridge passed semantic implementation checks but the predeclared TEST positive-net gate did not pass. The exact independent-model theorems remain conditional, and retention safety survives inaccurate priors. Selected-path overprediction motivates joint posterior conditioning and H2 information-only queries as the next bounded hypothesis. No theory or parameter was altered to fit C26 TEST. The C09 endpoint wording correction explicitly excludes delta=0 from strict positivity and leaves executable expressions unchanged.

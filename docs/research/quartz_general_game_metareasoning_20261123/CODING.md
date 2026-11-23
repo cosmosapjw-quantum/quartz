@@ -41,3 +41,7 @@ The frozen TEST campaign completed and all raw/inference identities were indepen
 ## C09 — review and restoration
 
 Independent review closed with no unresolved blocker. The C07 result-publication omission was verified repaired at C08; one strict-positivity endpoint condition was corrected in documentation and its generator string only. Actual four-archive restoration verified all2,768Git blobs/modes and1,106,732,654bytes. Original14worktrees remain unchanged. See coding/C09_REVIEW_AND_RESTORE.md and review/INDEPENDENT_REVIEW.md.
+
+## C10 — final scientific disposition
+
+All10coding stages are closed. Final report: RESULTS_AND_NEXT_PLAN_KO.md. The positive node-priced TEST gain is not established; exact safety and finite quality recovery are recorded separately. The next joint-posterior/H2 plan is unexecuted. Final20-stage publication/archive verification records its evidence outside the audited commit. See coding/C10_CLOSEOUT.md and CONTINUATION.md.

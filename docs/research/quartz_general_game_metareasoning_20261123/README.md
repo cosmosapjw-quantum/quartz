@@ -81,3 +81,7 @@ Frozen TEST150 produced97,200timing runs and10,800trace runs. The positive node-
 ## C09 — completed
 
 Independent code/science review passed within scope after closure of the publication defect and a zero-step positivity wording condition. Restored2,768files/1,106,732,654bytes from four verified archives; exact Git blobs/modes and all14older worktrees checked. See coding/C09_REVIEW_AND_RESTORE.md. Original P2/P3 and the primary empirical admission remain open.
+
+## C10 — completed: cycle closed
+
+Read [한국어 결과와 다음 단계](RESULTS_AND_NEXT_PLAN_KO.md). TheoryR01–R10 and codingC01–C10 are complete. The TEST positive node-priced gate is not met; implementation verification and finite quality/cost observations remain useful, separately scoped results. [C27 제안](NEXT_C27_PROPOSAL.md) is planning only. [Continuation](CONTINUATION.md) records the next-turn contract. The final exact commit/archive/remote/20-stage verification receipt is external to this commit; stage receipts throughC09 are in evidence/STAGE_RECEIPTS_THROUGH_C09.jsonl.

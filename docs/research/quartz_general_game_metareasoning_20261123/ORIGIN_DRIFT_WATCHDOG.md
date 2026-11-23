@@ -34,3 +34,7 @@ The primary negative admission is retained, preserving the original resource-rat
 ## C09 independent check
 
 The fresh reviewer directly read original Eq1/Eq2, archived PRD/Lindblad text and the COG01 contract. It verified that the current mechanisms preserve resource-priced decisions, actual information boundaries and original game/cognitive targets. The diagonal-jump correction is constructive, while strict positivity now explicitly excludes delta=0. Source history and negative empirical outcomes are retained. No hypothesis is upgraded by review or restore success.
+
+## C10 final disposition
+
+Historical anchors, original equations and primary game/cognitive objectives are retained. C26 restores actual GameState work and genuine Gibbs/VOC calculation, supplies a computation-conditioned fluctuation construction, and corrects diagonal-jump relaxation with an explicit population generator. The status of RG/Wick/criticality, TT geometry and cognitive signatures remains unresolved rather than erased. Rate-distortion/IB is not retrospectively attributed to unlocated original sources. The negative primary TEST admission and publication correction remain part of the record. C27 will test a joint-belief hypothesis only with new frozen evidence. CONTINUATION.md preserves the user's instruction to run this origin check and both full10-stage loops on later Quartz research turns.
