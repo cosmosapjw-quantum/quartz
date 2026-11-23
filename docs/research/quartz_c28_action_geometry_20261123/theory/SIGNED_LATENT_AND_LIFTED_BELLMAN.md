@@ -84,7 +84,7 @@ conditional independence within each latent component and total covariance imply
 \tag{4}
 \]
 
-The sign is controlled by `r_i r_j`. This is an off-diagonal statement, not a claim that the complete covariance matrix has rank one. Its diagonal also contains within-component variance. A single signed latent mode remains restrictive: for three nonzero loadings, the product of the three pairwise covariance signs is positive. It cannot express three mutually negative pairwise covariances.
+The sign of a nonzero covariance is controlled by `r_i r_j`. This is an off-diagonal statement, not a claim that the complete covariance matrix has rank one. Its diagonal also contains within-component variance. A single signed latent mode remains restrictive: the product of three pairwise covariances is nonnegative, and is strictly positive when `|m|<1` and all three loadings and marginal variances are nonzero. At a certain-latent endpoint or with a point-mass marginal the affected covariances vanish. The model cannot express three mutually negative pairwise covariances.
 
 At the balanced prior, signed loading changes preserve each marginal variance. Consequently
 
@@ -200,7 +200,7 @@ Each entry inside a maximum in (10) is affine in `m`. A finite maximum of affine
 
 A second proof enumerates deterministic contingent plans. For each possible first observation, a plan specifies STOP or one remaining query. The terminal payoff and incurred costs are functions of the complete utility world. For a fixed plan, its expectation under (1) is affine in `m`. Maximizing over the finite set of plans gives the same result. This is the finite-policy-tree/alpha-vector structure familiar from finite-horizon POMDPs; the general structure is established mathematics, not a novelty claim for Quartz.
 
-H2 first-action regions need **not** be single intervals. Several contingent plans can share the same first query; the union of their optimal belief intervals can be disconnected. A single interval claim is valid for an individual H1 line, or for an individual complete contingent-plan alpha vector, but not generally for all plans grouped by their first action.
+Convexity alone does not imply connected H2 first-action regions. Grouping contingent plans with the same first query yields a union of intervals; this argument does not by itself exhibit a disconnected region within this particular signed family. No connectedness assumption is used. An individual H1 action line or complete contingent-plan alpha vector has an interval optimality region. The explicit reference-family partition in Section 6 is proved separately.
 
 ### Computational contract and cost limitations
 

@@ -1,0 +1,12 @@
+{
+  "command": [
+    "python3",
+    "/home/cosmosapjw/quantum/research/quartz_c28_action_geometry_20261123_486e/docs/research/quartz_c28_action_geometry_20261123/theory/exact_lifted_h2.py",
+    "/home/cosmosapjw/quantum/research/quartz_c28_action_geometry_20261123_486e/docs/research/quartz_c28_action_geometry_20261123/evidence/R07_EXACT_RESULTS.json"
+  ],
+  "exit_code": 0,
+  "stdout": "{\n  \"status\": \"EXACT_FINITE_CHECKS_PASSED\",\n  \"assertions\": 19252,\n  \"general_models\": 53,\n  \"closed_family_cases\": 300,\n  \"seconds\": 6.991787428036332,\n  \"output\": \"/home/cosmosapjw/quantum/research/quartz_c28_action_geometry_20261123_486e/docs/research/quartz_c28_action_geometry_20261123/evidence/R07_EXACT_RESULTS.json\"\n}\n",
+  "stderr": "",
+  "runner_sha256": "58c09680fca14ac5b05a5fb8e20d40d397202ba36762f6a54406cdffc29fc35e",
+  "utc": "2026-11-23T13:17:00.242547+00:00"
+}
