@@ -1,0 +1,24 @@
+{
+  "status": "RENDERED_FROM_FROZEN_SUMMARY",
+  "summary_sha256": "a219bf2e218d138f107fbb55fcbd59f53901280fc8a4479c8b55ed5ac6b10415",
+  "renderer_sha256": "cdea6d678b06ac97d1baa9f80d915dbba0cc579340b20d01b7e4b8228de4d57b",
+  "artifacts": {
+    "figures/C25_TEST_DECISIONS.png": {
+      "sha256": "775ce6ed844f31846548c759c49441fc6a487959ec56415660b9839acd490056",
+      "bytes": 210664
+    },
+    "figures/C25_TEST_DECISIONS.svg": {
+      "sha256": "75b1b5792ac0f199a95f789912f5b843674ea9e1e98ec418dc71aeaea7c2e757",
+      "bytes": 130492
+    }
+  },
+  "packaging": {
+    "normalization": "remove only trailing line whitespace; all parsed SVG attribute tokens/text and element order unchanged",
+    "script": "coding/normalize_c25_svg.py",
+    "script_sha256": "e63052e0118eef982a4a0bab4afbdd8281da70232f0cda73a0769677a125b830",
+    "original_svg_gz": "evidence/C25_TEST_DECISIONS_MATPLOTLIB.svg.gz",
+    "original_svg_sha256": "42b2abb9c9ba385a3be9de182d875a1a3949883689948a8316077095910ff326",
+    "original_render_receipt": "evidence/C25_FIGURE_RENDER_ORIGINAL.json",
+    "scientific_inputs_changed": false
+  }
+}

@@ -1,0 +1,119 @@
+{
+  "status": "VERIFIED_THREE_ARCHIVE_RESTORE",
+  "restored_commit": "d45173685f955820bd848bf4ddb2044382ca7e67",
+  "restore_directory": "/tmp/quartz_c25_restore_p_1zhuqd",
+  "archives": [
+    {
+      "path": "/home/cosmosapjw/Dropbox/personal_projects/quartz_general_meta25_backups/BASE_C23_a4417b081037.tar.gz",
+      "sha256": "c3bd869039619094905c2bb18f1ea9b427ce8fb2fe1c71f6c62a5a9630b26b05",
+      "bytes": 299211640,
+      "kind": "full C23 tree"
+    },
+    {
+      "path": "/home/cosmosapjw/Dropbox/personal_projects/quartz_general_meta25_backups/QUARTZ_GENERAL_C24_C10_4998c771c087.tar.gz",
+      "sha256": "0d9ff61369ae7b26b1421648f4cc3af13db4b394438b173a4bc678f02faa3efd",
+      "bytes": 278025353,
+      "kind": "cumulative C24 overlay"
+    },
+    {
+      "path": "/home/cosmosapjw/Dropbox/personal_projects/quartz_general_meta25_backups/QUARTZ_GENERAL_C25_C08_d45173685f95.tar.gz",
+      "sha256": "0e45b85cfce2778df2f2d2aa690874f645319f8ee751e6c7ea082d699e2d5612",
+      "bytes": 290133000,
+      "kind": "cumulative C25 overlay"
+    }
+  ],
+  "tracked_files_verified": 2603,
+  "tracked_bytes_verified": 1097124692,
+  "symlinks_verified": 0,
+  "binary_backup": {
+    "path": "/home/cosmosapjw/Dropbox/personal_projects/quartz_general_meta25_backups/C25_NATIVE_RELEASE_2ddccac45f1fa9c1.gz",
+    "compressed_sha256": "bab90fd64be08f5a868249cbaf6092da3fc93db35893c6fffafd95be1a720287",
+    "uncompressed_sha256": "2ddccac45f1fa9c171509bcc329a37f2f9b575fe3c17797e806a74ee4d8febf5",
+    "bytes": 259927
+  },
+  "old_worktrees": [
+    {
+      "path": "/home/cosmosapjw/Dropbox/personal_projects/quartz",
+      "head": "65e7d3e9596ca259ebfe523b0c74058692b6a755",
+      "status_unchanged": true,
+      "own_protected_unchanged": true
+    },
+    {
+      "path": "/home/cosmosapjw/quantum/research/quartz_cog01_20261120",
+      "head": "eaff0ae3809eaf5c0e8b2573e1e5fac64f900da7",
+      "status_unchanged": true,
+      "own_protected_unchanged": true
+    },
+    {
+      "path": "/home/cosmosapjw/quantum/research/quartz_cog05_20261121",
+      "head": "a85bc0ded6bf67f81256e93645dc7147838c6f88",
+      "status_unchanged": true,
+      "own_protected_unchanged": true
+    },
+    {
+      "path": "/home/cosmosapjw/quantum/research/quartz_cog06_20261121",
+      "head": "41febde4561644d7287fd4d3411847e485f5f646",
+      "status_unchanged": true,
+      "own_protected_unchanged": true
+    },
+    {
+      "path": "/home/cosmosapjw/quantum/research/quartz_general_meta17_20261122",
+      "head": "e4dc4d6a0d5db03189d2f8465f6d5f019018f20c",
+      "status_unchanged": true,
+      "own_protected_unchanged": true
+    },
+    {
+      "path": "/home/cosmosapjw/quantum/research/quartz_general_meta18_20261122",
+      "head": "097255bd00ffa436c3d43704ed201815e7cbb8ea",
+      "status_unchanged": true,
+      "own_protected_unchanged": true
+    },
+    {
+      "path": "/home/cosmosapjw/quantum/research/quartz_general_meta19_20261122",
+      "head": "2a359ad049b6a0be4047e52ad281b665cf68e967",
+      "status_unchanged": true,
+      "own_protected_unchanged": true
+    },
+    {
+      "path": "/home/cosmosapjw/quantum/research/quartz_general_meta20_20261122",
+      "head": "ba100d13b36a49151fc4a7b5dd379fa2eb79e4c4",
+      "status_unchanged": true,
+      "own_protected_unchanged": true
+    },
+    {
+      "path": "/home/cosmosapjw/quantum/research/quartz_general_meta21_20261122",
+      "head": "351c63ae810b1fa633fe2a75440bf7d0929f92e4",
+      "status_unchanged": true,
+      "own_protected_unchanged": true
+    },
+    {
+      "path": "/home/cosmosapjw/quantum/research/quartz_general_meta22_20261122",
+      "head": "6e91e3abfbc6727d58c0785ffdf80a7e3e7cabaf",
+      "status_unchanged": true,
+      "own_protected_unchanged": true
+    },
+    {
+      "path": "/home/cosmosapjw/quantum/research/quartz_general_meta23_20261123",
+      "head": "a4417b081037c4d5b49976ddcaeaa3f0771773b2",
+      "status_unchanged": true,
+      "own_protected_unchanged": true
+    },
+    {
+      "path": "/home/cosmosapjw/quantum/research/quartz_general_meta24_20261123",
+      "head": "4998c771c08788e4f0da8d2723347121ae16fbf2",
+      "status_unchanged": true,
+      "own_protected_unchanged": true
+    },
+    {
+      "path": "/home/cosmosapjw/quantum/research/reboot_20261120/quartz_mqft_c03_worktree",
+      "head": "65e7d3e9596ca259ebfe523b0c74058692b6a755",
+      "status_unchanged": true,
+      "own_protected_unchanged": true
+    }
+  ],
+  "current_protected_unchanged": true,
+  "elapsed_seconds": 3.561324465001235,
+  "utc": "2026-11-23T06:47:43.280479+00:00",
+  "dropbox_cloud_ack": "NOT_VERIFIED",
+  "scope": "restored Git byte identity and executable preservation; no duplicate solver experiment"
+}

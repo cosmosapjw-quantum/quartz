@@ -28,3 +28,5 @@ The requested scope is R01–R10 followed by C01–C10. Each completed stage is 
 - C07A: fresh TRAIN run and exact verification complete; TRAIN-only time predictor frozen and preserved before heldout use.
 - C07: TRAIN/CAL exact scientific validation complete; code, model and primary analysis frozen before TEST generation.
 - C08: fresh TEST and budget sweep verified; retention safety holds; primary total-time net benefit versus immediate stop is negative.
+
+- C09: independent raw reconstruction and scoped review passed; three-archive restoration verified2,603 tracked files; original13 worktrees preserved; scientific figure rendered and visually checked.

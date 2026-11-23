@@ -1,0 +1,15 @@
+{
+  "schema": "quartz.c25.figure-visual-review.v1",
+  "status": "RENDERED_AND_VISUALLY_INSPECTED",
+  "reviewer": "root",
+  "client_date": "2026-11-23 Asia/Seoul",
+  "figure": "figures/C25_TEST_DECISIONS.png",
+  "figure_sha256": "775ce6ed844f31846548c759c49441fc6a487959ec56415660b9839acd490056",
+  "checks": [
+    "Both panels and all six policy labels readable without clipping",
+    "Timing bar labels include suboptimal choice counts, preventing a quality-matched interpretation of RETAIN_TIME versus PLAIN_ALWAYS",
+    "Net-utility panel displays negative contrasts versus the prospectively locked PLAIN_STOP baseline",
+    "Caption states units, timing aggregation, finite SPD scope, retention trade-off, and original game targets still open"
+  ],
+  "scientific_inputs_changed": false
+}

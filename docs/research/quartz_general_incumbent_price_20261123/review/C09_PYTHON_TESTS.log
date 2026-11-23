@@ -1,0 +1,23 @@
+test_parent_medians_and_exact_wrong_counts_survive_underflow (test_c25_sources.AnalysisTest.test_parent_medians_and_exact_wrong_counts_survive_underflow) ... ok
+test_primary_is_time_minus_stop_at_independent_parent_level (test_c25_sources.AnalysisTest.test_primary_is_time_minus_stop_at_independent_parent_level) ... ok
+test_rejects_calibration_or_test_input (test_c25_sources.PredictorTest.test_rejects_calibration_or_test_input) ... ok
+test_rejects_side_without_active_training_parent (test_c25_sources.PredictorTest.test_rejects_side_without_active_training_parent) ... ok
+test_uses_parent_mean_then_side_median_and_ignores_inactive (test_c25_sources.PredictorTest.test_uses_parent_mean_then_side_median_and_ignores_inactive) ... ok
+test_rejects_false_positive_price_stop (test_c25_sources.RetentionTest.test_rejects_false_positive_price_stop) ... ok
+test_rejects_missing_fresh_readout_charge (test_c25_sources.RetentionTest.test_rejects_missing_fresh_readout_charge) ... ok
+test_rejects_uncertified_incumbent_switch (test_c25_sources.RetentionTest.test_rejects_uncertified_incumbent_switch) ... ok
+test_rejects_understated_gain_bound (test_c25_sources.RetentionTest.test_rejects_understated_gain_bound) ... ok
+test_rejects_widened_historical_intersection (test_c25_sources.RetentionTest.test_rejects_widened_historical_intersection) ... ok
+test_valid_retained_trace_is_accepted (test_c25_sources.RetentionTest.test_valid_retained_trace_is_accepted) ... ok
+test_frozen_c25_configuration_is_accepted (test_c25_sources.SourcesTest.test_frozen_c25_configuration_is_accepted) ... ok
+test_unit_seeds_are_fresh_c25_seeds (test_c25_sources.SourcesTest.test_unit_seeds_are_fresh_c25_seeds) ... ok
+test_decimal_wire_roundtrips_and_rejects_oracle (test_c25_sources.TransportAndSourceTest.test_decimal_wire_roundtrips_and_rejects_oracle) ... ok
+test_historical_bad_source_is_unit_regression_only (test_c25_sources.TransportAndSourceTest.test_historical_bad_source_is_unit_regression_only) ... ok
+test_manufacture_arithmetic_is_byte_reused (test_c25_sources.TransportAndSourceTest.test_manufacture_arithmetic_is_byte_reused) ... ok
+test_missing_oracle_action_is_rejected (test_c25_sources.TransportAndSourceTest.test_missing_oracle_action_is_rejected) ... ok
+test_oracle_matches_hand_solved_identity_operator (test_c25_sources.TransportAndSourceTest.test_oracle_matches_hand_solved_identity_operator) ... ok
+
+----------------------------------------------------------------------
+Ran 18 tests in 0.143s
+
+OK

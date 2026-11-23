@@ -77,3 +77,12 @@ RETAIN_TIME saves55.113075781528885% wall time and64.25741221478344% solver matv
 The primary time-priced contrast TIME minus PLAIN_STOP atlambda1e-6 is -0.0004683900086636479, paired-parent95% bootstrap [-0.0006629366545796896,-0.00028780714297975434]. Gain2.3162005225240992e-5 is smaller than price times491.5520138888889us extra cost. TIME minus PLAIN_ALWAYS is +0.000895847173049579 with95% interval[0.0006332512903306129,0.0011888049912116847]. Both comparisons are retained.
 
 All price sensitivity revalues the same frozen policy. No TEST model, rule or price refit occurred. Source-paired percentile bootstrap summarizes this synthetic parent population; it is not a universal coverage or real-game claim. C08_RESULT_AUDIT.json preserves exact trade-off cases and time-predictor errors.
+
+
+## C09 — Independent review and restoration
+
+One fresh-context reviewer inspected the proof-to-code paths and independently reconstructed raw TEST statistics without importing the production analyzer/verifier. All18 policy-budget primary-price means and paired bootstrap intervals agree; exact Ax=b components741,888 and216 action utilities were recomputed. The review rechecked104,976 timing bounds,28,584 trace bounds,648 retained outcomes,1,529 gap checkpoints,881 readout floors,76 strict switches and41 work-price stops. TRAIN predictions reconstruct exactly. Independent script exit0; existing Python18 tests pass with exit0. Verdict: scoped Review Gate PASS, no P0/P1/P2/P3 finding and no required additional test. review/C09_REVIEW.md records limitations and unchanged16 frozen/205 read input hashes.
+
+Separately, C23 full base + C24 overlay + C25 C08 overlay were actually restored into a fresh remote directory. All2,603 tracked files and1,097,124,692 bytes match the C08 Git blobs. The exact release binary was separately compressed and roundtrip-hash verified. All13 previous worktrees retain their own HEAD/status/protected-file identities. evidence/C09_RESTORE.json records the actual exit0 restoration; Dropbox cloud acknowledgement remains unverified.
+
+The final scientific figure was rendered from the frozen TEST summary and visually inspected: no clipping, explicit misdecision counts beside timing, negative primary net contrast visible. Figure generation changes no scientific input and repeats no native experiment.
