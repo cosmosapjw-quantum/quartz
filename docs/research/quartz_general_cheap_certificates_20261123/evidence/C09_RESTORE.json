@@ -1,0 +1,168 @@
+{
+  "status": "VERIFIED_BASE_PLUS_OVERLAY_RESTORE",
+  "assertion_tested": "Archive hashes, safe base-then-overlay extraction, every tracked file Git blob identity, lossless reconstruction of all C24 raw traces, original worktree HEAD/status and protected own-baseline files, exact tested binary backup.",
+  "restored_commit": "df34b7ae1b867f4917c2d302ea97aca40cc55077",
+  "restore_directory": "/tmp/quartz_c24_restore_hidqdqmf",
+  "archives": [
+    {
+      "archive": "/home/cosmosapjw/Dropbox/personal_projects/quartz_general_meta24_backups/BASE_C23_a4417b081037.tar.gz",
+      "sha256": "c3bd869039619094905c2bb18f1ea9b427ce8fb2fe1c71f6c62a5a9630b26b05"
+    },
+    {
+      "archive": "/home/cosmosapjw/Dropbox/personal_projects/quartz_general_meta24_backups/QUARTZ_GENERAL_C24_C08_df34b7ae1b86.tar.gz",
+      "sha256": "873995b94e606dcc81d974bbab9b424454db9ada55e73f3b62827c27c7ea2c35"
+    }
+  ],
+  "tracked_files_verified": 2148,
+  "tracked_bytes_verified": 798260314,
+  "symlinks_verified": 0,
+  "traces": {
+    "TRAIN": {
+      "bytes": 65708367,
+      "sha256": "b23180121487c18caf32edd717f5f8cc983514641905d95a83d95f35e2c814cf",
+      "manifest_sha256": "cb770a35fafc5fad7e03801f80ebfbf3d3bd4e15cb9b5e13672dac29e05d40a7"
+    },
+    "CAL": {
+      "bytes": 65633648,
+      "sha256": "63208ecc5fa1de8ebce34ef919652734997ee01a853ed9af138861a2ea38a24f",
+      "manifest_sha256": "decea94d6770e25dc90b3a3c964b955d1bb36d7981ca6f1817350ed7324b578d"
+    },
+    "TEST": {
+      "bytes": 131402222,
+      "sha256": "1a225dd982f6b5cd512971880340c2d7d22cf71c4d930b119914f3fe7066cd87",
+      "manifest_sha256": "3aec1ae0e97b6d6f330c01998605eb9beec59b7c253849b899fbedac10b3af81"
+    }
+  },
+  "commands": [
+    {
+      "argv": [
+        "/home/cosmosapjw/quantum/research/quartz_general_meta24_20261123/venv/bin/python",
+        "/tmp/quartz_c24_restore_hidqdqmf/docs/research/quartz_general_cheap_certificates_20261123/coding/reassemble_c24_trace.py",
+        "assemble",
+        "--split",
+        "TRAIN"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"bytes\": 65708367, \"output\": \"/tmp/quartz_c24_restore_hidqdqmf/docs/research/quartz_general_cheap_certificates_20261123/evidence/C24_TRAIN_TRACE.jsonl.gz\", \"parts_verified\": 2, \"sha256\": \"b23180121487c18caf32edd717f5f8cc983514641905d95a83d95f35e2c814cf\", \"whole_verified\": true}\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "/home/cosmosapjw/quantum/research/quartz_general_meta24_20261123/venv/bin/python",
+        "/tmp/quartz_c24_restore_hidqdqmf/docs/research/quartz_general_cheap_certificates_20261123/coding/reassemble_c24_trace.py",
+        "assemble",
+        "--split",
+        "CAL"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"bytes\": 65633648, \"output\": \"/tmp/quartz_c24_restore_hidqdqmf/docs/research/quartz_general_cheap_certificates_20261123/evidence/C24_CAL_TRACE.jsonl.gz\", \"parts_verified\": 2, \"sha256\": \"63208ecc5fa1de8ebce34ef919652734997ee01a853ed9af138861a2ea38a24f\", \"whole_verified\": true}\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "/home/cosmosapjw/quantum/research/quartz_general_meta24_20261123/venv/bin/python",
+        "/tmp/quartz_c24_restore_hidqdqmf/docs/research/quartz_general_cheap_certificates_20261123/coding/reassemble_c24_trace.py",
+        "assemble",
+        "--split",
+        "TEST"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"bytes\": 131402222, \"output\": \"/tmp/quartz_c24_restore_hidqdqmf/docs/research/quartz_general_cheap_certificates_20261123/evidence/C24_TEST_TRACE.jsonl.gz\", \"parts_verified\": 3, \"sha256\": \"1a225dd982f6b5cd512971880340c2d7d22cf71c4d930b119914f3fe7066cd87\", \"whole_verified\": true}\n",
+      "stderr": ""
+    }
+  ],
+  "binary_backup": {
+    "path": "/home/cosmosapjw/Dropbox/personal_projects/quartz_general_meta24_backups/C24_NATIVE_RELEASE_2cef68fda2bdacae.gz",
+    "compressed_sha256": "b46d74685a8aef857b2cb801e75e0d85e83fbb8c0665d733212ed8083bee6736",
+    "uncompressed_sha256": "2cef68fda2bdacae138efe7928531d9cfebc26bff8fbc13e895a7ad7d41f45b6",
+    "bytes": 255224
+  },
+  "prior_worktree_heads": [
+    {
+      "path": "/home/cosmosapjw/Dropbox/personal_projects/quartz",
+      "baseline_head": "65e7d3e9596ca259ebfe523b0c74058692b6a755",
+      "actual_head": "65e7d3e9596ca259ebfe523b0c74058692b6a755"
+    },
+    {
+      "path": "/home/cosmosapjw/quantum/research/quartz_cog01_20261120",
+      "baseline_head": "eaff0ae3809eaf5c0e8b2573e1e5fac64f900da7",
+      "actual_head": "eaff0ae3809eaf5c0e8b2573e1e5fac64f900da7"
+    },
+    {
+      "path": "/home/cosmosapjw/quantum/research/quartz_cog05_20261121",
+      "baseline_head": "a85bc0ded6bf67f81256e93645dc7147838c6f88",
+      "actual_head": "a85bc0ded6bf67f81256e93645dc7147838c6f88"
+    },
+    {
+      "path": "/home/cosmosapjw/quantum/research/quartz_cog06_20261121",
+      "baseline_head": "41febde4561644d7287fd4d3411847e485f5f646",
+      "actual_head": "41febde4561644d7287fd4d3411847e485f5f646"
+    },
+    {
+      "path": "/home/cosmosapjw/quantum/research/quartz_general_meta17_20261122",
+      "baseline_head": "e4dc4d6a0d5db03189d2f8465f6d5f019018f20c",
+      "actual_head": "e4dc4d6a0d5db03189d2f8465f6d5f019018f20c"
+    },
+    {
+      "path": "/home/cosmosapjw/quantum/research/quartz_general_meta18_20261122",
+      "baseline_head": "097255bd00ffa436c3d43704ed201815e7cbb8ea",
+      "actual_head": "097255bd00ffa436c3d43704ed201815e7cbb8ea"
+    },
+    {
+      "path": "/home/cosmosapjw/quantum/research/quartz_general_meta19_20261122",
+      "baseline_head": "2a359ad049b6a0be4047e52ad281b665cf68e967",
+      "actual_head": "2a359ad049b6a0be4047e52ad281b665cf68e967"
+    },
+    {
+      "path": "/home/cosmosapjw/quantum/research/quartz_general_meta20_20261122",
+      "baseline_head": "ba100d13b36a49151fc4a7b5dd379fa2eb79e4c4",
+      "actual_head": "ba100d13b36a49151fc4a7b5dd379fa2eb79e4c4"
+    },
+    {
+      "path": "/home/cosmosapjw/quantum/research/quartz_general_meta21_20261122",
+      "baseline_head": "351c63ae810b1fa633fe2a75440bf7d0929f92e4",
+      "actual_head": "351c63ae810b1fa633fe2a75440bf7d0929f92e4"
+    },
+    {
+      "path": "/home/cosmosapjw/quantum/research/quartz_general_meta22_20261122",
+      "baseline_head": "6e91e3abfbc6727d58c0785ffdf80a7e3e7cabaf",
+      "actual_head": "6e91e3abfbc6727d58c0785ffdf80a7e3e7cabaf"
+    },
+    {
+      "path": "/home/cosmosapjw/quantum/research/quartz_general_meta23_20261123",
+      "baseline_head": "a4417b081037c4d5b49976ddcaeaa3f0771773b2",
+      "actual_head": "a4417b081037c4d5b49976ddcaeaa3f0771773b2"
+    },
+    {
+      "path": "/home/cosmosapjw/quantum/research/reboot_20261120/quartz_mqft_c03_worktree",
+      "baseline_head": "65e7d3e9596ca259ebfe523b0c74058692b6a755",
+      "actual_head": "65e7d3e9596ca259ebfe523b0c74058692b6a755"
+    }
+  ],
+  "original_status": "?? QUARTZ_CLAUE_SCIENTIST_AGENT_CONTEXT.md",
+  "original_files": {
+    "docs/THESIS.md": {
+      "expected_from_own_head": "02ffa31af60ecbb1fa46f8bfebe4590caa365aca22f3c3d17817017a8ef5cb8f",
+      "actual": "02ffa31af60ecbb1fa46f8bfebe4590caa365aca22f3c3d17817017a8ef5cb8f"
+    },
+    "docs/CLAIM_LEDGER.md": {
+      "expected_from_own_head": "9ce928bc711b6d6c9ef9fcbf001688129d6c0223b3acbeacbdeebc5be68cbea2",
+      "actual": "9ce928bc711b6d6c9ef9fcbf001688129d6c0223b3acbeacbdeebc5be68cbea2"
+    },
+    "src/game.rs": {
+      "expected_from_own_head": "b5e1fefb9d9ee72e7eb2fb684edafe3702e11f0f712cc3bd92fb43ccb71ff3e0",
+      "actual": "b5e1fefb9d9ee72e7eb2fb684edafe3702e11f0f712cc3bd92fb43ccb71ff3e0"
+    }
+  },
+  "current_protected": {
+    "docs/THESIS.md": "02ffa31af60ecbb1fa46f8bfebe4590caa365aca22f3c3d17817017a8ef5cb8f",
+    "docs/CLAIM_LEDGER.md": "dc8e16678d67d90a4970e665a320e1ed969910b79f0d8268dd501c3769c5a4b1",
+    "src/game.rs": "b5e1fefb9d9ee72e7eb2fb684edafe3702e11f0f712cc3bd92fb43ccb71ff3e0",
+    "src/bin/quartz_c23_residual_gate.rs": "8a5aad2d9c8b0a9fd8df0efd5310604f7b498d16447df0f222aa9619a15ad8ed",
+    "docs/research/quartz_general_residual_stop_20261123/SOURCE_SPECS.json": "67562390a03ef34d3e1758dbd4cb64b6ca4cdd3f3e76d2627bc81e92d8cb73f2"
+  },
+  "elapsed_seconds": 2.8893649330129847,
+  "utc": "2026-11-23T05:07:18.482665+00:00",
+  "dropbox_cloud_ack": "NOT_VERIFIED",
+  "scope": "Restore/byte identity only; no duplicate solver campaign or fresh mathematical assertion."
+}

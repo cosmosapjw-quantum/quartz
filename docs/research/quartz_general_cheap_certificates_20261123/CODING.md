@@ -79,3 +79,14 @@ At additional8/32/128, FAST_BLOCK wrong-decision counts are5/1/0 and PLAIN_ALWAY
 Preserve the negative economic result: at frozen lambda1e-6utility/us, FAST_BLOCK minus PLAIN_STOP net utility is-0.00104193397605, interval[-0.0014325281379376478, -0.0006717026599738968]. The descriptive cohort mean break-even price is8.18388361096e-09; it is not a fitted policy threshold. C08_RESULT_AUDIT.json retains individual cases where finite continuation worsens true utility relative to the initial action. Noninferiority is to matched PLAIN_ALWAYS, not to every initial action.
 
 Raw TEST trace131,402,222bytes is preserved as three lossless45MiB-max parts with whole SHA1a225dd982f6b5cd512971880340c2d7d22cf71c4d930b119914f3fe7066cd87. All input/output hashes, exact regrets, full raw traces, timing repetitions and source oracle records are retained. Original figure/code are retained; a presentation-only final renderer removes an untested negative-price axis and gives the legend space. No scientific input or statistic changed.
+
+
+## C09 — Fresh independent review and actual recovery
+
+Native agent /root/c24_review, not involved in construction or implementation, read the full load-bearing derivation, input/solver/evaluator/controller/timer path and source/verification/statistical contracts. Its read-only verdict is Looks good, with no evidenced unresolved P0/P1/P2/P3 defect in this scope. The original report, independent checker, raw log and JSON evidence are copied byte-for-byte into review/. No production scientific file was changed by review.
+
+The independent checker actually exited0 and reconstructed all216 TEST timing requests/11,664 policy executions and18 budget-policy summaries without importing the analyzer/verifier. Exact utilities, integer counts and work accounting agreed exactly; independently aggregated means/bootstrap intervals differed by at most9.094947017729282e-13us from floating summation/percentile ordering. This numerical comparison concerns derived statistics, not a relaxed enclosure threshold. Conditional theorem assumptions and finite empirical scope remain explicit.
+
+Parent separately restored the C23 base then C24 C08 overlay into/tmp/quartz_c24_restore_hidqdqmf. All2148 Git-tracked objects(798260314bytes) matched the C08 commit content. TRAIN/CAL/TEST raw traces were reconstructed from parts and matched original native-run SHA256 values. The exact tested native executable was additionally compressed, backed up and decompressed for SHA256 readback. This was a restore check, not another solver campaign.
+
+All12 prior worktree HEADs stayed at their own recorded baseline. Original worktree status and THESIS/CLAIM_LEDGER/game files match that original HEAD; its different legitimate CLAIM_LEDGER hash is not compared to the C24 branch ledger. Current C24 protected files remain unchanged. Git publication is checked by remote HEAD; Dropbox server/cloud synchronization acknowledgment is still NOT_VERIFIED.

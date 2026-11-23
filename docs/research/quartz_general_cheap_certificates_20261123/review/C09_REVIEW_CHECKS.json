@@ -1,0 +1,167 @@
+{
+  "schema": "quartz.c24.independent-review-checks.v1",
+  "status": "PASS_FINITE_RAW_AGGREGATE_AND_PROVENANCE",
+  "assertion_tested": "Independently reduce all TEST raw timing executions to parent medians, exact rational regrets/quality/work counts and paired percentile intervals; bind frozen code and run inputs. No production analyzer/verifier import.",
+  "scope": {
+    "parents": 72,
+    "budgets": 3,
+    "policies": 6,
+    "repetitions": 9,
+    "raw_policy_executions": 11664,
+    "summary_policy_budget_cells": 18
+  },
+  "primary": {
+    "policies": {
+      "PLAIN_STOP": {
+        "mean_us": 273.89926388888887,
+        "saved_us": 1622.2474166666666,
+        "ci95_us": [
+          1186.1997260416667,
+          2076.476342013889
+        ],
+        "regret_exact": "166323562188814958989/19342813113834066795298816",
+        "wrong": 11,
+        "certified": 0,
+        "early": 72,
+        "total_calls": 864,
+        "utility_difference_exact": "-1496685766483556986231/174085318024506601157689344"
+      },
+      "PLAIN_ALWAYS": {
+        "mean_us": 1896.1466805555553,
+        "saved_us": 0.0,
+        "ci95_us": [
+          0.0,
+          0.0
+        ],
+        "regret_exact": "113146607888822335/87042659012253300578844672",
+        "wrong": 1,
+        "certified": 0,
+        "early": 0,
+        "total_calls": 7321,
+        "utility_difference_exact": "0"
+      },
+      "FAST_ONCE": {
+        "mean_us": 1627.6210277777777,
+        "saved_us": 268.52565277777785,
+        "ci95_us": [
+          71.89762291666673,
+          497.6680170138883
+        ],
+        "regret_exact": "113146607888822335/87042659012253300578844672",
+        "wrong": 1,
+        "certified": 20,
+        "early": 20,
+        "total_calls": 5629,
+        "utility_difference_exact": "0"
+      },
+      "FAST_BLOCK": {
+        "mean_us": 1324.4306666666666,
+        "saved_us": 571.7160138888889,
+        "ci95_us": [
+          299.6238027777778,
+          865.1939336805556
+        ],
+        "regret_exact": "113146607888822335/87042659012253300578844672",
+        "wrong": 1,
+        "certified": 52,
+        "early": 49,
+        "total_calls": 4038,
+        "utility_difference_exact": "0"
+      },
+      "OUTWARD_BLOCK": {
+        "mean_us": 3288.0905555555555,
+        "saved_us": -1391.943875,
+        "ci95_us": [
+          -2107.8220902777775,
+          -731.7127284722228
+        ],
+        "regret_exact": "113146607888822335/87042659012253300578844672",
+        "wrong": 1,
+        "certified": 52,
+        "early": 49,
+        "total_calls": 4038,
+        "utility_difference_exact": "0"
+      },
+      "RESIDUAL": {
+        "mean_us": 4206.732708333333,
+        "saved_us": -2310.5860277777774,
+        "ci95_us": [
+          -3454.9658315972224,
+          -1270.043352777778
+        ],
+        "regret_exact": "0",
+        "wrong": 0,
+        "certified": 0,
+        "early": 40,
+        "total_calls": 11831,
+        "utility_difference_exact": "113146607888822335/87042659012253300578844672"
+      }
+    },
+    "fast_vs_stop_net": -0.0010419339760477828,
+    "fast_vs_stop_break_even": 8.183883610962888e-09
+  },
+  "maximum_aggregate_float_difference_us": 9.094947017729282e-13,
+  "identity_before": {
+    "/home/cosmosapjw/quantum/research/quartz_general_meta24_20261123/docs/research/quartz_general_cheap_certificates_20261123/SOURCE_SPECS.json": "342fbac726767fa9d165adacbcb29fdef52438cc1ce17ae36a1e26cc6ece2197",
+    "/home/cosmosapjw/quantum/research/quartz_general_meta24_20261123/docs/research/quartz_general_cheap_certificates_20261123/evidence/C07_PRE_TEST_FREEZE.json": "a3a594f64d6d35184493eed69da4230de45d5b7b860fa3bcbe752db91ffd9d45",
+    "/home/cosmosapjw/quantum/research/quartz_general_meta24_20261123/docs/research/quartz_general_cheap_certificates_20261123/evidence/C24_TEST_SUMMARY.json": "3a88db0a47c33789f22f62e7b7173c8dd3f31927d90f468803f0081b4158cec2",
+    "/home/cosmosapjw/quantum/research/quartz_general_meta24_20261123/docs/research/quartz_general_cheap_certificates_20261123/evidence/C24_TEST_PARENT_METRICS.json": "a04072af8b25dd8c8a1c6b94ff8e77bfd9badd719cd286296bc5942a33b42dcd",
+    "/home/cosmosapjw/quantum/research/quartz_general_meta24_20261123/docs/research/quartz_general_cheap_certificates_20261123/evidence/C24_TEST_TIMING.jsonl.gz": "acfd13fa7c4bc88040d90056988e3159597aa0f5c17c48847d1ec43cb2866333",
+    "/home/cosmosapjw/quantum/research/quartz_general_meta24_20261123/docs/research/quartz_general_cheap_certificates_20261123/evidence/C24_ORACLE_TEST.jsonl.gz": "5c097dcb0e216666fc435e630f643abc33bec7f9fa135b617e06216c557122e6",
+    "/home/cosmosapjw/quantum/research/quartz_general_meta24_20261123/docs/research/quartz_general_cheap_certificates_20261123/evidence/C24_TEST_TRACE.manifest.json": "3aec1ae0e97b6d6f330c01998605eb9beec59b7c253849b899fbedac10b3af81",
+    "/home/cosmosapjw/quantum/research/quartz_general_meta24_20261123/docs/research/quartz_general_cheap_certificates_20261123/evidence/C24_TEST_TIMING.manifest.json": "2c5f93694a0a32feb476edda83020786ce5bf2c2b9eb2bed41ec2f2c85f920fc",
+    "/home/cosmosapjw/quantum/research/quartz_general_meta24_20261123/docs/research/quartz_general_cheap_certificates_20261123/evidence/C24_VERIFY_TEST_TRACE.json": "73991479e055dc43f71083dac85961c0735132c9b147a503190ba5643e069a0c",
+    "/home/cosmosapjw/quantum/research/quartz_general_meta24_20261123/docs/research/quartz_general_cheap_certificates_20261123/evidence/C24_VERIFY_TEST_TIMING.json": "79bc991d67b05cd613b06a21f0cc61eb8fae1a5d5ab6aa134f9096179d53dc74",
+    "/home/cosmosapjw/quantum/research/quartz_general_meta24_20261123/src/bin/quartz_c24_cheap_certificate.rs": "5a7cc595c267d5337f268045d1df8bf5909093ed7920ee50293da76da94cd381",
+    "/home/cosmosapjw/quantum/research/quartz_general_meta24_20261123/target/release/quartz_c24_cheap_certificate": "2cef68fda2bdacae138efe7928531d9cfebc26bff8fbc13e895a7ad7d41f45b6",
+    "/home/cosmosapjw/quantum/research/quartz_general_meta24_20261123/Cargo.toml": "897e6624b41356d2f2ca7fffa30c4479cc0959fee3138cdb30fa4bc8ec5c1994",
+    "/home/cosmosapjw/quantum/research/quartz_general_meta24_20261123/Cargo.lock": "4368560c374c1272000fdd17a48fbe8449c6e471c848698b088d0b6092b2bb36",
+    "/home/cosmosapjw/quantum/research/quartz_general_meta24_20261123/docs/research/quartz_general_cheap_certificates_20261123/CODE_CONTRACT.json": "a1f6a987277bdb42eb04852088a30ad56acb546c44ef4f27ddaaa636f0dcd257",
+    "/home/cosmosapjw/quantum/research/quartz_general_meta24_20261123/docs/research/quartz_general_cheap_certificates_20261123/C04_RUN_CONTRACT.json": "68e123dae4fd5af07392670000a5b474af7c77fb5ee63c6b355c533915aaed90",
+    "/home/cosmosapjw/quantum/research/quartz_general_meta24_20261123/docs/research/quartz_general_cheap_certificates_20261123/theory/DERIVATION.md": "9db4ca88aa587ad679c71b30c1468500b40529285a0f5dab4a3843cd4038cf0b",
+    "/home/cosmosapjw/quantum/research/quartz_general_meta24_20261123/docs/research/quartz_general_cheap_certificates_20261123/coding/c24_analyze.py": "d700852f910840c60ac33af4fc8209cfc6b7a00a3b5554e118db5208c03c0536",
+    "/home/cosmosapjw/quantum/research/quartz_general_meta24_20261123/docs/research/quartz_general_cheap_certificates_20261123/coding/c24_plot.py": "dcf15c60f8e6e26483d6fe5788482b6839c8c801c4d16715d1d0841bd053a831",
+    "/home/cosmosapjw/quantum/research/quartz_general_meta24_20261123/docs/research/quartz_general_cheap_certificates_20261123/coding/c24_run.py": "08f8ca0302e9ac25801216cdff2c164e35492fba1aa8c5b7786c26f5e4f34998",
+    "/home/cosmosapjw/quantum/research/quartz_general_meta24_20261123/docs/research/quartz_general_cheap_certificates_20261123/coding/c24_sources.py": "d7e45b8d944f51e537775a9322c8ad9c4882f80058ebf7093c20fb893eee1a0c",
+    "/home/cosmosapjw/quantum/research/quartz_general_meta24_20261123/docs/research/quartz_general_cheap_certificates_20261123/coding/c24_verify.py": "58836704bed63532260e7daae902fb21d7d95fd484c6524c2e3b2298e457d550"
+  },
+  "identity_after": {
+    "/home/cosmosapjw/quantum/research/quartz_general_meta24_20261123/docs/research/quartz_general_cheap_certificates_20261123/SOURCE_SPECS.json": "342fbac726767fa9d165adacbcb29fdef52438cc1ce17ae36a1e26cc6ece2197",
+    "/home/cosmosapjw/quantum/research/quartz_general_meta24_20261123/docs/research/quartz_general_cheap_certificates_20261123/evidence/C07_PRE_TEST_FREEZE.json": "a3a594f64d6d35184493eed69da4230de45d5b7b860fa3bcbe752db91ffd9d45",
+    "/home/cosmosapjw/quantum/research/quartz_general_meta24_20261123/docs/research/quartz_general_cheap_certificates_20261123/evidence/C24_TEST_SUMMARY.json": "3a88db0a47c33789f22f62e7b7173c8dd3f31927d90f468803f0081b4158cec2",
+    "/home/cosmosapjw/quantum/research/quartz_general_meta24_20261123/docs/research/quartz_general_cheap_certificates_20261123/evidence/C24_TEST_PARENT_METRICS.json": "a04072af8b25dd8c8a1c6b94ff8e77bfd9badd719cd286296bc5942a33b42dcd",
+    "/home/cosmosapjw/quantum/research/quartz_general_meta24_20261123/docs/research/quartz_general_cheap_certificates_20261123/evidence/C24_TEST_TIMING.jsonl.gz": "acfd13fa7c4bc88040d90056988e3159597aa0f5c17c48847d1ec43cb2866333",
+    "/home/cosmosapjw/quantum/research/quartz_general_meta24_20261123/docs/research/quartz_general_cheap_certificates_20261123/evidence/C24_ORACLE_TEST.jsonl.gz": "5c097dcb0e216666fc435e630f643abc33bec7f9fa135b617e06216c557122e6",
+    "/home/cosmosapjw/quantum/research/quartz_general_meta24_20261123/docs/research/quartz_general_cheap_certificates_20261123/evidence/C24_TEST_TRACE.manifest.json": "3aec1ae0e97b6d6f330c01998605eb9beec59b7c253849b899fbedac10b3af81",
+    "/home/cosmosapjw/quantum/research/quartz_general_meta24_20261123/docs/research/quartz_general_cheap_certificates_20261123/evidence/C24_TEST_TIMING.manifest.json": "2c5f93694a0a32feb476edda83020786ce5bf2c2b9eb2bed41ec2f2c85f920fc",
+    "/home/cosmosapjw/quantum/research/quartz_general_meta24_20261123/docs/research/quartz_general_cheap_certificates_20261123/evidence/C24_VERIFY_TEST_TRACE.json": "73991479e055dc43f71083dac85961c0735132c9b147a503190ba5643e069a0c",
+    "/home/cosmosapjw/quantum/research/quartz_general_meta24_20261123/docs/research/quartz_general_cheap_certificates_20261123/evidence/C24_VERIFY_TEST_TIMING.json": "79bc991d67b05cd613b06a21f0cc61eb8fae1a5d5ab6aa134f9096179d53dc74",
+    "/home/cosmosapjw/quantum/research/quartz_general_meta24_20261123/src/bin/quartz_c24_cheap_certificate.rs": "5a7cc595c267d5337f268045d1df8bf5909093ed7920ee50293da76da94cd381",
+    "/home/cosmosapjw/quantum/research/quartz_general_meta24_20261123/target/release/quartz_c24_cheap_certificate": "2cef68fda2bdacae138efe7928531d9cfebc26bff8fbc13e895a7ad7d41f45b6",
+    "/home/cosmosapjw/quantum/research/quartz_general_meta24_20261123/Cargo.toml": "897e6624b41356d2f2ca7fffa30c4479cc0959fee3138cdb30fa4bc8ec5c1994",
+    "/home/cosmosapjw/quantum/research/quartz_general_meta24_20261123/Cargo.lock": "4368560c374c1272000fdd17a48fbe8449c6e471c848698b088d0b6092b2bb36",
+    "/home/cosmosapjw/quantum/research/quartz_general_meta24_20261123/docs/research/quartz_general_cheap_certificates_20261123/CODE_CONTRACT.json": "a1f6a987277bdb42eb04852088a30ad56acb546c44ef4f27ddaaa636f0dcd257",
+    "/home/cosmosapjw/quantum/research/quartz_general_meta24_20261123/docs/research/quartz_general_cheap_certificates_20261123/C04_RUN_CONTRACT.json": "68e123dae4fd5af07392670000a5b474af7c77fb5ee63c6b355c533915aaed90",
+    "/home/cosmosapjw/quantum/research/quartz_general_meta24_20261123/docs/research/quartz_general_cheap_certificates_20261123/theory/DERIVATION.md": "9db4ca88aa587ad679c71b30c1468500b40529285a0f5dab4a3843cd4038cf0b",
+    "/home/cosmosapjw/quantum/research/quartz_general_meta24_20261123/docs/research/quartz_general_cheap_certificates_20261123/coding/c24_analyze.py": "d700852f910840c60ac33af4fc8209cfc6b7a00a3b5554e118db5208c03c0536",
+    "/home/cosmosapjw/quantum/research/quartz_general_meta24_20261123/docs/research/quartz_general_cheap_certificates_20261123/coding/c24_plot.py": "dcf15c60f8e6e26483d6fe5788482b6839c8c801c4d16715d1d0841bd053a831",
+    "/home/cosmosapjw/quantum/research/quartz_general_meta24_20261123/docs/research/quartz_general_cheap_certificates_20261123/coding/c24_run.py": "08f8ca0302e9ac25801216cdff2c164e35492fba1aa8c5b7786c26f5e4f34998",
+    "/home/cosmosapjw/quantum/research/quartz_general_meta24_20261123/docs/research/quartz_general_cheap_certificates_20261123/coding/c24_sources.py": "d7e45b8d944f51e537775a9322c8ad9c4882f80058ebf7093c20fb893eee1a0c",
+    "/home/cosmosapjw/quantum/research/quartz_general_meta24_20261123/docs/research/quartz_general_cheap_certificates_20261123/coding/c24_verify.py": "58836704bed63532260e7daae902fb21d7d95fd484c6524c2e3b2298e457d550"
+  },
+  "start_head": "df34b7ae1b867f4917c2d302ea97aca40cc55077",
+  "end_head": "df34b7ae1b867f4917c2d302ea97aca40cc55077",
+  "run": {
+    "argv": [
+      "/tmp/quartz_c24_review_checks.py"
+    ],
+    "cwd": "/home/cosmosapjw/quantum/research/quartz_general_meta24_20261123",
+    "python": "3.12.3 (main, Aug 31 2026, 10:18:26) [GCC 13.3.0]",
+    "numpy": "2.4.2",
+    "platform": "Linux-7.0.0-43-generic-x86_64-with-glibc2.39",
+    "elapsed_seconds": 0.6467959129950032,
+    "utc": "2026-11-23T05:07:14.858759+00:00"
+  },
+  "non_claims": "No new native benchmark, no rerun of all scientific exact-vector checks, no universal theorem established by these finite statistics.",
+  "review_script_sha256": "63a529fb5a297cbe5949813cbeaa989579256bce9544fb527ef6b0438d741b10"
+}
