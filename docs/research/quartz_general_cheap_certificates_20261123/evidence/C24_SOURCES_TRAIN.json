@@ -1,0 +1,80 @@
+{
+  "argv": [
+    "/home/cosmosapjw/quantum/research/quartz_general_meta24_20261123/docs/research/quartz_general_cheap_certificates_20261123/coding/c24_sources.py",
+    "--split",
+    "TRAIN"
+  ],
+  "artifacts": {
+    "C24_ORACLE_TRAIN.jsonl.gz": {
+      "bytes": 1224784,
+      "sha256": "b24f627f923d0ea351d6f06963eda309f39be838d7e77b7e7c27028a6b74898e"
+    },
+    "C24_PUBLIC_TRAIN.jsonl.gz": {
+      "bytes": 2035348,
+      "sha256": "de375493da4a209e879427daeae871a3538160a7faf1a0aa8adbdd639450de79"
+    }
+  },
+  "count": 36,
+  "dirty_scope": [
+    "?? docs/research/quartz_general_cheap_certificates_20261123/evidence/C07_SOURCE_TRAIN.log"
+  ],
+  "end_utc": "2026-11-23T04:54:30.464046+00:00",
+  "generator_sha256": "d7e45b8d944f51e537775a9322c8ad9c4882f80058ebf7093c20fb893eee1a0c",
+  "input_hashes_after": {
+    "docs/research/quartz_general_cheap_certificates_20261123/SOURCE_SPECS.json": "342fbac726767fa9d165adacbcb29fdef52438cc1ce17ae36a1e26cc6ece2197",
+    "docs/research/quartz_general_cheap_certificates_20261123/coding/c24_sources.py": "d7e45b8d944f51e537775a9322c8ad9c4882f80058ebf7093c20fb893eee1a0c"
+  },
+  "input_hashes_before": {
+    "docs/research/quartz_general_cheap_certificates_20261123/SOURCE_SPECS.json": "342fbac726767fa9d165adacbcb29fdef52438cc1ce17ae36a1e26cc6ece2197",
+    "docs/research/quartz_general_cheap_certificates_20261123/coding/c24_sources.py": "d7e45b8d944f51e537775a9322c8ad9c4882f80058ebf7093c20fb893eee1a0c"
+  },
+  "latent_oracles_passed_to_controller": false,
+  "platform": "Linux-7.0.0-43-generic-x86_64-with-glibc2.39",
+  "python": "3.12.3 (main, Aug 31 2026, 10:18:26) [GCC 13.3.0]",
+  "schema": "quartz.c24.sources.v1",
+  "source_head": "85b3b06015beaafdeb1c8a72bb9fdd07c9fbd2dc",
+  "source_ids": [
+    "c24_train_00_0",
+    "c24_train_01_0",
+    "c24_train_02_0",
+    "c24_train_03_0",
+    "c24_train_04_0",
+    "c24_train_05_0",
+    "c24_train_06_0",
+    "c24_train_07_0",
+    "c24_train_08_0",
+    "c24_train_09_0",
+    "c24_train_10_0",
+    "c24_train_11_0",
+    "c24_train_12_0",
+    "c24_train_13_0",
+    "c24_train_14_0",
+    "c24_train_15_0",
+    "c24_train_16_0",
+    "c24_train_17_0",
+    "c24_train_18_0",
+    "c24_train_19_0",
+    "c24_train_20_0",
+    "c24_train_21_0",
+    "c24_train_22_0",
+    "c24_train_23_0",
+    "c24_train_24_0",
+    "c24_train_25_0",
+    "c24_train_26_0",
+    "c24_train_27_0",
+    "c24_train_28_0",
+    "c24_train_29_0",
+    "c24_train_30_0",
+    "c24_train_31_0",
+    "c24_train_32_0",
+    "c24_train_33_0",
+    "c24_train_34_0",
+    "c24_train_35_0"
+  ],
+  "source_manufacture": "behavior-preserving C23 dyadic algorithm; fresh C24 IDs and seeds",
+  "source_specs_sha256": "342fbac726767fa9d165adacbcb29fdef52438cc1ce17ae36a1e26cc6ece2197",
+  "split": "TRAIN",
+  "start_utc": "2026-11-23T04:54:28.776279+00:00",
+  "status": "completed",
+  "unit_fixture": false
+}

@@ -1,0 +1,22 @@
+[
+  {
+    "argv": [
+      "/home/cosmosapjw/quantum/research/quartz_general_meta24_20261123/venv/bin/python",
+      "/home/cosmosapjw/quantum/research/quartz_general_meta24_20261123/docs/research/quartz_general_cheap_certificates_20261123/coding/c24_sources.py",
+      "--split",
+      "TRAIN"
+    ],
+    "exit_code": 0,
+    "log": "evidence/C07_SOURCE_TRAIN.log"
+  },
+  {
+    "argv": [
+      "/home/cosmosapjw/quantum/research/quartz_general_meta24_20261123/venv/bin/python",
+      "/home/cosmosapjw/quantum/research/quartz_general_meta24_20261123/docs/research/quartz_general_cheap_certificates_20261123/coding/c24_sources.py",
+      "--split",
+      "CAL"
+    ],
+    "exit_code": 0,
+    "log": "evidence/C07_SOURCE_CAL.log"
+  }
+]
