@@ -67,3 +67,9 @@ Select all three retention variants for implementation against PLAIN_STOP, PLAIN
 CODE_CONTRACT.json maps every mathematical quantity to exact endpoint comparisons, rounding direction, counters, timing and failure semantics. SOURCE_SPECS.json fixes fresh IDs/seeds, the primary price and comparison, source strata, paired-parent aggregation and the TRAIN-only predictor before any C25 outcome.
 
 The exact S=1 arbitrary-iterate examples are mathematical interval constructions. Native validation conservatively rounds the norm upward; a boundary norm of1 requires S=2 in a corresponding production fixture, scaling all those utilities and gaps by1/2 without changing their ordering. Native tests use validation-admissible scales and actual solver trajectories. No symbolic example is relabelled an observed CG run.
+
+## R10 — Theory closure and coding handoff
+
+All ten selected theory stages are complete. Retained utility and charged-work stopping have explicit proofs, finite exact checks, examples and limits. The next authorized track is coding C01–C10; actual wall-time economics and native behavior remain to be measured.
+
+Standing origin watchdog for every subsequent research turn: resolve current parent/branch; reuse hash-bound root/legacy/thesis anchors; map the new mathematical object and actual evidence to the original decision-quality/resource mechanism; record any changed objective or unsupported success attribution; make the smallest constructive correction in that turn. The fixed anchors need not be fully re-audited without new evidence. The current correction preserves game-quality targets alongside the general control principle.
