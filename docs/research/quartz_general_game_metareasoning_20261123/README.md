@@ -41,3 +41,7 @@ Admitted conditional proofs and genuine mathematical mechanisms, retained exact 
 ## R09 — completed
 
 Frozen the native interface, exact solver and cue accounting, TRAIN-only categorical/cost model, six policies, node price 2^-10, Gibbs tau 2^-5, 300 disjoint source parents, full-horizon primary contrast and parent-level inference before production outcomes. See coding/CODE_CONTRACT.md and coding/SOURCE_SPECS.json.
+
+## R10 — completed: theory loop closed
+
+All ten theory stages have produced source-grounded definitions, derivations, counterexamples, executed checks and a frozen coding handoff. Original-motivation preservation is mapped in ORIGIN_DRIFT_WATCHDOG.md. Continue now with C01–C10; no production benefit is claimed yet.

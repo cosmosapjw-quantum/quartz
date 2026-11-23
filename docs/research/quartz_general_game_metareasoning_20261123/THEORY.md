@@ -43,3 +43,7 @@ Admit exact retention, conditional STOP/reservation results and the KL/Gibbs mec
 ## R09: executable mathematical contract
 
 The complete mapping from definitions to exact solver, probability model, reservation formula, Gibbs sampler, measured costs and validation targets is frozen in coding/CODE_CONTRACT.md. Source population and primary statistical decision are frozen in coding/SOURCE_SPECS.json. No test outcome informed these choices.
+
+## R10: closure
+
+The theory loop is complete. The retained source-to-mechanism map is ORIGIN_DRIFT_WATCHDOG.md; the precise coding entry is theory/R10_HANDOFF.md. Scientific proofs, finite checks, storage acknowledgement and future restore verification are distinguished.
