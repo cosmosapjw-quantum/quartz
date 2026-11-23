@@ -1,0 +1,14 @@
+# C04 — bounded execution DAG
+
+1. Two disjoint implementation lanes after C04 publication. Rust lane owns only src/bin/quartz_c27_joint_posterior.rs plus its named native evidence. Python lane owns coding/c27_campaign.py, tests/test_c27_joint_posterior.py plus its named harness evidence. Parent owns frozen contracts, publication, TRAIN/CAL/TEST, integration and review. Workers may communicate schemas; no concurrent edits to shared files.
+2. First write a meaningful failing semantic regression for the missing conditional/H2 behavior, record observed failure; then implement. Reuse unchanged C26 substrate. Native compile/test in sharedC26target, uniqueC27name, --locked --offline,-j2. No cargo clean or broad rebuild without concrete need.
+3. Workers can use toyfixtures and a bounded subset of oldTRAIN for integration; they cannot fitrho/timeprice, allocate/label newCAL/TEST or runcampaign. Preserve rawred/greenreturncodes andexactcommands. Parent separately validates main request/response integration.
+4. C05 publishes complete runnablecode; C06 runs meaningful targetednative/Pythontests, invalidinput/recovery, formulaoracle, oldTRAINintegration, publicsourceallocation, honestTRAINfit and1480timingpricequeries. Freezecode/binary/model/priceidentities beforeCAL. Publish everynewdatafile including paths caughtbyignore rules.
+5. C07 generates/uses onlyCALlabels, executes24rootswithfrozensettings, validatesalltraces andscientificmapping, reportsdiagnosticswithoutretuning. C08 executes120TEST, validatesfulltrace/nodes/value/signs, repeats/dispersion, fixedprimary, secondaryandcalibration. Nofailure-drivenmodelselection.
+6. C09 onefresh independentreviewofactualdiffandoutcomes. Fixconcretefindings andselectivelyrecheck; no repeatedmetaaudit. C10 deliverywith20orderedreceipts,archive/readback/restoreproof,old15worktreesunchanged,exactHEADandnextC28planonly.
+
+Resource bounds: oneCargo buildprocessatmost-j2; onecampaignnativeprocess; Pythonstandardlibrary/NumPyonly, noTorchinstallation. Currentdisk~1.94GBfree; reuse404MBdependencycacheandneverduplicateoldcampaigns. Recheckspaceatmajorcheckpoints. OriginalC26releasebinarySHAcheckedbefore/after. Generatedcachemutabilityisexplicit,oldtrackedsources/statusareprotected.
+
+Archivechain: verifiedfullC23+C24overlay+C25overlay+C26overlay+C27cumulativeoverlay. Stagepublicationismutationsequential:commit,archive,hash,pushnonforce,remoteheadreadback,externalreceipt. R01relocationkeepsoriginalevidence. Forrestoration, firstreserveadequatespace; iffullphysicalrestorecannotfit, streamverifyallarchiveentriesandperformscopedexecutablerestorewiththelimitationexplicit.
+
+Implementationcriteria, scientificgateandpublicationcriteriaremainseparate. Theuser'srequestedfullcyclecontinuesonnegativeempiricalevidence. Thisstageauthorizesworkers'implementationwithintheexistinguserscope; noextraapprovalorC28work.

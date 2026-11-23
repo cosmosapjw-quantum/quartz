@@ -17,3 +17,7 @@ coding/FORMULA_MAP.md maps every equation to data and a concrete new executable/
 ## C03 — numerical design
 
 Stable log-odds/log1p and log-sum-exp forms, O(m²) H2, finite cap, tolerance and distinct closure/cost/roundoff/measurement errors are specified. Timing and repeated-root semantics are frozen.
+
+## C04 — execution DAG
+
+Two disjoint Rust/Python implementation lanes are released after this stage. Parent retains experiment locks, empirical execution and publication. Target cache reuse and disk bounds are explicit; implementation/tests precede TRAIN freeze, CAL, TEST and one fresh review.
