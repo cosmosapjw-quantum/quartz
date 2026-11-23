@@ -1,0 +1,38 @@
+{
+  "schema": "quartz-c29-noisy-v1",
+  "user_ssot": "87c15dc828d6eea519c219fd8a412fa21dfc464d",
+  "science_parent": "ebbf21a6a77c0133525c1a9f16f0ee36375a1440",
+  "support": [
+    0,
+    0.5,
+    1
+  ],
+  "horizon": [
+    0,
+    1,
+    2
+  ],
+  "observation": "fixed U and independent repeated draws conditional on U",
+  "terminal_modes": [
+    "posterior_mean",
+    "known_only_exact_compat"
+  ],
+  "cost": "nonnegative per query utility, measured native nodes separate",
+  "absolute_value_tolerance": 5e-11,
+  "tie_epsilon": 1e-12,
+  "native_binary": "quartz_c29_noisy_query",
+  "game_cohort": "C26 fixed 300 retrospective roots; no fresh TEST",
+  "empirical_channel": "global fixed 3x3 categorical from TRAIN; check CAL; not assumed true",
+  "no_oracle_input": true,
+  "no_science_change_to_c28": true,
+  "required_negative_controls": [
+    "no-information positive cost",
+    "repeated noisy same fixed U",
+    "perfect known-only C28",
+    "zero likelihood",
+    "point masses",
+    "latent endpoints"
+  ],
+  "node_price": 0.0009765625,
+  "native_subagent": "NOT_RUN"
+}
