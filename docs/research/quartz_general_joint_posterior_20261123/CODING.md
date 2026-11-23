@@ -9,3 +9,7 @@ Actual C01 environment: Python3.12.3; rustc/cargo1.99.0; AMD Ryzen9 5900X;24 log
 Acceptance has four separate parts: derived reference, correct executable/trace semantics, frozen new cohort fullcost empirical result (which may fail), and verified backup/publication/handoff. Tests passing will not turn a negative net result into efficacy.
 
 C26 complete-game solver/sign evidence and unchanged whole-tree regression evidence are reused by exactsourceidentity. The C27 posterior/H2/code/data boundaries require new focused tests. MissingTorch remains an environment limitation of the project-wide Python suite; it is not a C27 scientific failure. No installation or old campaign rerun is authorized merely to turn inherited reports green.
+
+## C02 — traceability
+
+coding/FORMULA_MAP.md maps every equation to data and a concrete new executable/harness obligation. The public/runtime/offline-label boundaries, raw-rollout initialization, unit conversion and projected control are explicit.
