@@ -21,3 +21,7 @@ Defined root-frame exact utilities, paid recognition/initial verification, permi
 ## R04 — completed
 
 Compared six explicit constructions and selected exact-query VOC/Pandora plus sampled Gibbs, with source-grounded fluctuation and Markov diagnostics. The two-box example separates greedy net, reservation ordering and a binding budget. See theory/R04_CANDIDATES.md.
+
+## R05 — completed
+
+Direct proofs now cover exact STOP, reservation ordering, safe known-incumbent retention, the categorical formula, Gibbs variational gap and covariance correction. A correlated joint-world example isolates a specific product-model failure. Constructor artifact and operative baseline erratum are preserved.

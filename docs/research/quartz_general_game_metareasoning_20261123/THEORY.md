@@ -23,3 +23,7 @@ The exact known-incumbent target uses the unchanged GameState interface. Four ra
 ## R04: selected construction
 
 For independent exact queries, expected positive excess and reservation values separate stopping from ordering. The two-box example yields 0.59 for Pandora and 0.55 for greedy; a one-query cap reverses the ordering criterion. Gibbs implements the original KL objective as a distinct policy. See theory/R04_CANDIDATES.md.
+
+## R05: proved results
+
+Full derivation: theory/CONSTRUCTOR_DERIVATION.md, with the initialization correction in theory/R05_CONSTRUCTIVE_RESULT.md. Conditional global optimality belongs to the independent fixed-cost full-reveal model. Pathwise retention does not need that model. Covariance correction concerns a specified regularized terminal objective, not hard-max VOC by definition.
