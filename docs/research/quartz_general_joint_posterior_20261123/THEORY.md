@@ -21,3 +21,7 @@ Primary-source transport and limitations are recorded in theory/R02_REUSE.md, R0
 ## R03 — assumptions and claims
 
 Definitions, known-only STOP, total2-query horizon, two product controls, units and evidence classes are aligned in theory/R03_ASSUMPTIONS_CLAIMS.md. The new positive common-factor family is a proposed approximation; Bayes/Bellman are reused mathematics and actual game efficacy is unresolved.
+
+## R04 — selected construction
+
+Three joint-law alternatives were compared. The balanced one-parameter tilt preserves base marginals and permits an exact binary Gibbs posterior. The information-only example109/200 versus1/2 was symbolically checked; its full proof follows. Primary and post-initial-productized controls estimate different mechanisms.

@@ -1,0 +1,18 @@
+{
+  "context_tool_status": "FAILED internal -32603; not a mathematical failure",
+  "evaluator_tool": "WolframLanguageEvaluator",
+  "code": "qA=FullSimplify[-c+1/2+1/2 (r^2/4-e)]; Reduce[qA>1/2&&0<r<1&&0<e&&0<c,{r,e,c},Reals]; qA/.{r->4/5,e->1/20,c->1/100}",
+  "actual_result": {
+    "status": "fulfilled",
+    "value": {
+      "content": [
+        {
+          "type": "text",
+          "text": "Out[1]= <|\"probabilitySum\" -> (1 - r^2)/2 + (1 + r^2)/2, \"binaryCovariance\" -> r^2/4, \"queryAValueWhenHighBranchActive\" -> (4 - 8*c - 4*e + r^2)/8, \"improvement\" -> (-8*c - 4*e + r^2)/8, \"threshold\" -> Inequality[0, Less, r, Less, 1] && Inequality[0, Less, e, Less, r^2/4] && Inequality[0, Less, c, Less, (-4*e + r^2)/8], \"example\" -> 109/200|>"
+        }
+      ],
+      "structuredContent": null,
+      "isError": false
+    }
+  }
+}
