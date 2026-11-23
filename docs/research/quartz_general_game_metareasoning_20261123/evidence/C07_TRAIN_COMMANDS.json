@@ -1,0 +1,32 @@
+[
+  {
+    "action": "prepare",
+    "command": [
+      "/home/cosmosapjw/quantum/research/quartz_general_meta26_20261123/venv/bin/python",
+      "/home/cosmosapjw/quantum/research/quartz_general_meta26_20261123/docs/research/quartz_general_game_metareasoning_20261123/coding/c26_campaign.py",
+      "prepare"
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": 0.16385873800027184
+  },
+  {
+    "action": "train",
+    "command": [
+      "/home/cosmosapjw/quantum/research/quartz_general_meta26_20261123/venv/bin/python",
+      "/home/cosmosapjw/quantum/research/quartz_general_meta26_20261123/docs/research/quartz_general_game_metareasoning_20261123/coding/c26_campaign.py",
+      "train"
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": 0.1638604280014988
+  },
+  {
+    "action": "audit-model",
+    "command": [
+      "/home/cosmosapjw/quantum/research/quartz_general_meta26_20261123/venv/bin/python",
+      "/home/cosmosapjw/quantum/research/quartz_general_meta26_20261123/docs/research/quartz_general_game_metareasoning_20261123/coding/c26_campaign.py",
+      "audit-model"
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": 0.06373733599320985
+  }
+]

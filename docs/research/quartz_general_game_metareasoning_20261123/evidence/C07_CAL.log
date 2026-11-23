@@ -1,0 +1,31 @@
+{"split":"CAL","total":60,"verified_source_parents":25}
+{"split":"CAL","total":60,"verified_source_parents":50}
+{
+  "analysis": "/home/cosmosapjw/quantum/research/quartz_general_meta26_20261123/docs/research/quartz_general_game_metareasoning_20261123/coding/results/CAL/analysis.json",
+  "calibration": "/home/cosmosapjw/quantum/research/quartz_general_meta26_20261123/docs/research/quartz_general_game_metareasoning_20261123/coding/results/CAL/calibration.json",
+  "primary": {
+    "baseline": "INITIAL_STOP",
+    "cap": 9,
+    "ci95": [
+      0.027977294921875,
+      0.11551188151041666
+    ],
+    "draws": 2000,
+    "interval": "stratified paired source-parent percentile bootstrap",
+    "mean": 0.06865234375,
+    "metric": "delta final_u - 2^-10 * delta charged_nodes",
+    "numpy_version": "2.4.2",
+    "parents": 60,
+    "policy": "PANDORA",
+    "positive_gain_gate": true,
+    "rng": "numpy.PCG64",
+    "seed": 2600923,
+    "strata": {
+      "4": 20,
+      "5": 20,
+      "6": 20
+    }
+  },
+  "source_parents": 60,
+  "split": "CAL"
+}

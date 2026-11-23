@@ -29,3 +29,7 @@ The native GameState feature and independent Python oracle/harness are complete.
 ## C06 — verification
 
 Relevant implementation proof is complete: native18tests, independent21Python tests/full4520-state oracle,754full-release Rust test invocations, and exact scientific replay across Python patch versions. Full Python/CI limitations are recorded without calling them PASS. See coding/C06_VERIFICATION.md.
+
+## C07 — scientific validation
+
+Source split and TRAIN parameter identities are verified. CAL checked exact GameState semantics, every trace and paid work under the frozen model; probability/cost errors and residual dependence remain measured model limitations. The held-out TEST gate is next.

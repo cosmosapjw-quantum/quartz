@@ -1,0 +1,85 @@
+{
+  "TRAIN_model_sha256": "0843447dc755c1d09e1bc69a44dd052e6db9c5c2ace41d1590b668cbfc36a126",
+  "CAL_completed": true,
+  "CAL_counts": {
+    "timing_requests": 720,
+    "timing_runs": 38880,
+    "trace_requests": 720,
+    "trace_runs": 4320
+  },
+  "CAL_primary_diagnostic": {
+    "baseline": "INITIAL_STOP",
+    "cap": 9,
+    "ci95": [
+      0.027977294921875,
+      0.11551188151041666
+    ],
+    "draws": 2000,
+    "interval": "stratified paired source-parent percentile bootstrap",
+    "mean": 0.06865234375,
+    "metric": "delta final_u - 2^-10 * delta charged_nodes",
+    "numpy_version": "2.4.2",
+    "parents": 60,
+    "policy": "PANDORA",
+    "positive_gain_gate": true,
+    "rng": "numpy.PCG64",
+    "seed": 2600923,
+    "strata": {
+      "4": 20,
+      "5": 20,
+      "6": 20
+    }
+  },
+  "CAL_calibration": {
+    "pooled_candidates": {
+      "actual_nodes_mean": 21.17241379310345,
+      "brier": 0.32894153973575585,
+      "candidates": 203,
+      "cost_bias": 0.10224400834506485,
+      "cost_mae": 3.721184902020087,
+      "cost_mape": 0.17757811741955407,
+      "cost_rmse": 5.809366207027223,
+      "observed_frequency": [
+        0.5911330049261084,
+        0.1921182266009852,
+        0.21674876847290642
+      ],
+      "predicted_nodes_mean": 21.274657801448512,
+      "probability_mean": [
+        0.5492530088154545,
+        0.2191891848773912,
+        0.2315578063071543
+      ]
+    },
+    "equal_parent_brier": 0.30668826867181986,
+    "within_root_residual_dependence": {
+      "interpretation": "Descriptive symmetrized pair moments, equal parent weighting. No independence test or population-general claim; TRAIN is fixed.",
+      "paired_residual_mean": -0.03677433020673475,
+      "paired_residual_variance": 0.08561683165582146,
+      "source_parents": 57,
+      "unordered_pairs": 279,
+      "within_root_correlation": 0.27849935555404665,
+      "within_root_covariance": 0.023844232440725577
+    }
+  },
+  "CAL_gibbs_parameters": {
+    "forced_stop_probabilities_excluded": true,
+    "lambda_nodes": 0.0009765625,
+    "maximum_choice_probability": 0.9996419377854633,
+    "minimum_positive_choice_probability": 2.9499635081577683e-06,
+    "q_range": [
+      -0.0037390506628787873,
+      0.3962609493371212
+    ],
+    "sampled_decisions": 454,
+    "tau": 0.03125,
+    "underflow_zero_probabilities_on_sampled_steps": 0,
+    "z_range": [
+      0.4719571200284091,
+      0.9928336466165414
+    ]
+  },
+  "model_unchanged": true,
+  "TEST_executed": false,
+  "parameter_retuning": false
+}

@@ -1,0 +1,43 @@
+{
+  "elapsed_seconds": 0.1009357119910419,
+  "files": {
+    "offline_oracle.jsonl.gz": "0dc95c7b05a983a16f1e71f1bfa21bccccb2e9e0f7815324eba39560365a283b",
+    "public_sources.jsonl": "9c9f52a0344a4b6c7c25cde6d519479784a0695fcb8f4681486403fb21fe15c1"
+  },
+  "oracle_logical_payload_sha256": "cc71cacaa6383f4ff3a2915def75868f96443fd47636e2d3ecedb5c6f6fc465a",
+  "population": {
+    "canonical_nonterminal_population": {
+      "4": 108,
+      "5": 153,
+      "6": 183
+    },
+    "nonterminal_reachable_states": 4520,
+    "reachable_states": 5478
+  },
+  "provenance": {
+    "argv": [
+      "/home/cosmosapjw/quantum/research/quartz_general_meta26_20261123/docs/research/quartz_general_game_metareasoning_20261123/coding/c26_campaign.py",
+      "prepare"
+    ],
+    "contract_sha256": "1821e46989ab21f9259ee9c61e4935824a362da5139d08db13d10fb86c1d0985",
+    "git_head": "16141896adab22df4e423bd4946b0544a19d8d4e",
+    "git_status": [
+      "?? docs/research/quartz_general_game_metareasoning_20261123/coding/data/",
+      "?? docs/research/quartz_general_game_metareasoning_20261123/evidence/C07_prepare.log"
+    ],
+    "harness_sha256": "ee4501d5bfee66adcc15dbfb0b0f93ee50343e3313c7d1ce654143571ecee750",
+    "platform": "Linux-7.0.0-43-generic-x86_64-with-glibc2.39",
+    "python": "3.12.3 (main, Aug 31 2026, 10:18:26) [GCC 13.3.0]",
+    "source_spec_sha256": "07826834be13bdb7f779459d0ca7e964ace402af61af286bda1a108503b3a466",
+    "utc": "2026-11-23T09:40:37.019382+00:00"
+  },
+  "public_source_payload_sha256": "9c9f52a0344a4b6c7c25cde6d519479784a0695fcb8f4681486403fb21fe15c1",
+  "runtime_blinding": "Requests explicitly select only id, history, cue_seed, policy controls and TRAIN model.",
+  "schema": "c26-prepared-data-v1",
+  "source_parents": 300,
+  "split_counts": {
+    "CAL": 60,
+    "TEST": 150,
+    "TRAIN": 90
+  }
+}

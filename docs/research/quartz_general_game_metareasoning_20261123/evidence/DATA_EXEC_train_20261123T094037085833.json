@@ -1,0 +1,22 @@
+{
+  "command": [
+    "/home/cosmosapjw/quantum/research/quartz_general_meta26_20261123/venv/bin/python",
+    "/home/cosmosapjw/quantum/research/quartz_general_meta26_20261123/docs/research/quartz_general_game_metareasoning_20261123/coding/c26_campaign.py",
+    "train"
+  ],
+  "completed_utc": "2026-11-23T09:40:37.162241+00:00",
+  "elapsed_seconds": 0.07640788797289133,
+  "exit_code": 0,
+  "harness_sha256": "ee4501d5bfee66adcc15dbfb0b0f93ee50343e3313c7d1ce654143571ecee750",
+  "result": {
+    "elapsed_seconds": 0.04245024599367753,
+    "model_sha256": "0843447dc755c1d09e1bc69a44dd052e6db9c5c2ace41d1590b668cbfc36a126",
+    "native_exit_code": 0,
+    "nonterminal_candidates": 296,
+    "provenance": "/home/cosmosapjw/quantum/research/quartz_general_meta26_20261123/docs/research/quartz_general_game_metareasoning_20261123/coding/data/model_provenance.json",
+    "source_parents": 90
+  },
+  "schema": "c26-command-execution-v1",
+  "started_utc": "2026-11-23T09:40:37.085693+00:00",
+  "status": "completed"
+}
