@@ -45,3 +45,7 @@ Frozen the native interface, exact solver and cue accounting, TRAIN-only categor
 ## R10 — completed: theory loop closed
 
 All ten theory stages have produced source-grounded definitions, derivations, counterexamples, executed checks and a frozen coding handoff. Original-motivation preservation is mapped in ORIGIN_DRIFT_WATCHDOG.md. Continue now with C01–C10; no production benefit is claimed yet.
+
+## C01 — completed
+
+Verified the clean isolated theory baseline, protected identities, toolchain, available scientific packages and storage; fixed behavioral acceptance separately from the prospective empirical gain gate. See CODING.md and evidence/C01_PREFLIGHT.json.

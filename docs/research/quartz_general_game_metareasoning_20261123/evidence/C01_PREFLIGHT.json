@@ -1,0 +1,115 @@
+{
+  "utc": "2026-11-23T09:15:21.548348+00:00",
+  "git": {
+    "root": {
+      "command": [
+        "git",
+        "rev-parse",
+        "--show-toplevel"
+      ],
+      "exit_code": 0,
+      "stdout": "/home/cosmosapjw/quantum/research/quartz_general_meta26_20261123",
+      "stderr": ""
+    },
+    "branch": {
+      "command": [
+        "git",
+        "branch",
+        "--show-current"
+      ],
+      "exit_code": 0,
+      "stdout": "research/quartz-general-c26-game-metareasoning-20261123",
+      "stderr": ""
+    },
+    "status": {
+      "command": [
+        "git",
+        "status",
+        "--porcelain"
+      ],
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    "head": {
+      "command": [
+        "git",
+        "rev-parse",
+        "HEAD"
+      ],
+      "exit_code": 0,
+      "stdout": "6610652e04427a6b5a25d3da96c05913bca278fa",
+      "stderr": ""
+    },
+    "worktrees": {
+      "command": [
+        "git",
+        "worktree",
+        "list",
+        "--porcelain"
+      ],
+      "exit_code": 0,
+      "stdout": "worktree /home/cosmosapjw/Dropbox/personal_projects/quartz\nHEAD 65e7d3e9596ca259ebfe523b0c74058692b6a755\nbranch refs/heads/agent/local-experiment-foundry\n\nworktree /home/cosmosapjw/quantum/research/quartz_cog01_20261120\nHEAD eaff0ae3809eaf5c0e8b2573e1e5fac64f900da7\nbranch refs/heads/research/quartz-cog04-highbranch-transfer-20261121\n\nworktree /home/cosmosapjw/quantum/research/quartz_cog05_20261121\nHEAD a85bc0ded6bf67f81256e93645dc7147838c6f88\nbranch refs/heads/research/quartz-cog05-trained-prior-fair-cpu-20261121\n\nworktree /home/cosmosapjw/quantum/research/quartz_cog06_20261121\nHEAD 41febde4561644d7287fd4d3411847e485f5f646\nbranch refs/heads/research/quartz-cog06-nonterminal-fork-wdl-20261121\n\nworktree /home/cosmosapjw/quantum/research/quartz_general_meta17_20261122\nHEAD e4dc4d6a0d5db03189d2f8465f6d5f019018f20c\nbranch refs/heads/research/quartz-general-metareasoning-identity-20261122\n\nworktree /home/cosmosapjw/quantum/research/quartz_general_meta18_20261122\nHEAD 097255bd00ffa436c3d43704ed201815e7cbb8ea\nbranch refs/heads/research/quartz-general-c18-calibrated-compute-20261122\n\nworktree /home/cosmosapjw/quantum/research/quartz_general_meta19_20261122\nHEAD 2a359ad049b6a0be4047e52ad281b665cf68e967\nbranch refs/heads/research/quartz-general-c19-signed-voc-20261122\n\nworktree /home/cosmosapjw/quantum/research/quartz_general_meta20_20261122\nHEAD ba100d13b36a49151fc4a7b5dd379fa2eb79e4c4\nbranch refs/heads/research/quartz-general-c20-predictive-voc-20261122\n\nworktree /home/cosmosapjw/quantum/research/quartz_general_meta21_20261122\nHEAD 351c63ae810b1fa633fe2a75440bf7d0929f92e4\nbranch refs/heads/research/quartz-general-c21-fast-cdf-20261122\n\nworktree /home/cosmosapjw/quantum/research/quartz_general_meta22_20261122\nHEAD 6e91e3abfbc6727d58c0785ffdf80a7e3e7cabaf\nbranch refs/heads/research/quartz-general-c22-inprocess-gate-20261122\n\nworktree /home/cosmosapjw/quantum/research/quartz_general_meta23_20261123\nHEAD a4417b081037c4d5b49976ddcaeaa3f0771773b2\nbranch refs/heads/research/quartz-general-c23-residual-stop-20261123\n\nworktree /home/cosmosapjw/quantum/research/quartz_general_meta24_20261123\nHEAD 4998c771c08788e4f0da8d2723347121ae16fbf2\nbranch refs/heads/research/quartz-general-c24-cheap-certificates-20261123\n\nworktree /home/cosmosapjw/quantum/research/quartz_general_meta25_20261123\nHEAD d6019d674ae76524b1895016f49b82d4f7b001b2\nbranch refs/heads/research/quartz-general-c25-incumbent-price-20261123\n\nworktree /home/cosmosapjw/quantum/research/quartz_general_meta26_20261123\nHEAD 6610652e04427a6b5a25d3da96c05913bca278fa\nbranch refs/heads/research/quartz-general-c26-game-metareasoning-20261123\n\nworktree /home/cosmosapjw/quantum/research/reboot_20261120/quartz_mqft_c03_worktree\nHEAD 65e7d3e9596ca259ebfe523b0c74058692b6a755\ndetached",
+      "stderr": ""
+    }
+  },
+  "venv": {
+    "command": [
+      "python3",
+      "-m",
+      "venv",
+      "--system-site-packages",
+      "venv"
+    ],
+    "exit_code": 0,
+    "stdout": "",
+    "stderr": ""
+  },
+  "versions": [
+    {
+      "command": [
+        "python3",
+        "--version"
+      ],
+      "exit_code": 0,
+      "stdout": "Python 3.12.3",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "rustc",
+        "--version"
+      ],
+      "exit_code": 0,
+      "stdout": "rustc 1.99.0 (b940084d7 2026-09-28)",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "cargo",
+        "--version"
+      ],
+      "exit_code": 0,
+      "stdout": "cargo 1.99.0 (5f94df478 2026-08-27)",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/home/cosmosapjw/quantum/research/quartz_general_meta26_20261123/venv/bin/python",
+        "-c",
+        "import sys,numpy,scipy,matplotlib;print(sys.version);print(numpy.__version__,scipy.__version__,matplotlib.__version__)"
+      ],
+      "exit_code": 0,
+      "stdout": "3.12.3 (main, Aug 31 2026, 10:18:26) [GCC 13.3.0]\n2.4.2 1.17.0 3.10.8",
+      "stderr": ""
+    }
+  ],
+  "platform": "Linux-7.0.0-43-generic-x86_64-with-glibc2.39",
+  "cpu_count": 24,
+  "free_bytes": 15385088000,
+  "new_binary_absent_before_implementation": true,
+  "protected_hashes_match": true,
+  "old_worktrees_baseline": "/home/cosmosapjw/quantum/research/quartz_general_meta26_20261123/docs/research/quartz_general_game_metareasoning_20261123/BASELINE.json",
+  "no_dependency_install": true,
+  "parallel_compile_jobs": 2
+}
