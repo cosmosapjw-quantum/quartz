@@ -24,3 +24,4 @@ The requested scope is R01–R10 followed by C01–C10. Each completed stage is 
 - C03: Numerical and statistical design completed and preserved.
 - C04: Execution DAG and resources completed and preserved.
 - C05: complete native controller and independent scientific harness implemented; code and UNIT evidence checkpointed before cohorts.
+- C06: native/Python tests and exact UNIT integration passed; historical deterioration reproduced and prevented by retention.

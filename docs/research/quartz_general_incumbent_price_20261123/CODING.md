@@ -39,3 +39,11 @@ The isolated native binary implements six real policies. Its C24 numerical prefi
 Six Python modules provide fresh exact sources, decimal transport, hash-bound source chunks, a TRAIN-only predictor, independent Fraction verification and paired-parent analysis. Hidden oracle files are never native inputs. The implemented initial choices and preserved previous adverse case are checked through the public JSONL seam.
 
 Actual changed-behavior RED/GREEN evidence accompanies both implementations. C05C06_RUST_REPORT.md and PYTHON_HANDOFF.json list commands, source/binary hashes, reused tests and failure repairs. No full fresh cohort had been run when this implementation checkpoint was published.
+
+## C06 — Actual implementation verification
+
+Debug and release each pass40 native tests:27 inherited C24,12 observed changed-behavior RED-to-GREEN,1 reused C25 initial/control invariant. Both binaries pass fourteen-request error/valid streams with identical scientific output. Python18 tests pass, including12 observed RED-to-GREEN.
+
+Five UNIT sources (four fresh plus regression-only c24_test_34_1) complete15 trace requests/90 policies and15 timing requests/810 policies plus90 warmups. Independent checks cover1,908 trace enclosures,7,290 timing enclosures,102 retained gain checkpoints,57 fresh-readout floors and180 residual action upper bounds from60 unique states. All810 timing scientific signatures match corresponding trace behavior.
+
+At additional8 and32 the old adverse fixture reproduces the ordinary/FAST loss113146607888822335/1208925819614629174706176; all retention variants keep the initial optimal action. This is regression evidence, excluded from fresh TEST estimates. Parent source/binary/UNIT chunk binding is in C06_PARENT_BINDING.json.

@@ -1,0 +1,30 @@
+{
+  "status": "PASS",
+  "native_source_sha256": "84c3937e42836431145fbde74999a57f98540e6b65760f2d71c6a4f78271a8d8",
+  "binary_sha256": "2ddccac45f1fa9c171509bcc329a37f2f9b575fe3c17797e806a74ee4d8febf5",
+  "native_command_exit_codes": [
+    0,
+    0,
+    0,
+    0
+  ],
+  "unit": {
+    "TRACE": {
+      "status": "PASS",
+      "verifier_sha256": "e938a3311a556951db3639c3b53341e456970e0ce82d9aea5cf5b53084348c14",
+      "run_manifest_sha256": "65cd551603af59234eeb07004b7c695a8131f147ee50e92a8fbebef444e5b9b4",
+      "requests": 15,
+      "executions": 90,
+      "chunks": 5
+    },
+    "TIMING": {
+      "status": "PASS",
+      "verifier_sha256": "3fe1e17634f2ee718f5edb51db040cbe839942583d7f521538f3eb316df6e80a",
+      "run_manifest_sha256": "ead2c812c303e73363cbce7ee3b6edf96cf3255a57f737fe66ca7fc13c77bc02",
+      "requests": 15,
+      "executions": 810,
+      "chunks": 5
+    }
+  },
+  "scope": "parent read full new controller, verified actual command evidence and all UNIT scientific input/chunk identities; no duplicate campaign"
+}
