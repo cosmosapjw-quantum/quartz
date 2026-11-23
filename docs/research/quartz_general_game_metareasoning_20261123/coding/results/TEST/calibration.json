@@ -1,0 +1,926 @@
+{
+  "by_remaining": {
+    "2": {
+      "actual_nodes_mean": 4.238095238095238,
+      "brier": 0.21000923494430385,
+      "candidates": 105,
+      "cost_bias": 0.0426065162907268,
+      "cost_mae": 0.6043441938178781,
+      "cost_mape": 0.1533054859370649,
+      "cost_rmse": 0.6985578828443257,
+      "observed_frequency": [
+        0.6095238095238096,
+        0.2857142857142857,
+        0.10476190476190476
+      ],
+      "predicted_nodes_mean": 4.280701754385965,
+      "probability_mean": [
+        0.5077080062794348,
+        0.2780432001860573,
+        0.21424879353450782
+      ]
+    },
+    "3": {
+      "actual_nodes_mean": 10.486187845303867,
+      "brier": 0.2643361142897198,
+      "candidates": 181,
+      "cost_bias": 0.5418495378737035,
+      "cost_mae": 2.178860949037022,
+      "cost_mape": 0.24808849062734542,
+      "cost_rmse": 2.7110957158187423,
+      "observed_frequency": [
+        0.7624309392265194,
+        0.143646408839779,
+        0.09392265193370165
+      ],
+      "predicted_nodes_mean": 11.02803738317757,
+      "probability_mean": [
+        0.7189309314886175,
+        0.14762980330253647,
+        0.13343926520884597
+      ]
+    },
+    "4": {
+      "actual_nodes_mean": 40.930131004366814,
+      "brier": 0.43078444842330477,
+      "candidates": 229,
+      "cost_bias": -2.968009792245601,
+      "cost_mae": 8.550979224560011,
+      "cost_mape": 0.20729718014070866,
+      "cost_rmse": 11.265002011509392,
+      "observed_frequency": [
+        0.48034934497816595,
+        0.2576419213973799,
+        0.26200873362445415
+      ],
+      "predicted_nodes_mean": 37.96212121212121,
+      "probability_mean": [
+        0.433320552971208,
+        0.2657195626627941,
+        0.3009598843659979
+      ]
+    }
+  },
+  "equal_parent_brier": 0.3061328038768152,
+  "feature_bins": {
+    "2:0:0:4": {
+      "actual_nodes_mean": 4.722222222222222,
+      "brier": 0.5416666666666666,
+      "candidates": 18,
+      "cost_bias": -0.4415204678362573,
+      "cost_mae": 0.5974658869395711,
+      "cost_mape": 0.12339181286549708,
+      "cost_rmse": 0.6289337067362226,
+      "observed_frequency": [
+        0.2777777777777778,
+        0.1111111111111111,
+        0.6111111111111112
+      ],
+      "predicted_nodes_mean": 4.280701754385965,
+      "probability_mean": [
+        0.25,
+        0.16666666666666666,
+        0.5833333333333334
+      ]
+    },
+    "2:0:1:3": {
+      "actual_nodes_mean": 5,
+      "brier": 0.07407407407407407,
+      "candidates": 3,
+      "cost_bias": -0.7192982456140351,
+      "cost_mae": 0.7192982456140351,
+      "cost_mape": 0.14385964912280702,
+      "cost_rmse": 0.7192982456140351,
+      "observed_frequency": [
+        0.0,
+        1.0,
+        0.0
+      ],
+      "predicted_nodes_mean": 4.280701754385965,
+      "probability_mean": [
+        0.1111111111111111,
+        0.7777777777777778,
+        0.1111111111111111
+      ]
+    },
+    "2:0:2:2": {
+      "actual_nodes_mean": 5,
+      "brier": 0.12244897959183673,
+      "candidates": 9,
+      "cost_bias": -0.7192982456140351,
+      "cost_mae": 0.7192982456140351,
+      "cost_mape": 0.14385964912280702,
+      "cost_rmse": 0.7192982456140351,
+      "observed_frequency": [
+        0.0,
+        1.0,
+        0.0
+      ],
+      "predicted_nodes_mean": 4.280701754385965,
+      "probability_mean": [
+        0.14285714285714285,
+        0.7142857142857143,
+        0.14285714285714285
+      ]
+    },
+    "2:0:3:1": {
+      "actual_nodes_mean": 5,
+      "brier": 0.375,
+      "candidates": 6,
+      "cost_bias": -0.7192982456140351,
+      "cost_mae": 0.7192982456140351,
+      "cost_mape": 0.14385964912280702,
+      "cost_rmse": 0.7192982456140351,
+      "observed_frequency": [
+        0.0,
+        1.0,
+        0.0
+      ],
+      "predicted_nodes_mean": 4.280701754385965,
+      "probability_mean": [
+        0.25,
+        0.5,
+        0.25
+      ]
+    },
+    "2:0:4:0": {
+      "actual_nodes_mean": 5,
+      "brier": 0.17283950617283952,
+      "candidates": 10,
+      "cost_bias": -0.7192982456140351,
+      "cost_mae": 0.7192982456140351,
+      "cost_mape": 0.14385964912280702,
+      "cost_rmse": 0.7192982456140351,
+      "observed_frequency": [
+        0.0,
+        1.0,
+        0.0
+      ],
+      "predicted_nodes_mean": 4.280701754385965,
+      "probability_mean": [
+        0.2222222222222222,
+        0.6666666666666666,
+        0.1111111111111111
+      ]
+    },
+    "2:1:0:3": {
+      "actual_nodes_mean": 4,
+      "brier": 0.09375,
+      "candidates": 7,
+      "cost_bias": 0.2807017543859649,
+      "cost_mae": 0.2807017543859649,
+      "cost_mape": 0.07017543859649122,
+      "cost_rmse": 0.2807017543859649,
+      "observed_frequency": [
+        1.0,
+        0.0,
+        0.0
+      ],
+      "predicted_nodes_mean": 4.280701754385965,
+      "probability_mean": [
+        0.75,
+        0.125,
+        0.125
+      ]
+    },
+    "2:1:3:0": {
+      "actual_nodes_mean": 4,
+      "brier": 0.375,
+      "candidates": 4,
+      "cost_bias": 0.2807017543859649,
+      "cost_mae": 0.2807017543859649,
+      "cost_mape": 0.07017543859649122,
+      "cost_rmse": 0.2807017543859649,
+      "observed_frequency": [
+        1.0,
+        0.0,
+        0.0
+      ],
+      "predicted_nodes_mean": 4.280701754385965,
+      "probability_mean": [
+        0.5,
+        0.25,
+        0.25
+      ]
+    },
+    "2:2:0:2": {
+      "actual_nodes_mean": 4,
+      "brier": 0.12244897959183673,
+      "candidates": 10,
+      "cost_bias": 0.2807017543859649,
+      "cost_mae": 0.2807017543859649,
+      "cost_mape": 0.07017543859649122,
+      "cost_rmse": 0.2807017543859649,
+      "observed_frequency": [
+        1.0,
+        0.0,
+        0.0
+      ],
+      "predicted_nodes_mean": 4.280701754385965,
+      "probability_mean": [
+        0.7142857142857143,
+        0.14285714285714285,
+        0.14285714285714285
+      ]
+    },
+    "2:2:2:0": {
+      "actual_nodes_mean": 4,
+      "brier": 0.07407407407407407,
+      "candidates": 7,
+      "cost_bias": 0.2807017543859649,
+      "cost_mae": 0.2807017543859649,
+      "cost_mape": 0.07017543859649122,
+      "cost_rmse": 0.2807017543859649,
+      "observed_frequency": [
+        1.0,
+        0.0,
+        0.0
+      ],
+      "predicted_nodes_mean": 4.280701754385965,
+      "probability_mean": [
+        0.7777777777777778,
+        0.1111111111111111,
+        0.1111111111111111
+      ]
+    },
+    "2:3:0:1": {
+      "actual_nodes_mean": 4,
+      "brier": 0.16666666666666669,
+      "candidates": 9,
+      "cost_bias": 0.2807017543859649,
+      "cost_mae": 0.2807017543859649,
+      "cost_mape": 0.07017543859649122,
+      "cost_rmse": 0.2807017543859649,
+      "observed_frequency": [
+        1.0,
+        0.0,
+        0.0
+      ],
+      "predicted_nodes_mean": 4.280701754385965,
+      "probability_mean": [
+        0.6666666666666666,
+        0.16666666666666666,
+        0.16666666666666666
+      ]
+    },
+    "2:3:1:0": {
+      "actual_nodes_mean": 4,
+      "brier": 0.24000000000000005,
+      "candidates": 4,
+      "cost_bias": 0.2807017543859649,
+      "cost_mae": 0.2807017543859649,
+      "cost_mape": 0.07017543859649122,
+      "cost_rmse": 0.2807017543859649,
+      "observed_frequency": [
+        1.0,
+        0.0,
+        0.0
+      ],
+      "predicted_nodes_mean": 4.280701754385965,
+      "probability_mean": [
+        0.6,
+        0.2,
+        0.2
+      ]
+    },
+    "2:4:0:0": {
+      "actual_nodes_mean": 3.111111111111111,
+      "brier": 0.03550295857988166,
+      "candidates": 18,
+      "cost_bias": 1.1695906432748537,
+      "cost_mae": 1.1695906432748537,
+      "cost_mape": 0.387264457439896,
+      "cost_rmse": 1.2110770846378243,
+      "observed_frequency": [
+        1.0,
+        0.0,
+        0.0
+      ],
+      "predicted_nodes_mean": 4.280701754385965,
+      "probability_mean": [
+        0.8461538461538461,
+        0.07692307692307693,
+        0.07692307692307693
+      ]
+    },
+    "3:0:0:4": {
+      "actual_nodes_mean": 10.875,
+      "brier": 0.35714285714285715,
+      "candidates": 8,
+      "cost_bias": 0.15303738317757087,
+      "cost_mae": 1.125,
+      "cost_mape": 0.10721703011422638,
+      "cost_rmse": 1.1759232290629515,
+      "observed_frequency": [
+        0.125,
+        0.0,
+        0.875
+      ],
+      "predicted_nodes_mean": 11.02803738317757,
+      "probability_mean": [
+        0.2857142857142857,
+        0.14285714285714285,
+        0.5714285714285714
+      ]
+    },
+    "3:0:1:3": {
+      "actual_nodes_mean": 13.5,
+      "brier": 0.75,
+      "candidates": 4,
+      "cost_bias": -2.471962616822429,
+      "cost_mae": 2.471962616822429,
+      "cost_mape": 0.1794615042278593,
+      "cost_rmse": 2.61927455204062,
+      "observed_frequency": [
+        0.0,
+        0.75,
+        0.25
+      ],
+      "predicted_nodes_mean": 11.02803738317757,
+      "probability_mean": [
+        0.25,
+        0.25,
+        0.5
+      ]
+    },
+    "3:0:2:2": {
+      "actual_nodes_mean": 13,
+      "brier": 0.625,
+      "candidates": 2,
+      "cost_bias": -1.9719626168224291,
+      "cost_mae": 1.9719626168224291,
+      "cost_mape": 0.1466399643969737,
+      "cost_rmse": 2.2110261333021737,
+      "observed_frequency": [
+        0.0,
+        0.5,
+        0.5
+      ],
+      "predicted_nodes_mean": 11.02803738317757,
+      "probability_mean": [
+        0.25,
+        0.5,
+        0.25
+      ]
+    },
+    "3:0:3:1": {
+      "actual_nodes_mean": 12.333333333333334,
+      "brier": 0.8333333333333334,
+      "candidates": 3,
+      "cost_bias": -1.3052959501557624,
+      "cost_mae": 1.3239875389408098,
+      "cost_mape": 0.09860959393669673,
+      "cost_rmse": 1.805367849788123,
+      "observed_frequency": [
+        0.3333333333333333,
+        0.3333333333333333,
+        0.3333333333333333
+      ],
+      "predicted_nodes_mean": 11.02803738317757,
+      "probability_mean": [
+        0.16666666666666666,
+        0.6666666666666666,
+        0.16666666666666666
+      ]
+    },
+    "3:0:4:0": {
+      "actual_nodes_mean": 14.75,
+      "brier": 0.4166666666666667,
+      "candidates": 4,
+      "cost_bias": -3.721962616822429,
+      "cost_mae": 3.7359813084112146,
+      "cost_mape": 0.23369796091758707,
+      "cost_rmse": 4.305868753343936,
+      "observed_frequency": [
+        0.25,
+        0.75,
+        0.0
+      ],
+      "predicted_nodes_mean": 11.02803738317757,
+      "probability_mean": [
+        0.16666666666666666,
+        0.6666666666666666,
+        0.16666666666666666
+      ]
+    },
+    "3:1:0:3": {
+      "actual_nodes_mean": 9.3125,
+      "brier": 0.359375,
+      "candidates": 16,
+      "cost_bias": 1.7155373831775709,
+      "cost_mae": 2.0800233644859816,
+      "cost_mape": 0.2573523957869753,
+      "cost_rmse": 2.4047686506355967,
+      "observed_frequency": [
+        0.8125,
+        0.0,
+        0.1875
+      ],
+      "predicted_nodes_mean": 11.02803738317757,
+      "probability_mean": [
+        0.625,
+        0.125,
+        0.25
+      ]
+    },
+    "3:1:1:2": {
+      "actual_nodes_mean": 14,
+      "brier": 0.375,
+      "candidates": 3,
+      "cost_bias": -2.971962616822429,
+      "cost_mae": 2.971962616822429,
+      "cost_mape": 0.21228304405874493,
+      "cost_rmse": 2.971962616822429,
+      "observed_frequency": [
+        0.0,
+        1.0,
+        0.0
+      ],
+      "predicted_nodes_mean": 11.02803738317757,
+      "probability_mean": [
+        0.25,
+        0.5,
+        0.25
+      ]
+    },
+    "3:1:3:0": {
+      "actual_nodes_mean": 14.2,
+      "brier": 0.56,
+      "candidates": 5,
+      "cost_bias": -3.1719626168224293,
+      "cost_mae": 3.1831775700934575,
+      "cost_mape": 0.20315774568111014,
+      "cost_rmse": 3.87573823193969,
+      "observed_frequency": [
+        0.4,
+        0.6,
+        0.0
+      ],
+      "predicted_nodes_mean": 11.02803738317757,
+      "probability_mean": [
+        0.4,
+        0.4,
+        0.2
+      ]
+    },
+    "3:2:0:2": {
+      "actual_nodes_mean": 10.129032258064516,
+      "brier": 0.33568548387096775,
+      "candidates": 31,
+      "cost_bias": 0.8990051251130547,
+      "cost_mae": 2.366596321977691,
+      "cost_mape": 0.2773473135245822,
+      "cost_rmse": 2.7739478541980422,
+      "observed_frequency": [
+        0.8064516129032258,
+        0.12903225806451613,
+        0.06451612903225806
+      ],
+      "predicted_nodes_mean": 11.02803738317757,
+      "probability_mean": [
+        0.75,
+        0.125,
+        0.125
+      ]
+    },
+    "3:2:1:1": {
+      "actual_nodes_mean": 14,
+      "brier": 0.62,
+      "candidates": 2,
+      "cost_bias": -2.971962616822429,
+      "cost_mae": 2.971962616822429,
+      "cost_mape": 0.21228304405874493,
+      "cost_rmse": 2.971962616822429,
+      "observed_frequency": [
+        0.0,
+        1.0,
+        0.0
+      ],
+      "predicted_nodes_mean": 11.02803738317757,
+      "probability_mean": [
+        0.5,
+        0.4,
+        0.1
+      ]
+    },
+    "3:2:2:0": {
+      "actual_nodes_mean": 12.555555555555555,
+      "brier": 0.4021530180699731,
+      "candidates": 9,
+      "cost_bias": -1.5275181723779847,
+      "cost_mae": 1.5337487019730005,
+      "cost_mape": 0.11239565211527824,
+      "cost_rmse": 2.087583082171742,
+      "observed_frequency": [
+        0.7777777777777778,
+        0.2222222222222222,
+        0.0
+      ],
+      "predicted_nodes_mean": 11.02803738317757,
+      "probability_mean": [
+        0.5882352941176471,
+        0.35294117647058826,
+        0.058823529411764705
+      ]
+    },
+    "3:3:0:1": {
+      "actual_nodes_mean": 9.566666666666666,
+      "brier": 0.13973333333333335,
+      "candidates": 30,
+      "cost_bias": 1.4613707165109042,
+      "cost_mae": 1.9224299065420567,
+      "cost_mape": 0.25127060547621305,
+      "cost_rmse": 2.578337951723516,
+      "observed_frequency": [
+        0.9333333333333333,
+        0.03333333333333333,
+        0.03333333333333333
+      ],
+      "predicted_nodes_mean": 11.02803738317757,
+      "probability_mean": [
+        0.84,
+        0.08,
+        0.08
+      ]
+    },
+    "3:3:1:0": {
+      "actual_nodes_mean": 12.8,
+      "brier": 0.34,
+      "candidates": 10,
+      "cost_bias": -1.7719626168224292,
+      "cost_mae": 1.7831775700934576,
+      "cost_mape": 0.12438605008698464,
+      "cost_rmse": 2.5099505005908367,
+      "observed_frequency": [
+        0.8,
+        0.2,
+        0.0
+      ],
+      "predicted_nodes_mean": 11.02803738317757,
+      "probability_mean": [
+        0.8,
+        0.1,
+        0.1
+      ]
+    },
+    "3:4:0:0": {
+      "actual_nodes_mean": 9.314814814814815,
+      "brier": 0.07478518518518518,
+      "candidates": 54,
+      "cost_bias": 1.713222568362756,
+      "cost_mae": 2.3314295604015234,
+      "cost_mape": 0.31885898993894846,
+      "cost_rmse": 2.8743606466563167,
+      "observed_frequency": [
+        0.9629629629629629,
+        0.018518518518518517,
+        0.018518518518518517
+      ],
+      "predicted_nodes_mean": 11.02803738317757,
+      "probability_mean": [
+        0.92,
+        0.04,
+        0.04
+      ]
+    },
+    "4:0:0:4": {
+      "actual_nodes_mean": 37.270270270270274,
+      "brier": 0.39490730399821306,
+      "candidates": 37,
+      "cost_bias": 0.6918509418509408,
+      "cost_mae": 5.755733005733005,
+      "cost_mape": 0.1675506142195172,
+      "cost_rmse": 8.05220740785907,
+      "observed_frequency": [
+        0.13513513513513514,
+        0.08108108108108109,
+        0.7837837837837838
+      ],
+      "predicted_nodes_mean": 37.96212121212121,
+      "probability_mean": [
+        0.18181818181818182,
+        0.18181818181818182,
+        0.6363636363636364
+      ]
+    },
+    "4:0:1:3": {
+      "actual_nodes_mean": 50.214285714285715,
+      "brier": 0.4880952380952381,
+      "candidates": 28,
+      "cost_bias": -12.252164502164502,
+      "cost_mae": 12.320887445887447,
+      "cost_mape": 0.228062109747881,
+      "cost_rmse": 14.360100061058423,
+      "observed_frequency": [
+        0.07142857142857142,
+        0.6785714285714286,
+        0.25
+      ],
+      "predicted_nodes_mean": 37.96212121212121,
+      "probability_mean": [
+        0.08333333333333333,
+        0.5833333333333334,
+        0.3333333333333333
+      ]
+    },
+    "4:0:2:2": {
+      "actual_nodes_mean": 54.5,
+      "brier": 0.41388888888888886,
+      "candidates": 10,
+      "cost_bias": -16.53787878787879,
+      "cost_mae": 17.522727272727273,
+      "cost_mape": 0.2951009907109232,
+      "cost_rmse": 19.95373235268458,
+      "observed_frequency": [
+        0.1,
+        0.8,
+        0.1
+      ],
+      "predicted_nodes_mean": 37.96212121212121,
+      "probability_mean": [
+        0.25,
+        0.5833333333333334,
+        0.16666666666666666
+      ]
+    },
+    "4:0:3:1": {
+      "actual_nodes_mean": 56.666666666666664,
+      "brier": 0.4583333333333333,
+      "candidates": 6,
+      "cost_bias": -18.704545454545457,
+      "cost_mae": 18.704545454545457,
+      "cost_mape": 0.3251245316147797,
+      "cost_rmse": 19.349821090044028,
+      "observed_frequency": [
+        0.16666666666666666,
+        0.8333333333333334,
+        0.0
+      ],
+      "predicted_nodes_mean": 37.96212121212121,
+      "probability_mean": [
+        0.25,
+        0.5,
+        0.25
+      ]
+    },
+    "4:0:4:0": {
+      "actual_nodes_mean": 51.5,
+      "brier": 0.64,
+      "candidates": 2,
+      "cost_bias": -13.537878787878789,
+      "cost_mae": 13.537878787878789,
+      "cost_mape": 0.20848208808735127,
+      "cost_rmse": 19.11868620160126,
+      "observed_frequency": [
+        0.5,
+        0.5,
+        0.0
+      ],
+      "predicted_nodes_mean": 37.96212121212121,
+      "probability_mean": [
+        0.2,
+        0.6,
+        0.2
+      ]
+    },
+    "4:1:0:3": {
+      "actual_nodes_mean": 33.875,
+      "brier": 0.5272222222222221,
+      "candidates": 32,
+      "cost_bias": 4.087121212121211,
+      "cost_mae": 5.913825757575757,
+      "cost_mape": 0.20622948214397444,
+      "cost_rmse": 7.673098122829602,
+      "observed_frequency": [
+        0.53125,
+        0.0,
+        0.46875
+      ],
+      "predicted_nodes_mean": 37.96212121212121,
+      "probability_mean": [
+        0.5,
+        0.13333333333333333,
+        0.36666666666666664
+      ]
+    },
+    "4:1:1:2": {
+      "actual_nodes_mean": 44.857142857142854,
+      "brier": 0.6559594251901943,
+      "candidates": 14,
+      "cost_bias": -6.895021645021646,
+      "cost_mae": 7.5984848484848495,
+      "cost_mape": 0.1439359135150525,
+      "cost_rmse": 11.190853454332132,
+      "observed_frequency": [
+        0.42857142857142855,
+        0.35714285714285715,
+        0.21428571428571427
+      ],
+      "predicted_nodes_mean": 37.96212121212121,
+      "probability_mean": [
+        0.38461538461538464,
+        0.3076923076923077,
+        0.3076923076923077
+      ]
+    },
+    "4:1:2:1": {
+      "actual_nodes_mean": 50.285714285714285,
+      "brier": 0.5238095238095238,
+      "candidates": 14,
+      "cost_bias": -12.323593073593075,
+      "cost_mae": 12.323593073593075,
+      "cost_mape": 0.22022200158253627,
+      "cost_rmse": 15.125783073627955,
+      "observed_frequency": [
+        0.35714285714285715,
+        0.6428571428571429,
+        0.0
+      ],
+      "predicted_nodes_mean": 37.96212121212121,
+      "probability_mean": [
+        0.16666666666666666,
+        0.6666666666666666,
+        0.16666666666666666
+      ]
+    },
+    "4:1:3:0": {
+      "actual_nodes_mean": 44,
+      "brier": 0.3490809327846365,
+      "candidates": 1,
+      "cost_bias": -6.037878787878789,
+      "cost_mae": 6.037878787878789,
+      "cost_mape": 0.1372245179063361,
+      "cost_rmse": 6.037878787878789,
+      "observed_frequency": [
+        1.0,
+        0.0,
+        0.0
+      ],
+      "predicted_nodes_mean": 37.96212121212121,
+      "probability_mean": [
+        0.5185185185185185,
+        0.21481481481481482,
+        0.26666666666666666
+      ]
+    },
+    "4:2:0:2": {
+      "actual_nodes_mean": 36.04,
+      "brier": 0.5216,
+      "candidates": 25,
+      "cost_bias": 1.922121212121211,
+      "cost_mae": 8.50939393939394,
+      "cost_mape": 0.2595020143926345,
+      "cost_rmse": 9.731030261698209,
+      "observed_frequency": [
+        0.68,
+        0.2,
+        0.12
+      ],
+      "predicted_nodes_mean": 37.96212121212121,
+      "probability_mean": [
+        0.76,
+        0.04,
+        0.2
+      ]
+    },
+    "4:2:1:1": {
+      "actual_nodes_mean": 42.6875,
+      "brier": 0.44000000000000006,
+      "candidates": 16,
+      "cost_bias": -4.725378787878789,
+      "cost_mae": 5.836174242424243,
+      "cost_mape": 0.11988370414174261,
+      "cost_rmse": 8.727488094459643,
+      "observed_frequency": [
+        0.75,
+        0.1875,
+        0.0625
+      ],
+      "predicted_nodes_mean": 37.96212121212121,
+      "probability_mean": [
+        0.6,
+        0.2,
+        0.2
+      ]
+    },
+    "4:2:2:0": {
+      "actual_nodes_mean": 47.5,
+      "brier": 0.375,
+      "candidates": 2,
+      "cost_bias": -9.537878787878789,
+      "cost_mae": 9.537878787878789,
+      "cost_mape": 0.16749734183944712,
+      "cost_rmse": 13.461839836079918,
+      "observed_frequency": [
+        1.0,
+        0.0,
+        0.0
+      ],
+      "predicted_nodes_mean": 37.96212121212121,
+      "probability_mean": [
+        0.5,
+        0.25,
+        0.25
+      ]
+    },
+    "4:3:0:1": {
+      "actual_nodes_mean": 33.91304347826087,
+      "brier": 0.1839613526570048,
+      "candidates": 23,
+      "cost_bias": 4.049077733860342,
+      "cost_mae": 8.323122529644268,
+      "cost_mape": 0.26212951708388593,
+      "cost_rmse": 9.835410268266756,
+      "observed_frequency": [
+        0.9130434782608695,
+        0.043478260869565216,
+        0.043478260869565216
+      ],
+      "predicted_nodes_mean": 37.96212121212121,
+      "probability_mean": [
+        0.8,
+        0.06666666666666667,
+        0.13333333333333333
+      ]
+    },
+    "4:3:1:0": {
+      "actual_nodes_mean": 38.875,
+      "brier": 0.3888888888888889,
+      "candidates": 8,
+      "cost_bias": -0.912878787878789,
+      "cost_mae": 4.875,
+      "cost_mape": 0.11737922089430863,
+      "cost_rmse": 6.418155707160667,
+      "observed_frequency": [
+        1.0,
+        0.0,
+        0.0
+      ],
+      "predicted_nodes_mean": 37.96212121212121,
+      "probability_mean": [
+        0.5,
+        0.3333333333333333,
+        0.16666666666666666
+      ]
+    },
+    "4:4:0:0": {
+      "actual_nodes_mean": 33.63636363636363,
+      "brier": 0.026666666666666658,
+      "candidates": 11,
+      "cost_bias": 4.325757575757574,
+      "cost_mae": 5.080578512396694,
+      "cost_mape": 0.18397685931460206,
+      "cost_rmse": 7.0606426387399495,
+      "observed_frequency": [
+        1.0,
+        0.0,
+        0.0
+      ],
+      "predicted_nodes_mean": 37.96212121212121,
+      "probability_mean": [
+        0.8666666666666667,
+        0.06666666666666667,
+        0.06666666666666667
+      ]
+    }
+  },
+  "maximum_model_probability": 0.92,
+  "minimum_model_probability": 0.04,
+  "nonterminal_source_parents": 149,
+  "pooled_candidates": {
+    "actual_nodes_mean": 22.749514563106796,
+    "brier": 0.3272727088243262,
+    "candidates": 515,
+    "cost_bias": -1.120632605550633,
+    "cost_mae": 4.691270319516157,
+    "cost_mape": 0.21062552830905557,
+    "cost_rmse": 7.688316361795099,
+    "observed_frequency": [
+      0.6058252427184466,
+      0.22330097087378642,
+      0.170873786407767
+    ],
+    "predicted_nodes_mean": 21.628881957556164,
+    "probability_mean": [
+      0.5488664968722079,
+      0.2267287578001456,
+      0.22440474532764654
+    ]
+  },
+  "predicted_nodes_range": [
+    4.280701754385965,
+    37.96212121212121
+  ],
+  "rows_sha256": "50ec1f094a341e8494bd55e091f4264ca47368eef8a72b16035066b6e6842b9d",
+  "schema": "c26-calibration-v1",
+  "source_parents": 150,
+  "within_root_residual_dependence": {
+    "interpretation": "Descriptive symmetrized pair moments, equal parent weighting. No independence test or population-general claim; TRAIN is fixed.",
+    "paired_residual_mean": -0.052705477779536186,
+    "paired_residual_variance": 0.08255909970230237,
+    "source_parents": 139,
+    "unordered_pairs": 732,
+    "within_root_correlation": 0.17673145444527896,
+    "within_root_covariance": 0.014590789768080694
+  }
+}

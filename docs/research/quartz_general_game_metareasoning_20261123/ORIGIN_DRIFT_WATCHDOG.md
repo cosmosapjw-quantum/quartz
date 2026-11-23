@@ -26,3 +26,7 @@ Two narrow THESIS repairs allow runtime estimated computation value and derived 
 ## Continuing obligation
 
 On every later Quartz research turn, read the original source/provenance map, current exact HEAD and current next-step contract; state which original mechanism is concretely advanced and what remains conjectural. Reopen Git history when a new interpretation or apparent policy conflict appears. Do not substitute a repeated generic audit for actual derivation or code. Preserve the ten selected theory stages then ten coding stages, per-stage backup/publication, and source-based corrections. A completed cycle proposes its successor; it does not silently start another cycle.
+
+## C08 outcome check
+
+The primary negative admission is retained, preserving the original resource-rational objective rather than promoting gross quality gain as cost efficiency. Runtime estimated VOC, genuine Gibbs sampling and exact-known retention are implemented. The original NN-evaluation P2 and human dissociation P3 remain unproven. C26 TEST is retired from future confirmatory use. Next theory should model signal-conditioned joint beliefs: marginal candidate priors do not automatically update after learning the incumbent or another candidate. The C07 ignored-evidence publication defect is recorded separately from scientific error and repaired in C08.

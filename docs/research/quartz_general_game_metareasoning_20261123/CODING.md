@@ -33,3 +33,7 @@ Relevant implementation proof is complete: native18tests, independent21Python te
 ## C07 — scientific validation
 
 Source split and TRAIN parameter identities are verified. CAL checked exact GameState semantics, every trace and paid work under the frozen model; probability/cost errors and residual dependence remain measured model limitations. The held-out TEST gate is next.
+
+## C08 — held-out outcome
+
+The frozen TEST campaign completed and all raw/inference identities were independently replayed. The primary positive node-priced gain gate did not pass: mean +0.00569010, 95% CI [-0.0136930, +0.0290394]. Exact decision quality improved, but 85.91% of Pandora additional nodes were spent on already-optimal parents. This is post-hoc diagnosis, not a new fit. See coding/C08_RESULTS.md and evidence/C08_DIAGNOSTICS.json. The inherited-ignore C07 evidence publication omission was explicitly repaired in C08, preserving its historical timing.

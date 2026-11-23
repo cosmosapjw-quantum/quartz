@@ -31,6 +31,12 @@ assert git("branch", "--show-current") == base["branch"]
 for path, sha in base["protected"].items():
     assert digest(ROOT / path) == sha, path
 subprocess.run(["git", "add", "--", *paths], cwd=ROOT, check=True)
+# Research result directories can match inherited ignore rules; never silently omit evidence.
+tracked = set(git("ls-files", "--", str(DOC.relative_to(ROOT))).splitlines())
+result_files = [p for p in (DOC / "coding/results").rglob("*") if p.is_file()]
+assert all(str(p.relative_to(ROOT)) in tracked for p in result_files), (
+    "untracked C26 result evidence"
+)
 # Raw stdout/stderr are byte-preserved evidence; trailing terminal newlines are not source defects.
 subprocess.run(
     [

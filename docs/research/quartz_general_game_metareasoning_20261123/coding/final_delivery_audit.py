@@ -109,6 +109,18 @@ def main():
             assert h.hexdigest() == sha(ROOT / member.name), member.name
             archived.add(member.name)
     assert archived == set(changed)
+    result_files = {
+        str(p.relative_to(ROOT))
+        for p in (DOC / "coding/results").rglob("*")
+        if p.is_file()
+    }
+    assert len(result_files) == 16 and result_files <= archived, (
+        "all CAL/TEST evidence archived"
+    )
+    correction = json.loads(
+        (DOC / "evidence/C08_PACKAGING_CORRECTION.json").read_text()
+    )
+    assert sha(correction["supplemental_archive"]) == correction["archive_sha256"]
     result = {
         "status": "VERIFIED_FINAL_C26_DELIVERY",
         "head": head,
@@ -130,7 +142,9 @@ def main():
         "authorized_thesis_correction_verified": True,
         "R09_contract_and_source_specs_unchanged": True,
         "changed_files": len(changed),
-        "dropbox_cloud_ack": "NOT_VERIFIED",
+        "CAL_TEST_result_files_archived": len(result_files),
+        "C07_evidence_omission_repaired_C08": True,
+        "dropbox_cloud_ack": "See separately timestamped cloud metadata receipt; cloud content bytes not independently downloaded",
         "C27_executed": False,
         "utc": datetime.datetime.now(datetime.timezone.utc).isoformat(),
         "elapsed_seconds": time.perf_counter() - started,

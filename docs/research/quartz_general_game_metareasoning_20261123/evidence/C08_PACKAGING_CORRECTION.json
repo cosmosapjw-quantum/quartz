@@ -1,0 +1,23 @@
+{
+  "observed_utc": "2026-11-23T09:57:40.411639+00:00",
+  "issue": "Inherited results/ ignore omitted CAL result artifacts from C07 Git commit and cumulative overlay. Original local result bytes remained intact.",
+  "classification": "provenance/publication omission; not a scientific calculation defect",
+  "prior_commit": "8101e7610dc59602f3abe938e49b43bf2571f191",
+  "correction_stage": "C08",
+  "supplemental_archive": "/home/cosmosapjw/Dropbox/personal_projects/quartz_general_meta26_backups/C07_CAL_RESULTS_SUPPLEMENT_8101e7610dc5.tar.gz",
+  "archive_sha256": "6c7159e0c32c5e2bf3096f6923e397c5c14ee396fc5dd0b47112e62e7076b177",
+  "archive_bytes": 897421,
+  "archive_readback_verified": true,
+  "cal_files": {
+    "docs/research/quartz_general_game_metareasoning_20261123/coding/results/CAL/analysis.json": "abe5e2aca197e91b956ca8202f5ef84996dec917f04d43cd956d18decba2d67a",
+    "docs/research/quartz_general_game_metareasoning_20261123/coding/results/CAL/calibration.json": "88a945e461afae9d37fae3d35ef944931a8082377ae291735f7dff2a82f04f74",
+    "docs/research/quartz_general_game_metareasoning_20261123/coding/results/CAL/calibration_rows.jsonl.gz": "7ef0adb71693bc036a715f76f16bef554cd4daee3c1f2cec53834b3fe51288f0",
+    "docs/research/quartz_general_game_metareasoning_20261123/coding/results/CAL/parent_metrics.jsonl.gz": "e2c8a2a3dc77c63a0db6c7594d9099a5b141d924902ae870e4b64f5f6c0ec909",
+    "docs/research/quartz_general_game_metareasoning_20261123/coding/results/CAL/run_manifest.json": "c087e83863419d18dc90fbb3b55e642b7941e4eafa97853dfc3a5cd271d87729",
+    "docs/research/quartz_general_game_metareasoning_20261123/coding/results/CAL/seed_medians.jsonl.gz": "4a82ce7494c34a2b8d1a4a1d30a5999b961749da390599782df1569814483b77",
+    "docs/research/quartz_general_game_metareasoning_20261123/coding/results/CAL/timing_raw.jsonl.gz": "e53efbc3bb5be6dd4d190a48af11e489760fb00d8bdbee159a811aeca9da3e05",
+    "docs/research/quartz_general_game_metareasoning_20261123/coding/results/CAL/trace_raw.jsonl.gz": "ab7191af5c36d5fb73985b8e60f656145da285454ab3b73a8d8dc23a2da8accc"
+  },
+  "git_action": "Force add only C26 coding/results/CAL and TEST; no global ignore change",
+  "future_stage_gate": "Before publication, enumerate all files under C26 coding/results and ensure every file is Git tracked."
+}

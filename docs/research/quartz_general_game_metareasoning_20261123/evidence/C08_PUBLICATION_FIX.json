@@ -1,0 +1,7 @@
+{
+  "attempt1_exit": 1,
+  "git_commit_created": false,
+  "cause": "Matplotlib generated SVG path strings contain trailing spaces; git diff --check rejected before commit",
+  "fix": "Strip only line-ending whitespace in generated SVG; normalize in rendering script; no scientific source/data/model change",
+  "repeat_action": "Resume publishing existing staged docs; do not repeat journal append"
+}

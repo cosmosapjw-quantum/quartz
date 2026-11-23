@@ -1,0 +1,840 @@
+{
+  "inputs": {
+    "CAL": {
+      "analysis.json": "abe5e2aca197e91b956ca8202f5ef84996dec917f04d43cd956d18decba2d67a",
+      "calibration.json": "88a945e461afae9d37fae3d35ef944931a8082377ae291735f7dff2a82f04f74",
+      "calibration_rows.jsonl.gz": "7ef0adb71693bc036a715f76f16bef554cd4daee3c1f2cec53834b3fe51288f0",
+      "parent_metrics.jsonl.gz": "e2c8a2a3dc77c63a0db6c7594d9099a5b141d924902ae870e4b64f5f6c0ec909",
+      "run_manifest.json": "c087e83863419d18dc90fbb3b55e642b7941e4eafa97853dfc3a5cd271d87729",
+      "seed_medians.jsonl.gz": "4a82ce7494c34a2b8d1a4a1d30a5999b961749da390599782df1569814483b77",
+      "timing_raw.jsonl.gz": "e53efbc3bb5be6dd4d190a48af11e489760fb00d8bdbee159a811aeca9da3e05",
+      "trace_raw.jsonl.gz": "ab7191af5c36d5fb73985b8e60f656145da285454ab3b73a8d8dc23a2da8accc"
+    },
+    "TEST": {
+      "analysis.json": "26d0ce82abf4ecc03b265e2784368f9f1fb188926c5319323510a9c6142b7406",
+      "calibration.json": "95e52a58e8d8ec345d7cda3a70dfeb8d02a503ae28badc82e86751ba4685eb6f",
+      "calibration_rows.jsonl.gz": "50ec1f094a341e8494bd55e091f4264ca47368eef8a72b16035066b6e6842b9d",
+      "parent_metrics.jsonl.gz": "b0be1c18c8c13d2330c0a68044064180a983f4d6cdbcb64a317a9d61d3b0ea42",
+      "run_manifest.json": "38b2aacc749b63489267f63b8fe370d742a17bb5f1debdce4478d1139a74cef9",
+      "seed_medians.jsonl.gz": "1f63f82b808f61dbfdc754bce768583742395a3f516f5879620931640a212fa2",
+      "timing_raw.jsonl.gz": "be1dee1fb26d11220dfc35ce0c576bfa1294ef84e02b116fb6b71baf32feef12",
+      "trace_raw.jsonl.gz": "b80651088d5c301c92420810a85099105b3765afd5858bef45a3278a49b84b88"
+    }
+  },
+  "schema": "c26-posthoc-diagnostics-v1",
+  "scope": "Descriptive post-hoc diagnosis on frozen results; no refitting, retuning, or new confirmatory endpoint.",
+  "splits": {
+    "CAL": {
+      "available_mean_gain": 0.08333333333333333,
+      "calibration": {
+        "equal_parent_brier": 0.30668826867181986,
+        "pooled_candidates": {
+          "actual_nodes_mean": 21.17241379310345,
+          "brier": 0.32894153973575585,
+          "candidates": 203,
+          "cost_bias": 0.10224400834506485,
+          "cost_mae": 3.721184902020087,
+          "cost_mape": 0.17757811741955407,
+          "cost_rmse": 5.809366207027223,
+          "observed_frequency": [
+            0.5911330049261084,
+            0.1921182266009852,
+            0.21674876847290642
+          ],
+          "predicted_nodes_mean": 21.274657801448512,
+          "probability_mean": [
+            0.5492530088154545,
+            0.2191891848773912,
+            0.2315578063071543
+          ]
+        },
+        "within_root_residual_dependence": {
+          "interpretation": "Descriptive symmetrized pair moments, equal parent weighting. No independence test or population-general claim; TRAIN is fixed.",
+          "paired_residual_mean": -0.03677433020673475,
+          "paired_residual_variance": 0.08561683165582146,
+          "source_parents": 57,
+          "unordered_pairs": 279,
+          "within_root_correlation": 0.27849935555404665,
+          "within_root_covariance": 0.023844232440725577
+        }
+      },
+      "full_cap_means": {
+        "ALL_ACTIONS": {
+          "additional_nodes": 63.15,
+          "additional_queries": 2.933333333333333,
+          "charged_nodes": 118.46666666666667,
+          "controller_us": 0.2593583333333333,
+          "cue_nodes": 46.833333333333336,
+          "cue_us": 2.269245833333333,
+          "elapsed_us": 4.787891666666667,
+          "initial_nodes": 8.483333333333333,
+          "initial_us": 0.2876708333333333,
+          "initial_utility": 0.7166666666666667,
+          "net_nodes": 0.6843098958333333,
+          "net_wall": 0.7999952121083334,
+          "predicted_additional_nodes": 64.21262005197076,
+          "query_us": 1.9693041666666666,
+          "regret": 0.0,
+          "utility": 0.8,
+          "utility_gain": 0.08333333333333333
+        },
+        "GIBBS_VOC": {
+          "additional_nodes": 14.120833333333334,
+          "additional_queries": 0.8208333333333333,
+          "charged_nodes": 69.4375,
+          "controller_us": 0.23743749999999994,
+          "cue_nodes": 46.833333333333336,
+          "cue_us": 2.272883333333333,
+          "elapsed_us": 3.261808333333333,
+          "initial_nodes": 8.483333333333333,
+          "initial_us": 0.28737083333333335,
+          "initial_utility": 0.7166666666666667,
+          "net_nodes": 0.7301066080729167,
+          "net_wall": 0.7979134048583333,
+          "predicted_additional_nodes": 13.089990814440519,
+          "query_us": 0.4628916666666667,
+          "regret": 0.0020833333333333333,
+          "utility": 0.7979166666666667,
+          "utility_gain": 0.08125
+        },
+        "GREEDY_VOC": {
+          "additional_nodes": 15.666666666666666,
+          "additional_queries": 0.9166666666666666,
+          "charged_nodes": 70.98333333333333,
+          "controller_us": 0.1931375,
+          "cue_nodes": 46.833333333333336,
+          "cue_us": 2.2724291666666665,
+          "elapsed_us": 3.2687458333333335,
+          "initial_nodes": 8.483333333333333,
+          "initial_us": 0.2877125,
+          "initial_utility": 0.7166666666666667,
+          "net_nodes": 0.7306803385416667,
+          "net_wall": 0.7999967312541667,
+          "predicted_additional_nodes": 14.371295095569566,
+          "query_us": 0.5144916666666667,
+          "regret": 0.0,
+          "utility": 0.8,
+          "utility_gain": 0.08333333333333333
+        },
+        "INITIAL_STOP": {
+          "additional_nodes": 0,
+          "additional_queries": 0,
+          "charged_nodes": 55.31666666666667,
+          "controller_us": 0.12850833333333334,
+          "cue_nodes": 46.833333333333336,
+          "cue_us": 2.2722416666666665,
+          "elapsed_us": 2.6887625,
+          "initial_nodes": 8.483333333333333,
+          "initial_us": 0.2869833333333333,
+          "initial_utility": 0.7166666666666667,
+          "net_nodes": 0.662646484375,
+          "net_wall": 0.7166639779041667,
+          "predicted_additional_nodes": 0.0,
+          "query_us": 0.0,
+          "regret": 0.08333333333333333,
+          "utility": 0.7166666666666667,
+          "utility_gain": 0.0
+        },
+        "PANDORA": {
+          "additional_nodes": 15.033333333333333,
+          "additional_queries": 0.9,
+          "charged_nodes": 70.35,
+          "controller_us": 0.18844583333333334,
+          "cue_nodes": 46.833333333333336,
+          "cue_us": 2.2739041666666666,
+          "elapsed_us": 3.248683333333333,
+          "initial_nodes": 8.483333333333333,
+          "initial_us": 0.2873,
+          "initial_utility": 0.7166666666666667,
+          "net_nodes": 0.731298828125,
+          "net_wall": 0.7999967513166667,
+          "predicted_additional_nodes": 13.738593075367547,
+          "query_us": 0.49818333333333337,
+          "regret": 0.0,
+          "utility": 0.8,
+          "utility_gain": 0.08333333333333333
+        },
+        "RANDOM_ORDER": {
+          "additional_nodes": 17.083333333333332,
+          "additional_queries": 0.95,
+          "charged_nodes": 72.4,
+          "controller_us": 0.17516666666666664,
+          "cue_nodes": 46.833333333333336,
+          "cue_us": 2.2754833333333333,
+          "elapsed_us": 3.2919625,
+          "initial_nodes": 8.483333333333333,
+          "initial_us": 0.28763333333333335,
+          "initial_utility": 0.7166666666666667,
+          "net_nodes": 0.729296875,
+          "net_wall": 0.7999967080375,
+          "predicted_additional_nodes": 16.08560053312267,
+          "query_us": 0.5529875000000001,
+          "regret": 0.0,
+          "utility": 0.8,
+          "utility_gain": 0.08333333333333333
+        }
+      },
+      "pandora_groups": {
+        "initial_already_optimal": {
+          "mean_additional_nodes": 7.254901960784314,
+          "parents": 51,
+          "parents_with_queries": 11,
+          "sum_additional_nodes_over_parents": 370,
+          "sum_utility_gain_over_parents": 0.0
+        },
+        "initial_improvable": {
+          "mean_additional_nodes": 59.111111111111114,
+          "parents": 9,
+          "parents_with_queries": 9,
+          "sum_additional_nodes_over_parents": 532,
+          "sum_utility_gain_over_parents": 5.0
+        }
+      },
+      "pandora_selected_query_diagnostics": {
+        "actual_nodes_sum": 3608,
+        "predicted_gain_sum": 26.681776915894595,
+        "predicted_nodes_sum": 3297.2623380882023,
+        "queries": 216,
+        "realized_gain_sum": 20.0,
+        "source_seed_cells": 240
+      },
+      "parents": 60,
+      "primary": {
+        "baseline": "INITIAL_STOP",
+        "cap": 9,
+        "ci95": [
+          0.027977294921875,
+          0.11551188151041666
+        ],
+        "draws": 2000,
+        "interval": "stratified paired source-parent percentile bootstrap",
+        "mean": 0.06865234375,
+        "metric": "delta final_u - 2^-10 * delta charged_nodes",
+        "numpy_version": "2.4.2",
+        "parents": 60,
+        "policy": "PANDORA",
+        "positive_gain_gate": true,
+        "rng": "numpy.PCG64",
+        "seed": 2600923,
+        "strata": {
+          "4": 20,
+          "5": 20,
+          "6": 20
+        }
+      },
+      "selected_comparisons": [
+        {
+          "baseline": "INITIAL_STOP",
+          "metrics": {
+            "charged_nodes": {
+              "ci95": [
+                8.249583333333334,
+                23.083749999999995
+              ],
+              "mean": 15.033333333333333
+            },
+            "elapsed_us": {
+              "ci95": [
+                0.320606875,
+                0.8362369791666665
+              ],
+              "mean": 0.5599208333333333
+            },
+            "net_nodes": {
+              "ci95": [
+                0.027977294921875,
+                0.11551188151041666
+              ],
+              "mean": 0.06865234375
+            },
+            "net_wall": {
+              "ci95": [
+                0.041666144950416664,
+                0.1333326607097917
+              ],
+              "mean": 0.0833327734125
+            },
+            "utility": {
+              "ci95": [
+                0.041666666666666664,
+                0.13333333333333333
+              ],
+              "mean": 0.08333333333333333
+            }
+          },
+          "policy": "PANDORA"
+        },
+        {
+          "baseline": "ALL_ACTIONS",
+          "metrics": {
+            "charged_nodes": {
+              "ci95": [
+                -55.200833333333335,
+                -40.21500000000001
+              ],
+              "mean": -48.11666666666667
+            },
+            "elapsed_us": {
+              "ci95": [
+                -1.7921853125,
+                -1.2631948958333339
+              ],
+              "mean": -1.5392083333333333
+            },
+            "net_nodes": {
+              "ci95": [
+                0.0392724609375,
+                0.05390706380208333
+              ],
+              "mean": 0.04698893229166667
+            },
+            "net_wall": {
+              "ci95": [
+                1.2631948958403033e-06,
+                1.7921853124931744e-06
+              ],
+              "mean": 1.5392083333342107e-06
+            },
+            "utility": {
+              "ci95": [
+                0.0,
+                0.0
+              ],
+              "mean": 0.0
+            }
+          },
+          "policy": "PANDORA"
+        },
+        {
+          "baseline": "RANDOM_ORDER",
+          "metrics": {
+            "charged_nodes": {
+              "ci95": [
+                -4.7524999999999995,
+                0.25
+              ],
+              "mean": -2.05
+            },
+            "elapsed_us": {
+              "ci95": [
+                -0.11821260416666658,
+                0.019262916666666793
+              ],
+              "mean": -0.04327916666666658
+            },
+            "net_nodes": {
+              "ci95": [
+                -0.000244140625,
+                0.0046411132812499865
+              ],
+              "mean": 0.002001953125
+            },
+            "net_wall": {
+              "ci95": [
+                -1.926291667562935e-08,
+                1.1821260416357078e-07
+              ],
+              "mean": 4.3279166661644256e-08
+            },
+            "utility": {
+              "ci95": [
+                0.0,
+                0.0
+              ],
+              "mean": 0.0
+            }
+          },
+          "policy": "PANDORA"
+        },
+        {
+          "baseline": "GREEDY_VOC",
+          "metrics": {
+            "charged_nodes": {
+              "ci95": [
+                -1.9,
+                0.0
+              ],
+              "mean": -0.6333333333333333
+            },
+            "elapsed_us": {
+              "ci95": [
+                -0.05589447916666674,
+                -3.687500000000698e-05
+              ],
+              "mean": -0.02006249999999998
+            },
+            "net_nodes": {
+              "ci95": [
+                0.0,
+                0.00185546875
+              ],
+              "mean": 0.0006184895833333333
+            },
+            "net_wall": {
+              "ci95": [
+                3.687500640162355e-11,
+                5.5894479169081945e-08
+              ],
+              "mean": 2.0062500005255127e-08
+            },
+            "utility": {
+              "ci95": [
+                0.0,
+                0.0
+              ],
+              "mean": 0.0
+            }
+          },
+          "policy": "PANDORA"
+        },
+        {
+          "baseline": "PANDORA",
+          "metrics": {
+            "charged_nodes": {
+              "ci95": [
+                -2.5209374999999996,
+                1.0667708333333326
+              ],
+              "mean": -0.9125
+            },
+            "elapsed_us": {
+              "ci95": [
+                -0.03484104166666664,
+                0.07276135416666668
+              ],
+              "mean": 0.013125000000000017
+            },
+            "net_nodes": {
+              "ci95": [
+                -0.005571695963541666,
+                0.0017701212565104161
+              ],
+              "mean": -0.0011922200520833334
+            },
+            "net_wall": {
+              "ci95": [
+                -0.006250021055312509,
+                1.0886562497427824e-08
+              ],
+              "mean": -0.002083346458333337
+            },
+            "utility": {
+              "ci95": [
+                -0.00625,
+                0.0
+              ],
+              "mean": -0.0020833333333333333
+            }
+          },
+          "policy": "GIBBS_VOC"
+        }
+      ]
+    },
+    "TEST": {
+      "available_mean_gain": 0.03,
+      "calibration": {
+        "equal_parent_brier": 0.3061328038768152,
+        "pooled_candidates": {
+          "actual_nodes_mean": 22.749514563106796,
+          "brier": 0.3272727088243262,
+          "candidates": 515,
+          "cost_bias": -1.120632605550633,
+          "cost_mae": 4.691270319516157,
+          "cost_mape": 0.21062552830905557,
+          "cost_rmse": 7.688316361795099,
+          "observed_frequency": [
+            0.6058252427184466,
+            0.22330097087378642,
+            0.170873786407767
+          ],
+          "predicted_nodes_mean": 21.628881957556164,
+          "probability_mean": [
+            0.5488664968722079,
+            0.2267287578001456,
+            0.22440474532764654
+          ]
+        },
+        "within_root_residual_dependence": {
+          "interpretation": "Descriptive symmetrized pair moments, equal parent weighting. No independence test or population-general claim; TRAIN is fixed.",
+          "paired_residual_mean": -0.052705477779536186,
+          "paired_residual_variance": 0.08255909970230237,
+          "source_parents": 139,
+          "unordered_pairs": 732,
+          "within_root_correlation": 0.17673145444527896,
+          "within_root_covariance": 0.014590789768080694
+        }
+      },
+      "full_cap_means": {
+        "ALL_ACTIONS": {
+          "additional_nodes": 66.40666666666667,
+          "additional_queries": 2.92,
+          "charged_nodes": 124.72,
+          "controller_us": 0.23559333333333332,
+          "cue_nodes": 46.61333333333334,
+          "cue_us": 2.229115,
+          "elapsed_us": 4.889701666666666,
+          "initial_nodes": 11.7,
+          "initial_us": 0.37884833333333334,
+          "initial_utility": 0.6966666666666667,
+          "net_nodes": 0.6048697916666667,
+          "net_wall": 0.726661776965,
+          "predicted_additional_nodes": 64.15554402857896,
+          "query_us": 2.04263,
+          "regret": 0.0,
+          "utility": 0.7266666666666667,
+          "utility_gain": 0.03
+        },
+        "GIBBS_VOC": {
+          "additional_nodes": 22.843333333333334,
+          "additional_queries": 1.0533333333333332,
+          "charged_nodes": 81.15666666666667,
+          "controller_us": 0.23806500000000003,
+          "cue_nodes": 46.61333333333334,
+          "cue_us": 2.2309866666666665,
+          "elapsed_us": 3.5815216666666667,
+          "initial_nodes": 11.7,
+          "initial_us": 0.37898166666666666,
+          "initial_utility": 0.6966666666666667,
+          "net_nodes": 0.647412109375,
+          "net_wall": 0.726663085145,
+          "predicted_additional_nodes": 21.220202635056914,
+          "query_us": 0.7315666666666667,
+          "regret": 0.0,
+          "utility": 0.7266666666666667,
+          "utility_gain": 0.03
+        },
+        "GREEDY_VOC": {
+          "additional_nodes": 25.16,
+          "additional_queries": 1.16,
+          "charged_nodes": 83.47333333333333,
+          "controller_us": 0.18917499999999998,
+          "cue_nodes": 46.61333333333334,
+          "cue_us": 2.23386,
+          "elapsed_us": 3.6011633333333335,
+          "initial_nodes": 11.7,
+          "initial_us": 0.37925166666666665,
+          "initial_utility": 0.6966666666666667,
+          "net_nodes": 0.6451497395833333,
+          "net_wall": 0.7266630655033334,
+          "predicted_additional_nodes": 23.204457039653793,
+          "query_us": 0.79777,
+          "regret": 0.0,
+          "utility": 0.7266666666666667,
+          "utility_gain": 0.03
+        },
+        "INITIAL_STOP": {
+          "additional_nodes": 0,
+          "additional_queries": 0,
+          "charged_nodes": 58.31333333333333,
+          "controller_us": 0.111985,
+          "cue_nodes": 46.61333333333334,
+          "cue_us": 2.2328266666666665,
+          "elapsed_us": 2.72411,
+          "initial_nodes": 11.7,
+          "initial_us": 0.37891833333333336,
+          "initial_utility": 0.6966666666666667,
+          "net_nodes": 0.6397200520833334,
+          "net_wall": 0.6966639425566666,
+          "predicted_additional_nodes": 0.0,
+          "query_us": 0.0,
+          "regret": 0.03,
+          "utility": 0.6966666666666667,
+          "utility_gain": 0.0
+        },
+        "PANDORA": {
+          "additional_nodes": 24.893333333333334,
+          "additional_queries": 1.1533333333333333,
+          "charged_nodes": 83.20666666666666,
+          "controller_us": 0.1846733333333333,
+          "cue_nodes": 46.61333333333334,
+          "cue_us": 2.231615,
+          "elapsed_us": 3.58708,
+          "initial_nodes": 11.7,
+          "initial_us": 0.3793183333333333,
+          "initial_utility": 0.6966666666666667,
+          "net_nodes": 0.64541015625,
+          "net_wall": 0.7266630795866666,
+          "predicted_additional_nodes": 22.951376231572986,
+          "query_us": 0.7901133333333333,
+          "regret": 0.0,
+          "utility": 0.7266666666666667,
+          "utility_gain": 0.03
+        },
+        "RANDOM_ORDER": {
+          "additional_nodes": 26.946666666666665,
+          "additional_queries": 1.1983333333333333,
+          "charged_nodes": 85.26,
+          "controller_us": 0.16812833333333332,
+          "cue_nodes": 46.61333333333334,
+          "cue_us": 2.2369183333333336,
+          "elapsed_us": 3.643056666666667,
+          "initial_nodes": 11.7,
+          "initial_us": 0.37934333333333337,
+          "initial_utility": 0.6966666666666667,
+          "net_nodes": 0.6434049479166667,
+          "net_wall": 0.72666302361,
+          "predicted_additional_nodes": 24.65967168611844,
+          "query_us": 0.85799,
+          "regret": 0.0,
+          "utility": 0.7266666666666667,
+          "utility_gain": 0.03
+        }
+      },
+      "pandora_groups": {
+        "initial_already_optimal": {
+          "mean_additional_nodes": 22.591549295774648,
+          "parents": 142,
+          "parents_with_queries": 52,
+          "sum_additional_nodes_over_parents": 3208,
+          "sum_utility_gain_over_parents": 0.0
+        },
+        "initial_improvable": {
+          "mean_additional_nodes": 65.75,
+          "parents": 8,
+          "parents_with_queries": 8,
+          "sum_additional_nodes_over_parents": 526,
+          "sum_utility_gain_over_parents": 4.5
+        }
+      },
+      "pandora_selected_query_diagnostics": {
+        "actual_nodes_sum": 14936,
+        "predicted_gain_sum": 82.08452723746859,
+        "predicted_nodes_sum": 13770.825738943697,
+        "queries": 692,
+        "realized_gain_sum": 18.0,
+        "source_seed_cells": 600
+      },
+      "parents": 150,
+      "primary": {
+        "baseline": "INITIAL_STOP",
+        "cap": 9,
+        "ci95": [
+          -0.013693033854166667,
+          0.029039388020833317
+        ],
+        "draws": 2000,
+        "interval": "stratified paired source-parent percentile bootstrap",
+        "mean": 0.005690104166666667,
+        "metric": "delta final_u - 2^-10 * delta charged_nodes",
+        "numpy_version": "2.4.2",
+        "parents": 150,
+        "policy": "PANDORA",
+        "positive_gain_gate": false,
+        "rng": "numpy.PCG64",
+        "seed": 2600923,
+        "strata": {
+          "4": 50,
+          "5": 50,
+          "6": 50
+        }
+      },
+      "selected_comparisons": [
+        {
+          "baseline": "INITIAL_STOP",
+          "metrics": {
+            "charged_nodes": {
+              "ci95": [
+                17.410999999999998,
+                32.35483333333333
+              ],
+              "mean": 24.893333333333334
+            },
+            "elapsed_us": {
+              "ci95": [
+                0.6064150416666666,
+                1.1198169999999994
+              ],
+              "mean": 0.86297
+            },
+            "net_nodes": {
+              "ci95": [
+                -0.013693033854166667,
+                0.029039388020833317
+              ],
+              "mean": 0.005690104166666667
+            },
+            "net_wall": {
+              "ci95": [
+                0.009999284046541669,
+                0.053332381546458335
+              ],
+              "mean": 0.029999137029999994
+            },
+            "utility": {
+              "ci95": [
+                0.01,
+                0.05333333333333333
+              ],
+              "mean": 0.03
+            }
+          },
+          "policy": "PANDORA"
+        },
+        {
+          "baseline": "ALL_ACTIONS",
+          "metrics": {
+            "charged_nodes": {
+              "ci95": [
+                -48.27433333333333,
+                -34.69283333333334
+              ],
+              "mean": -41.513333333333335
+            },
+            "elapsed_us": {
+              "ci95": [
+                -1.5253644583333335,
+                -1.075257916666667
+              ],
+              "mean": -1.3026216666666666
+            },
+            "net_nodes": {
+              "ci95": [
+                0.03387972005208333,
+                0.04714290364583333
+              ],
+              "mean": 0.040540364583333335
+            },
+            "net_wall": {
+              "ci95": [
+                1.0752579166664603e-06,
+                1.5253644583272932e-06
+              ],
+              "mean": 1.302621666662677e-06
+            },
+            "utility": {
+              "ci95": [
+                0.0,
+                0.0
+              ],
+              "mean": 0.0
+            }
+          },
+          "policy": "PANDORA"
+        },
+        {
+          "baseline": "RANDOM_ORDER",
+          "metrics": {
+            "charged_nodes": {
+              "ci95": [
+                -4.000291666666667,
+                -0.505
+              ],
+              "mean": -2.0533333333333332
+            },
+            "elapsed_us": {
+              "ci95": [
+                -0.12081954166666672,
+                -0.005275000000000004
+              ],
+              "mean": -0.0559766666666667
+            },
+            "net_nodes": {
+              "ci95": [
+                0.0004931640625,
+                0.003906534830729165
+              ],
+              "mean": 0.0020052083333333332
+            },
+            "net_wall": {
+              "ci95": [
+                5.274999996037192e-09,
+                1.208195416625179e-07
+              ],
+              "mean": 5.597666666291289e-08
+            },
+            "utility": {
+              "ci95": [
+                0.0,
+                0.0
+              ],
+              "mean": 0.0
+            }
+          },
+          "policy": "PANDORA"
+        },
+        {
+          "baseline": "GREEDY_VOC",
+          "metrics": {
+            "charged_nodes": {
+              "ci95": [
+                -0.8,
+                0.0
+              ],
+              "mean": -0.26666666666666666
+            },
+            "elapsed_us": {
+              "ci95": [
+                -0.033725374999999995,
+                -0.0027529999999999586
+              ],
+              "mean": -0.014083333333333331
+            },
+            "net_nodes": {
+              "ci95": [
+                0.0,
+                0.00078125
+              ],
+              "mean": 0.00026041666666666666
+            },
+            "net_wall": {
+              "ci95": [
+                2.752999996178453e-09,
+                3.372537499413284e-08
+              ],
+              "mean": 1.4083333330331197e-08
+            },
+            "utility": {
+              "ci95": [
+                0.0,
+                0.0
+              ],
+              "mean": 0.0
+            }
+          },
+          "policy": "PANDORA"
+        },
+        {
+          "baseline": "PANDORA",
+          "metrics": {
+            "charged_nodes": {
+              "ci95": [
+                -3.8534166666666665,
+                -0.33316666666666755
+              ],
+              "mean": -2.05
+            },
+            "elapsed_us": {
+              "ci95": [
+                -0.06697829166666669,
+                0.05360033333333333
+              ],
+              "mean": -0.0055583333333333144
+            },
+            "net_nodes": {
+              "ci95": [
+                0.00032535807291666667,
+                0.003763102213541666
+              ],
+              "mean": 0.002001953125
+            },
+            "net_wall": {
+              "ci95": [
+                -5.360033332877424e-08,
+                6.697829168105676e-08
+              ],
+              "mean": 5.55833333927406e-09
+            },
+            "utility": {
+              "ci95": [
+                0.0,
+                0.0
+              ],
+              "mean": 0.0
+            }
+          },
+          "policy": "GIBBS_VOC"
+        }
+      ]
+    }
+  }
+}

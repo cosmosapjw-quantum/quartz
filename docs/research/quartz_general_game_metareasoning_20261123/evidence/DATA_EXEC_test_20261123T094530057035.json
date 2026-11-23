@@ -1,0 +1,43 @@
+{
+  "command": [
+    "/home/cosmosapjw/quantum/research/quartz_general_meta26_20261123/venv/bin/python",
+    "/home/cosmosapjw/quantum/research/quartz_general_meta26_20261123/docs/research/quartz_general_game_metareasoning_20261123/coding/c26_campaign.py",
+    "test"
+  ],
+  "completed_utc": "2026-11-23T09:45:40.982285+00:00",
+  "elapsed_seconds": 10.925247253006091,
+  "exit_code": 0,
+  "harness_sha256": "ee4501d5bfee66adcc15dbfb0b0f93ee50343e3313c7d1ce654143571ecee750",
+  "result": {
+    "analysis": "/home/cosmosapjw/quantum/research/quartz_general_meta26_20261123/docs/research/quartz_general_game_metareasoning_20261123/coding/results/TEST/analysis.json",
+    "calibration": "/home/cosmosapjw/quantum/research/quartz_general_meta26_20261123/docs/research/quartz_general_game_metareasoning_20261123/coding/results/TEST/calibration.json",
+    "primary": {
+      "baseline": "INITIAL_STOP",
+      "cap": 9,
+      "ci95": [
+        -0.013693033854166667,
+        0.029039388020833317
+      ],
+      "draws": 2000,
+      "interval": "stratified paired source-parent percentile bootstrap",
+      "mean": 0.005690104166666667,
+      "metric": "delta final_u - 2^-10 * delta charged_nodes",
+      "numpy_version": "2.4.2",
+      "parents": 150,
+      "policy": "PANDORA",
+      "positive_gain_gate": false,
+      "rng": "numpy.PCG64",
+      "seed": 2600923,
+      "strata": {
+        "4": 50,
+        "5": 50,
+        "6": 50
+      }
+    },
+    "source_parents": 150,
+    "split": "TEST"
+  },
+  "schema": "c26-command-execution-v1",
+  "started_utc": "2026-11-23T09:45:30.056862+00:00",
+  "status": "completed"
+}
