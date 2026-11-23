@@ -17,3 +17,15 @@ Prospective success is not assumed: false certificates, initial-decision deterio
 The primary-source comparison in theory/LITERATURE.md reads Hay et al. (2012) Theorems 4–5 and Eq.(11), LUCB (2012) §3.1, Kaufmann et al. (2016) p.2, and Bubeck et al. (2011) simple regret. It separates incumbent SWITCH from global identification STOP, and deterministic containment from probabilistic confidence. No novelty is claimed for pairwise dominance or the rectangular regret bound.
 
 C24's scalar envelope derivation and native sequential floating-point evaluator are reused unchanged. C24's adverse selection fixture becomes regression evidence; fresh C25 seeds are required for new primary estimates.
+
+## R03 — Definitions, assumptions and claim alignment
+
+Let K>=2 fixed actions have fixed unknown dimensionless utility u_a in [0,1]. At a checkpoint, finite valid intervals satisfy L_a<=u_a<=U_a. Historical intersection is the only contraction rule. Current incumbent i initially equals the ordinary four-step score recommendation. Terminal loss is max_a u_a-u_i.
+
+Define G_i=max(0,max_{j!=i} U_j-L_i). This is a worst-case ceiling, not expected VOC. A separate Bayesian interpretation requires a posterior supported on the box; identifying it with VPI additionally requires the incumbent to maximize posterior mean.
+
+The formal cost C is remaining charged cell-stencil work, not time. W=n*(solver matvecs+FAST evaluations+ordinary evaluations) is a declared accounting metric, not total CPU operations. Every admitted continued block unconditionally evaluates fresh FAST bounds for all K actions, so c_min=K*n. The formal price is exactly 2^-30 utility per charged cell-stencil. It is fixed prospectively as an accounting example, not fitted from economic outcomes.
+
+The empirical time price stays 1/1,000,000 utility per microsecond. A TRAIN-only per-side next-block cost prediction is a heuristic input. Total measured times include validation, all solver and certificate work, control, and workspace destruction. Sunk work is excluded from the local future comparison but included in all policy-level net utility estimates.
+
+No game claim follows from this finite SPD model. The claim ledger binds each assertion to its additional assumptions and evidence.

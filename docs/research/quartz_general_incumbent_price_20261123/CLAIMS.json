@@ -1,0 +1,57 @@
+{
+  "schema": "quartz.c25.claims.v1",
+  "claims": [
+    {
+      "id": "T1",
+      "claim": "Certified incumbent switches strictly increase fixed true utility; final utility is at least initial utility",
+      "status": "DERIVED_PENDING_R06_R07",
+      "premises": [
+        "simultaneous deterministic utility enclosures",
+        "fixed utilities and output action set",
+        "strict comparison"
+      ]
+    },
+    {
+      "id": "T2",
+      "claim": "G is the exact worst-case simple regret of an incumbent over the rectangular interval box",
+      "status": "DERIVED_PENDING_R06_R07",
+      "premises": [
+        "K>=2",
+        "finite nonempty intervals",
+        "box vs correlated feasible set distinguished"
+      ]
+    },
+    {
+      "id": "T3",
+      "claim": "G<=lambda*c_min weakly dominates all positive admitted continuations relative to keeping the post-switch incumbent",
+      "status": "DERIVED_PENDING_R06_R07",
+      "premises": [
+        "nonnegative price",
+        "actual universal remaining-charge lower bound",
+        "same fixed action set",
+        "no uncertified free reselection in action class"
+      ]
+    },
+    {
+      "id": "T4",
+      "claim": "Wall-time predictor makes economically useful stop decisions at primary price",
+      "status": "CONJECTURAL",
+      "premises": [
+        "TRAIN-only frozen predictor",
+        "realized full timing",
+        "fresh TEST exact utility"
+      ]
+    },
+    {
+      "id": "T5",
+      "claim": "Method transfers to original full MCTS and satisfies P2/P3/P4",
+      "status": "UNRESOLVED",
+      "premises": [
+        "game utility enclosures",
+        "unrepresented candidate bounds",
+        "production integration",
+        "paired game-quality evaluation"
+      ]
+    }
+  ]
+}
