@@ -33,3 +33,7 @@ Parent verified proof dependencies, signs, units, boundaries, fixed-cost and bud
 ## R07 — completed
 
 Packaged actual 9,495 exact oracle cases, 72 independent statistical-mechanics checks, successful Wolfram symbolic residuals, and legal-state population enumeration. All finite checks retain environments, source/output identity and limitations. No production game-benefit claim is admitted yet.
+
+## R08 — completed
+
+Admitted conditional proofs and genuine mathematical mechanisms, retained exact counterexamples and approximation errors, and kept real-game calibration/net gain open for coding evidence. See theory/R08_DECISIONS.md.

@@ -35,3 +35,7 @@ The finite independent model proofs survive boundary, sign and dimension checks.
 ## R07: observed computation
 
 Exact Bellman/index and STOP checks passed on 9,495 finite cases. Independent statistical-mechanics checks passed 72 assertions and Wolfram returned exact conservation/detailed-balance residual zero. Strong-signal quadratic error and information-with-zero-value examples are retained. See theory/R07_CALCULATIONS.md.
+
+## R08: claim decisions
+
+Admit exact retention, conditional STOP/reservation results and the KL/Gibbs mechanism. Keep product-model calibration, measured net gain, large-game P2 and cognitive P3 open. Specific counterexamples delimit assumptions and suggest the next constructive extension.
