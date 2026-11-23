@@ -1,0 +1,14 @@
+{
+  "status": "DIAGNOSED_FORMAT_CHECK_ONLY",
+  "process_pid": 3903572,
+  "git_diff_check_exit": 2,
+  "publisher_exit": 1,
+  "commit_created": false,
+  "files": [
+    "C05_RUST_GREEN.stdout",
+    "C05_RUST_RED.stdout"
+  ],
+  "cause": "Byte-preserved cargo stdout has an intentional blank line at EOF; generic source whitespace precheck included raw streams.",
+  "repair": "Exclude .stdout and .stderr from whitespace checks alongside .log; keep raw evidence bytes and hashes unchanged. Source and documentation checks remain active.",
+  "scientific_formula_changed": false
+}

@@ -1,0 +1,80 @@
+command: venv/bin/python -m unittest discover -s tests -p test_c24_sources.py -v
+exit_code: 1
+test_break_even_is_descriptive_and_certificate_is_not_early (test_c24_sources.AnalysisContractTest.test_break_even_is_descriptive_and_certificate_is_not_early) ... FAIL
+test_exact_wrong_count_survives_float_underflow (test_c24_sources.AnalysisContractTest.test_exact_wrong_count_survives_float_underflow) ... FAIL
+test_duplicate_policy_rep_is_rejected (test_c24_sources.NativeContractTest.test_duplicate_policy_rep_is_rejected) ... FAIL
+test_fresh_residual_upper_covers_exact_stored_state (test_c24_sources.NativeContractTest.test_fresh_residual_upper_covers_exact_stored_state) ... FAIL
+test_noncertified_fallback_ell_identity_is_required (test_c24_sources.NativeContractTest.test_noncertified_fallback_ell_identity_is_required) ... FAIL
+test_plain_cannot_claim_a_certified_residual (test_c24_sources.NativeContractTest.test_plain_cannot_claim_a_certified_residual) ... FAIL
+test_missing_oracle_action_is_rejected (test_c24_sources.SourceReuseTest.test_missing_oracle_action_is_rejected) ... FAIL
+test_oracle_matches_independent_exact_inverse (test_c24_sources.SourceReuseTest.test_oracle_matches_independent_exact_inverse) ... ok
+test_true_tie_has_distinct_rhs (test_c24_sources.SourceReuseTest.test_true_tie_has_distinct_rhs) ... ok
+
+======================================================================
+FAIL: test_break_even_is_descriptive_and_certificate_is_not_early (test_c24_sources.AnalysisContractTest.test_break_even_is_descriptive_and_certificate_is_not_early)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/cosmosapjw/quantum/research/quartz_general_meta24_20261123/tests/test_c24_sources.py", line 172, in test_break_even_is_descriptive_and_certificate_is_not_early
+    self.assertIn("break_even_vs_PLAIN_STOP",policy)
+AssertionError: 'break_even_vs_PLAIN_STOP' not found in {'parents': 2, 'mean_parent_median_us': 13.0, 'mean_regret': 0.0, 'wrong_decision_parents': 0, 'certified_parents': 2, 'actual_early_stop_parents': 0, 'mean_solver_iterations': 6.0, 'solver_iterations_saved': 0, 'mean_time_saved_vs_ALWAYS_us': 2.0, 'paired_parent_bootstrap_time_saved_95_us': [2.0, 2.0], 'mean_utility_difference_vs_ALWAYS': 0.0, 'mean_bounds_us': 2.0, 'priced': [{'lambda_utility_per_us': 0, 'mean_net_gain_from_initial': 0.0, 'mean_net_difference_vs_ALWAYS': 0.0, 'paired_parent_bootstrap_net_difference_95': [0.0, 0.0], 'mean_net_difference_vs_measured_NEVER': 0.0, 'mean_net_difference_vs_PLAIN_ALWAYS': 0.0, 'paired_parent_bootstrap_net_difference_vs_PLAIN_ALWAYS_95': [0.0, 0.0]}, {'lambda_utility_per_us': 1e-08, 'mean_net_gain_from_initial': -1.3e-07, 'mean_net_difference_vs_ALWAYS': 2e-08, 'paired_parent_bootstrap_net_difference_95': [2e-08, 2e-08], 'mean_net_difference_vs_measured_NEVER': -3.0000000000000004e-08, 'mean_net_difference_vs_PLAIN_ALWAYS': 2e-08, 'paired_parent_bootstrap_net_difference_vs_PLAIN_ALWAYS_95': [2e-08, 2e-08]}, {'lambda_utility_per_us': 1e-07, 'mean_net_gain_from_initial': -1.2999999999999998e-06, 'mean_net_difference_vs_ALWAYS': 2e-07, 'paired_parent_bootstrap_net_difference_95': [2e-07, 2e-07], 'mean_net_difference_vs_measured_NEVER': -3e-07, 'mean_net_difference_vs_PLAIN_ALWAYS': 2e-07, 'paired_parent_bootstrap_net_difference_vs_PLAIN_ALWAYS_95': [2e-07, 2e-07]}, {'lambda_utility_per_us': 1e-06, 'mean_net_gain_from_initial': -1.3000000000000001e-05, 'mean_net_difference_vs_ALWAYS': 2e-06, 'paired_parent_bootstrap_net_difference_95': [2e-06, 2e-06], 'mean_net_difference_vs_measured_NEVER': -3e-06, 'mean_net_difference_vs_PLAIN_ALWAYS': 2e-06, 'paired_parent_bootstrap_net_difference_vs_PLAIN_ALWAYS_95': [2e-06, 2e-06]}, {'lambda_utility_per_us': 1e-05, 'mean_net_gain_from_initial': -0.00013000000000000002, 'mean_net_difference_vs_ALWAYS': 2e-05, 'paired_parent_bootstrap_net_difference_95': [2e-05, 2e-05], 'mean_net_difference_vs_measured_NEVER': -3.0000000000000004e-05, 'mean_net_difference_vs_PLAIN_ALWAYS': 2e-05, 'paired_parent_bootstrap_net_difference_vs_PLAIN_ALWAYS_95': [2e-05, 2e-05]}], 'mean_time_saved_vs_PLAIN_ALWAYS_us': 2.0, 'paired_parent_bootstrap_time_saved_vs_PLAIN_ALWAYS_95_us': [2.0, 2.0]}
+
+======================================================================
+FAIL: test_exact_wrong_count_survives_float_underflow (test_c24_sources.AnalysisContractTest.test_exact_wrong_count_survives_float_underflow)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/cosmosapjw/quantum/research/quartz_general_meta24_20261123/tests/test_c24_sources.py", line 165, in test_exact_wrong_count_survives_float_underflow
+    self.assertEqual(summary["summaries"][0]["policies"]["PLAIN_STOP"]["wrong_decision_parents"],2)
+AssertionError: 0 != 2
+
+======================================================================
+FAIL: test_duplicate_policy_rep_is_rejected (test_c24_sources.NativeContractTest.test_duplicate_policy_rep_is_rejected)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/cosmosapjw/quantum/research/quartz_general_meta24_20261123/tests/test_c24_sources.py", line 119, in test_duplicate_policy_rep_is_rejected
+    self.check_rejected(lambda rr:rr.append(copy.deepcopy(rr[-1])))
+  File "/home/cosmosapjw/quantum/research/quartz_general_meta24_20261123/tests/test_c24_sources.py", line 107, in check_rejected
+    with self.assertRaises((AssertionError,ValueError)):
+AssertionError: (<class 'AssertionError'>, <class 'ValueError'>) not raised
+
+======================================================================
+FAIL: test_fresh_residual_upper_covers_exact_stored_state (test_c24_sources.NativeContractTest.test_fresh_residual_upper_covers_exact_stored_state)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/cosmosapjw/quantum/research/quartz_general_meta24_20261123/tests/test_c24_sources.py", line 123, in test_fresh_residual_upper_covers_exact_stored_state
+    self.check_rejected(change)
+  File "/home/cosmosapjw/quantum/research/quartz_general_meta24_20261123/tests/test_c24_sources.py", line 107, in check_rejected
+    with self.assertRaises((AssertionError,ValueError)):
+AssertionError: (<class 'AssertionError'>, <class 'ValueError'>) not raised
+
+======================================================================
+FAIL: test_noncertified_fallback_ell_identity_is_required (test_c24_sources.NativeContractTest.test_noncertified_fallback_ell_identity_is_required)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/cosmosapjw/quantum/research/quartz_general_meta24_20261123/tests/test_c24_sources.py", line 116, in test_noncertified_fallback_ell_identity_is_required
+    self.check_rejected(change)
+  File "/home/cosmosapjw/quantum/research/quartz_general_meta24_20261123/tests/test_c24_sources.py", line 107, in check_rejected
+    with self.assertRaises((AssertionError,ValueError)):
+AssertionError: (<class 'AssertionError'>, <class 'ValueError'>) not raised
+
+======================================================================
+FAIL: test_plain_cannot_claim_a_certified_residual (test_c24_sources.NativeContractTest.test_plain_cannot_claim_a_certified_residual)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/cosmosapjw/quantum/research/quartz_general_meta24_20261123/tests/test_c24_sources.py", line 112, in test_plain_cannot_claim_a_certified_residual
+    self.check_rejected(change)
+  File "/home/cosmosapjw/quantum/research/quartz_general_meta24_20261123/tests/test_c24_sources.py", line 107, in check_rejected
+    with self.assertRaises((AssertionError,ValueError)):
+AssertionError: (<class 'AssertionError'>, <class 'ValueError'>) not raised
+
+======================================================================
+FAIL: test_missing_oracle_action_is_rejected (test_c24_sources.SourceReuseTest.test_missing_oracle_action_is_rejected)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/cosmosapjw/quantum/research/quartz_general_meta24_20261123/tests/test_c24_sources.py", line 99, in test_missing_oracle_action_is_rejected
+    with self.assertRaises((AssertionError,ValueError)):
+AssertionError: (<class 'AssertionError'>, <class 'ValueError'>) not raised
+
+----------------------------------------------------------------------
+Ran 9 tests in 0.322s
+
+FAILED (failures=7)

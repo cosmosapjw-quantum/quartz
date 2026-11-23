@@ -1,0 +1,76 @@
+   Compiling libc v0.2.184
+   Compiling cfg-if v1.0.4
+   Compiling crossbeam-utils v0.8.21
+   Compiling zerocopy v0.8.48
+   Compiling proc-macro2 v1.0.106
+   Compiling quote v1.0.45
+   Compiling unicode-ident v1.0.24
+   Compiling autocfg v1.5.0
+   Compiling serde_core v1.0.228
+   Compiling libm v0.2.16
+   Compiling parking_lot_core v0.9.12
+   Compiling rayon-core v1.13.0
+   Compiling getrandom v0.4.2
+   Compiling rustix v1.1.4
+   Compiling zmij v1.0.21
+   Compiling rustversion v1.0.22
+   Compiling scopeguard v1.2.0
+   Compiling serde v1.0.228
+   Compiling bitflags v2.11.1
+   Compiling linux-raw-sys v0.12.1
+   Compiling serde_json v1.0.149
+   Compiling smallvec v1.15.1
+   Compiling either v1.15.0
+   Compiling itoa v1.0.18
+   Compiling fastrand v2.4.1
+   Compiling lock_api v0.4.14
+   Compiling memchr v2.8.0
+   Compiling once_cell v1.21.4
+   Compiling bumpalo v3.20.2
+   Compiling num-traits v0.2.19
+   Compiling crossbeam-epoch v0.9.18
+   Compiling crossbeam-channel v0.5.15
+   Compiling arc-swap v1.9.1
+   Compiling crossbeam-deque v0.8.6
+   Compiling syn v2.0.117
+   Compiling getrandom v0.2.17
+   Compiling rayon v1.11.0
+   Compiling rand_core v0.6.4
+   Compiling parking_lot v0.12.5
+   Compiling tempfile v3.27.0
+   Compiling serde_derive v1.0.228
+   Compiling ppv-lite86 v0.2.21
+   Compiling rand_chacha v0.3.1
+   Compiling rand v0.8.5
+   Compiling rand_distr v0.4.3
+   Compiling mcts_demo v0.3.0 (/home/cosmosapjw/quantum/research/quartz_general_meta24_20261123)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 4.08s
+     Running unittests src/bin/quartz_c24_cheap_certificate.rs (target/debug/deps/quartz_c24_cheap_certificate-9f187e875d801043)
+
+thread 'c24_behavior_tests::c24_response_rejects_state_outside_supported_ratio' (3886032) panicked at src/bin/quartz_c24_cheap_certificate.rs:547:9:
+state violates X <= 2^100 B
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+thread 'c24_behavior_tests::c24_tiny_nonzero_rhs_rejected_before_solver' (3886033) panicked at src/bin/quartz_c24_cheap_certificate.rs:511:9:
+tiny nonzero RHS must reject before a false-success solve: Ok(Outcome { policy: "RESIDUAL", rep: 0, selected: 0, initial_selected: 0, certified: false, reason: "RESIDUAL_GOAL", iterations: [0, 0], solver_matvecs: 0, bound_evaluations: 4, ordinary_evaluations: 0, total_us: 32.791, initial_us: 2.835, solve_us: 0.261, bounds_us: 24.335, initial_bounds: [Bounds { lo: 0.0, hi: 1.8528845721187824e-21, ell_hat: 0.0 }, Bounds { lo: 0.0, hi: 1.8528845721187824e-21, ell_hat: 0.0 }], final_bounds: [Bounds { lo: 0.0, hi: 1.8528845721187824e-21, ell_hat: 0.0 }, Bounds { lo: 0.0, hi: 1.8528845721187824e-21, ell_hat: 0.0 }], decision_bounds: [Bounds { lo: 0.0, hi: 1.8528845721187824e-21, ell_hat: 0.0 }, Bounds { lo: 0.0, hi: 1.8528845721187824e-21, ell_hat: 0.0 }], residual_relative: [0.0, 0.0], residual_goal_met: true, trace: None, final_x: None })
+
+thread 'c24_behavior_tests::c24_initial_control_performs_no_interval_work' (3886028) panicked at src/bin/quartz_c24_cheap_certificate.rs:517:9:
+assertion `left == right` failed: plain initial control must not compute enclosures
+  left: 2
+ right: 0
+
+thread 'c24_behavior_tests::c24_plain_residual_goal_is_null' (3886030) panicked at src/bin/quartz_c24_cheap_certificate.rs:523:9:
+assertion `left == right` failed: ordinary estimates cannot certify the residual goal
+  left: Some(Bool(false))
+ right: Some(Null)
+
+thread 'c24_behavior_tests::c24_once_fallback_final_readout_is_ordinary' (3886029) panicked at src/bin/quartz_c24_cheap_certificate.rs:537:9:
+assertion `left == right` failed: FAST_ONCE fallback needs one final ordinary readout per action
+  left: 0
+ right: 2
+
+thread 'c24_behavior_tests::c24_public_policy_labels_exact' (3886031) panicked at src/bin/quartz_c24_cheap_certificate.rs:531:9:
+assertion `left == right` failed
+  left: ["ALWAYS", "CERT_BLOCK", "CERT_ONCE", "NEVER", "PLAIN_ALWAYS", "RESIDUAL"]
+ right: ["FAST_BLOCK", "FAST_ONCE", "OUTWARD_BLOCK", "PLAIN_ALWAYS", "PLAIN_STOP", "RESIDUAL"]
+error: test failed, to rerun pass `--bin quartz_c24_cheap_certificate`

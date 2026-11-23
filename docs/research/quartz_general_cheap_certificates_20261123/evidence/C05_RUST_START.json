@@ -1,0 +1,15 @@
+{
+  "created_utc": "2026-11-23T04:39:46.210887+00:00",
+  "base_sha256": "8a5aad2d9c8b0a9fd8df0efd5310604f7b498d16447df0f222aa9619a15ad8ed",
+  "red_source_sha256": "163c170d3509997a55d6645da151729718759d3cdc1b24528e6dd0e28ca53c0e",
+  "skill_context_used": [
+    "PhysMath Research Loop 1.3.0 SKILL.md",
+    "references/CODING_LOOP.md C5-C6",
+    "references/POLICY_INTEGRATION.md",
+    "references/SUBAGENT_MODE.md",
+    "test-driven-development SKILL.md"
+  ],
+  "unavailable_supporting_resource": "test-driven-development/writing-good-tests.md: actual skills.read failed; main behavioral contract used",
+  "scope": "Only C24 Rust binary and C05_RUST/C06_RUST evidence; no cohort benchmark, commit or push",
+  "C04_present": true
+}

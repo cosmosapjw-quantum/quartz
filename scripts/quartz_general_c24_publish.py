@@ -17,7 +17,8 @@ def digest(path):
 assert git('branch','--show-current')==base['branch']
 for path,sha in base['protected'].items():assert digest(ROOT/path)==sha,path
 subprocess.run(['git','add','--',*paths],cwd=ROOT,check=True)
-subprocess.run(['git','diff','--cached','--check','--','.',':(exclude,glob)**/*.log'],cwd=ROOT,check=True)
+# Raw stdout/stderr are byte-preserved evidence; trailing terminal newlines are not source defects.
+subprocess.run(['git','diff','--cached','--check','--','.',':(exclude,glob)**/*.log',':(exclude,glob)**/*.stdout',':(exclude,glob)**/*.stderr'],cwd=ROOT,check=True)
 assert subprocess.run(['git','diff','--cached','--quiet'],cwd=ROOT).returncode==1
 subprocess.run(['git','commit','-m',f'research(c24 {stage}): rigorous cheap decision certificates'],cwd=ROOT,check=True,stdout=subprocess.DEVNULL)
 head=git('rev-parse','HEAD')

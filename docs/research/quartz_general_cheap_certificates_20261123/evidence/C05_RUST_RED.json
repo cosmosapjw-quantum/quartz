@@ -1,0 +1,17 @@
+{
+  "command": [
+    "cargo",
+    "test",
+    "--offline",
+    "--locked",
+    "--bin",
+    "quartz_c24_cheap_certificate",
+    "c24_behavior_tests",
+    "--",
+    "--nocapture"
+  ],
+  "exit_code": 101,
+  "stdout_sha256": "4f2fa7636fef4254c709c8afe80472a79805d60eaf68bae4051acb558a4c49c4",
+  "stderr_sha256": "c1dce40e6e4866218e3519350ecd626e8ad3aad6dd66af05aff3bddd6097d887",
+  "source_sha256": "163c170d3509997a55d6645da151729718759d3cdc1b24528e6dd0e28ca53c0e"
+}
