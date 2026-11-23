@@ -1,0 +1,22 @@
+{
+  "schema": "quartz-c29-C07-validation-v1",
+  "status": "PASS_SCOPED_GAME_IMPLEMENTATION",
+  "train_channel_sha256": "f76df768133c656d39ab493b21c23e15607fe730689a5906bc0d5d32137bbad9",
+  "train_channel_events": 737,
+  "CAL_roots": 60,
+  "CAL_query_count": 22,
+  "CAL_changed_actions": 5,
+  "CAL_utility_delta_mean": 0.0,
+  "CAL_net_delta_mean": -0.001025390625,
+  "native_source_sha256": "d555167e6b43bd9b96e4dbbb01b66906b6a90aeacc0b9d4e69daa2e53ced6e3c",
+  "native_binary_sha256": "c0fc82d0e98d943328c7a418065f9c277cdacb308dbc85822e964fc22a0f8a24",
+  "native_binary_path": "/home/cosmosapjw/quantum/research/quartz_c29_target_20261123/release/quartz_c29_noisy_query",
+  "native_binary_bytes": 647744,
+  "C07_native_recheck_exit": 0,
+  "C07_game_recheck_exit": 0,
+  "C07_C06_tests": 4,
+  "C07_Rust_tests": 8,
+  "recalibrated_after_CAL": false,
+  "CAL_not_fresh_TEST": true,
+  "fixed_baseline_measurement_path": true
+}

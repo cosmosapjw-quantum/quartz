@@ -1,0 +1,48 @@
+   Compiling mcts_demo v0.3.0 (/home/cosmosapjw/quantum/research/quartz_c29_noisy_query_20261123)
+warning: constant `SCHEMA` is never used
+  --> src/bin/quartz_c29_noisy_query.rs:28:7
+   |
+28 | const SCHEMA: &str = "c28-geometry-v1";
+   |       ^^^^^^
+   |
+   = note: `#[warn(dead_code)]` (part of `#[warn(unused)]`) on by default
+
+warning: fields `terminal_known` and `predicted_nodes` are never read
+   --> src/bin/quartz_c29_noisy_query.rs:227:5
+    |
+222 | struct Candidate {
+    |        --------- fields in this struct
+...
+227 |     terminal_known: bool,
+    |     ^^^^^^^^^^^^^^
+...
+230 |     predicted_nodes: Option<f64>,
+    |     ^^^^^^^^^^^^^^^
+
+warning: fields `value` and `solve_move` are never read
+   --> src/bin/quartz_c29_noisy_query.rs:285:5
+    |
+283 | struct Initial {
+    |        ------- fields in this struct
+284 |     incumbent: usize,
+285 |     value: i8,
+    |     ^^^^^
+286 |     solve_move: Option<usize>,
+    |     ^^^^^^^^^^
+
+warning: `mcts_demo` (bin "quartz_c29_noisy_query" test) generated 3 warnings
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.27s
+     Running unittests src/bin/quartz_c29_noisy_query.rs (/home/cosmosapjw/quantum/research/quartz_c29_target_20261123/debug/deps/quartz_c29_noisy_query-42170600d9a50569)
+
+running 8 tests
+test tests::bad_channel_rejected ... ok
+test tests::independent_scalar_not_sufficient ... ok
+test tests::noisy_repeat_nonmyopic ... ok
+test tests::uninformative_positive_cost_stop ... ok
+test tictactoe::tests::test_apply_move_pure ... ok
+test tictactoe::tests::test_draw ... ok
+test tictactoe::tests::test_hash_transposition ... ok
+test tictactoe::tests::test_negamax_outcome ... ok
+
+test result: ok. 8 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+

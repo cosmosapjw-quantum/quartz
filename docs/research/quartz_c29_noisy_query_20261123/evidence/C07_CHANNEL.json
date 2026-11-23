@@ -1,0 +1,50 @@
+{
+  "schema": "quartz-c29-observation-channel-v1",
+  "status": "TRAIN_FITTED_RETROSPECTIVE",
+  "training_roots": 180,
+  "cal_roots": 60,
+  "diagnostic_roots": 60,
+  "training_events": 737,
+  "training_counts_true_u_by_rollout_y": [
+    [
+      285,
+      34,
+      125
+    ],
+    [
+      29,
+      54,
+      62
+    ],
+    [
+      17,
+      14,
+      117
+    ]
+  ],
+  "laplace_pseudocount": 1,
+  "channel": [
+    [
+      0.639821029082774,
+      0.07829977628635347,
+      0.28187919463087246
+    ],
+    [
+      0.20270270270270271,
+      0.3716216216216216,
+      0.42567567567567566
+    ],
+    [
+      0.11920529801324503,
+      0.09933774834437085,
+      0.7814569536423841
+    ]
+  ],
+  "source_sha256": "9c9f52a0344a4b6c7c25cde6d519479784a0695fcb8f4681486403fb21fe15c1",
+  "model_sha256": "0843447dc755c1d09e1bc69a44dd052e6db9c5c2ace41d1590b668cbfc36a126",
+  "calibration_assumption": "global C(Y_rollout|U_exact), independent draws conditional on same U; not physically guaranteed conditional on U alone",
+  "seed_policy": "cue_seed XOR (move+1)*GAMMA XOR (round+101)*NOISE_GAMMA; SplitMix64",
+  "same_source_already_observed": true,
+  "new_TEST": false,
+  "duration_seconds": 0.057323226996231824
+}

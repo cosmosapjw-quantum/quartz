@@ -566,7 +566,7 @@ fn run_game(root:&TicTacToe, req:&GameRequest, noisy:bool)->Result<GameRun,Strin
     let channels=vec![req.channel.iter().map(|row|row.to_vec()).collect::<Vec<_>>();n];
     let baseline_idx=best_mean_index(&filter,&cs);
     let baseline_expected=filter.means()[baseline_idx];
-    let planned_value=filter.plan(&channels,&costs,req.horizon,0.0,false,&disabled).value;
+    let planned_value=if noisy {filter.plan(&channels,&costs,req.horizon,0.0,false,&disabled).value} else {filter.terminal(0.0,false)};
     let mut query_nodes=0;let mut predicted_query_cost=0.0;let mut observations=Vec::new();
     if noisy {
         for round in 0..req.horizon {

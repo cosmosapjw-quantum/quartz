@@ -1,0 +1,9 @@
+{
+  "finding": "Baseline no-query path unnecessarily evaluated H2 planner",
+  "severity": "measurement boundary, not action semantics",
+  "before_source_sha256": "e49b76fd6341f6bc4018c23748d20c3e9e62d4b4a25e939ffaa2ca8c32ec15cb",
+  "after_source_sha256": "d555167e6b43bd9b96e4dbbb01b66906b6a90aeacc0b9d4e69daa2e53ced6e3c",
+  "repair": "Only query-enabled controller invokes H2 planner; baseline has identical initial cues/model/initial exact solve but no planning or paid query",
+  "current_game_CAL_must_be_rechecked": true,
+  "source_changes_to_C26_C28": false
+}
