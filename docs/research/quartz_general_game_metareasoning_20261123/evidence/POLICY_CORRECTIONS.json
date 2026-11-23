@@ -1,0 +1,19 @@
+{
+  "before_sha256": "02ffa31af60ecbb1fa46f8bfebe4590caa365aca22f3c3d17817017a8ef5cb8f",
+  "after_sha256": "4f5133edbe04dbef2699c3efab14660b8a81517e800e30822cc2a4a99023876c",
+  "corrections": [
+    [
+      "**Non-circularity guard (audit \u00a70.5, mandatory).** VOC-tightness is an\n**offline evaluation metric computed by the analyst with a high-budget\nreference oracle**. It is **not** a runtime control input. The engine never\ncomputes or consumes VOC during search; if it did, tightness would be\ntautological. This guard is what separates P3 from \"just optimize the\nsignature.\"",
+      "**Non-circularity guard (audit \u00a70.5, mandatory; clarified C26).**\nVOC-tightness is an **offline evaluation metric computed by the analyst\nwith an independent high-budget reference oracle**. Oracle tightness\nlabels and signature targets must never be supplied to the controller.\nRuntime estimates of VOI/VOC from permitted search observations are\nallowed, as required by P1; their accuracy is evaluated against the\nindependent oracle. This separates computation allocation from optimizing\nits evaluation labels."
+    ],
+    [
+      "(c) tightness only appears when the engine is fed VOC at runtime\n(circular \u2014 disqualified by the guard).",
+      "(c) tightness only appears when offline oracle labels or signature\ntargets are fed into runtime control (circular \u2014 disqualified by the guard)."
+    ],
+    [
+      "- **No literal quantum / thermodynamic superiority claims.** Legacy\n  physics motifs (`docs/legacy/`) are *idea sources* for statistical\n  observables only. Any surviving physical term is a name with a\n  schema-versioned alias, not a mechanism claim.",
+      "- **No unsupported literal quantum / thermodynamic superiority claims.**\n  Legacy physics motifs (`docs/legacy/`) can supply mathematical\n  mechanisms: KL/Gibbs variational principles, fluctuation corrections,\n  and Markov dynamics require explicit assumptions, derivations and\n  discriminating tests. A proved algorithmic identity does not establish\n  physical temperature, quantum hardware dynamics or empirical\n  superiority. Preserve this distinction in every mechanism claim."
+    ]
+  ],
+  "basis": "Original QUARTZ Eq1/Eq2 and current P1; preserve independent offline P3 evaluation and literal-physical evidence standard."
+}

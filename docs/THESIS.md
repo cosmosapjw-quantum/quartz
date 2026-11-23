@@ -121,18 +121,20 @@ VOC-tightness skill-increasing (a *double pattern* / dissociation). A
 single-metric match is explicitly insufficient and will not be reported as
 signature evidence.
 
-**Non-circularity guard (audit §0.5, mandatory).** VOC-tightness is an
-**offline evaluation metric computed by the analyst with a high-budget
-reference oracle**. It is **not** a runtime control input. The engine never
-computes or consumes VOC during search; if it did, tightness would be
-tautological. This guard is what separates P3 from "just optimize the
-signature."
+**Non-circularity guard (audit §0.5, mandatory; clarified C26).**
+VOC-tightness is an **offline evaluation metric computed by the analyst
+with an independent high-budget reference oracle**. Oracle tightness
+labels and signature targets must never be supplied to the controller.
+Runtime estimates of VOI/VOC from permitted search observations are
+allowed, as required by P1; their accuracy is evaluated against the
+independent oracle. This separates computation allocation from optimizing
+its evaluation labels.
 
 **Falsifier.** Any of: (a) macro metrics turn out skill-discriminating
 (then they were doing hidden work — the story is wrong); (b)
 VOC-tightness is flat across skill (no discriminating signature — motto
-fails); (c) tightness only appears when the engine is fed VOC at runtime
-(circular — disqualified by the guard).
+fails); (c) tightness only appears when offline oracle labels or signature
+targets are fed into runtime control (circular — disqualified by the guard).
 
 **Current status:** `PROPOSED`. The battery is a measurement-infra spec
 (B1); no dissociation has been run.
@@ -174,10 +176,13 @@ rows.
   enters solely through the NN prior and the `GameState` trait's
   `is_winning_move` / terminal semantics (which every game already
   defines).
-- **No literal quantum / thermodynamic superiority claims.** Legacy
-  physics motifs (`docs/legacy/`) are *idea sources* for statistical
-  observables only. Any surviving physical term is a name with a
-  schema-versioned alias, not a mechanism claim.
+- **No unsupported literal quantum / thermodynamic superiority claims.**
+  Legacy physics motifs (`docs/legacy/`) can supply mathematical
+  mechanisms: KL/Gibbs variational principles, fluctuation corrections,
+  and Markov dynamics require explicit assumptions, derivations and
+  discriminating tests. A proved algorithmic identity does not establish
+  physical temperature, quantum hardware dynamics or empirical
+  superiority. Preserve this distinction in every mechanism claim.
 - **No node-count mimicry as the goal.** Per de Groot, matching human
   node counts / depth is skill-invariant and therefore not evidence of
   grandmaster-like search (P3).

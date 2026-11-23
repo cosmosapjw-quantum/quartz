@@ -9,3 +9,7 @@ Selected full scope: R01–R10 followed by C01–C10. Each completed stage is co
 ## Execution record
 
 - R01: verified C25 local/remote identity and final archive; isolated C26 worktree; preserved14 older worktree identities; original theories traced to actual PDF, ZIP members, Git history and COG sources. See ORIGIN_THEORY_MAP.md.
+
+## R02 — completed
+
+Original source mechanisms and primary papers are mapped to actual C26 constructions. Narrow THESIS corrections preserve independent offline evaluation while allowing P1 runtime estimates and proved statistical mechanisms. See theory/R02_REUSE.md and evidence/POLICY_CORRECTIONS.json.

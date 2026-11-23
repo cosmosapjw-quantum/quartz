@@ -1,0 +1,175 @@
+{
+  "task": "Quartz C26 R02",
+  "agent": "/root/c26_literature",
+  "date_checked": "2026-11-23",
+  "repository": "/home/cosmosapjw/quantum/research/quartz_general_meta25_20261123",
+  "observed_base_head": "d6019d674ae76524b1895016f49b82d4f7b001b2",
+  "scope": "R02 only; read-only repository; /tmp report authorized",
+  "statuses": {
+    "source_synthesis": "COMPLETED",
+    "mathematical_examples": "DERIVED_NOT_NUMERICALLY_RUN",
+    "code_implementation": "NOT_RUN",
+    "build_tests_benchmarks": "NOT_RUN",
+    "repository_mutations": "NONE",
+    "recursive_agents": "NONE",
+    "library_upload": "NOT_REQUESTED"
+  },
+  "artifact": "/tmp/quartz_c26_literature.md",
+  "sources": [
+    {
+      "id": "S1",
+      "authors": "Martin L. Weitzman",
+      "title": "Optimal Search for the Best Alternative",
+      "published_year": 1979,
+      "published_doi": "10.2307/1910412",
+      "verified_version": "MIT-EL-78-008, May 1978",
+      "url": "https://www.osti.gov/servlets/purl/6795538",
+      "local_pdf": "/tmp/quartz_c26_weitzman1978.pdf",
+      "sha256": "546b8b0344acd58b96e2ea9ab753a3b70dd87803d9ecd4d7b69b7fdb15373303",
+      "locations": [
+        "printed p.9 / PDF p.13 Eq.(7), visually checked",
+        "printed p.10 / PDF p.14 Pandora rule",
+        "printed pp.14-16 limitations",
+        "proof begins printed p.16a"
+      ],
+      "authentication": "MIT metadata and primary PDF",
+      "extraction": "pdftotext plus image verification",
+      "application": "CONDITIONAL on independent exact reveal, fixed additive utility fees, recall, no binding cap, known distributions",
+      "published_copy_scope": "Exa pp.641-644 only"
+    },
+    {
+      "id": "S2",
+      "authors": "Pedro A. Ortega; Daniel A. Braun",
+      "title": "Thermodynamics as a theory of decision-making with information-processing costs",
+      "published_year": 2013,
+      "doi": "10.1098/rspa.2012.0683",
+      "verified_version": "Author manuscript dated 2012-07-31",
+      "url": "https://adaptiveagents.org/_media/papers/thermodynamicsdecision.pdf",
+      "locations": [
+        "PDF p.6 Theorem 2 Eq.(8)",
+        "PDF p.9 Eqs.(9)-(11)"
+      ],
+      "application": "VERIFIED finite-choice variational operator; CPU-physical cost identification CONDITIONAL",
+      "note": "Prefer Eq.(9) normalization, which includes p0; displayed Corollary3 normalizer omits p0."
+    },
+    {
+      "id": "S3",
+      "authors": "Falk Lieder; Thomas L. Griffiths",
+      "title": "Resource-rational analysis: Understanding human cognition as the optimal use of limited computational resources",
+      "year": 2020,
+      "doi": "10.1017/S0140525X1900061X",
+      "url": "https://perception.jhu.edu/files/PDFs/20_ResourceRationality/LiederGriffiths_ResourceRationality_BBS.pdf",
+      "locations": [
+        "PDF/printed p.5 Eqs.(3)-(4) and following paragraph"
+      ],
+      "application": "VERIFIED objective; model-specific algorithmic guarantee CONDITIONAL"
+    },
+    {
+      "id": "S4",
+      "authors": "Karl Friston",
+      "title": "The free-energy principle: a unified brain theory?",
+      "year": 2010,
+      "doi": "10.1038/nrn2787",
+      "url": "https://www.fil.ion.ucl.ac.uk/~karl/NRN.pdf",
+      "locations": [
+        "PDF p.2 Box1"
+      ],
+      "type": "theory-author review cited by original Quartz",
+      "application": "VERIFIED identity; KL(tree||prior) alone as full variational free energy INAPPLICABLE"
+    },
+    {
+      "id": "S5",
+      "authors": "Hay; Russell; Tolpin; Shimony",
+      "title": "Selecting Computations: Theory and Applications",
+      "year": 2012,
+      "url": "https://www.auai.org/uai2012/papers/123.pdf",
+      "locations": [
+        "PDF p.3 Definition3",
+        "PDF p.4 Theorems4-5; Definition6/Theorem7"
+      ],
+      "extraction": "REUSED_C25_VERIFIED_RECORD_NOT_FRESHLY_FETCHED",
+      "reuse_record": "docs/research/quartz_general_incumbent_price_20261123/theory/LITERATURE.md"
+    },
+    {
+      "id": "S6",
+      "authors": "John Skilling",
+      "title": "Nested Sampling for General Bayesian Computation",
+      "year": 2006,
+      "doi": "10.1214/06-BA127",
+      "url": "https://projecteuclid.org/journals/bayesian-analysis/volume-1/issue-4/Nested-sampling-for-general-Bayesian-computation/10.1214/06-BA127.pdf",
+      "locations": [
+        "printed p.834 Eqs.(3)-(4)",
+        "printed p.839 Eqs.(14)-(15)"
+      ],
+      "extraction": "Parallel primary PDF full-content text; formula/page markers inspected",
+      "application": "VERIFIED source; original Quartz Poisson gate ADJACENT_NOT_NESTED_SAMPLING"
+    }
+  ],
+  "tools": {
+    "Exa": {
+      "search_calls": 2,
+      "fetch_calls": 3,
+      "status": "SUCCESS_PRIMARY_TEXT",
+      "published_weitzman_limitation": "Only first four published pages returned"
+    },
+    "SciSpace": {
+      "search_calls": 2,
+      "extract_calls": 1,
+      "status": "SEARCH_SUCCESS_EXTRACTION_INSUFFICIENT",
+      "paper_id": "resource-rational-analysis-understanding-human-cognition-as-4l3pdexpgf",
+      "extraction_gap": "Equations/pages/cost definitions absent; direct primary PDF resolved"
+    },
+    "Parallel": {
+      "search_calls": 1,
+      "fetch_calls": 3,
+      "search_id": "search_b42b5aba1c3269ab917a48f52846ab27",
+      "session_id": "session_b42b5aba1c3269ab917a48f52846ab27",
+      "extracts": [
+        {
+          "id": "extract_3ee3cbd4440b5a5385a8c7f08ae980be",
+          "status": "SUCCESS_EXCERPTS_FORMULAS_INSUFFICIENT"
+        },
+        {
+          "id": "extract_9938b5479764266453063048d2ead2a7",
+          "status": "SUCCESS_SKILLING_FULL_PRIMARY"
+        },
+        {
+          "id": "extract_76a0ca57400542cfb0fc09668881c6bd",
+          "status": "CONTENT_INVALID",
+          "detail": "Journal table of contents instead of Weitzman paper"
+        }
+      ],
+      "feedback_sent": false
+    },
+    "search_service_failures": [
+      "Royal Society Ortega PDF 403",
+      "arXiv exact v2 DisabledError",
+      "Harvard Weitzman PDF503",
+      "Euclid Skilling service/antibot page",
+      "MIT download429",
+      "OSTI timeout then502"
+    ],
+    "remote_primary_recovery": {
+      "url": "https://www.osti.gov/servlets/purl/6795538",
+      "pid": 161933,
+      "exit": 0,
+      "bytes": 975398,
+      "render_pid": 164402,
+      "render_status": "FINISHED",
+      "image_viewed": "/tmp/quartz_c26_weitzman_eq7.png"
+    }
+  },
+  "skill_context_used": [
+    "PhysMath Research Loop1.3.0 SKILL; THEORY_LOOP R02; POLICY_INTEGRATION; SUBAGENT_MODE",
+    "Mathbox4.0.0 literature-check SKILL and source-cache reference",
+    "Parallel web-search SKILL"
+  ],
+  "citations_root_must_open": [
+    "https://adaptiveagents.org/_media/papers/thermodynamicsdecision.pdf",
+    "https://perception.jhu.edu/files/PDFs/20_ResourceRationality/LiederGriffiths_ResourceRationality_BBS.pdf",
+    "https://www.fil.ion.ucl.ac.uk/~karl/NRN.pdf",
+    "https://scholar.harvard.edu/files/weitzman/files/optimalsearchbestalternative.pdf",
+    "https://dspace.mit.edu/entities/publication/6eca68ca-2a67-4e4c-b2f3-797103523e50",
+    "https://www.osti.gov/servlets/purl/6795538"
+  ]
+}
