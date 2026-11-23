@@ -1,0 +1,36 @@
+{
+  "format_command": [
+    "rustfmt",
+    "--edition",
+    "2021",
+    "--config",
+    "skip_children=true",
+    "/home/cosmosapjw/quantum/research/quartz_general_meta27_20261123/src/bin/quartz_c27_joint_posterior.rs"
+  ],
+  "format_exit": 0,
+  "command": [
+    "cargo",
+    "build",
+    "--release",
+    "--locked",
+    "--offline",
+    "--bin",
+    "quartz_c27_joint_posterior",
+    "-j2"
+  ],
+  "returncode": 0,
+  "elapsed_s": 4.8935309770167805,
+  "source_sha256": "31de740dd4c37a1ddb6324930572e60146b93d1e6e14b46eb3ba97f137ff3632",
+  "protected_before": {
+    "src/bin/quartz_c26_game_metareasoning.rs": "145b586fea7ff7526eb30d15d683580678f1c9dd3a433967f536697957327a01",
+    "src/game.rs": "b5e1fefb9d9ee72e7eb2fb684edafe3702e11f0f712cc3bd92fb43ccb71ff3e0",
+    "src/games/tictactoe.rs": "45f552117481ef00e966d461c111e2de41de2d5f504390c376d675d8c1de35f8"
+  },
+  "protected_after": {
+    "src/bin/quartz_c26_game_metareasoning.rs": "145b586fea7ff7526eb30d15d683580678f1c9dd3a433967f536697957327a01",
+    "src/game.rs": "b5e1fefb9d9ee72e7eb2fb684edafe3702e11f0f712cc3bd92fb43ccb71ff3e0",
+    "src/games/tictactoe.rs": "45f552117481ef00e966d461c111e2de41de2d5f504390c376d675d8c1de35f8"
+  },
+  "binary": "/home/cosmosapjw/quantum/research/quartz_general_meta26_20261123/target/release/quartz_c27_joint_posterior",
+  "binary_sha256": "755c93c55711ebc9ecaa6c05907ee9d8dff381ae1942df95ee33e8b1dce2f989"
+}

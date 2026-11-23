@@ -1,0 +1,20 @@
+{
+  "command": [
+    "cargo",
+    "test",
+    "--locked",
+    "--offline",
+    "--bin",
+    "quartz_c27_joint_posterior",
+    "-j2",
+    "information_",
+    "--",
+    "--nocapture"
+  ],
+  "cwd": "/home/cosmosapjw/quantum/research/quartz_general_meta27_20261123",
+  "target_dir": "/home/cosmosapjw/quantum/research/quartz_general_meta26_20261123/target",
+  "returncode": 101,
+  "elapsed_s": 0.5198236430296674,
+  "source_sha256": "4952490c9e0341c308fb7fa8afeb3a57a2d79c129c355bee1338990e5867ea93",
+  "interpretation": "Product-only initial implementation must fail .82 posterior and .545 value requirements; inspect assertion output rather than build failure."
+}

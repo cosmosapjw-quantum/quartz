@@ -1,0 +1,52 @@
+{
+  "command": [
+    "/home/cosmosapjw/quantum/research/quartz_general_meta26_20261123/target/release/quartz_c27_joint_posterior"
+  ],
+  "returncode": 0,
+  "roundtrip_ns": 2364126,
+  "source": {
+    "cue_seed": 3069874382843753759,
+    "history": [
+      5,
+      1,
+      6,
+      4
+    ],
+    "id": "C26-p4-0059adf99c0886cf",
+    "ply": 4,
+    "source_hash": "0059adf99c0886cfc1154c5e8e819e985499f4daeb8fc726c32ec63843b08b29",
+    "split": "TRAIN"
+  },
+  "run_records": 25,
+  "measured_survey_queries": 25,
+  "policies": [
+    "INITIAL_STOP",
+    "RANDOM_TWO",
+    "PRODUCT_H2",
+    "INITIAL_PROJECTED_H2",
+    "JOINT_H2"
+  ],
+  "first_repeat_queries": {
+    "INITIAL_STOP": [],
+    "RANDOM_TWO": [
+      2,
+      3
+    ],
+    "PRODUCT_H2": [
+      7,
+      8
+    ],
+    "INITIAL_PROJECTED_H2": [
+      7,
+      8
+    ],
+    "JOINT_H2": [
+      7,
+      8
+    ]
+  },
+  "binary_sha256": "755c93c55711ebc9ecaa6c05907ee9d8dff381ae1942df95ee33e8b1dce2f989",
+  "old_binary_sha256": "8735b1f23a970248e4ef2b26d08c8df2daf181f0d29163317b5f41cc6ef0be0c",
+  "model_sha256": "0843447dc755c1d09e1bc69a44dd052e6db9c5c2ace41d1590b668cbfc36a126",
+  "limits": "One existing TRAIN root only; rho .8 is a fixed software fixture, no selection/fit/time-price or CAL/TEST."
+}

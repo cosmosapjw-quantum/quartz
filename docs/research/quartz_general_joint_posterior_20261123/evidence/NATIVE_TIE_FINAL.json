@@ -1,0 +1,51 @@
+{
+  "classification": "Prefit implementation correction; global maximum tolerance band, then smallest move.",
+  "format_command": [
+    "rustfmt",
+    "--edition",
+    "2021",
+    "--config",
+    "skip_children=true",
+    "/home/cosmosapjw/quantum/research/quartz_general_meta27_20261123/src/bin/quartz_c27_joint_posterior.rs"
+  ],
+  "format_exit": 0,
+  "checks": [
+    {
+      "command": [
+        "cargo",
+        "test",
+        "--locked",
+        "--offline",
+        "--bin",
+        "quartz_c27_joint_posterior",
+        "-j2",
+        "--",
+        "--nocapture"
+      ],
+      "returncode": 0,
+      "elapsed_s": 0.5423322939896025,
+      "source_sha256": "433f620f1c420042d795fc054e87fe6309969d04530e9333c14c664e6dd69dec"
+    },
+    {
+      "command": [
+        "cargo",
+        "build",
+        "--release",
+        "--locked",
+        "--offline",
+        "--bin",
+        "quartz_c27_joint_posterior",
+        "-j2"
+      ],
+      "returncode": 0,
+      "elapsed_s": 4.8591734420042485,
+      "source_sha256": "433f620f1c420042d795fc054e87fe6309969d04530e9333c14c664e6dd69dec"
+    }
+  ],
+  "source_sha256": "433f620f1c420042d795fc054e87fe6309969d04530e9333c14c664e6dd69dec",
+  "release_binary": "/home/cosmosapjw/quantum/research/quartz_general_meta26_20261123/target/release/quartz_c27_joint_posterior",
+  "release_binary_sha256": "38126679ef622d7339fecdc7fd258ce2bb1428d82bbcb24545f26a7fafb66eef",
+  "test_binary": "/home/cosmosapjw/quantum/research/quartz_general_meta26_20261123/target/debug/deps/quartz_c27_joint_posterior-70bada63bc9c3453",
+  "test_binary_sha256": "6bd3cb5e1c3348d5827eae32b4ba5d08889c6ff0104ebe5e4e15d9c7fbaf2203",
+  "old_c26_binary_sha256": "8735b1f23a970248e4ef2b26d08c8df2daf181f0d29163317b5f41cc6ef0be0c"
+}

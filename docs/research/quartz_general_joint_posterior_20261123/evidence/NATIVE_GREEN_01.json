@@ -1,0 +1,16 @@
+{
+  "command": [
+    "cargo",
+    "test",
+    "--locked",
+    "--offline",
+    "--bin",
+    "quartz_c27_joint_posterior",
+    "-j2",
+    "--",
+    "--nocapture"
+  ],
+  "returncode": 0,
+  "elapsed_s": 1.0136302610044368,
+  "source_sha256": "d6430c0bf1b200002b44b979b8db1ec081f6e98585bb1df38eb53611fe66df83"
+}

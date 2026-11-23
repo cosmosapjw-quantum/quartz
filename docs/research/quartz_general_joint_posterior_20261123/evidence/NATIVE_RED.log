@@ -1,0 +1,53 @@
+
+running 2 tests
+test c27_tests::information_first_query_has_h2_value_109_over_200 ... FAILED
+test c27_tests::information_observation_updates_other_candidate_to_082 ... FAILED
+
+failures:
+
+failures:
+    c27_tests::information_first_query_has_h2_value_109_over_200
+    c27_tests::information_observation_updates_other_candidate_to_082
+
+test result: FAILED. 0 passed; 2 failed; 0 ignored; 0 measured; 4 filtered out; finished in 0.00s
+
+
+STDERR
+   Compiling mcts_demo v0.3.0 (/home/cosmosapjw/quantum/research/quartz_general_meta27_20261123)
+warning: unused imports: `Value` and `json`
+  --> src/bin/quartz_c27_joint_posterior.rs:13:18
+   |
+13 | use serde_json::{json, Value};
+   |                  ^^^^  ^^^^^
+   |
+   = note: `#[warn(unused_imports)]` (part of `#[warn(unused)]`) on by default
+
+warning: unused imports: `Write` and `self`
+  --> src/bin/quartz_c27_joint_posterior.rs:15:15
+   |
+15 | use std::io::{self, BufRead, Write};
+   |               ^^^^           ^^^^^
+
+warning: unused import: `std::time::Instant`
+  --> src/bin/quartz_c27_joint_posterior.rs:16:5
+   |
+16 | use std::time::Instant;
+   |     ^^^^^^^^^^^^^^^^^^
+
+warning: unused import: `BufRead`
+  --> src/bin/quartz_c27_joint_posterior.rs:15:21
+   |
+15 | use std::io::{self, BufRead, Write};
+   |                     ^^^^^^^
+
+warning: `mcts_demo` (bin "quartz_c27_joint_posterior" test) generated 4 warnings (run `cargo fix --bin "quartz_c27_joint_posterior" -p mcts_demo --tests` to apply 3 suggestions)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.50s
+     Running unittests src/bin/quartz_c27_joint_posterior.rs (/home/cosmosapjw/quantum/research/quartz_general_meta26_20261123/target/debug/deps/quartz_c27_joint_posterior-70bada63bc9c3453)
+
+thread 'c27_tests::information_first_query_has_h2_value_109_over_200' (541675) panicked at src/bin/quartz_c27_joint_posterior.rs:442:9:
+actual=0.50000000000000000, expected=0.54500000000000004
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+thread 'c27_tests::information_observation_updates_other_candidate_to_082' (541676) panicked at src/bin/quartz_c27_joint_posterior.rs:442:9:
+actual=0.50000000000000000, expected=0.81999999999999995
+error: test failed, to rerun pass `--bin quartz_c27_joint_posterior`

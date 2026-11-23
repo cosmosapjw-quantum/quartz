@@ -1,0 +1,18 @@
+{
+  "command": [
+    "cargo",
+    "test",
+    "--locked",
+    "--offline",
+    "--bin",
+    "quartz_c27_joint_posterior",
+    "-j2",
+    "--",
+    "--nocapture"
+  ],
+  "returncode": 0,
+  "elapsed_s": 0.6192638869979419,
+  "source_sha256": "31de740dd4c37a1ddb6324930572e60146b93d1e6e14b46eb3ba97f137ff3632",
+  "test_binary": "/home/cosmosapjw/quantum/research/quartz_general_meta26_20261123/target/debug/deps/quartz_c27_joint_posterior-70bada63bc9c3453",
+  "test_binary_sha256": "fd18e4bdebb7bb43c64aa935d02528ebbc6578ee7dcda6aa58ac19cf9c4ee999"
+}

@@ -1,0 +1,74 @@
+{
+  "schema": "c27-harness-handoff-v1",
+  "authority_head": "cb6266eed040e2a9c4637cf0722b52763ee84937",
+  "source_sha256": {
+    "coding/c27_campaign.py": "cfe068449f30a40350e5069513f9b0c6fa280517841f8ee95c3af7c900a5f75f",
+    "tests/test_c27_joint_posterior.py": "d2f8a31f6097d2c9eaea685535585cdcd9dcc01095f1fdc6552495f9fc4714c5"
+  },
+  "native_binary_sha256": "38126679ef622d7339fecdc7fd258ce2bb1428d82bbcb24545f26a7fafb66eef",
+  "commands": [
+    {
+      "command": "PYTHONDONTWRITEBYTECODE=1 python3 -m unittest tests.test_c27_joint_posterior.SemanticRegression -v",
+      "cwd": "/home/cosmosapjw/quantum/research/quartz_general_meta27_20261123",
+      "pid": 538172,
+      "exit_code": 1,
+      "log": "HARNESS_RED.log",
+      "meaning": "semantic product closure fails109/200 and.82 fixtures"
+    },
+    {
+      "command": "PYTHONDONTWRITEBYTECODE=1 python3 -m unittest tests.test_c27_joint_posterior -v",
+      "cwd": "/home/cosmosapjw/quantum/research/quartz_general_meta27_20261123",
+      "pid": 567116,
+      "exit_code": 0,
+      "log": "HARNESS_GREEN_FORMATTED.log",
+      "tests": 21
+    },
+    {
+      "command": "/tmp/quartz_c26_formatter/bin/ruff check /home/cosmosapjw/quantum/research/quartz_general_meta27_20261123/docs/research/quartz_general_joint_posterior_20261123/coding/c27_campaign.py /home/cosmosapjw/quantum/research/quartz_general_meta27_20261123/tests/test_c27_joint_posterior.py",
+      "pid": 566974,
+      "exit_code": 0,
+      "log": "HARNESS_LINT_FINAL.log"
+    },
+    {
+      "command": "PYTHONDONTWRITEBYTECODE=1 python3 /home/cosmosapjw/quantum/research/quartz_general_meta27_20261123/docs/research/quartz_general_joint_posterior_20261123/coding/c27_campaign.py integration --binary /home/cosmosapjw/quantum/research/quartz_general_meta26_20261123/target/release/quartz_c27_joint_posterior --limit 1 --report /home/cosmosapjw/quantum/research/quartz_general_meta27_20261123/docs/research/quartz_general_joint_posterior_20261123/evidence/HARNESS_INTEGRATION_FINAL.json",
+      "pid": 566352,
+      "exit_code": 0,
+      "log": "HARNESS_INTEGRATION_FINAL.log",
+      "validated_runs": 75,
+      "invalid_cases": 5
+    }
+  ],
+  "retained_intermediate_failure": {
+    "log": "HARNESS_TEST_FIXTURE_FAILURE.log",
+    "classification": "test-fixture defect:1-u at u=.5 did not mutate; corrected to a distinct value"
+  },
+  "historical_integration": {
+    "log": "HARNESS_INTEGRATION_ATTEMPT.log",
+    "old_train_roots": 3,
+    "validated_runs": 90,
+    "native_exit": 0,
+    "binary_sha256": "755c93c55711ebc9ecaa6c05907ee9d8dff381ae1942df95ee33e8b1dce2f989"
+  },
+  "not_executed_by_this_lane": [
+    "prepare/public new144 allocation",
+    "actual TRAIN rho fitting",
+    "1480-query TRAIN price",
+    "freeze data bundle",
+    "CAL/TEST labels or campaigns",
+    "whole-project test suite",
+    "git commit/push/publication"
+  ],
+  "cli": [
+    "prepare",
+    "fit",
+    "price",
+    "freeze",
+    "campaign --split CAL|TEST",
+    "verify",
+    "analyze",
+    "integration"
+  ],
+  "plot_input": "<output-dir>/paired_root_differences.jsonl.gz",
+  "documentation": "HARNESS_HANDOFF.md",
+  "ready_for_parent_source_freeze": true
+}

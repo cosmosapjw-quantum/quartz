@@ -1,0 +1,18 @@
+{
+  "command": [
+    "cargo",
+    "test",
+    "--locked",
+    "--offline",
+    "--bin",
+    "quartz_c27_joint_posterior",
+    "-j2",
+    "global_ties_",
+    "--",
+    "--nocapture"
+  ],
+  "returncode": 101,
+  "elapsed_s": 0.47964844497619197,
+  "source_sha256": "7c7b28370228346e8ba37b42247c0adcd6a9365a9dfc72d622b31068081b4d13",
+  "classification": "Global maximum tolerance-band tie versus nontransitive pairwise scan implementation error; before fitting or campaign."
+}

@@ -1,0 +1,27 @@
+SIM117 Use a single `with` statement with multiple contexts instead of nested `with` statements
+   --> /home/cosmosapjw/quantum/research/quartz_general_meta27_20261123/docs/research/quartz_general_joint_posterior_20261123/coding/c27_campaign.py:976:5
+    |
+974 |       if raw_path.exists() or (data_dir / "price.json").exists():
+975 |           raise FileExistsError("price evidence already exists")
+976 | /     with C26.NativeClient(binary) as client:
+977 | |         with gzip.open(raw_path, "xt", encoding="utf-8") as handle:
+    | |___________________________________________________________________^
+978 |               for source in selected:
+979 |                   request = survey_request(source)
+    |
+help: Combine `with` statements
+
+SIM117 Use a single `with` statement with multiple contexts instead of nested `with` statements
+    --> /home/cosmosapjw/quantum/research/quartz_general_meta27_20261123/docs/research/quartz_general_joint_posterior_20261123/coding/c27_campaign.py:1111:9
+     |
+1109 |       request_count = validated = 0
+1110 |       try:
+1111 | /         with C26.NativeClient(binary) as client:
+1112 | |             with gzip.open(raw_path, "xt", encoding="utf-8") as raw_handle:
+     | |___________________________________________________________________________^
+1113 |                   with gzip.open(oracle_path, "xt", encoding="utf-8") as truth_handle:
+1114 |                       for source in selected:
+     |
+help: Combine `with` statements
+
+Found 7 errors (5 fixed, 2 remaining).

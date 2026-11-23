@@ -1,0 +1,63 @@
+{
+  "reused_function_byte_identity": {
+    "replay_history": "1c34615892a380a08544ba6346f699d2c6cadd4e0a7b07ef2895753a98ce6127",
+    "root_value": "9ad8fc13ee707bfdf0edeb94b543da1e84251a293d82f12a98c8675f562d5799",
+    "utility": "e0a9d4baa75bd91ffb29a3254fce8d66e65ddf56fc8132e8f01b0b3b13ffdb93",
+    "exact": "e467b97edbd0d9f6f6fab45433f2c8e31f56ebc4b9f54942ffd590eaff9deaf6",
+    "rollout": "c0a2e703897ff4820284806cb64aa57f0240dacb61597dfada5d6424e1b01422",
+    "candidates": "e28251a64414e738c79c33053ac76b091de4491852e64e06c8c2702a487910cc",
+    "initialize": "b5cf4377b77d8404638d8b522bfc72b85e627f38cd16345202538a69735007a6"
+  },
+  "source_sha256": "31de740dd4c37a1ddb6324930572e60146b93d1e6e14b46eb3ba97f137ff3632",
+  "old_c26_binary_sha256": "8735b1f23a970248e4ef2b26d08c8df2daf181f0d29163317b5f41cc6ef0be0c",
+  "versions": [
+    {
+      "command": [
+        "rustc",
+        "--version"
+      ],
+      "returncode": 0,
+      "stdout": "rustc 1.99.0 (b940084d7 2026-09-28)",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "cargo",
+        "--version"
+      ],
+      "returncode": 0,
+      "stdout": "cargo 1.99.0 (5f94df478 2026-08-27)",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "python3",
+        "--version"
+      ],
+      "returncode": 0,
+      "stdout": "Python 3.12.3",
+      "stderr": ""
+    }
+  ],
+  "git_status": {
+    "command": [
+      "git",
+      "status",
+      "--short"
+    ],
+    "returncode": 0,
+    "stdout": "?? docs/research/quartz_general_joint_posterior_20261123/coding/c27_campaign.py\n?? docs/research/quartz_general_joint_posterior_20261123/coding/verify_delivery.py\n?? docs/research/quartz_general_joint_posterior_20261123/evidence/C05_ARCHIVE_PREFLIGHT.json\n?? docs/research/quartz_general_joint_posterior_20261123/evidence/CI_PRE_IMPLEMENTATION_C04.json\n?? docs/research/quartz_general_joint_posterior_20261123/evidence/HARNESS_GREEN_CORE.log\n?? docs/research/quartz_general_joint_posterior_20261123/evidence/HARNESS_INTEGRATION_ATTEMPT.log\n?? docs/research/quartz_general_joint_posterior_20261123/evidence/HARNESS_RED.log\n?? docs/research/quartz_general_joint_posterior_20261123/evidence/NATIVE_BUILD.json\n?? docs/research/quartz_general_joint_posterior_20261123/evidence/NATIVE_BUILD.log\n?? docs/research/quartz_general_joint_posterior_20261123/evidence/NATIVE_GREEN_01.json\n?? docs/research/quartz_general_joint_posterior_20261123/evidence/NATIVE_GREEN_01.log\n?? docs/research/quartz_general_joint_posterior_20261123/evidence/NATIVE_GREEN_FINAL.json\n?? docs/research/quartz_general_joint_posterior_20261123/evidence/NATIVE_GREEN_FINAL.log\n?? docs/research/quartz_general_joint_posterior_20261123/evidence/NATIVE_RED.json\n?? docs/research/quartz_general_joint_posterior_20261123/evidence/NATIVE_RED.log\n?? docs/research/quartz_general_joint_posterior_20261123/evidence/NATIVE_RED_SOURCE.rs\n?? docs/research/quartz_general_joint_posterior_20261123/evidence/NATIVE_SMOKE.json\n?? docs/research/quartz_general_joint_posterior_20261123/evidence/NATIVE_SMOKE_DRIVER.py\n?? docs/research/quartz_general_joint_posterior_20261123/evidence/NATIVE_SMOKE_REQUESTS.jsonl\n?? docs/research/quartz_general_joint_posterior_20261123/evidence/NATIVE_SMOKE_RESPONSES.jsonl\n?? docs/research/quartz_general_joint_posterior_20261123/evidence/NATIVE_SMOKE_STDERR.log\n?? src/bin/quartz_c27_joint_posterior.rs\n?? tests/test_c27_joint_posterior.py",
+    "stderr": ""
+  },
+  "git_head": {
+    "command": [
+      "git",
+      "rev-parse",
+      "HEAD"
+    ],
+    "returncode": 0,
+    "stdout": "cb6266eed040e2a9c4637cf0722b52763ee84937",
+    "stderr": ""
+  },
+  "free_bytes": 1551253504
+}

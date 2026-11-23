@@ -1,0 +1,28 @@
+
+running 18 tests
+test c27_tests::global_ties_use_the_maximum_band_not_nontransitive_pairwise_scanning ... ok
+test c27_tests::h2_hypotheses_do_not_mutate_real_posterior_and_moving_threshold_has_negative_correction ... ok
+test c27_tests::information_observation_updates_other_candidate_to_082 ... ok
+test c27_tests::information_first_query_has_h2_value_109_over_200 ... ok
+test c27_tests::frozen_game_cues_root_frame_and_exact_nodes_remain_literal ... ok
+test c27_tests::information_threshold_h1_and_stop_ties_keep_the_declared_horizon ... ok
+test c27_tests::posterior_normalizes_preserves_prior_and_rejects_unsupported_or_repeat ... ok
+test c27_tests::posterior_order_and_rho_zero_are_exact_product_limits ... ok
+test c27_tests::projected_control_freezes_initial_marginals_but_joint_updates_again ... ok
+test tictactoe::tests::test_apply_move_pure ... ok
+test tictactoe::tests::test_hash_transposition ... ok
+test tictactoe::tests::test_draw ... ok
+test tictactoe::tests::test_negamax_outcome ... ok
+test c27_tests::survey_times_five_real_solves_and_excludes_terminal_from_price_samples ... ok
+test c27_tests::terminal_win_skips_initial_query_and_all_planning ... ok
+test c27_tests::native_rho_zero_joint_and_projected_match_product_decisions ... ok
+test c27_tests::five_policy_execution_rotates_but_trace_semantics_repeat_and_queries_are_unique ... ok
+test c27_tests::strict_public_request_and_model_reject_labels_invalid_support_and_continue_jsonl ... ok
+
+test result: ok. 18 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.01s
+
+
+STDERR
+   Compiling mcts_demo v0.3.0 (/home/cosmosapjw/quantum/research/quartz_general_meta27_20261123)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.52s
+     Running unittests src/bin/quartz_c27_joint_posterior.rs (/home/cosmosapjw/quantum/research/quartz_general_meta26_20261123/target/debug/deps/quartz_c27_joint_posterior-70bada63bc9c3453)

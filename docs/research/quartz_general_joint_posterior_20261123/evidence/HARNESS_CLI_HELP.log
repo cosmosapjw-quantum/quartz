@@ -1,0 +1,14 @@
+usage: c27_campaign.py [-h]
+                       {prepare,fit,price,freeze,campaign,verify,analyze,integration}
+                       ...
+
+Frozen C27 data/model/controller audit and campaign harness. All offline game
+values stay in this Python analyst process. Native run requests contain public
+history/cues and the frozen TRAIN model only. No command runs at import. Paths
+derive from this file so a restored checkout remains executable.
+
+positional arguments:
+  {prepare,fit,price,freeze,campaign,verify,analyze,integration}
+
+options:
+  -h, --help            show this help message and exit

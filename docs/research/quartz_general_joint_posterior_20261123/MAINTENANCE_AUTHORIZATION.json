@@ -1,0 +1,11 @@
+{
+  "user_instruction": "이 프로젝트에서 현재 더이상 쓰이지 않는 worktree 제거를 통해 디스크 공간을 확보해줘. 이전 백업본들에선 필요한 것만 압축해서 최신본에 남기고 전부 삭제해.",
+  "scope": "unused Quartz worktrees; historical Quartz backups consolidated with needed unique artifacts and provenance; current research continues",
+  "preserve": [
+    "active C27",
+    "C26 shared target dependency",
+    "original repository and its uncommitted work",
+    "dirty or active unrelated research worktrees"
+  ],
+  "scientific_contract_changed": false
+}

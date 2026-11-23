@@ -1,0 +1,23 @@
+
+running 1 test
+test c27_tests::global_ties_use_the_maximum_band_not_nontransitive_pairwise_scanning ... FAILED
+
+failures:
+
+failures:
+    c27_tests::global_ties_use_the_maximum_band_not_nontransitive_pairwise_scanning
+
+test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 17 filtered out; finished in 0.00s
+
+
+STDERR
+   Compiling mcts_demo v0.3.0 (/home/cosmosapjw/quantum/research/quartz_general_meta27_20261123)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.46s
+     Running unittests src/bin/quartz_c27_joint_posterior.rs (/home/cosmosapjw/quantum/research/quartz_general_meta26_20261123/target/debug/deps/quartz_c27_joint_posterior-70bada63bc9c3453)
+
+thread 'c27_tests::global_ties_use_the_maximum_band_not_nontransitive_pairwise_scanning' (559545) panicked at src/bin/quartz_c27_joint_posterior.rs:1057:9:
+assertion `left == right` failed
+  left: Some(2)
+ right: Some(1)
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+error: test failed, to rerun pass `--bin quartz_c27_joint_posterior`

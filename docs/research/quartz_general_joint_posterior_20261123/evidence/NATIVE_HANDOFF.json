@@ -1,0 +1,371 @@
+{
+  "schema": "c27-native-handoff-v2",
+  "ssot": "87c15dc828d6eea519c219fd8a412fa21dfc464d",
+  "implementation_base": "cb6266eed040e2a9c4637cf0722b52763ee84937",
+  "evidence": {
+    "NATIVE_RED.json": {
+      "command": [
+        "cargo",
+        "test",
+        "--locked",
+        "--offline",
+        "--bin",
+        "quartz_c27_joint_posterior",
+        "-j2",
+        "information_",
+        "--",
+        "--nocapture"
+      ],
+      "cwd": "/home/cosmosapjw/quantum/research/quartz_general_meta27_20261123",
+      "target_dir": "/home/cosmosapjw/quantum/research/quartz_general_meta26_20261123/target",
+      "returncode": 101,
+      "elapsed_s": 0.5198236430296674,
+      "source_sha256": "4952490c9e0341c308fb7fa8afeb3a57a2d79c129c355bee1338990e5867ea93",
+      "interpretation": "Product-only initial implementation must fail .82 posterior and .545 value requirements; inspect assertion output rather than build failure."
+    },
+    "NATIVE_GREEN_01.json": {
+      "command": [
+        "cargo",
+        "test",
+        "--locked",
+        "--offline",
+        "--bin",
+        "quartz_c27_joint_posterior",
+        "-j2",
+        "--",
+        "--nocapture"
+      ],
+      "returncode": 0,
+      "elapsed_s": 1.0136302610044368,
+      "source_sha256": "d6430c0bf1b200002b44b979b8db1ec081f6e98585bb1df38eb53611fe66df83"
+    },
+    "NATIVE_GREEN_FINAL.json": {
+      "command": [
+        "cargo",
+        "test",
+        "--locked",
+        "--offline",
+        "--bin",
+        "quartz_c27_joint_posterior",
+        "-j2",
+        "--",
+        "--nocapture"
+      ],
+      "returncode": 0,
+      "elapsed_s": 0.6192638869979419,
+      "source_sha256": "31de740dd4c37a1ddb6324930572e60146b93d1e6e14b46eb3ba97f137ff3632",
+      "test_binary": "/home/cosmosapjw/quantum/research/quartz_general_meta26_20261123/target/debug/deps/quartz_c27_joint_posterior-70bada63bc9c3453",
+      "test_binary_sha256": "fd18e4bdebb7bb43c64aa935d02528ebbc6578ee7dcda6aa58ac19cf9c4ee999"
+    },
+    "NATIVE_BUILD.json": {
+      "format_command": [
+        "rustfmt",
+        "--edition",
+        "2021",
+        "--config",
+        "skip_children=true",
+        "/home/cosmosapjw/quantum/research/quartz_general_meta27_20261123/src/bin/quartz_c27_joint_posterior.rs"
+      ],
+      "format_exit": 0,
+      "command": [
+        "cargo",
+        "build",
+        "--release",
+        "--locked",
+        "--offline",
+        "--bin",
+        "quartz_c27_joint_posterior",
+        "-j2"
+      ],
+      "returncode": 0,
+      "elapsed_s": 4.8935309770167805,
+      "source_sha256": "31de740dd4c37a1ddb6324930572e60146b93d1e6e14b46eb3ba97f137ff3632",
+      "protected_before": {
+        "src/bin/quartz_c26_game_metareasoning.rs": "145b586fea7ff7526eb30d15d683580678f1c9dd3a433967f536697957327a01",
+        "src/game.rs": "b5e1fefb9d9ee72e7eb2fb684edafe3702e11f0f712cc3bd92fb43ccb71ff3e0",
+        "src/games/tictactoe.rs": "45f552117481ef00e966d461c111e2de41de2d5f504390c376d675d8c1de35f8"
+      },
+      "protected_after": {
+        "src/bin/quartz_c26_game_metareasoning.rs": "145b586fea7ff7526eb30d15d683580678f1c9dd3a433967f536697957327a01",
+        "src/game.rs": "b5e1fefb9d9ee72e7eb2fb684edafe3702e11f0f712cc3bd92fb43ccb71ff3e0",
+        "src/games/tictactoe.rs": "45f552117481ef00e966d461c111e2de41de2d5f504390c376d675d8c1de35f8"
+      },
+      "binary": "/home/cosmosapjw/quantum/research/quartz_general_meta26_20261123/target/release/quartz_c27_joint_posterior",
+      "binary_sha256": "755c93c55711ebc9ecaa6c05907ee9d8dff381ae1942df95ee33e8b1dce2f989"
+    },
+    "NATIVE_SMOKE.json": {
+      "command": [
+        "/home/cosmosapjw/quantum/research/quartz_general_meta26_20261123/target/release/quartz_c27_joint_posterior"
+      ],
+      "returncode": 0,
+      "roundtrip_ns": 2364126,
+      "source": {
+        "cue_seed": 3069874382843753759,
+        "history": [
+          5,
+          1,
+          6,
+          4
+        ],
+        "id": "C26-p4-0059adf99c0886cf",
+        "ply": 4,
+        "source_hash": "0059adf99c0886cfc1154c5e8e819e985499f4daeb8fc726c32ec63843b08b29",
+        "split": "TRAIN"
+      },
+      "run_records": 25,
+      "measured_survey_queries": 25,
+      "policies": [
+        "INITIAL_STOP",
+        "RANDOM_TWO",
+        "PRODUCT_H2",
+        "INITIAL_PROJECTED_H2",
+        "JOINT_H2"
+      ],
+      "first_repeat_queries": {
+        "INITIAL_STOP": [],
+        "RANDOM_TWO": [
+          2,
+          3
+        ],
+        "PRODUCT_H2": [
+          7,
+          8
+        ],
+        "INITIAL_PROJECTED_H2": [
+          7,
+          8
+        ],
+        "JOINT_H2": [
+          7,
+          8
+        ]
+      },
+      "binary_sha256": "755c93c55711ebc9ecaa6c05907ee9d8dff381ae1942df95ee33e8b1dce2f989",
+      "old_binary_sha256": "8735b1f23a970248e4ef2b26d08c8df2daf181f0d29163317b5f41cc6ef0be0c",
+      "model_sha256": "0843447dc755c1d09e1bc69a44dd052e6db9c5c2ace41d1590b668cbfc36a126",
+      "limits": "One existing TRAIN root only; rho .8 is a fixed software fixture, no selection/fit/time-price or CAL/TEST."
+    },
+    "NATIVE_IDENTITIES.json": {
+      "reused_function_byte_identity": {
+        "replay_history": "1c34615892a380a08544ba6346f699d2c6cadd4e0a7b07ef2895753a98ce6127",
+        "root_value": "9ad8fc13ee707bfdf0edeb94b543da1e84251a293d82f12a98c8675f562d5799",
+        "utility": "e0a9d4baa75bd91ffb29a3254fce8d66e65ddf56fc8132e8f01b0b3b13ffdb93",
+        "exact": "e467b97edbd0d9f6f6fab45433f2c8e31f56ebc4b9f54942ffd590eaff9deaf6",
+        "rollout": "c0a2e703897ff4820284806cb64aa57f0240dacb61597dfada5d6424e1b01422",
+        "candidates": "e28251a64414e738c79c33053ac76b091de4491852e64e06c8c2702a487910cc",
+        "initialize": "b5cf4377b77d8404638d8b522bfc72b85e627f38cd16345202538a69735007a6"
+      },
+      "source_sha256": "31de740dd4c37a1ddb6324930572e60146b93d1e6e14b46eb3ba97f137ff3632",
+      "old_c26_binary_sha256": "8735b1f23a970248e4ef2b26d08c8df2daf181f0d29163317b5f41cc6ef0be0c",
+      "versions": [
+        {
+          "command": [
+            "rustc",
+            "--version"
+          ],
+          "returncode": 0,
+          "stdout": "rustc 1.99.0 (b940084d7 2026-09-28)",
+          "stderr": ""
+        },
+        {
+          "command": [
+            "cargo",
+            "--version"
+          ],
+          "returncode": 0,
+          "stdout": "cargo 1.99.0 (5f94df478 2026-08-27)",
+          "stderr": ""
+        },
+        {
+          "command": [
+            "python3",
+            "--version"
+          ],
+          "returncode": 0,
+          "stdout": "Python 3.12.3",
+          "stderr": ""
+        }
+      ],
+      "git_status": {
+        "command": [
+          "git",
+          "status",
+          "--short"
+        ],
+        "returncode": 0,
+        "stdout": "?? docs/research/quartz_general_joint_posterior_20261123/coding/c27_campaign.py\n?? docs/research/quartz_general_joint_posterior_20261123/coding/verify_delivery.py\n?? docs/research/quartz_general_joint_posterior_20261123/evidence/C05_ARCHIVE_PREFLIGHT.json\n?? docs/research/quartz_general_joint_posterior_20261123/evidence/CI_PRE_IMPLEMENTATION_C04.json\n?? docs/research/quartz_general_joint_posterior_20261123/evidence/HARNESS_GREEN_CORE.log\n?? docs/research/quartz_general_joint_posterior_20261123/evidence/HARNESS_INTEGRATION_ATTEMPT.log\n?? docs/research/quartz_general_joint_posterior_20261123/evidence/HARNESS_RED.log\n?? docs/research/quartz_general_joint_posterior_20261123/evidence/NATIVE_BUILD.json\n?? docs/research/quartz_general_joint_posterior_20261123/evidence/NATIVE_BUILD.log\n?? docs/research/quartz_general_joint_posterior_20261123/evidence/NATIVE_GREEN_01.json\n?? docs/research/quartz_general_joint_posterior_20261123/evidence/NATIVE_GREEN_01.log\n?? docs/research/quartz_general_joint_posterior_20261123/evidence/NATIVE_GREEN_FINAL.json\n?? docs/research/quartz_general_joint_posterior_20261123/evidence/NATIVE_GREEN_FINAL.log\n?? docs/research/quartz_general_joint_posterior_20261123/evidence/NATIVE_RED.json\n?? docs/research/quartz_general_joint_posterior_20261123/evidence/NATIVE_RED.log\n?? docs/research/quartz_general_joint_posterior_20261123/evidence/NATIVE_RED_SOURCE.rs\n?? docs/research/quartz_general_joint_posterior_20261123/evidence/NATIVE_SMOKE.json\n?? docs/research/quartz_general_joint_posterior_20261123/evidence/NATIVE_SMOKE_DRIVER.py\n?? docs/research/quartz_general_joint_posterior_20261123/evidence/NATIVE_SMOKE_REQUESTS.jsonl\n?? docs/research/quartz_general_joint_posterior_20261123/evidence/NATIVE_SMOKE_RESPONSES.jsonl\n?? docs/research/quartz_general_joint_posterior_20261123/evidence/NATIVE_SMOKE_STDERR.log\n?? src/bin/quartz_c27_joint_posterior.rs\n?? tests/test_c27_joint_posterior.py",
+        "stderr": ""
+      },
+      "git_head": {
+        "command": [
+          "git",
+          "rev-parse",
+          "HEAD"
+        ],
+        "returncode": 0,
+        "stdout": "cb6266eed040e2a9c4637cf0722b52763ee84937",
+        "stderr": ""
+      },
+      "free_bytes": 1551253504
+    },
+    "NATIVE_TIE_RED.json": {
+      "command": [
+        "cargo",
+        "test",
+        "--locked",
+        "--offline",
+        "--bin",
+        "quartz_c27_joint_posterior",
+        "-j2",
+        "global_ties_",
+        "--",
+        "--nocapture"
+      ],
+      "returncode": 101,
+      "elapsed_s": 0.47964844497619197,
+      "source_sha256": "7c7b28370228346e8ba37b42247c0adcd6a9365a9dfc72d622b31068081b4d13",
+      "classification": "Global maximum tolerance-band tie versus nontransitive pairwise scan implementation error; before fitting or campaign."
+    },
+    "NATIVE_TIE_FINAL.json": {
+      "classification": "Prefit implementation correction; global maximum tolerance band, then smallest move.",
+      "format_command": [
+        "rustfmt",
+        "--edition",
+        "2021",
+        "--config",
+        "skip_children=true",
+        "/home/cosmosapjw/quantum/research/quartz_general_meta27_20261123/src/bin/quartz_c27_joint_posterior.rs"
+      ],
+      "format_exit": 0,
+      "checks": [
+        {
+          "command": [
+            "cargo",
+            "test",
+            "--locked",
+            "--offline",
+            "--bin",
+            "quartz_c27_joint_posterior",
+            "-j2",
+            "--",
+            "--nocapture"
+          ],
+          "returncode": 0,
+          "elapsed_s": 0.5423322939896025,
+          "source_sha256": "433f620f1c420042d795fc054e87fe6309969d04530e9333c14c664e6dd69dec"
+        },
+        {
+          "command": [
+            "cargo",
+            "build",
+            "--release",
+            "--locked",
+            "--offline",
+            "--bin",
+            "quartz_c27_joint_posterior",
+            "-j2"
+          ],
+          "returncode": 0,
+          "elapsed_s": 4.8591734420042485,
+          "source_sha256": "433f620f1c420042d795fc054e87fe6309969d04530e9333c14c664e6dd69dec"
+        }
+      ],
+      "source_sha256": "433f620f1c420042d795fc054e87fe6309969d04530e9333c14c664e6dd69dec",
+      "release_binary": "/home/cosmosapjw/quantum/research/quartz_general_meta26_20261123/target/release/quartz_c27_joint_posterior",
+      "release_binary_sha256": "38126679ef622d7339fecdc7fd258ce2bb1428d82bbcb24545f26a7fafb66eef",
+      "test_binary": "/home/cosmosapjw/quantum/research/quartz_general_meta26_20261123/target/debug/deps/quartz_c27_joint_posterior-70bada63bc9c3453",
+      "test_binary_sha256": "6bd3cb5e1c3348d5827eae32b4ba5d08889c6ff0104ebe5e4e15d9c7fbaf2203",
+      "old_c26_binary_sha256": "8735b1f23a970248e4ef2b26d08c8df2daf181f0d29163317b5f41cc6ef0be0c"
+    }
+  },
+  "files": {
+    "docs/research/quartz_general_joint_posterior_20261123/evidence/NATIVE_BUILD.json": "b1dc529c6e5b340939053f56ac218660bfce00f5b7c8dd4290d63041cb9ed73b",
+    "docs/research/quartz_general_joint_posterior_20261123/evidence/NATIVE_BUILD.log": "fb04ba782418bd4e1d0bec809d49a0c02ac1a719800d0147fe2d5a671c444c89",
+    "docs/research/quartz_general_joint_posterior_20261123/evidence/NATIVE_GREEN_01.json": "108372c6c9e8c191103864cf935657c52eae2ffe7517e9dafb3d9d7e5d94f956",
+    "docs/research/quartz_general_joint_posterior_20261123/evidence/NATIVE_GREEN_01.log": "eb88ea39ee46ee98f038d8c01c808f8ecd83ed07e466c3fe08eb816d6f8ddd1a",
+    "docs/research/quartz_general_joint_posterior_20261123/evidence/NATIVE_GREEN_FINAL.json": "13d71f24d1b0944d9052c663caab6a4fef26d192d0c2a88171c38c30ddcf5709",
+    "docs/research/quartz_general_joint_posterior_20261123/evidence/NATIVE_GREEN_FINAL.log": "de5e44d3f4d45eb37efedc4b55537fc26d412894dfa2a82ef704efb352128e19",
+    "docs/research/quartz_general_joint_posterior_20261123/evidence/NATIVE_HANDOFF.md": "5436337abe2f27b64bdfbfdf318661c2d1e9fbdafe781f6c4268a5171d52ec42",
+    "docs/research/quartz_general_joint_posterior_20261123/evidence/NATIVE_HANDOFF_PRE_TIE.json": "f25f1a2a38a5ba573b3b4aebc3043d211d2f838a3637d312016bc54cc2fd718f",
+    "docs/research/quartz_general_joint_posterior_20261123/evidence/NATIVE_HANDOFF_PRE_TIE.md": "6f7cc2956f20544e8f9e3df52f4922b44a1b3c3eb810b5531e2dabeb93cc8b83",
+    "docs/research/quartz_general_joint_posterior_20261123/evidence/NATIVE_IDENTITIES.json": "f68906df456b6df7cdf731b5fbea084e3540f4d87e30783992bc844abaf13a30",
+    "docs/research/quartz_general_joint_posterior_20261123/evidence/NATIVE_RED.json": "99b0ce8c730349e5be5cf3065f79cfaddca5818686a5397993393e21ba565709",
+    "docs/research/quartz_general_joint_posterior_20261123/evidence/NATIVE_RED.log": "02f8fee884a757ac9c380b5126d6f4edf0a983c4b629def9aa518e0e15a95d8a",
+    "docs/research/quartz_general_joint_posterior_20261123/evidence/NATIVE_RED_SOURCE.rs": "4952490c9e0341c308fb7fa8afeb3a57a2d79c129c355bee1338990e5867ea93",
+    "docs/research/quartz_general_joint_posterior_20261123/evidence/NATIVE_SMOKE.json": "16fef0a7dbd782c18ff4d1099707e59a468f1e40fb499f52d8007fe5213e5d5b",
+    "docs/research/quartz_general_joint_posterior_20261123/evidence/NATIVE_SMOKE_DRIVER.py": "25774f85cb772f5af9339a6d2f24088a76dab519994b8c375bea1172066518bc",
+    "docs/research/quartz_general_joint_posterior_20261123/evidence/NATIVE_SMOKE_REQUESTS.jsonl": "555646c1a8227c62f5094a0fe44f3f335b74b1e1592832062d1ce0d8d9f35eb7",
+    "docs/research/quartz_general_joint_posterior_20261123/evidence/NATIVE_SMOKE_RESPONSES.jsonl": "945d550aa09420e3a71668e061aebc666faa0fc44a759e247921a10d47998195",
+    "docs/research/quartz_general_joint_posterior_20261123/evidence/NATIVE_SMOKE_STDERR.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "docs/research/quartz_general_joint_posterior_20261123/evidence/NATIVE_TIE_BUILD.log": "6b36ac2f87f9f6b3a2b54fd54bcc003de8321ef8350ab291d72a68244cb9afdc",
+    "docs/research/quartz_general_joint_posterior_20261123/evidence/NATIVE_TIE_FINAL.json": "2d4ef83975296b4547301ca6e9498593b85136f16d44049873a661a98889c14d",
+    "docs/research/quartz_general_joint_posterior_20261123/evidence/NATIVE_TIE_GREEN.log": "a6764238eb382be1ad11c4273f245566fece9456359435fd47e0353afb3f2c2c",
+    "docs/research/quartz_general_joint_posterior_20261123/evidence/NATIVE_TIE_RED.json": "10734def0ce27a9d2b61592170c0fbb56d66b6b1e83ef14d9a84b030944b7f4c",
+    "docs/research/quartz_general_joint_posterior_20261123/evidence/NATIVE_TIE_RED.log": "9777ab679890c217643b405812aa48111cfb4ac2485eccb01d006991210d0015",
+    "docs/research/quartz_general_joint_posterior_20261123/evidence/NATIVE_TIE_RED_SOURCE.rs": "7c7b28370228346e8ba37b42247c0adcd6a9365a9dfc72d622b31068081b4d13"
+  },
+  "scope": [
+    "src/bin/quartz_c27_joint_posterior.rs",
+    "docs/research/quartz_general_joint_posterior_20261123/evidence/NATIVE_*"
+  ],
+  "not_performed": [
+    "commit/push",
+    "rho fit",
+    "TRAIN-wide price",
+    "CAL/TEST labels or campaign",
+    "fresh full-project regression"
+  ],
+  "next": "Parent integration/C06; planned single C09 review.",
+  "final_identity": {
+    "classification": "Prefit implementation correction; global maximum tolerance band, then smallest move.",
+    "format_command": [
+      "rustfmt",
+      "--edition",
+      "2021",
+      "--config",
+      "skip_children=true",
+      "/home/cosmosapjw/quantum/research/quartz_general_meta27_20261123/src/bin/quartz_c27_joint_posterior.rs"
+    ],
+    "format_exit": 0,
+    "checks": [
+      {
+        "command": [
+          "cargo",
+          "test",
+          "--locked",
+          "--offline",
+          "--bin",
+          "quartz_c27_joint_posterior",
+          "-j2",
+          "--",
+          "--nocapture"
+        ],
+        "returncode": 0,
+        "elapsed_s": 0.5423322939896025,
+        "source_sha256": "433f620f1c420042d795fc054e87fe6309969d04530e9333c14c664e6dd69dec"
+      },
+      {
+        "command": [
+          "cargo",
+          "build",
+          "--release",
+          "--locked",
+          "--offline",
+          "--bin",
+          "quartz_c27_joint_posterior",
+          "-j2"
+        ],
+        "returncode": 0,
+        "elapsed_s": 4.8591734420042485,
+        "source_sha256": "433f620f1c420042d795fc054e87fe6309969d04530e9333c14c664e6dd69dec"
+      }
+    ],
+    "source_sha256": "433f620f1c420042d795fc054e87fe6309969d04530e9333c14c664e6dd69dec",
+    "release_binary": "/home/cosmosapjw/quantum/research/quartz_general_meta26_20261123/target/release/quartz_c27_joint_posterior",
+    "release_binary_sha256": "38126679ef622d7339fecdc7fd258ce2bb1428d82bbcb24545f26a7fafb66eef",
+    "test_binary": "/home/cosmosapjw/quantum/research/quartz_general_meta26_20261123/target/debug/deps/quartz_c27_joint_posterior-70bada63bc9c3453",
+    "test_binary_sha256": "6bd3cb5e1c3348d5827eae32b4ba5d08889c6ff0104ebe5e4e15d9c7fbaf2203",
+    "old_c26_binary_sha256": "8735b1f23a970248e4ef2b26d08c8df2daf181f0d29163317b5f41cc6ef0be0c"
+  },
+  "selective_correction": "Global maximum tolerance-band tie; before TRAIN fit/price/CAL/TEST; old evidence preserved and not relabeled."
+}

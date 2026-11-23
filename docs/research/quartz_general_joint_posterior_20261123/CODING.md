@@ -21,3 +21,7 @@ Stable log-odds/log1p and log-sum-exp forms, O(m²) H2, finite cap, tolerance an
 ## C04 — execution DAG
 
 Two disjoint Rust/Python implementation lanes are released after this stage. Parent retains experiment locks, empirical execution and publication. Target cache reuse and disk bounds are explicit; implementation/tests precede TRAIN freeze, CAL, TEST and one fresh review.
+
+## C05 — implementation complete
+
+Native18tests/Python21tests and final-binary75run independentintegration passed; meaningfulRED andtie-boundary repair were preserved. RunnableCLI coverspublicallocation, honestTRAINfit, timeprice, freeze, CAL/TEST, validationandanalysis. SeeC05_IMPLEMENTATION.md and NATIVE/HARNESS_HANDOFF packets. Newuser-authorizedworktree/backupsmaintenance precedes timingmeasurements.
