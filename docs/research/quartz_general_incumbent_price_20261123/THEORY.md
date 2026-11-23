@@ -55,3 +55,9 @@ The parent checked the complete proof and recorded its actual independence and e
 Parent exact arithmetic enumerated 3,375 interval boxes, 10,125 incumbent states and 81,000 utility corners; checked 2,541 strict switches, 10,125 nested contractions and 87,192 charged comparisons. Another 20,000 binary64 cases checked outward gap and downward price product. The executable checker exited successfully; evidence/R07_EXACT_CROSSCHECK.json binds the counts.
 
 An actual Wolfram evaluation returned True for universal strict-switch and charged-stop implications and exact rational example results. A later expanded symbolic query returned service internal error (-32603), recorded separately and not counted as a pass. The complete proof and independent rational checker provide the remaining gap-monotonicity verification.
+
+## R08 — Theory judgment
+
+Admit T1–T3 as conditional derived results with independent finite checks; elementary interval/VOC ingredients are not new general theorems. Keep time-predicted economic benefit conjectural pending fresh measurements. Keep original neural-MCTS transfer and P2/P3/P4 unresolved.
+
+Select all three retention variants for implementation against PLAIN_STOP, PLAIN_ALWAYS and C24 FAST_BLOCK. Retention's missed gains are measured trade-offs. No new strong no-go, broad impossibility claim, or extra research blocker is introduced.

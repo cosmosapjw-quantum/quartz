@@ -16,3 +16,4 @@ The requested scope is R01–R10 followed by C01–C10. Each completed stage is 
 - R05: Constructive derivation completed and preserved.
 - R06: Independent mathematical and semantic checks completed and preserved.
 - R07: Executed discriminating checks completed and preserved.
+- R08: Theory judgment completed and preserved.
