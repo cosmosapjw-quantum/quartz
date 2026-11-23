@@ -1,0 +1,26 @@
+{
+  "context_result": {
+    "status": "fulfilled",
+    "value": {
+      "content": [
+        {
+          "type": "text",
+          "text": "tool call error: tool call failed for `codex_apps/wolfram.WolframContext`\n\nCaused by:\n    Mcp error: -32603: Internal error"
+        }
+      ],
+      "isError": true
+    }
+  },
+  "evaluator": {
+    "content": [
+      {
+        "type": "text",
+        "text": "Out[1]= {{0, 0, 0}, {{0, 0, 0}, {0, 0, 0}, {0, 0, 0}}, {0, 0, 0}}"
+      }
+    ],
+    "structuredContent": null,
+    "isError": false
+  },
+  "code": "q={1/6,1/3,1/2}; w=Table[If[a==b,0,Min[1,q[[a]]/q[[b]]]/2],{a,3},{b,3}]; w=w-DiagonalMatrix[Total[w]]; {w.q,Simplify[w.DiagonalMatrix[q]-DiagonalMatrix[q].Transpose[w]],Total[w]}",
+  "classification": "WolframContext internal error -32603; independent evaluator succeeded with exact zero residuals"
+}

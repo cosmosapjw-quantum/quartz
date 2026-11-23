@@ -1,0 +1,14 @@
+{
+  "claim_id": "C26_EXACT_QUERY_BOX_MODEL",
+  "mathematics": {
+    "assertion_tested": "Exact Bellman value equals reservation-index policy; all nonpositive one-step gain implies optimal STOP, on 6075 ordered two-box and 3420 three-box-up-to-relabeling rational instances. An exact correlated counterexample and numerical Gibbs expectations are separately checked.",
+    "coefficient_domain": "Q via Python Fraction; Decimal at 60 and 90 digits for Gibbs only",
+    "conventions": "Payoff is final maximum observed utility minus priced query costs; sunk initial incumbent cost excluded equally; values 0,1/2,1; STOP wins economic ties",
+    "inputs": ["Two-box probabilities: all 15 simplex triples of denominator 4; three-box probabilities: all 6 simplex triples of denominator 2; costs 1/20,1/10,1/5; incumbents 0,1/2,1"],
+    "bounds": {"two_box_cases": 6075, "three_box_cases": 3420, "maximum_boxes": 3},
+    "non_claims": ["No GameState/game runs", "No empirical independence result", "No production implementation verification", "Finite enumeration does not replace the analytic proof"]
+  },
+  "execution_artifacts": ["quartz_c26_exactcheck.py"],
+  "software": [{"name": "computation Python", "version": "3.12.14"}],
+  "randomness": {"used": false, "generator": "", "seed": null}
+}

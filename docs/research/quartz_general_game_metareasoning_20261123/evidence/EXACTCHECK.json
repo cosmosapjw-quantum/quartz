@@ -1,0 +1,177 @@
+{
+  "status": "completed",
+  "assertion_tested": "Exact Bellman optimal value equals Pandora value; all nonpositive one-step gains iff stopping is optimal, over stated finite grids; three-point reservation formula solves expected-excess equation exactly.",
+  "counts": {
+    "two_boxes_ordered": 6075,
+    "three_boxes_up_to_relabeling": 3420
+  },
+  "total_cases": 9495,
+  "coefficient_domain": "Fraction rational; Decimal only for Gibbs expectations",
+  "software": {
+    "python": "3.12.14"
+  },
+  "randomness": {
+    "used": false,
+    "reason": "all states and outcomes enumerated; no empirical Monte Carlo or GameState run"
+  },
+  "two_box_domain": {
+    "probability_grid": "all 15 triples with nonnegative numerator summing to 4, denominator 4",
+    "priced_costs": [
+      "1/20",
+      "1/10",
+      "1/5"
+    ],
+    "incumbents": [
+      "0",
+      "1/2",
+      "1"
+    ],
+    "ordered_box_types": 45
+  },
+  "three_box_domain": {
+    "probability_grid": "all 6 triples with nonnegative numerator summing to 2, denominator 2",
+    "priced_costs": [
+      "1/20",
+      "1/10",
+      "1/5"
+    ],
+    "incumbents": [
+      "0",
+      "1/2",
+      "1"
+    ],
+    "box_types": 18,
+    "enumeration": "all 1140 three-multisets of 18 types, representing labels up to permutation"
+  },
+  "examples": {
+    "two_box_order_counterexample": {
+      "boxes": [
+        {
+          "p": [
+            "0",
+            "1",
+            "0"
+          ],
+          "priced_cost": "1/10"
+        },
+        {
+          "p": [
+            "3/5",
+            "0",
+            "2/5"
+          ],
+          "priced_cost": "1/20"
+        }
+      ],
+      "initial_net_one_step": [
+        "2/5",
+        "7/20"
+      ],
+      "reservation_values": [
+        "2/5",
+        "7/8"
+      ],
+      "exact_expected_values": {
+        "optimal": "59/100",
+        "greedy": "11/20",
+        "pandora": "59/100",
+        "all": "11/20"
+      },
+      "gibbs_tau": "1/10",
+      "gibbs_prior": "uniform over STOP + remaining queries",
+      "gibbs_masked_at_incumbent_one": "0.540279444489354865858071705470498884959377538247322508508909636866140365163793371949440441",
+      "gibbs_unmasked": "0.536263773151874941267251248921321622786984565371193335028845331936424925862687980362105173",
+      "precision_60_90_max_residual": "1.331936424925862687980362105173E-60"
+    },
+    "three_box_order_comparison": {
+      "boxes": [
+        {
+          "p": [
+            "0",
+            "1",
+            "0"
+          ],
+          "priced_cost": "1/10"
+        },
+        {
+          "p": [
+            "3/5",
+            "0",
+            "2/5"
+          ],
+          "priced_cost": "1/20"
+        },
+        {
+          "p": [
+            "4/5",
+            "0",
+            "1/5"
+          ],
+          "priced_cost": "1/50"
+        }
+      ],
+      "initial_net_one_step": [
+        "2/5",
+        "7/20",
+        "9/50"
+      ],
+      "reservation_values": [
+        "2/5",
+        "7/8",
+        "9/10"
+      ],
+      "exact_expected_values": {
+        "optimal": "163/250",
+        "greedy": "299/500",
+        "pandora": "163/250",
+        "all": "59/100"
+      },
+      "gibbs_tau": "1/10",
+      "gibbs_prior": "uniform over STOP + remaining queries",
+      "gibbs_masked_at_incumbent_one": "0.577534271808292509435268712620906186206219752519066241663116703890614821008657007863763741",
+      "gibbs_unmasked": "0.569781634604377209783040445705732189583657724311812938329735844754944625096748192110729554",
+      "precision_60_90_max_residual": "1.155245055374903251807889270446E-60"
+    }
+  },
+  "correlation_counterexample": {
+    "incumbent": "1/2",
+    "initial_net_one_step": [
+      "-1/100",
+      "-1/20",
+      "-1/20"
+    ],
+    "optimal_first_query": "0",
+    "optimal_value": "69/100",
+    "optimal_gain": "19/100",
+    "joint_support": [
+      [
+        "1/2",
+        [
+          "0",
+          "1",
+          "0"
+        ]
+      ],
+      [
+        "1/2",
+        [
+          "1/2",
+          "0",
+          "1"
+        ]
+      ]
+    ],
+    "costs": [
+      "1/100",
+      "3/10",
+      "3/10"
+    ]
+  },
+  "non_claims": [
+    "No production/GameState implementation verification",
+    "No proof of empirical conditional independence",
+    "No novelty claim",
+    "Gibbs probabilities/expectations are numerical, not rational identities",
+    "Finite grid is a check of the proof, not a substitute for the uniform proof"
+  ]
+}

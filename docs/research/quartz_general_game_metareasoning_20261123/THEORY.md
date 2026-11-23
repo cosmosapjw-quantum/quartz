@@ -31,3 +31,7 @@ Full derivation: theory/CONSTRUCTOR_DERIVATION.md, with the initialization corre
 ## R06: verification and scope
 
 The finite independent model proofs survive boundary, sign and dimension checks. Learned game priors and predicted charges are approximate closures. A binding cap and correlated revelation invalidate the transported ordering theorem; exact retention remains valid. See theory/R06_PARENT_CHECK.md.
+
+## R07: observed computation
+
+Exact Bellman/index and STOP checks passed on 9,495 finite cases. Independent statistical-mechanics checks passed 72 assertions and Wolfram returned exact conservation/detailed-balance residual zero. Strong-signal quadratic error and information-with-zero-value examples are retained. See theory/R07_CALCULATIONS.md.

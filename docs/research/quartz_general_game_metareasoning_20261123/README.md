@@ -29,3 +29,7 @@ Direct proofs now cover exact STOP, reservation ordering, safe known-incumbent r
 ## R06 — completed
 
 Parent verified proof dependencies, signs, units, boundaries, fixed-cost and budget assumptions. Resolved the initialization packet mismatch by an explicit operative definition. Preserved the correlated counterexample and separated local Gibbs, posterior-mean fluctuations and physical interpretations. See theory/R06_PARENT_CHECK.md.
+
+## R07 — completed
+
+Packaged actual 9,495 exact oracle cases, 72 independent statistical-mechanics checks, successful Wolfram symbolic residuals, and legal-state population enumeration. All finite checks retain environments, source/output identity and limitations. No production game-benefit claim is admitted yet.

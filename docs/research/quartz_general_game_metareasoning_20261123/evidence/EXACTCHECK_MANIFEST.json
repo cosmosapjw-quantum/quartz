@@ -1,0 +1,118 @@
+{
+  "schema_version": 2,
+  "claim_id": "C26_EXACT_QUERY_BOX_MODEL",
+  "repository": {
+    "commit": "unavailable",
+    "dirty": true
+  },
+  "command": [
+    "python",
+    "quartz_c26_exactcheck.py",
+    "quartz_c26_audit/exactcheck.json"
+  ],
+  "environment": {
+    "software": [
+      {
+        "name": "runner-python",
+        "version": "3.12.14"
+      },
+      {
+        "name": "computation Python",
+        "version": "3.12.14"
+      }
+    ],
+    "hardware": "Linux-6.18.57-x86_64-with-glibc2.41"
+  },
+  "mathematics": {
+    "assertion_tested": "Exact Bellman value equals reservation-index policy; all nonpositive one-step gain implies optimal STOP, on 6075 ordered two-box and 3420 three-box-up-to-relabeling rational instances. An exact correlated counterexample and numerical Gibbs expectations are separately checked.",
+    "coefficient_domain": "Q via Python Fraction; Decimal at 60 and 90 digits for Gibbs only",
+    "conventions": "Payoff is final maximum observed utility minus priced query costs; sunk initial incumbent cost excluded equally; values 0,1/2,1; STOP wins economic ties",
+    "inputs": [
+      "Two-box probabilities: all 15 simplex triples of denominator 4; three-box probabilities: all 6 simplex triples of denominator 2; costs 1/20,1/10,1/5; incumbents 0,1/2,1"
+    ],
+    "bounds": {
+      "two_box_cases": 6075,
+      "three_box_cases": 3420,
+      "maximum_boxes": 3
+    },
+    "non_claims": [
+      "No GameState/game runs",
+      "No empirical independence result",
+      "No production implementation verification",
+      "Finite enumeration does not replace the analytic proof"
+    ]
+  },
+  "randomness": {
+    "used": false,
+    "generator": "",
+    "seed": null
+  },
+  "run": {
+    "started_at": "2026-11-23T08:47:24.765481+00:00",
+    "runtime_seconds": 2.572867,
+    "exit_status": 0,
+    "status": "completed",
+    "timeout_seconds": 60.0,
+    "max_output_bytes": 1048576,
+    "resource_limits": {
+      "memory_bytes": 1073741824,
+      "cpu_seconds": 50,
+      "max_cores": 1,
+      "max_threads": 1
+    },
+    "missing_results": [],
+    "invalid_results": []
+  },
+  "execution_artifacts": [
+    "quartz_c26_exactcheck.py"
+  ],
+  "input_artifacts": [
+    {
+      "path": "quartz_c26_exactcheck.py",
+      "sha256": "5781c8c842bf45b189c3b92e6b84e100e2f6208639f5947e88e973e9b8bc49fd",
+      "sha256_after": "5781c8c842bf45b189c3b92e6b84e100e2f6208639f5947e88e973e9b8bc49fd"
+    }
+  ],
+  "output_directory": "quartz_c26_audit",
+  "declared_results": [
+    "quartz_c26_audit/exactcheck.json"
+  ],
+  "outputs": [
+    {
+      "path": "quartz_c26_audit/stdout.txt",
+      "sha256": "a537f33a143bb02cc66d4e6d4d4125889d973084622feabe530dca0e878ec8d6",
+      "kind": "log"
+    },
+    {
+      "path": "quartz_c26_audit/stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "kind": "log"
+    },
+    {
+      "path": "quartz_c26_audit/exactcheck.json",
+      "sha256": "36c084714ff31965f6956a27a786622c10479a2d1e27c64e29722aad6f4316ba",
+      "kind": "result"
+    }
+  ],
+  "checks": [
+    {
+      "check": "input hashes unchanged",
+      "passed": true
+    },
+    {
+      "check": "process exited successfully within enforced limits",
+      "passed": true
+    },
+    {
+      "check": "declared result files are present and regular",
+      "passed": true
+    }
+  ],
+  "result": "Run completed; mathematical assertion requires interpretation and review.",
+  "residual_risks": [
+    "Command success does not establish the mathematical interpretation.",
+    "Only listed input artifacts are pinned; external dependencies need recorded versions.",
+    "The thread cap uses conventional environment variables; a child program may ignore them.",
+    "The POSIX CPU-time limit is per process, not an aggregate descendant budget."
+  ]
+}

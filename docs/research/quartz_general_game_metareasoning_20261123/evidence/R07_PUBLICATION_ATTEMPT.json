@@ -1,0 +1,8 @@
+{
+  "first_process": 218897,
+  "exit_code": 1,
+  "class": "execution dependency ordering",
+  "cause": "stage launcher started before deferred payload write completed; FileNotFoundError before any repository mutation",
+  "repair": "awaited get_tool_result success, then relaunched the unchanged stage with this failure record",
+  "scientific_checks_affected": false
+}
