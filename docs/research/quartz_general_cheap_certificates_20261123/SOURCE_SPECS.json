@@ -1,0 +1,1332 @@
+{
+  "additional": [
+    8,
+    32,
+    128
+  ],
+  "block": 8,
+  "bootstrap_resamples": 2000,
+  "bootstrap_seed": 2400923,
+  "initial": 4,
+  "policies": [
+    "PLAIN_STOP",
+    "PLAIN_ALWAYS",
+    "FAST_ONCE",
+    "FAST_BLOCK",
+    "OUTWARD_BLOCK",
+    "RESIDUAL"
+  ],
+  "prices": [
+    0,
+    1e-08,
+    1e-07,
+    1e-06,
+    1e-05
+  ],
+  "primary_additional": 32,
+  "primary_baseline": "PLAIN_ALWAYS",
+  "primary_policy": "FAST_BLOCK",
+  "primary_price": 1e-06,
+  "repeats": 9,
+  "schema": "c24_source_specs_v1",
+  "source_count": 144,
+  "sources": [
+    {
+      "id": "c24_train_00_0",
+      "rho": 1,
+      "seed": 24000011,
+      "side": 8,
+      "split": "TRAIN",
+      "stratum": 0,
+      "target_gap": "wide"
+    },
+    {
+      "id": "c24_cal_00_0",
+      "rho": 1,
+      "seed": 24000307,
+      "side": 8,
+      "split": "CAL",
+      "stratum": 0,
+      "target_gap": "wide"
+    },
+    {
+      "id": "c24_test_00_0",
+      "rho": 1,
+      "seed": 24000601,
+      "side": 8,
+      "split": "TEST",
+      "stratum": 0,
+      "target_gap": "wide"
+    },
+    {
+      "id": "c24_test_00_1",
+      "rho": 1,
+      "seed": 24000638,
+      "side": 8,
+      "split": "TEST",
+      "stratum": 0,
+      "target_gap": "wide"
+    },
+    {
+      "id": "c24_train_01_0",
+      "rho": 1,
+      "seed": 24001020,
+      "side": 8,
+      "split": "TRAIN",
+      "stratum": 1,
+      "target_gap": "medium"
+    },
+    {
+      "id": "c24_cal_01_0",
+      "rho": 1,
+      "seed": 24001316,
+      "side": 8,
+      "split": "CAL",
+      "stratum": 1,
+      "target_gap": "medium"
+    },
+    {
+      "id": "c24_test_01_0",
+      "rho": 1,
+      "seed": 24001610,
+      "side": 8,
+      "split": "TEST",
+      "stratum": 1,
+      "target_gap": "medium"
+    },
+    {
+      "id": "c24_test_01_1",
+      "rho": 1,
+      "seed": 24001647,
+      "side": 8,
+      "split": "TEST",
+      "stratum": 1,
+      "target_gap": "medium"
+    },
+    {
+      "id": "c24_train_02_0",
+      "rho": 1,
+      "seed": 24002029,
+      "side": 8,
+      "split": "TRAIN",
+      "stratum": 2,
+      "target_gap": "tight"
+    },
+    {
+      "id": "c24_cal_02_0",
+      "rho": 1,
+      "seed": 24002325,
+      "side": 8,
+      "split": "CAL",
+      "stratum": 2,
+      "target_gap": "tight"
+    },
+    {
+      "id": "c24_test_02_0",
+      "rho": 1,
+      "seed": 24002619,
+      "side": 8,
+      "split": "TEST",
+      "stratum": 2,
+      "target_gap": "tight"
+    },
+    {
+      "id": "c24_test_02_1",
+      "rho": 1,
+      "seed": 24002656,
+      "side": 8,
+      "split": "TEST",
+      "stratum": 2,
+      "target_gap": "tight"
+    },
+    {
+      "id": "c24_train_03_0",
+      "rho": 1,
+      "seed": 24003038,
+      "side": 8,
+      "split": "TRAIN",
+      "stratum": 3,
+      "target_gap": "tie"
+    },
+    {
+      "id": "c24_cal_03_0",
+      "rho": 1,
+      "seed": 24003334,
+      "side": 8,
+      "split": "CAL",
+      "stratum": 3,
+      "target_gap": "tie"
+    },
+    {
+      "id": "c24_test_03_0",
+      "rho": 1,
+      "seed": 24003628,
+      "side": 8,
+      "split": "TEST",
+      "stratum": 3,
+      "target_gap": "tie"
+    },
+    {
+      "id": "c24_test_03_1",
+      "rho": 1,
+      "seed": 24003665,
+      "side": 8,
+      "split": "TEST",
+      "stratum": 3,
+      "target_gap": "tie"
+    },
+    {
+      "id": "c24_train_04_0",
+      "rho": 16,
+      "seed": 24004047,
+      "side": 8,
+      "split": "TRAIN",
+      "stratum": 4,
+      "target_gap": "wide"
+    },
+    {
+      "id": "c24_cal_04_0",
+      "rho": 16,
+      "seed": 24004343,
+      "side": 8,
+      "split": "CAL",
+      "stratum": 4,
+      "target_gap": "wide"
+    },
+    {
+      "id": "c24_test_04_0",
+      "rho": 16,
+      "seed": 24004637,
+      "side": 8,
+      "split": "TEST",
+      "stratum": 4,
+      "target_gap": "wide"
+    },
+    {
+      "id": "c24_test_04_1",
+      "rho": 16,
+      "seed": 24004674,
+      "side": 8,
+      "split": "TEST",
+      "stratum": 4,
+      "target_gap": "wide"
+    },
+    {
+      "id": "c24_train_05_0",
+      "rho": 16,
+      "seed": 24005056,
+      "side": 8,
+      "split": "TRAIN",
+      "stratum": 5,
+      "target_gap": "medium"
+    },
+    {
+      "id": "c24_cal_05_0",
+      "rho": 16,
+      "seed": 24005352,
+      "side": 8,
+      "split": "CAL",
+      "stratum": 5,
+      "target_gap": "medium"
+    },
+    {
+      "id": "c24_test_05_0",
+      "rho": 16,
+      "seed": 24005646,
+      "side": 8,
+      "split": "TEST",
+      "stratum": 5,
+      "target_gap": "medium"
+    },
+    {
+      "id": "c24_test_05_1",
+      "rho": 16,
+      "seed": 24005683,
+      "side": 8,
+      "split": "TEST",
+      "stratum": 5,
+      "target_gap": "medium"
+    },
+    {
+      "id": "c24_train_06_0",
+      "rho": 16,
+      "seed": 24006065,
+      "side": 8,
+      "split": "TRAIN",
+      "stratum": 6,
+      "target_gap": "tight"
+    },
+    {
+      "id": "c24_cal_06_0",
+      "rho": 16,
+      "seed": 24006361,
+      "side": 8,
+      "split": "CAL",
+      "stratum": 6,
+      "target_gap": "tight"
+    },
+    {
+      "id": "c24_test_06_0",
+      "rho": 16,
+      "seed": 24006655,
+      "side": 8,
+      "split": "TEST",
+      "stratum": 6,
+      "target_gap": "tight"
+    },
+    {
+      "id": "c24_test_06_1",
+      "rho": 16,
+      "seed": 24006692,
+      "side": 8,
+      "split": "TEST",
+      "stratum": 6,
+      "target_gap": "tight"
+    },
+    {
+      "id": "c24_train_07_0",
+      "rho": 16,
+      "seed": 24007074,
+      "side": 8,
+      "split": "TRAIN",
+      "stratum": 7,
+      "target_gap": "tie"
+    },
+    {
+      "id": "c24_cal_07_0",
+      "rho": 16,
+      "seed": 24007370,
+      "side": 8,
+      "split": "CAL",
+      "stratum": 7,
+      "target_gap": "tie"
+    },
+    {
+      "id": "c24_test_07_0",
+      "rho": 16,
+      "seed": 24007664,
+      "side": 8,
+      "split": "TEST",
+      "stratum": 7,
+      "target_gap": "tie"
+    },
+    {
+      "id": "c24_test_07_1",
+      "rho": 16,
+      "seed": 24007701,
+      "side": 8,
+      "split": "TEST",
+      "stratum": 7,
+      "target_gap": "tie"
+    },
+    {
+      "id": "c24_train_08_0",
+      "rho": 64,
+      "seed": 24008083,
+      "side": 8,
+      "split": "TRAIN",
+      "stratum": 8,
+      "target_gap": "wide"
+    },
+    {
+      "id": "c24_cal_08_0",
+      "rho": 64,
+      "seed": 24008379,
+      "side": 8,
+      "split": "CAL",
+      "stratum": 8,
+      "target_gap": "wide"
+    },
+    {
+      "id": "c24_test_08_0",
+      "rho": 64,
+      "seed": 24008673,
+      "side": 8,
+      "split": "TEST",
+      "stratum": 8,
+      "target_gap": "wide"
+    },
+    {
+      "id": "c24_test_08_1",
+      "rho": 64,
+      "seed": 24008710,
+      "side": 8,
+      "split": "TEST",
+      "stratum": 8,
+      "target_gap": "wide"
+    },
+    {
+      "id": "c24_train_09_0",
+      "rho": 64,
+      "seed": 24009092,
+      "side": 8,
+      "split": "TRAIN",
+      "stratum": 9,
+      "target_gap": "medium"
+    },
+    {
+      "id": "c24_cal_09_0",
+      "rho": 64,
+      "seed": 24009388,
+      "side": 8,
+      "split": "CAL",
+      "stratum": 9,
+      "target_gap": "medium"
+    },
+    {
+      "id": "c24_test_09_0",
+      "rho": 64,
+      "seed": 24009682,
+      "side": 8,
+      "split": "TEST",
+      "stratum": 9,
+      "target_gap": "medium"
+    },
+    {
+      "id": "c24_test_09_1",
+      "rho": 64,
+      "seed": 24009719,
+      "side": 8,
+      "split": "TEST",
+      "stratum": 9,
+      "target_gap": "medium"
+    },
+    {
+      "id": "c24_train_10_0",
+      "rho": 64,
+      "seed": 24010101,
+      "side": 8,
+      "split": "TRAIN",
+      "stratum": 10,
+      "target_gap": "tight"
+    },
+    {
+      "id": "c24_cal_10_0",
+      "rho": 64,
+      "seed": 24010397,
+      "side": 8,
+      "split": "CAL",
+      "stratum": 10,
+      "target_gap": "tight"
+    },
+    {
+      "id": "c24_test_10_0",
+      "rho": 64,
+      "seed": 24010691,
+      "side": 8,
+      "split": "TEST",
+      "stratum": 10,
+      "target_gap": "tight"
+    },
+    {
+      "id": "c24_test_10_1",
+      "rho": 64,
+      "seed": 24010728,
+      "side": 8,
+      "split": "TEST",
+      "stratum": 10,
+      "target_gap": "tight"
+    },
+    {
+      "id": "c24_train_11_0",
+      "rho": 64,
+      "seed": 24011110,
+      "side": 8,
+      "split": "TRAIN",
+      "stratum": 11,
+      "target_gap": "tie"
+    },
+    {
+      "id": "c24_cal_11_0",
+      "rho": 64,
+      "seed": 24011406,
+      "side": 8,
+      "split": "CAL",
+      "stratum": 11,
+      "target_gap": "tie"
+    },
+    {
+      "id": "c24_test_11_0",
+      "rho": 64,
+      "seed": 24011700,
+      "side": 8,
+      "split": "TEST",
+      "stratum": 11,
+      "target_gap": "tie"
+    },
+    {
+      "id": "c24_test_11_1",
+      "rho": 64,
+      "seed": 24011737,
+      "side": 8,
+      "split": "TEST",
+      "stratum": 11,
+      "target_gap": "tie"
+    },
+    {
+      "id": "c24_train_12_0",
+      "rho": 1,
+      "seed": 24012119,
+      "side": 32,
+      "split": "TRAIN",
+      "stratum": 12,
+      "target_gap": "wide"
+    },
+    {
+      "id": "c24_cal_12_0",
+      "rho": 1,
+      "seed": 24012415,
+      "side": 32,
+      "split": "CAL",
+      "stratum": 12,
+      "target_gap": "wide"
+    },
+    {
+      "id": "c24_test_12_0",
+      "rho": 1,
+      "seed": 24012709,
+      "side": 32,
+      "split": "TEST",
+      "stratum": 12,
+      "target_gap": "wide"
+    },
+    {
+      "id": "c24_test_12_1",
+      "rho": 1,
+      "seed": 24012746,
+      "side": 32,
+      "split": "TEST",
+      "stratum": 12,
+      "target_gap": "wide"
+    },
+    {
+      "id": "c24_train_13_0",
+      "rho": 1,
+      "seed": 24013128,
+      "side": 32,
+      "split": "TRAIN",
+      "stratum": 13,
+      "target_gap": "medium"
+    },
+    {
+      "id": "c24_cal_13_0",
+      "rho": 1,
+      "seed": 24013424,
+      "side": 32,
+      "split": "CAL",
+      "stratum": 13,
+      "target_gap": "medium"
+    },
+    {
+      "id": "c24_test_13_0",
+      "rho": 1,
+      "seed": 24013718,
+      "side": 32,
+      "split": "TEST",
+      "stratum": 13,
+      "target_gap": "medium"
+    },
+    {
+      "id": "c24_test_13_1",
+      "rho": 1,
+      "seed": 24013755,
+      "side": 32,
+      "split": "TEST",
+      "stratum": 13,
+      "target_gap": "medium"
+    },
+    {
+      "id": "c24_train_14_0",
+      "rho": 1,
+      "seed": 24014137,
+      "side": 32,
+      "split": "TRAIN",
+      "stratum": 14,
+      "target_gap": "tight"
+    },
+    {
+      "id": "c24_cal_14_0",
+      "rho": 1,
+      "seed": 24014433,
+      "side": 32,
+      "split": "CAL",
+      "stratum": 14,
+      "target_gap": "tight"
+    },
+    {
+      "id": "c24_test_14_0",
+      "rho": 1,
+      "seed": 24014727,
+      "side": 32,
+      "split": "TEST",
+      "stratum": 14,
+      "target_gap": "tight"
+    },
+    {
+      "id": "c24_test_14_1",
+      "rho": 1,
+      "seed": 24014764,
+      "side": 32,
+      "split": "TEST",
+      "stratum": 14,
+      "target_gap": "tight"
+    },
+    {
+      "id": "c24_train_15_0",
+      "rho": 1,
+      "seed": 24015146,
+      "side": 32,
+      "split": "TRAIN",
+      "stratum": 15,
+      "target_gap": "tie"
+    },
+    {
+      "id": "c24_cal_15_0",
+      "rho": 1,
+      "seed": 24015442,
+      "side": 32,
+      "split": "CAL",
+      "stratum": 15,
+      "target_gap": "tie"
+    },
+    {
+      "id": "c24_test_15_0",
+      "rho": 1,
+      "seed": 24015736,
+      "side": 32,
+      "split": "TEST",
+      "stratum": 15,
+      "target_gap": "tie"
+    },
+    {
+      "id": "c24_test_15_1",
+      "rho": 1,
+      "seed": 24015773,
+      "side": 32,
+      "split": "TEST",
+      "stratum": 15,
+      "target_gap": "tie"
+    },
+    {
+      "id": "c24_train_16_0",
+      "rho": 16,
+      "seed": 24016155,
+      "side": 32,
+      "split": "TRAIN",
+      "stratum": 16,
+      "target_gap": "wide"
+    },
+    {
+      "id": "c24_cal_16_0",
+      "rho": 16,
+      "seed": 24016451,
+      "side": 32,
+      "split": "CAL",
+      "stratum": 16,
+      "target_gap": "wide"
+    },
+    {
+      "id": "c24_test_16_0",
+      "rho": 16,
+      "seed": 24016745,
+      "side": 32,
+      "split": "TEST",
+      "stratum": 16,
+      "target_gap": "wide"
+    },
+    {
+      "id": "c24_test_16_1",
+      "rho": 16,
+      "seed": 24016782,
+      "side": 32,
+      "split": "TEST",
+      "stratum": 16,
+      "target_gap": "wide"
+    },
+    {
+      "id": "c24_train_17_0",
+      "rho": 16,
+      "seed": 24017164,
+      "side": 32,
+      "split": "TRAIN",
+      "stratum": 17,
+      "target_gap": "medium"
+    },
+    {
+      "id": "c24_cal_17_0",
+      "rho": 16,
+      "seed": 24017460,
+      "side": 32,
+      "split": "CAL",
+      "stratum": 17,
+      "target_gap": "medium"
+    },
+    {
+      "id": "c24_test_17_0",
+      "rho": 16,
+      "seed": 24017754,
+      "side": 32,
+      "split": "TEST",
+      "stratum": 17,
+      "target_gap": "medium"
+    },
+    {
+      "id": "c24_test_17_1",
+      "rho": 16,
+      "seed": 24017791,
+      "side": 32,
+      "split": "TEST",
+      "stratum": 17,
+      "target_gap": "medium"
+    },
+    {
+      "id": "c24_train_18_0",
+      "rho": 16,
+      "seed": 24018173,
+      "side": 32,
+      "split": "TRAIN",
+      "stratum": 18,
+      "target_gap": "tight"
+    },
+    {
+      "id": "c24_cal_18_0",
+      "rho": 16,
+      "seed": 24018469,
+      "side": 32,
+      "split": "CAL",
+      "stratum": 18,
+      "target_gap": "tight"
+    },
+    {
+      "id": "c24_test_18_0",
+      "rho": 16,
+      "seed": 24018763,
+      "side": 32,
+      "split": "TEST",
+      "stratum": 18,
+      "target_gap": "tight"
+    },
+    {
+      "id": "c24_test_18_1",
+      "rho": 16,
+      "seed": 24018800,
+      "side": 32,
+      "split": "TEST",
+      "stratum": 18,
+      "target_gap": "tight"
+    },
+    {
+      "id": "c24_train_19_0",
+      "rho": 16,
+      "seed": 24019182,
+      "side": 32,
+      "split": "TRAIN",
+      "stratum": 19,
+      "target_gap": "tie"
+    },
+    {
+      "id": "c24_cal_19_0",
+      "rho": 16,
+      "seed": 24019478,
+      "side": 32,
+      "split": "CAL",
+      "stratum": 19,
+      "target_gap": "tie"
+    },
+    {
+      "id": "c24_test_19_0",
+      "rho": 16,
+      "seed": 24019772,
+      "side": 32,
+      "split": "TEST",
+      "stratum": 19,
+      "target_gap": "tie"
+    },
+    {
+      "id": "c24_test_19_1",
+      "rho": 16,
+      "seed": 24019809,
+      "side": 32,
+      "split": "TEST",
+      "stratum": 19,
+      "target_gap": "tie"
+    },
+    {
+      "id": "c24_train_20_0",
+      "rho": 64,
+      "seed": 24020191,
+      "side": 32,
+      "split": "TRAIN",
+      "stratum": 20,
+      "target_gap": "wide"
+    },
+    {
+      "id": "c24_cal_20_0",
+      "rho": 64,
+      "seed": 24020487,
+      "side": 32,
+      "split": "CAL",
+      "stratum": 20,
+      "target_gap": "wide"
+    },
+    {
+      "id": "c24_test_20_0",
+      "rho": 64,
+      "seed": 24020781,
+      "side": 32,
+      "split": "TEST",
+      "stratum": 20,
+      "target_gap": "wide"
+    },
+    {
+      "id": "c24_test_20_1",
+      "rho": 64,
+      "seed": 24020818,
+      "side": 32,
+      "split": "TEST",
+      "stratum": 20,
+      "target_gap": "wide"
+    },
+    {
+      "id": "c24_train_21_0",
+      "rho": 64,
+      "seed": 24021200,
+      "side": 32,
+      "split": "TRAIN",
+      "stratum": 21,
+      "target_gap": "medium"
+    },
+    {
+      "id": "c24_cal_21_0",
+      "rho": 64,
+      "seed": 24021496,
+      "side": 32,
+      "split": "CAL",
+      "stratum": 21,
+      "target_gap": "medium"
+    },
+    {
+      "id": "c24_test_21_0",
+      "rho": 64,
+      "seed": 24021790,
+      "side": 32,
+      "split": "TEST",
+      "stratum": 21,
+      "target_gap": "medium"
+    },
+    {
+      "id": "c24_test_21_1",
+      "rho": 64,
+      "seed": 24021827,
+      "side": 32,
+      "split": "TEST",
+      "stratum": 21,
+      "target_gap": "medium"
+    },
+    {
+      "id": "c24_train_22_0",
+      "rho": 64,
+      "seed": 24022209,
+      "side": 32,
+      "split": "TRAIN",
+      "stratum": 22,
+      "target_gap": "tight"
+    },
+    {
+      "id": "c24_cal_22_0",
+      "rho": 64,
+      "seed": 24022505,
+      "side": 32,
+      "split": "CAL",
+      "stratum": 22,
+      "target_gap": "tight"
+    },
+    {
+      "id": "c24_test_22_0",
+      "rho": 64,
+      "seed": 24022799,
+      "side": 32,
+      "split": "TEST",
+      "stratum": 22,
+      "target_gap": "tight"
+    },
+    {
+      "id": "c24_test_22_1",
+      "rho": 64,
+      "seed": 24022836,
+      "side": 32,
+      "split": "TEST",
+      "stratum": 22,
+      "target_gap": "tight"
+    },
+    {
+      "id": "c24_train_23_0",
+      "rho": 64,
+      "seed": 24023218,
+      "side": 32,
+      "split": "TRAIN",
+      "stratum": 23,
+      "target_gap": "tie"
+    },
+    {
+      "id": "c24_cal_23_0",
+      "rho": 64,
+      "seed": 24023514,
+      "side": 32,
+      "split": "CAL",
+      "stratum": 23,
+      "target_gap": "tie"
+    },
+    {
+      "id": "c24_test_23_0",
+      "rho": 64,
+      "seed": 24023808,
+      "side": 32,
+      "split": "TEST",
+      "stratum": 23,
+      "target_gap": "tie"
+    },
+    {
+      "id": "c24_test_23_1",
+      "rho": 64,
+      "seed": 24023845,
+      "side": 32,
+      "split": "TEST",
+      "stratum": 23,
+      "target_gap": "tie"
+    },
+    {
+      "id": "c24_train_24_0",
+      "rho": 1,
+      "seed": 24024227,
+      "side": 96,
+      "split": "TRAIN",
+      "stratum": 24,
+      "target_gap": "wide"
+    },
+    {
+      "id": "c24_cal_24_0",
+      "rho": 1,
+      "seed": 24024523,
+      "side": 96,
+      "split": "CAL",
+      "stratum": 24,
+      "target_gap": "wide"
+    },
+    {
+      "id": "c24_test_24_0",
+      "rho": 1,
+      "seed": 24024817,
+      "side": 96,
+      "split": "TEST",
+      "stratum": 24,
+      "target_gap": "wide"
+    },
+    {
+      "id": "c24_test_24_1",
+      "rho": 1,
+      "seed": 24024854,
+      "side": 96,
+      "split": "TEST",
+      "stratum": 24,
+      "target_gap": "wide"
+    },
+    {
+      "id": "c24_train_25_0",
+      "rho": 1,
+      "seed": 24025236,
+      "side": 96,
+      "split": "TRAIN",
+      "stratum": 25,
+      "target_gap": "medium"
+    },
+    {
+      "id": "c24_cal_25_0",
+      "rho": 1,
+      "seed": 24025532,
+      "side": 96,
+      "split": "CAL",
+      "stratum": 25,
+      "target_gap": "medium"
+    },
+    {
+      "id": "c24_test_25_0",
+      "rho": 1,
+      "seed": 24025826,
+      "side": 96,
+      "split": "TEST",
+      "stratum": 25,
+      "target_gap": "medium"
+    },
+    {
+      "id": "c24_test_25_1",
+      "rho": 1,
+      "seed": 24025863,
+      "side": 96,
+      "split": "TEST",
+      "stratum": 25,
+      "target_gap": "medium"
+    },
+    {
+      "id": "c24_train_26_0",
+      "rho": 1,
+      "seed": 24026245,
+      "side": 96,
+      "split": "TRAIN",
+      "stratum": 26,
+      "target_gap": "tight"
+    },
+    {
+      "id": "c24_cal_26_0",
+      "rho": 1,
+      "seed": 24026541,
+      "side": 96,
+      "split": "CAL",
+      "stratum": 26,
+      "target_gap": "tight"
+    },
+    {
+      "id": "c24_test_26_0",
+      "rho": 1,
+      "seed": 24026835,
+      "side": 96,
+      "split": "TEST",
+      "stratum": 26,
+      "target_gap": "tight"
+    },
+    {
+      "id": "c24_test_26_1",
+      "rho": 1,
+      "seed": 24026872,
+      "side": 96,
+      "split": "TEST",
+      "stratum": 26,
+      "target_gap": "tight"
+    },
+    {
+      "id": "c24_train_27_0",
+      "rho": 1,
+      "seed": 24027254,
+      "side": 96,
+      "split": "TRAIN",
+      "stratum": 27,
+      "target_gap": "tie"
+    },
+    {
+      "id": "c24_cal_27_0",
+      "rho": 1,
+      "seed": 24027550,
+      "side": 96,
+      "split": "CAL",
+      "stratum": 27,
+      "target_gap": "tie"
+    },
+    {
+      "id": "c24_test_27_0",
+      "rho": 1,
+      "seed": 24027844,
+      "side": 96,
+      "split": "TEST",
+      "stratum": 27,
+      "target_gap": "tie"
+    },
+    {
+      "id": "c24_test_27_1",
+      "rho": 1,
+      "seed": 24027881,
+      "side": 96,
+      "split": "TEST",
+      "stratum": 27,
+      "target_gap": "tie"
+    },
+    {
+      "id": "c24_train_28_0",
+      "rho": 16,
+      "seed": 24028263,
+      "side": 96,
+      "split": "TRAIN",
+      "stratum": 28,
+      "target_gap": "wide"
+    },
+    {
+      "id": "c24_cal_28_0",
+      "rho": 16,
+      "seed": 24028559,
+      "side": 96,
+      "split": "CAL",
+      "stratum": 28,
+      "target_gap": "wide"
+    },
+    {
+      "id": "c24_test_28_0",
+      "rho": 16,
+      "seed": 24028853,
+      "side": 96,
+      "split": "TEST",
+      "stratum": 28,
+      "target_gap": "wide"
+    },
+    {
+      "id": "c24_test_28_1",
+      "rho": 16,
+      "seed": 24028890,
+      "side": 96,
+      "split": "TEST",
+      "stratum": 28,
+      "target_gap": "wide"
+    },
+    {
+      "id": "c24_train_29_0",
+      "rho": 16,
+      "seed": 24029272,
+      "side": 96,
+      "split": "TRAIN",
+      "stratum": 29,
+      "target_gap": "medium"
+    },
+    {
+      "id": "c24_cal_29_0",
+      "rho": 16,
+      "seed": 24029568,
+      "side": 96,
+      "split": "CAL",
+      "stratum": 29,
+      "target_gap": "medium"
+    },
+    {
+      "id": "c24_test_29_0",
+      "rho": 16,
+      "seed": 24029862,
+      "side": 96,
+      "split": "TEST",
+      "stratum": 29,
+      "target_gap": "medium"
+    },
+    {
+      "id": "c24_test_29_1",
+      "rho": 16,
+      "seed": 24029899,
+      "side": 96,
+      "split": "TEST",
+      "stratum": 29,
+      "target_gap": "medium"
+    },
+    {
+      "id": "c24_train_30_0",
+      "rho": 16,
+      "seed": 24030281,
+      "side": 96,
+      "split": "TRAIN",
+      "stratum": 30,
+      "target_gap": "tight"
+    },
+    {
+      "id": "c24_cal_30_0",
+      "rho": 16,
+      "seed": 24030577,
+      "side": 96,
+      "split": "CAL",
+      "stratum": 30,
+      "target_gap": "tight"
+    },
+    {
+      "id": "c24_test_30_0",
+      "rho": 16,
+      "seed": 24030871,
+      "side": 96,
+      "split": "TEST",
+      "stratum": 30,
+      "target_gap": "tight"
+    },
+    {
+      "id": "c24_test_30_1",
+      "rho": 16,
+      "seed": 24030908,
+      "side": 96,
+      "split": "TEST",
+      "stratum": 30,
+      "target_gap": "tight"
+    },
+    {
+      "id": "c24_train_31_0",
+      "rho": 16,
+      "seed": 24031290,
+      "side": 96,
+      "split": "TRAIN",
+      "stratum": 31,
+      "target_gap": "tie"
+    },
+    {
+      "id": "c24_cal_31_0",
+      "rho": 16,
+      "seed": 24031586,
+      "side": 96,
+      "split": "CAL",
+      "stratum": 31,
+      "target_gap": "tie"
+    },
+    {
+      "id": "c24_test_31_0",
+      "rho": 16,
+      "seed": 24031880,
+      "side": 96,
+      "split": "TEST",
+      "stratum": 31,
+      "target_gap": "tie"
+    },
+    {
+      "id": "c24_test_31_1",
+      "rho": 16,
+      "seed": 24031917,
+      "side": 96,
+      "split": "TEST",
+      "stratum": 31,
+      "target_gap": "tie"
+    },
+    {
+      "id": "c24_train_32_0",
+      "rho": 64,
+      "seed": 24032299,
+      "side": 96,
+      "split": "TRAIN",
+      "stratum": 32,
+      "target_gap": "wide"
+    },
+    {
+      "id": "c24_cal_32_0",
+      "rho": 64,
+      "seed": 24032595,
+      "side": 96,
+      "split": "CAL",
+      "stratum": 32,
+      "target_gap": "wide"
+    },
+    {
+      "id": "c24_test_32_0",
+      "rho": 64,
+      "seed": 24032889,
+      "side": 96,
+      "split": "TEST",
+      "stratum": 32,
+      "target_gap": "wide"
+    },
+    {
+      "id": "c24_test_32_1",
+      "rho": 64,
+      "seed": 24032926,
+      "side": 96,
+      "split": "TEST",
+      "stratum": 32,
+      "target_gap": "wide"
+    },
+    {
+      "id": "c24_train_33_0",
+      "rho": 64,
+      "seed": 24033308,
+      "side": 96,
+      "split": "TRAIN",
+      "stratum": 33,
+      "target_gap": "medium"
+    },
+    {
+      "id": "c24_cal_33_0",
+      "rho": 64,
+      "seed": 24033604,
+      "side": 96,
+      "split": "CAL",
+      "stratum": 33,
+      "target_gap": "medium"
+    },
+    {
+      "id": "c24_test_33_0",
+      "rho": 64,
+      "seed": 24033898,
+      "side": 96,
+      "split": "TEST",
+      "stratum": 33,
+      "target_gap": "medium"
+    },
+    {
+      "id": "c24_test_33_1",
+      "rho": 64,
+      "seed": 24033935,
+      "side": 96,
+      "split": "TEST",
+      "stratum": 33,
+      "target_gap": "medium"
+    },
+    {
+      "id": "c24_train_34_0",
+      "rho": 64,
+      "seed": 24034317,
+      "side": 96,
+      "split": "TRAIN",
+      "stratum": 34,
+      "target_gap": "tight"
+    },
+    {
+      "id": "c24_cal_34_0",
+      "rho": 64,
+      "seed": 24034613,
+      "side": 96,
+      "split": "CAL",
+      "stratum": 34,
+      "target_gap": "tight"
+    },
+    {
+      "id": "c24_test_34_0",
+      "rho": 64,
+      "seed": 24034907,
+      "side": 96,
+      "split": "TEST",
+      "stratum": 34,
+      "target_gap": "tight"
+    },
+    {
+      "id": "c24_test_34_1",
+      "rho": 64,
+      "seed": 24034944,
+      "side": 96,
+      "split": "TEST",
+      "stratum": 34,
+      "target_gap": "tight"
+    },
+    {
+      "id": "c24_train_35_0",
+      "rho": 64,
+      "seed": 24035326,
+      "side": 96,
+      "split": "TRAIN",
+      "stratum": 35,
+      "target_gap": "tie"
+    },
+    {
+      "id": "c24_cal_35_0",
+      "rho": 64,
+      "seed": 24035622,
+      "side": 96,
+      "split": "CAL",
+      "stratum": 35,
+      "target_gap": "tie"
+    },
+    {
+      "id": "c24_test_35_0",
+      "rho": 64,
+      "seed": 24035916,
+      "side": 96,
+      "split": "TEST",
+      "stratum": 35,
+      "target_gap": "tie"
+    },
+    {
+      "id": "c24_test_35_1",
+      "rho": 64,
+      "seed": 24035953,
+      "side": 96,
+      "split": "TEST",
+      "stratum": 35,
+      "target_gap": "tie"
+    }
+  ],
+  "warmup": 1
+}
