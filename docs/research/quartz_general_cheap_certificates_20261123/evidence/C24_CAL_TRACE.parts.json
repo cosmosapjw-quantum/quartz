@@ -1,0 +1,23 @@
+{
+  "encoding": "ordered raw byte slices of original gzip; concatenate without decompression",
+  "max_part_bytes": 47185920,
+  "original_bytes": 65633648,
+  "original_name": "C24_CAL_TRACE.jsonl.gz",
+  "original_sha256": "63208ecc5fa1de8ebce34ef919652734997ee01a853ed9af138861a2ea38a24f",
+  "parts": [
+    {
+      "bytes": 47185920,
+      "index": 1,
+      "name": "C24_CAL_TRACE.part01",
+      "sha256": "61f7fa0d8e693dc158b87ff9b41c9e1b548475e0866577880bd37e080cf5ac1e"
+    },
+    {
+      "bytes": 18447728,
+      "index": 2,
+      "name": "C24_CAL_TRACE.part02",
+      "sha256": "89c3dc06d3591b111585b5dcafce1d6f6cdc276928b373e7da89b3460233b35a"
+    }
+  ],
+  "schema": "quartz.c24.trace-byte-parts.v1",
+  "split": "CAL"
+}

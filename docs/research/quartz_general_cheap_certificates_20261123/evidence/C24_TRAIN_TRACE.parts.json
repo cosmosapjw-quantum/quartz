@@ -1,0 +1,23 @@
+{
+  "encoding": "ordered raw byte slices of original gzip; concatenate without decompression",
+  "max_part_bytes": 47185920,
+  "original_bytes": 65708367,
+  "original_name": "C24_TRAIN_TRACE.jsonl.gz",
+  "original_sha256": "b23180121487c18caf32edd717f5f8cc983514641905d95a83d95f35e2c814cf",
+  "parts": [
+    {
+      "bytes": 47185920,
+      "index": 1,
+      "name": "C24_TRAIN_TRACE.part01",
+      "sha256": "54bc44a1f916d6212363f67a8cdb7428ccb0839eb178f70f3ca8df65df6d7d58"
+    },
+    {
+      "bytes": 18522447,
+      "index": 2,
+      "name": "C24_TRAIN_TRACE.part02",
+      "sha256": "2def7b938f08d359cb3897276f4ee27c05a6ff5b54c61d791e2f1b817e036304"
+    }
+  ],
+  "schema": "quartz.c24.trace-byte-parts.v1",
+  "split": "TRAIN"
+}

@@ -1,0 +1,4492 @@
+{
+  "schema": "quartz.c24.summary.v1",
+  "split": "TRAIN",
+  "primary_additional": 32,
+  "primary_price": 1e-06,
+  "primary_policy": "FAST_BLOCK",
+  "primary_baseline": "PLAIN_ALWAYS",
+  "unique_parents": 36,
+  "bootstrap_resamples": 2000,
+  "bootstrap_seed": 2400923,
+  "timing_statistic": "median of nine physical runs per parent, then arithmetic parent mean",
+  "resampling_unit": "paired independent parent, same resample indices for all policy contrasts within a budget",
+  "prices": [
+    0,
+    1e-08,
+    1e-07,
+    1e-06,
+    1e-05
+  ],
+  "clock": "wall elapsed microseconds",
+  "contrasts": [
+    {
+      "role": "primary",
+      "policy": "FAST_BLOCK",
+      "baseline": "PLAIN_ALWAYS",
+      "additional": 32,
+      "price": 1e-06,
+      "mean_time_saved_us": 581.2253333333333,
+      "paired_parent_bootstrap_time_saved_95_us": [
+        214.74653888888872,
+        1007.7638576388883
+      ],
+      "mean_net_difference": 0.0005812253333333332,
+      "paired_parent_bootstrap_net_difference_95": [
+        0.00021474653888888876,
+        0.001007763857638888
+      ]
+    },
+    {
+      "role": "secondary",
+      "policy": "FAST_ONCE",
+      "baseline": "PLAIN_ALWAYS",
+      "additional": 32,
+      "price": 1e-06,
+      "mean_time_saved_us": 265.05047222222225,
+      "paired_parent_bootstrap_time_saved_95_us": [
+        11.01794166666661,
+        624.7069868055552
+      ],
+      "mean_net_difference": 0.0002650504722222222,
+      "paired_parent_bootstrap_net_difference_95": [
+        1.101794166666661e-05,
+        0.0006247069868055552
+      ]
+    },
+    {
+      "role": "secondary",
+      "policy": "OUTWARD_BLOCK",
+      "baseline": "PLAIN_ALWAYS",
+      "additional": 32,
+      "price": 1e-06,
+      "mean_time_saved_us": -1367.0527222222222,
+      "paired_parent_bootstrap_time_saved_95_us": [
+        -2461.6696659722224,
+        -451.56901736111206
+      ],
+      "mean_net_difference": -0.0013670527222222222,
+      "paired_parent_bootstrap_net_difference_95": [
+        -0.0024616696659722223,
+        -0.0004515690173611121
+      ]
+    }
+  ],
+  "summaries": [
+    {
+      "additional": 8,
+      "policies": {
+        "PLAIN_STOP": {
+          "parents": 36,
+          "mean_parent_median_us": 274.69883333333337,
+          "mean_regret": 6.977972454073186e-06,
+          "mean_regret_exact": "607381276916788712849/87042659012253300578844672",
+          "wrong_decision_parents": 4,
+          "certified_parents": 0,
+          "actual_early_stop_parents": 36,
+          "mean_solver_iterations": 12.0,
+          "solver_iterations_saved": 864,
+          "solver_matvecs_saved": 864,
+          "mean_time_saved_vs_PLAIN_ALWAYS_us": 430.75822222222223,
+          "paired_parent_bootstrap_time_saved_vs_PLAIN_ALWAYS_95_us": [
+            272.19657430555554,
+            603.4112159722222
+          ],
+          "mean_utility_difference_vs_PLAIN_ALWAYS": -1.2479678907608093e-07,
+          "mean_utility_difference_vs_PLAIN_ALWAYS_exact": "-10862644357373407945/87042659012253300578844672",
+          "mean_additional_time_vs_PLAIN_STOP_us": 0.0,
+          "mean_utility_difference_vs_PLAIN_STOP_exact": "0",
+          "residual_goal_verified_true_parents": 0,
+          "residual_goal_verified_false_parents": 0,
+          "residual_goal_unverified_parents": 36,
+          "priced": [
+            {
+              "lambda_utility_per_us": 0,
+              "mean_net_gain_from_initial": 0.0,
+              "mean_net_difference_vs_PLAIN_ALWAYS": -1.2479678907608093e-07,
+              "paired_parent_bootstrap_net_difference_vs_PLAIN_ALWAYS_95": [
+                -3.166280748239169e-07,
+                2.00664170745196e-09
+              ],
+              "mean_net_difference_vs_PLAIN_STOP": 0.0,
+              "paired_parent_bootstrap_net_difference_vs_PLAIN_STOP_95": [
+                0.0,
+                0.0
+              ]
+            },
+            {
+              "lambda_utility_per_us": 1e-08,
+              "mean_net_gain_from_initial": -2.7469883333333338e-06,
+              "mean_net_difference_vs_PLAIN_ALWAYS": 4.182785433146141e-06,
+              "paired_parent_bootstrap_net_difference_vs_PLAIN_ALWAYS_95": [
+                2.5962436670699487e-06,
+                5.9071177844342e-06
+              ],
+              "mean_net_difference_vs_PLAIN_STOP": 0.0,
+              "paired_parent_bootstrap_net_difference_vs_PLAIN_STOP_95": [
+                0.0,
+                0.0
+              ]
+            },
+            {
+              "lambda_utility_per_us": 1e-07,
+              "mean_net_gain_from_initial": -2.7469883333333333e-05,
+              "mean_net_difference_vs_PLAIN_ALWAYS": 4.295102543314613e-05,
+              "paired_parent_bootstrap_net_difference_vs_PLAIN_ALWAYS_95": [
+                2.716563463485057e-05,
+                6.027168849841696e-05
+              ],
+              "mean_net_difference_vs_PLAIN_STOP": 0.0,
+              "paired_parent_bootstrap_net_difference_vs_PLAIN_STOP_95": [
+                0.0,
+                0.0
+              ]
+            },
+            {
+              "lambda_utility_per_us": 1e-06,
+              "mean_net_gain_from_initial": -0.0002746988333333334,
+              "mean_net_difference_vs_PLAIN_ALWAYS": 0.0004306334254331461,
+              "paired_parent_bootstrap_net_difference_vs_PLAIN_ALWAYS_95": [
+                0.0002721425515098506,
+                0.0006033417828734168
+              ],
+              "mean_net_difference_vs_PLAIN_STOP": 0.0,
+              "paired_parent_bootstrap_net_difference_vs_PLAIN_STOP_95": [
+                0.0,
+                0.0
+              ]
+            },
+            {
+              "lambda_utility_per_us": 1e-05,
+              "mean_net_gain_from_initial": -0.0027469883333333337,
+              "mean_net_difference_vs_PLAIN_ALWAYS": 0.004307457425433146,
+              "paired_parent_bootstrap_net_difference_vs_PLAIN_ALWAYS_95": [
+                0.002721911720259851,
+                0.006034042726623417
+              ],
+              "mean_net_difference_vs_PLAIN_STOP": 0.0,
+              "paired_parent_bootstrap_net_difference_vs_PLAIN_STOP_95": [
+                0.0,
+                0.0
+              ]
+            }
+          ],
+          "mean_total_us": 274.69883333333337,
+          "mean_validation_us": 26.131722222222223,
+          "mean_initial_us": 213.57636111111108,
+          "mean_solve_us": 0.0,
+          "mean_bounds_us": 33.944,
+          "mean_solver_matvecs": 12.0,
+          "total_solver_matvecs": 432,
+          "mean_bound_evaluations": 0.0,
+          "total_bound_evaluations": 0,
+          "mean_fast_evaluations": 0.0,
+          "total_fast_evaluations": 0,
+          "mean_outward_evaluations": 0.0,
+          "total_outward_evaluations": 0,
+          "mean_ordinary_evaluations": 3.0,
+          "total_ordinary_evaluations": 108,
+          "mean_operator_response_passes": 15.0,
+          "total_operator_response_passes": 540,
+          "mean_ordinary_stencil_evaluations": 15.0,
+          "total_ordinary_stencil_evaluations": 540,
+          "mean_interval_stencil_evaluations": 0.0,
+          "total_interval_stencil_evaluations": 0,
+          "mean_total_stencil_evaluations": 15.0,
+          "total_total_stencil_evaluations": 540,
+          "break_even_vs_PLAIN_STOP": {
+            "role": "descriptive only; no price fitting, policy tuning, or checkpoint selection",
+            "definition": "delta exact utility / delta parent-median elapsed us, only where delta time > 0",
+            "parents_with_positive_extra_time": 0,
+            "parents_with_nonpositive_extra_time": 36,
+            "median_parent_break_even_price": null,
+            "parent_break_even_price_range": null,
+            "cohort_mean_break_even_price": null,
+            "cohort_mean_break_even_price_exact": null
+          }
+        },
+        "PLAIN_ALWAYS": {
+          "parents": 36,
+          "mean_parent_median_us": 705.4570555555556,
+          "mean_regret": 6.853175664997106e-06,
+          "mean_regret_exact": "74564829069926913113/10880332376531662572355584",
+          "wrong_decision_parents": 2,
+          "certified_parents": 0,
+          "actual_early_stop_parents": 0,
+          "mean_solver_iterations": 36.0,
+          "solver_iterations_saved": 0,
+          "solver_matvecs_saved": 0,
+          "mean_time_saved_vs_PLAIN_ALWAYS_us": 0.0,
+          "paired_parent_bootstrap_time_saved_vs_PLAIN_ALWAYS_95_us": [
+            0.0,
+            0.0
+          ],
+          "mean_utility_difference_vs_PLAIN_ALWAYS": 0.0,
+          "mean_utility_difference_vs_PLAIN_ALWAYS_exact": "0",
+          "mean_additional_time_vs_PLAIN_STOP_us": 430.75822222222223,
+          "mean_utility_difference_vs_PLAIN_STOP_exact": "10862644357373407945/87042659012253300578844672",
+          "residual_goal_verified_true_parents": 0,
+          "residual_goal_verified_false_parents": 0,
+          "residual_goal_unverified_parents": 36,
+          "priced": [
+            {
+              "lambda_utility_per_us": 0,
+              "mean_net_gain_from_initial": 1.2479678907608093e-07,
+              "mean_net_difference_vs_PLAIN_ALWAYS": 0.0,
+              "paired_parent_bootstrap_net_difference_vs_PLAIN_ALWAYS_95": [
+                0.0,
+                0.0
+              ],
+              "mean_net_difference_vs_PLAIN_STOP": 1.2479678907608093e-07,
+              "paired_parent_bootstrap_net_difference_vs_PLAIN_STOP_95": [
+                -2.00664170745196e-09,
+                3.166280748239169e-07
+              ]
+            },
+            {
+              "lambda_utility_per_us": 1e-08,
+              "mean_net_gain_from_initial": -6.929773766479475e-06,
+              "mean_net_difference_vs_PLAIN_ALWAYS": 0.0,
+              "paired_parent_bootstrap_net_difference_vs_PLAIN_ALWAYS_95": [
+                0.0,
+                0.0
+              ],
+              "mean_net_difference_vs_PLAIN_STOP": -4.182785433146141e-06,
+              "paired_parent_bootstrap_net_difference_vs_PLAIN_STOP_95": [
+                -5.907117784434201e-06,
+                -2.59624366706995e-06
+              ]
+            },
+            {
+              "lambda_utility_per_us": 1e-07,
+              "mean_net_gain_from_initial": -7.042090876647947e-05,
+              "mean_net_difference_vs_PLAIN_ALWAYS": 0.0,
+              "paired_parent_bootstrap_net_difference_vs_PLAIN_ALWAYS_95": [
+                0.0,
+                0.0
+              ],
+              "mean_net_difference_vs_PLAIN_STOP": -4.295102543314613e-05,
+              "paired_parent_bootstrap_net_difference_vs_PLAIN_STOP_95": [
+                -6.0271688498416976e-05,
+                -2.716563463485058e-05
+              ]
+            },
+            {
+              "lambda_utility_per_us": 1e-06,
+              "mean_net_gain_from_initial": -0.0007053322587664795,
+              "mean_net_difference_vs_PLAIN_ALWAYS": 0.0,
+              "paired_parent_bootstrap_net_difference_vs_PLAIN_ALWAYS_95": [
+                0.0,
+                0.0
+              ],
+              "mean_net_difference_vs_PLAIN_STOP": -0.0004306334254331461,
+              "paired_parent_bootstrap_net_difference_vs_PLAIN_STOP_95": [
+                -0.0006033417828734169,
+                -0.00027214255150985066
+              ]
+            },
+            {
+              "lambda_utility_per_us": 1e-05,
+              "mean_net_gain_from_initial": -0.0070544457587664805,
+              "mean_net_difference_vs_PLAIN_ALWAYS": 0.0,
+              "paired_parent_bootstrap_net_difference_vs_PLAIN_ALWAYS_95": [
+                0.0,
+                0.0
+              ],
+              "mean_net_difference_vs_PLAIN_STOP": -0.004307457425433146,
+              "paired_parent_bootstrap_net_difference_vs_PLAIN_STOP_95": [
+                -0.006034042726623417,
+                -0.0027219117202598514
+              ]
+            }
+          ],
+          "mean_total_us": 705.4570555555556,
+          "mean_validation_us": 26.11244444444445,
+          "mean_initial_us": 213.5543888888889,
+          "mean_solve_us": 396.4348611111111,
+          "mean_bounds_us": 67.78505555555554,
+          "mean_solver_matvecs": 36.0,
+          "total_solver_matvecs": 1296,
+          "mean_bound_evaluations": 0.0,
+          "total_bound_evaluations": 0,
+          "mean_fast_evaluations": 0.0,
+          "total_fast_evaluations": 0,
+          "mean_outward_evaluations": 0.0,
+          "total_outward_evaluations": 0,
+          "mean_ordinary_evaluations": 6.0,
+          "total_ordinary_evaluations": 216,
+          "mean_operator_response_passes": 42.0,
+          "total_operator_response_passes": 1512,
+          "mean_ordinary_stencil_evaluations": 42.0,
+          "total_ordinary_stencil_evaluations": 1512,
+          "mean_interval_stencil_evaluations": 0.0,
+          "total_interval_stencil_evaluations": 0,
+          "mean_total_stencil_evaluations": 42.0,
+          "total_total_stencil_evaluations": 1512,
+          "break_even_vs_PLAIN_STOP": {
+            "role": "descriptive only; no price fitting, policy tuning, or checkpoint selection",
+            "definition": "delta exact utility / delta parent-median elapsed us, only where delta time > 0",
+            "parents_with_positive_extra_time": 36,
+            "parents_with_nonpositive_extra_time": 0,
+            "median_parent_break_even_price": 0.0,
+            "parent_break_even_price_range": [
+              -6.196940734435016e-11,
+              1.5580900230305674e-08
+            ],
+            "cohort_mean_break_even_price": 2.897142355920021e-10,
+            "cohort_mean_break_even_price_exact": "10862644357373407945/37494341053613320168468905984"
+          }
+        },
+        "FAST_ONCE": {
+          "parents": 36,
+          "mean_parent_median_us": 637.039861111111,
+          "mean_regret": 6.853175664997106e-06,
+          "mean_regret_exact": "74564829069926913113/10880332376531662572355584",
+          "wrong_decision_parents": 2,
+          "certified_parents": 10,
+          "actual_early_stop_parents": 10,
+          "mean_solver_iterations": 29.333333333333332,
+          "solver_iterations_saved": 240,
+          "solver_matvecs_saved": 240,
+          "mean_time_saved_vs_PLAIN_ALWAYS_us": 68.41719444444442,
+          "paired_parent_bootstrap_time_saved_vs_PLAIN_ALWAYS_95_us": [
+            1.5468666666666364,
+            164.7717979166667
+          ],
+          "mean_utility_difference_vs_PLAIN_ALWAYS": 0.0,
+          "mean_utility_difference_vs_PLAIN_ALWAYS_exact": "0",
+          "mean_additional_time_vs_PLAIN_STOP_us": 362.34102777777775,
+          "mean_utility_difference_vs_PLAIN_STOP_exact": "10862644357373407945/87042659012253300578844672",
+          "residual_goal_verified_true_parents": 0,
+          "residual_goal_verified_false_parents": 10,
+          "residual_goal_unverified_parents": 26,
+          "priced": [
+            {
+              "lambda_utility_per_us": 0,
+              "mean_net_gain_from_initial": 1.2479678907608093e-07,
+              "mean_net_difference_vs_PLAIN_ALWAYS": 0.0,
+              "paired_parent_bootstrap_net_difference_vs_PLAIN_ALWAYS_95": [
+                0.0,
+                0.0
+              ],
+              "mean_net_difference_vs_PLAIN_STOP": 1.2479678907608093e-07,
+              "paired_parent_bootstrap_net_difference_vs_PLAIN_STOP_95": [
+                -2.00664170745196e-09,
+                3.166280748239169e-07
+              ]
+            },
+            {
+              "lambda_utility_per_us": 1e-08,
+              "mean_net_gain_from_initial": -6.24560182203503e-06,
+              "mean_net_difference_vs_PLAIN_ALWAYS": 6.841719444444444e-07,
+              "paired_parent_bootstrap_net_difference_vs_PLAIN_ALWAYS_95": [
+                1.5468666666666367e-08,
+                1.6477179791666667e-06
+              ],
+              "mean_net_difference_vs_PLAIN_STOP": -3.4986134887016974e-06,
+              "paired_parent_bootstrap_net_difference_vs_PLAIN_STOP_95": [
+                -5.20007589973474e-06,
+                -1.951546164230412e-06
+              ]
+            },
+            {
+              "lambda_utility_per_us": 1e-07,
+              "mean_net_gain_from_initial": -6.357918932203503e-05,
+              "mean_net_difference_vs_PLAIN_ALWAYS": 6.841719444444442e-06,
+              "paired_parent_bootstrap_net_difference_vs_PLAIN_ALWAYS_95": [
+                1.546866666666637e-07,
+                1.647717979166667e-05
+              ],
+              "mean_net_difference_vs_PLAIN_STOP": -3.6109305988701685e-05,
+              "paired_parent_bootstrap_net_difference_vs_PLAIN_STOP_95": [
+                -5.300454185495829e-05,
+                -2.0452906210821644e-05
+              ]
+            },
+            {
+              "lambda_utility_per_us": 1e-06,
+              "mean_net_gain_from_initial": -0.000636915064322035,
+              "mean_net_difference_vs_PLAIN_ALWAYS": 6.841719444444442e-05,
+              "paired_parent_bootstrap_net_difference_vs_PLAIN_ALWAYS_95": [
+                1.5468666666666356e-06,
+                0.0001647717979166667
+              ],
+              "mean_net_difference_vs_PLAIN_STOP": -0.0003622162309887017,
+              "paired_parent_bootstrap_net_difference_vs_PLAIN_STOP_95": [
+                -0.0005310657541180427,
+                -0.00020456301558582161
+              ]
+            },
+            {
+              "lambda_utility_per_us": 1e-05,
+              "mean_net_gain_from_initial": -0.006370273814322036,
+              "mean_net_difference_vs_PLAIN_ALWAYS": 0.0006841719444444444,
+              "paired_parent_bootstrap_net_difference_vs_PLAIN_ALWAYS_95": [
+                1.5468666666666365e-05,
+                0.0016477179791666672
+              ],
+              "mean_net_difference_vs_PLAIN_STOP": -0.003623285480988702,
+              "paired_parent_bootstrap_net_difference_vs_PLAIN_STOP_95": [
+                -0.005311643841618043,
+                -0.002045664109335821
+              ]
+            }
+          ],
+          "mean_total_us": 637.039861111111,
+          "mean_validation_us": 26.105222222222224,
+          "mean_initial_us": 213.20641666666666,
+          "mean_solve_us": 329.7769166666666,
+          "mean_bounds_us": 65.91744444444444,
+          "mean_solver_matvecs": 29.333333333333332,
+          "total_solver_matvecs": 1056,
+          "mean_bound_evaluations": 3.0,
+          "total_bound_evaluations": 108,
+          "mean_fast_evaluations": 3.0,
+          "total_fast_evaluations": 108,
+          "mean_outward_evaluations": 0.0,
+          "total_outward_evaluations": 0,
+          "mean_ordinary_evaluations": 2.1666666666666665,
+          "total_ordinary_evaluations": 78,
+          "mean_operator_response_passes": 34.5,
+          "total_operator_response_passes": 1242,
+          "mean_ordinary_stencil_evaluations": 34.5,
+          "total_ordinary_stencil_evaluations": 1242,
+          "mean_interval_stencil_evaluations": 0.0,
+          "total_interval_stencil_evaluations": 0,
+          "mean_total_stencil_evaluations": 34.5,
+          "total_total_stencil_evaluations": 1242,
+          "break_even_vs_PLAIN_STOP": {
+            "role": "descriptive only; no price fitting, policy tuning, or checkpoint selection",
+            "definition": "delta exact utility / delta parent-median elapsed us, only where delta time > 0",
+            "parents_with_positive_extra_time": 36,
+            "parents_with_nonpositive_extra_time": 0,
+            "median_parent_break_even_price": 0.0,
+            "parent_break_even_price_range": [
+              -6.178506796807266e-11,
+              1.539493433788918e-08
+            ],
+            "cohort_mean_break_even_price": 3.444180468368551e-10,
+            "cohort_mean_break_even_price_exact": "10862644357373407945/31539126527010513071753920512"
+          }
+        },
+        "FAST_BLOCK": {
+          "parents": 36,
+          "mean_parent_median_us": 639.7254722222222,
+          "mean_regret": 6.853175664997106e-06,
+          "mean_regret_exact": "74564829069926913113/10880332376531662572355584",
+          "wrong_decision_parents": 2,
+          "certified_parents": 20,
+          "actual_early_stop_parents": 10,
+          "mean_solver_iterations": 29.333333333333332,
+          "solver_iterations_saved": 240,
+          "solver_matvecs_saved": 240,
+          "mean_time_saved_vs_PLAIN_ALWAYS_us": 65.73158333333335,
+          "paired_parent_bootstrap_time_saved_vs_PLAIN_ALWAYS_95_us": [
+            -1.595465972222232,
+            162.70302777777772
+          ],
+          "mean_utility_difference_vs_PLAIN_ALWAYS": 0.0,
+          "mean_utility_difference_vs_PLAIN_ALWAYS_exact": "0",
+          "mean_additional_time_vs_PLAIN_STOP_us": 365.02663888888895,
+          "mean_utility_difference_vs_PLAIN_STOP_exact": "10862644357373407945/87042659012253300578844672",
+          "residual_goal_verified_true_parents": 0,
+          "residual_goal_verified_false_parents": 36,
+          "residual_goal_unverified_parents": 0,
+          "priced": [
+            {
+              "lambda_utility_per_us": 0,
+              "mean_net_gain_from_initial": 1.2479678907608093e-07,
+              "mean_net_difference_vs_PLAIN_ALWAYS": 0.0,
+              "paired_parent_bootstrap_net_difference_vs_PLAIN_ALWAYS_95": [
+                0.0,
+                0.0
+              ],
+              "mean_net_difference_vs_PLAIN_STOP": 1.2479678907608093e-07,
+              "paired_parent_bootstrap_net_difference_vs_PLAIN_STOP_95": [
+                -2.00664170745196e-09,
+                3.166280748239169e-07
+              ]
+            },
+            {
+              "lambda_utility_per_us": 1e-08,
+              "mean_net_gain_from_initial": -6.272457933146142e-06,
+              "mean_net_difference_vs_PLAIN_ALWAYS": 6.573158333333333e-07,
+              "paired_parent_bootstrap_net_difference_vs_PLAIN_ALWAYS_95": [
+                -1.5954659722222325e-08,
+                1.627030277777777e-06
+              ],
+              "mean_net_difference_vs_PLAIN_STOP": -3.5254695998128085e-06,
+              "paired_parent_bootstrap_net_difference_vs_PLAIN_STOP_95": [
+                -5.236624148669628e-06,
+                -1.9686520597493118e-06
+              ]
+            },
+            {
+              "lambda_utility_per_us": 1e-07,
+              "mean_net_gain_from_initial": -6.384775043314614e-05,
+              "mean_net_difference_vs_PLAIN_ALWAYS": 6.5731583333333316e-06,
+              "paired_parent_bootstrap_net_difference_vs_PLAIN_ALWAYS_95": [
+                -1.5954659722222326e-07,
+                1.6270302777777776e-05
+              ],
+              "mean_net_difference_vs_PLAIN_STOP": -3.637786709981281e-05,
+              "paired_parent_bootstrap_net_difference_vs_PLAIN_STOP_95": [
+                -5.338178039306798e-05,
+                -2.0531277391377186e-05
+              ]
+            },
+            {
+              "lambda_utility_per_us": 1e-06,
+              "mean_net_gain_from_initial": -0.0006396006754331462,
+              "mean_net_difference_vs_PLAIN_ALWAYS": 6.573158333333332e-05,
+              "paired_parent_bootstrap_net_difference_vs_PLAIN_ALWAYS_95": [
+                -1.5954659722222327e-06,
+                0.00016270302777777765
+              ],
+              "mean_net_difference_vs_PLAIN_STOP": -0.0003649018420998128,
+              "paired_parent_bootstrap_net_difference_vs_PLAIN_STOP_95": [
+                -0.0005344571888402649,
+                -0.00020590912245675033
+              ]
+            },
+            {
+              "lambda_utility_per_us": 1e-05,
+              "mean_net_gain_from_initial": -0.006397129925433147,
+              "mean_net_difference_vs_PLAIN_ALWAYS": 0.0006573158333333333,
+              "paired_parent_bootstrap_net_difference_vs_PLAIN_ALWAYS_95": [
+                -1.5954659722222327e-05,
+                0.001627030277777777
+              ],
+              "mean_net_difference_vs_PLAIN_STOP": -0.003650141592099813,
+              "paired_parent_bootstrap_net_difference_vs_PLAIN_STOP_95": [
+                -0.005345558188840266,
+                -0.0020597161224567514
+              ]
+            }
+          ],
+          "mean_total_us": 639.7254722222222,
+          "mean_validation_us": 26.096083333333336,
+          "mean_initial_us": 212.9289722222222,
+          "mean_solve_us": 330.0070277777778,
+          "mean_bounds_us": 68.96122222222223,
+          "mean_solver_matvecs": 29.333333333333332,
+          "total_solver_matvecs": 1056,
+          "mean_bound_evaluations": 5.166666666666667,
+          "total_bound_evaluations": 186,
+          "mean_fast_evaluations": 5.166666666666667,
+          "total_fast_evaluations": 186,
+          "mean_outward_evaluations": 0.0,
+          "total_outward_evaluations": 0,
+          "mean_ordinary_evaluations": 0.0,
+          "total_ordinary_evaluations": 0,
+          "mean_operator_response_passes": 34.5,
+          "total_operator_response_passes": 1242,
+          "mean_ordinary_stencil_evaluations": 34.5,
+          "total_ordinary_stencil_evaluations": 1242,
+          "mean_interval_stencil_evaluations": 0.0,
+          "total_interval_stencil_evaluations": 0,
+          "mean_total_stencil_evaluations": 34.5,
+          "total_total_stencil_evaluations": 1242,
+          "break_even_vs_PLAIN_STOP": {
+            "role": "descriptive only; no price fitting, policy tuning, or checkpoint selection",
+            "definition": "delta exact utility / delta parent-median elapsed us, only where delta time > 0",
+            "parents_with_positive_extra_time": 36,
+            "parents_with_nonpositive_extra_time": 0,
+            "median_parent_break_even_price": 0.0,
+            "parent_break_even_price_range": [
+              -6.1146357343512e-11,
+              1.5375908842764174e-08
+            ],
+            "cohort_mean_break_even_price": 3.4188405935509826e-10,
+            "cohort_mean_break_even_price_exact": "638979079845494585/1868993485834969168937484288"
+          }
+        },
+        "OUTWARD_BLOCK": {
+          "parents": 36,
+          "mean_parent_median_us": 1694.7625,
+          "mean_regret": 6.853175664997106e-06,
+          "mean_regret_exact": "74564829069926913113/10880332376531662572355584",
+          "wrong_decision_parents": 2,
+          "certified_parents": 20,
+          "actual_early_stop_parents": 10,
+          "mean_solver_iterations": 29.333333333333332,
+          "solver_iterations_saved": 240,
+          "solver_matvecs_saved": 240,
+          "mean_time_saved_vs_PLAIN_ALWAYS_us": -989.3054444444447,
+          "paired_parent_bootstrap_time_saved_vs_PLAIN_ALWAYS_95_us": [
+            -1450.977867361111,
+            -569.0848215277781
+          ],
+          "mean_utility_difference_vs_PLAIN_ALWAYS": 0.0,
+          "mean_utility_difference_vs_PLAIN_ALWAYS_exact": "0",
+          "mean_additional_time_vs_PLAIN_STOP_us": 1420.0636666666664,
+          "mean_utility_difference_vs_PLAIN_STOP_exact": "10862644357373407945/87042659012253300578844672",
+          "residual_goal_verified_true_parents": 0,
+          "residual_goal_verified_false_parents": 36,
+          "residual_goal_unverified_parents": 0,
+          "priced": [
+            {
+              "lambda_utility_per_us": 0,
+              "mean_net_gain_from_initial": 1.2479678907608093e-07,
+              "mean_net_difference_vs_PLAIN_ALWAYS": 0.0,
+              "paired_parent_bootstrap_net_difference_vs_PLAIN_ALWAYS_95": [
+                0.0,
+                0.0
+              ],
+              "mean_net_difference_vs_PLAIN_STOP": 1.2479678907608093e-07,
+              "paired_parent_bootstrap_net_difference_vs_PLAIN_STOP_95": [
+                -2.00664170745196e-09,
+                3.166280748239169e-07
+              ]
+            },
+            {
+              "lambda_utility_per_us": 1e-08,
+              "mean_net_gain_from_initial": -1.682282821092392e-05,
+              "mean_net_difference_vs_PLAIN_ALWAYS": -9.893054444444445e-06,
+              "paired_parent_bootstrap_net_difference_vs_PLAIN_ALWAYS_95": [
+                -1.4509778673611113e-05,
+                -5.690848215277782e-06
+              ],
+              "mean_net_difference_vs_PLAIN_STOP": -1.407583987759059e-05,
+              "paired_parent_bootstrap_net_difference_vs_PLAIN_STOP_95": [
+                -2.020210818904944e-05,
+                -8.304395073566732e-06
+              ]
+            },
+            {
+              "lambda_utility_per_us": 1e-07,
+              "mean_net_gain_from_initial": -0.00016935145321092388,
+              "mean_net_difference_vs_PLAIN_ALWAYS": -9.893054444444443e-05,
+              "paired_parent_bootstrap_net_difference_vs_PLAIN_ALWAYS_95": [
+                -0.0001450977867361111,
+                -5.690848215277782e-05
+              ],
+              "mean_net_difference_vs_PLAIN_STOP": -0.00014188156987759057,
+              "paired_parent_bootstrap_net_difference_vs_PLAIN_STOP_95": [
+                -0.00020309413535569607,
+                -8.40344529570662e-05
+              ]
+            },
+            {
+              "lambda_utility_per_us": 1e-06,
+              "mean_net_gain_from_initial": -0.0016946377032109239,
+              "mean_net_difference_vs_PLAIN_ALWAYS": -0.0009893054444444446,
+              "paired_parent_bootstrap_net_difference_vs_PLAIN_ALWAYS_95": [
+                -0.0014509778673611113,
+                -0.0005690848215277782
+              ],
+              "mean_net_difference_vs_PLAIN_STOP": -0.0014199388698775905,
+              "paired_parent_bootstrap_net_difference_vs_PLAIN_STOP_95": [
+                -0.002033995493266512,
+                -0.0008413491248320669
+              ]
+            },
+            {
+              "lambda_utility_per_us": 1e-05,
+              "mean_net_gain_from_initial": -0.016947500203210925,
+              "mean_net_difference_vs_PLAIN_ALWAYS": -0.009893054444444447,
+              "paired_parent_bootstrap_net_difference_vs_PLAIN_ALWAYS_95": [
+                -0.014509778673611112,
+                -0.005690848215277783
+              ],
+              "mean_net_difference_vs_PLAIN_STOP": -0.014200511869877594,
+              "paired_parent_bootstrap_net_difference_vs_PLAIN_STOP_95": [
+                -0.020341212005766513,
+                -0.008414495843582077
+              ]
+            }
+          ],
+          "mean_total_us": 1694.7625,
+          "mean_validation_us": 26.101027777777777,
+          "mean_initial_us": 213.00972222222222,
+          "mean_solve_us": 329.37058333333334,
+          "mean_bounds_us": 1124.0753333333332,
+          "mean_solver_matvecs": 29.333333333333332,
+          "total_solver_matvecs": 1056,
+          "mean_bound_evaluations": 5.166666666666667,
+          "total_bound_evaluations": 186,
+          "mean_fast_evaluations": 0.0,
+          "total_fast_evaluations": 0,
+          "mean_outward_evaluations": 5.166666666666667,
+          "total_outward_evaluations": 186,
+          "mean_ordinary_evaluations": 0.0,
+          "total_ordinary_evaluations": 0,
+          "mean_operator_response_passes": 34.5,
+          "total_operator_response_passes": 1242,
+          "mean_ordinary_stencil_evaluations": 34.5,
+          "total_ordinary_stencil_evaluations": 1242,
+          "mean_interval_stencil_evaluations": 5.166666666666667,
+          "total_interval_stencil_evaluations": 186,
+          "mean_total_stencil_evaluations": 39.666666666666664,
+          "total_total_stencil_evaluations": 1428,
+          "break_even_vs_PLAIN_STOP": {
+            "role": "descriptive only; no price fitting, policy tuning, or checkpoint selection",
+            "definition": "delta exact utility / delta parent-median elapsed us, only where delta time > 0",
+            "parents_with_positive_extra_time": 36,
+            "parents_with_nonpositive_extra_time": 0,
+            "median_parent_break_even_price": 0.0,
+            "parent_break_even_price_range": [
+              -1.6450744498421528e-11,
+              4.365214904657361e-09
+            ],
+            "cohort_mean_break_even_price": 8.788112251968109e-11,
+            "cohort_mean_break_even_price_exact": "10862644357373407945/123606117513356802940234366976"
+          }
+        },
+        "RESIDUAL": {
+          "parents": 36,
+          "mean_parent_median_us": 4222.22161111111,
+          "mean_regret": 0.0,
+          "mean_regret_exact": "0",
+          "wrong_decision_parents": 0,
+          "certified_parents": 0,
+          "actual_early_stop_parents": 0,
+          "mean_solver_iterations": 165.47222222222223,
+          "solver_iterations_saved": -4661,
+          "solver_matvecs_saved": -4661,
+          "mean_time_saved_vs_PLAIN_ALWAYS_us": -3516.7645555555555,
+          "paired_parent_bootstrap_time_saved_vs_PLAIN_ALWAYS_95_us": [
+            -5553.440676388887,
+            -1713.9066215277787
+          ],
+          "mean_utility_difference_vs_PLAIN_ALWAYS": 6.853175664997105e-06,
+          "mean_utility_difference_vs_PLAIN_ALWAYS_exact": "74564829069926913113/10880332376531662572355584",
+          "mean_additional_time_vs_PLAIN_STOP_us": 3947.5227777777773,
+          "mean_utility_difference_vs_PLAIN_STOP_exact": "607381276916788712849/87042659012253300578844672",
+          "residual_goal_verified_true_parents": 36,
+          "residual_goal_verified_false_parents": 0,
+          "residual_goal_unverified_parents": 0,
+          "priced": [
+            {
+              "lambda_utility_per_us": 0,
+              "mean_net_gain_from_initial": 6.9779724540731855e-06,
+              "mean_net_difference_vs_PLAIN_ALWAYS": 6.853175664997105e-06,
+              "paired_parent_bootstrap_net_difference_vs_PLAIN_ALWAYS_95": [
+                0.0,
+                2.055752035328386e-05
+              ],
+              "mean_net_difference_vs_PLAIN_STOP": 6.9779724540731855e-06,
+              "paired_parent_bootstrap_net_difference_vs_PLAIN_STOP_95": [
+                2.044700986431147e-09,
+                2.0753750820059052e-05
+              ]
+            },
+            {
+              "lambda_utility_per_us": 1e-08,
+              "mean_net_gain_from_initial": -3.524424365703792e-05,
+              "mean_net_difference_vs_PLAIN_ALWAYS": -2.8314469890558453e-05,
+              "paired_parent_bootstrap_net_difference_vs_PLAIN_ALWAYS_95": [
+                -4.7199927769202236e-05,
+                -1.1079450721715195e-05
+              ],
+              "mean_net_difference_vs_PLAIN_STOP": -3.2497255323704586e-05,
+              "paired_parent_bootstrap_net_difference_vs_PLAIN_STOP_95": [
+                -5.31547791184031e-05,
+                -1.3987304025610785e-05
+              ]
+            },
+            {
+              "lambda_utility_per_us": 1e-07,
+              "mean_net_gain_from_initial": -0.0004152441886570379,
+              "mean_net_difference_vs_PLAIN_ALWAYS": -0.00034482327989055845,
+              "paired_parent_bootstrap_net_difference_vs_PLAIN_ALWAYS_95": [
+                -0.0005440851091833063,
+                -0.00017011646929951485
+              ],
+              "mean_net_difference_vs_PLAIN_STOP": -0.00038777430532370454,
+              "paired_parent_bootstrap_net_difference_vs_PLAIN_STOP_95": [
+                -0.0005992423557483132,
+                -0.00019681543132964762
+              ]
+            },
+            {
+              "lambda_utility_per_us": 1e-06,
+              "mean_net_gain_from_initial": -0.0042152436386570374,
+              "mean_net_difference_vs_PLAIN_ALWAYS": -0.003509911379890559,
+              "paired_parent_bootstrap_net_difference_vs_PLAIN_ALWAYS_95": [
+                -0.005540265863870005,
+                -0.0017139046650521141
+              ],
+              "mean_net_difference_vs_PLAIN_STOP": -0.003940544805323704,
+              "paired_parent_bootstrap_net_difference_vs_PLAIN_STOP_95": [
+                -0.006109688817717109,
+                -0.00200919878088323
+              ]
+            },
+            {
+              "lambda_utility_per_us": 1e-05,
+              "mean_net_gain_from_initial": -0.042215238138657046,
+              "mean_net_difference_vs_PLAIN_ALWAYS": -0.03516079237989056,
+              "paired_parent_bootstrap_net_difference_vs_PLAIN_ALWAYS_95": [
+                -0.05552445577637,
+                -0.01713906425880212
+              ],
+              "mean_net_difference_vs_PLAIN_STOP": -0.0394682498053237,
+              "paired_parent_bootstrap_net_difference_vs_PLAIN_STOP_95": [
+                -0.06121926746668037,
+                -0.020094465916910373
+              ]
+            }
+          ],
+          "mean_total_us": 4222.22161111111,
+          "mean_validation_us": 26.125305555555556,
+          "mean_initial_us": 213.2788888888889,
+          "mean_solve_us": 3905.3714999999993,
+          "mean_bounds_us": 75.50177777777779,
+          "mean_solver_matvecs": 165.47222222222223,
+          "total_solver_matvecs": 5957,
+          "mean_bound_evaluations": 6.0,
+          "total_bound_evaluations": 216,
+          "mean_fast_evaluations": 6.0,
+          "total_fast_evaluations": 216,
+          "mean_outward_evaluations": 0.0,
+          "total_outward_evaluations": 0,
+          "mean_ordinary_evaluations": 0.0,
+          "total_ordinary_evaluations": 0,
+          "mean_operator_response_passes": 171.47222222222223,
+          "total_operator_response_passes": 6173,
+          "mean_ordinary_stencil_evaluations": 171.47222222222223,
+          "total_ordinary_stencil_evaluations": 6173,
+          "mean_interval_stencil_evaluations": 0.0,
+          "total_interval_stencil_evaluations": 0,
+          "mean_total_stencil_evaluations": 171.47222222222223,
+          "total_total_stencil_evaluations": 6173,
+          "break_even_vs_PLAIN_STOP": {
+            "role": "descriptive only; no price fitting, policy tuning, or checkpoint selection",
+            "definition": "delta exact utility / delta parent-median elapsed us, only where delta time > 0",
+            "parents_with_positive_extra_time": 36,
+            "parents_with_nonpositive_extra_time": 0,
+            "median_parent_break_even_price": 0.0,
+            "parent_break_even_price_range": [
+              0.0,
+              1.2895500266489111e-08
+            ],
+            "cohort_mean_break_even_price": 1.7676838987111236e-09,
+            "cohort_mean_break_even_price_exact": "86768753845255530407/49086125584173437234509250560"
+          }
+        }
+      },
+      "subgroups": [
+        {
+          "field": "side",
+          "value": 8,
+          "parents": 12,
+          "policies": {
+            "PLAIN_STOP": {
+              "mean_parent_median_us": 6.597916666666666,
+              "mean_regret": 0.0,
+              "mean_regret_exact": "0",
+              "wrong_decision_parents": 0,
+              "certified": 0,
+              "actual_early_stop_parents": 12,
+              "solver_matvecs_saved": 288,
+              "mean_bounds_us": 0.9309166666666667
+            },
+            "PLAIN_ALWAYS": {
+              "mean_parent_median_us": 16.418333333333333,
+              "mean_regret": 0.0,
+              "mean_regret_exact": "0",
+              "wrong_decision_parents": 0,
+              "certified": 0,
+              "actual_early_stop_parents": 0,
+              "solver_matvecs_saved": 0,
+              "mean_bounds_us": 1.8355000000000004
+            },
+            "FAST_ONCE": {
+              "mean_parent_median_us": 11.949333333333334,
+              "mean_regret": 0.0,
+              "mean_regret_exact": "0",
+              "wrong_decision_parents": 0,
+              "certified": 6,
+              "actual_early_stop_parents": 6,
+              "solver_matvecs_saved": 144,
+              "mean_bounds_us": 1.7318333333333336
+            },
+            "FAST_BLOCK": {
+              "mean_parent_median_us": 12.09975,
+              "mean_regret": 0.0,
+              "mean_regret_exact": "0",
+              "wrong_decision_parents": 0,
+              "certified": 9,
+              "actual_early_stop_parents": 6,
+              "solver_matvecs_saved": 144,
+              "mean_bounds_us": 1.8980833333333331
+            },
+            "OUTWARD_BLOCK": {
+              "mean_parent_median_us": 26.923999999999996,
+              "mean_regret": 0.0,
+              "mean_regret_exact": "0",
+              "wrong_decision_parents": 0,
+              "certified": 9,
+              "actual_early_stop_parents": 6,
+              "solver_matvecs_saved": 144,
+              "mean_bounds_us": 16.730333333333338
+            },
+            "RESIDUAL": {
+              "mean_parent_median_us": 27.86825,
+              "mean_regret": 0.0,
+              "mean_regret_exact": "0",
+              "wrong_decision_parents": 0,
+              "certified": 0,
+              "actual_early_stop_parents": 0,
+              "solver_matvecs_saved": -343,
+              "mean_bounds_us": 2.5407499999999996
+            }
+          }
+        },
+        {
+          "field": "side",
+          "value": 32,
+          "parents": 12,
+          "policies": {
+            "PLAIN_STOP": {
+              "mean_parent_median_us": 82.5175,
+              "mean_regret": 1.7306137598502579e-07,
+              "mean_regret_exact": "1673746926450662427/9671406556917033397649408",
+              "wrong_decision_parents": 2,
+              "certified": 0,
+              "actual_early_stop_parents": 12,
+              "solver_matvecs_saved": 288,
+              "mean_bounds_us": 10.420666666666667
+            },
+            "PLAIN_ALWAYS": {
+              "mean_parent_median_us": 212.63175,
+              "mean_regret": 0.0,
+              "mean_regret_exact": "0",
+              "wrong_decision_parents": 0,
+              "certified": 0,
+              "actual_early_stop_parents": 0,
+              "solver_matvecs_saved": 0,
+              "mean_bounds_us": 20.816
+            },
+            "FAST_ONCE": {
+              "mean_parent_median_us": 192.3385833333333,
+              "mean_regret": 0.0,
+              "mean_regret_exact": "0",
+              "wrong_decision_parents": 0,
+              "certified": 2,
+              "actual_early_stop_parents": 2,
+              "solver_matvecs_saved": 48,
+              "mean_bounds_us": 20.334916666666665
+            },
+            "FAST_BLOCK": {
+              "mean_parent_median_us": 193.11008333333334,
+              "mean_regret": 0.0,
+              "mean_regret_exact": "0",
+              "wrong_decision_parents": 0,
+              "certified": 7,
+              "actual_early_stop_parents": 2,
+              "solver_matvecs_saved": 48,
+              "mean_bounds_us": 21.302333333333333
+            },
+            "OUTWARD_BLOCK": {
+              "mean_parent_median_us": 503.6756666666667,
+              "mean_regret": 0.0,
+              "mean_regret_exact": "0",
+              "wrong_decision_parents": 0,
+              "certified": 7,
+              "actual_early_stop_parents": 2,
+              "solver_matvecs_saved": 48,
+              "mean_bounds_us": 331.30300000000005
+            },
+            "RESIDUAL": {
+              "mean_parent_median_us": 905.2739166666667,
+              "mean_regret": 0.0,
+              "mean_regret_exact": "0",
+              "wrong_decision_parents": 0,
+              "certified": 0,
+              "actual_early_stop_parents": 0,
+              "solver_matvecs_saved": -1655,
+              "mean_bounds_us": 23.374916666666664
+            }
+          }
+        },
+        {
+          "field": "side",
+          "value": 96,
+          "parents": 12,
+          "policies": {
+            "PLAIN_STOP": {
+              "mean_parent_median_us": 734.9810833333335,
+              "mean_regret": 2.0760855986234535e-05,
+              "mean_regret_exact": "9411875564647448837/453347182355485940514816",
+              "wrong_decision_parents": 2,
+              "certified": 0,
+              "actual_early_stop_parents": 12,
+              "solver_matvecs_saved": 288,
+              "mean_bounds_us": 90.48041666666667
+            },
+            "PLAIN_ALWAYS": {
+              "mean_parent_median_us": 1887.3210833333333,
+              "mean_regret": 2.0559526994991317e-05,
+              "mean_regret_exact": "74564829069926913113/3626777458843887524118528",
+              "wrong_decision_parents": 2,
+              "certified": 0,
+              "actual_early_stop_parents": 0,
+              "solver_matvecs_saved": 0,
+              "mean_bounds_us": 180.7036666666667
+            },
+            "FAST_ONCE": {
+              "mean_parent_median_us": 1706.8316666666667,
+              "mean_regret": 2.0559526994991317e-05,
+              "mean_regret_exact": "74564829069926913113/3626777458843887524118528",
+              "wrong_decision_parents": 2,
+              "certified": 2,
+              "actual_early_stop_parents": 2,
+              "solver_matvecs_saved": 48,
+              "mean_bounds_us": 175.6855833333333
+            },
+            "FAST_BLOCK": {
+              "mean_parent_median_us": 1713.9665833333336,
+              "mean_regret": 2.0559526994991317e-05,
+              "mean_regret_exact": "74564829069926913113/3626777458843887524118528",
+              "wrong_decision_parents": 2,
+              "certified": 4,
+              "actual_early_stop_parents": 2,
+              "solver_matvecs_saved": 48,
+              "mean_bounds_us": 183.68325000000002
+            },
+            "OUTWARD_BLOCK": {
+              "mean_parent_median_us": 4553.687833333334,
+              "mean_regret": 2.0559526994991317e-05,
+              "mean_regret_exact": "74564829069926913113/3626777458843887524118528",
+              "wrong_decision_parents": 2,
+              "certified": 4,
+              "actual_early_stop_parents": 2,
+              "solver_matvecs_saved": 48,
+              "mean_bounds_us": 3024.1926666666673
+            },
+            "RESIDUAL": {
+              "mean_parent_median_us": 11733.522666666666,
+              "mean_regret": 0.0,
+              "mean_regret_exact": "0",
+              "wrong_decision_parents": 0,
+              "certified": 0,
+              "actual_early_stop_parents": 0,
+              "solver_matvecs_saved": -2663,
+              "mean_bounds_us": 200.58966666666666
+            }
+          }
+        },
+        {
+          "field": "rho",
+          "value": 1,
+          "parents": 12,
+          "policies": {
+            "PLAIN_STOP": {
+              "mean_parent_median_us": 278.54900000000004,
+              "mean_regret": 3.7427618939130517e-07,
+              "mean_regret_exact": "42419263970824103/113336795588871485128704",
+              "wrong_decision_parents": 2,
+              "certified": 0,
+              "actual_early_stop_parents": 12,
+              "solver_matvecs_saved": 288,
+              "mean_bounds_us": 33.89675
+            },
+            "PLAIN_ALWAYS": {
+              "mean_parent_median_us": 707.3440833333333,
+              "mean_regret": 0.0,
+              "mean_regret_exact": "0",
+              "wrong_decision_parents": 0,
+              "certified": 0,
+              "actual_early_stop_parents": 0,
+              "solver_matvecs_saved": 0,
+              "mean_bounds_us": 67.28258333333333
+            },
+            "FAST_ONCE": {
+              "mean_parent_median_us": 496.4338333333333,
+              "mean_regret": 0.0,
+              "mean_regret_exact": "0",
+              "wrong_decision_parents": 0,
+              "certified": 6,
+              "actual_early_stop_parents": 6,
+              "solver_matvecs_saved": 144,
+              "mean_bounds_us": 54.214166666666664
+            },
+            "FAST_BLOCK": {
+              "mean_parent_median_us": 499.0479166666667,
+              "mean_regret": 0.0,
+              "mean_regret_exact": "0",
+              "wrong_decision_parents": 0,
+              "certified": 9,
+              "actual_early_stop_parents": 6,
+              "solver_matvecs_saved": 144,
+              "mean_bounds_us": 55.95441666666667
+            },
+            "OUTWARD_BLOCK": {
+              "mean_parent_median_us": 1312.4374166666666,
+              "mean_regret": 0.0,
+              "mean_regret_exact": "0",
+              "wrong_decision_parents": 0,
+              "certified": 9,
+              "actual_early_stop_parents": 6,
+              "solver_matvecs_saved": 144,
+              "mean_bounds_us": 870.3808333333333
+            },
+            "RESIDUAL": {
+              "mean_parent_median_us": 1343.6756666666668,
+              "mean_regret": 0.0,
+              "mean_regret_exact": "0",
+              "wrong_decision_parents": 0,
+              "certified": 0,
+              "actual_early_stop_parents": 0,
+              "solver_matvecs_saved": -370,
+              "mean_bounds_us": 74.77300000000001
+            }
+          }
+        },
+        {
+          "field": "rho",
+          "value": 16,
+          "parents": 12,
+          "policies": {
+            "PLAIN_STOP": {
+              "mean_parent_median_us": 271.3156666666667,
+              "mean_regret": 0.0,
+              "mean_regret_exact": "0",
+              "wrong_decision_parents": 0,
+              "certified": 0,
+              "actual_early_stop_parents": 12,
+              "solver_matvecs_saved": 288,
+              "mean_bounds_us": 33.84891666666667
+            },
+            "PLAIN_ALWAYS": {
+              "mean_parent_median_us": 702.9450833333334,
+              "mean_regret": 0.0,
+              "mean_regret_exact": "0",
+              "wrong_decision_parents": 0,
+              "certified": 0,
+              "actual_early_stop_parents": 0,
+              "solver_matvecs_saved": 0,
+              "mean_bounds_us": 67.82416666666667
+            },
+            "FAST_ONCE": {
+              "mean_parent_median_us": 705.1766666666667,
+              "mean_regret": 0.0,
+              "mean_regret_exact": "0",
+              "wrong_decision_parents": 0,
+              "certified": 2,
+              "actual_early_stop_parents": 2,
+              "solver_matvecs_saved": 48,
+              "mean_bounds_us": 71.53558333333334
+            },
+            "FAST_BLOCK": {
+              "mean_parent_median_us": 707.353,
+              "mean_regret": 0.0,
+              "mean_regret_exact": "0",
+              "wrong_decision_parents": 0,
+              "certified": 6,
+              "actual_early_stop_parents": 2,
+              "solver_matvecs_saved": 48,
+              "mean_bounds_us": 75.38499999999999
+            },
+            "OUTWARD_BLOCK": {
+              "mean_parent_median_us": 1875.7870833333334,
+              "mean_regret": 0.0,
+              "mean_regret_exact": "0",
+              "wrong_decision_parents": 0,
+              "certified": 6,
+              "actual_early_stop_parents": 2,
+              "solver_matvecs_saved": 48,
+              "mean_bounds_us": 1243.10775
+            },
+            "RESIDUAL": {
+              "mean_parent_median_us": 4344.2355,
+              "mean_regret": 0.0,
+              "mean_regret_exact": "0",
+              "wrong_decision_parents": 0,
+              "certified": 0,
+              "actual_early_stop_parents": 0,
+              "solver_matvecs_saved": -1700,
+              "mean_bounds_us": 75.83158333333333
+            }
+          }
+        },
+        {
+          "field": "rho",
+          "value": 64,
+          "parents": 12,
+          "policies": {
+            "PLAIN_STOP": {
+              "mean_parent_median_us": 274.2318333333333,
+              "mean_regret": 2.0559641172828255e-05,
+              "mean_regret_exact": "198840648446752580827/9671406556917033397649408",
+              "wrong_decision_parents": 2,
+              "certified": 0,
+              "actual_early_stop_parents": 12,
+              "solver_matvecs_saved": 288,
+              "mean_bounds_us": 34.08633333333333
+            },
+            "PLAIN_ALWAYS": {
+              "mean_parent_median_us": 706.082,
+              "mean_regret": 2.0559526994991317e-05,
+              "mean_regret_exact": "74564829069926913113/3626777458843887524118528",
+              "wrong_decision_parents": 2,
+              "certified": 0,
+              "actual_early_stop_parents": 0,
+              "solver_matvecs_saved": 0,
+              "mean_bounds_us": 68.24841666666667
+            },
+            "FAST_ONCE": {
+              "mean_parent_median_us": 709.5090833333334,
+              "mean_regret": 2.0559526994991317e-05,
+              "mean_regret_exact": "74564829069926913113/3626777458843887524118528",
+              "wrong_decision_parents": 2,
+              "certified": 2,
+              "actual_early_stop_parents": 2,
+              "solver_matvecs_saved": 48,
+              "mean_bounds_us": 72.00258333333333
+            },
+            "FAST_BLOCK": {
+              "mean_parent_median_us": 712.7755000000001,
+              "mean_regret": 2.0559526994991317e-05,
+              "mean_regret_exact": "74564829069926913113/3626777458843887524118528",
+              "wrong_decision_parents": 2,
+              "certified": 5,
+              "actual_early_stop_parents": 2,
+              "solver_matvecs_saved": 48,
+              "mean_bounds_us": 75.54424999999999
+            },
+            "OUTWARD_BLOCK": {
+              "mean_parent_median_us": 1896.063,
+              "mean_regret": 2.0559526994991317e-05,
+              "mean_regret_exact": "74564829069926913113/3626777458843887524118528",
+              "wrong_decision_parents": 2,
+              "certified": 5,
+              "actual_early_stop_parents": 2,
+              "solver_matvecs_saved": 48,
+              "mean_bounds_us": 1258.7374166666666
+            },
+            "RESIDUAL": {
+              "mean_parent_median_us": 6978.7536666666665,
+              "mean_regret": 0.0,
+              "mean_regret_exact": "0",
+              "wrong_decision_parents": 0,
+              "certified": 0,
+              "actual_early_stop_parents": 0,
+              "solver_matvecs_saved": -2591,
+              "mean_bounds_us": 75.90075
+            }
+          }
+        },
+        {
+          "field": "gap",
+          "value": "wide",
+          "parents": 9,
+          "policies": {
+            "PLAIN_STOP": {
+              "mean_parent_median_us": 281.77577777777776,
+              "mean_regret": 0.0,
+              "mean_regret_exact": "0",
+              "wrong_decision_parents": 0,
+              "certified": 0,
+              "actual_early_stop_parents": 9,
+              "solver_matvecs_saved": 216,
+              "mean_bounds_us": 33.86655555555555
+            },
+            "PLAIN_ALWAYS": {
+              "mean_parent_median_us": 714.1391111111111,
+              "mean_regret": 0.0,
+              "mean_regret_exact": "0",
+              "wrong_decision_parents": 0,
+              "certified": 0,
+              "actual_early_stop_parents": 0,
+              "solver_matvecs_saved": 0,
+              "mean_bounds_us": 67.9248888888889
+            },
+            "FAST_ONCE": {
+              "mean_parent_median_us": 573.250111111111,
+              "mean_regret": 0.0,
+              "mean_regret_exact": "0",
+              "wrong_decision_parents": 0,
+              "certified": 5,
+              "actual_early_stop_parents": 5,
+              "solver_matvecs_saved": 120,
+              "mean_bounds_us": 60.55466666666666
+            },
+            "FAST_BLOCK": {
+              "mean_parent_median_us": 574.2266666666668,
+              "mean_regret": 0.0,
+              "mean_regret_exact": "0",
+              "wrong_decision_parents": 0,
+              "certified": 8,
+              "actual_early_stop_parents": 5,
+              "solver_matvecs_saved": 120,
+              "mean_bounds_us": 63.028333333333336
+            },
+            "OUTWARD_BLOCK": {
+              "mean_parent_median_us": 1539.235888888889,
+              "mean_regret": 0.0,
+              "mean_regret_exact": "0",
+              "wrong_decision_parents": 0,
+              "certified": 8,
+              "actual_early_stop_parents": 5,
+              "solver_matvecs_saved": 120,
+              "mean_bounds_us": 1028.406
+            },
+            "RESIDUAL": {
+              "mean_parent_median_us": 4136.690888888889,
+              "mean_regret": 0.0,
+              "mean_regret_exact": "0",
+              "wrong_decision_parents": 0,
+              "certified": 0,
+              "actual_early_stop_parents": 0,
+              "solver_matvecs_saved": -1137,
+              "mean_bounds_us": 75.37355555555555
+            }
+          }
+        },
+        {
+          "field": "gap",
+          "value": "medium",
+          "parents": 9,
+          "policies": {
+            "PLAIN_STOP": {
+              "mean_parent_median_us": 271.5275555555556,
+              "mean_regret": 2.7404676093158614e-05,
+              "mean_regret_exact": "9317874517648653097/340010386766614455386112",
+              "wrong_decision_parents": 1,
+              "certified": 0,
+              "actual_early_stop_parents": 9,
+              "solver_matvecs_saved": 216,
+              "mean_bounds_us": 33.793111111111116
+            },
+            "PLAIN_ALWAYS": {
+              "mean_parent_median_us": 700.3203333333333,
+              "mean_regret": 2.7404676093158614e-05,
+              "mean_regret_exact": "9317874517648653097/340010386766614455386112",
+              "wrong_decision_parents": 1,
+              "certified": 0,
+              "actual_early_stop_parents": 0,
+              "solver_matvecs_saved": 0,
+              "mean_bounds_us": 67.5638888888889
+            },
+            "FAST_ONCE": {
+              "mean_parent_median_us": 560.5932222222223,
+              "mean_regret": 2.7404676093158614e-05,
+              "mean_regret_exact": "9317874517648653097/340010386766614455386112",
+              "wrong_decision_parents": 1,
+              "certified": 5,
+              "actual_early_stop_parents": 5,
+              "solver_matvecs_saved": 120,
+              "mean_bounds_us": 59.99044444444444
+            },
+            "FAST_BLOCK": {
+              "mean_parent_median_us": 562.5846666666667,
+              "mean_regret": 2.7404676093158614e-05,
+              "mean_regret_exact": "9317874517648653097/340010386766614455386112",
+              "wrong_decision_parents": 1,
+              "certified": 7,
+              "actual_early_stop_parents": 5,
+              "solver_matvecs_saved": 120,
+              "mean_bounds_us": 62.222333333333346
+            },
+            "OUTWARD_BLOCK": {
+              "mean_parent_median_us": 1524.06,
+              "mean_regret": 2.7404676093158614e-05,
+              "mean_regret_exact": "9317874517648653097/340010386766614455386112",
+              "wrong_decision_parents": 1,
+              "certified": 7,
+              "actual_early_stop_parents": 5,
+              "solver_matvecs_saved": 120,
+              "mean_bounds_us": 1023.5920000000001
+            },
+            "RESIDUAL": {
+              "mean_parent_median_us": 4291.774222222222,
+              "mean_regret": 0.0,
+              "mean_regret_exact": "0",
+              "wrong_decision_parents": 0,
+              "certified": 0,
+              "actual_early_stop_parents": 0,
+              "solver_matvecs_saved": -1178,
+              "mean_bounds_us": 75.15444444444445
+            }
+          }
+        },
+        {
+          "field": "gap",
+          "value": "tight",
+          "parents": 9,
+          "policies": {
+            "PLAIN_STOP": {
+              "mean_parent_median_us": 272.1422222222222,
+              "mean_regret": 5.072137231341315e-07,
+              "mean_regret_exact": "11037307787274914641/21760664753063325144711168",
+              "wrong_decision_parents": 3,
+              "certified": 0,
+              "actual_early_stop_parents": 9,
+              "solver_matvecs_saved": 216,
+              "mean_bounds_us": 33.888888888888886
+            },
+            "PLAIN_ALWAYS": {
+              "mean_parent_median_us": 704.050888888889,
+              "mean_regret": 8.02656682980784e-09,
+              "mean_regret_exact": "7277642912562779/906694364710971881029632",
+              "wrong_decision_parents": 1,
+              "certified": 0,
+              "actual_early_stop_parents": 0,
+              "solver_matvecs_saved": 0,
+              "mean_bounds_us": 68.04855555555555
+            },
+            "FAST_ONCE": {
+              "mean_parent_median_us": 706.5567777777777,
+              "mean_regret": 8.02656682980784e-09,
+              "mean_regret_exact": "7277642912562779/906694364710971881029632",
+              "wrong_decision_parents": 1,
+              "certified": 0,
+              "actual_early_stop_parents": 0,
+              "solver_matvecs_saved": 0,
+              "mean_bounds_us": 71.69200000000001
+            },
+            "FAST_BLOCK": {
+              "mean_parent_median_us": 711.1762222222221,
+              "mean_regret": 8.02656682980784e-09,
+              "mean_regret_exact": "7277642912562779/906694364710971881029632",
+              "wrong_decision_parents": 1,
+              "certified": 5,
+              "actual_early_stop_parents": 0,
+              "solver_matvecs_saved": 0,
+              "mean_bounds_us": 75.33144444444446
+            },
+            "OUTWARD_BLOCK": {
+              "mean_parent_median_us": 1859.776,
+              "mean_regret": 8.02656682980784e-09,
+              "mean_regret_exact": "7277642912562779/906694364710971881029632",
+              "wrong_decision_parents": 1,
+              "certified": 5,
+              "actual_early_stop_parents": 0,
+              "solver_matvecs_saved": 0,
+              "mean_bounds_us": 1224.1506666666667
+            },
+            "RESIDUAL": {
+              "mean_parent_median_us": 4113.299888888889,
+              "mean_regret": 0.0,
+              "mean_regret_exact": "0",
+              "wrong_decision_parents": 0,
+              "certified": 0,
+              "actual_early_stop_parents": 0,
+              "solver_matvecs_saved": -1149,
+              "mean_bounds_us": 75.79911111111112
+            }
+          }
+        },
+        {
+          "field": "gap",
+          "value": "tie",
+          "parents": 9,
+          "policies": {
+            "PLAIN_STOP": {
+              "mean_parent_median_us": 273.3497777777778,
+              "mean_regret": 0.0,
+              "mean_regret_exact": "0",
+              "wrong_decision_parents": 0,
+              "certified": 0,
+              "actual_early_stop_parents": 9,
+              "solver_matvecs_saved": 216,
+              "mean_bounds_us": 34.227444444444444
+            },
+            "PLAIN_ALWAYS": {
+              "mean_parent_median_us": 703.3178888888888,
+              "mean_regret": 0.0,
+              "mean_regret_exact": "0",
+              "wrong_decision_parents": 0,
+              "certified": 0,
+              "actual_early_stop_parents": 0,
+              "solver_matvecs_saved": 0,
+              "mean_bounds_us": 67.6028888888889
+            },
+            "FAST_ONCE": {
+              "mean_parent_median_us": 707.7593333333334,
+              "mean_regret": 0.0,
+              "mean_regret_exact": "0",
+              "wrong_decision_parents": 0,
+              "certified": 0,
+              "actual_early_stop_parents": 0,
+              "solver_matvecs_saved": 0,
+              "mean_bounds_us": 71.43266666666666
+            },
+            "FAST_BLOCK": {
+              "mean_parent_median_us": 710.9143333333334,
+              "mean_regret": 0.0,
+              "mean_regret_exact": "0",
+              "wrong_decision_parents": 0,
+              "certified": 0,
+              "actual_early_stop_parents": 0,
+              "solver_matvecs_saved": 0,
+              "mean_bounds_us": 75.26277777777779
+            },
+            "OUTWARD_BLOCK": {
+              "mean_parent_median_us": 1855.978111111111,
+              "mean_regret": 0.0,
+              "mean_regret_exact": "0",
+              "wrong_decision_parents": 0,
+              "certified": 0,
+              "actual_early_stop_parents": 0,
+              "solver_matvecs_saved": 0,
+              "mean_bounds_us": 1220.1526666666666
+            },
+            "RESIDUAL": {
+              "mean_parent_median_us": 4347.121444444445,
+              "mean_regret": 0.0,
+              "mean_regret_exact": "0",
+              "wrong_decision_parents": 0,
+              "certified": 0,
+              "actual_early_stop_parents": 0,
+              "solver_matvecs_saved": -1197,
+              "mean_bounds_us": 75.68
+            }
+          }
+        }
+      ]
+    },
+    {
+      "additional": 32,
+      "policies": {
+        "PLAIN_STOP": {
+          "parents": 36,
+          "mean_parent_median_us": 273.2791111111111,
+          "mean_regret": 6.977972454073186e-06,
+          "mean_regret_exact": "607381276916788712849/87042659012253300578844672",
+          "wrong_decision_parents": 4,
+          "certified_parents": 0,
+          "actual_early_stop_parents": 36,
+          "mean_solver_iterations": 12.0,
+          "solver_iterations_saved": 3231,
+          "solver_matvecs_saved": 3231,
+          "mean_time_saved_vs_PLAIN_ALWAYS_us": 1619.984361111111,
+          "paired_parent_bootstrap_time_saved_vs_PLAIN_ALWAYS_95_us": [
+            1023.505876388889,
+            2284.8803729166657
+          ],
+          "mean_utility_difference_vs_PLAIN_ALWAYS": -6.9759658123657334e-06,
+          "mean_utility_difference_vs_PLAIN_ALWAYS_exact": "-607206613486887206153/87042659012253300578844672",
+          "mean_additional_time_vs_PLAIN_STOP_us": 0.0,
+          "mean_utility_difference_vs_PLAIN_STOP_exact": "0",
+          "residual_goal_verified_true_parents": 0,
+          "residual_goal_verified_false_parents": 0,
+          "residual_goal_unverified_parents": 36,
+          "priced": [
+            {
+              "lambda_utility_per_us": 0,
+              "mean_net_gain_from_initial": 0.0,
+              "mean_net_difference_vs_PLAIN_ALWAYS": -6.9759658123657334e-06,
+              "paired_parent_bootstrap_net_difference_vs_PLAIN_ALWAYS_95": [
+                -2.08011051615954e-05,
+                -3.805927897918707e-11
+              ],
+              "mean_net_difference_vs_PLAIN_STOP": 0.0,
+              "paired_parent_bootstrap_net_difference_vs_PLAIN_STOP_95": [
+                0.0,
+                0.0
+              ]
+            },
+            {
+              "lambda_utility_per_us": 1e-08,
+              "mean_net_gain_from_initial": -2.732791111111111e-06,
+              "mean_net_difference_vs_PLAIN_ALWAYS": 9.223877798745376e-06,
+              "paired_parent_bootstrap_net_difference_vs_PLAIN_ALWAYS_95": [
+                -5.804566620362535e-06,
+                2.011690562778637e-05
+              ],
+              "mean_net_difference_vs_PLAIN_STOP": 0.0,
+              "paired_parent_bootstrap_net_difference_vs_PLAIN_STOP_95": [
+                0.0,
+                0.0
+              ]
+            },
+            {
+              "lambda_utility_per_us": 1e-07,
+              "mean_net_gain_from_initial": -2.732791111111111e-05,
+              "mean_net_difference_vs_PLAIN_ALWAYS": 0.00015502247029874536,
+              "paired_parent_bootstrap_net_difference_vs_PLAIN_ALWAYS_95": [
+                9.703763415265338e-05,
+                0.00021557487766487487
+              ],
+              "mean_net_difference_vs_PLAIN_STOP": 0.0,
+              "paired_parent_bootstrap_net_difference_vs_PLAIN_STOP_95": [
+                0.0,
+                0.0
+              ]
+            },
+            {
+              "lambda_utility_per_us": 1e-06,
+              "mean_net_gain_from_initial": -0.00027327911111111106,
+              "mean_net_difference_vs_PLAIN_ALWAYS": 0.001613008395298745,
+              "paired_parent_bootstrap_net_difference_vs_PLAIN_ALWAYS_95": [
+                0.0010182670490905402,
+                0.002269759842254494
+              ],
+              "mean_net_difference_vs_PLAIN_STOP": 0.0,
+              "paired_parent_bootstrap_net_difference_vs_PLAIN_STOP_95": [
+                0.0,
+                0.0
+              ]
+            },
+            {
+              "lambda_utility_per_us": 1e-05,
+              "mean_net_gain_from_initial": -0.0027327911111111112,
+              "mean_net_difference_vs_PLAIN_ALWAYS": 0.016192867645298745,
+              "paired_parent_bootstrap_net_difference_vs_PLAIN_ALWAYS_95": [
+                0.0102281467376545,
+                0.02284167416462838
+              ],
+              "mean_net_difference_vs_PLAIN_STOP": 0.0,
+              "paired_parent_bootstrap_net_difference_vs_PLAIN_STOP_95": [
+                0.0,
+                0.0
+              ]
+            }
+          ],
+          "mean_total_us": 273.2791111111111,
+          "mean_validation_us": 26.241916666666665,
+          "mean_initial_us": 212.18705555555553,
+          "mean_solve_us": 0.0,
+          "mean_bounds_us": 34.13436111111111,
+          "mean_solver_matvecs": 12.0,
+          "total_solver_matvecs": 432,
+          "mean_bound_evaluations": 0.0,
+          "total_bound_evaluations": 0,
+          "mean_fast_evaluations": 0.0,
+          "total_fast_evaluations": 0,
+          "mean_outward_evaluations": 0.0,
+          "total_outward_evaluations": 0,
+          "mean_ordinary_evaluations": 3.0,
+          "total_ordinary_evaluations": 108,
+          "mean_operator_response_passes": 15.0,
+          "total_operator_response_passes": 540,
+          "mean_ordinary_stencil_evaluations": 15.0,
+          "total_ordinary_stencil_evaluations": 540,
+          "mean_interval_stencil_evaluations": 0.0,
+          "total_interval_stencil_evaluations": 0,
+          "mean_total_stencil_evaluations": 15.0,
+          "total_total_stencil_evaluations": 540,
+          "break_even_vs_PLAIN_STOP": {
+            "role": "descriptive only; no price fitting, policy tuning, or checkpoint selection",
+            "definition": "delta exact utility / delta parent-median elapsed us, only where delta time > 0",
+            "parents_with_positive_extra_time": 0,
+            "parents_with_nonpositive_extra_time": 36,
+            "median_parent_break_even_price": null,
+            "parent_break_even_price_range": null,
+            "cohort_mean_break_even_price": null,
+            "cohort_mean_break_even_price_exact": null
+          }
+        },
+        "PLAIN_ALWAYS": {
+          "parents": 36,
+          "mean_parent_median_us": 1893.2634722222222,
+          "mean_regret": 2.00664170745196e-09,
+          "mean_regret_exact": "7277642912562779/3626777458843887524118528",
+          "wrong_decision_parents": 1,
+          "certified_parents": 0,
+          "actual_early_stop_parents": 0,
+          "mean_solver_iterations": 101.75,
+          "solver_iterations_saved": 0,
+          "solver_matvecs_saved": 0,
+          "mean_time_saved_vs_PLAIN_ALWAYS_us": 0.0,
+          "paired_parent_bootstrap_time_saved_vs_PLAIN_ALWAYS_95_us": [
+            0.0,
+            0.0
+          ],
+          "mean_utility_difference_vs_PLAIN_ALWAYS": 0.0,
+          "mean_utility_difference_vs_PLAIN_ALWAYS_exact": "0",
+          "mean_additional_time_vs_PLAIN_STOP_us": 1619.984361111111,
+          "mean_utility_difference_vs_PLAIN_STOP_exact": "607206613486887206153/87042659012253300578844672",
+          "residual_goal_verified_true_parents": 0,
+          "residual_goal_verified_false_parents": 0,
+          "residual_goal_unverified_parents": 36,
+          "priced": [
+            {
+              "lambda_utility_per_us": 0,
+              "mean_net_gain_from_initial": 6.9759658123657334e-06,
+              "mean_net_difference_vs_PLAIN_ALWAYS": 0.0,
+              "paired_parent_bootstrap_net_difference_vs_PLAIN_ALWAYS_95": [
+                0.0,
+                0.0
+              ],
+              "mean_net_difference_vs_PLAIN_STOP": 6.9759658123657334e-06,
+              "paired_parent_bootstrap_net_difference_vs_PLAIN_STOP_95": [
+                3.805927897918707e-11,
+                2.08011051615954e-05
+              ]
+            },
+            {
+              "lambda_utility_per_us": 1e-08,
+              "mean_net_gain_from_initial": -1.195666890985649e-05,
+              "mean_net_difference_vs_PLAIN_ALWAYS": 0.0,
+              "paired_parent_bootstrap_net_difference_vs_PLAIN_ALWAYS_95": [
+                0.0,
+                0.0
+              ],
+              "mean_net_difference_vs_PLAIN_STOP": -9.223877798745376e-06,
+              "paired_parent_bootstrap_net_difference_vs_PLAIN_STOP_95": [
+                -2.0116905627786374e-05,
+                5.8045666203625275e-06
+              ]
+            },
+            {
+              "lambda_utility_per_us": 1e-07,
+              "mean_net_gain_from_initial": -0.00018235038140985648,
+              "mean_net_difference_vs_PLAIN_ALWAYS": 0.0,
+              "paired_parent_bootstrap_net_difference_vs_PLAIN_ALWAYS_95": [
+                0.0,
+                0.0
+              ],
+              "mean_net_difference_vs_PLAIN_STOP": -0.00015502247029874536,
+              "paired_parent_bootstrap_net_difference_vs_PLAIN_STOP_95": [
+                -0.00021557487766487492,
+                -9.70376341526534e-05
+              ]
+            },
+            {
+              "lambda_utility_per_us": 1e-06,
+              "mean_net_gain_from_initial": -0.0018862875064098563,
+              "mean_net_difference_vs_PLAIN_ALWAYS": 0.0,
+              "paired_parent_bootstrap_net_difference_vs_PLAIN_ALWAYS_95": [
+                0.0,
+                0.0
+              ],
+              "mean_net_difference_vs_PLAIN_STOP": -0.001613008395298745,
+              "paired_parent_bootstrap_net_difference_vs_PLAIN_STOP_95": [
+                -0.0022697598422544945,
+                -0.0010182670490905404
+              ]
+            },
+            {
+              "lambda_utility_per_us": 1e-05,
+              "mean_net_gain_from_initial": -0.018925658756409856,
+              "mean_net_difference_vs_PLAIN_ALWAYS": 0.0,
+              "paired_parent_bootstrap_net_difference_vs_PLAIN_ALWAYS_95": [
+                0.0,
+                0.0
+              ],
+              "mean_net_difference_vs_PLAIN_STOP": -0.016192867645298745,
+              "paired_parent_bootstrap_net_difference_vs_PLAIN_STOP_95": [
+                -0.02284167416462838,
+                -0.010228146737654506
+              ]
+            }
+          ],
+          "mean_total_us": 1893.2634722222222,
+          "mean_validation_us": 26.150972222222222,
+          "mean_initial_us": 211.7694166666667,
+          "mean_solve_us": 1585.9255555555555,
+          "mean_bounds_us": 68.08527777777778,
+          "mean_solver_matvecs": 101.75,
+          "total_solver_matvecs": 3663,
+          "mean_bound_evaluations": 0.0,
+          "total_bound_evaluations": 0,
+          "mean_fast_evaluations": 0.0,
+          "total_fast_evaluations": 0,
+          "mean_outward_evaluations": 0.0,
+          "total_outward_evaluations": 0,
+          "mean_ordinary_evaluations": 6.0,
+          "total_ordinary_evaluations": 216,
+          "mean_operator_response_passes": 107.75,
+          "total_operator_response_passes": 3879,
+          "mean_ordinary_stencil_evaluations": 107.75,
+          "total_ordinary_stencil_evaluations": 3879,
+          "mean_interval_stencil_evaluations": 0.0,
+          "total_interval_stencil_evaluations": 0,
+          "mean_total_stencil_evaluations": 107.75,
+          "total_total_stencil_evaluations": 3879,
+          "break_even_vs_PLAIN_STOP": {
+            "role": "descriptive only; no price fitting, policy tuning, or checkpoint selection",
+            "definition": "delta exact utility / delta parent-median elapsed us, only where delta time > 0",
+            "parents_with_positive_extra_time": 36,
+            "parents_with_nonpositive_extra_time": 0,
+            "median_parent_break_even_price": 0.0,
+            "parent_break_even_price_range": [
+              -1.656097408997658e-11,
+              5.6653824454203355e-08
+            ],
+            "cohort_mean_break_even_price": 4.3061933064471534e-09,
+            "cohort_mean_break_even_price_exact": "607206613486887206153/141007746349377455791443804160"
+          }
+        },
+        "FAST_ONCE": {
+          "parents": 36,
+          "mean_parent_median_us": 1628.213,
+          "mean_regret": 2.00664170745196e-09,
+          "mean_regret_exact": "7277642912562779/3626777458843887524118528",
+          "wrong_decision_parents": 1,
+          "certified_parents": 10,
+          "actual_early_stop_parents": 10,
+          "mean_solver_iterations": 78.25,
+          "solver_iterations_saved": 846,
+          "solver_matvecs_saved": 846,
+          "mean_time_saved_vs_PLAIN_ALWAYS_us": 265.05047222222225,
+          "paired_parent_bootstrap_time_saved_vs_PLAIN_ALWAYS_95_us": [
+            11.01794166666661,
+            624.7069868055552
+          ],
+          "mean_utility_difference_vs_PLAIN_ALWAYS": 0.0,
+          "mean_utility_difference_vs_PLAIN_ALWAYS_exact": "0",
+          "mean_additional_time_vs_PLAIN_STOP_us": 1354.9338888888892,
+          "mean_utility_difference_vs_PLAIN_STOP_exact": "607206613486887206153/87042659012253300578844672",
+          "residual_goal_verified_true_parents": 0,
+          "residual_goal_verified_false_parents": 10,
+          "residual_goal_unverified_parents": 26,
+          "priced": [
+            {
+              "lambda_utility_per_us": 0,
+              "mean_net_gain_from_initial": 6.9759658123657334e-06,
+              "mean_net_difference_vs_PLAIN_ALWAYS": 0.0,
+              "paired_parent_bootstrap_net_difference_vs_PLAIN_ALWAYS_95": [
+                0.0,
+                0.0
+              ],
+              "mean_net_difference_vs_PLAIN_STOP": 6.9759658123657334e-06,
+              "paired_parent_bootstrap_net_difference_vs_PLAIN_STOP_95": [
+                3.805927897918707e-11,
+                2.08011051615954e-05
+              ]
+            },
+            {
+              "lambda_utility_per_us": 1e-08,
+              "mean_net_gain_from_initial": -9.306164187634266e-06,
+              "mean_net_difference_vs_PLAIN_ALWAYS": 2.650504722222222e-06,
+              "paired_parent_bootstrap_net_difference_vs_PLAIN_ALWAYS_95": [
+                1.1017941666666609e-07,
+                6.247069868055555e-06
+              ],
+              "mean_net_difference_vs_PLAIN_STOP": -6.573373076523155e-06,
+              "paired_parent_bootstrap_net_difference_vs_PLAIN_STOP_95": [
+                -1.71068507244275e-05,
+                8.210639400727088e-06
+              ]
+            },
+            {
+              "lambda_utility_per_us": 1e-07,
+              "mean_net_gain_from_initial": -0.00015584533418763427,
+              "mean_net_difference_vs_PLAIN_ALWAYS": 2.650504722222222e-05,
+              "paired_parent_bootstrap_net_difference_vs_PLAIN_ALWAYS_95": [
+                1.101794166666661e-06,
+                6.247069868055553e-05
+              ],
+              "mean_net_difference_vs_PLAIN_STOP": -0.00012851742307652315,
+              "paired_parent_bootstrap_net_difference_vs_PLAIN_STOP_95": [
+                -0.00019058372273950247,
+                -7.623102617958474e-05
+              ]
+            },
+            {
+              "lambda_utility_per_us": 1e-06,
+              "mean_net_gain_from_initial": -0.0016212370341876343,
+              "mean_net_difference_vs_PLAIN_ALWAYS": 0.0002650504722222222,
+              "paired_parent_bootstrap_net_difference_vs_PLAIN_ALWAYS_95": [
+                1.101794166666661e-05,
+                0.0006247069868055552
+              ],
+              "mean_net_difference_vs_PLAIN_STOP": -0.0013479579230765229,
+              "paired_parent_bootstrap_net_difference_vs_PLAIN_STOP_95": [
+                -0.0020083075391011534,
+                -0.0007888423267914162
+              ]
+            },
+            {
+              "lambda_utility_per_us": 1e-05,
+              "mean_net_gain_from_initial": -0.016275154034187635,
+              "mean_net_difference_vs_PLAIN_ALWAYS": 0.002650504722222222,
+              "paired_parent_bootstrap_net_difference_vs_PLAIN_ALWAYS_95": [
+                0.00011017941666666613,
+                0.0062470698680555554
+              ],
+              "mean_net_difference_vs_PLAIN_STOP": -0.013542362923076524,
+              "paired_parent_bootstrap_net_difference_vs_PLAIN_STOP_95": [
+                -0.020195379191323488,
+                -0.007889700214291417
+              ]
+            }
+          ],
+          "mean_total_us": 1628.213,
+          "mean_validation_us": 26.202166666666667,
+          "mean_initial_us": 211.91630555555554,
+          "mean_solve_us": 1322.9221944444444,
+          "mean_bounds_us": 66.13269444444444,
+          "mean_solver_matvecs": 78.25,
+          "total_solver_matvecs": 2817,
+          "mean_bound_evaluations": 3.0,
+          "total_bound_evaluations": 108,
+          "mean_fast_evaluations": 3.0,
+          "total_fast_evaluations": 108,
+          "mean_outward_evaluations": 0.0,
+          "total_outward_evaluations": 0,
+          "mean_ordinary_evaluations": 2.1666666666666665,
+          "total_ordinary_evaluations": 78,
+          "mean_operator_response_passes": 83.41666666666667,
+          "total_operator_response_passes": 3003,
+          "mean_ordinary_stencil_evaluations": 83.41666666666667,
+          "total_ordinary_stencil_evaluations": 3003,
+          "mean_interval_stencil_evaluations": 0.0,
+          "total_interval_stencil_evaluations": 0,
+          "mean_total_stencil_evaluations": 83.41666666666667,
+          "total_total_stencil_evaluations": 3003,
+          "break_even_vs_PLAIN_STOP": {
+            "role": "descriptive only; no price fitting, policy tuning, or checkpoint selection",
+            "definition": "delta exact utility / delta parent-median elapsed us, only where delta time > 0",
+            "parents_with_positive_extra_time": 35,
+            "parents_with_nonpositive_extra_time": 1,
+            "median_parent_break_even_price": 0.0,
+            "parent_break_even_price_range": [
+              -1.6474165743997892e-11,
+              5.6380282255271666e-08
+            ],
+            "cohort_mean_break_even_price": 5.148565453688935e-09,
+            "cohort_mean_break_even_price_exact": "607206613486887206153/117937048474701854676183154688"
+          }
+        },
+        "FAST_BLOCK": {
+          "parents": 36,
+          "mean_parent_median_us": 1312.0381388888889,
+          "mean_regret": 2.00664170745196e-09,
+          "mean_regret_exact": "7277642912562779/3626777458843887524118528",
+          "wrong_decision_parents": 1,
+          "certified_parents": 26,
+          "actual_early_stop_parents": 24,
+          "mean_solver_iterations": 55.833333333333336,
+          "solver_iterations_saved": 1653,
+          "solver_matvecs_saved": 1653,
+          "mean_time_saved_vs_PLAIN_ALWAYS_us": 581.2253333333333,
+          "paired_parent_bootstrap_time_saved_vs_PLAIN_ALWAYS_95_us": [
+            214.74653888888872,
+            1007.7638576388883
+          ],
+          "mean_utility_difference_vs_PLAIN_ALWAYS": 0.0,
+          "mean_utility_difference_vs_PLAIN_ALWAYS_exact": "0",
+          "mean_additional_time_vs_PLAIN_STOP_us": 1038.7590277777779,
+          "mean_utility_difference_vs_PLAIN_STOP_exact": "607206613486887206153/87042659012253300578844672",
+          "residual_goal_verified_true_parents": 5,
+          "residual_goal_verified_false_parents": 31,
+          "residual_goal_unverified_parents": 0,
+          "priced": [
+            {
+              "lambda_utility_per_us": 0,
+              "mean_net_gain_from_initial": 6.9759658123657334e-06,
+              "mean_net_difference_vs_PLAIN_ALWAYS": 0.0,
+              "paired_parent_bootstrap_net_difference_vs_PLAIN_ALWAYS_95": [
+                0.0,
+                0.0
+              ],
+              "mean_net_difference_vs_PLAIN_STOP": 6.9759658123657334e-06,
+              "paired_parent_bootstrap_net_difference_vs_PLAIN_STOP_95": [
+                3.805927897918707e-11,
+                2.08011051615954e-05
+              ]
+            },
+            {
+              "lambda_utility_per_us": 1e-08,
+              "mean_net_gain_from_initial": -6.144415576523156e-06,
+              "mean_net_difference_vs_PLAIN_ALWAYS": 5.8122533333333314e-06,
+              "paired_parent_bootstrap_net_difference_vs_PLAIN_ALWAYS_95": [
+                2.147465388888888e-06,
+                1.007763857638888e-05
+              ],
+              "mean_net_difference_vs_PLAIN_STOP": -3.411624465412045e-06,
+              "paired_parent_bootstrap_net_difference_vs_PLAIN_STOP_95": [
+                -1.4129502868255598e-05,
+                1.1848400230496335e-05
+              ]
+            },
+            {
+              "lambda_utility_per_us": 1e-07,
+              "mean_net_gain_from_initial": -0.00012422784807652315,
+              "mean_net_difference_vs_PLAIN_ALWAYS": 5.812253333333332e-05,
+              "paired_parent_bootstrap_net_difference_vs_PLAIN_ALWAYS_95": [
+                2.1474653888888875e-05,
+                0.00010077638576388881
+              ],
+              "mean_net_difference_vs_PLAIN_STOP": -9.689993696541204e-05,
+              "paired_parent_bootstrap_net_difference_vs_PLAIN_STOP_95": [
+                -0.00015643609309459546,
+                -4.886173071246521e-05
+              ]
+            },
+            {
+              "lambda_utility_per_us": 1e-06,
+              "mean_net_gain_from_initial": -0.001305062173076523,
+              "mean_net_difference_vs_PLAIN_ALWAYS": 0.0005812253333333332,
+              "paired_parent_bootstrap_net_difference_vs_PLAIN_ALWAYS_95": [
+                0.00021474653888888876,
+                0.001007763857638888
+              ],
+              "mean_net_difference_vs_PLAIN_STOP": -0.001031783061965412,
+              "paired_parent_bootstrap_net_difference_vs_PLAIN_STOP_95": [
+                -0.0016236070498931543,
+                -0.0005209352403799976
+              ]
+            },
+            {
+              "lambda_utility_per_us": 1e-05,
+              "mean_net_gain_from_initial": -0.013113405423076525,
+              "mean_net_difference_vs_PLAIN_ALWAYS": 0.005812253333333333,
+              "paired_parent_bootstrap_net_difference_vs_PLAIN_ALWAYS_95": [
+                0.002147465388888887,
+                0.010077638576388883
+              ],
+              "mean_net_difference_vs_PLAIN_STOP": -0.010380614311965413,
+              "paired_parent_bootstrap_net_difference_vs_PLAIN_STOP_95": [
+                -0.016364468553789115,
+                -0.005262690063285499
+              ]
+            }
+          ],
+          "mean_total_us": 1312.0381388888889,
+          "mean_validation_us": 26.20686111111111,
+          "mean_initial_us": 211.6708888888889,
+          "mean_solve_us": 945.4564166666668,
+          "mean_bounds_us": 127.81099999999999,
+          "mean_solver_matvecs": 55.833333333333336,
+          "total_solver_matvecs": 2010,
+          "mean_bound_evaluations": 8.583333333333334,
+          "total_bound_evaluations": 309,
+          "mean_fast_evaluations": 8.583333333333334,
+          "total_fast_evaluations": 309,
+          "mean_outward_evaluations": 0.0,
+          "total_outward_evaluations": 0,
+          "mean_ordinary_evaluations": 0.0,
+          "total_ordinary_evaluations": 0,
+          "mean_operator_response_passes": 64.41666666666667,
+          "total_operator_response_passes": 2319,
+          "mean_ordinary_stencil_evaluations": 64.41666666666667,
+          "total_ordinary_stencil_evaluations": 2319,
+          "mean_interval_stencil_evaluations": 0.0,
+          "total_interval_stencil_evaluations": 0,
+          "mean_total_stencil_evaluations": 64.41666666666667,
+          "total_total_stencil_evaluations": 2319,
+          "break_even_vs_PLAIN_STOP": {
+            "role": "descriptive only; no price fitting, policy tuning, or checkpoint selection",
+            "definition": "delta exact utility / delta parent-median elapsed us, only where delta time > 0",
+            "parents_with_positive_extra_time": 36,
+            "parents_with_nonpositive_extra_time": 0,
+            "median_parent_break_even_price": 0.0,
+            "parent_break_even_price_range": [
+              -1.5367451627934254e-11,
+              7.004338337535242e-08
+            ],
+            "cohort_mean_break_even_price": 6.71567286138485e-09,
+            "cohort_mean_break_even_price_exact": "607206613486887206153/90416347850760865210790051840"
+          }
+        },
+        "OUTWARD_BLOCK": {
+          "parents": 36,
+          "mean_parent_median_us": 3260.3161944444446,
+          "mean_regret": 2.00664170745196e-09,
+          "mean_regret_exact": "7277642912562779/3626777458843887524118528",
+          "wrong_decision_parents": 1,
+          "certified_parents": 26,
+          "actual_early_stop_parents": 24,
+          "mean_solver_iterations": 55.833333333333336,
+          "solver_iterations_saved": 1653,
+          "solver_matvecs_saved": 1653,
+          "mean_time_saved_vs_PLAIN_ALWAYS_us": -1367.0527222222222,
+          "paired_parent_bootstrap_time_saved_vs_PLAIN_ALWAYS_95_us": [
+            -2461.6696659722224,
+            -451.56901736111206
+          ],
+          "mean_utility_difference_vs_PLAIN_ALWAYS": 0.0,
+          "mean_utility_difference_vs_PLAIN_ALWAYS_exact": "0",
+          "mean_additional_time_vs_PLAIN_STOP_us": 2987.037083333333,
+          "mean_utility_difference_vs_PLAIN_STOP_exact": "607206613486887206153/87042659012253300578844672",
+          "residual_goal_verified_true_parents": 5,
+          "residual_goal_verified_false_parents": 31,
+          "residual_goal_unverified_parents": 0,
+          "priced": [
+            {
+              "lambda_utility_per_us": 0,
+              "mean_net_gain_from_initial": 6.9759658123657334e-06,
+              "mean_net_difference_vs_PLAIN_ALWAYS": 0.0,
+              "paired_parent_bootstrap_net_difference_vs_PLAIN_ALWAYS_95": [
+                0.0,
+                0.0
+              ],
+              "mean_net_difference_vs_PLAIN_STOP": 6.9759658123657334e-06,
+              "paired_parent_bootstrap_net_difference_vs_PLAIN_STOP_95": [
+                3.805927897918707e-11,
+                2.08011051615954e-05
+              ]
+            },
+            {
+              "lambda_utility_per_us": 1e-08,
+              "mean_net_gain_from_initial": -2.5627196132078708e-05,
+              "mean_net_difference_vs_PLAIN_ALWAYS": -1.3670527222222222e-05,
+              "paired_parent_bootstrap_net_difference_vs_PLAIN_ALWAYS_95": [
+                -2.4616696659722223e-05,
+                -4.5156901736111195e-06
+              ],
+              "mean_net_difference_vs_PLAIN_STOP": -2.2894405020967602e-05,
+              "paired_parent_bootstrap_net_difference_vs_PLAIN_STOP_95": [
+                -4.062738968874103e-05,
+                -6.3913023938397466e-06
+              ]
+            },
+            {
+              "lambda_utility_per_us": 1e-07,
+              "mean_net_gain_from_initial": -0.00031905565363207875,
+              "mean_net_difference_vs_PLAIN_ALWAYS": -0.00013670527222222224,
+              "paired_parent_bootstrap_net_difference_vs_PLAIN_ALWAYS_95": [
+                -0.00024616696659722216,
+                -4.51569017361112e-05
+              ],
+              "mean_net_difference_vs_PLAIN_STOP": -0.0002917277425209676,
+              "paired_parent_bootstrap_net_difference_vs_PLAIN_STOP_95": [
+                -0.0004483608621943785,
+                -0.00015672922041821326
+              ]
+            },
+            {
+              "lambda_utility_per_us": 1e-06,
+              "mean_net_gain_from_initial": -0.003253340228632078,
+              "mean_net_difference_vs_PLAIN_ALWAYS": -0.0013670527222222222,
+              "paired_parent_bootstrap_net_difference_vs_PLAIN_ALWAYS_95": [
+                -0.0024616696659722223,
+                -0.0004515690173611121
+              ],
+              "mean_net_difference_vs_PLAIN_STOP": -0.0029800611175209678,
+              "paired_parent_bootstrap_net_difference_vs_PLAIN_STOP_95": [
+                -0.004575550633293647,
+                -0.001614859129243042
+              ]
+            },
+            {
+              "lambda_utility_per_us": 1e-05,
+              "mean_net_gain_from_initial": -0.032596185978632085,
+              "mean_net_difference_vs_PLAIN_ALWAYS": -0.013670527222222225,
+              "paired_parent_bootstrap_net_difference_vs_PLAIN_ALWAYS_95": [
+                -0.024616696659722225,
+                -0.00451569017361112
+              ],
+              "mean_net_difference_vs_PLAIN_STOP": -0.02986339486752097,
+              "paired_parent_bootstrap_net_difference_vs_PLAIN_STOP_95": [
+                -0.04581941160829365,
+                -0.016150619479243056
+              ]
+            }
+          ],
+          "mean_total_us": 3260.3161944444446,
+          "mean_validation_us": 26.21472222222222,
+          "mean_initial_us": 211.7946111111111,
+          "mean_solve_us": 944.908472222222,
+          "mean_bounds_us": 2074.554222222222,
+          "mean_solver_matvecs": 55.833333333333336,
+          "total_solver_matvecs": 2010,
+          "mean_bound_evaluations": 8.583333333333334,
+          "total_bound_evaluations": 309,
+          "mean_fast_evaluations": 0.0,
+          "total_fast_evaluations": 0,
+          "mean_outward_evaluations": 8.583333333333334,
+          "total_outward_evaluations": 309,
+          "mean_ordinary_evaluations": 0.0,
+          "total_ordinary_evaluations": 0,
+          "mean_operator_response_passes": 64.41666666666667,
+          "total_operator_response_passes": 2319,
+          "mean_ordinary_stencil_evaluations": 64.41666666666667,
+          "total_ordinary_stencil_evaluations": 2319,
+          "mean_interval_stencil_evaluations": 8.583333333333334,
+          "total_interval_stencil_evaluations": 309,
+          "mean_total_stencil_evaluations": 73.0,
+          "total_total_stencil_evaluations": 2628,
+          "break_even_vs_PLAIN_STOP": {
+            "role": "descriptive only; no price fitting, policy tuning, or checkpoint selection",
+            "definition": "delta exact utility / delta parent-median elapsed us, only where delta time > 0",
+            "parents_with_positive_extra_time": 36,
+            "parents_with_nonpositive_extra_time": 0,
+            "median_parent_break_even_price": 0.0,
+            "parent_break_even_price_range": [
+              -5.688639609824912e-12,
+              2.493582192415157e-08
+            ],
+            "cohort_mean_break_even_price": 2.3354131929895638e-09,
+            "cohort_mean_break_even_price_exact": "607206613486887206153/259999650301538987510239068160"
+          }
+        },
+        "RESIDUAL": {
+          "parents": 36,
+          "mean_parent_median_us": 4237.970194444444,
+          "mean_regret": 0.0,
+          "mean_regret_exact": "0",
+          "wrong_decision_parents": 0,
+          "certified_parents": 0,
+          "actual_early_stop_parents": 20,
+          "mean_solver_iterations": 165.47222222222223,
+          "solver_iterations_saved": -2294,
+          "solver_matvecs_saved": -2294,
+          "mean_time_saved_vs_PLAIN_ALWAYS_us": -2344.7067222222227,
+          "paired_parent_bootstrap_time_saved_vs_PLAIN_ALWAYS_95_us": [
+            -4039.388643055555,
+            -909.1252479166671
+          ],
+          "mean_utility_difference_vs_PLAIN_ALWAYS": 2.00664170745196e-09,
+          "mean_utility_difference_vs_PLAIN_ALWAYS_exact": "7277642912562779/3626777458843887524118528",
+          "mean_additional_time_vs_PLAIN_STOP_us": 3964.691083333333,
+          "mean_utility_difference_vs_PLAIN_STOP_exact": "607381276916788712849/87042659012253300578844672",
+          "residual_goal_verified_true_parents": 36,
+          "residual_goal_verified_false_parents": 0,
+          "residual_goal_unverified_parents": 0,
+          "priced": [
+            {
+              "lambda_utility_per_us": 0,
+              "mean_net_gain_from_initial": 6.9779724540731855e-06,
+              "mean_net_difference_vs_PLAIN_ALWAYS": 2.00664170745196e-09,
+              "paired_parent_bootstrap_net_difference_vs_PLAIN_ALWAYS_95": [
+                0.0,
+                6.01992512235588e-09
+              ],
+              "mean_net_difference_vs_PLAIN_STOP": 6.9779724540731855e-06,
+              "paired_parent_bootstrap_net_difference_vs_PLAIN_STOP_95": [
+                2.044700986431147e-09,
+                2.080302452946316e-05
+              ]
+            },
+            {
+              "lambda_utility_per_us": 1e-08,
+              "mean_net_gain_from_initial": -3.540172949037126e-05,
+              "mean_net_difference_vs_PLAIN_ALWAYS": -2.3445060580514773e-05,
+              "paired_parent_bootstrap_net_difference_vs_PLAIN_ALWAYS_95": [
+                -4.039192995489078e-05,
+                -9.091252479166671e-06
+              ],
+              "mean_net_difference_vs_PLAIN_STOP": -3.2668938379260146e-05,
+              "paired_parent_bootstrap_net_difference_vs_PLAIN_STOP_95": [
+                -5.26823906278426e-05,
+                -1.6058927733779767e-05
+              ]
+            },
+            {
+              "lambda_utility_per_us": 1e-07,
+              "mean_net_gain_from_initial": -0.00041681904699037125,
+              "mean_net_difference_vs_PLAIN_ALWAYS": -0.00023446866558051477,
+              "paired_parent_bootstrap_net_difference_vs_PLAIN_ALWAYS_95": [
+                -0.0004039369078298908,
+                -9.091252479166673e-05
+              ],
+              "mean_net_difference_vs_PLAIN_STOP": -0.0003894911358792601,
+              "paired_parent_bootstrap_net_difference_vs_PLAIN_STOP_95": [
+                -0.0006053304297095564,
+                -0.00021102867232802787
+              ]
+            },
+            {
+              "lambda_utility_per_us": 1e-06,
+              "mean_net_gain_from_initial": -0.00423099222199037,
+              "mean_net_difference_vs_PLAIN_ALWAYS": -0.002344704715580515,
+              "paired_parent_bootstrap_net_difference_vs_PLAIN_ALWAYS_95": [
+                -0.004039386686579891,
+                -0.0009091252479166672
+              ],
+              "mean_net_difference_vs_PLAIN_STOP": -0.0039577131108792605,
+              "paired_parent_bootstrap_net_difference_vs_PLAIN_STOP_95": [
+                -0.006142709387234005,
+                -0.0021286010396425505
+              ]
+            },
+            {
+              "lambda_utility_per_us": 1e-05,
+              "mean_net_gain_from_initial": -0.04237272397199038,
+              "mean_net_difference_vs_PLAIN_ALWAYS": -0.023447065215580515,
+              "paired_parent_bootstrap_net_difference_vs_PLAIN_ALWAYS_95": [
+                -0.0403938844740799,
+                -0.009091252479166673
+              ],
+              "mean_net_difference_vs_PLAIN_STOP": -0.039639932860879266,
+              "paired_parent_bootstrap_net_difference_vs_PLAIN_STOP_95": [
+                -0.061648233919520255,
+                -0.02128729443964256
+              ]
+            }
+          ],
+          "mean_total_us": 4237.970194444444,
+          "mean_validation_us": 26.166444444444444,
+          "mean_initial_us": 211.62502777777775,
+          "mean_solve_us": 3923.8005555555555,
+          "mean_bounds_us": 75.824,
+          "mean_solver_matvecs": 165.47222222222223,
+          "total_solver_matvecs": 5957,
+          "mean_bound_evaluations": 6.0,
+          "total_bound_evaluations": 216,
+          "mean_fast_evaluations": 6.0,
+          "total_fast_evaluations": 216,
+          "mean_outward_evaluations": 0.0,
+          "total_outward_evaluations": 0,
+          "mean_ordinary_evaluations": 0.0,
+          "total_ordinary_evaluations": 0,
+          "mean_operator_response_passes": 171.47222222222223,
+          "total_operator_response_passes": 6173,
+          "mean_ordinary_stencil_evaluations": 171.47222222222223,
+          "total_ordinary_stencil_evaluations": 6173,
+          "mean_interval_stencil_evaluations": 0.0,
+          "total_interval_stencil_evaluations": 0,
+          "mean_total_stencil_evaluations": 171.47222222222223,
+          "total_total_stencil_evaluations": 6173,
+          "break_even_vs_PLAIN_STOP": {
+            "role": "descriptive only; no price fitting, policy tuning, or checkpoint selection",
+            "definition": "delta exact utility / delta parent-median elapsed us, only where delta time > 0",
+            "parents_with_positive_extra_time": 36,
+            "parents_with_nonpositive_extra_time": 0,
+            "median_parent_break_even_price": 0.0,
+            "parent_break_even_price_range": [
+              0.0,
+              1.2806500564949005e-08
+            ],
+            "cohort_mean_break_even_price": 1.760029295449274e-09,
+            "cohort_mean_break_even_price_exact": "607381276916788712849/345097254055504483480558895104"
+          }
+        }
+      },
+      "subgroups": [
+        {
+          "field": "side",
+          "value": 8,
+          "parents": 12,
+          "policies": {
+            "PLAIN_STOP": {
+              "mean_parent_median_us": 6.5120000000000005,
+              "mean_regret": 0.0,
+              "mean_regret_exact": "0",
+              "wrong_decision_parents": 0,
+              "certified": 0,
+              "actual_early_stop_parents": 12,
+              "solver_matvecs_saved": 927,
+              "mean_bounds_us": 0.8885000000000002
+            },
+            "PLAIN_ALWAYS": {
+              "mean_parent_median_us": 34.93800000000001,
+              "mean_regret": 0.0,
+              "mean_regret_exact": "0",
+              "wrong_decision_parents": 0,
+              "certified": 0,
+              "actual_early_stop_parents": 0,
+              "solver_matvecs_saved": 0,
+              "mean_bounds_us": 1.7793333333333334
+            },
+            "FAST_ONCE": {
+              "mean_parent_median_us": 20.07266666666667,
+              "mean_regret": 0.0,
+              "mean_regret_exact": "0",
+              "wrong_decision_parents": 0,
+              "certified": 6,
+              "actual_early_stop_parents": 6,
+              "solver_matvecs_saved": 462,
+              "mean_bounds_us": 1.6290833333333332
+            },
+            "FAST_BLOCK": {
+              "mean_parent_median_us": 16.42233333333333,
+              "mean_regret": 0.0,
+              "mean_regret_exact": "0",
+              "wrong_decision_parents": 0,
+              "certified": 9,
+              "actual_early_stop_parents": 9,
+              "solver_matvecs_saved": 621,
+              "mean_bounds_us": 2.45625
+            },
+            "OUTWARD_BLOCK": {
+              "mean_parent_median_us": 36.673,
+              "mean_regret": 0.0,
+              "mean_regret_exact": "0",
+              "wrong_decision_parents": 0,
+              "certified": 9,
+              "actual_early_stop_parents": 9,
+              "solver_matvecs_saved": 621,
+              "mean_bounds_us": 22.6755
+            },
+            "RESIDUAL": {
+              "mean_parent_median_us": 27.166999999999998,
+              "mean_regret": 0.0,
+              "mean_regret_exact": "0",
+              "wrong_decision_parents": 0,
+              "certified": 0,
+              "actual_early_stop_parents": 12,
+              "solver_matvecs_saved": 296,
+              "mean_bounds_us": 2.47975
+            }
+          }
+        },
+        {
+          "field": "side",
+          "value": 32,
+          "parents": 12,
+          "policies": {
+            "PLAIN_STOP": {
+              "mean_parent_median_us": 82.56425,
+              "mean_regret": 1.7306137598502579e-07,
+              "mean_regret_exact": "1673746926450662427/9671406556917033397649408",
+              "wrong_decision_parents": 2,
+              "certified": 0,
+              "actual_early_stop_parents": 12,
+              "solver_matvecs_saved": 1152,
+              "mean_bounds_us": 10.410166666666667
+            },
+            "PLAIN_ALWAYS": {
+              "mean_parent_median_us": 572.46275,
+              "mean_regret": 0.0,
+              "mean_regret_exact": "0",
+              "wrong_decision_parents": 0,
+              "certified": 0,
+              "actual_early_stop_parents": 0,
+              "solver_matvecs_saved": 0,
+              "mean_bounds_us": 20.845916666666668
+            },
+            "FAST_ONCE": {
+              "mean_parent_median_us": 491.71125,
+              "mean_regret": 0.0,
+              "mean_regret_exact": "0",
+              "wrong_decision_parents": 0,
+              "certified": 2,
+              "actual_early_stop_parents": 2,
+              "solver_matvecs_saved": 192,
+              "mean_bounds_us": 20.328500000000002
+            },
+            "FAST_BLOCK": {
+              "mean_parent_median_us": 346.8980833333333,
+              "mean_regret": 0.0,
+              "mean_regret_exact": "0",
+              "wrong_decision_parents": 0,
+              "certified": 9,
+              "actual_early_stop_parents": 8,
+              "solver_matvecs_saved": 576,
+              "mean_bounds_us": 34.788999999999994
+            },
+            "OUTWARD_BLOCK": {
+              "mean_parent_median_us": 852.7010833333333,
+              "mean_regret": 0.0,
+              "mean_regret_exact": "0",
+              "wrong_decision_parents": 0,
+              "certified": 9,
+              "actual_early_stop_parents": 8,
+              "solver_matvecs_saved": 576,
+              "mean_bounds_us": 539.55525
+            },
+            "RESIDUAL": {
+              "mean_parent_median_us": 903.6706666666668,
+              "mean_regret": 0.0,
+              "mean_regret_exact": "0",
+              "wrong_decision_parents": 0,
+              "certified": 0,
+              "actual_early_stop_parents": 4,
+              "solver_matvecs_saved": -791,
+              "mean_bounds_us": 23.30633333333333
+            }
+          }
+        },
+        {
+          "field": "side",
+          "value": 96,
+          "parents": 12,
+          "policies": {
+            "PLAIN_STOP": {
+              "mean_parent_median_us": 730.7610833333333,
+              "mean_regret": 2.0760855986234535e-05,
+              "mean_regret_exact": "9411875564647448837/453347182355485940514816",
+              "wrong_decision_parents": 2,
+              "certified": 0,
+              "actual_early_stop_parents": 12,
+              "solver_matvecs_saved": 1152,
+              "mean_bounds_us": 91.10441666666667
+            },
+            "PLAIN_ALWAYS": {
+              "mean_parent_median_us": 5072.389666666666,
+              "mean_regret": 6.01992512235588e-09,
+              "mean_regret_exact": "7277642912562779/1208925819614629174706176",
+              "wrong_decision_parents": 1,
+              "certified": 0,
+              "actual_early_stop_parents": 0,
+              "solver_matvecs_saved": 0,
+              "mean_bounds_us": 181.63058333333333
+            },
+            "FAST_ONCE": {
+              "mean_parent_median_us": 4372.855083333333,
+              "mean_regret": 6.01992512235588e-09,
+              "mean_regret_exact": "7277642912562779/1208925819614629174706176",
+              "wrong_decision_parents": 1,
+              "certified": 2,
+              "actual_early_stop_parents": 2,
+              "solver_matvecs_saved": 192,
+              "mean_bounds_us": 176.44050000000001
+            },
+            "FAST_BLOCK": {
+              "mean_parent_median_us": 3572.7940000000003,
+              "mean_regret": 6.01992512235588e-09,
+              "mean_regret_exact": "7277642912562779/1208925819614629174706176",
+              "wrong_decision_parents": 1,
+              "certified": 8,
+              "actual_early_stop_parents": 7,
+              "solver_matvecs_saved": 456,
+              "mean_bounds_us": 346.18775
+            },
+            "OUTWARD_BLOCK": {
+              "mean_parent_median_us": 8891.5745,
+              "mean_regret": 6.01992512235588e-09,
+              "mean_regret_exact": "7277642912562779/1208925819614629174706176",
+              "wrong_decision_parents": 1,
+              "certified": 8,
+              "actual_early_stop_parents": 7,
+              "solver_matvecs_saved": 456,
+              "mean_bounds_us": 5661.431916666667
+            },
+            "RESIDUAL": {
+              "mean_parent_median_us": 11783.072916666666,
+              "mean_regret": 0.0,
+              "mean_regret_exact": "0",
+              "wrong_decision_parents": 0,
+              "certified": 0,
+              "actual_early_stop_parents": 4,
+              "solver_matvecs_saved": -1799,
+              "mean_bounds_us": 201.68591666666666
+            }
+          }
+        },
+        {
+          "field": "rho",
+          "value": 1,
+          "parents": 12,
+          "policies": {
+            "PLAIN_STOP": {
+              "mean_parent_median_us": 270.0974166666667,
+              "mean_regret": 3.7427618939130517e-07,
+              "mean_regret_exact": "42419263970824103/113336795588871485128704",
+              "wrong_decision_parents": 2,
+              "certified": 0,
+              "actual_early_stop_parents": 12,
+              "solver_matvecs_saved": 1044,
+              "mean_bounds_us": 33.66683333333334
+            },
+            "PLAIN_ALWAYS": {
+              "mean_parent_median_us": 1879.2799166666666,
+              "mean_regret": 0.0,
+              "mean_regret_exact": "0",
+              "wrong_decision_parents": 0,
+              "certified": 0,
+              "actual_early_stop_parents": 0,
+              "solver_matvecs_saved": 0,
+              "mean_bounds_us": 67.47866666666667
+            },
+            "FAST_ONCE": {
+              "mean_parent_median_us": 1078.8506666666665,
+              "mean_regret": 0.0,
+              "mean_regret_exact": "0",
+              "wrong_decision_parents": 0,
+              "certified": 6,
+              "actual_early_stop_parents": 6,
+              "solver_matvecs_saved": 522,
+              "mean_bounds_us": 54.274249999999995
+            },
+            "FAST_BLOCK": {
+              "mean_parent_median_us": 814.6226666666666,
+              "mean_regret": 0.0,
+              "mean_regret_exact": "0",
+              "wrong_decision_parents": 0,
+              "certified": 9,
+              "actual_early_stop_parents": 9,
+              "solver_matvecs_saved": 711,
+              "mean_bounds_us": 84.23558333333334
+            },
+            "OUTWARD_BLOCK": {
+              "mean_parent_median_us": 2039.683,
+              "mean_regret": 0.0,
+              "mean_regret_exact": "0",
+              "wrong_decision_parents": 0,
+              "certified": 9,
+              "actual_early_stop_parents": 9,
+              "solver_matvecs_saved": 711,
+              "mean_bounds_us": 1309.56375
+            },
+            "RESIDUAL": {
+              "mean_parent_median_us": 1334.6104166666667,
+              "mean_regret": 0.0,
+              "mean_regret_exact": "0",
+              "wrong_decision_parents": 0,
+              "certified": 0,
+              "actual_early_stop_parents": 12,
+              "solver_matvecs_saved": 386,
+              "mean_bounds_us": 74.95908333333334
+            }
+          }
+        },
+        {
+          "field": "rho",
+          "value": 16,
+          "parents": 12,
+          "policies": {
+            "PLAIN_STOP": {
+              "mean_parent_median_us": 275.6325,
+              "mean_regret": 0.0,
+              "mean_regret_exact": "0",
+              "wrong_decision_parents": 0,
+              "certified": 0,
+              "actual_early_stop_parents": 12,
+              "solver_matvecs_saved": 1093,
+              "mean_bounds_us": 34.402166666666666
+            },
+            "PLAIN_ALWAYS": {
+              "mean_parent_median_us": 1902.356,
+              "mean_regret": 0.0,
+              "mean_regret_exact": "0",
+              "wrong_decision_parents": 0,
+              "certified": 0,
+              "actual_early_stop_parents": 0,
+              "solver_matvecs_saved": 0,
+              "mean_bounds_us": 68.43383333333333
+            },
+            "FAST_ONCE": {
+              "mean_parent_median_us": 1906.2935833333333,
+              "mean_regret": 0.0,
+              "mean_regret_exact": "0",
+              "wrong_decision_parents": 0,
+              "certified": 2,
+              "actual_early_stop_parents": 2,
+              "solver_matvecs_saved": 162,
+              "mean_bounds_us": 72.16983333333333
+            },
+            "FAST_BLOCK": {
+              "mean_parent_median_us": 1461.7396666666666,
+              "mean_regret": 0.0,
+              "mean_regret_exact": "0",
+              "wrong_decision_parents": 0,
+              "certified": 9,
+              "actual_early_stop_parents": 8,
+              "solver_matvecs_saved": 507,
+              "mean_bounds_us": 140.81025
+            },
+            "OUTWARD_BLOCK": {
+              "mean_parent_median_us": 3621.4891666666663,
+              "mean_regret": 0.0,
+              "mean_regret_exact": "0",
+              "wrong_decision_parents": 0,
+              "certified": 9,
+              "actual_early_stop_parents": 8,
+              "solver_matvecs_saved": 507,
+              "mean_bounds_us": 2300.171083333333
+            },
+            "RESIDUAL": {
+              "mean_parent_median_us": 4382.0171666666665,
+              "mean_regret": 0.0,
+              "mean_regret_exact": "0",
+              "wrong_decision_parents": 0,
+              "certified": 0,
+              "actual_early_stop_parents": 4,
+              "solver_matvecs_saved": -895,
+              "mean_bounds_us": 76.42916666666666
+            }
+          }
+        },
+        {
+          "field": "rho",
+          "value": 64,
+          "parents": 12,
+          "policies": {
+            "PLAIN_STOP": {
+              "mean_parent_median_us": 274.10741666666667,
+              "mean_regret": 2.0559641172828255e-05,
+              "mean_regret_exact": "198840648446752580827/9671406556917033397649408",
+              "wrong_decision_parents": 2,
+              "certified": 0,
+              "actual_early_stop_parents": 12,
+              "solver_matvecs_saved": 1094,
+              "mean_bounds_us": 34.33408333333333
+            },
+            "PLAIN_ALWAYS": {
+              "mean_parent_median_us": 1898.1544999999999,
+              "mean_regret": 6.01992512235588e-09,
+              "mean_regret_exact": "7277642912562779/1208925819614629174706176",
+              "wrong_decision_parents": 1,
+              "certified": 0,
+              "actual_early_stop_parents": 0,
+              "solver_matvecs_saved": 0,
+              "mean_bounds_us": 68.34333333333333
+            },
+            "FAST_ONCE": {
+              "mean_parent_median_us": 1899.4947499999998,
+              "mean_regret": 6.01992512235588e-09,
+              "mean_regret_exact": "7277642912562779/1208925819614629174706176",
+              "wrong_decision_parents": 1,
+              "certified": 2,
+              "actual_early_stop_parents": 2,
+              "solver_matvecs_saved": 162,
+              "mean_bounds_us": 71.95400000000001
+            },
+            "FAST_BLOCK": {
+              "mean_parent_median_us": 1659.7520833333335,
+              "mean_regret": 6.01992512235588e-09,
+              "mean_regret_exact": "7277642912562779/1208925819614629174706176",
+              "wrong_decision_parents": 1,
+              "certified": 8,
+              "actual_early_stop_parents": 7,
+              "solver_matvecs_saved": 435,
+              "mean_bounds_us": 158.38716666666667
+            },
+            "OUTWARD_BLOCK": {
+              "mean_parent_median_us": 4119.776416666667,
+              "mean_regret": 6.01992512235588e-09,
+              "mean_regret_exact": "7277642912562779/1208925819614629174706176",
+              "wrong_decision_parents": 1,
+              "certified": 8,
+              "actual_early_stop_parents": 7,
+              "solver_matvecs_saved": 435,
+              "mean_bounds_us": 2613.9278333333336
+            },
+            "RESIDUAL": {
+              "mean_parent_median_us": 6997.283,
+              "mean_regret": 0.0,
+              "mean_regret_exact": "0",
+              "wrong_decision_parents": 0,
+              "certified": 0,
+              "actual_early_stop_parents": 4,
+              "solver_matvecs_saved": -1785,
+              "mean_bounds_us": 76.08375
+            }
+          }
+        },
+        {
+          "field": "gap",
+          "value": "wide",
+          "parents": 9,
+          "policies": {
+            "PLAIN_STOP": {
+              "mean_parent_median_us": 273.34455555555553,
+              "mean_regret": 0.0,
+              "mean_regret_exact": "0",
+              "wrong_decision_parents": 0,
+              "certified": 0,
+              "actual_early_stop_parents": 9,
+              "solver_matvecs_saved": 807,
+              "mean_bounds_us": 34.02455555555556
+            },
+            "PLAIN_ALWAYS": {
+              "mean_parent_median_us": 1885.4257777777775,
+              "mean_regret": 0.0,
+              "mean_regret_exact": "0",
+              "wrong_decision_parents": 0,
+              "certified": 0,
+              "actual_early_stop_parents": 0,
+              "solver_matvecs_saved": 0,
+              "mean_bounds_us": 67.95355555555555
+            },
+            "FAST_ONCE": {
+              "mean_parent_median_us": 1347.7229999999997,
+              "mean_regret": 0.0,
+              "mean_regret_exact": "0",
+              "wrong_decision_parents": 0,
+              "certified": 5,
+              "actual_early_stop_parents": 5,
+              "solver_matvecs_saved": 423,
+              "mean_bounds_us": 60.05155555555555
+            },
+            "FAST_BLOCK": {
+              "mean_parent_median_us": 694.313888888889,
+              "mean_regret": 0.0,
+              "mean_regret_exact": "0",
+              "wrong_decision_parents": 0,
+              "certified": 9,
+              "actual_early_stop_parents": 9,
+              "solver_matvecs_saved": 687,
+              "mean_bounds_us": 73.88877777777778
+            },
+            "OUTWARD_BLOCK": {
+              "mean_parent_median_us": 1829.3193333333338,
+              "mean_regret": 0.0,
+              "mean_regret_exact": "0",
+              "wrong_decision_parents": 0,
+              "certified": 9,
+              "actual_early_stop_parents": 9,
+              "solver_matvecs_saved": 687,
+              "mean_bounds_us": 1207.0248888888889
+            },
+            "RESIDUAL": {
+              "mean_parent_median_us": 4114.0960000000005,
+              "mean_regret": 0.0,
+              "mean_regret_exact": "0",
+              "wrong_decision_parents": 0,
+              "certified": 0,
+              "actual_early_stop_parents": 5,
+              "solver_matvecs_saved": -546,
+              "mean_bounds_us": 75.60744444444444
+            }
+          }
+        },
+        {
+          "field": "gap",
+          "value": "medium",
+          "parents": 9,
+          "policies": {
+            "PLAIN_STOP": {
+              "mean_parent_median_us": 271.1914444444444,
+              "mean_regret": 2.7404676093158614e-05,
+              "mean_regret_exact": "9317874517648653097/340010386766614455386112",
+              "wrong_decision_parents": 1,
+              "certified": 0,
+              "actual_early_stop_parents": 9,
+              "solver_matvecs_saved": 807,
+              "mean_bounds_us": 33.82666666666667
+            },
+            "PLAIN_ALWAYS": {
+              "mean_parent_median_us": 1886.4033333333334,
+              "mean_regret": 0.0,
+              "mean_regret_exact": "0",
+              "wrong_decision_parents": 0,
+              "certified": 0,
+              "actual_early_stop_parents": 0,
+              "solver_matvecs_saved": 0,
+              "mean_bounds_us": 67.58288888888889
+            },
+            "FAST_ONCE": {
+              "mean_parent_median_us": 1349.996111111111,
+              "mean_regret": 0.0,
+              "mean_regret_exact": "0",
+              "wrong_decision_parents": 0,
+              "certified": 5,
+              "actual_early_stop_parents": 5,
+              "solver_matvecs_saved": 423,
+              "mean_bounds_us": 60.13855555555555
+            },
+            "FAST_BLOCK": {
+              "mean_parent_median_us": 953.0440000000001,
+              "mean_regret": 0.0,
+              "mean_regret_exact": "0",
+              "wrong_decision_parents": 0,
+              "certified": 9,
+              "actual_early_stop_parents": 9,
+              "solver_matvecs_saved": 639,
+              "mean_bounds_us": 96.43033333333334
+            },
+            "OUTWARD_BLOCK": {
+              "mean_parent_median_us": 2437.804,
+              "mean_regret": 0.0,
+              "mean_regret_exact": "0",
+              "wrong_decision_parents": 0,
+              "certified": 9,
+              "actual_early_stop_parents": 9,
+              "solver_matvecs_saved": 639,
+              "mean_bounds_us": 1582.9733333333334
+            },
+            "RESIDUAL": {
+              "mean_parent_median_us": 4299.001555555556,
+              "mean_regret": 0.0,
+              "mean_regret_exact": "0",
+              "wrong_decision_parents": 0,
+              "certified": 0,
+              "actual_early_stop_parents": 5,
+              "solver_matvecs_saved": -587,
+              "mean_bounds_us": 75.10966666666667
+            }
+          }
+        },
+        {
+          "field": "gap",
+          "value": "tight",
+          "parents": 9,
+          "policies": {
+            "PLAIN_STOP": {
+              "mean_parent_median_us": 275.8817777777778,
+              "mean_regret": 5.072137231341315e-07,
+              "mean_regret_exact": "11037307787274914641/21760664753063325144711168",
+              "wrong_decision_parents": 3,
+              "certified": 0,
+              "actual_early_stop_parents": 9,
+              "solver_matvecs_saved": 807,
+              "mean_bounds_us": 34.559
+            },
+            "PLAIN_ALWAYS": {
+              "mean_parent_median_us": 1903.1891111111113,
+              "mean_regret": 8.02656682980784e-09,
+              "mean_regret_exact": "7277642912562779/906694364710971881029632",
+              "wrong_decision_parents": 1,
+              "certified": 0,
+              "actual_early_stop_parents": 0,
+              "solver_matvecs_saved": 0,
+              "mean_bounds_us": 68.38666666666667
+            },
+            "FAST_ONCE": {
+              "mean_parent_median_us": 1911.5164444444445,
+              "mean_regret": 8.02656682980784e-09,
+              "mean_regret_exact": "7277642912562779/906694364710971881029632",
+              "wrong_decision_parents": 1,
+              "certified": 0,
+              "actual_early_stop_parents": 0,
+              "solver_matvecs_saved": 0,
+              "mean_bounds_us": 72.56277777777778
+            },
+            "FAST_BLOCK": {
+              "mean_parent_median_us": 1580.119,
+              "mean_regret": 8.02656682980784e-09,
+              "mean_regret_exact": "7277642912562779/906694364710971881029632",
+              "wrong_decision_parents": 1,
+              "certified": 8,
+              "actual_early_stop_parents": 6,
+              "solver_matvecs_saved": 327,
+              "mean_bounds_us": 151.31533333333334
+            },
+            "OUTWARD_BLOCK": {
+              "mean_parent_median_us": 3890.3274444444446,
+              "mean_regret": 8.02656682980784e-09,
+              "mean_regret_exact": "7277642912562779/906694364710971881029632",
+              "wrong_decision_parents": 1,
+              "certified": 8,
+              "actual_early_stop_parents": 6,
+              "solver_matvecs_saved": 327,
+              "mean_bounds_us": 2457.105333333334
+            },
+            "RESIDUAL": {
+              "mean_parent_median_us": 4153.864222222222,
+              "mean_regret": 0.0,
+              "mean_regret_exact": "0",
+              "wrong_decision_parents": 0,
+              "certified": 0,
+              "actual_early_stop_parents": 5,
+              "solver_matvecs_saved": -558,
+              "mean_bounds_us": 76.72288888888889
+            }
+          }
+        },
+        {
+          "field": "gap",
+          "value": "tie",
+          "parents": 9,
+          "policies": {
+            "PLAIN_STOP": {
+              "mean_parent_median_us": 272.69866666666667,
+              "mean_regret": 0.0,
+              "mean_regret_exact": "0",
+              "wrong_decision_parents": 0,
+              "certified": 0,
+              "actual_early_stop_parents": 9,
+              "solver_matvecs_saved": 810,
+              "mean_bounds_us": 34.12722222222222
+            },
+            "PLAIN_ALWAYS": {
+              "mean_parent_median_us": 1898.0356666666667,
+              "mean_regret": 0.0,
+              "mean_regret_exact": "0",
+              "wrong_decision_parents": 0,
+              "certified": 0,
+              "actual_early_stop_parents": 0,
+              "solver_matvecs_saved": 0,
+              "mean_bounds_us": 68.418
+            },
+            "FAST_ONCE": {
+              "mean_parent_median_us": 1903.6164444444448,
+              "mean_regret": 0.0,
+              "mean_regret_exact": "0",
+              "wrong_decision_parents": 0,
+              "certified": 0,
+              "actual_early_stop_parents": 0,
+              "solver_matvecs_saved": 0,
+              "mean_bounds_us": 71.7778888888889
+            },
+            "FAST_BLOCK": {
+              "mean_parent_median_us": 2020.6756666666665,
+              "mean_regret": 0.0,
+              "mean_regret_exact": "0",
+              "wrong_decision_parents": 0,
+              "certified": 0,
+              "actual_early_stop_parents": 0,
+              "solver_matvecs_saved": 0,
+              "mean_bounds_us": 189.60955555555557
+            },
+            "OUTWARD_BLOCK": {
+              "mean_parent_median_us": 4883.814,
+              "mean_regret": 0.0,
+              "mean_regret_exact": "0",
+              "wrong_decision_parents": 0,
+              "certified": 0,
+              "actual_early_stop_parents": 0,
+              "solver_matvecs_saved": 0,
+              "mean_bounds_us": 3051.1133333333337
+            },
+            "RESIDUAL": {
+              "mean_parent_median_us": 4384.919000000001,
+              "mean_regret": 0.0,
+              "mean_regret_exact": "0",
+              "wrong_decision_parents": 0,
+              "certified": 0,
+              "actual_early_stop_parents": 5,
+              "solver_matvecs_saved": -603,
+              "mean_bounds_us": 75.856
+            }
+          }
+        }
+      ]
+    },
+    {
+      "additional": 128,
+      "policies": {
+        "PLAIN_STOP": {
+          "parents": 36,
+          "mean_parent_median_us": 272.39336111111106,
+          "mean_regret": 6.977972454073186e-06,
+          "mean_regret_exact": "607381276916788712849/87042659012253300578844672",
+          "wrong_decision_parents": 4,
+          "certified_parents": 0,
+          "actual_early_stop_parents": 36,
+          "mean_solver_iterations": 12.0,
+          "solver_iterations_saved": 7675,
+          "solver_matvecs_saved": 7675,
+          "mean_time_saved_vs_PLAIN_ALWAYS_us": 4864.8493055555555,
+          "paired_parent_bootstrap_time_saved_vs_PLAIN_ALWAYS_95_us": [
+            2801.6821277777776,
+            7184.825109027774
+          ],
+          "mean_utility_difference_vs_PLAIN_ALWAYS": -6.9779724540731855e-06,
+          "mean_utility_difference_vs_PLAIN_ALWAYS_exact": "-607381276916788712849/87042659012253300578844672",
+          "mean_additional_time_vs_PLAIN_STOP_us": 0.0,
+          "mean_utility_difference_vs_PLAIN_STOP_exact": "0",
+          "residual_goal_verified_true_parents": 0,
+          "residual_goal_verified_false_parents": 0,
+          "residual_goal_unverified_parents": 36,
+          "priced": [
+            {
+              "lambda_utility_per_us": 0,
+              "mean_net_gain_from_initial": 0.0,
+              "mean_net_difference_vs_PLAIN_ALWAYS": -6.9779724540731855e-06,
+              "paired_parent_bootstrap_net_difference_vs_PLAIN_ALWAYS_95": [
+                -2.075569328599616e-05,
+                -2.044700986431147e-09
+              ],
+              "mean_net_difference_vs_PLAIN_STOP": 0.0,
+              "paired_parent_bootstrap_net_difference_vs_PLAIN_STOP_95": [
+                0.0,
+                0.0
+              ]
+            },
+            {
+              "lambda_utility_per_us": 1e-08,
+              "mean_net_gain_from_initial": -2.723933611111111e-06,
+              "mean_net_difference_vs_PLAIN_ALWAYS": 4.167052060148238e-05,
+              "paired_parent_bootstrap_net_difference_vs_PLAIN_ALWAYS_95": [
+                2.0908027023354868e-05,
+                6.520332933175665e-05
+              ],
+              "mean_net_difference_vs_PLAIN_STOP": 0.0,
+              "paired_parent_bootstrap_net_difference_vs_PLAIN_STOP_95": [
+                0.0,
+                0.0
+              ]
+            },
+            {
+              "lambda_utility_per_us": 1e-07,
+              "mean_net_gain_from_initial": -2.723933611111111e-05,
+              "mean_net_difference_vs_PLAIN_ALWAYS": 0.0004795069581014823,
+              "paired_parent_bootstrap_net_difference_vs_PLAIN_ALWAYS_95": [
+                0.0002784876970405493,
+                0.0007105087621246491
+              ],
+              "mean_net_difference_vs_PLAIN_STOP": 0.0,
+              "paired_parent_bootstrap_net_difference_vs_PLAIN_STOP_95": [
+                0.0,
+                0.0
+              ]
+            },
+            {
+              "lambda_utility_per_us": 1e-06,
+              "mean_net_gain_from_initial": -0.00027239336111111107,
+              "mean_net_difference_vs_PLAIN_ALWAYS": 0.004857871333101482,
+              "paired_parent_bootstrap_net_difference_vs_PLAIN_ALWAYS_95": [
+                0.002794719232062923,
+                0.007171192002559935
+              ],
+              "mean_net_difference_vs_PLAIN_STOP": 0.0,
+              "paired_parent_bootstrap_net_difference_vs_PLAIN_STOP_95": [
+                0.0,
+                0.0
+              ]
+            },
+            {
+              "lambda_utility_per_us": 1e-05,
+              "mean_net_gain_from_initial": -0.0027239336111111114,
+              "mean_net_difference_vs_PLAIN_ALWAYS": 0.04864151508310148,
+              "paired_parent_bootstrap_net_difference_vs_PLAIN_ALWAYS_95": [
+                0.028009807201310716,
+                0.07183464409474563
+              ],
+              "mean_net_difference_vs_PLAIN_STOP": 0.0,
+              "paired_parent_bootstrap_net_difference_vs_PLAIN_STOP_95": [
+                0.0,
+                0.0
+              ]
+            }
+          ],
+          "mean_total_us": 272.39336111111106,
+          "mean_validation_us": 26.163361111111108,
+          "mean_initial_us": 211.67038888888885,
+          "mean_solve_us": 0.0,
+          "mean_bounds_us": 33.970749999999995,
+          "mean_solver_matvecs": 12.0,
+          "total_solver_matvecs": 432,
+          "mean_bound_evaluations": 0.0,
+          "total_bound_evaluations": 0,
+          "mean_fast_evaluations": 0.0,
+          "total_fast_evaluations": 0,
+          "mean_outward_evaluations": 0.0,
+          "total_outward_evaluations": 0,
+          "mean_ordinary_evaluations": 3.0,
+          "total_ordinary_evaluations": 108,
+          "mean_operator_response_passes": 15.0,
+          "total_operator_response_passes": 540,
+          "mean_ordinary_stencil_evaluations": 15.0,
+          "total_ordinary_stencil_evaluations": 540,
+          "mean_interval_stencil_evaluations": 0.0,
+          "total_interval_stencil_evaluations": 0,
+          "mean_total_stencil_evaluations": 15.0,
+          "total_total_stencil_evaluations": 540,
+          "break_even_vs_PLAIN_STOP": {
+            "role": "descriptive only; no price fitting, policy tuning, or checkpoint selection",
+            "definition": "delta exact utility / delta parent-median elapsed us, only where delta time > 0",
+            "parents_with_positive_extra_time": 0,
+            "parents_with_nonpositive_extra_time": 36,
+            "median_parent_break_even_price": null,
+            "parent_break_even_price_range": null,
+            "cohort_mean_break_even_price": null,
+            "cohort_mean_break_even_price_exact": null
+          }
+        },
+        "PLAIN_ALWAYS": {
+          "parents": 36,
+          "mean_parent_median_us": 5137.242666666667,
+          "mean_regret": 0.0,
+          "mean_regret_exact": "0",
+          "wrong_decision_parents": 0,
+          "certified_parents": 0,
+          "actual_early_stop_parents": 0,
+          "mean_solver_iterations": 225.19444444444446,
+          "solver_iterations_saved": 0,
+          "solver_matvecs_saved": 0,
+          "mean_time_saved_vs_PLAIN_ALWAYS_us": 0.0,
+          "paired_parent_bootstrap_time_saved_vs_PLAIN_ALWAYS_95_us": [
+            0.0,
+            0.0
+          ],
+          "mean_utility_difference_vs_PLAIN_ALWAYS": 0.0,
+          "mean_utility_difference_vs_PLAIN_ALWAYS_exact": "0",
+          "mean_additional_time_vs_PLAIN_STOP_us": 4864.8493055555555,
+          "mean_utility_difference_vs_PLAIN_STOP_exact": "607381276916788712849/87042659012253300578844672",
+          "residual_goal_verified_true_parents": 0,
+          "residual_goal_verified_false_parents": 0,
+          "residual_goal_unverified_parents": 36,
+          "priced": [
+            {
+              "lambda_utility_per_us": 0,
+              "mean_net_gain_from_initial": 6.9779724540731855e-06,
+              "mean_net_difference_vs_PLAIN_ALWAYS": 0.0,
+              "paired_parent_bootstrap_net_difference_vs_PLAIN_ALWAYS_95": [
+                0.0,
+                0.0
+              ],
+              "mean_net_difference_vs_PLAIN_STOP": 6.9779724540731855e-06,
+              "paired_parent_bootstrap_net_difference_vs_PLAIN_STOP_95": [
+                2.044700986431147e-09,
+                2.075569328599616e-05
+              ]
+            },
+            {
+              "lambda_utility_per_us": 1e-08,
+              "mean_net_gain_from_initial": -4.439445421259349e-05,
+              "mean_net_difference_vs_PLAIN_ALWAYS": 0.0,
+              "paired_parent_bootstrap_net_difference_vs_PLAIN_ALWAYS_95": [
+                0.0,
+                0.0
+              ],
+              "mean_net_difference_vs_PLAIN_STOP": -4.167052060148238e-05,
+              "paired_parent_bootstrap_net_difference_vs_PLAIN_STOP_95": [
+                -6.520332933175665e-05,
+                -2.090802702335487e-05
+              ]
+            },
+            {
+              "lambda_utility_per_us": 1e-07,
+              "mean_net_gain_from_initial": -0.0005067462942125934,
+              "mean_net_difference_vs_PLAIN_ALWAYS": 0.0,
+              "paired_parent_bootstrap_net_difference_vs_PLAIN_ALWAYS_95": [
+                0.0,
+                0.0
+              ],
+              "mean_net_difference_vs_PLAIN_STOP": -0.0004795069581014823,
+              "paired_parent_bootstrap_net_difference_vs_PLAIN_STOP_95": [
+                -0.0007105087621246491,
+                -0.0002784876970405494
+              ]
+            },
+            {
+              "lambda_utility_per_us": 1e-06,
+              "mean_net_gain_from_initial": -0.0051302646942125935,
+              "mean_net_difference_vs_PLAIN_ALWAYS": 0.0,
+              "paired_parent_bootstrap_net_difference_vs_PLAIN_ALWAYS_95": [
+                0.0,
+                0.0
+              ],
+              "mean_net_difference_vs_PLAIN_STOP": -0.004857871333101482,
+              "paired_parent_bootstrap_net_difference_vs_PLAIN_STOP_95": [
+                -0.007171192002559939,
+                -0.002794719232062923
+              ]
+            },
+            {
+              "lambda_utility_per_us": 1e-05,
+              "mean_net_gain_from_initial": -0.05136544869421259,
+              "mean_net_difference_vs_PLAIN_ALWAYS": 0.0,
+              "paired_parent_bootstrap_net_difference_vs_PLAIN_ALWAYS_95": [
+                0.0,
+                0.0
+              ],
+              "mean_net_difference_vs_PLAIN_STOP": -0.04864151508310148,
+              "paired_parent_bootstrap_net_difference_vs_PLAIN_STOP_95": [
+                -0.07183464409474567,
+                -0.02800980720131072
+              ]
+            }
+          ],
+          "mean_total_us": 5137.242666666667,
+          "mean_validation_us": 26.159277777777774,
+          "mean_initial_us": 211.2996388888889,
+          "mean_solve_us": 4829.203388888887,
+          "mean_bounds_us": 68.39802777777778,
+          "mean_solver_matvecs": 225.19444444444446,
+          "total_solver_matvecs": 8107,
+          "mean_bound_evaluations": 0.0,
+          "total_bound_evaluations": 0,
+          "mean_fast_evaluations": 0.0,
+          "total_fast_evaluations": 0,
+          "mean_outward_evaluations": 0.0,
+          "total_outward_evaluations": 0,
+          "mean_ordinary_evaluations": 6.0,
+          "total_ordinary_evaluations": 216,
+          "mean_operator_response_passes": 231.19444444444446,
+          "total_operator_response_passes": 8323,
+          "mean_ordinary_stencil_evaluations": 231.19444444444446,
+          "total_ordinary_stencil_evaluations": 8323,
+          "mean_interval_stencil_evaluations": 0.0,
+          "total_interval_stencil_evaluations": 0,
+          "mean_total_stencil_evaluations": 231.19444444444446,
+          "total_total_stencil_evaluations": 8323,
+          "break_even_vs_PLAIN_STOP": {
+            "role": "descriptive only; no price fitting, policy tuning, or checkpoint selection",
+            "definition": "delta exact utility / delta parent-median elapsed us, only where delta time > 0",
+            "parents_with_positive_extra_time": 36,
+            "parents_with_nonpositive_extra_time": 0,
+            "median_parent_break_even_price": 0.0,
+            "parent_break_even_price_range": [
+              0.0,
+              1.43884228101493e-08
+            ],
+            "cohort_mean_break_even_price": 1.4343655919833916e-09,
+            "cohort_mean_break_even_price_exact": "607381276916788712849/423449419249469491903530532864"
+          }
+        },
+        "FAST_ONCE": {
+          "parents": 36,
+          "mean_parent_median_us": 4801.496888888889,
+          "mean_regret": 0.0,
+          "mean_regret_exact": "0",
+          "wrong_decision_parents": 0,
+          "certified_parents": 10,
+          "actual_early_stop_parents": 10,
+          "mean_solver_iterations": 199.11111111111111,
+          "solver_iterations_saved": 939,
+          "solver_matvecs_saved": 939,
+          "mean_time_saved_vs_PLAIN_ALWAYS_us": 335.745777777778,
+          "paired_parent_bootstrap_time_saved_vs_PLAIN_ALWAYS_95_us": [
+            16.0163708333336,
+            777.4255930555554
+          ],
+          "mean_utility_difference_vs_PLAIN_ALWAYS": 0.0,
+          "mean_utility_difference_vs_PLAIN_ALWAYS_exact": "0",
+          "mean_additional_time_vs_PLAIN_STOP_us": 4529.103527777777,
+          "mean_utility_difference_vs_PLAIN_STOP_exact": "607381276916788712849/87042659012253300578844672",
+          "residual_goal_verified_true_parents": 0,
+          "residual_goal_verified_false_parents": 10,
+          "residual_goal_unverified_parents": 26,
+          "priced": [
+            {
+              "lambda_utility_per_us": 0,
+              "mean_net_gain_from_initial": 6.9779724540731855e-06,
+              "mean_net_difference_vs_PLAIN_ALWAYS": 0.0,
+              "paired_parent_bootstrap_net_difference_vs_PLAIN_ALWAYS_95": [
+                0.0,
+                0.0
+              ],
+              "mean_net_difference_vs_PLAIN_STOP": 6.9779724540731855e-06,
+              "paired_parent_bootstrap_net_difference_vs_PLAIN_STOP_95": [
+                2.044700986431147e-09,
+                2.075569328599616e-05
+              ]
+            },
+            {
+              "lambda_utility_per_us": 1e-08,
+              "mean_net_gain_from_initial": -4.10369964348157e-05,
+              "mean_net_difference_vs_PLAIN_ALWAYS": 3.3574577777777813e-06,
+              "paired_parent_bootstrap_net_difference_vs_PLAIN_ALWAYS_95": [
+                1.60163708333336e-07,
+                7.774255930555557e-06
+              ],
+              "mean_net_difference_vs_PLAIN_STOP": -3.831306282370459e-05,
+              "paired_parent_bootstrap_net_difference_vs_PLAIN_STOP_95": [
+                -6.208897781510301e-05,
+                -1.7525361343352286e-05
+              ]
+            },
+            {
+              "lambda_utility_per_us": 1e-07,
+              "mean_net_gain_from_initial": -0.00047317171643481565,
+              "mean_net_difference_vs_PLAIN_ALWAYS": 3.35745777777778e-05,
+              "paired_parent_bootstrap_net_difference_vs_PLAIN_ALWAYS_95": [
+                1.6016370833333604e-06,
+                7.774255930555551e-05
+              ],
+              "mean_net_difference_vs_PLAIN_STOP": -0.0004459323803237045,
+              "paired_parent_bootstrap_net_difference_vs_PLAIN_STOP_95": [
+                -0.0006833743803340165,
+                -0.00023937438996116608
+              ]
+            },
+            {
+              "lambda_utility_per_us": 1e-06,
+              "mean_net_gain_from_initial": -0.004794518916434816,
+              "mean_net_difference_vs_PLAIN_ALWAYS": 0.0003357457777777781,
+              "paired_parent_bootstrap_net_difference_vs_PLAIN_ALWAYS_95": [
+                1.60163708333336e-05,
+                0.0007774255930555555
+              ],
+              "mean_net_difference_vs_PLAIN_STOP": -0.004522125555323705,
+              "paired_parent_bootstrap_net_difference_vs_PLAIN_STOP_95": [
+                -0.006895907165930284,
+                -0.002422685506388998
+              ]
+            },
+            {
+              "lambda_utility_per_us": 1e-05,
+              "mean_net_gain_from_initial": -0.04800799091643482,
+              "mean_net_difference_vs_PLAIN_ALWAYS": 0.003357457777777781,
+              "paired_parent_bootstrap_net_difference_vs_PLAIN_ALWAYS_95": [
+                0.00016016370833333603,
+                0.007774255930555554
+              ],
+              "mean_net_difference_vs_PLAIN_STOP": -0.0452840573053237,
+              "paired_parent_bootstrap_net_difference_vs_PLAIN_STOP_95": [
+                -0.06902136977843028,
+                -0.024273804509390463
+              ]
+            }
+          ],
+          "mean_total_us": 4801.496888888889,
+          "mean_validation_us": 26.15338888888889,
+          "mean_initial_us": 211.57797222222223,
+          "mean_solve_us": 4496.513611111111,
+          "mean_bounds_us": 66.34138888888889,
+          "mean_solver_matvecs": 199.11111111111111,
+          "total_solver_matvecs": 7168,
+          "mean_bound_evaluations": 3.0,
+          "total_bound_evaluations": 108,
+          "mean_fast_evaluations": 3.0,
+          "total_fast_evaluations": 108,
+          "mean_outward_evaluations": 0.0,
+          "total_outward_evaluations": 0,
+          "mean_ordinary_evaluations": 2.1666666666666665,
+          "total_ordinary_evaluations": 78,
+          "mean_operator_response_passes": 204.27777777777777,
+          "total_operator_response_passes": 7354,
+          "mean_ordinary_stencil_evaluations": 204.27777777777777,
+          "total_ordinary_stencil_evaluations": 7354,
+          "mean_interval_stencil_evaluations": 0.0,
+          "total_interval_stencil_evaluations": 0,
+          "mean_total_stencil_evaluations": 204.27777777777777,
+          "total_total_stencil_evaluations": 7354,
+          "break_even_vs_PLAIN_STOP": {
+            "role": "descriptive only; no price fitting, policy tuning, or checkpoint selection",
+            "definition": "delta exact utility / delta parent-median elapsed us, only where delta time > 0",
+            "parents_with_positive_extra_time": 36,
+            "parents_with_nonpositive_extra_time": 0,
+            "median_parent_break_even_price": 0.0,
+            "parent_break_even_price_range": [
+              0.0,
+              1.4357966676597598e-08
+            ],
+            "cohort_mean_break_even_price": 1.5406961689606058e-09,
+            "cohort_mean_break_even_price_exact": "607381276916788712849/394225213999554584319145017344"
+          }
+        },
+        "FAST_BLOCK": {
+          "parents": 36,
+          "mean_parent_median_us": 2306.5197777777776,
+          "mean_regret": 0.0,
+          "mean_regret_exact": "0",
+          "wrong_decision_parents": 0,
+          "certified_parents": 27,
+          "actual_early_stop_parents": 27,
+          "mean_solver_iterations": 88.77777777777777,
+          "solver_iterations_saved": 4911,
+          "solver_matvecs_saved": 4911,
+          "mean_time_saved_vs_PLAIN_ALWAYS_us": 2830.722888888889,
+          "paired_parent_bootstrap_time_saved_vs_PLAIN_ALWAYS_95_us": [
+            1340.8186493055555,
+            4531.605354861111
+          ],
+          "mean_utility_difference_vs_PLAIN_ALWAYS": 0.0,
+          "mean_utility_difference_vs_PLAIN_ALWAYS_exact": "0",
+          "mean_additional_time_vs_PLAIN_STOP_us": 2034.126416666667,
+          "mean_utility_difference_vs_PLAIN_STOP_exact": "607381276916788712849/87042659012253300578844672",
+          "residual_goal_verified_true_parents": 8,
+          "residual_goal_verified_false_parents": 28,
+          "residual_goal_unverified_parents": 0,
+          "priced": [
+            {
+              "lambda_utility_per_us": 0,
+              "mean_net_gain_from_initial": 6.9779724540731855e-06,
+              "mean_net_difference_vs_PLAIN_ALWAYS": 0.0,
+              "paired_parent_bootstrap_net_difference_vs_PLAIN_ALWAYS_95": [
+                0.0,
+                0.0
+              ],
+              "mean_net_difference_vs_PLAIN_STOP": 6.9779724540731855e-06,
+              "paired_parent_bootstrap_net_difference_vs_PLAIN_STOP_95": [
+                2.044700986431147e-09,
+                2.075569328599616e-05
+              ]
+            },
+            {
+              "lambda_utility_per_us": 1e-08,
+              "mean_net_gain_from_initial": -1.608722532370459e-05,
+              "mean_net_difference_vs_PLAIN_ALWAYS": 2.8307228888888893e-05,
+              "paired_parent_bootstrap_net_difference_vs_PLAIN_ALWAYS_95": [
+                1.3408186493055556e-05,
+                4.531605354861112e-05
+              ],
+              "mean_net_difference_vs_PLAIN_STOP": -1.3363291712593482e-05,
+              "paired_parent_bootstrap_net_difference_vs_PLAIN_STOP_95": [
+                -3.2631058739989875e-05,
+                6.264550251909026e-06
+              ]
+            },
+            {
+              "lambda_utility_per_us": 1e-07,
+              "mean_net_gain_from_initial": -0.00022367400532370454,
+              "mean_net_difference_vs_PLAIN_ALWAYS": 0.00028307228888888893,
+              "paired_parent_bootstrap_net_difference_vs_PLAIN_ALWAYS_95": [
+                0.00013408186493055557,
+                0.00045316053548611105
+              ],
+              "mean_net_difference_vs_PLAIN_STOP": -0.00019643466921259349,
+              "paired_parent_bootstrap_net_difference_vs_PLAIN_STOP_95": [
+                -0.00036300928140509445,
+                -6.920637962060276e-05
+              ]
+            },
+            {
+              "lambda_utility_per_us": 1e-06,
+              "mean_net_gain_from_initial": -0.0022995418053237044,
+              "mean_net_difference_vs_PLAIN_ALWAYS": 0.0028307228888888886,
+              "paired_parent_bootstrap_net_difference_vs_PLAIN_ALWAYS_95": [
+                0.0013408186493055556,
+                0.004531605354861111
+              ],
+              "mean_net_difference_vs_PLAIN_STOP": -0.0020271484442125932,
+              "paired_parent_bootstrap_net_difference_vs_PLAIN_STOP_95": [
+                -0.0037324072163333953,
+                -0.0007626402812732105
+              ]
+            },
+            {
+              "lambda_utility_per_us": 1e-05,
+              "mean_net_gain_from_initial": -0.0230582198053237,
+              "mean_net_difference_vs_PLAIN_ALWAYS": 0.028307228888888893,
+              "paired_parent_bootstrap_net_difference_vs_PLAIN_ALWAYS_95": [
+                0.013408186493055559,
+                0.04531605354861112
+              ],
+              "mean_net_difference_vs_PLAIN_STOP": -0.020334286194212594,
+              "paired_parent_bootstrap_net_difference_vs_PLAIN_STOP_95": [
+                -0.037351619105939086,
+                -0.0077670206250577585
+              ]
+            }
+          ],
+          "mean_total_us": 2306.5197777777776,
+          "mean_validation_us": 26.174333333333337,
+          "mean_initial_us": 211.8033611111111,
+          "mean_solve_us": 1850.9866111111114,
+          "mean_bounds_us": 216.354,
+          "mean_solver_matvecs": 88.77777777777777,
+          "total_solver_matvecs": 3196,
+          "mean_bound_evaluations": 12.916666666666666,
+          "total_bound_evaluations": 465,
+          "mean_fast_evaluations": 12.916666666666666,
+          "total_fast_evaluations": 465,
+          "mean_outward_evaluations": 0.0,
+          "total_outward_evaluations": 0,
+          "mean_ordinary_evaluations": 0.0,
+          "total_ordinary_evaluations": 0,
+          "mean_operator_response_passes": 101.69444444444444,
+          "total_operator_response_passes": 3661,
+          "mean_ordinary_stencil_evaluations": 101.69444444444444,
+          "total_ordinary_stencil_evaluations": 3661,
+          "mean_interval_stencil_evaluations": 0.0,
+          "total_interval_stencil_evaluations": 0,
+          "mean_total_stencil_evaluations": 101.69444444444444,
+          "total_total_stencil_evaluations": 3661,
+          "break_even_vs_PLAIN_STOP": {
+            "role": "descriptive only; no price fitting, policy tuning, or checkpoint selection",
+            "definition": "delta exact utility / delta parent-median elapsed us, only where delta time > 0",
+            "parents_with_positive_extra_time": 36,
+            "parents_with_nonpositive_extra_time": 0,
+            "median_parent_break_even_price": 0.0,
+            "parent_break_even_price_range": [
+              0.0,
+              7.001769301215121e-08
+            ],
+            "cohort_mean_break_even_price": 3.430451714750367e-09,
+            "cohort_mean_break_even_price_exact": "607381276916788712849/177055772073733345659481751552"
+          }
+        },
+        "OUTWARD_BLOCK": {
+          "parents": 36,
+          "mean_parent_median_us": 5611.535777777778,
+          "mean_regret": 0.0,
+          "mean_regret_exact": "0",
+          "wrong_decision_parents": 0,
+          "certified_parents": 27,
+          "actual_early_stop_parents": 27,
+          "mean_solver_iterations": 88.77777777777777,
+          "solver_iterations_saved": 4911,
+          "solver_matvecs_saved": 4911,
+          "mean_time_saved_vs_PLAIN_ALWAYS_us": -474.2931111111111,
+          "paired_parent_bootstrap_time_saved_vs_PLAIN_ALWAYS_95_us": [
+            -3236.729113194444,
+            1859.2584868055562
+          ],
+          "mean_utility_difference_vs_PLAIN_ALWAYS": 0.0,
+          "mean_utility_difference_vs_PLAIN_ALWAYS_exact": "0",
+          "mean_additional_time_vs_PLAIN_STOP_us": 5339.142416666667,
+          "mean_utility_difference_vs_PLAIN_STOP_exact": "607381276916788712849/87042659012253300578844672",
+          "residual_goal_verified_true_parents": 8,
+          "residual_goal_verified_false_parents": 28,
+          "residual_goal_unverified_parents": 0,
+          "priced": [
+            {
+              "lambda_utility_per_us": 0,
+              "mean_net_gain_from_initial": 6.9779724540731855e-06,
+              "mean_net_difference_vs_PLAIN_ALWAYS": 0.0,
+              "paired_parent_bootstrap_net_difference_vs_PLAIN_ALWAYS_95": [
+                0.0,
+                0.0
+              ],
+              "mean_net_difference_vs_PLAIN_STOP": 6.9779724540731855e-06,
+              "paired_parent_bootstrap_net_difference_vs_PLAIN_STOP_95": [
+                2.044700986431147e-09,
+                2.075569328599616e-05
+              ]
+            },
+            {
+              "lambda_utility_per_us": 1e-08,
+              "mean_net_gain_from_initial": -4.91373853237046e-05,
+              "mean_net_difference_vs_PLAIN_ALWAYS": -4.7429311111111085e-06,
+              "paired_parent_bootstrap_net_difference_vs_PLAIN_ALWAYS_95": [
+                -3.236729113194444e-05,
+                1.8592584868055555e-05
+              ],
+              "mean_net_difference_vs_PLAIN_STOP": -4.6413451712593475e-05,
+              "paired_parent_bootstrap_net_difference_vs_PLAIN_STOP_95": [
+                -8.706192831648689e-05,
+                -1.3369795303920954e-05
+              ]
+            },
+            {
+              "lambda_utility_per_us": 1e-07,
+              "mean_net_gain_from_initial": -0.0005541756053237045,
+              "mean_net_difference_vs_PLAIN_ALWAYS": -4.742931111111111e-05,
+              "paired_parent_bootstrap_net_difference_vs_PLAIN_ALWAYS_95": [
+                -0.0003236729113194444,
+                0.00018592584868055555
+              ],
+              "mean_net_difference_vs_PLAIN_STOP": -0.0005269362692125934,
+              "paired_parent_bootstrap_net_difference_vs_PLAIN_STOP_95": [
+                -0.0009325169350186352,
+                -0.0002206870243417125
+              ]
+            },
+            {
+              "lambda_utility_per_us": 1e-06,
+              "mean_net_gain_from_initial": -0.005604557805323705,
+              "mean_net_difference_vs_PLAIN_ALWAYS": -0.0004742931111111111,
+              "paired_parent_bootstrap_net_difference_vs_PLAIN_ALWAYS_95": [
+                -0.003236729113194444,
+                0.0018592584868055556
+              ],
+              "mean_net_difference_vs_PLAIN_STOP": -0.005332164444212593,
+              "paired_parent_bootstrap_net_difference_vs_PLAIN_STOP_95": [
+                -0.009389608143180454,
+                -0.002295242139548494
+              ]
+            },
+            {
+              "lambda_utility_per_us": 1e-05,
+              "mean_net_gain_from_initial": -0.05610837980532372,
+              "mean_net_difference_vs_PLAIN_ALWAYS": -0.004742931111111109,
+              "paired_parent_bootstrap_net_difference_vs_PLAIN_ALWAYS_95": [
+                -0.03236729113194444,
+                0.01859258486805556
+              ],
+              "mean_net_difference_vs_PLAIN_STOP": -0.05338444619421259,
+              "paired_parent_bootstrap_net_difference_vs_PLAIN_STOP_95": [
+                -0.09395965227740281,
+                -0.022995734530567875
+              ]
+            }
+          ],
+          "mean_total_us": 5611.535777777778,
+          "mean_validation_us": 26.148194444444446,
+          "mean_initial_us": 211.78236111111107,
+          "mean_solve_us": 1849.4542777777776,
+          "mean_bounds_us": 3522.1984166666666,
+          "mean_solver_matvecs": 88.77777777777777,
+          "total_solver_matvecs": 3196,
+          "mean_bound_evaluations": 12.916666666666666,
+          "total_bound_evaluations": 465,
+          "mean_fast_evaluations": 0.0,
+          "total_fast_evaluations": 0,
+          "mean_outward_evaluations": 12.916666666666666,
+          "total_outward_evaluations": 465,
+          "mean_ordinary_evaluations": 0.0,
+          "total_ordinary_evaluations": 0,
+          "mean_operator_response_passes": 101.69444444444444,
+          "total_operator_response_passes": 3661,
+          "mean_ordinary_stencil_evaluations": 101.69444444444444,
+          "total_ordinary_stencil_evaluations": 3661,
+          "mean_interval_stencil_evaluations": 12.916666666666666,
+          "total_interval_stencil_evaluations": 465,
+          "mean_total_stencil_evaluations": 114.61111111111111,
+          "total_total_stencil_evaluations": 4126,
+          "break_even_vs_PLAIN_STOP": {
+            "role": "descriptive only; no price fitting, policy tuning, or checkpoint selection",
+            "definition": "delta exact utility / delta parent-median elapsed us, only where delta time > 0",
+            "parents_with_positive_extra_time": 36,
+            "parents_with_nonpositive_extra_time": 0,
+            "median_parent_break_even_price": 0.0,
+            "parent_break_even_price_range": [
+              0.0,
+              2.491684536234059e-08
+            ],
+            "cohort_mean_break_even_price": 1.306946305138958e-09,
+            "cohort_mean_break_even_price_exact": "607381276916788712849/464733152791774694933994143744"
+          }
+        },
+        "RESIDUAL": {
+          "parents": 36,
+          "mean_parent_median_us": 4225.030277777779,
+          "mean_regret": 0.0,
+          "mean_regret_exact": "0",
+          "wrong_decision_parents": 0,
+          "certified_parents": 0,
+          "actual_early_stop_parents": 32,
+          "mean_solver_iterations": 165.47222222222223,
+          "solver_iterations_saved": 2150,
+          "solver_matvecs_saved": 2150,
+          "mean_time_saved_vs_PLAIN_ALWAYS_us": 912.2123888888891,
+          "paired_parent_bootstrap_time_saved_vs_PLAIN_ALWAYS_95_us": [
+            269.4828923611115,
+            1610.2220125000006
+          ],
+          "mean_utility_difference_vs_PLAIN_ALWAYS": 0.0,
+          "mean_utility_difference_vs_PLAIN_ALWAYS_exact": "0",
+          "mean_additional_time_vs_PLAIN_STOP_us": 3952.636916666667,
+          "mean_utility_difference_vs_PLAIN_STOP_exact": "607381276916788712849/87042659012253300578844672",
+          "residual_goal_verified_true_parents": 36,
+          "residual_goal_verified_false_parents": 0,
+          "residual_goal_unverified_parents": 0,
+          "priced": [
+            {
+              "lambda_utility_per_us": 0,
+              "mean_net_gain_from_initial": 6.9779724540731855e-06,
+              "mean_net_difference_vs_PLAIN_ALWAYS": 0.0,
+              "paired_parent_bootstrap_net_difference_vs_PLAIN_ALWAYS_95": [
+                0.0,
+                0.0
+              ],
+              "mean_net_difference_vs_PLAIN_STOP": 6.9779724540731855e-06,
+              "paired_parent_bootstrap_net_difference_vs_PLAIN_STOP_95": [
+                2.044700986431147e-09,
+                2.075569328599616e-05
+              ]
+            },
+            {
+              "lambda_utility_per_us": 1e-08,
+              "mean_net_gain_from_initial": -3.52723303237046e-05,
+              "mean_net_difference_vs_PLAIN_ALWAYS": 9.122123888888892e-06,
+              "paired_parent_bootstrap_net_difference_vs_PLAIN_ALWAYS_95": [
+                2.6948289236111152e-06,
+                1.6102220125e-05
+              ],
+              "mean_net_difference_vs_PLAIN_STOP": -3.254839671259348e-05,
+              "paired_parent_bootstrap_net_difference_vs_PLAIN_STOP_95": [
+                -5.3340875858144225e-05,
+                -1.4532373461598248e-05
+              ]
+            },
+            {
+              "lambda_utility_per_us": 1e-07,
+              "mean_net_gain_from_initial": -0.0004155250553237045,
+              "mean_net_difference_vs_PLAIN_ALWAYS": 9.122123888888892e-05,
+              "paired_parent_bootstrap_net_difference_vs_PLAIN_ALWAYS_95": [
+                2.6948289236111143e-05,
+                0.00016102220125000004
+              ],
+              "mean_net_difference_vs_PLAIN_STOP": -0.0003882857192125935,
+              "paired_parent_bootstrap_net_difference_vs_PLAIN_STOP_95": [
+                -0.0006033619881508326,
+                -0.00020419978125363596
+              ]
+            },
+            {
+              "lambda_utility_per_us": 1e-06,
+              "mean_net_gain_from_initial": -0.004218052305323705,
+              "mean_net_difference_vs_PLAIN_ALWAYS": 0.0009122123888888893,
+              "paired_parent_bootstrap_net_difference_vs_PLAIN_ALWAYS_95": [
+                0.00026948289236111147,
+                0.0016102220125000007
+              ],
+              "mean_net_difference_vs_PLAIN_STOP": -0.003945658944212593,
+              "paired_parent_bootstrap_net_difference_vs_PLAIN_STOP_95": [
+                -0.006138799769926444,
+                -0.0020721788153838625
+              ]
+            },
+            {
+              "lambda_utility_per_us": 1e-05,
+              "mean_net_gain_from_initial": -0.0422433248053237,
+              "mean_net_difference_vs_PLAIN_ALWAYS": 0.009122123888888894,
+              "paired_parent_bootstrap_net_difference_vs_PLAIN_ALWAYS_95": [
+                0.0026948289236111153,
+                0.016102220125000004
+              ],
+              "mean_net_difference_vs_PLAIN_STOP": -0.03951939119421259,
+              "paired_parent_bootstrap_net_difference_vs_PLAIN_STOP_95": [
+                -0.06145341731992644,
+                -0.020722503146633885
+              ]
+            }
+          ],
+          "mean_total_us": 4225.030277777779,
+          "mean_validation_us": 26.156111111111116,
+          "mean_initial_us": 211.67983333333333,
+          "mean_solve_us": 3910.490055555556,
+          "mean_bounds_us": 75.68780555555557,
+          "mean_solver_matvecs": 165.47222222222223,
+          "total_solver_matvecs": 5957,
+          "mean_bound_evaluations": 6.0,
+          "total_bound_evaluations": 216,
+          "mean_fast_evaluations": 6.0,
+          "total_fast_evaluations": 216,
+          "mean_outward_evaluations": 0.0,
+          "total_outward_evaluations": 0,
+          "mean_ordinary_evaluations": 0.0,
+          "total_ordinary_evaluations": 0,
+          "mean_operator_response_passes": 171.47222222222223,
+          "total_operator_response_passes": 6173,
+          "mean_ordinary_stencil_evaluations": 171.47222222222223,
+          "total_ordinary_stencil_evaluations": 6173,
+          "mean_interval_stencil_evaluations": 0.0,
+          "total_interval_stencil_evaluations": 0,
+          "mean_total_stencil_evaluations": 171.47222222222223,
+          "total_total_stencil_evaluations": 6173,
+          "break_even_vs_PLAIN_STOP": {
+            "role": "descriptive only; no price fitting, policy tuning, or checkpoint selection",
+            "definition": "delta exact utility / delta parent-median elapsed us, only where delta time > 0",
+            "parents_with_positive_extra_time": 36,
+            "parents_with_nonpositive_extra_time": 0,
+            "median_parent_break_even_price": 0.0,
+            "parent_break_even_price_range": [
+              0.0,
+              1.2797189293103307e-08
+            ],
+            "cohort_mean_break_even_price": 1.7653967721269585e-09,
+            "cohort_mean_break_even_price_exact": "607381276916788712849/344048027336660908939937841152"
+          }
+        }
+      },
+      "subgroups": [
+        {
+          "field": "side",
+          "value": 8,
+          "parents": 12,
+          "policies": {
+            "PLAIN_STOP": {
+              "mean_parent_median_us": 6.272083333333334,
+              "mean_regret": 0.0,
+              "mean_regret_exact": "0",
+              "wrong_decision_parents": 0,
+              "certified": 0,
+              "actual_early_stop_parents": 12,
+              "solver_matvecs_saved": 927,
+              "mean_bounds_us": 0.8784166666666668
+            },
+            "PLAIN_ALWAYS": {
+              "mean_parent_median_us": 34.366083333333336,
+              "mean_regret": 0.0,
+              "mean_regret_exact": "0",
+              "wrong_decision_parents": 0,
+              "certified": 0,
+              "actual_early_stop_parents": 0,
+              "solver_matvecs_saved": 0,
+              "mean_bounds_us": 1.7443333333333335
+            },
+            "FAST_ONCE": {
+              "mean_parent_median_us": 19.492250000000002,
+              "mean_regret": 0.0,
+              "mean_regret_exact": "0",
+              "wrong_decision_parents": 0,
+              "certified": 6,
+              "actual_early_stop_parents": 6,
+              "solver_matvecs_saved": 462,
+              "mean_bounds_us": 1.6291666666666667
+            },
+            "FAST_BLOCK": {
+              "mean_parent_median_us": 16.731333333333332,
+              "mean_regret": 0.0,
+              "mean_regret_exact": "0",
+              "wrong_decision_parents": 0,
+              "certified": 9,
+              "actual_early_stop_parents": 9,
+              "solver_matvecs_saved": 621,
+              "mean_bounds_us": 2.51175
+            },
+            "OUTWARD_BLOCK": {
+              "mean_parent_median_us": 37.53716666666667,
+              "mean_regret": 0.0,
+              "mean_regret_exact": "0",
+              "wrong_decision_parents": 0,
+              "certified": 9,
+              "actual_early_stop_parents": 9,
+              "solver_matvecs_saved": 621,
+              "mean_bounds_us": 23.291666666666668
+            },
+            "RESIDUAL": {
+              "mean_parent_median_us": 26.962166666666665,
+              "mean_regret": 0.0,
+              "mean_regret_exact": "0",
+              "wrong_decision_parents": 0,
+              "certified": 0,
+              "actual_early_stop_parents": 12,
+              "solver_matvecs_saved": 296,
+              "mean_bounds_us": 2.382166666666666
+            }
+          }
+        },
+        {
+          "field": "side",
+          "value": 32,
+          "parents": 12,
+          "policies": {
+            "PLAIN_STOP": {
+              "mean_parent_median_us": 82.60175,
+              "mean_regret": 1.7306137598502579e-07,
+              "mean_regret_exact": "1673746926450662427/9671406556917033397649408",
+              "wrong_decision_parents": 2,
+              "certified": 0,
+              "actual_early_stop_parents": 12,
+              "solver_matvecs_saved": 3191,
+              "mean_bounds_us": 10.436416666666664
+            },
+            "PLAIN_ALWAYS": {
+              "mean_parent_median_us": 1424.5710833333333,
+              "mean_regret": 0.0,
+              "mean_regret_exact": "0",
+              "wrong_decision_parents": 0,
+              "certified": 0,
+              "actual_early_stop_parents": 0,
+              "solver_matvecs_saved": 0,
+              "mean_bounds_us": 21.001583333333333
+            },
+            "FAST_ONCE": {
+              "mean_parent_median_us": 1321.7116666666664,
+              "mean_regret": 0.0,
+              "mean_regret_exact": "0",
+              "wrong_decision_parents": 0,
+              "certified": 2,
+              "actual_early_stop_parents": 2,
+              "solver_matvecs_saved": 235,
+              "mean_bounds_us": 20.517916666666668
+            },
+            "FAST_BLOCK": {
+              "mean_parent_median_us": 585.3463333333334,
+              "mean_regret": 0.0,
+              "mean_regret_exact": "0",
+              "wrong_decision_parents": 0,
+              "certified": 9,
+              "actual_early_stop_parents": 9,
+              "solver_matvecs_saved": 2104,
+              "mean_bounds_us": 57.33575
+            },
+            "OUTWARD_BLOCK": {
+              "mean_parent_median_us": 1419.4106666666667,
+              "mean_regret": 0.0,
+              "mean_regret_exact": "0",
+              "wrong_decision_parents": 0,
+              "certified": 9,
+              "actual_early_stop_parents": 9,
+              "solver_matvecs_saved": 2104,
+              "mean_bounds_us": 893.3128333333333
+            },
+            "RESIDUAL": {
+              "mean_parent_median_us": 905.8934166666667,
+              "mean_regret": 0.0,
+              "mean_regret_exact": "0",
+              "wrong_decision_parents": 0,
+              "certified": 0,
+              "actual_early_stop_parents": 12,
+              "solver_matvecs_saved": 1248,
+              "mean_bounds_us": 23.418416666666673
+            }
+          }
+        },
+        {
+          "field": "side",
+          "value": 96,
+          "parents": 12,
+          "policies": {
+            "PLAIN_STOP": {
+              "mean_parent_median_us": 728.30625,
+              "mean_regret": 2.0760855986234535e-05,
+              "mean_regret_exact": "9411875564647448837/453347182355485940514816",
+              "wrong_decision_parents": 2,
+              "certified": 0,
+              "actual_early_stop_parents": 12,
+              "solver_matvecs_saved": 3557,
+              "mean_bounds_us": 90.59741666666666
+            },
+            "PLAIN_ALWAYS": {
+              "mean_parent_median_us": 13952.790833333334,
+              "mean_regret": 0.0,
+              "mean_regret_exact": "0",
+              "wrong_decision_parents": 0,
+              "certified": 0,
+              "actual_early_stop_parents": 0,
+              "solver_matvecs_saved": 0,
+              "mean_bounds_us": 182.44816666666668
+            },
+            "FAST_ONCE": {
+              "mean_parent_median_us": 13063.28675,
+              "mean_regret": 0.0,
+              "mean_regret_exact": "0",
+              "wrong_decision_parents": 0,
+              "certified": 2,
+              "actual_early_stop_parents": 2,
+              "solver_matvecs_saved": 242,
+              "mean_bounds_us": 176.87708333333333
+            },
+            "FAST_BLOCK": {
+              "mean_parent_median_us": 6317.481666666667,
+              "mean_regret": 0.0,
+              "mean_regret_exact": "0",
+              "wrong_decision_parents": 0,
+              "certified": 9,
+              "actual_early_stop_parents": 9,
+              "solver_matvecs_saved": 2186,
+              "mean_bounds_us": 589.2145
+            },
+            "OUTWARD_BLOCK": {
+              "mean_parent_median_us": 15377.6595,
+              "mean_regret": 0.0,
+              "mean_regret_exact": "0",
+              "wrong_decision_parents": 0,
+              "certified": 9,
+              "actual_early_stop_parents": 9,
+              "solver_matvecs_saved": 2186,
+              "mean_bounds_us": 9649.99075
+            },
+            "RESIDUAL": {
+              "mean_parent_median_us": 11742.23525,
+              "mean_regret": 0.0,
+              "mean_regret_exact": "0",
+              "wrong_decision_parents": 0,
+              "certified": 0,
+              "actual_early_stop_parents": 8,
+              "solver_matvecs_saved": 606,
+              "mean_bounds_us": 201.26283333333333
+            }
+          }
+        },
+        {
+          "field": "rho",
+          "value": 1,
+          "parents": 12,
+          "policies": {
+            "PLAIN_STOP": {
+              "mean_parent_median_us": 270.4261666666667,
+              "mean_regret": 3.7427618939130517e-07,
+              "mean_regret_exact": "42419263970824103/113336795588871485128704",
+              "wrong_decision_parents": 2,
+              "certified": 0,
+              "actual_early_stop_parents": 12,
+              "solver_matvecs_saved": 1232,
+              "mean_bounds_us": 33.82641666666667
+            },
+            "PLAIN_ALWAYS": {
+              "mean_parent_median_us": 2286.46225,
+              "mean_regret": 0.0,
+              "mean_regret_exact": "0",
+              "wrong_decision_parents": 0,
+              "certified": 0,
+              "actual_early_stop_parents": 0,
+              "solver_matvecs_saved": 0,
+              "mean_bounds_us": 68.01475
+            },
+            "FAST_ONCE": {
+              "mean_parent_median_us": 1284.9155833333334,
+              "mean_regret": 0.0,
+              "mean_regret_exact": "0",
+              "wrong_decision_parents": 0,
+              "certified": 6,
+              "actual_early_stop_parents": 6,
+              "solver_matvecs_saved": 615,
+              "mean_bounds_us": 54.59133333333333
+            },
+            "FAST_BLOCK": {
+              "mean_parent_median_us": 942.3908333333334,
+              "mean_regret": 0.0,
+              "mean_regret_exact": "0",
+              "wrong_decision_parents": 0,
+              "certified": 9,
+              "actual_early_stop_parents": 9,
+              "solver_matvecs_saved": 849,
+              "mean_bounds_us": 102.26474999999999
+            },
+            "OUTWARD_BLOCK": {
+              "mean_parent_median_us": 2432.878166666667,
+              "mean_regret": 0.0,
+              "mean_regret_exact": "0",
+              "wrong_decision_parents": 0,
+              "certified": 9,
+              "actual_early_stop_parents": 9,
+              "solver_matvecs_saved": 849,
+              "mean_bounds_us": 1592.5356666666667
+            },
+            "RESIDUAL": {
+              "mean_parent_median_us": 1334.8623333333333,
+              "mean_regret": 0.0,
+              "mean_regret_exact": "0",
+              "wrong_decision_parents": 0,
+              "certified": 0,
+              "actual_early_stop_parents": 12,
+              "solver_matvecs_saved": 574,
+              "mean_bounds_us": 75.31491666666666
+            }
+          }
+        },
+        {
+          "field": "rho",
+          "value": 16,
+          "parents": 12,
+          "policies": {
+            "PLAIN_STOP": {
+              "mean_parent_median_us": 273.15333333333336,
+              "mean_regret": 0.0,
+              "mean_regret_exact": "0",
+              "wrong_decision_parents": 0,
+              "certified": 0,
+              "actual_early_stop_parents": 12,
+              "solver_matvecs_saved": 3125,
+              "mean_bounds_us": 33.91191666666666
+            },
+            "PLAIN_ALWAYS": {
+              "mean_parent_median_us": 6511.41825,
+              "mean_regret": 0.0,
+              "mean_regret_exact": "0",
+              "wrong_decision_parents": 0,
+              "certified": 0,
+              "actual_early_stop_parents": 0,
+              "solver_matvecs_saved": 0,
+              "mean_bounds_us": 68.45816666666667
+            },
+            "FAST_ONCE": {
+              "mean_parent_median_us": 6510.882833333333,
+              "mean_regret": 0.0,
+              "mean_regret_exact": "0",
+              "wrong_decision_parents": 0,
+              "certified": 2,
+              "actual_early_stop_parents": 2,
+              "solver_matvecs_saved": 162,
+              "mean_bounds_us": 71.94441666666667
+            },
+            "FAST_BLOCK": {
+              "mean_parent_median_us": 2729.8513333333335,
+              "mean_regret": 0.0,
+              "mean_regret_exact": "0",
+              "wrong_decision_parents": 0,
+              "certified": 9,
+              "actual_early_stop_parents": 9,
+              "solver_matvecs_saved": 2029,
+              "mean_bounds_us": 250.91083333333333
+            },
+            "OUTWARD_BLOCK": {
+              "mean_parent_median_us": 6580.5692500000005,
+              "mean_regret": 0.0,
+              "mean_regret_exact": "0",
+              "wrong_decision_parents": 0,
+              "certified": 9,
+              "actual_early_stop_parents": 9,
+              "solver_matvecs_saved": 2029,
+              "mean_bounds_us": 4105.500416666667
+            },
+            "RESIDUAL": {
+              "mean_parent_median_us": 4359.01625,
+              "mean_regret": 0.0,
+              "mean_regret_exact": "0",
+              "wrong_decision_parents": 0,
+              "certified": 0,
+              "actual_early_stop_parents": 12,
+              "solver_matvecs_saved": 1137,
+              "mean_bounds_us": 75.52191666666666
+            }
+          }
+        },
+        {
+          "field": "rho",
+          "value": 64,
+          "parents": 12,
+          "policies": {
+            "PLAIN_STOP": {
+              "mean_parent_median_us": 273.60058333333336,
+              "mean_regret": 2.0559641172828255e-05,
+              "mean_regret_exact": "198840648446752580827/9671406556917033397649408",
+              "wrong_decision_parents": 2,
+              "certified": 0,
+              "actual_early_stop_parents": 12,
+              "solver_matvecs_saved": 3318,
+              "mean_bounds_us": 34.17391666666666
+            },
+            "PLAIN_ALWAYS": {
+              "mean_parent_median_us": 6613.8475,
+              "mean_regret": 0.0,
+              "mean_regret_exact": "0",
+              "wrong_decision_parents": 0,
+              "certified": 0,
+              "actual_early_stop_parents": 0,
+              "solver_matvecs_saved": 0,
+              "mean_bounds_us": 68.72116666666666
+            },
+            "FAST_ONCE": {
+              "mean_parent_median_us": 6608.69225,
+              "mean_regret": 0.0,
+              "mean_regret_exact": "0",
+              "wrong_decision_parents": 0,
+              "certified": 2,
+              "actual_early_stop_parents": 2,
+              "solver_matvecs_saved": 162,
+              "mean_bounds_us": 72.48841666666668
+            },
+            "FAST_BLOCK": {
+              "mean_parent_median_us": 3247.3171666666663,
+              "mean_regret": 0.0,
+              "mean_regret_exact": "0",
+              "wrong_decision_parents": 0,
+              "certified": 9,
+              "actual_early_stop_parents": 9,
+              "solver_matvecs_saved": 2033,
+              "mean_bounds_us": 295.88641666666666
+            },
+            "OUTWARD_BLOCK": {
+              "mean_parent_median_us": 7821.159916666667,
+              "mean_regret": 0.0,
+              "mean_regret_exact": "0",
+              "wrong_decision_parents": 0,
+              "certified": 9,
+              "actual_early_stop_parents": 9,
+              "solver_matvecs_saved": 2033,
+              "mean_bounds_us": 4868.559166666667
+            },
+            "RESIDUAL": {
+              "mean_parent_median_us": 6981.21225,
+              "mean_regret": 0.0,
+              "mean_regret_exact": "0",
+              "wrong_decision_parents": 0,
+              "certified": 0,
+              "actual_early_stop_parents": 8,
+              "solver_matvecs_saved": 439,
+              "mean_bounds_us": 76.22658333333334
+            }
+          }
+        },
+        {
+          "field": "gap",
+          "value": "wide",
+          "parents": 9,
+          "policies": {
+            "PLAIN_STOP": {
+              "mean_parent_median_us": 273.3397777777778,
+              "mean_regret": 0.0,
+              "mean_regret_exact": "0",
+              "wrong_decision_parents": 0,
+              "certified": 0,
+              "actual_early_stop_parents": 9,
+              "solver_matvecs_saved": 1914,
+              "mean_bounds_us": 33.85777777777778
+            },
+            "PLAIN_ALWAYS": {
+              "mean_parent_median_us": 5121.131444444445,
+              "mean_regret": 0.0,
+              "mean_regret_exact": "0",
+              "wrong_decision_parents": 0,
+              "certified": 0,
+              "actual_early_stop_parents": 0,
+              "solver_matvecs_saved": 0,
+              "mean_bounds_us": 68.31888888888889
+            },
+            "FAST_ONCE": {
+              "mean_parent_median_us": 4454.759444444444,
+              "mean_regret": 0.0,
+              "mean_regret_exact": "0",
+              "wrong_decision_parents": 0,
+              "certified": 5,
+              "actual_early_stop_parents": 5,
+              "solver_matvecs_saved": 469,
+              "mean_bounds_us": 60.43688888888889
+            },
+            "FAST_BLOCK": {
+              "mean_parent_median_us": 694.2126666666668,
+              "mean_regret": 0.0,
+              "mean_regret_exact": "0",
+              "wrong_decision_parents": 0,
+              "certified": 9,
+              "actual_early_stop_parents": 9,
+              "solver_matvecs_saved": 1794,
+              "mean_bounds_us": 73.62122222222222
+            },
+            "OUTWARD_BLOCK": {
+              "mean_parent_median_us": 1834.4070000000004,
+              "mean_regret": 0.0,
+              "mean_regret_exact": "0",
+              "wrong_decision_parents": 0,
+              "certified": 9,
+              "actual_early_stop_parents": 9,
+              "solver_matvecs_saved": 1794,
+              "mean_bounds_us": 1210.7654444444443
+            },
+            "RESIDUAL": {
+              "mean_parent_median_us": 4120.477222222222,
+              "mean_regret": 0.0,
+              "mean_regret_exact": "0",
+              "wrong_decision_parents": 0,
+              "certified": 0,
+              "actual_early_stop_parents": 8,
+              "solver_matvecs_saved": 561,
+              "mean_bounds_us": 75.51744444444445
+            }
+          }
+        },
+        {
+          "field": "gap",
+          "value": "medium",
+          "parents": 9,
+          "policies": {
+            "PLAIN_STOP": {
+              "mean_parent_median_us": 272.0874444444445,
+              "mean_regret": 2.7404676093158614e-05,
+              "mean_regret_exact": "9317874517648653097/340010386766614455386112",
+              "wrong_decision_parents": 1,
+              "certified": 0,
+              "actual_early_stop_parents": 9,
+              "solver_matvecs_saved": 1920,
+              "mean_bounds_us": 33.91788888888889
+            },
+            "PLAIN_ALWAYS": {
+              "mean_parent_median_us": 5135.581222222222,
+              "mean_regret": 0.0,
+              "mean_regret_exact": "0",
+              "wrong_decision_parents": 0,
+              "certified": 0,
+              "actual_early_stop_parents": 0,
+              "solver_matvecs_saved": 0,
+              "mean_bounds_us": 68.63066666666666
+            },
+            "FAST_ONCE": {
+              "mean_parent_median_us": 4455.585888888889,
+              "mean_regret": 0.0,
+              "mean_regret_exact": "0",
+              "wrong_decision_parents": 0,
+              "certified": 5,
+              "actual_early_stop_parents": 5,
+              "solver_matvecs_saved": 470,
+              "mean_bounds_us": 60.477888888888884
+            },
+            "FAST_BLOCK": {
+              "mean_parent_median_us": 953.7796666666667,
+              "mean_regret": 0.0,
+              "mean_regret_exact": "0",
+              "wrong_decision_parents": 0,
+              "certified": 9,
+              "actual_early_stop_parents": 9,
+              "solver_matvecs_saved": 1752,
+              "mean_bounds_us": 96.04211111111111
+            },
+            "OUTWARD_BLOCK": {
+              "mean_parent_median_us": 2440.730666666667,
+              "mean_regret": 0.0,
+              "mean_regret_exact": "0",
+              "wrong_decision_parents": 0,
+              "certified": 9,
+              "actual_early_stop_parents": 9,
+              "solver_matvecs_saved": 1752,
+              "mean_bounds_us": 1582.8483333333331
+            },
+            "RESIDUAL": {
+              "mean_parent_median_us": 4301.499111111111,
+              "mean_regret": 0.0,
+              "mean_regret_exact": "0",
+              "wrong_decision_parents": 0,
+              "certified": 0,
+              "actual_early_stop_parents": 8,
+              "solver_matvecs_saved": 526,
+              "mean_bounds_us": 75.53533333333333
+            }
+          }
+        },
+        {
+          "field": "gap",
+          "value": "tight",
+          "parents": 9,
+          "policies": {
+            "PLAIN_STOP": {
+              "mean_parent_median_us": 271.98955555555557,
+              "mean_regret": 5.072137231341315e-07,
+              "mean_regret_exact": "11037307787274914641/21760664753063325144711168",
+              "wrong_decision_parents": 3,
+              "certified": 0,
+              "actual_early_stop_parents": 9,
+              "solver_matvecs_saved": 1917,
+              "mean_bounds_us": 34.00133333333333
+            },
+            "PLAIN_ALWAYS": {
+              "mean_parent_median_us": 5128.703222222222,
+              "mean_regret": 0.0,
+              "mean_regret_exact": "0",
+              "wrong_decision_parents": 0,
+              "certified": 0,
+              "actual_early_stop_parents": 0,
+              "solver_matvecs_saved": 0,
+              "mean_bounds_us": 68.22111111111111
+            },
+            "FAST_ONCE": {
+              "mean_parent_median_us": 5135.111111111111,
+              "mean_regret": 0.0,
+              "mean_regret_exact": "0",
+              "wrong_decision_parents": 0,
+              "certified": 0,
+              "actual_early_stop_parents": 0,
+              "solver_matvecs_saved": 0,
+              "mean_bounds_us": 72.12855555555555
+            },
+            "FAST_BLOCK": {
+              "mean_parent_median_us": 1960.0055555555555,
+              "mean_regret": 0.0,
+              "mean_regret_exact": "0",
+              "wrong_decision_parents": 0,
+              "certified": 9,
+              "actual_early_stop_parents": 9,
+              "solver_matvecs_saved": 1365,
+              "mean_bounds_us": 183.9471111111111
+            },
+            "OUTWARD_BLOCK": {
+              "mean_parent_median_us": 4770.225,
+              "mean_regret": 0.0,
+              "mean_regret_exact": "0",
+              "wrong_decision_parents": 0,
+              "certified": 9,
+              "actual_early_stop_parents": 9,
+              "solver_matvecs_saved": 1365,
+              "mean_bounds_us": 2998.8597777777777
+            },
+            "RESIDUAL": {
+              "mean_parent_median_us": 4118.384999999999,
+              "mean_regret": 0.0,
+              "mean_regret_exact": "0",
+              "wrong_decision_parents": 0,
+              "certified": 0,
+              "actual_early_stop_parents": 8,
+              "solver_matvecs_saved": 552,
+              "mean_bounds_us": 75.80588888888889
+            }
+          }
+        },
+        {
+          "field": "gap",
+          "value": "tie",
+          "parents": 9,
+          "policies": {
+            "PLAIN_STOP": {
+              "mean_parent_median_us": 272.15666666666664,
+              "mean_regret": 0.0,
+              "mean_regret_exact": "0",
+              "wrong_decision_parents": 0,
+              "certified": 0,
+              "actual_early_stop_parents": 9,
+              "solver_matvecs_saved": 1924,
+              "mean_bounds_us": 34.106
+            },
+            "PLAIN_ALWAYS": {
+              "mean_parent_median_us": 5163.554777777778,
+              "mean_regret": 0.0,
+              "mean_regret_exact": "0",
+              "wrong_decision_parents": 0,
+              "certified": 0,
+              "actual_early_stop_parents": 0,
+              "solver_matvecs_saved": 0,
+              "mean_bounds_us": 68.42144444444445
+            },
+            "FAST_ONCE": {
+              "mean_parent_median_us": 5160.531111111111,
+              "mean_regret": 0.0,
+              "mean_regret_exact": "0",
+              "wrong_decision_parents": 0,
+              "certified": 0,
+              "actual_early_stop_parents": 0,
+              "solver_matvecs_saved": 0,
+              "mean_bounds_us": 72.32222222222224
+            },
+            "FAST_BLOCK": {
+              "mean_parent_median_us": 5618.081222222222,
+              "mean_regret": 0.0,
+              "mean_regret_exact": "0",
+              "wrong_decision_parents": 0,
+              "certified": 0,
+              "actual_early_stop_parents": 0,
+              "solver_matvecs_saved": 0,
+              "mean_bounds_us": 511.80555555555554
+            },
+            "OUTWARD_BLOCK": {
+              "mean_parent_median_us": 13400.780444444443,
+              "mean_regret": 0.0,
+              "mean_regret_exact": "0",
+              "wrong_decision_parents": 0,
+              "certified": 0,
+              "actual_early_stop_parents": 0,
+              "solver_matvecs_saved": 0,
+              "mean_bounds_us": 8296.320111111112
+            },
+            "RESIDUAL": {
+              "mean_parent_median_us": 4359.759777777778,
+              "mean_regret": 0.0,
+              "mean_regret_exact": "0",
+              "wrong_decision_parents": 0,
+              "certified": 0,
+              "actual_early_stop_parents": 8,
+              "solver_matvecs_saved": 511,
+              "mean_bounds_us": 75.89255555555556
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "counter_semantics": "Ordinary and interval stencil calls are separate typed counts; full outward response has both. Counts do not imply equal cost; wall time is primary.",
+  "interpretation": "Exact rational utility and wrong counts; finite paired percentile bootstrap; no multiplicity-adjusted confirmatory claim",
+  "status": "VERIFIED_INPUTS_ANALYZED",
+  "argv": [
+    "/home/cosmosapjw/quantum/research/quartz_general_meta24_20261123/docs/research/quartz_general_cheap_certificates_20261123/coding/c24_analyze.py",
+    "--split",
+    "TRAIN"
+  ],
+  "python": "3.12.3 (main, Aug 31 2026, 10:18:26) [GCC 13.3.0]",
+  "numpy": "2.4.2",
+  "input_sha256": {
+    "SOURCE_SPECS.json": "342fbac726767fa9d165adacbcb29fdef52438cc1ce17ae36a1e26cc6ece2197",
+    "C24_ORACLE_TRAIN.jsonl.gz": "b24f627f923d0ea351d6f06963eda309f39be838d7e77b7e7c27028a6b74898e",
+    "C24_TRAIN_TIMING.jsonl.gz": "fe97a58c8e2029a5b2fe2faaaa2dbf6e06573c001c09ad60fa2e04da7b48349b",
+    "C24_VERIFY_TRAIN_TIMING.json": "a6dee95d921c3f146d348e57e820f4f3567a34cd051e7029c01c15a4d4df5aa3"
+  },
+  "analyzer_sha256": "d700852f910840c60ac33af4fc8209cfc6b7a00a3b5554e118db5208c03c0536",
+  "parent_metrics_sha256": "bc50a4d3f3bd1140b91fe356c3a3b37ae0cbafa7706488310b045e5c6954a8d7"
+}

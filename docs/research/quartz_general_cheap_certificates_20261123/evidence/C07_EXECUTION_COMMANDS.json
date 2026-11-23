@@ -1,0 +1,98 @@
+[
+  {
+    "argv": [
+      "/home/cosmosapjw/quantum/research/quartz_general_meta24_20261123/venv/bin/python",
+      "/home/cosmosapjw/quantum/research/quartz_general_meta24_20261123/docs/research/quartz_general_cheap_certificates_20261123/coding/c24_run.py",
+      "--split",
+      "TRAIN",
+      "--mode",
+      "trace"
+    ],
+    "exit_code": 0,
+    "log": "evidence/C07_c24_run_TRAIN_trace.log",
+    "start_utc": "2026-11-23T04:55:15.763036+00:00",
+    "end_utc": "2026-11-23T04:55:34.570456+00:00"
+  },
+  {
+    "argv": [
+      "/home/cosmosapjw/quantum/research/quartz_general_meta24_20261123/venv/bin/python",
+      "/home/cosmosapjw/quantum/research/quartz_general_meta24_20261123/docs/research/quartz_general_cheap_certificates_20261123/coding/c24_verify.py",
+      "--split",
+      "TRAIN",
+      "--mode",
+      "trace"
+    ],
+    "exit_code": 0,
+    "log": "evidence/C07_c24_verify_TRAIN_trace.log",
+    "start_utc": "2026-11-23T04:55:34.570645+00:00",
+    "end_utc": "2026-11-23T04:55:39.582106+00:00"
+  },
+  {
+    "argv": [
+      "/home/cosmosapjw/quantum/research/quartz_general_meta24_20261123/venv/bin/python",
+      "/home/cosmosapjw/quantum/research/quartz_general_meta24_20261123/docs/research/quartz_general_cheap_certificates_20261123/coding/c24_run.py",
+      "--split",
+      "CAL",
+      "--mode",
+      "trace"
+    ],
+    "exit_code": 0,
+    "log": "evidence/C07_c24_run_CAL_trace.log",
+    "start_utc": "2026-11-23T04:55:39.582327+00:00",
+    "end_utc": "2026-11-23T04:55:58.330217+00:00"
+  },
+  {
+    "argv": [
+      "/home/cosmosapjw/quantum/research/quartz_general_meta24_20261123/venv/bin/python",
+      "/home/cosmosapjw/quantum/research/quartz_general_meta24_20261123/docs/research/quartz_general_cheap_certificates_20261123/coding/c24_verify.py",
+      "--split",
+      "CAL",
+      "--mode",
+      "trace"
+    ],
+    "exit_code": 0,
+    "log": "evidence/C07_c24_verify_CAL_trace.log",
+    "start_utc": "2026-11-23T04:55:58.330450+00:00",
+    "end_utc": "2026-11-23T04:56:03.357015+00:00"
+  },
+  {
+    "argv": [
+      "/home/cosmosapjw/quantum/research/quartz_general_meta24_20261123/venv/bin/python",
+      "/home/cosmosapjw/quantum/research/quartz_general_meta24_20261123/docs/research/quartz_general_cheap_certificates_20261123/coding/c24_run.py",
+      "--split",
+      "TRAIN",
+      "--mode",
+      "timing"
+    ],
+    "exit_code": 0,
+    "log": "evidence/C07_c24_run_TRAIN_timing.log",
+    "start_utc": "2026-11-23T04:56:03.357247+00:00",
+    "end_utc": "2026-11-23T04:56:20.245304+00:00"
+  },
+  {
+    "argv": [
+      "/home/cosmosapjw/quantum/research/quartz_general_meta24_20261123/venv/bin/python",
+      "/home/cosmosapjw/quantum/research/quartz_general_meta24_20261123/docs/research/quartz_general_cheap_certificates_20261123/coding/c24_verify.py",
+      "--split",
+      "TRAIN",
+      "--mode",
+      "timing"
+    ],
+    "exit_code": 0,
+    "log": "evidence/C07_c24_verify_TRAIN_timing.log",
+    "start_utc": "2026-11-23T04:56:20.245594+00:00",
+    "end_utc": "2026-11-23T04:56:22.392382+00:00"
+  },
+  {
+    "argv": [
+      "/home/cosmosapjw/quantum/research/quartz_general_meta24_20261123/venv/bin/python",
+      "/home/cosmosapjw/quantum/research/quartz_general_meta24_20261123/docs/research/quartz_general_cheap_certificates_20261123/coding/c24_analyze.py",
+      "--split",
+      "TRAIN"
+    ],
+    "exit_code": 0,
+    "log": "evidence/C07_c24_analyze_TRAIN_analysis.log",
+    "start_utc": "2026-11-23T04:56:22.392611+00:00",
+    "end_utc": "2026-11-23T04:56:22.738265+00:00"
+  }
+]

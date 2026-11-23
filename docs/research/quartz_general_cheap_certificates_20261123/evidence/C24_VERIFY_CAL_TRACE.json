@@ -1,0 +1,47 @@
+{
+  "argv": [
+    "/home/cosmosapjw/quantum/research/quartz_general_meta24_20261123/docs/research/quartz_general_cheap_certificates_20261123/coding/c24_verify.py",
+    "--split",
+    "CAL",
+    "--mode",
+    "trace"
+  ],
+  "assertion_tested": "Finite exact manufactured sources, q endpoint containment, optimal strict certificates, bit-identical fixed fallback, declared true residual upper subset",
+  "independent_of_production_imports": true,
+  "input_sha256": {
+    "C04_RUN_CONTRACT.json": "68e123dae4fd5af07392670000a5b474af7c77fb5ee63c6b355c533915aaed90",
+    "C24_CAL_TRACE.jsonl.gz": "63208ecc5fa1de8ebce34ef919652734997ee01a853ed9af138861a2ea38a24f",
+    "C24_CAL_TRACE.manifest.json": "decea94d6770e25dc90b3a3c964b955d1bb36d7981ca6f1817350ed7324b578d",
+    "C24_ORACLE_CAL.jsonl.gz": "95f88bbce0361016c3c7c5d84f86a444efd4b0b7d9250c83880397a67be75254",
+    "C24_PUBLIC_CAL.jsonl.gz": "fe591787ea6b507ae33f63e8dac995a09f9a1672b604838515d65d181990a484",
+    "C24_SOURCES_CAL.json": "2007602bf799239754dcff43cc09ef4e8adf2544518770886c26124798dd564d",
+    "SOURCE_SPECS.json": "342fbac726767fa9d165adacbcb29fdef52438cc1ce17ae36a1e26cc6ece2197"
+  },
+  "mode": "trace",
+  "native": {
+    "byte_exact_transport_requests": 108,
+    "certified_optimal": 174,
+    "exact_residual_parent_ids": [],
+    "exact_residual_upper_action_checks": 0,
+    "exact_residual_vector_evaluations": 0,
+    "identical_noncertified_fallbacks": 150,
+    "interval_scalar_containments": 14028,
+    "observed_source_budget_pairs": 108,
+    "plain_unverified_diagnostics": 294,
+    "policy_executions_checked": 648,
+    "requests": 108,
+    "scope": "All source/budget/policy/rep q intervals and fallback states; exact residual vectors only stated trace subset"
+  },
+  "non_claims": "No arbitrary-input CG repair, universal runtime superiority, or independent theorem proof",
+  "python": "3.12.3 (main, Aug 31 2026, 10:18:26) [GCC 13.3.0]",
+  "schema": "quartz.c24.verification.v1",
+  "source": {
+    "actions": 108,
+    "exact_rhs_components": 370944,
+    "oracle": "independent exact Dirichlet edge energy",
+    "parents": 36
+  },
+  "split": "CAL",
+  "status": "PASS",
+  "verifier_sha256": "58836704bed63532260e7daae902fb21d7d95fd484c6524c2e3b2298e457d550"
+}

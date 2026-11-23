@@ -1,0 +1,178 @@
+{
+  "argv_driver": "four recorded pack/assemble subprocesses followed by original/output SHA-256 and byte-size comparisons",
+  "cohorts": {
+    "CAL": {
+      "byte_identity_verified": true,
+      "manifest_identity": {
+        "bytes": 725,
+        "sha256": "0cc6f483e16e115260f1e6d4a13d9e0e926f4bcecc8ac2382b8dfe951891b903"
+      },
+      "original": "docs/research/quartz_general_cheap_certificates_20261123/evidence/C24_CAL_TRACE.jsonl.gz",
+      "original_identity": {
+        "bytes": 65633648,
+        "sha256": "63208ecc5fa1de8ebce34ef919652734997ee01a853ed9af138861a2ea38a24f"
+      },
+      "parts": {
+        "C24_CAL_TRACE.part01": {
+          "bytes": 47185920,
+          "sha256": "61f7fa0d8e693dc158b87ff9b41c9e1b548475e0866577880bd37e080cf5ac1e"
+        },
+        "C24_CAL_TRACE.part02": {
+          "bytes": 18447728,
+          "sha256": "89c3dc06d3591b111585b5dcafce1d6f6cdc276928b373e7da89b3460233b35a"
+        }
+      },
+      "parts_manifest": "docs/research/quartz_general_cheap_certificates_20261123/evidence/C24_CAL_TRACE.parts.json",
+      "reassembled_identity": {
+        "bytes": 65633648,
+        "sha256": "63208ecc5fa1de8ebce34ef919652734997ee01a853ed9af138861a2ea38a24f"
+      },
+      "reassembled_path": "/tmp/c24_trace_packaging_dir9kda2/C24_CAL_TRACE.jsonl.gz"
+    },
+    "TRAIN": {
+      "byte_identity_verified": true,
+      "manifest_identity": {
+        "bytes": 733,
+        "sha256": "7690e8f857a111811d1cb3e43a7015eb3645d9791daeda123abbac89073c07ec"
+      },
+      "original": "docs/research/quartz_general_cheap_certificates_20261123/evidence/C24_TRAIN_TRACE.jsonl.gz",
+      "original_identity": {
+        "bytes": 65708367,
+        "sha256": "b23180121487c18caf32edd717f5f8cc983514641905d95a83d95f35e2c814cf"
+      },
+      "parts": {
+        "C24_TRAIN_TRACE.part01": {
+          "bytes": 47185920,
+          "sha256": "54bc44a1f916d6212363f67a8cdb7428ccb0839eb178f70f3ca8df65df6d7d58"
+        },
+        "C24_TRAIN_TRACE.part02": {
+          "bytes": 18522447,
+          "sha256": "2def7b938f08d359cb3897276f4ee27c05a6ff5b54c61d791e2f1b817e036304"
+        }
+      },
+      "parts_manifest": "docs/research/quartz_general_cheap_certificates_20261123/evidence/C24_TRAIN_TRACE.parts.json",
+      "reassembled_identity": {
+        "bytes": 65708367,
+        "sha256": "b23180121487c18caf32edd717f5f8cc983514641905d95a83d95f35e2c814cf"
+      },
+      "reassembled_path": "/tmp/c24_trace_packaging_dir9kda2/C24_TRAIN_TRACE.jsonl.gz"
+    }
+  },
+  "commands": [
+    {
+      "argv": [
+        "venv/bin/python",
+        "docs/research/quartz_general_cheap_certificates_20261123/coding/reassemble_c24_trace.py",
+        "pack",
+        "--split",
+        "TRAIN"
+      ],
+      "exit_code": 0,
+      "stderr": "",
+      "stdout": "{\"encoding\": \"ordered raw byte slices of original gzip; concatenate without decompression\", \"max_part_bytes\": 47185920, \"original_bytes\": 65708367, \"original_name\": \"C24_TRAIN_TRACE.jsonl.gz\", \"original_sha256\": \"b23180121487c18caf32edd717f5f8cc983514641905d95a83d95f35e2c814cf\", \"parts\": [{\"bytes\": 47185920, \"index\": 1, \"name\": \"C24_TRAIN_TRACE.part01\", \"sha256\": \"54bc44a1f916d6212363f67a8cdb7428ccb0839eb178f70f3ca8df65df6d7d58\"}, {\"bytes\": 18522447, \"index\": 2, \"name\": \"C24_TRAIN_TRACE.part02\", \"sha256\": \"2def7b938f08d359cb3897276f4ee27c05a6ff5b54c61d791e2f1b817e036304\"}], \"schema\": \"quartz.c24.trace-byte-parts.v1\", \"split\": \"TRAIN\"}\n"
+    },
+    {
+      "argv": [
+        "venv/bin/python",
+        "docs/research/quartz_general_cheap_certificates_20261123/coding/reassemble_c24_trace.py",
+        "assemble",
+        "--split",
+        "TRAIN",
+        "--output",
+        "/tmp/c24_trace_packaging_dir9kda2/C24_TRAIN_TRACE.jsonl.gz"
+      ],
+      "exit_code": 0,
+      "stderr": "",
+      "stdout": "{\"bytes\": 65708367, \"output\": \"/tmp/c24_trace_packaging_dir9kda2/C24_TRAIN_TRACE.jsonl.gz\", \"parts_verified\": 2, \"sha256\": \"b23180121487c18caf32edd717f5f8cc983514641905d95a83d95f35e2c814cf\", \"whole_verified\": true}\n"
+    },
+    {
+      "argv": [
+        "venv/bin/python",
+        "docs/research/quartz_general_cheap_certificates_20261123/coding/reassemble_c24_trace.py",
+        "pack",
+        "--split",
+        "CAL"
+      ],
+      "exit_code": 0,
+      "stderr": "",
+      "stdout": "{\"encoding\": \"ordered raw byte slices of original gzip; concatenate without decompression\", \"max_part_bytes\": 47185920, \"original_bytes\": 65633648, \"original_name\": \"C24_CAL_TRACE.jsonl.gz\", \"original_sha256\": \"63208ecc5fa1de8ebce34ef919652734997ee01a853ed9af138861a2ea38a24f\", \"parts\": [{\"bytes\": 47185920, \"index\": 1, \"name\": \"C24_CAL_TRACE.part01\", \"sha256\": \"61f7fa0d8e693dc158b87ff9b41c9e1b548475e0866577880bd37e080cf5ac1e\"}, {\"bytes\": 18447728, \"index\": 2, \"name\": \"C24_CAL_TRACE.part02\", \"sha256\": \"89c3dc06d3591b111585b5dcafce1d6f6cdc276928b373e7da89b3460233b35a\"}], \"schema\": \"quartz.c24.trace-byte-parts.v1\", \"split\": \"CAL\"}\n"
+    },
+    {
+      "argv": [
+        "venv/bin/python",
+        "docs/research/quartz_general_cheap_certificates_20261123/coding/reassemble_c24_trace.py",
+        "assemble",
+        "--split",
+        "CAL",
+        "--output",
+        "/tmp/c24_trace_packaging_dir9kda2/C24_CAL_TRACE.jsonl.gz"
+      ],
+      "exit_code": 0,
+      "stderr": "",
+      "stdout": "{\"bytes\": 65633648, \"output\": \"/tmp/c24_trace_packaging_dir9kda2/C24_CAL_TRACE.jsonl.gz\", \"parts_verified\": 2, \"sha256\": \"63208ecc5fa1de8ebce34ef919652734997ee01a853ed9af138861a2ea38a24f\", \"whole_verified\": true}\n"
+    }
+  ],
+  "end_utc": "2026-11-23T04:59:14.996018+00:00",
+  "gitignore": {
+    "identity": {
+      "bytes": 75,
+      "sha256": "422f9cc152ae3b70c2bd97ffbb790ef1bc4887b8d093a64e2325f67672eb0ffc"
+    },
+    "path": "docs/research/quartz_general_cheap_certificates_20261123/evidence/.gitignore",
+    "patterns": [
+      "/C24_TRAIN_TRACE.jsonl.gz",
+      "/C24_CAL_TRACE.jsonl.gz",
+      "/C24_TEST_TRACE.jsonl.gz"
+    ]
+  },
+  "max_part_bytes": 47185920,
+  "originals_and_run_manifests_unchanged": true,
+  "originals_removed": false,
+  "protected_after": {
+    "docs/research/quartz_general_cheap_certificates_20261123/evidence/C24_CAL_TRACE.jsonl.gz": {
+      "bytes": 65633648,
+      "sha256": "63208ecc5fa1de8ebce34ef919652734997ee01a853ed9af138861a2ea38a24f"
+    },
+    "docs/research/quartz_general_cheap_certificates_20261123/evidence/C24_CAL_TRACE.manifest.json": {
+      "bytes": 9059,
+      "sha256": "decea94d6770e25dc90b3a3c964b955d1bb36d7981ca6f1817350ed7324b578d"
+    },
+    "docs/research/quartz_general_cheap_certificates_20261123/evidence/C24_TRAIN_TRACE.jsonl.gz": {
+      "bytes": 65708367,
+      "sha256": "b23180121487c18caf32edd717f5f8cc983514641905d95a83d95f35e2c814cf"
+    },
+    "docs/research/quartz_general_cheap_certificates_20261123/evidence/C24_TRAIN_TRACE.manifest.json": {
+      "bytes": 7701,
+      "sha256": "cb770a35fafc5fad7e03801f80ebfbf3d3bd4e15cb9b5e13672dac29e05d40a7"
+    }
+  },
+  "protected_before": {
+    "docs/research/quartz_general_cheap_certificates_20261123/evidence/C24_CAL_TRACE.jsonl.gz": {
+      "bytes": 65633648,
+      "sha256": "63208ecc5fa1de8ebce34ef919652734997ee01a853ed9af138861a2ea38a24f"
+    },
+    "docs/research/quartz_general_cheap_certificates_20261123/evidence/C24_CAL_TRACE.manifest.json": {
+      "bytes": 9059,
+      "sha256": "decea94d6770e25dc90b3a3c964b955d1bb36d7981ca6f1817350ed7324b578d"
+    },
+    "docs/research/quartz_general_cheap_certificates_20261123/evidence/C24_TRAIN_TRACE.jsonl.gz": {
+      "bytes": 65708367,
+      "sha256": "b23180121487c18caf32edd717f5f8cc983514641905d95a83d95f35e2c814cf"
+    },
+    "docs/research/quartz_general_cheap_certificates_20261123/evidence/C24_TRAIN_TRACE.manifest.json": {
+      "bytes": 7701,
+      "sha256": "cb770a35fafc5fad7e03801f80ebfbf3d3bd4e15cb9b5e13672dac29e05d40a7"
+    }
+  },
+  "python": "3.12.3 (main, Aug 31 2026, 10:18:26) [GCC 13.3.0]",
+  "schema": "quartz.c24.trace-packaging-check.v1",
+  "scientific_runs_repeated": false,
+  "source_head": "54e3b9173bcab236691fe769588c16d916352958",
+  "start_utc": "2026-11-23T04:59:14.068885+00:00",
+  "status": "PASS_BYTE_IDENTITY",
+  "utility": "docs/research/quartz_general_cheap_certificates_20261123/coding/reassemble_c24_trace.py",
+  "utility_identity": {
+    "bytes": 8169,
+    "sha256": "51dbe9d5a674cdffefb9296e563d0e575ff3a4932b1a6919f1b338487148ed08"
+  }
+}

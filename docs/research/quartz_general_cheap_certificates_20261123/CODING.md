@@ -53,3 +53,14 @@ Actual exit0 counts:36 policy executions;30,768 parsed input components bit-chec
 A separate small CLI integration completed four UNIT parents and12 source/budget requests through source->runner->independent verifier, with72 policy executions,1,386 q containments,21 certified-optimal results,15 exact fallbacks and117 residual-upper checks using45 unique exact vectors. It verifies the executable pipeline; no cohort timing result is inferred from UNIT.
 
 The first C05 publication precheck rejected byte-preserved cargo stdout because of trailing terminal blank lines. The publisher now excludes raw .stdout/.stderr alongside .log from source-whitespace checks; all evidence bytes/hashes are preserved and ordinary source/docs checks remain active. The corrected C05 publication and native checker both exited0.
+
+
+## C07 — Scientific correspondence and pre-TEST freeze
+
+Fresh TRAIN36 and CAL36 source parents were manufactured and published before execution in C07A. All hidden exact solutions/oracles remained outside the native Task. Independent edge-energy verification checked every source component, boundary contribution, action count and exact normalized utility. TRAIN/CAL trace each completed108 source/budget requests and648 native policy executions; every fresh/history/final interval was checked without endpoint widening. The verifier recorded14,028 interval containments in each trace cohort and148/150 bit-identical noncertified fallback results, respectively.
+
+TRAIN timing completed5,832 measured policy executions(36 parents x3 budgets x6 policies x9 repetitions), plus648 warmups. Timing output passed52,488 exact q endpoint containments and1,332 paired noncertified fallback readout checks. Timing rows omit full x copies; whole returned x bit identity belongs to trace verification. Each command exited0 and the binary/scientific-input hashes remained fixed.
+
+The diagnostic TRAIN primary cap32 mean parent-median times were PLAIN_ALWAYS=1893.263472us and FAST_BLOCK=1312.038139us. Saved time=581.225333us, with the prespecified paired-parent interval[214.74653888888872, 1007.7638576388883]; exact mean utility difference was0. This observation did not change any policy, source definition, budget, checkpoint, price or primary contrast. TEST remains unexecuted at the frozen-input record.
+
+C07_PRE_TEST_FREEZE.json binds the compiled binary, source, dependencies, theory and scientific scripts. No TRAIN/CAL label fitting occurs. The fixed nine TEST parent IDs for exact stored-iterate true-residual checks are inherited from C04; all TEST q enclosures and noncertified fallback states will still be checked. Lossless trace parts retain the full raw gzip byte identity for publication and restoration.

@@ -1,0 +1,113 @@
+{
+  "status": "PRE_TEST_FROZEN",
+  "utc": "2026-11-23T04:57:51.491905+00:00",
+  "source_head_before_C07_publication": "54e3b9173bcab236691fe769588c16d916352958",
+  "test_sources_not_yet_manufactured": true,
+  "test_outcomes_observed": false,
+  "policy_or_price_tuning": false,
+  "frozen_inputs": {
+    "src/bin/quartz_c24_cheap_certificate.rs": "5a7cc595c267d5337f268045d1df8bf5909093ed7920ee50293da76da94cd381",
+    "target/release/quartz_c24_cheap_certificate": "2cef68fda2bdacae138efe7928531d9cfebc26bff8fbc13e895a7ad7d41f45b6",
+    "Cargo.toml": "897e6624b41356d2f2ca7fffa30c4479cc0959fee3138cdb30fa4bc8ec5c1994",
+    "Cargo.lock": "4368560c374c1272000fdd17a48fbe8449c6e471c848698b088d0b6092b2bb36",
+    "docs/research/quartz_general_cheap_certificates_20261123/SOURCE_SPECS.json": "342fbac726767fa9d165adacbcb29fdef52438cc1ce17ae36a1e26cc6ece2197",
+    "docs/research/quartz_general_cheap_certificates_20261123/CODE_CONTRACT.json": "a1f6a987277bdb42eb04852088a30ad56acb546c44ef4f27ddaaa636f0dcd257",
+    "docs/research/quartz_general_cheap_certificates_20261123/C04_RUN_CONTRACT.json": "68e123dae4fd5af07392670000a5b474af7c77fb5ee63c6b355c533915aaed90",
+    "docs/research/quartz_general_cheap_certificates_20261123/theory/DERIVATION.md": "9db4ca88aa587ad679c71b30c1468500b40529285a0f5dab4a3843cd4038cf0b",
+    "docs/research/quartz_general_cheap_certificates_20261123/coding/c24_analyze.py": "d700852f910840c60ac33af4fc8209cfc6b7a00a3b5554e118db5208c03c0536",
+    "docs/research/quartz_general_cheap_certificates_20261123/coding/c24_plot.py": "dcf15c60f8e6e26483d6fe5788482b6839c8c801c4d16715d1d0841bd053a831",
+    "docs/research/quartz_general_cheap_certificates_20261123/coding/c24_run.py": "08f8ca0302e9ac25801216cdff2c164e35492fba1aa8c5b7786c26f5e4f34998",
+    "docs/research/quartz_general_cheap_certificates_20261123/coding/c24_sources.py": "d7e45b8d944f51e537775a9322c8ad9c4882f80058ebf7093c20fb893eee1a0c",
+    "docs/research/quartz_general_cheap_certificates_20261123/coding/c24_verify.py": "58836704bed63532260e7daae902fb21d7d95fd484c6524c2e3b2298e457d550"
+  },
+  "source_specs": "SOURCE_SPECS.json",
+  "primary_policy": "FAST_BLOCK",
+  "primary_baseline": "PLAIN_ALWAYS",
+  "primary_additional": 32,
+  "primary_price": 1e-06,
+  "bootstrap_resamples": 2000,
+  "bootstrap_seed": 2400923,
+  "residual_vector_audit": "C04_RUN_CONTRACT.json fixed nine TEST parents at additional32",
+  "training_role": "diagnostic only; no fitting or checkpoint/price selection",
+  "training_primary": {
+    "plain_mean_us": 1893.2634722222222,
+    "fast_mean_us": 1312.0381388888889,
+    "mean_time_saved_us": 581.2253333333333,
+    "time_saved_bootstrap_95_us": [
+      214.74653888888872,
+      1007.7638576388883
+    ],
+    "exact_mean_utility_difference": "0"
+  },
+  "verifications": {
+    "C24_VERIFY_CAL_TRACE.json": {
+      "sha256": "61f56e93b9e57c908378a257ce8c560a24b39bfd43aa8e8fe40899fda0a8ea69",
+      "source": {
+        "actions": 108,
+        "exact_rhs_components": 370944,
+        "oracle": "independent exact Dirichlet edge energy",
+        "parents": 36
+      },
+      "native": {
+        "byte_exact_transport_requests": 108,
+        "certified_optimal": 174,
+        "exact_residual_parent_ids": [],
+        "exact_residual_upper_action_checks": 0,
+        "exact_residual_vector_evaluations": 0,
+        "identical_noncertified_fallbacks": 150,
+        "interval_scalar_containments": 14028,
+        "observed_source_budget_pairs": 108,
+        "plain_unverified_diagnostics": 294,
+        "policy_executions_checked": 648,
+        "requests": 108,
+        "scope": "All source/budget/policy/rep q intervals and fallback states; exact residual vectors only stated trace subset"
+      }
+    },
+    "C24_VERIFY_TRAIN_TIMING.json": {
+      "sha256": "a6dee95d921c3f146d348e57e820f4f3567a34cd051e7029c01c15a4d4df5aa3",
+      "source": {
+        "actions": 108,
+        "exact_rhs_components": 370944,
+        "oracle": "independent exact Dirichlet edge energy",
+        "parents": 36
+      },
+      "native": {
+        "byte_exact_transport_requests": 0,
+        "certified_optimal": 1584,
+        "exact_residual_parent_ids": [],
+        "exact_residual_upper_action_checks": 0,
+        "exact_residual_vector_evaluations": 0,
+        "identical_noncertified_fallbacks": 1332,
+        "interval_scalar_containments": 52488,
+        "observed_source_budget_pairs": 108,
+        "plain_unverified_diagnostics": 2646,
+        "policy_executions_checked": 5832,
+        "requests": 108,
+        "scope": "All source/budget/policy/rep q intervals and fallback states; exact residual vectors only stated trace subset"
+      }
+    },
+    "C24_VERIFY_TRAIN_TRACE.json": {
+      "sha256": "5d2d85d093a9c4b2293665f4d62e043de09ff22393d537b2148e1f06b93e9481",
+      "source": {
+        "actions": 108,
+        "exact_rhs_components": 370944,
+        "oracle": "independent exact Dirichlet edge energy",
+        "parents": 36
+      },
+      "native": {
+        "byte_exact_transport_requests": 108,
+        "certified_optimal": 176,
+        "exact_residual_parent_ids": [],
+        "exact_residual_upper_action_checks": 0,
+        "exact_residual_vector_evaluations": 0,
+        "identical_noncertified_fallbacks": 148,
+        "interval_scalar_containments": 14028,
+        "observed_source_budget_pairs": 108,
+        "plain_unverified_diagnostics": 294,
+        "policy_executions_checked": 648,
+        "requests": 108,
+        "scope": "All source/budget/policy/rep q intervals and fallback states; exact residual vectors only stated trace subset"
+      }
+    }
+  }
+}
