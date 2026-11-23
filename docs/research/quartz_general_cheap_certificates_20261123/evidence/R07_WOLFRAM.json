@@ -1,0 +1,14 @@
+{
+  "code": "a = Table[If[i == j, 65, If[Total[Abs[{Quotient[i - 1, 3], Mod[i - 1, 3]} - {Quotient[j - 1, 3], Mod[j - 1, 3]}]] == 1, -16, 0]], {i, 9}, {j, 9}]; cases = (Function[b, Module[{x = b/64, r, q, ell, d}, r = b - a.x; q = b.LinearSolve[a, b]; ell = 2 b.x - x.a.x; d = r.r; <|\"q\" -> ToString[q, InputForm], \"ell\" -> ToString[ell, InputForm], \"D\" -> ToString[d, InputForm], \"L\" -> ToString[ell + d/129, InputForm], \"U\" -> ToString[ell + d, InputForm], \"identity\" -> ToString[Together[q - ell - r.LinearSolve[a, r]], InputForm]|>]] /@ {Range[9]/16, UnitVector[9, 5]/32}); inversion = Resolve[ForAll[{z, h, g, f}, Implies[z >= 0 && g >= 0 && g < 1 && f >= 0 && Abs[h - z] <= g z + f, (h - f)/(1 + g) <= z && z <= (h + f)/(1 - g)]], Reals]; ExportString[<|\"cases\" -> cases, \"strictSeparation\" -> (ToExpression[cases[[1, \"L\"]]] > ToExpression[cases[[2, \"U\"]]]), \"positiveDotInversion\" -> inversion|>, \"RawJSON\"]",
+  "timeConstraint": 30,
+  "actual_tool_result": {
+    "content": [
+      {
+        "type": "text",
+        "text": "Out[1]= \"{\\n\\t\\\"cases\\\":[\\n\\t\\t{\\n\\t\\t\\t\\\"q\\\":\\\"1296905145\\\\/26900892928\\\",\\n\\t\\t\\t\\\"ell\\\":\\\"28835\\\\/1048576\\\",\\n\\t\\t\\t\\\"D\\\":\\\"444445\\\\/1048576\\\",\\n\\t\\t\\t\\\"L\\\":\\\"65065\\\\/2113536\\\",\\n\\t\\t\\t\\\"U\\\":\\\"7395\\\\/16384\\\",\\n\\t\\t\\t\\\"identity\\\":\\\"0\\\"\\n\\t\\t},\\n\\t\\t{\\n\\t\\t\\t\\\"q\\\":\\\"3201\\\\/144901120\\\",\\n\\t\\t\\t\\\"ell\\\":\\\"63\\\\/4194304\\\",\\n\\t\\t\\t\\\"D\\\":\\\"1025\\\\/4194304\\\",\\n\\t\\t\\t\\\"L\\\":\\\"143\\\\/8454144\\\",\\n\\t\\t\\t\\\"U\\\":\\\"17\\\\/65536\\\",\\n\\t\\t\\t\\\"identity\\\":\\\"0\\\"\\n\\t\\t}\\n\\t],\\n\\t\\\"strictSeparation\\\":true,\\n\\t\\\"positiveDotInversion\\\":true\\n}\""
+      }
+    ],
+    "structuredContent": null,
+    "isError": false
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "status": "REPAIRED_CHECKER_TYPE_ERROR",
+  "failed_process": 3865883,
+  "failed_assertion": "q-ell == r^T A^-1 r in the new3x3 exact example",
+  "cause": "Exact matrix constructor assigned Python int entries; int/int in Gaussian row normalization introduced floats. This was a checker implementation error, not a residual-energy counterexample.",
+  "correction": "Construct every coefficient as Fraction and assert exact types at the linear-solver boundary. Rerun the unchanged mathematical assertions.",
+  "before_script_sha256": "1c2116d930dd65d0f487161e13acff1e7d640a16493cacc970663a2510403370",
+  "after_script_sha256": "ae17fde97ba1fb0f1c256a7d36d59dae23b1a66d7d2d23b62645652655b70b86"
+}
