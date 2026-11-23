@@ -37,3 +37,7 @@ Parent checked normalization, support, covariance, update order, field/log-odds 
 ## R07 — actual exact computation
 
 The bounded Fraction oracle completed53851 assertions with exit0;336 models,3024 initial H2 comparisons,5076 conditional histories including4740 nonempty,120 threshold cases and81 transfer-bound cases. Raw evidence and typed source/runner identities are retained. This does not establish actual game efficacy.
+
+## R08 — admission
+
+Derived mathematics and exact finite checks are admitted at their stated scopes. The positive common-factor model is adopted for a discriminating pilot. Real-game predictive/resource gains, broader original claims and the cause of C26 failure remain unresolved. Proceed to the frozen coding contract.
