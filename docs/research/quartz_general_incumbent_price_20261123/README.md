@@ -22,3 +22,4 @@ The requested scope is R01–R10 followed by C01–C10. Each completed stage is 
 - C01: Baseline and acceptance completed and preserved.
 - C02: Formula/data/code mapping completed and preserved.
 - C03: Numerical and statistical design completed and preserved.
+- C04: Execution DAG and resources completed and preserved.

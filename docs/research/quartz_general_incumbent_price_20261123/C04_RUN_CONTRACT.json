@@ -1,0 +1,42 @@
+{
+  "schema": "quartz.c25.run-contract.v1",
+  "source_specs": "SOURCE_SPECS.json",
+  "code_contract": "CODE_CONTRACT.json",
+  "native_binary": "target/release/quartz_c25_incumbent_price",
+  "threads": 1,
+  "env": {
+    "OMP_NUM_THREADS": "1",
+    "OPENBLAS_NUM_THREADS": "1",
+    "MKL_NUM_THREADS": "1"
+  },
+  "no_fast_math": true,
+  "dag": [
+    "native and Python changed-behavior RED/GREEN",
+    "release build and unit/integration checks",
+    "commit scientific code",
+    "generate TRAIN",
+    "TRAIN trace and timing",
+    "exact verify TRAIN",
+    "fit TRAIN-only cost predictor and commit",
+    "generate CAL",
+    "CAL trace/timing and exact verify",
+    "freeze source/code/predictor identities before TEST",
+    "generate TEST",
+    "TEST trace/timing exact verification",
+    "paired-parent analysis all budgets",
+    "one fresh-context C09 review plus restore",
+    "C10publication and preservation audit"
+  ],
+  "artifacts": "per-source gzip chunks max45MiB, ordered manifest SHA256/bytes; no lossy reserialization of retained raw chunks",
+  "expensive_checkpoint": "commit+backup before full TRAIN/TEST native executions",
+  "stop_conditions": [
+    "explicit invalid numerical input",
+    "empty historical intersection",
+    "nonzero native exit",
+    "incomplete or duplicate coverage",
+    "input/binary/hash drift during run",
+    "oracle/wire violation"
+  ],
+  "negative_scientific_outcome_is_not_runtime_failure": true,
+  "test_tuning": "no action-rule/price/model retuning after heldout TEST"
+}

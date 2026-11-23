@@ -25,3 +25,9 @@ No new spatial discretization or solver truncation is introduced: the finite SPD
 All-action fresh FAST readout is mandatory after each admitted CG block, including zero progress; this establishes the positive charge floor. Budget/no-progress exhaustion precedes a new paid price decision. The final ordinary score is recorded as a comparator without replacing the retained action.
 
 Prices and normalization were fixed at R09. Time prediction is a model approximation evaluated on fresh inputs; it cannot prove a universal hardware cost floor. Timing aggregation is per-source median across9 repetitions, then equal-parent mean; repetitions are not independent statistical parents. Paired source bootstrap2000 draws uses seed2500923.
+
+## C04 — Execution DAG and resources
+
+C04_RUN_CONTRACT.json fixes one native CPU worker and sequential cohorts. Rust and Python implementation ownership are disjoint. No timing campaign overlaps a build, another campaign, or a review computation on this device.
+
+After code tests and commit: TRAIN -> exact validation -> TRAIN-only predictor freeze -> CAL -> pre-TEST hash freeze -> TEST -> exact analysis -> one independent review/restore. Trace runs carry vector evidence; timing runs omit trace copies. Each parent chunk stays below45MiB and has byte identity in a manifest. All stages preserve raw failures and named corrective reruns.
