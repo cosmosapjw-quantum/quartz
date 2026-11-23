@@ -13,3 +13,7 @@ Selected full scope: R01–R10 followed by C01–C10. Each completed stage is co
 ## R02 — completed
 
 Original source mechanisms and primary papers are mapped to actual C26 constructions. Narrow THESIS corrections preserve independent offline evaluation while allowing P1 runtime estimates and proved statistical mechanisms. See theory/R02_REUSE.md and evidence/POLICY_CORRECTIONS.json.
+
+## R03 — completed
+
+Defined root-frame exact utilities, paid recognition/initial verification, permitted runtime information, product-prior closure and evidence tiers. The initial selector is ordinary rollout mean; the constructor's earlier prior-mean baseline is superseded explicitly. See theory/R03_DEFINITIONS.md.

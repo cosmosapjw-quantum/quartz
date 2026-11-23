@@ -15,3 +15,7 @@ The user's existing authorization covers scoped research, implementation and per
 ## R02: evidence reuse
 
 The load-bearing sources are the original paper Eq1/Eq2, the retained COG01 verification contract, Weitzman's independent search rule, and the prior-weighted Gibbs variational identity. Each transported result keeps its assumptions. Source-policy correction and exact provenance are recorded in theory/R02_REUSE.md.
+
+## R03: operative definitions
+
+The exact known-incumbent target uses the unchanged GameState interface. Four random-play cues predict minimax outcomes through TRAIN calibration. Exact terminal cues are already revealed; the common initial nonterminal query uses highest raw rollout mean. Full definitions and theorem assumptions: theory/R03_DEFINITIONS.md.
