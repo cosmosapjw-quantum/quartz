@@ -1,0 +1,29 @@
+{
+  "encoding": "ordered raw byte slices of original gzip; concatenate without decompression",
+  "max_part_bytes": 47185920,
+  "original_bytes": 131402222,
+  "original_name": "C24_TEST_TRACE.jsonl.gz",
+  "original_sha256": "1a225dd982f6b5cd512971880340c2d7d22cf71c4d930b119914f3fe7066cd87",
+  "parts": [
+    {
+      "bytes": 47185920,
+      "index": 1,
+      "name": "C24_TEST_TRACE.part01",
+      "sha256": "ba97abdab87f821fb4ad7b10e039b165ab5ff16f7ddd7a786da6c108cfaea589"
+    },
+    {
+      "bytes": 47185920,
+      "index": 2,
+      "name": "C24_TEST_TRACE.part02",
+      "sha256": "571bc679aa03bf29b94d192a5f7507c4cb63432fb26b3ac68c6a4707b5db23ce"
+    },
+    {
+      "bytes": 37030382,
+      "index": 3,
+      "name": "C24_TEST_TRACE.part03",
+      "sha256": "d01123924d4f04b613533485685a876d5ca7b165d7e011a02665b0d6c81d334d"
+    }
+  ],
+  "schema": "quartz.c24.trace-byte-parts.v1",
+  "split": "TEST"
+}

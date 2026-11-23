@@ -1,0 +1,47 @@
+{
+  "argv": [
+    "/home/cosmosapjw/quantum/research/quartz_general_meta24_20261123/docs/research/quartz_general_cheap_certificates_20261123/coding/c24_verify.py",
+    "--split",
+    "TEST",
+    "--mode",
+    "timing"
+  ],
+  "assertion_tested": "Finite exact manufactured sources, q endpoint containment, optimal strict certificates, bit-identical fixed fallback, declared true residual upper subset",
+  "independent_of_production_imports": true,
+  "input_sha256": {
+    "C04_RUN_CONTRACT.json": "68e123dae4fd5af07392670000a5b474af7c77fb5ee63c6b355c533915aaed90",
+    "C24_ORACLE_TEST.jsonl.gz": "5c097dcb0e216666fc435e630f643abc33bec7f9fa135b617e06216c557122e6",
+    "C24_PUBLIC_TEST.jsonl.gz": "9f441298e93878579cb2e88be631686275cfdbd55195c8662bf0cdd227f4daac",
+    "C24_SOURCES_TEST.json": "82db15f8f0f0e33fe15a02a4d63a7e3053a3d527857b38b4acb4fdad3edd9237",
+    "C24_TEST_TIMING.jsonl.gz": "acfd13fa7c4bc88040d90056988e3159597aa0f5c17c48847d1ec43cb2866333",
+    "C24_TEST_TIMING.manifest.json": "2c5f93694a0a32feb476edda83020786ce5bf2c2b9eb2bed41ec2f2c85f920fc",
+    "SOURCE_SPECS.json": "342fbac726767fa9d165adacbcb29fdef52438cc1ce17ae36a1e26cc6ece2197"
+  },
+  "mode": "timing",
+  "native": {
+    "byte_exact_transport_requests": 0,
+    "certified_optimal": 3132,
+    "exact_residual_parent_ids": [],
+    "exact_residual_upper_action_checks": 0,
+    "exact_residual_vector_evaluations": 0,
+    "identical_noncertified_fallbacks": 2700,
+    "interval_scalar_containments": 104976,
+    "observed_source_budget_pairs": 216,
+    "plain_unverified_diagnostics": 5292,
+    "policy_executions_checked": 11664,
+    "requests": 216,
+    "scope": "All source/budget/policy/rep q intervals and fallback states; exact residual vectors only stated trace subset"
+  },
+  "non_claims": "No arbitrary-input CG repair, universal runtime superiority, or independent theorem proof",
+  "python": "3.12.3 (main, Aug 31 2026, 10:18:26) [GCC 13.3.0]",
+  "schema": "quartz.c24.verification.v1",
+  "source": {
+    "actions": 216,
+    "exact_rhs_components": 741888,
+    "oracle": "independent exact Dirichlet edge energy",
+    "parents": 72
+  },
+  "split": "TEST",
+  "status": "PASS",
+  "verifier_sha256": "58836704bed63532260e7daae902fb21d7d95fd484c6524c2e3b2298e457d550"
+}

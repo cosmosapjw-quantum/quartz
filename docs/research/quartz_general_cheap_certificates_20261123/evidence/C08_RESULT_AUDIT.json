@@ -1,0 +1,77 @@
+{
+  "status": "COMPLETED_FROZEN_TEST_ANALYSIS",
+  "source_summary_sha256": "3a88db0a47c33789f22f62e7b7173c8dd3f31927d90f468803f0081b4158cec2",
+  "source_parent_metrics_sha256": "a04072af8b25dd8c8a1c6b94ff8e77bfd9badd719cd286296bc5942a33b42dcd",
+  "timing_reduction_fraction": 0.30151465588167503,
+  "speed_ratio_plain_over_fast": 1.4316692661064594,
+  "matvec_reduction_fraction": 0.4484360060101079,
+  "readout_cost_reduction_fraction_vs_outward": 0.9386447517032888,
+  "fast_outward_equal_gate_outcome_work_pairs": 216,
+  "pairs_checked": 216,
+  "vs_initial_outcomes": [
+    {
+      "additional": 8,
+      "improved_vs_initial": 8,
+      "worse_vs_initial": 2,
+      "unchanged_vs_initial": 62,
+      "worse_cases": [
+        {
+          "id": "c24_test_22_0",
+          "side": 32,
+          "rho": 64,
+          "gap": "tight",
+          "difference_exact": "-4902718395592387/37778931862957161709568",
+          "selected": 2,
+          "initial_selected": 0
+        },
+        {
+          "id": "c24_test_34_1",
+          "side": 96,
+          "rho": 64,
+          "gap": "tight",
+          "difference_exact": "-113146607888822335/1208925819614629174706176",
+          "selected": 2,
+          "initial_selected": 1
+        }
+      ]
+    },
+    {
+      "additional": 32,
+      "improved_vs_initial": 11,
+      "worse_vs_initial": 1,
+      "unchanged_vs_initial": 60,
+      "worse_cases": [
+        {
+          "id": "c24_test_34_1",
+          "side": 96,
+          "rho": 64,
+          "gap": "tight",
+          "difference_exact": "-113146607888822335/1208925819614629174706176",
+          "selected": 2,
+          "initial_selected": 1
+        }
+      ]
+    },
+    {
+      "additional": 128,
+      "improved_vs_initial": 11,
+      "worse_vs_initial": 0,
+      "unchanged_vs_initial": 61,
+      "worse_cases": []
+    }
+  ],
+  "figure_repair": {
+    "numerical_inputs_changed": false,
+    "frozen_plotter_unchanged_sha256": "dcf15c60f8e6e26483d6fe5788482b6839c8c801c4d16715d1d0841bd053a831",
+    "original_png_sha256": "f30ef57726177bdd1beccad6910aadada7095e2c22c77df6abbd26c83fb41efb",
+    "final_renderer_sha256": "83409785c595336dc5865a5e5b56be9c1ed53b139b7120cef1141225496e0249",
+    "command": [
+      "/home/cosmosapjw/quantum/research/quartz_general_meta24_20261123/venv/bin/python",
+      "/home/cosmosapjw/quantum/research/quartz_general_meta24_20261123/docs/research/quartz_general_cheap_certificates_20261123/coding/render_c24_report_figure.py",
+      "--split",
+      "TEST"
+    ],
+    "exit_code": 0,
+    "reason": "Constrain nonnegative price axis to tested domain and add legend headroom; original code/figure retained."
+  }
+}

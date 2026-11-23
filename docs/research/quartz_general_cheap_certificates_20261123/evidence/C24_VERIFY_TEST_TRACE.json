@@ -1,0 +1,57 @@
+{
+  "argv": [
+    "/home/cosmosapjw/quantum/research/quartz_general_meta24_20261123/docs/research/quartz_general_cheap_certificates_20261123/coding/c24_verify.py",
+    "--split",
+    "TEST",
+    "--mode",
+    "trace"
+  ],
+  "assertion_tested": "Finite exact manufactured sources, q endpoint containment, optimal strict certificates, bit-identical fixed fallback, declared true residual upper subset",
+  "independent_of_production_imports": true,
+  "input_sha256": {
+    "C04_RUN_CONTRACT.json": "68e123dae4fd5af07392670000a5b474af7c77fb5ee63c6b355c533915aaed90",
+    "C24_ORACLE_TEST.jsonl.gz": "5c097dcb0e216666fc435e630f643abc33bec7f9fa135b617e06216c557122e6",
+    "C24_PUBLIC_TEST.jsonl.gz": "9f441298e93878579cb2e88be631686275cfdbd55195c8662bf0cdd227f4daac",
+    "C24_SOURCES_TEST.json": "82db15f8f0f0e33fe15a02a4d63a7e3053a3d527857b38b4acb4fdad3edd9237",
+    "C24_TEST_TRACE.jsonl.gz": "1a225dd982f6b5cd512971880340c2d7d22cf71c4d930b119914f3fe7066cd87",
+    "C24_TEST_TRACE.manifest.json": "3aec1ae0e97b6d6f330c01998605eb9beec59b7c253849b899fbedac10b3af81",
+    "SOURCE_SPECS.json": "342fbac726767fa9d165adacbcb29fdef52438cc1ce17ae36a1e26cc6ece2197"
+  },
+  "mode": "trace",
+  "native": {
+    "byte_exact_transport_requests": 216,
+    "certified_optimal": 348,
+    "exact_residual_parent_ids": [
+      "c24_test_00_0",
+      "c24_test_05_0",
+      "c24_test_10_0",
+      "c24_test_13_0",
+      "c24_test_18_0",
+      "c24_test_23_0",
+      "c24_test_26_0",
+      "c24_test_31_0",
+      "c24_test_32_0"
+    ],
+    "exact_residual_upper_action_checks": 90,
+    "exact_residual_vector_evaluations": 54,
+    "identical_noncertified_fallbacks": 300,
+    "interval_scalar_containments": 28068,
+    "observed_source_budget_pairs": 216,
+    "plain_unverified_diagnostics": 588,
+    "policy_executions_checked": 1296,
+    "requests": 216,
+    "scope": "All source/budget/policy/rep q intervals and fallback states; exact residual vectors only stated trace subset"
+  },
+  "non_claims": "No arbitrary-input CG repair, universal runtime superiority, or independent theorem proof",
+  "python": "3.12.3 (main, Aug 31 2026, 10:18:26) [GCC 13.3.0]",
+  "schema": "quartz.c24.verification.v1",
+  "source": {
+    "actions": 216,
+    "exact_rhs_components": 741888,
+    "oracle": "independent exact Dirichlet edge energy",
+    "parents": 72
+  },
+  "split": "TEST",
+  "status": "PASS",
+  "verifier_sha256": "58836704bed63532260e7daae902fb21d7d95fd484c6524c2e3b2298e457d550"
+}
