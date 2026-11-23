@@ -1,0 +1,25 @@
+{
+  "analytic_basis": "Exact rational enumeration of contingent two-query plans",
+  "analytic_rows": 1924,
+  "benchmark": {
+    "metadata_sha256": "8364dd2fb0271ecc76b63d847b9a85a5a489699be18dcfb5b15c2de92b86b318",
+    "native_binary": {
+      "path": "/home/cosmosapjw/quantum/research/quartz_c28_target_20261123_486e/release/quartz_c28_action_geometry",
+      "sha256": "f8ab538dd1511244963b60c79f8da12f1c4e7e11ef63443087d8f35ca29f607a"
+    },
+    "path": "/home/cosmosapjw/quantum/research/quartz_c28_action_geometry_20261123_486e/docs/research/quartz_c28_action_geometry_20261123/evidence/c08_benchmark",
+    "summary_sha256": "87afe5a8a8950a8409815b7df4082c04d0ded2ff4cd720e8fcd7ec058426e52b"
+  },
+  "campaign_sha256": "f60e3bcfd54c7e0edeca26b056e00fc1d15f6dd74409e90b36583dc83563c446",
+  "command": "/home/cosmosapjw/quantum/research/quartz_c28_action_geometry_20261123_486e/docs/research/quartz_c28_action_geometry_20261123/coding/c28_campaign.py figures --benchmark /home/cosmosapjw/quantum/research/quartz_c28_action_geometry_20261123_486e/docs/research/quartz_c28_action_geometry_20261123/evidence/c08_benchmark --output /home/cosmosapjw/quantum/research/quartz_c28_action_geometry_20261123_486e/docs/research/quartz_c28_action_geometry_20261123/evidence/c08_figures",
+  "files": {
+    "analytic_data.json": "898d7028cf6246a615151ad1065e55bf4adbddf85fe61a6b36a904cd295f4747",
+    "native_costs.png": "5e23f1e8bb0b28700a68b1fcb9e8a403bab92db8e9cdd60ceadfda67b0f85d35",
+    "native_costs.svg": "9952ec9afbb00b4587e1c53ce637a13853e9236f00629dcdc00b5401222b7d1c",
+    "signed_common_geometry.png": "c709ce9449dd832e6d1ebb5c7c40f530a06da3240ab07c38339fed7ea09afe9b",
+    "signed_common_geometry.svg": "4e44401b0c0844c0803164b52b0ccc346d6825ff860e0a06f2e85a97845ea8f5"
+  },
+  "oracle_sha256": "58c09680fca14ac5b05a5fb8e20d40d397202ba36762f6a54406cdffc29fc35e",
+  "schema": "quartz-c28-figures-v1",
+  "status": "GENERATED_PENDING_VISUAL_REVIEW"
+}

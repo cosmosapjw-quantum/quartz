@@ -1,0 +1,149 @@
+{
+  "accuracy": {
+    "absolute_score_tolerance": 5e-12,
+    "choice_tolerance": "1/1000000000000",
+    "relative_tolerance": 0
+  },
+  "arguments": {
+    "binary": "/home/cosmosapjw/quantum/research/quartz_c28_target_20261123_486e/release/quartz_c28_action_geometry",
+    "output": "/home/cosmosapjw/quantum/research/quartz_c28_action_geometry_20261123_486e/docs/research/quartz_c28_action_geometry_20261123/evidence/c08_benchmark",
+    "subcommand": "benchmark"
+  },
+  "command": "/home/cosmosapjw/quantum/research/quartz_c28_action_geometry_20261123_486e/docs/research/quartz_c28_action_geometry_20261123/coding/c28_campaign.py benchmark --binary /home/cosmosapjw/quantum/research/quartz_c28_target_20261123_486e/release/quartz_c28_action_geometry --output /home/cosmosapjw/quantum/research/quartz_c28_action_geometry_20261123_486e/docs/research/quartz_c28_action_geometry_20261123/evidence/c08_benchmark",
+  "command_exit_code": 0,
+  "cpu_affinity_native": 11,
+  "cpu_model": "AMD Ryzen 9 5900X 12-Core Processor",
+  "ended_utc": "2026-11-23T13:43:12.248862+00:00",
+  "exclusive_cpu_claim": false,
+  "final_identity_check": "BYTE_IDENTICAL",
+  "game_cohort_status": "already observed retrospective equivalence and engineering benchmark; not fresh confirmatory TEST",
+  "git_status_before": {
+    "command": [
+      "git",
+      "-C",
+      "/home/cosmosapjw/quantum/research/quartz_c28_action_geometry_20261123_486e",
+      "status",
+      "--porcelain"
+    ],
+    "exit_code": 0,
+    "stderr": "",
+    "stdout": ""
+  },
+  "head": {
+    "command": [
+      "git",
+      "-C",
+      "/home/cosmosapjw/quantum/research/quartz_c28_action_geometry_20261123_486e",
+      "rev-parse",
+      "HEAD"
+    ],
+    "exit_code": 0,
+    "stderr": "",
+    "stdout": "1c0a9f24b8cf46493c404f0847b75ad3b6993476"
+  },
+  "identities": {
+    "campaign": {
+      "path": "/home/cosmosapjw/quantum/research/quartz_c28_action_geometry_20261123_486e/docs/research/quartz_c28_action_geometry_20261123/coding/c28_campaign.py",
+      "sha256": "f60e3bcfd54c7e0edeca26b056e00fc1d15f6dd74409e90b36583dc83563c446"
+    },
+    "contract": {
+      "path": "/home/cosmosapjw/quantum/research/quartz_c28_action_geometry_20261123_486e/docs/research/quartz_c28_action_geometry_20261123/coding/CONTRACT.json",
+      "sha256": "2bc388e4a1de1ec1c5728c6d8c6294cddf7cfff421dbec677ebed92f6329b4a5"
+    },
+    "frozen_model": {
+      "path": "/home/cosmosapjw/quantum/research/quartz_c28_action_geometry_20261123_486e/docs/research/quartz_general_game_metareasoning_20261123/coding/data/model.json",
+      "sha256": "0843447dc755c1d09e1bc69a44dd052e6db9c5c2ace41d1590b668cbfc36a126"
+    },
+    "frozen_sources": {
+      "path": "/home/cosmosapjw/quantum/research/quartz_c28_action_geometry_20261123_486e/docs/research/quartz_general_game_metareasoning_20261123/coding/data/public_sources.jsonl",
+      "sha256": "9c9f52a0344a4b6c7c25cde6d519479784a0695fcb8f4681486403fb21fe15c1"
+    },
+    "interface": {
+      "path": "/home/cosmosapjw/quantum/research/quartz_c28_action_geometry_20261123_486e/docs/research/quartz_c28_action_geometry_20261123/coding/NATIVE_INTERFACE.md",
+      "sha256": "ed25d988f6627e4dca1d74c1f68730d67a78b377cee4aff1c44f9d40132c3fdc"
+    },
+    "native_binary": {
+      "path": "/home/cosmosapjw/quantum/research/quartz_c28_target_20261123_486e/release/quartz_c28_action_geometry",
+      "sha256": "f8ab538dd1511244963b60c79f8da12f1c4e7e11ef63443087d8f35ca29f607a"
+    },
+    "native_source": {
+      "path": "/home/cosmosapjw/quantum/research/quartz_c28_action_geometry_20261123_486e/src/bin/quartz_c28_action_geometry.rs",
+      "sha256": "c396aad885132e7457fe99b4b16c8bdccff2067427cb1db7f2ed05d13d1603de"
+    },
+    "oracle": {
+      "path": "/home/cosmosapjw/quantum/research/quartz_c28_action_geometry_20261123_486e/docs/research/quartz_c28_action_geometry_20261123/theory/exact_lifted_h2.py",
+      "sha256": "58c09680fca14ac5b05a5fb8e20d40d397202ba36762f6a54406cdffc29fc35e"
+    },
+    "python_tests": {
+      "path": "/home/cosmosapjw/quantum/research/quartz_c28_action_geometry_20261123_486e/tests/test_c28_action_geometry.py",
+      "sha256": "ab905e385c67627da482330619f5eed043ebf1b0cd5de8255f51197c1ec7e09d"
+    }
+  },
+  "identity_relation": "BYTE_IDENTITY for all frozen inputs and code",
+  "native_command": [
+    "taskset",
+    "-c",
+    "11",
+    "/home/cosmosapjw/quantum/research/quartz_c28_target_20261123_486e/release/quartz_c28_action_geometry"
+  ],
+  "native_exit_code": 0,
+  "native_threads": 1,
+  "parent_affinity": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15,
+    16,
+    17,
+    18,
+    19,
+    20,
+    21,
+    22,
+    23
+  ],
+  "platform": "Linux-7.0.0-43-generic-x86_64-with-glibc2.39",
+  "python": "3.12.3 (main, Aug 31 2026, 10:18:26) [GCC 13.3.0]",
+  "raw_artifacts": {
+    "requests": {
+      "gzip_sha256": "e488da1b66d0cb4925467ee1ab4b8d0fd881a226fc23ff3e528458eec3502559",
+      "lines": 460,
+      "uncompressed_sha256": "3b5feb43a48248b1c1e4ef4946909c1ebaeffc454bd2cb968965395aa4acc58d"
+    },
+    "responses": {
+      "gzip_sha256": "f34703c953b24a05277b8fa03572b9ea5bd2e596cbdf97b920ab8b130af54e0d",
+      "lines": 460,
+      "uncompressed_sha256": "1c56acfbe53fee8f4e66c272b2af1202e6c1561fd3915fbbf0c5febd540608a6"
+    },
+    "root_medians": {
+      "gzip_sha256": "896bc9392e9d4f538675ad5dfbd42d72822b1d4768e5e2f4d97a5237bc00eb11",
+      "lines": 460,
+      "uncompressed_sha256": "0395a2918fb5675bd5763dc1728d5004f06f6d7406db1f53727485713a79a96c"
+    }
+  },
+  "schema": "quartz-c28-campaign-v1",
+  "speedup_required": false,
+  "started_utc": "2026-11-23T13:43:10.311707+00:00",
+  "status": "FROZEN_FIXED_COHORT_BENCHMARK_COMPLETE",
+  "timed_exclusions": [
+    "JSON transport",
+    "parsing/validation",
+    "history replay",
+    "serialization"
+  ],
+  "timed_game_boundary": "cue generation, model predictions, belief/cache setup, initial solve, posterior updates, planning and all additional solves through final decision",
+  "timed_synthetic_boundary": "law/coefficient preparation plus planner; no trace arrays",
+  "wall_seconds": 1.9148795480141416
+}

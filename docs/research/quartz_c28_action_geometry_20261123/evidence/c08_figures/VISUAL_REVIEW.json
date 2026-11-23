@@ -1,0 +1,16 @@
+{
+  "status": "VISUALLY_REVIEWED",
+  "files": [
+    "signed_common_geometry.png",
+    "native_costs.png"
+  ],
+  "checks": [
+    "Text, legends and axes readable; no clipped labels or overlaps",
+    "Analytic curves use exact-rational sampled values; left dotted lines denote \u00b119/24, with endpoint tie conventions established by proof/tests",
+    "Top analytic curves report net Bellman values including query costs, not gross deployed utility",
+    "Native-cost plot uses the actual frozen summary, microseconds, and explicitly descriptive retrospective scope",
+    "Game points lie on the equal-cost diagonal, consistent with the near-zero aggregate difference"
+  ],
+  "nonblocking_environment_warning": "Matplotlib reported unavailable Axes3D because of mixed installation paths; only 2D plots were used and both were generated and visually inspected",
+  "figure_manifest_kept_original": true
+}

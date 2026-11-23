@@ -1,0 +1,23 @@
+{
+  "classification": "publication formatting of exact generated SVG artifacts",
+  "failure_before_commit": true,
+  "head_unchanged": "1c0a9f24b8cf46493c404f0847b75ad3b6993476",
+  "diagnostic_exit_code": 2,
+  "diagnostic_sha256": "a05f20476062ab6f8406df4003fd9e0e4296fcb2deb8f1b8f75868ba4ce4c569",
+  "diagnostic_count_by_file": {
+    "docs/research/quartz_c28_action_geometry_20261123/evidence/c08_figures/native_costs.svg": 944,
+    "docs/research/quartz_c28_action_geometry_20261123/evidence/c08_figures/signed_common_geometry.svg": 1031
+  },
+  "first_diagnostics": [
+    "docs/research/quartz_c28_action_geometry_20261123/evidence/c08_figures/native_costs.svg:24: trailing whitespace.",
+    "docs/research/quartz_c28_action_geometry_20261123/evidence/c08_figures/native_costs.svg:25: trailing whitespace.",
+    "docs/research/quartz_c28_action_geometry_20261123/evidence/c08_figures/native_costs.svg:26: trailing whitespace."
+  ],
+  "svg_sha256_unchanged": {
+    "native_costs.svg": "9952ec9afbb00b4587e1c53ce637a13853e9236f00629dcdc00b5401222b7d1c",
+    "signed_common_geometry.svg": "4e44401b0c0844c0803164b52b0ccc346d6825ff860e0a06f2e85a97845ea8f5"
+  },
+  "repair": "Preserve generated SVG and raw .log evidence bytes; whitespace lint covers source/docs/numeric-data, while archive blob/mode verification covers all files. Bound diagnostic output to 4000 characters.",
+  "science_or_production_code_changed": false,
+  "measurements_rerun": false
+}
