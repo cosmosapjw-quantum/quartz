@@ -1,0 +1,26 @@
+test_median_then_seed_mean_then_equal_parent_contrast (test_c26_game_metareasoning.AggregationTests.test_median_then_seed_mean_then_equal_parent_contrast) ... ok
+test_multiclass_brier_diagnostics_use_exact_minimax_labels (test_c26_game_metareasoning.AggregationTests.test_multiclass_brier_diagnostics_use_exact_minimax_labels) ... ok
+test_gibbs_actual_sampling_frequency_fixed_tolerance (test_c26_game_metareasoning.ModelMechanismTests.test_gibbs_actual_sampling_frequency_fixed_tolerance) ... ok
+test_gibbs_stability_shift_and_joint_scale (test_c26_game_metareasoning.ModelMechanismTests.test_gibbs_stability_shift_and_joint_scale) ... ok
+test_known_terminal_win_skips_initial_query_and_stops_rational_policies (test_c26_game_metareasoning.ModelMechanismTests.test_known_terminal_win_skips_initial_query_and_stops_rational_policies) ... ok
+test_parent_bootstrap_keeps_source_as_unit (test_c26_game_metareasoning.ModelMechanismTests.test_parent_bootstrap_keeps_source_as_unit) ... ok
+test_public_request_cannot_carry_oracle_values (test_c26_game_metareasoning.ModelMechanismTests.test_public_request_cannot_carry_oracle_values) ... ok
+test_reservation_index_piecewise_boundaries (test_c26_game_metareasoning.ModelMechanismTests.test_reservation_index_piecewise_boundaries) ... ok
+test_train_only_smoothing_and_fallback_costs (test_c26_game_metareasoning.ModelMechanismTests.test_train_only_smoothing_and_fallback_costs) ... ok
+test_all_reachable_nonterminal_root_signs_and_node_counts (test_c26_game_metareasoning.NativeIntegrationTests.test_all_reachable_nonterminal_root_signs_and_node_counts) ... ok
+test_invalid_json_history_and_model_continue_processing (test_c26_game_metareasoning.NativeIntegrationTests.test_invalid_json_history_and_model_continue_processing) ... ok
+test_native_traces_all_policies_caps_and_players (test_c26_game_metareasoning.NativeIntegrationTests.test_native_traces_all_policies_caps_and_players) ... ok
+test_nine_repetitions_match_separate_trace (test_c26_game_metareasoning.NativeIntegrationTests.test_nine_repetitions_match_separate_trace) ... ok
+test_complete_reachable_population_stops_at_terminals (test_c26_game_metareasoning.PopulationOracleTests.test_complete_reachable_population_stops_at_terminals) ... ok
+test_d4_rotation_has_same_canonical_representative (test_c26_game_metareasoning.PopulationOracleTests.test_d4_rotation_has_same_canonical_representative) ... ok
+test_empty_board_exact_value_and_full_traversal_count (test_c26_game_metareasoning.PopulationOracleTests.test_empty_board_exact_value_and_full_traversal_count) ... ok
+test_replay_rejects_illegal_and_terminal_continuation (test_c26_game_metareasoning.PopulationOracleTests.test_replay_rejects_illegal_and_terminal_continuation) ... ok
+test_source_selection_is_canonical_disjoint_and_blinded (test_c26_game_metareasoning.PopulationOracleTests.test_source_selection_is_canonical_disjoint_and_blinded) ... ok
+test_splitmix64_literal_vectors (test_c26_game_metareasoning.PopulationOracleTests.test_splitmix64_literal_vectors) ... ok
+test_terminal_cue_is_paid_once (test_c26_game_metareasoning.PopulationOracleTests.test_terminal_cue_is_paid_once) ... ok
+test_terminal_root_frame_signs_and_one_node (test_c26_game_metareasoning.PopulationOracleTests.test_terminal_root_frame_signs_and_one_node) ... ok
+
+----------------------------------------------------------------------
+Ran 21 tests in 1.330s
+
+OK

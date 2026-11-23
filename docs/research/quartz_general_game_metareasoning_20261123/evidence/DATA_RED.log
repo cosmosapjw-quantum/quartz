@@ -1,0 +1,30 @@
+test_complete_reachable_population_stops_at_terminals (test_c26_game_metareasoning.PopulationOracleTests.test_complete_reachable_population_stops_at_terminals) ... FAIL
+test_empty_board_exact_value_and_full_traversal_count (test_c26_game_metareasoning.PopulationOracleTests.test_empty_board_exact_value_and_full_traversal_count) ... FAIL
+
+======================================================================
+FAIL: test_complete_reachable_population_stops_at_terminals (test_c26_game_metareasoning.PopulationOracleTests.test_complete_reachable_population_stops_at_terminals)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/cosmosapjw/quantum/research/quartz_general_meta26_20261123/tests/test_c26_game_metareasoning.py", line 17, in test_complete_reachable_population_stops_at_terminals
+    self.assertEqual(len(states), 5478)
+AssertionError: 1 != 5478
+
+======================================================================
+FAIL: test_empty_board_exact_value_and_full_traversal_count (test_c26_game_metareasoning.PopulationOracleTests.test_empty_board_exact_value_and_full_traversal_count)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/cosmosapjw/quantum/research/quartz_general_meta26_20261123/tests/test_c26_game_metareasoning.py", line 21, in test_empty_board_exact_value_and_full_traversal_count
+    self.assertEqual(c26.oracle((0,) * 9, 1), (0, 549946))
+AssertionError: Tuples differ: (0, 1) != (0, 549946)
+
+First differing element 1:
+1
+549946
+
+- (0, 1)
++ (0, 549946)
+
+----------------------------------------------------------------------
+Ran 2 tests in 0.000s
+
+FAILED (failures=2)

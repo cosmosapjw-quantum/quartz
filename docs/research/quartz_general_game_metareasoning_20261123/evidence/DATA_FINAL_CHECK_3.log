@@ -1,0 +1,21 @@
+usage: c26_campaign.py [-h] [--data-dir DATA_DIR] [--results-dir RESULTS_DIR]
+                       [--binary BINARY] [--split {CAL,TEST}]
+                       {prepare,train,cal,test,analyze,validate,audit-model,audit-all}
+
+Frozen C26 actual-game campaign and independently implemented Python oracle.
+The native decision process receives only legal histories, public seeds,
+budget, and the TRAIN-fitted model. Exact evaluation labels live in a separate
+artifact. Python memoization accelerates offline recurrence evaluation:
+returned node counts sum every full-tree occurrence, including duplicate
+boards and terminal entries. The native solver itself performs every charged
+traversal without memoization.
+
+positional arguments:
+  {prepare,train,cal,test,analyze,validate,audit-model,audit-all}
+
+options:
+  -h, --help            show this help message and exit
+  --data-dir DATA_DIR
+  --results-dir RESULTS_DIR
+  --binary BINARY
+  --split {CAL,TEST}

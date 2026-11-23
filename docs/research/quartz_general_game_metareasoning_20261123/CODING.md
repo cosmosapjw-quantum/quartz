@@ -21,3 +21,7 @@ Exact minimax has no truncation error. Model, f64 and timing errors are assessed
 ## C04 — execution plan
 
 The concrete DAG and budget are coding/C04_EXECUTION.md. Parent owns publication; independent workers own disjoint implementation files. Next is actual C05 implementation followed by C06 evidence.
+
+## C05 — implementation
+
+The native GameState feature and independent Python oracle/harness are complete. Source, test and binary hashes precede empirical outcomes. Actual targeted and complete-state checks passed; parent full release Rust tests also exited0. New Python files pass formatting, while inherited CI formatting debt is recorded separately. See coding/C05_IMPLEMENTED.md.

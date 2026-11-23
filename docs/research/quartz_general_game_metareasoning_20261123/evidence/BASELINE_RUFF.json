@@ -1,0 +1,16 @@
+{
+  "command": [
+    "/home/cosmosapjw/quantum/research/quartz_general_meta26_20261123/venv/bin/python",
+    "-m",
+    "ruff",
+    "format",
+    "--check",
+    "."
+  ],
+  "cwd": "/home/cosmosapjw/quantum/research/quartz_general_meta25_20261123",
+  "expected_parent": "d6019d674ae76524b1895016f49b82d4f7b001b2",
+  "exit_code": 1,
+  "utc": "2026-11-23T09:26:11.171156+00:00",
+  "log": "evidence/BASELINE_RUFF.log",
+  "output_tail": "/home/cosmosapjw/quantum/research/quartz_general_meta26_20261123/venv/bin/python: No module named ruff\n"
+}

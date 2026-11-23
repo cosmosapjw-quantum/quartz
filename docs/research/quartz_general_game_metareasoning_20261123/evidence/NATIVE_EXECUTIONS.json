@@ -1,0 +1,36 @@
+[
+  {
+    "command": [
+      "cargo",
+      "test",
+      "--offline",
+      "--bin",
+      "quartz_c26_game_metareasoning",
+      "-j",
+      "2",
+      "--",
+      "--nocapture"
+    ],
+    "exit_code": 0,
+    "elapsed_s": 0.5141127109527588,
+    "source_sha256": "145b586fea7ff7526eb30d15d683580678f1c9dd3a433967f536697957327a01"
+  },
+  {
+    "command": [
+      "cargo",
+      "build",
+      "--release",
+      "--offline",
+      "--bin",
+      "quartz_c26_game_metareasoning",
+      "-j",
+      "2"
+    ],
+    "exit_code": 0,
+    "elapsed_s": 11.847557544708252,
+    "source_sha256": "145b586fea7ff7526eb30d15d683580678f1c9dd3a433967f536697957327a01",
+    "binary": "/home/cosmosapjw/quantum/research/quartz_general_meta26_20261123/target/release/quartz_c26_game_metareasoning",
+    "binary_sha256": "8735b1f23a970248e4ef2b26d08c8df2daf181f0d29163317b5f41cc6ef0be0c",
+    "binary_bytes": 618160
+  }
+]

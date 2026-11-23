@@ -1,0 +1,6 @@
+"""C26 entry scaffold: only the initial state is represented before C05."""
+def enumerate_reachable():
+    return {(0,) * 9: ()}
+
+def oracle(board, root_player):
+    return (0, 1)

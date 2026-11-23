@@ -1,0 +1,82 @@
+
+running 4 tests
+test c26_tests::red_positive_excess_three_point_literal ... FAILED
+test c26_tests::red_gibbs_nonpositive_focus_has_probability ... FAILED
+test c26_tests::red_reservation_first_branch_literal ... FAILED
+test c26_tests::red_root_frame_retains_actual_x_win ... FAILED
+
+failures:
+
+failures:
+    c26_tests::red_gibbs_nonpositive_focus_has_probability
+    c26_tests::red_positive_excess_three_point_literal
+    c26_tests::red_reservation_first_branch_literal
+    c26_tests::red_root_frame_retains_actual_x_win
+
+test result: FAILED. 0 passed; 4 failed; 0 ignored; 0 measured; 4 filtered out; finished in 0.00s
+
+
+   Compiling libc v0.2.184
+   Compiling cfg-if v1.0.4
+   Compiling crossbeam-utils v0.8.21
+   Compiling proc-macro2 v1.0.106
+   Compiling zerocopy v0.8.48
+   Compiling quote v1.0.45
+   Compiling unicode-ident v1.0.24
+   Compiling getrandom v0.2.17
+   Compiling libm v0.2.16
+   Compiling autocfg v1.5.0
+   Compiling serde_core v1.0.228
+   Compiling num-traits v0.2.19
+   Compiling rand_core v0.6.4
+   Compiling crossbeam-epoch v0.9.18
+   Compiling rustversion v1.0.22
+   Compiling zmij v1.0.21
+   Compiling rayon-core v1.13.0
+   Compiling getrandom v0.4.2
+   Compiling rustix v1.1.4
+   Compiling parking_lot_core v0.9.12
+   Compiling crossbeam-deque v0.8.6
+   Compiling syn v2.0.117
+   Compiling ppv-lite86 v0.2.21
+   Compiling rand_chacha v0.3.1
+   Compiling linux-raw-sys v0.12.1
+   Compiling bitflags v2.11.1
+   Compiling serde_json v1.0.149
+   Compiling serde v1.0.228
+   Compiling smallvec v1.15.1
+   Compiling scopeguard v1.2.0
+   Compiling lock_api v0.4.14
+   Compiling serde_derive v1.0.228
+   Compiling rand v0.8.5
+   Compiling once_cell v1.21.4
+   Compiling fastrand v2.4.1
+   Compiling either v1.15.0
+   Compiling itoa v1.0.18
+   Compiling memchr v2.8.0
+   Compiling rayon v1.11.0
+   Compiling tempfile v3.27.0
+   Compiling arc-swap v1.9.1
+   Compiling rand_distr v0.4.3
+   Compiling parking_lot v0.12.5
+   Compiling crossbeam-channel v0.5.15
+   Compiling bumpalo v3.20.2
+   Compiling mcts_demo v0.3.0 (/home/cosmosapjw/quantum/research/quartz_general_meta26_20261123)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 8.15s
+     Running unittests src/bin/quartz_c26_game_metareasoning.rs (target/debug/deps/quartz_c26_game_metareasoning-48351a09aaa8043e)
+
+thread 'c26_tests::red_positive_excess_three_point_literal' (245382) panicked at src/bin/quartz_c26_game_metareasoning.rs:32:3:
+assertion failed: (positive_excess([0.2, 0.4, 0.4], 0.5) - 0.2).abs() < 1e-14
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+thread 'c26_tests::red_gibbs_nonpositive_focus_has_probability' (245381) panicked at src/bin/quartz_c26_game_metareasoning.rs:41:3:
+Gibbs must sample negative-Q FOCUS
+
+thread 'c26_tests::red_reservation_first_branch_literal' (245383) panicked at src/bin/quartz_c26_game_metareasoning.rs:36:3:
+assertion failed: (reservation_index([0.2, 0.4, 0.4], 0.1) - 0.75).abs() < 1e-14
+
+thread 'c26_tests::red_root_frame_retains_actual_x_win' (245384) panicked at src/bin/quartz_c26_game_metareasoning.rs:28:3:
+assertion `left == right` failed: missing root-player sign conversion
+  left: -1
+ right: 1
+error: test failed, to rerun pass `--bin quartz_c26_game_metareasoning`

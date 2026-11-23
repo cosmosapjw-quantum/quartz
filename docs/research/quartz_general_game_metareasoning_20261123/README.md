@@ -61,3 +61,7 @@ Specified exact-value, floating/model and timing errors; stable arithmetic and c
 ## C04 — completed
 
 Bounded the implementation→verification→TRAIN/CAL→TEST→review/restore DAG, resources, row counts and ownership. Workers are released for C05 after this checkpoint. See coding/C04_EXECUTION.md.
+
+## C05 — completed
+
+Implemented and froze the complete native six-policy path and independent data/oracle/campaign harness. Actual behavioral RED/GREEN, release build, complete-state oracle checks and source identity are recorded. TRAIN/CAL/TEST are still unexecuted at this checkpoint. See coding/C05_IMPLEMENTED.md.

@@ -1,0 +1,12 @@
+{
+  "command": [
+    "venv/bin/python",
+    "tests/test_c26_game_metareasoning.py",
+    "PopulationOracleTests",
+    "NativeIntegrationTests.test_invalid_json_history_and_model_continue_processing",
+    "NativeIntegrationTests.test_native_traces_all_policies_caps_and_players",
+    "-v"
+  ],
+  "exit_code": 0,
+  "utc": "2026-11-23T09:25:18.856538+00:00"
+}

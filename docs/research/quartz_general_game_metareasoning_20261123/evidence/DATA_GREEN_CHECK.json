@@ -1,0 +1,18 @@
+{
+  "command": [
+    "venv/bin/python",
+    "-m",
+    "unittest",
+    "discover",
+    "-s",
+    "tests",
+    "-p",
+    "test_c26_game_metareasoning.py",
+    "-v"
+  ],
+  "exit_code": 0,
+  "utc": "2026-11-23T09:27:54.114472+00:00",
+  "elapsed_seconds": 1.3940245639823843,
+  "harness_sha256": "682bc07b0030e55cb9aedeff45c7fe0524946e114b18f44e857e8bbd93edcfd7",
+  "test_sha256": "6ddc8b1d7b001211070950e0c5edbb78238c3d7b99f6f37cd0b7397a6c303601"
+}

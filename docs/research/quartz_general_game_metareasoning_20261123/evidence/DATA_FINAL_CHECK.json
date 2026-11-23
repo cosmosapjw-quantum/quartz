@@ -1,0 +1,58 @@
+{
+  "utc": "2026-11-23T09:31:55.402038+00:00",
+  "executions": [
+    {
+      "command": [
+        "/tmp/quartz_c26_formatter/bin/ruff",
+        "format",
+        "docs/research/quartz_general_game_metareasoning_20261123/coding/c26_campaign.py",
+        "tests/test_c26_game_metareasoning.py"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 0.010346285009291023,
+      "log": "docs/research/quartz_general_game_metareasoning_20261123/evidence/DATA_FINAL_CHECK_0.log"
+    },
+    {
+      "command": [
+        "/tmp/quartz_c26_formatter/bin/ruff",
+        "format",
+        "--check",
+        "docs/research/quartz_general_game_metareasoning_20261123/coding/c26_campaign.py",
+        "tests/test_c26_game_metareasoning.py"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 0.006440772995119914,
+      "log": "docs/research/quartz_general_game_metareasoning_20261123/evidence/DATA_FINAL_CHECK_1.log"
+    },
+    {
+      "command": [
+        "venv/bin/python",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests",
+        "-p",
+        "test_c26_game_metareasoning.py",
+        "-v"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 1.3983390700013842,
+      "log": "docs/research/quartz_general_game_metareasoning_20261123/evidence/DATA_FINAL_CHECK_2.log"
+    },
+    {
+      "command": [
+        "venv/bin/python",
+        "docs/research/quartz_general_game_metareasoning_20261123/coding/c26_campaign.py",
+        "--help"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 0.04483254600199871,
+      "log": "docs/research/quartz_general_game_metareasoning_20261123/evidence/DATA_FINAL_CHECK_3.log"
+    }
+  ],
+  "hashes": {
+    "docs/research/quartz_general_game_metareasoning_20261123/coding/c26_campaign.py": "ee4501d5bfee66adcc15dbfb0b0f93ee50343e3313c7d1ce654143571ecee750",
+    "tests/test_c26_game_metareasoning.py": "9f265bc253cf62913591a72e9b5460a4c0f1f2288f97a338dcaec57c16084b19"
+  }
+}

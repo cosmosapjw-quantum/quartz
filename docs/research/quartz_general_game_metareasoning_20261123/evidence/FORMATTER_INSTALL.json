@@ -1,0 +1,16 @@
+{
+  "command": [
+    "/home/cosmosapjw/quantum/research/quartz_general_meta26_20261123/venv/bin/python",
+    "-m",
+    "pip",
+    "install",
+    "--disable-pip-version-check",
+    "--target",
+    "/tmp/quartz_c26_formatter",
+    "ruff"
+  ],
+  "exit_code": 0,
+  "elapsed_seconds": 2.2667132539791055,
+  "reason": "Observed GitHub formatting failure and absent local Ruff; isolated formatter only, no runtime dependency/lockfile changed",
+  "target": "/tmp/quartz_c26_formatter"
+}

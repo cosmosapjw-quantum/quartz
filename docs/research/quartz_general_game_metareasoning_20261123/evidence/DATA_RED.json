@@ -1,0 +1,18 @@
+{
+  "command": [
+    "venv/bin/python",
+    "-m",
+    "unittest",
+    "discover",
+    "-s",
+    "tests",
+    "-p",
+    "test_c26_game_metareasoning.py",
+    "-v"
+  ],
+  "exit_code": 1,
+  "utc": "2026-11-23T09:20:41.083992+00:00",
+  "failure_class": "implementation feature absent in entry scaffold",
+  "observed": "reachable population 1 != 5478; full traversal node count 1 != 549946",
+  "interpretation": "behavioral red against minimal importable scaffold, not a preexisting-game bug or import failure"
+}

@@ -1,0 +1,18 @@
+{
+  "command": [
+    "cargo",
+    "test",
+    "--offline",
+    "--bin",
+    "quartz_c26_game_metareasoning",
+    "-j",
+    "2",
+    "c26_tests",
+    "--",
+    "--nocapture"
+  ],
+  "exit_code": 101,
+  "elapsed_s": 8.169400453567505,
+  "source_sha256": "7b1c4df18d8cb0e21de83568fcee36d255000a837b0045ee4b7368534d769734",
+  "meaning": "scaffold intentionally omits root-frame and metareasoning transformations; no defect in existing GameState API"
+}

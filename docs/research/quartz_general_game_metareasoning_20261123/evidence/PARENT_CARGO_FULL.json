@@ -1,0 +1,22 @@
+{
+  "command": [
+    "cargo",
+    "test",
+    "--release",
+    "--locked",
+    "--offline"
+  ],
+  "cwd": "/home/cosmosapjw/quantum/research/quartz_general_meta26_20261123",
+  "exit_code": 0,
+  "timed_out": false,
+  "elapsed_seconds": 54.350258833001135,
+  "utc": "2026-11-23T09:26:59.662986+00:00",
+  "env_overrides": {
+    "CARGO_BUILD_JOBS": "2",
+    "RUST_TEST_THREADS": "2",
+    "OMP_NUM_THREADS": "1",
+    "OPENBLAS_NUM_THREADS": "1",
+    "MKL_NUM_THREADS": "1"
+  },
+  "log": "/home/cosmosapjw/quantum/research/quartz_general_meta26_20261123/docs/research/quartz_general_game_metareasoning_20261123/evidence/PARENT_CARGO_FULL.log"
+}

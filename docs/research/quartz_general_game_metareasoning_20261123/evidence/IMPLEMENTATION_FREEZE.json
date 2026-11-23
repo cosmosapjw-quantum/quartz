@@ -1,0 +1,24 @@
+{
+  "files": {
+    "src/bin/quartz_c26_game_metareasoning.rs": "145b586fea7ff7526eb30d15d683580678f1c9dd3a433967f536697957327a01",
+    "docs/research/quartz_general_game_metareasoning_20261123/coding/c26_campaign.py": "ee4501d5bfee66adcc15dbfb0b0f93ee50343e3313c7d1ce654143571ecee750",
+    "tests/test_c26_game_metareasoning.py": "9f265bc253cf62913591a72e9b5460a4c0f1f2288f97a338dcaec57c16084b19",
+    "target/release/quartz_c26_game_metareasoning": "8735b1f23a970248e4ef2b26d08c8df2daf181f0d29163317b5f41cc6ef0be0c"
+  },
+  "format_command": [
+    "/tmp/quartz_c26_formatter/bin/ruff",
+    "format",
+    "--check",
+    "scripts/quartz_general_c26_publish.py",
+    "tests/test_c26_game_metareasoning.py",
+    "docs/research/quartz_general_game_metareasoning_20261123/coding/c26_campaign.py",
+    "docs/research/quartz_general_game_metareasoning_20261123/coding/final_delivery_audit.py",
+    "docs/research/quartz_general_game_metareasoning_20261123/coding/verify_restore.py",
+    "docs/research/quartz_general_game_metareasoning_20261123/theory/exactcheck.py",
+    "docs/research/quartz_general_game_metareasoning_20261123/theory/statphys_check.py"
+  ],
+  "format_exit_code": 0,
+  "format_output": "7 files already formatted\n",
+  "production_outcomes_seen": false,
+  "scope": "precohort native/harness/binary freeze; original mathematical source bytes retained in compressed evidence bundle"
+}

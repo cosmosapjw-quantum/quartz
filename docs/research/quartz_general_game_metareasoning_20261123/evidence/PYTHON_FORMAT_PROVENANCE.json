@@ -1,0 +1,44 @@
+{
+  "utc": "2026-11-23T09:30:55.581483+00:00",
+  "formatter": "ruff0.17.6 isolatedtool",
+  "format_command": [
+    "/tmp/quartz_c26_formatter/bin/ruff",
+    "format",
+    "/home/cosmosapjw/quantum/research/quartz_general_meta26_20261123/scripts/quartz_general_c26_publish.py",
+    "/home/cosmosapjw/quantum/research/quartz_general_meta26_20261123/docs/research/quartz_general_game_metareasoning_20261123/coding/verify_restore.py",
+    "/home/cosmosapjw/quantum/research/quartz_general_meta26_20261123/docs/research/quartz_general_game_metareasoning_20261123/theory/exactcheck.py",
+    "/home/cosmosapjw/quantum/research/quartz_general_meta26_20261123/docs/research/quartz_general_game_metareasoning_20261123/theory/statphys_check.py"
+  ],
+  "format_exit": 0,
+  "format_stdout": "4 files reformatted\n",
+  "check_exit": 0,
+  "files": [
+    {
+      "path": "scripts/quartz_general_c26_publish.py",
+      "before_sha256": "7f690fdd3b6d0f4451303978d41ee16bcaa422805cc03bc4e07cd67098becae2",
+      "after_sha256": "97f1fc07f5ad207e8f9b348e6e68141e1634fcfc3202669ea94366d38d418376",
+      "python_AST_identical": true
+    },
+    {
+      "path": "docs/research/quartz_general_game_metareasoning_20261123/coding/verify_restore.py",
+      "before_sha256": "c9de9723a417240bd2dde376a06965c6e38030049257ae41f50cb1d65589c8c8",
+      "after_sha256": "5f8627e2792cce871c44cd5ff22bb5a5a5adbde66f5c17e1e7536cce81df6fdf",
+      "python_AST_identical": true
+    },
+    {
+      "path": "docs/research/quartz_general_game_metareasoning_20261123/theory/exactcheck.py",
+      "before_sha256": "5781c8c842bf45b189c3b92e6b84e100e2f6208639f5947e88e973e9b8bc49fd",
+      "after_sha256": "778d07d7867783da85fef41c13c60c5ba7063aa14d99410c82ecce4e38a6f83c",
+      "python_AST_identical": true
+    },
+    {
+      "path": "docs/research/quartz_general_game_metareasoning_20261123/theory/statphys_check.py",
+      "before_sha256": "c61d1d32ef08fc6fadec3fec70923ce00c61851cdddd26f1348e91a52c354c39",
+      "after_sha256": "7a22a61beb9de7662d5dd940eeb7f9c9c953a5e6f19f06e5f3e425ebdc46b9b0",
+      "python_AST_identical": true
+    }
+  ],
+  "original_source_bundle": "docs/research/quartz_general_game_metareasoning_20261123/evidence/PREFORMAT_PYTHON_SOURCES.json.gz",
+  "bundle_sha256": "c58da157316dcd64351f104b038107ccea8f797676a6b7ac14c04081c0adc90c",
+  "provenance_note": "R07 original execution manifests bind the preserved preformat sources, not the formatted runnable copies. AST identity establishes the unchanged Python program; no empirical parameter changes."
+}

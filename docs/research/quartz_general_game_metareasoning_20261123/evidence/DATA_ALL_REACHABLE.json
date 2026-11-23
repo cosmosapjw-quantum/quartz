@@ -1,0 +1,33 @@
+{
+  "assertion_tested": "Every reachable nonterminal root: every child root-frame minimax utility, full-tree node multiplicity, SplitMix64 cue counts, cue cost and terminal semantics agree.",
+  "binary_sha256": "8735b1f23a970248e4ef2b26d08c8df2daf181f0d29163317b5f41cc6ef0be0c",
+  "by_ply": {
+    "0": 1,
+    "1": 9,
+    "2": 72,
+    "3": 252,
+    "4": 756,
+    "5": 1140,
+    "6": 1372,
+    "7": 696,
+    "8": 222
+  },
+  "candidates": 16167,
+  "elapsed_seconds": 1.0300151219998952,
+  "harness_sha256": "ee4501d5bfee66adcc15dbfb0b0f93ee50343e3313c7d1ce654143571ecee750",
+  "logical_response_sha256": "034043351696966612bfc1c3242dd978a0f1e94287beb7c6c0d81bc227b99094",
+  "maximum_child_solve_nodes": 63905,
+  "root_players": [
+    -1,
+    1
+  ],
+  "root_utilities": [
+    0.0,
+    0.5,
+    1.0
+  ],
+  "roots": 4520,
+  "schema": "c26-all-reachable-audit-v1",
+  "scope": "Finite TicTacToe state graph, 4520 nonterminal roots; not a policy performance cohort.",
+  "utc": "2026-11-23T09:31:55.180959+00:00"
+}

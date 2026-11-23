@@ -1,0 +1,12 @@
+{
+  "formatter": "ruff 0.17.6",
+  "command": [
+    "/tmp/quartz_c26_formatter/bin/ruff",
+    "format",
+    "--check",
+    "."
+  ],
+  "cwd": "/home/cosmosapjw/quantum/research/quartz_general_meta25_20261123",
+  "exit_code": 1,
+  "tail": "ES[\"heterogeneous_complete_vs_partial\"])\n97  +         row[\"experiments\"][0][\"likelihood\"][0] = [\"1/2\", \"1/4\"]\n98  |         with self.assertRaises(ValueError):\n99  |             FiniteProblem.from_mapping(row)\n    -         row=copy.deepcopy(CASES[\"heterogeneous_complete_vs_partial\"])\n    -         row[\"experiments\"][0][\"cost\"]=\"-1/20\"\n100 +         row = copy.deepcopy(CASES[\"heterogeneous_complete_vs_partial\"])\n101 +         row[\"experiments\"][0][\"cost\"] = \"-1/20\"\n102 |         with self.assertRaises(ValueError):\n103 |             FiniteProblem.from_mapping(row)\n    -         row=copy.deepcopy(CASES[\"heterogeneous_complete_vs_partial\"])\n    -         row[\"posterior\"][0]=\"NaN\"\n104 +         row = copy.deepcopy(CASES[\"heterogeneous_complete_vs_partial\"])\n105 +         row[\"posterior\"][0] = \"NaN\"\n106 |         with self.assertRaises(ValueError):\n107 |             FiniteProblem.from_mapping(row)\n108 |\n109 +\n110 | def eval_fraction(value):\n111 |     from fractions import Fraction\n112 +\n113 |     return Fraction(value)\n114 |\n    - if __name__==\"__main__\":\n115 +\n116 + if __name__ == \"__main__\":\n117 |     unittest.main()\n    |\n\n272 files would be reformatted, 586 files already formatted\n"
+}

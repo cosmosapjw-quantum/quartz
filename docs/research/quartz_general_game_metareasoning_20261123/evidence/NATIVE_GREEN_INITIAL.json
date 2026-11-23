@@ -1,0 +1,16 @@
+{
+  "command": [
+    "cargo",
+    "test",
+    "--offline",
+    "--bin",
+    "quartz_c26_game_metareasoning",
+    "-j",
+    "2",
+    "--",
+    "--nocapture"
+  ],
+  "exit_code": 0,
+  "elapsed_s": 0.788780689239502,
+  "source_sha256": "42a14724978b767e48dc997e7d9742c19413791a37b01095ac602814aeb73169"
+}

@@ -1,0 +1,27 @@
+[
+  {
+    "command": [
+      "gh",
+      "run",
+      "view",
+      "45145962966",
+      "--json",
+      "jobs,conclusion,status,headSha,url,event"
+    ],
+    "exit_code": 0,
+    "stdout": "{\"conclusion\":\"failure\",\"event\":\"push\",\"headSha\":\"0b1cee307c67b37b804264407407daaa731b637a\",\"jobs\":[{\"completedAt\":\"2026-11-23T09:21:52Z\",\"conclusion\":\"success\",\"databaseId\":137595198745,\"name\":\"real-loop smoke\",\"startedAt\":\"2026-11-23T09:19:28Z\",\"status\":\"completed\",\"steps\":[{\"conclusion\":\"success\",\"name\":\"Set up job\",\"number\":1,\"status\":\"completed\"},{\"conclusion\":\"success\",\"name\":\"Checkout\",\"number\":2,\"status\":\"completed\"},{\"conclusion\":\"success\",\"name\":\"Set up Rust\",\"number\":3,\"status\":\"completed\"},{\"conclusion\":\"success\",\"name\":\"Set up Python\",\"number\":4,\"status\":\"completed\"},{\"conclusion\":\"success\",\"name\":\"Install Python dependencies\",\"number\":5,\"status\":\"completed\"},{\"conclusion\":\"success\",\"name\":\"Build Rust binary\",\"number\":6,\"status\":\"completed\"},{\"conclusion\":\"success\",\"name\":\"Run real-loop smoke\",\"number\":7,\"status\":\"completed\"},{\"conclusion\":\"success\",\"name\":\"Post Set up Python\",\"number\":13,\"status\":\"completed\"},{\"conclusion\":\"success\",\"name\":\"Post Checkout\",\"number\":14,\"status\":\"completed\"},{\"conclusion\":\"success\",\"name\":\"Complete job\",\"number\":15,\"status\":\"completed\"}],\"url\":\"https://github.com/cosmosapjw-quantum/quartz/actions/runs/45145962966/job/137595198745\"},{\"completedAt\":\"2026-11-23T09:20:21Z\",\"conclusion\":\"failure\",\"databaseId\":137595199156,\"name\":\"pytest tests/\",\"startedAt\":\"2026-11-23T09:19:27Z\",\"status\":\"completed\",\"steps\":[{\"conclusion\":\"success\",\"name\":\"Set up job\",\"number\":1,\"status\":\"completed\"},{\"conclusion\":\"success\",\"name\":\"Checkout\",\"number\":2,\"status\":\"completed\"},{\"conclusion\":\"success\",\"name\":\"Set up Python\",\"number\":3,\"status\":\"completed\"},{\"conclusion\":\"success\",\"name\":\"Install Python dependencies\",\"number\":4,\"status\":\"completed\"},{\"conclusion\":\"failure\",\"name\":\"Check Ruff formatting\",\"number\":5,\"status\":\"completed\"},{\"conclusion\":\"skipped\",\"name\":\"Run pytest\",\"number\":6,\"status\":\"completed\"},{\"conclusion\":\"skipped\",\"name\":\"Post Set up Python\",\"number\":11,\"status\":\"completed\"},{\"conclusion\":\"success\",\"name\":\"Post Checkout\",\"number\":12,\"status\":\"completed\"},{\"conclusion\":\"success\",\"name\":\"Complete job\",\"number\":13,\"status\":\"completed\"}],\"url\":\"https://github.com/cosmosapjw-quantum/quartz/actions/runs/45145962966/job/137595199156\"},{\"completedAt\":\"2026-11-23T09:22:20Z\",\"conclusion\":\"success\",\"databaseId\":137595199221,\"name\":\"cargo test --release\",\"startedAt\":\"2026-11-23T09:19:27Z\",\"status\":\"completed\",\"steps\":[{\"conclusion\":\"success\",\"name\":\"Set up job\",\"number\":1,\"status\":\"completed\"},{\"conclusion\":\"success\",\"name\":\"Checkout\",\"number\":2,\"status\":\"completed\"},{\"conclusion\":\"success\",\"name\":\"Set up Rust\",\"number\":3,\"status\":\"completed\"},{\"conclusion\":\"success\",\"name\":\"Cargo cache\",\"number\":4,\"status\":\"completed\"},{\"conclusion\":\"success\",\"name\":\"Run cargo test (release)\",\"number\":5,\"status\":\"completed\"},{\"conclusion\":\"success\",\"name\":\"Post Cargo cache\",\"number\":9,\"status\":\"completed\"},{\"conclusion\":\"success\",\"name\":\"Post Checkout\",\"number\":10,\"status\":\"completed\"},{\"conclusion\":\"success\",\"name\":\"Complete job\",\"number\":11,\"status\":\"completed\"}],\"url\":\"https://github.com/cosmosapjw-quantum/quartz/actions/runs/45145962966/job/137595199221\"}],\"status\":\"completed\",\"url\":\"https://github.com/cosmosapjw-quantum/quartz/actions/runs/45145962966\"}\n",
+    "stderr": ""
+  },
+  {
+    "command": [
+      "gh",
+      "run",
+      "view",
+      "45145962966",
+      "--log-failed"
+    ],
+    "exit_code": 0,
+    "stdout": "",
+    "stderr": ""
+  }
+]

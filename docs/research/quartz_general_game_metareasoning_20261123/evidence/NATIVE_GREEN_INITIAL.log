@@ -1,0 +1,28 @@
+
+running 18 tests
+test c26_tests::exact_integer_minimax_counts_both_turns_without_pruning ... ok
+test c26_tests::model_fallback_order_and_normalization ... ok
+test c26_tests::red_gibbs_nonpositive_focus_has_probability ... ok
+test c26_tests::independent_literal_cues_and_minimax_fixture ... ok
+test c26_tests::red_positive_excess_three_point_literal ... ok
+test c26_tests::red_root_frame_retains_actual_x_win ... ok
+test c26_tests::red_reservation_first_branch_literal ... ok
+test c26_tests::rng_literals_and_uniform_index_bounds ... ok
+test tictactoe::tests::test_apply_move_pure ... ok
+test tictactoe::tests::test_draw ... ok
+test c26_tests::raw_cue_initialization_and_cap_safety ... ok
+test tictactoe::tests::test_negamax_outcome ... ok
+test tictactoe::tests::test_hash_transposition ... ok
+test c26_tests::survey_requires_model_free_convention_and_paid_terminal ... ok
+test c26_tests::terminal_win_initialization_and_all_actions_cost ... ok
+test c26_tests::repeated_logic_and_no_unqueried_oracle_leak ... ok
+test c26_tests::strict_request_and_model_boundaries_and_recovery ... ok
+fixed Gibbs frequency counts: [11268, 84391, 4341]
+test c26_tests::sampled_gibbs_frequency_and_shift_scale_invariants ... ok
+
+test result: ok. 18 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+
+   Compiling mcts_demo v0.3.0 (/home/cosmosapjw/quantum/research/quartz_general_meta26_20261123)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.77s
+     Running unittests src/bin/quartz_c26_game_metareasoning.rs (target/debug/deps/quartz_c26_game_metareasoning-48351a09aaa8043e)
