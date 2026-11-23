@@ -1,0 +1,8 @@
+command: venv/bin/python -m unittest discover -s tests -p test_c24_sources.py -k outward_counts -v
+exit_code: 0
+test_outward_counts_both_ordinary_and_interval_stencils (test_c24_sources.AnalysisContractTest.test_outward_counts_both_ordinary_and_interval_stencils) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 0.122s
+
+OK

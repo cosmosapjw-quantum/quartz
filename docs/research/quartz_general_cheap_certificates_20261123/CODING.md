@@ -40,3 +40,16 @@ Rust's same focused behavioral command first produced six intended failures (exi
 Parent inspection corrected ambiguous operator-cost reporting before cohort execution: an OUTWARD evaluation computes an ordinary stencil and an interval stencil in the same loop. The analyzer records ordinary, interval and total stencil evaluations separately, with logical response passes also explicitly named. These are typed work counts; they do not assert equal costs per stencil. Wall elapsed time remains the prespecified primary efficiency endpoint.
 
 Runnable code and focused tests are complete. Native exact integration and the frozen cohort studies are C06–C08; no cohort performance conclusion is inferred from implementation tests.
+
+
+## C06 — Actual implementation and independent native verification
+
+Rust debug and release suites each passed27/27; the focused RED/GREEN command passed6/6 and the release build exited0. Python final suite passed10/10. Actual commands, compiler/source/binary identities and raw logs are in C06_RUST_MANIFEST.json and C06_PYTHON_HANDOFF.json. Only the isolated C24 changed surface was exercised; the historical whole-engine suite is not represented as rerun.
+
+Parent-owned check_c06_native.py executed the committed release binary with six independently constructed exact fixtures: 2x2 rational solutions, a 32x32 reflected tie, a 96x96 strongly separated source, both supported RHS amplitude endpoints, zero actions, and mixed normal/subnormal components. The separate known2^-600 input returned a structured unsupported-range error. The checker used a graph-edge operator and exact Fraction solves/manufactured solutions without importing production source/verification functions.
+
+Actual exit0 counts:36 policy executions;30,768 parsed input components bit-checked;666 q endpoint containments(444 nontrivial);15 certified optimal results;3 noncertified fixed-budget fallbacks with identical returned x/ell/action/iterations;3 actual early exits;69 exact true-residual-upper checks over120,000 vector components;13 plain/null diagnostic checks. Source/binary hashes stayed unchanged. This is finite implementation verification, not an arbitrary-input proof.
+
+A separate small CLI integration completed four UNIT parents and12 source/budget requests through source->runner->independent verifier, with72 policy executions,1,386 q containments,21 certified-optimal results,15 exact fallbacks and117 residual-upper checks using45 unique exact vectors. It verifies the executable pipeline; no cohort timing result is inferred from UNIT.
+
+The first C05 publication precheck rejected byte-preserved cargo stdout because of trailing terminal blank lines. The publisher now excludes raw .stdout/.stderr alongside .log from source-whitespace checks; all evidence bytes/hashes are preserved and ordinary source/docs checks remain active. The corrected C05 publication and native checker both exited0.

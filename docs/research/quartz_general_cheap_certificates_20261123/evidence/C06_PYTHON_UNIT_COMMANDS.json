@@ -1,0 +1,43 @@
+[
+  {
+    "argv": [
+      "venv/bin/python",
+      "docs/research/quartz_general_cheap_certificates_20261123/coding/c24_sources.py",
+      "--split",
+      "UNIT",
+      "--evidence-dir",
+      "docs/research/quartz_general_cheap_certificates_20261123/evidence/C06_PYTHON_UNIT"
+    ],
+    "exit_code": 0,
+    "log": "docs/research/quartz_general_cheap_certificates_20261123/evidence/C06_PYTHON_UNIT_1.log"
+  },
+  {
+    "argv": [
+      "venv/bin/python",
+      "docs/research/quartz_general_cheap_certificates_20261123/coding/c24_run.py",
+      "--split",
+      "UNIT",
+      "--mode",
+      "trace",
+      "--allow-dirty",
+      "--evidence-dir",
+      "docs/research/quartz_general_cheap_certificates_20261123/evidence/C06_PYTHON_UNIT"
+    ],
+    "exit_code": 0,
+    "log": "docs/research/quartz_general_cheap_certificates_20261123/evidence/C06_PYTHON_UNIT_2.log"
+  },
+  {
+    "argv": [
+      "venv/bin/python",
+      "docs/research/quartz_general_cheap_certificates_20261123/coding/c24_verify.py",
+      "--split",
+      "UNIT",
+      "--mode",
+      "trace",
+      "--evidence-dir",
+      "docs/research/quartz_general_cheap_certificates_20261123/evidence/C06_PYTHON_UNIT"
+    ],
+    "exit_code": 0,
+    "log": "docs/research/quartz_general_cheap_certificates_20261123/evidence/C06_PYTHON_UNIT_3.log"
+  }
+]

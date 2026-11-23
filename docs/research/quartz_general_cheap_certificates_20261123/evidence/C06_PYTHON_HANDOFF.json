@@ -1,0 +1,143 @@
+{
+  "artifact_scope": "four small UNIT sources only; no TRAIN/CAL/TEST manufacture, benchmark, commit or push performed by data child",
+  "cost_accounting": "ordinary_stencil_evaluations=solver+fast+ordinary+outward; interval_stencil_evaluations=outward; total_stencil_evaluations=sum. operator_response_passes is a logical count. Wall time remains primary.",
+  "files": {
+    "docs/research/quartz_general_cheap_certificates_20261123/coding/c24_analyze.py": "d700852f910840c60ac33af4fc8209cfc6b7a00a3b5554e118db5208c03c0536",
+    "docs/research/quartz_general_cheap_certificates_20261123/coding/c24_plot.py": "dcf15c60f8e6e26483d6fe5788482b6839c8c801c4d16715d1d0841bd053a831",
+    "docs/research/quartz_general_cheap_certificates_20261123/coding/c24_run.py": "08f8ca0302e9ac25801216cdff2c164e35492fba1aa8c5b7786c26f5e4f34998",
+    "docs/research/quartz_general_cheap_certificates_20261123/coding/c24_sources.py": "d7e45b8d944f51e537775a9322c8ad9c4882f80058ebf7093c20fb893eee1a0c",
+    "docs/research/quartz_general_cheap_certificates_20261123/coding/c24_verify.py": "58836704bed63532260e7daae902fb21d7d95fd484c6524c2e3b2298e457d550",
+    "tests/test_c24_sources.py": "55ddfd8d34e3934b4657dc4c651582fa05863474c058fa47076e847fd7a78230"
+  },
+  "next_commands": [
+    "venv/bin/python docs/research/quartz_general_cheap_certificates_20261123/coding/c24_sources.py --split TRAIN",
+    "venv/bin/python docs/research/quartz_general_cheap_certificates_20261123/coding/c24_sources.py --split CAL",
+    "venv/bin/python docs/research/quartz_general_cheap_certificates_20261123/coding/c24_run.py --split TRAIN --mode trace",
+    "venv/bin/python docs/research/quartz_general_cheap_certificates_20261123/coding/c24_verify.py --split TRAIN --mode trace",
+    "venv/bin/python docs/research/quartz_general_cheap_certificates_20261123/coding/c24_run.py --split TRAIN --mode timing",
+    "venv/bin/python docs/research/quartz_general_cheap_certificates_20261123/coding/c24_verify.py --split TRAIN --mode timing",
+    "venv/bin/python docs/research/quartz_general_cheap_certificates_20261123/coding/c24_analyze.py --split TRAIN"
+  ],
+  "ordinary_state_identity": "Full returned final_x component bits,ordinary ell bits,iterations,solver_matvecs,action; no unreturned internal r/p state claim",
+  "python": "3.12.3 (main, Aug 31 2026, 10:18:26) [GCC 13.3.0]",
+  "repo_head_at_handoff": "7b9309611bda380e8f0b2d8384bc1d0b012a47a5",
+  "reused_c23_source": {
+    "function_structural_identity": {
+      "integer_stencil": true,
+      "make_source": true,
+      "shape": true
+    },
+    "path": "docs/research/quartz_general_residual_stop_20261123/coding/c23_sources.py",
+    "sha256": "6c4e0d33c012e2db448828e29a37d362677ae8d5c0e05983f366b3be471ede09"
+  },
+  "schema": "quartz.c24.python-handoff.v1",
+  "scope_limits": [
+    "Exact residual vectors for production TEST only nine C04 parent IDs at budget32; all q intervals and noncertified fallback states cover every trace.",
+    "Timing mode never repeats exact full-state vector arithmetic.",
+    "Source manufacture and native source unchanged during UNIT; analyzer-only typed-count refinement happened afterward and is covered by focused tests.",
+    "Plot CLI/import checked; scientific full-cohort figure export awaits parent pipeline.",
+    "No trace chunker created because parent has not requested chunking an actual large trace."
+  ],
+  "skill_context_used": [
+    {
+      "applied": "stage-scoped runnable implementation, bounded actual verification, selective evidence reuse; no recursive delegation",
+      "read": [
+        "SKILL.md",
+        "references/CODING_LOOP.md C5-C6",
+        "references/POLICY_INTEGRATION.md"
+      ],
+      "skill": "PhysMath Research Loop",
+      "version": "1.3.0"
+    },
+    {
+      "applied": "7 new behavior assertion failures before implementation; extra typed stencil count RED/GREEN; 2 unchanged source tests reused green",
+      "read": [
+        "SKILL.md",
+        "writing-good-tests.md"
+      ],
+      "skill": "Skillquiver test-driven-development",
+      "version": "2.1.0"
+    },
+    {
+      "applied": "exact independent oracle/state checks, input/output hashes, actual population and rep coverage, finite claim scope",
+      "read": [
+        "SKILL.md",
+        "references/checklist.md"
+      ],
+      "skill": "Mathbox computation-audit",
+      "version": "4.0.0"
+    }
+  ],
+  "status": "IMPLEMENTATION_VERIFIED_FOCUSED_SCOPE",
+  "tdd_fixture_note": "Analyzer tests now pass explicit --fixture so synthetic inputs are marked FIXTURE_ONLY; semantic assertions retained. Missing-action RED only closes C23 zip truncation in verifier; frozen manufacture remains K=3.",
+  "test_after_prefreeze": "Replace TRAIN with TEST after parent authorizes frozen TEST manufacture; trace/timing run, both verify, analyze, c24_plot.py --split TEST. Runner requires scientific files tracked and clean; UNIT-only --allow-dirty remains explicitly labeled.",
+  "utc": "2026-11-23T04:52:44.432291+00:00",
+  "verification": {
+    "cli_help": [
+      {
+        "argv": [
+          "venv/bin/python",
+          "docs/research/quartz_general_cheap_certificates_20261123/coding/c24_sources.py",
+          "--help"
+        ],
+        "exit_code": 0
+      },
+      {
+        "argv": [
+          "venv/bin/python",
+          "docs/research/quartz_general_cheap_certificates_20261123/coding/c24_run.py",
+          "--help"
+        ],
+        "exit_code": 0
+      },
+      {
+        "argv": [
+          "venv/bin/python",
+          "docs/research/quartz_general_cheap_certificates_20261123/coding/c24_verify.py",
+          "--help"
+        ],
+        "exit_code": 0
+      },
+      {
+        "argv": [
+          "venv/bin/python",
+          "docs/research/quartz_general_cheap_certificates_20261123/coding/c24_analyze.py",
+          "--help"
+        ],
+        "exit_code": 0
+      },
+      {
+        "argv": [
+          "venv/bin/python",
+          "docs/research/quartz_general_cheap_certificates_20261123/coding/c24_plot.py",
+          "--help"
+        ],
+        "exit_code": 0
+      }
+    ],
+    "counter_green": "evidence/C06_PYTHON_COUNTER_GREEN.log: identical focused command,1 pass,exit0",
+    "counter_red": "evidence/C05_PYTHON_COUNTER_RED.log: 1 intended assertion failure,exit1",
+    "final_green": "evidence/C06_PYTHON_FINAL_GREEN.log:10 tests pass,exit0",
+    "red": "evidence/C05_PYTHON_RED.log: 9 tests,7 intended assertion failures,2 reuse passes,exit1",
+    "unit_cli": "evidence/C06_PYTHON_UNIT_COMMANDS.json: source/trace/verify exit0",
+    "unit_exact_counts": {
+      "byte_exact_transport_requests": 12,
+      "certified_optimal": 21,
+      "exact_residual_parent_ids": [
+        "c24_unit_00",
+        "c24_unit_01",
+        "c24_unit_02",
+        "c24_unit_03"
+      ],
+      "exact_residual_upper_action_checks": 117,
+      "exact_residual_vector_evaluations": 45,
+      "identical_noncertified_fallbacks": 15,
+      "interval_scalar_containments": 1386,
+      "observed_source_budget_pairs": 12,
+      "plain_unverified_diagnostics": 33,
+      "policy_executions_checked": 72,
+      "requests": 12,
+      "scope": "All source/budget/policy/rep q intervals and fallback states; exact residual vectors only stated trace subset"
+    }
+  }
+}

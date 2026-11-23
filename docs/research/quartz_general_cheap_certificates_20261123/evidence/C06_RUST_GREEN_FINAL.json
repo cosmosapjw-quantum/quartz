@@ -1,0 +1,21 @@
+{
+  "command": [
+    "cargo",
+    "test",
+    "--offline",
+    "--locked",
+    "--bin",
+    "quartz_c24_cheap_certificate",
+    "c24_behavior_tests",
+    "--",
+    "--nocapture"
+  ],
+  "cwd": "/home/cosmosapjw/quantum/research/quartz_general_meta24_20261123",
+  "exit_code": 0,
+  "utc": "2026-11-23T04:46:52.555184+00:00",
+  "stdout_sha256": "aeb97f5d8cfd06babd146319eef8970cb114904975b17507f6a43b32a473c5ca",
+  "stderr_sha256": "a5efc8f72669039d59175f74d47c5a5b44459b48c5b98cae0b395df6c25b436c",
+  "source_sha256": "5a7cc595c267d5337f268045d1df8bf5909093ed7920ee50293da76da94cd381",
+  "RUSTFLAGS": "",
+  "CARGO_ENCODED_RUSTFLAGS": ""
+}

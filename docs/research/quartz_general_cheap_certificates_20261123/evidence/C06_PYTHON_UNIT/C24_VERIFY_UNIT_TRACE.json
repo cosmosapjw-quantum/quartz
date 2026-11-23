@@ -1,0 +1,54 @@
+{
+  "argv": [
+    "docs/research/quartz_general_cheap_certificates_20261123/coding/c24_verify.py",
+    "--split",
+    "UNIT",
+    "--mode",
+    "trace",
+    "--evidence-dir",
+    "docs/research/quartz_general_cheap_certificates_20261123/evidence/C06_PYTHON_UNIT"
+  ],
+  "assertion_tested": "Finite exact manufactured sources, q endpoint containment, optimal strict certificates, bit-identical fixed fallback, declared true residual upper subset",
+  "independent_of_production_imports": true,
+  "input_sha256": {
+    "C04_RUN_CONTRACT.json": "68e123dae4fd5af07392670000a5b474af7c77fb5ee63c6b355c533915aaed90",
+    "C24_ORACLE_UNIT.jsonl.gz": "df9096e4f4093f6df4eb1f0f07b699c6cdb28fa768f097a56a1df3ce97937156",
+    "C24_PUBLIC_UNIT.jsonl.gz": "db50bab705b70e4ef549b6963da084e84fb893c1680fc958736b5d4d9905e1c1",
+    "C24_SOURCES_UNIT.json": "f7db2f788166c7f30c2acd4acb046c20636aa63fecb04879643da15449275e5f",
+    "C24_UNIT_TRACE.jsonl.gz": "badcb14767f855389eaffa2d9d6a6fd252813f89536a2c911f7035206fdaed31",
+    "C24_UNIT_TRACE.manifest.json": "fd5b4c3dcb782eac8e4e4954534e967df19ecb67fb3c064a1d9df7263a0341af",
+    "SOURCE_SPECS.json": "342fbac726767fa9d165adacbcb29fdef52438cc1ce17ae36a1e26cc6ece2197"
+  },
+  "mode": "trace",
+  "native": {
+    "byte_exact_transport_requests": 12,
+    "certified_optimal": 21,
+    "exact_residual_parent_ids": [
+      "c24_unit_00",
+      "c24_unit_01",
+      "c24_unit_02",
+      "c24_unit_03"
+    ],
+    "exact_residual_upper_action_checks": 117,
+    "exact_residual_vector_evaluations": 45,
+    "identical_noncertified_fallbacks": 15,
+    "interval_scalar_containments": 1386,
+    "observed_source_budget_pairs": 12,
+    "plain_unverified_diagnostics": 33,
+    "policy_executions_checked": 72,
+    "requests": 12,
+    "scope": "All source/budget/policy/rep q intervals and fallback states; exact residual vectors only stated trace subset"
+  },
+  "non_claims": "No arbitrary-input CG repair, universal runtime superiority, or independent theorem proof",
+  "python": "3.12.3 (main, Aug 31 2026, 10:18:26) [GCC 13.3.0]",
+  "schema": "quartz.c24.verification.v1",
+  "source": {
+    "actions": 12,
+    "exact_rhs_components": 279,
+    "oracle": "independent exact Dirichlet edge energy",
+    "parents": 4
+  },
+  "split": "UNIT",
+  "status": "PASS",
+  "verifier_sha256": "58836704bed63532260e7daae902fb21d7d95fd484c6524c2e3b2298e457d550"
+}

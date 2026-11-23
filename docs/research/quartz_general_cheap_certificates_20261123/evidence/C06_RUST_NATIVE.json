@@ -1,0 +1,104 @@
+{
+  "schema": "quartz.c24.native-unit.v1",
+  "command": [
+    "target/release/quartz_c24_cheap_certificate"
+  ],
+  "stdin_path": "docs/research/quartz_general_cheap_certificates_20261123/evidence/C06_RUST_NATIVE.stdin",
+  "exit_code": 0,
+  "request_count": 3,
+  "valid_responses": 1,
+  "expected_structured_errors": [
+    {
+      "error": "UNSUPPORTED_RHS_NORM_RANGE: nonzero max|b| must lie in [2^-400,2^100]"
+    },
+    {
+      "error": "unknown field `oracle`, expected one of `id`, `side`, `rho`, `scale`, `rhs` at line 1 column 1554"
+    }
+  ],
+  "parsed_bits_equal": true,
+  "policy_summary": {
+    "RESIDUAL": {
+      "iterations": [
+        25,
+        26
+      ],
+      "solver_matvecs": 51,
+      "certified": false,
+      "fast_evaluations": 4,
+      "outward_evaluations": 0,
+      "ordinary_evaluations": 0,
+      "bound_evaluations": 4,
+      "residual_goal_met": true
+    },
+    "PLAIN_STOP": {
+      "iterations": [
+        4,
+        4
+      ],
+      "solver_matvecs": 8,
+      "certified": false,
+      "fast_evaluations": 0,
+      "outward_evaluations": 0,
+      "ordinary_evaluations": 2,
+      "bound_evaluations": 0,
+      "residual_goal_met": null
+    },
+    "PLAIN_ALWAYS": {
+      "iterations": [
+        32,
+        32
+      ],
+      "solver_matvecs": 64,
+      "certified": false,
+      "fast_evaluations": 0,
+      "outward_evaluations": 0,
+      "ordinary_evaluations": 4,
+      "bound_evaluations": 0,
+      "residual_goal_met": null
+    },
+    "FAST_ONCE": {
+      "iterations": [
+        4,
+        4
+      ],
+      "solver_matvecs": 8,
+      "certified": true,
+      "fast_evaluations": 2,
+      "outward_evaluations": 0,
+      "ordinary_evaluations": 0,
+      "bound_evaluations": 2,
+      "residual_goal_met": false
+    },
+    "FAST_BLOCK": {
+      "iterations": [
+        4,
+        4
+      ],
+      "solver_matvecs": 8,
+      "certified": true,
+      "fast_evaluations": 2,
+      "outward_evaluations": 0,
+      "ordinary_evaluations": 0,
+      "bound_evaluations": 2,
+      "residual_goal_met": false
+    },
+    "OUTWARD_BLOCK": {
+      "iterations": [
+        4,
+        4
+      ],
+      "solver_matvecs": 8,
+      "certified": true,
+      "fast_evaluations": 0,
+      "outward_evaluations": 2,
+      "ordinary_evaluations": 0,
+      "bound_evaluations": 2,
+      "residual_goal_met": false
+    }
+  },
+  "stdout_sha256": "ff5e451cca923567cf508bd8b11ab167723b95ac8cf974bbbcc2077ba1006544",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "stdin_sha256": "e130cd60bf2788b9a6af8c577b6d7991439fcd1f85be183755f334cabb387e8e",
+  "source_sha256": "5a7cc595c267d5337f268045d1df8bf5909093ed7920ee50293da76da94cd381",
+  "binary_sha256": "2cef68fda2bdacae138efe7928531d9cfebc26bff8fbc13e895a7ad7d41f45b6"
+}

@@ -1,0 +1,171 @@
+{
+  "status": "VERIFIED_NATIVE_FINITE_ASSERTIONS",
+  "assertion_tested": "Actual binary parsed bit identity, exact q interval containment, optimal strict certificates, unchanged uncertified continuation, honest nullable plain diagnostics, exact fresh relative residual upper and explicit known-tiny-input rejection.",
+  "counts": {
+    "tasks": 6,
+    "policy_executions": 36,
+    "input_components_bit_checked": 30768,
+    "interval_scalar_containments": 666,
+    "nontrivial_scalar_containments": 444,
+    "exact_final_residual_components": 120000,
+    "certified_optimal": 15,
+    "identical_noncertified_fallbacks": 3,
+    "actual_early_exits": 3,
+    "certified_residual_upper_checks": 69,
+    "plain_diagnostic_null_checks": 13
+  },
+  "cases": [
+    {
+      "id": "c24_unit_exact",
+      "exact_utilities": [
+        "23/420",
+        "5/168",
+        "0"
+      ],
+      "certified": [
+        "FAST_ONCE",
+        "FAST_BLOCK",
+        "OUTWARD_BLOCK"
+      ],
+      "matvecs": {
+        "PLAIN_STOP": 5,
+        "PLAIN_ALWAYS": 5,
+        "FAST_ONCE": 5,
+        "FAST_BLOCK": 5,
+        "OUTWARD_BLOCK": 5,
+        "RESIDUAL": 5
+      }
+    },
+    {
+      "id": "c24_unit_32_tie",
+      "exact_utilities": [
+        "7524561/2147483648",
+        "7524561/2147483648",
+        "7524561/34359738368"
+      ],
+      "certified": [],
+      "matvecs": {
+        "RESIDUAL": 183,
+        "PLAIN_STOP": 12,
+        "PLAIN_ALWAYS": 108,
+        "FAST_ONCE": 108,
+        "FAST_BLOCK": 108,
+        "OUTWARD_BLOCK": 108
+      }
+    },
+    {
+      "id": "c24_unit_96_wide",
+      "exact_utilities": [
+        "249043151/274877906944",
+        "249043151/288230376151711744",
+        "249043151/1152921504606846976"
+      ],
+      "certified": [
+        "FAST_ONCE",
+        "FAST_BLOCK",
+        "OUTWARD_BLOCK"
+      ],
+      "matvecs": {
+        "PLAIN_STOP": 12,
+        "PLAIN_ALWAYS": 108,
+        "FAST_ONCE": 12,
+        "FAST_BLOCK": 12,
+        "OUTWARD_BLOCK": 12,
+        "RESIDUAL": 240
+      }
+    },
+    {
+      "id": "c24_unit_amplitude_-400",
+      "exact_utilities": [
+        "23/840",
+        "1/15",
+        "0"
+      ],
+      "certified": [
+        "OUTWARD_BLOCK",
+        "FAST_ONCE",
+        "FAST_BLOCK"
+      ],
+      "matvecs": {
+        "OUTWARD_BLOCK": 5,
+        "RESIDUAL": 5,
+        "PLAIN_STOP": 5,
+        "PLAIN_ALWAYS": 5,
+        "FAST_ONCE": 5,
+        "FAST_BLOCK": 5
+      }
+    },
+    {
+      "id": "c24_unit_amplitude_100",
+      "exact_utilities": [
+        "23/840",
+        "1/15",
+        "0"
+      ],
+      "certified": [
+        "FAST_ONCE",
+        "FAST_BLOCK",
+        "OUTWARD_BLOCK"
+      ],
+      "matvecs": {
+        "FAST_ONCE": 5,
+        "FAST_BLOCK": 5,
+        "OUTWARD_BLOCK": 5,
+        "RESIDUAL": 5,
+        "PLAIN_STOP": 5,
+        "PLAIN_ALWAYS": 5
+      }
+    },
+    {
+      "id": "c24_unit_mixed_subnormal",
+      "exact_utilities": [
+        "134604779901309262762721894786427299472908146827853032929344954667321131174551907918286011918373817325424429189018114038317860131202474540873258990995651024471791306488438055878629485226566662820588204566342153048651829470381606781269801925662177046556379571689227891478644043413112970991977461134823607249253084313633231075535117044409190069257698986127335262171800359773360579435576238717634902418394235660865139603763101530857478788554680188238156300687891074095807487009580739113840851249798856267611998364370200380224044741089972329090741530252837206572106685024540297092688881331834908364139523488155368819513019056261164498879226021649242993/2458000328632603928710573730882585468635713985552098862188038302620646743187469622855657608944217533768620011277722082438847880656740839442033425052964062186006623857614955803001060165006869494984654170341900186105816016415664123831883339512091928676246931309107639757436108618848149905070892768548952828029838930944606828330578600289890150351162450701831757647061833097666355319513095888910802403257755254016831670118183823732517146634907762270701756689453833260870917590416556716300117519955465339726821507294763232823923399311919188568735084897885913373453164970470051781497534619650234773110371786777693625429724847758351536154115229758112399360",
+        "23/1680",
+        "0"
+      ],
+      "certified": [
+        "FAST_ONCE",
+        "FAST_BLOCK",
+        "OUTWARD_BLOCK"
+      ],
+      "matvecs": {
+        "PLAIN_STOP": 6,
+        "PLAIN_ALWAYS": 6,
+        "FAST_ONCE": 6,
+        "FAST_BLOCK": 6,
+        "OUTWARD_BLOCK": 6,
+        "RESIDUAL": 6
+      }
+    }
+  ],
+  "known_tiny_input_response": {
+    "error": "UNSUPPORTED_RHS_NORM_RANGE: nonzero max|b| must lie in [2^-400,2^100]"
+  },
+  "binary_argv": [
+    "/home/cosmosapjw/quantum/research/quartz_general_meta24_20261123/target/release/quartz_c24_cheap_certificate"
+  ],
+  "returncode": 0,
+  "python_executable": "/home/cosmosapjw/quantum/research/quartz_general_meta24_20261123/venv/bin/python",
+  "python": "3.12.3 (main, Aug 31 2026, 10:18:26) [GCC 13.3.0]",
+  "source_head": "590fb3b7e21bdeb83d8364063478e4e22770d442",
+  "identities_before": {
+    "target/release/quartz_c24_cheap_certificate": "2cef68fda2bdacae138efe7928531d9cfebc26bff8fbc13e895a7ad7d41f45b6",
+    "src/bin/quartz_c24_cheap_certificate.rs": "5a7cc595c267d5337f268045d1df8bf5909093ed7920ee50293da76da94cd381"
+  },
+  "identities_after": {
+    "target/release/quartz_c24_cheap_certificate": "2cef68fda2bdacae138efe7928531d9cfebc26bff8fbc13e895a7ad7d41f45b6",
+    "src/bin/quartz_c24_cheap_certificate.rs": "5a7cc595c267d5337f268045d1df8bf5909093ed7920ee50293da76da94cd381"
+  },
+  "artifacts": {
+    "C06_NATIVE_UNIT_INPUT.jsonl.gz": {
+      "sha256": "eb5f4f2557030a2781c6e3be135b8fad0c8a673dd43e2dcdc99b7e8a7099c544",
+      "bytes": 11157
+    },
+    "C06_NATIVE_UNIT_OUTPUT.jsonl.gz": {
+      "sha256": "eda657b74bd5246f423b3a30d8f853a639e3cd58511ce6f73d860c5b64ddb20b",
+      "bytes": 656213
+    }
+  },
+  "elapsed_seconds": 1.9960913939867169,
+  "utc": "2026-11-23T04:53:38.970509+00:00"
+}

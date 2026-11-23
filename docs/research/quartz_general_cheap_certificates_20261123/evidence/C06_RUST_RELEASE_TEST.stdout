@@ -1,0 +1,32 @@
+
+running 27 tests
+test c24_behavior_tests::c24_initial_control_performs_no_interval_work ... ok
+test c24_behavior_tests::c24_once_fallback_final_readout_is_ordinary ... ok
+test c24_behavior_tests::c24_plain_residual_goal_is_null ... ok
+test c24_behavior_tests::c24_response_rejects_state_outside_supported_ratio ... ok
+test c24_behavior_tests::c24_tiny_nonzero_rhs_rejected_before_solver ... ok
+test c24_numerical_contract_tests::conservative_scale_and_absolute_state_cap_are_enforced ... ok
+test c24_behavior_tests::c24_public_policy_labels_exact ... ok
+test c24_numerical_contract_tests::exact_zero_problem_requires_zero_state_for_every_readout ... ok
+test c24_numerical_contract_tests::positive_square_sum_encloses_exact_small_dyadic_norm ... ok
+test c24_numerical_contract_tests::gate_evaluation_preserves_every_solver_workspace_field ... ok
+test c24_numerical_contract_tests::residual_upper_uses_sqrt_before_division ... ok
+test c24_numerical_contract_tests::counters_traces_and_final_diagnostics_match_actual_readout_kind ... ok
+test c24_numerical_contract_tests::rho_zero_enclosures_cover_exact_energy_at_arbitrary_iterates ... ok
+test c24_numerical_contract_tests::supported_extreme_norms_and_mixed_subnormals_remain_finite ... ok
+test tests::actual_stop_withholds_solver_matvecs ... ok
+test tests::conventional_solver_meets_its_stated_residual_goal ... ok
+test c24_numerical_contract_tests::trace_false_omits_vector_copies_but_keeps_plain_null_diagnostics ... ok
+test c24_numerical_contract_tests::all_uncertified_budget_edges_match_plain_state_score_and_action ... ok
+test tests::decimal_string_transport_preserves_exact_binary64_bits ... ok
+test tests::invalid_task_and_oracle_field_are_rejected ... ok
+test tests::rational_response_example_and_one_step_certificate ... ok
+test tests::signed_interval_operations_enclose_known_exact_results ... ok
+test tests::plain_baseline_matches_state_and_action_without_interval_enclosures ... ok
+test tests::zero_rhs_needs_no_solver_work_and_does_not_claim_unique_winner ... ok
+test tests::tied_uncertified_fallback_has_identical_state_and_action ... ok
+test tests::trace_metadata_identifies_parsed_public_inputs ... ok
+test tests::request_executes_every_control_with_numbered_repetitions ... ok
+
+test result: ok. 27 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
