@@ -1,0 +1,149 @@
+{
+  "schema": "quartz-c28-code-contract-v1",
+  "ssot": "87c15dc828d6eea519c219fd8a412fa21dfc464d",
+  "cycle": "C28-DG",
+  "native_binary": "quartz_c28_action_geometry",
+  "authority": "C26 baseline; C27 read-only pinned supplemental source",
+  "scientific_target": "signed latent action boundaries and exact direct-versus-lifted H2 equivalence, with honestly measured computation cost",
+  "utility_support": [
+    0.0,
+    0.5,
+    1.0
+  ],
+  "known_only_terminal_deployment": true,
+  "additional_query_cap": 2,
+  "horizon_after_first_query": 1,
+  "node_price_utility_per_node": 0.0009765625,
+  "game_loading": {
+    "rule": "constant positive",
+    "rho": 0.75,
+    "status": "fixed compatibility model; no new fit or signed-game efficacy claim"
+  },
+  "native_choice": {
+    "stop_if_max_increment_lte": 1e-12,
+    "candidate_tie_epsilon": 1e-12,
+    "priority": "STOP, then smallest action id",
+    "do_not_widen_tolerance_to_match": true
+  },
+  "validation": {
+    "score_absolute_tolerance_utility": 5e-12,
+    "score_relative_tolerance": 0,
+    "prescribed_cost_range": [
+      0,
+      1
+    ],
+    "main_loading_range": [
+      -0.99,
+      0.99
+    ],
+    "stress_loading_magnitude": 0.9999990463256836,
+    "finite_exact_oracle": "theory/exact_lifted_h2.py; world enumeration, posterior recursion, and lifted comparison",
+    "edge_cases": [
+      "empty and single remaining sets",
+      "zero probability support",
+      "point masses",
+      "zero cost",
+      "m endpoints",
+      "b=1 saturation",
+      "r=0 independence",
+      "signed/common/product fixture",
+      "exact and near action boundaries",
+      "invalid probability and loading inputs",
+      "duplicate or unsupported observations",
+      "root-player sign",
+      "no oracle fields at runtime"
+    ],
+    "game_identity": "exact equality of initial/final actions, query sequence, realized utilities, and charged node counts between methods",
+    "whole_repository_status": "scoped scientific binary/tests only; inherited unrelated failures neither rerun without reason nor claimed fixed"
+  },
+  "comparison": {
+    "primary_baseline": "cached normalized Bayes",
+    "candidate": "cached lifted Bellman",
+    "same_coefficients": true,
+    "both_charge_cache_preparation": true,
+    "speedup_required_for_cycle_completion": false,
+    "faster_method_selected_only_on_actual_measurements": true
+  },
+  "synthetic_campaign": {
+    "candidate_counts": [
+      1,
+      2,
+      3,
+      5,
+      8,
+      16,
+      32,
+      64
+    ],
+    "latent_means": [
+      -1,
+      -0.8,
+      0,
+      0.8,
+      1
+    ],
+    "incumbents": [
+      0,
+      0.5
+    ],
+    "loading_patterns": [
+      "common",
+      "alternating signed"
+    ],
+    "seed": 2808,
+    "timing_repeats": 11,
+    "warmup_pairs": 3,
+    "iterations_per_sample_small_n": 256,
+    "iterations_per_sample_n_ge_16": 32,
+    "ordering": "alternate direct/lifted order each repeat",
+    "timed_boundary": "law/coefficient preparation plus planner; no trace arrays",
+    "phase_fixture": "r=.8, c_A=.01 or .08, d_B=d_C=.3, m grid plus exact 19/24 boundaries"
+  },
+  "game_campaign": {
+    "sources": "all 300 fixed C26 public source roots, same recorded cue seeds",
+    "source_status": "already observed retrospective equivalence and engineering benchmark; not fresh confirmatory TEST",
+    "timing_repeats": 31,
+    "warmup_pairs": 3,
+    "trace_pass": "separate from timing",
+    "ordering": "alternate methods each repeat within resident process",
+    "timed_boundary": "cue generation, model predictions, belief/cache setup, initial solve, posterior updates, planning and all additional solves through final decision",
+    "outside_timing": [
+      "JSON transport",
+      "parsing/validation",
+      "history replay",
+      "serialization"
+    ],
+    "aggregation": "median within root/method; paired root mean difference and ratio; fixed-cohort descriptive summaries",
+    "raw_measurements_retained": true,
+    "no_new_utility_or_Elo_admission": true,
+    "source_sha256": "9c9f52a0344a4b6c7c25cde6d519479784a0695fcb8f4681486403fb21fe15c1",
+    "model_sha256": "0843447dc755c1d09e1bc69a44dd052e6db9c5c2ace41d1590b668cbfc36a126"
+  },
+  "resources": {
+    "native_threads": 1,
+    "cargo_jobs": 2,
+    "offline_locked_build": true,
+    "isolated_target_directory": "/home/cosmosapjw/quantum/research/quartz_c28_target_20261123_486e",
+    "cpu_affinity": 11,
+    "observed_cpu": "AMD Ryzen 9 5900X, 12 cores, 24 logical CPUs"
+  },
+  "deliverables": [
+    "native JSONL binary source",
+    "Python exact/native protocol tests",
+    "reproducible campaign",
+    "raw measurements and source/binary identities",
+    "scientific figures",
+    "independent code/science review",
+    "20 ordered published stage receipts",
+    "restored base plus latest cumulative history",
+    "next executable research step"
+  ],
+  "not_claimed": [
+    "learned signed dependence from games",
+    "fresh policy-generalization performance",
+    "global impossibility",
+    "new general POMDP theorem",
+    "thermodynamic or quantum physical equivalence",
+    "Gomoku P2 or human P3 completion"
+  ]
+}
