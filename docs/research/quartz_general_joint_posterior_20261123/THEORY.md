@@ -45,3 +45,7 @@ Derived mathematics and exact finite checks are admitted at their stated scopes.
 ## R09 — theory-to-code freeze
 
 coding/CODE_CONTRACT.md and EXPERIMENT_CONTRACT.json freeze the model, source split90/24/120, honest3foldrho selection, timingprice, fivepolicies,2-query cap, primaryfullnativecostcontrast, diagnostics, validation and resource bounds before new fit/outcomes. The original C26 base model bytes remain fixed. CAL cannot retune the pilot.
+
+## R10 — theory handoff
+
+The ten-stage theory loop is complete. Constructive formulas and exact evidence are available; production implementation and real-game evidence remain the explicit tasks of the coding loop. See theory/R10_HANDOFF.md and coding/CODE_CONTRACT.md.

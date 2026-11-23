@@ -9,3 +9,7 @@ C26 primary node-priced admission failed; that result remains unchanged. C27 use
 ## R01 completed
 
 SSOT local/remote/GitHub identity and C26finalarchiveSHA verified. New root and protected hashes are in BASELINE.json. Original-source and new-cohort investigators are working read-only; the parent owns integration and publication. No C27 model fit or performance campaign has run.
+
+## Theory cycle
+
+R01–R10 completed with primary-source/history inspection, a marginal-preserving binary latent model, exact posterior/H2 derivation, information-only threshold, sign counterexample, scoped error bounds and53851 exact assertions. coding/CODE_CONTRACT.md freezes the next empirical execution; no C27 game-performance claim is made at this point.
