@@ -1,0 +1,440 @@
+{
+  "additional": [
+    8,
+    32,
+    128
+  ],
+  "allow_dirty_unit": false,
+  "argv": [
+    "/home/cosmosapjw/quantum/research/quartz_general_meta25_20261123/docs/research/quartz_general_incumbent_price_20261123/coding/c25_run.py",
+    "--split",
+    "TRAIN",
+    "--mode",
+    "trace"
+  ],
+  "binary_sha256": "2ddccac45f1fa9c171509bcc329a37f2f9b575fe3c17797e806a74ee4d8febf5",
+  "chunks": [
+    {
+      "bytes": 16680,
+      "path": "C25_TRAIN_TRACE/000_c25_train_00_0.jsonl.gz",
+      "requests": 3,
+      "sha256": "4f10bde06fc5076eb6cefcb369bc3262b35666a1c6beb0e5c5279fefb237abb1",
+      "source_id": "c25_train_00_0"
+    },
+    {
+      "bytes": 16606,
+      "path": "C25_TRAIN_TRACE/001_c25_train_01_0.jsonl.gz",
+      "requests": 3,
+      "sha256": "6d909e338c750b9c46c98a86a87e34dfdd8dede24b4bd9ada927a79352f01934",
+      "source_id": "c25_train_01_0"
+    },
+    {
+      "bytes": 20797,
+      "path": "C25_TRAIN_TRACE/002_c25_train_02_0.jsonl.gz",
+      "requests": 3,
+      "sha256": "4e7452ea2de2dd88622073c6d0a89359d905067348421690dca7fc09f3c010a9",
+      "source_id": "c25_train_02_0"
+    },
+    {
+      "bytes": 17774,
+      "path": "C25_TRAIN_TRACE/003_c25_train_03_0.jsonl.gz",
+      "requests": 3,
+      "sha256": "262f262b0473aea17c409253858f7fe0cb1c87b4d79a055ad4fa20bc393e359c",
+      "source_id": "c25_train_03_0"
+    },
+    {
+      "bytes": 16662,
+      "path": "C25_TRAIN_TRACE/004_c25_train_04_0.jsonl.gz",
+      "requests": 3,
+      "sha256": "024a297000527257437a6f903ea9319567ca7ac8d4a8a2ac3a8ff38589d2d7b7",
+      "source_id": "c25_train_04_0"
+    },
+    {
+      "bytes": 16616,
+      "path": "C25_TRAIN_TRACE/005_c25_train_05_0.jsonl.gz",
+      "requests": 3,
+      "sha256": "c958012db16500a6a7304243d0b63969b6fff126ce41e2f70e4156a1e997df69",
+      "source_id": "c25_train_05_0"
+    },
+    {
+      "bytes": 20941,
+      "path": "C25_TRAIN_TRACE/006_c25_train_06_0.jsonl.gz",
+      "requests": 3,
+      "sha256": "f49a79435aa606879bd390a0d2fa88d6fa5d4f03c1bb09b22219bb5095610ff2",
+      "source_id": "c25_train_06_0"
+    },
+    {
+      "bytes": 19855,
+      "path": "C25_TRAIN_TRACE/007_c25_train_07_0.jsonl.gz",
+      "requests": 3,
+      "sha256": "c88ebb5e3ff8b1758fd7ec171e423688a4fec96ae73024f8bc1e660d330c523c",
+      "source_id": "c25_train_07_0"
+    },
+    {
+      "bytes": 16579,
+      "path": "C25_TRAIN_TRACE/008_c25_train_08_0.jsonl.gz",
+      "requests": 3,
+      "sha256": "e4585c437c9b29e3f918c6c58bb8389ebb2558413d2453609d99dbbdfbd96e89",
+      "source_id": "c25_train_08_0"
+    },
+    {
+      "bytes": 20931,
+      "path": "C25_TRAIN_TRACE/009_c25_train_09_0.jsonl.gz",
+      "requests": 3,
+      "sha256": "e7700637e9a31fb65870d1ebb53aad5804d0eb13f56363c498d7885bde78e4f5",
+      "source_id": "c25_train_09_0"
+    },
+    {
+      "bytes": 20768,
+      "path": "C25_TRAIN_TRACE/010_c25_train_10_0.jsonl.gz",
+      "requests": 3,
+      "sha256": "750ccaa842c8e26129a0364b1dfc3948d0775b13afc52b673be4a125754a3a00",
+      "source_id": "c25_train_10_0"
+    },
+    {
+      "bytes": 19811,
+      "path": "C25_TRAIN_TRACE/011_c25_train_11_0.jsonl.gz",
+      "requests": 3,
+      "sha256": "7267ccf2ab5807d6b6f184ed8196118a933bcd0ae300e52c7132572dd8ffa3eb",
+      "source_id": "c25_train_11_0"
+    },
+    {
+      "bytes": 589354,
+      "path": "C25_TRAIN_TRACE/012_c25_train_12_0.jsonl.gz",
+      "requests": 3,
+      "sha256": "53c3a1da9b502ac54eecd2cfa03de57273184133ce461ab3e37e991946d1965c",
+      "source_id": "c25_train_12_0"
+    },
+    {
+      "bytes": 588556,
+      "path": "C25_TRAIN_TRACE/013_c25_train_13_0.jsonl.gz",
+      "requests": 3,
+      "sha256": "128d52fe4180a5caf2c5efb19e6b81e5c5d885a84ea02f11f2886f0cb1bd46f3",
+      "source_id": "c25_train_13_0"
+    },
+    {
+      "bytes": 590594,
+      "path": "C25_TRAIN_TRACE/014_c25_train_14_0.jsonl.gz",
+      "requests": 3,
+      "sha256": "eaa123b662fada9deff5e171e770da6204ef25fb71417f500e7f88fe85c38dea",
+      "source_id": "c25_train_14_0"
+    },
+    {
+      "bytes": 450055,
+      "path": "C25_TRAIN_TRACE/015_c25_train_15_0.jsonl.gz",
+      "requests": 3,
+      "sha256": "6ea40625a595e27e4597f82bfcfca60ce6b1e5f417a86a5f2a8a45f4ddc6b02a",
+      "source_id": "c25_train_15_0"
+    },
+    {
+      "bytes": 598589,
+      "path": "C25_TRAIN_TRACE/016_c25_train_16_0.jsonl.gz",
+      "requests": 3,
+      "sha256": "2077ae928835378851f68f315aa63ecd20a5be3c830286ecbdeecc78b4d92a0f",
+      "source_id": "c25_train_16_0"
+    },
+    {
+      "bytes": 599616,
+      "path": "C25_TRAIN_TRACE/017_c25_train_17_0.jsonl.gz",
+      "requests": 3,
+      "sha256": "fdc93c09b3e9915881711ba7f6db4ef0f28c01ce727ee4af14445edd9df1516e",
+      "source_id": "c25_train_17_0"
+    },
+    {
+      "bytes": 600242,
+      "path": "C25_TRAIN_TRACE/018_c25_train_18_0.jsonl.gz",
+      "requests": 3,
+      "sha256": "07dfd2483b3a811a8ebe9541fe9ad201b40f69f3da4d8b81a5c1a013c27236e2",
+      "source_id": "c25_train_18_0"
+    },
+    {
+      "bytes": 478168,
+      "path": "C25_TRAIN_TRACE/019_c25_train_19_0.jsonl.gz",
+      "requests": 3,
+      "sha256": "9529d648b17a3ea9e4a3334697a776653f22f854bfa63e8d6cf581a42f1f7221",
+      "source_id": "c25_train_19_0"
+    },
+    {
+      "bytes": 599327,
+      "path": "C25_TRAIN_TRACE/020_c25_train_20_0.jsonl.gz",
+      "requests": 3,
+      "sha256": "dcb0861b3cfb20668f96cd026fe9756737f7d50564ae1068086d8594708d734f",
+      "source_id": "c25_train_20_0"
+    },
+    {
+      "bytes": 600073,
+      "path": "C25_TRAIN_TRACE/021_c25_train_21_0.jsonl.gz",
+      "requests": 3,
+      "sha256": "020bdfd2902b2888e9c884637f105d86d6b94dd34cc124f937ee3cb669dd2202",
+      "source_id": "c25_train_21_0"
+    },
+    {
+      "bytes": 603586,
+      "path": "C25_TRAIN_TRACE/022_c25_train_22_0.jsonl.gz",
+      "requests": 3,
+      "sha256": "fadbc4dcfd4d0622aa1e33804ea48312ee6d0f27779c1b376006c7a6ee5b42a0",
+      "source_id": "c25_train_22_0"
+    },
+    {
+      "bytes": 548239,
+      "path": "C25_TRAIN_TRACE/023_c25_train_23_0.jsonl.gz",
+      "requests": 3,
+      "sha256": "2e319affdc4253d35fa21dbc368052d7654bda58fd6f225947ba91854aa85b12",
+      "source_id": "c25_train_23_0"
+    },
+    {
+      "bytes": 4933756,
+      "path": "C25_TRAIN_TRACE/024_c25_train_24_0.jsonl.gz",
+      "requests": 3,
+      "sha256": "d57bdc6412c87c89cd3eee152dbe2da0e1b44f7a55e81c7d113d8a23e38baf52",
+      "source_id": "c25_train_24_0"
+    },
+    {
+      "bytes": 4936203,
+      "path": "C25_TRAIN_TRACE/025_c25_train_25_0.jsonl.gz",
+      "requests": 3,
+      "sha256": "7511327c255337ef7b3ea0633bed0839f3626773d4ea82af38d35c0e9b9a4176",
+      "source_id": "c25_train_25_0"
+    },
+    {
+      "bytes": 4877661,
+      "path": "C25_TRAIN_TRACE/026_c25_train_26_0.jsonl.gz",
+      "requests": 3,
+      "sha256": "6f592f34eba14d8ba99f4259ee7102ce96c7a1d1553470881089a1217abe86fe",
+      "source_id": "c25_train_26_0"
+    },
+    {
+      "bytes": 4344231,
+      "path": "C25_TRAIN_TRACE/027_c25_train_27_0.jsonl.gz",
+      "requests": 3,
+      "sha256": "b866a26cab99cc2b09060ddd7cbe77eec0edd1a79d76f071b6d5295a9a5c2f9d",
+      "source_id": "c25_train_27_0"
+    },
+    {
+      "bytes": 5125352,
+      "path": "C25_TRAIN_TRACE/028_c25_train_28_0.jsonl.gz",
+      "requests": 3,
+      "sha256": "4b8ca7575084eb55672f2e02e4d08eafae449018202bdc3bc83be3e88fb72fe3",
+      "source_id": "c25_train_28_0"
+    },
+    {
+      "bytes": 5143419,
+      "path": "C25_TRAIN_TRACE/029_c25_train_29_0.jsonl.gz",
+      "requests": 3,
+      "sha256": "37e82f75807c50deb5cce2cab3dcfcf24fcbb2218e6c5f2e4dd27e9a3e5b9c9d",
+      "source_id": "c25_train_29_0"
+    },
+    {
+      "bytes": 5127128,
+      "path": "C25_TRAIN_TRACE/030_c25_train_30_0.jsonl.gz",
+      "requests": 3,
+      "sha256": "d8cec68aad6a7b387ced3d452fb2ba059a6fdfddbb6f53ddb17ab53e1b65db9c",
+      "source_id": "c25_train_30_0"
+    },
+    {
+      "bytes": 4912239,
+      "path": "C25_TRAIN_TRACE/031_c25_train_31_0.jsonl.gz",
+      "requests": 3,
+      "sha256": "27d1aa5d6c06eb5c05d65d13314e572d884f389908a25620ca69c94881208f1b",
+      "source_id": "c25_train_31_0"
+    },
+    {
+      "bytes": 5213885,
+      "path": "C25_TRAIN_TRACE/032_c25_train_32_0.jsonl.gz",
+      "requests": 3,
+      "sha256": "fe8dfe2f2cb2ea66938ea330b8c1461fa4af2623c441285ac9aff2d50145a048",
+      "source_id": "c25_train_32_0"
+    },
+    {
+      "bytes": 5210904,
+      "path": "C25_TRAIN_TRACE/033_c25_train_33_0.jsonl.gz",
+      "requests": 3,
+      "sha256": "165a2d4c0be10cd108ae465becb6b110f4e5bb31ad5b085cde3d2b131c3b3bc3",
+      "source_id": "c25_train_33_0"
+    },
+    {
+      "bytes": 5222668,
+      "path": "C25_TRAIN_TRACE/034_c25_train_34_0.jsonl.gz",
+      "requests": 3,
+      "sha256": "4ca0a3a6a2271d1a71736f120c2d657638affe4ac57c07fadf232d0cf0058b15",
+      "source_id": "c25_train_34_0"
+    },
+    {
+      "bytes": 5172396,
+      "path": "C25_TRAIN_TRACE/035_c25_train_35_0.jsonl.gz",
+      "requests": 3,
+      "sha256": "836d66eb1d5959ec0a0b9b56bbaac99c0ad6182cff67d784662adcad498f8c4b",
+      "source_id": "c25_train_35_0"
+    }
+  ],
+  "clock": "native full Instant wall microseconds, validation/initial/readouts/controller/destruction included; JSON excluded",
+  "cwd": "/home/cosmosapjw/quantum/research/quartz_general_meta25_20261123",
+  "dirty_scope_after": [
+    "?? docs/research/quartz_general_incumbent_price_20261123/evidence/C25_ORACLE_TRAIN.jsonl.gz",
+    "?? docs/research/quartz_general_incumbent_price_20261123/evidence/C25_PUBLIC_TRAIN.jsonl.gz",
+    "?? docs/research/quartz_general_incumbent_price_20261123/evidence/C25_SOURCES_TRAIN.json",
+    "?? docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TRAIN_TRACE/000_c25_train_00_0.jsonl.gz",
+    "?? docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TRAIN_TRACE/001_c25_train_01_0.jsonl.gz",
+    "?? docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TRAIN_TRACE/002_c25_train_02_0.jsonl.gz",
+    "?? docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TRAIN_TRACE/003_c25_train_03_0.jsonl.gz",
+    "?? docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TRAIN_TRACE/004_c25_train_04_0.jsonl.gz",
+    "?? docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TRAIN_TRACE/005_c25_train_05_0.jsonl.gz",
+    "?? docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TRAIN_TRACE/006_c25_train_06_0.jsonl.gz",
+    "?? docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TRAIN_TRACE/007_c25_train_07_0.jsonl.gz",
+    "?? docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TRAIN_TRACE/008_c25_train_08_0.jsonl.gz",
+    "?? docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TRAIN_TRACE/009_c25_train_09_0.jsonl.gz",
+    "?? docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TRAIN_TRACE/010_c25_train_10_0.jsonl.gz",
+    "?? docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TRAIN_TRACE/011_c25_train_11_0.jsonl.gz",
+    "?? docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TRAIN_TRACE/012_c25_train_12_0.jsonl.gz",
+    "?? docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TRAIN_TRACE/013_c25_train_13_0.jsonl.gz",
+    "?? docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TRAIN_TRACE/014_c25_train_14_0.jsonl.gz",
+    "?? docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TRAIN_TRACE/015_c25_train_15_0.jsonl.gz",
+    "?? docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TRAIN_TRACE/016_c25_train_16_0.jsonl.gz",
+    "?? docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TRAIN_TRACE/017_c25_train_17_0.jsonl.gz",
+    "?? docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TRAIN_TRACE/018_c25_train_18_0.jsonl.gz",
+    "?? docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TRAIN_TRACE/019_c25_train_19_0.jsonl.gz",
+    "?? docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TRAIN_TRACE/020_c25_train_20_0.jsonl.gz",
+    "?? docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TRAIN_TRACE/021_c25_train_21_0.jsonl.gz",
+    "?? docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TRAIN_TRACE/022_c25_train_22_0.jsonl.gz",
+    "?? docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TRAIN_TRACE/023_c25_train_23_0.jsonl.gz",
+    "?? docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TRAIN_TRACE/024_c25_train_24_0.jsonl.gz",
+    "?? docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TRAIN_TRACE/025_c25_train_25_0.jsonl.gz",
+    "?? docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TRAIN_TRACE/026_c25_train_26_0.jsonl.gz",
+    "?? docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TRAIN_TRACE/027_c25_train_27_0.jsonl.gz",
+    "?? docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TRAIN_TRACE/028_c25_train_28_0.jsonl.gz",
+    "?? docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TRAIN_TRACE/029_c25_train_29_0.jsonl.gz",
+    "?? docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TRAIN_TRACE/030_c25_train_30_0.jsonl.gz",
+    "?? docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TRAIN_TRACE/031_c25_train_31_0.jsonl.gz",
+    "?? docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TRAIN_TRACE/032_c25_train_32_0.jsonl.gz",
+    "?? docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TRAIN_TRACE/033_c25_train_33_0.jsonl.gz",
+    "?? docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TRAIN_TRACE/034_c25_train_34_0.jsonl.gz",
+    "?? docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TRAIN_TRACE/035_c25_train_35_0.jsonl.gz",
+    "?? docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TRAIN_TRACE_STDERR.log",
+    "?? docs/research/quartz_general_incumbent_price_20261123/evidence/RUN_TRAIN_00.log",
+    "?? docs/research/quartz_general_incumbent_price_20261123/evidence/RUN_TRAIN_01.log",
+    "?? docs/research/quartz_general_incumbent_price_20261123/evidence/RUN_TRAIN_COMMANDS.json"
+  ],
+  "dirty_scope_before": [
+    "?? docs/research/quartz_general_incumbent_price_20261123/evidence/C25_ORACLE_TRAIN.jsonl.gz",
+    "?? docs/research/quartz_general_incumbent_price_20261123/evidence/C25_PUBLIC_TRAIN.jsonl.gz",
+    "?? docs/research/quartz_general_incumbent_price_20261123/evidence/C25_SOURCES_TRAIN.json",
+    "?? docs/research/quartz_general_incumbent_price_20261123/evidence/RUN_TRAIN_00.log",
+    "?? docs/research/quartz_general_incumbent_price_20261123/evidence/RUN_TRAIN_01.log",
+    "?? docs/research/quartz_general_incumbent_price_20261123/evidence/RUN_TRAIN_COMMANDS.json"
+  ],
+  "end_utc": "2026-11-23T06:36:09.965467+00:00",
+  "environment": {
+    "CARGO_ENCODED_RUSTFLAGS": "",
+    "MKL_NUM_THREADS": "1",
+    "OMP_NUM_THREADS": "1",
+    "OPENBLAS_NUM_THREADS": "1",
+    "RUSTFLAGS": ""
+  },
+  "exit_code": 0,
+  "input_hashes_after": {
+    "docs/research/quartz_general_incumbent_price_20261123/C04_RUN_CONTRACT.json": "d287d19096c00847fe892e83e340f77715223e8fde2ddabe481d84300383ec79",
+    "docs/research/quartz_general_incumbent_price_20261123/CODE_CONTRACT.json": "fcbbdcf9ce2d0243a5886e8e9d1df69a8779a324e679f55e671aed2d58b525cb",
+    "docs/research/quartz_general_incumbent_price_20261123/SOURCE_SPECS.json": "835207224f9ab389d1d8b4efd064fb45509690f0c9e55779c5b85285e43ae7f2",
+    "docs/research/quartz_general_incumbent_price_20261123/coding/c25_analyze.py": "f153009c25eca527e1944b7de15d5b52741fa10ea4e9cab92c405593a71f4e63",
+    "docs/research/quartz_general_incumbent_price_20261123/coding/c25_fit_predictor.py": "03425d3553124cc01237415385adeb31bb52345eb3ffdfac27e9293b4bb87227",
+    "docs/research/quartz_general_incumbent_price_20261123/coding/c25_io.py": "8831094288dede41ecfe76a63fc4d526d9f6170738ba35f919ad7411be42b273",
+    "docs/research/quartz_general_incumbent_price_20261123/coding/c25_run.py": "3a0b5753dd2492ae680555c1654decb8944cfc51d3edfe153dbcb2c88228080c",
+    "docs/research/quartz_general_incumbent_price_20261123/coding/c25_sources.py": "35767966eac06878ce4dfd152ce7c4a8a9e4d399b71f179c83ea02c30fbc16a7",
+    "docs/research/quartz_general_incumbent_price_20261123/coding/c25_verify.py": "83d7a4504b3418b14ea13a6a42ab3e8d0c84bdfdaab05607269d9649d9e6dfb3",
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_PUBLIC_TRAIN.jsonl.gz": "80981adf7bc244ea12e644d40a5e84d133b2a7699e76b7fedd476a4b4c3d7cf8",
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_SOURCES_TRAIN.json": "9f7fe1028538c7a3e376e846930cc63f6a4c65ba3a6400e6ef18edbd0faa6c1a",
+    "src/bin/quartz_c24_cheap_certificate.rs": "5a7cc595c267d5337f268045d1df8bf5909093ed7920ee50293da76da94cd381",
+    "src/bin/quartz_c25_incumbent_price.rs": "84c3937e42836431145fbde74999a57f98540e6b65760f2d71c6a4f78271a8d8",
+    "target/release/quartz_c25_incumbent_price": "2ddccac45f1fa9c171509bcc329a37f2f9b575fe3c17797e806a74ee4d8febf5"
+  },
+  "input_hashes_before": {
+    "docs/research/quartz_general_incumbent_price_20261123/C04_RUN_CONTRACT.json": "d287d19096c00847fe892e83e340f77715223e8fde2ddabe481d84300383ec79",
+    "docs/research/quartz_general_incumbent_price_20261123/CODE_CONTRACT.json": "fcbbdcf9ce2d0243a5886e8e9d1df69a8779a324e679f55e671aed2d58b525cb",
+    "docs/research/quartz_general_incumbent_price_20261123/SOURCE_SPECS.json": "835207224f9ab389d1d8b4efd064fb45509690f0c9e55779c5b85285e43ae7f2",
+    "docs/research/quartz_general_incumbent_price_20261123/coding/c25_analyze.py": "f153009c25eca527e1944b7de15d5b52741fa10ea4e9cab92c405593a71f4e63",
+    "docs/research/quartz_general_incumbent_price_20261123/coding/c25_fit_predictor.py": "03425d3553124cc01237415385adeb31bb52345eb3ffdfac27e9293b4bb87227",
+    "docs/research/quartz_general_incumbent_price_20261123/coding/c25_io.py": "8831094288dede41ecfe76a63fc4d526d9f6170738ba35f919ad7411be42b273",
+    "docs/research/quartz_general_incumbent_price_20261123/coding/c25_run.py": "3a0b5753dd2492ae680555c1654decb8944cfc51d3edfe153dbcb2c88228080c",
+    "docs/research/quartz_general_incumbent_price_20261123/coding/c25_sources.py": "35767966eac06878ce4dfd152ce7c4a8a9e4d399b71f179c83ea02c30fbc16a7",
+    "docs/research/quartz_general_incumbent_price_20261123/coding/c25_verify.py": "83d7a4504b3418b14ea13a6a42ab3e8d0c84bdfdaab05607269d9649d9e6dfb3",
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_PUBLIC_TRAIN.jsonl.gz": "80981adf7bc244ea12e644d40a5e84d133b2a7699e76b7fedd476a4b4c3d7cf8",
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_SOURCES_TRAIN.json": "9f7fe1028538c7a3e376e846930cc63f6a4c65ba3a6400e6ef18edbd0faa6c1a",
+    "src/bin/quartz_c24_cheap_certificate.rs": "5a7cc595c267d5337f268045d1df8bf5909093ed7920ee50293da76da94cd381",
+    "src/bin/quartz_c25_incumbent_price.rs": "84c3937e42836431145fbde74999a57f98540e6b65760f2d71c6a4f78271a8d8",
+    "target/release/quartz_c25_incumbent_price": "2ddccac45f1fa9c171509bcc329a37f2f9b575fe3c17797e806a74ee4d8febf5"
+  },
+  "load_end": [
+    5.8251953125,
+    12.435546875,
+    10.22705078125
+  ],
+  "load_start": [
+    6.5439453125,
+    13.0205078125,
+    10.36328125
+  ],
+  "logical_cpus": 24,
+  "max_chunk_bytes": 47185920,
+  "mode": "trace",
+  "native_policy_executions": 648,
+  "oracle_fields_sent": false,
+  "packages": {
+    "numpy": "2.4.2",
+    "scipy": "1.17.0"
+  },
+  "platform": "Linux-7.0.0-43-generic-x86_64-with-glibc2.39",
+  "prediction_source": "TRAIN_DISABLED_ZERO",
+  "predictor_sha256": null,
+  "public_source_sha256": "80981adf7bc244ea12e644d40a5e84d133b2a7699e76b7fedd476a4b4c3d7cf8",
+  "python": "3.12.3 (main, Aug 31 2026, 10:18:26) [GCC 13.3.0]",
+  "repeats": 1,
+  "repeats_are_independent_parents": false,
+  "requests": 108,
+  "schema": "quartz.c25.run.v1",
+  "source_head": "5374c80f42b47fc730047d93122991acba5bc8db",
+  "source_ids": [
+    "c25_train_00_0",
+    "c25_train_01_0",
+    "c25_train_02_0",
+    "c25_train_03_0",
+    "c25_train_04_0",
+    "c25_train_05_0",
+    "c25_train_06_0",
+    "c25_train_07_0",
+    "c25_train_08_0",
+    "c25_train_09_0",
+    "c25_train_10_0",
+    "c25_train_11_0",
+    "c25_train_12_0",
+    "c25_train_13_0",
+    "c25_train_14_0",
+    "c25_train_15_0",
+    "c25_train_16_0",
+    "c25_train_17_0",
+    "c25_train_18_0",
+    "c25_train_19_0",
+    "c25_train_20_0",
+    "c25_train_21_0",
+    "c25_train_22_0",
+    "c25_train_23_0",
+    "c25_train_24_0",
+    "c25_train_25_0",
+    "c25_train_26_0",
+    "c25_train_27_0",
+    "c25_train_28_0",
+    "c25_train_29_0",
+    "c25_train_30_0",
+    "c25_train_31_0",
+    "c25_train_32_0",
+    "c25_train_33_0",
+    "c25_train_34_0",
+    "c25_train_35_0"
+  ],
+  "split": "TRAIN",
+  "start_utc": "2026-11-23T06:35:51.202802+00:00",
+  "status": "completed",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "warmup": 0,
+  "warmup_policy_executions": 0,
+  "wire_encoding": "f64 repr decimal strings; Rust FromStr; exact trace bits"
+}

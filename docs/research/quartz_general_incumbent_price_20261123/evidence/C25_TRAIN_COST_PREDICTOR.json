@@ -1,0 +1,739 @@
+{
+  "argv": [
+    "/home/cosmosapjw/quantum/research/quartz_general_meta25_20261123/docs/research/quartz_general_incumbent_price_20261123/coding/c25_fit_predictor.py"
+  ],
+  "by_side": {
+    "32": {
+      "active_parent_count": 10,
+      "active_parent_ids": [
+        "c25_train_14_0",
+        "c25_train_15_0",
+        "c25_train_16_0",
+        "c25_train_17_0",
+        "c25_train_18_0",
+        "c25_train_19_0",
+        "c25_train_20_0",
+        "c25_train_21_0",
+        "c25_train_22_0",
+        "c25_train_23_0"
+      ],
+      "predicted_block_us": 116.66068055555556
+    },
+    "8": {
+      "active_parent_count": 7,
+      "active_parent_ids": [
+        "c25_train_02_0",
+        "c25_train_03_0",
+        "c25_train_06_0",
+        "c25_train_07_0",
+        "c25_train_09_0",
+        "c25_train_10_0",
+        "c25_train_11_0"
+      ],
+      "predicted_block_us": 8.914666666666667
+    },
+    "96": {
+      "active_parent_count": 10,
+      "active_parent_ids": [
+        "c25_train_26_0",
+        "c25_train_27_0",
+        "c25_train_28_0",
+        "c25_train_29_0",
+        "c25_train_30_0",
+        "c25_train_31_0",
+        "c25_train_32_0",
+        "c25_train_33_0",
+        "c25_train_34_0",
+        "c25_train_35_0"
+      ],
+      "predicted_block_us": 1004.2051666666666
+    }
+  },
+  "created_utc": "2026-11-23T06:36:26.886411+00:00",
+  "estimator": "per-parent mean over repeats of continuation_us/executed_blocks, then side median",
+  "fit_additional": 32,
+  "fit_policy": "RETAIN_BLOCK",
+  "heldout_inputs_used": false,
+  "inactive_parent_ids": [
+    "c25_train_00_0",
+    "c25_train_01_0",
+    "c25_train_04_0",
+    "c25_train_05_0",
+    "c25_train_08_0",
+    "c25_train_12_0",
+    "c25_train_13_0",
+    "c25_train_24_0",
+    "c25_train_25_0"
+  ],
+  "input_hashes_after": {
+    "docs/research/quartz_general_incumbent_price_20261123/C04_RUN_CONTRACT.json": "d287d19096c00847fe892e83e340f77715223e8fde2ddabe481d84300383ec79",
+    "docs/research/quartz_general_incumbent_price_20261123/CODE_CONTRACT.json": "fcbbdcf9ce2d0243a5886e8e9d1df69a8779a324e679f55e671aed2d58b525cb",
+    "docs/research/quartz_general_incumbent_price_20261123/SOURCE_SPECS.json": "835207224f9ab389d1d8b4efd064fb45509690f0c9e55779c5b85285e43ae7f2",
+    "docs/research/quartz_general_incumbent_price_20261123/coding/c25_analyze.py": "f153009c25eca527e1944b7de15d5b52741fa10ea4e9cab92c405593a71f4e63",
+    "docs/research/quartz_general_incumbent_price_20261123/coding/c25_fit_predictor.py": "03425d3553124cc01237415385adeb31bb52345eb3ffdfac27e9293b4bb87227",
+    "docs/research/quartz_general_incumbent_price_20261123/coding/c25_io.py": "8831094288dede41ecfe76a63fc4d526d9f6170738ba35f919ad7411be42b273",
+    "docs/research/quartz_general_incumbent_price_20261123/coding/c25_run.py": "3a0b5753dd2492ae680555c1654decb8944cfc51d3edfe153dbcb2c88228080c",
+    "docs/research/quartz_general_incumbent_price_20261123/coding/c25_sources.py": "35767966eac06878ce4dfd152ce7c4a8a9e4d399b71f179c83ea02c30fbc16a7",
+    "docs/research/quartz_general_incumbent_price_20261123/coding/c25_verify.py": "83d7a4504b3418b14ea13a6a42ab3e8d0c84bdfdaab05607269d9649d9e6dfb3",
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TRAIN_TIMING.manifest.json": "23cc13ffee95f587ac634ba7be0d15eaffd563fe4fd26b99b539090219074c4d",
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TRAIN_TIMING/000_c25_train_00_0.jsonl.gz": "625fc74e3d1069449ab1c996efd817bb95354c03d25462e826c292884b0e05c3",
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TRAIN_TIMING/001_c25_train_01_0.jsonl.gz": "7203e19cbe299059f4091dad32b45f0e57b0bb6d35c2f1119d8ff18a9aff2b31",
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TRAIN_TIMING/002_c25_train_02_0.jsonl.gz": "f69df31dbb080afbd083879511c3d7096935b83228563fa9c71c6112be5d6c9a",
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TRAIN_TIMING/003_c25_train_03_0.jsonl.gz": "60faaffb3129ce08afa0b8ac38c06d24ef8e4e6795a881c7c3f78087ca60d179",
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TRAIN_TIMING/004_c25_train_04_0.jsonl.gz": "54e7ead8b780ea715b749fb4da5c4f307cbdb36582efe6dc4fc8a1ca6fddfb8f",
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TRAIN_TIMING/005_c25_train_05_0.jsonl.gz": "a420dfab8fbf8dacd25b200ac45cc4c2625e68fc88be8d286a046f6a62c3c57b",
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TRAIN_TIMING/006_c25_train_06_0.jsonl.gz": "1237f433b144ba74b5980d54a6adb19861a5ef94dc94744b55c3c348f6dbe6f6",
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TRAIN_TIMING/007_c25_train_07_0.jsonl.gz": "ae8207abe55c2e658c025ec961740cd52a699158b8f7f3117fb58d9653c54ed4",
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TRAIN_TIMING/008_c25_train_08_0.jsonl.gz": "9b52142aabc1de22dce84270fd919132074e016e4f5f130dde63f69fa954867b",
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TRAIN_TIMING/009_c25_train_09_0.jsonl.gz": "03358731f727e3804c0c9daca21594f7d0288aa9d2e69d09e8255c9ca096247e",
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TRAIN_TIMING/010_c25_train_10_0.jsonl.gz": "e7ea9bceed71161355369a23bb9577ddcb8dd19312080d75b009346b6b0793af",
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TRAIN_TIMING/011_c25_train_11_0.jsonl.gz": "69a2380ed1a42e36b62cfdaaabf4b86f47ba15e711b392932bb3642b265785b5",
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TRAIN_TIMING/012_c25_train_12_0.jsonl.gz": "44faaab23afdfe793f22a353d087c2b650a4bd6c1c6d8a4a88f2cba95f37b6f6",
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TRAIN_TIMING/013_c25_train_13_0.jsonl.gz": "ef91463cc969eb4f2666d0ef1c953f4e303d96292a1024570c9de723ed62e610",
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TRAIN_TIMING/014_c25_train_14_0.jsonl.gz": "bad16c1868673cad26b8689e8654d088534e555bd3ad303ef8cca1c043cdc3dc",
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TRAIN_TIMING/015_c25_train_15_0.jsonl.gz": "5134e26ace3935480fdc84f7c816b5374264e12cae9620d135cdf6923e2f93a4",
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TRAIN_TIMING/016_c25_train_16_0.jsonl.gz": "fe23284e1ebcb48961ded2c25c363ee20374e7764b5dfdf35f76e2b0f42f049f",
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TRAIN_TIMING/017_c25_train_17_0.jsonl.gz": "7b97dc16185c45aa965ef0b72033b8f3a19a931bed2413089b35d1094a5c716f",
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TRAIN_TIMING/018_c25_train_18_0.jsonl.gz": "84096a22f39ce192ce56d50a73b4a226cf8adbf4344fab4cb1b05e3779104a75",
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TRAIN_TIMING/019_c25_train_19_0.jsonl.gz": "c61d7dadefba40289482596927cd5fbce2c2c888499b8a359a918636316b3f3b",
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TRAIN_TIMING/020_c25_train_20_0.jsonl.gz": "617e23fea949b18d2b0d0393ba3b6f5b1b2260cef66730657a2af02692b57278",
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TRAIN_TIMING/021_c25_train_21_0.jsonl.gz": "17803d2635ed58992298da7e4ad89bfa94631313659ba34e8937ab89de3c5097",
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TRAIN_TIMING/022_c25_train_22_0.jsonl.gz": "cb969ed710ba054aec895ff6bccb8caf2873d67bb1f66ff9efcb018849406983",
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TRAIN_TIMING/023_c25_train_23_0.jsonl.gz": "5c0efdfcf82cff14af124663f09d7f1324c2d6e707628263508520edb8eb4794",
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TRAIN_TIMING/024_c25_train_24_0.jsonl.gz": "52682ab0612ff5317b1ac6078d56e1c1cd84b36b3b88a1375e43c797b7443aee",
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TRAIN_TIMING/025_c25_train_25_0.jsonl.gz": "014d8cdab135e109e45e3b044a94cd354a05d9d887cc03b86184ae6e1db8bd5a",
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TRAIN_TIMING/026_c25_train_26_0.jsonl.gz": "67ea55f49601e9b3c155ecd7a32f9b1467606cf48700527bdba7982804fb2755",
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TRAIN_TIMING/027_c25_train_27_0.jsonl.gz": "55678fd241fdbaa75875d1861fd0a815f042d46a4b0fdddd1e2538c945ba0616",
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TRAIN_TIMING/028_c25_train_28_0.jsonl.gz": "d6edf918cc2ee253879336ee614fdf1366fc1298289d662440d40b2c2ed86846",
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TRAIN_TIMING/029_c25_train_29_0.jsonl.gz": "44c54362a289b839164bf06de3ac539fa5855cead712d2b6e62e8b42216e6224",
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TRAIN_TIMING/030_c25_train_30_0.jsonl.gz": "da447109584341026e7ea5121e890b198150e2f09fd32bac74279c46cfce47b7",
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TRAIN_TIMING/031_c25_train_31_0.jsonl.gz": "5f0a76cde8208367c162c378e9000395a5d3106c371d7123b56cdb28dee225f1",
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TRAIN_TIMING/032_c25_train_32_0.jsonl.gz": "a949c561d1055e0f297f85dc1146c9c84cd1b1420971b2178e5cb644f6d4a0ae",
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TRAIN_TIMING/033_c25_train_33_0.jsonl.gz": "9a682238fcf3ab38fb2bfe0c8578b58fe1634c94081f0933b06d612fd346475d",
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TRAIN_TIMING/034_c25_train_34_0.jsonl.gz": "b8217a3e0c20bb9dc162370d4bfba049fb6df3b150b8df6700ef9ac68b38673b",
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TRAIN_TIMING/035_c25_train_35_0.jsonl.gz": "b4be7b9f0e15c88a0418d653e8b21a1f95995fc009794a8c9ae50a032e8bba5c",
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_VERIFY_TRAIN_TIMING.json": "d711f583178e3447fa03c38143fa1d8a9dbe29639c9c926a65a496b10607f018",
+    "src/bin/quartz_c24_cheap_certificate.rs": "5a7cc595c267d5337f268045d1df8bf5909093ed7920ee50293da76da94cd381",
+    "src/bin/quartz_c25_incumbent_price.rs": "84c3937e42836431145fbde74999a57f98540e6b65760f2d71c6a4f78271a8d8"
+  },
+  "input_hashes_before": {
+    "docs/research/quartz_general_incumbent_price_20261123/C04_RUN_CONTRACT.json": "d287d19096c00847fe892e83e340f77715223e8fde2ddabe481d84300383ec79",
+    "docs/research/quartz_general_incumbent_price_20261123/CODE_CONTRACT.json": "fcbbdcf9ce2d0243a5886e8e9d1df69a8779a324e679f55e671aed2d58b525cb",
+    "docs/research/quartz_general_incumbent_price_20261123/SOURCE_SPECS.json": "835207224f9ab389d1d8b4efd064fb45509690f0c9e55779c5b85285e43ae7f2",
+    "docs/research/quartz_general_incumbent_price_20261123/coding/c25_analyze.py": "f153009c25eca527e1944b7de15d5b52741fa10ea4e9cab92c405593a71f4e63",
+    "docs/research/quartz_general_incumbent_price_20261123/coding/c25_fit_predictor.py": "03425d3553124cc01237415385adeb31bb52345eb3ffdfac27e9293b4bb87227",
+    "docs/research/quartz_general_incumbent_price_20261123/coding/c25_io.py": "8831094288dede41ecfe76a63fc4d526d9f6170738ba35f919ad7411be42b273",
+    "docs/research/quartz_general_incumbent_price_20261123/coding/c25_run.py": "3a0b5753dd2492ae680555c1654decb8944cfc51d3edfe153dbcb2c88228080c",
+    "docs/research/quartz_general_incumbent_price_20261123/coding/c25_sources.py": "35767966eac06878ce4dfd152ce7c4a8a9e4d399b71f179c83ea02c30fbc16a7",
+    "docs/research/quartz_general_incumbent_price_20261123/coding/c25_verify.py": "83d7a4504b3418b14ea13a6a42ab3e8d0c84bdfdaab05607269d9649d9e6dfb3",
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TRAIN_TIMING.manifest.json": "23cc13ffee95f587ac634ba7be0d15eaffd563fe4fd26b99b539090219074c4d",
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TRAIN_TIMING/000_c25_train_00_0.jsonl.gz": "625fc74e3d1069449ab1c996efd817bb95354c03d25462e826c292884b0e05c3",
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TRAIN_TIMING/001_c25_train_01_0.jsonl.gz": "7203e19cbe299059f4091dad32b45f0e57b0bb6d35c2f1119d8ff18a9aff2b31",
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TRAIN_TIMING/002_c25_train_02_0.jsonl.gz": "f69df31dbb080afbd083879511c3d7096935b83228563fa9c71c6112be5d6c9a",
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TRAIN_TIMING/003_c25_train_03_0.jsonl.gz": "60faaffb3129ce08afa0b8ac38c06d24ef8e4e6795a881c7c3f78087ca60d179",
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TRAIN_TIMING/004_c25_train_04_0.jsonl.gz": "54e7ead8b780ea715b749fb4da5c4f307cbdb36582efe6dc4fc8a1ca6fddfb8f",
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TRAIN_TIMING/005_c25_train_05_0.jsonl.gz": "a420dfab8fbf8dacd25b200ac45cc4c2625e68fc88be8d286a046f6a62c3c57b",
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TRAIN_TIMING/006_c25_train_06_0.jsonl.gz": "1237f433b144ba74b5980d54a6adb19861a5ef94dc94744b55c3c348f6dbe6f6",
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TRAIN_TIMING/007_c25_train_07_0.jsonl.gz": "ae8207abe55c2e658c025ec961740cd52a699158b8f7f3117fb58d9653c54ed4",
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TRAIN_TIMING/008_c25_train_08_0.jsonl.gz": "9b52142aabc1de22dce84270fd919132074e016e4f5f130dde63f69fa954867b",
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TRAIN_TIMING/009_c25_train_09_0.jsonl.gz": "03358731f727e3804c0c9daca21594f7d0288aa9d2e69d09e8255c9ca096247e",
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TRAIN_TIMING/010_c25_train_10_0.jsonl.gz": "e7ea9bceed71161355369a23bb9577ddcb8dd19312080d75b009346b6b0793af",
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TRAIN_TIMING/011_c25_train_11_0.jsonl.gz": "69a2380ed1a42e36b62cfdaaabf4b86f47ba15e711b392932bb3642b265785b5",
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TRAIN_TIMING/012_c25_train_12_0.jsonl.gz": "44faaab23afdfe793f22a353d087c2b650a4bd6c1c6d8a4a88f2cba95f37b6f6",
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TRAIN_TIMING/013_c25_train_13_0.jsonl.gz": "ef91463cc969eb4f2666d0ef1c953f4e303d96292a1024570c9de723ed62e610",
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TRAIN_TIMING/014_c25_train_14_0.jsonl.gz": "bad16c1868673cad26b8689e8654d088534e555bd3ad303ef8cca1c043cdc3dc",
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TRAIN_TIMING/015_c25_train_15_0.jsonl.gz": "5134e26ace3935480fdc84f7c816b5374264e12cae9620d135cdf6923e2f93a4",
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TRAIN_TIMING/016_c25_train_16_0.jsonl.gz": "fe23284e1ebcb48961ded2c25c363ee20374e7764b5dfdf35f76e2b0f42f049f",
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TRAIN_TIMING/017_c25_train_17_0.jsonl.gz": "7b97dc16185c45aa965ef0b72033b8f3a19a931bed2413089b35d1094a5c716f",
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TRAIN_TIMING/018_c25_train_18_0.jsonl.gz": "84096a22f39ce192ce56d50a73b4a226cf8adbf4344fab4cb1b05e3779104a75",
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TRAIN_TIMING/019_c25_train_19_0.jsonl.gz": "c61d7dadefba40289482596927cd5fbce2c2c888499b8a359a918636316b3f3b",
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TRAIN_TIMING/020_c25_train_20_0.jsonl.gz": "617e23fea949b18d2b0d0393ba3b6f5b1b2260cef66730657a2af02692b57278",
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TRAIN_TIMING/021_c25_train_21_0.jsonl.gz": "17803d2635ed58992298da7e4ad89bfa94631313659ba34e8937ab89de3c5097",
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TRAIN_TIMING/022_c25_train_22_0.jsonl.gz": "cb969ed710ba054aec895ff6bccb8caf2873d67bb1f66ff9efcb018849406983",
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TRAIN_TIMING/023_c25_train_23_0.jsonl.gz": "5c0efdfcf82cff14af124663f09d7f1324c2d6e707628263508520edb8eb4794",
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TRAIN_TIMING/024_c25_train_24_0.jsonl.gz": "52682ab0612ff5317b1ac6078d56e1c1cd84b36b3b88a1375e43c797b7443aee",
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TRAIN_TIMING/025_c25_train_25_0.jsonl.gz": "014d8cdab135e109e45e3b044a94cd354a05d9d887cc03b86184ae6e1db8bd5a",
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TRAIN_TIMING/026_c25_train_26_0.jsonl.gz": "67ea55f49601e9b3c155ecd7a32f9b1467606cf48700527bdba7982804fb2755",
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TRAIN_TIMING/027_c25_train_27_0.jsonl.gz": "55678fd241fdbaa75875d1861fd0a815f042d46a4b0fdddd1e2538c945ba0616",
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TRAIN_TIMING/028_c25_train_28_0.jsonl.gz": "d6edf918cc2ee253879336ee614fdf1366fc1298289d662440d40b2c2ed86846",
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TRAIN_TIMING/029_c25_train_29_0.jsonl.gz": "44c54362a289b839164bf06de3ac539fa5855cead712d2b6e62e8b42216e6224",
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TRAIN_TIMING/030_c25_train_30_0.jsonl.gz": "da447109584341026e7ea5121e890b198150e2f09fd32bac74279c46cfce47b7",
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TRAIN_TIMING/031_c25_train_31_0.jsonl.gz": "5f0a76cde8208367c162c378e9000395a5d3106c371d7123b56cdb28dee225f1",
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TRAIN_TIMING/032_c25_train_32_0.jsonl.gz": "a949c561d1055e0f297f85dc1146c9c84cd1b1420971b2178e5cb644f6d4a0ae",
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TRAIN_TIMING/033_c25_train_33_0.jsonl.gz": "9a682238fcf3ab38fb2bfe0c8578b58fe1634c94081f0933b06d612fd346475d",
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TRAIN_TIMING/034_c25_train_34_0.jsonl.gz": "b8217a3e0c20bb9dc162370d4bfba049fb6df3b150b8df6700ef9ac68b38673b",
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TRAIN_TIMING/035_c25_train_35_0.jsonl.gz": "b4be7b9f0e15c88a0418d653e8b21a1f95995fc009794a8c9ae50a032e8bba5c",
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_VERIFY_TRAIN_TIMING.json": "d711f583178e3447fa03c38143fa1d8a9dbe29639c9c926a65a496b10607f018",
+    "src/bin/quartz_c24_cheap_certificate.rs": "5a7cc595c267d5337f268045d1df8bf5909093ed7920ee50293da76da94cd381",
+    "src/bin/quartz_c25_incumbent_price.rs": "84c3937e42836431145fbde74999a57f98540e6b65760f2d71c6a4f78271a8d8"
+  },
+  "interpretation": "Empirical predictor only; no theorem about hardware-time lower bounds",
+  "oracle_fields_used": false,
+  "parents": [
+    {
+      "executed_blocks": 0,
+      "id": "c25_train_00_0",
+      "parent_mean_block_us": null,
+      "repeat_ratios_us": [],
+      "side": 8
+    },
+    {
+      "executed_blocks": 0,
+      "id": "c25_train_01_0",
+      "parent_mean_block_us": null,
+      "repeat_ratios_us": [],
+      "side": 8
+    },
+    {
+      "executed_blocks": 1,
+      "id": "c25_train_02_0",
+      "parent_mean_block_us": 9.41211111111111,
+      "repeat_ratios_us": [
+        13.857,
+        8.376000000000001,
+        8.296,
+        8.215,
+        9.397,
+        8.155000000000001,
+        8.145999999999999,
+        12.092,
+        8.175
+      ],
+      "side": 8
+    },
+    {
+      "executed_blocks": 4,
+      "id": "c25_train_03_0",
+      "parent_mean_block_us": 6.548222222222222,
+      "repeat_ratios_us": [
+        6.379499999999999,
+        8.789,
+        6.1667499999999995,
+        6.13925,
+        6.116499999999999,
+        6.1240000000000006,
+        6.109,
+        7.46425,
+        5.6457500000000005
+      ],
+      "side": 8
+    },
+    {
+      "executed_blocks": 0,
+      "id": "c25_train_04_0",
+      "parent_mean_block_us": null,
+      "repeat_ratios_us": [],
+      "side": 8
+    },
+    {
+      "executed_blocks": 0,
+      "id": "c25_train_05_0",
+      "parent_mean_block_us": null,
+      "repeat_ratios_us": [],
+      "side": 8
+    },
+    {
+      "executed_blocks": 1,
+      "id": "c25_train_06_0",
+      "parent_mean_block_us": 8.950111111111111,
+      "repeat_ratios_us": [
+        9.347999999999999,
+        9.347000000000001,
+        9.318,
+        9.278,
+        9.238,
+        9.286999999999999,
+        9.247,
+        7.723999999999999,
+        7.764
+      ],
+      "side": 8
+    },
+    {
+      "executed_blocks": 4,
+      "id": "c25_train_07_0",
+      "parent_mean_block_us": 8.275666666666666,
+      "repeat_ratios_us": [
+        7.74225,
+        7.80475,
+        8.047500000000001,
+        6.8905,
+        9.32775,
+        8.59375,
+        10.61025,
+        8.8265,
+        6.6377500000000005
+      ],
+      "side": 8
+    },
+    {
+      "executed_blocks": 0,
+      "id": "c25_train_08_0",
+      "parent_mean_block_us": null,
+      "repeat_ratios_us": [],
+      "side": 8
+    },
+    {
+      "executed_blocks": 1,
+      "id": "c25_train_09_0",
+      "parent_mean_block_us": 8.914666666666667,
+      "repeat_ratios_us": [
+        8.376000000000001,
+        9.558,
+        8.346,
+        8.376000000000001,
+        8.426,
+        8.356,
+        8.376000000000001,
+        7.925,
+        12.493
+      ],
+      "side": 8
+    },
+    {
+      "executed_blocks": 1,
+      "id": "c25_train_10_0",
+      "parent_mean_block_us": 10.742555555555557,
+      "repeat_ratios_us": [
+        8.396,
+        12.143,
+        11.041,
+        10.981,
+        10.941,
+        10.79,
+        10.861,
+        10.72,
+        10.81
+      ],
+      "side": 8
+    },
+    {
+      "executed_blocks": 4,
+      "id": "c25_train_11_0",
+      "parent_mean_block_us": 6.584666666666666,
+      "repeat_ratios_us": [
+        6.58725,
+        6.569999999999999,
+        6.59,
+        6.63,
+        6.5575,
+        6.5649999999999995,
+        6.577500000000001,
+        6.58225,
+        6.6025
+      ],
+      "side": 8
+    },
+    {
+      "executed_blocks": 0,
+      "id": "c25_train_12_0",
+      "parent_mean_block_us": null,
+      "repeat_ratios_us": [],
+      "side": 32
+    },
+    {
+      "executed_blocks": 0,
+      "id": "c25_train_13_0",
+      "parent_mean_block_us": null,
+      "repeat_ratios_us": [],
+      "side": 32
+    },
+    {
+      "executed_blocks": 1,
+      "id": "c25_train_14_0",
+      "parent_mean_block_us": 141.84855555555555,
+      "repeat_ratios_us": [
+        129.304,
+        173.58700000000002,
+        166.54399999999998,
+        169.139,
+        121.76,
+        134.40300000000002,
+        122.27000000000001,
+        122.62100000000001,
+        137.00900000000001
+      ],
+      "side": 32
+    },
+    {
+      "executed_blocks": 4,
+      "id": "c25_train_15_0",
+      "parent_mean_block_us": 146.91488888888887,
+      "repeat_ratios_us": [
+        163.08499999999998,
+        163.49349999999998,
+        138.2205,
+        143.433,
+        123.97874999999999,
+        140.1195,
+        129.15124999999998,
+        170.17350000000002,
+        150.579
+      ],
+      "side": 32
+    },
+    {
+      "executed_blocks": 1,
+      "id": "c25_train_16_0",
+      "parent_mean_block_us": 112.79588888888888,
+      "repeat_ratios_us": [
+        112.622,
+        112.522,
+        112.46199999999999,
+        112.422,
+        112.36200000000001,
+        112.642,
+        112.652,
+        114.967,
+        112.512
+      ],
+      "side": 32
+    },
+    {
+      "executed_blocks": 1,
+      "id": "c25_train_17_0",
+      "parent_mean_block_us": 117.015,
+      "repeat_ratios_us": [
+        112.36200000000001,
+        112.883,
+        112.352,
+        112.262,
+        148.67,
+        112.863,
+        116.64,
+        112.23100000000001,
+        112.872
+      ],
+      "side": 32
+    },
+    {
+      "executed_blocks": 3,
+      "id": "c25_train_18_0",
+      "parent_mean_block_us": 113.13196296296296,
+      "repeat_ratios_us": [
+        114.553,
+        112.72933333333333,
+        112.78633333333333,
+        113.49400000000001,
+        114.64633333333332,
+        112.09133333333334,
+        112.12166666666667,
+        112.12133333333334,
+        113.64433333333335
+      ],
+      "side": 32
+    },
+    {
+      "executed_blocks": 4,
+      "id": "c25_train_19_0",
+      "parent_mean_block_us": 113.28558333333334,
+      "repeat_ratios_us": [
+        112.878,
+        112.79025,
+        113.35875,
+        111.8185,
+        114.055,
+        113.564,
+        111.703,
+        113.51925,
+        115.8835
+      ],
+      "side": 32
+    },
+    {
+      "executed_blocks": 2,
+      "id": "c25_train_20_0",
+      "parent_mean_block_us": 119.50716666666666,
+      "repeat_ratios_us": [
+        173.6625,
+        112.187,
+        112.6425,
+        112.69250000000001,
+        113.57900000000001,
+        112.6275,
+        114.72149999999999,
+        112.05149999999999,
+        111.40050000000001
+      ],
+      "side": 32
+    },
+    {
+      "executed_blocks": 2,
+      "id": "c25_train_21_0",
+      "parent_mean_block_us": 116.305,
+      "repeat_ratios_us": [
+        113.429,
+        113.474,
+        130.47150000000002,
+        116.01849999999999,
+        113.379,
+        115.478,
+        114.6665,
+        114.521,
+        115.30749999999999
+      ],
+      "side": 32
+    },
+    {
+      "executed_blocks": 4,
+      "id": "c25_train_22_0",
+      "parent_mean_block_us": 118.36883333333334,
+      "repeat_ratios_us": [
+        112.05875,
+        112.05375000000001,
+        117.3215,
+        112.1165,
+        112.05375000000001,
+        158.98250000000002,
+        113.49674999999999,
+        113.57925,
+        113.65675
+      ],
+      "side": 32
+    },
+    {
+      "executed_blocks": 4,
+      "id": "c25_train_23_0",
+      "parent_mean_block_us": 116.3063611111111,
+      "repeat_ratios_us": [
+        113.1485,
+        113.0935,
+        145.67475,
+        114.03275,
+        112.87774999999999,
+        111.42275000000001,
+        112.1565,
+        111.38775,
+        112.963
+      ],
+      "side": 32
+    },
+    {
+      "executed_blocks": 0,
+      "id": "c25_train_24_0",
+      "parent_mean_block_us": null,
+      "repeat_ratios_us": [],
+      "side": 96
+    },
+    {
+      "executed_blocks": 0,
+      "id": "c25_train_25_0",
+      "parent_mean_block_us": null,
+      "repeat_ratios_us": [],
+      "side": 96
+    },
+    {
+      "executed_blocks": 1,
+      "id": "c25_train_26_0",
+      "parent_mean_block_us": 1011.7885555555556,
+      "repeat_ratios_us": [
+        974.7090000000001,
+        968.888,
+        1268.623,
+        975.35,
+        992.9830000000001,
+        992.963,
+        975.059,
+        982.553,
+        974.969
+      ],
+      "side": 96
+    },
+    {
+      "executed_blocks": 4,
+      "id": "c25_train_27_0",
+      "parent_mean_block_us": 1042.9310833333334,
+      "repeat_ratios_us": [
+        1008.9730000000001,
+        987.4499999999999,
+        1005.83225,
+        976.567,
+        978.3879999999999,
+        1483.06475,
+        989.95975,
+        978.418,
+        977.7270000000001
+      ],
+      "side": 96
+    },
+    {
+      "executed_blocks": 1,
+      "id": "c25_train_28_0",
+      "parent_mean_block_us": 969.6336666666666,
+      "repeat_ratios_us": [
+        972.114,
+        972.535,
+        971.0120000000001,
+        996.3490000000002,
+        966.0619999999999,
+        965.0709999999999,
+        964.059,
+        958.007,
+        961.494
+      ],
+      "side": 96
+    },
+    {
+      "executed_blocks": 2,
+      "id": "c25_train_29_0",
+      "parent_mean_block_us": 1002.339611111111,
+      "repeat_ratios_us": [
+        976.487,
+        994.8815,
+        980.8955000000001,
+        982.7639999999999,
+        1140.0355,
+        983.495,
+        989.832,
+        984.9929999999999,
+        987.6729999999999
+      ],
+      "side": 96
+    },
+    {
+      "executed_blocks": 4,
+      "id": "c25_train_30_0",
+      "parent_mean_block_us": 995.4537222222223,
+      "repeat_ratios_us": [
+        1031.64075,
+        990.8115,
+        1056.3700000000001,
+        974.225,
+        979.7305,
+        980.0284999999999,
+        995.4025,
+        977.29825,
+        973.5765
+      ],
+      "side": 96
+    },
+    {
+      "executed_blocks": 4,
+      "id": "c25_train_31_0",
+      "parent_mean_block_us": 1054.7345277777779,
+      "repeat_ratios_us": [
+        1102.05125,
+        983.33975,
+        982.854,
+        978.5709999999999,
+        983.951,
+        1014.4209999999999,
+        1010.922,
+        1169.824,
+        1266.67675
+      ],
+      "side": 96
+    },
+    {
+      "executed_blocks": 2,
+      "id": "c25_train_32_0",
+      "parent_mean_block_us": 980.7655,
+      "repeat_ratios_us": [
+        978.5205000000001,
+        979.1069999999999,
+        980.88,
+        984.3615,
+        982.1574999999999,
+        978.631,
+        979.3225000000001,
+        983.7055,
+        980.204
+      ],
+      "side": 96
+    },
+    {
+      "executed_blocks": 3,
+      "id": "c25_train_33_0",
+      "parent_mean_block_us": 989.9743333333333,
+      "repeat_ratios_us": [
+        971.6826666666666,
+        990.9256666666665,
+        974.3176666666667,
+        1059.5553333333335,
+        995.4209999999999,
+        980.7799999999999,
+        980.543,
+        981.7416666666667,
+        974.802
+      ],
+      "side": 96
+    },
+    {
+      "executed_blocks": 4,
+      "id": "c25_train_34_0",
+      "parent_mean_block_us": 1006.0707222222222,
+      "repeat_ratios_us": [
+        972.72725,
+        979.4097499999999,
+        1259.8915,
+        974.4355,
+        973.26075,
+        973.93475,
+        969.779,
+        979.7429999999999,
+        971.4549999999999
+      ],
+      "side": 96
+    },
+    {
+      "executed_blocks": 4,
+      "id": "c25_train_35_0",
+      "parent_mean_block_us": 1017.2666111111112,
+      "repeat_ratios_us": [
+        1032.4074999999998,
+        975.4475,
+        1007.5430000000001,
+        979.7305,
+        1044.7430000000002,
+        1109.8235,
+        1015.31,
+        1010.7015000000001,
+        979.693
+      ],
+      "side": 96
+    }
+  ],
+  "python": "3.12.3 (main, Aug 31 2026, 10:18:26) [GCC 13.3.0]",
+  "schema": "quartz.c25.train-cost-predictor.v1",
+  "source_head": "5374c80f42b47fc730047d93122991acba5bc8db",
+  "source_specs_sha256": "835207224f9ab389d1d8b4efd064fb45509690f0c9e55779c5b85285e43ae7f2",
+  "status": "TRAIN_ONLY_FROZEN_POINT_ESTIMATE",
+  "training_parent_ids": [
+    "c25_train_00_0",
+    "c25_train_01_0",
+    "c25_train_02_0",
+    "c25_train_03_0",
+    "c25_train_04_0",
+    "c25_train_05_0",
+    "c25_train_06_0",
+    "c25_train_07_0",
+    "c25_train_08_0",
+    "c25_train_09_0",
+    "c25_train_10_0",
+    "c25_train_11_0",
+    "c25_train_12_0",
+    "c25_train_13_0",
+    "c25_train_14_0",
+    "c25_train_15_0",
+    "c25_train_16_0",
+    "c25_train_17_0",
+    "c25_train_18_0",
+    "c25_train_19_0",
+    "c25_train_20_0",
+    "c25_train_21_0",
+    "c25_train_22_0",
+    "c25_train_23_0",
+    "c25_train_24_0",
+    "c25_train_25_0",
+    "c25_train_26_0",
+    "c25_train_27_0",
+    "c25_train_28_0",
+    "c25_train_29_0",
+    "c25_train_30_0",
+    "c25_train_31_0",
+    "c25_train_32_0",
+    "c25_train_33_0",
+    "c25_train_34_0",
+    "c25_train_35_0"
+  ]
+}

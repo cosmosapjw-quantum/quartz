@@ -1,0 +1,107 @@
+{
+  "status": "completed",
+  "split": "TRAIN",
+  "start_utc": "2026-11-23T06:35:49.296136+00:00",
+  "source_head": "5374c80f42b47fc730047d93122991acba5bc8db",
+  "driver_sha256": "7b3afbc37f43cbd15eda08f7ce62091a8827c7908ec8f18d85ed60eaa225cfab",
+  "commands": [
+    {
+      "argv": [
+        "/home/cosmosapjw/quantum/research/quartz_general_meta25_20261123/venv/bin/python",
+        "/home/cosmosapjw/quantum/research/quartz_general_meta25_20261123/docs/research/quartz_general_incumbent_price_20261123/coding/c25_sources.py",
+        "--split",
+        "TRAIN"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 1.820148066006368,
+      "log": "docs/research/quartz_general_incumbent_price_20261123/evidence/RUN_TRAIN_00.log",
+      "log_sha256": "8b0ca7709e00c4dc3c1af455de0703354be6b6307b1c13e00388fe1dffbd2b7c",
+      "end_utc": "2026-11-23T06:35:51.118354+00:00"
+    },
+    {
+      "argv": [
+        "/home/cosmosapjw/quantum/research/quartz_general_meta25_20261123/venv/bin/python",
+        "/home/cosmosapjw/quantum/research/quartz_general_meta25_20261123/docs/research/quartz_general_incumbent_price_20261123/coding/c25_run.py",
+        "--split",
+        "TRAIN",
+        "--mode",
+        "trace"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 18.86625407199608,
+      "log": "docs/research/quartz_general_incumbent_price_20261123/evidence/RUN_TRAIN_01.log",
+      "log_sha256": "47f312823759aa5eb14aba24a5ffe8473ef2f5311229dbe0a0a6791b4bfe14f5",
+      "end_utc": "2026-11-23T06:36:09.986207+00:00"
+    },
+    {
+      "argv": [
+        "/home/cosmosapjw/quantum/research/quartz_general_meta25_20261123/venv/bin/python",
+        "/home/cosmosapjw/quantum/research/quartz_general_meta25_20261123/docs/research/quartz_general_incumbent_price_20261123/coding/c25_run.py",
+        "--split",
+        "TRAIN",
+        "--mode",
+        "timing"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 9.124620612012222,
+      "log": "docs/research/quartz_general_incumbent_price_20261123/evidence/RUN_TRAIN_02.log",
+      "log_sha256": "3a95787dcddc445e2653b78eaa5d3c283deb0b7c80c366b6038e70c406f62d7c",
+      "end_utc": "2026-11-23T06:36:19.111291+00:00"
+    },
+    {
+      "argv": [
+        "/home/cosmosapjw/quantum/research/quartz_general_meta25_20261123/venv/bin/python",
+        "/home/cosmosapjw/quantum/research/quartz_general_meta25_20261123/docs/research/quartz_general_incumbent_price_20261123/coding/c25_verify.py",
+        "--split",
+        "TRAIN",
+        "--mode",
+        "trace"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 5.150121112004854,
+      "log": "docs/research/quartz_general_incumbent_price_20261123/evidence/RUN_TRAIN_03.log",
+      "log_sha256": "752cf86b9297c7dd48a7751f16a538014434928c39de9bd8462196ad5aa79dca",
+      "end_utc": "2026-11-23T06:36:24.261849+00:00"
+    },
+    {
+      "argv": [
+        "/home/cosmosapjw/quantum/research/quartz_general_meta25_20261123/venv/bin/python",
+        "/home/cosmosapjw/quantum/research/quartz_general_meta25_20261123/docs/research/quartz_general_incumbent_price_20261123/coding/c25_verify.py",
+        "--split",
+        "TRAIN",
+        "--mode",
+        "timing"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 2.43676981900353,
+      "log": "docs/research/quartz_general_incumbent_price_20261123/evidence/RUN_TRAIN_04.log",
+      "log_sha256": "30c785d3e6ab5130641e1a6c13befc3ce7bb168ffa20677f09075349d59dff96",
+      "end_utc": "2026-11-23T06:36:26.699109+00:00"
+    },
+    {
+      "argv": [
+        "/home/cosmosapjw/quantum/research/quartz_general_meta25_20261123/venv/bin/python",
+        "/home/cosmosapjw/quantum/research/quartz_general_meta25_20261123/docs/research/quartz_general_incumbent_price_20261123/coding/c25_fit_predictor.py"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 0.19595204800134525,
+      "log": "docs/research/quartz_general_incumbent_price_20261123/evidence/RUN_TRAIN_05.log",
+      "log_sha256": "9d5d9c297ed01feab3ae833696d46f397a7a59708ae95e4df6737da799733821",
+      "end_utc": "2026-11-23T06:36:26.895501+00:00"
+    },
+    {
+      "argv": [
+        "/home/cosmosapjw/quantum/research/quartz_general_meta25_20261123/venv/bin/python",
+        "/home/cosmosapjw/quantum/research/quartz_general_meta25_20261123/docs/research/quartz_general_incumbent_price_20261123/coding/c25_analyze.py",
+        "--split",
+        "TRAIN"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 0.586868342012167,
+      "log": "docs/research/quartz_general_incumbent_price_20261123/evidence/RUN_TRAIN_06.log",
+      "log_sha256": "b89b8698b19e8591fdea3e2a282b72352fa5291fdaf60a415b516a820213b63c",
+      "end_utc": "2026-11-23T06:36:27.482791+00:00"
+    }
+  ],
+  "end_utc": "2026-11-23T06:36:27.483041+00:00"
+}

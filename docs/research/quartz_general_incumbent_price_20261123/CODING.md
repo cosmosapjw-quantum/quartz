@@ -47,3 +47,7 @@ Debug and release each pass40 native tests:27 inherited C24,12 observed changed-
 Five UNIT sources (four fresh plus regression-only c24_test_34_1) complete15 trace requests/90 policies and15 timing requests/810 policies plus90 warmups. Independent checks cover1,908 trace enclosures,7,290 timing enclosures,102 retained gain checkpoints,57 fresh-readout floors and180 residual action upper bounds from60 unique states. All810 timing scientific signatures match corresponding trace behavior.
 
 At additional8 and32 the old adverse fixture reproduces the ordinary/FAST loss113146607888822335/1208925819614629174706176; all retention variants keep the initial optimal action. This is regression evidence, excluded from fresh TEST estimates. Parent source/binary/UNIT chunk binding is in C06_PARENT_BINDING.json.
+
+### C07A — TRAIN and predictor freeze
+
+All36 fresh TRAINparents completed108 trace requests/648 policies and108 timing requests/5,832 policies, plus648 warmups. Independent exact verification passed15,174 trace and52,488 timing interval checks,324 trace retention comparisons and582 mandatory fresh-readout blocks. TRAIN-only fitted block cost predictions are8.914666666666667us (side8),116.66068055555556us (side32),1004.2051666666666us (side96), using7/10/10 active parents. No oracle or heldout input was used. The model and all raw TRAINchunks are committed before CAL/TEST.
