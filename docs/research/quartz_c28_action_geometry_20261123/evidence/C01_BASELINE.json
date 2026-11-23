@@ -1,0 +1,55 @@
+{
+  "head": "67a205ec00b2809a6cfa11974b2b891d997f6b10",
+  "new_native_exists": false,
+  "new_tests_exist": false,
+  "python": "3.12.3 (main, Aug 31 2026, 10:18:26) [GCC 13.3.0]",
+  "cpu_affinity": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15,
+    16,
+    17,
+    18,
+    19,
+    20,
+    21,
+    22,
+    23
+  ],
+  "utc": "2026-11-23T13:25:31.683051+00:00",
+  "tools": {
+    "rustc": {
+      "exit_code": 0,
+      "stdout": "rustc 1.99.0 (b940084d7 2026-09-28)",
+      "stderr": ""
+    },
+    "cargo": {
+      "exit_code": 0,
+      "stdout": "cargo 1.99.0 (5f94df478 2026-08-27)",
+      "stderr": ""
+    }
+  },
+  "inputs": {
+    "src/bin/quartz_c26_game_metareasoning.rs": "145b586fea7ff7526eb30d15d683580678f1c9dd3a433967f536697957327a01",
+    "src/game.rs": "b5e1fefb9d9ee72e7eb2fb684edafe3702e11f0f712cc3bd92fb43ccb71ff3e0",
+    "src/games/tictactoe.rs": "45f552117481ef00e966d461c111e2de41de2d5f504390c376d675d8c1de35f8",
+    "Cargo.toml": "897e6624b41356d2f2ca7fffa30c4479cc0959fee3138cdb30fa4bc8ec5c1994",
+    "Cargo.lock": "4368560c374c1272000fdd17a48fbe8449c6e471c848698b088d0b6092b2bb36",
+    "docs/research/quartz_general_game_metareasoning_20261123/coding/data/model.json": "0843447dc755c1d09e1bc69a44dd052e6db9c5c2ace41d1590b668cbfc36a126",
+    "docs/research/quartz_general_game_metareasoning_20261123/coding/data/public_sources.jsonl": "9c9f52a0344a4b6c7c25cde6d519479784a0695fcb8f4681486403fb21fe15c1",
+    "docs/research/quartz_c28_action_geometry_20261123/coding/CONTRACT.json": "2bc388e4a1de1ec1c5728c6d8c6294cddf7cfff421dbec677ebed92f6329b4a5"
+  }
+}
