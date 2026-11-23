@@ -13,3 +13,7 @@ Ownership: native worker owns only the new Rust binary and NATIVE evidence; data
 ## C02 — mapping
 
 The exact formula–data–runtime map is coding/C02_MAPPING.md. Core game and policy sources stay unchanged. An independent Python oracle checks root signs, candidate values and charges rather than reusing the Rust solver.
+
+## C03 — numerical design
+
+Exact minimax has no truncation error. Model, f64 and timing errors are assessed separately. Bootstrap units are source roots, not timings or seeds. Full conditions: coding/C03_NUMERICS.md.

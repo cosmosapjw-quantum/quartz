@@ -53,3 +53,7 @@ Verified the clean isolated theory baseline, protected identities, toolchain, av
 ## C02 — completed
 
 Mapped every operative formula to actual GameState calls, TRAIN data, runtime outputs and an independent validation path. Preserved the separation between explicit TRAIN surveys and deployed query execution. See coding/C02_MAPPING.md.
+
+## C03 — completed
+
+Specified exact-value, floating/model and timing errors; stable arithmetic and conditional parent-level inference. Wall cost and original P2 remain separate from the node-priced primary surrogate. See coding/C03_NUMERICS.md.
