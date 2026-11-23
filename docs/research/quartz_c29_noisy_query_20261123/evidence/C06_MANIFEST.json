@@ -1,0 +1,13 @@
+{
+  "schema": "c29-native-oracle-tests-v1",
+  "status": "SCOPED_PASS",
+  "command": "python3 -m unittest discover -s tests -p 'test_c29_noisy_query.py' -v",
+  "exit_code": 0,
+  "tests": 4,
+  "random_exact_world_inputs": 100,
+  "value_absolute_tolerance": 5e-11,
+  "oracle": "theory/noisy_exact.py (separate Fraction complete-world recursion)",
+  "test_sha256": "00d897dc818fb67457a1ba2ef6033ef6ae96fe3d87913a9f3c0b94c8ba4952fd",
+  "native_source_sha256": "e49b76fd6341f6bc4018c23748d20c3e9e62d4b4a25e939ffaa2ca8c32ec15cb",
+  "benchmark_or_new_TEST_claim": false
+}
