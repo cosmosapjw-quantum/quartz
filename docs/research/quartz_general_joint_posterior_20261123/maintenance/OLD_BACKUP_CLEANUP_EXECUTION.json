@@ -1,0 +1,40 @@
+{
+  "actual_completion_source": "Remote Desktop Commander read_process_output",
+  "actual_exit_code": 0,
+  "actual_process_pid": 790299,
+  "actual_runtime_s": 36.98,
+  "all_whitelisted_deleted_paths_absent": true,
+  "command": "nice -n 10 python3 /tmp/quartz_c27_backup_cleanup.py > /tmp/quartz_c27_backup_cleanup_stdout.log 2>&1",
+  "current_retention_folder_present": true,
+  "files": {
+    "BACKUP_CLEANUP_PREFLIGHT.json": {
+      "bytes": 200331,
+      "sha256": "494f44e60f0a63493a520866e4306bccbec73dc1af833cb2cfa1fe555a19a635"
+    },
+    "BACKUP_CLEANUP_RECEIPT.jsonl": {
+      "bytes": 459277,
+      "sha256": "0d8253b265d736e942e6eb44750abadb8ae96be4a0f3b0f677840f0870d8cc74"
+    },
+    "BACKUP_CLEANUP_STDOUT.log.gz": {
+      "bytes": 1864,
+      "sha256": "c0bac332f594e095b4dbace26d4055f659ea093a465d80344e9745eb46ec4d3f"
+    },
+    "BACKUP_CLEANUP_SUMMARY.json": {
+      "bytes": 7138,
+      "sha256": "bb2a263027952dee1d8ee1d763a46e860ea2e71af7abe0c0c8c47f581b438033"
+    },
+    "BACKUP_CLEANUP_WHITELIST.json": {
+      "bytes": 343280,
+      "sha256": "304bf621bd4ccc540436f4c41410437fd0979a8c6679835bd35284f0ea7b365e"
+    },
+    "BACKUP_CLEANUP_WORKER.py": {
+      "bytes": 15008,
+      "sha256": "e252a6791d72d8dad8825d68016678f246904e2f9e12b6f594a6e4c5b6b85450"
+    }
+  },
+  "independently_reconciled_unlinks": 432,
+  "post_allocated_folder_sum_bytes": 0,
+  "pre_allocated_folder_sum_bytes": 10445299712,
+  "receipt_lines": 902,
+  "schema": "quartz-old-backup-cleanup-execution-v1"
+}

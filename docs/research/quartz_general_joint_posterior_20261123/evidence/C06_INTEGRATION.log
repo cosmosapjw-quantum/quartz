@@ -1,0 +1,115 @@
+{
+  "binary_sha256": "38126679ef622d7339fecdc7fd258ce2bb1428d82bbcb24545f26a7fafb66eef",
+  "invalid_inputs_rejected": 5,
+  "native_exit_code": 0,
+  "native_roundtrip_us": 5636.791000000001,
+  "old_train_roots": [
+    "C26-p4-0059adf99c0886cf",
+    "C26-p5-05327e9038a9e403",
+    "C26-p6-02b59260b47b1226"
+  ],
+  "provenance": {
+    "argv": [
+      "/home/cosmosapjw/quantum/research/quartz_general_meta27_20261123/docs/research/quartz_general_joint_posterior_20261123/coding/c27_campaign.py",
+      "integration",
+      "--binary",
+      "/home/cosmosapjw/quantum/research/quartz_general_meta26_20261123/target/release/quartz_c27_joint_posterior",
+      "--limit",
+      "3",
+      "--report",
+      "/home/cosmosapjw/quantum/research/quartz_general_meta27_20261123/docs/research/quartz_general_joint_posterior_20261123/evidence/C06_TARGETED_INTEGRATION.json"
+    ],
+    "contract_sha256": "bd521796651ec36c8ef791f4e9e1267a5cca725040911d8fd2b66bb12b6cf8ed",
+    "experiment_contract_sha256": "874970ae3148619ae2fc1990549aa8d1d7e3bb8294837fbdfe1a24b8691b730a",
+    "git_head": "9619fb5f20b25ecf0e71bd5f9400292ba955ce7c",
+    "git_status": [
+      "M docs/research/quartz_general_joint_posterior_20261123/README.md",
+      " M docs/research/quartz_general_joint_posterior_20261123/coding/IMPLEMENTATION_PLAN.md",
+      " M docs/research/quartz_general_joint_posterior_20261123/theory/exact_joint_oracle.py",
+      " M scripts/quartz_general_c27_publish.py",
+      "?? docs/research/quartz_general_joint_posterior_20261123/evidence/C06_EXACT_ORACLE.json",
+      "?? docs/research/quartz_general_joint_posterior_20261123/evidence/C06_EXACT_ORACLE.log",
+      "?? docs/research/quartz_general_joint_posterior_20261123/evidence/C06_EXACT_ORACLE_FINAL.log",
+      "?? docs/research/quartz_general_joint_posterior_20261123/evidence/C06_EXECUTION.jsonl",
+      "?? docs/research/quartz_general_joint_posterior_20261123/evidence/C06_FORMAT.log",
+      "?? docs/research/quartz_general_joint_posterior_20261123/evidence/C06_FORMATTING_EQUIVALENCE.json",
+      "?? docs/research/quartz_general_joint_posterior_20261123/evidence/C06_INTEGRATION.log",
+      "?? docs/research/quartz_general_joint_posterior_20261123/evidence/C06_NATIVE_TESTS.log",
+      "?? docs/research/quartz_general_joint_posterior_20261123/evidence/C06_PYTHON_TESTS.log",
+      "?? docs/research/quartz_general_joint_posterior_20261123/evidence/C06_SCOPED_STYLE.log"
+    ],
+    "harness_sha256": "cfe068449f30a40350e5069513f9b0c6fa280517841f8ee95c3af7c900a5f75f",
+    "platform": "Linux-7.0.0-43-generic-x86_64-with-glibc2.39",
+    "python": "3.12.3 (main, Aug 31 2026, 10:18:26) [GCC 13.3.0]",
+    "utc": "2026-11-23T12:40:18.580125+00:00"
+  },
+  "recovery": true,
+  "schema": "c27-targeted-integration-v1",
+  "scope": "fixed old TRAIN subset and predefined rho0/.8/.9; no rho fit/price/new-source execution",
+  "transport": [
+    {
+      "id": "C26-p4-0059adf99c0886cf",
+      "request_bytes": 2592,
+      "response_bytes": 77586,
+      "rho": 0.0,
+      "roundtrip_us": 943.237
+    },
+    {
+      "id": "C26-p4-0059adf99c0886cf",
+      "request_bytes": 2592,
+      "response_bytes": 80793,
+      "rho": 0.8,
+      "roundtrip_us": 1011.746
+    },
+    {
+      "id": "C26-p4-0059adf99c0886cf",
+      "request_bytes": 2592,
+      "response_bytes": 80897,
+      "rho": 0.9,
+      "roundtrip_us": 982.331
+    },
+    {
+      "id": "C26-p5-05327e9038a9e403",
+      "request_bytes": 2594,
+      "response_bytes": 36150,
+      "rho": 0.0,
+      "roundtrip_us": 486.301
+    },
+    {
+      "id": "C26-p5-05327e9038a9e403",
+      "request_bytes": 2594,
+      "response_bytes": 36155,
+      "rho": 0.8,
+      "roundtrip_us": 422.892
+    },
+    {
+      "id": "C26-p5-05327e9038a9e403",
+      "request_bytes": 2594,
+      "response_bytes": 36150,
+      "rho": 0.9,
+      "roundtrip_us": 393.898
+    },
+    {
+      "id": "C26-p6-02b59260b47b1226",
+      "request_bytes": 2596,
+      "response_bytes": 32860,
+      "rho": 0.0,
+      "roundtrip_us": 302.587
+    },
+    {
+      "id": "C26-p6-02b59260b47b1226",
+      "request_bytes": 2596,
+      "response_bytes": 32861,
+      "rho": 0.8,
+      "roundtrip_us": 396.193
+    },
+    {
+      "id": "C26-p6-02b59260b47b1226",
+      "request_bytes": 2596,
+      "response_bytes": 32835,
+      "rho": 0.9,
+      "roundtrip_us": 283.21
+    }
+  ],
+  "validated_runs": 225
+}

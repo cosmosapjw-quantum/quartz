@@ -1,0 +1,131 @@
+{
+  "allocated_bytes_after_by_folder": {
+    "/home/cosmosapjw/Dropbox/personal_projects/quartz_cog01_backups": 0,
+    "/home/cosmosapjw/Dropbox/personal_projects/quartz_general_meta17_backups": 0,
+    "/home/cosmosapjw/Dropbox/personal_projects/quartz_general_meta18_backups": 0,
+    "/home/cosmosapjw/Dropbox/personal_projects/quartz_general_meta19_backups": 0,
+    "/home/cosmosapjw/Dropbox/personal_projects/quartz_general_meta20_backups": 0,
+    "/home/cosmosapjw/Dropbox/personal_projects/quartz_general_meta21_backups": 0,
+    "/home/cosmosapjw/Dropbox/personal_projects/quartz_general_meta22_backups": 0,
+    "/home/cosmosapjw/Dropbox/personal_projects/quartz_general_meta23_backups": 0,
+    "/home/cosmosapjw/Dropbox/personal_projects/quartz_general_meta24_backups": 0,
+    "/home/cosmosapjw/Dropbox/personal_projects/quartz_general_meta25_backups": 0,
+    "/home/cosmosapjw/Dropbox/personal_projects/quartz_general_meta26_backups": 0
+  },
+  "allocated_bytes_before_by_folder": {
+    "/home/cosmosapjw/Dropbox/personal_projects/quartz_cog01_backups": 1045782528,
+    "/home/cosmosapjw/Dropbox/personal_projects/quartz_general_meta17_backups": 479981568,
+    "/home/cosmosapjw/Dropbox/personal_projects/quartz_general_meta18_backups": 535126016,
+    "/home/cosmosapjw/Dropbox/personal_projects/quartz_general_meta19_backups": 551563264,
+    "/home/cosmosapjw/Dropbox/personal_projects/quartz_general_meta20_backups": 557129728,
+    "/home/cosmosapjw/Dropbox/personal_projects/quartz_general_meta21_backups": 588931072,
+    "/home/cosmosapjw/Dropbox/personal_projects/quartz_general_meta22_backups": 596242432,
+    "/home/cosmosapjw/Dropbox/personal_projects/quartz_general_meta23_backups": 2091118592,
+    "/home/cosmosapjw/Dropbox/personal_projects/quartz_general_meta24_backups": 1426395136,
+    "/home/cosmosapjw/Dropbox/personal_projects/quartz_general_meta25_backups": 1685131264,
+    "/home/cosmosapjw/Dropbox/personal_projects/quartz_general_meta26_backups": 887898112
+  },
+  "authorized_scope": "only eleven fixed old backup folders; current C27 backup/source/refs/worktrees excluded",
+  "blanket_force_delete_used": false,
+  "blocked": [],
+  "complete": true,
+  "completed_folders": [
+    "/home/cosmosapjw/Dropbox/personal_projects/quartz_cog01_backups",
+    "/home/cosmosapjw/Dropbox/personal_projects/quartz_general_meta17_backups",
+    "/home/cosmosapjw/Dropbox/personal_projects/quartz_general_meta18_backups",
+    "/home/cosmosapjw/Dropbox/personal_projects/quartz_general_meta19_backups",
+    "/home/cosmosapjw/Dropbox/personal_projects/quartz_general_meta20_backups",
+    "/home/cosmosapjw/Dropbox/personal_projects/quartz_general_meta21_backups",
+    "/home/cosmosapjw/Dropbox/personal_projects/quartz_general_meta22_backups",
+    "/home/cosmosapjw/Dropbox/personal_projects/quartz_general_meta23_backups",
+    "/home/cosmosapjw/Dropbox/personal_projects/quartz_general_meta24_backups",
+    "/home/cosmosapjw/Dropbox/personal_projects/quartz_general_meta25_backups",
+    "/home/cosmosapjw/Dropbox/personal_projects/quartz_general_meta26_backups"
+  ],
+  "deleted_file_allocated_stat_sum_bytes": 10445225984,
+  "deleted_files": 432,
+  "deleted_logical_file_bytes": 10443550392,
+  "disk_after": {
+    "free": 216856240128,
+    "total": 982293172224,
+    "used": 715463651328
+  },
+  "disk_before": {
+    "free": 206465540096,
+    "total": 982293172224,
+    "used": 725854351360
+  },
+  "elapsed_s": 36.89903632400092,
+  "finished_utc": "2026-11-23T12:39:39.406587+00:00",
+  "free_delta_scope": "endpoint observation; parent may concurrently clean other authorized worktrees",
+  "observed_filesystem_free_delta": 10390700032,
+  "planned_exit_code": 0,
+  "recovery_guard": {
+    "bundle_fresh_mirror_fsck_exit": 0,
+    "bundle_refs": 102,
+    "full_source_blob_mode_check": true,
+    "retention_summary_sha256": "12ec3c3540cb0978e90e2d0fbabaa3e3e8746b50c2bfe971771777778b959884",
+    "source_commit": "9619fb5f20b25ecf0e71bd5f9400292ba955ce7c",
+    "verified_recovery_files": [
+      {
+        "allocated_bytes": 873635840,
+        "bytes": 873629272,
+        "path": "/home/cosmosapjw/Dropbox/personal_projects/quartz_general_meta27_backups/LATEST_SOURCE_C05_9619fb5f20b2.tar.gz",
+        "sha256": "bf7b7c822068fab03b55964f8b5676c490ff1f683bc9a9a4614da4ce3d9617e5"
+      },
+      {
+        "allocated_bytes": 875327488,
+        "bytes": 875321840,
+        "path": "/home/cosmosapjw/Dropbox/personal_projects/quartz_general_meta27_backups/LATEST_HISTORY_C05_9619fb5f20b2.bundle",
+        "sha256": "29cf61813426ab83a00f725a856d88d435401b9e9476ad0b9cf5466bfaf58f2c"
+      },
+      {
+        "allocated_bytes": 393216,
+        "bytes": 390131,
+        "path": "/home/cosmosapjw/Dropbox/personal_projects/quartz_general_meta27_backups/retained_history/ARCHIVE_COVERAGE.json",
+        "sha256": "1ead22c2cee0ce007d58e8c6c3a647e155a4ee7badc7d50446ac337705434f82"
+      },
+      {
+        "allocated_bytes": 196608,
+        "bytes": 193239,
+        "path": "/home/cosmosapjw/Dropbox/personal_projects/quartz_general_meta27_backups/retained_history/GIT_REACHABLE_OBJECTS.txt.gz",
+        "sha256": "8f576b16addff8620c01d511dfa18217ff691418b75c7a3cb94172284db5bd75"
+      },
+      {
+        "allocated_bytes": 249856,
+        "bytes": 247766,
+        "path": "/home/cosmosapjw/Dropbox/personal_projects/quartz_general_meta27_backups/retained_history/INPUT_MANIFEST.json",
+        "sha256": "af4a6ab3239df0a0b940a6c5ad4448766f50f2f08ad2640ac0c150afd4dcc8da"
+      },
+      {
+        "allocated_bytes": 39067648,
+        "bytes": 39062919,
+        "path": "/home/cosmosapjw/Dropbox/personal_projects/quartz_general_meta27_backups/retained_history/MEMBER_MANIFEST.jsonl.gz",
+        "sha256": "3c8df9da6540e749af0c8d474269cba22b929d64196e8d3d30b35b236ce54ba5"
+      },
+      {
+        "allocated_bytes": 393842688,
+        "bytes": 393838118,
+        "path": "/home/cosmosapjw/Dropbox/personal_projects/quartz_general_meta27_backups/retained_history/UNIQUE_RESEARCH_AND_PROVENANCE.tar.gz",
+        "sha256": "28c0795be2fbc6ce1900582cb481d7dfe9ae077550a705cc98a223acff563656"
+      }
+    ]
+  },
+  "removed_empty_directories": 13,
+  "schema": "quartz-old-backup-cleanup-v1",
+  "source_or_refs_mutated": false,
+  "symlinks_followed": false,
+  "targets": [
+    "/home/cosmosapjw/Dropbox/personal_projects/quartz_cog01_backups",
+    "/home/cosmosapjw/Dropbox/personal_projects/quartz_general_meta17_backups",
+    "/home/cosmosapjw/Dropbox/personal_projects/quartz_general_meta18_backups",
+    "/home/cosmosapjw/Dropbox/personal_projects/quartz_general_meta19_backups",
+    "/home/cosmosapjw/Dropbox/personal_projects/quartz_general_meta20_backups",
+    "/home/cosmosapjw/Dropbox/personal_projects/quartz_general_meta21_backups",
+    "/home/cosmosapjw/Dropbox/personal_projects/quartz_general_meta22_backups",
+    "/home/cosmosapjw/Dropbox/personal_projects/quartz_general_meta23_backups",
+    "/home/cosmosapjw/Dropbox/personal_projects/quartz_general_meta24_backups",
+    "/home/cosmosapjw/Dropbox/personal_projects/quartz_general_meta25_backups",
+    "/home/cosmosapjw/Dropbox/personal_projects/quartz_general_meta26_backups"
+  ]
+}

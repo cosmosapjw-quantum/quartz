@@ -1,0 +1,400 @@
+unformatted: File would be reformatted
+   --> docs/research/quartz_general_joint_posterior_20261123/theory/exact_joint_oracle.py:39:18
+    |
+38  | def components(laws, rho):
+    -     return tuple(tuple(tuple(p * (1 + z * rho * f) for p, f in zip(law, moments(law)[2]))
+    -                        for law in laws) for z in (1, -1))
+39  +     return tuple(
+40  +         tuple(
+41  +             tuple(p * (1 + z * rho * f) for p, f in zip(law, moments(law)[2]))
+42  +             for law in laws
+43  +         )
+44  +         for z in (1, -1)
+45  +     )
+46  |
+--------------------------------------------------------------------------------
+96  |             if p:
+    -                 value += p * bellman(observe(dist, a, u), costs, max(b, u), tail, horizon - 1)
+97  +                 value += p * bellman(
+98  +                     observe(dist, a, u), costs, max(b, u), tail, horizon - 1
+99  +                 )
+100 |         best = max(best, value)
+--------------------------------------------------------------------------------
+114 |             bp = max(b, u)
+    -             option = max([F(0)] + [gain(latent_predictive(laws[j], rho, mp), bp) - costs[j]
+    -                                     for j in remaining if j != a])
+115 +             option = max(
+116 +                 [F(0)]
+117 +                 + [
+118 +                     gain(latent_predictive(laws[j], rho, mp), bp) - costs[j]
+119 +                     for j in remaining
+120 +                     if j != a
+121 +                 ]
+122 +             )
+123 |             continuation += p * option
+--------------------------------------------------------------------------------
+140 |         frozen = max([F(0)] + [gain(before[j], bp) - costs[j] for j in remaining])
+    -         tv = max([F(0)] + [sum(abs(x-y) for x, y in zip(before[j], after[j])) / 2 for j in remaining])
+141 +         tv = max(
+142 +             [F(0)]
+143 +             + [
+144 +                 sum(abs(x - y) for x, y in zip(before[j], after[j])) / 2
+145 +                 for j in remaining
+146 +             ]
+147 +         )
+148 |         corr += p * (updated - frozen)
+    -         bound += p * (1-bp) * tv
+149 +         bound += p * (1 - bp) * tv
+150 |     return corr, bound
+--------------------------------------------------------------------------------
+160 |             if p:
+    -                 value += p * bellman(observe(belief, a, u), costs, max(b, u), tail, horizon - 1)
+161 +                 value += p * bellman(
+162 +                     observe(belief, a, u), costs, max(b, u), tail, horizon - 1
+163 +                 )
+164 |         if value > best:
+--------------------------------------------------------------------------------
+178 |         if p:
+    -             value += p * evaluate_under(observe(true, a, u), observe(belief, a, u), costs,
+    -                                         max(b, u), tail, horizon - 1)
+179 +             value += p * evaluate_under(
+180 +                 observe(true, a, u),
+181 +                 observe(belief, a, u),
+182 +                 costs,
+183 +                 max(b, u),
+184 +                 tail,
+185 +                 horizon - 1,
+186 +             )
+187 |     return value
+--------------------------------------------------------------------------------
+195 | def run():
+    -     laws = [(F(1,3), F(1,3), F(1,3)), (F(1,2), F(0), F(1,2)),
+    -             (F(1,2), F(1,2), F(0)), (F(0), F(1,2), F(1,2)),
+    -             (F(1), F(0), F(0)), (F(0), F(0), F(1))]
+    -     models = [(ls, r) for ls in product(laws, repeat=2) for r in (F(0), F(1,3), F(2,3), F(9,10))]
+    -     models += [(ls, r) for ls in product(laws[:4], repeat=3) for r in (F(0), F(1,2), F(9,10))]
+196 +     laws = [
+197 +         (F(1, 3), F(1, 3), F(1, 3)),
+198 +         (F(1, 2), F(0), F(1, 2)),
+199 +         (F(1, 2), F(1, 2), F(0)),
+200 +         (F(0), F(1, 2), F(1, 2)),
+201 +         (F(1), F(0), F(0)),
+202 +         (F(0), F(0), F(1)),
+203 +     ]
+204 +     models = [
+205 +         (ls, r)
+206 +         for ls in product(laws, repeat=2)
+207 +         for r in (F(0), F(1, 3), F(2, 3), F(9, 10))
+208 +     ]
+209 +     models += [
+210 +         (ls, r) for ls in product(laws[:4], repeat=3) for r in (F(0), F(1, 2), F(9, 10))
+211 +     ]
+212 |     h2_cases = posterior_histories = conditional_h2_cases = 0
+--------------------------------------------------------------------------------
+218 |         for a, b in combinations(range(n), 2):
+    -             ma, _, _, da = moments(ls[a]); mb, _, _, db = moments(ls[b])
+    -             cov = sum((p*(w[a]-ma)*(w[b]-mb) for w,p in dist), F(0))
+    -             check("rank_one_covariance", cov == rho*rho*da*db)
+    -         for length in range(min(2,n-1)+1):
+219 +             ma, _, _, da = moments(ls[a])
+220 +             mb, _, _, db = moments(ls[b])
+221 +             cov = sum((p * (w[a] - ma) * (w[b] - mb) for w, p in dist), F(0))
+222 +             check("rank_one_covariance", cov == rho * rho * da * db)
+223 +         for length in range(min(2, n - 1) + 1):
+224 |             for inds in combinations(range(n), length):
+225 |                 for outs in product(U, repeat=length):
+    -                     event = {w:p for w,p in dist if all(w[a]==u for a,u in zip(inds,outs))}
+226 +                     event = {
+227 +                         w: p
+228 +                         for w, p in dist
+229 +                         if all(w[a] == u for a, u in zip(inds, outs))
+230 +                     }
+231 |                     if not event:
+232 |                         continue
+    -                     post = normal(event); m=F(0)
+    -                     for a,u in zip(inds,outs):
+    -                         m = update(m,rho,moments(ls[a])[2][U.index(u)])
+    -                     mr=F(0)
+    -                     for a,u in reversed(tuple(zip(inds,outs))):
+    -                         mr=update(mr,rho,moments(ls[a])[2][U.index(u)])
+233 +                     post = normal(event)
+234 +                     m = F(0)
+235 +                     for a, u in zip(inds, outs):
+236 +                         m = update(m, rho, moments(ls[a])[2][U.index(u)])
+237 +                     mr = F(0)
+238 +                     for a, u in reversed(tuple(zip(inds, outs))):
+239 +                         mr = update(mr, rho, moments(ls[a])[2][U.index(u)])
+240 |                     check("observation_order_invariance", m == mr)
+241 |                     for j in range(n):
+242 |                         if j not in inds:
+    -                             check("posterior_equals_joint_enumeration", predictive(post,j)==latent_predictive(ls[j],rho,m))
+243 +                             check(
+244 +                                 "posterior_equals_joint_enumeration",
+245 +                                 predictive(post, j) == latent_predictive(ls[j], rho, m),
+246 +                             )
+247 |                     rem = tuple(j for j in range(n) if j not in inds)
+    -                     costs = tuple(F(j+1,10) for j in range(n))
+    -                     incumbent = max((F(1,2),) + outs)
+    -                     conditional_value = bellman(post,costs,incumbent,rem,2)
+    -                     check("conditional_h2_after_initial_reveals", h2_closed(ls,rho,m,costs,incumbent,rem)==conditional_value)
+    -                     conditional_laws = tuple(predictive(post,j) for j in range(n))
+    -                     productized = joint(conditional_laws,F(0))
+248 +                     costs = tuple(F(j + 1, 10) for j in range(n))
+249 +                     incumbent = max((F(1, 2),) + outs)
+250 +                     conditional_value = bellman(post, costs, incumbent, rem, 2)
+251 +                     check(
+252 +                         "conditional_h2_after_initial_reveals",
+253 +                         h2_closed(ls, rho, m, costs, incumbent, rem)
+254 +                         == conditional_value,
+255 +                     )
+256 +                     conditional_laws = tuple(predictive(post, j) for j in range(n))
+257 +                     productized = joint(conditional_laws, F(0))
+258 |                     for j in rem:
+    -                         check("post_initial_product_control_same_marginals", predictive(productized,j)==predictive(post,j))
+    -                     for a,j in combinations(rem,2):
+    -                         ma = sum((u*p for u,p in zip(U,predictive(post,a))),F(0))
+    -                         mj = sum((u*p for u,p in zip(U,predictive(post,j))),F(0))
+    -                         conditional_cov = sum((p*(w[a]-ma)*(w[j]-mj) for w,p in post),F(0))
+    -                         check("posterior_rank_one_covariance", conditional_cov==rho*rho*(1-m*m)*moments(ls[a])[3]*moments(ls[j])[3])
+259 +                         check(
+260 +                             "post_initial_product_control_same_marginals",
+261 +                             predictive(productized, j) == predictive(post, j),
+262 +                         )
+263 +                     for a, j in combinations(rem, 2):
+264 +                         ma = sum((u * p for u, p in zip(U, predictive(post, a))), F(0))
+265 +                         mj = sum((u * p for u, p in zip(U, predictive(post, j))), F(0))
+266 +                         conditional_cov = sum(
+267 +                             (p * (w[a] - ma) * (w[j] - mj) for w, p in post), F(0)
+268 +                         )
+269 +                         check(
+270 +                             "posterior_rank_one_covariance",
+271 +                             conditional_cov
+272 +                             == rho
+273 +                             * rho
+274 +                             * (1 - m * m)
+275 +                             * moments(ls[a])[3]
+276 +                             * moments(ls[j])[3],
+277 +                         )
+278 |                     conditional_h2_cases += 1
+279 |                     posterior_histories += 1
+    -         costsets = [tuple(F(a+1,100) for a in range(n)), tuple(F(a+1,10) for a in range(n)), (F(1,2),)*n]
+    -         for costs, b in product(costsets,U):
+    -             rem=tuple(range(n)); v1=bellman(dist,costs,b,rem,1); v2=bellman(dist,costs,b,rem,2)
+    -             check("h2_latent_equals_joint_bellman", h2_closed(ls,rho,F(0),costs,b,rem)==v2)
+    -             check("horizon_and_stop_monotonicity", v2>=v1>=b)
+    -             check("known_win_stops", b!=1 or v2==1)
+280 +         costsets = [
+281 +             tuple(F(a + 1, 100) for a in range(n)),
+282 +             tuple(F(a + 1, 10) for a in range(n)),
+283 +             (F(1, 2),) * n,
+284 +         ]
+285 +         for costs, b in product(costsets, U):
+286 +             rem = tuple(range(n))
+287 +             v1 = bellman(dist, costs, b, rem, 1)
+288 +             v2 = bellman(dist, costs, b, rem, 2)
+289 +             check(
+290 +                 "h2_latent_equals_joint_bellman",
+291 +                 h2_closed(ls, rho, F(0), costs, b, rem) == v2,
+292 +             )
+293 +             check("horizon_and_stop_monotonicity", v2 >= v1 >= b)
+294 +             check("known_win_stops", b != 1 or v2 == 1)
+295 |             for a in range(n):
+    -                 corr,bound=option_correction(dist,costs,b,a)
+    -                 check("posterior_option_tv_bound", abs(corr)<=bound)
+    -                 if all(w[a]<=b for w,p in dist):
+    -                     check("information_only_option_nonnegative", corr>=0)
+296 +                 corr, bound = option_correction(dist, costs, b, a)
+297 +                 check("posterior_option_tv_bound", abs(corr) <= bound)
+298 +                 if all(w[a] <= b for w, p in dist):
+299 +                     check("information_only_option_nonnegative", corr >= 0)
+300 |             h2_cases += 1
+301 |         bellman.cache_clear()
+302 |     # New parameter family: same exact marginals, pure information A, correlated B.
+    -     info_laws=(laws[2],laws[1]); rows=[]
+    -     for rho, eps, c in product((F(0),F(1,4),F(1,2),F(3,4),F(9,10),F(1)),
+    -                               (F(0),F(1,100),F(1,20),F(1,10),F(1,5)),
+    -                               (F(0),F(1,1000),F(1,100),F(1,20))):
+    -         costs=(c,F(1,4)+eps); dist=joint(info_laws,rho)
+    -         exact=bellman(dist,costs,F(1,2),(0,1),2)
+    -         formula=F(1,2)+max(F(0),-c+max(F(0),rho*rho/F(4)-eps)/2)
+    -         check("new_information_family_formula", exact==formula)
+    -         check("new_information_family_threshold", (exact>F(1,2))==(rho*rho>4*eps+8*c))
+    -         rows.append({"rho":str(rho),"epsilon":str(eps),"c":str(c),"value":str(exact),"profitable":exact>F(1,2)})
+    -     example_rho=F(4,5); example_costs=(F(1,100),F(3,10))
+    -     example=joint(info_laws,example_rho)
+    -     check("new_example_109_over_200", bellman(example,example_costs,F(1,2),(0,1),2)==F(109,200))
+    -     check("new_example_product_stop", bellman(joint(info_laws,F(0)),example_costs,F(1,2),(0,1),2)==F(1,2))
+303 +     info_laws = (laws[2], laws[1])
+304 +     rows = []
+305 +     for rho, eps, c in product(
+306 +         (F(0), F(1, 4), F(1, 2), F(3, 4), F(9, 10), F(1)),
+307 +         (F(0), F(1, 100), F(1, 20), F(1, 10), F(1, 5)),
+308 +         (F(0), F(1, 1000), F(1, 100), F(1, 20)),
+309 +     ):
+310 +         costs = (c, F(1, 4) + eps)
+311 +         dist = joint(info_laws, rho)
+312 +         exact = bellman(dist, costs, F(1, 2), (0, 1), 2)
+313 +         formula = F(1, 2) + max(F(0), -c + max(F(0), rho * rho / F(4) - eps) / 2)
+314 +         check("new_information_family_formula", exact == formula)
+315 +         check(
+316 +             "new_information_family_threshold",
+317 +             (exact > F(1, 2)) == (rho * rho > 4 * eps + 8 * c),
+318 +         )
+319 +         rows.append(
+320 +             {
+321 +                 "rho": str(rho),
+322 +                 "epsilon": str(eps),
+323 +                 "c": str(c),
+324 +                 "value": str(exact),
+325 +                 "profitable": exact > F(1, 2),
+326 +             }
+327 +         )
+328 +     example_rho = F(4, 5)
+329 +     example_costs = (F(1, 100), F(3, 10))
+330 +     example = joint(info_laws, example_rho)
+331 +     check(
+332 +         "new_example_109_over_200",
+333 +         bellman(example, example_costs, F(1, 2), (0, 1), 2) == F(109, 200),
+334 +     )
+335 +     check(
+336 +         "new_example_product_stop",
+337 +         bellman(joint(info_laws, F(0)), example_costs, F(1, 2), (0, 1), 2) == F(1, 2),
+338 +     )
+339 |     # Negative correction with moving incumbent: this is not a causal EVSI comparison.
+    -     negdist=joint((laws[1],laws[1]),F(9,10)); corr,bound=option_correction(negdist,(F(1,10),F(1,10)),F(0),0)
+    -     check("moving_incumbent_correction_can_be_negative", corr==F(-1,5))
+340 +     negdist = joint((laws[1], laws[1]), F(9, 10))
+341 +     corr, bound = option_correction(negdist, (F(1, 10), F(1, 10)), F(0), 0)
+342 +     check("moving_incumbent_correction_can_be_negative", corr == F(-1, 5))
+343 |     # Existing exact correlated benchmark requires a general joint law, beyond positive-common-strength family.
+    -     old=(((F(0),F(1),F(0)),F(1,2)),((F(1,2),F(0),F(1)),F(1,2)))
+    -     check("existing_correlated_069_benchmark",bellman(old,(F(1,100),F(3,10),F(3,10)),F(1,2),(0,1,2),2)==F(69,100))
+344 +     old = (((F(0), F(1), F(0)), F(1, 2)), ((F(1, 2), F(0), F(1)), F(1, 2)))
+345 +     check(
+346 +         "existing_correlated_069_benchmark",
+347 +         bellman(old, (F(1, 100), F(3, 10), F(3, 10)), F(1, 2), (0, 1, 2), 2)
+348 +         == F(69, 100),
+349 +     )
+350 |     # Prior misspecification: optimize under Q, score same policy under P.
+    -     transfer_cases=0
+    -     for ls in [(laws[0],laws[1]),(laws[2],laws[1]),(laws[0],laws[1],laws[3])]:
+    -         for rp,rq in product((F(0),F(1,2),F(9,10)),repeat=2):
+    -             p,q=joint(ls,rp),joint(ls,rq); n=len(ls); rem=tuple(range(n)); costs=tuple(F(j+1,10) for j in range(n))
+351 +     transfer_cases = 0
+352 +     for ls in [(laws[0], laws[1]), (laws[2], laws[1]), (laws[0], laws[1], laws[3])]:
+353 +         for rp, rq in product((F(0), F(1, 2), F(9, 10)), repeat=2):
+354 +             p, q = joint(ls, rp), joint(ls, rq)
+355 +             n = len(ls)
+356 +             rem = tuple(range(n))
+357 +             costs = tuple(F(j + 1, 10) for j in range(n))
+358 |             for b in U:
+    -                 vp=bellman(p,costs,b,rem,2);vq=bellman(q,costs,b,rem,2)
+    -                 deployed=evaluate_under(p,q,costs,b,rem,2)
+    -                 width=1-b+sum(sorted(costs,reverse=True)[:2]);delta=tv_dist(p,q)
+    -                 check("optimal_value_total_variation_bound",abs(vp-vq)<=width*delta)
+    -                 check("transferred_policy_regret_bound",F(0)<=vp-deployed<=2*width*delta)
+    -                 transfer_cases+=1
+    -     result={"schema":"c27-theory-finite-v1","assertion_tested":"Exact finite joint normalization, unchanged initial marginals, latent Bayes update and observation order, rank-one covariance, closed H2 versus independently enumerated joint Bellman, conditional-option and TV bounds, parameter-family threshold, and old correlated fixture.",
+    -             "coefficient_domain":"fractions.Fraction exact rational arithmetic; no floating tolerance or RNG",
+    -             "counts":{"joint_model_cases":len(models),"posterior_history_cases":posterior_histories,"h2_cases":h2_cases,"conditional_h2_cases":conditional_h2_cases,"new_family_cases":len(rows),"policy_transfer_cases":transfer_cases,"assertions":sum(COUNTS.values())},
+    -             "check_counts":COUNTS,"new_information_family":{"b":"1/2","laws":[[str(x) for x in law] for law in info_laws],"d_A":"c","d_B":"1/4+epsilon","condition":"rho^2 > 4 epsilon + 8 c for c>=0,epsilon>=0","formula":"V2=1/2+max(0,-c+max(0,rho^2/4-epsilon)/2)","example":{"rho":"4/5","epsilon":"1/20","c":"1/100","joint_value":"109/200","product_value":"1/2","joint_worlds":[{"u":[str(x) for x in w],"p":str(p)} for w,p in example]},"grid":rows},
+    -             "moving_incumbent_negative_correction":{"rho":"9/10","b":"0","costs":["1/10","1/10"],"correction":str(corr),"bound":str(bound)},
+    -             "software":{"python":platform.python_version()},"non_claims":["No theorem follows from the finite count alone; direct proofs are in the companion report.","No game training, CAL, TEST or runtime controller was executed.","Centered common-strength family only models nonnegative offdiagonal utility covariances.","The query-cost Bellman excludes its own planner CPU overhead.","Terminal deployment is restricted to exact-known values; this is not posterior-mean selection of unqueried candidates."]}
+    -     output=Path(sys.argv[1]);output.write_text(json.dumps(result,indent=2,sort_keys=True)+'\n')
+    -     print(json.dumps({"status":"all finite assertions passed","counts":result['counts'],"new_example":"109/200 versus product1/2","existing_example":"69/100","moving_incumbent_correction":str(corr)}))
+359 +                 vp = bellman(p, costs, b, rem, 2)
+360 +                 vq = bellman(q, costs, b, rem, 2)
+361 +                 deployed = evaluate_under(p, q, costs, b, rem, 2)
+362 +                 width = 1 - b + sum(sorted(costs, reverse=True)[:2])
+363 +                 delta = tv_dist(p, q)
+364 +                 check(
+365 +                     "optimal_value_total_variation_bound", abs(vp - vq) <= width * delta
+366 +                 )
+367 +                 check(
+368 +                     "transferred_policy_regret_bound",
+369 +                     F(0) <= vp - deployed <= 2 * width * delta,
+370 +                 )
+371 +                 transfer_cases += 1
+372 +     result = {
+373 +         "schema": "c27-theory-finite-v1",
+374 +         "assertion_tested": "Exact finite joint normalization, unchanged initial marginals, latent Bayes update and observation order, rank-one covariance, closed H2 versus independently enumerated joint Bellman, conditional-option and TV bounds, parameter-family threshold, and old correlated fixture.",
+375 +         "coefficient_domain": "fractions.Fraction exact rational arithmetic; no floating tolerance or RNG",
+376 +         "counts": {
+377 +             "joint_model_cases": len(models),
+378 +             "posterior_history_cases": posterior_histories,
+379 +             "h2_cases": h2_cases,
+380 +             "conditional_h2_cases": conditional_h2_cases,
+381 +             "new_family_cases": len(rows),
+382 +             "policy_transfer_cases": transfer_cases,
+383 +             "assertions": sum(COUNTS.values()),
+384 +         },
+385 +         "check_counts": COUNTS,
+386 +         "new_information_family": {
+387 +             "b": "1/2",
+388 +             "laws": [[str(x) for x in law] for law in info_laws],
+389 +             "d_A": "c",
+390 +             "d_B": "1/4+epsilon",
+391 +             "condition": "rho^2 > 4 epsilon + 8 c for c>=0,epsilon>=0",
+392 +             "formula": "V2=1/2+max(0,-c+max(0,rho^2/4-epsilon)/2)",
+393 +             "example": {
+394 +                 "rho": "4/5",
+395 +                 "epsilon": "1/20",
+396 +                 "c": "1/100",
+397 +                 "joint_value": "109/200",
+398 +                 "product_value": "1/2",
+399 +                 "joint_worlds": [
+400 +                     {"u": [str(x) for x in w], "p": str(p)} for w, p in example
+401 +                 ],
+402 +             },
+403 +             "grid": rows,
+404 +         },
+405 +         "moving_incumbent_negative_correction": {
+406 +             "rho": "9/10",
+407 +             "b": "0",
+408 +             "costs": ["1/10", "1/10"],
+409 +             "correction": str(corr),
+410 +             "bound": str(bound),
+411 +         },
+412 +         "software": {"python": platform.python_version()},
+413 +         "non_claims": [
+414 +             "No theorem follows from the finite count alone; direct proofs are in the companion report.",
+415 +             "No game training, CAL, TEST or runtime controller was executed.",
+416 +             "Centered common-strength family only models nonnegative offdiagonal utility covariances.",
+417 +             "The query-cost Bellman excludes its own planner CPU overhead.",
+418 +             "Terminal deployment is restricted to exact-known values; this is not posterior-mean selection of unqueried candidates.",
+419 +         ],
+420 +     }
+421 +     output = Path(sys.argv[1])
+422 +     output.write_text(json.dumps(result, indent=2, sort_keys=True) + "\n")
+423 +     print(
+424 +         json.dumps(
+425 +             {
+426 +                 "status": "all finite assertions passed",
+427 +                 "counts": result["counts"],
+428 +                 "new_example": "109/200 versus product1/2",
+429 +                 "existing_example": "69/100",
+430 +                 "moving_incumbent_correction": str(corr),
+431 +             }
+432 +         )
+433 +     )
+434 |
+435 |
+    - if __name__=='__main__':
+436 + if __name__ == "__main__":
+437 |     run()
+    |
+
+unformatted: File would be reformatted
+  --> scripts/quartz_general_c27_publish.py:17:16
+   |
+16 | active_chain_path = BACKUP / "ACTIVE_BASE_CHAIN.json"
+   - active_chain = json.loads(active_chain_path.read_text()) if active_chain_path.exists() else {"archives": base["base_chain"], "anchor_commit": base["parent"]}
+17 + active_chain = (
+18 +     json.loads(active_chain_path.read_text())
+19 +     if active_chain_path.exists()
+20 +     else {"archives": base["base_chain"], "anchor_commit": base["parent"]}
+21 + )
+22 | chain = active_chain["archives"]
+   |
+
+2 files would be reformatted, 2 files already formatted

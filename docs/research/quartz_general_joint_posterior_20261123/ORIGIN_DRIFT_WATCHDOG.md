@@ -11,3 +11,8 @@ The original-history investigator will provide current source identities and bou
 ## R02 — history reinspection
 
 The root commit, historical PDF Eq.1/2, THESIS and COG01 primary texts were actually reopened by the context worker. Current THESIS SHA256 is 4f5133edbe04dbef2699c3efab14660b8a81517e800e30822cc2a4a99023876c. Existing C26 corrections are reused, not counted as new discoveries. The five perfect-inspection COG01 screens have gain_ECE=0.4 quality_ECE identically; the separate H/L-channel construction supplies the relevant distinction. C27 therefore tests conditional observation value rather than renaming marginal calibration.
+
+
+## C06 — history retention and operational transfer
+
+The user explicitly replaced the initial all-checkouts-retained assumption with cleanup of inactive checkouts and old backups. The original SSOT, branch/commit history and unique non-Git research payloads were preserved through verified source/archive/Git-bundle recovery; no original theoretical motive or negative C26 result was rewritten. C27 still operationalizes conditional value of computation with a priced finite Bellman controller. TRAIN selected a positive common coupling, but this alone establishes neither paid empirical benefit nor P2 Gomoku/P3 human signatures. The unaccounted missing dirty reboot checkout is recorded as external_or_unresolved, not folded into preservation success.

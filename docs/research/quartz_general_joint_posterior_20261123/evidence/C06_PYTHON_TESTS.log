@@ -1,0 +1,26 @@
+test_diagnostics_pair_predictors_within_identical_exposure (tests.test_c27_joint_posterior.AggregationTests.test_diagnostics_pair_predictors_within_identical_exposure) ... ok
+test_mutated_native_trace_is_rejected_by_independent_reference (tests.test_c27_joint_posterior.AggregationTests.test_mutated_native_trace_is_rejected_by_independent_reference) ... ok
+test_old_training_root_labels_are_held_out_from_runtime_payload (tests.test_c27_joint_posterior.AggregationTests.test_old_training_root_labels_are_held_out_from_runtime_payload) ... ok
+test_seed_medians_precede_root_average_and_nanosecond_charge (tests.test_c27_joint_posterior.AggregationTests.test_seed_medians_precede_root_average_and_nanosecond_charge) ... ok
+test_bootstrap_constant_difference_has_exact_endpoints (tests.test_c27_joint_posterior.BoundaryTests.test_bootstrap_constant_difference_has_exact_endpoints) ... ok
+test_exact_fraction_fixture_matches_float_worlds (tests.test_c27_joint_posterior.BoundaryTests.test_exact_fraction_fixture_matches_float_worlds) ... ok
+test_fold_assignments_are_root_disjoint_and_stratified (tests.test_c27_joint_posterior.BoundaryTests.test_fold_assignments_are_root_disjoint_and_stratified) ... ok
+test_fold_refit_does_not_use_heldout_labels (tests.test_c27_joint_posterior.BoundaryTests.test_fold_refit_does_not_use_heldout_labels) ... ok
+test_known_win_and_nonpositive_gain_stop (tests.test_c27_joint_posterior.BoundaryTests.test_known_win_and_nonpositive_gain_stop) ... ok
+test_likelihood_rho_zero_exactly_zero (tests.test_c27_joint_posterior.BoundaryTests.test_likelihood_rho_zero_exactly_zero) ... ok
+test_price_is_nanoseconds_per_node (tests.test_c27_joint_posterior.BoundaryTests.test_price_is_nanoseconds_per_node) ... ok
+test_product_likelihood_ratio_matches_explicit_world (tests.test_c27_joint_posterior.BoundaryTests.test_product_likelihood_ratio_matches_explicit_world) ... ok
+test_projected_and_joint_differ_after_second_observation (tests.test_c27_joint_posterior.BoundaryTests.test_projected_and_joint_differ_after_second_observation) ... ok
+test_repeat_identity_ignores_only_times (tests.test_c27_joint_posterior.BoundaryTests.test_repeat_identity_ignores_only_times) ... ok
+test_rho_zero_preserves_unobserved_marginal (tests.test_c27_joint_posterior.BoundaryTests.test_rho_zero_preserves_unobserved_marginal) ... ok
+test_runtime_request_does_not_forward_offline_fields (tests.test_c27_joint_posterior.BoundaryTests.test_runtime_request_does_not_forward_offline_fields) ... ok
+test_tie_uses_ascending_move (tests.test_c27_joint_posterior.BoundaryTests.test_tie_uses_ascending_move) ... ok
+test_unsupported_observation_is_rejected (tests.test_c27_joint_posterior.BoundaryTests.test_unsupported_observation_is_rejected) ... ok
+test_zero_price_denominator_rejected (tests.test_c27_joint_posterior.BoundaryTests.test_zero_price_denominator_rejected) ... ok
+test_information_query_value_is_109_over_200 (tests.test_c27_joint_posterior.SemanticRegression.test_information_query_value_is_109_over_200) ... ok
+test_reveal_changes_other_marginal_to_082 (tests.test_c27_joint_posterior.SemanticRegression.test_reveal_changes_other_marginal_to_082) ... ok
+
+----------------------------------------------------------------------
+Ran 21 tests in 0.126s
+
+OK

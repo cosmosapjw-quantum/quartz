@@ -1,0 +1,429 @@
+{
+  "status": "VERIFIED_ALL_REF_GIT_BUNDLE",
+  "commit_at_capture": "9619fb5f20b25ecf0e71bd5f9400292ba955ce7c",
+  "path": "/home/cosmosapjw/Dropbox/personal_projects/quartz_general_meta27_backups/LATEST_HISTORY_C05_9619fb5f20b2.bundle",
+  "sha256": "29cf61813426ab83a00f725a856d88d435401b9e9476ad0b9cf5466bfaf58f2c",
+  "bytes": 875321840,
+  "refs": [
+    {
+      "ref": "refs/codex/turn-diffs/checkpoints/4f43377b6bd914229fe32f87aa3288f7ebe09c6d203e0d024313b2a12e50d375/130eb59b01d7695d41fbed92552ece67166653f4d126d31a1e34f18146649698/1788776713543/3554559b-04cf-4b23-bea6-c827cd7447b7",
+      "oid": "6fb47bea7cfa10b54abb0a7f3867ac5ddb3fc562"
+    },
+    {
+      "ref": "refs/codex/turn-diffs/checkpoints/e1f98cb3329948190fe4f23733830402a9a3a5f3495025a8841483748c7e01dc/ed1a6077a00927c707df8c5c89028a3112a66a9649795dbc7d3e0d28a4f847e1/1788748154675/e1a7d340-3a97-4302-8201-f010b881736a",
+      "oid": "6fb47bea7cfa10b54abb0a7f3867ac5ddb3fc562"
+    },
+    {
+      "ref": "refs/heads/agent/foundry-policy-execution-base-fix-20260824",
+      "oid": "37535065776d4babb0186d21370e3ddd7b4217de"
+    },
+    {
+      "ref": "refs/heads/agent/foundry-pr00-lean-spec",
+      "oid": "9da35b4d6189c38ddfdc30949605765ab0816e11"
+    },
+    {
+      "ref": "refs/heads/agent/foundry-pr01-status-writers",
+      "oid": "d4998d35ddd155856eaa9367d8198d09850348cd"
+    },
+    {
+      "ref": "refs/heads/agent/foundry-pr02-registry-snapshot",
+      "oid": "02ff780fe493b74a0e5f353f75cab4c525838665"
+    },
+    {
+      "ref": "refs/heads/agent/foundry-pr03-execution-identity",
+      "oid": "1976c7f9e108c673fc7ed5131ccf1533a0c23ba3"
+    },
+    {
+      "ref": "refs/heads/agent/foundry-pr04-initial-state",
+      "oid": "1cc3e6e508c3ad305f94a61d15e771e64b53ed4a"
+    },
+    {
+      "ref": "refs/heads/agent/foundry-pr04-initial-state-retry-20260825",
+      "oid": "ee5d8bb47e3edc77cedc26157c6a4924a1661c82"
+    },
+    {
+      "ref": "refs/heads/agent/foundry-pr04-initial-state-retry2-20260825",
+      "oid": "9ddd3471904f2200f4656cb102886c994bd7bed0"
+    },
+    {
+      "ref": "refs/heads/agent/foundry-pr05-resume-plan",
+      "oid": "55c21a7b42c93ffb886084d9868c3c1a41da5077"
+    },
+    {
+      "ref": "refs/heads/agent/idea-foundry-pr05-r1-public-resume",
+      "oid": "a74adb4e0176b0e7f0ad6cb7c1870a483b787749"
+    },
+    {
+      "ref": "refs/heads/agent/local-experiment-foundry",
+      "oid": "65e7d3e9596ca259ebfe523b0c74058692b6a755"
+    },
+    {
+      "ref": "refs/heads/audit/external-readiness-20260907",
+      "oid": "a000d7145ae3f474f74aad8c93c3b892d1f6e208"
+    },
+    {
+      "ref": "refs/heads/audit/idea-foundry-p0bc1-implementation-20260822",
+      "oid": "f825c38aa4d1c16146b425f1b768dfbd6ec7ad1a"
+    },
+    {
+      "ref": "refs/heads/audit/idea-foundry-p0bc1-successor-spec-20260822",
+      "oid": "0de5115f2837894a8ce52b7d28d8489894c8b8a4"
+    },
+    {
+      "ref": "refs/heads/audit/idea-foundry-p0bc1-successor-spec2-20260822",
+      "oid": "cf6191d45fba6c5575d7f630f563ed1a6e1083ec"
+    },
+    {
+      "ref": "refs/heads/audit/idea-foundry-p0bc1-successor-spec3-20260822",
+      "oid": "497965bb204922387755f2d6050042a3ddda6f0c"
+    },
+    {
+      "ref": "refs/heads/audit/idea-foundry-progress-and-failure-log-20260825",
+      "oid": "dadcc7187bca6a927b5ec5132aba845608611679"
+    },
+    {
+      "ref": "refs/heads/audit/idea-foundry-recovery-20260820",
+      "oid": "d0f0fb237a0b8b05b907513b6be2b32335403144"
+    },
+    {
+      "ref": "refs/heads/audit/idea-foundry-recovery-c1a-20260820",
+      "oid": "d0f0fb237a0b8b05b907513b6be2b32335403144"
+    },
+    {
+      "ref": "refs/heads/audit/idea-foundry-recovery-c1a1-20260820",
+      "oid": "d0f0fb237a0b8b05b907513b6be2b32335403144"
+    },
+    {
+      "ref": "refs/heads/audit/idea-foundry-recovery-checkpoint-20260820",
+      "oid": "0bcbdbf4fe3aeb95f0902e4a9133a3f39102d0e9"
+    },
+    {
+      "ref": "refs/heads/audit/idea-foundry-recovery-jsonseal-20260820",
+      "oid": "292d0336b246f990cb0fc7f99ef11f464d506219"
+    },
+    {
+      "ref": "refs/heads/audit/idea-foundry-recovery-p0bc1-20260820",
+      "oid": "10c34c112717a9a57b0506422f1cbd272a83bbd0"
+    },
+    {
+      "ref": "refs/heads/audit/idea-foundry-recovery-p0bc1-corrected-spec-20260820",
+      "oid": "83095c9742d779c3f2fc95a8021fa7bb4ab95338"
+    },
+    {
+      "ref": "refs/heads/audit/idea-foundry-recovery-p0bc1a-20260820",
+      "oid": "914169e02c04a225f34a4fb3d17ae3486f424193"
+    },
+    {
+      "ref": "refs/heads/audit/idea-foundry-recovery-p0bc1a1-20260820",
+      "oid": "914169e02c04a225f34a4fb3d17ae3486f424193"
+    },
+    {
+      "ref": "refs/heads/audit/idea-foundry-recovery-payload-20260820",
+      "oid": "20548e1fc0a959184da5f633b505cd345cad4324"
+    },
+    {
+      "ref": "refs/heads/audit/idea-foundry-recovery-px-20260820",
+      "oid": "292d0336b246f990cb0fc7f99ef11f464d506219"
+    },
+    {
+      "ref": "refs/heads/audit/idea-foundry-research-trust-policy-20260823",
+      "oid": "65ffe7fc16ef5ff15f402894590b61bc6c62b426"
+    },
+    {
+      "ref": "refs/heads/backup/pre-merge-05f5fff",
+      "oid": "05f5fffcf4c6a8561a97d678e48f710d72deb089"
+    },
+    {
+      "ref": "refs/heads/main",
+      "oid": "3e303aef0a0a534d1ccc8b72289a72b7fd0dc901"
+    },
+    {
+      "ref": "refs/heads/research/quartz-cog01-recognition-calibration-20261120",
+      "oid": "cc3aa1771460f5a0f608375d985fd02998861364"
+    },
+    {
+      "ref": "refs/heads/research/quartz-cog01b-connect4-gamestate-20261120",
+      "oid": "c4e219f930065c4e4b56eeb4f779f473a6c5b007"
+    },
+    {
+      "ref": "refs/heads/research/quartz-cog01b-connect4-recognizer-20261120",
+      "oid": "c92e77a1e818c0bb1359836dd4d8be09a529d287"
+    },
+    {
+      "ref": "refs/heads/research/quartz-cog01b-cpu-realtrace-20261120",
+      "oid": "af5f5a95707a0fc443a6ee42aabefaadf9a8c5d4"
+    },
+    {
+      "ref": "refs/heads/research/quartz-cog01b-decision-utility-20261120",
+      "oid": "6f6cd0a36ac94642c4cf1958ca96ca5ef9529ed3"
+    },
+    {
+      "ref": "refs/heads/research/quartz-cog01b-recognizer-generalization-20261121",
+      "oid": "4a4d1381635393715c29d672124cfe32c08d20d5"
+    },
+    {
+      "ref": "refs/heads/research/quartz-cog01b-resident-fork-20261120",
+      "oid": "26d8a4d0bc39338c46d08b189483484d295a0133"
+    },
+    {
+      "ref": "refs/heads/research/quartz-cog01b-standard-external-engines-20261120",
+      "oid": "bc44e5c85c1f37201f80880f18d59fdb55a509a8"
+    },
+    {
+      "ref": "refs/heads/research/quartz-cog02-cost-matched-voc-20261121",
+      "oid": "569a3ff106a1f0b84a3cd94c189a48a8b05bcdb1"
+    },
+    {
+      "ref": "refs/heads/research/quartz-cog02-dynamic-option-costmatch-20261121",
+      "oid": "6dbdcaeab28b2325fbd7f0a0326c51b214b339f3"
+    },
+    {
+      "ref": "refs/heads/research/quartz-cog02-dynamic-voc-20261121",
+      "oid": "85a08755e2463538ed0abf84d443f19dacc29e02"
+    },
+    {
+      "ref": "refs/heads/research/quartz-cog02-voc-calibration-20261121",
+      "oid": "93e8e46cb8bfb6a891f8a38ef5ca0539d108611f"
+    },
+    {
+      "ref": "refs/heads/research/quartz-cog03-einstellung-reopening-20261121",
+      "oid": "6abccb31f00f5f07b886df6aaae9794a2524b384"
+    },
+    {
+      "ref": "refs/heads/research/quartz-cog03-resident-reopening-20261121",
+      "oid": "d6875102ebc07d2eba899d073ac7214a7f7d9dad"
+    },
+    {
+      "ref": "refs/heads/research/quartz-cog04-highbranch-transfer-20261121",
+      "oid": "eaff0ae3809eaf5c0e8b2573e1e5fac64f900da7"
+    },
+    {
+      "ref": "refs/heads/research/quartz-cog05-trained-prior-fair-cpu-20261121",
+      "oid": "a85bc0ded6bf67f81256e93645dc7147838c6f88"
+    },
+    {
+      "ref": "refs/heads/research/quartz-cog06-nonterminal-fork-wdl-20261121",
+      "oid": "41febde4561644d7287fd4d3411847e485f5f646"
+    },
+    {
+      "ref": "refs/heads/research/quartz-general-c18-calibrated-compute-20261122",
+      "oid": "097255bd00ffa436c3d43704ed201815e7cbb8ea"
+    },
+    {
+      "ref": "refs/heads/research/quartz-general-c19-signed-voc-20261122",
+      "oid": "2a359ad049b6a0be4047e52ad281b665cf68e967"
+    },
+    {
+      "ref": "refs/heads/research/quartz-general-c20-predictive-voc-20261122",
+      "oid": "ba100d13b36a49151fc4a7b5dd379fa2eb79e4c4"
+    },
+    {
+      "ref": "refs/heads/research/quartz-general-c21-fast-cdf-20261122",
+      "oid": "351c63ae810b1fa633fe2a75440bf7d0929f92e4"
+    },
+    {
+      "ref": "refs/heads/research/quartz-general-c22-inprocess-gate-20261122",
+      "oid": "6e91e3abfbc6727d58c0785ffdf80a7e3e7cabaf"
+    },
+    {
+      "ref": "refs/heads/research/quartz-general-c23-residual-stop-20261123",
+      "oid": "a4417b081037c4d5b49976ddcaeaa3f0771773b2"
+    },
+    {
+      "ref": "refs/heads/research/quartz-general-c24-cheap-certificates-20261123",
+      "oid": "4998c771c08788e4f0da8d2723347121ae16fbf2"
+    },
+    {
+      "ref": "refs/heads/research/quartz-general-c25-incumbent-price-20261123",
+      "oid": "d6019d674ae76524b1895016f49b82d4f7b001b2"
+    },
+    {
+      "ref": "refs/heads/research/quartz-general-c26-game-metareasoning-20261123",
+      "oid": "87c15dc828d6eea519c219fd8a412fa21dfc464d"
+    },
+    {
+      "ref": "refs/heads/research/quartz-general-c27-joint-posterior-20261123",
+      "oid": "9619fb5f20b25ecf0e71bd5f9400292ba955ce7c"
+    },
+    {
+      "ref": "refs/heads/research/quartz-general-metareasoning-identity-20261122",
+      "oid": "e4dc4d6a0d5db03189d2f8465f6d5f019018f20c"
+    },
+    {
+      "ref": "refs/remotes/origin/agent/foundry-pr00-lean-spec",
+      "oid": "9da35b4d6189c38ddfdc30949605765ab0816e11"
+    },
+    {
+      "ref": "refs/remotes/origin/agent/foundry-pr01-status-writers",
+      "oid": "d4998d35ddd155856eaa9367d8198d09850348cd"
+    },
+    {
+      "ref": "refs/remotes/origin/agent/foundry-pr02-registry-snapshot",
+      "oid": "02ff780fe493b74a0e5f353f75cab4c525838665"
+    },
+    {
+      "ref": "refs/remotes/origin/agent/foundry-pr03-execution-identity",
+      "oid": "1976c7f9e108c673fc7ed5131ccf1533a0c23ba3"
+    },
+    {
+      "ref": "refs/remotes/origin/agent/foundry-pr04-initial-state-retry2-20260825",
+      "oid": "9ddd3471904f2200f4656cb102886c994bd7bed0"
+    },
+    {
+      "ref": "refs/remotes/origin/agent/idea-foundry-pr05-r1-public-resume",
+      "oid": "a74adb4e0176b0e7f0ad6cb7c1870a483b787749"
+    },
+    {
+      "ref": "refs/remotes/origin/agent/local-experiment-foundry",
+      "oid": "65e7d3e9596ca259ebfe523b0c74058692b6a755"
+    },
+    {
+      "ref": "refs/remotes/origin/audit/idea-foundry-p0bc1-implementation-20260822",
+      "oid": "f825c38aa4d1c16146b425f1b768dfbd6ec7ad1a"
+    },
+    {
+      "ref": "refs/remotes/origin/audit/idea-foundry-progress-and-failure-log-20260825",
+      "oid": "e4a37fe1eb3ec40ae336c0014e8e6457954c38df"
+    },
+    {
+      "ref": "refs/remotes/origin/audit/idea-foundry-recovery-checkpoint-20260820",
+      "oid": "0bcbdbf4fe3aeb95f0902e4a9133a3f39102d0e9"
+    },
+    {
+      "ref": "refs/remotes/origin/audit/idea-foundry-research-trust-policy-20260823",
+      "oid": "37535065776d4babb0186d21370e3ddd7b4217de"
+    },
+    {
+      "ref": "refs/remotes/origin/main",
+      "oid": "3e303aef0a0a534d1ccc8b72289a72b7fd0dc901"
+    },
+    {
+      "ref": "refs/remotes/origin/research/beyond-alphazero-upgrade-20260907-current",
+      "oid": "6d279096c8b125c8af8d222784fac31a2d36b187"
+    },
+    {
+      "ref": "refs/remotes/origin/research/quartz-cog01-recognition-calibration-20261120",
+      "oid": "cc3aa1771460f5a0f608375d985fd02998861364"
+    },
+    {
+      "ref": "refs/remotes/origin/research/quartz-cog01b-connect4-gamestate-20261120",
+      "oid": "c4e219f930065c4e4b56eeb4f779f473a6c5b007"
+    },
+    {
+      "ref": "refs/remotes/origin/research/quartz-cog01b-connect4-recognizer-20261120",
+      "oid": "c92e77a1e818c0bb1359836dd4d8be09a529d287"
+    },
+    {
+      "ref": "refs/remotes/origin/research/quartz-cog01b-cpu-realtrace-20261120",
+      "oid": "af5f5a95707a0fc443a6ee42aabefaadf9a8c5d4"
+    },
+    {
+      "ref": "refs/remotes/origin/research/quartz-cog01b-decision-utility-20261120",
+      "oid": "6f6cd0a36ac94642c4cf1958ca96ca5ef9529ed3"
+    },
+    {
+      "ref": "refs/remotes/origin/research/quartz-cog01b-recognizer-generalization-20261121",
+      "oid": "4a4d1381635393715c29d672124cfe32c08d20d5"
+    },
+    {
+      "ref": "refs/remotes/origin/research/quartz-cog01b-resident-fork-20261120",
+      "oid": "26d8a4d0bc39338c46d08b189483484d295a0133"
+    },
+    {
+      "ref": "refs/remotes/origin/research/quartz-cog01b-standard-external-engines-20261120",
+      "oid": "bc44e5c85c1f37201f80880f18d59fdb55a509a8"
+    },
+    {
+      "ref": "refs/remotes/origin/research/quartz-cog02-cost-matched-voc-20261121",
+      "oid": "569a3ff106a1f0b84a3cd94c189a48a8b05bcdb1"
+    },
+    {
+      "ref": "refs/remotes/origin/research/quartz-cog02-dynamic-option-costmatch-20261121",
+      "oid": "6dbdcaeab28b2325fbd7f0a0326c51b214b339f3"
+    },
+    {
+      "ref": "refs/remotes/origin/research/quartz-cog02-dynamic-voc-20261121",
+      "oid": "85a08755e2463538ed0abf84d443f19dacc29e02"
+    },
+    {
+      "ref": "refs/remotes/origin/research/quartz-cog02-voc-calibration-20261121",
+      "oid": "93e8e46cb8bfb6a891f8a38ef5ca0539d108611f"
+    },
+    {
+      "ref": "refs/remotes/origin/research/quartz-cog03-einstellung-reopening-20261121",
+      "oid": "6abccb31f00f5f07b886df6aaae9794a2524b384"
+    },
+    {
+      "ref": "refs/remotes/origin/research/quartz-cog03-resident-reopening-20261121",
+      "oid": "d6875102ebc07d2eba899d073ac7214a7f7d9dad"
+    },
+    {
+      "ref": "refs/remotes/origin/research/quartz-cog04-highbranch-transfer-20261121",
+      "oid": "eaff0ae3809eaf5c0e8b2573e1e5fac64f900da7"
+    },
+    {
+      "ref": "refs/remotes/origin/research/quartz-cog05-trained-prior-fair-cpu-20261121",
+      "oid": "a85bc0ded6bf67f81256e93645dc7147838c6f88"
+    },
+    {
+      "ref": "refs/remotes/origin/research/quartz-cog06-nonterminal-fork-wdl-20261121",
+      "oid": "41febde4561644d7287fd4d3411847e485f5f646"
+    },
+    {
+      "ref": "refs/remotes/origin/research/quartz-general-c18-calibrated-compute-20261122",
+      "oid": "097255bd00ffa436c3d43704ed201815e7cbb8ea"
+    },
+    {
+      "ref": "refs/remotes/origin/research/quartz-general-c19-signed-voc-20261122",
+      "oid": "2a359ad049b6a0be4047e52ad281b665cf68e967"
+    },
+    {
+      "ref": "refs/remotes/origin/research/quartz-general-c20-predictive-voc-20261122",
+      "oid": "ba100d13b36a49151fc4a7b5dd379fa2eb79e4c4"
+    },
+    {
+      "ref": "refs/remotes/origin/research/quartz-general-c21-fast-cdf-20261122",
+      "oid": "351c63ae810b1fa633fe2a75440bf7d0929f92e4"
+    },
+    {
+      "ref": "refs/remotes/origin/research/quartz-general-c22-inprocess-gate-20261122",
+      "oid": "6e91e3abfbc6727d58c0785ffdf80a7e3e7cabaf"
+    },
+    {
+      "ref": "refs/remotes/origin/research/quartz-general-c23-residual-stop-20261123",
+      "oid": "a4417b081037c4d5b49976ddcaeaa3f0771773b2"
+    },
+    {
+      "ref": "refs/remotes/origin/research/quartz-general-c24-cheap-certificates-20261123",
+      "oid": "4998c771c08788e4f0da8d2723347121ae16fbf2"
+    },
+    {
+      "ref": "refs/remotes/origin/research/quartz-general-c25-incumbent-price-20261123",
+      "oid": "d6019d674ae76524b1895016f49b82d4f7b001b2"
+    },
+    {
+      "ref": "refs/remotes/origin/research/quartz-general-c26-game-metareasoning-20261123",
+      "oid": "87c15dc828d6eea519c219fd8a412fa21dfc464d"
+    },
+    {
+      "ref": "refs/remotes/origin/research/quartz-general-c27-joint-posterior-20261123",
+      "oid": "9619fb5f20b25ecf0e71bd5f9400292ba955ce7c"
+    },
+    {
+      "ref": "refs/remotes/origin/research/quartz-general-metareasoning-identity-20261122",
+      "oid": "e4dc4d6a0d5db03189d2f8465f6d5f019018f20c"
+    }
+  ],
+  "bundle_verify_exit": 0,
+  "fresh_mirror_clone_exit": 0,
+  "fresh_mirror_fsck_exit": 0,
+  "source_tree_match": true,
+  "verification_stdout": "The bundle contains these 117 refs:\n6fb47bea7cfa10b54abb0a7f3867ac5ddb3fc562 refs/codex/turn-diffs/checkpoints/4f43377b6bd914229fe32f87aa3288f7ebe09c6d203e0d024313b2a12e50d375/130eb59b01d7695d41fbed92552ece67166653f4d126d31a1e34f18146649698/1788776713543/3554559b-04cf-4b23-bea6-c827cd7447b7\n6fb47bea7cfa10b54abb0a7f3867ac5ddb3fc562 refs/codex/turn-diffs/checkpoints/e1f98cb3329948190fe4f23733830402a9a3a5f3495025a8841483748c7e01dc/ed1a6077a00927c707df8c5c89028a3112a66a9649795dbc7d3e0d28a4f847e1/1788748154675/e1a7d340-3a97-4302-8201-f010b881736a\n37535065776d4babb0186d21370e3ddd7b4217de refs/heads/agent/foundry-policy-execution-base-fix-20260824\n9da35b4d6189c38ddfdc30949605765ab0816e11 refs/heads/agent/foundry-pr00-lean-spec\nd4998d35ddd155856eaa9367d8198d09850348cd refs/heads/agent/foundry-pr01-status-writers\n02ff780fe493b74a0e5f353f75cab4c525838665 refs/heads/agent/foundry-pr02-registry-snapshot\n1976c7f9e108c673fc7ed5131ccf1533a0c23ba3 refs/heads/agent/foundry-pr03-execution-identity\n1cc3e6e508c3ad305f94a61d15e771e64b53ed4a refs/heads/agent/foundry-pr04-initial-state\nee5d8bb47e3edc77cedc26157c6a4924a1661c82 refs/heads/agent/foundry-pr04-initial-state-retry-20260825\n9ddd3471904f2200f4656cb102886c994bd7bed0 refs/heads/agent/foundry-pr04-initial-state-retry2-20260825\n55c21a7b42c93ffb886084d9868c3c1a41da5077 refs/heads/agent/foundry-pr05-resume-plan\na74adb4e0176b0e7f0ad6cb7c1870a483b787749 refs/heads/agent/idea-foundry-pr05-r1-public-resume\n65e7d3e9596ca259ebfe523b0c74058692b6a755 refs/heads/agent/local-experiment-foundry\na000d7145ae3f474f74aad8c93c3b892d1f6e208 refs/heads/audit/external-readiness-20260907\nf825c38aa4d1c16146b425f1b768dfbd6ec7ad1a refs/heads/audit/idea-foundry-p0bc1-implementation-20260822\n0de5115f2837894a8ce52b7d28d8489894c8b8a4 refs/heads/audit/idea-foundry-p0bc1-successor-spec-20260822\ncf6191d45fba6c5575d7f630f563ed1a6e1083ec refs/heads/audit/idea-foundry-p0bc1-successor-spec2-20260822\n497965bb204922387755f2d6050042a3ddda6f0c refs/heads/audit/idea-foundry-p0bc1-successor-spec3-20260822\ndadcc7187bca6a927b5ec5132aba845608611679 refs/heads/audit/idea-foundry-progress-and-failure-log-20260825\nd0f0fb237a0b8b05b907513b6be2b32335403144 refs/heads/audit/idea-foundry-recovery-20260820\nd0f0fb237a0b8b05b907513b6be2b32335403144 refs/heads/audit/idea-foundry-recovery-c1a-20260820\nd0f0fb237a0b8b05b907513b6be2b32335403144 refs/heads/audit/idea-foundry-recovery-c1a1-20260820\n0bcbdbf4fe3aeb95f0902e4a9133a3f39102d0e9 refs/heads/audit/idea-foundry-recovery-checkpoint-20260820\n292d0336b246f990cb0fc7f99ef11f464d506219 refs/heads/audit/idea-foundry-recovery-jsonseal-20260820\n10c34c112717a9a57b0506422f1cbd272a83bbd0 refs/heads/audit/idea-foundry-recovery-p0bc1-20260820\n83095c9742d779c3f2fc95a8021fa7bb4ab95338 refs/heads/audit/idea-foundry-recovery-p0bc1-corrected-spec-20260820\n914169e02c04a225f34a4fb3d17ae3486f424193 refs/heads/audit/idea-foundry-recovery-p0bc1a-20260820\n914169e02c04a225f34a4fb3d17ae3486f424193 refs/heads/audit/idea-foundry-recovery-p0bc1a1-20260820\n20548e1fc0a959184da5f633b505cd345cad4324 refs/heads/audit/idea-foundry-recovery-payload-20260820\n292d0336b246f990cb0fc7f99ef11f464d506219 refs/heads/audit/idea-foundry-recovery-px-20260820\n65ffe7fc16ef5ff15f402894590b61bc6c62b426 refs/heads/audit/idea-foundry-research-trust-policy-20260823\n05f5fffcf4c6a8561a97d678e48f710d72deb089 refs/heads/backup/pre-merge-05f5fff\n3e303aef0a0a534d1ccc8b72289a72b7fd0dc901 refs/heads/main\ncc3aa1771460f5a0f608375d985fd02998861364 refs/heads/research/quartz-cog01-recognition-calibration-20261120\nc4e219f930065c4e4b56eeb4f779f473a6c5b007 refs/heads/research/quartz-cog01b-connect4-gamestate-20261120\nc92e77a1e818c0bb1359836dd4d8be09a529d287 refs/heads/research/quartz-cog01b-connect4-recognizer-20261120\naf5f5a95707a0fc443a6ee42aabefaadf9a8c5d4 refs/heads/research/quartz-cog01b-cpu-realtrace-20261120\n6f6cd0a36ac94642c4cf1958ca96ca5ef9529ed3 refs/heads/research/quartz-cog01b-decision-utility-20261120\n4a4d1381635393715c29d672124cfe32c08d20d5 refs/heads/research/quartz-cog01b-recognizer-generalization-20261121\n26d8a4d0bc39338c46d08b189483484d295a0133 refs/heads/research/quartz-cog01b-resident-fork-20261120\nbc44e5c85c1f37201f80880f18d59fdb55a509a8 refs/heads/research/quartz-cog01b-standard-external-engines-20261120\n569a3ff106a1f0b84a3cd94c189a48a8b05bcdb1 refs/heads/research/quartz-cog02-cost-matched-voc-20261121\n6dbdcaeab28b2325fbd7f0a0326c51b214b339f3 refs/heads/research/quartz-cog02-dynamic-option-costmatch-20261121\n85a08755e2463538ed0abf84d443f19dacc29e02 refs/heads/research/quartz-cog02-dynamic-voc-20261121\n93e8e46cb8bfb6a891f8a38ef5ca0539d108611f refs/heads/research/quartz-cog02-voc-calibration-20261121\n6abccb31f00f5f07b886df6aaae9794a2524b384 refs/heads/research/quartz-cog03-einstellung-reopening-20261121\nd6875102ebc07d2eba899d073ac7214a7f7d9dad refs/heads/research/quartz-cog03-resident-reopening-20261121\neaff0ae3809eaf5c0e8b2573e1e5fac64f900da7 refs/heads/research/quartz-cog04-highbranch-transfer-20261121\na85bc0ded6bf67f81256e93645dc7147838c6f88 refs/heads/research/quartz-cog05-trained-prior-fair-cpu-20261121\n41febde4561644d7287fd4d3411847e485f5f646 refs/heads/research/quartz-cog06-nonterminal-fork-wdl-20261121\n097255bd00ffa436c3d43704ed201815e7cbb8ea refs/heads/research/quartz-general-c18-calibrated-compute-20261122\n2a359ad049b6a0be4047e52ad281b665cf68e967 refs/heads/research/quartz-general-c19-signed-voc-20261122\nba100d13b36a49151fc4a7b5dd379fa2eb79e4c4 refs/heads/research/quartz-general-c20-predictive-voc-20261122\n351c63ae810b1fa633fe2a75440bf7d0929f92e4 refs/heads/research/quartz-general-c21-fast-cdf-20261122\n6e91e3abfbc6727d58c0785ffdf80a7e3e7cabaf refs/heads/research/quartz-general-c22-inprocess-gate-20261122\na4417b081037c4d5b49976ddcaeaa3f0771773b2 refs/heads/research/quartz-general-c23-residual-stop-20261123\n4998c771c08788e4f0da8d2723347121ae16fbf2 refs/heads/research/quartz-general-c24-cheap-certificates-20261123\nd6019d674ae76524b1895016f49b82d4f7b001b2 refs/heads/research/quartz-general-c25-incumbent-price-20261123\n87c15dc828d6eea519c219fd8a412fa21dfc464d refs/heads/research/quartz-general-c26-game-metareasoning-20261123\n9619fb5f20b25ecf0e71bd5f9400292ba955ce7c refs/heads/research/quartz-general-c27-joint-posterior-20261123\ne4dc4d6a0d5db03189d2f8465f6d5f019018f20c refs/heads/research/quartz-general-metareasoning-identity-20261122\n9da35b4d6189c38ddfdc30949605765ab0816e11 refs/remotes/origin/agent/foundry-pr00-lean-spec\nd4998d35ddd155856eaa9367d8198d09850348cd refs/remotes/origin/agent/foundry-pr01-status-writers\n02ff780fe493b74a0e5f353f75cab4c525838665 refs/remotes/origin/agent/foundry-pr02-registry-snapshot\n1976c7f9e108c673fc7ed5131ccf1533a0c23ba3 refs/remotes/origin/agent/foundry-pr03-execution-identity\n9ddd3471904f2200f4656cb102886c994bd7bed0 refs/remotes/origin/agent/foundry-pr04-initial-state-retry2-20260825\na74adb4e0176b0e7f0ad6cb7c1870a483b787749 refs/remotes/origin/agent/idea-foundry-pr05-r1-public-resume\n65e7d3e9596ca259ebfe523b0c74058692b6a755 refs/remotes/origin/agent/local-experiment-foundry\nf825c38aa4d1c16146b425f1b768dfbd6ec7ad1a refs/remotes/origin/audit/idea-foundry-p0bc1-implementation-20260822\ne4a37fe1eb3ec40ae336c0014e8e6457954c38df refs/remotes/origin/audit/idea-foundry-progress-and-failure-log-20260825\n0bcbdbf4fe3aeb95f0902e4a9133a3f39102d0e9 refs/remotes/origin/audit/idea-foundry-recovery-checkpoint-20260820\n37535065776d4babb0186d21370e3ddd7b4217de refs/remotes/origin/audit/idea-foundry-research-trust-policy-20260823\n3e303aef0a0a534d1ccc8b72289a72b7fd0dc901 refs/remotes/origin/main\n6d279096c8b125c8af8d222784fac31a2d36b187 refs/remotes/origin/research/beyond-alphazero-upgrade-20260907-current\ncc3aa1771460f5a0f608375d985fd02998861364 refs/remotes/origin/research/quartz-cog01-recognition-calibration-20261120\nc4e219f930065c4e4b56eeb4f779f473a6c5b007 refs/remotes/origin/research/quartz-cog01b-connect4-gamestate-20261120\nc92e77a1e818c0bb1359836dd4d8be09a529d287 refs/remotes/origin/research/quartz-cog01b-connect4-recognizer-20261120\naf5f5a95707a0fc443a6ee42aabefaadf9a8c5d4 refs/remotes/origin/research/quartz-cog01b-cpu-realtrace-20261120\n6f6cd0a36ac94642c4cf1958ca96ca5ef9529ed3 refs/remotes/origin/research/quartz-cog01b-decision-utility-20261120\n4a4d1381635393715c29d672124cfe32c08d20d5 refs/remotes/origin/research/quartz-cog01b-recognizer-generalization-20261121\n26d8a4d0bc39338c46d08b189483484d295a0133 refs/remotes/origin/research/quartz-cog01b-resident-fork-20261120\nbc44e5c85c1f37201f80880f18d59fdb55a509a8 refs/remotes/origin/research/quartz-cog01b-standard-external-engines-20261120\n569a3ff106a1f0b84a3cd94c189a48a8b05bcdb1 refs/remotes/origin/research/quartz-cog02-cost-matched-voc-20261121\n6dbdcaeab28b2325fbd7f0a0326c51b214b339f3 refs/remotes/origin/research/quartz-cog02-dynamic-option-costmatch-20261121\n85a08755e2463538ed0abf84d443f19dacc29e02 refs/remotes/origin/research/quartz-cog02-dynamic-voc-20261121\n93e8e46cb8bfb6a891f8a38ef5ca0539d108611f refs/remotes/origin/research/quartz-cog02-voc-calibration-20261121\n6abccb31f00f5f07b886df6aaae9794a2524b384 refs/remotes/origin/research/quartz-cog03-einstellung-reopening-20261121\nd6875102ebc07d2eba899d073ac7214a7f7d9dad refs/remotes/origin/research/quartz-cog03-resident-reopening-20261121\neaff0ae3809eaf5c0e8b2573e1e5fac64f900da7 refs/remotes/origin/research/quartz-cog04-highbranch-transfer-20261121\na85bc0ded6bf67f81256e93645dc7147838c6f88 refs/remotes/origin/research/quartz-cog05-trained-prior-fair-cpu-20261121\n41febde4561644d7287fd4d3411847e485f5f646 refs/remotes/origin/research/quartz-cog06-nonterminal-fork-wdl-20261121\n097255bd00ffa436c3d43704ed201815e7cbb8ea refs/remotes/origin/research/quartz-general-c18-calibrated-compute-20261122\n2a359ad049b6a0be4047e52ad281b665cf68e967 refs/remotes/origin/research/quartz-general-c19-signed-voc-20261122\nba100d13b36a49151fc4a7b5dd379fa2eb79e4c4 refs/remotes/origin/research/quartz-general-c20-predictive-voc-20261122\n351c63ae810b1fa633fe2a75440bf7d0929f92e4 refs/remotes/origin/research/quartz-general-c21-fast-cdf-20261122\n6e91e3abfbc6727d58c0785ffdf80a7e3e7cabaf refs/remotes/origin/research/quartz-general-c22-inprocess-gate-20261122\na4417b081037c4d5b49976ddcaeaa3f0771773b2 refs/remotes/origin/research/quartz-general-c23-residual-stop-20261123\n4998c771c08788e4f0da8d2723347121ae16fbf2 refs/remotes/origin/research/quartz-general-c24-cheap-certificates-20261123\nd6019d674ae76524b1895016f49b82d4f7b001b2 refs/remotes/origin/research/quartz-general-c25-incumbent-price-20261123\n87c15dc828d6eea519c219fd8a412fa21dfc464d refs/remotes/origin/research/quartz-general-c26-game-metareasoning-20261123\n9619fb5f20b25ecf0e71bd5f9400292ba955ce7c refs/remotes/origin/research/quartz-general-c27-joint-posterior-20261123\ne4dc4d6a0d5db03189d2f8465f6d5f019018f20c refs/remotes/origin/research/quartz-general-metareasoning-identity-20261122\n9619fb5f20b25ecf0e71bd5f9400292ba955ce7c HEAD\n65e7d3e9596ca259ebfe523b0c74058692b6a755 main-worktree/HEAD\n6e91e3abfbc6727d58c0785ffdf80a7e3e7cabaf worktrees/quartz_general_meta22_20261122/HEAD\n4998c771c08788e4f0da8d2723347121ae16fbf2 worktrees/quartz_general_meta24_20261123/HEAD\ne4dc4d6a0d5db03189d2f8465f6d5f019018f20c worktrees/quartz_general_meta17_20261122/HEAD\n351c63ae810b1fa633fe2a75440bf7d0929f92e4 worktrees/quartz_general_meta21_20261122/HEAD\n87c15dc828d6eea519c219fd8a412fa21dfc464d worktrees/quartz_general_meta26_20261123/HEAD\nd6019d674ae76524b1895016f49b82d4f7b001b2 worktrees/quartz_general_meta25_20261123/HEAD\neaff0ae3809eaf5c0e8b2573e1e5fac64f900da7 worktrees/quartz_cog01_20261120/HEAD\na85bc0ded6bf67f81256e93645dc7147838c6f88 worktrees/quartz_cog05_20261121/HEAD\n2a359ad049b6a0be4047e52ad281b665cf68e967 worktrees/quartz_general_meta19_20261122/HEAD\n097255bd00ffa436c3d43704ed201815e7cbb8ea worktrees/quartz_general_meta18_20261122/HEAD\na4417b081037c4d5b49976ddcaeaa3f0771773b2 worktrees/quartz_general_meta23_20261123/HEAD\n41febde4561644d7287fd4d3411847e485f5f646 worktrees/quartz_cog06_20261121/HEAD\nba100d13b36a49151fc4a7b5dd379fa2eb79e4c4 worktrees/quartz_general_meta20_20261122/HEAD\nThe bundle records a complete history.\nThe bundle uses this hash algorithm: sha1\n",
+  "verification_stderr": "/home/cosmosapjw/Dropbox/personal_projects/quartz_general_meta27_backups/LATEST_HISTORY_C05_9619fb5f20b2.bundle is okay\n",
+  "fsck_stdout": "",
+  "fsck_stderr": "",
+  "temporary_mirror_removed_after_verification": true,
+  "elapsed_seconds": 149.18394905503374,
+  "utc": "2026-11-23T12:20:09.048181+00:00",
+  "dropbox_cloud_ack": "NOT_VERIFIED"
+}

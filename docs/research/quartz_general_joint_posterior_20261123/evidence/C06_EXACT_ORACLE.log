@@ -1,0 +1,7 @@
+Traceback (most recent call last):
+  File "/home/cosmosapjw/quantum/research/quartz_general_meta27_20261123/docs/research/quartz_general_joint_posterior_20261123/theory/exact_joint_oracle.py", line 437, in <module>
+    run()
+  File "/home/cosmosapjw/quantum/research/quartz_general_meta27_20261123/docs/research/quartz_general_joint_posterior_20261123/theory/exact_joint_oracle.py", line 421, in run
+    output = Path(sys.argv[1])
+                  ~~~~~~~~^^^
+IndexError: list index out of range

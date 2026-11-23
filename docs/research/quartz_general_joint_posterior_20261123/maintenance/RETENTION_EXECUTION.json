@@ -1,0 +1,15 @@
+{
+  "actual_exit_code": 0,
+  "actual_python_worker_pid": 733943,
+  "actual_runtime_s": 189.77,
+  "actual_tool_process_pid": 733935,
+  "command": "nice -n 10 python3 /tmp/quartz_c27_retention.py > /tmp/quartz_c27_retention_stdout.log 2>&1",
+  "observed_completion": "Remote Desktop Commander read_process_output returned completed exit0",
+  "progress_uncompressed_sha256": "a9859a8c67d15a7ada0e2fca7873182e837e00059a4a60155db1b62e7e5a3d4d",
+  "schema": "quartz-retention-execution-v1",
+  "source_deletions": 0,
+  "source_writes": 0,
+  "stdout_identical_to_progress": true,
+  "summary_sha256": "12ec3c3540cb0978e90e2d0fbabaa3e3e8746b50c2bfe971771777778b959884",
+  "worker_sha256": "751478442920f58dcc0ce9f6ed48c465db0a31613bc08a05569d1c536e90aabc"
+}

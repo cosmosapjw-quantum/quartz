@@ -1,0 +1,26 @@
+{
+  "schema": "c27-cleanup-summary-v1",
+  "utc": "2026-11-23T12:43:29.119855+00:00",
+  "removed_worktrees": 12,
+  "removed_worktree_inventory_allocated_bytes": 11861192704,
+  "removed_old_backup_folders": 11,
+  "removed_old_backup_files": 432,
+  "removed_current_superseded_archives": 19,
+  "original_backup_inventory_allocated_bytes": 11318706176,
+  "current_consolidated_backup_allocated_bytes": 2183946240,
+  "inventory_occupancy_net_reduction_bytes": 20995952640,
+  "occupancy_measurement_limit": "path occupancy accounting; concurrent unrelated disk changes and cross-root hardlinks prevent exact global-free attribution",
+  "current_disk_free_bytes": 218729267200,
+  "retained_unique_payloads": 30,
+  "retained_unique_payload_bytes": 394475637,
+  "c24_required_traces": 3,
+  "branches_and_commits_retained": true,
+  "original_and_c26_preserved": true,
+  "preexisting_reboot_checkout": {
+    "path": "/home/cosmosapjw/quantum/research/reboot_20261120/quartz_mqft_c03_worktree",
+    "exists_now": false,
+    "removed_by_this_run": false,
+    "status": "external_or_unresolved; no deletion receipt; preservation not asserted"
+  },
+  "dropbox_cloud_ack": "NOT_VERIFIED"
+}

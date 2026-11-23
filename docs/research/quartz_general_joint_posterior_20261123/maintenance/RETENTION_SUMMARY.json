@@ -1,0 +1,140 @@
+{
+  "active_original_untracked_tree_read": false,
+  "archive_member_occurrences_all_paths": 398193,
+  "archive_original_paths_extracted": false,
+  "archive_readback": "all CAS payload SHA256/Git blob OID/size and gzip CRC verified",
+  "canonical_archive_contents": 413,
+  "canonical_archive_members": 387549,
+  "cloud_provider_acknowledgment": false,
+  "complete": true,
+  "counts": {
+    "canonical_archives": 413,
+    "duplicate_archives": 12,
+    "git_known_regular": 344433,
+    "retained_duplicate_regular": 1,
+    "retained_unique_regular": 30
+  },
+  "duplicate_archive_paths": 12,
+  "elapsed_s": 189.43179869500455,
+  "errors": [],
+  "excluded_cache_counts": {},
+  "excluded_cache_logical_bytes": {},
+  "files": {
+    "ARCHIVE_COVERAGE.json": {
+      "bytes": 390131,
+      "sha256": "1ead22c2cee0ce007d58e8c6c3a647e155a4ee7badc7d50446ac337705434f82"
+    },
+    "GIT_REACHABLE_OBJECTS.txt.gz": {
+      "bytes": 193239,
+      "sha256": "8f576b16addff8620c01d511dfa18217ff691418b75c7a3cb94172284db5bd75"
+    },
+    "INPUT_MANIFEST.json": {
+      "bytes": 247766,
+      "sha256": "af4a6ab3239df0a0b940a6c5ad4448766f50f2f08ad2640ac0c150afd4dcc8da"
+    },
+    "MEMBER_MANIFEST.jsonl.gz": {
+      "bytes": 39062919,
+      "sha256": "3c8df9da6540e749af0c8d474269cba22b929d64196e8d3d30b35b236ce54ba5"
+    },
+    "UNIQUE_RESEARCH_AND_PROVENANCE.tar.gz": {
+      "bytes": 393838118,
+      "sha256": "28c0795be2fbc6ce1900582cb481d7dfe9ae077550a705cc98a223acff563656"
+    }
+  },
+  "finished_utc": "2026-11-23T12:29:13.165378+00:00",
+  "git_recovery": {
+    "command": "git rev-list --objects --all --no-object-names",
+    "head": "9619fb5f20b25ecf0e71bd5f9400292ba955ce7c",
+    "object_count": 8166,
+    "object_format": "sha1; file candidates hashed as blob <decimal-size>\\0 + payload",
+    "refs_sha256": "fd1f33a3896b883c03f3dc87525f85f806951d70b0f9c677d129f77563c3f846"
+  },
+  "input_archive_paths": 425,
+  "inventory_sha256": "93aa5d20a7262f190047f197038beba55266f821b354e69b1efd7a67320bec7d",
+  "manifest_readback": "gzip EOF/JSON lines/reference resolution verified",
+  "manifest_records": 387581,
+  "noncache_logical_bytes_scanned": 49860188940,
+  "readback_payloads": 30,
+  "required_c24": [
+    {
+      "cas_member": "blobs/sha256/1a/1a225dd982f6b5cd512971880340c2d7d22cf71c4d930b119914f3fe7066cd87",
+      "compressed_payload_readback_sha256_verified": true,
+      "disposition": "retained_unique",
+      "entry_type": "regular",
+      "git_blob_oid": "18f49de840ba0c1abfe472ea1f263d3f3a304d59",
+      "git_reachable": false,
+      "gzip_crc_read_to_eof": true,
+      "metadata": {
+        "bytes": 131402222,
+        "device": 66306,
+        "inode": 17334665,
+        "mode": 33204,
+        "mtime_ns": 1795410069589584258,
+        "symlink": false
+      },
+      "origin_kind": "required_c24_trace",
+      "payload_bytes": 131402222,
+      "sha256": "1a225dd982f6b5cd512971880340c2d7d22cf71c4d930b119914f3fe7066cd87",
+      "source_path": "/home/cosmosapjw/quantum/research/quartz_general_meta24_20261123/docs/research/quartz_general_cheap_certificates_20261123/evidence/C24_TEST_TRACE.jsonl.gz",
+      "uncompressed_bytes": 312824245,
+      "uncompressed_sha256": "cd5ba8eaccc0053958fb101ef43dc8bb761ae9a7dbe9cfa44e862e07fef22f91"
+    },
+    {
+      "cas_member": "blobs/sha256/63/63208ecc5fa1de8ebce34ef919652734997ee01a853ed9af138861a2ea38a24f",
+      "compressed_payload_readback_sha256_verified": true,
+      "disposition": "retained_unique",
+      "entry_type": "regular",
+      "git_blob_oid": "da5801d606f08cba064b0945b8af6b3a6fbbb261",
+      "git_reachable": false,
+      "gzip_crc_read_to_eof": true,
+      "metadata": {
+        "bytes": 65633648,
+        "device": 66306,
+        "inode": 17334641,
+        "mode": 33204,
+        "mtime_ns": 1795409758272281335,
+        "symlink": false
+      },
+      "origin_kind": "required_c24_trace",
+      "payload_bytes": 65633648,
+      "sha256": "63208ecc5fa1de8ebce34ef919652734997ee01a853ed9af138861a2ea38a24f",
+      "source_path": "/home/cosmosapjw/quantum/research/quartz_general_meta24_20261123/docs/research/quartz_general_cheap_certificates_20261123/evidence/C24_CAL_TRACE.jsonl.gz",
+      "uncompressed_bytes": 156452139,
+      "uncompressed_sha256": "4c40900e264926715c913820abffbb61ea817291e5453f304d83f30a662d0a8b"
+    },
+    {
+      "cas_member": "blobs/sha256/b2/b23180121487c18caf32edd717f5f8cc983514641905d95a83d95f35e2c814cf",
+      "compressed_payload_readback_sha256_verified": true,
+      "disposition": "retained_unique",
+      "entry_type": "regular",
+      "git_blob_oid": "d9df29e05426222b1245bcceb0b8e68e9cc3768a",
+      "git_reachable": false,
+      "gzip_crc_read_to_eof": true,
+      "metadata": {
+        "bytes": 65708367,
+        "device": 66306,
+        "inode": 17334634,
+        "mode": 33204,
+        "mtime_ns": 1795409734511999716,
+        "symlink": false
+      },
+      "origin_kind": "required_c24_trace",
+      "payload_bytes": 65708367,
+      "sha256": "b23180121487c18caf32edd717f5f8cc983514641905d95a83d95f35e2c814cf",
+      "source_path": "/home/cosmosapjw/quantum/research/quartz_general_meta24_20261123/docs/research/quartz_general_cheap_certificates_20261123/evidence/C24_TRAIN_TRACE.jsonl.gz",
+      "uncompressed_bytes": 156472116,
+      "uncompressed_sha256": "2c093b6970513263fe28d088454fd7b7a142e4e7ec72b043d7979cc24b5dffec"
+    }
+  ],
+  "required_trace_files": 3,
+  "retained_unique_payload_bytes": 394475637,
+  "retained_unique_payloads": 30,
+  "schema": "quartz-unique-history-retention-v1",
+  "source_deletions": 0,
+  "source_stat_snapshot_recheck": true,
+  "source_writes": 0,
+  "standalone_files": 29,
+  "symlinks_followed": false,
+  "worker_pid": 733943,
+  "workers": 1
+}

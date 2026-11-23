@@ -1,4 +1,4 @@
-"""Verify C27 stage archives, preserve old worktrees, and optionally restore/run."""
+"""Verify retained C27 archives/history and worktree evidence; optionally restore/run."""
 
 import argparse
 import datetime
@@ -38,30 +38,276 @@ def git(*args, cwd=ROOT):
     return subprocess.check_output(["git", *args], cwd=cwd, text=True).strip()
 
 
-def old_trees(base):
+def consolidation_catalog():
+    path = BACKUP / "CONSOLIDATION_CATALOG.json"
+    if not path.exists():
+        return None
+    catalog = json.loads(path.read_text())
+    assert catalog["schema"] == "c27-consolidation-v1"
+    return catalog
+
+
+def verify_file(item, checked):
+    """Hash each immutable archive/container once per verification invocation."""
+    path = Path(item["path"])
+    before = path.stat()
+    assert path.is_file() and before.st_size == item["bytes"], str(path)
+    identity = (before.st_dev, before.st_ino, before.st_size, before.st_mtime_ns)
+    key = str(path)
+    if key in checked:
+        prior = checked[key]
+        assert prior["sha256"] == item["sha256"] and prior["identity"] == identity
+        return prior
+    assert digest(path) == item["sha256"], str(path)
+    after = path.stat()
+    assert identity == (after.st_dev, after.st_ino, after.st_size, after.st_mtime_ns)
+    checked[key] = {
+        "path": key,
+        "sha256": item["sha256"],
+        "bytes": before.st_size,
+        "identity": identity,
+    }
+    return checked[key]
+
+
+def verified_history(catalog, checked):
+    assert catalog is not None, "missing consolidation catalog for retired evidence"
+    history = catalog["history"]
+    assert history["verified"] is True, "history bundle lacks verified record"
+    verify_file(history, checked)
+    heads = {}
+    for line in git("bundle", "list-heads", history["path"]).splitlines():
+        oid, ref = line.split(" ", 1)
+        heads[ref] = oid
+    assert history["commit"] in heads.values(), "history commit not advertised"
+    return {
+        **history,
+        "advertised_refs": heads,
+        "container_sha256_verified_this_run": True,
+        "bundle_restore_performed_this_run": False,
+        "basis": "prior verified bundle record, current container hash and advertised refs",
+    }
+
+
+def stage_archives(selected, catalog, checked):
+    retired = {}
+    if catalog is not None:
+        for item in catalog["retired_stage_archives"]:
+            assert item["path"] not in retired, "duplicate retired archive path"
+            retired[item["path"]] = item
+    history = None
     result = []
+    for receipt in selected:
+        assert receipt["commit"] == receipt["remote"], receipt["stage"]
+        record = {
+            k: receipt[k]
+            for k in ("stage", "commit", "archive", "archive_sha256", "archive_bytes")
+        }
+        if Path(receipt["archive"]).exists():
+            verify_file(
+                {
+                    "path": receipt["archive"],
+                    "sha256": receipt["archive_sha256"],
+                    "bytes": receipt["archive_bytes"],
+                },
+                checked,
+            )
+            record.update(
+                state="present_archive_bytes_verified",
+                original_archive_bytes_verified_this_run=True,
+            )
+        else:
+            item = retired.get(receipt["archive"])
+            assert item is not None, (
+                "missing archive without retirement record",
+                record,
+            )
+            for key, source_key in (
+                ("sha256", "archive_sha256"),
+                ("bytes", "archive_bytes"),
+                ("commit", "commit"),
+                ("stage", "stage"),
+            ):
+                assert item[key] == receipt[source_key], (key, record)
+            assert item["recovery"] == "git_bundle"
+            if history is None:
+                history = verified_history(catalog, checked)
+            assert git("cat-file", "-t", item["commit"]) == "commit"
+            git("merge-base", "--is-ancestor", item["commit"], history["commit"])
+            record.update(
+                state="retired_archive_history_preserved",
+                original_archive_bytes_verified_this_run=False,
+                original_archive_restored=False,
+                recovery="git_bundle",
+                history_bundle=history["path"],
+                history_bundle_sha256=history["sha256"],
+                catalog_metadata_matches_receipt=True,
+            )
+        result.append(record)
+    return result, history
+
+
+def selected_archives(last, catalog):
+    if catalog is not None and catalog["full_source"]["commit"] == last["commit"]:
+        return [dict(catalog["full_source"])], "consolidated_full_source"
+    assert "base_chain" in last, "stage receipt must declare its actual base chain"
+    return list(last["base_chain"]) + [
+        {
+            "path": last["archive"],
+            "sha256": last["archive_sha256"],
+            "bytes": last["archive_bytes"],
+            "kind": last.get("archive_kind", "cumulative C27 overlay"),
+        }
+    ], "stage_receipt_base_chain_plus_overlay"
+
+
+def noncache_recovery(receipt, catalog, checked):
+    if not receipt.get("noncache_files"):
+        return None
+    path = Path(
+        receipt.get(
+            "noncache_preservation_proof", BACKUP / "C24_UNIQUE_PRESERVATION.json"
+        )
+    )
+    proof = json.loads(path.read_text())
+    assert proof["verified"] is True
+    assert set(receipt["noncache_files"]) <= set(proof["relative_paths"])
+    sources = {item["source_path"]: item for item in proof["sources"]}
+    for rel in receipt["noncache_files"]:
+        item = sources[str(Path(receipt["path"]) / rel)]
+        assert item["compressed_payload_readback_sha256_verified"] is True
+        assert item["disposition"] == "retained_unique"
+    assert catalog["retained_history"]["complete"] is True
+    assert (
+        proof["retention_summary_sha256"]
+        == catalog["retained_history"]["summary_sha256"]
+    )
+    archive = Path(proof["retained_archive"])
+    verify_file(
+        {
+            "path": str(archive),
+            "sha256": proof["retained_archive_sha256"],
+            "bytes": archive.stat().st_size,
+        },
+        checked,
+    )
+    return {
+        "proof_path": str(path),
+        "proof_sha256": digest(path),
+        "relative_paths": receipt["noncache_files"],
+        "retained_archive": str(archive),
+        "retained_archive_sha256": proof["retained_archive_sha256"],
+        "container_hash_verified_this_run": True,
+        "member_readback_basis": "prior verified preservation proof",
+        "files_restored_this_run": False,
+    }
+
+
+def old_trees(base, catalog, checked, history=None):
+    registered = {}
+    for block in git("worktree", "list", "--porcelain").split("\n\n"):
+        row = dict(line.split(" ", 1) for line in block.splitlines() if " " in line)
+        if "worktree" in row:
+            registered[row["worktree"]] = row
+    cleanup_path = BACKUP / "WORKTREE_CLEANUP_RECEIPT.jsonl"
+    cleanup = {}
+    if cleanup_path.exists():
+        for line in cleanup_path.read_text().splitlines():
+            receipt = json.loads(line)
+            if receipt.get("exit_code") == 0:
+                cleanup[receipt["path"]] = receipt
+    result = []
+    c26_root = DEFAULT_BINARY.parents[2]
     for old in base["old_worktrees"]:
         root = Path(old["path"])
-        head = git("rev-parse", "HEAD", cwd=root)
-        status = git("status", "--porcelain=v1", "--untracked-files=all", cwd=root)
-        same = head == old["head"] and status == old["status"]
-        hashes = all(
-            digest(root / rel) == sha for rel, sha in old["own_protected"].items()
-        )
-        result.append(
-            {
-                "path": str(root),
-                "head": head,
-                "head_status_unchanged": same,
-                "protected_unchanged": hashes,
-            }
-        )
-    assert all(
-        x["head_status_unchanged"] and x["protected_unchanged"] for x in result
-    ), result
+        present = root.is_dir()
+        is_registered = str(root) in registered
+        record = {
+            "path": str(root),
+            "baseline_head": old["head"],
+            "baseline_status": old["status"],
+            "path_exists": present,
+            "registered": is_registered,
+            "mutated_by_this_verifier": False,
+        }
+        if root == c26_root:
+            assert present and is_registered, "active C26 dependency missing"
+        if not present and not is_registered and str(root) in cleanup:
+            receipt = cleanup[str(root)]
+            assert receipt["head"] == old["head"]
+            assert receipt["refs_and_history_deleted"] is False
+            assert receipt["live_origin_exact_match"] is True
+            assert receipt["bundle_ref_verified"] is True
+            assert receipt["command"] == ["git", "worktree", "remove", str(root)]
+            branch = receipt["branch"]
+            assert branch.startswith("refs/heads/")
+            assert git("rev-parse", "--verify", branch) == old["head"]
+            assert git("cat-file", "-t", old["head"]) == "commit"
+            assert receipt["restore_command"] == [
+                "git",
+                "worktree",
+                "add",
+                str(root),
+                branch.removeprefix("refs/heads/"),
+            ]
+            if history is None:
+                history = verified_history(catalog, checked)
+            assert history["advertised_refs"].get(branch) == old["head"]
+            record.update(
+                state="intentionally_removed_verified_recovery",
+                head=old["head"],
+                branch=branch,
+                head_status_unchanged=None,
+                protected_unchanged=None,
+                recovery_commit_and_branch_present=True,
+                history_bundle=history["path"],
+                cleanup_receipt=receipt,
+                noncache_preservation=noncache_recovery(receipt, catalog, checked),
+                worktree_restored_this_run=False,
+            )
+        elif not present or not is_registered:
+            record.update(
+                state="missing_without_our_receipt"
+                if str(root) not in cleanup
+                else "inconsistent_presence_after_cleanup",
+                cause="external_or_unresolved",
+                head_status_unchanged=None,
+                protected_unchanged=None,
+                cleanup_receipt=None,
+            )
+        else:
+            head = git("rev-parse", "HEAD", cwd=root)
+            status = git("status", "--porcelain=v1", "--untracked-files=all", cwd=root)
+            same = head == old["head"] and status == old["status"]
+            mismatches = [
+                rel
+                for rel, sha in old["own_protected"].items()
+                if not (root / rel).is_file() or digest(root / rel) != sha
+            ]
+            if root == c26_root:
+                assert same and not mismatches, "active C26 baseline changed"
+                for rel, sha in base["protected"].items():
+                    assert digest(root / rel) == sha, ("C26 dependency", rel)
+                assert digest(
+                    DEFAULT_BINARY.with_name("quartz_c26_game_metareasoning")
+                ) == (
+                    "8735b1f23a970248e4ef2b26d08c8df2daf181f0d29163317b5f41cc6ef0be0c"
+                ), "protected C26 executable changed"
+            record.update(
+                state="unchanged"
+                if same and not mismatches
+                else "changed_external_or_unresolved",
+                head=head,
+                observed_status=status,
+                branch=registered[str(root)].get("branch"),
+                head_status_unchanged=same,
+                protected_unchanged=not mismatches,
+                protected_mismatches=mismatches,
+            )
+        result.append(record)
     for rel, sha in base["protected"].items():
-        assert digest(ROOT / rel) == sha, rel
-    return result
+        assert digest(ROOT / rel) == sha, ("current protected file", rel)
+    return result, history
 
 
 def tree(commit):
@@ -236,57 +482,49 @@ def main():
     selected = receipts[: order.index(args.stage) + 1]
     assert [x["stage"] for x in selected] == order[: len(selected)]
     assert selected[-1]["stage"] == args.stage
-    stage_checks = []
-    for r in selected:
-        p = Path(r["archive"])
-        assert (
-            p.stat().st_size == r["archive_bytes"] and digest(p) == r["archive_sha256"]
-        )
-        assert r["commit"] == r["remote"], r["stage"]
-        stage_checks.append(
-            {
-                k: r[k]
-                for k in (
-                    "stage",
-                    "commit",
-                    "archive",
-                    "archive_sha256",
-                    "archive_bytes",
-                )
-            }
-        )
+    catalog = consolidation_catalog()
+    checked = {}
+    stage_checks, history = stage_archives(selected, catalog, checked)
     last = selected[-1]
-    archives = base["base_chain"] + [
-        {
-            "path": last["archive"],
-            "sha256": last["archive_sha256"],
-            "bytes": last["archive_bytes"],
-            "kind": "cumulative C27 overlay",
-        }
-    ]
-    assert len(archives) == 5
+    archives, archive_selection = selected_archives(last, catalog)
     for item in archives:
-        assert (
-            Path(item["path"]).stat().st_size == item["bytes"]
-            and digest(item["path"]) == item["sha256"]
-        )
+        verify_file(item, checked)
     expected = tree(last["commit"])
     algorithm = git("rev-parse", "--show-object-format")
     streamed, byte_count = stream_tree(archives, algorithm)
     assert {k: v[:2] for k, v in streamed.items()} == expected, (
         "archive-composed Git tree mismatch"
     )
+    worktrees, history = old_trees(base, catalog, checked, history)
+    unresolved = [
+        item
+        for item in worktrees
+        if item["state"] not in ("unchanged", "intentionally_removed_verified_recovery")
+    ]
     result = {
-        "schema": "c27-delivery-verification-v1",
+        "schema": "c27-delivery-verification-v2",
         "stage": args.stage,
         "commit": last["commit"],
         "archives": archives,
+        "archive_selection": archive_selection,
+        "archive_chain_length": len(archives),
         "stage_receipts": stage_checks,
         "archive_stage_count": len(stage_checks),
         "full_streamed_tree_verified": True,
         "tracked_files": len(expected),
         "tracked_bytes": byte_count,
-        "old_worktrees": old_trees(base),
+        "old_worktrees": worktrees,
+        "old_worktree_comparison_complete": not unresolved,
+        "old_worktree_comparison_status": "VERIFIED"
+        if not unresolved
+        else "EXTERNAL_OR_UNRESOLVED",
+        "unresolved_worktree_paths": [item["path"] for item in unresolved],
+        "history_bundle_verification": history,
+        "retired_stage_archive_count": sum(
+            item["state"] == "retired_archive_history_preserved"
+            for item in stage_checks
+        ),
+        "c26_dependency_unchanged": True,
         "current_protected_unchanged": True,
         "physical_restore": False,
         "free_bytes_before": shutil.disk_usage(ROOT).free,
@@ -313,9 +551,7 @@ def main():
     result["utc"] = datetime.datetime.now(datetime.UTC).isoformat()
     result["elapsed_seconds"] = time.perf_counter() - began
     result["status"] = (
-        "VERIFIED_FIVE_ARCHIVE_RESTORE_AND_EXECUTION"
-        if args.physical
-        else "VERIFIED_FIVE_ARCHIVE_STREAM"
+        "RESTORE_AND_EXECUTION" if args.physical else "VERIFIED_ARCHIVE_STREAM"
     )
     output.parent.mkdir(parents=True, exist_ok=True)
     output.write_text(json.dumps(result, indent=2) + "\n")
@@ -328,6 +564,8 @@ def main():
                     "stage",
                     "commit",
                     "archive_stage_count",
+                    "retired_stage_archive_count",
+                    "old_worktree_comparison_complete",
                     "tracked_files",
                     "tracked_bytes",
                     "physical_restore",

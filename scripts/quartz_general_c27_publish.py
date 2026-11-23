@@ -1,8 +1,12 @@
-#!/usr/bin/env python3
-"""Publish one C27 stage with a cumulative overlay on the verified C23+C24+C25+C26 chain."""
+"""Publish one C27 stage on its verified original or consolidated source chain."""
 
+import datetime
+import gzip
+import hashlib
+import json
+import subprocess
+import sys
 from pathlib import Path
-import datetime, gzip, hashlib, json, subprocess, sys
 
 ROOT = Path(__file__).resolve().parents[1]
 DOC = ROOT / "docs/research/quartz_general_joint_posterior_20261123"
@@ -13,6 +17,13 @@ stage = sys.argv[1]
 paths = sys.argv[2:]
 assert paths and stage.replace("_", "").isalnum()
 base = json.loads((DOC / "BASELINE.json").read_text())
+active_chain_path = BACKUP / "ACTIVE_BASE_CHAIN.json"
+active_chain = (
+    json.loads(active_chain_path.read_text())
+    if active_chain_path.exists()
+    else {"archives": base["base_chain"], "anchor_commit": base["parent"]}
+)
+chain = active_chain["archives"]
 
 
 def git(*args):
@@ -53,7 +64,12 @@ subprocess.run(
     cwd=ROOT,
     check=True,
 )
-assert subprocess.run(["git", "diff", "--cached", "--quiet"], cwd=ROOT).returncode == 1
+assert (
+    subprocess.run(
+        ["git", "diff", "--cached", "--quiet"], cwd=ROOT, check=False
+    ).returncode
+    == 1
+)
 subprocess.run(
     [
         "git",
@@ -79,16 +95,15 @@ for path in changed:
     }, path
 archive = BACKUP / f"QUARTZ_GENERAL_C27_{stage}_{head[:12]}.tar.gz"
 assert not archive.exists()
-with archive.open("wb") as out:
-    with gzip.GzipFile(fileobj=out, mode="wb", mtime=0) as z:
-        p = subprocess.Popen(
-            ["git", "archive", "--format=tar", head, "--", *changed],
-            cwd=ROOT,
-            stdout=subprocess.PIPE,
-        )
-        for block in iter(lambda: p.stdout.read(1048576), b""):
-            z.write(block)
-        assert p.wait() == 0
+with archive.open("wb") as out, gzip.GzipFile(fileobj=out, mode="wb", mtime=0) as z:
+    p = subprocess.Popen(
+        ["git", "archive", "--format=tar", head, "--", *changed],
+        cwd=ROOT,
+        stdout=subprocess.PIPE,
+    )
+    for block in iter(lambda: p.stdout.read(1048576), b""):
+        z.write(block)
+    assert p.wait() == 0
 sha = digest(archive)
 subprocess.run(
     ["git", "push", "--quiet", "-u", "origin", f"HEAD:refs/heads/{base['branch']}"],
@@ -105,9 +120,10 @@ receipt = {
     "archive_sha256": sha,
     "archive_bytes": archive.stat().st_size,
     "archive_kind": "cumulative C27 overlay",
-    "base_chain": base["base_chain"],
+    "base_chain": chain,
+    "source_chain_anchor": active_chain["anchor_commit"],
     "changed_files": len(changed),
-    "utc": datetime.datetime.now(datetime.timezone.utc).isoformat(),
+    "utc": datetime.datetime.now(datetime.UTC).isoformat(),
     "dropbox_cloud_ack": "NOT_VERIFIED",
 }
 with (BACKUP / "STAGE_RECEIPTS.jsonl").open("a") as f:

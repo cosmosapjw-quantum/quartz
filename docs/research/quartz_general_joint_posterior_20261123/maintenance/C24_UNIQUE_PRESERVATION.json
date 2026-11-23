@@ -1,0 +1,84 @@
+{
+  "schema": "c24-unique-preservation-v1",
+  "verified": true,
+  "relative_paths": [
+    "docs/research/quartz_general_cheap_certificates_20261123/evidence/C24_TEST_TRACE.jsonl.gz",
+    "docs/research/quartz_general_cheap_certificates_20261123/evidence/C24_CAL_TRACE.jsonl.gz",
+    "docs/research/quartz_general_cheap_certificates_20261123/evidence/C24_TRAIN_TRACE.jsonl.gz"
+  ],
+  "sources": [
+    {
+      "cas_member": "blobs/sha256/1a/1a225dd982f6b5cd512971880340c2d7d22cf71c4d930b119914f3fe7066cd87",
+      "compressed_payload_readback_sha256_verified": true,
+      "disposition": "retained_unique",
+      "entry_type": "regular",
+      "git_blob_oid": "18f49de840ba0c1abfe472ea1f263d3f3a304d59",
+      "git_reachable": false,
+      "gzip_crc_read_to_eof": true,
+      "metadata": {
+        "bytes": 131402222,
+        "device": 66306,
+        "inode": 17334665,
+        "mode": 33204,
+        "mtime_ns": 1795410069589584258,
+        "symlink": false
+      },
+      "origin_kind": "required_c24_trace",
+      "payload_bytes": 131402222,
+      "sha256": "1a225dd982f6b5cd512971880340c2d7d22cf71c4d930b119914f3fe7066cd87",
+      "source_path": "/home/cosmosapjw/quantum/research/quartz_general_meta24_20261123/docs/research/quartz_general_cheap_certificates_20261123/evidence/C24_TEST_TRACE.jsonl.gz",
+      "uncompressed_bytes": 312824245,
+      "uncompressed_sha256": "cd5ba8eaccc0053958fb101ef43dc8bb761ae9a7dbe9cfa44e862e07fef22f91"
+    },
+    {
+      "cas_member": "blobs/sha256/63/63208ecc5fa1de8ebce34ef919652734997ee01a853ed9af138861a2ea38a24f",
+      "compressed_payload_readback_sha256_verified": true,
+      "disposition": "retained_unique",
+      "entry_type": "regular",
+      "git_blob_oid": "da5801d606f08cba064b0945b8af6b3a6fbbb261",
+      "git_reachable": false,
+      "gzip_crc_read_to_eof": true,
+      "metadata": {
+        "bytes": 65633648,
+        "device": 66306,
+        "inode": 17334641,
+        "mode": 33204,
+        "mtime_ns": 1795409758272281335,
+        "symlink": false
+      },
+      "origin_kind": "required_c24_trace",
+      "payload_bytes": 65633648,
+      "sha256": "63208ecc5fa1de8ebce34ef919652734997ee01a853ed9af138861a2ea38a24f",
+      "source_path": "/home/cosmosapjw/quantum/research/quartz_general_meta24_20261123/docs/research/quartz_general_cheap_certificates_20261123/evidence/C24_CAL_TRACE.jsonl.gz",
+      "uncompressed_bytes": 156452139,
+      "uncompressed_sha256": "4c40900e264926715c913820abffbb61ea817291e5453f304d83f30a662d0a8b"
+    },
+    {
+      "cas_member": "blobs/sha256/b2/b23180121487c18caf32edd717f5f8cc983514641905d95a83d95f35e2c814cf",
+      "compressed_payload_readback_sha256_verified": true,
+      "disposition": "retained_unique",
+      "entry_type": "regular",
+      "git_blob_oid": "d9df29e05426222b1245bcceb0b8e68e9cc3768a",
+      "git_reachable": false,
+      "gzip_crc_read_to_eof": true,
+      "metadata": {
+        "bytes": 65708367,
+        "device": 66306,
+        "inode": 17334634,
+        "mode": 33204,
+        "mtime_ns": 1795409734511999716,
+        "symlink": false
+      },
+      "origin_kind": "required_c24_trace",
+      "payload_bytes": 65708367,
+      "sha256": "b23180121487c18caf32edd717f5f8cc983514641905d95a83d95f35e2c814cf",
+      "source_path": "/home/cosmosapjw/quantum/research/quartz_general_meta24_20261123/docs/research/quartz_general_cheap_certificates_20261123/evidence/C24_TRAIN_TRACE.jsonl.gz",
+      "uncompressed_bytes": 156472116,
+      "uncompressed_sha256": "2c093b6970513263fe28d088454fd7b7a142e4e7ec72b043d7979cc24b5dffec"
+    }
+  ],
+  "retained_archive": "/home/cosmosapjw/Dropbox/personal_projects/quartz_general_meta27_backups/retained_history/UNIQUE_RESEARCH_AND_PROVENANCE.tar.gz",
+  "retained_archive_sha256": "28c0795be2fbc6ce1900582cb481d7dfe9ae077550a705cc98a223acff563656",
+  "retention_summary_sha256": "12ec3c3540cb0978e90e2d0fbabaa3e3e8746b50c2bfe971771777778b959884",
+  "utc": "2026-11-23T12:35:26.878220+00:00"
+}

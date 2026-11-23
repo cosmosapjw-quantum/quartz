@@ -25,3 +25,8 @@ Two disjoint Rust/Python implementation lanes are released after this stage. Par
 ## C05 — implementation complete
 
 Native18tests/Python21tests and final-binary75run independentintegration passed; meaningfulRED andtie-boundary repair were preserved. RunnableCLI coverspublicallocation, honestTRAINfit, timeprice, freeze, CAL/TEST, validationandanalysis. SeeC05_IMPLEMENTATION.md and NATIVE/HARNESS_HANDOFF packets. Newuser-authorizedworktree/backupsmaintenance precedes timingmeasurements.
+
+
+## C06 — validation and frozen TRAIN calibration
+
+Actual native18/Python21 tests,75-run independent integration plus5 invalid inputs, and53851 exact assertions passed. Public144-root allocation and honest3fold TRAIN selection completed; rho=.75. All1480 price queries are retained, giving47.6006216006216 ns/node and lambda_time_ns=2.0515750995723287e-05. Frozen bundle dc1f76a16e769add95fa0dfb9b31454cc7cdbe7372787cc199573bf5673f40af fixes all CAL/TEST inputs. Invocation/style corrections and authorized storage consolidation are evidenced, not hidden.

@@ -1,0 +1,955 @@
+{
+  "assertion_tested": "Exact finite joint normalization, unchanged initial marginals, latent Bayes update and observation order, rank-one covariance, closed H2 versus independently enumerated joint Bellman, conditional-option and TV bounds, parameter-family threshold, and old correlated fixture.",
+  "check_counts": {
+    "conditional_h2_after_initial_reveals": 5076,
+    "existing_correlated_069_benchmark": 1,
+    "h2_latent_equals_joint_bellman": 3024,
+    "horizon_and_stop_monotonicity": 3024,
+    "information_only_option_nonnegative": 3456,
+    "initial_marginal_identity": 864,
+    "joint_normalization": 5589,
+    "known_win_stops": 3024,
+    "moving_incumbent_correction_can_be_negative": 1,
+    "new_example_109_over_200": 1,
+    "new_example_product_stop": 1,
+    "new_information_family_formula": 120,
+    "new_information_family_threshold": 120,
+    "observation_order_invariance": 5076,
+    "optimal_value_total_variation_bound": 81,
+    "post_initial_product_control_same_marginals": 6900,
+    "posterior_equals_joint_enumeration": 6900,
+    "posterior_option_tv_bound": 7776,
+    "posterior_rank_one_covariance": 2016,
+    "rank_one_covariance": 720,
+    "transferred_policy_regret_bound": 81
+  },
+  "coefficient_domain": "fractions.Fraction exact rational arithmetic; no floating tolerance or RNG",
+  "counts": {
+    "assertions": 53851,
+    "conditional_h2_cases": 5076,
+    "h2_cases": 3024,
+    "joint_model_cases": 336,
+    "new_family_cases": 120,
+    "policy_transfer_cases": 81,
+    "posterior_history_cases": 5076
+  },
+  "moving_incumbent_negative_correction": {
+    "b": "0",
+    "bound": "81/400",
+    "correction": "-1/5",
+    "costs": [
+      "1/10",
+      "1/10"
+    ],
+    "rho": "9/10"
+  },
+  "new_information_family": {
+    "b": "1/2",
+    "condition": "rho^2 > 4 epsilon + 8 c for c>=0,epsilon>=0",
+    "d_A": "c",
+    "d_B": "1/4+epsilon",
+    "example": {
+      "c": "1/100",
+      "epsilon": "1/20",
+      "joint_value": "109/200",
+      "joint_worlds": [
+        {
+          "p": "41/100",
+          "u": [
+            "0",
+            "0"
+          ]
+        },
+        {
+          "p": "9/100",
+          "u": [
+            "0",
+            "1"
+          ]
+        },
+        {
+          "p": "9/100",
+          "u": [
+            "1/2",
+            "0"
+          ]
+        },
+        {
+          "p": "41/100",
+          "u": [
+            "1/2",
+            "1"
+          ]
+        }
+      ],
+      "product_value": "1/2",
+      "rho": "4/5"
+    },
+    "formula": "V2=1/2+max(0,-c+max(0,rho^2/4-epsilon)/2)",
+    "grid": [
+      {
+        "c": "0",
+        "epsilon": "0",
+        "profitable": false,
+        "rho": "0",
+        "value": "1/2"
+      },
+      {
+        "c": "1/1000",
+        "epsilon": "0",
+        "profitable": false,
+        "rho": "0",
+        "value": "1/2"
+      },
+      {
+        "c": "1/100",
+        "epsilon": "0",
+        "profitable": false,
+        "rho": "0",
+        "value": "1/2"
+      },
+      {
+        "c": "1/20",
+        "epsilon": "0",
+        "profitable": false,
+        "rho": "0",
+        "value": "1/2"
+      },
+      {
+        "c": "0",
+        "epsilon": "1/100",
+        "profitable": false,
+        "rho": "0",
+        "value": "1/2"
+      },
+      {
+        "c": "1/1000",
+        "epsilon": "1/100",
+        "profitable": false,
+        "rho": "0",
+        "value": "1/2"
+      },
+      {
+        "c": "1/100",
+        "epsilon": "1/100",
+        "profitable": false,
+        "rho": "0",
+        "value": "1/2"
+      },
+      {
+        "c": "1/20",
+        "epsilon": "1/100",
+        "profitable": false,
+        "rho": "0",
+        "value": "1/2"
+      },
+      {
+        "c": "0",
+        "epsilon": "1/20",
+        "profitable": false,
+        "rho": "0",
+        "value": "1/2"
+      },
+      {
+        "c": "1/1000",
+        "epsilon": "1/20",
+        "profitable": false,
+        "rho": "0",
+        "value": "1/2"
+      },
+      {
+        "c": "1/100",
+        "epsilon": "1/20",
+        "profitable": false,
+        "rho": "0",
+        "value": "1/2"
+      },
+      {
+        "c": "1/20",
+        "epsilon": "1/20",
+        "profitable": false,
+        "rho": "0",
+        "value": "1/2"
+      },
+      {
+        "c": "0",
+        "epsilon": "1/10",
+        "profitable": false,
+        "rho": "0",
+        "value": "1/2"
+      },
+      {
+        "c": "1/1000",
+        "epsilon": "1/10",
+        "profitable": false,
+        "rho": "0",
+        "value": "1/2"
+      },
+      {
+        "c": "1/100",
+        "epsilon": "1/10",
+        "profitable": false,
+        "rho": "0",
+        "value": "1/2"
+      },
+      {
+        "c": "1/20",
+        "epsilon": "1/10",
+        "profitable": false,
+        "rho": "0",
+        "value": "1/2"
+      },
+      {
+        "c": "0",
+        "epsilon": "1/5",
+        "profitable": false,
+        "rho": "0",
+        "value": "1/2"
+      },
+      {
+        "c": "1/1000",
+        "epsilon": "1/5",
+        "profitable": false,
+        "rho": "0",
+        "value": "1/2"
+      },
+      {
+        "c": "1/100",
+        "epsilon": "1/5",
+        "profitable": false,
+        "rho": "0",
+        "value": "1/2"
+      },
+      {
+        "c": "1/20",
+        "epsilon": "1/5",
+        "profitable": false,
+        "rho": "0",
+        "value": "1/2"
+      },
+      {
+        "c": "0",
+        "epsilon": "0",
+        "profitable": true,
+        "rho": "1/4",
+        "value": "65/128"
+      },
+      {
+        "c": "1/1000",
+        "epsilon": "0",
+        "profitable": true,
+        "rho": "1/4",
+        "value": "8109/16000"
+      },
+      {
+        "c": "1/100",
+        "epsilon": "0",
+        "profitable": false,
+        "rho": "1/4",
+        "value": "1/2"
+      },
+      {
+        "c": "1/20",
+        "epsilon": "0",
+        "profitable": false,
+        "rho": "1/4",
+        "value": "1/2"
+      },
+      {
+        "c": "0",
+        "epsilon": "1/100",
+        "profitable": true,
+        "rho": "1/4",
+        "value": "1609/3200"
+      },
+      {
+        "c": "1/1000",
+        "epsilon": "1/100",
+        "profitable": true,
+        "rho": "1/4",
+        "value": "8029/16000"
+      },
+      {
+        "c": "1/100",
+        "epsilon": "1/100",
+        "profitable": false,
+        "rho": "1/4",
+        "value": "1/2"
+      },
+      {
+        "c": "1/20",
+        "epsilon": "1/100",
+        "profitable": false,
+        "rho": "1/4",
+        "value": "1/2"
+      },
+      {
+        "c": "0",
+        "epsilon": "1/20",
+        "profitable": false,
+        "rho": "1/4",
+        "value": "1/2"
+      },
+      {
+        "c": "1/1000",
+        "epsilon": "1/20",
+        "profitable": false,
+        "rho": "1/4",
+        "value": "1/2"
+      },
+      {
+        "c": "1/100",
+        "epsilon": "1/20",
+        "profitable": false,
+        "rho": "1/4",
+        "value": "1/2"
+      },
+      {
+        "c": "1/20",
+        "epsilon": "1/20",
+        "profitable": false,
+        "rho": "1/4",
+        "value": "1/2"
+      },
+      {
+        "c": "0",
+        "epsilon": "1/10",
+        "profitable": false,
+        "rho": "1/4",
+        "value": "1/2"
+      },
+      {
+        "c": "1/1000",
+        "epsilon": "1/10",
+        "profitable": false,
+        "rho": "1/4",
+        "value": "1/2"
+      },
+      {
+        "c": "1/100",
+        "epsilon": "1/10",
+        "profitable": false,
+        "rho": "1/4",
+        "value": "1/2"
+      },
+      {
+        "c": "1/20",
+        "epsilon": "1/10",
+        "profitable": false,
+        "rho": "1/4",
+        "value": "1/2"
+      },
+      {
+        "c": "0",
+        "epsilon": "1/5",
+        "profitable": false,
+        "rho": "1/4",
+        "value": "1/2"
+      },
+      {
+        "c": "1/1000",
+        "epsilon": "1/5",
+        "profitable": false,
+        "rho": "1/4",
+        "value": "1/2"
+      },
+      {
+        "c": "1/100",
+        "epsilon": "1/5",
+        "profitable": false,
+        "rho": "1/4",
+        "value": "1/2"
+      },
+      {
+        "c": "1/20",
+        "epsilon": "1/5",
+        "profitable": false,
+        "rho": "1/4",
+        "value": "1/2"
+      },
+      {
+        "c": "0",
+        "epsilon": "0",
+        "profitable": true,
+        "rho": "1/2",
+        "value": "17/32"
+      },
+      {
+        "c": "1/1000",
+        "epsilon": "0",
+        "profitable": true,
+        "rho": "1/2",
+        "value": "2121/4000"
+      },
+      {
+        "c": "1/100",
+        "epsilon": "0",
+        "profitable": true,
+        "rho": "1/2",
+        "value": "417/800"
+      },
+      {
+        "c": "1/20",
+        "epsilon": "0",
+        "profitable": false,
+        "rho": "1/2",
+        "value": "1/2"
+      },
+      {
+        "c": "0",
+        "epsilon": "1/100",
+        "profitable": true,
+        "rho": "1/2",
+        "value": "421/800"
+      },
+      {
+        "c": "1/1000",
+        "epsilon": "1/100",
+        "profitable": true,
+        "rho": "1/2",
+        "value": "2101/4000"
+      },
+      {
+        "c": "1/100",
+        "epsilon": "1/100",
+        "profitable": true,
+        "rho": "1/2",
+        "value": "413/800"
+      },
+      {
+        "c": "1/20",
+        "epsilon": "1/100",
+        "profitable": false,
+        "rho": "1/2",
+        "value": "1/2"
+      },
+      {
+        "c": "0",
+        "epsilon": "1/20",
+        "profitable": true,
+        "rho": "1/2",
+        "value": "81/160"
+      },
+      {
+        "c": "1/1000",
+        "epsilon": "1/20",
+        "profitable": true,
+        "rho": "1/2",
+        "value": "2021/4000"
+      },
+      {
+        "c": "1/100",
+        "epsilon": "1/20",
+        "profitable": false,
+        "rho": "1/2",
+        "value": "1/2"
+      },
+      {
+        "c": "1/20",
+        "epsilon": "1/20",
+        "profitable": false,
+        "rho": "1/2",
+        "value": "1/2"
+      },
+      {
+        "c": "0",
+        "epsilon": "1/10",
+        "profitable": false,
+        "rho": "1/2",
+        "value": "1/2"
+      },
+      {
+        "c": "1/1000",
+        "epsilon": "1/10",
+        "profitable": false,
+        "rho": "1/2",
+        "value": "1/2"
+      },
+      {
+        "c": "1/100",
+        "epsilon": "1/10",
+        "profitable": false,
+        "rho": "1/2",
+        "value": "1/2"
+      },
+      {
+        "c": "1/20",
+        "epsilon": "1/10",
+        "profitable": false,
+        "rho": "1/2",
+        "value": "1/2"
+      },
+      {
+        "c": "0",
+        "epsilon": "1/5",
+        "profitable": false,
+        "rho": "1/2",
+        "value": "1/2"
+      },
+      {
+        "c": "1/1000",
+        "epsilon": "1/5",
+        "profitable": false,
+        "rho": "1/2",
+        "value": "1/2"
+      },
+      {
+        "c": "1/100",
+        "epsilon": "1/5",
+        "profitable": false,
+        "rho": "1/2",
+        "value": "1/2"
+      },
+      {
+        "c": "1/20",
+        "epsilon": "1/5",
+        "profitable": false,
+        "rho": "1/2",
+        "value": "1/2"
+      },
+      {
+        "c": "0",
+        "epsilon": "0",
+        "profitable": true,
+        "rho": "3/4",
+        "value": "73/128"
+      },
+      {
+        "c": "1/1000",
+        "epsilon": "0",
+        "profitable": true,
+        "rho": "3/4",
+        "value": "9109/16000"
+      },
+      {
+        "c": "1/100",
+        "epsilon": "0",
+        "profitable": true,
+        "rho": "3/4",
+        "value": "1793/3200"
+      },
+      {
+        "c": "1/20",
+        "epsilon": "0",
+        "profitable": true,
+        "rho": "3/4",
+        "value": "333/640"
+      },
+      {
+        "c": "0",
+        "epsilon": "1/100",
+        "profitable": true,
+        "rho": "3/4",
+        "value": "1809/3200"
+      },
+      {
+        "c": "1/1000",
+        "epsilon": "1/100",
+        "profitable": true,
+        "rho": "3/4",
+        "value": "9029/16000"
+      },
+      {
+        "c": "1/100",
+        "epsilon": "1/100",
+        "profitable": true,
+        "rho": "3/4",
+        "value": "1777/3200"
+      },
+      {
+        "c": "1/20",
+        "epsilon": "1/100",
+        "profitable": true,
+        "rho": "3/4",
+        "value": "1649/3200"
+      },
+      {
+        "c": "0",
+        "epsilon": "1/20",
+        "profitable": true,
+        "rho": "3/4",
+        "value": "349/640"
+      },
+      {
+        "c": "1/1000",
+        "epsilon": "1/20",
+        "profitable": true,
+        "rho": "3/4",
+        "value": "8709/16000"
+      },
+      {
+        "c": "1/100",
+        "epsilon": "1/20",
+        "profitable": true,
+        "rho": "3/4",
+        "value": "1713/3200"
+      },
+      {
+        "c": "1/20",
+        "epsilon": "1/20",
+        "profitable": false,
+        "rho": "3/4",
+        "value": "1/2"
+      },
+      {
+        "c": "0",
+        "epsilon": "1/10",
+        "profitable": true,
+        "rho": "3/4",
+        "value": "333/640"
+      },
+      {
+        "c": "1/1000",
+        "epsilon": "1/10",
+        "profitable": true,
+        "rho": "3/4",
+        "value": "8309/16000"
+      },
+      {
+        "c": "1/100",
+        "epsilon": "1/10",
+        "profitable": true,
+        "rho": "3/4",
+        "value": "1633/3200"
+      },
+      {
+        "c": "1/20",
+        "epsilon": "1/10",
+        "profitable": false,
+        "rho": "3/4",
+        "value": "1/2"
+      },
+      {
+        "c": "0",
+        "epsilon": "1/5",
+        "profitable": false,
+        "rho": "3/4",
+        "value": "1/2"
+      },
+      {
+        "c": "1/1000",
+        "epsilon": "1/5",
+        "profitable": false,
+        "rho": "3/4",
+        "value": "1/2"
+      },
+      {
+        "c": "1/100",
+        "epsilon": "1/5",
+        "profitable": false,
+        "rho": "3/4",
+        "value": "1/2"
+      },
+      {
+        "c": "1/20",
+        "epsilon": "1/5",
+        "profitable": false,
+        "rho": "3/4",
+        "value": "1/2"
+      },
+      {
+        "c": "0",
+        "epsilon": "0",
+        "profitable": true,
+        "rho": "9/10",
+        "value": "481/800"
+      },
+      {
+        "c": "1/1000",
+        "epsilon": "0",
+        "profitable": true,
+        "rho": "9/10",
+        "value": "2401/4000"
+      },
+      {
+        "c": "1/100",
+        "epsilon": "0",
+        "profitable": true,
+        "rho": "9/10",
+        "value": "473/800"
+      },
+      {
+        "c": "1/20",
+        "epsilon": "0",
+        "profitable": true,
+        "rho": "9/10",
+        "value": "441/800"
+      },
+      {
+        "c": "0",
+        "epsilon": "1/100",
+        "profitable": true,
+        "rho": "9/10",
+        "value": "477/800"
+      },
+      {
+        "c": "1/1000",
+        "epsilon": "1/100",
+        "profitable": true,
+        "rho": "9/10",
+        "value": "2381/4000"
+      },
+      {
+        "c": "1/100",
+        "epsilon": "1/100",
+        "profitable": true,
+        "rho": "9/10",
+        "value": "469/800"
+      },
+      {
+        "c": "1/20",
+        "epsilon": "1/100",
+        "profitable": true,
+        "rho": "9/10",
+        "value": "437/800"
+      },
+      {
+        "c": "0",
+        "epsilon": "1/20",
+        "profitable": true,
+        "rho": "9/10",
+        "value": "461/800"
+      },
+      {
+        "c": "1/1000",
+        "epsilon": "1/20",
+        "profitable": true,
+        "rho": "9/10",
+        "value": "2301/4000"
+      },
+      {
+        "c": "1/100",
+        "epsilon": "1/20",
+        "profitable": true,
+        "rho": "9/10",
+        "value": "453/800"
+      },
+      {
+        "c": "1/20",
+        "epsilon": "1/20",
+        "profitable": true,
+        "rho": "9/10",
+        "value": "421/800"
+      },
+      {
+        "c": "0",
+        "epsilon": "1/10",
+        "profitable": true,
+        "rho": "9/10",
+        "value": "441/800"
+      },
+      {
+        "c": "1/1000",
+        "epsilon": "1/10",
+        "profitable": true,
+        "rho": "9/10",
+        "value": "2201/4000"
+      },
+      {
+        "c": "1/100",
+        "epsilon": "1/10",
+        "profitable": true,
+        "rho": "9/10",
+        "value": "433/800"
+      },
+      {
+        "c": "1/20",
+        "epsilon": "1/10",
+        "profitable": true,
+        "rho": "9/10",
+        "value": "401/800"
+      },
+      {
+        "c": "0",
+        "epsilon": "1/5",
+        "profitable": true,
+        "rho": "9/10",
+        "value": "401/800"
+      },
+      {
+        "c": "1/1000",
+        "epsilon": "1/5",
+        "profitable": true,
+        "rho": "9/10",
+        "value": "2001/4000"
+      },
+      {
+        "c": "1/100",
+        "epsilon": "1/5",
+        "profitable": false,
+        "rho": "9/10",
+        "value": "1/2"
+      },
+      {
+        "c": "1/20",
+        "epsilon": "1/5",
+        "profitable": false,
+        "rho": "9/10",
+        "value": "1/2"
+      },
+      {
+        "c": "0",
+        "epsilon": "0",
+        "profitable": true,
+        "rho": "1",
+        "value": "5/8"
+      },
+      {
+        "c": "1/1000",
+        "epsilon": "0",
+        "profitable": true,
+        "rho": "1",
+        "value": "78/125"
+      },
+      {
+        "c": "1/100",
+        "epsilon": "0",
+        "profitable": true,
+        "rho": "1",
+        "value": "123/200"
+      },
+      {
+        "c": "1/20",
+        "epsilon": "0",
+        "profitable": true,
+        "rho": "1",
+        "value": "23/40"
+      },
+      {
+        "c": "0",
+        "epsilon": "1/100",
+        "profitable": true,
+        "rho": "1",
+        "value": "31/50"
+      },
+      {
+        "c": "1/1000",
+        "epsilon": "1/100",
+        "profitable": true,
+        "rho": "1",
+        "value": "619/1000"
+      },
+      {
+        "c": "1/100",
+        "epsilon": "1/100",
+        "profitable": true,
+        "rho": "1",
+        "value": "61/100"
+      },
+      {
+        "c": "1/20",
+        "epsilon": "1/100",
+        "profitable": true,
+        "rho": "1",
+        "value": "57/100"
+      },
+      {
+        "c": "0",
+        "epsilon": "1/20",
+        "profitable": true,
+        "rho": "1",
+        "value": "3/5"
+      },
+      {
+        "c": "1/1000",
+        "epsilon": "1/20",
+        "profitable": true,
+        "rho": "1",
+        "value": "599/1000"
+      },
+      {
+        "c": "1/100",
+        "epsilon": "1/20",
+        "profitable": true,
+        "rho": "1",
+        "value": "59/100"
+      },
+      {
+        "c": "1/20",
+        "epsilon": "1/20",
+        "profitable": true,
+        "rho": "1",
+        "value": "11/20"
+      },
+      {
+        "c": "0",
+        "epsilon": "1/10",
+        "profitable": true,
+        "rho": "1",
+        "value": "23/40"
+      },
+      {
+        "c": "1/1000",
+        "epsilon": "1/10",
+        "profitable": true,
+        "rho": "1",
+        "value": "287/500"
+      },
+      {
+        "c": "1/100",
+        "epsilon": "1/10",
+        "profitable": true,
+        "rho": "1",
+        "value": "113/200"
+      },
+      {
+        "c": "1/20",
+        "epsilon": "1/10",
+        "profitable": true,
+        "rho": "1",
+        "value": "21/40"
+      },
+      {
+        "c": "0",
+        "epsilon": "1/5",
+        "profitable": true,
+        "rho": "1",
+        "value": "21/40"
+      },
+      {
+        "c": "1/1000",
+        "epsilon": "1/5",
+        "profitable": true,
+        "rho": "1",
+        "value": "131/250"
+      },
+      {
+        "c": "1/100",
+        "epsilon": "1/5",
+        "profitable": true,
+        "rho": "1",
+        "value": "103/200"
+      },
+      {
+        "c": "1/20",
+        "epsilon": "1/5",
+        "profitable": false,
+        "rho": "1",
+        "value": "1/2"
+      }
+    ],
+    "laws": [
+      [
+        "1/2",
+        "1/2",
+        "0"
+      ],
+      [
+        "1/2",
+        "0",
+        "1/2"
+      ]
+    ]
+  },
+  "non_claims": [
+    "No theorem follows from the finite count alone; direct proofs are in the companion report.",
+    "No game training, CAL, TEST or runtime controller was executed.",
+    "Centered common-strength family only models nonnegative offdiagonal utility covariances.",
+    "The query-cost Bellman excludes its own planner CPU overhead.",
+    "Terminal deployment is restricted to exact-known values; this is not posterior-mean selection of unqueried candidates."
+  ],
+  "schema": "c27-theory-finite-v1",
+  "software": {
+    "python": "3.12.3"
+  }
+}
