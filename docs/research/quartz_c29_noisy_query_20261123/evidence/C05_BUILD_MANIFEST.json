@@ -1,0 +1,15 @@
+{
+  "status": "SCOPED_NATIVE_BUILT",
+  "source_sha256": "e49b76fd6341f6bc4018c23748d20c3e9e62d4b4a25e939ffaa2ca8c32ec15cb",
+  "binary_sha256": "baf33cb84e9504a8f8c297b5a6856e919f3494ef21de9f12c17ef434971676cb",
+  "binary_bytes": 647560,
+  "binary_path": "/home/cosmosapjw/quantum/research/quartz_c29_target_20261123/release/quartz_c29_noisy_query",
+  "test_argv": "CARGO_TARGET_DIR=... CARGO_BUILD_JOBS=2 cargo test --locked --offline --bin quartz_c29_noisy_query",
+  "test_exit": 0,
+  "test_count": 8,
+  "release_argv": "CARGO_TARGET_DIR=... CARGO_BUILD_JOBS=2 cargo build --locked --offline --release --bin quartz_c29_noisy_query",
+  "release_exit": 0,
+  "smoke": "synthetic R05 nonmyopic value 0.67875; exit0",
+  "warnings": "unused frozen C26/C28 substrate fields; no release failure",
+  "protected_c28_source_changed": false
+}
