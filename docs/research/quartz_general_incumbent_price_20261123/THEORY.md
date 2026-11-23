@@ -29,3 +29,13 @@ The formal cost C is remaining charged cell-stencil work, not time. W=n*(solver 
 The empirical time price stays 1/1,000,000 utility per microsecond. A TRAIN-only per-side next-block cost prediction is a heuristic input. Total measured times include validation, all solver and certificate work, control, and workspace destruction. Sunk work is excluded from the local future comparison but included in all policy-level net utility estimates.
 
 No game claim follows from this finite SPD model. The claim ledger binds each assertion to its additional assumptions and evidence.
+
+## R04 — Candidate constructions and separating examples
+
+Candidate A keeps C24 FAST_BLOCK's final fresh-score recommendation. Candidate B retains i unless j=argmax_a L_a has L_j>U_i. Candidate C adds the charged-work test G_i<=2^-30 K*n. Candidate D substitutes a positive TRAIN-only predicted next-block time in the price test and makes an empirical time claim only. All four are retained as controls or variants.
+
+Constructive three-action example: u=(3/5,4/5,7/10), intervals ([1/2,7/10],[3/4,9/10],[3/5,4/5]), initial i=0. j=1 is certified better (3/4>7/10); true utility gains 1/5 and G drops from 2/5 to 1/20. Global unique-optimum separation is not yet available because the third upper bound is 4/5, so pairwise retention permits a useful switch before complete identification.
+
+Conservatism example: u=(3/5,61/100), intervals ([1/2,7/10],[11/20,13/20]), i=0. The true gain 1/100 exists but the overlap prevents certification. No finite-budget catch-up guarantee is assumed.
+
+Cost-model counterexample: both current intervals are [0,1/10], with true incumbent u_i=0 and alternative u_j=1/10. No free certified switch is available. G_i=1/10 and a predicted cost 1 at lambda=1 suggest stopping, but a paid continuation costing 1/100 that reveals/selects the alternative gains 9/100 net. A time predictor is not a universal cost lower bound.
