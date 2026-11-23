@@ -73,3 +73,11 @@ Parent verified current 21-test C26 Python suite, full release Rust tests and cr
 ## C07 — completed
 
 Executed TRAIN90, verified296candidate labels/costs, froze and backed up the learned model, then executed CAL60 with38880timing and4320trace runs. CAL node-priced gain is positive as a diagnostic; the model remains unchanged and TEST is still unopened. See coding/C07_SCIENTIFIC_VALIDATION.md.
+
+## C08 — completed
+
+Frozen TEST150 produced97,200timing runs and10,800trace runs. The positive node-priced primary gate is not met: +0.00569010, 95%CI[-0.0136930,+0.0290394]. All primary and secondary results, the generated figure, and post-hoc conditional-cost diagnosis are retained. The inherited-ignore omission of CAL result artifacts from C07 was disclosed and repaired with a supplemental archive and explicit CAL/TEST tracking in C08. See coding/C08_RESULTS.md.
+
+## C09 — completed
+
+Independent code/science review passed within scope after closure of the publication defect and a zero-step positivity wording condition. Restored2,768files/1,106,732,654bytes from four verified archives; exact Git blobs/modes and all14older worktrees checked. See coding/C09_REVIEW_AND_RESTORE.md. Original P2/P3 and the primary empirical admission remain open.

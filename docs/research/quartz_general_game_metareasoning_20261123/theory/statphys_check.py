@@ -413,7 +413,7 @@ For a!=b, set W_ab=kappa/(m-1) min(1,q*_a/q*_b), where column b is the departure
 
     W_ab q*_b = kappa/(m-1) min(q*_a,q*_b) = W_ba q*_a.
 
-Detailed balance plus zero column sums yields W q*=0. All offdiagonal rates are positive; the finite chain is irreducible. Its exit rates are <=kappa. For 0<=delta<=1/kappa, P=I+delta W is column stochastic and nonnegative; Pq*=q*. With delta strictly below 1/kappa it has positive diagonal and all entries are positive. P is an exact selected discrete-time transition, not the continuous semigroup exp(delta W).
+Detailed balance plus zero column sums yields W q*=0. All offdiagonal rates are positive; the finite chain is irreducible. Its exit rates are <=kappa. For 0<=delta<=1/kappa, P=I+delta W is column stochastic and nonnegative; Pq*=q*. With 0<delta<1/kappa it has positive diagonal and all entries are positive. P is an exact selected discrete-time transition, not the continuous semigroup exp(delta W).
 
 Exact W at kappa=1:
 

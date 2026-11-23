@@ -30,3 +30,7 @@ On every later Quartz research turn, read the original source/provenance map, cu
 ## C08 outcome check
 
 The primary negative admission is retained, preserving the original resource-rational objective rather than promoting gross quality gain as cost efficiency. Runtime estimated VOC, genuine Gibbs sampling and exact-known retention are implemented. The original NN-evaluation P2 and human dissociation P3 remain unproven. C26 TEST is retired from future confirmatory use. Next theory should model signal-conditioned joint beliefs: marginal candidate priors do not automatically update after learning the incumbent or another candidate. The C07 ignored-evidence publication defect is recorded separately from scientific error and repaired in C08.
+
+## C09 independent check
+
+The fresh reviewer directly read original Eq1/Eq2, archived PRD/Lindblad text and the COG01 contract. It verified that the current mechanisms preserve resource-priced decisions, actual information boundaries and original game/cognitive targets. The diagonal-jump correction is constructive, while strict positivity now explicitly excludes delta=0. Source history and negative empirical outcomes are retained. No hypothesis is upgraded by review or restore success.

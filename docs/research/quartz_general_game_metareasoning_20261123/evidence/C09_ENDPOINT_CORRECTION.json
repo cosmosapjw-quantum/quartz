@@ -1,0 +1,21 @@
+{
+  "utc": "2026-11-23T10:01:24.793985+00:00",
+  "review_finding": "C26-REVIEW-P3-01",
+  "preserved_original_commit": "1f29a3152828ce7d4d347be362eb2d4a79ec4735",
+  "old_text": "With delta strictly below 1/kappa it has positive diagonal and all entries are positive.",
+  "new_text": "With 0<delta<1/kappa it has positive diagonal and all entries are positive.",
+  "basis": "At delta=0, P=I; strict positivity requires delta>0. Existing numerical checks use delta=1/2 and are unchanged.",
+  "scope": "Two documentation/generation strings only; no mathematical executable expression, runtime controller, data, prior or cohort changed.",
+  "files": [
+    {
+      "path": "theory/STATPHYS_DERIVATION.md",
+      "before_sha256": "4080f26dbd01faf1976fb2afe68360c7a425d7d4c89376a1ce4e8d4435a0e798",
+      "after_sha256": "d717a973a529bd339a259b824ddaa80e88cd054fc4baee44102a9f14360fc512"
+    },
+    {
+      "path": "theory/statphys_check.py",
+      "before_sha256": "7a22a61beb9de7662d5dd940eeb7f9c9c953a5e6f19f06e5f3e425ebdc46b9b0",
+      "after_sha256": "ef81457919054c18d5a29c7b9c9af1d9003179798a235fbd4af523813c3a9826"
+    }
+  ]
+}

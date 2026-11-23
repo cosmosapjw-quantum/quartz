@@ -1,0 +1,354 @@
+{
+  "schema": "c26-independent-review-v1",
+  "reviewer": "/root/c26_review",
+  "date": "2026-11-23",
+  "device": "cosmosapjw",
+  "device_id": "edd1b263-56a0-4391-8a2a-677dd00eabf5",
+  "repository": "/home/cosmosapjw/quantum/research/quartz_general_meta26_20261123",
+  "branch": "research/quartz-general-c26-game-metareasoning-20261123",
+  "initial_review_head": "b443458d4d8bae0f95d68f38f0dc8e23323f75fa",
+  "raw_audit_head": "8101e7610dc59602f3abe938e49b43bf2571f191",
+  "c25_parent": "d6019d674ae76524b1895016f49b82d4f7b001b2",
+  "verdict": "Looks good",
+  "review_gate": "PASS",
+  "scope": "C26 frozen production code, independent oracle/campaign, direct conditional proofs, origin corrections, completed CAL/TEST evidence, and exact C08 publication/C09 two-string correction closure. Parent reports actual four-archive restore completed; ensuing C09/C10 publication remains parent-owned.",
+  "read_only_confirmation": "No project files edited, formatted, generated, staged, committed or published; no cohort run. Only the two authorized /tmp review reports are written.",
+  "identities": {
+    "native_source_sha256": "145b586fea7ff7526eb30d15d683580678f1c9dd3a433967f536697957327a01",
+    "harness_sha256": "ee4501d5bfee66adcc15dbfb0b0f93ee50343e3313c7d1ce654143571ecee750",
+    "tests_sha256": "9f265bc253cf62913591a72e9b5460a4c0f1f2288f97a338dcaec57c16084b19",
+    "binary_sha256": "8735b1f23a970248e4ef2b26d08c8df2daf181f0d29163317b5f41cc6ef0be0c",
+    "contract_sha256": "1821e46989ab21f9259ee9c61e4935824a362da5139d08db13d10fb86c1d0985",
+    "source_spec_sha256": "07826834be13bdb7f779459d0ca7e964ace402af61af286bda1a108503b3a466",
+    "model_sha256": "0843447dc755c1d09e1bc69a44dd052e6db9c5c2ace41d1590b668cbfc36a126",
+    "source_manifest_sha256": "1dfb2b92e4fca4bb6827fda0b955eb49e3c2a8b7550a27d7ed3dece4db5b8c16",
+    "original_pdf_sha256": "74d8848012f1ad95fbf2320a8f0392654c800c641d3d37ea90b81dead154547b",
+    "original_zip_sha256": "927d9fd0201aeb3e8a052b9a5e55943d8cf21608320ac93753ec0595ce133fa2",
+    "thesis_corrected_sha256": "4f5133edbe04dbef2699c3efab14660b8a81517e800e30822cc2a4a99023876c",
+    "cog01_contract_sha256": "24b3645d5c9c2926d56f1e10651d5e9110748ce84cbf3768fd7a9acf9c9c9f71",
+    "game_trait_sha256": "b5e1fefb9d9ee72e7eb2fb684edafe3702e11f0f712cc3bd92fb43ccb71ff3e0",
+    "tictactoe_sha256": "45f552117481ef00e966d461c111e2de41de2d5f504390c376d675d8c1de35f8"
+  },
+  "findings": {
+    "P0": [],
+    "P1": [
+      {
+        "id": "C26-REVIEW-P1-02",
+        "discovered_by": "parent /root",
+        "title": "Inherited ignore rule omitted CAL/TEST result artifacts from staged publication",
+        "status": "resolved_verified",
+        "blocking": false,
+        "class": "provenance/packaging",
+        "evidence": "Parent reported coding/results/ ignored by inherited .gitignore; C07 CAL eight result files were absent from Git, and new C08 TEST eight files were also not staged. Raw files remain intact and were independently reviewed.",
+        "impact": "Per-stage evidence publication/backup contract was not met for C07 CAL results. Scientific executions/raw results remain valid locally; omission risks unavailable published evidence.",
+        "remedy": "Force-add only the CAL and TEST result directories into C08, preserve the C07 omission and C08 repair note, create/verify supplemental CAL archive before C08 publication, then verify all sixteen results are tracked with matching Git blobs.",
+        "resolution": {
+          "commit": "1f29a3152828ce7d4d347be362eb2d4a79ec4735",
+          "closure_process_id": 302990,
+          "tracked_result_files": 16,
+          "cal_files": 8,
+          "test_files": 8,
+          "all_git_blobs_equal_reviewed_worktree_bytes": true,
+          "supplemental_receipt": "evidence/C08_PACKAGING_CORRECTION.json",
+          "supplemental_archive_sha256": "6c7159e0c32c5e2bf3096f6923e397c5c14ee396fc5dd0b47112e62e7076b177",
+          "supplemental_archive_bytes": 897421,
+          "receipt_parent_readback_verified": true,
+          "archive_readback_scope": "Reviewer inspected receipt and matching per-file hashes; parent performed archive readback. No duplicate archive extraction by reviewer.",
+          "history": "C07 omission is preserved explicitly; corrected evidence publication occurs at C08, not retroactively at C07."
+        }
+      }
+    ],
+    "P2": [],
+    "P3": [
+      {
+        "id": "C26-REVIEW-P3-01",
+        "title": "Markov strict-positivity statement includes zero step by omission",
+        "status": "resolved_verified",
+        "blocking": false,
+        "evidence": [
+          "theory/STATPHYS_DERIVATION.md:21",
+          "theory/statphys_check.py:416"
+        ],
+        "observation": "After allowing 0<=delta<=1/kappa, the next sentence says delta strictly below 1/kappa makes all entries positive. At delta=0, P=I; offdiagonal entries vanish and KL does not strictly decrease.",
+        "impact": "Boundary condition in theoretical prose/generation string; actual delta=1/2 calculation and runtime sampler unaffected.",
+        "remedy": "Replace that sentence condition by 0<delta<1/kappa, retaining the nonnegative stochasticity range and original evidence.",
+        "validation": "Direct substitution delta=0 gives identity; positive offdiagonal W and 0<delta<1/kappa give positive P. No cohort rerun needed.",
+        "resolution": {
+          "closure_process_id": 302990,
+          "receipt": "evidence/C09_ENDPOINT_CORRECTION.json",
+          "preserved_old_commit": "1f29a3152828ce7d4d347be362eb2d4a79ec4735",
+          "verified_relation": "Each current file equals its C08 bytes with exactly one old-to-new sentence condition replacement; no other byte changed.",
+          "files": [
+            {
+              "path": "theory/STATPHYS_DERIVATION.md",
+              "line": 21,
+              "old_sha256": "4080f26dbd01faf1976fb2afe68360c7a425d7d4c89376a1ce4e8d4435a0e798",
+              "new_sha256": "d717a973a529bd339a259b824ddaa80e88cd054fc4baee44102a9f14360fc512"
+            },
+            {
+              "path": "theory/statphys_check.py",
+              "line": 416,
+              "old_sha256": "7a22a61beb9de7662d5dd940eeb7f9c9c953a5e6f19f06e5f3e425ebdc46b9b0",
+              "new_sha256": "ef81457919054c18d5a29c7b9c9af1d9003179798a235fbd4af523813c3a9826"
+            }
+          ],
+          "publication_scope": "Corrected bytes observed in current worktree with C09 receipt; parent owns ensuing C09 commit."
+        }
+      }
+    ]
+  },
+  "independent_executions": [
+    {
+      "remote_process_id": 282982,
+      "kind": "focused_python_tests",
+      "exit_code": 0,
+      "tests": 20,
+      "failures": 0,
+      "errors": 0,
+      "skips": 0,
+      "elapsed_seconds": 0.33213125498150475,
+      "command": "PYTHONDONTWRITEBYTECODE=1 venv/bin/python heredoc: import tests/test_c26_game_metareasoning.py through importlib, load unittest suite, exclude only test_all_reachable_nonterminal_root_signs_and_node_counts, run remaining tests; assert source hashes unchanged",
+      "excluded_reason": "The existing exhaustive audit writes project evidence; reused its recorded result instead."
+    },
+    {
+      "remote_process_id": 291664,
+      "kind": "standalone_raw_identity_and_inference_audit",
+      "exit_code": 0,
+      "timing_requests": 2520,
+      "trace_requests": 2520,
+      "timed_runs": 136080,
+      "trace_runs": 15120,
+      "trace_decisions": 27401,
+      "trace_additional_nodes": 246127,
+      "method": "Read every CAL/TEST gzip raw record; bind source/model/request/raw hashes, expected cells, policy/repeat coverage, charged-node decomposition, known-incumbent telescoping, no oracle prediction fields, trace/timing signatures; independently aggregate and rerun numpy.PCG64 parent-stratified bootstrap."
+    },
+    {
+      "remote_process_id": 293420,
+      "kind": "standalone_train_parameter_reconstruction",
+      "exit_code": 0,
+      "train_parents": 90,
+      "nonterminal_candidates": 296,
+      "class_counts": [
+        183,
+        65,
+        48
+      ],
+      "feature_bins": 41,
+      "method": "Recount raw TRAIN categorical labels and node sums without importing campaign code; reproduce every probability/cost parameter exactly; verify TRAIN->CAL->TEST timestamps."
+    },
+    {
+      "remote_process_id": 302990,
+      "kind": "targeted_finding_closure",
+      "exit_code": 0,
+      "scope": "16 C08 result Git blobs exactly match reviewed files; both P3 strings differ from C08 by only the specified condition; correction receipts read."
+    }
+  ],
+  "reused_validation": {
+    "native_binary_tests": {
+      "passed": 18,
+      "failed": 0,
+      "source": "evidence/NATIVE_TEST.json + .log"
+    },
+    "focused_python": {
+      "passed": 21,
+      "failed": 0,
+      "source": "evidence/PARENT_C26_TEST.log"
+    },
+    "full_reachable": {
+      "roots": 4520,
+      "children": 16167,
+      "both_players": true,
+      "utilities": [
+        0,
+        0.5,
+        1
+      ],
+      "logical_sha256": "034043351696966612bfc1c3242dd978a0f1e94287beb7c6c0d81bc227b99094",
+      "source": "evidence/DATA_ALL_REACHABLE.json"
+    },
+    "rust_full": {
+      "command": "cargo test --release --locked --offline",
+      "exit_code": 0,
+      "passed_test_invocations": 754,
+      "ignored": 89,
+      "targets": 12,
+      "source": "evidence/PARENT_CARGO_FULL.json + .log; PARENT_CARGO_COUNTS.json"
+    },
+    "python_full": {
+      "exit_code": 2,
+      "status": "collection_blocked",
+      "reason": "tests/test_a18_evaluator_ablation.py imports missing torch; no C26 torch dependency",
+      "source": "evidence/PARENT_PYTEST_FULL.json + .log"
+    },
+    "ci": {
+      "rust_and_real_loop": "success",
+      "python_job": "failed at inherited Ruff formatting; pytest step skipped",
+      "baseline": "C25 Ruff 0.17.6 reports 272 preexisting files would reformat",
+      "c26_new_python_format": "7 files check exit 0"
+    },
+    "exact_theory": {
+      "cases": 9495,
+      "status": "reused exact finite checks; direct analytic proof independently examined"
+    },
+    "statphys": {
+      "assertions": 72,
+      "status": "reused exact/symbolic/numeric checks; direct displayed algebra examined"
+    },
+    "restore": {
+      "source": "Parent /root execution report, evidence/C09_RESTORE.json",
+      "evidence_relation": "parent-reported completed execution; no repeat restore requested or performed by reviewer",
+      "exit_code": 0,
+      "archives": 4,
+      "restored_commit": "1f29a3152828ce7d4d347be362eb2d4a79ec4735",
+      "restored_path": "/tmp/quartz_c26_restore_b7q8p1o8",
+      "tracked_blobs": 2768,
+      "tracked_bytes": 1106732654,
+      "modes_checked": true,
+      "unexpected_files": 0,
+      "old_worktrees_unchanged": 14,
+      "protected_sources_unchanged": true
+    },
+    "provider_metadata": {
+      "source": "Parent /root report of Dropbox service metadata",
+      "assurance": "metadata acknowledgement; no claim of downloaded cloud-byte verification",
+      "c08_archive_bytes": 4460738,
+      "cal_supplement_bytes": 897421,
+      "native_binary_bytes": 272146
+    }
+  },
+  "training": {
+    "model_sha256": "0843447dc755c1d09e1bc69a44dd052e6db9c5c2ace41d1590b668cbfc36a126",
+    "parents": 90,
+    "nonterminal_candidates": 296,
+    "feature_bins": 41,
+    "class_counts": [
+      183,
+      65,
+      48
+    ],
+    "model_record_utc": "2026-11-23T09:40:37.130701+00:00",
+    "cal_started_utc": "2026-11-23T09:42:40.168870+00:00",
+    "test_started_utc": "2026-11-23T09:45:30.076875+00:00",
+    "parameter_reproduction": "exact arithmetic JSON equality"
+  },
+  "CAL": {
+    "parents": 60,
+    "head_at_execution": "16141896adab22df4e423bd4946b0544a19d8d4e",
+    "run_manifest_sha256": "c087e83863419d18dc90fbb3b55e642b7941e4eafa97853dfc3a5cd271d87729",
+    "analysis_sha256": "abe5e2aca197e91b956ca8202f5ef84996dec917f04d43cd956d18decba2d67a",
+    "timing_raw_sha256": "e53efbc3bb5be6dd4d190a48af11e489760fb00d8bdbee159a811aeca9da3e05",
+    "trace_raw_sha256": "ab7191af5c36d5fb73985b8e60f656145da285454ab3b73a8d8dc23a2da8accc",
+    "diagnostic_primary_mean": 0.06865234375,
+    "diagnostic_ci95": [
+      0.027977294921875,
+      0.11551188151041666
+    ],
+    "status": "diagnostic only; does not replace TEST"
+  },
+  "TEST": {
+    "parents": 150,
+    "strata": {
+      "4": 50,
+      "5": 50,
+      "6": 50
+    },
+    "head_at_execution": "8101e7610dc59602f3abe938e49b43bf2571f191",
+    "run_manifest_sha256": "38b2aacc749b63489267f63b8fe370d742a17bb5f1debdce4478d1139a74cef9",
+    "analysis_sha256": "26d0ce82abf4ecc03b265e2784368f9f1fb188926c5319323510a9c6142b7406",
+    "timing_raw_sha256": "be1dee1fb26d11220dfc35ce0c576bfa1294ef84e02b116fb6b71baf32feef12",
+    "trace_raw_sha256": "b80651088d5c301c92420810a85099105b3765afd5858bef45a3278a49b84b88",
+    "primary": {
+      "cap": 9,
+      "contrast": "PANDORA minus INITIAL_STOP",
+      "metric": "delta final_u - 2^-10 * delta charged_nodes",
+      "mean": 0.005690104166666667,
+      "ci95": [
+        -0.013693033854166667,
+        0.029039388020833317
+      ],
+      "positive_gain_gate": false,
+      "draws": 2000,
+      "seed": 2600923,
+      "rng": "numpy.PCG64",
+      "numpy_version": "2.4.2"
+    },
+    "policy_means": [
+      {
+        "policy": "INITIAL_STOP",
+        "utility": 0.6966666666666667,
+        "charged_nodes": 58.31333333333333,
+        "elapsed_us": 2.72411
+      },
+      {
+        "policy": "ALL_ACTIONS",
+        "utility": 0.7266666666666667,
+        "charged_nodes": 124.72,
+        "elapsed_us": 4.889701666666666
+      },
+      {
+        "policy": "RANDOM_ORDER",
+        "utility": 0.7266666666666667,
+        "charged_nodes": 85.26,
+        "elapsed_us": 3.643056666666667
+      },
+      {
+        "policy": "GREEDY_VOC",
+        "utility": 0.7266666666666667,
+        "charged_nodes": 83.47333333333333,
+        "elapsed_us": 3.6011633333333335
+      },
+      {
+        "policy": "PANDORA",
+        "utility": 0.7266666666666667,
+        "charged_nodes": 83.20666666666666,
+        "elapsed_us": 3.58708
+      },
+      {
+        "policy": "GIBBS_VOC",
+        "utility": 0.7266666666666667,
+        "charged_nodes": 81.15666666666667,
+        "elapsed_us": 3.5815216666666667
+      }
+    ],
+    "all_five_nonbaseline_fullcap_cells_match_all_actions_utility": true,
+    "gibbs": {
+      "sampled_decisions": 1390,
+      "min_positive_probability": 2.558547591235855e-10,
+      "zero_underflows": 0,
+      "tau": 0.03125,
+      "lambda_nodes": 0.0009765625
+    },
+    "calibration": {
+      "brier": 0.3272727088243262,
+      "cost_bias": -1.120632605550633,
+      "cost_mae": 4.691270319516157,
+      "within_root_residual_correlation": 0.17673145444527896
+    },
+    "inference_scope": "Conditional on fixed TRAIN, paired source-parent bootstrap stratified by ply. Shared descendants may couple parents; finite held-out cohort results, not universal iid performance."
+  },
+  "scientific_conclusions": [
+    "Finite independent full-reveal fixed-cost STOP iff theorem and unrestricted reservation ordering are sound under stated conditions.",
+    "Known exact incumbent retention gives pathwise utility nondegradation regardless of model calibration.",
+    "Categorical index branches, finite-temperature Gibbs variational identity and actual seeded sampling are implemented consistently.",
+    "Covariance must be of computation-specific posterior means; common shifts lie in susceptibility nullspace; corrected transition Lindblad construction is sound apart from P3 endpoint wording.",
+    "Frozen TEST positive priced-gain gate is false. CAL positivity cannot replace it; failure to confirm gain is not a no-go.",
+    "Full-cap utility equality and savings against deliberately exhaustive ALL_ACTIONS are scoped observations; common known-win stopping explains much of the comparison and RANDOM_ORDER is an essential control.",
+    "Original P2/P3, cross-game MCTS efficacy, empirical action independence and literal physical dynamics are unresolved."
+  ],
+  "remaining_obligations": [
+    "Parent publishes the verified C09 correction/review/restore evidence and completes C10 stage/remote-HEAD closeout. No further code/science review, test rerun, policy cohort or restore rerun requested."
+  ],
+  "skill_context_used": [
+    "PhysMath Research Loop 1.3.0 SKILL.md; POLICY_INTEGRATION.md; SUBAGENT_MODE.md; CODING_LOOP.md C9; RESEARCH_POLICY.md NG1-NG7",
+    "Keystone change-review 2.0.4 SKILL.md; review.md and checkpoint.md gates",
+    "No recursive delegation; one fresh independent review pass."
+  ],
+  "checkpoint": {
+    "current": "change-review/C09",
+    "gates": "Code/science review PASS; independently reconstructed primary; both concrete findings resolved at observed identities",
+    "next": "parent C09 publication then C10 delivery closeout",
+    "action": "handoff to parent; reviewer task complete",
+    "user_permission_needed": false
+  },
+  "reviewed_publication_commit": "1f29a3152828ce7d4d347be362eb2d4a79ec4735"
+}

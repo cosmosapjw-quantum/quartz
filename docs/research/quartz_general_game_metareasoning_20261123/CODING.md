@@ -37,3 +37,7 @@ Source split and TRAIN parameter identities are verified. CAL checked exact Game
 ## C08 — held-out outcome
 
 The frozen TEST campaign completed and all raw/inference identities were independently replayed. The primary positive node-priced gain gate did not pass: mean +0.00569010, 95% CI [-0.0136930, +0.0290394]. Exact decision quality improved, but 85.91% of Pandora additional nodes were spent on already-optimal parents. This is post-hoc diagnosis, not a new fit. See coding/C08_RESULTS.md and evidence/C08_DIAGNOSTICS.json. The inherited-ignore C07 evidence publication omission was explicitly repaired in C08, preserving its historical timing.
+
+## C09 — review and restoration
+
+Independent review closed with no unresolved blocker. The C07 result-publication omission was verified repaired at C08; one strict-positivity endpoint condition was corrected in documentation and its generator string only. Actual four-archive restoration verified all2,768Git blobs/modes and1,106,732,654bytes. Original14worktrees remain unchanged. See coding/C09_REVIEW_AND_RESTORE.md and review/INDEPENDENT_REVIEW.md.
