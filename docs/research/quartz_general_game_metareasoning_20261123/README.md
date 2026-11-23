@@ -57,3 +57,7 @@ Mapped every operative formula to actual GameState calls, TRAIN data, runtime ou
 ## C03 — completed
 
 Specified exact-value, floating/model and timing errors; stable arithmetic and conditional parent-level inference. Wall cost and original P2 remain separate from the node-priced primary surrogate. See coding/C03_NUMERICS.md.
+
+## C04 — completed
+
+Bounded the implementation→verification→TRAIN/CAL→TEST→review/restore DAG, resources, row counts and ownership. Workers are released for C05 after this checkpoint. See coding/C04_EXECUTION.md.

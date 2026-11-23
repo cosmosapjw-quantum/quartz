@@ -1,0 +1,12 @@
+{
+  "event": "functions exec runtime replaced before stage payloads were created",
+  "observed": {
+    "C03_payload_exists": false,
+    "C04_payload_exists": false,
+    "last_stage": "C02",
+    "head": "4e54da5fc891db01377276365118ec7995ba5ac9",
+    "git_status": "clean"
+  },
+  "action": "read-only inspected remote state before resuming; no mutation repeated",
+  "scientific_results_affected": false
+}

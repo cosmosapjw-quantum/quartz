@@ -17,3 +17,7 @@ The exact formula–data–runtime map is coding/C02_MAPPING.md. Core game and p
 ## C03 — numerical design
 
 Exact minimax has no truncation error. Model, f64 and timing errors are assessed separately. Bootstrap units are source roots, not timings or seeds. Full conditions: coding/C03_NUMERICS.md.
+
+## C04 — execution plan
+
+The concrete DAG and budget are coding/C04_EXECUTION.md. Parent owns publication; independent workers own disjoint implementation files. Next is actual C05 implementation followed by C06 evidence.
