@@ -1,0 +1,33 @@
+{
+  "status": "FROZEN_BEFORE_TEST_GENERATION_AND_OUTCOMES",
+  "utc": "2026-11-23T06:40:43.537310+00:00",
+  "source_head": "3cdc8e4a043be4d2b1c707dceba6954d388930bc",
+  "frozen_inputs": {
+    "src/bin/quartz_c25_incumbent_price.rs": "84c3937e42836431145fbde74999a57f98540e6b65760f2d71c6a4f78271a8d8",
+    "src/bin/quartz_c24_cheap_certificate.rs": "5a7cc595c267d5337f268045d1df8bf5909093ed7920ee50293da76da94cd381",
+    "tests/test_c25_sources.py": "99213bbc8fa820181d8d28b8c58ed4592b8d5e2d44b711baa824e76dda6d626e",
+    "docs/research/quartz_general_incumbent_price_20261123/SOURCE_SPECS.json": "835207224f9ab389d1d8b4efd064fb45509690f0c9e55779c5b85285e43ae7f2",
+    "docs/research/quartz_general_incumbent_price_20261123/CODE_CONTRACT.json": "fcbbdcf9ce2d0243a5886e8e9d1df69a8779a324e679f55e671aed2d58b525cb",
+    "docs/research/quartz_general_incumbent_price_20261123/C04_RUN_CONTRACT.json": "d287d19096c00847fe892e83e340f77715223e8fde2ddabe481d84300383ec79",
+    "docs/research/quartz_general_incumbent_price_20261123/theory/DERIVATION.md": "70af947d6115dae5f68ef50f6b5e22f82143c25f0454f6079ddaf0ac6af535e8",
+    "docs/research/quartz_general_incumbent_price_20261123/coding/run_cohort.py": "7b3afbc37f43cbd15eda08f7ce62091a8827c7908ec8f18d85ed60eaa225cfab",
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TRAIN_COST_PREDICTOR.json": "e420c6c87e597b0e03e5b32442d66a1cbda1f20b56fdee986151aacae3537263",
+    "target/release/quartz_c25_incumbent_price": "2ddccac45f1fa9c171509bcc329a37f2f9b575fe3c17797e806a74ee4d8febf5",
+    "docs/research/quartz_general_incumbent_price_20261123/coding/c25_analyze.py": "f153009c25eca527e1944b7de15d5b52741fa10ea4e9cab92c405593a71f4e63",
+    "docs/research/quartz_general_incumbent_price_20261123/coding/c25_fit_predictor.py": "03425d3553124cc01237415385adeb31bb52345eb3ffdfac27e9293b4bb87227",
+    "docs/research/quartz_general_incumbent_price_20261123/coding/c25_io.py": "8831094288dede41ecfe76a63fc4d526d9f6170738ba35f919ad7411be42b273",
+    "docs/research/quartz_general_incumbent_price_20261123/coding/c25_run.py": "3a0b5753dd2492ae680555c1654decb8944cfc51d3edfe153dbcb2c88228080c",
+    "docs/research/quartz_general_incumbent_price_20261123/coding/c25_sources.py": "35767966eac06878ce4dfd152ce7c4a8a9e4d399b71f179c83ea02c30fbc16a7",
+    "docs/research/quartz_general_incumbent_price_20261123/coding/c25_verify.py": "83d7a4504b3418b14ea13a6a42ab3e8d0c84bdfdaab05607269d9649d9e6dfb3"
+  },
+  "TEST_generated": false,
+  "TEST_outcomes_seen": false,
+  "predictor": {
+    "32": 116.66068055555556,
+    "8": 8.914666666666667,
+    "96": 1004.2051666666666
+  },
+  "price_exact": "1/1000000 utility/microsecond",
+  "work_price_exact": "1/1073741824 utility/cell-stencil",
+  "no_retuning_after_TEST": true
+}

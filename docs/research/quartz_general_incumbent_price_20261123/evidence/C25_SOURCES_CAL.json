@@ -1,0 +1,82 @@
+{
+  "argv": [
+    "/home/cosmosapjw/quantum/research/quartz_general_meta25_20261123/docs/research/quartz_general_incumbent_price_20261123/coding/c25_sources.py",
+    "--split",
+    "CAL"
+  ],
+  "artifacts": {
+    "C25_ORACLE_CAL.jsonl.gz": {
+      "bytes": 1221489,
+      "sha256": "b1ffa7d55771c503cf7a0eeed4ff5e1375e5e301f688884de3639043b3fab75f"
+    },
+    "C25_PUBLIC_CAL.jsonl.gz": {
+      "bytes": 2031370,
+      "sha256": "b11207f9459e1d100e88ad28222dc969dddce989e9ed296ef8687cac6f3c83d7"
+    }
+  },
+  "count": 36,
+  "dirty_scope": [
+    "?? docs/research/quartz_general_incumbent_price_20261123/evidence/RUN_CAL_00.log",
+    "?? docs/research/quartz_general_incumbent_price_20261123/evidence/RUN_CAL_COMMANDS.json"
+  ],
+  "end_utc": "2026-11-23T06:38:45.499350+00:00",
+  "generator_sha256": "35767966eac06878ce4dfd152ce7c4a8a9e4d399b71f179c83ea02c30fbc16a7",
+  "input_hashes_after": {
+    "docs/research/quartz_general_incumbent_price_20261123/SOURCE_SPECS.json": "835207224f9ab389d1d8b4efd064fb45509690f0c9e55779c5b85285e43ae7f2",
+    "docs/research/quartz_general_incumbent_price_20261123/coding/c25_sources.py": "35767966eac06878ce4dfd152ce7c4a8a9e4d399b71f179c83ea02c30fbc16a7"
+  },
+  "input_hashes_before": {
+    "docs/research/quartz_general_incumbent_price_20261123/SOURCE_SPECS.json": "835207224f9ab389d1d8b4efd064fb45509690f0c9e55779c5b85285e43ae7f2",
+    "docs/research/quartz_general_incumbent_price_20261123/coding/c25_sources.py": "35767966eac06878ce4dfd152ce7c4a8a9e4d399b71f179c83ea02c30fbc16a7"
+  },
+  "latent_oracles_passed_to_controller": false,
+  "platform": "Linux-7.0.0-43-generic-x86_64-with-glibc2.39",
+  "python": "3.12.3 (main, Aug 31 2026, 10:18:26) [GCC 13.3.0]",
+  "regression_only_ids": [],
+  "schema": "quartz.c25.sources.v1",
+  "source_head": "3cdc8e4a043be4d2b1c707dceba6954d388930bc",
+  "source_ids": [
+    "c25_cal_00_0",
+    "c25_cal_01_0",
+    "c25_cal_02_0",
+    "c25_cal_03_0",
+    "c25_cal_04_0",
+    "c25_cal_05_0",
+    "c25_cal_06_0",
+    "c25_cal_07_0",
+    "c25_cal_08_0",
+    "c25_cal_09_0",
+    "c25_cal_10_0",
+    "c25_cal_11_0",
+    "c25_cal_12_0",
+    "c25_cal_13_0",
+    "c25_cal_14_0",
+    "c25_cal_15_0",
+    "c25_cal_16_0",
+    "c25_cal_17_0",
+    "c25_cal_18_0",
+    "c25_cal_19_0",
+    "c25_cal_20_0",
+    "c25_cal_21_0",
+    "c25_cal_22_0",
+    "c25_cal_23_0",
+    "c25_cal_24_0",
+    "c25_cal_25_0",
+    "c25_cal_26_0",
+    "c25_cal_27_0",
+    "c25_cal_28_0",
+    "c25_cal_29_0",
+    "c25_cal_30_0",
+    "c25_cal_31_0",
+    "c25_cal_32_0",
+    "c25_cal_33_0",
+    "c25_cal_34_0",
+    "c25_cal_35_0"
+  ],
+  "source_manufacture": "behavior-preserving C24 dyadic algorithm; fresh C25 IDs and seeds; UNIT includes labeled historical regression",
+  "source_specs_sha256": "835207224f9ab389d1d8b4efd064fb45509690f0c9e55779c5b85285e43ae7f2",
+  "split": "CAL",
+  "start_utc": "2026-11-23T06:38:43.726203+00:00",
+  "status": "completed",
+  "unit_fixture": false
+}

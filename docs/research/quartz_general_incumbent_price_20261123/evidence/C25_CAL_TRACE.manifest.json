@@ -1,0 +1,442 @@
+{
+  "additional": [
+    8,
+    32,
+    128
+  ],
+  "allow_dirty_unit": false,
+  "argv": [
+    "/home/cosmosapjw/quantum/research/quartz_general_meta25_20261123/docs/research/quartz_general_incumbent_price_20261123/coding/c25_run.py",
+    "--split",
+    "CAL",
+    "--mode",
+    "trace"
+  ],
+  "binary_sha256": "2ddccac45f1fa9c171509bcc329a37f2f9b575fe3c17797e806a74ee4d8febf5",
+  "chunks": [
+    {
+      "bytes": 16770,
+      "path": "C25_CAL_TRACE/000_c25_cal_00_0.jsonl.gz",
+      "requests": 3,
+      "sha256": "93a14630b5d996c31a2e8447945de004c246fd385c46b1bf32455529d7d42819",
+      "source_id": "c25_cal_00_0"
+    },
+    {
+      "bytes": 16626,
+      "path": "C25_CAL_TRACE/001_c25_cal_01_0.jsonl.gz",
+      "requests": 3,
+      "sha256": "ebf476f247c98b70044668e52fafbc24459e36847376d0c42f47259a9c3b114a",
+      "source_id": "c25_cal_01_0"
+    },
+    {
+      "bytes": 20805,
+      "path": "C25_CAL_TRACE/002_c25_cal_02_0.jsonl.gz",
+      "requests": 3,
+      "sha256": "3e70e8989f55cbe1cfc792f4662577e93e878308a616ac67dba1a95f9b4c5eac",
+      "source_id": "c25_cal_02_0"
+    },
+    {
+      "bytes": 17761,
+      "path": "C25_CAL_TRACE/003_c25_cal_03_0.jsonl.gz",
+      "requests": 3,
+      "sha256": "b2481ff2b50dba9ffd10cfc1ff043b7501276f35733397ad34dcdff3f71447fc",
+      "source_id": "c25_cal_03_0"
+    },
+    {
+      "bytes": 16617,
+      "path": "C25_CAL_TRACE/004_c25_cal_04_0.jsonl.gz",
+      "requests": 3,
+      "sha256": "6be454f3af5850b1d44b72cb80026feb4ea6ded8666858d39ec4453932a86cab",
+      "source_id": "c25_cal_04_0"
+    },
+    {
+      "bytes": 16723,
+      "path": "C25_CAL_TRACE/005_c25_cal_05_0.jsonl.gz",
+      "requests": 3,
+      "sha256": "4d4115f4127ff1c5b3277939f0d62cc5a3fa5d190f67ac5183127a89e21321cc",
+      "source_id": "c25_cal_05_0"
+    },
+    {
+      "bytes": 20942,
+      "path": "C25_CAL_TRACE/006_c25_cal_06_0.jsonl.gz",
+      "requests": 3,
+      "sha256": "21c8abb840b007bb74e2ec879e0125c5f23307cf63622ebc0157f2b7c6f9e9c8",
+      "source_id": "c25_cal_06_0"
+    },
+    {
+      "bytes": 19995,
+      "path": "C25_CAL_TRACE/007_c25_cal_07_0.jsonl.gz",
+      "requests": 3,
+      "sha256": "6916e5934e30b636d0cea342cf338b1906e7be9842367cf55fa7a7722bdcc43c",
+      "source_id": "c25_cal_07_0"
+    },
+    {
+      "bytes": 20984,
+      "path": "C25_CAL_TRACE/008_c25_cal_08_0.jsonl.gz",
+      "requests": 3,
+      "sha256": "2c0539dc15fcf1d0566574a66f2eec6658bf7729fb576c3849651100334f2887",
+      "source_id": "c25_cal_08_0"
+    },
+    {
+      "bytes": 21063,
+      "path": "C25_CAL_TRACE/009_c25_cal_09_0.jsonl.gz",
+      "requests": 3,
+      "sha256": "1e978bc42572b43bfeb4f4716da1f0fd17d47f5d28383185b3865ee87dca1225",
+      "source_id": "c25_cal_09_0"
+    },
+    {
+      "bytes": 21015,
+      "path": "C25_CAL_TRACE/010_c25_cal_10_0.jsonl.gz",
+      "requests": 3,
+      "sha256": "827fc044aa646f646c41cb61198e6aaeef6ac0cb2a853ec0950b2f539ca88d7e",
+      "source_id": "c25_cal_10_0"
+    },
+    {
+      "bytes": 19586,
+      "path": "C25_CAL_TRACE/011_c25_cal_11_0.jsonl.gz",
+      "requests": 3,
+      "sha256": "20ca72d116b2df81a04812d7f4379bc14f4aad2c700349fedfd6008577f85500",
+      "source_id": "c25_cal_11_0"
+    },
+    {
+      "bytes": 585626,
+      "path": "C25_CAL_TRACE/012_c25_cal_12_0.jsonl.gz",
+      "requests": 3,
+      "sha256": "9c69fbdfb0f10ca576886a6e297120f67734f5d5b6bb0388bc116d6e66d6f0db",
+      "source_id": "c25_cal_12_0"
+    },
+    {
+      "bytes": 588854,
+      "path": "C25_CAL_TRACE/013_c25_cal_13_0.jsonl.gz",
+      "requests": 3,
+      "sha256": "ec37db4bda339c38f3127de22a02f702c3963abeb36e7cc620fc289c58cac4ec",
+      "source_id": "c25_cal_13_0"
+    },
+    {
+      "bytes": 589813,
+      "path": "C25_CAL_TRACE/014_c25_cal_14_0.jsonl.gz",
+      "requests": 3,
+      "sha256": "f77ed2544fa084a5d2210a9f6fbc984f678ca3c1b7c9826e5f32501066db63c9",
+      "source_id": "c25_cal_14_0"
+    },
+    {
+      "bytes": 527342,
+      "path": "C25_CAL_TRACE/015_c25_cal_15_0.jsonl.gz",
+      "requests": 3,
+      "sha256": "d236c1baa184d5e6e23b3206f0e41203d1c6ac8bc1b2349bab1d9531b9e3ff28",
+      "source_id": "c25_cal_15_0"
+    },
+    {
+      "bytes": 597860,
+      "path": "C25_CAL_TRACE/016_c25_cal_16_0.jsonl.gz",
+      "requests": 3,
+      "sha256": "b524f1ce0fbab73fc01f66ea40aa274901bda4b651ec1776cc5d0a6b3a9bec06",
+      "source_id": "c25_cal_16_0"
+    },
+    {
+      "bytes": 598183,
+      "path": "C25_CAL_TRACE/017_c25_cal_17_0.jsonl.gz",
+      "requests": 3,
+      "sha256": "91998a281dfb635914da115ba4d8e33f07b3f02fe61fe1e354f87d5265027e13",
+      "source_id": "c25_cal_17_0"
+    },
+    {
+      "bytes": 599947,
+      "path": "C25_CAL_TRACE/018_c25_cal_18_0.jsonl.gz",
+      "requests": 3,
+      "sha256": "bdca94b466d78053d39dc1ed7755c4ee1642e08a290d0beafd9d0b545b851ec7",
+      "source_id": "c25_cal_18_0"
+    },
+    {
+      "bytes": 555490,
+      "path": "C25_CAL_TRACE/019_c25_cal_19_0.jsonl.gz",
+      "requests": 3,
+      "sha256": "0f10bfeeb5ed1186ce04f43bac63fdfb252a930575884b82539683f2118dab4c",
+      "source_id": "c25_cal_19_0"
+    },
+    {
+      "bytes": 599606,
+      "path": "C25_CAL_TRACE/020_c25_cal_20_0.jsonl.gz",
+      "requests": 3,
+      "sha256": "e78ef46ff25bb1a2792e97082479db49f86573bef75a8fa0947691aa76f71829",
+      "source_id": "c25_cal_20_0"
+    },
+    {
+      "bytes": 598845,
+      "path": "C25_CAL_TRACE/021_c25_cal_21_0.jsonl.gz",
+      "requests": 3,
+      "sha256": "c5ce23a068ae08c82227852c1040428776637f5bcc88eebe47e166902a502d15",
+      "source_id": "c25_cal_21_0"
+    },
+    {
+      "bytes": 601453,
+      "path": "C25_CAL_TRACE/022_c25_cal_22_0.jsonl.gz",
+      "requests": 3,
+      "sha256": "b871da7cabdd8c5cc23c6da79948a3e94a41857727eb6c55b19bfb5729ebedfc",
+      "source_id": "c25_cal_22_0"
+    },
+    {
+      "bytes": 550637,
+      "path": "C25_CAL_TRACE/023_c25_cal_23_0.jsonl.gz",
+      "requests": 3,
+      "sha256": "5984aba6f139c7c8bedd5ebdb2616e6918688a87f09220ccdc8cbd4c3c69df1a",
+      "source_id": "c25_cal_23_0"
+    },
+    {
+      "bytes": 4924610,
+      "path": "C25_CAL_TRACE/024_c25_cal_24_0.jsonl.gz",
+      "requests": 3,
+      "sha256": "47872307b1c790a7c8a2f02d187eb5f2f0328918bb740359d487e4f49a48d3d4",
+      "source_id": "c25_cal_24_0"
+    },
+    {
+      "bytes": 4895718,
+      "path": "C25_CAL_TRACE/025_c25_cal_25_0.jsonl.gz",
+      "requests": 3,
+      "sha256": "c9dbcffda8460cd7c55fb400ae2e0b0921e02b77f91a0c1a836f3f5968685a60",
+      "source_id": "c25_cal_25_0"
+    },
+    {
+      "bytes": 4921258,
+      "path": "C25_CAL_TRACE/026_c25_cal_26_0.jsonl.gz",
+      "requests": 3,
+      "sha256": "30510ca64c32c49f766c591fb3143f7f81763b694bb04d676f71eab722f17644",
+      "source_id": "c25_cal_26_0"
+    },
+    {
+      "bytes": 4535214,
+      "path": "C25_CAL_TRACE/027_c25_cal_27_0.jsonl.gz",
+      "requests": 3,
+      "sha256": "97b23c04c0a94e87e5a68f5962e785feb6b738e5753a7ae25a47ea41f283fbd9",
+      "source_id": "c25_cal_27_0"
+    },
+    {
+      "bytes": 5142495,
+      "path": "C25_CAL_TRACE/028_c25_cal_28_0.jsonl.gz",
+      "requests": 3,
+      "sha256": "abfb9d4cf479d2aedfd61fa11048e533b873c7ddc7bcf4e4398b16ba7a8cfb03",
+      "source_id": "c25_cal_28_0"
+    },
+    {
+      "bytes": 5114123,
+      "path": "C25_CAL_TRACE/029_c25_cal_29_0.jsonl.gz",
+      "requests": 3,
+      "sha256": "b58c813f9c3fb890005948243d8af26d46003d6b85553792a611dda5389ca81c",
+      "source_id": "c25_cal_29_0"
+    },
+    {
+      "bytes": 5131547,
+      "path": "C25_CAL_TRACE/030_c25_cal_30_0.jsonl.gz",
+      "requests": 3,
+      "sha256": "5bafe2d50121ab9a66d2573c122aacd9ca3eb7175492e335b4bd523d418c617a",
+      "source_id": "c25_cal_30_0"
+    },
+    {
+      "bytes": 4979504,
+      "path": "C25_CAL_TRACE/031_c25_cal_31_0.jsonl.gz",
+      "requests": 3,
+      "sha256": "bc59024e0bf5be3ee3a0bd398353d57ed7d68b115105b57babde6d9fba6ff17f",
+      "source_id": "c25_cal_31_0"
+    },
+    {
+      "bytes": 5214050,
+      "path": "C25_CAL_TRACE/032_c25_cal_32_0.jsonl.gz",
+      "requests": 3,
+      "sha256": "3b00c2b4372836ccad4432f3de5a97b2f004388ddbbc4ccb39c25ed35ed36d0c",
+      "source_id": "c25_cal_32_0"
+    },
+    {
+      "bytes": 5222253,
+      "path": "C25_CAL_TRACE/033_c25_cal_33_0.jsonl.gz",
+      "requests": 3,
+      "sha256": "f1726e2dc7444d68bed18f0a7802282ed2488d779c487e7bf0dd42fe0461a36e",
+      "source_id": "c25_cal_33_0"
+    },
+    {
+      "bytes": 5210937,
+      "path": "C25_CAL_TRACE/034_c25_cal_34_0.jsonl.gz",
+      "requests": 3,
+      "sha256": "6f6f538d3c92b989a8a3c6157e5a9e8fc499366c9e047ac0e588a1f9246d802e",
+      "source_id": "c25_cal_34_0"
+    },
+    {
+      "bytes": 5181253,
+      "path": "C25_CAL_TRACE/035_c25_cal_35_0.jsonl.gz",
+      "requests": 3,
+      "sha256": "816bdfd1272e6cd8519b0e459cdb93a583c94ea5b7c066efda8c966426b2425b",
+      "source_id": "c25_cal_35_0"
+    }
+  ],
+  "clock": "native full Instant wall microseconds, validation/initial/readouts/controller/destruction included; JSON excluded",
+  "cwd": "/home/cosmosapjw/quantum/research/quartz_general_meta25_20261123",
+  "dirty_scope_after": [
+    "?? docs/research/quartz_general_incumbent_price_20261123/evidence/C25_CAL_TRACE/000_c25_cal_00_0.jsonl.gz",
+    "?? docs/research/quartz_general_incumbent_price_20261123/evidence/C25_CAL_TRACE/001_c25_cal_01_0.jsonl.gz",
+    "?? docs/research/quartz_general_incumbent_price_20261123/evidence/C25_CAL_TRACE/002_c25_cal_02_0.jsonl.gz",
+    "?? docs/research/quartz_general_incumbent_price_20261123/evidence/C25_CAL_TRACE/003_c25_cal_03_0.jsonl.gz",
+    "?? docs/research/quartz_general_incumbent_price_20261123/evidence/C25_CAL_TRACE/004_c25_cal_04_0.jsonl.gz",
+    "?? docs/research/quartz_general_incumbent_price_20261123/evidence/C25_CAL_TRACE/005_c25_cal_05_0.jsonl.gz",
+    "?? docs/research/quartz_general_incumbent_price_20261123/evidence/C25_CAL_TRACE/006_c25_cal_06_0.jsonl.gz",
+    "?? docs/research/quartz_general_incumbent_price_20261123/evidence/C25_CAL_TRACE/007_c25_cal_07_0.jsonl.gz",
+    "?? docs/research/quartz_general_incumbent_price_20261123/evidence/C25_CAL_TRACE/008_c25_cal_08_0.jsonl.gz",
+    "?? docs/research/quartz_general_incumbent_price_20261123/evidence/C25_CAL_TRACE/009_c25_cal_09_0.jsonl.gz",
+    "?? docs/research/quartz_general_incumbent_price_20261123/evidence/C25_CAL_TRACE/010_c25_cal_10_0.jsonl.gz",
+    "?? docs/research/quartz_general_incumbent_price_20261123/evidence/C25_CAL_TRACE/011_c25_cal_11_0.jsonl.gz",
+    "?? docs/research/quartz_general_incumbent_price_20261123/evidence/C25_CAL_TRACE/012_c25_cal_12_0.jsonl.gz",
+    "?? docs/research/quartz_general_incumbent_price_20261123/evidence/C25_CAL_TRACE/013_c25_cal_13_0.jsonl.gz",
+    "?? docs/research/quartz_general_incumbent_price_20261123/evidence/C25_CAL_TRACE/014_c25_cal_14_0.jsonl.gz",
+    "?? docs/research/quartz_general_incumbent_price_20261123/evidence/C25_CAL_TRACE/015_c25_cal_15_0.jsonl.gz",
+    "?? docs/research/quartz_general_incumbent_price_20261123/evidence/C25_CAL_TRACE/016_c25_cal_16_0.jsonl.gz",
+    "?? docs/research/quartz_general_incumbent_price_20261123/evidence/C25_CAL_TRACE/017_c25_cal_17_0.jsonl.gz",
+    "?? docs/research/quartz_general_incumbent_price_20261123/evidence/C25_CAL_TRACE/018_c25_cal_18_0.jsonl.gz",
+    "?? docs/research/quartz_general_incumbent_price_20261123/evidence/C25_CAL_TRACE/019_c25_cal_19_0.jsonl.gz",
+    "?? docs/research/quartz_general_incumbent_price_20261123/evidence/C25_CAL_TRACE/020_c25_cal_20_0.jsonl.gz",
+    "?? docs/research/quartz_general_incumbent_price_20261123/evidence/C25_CAL_TRACE/021_c25_cal_21_0.jsonl.gz",
+    "?? docs/research/quartz_general_incumbent_price_20261123/evidence/C25_CAL_TRACE/022_c25_cal_22_0.jsonl.gz",
+    "?? docs/research/quartz_general_incumbent_price_20261123/evidence/C25_CAL_TRACE/023_c25_cal_23_0.jsonl.gz",
+    "?? docs/research/quartz_general_incumbent_price_20261123/evidence/C25_CAL_TRACE/024_c25_cal_24_0.jsonl.gz",
+    "?? docs/research/quartz_general_incumbent_price_20261123/evidence/C25_CAL_TRACE/025_c25_cal_25_0.jsonl.gz",
+    "?? docs/research/quartz_general_incumbent_price_20261123/evidence/C25_CAL_TRACE/026_c25_cal_26_0.jsonl.gz",
+    "?? docs/research/quartz_general_incumbent_price_20261123/evidence/C25_CAL_TRACE/027_c25_cal_27_0.jsonl.gz",
+    "?? docs/research/quartz_general_incumbent_price_20261123/evidence/C25_CAL_TRACE/028_c25_cal_28_0.jsonl.gz",
+    "?? docs/research/quartz_general_incumbent_price_20261123/evidence/C25_CAL_TRACE/029_c25_cal_29_0.jsonl.gz",
+    "?? docs/research/quartz_general_incumbent_price_20261123/evidence/C25_CAL_TRACE/030_c25_cal_30_0.jsonl.gz",
+    "?? docs/research/quartz_general_incumbent_price_20261123/evidence/C25_CAL_TRACE/031_c25_cal_31_0.jsonl.gz",
+    "?? docs/research/quartz_general_incumbent_price_20261123/evidence/C25_CAL_TRACE/032_c25_cal_32_0.jsonl.gz",
+    "?? docs/research/quartz_general_incumbent_price_20261123/evidence/C25_CAL_TRACE/033_c25_cal_33_0.jsonl.gz",
+    "?? docs/research/quartz_general_incumbent_price_20261123/evidence/C25_CAL_TRACE/034_c25_cal_34_0.jsonl.gz",
+    "?? docs/research/quartz_general_incumbent_price_20261123/evidence/C25_CAL_TRACE/035_c25_cal_35_0.jsonl.gz",
+    "?? docs/research/quartz_general_incumbent_price_20261123/evidence/C25_CAL_TRACE_STDERR.log",
+    "?? docs/research/quartz_general_incumbent_price_20261123/evidence/C25_ORACLE_CAL.jsonl.gz",
+    "?? docs/research/quartz_general_incumbent_price_20261123/evidence/C25_PUBLIC_CAL.jsonl.gz",
+    "?? docs/research/quartz_general_incumbent_price_20261123/evidence/C25_SOURCES_CAL.json",
+    "?? docs/research/quartz_general_incumbent_price_20261123/evidence/RUN_CAL_00.log",
+    "?? docs/research/quartz_general_incumbent_price_20261123/evidence/RUN_CAL_01.log",
+    "?? docs/research/quartz_general_incumbent_price_20261123/evidence/RUN_CAL_COMMANDS.json"
+  ],
+  "dirty_scope_before": [
+    "?? docs/research/quartz_general_incumbent_price_20261123/evidence/C25_ORACLE_CAL.jsonl.gz",
+    "?? docs/research/quartz_general_incumbent_price_20261123/evidence/C25_PUBLIC_CAL.jsonl.gz",
+    "?? docs/research/quartz_general_incumbent_price_20261123/evidence/C25_SOURCES_CAL.json",
+    "?? docs/research/quartz_general_incumbent_price_20261123/evidence/RUN_CAL_00.log",
+    "?? docs/research/quartz_general_incumbent_price_20261123/evidence/RUN_CAL_01.log",
+    "?? docs/research/quartz_general_incumbent_price_20261123/evidence/RUN_CAL_COMMANDS.json"
+  ],
+  "end_utc": "2026-11-23T06:39:04.489644+00:00",
+  "environment": {
+    "CARGO_ENCODED_RUSTFLAGS": "",
+    "MKL_NUM_THREADS": "1",
+    "OMP_NUM_THREADS": "1",
+    "OPENBLAS_NUM_THREADS": "1",
+    "RUSTFLAGS": ""
+  },
+  "exit_code": 0,
+  "input_hashes_after": {
+    "docs/research/quartz_general_incumbent_price_20261123/C04_RUN_CONTRACT.json": "d287d19096c00847fe892e83e340f77715223e8fde2ddabe481d84300383ec79",
+    "docs/research/quartz_general_incumbent_price_20261123/CODE_CONTRACT.json": "fcbbdcf9ce2d0243a5886e8e9d1df69a8779a324e679f55e671aed2d58b525cb",
+    "docs/research/quartz_general_incumbent_price_20261123/SOURCE_SPECS.json": "835207224f9ab389d1d8b4efd064fb45509690f0c9e55779c5b85285e43ae7f2",
+    "docs/research/quartz_general_incumbent_price_20261123/coding/c25_analyze.py": "f153009c25eca527e1944b7de15d5b52741fa10ea4e9cab92c405593a71f4e63",
+    "docs/research/quartz_general_incumbent_price_20261123/coding/c25_fit_predictor.py": "03425d3553124cc01237415385adeb31bb52345eb3ffdfac27e9293b4bb87227",
+    "docs/research/quartz_general_incumbent_price_20261123/coding/c25_io.py": "8831094288dede41ecfe76a63fc4d526d9f6170738ba35f919ad7411be42b273",
+    "docs/research/quartz_general_incumbent_price_20261123/coding/c25_run.py": "3a0b5753dd2492ae680555c1654decb8944cfc51d3edfe153dbcb2c88228080c",
+    "docs/research/quartz_general_incumbent_price_20261123/coding/c25_sources.py": "35767966eac06878ce4dfd152ce7c4a8a9e4d399b71f179c83ea02c30fbc16a7",
+    "docs/research/quartz_general_incumbent_price_20261123/coding/c25_verify.py": "83d7a4504b3418b14ea13a6a42ab3e8d0c84bdfdaab05607269d9649d9e6dfb3",
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_PUBLIC_CAL.jsonl.gz": "b11207f9459e1d100e88ad28222dc969dddce989e9ed296ef8687cac6f3c83d7",
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_SOURCES_CAL.json": "7d640bcb751a14f1aa2b1f71543a165ab97ea70f94a4483e33a392a09f669fbe",
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TRAIN_COST_PREDICTOR.json": "e420c6c87e597b0e03e5b32442d66a1cbda1f20b56fdee986151aacae3537263",
+    "src/bin/quartz_c24_cheap_certificate.rs": "5a7cc595c267d5337f268045d1df8bf5909093ed7920ee50293da76da94cd381",
+    "src/bin/quartz_c25_incumbent_price.rs": "84c3937e42836431145fbde74999a57f98540e6b65760f2d71c6a4f78271a8d8",
+    "target/release/quartz_c25_incumbent_price": "2ddccac45f1fa9c171509bcc329a37f2f9b575fe3c17797e806a74ee4d8febf5"
+  },
+  "input_hashes_before": {
+    "docs/research/quartz_general_incumbent_price_20261123/C04_RUN_CONTRACT.json": "d287d19096c00847fe892e83e340f77715223e8fde2ddabe481d84300383ec79",
+    "docs/research/quartz_general_incumbent_price_20261123/CODE_CONTRACT.json": "fcbbdcf9ce2d0243a5886e8e9d1df69a8779a324e679f55e671aed2d58b525cb",
+    "docs/research/quartz_general_incumbent_price_20261123/SOURCE_SPECS.json": "835207224f9ab389d1d8b4efd064fb45509690f0c9e55779c5b85285e43ae7f2",
+    "docs/research/quartz_general_incumbent_price_20261123/coding/c25_analyze.py": "f153009c25eca527e1944b7de15d5b52741fa10ea4e9cab92c405593a71f4e63",
+    "docs/research/quartz_general_incumbent_price_20261123/coding/c25_fit_predictor.py": "03425d3553124cc01237415385adeb31bb52345eb3ffdfac27e9293b4bb87227",
+    "docs/research/quartz_general_incumbent_price_20261123/coding/c25_io.py": "8831094288dede41ecfe76a63fc4d526d9f6170738ba35f919ad7411be42b273",
+    "docs/research/quartz_general_incumbent_price_20261123/coding/c25_run.py": "3a0b5753dd2492ae680555c1654decb8944cfc51d3edfe153dbcb2c88228080c",
+    "docs/research/quartz_general_incumbent_price_20261123/coding/c25_sources.py": "35767966eac06878ce4dfd152ce7c4a8a9e4d399b71f179c83ea02c30fbc16a7",
+    "docs/research/quartz_general_incumbent_price_20261123/coding/c25_verify.py": "83d7a4504b3418b14ea13a6a42ab3e8d0c84bdfdaab05607269d9649d9e6dfb3",
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_PUBLIC_CAL.jsonl.gz": "b11207f9459e1d100e88ad28222dc969dddce989e9ed296ef8687cac6f3c83d7",
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_SOURCES_CAL.json": "7d640bcb751a14f1aa2b1f71543a165ab97ea70f94a4483e33a392a09f669fbe",
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TRAIN_COST_PREDICTOR.json": "e420c6c87e597b0e03e5b32442d66a1cbda1f20b56fdee986151aacae3537263",
+    "src/bin/quartz_c24_cheap_certificate.rs": "5a7cc595c267d5337f268045d1df8bf5909093ed7920ee50293da76da94cd381",
+    "src/bin/quartz_c25_incumbent_price.rs": "84c3937e42836431145fbde74999a57f98540e6b65760f2d71c6a4f78271a8d8",
+    "target/release/quartz_c25_incumbent_price": "2ddccac45f1fa9c171509bcc329a37f2f9b575fe3c17797e806a74ee4d8febf5"
+  },
+  "load_end": [
+    6.943359375,
+    9.77392578125,
+    9.55078125
+  ],
+  "load_start": [
+    6.49853515625,
+    9.85546875,
+    9.56982421875
+  ],
+  "logical_cpus": 24,
+  "max_chunk_bytes": 47185920,
+  "mode": "trace",
+  "native_policy_executions": 648,
+  "oracle_fields_sent": false,
+  "packages": {
+    "numpy": "2.4.2",
+    "scipy": "1.17.0"
+  },
+  "platform": "Linux-7.0.0-43-generic-x86_64-with-glibc2.39",
+  "prediction_source": "FROZEN_TRAIN",
+  "predictor_sha256": "e420c6c87e597b0e03e5b32442d66a1cbda1f20b56fdee986151aacae3537263",
+  "public_source_sha256": "b11207f9459e1d100e88ad28222dc969dddce989e9ed296ef8687cac6f3c83d7",
+  "python": "3.12.3 (main, Aug 31 2026, 10:18:26) [GCC 13.3.0]",
+  "repeats": 1,
+  "repeats_are_independent_parents": false,
+  "requests": 108,
+  "schema": "quartz.c25.run.v1",
+  "source_head": "3cdc8e4a043be4d2b1c707dceba6954d388930bc",
+  "source_ids": [
+    "c25_cal_00_0",
+    "c25_cal_01_0",
+    "c25_cal_02_0",
+    "c25_cal_03_0",
+    "c25_cal_04_0",
+    "c25_cal_05_0",
+    "c25_cal_06_0",
+    "c25_cal_07_0",
+    "c25_cal_08_0",
+    "c25_cal_09_0",
+    "c25_cal_10_0",
+    "c25_cal_11_0",
+    "c25_cal_12_0",
+    "c25_cal_13_0",
+    "c25_cal_14_0",
+    "c25_cal_15_0",
+    "c25_cal_16_0",
+    "c25_cal_17_0",
+    "c25_cal_18_0",
+    "c25_cal_19_0",
+    "c25_cal_20_0",
+    "c25_cal_21_0",
+    "c25_cal_22_0",
+    "c25_cal_23_0",
+    "c25_cal_24_0",
+    "c25_cal_25_0",
+    "c25_cal_26_0",
+    "c25_cal_27_0",
+    "c25_cal_28_0",
+    "c25_cal_29_0",
+    "c25_cal_30_0",
+    "c25_cal_31_0",
+    "c25_cal_32_0",
+    "c25_cal_33_0",
+    "c25_cal_34_0",
+    "c25_cal_35_0"
+  ],
+  "split": "CAL",
+  "start_utc": "2026-11-23T06:38:45.596149+00:00",
+  "status": "completed",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "warmup": 0,
+  "warmup_policy_executions": 0,
+  "wire_encoding": "f64 repr decimal strings; Rust FromStr; exact trace bits"
+}

@@ -51,3 +51,9 @@ At additional8 and32 the old adverse fixture reproduces the ordinary/FAST loss11
 ### C07A — TRAIN and predictor freeze
 
 All36 fresh TRAINparents completed108 trace requests/648 policies and108 timing requests/5,832 policies, plus648 warmups. Independent exact verification passed15,174 trace and52,488 timing interval checks,324 trace retention comparisons and582 mandatory fresh-readout blocks. TRAIN-only fitted block cost predictions are8.914666666666667us (side8),116.66068055555556us (side32),1004.2051666666666us (side96), using7/10/10 active parents. No oracle or heldout input was used. The model and all raw TRAINchunks are committed before CAL/TEST.
+
+## C07 — Scientific validation and final heldout freeze
+
+TRAIN36 and CAL36 each complete all3 budgets and6 policies with exact source/interval/retention/floor verification. The fixed TRAIN model is used unchanged on CAL. Independent manufactured-energy oracles check actual decision quality, not agreement with the same production solver. Detailed coverage is in C07_PRE_TEST_VALIDATION.json.
+
+All source specifications, numerical/controller code, verifier/analyzer, cost predictor, theoretical contract and exact release binary are hash-frozen before TEST sources are generated. C07_PRE_TEST_FREEZE.json records that ordering. The primary72 TESTparents remain unobserved at this commit; no rule, price, or estimator was selected from their outcomes.
