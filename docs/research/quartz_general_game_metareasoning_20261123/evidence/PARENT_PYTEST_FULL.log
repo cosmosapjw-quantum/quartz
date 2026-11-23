@@ -1,0 +1,16 @@
+
+==================================== ERRORS ====================================
+____________ ERROR collecting tests/test_a18_evaluator_ablation.py _____________
+ImportError while importing test module '/home/cosmosapjw/quantum/research/quartz_general_meta26_20261123/tests/test_a18_evaluator_ablation.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+/usr/lib/python3.12/importlib/__init__.py:90: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests/test_a18_evaluator_ablation.py:8: in <module>
+    import torch
+E   ModuleNotFoundError: No module named 'torch'
+=========================== short test summary info ============================
+ERROR tests/test_a18_evaluator_ablation.py
+!!!!!!!!!!!!!!!!!!!! Interrupted: 1 error during collection !!!!!!!!!!!!!!!!!!!!
+4 skipped, 1 error in 1.55s

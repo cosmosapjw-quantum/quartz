@@ -25,3 +25,7 @@ The concrete DAG and budget are coding/C04_EXECUTION.md. Parent owns publication
 ## C05 — implementation
 
 The native GameState feature and independent Python oracle/harness are complete. Source, test and binary hashes precede empirical outcomes. Actual targeted and complete-state checks passed; parent full release Rust tests also exited0. New Python files pass formatting, while inherited CI formatting debt is recorded separately. See coding/C05_IMPLEMENTED.md.
+
+## C06 — verification
+
+Relevant implementation proof is complete: native18tests, independent21Python tests/full4520-state oracle,754full-release Rust test invocations, and exact scientific replay across Python patch versions. Full Python/CI limitations are recorded without calling them PASS. See coding/C06_VERIFICATION.md.

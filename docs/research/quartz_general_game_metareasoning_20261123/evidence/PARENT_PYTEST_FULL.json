@@ -1,0 +1,23 @@
+{
+  "command": [
+    "/home/cosmosapjw/quantum/research/quartz_general_meta26_20261123/venv/bin/python",
+    "-m",
+    "pytest",
+    "-q",
+    "tests/",
+    "--ignore=tests/test_play_gui.py"
+  ],
+  "cwd": "/home/cosmosapjw/quantum/research/quartz_general_meta26_20261123",
+  "exit_code": 2,
+  "timed_out": false,
+  "elapsed_seconds": 1.9660931779944804,
+  "utc": "2026-11-23T09:35:15.536230+00:00",
+  "env_overrides": {
+    "OMP_NUM_THREADS": "1",
+    "OPENBLAS_NUM_THREADS": "1",
+    "MKL_NUM_THREADS": "1",
+    "NUMEXPR_NUM_THREADS": "1",
+    "QT_QPA_PLATFORM": "offscreen"
+  },
+  "log": "evidence/PARENT_PYTEST_FULL.log"
+}

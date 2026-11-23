@@ -65,3 +65,7 @@ Bounded the implementation→verification→TRAIN/CAL→TEST→review/restore DA
 ## C05 — completed
 
 Implemented and froze the complete native six-policy path and independent data/oracle/campaign harness. Actual behavioral RED/GREEN, release build, complete-state oracle checks and source identity are recorded. TRAIN/CAL/TEST are still unexecuted at this checkpoint. See coding/C05_IMPLEMENTED.md.
+
+## C06 — completed
+
+Parent verified current 21-test C26 Python suite, full release Rust tests and cross-environment9495-case mathematical replay. Exact finite-state/cost/trace checks pass. Full Python regression is blocked by missing Torch; inherited whole-repository formatting debt remains explicit. See coding/C06_VERIFICATION.md.

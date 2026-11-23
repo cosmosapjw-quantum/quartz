@@ -1,0 +1,42 @@
+{
+  "commands": [
+    {
+      "command": [
+        "/home/cosmosapjw/quantum/research/quartz_general_meta26_20261123/venv/bin/python",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests",
+        "-p",
+        "test_c26_game_metareasoning.py",
+        "-v"
+      ],
+      "exit_code": 0,
+      "tests": 21,
+      "log": "PARENT_C26_TEST.log"
+    },
+    {
+      "command": [
+        "/home/cosmosapjw/quantum/research/quartz_general_meta26_20261123/venv/bin/python",
+        "/home/cosmosapjw/quantum/research/quartz_general_meta26_20261123/docs/research/quartz_general_game_metareasoning_20261123/theory/exactcheck.py",
+        "/home/cosmosapjw/quantum/research/quartz_general_meta26_20261123/docs/research/quartz_general_game_metareasoning_20261123/evidence/C06_EXACT_REPLAY.json"
+      ],
+      "exit_code": 0,
+      "cases": 9495,
+      "log": "PARENT_EXACT_REPLAY.log"
+    }
+  ],
+  "first_driver_exit_code": 1,
+  "failure_class": "overstrict provenance equality compared distinct Python patch versions",
+  "remaining_differences": [
+    [
+      "$.software.python",
+      "3.12.14",
+      "3.12.3"
+    ]
+  ],
+  "scientific_fields_exactly_identical": true,
+  "byte_identity": false,
+  "repair": "Compared all scientific and other metadata fields exactly, explicitly retaining Python3.12.14 versus3.12.3 provenance; no scientific code/results changed."
+}
