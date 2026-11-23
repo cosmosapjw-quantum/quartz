@@ -16,3 +16,8 @@ The root commit, historical PDF Eq.1/2, THESIS and COG01 primary texts were actu
 ## C06 — history retention and operational transfer
 
 The user explicitly replaced the initial all-checkouts-retained assumption with cleanup of inactive checkouts and old backups. The original SSOT, branch/commit history and unique non-Git research payloads were preserved through verified source/archive/Git-bundle recovery; no original theoretical motive or negative C26 result was rewritten. C27 still operationalizes conditional value of computation with a priced finite Bellman controller. TRAIN selected a positive common coupling, but this alone establishes neither paid empirical benefit nor P2 Gomoku/P3 human signatures. The unaccounted missing dirty reboot checkout is recorded as external_or_unresolved, not folded into preservation success.
+
+
+## C07 — calibration versus paid decision value
+
+CAL completes without source/parameter drift. Posterior prediction diagnostics and actual paid utility remain distinct: changing a belief does not imply a changed action or an economic gain. The negative CAL wall-priced contrast is preserved and does not trigger retuning or abandonment of the original resource-priced goal.

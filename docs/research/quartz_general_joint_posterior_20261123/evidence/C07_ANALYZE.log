@@ -1,0 +1,57 @@
+{
+  "analysis_sha256": "73a0f295c916713e8dd741000a454488d939218d19c368dd4e823490b744a279",
+  "gate": {
+    "calibration_cannot_rescue_primary": true,
+    "empirical_admission": false,
+    "evaluated_for_admission": false,
+    "invalid_support_leakage_semantic_failures": 0,
+    "meaning": "frozen finite-source operational admission; not independent-tree/population-wide inference",
+    "primary_descriptive_lower": -0.007998370056361562,
+    "primary_lower_gt_zero": false,
+    "quality_descriptive_lower": 0.0,
+    "quality_lower_ge_minus_002": true
+  },
+  "primary": {
+    "elapsed_ns": {
+      "ci95": [
+        90.77994791666667,
+        389.86484375
+      ],
+      "draws": 10000,
+      "mean": 229.71875,
+      "numpy_version": "2.4.2",
+      "rng": "numpy.PCG64",
+      "roots": 24,
+      "scope": "descriptive unstratified paired source-root resampling; no independent-tree coverage",
+      "seed": 2709
+    },
+    "net_wall": {
+      "ci95": [
+        -0.007998370056361562,
+        -0.0018624188068630484
+      ],
+      "draws": 10000,
+      "mean": -0.004712852674048804,
+      "numpy_version": "2.4.2",
+      "rng": "numpy.PCG64",
+      "roots": 24,
+      "scope": "descriptive unstratified paired source-root resampling; no independent-tree coverage",
+      "seed": 2709
+    },
+    "utility": {
+      "ci95": [
+        0.0,
+        0.0
+      ],
+      "draws": 10000,
+      "mean": 0.0,
+      "numpy_version": "2.4.2",
+      "rng": "numpy.PCG64",
+      "roots": 24,
+      "scope": "descriptive unstratified paired source-root resampling; no independent-tree coverage",
+      "seed": 2709
+    }
+  },
+  "roots": 24,
+  "split": "CAL"
+}

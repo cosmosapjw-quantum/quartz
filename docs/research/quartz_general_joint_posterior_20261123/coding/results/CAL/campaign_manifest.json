@@ -1,0 +1,77 @@
+{
+  "binary_sha256": "38126679ef622d7339fecdc7fd258ce2bb1428d82bbcb24545f26a7fafb66eef",
+  "files": {
+    "offline_oracle.jsonl.gz": "bc097160fdafbd408416c9301010f5ecc1b719c6e0c6b7356d06e90fc0cfa15a",
+    "raw.jsonl.gz": "c6f0fca05b11cba120f472088890c547d9f04949ad8901702ac7aead5fe1af9b"
+  },
+  "frozen_bundle_sha256": "dc1f76a16e769add95fa0dfb9b31454cc7cdbe7372787cc199573bf5673f40af",
+  "labels_runtime_input": false,
+  "native_exit_code": 0,
+  "native_roundtrip_us": 46655.96400000001,
+  "policy_seeds": [
+    0,
+    1,
+    2,
+    3
+  ],
+  "process_launch_us": 443.372,
+  "provenance": {
+    "argv": [
+      "/home/cosmosapjw/quantum/research/quartz_general_meta27_20261123/docs/research/quartz_general_joint_posterior_20261123/coding/c27_campaign.py",
+      "campaign",
+      "--data-dir",
+      "/home/cosmosapjw/quantum/research/quartz_general_meta27_20261123/docs/research/quartz_general_joint_posterior_20261123/coding/data",
+      "--binary",
+      "/home/cosmosapjw/quantum/research/quartz_general_meta26_20261123/target/release/quartz_c27_joint_posterior",
+      "--split",
+      "CAL",
+      "--output-dir",
+      "/home/cosmosapjw/quantum/research/quartz_general_meta27_20261123/docs/research/quartz_general_joint_posterior_20261123/coding/results/CAL"
+    ],
+    "contract_sha256": "bd521796651ec36c8ef791f4e9e1267a5cca725040911d8fd2b66bb12b6cf8ed",
+    "experiment_contract_sha256": "874970ae3148619ae2fc1990549aa8d1d7e3bb8294837fbdfe1a24b8691b730a",
+    "git_head": "f74e1ab4f37c81a357e7e49994158cd18b08002c",
+    "git_status": [
+      "?? docs/research/quartz_general_joint_posterior_20261123/evidence/C07_CAMPAIGN.log"
+    ],
+    "harness_sha256": "cfe068449f30a40350e5069513f9b0c6fa280517841f8ee95c3af7c900a5f75f",
+    "platform": "Linux-7.0.0-43-generic-x86_64-with-glibc2.39",
+    "python": "3.12.3 (main, Aug 31 2026, 10:18:26) [GCC 13.3.0]",
+    "utc": "2026-11-23T12:48:30.085319+00:00"
+  },
+  "public_sources_sha256": "43315f6e099e2945bc78f73850049157b1d787136402643c06c46f97d5eb21b6",
+  "repeats": 5,
+  "requests": 96,
+  "schema": "c27-campaign-v1",
+  "source_count": 24,
+  "source_ids": [
+    "C27-p4-1ac4c1cace5635c0",
+    "C27-p4-1f24d65beb6f6e1b",
+    "C27-p5-03b9402fb31047d0",
+    "C27-p5-06b3f9b592d7dd21",
+    "C27-p5-0b506e03409cc282",
+    "C27-p5-0dda57728610321a",
+    "C27-p5-0f1ec63b66352237",
+    "C27-p5-13157fabd5715187",
+    "C27-p5-180866a2b86a78f2",
+    "C27-p5-1abc5969aa0f5c2b",
+    "C27-p6-040f7f2385c13b30",
+    "C27-p6-05bed84f5a5ba2c9",
+    "C27-p6-095550b5b6e2b785",
+    "C27-p6-0985b5672cd4d522",
+    "C27-p6-0ded92594580a622",
+    "C27-p6-0e0255e0e2d0aaa7",
+    "C27-p6-1897b7d623453c69",
+    "C27-p6-1959f49e0351671a",
+    "C27-p6-196f4f9abd4a9648",
+    "C27-p6-251d72b57f228a54",
+    "C27-p6-2c5d724887de8b3d",
+    "C27-p6-2fa9bc9017c2961e",
+    "C27-p6-32bcf6db371ecea8",
+    "C27-p6-375088c72de647fc"
+  ],
+  "split": "CAL",
+  "timing_scope": "full native controller including trace; decoding/serialization/IPC/startup excluded",
+  "validated_runs": 2400,
+  "warmup": 1
+}

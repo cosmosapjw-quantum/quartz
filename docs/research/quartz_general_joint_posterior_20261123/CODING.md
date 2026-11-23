@@ -30,3 +30,8 @@ Native18tests/Python21tests and final-binary75run independentintegration passed;
 ## C06 — validation and frozen TRAIN calibration
 
 Actual native18/Python21 tests,75-run independent integration plus5 invalid inputs, and53851 exact assertions passed. Public144-root allocation and honest3fold TRAIN selection completed; rho=.75. All1480 price queries are retained, giving47.6006216006216 ns/node and lambda_time_ns=2.0515750995723287e-05. Frozen bundle dc1f76a16e769add95fa0dfb9b31454cc7cdbe7372787cc199573bf5673f40af fixes all CAL/TEST inputs. Invocation/style corrections and authorized storage consolidation are evidenced, not hidden.
+
+
+## C07 — fixed CAL diagnostics
+
+CAL24,96requests and2400policy runs completed and independently verified. JOINT minus PRODUCT net_wall=-0.00471285267405, descriptive95% interval=[-0.007998370056361562, -0.0018624188068630484]; utility/node/query differences are zero. CAL is not the admission sample. No settings were retuned. See coding/C07_CAL.md and raw/analysis evidence.
