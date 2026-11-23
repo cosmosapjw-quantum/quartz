@@ -17,3 +17,4 @@ The requested scope is R01–R10 followed by C01–C10. Each completed stage is 
 - R06: Independent mathematical and semantic checks completed and preserved.
 - R07: Executed discriminating checks completed and preserved.
 - R08: Theory judgment completed and preserved.
+- R09: equations, numerical contract, fresh cohort and primary decision criteria frozen before implementation.

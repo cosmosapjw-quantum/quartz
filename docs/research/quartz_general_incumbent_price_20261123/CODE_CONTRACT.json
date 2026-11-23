@@ -1,0 +1,58 @@
+{
+  "schema": "quartz.c25.code-contract.v1",
+  "source_parent": "4998c771c08788e4f0da8d2723347121ae16fbf2",
+  "operator": "A=I+rho*L_D; 2D fivepoint, zero exterior; n=side^2",
+  "spectral": "1<=lambda(A)<=1+8rho",
+  "utility": "u=b^T A^-1 b / S in [0,1]; common power-of-two S >= conservative norm upper",
+  "domain": "unchanged C24 side2..128 rhointeger0..64 K2..8; nonzero RHS max in [2^-400,2^100]; state absolute and relative caps unchanged",
+  "native": "src/bin/quartz_c25_incumbent_price.rs",
+  "reuse": "C24 arithmetic/validation/operators/solver/3 controls unchanged; original file byte-protected",
+  "initial": "4 CG updates; identical score arithmetic and index ties to PLAIN_STOP",
+  "switch": "j=smallest-index argmax L; replace current i iff L_j>U_i",
+  "gap": "0 if max_otherU<=L_i else next_up(max_otherU-L_i)",
+  "order": [
+    "fresh enclosure intersection",
+    "one safe switch",
+    "strict unique certificate or weak zero-regret optimum",
+    "budget or no-progress exhaustion",
+    "mode-specific price gate",
+    "CG block then unconditional all-K FAST readouts"
+  ],
+  "work_charge": "W=n*(solver_matvecs+fast_evaluations+ordinary_evaluations); defined cell-stencil charge, not total CPU operations",
+  "future_floor": "K*n for every admitted complete block; mandatory fresh all-action readout even if advanced0",
+  "work_gate": "gap_upper <= next_down(2^-30 * K*n), with nonnegative clamp",
+  "time_gate": "gap_upper <= next_down(next_down(binary64(1e-6))*predicted_block_us); empirical only",
+  "zero_prediction": "TRAIN uses0 to disable positive-price stopping; CAL/TEST positive frozen per-side prediction",
+  "budget_return": "retained incumbent; never unconditionally reselect final ordinary score",
+  "request": "C24 task/additional/repeats/warmup/trace plus predicted_block_us; unknown/oracle fields rejected",
+  "output": "unchanged Outcome flattened plus c25 metadata: executed_blocks,continuation_us,charged_cell_stencils,final_gain_upper,weakly_optimal, trace-only decisions aligned with checkpoints",
+  "timing": "full native wall time including validation, initial solve/readout, every continuation and controller work, workspace destruction; JSON transport and offline oracle excluded; no vector trace copies in timing mode",
+  "controls": [
+    "PLAIN_STOP",
+    "PLAIN_ALWAYS",
+    "FAST_BLOCK"
+  ],
+  "variants": [
+    "RETAIN_BLOCK",
+    "RETAIN_WORK",
+    "RETAIN_TIME"
+  ],
+  "verification": [
+    "same initial action across controls",
+    "all exact oracle utility enclosures",
+    "every strict accepted switch",
+    "final retention vs initial true utility",
+    "gap and charged-price inequalities",
+    "typed counts and readout floor",
+    "same decisions across timing reps",
+    "old adverse C24 fixture regression only",
+    "fresh TEST no label leakage"
+  ],
+  "claims_excluded_by_scope": [
+    "global optimal allocation",
+    "universal hardware-time lower bound",
+    "novelty of elementary interval lemmas",
+    "Gomoku P2 performance from SPD proxy"
+  ],
+  "origin_bridge": "FOCUS/STOP slice, fixed complete root-action set; EXPAND needs reservoir upper bound; measured quality/cost both reported"
+}

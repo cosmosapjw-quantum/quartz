@@ -61,3 +61,9 @@ An actual Wolfram evaluation returned True for universal strict-switch and charg
 Admit T1–T3 as conditional derived results with independent finite checks; elementary interval/VOC ingredients are not new general theorems. Keep time-predicted economic benefit conjectural pending fresh measurements. Keep original neural-MCTS transfer and P2/P3/P4 unresolved.
 
 Select all three retention variants for implementation against PLAIN_STOP, PLAIN_ALWAYS and C24 FAST_BLOCK. Retention's missed gains are measured trade-offs. No new strong no-go, broad impossibility claim, or extra research blocker is introduced.
+
+## R09 — Reusable statements and computational contract
+
+CODE_CONTRACT.json maps every mathematical quantity to exact endpoint comparisons, rounding direction, counters, timing and failure semantics. SOURCE_SPECS.json fixes fresh IDs/seeds, the primary price and comparison, source strata, paired-parent aggregation and the TRAIN-only predictor before any C25 outcome.
+
+The exact S=1 arbitrary-iterate examples are mathematical interval constructions. Native validation conservatively rounds the norm upward; a boundary norm of1 requires S=2 in a corresponding production fixture, scaling all those utilities and gaps by1/2 without changing their ordering. Native tests use validation-admissible scales and actual solver trajectories. No symbolic example is relabelled an observed CG run.
