@@ -17,3 +17,11 @@ Public task b,S,side,rho -> inherited validate/ordinary_or_fast_response -> vali
 Exact hidden oracle is manufactured separately by the inherited integer stencil and dyadic energy formula. C25source IDs/seeds are inputs, not fitted labels. JSON decimal strings carry binary64 values; trace parsed bits establish transport identity. Native output final selected index and complete interval checkpoints are verified using independent Python Fraction arithmetic.
 
 Runtime receives only a public task and frozen predicted_block_us. The predictor reads TRAIN RETAIN_BLOCK continuation timings, no utility labels. CAL/TEST require the predictor to be committed and unchanged. Evidence chunks bind every request to source, code, binary and contract hashes.
+
+## C03 — Numerical and statistical design
+
+No new spatial discretization or solver truncation is introduced: the finite SPD operator and C24 envelopes are the mathematical problem. Solver truncation controls interval width; it is not silently equated with selection error. Floating roundoff is covered by C24 outward bounds plus the new upward gap/downward threshold. The strict switch uses endpoint comparison only.
+
+All-action fresh FAST readout is mandatory after each admitted CG block, including zero progress; this establishes the positive charge floor. Budget/no-progress exhaustion precedes a new paid price decision. The final ordinary score is recorded as a comparator without replacing the retained action.
+
+Prices and normalization were fixed at R09. Time prediction is a model approximation evaluated on fresh inputs; it cannot prove a universal hardware cost floor. Timing aggregation is per-source median across9 repetitions, then equal-parent mean; repetitions are not independent statistical parents. Paired source bootstrap2000 draws uses seed2500923.
