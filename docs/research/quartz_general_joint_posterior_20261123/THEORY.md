@@ -17,3 +17,7 @@ Next: R02source reuse, actual population counts and formula applicability; then 
 ## R02 — evidence reuse and population
 
 Primary-source transport and limitations are recorded in theory/R02_REUSE.md, R02_SOURCE_CONTEXT.md and R02_LITERATURE.md. Public enumeration found 144 new ply4/5/6 roots. Reuse original90 TRAIN; evaluation allocation will be frozen before outcomes. Source evidence, mathematical claims and empirical efficacy remain distinct.
+
+## R03 — assumptions and claims
+
+Definitions, known-only STOP, total2-query horizon, two product controls, units and evidence classes are aligned in theory/R03_ASSUMPTIONS_CLAIMS.md. The new positive common-factor family is a proposed approximation; Bayes/Bellman are reused mathematics and actual game efficacy is unresolved.
