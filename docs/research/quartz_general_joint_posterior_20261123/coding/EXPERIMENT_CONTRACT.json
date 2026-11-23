@@ -1,0 +1,55 @@
+{
+  "schema": "c27-frozen-contract-v1",
+  "ssot": "87c15dc828d6eea519c219fd8a412fa21dfc464d",
+  "train": "C26 TRAIN90 only",
+  "new_cal_by_ply": {
+    "4": 2,
+    "5": 8,
+    "6": 14
+  },
+  "new_test_by_ply": {
+    "4": 6,
+    "5": 45,
+    "6": 69
+  },
+  "split_salt": "C27-eval-split-v1|",
+  "cue_salt": "C26-cue-v1|",
+  "rho_grid": [
+    0,
+    0.25,
+    0.5,
+    0.75,
+    0.9
+  ],
+  "rho_selection": "3-fold root CV; inside-fold C26 marginal refit; mean90 logR; smallest rho within1e-12",
+  "lambda_nodes": 0.0009765625,
+  "price_repeats": 5,
+  "price_query_count": 1480,
+  "price_scope": "TRAIN nonterminal exact queries; instrumented wall ns/node",
+  "policy_seeds": [
+    0,
+    1,
+    2,
+    3
+  ],
+  "repeats": 5,
+  "warmup": 1,
+  "additional": 2,
+  "policies": [
+    "INITIAL_STOP",
+    "RANDOM_TWO",
+    "PRODUCT_H2",
+    "INITIAL_PROJECTED_H2",
+    "JOINT_H2"
+  ],
+  "primary": [
+    "JOINT_H2",
+    "PRODUCT_H2"
+  ],
+  "bootstrap_reps": 10000,
+  "bootstrap_seed": 2709,
+  "primary_descriptive_lower_threshold": 0,
+  "quality_descriptive_lower_threshold": -0.02,
+  "probability_tolerance": 1e-12,
+  "stop_tolerance": 1e-12
+}

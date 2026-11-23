@@ -41,3 +41,7 @@ The bounded Fraction oracle completed53851 assertions with exit0;336 models,3024
 ## R08 — admission
 
 Derived mathematics and exact finite checks are admitted at their stated scopes. The positive common-factor model is adopted for a discriminating pilot. Real-game predictive/resource gains, broader original claims and the cause of C26 failure remain unresolved. Proceed to the frozen coding contract.
+
+## R09 — theory-to-code freeze
+
+coding/CODE_CONTRACT.md and EXPERIMENT_CONTRACT.json freeze the model, source split90/24/120, honest3foldrho selection, timingprice, fivepolicies,2-query cap, primaryfullnativecostcontrast, diagnostics, validation and resource bounds before new fit/outcomes. The original C26 base model bytes remain fixed. CAL cannot retune the pilot.
