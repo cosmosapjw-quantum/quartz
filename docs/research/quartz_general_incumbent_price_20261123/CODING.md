@@ -9,3 +9,11 @@ This is a new decision-controller feature on the preserved C24 numerical core. N
 Acceptance: all successful accepted inputs retain valid enclosures; all retention outputs have exact oracle utility at least the identical initial PLAIN_STOP action; every claimed work price stop satisfies the proven future-charge contract; no oracle enters the runtime; tests and raw campaigns complete with actual exit codes. Economic success is judged separately by primary RETAIN_TIME–PLAIN_STOP mean net utility at1e-6utility/us and its paired-parent95% bootstrap interval. A negative result is preserved and is not a build failure.
 
 C24 adverse c24_test_34_1 is regression-only. Fresh144 C25parents preserve the prior stratification with disjoint IDs/seeds. Runtime recorded in evidence/C01_ENVIRONMENT.json; isolated system-package venv, no package installation.
+
+## C02 — Formula/data/code mapping
+
+Public task b,S,side,rho -> inherited validate/ordinary_or_fast_response -> valid utility intervals. Solver state remains owned by inherited Solver/advance. measure_bounds computes fresh intervals and their historical intersection; score_action gives the initial PLAIN_STOP-compatible recommendation. New checkpoint logic implements max-L strict replacement, gap upper bound and typed price reason. Numeric helpers next_up/next_down implement the directed comparison.
+
+Exact hidden oracle is manufactured separately by the inherited integer stencil and dyadic energy formula. C25source IDs/seeds are inputs, not fitted labels. JSON decimal strings carry binary64 values; trace parsed bits establish transport identity. Native output final selected index and complete interval checkpoints are verified using independent Python Fraction arithmetic.
+
+Runtime receives only a public task and frozen predicted_block_us. The predictor reads TRAIN RETAIN_BLOCK continuation timings, no utility labels. CAL/TEST require the predictor to be committed and unchanged. Evidence chunks bind every request to source, code, binary and contract hashes.

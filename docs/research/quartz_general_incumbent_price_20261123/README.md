@@ -20,3 +20,4 @@ The requested scope is R01–R10 followed by C01–C10. Each completed stage is 
 - R09: equations, numerical contract, fresh cohort and primary decision criteria frozen before implementation.
 - R10: theory closed; code execution authorized; every-turn original-history watchdog retained.
 - C01: Baseline and acceptance completed and preserved.
+- C02: Formula/data/code mapping completed and preserved.
