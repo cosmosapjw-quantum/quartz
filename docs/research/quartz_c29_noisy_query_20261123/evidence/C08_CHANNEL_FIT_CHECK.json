@@ -1,0 +1,78 @@
+{
+  "train_unconditional_outcome_prob": [
+    0.4477211796246649,
+    0.14075067024128687,
+    0.41152815013404825
+  ],
+  "channel_sha256": "f76df768133c656d39ab493b21c23e15607fe730689a5906bc0d5d32137bbad9",
+  "held_out_checks": {
+    "CAL": {
+      "events": 151,
+      "counts": [
+        [
+          56,
+          15,
+          23
+        ],
+        [
+          6,
+          19,
+          12
+        ],
+        [
+          4,
+          1,
+          15
+        ]
+      ],
+      "row_total": [
+        94,
+        37,
+        20
+      ],
+      "cross_entropy_conditional": 0.9635018175188685,
+      "cross_entropy_unconditional_baseline": 1.0997169566849834,
+      "log_loss_gain_nats_per_event": 0.13621513916611483,
+      "row_total_variation": [
+        0.08127469179875293,
+        0.14189189189189189,
+        0.08079470198675497
+      ]
+    },
+    "DIAGNOSTIC": {
+      "events": 126,
+      "counts": [
+        [
+          43,
+          9,
+          25
+        ],
+        [
+          0,
+          24,
+          13
+        ],
+        [
+          0,
+          0,
+          12
+        ]
+      ],
+      "row_total": [
+        77,
+        37,
+        12
+      ],
+      "cross_entropy_conditional": 0.8857415276316953,
+      "cross_entropy_unconditional_baseline": 1.1401054285168064,
+      "log_loss_gain_nats_per_event": 0.25436390088511107,
+      "row_total_variation": [
+        0.08137947064121563,
+        0.27702702702702703,
+        0.2185430463576159
+      ]
+    }
+  },
+  "not_new_TEST": true,
+  "no_refit": true
+}

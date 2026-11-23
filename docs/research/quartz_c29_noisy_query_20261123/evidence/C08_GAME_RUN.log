@@ -1,0 +1,60 @@
+{
+  "scope": "benchmark",
+  "index_range": [
+    0,
+    300
+  ],
+  "source_sha256": "9c9f52a0344a4b6c7c25cde6d519479784a0695fcb8f4681486403fb21fe15c1",
+  "channel_sha256": "f76df768133c656d39ab493b21c23e15607fe730689a5906bc0d5d32137bbad9",
+  "channel_status": "TRAIN_FITTED_RETROSPECTIVE",
+  "retrospective": true,
+  "fresh_test": false,
+  "query_count_total": 155,
+  "query_decision_count": 155,
+  "action_change_roots": 39,
+  "realized_utility_improvement_count": 6,
+  "utility_delta": {
+    "mean": 0.006666666666666667,
+    "median": 0.0,
+    "min": -0.5,
+    "max": 1.0
+  },
+  "actual_query_cost": {
+    "mean": 0.0015950520833333333,
+    "median": 0.0,
+    "min": 0.0,
+    "max": 0.009765625
+  },
+  "net_delta_utility_minus_query_price": {
+    "mean": 0.005071614583333333,
+    "median": 0.0,
+    "min": -0.509765625,
+    "max": 0.9931640625
+  },
+  "additional_rollout_nodes": {
+    "mean": 1.6333333333333333,
+    "median": 0.0,
+    "min": 0,
+    "max": 10
+  },
+  "benchmark_boundary": "one Rust invocation per timed replay: cues+initial exact solve+planner+paid rollout+final selection; excludes input JSON/serialization/offline minimax",
+  "time_baseline_ns": {
+    "mean": 2880.9133333333334,
+    "median": 2665.0,
+    "min": 441,
+    "max": 8626
+  },
+  "time_noisy_ns": {
+    "mean": 15361.003333333334,
+    "median": 14537.5,
+    "min": 471,
+    "max": 42930
+  },
+  "paired_mean_noisy_minus_baseline_ns": 12480.09,
+  "ratio_means": 5.33199078070149,
+  "timing_pairs": 2100,
+  "group_CAL_60": {
+    "utility_net_mean": -0.001025390625,
+    "changed_actions": 5
+  }
+}

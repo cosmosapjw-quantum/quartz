@@ -1,0 +1,20 @@
+{
+  "schema": "c29-C08-frozen-retrospective-v1",
+  "status": "BENCHMARK_COMPLETED_WITH_NEGATIVE_CAL_ADMISSION",
+  "native_source_sha256": "d555167e6b43bd9b96e4dbbb01b66906b6a90aeacc0b9d4e69daa2e53ced6e3c",
+  "native_binary_sha256": "c0fc82d0e98d943328c7a418065f9c277cdacb308dbc85822e964fc22a0f8a24",
+  "native_binary_bytes": 647744,
+  "channels_sha256": "f76df768133c656d39ab493b21c23e15607fe730689a5906bc0d5d32137bbad9",
+  "raw_request_gzip_sha256": "400f38eab79f321fd0b17e35502d35ac446551517b2ac4fd2742b6eac90d9a2c",
+  "raw_response_gzip_sha256": "ad0e842df45d98e63d9d04df62337273faf828506c00b41a12682f5da628b9a0",
+  "roots": 300,
+  "timing_pairs": 2100,
+  "CAL_utility_gain_mean": 0.0,
+  "CAL_net_gain_mean": -0.001025390625,
+  "full_cohort_time_ratio": 5.33199078070149,
+  "CAL_time_ratio": 4.696589871105248,
+  "train_contaminated_full_cohort": true,
+  "new_TEST": false,
+  "whole_game_speedup_established": false,
+  "matched_time_game_efficacy_established": false
+}
