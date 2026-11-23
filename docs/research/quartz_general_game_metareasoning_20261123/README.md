@@ -37,3 +37,7 @@ Packaged actual 9,495 exact oracle cases, 72 independent statistical-mechanics c
 ## R08 — completed
 
 Admitted conditional proofs and genuine mathematical mechanisms, retained exact counterexamples and approximation errors, and kept real-game calibration/net gain open for coding evidence. See theory/R08_DECISIONS.md.
+
+## R09 — completed
+
+Frozen the native interface, exact solver and cue accounting, TRAIN-only categorical/cost model, six policies, node price 2^-10, Gibbs tau 2^-5, 300 disjoint source parents, full-horizon primary contrast and parent-level inference before production outcomes. See coding/CODE_CONTRACT.md and coding/SOURCE_SPECS.json.

@@ -39,3 +39,7 @@ Exact Bellman/index and STOP checks passed on 9,495 finite cases. Independent st
 ## R08: claim decisions
 
 Admit exact retention, conditional STOP/reservation results and the KL/Gibbs mechanism. Keep product-model calibration, measured net gain, large-game P2 and cognitive P3 open. Specific counterexamples delimit assumptions and suggest the next constructive extension.
+
+## R09: executable mathematical contract
+
+The complete mapping from definitions to exact solver, probability model, reservation formula, Gibbs sampler, measured costs and validation targets is frozen in coding/CODE_CONTRACT.md. Source population and primary statistical decision are frozen in coding/SOURCE_SPECS.json. No test outcome informed these choices.

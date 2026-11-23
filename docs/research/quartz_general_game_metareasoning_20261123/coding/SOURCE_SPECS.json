@@ -1,0 +1,73 @@
+{
+  "schema": "c26-source-spec-v1",
+  "frozen_stage": "R09",
+  "canonical_nonterminal_population": {
+    "4": 108,
+    "5": 153,
+    "6": 183
+  },
+  "plies": [
+    4,
+    5,
+    6
+  ],
+  "selected_per_ply": 100,
+  "split_ranges": {
+    "TRAIN": [
+      0,
+      30
+    ],
+    "CAL": [
+      30,
+      50
+    ],
+    "TEST": [
+      50,
+      100
+    ]
+  },
+  "total_sources": {
+    "TRAIN": 90,
+    "CAL": 60,
+    "TEST": 150
+  },
+  "canonical": "lexicographically smallest integer board tuple over D4; canonicalize only for source grouping and split",
+  "order": "sha256('C26-source-v1|'+comma_join_canonical_board); take first100 sorted hashes within ply",
+  "source_id": "C26-p{ply}-{source_hash_first16}",
+  "cue_seed": "unsigned integer from first16 hex of sha256('C26-cue-v1|'+comma_join_canonical_board)",
+  "history": "reachable legal history transformed to the chosen canonical representative; stop traversal on wins/draws",
+  "caps": [
+    1,
+    2,
+    9
+  ],
+  "policy_seeds": [
+    0,
+    1,
+    2,
+    3
+  ],
+  "repeats": 9,
+  "warmup": 1,
+  "trace_repeats": 1,
+  "lambda_nodes": 0.0009765625,
+  "tau": 0.03125,
+  "lambda_wall_per_us": 0.000001,
+  "primary": {
+    "split": "TEST",
+    "cap": 9,
+    "contrast": "PANDORA minus INITIAL_STOP",
+    "metric": "delta final_u minus lambda_nodes*delta charged_nodes",
+    "unit": "source parent; average seeds after per-seed timing median",
+    "inference": "95% percentile interval, 2000 paired parent bootstrap draws stratified by ply, seed2600923",
+    "positive_gain_gate": "lower endpoint >0; otherwise do not claim positive expected priced gain"
+  },
+  "secondary": [
+    "wall-priced net at1e-6 utility/us",
+    "all six policy comparisons at all caps",
+    "utility gain and exact regret against independent oracle",
+    "node and time savings against ALL_ACTIONS at full cap",
+    "Brier/cost calibration and within-root residual dependence"
+  ],
+  "no_test_retuning": true
+}
