@@ -27,3 +27,7 @@ For independent exact queries, expected positive excess and reservation values s
 ## R05: proved results
 
 Full derivation: theory/CONSTRUCTOR_DERIVATION.md, with the initialization correction in theory/R05_CONSTRUCTIVE_RESULT.md. Conditional global optimality belongs to the independent fixed-cost full-reveal model. Pathwise retention does not need that model. Covariance correction concerns a specified regularized terminal objective, not hard-max VOC by definition.
+
+## R06: verification and scope
+
+The finite independent model proofs survive boundary, sign and dimension checks. Learned game priors and predicted charges are approximate closures. A binding cap and correlated revelation invalidate the transported ordering theorem; exact retention remains valid. See theory/R06_PARENT_CHECK.md.

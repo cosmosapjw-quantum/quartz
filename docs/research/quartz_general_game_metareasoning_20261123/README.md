@@ -25,3 +25,7 @@ Compared six explicit constructions and selected exact-query VOC/Pandora plus sa
 ## R05 — completed
 
 Direct proofs now cover exact STOP, reservation ordering, safe known-incumbent retention, the categorical formula, Gibbs variational gap and covariance correction. A correlated joint-world example isolates a specific product-model failure. Constructor artifact and operative baseline erratum are preserved.
+
+## R06 — completed
+
+Parent verified proof dependencies, signs, units, boundaries, fixed-cost and budget assumptions. Resolved the initialization packet mismatch by an explicit operative definition. Preserved the correlated counterexample and separated local Gibbs, posterior-mean fluctuations and physical interpretations. See theory/R06_PARENT_CHECK.md.
