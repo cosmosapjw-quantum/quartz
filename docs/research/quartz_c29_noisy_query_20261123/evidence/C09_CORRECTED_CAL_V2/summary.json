@@ -1,0 +1,51 @@
+{
+  "scope": "validate",
+  "metadata": {
+    "wall_seconds": 0.007185823982581496,
+    "binary_sha256": "d564dc925751aabd0dc34aa6e9dcc1d9849e1be219f2d07976236c2ad6aa65d0",
+    "raw_requests_sha256": "fb49600a9c08497a14b76af8406f9a6d7c907a6772c38c7d796a06a9ca6b93b5",
+    "raw_responses_sha256": "b4a157cf22efa9eb33aa953eb9f82e5f4f451c465e0ed14c20cf3bf94a07a03c",
+    "request_count": 60,
+    "native_exit_code": 0,
+    "native_stderr_bytes": 0
+  },
+  "index_range": [
+    180,
+    240
+  ],
+  "source_sha256": "9c9f52a0344a4b6c7c25cde6d519479784a0695fcb8f4681486403fb21fe15c1",
+  "channel_sha256": "f76df768133c656d39ab493b21c23e15607fe730689a5906bc0d5d32137bbad9",
+  "channel_status": "TRAIN_FITTED_RETROSPECTIVE",
+  "retrospective": true,
+  "fresh_test": false,
+  "query_count_total": 22,
+  "query_decision_count": 22,
+  "action_change_roots": 5,
+  "realized_utility_improvement_count": 1,
+  "utility_delta": {
+    "mean": 0.0,
+    "median": 0.0,
+    "min": -0.5,
+    "max": 0.5
+  },
+  "actual_query_cost": {
+    "mean": 0.001025390625,
+    "median": 0.0,
+    "min": 0.0,
+    "max": 0.0078125
+  },
+  "net_delta_utility_minus_query_price": {
+    "mean": -0.001025390625,
+    "median": 0.0,
+    "min": -0.505859375,
+    "max": 0.4921875
+  },
+  "additional_rollout_nodes": {
+    "mean": 1.05,
+    "median": 0.0,
+    "min": 0,
+    "max": 8
+  },
+  "benchmark_boundary": "one Rust invocation per timed replay: cues+initial exact solve+planner+paid rollout+final selection; excludes input JSON/serialization/offline minimax",
+  "notes": "Calibration channel learned globally from first 180 old roots, selection is conditioned on observed cues and may be miscalibrated; no matched-total-time strength claim"
+}

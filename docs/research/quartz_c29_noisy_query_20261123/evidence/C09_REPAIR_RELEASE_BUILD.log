@@ -1,0 +1,29 @@
+   Compiling mcts_demo v0.3.0 (/home/cosmosapjw/quantum/research/quartz_c29_noisy_query_20261123)
+warning: constant `SCHEMA` is never used
+  --> src/bin/quartz_c29_noisy_query.rs:28:7
+   |
+28 | const SCHEMA: &str = "c28-geometry-v1";
+   |       ^^^^^^
+   |
+   = note: `#[warn(dead_code)]` (part of `#[warn(unused)]`) on by default
+
+warning: field `predicted_nodes` is never read
+   --> src/bin/quartz_c29_noisy_query.rs:230:5
+    |
+222 | struct Candidate {
+    |        --------- field in this struct
+...
+230 |     predicted_nodes: Option<f64>,
+    |     ^^^^^^^^^^^^^^^
+
+warning: field `value` is never read
+   --> src/bin/quartz_c29_noisy_query.rs:285:5
+    |
+283 | struct Initial {
+    |        ------- field in this struct
+284 |     incumbent: usize,
+285 |     value: i8,
+    |     ^^^^^
+
+warning: `mcts_demo` (bin "quartz_c29_noisy_query") generated 3 warnings
+    Finished `release` profile [optimized] target(s) in 4.53s

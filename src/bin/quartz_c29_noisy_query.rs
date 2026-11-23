@@ -544,25 +544,39 @@ fn best_mean_index(f:&Filter,cs:&[Candidate])->usize{
 fn run_game(root:&TicTacToe, req:&GameRequest, noisy:bool)->Result<GameRun,String>{
     let mut cs=candidates(root,req.cue_seed,Some(&req.model));
     let cue_nodes=cs.iter().map(|c|c.cue_nodes).sum();
-    let initial=initialize(&mut cs,root.current_player());
     let n=cs.len();
+    // Fix the prior *before* mandatory initial exact verification, as in C28.
+    // Replacing a newly verified candidate by a point mass before applying Bayes
+    // would discard its information about the shared signed latent mode.
     let mut probs=Vec::with_capacity(n);let mut loads=Vec::with_capacity(n);
-    let mut disabled=Vec::with_capacity(n);let mut costs=Vec::with_capacity(n);
-    for candidate in &cs{
-        if let Some(v)=candidate.known {
-            let mut p=[0.0;3];p[(v+1) as usize]=1.0;
-            probs.push(p);loads.push(0.0);disabled.push(true);costs.push(0.0);
+    for candidate in &cs {
+        if candidate.terminal_known {
+            let mut p=[0.0;3];p[(candidate.known.ok_or("terminal exact value missing")?+1) as usize]=1.0;
+            probs.push(p);loads.push(0.0);
         } else {
             probs.push(candidate.probabilities.ok_or("missing model distribution")?);
             loads.push(req.rho);
-            disabled.push(false);
-            costs.push(LAMBDA*(candidate.cue_nodes as f64)/4.0);
         }
     }
     let mut filter=Filter::new(probs,loads,0.0)?;
-    for i in 0..n {
-        if let Some(v)=cs[i].known {filter.known[i]=Some((v+1) as usize);}
+    let exact_channel=vec![(0..3).map(|u|
+        (0..3).map(|y|if u==y{1.0}else{0.0}).collect::<Vec<_>>()
+    ).collect::<Vec<_>>();n];
+    for (i,c) in cs.iter().enumerate().filter(|(_,c)|c.terminal_known) {
+        let k=(c.known.ok_or("terminal value missing")?+1) as usize;
+        filter=filter.observe(i,k,&exact_channel,true)
+            .ok_or("initial terminal observation unsupported")?.0;
     }
+    let initial=initialize(&mut cs,root.current_player());
+    if let Some(mv)=initial.solve_move {
+        let i=cs.iter().position(|c|c.mv==mv).ok_or("initial solve move missing")?;
+        let k=(cs[i].known.ok_or("initial solved value missing")?+1) as usize;
+        filter=filter.observe(i,k,&exact_channel,true)
+            .ok_or("initial verification observation unsupported")?.0;
+    }
+    let disabled:Vec<bool>=cs.iter().map(|c|c.known.is_some()).collect();
+    let costs:Vec<f64>=cs.iter().map(|c|if c.known.is_some(){0.0}
+        else{LAMBDA*(c.cue_nodes as f64)/4.0}).collect();
     let channels=vec![req.channel.iter().map(|row|row.to_vec()).collect::<Vec<_>>();n];
     let baseline_idx=best_mean_index(&filter,&cs);
     let baseline_expected=filter.means()[baseline_idx];

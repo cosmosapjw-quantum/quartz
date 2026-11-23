@@ -123,15 +123,32 @@ def verify_game(source,result,model,channel):
     if result['query_count']==0:assert result['baseline_move']==result['noisy_move']
     # Reconstruct posterior and optimal deployment independently of native Rust.
     ps=[];rs=[];costs=[];moves_sorted=[]
+    terminal_win=any(c['terminal_known'] and c['utility']==F(1) for c in candidates)
+    unsolved=[c for c in candidates if not c['terminal_known']]
+    # Independent reconstruction of the actual C26 initial exact solve:
+    # maximal four-rollout mean, smallest move id on a tie.
+    initial_solved=max(unsolved,key=lambda c: F(c['counts'][1],2)+c['counts'][2])['move'] if unsolved and not terminal_win else None
     for candidate in candidates:
-        known=candidate['terminal_known'] or candidate['move']==result['initial_known_move']
-        prob=tuple(F(int(x==candidate['utility'])) for x in (F(0),F(1,2),F(1))) if known else candidate['p']
-        ps.append(prob);rs.append(F(0) if known else F(3,4))
-        costs.append(F(0) if known else F(candidate['cue_nodes'],4*1024))
+        terminal=candidate['terminal_known']
+        prob=tuple(F(int(x==candidate['utility'])) for x in (F(0),F(1,2),F(1))) if terminal else candidate['p']
+        ps.append(prob);rs.append(F(0) if terminal else F(3,4))
+        costs.append(F(0) if terminal or candidate['move']==initial_solved else F(candidate['cue_nodes'],4*1024))
         moves_sorted.append(candidate['move'])
     matrix=tuple(tuple(F(str(v))/sum(F(str(x)) for x in row) for v in row) for row in channel)
     specification=ORACLE.model(ps,rs,[matrix]*len(ps),costs,b=0,m=0)
+    exact_matrix=tuple(tuple(F(int(u==y)) for y in range(3)) for u in range(3))
+    exact_spec=ORACLE.model(ps,rs,[exact_matrix]*len(ps),costs,b=0,m=0)
     state=ORACLE.Factor(*ORACLE.components(specification))
+    for candidate in candidates:
+        if candidate['terminal_known']:
+            i=moves_sorted.index(candidate['move'])
+            state,d=state.update(exact_spec,i,int(2*candidate['utility']))
+            assert d>0
+    if initial_solved is not None:
+        candidate=moves[initial_solved]
+        i=moves_sorted.index(initial_solved)
+        state,d=state.update(exact_spec,i,int(2*candidate['utility']))
+        assert d>0
     initial_means=state.posterior_means()
     max_initial=max(initial_means)
     expected_baseline=moves_sorted[next(i for i,v in enumerate(initial_means) if v>=max_initial-F(1,10**12))]

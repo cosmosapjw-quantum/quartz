@@ -1,0 +1,70 @@
+{
+  "status": "VERIFIED",
+  "audit_stage": "C08",
+  "SSOT": "87c15dc828d6eea519c219fd8a412fa21dfc464d",
+  "C28_parent": "ebbf21a6a77c0133525c1a9f16f0ee36375a1440",
+  "restored_commit": "8f026390ca02278499f6604c660db24b5e20f33b",
+  "remote_head": "8f026390ca02278499f6604c660db24b5e20f33b",
+  "ordered_stage_count": 18,
+  "ordered_stages": [
+    "R01",
+    "R02",
+    "R03",
+    "R04",
+    "R05",
+    "R06",
+    "R07",
+    "R08",
+    "R09",
+    "R10",
+    "C01",
+    "C02",
+    "C03",
+    "C04",
+    "C05",
+    "C06",
+    "C07",
+    "C08"
+  ],
+  "tracked_blobs_and_modes_verified": 2943,
+  "tracked_payload_bytes": 1108861982,
+  "C29_changed_archive_files_verified": 52,
+  "protected_input_hashes_verified": {
+    "C28": "c396aad885132e7457fe99b4b16c8bdccff2067427cb1db7f2ed05d13d1603de",
+    "C26": "145b586fea7ff7526eb30d15d683580678f1c9dd3a433967f536697957327a01",
+    "source": "9c9f52a0344a4b6c7c25cde6d519479784a0695fcb8f4681486403fb21fe15c1",
+    "model": "0843447dc755c1d09e1bc69a44dd052e6db9c5c2ace41d1590b668cbfc36a126",
+    "cargo_lock": "4368560c374c1272000fdd17a48fbe8449c6e471c848698b088d0b6092b2bb36"
+  },
+  "measured_binary_sha256": "d564dc925751aabd0dc34aa6e9dcc1d9849e1be219f2d07976236c2ad6aa65d0",
+  "measured_binary_bytes": 652504,
+  "upstream_base_and_two_incremental_bundles_restored": true,
+  "retained_backups": [
+    {
+      "path": "/home/cosmosapjw/Dropbox/personal_projects/quartz_c28_action_geometry_backups/BASE_HISTORY_THROUGH_C27_C05.bundle",
+      "sha256": "29cf61813426ab83a00f725a856d88d435401b9e9476ad0b9cf5466bfaf58f2c",
+      "bytes": 875321840
+    },
+    {
+      "path": "/home/cosmosapjw/Dropbox/personal_projects/quartz_c28_action_geometry_backups/C28_C10_ebbf21a6a77c.bundle",
+      "sha256": "9f6e18beb40d499c9928c9f2d6835d939a00ed4b5e22132269f3c7fae184f563",
+      "bytes": 714406
+    },
+    {
+      "path": "/home/cosmosapjw/Dropbox/personal_projects/quartz_c29_noisy_query_backups/C29_C08_8f026390ca02.bundle",
+      "sha256": "11788e7cb45558d0829e6191bd34a33715d4002f6699aaf59a0389bf3f859cc0",
+      "bytes": 107305
+    },
+    {
+      "path": "/home/cosmosapjw/Dropbox/personal_projects/quartz_c29_noisy_query_backups/C29_C08_8f026390ca02.tar.gz",
+      "sha256": "cbd0968c837c104bff7e60f602a851651b1d572ac5325432bab5238bcbb8320c",
+      "bytes": 88295
+    }
+  ],
+  "superseded_C29_archives_removed": 34,
+  "superseded_C29_backup_bytes_removed": 711656,
+  "disposable_restored_directory_removed": "/home/cosmosapjw/quantum/research/quartz_c29_restore_C08_8f026390ca02",
+  "cloud_sync": "NOT_INDEPENDENTLY_VERIFIED",
+  "elapsed_seconds": 10.307228330988437,
+  "utc": "2026-11-23T15:07:55.832964+00:00"
+}

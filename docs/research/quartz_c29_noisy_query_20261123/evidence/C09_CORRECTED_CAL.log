@@ -1,0 +1,11 @@
+Traceback (most recent call last):
+  File "/home/cosmosapjw/quantum/research/quartz_c29_noisy_query_20261123/docs/research/quartz_c29_noisy_query_20261123/coding/c29_game_campaign.py", line 223, in <module>
+    run_campaign(args.mode,args.output,args.channel,args.binary)
+  File "/home/cosmosapjw/quantum/research/quartz_c29_noisy_query_20261123/docs/research/quartz_c29_noisy_query_20261123/coding/c29_game_campaign.py", line 183, in run_campaign
+    rows,meta=run_native(reqs,binary,Path(output))
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/cosmosapjw/quantum/research/quartz_c29_noisy_query_20261123/docs/research/quartz_c29_noisy_query_20261123/coding/c29_game_campaign.py", line 94, in run_native
+    output.mkdir(parents=True,exist_ok=False)
+  File "/usr/lib/python3.12/pathlib.py", line 1313, in mkdir
+    os.mkdir(self, mode)
+FileExistsError: [Errno 17] File exists: 'docs/research/quartz_c29_noisy_query_20261123/evidence/C09_CORRECTED_CAL'

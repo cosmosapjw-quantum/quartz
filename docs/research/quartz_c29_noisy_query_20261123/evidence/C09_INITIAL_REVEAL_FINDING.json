@@ -1,0 +1,10 @@
+{
+  "status": "CONFIRMED_SCIENTIFIC_CONDITIONING_DEFECT",
+  "scope": "C29 game bridge only, not synthetic H2 algebra",
+  "C08_before_sha256": "d555167e6b43bd9b96e4dbbb01b66906b6a90aeacc0b9d4e69daa2e53ced6e3c",
+  "C09_after_sha256": "6cc32bc2ae92af9e7b8710ea7fadfcec9e4f63cd884e612ba315462d029373d8",
+  "bug": "Mandatory initial exact solve set candidate point mass before prior construction; posterior q_z did not incorporate originally nondegenerate likelihood; violates C28 conditioning",
+  "repair": "Construct original factor prior before initial exact solve. Apply terminal known observations and initial exact solve through identity-channel Bayes, then disable known candidates. Preserve repeated noisy query filter and terminal posterior-mean deployment.",
+  "old_C07_C08_interpretation": "superseded for C29 corrected semantics; raw artifacts preserved",
+  "must_rerun_native_tests_game_cal_and_benchmark": true
+}

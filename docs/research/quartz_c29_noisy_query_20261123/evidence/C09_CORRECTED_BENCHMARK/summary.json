@@ -1,0 +1,70 @@
+{
+  "scope": "benchmark",
+  "metadata": {
+    "wall_seconds": 0.07100451999576762,
+    "binary_sha256": "d564dc925751aabd0dc34aa6e9dcc1d9849e1be219f2d07976236c2ad6aa65d0",
+    "raw_requests_sha256": "dc700af668784e52640582b1f499b3513074b024444e385729059d1c86059cba",
+    "raw_responses_sha256": "c7c0d0002ccbab238e2d399269d0d87d1124f8c52d6abb287365e4aefcf2819d",
+    "request_count": 300,
+    "native_exit_code": 0,
+    "native_stderr_bytes": 0
+  },
+  "index_range": [
+    0,
+    300
+  ],
+  "source_sha256": "9c9f52a0344a4b6c7c25cde6d519479784a0695fcb8f4681486403fb21fe15c1",
+  "channel_sha256": "f76df768133c656d39ab493b21c23e15607fe730689a5906bc0d5d32137bbad9",
+  "channel_status": "TRAIN_FITTED_RETROSPECTIVE",
+  "retrospective": true,
+  "fresh_test": false,
+  "query_count_total": 154,
+  "query_decision_count": 154,
+  "action_change_roots": 40,
+  "realized_utility_improvement_count": 8,
+  "utility_delta": {
+    "mean": 0.011666666666666667,
+    "median": 0.0,
+    "min": -0.5,
+    "max": 1.0
+  },
+  "actual_query_cost": {
+    "mean": 0.001572265625,
+    "median": 0.0,
+    "min": 0.0,
+    "max": 0.009765625
+  },
+  "net_delta_utility_minus_query_price": {
+    "mean": 0.010094401041666666,
+    "median": 0.0,
+    "min": -0.509765625,
+    "max": 0.9931640625
+  },
+  "additional_rollout_nodes": {
+    "mean": 1.61,
+    "median": 0.0,
+    "min": 0,
+    "max": 10
+  },
+  "benchmark_boundary": "one Rust invocation per timed replay: cues+initial exact solve+planner+paid rollout+final selection; excludes input JSON/serialization/offline minimax",
+  "notes": "Calibration channel learned globally from first 180 old roots, selection is conditioned on observed cues and may be miscalibrated; no matched-total-time strength claim",
+  "time_baseline_ns": {
+    "mean": 2968.7633333333333,
+    "median": 2855.5,
+    "min": 662,
+    "max": 6742
+  },
+  "time_noisy_ns": {
+    "mean": 15355.65,
+    "median": 14517.5,
+    "min": 722,
+    "max": 34895
+  },
+  "paired_mean_noisy_minus_baseline_ns": 12386.886666666667,
+  "ratio_means": 5.1724062432281,
+  "timing_pairs": 2100,
+  "group_CAL_60": {
+    "utility_net_mean": -0.001025390625,
+    "changed_actions": 5
+  }
+}
