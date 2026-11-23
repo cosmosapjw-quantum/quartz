@@ -10,3 +10,4 @@ The requested scope is R01–R10 followed by C01–C10. Each completed stage is 
 ## Execution record
 
 - R01: recovered C24 final identity, verified two-archive restoration prerequisites, isolated C25 branch, and traced the original dual motivation. See ORIGIN_WATCHDOG.md.
+- R02: four primary papers compared by formula and assumptions; C24 enclosure reuse and provenance fixed.

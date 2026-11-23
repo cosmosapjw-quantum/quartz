@@ -4,7 +4,7 @@ from pathlib import Path
 import datetime,gzip,hashlib,json,subprocess,sys
 ROOT=Path(__file__).resolve().parents[1]
 DOC=ROOT/'docs/research/quartz_general_incumbent_price_20261123'
-BACKUP=Path('/home/cosmosapjw/Dropbox/personal_projects/quartz_general_meta24_backups')
+BACKUP=Path('/home/cosmosapjw/Dropbox/personal_projects/quartz_general_meta25_backups')
 stage=sys.argv[1];paths=sys.argv[2:]
 assert paths and stage.replace('_','').isalnum()
 base=json.loads((DOC/'BASELINE.json').read_text())

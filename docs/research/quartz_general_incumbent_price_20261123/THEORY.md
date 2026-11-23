@@ -11,3 +11,9 @@ The original-history watchdog records two preserved commitments: computation sho
 Exploration candidates: unchanged C24 fresh-score fallback; certified incumbent retention; retention with deterministic charged-work stopping; retention with TRAIN-only predicted wall-time stopping. The coding contract will fix the selected rules and all primary statistics before TEST outcomes.
 
 Prospective success is not assumed: false certificates, initial-decision deterioration, conservative missed improvements, charged net utility and actual wall-time net utility will all be reported. No strong no-go is proposed.
+
+## R02 — Evidence and reuse
+
+The primary-source comparison in theory/LITERATURE.md reads Hay et al. (2012) Theorems 4–5 and Eq.(11), LUCB (2012) §3.1, Kaufmann et al. (2016) p.2, and Bubeck et al. (2011) simple regret. It separates incumbent SWITCH from global identification STOP, and deterministic containment from probabilistic confidence. No novelty is claimed for pairwise dominance or the rectangular regret bound.
+
+C24's scalar envelope derivation and native sequential floating-point evaluator are reused unchanged. C24's adverse selection fixture becomes regression evidence; fresh C25 seeds are required for new primary estimates.
