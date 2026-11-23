@@ -1,0 +1,132 @@
+{
+  "schema": "quartz.c25.origin-investigation.v1",
+  "status": "READ_ONLY_INVESTIGATION_COMPLETED",
+  "report": "/tmp/quartz_c25_history.md",
+  "agent": "/root/c25_history",
+  "device_id": "edd1b263-56a0-4391-8a2a-677dd00eabf5",
+  "original_repo": "/home/cosmosapjw/Dropbox/personal_projects/quartz",
+  "original_head": "65e7d3e9596ca259ebfe523b0c74058692b6a755",
+  "root_commit": "15f3a1986a00d548d3da56dab8233b336e931aee",
+  "root_commit_date": "2026-04-09T21:19:02+09:00",
+  "legacy_import_commit": "3bcaa435b6bdca2f821f8990230ea05ddf251a2f",
+  "legacy_import_date": "2026-07-12T21:41:40+09:00",
+  "c24_head": "4998c771c08788e4f0da8d2723347121ae16fbf2",
+  "conclusion": "Dual origin: general computation control plus concrete fair-budget game decision quality and CPU resource targets. C25 is a faithful STOP/FOCUS mechanism study; SPD validation does not by itself validate original P2/P3/P4 or full multi-action MCTS allocation.",
+  "anchors": [
+    {
+      "id": "legacy_prd",
+      "commit": "3bcaa435b6bdca2f821f8990230ea05ddf251a2f",
+      "path": "docs/legacy/QUARTZ_docs.zip",
+      "git_blob_oid": "2257f54b89765b7bf47d3224f6380e6848cc8a29",
+      "archive_sha256": "927d9fd0201aeb3e8a052b9a5e55943d8cf21608320ac93753ec0595ce133fa2",
+      "member": "QUARTZ/PRD.md",
+      "member_sha256": "0d84ea7f2a30532d14a33a4685a47192e2bf8a1ab76eb2d5b02f1b9b50e64c50",
+      "internal_date": "2026-01-28",
+      "date_status": "DOCUMENT_INTERNAL_NOT_INDEPENDENT_GIT_CREATION_DATE",
+      "locators": ["section 0 one-line summary", "section 1 problem definition", "sections 2.1-2.2 goals", "section 7 success metrics", "section 8 fairness"],
+      "quotes": ["같은 평균 시간 예산에서 더 높은 Elo", "추가 계산", "계산 재배치"],
+      "target_status": "SPECIFIED_TARGETS_NOT_VALIDATED_HERE",
+      "targets": ["CPU-only board-game-agnostic controller", "initial +50 Elo goal", "mean move time <=5s", "easy p50 <=0.5s", "hard mean <=15s", "p99 <=30s"]
+    },
+    {
+      "id": "legacy_readme",
+      "commit": "3bcaa435b6bdca2f821f8990230ea05ddf251a2f",
+      "archive": "docs/legacy/QUARTZ_docs.zip",
+      "member": "QUARTZ/README.md",
+      "member_sha256": "7354839a5055fdd18b13307dfed9f181e8ded775e97d92c355418262cbb174c6",
+      "locator": "title and opening purpose section",
+      "original_acronym": "QUAntized Resource Tree Search"
+    },
+    {
+      "id": "legacy_paper",
+      "commit": "3bcaa435b6bdca2f821f8990230ea05ddf251a2f",
+      "path": "docs/legacy/QUARTZ_paper.pdf",
+      "git_blob_oid": "f8a981172d0b541cf42d6cf364e94c0a1c5dcaf0",
+      "sha256": "74d8848012f1ad95fbf2320a8f0392654c800c641d3d37ea90b81dead154547b",
+      "bytes": 365001,
+      "internal_date": "2026-01-29",
+      "date_status": "DOCUMENT_INTERNAL_NOT_INDEPENDENT_GIT_CREATION_DATE",
+      "title": "QUARTZ: Thermodynamic Value-of-Computation Control for Neural Monte Carlo Tree Search",
+      "locators": ["abstract page 1", "section 4 pages 5-6", "section 5.1 page 5 compute-action table", "section 5.2 Eq.(2) page 6", "section 5.3 Eq.(3) page 6", "section 6 channel decomposition page 6"],
+      "actions": ["FOCUS", "EXPAND", "MERGE", "STOP"],
+      "observation": "Metareasoning already present in this early paper; abstract rate framing and Eq.(2) net-value framing coexist. Measured cost in section5.1 is wall time tracked by EMA. Explicit utility/time price conversion is needed when applying Eq.(2).",
+      "read_scope": "title abstract contents and pages5-6; not full paper proof audit"
+    },
+    {
+      "id": "git_root_readme",
+      "commit": "15f3a1986a00d548d3da56dab8233b336e931aee",
+      "path": "README.md",
+      "git_blob_oid": "0b188ccc771f89e39d7a86ef4c1dc00b31c8ab33",
+      "sha256": "7af0bcccb36b9fd4b97caad582a6260d0a558a28ba46c86d6b462cbe68a81dc3",
+      "locators": ["What Is This", "Design Principles", "Known Limitations"],
+      "acronym": "Q-value Uncertainty–Adaptive Root-risk Tree search, Zero-tunable"
+    },
+    {
+      "id": "root_experiment_plan",
+      "commit": "15f3a1986a00d548d3da56dab8233b336e931aee",
+      "path": "docs/PUBLICATION_ABLATION_PLAN.md",
+      "sha256": "c5f04037849d1b4bf4cb4ee8db0b642b50e72a74097b75a3b766c00c82fd562d",
+      "locators": ["Core Hypothesis", "Phase1 evaluator quality checkpoints", "Phase3 Budget Savings Measurement"],
+      "observation": "Predict stronger evaluator -> more adaptive savings while quality maintained; targets >30% budget saving and >=95% fixed-reference move agreement."
+    },
+    {
+      "id": "frozen_thesis",
+      "commit": "7241ad0cfe1e92f28bd8cded5ad5f9fe7d4b4eab",
+      "path": "docs/THESIS.md",
+      "git_blob_oid": "dbb91db955d6cbc21683d27cf415f0245cf9f02d",
+      "sha256": "02ffa31af60ecbb1fa46f8bfebe4590caa365aca22f3c3d17817017a8ef5cb8f",
+      "locators": ["P1", "P2", "P3", "P4"],
+      "p2": ">=30% nn_evals_per_move reduction at non-inferior play on Gomoku7 against legacy baseline; not wall-time reduction",
+      "p3": "Emergent joint macro-invariance/VOC-tightness skill pattern; offline evaluation metric",
+      "p4": "Actual production short-budget hot-path engineering admissibility"
+    }
+  ],
+  "historical_source_document_discrepancies": [
+    {
+      "commit": "15f3a1986a00d548d3da56dab8233b336e931aee",
+      "document": "docs/QUARTZ_THEORY.md lines82-97",
+      "source": "src/mcts/quartz.rs lines650-695",
+      "finding": "Documentation describes future visit-count reversal; implementation sorts current Q values and evaluates top-two Gaussian tail."
+    },
+    {
+      "commit": "15f3a1986a00d548d3da56dab8233b336e931aee",
+      "document": "docs/QUARTZ_THEORY.md lines28-40",
+      "source": "src/mcts/quartz.rs lines1223-1243",
+      "finding": "Documented visit-proportional penalty differs from implemented inverse visit/effective occupancy penalty."
+    }
+  ],
+  "drift": {
+    "object": "Historical scope wording and success attribution",
+    "observed_defect": "C17-C22 categorical exclusion of game-quality objective conflicts with original PRD; proxy certificate speedup does not close external decision-quality/cost targets.",
+    "impact": "Risk of treating valid local proxy progress as project success.",
+    "minimal_current_correction": "Origin/proxy crosswalk plus incumbent and full priced utility evaluation; continue C25 STOP/FOCUS work without wholesale rerun.",
+    "current_relevance": "FIX_SOON_R01_INTERPRETATION_NOT_EXECUTION_BLOCKER"
+  },
+  "watchdog_fields": ["anchors", "current_object", "preserved", "transformed", "evidence", "drift_and_action", "open_bridge"],
+  "c25_scope_recommendation": {
+    "slice": "STOP_AND_FOCUS",
+    "primary_wall_price": 0.000001,
+    "price_unit": "utility per microsecond",
+    "formal_cost": "verified exact charged-work lower bound",
+    "wall_clock_status": "empirical forecast and realized cost; median is not a mathematical lower bound",
+    "unresolved_transfer": "Actual MCTS observation/action-quality relation and signed terminal utility; candidate EXPAND/MERGE and root-impact scheduling; original P2/P3/P4."
+  },
+  "verification": {
+    "repository_mutations": 0,
+    "git_ref_mutations": 0,
+    "project_tests_run": 0,
+    "independent_science_reruns": 0,
+    "original_head_and_status_unchanged": true,
+    "c24_head_and_clean_status_unchanged": true,
+    "relevant_git_reads_exit": 0,
+    "pdftotext_exit": 0,
+    "native_subdelegations": 0
+  },
+  "skill_context_used": {
+    "physmath_version": "1.3.0",
+    "physmath_package": "skill://plugins_6acdfbba921881919e0c17843706aef4/physmath-research-loop",
+    "actually_read": ["SKILL.md", "references/THEORY_LOOP.md", "references/POLICY_INTEGRATION.md", "references/SUBAGENT_MODE.md"],
+    "keystone": "skill://plugins_6a512fae91f881918208460aae465ff9/context-survey/SKILL.md",
+    "scope": "R01 history and origin mapping; parent owns integration and science"
+  }
+}
