@@ -13,3 +13,7 @@ C26 complete-game solver/sign evidence and unchanged whole-tree regression evide
 ## C02 — traceability
 
 coding/FORMULA_MAP.md maps every equation to data and a concrete new executable/harness obligation. The public/runtime/offline-label boundaries, raw-rollout initialization, unit conversion and projected control are explicit.
+
+## C03 — numerical design
+
+Stable log-odds/log1p and log-sum-exp forms, O(m²) H2, finite cap, tolerance and distinct closure/cost/roundoff/measurement errors are specified. Timing and repeated-root semantics are frozen.
