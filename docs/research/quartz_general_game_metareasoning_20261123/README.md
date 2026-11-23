@@ -49,3 +49,7 @@ All ten theory stages have produced source-grounded definitions, derivations, co
 ## C01 — completed
 
 Verified the clean isolated theory baseline, protected identities, toolchain, available scientific packages and storage; fixed behavioral acceptance separately from the prospective empirical gain gate. See CODING.md and evidence/C01_PREFLIGHT.json.
+
+## C02 — completed
+
+Mapped every operative formula to actual GameState calls, TRAIN data, runtime outputs and an independent validation path. Preserved the separation between explicit TRAIN surveys and deployed query execution. See coding/C02_MAPPING.md.

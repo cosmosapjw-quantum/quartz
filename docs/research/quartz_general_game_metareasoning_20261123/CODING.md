@@ -9,3 +9,7 @@ This change is an added finite exact-query research feature with mathematical/st
 Environment observed: Python3.12.3, Rust/Cargo1.99.0; NumPy2.4.2, SciPy1.17.0, Matplotlib3.10.8. Created a local isolated venv with system packages; no dependency was installed. Free storage was15,385,088,000bytes. The execution and versions are captured in evidence/C01_PREFLIGHT.json.
 
 Ownership: native worker owns only the new Rust binary and NATIVE evidence; data worker owns only C26 Python harness, its tests and DATA evidence; parent owns journals, publications and final adjudication. Both workers were told to wait for the C04 execution-ready event before source mutation. Meaningful red/green evidence is required within each implementation slice.
+
+## C02 — mapping
+
+The exact formula–data–runtime map is coding/C02_MAPPING.md. Core game and policy sources stay unchanged. An independent Python oracle checks root signs, candidate values and charges rather than reusing the Rust solver.
