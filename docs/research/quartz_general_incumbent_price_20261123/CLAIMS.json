@@ -15,7 +15,9 @@
         "theory/R06_PARENT_CHECK.md",
         "evidence/R07_EXACT_CROSSCHECK.json",
         "evidence/C08_RESULT_AUDIT.json",
-        "evidence/C25_VERIFY_TEST_TRACE.json"
+        "evidence/C25_VERIFY_TEST_TRACE.json",
+        "review/C09_REVIEW.md",
+        "review/C09_REVIEW_CHECKS.json"
       ],
       "implementation_status": "IMPLEMENTATION_VERIFIED_AND_FRESH_FINITE_CHECKED"
     },
@@ -33,7 +35,9 @@
         "theory/R06_PARENT_CHECK.md",
         "evidence/R07_EXACT_CROSSCHECK.json",
         "evidence/C08_RESULT_AUDIT.json",
-        "evidence/C25_VERIFY_TEST_TRACE.json"
+        "evidence/C25_VERIFY_TEST_TRACE.json",
+        "review/C09_REVIEW.md",
+        "review/C09_REVIEW_CHECKS.json"
       ],
       "implementation_status": "IMPLEMENTATION_VERIFIED_AND_FRESH_FINITE_CHECKED"
     },
@@ -52,7 +56,9 @@
         "theory/R06_PARENT_CHECK.md",
         "evidence/R07_EXACT_CROSSCHECK.json",
         "evidence/C08_RESULT_AUDIT.json",
-        "evidence/C25_VERIFY_TEST_TRACE.json"
+        "evidence/C25_VERIFY_TEST_TRACE.json",
+        "review/C09_REVIEW.md",
+        "review/C09_REVIEW_CHECKS.json"
       ],
       "implementation_status": "IMPLEMENTATION_VERIFIED_AND_FRESH_FINITE_CHECKED"
     },
@@ -67,7 +73,9 @@
       ],
       "finding": "At locked price RETAIN_TIME has negative net utility versus PLAIN_STOP; positive net utility and time savings versus PLAIN_ALWAYS, with3 missed optimal selections.",
       "evidence": [
-        "evidence/C25_TEST_SUMMARY.json"
+        "evidence/C25_TEST_SUMMARY.json",
+        "review/C09_REVIEW.md",
+        "review/C09_REVIEW_CHECKS.json"
       ]
     },
     {
@@ -79,7 +87,19 @@
         "unrepresented candidate bounds",
         "production integration",
         "paired game-quality evaluation"
+      ],
+      "evidence": [
+        "ORIGIN_WATCHDOG_RESULT.json",
+        "NEXT_STAGE.json"
       ]
     }
-  ]
+  ],
+  "closure": {
+    "scientific_snapshot": "3cdc8e4a043be4d2b1c707dceba6954d388930bc",
+    "outcome_snapshot": "d45173685f955820bd848bf4ddb2044382ca7e67",
+    "review_gate": "PASS_FOR_DECLARED_SCOPE",
+    "primary_economic_benefit": "NOT_SUPPORTED_ON_FRESH_TEST",
+    "C26_executed": false,
+    "final_publication_identity": "external C10 receipt and FINAL_PUBLICATION_AUDIT.json"
+  }
 }

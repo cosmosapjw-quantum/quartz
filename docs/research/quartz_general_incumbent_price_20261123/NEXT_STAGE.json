@@ -1,0 +1,156 @@
+{
+  "schema": "quartz.c25.next-stage.v1",
+  "client_date": "2026-11-23 Asia/Seoul",
+  "status": "C26_PROPOSED_NOT_EXECUTED",
+  "C26_executed": false,
+  "current_cycle": "C25",
+  "current_scientific_snapshot": "d45173685f955820bd848bf4ddb2044382ca7e67",
+  "publication_branch": "research/quartz-general-c25-incumbent-price-20261123",
+  "parent_C24": "4998c771c08788e4f0da8d2723347121ae16fbf2",
+  "start_identity": "Resolve the final C25 C10 receipt and verify the remote branch HEAD and artifact manifest before creating an isolated C26 worktree.",
+  "standing_user_instructions": {
+    "theory_stages": "R01 through R10, all ten actual stages",
+    "coding_stages": "C01 through C10, all ten actual stages after theory",
+    "each_completed_stage": [
+      "preserve concrete derivation/code/evidence",
+      "commit scoped changes",
+      "create and hash a restorable cumulative backup",
+      "push to the authorized research branch",
+      "verify the remote HEAD",
+      "append an immutable stage receipt"
+    ],
+    "origin_watchdog": "Run once each research turn; reuse hash-bound original-history anchors, compare the current research object and claims with both original motives, and make the smallest substantive correction. Do not substitute repeated administrative auditing for derivation or implementation.",
+    "authorization": "User has authorized scoped research, per-stage backup and publishing. Do not ask again for routine reversible continuation.",
+    "no_unbounded_automation": "No unattended schedule or C26 execution was created in this turn."
+  },
+  "retained_findings": {
+    "incumbent_preservation": "derived, implementation-verified and finite TEST checked",
+    "declared_work_price_stop": "derived sufficient condition for fixed complete actions and actual mandatory-readout charge floor",
+    "wall_time_stop": "empirical; TRAIN point prediction is not a universal lower bound",
+    "primary_net_result": "negative at locked price 1e-6 utility/us versus PLAIN_STOP; preserve unchanged",
+    "original_targets": "Full MCTS, Gomoku P2, P3 and production P4 remain unresolved"
+  },
+  "selected_next_question": "Can the retained-incumbent and priced-STOP contracts be implemented through existing GameState root-action intervals with correct root-player semantics, complete candidate coverage and measured search/control costs?",
+  "why_next": "Reconnect the verified STOP/FOCUS mechanism to the original actual-game objective. C25 G is a worst-case gain ceiling, not an expected or attainable gain model; do not infer profitable continuation from failure of its sufficient stop test.",
+  "existing_code_to_read_and_reuse": [
+    "src/game.rs",
+    "src/games/tictactoe.rs",
+    "src/mcts/policy/finite_metalevel.rs",
+    "src/bin/quartz_c25_incumbent_price.rs",
+    "docs/THESIS.md",
+    "docs/research/quartz_general_incumbent_price_20261123/ORIGIN_WATCHDOG.md"
+  ],
+  "scope": {
+    "game_class": "finite deterministic two-player zero-sum perfect-information GameState",
+    "initial_fixture": "existing TicTacToe 3x3 via reachable legal histories from initial state",
+    "value": "outcome() is current-player perspective; v_root = p_root*p_state*outcome(state), u=(v_root+1)/2",
+    "intervals": "terminal exact root utilities; unexpanded values remain [-1,1] in v units; complete max/min interval backups",
+    "candidate_coverage": "retain every legal root action or an explicit bound for all omitted root candidates",
+    "runtime_oracle_boundary": "exact minimax is offline evaluation only",
+    "controller": "generic game-independent safe switch and sufficient priced stop; account for actual expansion/backup/controller work",
+    "existing_Bayes_reference": "Reuse finite_metalevel.rs if comparing expected VOC; it is not SearchPolicy and does not calibrate neural MCTS",
+    "cost_semantics": "derive a positive deterministic charge floor for the actual implemented next computation; wall-time claims require separate evidence",
+    "transposition": "preserve all GameState history relevant to outcome and identity; do not infer universal board-only sufficiency",
+    "non_claims": [
+      "No game-specific winning strategy injected",
+      "No full MCTS theorem",
+      "No Gomoku P2 completion from TicTacToe",
+      "No inference that G > price*cost implies useful computation",
+      "No post-TEST retuning"
+    ]
+  },
+  "theory_loop": [
+    {
+      "stage": "R01",
+      "output": "Recover final C25 identity, run origin watchdog, map C25 decisions to existing GameState and explicit game-value target."
+    },
+    {
+      "stage": "R02",
+      "output": "Reuse relevant metareasoning/interval-search literature; resolve only new load-bearing minimax/backup conditions with primary sources."
+    },
+    {
+      "stage": "R03",
+      "output": "Fix root-player signs, utility normalization, legal complete action set, finite tree/horizon, state identity and output contract."
+    },
+    {
+      "stage": "R04",
+      "output": "Construct terminal, alternating-player, tie, missed-candidate and overlapping-bound examples; compare safe retention with ordinary reselection."
+    },
+    {
+      "stage": "R05",
+      "output": "Prove interval backup validity, nested refinement, incumbent preservation and priced-continuation condition for the actual computation class."
+    },
+    {
+      "stage": "R06",
+      "output": "Independently check signs, free versus paid selection, transposition/coverage assumptions and theorem limits."
+    },
+    {
+      "stage": "R07",
+      "output": "Execute exact finite game-tree discriminating calculations against offline minimax; preserve counterexamples."
+    },
+    {
+      "stage": "R08",
+      "output": "Choose the constructive bridge or narrow it based on evidence; classify any failure without turning a local limitation into a universal no-go."
+    },
+    {
+      "stage": "R09",
+      "output": "Freeze cohort/splits, baselines, cost units/prices, primary metric, stopping rule and code-ready contract before fresh evaluation."
+    },
+    {
+      "stage": "R10",
+      "output": "Close the ten theory stages with claim ledger and implementation handoff; keep original game/CPU targets explicit."
+    }
+  ],
+  "coding_loop": [
+    {
+      "stage": "C01",
+      "output": "Inspect actual repository interfaces/environment; create isolated branch/worktree and objective acceptance criteria."
+    },
+    {
+      "stage": "C02",
+      "output": "Map root-value definitions, backup equations and stopping conditions to GameState code, public inputs and independent oracle outputs."
+    },
+    {
+      "stage": "C03",
+      "output": "Specify exact integer/rational utility handling, signs, budgets, deterministic charge counters and timing boundaries."
+    },
+    {
+      "stage": "C04",
+      "output": "Freeze sequential run DAG, one timing worker, source chunking and per-stage preservation plan."
+    },
+    {
+      "stage": "C05",
+      "output": "Implement minimal generic controller through existing GameState; keep offline minimax outside runtime inputs."
+    },
+    {
+      "stage": "C06",
+      "output": "Execute changed-behavior tests for signs, terminal/tie cases, complete candidates, unknown inputs, safe switches and budget returns."
+    },
+    {
+      "stage": "C07",
+      "output": "Validate exact interval/utility invariants; train any empirical cost model only on TRAIN and freeze before heldout observations."
+    },
+    {
+      "stage": "C08",
+      "output": "Run the fixed fresh cohort and actual timing/count comparisons; report utility preservation, missed improvements, regret and full net cost."
+    },
+    {
+      "stage": "C09",
+      "output": "One fresh bounded independent source/proof/raw-result review plus actual backup restore; no recursive audit campaign."
+    },
+    {
+      "stage": "C10",
+      "output": "Publish final findings and exact reproduction/provenance; map achieved game bridge to remaining neural/MCTS and Gomoku obligations."
+    }
+  ],
+  "stop_conditions": [
+    "Any invalid interval, omitted candidate without a bound, root-player sign mismatch, or oracle runtime leakage blocks the corresponding claim and must be fixed before heldout execution.",
+    "Negative net benefit is preserved as a scientific outcome, not used to retune TEST.",
+    "Complete the selected twenty-stage cycle, then report the next stage without silently launching another cycle."
+  ],
+  "claim_gates": {
+    "bridge": "Exact oracle containment, initial utility nondecrease, actual-cost accounting and independent reconstruction on legal reachable game states.",
+    "economic": "Predeclared source-paired net benefit or budget/quality comparison; no substitution of an easier baseline after results.",
+    "original_P2": "Requires actual Gomoku7x7 paired game-quality and nn_evals_per_move evidence under the original fairness condition; C26 bridge alone cannot satisfy it."
+  }
+}

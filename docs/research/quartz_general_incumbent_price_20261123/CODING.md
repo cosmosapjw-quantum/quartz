@@ -86,3 +86,12 @@ One fresh-context reviewer inspected the proof-to-code paths and independently r
 Separately, C23 full base + C24 overlay + C25 C08 overlay were actually restored into a fresh remote directory. All2,603 tracked files and1,097,124,692 bytes match the C08 Git blobs. The exact release binary was separately compressed and roundtrip-hash verified. All13 previous worktrees retain their own HEAD/status/protected-file identities. evidence/C09_RESTORE.json records the actual exit0 restoration; Dropbox cloud acknowledgement remains unverified.
 
 The final scientific figure was rendered from the frozen TEST summary and visually inspected: no clipping, explicit misdecision counts beside timing, negative primary net contrast visible. Figure generation changes no scientific input and repeats no native experiment.
+
+
+## C10 — Research decision, reproducible package and next step
+
+REPORT.md states the derived retention and paid-continuation guarantees, the observed conservative missed gains, and the negative primary full time-priced result without changing frozen inputs. REPRODUCE.md separates the actual original commands, path-bound review record, portable existing-data reanalysis, and new timing replication. The scientific figure is publication-ready; the raw Matplotlib SVG and a before-commit whitespace packaging repair are preserved with unchanged XML tokens and unchanged PNG. No scientific campaign was repeated for packaging.
+
+NEXT_STAGE.json proposes a bounded GameState/root-interval bridge using reachable existing TicTacToe positions and offline exact minimax. The existing finite Bayesian reference is identified for reuse. C26 has not been executed. ORIGIN_WATCHDOG_RESULT.json persists the user's every-research-turn history check and the dual original motivation, while full MCTS/Gomoku P2/P3/P4 claims remain unresolved.
+
+STAGE_PUBLICATIONS.json snapshots the20 verified pre-C10 receipts (ten theory, nine coding, plus C07A). ARTIFACTS.json binds every C25 changed/new tracked file except its own self-reference. The C10 publisher adds the21st receipt after commit/archive/push; check_final_publication.py then verifies all stage archives, complete final-archive readback, frozen inputs, prior worktrees and remote/clean identity, writing the final receipt outside Git. This sequencing avoids a self-hash cycle.

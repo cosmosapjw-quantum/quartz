@@ -30,3 +30,20 @@ The requested scope is R01–R10 followed by C01–C10. Each completed stage is 
 - C08: fresh TEST and budget sweep verified; retention safety holds; primary total-time net benefit versus immediate stop is negative.
 
 - C09: independent raw reconstruction and scoped review passed; three-archive restoration verified2,603 tracked files; original13 worktrees preserved; scientific figure rendered and visually checked.
+
+- C10: final research report, reproducible package, explicit claim decision, original-history watchdog continuation rule and next GameState bridge documented; C26 not executed.
+
+## Results and artifacts
+
+The retained-action theorem and its declared charged-work stopping condition are derived and implemented. All648 distinct TEST retention outcomes preserve initial true utility. The primary RETAIN_TIME minus PLAIN_STOP full time-priced result is negative: -0.0004683900086636479,95% paired-source interval[-0.0006629366545796896,-0.00028780714297975434]. Time reduction versus PLAIN_ALWAYS carries three missed optimal selections at the primary budget. The original game-quality objectives remain open.
+
+- [Final report in Korean](REPORT.md)
+- [Exact derivation](theory/DERIVATION.md) and [claim ledger](CLAIMS.json)
+- [Independent review](review/C09_REVIEW.md) and [actual restore](evidence/C09_RESTORE.json)
+- [Scientific figure](figures/C25_TEST_DECISIONS.png)
+- [Reproduction and preservation](REPRODUCE.md)
+- [Original-history watchdog](ORIGIN_WATCHDOG.md) and [standing rule/result](ORIGIN_WATCHDOG_RESULT.json)
+- [Next proposed cycle](NEXT_STAGE.json)
+- [Stage publication snapshot](STAGE_PUBLICATIONS.json) and [artifact hashes](ARTIFACTS.json)
+
+All20 requested stages are preserved through the publication chain, with one extra C07A TRAIN freeze. The final C10 commit is named by the external final receipt; its remote identity and final archive are verified after the self-reference-free commit.

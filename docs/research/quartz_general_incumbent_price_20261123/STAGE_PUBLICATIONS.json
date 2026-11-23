@@ -1,0 +1,530 @@
+{
+  "schema": "quartz.c25.stage-publication-snapshot.v1",
+  "through_stage": "C09",
+  "through_commit": "61707611fdf3319bb5c0d7f26da7ff8cf6ac5254",
+  "receipts": [
+    {
+      "stage": "R01",
+      "commit": "4e1df836061f8e62c528a87bfdfdff3d6d5e02ce",
+      "remote": "4e1df836061f8e62c528a87bfdfdff3d6d5e02ce",
+      "archive": "/home/cosmosapjw/Dropbox/personal_projects/quartz_general_meta25_backups/QUARTZ_GENERAL_C25_R01_4e1df836061f.tar.gz",
+      "archive_sha256": "18169eccb0a26db4e8b677d77ee864b77d3e1f5a47695e183c23d391e3fcc001",
+      "archive_bytes": 19724,
+      "archive_kind": "cumulative C25 overlay",
+      "base_chain": [
+        {
+          "path": "/home/cosmosapjw/Dropbox/personal_projects/quartz_general_meta25_backups/BASE_C23_a4417b081037.tar.gz",
+          "sha256": "c3bd869039619094905c2bb18f1ea9b427ce8fb2fe1c71f6c62a5a9630b26b05",
+          "bytes": 299211640,
+          "kind": "full C23 tree"
+        },
+        {
+          "path": "/home/cosmosapjw/Dropbox/personal_projects/quartz_general_meta25_backups/QUARTZ_GENERAL_C24_C10_4998c771c087.tar.gz",
+          "sha256": "0d9ff61369ae7b26b1421648f4cc3af13db4b394438b173a4bc678f02faa3efd",
+          "bytes": 278025353,
+          "kind": "cumulative C24 overlay"
+        }
+      ],
+      "changed_files": 8,
+      "utc": "2026-11-23T06:07:49.044186+00:00",
+      "dropbox_cloud_ack": "NOT_VERIFIED",
+      "repair": "R01 archive copied byte-identically into C25 directory; publisher corrected; C24 receipt append removed exactly"
+    },
+    {
+      "stage": "R02",
+      "commit": "b379e1ce40773b64166bb473768c3a71dff94264",
+      "remote": "b379e1ce40773b64166bb473768c3a71dff94264",
+      "archive": "/home/cosmosapjw/Dropbox/personal_projects/quartz_general_meta25_backups/QUARTZ_GENERAL_C25_R02_b379e1ce4077.tar.gz",
+      "archive_sha256": "e5131f363a9172b7eb48b568082341f428e22a10978872f0bf13d3e7da51931b",
+      "archive_bytes": 25356,
+      "archive_kind": "cumulative C25 overlay",
+      "base_chain": [
+        {
+          "path": "/home/cosmosapjw/Dropbox/personal_projects/quartz_general_meta25_backups/BASE_C23_a4417b081037.tar.gz",
+          "sha256": "c3bd869039619094905c2bb18f1ea9b427ce8fb2fe1c71f6c62a5a9630b26b05",
+          "bytes": 299211640,
+          "kind": "full C23 tree"
+        },
+        {
+          "path": "/home/cosmosapjw/Dropbox/personal_projects/quartz_general_meta25_backups/QUARTZ_GENERAL_C24_C10_4998c771c087.tar.gz",
+          "sha256": "0d9ff61369ae7b26b1421648f4cc3af13db4b394438b173a4bc678f02faa3efd",
+          "bytes": 278025353,
+          "kind": "cumulative C24 overlay"
+        }
+      ],
+      "changed_files": 10,
+      "utc": "2026-11-23T06:09:18.747702+00:00",
+      "dropbox_cloud_ack": "NOT_VERIFIED"
+    },
+    {
+      "stage": "R03",
+      "commit": "f27bfd7bb07b7fecfbd7052ca324ce8f50281d76",
+      "remote": "f27bfd7bb07b7fecfbd7052ca324ce8f50281d76",
+      "archive": "/home/cosmosapjw/Dropbox/personal_projects/quartz_general_meta25_backups/QUARTZ_GENERAL_C25_R03_f27bfd7bb07b.tar.gz",
+      "archive_sha256": "e99454d4022e27bfcae18cb7efba3d36f6e0590a4b377f6ee00a7c97f2b90dba",
+      "archive_bytes": 26530,
+      "archive_kind": "cumulative C25 overlay",
+      "base_chain": [
+        {
+          "path": "/home/cosmosapjw/Dropbox/personal_projects/quartz_general_meta25_backups/BASE_C23_a4417b081037.tar.gz",
+          "sha256": "c3bd869039619094905c2bb18f1ea9b427ce8fb2fe1c71f6c62a5a9630b26b05",
+          "bytes": 299211640,
+          "kind": "full C23 tree"
+        },
+        {
+          "path": "/home/cosmosapjw/Dropbox/personal_projects/quartz_general_meta25_backups/QUARTZ_GENERAL_C24_C10_4998c771c087.tar.gz",
+          "sha256": "0d9ff61369ae7b26b1421648f4cc3af13db4b394438b173a4bc678f02faa3efd",
+          "bytes": 278025353,
+          "kind": "cumulative C24 overlay"
+        }
+      ],
+      "changed_files": 11,
+      "utc": "2026-11-23T06:09:39.330796+00:00",
+      "dropbox_cloud_ack": "NOT_VERIFIED"
+    },
+    {
+      "stage": "R04",
+      "commit": "c56f2cceaf4cad9d96f97604ac4bbde6694e2319",
+      "remote": "c56f2cceaf4cad9d96f97604ac4bbde6694e2319",
+      "archive": "/home/cosmosapjw/Dropbox/personal_projects/quartz_general_meta25_backups/QUARTZ_GENERAL_C25_R04_c56f2cceaf4c.tar.gz",
+      "archive_sha256": "c5c0020d5fbb5876e21debf893683e31f382ad4fdb6871d2906b405ba83c36f3",
+      "archive_bytes": 27037,
+      "archive_kind": "cumulative C25 overlay",
+      "base_chain": [
+        {
+          "path": "/home/cosmosapjw/Dropbox/personal_projects/quartz_general_meta25_backups/BASE_C23_a4417b081037.tar.gz",
+          "sha256": "c3bd869039619094905c2bb18f1ea9b427ce8fb2fe1c71f6c62a5a9630b26b05",
+          "bytes": 299211640,
+          "kind": "full C23 tree"
+        },
+        {
+          "path": "/home/cosmosapjw/Dropbox/personal_projects/quartz_general_meta25_backups/QUARTZ_GENERAL_C24_C10_4998c771c087.tar.gz",
+          "sha256": "0d9ff61369ae7b26b1421648f4cc3af13db4b394438b173a4bc678f02faa3efd",
+          "bytes": 278025353,
+          "kind": "cumulative C24 overlay"
+        }
+      ],
+      "changed_files": 11,
+      "utc": "2026-11-23T06:09:41.742682+00:00",
+      "dropbox_cloud_ack": "NOT_VERIFIED"
+    },
+    {
+      "stage": "R05",
+      "commit": "e85341703879ccba56601bdf8c4ac37b405d128b",
+      "remote": "e85341703879ccba56601bdf8c4ac37b405d128b",
+      "archive": "/home/cosmosapjw/Dropbox/personal_projects/quartz_general_meta25_backups/QUARTZ_GENERAL_C25_R05_e85341703879.tar.gz",
+      "archive_sha256": "fd557caa304128738b805a81918a466adad23af49a5f5c8e05b3ae17e06fe67c",
+      "archive_bytes": 38547,
+      "archive_kind": "cumulative C25 overlay",
+      "base_chain": [
+        {
+          "path": "/home/cosmosapjw/Dropbox/personal_projects/quartz_general_meta25_backups/BASE_C23_a4417b081037.tar.gz",
+          "sha256": "c3bd869039619094905c2bb18f1ea9b427ce8fb2fe1c71f6c62a5a9630b26b05",
+          "bytes": 299211640,
+          "kind": "full C23 tree"
+        },
+        {
+          "path": "/home/cosmosapjw/Dropbox/personal_projects/quartz_general_meta25_backups/QUARTZ_GENERAL_C24_C10_4998c771c087.tar.gz",
+          "sha256": "0d9ff61369ae7b26b1421648f4cc3af13db4b394438b173a4bc678f02faa3efd",
+          "bytes": 278025353,
+          "kind": "cumulative C24 overlay"
+        }
+      ],
+      "changed_files": 14,
+      "utc": "2026-11-23T06:15:54.873854+00:00",
+      "dropbox_cloud_ack": "NOT_VERIFIED"
+    },
+    {
+      "stage": "R06",
+      "commit": "433856ecc805c223ae4b8fc1e70ed7b5485ca52d",
+      "remote": "433856ecc805c223ae4b8fc1e70ed7b5485ca52d",
+      "archive": "/home/cosmosapjw/Dropbox/personal_projects/quartz_general_meta25_backups/QUARTZ_GENERAL_C25_R06_433856ecc805.tar.gz",
+      "archive_sha256": "4fee830204275f9f8a6de3cce96a44177d0b7823d4a699b06236cc39566f6449",
+      "archive_bytes": 39323,
+      "archive_kind": "cumulative C25 overlay",
+      "base_chain": [
+        {
+          "path": "/home/cosmosapjw/Dropbox/personal_projects/quartz_general_meta25_backups/BASE_C23_a4417b081037.tar.gz",
+          "sha256": "c3bd869039619094905c2bb18f1ea9b427ce8fb2fe1c71f6c62a5a9630b26b05",
+          "bytes": 299211640,
+          "kind": "full C23 tree"
+        },
+        {
+          "path": "/home/cosmosapjw/Dropbox/personal_projects/quartz_general_meta25_backups/QUARTZ_GENERAL_C24_C10_4998c771c087.tar.gz",
+          "sha256": "0d9ff61369ae7b26b1421648f4cc3af13db4b394438b173a4bc678f02faa3efd",
+          "bytes": 278025353,
+          "kind": "cumulative C24 overlay"
+        }
+      ],
+      "changed_files": 15,
+      "utc": "2026-11-23T06:15:57.119021+00:00",
+      "dropbox_cloud_ack": "NOT_VERIFIED"
+    },
+    {
+      "stage": "R07",
+      "commit": "d5b6db0810c73399161db4d6910d11cbcec4a5f5",
+      "remote": "d5b6db0810c73399161db4d6910d11cbcec4a5f5",
+      "archive": "/home/cosmosapjw/Dropbox/personal_projects/quartz_general_meta25_backups/QUARTZ_GENERAL_C25_R07_d5b6db0810c7.tar.gz",
+      "archive_sha256": "49fab1c3902e7c9ee7ecebb68a4f9b95e46f805b62ce1a096adf6fa4516a1212",
+      "archive_bytes": 41764,
+      "archive_kind": "cumulative C25 overlay",
+      "base_chain": [
+        {
+          "path": "/home/cosmosapjw/Dropbox/personal_projects/quartz_general_meta25_backups/BASE_C23_a4417b081037.tar.gz",
+          "sha256": "c3bd869039619094905c2bb18f1ea9b427ce8fb2fe1c71f6c62a5a9630b26b05",
+          "bytes": 299211640,
+          "kind": "full C23 tree"
+        },
+        {
+          "path": "/home/cosmosapjw/Dropbox/personal_projects/quartz_general_meta25_backups/QUARTZ_GENERAL_C24_C10_4998c771c087.tar.gz",
+          "sha256": "0d9ff61369ae7b26b1421648f4cc3af13db4b394438b173a4bc678f02faa3efd",
+          "bytes": 278025353,
+          "kind": "cumulative C24 overlay"
+        }
+      ],
+      "changed_files": 19,
+      "utc": "2026-11-23T06:15:59.437603+00:00",
+      "dropbox_cloud_ack": "NOT_VERIFIED"
+    },
+    {
+      "stage": "R08",
+      "commit": "bf02e0305eabf88805d59aa0e487b94b4531c1b4",
+      "remote": "bf02e0305eabf88805d59aa0e487b94b4531c1b4",
+      "archive": "/home/cosmosapjw/Dropbox/personal_projects/quartz_general_meta25_backups/QUARTZ_GENERAL_C25_R08_bf02e0305eab.tar.gz",
+      "archive_sha256": "e2ccf2a1b6f789863ff2256884f42465da01fc6afc8d4c9f100e3d3a3c097029",
+      "archive_bytes": 41991,
+      "archive_kind": "cumulative C25 overlay",
+      "base_chain": [
+        {
+          "path": "/home/cosmosapjw/Dropbox/personal_projects/quartz_general_meta25_backups/BASE_C23_a4417b081037.tar.gz",
+          "sha256": "c3bd869039619094905c2bb18f1ea9b427ce8fb2fe1c71f6c62a5a9630b26b05",
+          "bytes": 299211640,
+          "kind": "full C23 tree"
+        },
+        {
+          "path": "/home/cosmosapjw/Dropbox/personal_projects/quartz_general_meta25_backups/QUARTZ_GENERAL_C24_C10_4998c771c087.tar.gz",
+          "sha256": "0d9ff61369ae7b26b1421648f4cc3af13db4b394438b173a4bc678f02faa3efd",
+          "bytes": 278025353,
+          "kind": "cumulative C24 overlay"
+        }
+      ],
+      "changed_files": 19,
+      "utc": "2026-11-23T06:16:01.684534+00:00",
+      "dropbox_cloud_ack": "NOT_VERIFIED"
+    },
+    {
+      "stage": "R09",
+      "commit": "8aeb04aae022f7eec4872169797d251f410c5d5e",
+      "remote": "8aeb04aae022f7eec4872169797d251f410c5d5e",
+      "archive": "/home/cosmosapjw/Dropbox/personal_projects/quartz_general_meta25_backups/QUARTZ_GENERAL_C25_R09_8aeb04aae022.tar.gz",
+      "archive_sha256": "aee64a01adf4f65af60f85ef4ad3fdf0112ae0b3e78d6c6dff5027937c3cf820",
+      "archive_bytes": 47047,
+      "archive_kind": "cumulative C25 overlay",
+      "base_chain": [
+        {
+          "path": "/home/cosmosapjw/Dropbox/personal_projects/quartz_general_meta25_backups/BASE_C23_a4417b081037.tar.gz",
+          "sha256": "c3bd869039619094905c2bb18f1ea9b427ce8fb2fe1c71f6c62a5a9630b26b05",
+          "bytes": 299211640,
+          "kind": "full C23 tree"
+        },
+        {
+          "path": "/home/cosmosapjw/Dropbox/personal_projects/quartz_general_meta25_backups/QUARTZ_GENERAL_C24_C10_4998c771c087.tar.gz",
+          "sha256": "0d9ff61369ae7b26b1421648f4cc3af13db4b394438b173a4bc678f02faa3efd",
+          "bytes": 278025353,
+          "kind": "cumulative C24 overlay"
+        }
+      ],
+      "changed_files": 21,
+      "utc": "2026-11-23T06:17:44.638751+00:00",
+      "dropbox_cloud_ack": "NOT_VERIFIED"
+    },
+    {
+      "stage": "R10",
+      "commit": "7363b8094aabc46537e9c6cbe27290aa05936cc2",
+      "remote": "7363b8094aabc46537e9c6cbe27290aa05936cc2",
+      "archive": "/home/cosmosapjw/Dropbox/personal_projects/quartz_general_meta25_backups/QUARTZ_GENERAL_C25_R10_7363b8094aab.tar.gz",
+      "archive_sha256": "2799c7bf0093c5444bf807a7cf621d8840c14e662828a3f4d5baefccb1eec917",
+      "archive_bytes": 47693,
+      "archive_kind": "cumulative C25 overlay",
+      "base_chain": [
+        {
+          "path": "/home/cosmosapjw/Dropbox/personal_projects/quartz_general_meta25_backups/BASE_C23_a4417b081037.tar.gz",
+          "sha256": "c3bd869039619094905c2bb18f1ea9b427ce8fb2fe1c71f6c62a5a9630b26b05",
+          "bytes": 299211640,
+          "kind": "full C23 tree"
+        },
+        {
+          "path": "/home/cosmosapjw/Dropbox/personal_projects/quartz_general_meta25_backups/QUARTZ_GENERAL_C24_C10_4998c771c087.tar.gz",
+          "sha256": "0d9ff61369ae7b26b1421648f4cc3af13db4b394438b173a4bc678f02faa3efd",
+          "bytes": 278025353,
+          "kind": "cumulative C24 overlay"
+        }
+      ],
+      "changed_files": 22,
+      "utc": "2026-11-23T06:17:46.930616+00:00",
+      "dropbox_cloud_ack": "NOT_VERIFIED"
+    },
+    {
+      "stage": "C01",
+      "commit": "6a8cb497775e029691fc4a15f2579db9b90bafa2",
+      "remote": "6a8cb497775e029691fc4a15f2579db9b90bafa2",
+      "archive": "/home/cosmosapjw/Dropbox/personal_projects/quartz_general_meta25_backups/QUARTZ_GENERAL_C25_C01_6a8cb497775e.tar.gz",
+      "archive_sha256": "0c3c23d211c3ac7e7e6bbd4a85ba8b53615b1e02b33ee4b0a434e5d826ee4e1c",
+      "archive_bytes": 48442,
+      "archive_kind": "cumulative C25 overlay",
+      "base_chain": [
+        {
+          "path": "/home/cosmosapjw/Dropbox/personal_projects/quartz_general_meta25_backups/BASE_C23_a4417b081037.tar.gz",
+          "sha256": "c3bd869039619094905c2bb18f1ea9b427ce8fb2fe1c71f6c62a5a9630b26b05",
+          "bytes": 299211640,
+          "kind": "full C23 tree"
+        },
+        {
+          "path": "/home/cosmosapjw/Dropbox/personal_projects/quartz_general_meta25_backups/QUARTZ_GENERAL_C24_C10_4998c771c087.tar.gz",
+          "sha256": "0d9ff61369ae7b26b1421648f4cc3af13db4b394438b173a4bc678f02faa3efd",
+          "bytes": 278025353,
+          "kind": "cumulative C24 overlay"
+        }
+      ],
+      "changed_files": 23,
+      "utc": "2026-11-23T06:19:01.150733+00:00",
+      "dropbox_cloud_ack": "NOT_VERIFIED"
+    },
+    {
+      "stage": "C02",
+      "commit": "dffe63690a8dd95775e0f0af65673585cda90dc3",
+      "remote": "dffe63690a8dd95775e0f0af65673585cda90dc3",
+      "archive": "/home/cosmosapjw/Dropbox/personal_projects/quartz_general_meta25_backups/QUARTZ_GENERAL_C25_C02_dffe63690a8d.tar.gz",
+      "archive_sha256": "308729e3f049fa3c31f0079c4b17f6d6bb1bb616d252bef4d5fa093a3061d308",
+      "archive_bytes": 48973,
+      "archive_kind": "cumulative C25 overlay",
+      "base_chain": [
+        {
+          "path": "/home/cosmosapjw/Dropbox/personal_projects/quartz_general_meta25_backups/BASE_C23_a4417b081037.tar.gz",
+          "sha256": "c3bd869039619094905c2bb18f1ea9b427ce8fb2fe1c71f6c62a5a9630b26b05",
+          "bytes": 299211640,
+          "kind": "full C23 tree"
+        },
+        {
+          "path": "/home/cosmosapjw/Dropbox/personal_projects/quartz_general_meta25_backups/QUARTZ_GENERAL_C24_C10_4998c771c087.tar.gz",
+          "sha256": "0d9ff61369ae7b26b1421648f4cc3af13db4b394438b173a4bc678f02faa3efd",
+          "bytes": 278025353,
+          "kind": "cumulative C24 overlay"
+        }
+      ],
+      "changed_files": 23,
+      "utc": "2026-11-23T06:19:03.358972+00:00",
+      "dropbox_cloud_ack": "NOT_VERIFIED"
+    },
+    {
+      "stage": "C03",
+      "commit": "1566a24272830ef8be132bb0b8b813a8fc6d7de8",
+      "remote": "1566a24272830ef8be132bb0b8b813a8fc6d7de8",
+      "archive": "/home/cosmosapjw/Dropbox/personal_projects/quartz_general_meta25_backups/QUARTZ_GENERAL_C25_C03_1566a2427283.tar.gz",
+      "archive_sha256": "7654f0adfd4c530b11d0e4fb8fe02cb8465f6cae85aed13d2a4312b54ebff751",
+      "archive_bytes": 49372,
+      "archive_kind": "cumulative C25 overlay",
+      "base_chain": [
+        {
+          "path": "/home/cosmosapjw/Dropbox/personal_projects/quartz_general_meta25_backups/BASE_C23_a4417b081037.tar.gz",
+          "sha256": "c3bd869039619094905c2bb18f1ea9b427ce8fb2fe1c71f6c62a5a9630b26b05",
+          "bytes": 299211640,
+          "kind": "full C23 tree"
+        },
+        {
+          "path": "/home/cosmosapjw/Dropbox/personal_projects/quartz_general_meta25_backups/QUARTZ_GENERAL_C24_C10_4998c771c087.tar.gz",
+          "sha256": "0d9ff61369ae7b26b1421648f4cc3af13db4b394438b173a4bc678f02faa3efd",
+          "bytes": 278025353,
+          "kind": "cumulative C24 overlay"
+        }
+      ],
+      "changed_files": 23,
+      "utc": "2026-11-23T06:19:05.599723+00:00",
+      "dropbox_cloud_ack": "NOT_VERIFIED"
+    },
+    {
+      "stage": "C04",
+      "commit": "b87a559d541aaa3952bc879822ddedd915c45b4d",
+      "remote": "b87a559d541aaa3952bc879822ddedd915c45b4d",
+      "archive": "/home/cosmosapjw/Dropbox/personal_projects/quartz_general_meta25_backups/QUARTZ_GENERAL_C25_C04_b87a559d541a.tar.gz",
+      "archive_sha256": "4d3b4c447834a3a9301015a7aedea9b00e38aa8e8b35035266ad378f8b21713d",
+      "archive_bytes": 50204,
+      "archive_kind": "cumulative C25 overlay",
+      "base_chain": [
+        {
+          "path": "/home/cosmosapjw/Dropbox/personal_projects/quartz_general_meta25_backups/BASE_C23_a4417b081037.tar.gz",
+          "sha256": "c3bd869039619094905c2bb18f1ea9b427ce8fb2fe1c71f6c62a5a9630b26b05",
+          "bytes": 299211640,
+          "kind": "full C23 tree"
+        },
+        {
+          "path": "/home/cosmosapjw/Dropbox/personal_projects/quartz_general_meta25_backups/QUARTZ_GENERAL_C24_C10_4998c771c087.tar.gz",
+          "sha256": "0d9ff61369ae7b26b1421648f4cc3af13db4b394438b173a4bc678f02faa3efd",
+          "bytes": 278025353,
+          "kind": "cumulative C24 overlay"
+        }
+      ],
+      "changed_files": 24,
+      "utc": "2026-11-23T06:19:07.923495+00:00",
+      "dropbox_cloud_ack": "NOT_VERIFIED"
+    },
+    {
+      "stage": "C05",
+      "commit": "324241617da3e172b4a6e619663992ece24fd609",
+      "remote": "324241617da3e172b4a6e619663992ece24fd609",
+      "archive": "/home/cosmosapjw/Dropbox/personal_projects/quartz_general_meta25_backups/QUARTZ_GENERAL_C25_C05_324241617da3.tar.gz",
+      "archive_sha256": "991c4657335883c9fd04f60699f118ed1b25376fe7ed3d01c0babc05c30a209a",
+      "archive_bytes": 5740373,
+      "archive_kind": "cumulative C25 overlay",
+      "base_chain": [
+        {
+          "path": "/home/cosmosapjw/Dropbox/personal_projects/quartz_general_meta25_backups/BASE_C23_a4417b081037.tar.gz",
+          "sha256": "c3bd869039619094905c2bb18f1ea9b427ce8fb2fe1c71f6c62a5a9630b26b05",
+          "bytes": 299211640,
+          "kind": "full C23 tree"
+        },
+        {
+          "path": "/home/cosmosapjw/Dropbox/personal_projects/quartz_general_meta25_backups/QUARTZ_GENERAL_C24_C10_4998c771c087.tar.gz",
+          "sha256": "0d9ff61369ae7b26b1421648f4cc3af13db4b394438b173a4bc678f02faa3efd",
+          "bytes": 278025353,
+          "kind": "cumulative C24 overlay"
+        }
+      ],
+      "changed_files": 91,
+      "utc": "2026-11-23T06:34:47.342857+00:00",
+      "dropbox_cloud_ack": "NOT_VERIFIED"
+    },
+    {
+      "stage": "C06",
+      "commit": "5374c80f42b47fc730047d93122991acba5bc8db",
+      "remote": "5374c80f42b47fc730047d93122991acba5bc8db",
+      "archive": "/home/cosmosapjw/Dropbox/personal_projects/quartz_general_meta25_backups/QUARTZ_GENERAL_C25_C06_5374c80f42b4.tar.gz",
+      "archive_sha256": "ea609462b5553dc2262964dd3daa16ae9fb77c75f02a1e62ca6604725ccd8d9f",
+      "archive_bytes": 5741616,
+      "archive_kind": "cumulative C25 overlay",
+      "base_chain": [
+        {
+          "path": "/home/cosmosapjw/Dropbox/personal_projects/quartz_general_meta25_backups/BASE_C23_a4417b081037.tar.gz",
+          "sha256": "c3bd869039619094905c2bb18f1ea9b427ce8fb2fe1c71f6c62a5a9630b26b05",
+          "bytes": 299211640,
+          "kind": "full C23 tree"
+        },
+        {
+          "path": "/home/cosmosapjw/Dropbox/personal_projects/quartz_general_meta25_backups/QUARTZ_GENERAL_C24_C10_4998c771c087.tar.gz",
+          "sha256": "0d9ff61369ae7b26b1421648f4cc3af13db4b394438b173a4bc678f02faa3efd",
+          "bytes": 278025353,
+          "kind": "cumulative C24 overlay"
+        }
+      ],
+      "changed_files": 92,
+      "utc": "2026-11-23T06:34:49.827673+00:00",
+      "dropbox_cloud_ack": "NOT_VERIFIED"
+    },
+    {
+      "stage": "C07A",
+      "commit": "3cdc8e4a043be4d2b1c707dceba6954d388930bc",
+      "remote": "3cdc8e4a043be4d2b1c707dceba6954d388930bc",
+      "archive": "/home/cosmosapjw/Dropbox/personal_projects/quartz_general_meta25_backups/QUARTZ_GENERAL_C25_C07A_3cdc8e4a043b.tar.gz",
+      "archive_sha256": "24c5a28fa9096d477d054c21d35e1053d5f938a0afe59bc58d161af57e6b7721",
+      "archive_bytes": 76591248,
+      "archive_kind": "cumulative C25 overlay",
+      "base_chain": [
+        {
+          "path": "/home/cosmosapjw/Dropbox/personal_projects/quartz_general_meta25_backups/BASE_C23_a4417b081037.tar.gz",
+          "sha256": "c3bd869039619094905c2bb18f1ea9b427ce8fb2fe1c71f6c62a5a9630b26b05",
+          "bytes": 299211640,
+          "kind": "full C23 tree"
+        },
+        {
+          "path": "/home/cosmosapjw/Dropbox/personal_projects/quartz_general_meta25_backups/QUARTZ_GENERAL_C24_C10_4998c771c087.tar.gz",
+          "sha256": "0d9ff61369ae7b26b1421648f4cc3af13db4b394438b173a4bc678f02faa3efd",
+          "bytes": 278025353,
+          "kind": "cumulative C24 overlay"
+        }
+      ],
+      "changed_files": 185,
+      "utc": "2026-11-23T06:38:23.785567+00:00",
+      "dropbox_cloud_ack": "NOT_VERIFIED"
+    },
+    {
+      "stage": "C07",
+      "commit": "21c71da38ba1243d92f4f7682f54ef485eb5c3c6",
+      "remote": "21c71da38ba1243d92f4f7682f54ef485eb5c3c6",
+      "archive": "/home/cosmosapjw/Dropbox/personal_projects/quartz_general_meta25_backups/QUARTZ_GENERAL_C25_C07_21c71da38ba1.tar.gz",
+      "archive_sha256": "20ea3d70c91362a80aba80232c60cc133f950f1836f2a6ee66b6adf340666494",
+      "archive_bytes": 147828678,
+      "archive_kind": "cumulative C25 overlay",
+      "base_chain": [
+        {
+          "path": "/home/cosmosapjw/Dropbox/personal_projects/quartz_general_meta25_backups/BASE_C23_a4417b081037.tar.gz",
+          "sha256": "c3bd869039619094905c2bb18f1ea9b427ce8fb2fe1c71f6c62a5a9630b26b05",
+          "bytes": 299211640,
+          "kind": "full C23 tree"
+        },
+        {
+          "path": "/home/cosmosapjw/Dropbox/personal_projects/quartz_general_meta25_backups/QUARTZ_GENERAL_C24_C10_4998c771c087.tar.gz",
+          "sha256": "0d9ff61369ae7b26b1421648f4cc3af13db4b394438b173a4bc678f02faa3efd",
+          "bytes": 278025353,
+          "kind": "cumulative C24 overlay"
+        }
+      ],
+      "changed_files": 277,
+      "utc": "2026-11-23T06:40:58.020617+00:00",
+      "dropbox_cloud_ack": "NOT_VERIFIED"
+    },
+    {
+      "stage": "C08",
+      "commit": "d45173685f955820bd848bf4ddb2044382ca7e67",
+      "remote": "d45173685f955820bd848bf4ddb2044382ca7e67",
+      "archive": "/home/cosmosapjw/Dropbox/personal_projects/quartz_general_meta25_backups/QUARTZ_GENERAL_C25_C08_d45173685f95.tar.gz",
+      "archive_sha256": "0e45b85cfce2778df2f2d2aa690874f645319f8ee751e6c7ea082d699e2d5612",
+      "archive_bytes": 290133000,
+      "archive_kind": "cumulative C25 overlay",
+      "base_chain": [
+        {
+          "path": "/home/cosmosapjw/Dropbox/personal_projects/quartz_general_meta25_backups/BASE_C23_a4417b081037.tar.gz",
+          "sha256": "c3bd869039619094905c2bb18f1ea9b427ce8fb2fe1c71f6c62a5a9630b26b05",
+          "bytes": 299211640,
+          "kind": "full C23 tree"
+        },
+        {
+          "path": "/home/cosmosapjw/Dropbox/personal_projects/quartz_general_meta25_backups/QUARTZ_GENERAL_C24_C10_4998c771c087.tar.gz",
+          "sha256": "0d9ff61369ae7b26b1421648f4cc3af13db4b394438b173a4bc678f02faa3efd",
+          "bytes": 278025353,
+          "kind": "cumulative C24 overlay"
+        }
+      ],
+      "changed_files": 441,
+      "utc": "2026-11-23T06:46:41.674489+00:00",
+      "dropbox_cloud_ack": "NOT_VERIFIED"
+    },
+    {
+      "stage": "C09",
+      "commit": "61707611fdf3319bb5c0d7f26da7ff8cf6ac5254",
+      "remote": "61707611fdf3319bb5c0d7f26da7ff8cf6ac5254",
+      "archive": "/home/cosmosapjw/Dropbox/personal_projects/quartz_general_meta25_backups/QUARTZ_GENERAL_C25_C09_61707611fdf3.tar.gz",
+      "archive_sha256": "a0ca03a34e3563836b4bb572b0b733a12edd2d86d65048fa09af0c901abbd91f",
+      "archive_bytes": 290432783,
+      "archive_kind": "cumulative C25 overlay",
+      "base_chain": [
+        {
+          "path": "/home/cosmosapjw/Dropbox/personal_projects/quartz_general_meta25_backups/BASE_C23_a4417b081037.tar.gz",
+          "sha256": "c3bd869039619094905c2bb18f1ea9b427ce8fb2fe1c71f6c62a5a9630b26b05",
+          "bytes": 299211640,
+          "kind": "full C23 tree"
+        },
+        {
+          "path": "/home/cosmosapjw/Dropbox/personal_projects/quartz_general_meta25_backups/QUARTZ_GENERAL_C24_C10_4998c771c087.tar.gz",
+          "sha256": "0d9ff61369ae7b26b1421648f4cc3af13db4b394438b173a4bc678f02faa3efd",
+          "bytes": 278025353,
+          "kind": "cumulative C24 overlay"
+        }
+      ],
+      "changed_files": 456,
+      "utc": "2026-11-23T07:03:46.316159+00:00",
+      "dropbox_cloud_ack": "NOT_VERIFIED"
+    }
+  ],
+  "final_C10_receipt": "External backup/STAGE_RECEIPTS.jsonl; appended after the commit and verified by FINAL_PUBLICATION_AUDIT.json. Excluded here to avoid self-reference.",
+  "client_date": "2026-11-23 Asia/Seoul"
+}

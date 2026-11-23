@@ -1,0 +1,1858 @@
+{
+  "bytes": 299590729,
+  "file_count": 462,
+  "files": {
+    "docs/research/quartz_general_incumbent_price_20261123/.gitignore": {
+      "bytes": 51,
+      "sha256": "0c2011eaad1fd3109f5d082d2db2209dd54397375fb2f985d0c7407cd17aa8d5"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/BASELINE.json": {
+      "bytes": 8555,
+      "sha256": "1a9d0193e0d92f41ffc608af159a4810bf3307302d76529e579bdb5a9811e2bd"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/C04_RUN_CONTRACT.json": {
+      "bytes": 1519,
+      "sha256": "d287d19096c00847fe892e83e340f77715223e8fde2ddabe481d84300383ec79"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/CLAIMS.json": {
+      "bytes": 3814,
+      "sha256": "8a86c323b7edb8a6085907f31170a39a0a9505d7a795757e9235c7fc5819bb0e"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/CODE_CONTRACT.json": {
+      "bytes": 3162,
+      "sha256": "fcbbdcf9ce2d0243a5886e8e9d1df69a8779a324e679f55e671aed2d58b525cb"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/CODING.md": {
+      "bytes": 12819,
+      "sha256": "5af43cc9a4745ed88e50a01fde3ab83aaffd1915de077881b5fd707f4e74a090"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/NEXT_STAGE.json": {
+      "bytes": 8905,
+      "sha256": "20e4a8646746a2c9c641b891983e8df75f9be426fcc204470646cbec18a408ed"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/ORIGIN_PROVENANCE.json": {
+      "bytes": 7843,
+      "sha256": "63075d848759ebb4b4d51df17c6d5bb58dbf258ef592ca689272a5f0bcaf125c"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/ORIGIN_WATCHDOG.md": {
+      "bytes": 30950,
+      "sha256": "273eefac0990c84160194d6d26fe63daa7c3e35d7a553f71b1ad2aa4d3618de0"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/ORIGIN_WATCHDOG_RESULT.json": {
+      "bytes": 3313,
+      "sha256": "7078a4ef5abf1571e359b0fd9925899995fdb505812bdfdbaddf2011a5c444a7"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/README.md": {
+      "bytes": 4308,
+      "sha256": "893a1887984a517d924a2017c4b2cbe6ef5a21ae22990495a303f64225eebfeb"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/REPORT.md": {
+      "bytes": 25449,
+      "sha256": "29104841880c33063bb8e72fb029c668f80873579da3de803b2cd2d3d755ddae"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/REPRODUCE.md": {
+      "bytes": 12474,
+      "sha256": "a4329d3e5347a3bae011e6903fe87fdfe330a770b95a2ab90d68945303fb2a5d"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/SOURCE_SPECS.json": {
+      "bytes": 26322,
+      "sha256": "835207224f9ab389d1d8b4efd064fb45509690f0c9e55779c5b85285e43ae7f2"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/STAGE_PUBLICATIONS.json": {
+      "bytes": 25021,
+      "sha256": "9fbf9c227e31e44422604a0ba553395916357a1b855b9309711383479fb4ee6e"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/THEORY.md": {
+      "bytes": 9290,
+      "sha256": "e6dc381b42b6463a27c43583568e50c402661d1c3c615dc5ddc2c4d8247d3784"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/THEORY_HANDOFF.json": {
+      "bytes": 447,
+      "sha256": "5636f0a541a72ef0332de9687b5c90d03cc1c6f280ac7a3ff2e2ef4d1b0c2ac9"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/coding/c25_analyze.py": {
+      "bytes": 21970,
+      "sha256": "f153009c25eca527e1944b7de15d5b52741fa10ea4e9cab92c405593a71f4e63"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/coding/c25_fit_predictor.py": {
+      "bytes": 5014,
+      "sha256": "03425d3553124cc01237415385adeb31bb52345eb3ffdfac27e9293b4bb87227"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/coding/c25_io.py": {
+      "bytes": 3801,
+      "sha256": "8831094288dede41ecfe76a63fc4d526d9f6170738ba35f919ad7411be42b273"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/coding/c25_run.py": {
+      "bytes": 11999,
+      "sha256": "3a0b5753dd2492ae680555c1654decb8944cfc51d3edfe153dbcb2c88228080c"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/coding/c25_sources.py": {
+      "bytes": 9887,
+      "sha256": "35767966eac06878ce4dfd152ce7c4a8a9e4d399b71f179c83ea02c30fbc16a7"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/coding/c25_verify.py": {
+      "bytes": 25760,
+      "sha256": "83d7a4504b3418b14ea13a6a42ab3e8d0c84bdfdaab05607269d9649d9e6dfb3"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/coding/check_c08_results.py": {
+      "bytes": 3553,
+      "sha256": "7cef5240f7a3fb02f1187956a1693eb74dce69cadf664e87bdddce65cc741701"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/coding/check_c09_restore.py": {
+      "bytes": 3787,
+      "sha256": "d998fe56c9dcfa8de6a574bf040881ef84cfaba11dce4a5cd3a9b43ce766fea5"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/coding/check_final_publication.py": {
+      "bytes": 4534,
+      "sha256": "ccf90511b34a49feabbbdf273ce308071035be222fef897a3cb879d62979c42e"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/coding/normalize_c25_svg.py": {
+      "bytes": 3177,
+      "sha256": "e63052e0118eef982a4a0bab4afbdd8281da70232f0cda73a0769677a125b830"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/coding/prepare_c10_package.py": {
+      "bytes": 3787,
+      "sha256": "cfc1c525aff22e944806a25bbd4725c696f9992592977eaf03aec32f45499a7e"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/coding/render_c25_report.py": {
+      "bytes": 3738,
+      "sha256": "cdea6d678b06ac97d1baa9f80d915dbba0cc579340b20d01b7e4b8228de4d57b"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/coding/run_cohort.py": {
+      "bytes": 2144,
+      "sha256": "7b3afbc37f43cbd15eda08f7ce62091a8827c7908ec8f18d85ed60eaa225cfab"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C01_ENVIRONMENT.json": {
+      "bytes": 422,
+      "sha256": "ac5810a4938c1c7c895b1b9fdf3369ad6fd19e3043cee621c8afdf933411f868"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C05C06_RUST_DEBUG_BUILD.log": {
+      "bytes": 169,
+      "sha256": "316f14a9a975b0e68bf09ebbaeea565c7f39b36ec21f06761bd1632987fac3b7"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C05C06_RUST_DEBUG_TEST.log": {
+      "bytes": 3819,
+      "sha256": "f94014ef1c5debbfd7f25264094287dcbc09d94eec57fc95f08e19023df7caae"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C05C06_RUST_FORMAT.json": {
+      "bytes": 219,
+      "sha256": "6b02f191299523bb9636232d4199ed3f01070f93a747cd6fe7d947b9999f1d24"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C05C06_RUST_GREEN.json": {
+      "bytes": 294,
+      "sha256": "e7f987c259ea86ca1f0fa4de04698141974ae908dc12a3a9552c7e07bc28b0f5"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C05C06_RUST_GREEN.log": {
+      "bytes": 1593,
+      "sha256": "de8582d0da05f0d0aaaddf4c82b014d02f6bac804c3232c6143b40e9fae0e186"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C05C06_RUST_MANIFEST.json": {
+      "bytes": 5375,
+      "sha256": "070e26b37804b0344b3ed06ee7d7fa650645bfa622d9c5bff660672f474d8eac"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C05C06_RUST_NATIVE_CHECKS.json": {
+      "bytes": 7076,
+      "sha256": "f3094747c16b0b8044e54997f3db0522186c180bacabc5218783a173a9b7bc17"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C05C06_RUST_NATIVE_DEBUG.jsonl": {
+      "bytes": 17465,
+      "sha256": "2739e266462deccb447b34c80a89d678300eafafa682f96085a644e91b249c3d"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C05C06_RUST_NATIVE_DEBUG.stderr.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C05C06_RUST_NATIVE_RELEASE.jsonl": {
+      "bytes": 17452,
+      "sha256": "de99defd6d9830ac5eb2960ed3b96f353598be40b73dbf5719751544af0fca6e"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C05C06_RUST_NATIVE_RELEASE.stderr.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C05C06_RUST_NATIVE_REQUESTS.jsonl": {
+      "bytes": 3056,
+      "sha256": "fda7aa68f0dc6e558bd8091aeb9ec7d6b45e99e2c5b5e79cc097cd245a819f5c"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C05C06_RUST_RED.json": {
+      "bytes": 449,
+      "sha256": "ac8ea1ecdb5f068c2f1f5fe68c47f962dbf6907bb71f2da61226dd46f53651f3"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C05C06_RUST_RED.log": {
+      "bytes": 7729,
+      "sha256": "881d279ca5b856a53162b63a0697717092884057b3aca1fcbace310f57cbbd17"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C05C06_RUST_RED_CORRECTED.json": {
+      "bytes": 446,
+      "sha256": "d7d747e4a5c228b156d4d42deca66ad9aab18bd682f68329a8e9fd05c69489bf"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C05C06_RUST_RED_CORRECTED.log": {
+      "bytes": 6328,
+      "sha256": "719a6fa9445c0a7f8f946ca7f72901b4d6bb4b03687b720077d1623ae2d05363"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C05C06_RUST_RED_SOURCE.rs": {
+      "bytes": 74123,
+      "sha256": "31d2003fa438d98a320be773bb9bb13bd62a9f93f7cfe79f465f23f3bf55c19a"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C05C06_RUST_RELEASE_BUILD.log": {
+      "bytes": 159,
+      "sha256": "d4be7568d648f14070846c77cb0d7416b3e1e8492f9569b18c22ab0cc19b07c6"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C05C06_RUST_RELEASE_TEST.log": {
+      "bytes": 5193,
+      "sha256": "7872c784534463e66eec4337e0bb69645bacd620d7f1d187a727b35e7861f582"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C05C06_RUST_REPORT.md": {
+      "bytes": 10703,
+      "sha256": "8881f7822e8821ae0b55e8a13dcc247bd543320196f63739fa2d335b414fd6c1"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C05C06_RUST_VERIFICATION.json": {
+      "bytes": 1777,
+      "sha256": "bf39037d659aef2169e438a200081a342f02d2b2b23427e0ef8b0cc9ce85c854"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C06_PARENT_BINDING.json": {
+      "bytes": 1037,
+      "sha256": "a3d7814abf81f8dd5276a0df9c78f15d68beee077df2ffa4be0c9f6035d47209"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C07_PRE_TEST_FREEZE.json": {
+      "bytes": 2764,
+      "sha256": "6b5c632a5f24156b04be8216259abed513089aa35ccb25f4a1f03423312e0d9b"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C07_PRE_TEST_VALIDATION.json": {
+      "bytes": 3563,
+      "sha256": "6ad5b58c57ebd9ff6139b0d8dc6809cc667f74d1df734d49c695d1e8ef16fc2b"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C08_RESULT_AUDIT.json": {
+      "bytes": 16294,
+      "sha256": "2208173f5c464fae73a1e4f94b822e0fe751f1c4ce7a0670998d84ece7d7eaf1"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C09_RESTORE.json": {
+      "bytes": 4672,
+      "sha256": "8990608cb789ca1e3ee85f9572e64292655c1b4214f12584f3e0863fb3052bf9"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C09_SVG_PACKAGING.json": {
+      "bytes": 641,
+      "sha256": "0856bb5a9684f386817b44010bfea4593e5dbaf14e7c35440677581be3a18531"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C09_SVG_PREFLIGHT_FAILED.log": {
+      "bytes": 252666,
+      "sha256": "fe31beeff81bea141705ec6f4f2fa3ab623c56a52d1779dc47a176da7d112693"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_CAL_PARENT_METRICS.json": {
+      "bytes": 1660840,
+      "sha256": "2f5ff0446d9fc9f7f71d91da5623e7780b132a50879308c99d25da817727a325"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_CAL_SUMMARY.json": {
+      "bytes": 240257,
+      "sha256": "4aab6889f2e7b232b18767cc8481f2a6abac9a5c7f4c293c66a64dc265a019b5"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_CAL_TIMING.manifest.json": {
+      "bytes": 29594,
+      "sha256": "e0b6a75d49d077386319c5518e9d31b7baf39cccbf254e741a8e1ea0aa231fd6"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_CAL_TIMING/000_c25_cal_00_0.jsonl.gz": {
+      "bytes": 5741,
+      "sha256": "54904a1d679b154edda666460c360e1dab97670873d8895c5ac297735a25af0d"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_CAL_TIMING/001_c25_cal_01_0.jsonl.gz": {
+      "bytes": 5454,
+      "sha256": "916fcd36ce8721e01ca07e6b39e806978a5fbe0bb0374b91468d37b7b3053370"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_CAL_TIMING/002_c25_cal_02_0.jsonl.gz": {
+      "bytes": 5942,
+      "sha256": "4fd3cfe1d3ed38aa56940e7161b5d4a35135971717029c5d360ed51dd540c3d1"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_CAL_TIMING/003_c25_cal_03_0.jsonl.gz": {
+      "bytes": 6698,
+      "sha256": "2663ed5f7872e6ac95a5460157baf75275dd9dc32ba7a258d4ebac364ff39718"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_CAL_TIMING/004_c25_cal_04_0.jsonl.gz": {
+      "bytes": 5414,
+      "sha256": "ff8b2a8b783655bbd0e82875bceec862621920d9880fae183ca0cd3d32bcf332"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_CAL_TIMING/005_c25_cal_05_0.jsonl.gz": {
+      "bytes": 5561,
+      "sha256": "bfac40f0c920330b54c76156242bdbd912ff14a4c7125d054b3f2531943ff04b"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_CAL_TIMING/006_c25_cal_06_0.jsonl.gz": {
+      "bytes": 5991,
+      "sha256": "8baf0104c024c2608bef415dbf715f8fc5995774491ad7b438ba0ea37d172d44"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_CAL_TIMING/007_c25_cal_07_0.jsonl.gz": {
+      "bytes": 6461,
+      "sha256": "58c9764c2dea3808c0948ebd36ea95f38b36a91ada27a049c1d5db2a6bf4907f"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_CAL_TIMING/008_c25_cal_08_0.jsonl.gz": {
+      "bytes": 5955,
+      "sha256": "3475deb3a5a07894cc61124f93f8581c033779f40d4396cd617fa1edcfd4035f"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_CAL_TIMING/009_c25_cal_09_0.jsonl.gz": {
+      "bytes": 6339,
+      "sha256": "e824a4f5cd5abd84704115c24badd59b0497c99da9d29e94c31c71fa220f6ad9"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_CAL_TIMING/010_c25_cal_10_0.jsonl.gz": {
+      "bytes": 6180,
+      "sha256": "72288a199548361504ab7440985b5fa9786d1f3e9a4cba80b125e88f8ec318a3"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_CAL_TIMING/011_c25_cal_11_0.jsonl.gz": {
+      "bytes": 6816,
+      "sha256": "be624e5cfded275f0bc8afb24bf1e9a540cb04d7a6445e27550ec9b4b0ed110d"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_CAL_TIMING/012_c25_cal_12_0.jsonl.gz": {
+      "bytes": 6343,
+      "sha256": "e348b0a153cd0868f89db9e4fba1c7a92c937d65136fc8f703301c39dea3c51d"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_CAL_TIMING/013_c25_cal_13_0.jsonl.gz": {
+      "bytes": 6506,
+      "sha256": "1dee54ee0fc590b765fb9f2268bc8897d55c26a6a880db3f51ac5999c49512cb"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_CAL_TIMING/014_c25_cal_14_0.jsonl.gz": {
+      "bytes": 7148,
+      "sha256": "d911f518e87dc1af8c132df06c44e04a0009db1898dea8acef8a4d2da89b6dd9"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_CAL_TIMING/015_c25_cal_15_0.jsonl.gz": {
+      "bytes": 7966,
+      "sha256": "7d750ad6a54dccecd05ee185b3da1349e0ba407584612598f396e1516886289f"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_CAL_TIMING/016_c25_cal_16_0.jsonl.gz": {
+      "bytes": 7579,
+      "sha256": "a7a78773e51b9aacf98e13c0435eec7768af10a9d82974ea35af2dee41d19216"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_CAL_TIMING/017_c25_cal_17_0.jsonl.gz": {
+      "bytes": 7164,
+      "sha256": "6606bd44096c08a9d2cc22a63cffafb3c593ccd5810a717b335b6b45e9e45278"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_CAL_TIMING/018_c25_cal_18_0.jsonl.gz": {
+      "bytes": 8084,
+      "sha256": "79d5c6ef9d3d2be41b2497da8c3c4e2503d941235e1c9cca4551d4b88d08aa89"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_CAL_TIMING/019_c25_cal_19_0.jsonl.gz": {
+      "bytes": 7858,
+      "sha256": "f2f038ec489a25fb3ee7300d4310b79f5f32795a1cca074988c5b3666923f816"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_CAL_TIMING/020_c25_cal_20_0.jsonl.gz": {
+      "bytes": 7005,
+      "sha256": "9d77248f68e602a28eea54370bc52c3bbb51a8a2dbf1f6255cad98529adf06ee"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_CAL_TIMING/021_c25_cal_21_0.jsonl.gz": {
+      "bytes": 6847,
+      "sha256": "c6a05455ea8c9887d2f2de4cb7566b647c176f120c08bdd6342eabc944dffd4e"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_CAL_TIMING/022_c25_cal_22_0.jsonl.gz": {
+      "bytes": 7946,
+      "sha256": "156985f74fd0d1dec9070322c65731807b575c723d721663615ed803409ed0a9"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_CAL_TIMING/023_c25_cal_23_0.jsonl.gz": {
+      "bytes": 8005,
+      "sha256": "33577c154321d6493805d0a8fd7fb5eb025977d62fe81f79b3475b591215e44e"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_CAL_TIMING/024_c25_cal_24_0.jsonl.gz": {
+      "bytes": 7062,
+      "sha256": "1e902d41fa2727c687c7608ced58faa035af6068c43e2c013e43b4e45b77f45d"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_CAL_TIMING/025_c25_cal_25_0.jsonl.gz": {
+      "bytes": 7440,
+      "sha256": "552731986e41174c899ded20b6acd77334eef4af7a13e5b326286c19ec2ee9a0"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_CAL_TIMING/026_c25_cal_26_0.jsonl.gz": {
+      "bytes": 8324,
+      "sha256": "735bc8cd3392657c3f858e3eb8146fbd2a3f27e97f15bdbbd0661e5b55c2231e"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_CAL_TIMING/027_c25_cal_27_0.jsonl.gz": {
+      "bytes": 8911,
+      "sha256": "663aa6d326e8268d11785de3f9e14061543faa17029ae4874ba9f79b3cb0eeb2"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_CAL_TIMING/028_c25_cal_28_0.jsonl.gz": {
+      "bytes": 8678,
+      "sha256": "94d41282c6f06b387d6c8061d6fc4822d46bed8520ea156a5ec2877a403279b9"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_CAL_TIMING/029_c25_cal_29_0.jsonl.gz": {
+      "bytes": 8772,
+      "sha256": "41e052e9731225d88b6773876026f7d9f48301de3956fd51b0cd871ed4c0b8bf"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_CAL_TIMING/030_c25_cal_30_0.jsonl.gz": {
+      "bytes": 9254,
+      "sha256": "27c47480a089a188c752000ca58227199a1cecd90ad705530a087809b63c49cf"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_CAL_TIMING/031_c25_cal_31_0.jsonl.gz": {
+      "bytes": 9080,
+      "sha256": "ca0a1adadaebd760dc80812f9e3e0993578540bd8d14dac18b9f9b72bf9369cc"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_CAL_TIMING/032_c25_cal_32_0.jsonl.gz": {
+      "bytes": 8777,
+      "sha256": "f3e68118571cc1384f4b7875d854b1afbdf35c3fb0ad1295e5bb98f9a6f11fb4"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_CAL_TIMING/033_c25_cal_33_0.jsonl.gz": {
+      "bytes": 8538,
+      "sha256": "b66e39386ae9f4fea302bf1b87756dffe526a6e89c67011d7734b9e346ff64ef"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_CAL_TIMING/034_c25_cal_34_0.jsonl.gz": {
+      "bytes": 9086,
+      "sha256": "58865d408bcdbaaa4cbcdf24e2e5d8ee644747e328d7ff098f824febefb02b49"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_CAL_TIMING/035_c25_cal_35_0.jsonl.gz": {
+      "bytes": 9214,
+      "sha256": "d6bd6d368f1a78fcf4f57ff0255b3b8785b360514056da716fc40e512fe6d53d"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_CAL_TIMING_STDERR.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_CAL_TRACE.manifest.json": {
+      "bytes": 20880,
+      "sha256": "84977c8b0d40b81bf84ab3d108048c22906ed52bd99f6426626cc2a1a8ebf929"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_CAL_TRACE/000_c25_cal_00_0.jsonl.gz": {
+      "bytes": 16770,
+      "sha256": "93a14630b5d996c31a2e8447945de004c246fd385c46b1bf32455529d7d42819"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_CAL_TRACE/001_c25_cal_01_0.jsonl.gz": {
+      "bytes": 16626,
+      "sha256": "ebf476f247c98b70044668e52fafbc24459e36847376d0c42f47259a9c3b114a"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_CAL_TRACE/002_c25_cal_02_0.jsonl.gz": {
+      "bytes": 20805,
+      "sha256": "3e70e8989f55cbe1cfc792f4662577e93e878308a616ac67dba1a95f9b4c5eac"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_CAL_TRACE/003_c25_cal_03_0.jsonl.gz": {
+      "bytes": 17761,
+      "sha256": "b2481ff2b50dba9ffd10cfc1ff043b7501276f35733397ad34dcdff3f71447fc"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_CAL_TRACE/004_c25_cal_04_0.jsonl.gz": {
+      "bytes": 16617,
+      "sha256": "6be454f3af5850b1d44b72cb80026feb4ea6ded8666858d39ec4453932a86cab"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_CAL_TRACE/005_c25_cal_05_0.jsonl.gz": {
+      "bytes": 16723,
+      "sha256": "4d4115f4127ff1c5b3277939f0d62cc5a3fa5d190f67ac5183127a89e21321cc"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_CAL_TRACE/006_c25_cal_06_0.jsonl.gz": {
+      "bytes": 20942,
+      "sha256": "21c8abb840b007bb74e2ec879e0125c5f23307cf63622ebc0157f2b7c6f9e9c8"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_CAL_TRACE/007_c25_cal_07_0.jsonl.gz": {
+      "bytes": 19995,
+      "sha256": "6916e5934e30b636d0cea342cf338b1906e7be9842367cf55fa7a7722bdcc43c"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_CAL_TRACE/008_c25_cal_08_0.jsonl.gz": {
+      "bytes": 20984,
+      "sha256": "2c0539dc15fcf1d0566574a66f2eec6658bf7729fb576c3849651100334f2887"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_CAL_TRACE/009_c25_cal_09_0.jsonl.gz": {
+      "bytes": 21063,
+      "sha256": "1e978bc42572b43bfeb4f4716da1f0fd17d47f5d28383185b3865ee87dca1225"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_CAL_TRACE/010_c25_cal_10_0.jsonl.gz": {
+      "bytes": 21015,
+      "sha256": "827fc044aa646f646c41cb61198e6aaeef6ac0cb2a853ec0950b2f539ca88d7e"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_CAL_TRACE/011_c25_cal_11_0.jsonl.gz": {
+      "bytes": 19586,
+      "sha256": "20ca72d116b2df81a04812d7f4379bc14f4aad2c700349fedfd6008577f85500"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_CAL_TRACE/012_c25_cal_12_0.jsonl.gz": {
+      "bytes": 585626,
+      "sha256": "9c69fbdfb0f10ca576886a6e297120f67734f5d5b6bb0388bc116d6e66d6f0db"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_CAL_TRACE/013_c25_cal_13_0.jsonl.gz": {
+      "bytes": 588854,
+      "sha256": "ec37db4bda339c38f3127de22a02f702c3963abeb36e7cc620fc289c58cac4ec"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_CAL_TRACE/014_c25_cal_14_0.jsonl.gz": {
+      "bytes": 589813,
+      "sha256": "f77ed2544fa084a5d2210a9f6fbc984f678ca3c1b7c9826e5f32501066db63c9"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_CAL_TRACE/015_c25_cal_15_0.jsonl.gz": {
+      "bytes": 527342,
+      "sha256": "d236c1baa184d5e6e23b3206f0e41203d1c6ac8bc1b2349bab1d9531b9e3ff28"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_CAL_TRACE/016_c25_cal_16_0.jsonl.gz": {
+      "bytes": 597860,
+      "sha256": "b524f1ce0fbab73fc01f66ea40aa274901bda4b651ec1776cc5d0a6b3a9bec06"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_CAL_TRACE/017_c25_cal_17_0.jsonl.gz": {
+      "bytes": 598183,
+      "sha256": "91998a281dfb635914da115ba4d8e33f07b3f02fe61fe1e354f87d5265027e13"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_CAL_TRACE/018_c25_cal_18_0.jsonl.gz": {
+      "bytes": 599947,
+      "sha256": "bdca94b466d78053d39dc1ed7755c4ee1642e08a290d0beafd9d0b545b851ec7"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_CAL_TRACE/019_c25_cal_19_0.jsonl.gz": {
+      "bytes": 555490,
+      "sha256": "0f10bfeeb5ed1186ce04f43bac63fdfb252a930575884b82539683f2118dab4c"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_CAL_TRACE/020_c25_cal_20_0.jsonl.gz": {
+      "bytes": 599606,
+      "sha256": "e78ef46ff25bb1a2792e97082479db49f86573bef75a8fa0947691aa76f71829"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_CAL_TRACE/021_c25_cal_21_0.jsonl.gz": {
+      "bytes": 598845,
+      "sha256": "c5ce23a068ae08c82227852c1040428776637f5bcc88eebe47e166902a502d15"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_CAL_TRACE/022_c25_cal_22_0.jsonl.gz": {
+      "bytes": 601453,
+      "sha256": "b871da7cabdd8c5cc23c6da79948a3e94a41857727eb6c55b19bfb5729ebedfc"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_CAL_TRACE/023_c25_cal_23_0.jsonl.gz": {
+      "bytes": 550637,
+      "sha256": "5984aba6f139c7c8bedd5ebdb2616e6918688a87f09220ccdc8cbd4c3c69df1a"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_CAL_TRACE/024_c25_cal_24_0.jsonl.gz": {
+      "bytes": 4924610,
+      "sha256": "47872307b1c790a7c8a2f02d187eb5f2f0328918bb740359d487e4f49a48d3d4"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_CAL_TRACE/025_c25_cal_25_0.jsonl.gz": {
+      "bytes": 4895718,
+      "sha256": "c9dbcffda8460cd7c55fb400ae2e0b0921e02b77f91a0c1a836f3f5968685a60"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_CAL_TRACE/026_c25_cal_26_0.jsonl.gz": {
+      "bytes": 4921258,
+      "sha256": "30510ca64c32c49f766c591fb3143f7f81763b694bb04d676f71eab722f17644"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_CAL_TRACE/027_c25_cal_27_0.jsonl.gz": {
+      "bytes": 4535214,
+      "sha256": "97b23c04c0a94e87e5a68f5962e785feb6b738e5753a7ae25a47ea41f283fbd9"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_CAL_TRACE/028_c25_cal_28_0.jsonl.gz": {
+      "bytes": 5142495,
+      "sha256": "abfb9d4cf479d2aedfd61fa11048e533b873c7ddc7bcf4e4398b16ba7a8cfb03"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_CAL_TRACE/029_c25_cal_29_0.jsonl.gz": {
+      "bytes": 5114123,
+      "sha256": "b58c813f9c3fb890005948243d8af26d46003d6b85553792a611dda5389ca81c"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_CAL_TRACE/030_c25_cal_30_0.jsonl.gz": {
+      "bytes": 5131547,
+      "sha256": "5bafe2d50121ab9a66d2573c122aacd9ca3eb7175492e335b4bd523d418c617a"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_CAL_TRACE/031_c25_cal_31_0.jsonl.gz": {
+      "bytes": 4979504,
+      "sha256": "bc59024e0bf5be3ee3a0bd398353d57ed7d68b115105b57babde6d9fba6ff17f"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_CAL_TRACE/032_c25_cal_32_0.jsonl.gz": {
+      "bytes": 5214050,
+      "sha256": "3b00c2b4372836ccad4432f3de5a97b2f004388ddbbc4ccb39c25ed35ed36d0c"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_CAL_TRACE/033_c25_cal_33_0.jsonl.gz": {
+      "bytes": 5222253,
+      "sha256": "f1726e2dc7444d68bed18f0a7802282ed2488d779c487e7bf0dd42fe0461a36e"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_CAL_TRACE/034_c25_cal_34_0.jsonl.gz": {
+      "bytes": 5210937,
+      "sha256": "6f6f538d3c92b989a8a3c6157e5a9e8fc499366c9e047ac0e588a1f9246d802e"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_CAL_TRACE/035_c25_cal_35_0.jsonl.gz": {
+      "bytes": 5181253,
+      "sha256": "816bdfd1272e6cd8519b0e459cdb93a583c94ea5b7c066efda8c966426b2425b"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_CAL_TRACE_STDERR.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_FIGURE.json": {
+      "bytes": 1115,
+      "sha256": "058d8e8ace624ab54bedf02349258ea1df80d5b39680e390627fe1e35a12e50e"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_FIGURE_RENDER_ORIGINAL.json": {
+      "bytes": 551,
+      "sha256": "3089313c12be4c494af0a43863afbb7594751432268186d2717e3ad9940c3048"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_FIGURE_REVIEW.json": {
+      "bytes": 792,
+      "sha256": "f7dc328700df67578a5cadc09d724b101433857417380b0b13d7ee4257fda2b8"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_ORACLE_CAL.jsonl.gz": {
+      "bytes": 1221489,
+      "sha256": "b1ffa7d55771c503cf7a0eeed4ff5e1375e5e301f688884de3639043b3fab75f"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_ORACLE_TEST.jsonl.gz": {
+      "bytes": 2453067,
+      "sha256": "9d5bafe82aa6cafcd8471ca4b3922a3be83be686491bdbf00076a49c1216e5b5"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_ORACLE_TRAIN.jsonl.gz": {
+      "bytes": 1240364,
+      "sha256": "d1f7f3279c2ff0c9b9d46d3d03aeb007cf0664e00829c3a94233e3e7c864873e"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_ORACLE_UNIT.jsonl.gz": {
+      "bytes": 88795,
+      "sha256": "b6a58cb7044ad280b68a1147f9f8aecdd85d0b650584ba1d68570aed8386505f"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_PUBLIC_CAL.jsonl.gz": {
+      "bytes": 2031370,
+      "sha256": "b11207f9459e1d100e88ad28222dc969dddce989e9ed296ef8687cac6f3c83d7"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_PUBLIC_TEST.jsonl.gz": {
+      "bytes": 4091555,
+      "sha256": "08dd23bc0259a616d08640a32d9be64dd2b046e96c098b83b9fb76933337a9af"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_PUBLIC_TRAIN.jsonl.gz": {
+      "bytes": 2034069,
+      "sha256": "80981adf7bc244ea12e644d40a5e84d133b2a7699e76b7fedd476a4b4c3d7cf8"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_PUBLIC_UNIT.jsonl.gz": {
+      "bytes": 189003,
+      "sha256": "6f4252ac8d47079d3b1a47fd98027f30548f059d31d65b873657055256535926"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_SOURCES_CAL.json": {
+      "bytes": 2919,
+      "sha256": "7d640bcb751a14f1aa2b1f71543a165ab97ea70f94a4483e33a392a09f669fbe"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_SOURCES_TEST.json": {
+      "bytes": 3717,
+      "sha256": "77d24d7ab0cf7f437c37ea48aae8482b73da680476768c90738c358e1b987cf2"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_SOURCES_TRAIN.json": {
+      "bytes": 3003,
+      "sha256": "9f7fe1028538c7a3e376e846930cc63f6a4c65ba3a6400e6ef18edbd0faa6c1a"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_SOURCES_UNIT.json": {
+      "bytes": 5599,
+      "sha256": "2b952d59a855998ff24d62d9a88ecdb8a050a473eb47352bffaf3b3c88fcab24"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TEST_DECISIONS_MATPLOTLIB.svg.gz": {
+      "bytes": 23346,
+      "sha256": "e5db57d5d656c6775fdc0f385008b1713ffca03dffeff79ca28bd7ea17675c62"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TEST_PARENT_METRICS.json": {
+      "bytes": 3321558,
+      "sha256": "03885205822d262543a65ebfa0f8133f039fe9c8bb20de9d688033d3e5e27edd"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TEST_SUMMARY.json": {
+      "bytes": 252531,
+      "sha256": "a219bf2e218d138f107fbb55fcbd59f53901280fc8a4479c8b55ed5ac6b10415"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TEST_TIMING.manifest.json": {
+      "bytes": 51616,
+      "sha256": "ba76757f13c5a689253c3d16bdc476bf6c1512267f2e00b788484731e8b7a5c2"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TEST_TIMING/000_c25_test_00_0.jsonl.gz": {
+      "bytes": 5411,
+      "sha256": "601a956674c21c971a1a7fa71d540823c7170d6dd111ab65daa960f12d8908dc"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TEST_TIMING/001_c25_test_00_1.jsonl.gz": {
+      "bytes": 5574,
+      "sha256": "127839a45d0795e717d46cf7e3fabb623bdb2f9fb54370bae28858b1bd1eff50"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TEST_TIMING/002_c25_test_01_0.jsonl.gz": {
+      "bytes": 5415,
+      "sha256": "9c032cd2c3540aa53ef0ee847f77bf73128199f7d26026cacc96c55d0c7a5679"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TEST_TIMING/003_c25_test_01_1.jsonl.gz": {
+      "bytes": 5356,
+      "sha256": "d258994d25451cff603c0e1877d12180d8aeed6d10ff166c19ee95df08df436e"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TEST_TIMING/004_c25_test_02_0.jsonl.gz": {
+      "bytes": 6065,
+      "sha256": "bd272df41990786191657c05ff6d2504b3643dd92975424a7394617d8098ca50"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TEST_TIMING/005_c25_test_02_1.jsonl.gz": {
+      "bytes": 6033,
+      "sha256": "c741bddc54a36012afbfd81f79de99da9083ebbf3da0b1055669d7cae37d7891"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TEST_TIMING/006_c25_test_03_0.jsonl.gz": {
+      "bytes": 6761,
+      "sha256": "94314619814eb70df9923c7c8e42dde532f95a8147e109d81f5fb25d6a604f0c"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TEST_TIMING/007_c25_test_03_1.jsonl.gz": {
+      "bytes": 6433,
+      "sha256": "5581561bc4855402a7aa88b56ae16a75abfdb59fa3e5929a8f69ba5c03ce0165"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TEST_TIMING/008_c25_test_04_0.jsonl.gz": {
+      "bytes": 5496,
+      "sha256": "4d36811609947f0da2e52be2b2c304f459da8b2aeb5df8244403478537a1d1e4"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TEST_TIMING/009_c25_test_04_1.jsonl.gz": {
+      "bytes": 5470,
+      "sha256": "7e661ff08cdeec30ae8b1ef2250756789b62105704e09ffb5d244c9a9dba64bd"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TEST_TIMING/010_c25_test_05_0.jsonl.gz": {
+      "bytes": 6088,
+      "sha256": "b309c9653cca85d5b41d5384cbd1f68bd172b928fe4b9f30f60bf5d62e55fb45"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TEST_TIMING/011_c25_test_05_1.jsonl.gz": {
+      "bytes": 5495,
+      "sha256": "85af233ac6ba5cd4aa616bf2d5b9aaa50c2e8649528414fd2cb71a933d1a6444"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TEST_TIMING/012_c25_test_06_0.jsonl.gz": {
+      "bytes": 6165,
+      "sha256": "828f139b92abe80d71af0447a3e7d9f905bbb54876c90a4995ab9663cdb4802a"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TEST_TIMING/013_c25_test_06_1.jsonl.gz": {
+      "bytes": 6258,
+      "sha256": "8a1d11ba58c3f9671c1dfc26eff18d11f7a8cb18be320ce0e0276d1200c09225"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TEST_TIMING/014_c25_test_07_0.jsonl.gz": {
+      "bytes": 6715,
+      "sha256": "2d69bf6f11a72e4fe16a2fae4ebeceef5c8f6b4a3d353718f0efd2662a4b209d"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TEST_TIMING/015_c25_test_07_1.jsonl.gz": {
+      "bytes": 6789,
+      "sha256": "28b938d7cb963d3eb551c8b1e00466c693789db966a6d76ebf3636b9a1e90f2b"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TEST_TIMING/016_c25_test_08_0.jsonl.gz": {
+      "bytes": 5651,
+      "sha256": "29525062b94f971e6e381f8cb6bad6d86b6630d9dcf1de381398b64af36c7a11"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TEST_TIMING/017_c25_test_08_1.jsonl.gz": {
+      "bytes": 5679,
+      "sha256": "e68f0ecbd605c8b869e7cde50168d06292d237215e8ea5e1997fe33a433da157"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TEST_TIMING/018_c25_test_09_0.jsonl.gz": {
+      "bytes": 6275,
+      "sha256": "79d0a7e366ec52e6df980147fe98d4d2642dbb4be9dc1082687f5dfe6c333cab"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TEST_TIMING/019_c25_test_09_1.jsonl.gz": {
+      "bytes": 5448,
+      "sha256": "402bd78b26b3dd270e167ee2344cc6bb8d880bbbadad711bd7d77e2b08f442f2"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TEST_TIMING/020_c25_test_10_0.jsonl.gz": {
+      "bytes": 6303,
+      "sha256": "7282bd166015b62834b410eaaa75e4f2746a924b904857838581005557d3b14c"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TEST_TIMING/021_c25_test_10_1.jsonl.gz": {
+      "bytes": 6211,
+      "sha256": "da75429225a09f37baaaee1a4922e9bc3ee4cf5293be8e0169dec07608e6a90d"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TEST_TIMING/022_c25_test_11_0.jsonl.gz": {
+      "bytes": 6796,
+      "sha256": "78b512f596552e1d2a40f19e04b1ad2332cc76a4b0085811c97cee7bf7a46685"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TEST_TIMING/023_c25_test_11_1.jsonl.gz": {
+      "bytes": 6808,
+      "sha256": "67a40535f2fad77e264116d46672cbfbeaef46f057354a63b08ccf0cdd3e2543"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TEST_TIMING/024_c25_test_12_0.jsonl.gz": {
+      "bytes": 6488,
+      "sha256": "a42e9371dd2754a0d8f3a918471bc6ebebfccb4fd48e16979dc7d85ef1b89464"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TEST_TIMING/025_c25_test_12_1.jsonl.gz": {
+      "bytes": 6276,
+      "sha256": "9fe4256ebc6e67cc93ec11a34c2da32fb88e0d9af809a6dc9a3ac2758a6473e4"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TEST_TIMING/026_c25_test_13_0.jsonl.gz": {
+      "bytes": 5947,
+      "sha256": "0dfc30750b2f499bc84d8ac952cb4c2488f47969b155af9a162348515fe5215d"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TEST_TIMING/027_c25_test_13_1.jsonl.gz": {
+      "bytes": 6035,
+      "sha256": "d03ed691a4fd7c614daffae01eb59e5d2a0d7cc840687edcf5284dcb8aab6249"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TEST_TIMING/028_c25_test_14_0.jsonl.gz": {
+      "bytes": 7186,
+      "sha256": "e7b0486c7bd381045878c02ac37ce122b94c29ee83f9f20e9d419ee2525818a5"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TEST_TIMING/029_c25_test_14_1.jsonl.gz": {
+      "bytes": 6894,
+      "sha256": "4e7fe81e1d62b6b8a7bfa58e3299bd44992c2bc258fd84454b4fcb645ad8eadc"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TEST_TIMING/030_c25_test_15_0.jsonl.gz": {
+      "bytes": 7512,
+      "sha256": "d377b1a7ff0fa913fb8859cb61ace2cc88acce45c7ca3d98f9ca5fc2679196a8"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TEST_TIMING/031_c25_test_15_1.jsonl.gz": {
+      "bytes": 7339,
+      "sha256": "4b4b7a6b6cc3dd703889106fa25e1dbd64e015967ea67337cb2eaa465c545b61"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TEST_TIMING/032_c25_test_16_0.jsonl.gz": {
+      "bytes": 6988,
+      "sha256": "028ef5d5fe966da1746156a93b3730a0e4f23e068eedcc1cb1246fe01009993e"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TEST_TIMING/033_c25_test_16_1.jsonl.gz": {
+      "bytes": 6790,
+      "sha256": "ce089abf0e2cb204877fca6880a8ef976d31993e54a127bd849afec3a48e916a"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TEST_TIMING/034_c25_test_17_0.jsonl.gz": {
+      "bytes": 6756,
+      "sha256": "cd3fca457fdb92618a2d0e429f080fca7cfb4d02cb2744f0c225ed124dc46198"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TEST_TIMING/035_c25_test_17_1.jsonl.gz": {
+      "bytes": 6853,
+      "sha256": "089e5a21d755662622a56a33ec9381765a5c00bb7568f25e8a435bbd6645b579"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TEST_TIMING/036_c25_test_18_0.jsonl.gz": {
+      "bytes": 7377,
+      "sha256": "76fbe4d940a3af144f77d6150215e92a60cbb81713a35e3e4366e6925c1c38e4"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TEST_TIMING/037_c25_test_18_1.jsonl.gz": {
+      "bytes": 7794,
+      "sha256": "015cdfbf37bf22a96f14bacd50b54747447cd4f143838b451a129c6951737554"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TEST_TIMING/038_c25_test_19_0.jsonl.gz": {
+      "bytes": 7675,
+      "sha256": "735bde1e3d7ca157780beb5e2fcb6382c1627d2ab26bca0a6a31424707e26c0b"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TEST_TIMING/039_c25_test_19_1.jsonl.gz": {
+      "bytes": 7836,
+      "sha256": "c7baef80806b224026e2e214562228a8f7a1f970bc538bf6629cbb94833e4007"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TEST_TIMING/040_c25_test_20_0.jsonl.gz": {
+      "bytes": 6932,
+      "sha256": "71684ea93fe95248abb8dc076a554d833a944a632e830a65de40bb5fd427a430"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TEST_TIMING/041_c25_test_20_1.jsonl.gz": {
+      "bytes": 6871,
+      "sha256": "3b833600aa7e6e5cfc5e0b9e9e8a11ae494a673e69e45191b44eec5d7c2fa582"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TEST_TIMING/042_c25_test_21_0.jsonl.gz": {
+      "bytes": 7409,
+      "sha256": "a8f907c60c5e23119a2fca1c6c9cbcd1c7e9188cd37e2a2d779a66460f7cf067"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TEST_TIMING/043_c25_test_21_1.jsonl.gz": {
+      "bytes": 7494,
+      "sha256": "f01a96547a9cbe1c8e3c946ccb65b9bd7ecd23c03876b2f1a54b9d1a917b1f3e"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TEST_TIMING/044_c25_test_22_0.jsonl.gz": {
+      "bytes": 7108,
+      "sha256": "24815efb3b248bae2bc3c542e938672d2bf2e7686349abe4f14c1874d84881a8"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TEST_TIMING/045_c25_test_22_1.jsonl.gz": {
+      "bytes": 7260,
+      "sha256": "24351fae68740ddc3c9a412b68ffa031d5b0d84e5b47c3a0e66e14cd055481ca"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TEST_TIMING/046_c25_test_23_0.jsonl.gz": {
+      "bytes": 7711,
+      "sha256": "93e8feb462fd6b4ba246a6d6ff2543e02a8ccf2bbd682ed46ec94597068bf9ae"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TEST_TIMING/047_c25_test_23_1.jsonl.gz": {
+      "bytes": 7792,
+      "sha256": "88044bda586633fa6de630ee7a527b96860fb167c284646b2ed41eade3eb6183"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TEST_TIMING/048_c25_test_24_0.jsonl.gz": {
+      "bytes": 7255,
+      "sha256": "0ccbeeaeead0011f980b97365e6bd8c740419977345c7a38a62bfc4eb5e9a3a4"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TEST_TIMING/049_c25_test_24_1.jsonl.gz": {
+      "bytes": 7333,
+      "sha256": "51bc5fa788d18baa275405b6ad47f8a0810ef0c8f4d255d81bb70602663abb83"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TEST_TIMING/050_c25_test_25_0.jsonl.gz": {
+      "bytes": 7269,
+      "sha256": "d1abef75bfe5d724a4ec6dcbb2b03840bb38988cd7468587f1d818922fa7c480"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TEST_TIMING/051_c25_test_25_1.jsonl.gz": {
+      "bytes": 7212,
+      "sha256": "07689df93bfb284e160c1c507431e69467d279c8565157e01146a86306e91f30"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TEST_TIMING/052_c25_test_26_0.jsonl.gz": {
+      "bytes": 7958,
+      "sha256": "b0e5d4df4ab5e78f9d575e7f2640d4ab45d1417a402b66fa5d02c577e8541f11"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TEST_TIMING/053_c25_test_26_1.jsonl.gz": {
+      "bytes": 7891,
+      "sha256": "d79810c504fe0f8970c8bdfc1d831e08efea9e90721fb19b5a80e946f2852773"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TEST_TIMING/054_c25_test_27_0.jsonl.gz": {
+      "bytes": 8817,
+      "sha256": "71ba76a10fa33cc76ac37e86b7e4975bfddeb37ca4c19052a83813a227cc2e6e"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TEST_TIMING/055_c25_test_27_1.jsonl.gz": {
+      "bytes": 8332,
+      "sha256": "c5c398a8a46a9c2768cabb795d273d500e071ae20d2d288ad335bca21264ffa6"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TEST_TIMING/056_c25_test_28_0.jsonl.gz": {
+      "bytes": 7726,
+      "sha256": "54899a3b179af6b08d49d80142f1dfefb67540a1dff8ab4e9356c75f14934ef7"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TEST_TIMING/057_c25_test_28_1.jsonl.gz": {
+      "bytes": 7990,
+      "sha256": "0db8f9326e7110d9492d5b51d62a00adab0e906751e4b9edbc770cd3a97fa650"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TEST_TIMING/058_c25_test_29_0.jsonl.gz": {
+      "bytes": 8304,
+      "sha256": "96095967bbd96c73dcc82bb5641bc52085de537548242abc74b0667275e7878f"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TEST_TIMING/059_c25_test_29_1.jsonl.gz": {
+      "bytes": 8039,
+      "sha256": "7cdb074096e5549041aaa3880fddd761f4cb4558feb17d892bb7a0e1c7716f89"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TEST_TIMING/060_c25_test_30_0.jsonl.gz": {
+      "bytes": 9130,
+      "sha256": "6849a9d7ea89eeb5da59a7464b6be9413888ba7074e83483dab1df1acf7c86a9"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TEST_TIMING/061_c25_test_30_1.jsonl.gz": {
+      "bytes": 8883,
+      "sha256": "ca755937ed6aebc9ef44f0c7b3ff9cf1afe4a4358243797ac48c494de04e2c8a"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TEST_TIMING/062_c25_test_31_0.jsonl.gz": {
+      "bytes": 9107,
+      "sha256": "678ec4e3d4fa0467e9605f2fa773ee1b65d921987243b791b56bf04ee8c402ae"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TEST_TIMING/063_c25_test_31_1.jsonl.gz": {
+      "bytes": 9210,
+      "sha256": "dcc2345371e48f3d336b6d4641b62ec6c802e8c0cf733e6e0deac1793f1d0d6c"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TEST_TIMING/064_c25_test_32_0.jsonl.gz": {
+      "bytes": 8718,
+      "sha256": "1df0a7d4769bba30cad0dbfe6431f8e794571b323716098a41d876bd51f911b2"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TEST_TIMING/065_c25_test_32_1.jsonl.gz": {
+      "bytes": 8523,
+      "sha256": "add318b9d7f4a6161f4a7e135280c445e08e2d23bd61b64bd4f2cb9aaf0291e2"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TEST_TIMING/066_c25_test_33_0.jsonl.gz": {
+      "bytes": 8658,
+      "sha256": "1e2c0810b8e3ac662fece229e01b2035f468d1dced7c1810b44bd7afd2365262"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TEST_TIMING/067_c25_test_33_1.jsonl.gz": {
+      "bytes": 8542,
+      "sha256": "203718169bcac85a2235ea2dee05e61b68dc9d93d613fa97ae0fcc447a770f71"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TEST_TIMING/068_c25_test_34_0.jsonl.gz": {
+      "bytes": 9242,
+      "sha256": "a3c424abac1f2931e8f16f646ba8213bd0f4ac3e940566973f6c4ddd4e8c313f"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TEST_TIMING/069_c25_test_34_1.jsonl.gz": {
+      "bytes": 9235,
+      "sha256": "3d8cd0fc84026a1688d037ba19c1387f4e813264e57cb4ed9d7f341b78db09bb"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TEST_TIMING/070_c25_test_35_0.jsonl.gz": {
+      "bytes": 9077,
+      "sha256": "b80a675a3e9880da765378a1b01026f0de076f831aed0cb57efaa97a84d16095"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TEST_TIMING/071_c25_test_35_1.jsonl.gz": {
+      "bytes": 9060,
+      "sha256": "80fb93fd449b9459b43a62e52e169b6c08bbceacdad9144b42c36d6cdaa60a7e"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TEST_TIMING_STDERR.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TEST_TRACE.manifest.json": {
+      "bytes": 34469,
+      "sha256": "6d8b08d85272ff6b1f7a823ddb39dbdcdb4b7ed29329546f52cb1557f0aab7f4"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TEST_TRACE/000_c25_test_00_0.jsonl.gz": {
+      "bytes": 16612,
+      "sha256": "ae40e578011568edd63b1bcbc64988c87c312ebbe4813dd2ccad3236891d0ecb"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TEST_TRACE/001_c25_test_00_1.jsonl.gz": {
+      "bytes": 16649,
+      "sha256": "9978e30db5073a2a7bcb2cae37e34a4e3a30a6d6bcb17f27e2ac327ed59bc3a2"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TEST_TRACE/002_c25_test_01_0.jsonl.gz": {
+      "bytes": 16588,
+      "sha256": "6c26eec064e05f036c49abfede2ed87a8924ab7468263d8da08251b65b6227bd"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TEST_TRACE/003_c25_test_01_1.jsonl.gz": {
+      "bytes": 16510,
+      "sha256": "b15ca999c0b4cdc6887de16d3a9290b6c883eb80ab2c9c35ccc77bd556d45851"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TEST_TRACE/004_c25_test_02_0.jsonl.gz": {
+      "bytes": 20851,
+      "sha256": "3bd5af6d87e79fa27f4065bd56a15e81886c838c7c6dac7f0f2149c21c638ea6"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TEST_TRACE/005_c25_test_02_1.jsonl.gz": {
+      "bytes": 20683,
+      "sha256": "d54015845d2f6502f68617cfd1116bf3ea234389f3e3224c637b9d8fd447a426"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TEST_TRACE/006_c25_test_03_0.jsonl.gz": {
+      "bytes": 17873,
+      "sha256": "934d0702c1dcb4730ba242f8148bae6d2258d3118441076658df7429e49e166a"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TEST_TRACE/007_c25_test_03_1.jsonl.gz": {
+      "bytes": 19303,
+      "sha256": "88d6d3b1629f0f927aa378b04a6c104347925b56a347adfa3bf932802eae449a"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TEST_TRACE/008_c25_test_04_0.jsonl.gz": {
+      "bytes": 16828,
+      "sha256": "d9899223bbc2325b86881e8ae9fc5b6473667fb5d5d564569564602a34dd7547"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TEST_TRACE/009_c25_test_04_1.jsonl.gz": {
+      "bytes": 16618,
+      "sha256": "e53b20c0debc979e8d4720e56c82a14fa4eebd039388cb8bc61adae390881a11"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TEST_TRACE/010_c25_test_05_0.jsonl.gz": {
+      "bytes": 20848,
+      "sha256": "26844bf45e450e5da84d7a7b0bcafc36a7d732c49546069db6f51ad5a49593f2"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TEST_TRACE/011_c25_test_05_1.jsonl.gz": {
+      "bytes": 16613,
+      "sha256": "c48e3d55cb2be90cb877becb5394d53ff5dd9613052592df677a64f466a3479e"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TEST_TRACE/012_c25_test_06_0.jsonl.gz": {
+      "bytes": 20924,
+      "sha256": "f2ca8903453768667bf2e7868a720dcf146644ae0a4be55f88d1059d2afb76bc"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TEST_TRACE/013_c25_test_06_1.jsonl.gz": {
+      "bytes": 21064,
+      "sha256": "ee68a81d53c0db1e10fded2c386d080bcb7100b87146f2d6d250730636aac813"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TEST_TRACE/014_c25_test_07_0.jsonl.gz": {
+      "bytes": 18294,
+      "sha256": "46d48453d356275c74364660957ad8626c80b23e900dbcd18cab34e49065a37c"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TEST_TRACE/015_c25_test_07_1.jsonl.gz": {
+      "bytes": 18280,
+      "sha256": "3a4f2b79e83efd51ab81d5b9abb61d5c0c3ad420c41cf8c6940266211608e5de"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TEST_TRACE/016_c25_test_08_0.jsonl.gz": {
+      "bytes": 16746,
+      "sha256": "6ae18d10ed1c762d1ddf99e130fc2a88923ba7362d760709f86d48c215266599"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TEST_TRACE/017_c25_test_08_1.jsonl.gz": {
+      "bytes": 16684,
+      "sha256": "f815c73c405fe1b9e193a58130c249a27301211d9fba292f0eade788a26b6455"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TEST_TRACE/018_c25_test_09_0.jsonl.gz": {
+      "bytes": 21017,
+      "sha256": "8b5d3f4c5dad2c2bce0f57762f9469f7ab449f1ee3dd475e001dbfcb0ffe4742"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TEST_TRACE/019_c25_test_09_1.jsonl.gz": {
+      "bytes": 16754,
+      "sha256": "7083f22c50c0094cc65d89c5382a33b3b42d05255fd01228d6b7bc1d1bde51a9"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TEST_TRACE/020_c25_test_10_0.jsonl.gz": {
+      "bytes": 21221,
+      "sha256": "6deee751eac2f0c05b9602b883a7fedea02a83bcd5f9f6aa972112a1d6d39dfb"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TEST_TRACE/021_c25_test_10_1.jsonl.gz": {
+      "bytes": 21285,
+      "sha256": "7a24bb93dde5065c63da33f3ca9124a6dc02b3ba76fbd0f2edc6450236622afd"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TEST_TRACE/022_c25_test_11_0.jsonl.gz": {
+      "bytes": 18719,
+      "sha256": "b9ca61f7e5c1855ddea1b27819e51e263b12c69e90444908161c71a4d5ea9e3b"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TEST_TRACE/023_c25_test_11_1.jsonl.gz": {
+      "bytes": 18403,
+      "sha256": "40af3b4320f88c9e306f11a31171d8a2708e73148d8688f4e07c7bd2f5feafc3"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TEST_TRACE/024_c25_test_12_0.jsonl.gz": {
+      "bytes": 588107,
+      "sha256": "41aa8e55ea76b9e4b266f4deccb2f6ef0cf2f324bdbcc6857489b4d96155eae6"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TEST_TRACE/025_c25_test_12_1.jsonl.gz": {
+      "bytes": 586725,
+      "sha256": "5c2fe6078ad89667a1b51237932de8c39b625aaf91026ee673fc7ccc7df83650"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TEST_TRACE/026_c25_test_13_0.jsonl.gz": {
+      "bytes": 586896,
+      "sha256": "05caecb6ce186025f231fa9e49050fb06957f8535a71fbaa95e88bd00d6f6f94"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TEST_TRACE/027_c25_test_13_1.jsonl.gz": {
+      "bytes": 587242,
+      "sha256": "f39b7c70f5adcde95a0e93e48b5d6a61f10393aca98fce3864f01eba48540a5c"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TEST_TRACE/028_c25_test_14_0.jsonl.gz": {
+      "bytes": 589711,
+      "sha256": "053c442debecd6bcc286eb17bf9a6f49bf09f5dbf473a4aed4b2ff619d5511ac"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TEST_TRACE/029_c25_test_14_1.jsonl.gz": {
+      "bytes": 588259,
+      "sha256": "d3e9855b41e3d5686ef9431fdd60c9084bb2640a1690e8fd52eaedc9c5787002"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TEST_TRACE/030_c25_test_15_0.jsonl.gz": {
+      "bytes": 457804,
+      "sha256": "463cc15d6a1ea435a4c15ff9fb95d9696c219a9fb3b92f925340997904d53a0c"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TEST_TRACE/031_c25_test_15_1.jsonl.gz": {
+      "bytes": 448051,
+      "sha256": "9444d13e15200ae95baa7c9b76bc40a3859478d0f4b8103df59e147a512288f7"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TEST_TRACE/032_c25_test_16_0.jsonl.gz": {
+      "bytes": 598807,
+      "sha256": "bda37dde632030b1cd29828831a2c10cc2310be990727315092619cf69056890"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TEST_TRACE/033_c25_test_16_1.jsonl.gz": {
+      "bytes": 597631,
+      "sha256": "72269ca9a5da0ab4fd740d67f11357ffbf01ee2c8b2a8a24ac39b7a36323a1f0"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TEST_TRACE/034_c25_test_17_0.jsonl.gz": {
+      "bytes": 599065,
+      "sha256": "79be25dbb309a9f36b45003740a26288bdaba4f908650e53743cf4e1fd672e73"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TEST_TRACE/035_c25_test_17_1.jsonl.gz": {
+      "bytes": 598562,
+      "sha256": "1ef8b7b29821c6073524d4110b122949bfc5867a5b27aa0aa7916dbb507224a2"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TEST_TRACE/036_c25_test_18_0.jsonl.gz": {
+      "bytes": 598919,
+      "sha256": "a14d26dfe9a09ee8ed0b66cb5840e55d2edb1cc8b5891ff21c1be3537ce04131"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TEST_TRACE/037_c25_test_18_1.jsonl.gz": {
+      "bytes": 601134,
+      "sha256": "e60dc11db4dfc9c6d2e8af99828c9971f13a93d7d430b94cdcc6bcbaff049ea3"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TEST_TRACE/038_c25_test_19_0.jsonl.gz": {
+      "bytes": 478585,
+      "sha256": "f73a43bda6f0873bb1efa3266343d94fc57273c7f3de62a9fac4d74fd72cee9e"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TEST_TRACE/039_c25_test_19_1.jsonl.gz": {
+      "bytes": 546922,
+      "sha256": "53945efa93eb572992596265f82d351802893f72577eba11b077f288fd5219fc"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TEST_TRACE/040_c25_test_20_0.jsonl.gz": {
+      "bytes": 597353,
+      "sha256": "f68efa671849fae7901d5f38dbb9fd0e8d287d2ecf64f940b7e5aac8d0283c62"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TEST_TRACE/041_c25_test_20_1.jsonl.gz": {
+      "bytes": 598830,
+      "sha256": "6147990cb64e816e1cd5148129997ba2d4b73517df3f3bc3ba66636938083837"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TEST_TRACE/042_c25_test_21_0.jsonl.gz": {
+      "bytes": 600533,
+      "sha256": "bd2dbffe6ea8358dd7c7334fba132480af156e75c6fc470420c08a579bc1df33"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TEST_TRACE/043_c25_test_21_1.jsonl.gz": {
+      "bytes": 600375,
+      "sha256": "6bae21ac99275278c4f5aa0e30f5a063d68aa7338a2808a8e38f663679366a1c"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TEST_TRACE/044_c25_test_22_0.jsonl.gz": {
+      "bytes": 602566,
+      "sha256": "a1f6cd79805650294bfdd07bb6cd4ace7ac612fe072a5e77872bfcd31d10e303"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TEST_TRACE/045_c25_test_22_1.jsonl.gz": {
+      "bytes": 600966,
+      "sha256": "fb665b6870760c70a4a080b3c8281054b41c41a025907706f346f66344882021"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TEST_TRACE/046_c25_test_23_0.jsonl.gz": {
+      "bytes": 480378,
+      "sha256": "714a47f0bcb79ef0f3c006e48b5848e2958b4386822459420f6914ec788f4915"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TEST_TRACE/047_c25_test_23_1.jsonl.gz": {
+      "bytes": 484155,
+      "sha256": "b407142dc384524f65630f97c6a8b491c391122ee57c28b11f145fb91d004981"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TEST_TRACE/048_c25_test_24_0.jsonl.gz": {
+      "bytes": 4932889,
+      "sha256": "c1ca1e1dba24313b75d3d2adbedf715e3703077918b4d0632102fb0b2a24f4b4"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TEST_TRACE/049_c25_test_24_1.jsonl.gz": {
+      "bytes": 4947538,
+      "sha256": "c34558afe38b60411481a46b9789d93a8985687dadc0f32ce3487070d614a952"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TEST_TRACE/050_c25_test_25_0.jsonl.gz": {
+      "bytes": 4971568,
+      "sha256": "fb1a47ee96f4b699455189e019cf67fcf037fd17df68c6ed1feda065f87b0285"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TEST_TRACE/051_c25_test_25_1.jsonl.gz": {
+      "bytes": 4921625,
+      "sha256": "fb1276981fb0f406df703b91f7d50fa1bf1278ed07d9e9719e7328882ba37822"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TEST_TRACE/052_c25_test_26_0.jsonl.gz": {
+      "bytes": 4917649,
+      "sha256": "52ac552be9215dc32bbbf820339c2a4b86e6626e51b7005ff8546eefae405dde"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TEST_TRACE/053_c25_test_26_1.jsonl.gz": {
+      "bytes": 4956423,
+      "sha256": "3f9b1763543cfea4fad29cb25de28543b0d1a095859456cc522683f1b8b20467"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TEST_TRACE/054_c25_test_27_0.jsonl.gz": {
+      "bytes": 4513278,
+      "sha256": "7c8f000d84e3ec79c1db4099db36d794893bfae1d52007adf7c677df9c7f2d3f"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TEST_TRACE/055_c25_test_27_1.jsonl.gz": {
+      "bytes": 4561526,
+      "sha256": "6558b9b547add486a89e21c267f1d0421f6d80cd350e6f798e37a21589407f49"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TEST_TRACE/056_c25_test_28_0.jsonl.gz": {
+      "bytes": 5130079,
+      "sha256": "bfa920f7c955e78b601369f3f51511c2d48479873361a1011679d624e3b73fc3"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TEST_TRACE/057_c25_test_28_1.jsonl.gz": {
+      "bytes": 5131954,
+      "sha256": "8a38c15070f8e65fd61cd29518e606ffc42f511ab2a1496ba3749cb979de486b"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TEST_TRACE/058_c25_test_29_0.jsonl.gz": {
+      "bytes": 5141203,
+      "sha256": "9cba63036154e50263387eec85e210abd2179627d13519ca543b01c987fdc640"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TEST_TRACE/059_c25_test_29_1.jsonl.gz": {
+      "bytes": 5127187,
+      "sha256": "265fc5f005bb38798d18c0cdcd0d6c3249dd93d2d0e25cd7697f00b18e10cb02"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TEST_TRACE/060_c25_test_30_0.jsonl.gz": {
+      "bytes": 5121429,
+      "sha256": "fa540950dee7ae1d422d096144fd24613114828d7e2ff2c6c63fda79b78a9e04"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TEST_TRACE/061_c25_test_30_1.jsonl.gz": {
+      "bytes": 5133846,
+      "sha256": "5f3d395e331ab3f5b422383a5d50298da8540f563876291753bb57c086cbf58a"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TEST_TRACE/062_c25_test_31_0.jsonl.gz": {
+      "bytes": 4980708,
+      "sha256": "11e7641eb484411932f0e551bee7f72619a6f31ddcf8290f8d90a42b21921bf3"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TEST_TRACE/063_c25_test_31_1.jsonl.gz": {
+      "bytes": 4963533,
+      "sha256": "dca7a9ee705fcfcf0cd9a865eab950cb6d6e7c1359c658376cb7632a01a6fd66"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TEST_TRACE/064_c25_test_32_0.jsonl.gz": {
+      "bytes": 5227539,
+      "sha256": "60b81309fe9c0375eeb7ea84beb50cd95c46ce5a6a15b6b449d89cc19c0991e5"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TEST_TRACE/065_c25_test_32_1.jsonl.gz": {
+      "bytes": 5227653,
+      "sha256": "34208c37084b93ae47a06c1a51a3a548bccef06b8d19d325f516d07ef211c17e"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TEST_TRACE/066_c25_test_33_0.jsonl.gz": {
+      "bytes": 5226319,
+      "sha256": "7428b47eba647970787028afac2a241987f4402be65538dfe8072e504f192311"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TEST_TRACE/067_c25_test_33_1.jsonl.gz": {
+      "bytes": 5215926,
+      "sha256": "a216d034e8e9cf4514e7fb65f0896389868511d91666d54aae9fe390890c1bb0"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TEST_TRACE/068_c25_test_34_0.jsonl.gz": {
+      "bytes": 5221614,
+      "sha256": "b1832623e6f660e144924d1fd1da3956e1133443c041ce431e2402a2d05d3dbe"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TEST_TRACE/069_c25_test_34_1.jsonl.gz": {
+      "bytes": 5225787,
+      "sha256": "f6359ae6851de574db0cae2801095bbc31cd32ddeec58472c9aec1fbb5bf9488"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TEST_TRACE/070_c25_test_35_0.jsonl.gz": {
+      "bytes": 5165918,
+      "sha256": "130a72c01f1cf430a9d3184ad86633e3da516fd56014cccf13a01b2fdb78e306"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TEST_TRACE/071_c25_test_35_1.jsonl.gz": {
+      "bytes": 5183673,
+      "sha256": "b6bd64ea58a6d40d5b924b519060839b6a1589d290d3b0ffdd3ba569380fda88"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TEST_TRACE_STDERR.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TRAIN_COST_PREDICTOR.json": {
+      "bytes": 31267,
+      "sha256": "e420c6c87e597b0e03e5b32442d66a1cbda1f20b56fdee986151aacae3537263"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TRAIN_PARENT_METRICS.json": {
+      "bytes": 1652995,
+      "sha256": "c6e66e85cee9b076d8c788fb29e965374be84a6190bb97e7e1860c2af72fdb1a"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TRAIN_SUMMARY.json": {
+      "bytes": 232010,
+      "sha256": "9b2c037352c7d10de2eedf8b4ffc786a78e5b99a3f585f5efc7967845180f5e9"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TRAIN_TIMING.manifest.json": {
+      "bytes": 29982,
+      "sha256": "23cc13ffee95f587ac634ba7be0d15eaffd563fe4fd26b99b539090219074c4d"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TRAIN_TIMING/000_c25_train_00_0.jsonl.gz": {
+      "bytes": 5816,
+      "sha256": "625fc74e3d1069449ab1c996efd817bb95354c03d25462e826c292884b0e05c3"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TRAIN_TIMING/001_c25_train_01_0.jsonl.gz": {
+      "bytes": 5970,
+      "sha256": "7203e19cbe299059f4091dad32b45f0e57b0bb6d35c2f1119d8ff18a9aff2b31"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TRAIN_TIMING/002_c25_train_02_0.jsonl.gz": {
+      "bytes": 6626,
+      "sha256": "f69df31dbb080afbd083879511c3d7096935b83228563fa9c71c6112be5d6c9a"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TRAIN_TIMING/003_c25_train_03_0.jsonl.gz": {
+      "bytes": 7304,
+      "sha256": "60faaffb3129ce08afa0b8ac38c06d24ef8e4e6795a881c7c3f78087ca60d179"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TRAIN_TIMING/004_c25_train_04_0.jsonl.gz": {
+      "bytes": 6005,
+      "sha256": "54e7ead8b780ea715b749fb4da5c4f307cbdb36582efe6dc4fc8a1ca6fddfb8f"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TRAIN_TIMING/005_c25_train_05_0.jsonl.gz": {
+      "bytes": 5767,
+      "sha256": "a420dfab8fbf8dacd25b200ac45cc4c2625e68fc88be8d286a046f6a62c3c57b"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TRAIN_TIMING/006_c25_train_06_0.jsonl.gz": {
+      "bytes": 6420,
+      "sha256": "1237f433b144ba74b5980d54a6adb19861a5ef94dc94744b55c3c348f6dbe6f6"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TRAIN_TIMING/007_c25_train_07_0.jsonl.gz": {
+      "bytes": 7298,
+      "sha256": "ae8207abe55c2e658c025ec961740cd52a699158b8f7f3117fb58d9653c54ed4"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TRAIN_TIMING/008_c25_train_08_0.jsonl.gz": {
+      "bytes": 5944,
+      "sha256": "9b52142aabc1de22dce84270fd919132074e016e4f5f130dde63f69fa954867b"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TRAIN_TIMING/009_c25_train_09_0.jsonl.gz": {
+      "bytes": 6679,
+      "sha256": "03358731f727e3804c0c9daca21594f7d0288aa9d2e69d09e8255c9ca096247e"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TRAIN_TIMING/010_c25_train_10_0.jsonl.gz": {
+      "bytes": 6682,
+      "sha256": "e7ea9bceed71161355369a23bb9577ddcb8dd19312080d75b009346b6b0793af"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TRAIN_TIMING/011_c25_train_11_0.jsonl.gz": {
+      "bytes": 6528,
+      "sha256": "69a2380ed1a42e36b62cfdaaabf4b86f47ba15e711b392932bb3642b265785b5"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TRAIN_TIMING/012_c25_train_12_0.jsonl.gz": {
+      "bytes": 6824,
+      "sha256": "44faaab23afdfe793f22a353d087c2b650a4bd6c1c6d8a4a88f2cba95f37b6f6"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TRAIN_TIMING/013_c25_train_13_0.jsonl.gz": {
+      "bytes": 6121,
+      "sha256": "ef91463cc969eb4f2666d0ef1c953f4e303d96292a1024570c9de723ed62e610"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TRAIN_TIMING/014_c25_train_14_0.jsonl.gz": {
+      "bytes": 8008,
+      "sha256": "bad16c1868673cad26b8689e8654d088534e555bd3ad303ef8cca1c043cdc3dc"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TRAIN_TIMING/015_c25_train_15_0.jsonl.gz": {
+      "bytes": 8407,
+      "sha256": "5134e26ace3935480fdc84f7c816b5374264e12cae9620d135cdf6923e2f93a4"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TRAIN_TIMING/016_c25_train_16_0.jsonl.gz": {
+      "bytes": 6728,
+      "sha256": "fe23284e1ebcb48961ded2c25c363ee20374e7764b5dfdf35f76e2b0f42f049f"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TRAIN_TIMING/017_c25_train_17_0.jsonl.gz": {
+      "bytes": 6890,
+      "sha256": "7b97dc16185c45aa965ef0b72033b8f3a19a931bed2413089b35d1094a5c716f"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TRAIN_TIMING/018_c25_train_18_0.jsonl.gz": {
+      "bytes": 7694,
+      "sha256": "84096a22f39ce192ce56d50a73b4a226cf8adbf4344fab4cb1b05e3779104a75"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TRAIN_TIMING/019_c25_train_19_0.jsonl.gz": {
+      "bytes": 7946,
+      "sha256": "c61d7dadefba40289482596927cd5fbce2c2c888499b8a359a918636316b3f3b"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TRAIN_TIMING/020_c25_train_20_0.jsonl.gz": {
+      "bytes": 8004,
+      "sha256": "617e23fea949b18d2b0d0393ba3b6f5b1b2260cef66730657a2af02692b57278"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TRAIN_TIMING/021_c25_train_21_0.jsonl.gz": {
+      "bytes": 7848,
+      "sha256": "17803d2635ed58992298da7e4ad89bfa94631313659ba34e8937ab89de3c5097"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TRAIN_TIMING/022_c25_train_22_0.jsonl.gz": {
+      "bytes": 7728,
+      "sha256": "cb969ed710ba054aec895ff6bccb8caf2873d67bb1f66ff9efcb018849406983"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TRAIN_TIMING/023_c25_train_23_0.jsonl.gz": {
+      "bytes": 8180,
+      "sha256": "5c0efdfcf82cff14af124663f09d7f1324c2d6e707628263508520edb8eb4794"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TRAIN_TIMING/024_c25_train_24_0.jsonl.gz": {
+      "bytes": 7313,
+      "sha256": "52682ab0612ff5317b1ac6078d56e1c1cd84b36b3b88a1375e43c797b7443aee"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TRAIN_TIMING/025_c25_train_25_0.jsonl.gz": {
+      "bytes": 7306,
+      "sha256": "014d8cdab135e109e45e3b044a94cd354a05d9d887cc03b86184ae6e1db8bd5a"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TRAIN_TIMING/026_c25_train_26_0.jsonl.gz": {
+      "bytes": 8184,
+      "sha256": "67ea55f49601e9b3c155ecd7a32f9b1467606cf48700527bdba7982804fb2755"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TRAIN_TIMING/027_c25_train_27_0.jsonl.gz": {
+      "bytes": 8704,
+      "sha256": "55678fd241fdbaa75875d1861fd0a815f042d46a4b0fdddd1e2538c945ba0616"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TRAIN_TIMING/028_c25_train_28_0.jsonl.gz": {
+      "bytes": 8325,
+      "sha256": "d6edf918cc2ee253879336ee614fdf1366fc1298289d662440d40b2c2ed86846"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TRAIN_TIMING/029_c25_train_29_0.jsonl.gz": {
+      "bytes": 8615,
+      "sha256": "44c54362a289b839164bf06de3ac539fa5855cead712d2b6e62e8b42216e6224"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TRAIN_TIMING/030_c25_train_30_0.jsonl.gz": {
+      "bytes": 8936,
+      "sha256": "da447109584341026e7ea5121e890b198150e2f09fd32bac74279c46cfce47b7"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TRAIN_TIMING/031_c25_train_31_0.jsonl.gz": {
+      "bytes": 9344,
+      "sha256": "5f0a76cde8208367c162c378e9000395a5d3106c371d7123b56cdb28dee225f1"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TRAIN_TIMING/032_c25_train_32_0.jsonl.gz": {
+      "bytes": 8550,
+      "sha256": "a949c561d1055e0f297f85dc1146c9c84cd1b1420971b2178e5cb644f6d4a0ae"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TRAIN_TIMING/033_c25_train_33_0.jsonl.gz": {
+      "bytes": 8683,
+      "sha256": "9a682238fcf3ab38fb2bfe0c8578b58fe1634c94081f0933b06d612fd346475d"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TRAIN_TIMING/034_c25_train_34_0.jsonl.gz": {
+      "bytes": 9014,
+      "sha256": "b8217a3e0c20bb9dc162370d4bfba049fb6df3b150b8df6700ef9ac68b38673b"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TRAIN_TIMING/035_c25_train_35_0.jsonl.gz": {
+      "bytes": 9006,
+      "sha256": "b4be7b9f0e15c88a0418d653e8b21a1f95995fc009794a8c9ae50a032e8bba5c"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TRAIN_TIMING_STDERR.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TRAIN_TRACE.manifest.json": {
+      "bytes": 20963,
+      "sha256": "9b7207f2b84141b8d3ad809bf795bc1182b6adbfd92c3ed9aeebb0f5d8f8fad8"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TRAIN_TRACE/000_c25_train_00_0.jsonl.gz": {
+      "bytes": 16680,
+      "sha256": "4f10bde06fc5076eb6cefcb369bc3262b35666a1c6beb0e5c5279fefb237abb1"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TRAIN_TRACE/001_c25_train_01_0.jsonl.gz": {
+      "bytes": 16606,
+      "sha256": "6d909e338c750b9c46c98a86a87e34dfdd8dede24b4bd9ada927a79352f01934"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TRAIN_TRACE/002_c25_train_02_0.jsonl.gz": {
+      "bytes": 20797,
+      "sha256": "4e7452ea2de2dd88622073c6d0a89359d905067348421690dca7fc09f3c010a9"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TRAIN_TRACE/003_c25_train_03_0.jsonl.gz": {
+      "bytes": 17774,
+      "sha256": "262f262b0473aea17c409253858f7fe0cb1c87b4d79a055ad4fa20bc393e359c"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TRAIN_TRACE/004_c25_train_04_0.jsonl.gz": {
+      "bytes": 16662,
+      "sha256": "024a297000527257437a6f903ea9319567ca7ac8d4a8a2ac3a8ff38589d2d7b7"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TRAIN_TRACE/005_c25_train_05_0.jsonl.gz": {
+      "bytes": 16616,
+      "sha256": "c958012db16500a6a7304243d0b63969b6fff126ce41e2f70e4156a1e997df69"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TRAIN_TRACE/006_c25_train_06_0.jsonl.gz": {
+      "bytes": 20941,
+      "sha256": "f49a79435aa606879bd390a0d2fa88d6fa5d4f03c1bb09b22219bb5095610ff2"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TRAIN_TRACE/007_c25_train_07_0.jsonl.gz": {
+      "bytes": 19855,
+      "sha256": "c88ebb5e3ff8b1758fd7ec171e423688a4fec96ae73024f8bc1e660d330c523c"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TRAIN_TRACE/008_c25_train_08_0.jsonl.gz": {
+      "bytes": 16579,
+      "sha256": "e4585c437c9b29e3f918c6c58bb8389ebb2558413d2453609d99dbbdfbd96e89"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TRAIN_TRACE/009_c25_train_09_0.jsonl.gz": {
+      "bytes": 20931,
+      "sha256": "e7700637e9a31fb65870d1ebb53aad5804d0eb13f56363c498d7885bde78e4f5"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TRAIN_TRACE/010_c25_train_10_0.jsonl.gz": {
+      "bytes": 20768,
+      "sha256": "750ccaa842c8e26129a0364b1dfc3948d0775b13afc52b673be4a125754a3a00"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TRAIN_TRACE/011_c25_train_11_0.jsonl.gz": {
+      "bytes": 19811,
+      "sha256": "7267ccf2ab5807d6b6f184ed8196118a933bcd0ae300e52c7132572dd8ffa3eb"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TRAIN_TRACE/012_c25_train_12_0.jsonl.gz": {
+      "bytes": 589354,
+      "sha256": "53c3a1da9b502ac54eecd2cfa03de57273184133ce461ab3e37e991946d1965c"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TRAIN_TRACE/013_c25_train_13_0.jsonl.gz": {
+      "bytes": 588556,
+      "sha256": "128d52fe4180a5caf2c5efb19e6b81e5c5d885a84ea02f11f2886f0cb1bd46f3"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TRAIN_TRACE/014_c25_train_14_0.jsonl.gz": {
+      "bytes": 590594,
+      "sha256": "eaa123b662fada9deff5e171e770da6204ef25fb71417f500e7f88fe85c38dea"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TRAIN_TRACE/015_c25_train_15_0.jsonl.gz": {
+      "bytes": 450055,
+      "sha256": "6ea40625a595e27e4597f82bfcfca60ce6b1e5f417a86a5f2a8a45f4ddc6b02a"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TRAIN_TRACE/016_c25_train_16_0.jsonl.gz": {
+      "bytes": 598589,
+      "sha256": "2077ae928835378851f68f315aa63ecd20a5be3c830286ecbdeecc78b4d92a0f"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TRAIN_TRACE/017_c25_train_17_0.jsonl.gz": {
+      "bytes": 599616,
+      "sha256": "fdc93c09b3e9915881711ba7f6db4ef0f28c01ce727ee4af14445edd9df1516e"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TRAIN_TRACE/018_c25_train_18_0.jsonl.gz": {
+      "bytes": 600242,
+      "sha256": "07dfd2483b3a811a8ebe9541fe9ad201b40f69f3da4d8b81a5c1a013c27236e2"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TRAIN_TRACE/019_c25_train_19_0.jsonl.gz": {
+      "bytes": 478168,
+      "sha256": "9529d648b17a3ea9e4a3334697a776653f22f854bfa63e8d6cf581a42f1f7221"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TRAIN_TRACE/020_c25_train_20_0.jsonl.gz": {
+      "bytes": 599327,
+      "sha256": "dcb0861b3cfb20668f96cd026fe9756737f7d50564ae1068086d8594708d734f"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TRAIN_TRACE/021_c25_train_21_0.jsonl.gz": {
+      "bytes": 600073,
+      "sha256": "020bdfd2902b2888e9c884637f105d86d6b94dd34cc124f937ee3cb669dd2202"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TRAIN_TRACE/022_c25_train_22_0.jsonl.gz": {
+      "bytes": 603586,
+      "sha256": "fadbc4dcfd4d0622aa1e33804ea48312ee6d0f27779c1b376006c7a6ee5b42a0"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TRAIN_TRACE/023_c25_train_23_0.jsonl.gz": {
+      "bytes": 548239,
+      "sha256": "2e319affdc4253d35fa21dbc368052d7654bda58fd6f225947ba91854aa85b12"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TRAIN_TRACE/024_c25_train_24_0.jsonl.gz": {
+      "bytes": 4933756,
+      "sha256": "d57bdc6412c87c89cd3eee152dbe2da0e1b44f7a55e81c7d113d8a23e38baf52"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TRAIN_TRACE/025_c25_train_25_0.jsonl.gz": {
+      "bytes": 4936203,
+      "sha256": "7511327c255337ef7b3ea0633bed0839f3626773d4ea82af38d35c0e9b9a4176"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TRAIN_TRACE/026_c25_train_26_0.jsonl.gz": {
+      "bytes": 4877661,
+      "sha256": "6f592f34eba14d8ba99f4259ee7102ce96c7a1d1553470881089a1217abe86fe"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TRAIN_TRACE/027_c25_train_27_0.jsonl.gz": {
+      "bytes": 4344231,
+      "sha256": "b866a26cab99cc2b09060ddd7cbe77eec0edd1a79d76f071b6d5295a9a5c2f9d"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TRAIN_TRACE/028_c25_train_28_0.jsonl.gz": {
+      "bytes": 5125352,
+      "sha256": "4b8ca7575084eb55672f2e02e4d08eafae449018202bdc3bc83be3e88fb72fe3"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TRAIN_TRACE/029_c25_train_29_0.jsonl.gz": {
+      "bytes": 5143419,
+      "sha256": "37e82f75807c50deb5cce2cab3dcfcf24fcbb2218e6c5f2e4dd27e9a3e5b9c9d"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TRAIN_TRACE/030_c25_train_30_0.jsonl.gz": {
+      "bytes": 5127128,
+      "sha256": "d8cec68aad6a7b387ced3d452fb2ba059a6fdfddbb6f53ddb17ab53e1b65db9c"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TRAIN_TRACE/031_c25_train_31_0.jsonl.gz": {
+      "bytes": 4912239,
+      "sha256": "27d1aa5d6c06eb5c05d65d13314e572d884f389908a25620ca69c94881208f1b"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TRAIN_TRACE/032_c25_train_32_0.jsonl.gz": {
+      "bytes": 5213885,
+      "sha256": "fe8dfe2f2cb2ea66938ea330b8c1461fa4af2623c441285ac9aff2d50145a048"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TRAIN_TRACE/033_c25_train_33_0.jsonl.gz": {
+      "bytes": 5210904,
+      "sha256": "165a2d4c0be10cd108ae465becb6b110f4e5bb31ad5b085cde3d2b131c3b3bc3"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TRAIN_TRACE/034_c25_train_34_0.jsonl.gz": {
+      "bytes": 5222668,
+      "sha256": "4ca0a3a6a2271d1a71736f120c2d657638affe4ac57c07fadf232d0cf0058b15"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TRAIN_TRACE/035_c25_train_35_0.jsonl.gz": {
+      "bytes": 5172396,
+      "sha256": "836d66eb1d5959ec0a0b9b56bbaac99c0ad6182cff67d784662adcad498f8c4b"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_TRAIN_TRACE_STDERR.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_UNIT_PARENT_METRICS.json": {
+      "bytes": 227935,
+      "sha256": "e12d08aafb77efe675fc1ebd7f4abcf8687809c0ede99503b35112587b6faef4"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_UNIT_SUMMARY.json": {
+      "bytes": 236984,
+      "sha256": "6227bcc98de7f70aed23fc10511564e920cb6e12d57991426e3afa15a2d2d33b"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_UNIT_TIMING.manifest.json": {
+      "bytes": 17490,
+      "sha256": "ead2c812c303e73363cbce7ee3b6edf96cf3255a57f737fe66ca7fc13c77bc02"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_UNIT_TIMING/000_c25_unit_00.jsonl.gz": {
+      "bytes": 4552,
+      "sha256": "5734794628c08614dedc5a467f0b693203bd1cb3f8e2cd0b1753f3dfaf171782"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_UNIT_TIMING/001_c25_unit_01.jsonl.gz": {
+      "bytes": 5519,
+      "sha256": "629c42906372b7d6eb68c251336ee359d15a97a53441b5eb57283a8f91a5e509"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_UNIT_TIMING/002_c25_unit_02.jsonl.gz": {
+      "bytes": 6062,
+      "sha256": "322599162e9b7afd990ed08ed11d5cf90461534f41021577ca86b66d6267ead4"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_UNIT_TIMING/003_c25_unit_03.jsonl.gz": {
+      "bytes": 6793,
+      "sha256": "2c44c2a3157731d836e48b961854b9e73621adfaf2fb31a7c693450729b9ac8a"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_UNIT_TIMING/004_c24_test_34_1.jsonl.gz": {
+      "bytes": 9488,
+      "sha256": "df6334624e3fc2aad6b3065aaa86268e015eb7aa5a48458b1ff75c129ae82033"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_UNIT_TIMING_STDERR.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_UNIT_TRACE.manifest.json": {
+      "bytes": 15764,
+      "sha256": "65cd551603af59234eeb07004b7c695a8131f147ee50e92a8fbebef444e5b9b4"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_UNIT_TRACE/000_c25_unit_00.jsonl.gz": {
+      "bytes": 2079,
+      "sha256": "52ddf4641562355bace22ab1dae6ee5697d8e1785e37a0358b2e3a3cd5d4431f"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_UNIT_TRACE/001_c25_unit_01.jsonl.gz": {
+      "bytes": 3027,
+      "sha256": "787c4047bd722e9678774e205e3beb245316ca04557adc3a2bb963ccf856abd6"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_UNIT_TRACE/002_c25_unit_02.jsonl.gz": {
+      "bytes": 4078,
+      "sha256": "276ef42ffda68ebf8aafbe6e3fa60b83bbbb81cc4a02344654127c5e0ef207d5"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_UNIT_TRACE/003_c25_unit_03.jsonl.gz": {
+      "bytes": 21100,
+      "sha256": "1ae13b1da9eff823a37d45d0070c7e0757fbb17f69ca44e76130808e0f96954e"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_UNIT_TRACE/004_c24_test_34_1.jsonl.gz": {
+      "bytes": 5228066,
+      "sha256": "cb2cdcf343d7b05bbcc4c1da848879f273e223b550a9ab0f097fb95f353bf605"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_UNIT_TRACE_STDERR.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_VERIFY_CAL_TIMING.json": {
+      "bytes": 6625,
+      "sha256": "b624e11521c477da4be08e10abf6fcc080e7ea3f0fcf82bc9fa1e38beb3d20fc"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_VERIFY_CAL_TRACE.json": {
+      "bytes": 6792,
+      "sha256": "8d0afca263a7e740cf1bbe45484dd394e1f25d326d55f68b30ebf5c462b0fa6e"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_VERIFY_TEST_TIMING.json": {
+      "bytes": 10954,
+      "sha256": "611a3797097348e033c30d0d2f4eec77ef24980247db110d638658e7a515db87"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_VERIFY_TEST_TRACE.json": {
+      "bytes": 11299,
+      "sha256": "8e169a7a5285e50c71bac9e06a16208b3067814985beec8f6b19bb1bd6c79947"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_VERIFY_TRAIN_TIMING.json": {
+      "bytes": 6676,
+      "sha256": "d711f583178e3447fa03c38143fa1d8a9dbe29639c9c926a65a496b10607f018"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_VERIFY_TRAIN_TRACE.json": {
+      "bytes": 6805,
+      "sha256": "a00112c1a1739c20e17130dc2fef060fea2f05c6c524543f090dbde8ec62898f"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_VERIFY_UNIT_TIMING.json": {
+      "bytes": 2919,
+      "sha256": "3fe1e17634f2ee718f5edb51db040cbe839942583d7f521538f3eb316df6e80a"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/C25_VERIFY_UNIT_TRACE.json": {
+      "bytes": 3191,
+      "sha256": "e938a3311a556951db3639c3b53341e456970e0ce82d9aea5cf5b53084348c14"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/PYTHON_ANALYSIS_RED.json": {
+      "bytes": 332,
+      "sha256": "32fc001496462cc3c9fde002db618b366ae2928fd2a48c823c283ff1f376f459"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/PYTHON_ANALYSIS_RED.log": {
+      "bytes": 1660,
+      "sha256": "e7b8d4ef2f562829563f22bf31c9df313856df08aacbc13682c911de80372450"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/PYTHON_GREEN.json": {
+      "bytes": 278,
+      "sha256": "7af775197947d71f9fee7b7ad5b1fc427da2e8a510ffb2777b3d6b9b5cd90908"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/PYTHON_GREEN.log": {
+      "bytes": 2498,
+      "sha256": "dc8a748b1cc713b9ee3becbef14aa0128e9c11bfa506cff94828d5e1a1ba50d2"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/PYTHON_HANDOFF.json": {
+      "bytes": 3874,
+      "sha256": "6e91c122fba06588469454b239f58906d4b5aa0a7cd7c18d6215e8988083a5b7"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/PYTHON_RED.json": {
+      "bytes": 294,
+      "sha256": "df4ffdc0ef4f5656d2822a98473bd13e7541e67e92c07f382871c4b7f42b924b"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/PYTHON_RED.log": {
+      "bytes": 8826,
+      "sha256": "e928e1747a25c6ebcaf6afcbab347dda7eb4e9bd281752163a89ecbfbcb2dc74"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/R01_PUBLICATION_REPAIR.json": {
+      "bytes": 883,
+      "sha256": "5cfb9f6028674d42147f04db133e3d89c5bb20297c8238c7b237f396163a1dc6"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/R07_EXACT_CROSSCHECK.json": {
+      "bytes": 461,
+      "sha256": "86e98bd4a0ab389221d601f99a61e9ba7d89ad090c1095cde7a0700e039683d4"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/R07_WOLFRAM.json": {
+      "bytes": 1074,
+      "sha256": "ca0a2fc79c87dc0af4f51a8e86bdf0a9285609157cd49697f3e5f6613f5c6be1"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/R07_WOLFRAM_FIRST.json": {
+      "bytes": 587,
+      "sha256": "e57fc4a1f8d6e81c41f622bcb23479829b5bb77a49ed99f5a65fa2b93c487f4b"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/RUN_CAL_00.log": {
+      "bytes": 3959,
+      "sha256": "f9fdb1b2411d48f5ad3a2f530d6b2f632827be358a891e20e204c0368f5f8d50"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/RUN_CAL_01.log": {
+      "bytes": 2997,
+      "sha256": "92cc551f9ed1e7e43c1064dc0a4a77f0c6206c150af5e940974657ec7defca0a"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/RUN_CAL_02.log": {
+      "bytes": 2927,
+      "sha256": "153b7ad25bf2307c846e9b27874c3b29f6826e913a6ad3ce93794db6f1f7697d"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/RUN_CAL_03.log": {
+      "bytes": 6460,
+      "sha256": "35e2b3f6187249b7eb0502ebb2bebd433cfeeacc094b92b831fcc66c052c7562"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/RUN_CAL_04.log": {
+      "bytes": 6313,
+      "sha256": "cd66858ffcf4f3a52fa941230bba4b754dc2ae84980776ee2fc28a64ca04eae8"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/RUN_CAL_05.log": {
+      "bytes": 2366,
+      "sha256": "d18513a917c524512a4419839654236978f43a156bfc784e1eca96d7b145870d"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/RUN_CAL_COMMANDS.json": {
+      "bytes": 4139,
+      "sha256": "e8cdeca21440877129475b012261c2bc8787880cdc34a4d1dbf98961ab565864"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/RUN_TEST_00.log": {
+      "bytes": 6017,
+      "sha256": "ea03cbe60cf559ae98fede450ba1bf7866291e316fab0694850b2af652571c1a"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/RUN_TEST_01.log": {
+      "bytes": 5843,
+      "sha256": "4e6173afa20f0a2145de14397c5822fd1d44eff9a1772f1f5f4a58f6f44e78bb"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/RUN_TEST_02.log": {
+      "bytes": 5701,
+      "sha256": "60873974bb382f1f733fb93fc311b9acbbe9f7e02ae4be662a7acfcc801955c4"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/RUN_TEST_03.log": {
+      "bytes": 10763,
+      "sha256": "442ffdfa1bd5348bd54537aaf131862f84e0003c882519f59f717e830f93df4d"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/RUN_TEST_04.log": {
+      "bytes": 10498,
+      "sha256": "2ae0d76ce48388c267e04b4a78056970c8152adaf413c66ed67fa7dbbf0688fb"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/RUN_TEST_05.log": {
+      "bytes": 2373,
+      "sha256": "e9e0a144dc98d796614f68e0fccaf68f38323713bf441996df1d8e7d7dfad6c4"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/RUN_TEST_COMMANDS.json": {
+      "bytes": 4151,
+      "sha256": "567c89e28aaae47a02f6f02c82253972e86c5bcad6ddda895ea8cbc43612e43e"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/RUN_TRAIN_00.log": {
+      "bytes": 4115,
+      "sha256": "8b0ca7709e00c4dc3c1af455de0703354be6b6307b1c13e00388fe1dffbd2b7c"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/RUN_TRAIN_01.log": {
+      "bytes": 3071,
+      "sha256": "47f312823759aa5eb14aba24a5ffe8473ef2f5311229dbe0a0a6791b4bfe14f5"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/RUN_TRAIN_02.log": {
+      "bytes": 3001,
+      "sha256": "3a95787dcddc445e2653b78eaa5d3c283deb0b7c80c366b6038e70c406f62d7c"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/RUN_TRAIN_03.log": {
+      "bytes": 6481,
+      "sha256": "752cf86b9297c7dd48a7751f16a538014434928c39de9bd8462196ad5aa79dca"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/RUN_TRAIN_04.log": {
+      "bytes": 6368,
+      "sha256": "30c785d3e6ab5130641e1a6c13befc3ce7bb168ffa20677f09075349d59dff96"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/RUN_TRAIN_05.log": {
+      "bytes": 1046,
+      "sha256": "9d5d9c297ed01feab3ae833696d46f397a7a59708ae95e4df6737da799733821"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/RUN_TRAIN_06.log": {
+      "bytes": 2362,
+      "sha256": "b89b8698b19e8591fdea3e2a282b72352fa5291fdaf60a415b516a820213b63c"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/RUN_TRAIN_COMMANDS.json": {
+      "bytes": 4752,
+      "sha256": "dac423f6d893384467a04808c70a4d984ce7f4f47a83554290d60b3f31027182"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/RUN_UNIT_00.log": {
+      "bytes": 5465,
+      "sha256": "2bf44084433f2972f7d074cb776dff274acad3eb9a963851b5cbbcd68d26f42d"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/RUN_UNIT_01.log": {
+      "bytes": 628,
+      "sha256": "0ec7d75ef50da17dbdedb32cf04b8fd4a806d4beea3ab4f6bebfcbb80ccc4384"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/RUN_UNIT_02.log": {
+      "bytes": 626,
+      "sha256": "e860a6f062b078f0a5557ff0f1ccc73cf60ff1893e9d5008028505df94de27c7"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/RUN_UNIT_03.log": {
+      "bytes": 2955,
+      "sha256": "4cd47391a2b0483bd62b6d518bc762e7c38be0f8a8c93d8e71a88314fd91be3f"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/RUN_UNIT_04.log": {
+      "bytes": 2735,
+      "sha256": "b8729a20e618564489ce5ce156071bdc3446031d51bde5befdd17ac318cee87a"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/RUN_UNIT_05.log": {
+      "bytes": 2315,
+      "sha256": "a187931b5e3dc9c160df9ff9dc9f37e3a71f49b65882097a2abc5524e3691e79"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/RUN_UNIT_INTEGRATION.json": {
+      "bytes": 2430,
+      "sha256": "212c089f65b13c6d5880d8adfeafd343c423c588d3eb602c2609fd261fb665d8"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/evidence/SOURCE_UNIT_REGRESSION.json": {
+      "bytes": 5211,
+      "sha256": "b5893cec06c665645fd61fccdc9652d40d734d26c944e6a04bb60e3eed3576d2"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/figures/C25_TEST_DECISIONS.png": {
+      "bytes": 210664,
+      "sha256": "775ce6ed844f31846548c759c49441fc6a487959ec56415660b9839acd490056"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/figures/C25_TEST_DECISIONS.svg": {
+      "bytes": 130492,
+      "sha256": "75b1b5792ac0f199a95f789912f5b843674ea9e1e98ec418dc71aeaea7c2e757"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/review/C09_PYTHON_TESTS.log": {
+      "bytes": 2498,
+      "sha256": "8d79b565126e3c9b6a1e0286d27ccc4257692789cdb1101e5c4b76131214d5a1"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/review/C09_REVIEW.md": {
+      "bytes": 18207,
+      "sha256": "c0aa34c17a96885f463fc611072d34d5e6f8c780fa3ae7e578130836d7927977"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/review/C09_REVIEW_CHECKS.json": {
+      "bytes": 112830,
+      "sha256": "de812b030dc8807819b8ac460dee4e05315431243664cf4950bc745275702d3d"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/review/C09_REVIEW_CHECKS.py": {
+      "bytes": 23243,
+      "sha256": "a3b00b095d4adc3714455bcc063255c8866b41ec1ff155b59ff14cc6f0ed84d6"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/theory/DERIVATION.md": {
+      "bytes": 23226,
+      "sha256": "70af947d6115dae5f68ef50f6b5e22f82143c25f0454f6079ddaf0ac6af535e8"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/theory/LITERATURE.md": {
+      "bytes": 12944,
+      "sha256": "620127bc16a661553145e2c565548b41a38b3398d12105e0e73e54f9d0b8f888"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/theory/R06_PARENT_CHECK.md": {
+      "bytes": 1762,
+      "sha256": "1cd74833e8790a8e74f8c5ee0825bf8d987d7f030c4ecab6942e82f0b15556a6"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/theory/check_r07.py": {
+      "bytes": 2462,
+      "sha256": "11b3f97056b8fb787c0535168148ea5d8fe748bd0b602925eb930f7fe5ecfdfd"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/theory/quartz_c25_theory_examples.json": {
+      "bytes": 6026,
+      "sha256": "264095c87e5abd5d14b08ce79c569cf8055521cb8717725aec375ac0f7586fd6"
+    },
+    "docs/research/quartz_general_incumbent_price_20261123/theory/quartz_c25_theory_examples.py": {
+      "bytes": 5681,
+      "sha256": "a2cd549188313bcdd9fe38d429f5e3fbf9edb6012f7a1229dbab5bb28befb2db"
+    },
+    "scripts/quartz_general_c25_publish.py": {
+      "bytes": 2915,
+      "sha256": "6e5607ae3b265d7c4f0c29df034c948156f11abb5808805b097501e4101f5b0e"
+    },
+    "src/bin/quartz_c25_incumbent_price.rs": {
+      "bytes": 84842,
+      "sha256": "84c3937e42836431145fbde74999a57f98540e6b65760f2d71c6a4f78271a8d8"
+    },
+    "tests/test_c25_sources.py": {
+      "bytes": 11673,
+      "sha256": "99213bbc8fa820181d8d28b8c58ed4592b8d5e2d44b711baa824e76dda6d626e"
+    }
+  },
+  "parent": "4998c771c08788e4f0da8d2723347121ae16fbf2",
+  "relative_to": "repository root",
+  "schema": "quartz.c25.artifacts.v1",
+  "self_excluded": "docs/research/quartz_general_incumbent_price_20261123/ARTIFACTS.json"
+}
