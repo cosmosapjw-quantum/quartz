@@ -17,3 +17,7 @@ Original source mechanisms and primary papers are mapped to actual C26 construct
 ## R03 — completed
 
 Defined root-frame exact utilities, paid recognition/initial verification, permitted runtime information, product-prior closure and evidence tiers. The initial selector is ordinary rollout mean; the constructor's earlier prior-mean baseline is superseded explicitly. See theory/R03_DEFINITIONS.md.
+
+## R04 — completed
+
+Compared six explicit constructions and selected exact-query VOC/Pandora plus sampled Gibbs, with source-grounded fluctuation and Markov diagnostics. The two-box example separates greedy net, reservation ordering and a binding budget. See theory/R04_CANDIDATES.md.

@@ -19,3 +19,7 @@ The load-bearing sources are the original paper Eq1/Eq2, the retained COG01 veri
 ## R03: operative definitions
 
 The exact known-incumbent target uses the unchanged GameState interface. Four random-play cues predict minimax outcomes through TRAIN calibration. Exact terminal cues are already revealed; the common initial nonterminal query uses highest raw rollout mean. Full definitions and theorem assumptions: theory/R03_DEFINITIONS.md.
+
+## R04: selected construction
+
+For independent exact queries, expected positive excess and reservation values separate stopping from ordering. The two-box example yields 0.59 for Pandora and 0.55 for greedy; a one-query cap reverses the ordering criterion. Gibbs implements the original KL objective as a distinct policy. See theory/R04_CANDIDATES.md.
