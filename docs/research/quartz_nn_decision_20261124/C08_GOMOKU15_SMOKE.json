@@ -1,0 +1,250 @@
+[
+  {
+    "final": {
+      "actual_nn_batches": 8,
+      "actual_nn_rows": 16,
+      "additional_evaluator_calls": 16,
+      "additional_root_visits": 16,
+      "best_move": 173,
+      "evaluator_calls": 25,
+      "iterations": 24,
+      "p_flip": 0.0,
+      "policy": [
+        [
+          173,
+          0.9583333134651184
+        ],
+        [
+          217,
+          0.0416666679084301
+        ]
+      ],
+      "root_hash": "9b06975f3425e37e",
+      "root_visits": 24,
+      "selection_effective_prior_l1_sum": 0.0,
+      "selection_penalty_abs_sum": 0.0,
+      "selection_refresh_selected_count": 0,
+      "selection_root_selects": 0,
+      "stop_reason": "BudgetExhausted { iterations: 24 }",
+      "time_used_ms": 0.0,
+      "wall_ns": 208104039
+    },
+    "id": "6e92de3de6e4f146c5f6769806f5f0f6fca2cd900ff7b0bf661c4c1f549c9d75",
+    "ply": 8,
+    "prefix": {
+      "actual_nn_batches": 9,
+      "actual_nn_rows": 9,
+      "additional_evaluator_calls": 8,
+      "additional_root_visits": 8,
+      "best_move": 173,
+      "evaluator_calls": 9,
+      "iterations": 8,
+      "p_flip": 0.0,
+      "policy": [
+        [
+          173,
+          0.875
+        ],
+        [
+          217,
+          0.125
+        ]
+      ],
+      "root_hash": "9b06975f3425e37e",
+      "root_visits": 8,
+      "selection_effective_prior_l1_sum": 0.0,
+      "selection_penalty_abs_sum": 0.0,
+      "selection_refresh_selected_count": 0,
+      "selection_root_selects": 0,
+      "stop_reason": "BudgetExhausted { iterations: 8 }",
+      "time_used_ms": 0.0,
+      "wall_ns": 151414101
+    }
+  },
+  {
+    "final": {
+      "actual_nn_batches": 8,
+      "actual_nn_rows": 16,
+      "additional_evaluator_calls": 16,
+      "additional_root_visits": 16,
+      "best_move": 173,
+      "evaluator_calls": 25,
+      "iterations": 24,
+      "p_flip": 0.0,
+      "policy": [
+        [
+          173,
+          0.9583333134651184
+        ],
+        [
+          217,
+          0.0416666679084301
+        ]
+      ],
+      "root_hash": "54d591f4ee7b607b",
+      "root_visits": 24,
+      "selection_effective_prior_l1_sum": 0.0,
+      "selection_penalty_abs_sum": 0.0,
+      "selection_refresh_selected_count": 0,
+      "selection_root_selects": 0,
+      "stop_reason": "BudgetExhausted { iterations: 24 }",
+      "time_used_ms": 0.0,
+      "wall_ns": 190674004
+    },
+    "id": "4d822c4f56621dece018612e040d7fe756e86997467eddac198ba5ceb1709720",
+    "ply": 16,
+    "prefix": {
+      "actual_nn_batches": 9,
+      "actual_nn_rows": 9,
+      "additional_evaluator_calls": 8,
+      "additional_root_visits": 8,
+      "best_move": 173,
+      "evaluator_calls": 9,
+      "iterations": 8,
+      "p_flip": 0.0,
+      "policy": [
+        [
+          173,
+          0.875
+        ],
+        [
+          217,
+          0.125
+        ]
+      ],
+      "root_hash": "54d591f4ee7b607b",
+      "root_visits": 8,
+      "selection_effective_prior_l1_sum": 0.0,
+      "selection_penalty_abs_sum": 0.0,
+      "selection_refresh_selected_count": 0,
+      "selection_root_selects": 0,
+      "stop_reason": "BudgetExhausted { iterations: 8 }",
+      "time_used_ms": 0.0,
+      "wall_ns": 150620157
+    }
+  },
+  {
+    "final": {
+      "actual_nn_batches": 8,
+      "actual_nn_rows": 16,
+      "additional_evaluator_calls": 16,
+      "additional_root_visits": 16,
+      "best_move": 173,
+      "evaluator_calls": 25,
+      "iterations": 24,
+      "p_flip": 0.0,
+      "policy": [
+        [
+          173,
+          0.9583333134651184
+        ],
+        [
+          221,
+          0.0416666679084301
+        ]
+      ],
+      "root_hash": "b693933baf27a036",
+      "root_visits": 24,
+      "selection_effective_prior_l1_sum": 0.0,
+      "selection_penalty_abs_sum": 0.0,
+      "selection_refresh_selected_count": 0,
+      "selection_root_selects": 0,
+      "stop_reason": "BudgetExhausted { iterations: 24 }",
+      "time_used_ms": 0.0,
+      "wall_ns": 202695611
+    },
+    "id": "ed3816ab87e8c64947470989cd570aa2e68738fa5928f8f1ccb60db17a49b471",
+    "ply": 24,
+    "prefix": {
+      "actual_nn_batches": 9,
+      "actual_nn_rows": 9,
+      "additional_evaluator_calls": 8,
+      "additional_root_visits": 8,
+      "best_move": 173,
+      "evaluator_calls": 9,
+      "iterations": 8,
+      "p_flip": 0.0,
+      "policy": [
+        [
+          173,
+          0.875
+        ],
+        [
+          221,
+          0.125
+        ]
+      ],
+      "root_hash": "b693933baf27a036",
+      "root_visits": 8,
+      "selection_effective_prior_l1_sum": 0.0,
+      "selection_penalty_abs_sum": 0.0,
+      "selection_refresh_selected_count": 0,
+      "selection_root_selects": 0,
+      "stop_reason": "BudgetExhausted { iterations: 8 }",
+      "time_used_ms": 0.0,
+      "wall_ns": 169974698
+    }
+  },
+  {
+    "final": {
+      "actual_nn_batches": 8,
+      "actual_nn_rows": 16,
+      "additional_evaluator_calls": 16,
+      "additional_root_visits": 16,
+      "best_move": 173,
+      "evaluator_calls": 25,
+      "iterations": 24,
+      "p_flip": 0.0,
+      "policy": [
+        [
+          7,
+          0.0416666679084301
+        ],
+        [
+          173,
+          0.9583333134651184
+        ]
+      ],
+      "root_hash": "ea3ef920e7218673",
+      "root_visits": 24,
+      "selection_effective_prior_l1_sum": 0.0,
+      "selection_penalty_abs_sum": 0.0,
+      "selection_refresh_selected_count": 0,
+      "selection_root_selects": 0,
+      "stop_reason": "BudgetExhausted { iterations: 24 }",
+      "time_used_ms": 0.0,
+      "wall_ns": 205437054
+    },
+    "id": "6abd399eac24a5e3f4a3e7610208fcb92d46da63c3919d199b22efa605a71581",
+    "ply": 32,
+    "prefix": {
+      "actual_nn_batches": 9,
+      "actual_nn_rows": 9,
+      "additional_evaluator_calls": 8,
+      "additional_root_visits": 8,
+      "best_move": 173,
+      "evaluator_calls": 9,
+      "iterations": 8,
+      "p_flip": 0.0,
+      "policy": [
+        [
+          7,
+          0.125
+        ],
+        [
+          173,
+          0.875
+        ]
+      ],
+      "root_hash": "ea3ef920e7218673",
+      "root_visits": 8,
+      "selection_effective_prior_l1_sum": 0.0,
+      "selection_penalty_abs_sum": 0.0,
+      "selection_refresh_selected_count": 0,
+      "selection_root_selects": 0,
+      "stop_reason": "BudgetExhausted { iterations: 8 }",
+      "time_used_ms": 0.0,
+      "wall_ns": 177816193
+    }
+  }
+]

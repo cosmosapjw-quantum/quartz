@@ -1,0 +1,82 @@
+{
+  "primary_signed_minus_random": 0.041666666666666664,
+  "paired_bootstrap_descriptive": [
+    0.0,
+    0.125
+  ],
+  "time_mismatch_relative": {
+    "ENTROPY": 0.06323783010949913,
+    "SIGNED": 0.10284285481868916
+  },
+  "time_gate": false,
+  "signed_minus_prefix_only": 0.04166666666666663,
+  "n": 24,
+  "raw_sha256": "3e77d8302e6408043edc0031f04dbdc533c58905acb100095c01623b2bbbe40d",
+  "source_scope": "constructed late 7x7, both plies odd (white to move); no general game population claim",
+  "metrics": {
+    "PREFIX_ONLY": {
+      "total_ms": 717.33049,
+      "prefix_ms": 367.220399,
+      "optional_ms": 0.001492,
+      "overshoot_ms": 0.0,
+      "selected": 0,
+      "initial": 0.9583333333333334,
+      "utility": 0.9583333333333334,
+      "regret": 0.041666666666666664,
+      "gain": 0.0,
+      "improved": 0,
+      "degraded": 0,
+      "changed": 0,
+      "nn_rows": 69,
+      "native_evals": 69
+    },
+    "RANDOM": {
+      "total_ms": 824.74982,
+      "prefix_ms": 367.072013,
+      "optional_ms": 44.442524,
+      "overshoot_ms": 0.0,
+      "selected": 12,
+      "initial": 0.9583333333333334,
+      "utility": 0.9583333333333334,
+      "regret": 0.041666666666666664,
+      "gain": 0.0,
+      "improved": 0,
+      "degraded": 0,
+      "changed": 0,
+      "nn_rows": 78,
+      "native_evals": 78
+    },
+    "ENTROPY": {
+      "total_ms": 772.594431,
+      "prefix_ms": 371.751644,
+      "optional_ms": 53.403724,
+      "overshoot_ms": 5.205281,
+      "selected": 10,
+      "initial": 0.9583333333333334,
+      "utility": 1.0,
+      "regret": 0.0,
+      "gain": 0.041666666666666664,
+      "improved": 1,
+      "degraded": 0,
+      "changed": 1,
+      "nn_rows": 81,
+      "native_evals": 81
+    },
+    "SIGNED": {
+      "total_ms": 739.930194,
+      "prefix_ms": 339.084871,
+      "optional_ms": 27.160194,
+      "overshoot_ms": 0.0,
+      "selected": 12,
+      "initial": 0.9583333333333334,
+      "utility": 1.0,
+      "regret": 0.0,
+      "gain": 0.041666666666666664,
+      "improved": 1,
+      "degraded": 0,
+      "changed": 1,
+      "nn_rows": 74,
+      "native_evals": 74
+    }
+  }
+}
