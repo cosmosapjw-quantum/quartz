@@ -16,3 +16,6 @@ For each component normalize its two or three masses mathematically. Lower-bound
 
 ## R06
 A positive first cost and nonnegative later costs give Q≤M−c_i regardless of the future observation law. Disabled queries are excluded from cmin, never from deploy-any terminal support. Known-only deployment uses certified known labels plus b. Exact zero numerators are retained when possible. Lack of separation falls through. This is a represented-posterior certificate, not a forward error theorem for the inherited floating likelihood recursion.
+
+## R07
+120 exact rational checks including the empty candidate set.
