@@ -27,3 +27,7 @@ Python 3.12의 표준 라이브러리로 JSON CLI, 독립 oracle, 결정 동등�
 ## C07 — 과학 검증
 
 고정 seed로 생성한 240개 유한 문제 × horizon 0/1/2 × 3 모드에서 총 2,160개 값 및 전체 선택 계획이 독립 oracle과 정확히 일치했다. 범위는 signed 효용, 상관 세계, 중복 후보 질의, 0 비용과 impossible outcomes를 포함한다. 밖의 옵션이 평균에서 최고의 후보와 동일하면 outside tie 우선순위를 유지했다. 고정 latent 회귀에서 543/800와 양성 관측에서만 추가 계산하는 정책을 재현했다. 이 증거는 정의한 유한 query 모델에 귀속된다.
+
+## C08 — 수치 비용과 재현성
+
+`benchmark_certificate.py`는 고정 seed의 다섯 synthetic regime마다 full, world-only, both에서 값과 정책을 대조했다. 60회씩 동일 프로세스에서 순서를 교대하며 validation을 포함한 planner 시간을 쟀다. 관측 전개 수는 결정론적이다. 실행 시간은 측정 환경에 의존한다. 정확 산술로 truncation 및 roundoff가 없으며, 세계 상태와 관측 모델 자체의 근사 오차는 이 benchmark 범위 밖이다. 상세 수치는 C08_benchmark.json에 있다.

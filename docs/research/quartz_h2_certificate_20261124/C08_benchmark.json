@@ -1,0 +1,142 @@
+{
+  "python": "3.12.14",
+  "machine": "x86_64",
+  "repeats": 60,
+  "regimes": {
+    "saturated": {
+      "full": {
+        "median_ns": 13609441.0,
+        "queries": 200,
+        "branches": 600,
+        "world_prunes": 0,
+        "reveal_prunes": 0,
+        "reveal_bounds": 0
+      },
+      "world": {
+        "median_ns": 90237.0,
+        "queries": 0,
+        "branches": 0,
+        "world_prunes": 8,
+        "reveal_prunes": 0,
+        "reveal_bounds": 0
+      },
+      "both": {
+        "median_ns": 99546.5,
+        "queries": 0,
+        "branches": 0,
+        "world_prunes": 8,
+        "reveal_prunes": 0,
+        "reveal_bounds": 0
+      },
+      "value": "20"
+    },
+    "expensive": {
+      "full": {
+        "median_ns": 13410403.5,
+        "queries": 200,
+        "branches": 600,
+        "world_prunes": 0,
+        "reveal_prunes": 0,
+        "reveal_bounds": 0
+      },
+      "world": {
+        "median_ns": 89595.0,
+        "queries": 0,
+        "branches": 0,
+        "world_prunes": 8,
+        "reveal_prunes": 0,
+        "reveal_bounds": 0
+      },
+      "both": {
+        "median_ns": 102653.5,
+        "queries": 0,
+        "branches": 0,
+        "world_prunes": 8,
+        "reveal_prunes": 0,
+        "reveal_bounds": 0
+      },
+      "value": "137/10"
+    },
+    "competitive": {
+      "full": {
+        "median_ns": 13745290.5,
+        "queries": 200,
+        "branches": 600,
+        "world_prunes": 0,
+        "reveal_prunes": 0,
+        "reveal_bounds": 0
+      },
+      "world": {
+        "median_ns": 13974890.5,
+        "queries": 200,
+        "branches": 600,
+        "world_prunes": 0,
+        "reveal_prunes": 0,
+        "reveal_bounds": 0
+      },
+      "both": {
+        "median_ns": 16127512.0,
+        "queries": 144,
+        "branches": 432,
+        "world_prunes": 0,
+        "reveal_prunes": 56,
+        "reveal_bounds": 192
+      },
+      "value": "15093/1000"
+    },
+    "free": {
+      "full": {
+        "median_ns": 14221577.5,
+        "queries": 200,
+        "branches": 600,
+        "world_prunes": 0,
+        "reveal_prunes": 0,
+        "reveal_bounds": 0
+      },
+      "world": {
+        "median_ns": 14504536.0,
+        "queries": 200,
+        "branches": 600,
+        "world_prunes": 0,
+        "reveal_prunes": 0,
+        "reveal_bounds": 0
+      },
+      "both": {
+        "median_ns": 17896235.5,
+        "queries": 169,
+        "branches": 507,
+        "world_prunes": 0,
+        "reveal_prunes": 31,
+        "reveal_bounds": 192
+      },
+      "value": "8311/500"
+    },
+    "uninformative_for_choice": {
+      "full": {
+        "median_ns": 223444.5,
+        "queries": 21,
+        "branches": 42,
+        "world_prunes": 0,
+        "reveal_prunes": 0,
+        "reveal_bounds": 0
+      },
+      "world": {
+        "median_ns": 222395.5,
+        "queries": 21,
+        "branches": 42,
+        "world_prunes": 0,
+        "reveal_prunes": 0,
+        "reveal_bounds": 0
+      },
+      "both": {
+        "median_ns": 322941.0,
+        "queries": 21,
+        "branches": 42,
+        "world_prunes": 0,
+        "reveal_prunes": 0,
+        "reveal_bounds": 18
+      },
+      "value": "9"
+    }
+  }
+}
