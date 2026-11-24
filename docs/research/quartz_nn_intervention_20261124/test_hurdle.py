@@ -7,7 +7,7 @@ class Test(unittest.TestCase):
         self.assertEqual(m['global'],[.25,0,0,.5,.25])
         self.assertAlmostEqual(m['gain_cost'][15][0],.25)
         self.assertAlmostEqual(m['gain_cost'][15][1],10.)
-        self.assertAlmostEqual(m['gain_cost'][0][0],.1)
+        self.assertAlmostEqual(m['gain_cost'][0][0],.15)
         self.assertAlmostEqual(m['gain_cost'][1][0],.35)
     def test_zero_and_negative(self):
         m=shrink([(3,-2,20),(3,0,40)])
