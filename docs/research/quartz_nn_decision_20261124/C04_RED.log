@@ -1,0 +1,21 @@
+F.
+======================================================================
+FAIL: test_signed (__main__.Test.test_signed)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/cosmosapjw/quantum/research/quartz_nn_decision_20261124/docs/research/quartz_nn_decision_20261124/test_scheduler.py", line 5, in test_signed
+    self.assertEqual(signed_order([-.1,.125,0],['a','b','c']),[1,2,0])
+AssertionError: Lists differ: [0, 1, 2] != [1, 2, 0]
+
+First differing element 0:
+0
+1
+
+- [0, 1, 2]
++ [1, 2, 0]
+
+----------------------------------------------------------------------
+Ran 2 tests in 0.001s
+
+FAILED (failures=1)
+exit=1
