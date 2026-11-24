@@ -1,0 +1,67 @@
+{
+  "prefix": {
+    "additional_evaluator_calls": 0,
+    "additional_root_visits": 8,
+    "best_move": 28,
+    "evaluator_calls": 1,
+    "iterations": 8,
+    "p_flip": 0.0,
+    "policy": [
+      [
+        28,
+        1.0
+      ]
+    ],
+    "root_hash": "702bc5cb537aabcd",
+    "root_visits": 8,
+    "selection_effective_prior_l1_sum": 0.0,
+    "selection_penalty_abs_sum": 0.0,
+    "selection_refresh_selected_count": 0,
+    "selection_root_selects": 0,
+    "stop_reason": "BudgetExhausted { iterations: 8 }",
+    "time_used_ms": 0.0,
+    "wall_ns": 32626247,
+    "actual_nn_batches": 1,
+    "actual_nn_rows": 1
+  },
+  "final": {
+    "additional_evaluator_calls": 0,
+    "additional_root_visits": 16,
+    "best_move": 28,
+    "evaluator_calls": 1,
+    "iterations": 24,
+    "p_flip": 0.0,
+    "policy": [
+      [
+        28,
+        1.0
+      ]
+    ],
+    "root_hash": "702bc5cb537aabcd",
+    "root_visits": 24,
+    "selection_effective_prior_l1_sum": 0.0,
+    "selection_penalty_abs_sum": 0.0,
+    "selection_refresh_selected_count": 0,
+    "selection_root_selects": 0,
+    "stop_reason": "BudgetExhausted { iterations: 24 }",
+    "time_used_ms": 0.0,
+    "wall_ns": 663481,
+    "actual_nn_batches": 0,
+    "actual_nn_rows": 0
+  },
+  "exact_two_solver_labels": {
+    "2": 1.0,
+    "6": 1.0,
+    "11": 1.0,
+    "16": 0.0,
+    "23": 0.0,
+    "28": 1.0,
+    "30": 0.0,
+    "32": 0.0,
+    "36": 0.0,
+    "39": 0.0
+  },
+  "game": "gomoku7",
+  "model_parameter_count": 326302,
+  "n_threads": 2
+}
