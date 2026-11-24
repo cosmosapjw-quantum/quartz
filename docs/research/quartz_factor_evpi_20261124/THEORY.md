@@ -15,3 +15,7 @@ Hay et al., UAI 2012 정의 1–2 및 정리 4–5는 유료 metalevel MDP와 �
 최초 커밋 15f3a198의 README와 QUARTZ_THEORY.md는 root risk, P_flip과 비용 차감 VOC를 명시한다. 3bcaa435의 원 논문 §5.1–5.2는 실제 시간을 EMA로 측정하고 기대 판단 개선과 비교했다. 이번 연구는 같은 후속 결정과 STOP을 보존하며 planner 비용을 직접 잰다. 단순 hard H2이고, Eq. 1 KL/Gibbs 동역학과 실게임의 compute-matched 성능은 별도 과제다.
 
 조건은 고정 효용 벡터, U_i∈{0,1/2,1}, 상수 outside b∈[0,1], 비음수 미래 계산 비용, 현재 history에서 Z를 조건으로 독립인 후보별 효용이다. 편의상 후보 N=0도 허용한다. 유틸리티·비용 단위는 dimensionless WDL 효용이다. 채널에서 관측된 신호를 실제 효용으로 보지 않는다.
+
+## R04 — 구성 선택
+
+World enumeration O(3^N)과 조건부 CDF 두 개 O(N)를 비교한다. 다른 선형 상계인 sum_i E[(U_i−b)_+]는 양의 이득이 동시에 가능하면 느슨하다. 예를 들어 독립 fair Bernoulli 두 후보, b=1/2일 때 실제 perfect-information 개선은 3/8, 이 합 상계는 1/2다. 먼저 전체 STOP만 조기 반환한다. 질의별 생략은 C29의 score 공개와 EPS tie를 바꾸기 쉬우므로 별도 과제로 둔다.
