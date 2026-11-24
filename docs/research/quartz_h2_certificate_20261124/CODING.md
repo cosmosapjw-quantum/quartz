@@ -15,3 +15,7 @@ C26의 코드와 고정 캠페인에는 변경을 가하지 않는다. C29 H2 �
 ## C04 — 실행 순서
 
 Python 3.12의 표준 라이브러리로 JSON CLI, 독립 oracle, 결정 동등성 실험을 실행한다. 모형 적합이나 외부 rollout 수집은 필요하지 않다. exhaustive와 pruned의 비교는 각 fixture에 같은 JSON 계약과 tie 순서를 쓴다. wall-time은 같은 프로세스에서 실행 순서를 교대하고 중앙값을 기록한다. 반복 시계는 CPU 성능의 환경 의존 관측이다.
+
+## C05 — 구현
+
+`certificate.py` CLI가 fixture를 읽고 각 모드의 exact Fraction 값, STOP/deploy 및 query의 조건부 계획, 실행 카운터를 출력한다. 입력 fixture의 단위는 1 utility당 100 tick이다. 동일 후보의 반복 관측은 world row의 고정 latent utility를 계속 참조한다.
