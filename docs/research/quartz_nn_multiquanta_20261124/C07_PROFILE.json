@@ -1,0 +1,6692 @@
+[
+  {
+    "budget_us": 0,
+    "cache_hit": true,
+    "continuation_step_us": 0,
+    "drop_us": 3757,
+    "floors": [],
+    "mode": "SETUP",
+    "model_identity": "161f9e6e26840754384cb47335d1082d837fa014735cbfaa2517209422e29f24",
+    "model_us": 34,
+    "optional_us": 1,
+    "overrun_us": 0,
+    "plan_us": 1,
+    "planned": [],
+    "predicted_gain": 0.0,
+    "predicted_ticks": 0,
+    "prefix_step_us": 0,
+    "prefix_us": 5518,
+    "rep": 0,
+    "rows": [
+      {
+        "cell": 0,
+        "entropy": 0.0,
+        "history": "4231462535446665534342767",
+        "id": "TACTICAL_CAL_00588",
+        "legal": [
+          0,
+          1,
+          2,
+          4,
+          5,
+          6
+        ],
+        "root_hash": "5d47972d4b169e49",
+        "setup_us": 398,
+        "steps": [],
+        "threat": true,
+        "top": 0.0
+      },
+      {
+        "cell": 0,
+        "entropy": 0.0,
+        "history": "42163367245675533565",
+        "id": "TACTICAL_CAL_00590",
+        "legal": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "root_hash": "7a96c1c185df7100",
+        "setup_us": 425,
+        "steps": [],
+        "threat": true,
+        "top": 0.0
+      },
+      {
+        "cell": 0,
+        "entropy": 0.0,
+        "history": "252125575114355167773",
+        "id": "TACTICAL_CAL_00591",
+        "legal": [
+          0,
+          1,
+          2,
+          3,
+          5,
+          6
+        ],
+        "root_hash": "aa8b32b24ded709b",
+        "setup_us": 426,
+        "steps": [],
+        "threat": true,
+        "top": 0.0
+      },
+      {
+        "cell": 0,
+        "entropy": 0.0,
+        "history": "64332471322653372346",
+        "id": "TACTICAL_CAL_00595",
+        "legal": [
+          0,
+          1,
+          3,
+          4,
+          5,
+          6
+        ],
+        "root_hash": "d9725cba9dd5ce6e",
+        "setup_us": 1443,
+        "steps": [],
+        "threat": true,
+        "top": 0.0
+      },
+      {
+        "cell": 0,
+        "entropy": 0.0,
+        "history": "72674127632531561277346",
+        "id": "TACTICAL_CAL_00596",
+        "legal": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "root_hash": "d3893b5c523a9235",
+        "setup_us": 494,
+        "steps": [],
+        "threat": true,
+        "top": 0.0
+      },
+      {
+        "cell": 0,
+        "entropy": 0.0,
+        "history": "651611477247732422735676",
+        "id": "TACTICAL_CAL_00600",
+        "legal": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "root_hash": "b5e2587fa9ea16ce",
+        "setup_us": 454,
+        "steps": [],
+        "threat": true,
+        "top": 0.0
+      },
+      {
+        "cell": 0,
+        "entropy": 0.0,
+        "history": "277467242335441171154",
+        "id": "TACTICAL_CAL_00601",
+        "legal": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "root_hash": "fd14999959f553f3",
+        "setup_us": 1301,
+        "steps": [],
+        "threat": true,
+        "top": 0.0
+      },
+      {
+        "cell": 0,
+        "entropy": 0.0,
+        "history": "5652772562166145171711",
+        "id": "TACTICAL_CAL_00602",
+        "legal": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "root_hash": "643cc5a0521fb118",
+        "setup_us": 495,
+        "steps": [],
+        "threat": true,
+        "top": 0.0
+      }
+    ],
+    "schema": "quartz_nn_multiquanta_v1",
+    "seed": 17,
+    "selected": [],
+    "setup_total_us": 5436,
+    "stratum": "TACTICAL",
+    "threads": 2,
+    "transport_us": 9520.37,
+    "whole_us": 9277
+  },
+  {
+    "budget_us": 0,
+    "cache_hit": true,
+    "continuation_step_us": 0,
+    "drop_us": 4391,
+    "floors": [],
+    "mode": "PREFIX",
+    "model_identity": "161f9e6e26840754384cb47335d1082d837fa014735cbfaa2517209422e29f24",
+    "model_us": 38,
+    "optional_us": 1,
+    "overrun_us": 0,
+    "plan_us": 1,
+    "planned": [],
+    "predicted_gain": 0.0,
+    "predicted_ticks": 0,
+    "prefix_step_us": 4467,
+    "prefix_us": 9798,
+    "rep": 0,
+    "rows": [
+      {
+        "cell": 5,
+        "entropy": 0.7124143742160444,
+        "history": "4231462535446665534342767",
+        "id": "TACTICAL_CAL_00588",
+        "legal": [
+          0,
+          1,
+          2,
+          4,
+          5,
+          6
+        ],
+        "root_hash": "5d47972d4b169e49",
+        "setup_us": 1247,
+        "steps": [
+          {
+            "best": 6,
+            "eval_calls": 5,
+            "policy": [
+              [
+                4,
+                0.25
+              ],
+              [
+                0,
+                0.25
+              ],
+              [
+                2,
+                0.25
+              ],
+              [
+                6,
+                0.25
+              ],
+              [
+                1,
+                0.0
+              ],
+              [
+                5,
+                0.0
+              ]
+            ],
+            "root_hash": "5d47972d4b169e49",
+            "search_us": 667,
+            "visits": 4,
+            "wall_us": 669
+          }
+        ],
+        "threat": true,
+        "top": 0.25
+      },
+      {
+        "cell": 5,
+        "entropy": 0.7124143742160444,
+        "history": "42163367245675533565",
+        "id": "TACTICAL_CAL_00590",
+        "legal": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "root_hash": "7a96c1c185df7100",
+        "setup_us": 391,
+        "steps": [
+          {
+            "best": 0,
+            "eval_calls": 5,
+            "policy": [
+              [
+                1,
+                0.25
+              ],
+              [
+                3,
+                0.25
+              ],
+              [
+                5,
+                0.25
+              ],
+              [
+                0,
+                0.25
+              ],
+              [
+                4,
+                0.0
+              ],
+              [
+                2,
+                0.0
+              ],
+              [
+                6,
+                0.0
+              ]
+            ],
+            "root_hash": "7a96c1c185df7100",
+            "search_us": 495,
+            "visits": 4,
+            "wall_us": 496
+          }
+        ],
+        "threat": true,
+        "top": 0.25
+      },
+      {
+        "cell": 5,
+        "entropy": 0.7124143742160444,
+        "history": "252125575114355167773",
+        "id": "TACTICAL_CAL_00591",
+        "legal": [
+          0,
+          1,
+          2,
+          3,
+          5,
+          6
+        ],
+        "root_hash": "aa8b32b24ded709b",
+        "setup_us": 464,
+        "steps": [
+          {
+            "best": 2,
+            "eval_calls": 5,
+            "policy": [
+              [
+                1,
+                0.25
+              ],
+              [
+                3,
+                0.25
+              ],
+              [
+                6,
+                0.25
+              ],
+              [
+                2,
+                0.25
+              ],
+              [
+                5,
+                0.0
+              ],
+              [
+                0,
+                0.0
+              ]
+            ],
+            "root_hash": "aa8b32b24ded709b",
+            "search_us": 538,
+            "visits": 4,
+            "wall_us": 539
+          }
+        ],
+        "threat": true,
+        "top": 0.25
+      },
+      {
+        "cell": 5,
+        "entropy": 0.7124143742160444,
+        "history": "64332471322653372346",
+        "id": "TACTICAL_CAL_00595",
+        "legal": [
+          0,
+          1,
+          3,
+          4,
+          5,
+          6
+        ],
+        "root_hash": "d9725cba9dd5ce6e",
+        "setup_us": 478,
+        "steps": [
+          {
+            "best": 0,
+            "eval_calls": 5,
+            "policy": [
+              [
+                3,
+                0.25
+              ],
+              [
+                4,
+                0.25
+              ],
+              [
+                1,
+                0.25
+              ],
+              [
+                0,
+                0.25
+              ],
+              [
+                5,
+                0.0
+              ],
+              [
+                6,
+                0.0
+              ]
+            ],
+            "root_hash": "d9725cba9dd5ce6e",
+            "search_us": 515,
+            "visits": 4,
+            "wall_us": 516
+          }
+        ],
+        "threat": true,
+        "top": 0.25
+      },
+      {
+        "cell": 5,
+        "entropy": 0.7124143742160444,
+        "history": "72674127632531561277346",
+        "id": "TACTICAL_CAL_00596",
+        "legal": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "root_hash": "d3893b5c523a9235",
+        "setup_us": 424,
+        "steps": [
+          {
+            "best": 5,
+            "eval_calls": 5,
+            "policy": [
+              [
+                3,
+                0.25
+              ],
+              [
+                6,
+                0.25
+              ],
+              [
+                2,
+                0.25
+              ],
+              [
+                5,
+                0.25
+              ],
+              [
+                4,
+                0.0
+              ],
+              [
+                1,
+                0.0
+              ],
+              [
+                0,
+                0.0
+              ]
+            ],
+            "root_hash": "d3893b5c523a9235",
+            "search_us": 504,
+            "visits": 4,
+            "wall_us": 504
+          }
+        ],
+        "threat": true,
+        "top": 0.25
+      },
+      {
+        "cell": 5,
+        "entropy": 0.7124143742160444,
+        "history": "651611477247732422735676",
+        "id": "TACTICAL_CAL_00600",
+        "legal": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "root_hash": "b5e2587fa9ea16ce",
+        "setup_us": 430,
+        "steps": [
+          {
+            "best": 0,
+            "eval_calls": 5,
+            "policy": [
+              [
+                4,
+                0.25
+              ],
+              [
+                3,
+                0.25
+              ],
+              [
+                1,
+                0.25
+              ],
+              [
+                0,
+                0.25
+              ],
+              [
+                2,
+                0.0
+              ],
+              [
+                5,
+                0.0
+              ]
+            ],
+            "root_hash": "b5e2587fa9ea16ce",
+            "search_us": 499,
+            "visits": 4,
+            "wall_us": 501
+          }
+        ],
+        "threat": true,
+        "top": 0.25
+      },
+      {
+        "cell": 5,
+        "entropy": 0.7124143742160444,
+        "history": "277467242335441171154",
+        "id": "TACTICAL_CAL_00601",
+        "legal": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "root_hash": "fd14999959f553f3",
+        "setup_us": 435,
+        "steps": [
+          {
+            "best": 2,
+            "eval_calls": 5,
+            "policy": [
+              [
+                5,
+                0.25
+              ],
+              [
+                1,
+                0.25
+              ],
+              [
+                6,
+                0.25
+              ],
+              [
+                2,
+                0.25
+              ],
+              [
+                4,
+                0.0
+              ],
+              [
+                0,
+                0.0
+              ],
+              [
+                3,
+                0.0
+              ]
+            ],
+            "root_hash": "fd14999959f553f3",
+            "search_us": 599,
+            "visits": 4,
+            "wall_us": 601
+          }
+        ],
+        "threat": true,
+        "top": 0.25
+      },
+      {
+        "cell": 5,
+        "entropy": 0.7124143742160444,
+        "history": "5652772562166145171711",
+        "id": "TACTICAL_CAL_00602",
+        "legal": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "root_hash": "643cc5a0521fb118",
+        "setup_us": 1375,
+        "steps": [
+          {
+            "best": 6,
+            "eval_calls": 5,
+            "policy": [
+              [
+                3,
+                0.25
+              ],
+              [
+                1,
+                0.25
+              ],
+              [
+                2,
+                0.25
+              ],
+              [
+                6,
+                0.25
+              ],
+              [
+                5,
+                0.0
+              ],
+              [
+                4,
+                0.0
+              ]
+            ],
+            "root_hash": "643cc5a0521fb118",
+            "search_us": 640,
+            "visits": 4,
+            "wall_us": 641
+          }
+        ],
+        "threat": true,
+        "top": 0.25
+      }
+    ],
+    "schema": "quartz_nn_multiquanta_v1",
+    "seed": 17,
+    "selected": [],
+    "setup_total_us": 5244,
+    "stratum": "TACTICAL",
+    "threads": 2,
+    "transport_us": 14532.481,
+    "whole_us": 14191
+  },
+  {
+    "budget_us": 0,
+    "cache_hit": true,
+    "continuation_step_us": 0,
+    "drop_us": 3713,
+    "floors": [],
+    "mode": "SETUP",
+    "model_identity": "161f9e6e26840754384cb47335d1082d837fa014735cbfaa2517209422e29f24",
+    "model_us": 38,
+    "optional_us": 1,
+    "overrun_us": 0,
+    "plan_us": 1,
+    "planned": [],
+    "predicted_gain": 0.0,
+    "predicted_ticks": 0,
+    "prefix_step_us": 0,
+    "prefix_us": 4859,
+    "rep": 0,
+    "rows": [
+      {
+        "cell": 0,
+        "entropy": 0.0,
+        "history": "6516675426312361",
+        "id": "SELFPLAY_CAL_00765",
+        "legal": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "root_hash": "92aa8aa8fe305392",
+        "setup_us": 431,
+        "steps": [],
+        "threat": false,
+        "top": 0.0
+      },
+      {
+        "cell": 0,
+        "entropy": 0.0,
+        "history": "34667621424464241",
+        "id": "SELFPLAY_CAL_00770",
+        "legal": [
+          0,
+          1,
+          2,
+          4,
+          5,
+          6
+        ],
+        "root_hash": "90e79bb4a4642b2f",
+        "setup_us": 425,
+        "steps": [],
+        "threat": false,
+        "top": 0.0
+      },
+      {
+        "cell": 0,
+        "entropy": 0.0,
+        "history": "3573761713243453",
+        "id": "SELFPLAY_CAL_00773",
+        "legal": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "root_hash": "0fe757f3173b24de",
+        "setup_us": 471,
+        "steps": [],
+        "threat": false,
+        "top": 0.0
+      },
+      {
+        "cell": 0,
+        "entropy": 0.0,
+        "history": "5336144776133425",
+        "id": "SELFPLAY_CAL_00777",
+        "legal": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "root_hash": "2253b385019dcfe4",
+        "setup_us": 1505,
+        "steps": [],
+        "threat": false,
+        "top": 0.0
+      },
+      {
+        "cell": 0,
+        "entropy": 0.0,
+        "history": "52243444317134215",
+        "id": "SELFPLAY_CAL_00782",
+        "legal": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "root_hash": "129864c53729b06f",
+        "setup_us": 495,
+        "steps": [],
+        "threat": true,
+        "top": 0.0
+      },
+      {
+        "cell": 0,
+        "entropy": 0.0,
+        "history": "77543655335122532",
+        "id": "SELFPLAY_CAL_00784",
+        "legal": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "root_hash": "33e670b9d24f6f05",
+        "setup_us": 477,
+        "steps": [],
+        "threat": false,
+        "top": 0.0
+      },
+      {
+        "cell": 0,
+        "entropy": 0.0,
+        "history": "5456464733245577",
+        "id": "SELFPLAY_CAL_00787",
+        "legal": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "root_hash": "5c684a5c61ca0db2",
+        "setup_us": 484,
+        "steps": [],
+        "threat": false,
+        "top": 0.0
+      },
+      {
+        "cell": 0,
+        "entropy": 0.0,
+        "history": "47735777173212235",
+        "id": "SELFPLAY_CAL_00794",
+        "legal": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "root_hash": "c56008c560f1f595",
+        "setup_us": 484,
+        "steps": [],
+        "threat": false,
+        "top": 0.0
+      }
+    ],
+    "schema": "quartz_nn_multiquanta_v1",
+    "seed": 17,
+    "selected": [],
+    "setup_total_us": 4772,
+    "stratum": "SELFPLAY",
+    "threads": 2,
+    "transport_us": 8794.465,
+    "whole_us": 8574
+  },
+  {
+    "budget_us": 0,
+    "cache_hit": true,
+    "continuation_step_us": 0,
+    "drop_us": 5235,
+    "floors": [],
+    "mode": "PREFIX",
+    "model_identity": "161f9e6e26840754384cb47335d1082d837fa014735cbfaa2517209422e29f24",
+    "model_us": 37,
+    "optional_us": 1,
+    "overrun_us": 0,
+    "plan_us": 1,
+    "planned": [],
+    "predicted_gain": 0.0,
+    "predicted_ticks": 0,
+    "prefix_step_us": 10815,
+    "prefix_us": 15952,
+    "rep": 0,
+    "rows": [
+      {
+        "cell": 1,
+        "entropy": 0.7124143742160444,
+        "history": "6516675426312361",
+        "id": "SELFPLAY_CAL_00765",
+        "legal": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "root_hash": "92aa8aa8fe305392",
+        "setup_us": 1345,
+        "steps": [
+          {
+            "best": 2,
+            "eval_calls": 5,
+            "policy": [
+              [
+                3,
+                0.25
+              ],
+              [
+                4,
+                0.25
+              ],
+              [
+                1,
+                0.25
+              ],
+              [
+                2,
+                0.25
+              ],
+              [
+                6,
+                0.0
+              ],
+              [
+                0,
+                0.0
+              ],
+              [
+                5,
+                0.0
+              ]
+            ],
+            "root_hash": "92aa8aa8fe305392",
+            "search_us": 653,
+            "visits": 4,
+            "wall_us": 655
+          }
+        ],
+        "threat": false,
+        "top": 0.25
+      },
+      {
+        "cell": 1,
+        "entropy": 0.7124143742160444,
+        "history": "34667621424464241",
+        "id": "SELFPLAY_CAL_00770",
+        "legal": [
+          0,
+          1,
+          2,
+          4,
+          5,
+          6
+        ],
+        "root_hash": "90e79bb4a4642b2f",
+        "setup_us": 402,
+        "steps": [
+          {
+            "best": 0,
+            "eval_calls": 5,
+            "policy": [
+              [
+                6,
+                0.25
+              ],
+              [
+                4,
+                0.25
+              ],
+              [
+                2,
+                0.25
+              ],
+              [
+                0,
+                0.25
+              ],
+              [
+                1,
+                0.0
+              ],
+              [
+                5,
+                0.0
+              ]
+            ],
+            "root_hash": "90e79bb4a4642b2f",
+            "search_us": 5748,
+            "visits": 4,
+            "wall_us": 5750
+          }
+        ],
+        "threat": false,
+        "top": 0.25
+      },
+      {
+        "cell": 1,
+        "entropy": 0.7124143742160444,
+        "history": "3573761713243453",
+        "id": "SELFPLAY_CAL_00773",
+        "legal": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "root_hash": "0fe757f3173b24de",
+        "setup_us": 443,
+        "steps": [
+          {
+            "best": 0,
+            "eval_calls": 5,
+            "policy": [
+              [
+                3,
+                0.25
+              ],
+              [
+                1,
+                0.25
+              ],
+              [
+                4,
+                0.25
+              ],
+              [
+                0,
+                0.25
+              ],
+              [
+                5,
+                0.0
+              ],
+              [
+                6,
+                0.0
+              ],
+              [
+                2,
+                0.0
+              ]
+            ],
+            "root_hash": "0fe757f3173b24de",
+            "search_us": 685,
+            "visits": 4,
+            "wall_us": 688
+          }
+        ],
+        "threat": false,
+        "top": 0.25
+      },
+      {
+        "cell": 2,
+        "entropy": -0.0,
+        "history": "5336144776133425",
+        "id": "SELFPLAY_CAL_00777",
+        "legal": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "root_hash": "2253b385019dcfe4",
+        "setup_us": 1139,
+        "steps": [
+          {
+            "best": 1,
+            "eval_calls": 1,
+            "policy": [
+              [
+                1,
+                1.0
+              ],
+              [
+                3,
+                0.0
+              ],
+              [
+                0,
+                0.0
+              ],
+              [
+                5,
+                0.0
+              ],
+              [
+                2,
+                0.0
+              ],
+              [
+                4,
+                0.0
+              ],
+              [
+                6,
+                0.0
+              ]
+            ],
+            "root_hash": "2253b385019dcfe4",
+            "search_us": 176,
+            "visits": 4,
+            "wall_us": 177
+          }
+        ],
+        "threat": false,
+        "top": 1.0
+      },
+      {
+        "cell": 4,
+        "entropy": 0.5343107806620332,
+        "history": "52243444317134215",
+        "id": "SELFPLAY_CAL_00782",
+        "legal": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "root_hash": "129864c53729b06f",
+        "setup_us": 438,
+        "steps": [
+          {
+            "best": 0,
+            "eval_calls": 3,
+            "policy": [
+              [
+                2,
+                0.25
+              ],
+              [
+                4,
+                0.25
+              ],
+              [
+                0,
+                0.5
+              ],
+              [
+                6,
+                0.0
+              ],
+              [
+                1,
+                0.0
+              ],
+              [
+                3,
+                0.0
+              ],
+              [
+                5,
+                0.0
+              ]
+            ],
+            "root_hash": "129864c53729b06f",
+            "search_us": 2089,
+            "visits": 4,
+            "wall_us": 2090
+          }
+        ],
+        "threat": true,
+        "top": 0.5
+      },
+      {
+        "cell": 0,
+        "entropy": 0.5343107806620332,
+        "history": "77543655335122532",
+        "id": "SELFPLAY_CAL_00784",
+        "legal": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "root_hash": "33e670b9d24f6f05",
+        "setup_us": 422,
+        "steps": [
+          {
+            "best": 3,
+            "eval_calls": 4,
+            "policy": [
+              [
+                3,
+                0.5
+              ],
+              [
+                1,
+                0.25
+              ],
+              [
+                2,
+                0.25
+              ],
+              [
+                5,
+                0.0
+              ],
+              [
+                0,
+                0.0
+              ],
+              [
+                4,
+                0.0
+              ],
+              [
+                6,
+                0.0
+              ]
+            ],
+            "root_hash": "33e670b9d24f6f05",
+            "search_us": 415,
+            "visits": 4,
+            "wall_us": 416
+          }
+        ],
+        "threat": false,
+        "top": 0.5
+      },
+      {
+        "cell": 2,
+        "entropy": -0.0,
+        "history": "5456464733245577",
+        "id": "SELFPLAY_CAL_00787",
+        "legal": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "root_hash": "5c684a5c61ca0db2",
+        "setup_us": 426,
+        "steps": [
+          {
+            "best": 1,
+            "eval_calls": 5,
+            "policy": [
+              [
+                1,
+                1.0
+              ],
+              [
+                5,
+                0.0
+              ],
+              [
+                4,
+                0.0
+              ],
+              [
+                2,
+                0.0
+              ],
+              [
+                3,
+                0.0
+              ],
+              [
+                0,
+                0.0
+              ],
+              [
+                6,
+                0.0
+              ]
+            ],
+            "root_hash": "5c684a5c61ca0db2",
+            "search_us": 511,
+            "visits": 4,
+            "wall_us": 512
+          }
+        ],
+        "threat": false,
+        "top": 1.0
+      },
+      {
+        "cell": 1,
+        "entropy": 0.7124143742160444,
+        "history": "47735777173212235",
+        "id": "SELFPLAY_CAL_00794",
+        "legal": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "root_hash": "c56008c560f1f595",
+        "setup_us": 432,
+        "steps": [
+          {
+            "best": 5,
+            "eval_calls": 5,
+            "policy": [
+              [
+                3,
+                0.25
+              ],
+              [
+                1,
+                0.25
+              ],
+              [
+                2,
+                0.25
+              ],
+              [
+                5,
+                0.25
+              ],
+              [
+                4,
+                0.0
+              ],
+              [
+                0,
+                0.0
+              ]
+            ],
+            "root_hash": "c56008c560f1f595",
+            "search_us": 526,
+            "visits": 4,
+            "wall_us": 527
+          }
+        ],
+        "threat": false,
+        "top": 0.25
+      }
+    ],
+    "schema": "quartz_nn_multiquanta_v1",
+    "seed": 17,
+    "selected": [],
+    "setup_total_us": 5047,
+    "stratum": "SELFPLAY",
+    "threads": 2,
+    "transport_us": 21529.533,
+    "whole_us": 21189
+  },
+  {
+    "budget_us": 0,
+    "cache_hit": true,
+    "continuation_step_us": 0,
+    "drop_us": 3738,
+    "floors": [],
+    "mode": "PREFIX",
+    "model_identity": "161f9e6e26840754384cb47335d1082d837fa014735cbfaa2517209422e29f24",
+    "model_us": 33,
+    "optional_us": 1,
+    "overrun_us": 0,
+    "plan_us": 1,
+    "planned": [],
+    "predicted_gain": 0.0,
+    "predicted_ticks": 0,
+    "prefix_step_us": 43349,
+    "prefix_us": 47284,
+    "rep": 1,
+    "rows": [
+      {
+        "cell": 5,
+        "entropy": 0.7124143742160444,
+        "history": "4231462535446665534342767",
+        "id": "TACTICAL_CAL_00588",
+        "legal": [
+          0,
+          1,
+          2,
+          4,
+          5,
+          6
+        ],
+        "root_hash": "5d47972d4b169e49",
+        "setup_us": 468,
+        "steps": [
+          {
+            "best": 6,
+            "eval_calls": 5,
+            "policy": [
+              [
+                4,
+                0.25
+              ],
+              [
+                0,
+                0.25
+              ],
+              [
+                2,
+                0.25
+              ],
+              [
+                6,
+                0.25
+              ],
+              [
+                1,
+                0.0
+              ],
+              [
+                5,
+                0.0
+              ]
+            ],
+            "root_hash": "5d47972d4b169e49",
+            "search_us": 37779,
+            "visits": 4,
+            "wall_us": 37783
+          }
+        ],
+        "threat": true,
+        "top": 0.25
+      },
+      {
+        "cell": 5,
+        "entropy": 0.7124143742160444,
+        "history": "42163367245675533565",
+        "id": "TACTICAL_CAL_00590",
+        "legal": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "root_hash": "7a96c1c185df7100",
+        "setup_us": 541,
+        "steps": [
+          {
+            "best": 0,
+            "eval_calls": 5,
+            "policy": [
+              [
+                1,
+                0.25
+              ],
+              [
+                3,
+                0.25
+              ],
+              [
+                5,
+                0.25
+              ],
+              [
+                0,
+                0.25
+              ],
+              [
+                4,
+                0.0
+              ],
+              [
+                2,
+                0.0
+              ],
+              [
+                6,
+                0.0
+              ]
+            ],
+            "root_hash": "7a96c1c185df7100",
+            "search_us": 658,
+            "visits": 4,
+            "wall_us": 660
+          }
+        ],
+        "threat": true,
+        "top": 0.25
+      },
+      {
+        "cell": 5,
+        "entropy": 0.7124143742160444,
+        "history": "252125575114355167773",
+        "id": "TACTICAL_CAL_00591",
+        "legal": [
+          0,
+          1,
+          2,
+          3,
+          5,
+          6
+        ],
+        "root_hash": "aa8b32b24ded709b",
+        "setup_us": 438,
+        "steps": [
+          {
+            "best": 2,
+            "eval_calls": 5,
+            "policy": [
+              [
+                1,
+                0.25
+              ],
+              [
+                3,
+                0.25
+              ],
+              [
+                6,
+                0.25
+              ],
+              [
+                2,
+                0.25
+              ],
+              [
+                5,
+                0.0
+              ],
+              [
+                0,
+                0.0
+              ]
+            ],
+            "root_hash": "aa8b32b24ded709b",
+            "search_us": 634,
+            "visits": 4,
+            "wall_us": 635
+          }
+        ],
+        "threat": true,
+        "top": 0.25
+      },
+      {
+        "cell": 5,
+        "entropy": 0.7124143742160444,
+        "history": "64332471322653372346",
+        "id": "TACTICAL_CAL_00595",
+        "legal": [
+          0,
+          1,
+          3,
+          4,
+          5,
+          6
+        ],
+        "root_hash": "d9725cba9dd5ce6e",
+        "setup_us": 448,
+        "steps": [
+          {
+            "best": 0,
+            "eval_calls": 5,
+            "policy": [
+              [
+                3,
+                0.25
+              ],
+              [
+                4,
+                0.25
+              ],
+              [
+                1,
+                0.25
+              ],
+              [
+                0,
+                0.25
+              ],
+              [
+                5,
+                0.0
+              ],
+              [
+                6,
+                0.0
+              ]
+            ],
+            "root_hash": "d9725cba9dd5ce6e",
+            "search_us": 544,
+            "visits": 4,
+            "wall_us": 546
+          }
+        ],
+        "threat": true,
+        "top": 0.25
+      },
+      {
+        "cell": 5,
+        "entropy": 0.7124143742160444,
+        "history": "72674127632531561277346",
+        "id": "TACTICAL_CAL_00596",
+        "legal": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "root_hash": "d3893b5c523a9235",
+        "setup_us": 451,
+        "steps": [
+          {
+            "best": 5,
+            "eval_calls": 5,
+            "policy": [
+              [
+                3,
+                0.25
+              ],
+              [
+                6,
+                0.25
+              ],
+              [
+                2,
+                0.25
+              ],
+              [
+                5,
+                0.25
+              ],
+              [
+                4,
+                0.0
+              ],
+              [
+                1,
+                0.0
+              ],
+              [
+                0,
+                0.0
+              ]
+            ],
+            "root_hash": "d3893b5c523a9235",
+            "search_us": 599,
+            "visits": 4,
+            "wall_us": 600
+          }
+        ],
+        "threat": true,
+        "top": 0.25
+      },
+      {
+        "cell": 5,
+        "entropy": 0.7124143742160444,
+        "history": "651611477247732422735676",
+        "id": "TACTICAL_CAL_00600",
+        "legal": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "root_hash": "b5e2587fa9ea16ce",
+        "setup_us": 491,
+        "steps": [
+          {
+            "best": 0,
+            "eval_calls": 5,
+            "policy": [
+              [
+                4,
+                0.25
+              ],
+              [
+                3,
+                0.25
+              ],
+              [
+                1,
+                0.25
+              ],
+              [
+                0,
+                0.25
+              ],
+              [
+                2,
+                0.0
+              ],
+              [
+                5,
+                0.0
+              ]
+            ],
+            "root_hash": "b5e2587fa9ea16ce",
+            "search_us": 613,
+            "visits": 4,
+            "wall_us": 615
+          }
+        ],
+        "threat": true,
+        "top": 0.25
+      },
+      {
+        "cell": 5,
+        "entropy": 0.7124143742160444,
+        "history": "277467242335441171154",
+        "id": "TACTICAL_CAL_00601",
+        "legal": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "root_hash": "fd14999959f553f3",
+        "setup_us": 489,
+        "steps": [
+          {
+            "best": 2,
+            "eval_calls": 5,
+            "policy": [
+              [
+                5,
+                0.25
+              ],
+              [
+                1,
+                0.25
+              ],
+              [
+                6,
+                0.25
+              ],
+              [
+                2,
+                0.25
+              ],
+              [
+                4,
+                0.0
+              ],
+              [
+                0,
+                0.0
+              ],
+              [
+                3,
+                0.0
+              ]
+            ],
+            "root_hash": "fd14999959f553f3",
+            "search_us": 614,
+            "visits": 4,
+            "wall_us": 616
+          }
+        ],
+        "threat": true,
+        "top": 0.25
+      },
+      {
+        "cell": 5,
+        "entropy": 0.7124143742160444,
+        "history": "5652772562166145171711",
+        "id": "TACTICAL_CAL_00602",
+        "legal": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "root_hash": "643cc5a0521fb118",
+        "setup_us": 510,
+        "steps": [
+          {
+            "best": 6,
+            "eval_calls": 5,
+            "policy": [
+              [
+                3,
+                0.25
+              ],
+              [
+                1,
+                0.25
+              ],
+              [
+                2,
+                0.25
+              ],
+              [
+                6,
+                0.25
+              ],
+              [
+                5,
+                0.0
+              ],
+              [
+                4,
+                0.0
+              ]
+            ],
+            "root_hash": "643cc5a0521fb118",
+            "search_us": 1892,
+            "visits": 4,
+            "wall_us": 1894
+          }
+        ],
+        "threat": true,
+        "top": 0.25
+      }
+    ],
+    "schema": "quartz_nn_multiquanta_v1",
+    "seed": 18,
+    "selected": [],
+    "setup_total_us": 3836,
+    "stratum": "TACTICAL",
+    "threads": 2,
+    "transport_us": 51310.071,
+    "whole_us": 51024
+  },
+  {
+    "budget_us": 0,
+    "cache_hit": true,
+    "continuation_step_us": 0,
+    "drop_us": 4320,
+    "floors": [],
+    "mode": "SETUP",
+    "model_identity": "161f9e6e26840754384cb47335d1082d837fa014735cbfaa2517209422e29f24",
+    "model_us": 37,
+    "optional_us": 1,
+    "overrun_us": 0,
+    "plan_us": 1,
+    "planned": [],
+    "predicted_gain": 0.0,
+    "predicted_ticks": 0,
+    "prefix_step_us": 0,
+    "prefix_us": 4403,
+    "rep": 1,
+    "rows": [
+      {
+        "cell": 0,
+        "entropy": 0.0,
+        "history": "4231462535446665534342767",
+        "id": "TACTICAL_CAL_00588",
+        "legal": [
+          0,
+          1,
+          2,
+          4,
+          5,
+          6
+        ],
+        "root_hash": "5d47972d4b169e49",
+        "setup_us": 491,
+        "steps": [],
+        "threat": true,
+        "top": 0.0
+      },
+      {
+        "cell": 0,
+        "entropy": 0.0,
+        "history": "42163367245675533565",
+        "id": "TACTICAL_CAL_00590",
+        "legal": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "root_hash": "7a96c1c185df7100",
+        "setup_us": 498,
+        "steps": [],
+        "threat": true,
+        "top": 0.0
+      },
+      {
+        "cell": 0,
+        "entropy": 0.0,
+        "history": "252125575114355167773",
+        "id": "TACTICAL_CAL_00591",
+        "legal": [
+          0,
+          1,
+          2,
+          3,
+          5,
+          6
+        ],
+        "root_hash": "aa8b32b24ded709b",
+        "setup_us": 604,
+        "steps": [],
+        "threat": true,
+        "top": 0.0
+      },
+      {
+        "cell": 0,
+        "entropy": 0.0,
+        "history": "64332471322653372346",
+        "id": "TACTICAL_CAL_00595",
+        "legal": [
+          0,
+          1,
+          3,
+          4,
+          5,
+          6
+        ],
+        "root_hash": "d9725cba9dd5ce6e",
+        "setup_us": 514,
+        "steps": [],
+        "threat": true,
+        "top": 0.0
+      },
+      {
+        "cell": 0,
+        "entropy": 0.0,
+        "history": "72674127632531561277346",
+        "id": "TACTICAL_CAL_00596",
+        "legal": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "root_hash": "d3893b5c523a9235",
+        "setup_us": 584,
+        "steps": [],
+        "threat": true,
+        "top": 0.0
+      },
+      {
+        "cell": 0,
+        "entropy": 0.0,
+        "history": "651611477247732422735676",
+        "id": "TACTICAL_CAL_00600",
+        "legal": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "root_hash": "b5e2587fa9ea16ce",
+        "setup_us": 525,
+        "steps": [],
+        "threat": true,
+        "top": 0.0
+      },
+      {
+        "cell": 0,
+        "entropy": 0.0,
+        "history": "277467242335441171154",
+        "id": "TACTICAL_CAL_00601",
+        "legal": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "root_hash": "fd14999959f553f3",
+        "setup_us": 549,
+        "steps": [],
+        "threat": true,
+        "top": 0.0
+      },
+      {
+        "cell": 0,
+        "entropy": 0.0,
+        "history": "5652772562166145171711",
+        "id": "TACTICAL_CAL_00602",
+        "legal": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "root_hash": "643cc5a0521fb118",
+        "setup_us": 550,
+        "steps": [],
+        "threat": true,
+        "top": 0.0
+      }
+    ],
+    "schema": "quartz_nn_multiquanta_v1",
+    "seed": 18,
+    "selected": [],
+    "setup_total_us": 4315,
+    "stratum": "TACTICAL",
+    "threads": 2,
+    "transport_us": 8932.616,
+    "whole_us": 8725
+  },
+  {
+    "budget_us": 0,
+    "cache_hit": true,
+    "continuation_step_us": 0,
+    "drop_us": 3994,
+    "floors": [],
+    "mode": "PREFIX",
+    "model_identity": "161f9e6e26840754384cb47335d1082d837fa014735cbfaa2517209422e29f24",
+    "model_us": 35,
+    "optional_us": 1,
+    "overrun_us": 0,
+    "plan_us": 1,
+    "planned": [],
+    "predicted_gain": 0.0,
+    "predicted_ticks": 0,
+    "prefix_step_us": 4221,
+    "prefix_us": 8084,
+    "rep": 1,
+    "rows": [
+      {
+        "cell": 1,
+        "entropy": 0.7124143742160444,
+        "history": "6516675426312361",
+        "id": "SELFPLAY_CAL_00765",
+        "legal": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "root_hash": "92aa8aa8fe305392",
+        "setup_us": 470,
+        "steps": [
+          {
+            "best": 2,
+            "eval_calls": 5,
+            "policy": [
+              [
+                3,
+                0.25
+              ],
+              [
+                4,
+                0.25
+              ],
+              [
+                1,
+                0.25
+              ],
+              [
+                2,
+                0.25
+              ],
+              [
+                6,
+                0.0
+              ],
+              [
+                0,
+                0.0
+              ],
+              [
+                5,
+                0.0
+              ]
+            ],
+            "root_hash": "92aa8aa8fe305392",
+            "search_us": 690,
+            "visits": 4,
+            "wall_us": 693
+          }
+        ],
+        "threat": false,
+        "top": 0.25
+      },
+      {
+        "cell": 1,
+        "entropy": 0.7124143742160444,
+        "history": "34667621424464241",
+        "id": "SELFPLAY_CAL_00770",
+        "legal": [
+          0,
+          1,
+          2,
+          4,
+          5,
+          6
+        ],
+        "root_hash": "90e79bb4a4642b2f",
+        "setup_us": 452,
+        "steps": [
+          {
+            "best": 0,
+            "eval_calls": 5,
+            "policy": [
+              [
+                6,
+                0.25
+              ],
+              [
+                4,
+                0.25
+              ],
+              [
+                2,
+                0.25
+              ],
+              [
+                0,
+                0.25
+              ],
+              [
+                1,
+                0.0
+              ],
+              [
+                5,
+                0.0
+              ]
+            ],
+            "root_hash": "90e79bb4a4642b2f",
+            "search_us": 678,
+            "visits": 4,
+            "wall_us": 680
+          }
+        ],
+        "threat": false,
+        "top": 0.25
+      },
+      {
+        "cell": 1,
+        "entropy": 0.7124143742160444,
+        "history": "3573761713243453",
+        "id": "SELFPLAY_CAL_00773",
+        "legal": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "root_hash": "0fe757f3173b24de",
+        "setup_us": 431,
+        "steps": [
+          {
+            "best": 0,
+            "eval_calls": 5,
+            "policy": [
+              [
+                3,
+                0.25
+              ],
+              [
+                1,
+                0.25
+              ],
+              [
+                4,
+                0.25
+              ],
+              [
+                0,
+                0.25
+              ],
+              [
+                5,
+                0.0
+              ],
+              [
+                6,
+                0.0
+              ],
+              [
+                2,
+                0.0
+              ]
+            ],
+            "root_hash": "0fe757f3173b24de",
+            "search_us": 557,
+            "visits": 4,
+            "wall_us": 559
+          }
+        ],
+        "threat": false,
+        "top": 0.25
+      },
+      {
+        "cell": 2,
+        "entropy": -0.0,
+        "history": "5336144776133425",
+        "id": "SELFPLAY_CAL_00777",
+        "legal": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "root_hash": "2253b385019dcfe4",
+        "setup_us": 455,
+        "steps": [
+          {
+            "best": 1,
+            "eval_calls": 1,
+            "policy": [
+              [
+                1,
+                1.0
+              ],
+              [
+                3,
+                0.0
+              ],
+              [
+                0,
+                0.0
+              ],
+              [
+                5,
+                0.0
+              ],
+              [
+                2,
+                0.0
+              ],
+              [
+                4,
+                0.0
+              ],
+              [
+                6,
+                0.0
+              ]
+            ],
+            "root_hash": "2253b385019dcfe4",
+            "search_us": 188,
+            "visits": 4,
+            "wall_us": 189
+          }
+        ],
+        "threat": false,
+        "top": 1.0
+      },
+      {
+        "cell": 4,
+        "entropy": 0.5343107806620332,
+        "history": "52243444317134215",
+        "id": "SELFPLAY_CAL_00782",
+        "legal": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "root_hash": "129864c53729b06f",
+        "setup_us": 457,
+        "steps": [
+          {
+            "best": 0,
+            "eval_calls": 3,
+            "policy": [
+              [
+                2,
+                0.25
+              ],
+              [
+                4,
+                0.25
+              ],
+              [
+                0,
+                0.5
+              ],
+              [
+                6,
+                0.0
+              ],
+              [
+                1,
+                0.0
+              ],
+              [
+                3,
+                0.0
+              ],
+              [
+                5,
+                0.0
+              ]
+            ],
+            "root_hash": "129864c53729b06f",
+            "search_us": 389,
+            "visits": 4,
+            "wall_us": 390
+          }
+        ],
+        "threat": true,
+        "top": 0.5
+      },
+      {
+        "cell": 0,
+        "entropy": 0.5343107806620332,
+        "history": "77543655335122532",
+        "id": "SELFPLAY_CAL_00784",
+        "legal": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "root_hash": "33e670b9d24f6f05",
+        "setup_us": 490,
+        "steps": [
+          {
+            "best": 3,
+            "eval_calls": 4,
+            "policy": [
+              [
+                3,
+                0.5
+              ],
+              [
+                1,
+                0.25
+              ],
+              [
+                2,
+                0.25
+              ],
+              [
+                5,
+                0.0
+              ],
+              [
+                0,
+                0.0
+              ],
+              [
+                4,
+                0.0
+              ],
+              [
+                6,
+                0.0
+              ]
+            ],
+            "root_hash": "33e670b9d24f6f05",
+            "search_us": 563,
+            "visits": 4,
+            "wall_us": 565
+          }
+        ],
+        "threat": false,
+        "top": 0.5
+      },
+      {
+        "cell": 2,
+        "entropy": -0.0,
+        "history": "5456464733245577",
+        "id": "SELFPLAY_CAL_00787",
+        "legal": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "root_hash": "5c684a5c61ca0db2",
+        "setup_us": 511,
+        "steps": [
+          {
+            "best": 1,
+            "eval_calls": 5,
+            "policy": [
+              [
+                1,
+                1.0
+              ],
+              [
+                5,
+                0.0
+              ],
+              [
+                4,
+                0.0
+              ],
+              [
+                2,
+                0.0
+              ],
+              [
+                3,
+                0.0
+              ],
+              [
+                0,
+                0.0
+              ],
+              [
+                6,
+                0.0
+              ]
+            ],
+            "root_hash": "5c684a5c61ca0db2",
+            "search_us": 589,
+            "visits": 4,
+            "wall_us": 590
+          }
+        ],
+        "threat": false,
+        "top": 1.0
+      },
+      {
+        "cell": 1,
+        "entropy": 0.7124143742160444,
+        "history": "47735777173212235",
+        "id": "SELFPLAY_CAL_00794",
+        "legal": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "root_hash": "c56008c560f1f595",
+        "setup_us": 512,
+        "steps": [
+          {
+            "best": 5,
+            "eval_calls": 5,
+            "policy": [
+              [
+                3,
+                0.25
+              ],
+              [
+                1,
+                0.25
+              ],
+              [
+                2,
+                0.25
+              ],
+              [
+                5,
+                0.25
+              ],
+              [
+                4,
+                0.0
+              ],
+              [
+                0,
+                0.0
+              ]
+            ],
+            "root_hash": "c56008c560f1f595",
+            "search_us": 553,
+            "visits": 4,
+            "wall_us": 555
+          }
+        ],
+        "threat": false,
+        "top": 0.25
+      }
+    ],
+    "schema": "quartz_nn_multiquanta_v1",
+    "seed": 18,
+    "selected": [],
+    "setup_total_us": 3778,
+    "stratum": "SELFPLAY",
+    "threads": 2,
+    "transport_us": 12393.871,
+    "whole_us": 12081
+  },
+  {
+    "budget_us": 0,
+    "cache_hit": true,
+    "continuation_step_us": 0,
+    "drop_us": 3713,
+    "floors": [],
+    "mode": "SETUP",
+    "model_identity": "161f9e6e26840754384cb47335d1082d837fa014735cbfaa2517209422e29f24",
+    "model_us": 29,
+    "optional_us": 1,
+    "overrun_us": 0,
+    "plan_us": 1,
+    "planned": [],
+    "predicted_gain": 0.0,
+    "predicted_ticks": 0,
+    "prefix_step_us": 0,
+    "prefix_us": 4238,
+    "rep": 1,
+    "rows": [
+      {
+        "cell": 0,
+        "entropy": 0.0,
+        "history": "6516675426312361",
+        "id": "SELFPLAY_CAL_00765",
+        "legal": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "root_hash": "92aa8aa8fe305392",
+        "setup_us": 465,
+        "steps": [],
+        "threat": false,
+        "top": 0.0
+      },
+      {
+        "cell": 0,
+        "entropy": 0.0,
+        "history": "34667621424464241",
+        "id": "SELFPLAY_CAL_00770",
+        "legal": [
+          0,
+          1,
+          2,
+          4,
+          5,
+          6
+        ],
+        "root_hash": "90e79bb4a4642b2f",
+        "setup_us": 514,
+        "steps": [],
+        "threat": false,
+        "top": 0.0
+      },
+      {
+        "cell": 0,
+        "entropy": 0.0,
+        "history": "3573761713243453",
+        "id": "SELFPLAY_CAL_00773",
+        "legal": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "root_hash": "0fe757f3173b24de",
+        "setup_us": 504,
+        "steps": [],
+        "threat": false,
+        "top": 0.0
+      },
+      {
+        "cell": 0,
+        "entropy": 0.0,
+        "history": "5336144776133425",
+        "id": "SELFPLAY_CAL_00777",
+        "legal": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "root_hash": "2253b385019dcfe4",
+        "setup_us": 516,
+        "steps": [],
+        "threat": false,
+        "top": 0.0
+      },
+      {
+        "cell": 0,
+        "entropy": 0.0,
+        "history": "52243444317134215",
+        "id": "SELFPLAY_CAL_00782",
+        "legal": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "root_hash": "129864c53729b06f",
+        "setup_us": 512,
+        "steps": [],
+        "threat": true,
+        "top": 0.0
+      },
+      {
+        "cell": 0,
+        "entropy": 0.0,
+        "history": "77543655335122532",
+        "id": "SELFPLAY_CAL_00784",
+        "legal": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "root_hash": "33e670b9d24f6f05",
+        "setup_us": 572,
+        "steps": [],
+        "threat": false,
+        "top": 0.0
+      },
+      {
+        "cell": 0,
+        "entropy": 0.0,
+        "history": "5456464733245577",
+        "id": "SELFPLAY_CAL_00787",
+        "legal": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "root_hash": "5c684a5c61ca0db2",
+        "setup_us": 550,
+        "steps": [],
+        "threat": false,
+        "top": 0.0
+      },
+      {
+        "cell": 0,
+        "entropy": 0.0,
+        "history": "47735777173212235",
+        "id": "SELFPLAY_CAL_00794",
+        "legal": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "root_hash": "c56008c560f1f595",
+        "setup_us": 530,
+        "steps": [],
+        "threat": false,
+        "top": 0.0
+      }
+    ],
+    "schema": "quartz_nn_multiquanta_v1",
+    "seed": 18,
+    "selected": [],
+    "setup_total_us": 4163,
+    "stratum": "SELFPLAY",
+    "threads": 2,
+    "transport_us": 8201.952,
+    "whole_us": 7953
+  },
+  {
+    "budget_us": 0,
+    "cache_hit": true,
+    "continuation_step_us": 0,
+    "drop_us": 4493,
+    "floors": [],
+    "mode": "SETUP",
+    "model_identity": "161f9e6e26840754384cb47335d1082d837fa014735cbfaa2517209422e29f24",
+    "model_us": 33,
+    "optional_us": 1,
+    "overrun_us": 0,
+    "plan_us": 1,
+    "planned": [],
+    "predicted_gain": 0.0,
+    "predicted_ticks": 0,
+    "prefix_step_us": 0,
+    "prefix_us": 4378,
+    "rep": 2,
+    "rows": [
+      {
+        "cell": 0,
+        "entropy": 0.0,
+        "history": "4231462535446665534342767",
+        "id": "TACTICAL_CAL_00588",
+        "legal": [
+          0,
+          1,
+          2,
+          4,
+          5,
+          6
+        ],
+        "root_hash": "5d47972d4b169e49",
+        "setup_us": 530,
+        "steps": [],
+        "threat": true,
+        "top": 0.0
+      },
+      {
+        "cell": 0,
+        "entropy": 0.0,
+        "history": "42163367245675533565",
+        "id": "TACTICAL_CAL_00590",
+        "legal": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "root_hash": "7a96c1c185df7100",
+        "setup_us": 567,
+        "steps": [],
+        "threat": true,
+        "top": 0.0
+      },
+      {
+        "cell": 0,
+        "entropy": 0.0,
+        "history": "252125575114355167773",
+        "id": "TACTICAL_CAL_00591",
+        "legal": [
+          0,
+          1,
+          2,
+          3,
+          5,
+          6
+        ],
+        "root_hash": "aa8b32b24ded709b",
+        "setup_us": 523,
+        "steps": [],
+        "threat": true,
+        "top": 0.0
+      },
+      {
+        "cell": 0,
+        "entropy": 0.0,
+        "history": "64332471322653372346",
+        "id": "TACTICAL_CAL_00595",
+        "legal": [
+          0,
+          1,
+          3,
+          4,
+          5,
+          6
+        ],
+        "root_hash": "d9725cba9dd5ce6e",
+        "setup_us": 530,
+        "steps": [],
+        "threat": true,
+        "top": 0.0
+      },
+      {
+        "cell": 0,
+        "entropy": 0.0,
+        "history": "72674127632531561277346",
+        "id": "TACTICAL_CAL_00596",
+        "legal": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "root_hash": "d3893b5c523a9235",
+        "setup_us": 537,
+        "steps": [],
+        "threat": true,
+        "top": 0.0
+      },
+      {
+        "cell": 0,
+        "entropy": 0.0,
+        "history": "651611477247732422735676",
+        "id": "TACTICAL_CAL_00600",
+        "legal": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "root_hash": "b5e2587fa9ea16ce",
+        "setup_us": 560,
+        "steps": [],
+        "threat": true,
+        "top": 0.0
+      },
+      {
+        "cell": 0,
+        "entropy": 0.0,
+        "history": "277467242335441171154",
+        "id": "TACTICAL_CAL_00601",
+        "legal": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "root_hash": "fd14999959f553f3",
+        "setup_us": 522,
+        "steps": [],
+        "threat": true,
+        "top": 0.0
+      },
+      {
+        "cell": 0,
+        "entropy": 0.0,
+        "history": "5652772562166145171711",
+        "id": "TACTICAL_CAL_00602",
+        "legal": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "root_hash": "643cc5a0521fb118",
+        "setup_us": 535,
+        "steps": [],
+        "threat": true,
+        "top": 0.0
+      }
+    ],
+    "schema": "quartz_nn_multiquanta_v1",
+    "seed": 19,
+    "selected": [],
+    "setup_total_us": 4304,
+    "stratum": "TACTICAL",
+    "threads": 2,
+    "transport_us": 9100.834,
+    "whole_us": 8874
+  },
+  {
+    "budget_us": 0,
+    "cache_hit": true,
+    "continuation_step_us": 0,
+    "drop_us": 4063,
+    "floors": [],
+    "mode": "PREFIX",
+    "model_identity": "161f9e6e26840754384cb47335d1082d837fa014735cbfaa2517209422e29f24",
+    "model_us": 32,
+    "optional_us": 1,
+    "overrun_us": 0,
+    "plan_us": 1,
+    "planned": [],
+    "predicted_gain": 0.0,
+    "predicted_ticks": 0,
+    "prefix_step_us": 5702,
+    "prefix_us": 9500,
+    "rep": 2,
+    "rows": [
+      {
+        "cell": 5,
+        "entropy": 0.7124143742160444,
+        "history": "4231462535446665534342767",
+        "id": "TACTICAL_CAL_00588",
+        "legal": [
+          0,
+          1,
+          2,
+          4,
+          5,
+          6
+        ],
+        "root_hash": "5d47972d4b169e49",
+        "setup_us": 510,
+        "steps": [
+          {
+            "best": 6,
+            "eval_calls": 5,
+            "policy": [
+              [
+                4,
+                0.25
+              ],
+              [
+                0,
+                0.25
+              ],
+              [
+                2,
+                0.25
+              ],
+              [
+                6,
+                0.25
+              ],
+              [
+                1,
+                0.0
+              ],
+              [
+                5,
+                0.0
+              ]
+            ],
+            "root_hash": "5d47972d4b169e49",
+            "search_us": 980,
+            "visits": 4,
+            "wall_us": 982
+          }
+        ],
+        "threat": true,
+        "top": 0.25
+      },
+      {
+        "cell": 5,
+        "entropy": 0.7124143742160444,
+        "history": "42163367245675533565",
+        "id": "TACTICAL_CAL_00590",
+        "legal": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "root_hash": "7a96c1c185df7100",
+        "setup_us": 488,
+        "steps": [
+          {
+            "best": 0,
+            "eval_calls": 5,
+            "policy": [
+              [
+                1,
+                0.25
+              ],
+              [
+                3,
+                0.25
+              ],
+              [
+                5,
+                0.25
+              ],
+              [
+                0,
+                0.25
+              ],
+              [
+                4,
+                0.0
+              ],
+              [
+                2,
+                0.0
+              ],
+              [
+                6,
+                0.0
+              ]
+            ],
+            "root_hash": "7a96c1c185df7100",
+            "search_us": 816,
+            "visits": 4,
+            "wall_us": 818
+          }
+        ],
+        "threat": true,
+        "top": 0.25
+      },
+      {
+        "cell": 5,
+        "entropy": 0.7124143742160444,
+        "history": "252125575114355167773",
+        "id": "TACTICAL_CAL_00591",
+        "legal": [
+          0,
+          1,
+          2,
+          3,
+          5,
+          6
+        ],
+        "root_hash": "aa8b32b24ded709b",
+        "setup_us": 476,
+        "steps": [
+          {
+            "best": 2,
+            "eval_calls": 5,
+            "policy": [
+              [
+                1,
+                0.25
+              ],
+              [
+                3,
+                0.25
+              ],
+              [
+                6,
+                0.25
+              ],
+              [
+                2,
+                0.25
+              ],
+              [
+                5,
+                0.0
+              ],
+              [
+                0,
+                0.0
+              ]
+            ],
+            "root_hash": "aa8b32b24ded709b",
+            "search_us": 755,
+            "visits": 4,
+            "wall_us": 757
+          }
+        ],
+        "threat": true,
+        "top": 0.25
+      },
+      {
+        "cell": 5,
+        "entropy": 0.7124143742160444,
+        "history": "64332471322653372346",
+        "id": "TACTICAL_CAL_00595",
+        "legal": [
+          0,
+          1,
+          3,
+          4,
+          5,
+          6
+        ],
+        "root_hash": "d9725cba9dd5ce6e",
+        "setup_us": 442,
+        "steps": [
+          {
+            "best": 0,
+            "eval_calls": 5,
+            "policy": [
+              [
+                3,
+                0.25
+              ],
+              [
+                4,
+                0.25
+              ],
+              [
+                1,
+                0.25
+              ],
+              [
+                0,
+                0.25
+              ],
+              [
+                5,
+                0.0
+              ],
+              [
+                6,
+                0.0
+              ]
+            ],
+            "root_hash": "d9725cba9dd5ce6e",
+            "search_us": 622,
+            "visits": 4,
+            "wall_us": 624
+          }
+        ],
+        "threat": true,
+        "top": 0.25
+      },
+      {
+        "cell": 5,
+        "entropy": 0.7124143742160444,
+        "history": "72674127632531561277346",
+        "id": "TACTICAL_CAL_00596",
+        "legal": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "root_hash": "d3893b5c523a9235",
+        "setup_us": 438,
+        "steps": [
+          {
+            "best": 5,
+            "eval_calls": 5,
+            "policy": [
+              [
+                3,
+                0.25
+              ],
+              [
+                6,
+                0.25
+              ],
+              [
+                2,
+                0.25
+              ],
+              [
+                5,
+                0.25
+              ],
+              [
+                4,
+                0.0
+              ],
+              [
+                1,
+                0.0
+              ],
+              [
+                0,
+                0.0
+              ]
+            ],
+            "root_hash": "d3893b5c523a9235",
+            "search_us": 692,
+            "visits": 4,
+            "wall_us": 694
+          }
+        ],
+        "threat": true,
+        "top": 0.25
+      },
+      {
+        "cell": 5,
+        "entropy": 0.7124143742160444,
+        "history": "651611477247732422735676",
+        "id": "TACTICAL_CAL_00600",
+        "legal": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "root_hash": "b5e2587fa9ea16ce",
+        "setup_us": 441,
+        "steps": [
+          {
+            "best": 0,
+            "eval_calls": 5,
+            "policy": [
+              [
+                4,
+                0.25
+              ],
+              [
+                3,
+                0.25
+              ],
+              [
+                1,
+                0.25
+              ],
+              [
+                0,
+                0.25
+              ],
+              [
+                2,
+                0.0
+              ],
+              [
+                5,
+                0.0
+              ]
+            ],
+            "root_hash": "b5e2587fa9ea16ce",
+            "search_us": 673,
+            "visits": 4,
+            "wall_us": 675
+          }
+        ],
+        "threat": true,
+        "top": 0.25
+      },
+      {
+        "cell": 5,
+        "entropy": 0.7124143742160444,
+        "history": "277467242335441171154",
+        "id": "TACTICAL_CAL_00601",
+        "legal": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "root_hash": "fd14999959f553f3",
+        "setup_us": 456,
+        "steps": [
+          {
+            "best": 2,
+            "eval_calls": 5,
+            "policy": [
+              [
+                5,
+                0.25
+              ],
+              [
+                1,
+                0.25
+              ],
+              [
+                6,
+                0.25
+              ],
+              [
+                2,
+                0.25
+              ],
+              [
+                4,
+                0.0
+              ],
+              [
+                0,
+                0.0
+              ],
+              [
+                3,
+                0.0
+              ]
+            ],
+            "root_hash": "fd14999959f553f3",
+            "search_us": 578,
+            "visits": 4,
+            "wall_us": 580
+          }
+        ],
+        "threat": true,
+        "top": 0.25
+      },
+      {
+        "cell": 5,
+        "entropy": 0.7124143742160444,
+        "history": "5652772562166145171711",
+        "id": "TACTICAL_CAL_00602",
+        "legal": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "root_hash": "643cc5a0521fb118",
+        "setup_us": 458,
+        "steps": [
+          {
+            "best": 6,
+            "eval_calls": 5,
+            "policy": [
+              [
+                3,
+                0.25
+              ],
+              [
+                1,
+                0.25
+              ],
+              [
+                2,
+                0.25
+              ],
+              [
+                6,
+                0.25
+              ],
+              [
+                5,
+                0.0
+              ],
+              [
+                4,
+                0.0
+              ]
+            ],
+            "root_hash": "643cc5a0521fb118",
+            "search_us": 571,
+            "visits": 4,
+            "wall_us": 572
+          }
+        ],
+        "threat": true,
+        "top": 0.25
+      }
+    ],
+    "schema": "quartz_nn_multiquanta_v1",
+    "seed": 19,
+    "selected": [],
+    "setup_total_us": 3709,
+    "stratum": "TACTICAL",
+    "threads": 2,
+    "transport_us": 14116.163,
+    "whole_us": 13565
+  },
+  {
+    "budget_us": 0,
+    "cache_hit": true,
+    "continuation_step_us": 0,
+    "drop_us": 3981,
+    "floors": [],
+    "mode": "SETUP",
+    "model_identity": "161f9e6e26840754384cb47335d1082d837fa014735cbfaa2517209422e29f24",
+    "model_us": 37,
+    "optional_us": 1,
+    "overrun_us": 0,
+    "plan_us": 1,
+    "planned": [],
+    "predicted_gain": 0.0,
+    "predicted_ticks": 0,
+    "prefix_step_us": 0,
+    "prefix_us": 5946,
+    "rep": 2,
+    "rows": [
+      {
+        "cell": 0,
+        "entropy": 0.0,
+        "history": "6516675426312361",
+        "id": "SELFPLAY_CAL_00765",
+        "legal": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "root_hash": "92aa8aa8fe305392",
+        "setup_us": 457,
+        "steps": [],
+        "threat": false,
+        "top": 0.0
+      },
+      {
+        "cell": 0,
+        "entropy": 0.0,
+        "history": "34667621424464241",
+        "id": "SELFPLAY_CAL_00770",
+        "legal": [
+          0,
+          1,
+          2,
+          4,
+          5,
+          6
+        ],
+        "root_hash": "90e79bb4a4642b2f",
+        "setup_us": 468,
+        "steps": [],
+        "threat": false,
+        "top": 0.0
+      },
+      {
+        "cell": 0,
+        "entropy": 0.0,
+        "history": "3573761713243453",
+        "id": "SELFPLAY_CAL_00773",
+        "legal": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "root_hash": "0fe757f3173b24de",
+        "setup_us": 1938,
+        "steps": [],
+        "threat": false,
+        "top": 0.0
+      },
+      {
+        "cell": 0,
+        "entropy": 0.0,
+        "history": "5336144776133425",
+        "id": "SELFPLAY_CAL_00777",
+        "legal": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "root_hash": "2253b385019dcfe4",
+        "setup_us": 543,
+        "steps": [],
+        "threat": false,
+        "top": 0.0
+      },
+      {
+        "cell": 0,
+        "entropy": 0.0,
+        "history": "52243444317134215",
+        "id": "SELFPLAY_CAL_00782",
+        "legal": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "root_hash": "129864c53729b06f",
+        "setup_us": 710,
+        "steps": [],
+        "threat": true,
+        "top": 0.0
+      },
+      {
+        "cell": 0,
+        "entropy": 0.0,
+        "history": "77543655335122532",
+        "id": "SELFPLAY_CAL_00784",
+        "legal": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "root_hash": "33e670b9d24f6f05",
+        "setup_us": 581,
+        "steps": [],
+        "threat": false,
+        "top": 0.0
+      },
+      {
+        "cell": 0,
+        "entropy": 0.0,
+        "history": "5456464733245577",
+        "id": "SELFPLAY_CAL_00787",
+        "legal": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "root_hash": "5c684a5c61ca0db2",
+        "setup_us": 543,
+        "steps": [],
+        "threat": false,
+        "top": 0.0
+      },
+      {
+        "cell": 0,
+        "entropy": 0.0,
+        "history": "47735777173212235",
+        "id": "SELFPLAY_CAL_00794",
+        "legal": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "root_hash": "c56008c560f1f595",
+        "setup_us": 620,
+        "steps": [],
+        "threat": false,
+        "top": 0.0
+      }
+    ],
+    "schema": "quartz_nn_multiquanta_v1",
+    "seed": 19,
+    "selected": [],
+    "setup_total_us": 5860,
+    "stratum": "SELFPLAY",
+    "threads": 2,
+    "transport_us": 10177.224,
+    "whole_us": 9930
+  },
+  {
+    "budget_us": 0,
+    "cache_hit": true,
+    "continuation_step_us": 0,
+    "drop_us": 4571,
+    "floors": [],
+    "mode": "PREFIX",
+    "model_identity": "161f9e6e26840754384cb47335d1082d837fa014735cbfaa2517209422e29f24",
+    "model_us": 545,
+    "optional_us": 1,
+    "overrun_us": 0,
+    "plan_us": 1,
+    "planned": [],
+    "predicted_gain": 0.0,
+    "predicted_ticks": 0,
+    "prefix_step_us": 6286,
+    "prefix_us": 10973,
+    "rep": 2,
+    "rows": [
+      {
+        "cell": 1,
+        "entropy": 0.7124143742160444,
+        "history": "6516675426312361",
+        "id": "SELFPLAY_CAL_00765",
+        "legal": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "root_hash": "92aa8aa8fe305392",
+        "setup_us": 540,
+        "steps": [
+          {
+            "best": 2,
+            "eval_calls": 5,
+            "policy": [
+              [
+                3,
+                0.25
+              ],
+              [
+                4,
+                0.25
+              ],
+              [
+                1,
+                0.25
+              ],
+              [
+                2,
+                0.25
+              ],
+              [
+                6,
+                0.0
+              ],
+              [
+                0,
+                0.0
+              ],
+              [
+                5,
+                0.0
+              ]
+            ],
+            "root_hash": "92aa8aa8fe305392",
+            "search_us": 744,
+            "visits": 4,
+            "wall_us": 748
+          }
+        ],
+        "threat": false,
+        "top": 0.25
+      },
+      {
+        "cell": 1,
+        "entropy": 0.7124143742160444,
+        "history": "34667621424464241",
+        "id": "SELFPLAY_CAL_00770",
+        "legal": [
+          0,
+          1,
+          2,
+          4,
+          5,
+          6
+        ],
+        "root_hash": "90e79bb4a4642b2f",
+        "setup_us": 560,
+        "steps": [
+          {
+            "best": 0,
+            "eval_calls": 5,
+            "policy": [
+              [
+                6,
+                0.25
+              ],
+              [
+                4,
+                0.25
+              ],
+              [
+                2,
+                0.25
+              ],
+              [
+                0,
+                0.25
+              ],
+              [
+                1,
+                0.0
+              ],
+              [
+                5,
+                0.0
+              ]
+            ],
+            "root_hash": "90e79bb4a4642b2f",
+            "search_us": 848,
+            "visits": 4,
+            "wall_us": 850
+          }
+        ],
+        "threat": false,
+        "top": 0.25
+      },
+      {
+        "cell": 1,
+        "entropy": 0.7124143742160444,
+        "history": "3573761713243453",
+        "id": "SELFPLAY_CAL_00773",
+        "legal": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "root_hash": "0fe757f3173b24de",
+        "setup_us": 600,
+        "steps": [
+          {
+            "best": 0,
+            "eval_calls": 5,
+            "policy": [
+              [
+                3,
+                0.25
+              ],
+              [
+                1,
+                0.25
+              ],
+              [
+                4,
+                0.25
+              ],
+              [
+                0,
+                0.25
+              ],
+              [
+                5,
+                0.0
+              ],
+              [
+                6,
+                0.0
+              ],
+              [
+                2,
+                0.0
+              ]
+            ],
+            "root_hash": "0fe757f3173b24de",
+            "search_us": 783,
+            "visits": 4,
+            "wall_us": 785
+          }
+        ],
+        "threat": false,
+        "top": 0.25
+      },
+      {
+        "cell": 2,
+        "entropy": -0.0,
+        "history": "5336144776133425",
+        "id": "SELFPLAY_CAL_00777",
+        "legal": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "root_hash": "2253b385019dcfe4",
+        "setup_us": 535,
+        "steps": [
+          {
+            "best": 1,
+            "eval_calls": 1,
+            "policy": [
+              [
+                1,
+                1.0
+              ],
+              [
+                3,
+                0.0
+              ],
+              [
+                0,
+                0.0
+              ],
+              [
+                5,
+                0.0
+              ],
+              [
+                2,
+                0.0
+              ],
+              [
+                4,
+                0.0
+              ],
+              [
+                6,
+                0.0
+              ]
+            ],
+            "root_hash": "2253b385019dcfe4",
+            "search_us": 210,
+            "visits": 4,
+            "wall_us": 212
+          }
+        ],
+        "threat": false,
+        "top": 1.0
+      },
+      {
+        "cell": 4,
+        "entropy": 0.5343107806620332,
+        "history": "52243444317134215",
+        "id": "SELFPLAY_CAL_00782",
+        "legal": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "root_hash": "129864c53729b06f",
+        "setup_us": 444,
+        "steps": [
+          {
+            "best": 0,
+            "eval_calls": 3,
+            "policy": [
+              [
+                2,
+                0.25
+              ],
+              [
+                4,
+                0.25
+              ],
+              [
+                0,
+                0.5
+              ],
+              [
+                6,
+                0.0
+              ],
+              [
+                1,
+                0.0
+              ],
+              [
+                3,
+                0.0
+              ],
+              [
+                5,
+                0.0
+              ]
+            ],
+            "root_hash": "129864c53729b06f",
+            "search_us": 393,
+            "visits": 4,
+            "wall_us": 394
+          }
+        ],
+        "threat": true,
+        "top": 0.5
+      },
+      {
+        "cell": 0,
+        "entropy": 0.5343107806620332,
+        "history": "77543655335122532",
+        "id": "SELFPLAY_CAL_00784",
+        "legal": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "root_hash": "33e670b9d24f6f05",
+        "setup_us": 467,
+        "steps": [
+          {
+            "best": 3,
+            "eval_calls": 4,
+            "policy": [
+              [
+                3,
+                0.5
+              ],
+              [
+                1,
+                0.25
+              ],
+              [
+                2,
+                0.25
+              ],
+              [
+                5,
+                0.0
+              ],
+              [
+                0,
+                0.0
+              ],
+              [
+                4,
+                0.0
+              ],
+              [
+                6,
+                0.0
+              ]
+            ],
+            "root_hash": "33e670b9d24f6f05",
+            "search_us": 526,
+            "visits": 4,
+            "wall_us": 527
+          }
+        ],
+        "threat": false,
+        "top": 0.5
+      },
+      {
+        "cell": 2,
+        "entropy": -0.0,
+        "history": "5456464733245577",
+        "id": "SELFPLAY_CAL_00787",
+        "legal": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "root_hash": "5c684a5c61ca0db2",
+        "setup_us": 466,
+        "steps": [
+          {
+            "best": 1,
+            "eval_calls": 5,
+            "policy": [
+              [
+                1,
+                1.0
+              ],
+              [
+                5,
+                0.0
+              ],
+              [
+                4,
+                0.0
+              ],
+              [
+                2,
+                0.0
+              ],
+              [
+                3,
+                0.0
+              ],
+              [
+                0,
+                0.0
+              ],
+              [
+                6,
+                0.0
+              ]
+            ],
+            "root_hash": "5c684a5c61ca0db2",
+            "search_us": 560,
+            "visits": 4,
+            "wall_us": 561
+          }
+        ],
+        "threat": false,
+        "top": 1.0
+      },
+      {
+        "cell": 1,
+        "entropy": 0.7124143742160444,
+        "history": "47735777173212235",
+        "id": "SELFPLAY_CAL_00794",
+        "legal": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "root_hash": "c56008c560f1f595",
+        "setup_us": 472,
+        "steps": [
+          {
+            "best": 5,
+            "eval_calls": 5,
+            "policy": [
+              [
+                3,
+                0.25
+              ],
+              [
+                1,
+                0.25
+              ],
+              [
+                2,
+                0.25
+              ],
+              [
+                5,
+                0.25
+              ],
+              [
+                4,
+                0.0
+              ],
+              [
+                0,
+                0.0
+              ]
+            ],
+            "root_hash": "c56008c560f1f595",
+            "search_us": 2206,
+            "visits": 4,
+            "wall_us": 2209
+          }
+        ],
+        "threat": false,
+        "top": 0.25
+      }
+    ],
+    "schema": "quartz_nn_multiquanta_v1",
+    "seed": 19,
+    "selected": [],
+    "setup_total_us": 4084,
+    "stratum": "SELFPLAY",
+    "threads": 2,
+    "transport_us": 15889.521,
+    "whole_us": 15547
+  },
+  {
+    "budget_us": 0,
+    "cache_hit": true,
+    "continuation_step_us": 0,
+    "drop_us": 3834,
+    "floors": [],
+    "mode": "PREFIX",
+    "model_identity": "161f9e6e26840754384cb47335d1082d837fa014735cbfaa2517209422e29f24",
+    "model_us": 36,
+    "optional_us": 1,
+    "overrun_us": 0,
+    "plan_us": 1,
+    "planned": [],
+    "predicted_gain": 0.0,
+    "predicted_ticks": 0,
+    "prefix_step_us": 5317,
+    "prefix_us": 9164,
+    "rep": 3,
+    "rows": [
+      {
+        "cell": 5,
+        "entropy": 0.7124143742160444,
+        "history": "4231462535446665534342767",
+        "id": "TACTICAL_CAL_00588",
+        "legal": [
+          0,
+          1,
+          2,
+          4,
+          5,
+          6
+        ],
+        "root_hash": "5d47972d4b169e49",
+        "setup_us": 461,
+        "steps": [
+          {
+            "best": 6,
+            "eval_calls": 5,
+            "policy": [
+              [
+                4,
+                0.25
+              ],
+              [
+                0,
+                0.25
+              ],
+              [
+                2,
+                0.25
+              ],
+              [
+                6,
+                0.25
+              ],
+              [
+                1,
+                0.0
+              ],
+              [
+                5,
+                0.0
+              ]
+            ],
+            "root_hash": "5d47972d4b169e49",
+            "search_us": 544,
+            "visits": 4,
+            "wall_us": 546
+          }
+        ],
+        "threat": true,
+        "top": 0.25
+      },
+      {
+        "cell": 5,
+        "entropy": 0.7124143742160444,
+        "history": "42163367245675533565",
+        "id": "TACTICAL_CAL_00590",
+        "legal": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "root_hash": "7a96c1c185df7100",
+        "setup_us": 449,
+        "steps": [
+          {
+            "best": 0,
+            "eval_calls": 5,
+            "policy": [
+              [
+                1,
+                0.25
+              ],
+              [
+                3,
+                0.25
+              ],
+              [
+                5,
+                0.25
+              ],
+              [
+                0,
+                0.25
+              ],
+              [
+                4,
+                0.0
+              ],
+              [
+                2,
+                0.0
+              ],
+              [
+                6,
+                0.0
+              ]
+            ],
+            "root_hash": "7a96c1c185df7100",
+            "search_us": 543,
+            "visits": 4,
+            "wall_us": 544
+          }
+        ],
+        "threat": true,
+        "top": 0.25
+      },
+      {
+        "cell": 5,
+        "entropy": 0.7124143742160444,
+        "history": "252125575114355167773",
+        "id": "TACTICAL_CAL_00591",
+        "legal": [
+          0,
+          1,
+          2,
+          3,
+          5,
+          6
+        ],
+        "root_hash": "aa8b32b24ded709b",
+        "setup_us": 457,
+        "steps": [
+          {
+            "best": 2,
+            "eval_calls": 5,
+            "policy": [
+              [
+                1,
+                0.25
+              ],
+              [
+                3,
+                0.25
+              ],
+              [
+                6,
+                0.25
+              ],
+              [
+                2,
+                0.25
+              ],
+              [
+                5,
+                0.0
+              ],
+              [
+                0,
+                0.0
+              ]
+            ],
+            "root_hash": "aa8b32b24ded709b",
+            "search_us": 576,
+            "visits": 4,
+            "wall_us": 577
+          }
+        ],
+        "threat": true,
+        "top": 0.25
+      },
+      {
+        "cell": 5,
+        "entropy": 0.7124143742160444,
+        "history": "64332471322653372346",
+        "id": "TACTICAL_CAL_00595",
+        "legal": [
+          0,
+          1,
+          3,
+          4,
+          5,
+          6
+        ],
+        "root_hash": "d9725cba9dd5ce6e",
+        "setup_us": 495,
+        "steps": [
+          {
+            "best": 0,
+            "eval_calls": 5,
+            "policy": [
+              [
+                3,
+                0.25
+              ],
+              [
+                4,
+                0.25
+              ],
+              [
+                1,
+                0.25
+              ],
+              [
+                0,
+                0.25
+              ],
+              [
+                5,
+                0.0
+              ],
+              [
+                6,
+                0.0
+              ]
+            ],
+            "root_hash": "d9725cba9dd5ce6e",
+            "search_us": 1261,
+            "visits": 4,
+            "wall_us": 1263
+          }
+        ],
+        "threat": true,
+        "top": 0.25
+      },
+      {
+        "cell": 5,
+        "entropy": 0.7124143742160444,
+        "history": "72674127632531561277346",
+        "id": "TACTICAL_CAL_00596",
+        "legal": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "root_hash": "d3893b5c523a9235",
+        "setup_us": 497,
+        "steps": [
+          {
+            "best": 5,
+            "eval_calls": 5,
+            "policy": [
+              [
+                3,
+                0.25
+              ],
+              [
+                6,
+                0.25
+              ],
+              [
+                2,
+                0.25
+              ],
+              [
+                5,
+                0.25
+              ],
+              [
+                4,
+                0.0
+              ],
+              [
+                1,
+                0.0
+              ],
+              [
+                0,
+                0.0
+              ]
+            ],
+            "root_hash": "d3893b5c523a9235",
+            "search_us": 769,
+            "visits": 4,
+            "wall_us": 771
+          }
+        ],
+        "threat": true,
+        "top": 0.25
+      },
+      {
+        "cell": 5,
+        "entropy": 0.7124143742160444,
+        "history": "651611477247732422735676",
+        "id": "TACTICAL_CAL_00600",
+        "legal": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "root_hash": "b5e2587fa9ea16ce",
+        "setup_us": 470,
+        "steps": [
+          {
+            "best": 0,
+            "eval_calls": 5,
+            "policy": [
+              [
+                4,
+                0.25
+              ],
+              [
+                3,
+                0.25
+              ],
+              [
+                1,
+                0.25
+              ],
+              [
+                0,
+                0.25
+              ],
+              [
+                2,
+                0.0
+              ],
+              [
+                5,
+                0.0
+              ]
+            ],
+            "root_hash": "b5e2587fa9ea16ce",
+            "search_us": 557,
+            "visits": 4,
+            "wall_us": 558
+          }
+        ],
+        "threat": true,
+        "top": 0.25
+      },
+      {
+        "cell": 5,
+        "entropy": 0.7124143742160444,
+        "history": "277467242335441171154",
+        "id": "TACTICAL_CAL_00601",
+        "legal": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "root_hash": "fd14999959f553f3",
+        "setup_us": 476,
+        "steps": [
+          {
+            "best": 2,
+            "eval_calls": 5,
+            "policy": [
+              [
+                5,
+                0.25
+              ],
+              [
+                1,
+                0.25
+              ],
+              [
+                6,
+                0.25
+              ],
+              [
+                2,
+                0.25
+              ],
+              [
+                4,
+                0.0
+              ],
+              [
+                0,
+                0.0
+              ],
+              [
+                3,
+                0.0
+              ]
+            ],
+            "root_hash": "fd14999959f553f3",
+            "search_us": 540,
+            "visits": 4,
+            "wall_us": 542
+          }
+        ],
+        "threat": true,
+        "top": 0.25
+      },
+      {
+        "cell": 5,
+        "entropy": 0.7124143742160444,
+        "history": "5652772562166145171711",
+        "id": "TACTICAL_CAL_00602",
+        "legal": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "root_hash": "643cc5a0521fb118",
+        "setup_us": 438,
+        "steps": [
+          {
+            "best": 6,
+            "eval_calls": 5,
+            "policy": [
+              [
+                3,
+                0.25
+              ],
+              [
+                1,
+                0.25
+              ],
+              [
+                2,
+                0.25
+              ],
+              [
+                6,
+                0.25
+              ],
+              [
+                5,
+                0.0
+              ],
+              [
+                4,
+                0.0
+              ]
+            ],
+            "root_hash": "643cc5a0521fb118",
+            "search_us": 515,
+            "visits": 4,
+            "wall_us": 516
+          }
+        ],
+        "threat": true,
+        "top": 0.25
+      }
+    ],
+    "schema": "quartz_nn_multiquanta_v1",
+    "seed": 20,
+    "selected": [],
+    "setup_total_us": 3743,
+    "stratum": "TACTICAL",
+    "threads": 2,
+    "transport_us": 13350.253,
+    "whole_us": 13001
+  },
+  {
+    "budget_us": 0,
+    "cache_hit": true,
+    "continuation_step_us": 0,
+    "drop_us": 4924,
+    "floors": [],
+    "mode": "SETUP",
+    "model_identity": "161f9e6e26840754384cb47335d1082d837fa014735cbfaa2517209422e29f24",
+    "model_us": 38,
+    "optional_us": 1,
+    "overrun_us": 0,
+    "plan_us": 1,
+    "planned": [],
+    "predicted_gain": 0.0,
+    "predicted_ticks": 0,
+    "prefix_step_us": 0,
+    "prefix_us": 5577,
+    "rep": 3,
+    "rows": [
+      {
+        "cell": 0,
+        "entropy": 0.0,
+        "history": "4231462535446665534342767",
+        "id": "TACTICAL_CAL_00588",
+        "legal": [
+          0,
+          1,
+          2,
+          4,
+          5,
+          6
+        ],
+        "root_hash": "5d47972d4b169e49",
+        "setup_us": 504,
+        "steps": [],
+        "threat": true,
+        "top": 0.0
+      },
+      {
+        "cell": 0,
+        "entropy": 0.0,
+        "history": "42163367245675533565",
+        "id": "TACTICAL_CAL_00590",
+        "legal": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "root_hash": "7a96c1c185df7100",
+        "setup_us": 1477,
+        "steps": [],
+        "threat": true,
+        "top": 0.0
+      },
+      {
+        "cell": 0,
+        "entropy": 0.0,
+        "history": "252125575114355167773",
+        "id": "TACTICAL_CAL_00591",
+        "legal": [
+          0,
+          1,
+          2,
+          3,
+          5,
+          6
+        ],
+        "root_hash": "aa8b32b24ded709b",
+        "setup_us": 543,
+        "steps": [],
+        "threat": true,
+        "top": 0.0
+      },
+      {
+        "cell": 0,
+        "entropy": 0.0,
+        "history": "64332471322653372346",
+        "id": "TACTICAL_CAL_00595",
+        "legal": [
+          0,
+          1,
+          3,
+          4,
+          5,
+          6
+        ],
+        "root_hash": "d9725cba9dd5ce6e",
+        "setup_us": 531,
+        "steps": [],
+        "threat": true,
+        "top": 0.0
+      },
+      {
+        "cell": 0,
+        "entropy": 0.0,
+        "history": "72674127632531561277346",
+        "id": "TACTICAL_CAL_00596",
+        "legal": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "root_hash": "d3893b5c523a9235",
+        "setup_us": 617,
+        "steps": [],
+        "threat": true,
+        "top": 0.0
+      },
+      {
+        "cell": 0,
+        "entropy": 0.0,
+        "history": "651611477247732422735676",
+        "id": "TACTICAL_CAL_00600",
+        "legal": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "root_hash": "b5e2587fa9ea16ce",
+        "setup_us": 548,
+        "steps": [],
+        "threat": true,
+        "top": 0.0
+      },
+      {
+        "cell": 0,
+        "entropy": 0.0,
+        "history": "277467242335441171154",
+        "id": "TACTICAL_CAL_00601",
+        "legal": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "root_hash": "fd14999959f553f3",
+        "setup_us": 664,
+        "steps": [],
+        "threat": true,
+        "top": 0.0
+      },
+      {
+        "cell": 0,
+        "entropy": 0.0,
+        "history": "5652772562166145171711",
+        "id": "TACTICAL_CAL_00602",
+        "legal": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "root_hash": "643cc5a0521fb118",
+        "setup_us": 607,
+        "steps": [],
+        "threat": true,
+        "top": 0.0
+      }
+    ],
+    "schema": "quartz_nn_multiquanta_v1",
+    "seed": 20,
+    "selected": [],
+    "setup_total_us": 5491,
+    "stratum": "TACTICAL",
+    "threads": 2,
+    "transport_us": 10743.105,
+    "whole_us": 10504
+  },
+  {
+    "budget_us": 0,
+    "cache_hit": true,
+    "continuation_step_us": 0,
+    "drop_us": 4808,
+    "floors": [],
+    "mode": "PREFIX",
+    "model_identity": "161f9e6e26840754384cb47335d1082d837fa014735cbfaa2517209422e29f24",
+    "model_us": 33,
+    "optional_us": 1,
+    "overrun_us": 0,
+    "plan_us": 1,
+    "planned": [],
+    "predicted_gain": 0.0,
+    "predicted_ticks": 0,
+    "prefix_step_us": 4336,
+    "prefix_us": 8320,
+    "rep": 3,
+    "rows": [
+      {
+        "cell": 1,
+        "entropy": 0.7124143742160444,
+        "history": "6516675426312361",
+        "id": "SELFPLAY_CAL_00765",
+        "legal": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "root_hash": "92aa8aa8fe305392",
+        "setup_us": 468,
+        "steps": [
+          {
+            "best": 2,
+            "eval_calls": 5,
+            "policy": [
+              [
+                3,
+                0.25
+              ],
+              [
+                4,
+                0.25
+              ],
+              [
+                1,
+                0.25
+              ],
+              [
+                2,
+                0.25
+              ],
+              [
+                6,
+                0.0
+              ],
+              [
+                0,
+                0.0
+              ],
+              [
+                5,
+                0.0
+              ]
+            ],
+            "root_hash": "92aa8aa8fe305392",
+            "search_us": 684,
+            "visits": 4,
+            "wall_us": 687
+          }
+        ],
+        "threat": false,
+        "top": 0.25
+      },
+      {
+        "cell": 1,
+        "entropy": 0.7124143742160444,
+        "history": "34667621424464241",
+        "id": "SELFPLAY_CAL_00770",
+        "legal": [
+          0,
+          1,
+          2,
+          4,
+          5,
+          6
+        ],
+        "root_hash": "90e79bb4a4642b2f",
+        "setup_us": 475,
+        "steps": [
+          {
+            "best": 0,
+            "eval_calls": 5,
+            "policy": [
+              [
+                6,
+                0.25
+              ],
+              [
+                4,
+                0.25
+              ],
+              [
+                2,
+                0.25
+              ],
+              [
+                0,
+                0.25
+              ],
+              [
+                1,
+                0.0
+              ],
+              [
+                5,
+                0.0
+              ]
+            ],
+            "root_hash": "90e79bb4a4642b2f",
+            "search_us": 697,
+            "visits": 4,
+            "wall_us": 699
+          }
+        ],
+        "threat": false,
+        "top": 0.25
+      },
+      {
+        "cell": 1,
+        "entropy": 0.7124143742160444,
+        "history": "3573761713243453",
+        "id": "SELFPLAY_CAL_00773",
+        "legal": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "root_hash": "0fe757f3173b24de",
+        "setup_us": 480,
+        "steps": [
+          {
+            "best": 0,
+            "eval_calls": 5,
+            "policy": [
+              [
+                3,
+                0.25
+              ],
+              [
+                1,
+                0.25
+              ],
+              [
+                4,
+                0.25
+              ],
+              [
+                0,
+                0.25
+              ],
+              [
+                5,
+                0.0
+              ],
+              [
+                6,
+                0.0
+              ],
+              [
+                2,
+                0.0
+              ]
+            ],
+            "root_hash": "0fe757f3173b24de",
+            "search_us": 601,
+            "visits": 4,
+            "wall_us": 602
+          }
+        ],
+        "threat": false,
+        "top": 0.25
+      },
+      {
+        "cell": 2,
+        "entropy": -0.0,
+        "history": "5336144776133425",
+        "id": "SELFPLAY_CAL_00777",
+        "legal": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "root_hash": "2253b385019dcfe4",
+        "setup_us": 509,
+        "steps": [
+          {
+            "best": 1,
+            "eval_calls": 1,
+            "policy": [
+              [
+                1,
+                1.0
+              ],
+              [
+                3,
+                0.0
+              ],
+              [
+                0,
+                0.0
+              ],
+              [
+                5,
+                0.0
+              ],
+              [
+                2,
+                0.0
+              ],
+              [
+                4,
+                0.0
+              ],
+              [
+                6,
+                0.0
+              ]
+            ],
+            "root_hash": "2253b385019dcfe4",
+            "search_us": 230,
+            "visits": 4,
+            "wall_us": 231
+          }
+        ],
+        "threat": false,
+        "top": 1.0
+      },
+      {
+        "cell": 4,
+        "entropy": 0.5343107806620332,
+        "history": "52243444317134215",
+        "id": "SELFPLAY_CAL_00782",
+        "legal": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "root_hash": "129864c53729b06f",
+        "setup_us": 494,
+        "steps": [
+          {
+            "best": 0,
+            "eval_calls": 3,
+            "policy": [
+              [
+                2,
+                0.25
+              ],
+              [
+                4,
+                0.25
+              ],
+              [
+                0,
+                0.5
+              ],
+              [
+                6,
+                0.0
+              ],
+              [
+                1,
+                0.0
+              ],
+              [
+                3,
+                0.0
+              ],
+              [
+                5,
+                0.0
+              ]
+            ],
+            "root_hash": "129864c53729b06f",
+            "search_us": 417,
+            "visits": 4,
+            "wall_us": 418
+          }
+        ],
+        "threat": true,
+        "top": 0.5
+      },
+      {
+        "cell": 0,
+        "entropy": 0.5343107806620332,
+        "history": "77543655335122532",
+        "id": "SELFPLAY_CAL_00784",
+        "legal": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "root_hash": "33e670b9d24f6f05",
+        "setup_us": 473,
+        "steps": [
+          {
+            "best": 3,
+            "eval_calls": 4,
+            "policy": [
+              [
+                3,
+                0.5
+              ],
+              [
+                1,
+                0.25
+              ],
+              [
+                2,
+                0.25
+              ],
+              [
+                5,
+                0.0
+              ],
+              [
+                0,
+                0.0
+              ],
+              [
+                4,
+                0.0
+              ],
+              [
+                6,
+                0.0
+              ]
+            ],
+            "root_hash": "33e670b9d24f6f05",
+            "search_us": 497,
+            "visits": 4,
+            "wall_us": 499
+          }
+        ],
+        "threat": false,
+        "top": 0.5
+      },
+      {
+        "cell": 2,
+        "entropy": -0.0,
+        "history": "5456464733245577",
+        "id": "SELFPLAY_CAL_00787",
+        "legal": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "root_hash": "5c684a5c61ca0db2",
+        "setup_us": 480,
+        "steps": [
+          {
+            "best": 1,
+            "eval_calls": 5,
+            "policy": [
+              [
+                1,
+                1.0
+              ],
+              [
+                5,
+                0.0
+              ],
+              [
+                4,
+                0.0
+              ],
+              [
+                2,
+                0.0
+              ],
+              [
+                3,
+                0.0
+              ],
+              [
+                0,
+                0.0
+              ],
+              [
+                6,
+                0.0
+              ]
+            ],
+            "root_hash": "5c684a5c61ca0db2",
+            "search_us": 630,
+            "visits": 4,
+            "wall_us": 632
+          }
+        ],
+        "threat": false,
+        "top": 1.0
+      },
+      {
+        "cell": 1,
+        "entropy": 0.7124143742160444,
+        "history": "47735777173212235",
+        "id": "SELFPLAY_CAL_00794",
+        "legal": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "root_hash": "c56008c560f1f595",
+        "setup_us": 518,
+        "steps": [
+          {
+            "best": 5,
+            "eval_calls": 5,
+            "policy": [
+              [
+                3,
+                0.25
+              ],
+              [
+                1,
+                0.25
+              ],
+              [
+                2,
+                0.25
+              ],
+              [
+                5,
+                0.25
+              ],
+              [
+                4,
+                0.0
+              ],
+              [
+                0,
+                0.0
+              ]
+            ],
+            "root_hash": "c56008c560f1f595",
+            "search_us": 567,
+            "visits": 4,
+            "wall_us": 568
+          }
+        ],
+        "threat": false,
+        "top": 0.25
+      }
+    ],
+    "schema": "quartz_nn_multiquanta_v1",
+    "seed": 20,
+    "selected": [],
+    "setup_total_us": 3897,
+    "stratum": "SELFPLAY",
+    "threads": 2,
+    "transport_us": 13483.765,
+    "whole_us": 13130
+  },
+  {
+    "budget_us": 0,
+    "cache_hit": true,
+    "continuation_step_us": 0,
+    "drop_us": 3707,
+    "floors": [],
+    "mode": "SETUP",
+    "model_identity": "161f9e6e26840754384cb47335d1082d837fa014735cbfaa2517209422e29f24",
+    "model_us": 35,
+    "optional_us": 1,
+    "overrun_us": 0,
+    "plan_us": 1,
+    "planned": [],
+    "predicted_gain": 0.0,
+    "predicted_ticks": 0,
+    "prefix_step_us": 0,
+    "prefix_us": 4267,
+    "rep": 3,
+    "rows": [
+      {
+        "cell": 0,
+        "entropy": 0.0,
+        "history": "6516675426312361",
+        "id": "SELFPLAY_CAL_00765",
+        "legal": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "root_hash": "92aa8aa8fe305392",
+        "setup_us": 539,
+        "steps": [],
+        "threat": false,
+        "top": 0.0
+      },
+      {
+        "cell": 0,
+        "entropy": 0.0,
+        "history": "34667621424464241",
+        "id": "SELFPLAY_CAL_00770",
+        "legal": [
+          0,
+          1,
+          2,
+          4,
+          5,
+          6
+        ],
+        "root_hash": "90e79bb4a4642b2f",
+        "setup_us": 519,
+        "steps": [],
+        "threat": false,
+        "top": 0.0
+      },
+      {
+        "cell": 0,
+        "entropy": 0.0,
+        "history": "3573761713243453",
+        "id": "SELFPLAY_CAL_00773",
+        "legal": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "root_hash": "0fe757f3173b24de",
+        "setup_us": 540,
+        "steps": [],
+        "threat": false,
+        "top": 0.0
+      },
+      {
+        "cell": 0,
+        "entropy": 0.0,
+        "history": "5336144776133425",
+        "id": "SELFPLAY_CAL_00777",
+        "legal": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "root_hash": "2253b385019dcfe4",
+        "setup_us": 535,
+        "steps": [],
+        "threat": false,
+        "top": 0.0
+      },
+      {
+        "cell": 0,
+        "entropy": 0.0,
+        "history": "52243444317134215",
+        "id": "SELFPLAY_CAL_00782",
+        "legal": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "root_hash": "129864c53729b06f",
+        "setup_us": 559,
+        "steps": [],
+        "threat": true,
+        "top": 0.0
+      },
+      {
+        "cell": 0,
+        "entropy": 0.0,
+        "history": "77543655335122532",
+        "id": "SELFPLAY_CAL_00784",
+        "legal": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "root_hash": "33e670b9d24f6f05",
+        "setup_us": 519,
+        "steps": [],
+        "threat": false,
+        "top": 0.0
+      },
+      {
+        "cell": 0,
+        "entropy": 0.0,
+        "history": "5456464733245577",
+        "id": "SELFPLAY_CAL_00787",
+        "legal": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "root_hash": "5c684a5c61ca0db2",
+        "setup_us": 505,
+        "steps": [],
+        "threat": false,
+        "top": 0.0
+      },
+      {
+        "cell": 0,
+        "entropy": 0.0,
+        "history": "47735777173212235",
+        "id": "SELFPLAY_CAL_00794",
+        "legal": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "root_hash": "c56008c560f1f595",
+        "setup_us": 473,
+        "steps": [],
+        "threat": false,
+        "top": 0.0
+      }
+    ],
+    "schema": "quartz_nn_multiquanta_v1",
+    "seed": 20,
+    "selected": [],
+    "setup_total_us": 4189,
+    "stratum": "SELFPLAY",
+    "threads": 2,
+    "transport_us": 8202.133,
+    "whole_us": 7976
+  },
+  {
+    "budget_us": 0,
+    "cache_hit": true,
+    "continuation_step_us": 0,
+    "drop_us": 3593,
+    "floors": [],
+    "mode": "SETUP",
+    "model_identity": "161f9e6e26840754384cb47335d1082d837fa014735cbfaa2517209422e29f24",
+    "model_us": 41,
+    "optional_us": 1,
+    "overrun_us": 0,
+    "plan_us": 1,
+    "planned": [],
+    "predicted_gain": 0.0,
+    "predicted_ticks": 0,
+    "prefix_step_us": 0,
+    "prefix_us": 7880,
+    "rep": 4,
+    "rows": [
+      {
+        "cell": 0,
+        "entropy": 0.0,
+        "history": "4231462535446665534342767",
+        "id": "TACTICAL_CAL_00588",
+        "legal": [
+          0,
+          1,
+          2,
+          4,
+          5,
+          6
+        ],
+        "root_hash": "5d47972d4b169e49",
+        "setup_us": 579,
+        "steps": [],
+        "threat": true,
+        "top": 0.0
+      },
+      {
+        "cell": 0,
+        "entropy": 0.0,
+        "history": "42163367245675533565",
+        "id": "TACTICAL_CAL_00590",
+        "legal": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "root_hash": "7a96c1c185df7100",
+        "setup_us": 662,
+        "steps": [],
+        "threat": true,
+        "top": 0.0
+      },
+      {
+        "cell": 0,
+        "entropy": 0.0,
+        "history": "252125575114355167773",
+        "id": "TACTICAL_CAL_00591",
+        "legal": [
+          0,
+          1,
+          2,
+          3,
+          5,
+          6
+        ],
+        "root_hash": "aa8b32b24ded709b",
+        "setup_us": 573,
+        "steps": [],
+        "threat": true,
+        "top": 0.0
+      },
+      {
+        "cell": 0,
+        "entropy": 0.0,
+        "history": "64332471322653372346",
+        "id": "TACTICAL_CAL_00595",
+        "legal": [
+          0,
+          1,
+          3,
+          4,
+          5,
+          6
+        ],
+        "root_hash": "d9725cba9dd5ce6e",
+        "setup_us": 575,
+        "steps": [],
+        "threat": true,
+        "top": 0.0
+      },
+      {
+        "cell": 0,
+        "entropy": 0.0,
+        "history": "72674127632531561277346",
+        "id": "TACTICAL_CAL_00596",
+        "legal": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "root_hash": "d3893b5c523a9235",
+        "setup_us": 3829,
+        "steps": [],
+        "threat": true,
+        "top": 0.0
+      },
+      {
+        "cell": 0,
+        "entropy": 0.0,
+        "history": "651611477247732422735676",
+        "id": "TACTICAL_CAL_00600",
+        "legal": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "root_hash": "b5e2587fa9ea16ce",
+        "setup_us": 519,
+        "steps": [],
+        "threat": true,
+        "top": 0.0
+      },
+      {
+        "cell": 0,
+        "entropy": 0.0,
+        "history": "277467242335441171154",
+        "id": "TACTICAL_CAL_00601",
+        "legal": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "root_hash": "fd14999959f553f3",
+        "setup_us": 514,
+        "steps": [],
+        "threat": true,
+        "top": 0.0
+      },
+      {
+        "cell": 0,
+        "entropy": 0.0,
+        "history": "5652772562166145171711",
+        "id": "TACTICAL_CAL_00602",
+        "legal": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "root_hash": "643cc5a0521fb118",
+        "setup_us": 541,
+        "steps": [],
+        "threat": true,
+        "top": 0.0
+      }
+    ],
+    "schema": "quartz_nn_multiquanta_v1",
+    "seed": 21,
+    "selected": [],
+    "setup_total_us": 7792,
+    "stratum": "TACTICAL",
+    "threads": 2,
+    "transport_us": 11735.845,
+    "whole_us": 11476
+  },
+  {
+    "budget_us": 0,
+    "cache_hit": true,
+    "continuation_step_us": 0,
+    "drop_us": 4605,
+    "floors": [],
+    "mode": "PREFIX",
+    "model_identity": "161f9e6e26840754384cb47335d1082d837fa014735cbfaa2517209422e29f24",
+    "model_us": 34,
+    "optional_us": 1,
+    "overrun_us": 0,
+    "plan_us": 1,
+    "planned": [],
+    "predicted_gain": 0.0,
+    "predicted_ticks": 0,
+    "prefix_step_us": 4967,
+    "prefix_us": 8843,
+    "rep": 4,
+    "rows": [
+      {
+        "cell": 5,
+        "entropy": 0.7124143742160444,
+        "history": "4231462535446665534342767",
+        "id": "TACTICAL_CAL_00588",
+        "legal": [
+          0,
+          1,
+          2,
+          4,
+          5,
+          6
+        ],
+        "root_hash": "5d47972d4b169e49",
+        "setup_us": 509,
+        "steps": [
+          {
+            "best": 6,
+            "eval_calls": 5,
+            "policy": [
+              [
+                4,
+                0.25
+              ],
+              [
+                0,
+                0.25
+              ],
+              [
+                2,
+                0.25
+              ],
+              [
+                6,
+                0.25
+              ],
+              [
+                1,
+                0.0
+              ],
+              [
+                5,
+                0.0
+              ]
+            ],
+            "root_hash": "5d47972d4b169e49",
+            "search_us": 659,
+            "visits": 4,
+            "wall_us": 661
+          }
+        ],
+        "threat": true,
+        "top": 0.25
+      },
+      {
+        "cell": 5,
+        "entropy": 0.7124143742160444,
+        "history": "42163367245675533565",
+        "id": "TACTICAL_CAL_00590",
+        "legal": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "root_hash": "7a96c1c185df7100",
+        "setup_us": 503,
+        "steps": [
+          {
+            "best": 0,
+            "eval_calls": 5,
+            "policy": [
+              [
+                1,
+                0.25
+              ],
+              [
+                3,
+                0.25
+              ],
+              [
+                5,
+                0.25
+              ],
+              [
+                0,
+                0.25
+              ],
+              [
+                4,
+                0.0
+              ],
+              [
+                2,
+                0.0
+              ],
+              [
+                6,
+                0.0
+              ]
+            ],
+            "root_hash": "7a96c1c185df7100",
+            "search_us": 682,
+            "visits": 4,
+            "wall_us": 683
+          }
+        ],
+        "threat": true,
+        "top": 0.25
+      },
+      {
+        "cell": 5,
+        "entropy": 0.7124143742160444,
+        "history": "252125575114355167773",
+        "id": "TACTICAL_CAL_00591",
+        "legal": [
+          0,
+          1,
+          2,
+          3,
+          5,
+          6
+        ],
+        "root_hash": "aa8b32b24ded709b",
+        "setup_us": 483,
+        "steps": [
+          {
+            "best": 2,
+            "eval_calls": 5,
+            "policy": [
+              [
+                1,
+                0.25
+              ],
+              [
+                3,
+                0.25
+              ],
+              [
+                6,
+                0.25
+              ],
+              [
+                2,
+                0.25
+              ],
+              [
+                5,
+                0.0
+              ],
+              [
+                0,
+                0.0
+              ]
+            ],
+            "root_hash": "aa8b32b24ded709b",
+            "search_us": 696,
+            "visits": 4,
+            "wall_us": 698
+          }
+        ],
+        "threat": true,
+        "top": 0.25
+      },
+      {
+        "cell": 5,
+        "entropy": 0.7124143742160444,
+        "history": "64332471322653372346",
+        "id": "TACTICAL_CAL_00595",
+        "legal": [
+          0,
+          1,
+          3,
+          4,
+          5,
+          6
+        ],
+        "root_hash": "d9725cba9dd5ce6e",
+        "setup_us": 450,
+        "steps": [
+          {
+            "best": 0,
+            "eval_calls": 5,
+            "policy": [
+              [
+                3,
+                0.25
+              ],
+              [
+                4,
+                0.25
+              ],
+              [
+                1,
+                0.25
+              ],
+              [
+                0,
+                0.25
+              ],
+              [
+                5,
+                0.0
+              ],
+              [
+                6,
+                0.0
+              ]
+            ],
+            "root_hash": "d9725cba9dd5ce6e",
+            "search_us": 581,
+            "visits": 4,
+            "wall_us": 582
+          }
+        ],
+        "threat": true,
+        "top": 0.25
+      },
+      {
+        "cell": 5,
+        "entropy": 0.7124143742160444,
+        "history": "72674127632531561277346",
+        "id": "TACTICAL_CAL_00596",
+        "legal": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "root_hash": "d3893b5c523a9235",
+        "setup_us": 450,
+        "steps": [
+          {
+            "best": 5,
+            "eval_calls": 5,
+            "policy": [
+              [
+                3,
+                0.25
+              ],
+              [
+                6,
+                0.25
+              ],
+              [
+                2,
+                0.25
+              ],
+              [
+                5,
+                0.25
+              ],
+              [
+                4,
+                0.0
+              ],
+              [
+                1,
+                0.0
+              ],
+              [
+                0,
+                0.0
+              ]
+            ],
+            "root_hash": "d3893b5c523a9235",
+            "search_us": 562,
+            "visits": 4,
+            "wall_us": 563
+          }
+        ],
+        "threat": true,
+        "top": 0.25
+      },
+      {
+        "cell": 5,
+        "entropy": 0.7124143742160444,
+        "history": "651611477247732422735676",
+        "id": "TACTICAL_CAL_00600",
+        "legal": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "root_hash": "b5e2587fa9ea16ce",
+        "setup_us": 442,
+        "steps": [
+          {
+            "best": 0,
+            "eval_calls": 5,
+            "policy": [
+              [
+                4,
+                0.25
+              ],
+              [
+                3,
+                0.25
+              ],
+              [
+                1,
+                0.25
+              ],
+              [
+                0,
+                0.25
+              ],
+              [
+                2,
+                0.0
+              ],
+              [
+                5,
+                0.0
+              ]
+            ],
+            "root_hash": "b5e2587fa9ea16ce",
+            "search_us": 566,
+            "visits": 4,
+            "wall_us": 567
+          }
+        ],
+        "threat": true,
+        "top": 0.25
+      },
+      {
+        "cell": 5,
+        "entropy": 0.7124143742160444,
+        "history": "277467242335441171154",
+        "id": "TACTICAL_CAL_00601",
+        "legal": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "root_hash": "fd14999959f553f3",
+        "setup_us": 464,
+        "steps": [
+          {
+            "best": 2,
+            "eval_calls": 5,
+            "policy": [
+              [
+                5,
+                0.25
+              ],
+              [
+                1,
+                0.25
+              ],
+              [
+                6,
+                0.25
+              ],
+              [
+                2,
+                0.25
+              ],
+              [
+                4,
+                0.0
+              ],
+              [
+                0,
+                0.0
+              ],
+              [
+                3,
+                0.0
+              ]
+            ],
+            "root_hash": "fd14999959f553f3",
+            "search_us": 617,
+            "visits": 4,
+            "wall_us": 618
+          }
+        ],
+        "threat": true,
+        "top": 0.25
+      },
+      {
+        "cell": 5,
+        "entropy": 0.7124143742160444,
+        "history": "5652772562166145171711",
+        "id": "TACTICAL_CAL_00602",
+        "legal": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "root_hash": "643cc5a0521fb118",
+        "setup_us": 485,
+        "steps": [
+          {
+            "best": 6,
+            "eval_calls": 5,
+            "policy": [
+              [
+                3,
+                0.25
+              ],
+              [
+                1,
+                0.25
+              ],
+              [
+                2,
+                0.25
+              ],
+              [
+                6,
+                0.25
+              ],
+              [
+                5,
+                0.0
+              ],
+              [
+                4,
+                0.0
+              ]
+            ],
+            "root_hash": "643cc5a0521fb118",
+            "search_us": 594,
+            "visits": 4,
+            "wall_us": 595
+          }
+        ],
+        "threat": true,
+        "top": 0.25
+      }
+    ],
+    "schema": "quartz_nn_multiquanta_v1",
+    "seed": 21,
+    "selected": [],
+    "setup_total_us": 3786,
+    "stratum": "TACTICAL",
+    "threads": 2,
+    "transport_us": 13874.445,
+    "whole_us": 13450
+  },
+  {
+    "budget_us": 0,
+    "cache_hit": true,
+    "continuation_step_us": 0,
+    "drop_us": 4359,
+    "floors": [],
+    "mode": "SETUP",
+    "model_identity": "161f9e6e26840754384cb47335d1082d837fa014735cbfaa2517209422e29f24",
+    "model_us": 35,
+    "optional_us": 1,
+    "overrun_us": 0,
+    "plan_us": 1,
+    "planned": [],
+    "predicted_gain": 0.0,
+    "predicted_ticks": 0,
+    "prefix_step_us": 0,
+    "prefix_us": 4239,
+    "rep": 4,
+    "rows": [
+      {
+        "cell": 0,
+        "entropy": 0.0,
+        "history": "6516675426312361",
+        "id": "SELFPLAY_CAL_00765",
+        "legal": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "root_hash": "92aa8aa8fe305392",
+        "setup_us": 515,
+        "steps": [],
+        "threat": false,
+        "top": 0.0
+      },
+      {
+        "cell": 0,
+        "entropy": 0.0,
+        "history": "34667621424464241",
+        "id": "SELFPLAY_CAL_00770",
+        "legal": [
+          0,
+          1,
+          2,
+          4,
+          5,
+          6
+        ],
+        "root_hash": "90e79bb4a4642b2f",
+        "setup_us": 518,
+        "steps": [],
+        "threat": false,
+        "top": 0.0
+      },
+      {
+        "cell": 0,
+        "entropy": 0.0,
+        "history": "3573761713243453",
+        "id": "SELFPLAY_CAL_00773",
+        "legal": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "root_hash": "0fe757f3173b24de",
+        "setup_us": 501,
+        "steps": [],
+        "threat": false,
+        "top": 0.0
+      },
+      {
+        "cell": 0,
+        "entropy": 0.0,
+        "history": "5336144776133425",
+        "id": "SELFPLAY_CAL_00777",
+        "legal": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "root_hash": "2253b385019dcfe4",
+        "setup_us": 531,
+        "steps": [],
+        "threat": false,
+        "top": 0.0
+      },
+      {
+        "cell": 0,
+        "entropy": 0.0,
+        "history": "52243444317134215",
+        "id": "SELFPLAY_CAL_00782",
+        "legal": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "root_hash": "129864c53729b06f",
+        "setup_us": 504,
+        "steps": [],
+        "threat": true,
+        "top": 0.0
+      },
+      {
+        "cell": 0,
+        "entropy": 0.0,
+        "history": "77543655335122532",
+        "id": "SELFPLAY_CAL_00784",
+        "legal": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "root_hash": "33e670b9d24f6f05",
+        "setup_us": 549,
+        "steps": [],
+        "threat": false,
+        "top": 0.0
+      },
+      {
+        "cell": 0,
+        "entropy": 0.0,
+        "history": "5456464733245577",
+        "id": "SELFPLAY_CAL_00787",
+        "legal": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "root_hash": "5c684a5c61ca0db2",
+        "setup_us": 504,
+        "steps": [],
+        "threat": false,
+        "top": 0.0
+      },
+      {
+        "cell": 0,
+        "entropy": 0.0,
+        "history": "47735777173212235",
+        "id": "SELFPLAY_CAL_00794",
+        "legal": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "root_hash": "c56008c560f1f595",
+        "setup_us": 531,
+        "steps": [],
+        "threat": false,
+        "top": 0.0
+      }
+    ],
+    "schema": "quartz_nn_multiquanta_v1",
+    "seed": 21,
+    "selected": [],
+    "setup_total_us": 4153,
+    "stratum": "SELFPLAY",
+    "threads": 2,
+    "transport_us": 8833.909,
+    "whole_us": 8600
+  },
+  {
+    "budget_us": 0,
+    "cache_hit": true,
+    "continuation_step_us": 0,
+    "drop_us": 3943,
+    "floors": [],
+    "mode": "PREFIX",
+    "model_identity": "161f9e6e26840754384cb47335d1082d837fa014735cbfaa2517209422e29f24",
+    "model_us": 29,
+    "optional_us": 1,
+    "overrun_us": 0,
+    "plan_us": 1,
+    "planned": [],
+    "predicted_gain": 0.0,
+    "predicted_ticks": 0,
+    "prefix_step_us": 5132,
+    "prefix_us": 8936,
+    "rep": 4,
+    "rows": [
+      {
+        "cell": 1,
+        "entropy": 0.7124143742160444,
+        "history": "6516675426312361",
+        "id": "SELFPLAY_CAL_00765",
+        "legal": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "root_hash": "92aa8aa8fe305392",
+        "setup_us": 500,
+        "steps": [
+          {
+            "best": 2,
+            "eval_calls": 5,
+            "policy": [
+              [
+                3,
+                0.25
+              ],
+              [
+                4,
+                0.25
+              ],
+              [
+                1,
+                0.25
+              ],
+              [
+                2,
+                0.25
+              ],
+              [
+                6,
+                0.0
+              ],
+              [
+                0,
+                0.0
+              ],
+              [
+                5,
+                0.0
+              ]
+            ],
+            "root_hash": "92aa8aa8fe305392",
+            "search_us": 681,
+            "visits": 4,
+            "wall_us": 683
+          }
+        ],
+        "threat": false,
+        "top": 0.25
+      },
+      {
+        "cell": 1,
+        "entropy": 0.7124143742160444,
+        "history": "34667621424464241",
+        "id": "SELFPLAY_CAL_00770",
+        "legal": [
+          0,
+          1,
+          2,
+          4,
+          5,
+          6
+        ],
+        "root_hash": "90e79bb4a4642b2f",
+        "setup_us": 472,
+        "steps": [
+          {
+            "best": 0,
+            "eval_calls": 5,
+            "policy": [
+              [
+                6,
+                0.25
+              ],
+              [
+                4,
+                0.25
+              ],
+              [
+                2,
+                0.25
+              ],
+              [
+                0,
+                0.25
+              ],
+              [
+                1,
+                0.0
+              ],
+              [
+                5,
+                0.0
+              ]
+            ],
+            "root_hash": "90e79bb4a4642b2f",
+            "search_us": 669,
+            "visits": 4,
+            "wall_us": 670
+          }
+        ],
+        "threat": false,
+        "top": 0.25
+      },
+      {
+        "cell": 1,
+        "entropy": 0.7124143742160444,
+        "history": "3573761713243453",
+        "id": "SELFPLAY_CAL_00773",
+        "legal": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "root_hash": "0fe757f3173b24de",
+        "setup_us": 424,
+        "steps": [
+          {
+            "best": 0,
+            "eval_calls": 5,
+            "policy": [
+              [
+                3,
+                0.25
+              ],
+              [
+                1,
+                0.25
+              ],
+              [
+                4,
+                0.25
+              ],
+              [
+                0,
+                0.25
+              ],
+              [
+                5,
+                0.0
+              ],
+              [
+                6,
+                0.0
+              ],
+              [
+                2,
+                0.0
+              ]
+            ],
+            "root_hash": "0fe757f3173b24de",
+            "search_us": 544,
+            "visits": 4,
+            "wall_us": 546
+          }
+        ],
+        "threat": false,
+        "top": 0.25
+      },
+      {
+        "cell": 2,
+        "entropy": -0.0,
+        "history": "5336144776133425",
+        "id": "SELFPLAY_CAL_00777",
+        "legal": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "root_hash": "2253b385019dcfe4",
+        "setup_us": 442,
+        "steps": [
+          {
+            "best": 1,
+            "eval_calls": 1,
+            "policy": [
+              [
+                1,
+                1.0
+              ],
+              [
+                3,
+                0.0
+              ],
+              [
+                0,
+                0.0
+              ],
+              [
+                5,
+                0.0
+              ],
+              [
+                2,
+                0.0
+              ],
+              [
+                4,
+                0.0
+              ],
+              [
+                6,
+                0.0
+              ]
+            ],
+            "root_hash": "2253b385019dcfe4",
+            "search_us": 166,
+            "visits": 4,
+            "wall_us": 167
+          }
+        ],
+        "threat": false,
+        "top": 1.0
+      },
+      {
+        "cell": 4,
+        "entropy": 0.5343107806620332,
+        "history": "52243444317134215",
+        "id": "SELFPLAY_CAL_00782",
+        "legal": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "root_hash": "129864c53729b06f",
+        "setup_us": 440,
+        "steps": [
+          {
+            "best": 0,
+            "eval_calls": 3,
+            "policy": [
+              [
+                2,
+                0.25
+              ],
+              [
+                4,
+                0.25
+              ],
+              [
+                0,
+                0.5
+              ],
+              [
+                6,
+                0.0
+              ],
+              [
+                1,
+                0.0
+              ],
+              [
+                3,
+                0.0
+              ],
+              [
+                5,
+                0.0
+              ]
+            ],
+            "root_hash": "129864c53729b06f",
+            "search_us": 397,
+            "visits": 4,
+            "wall_us": 398
+          }
+        ],
+        "threat": true,
+        "top": 0.5
+      },
+      {
+        "cell": 0,
+        "entropy": 0.5343107806620332,
+        "history": "77543655335122532",
+        "id": "SELFPLAY_CAL_00784",
+        "legal": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "root_hash": "33e670b9d24f6f05",
+        "setup_us": 445,
+        "steps": [
+          {
+            "best": 3,
+            "eval_calls": 4,
+            "policy": [
+              [
+                3,
+                0.5
+              ],
+              [
+                1,
+                0.25
+              ],
+              [
+                2,
+                0.25
+              ],
+              [
+                5,
+                0.0
+              ],
+              [
+                0,
+                0.0
+              ],
+              [
+                4,
+                0.0
+              ],
+              [
+                6,
+                0.0
+              ]
+            ],
+            "root_hash": "33e670b9d24f6f05",
+            "search_us": 470,
+            "visits": 4,
+            "wall_us": 471
+          }
+        ],
+        "threat": false,
+        "top": 0.5
+      },
+      {
+        "cell": 2,
+        "entropy": -0.0,
+        "history": "5456464733245577",
+        "id": "SELFPLAY_CAL_00787",
+        "legal": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "root_hash": "5c684a5c61ca0db2",
+        "setup_us": 508,
+        "steps": [
+          {
+            "best": 1,
+            "eval_calls": 5,
+            "policy": [
+              [
+                1,
+                1.0
+              ],
+              [
+                5,
+                0.0
+              ],
+              [
+                4,
+                0.0
+              ],
+              [
+                2,
+                0.0
+              ],
+              [
+                3,
+                0.0
+              ],
+              [
+                0,
+                0.0
+              ],
+              [
+                6,
+                0.0
+              ]
+            ],
+            "root_hash": "5c684a5c61ca0db2",
+            "search_us": 1693,
+            "visits": 4,
+            "wall_us": 1694
+          }
+        ],
+        "threat": false,
+        "top": 1.0
+      },
+      {
+        "cell": 1,
+        "entropy": 0.7124143742160444,
+        "history": "47735777173212235",
+        "id": "SELFPLAY_CAL_00794",
+        "legal": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "root_hash": "c56008c560f1f595",
+        "setup_us": 493,
+        "steps": [
+          {
+            "best": 5,
+            "eval_calls": 5,
+            "policy": [
+              [
+                3,
+                0.25
+              ],
+              [
+                1,
+                0.25
+              ],
+              [
+                2,
+                0.25
+              ],
+              [
+                5,
+                0.25
+              ],
+              [
+                4,
+                0.0
+              ],
+              [
+                0,
+                0.0
+              ]
+            ],
+            "root_hash": "c56008c560f1f595",
+            "search_us": 501,
+            "visits": 4,
+            "wall_us": 503
+          }
+        ],
+        "threat": false,
+        "top": 0.25
+      }
+    ],
+    "schema": "quartz_nn_multiquanta_v1",
+    "seed": 21,
+    "selected": [],
+    "setup_total_us": 3724,
+    "stratum": "SELFPLAY",
+    "threads": 2,
+    "transport_us": 13196.892,
+    "whole_us": 12881
+  }
+]
