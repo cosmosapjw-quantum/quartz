@@ -42,3 +42,7 @@ A/B의 admissibility와 tie 보존은 주어진 가정에서 유도됐다. R07�
 ## R09 — 계산 계약
 
 현재 비정규화 세계 질량 벡터를 w, 각 채널 분모를 공통 D, outcome별 질량 배율을 정수 k(y,u)라 한다. child 질량은 w_t k(y,U_i(t)). 남은 지평 H에서 점수 단위는 D^H이다. STOP score는 `D^H max_a sum_t w_t U_a(t)`. 첫 비용은 `D^H c_i sum_t w_t`. child들의 H−1 score를 합하면 채널의 1/D를 보정한 동일 단위가 된다. 상계 B의 numerator는 U_i 값별 그룹에 대해 `sum_u max_a sum_{t:U_i(t)=u} w_t U_a(t)`. 입력 검증은 채널 행 합, 효용 support, 비용과 질량, horizon을 검사한다. 정확한 정수 비교로 부동소수점 near-tie를 배제한다.
+
+## R10 — 코딩 인계
+
+다음 단계는 동일 integer input에서 중단 상계 유무를 비교하고, 별도 Fraction oracle로 검증하는 것이다. C26의 게임 효능 판정 및 C27–C29의 후속 증거를 바꾸지 않는다. 세계 열거는 utility/cost tick을 공통 단위로 둔 소형 모형에 한정한다. latent-factor 또는 game-tree 구현이 이 계산을 실제로 가속하는지는 현재 열린 질문이다.
