@@ -20,3 +20,6 @@ Locked offline build and native tests. See C06.txt.
 
 ## C07
 Independent exact normalized Bellman, fixed inputs and boundary fixtures.
+
+## C08
+300-root paired resident replay, 23 repeats, against stored C29 observations and values.
