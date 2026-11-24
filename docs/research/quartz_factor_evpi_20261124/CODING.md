@@ -19,3 +19,7 @@ Outside가 1에 가깝거나 비용이 충분히 크면 support ceiling 1만으�
 ## C05 — 이식과 opt-in
 
 `src/bin/quartz_factor_evpi.rs`는 576cbe5의 corrected C29 binary source를 이식한 연구용 진입점이다. `guard=true`인 JSON 요청만 CDF 조기 STOP을 평가한다. 원 경로에는 동일 후보·posterior·비용·EPS를 사용한다. opt-in 게임 응답은 full H2의 resident timing 및 trajectory 비교를 함께 반환한다.
+
+## C06 — Rust build와 기본 테스트
+
+Ryzen 9 5900X x86_64, rustc 1.99.0. `cargo test --locked --offline --release --bin quartz_factor_evpi` 8개 통과. 같은 옵션으로 release build 성공. C05 실행물 SHA256 d4078a721eefda955f6d56d703a64cd2cc94cbf31dbf8e78456cec72110d7751. 이식 소스에서 상수·필드 3개의 기존 dead-code 경고가 발생했다.
