@@ -17,3 +17,6 @@ Implemented outward normalized EVPI and consumed the saved round-zero plan. Sepa
 
 ## C06
 Locked offline build and native tests. See C06.txt.
+
+## C07
+Independent exact normalized Bellman, fixed inputs and boundary fixtures.
