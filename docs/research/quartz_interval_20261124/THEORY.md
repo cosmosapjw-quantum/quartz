@@ -19,3 +19,6 @@ A positive first cost and nonnegative later costs give Q≤M−c_i regardless of
 
 ## R07
 120 exact rational checks including the empty candidate set.
+
+## R08
+Directive: admit the STOP inequality for the declared normalized posterior. Replay tests assess observed policy invariance; channel calibration and robustness of the pre-existing float update remain separate.
