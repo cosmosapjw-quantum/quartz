@@ -43,3 +43,7 @@ Fraction으로 192개 혼합 posterior를 세계 열거와 교차검증했다. N
 ## R09 — 구현 계약
 
 두 CDF를 별도 allocation 없이 누적한다. opt-in에 한해 M−c_min < B−1e−8인 노드의 score 열거를 생략한다. 경계에서는 그대로 C29를 실행한다. 질의가 비싸도 c_i가 비용 단위에서 음수가 되면 이 경로를 허용하지 않는다. Guard가 발동한 node는 root score에 null, gate count와 함께 표시한다. Guard 제외 모드는 원 인터페이스와 수치를 보존한다.
+
+## R10 — 비교 축
+
+정확 CDF와 정책을 소형 세계 및 C29 H2와 비교하고, 같은 binary에서 opt-in만 바꿔 시간을 잰다. C29의 이미 관측된 300 TicTacToe root는 성능 회귀 자료다. 채널 잔차는 sibling utility와 history 조건을 이용해 별도 후향 진단하며 fresh efficacy로 해석하지 않는다.
