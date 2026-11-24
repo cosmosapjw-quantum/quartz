@@ -10,3 +10,6 @@ Origin watchdog: 15f3a19 QUARTZ_THEORY.md defines VOC = expected improvement min
 
 ## R04
 Compare a fixed epsilon, direct outward interval arithmetic, and only the universal ceiling 1. The direct enclosure can exploit a smaller model ceiling. The universal ceiling is useful when STOP is exactly 1 and the cost is positive.
+
+## R05
+For each component normalize its two or three masses mathematically. Lower-bound each local CDF by downward numerator divided by upward denominator. Multiply positive lower bounds and mix with lower normalized weights. For b∈[0,1], M=1−(1/2−b)+ F0−(1−max(b,1/2)) Fhalf, with the positive part applied only to the coefficient. Downward coefficients and CDFs yield an upper bound via upward subtraction. The maximum of lower posterior means and b is a lower bound B. If upper(M−cmin) < lower(B), every paid policy is dominated in the represented normalized model.
