@@ -120,7 +120,7 @@ pub(super) fn handle(line:&str)->serde_json::Value {
 mod tests{
     use super::*;
     #[test]fn cell_and_threat(){
-        assert_eq!(cell(.55,.75,true,4),15);assert_eq!(cell(.549,.749,false,5),0);
+        assert_eq!(cell(0.55,0.75,true,4),15);assert_eq!(cell(0.549,0.749,false,5),0);
         let g=Connect4::from_history("324252").unwrap();
         assert!(threat(&g));
     }
