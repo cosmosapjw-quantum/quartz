@@ -35,3 +35,7 @@ Native reviewer cdfaudit가 CDF, 빈 곱, b=1, q_z=0, C29 EPS tie 및 채널 행
 ## R07 — 실행 검산
 
 Fraction으로 192개 혼합 posterior를 세계 열거와 교차검증했다. Native reviewer는 별도 280개 exact rational fixture의 일치를 확인했다. 빈 후보, zero component weight, outside=0/1 및 1/2 양쪽을 포함한다.
+
+## R08 — 근거 판정
+
+실수 모델의 CDF 식과 STOP 지배조건은 유도 완료다. C29의 f64 연산은 채널 행 합 tolerance, posterior update, EPS 선택 규칙을 포함한다. 구현에서는 수치 여유를 둔 엄격 비교를 쓰며, 그 가드는 검산 범위에서의 수치적 방어다. 전 입력에 대한 IEEE interval proof 및 실제 game belief의 calibration은 열린 상태다.
