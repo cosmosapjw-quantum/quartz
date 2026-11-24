@@ -1,0 +1,41 @@
+# NN-DECISION-03 | Multi-option allocation under physical cost shift
+
+## Disposition
+Research cycle executed R01–R10 and C01–C10 plus C06A and C08A checkpoints. Direct SSOT 87c15dc828d6eea519c219fd8a412fa21dfc464d. No standard controller or TT geometry modification, no main merge. Native subagent NOT_RUN; independent exact math, Rust brute force and separate Python readback. **Multi-option planner implementation verified; scientific policy NOT ADMITTED.** Build succeeded, two native planner tests (4500 exhaustive small cases) passed, native actual CNN 4/8/16/32 smoke and DP/ratio/negative STOP/strict request validation passed. Direct optimized rustc reuses immutable previous release dependencies, not a fresh full Cargo suite. Source identity between C05 compile start and docs-only C06A verified. Existing 15x15 neural integration retained from NN01/NN02, no new Gomoku transfer attempted because actual Connect4 decision gate fails.
+
+## Theory
+Finite multiple-choice knapsack, with STOP option, cost ticks and backpointers. Conditional deterministic feasibility when absolute cost error <=delta, conservative q=ceil((d+delta)/Delta); comparator slack n(2delta+Delta)+Delta; fitted-gain optimum within 2n epsilon of optimal true gain at tightened budget. Difference G*(B)-G*(B-slack) remains problem dependent. Resource-price upper bound for any nonnegative lambda. Exact Fraction enumeration 3426 checks; Wolfram separately crosschecked arithmetic. Not a stochastic deadline theorem; empirical mean and marginal quantile are not simultaneous conditional bounds. Literature: Sezener/Dayan UAI 2020 and Sinha/Zoltners OR 1979, see R02 and DERIVATION.md.
+
+## New source and observed exposure
+Host checkout was unusually slow (194s) and load1 236.89 initially; prospectively amended generation budget before data/labels. 882 unique completed attempts, 336 independent root families, 1976 previously recorded opening families and 3311 prior canonical boards excluded; no outcome-driven root selection. TACTICAL 240/16/32 TRAIN/CAL/TEST, SELFPLAY 24/8/16, both colors balanced. TACTICAL has no current-player immediate win; SELFPLAY unfiltered by immediate win but exploratory generation and ply-selected. Actual 1515 selfplay NN-MCTS recommendation events. All 264 TRAIN and 48 TEST exact Pons labels; CAL timing only, 4 independent mirrored queries matched. 528 TRAIN traces x 4 checkpoints, 48 CAL traces, 20 setup/prefix profiles. Histograms of twice signed utility change for target8 [-2:18,-1:2,0:456,+1:8,+2:44], target16 [14,4,432,18,60], target32 [12,4,410,20,82]. Distinct exposed families 36/48/59; union 64, PASS minimum20 and target40. Gain means .05492424/.10037879/.14772727. Exposure is not proof of generalized prediction. Six of 16 cell classes occupied. Fit only TRAIN exact gains, independent timing CAL, no TEST labels before raw checkpoint 49705ef444d65df38f9dc0203c9f4a7fcd5548df.
+
+## Live result
+144 requests, 1152 actual root-arm traces, 4 seeds 17/43/71/101, 8-root pools, 6 arms. Actual search using native trained Conv3x3 and two Rayon threads, same resident root, standard TT. Independent readback validated all 24 DP predicted objective values using sparse frontier and all 24 ratio selections; source histories, model fit and primary summary recomputed. Regret U* - U(a), U=(1+sgn exact score)/2. Time below is mean of total native request wall across pools per seed for each stratum (not per root).
+| Stratum | Arm | Regret | Gain | Whole ms | Selected per seed |
+|---|---|---:|---:|---:|---:|
+| TACTICAL | PREFIX | .109375 | 0 | 237.820 | 0 |
+| TACTICAL | FIXED8 | .125000 | -.015625 | 586.767 | 29 |
+| TACTICAL | RANDOM16 | .1015625 | .0078125 | 225.635 | 15.75 |
+| TACTICAL | ENTROPY16 | .093750 | .015625 | 431.147 | 13.25 |
+| TACTICAL | RATIO | .109375 | 0 | 103.204 | 3 |
+| TACTICAL | DP | .109375 | 0 | 104.536 | 3 |
+| SELFPLAY | PREFIX | .187500 | 0 | 238.800 | 0 |
+| SELFPLAY | FIXED8 | .125000 | .062500 | 331.703 | 12 |
+| SELFPLAY | RANDOM16 | .109375 | .078125 | 175.330 | 6.75 |
+| SELFPLAY | ENTROPY16 | .125000 | .062500 | 621.908 | 6.75 |
+| SELFPLAY | RATIO | .187500 | 0 | 282.626 | 2 |
+| SELFPLAY | DP | .187500 | 0 | 37.755 | 2 |
+
+DP vs ratio identical observed regret and zero gain; all 20 planned and actual continued DP roots use only target8, ratio same; no target16/32. DP regret improvement vs best descriptive baseline ENTROPY16 (TACTICAL) -.015625 with descriptive family bootstrap [-.09375,.046875]; SELFPLAY vs RANDOM16 -.078125 [-.203125,0]. Do not claim a stable matched-wall comparison. Host load1 64.90–66.51 at recorded live requests for 24 logical CPUs; exceeds frozen 48 threshold. Whole-time mismatch DP vs entropy TACTICAL 75.75%, vs random SELFPLAY 78.47%; vs ratio TACTICAL 1.29% but identical outcomes; SELFPLAY 86.64%. Very large whole-request variability, measured overruns; max overrun 195352 us. No speedup claim. Source families are independent by declared exclusion but descendants need not be distinct across all possible histories.
+
+## Directly observed cost failure mechanism
+C10_COST_DIAGNOSIS.json: TRAIN global cost means 8.763216/18.224688/27.789591 ms for 8/16/32, independent CAL means .715875/1.433125/2.461 ms. Model mean cost shifted >11x relative to CAL. Per pool allowance 5732us; minimum fitted 16/32 cost across all 16 cells exceeds 5732us. Long options infeasible even before quantization; no new optimization of genuine multiple-option tradeoffs in this heldout campaign. This is direct resource-distribution failure, not a proof DP cannot outperform ratio in a valid regime. Actual CAL 8-root SETUP/PREFIX median whole 9.277/13.565 ms TACTICAL, 8.574/13.130 SELFPLAY; root setup/drop dominates in no-search control, substantial even in PREFIX. Source inspection identified eager slots and bump capacity; no attribution of all observed variance to TT versus host contention. Standard TT untouched and actual system had active swap I/O. Do not retrofit test outcomes or rerun with test-tuned cost/threshold. The source exposure defect is resolved within this bounded dataset, cost transport remains open.
+
+## Next NN-DECISION-04 | Decouple gain learning and cost calibration
+1. Keep gain fit, data and old output immutable; use NN03 TRAIN for gain model only, new timing-only calibration roots and fresh independent outcome TEST groups. Before any new benchmark, require a declared host load and active-swap criterion and stable repeated SETUP/PREFIX; if unavailable run only clearly labeled algorithmic validation and checkpoint. Do not stop unrelated research jobs.
+2. Estimate cost in same timing regime as budget; separate setup/drop common overhead from incremental per-option cost, compare median and conditional upper quantiles with calibration coverage (not deterministic guarantee). Derive a planned feasibility/coverage check before outcomes, requiring at least two positive non-STOP targets feasible for a meaningful fraction of pools. Freeze budget and costs prior to TEST; no forcing target16/32 merely to make DP win. Distinguish posthoc robust-cost sensitivity from new prospective scientific result.
+3. Evaluate native DP/ratio and PREFIX/FIXED8/RANDOM16/ENTROPY16 under same actual complete wall-time; replicate across timing blocks and use family-paired WDL and time gate vs strongest eligible baseline. Include original Quartz controller only via verified live scope-matched adapter. If no positive evidence, preserve failure and do not expand planner horizon.
+4. After genuine cost-matched decision gain, transfer to existing 15x15 neural/parallel engine with paired gameplay and fixed opponent/time. Original PRD equal-average CPU time and Elo objective not yet satisfied. Re-read initial repo history every cycle; FOCUS/STOP remains scoped, EXPAND/MERGE and TT geometry future separate investigation.
+
+## Preservation
+Each numbered R/C and extra checkpoint pushed and checked remote head, incrementally backed up relative to exact external SSOT. Final backup includes native binary; old same-run cumulative bundles replaced only after verification of newer bundle identity and remote publication. Historical siblings and unique checkpoints retained. Final independent actual restore recorded in FINAL_VERIFY.json; local Dropbox synchronization is not a cloud acknowledgement.
