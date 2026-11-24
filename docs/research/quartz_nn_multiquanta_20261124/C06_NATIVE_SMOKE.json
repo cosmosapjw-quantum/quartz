@@ -1,0 +1,1402 @@
+{
+  "dp": {
+    "budget_us": 100000,
+    "cache_hit": true,
+    "continuation_step_us": 77094,
+    "drop_us": 1165,
+    "floors": [
+      1,
+      1,
+      1
+    ],
+    "mode": "DP",
+    "model_identity": "161f9e6e26840754384cb47335d1082d837fa014735cbfaa2517209422e29f24",
+    "model_us": 41,
+    "optional_us": 77161,
+    "overrun_us": 0,
+    "plan_us": 47,
+    "planned": [
+      [
+        "a",
+        32
+      ],
+      [
+        "b",
+        32
+      ]
+    ],
+    "predicted_gain": 0.4,
+    "predicted_ticks": 8,
+    "prefix_step_us": 37244,
+    "prefix_us": 38339,
+    "rows": [
+      {
+        "cell": 6,
+        "entropy": 0.28898309867585964,
+        "history": "324252",
+        "id": "a",
+        "legal": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "root_hash": "02c34536b1794366",
+        "setup_us": 531,
+        "steps": [
+          {
+            "best": 5,
+            "eval_calls": 2,
+            "policy": [
+              [
+                3,
+                0.25
+              ],
+              [
+                5,
+                0.75
+              ],
+              [
+                2,
+                0.0
+              ],
+              [
+                6,
+                0.0
+              ],
+              [
+                4,
+                0.0
+              ],
+              [
+                1,
+                0.0
+              ],
+              [
+                0,
+                0.0
+              ]
+            ],
+            "root_hash": "02c34536b1794366",
+            "search_us": 10783,
+            "visits": 4,
+            "wall_us": 10788
+          },
+          {
+            "best": 5,
+            "eval_calls": 2,
+            "policy": [
+              [
+                3,
+                0.125
+              ],
+              [
+                5,
+                0.875
+              ],
+              [
+                2,
+                0.0
+              ],
+              [
+                6,
+                0.0
+              ],
+              [
+                4,
+                0.0
+              ],
+              [
+                1,
+                0.0
+              ],
+              [
+                0,
+                0.0
+              ]
+            ],
+            "root_hash": "02c34536b1794366",
+            "search_us": 14975,
+            "visits": 8,
+            "wall_us": 14981
+          },
+          {
+            "best": 5,
+            "eval_calls": 2,
+            "policy": [
+              [
+                3,
+                0.0625
+              ],
+              [
+                5,
+                0.9375
+              ],
+              [
+                2,
+                0.0
+              ],
+              [
+                6,
+                0.0
+              ],
+              [
+                4,
+                0.0
+              ],
+              [
+                1,
+                0.0
+              ],
+              [
+                0,
+                0.0
+              ]
+            ],
+            "root_hash": "02c34536b1794366",
+            "search_us": 14023,
+            "visits": 16,
+            "wall_us": 14028
+          },
+          {
+            "best": 5,
+            "eval_calls": 6,
+            "policy": [
+              [
+                3,
+                0.03125
+              ],
+              [
+                5,
+                0.84375
+              ],
+              [
+                2,
+                0.03125
+              ],
+              [
+                6,
+                0.03125
+              ],
+              [
+                4,
+                0.03125
+              ],
+              [
+                1,
+                0.03125
+              ],
+              [
+                0,
+                0.0
+              ]
+            ],
+            "root_hash": "02c34536b1794366",
+            "search_us": 16897,
+            "visits": 32,
+            "wall_us": 16900
+          }
+        ],
+        "threat": true,
+        "top": 0.75
+      },
+      {
+        "cell": 0,
+        "entropy": 0.5343107806620332,
+        "history": "4433226223",
+        "id": "b",
+        "legal": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "root_hash": "b298229fa2450efa",
+        "setup_us": 488,
+        "steps": [
+          {
+            "best": 4,
+            "eval_calls": 3,
+            "policy": [
+              [
+                3,
+                0.25
+              ],
+              [
+                5,
+                0.25
+              ],
+              [
+                4,
+                0.5
+              ],
+              [
+                2,
+                0.0
+              ],
+              [
+                6,
+                0.0
+              ],
+              [
+                0,
+                0.0
+              ],
+              [
+                1,
+                0.0
+              ]
+            ],
+            "root_hash": "b298229fa2450efa",
+            "search_us": 26451,
+            "visits": 4,
+            "wall_us": 26456
+          },
+          {
+            "best": 4,
+            "eval_calls": 3,
+            "policy": [
+              [
+                3,
+                0.125
+              ],
+              [
+                5,
+                0.125
+              ],
+              [
+                4,
+                0.75
+              ],
+              [
+                2,
+                0.0
+              ],
+              [
+                6,
+                0.0
+              ],
+              [
+                0,
+                0.0
+              ],
+              [
+                1,
+                0.0
+              ]
+            ],
+            "root_hash": "b298229fa2450efa",
+            "search_us": 349,
+            "visits": 8,
+            "wall_us": 352
+          },
+          {
+            "best": 4,
+            "eval_calls": 3,
+            "policy": [
+              [
+                3,
+                0.0625
+              ],
+              [
+                5,
+                0.0625
+              ],
+              [
+                4,
+                0.875
+              ],
+              [
+                2,
+                0.0
+              ],
+              [
+                6,
+                0.0
+              ],
+              [
+                0,
+                0.0
+              ],
+              [
+                1,
+                0.0
+              ]
+            ],
+            "root_hash": "b298229fa2450efa",
+            "search_us": 331,
+            "visits": 16,
+            "wall_us": 333
+          },
+          {
+            "best": 4,
+            "eval_calls": 5,
+            "policy": [
+              [
+                3,
+                0.03125
+              ],
+              [
+                5,
+                0.03125
+              ],
+              [
+                4,
+                0.84375
+              ],
+              [
+                2,
+                0.03125
+              ],
+              [
+                6,
+                0.03125
+              ],
+              [
+                0,
+                0.03125
+              ],
+              [
+                1,
+                0.0
+              ]
+            ],
+            "root_hash": "b298229fa2450efa",
+            "search_us": 30494,
+            "visits": 32,
+            "wall_us": 30500
+          }
+        ],
+        "threat": false,
+        "top": 0.5
+      }
+    ],
+    "schema": "quartz_nn_multiquanta_v1",
+    "seed": 17,
+    "selected": [
+      [
+        "a",
+        32
+      ],
+      [
+        "b",
+        32
+      ]
+    ],
+    "setup_total_us": 1019,
+    "threads": 2,
+    "transport_us": 154138.517,
+    "whole_us": 116668
+  },
+  "negative": {
+    "budget_us": 100000,
+    "cache_hit": true,
+    "continuation_step_us": 0,
+    "drop_us": 858,
+    "floors": [
+      1,
+      1,
+      1
+    ],
+    "mode": "DP",
+    "model_identity": "161f9e6e26840754384cb47335d1082d837fa014735cbfaa2517209422e29f24",
+    "model_us": 34,
+    "optional_us": 21,
+    "overrun_us": 0,
+    "plan_us": 21,
+    "planned": [],
+    "predicted_gain": 0.0,
+    "predicted_ticks": 0,
+    "prefix_step_us": 32425,
+    "prefix_us": 35332,
+    "rows": [
+      {
+        "cell": 6,
+        "entropy": 0.28898309867585964,
+        "history": "324252",
+        "id": "a",
+        "legal": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "root_hash": "02c34536b1794366",
+        "setup_us": 501,
+        "steps": [
+          {
+            "best": 5,
+            "eval_calls": 2,
+            "policy": [
+              [
+                3,
+                0.25
+              ],
+              [
+                5,
+                0.75
+              ],
+              [
+                2,
+                0.0
+              ],
+              [
+                6,
+                0.0
+              ],
+              [
+                4,
+                0.0
+              ],
+              [
+                1,
+                0.0
+              ],
+              [
+                0,
+                0.0
+              ]
+            ],
+            "root_hash": "02c34536b1794366",
+            "search_us": 10935,
+            "visits": 4,
+            "wall_us": 10940
+          }
+        ],
+        "threat": true,
+        "top": 0.75
+      },
+      {
+        "cell": 0,
+        "entropy": 0.5343107806620332,
+        "history": "4433226223",
+        "id": "b",
+        "legal": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "root_hash": "b298229fa2450efa",
+        "setup_us": 2337,
+        "steps": [
+          {
+            "best": 4,
+            "eval_calls": 3,
+            "policy": [
+              [
+                3,
+                0.25
+              ],
+              [
+                5,
+                0.25
+              ],
+              [
+                4,
+                0.5
+              ],
+              [
+                2,
+                0.0
+              ],
+              [
+                6,
+                0.0
+              ],
+              [
+                0,
+                0.0
+              ],
+              [
+                1,
+                0.0
+              ]
+            ],
+            "root_hash": "b298229fa2450efa",
+            "search_us": 21480,
+            "visits": 4,
+            "wall_us": 21485
+          }
+        ],
+        "threat": false,
+        "top": 0.5
+      }
+    ],
+    "schema": "quartz_nn_multiquanta_v1",
+    "seed": 17,
+    "selected": [],
+    "setup_total_us": 2838,
+    "threads": 2,
+    "transport_us": 52753.529,
+    "whole_us": 36213
+  },
+  "ratio": {
+    "budget_us": 100000,
+    "cache_hit": true,
+    "continuation_step_us": 141022,
+    "drop_us": 918,
+    "floors": [
+      1,
+      1,
+      1
+    ],
+    "mode": "RATIO",
+    "model_identity": "161f9e6e26840754384cb47335d1082d837fa014735cbfaa2517209422e29f24",
+    "model_us": 35,
+    "optional_us": 141047,
+    "overrun_us": 41047,
+    "plan_us": 3,
+    "planned": [
+      [
+        "a",
+        32
+      ],
+      [
+        "b",
+        32
+      ]
+    ],
+    "predicted_gain": 0.4,
+    "predicted_ticks": 8,
+    "prefix_step_us": 80964,
+    "prefix_us": 84767,
+    "rows": [
+      {
+        "cell": 6,
+        "entropy": 0.28898309867585964,
+        "history": "324252",
+        "id": "a",
+        "legal": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "root_hash": "02c34536b1794366",
+        "setup_us": 2911,
+        "steps": [
+          {
+            "best": 5,
+            "eval_calls": 2,
+            "policy": [
+              [
+                3,
+                0.25
+              ],
+              [
+                5,
+                0.75
+              ],
+              [
+                2,
+                0.0
+              ],
+              [
+                6,
+                0.0
+              ],
+              [
+                4,
+                0.0
+              ],
+              [
+                1,
+                0.0
+              ],
+              [
+                0,
+                0.0
+              ]
+            ],
+            "root_hash": "02c34536b1794366",
+            "search_us": 54835,
+            "visits": 4,
+            "wall_us": 54840
+          },
+          {
+            "best": 5,
+            "eval_calls": 2,
+            "policy": [
+              [
+                3,
+                0.125
+              ],
+              [
+                5,
+                0.875
+              ],
+              [
+                2,
+                0.0
+              ],
+              [
+                6,
+                0.0
+              ],
+              [
+                4,
+                0.0
+              ],
+              [
+                1,
+                0.0
+              ],
+              [
+                0,
+                0.0
+              ]
+            ],
+            "root_hash": "02c34536b1794366",
+            "search_us": 19101,
+            "visits": 8,
+            "wall_us": 19106
+          },
+          {
+            "best": 5,
+            "eval_calls": 2,
+            "policy": [
+              [
+                3,
+                0.0625
+              ],
+              [
+                5,
+                0.9375
+              ],
+              [
+                2,
+                0.0
+              ],
+              [
+                6,
+                0.0
+              ],
+              [
+                4,
+                0.0
+              ],
+              [
+                1,
+                0.0
+              ],
+              [
+                0,
+                0.0
+              ]
+            ],
+            "root_hash": "02c34536b1794366",
+            "search_us": 23921,
+            "visits": 16,
+            "wall_us": 23926
+          },
+          {
+            "best": 5,
+            "eval_calls": 6,
+            "policy": [
+              [
+                3,
+                0.03125
+              ],
+              [
+                5,
+                0.84375
+              ],
+              [
+                2,
+                0.03125
+              ],
+              [
+                6,
+                0.03125
+              ],
+              [
+                4,
+                0.03125
+              ],
+              [
+                1,
+                0.03125
+              ],
+              [
+                0,
+                0.0
+              ]
+            ],
+            "root_hash": "02c34536b1794366",
+            "search_us": 24902,
+            "visits": 32,
+            "wall_us": 24906
+          }
+        ],
+        "threat": true,
+        "top": 0.75
+      },
+      {
+        "cell": 0,
+        "entropy": 0.5343107806620332,
+        "history": "4433226223",
+        "id": "b",
+        "legal": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "root_hash": "b298229fa2450efa",
+        "setup_us": 822,
+        "steps": [
+          {
+            "best": 4,
+            "eval_calls": 3,
+            "policy": [
+              [
+                3,
+                0.25
+              ],
+              [
+                5,
+                0.25
+              ],
+              [
+                4,
+                0.5
+              ],
+              [
+                2,
+                0.0
+              ],
+              [
+                6,
+                0.0
+              ],
+              [
+                0,
+                0.0
+              ],
+              [
+                1,
+                0.0
+              ]
+            ],
+            "root_hash": "b298229fa2450efa",
+            "search_us": 26119,
+            "visits": 4,
+            "wall_us": 26124
+          },
+          {
+            "best": 4,
+            "eval_calls": 3,
+            "policy": [
+              [
+                3,
+                0.125
+              ],
+              [
+                5,
+                0.125
+              ],
+              [
+                4,
+                0.75
+              ],
+              [
+                2,
+                0.0
+              ],
+              [
+                6,
+                0.0
+              ],
+              [
+                0,
+                0.0
+              ],
+              [
+                1,
+                0.0
+              ]
+            ],
+            "root_hash": "b298229fa2450efa",
+            "search_us": 18982,
+            "visits": 8,
+            "wall_us": 18986
+          },
+          {
+            "best": 4,
+            "eval_calls": 3,
+            "policy": [
+              [
+                3,
+                0.0625
+              ],
+              [
+                5,
+                0.0625
+              ],
+              [
+                4,
+                0.875
+              ],
+              [
+                2,
+                0.0
+              ],
+              [
+                6,
+                0.0
+              ],
+              [
+                0,
+                0.0
+              ],
+              [
+                1,
+                0.0
+              ]
+            ],
+            "root_hash": "b298229fa2450efa",
+            "search_us": 23988,
+            "visits": 16,
+            "wall_us": 23993
+          },
+          {
+            "best": 4,
+            "eval_calls": 5,
+            "policy": [
+              [
+                3,
+                0.03125
+              ],
+              [
+                5,
+                0.03125
+              ],
+              [
+                4,
+                0.84375
+              ],
+              [
+                2,
+                0.03125
+              ],
+              [
+                6,
+                0.03125
+              ],
+              [
+                0,
+                0.03125
+              ],
+              [
+                1,
+                0.0
+              ]
+            ],
+            "root_hash": "b298229fa2450efa",
+            "search_us": 30101,
+            "visits": 32,
+            "wall_us": 30105
+          }
+        ],
+        "threat": false,
+        "top": 0.5
+      }
+    ],
+    "schema": "quartz_nn_multiquanta_v1",
+    "seed": 17,
+    "selected": [
+      [
+        "a",
+        32
+      ],
+      [
+        "b",
+        32
+      ]
+    ],
+    "setup_total_us": 3733,
+    "threads": 2,
+    "transport_us": 246702.831,
+    "whole_us": 226734
+  },
+  "reject": {
+    "error": "unknown field `oracle`, expected one of `cmd`, `mode`, `seed`, `model_path`, `model_identity`, `jobs`, `budget_us`, `floor_us`, `cells`, `floors` at line 1 column 455"
+  },
+  "setup": {
+    "budget_us": 0,
+    "cache_hit": true,
+    "continuation_step_us": 0,
+    "drop_us": 957,
+    "floors": [],
+    "mode": "SETUP",
+    "model_identity": "161f9e6e26840754384cb47335d1082d837fa014735cbfaa2517209422e29f24",
+    "model_us": 35,
+    "optional_us": 1,
+    "overrun_us": 0,
+    "plan_us": 1,
+    "planned": [],
+    "predicted_gain": 0.0,
+    "predicted_ticks": 0,
+    "prefix_step_us": 0,
+    "prefix_us": 35715,
+    "rows": [
+      {
+        "cell": 0,
+        "entropy": 0.0,
+        "history": "324252",
+        "id": "a",
+        "legal": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "root_hash": "02c34536b1794366",
+        "setup_us": 1084,
+        "steps": [],
+        "threat": true,
+        "top": 0.0
+      },
+      {
+        "cell": 0,
+        "entropy": 0.0,
+        "history": "4433226223",
+        "id": "b",
+        "legal": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "root_hash": "b298229fa2450efa",
+        "setup_us": 34569,
+        "steps": [],
+        "threat": false,
+        "top": 0.0
+      }
+    ],
+    "schema": "quartz_nn_multiquanta_v1",
+    "seed": 17,
+    "selected": [],
+    "setup_total_us": 35653,
+    "threads": 2,
+    "transport_us": 43794.154,
+    "whole_us": 36674
+  },
+  "trace": {
+    "budget_us": 0,
+    "cache_hit": false,
+    "continuation_step_us": 154012,
+    "drop_us": 996,
+    "floors": [],
+    "mode": "TRACE",
+    "model_identity": "161f9e6e26840754384cb47335d1082d837fa014735cbfaa2517209422e29f24",
+    "model_us": 653,
+    "optional_us": 154039,
+    "overrun_us": 0,
+    "plan_us": 1,
+    "planned": [
+      [
+        "a",
+        32
+      ],
+      [
+        "b",
+        32
+      ]
+    ],
+    "predicted_gain": 0.0,
+    "predicted_ticks": 0,
+    "prefix_step_us": 65124,
+    "prefix_us": 148599,
+    "rows": [
+      {
+        "cell": 6,
+        "entropy": 0.28898309867585964,
+        "history": "324252",
+        "id": "a",
+        "legal": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "root_hash": "02c34536b1794366",
+        "setup_us": 44669,
+        "steps": [
+          {
+            "best": 5,
+            "eval_calls": 2,
+            "policy": [
+              [
+                3,
+                0.25
+              ],
+              [
+                5,
+                0.75
+              ],
+              [
+                2,
+                0.0
+              ],
+              [
+                6,
+                0.0
+              ],
+              [
+                4,
+                0.0
+              ],
+              [
+                1,
+                0.0
+              ],
+              [
+                0,
+                0.0
+              ]
+            ],
+            "root_hash": "02c34536b1794366",
+            "search_us": 14158,
+            "visits": 4,
+            "wall_us": 35759
+          },
+          {
+            "best": 5,
+            "eval_calls": 2,
+            "policy": [
+              [
+                3,
+                0.125
+              ],
+              [
+                5,
+                0.875
+              ],
+              [
+                2,
+                0.0
+              ],
+              [
+                6,
+                0.0
+              ],
+              [
+                4,
+                0.0
+              ],
+              [
+                1,
+                0.0
+              ],
+              [
+                0,
+                0.0
+              ]
+            ],
+            "root_hash": "02c34536b1794366",
+            "search_us": 18906,
+            "visits": 8,
+            "wall_us": 18910
+          },
+          {
+            "best": 5,
+            "eval_calls": 2,
+            "policy": [
+              [
+                3,
+                0.0625
+              ],
+              [
+                5,
+                0.9375
+              ],
+              [
+                2,
+                0.0
+              ],
+              [
+                6,
+                0.0
+              ],
+              [
+                4,
+                0.0
+              ],
+              [
+                1,
+                0.0
+              ],
+              [
+                0,
+                0.0
+              ]
+            ],
+            "root_hash": "02c34536b1794366",
+            "search_us": 26939,
+            "visits": 16,
+            "wall_us": 26943
+          },
+          {
+            "best": 5,
+            "eval_calls": 6,
+            "policy": [
+              [
+                3,
+                0.03125
+              ],
+              [
+                5,
+                0.84375
+              ],
+              [
+                2,
+                0.03125
+              ],
+              [
+                6,
+                0.03125
+              ],
+              [
+                4,
+                0.03125
+              ],
+              [
+                1,
+                0.03125
+              ],
+              [
+                0,
+                0.0
+              ]
+            ],
+            "root_hash": "02c34536b1794366",
+            "search_us": 16509,
+            "visits": 32,
+            "wall_us": 16514
+          }
+        ],
+        "threat": true,
+        "top": 0.75
+      },
+      {
+        "cell": 0,
+        "entropy": 0.5343107806620332,
+        "history": "4433226223",
+        "id": "b",
+        "legal": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "root_hash": "b298229fa2450efa",
+        "setup_us": 38112,
+        "steps": [
+          {
+            "best": 4,
+            "eval_calls": 3,
+            "policy": [
+              [
+                3,
+                0.25
+              ],
+              [
+                5,
+                0.25
+              ],
+              [
+                4,
+                0.5
+              ],
+              [
+                2,
+                0.0
+              ],
+              [
+                6,
+                0.0
+              ],
+              [
+                0,
+                0.0
+              ],
+              [
+                1,
+                0.0
+              ]
+            ],
+            "root_hash": "b298229fa2450efa",
+            "search_us": 29359,
+            "visits": 4,
+            "wall_us": 29365
+          },
+          {
+            "best": 4,
+            "eval_calls": 3,
+            "policy": [
+              [
+                3,
+                0.125
+              ],
+              [
+                5,
+                0.125
+              ],
+              [
+                4,
+                0.75
+              ],
+              [
+                2,
+                0.0
+              ],
+              [
+                6,
+                0.0
+              ],
+              [
+                0,
+                0.0
+              ],
+              [
+                1,
+                0.0
+              ]
+            ],
+            "root_hash": "b298229fa2450efa",
+            "search_us": 40518,
+            "visits": 8,
+            "wall_us": 40523
+          },
+          {
+            "best": 4,
+            "eval_calls": 3,
+            "policy": [
+              [
+                3,
+                0.0625
+              ],
+              [
+                5,
+                0.0625
+              ],
+              [
+                4,
+                0.875
+              ],
+              [
+                2,
+                0.0
+              ],
+              [
+                6,
+                0.0
+              ],
+              [
+                0,
+                0.0
+              ],
+              [
+                1,
+                0.0
+              ]
+            ],
+            "root_hash": "b298229fa2450efa",
+            "search_us": 16954,
+            "visits": 16,
+            "wall_us": 16959
+          },
+          {
+            "best": 4,
+            "eval_calls": 5,
+            "policy": [
+              [
+                3,
+                0.03125
+              ],
+              [
+                5,
+                0.03125
+              ],
+              [
+                4,
+                0.84375
+              ],
+              [
+                2,
+                0.03125
+              ],
+              [
+                6,
+                0.03125
+              ],
+              [
+                0,
+                0.03125
+              ],
+              [
+                1,
+                0.0
+              ]
+            ],
+            "root_hash": "b298229fa2450efa",
+            "search_us": 34158,
+            "visits": 32,
+            "wall_us": 34163
+          }
+        ],
+        "threat": false,
+        "top": 0.5
+      }
+    ],
+    "schema": "quartz_nn_multiquanta_v1",
+    "seed": 17,
+    "selected": [
+      [
+        "a",
+        32
+      ],
+      [
+        "b",
+        32
+      ]
+    ],
+    "setup_total_us": 82781,
+    "threads": 2,
+    "transport_us": 356974.67,
+    "whole_us": 303636
+  }
+}
