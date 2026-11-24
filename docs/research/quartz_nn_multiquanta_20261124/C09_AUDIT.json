@@ -1,0 +1,47 @@
+{
+  "attempts": {
+    "SELFPLAY/CAL": 32,
+    "SELFPLAY/TEST": 88,
+    "SELFPLAY/TRAIN": 48,
+    "TACTICAL/CAL": 31,
+    "TACTICAL/TEST": 97,
+    "TACTICAL/TRAIN": 586
+  },
+  "cohort": {
+    "SELFPLAY/CAL/-1": 4,
+    "SELFPLAY/CAL/1": 4,
+    "SELFPLAY/TEST/-1": 8,
+    "SELFPLAY/TEST/1": 8,
+    "SELFPLAY/TRAIN/-1": 12,
+    "SELFPLAY/TRAIN/1": 12,
+    "TACTICAL/CAL/-1": 8,
+    "TACTICAL/CAL/1": 8,
+    "TACTICAL/TEST/-1": 16,
+    "TACTICAL/TEST/1": 16,
+    "TACTICAL/TRAIN/-1": 120,
+    "TACTICAL/TRAIN/1": 120
+  },
+  "dp_plan_checks": 24,
+  "exposed": 64,
+  "exposed_by": [
+    36,
+    48,
+    59
+  ],
+  "fit_recomputed": true,
+  "independent_grid_replay": true,
+  "labels": {
+    "TEST/EXACT": 48,
+    "TRAIN/EXACT": 264
+  },
+  "live_requests": 144,
+  "live_root_traces": 1152,
+  "mirror_exact_vectors": 4,
+  "ratio_plan_checks": 24,
+  "selected_targets": {
+    "('DP', 8)": 20,
+    "('RATIO', 8)": 20
+  },
+  "selfplay_events": 1515,
+  "summary_recomputed": true
+}
