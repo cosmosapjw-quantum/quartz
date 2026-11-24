@@ -1,0 +1,14 @@
+F.
+======================================================================
+FAIL: test_information_only_first (__main__.PlanTests.test_information_only_first)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/cosmosapjw/quantum/research/quartz_channel_heterogeneity_20261124/docs/research/quartz_channel_heterogeneity_20261124/test_planner.py", line 15, in test_information_only_first
+    self.assertAlmostEqual(v,.56,places=12)
+AssertionError: 0.5 != 0.56 within 12 places (0.06000000000000005 difference)
+
+----------------------------------------------------------------------
+Ran 2 tests in 0.000s
+
+FAILED (failures=1)
+exit=1
