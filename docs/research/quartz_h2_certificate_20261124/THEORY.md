@@ -38,3 +38,7 @@ Native reviewer origin이 tower/Jensen, 비용 차감과 fixed alternative의 �
 ## R08 — 주장 판정
 
 A/B의 admissibility와 tie 보존은 주어진 가정에서 유도됐다. R07의 지속 계산 사례는 exact rational로 검산됐다. 상계가 실제로 분기를 얼마나 자르는지, 상계 비용을 포함해 더 빠른지, 실제 게임 rollout에서 채널 가정이 맞는지는 별도의 실험 명제다. 유한 모델에서 계산량 감소가 작은 사례도 그대로 기록한다.
+
+## R09 — 계산 계약
+
+현재 비정규화 세계 질량 벡터를 w, 각 채널 분모를 공통 D, outcome별 질량 배율을 정수 k(y,u)라 한다. child 질량은 w_t k(y,U_i(t)). 남은 지평 H에서 점수 단위는 D^H이다. STOP score는 `D^H max_a sum_t w_t U_a(t)`. 첫 비용은 `D^H c_i sum_t w_t`. child들의 H−1 score를 합하면 채널의 1/D를 보정한 동일 단위가 된다. 상계 B의 numerator는 U_i 값별 그룹에 대해 `sum_u max_a sum_{t:U_i(t)=u} w_t U_a(t)`. 입력 검증은 채널 행 합, 효용 support, 비용과 질량, horizon을 검사한다. 정확한 정수 비교로 부동소수점 near-tie를 배제한다.
