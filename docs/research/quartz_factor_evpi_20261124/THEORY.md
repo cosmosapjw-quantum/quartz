@@ -27,3 +27,7 @@ F_t=Σ_z q_z Π_i F_{i,z}(t), F_{i,z}(t)=Σ_{u≤t}π_{i,z}(u). 전체 max를 �
 M=b+c(1−F_0)+e(1−F_{1/2})=1−c F_0−e F_{1/2}.
 
 임의 정책은 세계별 최대 효용보다 높은 결과를 낼 수 없으며, i로 시작했으면 적어도 c_i를 지불한다. 그러므로 Q_H(i)≤M−c_i. B=max(b,max_i E[U_i]) 혹은 known-only terminal value라 하면 eligible 질의 최소 비용 c_min에서 M−c_min≤B인 경우 STOP이 optimal이다. 빈 eligible 집합도 직접 STOP한다. 전체 likelihood P(Y|U_i,Z,h)는 해당 후보의 local factor와 q_z만 갱신해 같은 계산식을 유지한다.
+
+## R06 — 독립 검토와 실패 범위
+
+Native reviewer cdfaudit가 CDF, 빈 곱, b=1, q_z=0, C29 EPS tie 및 채널 행 오차를 확인했다. 두 fair Bernoulli 후보에서 XOR=1 관측은 후보 주변분포를 그대로 두면서 E[max]=1로 만든다. 이를 independent product로 잘못 압축하면 3/4가 된다. 관측모형이 임의여도 완전정보 부등식은 유지되나 현재 posterior가 factor contract를 위반하면 이 CDF 계산은 상계가 아니다. P(Y|U_i,Z,h)는 factor contract를 유지해도 U_i만 공개하는 H1 상계를 깨뜨릴 수 있다. C29의 coarse channel 자체는 어느 계약의 실제 타당성도 판정하지 못한다.
