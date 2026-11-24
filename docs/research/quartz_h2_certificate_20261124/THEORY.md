@@ -18,3 +18,11 @@ Hay, Russell, Tolpin & Shimony (UAI 2012), Definitions 1–2와 Theorems 4–5�
 
 m_a(h)=E[U_a|h], B(h)=max_a m_a(h), M(h)=E[max_a U_a|h].
 상계 A는 모든 남은 지평에서 현재 질의 i의 가치에 M(h)−c_i를 사용한다. 상계 B는 잔여 지평 1에서 해당 U_i를 알려 주는 가상 질의의 기대 STOP에서 실제 c_i를 뺀다. A는 root에서 공통으로 재사용하고 B는 실제 첫 관측 이후에만 적용한다. 두 상계를 각 위치에서 함께 쓴다. posterior 분산 자체를 상계로 쓰는 후보는 action set과 비용을 반영하지 못한다. 예를 들어 모든 대안에 더해진 동일 변동은 최적 대안의 순서를 바꾸지 않는다.
+
+## R05 — 구성적 유도
+
+어떤 계산 정책도 실현된 최종 효용 U_{a(h_T)}(w)≤max_a U_a(w)를 만족한다. 첫 질의 비용 c_i를 이미 낸 정책의 나머지 비용은 비음수다. 기대값을 취해 Q_H(h,i)≤M(h)−c_i를 얻는다.
+
+H=1일 때 Y_i는 U_i의 garbling이다. h를 고정하고 L_a(u)=E[U_a|h,U_i=u]라 하자. 채널 Markov 조건과 tower property로 E[U_a|h,Y_i]=E[L_a(U_i)|h,Y_i]. 좌표별 최대의 볼록성으로 max_a E[L_a(U_i)|h,Y_i]≤E[max_a L_a(U_i)|h,Y_i]. 관측 평균을 취하면 Q_1(h,i)≤E[max_a L_a(U_i)|h]−c_i. 가상 질의의 값과 비교할 때 비용은 실제 i의 비용이다.
+
+STOP을 먼저 두고 질의를 고정 순서로 검사한다. 현재 최선가치 L은 이미 정확 평가한 실행 가능한 선택의 값이다. 상계 ≤L인 다음 질의는 최적값 및 첫 승자 tie 순서를 바꾸지 않는다. H2에서 살아남은 첫 질의의 실제 관측을 열고 각 child의 H1을 같은 방식으로 풀면 Bellman 값과 두 단계 선택이 보존된다. 신호가 발생할 때 posterior를 계산하며, 질량 0인 child는 합에 기여하지 않는다.
