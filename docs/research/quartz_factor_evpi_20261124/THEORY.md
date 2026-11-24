@@ -19,3 +19,11 @@ Hay et al., UAI 2012 정의 1–2 및 정리 4–5는 유료 metalevel MDP와 �
 ## R04 — 구성 선택
 
 World enumeration O(3^N)과 조건부 CDF 두 개 O(N)를 비교한다. 다른 선형 상계인 sum_i E[(U_i−b)_+]는 양의 이득이 동시에 가능하면 느슨하다. 예를 들어 독립 fair Bernoulli 두 후보, b=1/2일 때 실제 perfect-information 개선은 3/8, 이 합 상계는 1/2다. 먼저 전체 STOP만 조기 반환한다. 질의별 생략은 C29의 score 공개와 EPS tie를 바꾸기 쉬우므로 별도 과제로 둔다.
+
+## R05 — 유도
+
+F_t=Σ_z q_z Π_i F_{i,z}(t), F_{i,z}(t)=Σ_{u≤t}π_{i,z}(u). 전체 max를 취하는 사건은 모든 후보가 t 이하인 교집합이고, 조건부 독립에 의해 곱이다. X=max(b,U_1,...,U_N)에 대해 E[X]=b+∫_b^1 P(X>t)dt. c=(1/2−b)_+, e=1−max(b,1/2)이면
+
+M=b+c(1−F_0)+e(1−F_{1/2})=1−c F_0−e F_{1/2}.
+
+임의 정책은 세계별 최대 효용보다 높은 결과를 낼 수 없으며, i로 시작했으면 적어도 c_i를 지불한다. 그러므로 Q_H(i)≤M−c_i. B=max(b,max_i E[U_i]) 혹은 known-only terminal value라 하면 eligible 질의 최소 비용 c_min에서 M−c_min≤B인 경우 STOP이 optimal이다. 빈 eligible 집합도 직접 STOP한다. 전체 likelihood P(Y|U_i,Z,h)는 해당 후보의 local factor와 q_z만 갱신해 같은 계산식을 유지한다.
