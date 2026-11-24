@@ -1,0 +1,16 @@
+{
+  "status": "pre-C09 counter correction; repeated at C09",
+  "cpu": "AMD Ryzen 9 5900X",
+  "roots": 300,
+  "repeats": 23,
+  "full_h2_mean_root_median_ns":14767.576666666666,
+  "guard_h2_mean_root_median_ns":7472.92,
+  "initial_only_mean_root_median_ns":2851.3366666666666,
+  "median_paired_guard_minus_full_ns":-4855,
+  "rollout_nodes":483,
+  "full_guard_equivalent_roots":300,
+  "request_gzip_sha256":"c9c5c765ee50a0214340597c5df319957d3464ba9e26093b7206ce87dc6f4430",
+  "replay_gzip_sha256":"9a98f3bc1a9464255ea4fd430d7fdd8b67bfb603e1e6c5f0048865a8838bca9e",
+  "replay_dropbox_id":"id:BSpOijBcT10AAAAAAEYTwA",
+  "residual":{"train":180,"evaluation":117,"heterogeneous_strata":5,"strata":6,"sibling_gain_bits":0.005576256175907433,"descriptive_95_bits":[0.000860875131941358,0.01106862112799815]}
+}

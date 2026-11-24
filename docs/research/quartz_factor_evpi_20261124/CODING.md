@@ -27,3 +27,9 @@ Ryzen 9 5900X x86_64, rustc 1.99.0. `cargo test --locked --offline --release --b
 ## C07 — 유리수 세계 교차검증
 
 220개 무작위 모형 및 4개 비용 경계에서 full/guarded Rust planner를 정규화된 exact-world Fraction Bellman의 값·선택·완전정보값과 비교했다. 448개 응답이 조건을 만족했다. 최대 절대 오차 1.11e-16. ±1e−9 및 동점은 full planner로 넘겼다. `verify_native.py`가 독립 계산과 native 호출을 재현한다.
+
+## C08 — TicTacToe 비용 및 잔차
+
+C29 frozen request 300개, root당 23회 resident 비교에서 300/300 final move, rollout trace, 비용과 계획값이 일치했다. 초기 실행에서 H2 14.768→7.473µs, initial-only 2.851µs였고, C09 계측 수정 후 재측정한다. 두 H2 모두 C29 원래의 root planned_value 계산 및 round 0 재계획을 보존한다.
+
+별도 Python exact minimax 및 균일 random-rollout law는 (ply, focal utility) 6 strata 중 5개에서 서로 다른 law를 확인했다. TRAIN 180개로 적합한 sibling-best 변수를 소급 117개 root에 평가했을 때 root 평균 log-score가 0.00558 bit 개선됐다. 2,000회 root bootstrap의 기술 구간 [0.00086,0.01107]. 과거 source이며 루트 간 공유 후손을 고려한 확증 구간이 아니다. 정확 sibling minimax는 채널 진단에만 사용했고 native 입력에는 주지 않았다.
