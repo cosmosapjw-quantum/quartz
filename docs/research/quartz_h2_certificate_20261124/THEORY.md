@@ -26,3 +26,7 @@ m_a(h)=E[U_a|h], B(h)=max_a m_a(h), M(h)=E[max_a U_a|h].
 H=1일 때 Y_i는 U_i의 garbling이다. h를 고정하고 L_a(u)=E[U_a|h,U_i=u]라 하자. 채널 Markov 조건과 tower property로 E[U_a|h,Y_i]=E[L_a(U_i)|h,Y_i]. 좌표별 최대의 볼록성으로 max_a E[L_a(U_i)|h,Y_i]≤E[max_a L_a(U_i)|h,Y_i]. 관측 평균을 취하면 Q_1(h,i)≤E[max_a L_a(U_i)|h]−c_i. 가상 질의의 값과 비교할 때 비용은 실제 i의 비용이다.
 
 STOP을 먼저 두고 질의를 고정 순서로 검사한다. 현재 최선가치 L은 이미 정확 평가한 실행 가능한 선택의 값이다. 상계 ≤L인 다음 질의는 최적값 및 첫 승자 tie 순서를 바꾸지 않는다. H2에서 살아남은 첫 질의의 실제 관측을 열고 각 child의 H1을 같은 방식으로 풀면 Bellman 값과 두 단계 선택이 보존된다. 신호가 발생할 때 posterior를 계산하며, 질량 0인 child는 합에 기여하지 않는다.
+
+## R06 — 독립 검토와 반례
+
+Native reviewer origin이 tower/Jensen, 비용 차감과 fixed alternative의 필요성을 별도로 확인했다. 첫 noisy 신호를 perfect reveal로 직접 대체하면 Y에 의존하는 후속 계약을 잃을 수 있으므로 H2에서는 실제 Y를 적분한다. 반례로 U_i=0, outside=0, U_j=±1 등확률인 상태에서 Y_i=sign(U_j)라 하자. U_i 정확 공개의 이득은 0이고 Y_i 이득은 1/2이다. 이 신호는 U_i만의 채널이 아니다. 공통 전술 상황을 반영하는 게임 rollout에서는 이 가정을 실증적으로 확인하거나 해당 상계를 비활성화해야 한다. 0 비용, 퇴화 효용 및 동일 최적값에서는 고정 tie 순서로 안전하다. 절대 비용과 효용에 같은 양의 스케일을 쓰면 정책이 보존된다.
