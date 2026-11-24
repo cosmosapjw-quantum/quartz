@@ -15,3 +15,7 @@ Outside가 1에 가깝거나 비용이 충분히 크면 support ceiling 1만으�
 ## C04 — 실행 계획
 
 워크스테이션 Rust offline release에서 test 후 300개 고정 C29 retrospective 요청을 paired 실행한다. 같은 과정에서 planner의 전체 비용과 실제 rollout cost를 별도로 확인한다. 선행 관측을 사용한 retrospective 분석이며 새 TEST로 쓰지 않는다.
+
+## C05 — 이식과 opt-in
+
+`src/bin/quartz_factor_evpi.rs`는 576cbe5의 corrected C29 binary source를 이식한 연구용 진입점이다. `guard=true`인 JSON 요청만 CDF 조기 STOP을 평가한다. 원 경로에는 동일 후보·posterior·비용·EPS를 사용한다. opt-in 게임 응답은 full H2의 resident timing 및 trajectory 비교를 함께 반환한다.
