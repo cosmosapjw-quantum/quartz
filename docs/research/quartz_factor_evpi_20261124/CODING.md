@@ -23,3 +23,7 @@ Outside가 1에 가깝거나 비용이 충분히 크면 support ceiling 1만으�
 ## C06 — Rust build와 기본 테스트
 
 Ryzen 9 5900X x86_64, rustc 1.99.0. `cargo test --locked --offline --release --bin quartz_factor_evpi` 8개 통과. 같은 옵션으로 release build 성공. C05 실행물 SHA256 d4078a721eefda955f6d56d703a64cd2cc94cbf31dbf8e78456cec72110d7751. 이식 소스에서 상수·필드 3개의 기존 dead-code 경고가 발생했다.
+
+## C07 — 유리수 세계 교차검증
+
+220개 무작위 모형 및 4개 비용 경계에서 full/guarded Rust planner를 정규화된 exact-world Fraction Bellman의 값·선택·완전정보값과 비교했다. 448개 응답이 조건을 만족했다. 최대 절대 오차 1.11e-16. ±1e−9 및 동점은 full planner로 넘겼다. `verify_native.py`가 독립 계산과 native 호출을 재현한다.
