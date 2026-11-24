@@ -1,0 +1,404 @@
+{
+  "exposure_pass": true,
+  "groups": {
+    "SELFPLAY": {
+      "arms": {
+        "DP": {
+          "continuation_step_us": 2065.25,
+          "drop_us": 12028,
+          "gain": 0.0,
+          "optional_us": 2090.75,
+          "overrun_us": 0,
+          "plan_us": 18.5,
+          "planned": 2,
+          "pools": 8,
+          "prefix_step_us": 15540,
+          "regret": 0.1875,
+          "selected": 2,
+          "setup_total_us": 7913.5,
+          "targets": {
+            "8": 8
+          },
+          "transport_us": 39793.1795,
+          "visit": 4.5,
+          "whole_us": 37754.5
+        },
+        "ENTROPY16": {
+          "continuation_step_us": 31611.25,
+          "drop_us": 193889.5,
+          "gain": 0.0625,
+          "optional_us": 31639.5,
+          "overrun_us": 20957.75,
+          "plan_us": 2.75,
+          "planned": 16,
+          "pools": 8,
+          "prefix_step_us": 387756.75,
+          "regret": 0.125,
+          "selected": 6.75,
+          "setup_total_us": 8421.5,
+          "targets": {
+            "16": 27
+          },
+          "transport_us": 635811.406,
+          "visit": 9.0625,
+          "whole_us": 621908
+        },
+        "FIXED8": {
+          "continuation_step_us": 16105.5,
+          "drop_us": 16372,
+          "gain": 0.0625,
+          "optional_us": 16172.25,
+          "overrun_us": 6404,
+          "plan_us": 40.25,
+          "planned": 16,
+          "pools": 8,
+          "prefix_step_us": 278787.5,
+          "regret": 0.125,
+          "selected": 12,
+          "setup_total_us": 20171.5,
+          "targets": {
+            "8": 48
+          },
+          "transport_us": 336985.778,
+          "visit": 7,
+          "whole_us": 331702.75
+        },
+        "PREFIX": {
+          "continuation_step_us": 0,
+          "drop_us": 132975,
+          "gain": 0.0,
+          "optional_us": 2,
+          "overrun_us": 0,
+          "plan_us": 2,
+          "planned": 0,
+          "pools": 8,
+          "prefix_step_us": 87498.75,
+          "regret": 0.1875,
+          "selected": 0,
+          "setup_total_us": 18100.75,
+          "targets": {},
+          "transport_us": 240846.02325,
+          "visit": 4,
+          "whole_us": 238799.75
+        },
+        "RANDOM16": {
+          "continuation_step_us": 46716.25,
+          "drop_us": 36721.5,
+          "gain": 0.078125,
+          "optional_us": 46748.5,
+          "overrun_us": 35977.75,
+          "plan_us": 7.5,
+          "planned": 16,
+          "pools": 8,
+          "prefix_step_us": 80936,
+          "regret": 0.109375,
+          "selected": 6.75,
+          "setup_total_us": 10730,
+          "targets": {
+            "16": 27
+          },
+          "transport_us": 176224.12825,
+          "visit": 9.0625,
+          "whole_us": 175330
+        },
+        "RATIO": {
+          "continuation_step_us": 1110.75,
+          "drop_us": 9723.75,
+          "gain": 0.0,
+          "optional_us": 1133.5,
+          "overrun_us": 0,
+          "plan_us": 17.75,
+          "planned": 2,
+          "pools": 8,
+          "prefix_step_us": 263108,
+          "regret": 0.1875,
+          "selected": 2,
+          "setup_total_us": 8464,
+          "targets": {
+            "8": 8
+          },
+          "transport_us": 284216.8795,
+          "visit": 4.5,
+          "whole_us": 282626.25
+        }
+      },
+      "n": 16,
+      "paired": {
+        "ENTROPY16": {
+          "bootstrap95": [
+            -0.1875,
+            0.0
+          ],
+          "improvement": -0.0625,
+          "n": 16,
+          "negative": 1,
+          "positive": 0,
+          "time_mismatch": 0.9392924676961866
+        },
+        "FIXED8": {
+          "bootstrap95": [
+            -0.1875,
+            0.0
+          ],
+          "improvement": -0.0625,
+          "n": 16,
+          "negative": 1,
+          "positive": 0,
+          "time_mismatch": 0.8861797196435665
+        },
+        "PREFIX": {
+          "bootstrap95": [
+            0.0,
+            0.0
+          ],
+          "improvement": 0.0,
+          "n": 16,
+          "negative": 0,
+          "positive": 0,
+          "time_mismatch": 0.841898913210755
+        },
+        "RANDOM16": {
+          "bootstrap95": [
+            -0.203125,
+            0.0
+          ],
+          "improvement": -0.078125,
+          "n": 16,
+          "negative": 2,
+          "positive": 0,
+          "time_mismatch": 0.7846660582900815
+        },
+        "RATIO": {
+          "bootstrap95": [
+            0.0,
+            0.0
+          ],
+          "improvement": 0.0,
+          "n": 16,
+          "negative": 0,
+          "positive": 0,
+          "time_mismatch": 0.8664154515017625
+        }
+      }
+    },
+    "TACTICAL": {
+      "arms": {
+        "DP": {
+          "continuation_step_us": 22632.75,
+          "drop_us": 44663.25,
+          "gain": 0.0,
+          "optional_us": 22670,
+          "overrun_us": 19338.5,
+          "plan_us": 29,
+          "planned": 3,
+          "pools": 16,
+          "prefix_step_us": 18856.25,
+          "regret": 0.109375,
+          "selected": 3,
+          "setup_total_us": 17987.75,
+          "targets": {
+            "8": 12
+          },
+          "transport_us": 119346.58499999999,
+          "visit": 4.375,
+          "whole_us": 104535.75
+        },
+        "ENTROPY16": {
+          "continuation_step_us": 29574,
+          "drop_us": 25127.75,
+          "gain": 0.015625,
+          "optional_us": 29626.5,
+          "overrun_us": 9891,
+          "plan_us": 6.75,
+          "planned": 32,
+          "pools": 16,
+          "prefix_step_us": 318337.25,
+          "regret": 0.09375,
+          "selected": 13.25,
+          "setup_total_us": 57663.25,
+          "targets": {
+            "16": 53
+          },
+          "transport_us": 437169.84075000003,
+          "visit": 8.96875,
+          "whole_us": 431146.5
+        },
+        "FIXED8": {
+          "continuation_step_us": 40710.75,
+          "drop_us": 60323.75,
+          "gain": -0.015625,
+          "optional_us": 40777.5,
+          "overrun_us": 19822.75,
+          "plan_us": 5.5,
+          "planned": 32,
+          "pools": 16,
+          "prefix_step_us": 461638.75,
+          "regret": 0.125,
+          "selected": 29,
+          "setup_total_us": 23644,
+          "targets": {
+            "8": 116
+          },
+          "transport_us": 594732.9087500001,
+          "visit": 7.625,
+          "whole_us": 586766.5
+        },
+        "PREFIX": {
+          "continuation_step_us": 0,
+          "drop_us": 16183,
+          "gain": 0.0,
+          "optional_us": 4.5,
+          "overrun_us": 0,
+          "plan_us": 4,
+          "planned": 0,
+          "pools": 16,
+          "prefix_step_us": 103063.25,
+          "regret": 0.109375,
+          "selected": 0,
+          "setup_total_us": 104690.25,
+          "targets": {},
+          "transport_us": 268125.619,
+          "visit": 4,
+          "whole_us": 237819.75
+        },
+        "RANDOM16": {
+          "continuation_step_us": 69808,
+          "drop_us": 20784.75,
+          "gain": 0.0078125,
+          "optional_us": 69873.25,
+          "overrun_us": 49710,
+          "plan_us": 15.75,
+          "planned": 32,
+          "pools": 16,
+          "prefix_step_us": 113647.75,
+          "regret": 0.1015625,
+          "selected": 15.75,
+          "setup_total_us": 20930.25,
+          "targets": {
+            "16": 63
+          },
+          "transport_us": 250840.03525,
+          "visit": 9.90625,
+          "whole_us": 225634.75
+        },
+        "RATIO": {
+          "continuation_step_us": 2058.5,
+          "drop_us": 37406,
+          "gain": 0.0,
+          "optional_us": 2096.75,
+          "overrun_us": 0,
+          "plan_us": 31,
+          "planned": 3,
+          "pools": 16,
+          "prefix_step_us": 42811,
+          "regret": 0.109375,
+          "selected": 3,
+          "setup_total_us": 20533.5,
+          "targets": {
+            "8": 12
+          },
+          "transport_us": 116170.28325,
+          "visit": 4.375,
+          "whole_us": 103204
+        }
+      },
+      "n": 32,
+      "paired": {
+        "ENTROPY16": {
+          "bootstrap95": [
+            -0.09375,
+            0.046875
+          ],
+          "improvement": -0.015625,
+          "n": 32,
+          "negative": 1,
+          "positive": 1,
+          "time_mismatch": 0.757540070486482
+        },
+        "FIXED8": {
+          "bootstrap95": [
+            0.0,
+            0.046875
+          ],
+          "improvement": 0.015625,
+          "n": 32,
+          "negative": 0,
+          "positive": 1,
+          "time_mismatch": 0.8218443793229504
+        },
+        "PREFIX": {
+          "bootstrap95": [
+            0.0,
+            0.0
+          ],
+          "improvement": 0.0,
+          "n": 32,
+          "negative": 0,
+          "positive": 0,
+          "time_mismatch": 0.5604412585582148
+        },
+        "RANDOM16": {
+          "bootstrap95": [
+            -0.0703125,
+            0.046875
+          ],
+          "improvement": -0.0078125,
+          "n": 32,
+          "negative": 2,
+          "positive": 2,
+          "time_mismatch": 0.5367036770710185
+        },
+        "RATIO": {
+          "bootstrap95": [
+            0.0,
+            0.0
+          ],
+          "improvement": 0.0,
+          "n": 32,
+          "negative": 0,
+          "positive": 0,
+          "time_mismatch": 0.01290405410643003
+        }
+      }
+    }
+  },
+  "host_cpus": 24,
+  "host_max_load1": 66.50830078125,
+  "labels": {
+    "EXACT": 48
+  },
+  "profile": {
+    "SELFPLAY/PREFIX": {
+      "drop_us": 4571,
+      "prefix_step_us": 5132,
+      "setup_total_us": 3897,
+      "transport_us": 13483.765,
+      "whole_us": 13130
+    },
+    "SELFPLAY/SETUP": {
+      "drop_us": 3713,
+      "prefix_step_us": 0,
+      "setup_total_us": 4189,
+      "transport_us": 8794.465,
+      "whole_us": 8574
+    },
+    "TACTICAL/PREFIX": {
+      "drop_us": 4063,
+      "prefix_step_us": 5317,
+      "setup_total_us": 3786,
+      "transport_us": 14116.163,
+      "whole_us": 13565
+    },
+    "TACTICAL/SETUP": {
+      "drop_us": 4320,
+      "prefix_step_us": 0,
+      "setup_total_us": 5436,
+      "transport_us": 9520.37,
+      "whole_us": 9277
+    }
+  },
+  "raw_sha": "a978ae898ac18a08ceaa82cbe862901ab9b9b6f522d6904dd5e2ebb1560545b3",
+  "requests": 144,
+  "root_traces": 1152,
+  "stable_host": false
+}
