@@ -11,3 +11,7 @@ C26의 코드와 고정 캠페인에는 변경을 가하지 않는다. C29 H2 �
 ## C03 — 산술과 검증 설계
 
 입력과 채널의 정수격자는 예제 모형의 명시적 계약이다. 그 위에서는 정수 오버플로를 피하는 Python arbitrary precision을 쓴다. 비용과 utility에 signed integer tick을 사용하되 비용은 비음수다. 현 구현의 horizon은 0..2로 제한한다. exact-world complexity는 W개 세계, A개 대안, K개 질의, 최대 Y개의 outcome에서 대략 O(W A K²Y²)다. 상계도 세계를 순회하므로 pruning 수로 속도를 대신 보고하지 않는다.
+
+## C04 — 실행 순서
+
+Python 3.12의 표준 라이브러리로 JSON CLI, 독립 oracle, 결정 동등성 실험을 실행한다. 모형 적합이나 외부 rollout 수집은 필요하지 않다. exhaustive와 pruned의 비교는 각 fixture에 같은 JSON 계약과 tie 순서를 쓴다. wall-time은 같은 프로세스에서 실행 순서를 교대하고 중앙값을 기록한다. 반복 시계는 CPU 성능의 환경 의존 관측이다.
