@@ -22,3 +22,6 @@ A positive first cost and nonnegative later costs give Q≤M−c_i regardless of
 
 ## R08
 Directive: admit the STOP inequality for the declared normalized posterior. Replay tests assess observed policy invariance; channel calibration and robustness of the pre-existing float update remain separate.
+
+## R09
+Round each primitive down/up with adjacent representable values. Lower nonnegative bounds clamp at zero. In a strict comparison the interval must separate. H2 retains its external output, while round zero consumes the plan already computed for reporting.
