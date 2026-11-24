@@ -25,3 +25,6 @@ Directive: admit the STOP inequality for the declared normalized posterior. Repl
 
 ## R09
 Round each primitive down/up with adjacent representable values. Lower nonnegative bounds clamp at zero. In a strict comparison the interval must separate. H2 retains its external output, while round zero consumes the plan already computed for reporting.
+
+## R10
+Freeze the same 300 old roots and the same C29 requests. Preserve prospective channel conditioning as the next scientific task; this round isolates numerical certification and duplicated planner work.
