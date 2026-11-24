@@ -1,0 +1,9 @@
+{
+  "max_abs_errors": {
+    "plan_value": 2.220446049250313e-16,
+    "terminal_mean": 2.7755575615628914e-17
+  },
+  "note": "C08 checker used 1e-10; post hoc audit of original raw output verifies earlier stricter C03 threshold without changing model or data.",
+  "rows": 6696,
+  "strict_c03_tolerance": 2e-11
+}
