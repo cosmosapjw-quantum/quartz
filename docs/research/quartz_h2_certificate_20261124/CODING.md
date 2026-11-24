@@ -19,3 +19,7 @@ Python 3.12의 표준 라이브러리로 JSON CLI, 독립 oracle, 결정 동등�
 ## C05 — 구현
 
 `certificate.py` CLI가 fixture를 읽고 각 모드의 exact Fraction 값, STOP/deploy 및 query의 조건부 계획, 실행 카운터를 출력한다. 입력 fixture의 단위는 1 utility당 100 tick이다. 동일 후보의 반복 관측은 world row의 고정 latent utility를 계속 참조한다.
+
+## C06 — 실행과 계약 검사
+
+`python3 check_certificate.py`의 5개 unittest가 종료 코드 0으로 통과했다. CLI, negative cost, invalid probability mass, malformed support, 0/잘못된 horizon, zero-weight 세계, outside-only와 tie를 포함한다. 독립 normalized Fraction oracle은 integer unnormalized 구현을 참조하지 않는다.
