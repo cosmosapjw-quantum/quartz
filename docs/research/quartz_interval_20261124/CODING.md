@@ -11,3 +11,6 @@ Use next_down/next_up and compare upper M with downward B+cmin. Delay branch-sco
 
 ## C04
 Build on the Ryzen workstation with locked offline Cargo. Rerun frozen C29 requests; use the first plan once in both timing arms.
+
+## C05
+Implemented outward normalized EVPI and consumed the saved round-zero plan. Separate opt-in research binary.
