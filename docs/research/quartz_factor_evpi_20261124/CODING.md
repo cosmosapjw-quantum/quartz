@@ -37,3 +37,7 @@ C29 frozen request 300개, root당 23회 resident 비교에서 300/300 final mov
 ## C09 — 별도 검토와 계측 수정
 
 Native reviewer factorcodeaudit은 complete worlds에서 비정규화 Fraction Bellman을 따로 계산하여 224개 모델의 값·선택을 교차검증했다. 실제 질의가 없는 node도 초기 counter에 포함되던 점을 발견했다. 빈 menu는 이제 guard count에서 제외하고, root pruning 플래그를 명시한다. 비교하지 않은 응답은 equivalent를 null로 내보낸다. 두 native 회귀 테스트와 frozen C29 응답으로 300개 추적 일치 조건을 추가했다. f64 guard margin은 audited numerical guard로 범위를 유지한다.
+
+## C10 — 검증 결과와 인계
+
+최종 C09 executable로 Rust 10개 테스트, 448개 native/oracle 응답 및 300개 resident paired replay를 통과했다. 이전 C29 frozen output의 선택·관측·노드·평가 utility·planned value도 300개 모두 일치했다. 보정 후의 활성 190 root와 비활성 110 root를 분리해 기록했다. 재현 원자료 SHA와 최신 공개 산출물은 C10_FINAL.json에 있다. 세계 열거 없는 상계를 실제로 구현했으며, fresh game efficacy는 아직 열려 있다.
