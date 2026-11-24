@@ -35,3 +35,7 @@ Python 3.12의 표준 라이브러리로 JSON CLI, 독립 oracle, 결정 동등�
 ## C09 — 독립 검토와 수정
 
 Native reviewer codeaudit가 정규화 없는 score scale, zero weights, tie와 pruning을 검토했다. 비재귀적으로 모든 두 번째 행동 매핑을 열거한 별도 검산에서 160개 signed 문제 × 3 horizon × 3 mode의 값 1,440건을 확인했다. 검토에서 JSON 키 "0"과 "00"이 정수 변환 중 충돌함을 재현했다. canonical key와 JSON 중복 키를 검사하도록 수정하고 CLI 회귀 2개 하위 사례를 추가했다. 전체 6개 unittest를 다시 통과했다. 이 수정은 benchmark 경로의 solver나 입력을 변경하지 않는다.
+
+## C10 — 판정과 재개
+
+Exact-world 툴은 소형 모형의 결정 기준으로 사용 가능하다. 두 상계의 일반적인 시간 이득은 입증되지 않았다. 특히 competitive 및 free에서 상계 추가로 elapsed 중앙값이 증가했다. README의 factor CDF 완전정보 상계를 먼저 구현하고 exact-world와 교차 검증한다. 원래 Quartz의 root 선택 개선은 fresh game data의 resource-matched 검증이 남아 있다.
