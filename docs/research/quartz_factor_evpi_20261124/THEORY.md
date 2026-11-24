@@ -31,3 +31,7 @@ M=b+c(1−F_0)+e(1−F_{1/2})=1−c F_0−e F_{1/2}.
 ## R06 — 독립 검토와 실패 범위
 
 Native reviewer cdfaudit가 CDF, 빈 곱, b=1, q_z=0, C29 EPS tie 및 채널 행 오차를 확인했다. 두 fair Bernoulli 후보에서 XOR=1 관측은 후보 주변분포를 그대로 두면서 E[max]=1로 만든다. 이를 independent product로 잘못 압축하면 3/4가 된다. 관측모형이 임의여도 완전정보 부등식은 유지되나 현재 posterior가 factor contract를 위반하면 이 CDF 계산은 상계가 아니다. P(Y|U_i,Z,h)는 factor contract를 유지해도 U_i만 공개하는 H1 상계를 깨뜨릴 수 있다. C29의 coarse channel 자체는 어느 계약의 실제 타당성도 판정하지 못한다.
+
+## R07 — 실행 검산
+
+Fraction으로 192개 혼합 posterior를 세계 열거와 교차검증했다. Native reviewer는 별도 280개 exact rational fixture의 일치를 확인했다. 빈 후보, zero component weight, outside=0/1 및 1/2 양쪽을 포함한다.
