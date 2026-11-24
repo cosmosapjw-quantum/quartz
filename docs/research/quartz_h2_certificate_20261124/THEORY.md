@@ -7,3 +7,9 @@
 ## R02 — 문헌과 기존 계산
 
 Hay, Russell, Tolpin & Shimony (UAI 2012), Definitions 1–2와 Theorems 4–5에서 계산의 비용을 차감하는 metalevel MDP, posterior 기대 효용을 최대화하는 STOP, perfect-information 비용 상계를 재사용했다. 원문 https://www.auai.org/uai2012/papers/123.pdf. Blackwell (1953), DOI 10.1214/aoms/1177729032의 실험 순서에 해당하는 한 단계 부등식을 직접 유도한다. C26 NEXT_C27의 exact-known incumbent와 C29의 posterior terminal max는 다른 선택 계약이다. 이번 모형은 C29의 deploy-any terminal utility를 사용하고 C26의 결과를 변경하지 않는다.
+
+## R03 — 가정과 원래 동기
+
+유한 세계 w에 고정된 root-player 효용 U_a(w)와 비음수 posterior 질량이 있다. 대안 집합은 고정이며 상수 outside option을 포함한다. 계산 i는 효용을 변경하지 않으며, 질의별 비음수 비용 c_i, 정규화 채널 P(Y_i|U_i), 잠재 효용 조건부 독립인 반복 관측을 사용한다. 유도는 서로 상관된 후보 효용까지 포함한다. 효용과 비용은 같은 단위다. H=0이면 STOP이고 비용은 아직 발생하지 않은 계산만 차감한다.
+
+초기 commit 15f3a198의 README와 QUARTZ_THEORY는 root uncertainty, P_flip과 계산 비용을 고려한 의사결정을 명시한다. 3bcaa435에 보존된 초기 PDF §5.1은 wall-time EMA, §5.2 Eq. 2는 myopic 가치, Eq. 1은 KL/Gibbs 제어를 쓴다. 이번에는 hard H2의 결정 근거를 보강한다. 실제 시간을 비용으로 보정하는 작업과 KL-regularized Bellman, TT 기하, Gomoku/NN P2 및 인지 P3는 열린 과제다.
