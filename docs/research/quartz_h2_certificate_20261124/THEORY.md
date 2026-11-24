@@ -34,3 +34,7 @@ Native reviewer origin이 tower/Jensen, 비용 차감과 fixed alternative의 �
 ## R07 — 정확 유리수 검사
 
 독립적인 단일 후보 scalar recurrence를 실행했다. outside 3/5, Bernoulli(1/2), 정확도 3/4, 비용 1/100일 때 H0/H1/H2는 각각 3/5, 133/200, 543/800이고 H2 개선은 11/800이다. 첫 양성 뒤에는 계산을 계속하고 음성 뒤에는 STOP한다. 이 fixture는 C29의 기존 결과를 수치적으로 재현하며 pruning으로 이 행동을 잃으면 실패로 판정한다.
+
+## R08 — 주장 판정
+
+A/B의 admissibility와 tie 보존은 주어진 가정에서 유도됐다. R07의 지속 계산 사례는 exact rational로 검산됐다. 상계가 실제로 분기를 얼마나 자르는지, 상계 비용을 포함해 더 빠른지, 실제 게임 rollout에서 채널 가정이 맞는지는 별도의 실험 명제다. 유한 모델에서 계산량 감소가 작은 사례도 그대로 기록한다.
