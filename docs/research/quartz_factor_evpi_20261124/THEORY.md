@@ -39,3 +39,7 @@ Fraction으로 192개 혼합 posterior를 세계 열거와 교차검증했다. N
 ## R08 — 근거 판정
 
 실수 모델의 CDF 식과 STOP 지배조건은 유도 완료다. C29의 f64 연산은 채널 행 합 tolerance, posterior update, EPS 선택 규칙을 포함한다. 구현에서는 수치 여유를 둔 엄격 비교를 쓰며, 그 가드는 검산 범위에서의 수치적 방어다. 전 입력에 대한 IEEE interval proof 및 실제 game belief의 calibration은 열린 상태다.
+
+## R09 — 구현 계약
+
+두 CDF를 별도 allocation 없이 누적한다. opt-in에 한해 M−c_min < B−1e−8인 노드의 score 열거를 생략한다. 경계에서는 그대로 C29를 실행한다. 질의가 비싸도 c_i가 비용 단위에서 음수가 되면 이 경로를 허용하지 않는다. Guard가 발동한 node는 root score에 null, gate count와 함께 표시한다. Guard 제외 모드는 원 인터페이스와 수치를 보존한다.
