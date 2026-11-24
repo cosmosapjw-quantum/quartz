@@ -1,0 +1,120 @@
+   Compiling libc v0.2.184
+   Compiling cfg-if v1.0.4
+   Compiling crossbeam-utils v0.8.21
+   Compiling proc-macro2 v1.0.106
+   Compiling zerocopy v0.8.48
+   Compiling quote v1.0.45
+   Compiling unicode-ident v1.0.24
+   Compiling libm v0.2.16
+   Compiling autocfg v1.5.0
+   Compiling serde_core v1.0.228
+   Compiling zmij v1.0.21
+   Compiling getrandom v0.4.2
+   Compiling rayon-core v1.13.0
+   Compiling rustix v1.1.4
+   Compiling parking_lot_core v0.9.12
+   Compiling rustversion v1.0.22
+   Compiling serde_json v1.0.149
+   Compiling serde v1.0.228
+   Compiling smallvec v1.15.1
+   Compiling scopeguard v1.2.0
+   Compiling linux-raw-sys v0.12.1
+   Compiling bitflags v2.11.1
+   Compiling fastrand v2.4.1
+   Compiling either v1.15.0
+   Compiling itoa v1.0.18
+   Compiling lock_api v0.4.14
+   Compiling memchr v2.8.0
+   Compiling once_cell v1.21.4
+   Compiling bumpalo v3.20.2
+   Compiling num-traits v0.2.19
+   Compiling arc-swap v1.9.1
+   Compiling crossbeam-epoch v0.9.18
+   Compiling crossbeam-channel v0.5.15
+   Compiling crossbeam-deque v0.8.6
+   Compiling syn v2.0.117
+   Compiling getrandom v0.2.17
+   Compiling rand_core v0.6.4
+   Compiling parking_lot v0.12.5
+   Compiling rayon v1.11.0
+   Compiling tempfile v3.27.0
+   Compiling serde_derive v1.0.228
+   Compiling ppv-lite86 v0.2.21
+   Compiling rand_chacha v0.3.1
+   Compiling rand v0.8.5
+   Compiling rand_distr v0.4.3
+   Compiling mcts_demo v0.3.0 (/home/cosmosapjw/quantum/research/quartz_interval_20261124)
+warning: constant `SCHEMA` is never used
+  --> src/bin/quartz_interval.rs:28:7
+   |
+28 | const SCHEMA: &str = "c28-geometry-v1";
+   |       ^^^^^^
+   |
+   = note: `#[warn(dead_code)]` (part of `#[warn(unused)]`) on by default
+
+warning: field `predicted_nodes` is never read
+   --> src/bin/quartz_interval.rs:229:5
+    |
+221 | struct Candidate {
+    |        --------- field in this struct
+...
+229 |     predicted_nodes: Option<f64>,
+    |     ^^^^^^^^^^^^^^^
+
+warning: field `value` is never read
+   --> src/bin/quartz_interval.rs:284:5
+    |
+282 | struct Initial {
+    |        ------- field in this struct
+283 |     incumbent: usize,
+284 |     value: i8,
+    |     ^^^^^
+
+warning: `mcts_demo` (bin "quartz_interval" test) generated 3 warnings
+    Finished `release` profile [optimized] target(s) in 9.05s
+     Running unittests src/bin/quartz_interval.rs (/home/cosmosapjw/quantum/research/quartz_interval_target_20261124/release/deps/quartz_interval-e914ca91d4bd80a3)
+
+running 10 tests
+test tests::bad_channel_rejected ... ok
+test tests::costly_supported_query_is_skipped ... ok
+test tests::evpi_does_not_count_empty_menu ... ok
+test tests::independent_scalar_not_sufficient ... ok
+test tests::noisy_repeat_nonmyopic ... ok
+test tests::uninformative_positive_cost_stop ... ok
+test tictactoe::tests::test_apply_move_pure ... ok
+test tictactoe::tests::test_draw ... ok
+test tictactoe::tests::test_hash_transposition ... ok
+test tictactoe::tests::test_negamax_outcome ... ok
+
+test result: ok. 10 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+   Compiling mcts_demo v0.3.0 (/home/cosmosapjw/quantum/research/quartz_interval_20261124)
+warning: constant `SCHEMA` is never used
+  --> src/bin/quartz_interval.rs:28:7
+   |
+28 | const SCHEMA: &str = "c28-geometry-v1";
+   |       ^^^^^^
+   |
+   = note: `#[warn(dead_code)]` (part of `#[warn(unused)]`) on by default
+
+warning: field `predicted_nodes` is never read
+   --> src/bin/quartz_interval.rs:229:5
+    |
+221 | struct Candidate {
+    |        --------- field in this struct
+...
+229 |     predicted_nodes: Option<f64>,
+    |     ^^^^^^^^^^^^^^^
+
+warning: field `value` is never read
+   --> src/bin/quartz_interval.rs:284:5
+    |
+282 | struct Initial {
+    |        ------- field in this struct
+283 |     incumbent: usize,
+284 |     value: i8,
+    |     ^^^^^
+
+warning: `mcts_demo` (bin "quartz_interval") generated 3 warnings
+    Finished `release` profile [optimized] target(s) in 5.41s
+0d52fea48b9a2a8c47725bd7d10a3925c9162b20ff4016b75a05bb1875cfcc48  /home/cosmosapjw/quantum/research/quartz_interval_target_20261124/release/quartz_interval

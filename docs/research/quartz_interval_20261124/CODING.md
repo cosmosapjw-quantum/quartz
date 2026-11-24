@@ -14,3 +14,6 @@ Build on the Ryzen workstation with locked offline Cargo. Rerun frozen C29 reque
 
 ## C05
 Implemented outward normalized EVPI and consumed the saved round-zero plan. Separate opt-in research binary.
+
+## C06
+Locked offline build and native tests. See C06.txt.
