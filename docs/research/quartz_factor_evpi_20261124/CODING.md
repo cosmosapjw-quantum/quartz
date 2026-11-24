@@ -11,3 +11,7 @@ C29의 Rust 바이너리 소스를 exact blob에서 별도 이름으로 이식�
 ## C03 — 수치 설계
 
 Outside가 1에 가깝거나 비용이 충분히 크면 support ceiling 1만으로 STOP한다. 나머지 상태는 CDF O(N)으로 계산한다. 경계에서는 fail-open하고 `1e-8` 여유를 사용한다. 채널 행은 C29의 1e-12 계약이며, 연산 전체의 rigorous enclosure는 이 구현의 검증 범위에서 제외한다. 남은 horizon과 비용의 단위는 C29와 같다.
+
+## C04 — 실행 계획
+
+워크스테이션 Rust offline release에서 test 후 300개 고정 C29 retrospective 요청을 paired 실행한다. 같은 과정에서 planner의 전체 비용과 실제 rollout cost를 별도로 확인한다. 선행 관측을 사용한 retrospective 분석이며 새 TEST로 쓰지 않는다.
