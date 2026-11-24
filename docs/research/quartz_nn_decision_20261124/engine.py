@@ -4,6 +4,7 @@ from pathlib import Path
 os.environ['QUARTZ_DISABLE_COMPILE']='1'
 os.environ['QUARTZ_DISABLE_QIPC_SHM']='1'
 os.environ['QUARTZ_DISABLE_ASYNC_PIPELINE']='1'
+os.environ['QUARTZ_DISABLE_NN_CACHE']='1'  # isolate actual neural work across arms
 os.environ['OMP_NUM_THREADS']='2'
 os.environ['MKL_NUM_THREADS']='2'
 import torch
