@@ -13,3 +13,8 @@ Hay, Russell, Tolpin & Shimony (UAI 2012), Definitions 1–2와 Theorems 4–5�
 유한 세계 w에 고정된 root-player 효용 U_a(w)와 비음수 posterior 질량이 있다. 대안 집합은 고정이며 상수 outside option을 포함한다. 계산 i는 효용을 변경하지 않으며, 질의별 비음수 비용 c_i, 정규화 채널 P(Y_i|U_i), 잠재 효용 조건부 독립인 반복 관측을 사용한다. 유도는 서로 상관된 후보 효용까지 포함한다. 효용과 비용은 같은 단위다. H=0이면 STOP이고 비용은 아직 발생하지 않은 계산만 차감한다.
 
 초기 commit 15f3a198의 README와 QUARTZ_THEORY는 root uncertainty, P_flip과 계산 비용을 고려한 의사결정을 명시한다. 3bcaa435에 보존된 초기 PDF §5.1은 wall-time EMA, §5.2 Eq. 2는 myopic 가치, Eq. 1은 KL/Gibbs 제어를 쓴다. 이번에는 hard H2의 결정 근거를 보강한다. 실제 시간을 비용으로 보정하는 작업과 KL-regularized Bellman, TT 기하, Gomoku/NN P2 및 인지 P3는 열린 과제다.
+
+## R04 — 상계 후보
+
+m_a(h)=E[U_a|h], B(h)=max_a m_a(h), M(h)=E[max_a U_a|h].
+상계 A는 모든 남은 지평에서 현재 질의 i의 가치에 M(h)−c_i를 사용한다. 상계 B는 잔여 지평 1에서 해당 U_i를 알려 주는 가상 질의의 기대 STOP에서 실제 c_i를 뺀다. A는 root에서 공통으로 재사용하고 B는 실제 첫 관측 이후에만 적용한다. 두 상계를 각 위치에서 함께 쓴다. posterior 분산 자체를 상계로 쓰는 후보는 action set과 비용을 반영하지 못한다. 예를 들어 모든 대안에 더해진 동일 변동은 최적 대안의 순서를 바꾸지 않는다.
