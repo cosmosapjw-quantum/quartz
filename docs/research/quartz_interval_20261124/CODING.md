@@ -8,3 +8,6 @@ Filter.local and q supply masses; Filter.terminal is the rounded comparator; dep
 
 ## C03
 Use next_down/next_up and compare upper M with downward B+cmin. Delay branch-score allocation work only through the inherited early-return path.
+
+## C04
+Build on the Ryzen workstation with locked offline Cargo. Rerun frozen C29 requests; use the first plan once in both timing arms.
