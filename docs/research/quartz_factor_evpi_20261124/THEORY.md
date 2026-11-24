@@ -9,3 +9,9 @@
 Hay et al., UAI 2012 정의 1–2 및 정리 4–5는 유료 metalevel MDP와 완전정보 비용 상계를 정식화한다. Callaway et al., UAI 2018 §3 식 (2)–(4)는 myopic VOI, VPI, 부분 VPI를 나눈다. 이번 기여는 C29 고정 효용 posterior에서 VPI를 선형 비용으로 계산하고 native 경로에서 검사하는 것이다. C24의 SPD 응답 오차 certificate와 적용 대상이 다르다.
 - https://www.auai.org/uai2012/papers/123.pdf
 - https://cocosci.princeton.edu/papers/callawayLearningToSelect.pdf
+
+## R03 — 원 동기와 가정
+
+최초 커밋 15f3a198의 README와 QUARTZ_THEORY.md는 root risk, P_flip과 비용 차감 VOC를 명시한다. 3bcaa435의 원 논문 §5.1–5.2는 실제 시간을 EMA로 측정하고 기대 판단 개선과 비교했다. 이번 연구는 같은 후속 결정과 STOP을 보존하며 planner 비용을 직접 잰다. 단순 hard H2이고, Eq. 1 KL/Gibbs 동역학과 실게임의 compute-matched 성능은 별도 과제다.
+
+조건은 고정 효용 벡터, U_i∈{0,1/2,1}, 상수 outside b∈[0,1], 비음수 미래 계산 비용, 현재 history에서 Z를 조건으로 독립인 후보별 효용이다. 편의상 후보 N=0도 허용한다. 유틸리티·비용 단위는 dimensionless WDL 효용이다. 채널에서 관측된 신호를 실제 효용으로 보지 않는다.
