@@ -7,3 +7,6 @@ Hay et al. UAI 2012 Theorem 5 supplies the perfect-information ceiling. Rump, Ac
 
 ## R03
 Origin watchdog: 15f3a19 QUARTZ_THEORY.md defines VOC = expected improvement minus cost; archived paper 3bcaa435 §5 uses measured time. Preserve downstream decision and paid search. No new P_flip, Gibbs, Gomoku or game efficacy claim. Inputs are binary64 nonnegative masses interpreted as exact reals and renormalized row by row.
+
+## R04
+Compare a fixed epsilon, direct outward interval arithmetic, and only the universal ceiling 1. The direct enclosure can exploit a smaller model ceiling. The universal ceiling is useful when STOP is exactly 1 and the cost is positive.
