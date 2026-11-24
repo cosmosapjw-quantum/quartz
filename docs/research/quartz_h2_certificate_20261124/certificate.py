@@ -146,17 +146,31 @@ def solve(problem, horizon=2, bounds="both"):
 
 
 def parse_problem(data):
-    queries = tuple(
-        Query(q["candidate"], q["cost"], {int(u): tuple(row) for u, row in q["channel"].items()})
-        for q in data["queries"]
-    )
+    queries = []
+    for query in data["queries"]:
+        channel = {}
+        for key, row in query["channel"].items():
+            utility = int(key)
+            if str(utility) != key:
+                raise ValueError("channel utility keys must be canonical integers")
+            channel[utility] = tuple(row)
+        queries.append(Query(query["candidate"], query["cost"], channel))
     return Problem(
         tuple(tuple(row) for row in data["utilities"]),
         tuple(data["weights"]),
         data["outside"],
         data["denominator"],
-        queries,
+        tuple(queries),
     )
+
+
+def _unique_object(pairs):
+    result = {}
+    for key, value in pairs:
+        if key in result:
+            raise ValueError(f"duplicate JSON key {key!r}")
+        result[key] = value
+    return result
 
 
 def main():
@@ -168,8 +182,11 @@ def main():
     parser.add_argument("--horizon", type=int, default=2)
     parser.add_argument("--bounds", choices=["both", "world", "none"], default="both")
     args = parser.parse_args()
-    problem = parse_problem(json.loads(args.problem.read_text()))
-    answer = solve(problem, args.horizon, None if args.bounds == "none" else args.bounds)
+    try:
+        problem = parse_problem(json.loads(args.problem.read_text(), object_pairs_hook=_unique_object))
+        answer = solve(problem, args.horizon, None if args.bounds == "none" else args.bounds)
+    except (KeyError, TypeError, ValueError) as exc:
+        parser.error(f"invalid problem: {exc}")
     payload = asdict(answer)
     payload["value"] = str(answer.value)
     print(json.dumps(payload, indent=2))

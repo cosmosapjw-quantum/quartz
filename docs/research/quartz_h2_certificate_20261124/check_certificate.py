@@ -3,6 +3,7 @@ import json
 import random
 import subprocess
 import sys
+import tempfile
 import unittest
 from dataclasses import replace
 from fractions import Fraction as F
@@ -87,6 +88,25 @@ class CertificateTests(unittest.TestCase):
         for h in (-1, 3, True):
             with self.assertRaises(ValueError):
                 solve(p, h)
+
+    def test_aliased_and_duplicate_cli_keys(self):
+        path = Path(__file__).with_name("fixture.json")
+        payload = path.read_text()
+        replacements = {
+            '"0": [3, 1], "00": [1, 3]': "channel utility keys must be canonical integers",
+            '"0": [3, 1], "0": [1, 3]': "duplicate JSON key",
+        }
+        with tempfile.TemporaryDirectory() as temp:
+            malformed = Path(temp) / "bad.json"
+            for fields, error in replacements.items():
+                with self.subTest(error=error):
+                    malformed.write_text(payload.replace('"0": [3, 1]', fields))
+                    run = subprocess.run(
+                        [sys.executable, str(path.with_name("certificate.py")), str(malformed)],
+                        capture_output=True, text=True,
+                    )
+                    self.assertEqual(run.returncode, 2)
+                    self.assertIn(error, run.stderr)
 
     def test_terminal_only_and_zero_cost_tie(self):
         self.assertEqual(solve(Problem(((),), (1,), -3, 2, ())).value, -3)

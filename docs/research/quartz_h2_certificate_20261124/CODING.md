@@ -31,3 +31,7 @@ Python 3.12의 표준 라이브러리로 JSON CLI, 독립 oracle, 결정 동등�
 ## C08 — 수치 비용과 재현성
 
 `benchmark_certificate.py`는 고정 seed의 다섯 synthetic regime마다 full, world-only, both에서 값과 정책을 대조했다. 60회씩 동일 프로세스에서 순서를 교대하며 validation을 포함한 planner 시간을 쟀다. 관측 전개 수는 결정론적이다. 실행 시간은 측정 환경에 의존한다. 정확 산술로 truncation 및 roundoff가 없으며, 세계 상태와 관측 모델 자체의 근사 오차는 이 benchmark 범위 밖이다. 상세 수치는 C08_benchmark.json에 있다.
+
+## C09 — 독립 검토와 수정
+
+Native reviewer codeaudit가 정규화 없는 score scale, zero weights, tie와 pruning을 검토했다. 비재귀적으로 모든 두 번째 행동 매핑을 열거한 별도 검산에서 160개 signed 문제 × 3 horizon × 3 mode의 값 1,440건을 확인했다. 검토에서 JSON 키 "0"과 "00"이 정수 변환 중 충돌함을 재현했다. canonical key와 JSON 중복 키를 검사하도록 수정하고 CLI 회귀 2개 하위 사례를 추가했다. 전체 6개 unittest를 다시 통과했다. 이 수정은 benchmark 경로의 solver나 입력을 변경하지 않는다.
