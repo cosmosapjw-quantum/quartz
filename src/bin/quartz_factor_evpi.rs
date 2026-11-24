@@ -370,6 +370,7 @@ struct Plan {
     scores: Vec<Option<f64>>,
     choice: Option<usize>,
     guard_stops: usize,
+    root_evpi_stop: bool,
 }
 impl Filter {
     fn new(mut p:Vec<[f64;3]>, r:Vec<f64>, m:f64)->Result<Self,String>{
@@ -441,7 +442,7 @@ impl Filter {
     }
 
     fn strict_evpi_stop(&self, b: f64, stop: f64, min_cost: f64) -> bool {
-        if min_cost <= EVPI_MARGIN {
+        if !min_cost.is_finite() || min_cost <= EVPI_MARGIN {
             return false;
         }
         let lower = stop - EVPI_MARGIN;
@@ -464,7 +465,7 @@ impl Filter {
                     .filter(|&(i, _)| !disabled[i] && !(known_only && self.known[i].is_some()))
                     .map(|(_, &cost)| cost).fold(f64::INFINITY, f64::min);
                 if self.strict_evpi_stop(b, stop, min_cost) {
-                    return Plan { value: stop, stop, scores, choice: None, guard_stops: 1 };
+                    return Plan { value: stop, stop, scores, choice: None, guard_stops: 1, root_evpi_stop: true };
                 }
             }
             for i in 0..self.local.len(){
@@ -484,7 +485,7 @@ impl Filter {
         let choice=if value<=stop+EPS {None} else {
             (0..scores.len()).find(|&i|scores[i].is_some_and(|q|q>=value-EPS))
         };
-        Plan{value,stop,scores,choice,guard_stops}
+        Plan{value,stop,scores,choice,guard_stops,root_evpi_stop:false}
     }
 }
 fn is_identity(ch:&[Vec<Vec<f64>>])->bool{
@@ -536,6 +537,7 @@ fn synthetic(req:SyntheticRequest)->Result<Value,String>{
     Ok(json!({"schema":"c29-noisy-v1","mode":"synthetic","id":req.id,
         "value":plan.value,"stop":plan.stop,"scores":plan.scores,"choice":plan.choice,
         "posterior_means":f.means(),"q":f.q,"guard_stops":plan.guard_stops,
+        "root_evpi_stop":plan.root_evpi_stop,
         "perfect_information":f.perfect_information(req.b)}))
 }
 #[derive(Deserialize)]
@@ -674,12 +676,12 @@ fn game(mut req:GameRequest)->Result<Value,String>{
     let actual=run_game(&root,&req,true,req.guard)?;
     let equivalent = if req.guard {
         let full = run_game(&root, &req, true, false)?;
-        actual.final_move == full.final_move
+        Some(actual.final_move == full.final_move
             && actual.observations == full.observations
             && actual.planned_value == full.planned_value
-            && actual.query_nodes == full.query_nodes
+            && actual.query_nodes == full.query_nodes)
     } else {
-        true
+        None
     };
     let mut baseline_ns=Vec::new();let mut query_ns=Vec::new();
     let mut full_h2_ns=Vec::new();
@@ -777,6 +779,24 @@ mod tests{
         assert_eq!(p.choice,None);
         assert!((p.value-0.6).abs()<1e-13);
     }
+    #[test]
+    fn evpi_does_not_count_empty_menu() {
+        let f = Filter::new(vec![[0.5, 0.0, 0.5]], vec![0.0], 0.0).unwrap();
+        let p = f.plan_with_guard(&channel(), &[0.5], 2, 0.6, false, &[true], true);
+        assert_eq!(p.guard_stops, 0);
+        assert!(!p.root_evpi_stop);
+    }
+
+    #[test]
+    fn costly_supported_query_is_skipped() {
+        let f = Filter::new(vec![[0.5, 0.0, 0.5]], vec![0.0], 0.0).unwrap();
+        let p = f.plan_with_guard(&channel(), &[0.3], 2, 0.6, false, &[false], true);
+        assert_eq!(f.perfect_information(0.6), 0.8);
+        assert_eq!(p.guard_stops, 1);
+        assert!(p.root_evpi_stop);
+        assert_eq!(p.value, 0.6);
+    }
+
     #[test]
     fn bad_channel_rejected(){
         assert!(validate_channels(&[vec![vec![0.2,0.2];3]],1).is_err());

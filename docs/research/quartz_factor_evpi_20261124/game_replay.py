@@ -88,7 +88,7 @@ def channel_diagnostic(requests):
     }
 
 
-def replay(binary, source, out):
+def replay(binary, source, out, baseline):
     raw = source.read_bytes()
     data = [json.loads(x) for x in gzip.decompress(raw).splitlines()]
     assert len(data) == 300 and len({x["id"] for x in data}) == 300
@@ -98,6 +98,16 @@ def replay(binary, source, out):
         requests = [dict(x, guard=True, repeats=23) for x in data]
         rows = native(binary, requests)
         assert all(row["equivalent_full_h2"] for row in rows)
+        if baseline:
+            old = [json.loads(x) for x in gzip.decompress(baseline.read_bytes()).splitlines()]
+            assert len(old) == len(rows)
+            keys = ("id", "initial_known_move", "baseline_move", "noisy_move", "observations",
+                    "additional_rollout_nodes", "offline_realized_baseline", "offline_realized_noisy",
+                    "planned_value")
+            for previous, current in zip(old, rows):
+                for key in keys:
+                    assert previous[key] == current[key], (current["id"], key)
+            summary["matched_frozen_c29_responses"] = len(old)
         for label, part in (("all", rows), ("cal", rows[180:240]),
                             ("guard_active", [x for x in rows if x["guard_stops"]]),
                             ("guard_inactive", [x for x in rows if not x["guard_stops"]])):
@@ -113,6 +123,9 @@ def replay(binary, source, out):
                 "initial_only_mean_of_root_median_ns": mean(base),
                 "median_paired_ns_delta": median(b - a for a, b in zip(full, gated)),
                 "rollout_nodes": sum(x["additional_rollout_nodes"] for x in part),
+                "realized_utility_gain_vs_initial_only": mean(
+                    x["offline_realized_noisy"] - x["offline_realized_baseline"] for x in part
+                ),
             }
         summary["per_root"] = [{k: x[k] for k in (
             "id", "equivalent_full_h2", "guard_stops", "noisy_move", "query_count",
@@ -129,5 +142,6 @@ if __name__ == "__main__":
     parser.add_argument("requests", type=Path)
     parser.add_argument("output", type=Path)
     parser.add_argument("--binary")
+    parser.add_argument("--baseline-responses", type=Path)
     args = parser.parse_args()
-    replay(args.binary, args.requests, args.output)
+    replay(args.binary, args.requests, args.output, args.baseline_responses)

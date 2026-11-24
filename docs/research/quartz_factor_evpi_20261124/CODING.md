@@ -33,3 +33,7 @@ Ryzen 9 5900X x86_64, rustc 1.99.0. `cargo test --locked --offline --release --b
 C29 frozen request 300개, root당 23회 resident 비교에서 300/300 final move, rollout trace, 비용과 계획값이 일치했다. 초기 실행에서 H2 14.768→7.473µs, initial-only 2.851µs였고, C09 계측 수정 후 재측정한다. 두 H2 모두 C29 원래의 root planned_value 계산 및 round 0 재계획을 보존한다.
 
 별도 Python exact minimax 및 균일 random-rollout law는 (ply, focal utility) 6 strata 중 5개에서 서로 다른 law를 확인했다. TRAIN 180개로 적합한 sibling-best 변수를 소급 117개 root에 평가했을 때 root 평균 log-score가 0.00558 bit 개선됐다. 2,000회 root bootstrap의 기술 구간 [0.00086,0.01107]. 과거 source이며 루트 간 공유 후손을 고려한 확증 구간이 아니다. 정확 sibling minimax는 채널 진단에만 사용했고 native 입력에는 주지 않았다.
+
+## C09 — 별도 검토와 계측 수정
+
+Native reviewer factorcodeaudit은 complete worlds에서 비정규화 Fraction Bellman을 따로 계산하여 224개 모델의 값·선택을 교차검증했다. 실제 질의가 없는 node도 초기 counter에 포함되던 점을 발견했다. 빈 menu는 이제 guard count에서 제외하고, root pruning 플래그를 명시한다. 비교하지 않은 응답은 equivalent를 null로 내보낸다. 두 native 회귀 테스트와 frozen C29 응답으로 300개 추적 일치 조건을 추가했다. f64 guard margin은 audited numerical guard로 범위를 유지한다.
