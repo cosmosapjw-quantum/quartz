@@ -1,0 +1,26 @@
+{
+  "canonical_nonterminal_plies1_8": 626,
+  "excluded_c26": 300,
+  "excluded_c27": 144,
+  "c29_equals_c26": true,
+  "excluded_in_population": 444,
+  "new": 182,
+  "counts": {
+    "TRAIN": {
+      "1": 2,
+      "2": 8,
+      "3": 25,
+      "7": 63,
+      "8": 22
+    },
+    "HELDOUT": {
+      "1": 1,
+      "2": 4,
+      "3": 13,
+      "7": 32,
+      "8": 12
+    }
+  },
+  "source_sha256": "19e352bcf93129d7fb8f0fb0df22e635e6658895d8c721dc73f50e2ec4fde7d6",
+  "scope": "canonical distinct C26-C29 policy roots, possible overlapping descendants and prior exhaustive oracle use"
+}
