@@ -1,0 +1,40 @@
+FF
+======================================================================
+FAIL: test_signed_and_empty_fallback (__main__.Test.test_signed_and_empty_fallback)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/cosmosapjw/quantum/research/quartz_nn_intervention_20261124/docs/research/quartz_nn_intervention_20261124/test_hurdle.py", line 7, in test_signed_and_empty_fallback
+    self.assertEqual(m['global'],[.25,0,0,.5,.25])
+AssertionError: Lists differ: [0, 0, 1, 0, 0] != [0.25, 0, 0, 0.5, 0.25]
+
+First differing element 0:
+0
+0.25
+
+- [0, 0, 1, 0, 0]
++ [0.25, 0, 0, 0.5, 0.25]
+
+======================================================================
+FAIL: test_zero_and_negative (__main__.Test.test_zero_and_negative)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/cosmosapjw/quantum/research/quartz_nn_intervention_20261124/docs/research/quartz_nn_intervention_20261124/test_hurdle.py", line 14, in test_zero_and_negative
+    self.assertEqual(m['global'],[.5,0,.5,0,0])
+AssertionError: Lists differ: [0, 0, 1, 0, 0] != [0.5, 0, 0.5, 0, 0]
+
+First differing element 0:
+0
+0.5
+
+- [0, 0, 1, 0, 0]
+?        ^
+
++ [0.5, 0, 0.5, 0, 0]
+?   ++     ^^^
+
+
+----------------------------------------------------------------------
+Ran 2 tests in 0.001s
+
+FAILED (failures=2)
+exit=1
