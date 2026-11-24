@@ -23,3 +23,7 @@ Python 3.12의 표준 라이브러리로 JSON CLI, 독립 oracle, 결정 동등�
 ## C06 — 실행과 계약 검사
 
 `python3 check_certificate.py`의 5개 unittest가 종료 코드 0으로 통과했다. CLI, negative cost, invalid probability mass, malformed support, 0/잘못된 horizon, zero-weight 세계, outside-only와 tie를 포함한다. 독립 normalized Fraction oracle은 integer unnormalized 구현을 참조하지 않는다.
+
+## C07 — 과학 검증
+
+고정 seed로 생성한 240개 유한 문제 × horizon 0/1/2 × 3 모드에서 총 2,160개 값 및 전체 선택 계획이 독립 oracle과 정확히 일치했다. 범위는 signed 효용, 상관 세계, 중복 후보 질의, 0 비용과 impossible outcomes를 포함한다. 밖의 옵션이 평균에서 최고의 후보와 동일하면 outside tie 우선순위를 유지했다. 고정 latent 회귀에서 543/800와 양성 관측에서만 추가 계산하는 정책을 재현했다. 이 증거는 정의한 유한 query 모델에 귀속된다.
