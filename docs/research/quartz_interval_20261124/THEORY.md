@@ -13,3 +13,6 @@ Compare a fixed epsilon, direct outward interval arithmetic, and only the univer
 
 ## R05
 For each component normalize its two or three masses mathematically. Lower-bound each local CDF by downward numerator divided by upward denominator. Multiply positive lower bounds and mix with lower normalized weights. For b∈[0,1], M=1−(1/2−b)+ F0−(1−max(b,1/2)) Fhalf, with the positive part applied only to the coefficient. Downward coefficients and CDFs yield an upper bound via upward subtraction. The maximum of lower posterior means and b is a lower bound B. If upper(M−cmin) < lower(B), every paid policy is dominated in the represented normalized model.
+
+## R06
+A positive first cost and nonnegative later costs give Q≤M−c_i regardless of the future observation law. Disabled queries are excluded from cmin, never from deploy-any terminal support. Known-only deployment uses certified known labels plus b. Exact zero numerators are retained when possible. Lack of separation falls through. This is a represented-posterior certificate, not a forward error theorem for the inherited floating likelihood recursion.
