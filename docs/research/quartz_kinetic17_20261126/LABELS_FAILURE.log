@@ -1,0 +1,8 @@
+Traceback (most recent call last):
+  File "/home/cosmosapjw/quantum/research/quartz_kinetic17_20261126/docs/research/quartz_kinetic17_20261126/pilot.py", line 205, in <module>
+    if __name__=='__main__':globals()[sys.argv[1]]()
+                            ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/cosmosapjw/quantum/research/quartz_kinetic17_20261126/docs/research/quartz_kinetic17_20261126/pilot.py", line 148, in labels
+    v,n=ref.exact_wdl(r['history'])
+        ^^^^^^^^^^^^^
+AttributeError: module 'audit' has no attribute 'exact_wdl'

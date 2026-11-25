@@ -6,7 +6,9 @@ OLD=ROOT.parent/'quartz_kinetic16_20261126/docs/research/quartz_kinetic16_202611
 sys.path.insert(0,str(OLD))
 import pair_run as old
 import pair_ref as pr
-import audit as ref
+import importlib.util
+spec=importlib.util.spec_from_file_location("k16_independent_audit",OLD/"audit.py")
+ref=importlib.util.module_from_spec(spec);spec.loader.exec_module(ref)
 from fractions import Fraction as F
 BIN=ROOT.parent/'quartz_kinetic17_target_20261126/mcts_demo'
 OBIN=ROOT.parent/'quartz_kinetic16_target_20261126/mcts_demo'
