@@ -1,0 +1,101 @@
+{'july': 128, 'november': 203, 'all_pre': 234, 'union': 234, 'side_only': 31, 'distinct_document_blobs': 306, 'distinct_paths': 155}
+historical side branches:
+cd6c9680 2026-08-18 feat(foundry): complete full 26-axis study, meta-analysis, and 2x2 factorial sweep
+2b39f4b5 2026-08-18 refactor(foundry): implement Tier-0 audit remediation
+56e7f324 2026-08-18 feat(foundry): implement PR-10 (canonical A01 signal variants & stable FNV-1a hash) and PR-12 (true held-out opening bank)
+69b21c54 2026-08-18 feat(foundry): implement PR-11 (A01 empirical flip-risk calibration and wrong-stop gate)
+e5a1eb53 2026-08-18 fix(foundry): complete R0-R6 audit remediation
+893fadae 2026-08-18 feat(foundry): implement F1 confirmatory design seal
+cb739736 2026-08-18 feat(foundry): complete F2 N=3 confirmatory factorial study
+25c8d534 2026-08-18 docs(foundry): document F3 A01 continuation calibration on 288 trace bundles
+ad3457fa 2026-08-18 docs(foundry): establish F4 real-engine differential protocols for A13 and A16
+f2cb6674 2026-08-18 docs(foundry): establish F5 estimand protocols for A15 and A19
+08ad9dec 2026-08-18 fix(foundry): complete post-audit DAG remediations R7-R16
+65e7d3e9 2026-08-18 fix(foundry): fix CI format gate, status enums, 8x2 opening hierarchy, and dual NI gates
+20548e1f 2026-08-20 idea-foundry: add private execution seal payload
+914169e0 2026-08-20 docs(foundry): specify P0b-C1 execution seal boundary
+10c34c11 2026-08-20 feat(foundry): seal sequential execution workspace
+0bcbdbf4 2026-08-20 docs(foundry): publish recovery and harness checkpoint
+83095c97 2026-08-20 docs(foundry): correct P0b-C1 execution seal authority
+f825c38a 2026-08-22 chore(foundry): archive failed P0b-C1 implementation
+0de5115f 2026-08-22 docs(foundry): define successor P0b-C1 execution seal
+cf6191d4 2026-08-22 docs(foundry): define second successor P0b-C1 seal
+1cc3e6e5 2026-08-24 feat(foundry): publish identity-bound campaign state
+ee5d8bb4 2026-08-25 feat(foundry): publish identity-bound campaign state
+55c21a7b 2026-08-25 feat(foundry): make campaign resume validation-first
+dadcc718 2026-08-25 docs(foundry): publish progress and failure audit
+90f62455 2026-08-25 docs(foundry): compile PR05 recovery audit into executable contracts
+d03678ff 2026-08-25 docs(foundry): add PR05 recovery audit entry point
+e4a37fe1 2026-08-25 docs(foundry): add Codex PR05-R1 handoff prompt
+5a085e56 2026-09-07 Prepare local audit code contracts and existing-evidence delivery
+53765c07 2026-09-07 Close audit regressions and preserve explicit readiness limitations
+a7a39c57 2026-09-07 Finish reviewed source binding and unavailable-interval corrections
+a000d714 2026-09-07 Resolve legacy absolute input labels by inventoried bytes
+distinct results paths
+audit_external_review_response.md
+audit_stage7.md
+docs/ASYNC_MCTS_ONLINE_RESEARCH_2026-04.md
+docs/BQ_PLUS_PLUS_DESIGN.md
+docs/CLAIM_LEDGER.md
+docs/PHASE15_B13_TRAINED_SMOKE_20260710.md
+docs/PHASE15_REEVALUATION.md
+docs/QUARTZ_THEORY.md
+docs/RESEARCH_PLAN_PARTB.md
+docs/RESEARCH_READINESS.md
+docs/idea_foundry/00_ARCHITECTURE_AND_CONTRACTS.md
+docs/idea_foundry/00_INDEX_KO.md
+docs/idea_foundry/01_DECISION_AND_POLICY.md
+docs/idea_foundry/01_control_policy.md
+docs/idea_foundry/02_CANDIDATES_AND_SAMPLING.md
+docs/idea_foundry/02_candidates_allocation.md
+docs/idea_foundry/03_PARALLEL_AND_SYSTEMS.md
+docs/idea_foundry/03_parallel_backends.md
+docs/idea_foundry/04_READOUT_PHYSICS_AND_ANALYSIS.md
+docs/idea_foundry/04_representation_training.md
+docs/idea_foundry/05_REPRESENTATION_AND_TRAINING.md
+docs/idea_foundry/05_analysis_physics.md
+docs/idea_foundry/06_EXPERIMENT_MATRIX_AND_ROADMAP.md
+docs/idea_foundry/06_execution_and_meta_analysis.md
+docs/idea_foundry/07_CODE_SKELETON_MAP.md
+docs/idea_foundry/26AXIS_AND_FACTORIAL_AUDIT_REPORT.md
+docs/idea_foundry/A15_MATCHED_SERVICE_CURVE.md
+docs/idea_foundry/FAILURE_LOG_PR04_PR05_20260825.md
+docs/idea_foundry/HOST_RESOURCE_BASELINE_20260719.md
+docs/idea_foundry/P0B_C1_EXECUTION_SEAL_SPEC.md
+docs/idea_foundry/P0B_C1_FAILED_IMPLEMENTATION_CHECKPOINT_20260822.md
+docs/idea_foundry/P0B_C1_RECOVERY_CHECKPOINT_20260820.md
+docs/idea_foundry/P0B_C1_TRUSTED_LOCAL_SPEC.md
+docs/idea_foundry/PR00_PR05_PROGRESS_AND_FAILURE_AUDIT_20260825.md
+docs/idea_foundry/README.md
+docs/idea_foundry/RESEARCH_TRUST_MODEL_20260823.md
+docs/idea_foundry/legacy_24axis/00_ARCHITECTURE_AND_CONTRACTS.md
+docs/idea_foundry/legacy_24axis/01_DECISION_AND_POLICY.md
+docs/idea_foundry/legacy_24axis/02_CANDIDATES_AND_SAMPLING.md
+docs/idea_foundry/legacy_24axis/03_PARALLEL_AND_SYSTEMS.md
+docs/idea_foundry/legacy_24axis/04_READOUT_PHYSICS_AND_ANALYSIS.md
+docs/idea_foundry/legacy_24axis/05_REPRESENTATION_AND_TRAINING.md
+docs/idea_foundry/legacy_24axis/06_EXPERIMENT_MATRIX_AND_ROADMAP.md
+docs/idea_foundry/legacy_24axis/07_CODE_SKELETON_MAP.md
+docs/idea_foundry/legacy_24axis/ATLAS.md
+docs/idea_foundry/legacy_24axis/README.md
+docs/idea_foundry/protocols/A13_REAL_ENGINE_DIFFERENTIAL_PROTOCOL.md
+docs/idea_foundry/protocols/A15_SERVICE_CURVE_ESTIMAND_PROTOCOL.md
+docs/idea_foundry/protocols/A16_GRAPH_STATE_CACHE_PROTOCOL.md
+docs/idea_foundry/protocols/A19_WEIGHTED_PROXY_LOSS_PROTOCOL.md
+docs/research/beyond_alphazero_20260907/FINAL_INDEPENDENT_REVIEW.md
+docs/research/beyond_alphazero_20260907/IMPLEMENTATION_PLAN_KO.md
+docs/research/beyond_alphazero_20260907/LITERATURE_REVIEW.md
+docs/research/beyond_alphazero_20260907/MATHEMATICAL_UPGRADE_KO.md
+docs/research/beyond_alphazero_20260907/MOTIVATION_PROVENANCE.md
+docs/research/beyond_alphazero_20260907/PILOT_INDEPENDENT_REVIEW.md
+docs/research/beyond_alphazero_20260907/README.md
+docs/research/beyond_alphazero_20260907/REPRODUCIBILITY.md
+docs/research/beyond_alphazero_20260907/RESEARCH_RECORD.md
+docs/research/beyond_alphazero_20260907/RESEARCH_UPGRADE_KO.md
+docs/research/beyond_alphazero_20260907/SOURCE_AUDIT.md
+docs/research/beyond_alphazero_20260907/W1_CODE_REVIEW.md
+docs/research/beyond_alphazero_20260907/W1_CONTRACT_20260915.md
+docs/research/beyond_alphazero_20260907/W1_INDEPENDENT_REVIEW.md
+docs/research/beyond_alphazero_20260907/W1_RESULTS_AND_NEXT_PLAN_KO.md
+phase15_strategy_revision_v2.md
+report.md
