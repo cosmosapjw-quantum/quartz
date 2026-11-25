@@ -1,0 +1,5371 @@
+{
+  "D_vs_M": {
+    "better": 0,
+    "ci": [
+      0.0,
+      0.0
+    ],
+    "gain": 0.0,
+    "n": 52,
+    "net_gain": 3.84615384615385e-05,
+    "worse": 0
+  },
+  "base": {
+    "cpu": 6.372772423076923,
+    "tail": 3.6017884615384617,
+    "wall": 6.084950461538462
+  },
+  "full": {
+    "K24D": {
+      "NN": 59.32692307692308,
+      "choices": {
+        "2": 52
+      },
+      "cpu": 9.329448076923077,
+      "n": 52,
+      "net": 0.4198076923076923,
+      "regret": 0.05769230769230771,
+      "tail": 3.8352692307692307,
+      "utility": 0.5384615384615384,
+      "visits": 207.6346153846154,
+      "wall": 10.040772653846155
+    },
+    "K24M": {
+      "NN": 59.34615384615385,
+      "choices": {
+        "1": 52
+      },
+      "cpu": 9.360558038461539,
+      "n": 52,
+      "net": 0.4197692307692308,
+      "regret": 0.05769230769230771,
+      "tail": 3.815,
+      "utility": 0.5384615384615384,
+      "visits": 207.8653846153846,
+      "wall": 9.870566596153846
+    },
+    "K24N": {
+      "NN": 59.44230769230769,
+      "choices": {
+        "0": 52
+      },
+      "cpu": 9.465859538461538,
+      "n": 52,
+      "net": 0.41957692307692307,
+      "regret": 0.05769230769230771,
+      "tail": 3.8806538461538462,
+      "utility": 0.5384615384615384,
+      "visits": 211.65384615384616,
+      "wall": 10.015970307692308
+    },
+    "guarded": {
+      "NN": 59.44230769230769,
+      "choices": {
+        "0": 52
+      },
+      "cpu": 9.465859538461538,
+      "n": 52,
+      "net": 0.41957692307692307,
+      "regret": 0.05769230769230771,
+      "tail": 3.8806538461538462,
+      "utility": 0.5384615384615384,
+      "visits": 211.65384615384616,
+      "wall": 10.015970307692308
+    },
+    "live": {
+      "NN": 59.44230769230769,
+      "choices": {
+        "0": 52
+      },
+      "cpu": 9.465859538461538,
+      "n": 52,
+      "net": 0.41957692307692307,
+      "regret": 0.05769230769230771,
+      "tail": 3.8806538461538462,
+      "utility": 0.5384615384615384,
+      "visits": 211.65384615384616,
+      "wall": 10.015970307692308
+    }
+  },
+  "matched": 44,
+  "matched_pairs": {
+    "K24D": {
+      "better": 0,
+      "ci": [
+        0.0,
+        0.0
+      ],
+      "gain": 0.0,
+      "n": 44,
+      "net_gain": 0.0,
+      "worse": 0
+    },
+    "K24M": {
+      "better": 0,
+      "ci": [
+        0.0,
+        0.0
+      ],
+      "gain": 0.0,
+      "n": 44,
+      "net_gain": 0.0,
+      "worse": 0
+    },
+    "K24N": {
+      "better": 0,
+      "ci": [
+        0.0,
+        0.0
+      ],
+      "gain": 0.0,
+      "n": 44,
+      "net_gain": 0.0,
+      "worse": 0
+    },
+    "guarded": {
+      "better": 0,
+      "ci": [
+        0.0,
+        0.0
+      ],
+      "gain": 0.0,
+      "n": 44,
+      "net_gain": 0.0,
+      "worse": 0
+    },
+    "live": {
+      "better": 0,
+      "ci": [
+        0.0,
+        0.0
+      ],
+      "gain": 0.0,
+      "n": 44,
+      "net_gain": 0.0,
+      "worse": 0
+    }
+  },
+  "n": 52,
+  "pairs": {
+    "K24D": {
+      "better": 0,
+      "ci": [
+        0.0,
+        0.0
+      ],
+      "gain": 0.0,
+      "n": 52,
+      "net_gain": 0.00023076923076923098,
+      "worse": 0
+    },
+    "K24M": {
+      "better": 0,
+      "ci": [
+        0.0,
+        0.0
+      ],
+      "gain": 0.0,
+      "n": 52,
+      "net_gain": 0.00019230769230769247,
+      "worse": 0
+    },
+    "K24N": {
+      "better": 0,
+      "ci": [
+        0.0,
+        0.0
+      ],
+      "gain": 0.0,
+      "n": 52,
+      "net_gain": 0.0,
+      "worse": 0
+    },
+    "guarded": {
+      "better": 0,
+      "ci": [
+        0.0,
+        0.0
+      ],
+      "gain": 0.0,
+      "n": 52,
+      "net_gain": 0.0,
+      "worse": 0
+    },
+    "live": {
+      "better": 0,
+      "ci": [
+        0.0,
+        0.0
+      ],
+      "gain": 0.0,
+      "n": 52,
+      "net_gain": 0.0,
+      "worse": 0
+    }
+  },
+  "prefix_shared_roots": 15,
+  "rows": [
+    {
+      "b": 1,
+      "base": {
+        "cpu": 7.097226,
+        "tail": 3.311,
+        "wall": 6.740662
+      },
+      "cpu": [
+        15.120092,
+        10.30241,
+        9.231472
+      ],
+      "full": 0.5,
+      "group": "TEST",
+      "id": 361,
+      "logged": 0,
+      "n": [
+        64,
+        64,
+        64
+      ],
+      "pre": 0.5,
+      "tail": [
+        4.114,
+        3.749,
+        6.085
+      ],
+      "tele": [
+        {
+          "changed_backup": 0,
+          "cross_novel_count": 9,
+          "cross_raw_count": 16,
+          "cross_unique_count": 12,
+          "duplicate_only": 1,
+          "edge_events": 869,
+          "nonterminal_edges": 414,
+          "novel_opportunities": 9,
+          "overlap_own_current": 3,
+          "prefix_shared": 0,
+          "raw_opportunities": 10,
+          "repeated_other_count": 4,
+          "shared_children": 6,
+          "terminal_visits": 74
+        },
+        {
+          "changed_backup": 10,
+          "cross_novel_count": 14,
+          "cross_raw_count": 21,
+          "cross_unique_count": 17,
+          "duplicate_only": 0,
+          "edge_events": 873,
+          "nonterminal_edges": 410,
+          "novel_opportunities": 10,
+          "overlap_own_current": 3,
+          "prefix_shared": 0,
+          "raw_opportunities": 10,
+          "repeated_other_count": 4,
+          "shared_children": 6,
+          "terminal_visits": 74
+        },
+        {
+          "changed_backup": 10,
+          "cross_novel_count": 14,
+          "cross_raw_count": 21,
+          "cross_unique_count": 17,
+          "duplicate_only": 0,
+          "edge_events": 873,
+          "nonterminal_edges": 410,
+          "novel_opportunities": 10,
+          "overlap_own_current": 3,
+          "prefix_shared": 0,
+          "raw_opportunities": 10,
+          "repeated_other_count": 4,
+          "shared_children": 6,
+          "terminal_visits": 74
+        }
+      ],
+      "us": [
+        0.5,
+        0.5,
+        0.5
+      ],
+      "vis": [
+        170,
+        170,
+        170
+      ],
+      "wall": [
+        15.889329,
+        11.075913,
+        12.149091
+      ],
+      "y": [
+        0.372,
+        0.372,
+        0.372
+      ]
+    },
+    {
+      "b": 3,
+      "base": {
+        "cpu": 7.078234,
+        "tail": 3.061,
+        "wall": 6.888162
+      },
+      "cpu": [
+        6.702305,
+        7.309755,
+        10.471151
+      ],
+      "full": 0.0,
+      "group": "TEST",
+      "id": 363,
+      "logged": 2,
+      "n": [
+        64,
+        64,
+        64
+      ],
+      "pre": 0.0,
+      "tail": [
+        3.391,
+        3.094,
+        3.69
+      ],
+      "tele": [
+        {
+          "changed_backup": 0,
+          "cross_novel_count": 35,
+          "cross_raw_count": 40,
+          "cross_unique_count": 38,
+          "duplicate_only": 1,
+          "edge_events": 343,
+          "nonterminal_edges": 247,
+          "novel_opportunities": 29,
+          "overlap_own_current": 3,
+          "prefix_shared": 1,
+          "raw_opportunities": 30,
+          "repeated_other_count": 2,
+          "shared_children": 17,
+          "terminal_visits": 20
+        },
+        {
+          "changed_backup": 31,
+          "cross_novel_count": 38,
+          "cross_raw_count": 44,
+          "cross_unique_count": 41,
+          "duplicate_only": 0,
+          "edge_events": 325,
+          "nonterminal_edges": 245,
+          "novel_opportunities": 31,
+          "overlap_own_current": 3,
+          "prefix_shared": 1,
+          "raw_opportunities": 31,
+          "repeated_other_count": 3,
+          "shared_children": 16,
+          "terminal_visits": 17
+        },
+        {
+          "changed_backup": 31,
+          "cross_novel_count": 38,
+          "cross_raw_count": 44,
+          "cross_unique_count": 41,
+          "duplicate_only": 0,
+          "edge_events": 325,
+          "nonterminal_edges": 245,
+          "novel_opportunities": 31,
+          "overlap_own_current": 3,
+          "prefix_shared": 1,
+          "raw_opportunities": 31,
+          "repeated_other_count": 3,
+          "shared_children": 16,
+          "terminal_visits": 17
+        }
+      ],
+      "us": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "vis": [
+        116,
+        113,
+        113
+      ],
+      "wall": [
+        7.331455,
+        7.664696,
+        13.068998
+      ],
+      "y": [
+        -0.128,
+        -0.128,
+        -0.128
+      ]
+    },
+    {
+      "b": 1,
+      "base": {
+        "cpu": 7.009284,
+        "tail": 4.317,
+        "wall": 6.232209
+      },
+      "cpu": [
+        10.227411,
+        15.310365,
+        12.507099
+      ],
+      "full": 1.0,
+      "group": "TEST",
+      "id": 365,
+      "logged": 1,
+      "n": [
+        64,
+        64,
+        64
+      ],
+      "pre": 1.0,
+      "tail": [
+        4.233,
+        6.32,
+        4.836
+      ],
+      "tele": [
+        {
+          "changed_backup": 0,
+          "cross_novel_count": 11,
+          "cross_raw_count": 11,
+          "cross_unique_count": 11,
+          "duplicate_only": 0,
+          "edge_events": 1016,
+          "nonterminal_edges": 203,
+          "novel_opportunities": 11,
+          "overlap_own_current": 0,
+          "prefix_shared": 0,
+          "raw_opportunities": 11,
+          "repeated_other_count": 0,
+          "shared_children": 14,
+          "terminal_visits": 259
+        },
+        {
+          "changed_backup": 11,
+          "cross_novel_count": 11,
+          "cross_raw_count": 11,
+          "cross_unique_count": 11,
+          "duplicate_only": 0,
+          "edge_events": 1026,
+          "nonterminal_edges": 204,
+          "novel_opportunities": 11,
+          "overlap_own_current": 0,
+          "prefix_shared": 0,
+          "raw_opportunities": 11,
+          "repeated_other_count": 0,
+          "shared_children": 13,
+          "terminal_visits": 262
+        },
+        {
+          "changed_backup": 11,
+          "cross_novel_count": 11,
+          "cross_raw_count": 11,
+          "cross_unique_count": 11,
+          "duplicate_only": 0,
+          "edge_events": 1026,
+          "nonterminal_edges": 204,
+          "novel_opportunities": 11,
+          "overlap_own_current": 0,
+          "prefix_shared": 0,
+          "raw_opportunities": 11,
+          "repeated_other_count": 0,
+          "shared_children": 13,
+          "terminal_visits": 262
+        }
+      ],
+      "us": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "vis": [
+        355,
+        358,
+        358
+      ],
+      "wall": [
+        10.762678,
+        14.922186,
+        12.965647
+      ],
+      "y": [
+        0.872,
+        0.872,
+        0.872
+      ]
+    },
+    {
+      "b": 1,
+      "base": {
+        "cpu": 7.001622,
+        "tail": 3.607,
+        "wall": 5.90517
+      },
+      "cpu": [
+        15.158985,
+        13.163247,
+        17.691614
+      ],
+      "full": 0.0,
+      "group": "TEST",
+      "id": 368,
+      "logged": 1,
+      "n": [
+        38,
+        37,
+        37
+      ],
+      "pre": 0.0,
+      "tail": [
+        5.091,
+        4.659,
+        4.592
+      ],
+      "tele": [
+        {
+          "changed_backup": 0,
+          "cross_novel_count": 11,
+          "cross_raw_count": 24,
+          "cross_unique_count": 12,
+          "duplicate_only": 0,
+          "edge_events": 1550,
+          "nonterminal_edges": 145,
+          "novel_opportunities": 10,
+          "overlap_own_current": 1,
+          "prefix_shared": 0,
+          "raw_opportunities": 10,
+          "repeated_other_count": 12,
+          "shared_children": 7,
+          "terminal_visits": 442
+        },
+        {
+          "changed_backup": 8,
+          "cross_novel_count": 9,
+          "cross_raw_count": 15,
+          "cross_unique_count": 11,
+          "duplicate_only": 0,
+          "edge_events": 1543,
+          "nonterminal_edges": 140,
+          "novel_opportunities": 8,
+          "overlap_own_current": 2,
+          "prefix_shared": 0,
+          "raw_opportunities": 8,
+          "repeated_other_count": 4,
+          "shared_children": 7,
+          "terminal_visits": 443
+        },
+        {
+          "changed_backup": 8,
+          "cross_novel_count": 9,
+          "cross_raw_count": 15,
+          "cross_unique_count": 11,
+          "duplicate_only": 0,
+          "edge_events": 1543,
+          "nonterminal_edges": 140,
+          "novel_opportunities": 8,
+          "overlap_own_current": 2,
+          "prefix_shared": 0,
+          "raw_opportunities": 8,
+          "repeated_other_count": 4,
+          "shared_children": 7,
+          "terminal_visits": 443
+        }
+      ],
+      "us": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "vis": [
+        512,
+        512,
+        512
+      ],
+      "wall": [
+        16.481856,
+        14.503388,
+        17.905356
+      ],
+      "y": [
+        -0.076,
+        -0.074,
+        -0.074
+      ]
+    },
+    {
+      "b": 1,
+      "base": {
+        "cpu": 5.865959,
+        "tail": 2.882,
+        "wall": 5.72594
+      },
+      "cpu": [
+        6.610983,
+        8.068499,
+        7.030942
+      ],
+      "full": 1.0,
+      "group": "TEST",
+      "id": 374,
+      "logged": 1,
+      "n": [
+        64,
+        64,
+        64
+      ],
+      "pre": 1.0,
+      "tail": [
+        3.114,
+        3.421,
+        3.145
+      ],
+      "tele": [
+        {
+          "changed_backup": 0,
+          "cross_novel_count": 17,
+          "cross_raw_count": 17,
+          "cross_unique_count": 17,
+          "duplicate_only": 0,
+          "edge_events": 447,
+          "nonterminal_edges": 318,
+          "novel_opportunities": 17,
+          "overlap_own_current": 0,
+          "prefix_shared": 0,
+          "raw_opportunities": 17,
+          "repeated_other_count": 0,
+          "shared_children": 6,
+          "terminal_visits": 29
+        },
+        {
+          "changed_backup": 17,
+          "cross_novel_count": 35,
+          "cross_raw_count": 43,
+          "cross_unique_count": 35,
+          "duplicate_only": 0,
+          "edge_events": 480,
+          "nonterminal_edges": 312,
+          "novel_opportunities": 17,
+          "overlap_own_current": 0,
+          "prefix_shared": 0,
+          "raw_opportunities": 17,
+          "repeated_other_count": 8,
+          "shared_children": 9,
+          "terminal_visits": 35
+        },
+        {
+          "changed_backup": 17,
+          "cross_novel_count": 35,
+          "cross_raw_count": 43,
+          "cross_unique_count": 35,
+          "duplicate_only": 0,
+          "edge_events": 480,
+          "nonterminal_edges": 312,
+          "novel_opportunities": 17,
+          "overlap_own_current": 0,
+          "prefix_shared": 0,
+          "raw_opportunities": 17,
+          "repeated_other_count": 8,
+          "shared_children": 9,
+          "terminal_visits": 35
+        }
+      ],
+      "us": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "vis": [
+        125,
+        131,
+        131
+      ],
+      "wall": [
+        7.050931,
+        8.498165,
+        7.358975
+      ],
+      "y": [
+        0.872,
+        0.872,
+        0.872
+      ]
+    },
+    {
+      "b": 3,
+      "base": {
+        "cpu": 5.473008,
+        "tail": 2.874,
+        "wall": 5.337709
+      },
+      "cpu": [
+        7.178988,
+        6.765484,
+        6.686645
+      ],
+      "full": 0.0,
+      "group": "TEST",
+      "id": 376,
+      "logged": 0,
+      "n": [
+        64,
+        64,
+        64
+      ],
+      "pre": 0.0,
+      "tail": [
+        3.152,
+        3.088,
+        3.071
+      ],
+      "tele": [
+        {
+          "changed_backup": 0,
+          "cross_novel_count": 16,
+          "cross_raw_count": 17,
+          "cross_unique_count": 17,
+          "duplicate_only": 0,
+          "edge_events": 299,
+          "nonterminal_edges": 237,
+          "novel_opportunities": 14,
+          "overlap_own_current": 1,
+          "prefix_shared": 1,
+          "raw_opportunities": 14,
+          "repeated_other_count": 0,
+          "shared_children": 7,
+          "terminal_visits": 12
+        },
+        {
+          "changed_backup": 18,
+          "cross_novel_count": 21,
+          "cross_raw_count": 21,
+          "cross_unique_count": 21,
+          "duplicate_only": 0,
+          "edge_events": 287,
+          "nonterminal_edges": 231,
+          "novel_opportunities": 18,
+          "overlap_own_current": 0,
+          "prefix_shared": 1,
+          "raw_opportunities": 18,
+          "repeated_other_count": 0,
+          "shared_children": 9,
+          "terminal_visits": 11
+        },
+        {
+          "changed_backup": 18,
+          "cross_novel_count": 21,
+          "cross_raw_count": 21,
+          "cross_unique_count": 21,
+          "duplicate_only": 0,
+          "edge_events": 287,
+          "nonterminal_edges": 231,
+          "novel_opportunities": 18,
+          "overlap_own_current": 0,
+          "prefix_shared": 1,
+          "raw_opportunities": 18,
+          "repeated_other_count": 0,
+          "shared_children": 9,
+          "terminal_visits": 11
+        }
+      ],
+      "us": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "vis": [
+        108,
+        107,
+        107
+      ],
+      "wall": [
+        7.429605,
+        7.749863,
+        7.253142
+      ],
+      "y": [
+        -0.128,
+        -0.128,
+        -0.128
+      ]
+    },
+    {
+      "b": 1,
+      "base": {
+        "cpu": 6.114468,
+        "tail": 3.664,
+        "wall": 5.722474
+      },
+      "cpu": [
+        8.624961,
+        10.637748,
+        8.700199
+      ],
+      "full": 1.0,
+      "group": "TEST",
+      "id": 379,
+      "logged": 1,
+      "n": [
+        64,
+        64,
+        64
+      ],
+      "pre": 1.0,
+      "tail": [
+        3.983,
+        4.992,
+        3.433
+      ],
+      "tele": [
+        {
+          "changed_backup": 0,
+          "cross_novel_count": 14,
+          "cross_raw_count": 14,
+          "cross_unique_count": 14,
+          "duplicate_only": 0,
+          "edge_events": 619,
+          "nonterminal_edges": 246,
+          "novel_opportunities": 10,
+          "overlap_own_current": 0,
+          "prefix_shared": 0,
+          "raw_opportunities": 10,
+          "repeated_other_count": 0,
+          "shared_children": 3,
+          "terminal_visits": 66
+        },
+        {
+          "changed_backup": 10,
+          "cross_novel_count": 15,
+          "cross_raw_count": 18,
+          "cross_unique_count": 18,
+          "duplicate_only": 0,
+          "edge_events": 659,
+          "nonterminal_edges": 251,
+          "novel_opportunities": 10,
+          "overlap_own_current": 3,
+          "prefix_shared": 0,
+          "raw_opportunities": 10,
+          "repeated_other_count": 0,
+          "shared_children": 3,
+          "terminal_visits": 73
+        },
+        {
+          "changed_backup": 10,
+          "cross_novel_count": 15,
+          "cross_raw_count": 18,
+          "cross_unique_count": 18,
+          "duplicate_only": 0,
+          "edge_events": 659,
+          "nonterminal_edges": 251,
+          "novel_opportunities": 10,
+          "overlap_own_current": 3,
+          "prefix_shared": 0,
+          "raw_opportunities": 10,
+          "repeated_other_count": 0,
+          "shared_children": 3,
+          "terminal_visits": 73
+        }
+      ],
+      "us": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "vis": [
+        162,
+        169,
+        169
+      ],
+      "wall": [
+        8.973426,
+        11.170455,
+        8.768822
+      ],
+      "y": [
+        0.872,
+        0.872,
+        0.872
+      ]
+    },
+    {
+      "b": 1,
+      "base": {
+        "cpu": 5.184197,
+        "tail": 3.029,
+        "wall": 5.029173
+      },
+      "cpu": [
+        6.635288,
+        6.673003,
+        7.357903
+      ],
+      "full": 1.0,
+      "group": "TEST",
+      "id": 380,
+      "logged": 0,
+      "n": [
+        64,
+        64,
+        64
+      ],
+      "pre": 0.5,
+      "tail": [
+        3.211,
+        3.178,
+        4.426
+      ],
+      "tele": [
+        {
+          "changed_backup": 0,
+          "cross_novel_count": 24,
+          "cross_raw_count": 24,
+          "cross_unique_count": 24,
+          "duplicate_only": 0,
+          "edge_events": 299,
+          "nonterminal_edges": 251,
+          "novel_opportunities": 20,
+          "overlap_own_current": 0,
+          "prefix_shared": 0,
+          "raw_opportunities": 20,
+          "repeated_other_count": 0,
+          "shared_children": 8,
+          "terminal_visits": 13
+        },
+        {
+          "changed_backup": 20,
+          "cross_novel_count": 22,
+          "cross_raw_count": 22,
+          "cross_unique_count": 22,
+          "duplicate_only": 0,
+          "edge_events": 308,
+          "nonterminal_edges": 243,
+          "novel_opportunities": 20,
+          "overlap_own_current": 0,
+          "prefix_shared": 0,
+          "raw_opportunities": 20,
+          "repeated_other_count": 0,
+          "shared_children": 7,
+          "terminal_visits": 18
+        },
+        {
+          "changed_backup": 20,
+          "cross_novel_count": 22,
+          "cross_raw_count": 22,
+          "cross_unique_count": 22,
+          "duplicate_only": 0,
+          "edge_events": 308,
+          "nonterminal_edges": 243,
+          "novel_opportunities": 20,
+          "overlap_own_current": 0,
+          "prefix_shared": 0,
+          "raw_opportunities": 20,
+          "repeated_other_count": 0,
+          "shared_children": 7,
+          "terminal_visits": 18
+        }
+      ],
+      "us": [
+        0.5,
+        0.5,
+        0.5
+      ],
+      "vis": [
+        109,
+        114,
+        114
+      ],
+      "wall": [
+        6.913449,
+        7.007291,
+        7.631766
+      ],
+      "y": [
+        0.372,
+        0.372,
+        0.372
+      ]
+    },
+    {
+      "b": 2,
+      "base": {
+        "cpu": 6.269619,
+        "tail": 3.334,
+        "wall": 5.990005
+      },
+      "cpu": [
+        9.010651,
+        8.772883,
+        7.654729
+      ],
+      "full": 0.0,
+      "group": "TEST",
+      "id": 385,
+      "logged": 2,
+      "n": [
+        64,
+        64,
+        64
+      ],
+      "pre": 0.0,
+      "tail": [
+        4.165,
+        4.007,
+        3.526
+      ],
+      "tele": [
+        {
+          "changed_backup": 0,
+          "cross_novel_count": 10,
+          "cross_raw_count": 10,
+          "cross_unique_count": 10,
+          "duplicate_only": 0,
+          "edge_events": 476,
+          "nonterminal_edges": 207,
+          "novel_opportunities": 6,
+          "overlap_own_current": 0,
+          "prefix_shared": 1,
+          "raw_opportunities": 6,
+          "repeated_other_count": 0,
+          "shared_children": 7,
+          "terminal_visits": 67
+        },
+        {
+          "changed_backup": 3,
+          "cross_novel_count": 3,
+          "cross_raw_count": 3,
+          "cross_unique_count": 3,
+          "duplicate_only": 0,
+          "edge_events": 478,
+          "nonterminal_edges": 203,
+          "novel_opportunities": 3,
+          "overlap_own_current": 0,
+          "prefix_shared": 1,
+          "raw_opportunities": 3,
+          "repeated_other_count": 0,
+          "shared_children": 7,
+          "terminal_visits": 69
+        },
+        {
+          "changed_backup": 3,
+          "cross_novel_count": 3,
+          "cross_raw_count": 3,
+          "cross_unique_count": 3,
+          "duplicate_only": 0,
+          "edge_events": 478,
+          "nonterminal_edges": 203,
+          "novel_opportunities": 3,
+          "overlap_own_current": 0,
+          "prefix_shared": 1,
+          "raw_opportunities": 3,
+          "repeated_other_count": 0,
+          "shared_children": 7,
+          "terminal_visits": 69
+        }
+      ],
+      "us": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "vis": [
+        163,
+        165,
+        165
+      ],
+      "wall": [
+        8.91,
+        9.030371,
+        8.26057
+      ],
+      "y": [
+        -0.128,
+        -0.128,
+        -0.128
+      ]
+    },
+    {
+      "b": 3,
+      "base": {
+        "cpu": 5.746485,
+        "tail": 2.925,
+        "wall": 5.529501
+      },
+      "cpu": [
+        7.801926,
+        8.061504,
+        7.874628
+      ],
+      "full": 0.5,
+      "group": "TEST",
+      "id": 387,
+      "logged": 1,
+      "n": [
+        64,
+        64,
+        64
+      ],
+      "pre": 0.5,
+      "tail": [
+        3.221,
+        3.193,
+        3.336
+      ],
+      "tele": [
+        {
+          "changed_backup": 0,
+          "cross_novel_count": 221,
+          "cross_raw_count": 280,
+          "cross_unique_count": 233,
+          "duplicate_only": 3,
+          "edge_events": 521,
+          "nonterminal_edges": 374,
+          "novel_opportunities": 45,
+          "overlap_own_current": 12,
+          "prefix_shared": 1,
+          "raw_opportunities": 48,
+          "repeated_other_count": 47,
+          "shared_children": 13,
+          "terminal_visits": 23
+        },
+        {
+          "changed_backup": 46,
+          "cross_novel_count": 190,
+          "cross_raw_count": 237,
+          "cross_unique_count": 193,
+          "duplicate_only": 3,
+          "edge_events": 518,
+          "nonterminal_edges": 371,
+          "novel_opportunities": 43,
+          "overlap_own_current": 3,
+          "prefix_shared": 1,
+          "raw_opportunities": 46,
+          "repeated_other_count": 44,
+          "shared_children": 12,
+          "terminal_visits": 23
+        },
+        {
+          "changed_backup": 46,
+          "cross_novel_count": 176,
+          "cross_raw_count": 219,
+          "cross_unique_count": 188,
+          "duplicate_only": 3,
+          "edge_events": 534,
+          "nonterminal_edges": 381,
+          "novel_opportunities": 46,
+          "overlap_own_current": 12,
+          "prefix_shared": 1,
+          "raw_opportunities": 49,
+          "repeated_other_count": 31,
+          "shared_children": 13,
+          "terminal_visits": 24
+        }
+      ],
+      "us": [
+        0.5,
+        0.5,
+        0.5
+      ],
+      "vis": [
+        119,
+        119,
+        120
+      ],
+      "wall": [
+        9.023618,
+        8.170494,
+        8.407979
+      ],
+      "y": [
+        0.372,
+        0.372,
+        0.372
+      ]
+    },
+    {
+      "b": 1,
+      "base": {
+        "cpu": 6.431521,
+        "tail": 3.59,
+        "wall": 5.982722
+      },
+      "cpu": [
+        8.874742,
+        8.467826,
+        7.228303
+      ],
+      "full": 1.0,
+      "group": "TEST",
+      "id": 390,
+      "logged": 0,
+      "n": [
+        64,
+        64,
+        64
+      ],
+      "pre": 1.0,
+      "tail": [
+        3.592,
+        4.174,
+        3.284
+      ],
+      "tele": [
+        {
+          "changed_backup": 0,
+          "cross_novel_count": 137,
+          "cross_raw_count": 237,
+          "cross_unique_count": 167,
+          "duplicate_only": 3,
+          "edge_events": 743,
+          "nonterminal_edges": 276,
+          "novel_opportunities": 24,
+          "overlap_own_current": 30,
+          "prefix_shared": 0,
+          "raw_opportunities": 27,
+          "repeated_other_count": 70,
+          "shared_children": 3,
+          "terminal_visits": 91
+        },
+        {
+          "changed_backup": 17,
+          "cross_novel_count": 26,
+          "cross_raw_count": 32,
+          "cross_unique_count": 27,
+          "duplicate_only": 0,
+          "edge_events": 534,
+          "nonterminal_edges": 263,
+          "novel_opportunities": 17,
+          "overlap_own_current": 1,
+          "prefix_shared": 0,
+          "raw_opportunities": 17,
+          "repeated_other_count": 5,
+          "shared_children": 6,
+          "terminal_visits": 59
+        },
+        {
+          "changed_backup": 17,
+          "cross_novel_count": 26,
+          "cross_raw_count": 32,
+          "cross_unique_count": 27,
+          "duplicate_only": 0,
+          "edge_events": 534,
+          "nonterminal_edges": 263,
+          "novel_opportunities": 17,
+          "overlap_own_current": 1,
+          "prefix_shared": 0,
+          "raw_opportunities": 17,
+          "repeated_other_count": 5,
+          "shared_children": 6,
+          "terminal_visits": 59
+        }
+      ],
+      "us": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "vis": [
+        187,
+        155,
+        155
+      ],
+      "wall": [
+        9.550544,
+        8.990177,
+        7.70517
+      ],
+      "y": [
+        0.872,
+        0.872,
+        0.872
+      ]
+    },
+    {
+      "b": 1,
+      "base": {
+        "cpu": 5.300173,
+        "tail": 3.22,
+        "wall": 4.917618
+      },
+      "cpu": [
+        6.720315,
+        6.836238,
+        6.68636
+      ],
+      "full": 1.0,
+      "group": "TEST",
+      "id": 391,
+      "logged": 2,
+      "n": [
+        64,
+        64,
+        64
+      ],
+      "pre": 1.0,
+      "tail": [
+        3.686,
+        3.629,
+        3.537
+      ],
+      "tele": [
+        {
+          "changed_backup": 0,
+          "cross_novel_count": 35,
+          "cross_raw_count": 38,
+          "cross_unique_count": 38,
+          "duplicate_only": 0,
+          "edge_events": 426,
+          "nonterminal_edges": 234,
+          "novel_opportunities": 22,
+          "overlap_own_current": 3,
+          "prefix_shared": 0,
+          "raw_opportunities": 22,
+          "repeated_other_count": 0,
+          "shared_children": 4,
+          "terminal_visits": 52
+        },
+        {
+          "changed_backup": 38,
+          "cross_novel_count": 117,
+          "cross_raw_count": 131,
+          "cross_unique_count": 129,
+          "duplicate_only": 0,
+          "edge_events": 448,
+          "nonterminal_edges": 263,
+          "novel_opportunities": 38,
+          "overlap_own_current": 12,
+          "prefix_shared": 0,
+          "raw_opportunities": 38,
+          "repeated_other_count": 2,
+          "shared_children": 5,
+          "terminal_visits": 49
+        },
+        {
+          "changed_backup": 37,
+          "cross_novel_count": 113,
+          "cross_raw_count": 127,
+          "cross_unique_count": 125,
+          "duplicate_only": 0,
+          "edge_events": 445,
+          "nonterminal_edges": 260,
+          "novel_opportunities": 37,
+          "overlap_own_current": 12,
+          "prefix_shared": 0,
+          "raw_opportunities": 37,
+          "repeated_other_count": 2,
+          "shared_children": 5,
+          "terminal_visits": 49
+        }
+      ],
+      "us": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "vis": [
+        148,
+        145,
+        145
+      ],
+      "wall": [
+        6.967958,
+        7.147899,
+        7.194465
+      ],
+      "y": [
+        0.872,
+        0.872,
+        0.872
+      ]
+    },
+    {
+      "b": 2,
+      "base": {
+        "cpu": 5.104115,
+        "tail": 2.987,
+        "wall": 4.920763
+      },
+      "cpu": [
+        7.243852,
+        7.203736,
+        8.461556
+      ],
+      "full": 1.0,
+      "group": "TEST",
+      "id": 392,
+      "logged": 1,
+      "n": [
+        64,
+        64,
+        64
+      ],
+      "pre": 0.0,
+      "tail": [
+        3.222,
+        3.399,
+        3.121
+      ],
+      "tele": [
+        {
+          "changed_backup": 0,
+          "cross_novel_count": 30,
+          "cross_raw_count": 34,
+          "cross_unique_count": 32,
+          "duplicate_only": 1,
+          "edge_events": 398,
+          "nonterminal_edges": 252,
+          "novel_opportunities": 28,
+          "overlap_own_current": 2,
+          "prefix_shared": 2,
+          "raw_opportunities": 29,
+          "repeated_other_count": 2,
+          "shared_children": 11,
+          "terminal_visits": 33
+        },
+        {
+          "changed_backup": 33,
+          "cross_novel_count": 34,
+          "cross_raw_count": 38,
+          "cross_unique_count": 36,
+          "duplicate_only": 1,
+          "edge_events": 391,
+          "nonterminal_edges": 248,
+          "novel_opportunities": 32,
+          "overlap_own_current": 2,
+          "prefix_shared": 2,
+          "raw_opportunities": 33,
+          "repeated_other_count": 2,
+          "shared_children": 14,
+          "terminal_visits": 33
+        },
+        {
+          "changed_backup": 32,
+          "cross_novel_count": 34,
+          "cross_raw_count": 38,
+          "cross_unique_count": 36,
+          "duplicate_only": 1,
+          "edge_events": 391,
+          "nonterminal_edges": 248,
+          "novel_opportunities": 32,
+          "overlap_own_current": 2,
+          "prefix_shared": 2,
+          "raw_opportunities": 33,
+          "repeated_other_count": 2,
+          "shared_children": 14,
+          "terminal_visits": 33
+        }
+      ],
+      "us": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "vis": [
+        129,
+        129,
+        129
+      ],
+      "wall": [
+        7.586222,
+        7.558122,
+        9.190064
+      ],
+      "y": [
+        0.872,
+        0.872,
+        0.872
+      ]
+    },
+    {
+      "b": 1,
+      "base": {
+        "cpu": 6.514715,
+        "tail": 3.205,
+        "wall": 6.205321
+      },
+      "cpu": [
+        7.297892,
+        8.606941,
+        7.609596
+      ],
+      "full": 1.0,
+      "group": "TEST",
+      "id": 394,
+      "logged": 2,
+      "n": [
+        64,
+        64,
+        64
+      ],
+      "pre": 1.0,
+      "tail": [
+        3.25,
+        3.317,
+        3.282
+      ],
+      "tele": [
+        {
+          "changed_backup": 0,
+          "cross_novel_count": 21,
+          "cross_raw_count": 22,
+          "cross_unique_count": 22,
+          "duplicate_only": 0,
+          "edge_events": 547,
+          "nonterminal_edges": 286,
+          "novel_opportunities": 19,
+          "overlap_own_current": 1,
+          "prefix_shared": 0,
+          "raw_opportunities": 19,
+          "repeated_other_count": 0,
+          "shared_children": 4,
+          "terminal_visits": 51
+        },
+        {
+          "changed_backup": 20,
+          "cross_novel_count": 22,
+          "cross_raw_count": 23,
+          "cross_unique_count": 23,
+          "duplicate_only": 0,
+          "edge_events": 551,
+          "nonterminal_edges": 287,
+          "novel_opportunities": 20,
+          "overlap_own_current": 1,
+          "prefix_shared": 0,
+          "raw_opportunities": 20,
+          "repeated_other_count": 0,
+          "shared_children": 4,
+          "terminal_visits": 52
+        },
+        {
+          "changed_backup": 20,
+          "cross_novel_count": 22,
+          "cross_raw_count": 23,
+          "cross_unique_count": 23,
+          "duplicate_only": 0,
+          "edge_events": 551,
+          "nonterminal_edges": 287,
+          "novel_opportunities": 20,
+          "overlap_own_current": 1,
+          "prefix_shared": 0,
+          "raw_opportunities": 20,
+          "repeated_other_count": 0,
+          "shared_children": 4,
+          "terminal_visits": 52
+        }
+      ],
+      "us": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "vis": [
+        147,
+        148,
+        148
+      ],
+      "wall": [
+        7.781991,
+        9.081546,
+        8.233619
+      ],
+      "y": [
+        0.872,
+        0.872,
+        0.872
+      ]
+    },
+    {
+      "b": 3,
+      "base": {
+        "cpu": 5.312196,
+        "tail": 2.97,
+        "wall": 5.049651
+      },
+      "cpu": [
+        6.882249,
+        6.418993,
+        7.034541
+      ],
+      "full": 0.0,
+      "group": "TEST",
+      "id": 395,
+      "logged": 2,
+      "n": [
+        64,
+        64,
+        64
+      ],
+      "pre": 0.0,
+      "tail": [
+        3.322,
+        3.07,
+        3.117
+      ],
+      "tele": [
+        {
+          "changed_backup": 0,
+          "cross_novel_count": 15,
+          "cross_raw_count": 15,
+          "cross_unique_count": 15,
+          "duplicate_only": 0,
+          "edge_events": 399,
+          "nonterminal_edges": 312,
+          "novel_opportunities": 7,
+          "overlap_own_current": 0,
+          "prefix_shared": 1,
+          "raw_opportunities": 7,
+          "repeated_other_count": 0,
+          "shared_children": 6,
+          "terminal_visits": 17
+        },
+        {
+          "changed_backup": 8,
+          "cross_novel_count": 16,
+          "cross_raw_count": 16,
+          "cross_unique_count": 16,
+          "duplicate_only": 0,
+          "edge_events": 398,
+          "nonterminal_edges": 315,
+          "novel_opportunities": 8,
+          "overlap_own_current": 0,
+          "prefix_shared": 1,
+          "raw_opportunities": 8,
+          "repeated_other_count": 0,
+          "shared_children": 6,
+          "terminal_visits": 16
+        },
+        {
+          "changed_backup": 8,
+          "cross_novel_count": 16,
+          "cross_raw_count": 16,
+          "cross_unique_count": 16,
+          "duplicate_only": 0,
+          "edge_events": 398,
+          "nonterminal_edges": 315,
+          "novel_opportunities": 8,
+          "overlap_own_current": 0,
+          "prefix_shared": 1,
+          "raw_opportunities": 8,
+          "repeated_other_count": 0,
+          "shared_children": 6,
+          "terminal_visits": 16
+        }
+      ],
+      "us": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "vis": [
+        113,
+        112,
+        112
+      ],
+      "wall": [
+        7.380896,
+        7.246459,
+        7.518018
+      ],
+      "y": [
+        -0.128,
+        -0.128,
+        -0.128
+      ]
+    },
+    {
+      "b": 1,
+      "base": {
+        "cpu": 5.488013,
+        "tail": 2.626,
+        "wall": 4.37843
+      },
+      "cpu": [
+        13.899374,
+        12.7412,
+        12.297144
+      ],
+      "full": 0.0,
+      "group": "TEST",
+      "id": 396,
+      "logged": 0,
+      "n": [
+        15,
+        15,
+        15
+      ],
+      "pre": 0.0,
+      "tail": [
+        3.806,
+        3.865,
+        3.405
+      ],
+      "tele": [
+        {
+          "changed_backup": 0,
+          "cross_novel_count": 0,
+          "cross_raw_count": 0,
+          "cross_unique_count": 0,
+          "duplicate_only": 0,
+          "edge_events": 1500,
+          "nonterminal_edges": 49,
+          "novel_opportunities": 0,
+          "overlap_own_current": 0,
+          "prefix_shared": 0,
+          "raw_opportunities": 0,
+          "repeated_other_count": 0,
+          "shared_children": 0,
+          "terminal_visits": 465
+        },
+        {
+          "changed_backup": 0,
+          "cross_novel_count": 0,
+          "cross_raw_count": 0,
+          "cross_unique_count": 0,
+          "duplicate_only": 0,
+          "edge_events": 1500,
+          "nonterminal_edges": 49,
+          "novel_opportunities": 0,
+          "overlap_own_current": 0,
+          "prefix_shared": 0,
+          "raw_opportunities": 0,
+          "repeated_other_count": 0,
+          "shared_children": 0,
+          "terminal_visits": 465
+        },
+        {
+          "changed_backup": 0,
+          "cross_novel_count": 0,
+          "cross_raw_count": 0,
+          "cross_unique_count": 0,
+          "duplicate_only": 0,
+          "edge_events": 1500,
+          "nonterminal_edges": 49,
+          "novel_opportunities": 0,
+          "overlap_own_current": 0,
+          "prefix_shared": 0,
+          "raw_opportunities": 0,
+          "repeated_other_count": 0,
+          "shared_children": 0,
+          "terminal_visits": 465
+        }
+      ],
+      "us": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "vis": [
+        512,
+        512,
+        512
+      ],
+      "wall": [
+        13.861833,
+        13.072264,
+        12.745806
+      ],
+      "y": [
+        -0.03,
+        -0.03,
+        -0.03
+      ]
+    },
+    {
+      "b": 1,
+      "base": {
+        "cpu": 9.645548,
+        "tail": 5.407,
+        "wall": 8.115744
+      },
+      "cpu": [
+        16.130158,
+        14.933782,
+        15.445356
+      ],
+      "full": 1.0,
+      "group": "TEST",
+      "id": 397,
+      "logged": 2,
+      "n": [
+        54,
+        49,
+        48
+      ],
+      "pre": 1.0,
+      "tail": [
+        5.88,
+        5.03,
+        5.403
+      ],
+      "tele": [
+        {
+          "changed_backup": 0,
+          "cross_novel_count": 41,
+          "cross_raw_count": 150,
+          "cross_unique_count": 55,
+          "duplicate_only": 3,
+          "edge_events": 1846,
+          "nonterminal_edges": 206,
+          "novel_opportunities": 29,
+          "overlap_own_current": 14,
+          "prefix_shared": 0,
+          "raw_opportunities": 32,
+          "repeated_other_count": 95,
+          "shared_children": 20,
+          "terminal_visits": 426
+        },
+        {
+          "changed_backup": 27,
+          "cross_novel_count": 35,
+          "cross_raw_count": 98,
+          "cross_unique_count": 48,
+          "duplicate_only": 3,
+          "edge_events": 1890,
+          "nonterminal_edges": 183,
+          "novel_opportunities": 24,
+          "overlap_own_current": 13,
+          "prefix_shared": 0,
+          "raw_opportunities": 27,
+          "repeated_other_count": 50,
+          "shared_children": 19,
+          "terminal_visits": 431
+        },
+        {
+          "changed_backup": 24,
+          "cross_novel_count": 37,
+          "cross_raw_count": 123,
+          "cross_unique_count": 51,
+          "duplicate_only": 4,
+          "edge_events": 1850,
+          "nonterminal_edges": 184,
+          "novel_opportunities": 24,
+          "overlap_own_current": 14,
+          "prefix_shared": 0,
+          "raw_opportunities": 28,
+          "repeated_other_count": 72,
+          "shared_children": 19,
+          "terminal_visits": 432
+        }
+      ],
+      "us": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "vis": [
+        512,
+        512,
+        512
+      ],
+      "wall": [
+        16.691441,
+        15.898869,
+        17.62314
+      ],
+      "y": [
+        0.892,
+        0.902,
+        0.904
+      ]
+    },
+    {
+      "b": 1,
+      "base": {
+        "cpu": 8.088063,
+        "tail": 9.58,
+        "wall": 16.011494
+      },
+      "cpu": [
+        7.953193,
+        8.767548,
+        8.108433
+      ],
+      "full": 1.0,
+      "group": "TEST",
+      "id": 405,
+      "logged": 1,
+      "n": [
+        64,
+        64,
+        64
+      ],
+      "pre": 1.0,
+      "tail": [
+        3.737,
+        3.232,
+        3.183
+      ],
+      "tele": [
+        {
+          "changed_backup": 0,
+          "cross_novel_count": 22,
+          "cross_raw_count": 22,
+          "cross_unique_count": 22,
+          "duplicate_only": 0,
+          "edge_events": 266,
+          "nonterminal_edges": 214,
+          "novel_opportunities": 22,
+          "overlap_own_current": 0,
+          "prefix_shared": 0,
+          "raw_opportunities": 22,
+          "repeated_other_count": 0,
+          "shared_children": 8,
+          "terminal_visits": 16
+        },
+        {
+          "changed_backup": 21,
+          "cross_novel_count": 30,
+          "cross_raw_count": 30,
+          "cross_unique_count": 30,
+          "duplicate_only": 0,
+          "edge_events": 316,
+          "nonterminal_edges": 247,
+          "novel_opportunities": 21,
+          "overlap_own_current": 0,
+          "prefix_shared": 0,
+          "raw_opportunities": 21,
+          "repeated_other_count": 0,
+          "shared_children": 5,
+          "terminal_visits": 19
+        },
+        {
+          "changed_backup": 21,
+          "cross_novel_count": 30,
+          "cross_raw_count": 30,
+          "cross_unique_count": 30,
+          "duplicate_only": 0,
+          "edge_events": 316,
+          "nonterminal_edges": 247,
+          "novel_opportunities": 21,
+          "overlap_own_current": 0,
+          "prefix_shared": 0,
+          "raw_opportunities": 21,
+          "repeated_other_count": 0,
+          "shared_children": 5,
+          "terminal_visits": 19
+        }
+      ],
+      "us": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "vis": [
+        112,
+        115,
+        115
+      ],
+      "wall": [
+        8.448875,
+        9.101953,
+        8.567262
+      ],
+      "y": [
+        0.872,
+        0.872,
+        0.872
+      ]
+    },
+    {
+      "b": 1,
+      "base": {
+        "cpu": 7.742424,
+        "tail": 4.385,
+        "wall": 7.229519
+      },
+      "cpu": [
+        14.293099,
+        9.987798,
+        10.667269
+      ],
+      "full": 1.0,
+      "group": "TEST",
+      "id": 407,
+      "logged": 0,
+      "n": [
+        64,
+        64,
+        64
+      ],
+      "pre": 1.0,
+      "tail": [
+        6.95,
+        4.055,
+        4.906
+      ],
+      "tele": [
+        {
+          "changed_backup": 0,
+          "cross_novel_count": 10,
+          "cross_raw_count": 10,
+          "cross_unique_count": 10,
+          "duplicate_only": 0,
+          "edge_events": 879,
+          "nonterminal_edges": 189,
+          "novel_opportunities": 10,
+          "overlap_own_current": 0,
+          "prefix_shared": 0,
+          "raw_opportunities": 10,
+          "repeated_other_count": 0,
+          "shared_children": 9,
+          "terminal_visits": 220
+        },
+        {
+          "changed_backup": 10,
+          "cross_novel_count": 10,
+          "cross_raw_count": 10,
+          "cross_unique_count": 10,
+          "duplicate_only": 0,
+          "edge_events": 888,
+          "nonterminal_edges": 189,
+          "novel_opportunities": 10,
+          "overlap_own_current": 0,
+          "prefix_shared": 0,
+          "raw_opportunities": 10,
+          "repeated_other_count": 0,
+          "shared_children": 10,
+          "terminal_visits": 226
+        },
+        {
+          "changed_backup": 10,
+          "cross_novel_count": 10,
+          "cross_raw_count": 10,
+          "cross_unique_count": 10,
+          "duplicate_only": 0,
+          "edge_events": 888,
+          "nonterminal_edges": 189,
+          "novel_opportunities": 10,
+          "overlap_own_current": 0,
+          "prefix_shared": 0,
+          "raw_opportunities": 10,
+          "repeated_other_count": 0,
+          "shared_children": 10,
+          "terminal_visits": 226
+        }
+      ],
+      "us": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "vis": [
+        316,
+        322,
+        322
+      ],
+      "wall": [
+        14.593274,
+        11.576681,
+        10.907955
+      ],
+      "y": [
+        0.872,
+        0.872,
+        0.872
+      ]
+    },
+    {
+      "b": 2,
+      "base": {
+        "cpu": 6.938589,
+        "tail": 3.22,
+        "wall": 6.78849
+      },
+      "cpu": [
+        12.110311,
+        9.617896,
+        11.728775
+      ],
+      "full": 0.0,
+      "group": "TEST",
+      "id": 408,
+      "logged": 1,
+      "n": [
+        64,
+        64,
+        64
+      ],
+      "pre": 0.0,
+      "tail": [
+        5.771,
+        3.346,
+        5.178
+      ],
+      "tele": [
+        {
+          "changed_backup": 0,
+          "cross_novel_count": 22,
+          "cross_raw_count": 22,
+          "cross_unique_count": 22,
+          "duplicate_only": 0,
+          "edge_events": 337,
+          "nonterminal_edges": 270,
+          "novel_opportunities": 14,
+          "overlap_own_current": 0,
+          "prefix_shared": 3,
+          "raw_opportunities": 14,
+          "repeated_other_count": 0,
+          "shared_children": 10,
+          "terminal_visits": 13
+        },
+        {
+          "changed_backup": 43,
+          "cross_novel_count": 42,
+          "cross_raw_count": 45,
+          "cross_unique_count": 43,
+          "duplicate_only": 1,
+          "edge_events": 354,
+          "nonterminal_edges": 266,
+          "novel_opportunities": 42,
+          "overlap_own_current": 1,
+          "prefix_shared": 3,
+          "raw_opportunities": 43,
+          "repeated_other_count": 2,
+          "shared_children": 17,
+          "terminal_visits": 16
+        },
+        {
+          "changed_backup": 42,
+          "cross_novel_count": 42,
+          "cross_raw_count": 45,
+          "cross_unique_count": 43,
+          "duplicate_only": 1,
+          "edge_events": 358,
+          "nonterminal_edges": 266,
+          "novel_opportunities": 42,
+          "overlap_own_current": 1,
+          "prefix_shared": 3,
+          "raw_opportunities": 43,
+          "repeated_other_count": 2,
+          "shared_children": 17,
+          "terminal_visits": 17
+        }
+      ],
+      "us": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "vis": [
+        109,
+        112,
+        113
+      ],
+      "wall": [
+        12.449653,
+        10.270425,
+        13.817741
+      ],
+      "y": [
+        -0.128,
+        -0.128,
+        -0.128
+      ]
+    },
+    {
+      "b": 1,
+      "base": {
+        "cpu": 5.975896,
+        "tail": 2.956,
+        "wall": 5.81275
+      },
+      "cpu": [
+        11.940858,
+        9.005077,
+        8.415401
+      ],
+      "full": 1.0,
+      "group": "TEST",
+      "id": 410,
+      "logged": 0,
+      "n": [
+        64,
+        64,
+        64
+      ],
+      "pre": 1.0,
+      "tail": [
+        5.472,
+        3.97,
+        3.351
+      ],
+      "tele": [
+        {
+          "changed_backup": 0,
+          "cross_novel_count": 131,
+          "cross_raw_count": 131,
+          "cross_unique_count": 131,
+          "duplicate_only": 0,
+          "edge_events": 262,
+          "nonterminal_edges": 251,
+          "novel_opportunities": 40,
+          "overlap_own_current": 0,
+          "prefix_shared": 0,
+          "raw_opportunities": 40,
+          "repeated_other_count": 0,
+          "shared_children": 12,
+          "terminal_visits": 1
+        },
+        {
+          "changed_backup": 43,
+          "cross_novel_count": 115,
+          "cross_raw_count": 115,
+          "cross_unique_count": 115,
+          "duplicate_only": 0,
+          "edge_events": 256,
+          "nonterminal_edges": 245,
+          "novel_opportunities": 43,
+          "overlap_own_current": 0,
+          "prefix_shared": 0,
+          "raw_opportunities": 43,
+          "repeated_other_count": 0,
+          "shared_children": 13,
+          "terminal_visits": 1
+        },
+        {
+          "changed_backup": 43,
+          "cross_novel_count": 115,
+          "cross_raw_count": 115,
+          "cross_unique_count": 115,
+          "duplicate_only": 0,
+          "edge_events": 256,
+          "nonterminal_edges": 245,
+          "novel_opportunities": 43,
+          "overlap_own_current": 0,
+          "prefix_shared": 0,
+          "raw_opportunities": 43,
+          "repeated_other_count": 0,
+          "shared_children": 13,
+          "terminal_visits": 1
+        }
+      ],
+      "us": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "vis": [
+        97,
+        97,
+        97
+      ],
+      "wall": [
+        12.426199,
+        9.669163,
+        8.887259
+      ],
+      "y": [
+        0.872,
+        0.872,
+        0.872
+      ]
+    },
+    {
+      "b": 3,
+      "base": {
+        "cpu": 9.033757,
+        "tail": 6.184,
+        "wall": 8.609379
+      },
+      "cpu": [
+        13.6128,
+        13.194299,
+        12.264028
+      ],
+      "full": 1.0,
+      "group": "TEST",
+      "id": 413,
+      "logged": 2,
+      "n": [
+        64,
+        64,
+        64
+      ],
+      "pre": 1.0,
+      "tail": [
+        5.305,
+        5.064,
+        4.84
+      ],
+      "tele": [
+        {
+          "changed_backup": 0,
+          "cross_novel_count": 86,
+          "cross_raw_count": 213,
+          "cross_unique_count": 116,
+          "duplicate_only": 6,
+          "edge_events": 1626,
+          "nonterminal_edges": 258,
+          "novel_opportunities": 42,
+          "overlap_own_current": 30,
+          "prefix_shared": 1,
+          "raw_opportunities": 48,
+          "repeated_other_count": 97,
+          "shared_children": 25,
+          "terminal_visits": 357
+        },
+        {
+          "changed_backup": 47,
+          "cross_novel_count": 92,
+          "cross_raw_count": 234,
+          "cross_unique_count": 128,
+          "duplicate_only": 2,
+          "edge_events": 1337,
+          "nonterminal_edges": 256,
+          "novel_opportunities": 45,
+          "overlap_own_current": 36,
+          "prefix_shared": 1,
+          "raw_opportunities": 47,
+          "repeated_other_count": 106,
+          "shared_children": 17,
+          "terminal_visits": 284
+        },
+        {
+          "changed_backup": 44,
+          "cross_novel_count": 85,
+          "cross_raw_count": 214,
+          "cross_unique_count": 118,
+          "duplicate_only": 3,
+          "edge_events": 1298,
+          "nonterminal_edges": 254,
+          "novel_opportunities": 44,
+          "overlap_own_current": 33,
+          "prefix_shared": 1,
+          "raw_opportunities": 47,
+          "repeated_other_count": 96,
+          "shared_children": 17,
+          "terminal_visits": 275
+        }
+      ],
+      "us": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "vis": [
+        453,
+        380,
+        371
+      ],
+      "wall": [
+        14.151964,
+        13.449537,
+        13.091549
+      ],
+      "y": [
+        0.872,
+        0.872,
+        0.872
+      ]
+    },
+    {
+      "b": 1,
+      "base": {
+        "cpu": 7.982349,
+        "tail": 4.361,
+        "wall": 6.481908
+      },
+      "cpu": [
+        13.131452,
+        13.339406,
+        11.783894
+      ],
+      "full": 1.0,
+      "group": "TEST",
+      "id": 414,
+      "logged": 1,
+      "n": [
+        39,
+        38,
+        38
+      ],
+      "pre": 0.0,
+      "tail": [
+        3.779,
+        4.516,
+        3.758
+      ],
+      "tele": [
+        {
+          "changed_backup": 0,
+          "cross_novel_count": 2,
+          "cross_raw_count": 2,
+          "cross_unique_count": 2,
+          "duplicate_only": 0,
+          "edge_events": 1463,
+          "nonterminal_edges": 124,
+          "novel_opportunities": 2,
+          "overlap_own_current": 0,
+          "prefix_shared": 0,
+          "raw_opportunities": 2,
+          "repeated_other_count": 0,
+          "shared_children": 3,
+          "terminal_visits": 441
+        },
+        {
+          "changed_backup": 2,
+          "cross_novel_count": 2,
+          "cross_raw_count": 2,
+          "cross_unique_count": 2,
+          "duplicate_only": 0,
+          "edge_events": 1463,
+          "nonterminal_edges": 121,
+          "novel_opportunities": 2,
+          "overlap_own_current": 0,
+          "prefix_shared": 0,
+          "raw_opportunities": 2,
+          "repeated_other_count": 0,
+          "shared_children": 3,
+          "terminal_visits": 442
+        },
+        {
+          "changed_backup": 2,
+          "cross_novel_count": 2,
+          "cross_raw_count": 2,
+          "cross_unique_count": 2,
+          "duplicate_only": 0,
+          "edge_events": 1463,
+          "nonterminal_edges": 121,
+          "novel_opportunities": 2,
+          "overlap_own_current": 0,
+          "prefix_shared": 0,
+          "raw_opportunities": 2,
+          "repeated_other_count": 0,
+          "shared_children": 3,
+          "terminal_visits": 442
+        }
+      ],
+      "us": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "vis": [
+        512,
+        512,
+        512
+      ],
+      "wall": [
+        13.285035,
+        12.97164,
+        12.665648
+      ],
+      "y": [
+        0.922,
+        0.924,
+        0.924
+      ]
+    },
+    {
+      "b": 1,
+      "base": {
+        "cpu": 6.353253,
+        "tail": 3.263,
+        "wall": 6.056879
+      },
+      "cpu": [
+        8.212801,
+        7.271433,
+        7.645417
+      ],
+      "full": 1.0,
+      "group": "TEST",
+      "id": 415,
+      "logged": 0,
+      "n": [
+        64,
+        64,
+        64
+      ],
+      "pre": 1.0,
+      "tail": [
+        3.519,
+        3.41,
+        3.772
+      ],
+      "tele": [
+        {
+          "changed_backup": 0,
+          "cross_novel_count": 209,
+          "cross_raw_count": 209,
+          "cross_unique_count": 209,
+          "duplicate_only": 0,
+          "edge_events": 497,
+          "nonterminal_edges": 319,
+          "novel_opportunities": 18,
+          "overlap_own_current": 0,
+          "prefix_shared": 0,
+          "raw_opportunities": 18,
+          "repeated_other_count": 0,
+          "shared_children": 4,
+          "terminal_visits": 50
+        },
+        {
+          "changed_backup": 14,
+          "cross_novel_count": 120,
+          "cross_raw_count": 120,
+          "cross_unique_count": 120,
+          "duplicate_only": 0,
+          "edge_events": 382,
+          "nonterminal_edges": 300,
+          "novel_opportunities": 14,
+          "overlap_own_current": 0,
+          "prefix_shared": 0,
+          "raw_opportunities": 14,
+          "repeated_other_count": 0,
+          "shared_children": 1,
+          "terminal_visits": 26
+        },
+        {
+          "changed_backup": 14,
+          "cross_novel_count": 120,
+          "cross_raw_count": 120,
+          "cross_unique_count": 120,
+          "duplicate_only": 0,
+          "edge_events": 382,
+          "nonterminal_edges": 300,
+          "novel_opportunities": 14,
+          "overlap_own_current": 0,
+          "prefix_shared": 0,
+          "raw_opportunities": 14,
+          "repeated_other_count": 0,
+          "shared_children": 1,
+          "terminal_visits": 26
+        }
+      ],
+      "us": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "vis": [
+        146,
+        122,
+        122
+      ],
+      "wall": [
+        8.458743,
+        8.02049,
+        8.536145
+      ],
+      "y": [
+        0.872,
+        0.872,
+        0.872
+      ]
+    },
+    {
+      "b": 2,
+      "base": {
+        "cpu": 5.383857,
+        "tail": 3.121,
+        "wall": 5.148452
+      },
+      "cpu": [
+        7.591466,
+        7.13107,
+        8.91275
+      ],
+      "full": 1.0,
+      "group": "TEST",
+      "id": 419,
+      "logged": 0,
+      "n": [
+        64,
+        64,
+        64
+      ],
+      "pre": 0.0,
+      "tail": [
+        3.374,
+        3.335,
+        3.491
+      ],
+      "tele": [
+        {
+          "changed_backup": 0,
+          "cross_novel_count": 15,
+          "cross_raw_count": 16,
+          "cross_unique_count": 16,
+          "duplicate_only": 1,
+          "edge_events": 489,
+          "nonterminal_edges": 307,
+          "novel_opportunities": 15,
+          "overlap_own_current": 1,
+          "prefix_shared": 2,
+          "raw_opportunities": 16,
+          "repeated_other_count": 0,
+          "shared_children": 9,
+          "terminal_visits": 39
+        },
+        {
+          "changed_backup": 12,
+          "cross_novel_count": 16,
+          "cross_raw_count": 16,
+          "cross_unique_count": 16,
+          "duplicate_only": 0,
+          "edge_events": 476,
+          "nonterminal_edges": 300,
+          "novel_opportunities": 12,
+          "overlap_own_current": 0,
+          "prefix_shared": 2,
+          "raw_opportunities": 12,
+          "repeated_other_count": 0,
+          "shared_children": 7,
+          "terminal_visits": 40
+        },
+        {
+          "changed_backup": 12,
+          "cross_novel_count": 16,
+          "cross_raw_count": 16,
+          "cross_unique_count": 16,
+          "duplicate_only": 0,
+          "edge_events": 476,
+          "nonterminal_edges": 300,
+          "novel_opportunities": 12,
+          "overlap_own_current": 0,
+          "prefix_shared": 2,
+          "raw_opportunities": 12,
+          "repeated_other_count": 0,
+          "shared_children": 7,
+          "terminal_visits": 40
+        }
+      ],
+      "us": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "vis": [
+        135,
+        136,
+        136
+      ],
+      "wall": [
+        8.264367,
+        7.665629,
+        9.441035
+      ],
+      "y": [
+        0.872,
+        0.872,
+        0.872
+      ]
+    },
+    {
+      "b": 1,
+      "base": {
+        "cpu": 6.22973,
+        "tail": 3.632,
+        "wall": 5.778748
+      },
+      "cpu": [
+        8.836089,
+        7.140011,
+        8.044925
+      ],
+      "full": 0.0,
+      "group": "TEST",
+      "id": 423,
+      "logged": 2,
+      "n": [
+        64,
+        64,
+        64
+      ],
+      "pre": 0.0,
+      "tail": [
+        3.994,
+        3.4,
+        3.59
+      ],
+      "tele": [
+        {
+          "changed_backup": 0,
+          "cross_novel_count": 9,
+          "cross_raw_count": 17,
+          "cross_unique_count": 17,
+          "duplicate_only": 8,
+          "edge_events": 626,
+          "nonterminal_edges": 276,
+          "novel_opportunities": 9,
+          "overlap_own_current": 8,
+          "prefix_shared": 0,
+          "raw_opportunities": 17,
+          "repeated_other_count": 0,
+          "shared_children": 7,
+          "terminal_visits": 95
+        },
+        {
+          "changed_backup": 10,
+          "cross_novel_count": 6,
+          "cross_raw_count": 10,
+          "cross_unique_count": 10,
+          "duplicate_only": 4,
+          "edge_events": 575,
+          "nonterminal_edges": 267,
+          "novel_opportunities": 6,
+          "overlap_own_current": 4,
+          "prefix_shared": 0,
+          "raw_opportunities": 10,
+          "repeated_other_count": 0,
+          "shared_children": 6,
+          "terminal_visits": 83
+        },
+        {
+          "changed_backup": 6,
+          "cross_novel_count": 6,
+          "cross_raw_count": 11,
+          "cross_unique_count": 11,
+          "duplicate_only": 5,
+          "edge_events": 562,
+          "nonterminal_edges": 266,
+          "novel_opportunities": 6,
+          "overlap_own_current": 5,
+          "prefix_shared": 0,
+          "raw_opportunities": 11,
+          "repeated_other_count": 0,
+          "shared_children": 6,
+          "terminal_visits": 80
+        }
+      ],
+      "us": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "vis": [
+        191,
+        179,
+        176
+      ],
+      "wall": [
+        9.267787,
+        7.589719,
+        9.043115
+      ],
+      "y": [
+        -0.128,
+        -0.128,
+        -0.128
+      ]
+    },
+    {
+      "b": 1,
+      "base": {
+        "cpu": 5.308939,
+        "tail": 3.25,
+        "wall": 4.953385
+      },
+      "cpu": [
+        7.733704,
+        8.818545,
+        8.24432
+      ],
+      "full": 0.0,
+      "group": "TEST",
+      "id": 424,
+      "logged": 2,
+      "n": [
+        64,
+        64,
+        64
+      ],
+      "pre": 0.0,
+      "tail": [
+        4.588,
+        3.548,
+        3.858
+      ],
+      "tele": [
+        {
+          "changed_backup": 0,
+          "cross_novel_count": 9,
+          "cross_raw_count": 9,
+          "cross_unique_count": 9,
+          "duplicate_only": 0,
+          "edge_events": 650,
+          "nonterminal_edges": 252,
+          "novel_opportunities": 9,
+          "overlap_own_current": 0,
+          "prefix_shared": 0,
+          "raw_opportunities": 9,
+          "repeated_other_count": 0,
+          "shared_children": 3,
+          "terminal_visits": 86
+        },
+        {
+          "changed_backup": 9,
+          "cross_novel_count": 9,
+          "cross_raw_count": 9,
+          "cross_unique_count": 9,
+          "duplicate_only": 0,
+          "edge_events": 674,
+          "nonterminal_edges": 249,
+          "novel_opportunities": 9,
+          "overlap_own_current": 0,
+          "prefix_shared": 0,
+          "raw_opportunities": 9,
+          "repeated_other_count": 0,
+          "shared_children": 2,
+          "terminal_visits": 91
+        },
+        {
+          "changed_backup": 9,
+          "cross_novel_count": 9,
+          "cross_raw_count": 9,
+          "cross_unique_count": 9,
+          "duplicate_only": 0,
+          "edge_events": 674,
+          "nonterminal_edges": 249,
+          "novel_opportunities": 9,
+          "overlap_own_current": 0,
+          "prefix_shared": 0,
+          "raw_opportunities": 9,
+          "repeated_other_count": 0,
+          "shared_children": 2,
+          "terminal_visits": 91
+        }
+      ],
+      "us": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "vis": [
+        182,
+        187,
+        187
+      ],
+      "wall": [
+        9.164317,
+        9.397615,
+        8.940587
+      ],
+      "y": [
+        -0.128,
+        -0.128,
+        -0.128
+      ]
+    },
+    {
+      "b": 1,
+      "base": {
+        "cpu": 4.983994,
+        "tail": 2.98,
+        "wall": 4.793101
+      },
+      "cpu": [
+        6.024458,
+        6.521756,
+        7.157032
+      ],
+      "full": 1.0,
+      "group": "TEST",
+      "id": 427,
+      "logged": 1,
+      "n": [
+        64,
+        64,
+        64
+      ],
+      "pre": 1.0,
+      "tail": [
+        3.075,
+        2.989,
+        3.971
+      ],
+      "tele": [
+        {
+          "changed_backup": 0,
+          "cross_novel_count": 9,
+          "cross_raw_count": 9,
+          "cross_unique_count": 9,
+          "duplicate_only": 0,
+          "edge_events": 195,
+          "nonterminal_edges": 186,
+          "novel_opportunities": 9,
+          "overlap_own_current": 0,
+          "prefix_shared": 0,
+          "raw_opportunities": 9,
+          "repeated_other_count": 0,
+          "shared_children": 8,
+          "terminal_visits": 3
+        },
+        {
+          "changed_backup": 9,
+          "cross_novel_count": 9,
+          "cross_raw_count": 9,
+          "cross_unique_count": 9,
+          "duplicate_only": 0,
+          "edge_events": 195,
+          "nonterminal_edges": 186,
+          "novel_opportunities": 9,
+          "overlap_own_current": 0,
+          "prefix_shared": 0,
+          "raw_opportunities": 9,
+          "repeated_other_count": 0,
+          "shared_children": 7,
+          "terminal_visits": 3
+        },
+        {
+          "changed_backup": 9,
+          "cross_novel_count": 9,
+          "cross_raw_count": 9,
+          "cross_unique_count": 9,
+          "duplicate_only": 0,
+          "edge_events": 195,
+          "nonterminal_edges": 186,
+          "novel_opportunities": 9,
+          "overlap_own_current": 0,
+          "prefix_shared": 0,
+          "raw_opportunities": 9,
+          "repeated_other_count": 0,
+          "shared_children": 7,
+          "terminal_visits": 3
+        }
+      ],
+      "us": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "vis": [
+        99,
+        99,
+        99
+      ],
+      "wall": [
+        6.591569,
+        6.861384,
+        7.62886
+      ],
+      "y": [
+        0.872,
+        0.872,
+        0.872
+      ]
+    },
+    {
+      "b": 2,
+      "base": {
+        "cpu": 6.611122,
+        "tail": 3.751,
+        "wall": 6.3906
+      },
+      "cpu": [
+        8.35569,
+        9.987921,
+        7.298657
+      ],
+      "full": 0.0,
+      "group": "TEST",
+      "id": 429,
+      "logged": 1,
+      "n": [
+        64,
+        64,
+        64
+      ],
+      "pre": 0.0,
+      "tail": [
+        3.963,
+        4.464,
+        3.206
+      ],
+      "tele": [
+        {
+          "changed_backup": 0,
+          "cross_novel_count": 1,
+          "cross_raw_count": 1,
+          "cross_unique_count": 1,
+          "duplicate_only": 0,
+          "edge_events": 429,
+          "nonterminal_edges": 348,
+          "novel_opportunities": 1,
+          "overlap_own_current": 0,
+          "prefix_shared": 1,
+          "raw_opportunities": 1,
+          "repeated_other_count": 0,
+          "shared_children": 3,
+          "terminal_visits": 22
+        },
+        {
+          "changed_backup": 3,
+          "cross_novel_count": 3,
+          "cross_raw_count": 3,
+          "cross_unique_count": 3,
+          "duplicate_only": 0,
+          "edge_events": 431,
+          "nonterminal_edges": 350,
+          "novel_opportunities": 3,
+          "overlap_own_current": 0,
+          "prefix_shared": 1,
+          "raw_opportunities": 3,
+          "repeated_other_count": 0,
+          "shared_children": 3,
+          "terminal_visits": 22
+        },
+        {
+          "changed_backup": 3,
+          "cross_novel_count": 3,
+          "cross_raw_count": 3,
+          "cross_unique_count": 3,
+          "duplicate_only": 0,
+          "edge_events": 431,
+          "nonterminal_edges": 350,
+          "novel_opportunities": 3,
+          "overlap_own_current": 0,
+          "prefix_shared": 1,
+          "raw_opportunities": 3,
+          "repeated_other_count": 0,
+          "shared_children": 3,
+          "terminal_visits": 22
+        }
+      ],
+      "us": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "vis": [
+        118,
+        118,
+        118
+      ],
+      "wall": [
+        9.25318,
+        11.059092,
+        7.925626
+      ],
+      "y": [
+        -0.128,
+        -0.128,
+        -0.128
+      ]
+    },
+    {
+      "b": 3,
+      "base": {
+        "cpu": 7.883218,
+        "tail": 3.426,
+        "wall": 6.444138
+      },
+      "cpu": [
+        13.560108,
+        17.360936,
+        17.579172
+      ],
+      "full": 1.0,
+      "group": "TEST",
+      "id": 430,
+      "logged": 0,
+      "n": [
+        21,
+        23,
+        23
+      ],
+      "pre": 1.0,
+      "tail": [
+        3.552,
+        3.743,
+        4.481
+      ],
+      "tele": [
+        {
+          "changed_backup": 0,
+          "cross_novel_count": 6,
+          "cross_raw_count": 6,
+          "cross_unique_count": 6,
+          "duplicate_only": 0,
+          "edge_events": 2118,
+          "nonterminal_edges": 87,
+          "novel_opportunities": 4,
+          "overlap_own_current": 0,
+          "prefix_shared": 1,
+          "raw_opportunities": 4,
+          "repeated_other_count": 0,
+          "shared_children": 4,
+          "terminal_visits": 459
+        },
+        {
+          "changed_backup": 3,
+          "cross_novel_count": 4,
+          "cross_raw_count": 4,
+          "cross_unique_count": 4,
+          "duplicate_only": 0,
+          "edge_events": 2120,
+          "nonterminal_edges": 95,
+          "novel_opportunities": 3,
+          "overlap_own_current": 0,
+          "prefix_shared": 1,
+          "raw_opportunities": 3,
+          "repeated_other_count": 0,
+          "shared_children": 4,
+          "terminal_visits": 457
+        },
+        {
+          "changed_backup": 3,
+          "cross_novel_count": 4,
+          "cross_raw_count": 4,
+          "cross_unique_count": 4,
+          "duplicate_only": 0,
+          "edge_events": 2120,
+          "nonterminal_edges": 95,
+          "novel_opportunities": 3,
+          "overlap_own_current": 0,
+          "prefix_shared": 1,
+          "raw_opportunities": 3,
+          "repeated_other_count": 0,
+          "shared_children": 4,
+          "terminal_visits": 457
+        }
+      ],
+      "us": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "vis": [
+        512,
+        512,
+        512
+      ],
+      "wall": [
+        14.268408,
+        17.816825,
+        19.677508
+      ],
+      "y": [
+        0.958,
+        0.954,
+        0.954
+      ]
+    },
+    {
+      "b": 0,
+      "base": {
+        "cpu": 6.954893,
+        "tail": 3.874,
+        "wall": 6.637453
+      },
+      "cpu": [
+        8.705419,
+        9.895411,
+        8.740929
+      ],
+      "full": 0.0,
+      "group": "TEST",
+      "id": 432,
+      "logged": 2,
+      "n": [
+        64,
+        64,
+        64
+      ],
+      "pre": 0.0,
+      "tail": [
+        3.431,
+        4.21,
+        4.208
+      ],
+      "tele": [
+        {
+          "changed_backup": 0,
+          "cross_novel_count": 7,
+          "cross_raw_count": 7,
+          "cross_unique_count": 7,
+          "duplicate_only": 0,
+          "edge_events": 481,
+          "nonterminal_edges": 269,
+          "novel_opportunities": 7,
+          "overlap_own_current": 0,
+          "prefix_shared": 0,
+          "raw_opportunities": 7,
+          "repeated_other_count": 0,
+          "shared_children": 4,
+          "terminal_visits": 51
+        },
+        {
+          "changed_backup": 9,
+          "cross_novel_count": 9,
+          "cross_raw_count": 9,
+          "cross_unique_count": 9,
+          "duplicate_only": 0,
+          "edge_events": 474,
+          "nonterminal_edges": 272,
+          "novel_opportunities": 9,
+          "overlap_own_current": 0,
+          "prefix_shared": 0,
+          "raw_opportunities": 9,
+          "repeated_other_count": 0,
+          "shared_children": 4,
+          "terminal_visits": 48
+        },
+        {
+          "changed_backup": 9,
+          "cross_novel_count": 9,
+          "cross_raw_count": 9,
+          "cross_unique_count": 9,
+          "duplicate_only": 0,
+          "edge_events": 474,
+          "nonterminal_edges": 272,
+          "novel_opportunities": 9,
+          "overlap_own_current": 0,
+          "prefix_shared": 0,
+          "raw_opportunities": 9,
+          "repeated_other_count": 0,
+          "shared_children": 4,
+          "terminal_visits": 48
+        }
+      ],
+      "us": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "vis": [
+        147,
+        144,
+        144
+      ],
+      "wall": [
+        9.411181,
+        10.434187,
+        9.288084
+      ],
+      "y": [
+        -0.128,
+        -0.128,
+        -0.128
+      ]
+    },
+    {
+      "b": 1,
+      "base": {
+        "cpu": 6.971654,
+        "tail": 3.522,
+        "wall": 6.726406
+      },
+      "cpu": [
+        7.410523,
+        6.506218,
+        10.420594
+      ],
+      "full": 1.0,
+      "group": "TEST",
+      "id": 434,
+      "logged": 0,
+      "n": [
+        64,
+        64,
+        64
+      ],
+      "pre": 0.0,
+      "tail": [
+        3.112,
+        3.074,
+        5.271
+      ],
+      "tele": [
+        {
+          "changed_backup": 0,
+          "cross_novel_count": 12,
+          "cross_raw_count": 12,
+          "cross_unique_count": 12,
+          "duplicate_only": 0,
+          "edge_events": 286,
+          "nonterminal_edges": 200,
+          "novel_opportunities": 12,
+          "overlap_own_current": 0,
+          "prefix_shared": 0,
+          "raw_opportunities": 12,
+          "repeated_other_count": 0,
+          "shared_children": 3,
+          "terminal_visits": 25
+        },
+        {
+          "changed_backup": 11,
+          "cross_novel_count": 11,
+          "cross_raw_count": 11,
+          "cross_unique_count": 11,
+          "duplicate_only": 0,
+          "edge_events": 269,
+          "nonterminal_edges": 204,
+          "novel_opportunities": 11,
+          "overlap_own_current": 0,
+          "prefix_shared": 0,
+          "raw_opportunities": 11,
+          "repeated_other_count": 0,
+          "shared_children": 3,
+          "terminal_visits": 20
+        },
+        {
+          "changed_backup": 11,
+          "cross_novel_count": 11,
+          "cross_raw_count": 11,
+          "cross_unique_count": 11,
+          "duplicate_only": 0,
+          "edge_events": 269,
+          "nonterminal_edges": 204,
+          "novel_opportunities": 11,
+          "overlap_own_current": 0,
+          "prefix_shared": 0,
+          "raw_opportunities": 11,
+          "repeated_other_count": 0,
+          "shared_children": 3,
+          "terminal_visits": 20
+        }
+      ],
+      "us": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "vis": [
+        121,
+        116,
+        116
+      ],
+      "wall": [
+        7.799575,
+        6.861164,
+        10.753913
+      ],
+      "y": [
+        0.872,
+        0.872,
+        0.872
+      ]
+    },
+    {
+      "b": 1,
+      "base": {
+        "cpu": 6.875305,
+        "tail": 3.769,
+        "wall": 6.898262
+      },
+      "cpu": [
+        8.238601,
+        6.603447,
+        7.091119
+      ],
+      "full": 1.0,
+      "group": "TEST",
+      "id": 435,
+      "logged": 2,
+      "n": [
+        64,
+        64,
+        64
+      ],
+      "pre": 1.0,
+      "tail": [
+        3.757,
+        3.301,
+        3.676
+      ],
+      "tele": [
+        {
+          "changed_backup": 0,
+          "cross_novel_count": 22,
+          "cross_raw_count": 36,
+          "cross_unique_count": 25,
+          "duplicate_only": 0,
+          "edge_events": 461,
+          "nonterminal_edges": 251,
+          "novel_opportunities": 9,
+          "overlap_own_current": 3,
+          "prefix_shared": 0,
+          "raw_opportunities": 9,
+          "repeated_other_count": 11,
+          "shared_children": 5,
+          "terminal_visits": 51
+        },
+        {
+          "changed_backup": 6,
+          "cross_novel_count": 19,
+          "cross_raw_count": 32,
+          "cross_unique_count": 22,
+          "duplicate_only": 0,
+          "edge_events": 428,
+          "nonterminal_edges": 244,
+          "novel_opportunities": 6,
+          "overlap_own_current": 3,
+          "prefix_shared": 0,
+          "raw_opportunities": 6,
+          "repeated_other_count": 10,
+          "shared_children": 4,
+          "terminal_visits": 46
+        },
+        {
+          "changed_backup": 6,
+          "cross_novel_count": 19,
+          "cross_raw_count": 32,
+          "cross_unique_count": 22,
+          "duplicate_only": 0,
+          "edge_events": 429,
+          "nonterminal_edges": 245,
+          "novel_opportunities": 6,
+          "overlap_own_current": 3,
+          "prefix_shared": 0,
+          "raw_opportunities": 6,
+          "repeated_other_count": 10,
+          "shared_children": 4,
+          "terminal_visits": 46
+        }
+      ],
+      "us": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "vis": [
+        147,
+        142,
+        142
+      ],
+      "wall": [
+        9.574099,
+        7.114389,
+        7.726921
+      ],
+      "y": [
+        0.872,
+        0.872,
+        0.872
+      ]
+    },
+    {
+      "b": 2,
+      "base": {
+        "cpu": 5.350654,
+        "tail": 3.053,
+        "wall": 5.128546
+      },
+      "cpu": [
+        7.000586,
+        6.515561,
+        5.85035
+      ],
+      "full": 0.0,
+      "group": "TEST",
+      "id": 437,
+      "logged": 2,
+      "n": [
+        64,
+        64,
+        64
+      ],
+      "pre": 0.0,
+      "tail": [
+        3.242,
+        3.244,
+        3.068
+      ],
+      "tele": [
+        {
+          "changed_backup": 0,
+          "cross_novel_count": 4,
+          "cross_raw_count": 4,
+          "cross_unique_count": 4,
+          "duplicate_only": 0,
+          "edge_events": 339,
+          "nonterminal_edges": 253,
+          "novel_opportunities": 4,
+          "overlap_own_current": 0,
+          "prefix_shared": 1,
+          "raw_opportunities": 4,
+          "repeated_other_count": 0,
+          "shared_children": 3,
+          "terminal_visits": 24
+        },
+        {
+          "changed_backup": 5,
+          "cross_novel_count": 5,
+          "cross_raw_count": 5,
+          "cross_unique_count": 5,
+          "duplicate_only": 0,
+          "edge_events": 339,
+          "nonterminal_edges": 253,
+          "novel_opportunities": 5,
+          "overlap_own_current": 0,
+          "prefix_shared": 1,
+          "raw_opportunities": 5,
+          "repeated_other_count": 0,
+          "shared_children": 3,
+          "terminal_visits": 24
+        },
+        {
+          "changed_backup": 5,
+          "cross_novel_count": 5,
+          "cross_raw_count": 5,
+          "cross_unique_count": 5,
+          "duplicate_only": 0,
+          "edge_events": 339,
+          "nonterminal_edges": 253,
+          "novel_opportunities": 5,
+          "overlap_own_current": 0,
+          "prefix_shared": 1,
+          "raw_opportunities": 5,
+          "repeated_other_count": 0,
+          "shared_children": 3,
+          "terminal_visits": 24
+        }
+      ],
+      "us": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "vis": [
+        120,
+        120,
+        120
+      ],
+      "wall": [
+        7.630956,
+        6.874168,
+        6.139299
+      ],
+      "y": [
+        -0.128,
+        -0.128,
+        -0.128
+      ]
+    },
+    {
+      "b": 1,
+      "base": {
+        "cpu": 4.466834,
+        "tail": 3.058,
+        "wall": 4.206554
+      },
+      "cpu": [
+        6.187863,
+        6.150109,
+        7.79469
+      ],
+      "full": 1.0,
+      "group": "TEST",
+      "id": 438,
+      "logged": 2,
+      "n": [
+        64,
+        64,
+        64
+      ],
+      "pre": 1.0,
+      "tail": [
+        3.351,
+        3.157,
+        3.735
+      ],
+      "tele": [
+        {
+          "changed_backup": 0,
+          "cross_novel_count": 9,
+          "cross_raw_count": 9,
+          "cross_unique_count": 9,
+          "duplicate_only": 0,
+          "edge_events": 419,
+          "nonterminal_edges": 304,
+          "novel_opportunities": 9,
+          "overlap_own_current": 0,
+          "prefix_shared": 0,
+          "raw_opportunities": 9,
+          "repeated_other_count": 0,
+          "shared_children": 2,
+          "terminal_visits": 25
+        },
+        {
+          "changed_backup": 8,
+          "cross_novel_count": 8,
+          "cross_raw_count": 8,
+          "cross_unique_count": 8,
+          "duplicate_only": 0,
+          "edge_events": 393,
+          "nonterminal_edges": 301,
+          "novel_opportunities": 8,
+          "overlap_own_current": 0,
+          "prefix_shared": 0,
+          "raw_opportunities": 8,
+          "repeated_other_count": 0,
+          "shared_children": 2,
+          "terminal_visits": 21
+        },
+        {
+          "changed_backup": 8,
+          "cross_novel_count": 8,
+          "cross_raw_count": 8,
+          "cross_unique_count": 8,
+          "duplicate_only": 0,
+          "edge_events": 393,
+          "nonterminal_edges": 301,
+          "novel_opportunities": 8,
+          "overlap_own_current": 0,
+          "prefix_shared": 0,
+          "raw_opportunities": 8,
+          "repeated_other_count": 0,
+          "shared_children": 2,
+          "terminal_visits": 21
+        }
+      ],
+      "us": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "vis": [
+        121,
+        117,
+        117
+      ],
+      "wall": [
+        6.644446,
+        6.556295,
+        8.221538
+      ],
+      "y": [
+        0.872,
+        0.872,
+        0.872
+      ]
+    },
+    {
+      "b": 1,
+      "base": {
+        "cpu": 6.101685,
+        "tail": 3.489,
+        "wall": 5.700264
+      },
+      "cpu": [
+        9.116436,
+        8.990584,
+        7.728197
+      ],
+      "full": 1.0,
+      "group": "TEST",
+      "id": 439,
+      "logged": 1,
+      "n": [
+        64,
+        64,
+        64
+      ],
+      "pre": 1.0,
+      "tail": [
+        3.63,
+        3.81,
+        3.738
+      ],
+      "tele": [
+        {
+          "changed_backup": 0,
+          "cross_novel_count": 11,
+          "cross_raw_count": 11,
+          "cross_unique_count": 11,
+          "duplicate_only": 0,
+          "edge_events": 550,
+          "nonterminal_edges": 214,
+          "novel_opportunities": 11,
+          "overlap_own_current": 0,
+          "prefix_shared": 0,
+          "raw_opportunities": 11,
+          "repeated_other_count": 0,
+          "shared_children": 4,
+          "terminal_visits": 89
+        },
+        {
+          "changed_backup": 19,
+          "cross_novel_count": 19,
+          "cross_raw_count": 19,
+          "cross_unique_count": 19,
+          "duplicate_only": 0,
+          "edge_events": 507,
+          "nonterminal_edges": 208,
+          "novel_opportunities": 19,
+          "overlap_own_current": 0,
+          "prefix_shared": 0,
+          "raw_opportunities": 19,
+          "repeated_other_count": 0,
+          "shared_children": 3,
+          "terminal_visits": 80
+        },
+        {
+          "changed_backup": 19,
+          "cross_novel_count": 19,
+          "cross_raw_count": 19,
+          "cross_unique_count": 19,
+          "duplicate_only": 0,
+          "edge_events": 507,
+          "nonterminal_edges": 208,
+          "novel_opportunities": 19,
+          "overlap_own_current": 0,
+          "prefix_shared": 0,
+          "raw_opportunities": 19,
+          "repeated_other_count": 0,
+          "shared_children": 3,
+          "terminal_visits": 80
+        }
+      ],
+      "us": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "vis": [
+        185,
+        176,
+        176
+      ],
+      "wall": [
+        9.086585,
+        9.321306,
+        8.00976
+      ],
+      "y": [
+        0.872,
+        0.872,
+        0.872
+      ]
+    },
+    {
+      "b": 0,
+      "base": {
+        "cpu": 8.83621,
+        "tail": 4.459,
+        "wall": 8.412229
+      },
+      "cpu": [
+        8.481989,
+        8.046677,
+        7.725478
+      ],
+      "full": 1.0,
+      "group": "TEST",
+      "id": 448,
+      "logged": 2,
+      "n": [
+        64,
+        64,
+        64
+      ],
+      "pre": 1.0,
+      "tail": [
+        3.653,
+        3.414,
+        3.472
+      ],
+      "tele": [
+        {
+          "changed_backup": 0,
+          "cross_novel_count": 17,
+          "cross_raw_count": 17,
+          "cross_unique_count": 17,
+          "duplicate_only": 0,
+          "edge_events": 422,
+          "nonterminal_edges": 186,
+          "novel_opportunities": 17,
+          "overlap_own_current": 0,
+          "prefix_shared": 0,
+          "raw_opportunities": 17,
+          "repeated_other_count": 0,
+          "shared_children": 12,
+          "terminal_visits": 73
+        },
+        {
+          "changed_backup": 12,
+          "cross_novel_count": 18,
+          "cross_raw_count": 18,
+          "cross_unique_count": 18,
+          "duplicate_only": 0,
+          "edge_events": 327,
+          "nonterminal_edges": 181,
+          "novel_opportunities": 12,
+          "overlap_own_current": 0,
+          "prefix_shared": 0,
+          "raw_opportunities": 12,
+          "repeated_other_count": 0,
+          "shared_children": 12,
+          "terminal_visits": 43
+        },
+        {
+          "changed_backup": 12,
+          "cross_novel_count": 18,
+          "cross_raw_count": 18,
+          "cross_unique_count": 18,
+          "duplicate_only": 0,
+          "edge_events": 327,
+          "nonterminal_edges": 181,
+          "novel_opportunities": 12,
+          "overlap_own_current": 0,
+          "prefix_shared": 0,
+          "raw_opportunities": 12,
+          "repeated_other_count": 0,
+          "shared_children": 12,
+          "terminal_visits": 43
+        }
+      ],
+      "us": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "vis": [
+        169,
+        139,
+        139
+      ],
+      "wall": [
+        8.8059,
+        8.363239,
+        8.13018
+      ],
+      "y": [
+        0.872,
+        0.872,
+        0.872
+      ]
+    },
+    {
+      "b": 0,
+      "base": {
+        "cpu": 6.299832,
+        "tail": 3.263,
+        "wall": 6.075863
+      },
+      "cpu": [
+        10.813196,
+        10.41849,
+        6.851637
+      ],
+      "full": 1.0,
+      "group": "TEST",
+      "id": 449,
+      "logged": 0,
+      "n": [
+        64,
+        64,
+        64
+      ],
+      "pre": 0.0,
+      "tail": [
+        5.528,
+        5.279,
+        3.118
+      ],
+      "tele": [
+        {
+          "changed_backup": 0,
+          "cross_novel_count": 7,
+          "cross_raw_count": 7,
+          "cross_unique_count": 7,
+          "duplicate_only": 0,
+          "edge_events": 358,
+          "nonterminal_edges": 248,
+          "novel_opportunities": 7,
+          "overlap_own_current": 0,
+          "prefix_shared": 0,
+          "raw_opportunities": 7,
+          "repeated_other_count": 0,
+          "shared_children": 5,
+          "terminal_visits": 30
+        },
+        {
+          "changed_backup": 6,
+          "cross_novel_count": 6,
+          "cross_raw_count": 6,
+          "cross_unique_count": 6,
+          "duplicate_only": 0,
+          "edge_events": 350,
+          "nonterminal_edges": 257,
+          "novel_opportunities": 6,
+          "overlap_own_current": 0,
+          "prefix_shared": 0,
+          "raw_opportunities": 6,
+          "repeated_other_count": 0,
+          "shared_children": 2,
+          "terminal_visits": 24
+        },
+        {
+          "changed_backup": 6,
+          "cross_novel_count": 6,
+          "cross_raw_count": 6,
+          "cross_unique_count": 6,
+          "duplicate_only": 0,
+          "edge_events": 350,
+          "nonterminal_edges": 257,
+          "novel_opportunities": 6,
+          "overlap_own_current": 0,
+          "prefix_shared": 0,
+          "raw_opportunities": 6,
+          "repeated_other_count": 0,
+          "shared_children": 2,
+          "terminal_visits": 24
+        }
+      ],
+      "us": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "vis": [
+        126,
+        120,
+        120
+      ],
+      "wall": [
+        11.065365,
+        10.862583,
+        7.264242
+      ],
+      "y": [
+        -0.128,
+        -0.128,
+        -0.128
+      ]
+    },
+    {
+      "b": 1,
+      "base": {
+        "cpu": 7.263838,
+        "tail": 5.006,
+        "wall": 6.913239
+      },
+      "cpu": [
+        7.322613,
+        9.851495,
+        8.411766
+      ],
+      "full": 1.0,
+      "group": "TEST",
+      "id": 452,
+      "logged": 0,
+      "n": [
+        64,
+        64,
+        64
+      ],
+      "pre": 1.0,
+      "tail": [
+        3.421,
+        5.175,
+        3.528
+      ],
+      "tele": [
+        {
+          "changed_backup": 0,
+          "cross_novel_count": 27,
+          "cross_raw_count": 27,
+          "cross_unique_count": 27,
+          "duplicate_only": 0,
+          "edge_events": 451,
+          "nonterminal_edges": 192,
+          "novel_opportunities": 18,
+          "overlap_own_current": 0,
+          "prefix_shared": 0,
+          "raw_opportunities": 18,
+          "repeated_other_count": 0,
+          "shared_children": 5,
+          "terminal_visits": 85
+        },
+        {
+          "changed_backup": 20,
+          "cross_novel_count": 26,
+          "cross_raw_count": 26,
+          "cross_unique_count": 26,
+          "duplicate_only": 0,
+          "edge_events": 515,
+          "nonterminal_edges": 194,
+          "novel_opportunities": 20,
+          "overlap_own_current": 0,
+          "prefix_shared": 0,
+          "raw_opportunities": 20,
+          "repeated_other_count": 0,
+          "shared_children": 6,
+          "terminal_visits": 105
+        },
+        {
+          "changed_backup": 20,
+          "cross_novel_count": 26,
+          "cross_raw_count": 26,
+          "cross_unique_count": 26,
+          "duplicate_only": 0,
+          "edge_events": 515,
+          "nonterminal_edges": 194,
+          "novel_opportunities": 20,
+          "overlap_own_current": 0,
+          "prefix_shared": 0,
+          "raw_opportunities": 20,
+          "repeated_other_count": 0,
+          "shared_children": 6,
+          "terminal_visits": 105
+        }
+      ],
+      "us": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "vis": [
+        181,
+        201,
+        201
+      ],
+      "wall": [
+        7.574983,
+        9.946312,
+        8.547226
+      ],
+      "y": [
+        0.872,
+        0.872,
+        0.872
+      ]
+    },
+    {
+      "b": 1,
+      "base": {
+        "cpu": 6.621184,
+        "tail": 3.625,
+        "wall": 6.088486
+      },
+      "cpu": [
+        8.945745,
+        9.969668,
+        9.860204
+      ],
+      "full": 0.0,
+      "group": "TEST",
+      "id": 454,
+      "logged": 2,
+      "n": [
+        64,
+        64,
+        64
+      ],
+      "pre": 0.0,
+      "tail": [
+        3.664,
+        3.939,
+        4.389
+      ],
+      "tele": [
+        {
+          "changed_backup": 0,
+          "cross_novel_count": 16,
+          "cross_raw_count": 35,
+          "cross_unique_count": 21,
+          "duplicate_only": 1,
+          "edge_events": 899,
+          "nonterminal_edges": 264,
+          "novel_opportunities": 8,
+          "overlap_own_current": 5,
+          "prefix_shared": 0,
+          "raw_opportunities": 9,
+          "repeated_other_count": 14,
+          "shared_children": 4,
+          "terminal_visits": 131
+        },
+        {
+          "changed_backup": 8,
+          "cross_novel_count": 16,
+          "cross_raw_count": 36,
+          "cross_unique_count": 20,
+          "duplicate_only": 0,
+          "edge_events": 921,
+          "nonterminal_edges": 264,
+          "novel_opportunities": 8,
+          "overlap_own_current": 4,
+          "prefix_shared": 0,
+          "raw_opportunities": 8,
+          "repeated_other_count": 16,
+          "shared_children": 4,
+          "terminal_visits": 136
+        },
+        {
+          "changed_backup": 8,
+          "cross_novel_count": 16,
+          "cross_raw_count": 36,
+          "cross_unique_count": 20,
+          "duplicate_only": 0,
+          "edge_events": 915,
+          "nonterminal_edges": 264,
+          "novel_opportunities": 8,
+          "overlap_own_current": 4,
+          "prefix_shared": 0,
+          "raw_opportunities": 8,
+          "repeated_other_count": 16,
+          "shared_children": 4,
+          "terminal_visits": 134
+        }
+      ],
+      "us": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "vis": [
+        227,
+        232,
+        230
+      ],
+      "wall": [
+        9.418364,
+        10.33232,
+        10.398721
+      ],
+      "y": [
+        -0.128,
+        -0.128,
+        -0.128
+      ]
+    },
+    {
+      "b": 0,
+      "base": {
+        "cpu": 7.002593,
+        "tail": 3.757,
+        "wall": 5.757239
+      },
+      "cpu": [
+        14.702064,
+        14.616693,
+        15.337299
+      ],
+      "full": 0.0,
+      "group": "TEST",
+      "id": 455,
+      "logged": 2,
+      "n": [
+        40,
+        40,
+        40
+      ],
+      "pre": 0.0,
+      "tail": [
+        4.596,
+        4.755,
+        4.252
+      ],
+      "tele": [
+        {
+          "changed_backup": 0,
+          "cross_novel_count": 7,
+          "cross_raw_count": 32,
+          "cross_unique_count": 13,
+          "duplicate_only": 2,
+          "edge_events": 1678,
+          "nonterminal_edges": 154,
+          "novel_opportunities": 6,
+          "overlap_own_current": 6,
+          "prefix_shared": 0,
+          "raw_opportunities": 8,
+          "repeated_other_count": 19,
+          "shared_children": 5,
+          "terminal_visits": 440
+        },
+        {
+          "changed_backup": 7,
+          "cross_novel_count": 12,
+          "cross_raw_count": 52,
+          "cross_unique_count": 17,
+          "duplicate_only": 1,
+          "edge_events": 1678,
+          "nonterminal_edges": 153,
+          "novel_opportunities": 6,
+          "overlap_own_current": 5,
+          "prefix_shared": 0,
+          "raw_opportunities": 7,
+          "repeated_other_count": 35,
+          "shared_children": 5,
+          "terminal_visits": 440
+        },
+        {
+          "changed_backup": 6,
+          "cross_novel_count": 7,
+          "cross_raw_count": 25,
+          "cross_unique_count": 11,
+          "duplicate_only": 1,
+          "edge_events": 1680,
+          "nonterminal_edges": 153,
+          "novel_opportunities": 6,
+          "overlap_own_current": 4,
+          "prefix_shared": 0,
+          "raw_opportunities": 7,
+          "repeated_other_count": 14,
+          "shared_children": 5,
+          "terminal_visits": 440
+        }
+      ],
+      "us": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "vis": [
+        512,
+        512,
+        512
+      ],
+      "wall": [
+        15.859266,
+        14.773746,
+        15.710314
+      ],
+      "y": [
+        -0.08,
+        -0.08,
+        -0.08
+      ]
+    },
+    {
+      "b": 3,
+      "base": {
+        "cpu": 6.934025,
+        "tail": 3.459,
+        "wall": 6.724864
+      },
+      "cpu": [
+        7.651811,
+        7.987886,
+        6.977029
+      ],
+      "full": 0.0,
+      "group": "TEST",
+      "id": 456,
+      "logged": 1,
+      "n": [
+        64,
+        64,
+        64
+      ],
+      "pre": 0.0,
+      "tail": [
+        3.222,
+        3.447,
+        3.287
+      ],
+      "tele": [
+        {
+          "changed_backup": 0,
+          "cross_novel_count": 5,
+          "cross_raw_count": 5,
+          "cross_unique_count": 5,
+          "duplicate_only": 0,
+          "edge_events": 374,
+          "nonterminal_edges": 225,
+          "novel_opportunities": 5,
+          "overlap_own_current": 0,
+          "prefix_shared": 1,
+          "raw_opportunities": 5,
+          "repeated_other_count": 0,
+          "shared_children": 5,
+          "terminal_visits": 40
+        },
+        {
+          "changed_backup": 6,
+          "cross_novel_count": 6,
+          "cross_raw_count": 6,
+          "cross_unique_count": 6,
+          "duplicate_only": 0,
+          "edge_events": 371,
+          "nonterminal_edges": 226,
+          "novel_opportunities": 6,
+          "overlap_own_current": 0,
+          "prefix_shared": 1,
+          "raw_opportunities": 6,
+          "repeated_other_count": 0,
+          "shared_children": 5,
+          "terminal_visits": 39
+        },
+        {
+          "changed_backup": 6,
+          "cross_novel_count": 6,
+          "cross_raw_count": 6,
+          "cross_unique_count": 6,
+          "duplicate_only": 0,
+          "edge_events": 371,
+          "nonterminal_edges": 226,
+          "novel_opportunities": 6,
+          "overlap_own_current": 0,
+          "prefix_shared": 1,
+          "raw_opportunities": 6,
+          "repeated_other_count": 0,
+          "shared_children": 5,
+          "terminal_visits": 39
+        }
+      ],
+      "us": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "vis": [
+        136,
+        135,
+        135
+      ],
+      "wall": [
+        7.979956,
+        8.334045,
+        7.411604
+      ],
+      "y": [
+        -0.128,
+        -0.128,
+        -0.128
+      ]
+    },
+    {
+      "b": 1,
+      "base": {
+        "cpu": 5.770434,
+        "tail": 2.75,
+        "wall": 4.603443
+      },
+      "cpu": [
+        17.175762,
+        16.532597,
+        17.960294
+      ],
+      "full": 1.0,
+      "group": "TEST",
+      "id": 458,
+      "logged": 2,
+      "n": [
+        16,
+        16,
+        16
+      ],
+      "pre": 1.0,
+      "tail": [
+        4.178,
+        4.003,
+        3.921
+      ],
+      "tele": [
+        {
+          "changed_backup": 0,
+          "cross_novel_count": 0,
+          "cross_raw_count": 0,
+          "cross_unique_count": 0,
+          "duplicate_only": 0,
+          "edge_events": 2375,
+          "nonterminal_edges": 64,
+          "novel_opportunities": 0,
+          "overlap_own_current": 0,
+          "prefix_shared": 0,
+          "raw_opportunities": 0,
+          "repeated_other_count": 0,
+          "shared_children": 0,
+          "terminal_visits": 464
+        },
+        {
+          "changed_backup": 0,
+          "cross_novel_count": 0,
+          "cross_raw_count": 0,
+          "cross_unique_count": 0,
+          "duplicate_only": 0,
+          "edge_events": 2375,
+          "nonterminal_edges": 64,
+          "novel_opportunities": 0,
+          "overlap_own_current": 0,
+          "prefix_shared": 0,
+          "raw_opportunities": 0,
+          "repeated_other_count": 0,
+          "shared_children": 0,
+          "terminal_visits": 464
+        },
+        {
+          "changed_backup": 0,
+          "cross_novel_count": 0,
+          "cross_raw_count": 0,
+          "cross_unique_count": 0,
+          "duplicate_only": 0,
+          "edge_events": 2375,
+          "nonterminal_edges": 64,
+          "novel_opportunities": 0,
+          "overlap_own_current": 0,
+          "prefix_shared": 0,
+          "raw_opportunities": 0,
+          "repeated_other_count": 0,
+          "shared_children": 0,
+          "terminal_visits": 464
+        }
+      ],
+      "us": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "vis": [
+        512,
+        512,
+        512
+      ],
+      "wall": [
+        18.161409,
+        16.790836,
+        18.852667
+      ],
+      "y": [
+        0.968,
+        0.968,
+        0.968
+      ]
+    },
+    {
+      "b": 2,
+      "base": {
+        "cpu": 5.133645,
+        "tail": 2.903,
+        "wall": 4.942776
+      },
+      "cpu": [
+        6.751954,
+        6.38178,
+        7.005584
+      ],
+      "full": 0.0,
+      "group": "TEST",
+      "id": 459,
+      "logged": 0,
+      "n": [
+        64,
+        64,
+        64
+      ],
+      "pre": 0.0,
+      "tail": [
+        3.15,
+        3.037,
+        3.057
+      ],
+      "tele": [
+        {
+          "changed_backup": 0,
+          "cross_novel_count": 16,
+          "cross_raw_count": 22,
+          "cross_unique_count": 18,
+          "duplicate_only": 1,
+          "edge_events": 361,
+          "nonterminal_edges": 271,
+          "novel_opportunities": 11,
+          "overlap_own_current": 2,
+          "prefix_shared": 1,
+          "raw_opportunities": 12,
+          "repeated_other_count": 4,
+          "shared_children": 9,
+          "terminal_visits": 22
+        },
+        {
+          "changed_backup": 16,
+          "cross_novel_count": 21,
+          "cross_raw_count": 27,
+          "cross_unique_count": 23,
+          "duplicate_only": 1,
+          "edge_events": 367,
+          "nonterminal_edges": 277,
+          "novel_opportunities": 15,
+          "overlap_own_current": 2,
+          "prefix_shared": 1,
+          "raw_opportunities": 16,
+          "repeated_other_count": 4,
+          "shared_children": 9,
+          "terminal_visits": 22
+        },
+        {
+          "changed_backup": 15,
+          "cross_novel_count": 21,
+          "cross_raw_count": 27,
+          "cross_unique_count": 23,
+          "duplicate_only": 1,
+          "edge_events": 367,
+          "nonterminal_edges": 277,
+          "novel_opportunities": 15,
+          "overlap_own_current": 2,
+          "prefix_shared": 1,
+          "raw_opportunities": 16,
+          "repeated_other_count": 4,
+          "shared_children": 9,
+          "terminal_visits": 22
+        }
+      ],
+      "us": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "vis": [
+        118,
+        118,
+        118
+      ],
+      "wall": [
+        7.05015,
+        6.809008,
+        7.370879
+      ],
+      "y": [
+        -0.128,
+        -0.128,
+        -0.128
+      ]
+    },
+    {
+      "b": 1,
+      "base": {
+        "cpu": 5.461052,
+        "tail": 3.084,
+        "wall": 5.1913
+      },
+      "cpu": [
+        7.659688,
+        7.819689,
+        7.478269
+      ],
+      "full": 0.5,
+      "group": "TEST",
+      "id": 462,
+      "logged": 1,
+      "n": [
+        64,
+        64,
+        64
+      ],
+      "pre": 0.5,
+      "tail": [
+        3.494,
+        3.323,
+        3.457
+      ],
+      "tele": [
+        {
+          "changed_backup": 0,
+          "cross_novel_count": 4,
+          "cross_raw_count": 4,
+          "cross_unique_count": 4,
+          "duplicate_only": 0,
+          "edge_events": 543,
+          "nonterminal_edges": 312,
+          "novel_opportunities": 4,
+          "overlap_own_current": 0,
+          "prefix_shared": 0,
+          "raw_opportunities": 4,
+          "repeated_other_count": 0,
+          "shared_children": 4,
+          "terminal_visits": 70
+        },
+        {
+          "changed_backup": 4,
+          "cross_novel_count": 4,
+          "cross_raw_count": 4,
+          "cross_unique_count": 4,
+          "duplicate_only": 0,
+          "edge_events": 543,
+          "nonterminal_edges": 312,
+          "novel_opportunities": 4,
+          "overlap_own_current": 0,
+          "prefix_shared": 0,
+          "raw_opportunities": 4,
+          "repeated_other_count": 0,
+          "shared_children": 3,
+          "terminal_visits": 70
+        },
+        {
+          "changed_backup": 4,
+          "cross_novel_count": 4,
+          "cross_raw_count": 4,
+          "cross_unique_count": 4,
+          "duplicate_only": 0,
+          "edge_events": 543,
+          "nonterminal_edges": 312,
+          "novel_opportunities": 4,
+          "overlap_own_current": 0,
+          "prefix_shared": 0,
+          "raw_opportunities": 4,
+          "repeated_other_count": 0,
+          "shared_children": 3,
+          "terminal_visits": 70
+        }
+      ],
+      "us": [
+        0.5,
+        0.5,
+        0.5
+      ],
+      "vis": [
+        166,
+        166,
+        166
+      ],
+      "wall": [
+        8.286047,
+        8.17311,
+        7.877477
+      ],
+      "y": [
+        0.372,
+        0.372,
+        0.372
+      ]
+    },
+    {
+      "b": 1,
+      "base": {
+        "cpu": 4.988114,
+        "tail": 3.005,
+        "wall": 4.72158
+      },
+      "cpu": [
+        6.914388,
+        6.500402,
+        6.281502
+      ],
+      "full": 1.0,
+      "group": "TEST",
+      "id": 463,
+      "logged": 1,
+      "n": [
+        64,
+        64,
+        64
+      ],
+      "pre": 0.0,
+      "tail": [
+        3.195,
+        3.202,
+        3.16
+      ],
+      "tele": [
+        {
+          "changed_backup": 0,
+          "cross_novel_count": 3,
+          "cross_raw_count": 3,
+          "cross_unique_count": 3,
+          "duplicate_only": 0,
+          "edge_events": 573,
+          "nonterminal_edges": 319,
+          "novel_opportunities": 3,
+          "overlap_own_current": 0,
+          "prefix_shared": 0,
+          "raw_opportunities": 3,
+          "repeated_other_count": 0,
+          "shared_children": 4,
+          "terminal_visits": 48
+        },
+        {
+          "changed_backup": 3,
+          "cross_novel_count": 3,
+          "cross_raw_count": 3,
+          "cross_unique_count": 3,
+          "duplicate_only": 0,
+          "edge_events": 573,
+          "nonterminal_edges": 319,
+          "novel_opportunities": 3,
+          "overlap_own_current": 0,
+          "prefix_shared": 0,
+          "raw_opportunities": 3,
+          "repeated_other_count": 0,
+          "shared_children": 4,
+          "terminal_visits": 48
+        },
+        {
+          "changed_backup": 3,
+          "cross_novel_count": 3,
+          "cross_raw_count": 3,
+          "cross_unique_count": 3,
+          "duplicate_only": 0,
+          "edge_events": 573,
+          "nonterminal_edges": 319,
+          "novel_opportunities": 3,
+          "overlap_own_current": 0,
+          "prefix_shared": 0,
+          "raw_opportunities": 3,
+          "repeated_other_count": 0,
+          "shared_children": 4,
+          "terminal_visits": 48
+        }
+      ],
+      "us": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "vis": [
+        144,
+        144,
+        144
+      ],
+      "wall": [
+        7.238075,
+        6.943545,
+        6.759328
+      ],
+      "y": [
+        -0.128,
+        -0.128,
+        -0.128
+      ]
+    },
+    {
+      "b": 1,
+      "base": {
+        "cpu": 5.098535,
+        "tail": 2.91,
+        "wall": 4.907832
+      },
+      "cpu": [
+        7.149423,
+        6.150876,
+        7.079965
+      ],
+      "full": 0.0,
+      "group": "TEST",
+      "id": 466,
+      "logged": 0,
+      "n": [
+        64,
+        64,
+        64
+      ],
+      "pre": 0.0,
+      "tail": [
+        3.143,
+        2.996,
+        3.102
+      ],
+      "tele": [
+        {
+          "changed_backup": 0,
+          "cross_novel_count": 18,
+          "cross_raw_count": 22,
+          "cross_unique_count": 19,
+          "duplicate_only": 0,
+          "edge_events": 302,
+          "nonterminal_edges": 193,
+          "novel_opportunities": 10,
+          "overlap_own_current": 1,
+          "prefix_shared": 0,
+          "raw_opportunities": 10,
+          "repeated_other_count": 3,
+          "shared_children": 8,
+          "terminal_visits": 33
+        },
+        {
+          "changed_backup": 13,
+          "cross_novel_count": 29,
+          "cross_raw_count": 37,
+          "cross_unique_count": 31,
+          "duplicate_only": 0,
+          "edge_events": 309,
+          "nonterminal_edges": 194,
+          "novel_opportunities": 13,
+          "overlap_own_current": 2,
+          "prefix_shared": 0,
+          "raw_opportunities": 13,
+          "repeated_other_count": 6,
+          "shared_children": 9,
+          "terminal_visits": 35
+        },
+        {
+          "changed_backup": 13,
+          "cross_novel_count": 29,
+          "cross_raw_count": 37,
+          "cross_unique_count": 31,
+          "duplicate_only": 0,
+          "edge_events": 309,
+          "nonterminal_edges": 194,
+          "novel_opportunities": 13,
+          "overlap_own_current": 2,
+          "prefix_shared": 0,
+          "raw_opportunities": 13,
+          "repeated_other_count": 6,
+          "shared_children": 9,
+          "terminal_visits": 35
+        }
+      ],
+      "us": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "vis": [
+        129,
+        131,
+        131
+      ],
+      "wall": [
+        7.453761,
+        6.558959,
+        7.52451
+      ],
+      "y": [
+        -0.128,
+        -0.128,
+        -0.128
+      ]
+    },
+    {
+      "b": 1,
+      "base": {
+        "cpu": 5.272724,
+        "tail": 3.048,
+        "wall": 4.989731
+      },
+      "cpu": [
+        7.484886,
+        7.738056,
+        7.799411
+      ],
+      "full": 0.5,
+      "group": "TEST",
+      "id": 467,
+      "logged": 2,
+      "n": [
+        64,
+        64,
+        64
+      ],
+      "pre": 0.0,
+      "tail": [
+        3.657,
+        3.411,
+        3.455
+      ],
+      "tele": [
+        {
+          "changed_backup": 0,
+          "cross_novel_count": 0,
+          "cross_raw_count": 0,
+          "cross_unique_count": 0,
+          "duplicate_only": 0,
+          "edge_events": 435,
+          "nonterminal_edges": 210,
+          "novel_opportunities": 0,
+          "overlap_own_current": 0,
+          "prefix_shared": 0,
+          "raw_opportunities": 0,
+          "repeated_other_count": 0,
+          "shared_children": 3,
+          "terminal_visits": 58
+        },
+        {
+          "changed_backup": 0,
+          "cross_novel_count": 0,
+          "cross_raw_count": 0,
+          "cross_unique_count": 0,
+          "duplicate_only": 0,
+          "edge_events": 435,
+          "nonterminal_edges": 210,
+          "novel_opportunities": 0,
+          "overlap_own_current": 0,
+          "prefix_shared": 0,
+          "raw_opportunities": 0,
+          "repeated_other_count": 0,
+          "shared_children": 3,
+          "terminal_visits": 58
+        },
+        {
+          "changed_backup": 0,
+          "cross_novel_count": 0,
+          "cross_raw_count": 0,
+          "cross_unique_count": 0,
+          "duplicate_only": 0,
+          "edge_events": 435,
+          "nonterminal_edges": 210,
+          "novel_opportunities": 0,
+          "overlap_own_current": 0,
+          "prefix_shared": 0,
+          "raw_opportunities": 0,
+          "repeated_other_count": 0,
+          "shared_children": 3,
+          "terminal_visits": 58
+        }
+      ],
+      "us": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "vis": [
+        154,
+        154,
+        154
+      ],
+      "wall": [
+        7.76998,
+        8.139589,
+        8.188718
+      ],
+      "y": [
+        -0.128,
+        -0.128,
+        -0.128
+      ]
+    },
+    {
+      "b": 1,
+      "base": {
+        "cpu": 8.648568,
+        "tail": 4.932,
+        "wall": 7.135627
+      },
+      "cpu": [
+        17.627872,
+        18.190143,
+        17.679938
+      ],
+      "full": 0.0,
+      "group": "TEST",
+      "id": 469,
+      "logged": 0,
+      "n": [
+        52,
+        52,
+        52
+      ],
+      "pre": 0.0,
+      "tail": [
+        4.865,
+        5.994,
+        7.239
+      ],
+      "tele": [
+        {
+          "changed_backup": 0,
+          "cross_novel_count": 6,
+          "cross_raw_count": 7,
+          "cross_unique_count": 6,
+          "duplicate_only": 0,
+          "edge_events": 2737,
+          "nonterminal_edges": 244,
+          "novel_opportunities": 3,
+          "overlap_own_current": 0,
+          "prefix_shared": 0,
+          "raw_opportunities": 3,
+          "repeated_other_count": 1,
+          "shared_children": 2,
+          "terminal_visits": 428
+        },
+        {
+          "changed_backup": 3,
+          "cross_novel_count": 6,
+          "cross_raw_count": 7,
+          "cross_unique_count": 6,
+          "duplicate_only": 0,
+          "edge_events": 2737,
+          "nonterminal_edges": 244,
+          "novel_opportunities": 3,
+          "overlap_own_current": 0,
+          "prefix_shared": 0,
+          "raw_opportunities": 3,
+          "repeated_other_count": 1,
+          "shared_children": 2,
+          "terminal_visits": 428
+        },
+        {
+          "changed_backup": 3,
+          "cross_novel_count": 6,
+          "cross_raw_count": 7,
+          "cross_unique_count": 6,
+          "duplicate_only": 0,
+          "edge_events": 2737,
+          "nonterminal_edges": 244,
+          "novel_opportunities": 3,
+          "overlap_own_current": 0,
+          "prefix_shared": 0,
+          "raw_opportunities": 3,
+          "repeated_other_count": 1,
+          "shared_children": 2,
+          "terminal_visits": 428
+        }
+      ],
+      "us": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "vis": [
+        512,
+        512,
+        512
+      ],
+      "wall": [
+        19.092496,
+        19.785429,
+        20.348921
+      ],
+      "y": [
+        -0.10400000000000001,
+        -0.10400000000000001,
+        -0.10400000000000001
+      ]
+    },
+    {
+      "b": 1,
+      "base": {
+        "cpu": 5.233667,
+        "tail": 3.055,
+        "wall": 5.058468
+      },
+      "cpu": [
+        7.316296,
+        9.254232,
+        7.244488
+      ],
+      "full": 0.0,
+      "group": "TEST",
+      "id": 473,
+      "logged": 2,
+      "n": [
+        64,
+        64,
+        64
+      ],
+      "pre": 0.0,
+      "tail": [
+        3.104,
+        3.941,
+        3.203
+      ],
+      "tele": [
+        {
+          "changed_backup": 0,
+          "cross_novel_count": 22,
+          "cross_raw_count": 22,
+          "cross_unique_count": 22,
+          "duplicate_only": 0,
+          "edge_events": 501,
+          "nonterminal_edges": 369,
+          "novel_opportunities": 3,
+          "overlap_own_current": 0,
+          "prefix_shared": 0,
+          "raw_opportunities": 3,
+          "repeated_other_count": 0,
+          "shared_children": 6,
+          "terminal_visits": 30
+        },
+        {
+          "changed_backup": 8,
+          "cross_novel_count": 94,
+          "cross_raw_count": 94,
+          "cross_unique_count": 94,
+          "duplicate_only": 0,
+          "edge_events": 484,
+          "nonterminal_edges": 372,
+          "novel_opportunities": 8,
+          "overlap_own_current": 0,
+          "prefix_shared": 0,
+          "raw_opportunities": 8,
+          "repeated_other_count": 0,
+          "shared_children": 6,
+          "terminal_visits": 27
+        },
+        {
+          "changed_backup": 8,
+          "cross_novel_count": 94,
+          "cross_raw_count": 94,
+          "cross_unique_count": 94,
+          "duplicate_only": 0,
+          "edge_events": 484,
+          "nonterminal_edges": 372,
+          "novel_opportunities": 8,
+          "overlap_own_current": 0,
+          "prefix_shared": 0,
+          "raw_opportunities": 8,
+          "repeated_other_count": 0,
+          "shared_children": 6,
+          "terminal_visits": 27
+        }
+      ],
+      "us": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "vis": [
+        126,
+        123,
+        123
+      ],
+      "wall": [
+        8.37443,
+        10.591576,
+        7.852723
+      ],
+      "y": [
+        -0.128,
+        -0.128,
+        -0.128
+      ]
+    },
+    {
+      "b": 1,
+      "base": {
+        "cpu": 5.830832,
+        "tail": 3.269,
+        "wall": 5.455376
+      },
+      "cpu": [
+        8.957985,
+        7.228564,
+        7.746603
+      ],
+      "full": 1.0,
+      "group": "TEST",
+      "id": 474,
+      "logged": 2,
+      "n": [
+        64,
+        64,
+        64
+      ],
+      "pre": 1.0,
+      "tail": [
+        3.659,
+        3.306,
+        3.149
+      ],
+      "tele": [
+        {
+          "changed_backup": 0,
+          "cross_novel_count": 40,
+          "cross_raw_count": 41,
+          "cross_unique_count": 40,
+          "duplicate_only": 0,
+          "edge_events": 567,
+          "nonterminal_edges": 287,
+          "novel_opportunities": 15,
+          "overlap_own_current": 0,
+          "prefix_shared": 0,
+          "raw_opportunities": 15,
+          "repeated_other_count": 1,
+          "shared_children": 4,
+          "terminal_visits": 67
+        },
+        {
+          "changed_backup": 14,
+          "cross_novel_count": 18,
+          "cross_raw_count": 18,
+          "cross_unique_count": 18,
+          "duplicate_only": 0,
+          "edge_events": 335,
+          "nonterminal_edges": 274,
+          "novel_opportunities": 14,
+          "overlap_own_current": 0,
+          "prefix_shared": 0,
+          "raw_opportunities": 14,
+          "repeated_other_count": 0,
+          "shared_children": 4,
+          "terminal_visits": 16
+        },
+        {
+          "changed_backup": 14,
+          "cross_novel_count": 18,
+          "cross_raw_count": 18,
+          "cross_unique_count": 18,
+          "duplicate_only": 0,
+          "edge_events": 335,
+          "nonterminal_edges": 274,
+          "novel_opportunities": 14,
+          "overlap_own_current": 0,
+          "prefix_shared": 0,
+          "raw_opportunities": 14,
+          "repeated_other_count": 0,
+          "shared_children": 4,
+          "terminal_visits": 16
+        }
+      ],
+      "us": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "vis": [
+        163,
+        112,
+        112
+      ],
+      "wall": [
+        9.455633,
+        8.1453,
+        8.051507
+      ],
+      "y": [
+        0.872,
+        0.872,
+        0.872
+      ]
+    },
+    {
+      "b": 3,
+      "base": {
+        "cpu": 5.116314,
+        "tail": 2.885,
+        "wall": 4.971789
+      },
+      "cpu": [
+        7.133395,
+        6.98313,
+        8.246643
+      ],
+      "full": 1.0,
+      "group": "TEST",
+      "id": 476,
+      "logged": 1,
+      "n": [
+        64,
+        64,
+        64
+      ],
+      "pre": 1.0,
+      "tail": [
+        3.23,
+        3.105,
+        3.075
+      ],
+      "tele": [
+        {
+          "changed_backup": 0,
+          "cross_novel_count": 29,
+          "cross_raw_count": 29,
+          "cross_unique_count": 29,
+          "duplicate_only": 0,
+          "edge_events": 377,
+          "nonterminal_edges": 266,
+          "novel_opportunities": 8,
+          "overlap_own_current": 0,
+          "prefix_shared": 3,
+          "raw_opportunities": 8,
+          "repeated_other_count": 0,
+          "shared_children": 7,
+          "terminal_visits": 25
+        },
+        {
+          "changed_backup": 11,
+          "cross_novel_count": 26,
+          "cross_raw_count": 26,
+          "cross_unique_count": 26,
+          "duplicate_only": 0,
+          "edge_events": 373,
+          "nonterminal_edges": 262,
+          "novel_opportunities": 11,
+          "overlap_own_current": 0,
+          "prefix_shared": 3,
+          "raw_opportunities": 11,
+          "repeated_other_count": 0,
+          "shared_children": 8,
+          "terminal_visits": 25
+        },
+        {
+          "changed_backup": 11,
+          "cross_novel_count": 26,
+          "cross_raw_count": 26,
+          "cross_unique_count": 26,
+          "duplicate_only": 0,
+          "edge_events": 373,
+          "nonterminal_edges": 262,
+          "novel_opportunities": 11,
+          "overlap_own_current": 0,
+          "prefix_shared": 3,
+          "raw_opportunities": 11,
+          "repeated_other_count": 0,
+          "shared_children": 8,
+          "terminal_visits": 25
+        }
+      ],
+      "us": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "vis": [
+        121,
+        121,
+        121
+      ],
+      "wall": [
+        7.887196,
+        7.320046,
+        8.580728
+      ],
+      "y": [
+        0.872,
+        0.872,
+        0.872
+      ]
+    }
+  ],
+  "selected": "N",
+  "telemetry": {
+    "K24D": {
+      "changed_roots": 49,
+      "novel_exposed": 49,
+      "raw_exposed": 49,
+      "totals": {
+        "changed_backup": 717,
+        "cross_novel_count": 1394,
+        "cross_raw_count": 1781,
+        "cross_unique_count": 1501,
+        "duplicate_only": 19,
+        "edge_events": 36701,
+        "nonterminal_edges": 12580,
+        "novel_opportunities": 717,
+        "overlap_own_current": 107,
+        "prefix_shared": 21,
+        "raw_opportunities": 736,
+        "repeated_other_count": 280,
+        "shared_children": 340,
+        "terminal_visits": 6048
+      }
+    },
+    "K24M": {
+      "changed_roots": 49,
+      "novel_exposed": 49,
+      "raw_exposed": 49,
+      "totals": {
+        "changed_backup": 732,
+        "cross_novel_count": 1422,
+        "cross_raw_count": 1824,
+        "cross_unique_count": 1522,
+        "duplicate_only": 16,
+        "edge_events": 36779,
+        "nonterminal_edges": 12574,
+        "novel_opportunities": 716,
+        "overlap_own_current": 100,
+        "prefix_shared": 21,
+        "raw_opportunities": 732,
+        "repeated_other_count": 302,
+        "shared_children": 339,
+        "terminal_visits": 6059
+      }
+    },
+    "K24N": {
+      "changed_roots": 0,
+      "novel_exposed": 49,
+      "raw_exposed": 49,
+      "totals": {
+        "changed_backup": 0,
+        "cross_novel_count": 1460,
+        "cross_raw_count": 1968,
+        "cross_unique_count": 1586,
+        "duplicate_only": 31,
+        "edge_events": 37624,
+        "nonterminal_edges": 12633,
+        "novel_opportunities": 665,
+        "overlap_own_current": 126,
+        "prefix_shared": 21,
+        "raw_opportunities": 696,
+        "repeated_other_count": 382,
+        "shared_children": 345,
+        "terminal_visits": 6251
+      }
+    }
+  }
+}
