@@ -999,6 +999,7 @@ fn select_core<G, F>(
     reserve_virtual_loss: bool,
     // Parallelism controller (1st-class runtime object)
     par_ctrl: &super::parallel::ParallelismController,
+    axes: Option<&super::four_axis::Hooks>,
     mut apply_selected_move: F,
 ) -> SelectCoreResult<G::Move>
 where
@@ -1044,6 +1045,7 @@ where
             None => n_candidates,
         };
 
+        let n_visible = axes.map_or(n_visible, |h|h.width(&cur_node,n_visible,depth));
         let n_mat = cur_node.materialized_count();
         if n_mat < n_visible {
             if reserve_virtual_loss {
@@ -1063,6 +1065,7 @@ where
             break;
         }
         let edges = &edges_full[..n_edges];
+        let c_puct = axes.map_or(c_puct,|h|h.local_c(edges,c_puct,depth));
 
         let vl_sum: u32 = if reserve_virtual_loss {
             edges
@@ -1260,6 +1263,7 @@ pub fn select<G: GameState>(
         fpu_reduction,
         reserve_virtual_loss,
         par_ctrl,
+        None,
         |state, mv| state.apply_move_in_place_no_undo(mv),
     );
 
@@ -1269,6 +1273,20 @@ pub fn select<G: GameState>(
         leaf_state,
         root_selection_trace: result.root_selection_trace,
     }
+}
+
+// Research-only owned descent; same native selection and materialization core.
+pub fn select_axes<G:GameState>(
+    root:&ArenaRef<MctsNode<G::Move>>,root_state:&G,c_puct:f32,noise:Option<&[f32]>,
+    pw:Option<&PwConfig>,mask:[u64;4],max_depth:usize,tt:&TranspositionTable<G::Move>,
+    exact_terminal_value:bool,fpu_reduction:f32,reserve_virtual_loss:bool,
+    par_ctrl:&super::parallel::ParallelismController,axes:&super::four_axis::Hooks,
+)->SelectResult<G>{
+    let mut leaf_state=root_state.clone();
+    let result=select_core(root,&mut leaf_state,c_puct,noise,pw,mask,max_depth,tt,None,
+        exact_terminal_value,fpu_reduction,reserve_virtual_loss,par_ctrl,Some(axes),
+        |state,mv|state.apply_move_in_place_no_undo(mv));
+    SelectResult{path:result.path,leaf:result.leaf,leaf_state,root_selection_trace:result.root_selection_trace}
 }
 
 #[inline(always)]
@@ -1303,6 +1321,7 @@ pub fn select_in_place<G: GameState>(
         fpu_reduction,
         reserve_virtual_loss,
         par_ctrl,
+        None,
         |state, mv| {
             let undo = state.apply_move_in_place(mv);
             undos.push(undo);
