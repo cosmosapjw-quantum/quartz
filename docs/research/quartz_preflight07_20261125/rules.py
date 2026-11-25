@@ -20,24 +20,28 @@ for line in LINES:
 def win_at(b,a,p,rule):
     assert rule in ADMITTED
     if b[a] not in (0,p):return False
+    exact=rule=='standard'
     for line,i in AT[a]:
-        x=[b[j] if j!=a else p for j in line]
-        start=0
-        for v,g in groupby(x):
-            n=sum(1 for _ in g)
-            if start<=i<start+n and v==p and (n>=5 if rule=='freestyle' else n==5):return True
-            start+=n
+        n=1;j=i-1
+        while j>=0 and b[line[j]]==p:n+=1;j-=1
+        j=i+1
+        while j<len(line) and b[line[j]]==p:n+=1;j+=1
+        if n==5 or not exact and n>5:return True
     return False
-def replay(h,rule):
-    assert rule in ADMITTED
-    b=[0]*N;p=1;winner=None
-    for i,a in enumerate(h):
-        if type(a) is not int or not 0<=a<N or b[a] or winner is not None:raise ValueError('invalid/post-terminal history')
-        b[a]=1 if p==1 else 2
-        if win_at(b,a,b[a],rule):winner=p
-        elif i+1==N:winner=0
-        p=-p
-    return b,p,winner
+class ReplayCursor:
+    def __init__(self,h,rule):
+        assert rule in ADMITTED
+        self.rule=rule;self.board=[0]*N;self.player=1;self.winner=None;self.ply=0
+        for a in h:self.push(a)
+    def push(self,a):
+        b=self.board;p=self.player
+        if type(a) is not int or not 0<=a<N or b[a] or self.winner is not None:raise ValueError('invalid/post-terminal history')
+        b[a]=1 if p==1 else 2;self.ply+=1
+        if win_at(b,a,b[a],self.rule):self.winner=p
+        elif self.ply==N:self.winner=0
+        self.player=-p
+    def snapshot(self):return self.board.copy(),self.player,self.winner
+def replay(h,rule):return ReplayCursor(h,rule).snapshot()
 def proof_reference(b,p,rule):
     """All legal placements, independently compute each successor's reply.
     For scalable verification the line-local opponent set lemma is used;
@@ -48,43 +52,46 @@ def proof_reference(b,p,rule):
     assert legal
     own=[a for a in legal if win_at(b,a,x,rule)]
     opp=[a for a in legal if win_at(b,a,3-x,rule)]
-    rows=[]
+    rows=[];own_set=set(own)
     for a in legal:
-        if a in own:lo,hi,rep=1,1,None
+        if a in own_set:lo,hi,rep=1,1,None
         elif len(legal)==1:lo,hi,rep=0,0,None
         else:
-            rep=next((j for j in opp if j!=a),None)
+            rep=opp[0] if opp and opp[0]!=a else opp[1] if len(opp)>1 else None
             lo,hi=(-1,-1) if rep is not None else (-1,1)
         rows.append([a,lo,hi,rep])
     L=max(x[1] for x in rows);U=max(x[2] for x in rows)
-    d=[max(0,max((v[2] for v in rows if v[0]!=a),default=-1)-l) for a,l,u,rep in rows]
+    # Track largest upper endpoint and largest endpoint on a different action.
+    hi1=-2;hi2=-1;idx=-1
+    for a,l,u,rep in rows:
+        if u>hi1:hi2=hi1;hi1=u;idx=a
+        elif u>hi2:hi2=u
+    d=[max(0,(max(-1,hi2) if a==idx else hi1)-l) for a,l,u,rep in rows]
     risk2=min(d);witness=next((v[0] for v,z in zip(rows,d) if z==0),None)
     return dict(kind='rule_two_ply_v1',own=own,opponent=opp,actions=rows,interval=[L,U],witness=witness,risk2=risk2)
 def rule_key(b,p,rule):
     k=sum(v<<(2*i) for i,v in enumerate(b))|((p==1)<<450)|(RULES[rule]<<451)
     return f'{k:0128x}'
 def features(h):
-    # Same current-player reference in every time plane, independent of native
-    # feature scratch or Zobrist hash. Earlier-than-initial positions empty.
     p=1 if len(h)%2==0 else 2
-    out=[]
-    for t in range(8):
-        b=[0]*N
-        for i,a in enumerate(h[:max(0,len(h)-t)]):b[a]=1+i%2
-        out.extend(float(v==p) for v in b);out.extend(float(v==3-p) for v in b)
-    out.extend([float(p==1)]*N)
+    out=[0.0]*(17*N)
+    for i,a in enumerate(h):
+        color=1+i%2;offset=0 if color==p else N
+        for t in range(min(8,len(h)-i)):out[t*2*N+offset+a]=1.0
+    if p==1:out[-N:]=[1.0]*N
     return out
 def transform(a,k):
     r,c=divmod(a,15)
     if k>=4:c=14-c
     for _ in range(k%4):r,c=c,14-r
     return r*15+c
-def orbit_history(h):return min(tuple(transform(a,k) for a in h) for k in range(8))
+D4=tuple(tuple(transform(a,k) for a in range(N)) for k in range(8))
+def orbit_history(h):return min(tuple(m[a] for a in h) for m in D4)
 def orbit_board(b,p,rule):
     arr=[]
-    for k in range(8):
+    for m in D4:
         a=bytearray(N+2);a[-2]=1 if p==1 else 2;a[-1]=RULES[rule]
-        for i,v in enumerate(b):a[transform(i,k)]=v
+        for i,v in enumerate(b):a[m[i]]=v
         arr.append(bytes(a))
     return min(arr)
 def draw_history():

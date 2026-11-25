@@ -5,7 +5,7 @@ The smoke path is separate and cannot launch a production plan.
 import argparse,collections,fcntl,gzip,hashlib,json,math,os,random,shutil,sqlite3,sys,tempfile,time,subprocess
 from functools import lru_cache
 from pathlib import Path
-from rules import ADMITTED,replay,orbit_history,orbit_board,rule_key
+from rules import ADMITTED,replay,ReplayCursor,orbit_history,orbit_board,rule_key
 from engine import D,ROOT,MODEL,BIN,MODEL_SHA,PYTHON,identity,sha
 from native_smoke import check as check_native
 
@@ -186,42 +186,42 @@ def validate_record(rec,p,job,positions=None):
     require(set(rec)=={'schema','plan_sha256','identity','job','rule','status','reason','winner_black','moves','final_history','record_type'},'game schema keys')
     require(rec['schema']==GAME_SCHEMA and rec['plan_sha256']==digest(p) and rec['identity']==p['identity'] and rec['job']==job and rec['rule']==p['rule'],'record identity mismatch')
     is_smoke=p['schema']==SMOKE_SCHEMA;require(rec['record_type']==('SMOKE_FIXTURE' if is_smoke else 'SELFPLAY' if p['mode']=='SELFPLAY' else 'PAIRED_ARENA'),'record type mismatch')
-    h=list(job['opening']);_,_,w=replay(h,p['rule']);require(w is None,'initial terminal history')
+    h=list(job['opening']);cur=ReplayCursor(h,p['rule']);require(cur.winner is None,'initial terminal history')
     limit=job.get('max_ply',p['max_ply']) if is_smoke else p['max_ply']
     require(len(h)<limit<=225,'invalid game cap')
     for row in rec['moves']:
         require(set(row)=={'ply','player','played_move','behavior_probability','policy_target','z','native'},'move schema')
-        b,player,w0=replay(h,p['rule']);require(w0 is None and len(h)<limit,'search after terminal/cap')
+        b,player,w0=cur.snapshot();require(w0 is None and len(h)<limit,'search after terminal/cap')
         require(row['ply']==len(h) and row['player']==player,'wrong ply/player')
         a=dict(row['native'],history=list(h),board=b,rule=p['rule'])
         require(a['arm']==(job['black_arm'] if player==1 else job['white_arm']) and a['requested_visits']==search_visits(p,a['arm']) and a['threads']==p['threads'] and a['seed']==derive_seed(job['seed'],len(h),'search'),'search config mismatch')
-        check_native(a,h,p['rule'])
+        check_native(a,h,p['rule'],state=(b,player,w0))
         if not is_smoke:require(all(integer(a.get(k),0,2**63-1) for k in ('python_cpu_ns','rust_cpu_ticks')) and integer(a.get('tick_hz'),1,1000000),'missing CPU accounting')
         m,pr,pi=choose(a,job,len(h),p)
         require(row['played_move']==m and row['behavior_probability']==pr and row['policy_target']==pi and m in a['legal'],'behavior/visit target mismatch')
         require(row['z']==z_label(rec['winner_black'],player),'wrong terminal label')
         if positions is not None:positions(b,player,row,h)
-        h.append(m)
-    b,p1,w=replay(h,p['rule'])
+        h.append(m);cur.push(m)
+    b,p1,w=cur.snapshot()
     require(h==rec['final_history'] and rec['winner_black']==w,'terminal replay mismatch')
     require(rec['status']==('COMPLETED' if w is not None else 'CENSORED'),'censoring mismatch')
     require(rec['reason']==('RULE_TERMINAL' if w is not None else 'PLY_CAP'),'termination reason mismatch')
     require(w is not None or len(h)==limit,'incomplete record without cap')
     return dict(plies=len(h),searched=len(rec['moves']),winner=w)
 def play_game(engine,p,job):
-    h=list(job['opening']);moves=[];limit=job.get('max_ply',p['max_ply']) if p['schema']==SMOKE_SCHEMA else p['max_ply']
+    h=list(job['opening']);cur=ReplayCursor(h,p['rule']);moves=[];limit=job.get('max_ply',p['max_ply']) if p['schema']==SMOKE_SCHEMA else p['max_ply']
     while True:
-        b,player,w=replay(h,p['rule'])
+        b,player,w=cur.snapshot()
         if w is not None or len(h)>=limit:break
         arm=job['black_arm'] if player==1 else job['white_arm']
         a=engine.search(h,p['rule'],arm,search_visits(p,arm),p['threads'],derive_seed(job['seed'],len(h),'search'))
-        check_native(a,h,p['rule'])
+        check_native(a,h,p['rule'],state=(b,player,w))
         m,pr,pi=choose(a,job,len(h),p)
         # Exact history/board reconstructible from opening + chosen actions.
         compact={k:v for k,v in a.items() if k not in ('history','board','rule')}
         moves.append(dict(ply=len(h),player=player,played_move=m,behavior_probability=pr,policy_target=pi,z=None,native=compact))
-        h.append(m)
-    _,_,w=replay(h,p['rule'])
+        h.append(m);cur.push(m)
+    _,_,w=cur.snapshot()
     for row in moves:row['z']=z_label(w,row['player'])
     r=dict(schema=GAME_SCHEMA,plan_sha256=digest(p),identity=p['identity'],job=job,rule=p['rule'],status='COMPLETED' if w is not None else 'CENSORED',reason='RULE_TERMINAL' if w is not None else 'PLY_CAP',winner_black=w,moves=moves,final_history=h,record_type='SMOKE_FIXTURE' if p['schema']==SMOKE_SCHEMA else 'SELFPLAY' if p['mode']=='SELFPLAY' else 'PAIRED_ARENA')
     validate_record(r,p,job)

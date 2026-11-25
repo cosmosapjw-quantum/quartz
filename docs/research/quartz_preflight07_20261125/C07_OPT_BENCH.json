@@ -1,0 +1,59 @@
+{
+  "assertions": 1168,
+  "representative_cases": 24,
+  "scope": "pure reference kernels, not native MCTS strength or end-to-end throughput",
+  "timings": {
+    "D4": {
+      "median_speedup": 10.841425325146256,
+      "new_ms": [
+        2.68879,
+        2.616585,
+        2.711462
+      ],
+      "old_ms": [
+        29.150316,
+        29.335051,
+        29.004612
+      ]
+    },
+    "features": {
+      "median_speedup": 8.942636263925195,
+      "new_ms": [
+        3.036782,
+        2.910215,
+        3.018719
+      ],
+      "old_ms": [
+        29.814059,
+        26.995306,
+        26.059231
+      ]
+    },
+    "proof": {
+      "median_speedup": 17.54877054960899,
+      "new_ms": [
+        5.232338,
+        5.141798,
+        7.076986
+      ],
+      "old_ms": [
+        91.821099,
+        92.890683,
+        91.760805
+      ]
+    },
+    "repeated_replay": {
+      "median_speedup": 14.6227613080253,
+      "new_ms": [
+        106.857157,
+        108.543429,
+        107.810667
+      ],
+      "old_ms": [
+        1569.411748,
+        1576.48965,
+        1577.374781
+      ]
+    }
+  }
+}

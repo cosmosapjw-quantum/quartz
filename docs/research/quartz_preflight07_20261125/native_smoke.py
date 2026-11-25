@@ -3,8 +3,8 @@ import json,math,struct
 from pathlib import Path
 from rules import *
 from engine import Engine,D,identity
-def check(a,h,rule,inspect=False,deep=False):
-    b,p,w=replay(h,rule)
+def check(a,h,rule,inspect=False,deep=False,state=None):
+    b,p,w=replay(h,rule) if state is None else state
     assert a['history']==h and a['rule']==rule and a['board']==b and a['player']==p
     assert a['rule_key']==rule_key(b,p,rule) and a['recent']==h[-7:]
     assert a['terminal']==(w is not None) and a['outcome']==(None if w is None else w*p)
