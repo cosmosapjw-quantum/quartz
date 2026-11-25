@@ -78,8 +78,9 @@ mod merge24_tests{
         let mut l=Merge24::default();
         assert_eq!(l.observe(9,(1,0),(20,false),0.5),(0,0,0,None,None));
         assert_eq!(l.observe(9,(2,0),(20,false),0.5),(1,1,0,Some(0.5),None));
-        assert_eq!(l.observe(9,(2,0),(21,false),-0.5),(1,1,1,Some(0.5),Some(0.5)));
+        assert_eq!(l.observe(9,(2,0),(21,false),-0.5),(1,1,0,Some(0.5),None));
         assert_eq!(l.observe(9,(1,0),(22,false),0.),(2,2,1,Some(0.),Some(-0.5)));
+        assert_eq!(l.observe(9,(3,0),(23,false),0.25),(4,3,3,Some(0.125),Some(0.)));
     }
 }
 
