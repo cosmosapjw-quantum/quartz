@@ -1,0 +1,97 @@
+{
+  "broad": {
+    "aggregate_rows": 24,
+    "baseline_parity_recorded": 192,
+    "exact_actions": 485,
+    "group_diagnostics": {
+      "CAL": {
+        "pair_omission": 0,
+        "roots": 32,
+        "third_recovery_any": 0,
+        "third_recovery_full": 0,
+        "third_visible": 32,
+        "third_visited": 12
+      },
+      "TEST": {
+        "pair_omission": 0,
+        "roots": 32,
+        "third_recovery_any": 0,
+        "third_recovery_full": 0,
+        "third_visible": 32,
+        "third_visited": 17
+      },
+      "TRAIN": {
+        "pair_omission": 1,
+        "roots": 32,
+        "third_recovery_any": 1,
+        "third_recovery_full": 1,
+        "third_visible": 32,
+        "third_visited": 5
+      }
+    },
+    "independent_nodes": 43402,
+    "jobs": 96,
+    "requests": 576,
+    "roots": 96,
+    "total": {
+      "NN": 4950,
+      "visits": 27648
+    }
+  },
+  "distinct_accepted_boards": 274,
+  "distinct_attempt_families": 288,
+  "invalid_requests": [
+    {
+      "error": "bad contract"
+    },
+    {
+      "error": "invalid Connect4 column at ply 1"
+    },
+    {
+      "error": "expansion requires three legal moves"
+    },
+    {
+      "error": "unknown field `oracle`, expected one of `cmd`, `history`, `arm`, `cap`, `seed`, `model_path`, `model_identity` at line 1 column 417"
+    }
+  ],
+  "quiet": {
+    "aggregate_rows": 24,
+    "baseline_parity_recorded": 356,
+    "exact_actions": 924,
+    "group_diagnostics": {
+      "CAL": {
+        "pair_omission": 10,
+        "roots": 59,
+        "third_recovery_any": 4,
+        "third_recovery_full": 4,
+        "third_visible": 59,
+        "third_visited": 50
+      },
+      "TEST": {
+        "pair_omission": 9,
+        "roots": 60,
+        "third_recovery_any": 4,
+        "third_recovery_full": 4,
+        "third_visible": 60,
+        "third_visited": 48
+      },
+      "TRAIN": {
+        "pair_omission": 6,
+        "roots": 59,
+        "third_recovery_any": 3,
+        "third_recovery_full": 3,
+        "third_visible": 59,
+        "third_visited": 50
+      }
+    },
+    "independent_nodes": 845135,
+    "jobs": 192,
+    "requests": 1068,
+    "roots": 178,
+    "total": {
+      "NN": 34548,
+      "visits": 51264
+    }
+  },
+  "scope": "independent grid replay of frozen jobs and fresh-family disjointness within K17, exact WDL sign readback, raw counts/means/readouts, all aggregate means; historical exclusions and independent negamax computed in previous stages; not full selection/backup trace"
+}
