@@ -1,0 +1,50 @@
+{
+  "changes": [
+    {
+      "id": 621,
+      "materialized": true,
+      "normal": 5,
+      "prefix": 5,
+      "prior_visits": 1,
+      "reservoir": 2,
+      "target": 2,
+      "u_normal": 0.0,
+      "u_reservoir": 1.0
+    },
+    {
+      "id": 624,
+      "materialized": true,
+      "normal": 2,
+      "prefix": 2,
+      "prior_visits": 1,
+      "reservoir": 5,
+      "target": 5,
+      "u_normal": 0.0,
+      "u_reservoir": 1.0
+    },
+    {
+      "id": 714,
+      "materialized": true,
+      "normal": 5,
+      "prefix": 5,
+      "prior_visits": 1,
+      "reservoir": 0,
+      "target": 0,
+      "u_normal": 0.0,
+      "u_reservoir": 1.0
+    }
+  ],
+  "coverage": {
+    "candidate_list": 61,
+    "materialized": 61,
+    "visited": 54
+  },
+  "malformed_rejected": 4,
+  "parent_normal_target_parity": 61,
+  "parent_prefix_parity": 61,
+  "strata": {
+    "materialized:better": 3,
+    "materialized:roots": 61,
+    "materialized:worse": 0
+  }
+}

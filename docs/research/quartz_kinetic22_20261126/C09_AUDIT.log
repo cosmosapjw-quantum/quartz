@@ -1,0 +1,63 @@
+{
+  "actions": 1222,
+  "all_test_matched": 61,
+  "centered": {
+    "F": {
+      "centered_DR": 0.04436048591374658,
+      "centered_DR_sd": 0.05464856767687904,
+      "centered_IPS": 0.06904918032786884,
+      "centered_IPS_sd": 0.05309758880696634,
+      "full": 0.01639344262295082
+    },
+    "X": {
+      "centered_DR": 0.028927466419122905,
+      "centered_DR_sd": 0.06128196648066754,
+      "centered_IPS": 0.06314754098360655,
+      "centered_IPS_sd": 0.06178135019942822,
+      "full": 0.04918032786885246
+    },
+    "direct": {
+      "centered_DR": 0.04329948921166827,
+      "centered_DR_sd": 0.053488993131313604,
+      "centered_IPS": 0.0702295081967213,
+      "centered_IPS_sd": 0.0529750033593119,
+      "full": 0.01639344262295082
+    },
+    "evsi": {
+      "centered_DR": 0.02957301518775128,
+      "centered_DR_sd": 0.05053567267471474,
+      "centered_IPS": 0.02577049180327869,
+      "centered_IPS_sd": 0.049444101382427004,
+      "full": 0.01639344262295082
+    },
+    "mi": {
+      "centered_DR": 0.04436048591374658,
+      "centered_DR_sd": 0.05464856767687904,
+      "centered_IPS": 0.06904918032786884,
+      "centered_IPS_sd": 0.05309758880696634,
+      "full": 0.01639344262295082
+    },
+    "normal": {
+      "centered_DR": 0.0,
+      "centered_DR_sd": 0.0,
+      "centered_IPS": 0.0,
+      "centered_IPS_sd": 0.0,
+      "full": 0.0
+    }
+  },
+  "channels": 24,
+  "oracle_nodes": 580296,
+  "requests": 802,
+  "roots": 247,
+  "scope": "independent grid/source and ndarray/model/OPE readback; prefix centering is retrospective offline diagnostic only; no test refit",
+  "source_NN": 153399,
+  "source_attempts": 720,
+  "source_counts": {
+    "BLOCK": 1899,
+    "N32": 5183,
+    "UNIFORM": 1732,
+    "WIN": 549
+  },
+  "source_plies": 9363,
+  "states": 2406
+}
