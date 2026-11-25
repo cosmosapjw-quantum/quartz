@@ -1,0 +1,143 @@
+{
+  "host": [
+    {
+      "concurrent_model_workers": true,
+      "end": {
+        "load": [
+          5.11669921875,
+          3.79443359375,
+          3.11376953125
+        ],
+        "mono": 448874.337788396,
+        "swap": {
+          "pswpin": 74427119,
+          "pswpout": 76291942
+        }
+      },
+      "group": "CAL",
+      "max_load": 5.11669921875,
+      "model": "F1",
+      "raw_sha256": "fc80acabd1f52140601aba33c00a07ee5a64eef7b7205875fae1a330a91a31f7",
+      "requests": 8,
+      "seconds": 6.325131579011213,
+      "start": {
+        "load": [
+          4.43017578125,
+          3.638671875,
+          3.06005859375
+        ],
+        "mono": 448868.012656817,
+        "swap": {
+          "pswpin": 74427101,
+          "pswpout": 76291873
+        }
+      },
+      "swap_delta": {
+        "pswpin": 18,
+        "pswpout": 69
+      },
+      "swap_pages_s": 13.754654573304611,
+      "timing_gate": true
+    },
+    {
+      "concurrent_model_workers": true,
+      "end": {
+        "load": [
+          5.11669921875,
+          3.79443359375,
+          3.11376953125
+        ],
+        "mono": 448873.497949473,
+        "swap": {
+          "pswpin": 74427109,
+          "pswpout": 76291942
+        }
+      },
+      "group": "CAL",
+      "max_load": 5.11669921875,
+      "model": "F2",
+      "raw_sha256": "021829389962e10eaadf63edff89078133320cebd6038b6387ebcc84bf205408",
+      "requests": 8,
+      "seconds": 5.489584230992477,
+      "start": {
+        "load": [
+          4.43017578125,
+          3.638671875,
+          3.06005859375
+        ],
+        "mono": 448868.008365242,
+        "swap": {
+          "pswpin": 74427101,
+          "pswpout": 76291873
+        }
+      },
+      "swap_delta": {
+        "pswpin": 8,
+        "pswpout": 69
+      },
+      "swap_pages_s": 14.026563171265696,
+      "timing_gate": true
+    }
+  ],
+  "models": {
+    "F1": {
+      "mean_rank": 30.5,
+      "median_rank": 32.5,
+      "points": {
+        "1": {
+          "exposed": 0,
+          "selected": 0,
+          "visited": 0
+        },
+        "32": {
+          "exposed": 1,
+          "selected": 1,
+          "visited": 1
+        },
+        "8": {
+          "exposed": 0,
+          "selected": 0,
+          "visited": 0
+        }
+      },
+      "ranks": [
+        50,
+        7,
+        34,
+        31
+      ],
+      "roots": 8,
+      "target_roots": 4
+    },
+    "F2": {
+      "mean_rank": 23.25,
+      "median_rank": 29.5,
+      "points": {
+        "1": {
+          "exposed": 0,
+          "selected": 0,
+          "visited": 0
+        },
+        "32": {
+          "exposed": 1,
+          "selected": 1,
+          "visited": 1
+        },
+        "8": {
+          "exposed": 1,
+          "selected": 1,
+          "visited": 1
+        }
+      },
+      "ranks": [
+        32,
+        2,
+        32,
+        27
+      ],
+      "roots": 8,
+      "target_roots": 4
+    }
+  },
+  "selection": "F1 baseline and F2 historical comparator both retained; no model or arm retuning"
+}
