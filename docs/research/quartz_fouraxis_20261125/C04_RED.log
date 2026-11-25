@@ -1,0 +1,28 @@
+
+running 2 tests
+test tests::surprise_and_width ... FAILED
+test tests::actual_incoming_provenance ... FAILED
+
+failures:
+
+---- tests::surprise_and_width stdout ----
+
+thread 'tests::surprise_and_width' (86869) panicked at src/mcts/four_axis_math.rs:16:5:
+assertion failed: local_c(2., &[9, 1], &[0.1, 0.9]) > 2.
+
+---- tests::actual_incoming_provenance stdout ----
+
+thread 'tests::actual_incoming_provenance' (86868) panicked at src/mcts/four_axis_math.rs:23:5:
+assertion `left == right` failed
+  left: None
+ right: Some((0.5, 1, false))
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+
+failures:
+    tests::actual_incoming_provenance
+    tests::surprise_and_width
+
+test result: FAILED. 0 passed; 2 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+exit=101
