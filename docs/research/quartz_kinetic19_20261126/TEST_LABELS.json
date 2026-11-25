@@ -1,0 +1,3067 @@
+{
+  "atlas": "ae12ddf3f84ed8ea72ee918bd035822868af4f64b9f33f61a08cac31d146ba67",
+  "counts": {
+    "EXACT": 85
+  },
+  "frozen": "3060bc8f3947dc7d2d42225ce3645ac5a6f54d7c59f2fc170309c20552986177",
+  "rows": [
+    {
+      "agreement": true,
+      "independent": {
+        "1": 1,
+        "2": 0,
+        "3": -1,
+        "4": 1,
+        "5": -1,
+        "6": -1
+      },
+      "nodes": 3247,
+      "root": {
+        "depth": 24,
+        "family": "37276",
+        "group": "TEST",
+        "history": "516124344626115577116577",
+        "id": 0,
+        "legal": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "tactical": false
+      },
+      "scores": [
+        -1000,
+        7,
+        0,
+        -9,
+        4,
+        -4,
+        -2
+      ],
+      "status": "EXACT"
+    },
+    {
+      "agreement": true,
+      "independent": {
+        "1": -1,
+        "2": -1,
+        "3": 1,
+        "4": 1,
+        "5": -1,
+        "6": -1
+      },
+      "nodes": 599,
+      "root": {
+        "depth": 26,
+        "family": "14363",
+        "group": "TEST",
+        "history": "14363216724171171547657333",
+        "id": 1,
+        "legal": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "tactical": false
+      },
+      "scores": [
+        -1000,
+        -7,
+        -7,
+        6,
+        3,
+        -7,
+        -7
+      ],
+      "status": "EXACT"
+    },
+    {
+      "agreement": true,
+      "independent": {
+        "0": -1,
+        "1": -1,
+        "3": -1,
+        "5": -1
+      },
+      "nodes": 72,
+      "root": {
+        "depth": 28,
+        "family": "37557",
+        "group": "TEST",
+        "history": "3755735651643517747715333641",
+        "id": 2,
+        "legal": [
+          0,
+          1,
+          3,
+          5
+        ],
+        "tactical": false
+      },
+      "scores": [
+        -6,
+        -7,
+        -1000,
+        -5,
+        -1000,
+        -5,
+        -1000
+      ],
+      "status": "EXACT"
+    },
+    {
+      "agreement": true,
+      "independent": {
+        "0": -1,
+        "1": -1,
+        "3": 1,
+        "4": 1,
+        "5": -1
+      },
+      "nodes": 37,
+      "root": {
+        "depth": 24,
+        "family": "15667",
+        "group": "TEST",
+        "history": "732216427753673333117766",
+        "id": 3,
+        "legal": [
+          0,
+          1,
+          3,
+          4,
+          5
+        ],
+        "tactical": false
+      },
+      "scores": [
+        -8,
+        -8,
+        -1000,
+        8,
+        7,
+        -8,
+        -1000
+      ],
+      "status": "EXACT"
+    },
+    {
+      "agreement": true,
+      "independent": {
+        "0": -1,
+        "2": -1,
+        "3": -1,
+        "4": 1,
+        "5": -1,
+        "6": -1
+      },
+      "nodes": 50,
+      "root": {
+        "depth": 26,
+        "family": "36212",
+        "group": "TEST",
+        "history": "36212117123336623677272176",
+        "id": 4,
+        "legal": [
+          0,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "tactical": false
+      },
+      "scores": [
+        -7,
+        -1000,
+        -7,
+        -8,
+        4,
+        -7,
+        -7
+      ],
+      "status": "EXACT"
+    },
+    {
+      "agreement": true,
+      "independent": {
+        "0": -1,
+        "1": 0,
+        "2": -1,
+        "3": -1,
+        "6": 0
+      },
+      "nodes": 4856,
+      "root": {
+        "depth": 24,
+        "family": "43667",
+        "group": "TEST",
+        "history": "436675556321116625765152",
+        "id": 6,
+        "legal": [
+          0,
+          1,
+          2,
+          3,
+          6
+        ],
+        "tactical": false
+      },
+      "scores": [
+        -7,
+        0,
+        -5,
+        -9,
+        -1000,
+        -1000,
+        0
+      ],
+      "status": "EXACT"
+    },
+    {
+      "agreement": true,
+      "independent": {
+        "0": 1,
+        "3": 1,
+        "4": 1,
+        "5": -1,
+        "6": -1
+      },
+      "nodes": 238,
+      "root": {
+        "depth": 26,
+        "family": "43323",
+        "group": "TEST",
+        "history": "43323226131457675226237377",
+        "id": 7,
+        "legal": [
+          0,
+          3,
+          4,
+          5,
+          6
+        ],
+        "tactical": false
+      },
+      "scores": [
+        7,
+        -1000,
+        -1000,
+        7,
+        7,
+        -2,
+        -2
+      ],
+      "status": "EXACT"
+    },
+    {
+      "agreement": true,
+      "independent": {
+        "0": 1,
+        "2": -1,
+        "4": 1
+      },
+      "nodes": 15,
+      "root": {
+        "depth": 28,
+        "family": "42446",
+        "group": "TEST",
+        "history": "4644246226411217762263764777",
+        "id": 8,
+        "legal": [
+          0,
+          2,
+          4
+        ],
+        "tactical": false
+      },
+      "scores": [
+        6,
+        -1000,
+        -7,
+        -1000,
+        5,
+        -1000,
+        -1000
+      ],
+      "status": "EXACT"
+    },
+    {
+      "agreement": true,
+      "independent": {
+        "0": 1,
+        "1": 1,
+        "2": -1,
+        "3": 1,
+        "4": -1,
+        "5": 1
+      },
+      "nodes": 13863,
+      "root": {
+        "depth": 24,
+        "family": "42724",
+        "group": "TEST",
+        "history": "461645777162213467247317",
+        "id": 9,
+        "legal": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "tactical": false
+      },
+      "scores": [
+        2,
+        2,
+        -7,
+        2,
+        -1,
+        2,
+        -1000
+      ],
+      "status": "EXACT"
+    },
+    {
+      "agreement": true,
+      "independent": {
+        "2": -1,
+        "3": 1,
+        "5": -1,
+        "6": -1
+      },
+      "nodes": 243,
+      "root": {
+        "depth": 26,
+        "family": "14615",
+        "group": "TEST",
+        "history": "14615477551762152352512122",
+        "id": 10,
+        "legal": [
+          2,
+          3,
+          5,
+          6
+        ],
+        "tactical": false
+      },
+      "scores": [
+        -1000,
+        -1000,
+        -7,
+        2,
+        -1000,
+        -8,
+        -7
+      ],
+      "status": "EXACT"
+    },
+    {
+      "agreement": true,
+      "independent": {
+        "0": -1,
+        "1": -1,
+        "2": -1,
+        "4": -1,
+        "5": 1,
+        "6": -1
+      },
+      "nodes": 887,
+      "root": {
+        "depth": 28,
+        "family": "22411",
+        "group": "TEST",
+        "history": "6647757556445423413147152113",
+        "id": 11,
+        "legal": [
+          0,
+          1,
+          2,
+          4,
+          5,
+          6
+        ],
+        "tactical": false
+      },
+      "scores": [
+        -6,
+        -1,
+        -6,
+        -1000,
+        -6,
+        2,
+        -6
+      ],
+      "status": "EXACT"
+    },
+    {
+      "agreement": true,
+      "independent": {
+        "1": -1,
+        "2": -1,
+        "3": -1,
+        "4": -1,
+        "5": -1
+      },
+      "nodes": 165,
+      "root": {
+        "depth": 26,
+        "family": "16765",
+        "group": "TEST",
+        "history": "72123611177633511763355775",
+        "id": 13,
+        "legal": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "tactical": false
+      },
+      "scores": [
+        -1000,
+        -7,
+        -7,
+        -8,
+        -7,
+        -3,
+        -1000
+      ],
+      "status": "EXACT"
+    },
+    {
+      "agreement": true,
+      "independent": {
+        "0": -1,
+        "2": -1,
+        "3": -1,
+        "4": -1,
+        "6": -1
+      },
+      "nodes": 1203,
+      "root": {
+        "depth": 28,
+        "family": "16527",
+        "group": "TEST",
+        "history": "1652762465663226352111725753",
+        "id": 14,
+        "legal": [
+          0,
+          2,
+          3,
+          4,
+          6
+        ],
+        "tactical": false
+      },
+      "scores": [
+        -2,
+        -1000,
+        -5,
+        -7,
+        -2,
+        -1000,
+        -2
+      ],
+      "status": "EXACT"
+    },
+    {
+      "agreement": true,
+      "independent": {
+        "0": 1,
+        "1": -1,
+        "4": 1,
+        "5": 1,
+        "6": -1
+      },
+      "nodes": 6434,
+      "root": {
+        "depth": 24,
+        "family": "14645",
+        "group": "TEST",
+        "history": "146452633533443341477651",
+        "id": 15,
+        "legal": [
+          0,
+          1,
+          4,
+          5,
+          6
+        ],
+        "tactical": false
+      },
+      "scores": [
+        3,
+        -2,
+        -1000,
+        -1000,
+        3,
+        3,
+        -9
+      ],
+      "status": "EXACT"
+    },
+    {
+      "agreement": true,
+      "independent": {
+        "1": -1,
+        "2": -1,
+        "3": -1,
+        "5": -1,
+        "6": 1
+      },
+      "nodes": 772,
+      "root": {
+        "depth": 26,
+        "family": "26514",
+        "group": "TEST",
+        "history": "62374566571511537155731216",
+        "id": 16,
+        "legal": [
+          1,
+          2,
+          3,
+          5,
+          6
+        ],
+        "tactical": false
+      },
+      "scores": [
+        -1000,
+        -7,
+        -7,
+        -8,
+        -1000,
+        -7,
+        2
+      ],
+      "status": "EXACT"
+    },
+    {
+      "agreement": true,
+      "independent": {
+        "0": 1,
+        "1": 1,
+        "3": -1,
+        "6": -1
+      },
+      "nodes": 131,
+      "root": {
+        "depth": 28,
+        "family": "23346",
+        "group": "TEST",
+        "history": "6554243556631567362675177333",
+        "id": 17,
+        "legal": [
+          0,
+          1,
+          3,
+          6
+        ],
+        "tactical": false
+      },
+      "scores": [
+        5,
+        5,
+        -1000,
+        -7,
+        -1000,
+        -1000,
+        -4
+      ],
+      "status": "EXACT"
+    },
+    {
+      "agreement": true,
+      "independent": {
+        "0": -1,
+        "1": 1,
+        "2": 1,
+        "3": -1,
+        "5": 1,
+        "6": 1
+      },
+      "nodes": 15430,
+      "root": {
+        "depth": 24,
+        "family": "32364",
+        "group": "TEST",
+        "history": "565247354457136155421171",
+        "id": 18,
+        "legal": [
+          0,
+          1,
+          2,
+          3,
+          5,
+          6
+        ],
+        "tactical": false
+      },
+      "scores": [
+        -8,
+        6,
+        4,
+        -8,
+        -1000,
+        6,
+        8
+      ],
+      "status": "EXACT"
+    },
+    {
+      "agreement": true,
+      "independent": {
+        "0": -1,
+        "1": 1,
+        "2": 1,
+        "5": -1
+      },
+      "nodes": 33,
+      "root": {
+        "depth": 26,
+        "family": "44252",
+        "group": "TEST",
+        "history": "44636572425374272547457755",
+        "id": 19,
+        "legal": [
+          0,
+          1,
+          2,
+          5
+        ],
+        "tactical": false
+      },
+      "scores": [
+        -8,
+        6,
+        6,
+        -1000,
+        -1000,
+        -8,
+        -1000
+      ],
+      "status": "EXACT"
+    },
+    {
+      "agreement": true,
+      "independent": {
+        "0": -1,
+        "3": 1,
+        "5": 1,
+        "6": -1
+      },
+      "nodes": 359,
+      "root": {
+        "depth": 28,
+        "family": "36166",
+        "group": "TEST",
+        "history": "5272273132235316257631656355",
+        "id": 20,
+        "legal": [
+          0,
+          3,
+          5,
+          6
+        ],
+        "tactical": false
+      },
+      "scores": [
+        -2,
+        -1000,
+        -1000,
+        6,
+        -1000,
+        5,
+        -2
+      ],
+      "status": "EXACT"
+    },
+    {
+      "agreement": true,
+      "independent": {
+        "0": -1,
+        "2": -1,
+        "3": -1,
+        "4": -1,
+        "6": -1
+      },
+      "nodes": 297,
+      "root": {
+        "depth": 26,
+        "family": "26352",
+        "group": "TEST",
+        "history": "26352262263376611615317723",
+        "id": 22,
+        "legal": [
+          0,
+          2,
+          3,
+          4,
+          6
+        ],
+        "tactical": false
+      },
+      "scores": [
+        -7,
+        -1000,
+        -7,
+        -8,
+        -7,
+        -1000,
+        -3
+      ],
+      "status": "EXACT"
+    },
+    {
+      "agreement": true,
+      "independent": {
+        "2": 1,
+        "3": 1,
+        "4": 1,
+        "5": -1,
+        "6": 1
+      },
+      "nodes": 114,
+      "root": {
+        "depth": 28,
+        "family": "44373",
+        "group": "TEST",
+        "history": "4451514552242711521273714727",
+        "id": 23,
+        "legal": [
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "tactical": false
+      },
+      "scores": [
+        -1000,
+        -1000,
+        5,
+        4,
+        3,
+        -7,
+        4
+      ],
+      "status": "EXACT"
+    },
+    {
+      "agreement": true,
+      "independent": {
+        "1": 1,
+        "2": 0,
+        "3": 1,
+        "4": 1,
+        "5": 1,
+        "6": 1
+      },
+      "nodes": 21678,
+      "root": {
+        "depth": 24,
+        "family": "11613",
+        "group": "TEST",
+        "history": "116137671213713523342456",
+        "id": 24,
+        "legal": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "tactical": false
+      },
+      "scores": [
+        -1000,
+        7,
+        0,
+        8,
+        8,
+        1,
+        1
+      ],
+      "status": "EXACT"
+    },
+    {
+      "agreement": true,
+      "independent": {
+        "1": -1,
+        "2": -1,
+        "3": -1,
+        "4": -1,
+        "5": -1
+      },
+      "nodes": 1187,
+      "root": {
+        "depth": 26,
+        "family": "41761",
+        "group": "TEST",
+        "history": "47127323214111741567727566",
+        "id": 25,
+        "legal": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "tactical": false
+      },
+      "scores": [
+        -1000,
+        -7,
+        -2,
+        -7,
+        -8,
+        -7,
+        -1000
+      ],
+      "status": "EXACT"
+    },
+    {
+      "agreement": true,
+      "independent": {
+        "0": 1,
+        "2": 1,
+        "3": -1,
+        "5": -1
+      },
+      "nodes": 45,
+      "root": {
+        "depth": 28,
+        "family": "42716",
+        "group": "TEST",
+        "history": "4271654756721726353555722762",
+        "id": 26,
+        "legal": [
+          0,
+          2,
+          3,
+          5
+        ],
+        "tactical": false
+      },
+      "scores": [
+        5,
+        -1000,
+        5,
+        -6,
+        -1000,
+        -6,
+        -1000
+      ],
+      "status": "EXACT"
+    },
+    {
+      "agreement": true,
+      "independent": {
+        "0": 1,
+        "1": 1,
+        "2": 1,
+        "3": 1,
+        "4": 1,
+        "5": 1
+      },
+      "nodes": 15239,
+      "root": {
+        "depth": 24,
+        "family": "27555",
+        "group": "TEST",
+        "history": "613331673375751727275545",
+        "id": 27,
+        "legal": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "tactical": false
+      },
+      "scores": [
+        3,
+        3,
+        3,
+        3,
+        3,
+        2,
+        -1000
+      ],
+      "status": "EXACT"
+    },
+    {
+      "agreement": true,
+      "independent": {
+        "0": -1,
+        "1": -1,
+        "3": -1,
+        "4": 1,
+        "5": -1
+      },
+      "nodes": 1530,
+      "root": {
+        "depth": 26,
+        "family": "14671",
+        "group": "TEST",
+        "history": "14671376335271542367713317",
+        "id": 28,
+        "legal": [
+          0,
+          1,
+          3,
+          4,
+          5
+        ],
+        "tactical": false
+      },
+      "scores": [
+        -7,
+        -2,
+        -1000,
+        -7,
+        7,
+        -7,
+        -1000
+      ],
+      "status": "EXACT"
+    },
+    {
+      "agreement": true,
+      "independent": {
+        "2": -1,
+        "3": 1,
+        "4": 1,
+        "5": 1,
+        "6": -1
+      },
+      "nodes": 349,
+      "root": {
+        "depth": 28,
+        "family": "23667",
+        "group": "TEST",
+        "history": "6522122523411662674711513454",
+        "id": 29,
+        "legal": [
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "tactical": false
+      },
+      "scores": [
+        -1000,
+        -1000,
+        -6,
+        3,
+        2,
+        2,
+        -5
+      ],
+      "status": "EXACT"
+    },
+    {
+      "agreement": true,
+      "independent": {
+        "0": -1,
+        "1": 1,
+        "3": 1,
+        "4": 1,
+        "6": 1
+      },
+      "nodes": 418,
+      "root": {
+        "depth": 24,
+        "family": "24551",
+        "group": "TEST",
+        "history": "643371563162666733223755",
+        "id": 33,
+        "legal": [
+          0,
+          1,
+          3,
+          4,
+          6
+        ],
+        "tactical": false
+      },
+      "scores": [
+        -9,
+        8,
+        -1000,
+        8,
+        5,
+        -1000,
+        4
+      ],
+      "status": "EXACT"
+    },
+    {
+      "agreement": true,
+      "independent": {
+        "0": -1,
+        "1": -1,
+        "2": 1,
+        "4": -1,
+        "5": -1,
+        "6": -1
+      },
+      "nodes": 214,
+      "root": {
+        "depth": 26,
+        "family": "24244",
+        "group": "TEST",
+        "history": "24244164327545642723313656",
+        "id": 34,
+        "legal": [
+          0,
+          1,
+          2,
+          4,
+          5,
+          6
+        ],
+        "tactical": false
+      },
+      "scores": [
+        -8,
+        -4,
+        3,
+        -1000,
+        -7,
+        -4,
+        -8
+      ],
+      "status": "EXACT"
+    },
+    {
+      "agreement": true,
+      "independent": {
+        "1": 0,
+        "2": 0,
+        "4": 0,
+        "5": 0
+      },
+      "nodes": 3029,
+      "root": {
+        "depth": 28,
+        "family": "42164",
+        "group": "TEST",
+        "history": "4672433776345771711144411255",
+        "id": 35,
+        "legal": [
+          1,
+          2,
+          4,
+          5
+        ],
+        "tactical": false
+      },
+      "scores": [
+        -1000,
+        0,
+        0,
+        -1000,
+        0,
+        0,
+        -1000
+      ],
+      "status": "EXACT"
+    },
+    {
+      "agreement": true,
+      "independent": {
+        "0": -1,
+        "1": -1,
+        "4": -1,
+        "5": -1,
+        "6": -1
+      },
+      "nodes": 9435,
+      "root": {
+        "depth": 24,
+        "family": "43423",
+        "group": "TEST",
+        "history": "454657333443433242222777",
+        "id": 36,
+        "legal": [
+          0,
+          1,
+          4,
+          5,
+          6
+        ],
+        "tactical": false
+      },
+      "scores": [
+        -2,
+        -2,
+        -1000,
+        -1000,
+        -9,
+        -2,
+        -2
+      ],
+      "status": "EXACT"
+    },
+    {
+      "agreement": true,
+      "independent": {
+        "0": 1,
+        "2": 1,
+        "3": 1,
+        "6": -1
+      },
+      "nodes": 305,
+      "root": {
+        "depth": 26,
+        "family": "33253",
+        "group": "TEST",
+        "history": "55635216265725667562244244",
+        "id": 37,
+        "legal": [
+          0,
+          2,
+          3,
+          6
+        ],
+        "tactical": false
+      },
+      "scores": [
+        7,
+        -1000,
+        7,
+        2,
+        -1000,
+        -1000,
+        -8
+      ],
+      "status": "EXACT"
+    },
+    {
+      "agreement": true,
+      "independent": {
+        "1": -1,
+        "2": -1,
+        "4": -1,
+        "6": -1
+      },
+      "nodes": 62,
+      "root": {
+        "depth": 28,
+        "family": "41676",
+        "group": "TEST",
+        "history": "4167666126641341234445511772",
+        "id": 38,
+        "legal": [
+          1,
+          2,
+          4,
+          6
+        ],
+        "tactical": false
+      },
+      "scores": [
+        -1000,
+        -4,
+        -7,
+        -1000,
+        -7,
+        -1000,
+        -6
+      ],
+      "status": "EXACT"
+    },
+    {
+      "agreement": true,
+      "independent": {
+        "0": -1,
+        "1": -1,
+        "2": -1,
+        "3": 1,
+        "6": 1
+      },
+      "nodes": 4169,
+      "root": {
+        "depth": 24,
+        "family": "25527",
+        "group": "TEST",
+        "history": "255276326146555617216576",
+        "id": 39,
+        "legal": [
+          0,
+          1,
+          2,
+          3,
+          6
+        ],
+        "tactical": false
+      },
+      "scores": [
+        -2,
+        -2,
+        -2,
+        3,
+        -1000,
+        -1000,
+        3
+      ],
+      "status": "EXACT"
+    },
+    {
+      "agreement": true,
+      "independent": {
+        "1": -1,
+        "2": -1,
+        "3": -1,
+        "5": -1
+      },
+      "nodes": 195,
+      "root": {
+        "depth": 26,
+        "family": "34212",
+        "group": "TEST",
+        "history": "54676117554145167771571522",
+        "id": 40,
+        "legal": [
+          1,
+          2,
+          3,
+          5
+        ],
+        "tactical": false
+      },
+      "scores": [
+        -1000,
+        -7,
+        -2,
+        -8,
+        -1000,
+        -2,
+        -1000
+      ],
+      "status": "EXACT"
+    },
+    {
+      "agreement": true,
+      "independent": {
+        "0": 0,
+        "1": 1,
+        "2": 1,
+        "3": 1,
+        "4": -1,
+        "5": -1
+      },
+      "nodes": 12312,
+      "root": {
+        "depth": 26,
+        "family": "37543",
+        "group": "TEST",
+        "history": "37543472215173116623474577",
+        "id": 43,
+        "legal": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "tactical": false
+      },
+      "scores": [
+        0,
+        1,
+        1,
+        1,
+        -3,
+        -1,
+        -1000
+      ],
+      "status": "EXACT"
+    },
+    {
+      "agreement": true,
+      "independent": {
+        "0": -1,
+        "1": -1,
+        "2": -1,
+        "5": -1,
+        "6": -1
+      },
+      "nodes": 65796,
+      "root": {
+        "depth": 24,
+        "family": "34343",
+        "group": "TEST",
+        "history": "545455422411624646372551",
+        "id": 45,
+        "legal": [
+          0,
+          1,
+          2,
+          5,
+          6
+        ],
+        "tactical": false
+      },
+      "scores": [
+        -6,
+        -8,
+        -7,
+        -1000,
+        -1000,
+        -8,
+        -8
+      ],
+      "status": "EXACT"
+    },
+    {
+      "agreement": true,
+      "independent": {
+        "1": -1,
+        "2": 1,
+        "3": 1,
+        "4": -1,
+        "5": 1
+      },
+      "nodes": 5032,
+      "root": {
+        "depth": 26,
+        "family": "16157",
+        "group": "TEST",
+        "history": "16157671454167727374421122",
+        "id": 46,
+        "legal": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "tactical": false
+      },
+      "scores": [
+        -1000,
+        -2,
+        3,
+        3,
+        -2,
+        7,
+        -1000
+      ],
+      "status": "EXACT"
+    },
+    {
+      "agreement": true,
+      "independent": {
+        "0": -1,
+        "1": -1,
+        "3": -1,
+        "4": -1,
+        "5": -1
+      },
+      "nodes": 418,
+      "root": {
+        "depth": 24,
+        "family": "32122",
+        "group": "TEST",
+        "history": "321224617177331337623677",
+        "id": 48,
+        "legal": [
+          0,
+          1,
+          3,
+          4,
+          5
+        ],
+        "tactical": false
+      },
+      "scores": [
+        -8,
+        -8,
+        -1000,
+        -3,
+        -9,
+        -8,
+        -1000
+      ],
+      "status": "EXACT"
+    },
+    {
+      "agreement": true,
+      "independent": {
+        "0": 1,
+        "2": 1,
+        "3": 1,
+        "4": 1,
+        "5": 1,
+        "6": 1
+      },
+      "nodes": 142,
+      "root": {
+        "depth": 26,
+        "family": "31636",
+        "group": "TEST",
+        "history": "57252153166732221266776173",
+        "id": 49,
+        "legal": [
+          0,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "tactical": false
+      },
+      "scores": [
+        6,
+        -1000,
+        6,
+        7,
+        6,
+        6,
+        6
+      ],
+      "status": "EXACT"
+    },
+    {
+      "agreement": true,
+      "independent": {
+        "0": -1,
+        "3": -1,
+        "5": -1
+      },
+      "nodes": 19,
+      "root": {
+        "depth": 28,
+        "family": "27551",
+        "group": "TEST",
+        "history": "6133713572623725275372753552",
+        "id": 50,
+        "legal": [
+          0,
+          3,
+          5
+        ],
+        "tactical": false
+      },
+      "scores": [
+        -6,
+        -1000,
+        -1000,
+        -7,
+        -1000,
+        -5,
+        -1000
+      ],
+      "status": "EXACT"
+    },
+    {
+      "agreement": true,
+      "independent": {
+        "0": -1,
+        "1": -1,
+        "2": -1,
+        "3": -1,
+        "5": -1
+      },
+      "nodes": 66,
+      "root": {
+        "depth": 24,
+        "family": "13336",
+        "group": "TEST",
+        "history": "755524743155236361577717",
+        "id": 51,
+        "legal": [
+          0,
+          1,
+          2,
+          3,
+          5
+        ],
+        "tactical": false
+      },
+      "scores": [
+        -8,
+        -9,
+        -8,
+        -7,
+        -1000,
+        -9,
+        -1000
+      ],
+      "status": "EXACT"
+    },
+    {
+      "agreement": true,
+      "independent": {
+        "0": -1,
+        "2": -1,
+        "3": -1,
+        "4": -1
+      },
+      "nodes": 107,
+      "root": {
+        "depth": 26,
+        "family": "22111",
+        "group": "TEST",
+        "history": "66777464262232171721674264",
+        "id": 52,
+        "legal": [
+          0,
+          2,
+          3,
+          4
+        ],
+        "tactical": false
+      },
+      "scores": [
+        -7,
+        -1000,
+        -7,
+        -7,
+        -8,
+        -1000,
+        -1000
+      ],
+      "status": "EXACT"
+    },
+    {
+      "agreement": true,
+      "independent": {
+        "0": -1,
+        "1": -1,
+        "2": -1,
+        "4": -1,
+        "5": -1,
+        "6": -1
+      },
+      "nodes": 27,
+      "root": {
+        "depth": 28,
+        "family": "15442",
+        "group": "TEST",
+        "history": "1544231677432442546756763271",
+        "id": 53,
+        "legal": [
+          0,
+          1,
+          2,
+          4,
+          5,
+          6
+        ],
+        "tactical": false
+      },
+      "scores": [
+        -6,
+        -6,
+        -7,
+        -1000,
+        -7,
+        -6,
+        -6
+      ],
+      "status": "EXACT"
+    },
+    {
+      "agreement": true,
+      "independent": {
+        "0": 1,
+        "3": 1,
+        "4": 1,
+        "6": 1
+      },
+      "nodes": 37,
+      "root": {
+        "depth": 26,
+        "family": "37262",
+        "group": "TEST",
+        "history": "37262633627636263722311177",
+        "id": 55,
+        "legal": [
+          0,
+          3,
+          4,
+          6
+        ],
+        "tactical": false
+      },
+      "scores": [
+        6,
+        -1000,
+        -1000,
+        7,
+        7,
+        -1000,
+        6
+      ],
+      "status": "EXACT"
+    },
+    {
+      "agreement": true,
+      "independent": {
+        "0": -1,
+        "1": -1,
+        "4": -1
+      },
+      "nodes": 38,
+      "root": {
+        "depth": 28,
+        "family": "15145",
+        "group": "TEST",
+        "history": "7374344366634664165734772723",
+        "id": 56,
+        "legal": [
+          0,
+          1,
+          4
+        ],
+        "tactical": false
+      },
+      "scores": [
+        -5,
+        -4,
+        -1000,
+        -1000,
+        -7,
+        -1000,
+        -1000
+      ],
+      "status": "EXACT"
+    },
+    {
+      "agreement": true,
+      "independent": {
+        "0": -1,
+        "2": -1,
+        "4": -1,
+        "5": -1,
+        "6": -1
+      },
+      "nodes": 89,
+      "root": {
+        "depth": 26,
+        "family": "23424",
+        "group": "TEST",
+        "history": "65464374427447267762262321",
+        "id": 58,
+        "legal": [
+          0,
+          2,
+          4,
+          5,
+          6
+        ],
+        "tactical": false
+      },
+      "scores": [
+        -7,
+        -1000,
+        -7,
+        -1000,
+        -8,
+        -7,
+        -7
+      ],
+      "status": "EXACT"
+    },
+    {
+      "agreement": true,
+      "independent": {
+        "0": 1,
+        "1": 1,
+        "3": 1,
+        "5": 1,
+        "6": 1
+      },
+      "nodes": 100,
+      "root": {
+        "depth": 28,
+        "family": "36554",
+        "group": "TEST",
+        "history": "5233461565473755253371377166",
+        "id": 59,
+        "legal": [
+          0,
+          1,
+          3,
+          5,
+          6
+        ],
+        "tactical": false
+      },
+      "scores": [
+        5,
+        5,
+        -1000,
+        6,
+        -1000,
+        4,
+        4
+      ],
+      "status": "EXACT"
+    },
+    {
+      "agreement": true,
+      "independent": {
+        "0": 1,
+        "1": 1,
+        "2": 1,
+        "3": -1,
+        "4": 1,
+        "5": 1,
+        "6": -1
+      },
+      "nodes": 1016,
+      "root": {
+        "depth": 24,
+        "family": "25713",
+        "group": "TEST",
+        "history": "257136464477525332472472",
+        "id": 60,
+        "legal": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "tactical": false
+      },
+      "scores": [
+        3,
+        4,
+        7,
+        -5,
+        8,
+        7,
+        -5
+      ],
+      "status": "EXACT"
+    },
+    {
+      "agreement": true,
+      "independent": {
+        "0": -1,
+        "1": -1,
+        "2": 1,
+        "3": 1,
+        "4": 1,
+        "5": 1
+      },
+      "nodes": 3807,
+      "root": {
+        "depth": 26,
+        "family": "12571",
+        "group": "TEST",
+        "history": "12571674742357277166613212",
+        "id": 61,
+        "legal": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "tactical": false
+      },
+      "scores": [
+        -2,
+        -2,
+        5,
+        4,
+        6,
+        1,
+        -1000
+      ],
+      "status": "EXACT"
+    },
+    {
+      "agreement": true,
+      "independent": {
+        "1": -1,
+        "2": -1,
+        "4": -1,
+        "6": -1
+      },
+      "nodes": 1305,
+      "root": {
+        "depth": 28,
+        "family": "27125",
+        "group": "TEST",
+        "history": "6176346645144626711224411722",
+        "id": 62,
+        "legal": [
+          1,
+          2,
+          4,
+          6
+        ],
+        "tactical": false
+      },
+      "scores": [
+        -1000,
+        -3,
+        -3,
+        -1000,
+        -1,
+        -1000,
+        -4
+      ],
+      "status": "EXACT"
+    },
+    {
+      "agreement": true,
+      "independent": {
+        "0": -1,
+        "1": -1,
+        "2": -1,
+        "3": -1,
+        "4": -1,
+        "6": -1
+      },
+      "nodes": 183,
+      "root": {
+        "depth": 24,
+        "family": "14752",
+        "group": "TEST",
+        "history": "147524713665234661636454",
+        "id": 63,
+        "legal": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          6
+        ],
+        "tactical": false
+      },
+      "scores": [
+        -8,
+        -9,
+        -8,
+        -8,
+        -8,
+        -1000,
+        -9
+      ],
+      "status": "EXACT"
+    },
+    {
+      "agreement": true,
+      "independent": {
+        "0": -1,
+        "1": -1,
+        "3": -1,
+        "4": -1,
+        "5": -1,
+        "6": -1
+      },
+      "nodes": 115,
+      "root": {
+        "depth": 28,
+        "family": "22524",
+        "group": "TEST",
+        "history": "6636453373511121322755235472",
+        "id": 65,
+        "legal": [
+          0,
+          1,
+          3,
+          4,
+          5,
+          6
+        ],
+        "tactical": false
+      },
+      "scores": [
+        -6,
+        -2,
+        -1000,
+        -7,
+        -6,
+        -6,
+        -6
+      ],
+      "status": "EXACT"
+    },
+    {
+      "agreement": true,
+      "independent": {
+        "0": -1,
+        "1": -1,
+        "2": 1,
+        "3": 1,
+        "4": -1,
+        "5": 1
+      },
+      "nodes": 7274,
+      "root": {
+        "depth": 24,
+        "family": "11147",
+        "group": "TEST",
+        "history": "777412556142432377647546",
+        "id": 66,
+        "legal": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "tactical": false
+      },
+      "scores": [
+        -1,
+        -1,
+        8,
+        2,
+        -8,
+        2,
+        -1000
+      ],
+      "status": "EXACT"
+    },
+    {
+      "agreement": true,
+      "independent": {
+        "1": 1,
+        "2": 1,
+        "3": 1,
+        "4": -1,
+        "6": -1
+      },
+      "nodes": 275,
+      "root": {
+        "depth": 26,
+        "family": "16237",
+        "group": "TEST",
+        "history": "72651172256776611617365125",
+        "id": 67,
+        "legal": [
+          1,
+          2,
+          3,
+          4,
+          6
+        ],
+        "tactical": false
+      },
+      "scores": [
+        -1000,
+        6,
+        7,
+        7,
+        -3,
+        -1000,
+        -3
+      ],
+      "status": "EXACT"
+    },
+    {
+      "agreement": true,
+      "independent": {
+        "1": -1,
+        "2": 1,
+        "3": -1,
+        "6": 1
+      },
+      "nodes": 176,
+      "root": {
+        "depth": 28,
+        "family": "13344",
+        "group": "TEST",
+        "history": "7554411566411556256116247264",
+        "id": 68,
+        "legal": [
+          1,
+          2,
+          3,
+          6
+        ],
+        "tactical": false
+      },
+      "scores": [
+        -1000,
+        -2,
+        5,
+        -2,
+        -1000,
+        -1000,
+        6
+      ],
+      "status": "EXACT"
+    },
+    {
+      "agreement": true,
+      "independent": {
+        "0": -1,
+        "1": -1,
+        "2": 0,
+        "3": 0,
+        "5": 1,
+        "6": -1
+      },
+      "nodes": 30545,
+      "root": {
+        "depth": 24,
+        "family": "27713",
+        "group": "TEST",
+        "history": "611755556723512342145122",
+        "id": 69,
+        "legal": [
+          0,
+          1,
+          2,
+          3,
+          5,
+          6
+        ],
+        "tactical": false
+      },
+      "scores": [
+        -8,
+        -8,
+        0,
+        0,
+        -1000,
+        7,
+        -8
+      ],
+      "status": "EXACT"
+    },
+    {
+      "agreement": true,
+      "independent": {
+        "0": 1,
+        "1": 1,
+        "2": 1,
+        "3": 1,
+        "4": 1,
+        "5": 1
+      },
+      "nodes": 629,
+      "root": {
+        "depth": 26,
+        "family": "43771",
+        "group": "TEST",
+        "history": "43771721734274756132244253",
+        "id": 70,
+        "legal": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "tactical": false
+      },
+      "scores": [
+        2,
+        2,
+        2,
+        2,
+        6,
+        1,
+        -1000
+      ],
+      "status": "EXACT"
+    },
+    {
+      "agreement": true,
+      "independent": {
+        "1": 1,
+        "2": 1,
+        "3": 1,
+        "4": 1,
+        "5": 1
+      },
+      "nodes": 36,
+      "root": {
+        "depth": 28,
+        "family": "15754",
+        "group": "TEST",
+        "history": "1575477776135242611713315533",
+        "id": 71,
+        "legal": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "tactical": false
+      },
+      "scores": [
+        -1000,
+        6,
+        5,
+        6,
+        5,
+        6,
+        -1000
+      ],
+      "status": "EXACT"
+    },
+    {
+      "agreement": true,
+      "independent": {
+        "1": 1,
+        "3": 1,
+        "4": 1,
+        "5": 1,
+        "6": 1
+      },
+      "nodes": 887,
+      "root": {
+        "depth": 24,
+        "family": "27771",
+        "group": "TEST",
+        "history": "611175233733431636771761",
+        "id": 72,
+        "legal": [
+          1,
+          3,
+          4,
+          5,
+          6
+        ],
+        "tactical": false
+      },
+      "scores": [
+        -1000,
+        8,
+        -1000,
+        8,
+        2,
+        2,
+        2
+      ],
+      "status": "EXACT"
+    },
+    {
+      "agreement": true,
+      "independent": {
+        "0": -1,
+        "1": -1,
+        "2": -1,
+        "3": -1
+      },
+      "nodes": 199,
+      "root": {
+        "depth": 26,
+        "family": "31252",
+        "group": "TEST",
+        "history": "57636376527265366735175751",
+        "id": 73,
+        "legal": [
+          0,
+          1,
+          2,
+          3
+        ],
+        "tactical": false
+      },
+      "scores": [
+        -6,
+        -3,
+        -3,
+        -8,
+        -1000,
+        -1000,
+        -1000
+      ],
+      "status": "EXACT"
+    },
+    {
+      "agreement": true,
+      "independent": {
+        "0": 1,
+        "1": 1,
+        "3": 1,
+        "4": 1,
+        "5": 1
+      },
+      "nodes": 727,
+      "root": {
+        "depth": 28,
+        "family": "37731",
+        "group": "TEST",
+        "history": "3773133572252717411617536366",
+        "id": 74,
+        "legal": [
+          0,
+          1,
+          3,
+          4,
+          5
+        ],
+        "tactical": false
+      },
+      "scores": [
+        1,
+        5,
+        -1000,
+        1,
+        1,
+        1,
+        -1000
+      ],
+      "status": "EXACT"
+    },
+    {
+      "agreement": true,
+      "independent": {
+        "1": -1,
+        "2": 1,
+        "3": 1,
+        "6": -1
+      },
+      "nodes": 30,
+      "root": {
+        "depth": 24,
+        "family": "25562",
+        "group": "TEST",
+        "history": "255622165561226611565171",
+        "id": 75,
+        "legal": [
+          1,
+          2,
+          3,
+          6
+        ],
+        "tactical": false
+      },
+      "scores": [
+        -1000,
+        -8,
+        8,
+        6,
+        -1000,
+        -1000,
+        -8
+      ],
+      "status": "EXACT"
+    },
+    {
+      "agreement": true,
+      "independent": {
+        "0": -1,
+        "2": 1,
+        "3": 1,
+        "4": 1,
+        "5": -1,
+        "6": -1
+      },
+      "nodes": 601,
+      "root": {
+        "depth": 26,
+        "family": "27132",
+        "group": "TEST",
+        "history": "27132262223116765134641657",
+        "id": 76,
+        "legal": [
+          0,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "tactical": false
+      },
+      "scores": [
+        -7,
+        -1000,
+        7,
+        7,
+        6,
+        -7,
+        -7
+      ],
+      "status": "EXACT"
+    },
+    {
+      "agreement": true,
+      "independent": {
+        "0": -1,
+        "2": 1,
+        "3": 1,
+        "6": 1
+      },
+      "nodes": 41,
+      "root": {
+        "depth": 28,
+        "family": "33717",
+        "group": "TEST",
+        "history": "3371752242226255166141565566",
+        "id": 77,
+        "legal": [
+          0,
+          2,
+          3,
+          6
+        ],
+        "tactical": false
+      },
+      "scores": [
+        -6,
+        -1000,
+        4,
+        6,
+        -1000,
+        -1000,
+        5
+      ],
+      "status": "EXACT"
+    },
+    {
+      "agreement": true,
+      "independent": {
+        "0": -1,
+        "1": -1,
+        "2": 1,
+        "3": 1,
+        "5": -1,
+        "6": -1
+      },
+      "nodes": 2905,
+      "root": {
+        "depth": 24,
+        "family": "35356",
+        "group": "TEST",
+        "history": "535326717414455255614721",
+        "id": 78,
+        "legal": [
+          0,
+          1,
+          2,
+          3,
+          5,
+          6
+        ],
+        "tactical": false
+      },
+      "scores": [
+        -2,
+        -2,
+        6,
+        8,
+        -1000,
+        -9,
+        -7
+      ],
+      "status": "EXACT"
+    },
+    {
+      "agreement": true,
+      "independent": {
+        "0": 1,
+        "1": 1,
+        "2": 1,
+        "4": 1,
+        "5": -1,
+        "6": 1
+      },
+      "nodes": 90,
+      "root": {
+        "depth": 26,
+        "family": "14561",
+        "group": "TEST",
+        "history": "14561227727144255444175517",
+        "id": 79,
+        "legal": [
+          0,
+          1,
+          2,
+          4,
+          5,
+          6
+        ],
+        "tactical": false
+      },
+      "scores": [
+        6,
+        6,
+        7,
+        -1000,
+        6,
+        -8,
+        6
+      ],
+      "status": "EXACT"
+    },
+    {
+      "agreement": true,
+      "independent": {
+        "1": 1,
+        "2": 1,
+        "4": 1,
+        "5": -1,
+        "6": 1
+      },
+      "nodes": 124,
+      "root": {
+        "depth": 28,
+        "family": "12471",
+        "group": "TEST",
+        "history": "7641741712525174234725514142",
+        "id": 80,
+        "legal": [
+          1,
+          2,
+          4,
+          5,
+          6
+        ],
+        "tactical": false
+      },
+      "scores": [
+        -1000,
+        4,
+        4,
+        -1000,
+        4,
+        -7,
+        4
+      ],
+      "status": "EXACT"
+    },
+    {
+      "agreement": true,
+      "independent": {
+        "0": -1,
+        "2": -1,
+        "3": -1,
+        "4": -1,
+        "5": -1,
+        "6": -1
+      },
+      "nodes": 5917,
+      "root": {
+        "depth": 24,
+        "family": "24521",
+        "group": "TEST",
+        "history": "245215163522372423617767",
+        "id": 81,
+        "legal": [
+          0,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "tactical": false
+      },
+      "scores": [
+        -9,
+        -1000,
+        -8,
+        -7,
+        -8,
+        -1,
+        -8
+      ],
+      "status": "EXACT"
+    },
+    {
+      "agreement": true,
+      "independent": {
+        "1": 1,
+        "2": 1,
+        "3": 1,
+        "4": 1,
+        "5": 1
+      },
+      "nodes": 173,
+      "root": {
+        "depth": 28,
+        "family": "12175",
+        "group": "TEST",
+        "history": "7671312627744313476712211265",
+        "id": 83,
+        "legal": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "tactical": false
+      },
+      "scores": [
+        -1000,
+        3,
+        3,
+        6,
+        5,
+        5,
+        -1000
+      ],
+      "status": "EXACT"
+    },
+    {
+      "agreement": true,
+      "independent": {
+        "0": 1,
+        "1": 1,
+        "2": 1,
+        "3": 1,
+        "5": 1
+      },
+      "nodes": 200,
+      "root": {
+        "depth": 24,
+        "family": "14434",
+        "group": "TEST",
+        "history": "744545175765717175335233",
+        "id": 84,
+        "legal": [
+          0,
+          1,
+          2,
+          3,
+          5
+        ],
+        "tactical": false
+      },
+      "scores": [
+        7,
+        8,
+        6,
+        8,
+        -1000,
+        8,
+        -1000
+      ],
+      "status": "EXACT"
+    },
+    {
+      "agreement": true,
+      "independent": {
+        "0": 1,
+        "3": 1,
+        "4": 1,
+        "5": 1
+      },
+      "nodes": 110,
+      "root": {
+        "depth": 26,
+        "family": "33323",
+        "group": "TEST",
+        "history": "33323423613557227211577277",
+        "id": 85,
+        "legal": [
+          0,
+          3,
+          4,
+          5
+        ],
+        "tactical": false
+      },
+      "scores": [
+        3,
+        -1000,
+        -1000,
+        7,
+        6,
+        7,
+        -1000
+      ],
+      "status": "EXACT"
+    },
+    {
+      "agreement": true,
+      "independent": {
+        "0": -1,
+        "1": -1,
+        "3": -1,
+        "5": -1,
+        "6": -1
+      },
+      "nodes": 80,
+      "root": {
+        "depth": 28,
+        "family": "15243",
+        "group": "TEST",
+        "history": "7364543365561233221355256672",
+        "id": 86,
+        "legal": [
+          0,
+          1,
+          3,
+          5,
+          6
+        ],
+        "tactical": false
+      },
+      "scores": [
+        -3,
+        -5,
+        -1000,
+        -6,
+        -1000,
+        -3,
+        -7
+      ],
+      "status": "EXACT"
+    },
+    {
+      "agreement": true,
+      "independent": {
+        "0": 1,
+        "1": -1,
+        "2": 1,
+        "5": 1,
+        "6": 1
+      },
+      "nodes": 3197,
+      "root": {
+        "depth": 24,
+        "family": "36455",
+        "group": "TEST",
+        "history": "364556435443417425715537",
+        "id": 87,
+        "legal": [
+          0,
+          1,
+          2,
+          5,
+          6
+        ],
+        "tactical": false
+      },
+      "scores": [
+        6,
+        -8,
+        6,
+        -1000,
+        -1000,
+        8,
+        8
+      ],
+      "status": "EXACT"
+    },
+    {
+      "agreement": true,
+      "independent": {
+        "0": -1,
+        "1": 1,
+        "2": 1,
+        "4": 1,
+        "5": 1,
+        "6": 1
+      },
+      "nodes": 1736,
+      "root": {
+        "depth": 26,
+        "family": "16763",
+        "group": "TEST",
+        "history": "72125376363444676744145116",
+        "id": 88,
+        "legal": [
+          0,
+          1,
+          2,
+          4,
+          5,
+          6
+        ],
+        "tactical": false
+      },
+      "scores": [
+        -1,
+        6,
+        6,
+        -1000,
+        7,
+        5,
+        6
+      ],
+      "status": "EXACT"
+    },
+    {
+      "agreement": true,
+      "independent": {
+        "1": 1,
+        "2": -1,
+        "3": 1,
+        "4": -1
+      },
+      "nodes": 36,
+      "root": {
+        "depth": 28,
+        "family": "21651",
+        "group": "TEST",
+        "history": "6723773147467576666114143113",
+        "id": 89,
+        "legal": [
+          1,
+          2,
+          3,
+          4
+        ],
+        "tactical": false
+      },
+      "scores": [
+        -1000,
+        6,
+        -5,
+        5,
+        -7,
+        -1000,
+        -1000
+      ],
+      "status": "EXACT"
+    },
+    {
+      "agreement": true,
+      "independent": {
+        "0": 1,
+        "1": 1,
+        "3": 1,
+        "4": 1,
+        "5": 1,
+        "6": 1
+      },
+      "nodes": 4314,
+      "root": {
+        "depth": 24,
+        "family": "13751",
+        "group": "TEST",
+        "history": "137515667136613323577543",
+        "id": 90,
+        "legal": [
+          0,
+          1,
+          3,
+          4,
+          5,
+          6
+        ],
+        "tactical": false
+      },
+      "scores": [
+        2,
+        7,
+        -1000,
+        8,
+        2,
+        2,
+        2
+      ],
+      "status": "EXACT"
+    },
+    {
+      "agreement": true,
+      "independent": {
+        "0": -1,
+        "1": -1,
+        "2": -1,
+        "4": -1,
+        "5": -1,
+        "6": -1
+      },
+      "nodes": 291,
+      "root": {
+        "depth": 26,
+        "family": "34457",
+        "group": "TEST",
+        "history": "34457311477445271462731221",
+        "id": 91,
+        "legal": [
+          0,
+          1,
+          2,
+          4,
+          5,
+          6
+        ],
+        "tactical": false
+      },
+      "scores": [
+        -7,
+        -7,
+        -7,
+        -1000,
+        -5,
+        -8,
+        -7
+      ],
+      "status": "EXACT"
+    },
+    {
+      "agreement": true,
+      "independent": {
+        "2": 1,
+        "4": 1,
+        "5": -1
+      },
+      "nodes": 26,
+      "root": {
+        "depth": 28,
+        "family": "21317",
+        "group": "TEST",
+        "history": "6757147517712725444222121414",
+        "id": 92,
+        "legal": [
+          2,
+          4,
+          5
+        ],
+        "tactical": false
+      },
+      "scores": [
+        -1000,
+        -1000,
+        6,
+        -1000,
+        4,
+        -7,
+        -1000
+      ],
+      "status": "EXACT"
+    },
+    {
+      "agreement": true,
+      "independent": {
+        "0": -1,
+        "1": -1,
+        "3": -1,
+        "4": -1,
+        "5": -1
+      },
+      "nodes": 2370,
+      "root": {
+        "depth": 24,
+        "family": "16377",
+        "group": "TEST",
+        "history": "163777761772335125213533",
+        "id": 93,
+        "legal": [
+          0,
+          1,
+          3,
+          4,
+          5
+        ],
+        "tactical": false
+      },
+      "scores": [
+        -3,
+        -3,
+        -1000,
+        -6,
+        -3,
+        -3,
+        -1000
+      ],
+      "status": "EXACT"
+    },
+    {
+      "agreement": true,
+      "independent": {
+        "2": 1,
+        "3": 1,
+        "5": 1,
+        "6": 1
+      },
+      "nodes": 57,
+      "root": {
+        "depth": 26,
+        "family": "11427",
+        "group": "TEST",
+        "history": "11427552534556172251177122",
+        "id": 94,
+        "legal": [
+          2,
+          3,
+          5,
+          6
+        ],
+        "tactical": false
+      },
+      "scores": [
+        -1000,
+        -1000,
+        7,
+        6,
+        -1000,
+        7,
+        6
+      ],
+      "status": "EXACT"
+    },
+    {
+      "agreement": true,
+      "independent": {
+        "0": 0,
+        "2": -1,
+        "3": 1,
+        "4": 1,
+        "5": 0
+      },
+      "nodes": 914,
+      "root": {
+        "depth": 28,
+        "family": "11316",
+        "group": "TEST",
+        "history": "7757221422534246127171763466",
+        "id": 95,
+        "legal": [
+          0,
+          2,
+          3,
+          4,
+          5
+        ],
+        "tactical": false
+      },
+      "scores": [
+        0,
+        -1000,
+        -7,
+        4,
+        6,
+        0,
+        -1000
+      ],
+      "status": "EXACT"
+    },
+    {
+      "agreement": true,
+      "independent": {
+        "0": -1,
+        "1": -1,
+        "3": -1,
+        "4": -1,
+        "6": -1
+      },
+      "nodes": 2376,
+      "root": {
+        "depth": 24,
+        "family": "24722",
+        "group": "TEST",
+        "history": "641663376134564162133234",
+        "id": 96,
+        "legal": [
+          0,
+          1,
+          3,
+          4,
+          6
+        ],
+        "tactical": false
+      },
+      "scores": [
+        -8,
+        -8,
+        -1000,
+        -8,
+        -9,
+        -1000,
+        -8
+      ],
+      "status": "EXACT"
+    },
+    {
+      "agreement": true,
+      "independent": {
+        "1": 1,
+        "2": 1,
+        "4": -1,
+        "6": -1
+      },
+      "nodes": 85,
+      "root": {
+        "depth": 28,
+        "family": "43737",
+        "group": "TEST",
+        "history": "4515164114616776415773742646",
+        "id": 98,
+        "legal": [
+          1,
+          2,
+          4,
+          6
+        ],
+        "tactical": false
+      },
+      "scores": [
+        -1000,
+        6,
+        6,
+        -1000,
+        -2,
+        -1000,
+        -4
+      ],
+      "status": "EXACT"
+    },
+    {
+      "agreement": true,
+      "independent": {
+        "0": -1,
+        "1": -1,
+        "2": 1,
+        "3": 1,
+        "4": 1,
+        "6": -1
+      },
+      "nodes": 12087,
+      "root": {
+        "depth": 24,
+        "family": "37361",
+        "group": "TEST",
+        "history": "373616126146545621462312",
+        "id": 99,
+        "legal": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          6
+        ],
+        "tactical": false
+      },
+      "scores": [
+        -8,
+        -1,
+        6,
+        6,
+        7,
+        -1000,
+        -8
+      ],
+      "status": "EXACT"
+    }
+  ]
+}
