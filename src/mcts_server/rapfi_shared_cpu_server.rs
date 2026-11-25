@@ -123,6 +123,8 @@ fn inner(line:&str)->Result<Value,String>{
     if q.cmd!="research_rapfi_shared_search"||q.rule.as_deref()!=Some("freestyle"){return Err("freestyle search only".into());}
     let h=q.history.ok_or("history required")?;let arm=q.arm.ok_or("arm required")?;
     let cap=q.visits.ok_or("visits required")?;let seed=q.seed.ok_or("seed required")?;
+    let exposure=matches!(arm.as_str(),"K15N"|"K15S"|"K15X"|"K15V"|"K15B"|"K15F4"|"K15FH"|"K15XH"|"K15STOP"|"K15LOCK");
+    if exposure&&(![32,96].contains(&cap)||q.prefix.is_some()||q.schedule.is_some()||q.model.is_some()){return Err("bad K15 budget/options".into());}
     let kinetic=matches!(arm.as_str(),"KINETIC"|"KRAW"|"KGIBBS"|"KFLUX");
     if kinetic&&(cap!=96||q.prefix.is_some())||arm=="KINETIC"&&(!q.schedule.as_ref().is_some_and(|v|v.len()==2&&v.iter().all(|&x|x<5))||q.model.is_some())||matches!(arm.as_str(),"KRAW"|"KGIBBS"|"KFLUX")&&(q.schedule.is_some()||!q.model.as_ref().is_some_and(|v|v.valid(&arm)))||!kinetic&&q.model.is_some(){return Err("bad kinetic cap/schedule/model".into());}
     let meta=matches!(arm.as_str(),"META"|"OPEN"|"YOKE"|"MBASE");
@@ -130,7 +132,7 @@ fn inner(line:&str)->Result<Value,String>{
     let p5=matches!(arm.as_str(),"P5PW"|"P5FULL"|"P5Q"|"P5ALLOC");
     if p5&&(![32,48,64,96,128,160,192,256].contains(&cap)||q.prefix.is_some()){return Err("bad P5 budget or prefix".into());}
     let axis=match arm.as_str(){"AX0"=>Some((0,0,0)),"AXS"=>Some((1,0,0)),"AXX"=>Some((2,0,0)),"AXV"=>Some((0,3,0)),"AXB"=>Some((0,0,3)),"AXALL"=>Some((3,3,3)),_=>None};
-    if (!matches!(arm.as_str(),"STANDARD_PW"|"STANDARD_FULL"|"QUARTZ")&&axis.is_none()&&!p5&&!meta&&!kinetic&&!matches!(arm.as_str(),"DS0"|"DSF"|"DSX"|"DSL"|"DSV"|"DSB"|"DSSTOP"))||!(1..=1024).contains(&cap)||h.len()>224||axis.is_some()&&cap!=96{return Err("bad arm/budget/history".into());}
+    if (!matches!(arm.as_str(),"STANDARD_PW"|"STANDARD_FULL"|"QUARTZ")&&axis.is_none()&&!p5&&!meta&&!kinetic&&!exposure&&!matches!(arm.as_str(),"DS0"|"DSF"|"DSX"|"DSL"|"DSV"|"DSB"|"DSSTOP"))||!(1..=1024).contains(&cap)||h.len()>224||axis.is_some()&&cap!=96{return Err("bad arm/budget/history".into());}
     let ds=matches!(arm.as_str(),"DS0"|"DSF"|"DSX"|"DSL"|"DSV"|"DSB"|"DSSTOP");
     if ds&&(cap!=32||!matches!(q.prefix,Some(8|16)))||!ds&&q.prefix.is_some(){return Err("decision arms require cap32 and prefix8/16 only".into());}
     let start=Instant::now();
@@ -152,7 +154,7 @@ fn inner(line:&str)->Result<Value,String>{
     let mut out=json!({"schema":"quartz_rapfi_shared_v1","status":"OK","arm":arm,"rule":"freestyle","history":h,"player":side,"legal":legal,"board":board,"seed":seed,"cap":cap,"proof":proof_json(&p),"evaluator":"rapfi_250615_mix9svq","threads":1});
     // Shared, game-rule-only guard; no advantage attributed to Quartz.
     if let Some(m)=proof::guard(&p){
-        out["kinetic"]=Value::Null;out["meta"]=Value::Null;out["resource"]=Value::Null;out["decision"]=Value::Null;out["axis"]=Value::Null;out["cause"]=json!("GUARDED");out["best"]=json!(m);out["visits"]=json!(0);out["NN_calls"]=json!(0);out["root_eval"]=Value::Null;out["initial"]=Value::Null;out["result"]=Value::Null;out["quartz"]=Value::Null;out["eval_ipc_ns"]=json!(0);out["whole_us"]=json!(start.elapsed().as_micros());return Ok(out);
+        out["exposure"]=Value::Null;out["kinetic"]=Value::Null;out["meta"]=Value::Null;out["resource"]=Value::Null;out["decision"]=Value::Null;out["axis"]=Value::Null;out["cause"]=json!("GUARDED");out["best"]=json!(m);out["visits"]=json!(0);out["NN_calls"]=json!(0);out["root_eval"]=Value::Null;out["initial"]=Value::Null;out["result"]=Value::Null;out["quartz"]=Value::Null;out["eval_ipc_ns"]=json!(0);out["whole_us"]=json!(start.elapsed().as_micros());return Ok(out);
     }
     eval.0.lock().unwrap().reset()?;
     let mut cfg=gomoku15_quartz(variant).with_seed(seed);
@@ -166,8 +168,64 @@ fn inner(line:&str)->Result<Value,String>{
     let engine=MctsEngine::new(s,eval.clone(),cfg);
     let init=engine.four_axis_snapshot();
     let t=Instant::now();
-    let mut axis_output=Value::Null;let mut decision_output=Value::Null;let mut resource_output=Value::Null;let mut meta_output=Value::Null;let mut kinetic_output=Value::Null;
-    let (visits,cause,telemetry)=if kinetic{
+    let mut axis_output=Value::Null;let mut decision_output=Value::Null;let mut resource_output=Value::Null;let mut meta_output=Value::Null;let mut kinetic_output=Value::Null;let mut exposure_output=Value::Null;
+    let (visits,cause,telemetry)=if exposure{
+        use crate::mcts::{four_axis::Hooks,decision_response as dr,kinetic_response as kr,meta_feedback as mf};
+        let v0={let b=eval.0.lock().unwrap();let a=b.first.as_ref().ok_or("missing initial evaluator output")?;(a.w-a.l) as f64};
+        let mut hook=Hooks::new_modes(0,0,5,false).with_gomoku_exact_merge();
+        let pre=8u32;let high=if cap==32{16}else{56};
+        let t0=Instant::now();engine.four_axis_block(pre,1,&hook);
+        let pre_us=t0.elapsed().as_micros();let snap=engine.four_axis_snapshot();let cc=hook.snapshot();
+        let mon=meta_monitor(&snap,&cc,v0);
+        let prior:Vec<_>=snap["candidates"].as_array().unwrap().iter().map(|x|x[1].as_f64().unwrap()).collect();
+        let ca=snap["candidates"].as_array().unwrap();let visible=snap["edges"].as_array().unwrap().len();
+        let (l,rival,hidden)=dr::candidates(&mon.n,visible);
+        let mv=|i:usize|ca[i][0].as_u64().unwrap() as usize;
+        let target=match arm.as_str(){"K15F4"|"K15FH"=>rival,"K15XH"=>hidden,_=>None};
+        let dose=if arm=="K15F4"{4}else{high};
+        let force=target.map(|i|(i,mv(i)));
+        let gg=[mon.phi,4.*mon.uncertainty,mon.js/std::f64::consts::LN_2,mon.hidden,mon.kl_prior,mon.entropy,0.,0.];
+        let feats=std::array::from_fn::<_,3,_>(|k|kr::features(&prior,&mon.n,visible,mon.shared,v0,None,&gg,&[0.;6],k));
+        let prefix=json!({"result":snap,"counters":cc,"monitor":meta_mon_json(&mon),"features":feats,"step_us":pre_us});
+        let mut phases=Vec::new();let mut current=pre;let mut old_mon=mon;
+        let mut locked=false;
+        if arm=="K15LOCK"{
+            while current<cap{
+                if engine.vote_min_distance().is_none_or(|d|d>cap-current){locked=true;break;}
+                let b=(cap-current).min(8);let t0=Instant::now();engine.four_axis_block(b,1,&hook);current+=b;
+                let r=engine.four_axis_snapshot();let c=hook.snapshot();let m=meta_monitor(&r,&c,v0);
+                let f=kr::flux(&old_mon.n,&m.n,&prior);
+                phases.push(json!({"result":r,"counters":c,"flux":f,"monitor":meta_mon_json(&m),"step_us":t0.elapsed().as_micros(),"n":current}));
+                old_mon=m;
+            }
+        }else if arm!="K15STOP"{
+            hook.mask=match arm.as_str(){"K15S"=>1,"K15X"=>2,_=>0};
+            hook.configure_local(0,if arm=="K15V"{3}else{0},if arm=="K15B"{3}else{5},true);
+            if force.is_some(){hook.set_decision_force(force,pre,pre+dose);}
+            let t0=Instant::now();engine.four_axis_block(dose,1,&hook);current+=dose;
+            let r=engine.four_axis_snapshot();let c=hook.snapshot();let m=meta_monitor(&r,&c,v0);
+            let f=kr::flux(&old_mon.n,&m.n,&prior);
+            phases.push(json!({"result":r,"counters":c,"flux":f,"monitor":meta_mon_json(&m),"step_us":t0.elapsed().as_micros(),"n":current}));
+            old_mon=m;
+            if force.is_some(){hook.set_decision_force(None,0,0);}
+            hook.mask=0;hook.configure_local(0,0,5,true);
+            let t0=Instant::now();engine.four_axis_block(cap-current,1,&hook);current=cap;
+            let r=engine.four_axis_snapshot();let c=hook.snapshot();let m=meta_monitor(&r,&c,v0);
+            let f=kr::flux(&old_mon.n,&m.n,&prior);
+            phases.push(json!({"result":r,"counters":c,"flux":f,"monitor":meta_mon_json(&m),"step_us":t0.elapsed().as_micros(),"n":current}));
+            old_mon=m;
+        }
+        let trace=hook.gomoku_backup_trace();let rows=trace.as_array().unwrap();assert_eq!(rows.len(),current as usize);
+        let mut forced=vec![0u32;ca.len()];
+        if let Some((rank,m))=force{
+            for tr in &rows[pre as usize..(pre+dose) as usize]{assert_eq!(tr["path"][0].as_u64(),Some(m as u64));forced[rank]+=1;}
+        }
+        let (raw,sub,w,tv)=dr::injection(&old_mon.n,&forced);
+        assert_eq!(engine.best_move().unwrap() as usize,mv(raw));
+        let min_d=engine.vote_min_distance();if locked{assert!(min_d.is_none_or(|d|d>cap-current));}
+        exposure_output=json!({"prefix":prefix,"phases":phases,"dose":if force.is_some(){dose}else{0},"target":target.map(mv),"target_rank":target,"rival":rival.map(mv),"hidden":hidden.map(mv),"leader":mv(l),"forced":forced,"raw_best":mv(raw),"sub_best":mv(sub),"forced_fraction":w,"injection_tv":tv,"locked":locked,"min_d":min_d,"b_trace":trace});
+        (current,(if locked{"K15_LOCKED"}else if arm=="K15STOP"{"K15_STOPPED"}else{"K15_FIXED"}).to_string(),Value::Null)
+    }else if kinetic{
         use crate::mcts::{four_axis::Hooks,kinetic_response as kr,meta_feedback as mf};
         let v0={let b=eval.0.lock().unwrap();let a=b.first.as_ref().ok_or("missing initial evaluator output")?;(a.w-a.l) as f64};
         let mut hook=Hooks::new_modes(0,0,5,false).with_gomoku_exact_merge();
@@ -330,12 +388,12 @@ fn inner(line:&str)->Result<Value,String>{
     let search_us=t.elapsed().as_micros();let result=engine.four_axis_snapshot();let best=result["best"].as_u64().ok_or("no best move")?;
     assert!(visits>0&&visits<=if arm=="P5ALLOC"{2*cap}else{cap});
     assert_eq!(result["root_n"].as_u64(),Some(visits as u64));
-    if arm!="QUARTZ"&&arm!="DSSTOP"&&!p5{assert_eq!(visits,cap);}
+    if arm!="QUARTZ"&&arm!="DSSTOP"&&arm!="K15STOP"&&arm!="K15LOCK"&&!p5{assert_eq!(visits,cap);}
     let native_calls=engine.evaluator_call_count();
     let (calls,ipc,first)={let b=eval.0.lock().unwrap();(b.calls,b.elapsed_ns,b.first.as_ref().ok_or("missing root NN eval")?.json())};
     assert_eq!(calls,native_calls as u64);
     drop(engine);drop(eval);
-    out["cause"]=json!(cause);out["best"]=json!(best);out["visits"]=json!(visits);out["axis"]=axis_output;out["decision"]=decision_output;out["resource"]=resource_output;out["meta"]=meta_output;out["kinetic"]=kinetic_output;out["NN_calls"]=json!(calls);out["root_eval"]=first;out["initial"]=init;out["result"]=result;out["quartz"]=telemetry;out["search_us"]=json!(search_us);out["eval_ipc_ns"]=json!(ipc);out["whole_us"]=json!(start.elapsed().as_micros());Ok(out)
+    out["cause"]=json!(cause);out["best"]=json!(best);out["visits"]=json!(visits);out["axis"]=axis_output;out["decision"]=decision_output;out["resource"]=resource_output;out["meta"]=meta_output;out["kinetic"]=kinetic_output;out["exposure"]=exposure_output;out["NN_calls"]=json!(calls);out["root_eval"]=first;out["initial"]=init;out["result"]=result;out["quartz"]=telemetry;out["search_us"]=json!(search_us);out["eval_ipc_ns"]=json!(ipc);out["whole_us"]=json!(start.elapsed().as_micros());Ok(out)
 }
 fn meta_monitor(r:&Value,c:&Value,v0:f64)->crate::mcts::meta_feedback::Monitor{
     let ca=r["candidates"].as_array().unwrap();let es=r["edges"].as_array().unwrap();

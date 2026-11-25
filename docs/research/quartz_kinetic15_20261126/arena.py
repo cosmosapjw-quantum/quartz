@@ -81,7 +81,7 @@ def check(a,h,arm,cap,seed):
     if guard is not None:
         assert a['cause']=='GUARDED' and a['best']==guard and a['NN_calls']==a['visits']==0 and a['root_eval'] is None and a['result'] is None and a['quartz'] is None
         return
-    n=a['visits'];assert 1<=n<=(2*cap if arm=='P5ALLOC' else cap) and (arm in ('QUARTZ','DSSTOP','P5PW','P5FULL','P5Q','P5ALLOC') or n==cap)
+    n=a['visits'];assert 1<=n<=(2*cap if arm=='P5ALLOC' else cap) and (arm in ('QUARTZ','DSSTOP','P5PW','P5FULL','P5Q','P5ALLOC','K15STOP','K15LOCK') or n==cap)
     r=a['result'];init=a['initial'];ev=a['root_eval']
     assert ev['board']==''.join(map(str,b)) and ev['player']==p
     wdl=[ev[x] for x in ('win','draw','loss')];pi=ev['policy']
