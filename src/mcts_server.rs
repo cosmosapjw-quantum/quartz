@@ -47,6 +47,8 @@ use fork16_cpu_server::handle_research_gomoku15_fork_cpu;
 #[path = "mcts_server/prior15_cpu_server.rs"]
 mod prior15_cpu_server;
 use prior15_cpu_server::handle_research_gomoku15_prior_cpu;
+#[path = "mcts_server/evidence_cpu_server.rs"]
+mod evidence_cpu_server;
 #[path = "mcts_server/four_axis_cpu_server.rs"]
 mod four_axis_cpu_server;
 #[path = "mcts_server/four_axis_pool_cpu_server.rs"]
@@ -2760,6 +2762,11 @@ pub fn serve() {
         if cmd == "research_gomoku15_long_inspect" || cmd == "research_gomoku15_long_search" {
             emit_stdout_json_value(&gomoku_long_cpu_server::handle(&line));
             if let Some(ring) = global_ring_buffer() { ring.set_cmd_done(true); }
+            continue;
+        }
+        if cmd == "research_connect4_evidence_cpu" {
+            emit_stdout_json_value(&evidence_cpu_server::handle(&line));
+            if let Some(ring) = global_ring_buffer() {ring.set_cmd_done(true);}
             continue;
         }
         if cmd == "research_connect4_fouraxis_local_cpu" {

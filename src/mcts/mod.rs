@@ -6,6 +6,7 @@ pub mod four_axis_math;
 pub mod meta_feedback;
 pub mod kinetic_response;
 pub mod decision_response;
+pub mod evidence_pair;
 pub mod proof_graph;
 pub mod cog02;
 pub mod dynamic10;
