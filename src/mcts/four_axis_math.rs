@@ -130,3 +130,19 @@ mod placement_key_tests{
         }
     }
 }
+
+// P4b: exact finite-budget visit-recommendation reachability.
+pub fn vote_reach(counts:&[u32])->(usize,Vec<Option<u32>>){
+    assert!(!counts.is_empty()&&counts.iter().any(|&v|v>0));
+    (0,vec![None;counts.len()])
+}
+#[cfg(test)]
+mod vote_reach_tests{
+    use super::*;
+    #[test]fn tie_and_hidden(){
+        assert_eq!(vote_reach(&[5,5,0]),(1,vec![Some(1),None,Some(5)]));
+        assert_eq!(vote_reach(&[12,7,0]),(0,vec![None,Some(5),Some(12)]));
+        assert_eq!(vote_reach(&[7,12,0]),(1,vec![Some(6),None,Some(12)]));
+        assert_eq!(vote_reach(&[4]),(0,vec![None]));
+    }
+}

@@ -1,0 +1,21 @@
+
+running 1 test
+test vote_reach_tests::tie_and_hidden ... FAILED
+
+failures:
+
+---- vote_reach_tests::tie_and_hidden stdout ----
+
+thread 'vote_reach_tests::tie_and_hidden' (1265514) panicked at src/mcts/four_axis_math.rs:143:9:
+assertion `left == right` failed
+  left: (0, [None, None, None])
+ right: (1, [Some(1), None, Some(5)])
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+
+failures:
+    vote_reach_tests::tie_and_hidden
+
+test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 5 filtered out; finished in 0.00s
+
+exit=101
