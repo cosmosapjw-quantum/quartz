@@ -79,7 +79,7 @@ def check(a,h,arm,cap,seed):
     if guard is not None:
         assert a['cause']=='GUARDED' and a['best']==guard and a['NN_calls']==a['visits']==0 and a['root_eval'] is None and a['result'] is None and a['quartz'] is None
         return
-    n=a['visits'];assert 1<=n<=cap and (arm in ('QUARTZ','DSSTOP') or n==cap)
+    n=a['visits'];assert 1<=n<=(2*cap if arm=='P5ALLOC' else cap) and (arm in ('QUARTZ','DSSTOP','P5PW','P5FULL','P5Q','P5ALLOC') or n==cap)
     r=a['result'];init=a['initial'];ev=a['root_eval']
     assert ev['board']==''.join(map(str,b)) and ev['player']==p
     wdl=[ev[x] for x in ('win','draw','loss')];pi=ev['policy']
@@ -95,9 +95,9 @@ def check(a,h,arm,cap,seed):
     for e in es:
         z=e['n'];W=e['w'];M=e['m2']
         assert e['vl']==0 and abs(e['vvalue'])<1e-6 and abs(W)<=z+1e-6 and -1e-7<=M<=(z-W*W/z if z else 0)+1e-5
-    if arm=='QUARTZ':assert a['quartz'] is not None and a['quartz']['checks']
+    if arm in ('QUARTZ','P5Q'):assert a['quartz'] is not None and (arm=='P5Q' or a['quartz']['checks'])
     else:assert a['quartz'] is None
-    if arm=='STANDARD_FULL':assert len(es)==len(legal)
+    if arm in ('STANDARD_FULL','P5FULL'):assert len(es)==len(legal)
 def smoke():
     f=fixtures();f['block']=[0,100,2,101,4,102,99,103]
     f['odd']=f['trans_a']+[0]

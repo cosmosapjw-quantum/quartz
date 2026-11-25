@@ -1145,6 +1145,16 @@ impl<G: GameState> MctsEngine<G> {
 
     /// QuartzController와 통합된 run — 통계 자동 갱신, 적응적 정지
     pub fn run_quartz(&self, ctrl: &mut QuartzController) -> SearchStats {
+        self.run_quartz_impl(ctrl,false).0
+    }
+    /// Research-only serial finite-cap recommendation lock. The boolean is
+    /// separate from the legacy controller's halt reason.
+    pub fn run_quartz_vote_locked(&self,ctrl:&mut QuartzController)->(SearchStats,bool){
+        assert!(self.config.temperature==0.&&!self.config.root_forced_win&&self.config.search_policy.is_none());
+        self.run_quartz_impl(ctrl,true)
+    }
+    fn run_quartz_impl(&self, ctrl: &mut QuartzController, vote_lock:bool) -> (SearchStats,bool) {
+        let mut locked=false;
         ctrl.reset();
         self.par_ctrl.set_n_threads(1);
         self.par_ctrl.reset_for_search();
@@ -1172,6 +1182,7 @@ impl<G: GameState> MctsEngine<G> {
                 if self.policy_halt_check(it as u64, 0) {
                     break;
                 }
+                if vote_lock&&rv>=16&&rv%8==0&&self.vote_min_distance().is_none_or(|d|d>limit-rv){locked=true;break;}
                 self.iterate_with_cached_quartz_snapshot(
                     &mut scratch,
                     use_quartz,
@@ -1196,7 +1207,7 @@ impl<G: GameState> MctsEngine<G> {
             self.store_quartz_stats(ctrl.last_stats());
             let rv = self.root.n_total.load(Ordering::Relaxed);
             let _ = ctrl.should_stop(rv, ms);
-            return SearchStats {
+            return (SearchStats {
                 iterations: it,
                 elapsed_ms: ms,
                 nps: if ms > 0 {
@@ -1208,7 +1219,7 @@ impl<G: GameState> MctsEngine<G> {
                 tt_size: self.tt.size(),
                 root_visits: rv,
                 stop_reason: ctrl.stop_reason(),
-            };
+            },locked);
         }
 
         let mut iter_start = Instant::now();
@@ -1247,6 +1258,7 @@ impl<G: GameState> MctsEngine<G> {
             if self.policy_halt_check(it as u64, ms) {
                 break;
             }
+            if vote_lock&&rv>=16&&rv%8==0&&rv<ctrl.max_visits&&self.vote_min_distance().is_none_or(|d|d>ctrl.max_visits-rv){locked=true;break;}
             self.iterate_with_cached_quartz_snapshot(
                 &mut scratch,
                 use_quartz,
@@ -1264,7 +1276,7 @@ impl<G: GameState> MctsEngine<G> {
 
         let ms = start.elapsed().as_millis() as u64;
         let rv = self.root.n_total.load(Ordering::Relaxed);
-        SearchStats {
+        (SearchStats {
             iterations: it,
             elapsed_ms: ms,
             nps: if ms > 0 {
@@ -1276,7 +1288,7 @@ impl<G: GameState> MctsEngine<G> {
             tt_size: self.tt.size(),
             root_visits: rv,
             stop_reason: ctrl.stop_reason(),
-        }
+        },locked)
     }
 
     pub fn run_quartz_auto(

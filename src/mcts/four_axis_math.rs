@@ -150,7 +150,10 @@ mod vote_reach_tests{
 }
 
 // P5 allocation: choose a new finite horizon once, after the shared prefix.
-pub fn allocation_cap(scale:u32,_distance:Option<u32>)->u32{scale}
+pub fn allocation_cap(scale:u32,distance:Option<u32>)->u32{
+    assert!((32..=256).contains(&scale)&&scale%16==0);
+    if distance.is_some_and(|d|d<=4){2*scale}else{scale/2}
+}
 #[cfg(test)]
 mod allocation_cap_tests{
     use super::*;

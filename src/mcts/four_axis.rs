@@ -387,6 +387,14 @@ impl<G:GameState> MctsEngine<G>{
         });}});
         assert_eq!(self.root.n_total.load(Ordering::Acquire),before+delta);
     }
+    /// Quiescent serial root, immutable complete candidate order, no root masks.
+    /// Unmaterialized actions have zero visits. None means no competitor.
+    pub fn vote_min_distance(&self)->Option<u32>{
+        let mut n=vec![0u32;self.root.candidate_count()];
+        for (i,e) in self.root.read_edges().iter().enumerate(){n[i]=e.n.load(Ordering::Acquire);}
+        assert_eq!(n.iter().sum::<u32>(),self.root.n_total.load(Ordering::Acquire));
+        let (_,d)=math::vote_reach(&n);d.into_iter().flatten().min()
+    }
     pub fn four_axis_snapshot(&self)->Value{
         let e:Vec<_>=self.root.read_edges().iter().map(|e|json!({"move":self.root_state.move_to_idx(e.mv),"n":e.n.load(Ordering::Acquire),"w":atomic_f64_load(&e.w),"m2":atomic_f64_load(&e.m2),"prior":e.p,"child_hash":format!("{:016x}",e.child.hash),"vl":e.virtual_losses.load(Ordering::Acquire),"vvalue":atomic_f64_load(&e.virtual_value)})).collect();
         let c:Vec<_>=self.root.candidates.get().map(|c|c.iter().map(|(mv,p)|json!([self.root_state.move_to_idx(*mv),p])).collect()).unwrap_or_default();

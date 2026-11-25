@@ -110,8 +110,10 @@ fn inner(line:&str)->Result<Value,String>{
     if q.cmd!="research_rapfi_shared_search"||q.rule.as_deref()!=Some("freestyle"){return Err("freestyle search only".into());}
     let h=q.history.ok_or("history required")?;let arm=q.arm.ok_or("arm required")?;
     let cap=q.visits.ok_or("visits required")?;let seed=q.seed.ok_or("seed required")?;
+    let p5=matches!(arm.as_str(),"P5PW"|"P5FULL"|"P5Q"|"P5ALLOC");
+    if p5&&(![32,48,64,96,128,160,192,256].contains(&cap)||q.prefix.is_some()){return Err("bad P5 budget or prefix".into());}
     let axis=match arm.as_str(){"AX0"=>Some((0,0,0)),"AXS"=>Some((1,0,0)),"AXX"=>Some((2,0,0)),"AXV"=>Some((0,3,0)),"AXB"=>Some((0,0,3)),"AXALL"=>Some((3,3,3)),_=>None};
-    if (!matches!(arm.as_str(),"STANDARD_PW"|"STANDARD_FULL"|"QUARTZ")&&axis.is_none()&&!matches!(arm.as_str(),"DS0"|"DSF"|"DSX"|"DSL"|"DSV"|"DSB"|"DSSTOP"))||!(1..=1024).contains(&cap)||h.len()>224||axis.is_some()&&cap!=96{return Err("bad arm/budget/history".into());}
+    if (!matches!(arm.as_str(),"STANDARD_PW"|"STANDARD_FULL"|"QUARTZ")&&axis.is_none()&&!p5&&!matches!(arm.as_str(),"DS0"|"DSF"|"DSX"|"DSL"|"DSV"|"DSB"|"DSSTOP"))||!(1..=1024).contains(&cap)||h.len()>224||axis.is_some()&&cap!=96{return Err("bad arm/budget/history".into());}
     let ds=matches!(arm.as_str(),"DS0"|"DSF"|"DSX"|"DSL"|"DSV"|"DSB"|"DSSTOP");
     if ds&&(cap!=32||!matches!(q.prefix,Some(8|16)))||!ds&&q.prefix.is_some(){return Err("decision arms require cap32 and prefix8/16 only".into());}
     let start=Instant::now();
@@ -133,7 +135,7 @@ fn inner(line:&str)->Result<Value,String>{
     let mut out=json!({"schema":"quartz_rapfi_shared_v1","status":"OK","arm":arm,"rule":"freestyle","history":h,"player":side,"legal":legal,"board":board,"seed":seed,"cap":cap,"proof":proof_json(&p),"evaluator":"rapfi_250615_mix9svq","threads":1});
     // Shared, game-rule-only guard; no advantage attributed to Quartz.
     if let Some(m)=proof::guard(&p){
-        out["decision"]=Value::Null;out["axis"]=Value::Null;out["cause"]=json!("GUARDED");out["best"]=json!(m);out["visits"]=json!(0);out["NN_calls"]=json!(0);out["root_eval"]=Value::Null;out["initial"]=Value::Null;out["result"]=Value::Null;out["quartz"]=Value::Null;out["eval_ipc_ns"]=json!(0);out["whole_us"]=json!(start.elapsed().as_micros());return Ok(out);
+        out["resource"]=Value::Null;out["decision"]=Value::Null;out["axis"]=Value::Null;out["cause"]=json!("GUARDED");out["best"]=json!(m);out["visits"]=json!(0);out["NN_calls"]=json!(0);out["root_eval"]=Value::Null;out["initial"]=Value::Null;out["result"]=Value::Null;out["quartz"]=Value::Null;out["eval_ipc_ns"]=json!(0);out["whole_us"]=json!(start.elapsed().as_micros());return Ok(out);
     }
     eval.0.lock().unwrap().reset()?;
     let mut cfg=gomoku15_quartz(variant).with_seed(seed);
@@ -141,14 +143,29 @@ fn inner(line:&str)->Result<Value,String>{
     cfg.vl_mode=crate::mcts::parallel::VlMode::Disabled;
     // The original run_quartz does not use the separate legacy GVOC state.
     cfg.gvoc=None;
-    if arm!="QUARTZ"{cfg.quartz=None;}
-    if arm=="STANDARD_FULL"{cfg.pw=None;}
+    if arm!="QUARTZ"&&arm!="P5Q"{cfg.quartz=None;}
+    if arm=="STANDARD_FULL"||arm=="P5FULL"{cfg.pw=None;}
     let qcfg=cfg.quartz.clone();
     let engine=MctsEngine::new(s,eval.clone(),cfg);
     let init=engine.four_axis_snapshot();
     let t=Instant::now();
-    let mut axis_output=Value::Null;let mut decision_output=Value::Null;
-    let (visits,cause,telemetry)=if ds{
+    let mut axis_output=Value::Null;let mut decision_output=Value::Null;let mut resource_output=Value::Null;
+    let (visits,cause,telemetry)=if p5&&arm!="P5Q"{
+        use crate::mcts::four_axis::Hooks;
+        let hook=Hooks::new_modes(0,0,0,false);
+        engine.four_axis_block(16,1,&hook);
+        let prefix_d=engine.vote_min_distance();
+        let prefix_best=engine.best_move().unwrap();
+        let selected=if arm=="P5ALLOC"{crate::mcts::four_axis_math::allocation_cap(cap,prefix_d)}else{cap};
+        let mut n=16;let mut locked=false;let mut checks=0;
+        while n<selected{
+            checks+=1;
+            if engine.vote_min_distance().is_none_or(|d|d>selected-n){locked=true;break;}
+            let block=8.min(selected-n);engine.four_axis_block(block,1,&hook);n+=block;
+        }
+        resource_output=json!({"selected_cap":selected,"prefix_d":prefix_d,"prefix_best":prefix_best,"hard":if arm=="P5ALLOC"{Some(prefix_d.is_some_and(|d|d<=4))}else{None},"locked":locked,"checks":checks,"final_d":engine.vote_min_distance()});
+        (n,(if locked{"P5_LOCKED"}else{"P5_FIXED"}).to_string(),Value::Null)
+    }else if ds{
         use crate::mcts::four_axis::Hooks;
         use crate::mcts::four_axis_math::vote_reach;
         let pre=q.prefix.unwrap();
@@ -206,23 +223,24 @@ fn inner(line:&str)->Result<Value,String>{
         (96u32,"AXIS_FIXED".to_string(),Value::Null)
     }else if let Some(qcfg)=qcfg{
         let mut ctrl=QuartzController::new(cap,qcfg);
-        let stats=engine.run_quartz(&mut ctrl);
+        let (stats,locked)=if arm=="P5Q"{engine.run_quartz_vote_locked(&mut ctrl)}else{(engine.run_quartz(&mut ctrl),false)};
+        if arm=="P5Q"{resource_output=json!({"selected_cap":cap,"prefix_d":null,"prefix_best":null,"hard":null,"locked":locked,"checks":null,"final_d":engine.vote_min_distance()});}
         let z=ctrl.last_stats();
         let checks=ctrl.halt_telemetry().into_iter().map(|c|json!({"visits":c.root_visits,"elapsed_ms":c.elapsed_ms,"p_flip":c.p_flip,"voc_total":c.voc_total,"voc_focus":c.voc_focus,"voc_expand":c.voc_expand,"voc_merge":c.voc_merge,"channel":c.voc_argmax_channel,"decision":c.decision,"triggered":c.triggered})).collect::<Vec<_>>();
         let sel=engine.selection_telemetry.snapshot();
-        (stats.root_visits,format!("{:?}",stats.stop_reason),json!({"p_flip":z.p_flip,"hbar_eff":z.hbar_eff,"voc_total":z.unified.voc_total,"voc_focus":z.unified.voc_focus,"voc_expand":z.unified.voc_expand,"voc_merge":z.unified.voc_merge,"checks":checks,"root_selects":sel.root_selects,"penalty_abs_sum":sel.selected_penalty_abs_sum,"penalty_mode_invokes":sel.penalty_mode_invoke_count}))
+        (stats.root_visits,if locked{"P5_LOCKED".to_string()}else{format!("{:?}",stats.stop_reason)},json!({"p_flip":z.p_flip,"hbar_eff":z.hbar_eff,"voc_total":z.unified.voc_total,"voc_focus":z.unified.voc_focus,"voc_expand":z.unified.voc_expand,"voc_merge":z.unified.voc_merge,"checks":checks,"root_selects":sel.root_selects,"penalty_abs_sum":sel.selected_penalty_abs_sum,"penalty_mode_invokes":sel.penalty_mode_invoke_count}))
     }else{
         let mut ctrl=FixedIterations::new(cap);let s=engine.run(&mut ctrl);(s.root_visits,format!("{:?}",s.stop_reason),Value::Null)
     };
     let search_us=t.elapsed().as_micros();let result=engine.four_axis_snapshot();let best=result["best"].as_u64().ok_or("no best move")?;
-    assert!(visits>0&&visits<=cap);
+    assert!(visits>0&&visits<=if arm=="P5ALLOC"{2*cap}else{cap});
     assert_eq!(result["root_n"].as_u64(),Some(visits as u64));
-    if arm!="QUARTZ"&&arm!="DSSTOP"{assert_eq!(visits,cap);}
+    if arm!="QUARTZ"&&arm!="DSSTOP"&&!p5{assert_eq!(visits,cap);}
     let native_calls=engine.evaluator_call_count();
     let (calls,ipc,first)={let b=eval.0.lock().unwrap();(b.calls,b.elapsed_ns,b.first.as_ref().ok_or("missing root NN eval")?.json())};
     assert_eq!(calls,native_calls as u64);
     drop(engine);drop(eval);
-    out["cause"]=json!(cause);out["best"]=json!(best);out["visits"]=json!(visits);out["axis"]=axis_output;out["decision"]=decision_output;out["NN_calls"]=json!(calls);out["root_eval"]=first;out["initial"]=init;out["result"]=result;out["quartz"]=telemetry;out["search_us"]=json!(search_us);out["eval_ipc_ns"]=json!(ipc);out["whole_us"]=json!(start.elapsed().as_micros());Ok(out)
+    out["cause"]=json!(cause);out["best"]=json!(best);out["visits"]=json!(visits);out["axis"]=axis_output;out["decision"]=decision_output;out["resource"]=resource_output;out["NN_calls"]=json!(calls);out["root_eval"]=first;out["initial"]=init;out["result"]=result;out["quartz"]=telemetry;out["search_us"]=json!(search_us);out["eval_ipc_ns"]=json!(ipc);out["whole_us"]=json!(start.elapsed().as_micros());Ok(out)
 }
 pub(super) fn handle(line:&str)->Value{match inner(line){Ok(v)=>v,Err(e)=>json!({"error":e})}}
 #[cfg(test)]
