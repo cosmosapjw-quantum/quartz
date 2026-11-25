@@ -1,0 +1,1959 @@
+{
+  "K20_K21_K22_K23_K24_locks": [
+    {
+      "commit": "65599bad4ac3eb723679b870ca62742a196d9d44",
+      "path": "docs/research/quartz_kinetic20_20261126/PLAN.json",
+      "sha256": "3f3803d5d22b5d74753c80e6e90e59e8d51fb7ececdcf8572b66a58039be0790"
+    },
+    {
+      "commit": "65599bad4ac3eb723679b870ca62742a196d9d44",
+      "path": "docs/research/quartz_kinetic20_20261126/COHORT.json",
+      "sha256": "3440dfb9941d0af9d1349fcb3fcb4aab956c54bef66cbcf057640889e6fc6136"
+    },
+    {
+      "commit": "65599bad4ac3eb723679b870ca62742a196d9d44",
+      "path": "docs/research/quartz_kinetic20_20261126/SOURCE.jsonl.gz",
+      "sha256": "e48d7116806352116b95a319564e0313fa245937af238ef61e1e8cb3c7ac0e56"
+    },
+    {
+      "commit": "65599bad4ac3eb723679b870ca62742a196d9d44",
+      "path": "docs/research/quartz_kinetic21_20261126/PLAN.json",
+      "sha256": "3f9a743ee7b6e8405f991aea829ffb63794008b668dabb3cb87f3bd2897a59de"
+    },
+    {
+      "commit": "65599bad4ac3eb723679b870ca62742a196d9d44",
+      "path": "docs/research/quartz_kinetic21_20261126/COHORT.json",
+      "sha256": "631ef1af693fc17bec544f6e2880e80a5afa41058194f9cbde9426ac252b00b1"
+    },
+    {
+      "commit": "65599bad4ac3eb723679b870ca62742a196d9d44",
+      "path": "docs/research/quartz_kinetic21_20261126/SOURCE.jsonl.gz",
+      "sha256": "74f4ed4139adabc8f7c4b150195c63e96d408e4e1817217185111291017067c1"
+    },
+    {
+      "commit": "65599bad4ac3eb723679b870ca62742a196d9d44",
+      "path": "docs/research/quartz_kinetic21_20261126/sequential.py",
+      "sha256": "cec7ac5f7137c2272825bec136d0996480857e8e142c26cf48a980320f75f0fc"
+    },
+    {
+      "commit": "65599bad4ac3eb723679b870ca62742a196d9d44",
+      "path": "docs/research/quartz_kinetic22_20261126/PLAN.json",
+      "sha256": "9039b15ffcc3927883ce66238c2151e79e64e166644510abcd44d26798c970c2"
+    },
+    {
+      "commit": "65599bad4ac3eb723679b870ca62742a196d9d44",
+      "path": "docs/research/quartz_kinetic22_20261126/COHORT.json",
+      "sha256": "6dde5849f2d161b7beffc65870cf662053a6918369e2e5df41ffef10a04d1f8f"
+    },
+    {
+      "commit": "65599bad4ac3eb723679b870ca62742a196d9d44",
+      "path": "docs/research/quartz_kinetic22_20261126/SOURCE.jsonl.gz",
+      "sha256": "a3414158a650c4e3fc990dfae164b237e3495f1c553b0667d2f07eef7605540a"
+    },
+    {
+      "commit": "65599bad4ac3eb723679b870ca62742a196d9d44",
+      "path": "docs/research/quartz_kinetic22_20261126/source_gen.py",
+      "sha256": "2aec1cc663ec6519cbbdef12e20000d16b5a4aca2ab6e3958b309aeb8824ab54"
+    },
+    {
+      "commit": "65599bad4ac3eb723679b870ca62742a196d9d44",
+      "path": "docs/research/quartz_kinetic23_20261126/PLAN.json",
+      "sha256": "f34dc6577f1cdc99e80d5cbf342ff5531a34796d48b9c34d04b5a0589e200ee4"
+    },
+    {
+      "commit": "65599bad4ac3eb723679b870ca62742a196d9d44",
+      "path": "docs/research/quartz_kinetic23_20261126/COHORT.json",
+      "sha256": "3f0b2b7340a4528dec4a6589467ff604c0d9371079c29fb102d8bc9291ed51a8"
+    },
+    {
+      "commit": "65599bad4ac3eb723679b870ca62742a196d9d44",
+      "path": "docs/research/quartz_kinetic23_20261126/SOURCE.jsonl.gz",
+      "sha256": "7718005a94ed90c34caf28e409405f20b7fcb3d738239b9fc071f15efa331077"
+    },
+    {
+      "commit": "65599bad4ac3eb723679b870ca62742a196d9d44",
+      "path": "docs/research/quartz_kinetic23_20261126/source_gen.py",
+      "sha256": "aafe2c6452cda5f6caea1cc56b45d83396ec81dd5f630957eefcc5554ffcceb6"
+    },
+    {
+      "commit": "65599bad4ac3eb723679b870ca62742a196d9d44",
+      "path": "docs/research/quartz_kinetic24_20261126/PLAN.json",
+      "sha256": "9da212aa62ebcf36a8bb0e8101c8072e7457c00c25f3a0a41ce8372015639623"
+    },
+    {
+      "commit": "65599bad4ac3eb723679b870ca62742a196d9d44",
+      "path": "docs/research/quartz_kinetic24_20261126/COHORT.json",
+      "sha256": "667d46d0a111bda85aab2c9291c440840b9ad47a3ac07edc6e70ac6202df3d25"
+    },
+    {
+      "commit": "65599bad4ac3eb723679b870ca62742a196d9d44",
+      "path": "docs/research/quartz_kinetic24_20261126/SOURCE.jsonl.gz",
+      "sha256": "3af06be8155a219209649bdee7321fa6270d725b8692e0a506215c945816461c"
+    },
+    {
+      "commit": "65599bad4ac3eb723679b870ca62742a196d9d44",
+      "path": "docs/research/quartz_kinetic24_20261126/source_gen.py",
+      "sha256": "1e9124fd122a9375f94c23637fed6241693ee707d23765d1aa0502719ad439ad"
+    }
+  ],
+  "historical_boards": 7374,
+  "historical_families": 3868,
+  "history_locks": [
+    {
+      "commit": "b0979f88611b5bf71ba1c06851b1bc1e1be25723",
+      "path": "docs/research/quartz_kinetic16_20261126/C06_COHORT.json",
+      "sha256": "98734c3ab250880234b21abdd32ea6c29485b7181c371e41ba4d7f5a9e669f70"
+    },
+    {
+      "commit": "b0979f88611b5bf71ba1c06851b1bc1e1be25723",
+      "path": "docs/research/quartz_kinetic17_20261126/COHORT.json",
+      "sha256": "0367754b7ba63554361866401b9547406b28946e2e4d32a8f1c72138c65c47ef"
+    },
+    {
+      "commit": "b0979f88611b5bf71ba1c06851b1bc1e1be25723",
+      "path": "docs/research/quartz_kinetic17_20261126/quiet/COHORT.json",
+      "sha256": "53508583f57d0babfa91d118943b8777f8c4bd939230773686fa4da513d7aff5"
+    },
+    {
+      "commit": "b0979f88611b5bf71ba1c06851b1bc1e1be25723",
+      "path": "docs/research/quartz_kinetic18_20261126/COHORT.json",
+      "sha256": "cf5edd2f9442b331bcbe024a679a9336ef4347be365c1e5958e2f79da1ec8519"
+    },
+    {
+      "commit": "b0979f88611b5bf71ba1c06851b1bc1e1be25723",
+      "path": "docs/research/quartz_kinetic19_20261126/COHORT.json",
+      "sha256": "b541c7b8f9e3c0f388bb3b597678e8cfd59d234314c16a6a0546eb6f119d3990"
+    }
+  ],
+  "identity": {
+    "binary": "c619a61077d6a88943cb46afae67e62bd5b2c4591527221ead1681f0fcea6bbe",
+    "parent": {
+      "native": "90171712d9d473e67899867863664835895fb237271c8cdec8ef4728cd11f677",
+      "previous": {
+        "binary": "c238b84ca99695e8415974d122b17d576f6b8a30d135d8a5ff92fa88a18bf64b",
+        "book": "38f9834317c37d9516e45a21da598569a5d1556595686593d14c2e63f59c1f38",
+        "model": "161f9e6e26840754384cb47335d1082d837fa014735cbfaa2517209422e29f24",
+        "oracle": "fca2b665b1b3dbd88f2f50a7e0ba86fd8ae253f2861da1ad51cf110c69f741ed",
+        "parent_binary": "dbd544df9b7288f5c54364a6e4818b0484d3c3be22aab072982a9ec7c4955ea7",
+        "source": "ef677ba8d1438dc36b030a1dfc925d876a6e58f1"
+      },
+      "source": "bc13c32ff400d8cfae0709f3cc8f8046a7275573"
+    },
+    "source": "3a5d5fa0f8fa876d177b8aee8b942997361f3301"
+  },
+  "jobs": [
+    {
+      "family": "24621577",
+      "group": "TRAIN",
+      "id": 0,
+      "opening": "24621577",
+      "seed": 2165635829698171289
+    },
+    {
+      "family": "36376774",
+      "group": "TRAIN",
+      "id": 1,
+      "opening": "52512114",
+      "seed": 8764071523185876395
+    },
+    {
+      "family": "32154672",
+      "group": "TRAIN",
+      "id": 2,
+      "opening": "56734216",
+      "seed": 4308838900032574970
+    },
+    {
+      "family": "11262757",
+      "group": "TRAIN",
+      "id": 3,
+      "opening": "11262757",
+      "seed": 7955799135309873578
+    },
+    {
+      "family": "31636416",
+      "group": "TRAIN",
+      "id": 4,
+      "opening": "57252472",
+      "seed": 1178840406184539449
+    },
+    {
+      "family": "15443775",
+      "group": "TRAIN",
+      "id": 5,
+      "opening": "15443775",
+      "seed": 7214265801551323043
+    },
+    {
+      "family": "36262366",
+      "group": "TRAIN",
+      "id": 6,
+      "opening": "36262366",
+      "seed": 6191798269837070270
+    },
+    {
+      "family": "27651474",
+      "group": "TRAIN",
+      "id": 7,
+      "opening": "61237414",
+      "seed": 8345185854373428327
+    },
+    {
+      "family": "31614427",
+      "group": "TRAIN",
+      "id": 8,
+      "opening": "57274461",
+      "seed": 1599996528395876231
+    },
+    {
+      "family": "25172475",
+      "group": "TRAIN",
+      "id": 9,
+      "opening": "63716413",
+      "seed": 6668601711438828505
+    },
+    {
+      "family": "43773743",
+      "group": "TRAIN",
+      "id": 10,
+      "opening": "45115145",
+      "seed": 5109849043097316418
+    },
+    {
+      "family": "33265514",
+      "group": "TRAIN",
+      "id": 11,
+      "opening": "55623374",
+      "seed": 2606114780585544177
+    },
+    {
+      "family": "42356612",
+      "group": "TRAIN",
+      "id": 12,
+      "opening": "42356612",
+      "seed": 5863255751945472703
+    },
+    {
+      "family": "16741646",
+      "group": "TRAIN",
+      "id": 13,
+      "opening": "16741646",
+      "seed": 109357784571662810
+    },
+    {
+      "family": "25775747",
+      "group": "TRAIN",
+      "id": 14,
+      "opening": "63113141",
+      "seed": 4197439962949286732
+    },
+    {
+      "family": "32271164",
+      "group": "TRAIN",
+      "id": 15,
+      "opening": "56617724",
+      "seed": 5611512164514915980
+    },
+    {
+      "family": "35411551",
+      "group": "TRAIN",
+      "id": 16,
+      "opening": "53477337",
+      "seed": 8647730439419609033
+    },
+    {
+      "family": "11727553",
+      "group": "TRAIN",
+      "id": 17,
+      "opening": "11727553",
+      "seed": 7304347183878444954
+    },
+    {
+      "family": "42725445",
+      "group": "TRAIN",
+      "id": 18,
+      "opening": "46163443",
+      "seed": 6722795926814322749
+    },
+    {
+      "family": "35672541",
+      "group": "TRAIN",
+      "id": 19,
+      "opening": "35672541",
+      "seed": 312422539132443469
+    },
+    {
+      "family": "11173314",
+      "group": "TRAIN",
+      "id": 20,
+      "opening": "77715574",
+      "seed": 8063428871987290203
+    },
+    {
+      "family": "11477111",
+      "group": "TRAIN",
+      "id": 21,
+      "opening": "11477111",
+      "seed": 6073533023847547623
+    },
+    {
+      "family": "41347112",
+      "group": "TRAIN",
+      "id": 22,
+      "opening": "41347112",
+      "seed": 971376999127963176
+    },
+    {
+      "family": "31342223",
+      "group": "TRAIN",
+      "id": 23,
+      "opening": "31342223",
+      "seed": 1704835230132293982
+    },
+    {
+      "family": "16132543",
+      "group": "TRAIN",
+      "id": 24,
+      "opening": "72756345",
+      "seed": 7280720149128496253
+    },
+    {
+      "family": "41521155",
+      "group": "TRAIN",
+      "id": 25,
+      "opening": "47367733",
+      "seed": 6249889892002274913
+    },
+    {
+      "family": "23531372",
+      "group": "TRAIN",
+      "id": 26,
+      "opening": "23531372",
+      "seed": 725120822633576185
+    },
+    {
+      "family": "23416636",
+      "group": "TRAIN",
+      "id": 27,
+      "opening": "23416636",
+      "seed": 1469837761609302798
+    },
+    {
+      "family": "35471357",
+      "group": "TRAIN",
+      "id": 28,
+      "opening": "35471357",
+      "seed": 3577235834073875115
+    },
+    {
+      "family": "11235614",
+      "group": "TRAIN",
+      "id": 29,
+      "opening": "11235614",
+      "seed": 8301234730717159670
+    },
+    {
+      "family": "22654664",
+      "group": "TRAIN",
+      "id": 30,
+      "opening": "22654664",
+      "seed": 8851665498083111700
+    },
+    {
+      "family": "31426531",
+      "group": "TRAIN",
+      "id": 31,
+      "opening": "57462357",
+      "seed": 441099520403603999
+    },
+    {
+      "family": "11267437",
+      "group": "TRAIN",
+      "id": 32,
+      "opening": "77621451",
+      "seed": 7345909209986466686
+    },
+    {
+      "family": "23136522",
+      "group": "TRAIN",
+      "id": 33,
+      "opening": "23136522",
+      "seed": 2763589260812608429
+    },
+    {
+      "family": "35152313",
+      "group": "TRAIN",
+      "id": 34,
+      "opening": "53736575",
+      "seed": 6853081630786609788
+    },
+    {
+      "family": "22443775",
+      "group": "TRAIN",
+      "id": 35,
+      "opening": "66445113",
+      "seed": 2364949565697433402
+    },
+    {
+      "family": "16722453",
+      "group": "TRAIN",
+      "id": 36,
+      "opening": "16722453",
+      "seed": 4896768165553539148
+    },
+    {
+      "family": "37571461",
+      "group": "TRAIN",
+      "id": 37,
+      "opening": "51317427",
+      "seed": 4847879419527128739
+    },
+    {
+      "family": "31733455",
+      "group": "TRAIN",
+      "id": 38,
+      "opening": "57155433",
+      "seed": 7655325066434892320
+    },
+    {
+      "family": "41735277",
+      "group": "TRAIN",
+      "id": 39,
+      "opening": "41735277",
+      "seed": 3976406324923618870
+    },
+    {
+      "family": "37234377",
+      "group": "TRAIN",
+      "id": 40,
+      "opening": "51654511",
+      "seed": 3716945827795583470
+    },
+    {
+      "family": "35427553",
+      "group": "TRAIN",
+      "id": 41,
+      "opening": "35427553",
+      "seed": 496670844907436863
+    },
+    {
+      "family": "36335664",
+      "group": "TRAIN",
+      "id": 42,
+      "opening": "36335664",
+      "seed": 7666769933465028378
+    },
+    {
+      "family": "13665124",
+      "group": "TRAIN",
+      "id": 43,
+      "opening": "75223764",
+      "seed": 4243410068963878436
+    },
+    {
+      "family": "26653243",
+      "group": "TRAIN",
+      "id": 44,
+      "opening": "26653243",
+      "seed": 140188122181443641
+    },
+    {
+      "family": "16111613",
+      "group": "TRAIN",
+      "id": 45,
+      "opening": "72777275",
+      "seed": 8881140044513132144
+    },
+    {
+      "family": "17277736",
+      "group": "TRAIN",
+      "id": 46,
+      "opening": "17277736",
+      "seed": 8619303678081689778
+    },
+    {
+      "family": "25514463",
+      "group": "TRAIN",
+      "id": 47,
+      "opening": "25514463",
+      "seed": 1240452234247984049
+    },
+    {
+      "family": "44176652",
+      "group": "TRAIN",
+      "id": 48,
+      "opening": "44712236",
+      "seed": 1107274256607255004
+    },
+    {
+      "family": "31536426",
+      "group": "TRAIN",
+      "id": 49,
+      "opening": "31536426",
+      "seed": 3987197219291576616
+    },
+    {
+      "family": "16525426",
+      "group": "TRAIN",
+      "id": 50,
+      "opening": "16525426",
+      "seed": 3961355411225723268
+    },
+    {
+      "family": "36421565",
+      "group": "TRAIN",
+      "id": 51,
+      "opening": "36421565",
+      "seed": 4992607465500309797
+    },
+    {
+      "family": "36752353",
+      "group": "TRAIN",
+      "id": 52,
+      "opening": "36752353",
+      "seed": 7534708898043248410
+    },
+    {
+      "family": "36735233",
+      "group": "TRAIN",
+      "id": 53,
+      "opening": "36735233",
+      "seed": 8973574575090060067
+    },
+    {
+      "family": "14423263",
+      "group": "TRAIN",
+      "id": 54,
+      "opening": "14423263",
+      "seed": 4624143623035451742
+    },
+    {
+      "family": "43714271",
+      "group": "TRAIN",
+      "id": 55,
+      "opening": "43714271",
+      "seed": 4152086538092517110
+    },
+    {
+      "family": "31747536",
+      "group": "TRAIN",
+      "id": 56,
+      "opening": "57141352",
+      "seed": 1227421456659352079
+    },
+    {
+      "family": "31335156",
+      "group": "TRAIN",
+      "id": 57,
+      "opening": "57553732",
+      "seed": 5407634057789216699
+    },
+    {
+      "family": "23316561",
+      "group": "TRAIN",
+      "id": 58,
+      "opening": "65572327",
+      "seed": 7339106725200411869
+    },
+    {
+      "family": "25665122",
+      "group": "TRAIN",
+      "id": 59,
+      "opening": "63223766",
+      "seed": 625345182386418367
+    },
+    {
+      "family": "31637444",
+      "group": "TRAIN",
+      "id": 60,
+      "opening": "57251444",
+      "seed": 6790812517104197500
+    },
+    {
+      "family": "36233615",
+      "group": "TRAIN",
+      "id": 61,
+      "opening": "52655273",
+      "seed": 6825460853394387631
+    },
+    {
+      "family": "36611476",
+      "group": "TRAIN",
+      "id": 62,
+      "opening": "52277412",
+      "seed": 2543442470887540986
+    },
+    {
+      "family": "32537463",
+      "group": "TRAIN",
+      "id": 63,
+      "opening": "32537463",
+      "seed": 6553502951549063101
+    },
+    {
+      "family": "12512723",
+      "group": "TRAIN",
+      "id": 64,
+      "opening": "12512723",
+      "seed": 2422774821101027965
+    },
+    {
+      "family": "16617553",
+      "group": "TRAIN",
+      "id": 65,
+      "opening": "16617553",
+      "seed": 728417999119092141
+    },
+    {
+      "family": "31547772",
+      "group": "TRAIN",
+      "id": 66,
+      "opening": "31547772",
+      "seed": 157237294558677385
+    },
+    {
+      "family": "34613332",
+      "group": "TRAIN",
+      "id": 67,
+      "opening": "54275556",
+      "seed": 1819919747037121861
+    },
+    {
+      "family": "27317462",
+      "group": "TRAIN",
+      "id": 68,
+      "opening": "61571426",
+      "seed": 3330010844006130732
+    },
+    {
+      "family": "13645232",
+      "group": "TRAIN",
+      "id": 69,
+      "opening": "75243656",
+      "seed": 7021243319086933276
+    },
+    {
+      "family": "15135633",
+      "group": "TRAIN",
+      "id": 70,
+      "opening": "73753255",
+      "seed": 2569981509303832469
+    },
+    {
+      "family": "33636741",
+      "group": "TRAIN",
+      "id": 71,
+      "opening": "55252147",
+      "seed": 6221480173083200275
+    },
+    {
+      "family": "23474574",
+      "group": "TRAIN",
+      "id": 72,
+      "opening": "23474574",
+      "seed": 9095895307527757583
+    },
+    {
+      "family": "32522244",
+      "group": "TRAIN",
+      "id": 73,
+      "opening": "32522244",
+      "seed": 6700971034846680876
+    },
+    {
+      "family": "16252137",
+      "group": "TRAIN",
+      "id": 74,
+      "opening": "72636751",
+      "seed": 7577231179268129831
+    },
+    {
+      "family": "41225543",
+      "group": "TRAIN",
+      "id": 75,
+      "opening": "47663345",
+      "seed": 688131395267344082
+    },
+    {
+      "family": "31457524",
+      "group": "TRAIN",
+      "id": 76,
+      "opening": "31457524",
+      "seed": 1141357601627992133
+    },
+    {
+      "family": "33473315",
+      "group": "TRAIN",
+      "id": 77,
+      "opening": "55415573",
+      "seed": 8842994333618123283
+    },
+    {
+      "family": "31457322",
+      "group": "TRAIN",
+      "id": 78,
+      "opening": "57431566",
+      "seed": 231850399663459086
+    },
+    {
+      "family": "15354457",
+      "group": "TRAIN",
+      "id": 79,
+      "opening": "15354457",
+      "seed": 8311609911524485659
+    },
+    {
+      "family": "42656656",
+      "group": "TRAIN",
+      "id": 80,
+      "opening": "42656656",
+      "seed": 3856356791285968293
+    },
+    {
+      "family": "21732564",
+      "group": "TRAIN",
+      "id": 81,
+      "opening": "21732564",
+      "seed": 3723973327271572120
+    },
+    {
+      "family": "42313366",
+      "group": "TRAIN",
+      "id": 82,
+      "opening": "46575522",
+      "seed": 1142262431006324145
+    },
+    {
+      "family": "26542316",
+      "group": "TRAIN",
+      "id": 83,
+      "opening": "26542316",
+      "seed": 8452009075138471501
+    },
+    {
+      "family": "31532336",
+      "group": "TRAIN",
+      "id": 84,
+      "opening": "57356552",
+      "seed": 6898558944334135766
+    },
+    {
+      "family": "37377367",
+      "group": "TRAIN",
+      "id": 85,
+      "opening": "37377367",
+      "seed": 7535512377931299519
+    },
+    {
+      "family": "26676511",
+      "group": "TRAIN",
+      "id": 86,
+      "opening": "62212377",
+      "seed": 303137335310000908
+    },
+    {
+      "family": "34131612",
+      "group": "TRAIN",
+      "id": 87,
+      "opening": "34131612",
+      "seed": 5484482966216112020
+    },
+    {
+      "family": "15151636",
+      "group": "TRAIN",
+      "id": 88,
+      "opening": "15151636",
+      "seed": 8541241360636242169
+    },
+    {
+      "family": "44416122",
+      "group": "TRAIN",
+      "id": 89,
+      "opening": "44472766",
+      "seed": 1474360085554344851
+    },
+    {
+      "family": "34773772",
+      "group": "TRAIN",
+      "id": 90,
+      "opening": "34773772",
+      "seed": 6697802423297291101
+    },
+    {
+      "family": "31562576",
+      "group": "TRAIN",
+      "id": 91,
+      "opening": "57326312",
+      "seed": 829739694751368047
+    },
+    {
+      "family": "33512731",
+      "group": "TRAIN",
+      "id": 92,
+      "opening": "33512731",
+      "seed": 5831031153847054541
+    },
+    {
+      "family": "21163735",
+      "group": "TRAIN",
+      "id": 93,
+      "opening": "67725153",
+      "seed": 117384973725686389
+    },
+    {
+      "family": "14615534",
+      "group": "TRAIN",
+      "id": 94,
+      "opening": "14615534",
+      "seed": 5475526071314149768
+    },
+    {
+      "family": "34324524",
+      "group": "TRAIN",
+      "id": 95,
+      "opening": "54564364",
+      "seed": 7572662328513919210
+    },
+    {
+      "family": "14443556",
+      "group": "TRAIN",
+      "id": 96,
+      "opening": "14443556",
+      "seed": 4594087717441724846
+    },
+    {
+      "family": "35726237",
+      "group": "TRAIN",
+      "id": 97,
+      "opening": "35726237",
+      "seed": 3127359670864721850
+    },
+    {
+      "family": "35454631",
+      "group": "TRAIN",
+      "id": 98,
+      "opening": "35454631",
+      "seed": 697193343611809304
+    },
+    {
+      "family": "42526627",
+      "group": "TRAIN",
+      "id": 99,
+      "opening": "42526627",
+      "seed": 3290433425125348515
+    },
+    {
+      "family": "35264167",
+      "group": "TRAIN",
+      "id": 100,
+      "opening": "53624721",
+      "seed": 8967613729345369108
+    },
+    {
+      "family": "33461531",
+      "group": "TRAIN",
+      "id": 101,
+      "opening": "55427357",
+      "seed": 4500422365876084288
+    },
+    {
+      "family": "11472257",
+      "group": "TRAIN",
+      "id": 102,
+      "opening": "11472257",
+      "seed": 4281310755417178195
+    },
+    {
+      "family": "11257244",
+      "group": "TRAIN",
+      "id": 103,
+      "opening": "77631644",
+      "seed": 8897650894400904930
+    },
+    {
+      "family": "11371731",
+      "group": "TRAIN",
+      "id": 104,
+      "opening": "11371731",
+      "seed": 622503726208357766
+    },
+    {
+      "family": "41136345",
+      "group": "TRAIN",
+      "id": 105,
+      "opening": "41136345",
+      "seed": 3581219440229745565
+    },
+    {
+      "family": "36163434",
+      "group": "TRAIN",
+      "id": 106,
+      "opening": "52725454",
+      "seed": 7009867817164224129
+    },
+    {
+      "family": "12536265",
+      "group": "TRAIN",
+      "id": 107,
+      "opening": "12536265",
+      "seed": 4488453427454806639
+    },
+    {
+      "family": "42663317",
+      "group": "TRAIN",
+      "id": 108,
+      "opening": "42663317",
+      "seed": 1965452303603127730
+    },
+    {
+      "family": "12574574",
+      "group": "TRAIN",
+      "id": 109,
+      "opening": "76314314",
+      "seed": 6435132541358384252
+    },
+    {
+      "family": "34262235",
+      "group": "TRAIN",
+      "id": 110,
+      "opening": "54626653",
+      "seed": 8564183542531197387
+    },
+    {
+      "family": "33555551",
+      "group": "TRAIN",
+      "id": 111,
+      "opening": "33555551",
+      "seed": 4161597442448502831
+    },
+    {
+      "family": "31361633",
+      "group": "TRAIN",
+      "id": 112,
+      "opening": "31361633",
+      "seed": 8871518652133976111
+    },
+    {
+      "family": "42114116",
+      "group": "TRAIN",
+      "id": 113,
+      "opening": "46774772",
+      "seed": 3304446815917533775
+    },
+    {
+      "family": "13767713",
+      "group": "TRAIN",
+      "id": 114,
+      "opening": "13767713",
+      "seed": 4758118988417482787
+    },
+    {
+      "family": "25145254",
+      "group": "TRAIN",
+      "id": 115,
+      "opening": "25145254",
+      "seed": 3352766508995049596
+    },
+    {
+      "family": "15657147",
+      "group": "TRAIN",
+      "id": 116,
+      "opening": "73231741",
+      "seed": 5830803477751623657
+    },
+    {
+      "family": "14357735",
+      "group": "TRAIN",
+      "id": 117,
+      "opening": "14357735",
+      "seed": 3570823329141143942
+    },
+    {
+      "family": "21275144",
+      "group": "TRAIN",
+      "id": 118,
+      "opening": "67613744",
+      "seed": 4824225428216731260
+    },
+    {
+      "family": "24513746",
+      "group": "TRAIN",
+      "id": 119,
+      "opening": "64375142",
+      "seed": 3087067996741400739
+    },
+    {
+      "family": "43166732",
+      "group": "CAL",
+      "id": 120,
+      "opening": "45722156",
+      "seed": 2720765116816184525
+    },
+    {
+      "family": "26141452",
+      "group": "CAL",
+      "id": 121,
+      "opening": "26141452",
+      "seed": 4357861627971456604
+    },
+    {
+      "family": "21166721",
+      "group": "CAL",
+      "id": 122,
+      "opening": "67722167",
+      "seed": 1472178514807697842
+    },
+    {
+      "family": "35362337",
+      "group": "CAL",
+      "id": 123,
+      "opening": "35362337",
+      "seed": 7886563641871642312
+    },
+    {
+      "family": "17165551",
+      "group": "CAL",
+      "id": 124,
+      "opening": "71723337",
+      "seed": 2327723094223158909
+    },
+    {
+      "family": "22136773",
+      "group": "CAL",
+      "id": 125,
+      "opening": "22136773",
+      "seed": 3804364093166127923
+    },
+    {
+      "family": "11514316",
+      "group": "CAL",
+      "id": 126,
+      "opening": "11514316",
+      "seed": 799853095632272809
+    },
+    {
+      "family": "34156763",
+      "group": "CAL",
+      "id": 127,
+      "opening": "34156763",
+      "seed": 4811382395629724231
+    },
+    {
+      "family": "15625415",
+      "group": "CAL",
+      "id": 128,
+      "opening": "15625415",
+      "seed": 736677173553488919
+    },
+    {
+      "family": "16266247",
+      "group": "CAL",
+      "id": 129,
+      "opening": "16266247",
+      "seed": 3836361326843898140
+    },
+    {
+      "family": "21116262",
+      "group": "CAL",
+      "id": 130,
+      "opening": "67772626",
+      "seed": 6695132385228581590
+    },
+    {
+      "family": "21634667",
+      "group": "CAL",
+      "id": 131,
+      "opening": "21634667",
+      "seed": 1250574135518801889
+    },
+    {
+      "family": "41575374",
+      "group": "CAL",
+      "id": 132,
+      "opening": "47313514",
+      "seed": 1957536946505284481
+    },
+    {
+      "family": "27172416",
+      "group": "CAL",
+      "id": 133,
+      "opening": "27172416",
+      "seed": 2574402277561397049
+    },
+    {
+      "family": "23743437",
+      "group": "CAL",
+      "id": 134,
+      "opening": "65145451",
+      "seed": 3436893125417005569
+    },
+    {
+      "family": "25365137",
+      "group": "CAL",
+      "id": 135,
+      "opening": "25365137",
+      "seed": 6367495798627241289
+    },
+    {
+      "family": "14622352",
+      "group": "CAL",
+      "id": 136,
+      "opening": "74266536",
+      "seed": 2206792427775513960
+    },
+    {
+      "family": "12732636",
+      "group": "CAL",
+      "id": 137,
+      "opening": "12732636",
+      "seed": 8114832492336132916
+    },
+    {
+      "family": "27342233",
+      "group": "CAL",
+      "id": 138,
+      "opening": "27342233",
+      "seed": 8054246153491711639
+    },
+    {
+      "family": "37514742",
+      "group": "CAL",
+      "id": 139,
+      "opening": "51374146",
+      "seed": 2414260981048861661
+    },
+    {
+      "family": "42152641",
+      "group": "CAL",
+      "id": 140,
+      "opening": "42152641",
+      "seed": 4703535839983752822
+    },
+    {
+      "family": "17367247",
+      "group": "CAL",
+      "id": 141,
+      "opening": "71521641",
+      "seed": 7698505418213242438
+    },
+    {
+      "family": "13321363",
+      "group": "CAL",
+      "id": 142,
+      "opening": "13321363",
+      "seed": 7413507692315142229
+    },
+    {
+      "family": "44275141",
+      "group": "CAL",
+      "id": 143,
+      "opening": "44613747",
+      "seed": 8844734921689928656
+    },
+    {
+      "family": "31251343",
+      "group": "CAL",
+      "id": 144,
+      "opening": "57637545",
+      "seed": 6720750773791005026
+    },
+    {
+      "family": "26136177",
+      "group": "CAL",
+      "id": 145,
+      "opening": "26136177",
+      "seed": 940429441794085316
+    },
+    {
+      "family": "36477236",
+      "group": "CAL",
+      "id": 146,
+      "opening": "52411652",
+      "seed": 1517387394433515361
+    },
+    {
+      "family": "21232655",
+      "group": "CAL",
+      "id": 147,
+      "opening": "67656233",
+      "seed": 2806980884336609625
+    },
+    {
+      "family": "27516235",
+      "group": "CAL",
+      "id": 148,
+      "opening": "61372653",
+      "seed": 3904080532126803179
+    },
+    {
+      "family": "33254112",
+      "group": "CAL",
+      "id": 149,
+      "opening": "33254112",
+      "seed": 5837507897040580161
+    },
+    {
+      "family": "36643675",
+      "group": "CAL",
+      "id": 150,
+      "opening": "52245213",
+      "seed": 9021921505123435391
+    },
+    {
+      "family": "16722556",
+      "group": "CAL",
+      "id": 151,
+      "opening": "16722556",
+      "seed": 8577414726445788808
+    },
+    {
+      "family": "34176135",
+      "group": "CAL",
+      "id": 152,
+      "opening": "34176135",
+      "seed": 2317629640891692639
+    },
+    {
+      "family": "24257573",
+      "group": "CAL",
+      "id": 153,
+      "opening": "64631315",
+      "seed": 9157926641754108721
+    },
+    {
+      "family": "26751757",
+      "group": "CAL",
+      "id": 154,
+      "opening": "26751757",
+      "seed": 8957670252561346095
+    },
+    {
+      "family": "35517644",
+      "group": "CAL",
+      "id": 155,
+      "opening": "35517644",
+      "seed": 3359588402721929948
+    },
+    {
+      "family": "26142256",
+      "group": "CAL",
+      "id": 156,
+      "opening": "26142256",
+      "seed": 7532533302591159078
+    },
+    {
+      "family": "15535163",
+      "group": "CAL",
+      "id": 157,
+      "opening": "15535163",
+      "seed": 5603235990795019854
+    },
+    {
+      "family": "14436222",
+      "group": "CAL",
+      "id": 158,
+      "opening": "74452666",
+      "seed": 8904291138927605902
+    },
+    {
+      "family": "17224225",
+      "group": "CAL",
+      "id": 159,
+      "opening": "17224225",
+      "seed": 8026786856538721034
+    },
+    {
+      "family": "15352423",
+      "group": "CAL",
+      "id": 160,
+      "opening": "73536465",
+      "seed": 7397561931375136488
+    },
+    {
+      "family": "22236324",
+      "group": "CAL",
+      "id": 161,
+      "opening": "22236324",
+      "seed": 7193144992300602887
+    },
+    {
+      "family": "34133141",
+      "group": "CAL",
+      "id": 162,
+      "opening": "54755747",
+      "seed": 3841910778818529532
+    },
+    {
+      "family": "43474314",
+      "group": "CAL",
+      "id": 163,
+      "opening": "45414574",
+      "seed": 1090095257228771983
+    },
+    {
+      "family": "43413557",
+      "group": "CAL",
+      "id": 164,
+      "opening": "45475331",
+      "seed": 5112873423014807184
+    },
+    {
+      "family": "21675327",
+      "group": "CAL",
+      "id": 165,
+      "opening": "21675327",
+      "seed": 6421988775510071559
+    },
+    {
+      "family": "31314324",
+      "group": "CAL",
+      "id": 166,
+      "opening": "31314324",
+      "seed": 8996584100992309038
+    },
+    {
+      "family": "42515147",
+      "group": "CAL",
+      "id": 167,
+      "opening": "42515147",
+      "seed": 4168675780977936833
+    },
+    {
+      "family": "12364631",
+      "group": "CAL",
+      "id": 168,
+      "opening": "12364631",
+      "seed": 8750975548228173599
+    },
+    {
+      "family": "36614646",
+      "group": "CAL",
+      "id": 169,
+      "opening": "36614646",
+      "seed": 8483137928373919820
+    },
+    {
+      "family": "12437374",
+      "group": "CAL",
+      "id": 170,
+      "opening": "12437374",
+      "seed": 3254530332662526497
+    },
+    {
+      "family": "31415671",
+      "group": "CAL",
+      "id": 171,
+      "opening": "57473217",
+      "seed": 2025234025522053825
+    },
+    {
+      "family": "43651553",
+      "group": "CAL",
+      "id": 172,
+      "opening": "45237335",
+      "seed": 3600505265362993770
+    },
+    {
+      "family": "13113723",
+      "group": "CAL",
+      "id": 173,
+      "opening": "75775165",
+      "seed": 1702618942670670425
+    },
+    {
+      "family": "26563514",
+      "group": "CAL",
+      "id": 174,
+      "opening": "62325374",
+      "seed": 7352974206735705188
+    },
+    {
+      "family": "22437135",
+      "group": "CAL",
+      "id": 175,
+      "opening": "22437135",
+      "seed": 1886447896597853528
+    },
+    {
+      "family": "33575524",
+      "group": "CAL",
+      "id": 176,
+      "opening": "33575524",
+      "seed": 5592568364854557310
+    },
+    {
+      "family": "14473331",
+      "group": "CAL",
+      "id": 177,
+      "opening": "74415557",
+      "seed": 611688380658911322
+    },
+    {
+      "family": "26253222",
+      "group": "CAL",
+      "id": 178,
+      "opening": "26253222",
+      "seed": 5139575891391883111
+    },
+    {
+      "family": "36477427",
+      "group": "CAL",
+      "id": 179,
+      "opening": "36477427",
+      "seed": 5470200743331169283
+    },
+    {
+      "family": "13437612",
+      "group": "TEST",
+      "id": 180,
+      "opening": "13437612",
+      "seed": 2990397162570124585
+    },
+    {
+      "family": "12412674",
+      "group": "TEST",
+      "id": 181,
+      "opening": "12412674",
+      "seed": 3985275534960906323
+    },
+    {
+      "family": "35325316",
+      "group": "TEST",
+      "id": 182,
+      "opening": "53563572",
+      "seed": 7237970003290440340
+    },
+    {
+      "family": "43631364",
+      "group": "TEST",
+      "id": 183,
+      "opening": "43631364",
+      "seed": 2305491443110036452
+    },
+    {
+      "family": "26661466",
+      "group": "TEST",
+      "id": 184,
+      "opening": "26661466",
+      "seed": 1742286677218580467
+    },
+    {
+      "family": "13154725",
+      "group": "TEST",
+      "id": 185,
+      "opening": "75734163",
+      "seed": 8906629285491069339
+    },
+    {
+      "family": "24465535",
+      "group": "TEST",
+      "id": 186,
+      "opening": "24465535",
+      "seed": 7468691225782143581
+    },
+    {
+      "family": "41372543",
+      "group": "TEST",
+      "id": 187,
+      "opening": "41372543",
+      "seed": 1795712525898069110
+    },
+    {
+      "family": "25275645",
+      "group": "TEST",
+      "id": 188,
+      "opening": "63613243",
+      "seed": 1556912896096523093
+    },
+    {
+      "family": "43436442",
+      "group": "TEST",
+      "id": 189,
+      "opening": "45452446",
+      "seed": 2763654697205932248
+    },
+    {
+      "family": "32342621",
+      "group": "TEST",
+      "id": 190,
+      "opening": "56546267",
+      "seed": 3378586069600785491
+    },
+    {
+      "family": "23453125",
+      "group": "TEST",
+      "id": 191,
+      "opening": "65435763",
+      "seed": 4791331417284305063
+    },
+    {
+      "family": "33673766",
+      "group": "TEST",
+      "id": 192,
+      "opening": "33673766",
+      "seed": 2839803417802882892
+    },
+    {
+      "family": "15173233",
+      "group": "TEST",
+      "id": 193,
+      "opening": "73715655",
+      "seed": 6698790720727004055
+    },
+    {
+      "family": "43164762",
+      "group": "TEST",
+      "id": 194,
+      "opening": "43164762",
+      "seed": 5755157558494380648
+    },
+    {
+      "family": "24671645",
+      "group": "TEST",
+      "id": 195,
+      "opening": "64217243",
+      "seed": 3074824721017997217
+    },
+    {
+      "family": "42752436",
+      "group": "TEST",
+      "id": 196,
+      "opening": "46136452",
+      "seed": 4586737550099002357
+    },
+    {
+      "family": "25231342",
+      "group": "TEST",
+      "id": 197,
+      "opening": "63657546",
+      "seed": 3783259847400991419
+    },
+    {
+      "family": "36425167",
+      "group": "TEST",
+      "id": 198,
+      "opening": "36425167",
+      "seed": 4601413791979654723
+    },
+    {
+      "family": "34253332",
+      "group": "TEST",
+      "id": 199,
+      "opening": "34253332",
+      "seed": 4007122391536818946
+    },
+    {
+      "family": "35436443",
+      "group": "TEST",
+      "id": 200,
+      "opening": "53452445",
+      "seed": 4239706977607274273
+    },
+    {
+      "family": "32321767",
+      "group": "TEST",
+      "id": 201,
+      "opening": "56567121",
+      "seed": 3737772099136290322
+    },
+    {
+      "family": "26367611",
+      "group": "TEST",
+      "id": 202,
+      "opening": "62521277",
+      "seed": 8693014302325562977
+    },
+    {
+      "family": "12676117",
+      "group": "TEST",
+      "id": 203,
+      "opening": "76212771",
+      "seed": 6822965042307274342
+    },
+    {
+      "family": "17566247",
+      "group": "TEST",
+      "id": 204,
+      "opening": "17566247",
+      "seed": 5891061469256081878
+    },
+    {
+      "family": "32677322",
+      "group": "TEST",
+      "id": 205,
+      "opening": "56211566",
+      "seed": 3895543625632176792
+    },
+    {
+      "family": "17362772",
+      "group": "TEST",
+      "id": 206,
+      "opening": "17362772",
+      "seed": 8601121604682299033
+    },
+    {
+      "family": "26762772",
+      "group": "TEST",
+      "id": 207,
+      "opening": "62126116",
+      "seed": 7568894453201426880
+    },
+    {
+      "family": "13564417",
+      "group": "TEST",
+      "id": 208,
+      "opening": "13564417",
+      "seed": 7943500910391260624
+    },
+    {
+      "family": "42135725",
+      "group": "TEST",
+      "id": 209,
+      "opening": "42135725",
+      "seed": 8699016352281413028
+    },
+    {
+      "family": "32744221",
+      "group": "TEST",
+      "id": 210,
+      "opening": "56144667",
+      "seed": 6760773100610131394
+    },
+    {
+      "family": "37443352",
+      "group": "TEST",
+      "id": 211,
+      "opening": "51445536",
+      "seed": 8321226555884958991
+    },
+    {
+      "family": "11143427",
+      "group": "TEST",
+      "id": 212,
+      "opening": "77745461",
+      "seed": 7013408910719331229
+    },
+    {
+      "family": "16276165",
+      "group": "TEST",
+      "id": 213,
+      "opening": "72612723",
+      "seed": 415759967608493704
+    },
+    {
+      "family": "22644775",
+      "group": "TEST",
+      "id": 214,
+      "opening": "66244113",
+      "seed": 4466209804280029428
+    },
+    {
+      "family": "14644274",
+      "group": "TEST",
+      "id": 215,
+      "opening": "74244614",
+      "seed": 5076565344046529884
+    },
+    {
+      "family": "15232427",
+      "group": "TEST",
+      "id": 216,
+      "opening": "73656461",
+      "seed": 2227713664820213832
+    },
+    {
+      "family": "41213123",
+      "group": "TEST",
+      "id": 217,
+      "opening": "41213123",
+      "seed": 3759745746714368195
+    },
+    {
+      "family": "17535132",
+      "group": "TEST",
+      "id": 218,
+      "opening": "17535132",
+      "seed": 1183470483116815012
+    },
+    {
+      "family": "13441673",
+      "group": "TEST",
+      "id": 219,
+      "opening": "75447215",
+      "seed": 4044573980019699660
+    },
+    {
+      "family": "37451377",
+      "group": "TEST",
+      "id": 220,
+      "opening": "37451377",
+      "seed": 7208698906743915472
+    },
+    {
+      "family": "33464175",
+      "group": "TEST",
+      "id": 221,
+      "opening": "33464175",
+      "seed": 7605954882726697102
+    },
+    {
+      "family": "37474172",
+      "group": "TEST",
+      "id": 222,
+      "opening": "37474172",
+      "seed": 3649075395406292937
+    },
+    {
+      "family": "13411257",
+      "group": "TEST",
+      "id": 223,
+      "opening": "75477631",
+      "seed": 7873272929195962231
+    },
+    {
+      "family": "41675557",
+      "group": "TEST",
+      "id": 224,
+      "opening": "47213331",
+      "seed": 1279061663295212483
+    },
+    {
+      "family": "14113237",
+      "group": "TEST",
+      "id": 225,
+      "opening": "14113237",
+      "seed": 9167196204437042211
+    },
+    {
+      "family": "17171331",
+      "group": "TEST",
+      "id": 226,
+      "opening": "17171331",
+      "seed": 645021868126720985
+    },
+    {
+      "family": "27547366",
+      "group": "TEST",
+      "id": 227,
+      "opening": "61341522",
+      "seed": 4146013769817665663
+    },
+    {
+      "family": "42657524",
+      "group": "TEST",
+      "id": 228,
+      "opening": "42657524",
+      "seed": 7258350034868991442
+    },
+    {
+      "family": "25752652",
+      "group": "TEST",
+      "id": 229,
+      "opening": "63136236",
+      "seed": 2063304097200388231
+    },
+    {
+      "family": "37157344",
+      "group": "TEST",
+      "id": 230,
+      "opening": "51731544",
+      "seed": 1635052724201206968
+    },
+    {
+      "family": "43435356",
+      "group": "TEST",
+      "id": 231,
+      "opening": "43435356",
+      "seed": 4452711898073725467
+    },
+    {
+      "family": "17643561",
+      "group": "TEST",
+      "id": 232,
+      "opening": "71245327",
+      "seed": 6024252848433339686
+    },
+    {
+      "family": "31447337",
+      "group": "TEST",
+      "id": 233,
+      "opening": "31447337",
+      "seed": 2284343657448068601
+    },
+    {
+      "family": "21436132",
+      "group": "TEST",
+      "id": 234,
+      "opening": "21436132",
+      "seed": 2292300945737558806
+    },
+    {
+      "family": "13345132",
+      "group": "TEST",
+      "id": 235,
+      "opening": "75543756",
+      "seed": 5485573585678530827
+    },
+    {
+      "family": "34277742",
+      "group": "TEST",
+      "id": 236,
+      "opening": "34277742",
+      "seed": 9171463840345869816
+    },
+    {
+      "family": "26142476",
+      "group": "TEST",
+      "id": 237,
+      "opening": "26142476",
+      "seed": 6992495205951662339
+    },
+    {
+      "family": "15436661",
+      "group": "TEST",
+      "id": 238,
+      "opening": "15436661",
+      "seed": 5488202404727711842
+    },
+    {
+      "family": "26125663",
+      "group": "TEST",
+      "id": 239,
+      "opening": "26125663",
+      "seed": 6953651791210919501
+    }
+  ],
+  "prior_locks": {
+    "FA01/C07_ATTEMPTS.jsonl.gz": {
+      "commit": "1f3034594dfda138a4dc3fbd0e0a1e5f28838f45",
+      "path": "docs/research/quartz_fouraxis_20261125/C07_ATTEMPTS.jsonl.gz",
+      "sha256": "251e6e34a7e90c3f3ac3908c01bfae9dcdc4e4b711e1a65c4a027f8ae042c091"
+    },
+    "FA01/C07_COHORT.json": {
+      "commit": "1f3034594dfda138a4dc3fbd0e0a1e5f28838f45",
+      "path": "docs/research/quartz_fouraxis_20261125/C07_COHORT.json",
+      "sha256": "1d0862e17d5bf4ea93631cccd93392ad2bd33d84e8cdd246ffab148e221fec37"
+    },
+    "FA02/C06_DIAGNOSTIC_RAW.json": {
+      "commit": "c19ad67ea5799f0ce89aee10e6e3af0a8f311201",
+      "path": "docs/research/quartz_fouraxis02_20261125/C06_DIAGNOSTIC_RAW.json",
+      "sha256": "99be296633fec09c6f4330d36ca6045065da9d6a54e0825448a434b88a0803a0"
+    },
+    "FA02/C07_ATTEMPTS.jsonl.gz": {
+      "commit": "c19ad67ea5799f0ce89aee10e6e3af0a8f311201",
+      "path": "docs/research/quartz_fouraxis02_20261125/C07_ATTEMPTS.jsonl.gz",
+      "sha256": "90f40606e9619e28b1ea04548a08b4ed7a1435cb3c37895d4a749684c4404b57"
+    },
+    "FA02/C07_COHORT.json": {
+      "commit": "c19ad67ea5799f0ce89aee10e6e3af0a8f311201",
+      "path": "docs/research/quartz_fouraxis02_20261125/C07_COHORT.json",
+      "sha256": "52fdb0b09fb4b85e4196c3e6b618de6a32a6fbf3eeb261c7a94ef7ea0d61fbdc"
+    },
+    "FA03/C07_ATTEMPTS.jsonl.gz": {
+      "commit": "a900c4e23a1d6b0f0fa2dac5f0c885b932683f15",
+      "path": "docs/research/quartz_fouraxis03_20261125/C07_ATTEMPTS.jsonl.gz",
+      "sha256": "ad8a2ee5534d0ceb2bff29a871f209a19e22815365eeb9246cecd30beb016577"
+    },
+    "FA03/C07_B_QUERIES.json": {
+      "commit": "a900c4e23a1d6b0f0fa2dac5f0c885b932683f15",
+      "path": "docs/research/quartz_fouraxis03_20261125/C07_B_QUERIES.json",
+      "sha256": "45bc205340c333e87d8c6fd70bb60f5c3d21127538e7f3bdc1759a4fe574edc0"
+    },
+    "FA03/C07_COHORT.json": {
+      "commit": "a900c4e23a1d6b0f0fa2dac5f0c885b932683f15",
+      "path": "docs/research/quartz_fouraxis03_20261125/C07_COHORT.json",
+      "sha256": "60dcdf39e3014564811deeedbf068c9bd67bda224ac4bce628291bbbc467cb03"
+    },
+    "FA04/C07_ATTEMPTS.jsonl.gz": {
+      "commit": "dfefd8bc0bb3cccf783263356c2ebbd5300d292d",
+      "path": "docs/research/quartz_fouraxis04_20261125/C07_ATTEMPTS.jsonl.gz",
+      "sha256": "1786c27bf0c27244cc49e56ce86e28ed54fdcaa90269dcc4aca678b5255f8808"
+    },
+    "FA04/C07_COHORT.json": {
+      "commit": "dfefd8bc0bb3cccf783263356c2ebbd5300d292d",
+      "path": "docs/research/quartz_fouraxis04_20261125/C07_COHORT.json",
+      "sha256": "6ca09d21b2663205b98d6a53ab3a1dd46a7f0dc9758cc8cead816c504c6900af"
+    },
+    "FA05/attempts": {
+      "commit": "9b8a4718f7f92d83db2fb00e5806c6c4bd8cbfc2",
+      "path": "docs/research/quartz_fouraxis05_20261125/C07_ATTEMPTS.jsonl.gz",
+      "sha256": "4067db9299a25a21a34514d1613945f475b9b1ab6f1daba1fa99b73f2ed47d2c"
+    },
+    "NN02/C07_COHORT.json": {
+      "commit": "543e12dd3a759ebef1e7163a80a1f57c45c653d5",
+      "path": "docs/research/quartz_nn_intervention_20261124/C07_COHORT.json",
+      "sha256": "06be061032f6c9842b3a6d19ef760ef1aebb29ff2cac8877faf43e67f39a1597"
+    },
+    "NN02/C07_GENERATION.jsonl.gz": {
+      "commit": "543e12dd3a759ebef1e7163a80a1f57c45c653d5",
+      "path": "docs/research/quartz_nn_intervention_20261124/C07_GENERATION.jsonl.gz",
+      "sha256": "d2d546e24c15c928e799359b2c063d1a44b96b0b5bb2d64c94862ede71b35c3f"
+    },
+    "NN02/C07_RESUME_GENERATION.jsonl.gz": {
+      "commit": "543e12dd3a759ebef1e7163a80a1f57c45c653d5",
+      "path": "docs/research/quartz_nn_intervention_20261124/C07_RESUME_GENERATION.jsonl.gz",
+      "sha256": "2cc44b0fcde8cc7b642b1798d2ce7ca1fc7cbddd18f4f816a2d33a8233f47f5e"
+    },
+    "NN03/C07_ATTEMPTS.jsonl.gz": {
+      "commit": "3d22dadcade29f8cb96b44e7ef40571c4d5c1db3",
+      "path": "docs/research/quartz_nn_multiquanta_20261124/C07_ATTEMPTS.jsonl.gz",
+      "sha256": "729b5d99720431ed4c010bbd720726c273288a74e8007c5930c4b1316c6a7154"
+    },
+    "NN03/C07_COHORT.json": {
+      "commit": "3d22dadcade29f8cb96b44e7ef40571c4d5c1db3",
+      "path": "docs/research/quartz_nn_multiquanta_20261124/C07_COHORT.json",
+      "sha256": "ac3f2d965c556cd2766e7fae3511137359e5ce8f9a0456ef21eb2352608422c5"
+    },
+    "NN04/C07_ATTEMPTS.jsonl.gz": {
+      "commit": "d302bd0008c21a7f7bfd848a0d964d3f94662d78",
+      "path": "docs/research/quartz_nn_costcal_20261125/C07_ATTEMPTS.jsonl.gz",
+      "sha256": "fdfbf54e61042efb484abb75bb336278780941161ef75a41ca73328d94b6a056"
+    },
+    "NN04/C07_COHORT.json": {
+      "commit": "d302bd0008c21a7f7bfd848a0d964d3f94662d78",
+      "path": "docs/research/quartz_nn_costcal_20261125/C07_COHORT.json",
+      "sha256": "56daf3b0c8ca330d3a10f362263573276edc951a08b88486ebd0d5bc731fe68a"
+    },
+    "connect4_generalization_07/COHORT_1024_FROZEN.json": {
+      "commit": "9b8a4718f7f92d83db2fb00e5806c6c4bd8cbfc2",
+      "path": "docs/research/cognitive_metareasoning_20261120/connect4_generalization_07/COHORT_1024_FROZEN.json",
+      "sha256": "cd56b7828a98b8b60f2f8d16e38f841f4a7e6c161446cdf76bfb31a07e1b2b03"
+    },
+    "connect4_recognizer_06/COHORT_FROZEN.json": {
+      "commit": "9b8a4718f7f92d83db2fb00e5806c6c4bd8cbfc2",
+      "path": "docs/research/cognitive_metareasoning_20261120/connect4_recognizer_06/COHORT_FROZEN.json",
+      "sha256": "8717f53c4da338c2082283dab74864cbd9204546ddc653824bbdb745e60864b7"
+    },
+    "dynamic_costmatch_11/COHORT_384_FROZEN.json": {
+      "commit": "9b8a4718f7f92d83db2fb00e5806c6c4bd8cbfc2",
+      "path": "docs/research/cognitive_metareasoning_20261120/dynamic_costmatch_11/COHORT_384_FROZEN.json",
+      "sha256": "ec95fdffdfa9a35bc009e607bd3882229e27fb2ea2c72f7fe8ee1eb7f5b14edb"
+    },
+    "dynamic_voc_10/COHORT_384_FROZEN.json": {
+      "commit": "9b8a4718f7f92d83db2fb00e5806c6c4bd8cbfc2",
+      "path": "docs/research/cognitive_metareasoning_20261120/dynamic_voc_10/COHORT_384_FROZEN.json",
+      "sha256": "c12c86ab08adb614a80d196d842f31ddf3fc78f7929ddee17523b9569db46ce5"
+    },
+    "einstellung_reopening_12/COHORT_384_FROZEN.json": {
+      "commit": "9b8a4718f7f92d83db2fb00e5806c6c4bd8cbfc2",
+      "path": "docs/research/cognitive_metareasoning_20261120/einstellung_reopening_12/COHORT_384_FROZEN.json",
+      "sha256": "31e86dcda897a540f7914ee123e929e30dadf8a8e93117f98c8cd137abed380a"
+    },
+    "resident_reopening_13/COHORT_384_FROZEN.json": {
+      "commit": "9b8a4718f7f92d83db2fb00e5806c6c4bd8cbfc2",
+      "path": "docs/research/cognitive_metareasoning_20261120/resident_reopening_13/COHORT_384_FROZEN.json",
+      "sha256": "3b79dd2341e0e56405a2219f41fb0e28047bf642a7372f417f23513459450b31"
+    },
+    "standard_external_04/POSITIONS_FIXED.json": {
+      "commit": "9b8a4718f7f92d83db2fb00e5806c6c4bd8cbfc2",
+      "path": "docs/research/cognitive_metareasoning_20261120/standard_external_04/POSITIONS_FIXED.json",
+      "sha256": "8dec41c775cfd55ca3448766fbe1a72fe57299f8e58f042feda907791aae9236"
+    },
+    "voc_calibration_09/COHORT_384_FROZEN.json": {
+      "commit": "9b8a4718f7f92d83db2fb00e5806c6c4bd8cbfc2",
+      "path": "docs/research/cognitive_metareasoning_20261120/voc_calibration_09/COHORT_384_FROZEN.json",
+      "sha256": "30101889eb4c17ff11ace381e6366a53b2af5130341a61e6969ac9ea091fe54e"
+    }
+  },
+  "seed": 2026112625
+}
