@@ -264,17 +264,40 @@ fn k23_run(engine:&MctsEngine<Connect4>,q:&Req,proof:&[(usize,f64,f64)])->Result
     Ok(json!({"states":states,"pulses":pulses,"chosen":chosen,"panels":panels,"forced":forced,
         "incremental_nn":inc,"causes":causes,"visits":visits,"best":best,"proof":proof,"core_us":core_us,"result":engine.four_axis_snapshot()}))
 }
+// K24: identical shadow prefix followed by actual cross-context value transfer.
+fn k24_run(engine:&MctsEngine<Connect4>,q:&Req,proof:&[(usize,f64,f64)])->Result<Value,String>{
+    let base=q.arm=="K24BASE";let mut h=Hooks::new_modes(0,0,0,false);
+    if !base{h=h.with_merge24();}
+    let t=Instant::now();engine.four_axis_block(32,1,&h);
+    let pre=engine.four_axis_snapshot();let pc=h.merge24_counts();
+    let pre_nn=engine.evaluator_call_count();let prefix_us=t.elapsed().as_micros();
+    let mut n:Vec<u64>=pre["edges"].as_array().unwrap().iter().map(|e|e["n"].as_u64().unwrap()).collect();
+    n.sort_unstable();let bin=2*usize::from(!base&&pc["shared"].as_u64().unwrap_or(0)>0)+usize::from(n[n.len()-1]-n[n.len()-2]>=4);
+    let mode=match q.arm.as_str(){"K24BASE"|"K24N"=>0,"K24M"=>1,"K24D"=>2,"K24LIVE"=>q.merge_table.as_ref().unwrap()[bin],_=>return Err("bad K24 arm".into())};
+    if !base{h.set_merge24(mode);}
+    let t=Instant::now();let mut visits=32;let cert=certified(proof);
+    if cert.is_none(){while visits<512&&engine.evaluator_call_count()<pre_nn+64{
+        engine.four_axis_block(1,1,&h);visits+=1;
+    }}
+    let nn=engine.evaluator_call_count()-pre_nn;assert!(nn<=64);
+    let tail_us=t.elapsed().as_micros();
+    let result=engine.four_axis_snapshot();let best=cert.unwrap_or(result["best"].as_u64().unwrap() as usize);
+    Ok(json!({"prefix":pre,"prefix_counts":pc,"result":result,"best":best,"visits":visits,"incremental_nn":nn,
+        "cause":if cert.is_some(){"CERTIFIED"}else if nn==64{"NN_TARGET"}else{"VISIT_CAP"},
+        "mode":mode,"bin":bin,"counts":h.merge24_counts(),"trace":h.merge24_trace(),"proof":proof,"prefix_us":prefix_us,"tail_us":tail_us}))
+}
 #[derive(Deserialize)]
 #[serde(deny_unknown_fields)]
-struct Req{cmd:String,history:String,arm:String,cap:u32,seed:u64,model_path:String,model_identity:String,#[serde(default)]controller:Option<Controller>,#[serde(default)]nn_budget:Option<u64>,#[serde(default)]tail_budget_us:Option<u64>,#[serde(default)]seq_table:Option<[[f64;8];7]>,#[serde(default)]causal_table:Option<[usize;8]>,#[serde(default)]h2_path:Option<[usize;2]>,#[serde(default)]h2_table:Option<H2Policy>}
+struct Req{cmd:String,history:String,arm:String,cap:u32,seed:u64,model_path:String,model_identity:String,#[serde(default)]controller:Option<Controller>,#[serde(default)]nn_budget:Option<u64>,#[serde(default)]tail_budget_us:Option<u64>,#[serde(default)]seq_table:Option<[[f64;8];7]>,#[serde(default)]causal_table:Option<[usize;8]>,#[serde(default)]h2_path:Option<[usize;2]>,#[serde(default)]h2_table:Option<H2Policy>,#[serde(default)]merge_table:Option<[u8;4]>}
 fn inner(line:&str)->Result<Value,String>{
     let start=Instant::now();let q:Req=serde_json::from_str(line).map_err(|e|e.to_string())?;
     let k20=matches!(q.arm.as_str(),"K20LIVE"|"K20N64"|"K20MATCH"|"K20MATCHX"|"K20TIME");
     let k21=matches!(q.arm.as_str(),"K21TRACE"|"K21LIVE"|"K21MATCH"|"K21TIME");
     let k22=matches!(q.arm.as_str(),"K22N"|"K22F"|"K22X"|"K22LIVE");
     let k23=matches!(q.arm.as_str(),"K23PATH"|"K23LIVE");
-    if q.cmd!="research_connect4_evidence_cpu"||(!k20&&!k21&&!k22&&!k23&&!matches!(q.arm.as_str(),"K16N"|"K16BAL"|"K16REV"|"K17EXP"))||![32,64].contains(&q.cap){return Err("bad contract".into());}
-    if (k20||k21||k22||k23)&&q.cap!=64 || (q.arm=="K20LIVE")!=q.controller.is_some() || q.controller.as_ref().is_some_and(|m|!m.valid()) ||
+    let k24=matches!(q.arm.as_str(),"K24BASE"|"K24N"|"K24M"|"K24D"|"K24LIVE");
+    if q.cmd!="research_connect4_evidence_cpu"||(!k20&&!k21&&!k22&&!k23&&!k24&&!matches!(q.arm.as_str(),"K16N"|"K16BAL"|"K16REV"|"K17EXP"))||![32,64].contains(&q.cap){return Err("bad contract".into());}
+    if (k20||k21||k22||k23||k24)&&q.cap!=64 || (q.arm=="K20LIVE")!=q.controller.is_some() || q.controller.as_ref().is_some_and(|m|!m.valid()) ||
         matches!(q.arm.as_str(),"K20MATCH"|"K20MATCHX"|"K21MATCH")!=q.nn_budget.is_some() || q.nn_budget.is_some_and(|n|n==0||n>65) ||
         matches!(q.arm.as_str(),"K20TIME"|"K21TIME")!=q.tail_budget_us.is_some() || q.tail_budget_us.is_some_and(|n|n>1000000){return Err("bad K20/K21 controller/budget".into());}
     if (q.arm=="K21LIVE")!=q.seq_table.is_some() || q.seq_table.as_ref().is_some_and(|t|t.iter().flatten().any(|x|!x.is_finite()||x.abs()>2.)){return Err("bad K21 table".into());}
@@ -282,12 +305,20 @@ fn inner(line:&str)->Result<Value,String>{
     if (q.arm=="K23PATH")!=q.h2_path.is_some() || (q.arm=="K23LIVE")!=q.h2_table.is_some() ||
        q.h2_path.as_ref().is_some_and(|p|p.iter().any(|&v|v>2)) ||
        q.h2_table.as_ref().is_some_and(|p|p.first.iter().chain(p.second.iter().flatten()).any(|&v|v>2)){return Err("bad H2 policy/path".into());}
+    if (q.arm=="K24LIVE")!=q.merge_table.is_some() || q.merge_table.as_ref().is_some_and(|t|t.iter().any(|&v|v>2)){return Err("bad K24 table".into());}
     let state=Connect4::from_history(&q.history)?;let legal=state.legal_moves();
     if state.is_terminal()||legal.len()<2{return Err("terminal or singleton root".into());}
     if (q.arm=="K17EXP"||k20||k21||k22||k23)&&legal.len()<3{return Err("expansion requires three legal moves".into());}
     let (ev,hit)=model_for_root("conv3x3",Some(&q.model_path),Some(&q.model_identity),true)?;
     let mut cfg=MctsConfig::evaluation(2.).with_seed(q.seed);cfg.root_forced_win=false;cfg.dirichlet=None;cfg.temperature=0.;cfg.quartz=None;
     let engine=MctsEngine::new(state.clone(),ev,cfg);
+    if k24 {
+        let proof=proof_intervals(&state);
+        let mut out=k24_run(&engine,&q,&proof)?;
+        let calls=engine.evaluator_call_count();drop(engine);
+        out.as_object_mut().unwrap().extend(json!({"schema":"quartz_k24_c4_v1","history":q.history,"arm":q.arm,"cap":q.cap,"seed":q.seed,"legal":legal,"model_identity":q.model_identity,"cache_hit":hit,"NN_calls":calls,"whole_us":start.elapsed().as_micros()}).as_object().unwrap().clone());
+        return Ok(out);
+    }
     if k23 {
         let proof=proof_intervals(&state);
         let mut out=k23_run(&engine,&q,&proof)?;

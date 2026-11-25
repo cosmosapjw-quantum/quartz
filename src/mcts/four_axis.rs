@@ -17,6 +17,72 @@ fn exact_key<G:GameState>(s:&G)->Key{
 }
 fn keyhex(k:Key)->String{format!("{k:022x}")}
 pub struct ProofPlan{pub stop:bool,pub allowed:Vec<usize>}
+// K24 atomic evidence, not visit statistics. Fixed board-only deterministic
+// Connect4 evaluator, one root/epoch, serial. Never used in standard search.
+#[derive(Default)]
+struct Context24{sum:f64,n:u64,leaf:std::collections::BTreeMap<(Key,bool),f32>}
+#[derive(Default)]
+struct Merge24{
+    entries:std::collections::BTreeMap<Key,std::collections::BTreeMap<(Key,usize),Context24>>,
+    ptrs:std::collections::BTreeMap<Key,usize>,
+    reverse_ptrs:std::collections::BTreeMap<usize,Key>,
+    trace:Vec<MergeTrace24>,
+}
+#[derive(serde::Serialize)]
+struct MergeStep24{raw_n:u64,unique_n:usize,novel_n:usize,raw_mean:Option<f64>,novel_mean:Option<f64>,incoming:f32,backup:f32}
+#[derive(serde::Serialize)]
+struct MergeTrace24{path:Vec<usize>,leaf:f32,terminal:bool,mode:u8,steps:Vec<MergeStep24>}
+impl Merge24{
+    fn identity(&mut self,k:Key,p:usize){
+        if let Some(old)=self.ptrs.insert(k,p){assert_eq!(old,p,"same board must share actual node");}
+        if let Some(old)=self.reverse_ptrs.insert(p,k){assert_eq!(old,k,"actual node aliases two boards");}
+    }
+    fn observe(&mut self,child:Key,ctx:(Key,usize),leaf:(Key,bool),raw:f32)->(u64,usize,usize,Option<f64>,Option<f64>){
+        let contexts=self.entries.entry(child).or_default();
+        let mut all=std::collections::BTreeMap::new();
+        let mut raw_sum=0.;let mut raw_n=0;
+        for (k,v) in contexts.iter(){
+            if let Some(x)=v.leaf.get(&leaf){assert_eq!(*x,raw,"deterministic leaf value mismatch");}
+            if *k==ctx{continue;}
+            raw_sum+=v.sum;raw_n+=v.n;
+            for (&l,&x) in &v.leaf{
+                if let Some(old)=all.insert(l,x){assert_eq!(old,x,"cross-context identity mismatch");}
+            }
+        }
+        let unique_n=all.len();
+        all.remove(&leaf);
+        if let Some(own)=contexts.get(&ctx){
+            for (l,x) in &own.leaf{
+                if let Some(old)=all.remove(l){assert_eq!(old,*x,"own/cross identity mismatch");}
+            }
+        }
+        let novel_n=all.len();
+        let raw_mean=if raw_n>0{Some(raw_sum/raw_n as f64)}else{None};
+        let novel_mean=if novel_n>0{Some(all.values().map(|&v|v as f64).sum::<f64>()/novel_n as f64)}else{None};
+        let own=contexts.entry(ctx).or_default();own.n+=1;own.sum+=raw as f64;
+        if let Some(old)=own.leaf.insert(leaf,raw){assert_eq!(old,raw);}
+        (raw_n,unique_n,novel_n,raw_mean,novel_mean)
+    }
+    fn counts(&self)->Value{
+        let contexts:usize=self.entries.values().map(|x|x.len()).sum();
+        let shared=self.entries.values().filter(|x|x.len()>1).count();
+        let observations:u64=self.entries.values().flat_map(|x|x.values()).map(|x|x.n).sum();
+        let unique_context:usize=self.entries.values().flat_map(|x|x.values()).map(|x|x.leaf.len()).sum();
+        json!({"children":self.entries.len(),"contexts":contexts,"shared":shared,"observations":observations,"unique_context":unique_context,"iterations":self.trace.len(),"actual_node_ids":self.ptrs.len()})
+    }
+}
+#[cfg(test)]
+mod merge24_tests{
+    use super::*;
+    #[test]fn duplicate_identity_is_not_new_cross_evidence(){
+        let mut l=Merge24::default();
+        assert_eq!(l.observe(9,(1,0),(20,false),0.5),(0,0,0,None,None));
+        assert_eq!(l.observe(9,(2,0),(20,false),0.5),(1,1,0,Some(0.5),None));
+        assert_eq!(l.observe(9,(2,0),(21,false),-0.5),(1,1,1,Some(0.5),Some(0.5)));
+        assert_eq!(l.observe(9,(1,0),(22,false),0.),(2,2,1,Some(0.),Some(-0.5)));
+    }
+}
+
 
 pub const S:u8=1;pub const X:u8=2;pub const V:u8=4;pub const B:u8=8;
 const NAMES:[&str;37]=["select_nodes","select_changed","select_deep","width_nodes","width_limited","width_mass_added","width_deep","base_evals","extra_evals","exact_child_evals","refinements","eval_changed","terminal_leaves","backup_edges","temporal_blends","merge_blends","backup_changed","terminal_edges","proofs","proof_win","proof_scans","proof_checks","graph_register","graph_rule_checks","graph_solved_skips","graph_filtered","graph_width_extra","graph_plans","graph_b_skip","local_claims","local_focus_edges","local_expand_edges","local_frontier_edges","local_frontier_hits","local_forced_deep","local_scored","graph_repeat_skips"];
@@ -33,12 +99,13 @@ pub struct Hooks{
     ledger:Mutex<Ledger>,
     gomoku_ledger:Option<Mutex<math::ContextLedger<[u64;8]>>>,
     gomoku_b_steps:Mutex<Vec<Value>>,
+    merge24:Option<Mutex<Merge24>>,merge24_mode:u8,
 }
 impl Hooks{
     pub fn new(mask:u8)->Self{Self::new_modes(mask&3,if mask&V!=0{1}else{0},if mask&B!=0{4}else{0},false)}
     pub fn new_modes(mask:u8,vmode:u8,bmode:u8,trace:bool)->Self{
         assert!(mask<=3&&vmode<=4&&bmode<=5);
-        Self{mask,vmode,bmode,trace,record_repeats:false,solved_returns:Mutex::new(std::collections::BTreeSet::new()),local_mode:0,local_remaining:AtomicU64::new(0),local_focus:None,local_frontier:None,tactical_root_floor:0,tactical_root_first:None,decision_force:None,counts:std::array::from_fn(|_|AtomicU64::new(0)),ledger:Mutex::new(Ledger::default()),gomoku_ledger:None,gomoku_b_steps:Mutex::new(Vec::new()),leaf_paths:Mutex::new(Vec::new()),workers:AtomicU64::new(0),graph:Mutex::new(Graph::default()),proof_mode:0,proof_priority:true,trace_b:false,b_events:Mutex::new(Vec::new())}
+        Self{mask,vmode,bmode,trace,record_repeats:false,solved_returns:Mutex::new(std::collections::BTreeSet::new()),local_mode:0,local_remaining:AtomicU64::new(0),local_focus:None,local_frontier:None,tactical_root_floor:0,tactical_root_first:None,decision_force:None,counts:std::array::from_fn(|_|AtomicU64::new(0)),ledger:Mutex::new(Ledger::default()),gomoku_ledger:None,gomoku_b_steps:Mutex::new(Vec::new()),merge24:None,merge24_mode:0,leaf_paths:Mutex::new(Vec::new()),workers:AtomicU64::new(0),graph:Mutex::new(Graph::default()),proof_mode:0,proof_priority:true,trace_b:false,b_events:Mutex::new(Vec::new())}
     }
     // Scope only exact unrestricted Freestyle15 board-only evaluator seam.
     pub fn with_gomoku_exact_merge(mut self)->Self{
@@ -193,7 +260,48 @@ impl Hooks{
         o.insert("b_events".into(),json!(*self.b_events.lock().unwrap()));
         Value::Object(o)
     }
+    pub fn with_merge24(mut self)->Self{
+        assert!(self.mask==0&&self.vmode==0&&self.bmode==0&&self.proof_mode==0);
+        self.merge24=Some(Mutex::new(Merge24::default()));self
+    }
+    pub fn set_merge24(&mut self,mode:u8){assert!(mode<=2&&self.merge24.is_some());self.merge24_mode=mode;}
+    pub fn merge24_counts(&self)->Value{self.merge24.as_ref().map(|x|x.lock().unwrap().counts()).unwrap_or(Value::Null)}
+    pub fn merge24_trace(&self)->Value{self.merge24.as_ref().map(|x|json!(x.lock().unwrap().trace)).unwrap_or(Value::Null)}
+    fn backup24<G:GameState>(&self,root:&G,path:&[PathEdge<G::Move>],leaf:f32,terminal:bool){
+        let mut l=self.merge24.as_ref().unwrap().lock().unwrap();
+        let mut state=root.clone();let mut keys=Vec::with_capacity(path.len());let mut moves=Vec::with_capacity(path.len());
+        for pe in path {
+            let e=&pe.parent.read_edges()[pe.edge_idx];let parent=exact_key(&state);let mv=state.move_to_idx(e.mv);
+            assert_eq!(state.tt_hash(),pe.parent.hash);
+            state=state.apply_move(e.mv);
+            let child=exact_key(&state);assert_eq!(state.tt_hash(),e.child.hash);
+            l.identity(child,&*e.child as *const _ as usize);
+            moves.push(mv);keys.push((child,(parent,mv)));
+        }
+        assert_eq!(state.is_terminal(),terminal);
+        let leaf_key=(exact_key(&state),terminal);
+        let mut raw=leaf;let mut y=leaf;let mut steps=Vec::with_capacity(path.len());
+        for (i,pe) in path.iter().enumerate().rev(){
+            let e=&pe.parent.read_edges()[pe.edge_idx];
+            let (child,ctx)=keys[i];
+            let (raw_n,unique_n,novel_n,raw_mean,novel_mean)=l.observe(child,ctx,leaf_key,raw);
+            let incoming=y;
+            if !terminal{
+                if self.merge24_mode==1{if let Some(m)=raw_mean{y=math::blend(y,m,raw_n,false);}}
+                else if self.merge24_mode==2{if let Some(m)=novel_mean{y=math::blend(y,m,novel_n as u64,false);}}
+            }
+            raw=-raw;y=-y;
+            let (vv,vq)=pe.applied_vl;e.remove_vl(vv,vq);e.record_sample(y);
+            e.child.record_incoming_sample(e as *const _ as usize,-y);
+            atomic_f64_add(&pe.parent.w_total,y as f64);
+            pe.parent.n_total.fetch_add(1,Ordering::AcqRel);
+            steps.push(MergeStep24{raw_n,unique_n,novel_n,raw_mean,novel_mean,incoming,backup:y});
+        }
+        steps.reverse();
+        l.trace.push(MergeTrace24{path:moves,leaf,terminal,mode:self.merge24_mode,steps});
+    }
     fn backup<G:GameState>(&self,root:&G,path:&[PathEdge<G::Move>],leaf:f32,terminal:bool){
+        if self.merge24.is_some(){self.backup24::<G>(root,path,leaf,terminal);return;}
         if self.bmode==0{backprop::<G>(path,leaf);return;}
         // All research B writers in this engine share this lock. Readers use
         // the existing weak atomic snapshots; this is NOT an atomic read tuple.
