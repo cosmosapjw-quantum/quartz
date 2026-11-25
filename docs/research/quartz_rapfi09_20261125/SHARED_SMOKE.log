@@ -1,0 +1,16 @@
+SMOKE trans_a STANDARD_PW 99 256 210 BudgetExhausted { iterations: 256 } 28.66446
+SMOKE trans_a STANDARD_FULL 99 64 65 BudgetExhausted { iterations: 64 } 18.094801
+SMOKE trans_a QUARTZ 96 256 244 BudgetExhausted { iterations: 256 } 31.310035
+SMOKE odd STANDARD_PW 99 256 239 BudgetExhausted { iterations: 256 } 27.67332
+SMOKE odd STANDARD_FULL 99 64 65 BudgetExhausted { iterations: 64 } 13.972104
+SMOKE odd QUARTZ 111 256 250 BudgetExhausted { iterations: 256 } 29.879881
+SMOKE immediate STANDARD_PW 109 0 0 GUARDED 0.207509
+SMOKE immediate STANDARD_FULL 109 0 0 GUARDED 0.195677
+SMOKE immediate QUARTZ 109 0 0 GUARDED 0.280577
+SMOKE block STANDARD_PW 104 0 0 GUARDED 0.189365
+SMOKE block STANDARD_FULL 104 0 0 GUARDED 0.231384
+SMOKE block QUARTZ 104 0 0 GUARDED 0.223129
+SMOKE double_loss STANDARD_PW 99 256 32 BudgetExhausted { iterations: 256 } 6.93659
+SMOKE double_loss STANDARD_FULL 99 64 53 BudgetExhausted { iterations: 64 } 11.768118
+SMOKE double_loss QUARTZ 99 256 32 BudgetExhausted { iterations: 256 } 6.66036
+PASS shared root priors+WDL across all three arms, both sides and guard
