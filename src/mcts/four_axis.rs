@@ -7,6 +7,7 @@ use serde_json::{json,Value};
 use std::sync::Mutex;
 use super::proof_graph::{Graph,Key,I,Frontier};
 use crate::games::connect4::Connect4;
+use crate::games::gomoku15::Gomoku15;
 fn exact_key<G:GameState>(s:&G)->Key{
     let c=(s as &dyn std::any::Any).downcast_ref::<Connect4>().expect("proof research is unrestricted Connect4 only");
     assert!(c.active_root_gate_mask().is_none());
@@ -29,13 +30,21 @@ pub struct Hooks{
     tactical_root_floor:usize,tactical_root_first:Option<usize>,
     leaf_paths:Mutex<Vec<Vec<usize>>>,workers:AtomicU64,
     ledger:Mutex<Ledger>,
+    gomoku_ledger:Option<Mutex<math::ContextLedger<[u64;8]>>>,
+    gomoku_b_steps:Mutex<Vec<Value>>,
 }
 impl Hooks{
     pub fn new(mask:u8)->Self{Self::new_modes(mask&3,if mask&V!=0{1}else{0},if mask&B!=0{4}else{0},false)}
     pub fn new_modes(mask:u8,vmode:u8,bmode:u8,trace:bool)->Self{
-        assert!(mask<=3&&vmode<=4&&bmode<=4);
-        Self{mask,vmode,bmode,trace,record_repeats:false,solved_returns:Mutex::new(std::collections::BTreeSet::new()),local_mode:0,local_remaining:AtomicU64::new(0),local_focus:None,local_frontier:None,tactical_root_floor:0,tactical_root_first:None,counts:std::array::from_fn(|_|AtomicU64::new(0)),ledger:Mutex::new(Ledger::default()),leaf_paths:Mutex::new(Vec::new()),workers:AtomicU64::new(0),graph:Mutex::new(Graph::default()),proof_mode:0,proof_priority:true,trace_b:false,b_events:Mutex::new(Vec::new())}
+        assert!(mask<=3&&vmode<=4&&bmode<=5);
+        Self{mask,vmode,bmode,trace,record_repeats:false,solved_returns:Mutex::new(std::collections::BTreeSet::new()),local_mode:0,local_remaining:AtomicU64::new(0),local_focus:None,local_frontier:None,tactical_root_floor:0,tactical_root_first:None,counts:std::array::from_fn(|_|AtomicU64::new(0)),ledger:Mutex::new(Ledger::default()),gomoku_ledger:None,gomoku_b_steps:Mutex::new(Vec::new()),leaf_paths:Mutex::new(Vec::new()),workers:AtomicU64::new(0),graph:Mutex::new(Graph::default()),proof_mode:0,proof_priority:true,trace_b:false,b_events:Mutex::new(Vec::new())}
     }
+    // Scope only exact unrestricted Freestyle15 board-only evaluator seam.
+    pub fn with_gomoku_exact_merge(mut self)->Self{
+        assert!(self.proof_mode==0&&!self.trace_b);
+        self.gomoku_ledger=Some(Mutex::new(math::ContextLedger::default()));self
+    }
+    pub fn gomoku_backup_trace(&self)->Value{json!(*self.gomoku_b_steps.lock().unwrap())}
     pub fn with_graph(mut self,mode:u8)->Self{assert!(mode<=2);self.proof_mode=mode;self}
     pub fn with_b_trace(mut self)->Self{self.trace_b=true;self}
     pub fn with_safe_priority(mut self)->Self{self.proof_priority=false;self}
@@ -52,7 +61,7 @@ impl Hooks{
     }
     /// Only mutate between completed blocks, never while workers are active.
     pub fn configure_local(&mut self,mode:u8,v:u8,b:u8,priority:bool){
-        assert!(mode<=3&&v<=4&&b<=4);self.local_mode=mode;self.vmode=v;self.bmode=b;self.proof_priority=priority;
+        assert!(mode<=3&&v<=4&&b<=5);self.local_mode=mode;self.vmode=v;self.bmode=b;self.proof_priority=priority;
     }
     pub fn claim_local(&self)->u8{
         if self.local_mode==0{return 0;}
@@ -163,7 +172,7 @@ impl Hooks{
     pub fn snapshot(&self)->Value{
         let mut o=serde_json::Map::new();
         for (i,n) in NAMES.iter().enumerate(){o.insert(n.to_string(),json!(self.counts[i].load(Ordering::Relaxed)));}
-        let (nodes,contexts,shared,obs)=self.ledger.lock().unwrap().counts();
+        let (nodes,contexts,shared,obs)=if let Some(l)=&self.gomoku_ledger{l.lock().unwrap().counts()}else{self.ledger.lock().unwrap().counts()};
         o.insert("ledger_nodes".into(),json!(nodes));o.insert("ledger_contexts".into(),json!(contexts));
         o.insert("ledger_shared_children".into(),json!(shared));o.insert("ledger_observations".into(),json!(obs));
         o.insert("leaf_paths".into(),json!(*self.leaf_paths.lock().unwrap()));
@@ -183,11 +192,33 @@ impl Hooks{
                 exact_children.push(exact_key(&state));
             }
         }
+        let mut exact_gomoku=Vec::new();let mut moves=Vec::new();
+        if self.gomoku_ledger.is_some(){
+            assert!(self.proof_mode==0&&!self.trace_b&&self.bmode>=2);
+            let mut state=root.clone();
+            let key=|s:&G|{
+                let g=(s as &dyn std::any::Any).downcast_ref::<Gomoku15>().expect("Gomoku board-only exact ledger");
+                math::placement_key(g.board_as_12(),g.current_player())
+            };
+            for pe in path{
+                let e=&pe.parent.read_edges()[pe.edge_idx];
+                let parent=key(&state);
+                assert_eq!(state.tt_hash(),pe.parent.hash);
+                moves.push(state.move_to_idx(e.mv));
+                state=state.apply_move(e.mv);
+                assert_eq!(state.tt_hash(),e.child.hash);
+                exact_gomoku.push((key(&state),parent));
+            }
+        }
         let mut ledger=self.ledger.lock().unwrap();
-        let mut raw=leaf;let mut y=leaf;
+        let mut exact_ledger=self.gomoku_ledger.as_ref().map(|l|l.lock().unwrap());
+        let mut raw=leaf;let mut y=leaf;let mut blends=0u64;
         for (depth,pe) in path.iter().enumerate().rev(){
             let e=&pe.parent.read_edges()[pe.edge_idx];
-            let (own,other)=if self.bmode>=2{ledger.observe_split(e.child.hash,pe.parent.hash,pe.edge_idx,raw)}else{(None,None)};
+            let (own,other)=if let Some(l)=exact_ledger.as_mut(){
+                let (child,parent)=exact_gomoku[depth];
+                l.observe_split(child,parent,moves[depth],raw)
+            }else if self.bmode>=2{ledger.observe_split(e.child.hash,pe.parent.hash,pe.edge_idx,raw)}else{(None,None)};
             let old=match self.bmode{
                 2=>own.map(|(m,n)|(m,n,false)),
                 3=>other.map(|(m,n)|(m,n,true)),
@@ -218,7 +249,7 @@ impl Hooks{
                         }
                     }
                     let z=math::blend(y,m,n,false);
-                    self.add(if other{15}else{14},1);self.add(16,((z-y).abs()>1e-7) as u64);
+                    blends+=1;self.add(if other{15}else{14},1);self.add(16,((z-y).abs()>1e-7) as u64);
                     y=z;
                     }
                 }
@@ -230,6 +261,9 @@ impl Hooks{
             // the actual incoming-context ledger above.
             atomic_f64_add(&pe.parent.w_total,y as f64);
             pe.parent.n_total.fetch_add(1,Ordering::AcqRel);
+        }
+        if exact_ledger.is_some(){
+            self.gomoku_b_steps.lock().unwrap().push(json!({"path":moves,"leaf":leaf,"proved":terminal,"mode":self.bmode,"blends":blends}));
         }
     }
 }

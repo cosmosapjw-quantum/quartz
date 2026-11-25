@@ -109,7 +109,8 @@ fn inner(line:&str)->Result<Value,String>{
     if q.cmd!="research_rapfi_shared_search"||q.rule.as_deref()!=Some("freestyle"){return Err("freestyle search only".into());}
     let h=q.history.ok_or("history required")?;let arm=q.arm.ok_or("arm required")?;
     let cap=q.visits.ok_or("visits required")?;let seed=q.seed.ok_or("seed required")?;
-    if !matches!(arm.as_str(),"STANDARD_PW"|"STANDARD_FULL"|"QUARTZ")||!(1..=1024).contains(&cap)||h.len()>224{return Err("bad arm/budget/history".into());}
+    let axis=match arm.as_str(){"AX0"=>Some((0,0,0)),"AXS"=>Some((1,0,0)),"AXX"=>Some((2,0,0)),"AXV"=>Some((0,3,0)),"AXB"=>Some((0,0,3)),"AXALL"=>Some((3,3,3)),_=>None};
+    if (!matches!(arm.as_str(),"STANDARD_PW"|"STANDARD_FULL"|"QUARTZ")&&axis.is_none())||!(1..=1024).contains(&cap)||h.len()>224||axis.is_some()&&cap!=96{return Err("bad arm/budget/history".into());}
     let start=Instant::now();
     let eval=session().lock().unwrap().as_ref().cloned().ok_or("session not open")?;
     let variant=GomokuVariant::Freestyle;
@@ -129,7 +130,7 @@ fn inner(line:&str)->Result<Value,String>{
     let mut out=json!({"schema":"quartz_rapfi_shared_v1","status":"OK","arm":arm,"rule":"freestyle","history":h,"player":side,"legal":legal,"board":board,"seed":seed,"cap":cap,"proof":proof_json(&p),"evaluator":"rapfi_250615_mix9svq","threads":1});
     // Shared, game-rule-only guard; no advantage attributed to Quartz.
     if let Some(m)=proof::guard(&p){
-        out["cause"]=json!("GUARDED");out["best"]=json!(m);out["visits"]=json!(0);out["NN_calls"]=json!(0);out["root_eval"]=Value::Null;out["initial"]=Value::Null;out["result"]=Value::Null;out["quartz"]=Value::Null;out["eval_ipc_ns"]=json!(0);out["whole_us"]=json!(start.elapsed().as_micros());return Ok(out);
+        out["axis"]=Value::Null;out["cause"]=json!("GUARDED");out["best"]=json!(m);out["visits"]=json!(0);out["NN_calls"]=json!(0);out["root_eval"]=Value::Null;out["initial"]=Value::Null;out["result"]=Value::Null;out["quartz"]=Value::Null;out["eval_ipc_ns"]=json!(0);out["whole_us"]=json!(start.elapsed().as_micros());return Ok(out);
     }
     eval.0.lock().unwrap().reset()?;
     let mut cfg=gomoku15_quartz(variant).with_seed(seed);
@@ -143,26 +144,38 @@ fn inner(line:&str)->Result<Value,String>{
     let engine=MctsEngine::new(s,eval.clone(),cfg);
     let init=engine.four_axis_snapshot();
     let t=Instant::now();
-    let (stats,telemetry)=if let Some(qcfg)=qcfg{
+    let mut axis_output=Value::Null;
+    let (visits,cause,telemetry)=if let Some((mask,v,b))=axis{
+        use crate::mcts::four_axis::Hooks;
+        let mut hook=if b==3{Hooks::new_modes(0,0,5,false).with_gomoku_exact_merge()}else{Hooks::new_modes(0,0,0,false)};
+        let mut phases=Vec::new();
+        for (i,(m,vm,bm)) in [(0,0,if b==3{5}else{0}),(mask,v,b),(0,0,0)].into_iter().enumerate(){
+            hook.mask=m;hook.configure_local(0,vm,bm,true);
+            let t0=Instant::now();engine.four_axis_block(32,1,&hook);
+            let step=t0.elapsed().as_micros();
+            phases.push(json!({"visits":32*(i+1),"step_us":step,"result":engine.four_axis_snapshot(),"counters":hook.snapshot()}));
+        }
+        axis_output=json!({"phases":phases,"exact_merge":b==3,"b_trace":hook.gomoku_backup_trace(),"mask":mask,"vmode":v,"bmode":b});
+        (96u32,"AXIS_FIXED".to_string(),Value::Null)
+    }else if let Some(qcfg)=qcfg{
         let mut ctrl=QuartzController::new(cap,qcfg);
         let stats=engine.run_quartz(&mut ctrl);
         let z=ctrl.last_stats();
         let checks=ctrl.halt_telemetry().into_iter().map(|c|json!({"visits":c.root_visits,"elapsed_ms":c.elapsed_ms,"p_flip":c.p_flip,"voc_total":c.voc_total,"voc_focus":c.voc_focus,"voc_expand":c.voc_expand,"voc_merge":c.voc_merge,"channel":c.voc_argmax_channel,"decision":c.decision,"triggered":c.triggered})).collect::<Vec<_>>();
         let sel=engine.selection_telemetry.snapshot();
-        (stats,json!({"p_flip":z.p_flip,"hbar_eff":z.hbar_eff,"voc_total":z.unified.voc_total,"voc_focus":z.unified.voc_focus,"voc_expand":z.unified.voc_expand,"voc_merge":z.unified.voc_merge,"checks":checks,"root_selects":sel.root_selects,"penalty_abs_sum":sel.selected_penalty_abs_sum,"penalty_mode_invokes":sel.penalty_mode_invoke_count}))
+        (stats.root_visits,format!("{:?}",stats.stop_reason),json!({"p_flip":z.p_flip,"hbar_eff":z.hbar_eff,"voc_total":z.unified.voc_total,"voc_focus":z.unified.voc_focus,"voc_expand":z.unified.voc_expand,"voc_merge":z.unified.voc_merge,"checks":checks,"root_selects":sel.root_selects,"penalty_abs_sum":sel.selected_penalty_abs_sum,"penalty_mode_invokes":sel.penalty_mode_invoke_count}))
     }else{
-        let mut ctrl=FixedIterations::new(cap);(engine.run(&mut ctrl),Value::Null)
+        let mut ctrl=FixedIterations::new(cap);let s=engine.run(&mut ctrl);(s.root_visits,format!("{:?}",s.stop_reason),Value::Null)
     };
     let search_us=t.elapsed().as_micros();let result=engine.four_axis_snapshot();let best=result["best"].as_u64().ok_or("no best move")?;
-    assert!(stats.root_visits>0&&stats.root_visits<=cap);
-    assert_eq!(result["root_n"].as_u64(),Some(stats.root_visits as u64));
-    if arm!="QUARTZ"{assert_eq!(stats.root_visits,cap);}
+    assert!(visits>0&&visits<=cap);
+    assert_eq!(result["root_n"].as_u64(),Some(visits as u64));
+    if arm!="QUARTZ"{assert_eq!(visits,cap);}
     let native_calls=engine.evaluator_call_count();
     let (calls,ipc,first)={let b=eval.0.lock().unwrap();(b.calls,b.elapsed_ns,b.first.as_ref().ok_or("missing root NN eval")?.json())};
     assert_eq!(calls,native_calls as u64);
-    let cause=format!("{:?}",stats.stop_reason);
     drop(engine);drop(eval);
-    out["cause"]=json!(cause);out["best"]=json!(best);out["visits"]=json!(stats.root_visits);out["NN_calls"]=json!(calls);out["root_eval"]=first;out["initial"]=init;out["result"]=result;out["quartz"]=telemetry;out["search_us"]=json!(search_us);out["eval_ipc_ns"]=json!(ipc);out["whole_us"]=json!(start.elapsed().as_micros());Ok(out)
+    out["cause"]=json!(cause);out["best"]=json!(best);out["visits"]=json!(visits);out["axis"]=axis_output;out["NN_calls"]=json!(calls);out["root_eval"]=first;out["initial"]=init;out["result"]=result;out["quartz"]=telemetry;out["search_us"]=json!(search_us);out["eval_ipc_ns"]=json!(ipc);out["whole_us"]=json!(start.elapsed().as_micros());Ok(out)
 }
 pub(super) fn handle(line:&str)->Value{match inner(line){Ok(v)=>v,Err(e)=>json!({"error":e})}}
 #[cfg(test)]

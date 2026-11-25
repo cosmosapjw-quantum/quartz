@@ -24,10 +24,11 @@ pub fn blend(y:f32,m:f64,n:u64,terminal:bool)->f32 {
     let a=0.25f64.min(n as f64/(n as f64+4.));
     ((1.-a)*y as f64+a*m).clamp(-1.,1.) as f32
 }
-#[derive(Default)]
-pub struct Ledger { entries:HashMap<u64,HashMap<(u64,usize),(f64,u64)>> }
-impl Ledger{
-    pub fn observe(&mut self,child:u64,parent:u64,edge:usize,raw:f32)->Option<(f64,u64,bool)>{
+pub struct ContextLedger<K> { entries:HashMap<K,HashMap<(K,usize),(f64,u64)>> }
+impl<K> Default for ContextLedger<K>{fn default()->Self{Self{entries:HashMap::new()}}}
+pub type Ledger=ContextLedger<u64>;
+impl<K:Copy+Eq+std::hash::Hash+Ord> ContextLedger<K>{
+    pub fn observe(&mut self,child:K,parent:K,edge:usize,raw:f32)->Option<(f64,u64,bool)>{
         let e=self.entries.entry(child).or_default();
         let key=(parent,edge);
         // Stable accumulation order across HashMap seeds.
@@ -75,8 +76,8 @@ pub fn certificate(terminal_actions:&[Option<f32>])->Option<f32>{
     }
     None
 }
-impl Ledger{
-    pub fn observe_split(&mut self,child:u64,parent:u64,edge:usize,raw:f32)->(Option<(f64,u64)>,Option<(f64,u64)>){
+impl<K:Copy+Eq+std::hash::Hash+Ord> ContextLedger<K>{
+    pub fn observe_split(&mut self,child:K,parent:K,edge:usize,raw:f32)->(Option<(f64,u64)>,Option<(f64,u64)>){
         let e=self.entries.entry(child).or_default();let key=(parent,edge);
         let own=e.get(&key).map(|&(s,n)|(s/n as f64,n));
         let mut other:Vec<_>=e.iter().filter(|(k,_)|**k!=key).collect();
@@ -108,7 +109,12 @@ mod mechanism_tests {
 }
 
 // Exact board and side identity for unrestricted fixed-rule Rapfi Gomoku.
-pub fn placement_key(_board:&[u8;225],_side:i8)->[u64;8]{[0;8]}
+pub fn placement_key(board:&[u8;225],side:i8)->[u64;8]{
+    assert!(side==1||side==-1);
+    let mut out=[0;8];
+    for (i,&v) in board.iter().enumerate(){assert!(v<=2);out[(2*i)/64]|=(v as u64)<<((2*i)%64);}
+    out[7]|=((side==1) as u64)<<2;out
+}
 #[cfg(test)]
 mod placement_key_tests{
     use super::*;
