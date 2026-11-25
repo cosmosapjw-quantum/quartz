@@ -1,0 +1,46 @@
+{
+  "arm_cost": {
+    "BASE": {
+      "CPU_measured_moves": 382,
+      "NN_rows": 3407,
+      "moves": 382,
+      "python_cpu_ns": 87177502216,
+      "rust_cpu_ns_tick_estimate": 850000000,
+      "visits": 3056,
+      "wall_ns": 69753683014
+    }
+  },
+  "candidate_score": null,
+  "committed": 4,
+  "completed_arena_pairs": 0,
+  "counts": {
+    "COMPLETED": 4,
+    "NN_rows": 3407,
+    "TRAIN": 4,
+    "compressed_bytes": 920752,
+    "searched_plies": 382
+  },
+  "cross_split_D4_states": 0,
+  "length_bins": {
+    "TRAIN/080": 2,
+    "TRAIN/100": 2
+  },
+  "missing": 12,
+  "observed_positions": 382,
+  "orphan_temp_files": 0,
+  "plan_sha256": "eb7e07b78ccce10ccc9c0350effd9bf8a3ddc6d1b9ca77aa83418d75c5e7f97c",
+  "planned": 16,
+  "probe_count": 0,
+  "rule_witnesses": {
+    "TRAIN": 194
+  },
+  "searched_ply_bins": {
+    "TRAIN/000": 56,
+    "TRAIN/020": 80,
+    "TRAIN/040": 80,
+    "TRAIN/060": 80,
+    "TRAIN/080": 58,
+    "TRAIN/100": 28
+  },
+  "unique_D4_states": 371
+}
