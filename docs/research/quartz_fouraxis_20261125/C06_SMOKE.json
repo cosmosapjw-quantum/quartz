@@ -1,0 +1,6843 @@
+{
+  "all_masks": [
+    {
+      "cache_hit": true,
+      "drop_us": 97,
+      "history": "777542321677733216662",
+      "hooks": {
+        "backup_changed": 0,
+        "backup_edges": 0,
+        "base_evals": 46,
+        "eval_changed": 0,
+        "exact_child_evals": 0,
+        "extra_evals": 0,
+        "ledger_contexts": 0,
+        "ledger_nodes": 0,
+        "ledger_observations": 0,
+        "ledger_shared_children": 0,
+        "merge_blends": 0,
+        "refinements": 0,
+        "select_changed": 0,
+        "select_deep": 0,
+        "select_nodes": 0,
+        "temporal_blends": 0,
+        "terminal_edges": 0,
+        "terminal_leaves": 18,
+        "width_deep": 0,
+        "width_limited": 0,
+        "width_mass_added": 0,
+        "width_nodes": 0
+      },
+      "initial": {
+        "best": 2,
+        "candidates": [
+          [
+            3,
+            0.4769536852836609
+          ],
+          [
+            4,
+            0.1409633755683899
+          ],
+          [
+            0,
+            0.1151859387755394
+          ],
+          [
+            5,
+            0.10333775728940964
+          ],
+          [
+            1,
+            0.08845976740121841
+          ],
+          [
+            2,
+            0.07509955763816833
+          ]
+        ],
+        "edges": [
+          {
+            "child_hash": "ae0996fa86659220",
+            "m2": 0.0,
+            "move": 3,
+            "n": 0,
+            "prior": 0.4769536852836609,
+            "vl": 0,
+            "vvalue": 0.0,
+            "w": 0.0
+          },
+          {
+            "child_hash": "dbb525eba2d196ee",
+            "m2": 0.0,
+            "move": 4,
+            "n": 0,
+            "prior": 0.1409633755683899,
+            "vl": 0,
+            "vvalue": 0.0,
+            "w": 0.0
+          },
+          {
+            "child_hash": "836ec2625a98406c",
+            "m2": 0.0,
+            "move": 0,
+            "n": 0,
+            "prior": 0.1151859387755394,
+            "vl": 0,
+            "vvalue": 0.0,
+            "w": 0.0
+          },
+          {
+            "child_hash": "aa064a0cc9998bd2",
+            "m2": 0.0,
+            "move": 5,
+            "n": 0,
+            "prior": 0.10333775728940964,
+            "vl": 0,
+            "vvalue": 0.0,
+            "w": 0.0
+          },
+          {
+            "child_hash": "9c0dfc01422ca6ea",
+            "m2": 0.0,
+            "move": 1,
+            "n": 0,
+            "prior": 0.08845976740121841,
+            "vl": 0,
+            "vvalue": 0.0,
+            "w": 0.0
+          },
+          {
+            "child_hash": "c04773baf9e152fa",
+            "m2": 0.0,
+            "move": 2,
+            "n": 0,
+            "prior": 0.07509955763816833,
+            "vl": 0,
+            "vvalue": 0.0,
+            "w": 0.0
+          }
+        ],
+        "evaluator_calls": 1,
+        "root_hash": "18a7d0ac2c728a7b",
+        "root_n": 0,
+        "root_w": 0.0,
+        "tt_size": 7
+      },
+      "mask": 0,
+      "model_identity": "161f9e6e26840754384cb47335d1082d837fa014735cbfaa2517209422e29f24",
+      "result": {
+        "best": 4,
+        "candidates": [
+          [
+            3,
+            0.4769536852836609
+          ],
+          [
+            4,
+            0.1409633755683899
+          ],
+          [
+            0,
+            0.1151859387755394
+          ],
+          [
+            5,
+            0.10333775728940964
+          ],
+          [
+            1,
+            0.08845976740121841
+          ],
+          [
+            2,
+            0.07509955763816833
+          ]
+        ],
+        "edges": [
+          {
+            "child_hash": "ae0996fa86659220",
+            "m2": 1.1493204407041162,
+            "move": 3,
+            "n": 8,
+            "prior": 0.4769536852836609,
+            "vl": 0,
+            "vvalue": 0.0,
+            "w": -6.350772842764854
+          },
+          {
+            "child_hash": "dbb525eba2d196ee",
+            "m2": 36.14434221112839,
+            "move": 4,
+            "n": 52,
+            "prior": 0.1409633755683899,
+            "vl": 0,
+            "vvalue": 0.0,
+            "w": 10.363027065992355
+          },
+          {
+            "child_hash": "836ec2625a98406c",
+            "m2": 0.0,
+            "move": 0,
+            "n": 1,
+            "prior": 0.1151859387755394,
+            "vl": 0,
+            "vvalue": 0.0,
+            "w": -0.856111466884613
+          },
+          {
+            "child_hash": "aa064a0cc9998bd2",
+            "m2": 0.0,
+            "move": 5,
+            "n": 1,
+            "prior": 0.10333775728940964,
+            "vl": 0,
+            "vvalue": 0.0,
+            "w": -0.9166579246520996
+          },
+          {
+            "child_hash": "9c0dfc01422ca6ea",
+            "m2": 0.0,
+            "move": 1,
+            "n": 1,
+            "prior": 0.08845976740121841,
+            "vl": 0,
+            "vvalue": 0.0,
+            "w": -0.9150035977363586
+          },
+          {
+            "child_hash": "c04773baf9e152fa",
+            "m2": 0.0,
+            "move": 2,
+            "n": 1,
+            "prior": 0.07509955763816833,
+            "vl": 0,
+            "vvalue": 0.0,
+            "w": -0.768665075302124
+          }
+        ],
+        "evaluator_calls": 47,
+        "root_hash": "18a7d0ac2c728a7b",
+        "root_n": 64,
+        "root_w": 0.5558161586523056,
+        "tt_size": 262
+      },
+      "schema": "quartz_fouraxis_v1",
+      "search_us": 1146,
+      "seed": 17,
+      "setup_us": 165,
+      "standard": false,
+      "threads": 2,
+      "transport_us": 1719.233,
+      "visits": 64,
+      "whole_us": 1640
+    },
+    {
+      "cache_hit": true,
+      "drop_us": 99,
+      "history": "777542321677733216662",
+      "hooks": {
+        "backup_changed": 0,
+        "backup_edges": 0,
+        "base_evals": 48,
+        "eval_changed": 0,
+        "exact_child_evals": 0,
+        "extra_evals": 0,
+        "ledger_contexts": 0,
+        "ledger_nodes": 0,
+        "ledger_observations": 0,
+        "ledger_shared_children": 0,
+        "merge_blends": 0,
+        "refinements": 0,
+        "select_changed": 217,
+        "select_deep": 153,
+        "select_nodes": 217,
+        "temporal_blends": 0,
+        "terminal_edges": 0,
+        "terminal_leaves": 16,
+        "width_deep": 0,
+        "width_limited": 0,
+        "width_mass_added": 0,
+        "width_nodes": 0
+      },
+      "initial": {
+        "best": 2,
+        "candidates": [
+          [
+            3,
+            0.4769536852836609
+          ],
+          [
+            4,
+            0.1409633755683899
+          ],
+          [
+            0,
+            0.1151859387755394
+          ],
+          [
+            5,
+            0.10333775728940964
+          ],
+          [
+            1,
+            0.08845976740121841
+          ],
+          [
+            2,
+            0.07509955763816833
+          ]
+        ],
+        "edges": [
+          {
+            "child_hash": "ae0996fa86659220",
+            "m2": 0.0,
+            "move": 3,
+            "n": 0,
+            "prior": 0.4769536852836609,
+            "vl": 0,
+            "vvalue": 0.0,
+            "w": 0.0
+          },
+          {
+            "child_hash": "dbb525eba2d196ee",
+            "m2": 0.0,
+            "move": 4,
+            "n": 0,
+            "prior": 0.1409633755683899,
+            "vl": 0,
+            "vvalue": 0.0,
+            "w": 0.0
+          },
+          {
+            "child_hash": "836ec2625a98406c",
+            "m2": 0.0,
+            "move": 0,
+            "n": 0,
+            "prior": 0.1151859387755394,
+            "vl": 0,
+            "vvalue": 0.0,
+            "w": 0.0
+          },
+          {
+            "child_hash": "aa064a0cc9998bd2",
+            "m2": 0.0,
+            "move": 5,
+            "n": 0,
+            "prior": 0.10333775728940964,
+            "vl": 0,
+            "vvalue": 0.0,
+            "w": 0.0
+          },
+          {
+            "child_hash": "9c0dfc01422ca6ea",
+            "m2": 0.0,
+            "move": 1,
+            "n": 0,
+            "prior": 0.08845976740121841,
+            "vl": 0,
+            "vvalue": 0.0,
+            "w": 0.0
+          },
+          {
+            "child_hash": "c04773baf9e152fa",
+            "m2": 0.0,
+            "move": 2,
+            "n": 0,
+            "prior": 0.07509955763816833,
+            "vl": 0,
+            "vvalue": 0.0,
+            "w": 0.0
+          }
+        ],
+        "evaluator_calls": 1,
+        "root_hash": "18a7d0ac2c728a7b",
+        "root_n": 0,
+        "root_w": 0.0,
+        "tt_size": 7
+      },
+      "mask": 1,
+      "model_identity": "161f9e6e26840754384cb47335d1082d837fa014735cbfaa2517209422e29f24",
+      "result": {
+        "best": 4,
+        "candidates": [
+          [
+            3,
+            0.4769536852836609
+          ],
+          [
+            4,
+            0.1409633755683899
+          ],
+          [
+            0,
+            0.1151859387755394
+          ],
+          [
+            5,
+            0.10333775728940964
+          ],
+          [
+            1,
+            0.08845976740121841
+          ],
+          [
+            2,
+            0.07509955763816833
+          ]
+        ],
+        "edges": [
+          {
+            "child_hash": "ae0996fa86659220",
+            "m2": 1.1870975270396984,
+            "move": 3,
+            "n": 9,
+            "prior": 0.4769536852836609,
+            "vl": 0,
+            "vvalue": 0.0,
+            "w": -7.350772842764854
+          },
+          {
+            "child_hash": "dbb525eba2d196ee",
+            "m2": 32.18361757078597,
+            "move": 4,
+            "n": 49,
+            "prior": 0.1409633755683899,
+            "vl": 0,
+            "vvalue": 0.0,
+            "w": 8.279742449522018
+          },
+          {
+            "child_hash": "836ec2625a98406c",
+            "m2": 1.1357258746878098,
+            "move": 0,
+            "n": 3,
+            "prior": 0.1151859387755394,
+            "vl": 0,
+            "vvalue": 0.0,
+            "w": -1.4849132299423218
+          },
+          {
+            "child_hash": "aa064a0cc9998bd2",
+            "m2": 0.0,
+            "move": 5,
+            "n": 1,
+            "prior": 0.10333775728940964,
+            "vl": 0,
+            "vvalue": 0.0,
+            "w": -0.9166579246520996
+          },
+          {
+            "child_hash": "9c0dfc01422ca6ea",
+            "m2": 0.0,
+            "move": 1,
+            "n": 1,
+            "prior": 0.08845976740121841,
+            "vl": 0,
+            "vvalue": 0.0,
+            "w": -0.9150035977363586
+          },
+          {
+            "child_hash": "c04773baf9e152fa",
+            "m2": 0.0,
+            "move": 2,
+            "n": 1,
+            "prior": 0.07509955763816833,
+            "vl": 0,
+            "vvalue": 0.0,
+            "w": -0.768665075302124
+          }
+        ],
+        "evaluator_calls": 49,
+        "root_hash": "18a7d0ac2c728a7b",
+        "root_n": 64,
+        "root_w": -3.15627022087574,
+        "tt_size": 275
+      },
+      "schema": "quartz_fouraxis_v1",
+      "search_us": 1146,
+      "seed": 17,
+      "setup_us": 130,
+      "standard": false,
+      "threads": 2,
+      "transport_us": 1648.769,
+      "visits": 64,
+      "whole_us": 1574
+    },
+    {
+      "cache_hit": true,
+      "drop_us": 89,
+      "history": "777542321677733216662",
+      "hooks": {
+        "backup_changed": 0,
+        "backup_edges": 0,
+        "base_evals": 44,
+        "eval_changed": 0,
+        "exact_child_evals": 0,
+        "extra_evals": 0,
+        "ledger_contexts": 0,
+        "ledger_nodes": 0,
+        "ledger_observations": 0,
+        "ledger_shared_children": 0,
+        "merge_blends": 0,
+        "refinements": 0,
+        "select_changed": 0,
+        "select_deep": 0,
+        "select_nodes": 0,
+        "temporal_blends": 0,
+        "terminal_edges": 0,
+        "terminal_leaves": 20,
+        "width_deep": 174,
+        "width_limited": 184,
+        "width_mass_added": 13,
+        "width_nodes": 238
+      },
+      "initial": {
+        "best": 3,
+        "candidates": [
+          [
+            3,
+            0.4769536852836609
+          ],
+          [
+            4,
+            0.1409633755683899
+          ],
+          [
+            0,
+            0.1151859387755394
+          ],
+          [
+            5,
+            0.10333775728940964
+          ],
+          [
+            1,
+            0.08845976740121841
+          ],
+          [
+            2,
+            0.07509955763816833
+          ]
+        ],
+        "edges": [
+          {
+            "child_hash": "ae0996fa86659220",
+            "m2": 0.0,
+            "move": 3,
+            "n": 0,
+            "prior": 0.4769536852836609,
+            "vl": 0,
+            "vvalue": 0.0,
+            "w": 0.0
+          }
+        ],
+        "evaluator_calls": 1,
+        "root_hash": "18a7d0ac2c728a7b",
+        "root_n": 0,
+        "root_w": 0.0,
+        "tt_size": 2
+      },
+      "mask": 2,
+      "model_identity": "161f9e6e26840754384cb47335d1082d837fa014735cbfaa2517209422e29f24",
+      "result": {
+        "best": 4,
+        "candidates": [
+          [
+            3,
+            0.4769536852836609
+          ],
+          [
+            4,
+            0.1409633755683899
+          ],
+          [
+            0,
+            0.1151859387755394
+          ],
+          [
+            5,
+            0.10333775728940964
+          ],
+          [
+            1,
+            0.08845976740121841
+          ],
+          [
+            2,
+            0.07509955763816833
+          ]
+        ],
+        "edges": [
+          {
+            "child_hash": "ae0996fa86659220",
+            "m2": 1.1493204407041164,
+            "move": 3,
+            "n": 8,
+            "prior": 0.4769536852836609,
+            "vl": 0,
+            "vvalue": 0.0,
+            "w": -6.350772842764854
+          },
+          {
+            "child_hash": "dbb525eba2d196ee",
+            "m2": 34.13044323001391,
+            "move": 4,
+            "n": 49,
+            "prior": 0.1409633755683899,
+            "vl": 0,
+            "vvalue": 0.0,
+            "w": 10.211274772882462
+          },
+          {
+            "child_hash": "836ec2625a98406c",
+            "m2": 0.0,
+            "move": 0,
+            "n": 1,
+            "prior": 0.1151859387755394,
+            "vl": 0,
+            "vvalue": 0.0,
+            "w": -0.856111466884613
+          },
+          {
+            "child_hash": "aa064a0cc9998bd2",
+            "m2": 0.0,
+            "move": 5,
+            "n": 2,
+            "prior": 0.10333775728940964,
+            "vl": 0,
+            "vvalue": 0.0,
+            "w": -1.8333158493041992
+          },
+          {
+            "child_hash": "9c0dfc01422ca6ea",
+            "m2": 0.0,
+            "move": 1,
+            "n": 2,
+            "prior": 0.08845976740121841,
+            "vl": 0,
+            "vvalue": 0.0,
+            "w": -1.8300071954727173
+          },
+          {
+            "child_hash": "c04773baf9e152fa",
+            "m2": 0.0,
+            "move": 2,
+            "n": 2,
+            "prior": 0.07509955763816833,
+            "vl": 0,
+            "vvalue": 0.0,
+            "w": -1.537330150604248
+          }
+        ],
+        "evaluator_calls": 45,
+        "root_hash": "18a7d0ac2c728a7b",
+        "root_n": 64,
+        "root_w": -2.1962627321481705,
+        "tt_size": 78
+      },
+      "schema": "quartz_fouraxis_v1",
+      "search_us": 968,
+      "seed": 17,
+      "setup_us": 128,
+      "standard": false,
+      "threads": 2,
+      "transport_us": 1433.572,
+      "visits": 64,
+      "whole_us": 1366
+    },
+    {
+      "cache_hit": true,
+      "drop_us": 92,
+      "history": "777542321677733216662",
+      "hooks": {
+        "backup_changed": 0,
+        "backup_edges": 0,
+        "base_evals": 44,
+        "eval_changed": 0,
+        "exact_child_evals": 0,
+        "extra_evals": 0,
+        "ledger_contexts": 0,
+        "ledger_nodes": 0,
+        "ledger_observations": 0,
+        "ledger_shared_children": 0,
+        "merge_blends": 0,
+        "refinements": 0,
+        "select_changed": 221,
+        "select_deep": 157,
+        "select_nodes": 221,
+        "temporal_blends": 0,
+        "terminal_edges": 0,
+        "terminal_leaves": 20,
+        "width_deep": 157,
+        "width_limited": 167,
+        "width_mass_added": 15,
+        "width_nodes": 221
+      },
+      "initial": {
+        "best": 3,
+        "candidates": [
+          [
+            3,
+            0.4769536852836609
+          ],
+          [
+            4,
+            0.1409633755683899
+          ],
+          [
+            0,
+            0.1151859387755394
+          ],
+          [
+            5,
+            0.10333775728940964
+          ],
+          [
+            1,
+            0.08845976740121841
+          ],
+          [
+            2,
+            0.07509955763816833
+          ]
+        ],
+        "edges": [
+          {
+            "child_hash": "ae0996fa86659220",
+            "m2": 0.0,
+            "move": 3,
+            "n": 0,
+            "prior": 0.4769536852836609,
+            "vl": 0,
+            "vvalue": 0.0,
+            "w": 0.0
+          }
+        ],
+        "evaluator_calls": 1,
+        "root_hash": "18a7d0ac2c728a7b",
+        "root_n": 0,
+        "root_w": 0.0,
+        "tt_size": 2
+      },
+      "mask": 3,
+      "model_identity": "161f9e6e26840754384cb47335d1082d837fa014735cbfaa2517209422e29f24",
+      "result": {
+        "best": 4,
+        "candidates": [
+          [
+            3,
+            0.4769536852836609
+          ],
+          [
+            4,
+            0.1409633755683899
+          ],
+          [
+            0,
+            0.1151859387755394
+          ],
+          [
+            5,
+            0.10333775728940964
+          ],
+          [
+            1,
+            0.08845976740121841
+          ],
+          [
+            2,
+            0.07509955763816833
+          ]
+        ],
+        "edges": [
+          {
+            "child_hash": "ae0996fa86659220",
+            "m2": 1.1870975270396986,
+            "move": 3,
+            "n": 9,
+            "prior": 0.4769536852836609,
+            "vl": 0,
+            "vvalue": 0.0,
+            "w": -7.350772842764854
+          },
+          {
+            "child_hash": "dbb525eba2d196ee",
+            "m2": 31.426803155613058,
+            "move": 4,
+            "n": 46,
+            "prior": 0.1409633755683899,
+            "vl": 0,
+            "vvalue": 0.0,
+            "w": 8.93406930565834
+          },
+          {
+            "child_hash": "836ec2625a98406c",
+            "m2": 1.1357258746878098,
+            "move": 0,
+            "n": 3,
+            "prior": 0.1151859387755394,
+            "vl": 0,
+            "vvalue": 0.0,
+            "w": -1.4849132299423218
+          },
+          {
+            "child_hash": "aa064a0cc9998bd2",
+            "m2": 0.0,
+            "move": 5,
+            "n": 2,
+            "prior": 0.10333775728940964,
+            "vl": 0,
+            "vvalue": 0.0,
+            "w": -1.8333158493041992
+          },
+          {
+            "child_hash": "9c0dfc01422ca6ea",
+            "m2": 0.0,
+            "move": 1,
+            "n": 2,
+            "prior": 0.08845976740121841,
+            "vl": 0,
+            "vvalue": 0.0,
+            "w": -1.8300071954727173
+          },
+          {
+            "child_hash": "c04773baf9e152fa",
+            "m2": 0.0,
+            "move": 2,
+            "n": 2,
+            "prior": 0.07509955763816833,
+            "vl": 0,
+            "vvalue": 0.0,
+            "w": -1.537330150604248
+          }
+        ],
+        "evaluator_calls": 45,
+        "root_hash": "18a7d0ac2c728a7b",
+        "root_n": 64,
+        "root_w": -5.10226996243,
+        "tt_size": 86
+      },
+      "schema": "quartz_fouraxis_v1",
+      "search_us": 981,
+      "seed": 17,
+      "setup_us": 117,
+      "standard": false,
+      "threads": 2,
+      "transport_us": 1446.266,
+      "visits": 64,
+      "whole_us": 1378
+    },
+    {
+      "cache_hit": true,
+      "drop_us": 110,
+      "history": "777542321677733216662",
+      "hooks": {
+        "backup_changed": 0,
+        "backup_edges": 0,
+        "base_evals": 46,
+        "eval_changed": 8,
+        "exact_child_evals": 4,
+        "extra_evals": 12,
+        "ledger_contexts": 0,
+        "ledger_nodes": 0,
+        "ledger_observations": 0,
+        "ledger_shared_children": 0,
+        "merge_blends": 0,
+        "refinements": 8,
+        "select_changed": 0,
+        "select_deep": 0,
+        "select_nodes": 0,
+        "temporal_blends": 0,
+        "terminal_edges": 0,
+        "terminal_leaves": 18,
+        "width_deep": 0,
+        "width_limited": 0,
+        "width_mass_added": 0,
+        "width_nodes": 0
+      },
+      "initial": {
+        "best": 2,
+        "candidates": [
+          [
+            3,
+            0.4769536852836609
+          ],
+          [
+            4,
+            0.1409633755683899
+          ],
+          [
+            0,
+            0.1151859387755394
+          ],
+          [
+            5,
+            0.10333775728940964
+          ],
+          [
+            1,
+            0.08845976740121841
+          ],
+          [
+            2,
+            0.07509955763816833
+          ]
+        ],
+        "edges": [
+          {
+            "child_hash": "ae0996fa86659220",
+            "m2": 0.0,
+            "move": 3,
+            "n": 0,
+            "prior": 0.4769536852836609,
+            "vl": 0,
+            "vvalue": 0.0,
+            "w": 0.0
+          },
+          {
+            "child_hash": "dbb525eba2d196ee",
+            "m2": 0.0,
+            "move": 4,
+            "n": 0,
+            "prior": 0.1409633755683899,
+            "vl": 0,
+            "vvalue": 0.0,
+            "w": 0.0
+          },
+          {
+            "child_hash": "836ec2625a98406c",
+            "m2": 0.0,
+            "move": 0,
+            "n": 0,
+            "prior": 0.1151859387755394,
+            "vl": 0,
+            "vvalue": 0.0,
+            "w": 0.0
+          },
+          {
+            "child_hash": "aa064a0cc9998bd2",
+            "m2": 0.0,
+            "move": 5,
+            "n": 0,
+            "prior": 0.10333775728940964,
+            "vl": 0,
+            "vvalue": 0.0,
+            "w": 0.0
+          },
+          {
+            "child_hash": "9c0dfc01422ca6ea",
+            "m2": 0.0,
+            "move": 1,
+            "n": 0,
+            "prior": 0.08845976740121841,
+            "vl": 0,
+            "vvalue": 0.0,
+            "w": 0.0
+          },
+          {
+            "child_hash": "c04773baf9e152fa",
+            "m2": 0.0,
+            "move": 2,
+            "n": 0,
+            "prior": 0.07509955763816833,
+            "vl": 0,
+            "vvalue": 0.0,
+            "w": 0.0
+          }
+        ],
+        "evaluator_calls": 1,
+        "root_hash": "18a7d0ac2c728a7b",
+        "root_n": 0,
+        "root_w": 0.0,
+        "tt_size": 7
+      },
+      "mask": 4,
+      "model_identity": "161f9e6e26840754384cb47335d1082d837fa014735cbfaa2517209422e29f24",
+      "result": {
+        "best": 4,
+        "candidates": [
+          [
+            3,
+            0.4769536852836609
+          ],
+          [
+            4,
+            0.1409633755683899
+          ],
+          [
+            0,
+            0.1151859387755394
+          ],
+          [
+            5,
+            0.10333775728940964
+          ],
+          [
+            1,
+            0.08845976740121841
+          ],
+          [
+            2,
+            0.07509955763816833
+          ]
+        ],
+        "edges": [
+          {
+            "child_hash": "ae0996fa86659220",
+            "m2": 0.3792685477986549,
+            "move": 3,
+            "n": 8,
+            "prior": 0.4769536852836609,
+            "vl": 0,
+            "vvalue": 0.0,
+            "w": -6.8718850910663605
+          },
+          {
+            "child_hash": "dbb525eba2d196ee",
+            "m2": 35.88844395462805,
+            "move": 4,
+            "n": 50,
+            "prior": 0.1409633755683899,
+            "vl": 0,
+            "vvalue": 0.0,
+            "w": 8.177533403038979
+          },
+          {
+            "child_hash": "836ec2625a98406c",
+            "m2": 0.3453287206432396,
+            "move": 0,
+            "n": 3,
+            "prior": 0.1151859387755394,
+            "vl": 0,
+            "vvalue": 0.0,
+            "w": -2.0753194391727448
+          },
+          {
+            "child_hash": "aa064a0cc9998bd2",
+            "m2": 0.0,
+            "move": 5,
+            "n": 1,
+            "prior": 0.10333775728940964,
+            "vl": 0,
+            "vvalue": 0.0,
+            "w": -0.9166579246520996
+          },
+          {
+            "child_hash": "9c0dfc01422ca6ea",
+            "m2": 0.0,
+            "move": 1,
+            "n": 1,
+            "prior": 0.08845976740121841,
+            "vl": 0,
+            "vvalue": 0.0,
+            "w": -0.9150035977363586
+          },
+          {
+            "child_hash": "c04773baf9e152fa",
+            "m2": 0.0,
+            "move": 2,
+            "n": 1,
+            "prior": 0.07509955763816833,
+            "vl": 0,
+            "vvalue": 0.0,
+            "w": -0.768665075302124
+          }
+        ],
+        "evaluator_calls": 59,
+        "root_hash": "18a7d0ac2c728a7b",
+        "root_n": 64,
+        "root_w": -3.369997724890709,
+        "tt_size": 267
+      },
+      "schema": "quartz_fouraxis_v1",
+      "search_us": 1293,
+      "seed": 17,
+      "setup_us": 120,
+      "standard": false,
+      "threads": 2,
+      "transport_us": 1807.038,
+      "visits": 64,
+      "whole_us": 1725
+    },
+    {
+      "cache_hit": true,
+      "drop_us": 98,
+      "history": "777542321677733216662",
+      "hooks": {
+        "backup_changed": 0,
+        "backup_edges": 0,
+        "base_evals": 48,
+        "eval_changed": 9,
+        "exact_child_evals": 5,
+        "extra_evals": 13,
+        "ledger_contexts": 0,
+        "ledger_nodes": 0,
+        "ledger_observations": 0,
+        "ledger_shared_children": 0,
+        "merge_blends": 0,
+        "refinements": 9,
+        "select_changed": 218,
+        "select_deep": 154,
+        "select_nodes": 218,
+        "temporal_blends": 0,
+        "terminal_edges": 0,
+        "terminal_leaves": 16,
+        "width_deep": 0,
+        "width_limited": 0,
+        "width_mass_added": 0,
+        "width_nodes": 0
+      },
+      "initial": {
+        "best": 2,
+        "candidates": [
+          [
+            3,
+            0.4769536852836609
+          ],
+          [
+            4,
+            0.1409633755683899
+          ],
+          [
+            0,
+            0.1151859387755394
+          ],
+          [
+            5,
+            0.10333775728940964
+          ],
+          [
+            1,
+            0.08845976740121841
+          ],
+          [
+            2,
+            0.07509955763816833
+          ]
+        ],
+        "edges": [
+          {
+            "child_hash": "ae0996fa86659220",
+            "m2": 0.0,
+            "move": 3,
+            "n": 0,
+            "prior": 0.4769536852836609,
+            "vl": 0,
+            "vvalue": 0.0,
+            "w": 0.0
+          },
+          {
+            "child_hash": "dbb525eba2d196ee",
+            "m2": 0.0,
+            "move": 4,
+            "n": 0,
+            "prior": 0.1409633755683899,
+            "vl": 0,
+            "vvalue": 0.0,
+            "w": 0.0
+          },
+          {
+            "child_hash": "836ec2625a98406c",
+            "m2": 0.0,
+            "move": 0,
+            "n": 0,
+            "prior": 0.1151859387755394,
+            "vl": 0,
+            "vvalue": 0.0,
+            "w": 0.0
+          },
+          {
+            "child_hash": "aa064a0cc9998bd2",
+            "m2": 0.0,
+            "move": 5,
+            "n": 0,
+            "prior": 0.10333775728940964,
+            "vl": 0,
+            "vvalue": 0.0,
+            "w": 0.0
+          },
+          {
+            "child_hash": "9c0dfc01422ca6ea",
+            "m2": 0.0,
+            "move": 1,
+            "n": 0,
+            "prior": 0.08845976740121841,
+            "vl": 0,
+            "vvalue": 0.0,
+            "w": 0.0
+          },
+          {
+            "child_hash": "c04773baf9e152fa",
+            "m2": 0.0,
+            "move": 2,
+            "n": 0,
+            "prior": 0.07509955763816833,
+            "vl": 0,
+            "vvalue": 0.0,
+            "w": 0.0
+          }
+        ],
+        "evaluator_calls": 1,
+        "root_hash": "18a7d0ac2c728a7b",
+        "root_n": 0,
+        "root_w": 0.0,
+        "tt_size": 7
+      },
+      "mask": 5,
+      "model_identity": "161f9e6e26840754384cb47335d1082d837fa014735cbfaa2517209422e29f24",
+      "result": {
+        "best": 4,
+        "candidates": [
+          [
+            3,
+            0.4769536852836609
+          ],
+          [
+            4,
+            0.1409633755683899
+          ],
+          [
+            0,
+            0.1151859387755394
+          ],
+          [
+            5,
+            0.10333775728940964
+          ],
+          [
+            1,
+            0.08845976740121841
+          ],
+          [
+            2,
+            0.07509955763816833
+          ]
+        ],
+        "edges": [
+          {
+            "child_hash": "ae0996fa86659220",
+            "m2": 0.37936184001830214,
+            "move": 3,
+            "n": 9,
+            "prior": 0.4769536852836609,
+            "vl": 0,
+            "vvalue": 0.0,
+            "w": -7.741115421056747
+          },
+          {
+            "child_hash": "dbb525eba2d196ee",
+            "m2": 34.20544167845675,
+            "move": 4,
+            "n": 49,
+            "prior": 0.1409633755683899,
+            "vl": 0,
+            "vvalue": 0.0,
+            "w": 6.618231907486916
+          },
+          {
+            "child_hash": "836ec2625a98406c",
+            "m2": 0.3453287206432396,
+            "move": 0,
+            "n": 3,
+            "prior": 0.1151859387755394,
+            "vl": 0,
+            "vvalue": 0.0,
+            "w": -2.0753194391727448
+          },
+          {
+            "child_hash": "aa064a0cc9998bd2",
+            "m2": 0.0,
+            "move": 5,
+            "n": 1,
+            "prior": 0.10333775728940964,
+            "vl": 0,
+            "vvalue": 0.0,
+            "w": -0.9166579246520996
+          },
+          {
+            "child_hash": "9c0dfc01422ca6ea",
+            "m2": 0.0,
+            "move": 1,
+            "n": 1,
+            "prior": 0.08845976740121841,
+            "vl": 0,
+            "vvalue": 0.0,
+            "w": -0.9150035977363586
+          },
+          {
+            "child_hash": "c04773baf9e152fa",
+            "m2": 0.0,
+            "move": 2,
+            "n": 1,
+            "prior": 0.07509955763816833,
+            "vl": 0,
+            "vvalue": 0.0,
+            "w": -0.768665075302124
+          }
+        ],
+        "evaluator_calls": 62,
+        "root_hash": "18a7d0ac2c728a7b",
+        "root_n": 64,
+        "root_w": -5.798529550433159,
+        "tt_size": 269
+      },
+      "schema": "quartz_fouraxis_v1",
+      "search_us": 1348,
+      "seed": 17,
+      "setup_us": 128,
+      "standard": false,
+      "threads": 2,
+      "transport_us": 1860.59,
+      "visits": 64,
+      "whole_us": 1774
+    },
+    {
+      "cache_hit": true,
+      "drop_us": 89,
+      "history": "777542321677733216662",
+      "hooks": {
+        "backup_changed": 0,
+        "backup_edges": 0,
+        "base_evals": 45,
+        "eval_changed": 8,
+        "exact_child_evals": 5,
+        "extra_evals": 11,
+        "ledger_contexts": 0,
+        "ledger_nodes": 0,
+        "ledger_observations": 0,
+        "ledger_shared_children": 0,
+        "merge_blends": 0,
+        "refinements": 8,
+        "select_changed": 0,
+        "select_deep": 0,
+        "select_nodes": 0,
+        "temporal_blends": 0,
+        "terminal_edges": 0,
+        "terminal_leaves": 19,
+        "width_deep": 198,
+        "width_limited": 208,
+        "width_mass_added": 14,
+        "width_nodes": 262
+      },
+      "initial": {
+        "best": 3,
+        "candidates": [
+          [
+            3,
+            0.4769536852836609
+          ],
+          [
+            4,
+            0.1409633755683899
+          ],
+          [
+            0,
+            0.1151859387755394
+          ],
+          [
+            5,
+            0.10333775728940964
+          ],
+          [
+            1,
+            0.08845976740121841
+          ],
+          [
+            2,
+            0.07509955763816833
+          ]
+        ],
+        "edges": [
+          {
+            "child_hash": "ae0996fa86659220",
+            "m2": 0.0,
+            "move": 3,
+            "n": 0,
+            "prior": 0.4769536852836609,
+            "vl": 0,
+            "vvalue": 0.0,
+            "w": 0.0
+          }
+        ],
+        "evaluator_calls": 1,
+        "root_hash": "18a7d0ac2c728a7b",
+        "root_n": 0,
+        "root_w": 0.0,
+        "tt_size": 2
+      },
+      "mask": 6,
+      "model_identity": "161f9e6e26840754384cb47335d1082d837fa014735cbfaa2517209422e29f24",
+      "result": {
+        "best": 4,
+        "candidates": [
+          [
+            3,
+            0.4769536852836609
+          ],
+          [
+            4,
+            0.1409633755683899
+          ],
+          [
+            0,
+            0.1151859387755394
+          ],
+          [
+            5,
+            0.10333775728940964
+          ],
+          [
+            1,
+            0.08845976740121841
+          ],
+          [
+            2,
+            0.07509955763816833
+          ]
+        ],
+        "edges": [
+          {
+            "child_hash": "ae0996fa86659220",
+            "m2": 0.3565427755172557,
+            "move": 3,
+            "n": 7,
+            "prior": 0.4769536852836609,
+            "vl": 0,
+            "vvalue": 0.0,
+            "w": -5.8718850910663605
+          },
+          {
+            "child_hash": "dbb525eba2d196ee",
+            "m2": 37.71936823158446,
+            "move": 4,
+            "n": 52,
+            "prior": 0.1409633755683899,
+            "vl": 0,
+            "vvalue": 0.0,
+            "w": 8.648623064160347
+          },
+          {
+            "child_hash": "836ec2625a98406c",
+            "m2": 0.0,
+            "move": 0,
+            "n": 1,
+            "prior": 0.1151859387755394,
+            "vl": 0,
+            "vvalue": 0.0,
+            "w": -0.856111466884613
+          },
+          {
+            "child_hash": "aa064a0cc9998bd2",
+            "m2": 0.0,
+            "move": 5,
+            "n": 2,
+            "prior": 0.10333775728940964,
+            "vl": 0,
+            "vvalue": 0.0,
+            "w": -1.8333158493041992
+          },
+          {
+            "child_hash": "9c0dfc01422ca6ea",
+            "m2": 0.0,
+            "move": 1,
+            "n": 1,
+            "prior": 0.08845976740121841,
+            "vl": 0,
+            "vvalue": 0.0,
+            "w": -0.9150035977363586
+          },
+          {
+            "child_hash": "c04773baf9e152fa",
+            "m2": 0.0,
+            "move": 2,
+            "n": 1,
+            "prior": 0.07509955763816833,
+            "vl": 0,
+            "vvalue": 0.0,
+            "w": -0.768665075302124
+          }
+        ],
+        "evaluator_calls": 57,
+        "root_hash": "18a7d0ac2c728a7b",
+        "root_n": 64,
+        "root_w": -1.5963580161333084,
+        "tt_size": 88
+      },
+      "schema": "quartz_fouraxis_v1",
+      "search_us": 1174,
+      "seed": 17,
+      "setup_us": 131,
+      "standard": false,
+      "threads": 2,
+      "transport_us": 1654.019,
+      "visits": 64,
+      "whole_us": 1586
+    },
+    {
+      "cache_hit": true,
+      "drop_us": 89,
+      "history": "777542321677733216662",
+      "hooks": {
+        "backup_changed": 0,
+        "backup_edges": 0,
+        "base_evals": 43,
+        "eval_changed": 9,
+        "exact_child_evals": 4,
+        "extra_evals": 14,
+        "ledger_contexts": 0,
+        "ledger_nodes": 0,
+        "ledger_observations": 0,
+        "ledger_shared_children": 0,
+        "merge_blends": 0,
+        "refinements": 9,
+        "select_changed": 237,
+        "select_deep": 174,
+        "select_nodes": 238,
+        "temporal_blends": 0,
+        "terminal_edges": 0,
+        "terminal_leaves": 21,
+        "width_deep": 174,
+        "width_limited": 184,
+        "width_mass_added": 15,
+        "width_nodes": 238
+      },
+      "initial": {
+        "best": 3,
+        "candidates": [
+          [
+            3,
+            0.4769536852836609
+          ],
+          [
+            4,
+            0.1409633755683899
+          ],
+          [
+            0,
+            0.1151859387755394
+          ],
+          [
+            5,
+            0.10333775728940964
+          ],
+          [
+            1,
+            0.08845976740121841
+          ],
+          [
+            2,
+            0.07509955763816833
+          ]
+        ],
+        "edges": [
+          {
+            "child_hash": "ae0996fa86659220",
+            "m2": 0.0,
+            "move": 3,
+            "n": 0,
+            "prior": 0.4769536852836609,
+            "vl": 0,
+            "vvalue": 0.0,
+            "w": 0.0
+          }
+        ],
+        "evaluator_calls": 1,
+        "root_hash": "18a7d0ac2c728a7b",
+        "root_n": 0,
+        "root_w": 0.0,
+        "tt_size": 2
+      },
+      "mask": 7,
+      "model_identity": "161f9e6e26840754384cb47335d1082d837fa014735cbfaa2517209422e29f24",
+      "result": {
+        "best": 4,
+        "candidates": [
+          [
+            3,
+            0.4769536852836609
+          ],
+          [
+            4,
+            0.1409633755683899
+          ],
+          [
+            0,
+            0.1151859387755394
+          ],
+          [
+            5,
+            0.10333775728940964
+          ],
+          [
+            1,
+            0.08845976740121841
+          ],
+          [
+            2,
+            0.07509955763816833
+          ]
+        ],
+        "edges": [
+          {
+            "child_hash": "ae0996fa86659220",
+            "m2": 0.37936184001830214,
+            "move": 3,
+            "n": 9,
+            "prior": 0.4769536852836609,
+            "vl": 0,
+            "vvalue": 0.0,
+            "w": -7.741115421056747
+          },
+          {
+            "child_hash": "dbb525eba2d196ee",
+            "m2": 33.53942056073969,
+            "move": 4,
+            "n": 48,
+            "prior": 0.1409633755683899,
+            "vl": 0,
+            "vvalue": 0.0,
+            "w": 9.865425765514374
+          },
+          {
+            "child_hash": "836ec2625a98406c",
+            "m2": 0.3453287206432396,
+            "move": 0,
+            "n": 3,
+            "prior": 0.1151859387755394,
+            "vl": 0,
+            "vvalue": 0.0,
+            "w": -2.0753194391727448
+          },
+          {
+            "child_hash": "aa064a0cc9998bd2",
+            "m2": 0.0,
+            "move": 5,
+            "n": 2,
+            "prior": 0.10333775728940964,
+            "vl": 0,
+            "vvalue": 0.0,
+            "w": -1.8333158493041992
+          },
+          {
+            "child_hash": "9c0dfc01422ca6ea",
+            "m2": 0.0,
+            "move": 1,
+            "n": 1,
+            "prior": 0.08845976740121841,
+            "vl": 0,
+            "vvalue": 0.0,
+            "w": -0.9150035977363586
+          },
+          {
+            "child_hash": "c04773baf9e152fa",
+            "m2": 0.0,
+            "move": 2,
+            "n": 1,
+            "prior": 0.07509955763816833,
+            "vl": 0,
+            "vvalue": 0.0,
+            "w": -0.768665075302124
+          }
+        ],
+        "evaluator_calls": 58,
+        "root_hash": "18a7d0ac2c728a7b",
+        "root_n": 64,
+        "root_w": -3.4679936170578003,
+        "tt_size": 84
+      },
+      "schema": "quartz_fouraxis_v1",
+      "search_us": 1218,
+      "seed": 17,
+      "setup_us": 117,
+      "standard": false,
+      "threads": 2,
+      "transport_us": 1683.886,
+      "visits": 64,
+      "whole_us": 1619
+    },
+    {
+      "cache_hit": true,
+      "drop_us": 101,
+      "history": "777542321677733216662",
+      "hooks": {
+        "backup_changed": 127,
+        "backup_edges": 249,
+        "base_evals": 46,
+        "eval_changed": 0,
+        "exact_child_evals": 0,
+        "extra_evals": 0,
+        "ledger_contexts": 50,
+        "ledger_nodes": 50,
+        "ledger_observations": 249,
+        "ledger_shared_children": 0,
+        "merge_blends": 0,
+        "refinements": 0,
+        "select_changed": 0,
+        "select_deep": 0,
+        "select_nodes": 0,
+        "temporal_blends": 130,
+        "terminal_edges": 76,
+        "terminal_leaves": 18,
+        "width_deep": 0,
+        "width_limited": 0,
+        "width_mass_added": 0,
+        "width_nodes": 0
+      },
+      "initial": {
+        "best": 2,
+        "candidates": [
+          [
+            3,
+            0.4769536852836609
+          ],
+          [
+            4,
+            0.1409633755683899
+          ],
+          [
+            0,
+            0.1151859387755394
+          ],
+          [
+            5,
+            0.10333775728940964
+          ],
+          [
+            1,
+            0.08845976740121841
+          ],
+          [
+            2,
+            0.07509955763816833
+          ]
+        ],
+        "edges": [
+          {
+            "child_hash": "ae0996fa86659220",
+            "m2": 0.0,
+            "move": 3,
+            "n": 0,
+            "prior": 0.4769536852836609,
+            "vl": 0,
+            "vvalue": 0.0,
+            "w": 0.0
+          },
+          {
+            "child_hash": "dbb525eba2d196ee",
+            "m2": 0.0,
+            "move": 4,
+            "n": 0,
+            "prior": 0.1409633755683899,
+            "vl": 0,
+            "vvalue": 0.0,
+            "w": 0.0
+          },
+          {
+            "child_hash": "836ec2625a98406c",
+            "m2": 0.0,
+            "move": 0,
+            "n": 0,
+            "prior": 0.1151859387755394,
+            "vl": 0,
+            "vvalue": 0.0,
+            "w": 0.0
+          },
+          {
+            "child_hash": "aa064a0cc9998bd2",
+            "m2": 0.0,
+            "move": 5,
+            "n": 0,
+            "prior": 0.10333775728940964,
+            "vl": 0,
+            "vvalue": 0.0,
+            "w": 0.0
+          },
+          {
+            "child_hash": "9c0dfc01422ca6ea",
+            "m2": 0.0,
+            "move": 1,
+            "n": 0,
+            "prior": 0.08845976740121841,
+            "vl": 0,
+            "vvalue": 0.0,
+            "w": 0.0
+          },
+          {
+            "child_hash": "c04773baf9e152fa",
+            "m2": 0.0,
+            "move": 2,
+            "n": 0,
+            "prior": 0.07509955763816833,
+            "vl": 0,
+            "vvalue": 0.0,
+            "w": 0.0
+          }
+        ],
+        "evaluator_calls": 1,
+        "root_hash": "18a7d0ac2c728a7b",
+        "root_n": 0,
+        "root_w": 0.0,
+        "tt_size": 7
+      },
+      "mask": 8,
+      "model_identity": "161f9e6e26840754384cb47335d1082d837fa014735cbfaa2517209422e29f24",
+      "result": {
+        "best": 4,
+        "candidates": [
+          [
+            3,
+            0.4769536852836609
+          ],
+          [
+            4,
+            0.1409633755683899
+          ],
+          [
+            0,
+            0.1151859387755394
+          ],
+          [
+            5,
+            0.10333775728940964
+          ],
+          [
+            1,
+            0.08845976740121841
+          ],
+          [
+            2,
+            0.07509955763816833
+          ]
+        ],
+        "edges": [
+          {
+            "child_hash": "ae0996fa86659220",
+            "m2": 0.6522465148079791,
+            "move": 3,
+            "n": 7,
+            "prior": 0.4769536852836609,
+            "vl": 0,
+            "vvalue": 0.0,
+            "w": -5.62417833507061
+          },
+          {
+            "child_hash": "dbb525eba2d196ee",
+            "m2": 15.64841676465148,
+            "move": 4,
+            "n": 53,
+            "prior": 0.1409633755683899,
+            "vl": 0,
+            "vvalue": 0.0,
+            "w": 13.726107658818364
+          },
+          {
+            "child_hash": "836ec2625a98406c",
+            "m2": 0.0,
+            "move": 0,
+            "n": 1,
+            "prior": 0.1151859387755394,
+            "vl": 0,
+            "vvalue": 0.0,
+            "w": -0.856111466884613
+          },
+          {
+            "child_hash": "aa064a0cc9998bd2",
+            "m2": 0.0,
+            "move": 5,
+            "n": 1,
+            "prior": 0.10333775728940964,
+            "vl": 0,
+            "vvalue": 0.0,
+            "w": -0.9166579246520996
+          },
+          {
+            "child_hash": "9c0dfc01422ca6ea",
+            "m2": 0.0,
+            "move": 1,
+            "n": 1,
+            "prior": 0.08845976740121841,
+            "vl": 0,
+            "vvalue": 0.0,
+            "w": -0.9150035977363586
+          },
+          {
+            "child_hash": "c04773baf9e152fa",
+            "m2": 0.0,
+            "move": 2,
+            "n": 1,
+            "prior": 0.07509955763816833,
+            "vl": 0,
+            "vvalue": 0.0,
+            "w": -0.768665075302124
+          }
+        ],
+        "evaluator_calls": 47,
+        "root_hash": "18a7d0ac2c728a7b",
+        "root_n": 64,
+        "root_w": 4.645491259172559,
+        "tt_size": 262
+      },
+      "schema": "quartz_fouraxis_v1",
+      "search_us": 1032,
+      "seed": 17,
+      "setup_us": 119,
+      "standard": false,
+      "threads": 2,
+      "transport_us": 1541.576,
+      "visits": 64,
+      "whole_us": 1457
+    },
+    {
+      "cache_hit": true,
+      "drop_us": 99,
+      "history": "777542321677733216662",
+      "hooks": {
+        "backup_changed": 129,
+        "backup_edges": 229,
+        "base_evals": 48,
+        "eval_changed": 0,
+        "exact_child_evals": 0,
+        "extra_evals": 0,
+        "ledger_contexts": 54,
+        "ledger_nodes": 54,
+        "ledger_observations": 229,
+        "ledger_shared_children": 0,
+        "merge_blends": 0,
+        "refinements": 0,
+        "select_changed": 229,
+        "select_deep": 165,
+        "select_nodes": 229,
+        "temporal_blends": 130,
+        "terminal_edges": 52,
+        "terminal_leaves": 16,
+        "width_deep": 0,
+        "width_limited": 0,
+        "width_mass_added": 0,
+        "width_nodes": 0
+      },
+      "initial": {
+        "best": 2,
+        "candidates": [
+          [
+            3,
+            0.4769536852836609
+          ],
+          [
+            4,
+            0.1409633755683899
+          ],
+          [
+            0,
+            0.1151859387755394
+          ],
+          [
+            5,
+            0.10333775728940964
+          ],
+          [
+            1,
+            0.08845976740121841
+          ],
+          [
+            2,
+            0.07509955763816833
+          ]
+        ],
+        "edges": [
+          {
+            "child_hash": "ae0996fa86659220",
+            "m2": 0.0,
+            "move": 3,
+            "n": 0,
+            "prior": 0.4769536852836609,
+            "vl": 0,
+            "vvalue": 0.0,
+            "w": 0.0
+          },
+          {
+            "child_hash": "dbb525eba2d196ee",
+            "m2": 0.0,
+            "move": 4,
+            "n": 0,
+            "prior": 0.1409633755683899,
+            "vl": 0,
+            "vvalue": 0.0,
+            "w": 0.0
+          },
+          {
+            "child_hash": "836ec2625a98406c",
+            "m2": 0.0,
+            "move": 0,
+            "n": 0,
+            "prior": 0.1151859387755394,
+            "vl": 0,
+            "vvalue": 0.0,
+            "w": 0.0
+          },
+          {
+            "child_hash": "aa064a0cc9998bd2",
+            "m2": 0.0,
+            "move": 5,
+            "n": 0,
+            "prior": 0.10333775728940964,
+            "vl": 0,
+            "vvalue": 0.0,
+            "w": 0.0
+          },
+          {
+            "child_hash": "9c0dfc01422ca6ea",
+            "m2": 0.0,
+            "move": 1,
+            "n": 0,
+            "prior": 0.08845976740121841,
+            "vl": 0,
+            "vvalue": 0.0,
+            "w": 0.0
+          },
+          {
+            "child_hash": "c04773baf9e152fa",
+            "m2": 0.0,
+            "move": 2,
+            "n": 0,
+            "prior": 0.07509955763816833,
+            "vl": 0,
+            "vvalue": 0.0,
+            "w": 0.0
+          }
+        ],
+        "evaluator_calls": 1,
+        "root_hash": "18a7d0ac2c728a7b",
+        "root_n": 0,
+        "root_w": 0.0,
+        "tt_size": 7
+      },
+      "mask": 9,
+      "model_identity": "161f9e6e26840754384cb47335d1082d837fa014735cbfaa2517209422e29f24",
+      "result": {
+        "best": 4,
+        "candidates": [
+          [
+            3,
+            0.4769536852836609
+          ],
+          [
+            4,
+            0.1409633755683899
+          ],
+          [
+            0,
+            0.1151859387755394
+          ],
+          [
+            5,
+            0.10333775728940964
+          ],
+          [
+            1,
+            0.08845976740121841
+          ],
+          [
+            2,
+            0.07509955763816833
+          ]
+        ],
+        "edges": [
+          {
+            "child_hash": "ae0996fa86659220",
+            "m2": 0.7152685944000848,
+            "move": 3,
+            "n": 8,
+            "prior": 0.4769536852836609,
+            "vl": 0,
+            "vvalue": 0.0,
+            "w": -6.60433529317379
+          },
+          {
+            "child_hash": "dbb525eba2d196ee",
+            "m2": 13.414439024226002,
+            "move": 4,
+            "n": 50,
+            "prior": 0.1409633755683899,
+            "vl": 0,
+            "vvalue": 0.0,
+            "w": 9.37580262357369
+          },
+          {
+            "child_hash": "836ec2625a98406c",
+            "m2": 0.7506703827737079,
+            "move": 0,
+            "n": 3,
+            "prior": 0.1151859387755394,
+            "vl": 0,
+            "vvalue": 0.0,
+            "w": -1.7303751707077026
+          },
+          {
+            "child_hash": "aa064a0cc9998bd2",
+            "m2": 0.0,
+            "move": 5,
+            "n": 1,
+            "prior": 0.10333775728940964,
+            "vl": 0,
+            "vvalue": 0.0,
+            "w": -0.9166579246520996
+          },
+          {
+            "child_hash": "9c0dfc01422ca6ea",
+            "m2": 0.0,
+            "move": 1,
+            "n": 1,
+            "prior": 0.08845976740121841,
+            "vl": 0,
+            "vvalue": 0.0,
+            "w": -0.9150035977363586
+          },
+          {
+            "child_hash": "c04773baf9e152fa",
+            "m2": 0.0,
+            "move": 2,
+            "n": 1,
+            "prior": 0.07509955763816833,
+            "vl": 0,
+            "vvalue": 0.0,
+            "w": -0.768665075302124
+          }
+        ],
+        "evaluator_calls": 49,
+        "root_hash": "18a7d0ac2c728a7b",
+        "root_n": 64,
+        "root_w": -1.5592344379983842,
+        "tt_size": 284
+      },
+      "schema": "quartz_fouraxis_v1",
+      "search_us": 1184,
+      "seed": 17,
+      "setup_us": 130,
+      "standard": false,
+      "threads": 2,
+      "transport_us": 1697.702,
+      "visits": 64,
+      "whole_us": 1615
+    },
+    {
+      "cache_hit": true,
+      "drop_us": 88,
+      "history": "777542321677733216662",
+      "hooks": {
+        "backup_changed": 111,
+        "backup_edges": 243,
+        "base_evals": 44,
+        "eval_changed": 0,
+        "exact_child_evals": 0,
+        "extra_evals": 0,
+        "ledger_contexts": 42,
+        "ledger_nodes": 42,
+        "ledger_observations": 243,
+        "ledger_shared_children": 0,
+        "merge_blends": 0,
+        "refinements": 0,
+        "select_changed": 0,
+        "select_deep": 0,
+        "select_nodes": 0,
+        "temporal_blends": 120,
+        "terminal_edges": 88,
+        "terminal_leaves": 20,
+        "width_deep": 179,
+        "width_limited": 189,
+        "width_mass_added": 13,
+        "width_nodes": 243
+      },
+      "initial": {
+        "best": 3,
+        "candidates": [
+          [
+            3,
+            0.4769536852836609
+          ],
+          [
+            4,
+            0.1409633755683899
+          ],
+          [
+            0,
+            0.1151859387755394
+          ],
+          [
+            5,
+            0.10333775728940964
+          ],
+          [
+            1,
+            0.08845976740121841
+          ],
+          [
+            2,
+            0.07509955763816833
+          ]
+        ],
+        "edges": [
+          {
+            "child_hash": "ae0996fa86659220",
+            "m2": 0.0,
+            "move": 3,
+            "n": 0,
+            "prior": 0.4769536852836609,
+            "vl": 0,
+            "vvalue": 0.0,
+            "w": 0.0
+          }
+        ],
+        "evaluator_calls": 1,
+        "root_hash": "18a7d0ac2c728a7b",
+        "root_n": 0,
+        "root_w": 0.0,
+        "tt_size": 2
+      },
+      "mask": 10,
+      "model_identity": "161f9e6e26840754384cb47335d1082d837fa014735cbfaa2517209422e29f24",
+      "result": {
+        "best": 4,
+        "candidates": [
+          [
+            3,
+            0.4769536852836609
+          ],
+          [
+            4,
+            0.1409633755683899
+          ],
+          [
+            0,
+            0.1151859387755394
+          ],
+          [
+            5,
+            0.10333775728940964
+          ],
+          [
+            1,
+            0.08845976740121841
+          ],
+          [
+            2,
+            0.07509955763816833
+          ]
+        ],
+        "edges": [
+          {
+            "child_hash": "ae0996fa86659220",
+            "m2": 0.6804850234379368,
+            "move": 3,
+            "n": 7,
+            "prior": 0.4769536852836609,
+            "vl": 0,
+            "vvalue": 0.0,
+            "w": -5.60433529317379
+          },
+          {
+            "child_hash": "dbb525eba2d196ee",
+            "m2": 16.765161444351836,
+            "move": 4,
+            "n": 50,
+            "prior": 0.1409633755683899,
+            "vl": 0,
+            "vvalue": 0.0,
+            "w": 13.295625567436218
+          },
+          {
+            "child_hash": "836ec2625a98406c",
+            "m2": 0.0,
+            "move": 0,
+            "n": 1,
+            "prior": 0.1151859387755394,
+            "vl": 0,
+            "vvalue": 0.0,
+            "w": -0.856111466884613
+          },
+          {
+            "child_hash": "aa064a0cc9998bd2",
+            "m2": 0.0,
+            "move": 5,
+            "n": 2,
+            "prior": 0.10333775728940964,
+            "vl": 0,
+            "vvalue": 0.0,
+            "w": -1.8333158493041992
+          },
+          {
+            "child_hash": "9c0dfc01422ca6ea",
+            "m2": 0.0,
+            "move": 1,
+            "n": 2,
+            "prior": 0.08845976740121841,
+            "vl": 0,
+            "vvalue": 0.0,
+            "w": -1.8300071954727173
+          },
+          {
+            "child_hash": "c04773baf9e152fa",
+            "m2": 0.0,
+            "move": 2,
+            "n": 2,
+            "prior": 0.07509955763816833,
+            "vl": 0,
+            "vvalue": 0.0,
+            "w": -1.537330150604248
+          }
+        ],
+        "evaluator_calls": 45,
+        "root_hash": "18a7d0ac2c728a7b",
+        "root_n": 64,
+        "root_w": 1.6345256119966507,
+        "tt_size": 78
+      },
+      "schema": "quartz_fouraxis_v1",
+      "search_us": 968,
+      "seed": 17,
+      "setup_us": 134,
+      "standard": false,
+      "threads": 2,
+      "transport_us": 1450.874,
+      "visits": 64,
+      "whole_us": 1380
+    },
+    {
+      "cache_hit": true,
+      "drop_us": 90,
+      "history": "777542321677733216662",
+      "hooks": {
+        "backup_changed": 107,
+        "backup_edges": 231,
+        "base_evals": 44,
+        "eval_changed": 0,
+        "exact_child_evals": 0,
+        "extra_evals": 0,
+        "ledger_contexts": 44,
+        "ledger_nodes": 44,
+        "ledger_observations": 231,
+        "ledger_shared_children": 0,
+        "merge_blends": 0,
+        "refinements": 0,
+        "select_changed": 230,
+        "select_deep": 167,
+        "select_nodes": 231,
+        "temporal_blends": 115,
+        "terminal_edges": 80,
+        "terminal_leaves": 20,
+        "width_deep": 167,
+        "width_limited": 177,
+        "width_mass_added": 15,
+        "width_nodes": 231
+      },
+      "initial": {
+        "best": 3,
+        "candidates": [
+          [
+            3,
+            0.4769536852836609
+          ],
+          [
+            4,
+            0.1409633755683899
+          ],
+          [
+            0,
+            0.1151859387755394
+          ],
+          [
+            5,
+            0.10333775728940964
+          ],
+          [
+            1,
+            0.08845976740121841
+          ],
+          [
+            2,
+            0.07509955763816833
+          ]
+        ],
+        "edges": [
+          {
+            "child_hash": "ae0996fa86659220",
+            "m2": 0.0,
+            "move": 3,
+            "n": 0,
+            "prior": 0.4769536852836609,
+            "vl": 0,
+            "vvalue": 0.0,
+            "w": 0.0
+          }
+        ],
+        "evaluator_calls": 1,
+        "root_hash": "18a7d0ac2c728a7b",
+        "root_n": 0,
+        "root_w": 0.0,
+        "tt_size": 2
+      },
+      "mask": 11,
+      "model_identity": "161f9e6e26840754384cb47335d1082d837fa014735cbfaa2517209422e29f24",
+      "result": {
+        "best": 4,
+        "candidates": [
+          [
+            3,
+            0.4769536852836609
+          ],
+          [
+            4,
+            0.1409633755683899
+          ],
+          [
+            0,
+            0.1151859387755394
+          ],
+          [
+            5,
+            0.10333775728940964
+          ],
+          [
+            1,
+            0.08845976740121841
+          ],
+          [
+            2,
+            0.07509955763816833
+          ]
+        ],
+        "edges": [
+          {
+            "child_hash": "ae0996fa86659220",
+            "m2": 0.7152685944000848,
+            "move": 3,
+            "n": 8,
+            "prior": 0.4769536852836609,
+            "vl": 0,
+            "vvalue": 0.0,
+            "w": -6.60433529317379
+          },
+          {
+            "child_hash": "dbb525eba2d196ee",
+            "m2": 15.695004284406991,
+            "move": 4,
+            "n": 47,
+            "prior": 0.1409633755683899,
+            "vl": 0,
+            "vvalue": 0.0,
+            "w": 10.922377966344357
+          },
+          {
+            "child_hash": "836ec2625a98406c",
+            "m2": 0.7506703827737079,
+            "move": 0,
+            "n": 3,
+            "prior": 0.1151859387755394,
+            "vl": 0,
+            "vvalue": 0.0,
+            "w": -1.7303751707077026
+          },
+          {
+            "child_hash": "aa064a0cc9998bd2",
+            "m2": 0.0,
+            "move": 5,
+            "n": 2,
+            "prior": 0.10333775728940964,
+            "vl": 0,
+            "vvalue": 0.0,
+            "w": -1.8333158493041992
+          },
+          {
+            "child_hash": "9c0dfc01422ca6ea",
+            "m2": 0.0,
+            "move": 1,
+            "n": 2,
+            "prior": 0.08845976740121841,
+            "vl": 0,
+            "vvalue": 0.0,
+            "w": -1.8300071954727173
+          },
+          {
+            "child_hash": "c04773baf9e152fa",
+            "m2": 0.0,
+            "move": 2,
+            "n": 2,
+            "prior": 0.07509955763816833,
+            "vl": 0,
+            "vvalue": 0.0,
+            "w": -1.537330150604248
+          }
+        ],
+        "evaluator_calls": 45,
+        "root_hash": "18a7d0ac2c728a7b",
+        "root_n": 64,
+        "root_w": -2.6129856929183006,
+        "tt_size": 82
+      },
+      "schema": "quartz_fouraxis_v1",
+      "search_us": 1007,
+      "seed": 17,
+      "setup_us": 117,
+      "standard": false,
+      "threads": 2,
+      "transport_us": 1475.862,
+      "visits": 64,
+      "whole_us": 1406
+    },
+    {
+      "cache_hit": true,
+      "drop_us": 95,
+      "history": "777542321677733216662",
+      "hooks": {
+        "backup_changed": 127,
+        "backup_edges": 250,
+        "base_evals": 46,
+        "eval_changed": 7,
+        "exact_child_evals": 4,
+        "extra_evals": 10,
+        "ledger_contexts": 49,
+        "ledger_nodes": 49,
+        "ledger_observations": 250,
+        "ledger_shared_children": 0,
+        "merge_blends": 0,
+        "refinements": 7,
+        "select_changed": 0,
+        "select_deep": 0,
+        "select_nodes": 0,
+        "temporal_blends": 130,
+        "terminal_edges": 77,
+        "terminal_leaves": 18,
+        "width_deep": 0,
+        "width_limited": 0,
+        "width_mass_added": 0,
+        "width_nodes": 0
+      },
+      "initial": {
+        "best": 2,
+        "candidates": [
+          [
+            3,
+            0.4769536852836609
+          ],
+          [
+            4,
+            0.1409633755683899
+          ],
+          [
+            0,
+            0.1151859387755394
+          ],
+          [
+            5,
+            0.10333775728940964
+          ],
+          [
+            1,
+            0.08845976740121841
+          ],
+          [
+            2,
+            0.07509955763816833
+          ]
+        ],
+        "edges": [
+          {
+            "child_hash": "ae0996fa86659220",
+            "m2": 0.0,
+            "move": 3,
+            "n": 0,
+            "prior": 0.4769536852836609,
+            "vl": 0,
+            "vvalue": 0.0,
+            "w": 0.0
+          },
+          {
+            "child_hash": "dbb525eba2d196ee",
+            "m2": 0.0,
+            "move": 4,
+            "n": 0,
+            "prior": 0.1409633755683899,
+            "vl": 0,
+            "vvalue": 0.0,
+            "w": 0.0
+          },
+          {
+            "child_hash": "836ec2625a98406c",
+            "m2": 0.0,
+            "move": 0,
+            "n": 0,
+            "prior": 0.1151859387755394,
+            "vl": 0,
+            "vvalue": 0.0,
+            "w": 0.0
+          },
+          {
+            "child_hash": "aa064a0cc9998bd2",
+            "m2": 0.0,
+            "move": 5,
+            "n": 0,
+            "prior": 0.10333775728940964,
+            "vl": 0,
+            "vvalue": 0.0,
+            "w": 0.0
+          },
+          {
+            "child_hash": "9c0dfc01422ca6ea",
+            "m2": 0.0,
+            "move": 1,
+            "n": 0,
+            "prior": 0.08845976740121841,
+            "vl": 0,
+            "vvalue": 0.0,
+            "w": 0.0
+          },
+          {
+            "child_hash": "c04773baf9e152fa",
+            "m2": 0.0,
+            "move": 2,
+            "n": 0,
+            "prior": 0.07509955763816833,
+            "vl": 0,
+            "vvalue": 0.0,
+            "w": 0.0
+          }
+        ],
+        "evaluator_calls": 1,
+        "root_hash": "18a7d0ac2c728a7b",
+        "root_n": 0,
+        "root_w": 0.0,
+        "tt_size": 7
+      },
+      "mask": 12,
+      "model_identity": "161f9e6e26840754384cb47335d1082d837fa014735cbfaa2517209422e29f24",
+      "result": {
+        "best": 4,
+        "candidates": [
+          [
+            3,
+            0.4769536852836609
+          ],
+          [
+            4,
+            0.1409633755683899
+          ],
+          [
+            0,
+            0.1151859387755394
+          ],
+          [
+            5,
+            0.10333775728940964
+          ],
+          [
+            1,
+            0.08845976740121841
+          ],
+          [
+            2,
+            0.07509955763816833
+          ]
+        ],
+        "edges": [
+          {
+            "child_hash": "ae0996fa86659220",
+            "m2": 0.2509550014854892,
+            "move": 3,
+            "n": 8,
+            "prior": 0.4769536852836609,
+            "vl": 0,
+            "vvalue": 0.0,
+            "w": -7.0150125324726105
+          },
+          {
+            "child_hash": "dbb525eba2d196ee",
+            "m2": 16.876829401205914,
+            "move": 4,
+            "n": 52,
+            "prior": 0.1409633755683899,
+            "vl": 0,
+            "vvalue": 0.0,
+            "w": 10.936694737058133
+          },
+          {
+            "child_hash": "836ec2625a98406c",
+            "m2": 0.0,
+            "move": 0,
+            "n": 1,
+            "prior": 0.1151859387755394,
+            "vl": 0,
+            "vvalue": 0.0,
+            "w": -0.856111466884613
+          },
+          {
+            "child_hash": "aa064a0cc9998bd2",
+            "m2": 0.0,
+            "move": 5,
+            "n": 1,
+            "prior": 0.10333775728940964,
+            "vl": 0,
+            "vvalue": 0.0,
+            "w": -0.9166579246520996
+          },
+          {
+            "child_hash": "9c0dfc01422ca6ea",
+            "m2": 0.0,
+            "move": 1,
+            "n": 1,
+            "prior": 0.08845976740121841,
+            "vl": 0,
+            "vvalue": 0.0,
+            "w": -0.9150035977363586
+          },
+          {
+            "child_hash": "c04773baf9e152fa",
+            "m2": 0.0,
+            "move": 2,
+            "n": 1,
+            "prior": 0.07509955763816833,
+            "vl": 0,
+            "vvalue": 0.0,
+            "w": -0.768665075302124
+          }
+        ],
+        "evaluator_calls": 57,
+        "root_hash": "18a7d0ac2c728a7b",
+        "root_n": 64,
+        "root_w": 0.4652441400103271,
+        "tt_size": 262
+      },
+      "schema": "quartz_fouraxis_v1",
+      "search_us": 1232,
+      "seed": 17,
+      "setup_us": 124,
+      "standard": false,
+      "threads": 2,
+      "transport_us": 1731.486,
+      "visits": 64,
+      "whole_us": 1651
+    },
+    {
+      "cache_hit": true,
+      "drop_us": 101,
+      "history": "777542321677733216662",
+      "hooks": {
+        "backup_changed": 133,
+        "backup_edges": 225,
+        "base_evals": 51,
+        "eval_changed": 9,
+        "exact_child_evals": 5,
+        "extra_evals": 13,
+        "ledger_contexts": 54,
+        "ledger_nodes": 54,
+        "ledger_observations": 225,
+        "ledger_shared_children": 0,
+        "merge_blends": 0,
+        "refinements": 9,
+        "select_changed": 225,
+        "select_deep": 161,
+        "select_nodes": 225,
+        "temporal_blends": 136,
+        "terminal_edges": 41,
+        "terminal_leaves": 13,
+        "width_deep": 0,
+        "width_limited": 0,
+        "width_mass_added": 0,
+        "width_nodes": 0
+      },
+      "initial": {
+        "best": 2,
+        "candidates": [
+          [
+            3,
+            0.4769536852836609
+          ],
+          [
+            4,
+            0.1409633755683899
+          ],
+          [
+            0,
+            0.1151859387755394
+          ],
+          [
+            5,
+            0.10333775728940964
+          ],
+          [
+            1,
+            0.08845976740121841
+          ],
+          [
+            2,
+            0.07509955763816833
+          ]
+        ],
+        "edges": [
+          {
+            "child_hash": "ae0996fa86659220",
+            "m2": 0.0,
+            "move": 3,
+            "n": 0,
+            "prior": 0.4769536852836609,
+            "vl": 0,
+            "vvalue": 0.0,
+            "w": 0.0
+          },
+          {
+            "child_hash": "dbb525eba2d196ee",
+            "m2": 0.0,
+            "move": 4,
+            "n": 0,
+            "prior": 0.1409633755683899,
+            "vl": 0,
+            "vvalue": 0.0,
+            "w": 0.0
+          },
+          {
+            "child_hash": "836ec2625a98406c",
+            "m2": 0.0,
+            "move": 0,
+            "n": 0,
+            "prior": 0.1151859387755394,
+            "vl": 0,
+            "vvalue": 0.0,
+            "w": 0.0
+          },
+          {
+            "child_hash": "aa064a0cc9998bd2",
+            "m2": 0.0,
+            "move": 5,
+            "n": 0,
+            "prior": 0.10333775728940964,
+            "vl": 0,
+            "vvalue": 0.0,
+            "w": 0.0
+          },
+          {
+            "child_hash": "9c0dfc01422ca6ea",
+            "m2": 0.0,
+            "move": 1,
+            "n": 0,
+            "prior": 0.08845976740121841,
+            "vl": 0,
+            "vvalue": 0.0,
+            "w": 0.0
+          },
+          {
+            "child_hash": "c04773baf9e152fa",
+            "m2": 0.0,
+            "move": 2,
+            "n": 0,
+            "prior": 0.07509955763816833,
+            "vl": 0,
+            "vvalue": 0.0,
+            "w": 0.0
+          }
+        ],
+        "evaluator_calls": 1,
+        "root_hash": "18a7d0ac2c728a7b",
+        "root_n": 0,
+        "root_w": 0.0,
+        "tt_size": 7
+      },
+      "mask": 13,
+      "model_identity": "161f9e6e26840754384cb47335d1082d837fa014735cbfaa2517209422e29f24",
+      "result": {
+        "best": 4,
+        "candidates": [
+          [
+            3,
+            0.4769536852836609
+          ],
+          [
+            4,
+            0.1409633755683899
+          ],
+          [
+            0,
+            0.1151859387755394
+          ],
+          [
+            5,
+            0.10333775728940964
+          ],
+          [
+            1,
+            0.08845976740121841
+          ],
+          [
+            2,
+            0.07509955763816833
+          ]
+        ],
+        "edges": [
+          {
+            "child_hash": "ae0996fa86659220",
+            "m2": 0.2578972372559435,
+            "move": 3,
+            "n": 9,
+            "prior": 0.4769536852836609,
+            "vl": 0,
+            "vvalue": 0.0,
+            "w": -7.803514808416367
+          },
+          {
+            "child_hash": "dbb525eba2d196ee",
+            "m2": 12.977635600744577,
+            "move": 4,
+            "n": 49,
+            "prior": 0.1409633755683899,
+            "vl": 0,
+            "vvalue": 0.0,
+            "w": 5.57597173191607
+          },
+          {
+            "child_hash": "836ec2625a98406c",
+            "m2": 0.19877638566603117,
+            "move": 0,
+            "n": 3,
+            "prior": 0.1151859387755394,
+            "vl": 0,
+            "vvalue": 0.0,
+            "w": -2.2525313794612885
+          },
+          {
+            "child_hash": "aa064a0cc9998bd2",
+            "m2": 0.0,
+            "move": 5,
+            "n": 1,
+            "prior": 0.10333775728940964,
+            "vl": 0,
+            "vvalue": 0.0,
+            "w": -0.9166579246520996
+          },
+          {
+            "child_hash": "9c0dfc01422ca6ea",
+            "m2": 0.0,
+            "move": 1,
+            "n": 1,
+            "prior": 0.08845976740121841,
+            "vl": 0,
+            "vvalue": 0.0,
+            "w": -0.9150035977363586
+          },
+          {
+            "child_hash": "c04773baf9e152fa",
+            "m2": 0.0,
+            "move": 2,
+            "n": 1,
+            "prior": 0.07509955763816833,
+            "vl": 0,
+            "vvalue": 0.0,
+            "w": -0.768665075302124
+          }
+        ],
+        "evaluator_calls": 65,
+        "root_hash": "18a7d0ac2c728a7b",
+        "root_n": 64,
+        "root_w": -7.080401053652167,
+        "tt_size": 288
+      },
+      "schema": "quartz_fouraxis_v1",
+      "search_us": 1474,
+      "seed": 17,
+      "setup_us": 128,
+      "standard": false,
+      "threads": 2,
+      "transport_us": 1987.42,
+      "visits": 64,
+      "whole_us": 1905
+    },
+    {
+      "cache_hit": true,
+      "drop_us": 89,
+      "history": "777542321677733216662",
+      "hooks": {
+        "backup_changed": 153,
+        "backup_edges": 275,
+        "base_evals": 47,
+        "eval_changed": 7,
+        "exact_child_evals": 4,
+        "extra_evals": 10,
+        "ledger_contexts": 48,
+        "ledger_nodes": 48,
+        "ledger_observations": 275,
+        "ledger_shared_children": 0,
+        "merge_blends": 0,
+        "refinements": 7,
+        "select_changed": 0,
+        "select_deep": 0,
+        "select_nodes": 0,
+        "temporal_blends": 158,
+        "terminal_edges": 75,
+        "terminal_leaves": 17,
+        "width_deep": 211,
+        "width_limited": 221,
+        "width_mass_added": 14,
+        "width_nodes": 275
+      },
+      "initial": {
+        "best": 3,
+        "candidates": [
+          [
+            3,
+            0.4769536852836609
+          ],
+          [
+            4,
+            0.1409633755683899
+          ],
+          [
+            0,
+            0.1151859387755394
+          ],
+          [
+            5,
+            0.10333775728940964
+          ],
+          [
+            1,
+            0.08845976740121841
+          ],
+          [
+            2,
+            0.07509955763816833
+          ]
+        ],
+        "edges": [
+          {
+            "child_hash": "ae0996fa86659220",
+            "m2": 0.0,
+            "move": 3,
+            "n": 0,
+            "prior": 0.4769536852836609,
+            "vl": 0,
+            "vvalue": 0.0,
+            "w": 0.0
+          }
+        ],
+        "evaluator_calls": 1,
+        "root_hash": "18a7d0ac2c728a7b",
+        "root_n": 0,
+        "root_w": 0.0,
+        "tt_size": 2
+      },
+      "mask": 14,
+      "model_identity": "161f9e6e26840754384cb47335d1082d837fa014735cbfaa2517209422e29f24",
+      "result": {
+        "best": 4,
+        "candidates": [
+          [
+            3,
+            0.4769536852836609
+          ],
+          [
+            4,
+            0.1409633755683899
+          ],
+          [
+            0,
+            0.1151859387755394
+          ],
+          [
+            5,
+            0.10333775728940964
+          ],
+          [
+            1,
+            0.08845976740121841
+          ],
+          [
+            2,
+            0.07509955763816833
+          ]
+        ],
+        "edges": [
+          {
+            "child_hash": "ae0996fa86659220",
+            "m2": 0.23362999592859598,
+            "move": 3,
+            "n": 7,
+            "prior": 0.4769536852836609,
+            "vl": 0,
+            "vvalue": 0.0,
+            "w": -6.0150125324726105
+          },
+          {
+            "child_hash": "dbb525eba2d196ee",
+            "m2": 14.73565179874945,
+            "move": 4,
+            "n": 52,
+            "prior": 0.1409633755683899,
+            "vl": 0,
+            "vvalue": 0.0,
+            "w": 11.461863374104723
+          },
+          {
+            "child_hash": "836ec2625a98406c",
+            "m2": 0.0,
+            "move": 0,
+            "n": 1,
+            "prior": 0.1151859387755394,
+            "vl": 0,
+            "vvalue": 0.0,
+            "w": -0.856111466884613
+          },
+          {
+            "child_hash": "aa064a0cc9998bd2",
+            "m2": 0.0,
+            "move": 5,
+            "n": 2,
+            "prior": 0.10333775728940964,
+            "vl": 0,
+            "vvalue": 0.0,
+            "w": -1.8333158493041992
+          },
+          {
+            "child_hash": "9c0dfc01422ca6ea",
+            "m2": 0.0,
+            "move": 1,
+            "n": 1,
+            "prior": 0.08845976740121841,
+            "vl": 0,
+            "vvalue": 0.0,
+            "w": -0.9150035977363586
+          },
+          {
+            "child_hash": "c04773baf9e152fa",
+            "m2": 0.0,
+            "move": 2,
+            "n": 1,
+            "prior": 0.07509955763816833,
+            "vl": 0,
+            "vvalue": 0.0,
+            "w": -0.768665075302124
+          }
+        ],
+        "evaluator_calls": 58,
+        "root_hash": "18a7d0ac2c728a7b",
+        "root_n": 64,
+        "root_w": 1.073754852404818,
+        "tt_size": 89
+      },
+      "schema": "quartz_fouraxis_v1",
+      "search_us": 1251,
+      "seed": 17,
+      "setup_us": 131,
+      "standard": false,
+      "threads": 2,
+      "transport_us": 1739.1,
+      "visits": 64,
+      "whole_us": 1665
+    },
+    {
+      "cache_hit": true,
+      "drop_us": 97,
+      "history": "777542321677733216662",
+      "hooks": {
+        "backup_changed": 116,
+        "backup_edges": 252,
+        "base_evals": 42,
+        "eval_changed": 8,
+        "exact_child_evals": 4,
+        "extra_evals": 12,
+        "ledger_contexts": 45,
+        "ledger_nodes": 45,
+        "ledger_observations": 252,
+        "ledger_shared_children": 0,
+        "merge_blends": 0,
+        "refinements": 8,
+        "select_changed": 251,
+        "select_deep": 188,
+        "select_nodes": 252,
+        "temporal_blends": 120,
+        "terminal_edges": 95,
+        "terminal_leaves": 22,
+        "width_deep": 188,
+        "width_limited": 198,
+        "width_mass_added": 16,
+        "width_nodes": 252
+      },
+      "initial": {
+        "best": 3,
+        "candidates": [
+          [
+            3,
+            0.4769536852836609
+          ],
+          [
+            4,
+            0.1409633755683899
+          ],
+          [
+            0,
+            0.1151859387755394
+          ],
+          [
+            5,
+            0.10333775728940964
+          ],
+          [
+            1,
+            0.08845976740121841
+          ],
+          [
+            2,
+            0.07509955763816833
+          ]
+        ],
+        "edges": [
+          {
+            "child_hash": "ae0996fa86659220",
+            "m2": 0.0,
+            "move": 3,
+            "n": 0,
+            "prior": 0.4769536852836609,
+            "vl": 0,
+            "vvalue": 0.0,
+            "w": 0.0
+          }
+        ],
+        "evaluator_calls": 1,
+        "root_hash": "18a7d0ac2c728a7b",
+        "root_n": 0,
+        "root_w": 0.0,
+        "tt_size": 2
+      },
+      "mask": 15,
+      "model_identity": "161f9e6e26840754384cb47335d1082d837fa014735cbfaa2517209422e29f24",
+      "result": {
+        "best": 4,
+        "candidates": [
+          [
+            3,
+            0.4769536852836609
+          ],
+          [
+            4,
+            0.1409633755683899
+          ],
+          [
+            0,
+            0.1151859387755394
+          ],
+          [
+            5,
+            0.10333775728940964
+          ],
+          [
+            1,
+            0.08845976740121841
+          ],
+          [
+            2,
+            0.07509955763816833
+          ]
+        ],
+        "edges": [
+          {
+            "child_hash": "ae0996fa86659220",
+            "m2": 0.2509550014854892,
+            "move": 3,
+            "n": 8,
+            "prior": 0.4769536852836609,
+            "vl": 0,
+            "vvalue": 0.0,
+            "w": -7.0150125324726105
+          },
+          {
+            "child_hash": "dbb525eba2d196ee",
+            "m2": 16.451695771247532,
+            "move": 4,
+            "n": 51,
+            "prior": 0.1409633755683899,
+            "vl": 0,
+            "vvalue": 0.0,
+            "w": 15.409054847434163
+          },
+          {
+            "child_hash": "836ec2625a98406c",
+            "m2": 0.0,
+            "move": 0,
+            "n": 1,
+            "prior": 0.1151859387755394,
+            "vl": 0,
+            "vvalue": 0.0,
+            "w": -0.856111466884613
+          },
+          {
+            "child_hash": "aa064a0cc9998bd2",
+            "m2": 0.0,
+            "move": 5,
+            "n": 2,
+            "prior": 0.10333775728940964,
+            "vl": 0,
+            "vvalue": 0.0,
+            "w": -1.8333158493041992
+          },
+          {
+            "child_hash": "9c0dfc01422ca6ea",
+            "m2": 0.0,
+            "move": 1,
+            "n": 1,
+            "prior": 0.08845976740121841,
+            "vl": 0,
+            "vvalue": 0.0,
+            "w": -0.9150035977363586
+          },
+          {
+            "child_hash": "c04773baf9e152fa",
+            "m2": 0.0,
+            "move": 2,
+            "n": 1,
+            "prior": 0.07509955763816833,
+            "vl": 0,
+            "vvalue": 0.0,
+            "w": -0.768665075302124
+          }
+        ],
+        "evaluator_calls": 55,
+        "root_hash": "18a7d0ac2c728a7b",
+        "root_n": 64,
+        "root_w": 4.020946325734258,
+        "tt_size": 85
+      },
+      "schema": "quartz_fouraxis_v1",
+      "search_us": 1302,
+      "seed": 17,
+      "setup_us": 118,
+      "standard": false,
+      "threads": 2,
+      "transport_us": 1779.918,
+      "visits": 64,
+      "whole_us": 1708
+    }
+  ],
+  "deep": [
+    {
+      "cache_hit": true,
+      "drop_us": 242,
+      "history": "777542321677733216662",
+      "hooks": {
+        "backup_changed": 1747,
+        "backup_edges": 3320,
+        "base_evals": 316,
+        "eval_changed": 0,
+        "exact_child_evals": 0,
+        "extra_evals": 0,
+        "ledger_contexts": 370,
+        "ledger_nodes": 348,
+        "ledger_observations": 3320,
+        "ledger_shared_children": 22,
+        "merge_blends": 56,
+        "refinements": 0,
+        "select_changed": 0,
+        "select_deep": 0,
+        "select_nodes": 0,
+        "temporal_blends": 1708,
+        "terminal_edges": 1257,
+        "terminal_leaves": 196,
+        "width_deep": 0,
+        "width_limited": 0,
+        "width_mass_added": 0,
+        "width_nodes": 0
+      },
+      "initial": {
+        "best": 2,
+        "candidates": [
+          [
+            3,
+            0.4769536852836609
+          ],
+          [
+            4,
+            0.1409633755683899
+          ],
+          [
+            0,
+            0.1151859387755394
+          ],
+          [
+            5,
+            0.10333775728940964
+          ],
+          [
+            1,
+            0.08845976740121841
+          ],
+          [
+            2,
+            0.07509955763816833
+          ]
+        ],
+        "edges": [
+          {
+            "child_hash": "ae0996fa86659220",
+            "m2": 0.0,
+            "move": 3,
+            "n": 0,
+            "prior": 0.4769536852836609,
+            "vl": 0,
+            "vvalue": 0.0,
+            "w": 0.0
+          },
+          {
+            "child_hash": "dbb525eba2d196ee",
+            "m2": 0.0,
+            "move": 4,
+            "n": 0,
+            "prior": 0.1409633755683899,
+            "vl": 0,
+            "vvalue": 0.0,
+            "w": 0.0
+          },
+          {
+            "child_hash": "836ec2625a98406c",
+            "m2": 0.0,
+            "move": 0,
+            "n": 0,
+            "prior": 0.1151859387755394,
+            "vl": 0,
+            "vvalue": 0.0,
+            "w": 0.0
+          },
+          {
+            "child_hash": "aa064a0cc9998bd2",
+            "m2": 0.0,
+            "move": 5,
+            "n": 0,
+            "prior": 0.10333775728940964,
+            "vl": 0,
+            "vvalue": 0.0,
+            "w": 0.0
+          },
+          {
+            "child_hash": "9c0dfc01422ca6ea",
+            "m2": 0.0,
+            "move": 1,
+            "n": 0,
+            "prior": 0.08845976740121841,
+            "vl": 0,
+            "vvalue": 0.0,
+            "w": 0.0
+          },
+          {
+            "child_hash": "c04773baf9e152fa",
+            "m2": 0.0,
+            "move": 2,
+            "n": 0,
+            "prior": 0.07509955763816833,
+            "vl": 0,
+            "vvalue": 0.0,
+            "w": 0.0
+          }
+        ],
+        "evaluator_calls": 1,
+        "root_hash": "18a7d0ac2c728a7b",
+        "root_n": 0,
+        "root_w": 0.0,
+        "tt_size": 7
+      },
+      "mask": 8,
+      "model_identity": "161f9e6e26840754384cb47335d1082d837fa014735cbfaa2517209422e29f24",
+      "result": {
+        "best": 4,
+        "candidates": [
+          [
+            3,
+            0.4769536852836609
+          ],
+          [
+            4,
+            0.1409633755683899
+          ],
+          [
+            0,
+            0.1151859387755394
+          ],
+          [
+            5,
+            0.10333775728940964
+          ],
+          [
+            1,
+            0.08845976740121841
+          ],
+          [
+            2,
+            0.07509955763816833
+          ]
+        ],
+        "edges": [
+          {
+            "child_hash": "ae0996fa86659220",
+            "m2": 6.555032720345285,
+            "move": 3,
+            "n": 26,
+            "prior": 0.4769536852836609,
+            "vl": 0,
+            "vvalue": 0.0,
+            "w": -19.635844752192497
+          },
+          {
+            "child_hash": "dbb525eba2d196ee",
+            "m2": 179.5647146923395,
+            "move": 4,
+            "n": 466,
+            "prior": 0.1409633755683899,
+            "vl": 0,
+            "vvalue": 0.0,
+            "w": 27.763863885542378
+          },
+          {
+            "child_hash": "836ec2625a98406c",
+            "m2": 1.019328250632957,
+            "move": 0,
+            "n": 6,
+            "prior": 0.1151859387755394,
+            "vl": 0,
+            "vvalue": 0.0,
+            "w": -4.730375170707703
+          },
+          {
+            "child_hash": "aa064a0cc9998bd2",
+            "m2": 0.38378493811015774,
+            "move": 5,
+            "n": 6,
+            "prior": 0.10333775728940964,
+            "vl": 0,
+            "vvalue": 0.0,
+            "w": -4.024408549070358
+          },
+          {
+            "child_hash": "9c0dfc01422ca6ea",
+            "m2": 0.5572971429985258,
+            "move": 1,
+            "n": 4,
+            "prior": 0.08845976740121841,
+            "vl": 0,
+            "vvalue": 0.0,
+            "w": -3.028393432497978
+          },
+          {
+            "child_hash": "c04773baf9e152fa",
+            "m2": 0.8274458360691505,
+            "move": 2,
+            "n": 4,
+            "prior": 0.07509955763816833,
+            "vl": 0,
+            "vvalue": 0.0,
+            "w": -2.664084956049919
+          }
+        ],
+        "evaluator_calls": 317,
+        "root_hash": "18a7d0ac2c728a7b",
+        "root_n": 512,
+        "root_w": -6.319242974976078,
+        "tt_size": 1468
+      },
+      "schema": "quartz_fouraxis_v1",
+      "search_us": 6824,
+      "seed": 17,
+      "setup_us": 122,
+      "standard": false,
+      "threads": 2,
+      "transport_us": 7582.946,
+      "visits": 512,
+      "whole_us": 7464
+    },
+    {
+      "cache_hit": true,
+      "drop_us": 202,
+      "history": "777542321677733216662",
+      "hooks": {
+        "backup_changed": 1741,
+        "backup_edges": 3613,
+        "base_evals": 291,
+        "eval_changed": 52,
+        "exact_child_evals": 7,
+        "extra_evals": 97,
+        "ledger_contexts": 330,
+        "ledger_nodes": 308,
+        "ledger_observations": 3613,
+        "ledger_shared_children": 22,
+        "merge_blends": 93,
+        "refinements": 52,
+        "select_changed": 3613,
+        "select_deep": 3101,
+        "select_nodes": 3613,
+        "temporal_blends": 1674,
+        "terminal_edges": 1582,
+        "terminal_leaves": 221,
+        "width_deep": 3101,
+        "width_limited": 3111,
+        "width_mass_added": 123,
+        "width_nodes": 3613
+      },
+      "initial": {
+        "best": 3,
+        "candidates": [
+          [
+            3,
+            0.4769536852836609
+          ],
+          [
+            4,
+            0.1409633755683899
+          ],
+          [
+            0,
+            0.1151859387755394
+          ],
+          [
+            5,
+            0.10333775728940964
+          ],
+          [
+            1,
+            0.08845976740121841
+          ],
+          [
+            2,
+            0.07509955763816833
+          ]
+        ],
+        "edges": [
+          {
+            "child_hash": "ae0996fa86659220",
+            "m2": 0.0,
+            "move": 3,
+            "n": 0,
+            "prior": 0.4769536852836609,
+            "vl": 0,
+            "vvalue": 0.0,
+            "w": 0.0
+          }
+        ],
+        "evaluator_calls": 1,
+        "root_hash": "18a7d0ac2c728a7b",
+        "root_n": 0,
+        "root_w": 0.0,
+        "tt_size": 2
+      },
+      "mask": 15,
+      "model_identity": "161f9e6e26840754384cb47335d1082d837fa014735cbfaa2517209422e29f24",
+      "result": {
+        "best": 4,
+        "candidates": [
+          [
+            3,
+            0.4769536852836609
+          ],
+          [
+            4,
+            0.1409633755683899
+          ],
+          [
+            0,
+            0.1151859387755394
+          ],
+          [
+            5,
+            0.10333775728940964
+          ],
+          [
+            1,
+            0.08845976740121841
+          ],
+          [
+            2,
+            0.07509955763816833
+          ]
+        ],
+        "edges": [
+          {
+            "child_hash": "ae0996fa86659220",
+            "m2": 6.235526590438496,
+            "move": 3,
+            "n": 34,
+            "prior": 0.4769536852836609,
+            "vl": 0,
+            "vvalue": 0.0,
+            "w": -27.786048248410225
+          },
+          {
+            "child_hash": "dbb525eba2d196ee",
+            "m2": 198.628639648787,
+            "move": 4,
+            "n": 451,
+            "prior": 0.1409633755683899,
+            "vl": 0,
+            "vvalue": 0.0,
+            "w": -19.044290206278674
+          },
+          {
+            "child_hash": "836ec2625a98406c",
+            "m2": 0.32847287712553086,
+            "move": 0,
+            "n": 8,
+            "prior": 0.1151859387755394,
+            "vl": 0,
+            "vvalue": 0.0,
+            "w": -6.9826527535915375
+          },
+          {
+            "child_hash": "aa064a0cc9998bd2",
+            "m2": 0.15116861967359593,
+            "move": 5,
+            "n": 7,
+            "prior": 0.10333775728940964,
+            "vl": 0,
+            "vvalue": 0.0,
+            "w": -5.460654139518738
+          },
+          {
+            "child_hash": "9c0dfc01422ca6ea",
+            "m2": 0.20663702615785493,
+            "move": 1,
+            "n": 7,
+            "prior": 0.08845976740121841,
+            "vl": 0,
+            "vvalue": 0.0,
+            "w": -5.43395459651947
+          },
+          {
+            "child_hash": "c04773baf9e152fa",
+            "m2": 0.37842901520667455,
+            "move": 2,
+            "n": 5,
+            "prior": 0.07509955763816833,
+            "vl": 0,
+            "vvalue": 0.0,
+            "w": -4.060550510883331
+          }
+        ],
+        "evaluator_calls": 389,
+        "root_hash": "18a7d0ac2c728a7b",
+        "root_n": 512,
+        "root_w": -68.76815045520198,
+        "tt_size": 551
+      },
+      "schema": "quartz_fouraxis_v1",
+      "search_us": 8249,
+      "seed": 17,
+      "setup_us": 194,
+      "standard": false,
+      "threads": 2,
+      "transport_us": 9014.555,
+      "visits": 512,
+      "whole_us": 8905
+    },
+    {
+      "cache_hit": true,
+      "drop_us": 264,
+      "history": "36243231766334361247",
+      "hooks": {
+        "backup_changed": 1379,
+        "backup_edges": 2262,
+        "base_evals": 409,
+        "eval_changed": 0,
+        "exact_child_evals": 0,
+        "extra_evals": 0,
+        "ledger_contexts": 479,
+        "ledger_nodes": 442,
+        "ledger_observations": 2262,
+        "ledger_shared_children": 37,
+        "merge_blends": 73,
+        "refinements": 0,
+        "select_changed": 0,
+        "select_deep": 0,
+        "select_nodes": 0,
+        "temporal_blends": 1327,
+        "terminal_edges": 474,
+        "terminal_leaves": 103,
+        "width_deep": 0,
+        "width_limited": 0,
+        "width_mass_added": 0,
+        "width_nodes": 0
+      },
+      "initial": {
+        "best": 0,
+        "candidates": [
+          [
+            3,
+            0.3788359761238098
+          ],
+          [
+            4,
+            0.2520541846752167
+          ],
+          [
+            5,
+            0.1019071415066719
+          ],
+          [
+            6,
+            0.0923813134431839
+          ],
+          [
+            1,
+            0.09235668182373047
+          ],
+          [
+            0,
+            0.08246470242738724
+          ]
+        ],
+        "edges": [
+          {
+            "child_hash": "00beb8893d8ea069",
+            "m2": 0.0,
+            "move": 3,
+            "n": 0,
+            "prior": 0.3788359761238098,
+            "vl": 0,
+            "vvalue": 0.0,
+            "w": 0.0
+          },
+          {
+            "child_hash": "0644b489c3f400a9",
+            "m2": 0.0,
+            "move": 4,
+            "n": 0,
+            "prior": 0.2520541846752167,
+            "vl": 0,
+            "vvalue": 0.0,
+            "w": 0.0
+          },
+          {
+            "child_hash": "92bda5d8a4ccbcfb",
+            "m2": 0.0,
+            "move": 5,
+            "n": 0,
+            "prior": 0.1019071415066719,
+            "vl": 0,
+            "vvalue": 0.0,
+            "w": 0.0
+          },
+          {
+            "child_hash": "f9d1bfa9154180e9",
+            "m2": 0.0,
+            "move": 6,
+            "n": 0,
+            "prior": 0.0923813134431839,
+            "vl": 0,
+            "vvalue": 0.0,
+            "w": 0.0
+          },
+          {
+            "child_hash": "68e14705a3ec957d",
+            "m2": 0.0,
+            "move": 1,
+            "n": 0,
+            "prior": 0.09235668182373047,
+            "vl": 0,
+            "vvalue": 0.0,
+            "w": 0.0
+          },
+          {
+            "child_hash": "ac45ffb293b24545",
+            "m2": 0.0,
+            "move": 0,
+            "n": 0,
+            "prior": 0.08246470242738724,
+            "vl": 0,
+            "vvalue": 0.0,
+            "w": 0.0
+          }
+        ],
+        "evaluator_calls": 1,
+        "root_hash": "40d714308e3d9fd8",
+        "root_n": 0,
+        "root_w": 0.0,
+        "tt_size": 7
+      },
+      "mask": 8,
+      "model_identity": "161f9e6e26840754384cb47335d1082d837fa014735cbfaa2517209422e29f24",
+      "result": {
+        "best": 1,
+        "candidates": [
+          [
+            3,
+            0.3788359761238098
+          ],
+          [
+            4,
+            0.2520541846752167
+          ],
+          [
+            5,
+            0.1019071415066719
+          ],
+          [
+            6,
+            0.0923813134431839
+          ],
+          [
+            1,
+            0.09235668182373047
+          ],
+          [
+            0,
+            0.08246470242738724
+          ]
+        ],
+        "edges": [
+          {
+            "child_hash": "00beb8893d8ea069",
+            "m2": 34.245924023115194,
+            "move": 3,
+            "n": 114,
+            "prior": 0.3788359761238098,
+            "vl": 0,
+            "vvalue": 0.0,
+            "w": -25.84384476672858
+          },
+          {
+            "child_hash": "0644b489c3f400a9",
+            "m2": 0.33240141282183905,
+            "move": 4,
+            "n": 13,
+            "prior": 0.2520541846752167,
+            "vl": 0,
+            "vvalue": 0.0,
+            "w": -12.399915397167206
+          },
+          {
+            "child_hash": "92bda5d8a4ccbcfb",
+            "m2": 5.0904066001860455,
+            "move": 5,
+            "n": 21,
+            "prior": 0.1019071415066719,
+            "vl": 0,
+            "vvalue": 0.0,
+            "w": -6.777458488941193
+          },
+          {
+            "child_hash": "f9d1bfa9154180e9",
+            "m2": 8.624562092483323,
+            "move": 6,
+            "n": 34,
+            "prior": 0.0923813134431839,
+            "vl": 0,
+            "vvalue": 0.0,
+            "w": -7.628844764083624
+          },
+          {
+            "child_hash": "68e14705a3ec957d",
+            "m2": 55.21170246998851,
+            "move": 1,
+            "n": 278,
+            "prior": 0.09235668182373047,
+            "vl": 0,
+            "vvalue": 0.0,
+            "w": -31.86631186772138
+          },
+          {
+            "child_hash": "ac45ffb293b24545",
+            "m2": 13.576531934375648,
+            "move": 0,
+            "n": 52,
+            "prior": 0.08246470242738724,
+            "vl": 0,
+            "vvalue": 0.0,
+            "w": -8.715051238425076
+          }
+        ],
+        "evaluator_calls": 410,
+        "root_hash": "40d714308e3d9fd8",
+        "root_n": 512,
+        "root_w": -93.23142652306706,
+        "tt_size": 1940
+      },
+      "schema": "quartz_fouraxis_v1",
+      "search_us": 8348,
+      "seed": 17,
+      "setup_us": 198,
+      "standard": false,
+      "threads": 2,
+      "transport_us": 9264.807,
+      "visits": 512,
+      "whole_us": 9141
+    },
+    {
+      "cache_hit": true,
+      "drop_us": 215,
+      "history": "36243231766334361247",
+      "hooks": {
+        "backup_changed": 1233,
+        "backup_edges": 2474,
+        "base_evals": 319,
+        "eval_changed": 143,
+        "exact_child_evals": 33,
+        "extra_evals": 253,
+        "ledger_contexts": 376,
+        "ledger_nodes": 358,
+        "ledger_observations": 2474,
+        "ledger_shared_children": 18,
+        "merge_blends": 75,
+        "refinements": 143,
+        "select_changed": 2474,
+        "select_deep": 1962,
+        "select_nodes": 2474,
+        "temporal_blends": 1160,
+        "terminal_edges": 922,
+        "terminal_leaves": 193,
+        "width_deep": 1962,
+        "width_limited": 1972,
+        "width_mass_added": 162,
+        "width_nodes": 2474
+      },
+      "initial": {
+        "best": 3,
+        "candidates": [
+          [
+            3,
+            0.3788359761238098
+          ],
+          [
+            4,
+            0.2520541846752167
+          ],
+          [
+            5,
+            0.1019071415066719
+          ],
+          [
+            6,
+            0.0923813134431839
+          ],
+          [
+            1,
+            0.09235668182373047
+          ],
+          [
+            0,
+            0.08246470242738724
+          ]
+        ],
+        "edges": [
+          {
+            "child_hash": "00beb8893d8ea069",
+            "m2": 0.0,
+            "move": 3,
+            "n": 0,
+            "prior": 0.3788359761238098,
+            "vl": 0,
+            "vvalue": 0.0,
+            "w": 0.0
+          }
+        ],
+        "evaluator_calls": 1,
+        "root_hash": "40d714308e3d9fd8",
+        "root_n": 0,
+        "root_w": 0.0,
+        "tt_size": 2
+      },
+      "mask": 15,
+      "model_identity": "161f9e6e26840754384cb47335d1082d837fa014735cbfaa2517209422e29f24",
+      "result": {
+        "best": 1,
+        "candidates": [
+          [
+            3,
+            0.3788359761238098
+          ],
+          [
+            4,
+            0.2520541846752167
+          ],
+          [
+            5,
+            0.1019071415066719
+          ],
+          [
+            6,
+            0.0923813134431839
+          ],
+          [
+            1,
+            0.09235668182373047
+          ],
+          [
+            0,
+            0.08246470242738724
+          ]
+        ],
+        "edges": [
+          {
+            "child_hash": "00beb8893d8ea069",
+            "m2": 19.88137669373886,
+            "move": 3,
+            "n": 74,
+            "prior": 0.3788359761238098,
+            "vl": 0,
+            "vvalue": 0.0,
+            "w": -52.1509297741577
+          },
+          {
+            "child_hash": "0644b489c3f400a9",
+            "m2": 1.0179705577113798,
+            "move": 4,
+            "n": 27,
+            "prior": 0.2520541846752167,
+            "vl": 0,
+            "vvalue": 0.0,
+            "w": -24.895590901374817
+          },
+          {
+            "child_hash": "92bda5d8a4ccbcfb",
+            "m2": 4.096659430986178,
+            "move": 5,
+            "n": 39,
+            "prior": 0.1019071415066719,
+            "vl": 0,
+            "vvalue": 0.0,
+            "w": -22.394196927547455
+          },
+          {
+            "child_hash": "f9d1bfa9154180e9",
+            "m2": 11.140736313129622,
+            "move": 6,
+            "n": 60,
+            "prior": 0.0923813134431839,
+            "vl": 0,
+            "vvalue": 0.0,
+            "w": -30.43746892735362
+          },
+          {
+            "child_hash": "68e14705a3ec957d",
+            "m2": 52.3855939944386,
+            "move": 1,
+            "n": 251,
+            "prior": 0.09235668182373047,
+            "vl": 0,
+            "vvalue": 0.0,
+            "w": -111.35624169372022
+          },
+          {
+            "child_hash": "ac45ffb293b24545",
+            "m2": 10.774454179683762,
+            "move": 0,
+            "n": 61,
+            "prior": 0.08246470242738724,
+            "vl": 0,
+            "vvalue": 0.0,
+            "w": -30.44982090778649
+          }
+        ],
+        "evaluator_calls": 573,
+        "root_hash": "40d714308e3d9fd8",
+        "root_n": 512,
+        "root_w": -271.6842491319403,
+        "tt_size": 662
+      },
+      "schema": "quartz_fouraxis_v1",
+      "search_us": 11968,
+      "seed": 17,
+      "setup_us": 241,
+      "standard": false,
+      "threads": 2,
+      "transport_us": 12831.476,
+      "visits": 512,
+      "whole_us": 12725
+    },
+    {
+      "cache_hit": true,
+      "drop_us": 146,
+      "history": "44462612611647124176226",
+      "hooks": {
+        "backup_changed": 114,
+        "backup_edges": 1111,
+        "base_evals": 67,
+        "eval_changed": 0,
+        "exact_child_evals": 0,
+        "extra_evals": 0,
+        "ledger_contexts": 86,
+        "ledger_nodes": 80,
+        "ledger_observations": 1111,
+        "ledger_shared_children": 6,
+        "merge_blends": 10,
+        "refinements": 0,
+        "select_changed": 0,
+        "select_deep": 0,
+        "select_nodes": 0,
+        "temporal_blends": 105,
+        "terminal_edges": 930,
+        "terminal_leaves": 445,
+        "width_deep": 0,
+        "width_limited": 0,
+        "width_mass_added": 0,
+        "width_nodes": 0
+      },
+      "initial": {
+        "best": 1,
+        "candidates": [
+          [
+            0,
+            0.2684779167175293
+          ],
+          [
+            4,
+            0.2539762854576111
+          ],
+          [
+            3,
+            0.21658702194690704
+          ],
+          [
+            2,
+            0.12511534988880157
+          ],
+          [
+            6,
+            0.08289321511983871
+          ],
+          [
+            1,
+            0.0529501810669899
+          ]
+        ],
+        "edges": [
+          {
+            "child_hash": "5371263d28a78240",
+            "m2": 0.0,
+            "move": 0,
+            "n": 0,
+            "prior": 0.2684779167175293,
+            "vl": 0,
+            "vvalue": 0.0,
+            "w": 0.0
+          },
+          {
+            "child_hash": "525b20f2ca9438c6",
+            "m2": 0.0,
+            "move": 4,
+            "n": 0,
+            "prior": 0.2539762854576111,
+            "vl": 0,
+            "vvalue": 0.0,
+            "w": 0.0
+          },
+          {
+            "child_hash": "719489719e152576",
+            "m2": 0.0,
+            "move": 3,
+            "n": 0,
+            "prior": 0.21658702194690704,
+            "vl": 0,
+            "vvalue": 0.0,
+            "w": 0.0
+          },
+          {
+            "child_hash": "534518d89d642c8a",
+            "m2": 0.0,
+            "move": 2,
+            "n": 0,
+            "prior": 0.12511534988880157,
+            "vl": 0,
+            "vvalue": 0.0,
+            "w": 0.0
+          },
+          {
+            "child_hash": "350d0e5cadbf2c0a",
+            "m2": 0.0,
+            "move": 6,
+            "n": 0,
+            "prior": 0.08289321511983871,
+            "vl": 0,
+            "vvalue": 0.0,
+            "w": 0.0
+          },
+          {
+            "child_hash": "5cf3ae7b67d7377a",
+            "m2": 0.0,
+            "move": 1,
+            "n": 0,
+            "prior": 0.0529501810669899,
+            "vl": 0,
+            "vvalue": 0.0,
+            "w": 0.0
+          }
+        ],
+        "evaluator_calls": 1,
+        "root_hash": "30ecc4470355c311",
+        "root_n": 0,
+        "root_w": 0.0,
+        "tt_size": 7
+      },
+      "mask": 8,
+      "model_identity": "161f9e6e26840754384cb47335d1082d837fa014735cbfaa2517209422e29f24",
+      "result": {
+        "best": 3,
+        "candidates": [
+          [
+            0,
+            0.2684779167175293
+          ],
+          [
+            4,
+            0.2539762854576111
+          ],
+          [
+            3,
+            0.21658702194690704
+          ],
+          [
+            2,
+            0.12511534988880157
+          ],
+          [
+            6,
+            0.08289321511983871
+          ],
+          [
+            1,
+            0.0529501810669899
+          ]
+        ],
+        "edges": [
+          {
+            "child_hash": "5371263d28a78240",
+            "m2": 4.36031991928056,
+            "move": 0,
+            "n": 103,
+            "prior": 0.2684779167175293,
+            "vl": 0,
+            "vvalue": 0.0,
+            "w": -97.70184624940157
+          },
+          {
+            "child_hash": "525b20f2ca9438c6",
+            "m2": 5.141752506570092,
+            "move": 4,
+            "n": 109,
+            "prior": 0.2539762854576111,
+            "vl": 0,
+            "vvalue": 0.0,
+            "w": -102.97783838957548
+          },
+          {
+            "child_hash": "719489719e152576",
+            "m2": 7.328772865654289,
+            "move": 3,
+            "n": 122,
+            "prior": 0.21658702194690704,
+            "vl": 0,
+            "vvalue": 0.0,
+            "w": -111.87172163277864
+          },
+          {
+            "child_hash": "534518d89d642c8a",
+            "m2": 6.325227955488116,
+            "move": 2,
+            "n": 92,
+            "prior": 0.12511534988880157,
+            "vl": 0,
+            "vvalue": 0.0,
+            "w": -82.72965779877268
+          },
+          {
+            "child_hash": "350d0e5cadbf2c0a",
+            "m2": 5.185878545195364,
+            "move": 6,
+            "n": 52,
+            "prior": 0.08289321511983871,
+            "vl": 0,
+            "vvalue": 0.0,
+            "w": -47.20654211938381
+          },
+          {
+            "child_hash": "5cf3ae7b67d7377a",
+            "m2": 2.701579668095385,
+            "move": 1,
+            "n": 34,
+            "prior": 0.0529501810669899,
+            "vl": 0,
+            "vvalue": 0.0,
+            "w": -30.90198551490903
+          }
+        ],
+        "evaluator_calls": 68,
+        "root_hash": "30ecc4470355c311",
+        "root_n": 512,
+        "root_w": -473.3895917048212,
+        "tt_size": 281
+      },
+      "schema": "quartz_fouraxis_v1",
+      "search_us": 1603,
+      "seed": 17,
+      "setup_us": 196,
+      "standard": false,
+      "threads": 2,
+      "transport_us": 2321.802,
+      "visits": 512,
+      "whole_us": 2223
+    },
+    {
+      "cache_hit": true,
+      "drop_us": 159,
+      "history": "44462612611647124176226",
+      "hooks": {
+        "backup_changed": 291,
+        "backup_edges": 1311,
+        "base_evals": 117,
+        "eval_changed": 43,
+        "exact_child_evals": 2,
+        "extra_evals": 84,
+        "ledger_contexts": 169,
+        "ledger_nodes": 143,
+        "ledger_observations": 1311,
+        "ledger_shared_children": 22,
+        "merge_blends": 39,
+        "refinements": 43,
+        "select_changed": 1311,
+        "select_deep": 799,
+        "select_nodes": 1311,
+        "temporal_blends": 255,
+        "terminal_edges": 903,
+        "terminal_leaves": 395,
+        "width_deep": 799,
+        "width_limited": 809,
+        "width_mass_added": 72,
+        "width_nodes": 1311
+      },
+      "initial": {
+        "best": 0,
+        "candidates": [
+          [
+            0,
+            0.2684779167175293
+          ],
+          [
+            4,
+            0.2539762854576111
+          ],
+          [
+            3,
+            0.21658702194690704
+          ],
+          [
+            2,
+            0.12511534988880157
+          ],
+          [
+            6,
+            0.08289321511983871
+          ],
+          [
+            1,
+            0.0529501810669899
+          ]
+        ],
+        "edges": [
+          {
+            "child_hash": "5371263d28a78240",
+            "m2": 0.0,
+            "move": 0,
+            "n": 0,
+            "prior": 0.2684779167175293,
+            "vl": 0,
+            "vvalue": 0.0,
+            "w": 0.0
+          }
+        ],
+        "evaluator_calls": 1,
+        "root_hash": "30ecc4470355c311",
+        "root_n": 0,
+        "root_w": 0.0,
+        "tt_size": 2
+      },
+      "mask": 15,
+      "model_identity": "161f9e6e26840754384cb47335d1082d837fa014735cbfaa2517209422e29f24",
+      "result": {
+        "best": 3,
+        "candidates": [
+          [
+            0,
+            0.2684779167175293
+          ],
+          [
+            4,
+            0.2539762854576111
+          ],
+          [
+            3,
+            0.21658702194690704
+          ],
+          [
+            2,
+            0.12511534988880157
+          ],
+          [
+            6,
+            0.08289321511983871
+          ],
+          [
+            1,
+            0.0529501810669899
+          ]
+        ],
+        "edges": [
+          {
+            "child_hash": "5371263d28a78240",
+            "m2": 5.072293736394761,
+            "move": 0,
+            "n": 114,
+            "prior": 0.2684779167175293,
+            "vl": 0,
+            "vvalue": 0.0,
+            "w": -108.28256621956825
+          },
+          {
+            "child_hash": "525b20f2ca9438c6",
+            "m2": 1.428961430501173,
+            "move": 4,
+            "n": 100,
+            "prior": 0.2539762854576111,
+            "vl": 0,
+            "vvalue": 0.0,
+            "w": -95.46148720383644
+          },
+          {
+            "child_hash": "719489719e152576",
+            "m2": 3.029654878616266,
+            "move": 3,
+            "n": 120,
+            "prior": 0.21658702194690704,
+            "vl": 0,
+            "vvalue": 0.0,
+            "w": -110.46870398521423
+          },
+          {
+            "child_hash": "534518d89d642c8a",
+            "m2": 10.105169229152647,
+            "move": 2,
+            "n": 116,
+            "prior": 0.12511534988880157,
+            "vl": 0,
+            "vvalue": 0.0,
+            "w": -102.94402568042278
+          },
+          {
+            "child_hash": "350d0e5cadbf2c0a",
+            "m2": 1.0392459037294626,
+            "move": 6,
+            "n": 37,
+            "prior": 0.08289321511983871,
+            "vl": 0,
+            "vvalue": 0.0,
+            "w": -34.69571706652641
+          },
+          {
+            "child_hash": "5cf3ae7b67d7377a",
+            "m2": 0.5068192092531412,
+            "move": 1,
+            "n": 25,
+            "prior": 0.0529501810669899,
+            "vl": 0,
+            "vvalue": 0.0,
+            "w": -23.53196895122528
+          }
+        ],
+        "evaluator_calls": 202,
+        "root_hash": "30ecc4470355c311",
+        "root_n": 512,
+        "root_w": -475.3844691067934,
+        "tt_size": 251
+      },
+      "schema": "quartz_fouraxis_v1",
+      "search_us": 4142,
+      "seed": 17,
+      "setup_us": 171,
+      "standard": false,
+      "threads": 2,
+      "transport_us": 4842.711,
+      "visits": 512,
+      "whole_us": 4742
+    },
+    {
+      "cache_hit": true,
+      "drop_us": 176,
+      "history": "71436334655535243342",
+      "hooks": {
+        "backup_changed": 239,
+        "backup_edges": 1488,
+        "base_evals": 123,
+        "eval_changed": 0,
+        "exact_child_evals": 0,
+        "extra_evals": 0,
+        "ledger_contexts": 162,
+        "ledger_nodes": 147,
+        "ledger_observations": 1488,
+        "ledger_shared_children": 15,
+        "merge_blends": 13,
+        "refinements": 0,
+        "select_changed": 0,
+        "select_deep": 0,
+        "select_nodes": 0,
+        "temporal_blends": 229,
+        "terminal_edges": 1126,
+        "terminal_leaves": 389,
+        "width_deep": 0,
+        "width_limited": 0,
+        "width_mass_added": 0,
+        "width_nodes": 0
+      },
+      "initial": {
+        "best": 5,
+        "candidates": [
+          [
+            3,
+            0.25081315636634827
+          ],
+          [
+            4,
+            0.24566210806369781
+          ],
+          [
+            6,
+            0.19297067821025848
+          ],
+          [
+            1,
+            0.13597814738750458
+          ],
+          [
+            0,
+            0.11251232773065567
+          ],
+          [
+            5,
+            0.06206357851624489
+          ]
+        ],
+        "edges": [
+          {
+            "child_hash": "71608daa83e03f7f",
+            "m2": 0.0,
+            "move": 3,
+            "n": 0,
+            "prior": 0.25081315636634827,
+            "vl": 0,
+            "vvalue": 0.0,
+            "w": 0.0
+          },
+          {
+            "child_hash": "d314cfc742df45fd",
+            "m2": 0.0,
+            "move": 4,
+            "n": 0,
+            "prior": 0.24566210806369781,
+            "vl": 0,
+            "vvalue": 0.0,
+            "w": 0.0
+          },
+          {
+            "child_hash": "4a076f3771b1c0f7",
+            "m2": 0.0,
+            "move": 6,
+            "n": 0,
+            "prior": 0.19297067821025848,
+            "vl": 0,
+            "vvalue": 0.0,
+            "w": 0.0
+          },
+          {
+            "child_hash": "7a4c14ba9ee9c393",
+            "m2": 0.0,
+            "move": 1,
+            "n": 0,
+            "prior": 0.13597814738750458,
+            "vl": 0,
+            "vvalue": 0.0,
+            "w": 0.0
+          },
+          {
+            "child_hash": "6bc895e9f99ff32f",
+            "m2": 0.0,
+            "move": 0,
+            "n": 0,
+            "prior": 0.11251232773065567,
+            "vl": 0,
+            "vvalue": 0.0,
+            "w": 0.0
+          },
+          {
+            "child_hash": "476653d74bbb718f",
+            "m2": 0.0,
+            "move": 5,
+            "n": 0,
+            "prior": 0.06206357851624489,
+            "vl": 0,
+            "vvalue": 0.0,
+            "w": 0.0
+          }
+        ],
+        "evaluator_calls": 1,
+        "root_hash": "ba0f8a45ddb3bc58",
+        "root_n": 0,
+        "root_w": 0.0,
+        "tt_size": 7
+      },
+      "mask": 8,
+      "model_identity": "161f9e6e26840754384cb47335d1082d837fa014735cbfaa2517209422e29f24",
+      "result": {
+        "best": 0,
+        "candidates": [
+          [
+            3,
+            0.25081315636634827
+          ],
+          [
+            4,
+            0.24566210806369781
+          ],
+          [
+            6,
+            0.19297067821025848
+          ],
+          [
+            1,
+            0.13597814738750458
+          ],
+          [
+            0,
+            0.11251232773065567
+          ],
+          [
+            5,
+            0.06206357851624489
+          ]
+        ],
+        "edges": [
+          {
+            "child_hash": "71608daa83e03f7f",
+            "m2": 8.64285822130255,
+            "move": 3,
+            "n": 88,
+            "prior": 0.25081315636634827,
+            "vl": 0,
+            "vvalue": 0.0,
+            "w": -77.8420206233859
+          },
+          {
+            "child_hash": "d314cfc742df45fd",
+            "m2": 7.9555573665496215,
+            "move": 4,
+            "n": 91,
+            "prior": 0.24566210806369781,
+            "vl": 0,
+            "vvalue": 0.0,
+            "w": -80.00253776460886
+          },
+          {
+            "child_hash": "4a076f3771b1c0f7",
+            "m2": 7.367331642987533,
+            "move": 6,
+            "n": 72,
+            "prior": 0.19297067821025848,
+            "vl": 0,
+            "vvalue": 0.0,
+            "w": -63.01446932554245
+          },
+          {
+            "child_hash": "7a4c14ba9ee9c393",
+            "m2": 8.31267337020641,
+            "move": 1,
+            "n": 56,
+            "prior": 0.13597814738750458,
+            "vl": 0,
+            "vvalue": 0.0,
+            "w": -48.10805648192763
+          },
+          {
+            "child_hash": "6bc895e9f99ff32f",
+            "m2": 23.25181011190556,
+            "move": 0,
+            "n": 176,
+            "prior": 0.11251232773065567,
+            "vl": 0,
+            "vvalue": 0.0,
+            "w": -137.13808223849628
+          },
+          {
+            "child_hash": "476653d74bbb718f",
+            "m2": 4.316755225148605,
+            "move": 5,
+            "n": 29,
+            "prior": 0.06206357851624489,
+            "vl": 0,
+            "vvalue": 0.0,
+            "w": -24.685874044895172
+          }
+        ],
+        "evaluator_calls": 124,
+        "root_hash": "ba0f8a45ddb3bc58",
+        "root_n": 512,
+        "root_w": -430.7910404788563,
+        "tt_size": 595
+      },
+      "schema": "quartz_fouraxis_v1",
+      "search_us": 2641,
+      "seed": 17,
+      "setup_us": 175,
+      "standard": false,
+      "threads": 2,
+      "transport_us": 3432.333,
+      "visits": 512,
+      "whole_us": 3289
+    },
+    {
+      "cache_hit": true,
+      "drop_us": 180,
+      "history": "71436334655535243342",
+      "hooks": {
+        "backup_changed": 353,
+        "backup_edges": 1647,
+        "base_evals": 152,
+        "eval_changed": 53,
+        "exact_child_evals": 3,
+        "extra_evals": 103,
+        "ledger_contexts": 218,
+        "ledger_nodes": 193,
+        "ledger_observations": 1647,
+        "ledger_shared_children": 25,
+        "merge_blends": 30,
+        "refinements": 53,
+        "select_changed": 1647,
+        "select_deep": 1135,
+        "select_nodes": 1647,
+        "temporal_blends": 324,
+        "terminal_edges": 1142,
+        "terminal_leaves": 360,
+        "width_deep": 1135,
+        "width_limited": 1145,
+        "width_mass_added": 81,
+        "width_nodes": 1647
+      },
+      "initial": {
+        "best": 3,
+        "candidates": [
+          [
+            3,
+            0.25081315636634827
+          ],
+          [
+            4,
+            0.24566210806369781
+          ],
+          [
+            6,
+            0.19297067821025848
+          ],
+          [
+            1,
+            0.13597814738750458
+          ],
+          [
+            0,
+            0.11251232773065567
+          ],
+          [
+            5,
+            0.06206357851624489
+          ]
+        ],
+        "edges": [
+          {
+            "child_hash": "71608daa83e03f7f",
+            "m2": 0.0,
+            "move": 3,
+            "n": 0,
+            "prior": 0.25081315636634827,
+            "vl": 0,
+            "vvalue": 0.0,
+            "w": 0.0
+          }
+        ],
+        "evaluator_calls": 1,
+        "root_hash": "ba0f8a45ddb3bc58",
+        "root_n": 0,
+        "root_w": 0.0,
+        "tt_size": 2
+      },
+      "mask": 15,
+      "model_identity": "161f9e6e26840754384cb47335d1082d837fa014735cbfaa2517209422e29f24",
+      "result": {
+        "best": 0,
+        "candidates": [
+          [
+            3,
+            0.25081315636634827
+          ],
+          [
+            4,
+            0.24566210806369781
+          ],
+          [
+            6,
+            0.19297067821025848
+          ],
+          [
+            1,
+            0.13597814738750458
+          ],
+          [
+            0,
+            0.11251232773065567
+          ],
+          [
+            5,
+            0.06206357851624489
+          ]
+        ],
+        "edges": [
+          {
+            "child_hash": "71608daa83e03f7f",
+            "m2": 5.047139647547031,
+            "move": 3,
+            "n": 95,
+            "prior": 0.25081315636634827,
+            "vl": 0,
+            "vvalue": 0.0,
+            "w": -84.4678855985403
+          },
+          {
+            "child_hash": "d314cfc742df45fd",
+            "m2": 2.355049873223054,
+            "move": 4,
+            "n": 78,
+            "prior": 0.24566210806369781,
+            "vl": 0,
+            "vvalue": 0.0,
+            "w": -71.06001099944115
+          },
+          {
+            "child_hash": "4a076f3771b1c0f7",
+            "m2": 8.529673027154406,
+            "move": 6,
+            "n": 87,
+            "prior": 0.19297067821025848,
+            "vl": 0,
+            "vvalue": 0.0,
+            "w": -75.33985019568354
+          },
+          {
+            "child_hash": "7a4c14ba9ee9c393",
+            "m2": 7.029709507012868,
+            "move": 1,
+            "n": 75,
+            "prior": 0.13597814738750458,
+            "vl": 0,
+            "vvalue": 0.0,
+            "w": -63.47678106278181
+          },
+          {
+            "child_hash": "6bc895e9f99ff32f",
+            "m2": 13.16849115111061,
+            "move": 0,
+            "n": 150,
+            "prior": 0.11251232773065567,
+            "vl": 0,
+            "vvalue": 0.0,
+            "w": -119.35636644228362
+          },
+          {
+            "child_hash": "476653d74bbb718f",
+            "m2": 3.416324183927836,
+            "move": 5,
+            "n": 27,
+            "prior": 0.06206357851624489,
+            "vl": 0,
+            "vvalue": 0.0,
+            "w": -23.449501752853394
+          }
+        ],
+        "evaluator_calls": 256,
+        "root_hash": "ba0f8a45ddb3bc58",
+        "root_n": 512,
+        "root_w": -437.1503960515838,
+        "tt_size": 333
+      },
+      "schema": "quartz_fouraxis_v1",
+      "search_us": 5211,
+      "seed": 17,
+      "setup_us": 195,
+      "standard": false,
+      "threads": 2,
+      "transport_us": 5972.88,
+      "visits": 512,
+      "whole_us": 5869
+    }
+  ],
+  "oracle_reject": {
+    "error": "unknown field `oracle`, expected one of `cmd`, `history`, `mask`, `seed`, `visits`, `threads`, `model_path`, `model_identity`, `standard` at line 1 column 422"
+  },
+  "parity": [
+    {
+      "research": {
+        "cache_hit": true,
+        "drop_us": 141,
+        "history": "777542321677733216662",
+        "hooks": {
+          "backup_changed": 0,
+          "backup_edges": 0,
+          "base_evals": 43,
+          "eval_changed": 0,
+          "exact_child_evals": 0,
+          "extra_evals": 0,
+          "ledger_contexts": 0,
+          "ledger_nodes": 0,
+          "ledger_observations": 0,
+          "ledger_shared_children": 0,
+          "merge_blends": 0,
+          "refinements": 0,
+          "select_changed": 0,
+          "select_deep": 0,
+          "select_nodes": 0,
+          "temporal_blends": 0,
+          "terminal_edges": 0,
+          "terminal_leaves": 21,
+          "width_deep": 0,
+          "width_limited": 0,
+          "width_mass_added": 0,
+          "width_nodes": 0
+        },
+        "initial": {
+          "best": 2,
+          "candidates": [
+            [
+              3,
+              0.4769536852836609
+            ],
+            [
+              4,
+              0.1409633755683899
+            ],
+            [
+              0,
+              0.1151859387755394
+            ],
+            [
+              5,
+              0.10333775728940964
+            ],
+            [
+              1,
+              0.08845976740121841
+            ],
+            [
+              2,
+              0.07509955763816833
+            ]
+          ],
+          "edges": [
+            {
+              "child_hash": "ae0996fa86659220",
+              "m2": 0.0,
+              "move": 3,
+              "n": 0,
+              "prior": 0.4769536852836609,
+              "vl": 0,
+              "vvalue": 0.0,
+              "w": 0.0
+            },
+            {
+              "child_hash": "dbb525eba2d196ee",
+              "m2": 0.0,
+              "move": 4,
+              "n": 0,
+              "prior": 0.1409633755683899,
+              "vl": 0,
+              "vvalue": 0.0,
+              "w": 0.0
+            },
+            {
+              "child_hash": "836ec2625a98406c",
+              "m2": 0.0,
+              "move": 0,
+              "n": 0,
+              "prior": 0.1151859387755394,
+              "vl": 0,
+              "vvalue": 0.0,
+              "w": 0.0
+            },
+            {
+              "child_hash": "aa064a0cc9998bd2",
+              "m2": 0.0,
+              "move": 5,
+              "n": 0,
+              "prior": 0.10333775728940964,
+              "vl": 0,
+              "vvalue": 0.0,
+              "w": 0.0
+            },
+            {
+              "child_hash": "9c0dfc01422ca6ea",
+              "m2": 0.0,
+              "move": 1,
+              "n": 0,
+              "prior": 0.08845976740121841,
+              "vl": 0,
+              "vvalue": 0.0,
+              "w": 0.0
+            },
+            {
+              "child_hash": "c04773baf9e152fa",
+              "m2": 0.0,
+              "move": 2,
+              "n": 0,
+              "prior": 0.07509955763816833,
+              "vl": 0,
+              "vvalue": 0.0,
+              "w": 0.0
+            }
+          ],
+          "evaluator_calls": 1,
+          "root_hash": "18a7d0ac2c728a7b",
+          "root_n": 0,
+          "root_w": 0.0,
+          "tt_size": 7
+        },
+        "mask": 0,
+        "model_identity": "161f9e6e26840754384cb47335d1082d837fa014735cbfaa2517209422e29f24",
+        "result": {
+          "best": 4,
+          "candidates": [
+            [
+              3,
+              0.4769536852836609
+            ],
+            [
+              4,
+              0.1409633755683899
+            ],
+            [
+              0,
+              0.1151859387755394
+            ],
+            [
+              5,
+              0.10333775728940964
+            ],
+            [
+              1,
+              0.08845976740121841
+            ],
+            [
+              2,
+              0.07509955763816833
+            ]
+          ],
+          "edges": [
+            {
+              "child_hash": "ae0996fa86659220",
+              "m2": 1.1481528518128155,
+              "move": 3,
+              "n": 7,
+              "prior": 0.4769536852836609,
+              "vl": 0,
+              "vvalue": 0.0,
+              "w": -5.588889345526695
+            },
+            {
+              "child_hash": "dbb525eba2d196ee",
+              "m2": 37.235953275956284,
+              "move": 4,
+              "n": 53,
+              "prior": 0.1409633755683899,
+              "vl": 0,
+              "vvalue": 0.0,
+              "w": 11.693498104810715
+            },
+            {
+              "child_hash": "836ec2625a98406c",
+              "m2": 0.0,
+              "move": 0,
+              "n": 1,
+              "prior": 0.1151859387755394,
+              "vl": 0,
+              "vvalue": 0.0,
+              "w": -0.856111466884613
+            },
+            {
+              "child_hash": "aa064a0cc9998bd2",
+              "m2": 0.0,
+              "move": 5,
+              "n": 1,
+              "prior": 0.10333775728940964,
+              "vl": 0,
+              "vvalue": 0.0,
+              "w": -0.9166579246520996
+            },
+            {
+              "child_hash": "9c0dfc01422ca6ea",
+              "m2": 0.0,
+              "move": 1,
+              "n": 1,
+              "prior": 0.08845976740121841,
+              "vl": 0,
+              "vvalue": 0.0,
+              "w": -0.9150035977363586
+            },
+            {
+              "child_hash": "c04773baf9e152fa",
+              "m2": 0.0,
+              "move": 2,
+              "n": 1,
+              "prior": 0.07509955763816833,
+              "vl": 0,
+              "vvalue": 0.0,
+              "w": -0.768665075302124
+            }
+          ],
+          "evaluator_calls": 44,
+          "root_hash": "18a7d0ac2c728a7b",
+          "root_n": 64,
+          "root_w": 2.648170694708824,
+          "tt_size": 262
+        },
+        "schema": "quartz_fouraxis_v1",
+        "search_us": 1985,
+        "seed": 17,
+        "setup_us": 2017,
+        "standard": false,
+        "threads": 1,
+        "transport_us": 4538.145,
+        "visits": 64,
+        "whole_us": 4425
+      },
+      "standard": {
+        "cache_hit": false,
+        "drop_us": 134,
+        "history": "777542321677733216662",
+        "hooks": {
+          "backup_changed": 0,
+          "backup_edges": 0,
+          "base_evals": 0,
+          "eval_changed": 0,
+          "exact_child_evals": 0,
+          "extra_evals": 0,
+          "ledger_contexts": 0,
+          "ledger_nodes": 0,
+          "ledger_observations": 0,
+          "ledger_shared_children": 0,
+          "merge_blends": 0,
+          "refinements": 0,
+          "select_changed": 0,
+          "select_deep": 0,
+          "select_nodes": 0,
+          "temporal_blends": 0,
+          "terminal_edges": 0,
+          "terminal_leaves": 0,
+          "width_deep": 0,
+          "width_limited": 0,
+          "width_mass_added": 0,
+          "width_nodes": 0
+        },
+        "initial": {
+          "best": 2,
+          "candidates": [
+            [
+              3,
+              0.4769536852836609
+            ],
+            [
+              4,
+              0.1409633755683899
+            ],
+            [
+              0,
+              0.1151859387755394
+            ],
+            [
+              5,
+              0.10333775728940964
+            ],
+            [
+              1,
+              0.08845976740121841
+            ],
+            [
+              2,
+              0.07509955763816833
+            ]
+          ],
+          "edges": [
+            {
+              "child_hash": "ae0996fa86659220",
+              "m2": 0.0,
+              "move": 3,
+              "n": 0,
+              "prior": 0.4769536852836609,
+              "vl": 0,
+              "vvalue": 0.0,
+              "w": 0.0
+            },
+            {
+              "child_hash": "dbb525eba2d196ee",
+              "m2": 0.0,
+              "move": 4,
+              "n": 0,
+              "prior": 0.1409633755683899,
+              "vl": 0,
+              "vvalue": 0.0,
+              "w": 0.0
+            },
+            {
+              "child_hash": "836ec2625a98406c",
+              "m2": 0.0,
+              "move": 0,
+              "n": 0,
+              "prior": 0.1151859387755394,
+              "vl": 0,
+              "vvalue": 0.0,
+              "w": 0.0
+            },
+            {
+              "child_hash": "aa064a0cc9998bd2",
+              "m2": 0.0,
+              "move": 5,
+              "n": 0,
+              "prior": 0.10333775728940964,
+              "vl": 0,
+              "vvalue": 0.0,
+              "w": 0.0
+            },
+            {
+              "child_hash": "9c0dfc01422ca6ea",
+              "m2": 0.0,
+              "move": 1,
+              "n": 0,
+              "prior": 0.08845976740121841,
+              "vl": 0,
+              "vvalue": 0.0,
+              "w": 0.0
+            },
+            {
+              "child_hash": "c04773baf9e152fa",
+              "m2": 0.0,
+              "move": 2,
+              "n": 0,
+              "prior": 0.07509955763816833,
+              "vl": 0,
+              "vvalue": 0.0,
+              "w": 0.0
+            }
+          ],
+          "evaluator_calls": 1,
+          "root_hash": "18a7d0ac2c728a7b",
+          "root_n": 0,
+          "root_w": 0.0,
+          "tt_size": 7
+        },
+        "mask": 0,
+        "model_identity": "161f9e6e26840754384cb47335d1082d837fa014735cbfaa2517209422e29f24",
+        "result": {
+          "best": 4,
+          "candidates": [
+            [
+              3,
+              0.4769536852836609
+            ],
+            [
+              4,
+              0.1409633755683899
+            ],
+            [
+              0,
+              0.1151859387755394
+            ],
+            [
+              5,
+              0.10333775728940964
+            ],
+            [
+              1,
+              0.08845976740121841
+            ],
+            [
+              2,
+              0.07509955763816833
+            ]
+          ],
+          "edges": [
+            {
+              "child_hash": "ae0996fa86659220",
+              "m2": 1.1481528518128155,
+              "move": 3,
+              "n": 7,
+              "prior": 0.4769536852836609,
+              "vl": 0,
+              "vvalue": 0.0,
+              "w": -5.588889345526695
+            },
+            {
+              "child_hash": "dbb525eba2d196ee",
+              "m2": 37.235953275956284,
+              "move": 4,
+              "n": 53,
+              "prior": 0.1409633755683899,
+              "vl": 0,
+              "vvalue": 0.0,
+              "w": 11.693498104810715
+            },
+            {
+              "child_hash": "836ec2625a98406c",
+              "m2": 0.0,
+              "move": 0,
+              "n": 1,
+              "prior": 0.1151859387755394,
+              "vl": 0,
+              "vvalue": 0.0,
+              "w": -0.856111466884613
+            },
+            {
+              "child_hash": "aa064a0cc9998bd2",
+              "m2": 0.0,
+              "move": 5,
+              "n": 1,
+              "prior": 0.10333775728940964,
+              "vl": 0,
+              "vvalue": 0.0,
+              "w": -0.9166579246520996
+            },
+            {
+              "child_hash": "9c0dfc01422ca6ea",
+              "m2": 0.0,
+              "move": 1,
+              "n": 1,
+              "prior": 0.08845976740121841,
+              "vl": 0,
+              "vvalue": 0.0,
+              "w": -0.9150035977363586
+            },
+            {
+              "child_hash": "c04773baf9e152fa",
+              "m2": 0.0,
+              "move": 2,
+              "n": 1,
+              "prior": 0.07509955763816833,
+              "vl": 0,
+              "vvalue": 0.0,
+              "w": -0.768665075302124
+            }
+          ],
+          "evaluator_calls": 44,
+          "root_hash": "18a7d0ac2c728a7b",
+          "root_n": 64,
+          "root_w": 2.648170694708824,
+          "tt_size": 262
+        },
+        "schema": "quartz_fouraxis_v1",
+        "search_us": 2232,
+        "seed": 17,
+        "setup_us": 2316,
+        "standard": true,
+        "threads": 1,
+        "transport_us": 6105.991,
+        "visits": 64,
+        "whole_us": 5332
+      }
+    },
+    {
+      "research": {
+        "cache_hit": true,
+        "drop_us": 141,
+        "history": "36243231766334361247",
+        "hooks": {
+          "backup_changed": 0,
+          "backup_edges": 0,
+          "base_evals": 58,
+          "eval_changed": 0,
+          "exact_child_evals": 0,
+          "extra_evals": 0,
+          "ledger_contexts": 0,
+          "ledger_nodes": 0,
+          "ledger_observations": 0,
+          "ledger_shared_children": 0,
+          "merge_blends": 0,
+          "refinements": 0,
+          "select_changed": 0,
+          "select_deep": 0,
+          "select_nodes": 0,
+          "temporal_blends": 0,
+          "terminal_edges": 0,
+          "terminal_leaves": 6,
+          "width_deep": 0,
+          "width_limited": 0,
+          "width_mass_added": 0,
+          "width_nodes": 0
+        },
+        "initial": {
+          "best": 0,
+          "candidates": [
+            [
+              3,
+              0.3788359761238098
+            ],
+            [
+              4,
+              0.2520541846752167
+            ],
+            [
+              5,
+              0.1019071415066719
+            ],
+            [
+              6,
+              0.0923813134431839
+            ],
+            [
+              1,
+              0.09235668182373047
+            ],
+            [
+              0,
+              0.08246470242738724
+            ]
+          ],
+          "edges": [
+            {
+              "child_hash": "00beb8893d8ea069",
+              "m2": 0.0,
+              "move": 3,
+              "n": 0,
+              "prior": 0.3788359761238098,
+              "vl": 0,
+              "vvalue": 0.0,
+              "w": 0.0
+            },
+            {
+              "child_hash": "0644b489c3f400a9",
+              "m2": 0.0,
+              "move": 4,
+              "n": 0,
+              "prior": 0.2520541846752167,
+              "vl": 0,
+              "vvalue": 0.0,
+              "w": 0.0
+            },
+            {
+              "child_hash": "92bda5d8a4ccbcfb",
+              "m2": 0.0,
+              "move": 5,
+              "n": 0,
+              "prior": 0.1019071415066719,
+              "vl": 0,
+              "vvalue": 0.0,
+              "w": 0.0
+            },
+            {
+              "child_hash": "f9d1bfa9154180e9",
+              "m2": 0.0,
+              "move": 6,
+              "n": 0,
+              "prior": 0.0923813134431839,
+              "vl": 0,
+              "vvalue": 0.0,
+              "w": 0.0
+            },
+            {
+              "child_hash": "68e14705a3ec957d",
+              "m2": 0.0,
+              "move": 1,
+              "n": 0,
+              "prior": 0.09235668182373047,
+              "vl": 0,
+              "vvalue": 0.0,
+              "w": 0.0
+            },
+            {
+              "child_hash": "ac45ffb293b24545",
+              "m2": 0.0,
+              "move": 0,
+              "n": 0,
+              "prior": 0.08246470242738724,
+              "vl": 0,
+              "vvalue": 0.0,
+              "w": 0.0
+            }
+          ],
+          "evaluator_calls": 1,
+          "root_hash": "40d714308e3d9fd8",
+          "root_n": 0,
+          "root_w": 0.0,
+          "tt_size": 7
+        },
+        "mask": 0,
+        "model_identity": "161f9e6e26840754384cb47335d1082d837fa014735cbfaa2517209422e29f24",
+        "result": {
+          "best": 3,
+          "candidates": [
+            [
+              3,
+              0.3788359761238098
+            ],
+            [
+              4,
+              0.2520541846752167
+            ],
+            [
+              5,
+              0.1019071415066719
+            ],
+            [
+              6,
+              0.0923813134431839
+            ],
+            [
+              1,
+              0.09235668182373047
+            ],
+            [
+              0,
+              0.08246470242738724
+            ]
+          ],
+          "edges": [
+            {
+              "child_hash": "00beb8893d8ea069",
+              "m2": 15.1585945164835,
+              "move": 3,
+              "n": 25,
+              "prior": 0.3788359761238098,
+              "vl": 0,
+              "vvalue": 0.0,
+              "w": -2.337613821029663
+            },
+            {
+              "child_hash": "0644b489c3f400a9",
+              "m2": 0.27007614791774426,
+              "move": 4,
+              "n": 4,
+              "prior": 0.2520541846752167,
+              "vl": 0,
+              "vvalue": 0.0,
+              "w": -3.399915397167206
+            },
+            {
+              "child_hash": "92bda5d8a4ccbcfb",
+              "m2": 0.5704085936215885,
+              "move": 5,
+              "n": 4,
+              "prior": 0.1019071415066719,
+              "vl": 0,
+              "vvalue": 0.0,
+              "w": -0.16081194952130318
+            },
+            {
+              "child_hash": "f9d1bfa9154180e9",
+              "m2": 3.9369672333146384,
+              "move": 6,
+              "n": 11,
+              "prior": 0.0923813134431839,
+              "vl": 0,
+              "vvalue": 0.0,
+              "w": 0.26760944724082947
+            },
+            {
+              "child_hash": "68e14705a3ec957d",
+              "m2": 7.762634345102762,
+              "move": 1,
+              "n": 19,
+              "prior": 0.09235668182373047,
+              "vl": 0,
+              "vvalue": 0.0,
+              "w": 0.6289810985326767
+            },
+            {
+              "child_hash": "ac45ffb293b24545",
+              "m2": 0.0,
+              "move": 0,
+              "n": 1,
+              "prior": 0.08246470242738724,
+              "vl": 0,
+              "vvalue": 0.0,
+              "w": -0.51906418800354
+            }
+          ],
+          "evaluator_calls": 59,
+          "root_hash": "40d714308e3d9fd8",
+          "root_n": 64,
+          "root_w": -5.520814809948206,
+          "tt_size": 329
+        },
+        "schema": "quartz_fouraxis_v1",
+        "search_us": 2354,
+        "seed": 17,
+        "setup_us": 170,
+        "standard": false,
+        "threads": 1,
+        "transport_us": 3033.269,
+        "visits": 64,
+        "whole_us": 2935
+      },
+      "standard": {
+        "cache_hit": true,
+        "drop_us": 139,
+        "history": "36243231766334361247",
+        "hooks": {
+          "backup_changed": 0,
+          "backup_edges": 0,
+          "base_evals": 0,
+          "eval_changed": 0,
+          "exact_child_evals": 0,
+          "extra_evals": 0,
+          "ledger_contexts": 0,
+          "ledger_nodes": 0,
+          "ledger_observations": 0,
+          "ledger_shared_children": 0,
+          "merge_blends": 0,
+          "refinements": 0,
+          "select_changed": 0,
+          "select_deep": 0,
+          "select_nodes": 0,
+          "temporal_blends": 0,
+          "terminal_edges": 0,
+          "terminal_leaves": 0,
+          "width_deep": 0,
+          "width_limited": 0,
+          "width_mass_added": 0,
+          "width_nodes": 0
+        },
+        "initial": {
+          "best": 0,
+          "candidates": [
+            [
+              3,
+              0.3788359761238098
+            ],
+            [
+              4,
+              0.2520541846752167
+            ],
+            [
+              5,
+              0.1019071415066719
+            ],
+            [
+              6,
+              0.0923813134431839
+            ],
+            [
+              1,
+              0.09235668182373047
+            ],
+            [
+              0,
+              0.08246470242738724
+            ]
+          ],
+          "edges": [
+            {
+              "child_hash": "00beb8893d8ea069",
+              "m2": 0.0,
+              "move": 3,
+              "n": 0,
+              "prior": 0.3788359761238098,
+              "vl": 0,
+              "vvalue": 0.0,
+              "w": 0.0
+            },
+            {
+              "child_hash": "0644b489c3f400a9",
+              "m2": 0.0,
+              "move": 4,
+              "n": 0,
+              "prior": 0.2520541846752167,
+              "vl": 0,
+              "vvalue": 0.0,
+              "w": 0.0
+            },
+            {
+              "child_hash": "92bda5d8a4ccbcfb",
+              "m2": 0.0,
+              "move": 5,
+              "n": 0,
+              "prior": 0.1019071415066719,
+              "vl": 0,
+              "vvalue": 0.0,
+              "w": 0.0
+            },
+            {
+              "child_hash": "f9d1bfa9154180e9",
+              "m2": 0.0,
+              "move": 6,
+              "n": 0,
+              "prior": 0.0923813134431839,
+              "vl": 0,
+              "vvalue": 0.0,
+              "w": 0.0
+            },
+            {
+              "child_hash": "68e14705a3ec957d",
+              "m2": 0.0,
+              "move": 1,
+              "n": 0,
+              "prior": 0.09235668182373047,
+              "vl": 0,
+              "vvalue": 0.0,
+              "w": 0.0
+            },
+            {
+              "child_hash": "ac45ffb293b24545",
+              "m2": 0.0,
+              "move": 0,
+              "n": 0,
+              "prior": 0.08246470242738724,
+              "vl": 0,
+              "vvalue": 0.0,
+              "w": 0.0
+            }
+          ],
+          "evaluator_calls": 1,
+          "root_hash": "40d714308e3d9fd8",
+          "root_n": 0,
+          "root_w": 0.0,
+          "tt_size": 7
+        },
+        "mask": 0,
+        "model_identity": "161f9e6e26840754384cb47335d1082d837fa014735cbfaa2517209422e29f24",
+        "result": {
+          "best": 3,
+          "candidates": [
+            [
+              3,
+              0.3788359761238098
+            ],
+            [
+              4,
+              0.2520541846752167
+            ],
+            [
+              5,
+              0.1019071415066719
+            ],
+            [
+              6,
+              0.0923813134431839
+            ],
+            [
+              1,
+              0.09235668182373047
+            ],
+            [
+              0,
+              0.08246470242738724
+            ]
+          ],
+          "edges": [
+            {
+              "child_hash": "00beb8893d8ea069",
+              "m2": 15.1585945164835,
+              "move": 3,
+              "n": 25,
+              "prior": 0.3788359761238098,
+              "vl": 0,
+              "vvalue": 0.0,
+              "w": -2.337613821029663
+            },
+            {
+              "child_hash": "0644b489c3f400a9",
+              "m2": 0.27007614791774426,
+              "move": 4,
+              "n": 4,
+              "prior": 0.2520541846752167,
+              "vl": 0,
+              "vvalue": 0.0,
+              "w": -3.399915397167206
+            },
+            {
+              "child_hash": "92bda5d8a4ccbcfb",
+              "m2": 0.5704085936215885,
+              "move": 5,
+              "n": 4,
+              "prior": 0.1019071415066719,
+              "vl": 0,
+              "vvalue": 0.0,
+              "w": -0.16081194952130318
+            },
+            {
+              "child_hash": "f9d1bfa9154180e9",
+              "m2": 3.9369672333146384,
+              "move": 6,
+              "n": 11,
+              "prior": 0.0923813134431839,
+              "vl": 0,
+              "vvalue": 0.0,
+              "w": 0.26760944724082947
+            },
+            {
+              "child_hash": "68e14705a3ec957d",
+              "m2": 7.762634345102762,
+              "move": 1,
+              "n": 19,
+              "prior": 0.09235668182373047,
+              "vl": 0,
+              "vvalue": 0.0,
+              "w": 0.6289810985326767
+            },
+            {
+              "child_hash": "ac45ffb293b24545",
+              "m2": 0.0,
+              "move": 0,
+              "n": 1,
+              "prior": 0.08246470242738724,
+              "vl": 0,
+              "vvalue": 0.0,
+              "w": -0.51906418800354
+            }
+          ],
+          "evaluator_calls": 59,
+          "root_hash": "40d714308e3d9fd8",
+          "root_n": 64,
+          "root_w": -5.520814809948206,
+          "tt_size": 329
+        },
+        "schema": "quartz_fouraxis_v1",
+        "search_us": 2442,
+        "seed": 17,
+        "setup_us": 166,
+        "standard": true,
+        "threads": 1,
+        "transport_us": 3105.746,
+        "visits": 64,
+        "whole_us": 3002
+      }
+    },
+    {
+      "research": {
+        "cache_hit": true,
+        "drop_us": 89,
+        "history": "44462612611647124176226",
+        "hooks": {
+          "backup_changed": 0,
+          "backup_edges": 0,
+          "base_evals": 12,
+          "eval_changed": 0,
+          "exact_child_evals": 0,
+          "extra_evals": 0,
+          "ledger_contexts": 0,
+          "ledger_nodes": 0,
+          "ledger_observations": 0,
+          "ledger_shared_children": 0,
+          "merge_blends": 0,
+          "refinements": 0,
+          "select_changed": 0,
+          "select_deep": 0,
+          "select_nodes": 0,
+          "temporal_blends": 0,
+          "terminal_edges": 0,
+          "terminal_leaves": 52,
+          "width_deep": 0,
+          "width_limited": 0,
+          "width_mass_added": 0,
+          "width_nodes": 0
+        },
+        "initial": {
+          "best": 1,
+          "candidates": [
+            [
+              0,
+              0.2684779167175293
+            ],
+            [
+              4,
+              0.2539762854576111
+            ],
+            [
+              3,
+              0.21658702194690704
+            ],
+            [
+              2,
+              0.12511534988880157
+            ],
+            [
+              6,
+              0.08289321511983871
+            ],
+            [
+              1,
+              0.0529501810669899
+            ]
+          ],
+          "edges": [
+            {
+              "child_hash": "5371263d28a78240",
+              "m2": 0.0,
+              "move": 0,
+              "n": 0,
+              "prior": 0.2684779167175293,
+              "vl": 0,
+              "vvalue": 0.0,
+              "w": 0.0
+            },
+            {
+              "child_hash": "525b20f2ca9438c6",
+              "m2": 0.0,
+              "move": 4,
+              "n": 0,
+              "prior": 0.2539762854576111,
+              "vl": 0,
+              "vvalue": 0.0,
+              "w": 0.0
+            },
+            {
+              "child_hash": "719489719e152576",
+              "m2": 0.0,
+              "move": 3,
+              "n": 0,
+              "prior": 0.21658702194690704,
+              "vl": 0,
+              "vvalue": 0.0,
+              "w": 0.0
+            },
+            {
+              "child_hash": "534518d89d642c8a",
+              "m2": 0.0,
+              "move": 2,
+              "n": 0,
+              "prior": 0.12511534988880157,
+              "vl": 0,
+              "vvalue": 0.0,
+              "w": 0.0
+            },
+            {
+              "child_hash": "350d0e5cadbf2c0a",
+              "m2": 0.0,
+              "move": 6,
+              "n": 0,
+              "prior": 0.08289321511983871,
+              "vl": 0,
+              "vvalue": 0.0,
+              "w": 0.0
+            },
+            {
+              "child_hash": "5cf3ae7b67d7377a",
+              "m2": 0.0,
+              "move": 1,
+              "n": 0,
+              "prior": 0.0529501810669899,
+              "vl": 0,
+              "vvalue": 0.0,
+              "w": 0.0
+            }
+          ],
+          "evaluator_calls": 1,
+          "root_hash": "30ecc4470355c311",
+          "root_n": 0,
+          "root_w": 0.0,
+          "tt_size": 7
+        },
+        "mask": 0,
+        "model_identity": "161f9e6e26840754384cb47335d1082d837fa014735cbfaa2517209422e29f24",
+        "result": {
+          "best": 0,
+          "candidates": [
+            [
+              0,
+              0.2684779167175293
+            ],
+            [
+              4,
+              0.2539762854576111
+            ],
+            [
+              3,
+              0.21658702194690704
+            ],
+            [
+              2,
+              0.12511534988880157
+            ],
+            [
+              6,
+              0.08289321511983871
+            ],
+            [
+              1,
+              0.0529501810669899
+            ]
+          ],
+          "edges": [
+            {
+              "child_hash": "5371263d28a78240",
+              "m2": 1.6837734338059127,
+              "move": 0,
+              "n": 16,
+              "prior": 0.2684779167175293,
+              "vl": 0,
+              "vvalue": 0.0,
+              "w": -14.595261007547379
+            },
+            {
+              "child_hash": "525b20f2ca9438c6",
+              "m2": 1.6286053227419033,
+              "move": 4,
+              "n": 15,
+              "prior": 0.2539762854576111,
+              "vl": 0,
+              "vvalue": 0.0,
+              "w": -13.63216233253479
+            },
+            {
+              "child_hash": "719489719e152576",
+              "m2": 3.4238238570392046,
+              "move": 3,
+              "n": 15,
+              "prior": 0.21658702194690704,
+              "vl": 0,
+              "vvalue": 0.0,
+              "w": -12.121803998947144
+            },
+            {
+              "child_hash": "534518d89d642c8a",
+              "m2": 2.50119609244314,
+              "move": 2,
+              "n": 13,
+              "prior": 0.12511534988880157,
+              "vl": 0,
+              "vvalue": 0.0,
+              "w": -10.508755952119827
+            },
+            {
+              "child_hash": "350d0e5cadbf2c0a",
+              "m2": 0.0018884467814951704,
+              "move": 6,
+              "n": 3,
+              "prior": 0.08289321511983871,
+              "vl": 0,
+              "vvalue": 0.0,
+              "w": -2.9467771649360657
+            },
+            {
+              "child_hash": "5cf3ae7b67d7377a",
+              "m2": 0.001638260509738032,
+              "move": 1,
+              "n": 2,
+              "prior": 0.0529501810669899,
+              "vl": 0,
+              "vvalue": 0.0,
+              "w": -1.942759096622467
+            }
+          ],
+          "evaluator_calls": 13,
+          "root_hash": "30ecc4470355c311",
+          "root_n": 64,
+          "root_w": -55.74751955270767,
+          "tt_size": 66
+        },
+        "schema": "quartz_fouraxis_v1",
+        "search_us": 509,
+        "seed": 17,
+        "setup_us": 119,
+        "standard": false,
+        "threads": 1,
+        "transport_us": 1001.665,
+        "visits": 64,
+        "whole_us": 921
+      },
+      "standard": {
+        "cache_hit": true,
+        "drop_us": 99,
+        "history": "44462612611647124176226",
+        "hooks": {
+          "backup_changed": 0,
+          "backup_edges": 0,
+          "base_evals": 0,
+          "eval_changed": 0,
+          "exact_child_evals": 0,
+          "extra_evals": 0,
+          "ledger_contexts": 0,
+          "ledger_nodes": 0,
+          "ledger_observations": 0,
+          "ledger_shared_children": 0,
+          "merge_blends": 0,
+          "refinements": 0,
+          "select_changed": 0,
+          "select_deep": 0,
+          "select_nodes": 0,
+          "temporal_blends": 0,
+          "terminal_edges": 0,
+          "terminal_leaves": 0,
+          "width_deep": 0,
+          "width_limited": 0,
+          "width_mass_added": 0,
+          "width_nodes": 0
+        },
+        "initial": {
+          "best": 1,
+          "candidates": [
+            [
+              0,
+              0.2684779167175293
+            ],
+            [
+              4,
+              0.2539762854576111
+            ],
+            [
+              3,
+              0.21658702194690704
+            ],
+            [
+              2,
+              0.12511534988880157
+            ],
+            [
+              6,
+              0.08289321511983871
+            ],
+            [
+              1,
+              0.0529501810669899
+            ]
+          ],
+          "edges": [
+            {
+              "child_hash": "5371263d28a78240",
+              "m2": 0.0,
+              "move": 0,
+              "n": 0,
+              "prior": 0.2684779167175293,
+              "vl": 0,
+              "vvalue": 0.0,
+              "w": 0.0
+            },
+            {
+              "child_hash": "525b20f2ca9438c6",
+              "m2": 0.0,
+              "move": 4,
+              "n": 0,
+              "prior": 0.2539762854576111,
+              "vl": 0,
+              "vvalue": 0.0,
+              "w": 0.0
+            },
+            {
+              "child_hash": "719489719e152576",
+              "m2": 0.0,
+              "move": 3,
+              "n": 0,
+              "prior": 0.21658702194690704,
+              "vl": 0,
+              "vvalue": 0.0,
+              "w": 0.0
+            },
+            {
+              "child_hash": "534518d89d642c8a",
+              "m2": 0.0,
+              "move": 2,
+              "n": 0,
+              "prior": 0.12511534988880157,
+              "vl": 0,
+              "vvalue": 0.0,
+              "w": 0.0
+            },
+            {
+              "child_hash": "350d0e5cadbf2c0a",
+              "m2": 0.0,
+              "move": 6,
+              "n": 0,
+              "prior": 0.08289321511983871,
+              "vl": 0,
+              "vvalue": 0.0,
+              "w": 0.0
+            },
+            {
+              "child_hash": "5cf3ae7b67d7377a",
+              "m2": 0.0,
+              "move": 1,
+              "n": 0,
+              "prior": 0.0529501810669899,
+              "vl": 0,
+              "vvalue": 0.0,
+              "w": 0.0
+            }
+          ],
+          "evaluator_calls": 1,
+          "root_hash": "30ecc4470355c311",
+          "root_n": 0,
+          "root_w": 0.0,
+          "tt_size": 7
+        },
+        "mask": 0,
+        "model_identity": "161f9e6e26840754384cb47335d1082d837fa014735cbfaa2517209422e29f24",
+        "result": {
+          "best": 0,
+          "candidates": [
+            [
+              0,
+              0.2684779167175293
+            ],
+            [
+              4,
+              0.2539762854576111
+            ],
+            [
+              3,
+              0.21658702194690704
+            ],
+            [
+              2,
+              0.12511534988880157
+            ],
+            [
+              6,
+              0.08289321511983871
+            ],
+            [
+              1,
+              0.0529501810669899
+            ]
+          ],
+          "edges": [
+            {
+              "child_hash": "5371263d28a78240",
+              "m2": 1.6837734338059127,
+              "move": 0,
+              "n": 16,
+              "prior": 0.2684779167175293,
+              "vl": 0,
+              "vvalue": 0.0,
+              "w": -14.595261007547379
+            },
+            {
+              "child_hash": "525b20f2ca9438c6",
+              "m2": 1.6286053227419033,
+              "move": 4,
+              "n": 15,
+              "prior": 0.2539762854576111,
+              "vl": 0,
+              "vvalue": 0.0,
+              "w": -13.63216233253479
+            },
+            {
+              "child_hash": "719489719e152576",
+              "m2": 3.4238238570392046,
+              "move": 3,
+              "n": 15,
+              "prior": 0.21658702194690704,
+              "vl": 0,
+              "vvalue": 0.0,
+              "w": -12.121803998947144
+            },
+            {
+              "child_hash": "534518d89d642c8a",
+              "m2": 2.50119609244314,
+              "move": 2,
+              "n": 13,
+              "prior": 0.12511534988880157,
+              "vl": 0,
+              "vvalue": 0.0,
+              "w": -10.508755952119827
+            },
+            {
+              "child_hash": "350d0e5cadbf2c0a",
+              "m2": 0.0018884467814951704,
+              "move": 6,
+              "n": 3,
+              "prior": 0.08289321511983871,
+              "vl": 0,
+              "vvalue": 0.0,
+              "w": -2.9467771649360657
+            },
+            {
+              "child_hash": "5cf3ae7b67d7377a",
+              "m2": 0.001638260509738032,
+              "move": 1,
+              "n": 2,
+              "prior": 0.0529501810669899,
+              "vl": 0,
+              "vvalue": 0.0,
+              "w": -1.942759096622467
+            }
+          ],
+          "evaluator_calls": 13,
+          "root_hash": "30ecc4470355c311",
+          "root_n": 64,
+          "root_w": -55.74751955270767,
+          "tt_size": 66
+        },
+        "schema": "quartz_fouraxis_v1",
+        "search_us": 595,
+        "seed": 17,
+        "setup_us": 172,
+        "standard": true,
+        "threads": 1,
+        "transport_us": 1181.475,
+        "visits": 64,
+        "whole_us": 1095
+      }
+    },
+    {
+      "research": {
+        "cache_hit": true,
+        "drop_us": 97,
+        "history": "71436334655535243342",
+        "hooks": {
+          "backup_changed": 0,
+          "backup_edges": 0,
+          "base_evals": 33,
+          "eval_changed": 0,
+          "exact_child_evals": 0,
+          "extra_evals": 0,
+          "ledger_contexts": 0,
+          "ledger_nodes": 0,
+          "ledger_observations": 0,
+          "ledger_shared_children": 0,
+          "merge_blends": 0,
+          "refinements": 0,
+          "select_changed": 0,
+          "select_deep": 0,
+          "select_nodes": 0,
+          "temporal_blends": 0,
+          "terminal_edges": 0,
+          "terminal_leaves": 31,
+          "width_deep": 0,
+          "width_limited": 0,
+          "width_mass_added": 0,
+          "width_nodes": 0
+        },
+        "initial": {
+          "best": 5,
+          "candidates": [
+            [
+              3,
+              0.25081315636634827
+            ],
+            [
+              4,
+              0.24566210806369781
+            ],
+            [
+              6,
+              0.19297067821025848
+            ],
+            [
+              1,
+              0.13597814738750458
+            ],
+            [
+              0,
+              0.11251232773065567
+            ],
+            [
+              5,
+              0.06206357851624489
+            ]
+          ],
+          "edges": [
+            {
+              "child_hash": "71608daa83e03f7f",
+              "m2": 0.0,
+              "move": 3,
+              "n": 0,
+              "prior": 0.25081315636634827,
+              "vl": 0,
+              "vvalue": 0.0,
+              "w": 0.0
+            },
+            {
+              "child_hash": "d314cfc742df45fd",
+              "m2": 0.0,
+              "move": 4,
+              "n": 0,
+              "prior": 0.24566210806369781,
+              "vl": 0,
+              "vvalue": 0.0,
+              "w": 0.0
+            },
+            {
+              "child_hash": "4a076f3771b1c0f7",
+              "m2": 0.0,
+              "move": 6,
+              "n": 0,
+              "prior": 0.19297067821025848,
+              "vl": 0,
+              "vvalue": 0.0,
+              "w": 0.0
+            },
+            {
+              "child_hash": "7a4c14ba9ee9c393",
+              "m2": 0.0,
+              "move": 1,
+              "n": 0,
+              "prior": 0.13597814738750458,
+              "vl": 0,
+              "vvalue": 0.0,
+              "w": 0.0
+            },
+            {
+              "child_hash": "6bc895e9f99ff32f",
+              "m2": 0.0,
+              "move": 0,
+              "n": 0,
+              "prior": 0.11251232773065567,
+              "vl": 0,
+              "vvalue": 0.0,
+              "w": 0.0
+            },
+            {
+              "child_hash": "476653d74bbb718f",
+              "m2": 0.0,
+              "move": 5,
+              "n": 0,
+              "prior": 0.06206357851624489,
+              "vl": 0,
+              "vvalue": 0.0,
+              "w": 0.0
+            }
+          ],
+          "evaluator_calls": 1,
+          "root_hash": "ba0f8a45ddb3bc58",
+          "root_n": 0,
+          "root_w": 0.0,
+          "tt_size": 7
+        },
+        "mask": 0,
+        "model_identity": "161f9e6e26840754384cb47335d1082d837fa014735cbfaa2517209422e29f24",
+        "result": {
+          "best": 0,
+          "candidates": [
+            [
+              3,
+              0.25081315636634827
+            ],
+            [
+              4,
+              0.24566210806369781
+            ],
+            [
+              6,
+              0.19297067821025848
+            ],
+            [
+              1,
+              0.13597814738750458
+            ],
+            [
+              0,
+              0.11251232773065567
+            ],
+            [
+              5,
+              0.06206357851624489
+            ]
+          ],
+          "edges": [
+            {
+              "child_hash": "71608daa83e03f7f",
+              "m2": 3.8051738505525687,
+              "move": 3,
+              "n": 9,
+              "prior": 0.25081315636634827,
+              "vl": 0,
+              "vvalue": 0.0,
+              "w": -5.5433429479599
+            },
+            {
+              "child_hash": "d314cfc742df45fd",
+              "m2": 5.3296467077481005,
+              "move": 4,
+              "n": 13,
+              "prior": 0.24566210806369781,
+              "vl": 0,
+              "vvalue": 0.0,
+              "w": -7.19350653886795
+            },
+            {
+              "child_hash": "4a076f3771b1c0f7",
+              "m2": 4.219743971078757,
+              "move": 6,
+              "n": 10,
+              "prior": 0.19297067821025848,
+              "vl": 0,
+              "vvalue": 0.0,
+              "w": -5.408236026763916
+            },
+            {
+              "child_hash": "7a4c14ba9ee9c393",
+              "m2": 6.8058839314934945,
+              "move": 1,
+              "n": 12,
+              "prior": 0.13597814738750458,
+              "vl": 0,
+              "vvalue": 0.0,
+              "w": -5.27100670337677
+            },
+            {
+              "child_hash": "6bc895e9f99ff32f",
+              "m2": 7.856109126379562,
+              "move": 0,
+              "n": 19,
+              "prior": 0.11251232773065567,
+              "vl": 0,
+              "vvalue": 0.0,
+              "w": -5.808653116226196
+            },
+            {
+              "child_hash": "476653d74bbb718f",
+              "m2": 0.0,
+              "move": 5,
+              "n": 1,
+              "prior": 0.06206357851624489,
+              "vl": 0,
+              "vvalue": 0.0,
+              "w": -0.745902419090271
+            }
+          ],
+          "evaluator_calls": 34,
+          "root_hash": "ba0f8a45ddb3bc58",
+          "root_n": 64,
+          "root_w": -29.970647752285004,
+          "tt_size": 181
+        },
+        "schema": "quartz_fouraxis_v1",
+        "search_us": 1337,
+        "seed": 17,
+        "setup_us": 164,
+        "standard": false,
+        "threads": 1,
+        "transport_us": 1912.989,
+        "visits": 64,
+        "whole_us": 1831
+      },
+      "standard": {
+        "cache_hit": true,
+        "drop_us": 99,
+        "history": "71436334655535243342",
+        "hooks": {
+          "backup_changed": 0,
+          "backup_edges": 0,
+          "base_evals": 0,
+          "eval_changed": 0,
+          "exact_child_evals": 0,
+          "extra_evals": 0,
+          "ledger_contexts": 0,
+          "ledger_nodes": 0,
+          "ledger_observations": 0,
+          "ledger_shared_children": 0,
+          "merge_blends": 0,
+          "refinements": 0,
+          "select_changed": 0,
+          "select_deep": 0,
+          "select_nodes": 0,
+          "temporal_blends": 0,
+          "terminal_edges": 0,
+          "terminal_leaves": 0,
+          "width_deep": 0,
+          "width_limited": 0,
+          "width_mass_added": 0,
+          "width_nodes": 0
+        },
+        "initial": {
+          "best": 5,
+          "candidates": [
+            [
+              3,
+              0.25081315636634827
+            ],
+            [
+              4,
+              0.24566210806369781
+            ],
+            [
+              6,
+              0.19297067821025848
+            ],
+            [
+              1,
+              0.13597814738750458
+            ],
+            [
+              0,
+              0.11251232773065567
+            ],
+            [
+              5,
+              0.06206357851624489
+            ]
+          ],
+          "edges": [
+            {
+              "child_hash": "71608daa83e03f7f",
+              "m2": 0.0,
+              "move": 3,
+              "n": 0,
+              "prior": 0.25081315636634827,
+              "vl": 0,
+              "vvalue": 0.0,
+              "w": 0.0
+            },
+            {
+              "child_hash": "d314cfc742df45fd",
+              "m2": 0.0,
+              "move": 4,
+              "n": 0,
+              "prior": 0.24566210806369781,
+              "vl": 0,
+              "vvalue": 0.0,
+              "w": 0.0
+            },
+            {
+              "child_hash": "4a076f3771b1c0f7",
+              "m2": 0.0,
+              "move": 6,
+              "n": 0,
+              "prior": 0.19297067821025848,
+              "vl": 0,
+              "vvalue": 0.0,
+              "w": 0.0
+            },
+            {
+              "child_hash": "7a4c14ba9ee9c393",
+              "m2": 0.0,
+              "move": 1,
+              "n": 0,
+              "prior": 0.13597814738750458,
+              "vl": 0,
+              "vvalue": 0.0,
+              "w": 0.0
+            },
+            {
+              "child_hash": "6bc895e9f99ff32f",
+              "m2": 0.0,
+              "move": 0,
+              "n": 0,
+              "prior": 0.11251232773065567,
+              "vl": 0,
+              "vvalue": 0.0,
+              "w": 0.0
+            },
+            {
+              "child_hash": "476653d74bbb718f",
+              "m2": 0.0,
+              "move": 5,
+              "n": 0,
+              "prior": 0.06206357851624489,
+              "vl": 0,
+              "vvalue": 0.0,
+              "w": 0.0
+            }
+          ],
+          "evaluator_calls": 1,
+          "root_hash": "ba0f8a45ddb3bc58",
+          "root_n": 0,
+          "root_w": 0.0,
+          "tt_size": 7
+        },
+        "mask": 0,
+        "model_identity": "161f9e6e26840754384cb47335d1082d837fa014735cbfaa2517209422e29f24",
+        "result": {
+          "best": 0,
+          "candidates": [
+            [
+              3,
+              0.25081315636634827
+            ],
+            [
+              4,
+              0.24566210806369781
+            ],
+            [
+              6,
+              0.19297067821025848
+            ],
+            [
+              1,
+              0.13597814738750458
+            ],
+            [
+              0,
+              0.11251232773065567
+            ],
+            [
+              5,
+              0.06206357851624489
+            ]
+          ],
+          "edges": [
+            {
+              "child_hash": "71608daa83e03f7f",
+              "m2": 3.8051738505525687,
+              "move": 3,
+              "n": 9,
+              "prior": 0.25081315636634827,
+              "vl": 0,
+              "vvalue": 0.0,
+              "w": -5.5433429479599
+            },
+            {
+              "child_hash": "d314cfc742df45fd",
+              "m2": 5.3296467077481005,
+              "move": 4,
+              "n": 13,
+              "prior": 0.24566210806369781,
+              "vl": 0,
+              "vvalue": 0.0,
+              "w": -7.19350653886795
+            },
+            {
+              "child_hash": "4a076f3771b1c0f7",
+              "m2": 4.219743971078757,
+              "move": 6,
+              "n": 10,
+              "prior": 0.19297067821025848,
+              "vl": 0,
+              "vvalue": 0.0,
+              "w": -5.408236026763916
+            },
+            {
+              "child_hash": "7a4c14ba9ee9c393",
+              "m2": 6.8058839314934945,
+              "move": 1,
+              "n": 12,
+              "prior": 0.13597814738750458,
+              "vl": 0,
+              "vvalue": 0.0,
+              "w": -5.27100670337677
+            },
+            {
+              "child_hash": "6bc895e9f99ff32f",
+              "m2": 7.856109126379562,
+              "move": 0,
+              "n": 19,
+              "prior": 0.11251232773065567,
+              "vl": 0,
+              "vvalue": 0.0,
+              "w": -5.808653116226196
+            },
+            {
+              "child_hash": "476653d74bbb718f",
+              "m2": 0.0,
+              "move": 5,
+              "n": 1,
+              "prior": 0.06206357851624489,
+              "vl": 0,
+              "vvalue": 0.0,
+              "w": -0.745902419090271
+            }
+          ],
+          "evaluator_calls": 34,
+          "root_hash": "ba0f8a45ddb3bc58",
+          "root_n": 64,
+          "root_w": -29.970647752285004,
+          "tt_size": 181
+        },
+        "schema": "quartz_fouraxis_v1",
+        "search_us": 1475,
+        "seed": 17,
+        "setup_us": 123,
+        "standard": true,
+        "threads": 1,
+        "transport_us": 1967.543,
+        "visits": 64,
+        "whole_us": 1889
+      }
+    }
+  ]
+}
