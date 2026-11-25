@@ -1,12 +1,49 @@
 // Research-only four-axis numerical primitives. No game or engine dependency.
 use std::collections::HashMap;
-pub fn local_c(c:f64,_counts:&[u32],_priors:&[f32])->f64 {c}
-pub fn mass_width(_priors:&[f32],base:usize,old:usize)->usize {base.max(old)}
-pub fn blend(y:f32,_m:f64,_n:u64,_terminal:bool)->f32 {y}
+pub fn local_c(c:f64,counts:&[u32],priors:&[f32])->f64 {
+    assert_eq!(counts.len(),priors.len());
+    if counts.is_empty(){return c;}
+    let eps=1e-4;
+    let n=counts.iter().map(|&x|x as f64+eps).sum::<f64>();
+    let p=priors.iter().map(|&x|(x as f64).max(0.)+eps).sum::<f64>();
+    let d=counts.iter().zip(priors).map(|(&x,&y)|{
+        let q=(x as f64+eps)/n;let a=((y as f64).max(0.)+eps)/p;
+        q*(q/a).ln()
+    }).sum::<f64>().max(0.);
+    c*(1.+0.5*d/(1.+d))
+}
+pub fn mass_width(priors:&[f32],base:usize,old:usize)->usize {
+    let total=priors.iter().map(|&p|p.max(0.) as f64).sum::<f64>();
+    let mut acc=0.;let mut k=0;
+    if total<=0.{k=(3*priors.len()+3)/4;}
+    else {for &p in priors{acc+=p.max(0.) as f64;k+=1;if acc>=0.75*total{break;}}}
+    base.max(old).max(k).min(priors.len())
+}
+pub fn blend(y:f32,m:f64,n:u64,terminal:bool)->f32 {
+    if terminal||n==0{return y;}
+    let a=0.25f64.min(n as f64/(n as f64+4.));
+    ((1.-a)*y as f64+a*m).clamp(-1.,1.) as f32
+}
 #[derive(Default)]
 pub struct Ledger { entries:HashMap<u64,HashMap<(u64,usize),(f64,u64)>> }
 impl Ledger{
-    pub fn observe(&mut self,_child:u64,_parent:u64,_edge:usize,_raw:f32)->Option<(f64,u64,bool)>{None}
+    pub fn observe(&mut self,child:u64,parent:u64,edge:usize,raw:f32)->Option<(f64,u64,bool)>{
+        let e=self.entries.entry(child).or_default();
+        let key=(parent,edge);
+        // Stable accumulation order across HashMap seeds.
+        let mut other:Vec<_>=e.iter().filter(|(k,_)|**k!=key).collect();
+        other.sort_unstable_by_key(|(k,_)|**k);
+        let (s,n)=other.iter().fold((0.,0u64),|(s,n),(_,v)|(s+v.0,n+v.1));
+        let old=if n>0{Some((s/n as f64,n,true))}
+            else{e.get(&key).map(|&(s,n)|(s/n as f64,n,false))};
+        let a=e.entry(key).or_default();a.0+=raw as f64;a.1+=1;
+        old
+    }
+    pub fn counts(&self)->(usize,usize,usize,u64){
+        (self.entries.len(),self.entries.values().map(|v|v.len()).sum(),
+         self.entries.values().filter(|v|v.len()>1).count(),
+         self.entries.values().flat_map(|v|v.values()).map(|v|v.1).sum())
+    }
 }
 #[cfg(test)]
 mod tests{
