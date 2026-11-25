@@ -1,0 +1,24 @@
+
+running 4 tests
+test tests::overline_and_distinct_identity ... ok
+test tests::unknown_and_draw ... ok
+test tactical_guard_tests::guard_blocks_and_avoids_forced_loss_tie ... FAILED
+test tests::immediate_and_two_ply_loss ... ok
+
+failures:
+
+---- tactical_guard_tests::guard_blocks_and_avoids_forced_loss_tie stdout ----
+
+thread 'tactical_guard_tests::guard_blocks_and_avoids_forced_loss_tie' (1155224) panicked at src/mcts_server/gomoku_long_proof.rs:101:73:
+assertion `left == right` failed
+  left: None
+ right: Some(104)
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+
+failures:
+    tactical_guard_tests::guard_blocks_and_avoids_forced_loss_tie
+
+test result: FAILED. 3 passed; 1 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+exit=101

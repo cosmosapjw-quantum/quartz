@@ -84,3 +84,22 @@ mod tests{
         b[0]=0;let p=scan(&b,1,false);assert_eq!(p.interval,(0,0));assert_eq!(p.witness,Some(0));
     }
 }
+
+// P3 root-only tactical guard; deliberately not equivalent to all WDL witnesses.
+pub fn guard(_p:&Proof)->Option<u16>{None}
+pub fn target_moves(p:&Proof)->Vec<u16>{
+    if !p.own.is_empty(){p.own.clone()}
+    else if p.opponent.len()==1{p.opponent.clone()}
+    else{Vec::new()}
+}
+#[cfg(test)]
+mod tactical_guard_tests{
+    use super::*;
+    #[test]fn guard_blocks_and_avoids_forced_loss_tie(){
+        let mut b=[0;225];for i in [100,101,102,103]{b[i]=2;}
+        let p=scan(&b,1,false);assert!(p.witness.is_some());assert_eq!(guard(&p),None);assert!(target_moves(&p).is_empty());
+        b[99]=1;let p=scan(&b,1,false);assert_eq!(p.opponent,vec![104]);assert_eq!(guard(&p),Some(104));assert_eq!(target_moves(&p),vec![104]);
+        for i in [20,21,22,23]{b[i]=1;}
+        let p=scan(&b,1,false);assert_eq!(guard(&p),Some(19));assert_eq!(target_moves(&p),vec![19,24]);
+    }
+}
