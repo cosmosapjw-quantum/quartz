@@ -1,0 +1,2832 @@
+{
+  "arena_NN": 45700,
+  "arena_games": 48,
+  "arena_plies": 675,
+  "arena_visits": 57872,
+  "cal": {
+    "P5ALLOC": {
+      "NN": 3831,
+      "causes": {
+        "GUARDED": 9,
+        "P5_FIXED": 5,
+        "P5_LOCKED": 40
+      },
+      "chosen_caps": {
+        "192": 12,
+        "256": 11,
+        "48": 10,
+        "64": 12
+      },
+      "cpu_ms": 550.0,
+      "easy": 22,
+      "guarded": 9,
+      "hard": 23,
+      "locks": 40,
+      "mean_NN": 70.94444444444444,
+      "mean_active_wall_ms": 10.775349733333334,
+      "mean_cpu_ms": 10.185185185185185,
+      "mean_native_ms": 8.53661111111111,
+      "mean_visits": 101.48148148148148,
+      "mean_wall_ms": 9.017595592592592,
+      "moves": 54,
+      "nominal_caps": {
+        "128": 28,
+        "96": 26
+      },
+      "p95_wall_ms": 23.008693,
+      "planned_cap_total": 6368,
+      "python_cpu_ms": 46.72639,
+      "rapfi_ticks": 34,
+      "rust_ticks": 21,
+      "saved_by_lock": 888,
+      "tick_hz": 100,
+      "total_wall_ns": 486950162,
+      "visits": 5480
+    },
+    "P5FULL": {
+      "NN": 2092,
+      "causes": {
+        "GUARDED": 9,
+        "P5_FIXED": 29,
+        "P5_LOCKED": 16
+      },
+      "chosen_caps": {
+        "48": 29,
+        "64": 16
+      },
+      "cpu_ms": 320.0,
+      "easy": 0,
+      "guarded": 9,
+      "hard": 0,
+      "locks": 16,
+      "mean_NN": 38.74074074074074,
+      "mean_active_wall_ms": 9.694377355555556,
+      "mean_cpu_ms": 5.925925925925926,
+      "mean_native_ms": 6.884962962962963,
+      "mean_visits": 39.55555555555556,
+      "mean_wall_ms": 8.112331314814815,
+      "moves": 54,
+      "nominal_caps": {
+        "48": 37,
+        "64": 17
+      },
+      "p95_wall_ms": 12.405058,
+      "planned_cap_total": 2416,
+      "python_cpu_ms": 84.064918,
+      "rapfi_ticks": 13,
+      "rust_ticks": 19,
+      "saved_by_lock": 280,
+      "tick_hz": 100,
+      "total_wall_ns": 438065891,
+      "visits": 2136
+    },
+    "P5PW": {
+      "NN": 3636,
+      "causes": {
+        "GUARDED": 9,
+        "P5_FIXED": 9,
+        "P5_LOCKED": 36
+      },
+      "chosen_caps": {
+        "128": 45
+      },
+      "cpu_ms": 440.0,
+      "easy": 0,
+      "guarded": 9,
+      "hard": 0,
+      "locks": 36,
+      "mean_NN": 67.33333333333333,
+      "mean_active_wall_ms": 10.31893708888889,
+      "mean_cpu_ms": 8.148148148148149,
+      "mean_native_ms": 8.130444444444445,
+      "mean_visits": 85.48148148148148,
+      "mean_wall_ms": 8.635610166666666,
+      "moves": 54,
+      "nominal_caps": {
+        "128": 54
+      },
+      "p95_wall_ms": 15.349296,
+      "planned_cap_total": 5760,
+      "python_cpu_ms": 50.307005,
+      "rapfi_ticks": 37,
+      "rust_ticks": 7,
+      "saved_by_lock": 1144,
+      "tick_hz": 100,
+      "total_wall_ns": 466322949,
+      "visits": 4616
+    },
+    "P5Q": {
+      "NN": 3457,
+      "causes": {
+        "BudgetExhausted": 7,
+        "GUARDED": 9,
+        "P5_LOCKED": 38
+      },
+      "chosen_caps": {
+        "128": 45
+      },
+      "cpu_ms": 450.0,
+      "easy": 0,
+      "guarded": 9,
+      "hard": 0,
+      "locks": 38,
+      "mean_NN": 64.01851851851852,
+      "mean_active_wall_ms": 10.058574666666667,
+      "mean_cpu_ms": 8.333333333333334,
+      "mean_native_ms": 7.9315,
+      "mean_visits": 81.77777777777777,
+      "mean_wall_ms": 8.41659324074074,
+      "moves": 54,
+      "nominal_caps": {
+        "128": 53,
+        "160": 1
+      },
+      "p95_wall_ms": 15.132535,
+      "planned_cap_total": 5760,
+      "python_cpu_ms": 46.31839,
+      "rapfi_ticks": 33,
+      "rust_ticks": 12,
+      "saved_by_lock": 1344,
+      "tick_hz": 100,
+      "total_wall_ns": 454496035,
+      "visits": 4416
+    }
+  },
+  "cal_allocation_strata": {
+    "False": {
+      "allocation": {
+        "NN": 846,
+        "causes": {
+          "P5_FIXED": 2,
+          "P5_LOCKED": 20
+        },
+        "chosen_caps": {
+          "48": 10,
+          "64": 12
+        },
+        "cpu_ms": 120.0,
+        "easy": 22,
+        "guarded": 0,
+        "hard": 0,
+        "locks": 20,
+        "mean_NN": 38.45454545454545,
+        "mean_active_wall_ms": 5.466853681818182,
+        "mean_cpu_ms": 5.454545454545454,
+        "mean_native_ms": 4.954045454545454,
+        "mean_visits": 41.81818181818182,
+        "mean_wall_ms": 5.466853681818182,
+        "moves": 22,
+        "nominal_caps": {
+          "128": 12,
+          "96": 10
+        },
+        "p95_wall_ms": 6.999606,
+        "planned_cap_total": 1248,
+        "python_cpu_ms": 19.736622,
+        "rapfi_ticks": 8,
+        "rust_ticks": 4,
+        "saved_by_lock": 328,
+        "tick_hz": 100,
+        "total_wall_ns": 120270781,
+        "visits": 920
+      },
+      "base": {
+        "NN": 1680,
+        "causes": {
+          "P5_FIXED": 1,
+          "P5_LOCKED": 21
+        },
+        "chosen_caps": {
+          "128": 22
+        },
+        "cpu_ms": 200.0,
+        "easy": 0,
+        "guarded": 0,
+        "hard": 0,
+        "locks": 21,
+        "mean_NN": 76.36363636363636,
+        "mean_active_wall_ms": 9.850453181818182,
+        "mean_cpu_ms": 9.090909090909092,
+        "mean_native_ms": 9.301,
+        "mean_visits": 88,
+        "mean_wall_ms": 9.850453181818182,
+        "moves": 22,
+        "nominal_caps": {
+          "128": 22
+        },
+        "p95_wall_ms": 14.426622,
+        "planned_cap_total": 2816,
+        "python_cpu_ms": 21.216507,
+        "rapfi_ticks": 17,
+        "rust_ticks": 3,
+        "saved_by_lock": 880,
+        "tick_hz": 100,
+        "total_wall_ns": 216709970,
+        "visits": 1936
+      },
+      "roots": 22
+    },
+    "True": {
+      "allocation": {
+        "NN": 2985,
+        "causes": {
+          "P5_FIXED": 3,
+          "P5_LOCKED": 20
+        },
+        "chosen_caps": {
+          "192": 12,
+          "256": 11
+        },
+        "cpu_ms": 430.0,
+        "easy": 0,
+        "guarded": 0,
+        "hard": 23,
+        "locks": 20,
+        "mean_NN": 129.7826086956522,
+        "mean_active_wall_ms": 15.853041608695651,
+        "mean_cpu_ms": 18.695652173913043,
+        "mean_native_ms": 15.270695652173913,
+        "mean_visits": 198.2608695652174,
+        "mean_wall_ms": 15.853041608695651,
+        "moves": 23,
+        "nominal_caps": {
+          "128": 11,
+          "96": 12
+        },
+        "p95_wall_ms": 27.122196,
+        "planned_cap_total": 5120,
+        "python_cpu_ms": 23.419105,
+        "rapfi_ticks": 26,
+        "rust_ticks": 17,
+        "saved_by_lock": 560,
+        "tick_hz": 100,
+        "total_wall_ns": 364619957,
+        "visits": 4560
+      },
+      "base": {
+        "NN": 1956,
+        "causes": {
+          "P5_FIXED": 8,
+          "P5_LOCKED": 15
+        },
+        "chosen_caps": {
+          "128": 23
+        },
+        "cpu_ms": 240.0,
+        "easy": 0,
+        "guarded": 0,
+        "hard": 0,
+        "locks": 15,
+        "mean_NN": 85.04347826086956,
+        "mean_active_wall_ms": 10.767052130434783,
+        "mean_cpu_ms": 10.434782608695652,
+        "mean_native_ms": 10.167391304347825,
+        "mean_visits": 116.52173913043478,
+        "mean_wall_ms": 10.767052130434783,
+        "moves": 23,
+        "nominal_caps": {
+          "128": 23
+        },
+        "p95_wall_ms": 15.826036,
+        "planned_cap_total": 2944,
+        "python_cpu_ms": 25.266788,
+        "rapfi_ticks": 20,
+        "rust_ticks": 4,
+        "saved_by_lock": 264,
+        "tick_hz": 100,
+        "total_wall_ns": 247642199,
+        "visits": 2680
+      },
+      "roots": 23
+    }
+  },
+  "cal_ratios": {
+    "P5ALLOC": {
+      "cpu_match": false,
+      "cpu_ratio": 1.25,
+      "wall_match": true,
+      "wall_ratio": 1.0442337505461263
+    },
+    "P5FULL": {
+      "cpu_match": false,
+      "cpu_ratio": 0.7272727272727272,
+      "wall_match": true,
+      "wall_ratio": 0.939404530571366
+    },
+    "P5Q": {
+      "cpu_match": true,
+      "cpu_ratio": 1.0227272727272727,
+      "wall_match": true,
+      "wall_ratio": 0.9746379327344664
+    }
+  },
+  "cal_roots": 54,
+  "comparisons": {
+    "P5ALLOC": {
+      "WDL": [
+        8,
+        0,
+        8
+      ],
+      "arena_ratio": {
+        "cpu_match": true,
+        "cpu_ratio": 1.0306122448979593,
+        "wall_match": true,
+        "wall_ratio": 1.0677878485048395
+      },
+      "base": {
+        "NN": 7905,
+        "causes": {
+          "GUARDED": 17,
+          "P5_FIXED": 33,
+          "P5_LOCKED": 57
+        },
+        "chosen_caps": {
+          "128": 90
+        },
+        "cpu_ms": 980.0,
+        "easy": 0,
+        "guarded": 17,
+        "hard": 0,
+        "locks": 57,
+        "mean_NN": 73.8785046728972,
+        "mean_active_wall_ms": 11.0809365,
+        "mean_cpu_ms": 9.158878504672897,
+        "mean_native_ms": 8.856289719626169,
+        "mean_visits": 93.38317757009345,
+        "mean_wall_ms": 9.35604138317757,
+        "moves": 107,
+        "nominal_caps": {
+          "128": 107
+        },
+        "p95_wall_ms": 16.113128,
+        "planned_cap_total": 11520,
+        "python_cpu_ms": 95.840662,
+        "rapfi_ticks": 74,
+        "rust_ticks": 24,
+        "saved_by_lock": 1528,
+        "tick_hz": 100,
+        "total_wall_ns": 1001096428,
+        "visits": 9992
+      },
+      "black_score": 0.875,
+      "bootstrap_reps": 10000,
+      "cal_ratio": {
+        "cpu_match": false,
+        "cpu_ratio": 1.25,
+        "wall_match": true,
+        "wall_ratio": 1.0442337505461263
+      },
+      "candidate": {
+        "NN": 8462,
+        "causes": {
+          "GUARDED": 18,
+          "P5_FIXED": 23,
+          "P5_LOCKED": 66
+        },
+        "chosen_caps": {
+          "192": 19,
+          "256": 29,
+          "48": 18,
+          "64": 23
+        },
+        "cpu_ms": 1010.0,
+        "easy": 41,
+        "guarded": 18,
+        "hard": 48,
+        "locks": 66,
+        "mean_NN": 79.08411214953271,
+        "mean_active_wall_ms": 11.964702651685393,
+        "mean_cpu_ms": 9.439252336448599,
+        "mean_native_ms": 9.490897196261683,
+        "mean_visits": 114.09345794392523,
+        "mean_wall_ms": 9.99026729906542,
+        "moves": 107,
+        "nominal_caps": {
+          "128": 66,
+          "96": 41
+        },
+        "p95_wall_ms": 27.241251,
+        "planned_cap_total": 13408,
+        "python_cpu_ms": 98.040202,
+        "rapfi_ticks": 75,
+        "rust_ticks": 26,
+        "saved_by_lock": 1200,
+        "tick_hz": 100,
+        "total_wall_ns": 1068958601,
+        "visits": 12208
+      },
+      "cpu_ratio_CI95": [
+        0.8055555555555555,
+        1.2289156626506024
+      ],
+      "families": [
+        {
+          "base": {
+            "NN": 1587,
+            "causes": {
+              "GUARDED": 6,
+              "P5_FIXED": 5,
+              "P5_LOCKED": 12
+            },
+            "chosen_caps": {
+              "128": 17
+            },
+            "cpu_ms": 220.0,
+            "easy": 0,
+            "guarded": 6,
+            "hard": 0,
+            "locks": 12,
+            "mean_NN": 69,
+            "mean_active_wall_ms": 12.348588352941176,
+            "mean_cpu_ms": 9.565217391304348,
+            "mean_native_ms": 8.698956521739131,
+            "mean_visits": 83.1304347826087,
+            "mean_wall_ms": 9.182574130434782,
+            "moves": 23,
+            "nominal_caps": {
+              "128": 23
+            },
+            "p95_wall_ms": 16.775372,
+            "planned_cap_total": 2176,
+            "python_cpu_ms": 18.954881,
+            "rapfi_ticks": 16,
+            "rust_ticks": 6,
+            "saved_by_lock": 264,
+            "tick_hz": 100,
+            "total_wall_ns": 211199205,
+            "visits": 1912
+          },
+          "candidate": {
+            "NN": 2244,
+            "causes": {
+              "GUARDED": 5,
+              "P5_FIXED": 4,
+              "P5_LOCKED": 14
+            },
+            "chosen_caps": {
+              "192": 6,
+              "256": 6,
+              "48": 2,
+              "64": 4
+            },
+            "cpu_ms": 280.0,
+            "easy": 6,
+            "guarded": 5,
+            "hard": 12,
+            "locks": 14,
+            "mean_NN": 97.56521739130434,
+            "mean_active_wall_ms": 15.795363666666667,
+            "mean_cpu_ms": 12.173913043478262,
+            "mean_native_ms": 11.91591304347826,
+            "mean_visits": 122.43478260869566,
+            "mean_wall_ms": 12.416613608695652,
+            "moves": 23,
+            "nominal_caps": {
+              "128": 14,
+              "96": 9
+            },
+            "p95_wall_ms": 27.504183,
+            "planned_cap_total": 3040,
+            "python_cpu_ms": 19.978624,
+            "rapfi_ticks": 22,
+            "rust_ticks": 6,
+            "saved_by_lock": 224,
+            "tick_hz": 100,
+            "total_wall_ns": 285582113,
+            "visits": 2816
+          },
+          "family": "1304d86ccbc3fe378c1fa6ee6f91963b3e93c5e472435c42f7dfe6ec430b99e0",
+          "id": "G14",
+          "mean_score": 0.5,
+          "scores": [
+            1.0,
+            0.0
+          ]
+        },
+        {
+          "base": {
+            "NN": 768,
+            "causes": {
+              "GUARDED": 3,
+              "P5_LOCKED": 11
+            },
+            "chosen_caps": {
+              "128": 11
+            },
+            "cpu_ms": 90.0,
+            "easy": 0,
+            "guarded": 3,
+            "hard": 0,
+            "locks": 11,
+            "mean_NN": 54.857142857142854,
+            "mean_active_wall_ms": 9.326850727272728,
+            "mean_cpu_ms": 6.428571428571429,
+            "mean_native_ms": 6.886214285714286,
+            "mean_visits": 72.57142857142857,
+            "mean_wall_ms": 7.377965357142857,
+            "moves": 14,
+            "nominal_caps": {
+              "128": 14
+            },
+            "p95_wall_ms": 14.017595,
+            "planned_cap_total": 1408,
+            "python_cpu_ms": 13.553961,
+            "rapfi_ticks": 7,
+            "rust_ticks": 2,
+            "saved_by_lock": 392,
+            "tick_hz": 100,
+            "total_wall_ns": 103291515,
+            "visits": 1016
+          },
+          "candidate": {
+            "NN": 564,
+            "causes": {
+              "GUARDED": 3,
+              "P5_FIXED": 1,
+              "P5_LOCKED": 10
+            },
+            "chosen_caps": {
+              "192": 1,
+              "256": 2,
+              "48": 5,
+              "64": 3
+            },
+            "cpu_ms": 70.0,
+            "easy": 8,
+            "guarded": 3,
+            "hard": 3,
+            "locks": 10,
+            "mean_NN": 40.285714285714285,
+            "mean_active_wall_ms": 7.250622636363636,
+            "mean_cpu_ms": 5.0,
+            "mean_native_ms": 5.278142857142857,
+            "mean_visits": 65.71428571428571,
+            "mean_wall_ms": 5.747899071428572,
+            "moves": 14,
+            "nominal_caps": {
+              "128": 8,
+              "96": 6
+            },
+            "p95_wall_ms": 15.154696,
+            "planned_cap_total": 1136,
+            "python_cpu_ms": 12.301126,
+            "rapfi_ticks": 5,
+            "rust_ticks": 2,
+            "saved_by_lock": 216,
+            "tick_hz": 100,
+            "total_wall_ns": 80470587,
+            "visits": 920
+          },
+          "family": "403b7098de32043d12fa5e1007465bd253e6dd476605846bb851e0a8506297bb",
+          "id": "G12",
+          "mean_score": 0.5,
+          "scores": [
+            0.0,
+            1.0
+          ]
+        },
+        {
+          "base": {
+            "NN": 443,
+            "causes": {
+              "GUARDED": 1,
+              "P5_FIXED": 5,
+              "P5_LOCKED": 1
+            },
+            "chosen_caps": {
+              "128": 6
+            },
+            "cpu_ms": 40.0,
+            "easy": 0,
+            "guarded": 1,
+            "hard": 0,
+            "locks": 1,
+            "mean_NN": 63.285714285714285,
+            "mean_active_wall_ms": 9.214409666666667,
+            "mean_cpu_ms": 5.714285714285714,
+            "mean_native_ms": 7.4192857142857145,
+            "mean_visits": 104,
+            "mean_wall_ms": 7.950699857142857,
+            "moves": 7,
+            "nominal_caps": {
+              "128": 7
+            },
+            "p95_wall_ms": 14.193509,
+            "planned_cap_total": 768,
+            "python_cpu_ms": 6.270887,
+            "rapfi_ticks": 2,
+            "rust_ticks": 2,
+            "saved_by_lock": 40,
+            "tick_hz": 100,
+            "total_wall_ns": 55654899,
+            "visits": 728
+          },
+          "candidate": {
+            "NN": 603,
+            "causes": {
+              "GUARDED": 1,
+              "P5_FIXED": 2,
+              "P5_LOCKED": 4
+            },
+            "chosen_caps": {
+              "192": 3,
+              "256": 2,
+              "64": 1
+            },
+            "cpu_ms": 80.0,
+            "easy": 1,
+            "guarded": 1,
+            "hard": 5,
+            "locks": 4,
+            "mean_NN": 86.14285714285714,
+            "mean_active_wall_ms": 11.953688333333334,
+            "mean_cpu_ms": 11.428571428571429,
+            "mean_native_ms": 9.710285714285714,
+            "mean_visits": 157.71428571428572,
+            "mean_wall_ms": 10.282048,
+            "moves": 7,
+            "nominal_caps": {
+              "128": 4,
+              "96": 3
+            },
+            "p95_wall_ms": 19.411508,
+            "planned_cap_total": 1152,
+            "python_cpu_ms": 7.303263,
+            "rapfi_ticks": 6,
+            "rust_ticks": 2,
+            "saved_by_lock": 48,
+            "tick_hz": 100,
+            "total_wall_ns": 71974336,
+            "visits": 1104
+          },
+          "family": "521160e25c9ecb77a3d1852ed9d0b16cb66163de3962858b183dee42131eb4d9",
+          "id": "G11",
+          "mean_score": 0.5,
+          "scores": [
+            0.0,
+            1.0
+          ]
+        },
+        {
+          "base": {
+            "NN": 2677,
+            "causes": {
+              "GUARDED": 3,
+              "P5_FIXED": 9,
+              "P5_LOCKED": 18
+            },
+            "chosen_caps": {
+              "128": 27
+            },
+            "cpu_ms": 330.0,
+            "easy": 0,
+            "guarded": 3,
+            "hard": 0,
+            "locks": 18,
+            "mean_NN": 89.23333333333333,
+            "mean_active_wall_ms": 12.367747851851853,
+            "mean_cpu_ms": 11.0,
+            "mean_native_ms": 10.645433333333333,
+            "mean_visits": 97.33333333333333,
+            "mean_wall_ms": 11.152874833333334,
+            "moves": 30,
+            "nominal_caps": {
+              "128": 30
+            },
+            "p95_wall_ms": 15.939052,
+            "planned_cap_total": 3456,
+            "python_cpu_ms": 27.459946,
+            "rapfi_ticks": 26,
+            "rust_ticks": 7,
+            "saved_by_lock": 536,
+            "tick_hz": 100,
+            "total_wall_ns": 334586245,
+            "visits": 2920
+          },
+          "candidate": {
+            "NN": 2616,
+            "causes": {
+              "GUARDED": 5,
+              "P5_FIXED": 8,
+              "P5_LOCKED": 17
+            },
+            "chosen_caps": {
+              "192": 4,
+              "256": 8,
+              "48": 5,
+              "64": 8
+            },
+            "cpu_ms": 320.0,
+            "easy": 13,
+            "guarded": 5,
+            "hard": 12,
+            "locks": 17,
+            "mean_NN": 87.2,
+            "mean_active_wall_ms": 13.1666248,
+            "mean_cpu_ms": 10.666666666666666,
+            "mean_native_ms": 10.525566666666666,
+            "mean_visits": 105.86666666666666,
+            "mean_wall_ms": 11.006026199999999,
+            "moves": 30,
+            "nominal_caps": {
+              "128": 18,
+              "96": 12
+            },
+            "p95_wall_ms": 27.241251,
+            "planned_cap_total": 3568,
+            "python_cpu_ms": 28.703076,
+            "rapfi_ticks": 23,
+            "rust_ticks": 9,
+            "saved_by_lock": 392,
+            "tick_hz": 100,
+            "total_wall_ns": 330180786,
+            "visits": 3176
+          },
+          "family": "5ff8db7480cc6b912be36d8a51389c41d3ef57ed2b782c63fe9090949ea1cc36",
+          "id": "G08",
+          "mean_score": 0.5,
+          "scores": [
+            1.0,
+            0.0
+          ]
+        },
+        {
+          "base": {
+            "NN": 680,
+            "causes": {
+              "GUARDED": 1,
+              "P5_FIXED": 4,
+              "P5_LOCKED": 4
+            },
+            "chosen_caps": {
+              "128": 8
+            },
+            "cpu_ms": 90.0,
+            "easy": 0,
+            "guarded": 1,
+            "hard": 0,
+            "locks": 4,
+            "mean_NN": 75.55555555555556,
+            "mean_active_wall_ms": 9.947397625,
+            "mean_cpu_ms": 10.0,
+            "mean_native_ms": 8.353111111111112,
+            "mean_visits": 104,
+            "mean_wall_ms": 8.863514,
+            "moves": 9,
+            "nominal_caps": {
+              "128": 9
+            },
+            "p95_wall_ms": 13.913313,
+            "planned_cap_total": 1024,
+            "python_cpu_ms": 8.553921,
+            "rapfi_ticks": 7,
+            "rust_ticks": 2,
+            "saved_by_lock": 88,
+            "tick_hz": 100,
+            "total_wall_ns": 79771626,
+            "visits": 936
+          },
+          "candidate": {
+            "NN": 705,
+            "causes": {
+              "GUARDED": 1,
+              "P5_FIXED": 1,
+              "P5_LOCKED": 7
+            },
+            "chosen_caps": {
+              "192": 2,
+              "256": 3,
+              "48": 1,
+              "64": 2
+            },
+            "cpu_ms": 70.0,
+            "easy": 3,
+            "guarded": 1,
+            "hard": 5,
+            "locks": 7,
+            "mean_NN": 78.33333333333333,
+            "mean_active_wall_ms": 10.599321625,
+            "mean_cpu_ms": 7.777777777777778,
+            "mean_native_ms": 8.917222222222222,
+            "mean_visits": 136,
+            "mean_wall_ms": 9.448273,
+            "moves": 9,
+            "nominal_caps": {
+              "128": 6,
+              "96": 3
+            },
+            "p95_wall_ms": 22.251095,
+            "planned_cap_total": 1328,
+            "python_cpu_ms": 8.071144,
+            "rapfi_ticks": 5,
+            "rust_ticks": 2,
+            "saved_by_lock": 104,
+            "tick_hz": 100,
+            "total_wall_ns": 85034457,
+            "visits": 1224
+          },
+          "family": "6cff59f002072028a1dee474e76a201c2e6ed987e1e81cab1888518ae0d196b8",
+          "id": "G13",
+          "mean_score": 0.5,
+          "scores": [
+            0.0,
+            1.0
+          ]
+        },
+        {
+          "base": {
+            "NN": 229,
+            "causes": {
+              "GUARDED": 1,
+              "P5_FIXED": 2,
+              "P5_LOCKED": 2
+            },
+            "chosen_caps": {
+              "128": 4
+            },
+            "cpu_ms": 40.0,
+            "easy": 0,
+            "guarded": 1,
+            "hard": 0,
+            "locks": 2,
+            "mean_NN": 45.8,
+            "mean_active_wall_ms": 7.6008455,
+            "mean_cpu_ms": 8.0,
+            "mean_native_ms": 5.6502,
+            "mean_visits": 94.4,
+            "mean_wall_ms": 6.119949,
+            "moves": 5,
+            "nominal_caps": {
+              "128": 5
+            },
+            "p95_wall_ms": 15.611889,
+            "planned_cap_total": 512,
+            "python_cpu_ms": 4.238539,
+            "rapfi_ticks": 3,
+            "rust_ticks": 1,
+            "saved_by_lock": 40,
+            "tick_hz": 100,
+            "total_wall_ns": 30599745,
+            "visits": 472
+          },
+          "candidate": {
+            "NN": 152,
+            "causes": {
+              "GUARDED": 1,
+              "P5_FIXED": 1,
+              "P5_LOCKED": 3
+            },
+            "chosen_caps": {
+              "256": 2,
+              "48": 1,
+              "64": 1
+            },
+            "cpu_ms": 0.0,
+            "easy": 2,
+            "guarded": 1,
+            "hard": 2,
+            "locks": 3,
+            "mean_NN": 30.4,
+            "mean_active_wall_ms": 5.04244725,
+            "mean_cpu_ms": 0.0,
+            "mean_native_ms": 3.6164,
+            "mean_visits": 118.4,
+            "mean_wall_ms": 4.0749574,
+            "moves": 5,
+            "nominal_caps": {
+              "128": 4,
+              "96": 1
+            },
+            "p95_wall_ms": 6.21481,
+            "planned_cap_total": 624,
+            "python_cpu_ms": 4.298143,
+            "rapfi_ticks": 0,
+            "rust_ticks": 0,
+            "saved_by_lock": 32,
+            "tick_hz": 100,
+            "total_wall_ns": 20374787,
+            "visits": 592
+          },
+          "family": "7792473d07f85f48b5d10ce9196c9fa56565445dbe06270b5e2adfd2b7467487",
+          "id": "G09",
+          "mean_score": 0.5,
+          "scores": [
+            0.0,
+            1.0
+          ]
+        },
+        {
+          "base": {
+            "NN": 1075,
+            "causes": {
+              "GUARDED": 1,
+              "P5_FIXED": 6,
+              "P5_LOCKED": 5
+            },
+            "chosen_caps": {
+              "128": 11
+            },
+            "cpu_ms": 120.0,
+            "easy": 0,
+            "guarded": 1,
+            "hard": 0,
+            "locks": 5,
+            "mean_NN": 89.58333333333333,
+            "mean_active_wall_ms": 11.872161454545454,
+            "mean_cpu_ms": 10.0,
+            "mean_native_ms": 10.380583333333334,
+            "mean_visits": 112,
+            "mean_wall_ms": 10.900692666666666,
+            "moves": 12,
+            "nominal_caps": {
+              "128": 12
+            },
+            "p95_wall_ms": 15.184414,
+            "planned_cap_total": 1408,
+            "python_cpu_ms": 10.769373,
+            "rapfi_ticks": 9,
+            "rust_ticks": 3,
+            "saved_by_lock": 64,
+            "tick_hz": 100,
+            "total_wall_ns": 130808312,
+            "visits": 1344
+          },
+          "candidate": {
+            "NN": 1228,
+            "causes": {
+              "GUARDED": 1,
+              "P5_FIXED": 4,
+              "P5_LOCKED": 7
+            },
+            "chosen_caps": {
+              "192": 3,
+              "256": 4,
+              "48": 2,
+              "64": 2
+            },
+            "cpu_ms": 150.0,
+            "easy": 4,
+            "guarded": 1,
+            "hard": 7,
+            "locks": 7,
+            "mean_NN": 102.33333333333333,
+            "mean_active_wall_ms": 13.686158909090908,
+            "mean_cpu_ms": 12.5,
+            "mean_native_ms": 12.0205,
+            "mean_visits": 141.33333333333334,
+            "mean_wall_ms": 12.563962083333333,
+            "moves": 12,
+            "nominal_caps": {
+              "128": 7,
+              "96": 5
+            },
+            "p95_wall_ms": 30.428137,
+            "planned_cap_total": 1824,
+            "python_cpu_ms": 11.479056,
+            "rapfi_ticks": 11,
+            "rust_ticks": 4,
+            "saved_by_lock": 128,
+            "tick_hz": 100,
+            "total_wall_ns": 150767545,
+            "visits": 1696
+          },
+          "family": "f1bdf110f792f9d23f44e312457f4ccc863368294c0534c93afadd3d22aab381",
+          "id": "G15",
+          "mean_score": 0.5,
+          "scores": [
+            0.0,
+            1.0
+          ]
+        },
+        {
+          "base": {
+            "NN": 446,
+            "causes": {
+              "GUARDED": 1,
+              "P5_FIXED": 2,
+              "P5_LOCKED": 4
+            },
+            "chosen_caps": {
+              "128": 6
+            },
+            "cpu_ms": 50.0,
+            "easy": 0,
+            "guarded": 1,
+            "hard": 0,
+            "locks": 4,
+            "mean_NN": 63.714285714285715,
+            "mean_active_wall_ms": 9.161822666666668,
+            "mean_cpu_ms": 7.142857142857143,
+            "mean_native_ms": 7.406571428571429,
+            "mean_visits": 94.85714285714286,
+            "mean_wall_ms": 7.883554428571428,
+            "moves": 7,
+            "nominal_caps": {
+              "128": 7
+            },
+            "p95_wall_ms": 14.408146,
+            "planned_cap_total": 768,
+            "python_cpu_ms": 6.039154,
+            "rapfi_ticks": 4,
+            "rust_ticks": 1,
+            "saved_by_lock": 104,
+            "tick_hz": 100,
+            "total_wall_ns": 55184881,
+            "visits": 664
+          },
+          "candidate": {
+            "NN": 350,
+            "causes": {
+              "GUARDED": 1,
+              "P5_FIXED": 2,
+              "P5_LOCKED": 4
+            },
+            "chosen_caps": {
+              "256": 2,
+              "48": 2,
+              "64": 2
+            },
+            "cpu_ms": 40.0,
+            "easy": 4,
+            "guarded": 1,
+            "hard": 2,
+            "locks": 4,
+            "mean_NN": 50,
+            "mean_active_wall_ms": 7.397546833333333,
+            "mean_cpu_ms": 5.714285714285714,
+            "mean_native_ms": 5.8919999999999995,
+            "mean_visits": 97.14285714285714,
+            "mean_wall_ms": 6.367712857142857,
+            "moves": 7,
+            "nominal_caps": {
+              "128": 5,
+              "96": 2
+            },
+            "p95_wall_ms": 17.732387,
+            "planned_cap_total": 736,
+            "python_cpu_ms": 5.90577,
+            "rapfi_ticks": 3,
+            "rust_ticks": 1,
+            "saved_by_lock": 56,
+            "tick_hz": 100,
+            "total_wall_ns": 44573990,
+            "visits": 680
+          },
+          "family": "f21485817595b964ab0bda6970964756e600b55fe5b4f960bae770290a8dfda9",
+          "id": "G10",
+          "mean_score": 0.5,
+          "scores": [
+            1.0,
+            0.0
+          ]
+        }
+      ],
+      "games": 16,
+      "lengths": [
+        33,
+        39,
+        11,
+        11,
+        13,
+        13,
+        13,
+        13,
+        20,
+        20,
+        15,
+        15,
+        27,
+        31,
+        19,
+        17
+      ],
+      "resource_match": false,
+      "scope": "small paired exploratory arena, no superiority or Elo admission",
+      "score": 0.5,
+      "score_CI95": [
+        0.5,
+        0.5
+      ],
+      "wall_ratio_CI95": [
+        0.9142670296551555,
+        1.2273282341617433
+      ],
+      "white_score": 0.125
+    },
+    "P5FULL": {
+      "WDL": [
+        8,
+        0,
+        8
+      ],
+      "arena_ratio": {
+        "cpu_match": true,
+        "cpu_ratio": 0.9058823529411764,
+        "wall_match": true,
+        "wall_ratio": 0.9573725824132403
+      },
+      "base": {
+        "NN": 6671,
+        "causes": {
+          "GUARDED": 15,
+          "P5_FIXED": 28,
+          "P5_LOCKED": 52
+        },
+        "chosen_caps": {
+          "128": 80
+        },
+        "cpu_ms": 850.0,
+        "easy": 0,
+        "guarded": 15,
+        "hard": 0,
+        "locks": 52,
+        "mean_NN": 70.22105263157894,
+        "mean_active_wall_ms": 10.7834210125,
+        "mean_cpu_ms": 8.947368421052632,
+        "mean_native_ms": 8.61357894736842,
+        "mean_visits": 92.0421052631579,
+        "mean_wall_ms": 9.121752863157894,
+        "moves": 95,
+        "nominal_caps": {
+          "128": 95
+        },
+        "p95_wall_ms": 15.547743,
+        "planned_cap_total": 10240,
+        "python_cpu_ms": 84.365273,
+        "rapfi_ticks": 65,
+        "rust_ticks": 20,
+        "saved_by_lock": 1496,
+        "tick_hz": 100,
+        "total_wall_ns": 866566522,
+        "visits": 8744
+      },
+      "black_score": 0.875,
+      "bootstrap_reps": 10000,
+      "cal_ratio": {
+        "cpu_match": false,
+        "cpu_ratio": 0.7272727272727272,
+        "wall_match": true,
+        "wall_ratio": 0.939404530571366
+      },
+      "candidate": {
+        "NN": 4023,
+        "causes": {
+          "GUARDED": 11,
+          "P5_FIXED": 54,
+          "P5_LOCKED": 30
+        },
+        "chosen_caps": {
+          "48": 54,
+          "64": 30
+        },
+        "cpu_ms": 770.0,
+        "easy": 0,
+        "guarded": 11,
+        "hard": 0,
+        "locks": 30,
+        "mean_NN": 42.34736842105263,
+        "mean_active_wall_ms": 9.849429095238095,
+        "mean_cpu_ms": 8.105263157894736,
+        "mean_native_ms": 7.415957894736842,
+        "mean_visits": 43.2,
+        "mean_wall_ms": 8.732916094736842,
+        "moves": 95,
+        "nominal_caps": {
+          "48": 62,
+          "64": 33
+        },
+        "p95_wall_ms": 13.504534,
+        "planned_cap_total": 4512,
+        "python_cpu_ms": 157.928098,
+        "rapfi_ticks": 35,
+        "rust_ticks": 42,
+        "saved_by_lock": 408,
+        "tick_hz": 100,
+        "total_wall_ns": 829627029,
+        "visits": 4104
+      },
+      "cpu_ratio_CI95": [
+        0.734375,
+        1.0471698113207546
+      ],
+      "families": [
+        {
+          "base": {
+            "NN": 1314,
+            "causes": {
+              "GUARDED": 2,
+              "P5_FIXED": 4,
+              "P5_LOCKED": 11
+            },
+            "chosen_caps": {
+              "128": 15
+            },
+            "cpu_ms": 160.0,
+            "easy": 0,
+            "guarded": 2,
+            "hard": 0,
+            "locks": 11,
+            "mean_NN": 77.29411764705883,
+            "mean_active_wall_ms": 11.440578666666667,
+            "mean_cpu_ms": 9.411764705882353,
+            "mean_native_ms": 9.65870588235294,
+            "mean_visits": 94.58823529411765,
+            "mean_wall_ms": 10.118023823529413,
+            "moves": 17,
+            "nominal_caps": {
+              "128": 17
+            },
+            "p95_wall_ms": 18.396716,
+            "planned_cap_total": 1920,
+            "python_cpu_ms": 14.042425,
+            "rapfi_ticks": 12,
+            "rust_ticks": 4,
+            "saved_by_lock": 312,
+            "tick_hz": 100,
+            "total_wall_ns": 172006405,
+            "visits": 1608
+          },
+          "candidate": {
+            "NN": 748,
+            "causes": {
+              "GUARDED": 1,
+              "P5_FIXED": 8,
+              "P5_LOCKED": 8
+            },
+            "chosen_caps": {
+              "48": 10,
+              "64": 6
+            },
+            "cpu_ms": 140.0,
+            "easy": 0,
+            "guarded": 1,
+            "hard": 0,
+            "locks": 8,
+            "mean_NN": 44,
+            "mean_active_wall_ms": 9.4139305,
+            "mean_cpu_ms": 8.235294117647058,
+            "mean_native_ms": 7.5600000000000005,
+            "mean_visits": 44.23529411764706,
+            "mean_wall_ms": 8.874090352941177,
+            "moves": 17,
+            "nominal_caps": {
+              "48": 11,
+              "64": 6
+            },
+            "p95_wall_ms": 13.288078,
+            "planned_cap_total": 864,
+            "python_cpu_ms": 28.226535,
+            "rapfi_ticks": 8,
+            "rust_ticks": 6,
+            "saved_by_lock": 112,
+            "tick_hz": 100,
+            "total_wall_ns": 150859536,
+            "visits": 752
+          },
+          "family": "1304d86ccbc3fe378c1fa6ee6f91963b3e93c5e472435c42f7dfe6ec430b99e0",
+          "id": "G14",
+          "mean_score": 0.5,
+          "scores": [
+            1.0,
+            0.0
+          ]
+        },
+        {
+          "base": {
+            "NN": 768,
+            "causes": {
+              "GUARDED": 3,
+              "P5_LOCKED": 11
+            },
+            "chosen_caps": {
+              "128": 11
+            },
+            "cpu_ms": 120.0,
+            "easy": 0,
+            "guarded": 3,
+            "hard": 0,
+            "locks": 11,
+            "mean_NN": 54.857142857142854,
+            "mean_active_wall_ms": 9.580880454545454,
+            "mean_cpu_ms": 8.571428571428571,
+            "mean_native_ms": 6.941357142857143,
+            "mean_visits": 72.57142857142857,
+            "mean_wall_ms": 7.5793905,
+            "moves": 14,
+            "nominal_caps": {
+              "128": 14
+            },
+            "p95_wall_ms": 12.476088,
+            "planned_cap_total": 1408,
+            "python_cpu_ms": 12.414121,
+            "rapfi_ticks": 9,
+            "rust_ticks": 3,
+            "saved_by_lock": 392,
+            "tick_hz": 100,
+            "total_wall_ns": 106111467,
+            "visits": 1016
+          },
+          "candidate": {
+            "NN": 505,
+            "causes": {
+              "GUARDED": 3,
+              "P5_FIXED": 6,
+              "P5_LOCKED": 5
+            },
+            "chosen_caps": {
+              "48": 8,
+              "64": 3
+            },
+            "cpu_ms": 100.0,
+            "easy": 0,
+            "guarded": 3,
+            "hard": 0,
+            "locks": 5,
+            "mean_NN": 36.07142857142857,
+            "mean_active_wall_ms": 9.359820090909091,
+            "mean_cpu_ms": 7.142857142857143,
+            "mean_native_ms": 6.265928571428572,
+            "mean_visits": 36,
+            "mean_wall_ms": 7.4001687857142855,
+            "moves": 14,
+            "nominal_caps": {
+              "48": 11,
+              "64": 3
+            },
+            "p95_wall_ms": 12.312676,
+            "planned_cap_total": 576,
+            "python_cpu_ms": 20.840848,
+            "rapfi_ticks": 4,
+            "rust_ticks": 6,
+            "saved_by_lock": 72,
+            "tick_hz": 100,
+            "total_wall_ns": 103602363,
+            "visits": 504
+          },
+          "family": "403b7098de32043d12fa5e1007465bd253e6dd476605846bb851e0a8506297bb",
+          "id": "G12",
+          "mean_score": 0.5,
+          "scores": [
+            0.0,
+            1.0
+          ]
+        },
+        {
+          "base": {
+            "NN": 442,
+            "causes": {
+              "GUARDED": 1,
+              "P5_FIXED": 4,
+              "P5_LOCKED": 2
+            },
+            "chosen_caps": {
+              "128": 6
+            },
+            "cpu_ms": 60.0,
+            "easy": 0,
+            "guarded": 1,
+            "hard": 0,
+            "locks": 2,
+            "mean_NN": 63.142857142857146,
+            "mean_active_wall_ms": 8.515535666666667,
+            "mean_cpu_ms": 8.571428571428571,
+            "mean_native_ms": 6.841714285714286,
+            "mean_visits": 102.85714285714286,
+            "mean_wall_ms": 7.336939285714286,
+            "moves": 7,
+            "nominal_caps": {
+              "128": 7
+            },
+            "p95_wall_ms": 13.616714,
+            "planned_cap_total": 768,
+            "python_cpu_ms": 6.423528,
+            "rapfi_ticks": 5,
+            "rust_ticks": 1,
+            "saved_by_lock": 48,
+            "tick_hz": 100,
+            "total_wall_ns": 51358575,
+            "visits": 720
+          },
+          "candidate": {
+            "NN": 271,
+            "causes": {
+              "GUARDED": 1,
+              "P5_FIXED": 5,
+              "P5_LOCKED": 1
+            },
+            "chosen_caps": {
+              "48": 5,
+              "64": 1
+            },
+            "cpu_ms": 40.0,
+            "easy": 0,
+            "guarded": 1,
+            "hard": 0,
+            "locks": 1,
+            "mean_NN": 38.714285714285715,
+            "mean_active_wall_ms": 9.369222333333333,
+            "mean_cpu_ms": 5.714285714285714,
+            "mean_native_ms": 6.666714285714286,
+            "mean_visits": 41.142857142857146,
+            "mean_wall_ms": 8.055333142857142,
+            "moves": 7,
+            "nominal_caps": {
+              "48": 6,
+              "64": 1
+            },
+            "p95_wall_ms": 11.629804,
+            "planned_cap_total": 304,
+            "python_cpu_ms": 11.760456,
+            "rapfi_ticks": 1,
+            "rust_ticks": 3,
+            "saved_by_lock": 16,
+            "tick_hz": 100,
+            "total_wall_ns": 56387332,
+            "visits": 288
+          },
+          "family": "521160e25c9ecb77a3d1852ed9d0b16cb66163de3962858b183dee42131eb4d9",
+          "id": "G11",
+          "mean_score": 0.5,
+          "scores": [
+            0.0,
+            1.0
+          ]
+        },
+        {
+          "base": {
+            "NN": 2071,
+            "causes": {
+              "GUARDED": 5,
+              "P5_FIXED": 7,
+              "P5_LOCKED": 15
+            },
+            "chosen_caps": {
+              "128": 22
+            },
+            "cpu_ms": 250.0,
+            "easy": 0,
+            "guarded": 5,
+            "hard": 0,
+            "locks": 15,
+            "mean_NN": 76.70370370370371,
+            "mean_active_wall_ms": 12.7004195,
+            "mean_cpu_ms": 9.25925925925926,
+            "mean_native_ms": 9.892074074074074,
+            "mean_visits": 87.4074074074074,
+            "mean_wall_ms": 10.395648962962962,
+            "moves": 27,
+            "nominal_caps": {
+              "128": 27
+            },
+            "p95_wall_ms": 15.950252,
+            "planned_cap_total": 2816,
+            "python_cpu_ms": 25.702942,
+            "rapfi_ticks": 19,
+            "rust_ticks": 6,
+            "saved_by_lock": 456,
+            "tick_hz": 100,
+            "total_wall_ns": 280682522,
+            "visits": 2360
+          },
+          "candidate": {
+            "NN": 1268,
+            "causes": {
+              "GUARDED": 2,
+              "P5_FIXED": 16,
+              "P5_LOCKED": 9
+            },
+            "chosen_caps": {
+              "48": 14,
+              "64": 11
+            },
+            "cpu_ms": 270.0,
+            "easy": 0,
+            "guarded": 2,
+            "hard": 0,
+            "locks": 9,
+            "mean_NN": 46.96296296296296,
+            "mean_active_wall_ms": 11.07297688,
+            "mean_cpu_ms": 10.0,
+            "mean_native_ms": 8.833037037037037,
+            "mean_visits": 46.81481481481482,
+            "mean_wall_ms": 10.268679814814815,
+            "moves": 27,
+            "nominal_caps": {
+              "48": 14,
+              "64": 13
+            },
+            "p95_wall_ms": 14.059309,
+            "planned_cap_total": 1376,
+            "python_cpu_ms": 48.859615,
+            "rapfi_ticks": 14,
+            "rust_ticks": 13,
+            "saved_by_lock": 112,
+            "tick_hz": 100,
+            "total_wall_ns": 277254355,
+            "visits": 1264
+          },
+          "family": "5ff8db7480cc6b912be36d8a51389c41d3ef57ed2b782c63fe9090949ea1cc36",
+          "id": "G08",
+          "mean_score": 0.5,
+          "scores": [
+            1.0,
+            0.0
+          ]
+        },
+        {
+          "base": {
+            "NN": 618,
+            "causes": {
+              "GUARDED": 1,
+              "P5_FIXED": 4,
+              "P5_LOCKED": 3
+            },
+            "chosen_caps": {
+              "128": 7
+            },
+            "cpu_ms": 70.0,
+            "easy": 0,
+            "guarded": 1,
+            "hard": 0,
+            "locks": 3,
+            "mean_NN": 77.25,
+            "mean_active_wall_ms": 10.155424857142858,
+            "mean_cpu_ms": 8.75,
+            "mean_native_ms": 8.471625,
+            "mean_visits": 107,
+            "mean_wall_ms": 8.921030125,
+            "moves": 8,
+            "nominal_caps": {
+              "128": 8
+            },
+            "p95_wall_ms": 13.774517,
+            "planned_cap_total": 896,
+            "python_cpu_ms": 6.228675,
+            "rapfi_ticks": 5,
+            "rust_ticks": 2,
+            "saved_by_lock": 40,
+            "tick_hz": 100,
+            "total_wall_ns": 71368241,
+            "visits": 856
+          },
+          "candidate": {
+            "NN": 329,
+            "causes": {
+              "GUARDED": 1,
+              "P5_FIXED": 4,
+              "P5_LOCKED": 3
+            },
+            "chosen_caps": {
+              "48": 4,
+              "64": 3
+            },
+            "cpu_ms": 40.0,
+            "easy": 0,
+            "guarded": 1,
+            "hard": 0,
+            "locks": 3,
+            "mean_NN": 41.125,
+            "mean_active_wall_ms": 8.870850285714285,
+            "mean_cpu_ms": 5.0,
+            "mean_native_ms": 6.523875,
+            "mean_visits": 43,
+            "mean_wall_ms": 7.783952125,
+            "moves": 8,
+            "nominal_caps": {
+              "48": 4,
+              "64": 4
+            },
+            "p95_wall_ms": 9.855476,
+            "planned_cap_total": 384,
+            "python_cpu_ms": 12.385763,
+            "rapfi_ticks": 2,
+            "rust_ticks": 2,
+            "saved_by_lock": 40,
+            "tick_hz": 100,
+            "total_wall_ns": 62271617,
+            "visits": 344
+          },
+          "family": "6cff59f002072028a1dee474e76a201c2e6ed987e1e81cab1888518ae0d196b8",
+          "id": "G13",
+          "mean_score": 0.5,
+          "scores": [
+            0.0,
+            1.0
+          ]
+        },
+        {
+          "base": {
+            "NN": 229,
+            "causes": {
+              "GUARDED": 1,
+              "P5_FIXED": 2,
+              "P5_LOCKED": 2
+            },
+            "chosen_caps": {
+              "128": 4
+            },
+            "cpu_ms": 30.0,
+            "easy": 0,
+            "guarded": 1,
+            "hard": 0,
+            "locks": 2,
+            "mean_NN": 45.8,
+            "mean_active_wall_ms": 6.8440525,
+            "mean_cpu_ms": 6.0,
+            "mean_native_ms": 5.1246,
+            "mean_visits": 94.4,
+            "mean_wall_ms": 5.5459406,
+            "moves": 5,
+            "nominal_caps": {
+              "128": 5
+            },
+            "p95_wall_ms": 12.581711,
+            "planned_cap_total": 512,
+            "python_cpu_ms": 3.965725,
+            "rapfi_ticks": 2,
+            "rust_ticks": 1,
+            "saved_by_lock": 40,
+            "tick_hz": 100,
+            "total_wall_ns": 27729703,
+            "visits": 472
+          },
+          "candidate": {
+            "NN": 164,
+            "causes": {
+              "GUARDED": 1,
+              "P5_FIXED": 3,
+              "P5_LOCKED": 1
+            },
+            "chosen_caps": {
+              "48": 4
+            },
+            "cpu_ms": 40.0,
+            "easy": 0,
+            "guarded": 1,
+            "hard": 0,
+            "locks": 1,
+            "mean_NN": 32.8,
+            "mean_active_wall_ms": 8.06297925,
+            "mean_cpu_ms": 8.0,
+            "mean_native_ms": 5.4146,
+            "mean_visits": 36.8,
+            "mean_wall_ms": 6.485374,
+            "moves": 5,
+            "nominal_caps": {
+              "48": 5
+            },
+            "p95_wall_ms": 9.213118,
+            "planned_cap_total": 192,
+            "python_cpu_ms": 7.115848,
+            "rapfi_ticks": 1,
+            "rust_ticks": 3,
+            "saved_by_lock": 8,
+            "tick_hz": 100,
+            "total_wall_ns": 32426870,
+            "visits": 184
+          },
+          "family": "7792473d07f85f48b5d10ce9196c9fa56565445dbe06270b5e2adfd2b7467487",
+          "id": "G09",
+          "mean_score": 0.5,
+          "scores": [
+            0.0,
+            1.0
+          ]
+        },
+        {
+          "base": {
+            "NN": 783,
+            "causes": {
+              "GUARDED": 1,
+              "P5_FIXED": 5,
+              "P5_LOCKED": 4
+            },
+            "chosen_caps": {
+              "128": 9
+            },
+            "cpu_ms": 110.0,
+            "easy": 0,
+            "guarded": 1,
+            "hard": 0,
+            "locks": 4,
+            "mean_NN": 78.3,
+            "mean_active_wall_ms": 10.652921555555555,
+            "mean_cpu_ms": 11.0,
+            "mean_native_ms": 9.1141,
+            "mean_visits": 104.8,
+            "mean_wall_ms": 9.6189733,
+            "moves": 10,
+            "nominal_caps": {
+              "128": 10
+            },
+            "p95_wall_ms": 16.864758,
+            "planned_cap_total": 1152,
+            "python_cpu_ms": 9.330468,
+            "rapfi_ticks": 9,
+            "rust_ticks": 2,
+            "saved_by_lock": 104,
+            "tick_hz": 100,
+            "total_wall_ns": 96189733,
+            "visits": 1048
+          },
+          "candidate": {
+            "NN": 440,
+            "causes": {
+              "GUARDED": 1,
+              "P5_FIXED": 7,
+              "P5_LOCKED": 2
+            },
+            "chosen_caps": {
+              "48": 6,
+              "64": 3
+            },
+            "cpu_ms": 70.0,
+            "easy": 0,
+            "guarded": 1,
+            "hard": 0,
+            "locks": 2,
+            "mean_NN": 44,
+            "mean_active_wall_ms": 9.562481222222223,
+            "mean_cpu_ms": 7.0,
+            "mean_native_ms": 7.3325,
+            "mean_visits": 45.6,
+            "mean_wall_ms": 8.627303,
+            "moves": 10,
+            "nominal_caps": {
+              "48": 7,
+              "64": 3
+            },
+            "p95_wall_ms": 12.350908,
+            "planned_cap_total": 480,
+            "python_cpu_ms": 16.54899,
+            "rapfi_ticks": 2,
+            "rust_ticks": 5,
+            "saved_by_lock": 24,
+            "tick_hz": 100,
+            "total_wall_ns": 86273030,
+            "visits": 456
+          },
+          "family": "f1bdf110f792f9d23f44e312457f4ccc863368294c0534c93afadd3d22aab381",
+          "id": "G15",
+          "mean_score": 0.5,
+          "scores": [
+            0.0,
+            1.0
+          ]
+        },
+        {
+          "base": {
+            "NN": 446,
+            "causes": {
+              "GUARDED": 1,
+              "P5_FIXED": 2,
+              "P5_LOCKED": 4
+            },
+            "chosen_caps": {
+              "128": 6
+            },
+            "cpu_ms": 50.0,
+            "easy": 0,
+            "guarded": 1,
+            "hard": 0,
+            "locks": 4,
+            "mean_NN": 63.714285714285715,
+            "mean_active_wall_ms": 10.1387325,
+            "mean_cpu_ms": 7.142857142857143,
+            "mean_native_ms": 8.199714285714286,
+            "mean_visits": 94.85714285714286,
+            "mean_wall_ms": 8.731410857142857,
+            "moves": 7,
+            "nominal_caps": {
+              "128": 7
+            },
+            "p95_wall_ms": 13.648583,
+            "planned_cap_total": 768,
+            "python_cpu_ms": 6.257389,
+            "rapfi_ticks": 4,
+            "rust_ticks": 1,
+            "saved_by_lock": 104,
+            "tick_hz": 100,
+            "total_wall_ns": 61119876,
+            "visits": 664
+          },
+          "candidate": {
+            "NN": 298,
+            "causes": {
+              "GUARDED": 1,
+              "P5_FIXED": 5,
+              "P5_LOCKED": 1
+            },
+            "chosen_caps": {
+              "48": 3,
+              "64": 3
+            },
+            "cpu_ms": 70.0,
+            "easy": 0,
+            "guarded": 1,
+            "hard": 0,
+            "locks": 1,
+            "mean_NN": 42.57142857142857,
+            "mean_active_wall_ms": 10.053529833333334,
+            "mean_cpu_ms": 10.0,
+            "mean_native_ms": 7.2178571428571425,
+            "mean_visits": 44.57142857142857,
+            "mean_wall_ms": 8.650275142857144,
+            "moves": 7,
+            "nominal_caps": {
+              "48": 4,
+              "64": 3
+            },
+            "p95_wall_ms": 13.721978,
+            "planned_cap_total": 336,
+            "python_cpu_ms": 12.190043,
+            "rapfi_ticks": 3,
+            "rust_ticks": 4,
+            "saved_by_lock": 24,
+            "tick_hz": 100,
+            "total_wall_ns": 60551926,
+            "visits": 312
+          },
+          "family": "f21485817595b964ab0bda6970964756e600b55fe5b4f960bae770290a8dfda9",
+          "id": "G10",
+          "mean_score": 0.5,
+          "scores": [
+            1.0,
+            0.0
+          ]
+        }
+      ],
+      "games": 16,
+      "lengths": [
+        31,
+        35,
+        11,
+        11,
+        13,
+        13,
+        13,
+        13,
+        20,
+        20,
+        13,
+        15,
+        29,
+        17,
+        15,
+        17
+      ],
+      "resource_match": false,
+      "scope": "small paired exploratory arena, no superiority or Elo admission",
+      "score": 0.5,
+      "score_CI95": [
+        0.5,
+        0.5
+      ],
+      "wall_ratio_CI95": [
+        0.9087984054980507,
+        1.0073217344670895
+      ],
+      "white_score": 0.125
+    },
+    "P5Q": {
+      "WDL": [
+        5,
+        0,
+        11
+      ],
+      "arena_ratio": {
+        "cpu_match": true,
+        "cpu_ratio": 1.168443496801706,
+        "wall_match": false,
+        "wall_ratio": 1.1513893743532124
+      },
+      "base": {
+        "NN": 8732,
+        "causes": {
+          "GUARDED": 31,
+          "P5_FIXED": 20,
+          "P5_LOCKED": 86
+        },
+        "chosen_caps": {
+          "128": 106
+        },
+        "cpu_ms": 1190.0,
+        "easy": 0,
+        "guarded": 31,
+        "hard": 0,
+        "locks": 86,
+        "mean_NN": 63.737226277372265,
+        "mean_active_wall_ms": 11.461443311320755,
+        "mean_cpu_ms": 8.686131386861314,
+        "mean_native_ms": 8.43943795620438,
+        "mean_visits": 77.83941605839416,
+        "mean_wall_ms": 8.91950906569343,
+        "moves": 137,
+        "nominal_caps": {
+          "128": 137
+        },
+        "p95_wall_ms": 16.958571,
+        "planned_cap_total": 13568,
+        "python_cpu_ms": 122.612599,
+        "rapfi_ticks": 87,
+        "rust_ticks": 32,
+        "saved_by_lock": 2904,
+        "tick_hz": 100,
+        "total_wall_ns": 1221972742,
+        "visits": 10664
+      },
+      "black_score": 0.5,
+      "bootstrap_reps": 10000,
+      "cal_ratio": {
+        "cpu_match": true,
+        "cpu_ratio": 1.0227272727272727,
+        "wall_match": true,
+        "wall_ratio": 0.9746379327344664
+      },
+      "candidate": {
+        "NN": 9907,
+        "causes": {
+          "BudgetExhausted": 26,
+          "GUARDED": 17,
+          "P5_LOCKED": 91
+        },
+        "chosen_caps": {
+          "128": 112,
+          "160": 5
+        },
+        "cpu_ms": 1360.0,
+        "easy": 0,
+        "guarded": 17,
+        "hard": 0,
+        "locks": 91,
+        "mean_NN": 73.93283582089552,
+        "mean_active_wall_ms": 11.728028726495726,
+        "mean_cpu_ms": 10.149253731343284,
+        "mean_native_ms": 9.74970895522388,
+        "mean_visits": 90.74626865671642,
+        "mean_wall_ms": 10.269827962686566,
+        "moves": 134,
+        "nominal_caps": {
+          "128": 129,
+          "160": 5
+        },
+        "p95_wall_ms": 20.525534,
+        "planned_cap_total": 15136,
+        "python_cpu_ms": 132.698791,
+        "rapfi_ticks": 102,
+        "rust_ticks": 34,
+        "saved_by_lock": 2976,
+        "tick_hz": 100,
+        "total_wall_ns": 1376156947,
+        "visits": 12160
+      },
+      "cpu_ratio_CI95": [
+        0.7209302325581396,
+        1.5930748456790125
+      ],
+      "families": [
+        {
+          "base": {
+            "NN": 1218,
+            "causes": {
+              "GUARDED": 3,
+              "P5_LOCKED": 16
+            },
+            "chosen_caps": {
+              "128": 16
+            },
+            "cpu_ms": 150.0,
+            "easy": 0,
+            "guarded": 3,
+            "hard": 0,
+            "locks": 16,
+            "mean_NN": 64.10526315789474,
+            "mean_active_wall_ms": 9.756124875,
+            "mean_cpu_ms": 7.894736842105263,
+            "mean_native_ms": 7.805421052631579,
+            "mean_visits": 72.84210526315789,
+            "mean_wall_ms": 8.244918157894737,
+            "moves": 19,
+            "nominal_caps": {
+              "128": 19
+            },
+            "p95_wall_ms": 16.245382,
+            "planned_cap_total": 2048,
+            "python_cpu_ms": 15.85764,
+            "rapfi_ticks": 11,
+            "rust_ticks": 4,
+            "saved_by_lock": 664,
+            "tick_hz": 100,
+            "total_wall_ns": 156653445,
+            "visits": 1384
+          },
+          "candidate": {
+            "NN": 1511,
+            "causes": {
+              "BudgetExhausted": 3,
+              "P5_LOCKED": 15
+            },
+            "chosen_caps": {
+              "128": 17,
+              "160": 1
+            },
+            "cpu_ms": 200.0,
+            "easy": 0,
+            "guarded": 0,
+            "hard": 0,
+            "locks": 15,
+            "mean_NN": 83.94444444444444,
+            "mean_active_wall_ms": 11.18249311111111,
+            "mean_cpu_ms": 11.11111111111111,
+            "mean_native_ms": 10.6205,
+            "mean_visits": 102.22222222222223,
+            "mean_wall_ms": 11.18249311111111,
+            "moves": 18,
+            "nominal_caps": {
+              "128": 17,
+              "160": 1
+            },
+            "p95_wall_ms": 15.208597,
+            "planned_cap_total": 2336,
+            "python_cpu_ms": 19.251671,
+            "rapfi_ticks": 15,
+            "rust_ticks": 5,
+            "saved_by_lock": 496,
+            "tick_hz": 100,
+            "total_wall_ns": 201284876,
+            "visits": 1840
+          },
+          "family": "1304d86ccbc3fe378c1fa6ee6f91963b3e93c5e472435c42f7dfe6ec430b99e0",
+          "id": "G14",
+          "mean_score": 0.0,
+          "scores": [
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "base": {
+            "NN": 768,
+            "causes": {
+              "GUARDED": 3,
+              "P5_LOCKED": 11
+            },
+            "chosen_caps": {
+              "128": 11
+            },
+            "cpu_ms": 110.0,
+            "easy": 0,
+            "guarded": 3,
+            "hard": 0,
+            "locks": 11,
+            "mean_NN": 54.857142857142854,
+            "mean_active_wall_ms": 10.616999090909092,
+            "mean_cpu_ms": 7.857142857142857,
+            "mean_native_ms": 7.847785714285714,
+            "mean_visits": 72.57142857142857,
+            "mean_wall_ms": 8.402104785714286,
+            "moves": 14,
+            "nominal_caps": {
+              "128": 14
+            },
+            "p95_wall_ms": 15.763069,
+            "planned_cap_total": 1408,
+            "python_cpu_ms": 14.03599,
+            "rapfi_ticks": 8,
+            "rust_ticks": 3,
+            "saved_by_lock": 392,
+            "tick_hz": 100,
+            "total_wall_ns": 117629467,
+            "visits": 1016
+          },
+          "candidate": {
+            "NN": 699,
+            "causes": {
+              "GUARDED": 3,
+              "P5_LOCKED": 11
+            },
+            "chosen_caps": {
+              "128": 11
+            },
+            "cpu_ms": 110.0,
+            "easy": 0,
+            "guarded": 3,
+            "hard": 0,
+            "locks": 11,
+            "mean_NN": 49.92857142857143,
+            "mean_active_wall_ms": 9.151511909090909,
+            "mean_cpu_ms": 7.857142857142857,
+            "mean_native_ms": 6.703571428571428,
+            "mean_visits": 66.85714285714286,
+            "mean_wall_ms": 7.249420357142857,
+            "moves": 14,
+            "nominal_caps": {
+              "128": 14
+            },
+            "p95_wall_ms": 11.832839,
+            "planned_cap_total": 1408,
+            "python_cpu_ms": 14.029558,
+            "rapfi_ticks": 7,
+            "rust_ticks": 4,
+            "saved_by_lock": 472,
+            "tick_hz": 100,
+            "total_wall_ns": 101491885,
+            "visits": 936
+          },
+          "family": "403b7098de32043d12fa5e1007465bd253e6dd476605846bb851e0a8506297bb",
+          "id": "G12",
+          "mean_score": 0.5,
+          "scores": [
+            0.0,
+            1.0
+          ]
+        },
+        {
+          "base": {
+            "NN": 443,
+            "causes": {
+              "GUARDED": 1,
+              "P5_FIXED": 5,
+              "P5_LOCKED": 1
+            },
+            "chosen_caps": {
+              "128": 6
+            },
+            "cpu_ms": 60.0,
+            "easy": 0,
+            "guarded": 1,
+            "hard": 0,
+            "locks": 1,
+            "mean_NN": 63.285714285714285,
+            "mean_active_wall_ms": 9.437797833333333,
+            "mean_cpu_ms": 8.571428571428571,
+            "mean_native_ms": 7.553428571428571,
+            "mean_visits": 104,
+            "mean_wall_ms": 8.126788428571428,
+            "moves": 7,
+            "nominal_caps": {
+              "128": 7
+            },
+            "p95_wall_ms": 16.561945,
+            "planned_cap_total": 768,
+            "python_cpu_ms": 7.898774,
+            "rapfi_ticks": 4,
+            "rust_ticks": 2,
+            "saved_by_lock": 40,
+            "tick_hz": 100,
+            "total_wall_ns": 56887519,
+            "visits": 728
+          },
+          "candidate": {
+            "NN": 438,
+            "causes": {
+              "BudgetExhausted": 4,
+              "GUARDED": 1,
+              "P5_LOCKED": 2
+            },
+            "chosen_caps": {
+              "128": 6
+            },
+            "cpu_ms": 50.0,
+            "easy": 0,
+            "guarded": 1,
+            "hard": 0,
+            "locks": 2,
+            "mean_NN": 62.57142857142857,
+            "mean_active_wall_ms": 9.515309,
+            "mean_cpu_ms": 7.142857142857143,
+            "mean_native_ms": 7.635,
+            "mean_visits": 102.85714285714286,
+            "mean_wall_ms": 8.190209428571428,
+            "moves": 7,
+            "nominal_caps": {
+              "128": 7
+            },
+            "p95_wall_ms": 15.98005,
+            "planned_cap_total": 768,
+            "python_cpu_ms": 8.301085,
+            "rapfi_ticks": 4,
+            "rust_ticks": 1,
+            "saved_by_lock": 48,
+            "tick_hz": 100,
+            "total_wall_ns": 57331466,
+            "visits": 720
+          },
+          "family": "521160e25c9ecb77a3d1852ed9d0b16cb66163de3962858b183dee42131eb4d9",
+          "id": "G11",
+          "mean_score": 0.5,
+          "scores": [
+            0.0,
+            1.0
+          ]
+        },
+        {
+          "base": {
+            "NN": 2000,
+            "causes": {
+              "GUARDED": 13,
+              "P5_FIXED": 3,
+              "P5_LOCKED": 19
+            },
+            "chosen_caps": {
+              "128": 22
+            },
+            "cpu_ms": 280.0,
+            "easy": 0,
+            "guarded": 13,
+            "hard": 0,
+            "locks": 19,
+            "mean_NN": 57.142857142857146,
+            "mean_active_wall_ms": 13.225604954545455,
+            "mean_cpu_ms": 8.0,
+            "mean_native_ms": 7.977742857142857,
+            "mean_visits": 62.4,
+            "mean_wall_ms": 8.404638142857143,
+            "moves": 35,
+            "nominal_caps": {
+              "128": 35
+            },
+            "p95_wall_ms": 17.586074,
+            "planned_cap_total": 2816,
+            "python_cpu_ms": 27.811819,
+            "rapfi_ticks": 21,
+            "rust_ticks": 7,
+            "saved_by_lock": 632,
+            "tick_hz": 100,
+            "total_wall_ns": 294162335,
+            "visits": 2184
+          },
+          "candidate": {
+            "NN": 3342,
+            "causes": {
+              "BudgetExhausted": 8,
+              "GUARDED": 1,
+              "P5_LOCKED": 25
+            },
+            "chosen_caps": {
+              "128": 30,
+              "160": 3
+            },
+            "cpu_ms": 530.0,
+            "easy": 0,
+            "guarded": 1,
+            "hard": 0,
+            "locks": 25,
+            "mean_NN": 98.29411764705883,
+            "mean_active_wall_ms": 15.920234787878789,
+            "mean_cpu_ms": 15.588235294117647,
+            "mean_native_ms": 14.901411764705882,
+            "mean_visits": 108.23529411764706,
+            "mean_wall_ms": 15.458542352941176,
+            "moves": 34,
+            "nominal_caps": {
+              "128": 31,
+              "160": 3
+            },
+            "p95_wall_ms": 22.992771,
+            "planned_cap_total": 4320,
+            "python_cpu_ms": 34.845416,
+            "rapfi_ticks": 41,
+            "rust_ticks": 12,
+            "saved_by_lock": 640,
+            "tick_hz": 100,
+            "total_wall_ns": 525590440,
+            "visits": 3680
+          },
+          "family": "5ff8db7480cc6b912be36d8a51389c41d3ef57ed2b782c63fe9090949ea1cc36",
+          "id": "G08",
+          "mean_score": 0.0,
+          "scores": [
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "base": {
+            "NN": 977,
+            "causes": {
+              "GUARDED": 5,
+              "P5_FIXED": 3,
+              "P5_LOCKED": 8
+            },
+            "chosen_caps": {
+              "128": 11
+            },
+            "cpu_ms": 110.0,
+            "easy": 0,
+            "guarded": 5,
+            "hard": 0,
+            "locks": 8,
+            "mean_NN": 61.0625,
+            "mean_active_wall_ms": 10.545729363636363,
+            "mean_cpu_ms": 6.875,
+            "mean_native_ms": 6.8933124999999995,
+            "mean_visits": 74.5,
+            "mean_wall_ms": 7.314083875,
+            "moves": 16,
+            "nominal_caps": {
+              "128": 16
+            },
+            "p95_wall_ms": 14.372051,
+            "planned_cap_total": 1408,
+            "python_cpu_ms": 13.237528,
+            "rapfi_ticks": 8,
+            "rust_ticks": 3,
+            "saved_by_lock": 216,
+            "tick_hz": 100,
+            "total_wall_ns": 117025342,
+            "visits": 1192
+          },
+          "candidate": {
+            "NN": 1138,
+            "causes": {
+              "BudgetExhausted": 2,
+              "GUARDED": 1,
+              "P5_LOCKED": 13
+            },
+            "chosen_caps": {
+              "128": 15
+            },
+            "cpu_ms": 150.0,
+            "easy": 0,
+            "guarded": 1,
+            "hard": 0,
+            "locks": 13,
+            "mean_NN": 71.125,
+            "mean_active_wall_ms": 9.336234266666667,
+            "mean_cpu_ms": 9.375,
+            "mean_native_ms": 8.2348125,
+            "mean_visits": 94,
+            "mean_wall_ms": 8.76373125,
+            "moves": 16,
+            "nominal_caps": {
+              "128": 16
+            },
+            "p95_wall_ms": 13.493989,
+            "planned_cap_total": 1920,
+            "python_cpu_ms": 17.502309,
+            "rapfi_ticks": 10,
+            "rust_ticks": 5,
+            "saved_by_lock": 416,
+            "tick_hz": 100,
+            "total_wall_ns": 140219700,
+            "visits": 1504
+          },
+          "family": "6cff59f002072028a1dee474e76a201c2e6ed987e1e81cab1888518ae0d196b8",
+          "id": "G13",
+          "mean_score": 0.5,
+          "scores": [
+            0.0,
+            1.0
+          ]
+        },
+        {
+          "base": {
+            "NN": 1270,
+            "causes": {
+              "GUARDED": 2,
+              "P5_FIXED": 5,
+              "P5_LOCKED": 9
+            },
+            "chosen_caps": {
+              "128": 14
+            },
+            "cpu_ms": 210.0,
+            "easy": 0,
+            "guarded": 2,
+            "hard": 0,
+            "locks": 9,
+            "mean_NN": 79.375,
+            "mean_active_wall_ms": 15.271979857142858,
+            "mean_cpu_ms": 13.125,
+            "mean_native_ms": 12.8545625,
+            "mean_visits": 97.5,
+            "mean_wall_ms": 13.3875753125,
+            "moves": 16,
+            "nominal_caps": {
+              "128": 16
+            },
+            "p95_wall_ms": 35.502721,
+            "planned_cap_total": 1792,
+            "python_cpu_ms": 14.694706,
+            "rapfi_ticks": 16,
+            "rust_ticks": 5,
+            "saved_by_lock": 232,
+            "tick_hz": 100,
+            "total_wall_ns": 214201205,
+            "visits": 1560
+          },
+          "candidate": {
+            "NN": 738,
+            "causes": {
+              "BudgetExhausted": 1,
+              "GUARDED": 6,
+              "P5_LOCKED": 9
+            },
+            "chosen_caps": {
+              "128": 9,
+              "160": 1
+            },
+            "cpu_ms": 80.0,
+            "easy": 0,
+            "guarded": 6,
+            "hard": 0,
+            "locks": 9,
+            "mean_NN": 46.125,
+            "mean_active_wall_ms": 8.9991195,
+            "mean_cpu_ms": 5.0,
+            "mean_native_ms": 5.3236875,
+            "mean_visits": 59,
+            "mean_wall_ms": 5.716607375,
+            "moves": 16,
+            "nominal_caps": {
+              "128": 15,
+              "160": 1
+            },
+            "p95_wall_ms": 13.12229,
+            "planned_cap_total": 1312,
+            "python_cpu_ms": 12.522534,
+            "rapfi_ticks": 6,
+            "rust_ticks": 2,
+            "saved_by_lock": 368,
+            "tick_hz": 100,
+            "total_wall_ns": 91465718,
+            "visits": 944
+          },
+          "family": "7792473d07f85f48b5d10ce9196c9fa56565445dbe06270b5e2adfd2b7467487",
+          "id": "G09",
+          "mean_score": 0.5,
+          "scores": [
+            0.0,
+            1.0
+          ]
+        },
+        {
+          "base": {
+            "NN": 1610,
+            "causes": {
+              "GUARDED": 3,
+              "P5_FIXED": 2,
+              "P5_LOCKED": 18
+            },
+            "chosen_caps": {
+              "128": 20
+            },
+            "cpu_ms": 220.0,
+            "easy": 0,
+            "guarded": 3,
+            "hard": 0,
+            "locks": 18,
+            "mean_NN": 70,
+            "mean_active_wall_ms": 10.64917675,
+            "mean_cpu_ms": 9.565217391304348,
+            "mean_native_ms": 8.753782608695651,
+            "mean_visits": 84.17391304347827,
+            "mean_wall_ms": 9.286530260869565,
+            "moves": 23,
+            "nominal_caps": {
+              "128": 23
+            },
+            "p95_wall_ms": 16.415929,
+            "planned_cap_total": 2560,
+            "python_cpu_ms": 23.28883,
+            "rapfi_ticks": 16,
+            "rust_ticks": 6,
+            "saved_by_lock": 624,
+            "tick_hz": 100,
+            "total_wall_ns": 213590196,
+            "visits": 1936
+          },
+          "candidate": {
+            "NN": 1590,
+            "causes": {
+              "BudgetExhausted": 6,
+              "GUARDED": 4,
+              "P5_LOCKED": 12
+            },
+            "chosen_caps": {
+              "128": 18
+            },
+            "cpu_ms": 190.0,
+            "easy": 0,
+            "guarded": 4,
+            "hard": 0,
+            "locks": 12,
+            "mean_NN": 72.27272727272727,
+            "mean_active_wall_ms": 11.420987444444444,
+            "mean_cpu_ms": 8.636363636363637,
+            "mean_native_ms": 8.878454545454545,
+            "mean_visits": 85.0909090909091,
+            "mean_wall_ms": 9.383225863636364,
+            "moves": 22,
+            "nominal_caps": {
+              "128": 22
+            },
+            "p95_wall_ms": 15.876772,
+            "planned_cap_total": 2304,
+            "python_cpu_ms": 20.103434,
+            "rapfi_ticks": 15,
+            "rust_ticks": 4,
+            "saved_by_lock": 432,
+            "tick_hz": 100,
+            "total_wall_ns": 206430969,
+            "visits": 1872
+          },
+          "family": "f1bdf110f792f9d23f44e312457f4ccc863368294c0534c93afadd3d22aab381",
+          "id": "G15",
+          "mean_score": 0.0,
+          "scores": [
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "base": {
+            "NN": 446,
+            "causes": {
+              "GUARDED": 1,
+              "P5_FIXED": 2,
+              "P5_LOCKED": 4
+            },
+            "chosen_caps": {
+              "128": 6
+            },
+            "cpu_ms": 50.0,
+            "easy": 0,
+            "guarded": 1,
+            "hard": 0,
+            "locks": 4,
+            "mean_NN": 63.714285714285715,
+            "mean_active_wall_ms": 8.607271833333334,
+            "mean_cpu_ms": 7.142857142857143,
+            "mean_native_ms": 6.947571428571429,
+            "mean_visits": 94.85714285714286,
+            "mean_wall_ms": 7.403319,
+            "moves": 7,
+            "nominal_caps": {
+              "128": 7
+            },
+            "p95_wall_ms": 13.307643,
+            "planned_cap_total": 768,
+            "python_cpu_ms": 5.787312,
+            "rapfi_ticks": 3,
+            "rust_ticks": 2,
+            "saved_by_lock": 104,
+            "tick_hz": 100,
+            "total_wall_ns": 51823233,
+            "visits": 664
+          },
+          "candidate": {
+            "NN": 451,
+            "causes": {
+              "BudgetExhausted": 2,
+              "GUARDED": 1,
+              "P5_LOCKED": 4
+            },
+            "chosen_caps": {
+              "128": 6
+            },
+            "cpu_ms": 50.0,
+            "easy": 0,
+            "guarded": 1,
+            "hard": 0,
+            "locks": 4,
+            "mean_NN": 64.42857142857143,
+            "mean_active_wall_ms": 8.692628166666667,
+            "mean_cpu_ms": 7.142857142857143,
+            "mean_native_ms": 7.012428571428571,
+            "mean_visits": 94.85714285714286,
+            "mean_wall_ms": 7.477413285714285,
+            "moves": 7,
+            "nominal_caps": {
+              "128": 7
+            },
+            "p95_wall_ms": 13.439748,
+            "planned_cap_total": 768,
+            "python_cpu_ms": 6.142784,
+            "rapfi_ticks": 4,
+            "rust_ticks": 1,
+            "saved_by_lock": 104,
+            "tick_hz": 100,
+            "total_wall_ns": 52341893,
+            "visits": 664
+          },
+          "family": "f21485817595b964ab0bda6970964756e600b55fe5b4f960bae770290a8dfda9",
+          "id": "G10",
+          "mean_score": 0.5,
+          "scores": [
+            1.0,
+            0.0
+          ]
+        }
+      ],
+      "games": 16,
+      "lengths": [
+        58,
+        23,
+        11,
+        33,
+        13,
+        13,
+        13,
+        13,
+        20,
+        20,
+        17,
+        27,
+        32,
+        17,
+        29,
+        28
+      ],
+      "resource_match": false,
+      "scope": "small paired exploratory arena, no superiority or Elo admission",
+      "score": 0.3125,
+      "score_CI95": [
+        0.125,
+        0.5
+      ],
+      "wall_ratio_CI95": [
+        0.7339525422167693,
+        1.5263884455873726
+      ],
+      "white_score": 0.125
+    }
+  },
+  "fit": {
+    "P5ALLOC": {
+      "bracket": true,
+      "den": 116757665,
+      "high": 128,
+      "low": 96,
+      "num": 69513567,
+      "train_high_sum": 602105544,
+      "train_low_sum": 485347879
+    },
+    "P5FULL": {
+      "bracket": true,
+      "den": 71948765,
+      "high": 64,
+      "low": 48,
+      "num": 18871518,
+      "train_high_sum": 607938693,
+      "train_low_sum": 535989928
+    },
+    "P5PW": {
+      "bracket": true,
+      "den": 1,
+      "high": 128,
+      "low": 128,
+      "num": 0,
+      "train_high_sum": 554861446,
+      "train_low_sum": 554861446
+    },
+    "P5Q": {
+      "bracket": true,
+      "den": 83506723,
+      "high": 160,
+      "low": 128,
+      "num": 3076410,
+      "train_high_sum": 635291759,
+      "train_low_sum": 551785036
+    }
+  },
+  "grid_requests": 1475,
+  "host_gate": true,
+  "hosts": {
+    "C06_SOURCE_LOCK.json": {
+      "end": {
+        "load": [
+          3.16455078125,
+          3.3974609375,
+          3.6103515625
+        ],
+        "mono": 451791.340307637,
+        "swap": {
+          "pswpin": 74732778,
+          "pswpout": 76294397
+        }
+      },
+      "max_load": 3.16455078125,
+      "seconds": 0.834531401982531,
+      "start": {
+        "load": [
+          3.16455078125,
+          3.3974609375,
+          3.6103515625
+        ],
+        "mono": 451790.505776235,
+        "swap": {
+          "pswpin": 74732778,
+          "pswpout": 76294397
+        }
+      },
+      "swap_pages_s": 0.0,
+      "timing_gate": true
+    },
+    "C07_CAL_LOCK.json": {
+      "end": {
+        "load": [
+          2.87646484375,
+          3.3095703125,
+          3.57421875
+        ],
+        "mono": 451823.70425263,
+        "swap": {
+          "pswpin": 74732847,
+          "pswpout": 76294397
+        }
+      },
+      "max_load": 2.87646484375,
+      "seconds": 2.2282127069775015,
+      "start": {
+        "load": [
+          2.87646484375,
+          3.3095703125,
+          3.57421875
+        ],
+        "mono": 451821.476039923,
+        "swap": {
+          "pswpin": 74732838,
+          "pswpout": 76294397
+        }
+      },
+      "swap_pages_s": 4.039111693339281,
+      "timing_gate": true
+    },
+    "C07_GRID_LOCK.json": {
+      "end": {
+        "load": [
+          3.130859375,
+          3.37158203125,
+          3.59716796875
+        ],
+        "mono": 451814.896040763,
+        "swap": {
+          "pswpin": 74732824,
+          "pswpout": 76294397
+        }
+      },
+      "max_load": 3.16455078125,
+      "seconds": 20.097750018001534,
+      "start": {
+        "load": [
+          3.16455078125,
+          3.3974609375,
+          3.6103515625
+        ],
+        "mono": 451794.798290745,
+        "swap": {
+          "pswpin": 74732788,
+          "pswpout": 76294397
+        }
+      },
+      "swap_pages_s": 1.7912452870472981,
+      "timing_gate": true
+    },
+    "C08_ARENA_LOCK.json": {
+      "end": {
+        "load": [
+          3.08837890625,
+          3.34130859375,
+          3.58056640625
+        ],
+        "mono": 451835.599023184,
+        "swap": {
+          "pswpin": 74732858,
+          "pswpout": 76294397
+        }
+      },
+      "max_load": 3.287109375,
+      "seconds": 7.532241426000837,
+      "start": {
+        "load": [
+          3.287109375,
+          3.3876953125,
+          3.59814453125
+        ],
+        "mono": 451828.066781758,
+        "swap": {
+          "pswpin": 74732854,
+          "pswpout": 76294397
+        }
+      },
+      "swap_pages_s": 0.5310504236086013,
+      "timing_gate": true
+    }
+  },
+  "identity": {
+    "rapfi_bridge": "bacbcfc90f6e4bfd0d9d035455afa3d6667ec32e7fd80cbc1d65a4001b30f64e",
+    "rapfi_config": "32b9180c91247541d399ceef62906d5ffeb48e34eb5f261612987633820d5d3c",
+    "rapfi_source": "1be1551ced57e38d53ed58f6d74bf6f8b4bdc230",
+    "rapfi_weight": "6bc0d1b0ff8e1d857f7f412923cd458f38f1a435087c91ae71fec3676c23ef62",
+    "rust_binary": "f2becea4f6c7703cce9f5098e40a01bc9c550e4732566f7cf141e5ef843519f1",
+    "rust_source": "54f5828b7f032b6c38cb88f6844adfcc1354d473"
+  },
+  "scientific_promotion": false,
+  "source_games": 8,
+  "source_plies": 113,
+  "target_wall_ms": 9.404431288135594,
+  "train_roots": 59
+}
