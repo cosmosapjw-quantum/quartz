@@ -1,0 +1,60 @@
+{
+  "k19_channels": 510,
+  "k19_roots": 85,
+  "k20_blocks": 2304,
+  "k20_mean": {
+    "drift": 0.023405416320447178,
+    "geometry": 0.027259258284632704,
+    "js": 0.843653173093289,
+    "phi_delta": 0.05066467460507988
+  },
+  "k20_negative_drift": 250,
+  "k20_negative_phi": 177,
+  "k20_paths": 768,
+  "mean_bound": 0.15968558188817575,
+  "mean_hard": 0.12222077594679555,
+  "mean_mi": 0.25151234464700895,
+  "mean_realized_gain": 0.06568627450980392,
+  "rank_agreement": {
+    "0.05": 81,
+    "0.1": 70,
+    "0.25": 69,
+    "0.5": 69,
+    "MI": 70
+  },
+  "scope": "retrospective exact model identities, observed score and occupation geometry; not new heldout fit or physical entropy production",
+  "sources": {
+    "docs/research/quartz_kinetic19_20261126/PREDICTIONS.jsonl.gz": "6c1bb7d7b1dfa67457ad5304c9d6a1651080b4cfee2af3d5bb90ee8ca4366760",
+    "docs/research/quartz_kinetic20_20261126/ATLAS.jsonl.gz": "8d87ad62316d740b64a600265f57d9fa7a251388e4bfd3ed375d7871296ee3a9"
+  },
+  "temperatures": {
+    "0.05": {
+      "geom": 0.09549381155280544,
+      "quad": 0.12004204748337322,
+      "remainder_bound": 1.4425355512823423,
+      "soft": 0.09549381155280544,
+      "upper": 0.17907998243482556
+    },
+    "0.1": {
+      "geom": 0.06368129628101257,
+      "quad": 0.06596541521861238,
+      "remainder_bound": 0.3606338878205856,
+      "soft": 0.06368129628101257,
+      "upper": 0.08953999121741278
+    },
+    "0.25": {
+      "geom": 0.027626217115489765,
+      "quad": 0.026700058480803174,
+      "remainder_bound": 0.0577014220512937,
+      "soft": 0.027626217115489765,
+      "upper": 0.03581599648696512
+    },
+    "0.5": {
+      "geom": 0.013637869335449032,
+      "quad": 0.013280254620082232,
+      "remainder_bound": 0.014425355512823425,
+      "soft": 0.013637869335449032,
+      "upper": 0.01790799824348256
+    }
+  }
+}
