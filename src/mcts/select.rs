@@ -1050,6 +1050,7 @@ where
             None => n_candidates,
         };
 
+        let base_visible=n_visible;
         let mut n_visible = axes.map_or(n_visible, |h|h.width(&cur_node,n_visible,depth));
         if let Some(ref plan)=proof_plan{
             let c=cur_node.candidates.get().unwrap();
@@ -1067,6 +1068,7 @@ where
             }
         }
         let n_mat = cur_node.materialized_count();
+        let mat_clock=if n_mat<n_visible{axes.and_then(|h|h.k25_clock())}else{None};
         if n_mat < n_visible {
             if reserve_virtual_loss && proof_plan.is_none() {
                 materialize_edges_in_place_best_effort(&cur_node, cur_state, n_visible, tt);
@@ -1081,6 +1083,7 @@ where
         // Bump, outlives this borrow).
         let edges_full = cur_node.read_edges();
         let n_edges = n_visible.min(edges_full.len());
+        if let Some(h)=axes{h.k25_width_observed(base_visible,n_visible,n_mat,n_edges,mat_clock);}
         if n_edges == 0 {
             break;
         }
