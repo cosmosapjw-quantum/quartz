@@ -1,0 +1,1 @@
+Exact upstream tag 250615 built successfully using clang++ and AVX2. Initial one-off probe received QZ_READY and actual valid odd-ply WDL/policy but a harness assertion incorrectly expected 231 tokens; the protocol has 232 tokens (7 fields including tag/id/ply/side and WDL, plus225 probabilities). No change to engine response or model. Formal smoke verifies 232 and all semantics.
