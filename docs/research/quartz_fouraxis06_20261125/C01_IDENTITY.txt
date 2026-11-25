@@ -1,0 +1,28 @@
+c1f3d00aa933ff9f8dc9b68879882440f0f23d923d5efb868637024a07fd1fd0  src/mcts/mod.rs
+8628eb342259981a00b1a4de5e0b58a5ff6e8bde9974edff8997f8134f7272fe  src/mcts/select.rs
+c059267063d54571e970466e758c2f7bef1faaf0229189a6d9c941cf7dfbb6e8  src/mcts/four_axis.rs
+4e44024c6b6f6a571db8cdf32bad1cdae34f1888fa0a7f29947ea15afce10c20  src/mcts/four_axis_math.rs
+1c54dadeba3e00c2ad4fb612c4c6e56655b09034d681cc2747ac6364ee5816a3  src/mcts/proof_graph.rs
+c22a78e534d51aabf45972c66a32bef99286e94526f613a8554edcc15bbd0d09  src/mcts_server.rs
+9656cc5d82c841ccda991c7760b0cdb701d9faca8fe7a095e75aa2d6ecae7e43  src/mcts_server/four_axis_cpu_server.rs
+8f28391cbf9edb80cb72c8dcd389d61f139e074c9de0cfb6bf2212efc1359a84  src/mcts_server/four_axis_pool_cpu_server.rs
+f0933fbe4bc94bb029710b73be1923e65eb0b2fc5083563a387d70398ac98353  src/mcts_server/four_axis_pool_plan.rs
+b45193c8f26cbaf7624c532e2cadce4591ce27be53bde7342edff7226c201886  src/mcts_server/four_axis_local_cpu_server.rs
+5251d5c8de75ae980ed385825b0daedb44ebb414940579aacbc10b50c2672383  src/games/gomoku15.rs
+b5e1fefb9d9ee72e7eb2fb684edafe3702e11f0f712cc3bd92fb43ccb71ff3e0  src/game.rs
+13c0eab3d63b18c6073cb25b5b3ef04b98398ace335a0f2d49fe53e63a04b5ef  quartz/selfplay_runtime.py
+63f404a1bc97f5565525a666837857bd2557fdb98a1efdb672f14792c426b7d9  quartz/runtime_support.py
+57b93ba867ff8f9b74f91adef6b38f02f94de0bd7dc177785d668d32e1dcc3ae  /home/cosmosapjw/Dropbox/personal_projects/quartz/results/smoke_torch/gomoku15/models/F1_legacy_base/latest.pt
+rustc 1.99.0 (b940084d7 2026-09-28)
+binary: rustc
+commit-hash: b940084d7eb6a299eb4bfeb8e34901bc051e7ac4
+commit-date: 2026-09-28
+host: x86_64-unknown-linux-gnu
+release: 1.99.0
+LLVM version: 23.1.1
+ 22:12:32 up 5 days,  3:34,  2 users,  load average: 1.57, 2.13, 3.34
+               total        used        free      shared  buff/cache   available
+Mem:            31Gi        17Gi       2.5Gi       375Mi        12Gi        13Gi
+Swap:           71Gi        24Gi        47Gi
+Filesystem      Size  Used Avail Use% Mounted on
+/dev/nvme0n1p2  915G  837G   32G  97% /

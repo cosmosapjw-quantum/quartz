@@ -999,6 +999,7 @@ fn select_core<G, F>(
     reserve_virtual_loss: bool,
     // Parallelism controller (1st-class runtime object)
     par_ctrl: &super::parallel::ParallelismController,
+    axes: Option<&super::four_axis::Hooks>,
     mut apply_selected_move: F,
 ) -> SelectCoreResult<G::Move>
 where
@@ -1012,6 +1013,8 @@ where
     let mut cur_node = *root;
     let mut depth = 0usize;
     let mut root_selection_trace_record = None;
+    let local_claim=axes.map_or(0,|h|h.claim_local());
+    let mut expanded_local=false;
     let vvalue_without_vvisit =
         reserve_virtual_loss && par_ctrl.can_publish_vvalue_without_vvisit();
 
@@ -1023,6 +1026,8 @@ where
             break;
         }
 
+        let mut proof_plan=axes.and_then(|h|h.proof_plan(cur_state,depth));
+        if proof_plan.as_ref().is_some_and(|p|p.stop){break;}
         let n_candidates = cur_node.candidate_count();
         if n_candidates == 0 {
             break;
@@ -1044,9 +1049,25 @@ where
             None => n_candidates,
         };
 
+        let mut n_visible = axes.map_or(n_visible, |h|h.width(&cur_node,n_visible,depth));
+        if let Some(ref plan)=proof_plan{
+            let c=cur_node.candidates.get().unwrap();
+            assert_eq!(c.len(),cur_state.legal_moves().len());
+            let first=c.iter().position(|x|plan.allowed.contains(&cur_state.move_to_idx(x.0))).expect("eligible legal action");
+            if first>=n_visible{n_visible=first+1;axes.unwrap().proof_width_extra();}
+        }
+
+        let mut locally_forced=false;
+        if local_claim!=0 {
+            if let Some(ref mut plan)=proof_plan {
+                if let Some((rank,m))=axes.unwrap().local_override(local_claim,cur_state,&cur_node,&plan.allowed,n_visible,depth,expanded_local){
+                    n_visible=n_visible.max(rank+1);plan.allowed=vec![m];locally_forced=true;
+                }
+            }
+        }
         let n_mat = cur_node.materialized_count();
         if n_mat < n_visible {
-            if reserve_virtual_loss {
+            if reserve_virtual_loss && proof_plan.is_none() {
                 materialize_edges_in_place_best_effort(&cur_node, cur_state, n_visible, tt);
             } else {
                 materialize_edges_in_place(&cur_node, cur_state, n_visible, tt);
@@ -1063,6 +1084,7 @@ where
             break;
         }
         let edges = &edges_full[..n_edges];
+        let c_puct = axes.map_or(c_puct,|h|h.local_c(edges,c_puct,depth));
 
         let vl_sum: u32 = if reserve_virtual_loss {
             edges
@@ -1089,6 +1111,7 @@ where
         let mut found_any = false;
 
         for (idx, edge) in edges.iter().enumerate() {
+            if let Some(ref p)=proof_plan{if !p.allowed.contains(&cur_state.move_to_idx(edge.mv)){continue;}}
             // A resident mask applies only to the original root. It never
             // changes legal game moves, original edge priors or descendants.
             if depth == 0 && root_action_mask.iter().any(|bits| *bits != 0) {
@@ -1193,6 +1216,10 @@ where
             super::parallel::VlSplit::ZERO
         };
 
+        if locally_forced{
+            axes.unwrap().local_applied(local_claim,depth);
+            if local_claim==2{expanded_local=true;}
+        }
         let best_mv = edges[best_idx].mv;
         let next_node = edges[best_idx].child;
         // Phase 7 C: no guard to drop — slab read is lock-free.
@@ -1260,6 +1287,7 @@ pub fn select<G: GameState>(
         fpu_reduction,
         reserve_virtual_loss,
         par_ctrl,
+        None,
         |state, mv| state.apply_move_in_place_no_undo(mv),
     );
 
@@ -1269,6 +1297,20 @@ pub fn select<G: GameState>(
         leaf_state,
         root_selection_trace: result.root_selection_trace,
     }
+}
+
+// Research-only owned descent; same native selection and materialization core.
+pub fn select_axes<G:GameState>(
+    root:&ArenaRef<MctsNode<G::Move>>,root_state:&G,c_puct:f32,noise:Option<&[f32]>,
+    pw:Option<&PwConfig>,mask:[u64;4],max_depth:usize,tt:&TranspositionTable<G::Move>,
+    exact_terminal_value:bool,fpu_reduction:f32,reserve_virtual_loss:bool,
+    par_ctrl:&super::parallel::ParallelismController,axes:&super::four_axis::Hooks,
+)->SelectResult<G>{
+    let mut leaf_state=root_state.clone();
+    let result=select_core(root,&mut leaf_state,c_puct,noise,pw,mask,max_depth,tt,None,
+        exact_terminal_value,fpu_reduction,reserve_virtual_loss,par_ctrl,Some(axes),
+        |state,mv|state.apply_move_in_place_no_undo(mv));
+    SelectResult{path:result.path,leaf:result.leaf,leaf_state,root_selection_trace:result.root_selection_trace}
 }
 
 #[inline(always)]
@@ -1303,6 +1345,7 @@ pub fn select_in_place<G: GameState>(
         fpu_reduction,
         reserve_virtual_loss,
         par_ctrl,
+        None,
         |state, mv| {
             let undo = state.apply_move_in_place(mv);
             undos.push(undo);
