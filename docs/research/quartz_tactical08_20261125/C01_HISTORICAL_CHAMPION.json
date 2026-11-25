@@ -1,0 +1,60 @@
+{
+  "selected_at": "2026-04-26 15:39:36",
+  "model_id": "F2_legacy_krefresh",
+  "model_path": "results/smoke_torch/gomoku15/models/F2_legacy_krefresh/latest.pt",
+  "run_dir": "results/smoke_torch/gomoku15/models/F2_legacy_krefresh",
+  "condition": "F2_legacy_krefresh",
+  "seed": 42,
+  "game": "gomoku15",
+  "train_cfg": {
+    "search_profile": "quartz",
+    "vl_mode": "adaptive",
+    "penalty_mode": "GatedRefreshLegacy",
+    "root_only_shaping": false,
+    "prior_refresh_rate": 0.5,
+    "prior_refresh_temp": 0.0,
+    "halt_mode": "fixed"
+  },
+  "controller_surface": {
+    "search_profile": "quartz",
+    "vl_mode": "adaptive",
+    "penalty_mode": "GatedRefreshLegacy",
+    "root_only_shaping": false,
+    "prior_refresh_rate": 0.5,
+    "prior_refresh_temp": 0.0
+  },
+  "training_metrics": {
+    "published_elo": 167.5,
+    "loss": 5.3958,
+    "games_done": 10,
+    "eval_verdict": "need_more",
+    "score_rate": 0.75,
+    "champion_elo": -167.5,
+    "elo_gap": 335.0
+  },
+  "deployment_eval_condition": null,
+  "deployment_search_cfg": {
+    "search_profile": "quartz",
+    "vl_mode": "adaptive",
+    "penalty_mode": "GatedRefreshLegacy",
+    "root_only_shaping": false,
+    "prior_refresh_rate": 0.5,
+    "prior_refresh_temp": 0.0,
+    "halt_mode": "fixed"
+  },
+  "deployment_cfg_source": "train_cfg",
+  "deployment_controller_surface": {
+    "search_profile": "quartz",
+    "vl_mode": "adaptive",
+    "penalty_mode": "GatedRefreshLegacy",
+    "root_only_shaping": false,
+    "prior_refresh_rate": 0.5,
+    "prior_refresh_temp": 0.0
+  },
+  "selection_metrics": {
+    "overall_score_rate": 0.5833333333333334,
+    "overall_points": 7.0,
+    "overall_games": 12,
+    "overall_win_rate": 0.5833333333333334
+  }
+}
