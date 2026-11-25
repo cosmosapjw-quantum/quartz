@@ -1,0 +1,141 @@
+{
+  "attempt_strata": {
+    "HARD/CAL": 242,
+    "HARD/TEST": 274,
+    "HARD/TRAIN": 96,
+    "SELFPLAY/CAL": 56,
+    "SELFPLAY/TEST": 72,
+    "SELFPLAY/TRAIN": 56,
+    "TACTICAL/CAL": 31,
+    "TACTICAL/TEST": 45,
+    "TACTICAL/TRAIN": 47
+  },
+  "b_events": 971,
+  "b_exact": 965,
+  "b_mse_independent": {
+    "MERGE": {
+      "CAL": {
+        "ci95": [
+          0.14960447995637752,
+          0.41860629766003005
+        ],
+        "events": 179,
+        "families": 32,
+        "gain": 0.28604924983478114,
+        "mse": 1.2360743035448314,
+        "mse_025": 0.9500250537100502,
+        "mse_actual_eta": 0.9882530664541157
+      },
+      "TRAIN": {
+        "ci95": [
+          0.3394046107982768,
+          0.5888796845789172
+        ],
+        "events": 219,
+        "families": 35,
+        "gain": 0.46077612316543476,
+        "mse": 1.5165851200857592,
+        "mse_025": 1.0558089969203244,
+        "mse_actual_eta": 1.1163751540410198
+      }
+    },
+    "TEMPORAL": {
+      "CAL": {
+        "ci95": [
+          0.1448736679447451,
+          0.257558078203075
+        ],
+        "events": 285,
+        "families": 36,
+        "gain": 0.1992186040165448,
+        "mse": 1.1061115355068776,
+        "mse_025": 0.9068929314903328,
+        "mse_actual_eta": 0.9279875122799947
+      },
+      "TRAIN": {
+        "ci95": [
+          0.21108564805226077,
+          0.38587047318899026
+        ],
+        "events": 288,
+        "families": 36,
+        "gain": 0.2948612266240679,
+        "mse": 1.5025314433560795,
+        "mse_025": 1.2076702167320115,
+        "mse_actual_eta": 1.2409575313779306
+      }
+    }
+  },
+  "b_split_disjoint": true,
+  "certificates_with_unsolved_value": 158,
+  "certified_stop": 154,
+  "cohort": {
+    "HARD/CAL/-1": 6,
+    "HARD/CAL/1": 6,
+    "HARD/TEST/-1": 12,
+    "HARD/TEST/1": 12,
+    "HARD/TRAIN/-1": 6,
+    "HARD/TRAIN/1": 6,
+    "SELFPLAY/CAL/-1": 6,
+    "SELFPLAY/CAL/1": 6,
+    "SELFPLAY/TEST/-1": 12,
+    "SELFPLAY/TEST/1": 12,
+    "SELFPLAY/TRAIN/-1": 6,
+    "SELFPLAY/TRAIN/1": 6,
+    "TACTICAL/CAL/-1": 6,
+    "TACTICAL/CAL/1": 6,
+    "TACTICAL/TEST/-1": 12,
+    "TACTICAL/TEST/1": 12,
+    "TACTICAL/TRAIN/-1": 6,
+    "TACTICAL/TRAIN/1": 6
+  },
+  "exposure": {
+    "graph_filtered": 588464,
+    "graph_rule_checks": 428766,
+    "graph_shared_notices": 7161,
+    "graph_solved_skips": 68048,
+    "graph_width_extra": 2475
+  },
+  "full_diagnostic_graphs": 10,
+  "graph_totals": {
+    "arcs": 4925,
+    "nodes": 4485,
+    "shared_nodes": 447,
+    "solved": 583,
+    "terminal": 313
+  },
+  "host_ok": false,
+  "known_transposition_key_equal": true,
+  "mirror_vectors": 9,
+  "native_runs": 2304,
+  "prefix_equality_comparisons": 2016,
+  "prefix_groups": 288,
+  "root_action_intervals": 7408,
+  "roots": 144,
+  "scientific_promotion": false,
+  "selfplay_events": 1704,
+  "source_attempts": 919,
+  "swap_pages_delta": {
+    "pswpin": 169,
+    "pswpout": 22477
+  },
+  "termination_counts": {
+    "HARD/TIME/CAP": 12,
+    "HARD/TIME/CERTIFIED": 9,
+    "HARD/TIME/TIME": 363,
+    "HARD/VISITS/CERTIFIED": 11,
+    "HARD/VISITS/VISITS": 373,
+    "SELFPLAY/TIME/CAP": 76,
+    "SELFPLAY/TIME/CERTIFIED": 32,
+    "SELFPLAY/TIME/TIME": 276,
+    "SELFPLAY/VISITS/CERTIFIED": 34,
+    "SELFPLAY/VISITS/VISITS": 350,
+    "TACTICAL/TIME/CAP": 95,
+    "TACTICAL/TIME/CERTIFIED": 34,
+    "TACTICAL/TIME/TIME": 255,
+    "TACTICAL/VISITS/CERTIFIED": 34,
+    "TACTICAL/VISITS/VISITS": 350
+  },
+  "test_exact": 72,
+  "valid_certificates": 580
+}
