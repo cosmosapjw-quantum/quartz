@@ -1,0 +1,23 @@
+{
+  "current_bundle_sha256": "aa0c6808042661af68c2bf999875da975749717b9c32a9e8ae2b6461b4a8144f",
+  "first_verified_remote_containing_R10": "07521e2751d88ea0da5f63462b9898086c8546fc",
+  "original_remote_error": "Internal Server Error, request ID 98C0:32F338:753ED4:BBAC93:6B070653, 2026-11-25T16:01:25Z",
+  "pre_recovery_receipts_sha256": "a4564b0bf6fab110f5705d4a8df5b5ba0f1d59a72d8ce0a5a5530536fd4c62a9",
+  "recovered_receipt": {
+    "bundle": "R10-c09b11830732.bundle",
+    "bytes": 14467,
+    "files": [
+      "docs/research/quartz_kinetic15_20261126/stages/R10.md"
+    ],
+    "head": "c09b11830732d114feb2ecef912a52db15c2ff66",
+    "parent": "4435fe02fa8e17a148f36e0ef8d96d482a7e71b3",
+    "recovery": "Original R10 push returned GitHub Internal Server Error; C01 subsequent push included exact ancestor. No R10-era remote HEAD equality claimed; current remote contains exact R10. Receipt reconstructed from surviving R10 bundle and git object.",
+    "remote": "326b33d624c95a75f17694e25a847e37dca08c26",
+    "sha256": "91636dad19bde0c88017aa0622ecabe3e4dc44deb31203e434b31d300d329bd2",
+    "stage": "R10",
+    "tree": "b3e84beab232b43b081b67b84ed63958e9e53ace",
+    "utc": "2026-11-25T16:11:17.071765+00:00"
+  },
+  "remote_final_before_correction": "326b33d624c95a75f17694e25a847e37dca08c26",
+  "scope": "No research result changed. R10 was committed and bundled before C01 but separately remote-ACK failed. Later exact ancestry and recovery verified."
+}
