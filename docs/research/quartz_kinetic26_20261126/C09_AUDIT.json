@@ -1,0 +1,140 @@
+{
+  "NN": 663448,
+  "exact_actions": 582,
+  "full_exposure": {
+    "ROOT2": {
+      "B": 0,
+      "S": 30,
+      "V": 25,
+      "X": 30,
+      "all4": 0
+    },
+    "ROOT2D": {
+      "B": 0,
+      "S": 30,
+      "V": 27,
+      "X": 30,
+      "all4": 0
+    },
+    "SERIAL": {
+      "B": 4,
+      "S": 30,
+      "V": 28,
+      "X": 30,
+      "all4": 4
+    },
+    "TREE2": {
+      "B": 3,
+      "S": 30,
+      "V": 27,
+      "X": 30,
+      "all4": 2
+    },
+    "TREE4": {
+      "B": 2,
+      "S": 30,
+      "V": 26,
+      "X": 30,
+      "all4": 1
+    },
+    "TREE8": {
+      "B": 1,
+      "S": 30,
+      "V": 2,
+      "X": 30,
+      "all4": 0
+    },
+    "WAVE4": {
+      "B": 1,
+      "S": 30,
+      "V": 27,
+      "X": 30,
+      "all4": 0
+    }
+  },
+  "method_totals": {
+    "ROOT2": {
+      "denied": 1956,
+      "peak_1": 15420,
+      "stage_lanes": 15420
+    },
+    "ROOT2D": {
+      "denied": 1874,
+      "peak_1": 15420,
+      "stage_lanes": 15420
+    },
+    "SERIAL": {
+      "denied": 821,
+      "peak_1": 7710,
+      "stage_lanes": 7710
+    },
+    "TREE2": {
+      "denied": 1466,
+      "peak_1": 11,
+      "peak_2": 7699,
+      "stage_lanes": 7710
+    },
+    "TREE4": {
+      "denied": 2672,
+      "peak_1": 5,
+      "peak_2": 19,
+      "peak_3": 75,
+      "peak_4": 7611,
+      "stage_lanes": 7710
+    },
+    "TREE8": {
+      "denied": 6464,
+      "peak_1": 7,
+      "peak_2": 14,
+      "peak_3": 22,
+      "peak_4": 43,
+      "peak_5": 84,
+      "peak_6": 137,
+      "peak_7": 306,
+      "peak_8": 7097,
+      "stage_lanes": 7710
+    },
+    "WAVE4": {
+      "denied": 2585,
+      "peak_1": 5,
+      "peak_2": 20,
+      "peak_3": 69,
+      "peak_4": 7616,
+      "stage_lanes": 7710
+    }
+  },
+  "oracle_nodes": 1955882,
+  "requests": 26985,
+  "roots": 100,
+  "scope": "Independent source grid and WDL sign readback, exact rational backward regressions, CAL actual choices and TEST repeated statistics, raw per-lane budget and chronology. Not independent CNN or solver rerun.",
+  "source_NN": 64761,
+  "source_attempts": 300,
+  "source_counts": {
+    "BLOCK": 839,
+    "N32": 2183,
+    "UNIFORM": 739,
+    "WIN": 226
+  },
+  "source_locks": 54,
+  "source_plies": 3987,
+  "stage_lanes": 69390,
+  "statuses": {
+    "EXACT": 100
+  },
+  "totals": {
+    "NN_target": 67479,
+    "blocked": 634,
+    "cap": 1911,
+    "denied": 17838,
+    "repeat": 0,
+    "reserved_unused": 5873,
+    "transferred": 1164
+  },
+  "trace_blocked": 0,
+  "trace_edges": 660,
+  "trace_iterations": 320,
+  "trace_lanes": 18,
+  "trace_receipts": 0,
+  "trace_requests": 14,
+  "visits": 750380
+}
