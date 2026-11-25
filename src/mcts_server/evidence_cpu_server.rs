@@ -219,26 +219,82 @@ fn k22_run(engine:&MctsEngine<Connect4>,q:&Req,proof:&[(usize,f64,f64)])->Result
       "forced":target.map(|(_,m)|m),"incremental_nn":inc,"goal_nn":goal,"cause":if cert.is_some(){"CERTIFIED"}else if inc==12{"NN_TARGET"}else{"VISIT_CAP"},
       "proof":proof,"core_us":core_us,"result":engine.four_axis_snapshot()}))
 }
+// K23: two sequential matched-NN root interventions, recompute panel at midpoint.
 #[derive(Deserialize)]
 #[serde(deny_unknown_fields)]
-struct Req{cmd:String,history:String,arm:String,cap:u32,seed:u64,model_path:String,model_identity:String,#[serde(default)]controller:Option<Controller>,#[serde(default)]nn_budget:Option<u64>,#[serde(default)]tail_budget_us:Option<u64>,#[serde(default)]seq_table:Option<[[f64;8];7]>,#[serde(default)]causal_table:Option<[usize;8]>}
+struct H2Policy{first:[usize;8],second:[[usize;8];3]}
+fn h2_panel(r:&crate::mcts::four_axis::LiteRoot)->[usize;3]{
+    let a=r.moves[..r.len].iter().position(|&m|m==r.best).unwrap();
+    let b=(0..r.len).filter(|&i|i!=a).max_by_key(|&i|(r.n[i],std::cmp::Reverse(i))).unwrap();
+    let c=(0..r.len).find(|&i|i!=a&&i!=b).unwrap();[a,b,c]
+}
+fn k23_run(engine:&MctsEngine<Connect4>,q:&Req,proof:&[(usize,f64,f64)])->Result<Value,String>{
+    let mut h=Hooks::new_modes(0,0,0,false);let core=Instant::now();
+    engine.four_axis_block(8,1,&h);
+    let pre=engine.four_axis_lite();let p=k21_state(pre.clone(),None);
+    let mut states=vec![p];let mut pulses=Vec::with_capacity(2);let mut chosen=[0usize;2];
+    let mut panels=[[0usize;3];2];let mut forced=[None;2];let mut inc=[0u64;2];let mut causes=["";2];
+    let mut cur=pre;let mut visits=8u32;let cert=certified(proof);
+    for t in 0..2{
+        let bin=states.last().unwrap().bin;
+        let c=if let Some(path)=q.h2_path{path[t]}else{
+            let m=q.h2_table.as_ref().unwrap();
+            if t==0{m.first[bin]}else{m.second[chosen[0]][bin]}
+        };
+        chosen[t]=c;let panel=h2_panel(&cur);panels[t]=panel.map(|i|cur.moves[i]);
+        let target=if c==0{None}else{Some((panel[c],panels[t][c]))};
+        forced[t]=target.map(|(_,m)|m);let goal=cur.nn+6;let cap=if t==0{64}else{128};
+        let start=visits;let stop=(visits+4).min(cap);
+        if cert.is_none() && visits<cap {
+            h.set_decision_force(target,visits,stop);
+            while visits<stop&&engine.evaluator_call_count()<goal{engine.four_axis_block(1,1,&h);visits+=1;}
+        }
+        let pulse=engine.four_axis_lite();
+        if cert.is_none(){if let Some((j,_))=target{assert_eq!(pulse.n[j]-cur.n[j],visits-start);}}
+        pulses.push(pulse);
+        if cert.is_none(){
+            h.set_decision_force(None,visits,cap);
+            while visits<cap&&engine.evaluator_call_count()<goal{engine.four_axis_block(1,1,&h);visits+=1;}
+        }
+        let end=engine.four_axis_lite();inc[t]=end.nn-cur.nn;assert!(inc[t]<=6);
+        causes[t]=if cert.is_some(){"CERTIFIED"}else if inc[t]==6{"NN_TARGET"}else{"VISIT_CAP"};
+        states.push(k21_state(end.clone(),Some(&cur)));cur=end;
+    }
+    let core_us=core.elapsed().as_micros();let best=cert.unwrap_or(cur.best);
+    Ok(json!({"states":states,"pulses":pulses,"chosen":chosen,"panels":panels,"forced":forced,
+        "incremental_nn":inc,"causes":causes,"visits":visits,"best":best,"proof":proof,"core_us":core_us,"result":engine.four_axis_snapshot()}))
+}
+#[derive(Deserialize)]
+#[serde(deny_unknown_fields)]
+struct Req{cmd:String,history:String,arm:String,cap:u32,seed:u64,model_path:String,model_identity:String,#[serde(default)]controller:Option<Controller>,#[serde(default)]nn_budget:Option<u64>,#[serde(default)]tail_budget_us:Option<u64>,#[serde(default)]seq_table:Option<[[f64;8];7]>,#[serde(default)]causal_table:Option<[usize;8]>,#[serde(default)]h2_path:Option<[usize;2]>,#[serde(default)]h2_table:Option<H2Policy>}
 fn inner(line:&str)->Result<Value,String>{
     let start=Instant::now();let q:Req=serde_json::from_str(line).map_err(|e|e.to_string())?;
     let k20=matches!(q.arm.as_str(),"K20LIVE"|"K20N64"|"K20MATCH"|"K20MATCHX"|"K20TIME");
     let k21=matches!(q.arm.as_str(),"K21TRACE"|"K21LIVE"|"K21MATCH"|"K21TIME");
     let k22=matches!(q.arm.as_str(),"K22N"|"K22F"|"K22X"|"K22LIVE");
-    if q.cmd!="research_connect4_evidence_cpu"||(!k20&&!k21&&!k22&&!matches!(q.arm.as_str(),"K16N"|"K16BAL"|"K16REV"|"K17EXP"))||![32,64].contains(&q.cap){return Err("bad contract".into());}
-    if (k20||k21||k22)&&q.cap!=64 || (q.arm=="K20LIVE")!=q.controller.is_some() || q.controller.as_ref().is_some_and(|m|!m.valid()) ||
+    let k23=matches!(q.arm.as_str(),"K23PATH"|"K23LIVE");
+    if q.cmd!="research_connect4_evidence_cpu"||(!k20&&!k21&&!k22&&!k23&&!matches!(q.arm.as_str(),"K16N"|"K16BAL"|"K16REV"|"K17EXP"))||![32,64].contains(&q.cap){return Err("bad contract".into());}
+    if (k20||k21||k22||k23)&&q.cap!=64 || (q.arm=="K20LIVE")!=q.controller.is_some() || q.controller.as_ref().is_some_and(|m|!m.valid()) ||
         matches!(q.arm.as_str(),"K20MATCH"|"K20MATCHX"|"K21MATCH")!=q.nn_budget.is_some() || q.nn_budget.is_some_and(|n|n==0||n>65) ||
         matches!(q.arm.as_str(),"K20TIME"|"K21TIME")!=q.tail_budget_us.is_some() || q.tail_budget_us.is_some_and(|n|n>1000000){return Err("bad K20/K21 controller/budget".into());}
     if (q.arm=="K21LIVE")!=q.seq_table.is_some() || q.seq_table.as_ref().is_some_and(|t|t.iter().flatten().any(|x|!x.is_finite()||x.abs()>2.)){return Err("bad K21 table".into());}
     if (q.arm=="K22LIVE")!=q.causal_table.is_some() || q.causal_table.as_ref().is_some_and(|t|t.iter().any(|&x|x>2)){return Err("bad causal table".into());}
+    if (q.arm=="K23PATH")!=q.h2_path.is_some() || (q.arm=="K23LIVE")!=q.h2_table.is_some() ||
+       q.h2_path.as_ref().is_some_and(|p|p.iter().any(|&v|v>2)) ||
+       q.h2_table.as_ref().is_some_and(|p|p.first.iter().chain(p.second.iter().flatten()).any(|&v|v>2)){return Err("bad H2 policy/path".into());}
     let state=Connect4::from_history(&q.history)?;let legal=state.legal_moves();
     if state.is_terminal()||legal.len()<2{return Err("terminal or singleton root".into());}
-    if (q.arm=="K17EXP"||k20||k21||k22)&&legal.len()<3{return Err("expansion requires three legal moves".into());}
+    if (q.arm=="K17EXP"||k20||k21||k22||k23)&&legal.len()<3{return Err("expansion requires three legal moves".into());}
     let (ev,hit)=model_for_root("conv3x3",Some(&q.model_path),Some(&q.model_identity),true)?;
     let mut cfg=MctsConfig::evaluation(2.).with_seed(q.seed);cfg.root_forced_win=false;cfg.dirichlet=None;cfg.temperature=0.;cfg.quartz=None;
     let engine=MctsEngine::new(state.clone(),ev,cfg);
+    if k23 {
+        let proof=proof_intervals(&state);
+        let mut out=k23_run(&engine,&q,&proof)?;
+        let calls=engine.evaluator_call_count();drop(engine);
+        out.as_object_mut().unwrap().extend(json!({"schema":"quartz_k23_c4_v1","history":q.history,"arm":q.arm,"cap":q.cap,"seed":q.seed,"legal":legal,"model_identity":q.model_identity,"cache_hit":hit,"NN_calls":calls,"whole_us":start.elapsed().as_micros()}).as_object().unwrap().clone());
+        return Ok(out);
+    }
     if k22 {
         let proof=proof_intervals(&state);
         let mut out=k22_run(&engine,&q,&proof)?;
