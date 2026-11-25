@@ -28,7 +28,7 @@ def publish(stage,body,paths=()):
     run('git','bundle','verify',str(bundle))
     assert git('bundle','list-heads',str(bundle)).split()[0]==head
     digest=sha(bundle)
-    run('git','push','origin',f'HEAD:refs/heads/{BR}')
+    run('git','push','--no-thin','origin',f'HEAD:refs/heads/{BR}')
     remote=git('ls-remote','origin',f'refs/heads/{BR}').split()[0]; assert remote==head
     receipt={'stage':stage,'head':head,'parent':parent,'tree':tree,'remote':remote,'bundle':name,'sha256':digest,'bytes':bundle.stat().st_size,'utc':datetime.datetime.now(datetime.timezone.utc).isoformat(),'files':files}
     latest=B/'LATEST.json'; old=json.loads(latest.read_text()) if latest.exists() else None
