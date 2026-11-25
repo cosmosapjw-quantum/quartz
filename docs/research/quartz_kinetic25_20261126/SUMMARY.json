@@ -1,0 +1,3438 @@
+{
+  "methods": {
+    "ROOT2": {
+      "arms": [
+        {
+          "CPU_ms": 5.307145526315789,
+          "NN": 79.36842105263158,
+          "counts": {
+            "applied": 0,
+            "base_evals": 940,
+            "blocked_receipt": 0,
+            "changed": 0,
+            "eligible": 470,
+            "eval_changed": 0,
+            "extra_evals": 0,
+            "novel": 470,
+            "refinements": 0,
+            "repeated_delivery": 0,
+            "select_changed": 0,
+            "select_nodes": 0,
+            "terminal_leaves": 884,
+            "transferred": 0,
+            "width_mass_added": 0,
+            "width_nodes": 0,
+            "width_realized": 0
+          },
+          "identical_replica_roots": 19,
+          "n": 19,
+          "net": 0.49915789473684213,
+          "peak2": 0,
+          "peak_count": 38,
+          "regret": 0.0,
+          "root_overlap_us": 1115.6842105263158,
+          "tail_ms": 1.2109473684210526,
+          "utility": 0.6578947368421053,
+          "wall_ms": 3.625326105263158,
+          "work_ns_per_root": [
+            44602.21052631579,
+            33648.15789473684,
+            2086397.5789473683,
+            154643.73684210525
+          ],
+          "worker_masks": {
+            "1": 19,
+            "2": 19
+          }
+        },
+        {
+          "CPU_ms": 5.359449157894737,
+          "NN": 81.89473684210526,
+          "counts": {
+            "applied": 0,
+            "base_evals": 988,
+            "blocked_receipt": 0,
+            "changed": 0,
+            "eligible": 432,
+            "eval_changed": 0,
+            "extra_evals": 0,
+            "novel": 432,
+            "refinements": 0,
+            "repeated_delivery": 0,
+            "select_changed": 5652,
+            "select_nodes": 6668,
+            "terminal_leaves": 836,
+            "transferred": 0,
+            "width_mass_added": 0,
+            "width_nodes": 0,
+            "width_realized": 0
+          },
+          "identical_replica_roots": 19,
+          "n": 19,
+          "net": 0.46778947368421053,
+          "peak2": 0,
+          "peak_count": 38,
+          "regret": 0.02631578947368421,
+          "root_overlap_us": 1185.1052631578948,
+          "tail_ms": 1.3587368421052632,
+          "utility": 0.631578947368421,
+          "wall_ms": 3.5982036842105263,
+          "work_ns_per_root": [
+            74631.05263157895,
+            39539.26315789474,
+            2270830.5789473685,
+            152065.94736842104
+          ],
+          "worker_masks": {
+            "1": 19,
+            "2": 19
+          }
+        },
+        {
+          "CPU_ms": 5.594291842105263,
+          "NN": 84.21052631578948,
+          "counts": {
+            "applied": 0,
+            "base_evals": 1032,
+            "blocked_receipt": 0,
+            "changed": 0,
+            "eligible": 234,
+            "eval_changed": 0,
+            "extra_evals": 0,
+            "novel": 234,
+            "refinements": 0,
+            "repeated_delivery": 0,
+            "select_changed": 0,
+            "select_nodes": 0,
+            "terminal_leaves": 792,
+            "transferred": 0,
+            "width_mass_added": 630,
+            "width_nodes": 6568,
+            "width_realized": 1180
+          },
+          "identical_replica_roots": 19,
+          "n": 19,
+          "net": 0.48947368421052634,
+          "peak2": 0,
+          "peak_count": 38,
+          "regret": 0.0,
+          "root_overlap_us": 1210.3684210526317,
+          "tail_ms": 1.4651578947368422,
+          "utility": 0.6578947368421053,
+          "wall_ms": 3.856129842105263,
+          "work_ns_per_root": [
+            57565.42105263158,
+            43458.73684210526,
+            2338612.5789473685,
+            148308.05263157896
+          ],
+          "worker_masks": {
+            "1": 19,
+            "2": 19
+          }
+        },
+        {
+          "CPU_ms": 5.373321684210526,
+          "NN": 86.52631578947368,
+          "counts": {
+            "applied": 0,
+            "base_evals": 1076,
+            "blocked_receipt": 0,
+            "changed": 0,
+            "eligible": 292,
+            "eval_changed": 0,
+            "extra_evals": 0,
+            "novel": 292,
+            "refinements": 0,
+            "repeated_delivery": 0,
+            "select_changed": 6324,
+            "select_nodes": 6412,
+            "terminal_leaves": 748,
+            "transferred": 0,
+            "width_mass_added": 640,
+            "width_nodes": 6412,
+            "width_realized": 1224
+          },
+          "identical_replica_roots": 19,
+          "n": 19,
+          "net": 0.4848421052631579,
+          "peak2": 0,
+          "peak_count": 38,
+          "regret": 0.0,
+          "root_overlap_us": 1208.8947368421052,
+          "tail_ms": 1.338421052631579,
+          "utility": 0.6578947368421053,
+          "wall_ms": 3.6013624736842105,
+          "work_ns_per_root": [
+            80977.94736842105,
+            42183.52631578947,
+            2275883.5263157897,
+            143674.52631578947
+          ],
+          "worker_masks": {
+            "1": 19,
+            "2": 19
+          }
+        },
+        {
+          "CPU_ms": 6.495172789473684,
+          "NN": 103.36842105263158,
+          "counts": {
+            "applied": 0,
+            "base_evals": 990,
+            "blocked_receipt": 0,
+            "changed": 0,
+            "eligible": 344,
+            "eval_changed": 242,
+            "extra_evals": 406,
+            "novel": 344,
+            "refinements": 242,
+            "repeated_delivery": 0,
+            "select_changed": 0,
+            "select_nodes": 0,
+            "terminal_leaves": 834,
+            "transferred": 0,
+            "width_mass_added": 0,
+            "width_nodes": 0,
+            "width_realized": 0
+          },
+          "identical_replica_roots": 19,
+          "n": 19,
+          "net": 0.4248421052631579,
+          "peak2": 0,
+          "peak_count": 38,
+          "regret": 0.02631578947368421,
+          "root_overlap_us": 1569.578947368421,
+          "tail_ms": 1.7882105263157895,
+          "utility": 0.631578947368421,
+          "wall_ms": 4.324401684210526,
+          "work_ns_per_root": [
+            45886.26315789474,
+            38321.84210526316,
+            3110778.4210526315,
+            155564.68421052632
+          ],
+          "worker_masks": {
+            "1": 19,
+            "2": 19
+          }
+        },
+        {
+          "CPU_ms": 6.4403082631578945,
+          "NN": 107.78947368421052,
+          "counts": {
+            "applied": 0,
+            "base_evals": 1042,
+            "blocked_receipt": 0,
+            "changed": 0,
+            "eligible": 308,
+            "eval_changed": 256,
+            "extra_evals": 438,
+            "novel": 308,
+            "refinements": 256,
+            "repeated_delivery": 0,
+            "select_changed": 5524,
+            "select_nodes": 6540,
+            "terminal_leaves": 782,
+            "transferred": 0,
+            "width_mass_added": 0,
+            "width_nodes": 0,
+            "width_realized": 0
+          },
+          "identical_replica_roots": 19,
+          "n": 19,
+          "net": 0.416,
+          "peak2": 0,
+          "peak_count": 38,
+          "regret": 0.02631578947368421,
+          "root_overlap_us": 1688,
+          "tail_ms": 1.8308947368421054,
+          "utility": 0.631578947368421,
+          "wall_ms": 4.115988105263158,
+          "work_ns_per_root": [
+            69377.63157894737,
+            36947.94736842105,
+            3257510.052631579,
+            145495.8947368421
+          ],
+          "worker_masks": {
+            "1": 19,
+            "2": 19
+          }
+        },
+        {
+          "CPU_ms": 7.145134105263158,
+          "NN": 111.26315789473684,
+          "counts": {
+            "applied": 0,
+            "base_evals": 1112,
+            "blocked_receipt": 0,
+            "changed": 0,
+            "eligible": 276,
+            "eval_changed": 256,
+            "extra_evals": 434,
+            "novel": 276,
+            "refinements": 256,
+            "repeated_delivery": 0,
+            "select_changed": 0,
+            "select_nodes": 0,
+            "terminal_leaves": 712,
+            "transferred": 0,
+            "width_mass_added": 736,
+            "width_nodes": 6554,
+            "width_realized": 1422
+          },
+          "identical_replica_roots": 19,
+          "n": 19,
+          "net": 0.43536842105263157,
+          "peak2": 0,
+          "peak_count": 38,
+          "regret": 0.0,
+          "root_overlap_us": 1795.9473684210527,
+          "tail_ms": 2.031473684210526,
+          "utility": 0.6578947368421053,
+          "wall_ms": 4.709486263157895,
+          "work_ns_per_root": [
+            65000.31578947369,
+            50074.94736842105,
+            3552626.3157894737,
+            158289.84210526315
+          ],
+          "worker_masks": {
+            "1": 19,
+            "2": 19
+          }
+        },
+        {
+          "CPU_ms": 6.915550947368421,
+          "NN": 114.84210526315789,
+          "counts": {
+            "applied": 0,
+            "base_evals": 1162,
+            "blocked_receipt": 0,
+            "changed": 0,
+            "eligible": 276,
+            "eval_changed": 268,
+            "extra_evals": 452,
+            "novel": 276,
+            "refinements": 268,
+            "repeated_delivery": 0,
+            "select_changed": 6208,
+            "select_nodes": 6272,
+            "terminal_leaves": 662,
+            "transferred": 0,
+            "width_mass_added": 716,
+            "width_nodes": 6272,
+            "width_realized": 1398
+          },
+          "identical_replica_roots": 19,
+          "n": 19,
+          "net": 0.4282105263157895,
+          "peak2": 0,
+          "peak_count": 38,
+          "regret": 0.0,
+          "root_overlap_us": 1816.0526315789473,
+          "tail_ms": 2.0339473684210527,
+          "utility": 0.6578947368421053,
+          "wall_ms": 4.495038368421053,
+          "work_ns_per_root": [
+            85389.8947368421,
+            46078.31578947369,
+            3571724.5263157897,
+            144417.84210526315
+          ],
+          "worker_masks": {
+            "1": 19,
+            "2": 19
+          }
+        },
+        {
+          "CPU_ms": 5.069133,
+          "NN": 80.52631578947368,
+          "counts": {
+            "applied": 68,
+            "base_evals": 962,
+            "blocked_receipt": 212,
+            "changed": 68,
+            "eligible": 482,
+            "eval_changed": 0,
+            "extra_evals": 0,
+            "novel": 270,
+            "refinements": 0,
+            "repeated_delivery": 0,
+            "select_changed": 0,
+            "select_nodes": 0,
+            "terminal_leaves": 862,
+            "transferred": 98,
+            "width_mass_added": 0,
+            "width_nodes": 0,
+            "width_realized": 0
+          },
+          "identical_replica_roots": 19,
+          "n": 19,
+          "net": 0.4968421052631579,
+          "peak2": 0,
+          "peak_count": 38,
+          "regret": 0.0,
+          "root_overlap_us": 1076.5263157894738,
+          "tail_ms": 1.1843157894736842,
+          "utility": 0.6578947368421053,
+          "wall_ms": 3.453166052631579,
+          "work_ns_per_root": [
+            43544.26315789474,
+            34322.21052631579,
+            2026055.7368421052,
+            147613.68421052632
+          ],
+          "worker_masks": {
+            "1": 19,
+            "2": 19
+          }
+        },
+        {
+          "CPU_ms": 5.375085263157895,
+          "NN": 81.26315789473684,
+          "counts": {
+            "applied": 84,
+            "base_evals": 976,
+            "blocked_receipt": 226,
+            "changed": 84,
+            "eligible": 486,
+            "eval_changed": 0,
+            "extra_evals": 0,
+            "novel": 260,
+            "refinements": 0,
+            "repeated_delivery": 0,
+            "select_changed": 5694,
+            "select_nodes": 6750,
+            "terminal_leaves": 848,
+            "transferred": 126,
+            "width_mass_added": 0,
+            "width_nodes": 0,
+            "width_realized": 0
+          },
+          "identical_replica_roots": 19,
+          "n": 19,
+          "net": 0.49536842105263157,
+          "peak2": 0,
+          "peak_count": 38,
+          "regret": 0.0,
+          "root_overlap_us": 1121.8947368421052,
+          "tail_ms": 1.2908947368421053,
+          "utility": 0.6578947368421053,
+          "wall_ms": 3.666195894736842,
+          "work_ns_per_root": [
+            72670.0,
+            37226.10526315789,
+            2144256.5789473685,
+            150593.57894736843
+          ],
+          "worker_masks": {
+            "1": 19,
+            "2": 19
+          }
+        },
+        {
+          "CPU_ms": 5.78272352631579,
+          "NN": 84.52631578947368,
+          "counts": {
+            "applied": 70,
+            "base_evals": 1038,
+            "blocked_receipt": 100,
+            "changed": 70,
+            "eligible": 264,
+            "eval_changed": 0,
+            "extra_evals": 0,
+            "novel": 164,
+            "refinements": 0,
+            "repeated_delivery": 0,
+            "select_changed": 0,
+            "select_nodes": 0,
+            "terminal_leaves": 786,
+            "transferred": 74,
+            "width_mass_added": 638,
+            "width_nodes": 6598,
+            "width_realized": 1196
+          },
+          "identical_replica_roots": 19,
+          "n": 19,
+          "net": 0.4888421052631579,
+          "peak2": 0,
+          "peak_count": 38,
+          "regret": 0.0,
+          "root_overlap_us": 1161.6842105263158,
+          "tail_ms": 1.2523157894736843,
+          "utility": 0.6578947368421053,
+          "wall_ms": 4.024317421052632,
+          "work_ns_per_root": [
+            56590.78947368421,
+            44265.42105263158,
+            2162961.052631579,
+            147068.47368421053
+          ],
+          "worker_masks": {
+            "1": 19,
+            "2": 19
+          }
+        },
+        {
+          "CPU_ms": 5.637893789473684,
+          "NN": 85.57894736842105,
+          "counts": {
+            "applied": 76,
+            "base_evals": 1058,
+            "blocked_receipt": 136,
+            "changed": 76,
+            "eligible": 316,
+            "eval_changed": 0,
+            "extra_evals": 0,
+            "novel": 180,
+            "refinements": 0,
+            "repeated_delivery": 0,
+            "select_changed": 6320,
+            "select_nodes": 6406,
+            "terminal_leaves": 766,
+            "transferred": 78,
+            "width_mass_added": 640,
+            "width_nodes": 6406,
+            "width_realized": 1226
+          },
+          "identical_replica_roots": 19,
+          "n": 19,
+          "net": 0.4867368421052632,
+          "peak2": 0,
+          "peak_count": 38,
+          "regret": 0.0,
+          "root_overlap_us": 1211.157894736842,
+          "tail_ms": 1.398421052631579,
+          "utility": 0.6578947368421053,
+          "wall_ms": 3.857101105263158,
+          "work_ns_per_root": [
+            87770.05263157895,
+            45291.73684210526,
+            2321657.052631579,
+            151176.0
+          ],
+          "worker_masks": {
+            "1": 19,
+            "2": 19
+          }
+        },
+        {
+          "CPU_ms": 6.429359210526316,
+          "NN": 103.15789473684211,
+          "counts": {
+            "applied": 72,
+            "base_evals": 996,
+            "blocked_receipt": 142,
+            "changed": 72,
+            "eligible": 372,
+            "eval_changed": 236,
+            "extra_evals": 396,
+            "novel": 230,
+            "refinements": 236,
+            "repeated_delivery": 0,
+            "select_changed": 0,
+            "select_nodes": 0,
+            "terminal_leaves": 828,
+            "transferred": 90,
+            "width_mass_added": 0,
+            "width_nodes": 0,
+            "width_realized": 0
+          },
+          "identical_replica_roots": 19,
+          "n": 19,
+          "net": 0.42526315789473684,
+          "peak2": 0,
+          "peak_count": 38,
+          "regret": 0.02631578947368421,
+          "root_overlap_us": 1620.0526315789473,
+          "tail_ms": 1.805421052631579,
+          "utility": 0.631578947368421,
+          "wall_ms": 4.159141157894737,
+          "work_ns_per_root": [
+            46549.21052631579,
+            40039.42105263158,
+            3172278.6315789474,
+            158696.63157894736
+          ],
+          "worker_masks": {
+            "1": 19,
+            "2": 19
+          }
+        },
+        {
+          "CPU_ms": 6.406627684210527,
+          "NN": 107.36842105263158,
+          "counts": {
+            "applied": 68,
+            "base_evals": 1038,
+            "blocked_receipt": 150,
+            "changed": 68,
+            "eligible": 348,
+            "eval_changed": 254,
+            "extra_evals": 434,
+            "novel": 198,
+            "refinements": 254,
+            "repeated_delivery": 0,
+            "select_changed": 5548,
+            "select_nodes": 6578,
+            "terminal_leaves": 786,
+            "transferred": 84,
+            "width_mass_added": 0,
+            "width_nodes": 0,
+            "width_realized": 0
+          },
+          "identical_replica_roots": 19,
+          "n": 19,
+          "net": 0.4168421052631579,
+          "peak2": 0,
+          "peak_count": 38,
+          "regret": 0.02631578947368421,
+          "root_overlap_us": 1650.421052631579,
+          "tail_ms": 1.8749473684210527,
+          "utility": 0.631578947368421,
+          "wall_ms": 4.441332789473684,
+          "work_ns_per_root": [
+            70487.05263157895,
+            38066.89473684211,
+            3257558.789473684,
+            151460.7894736842
+          ],
+          "worker_masks": {
+            "1": 19,
+            "2": 19
+          }
+        },
+        {
+          "CPU_ms": 6.391307,
+          "NN": 111.36842105263158,
+          "counts": {
+            "applied": 80,
+            "base_evals": 1112,
+            "blocked_receipt": 128,
+            "changed": 80,
+            "eligible": 298,
+            "eval_changed": 256,
+            "extra_evals": 436,
+            "novel": 170,
+            "refinements": 256,
+            "repeated_delivery": 0,
+            "select_changed": 0,
+            "select_nodes": 0,
+            "terminal_leaves": 712,
+            "transferred": 98,
+            "width_mass_added": 734,
+            "width_nodes": 6518,
+            "width_realized": 1422
+          },
+          "identical_replica_roots": 19,
+          "n": 19,
+          "net": 0.43515789473684213,
+          "peak2": 0,
+          "peak_count": 38,
+          "regret": 0.0,
+          "root_overlap_us": 1675.5263157894738,
+          "tail_ms": 1.8491578947368421,
+          "utility": 0.6578947368421053,
+          "wall_ms": 4.146449684210526,
+          "work_ns_per_root": [
+            59799.15789473684,
+            46869.52631578947,
+            3267924.6842105263,
+            148088.84210526315
+          ],
+          "worker_masks": {
+            "1": 19,
+            "2": 19
+          }
+        },
+        {
+          "CPU_ms": 6.906432263157895,
+          "NN": 114.10526315789474,
+          "counts": {
+            "applied": 76,
+            "base_evals": 1152,
+            "blocked_receipt": 126,
+            "changed": 76,
+            "eligible": 296,
+            "eval_changed": 266,
+            "extra_evals": 448,
+            "novel": 170,
+            "refinements": 266,
+            "repeated_delivery": 0,
+            "select_changed": 6216,
+            "select_nodes": 6278,
+            "terminal_leaves": 672,
+            "transferred": 90,
+            "width_mass_added": 716,
+            "width_nodes": 6278,
+            "width_realized": 1406
+          },
+          "identical_replica_roots": 19,
+          "n": 19,
+          "net": 0.4296842105263158,
+          "peak2": 0,
+          "peak_count": 38,
+          "regret": 0.0,
+          "root_overlap_us": 1840.421052631579,
+          "tail_ms": 1.938736842105263,
+          "utility": 0.6578947368421053,
+          "wall_ms": 4.491965894736842,
+          "work_ns_per_root": [
+            86285.57894736843,
+            48652.94736842105,
+            3496823.6842105263,
+            145983.0
+          ],
+          "worker_masks": {
+            "1": 19,
+            "2": 19
+          }
+        }
+      ],
+      "factorial_U": {
+        "beta": [
+          0.649671052631579,
+          -0.0016447368421052683,
+          0.008223684210526341,
+          0.0016447368421052683,
+          -0.004934210526315805,
+          0.0016447368421052683,
+          0.004934210526315805,
+          -0.0016447368421052683,
+          0.0016447368421052683,
+          0.0016447368421052683,
+          -0.0016447368421052683,
+          -0.0016447368421052683,
+          -0.0016447368421052683,
+          -0.0016447368421052683,
+          0.0016447368421052683,
+          0.0016447368421052683
+        ],
+        "full_minus_base": 0.0,
+        "leaveout": {
+          "B": 0.0,
+          "S": 0.0,
+          "V": 0.0,
+          "X": 0.026315789473684292
+        },
+        "main": {
+          "B": 0.0032894736842105365,
+          "S": -0.0032894736842105365,
+          "V": -0.00986842105263161,
+          "X": 0.016447368421052683
+        },
+        "pair": {
+          "SB": 0.006578947368421073,
+          "SV": 0.006578947368421073,
+          "SX": 0.006578947368421073,
+          "VB": -0.006578947368421073,
+          "XB": -0.006578947368421073,
+          "XV": 0.01973684210526322
+        }
+      },
+      "factorial_net": {
+        "beta": [
+          0.45752631578947367,
+          -0.004342105263157901,
+          0.0022631578947368454,
+          0.0019210526315789518,
+          -0.031105263157894743,
+          0.0006052631578947372,
+          0.003421052631578946,
+          -0.001342105263157898,
+          0.0018157894736842116,
+          0.002157894736842105,
+          -0.0014999999999999979,
+          -0.0016315789473684249,
+          -0.0014999999999999979,
+          -0.001894736842105265,
+          0.0014999999999999979,
+          0.0017894736842105179
+        ],
+        "full_minus_base": -0.06947368421052635,
+        "leaveout": {
+          "B": 0.0014736842105262937,
+          "S": -0.005473684210526353,
+          "V": -0.05705263157894741,
+          "X": 0.012842105263157877
+        },
+        "main": {
+          "B": 0.003631578947368423,
+          "S": -0.008684210526315801,
+          "V": -0.06221052631578949,
+          "X": 0.004526315789473691
+        },
+        "pair": {
+          "SB": 0.00863157894736842,
+          "SV": 0.002421052631578949,
+          "SX": 0.007684210526315807,
+          "VB": -0.0059999999999999915,
+          "XB": -0.0059999999999999915,
+          "XV": 0.013684210526315785
+        }
+      },
+      "full_vs_base": {
+        "better": 0,
+        "ci": [
+          0.0,
+          0.0
+        ],
+        "gain": 0.0,
+        "net": -0.06947368421052633,
+        "worse": 0
+      },
+      "live": {
+        "CPU_ms": 5.335467,
+        "NN": 79.36842105263158,
+        "counts": {
+          "applied": 0,
+          "base_evals": 940,
+          "blocked_receipt": 0,
+          "changed": 0,
+          "eligible": 470,
+          "eval_changed": 0,
+          "extra_evals": 0,
+          "novel": 470,
+          "refinements": 0,
+          "repeated_delivery": 0,
+          "select_changed": 0,
+          "select_nodes": 0,
+          "terminal_leaves": 884,
+          "transferred": 0,
+          "width_mass_added": 0,
+          "width_nodes": 0,
+          "width_realized": 0
+        },
+        "identical_replica_roots": 19,
+        "n": 19,
+        "net": 0.49915789473684213,
+        "peak2": 0,
+        "peak_count": 38,
+        "regret": 0.0,
+        "root_overlap_us": 1083.4736842105262,
+        "tail_ms": 1.2707368421052632,
+        "utility": 0.6578947368421053,
+        "wall_ms": 3.621004842105263,
+        "work_ns_per_root": [
+          45312.57894736842,
+          35617.68421052631,
+          2109959.789473684,
+          155030.31578947368
+        ],
+        "worker_masks": {
+          "1": 19,
+          "2": 19
+        }
+      },
+      "live_profiles": {
+        "0": 19
+      },
+      "live_vs_base": {
+        "better": 0,
+        "ci": [
+          0.0,
+          0.0
+        ],
+        "gain": 0.0,
+        "net": 0.0,
+        "worse": 0
+      },
+      "matched_full_base": 0,
+      "repeats": {
+        "base": {
+          "NN_sd": 0.0,
+          "best_disagree": 0,
+          "mean_js": 0.0,
+          "net_sd": 0.0,
+          "utility_sd": 0.0,
+          "wall_sd_ms": 0.49877630520460037
+        },
+        "full": {
+          "NN_sd": 0.0,
+          "best_disagree": 0,
+          "mean_js": 0.0,
+          "net_sd": 0.0,
+          "utility_sd": 0.0,
+          "wall_sd_ms": 0.7998838480711795
+        },
+        "live": {
+          "NN_sd": 0.0,
+          "best_disagree": 0,
+          "mean_js": 0.0,
+          "net_sd": 0.0,
+          "utility_sd": 0.0,
+          "wall_sd_ms": 0.58247317564882
+        }
+      },
+      "schedule_base_U_vs_serial": 0.0,
+      "schedule_full_U_vs_serial": 0.026315789473684292,
+      "schedule_interaction_full_U": 0.02631578947368421,
+      "schedule_interaction_full_net": 0.010210526315789462
+    },
+    "SERIAL": {
+      "arms": [
+        {
+          "CPU_ms": 3.2317974736842103,
+          "NN": 62.63157894736842,
+          "counts": {
+            "applied": 0,
+            "base_evals": 704,
+            "blocked_receipt": 0,
+            "changed": 0,
+            "eligible": 769,
+            "eval_changed": 0,
+            "extra_evals": 0,
+            "novel": 769,
+            "refinements": 0,
+            "repeated_delivery": 0,
+            "select_changed": 0,
+            "select_nodes": 0,
+            "terminal_leaves": 1120,
+            "transferred": 0,
+            "width_mass_added": 0,
+            "width_nodes": 0,
+            "width_realized": 0
+          },
+          "identical_replica_roots": 0,
+          "n": 19,
+          "net": 0.5326315789473685,
+          "peak2": 0,
+          "peak_count": 19,
+          "regret": 0.0,
+          "root_overlap_us": null,
+          "tail_ms": 1.6088947368421052,
+          "utility": 0.6578947368421053,
+          "wall_ms": 3.421226052631579,
+          "work_ns_per_root": [
+            36481.0,
+            19533.894736842107,
+            1406064.7368421052,
+            146044.1052631579
+          ],
+          "worker_masks": {
+            "0": 19
+          }
+        },
+        {
+          "CPU_ms": 3.2938153157894736,
+          "NN": 65,
+          "counts": {
+            "applied": 0,
+            "base_evals": 749,
+            "blocked_receipt": 0,
+            "changed": 0,
+            "eligible": 725,
+            "eval_changed": 0,
+            "extra_evals": 0,
+            "novel": 725,
+            "refinements": 0,
+            "repeated_delivery": 0,
+            "select_changed": 6470,
+            "select_nodes": 7670,
+            "terminal_leaves": 1075,
+            "transferred": 0,
+            "width_mass_added": 0,
+            "width_nodes": 0,
+            "width_realized": 0
+          },
+          "identical_replica_roots": 0,
+          "n": 19,
+          "net": 0.5278947368421053,
+          "peak2": 0,
+          "peak_count": 19,
+          "regret": 0.0,
+          "root_overlap_us": null,
+          "tail_ms": 1.7330526315789474,
+          "utility": 0.6578947368421053,
+          "wall_ms": 3.392204052631579,
+          "work_ns_per_root": [
+            62949.31578947369,
+            20754.526315789473,
+            1504030.6315789474,
+            144982.1052631579
+          ],
+          "worker_masks": {
+            "0": 19
+          }
+        },
+        {
+          "CPU_ms": 3.469766210526316,
+          "NN": 68.84210526315789,
+          "counts": {
+            "applied": 0,
+            "base_evals": 822,
+            "blocked_receipt": 0,
+            "changed": 0,
+            "eligible": 455,
+            "eval_changed": 0,
+            "extra_evals": 0,
+            "novel": 455,
+            "refinements": 0,
+            "repeated_delivery": 0,
+            "select_changed": 0,
+            "select_nodes": 0,
+            "terminal_leaves": 1002,
+            "transferred": 0,
+            "width_mass_added": 490,
+            "width_nodes": 7450,
+            "width_realized": 890
+          },
+          "identical_replica_roots": 0,
+          "n": 19,
+          "net": 0.5202105263157895,
+          "peak2": 0,
+          "peak_count": 19,
+          "regret": 0.0,
+          "root_overlap_us": null,
+          "tail_ms": 1.8740526315789474,
+          "utility": 0.6578947368421053,
+          "wall_ms": 3.5646373684210526,
+          "work_ns_per_root": [
+            47954.78947368421,
+            25092.894736842107,
+            1659797.894736842,
+            143329.7894736842
+          ],
+          "worker_masks": {
+            "0": 19
+          }
+        },
+        {
+          "CPU_ms": 3.6396196315789475,
+          "NN": 71.10526315789474,
+          "counts": {
+            "applied": 0,
+            "base_evals": 865,
+            "blocked_receipt": 0,
+            "changed": 0,
+            "eligible": 464,
+            "eval_changed": 0,
+            "extra_evals": 0,
+            "novel": 464,
+            "refinements": 0,
+            "repeated_delivery": 0,
+            "select_changed": 7030,
+            "select_nodes": 7182,
+            "terminal_leaves": 959,
+            "transferred": 0,
+            "width_mass_added": 530,
+            "width_nodes": 7182,
+            "width_realized": 957
+          },
+          "identical_replica_roots": 0,
+          "n": 19,
+          "net": 0.5156842105263157,
+          "peak2": 0,
+          "peak_count": 19,
+          "regret": 0.0,
+          "root_overlap_us": null,
+          "tail_ms": 2.0452631578947367,
+          "utility": 0.6578947368421053,
+          "wall_ms": 3.747063052631579,
+          "work_ns_per_root": [
+            75805.57894736843,
+            28926.21052631579,
+            1801549.5789473683,
+            142626.73684210525
+          ],
+          "worker_masks": {
+            "0": 19
+          }
+        },
+        {
+          "CPU_ms": 3.9228964736842107,
+          "NN": 80.52631578947368,
+          "counts": {
+            "applied": 0,
+            "base_evals": 752,
+            "blocked_receipt": 0,
+            "changed": 0,
+            "eligible": 762,
+            "eval_changed": 164,
+            "extra_evals": 292,
+            "novel": 762,
+            "refinements": 164,
+            "repeated_delivery": 0,
+            "select_changed": 0,
+            "select_nodes": 0,
+            "terminal_leaves": 1072,
+            "transferred": 0,
+            "width_mass_added": 0,
+            "width_nodes": 0,
+            "width_realized": 0
+          },
+          "identical_replica_roots": 0,
+          "n": 19,
+          "net": 0.4968421052631579,
+          "peak2": 0,
+          "peak_count": 19,
+          "regret": 0.0,
+          "root_overlap_us": null,
+          "tail_ms": 2.3006315789473684,
+          "utility": 0.6578947368421053,
+          "wall_ms": 4.020883105263158,
+          "work_ns_per_root": [
+            37958.89473684211,
+            22183.0,
+            2094167.7368421052,
+            146242.8947368421
+          ],
+          "worker_masks": {
+            "0": 19
+          }
+        },
+        {
+          "CPU_ms": 4.084622894736842,
+          "NN": 83,
+          "counts": {
+            "applied": 0,
+            "base_evals": 788,
+            "blocked_receipt": 0,
+            "changed": 0,
+            "eligible": 772,
+            "eval_changed": 170,
+            "extra_evals": 303,
+            "novel": 772,
+            "refinements": 170,
+            "repeated_delivery": 0,
+            "select_changed": 6412,
+            "select_nodes": 7560,
+            "terminal_leaves": 1036,
+            "transferred": 0,
+            "width_mass_added": 0,
+            "width_nodes": 0,
+            "width_realized": 0
+          },
+          "identical_replica_roots": 0,
+          "n": 19,
+          "net": 0.4918947368421053,
+          "peak2": 0,
+          "peak_count": 19,
+          "regret": 0.0,
+          "root_overlap_us": null,
+          "tail_ms": 2.4066315789473682,
+          "utility": 0.6578947368421053,
+          "wall_ms": 4.191320947368421,
+          "work_ns_per_root": [
+            63797.89473684211,
+            24252.842105263157,
+            2173629.4210526315,
+            145027.94736842104
+          ],
+          "worker_masks": {
+            "0": 19
+          }
+        },
+        {
+          "CPU_ms": 4.107394052631579,
+          "NN": 85.57894736842105,
+          "counts": {
+            "applied": 0,
+            "base_evals": 837,
+            "blocked_receipt": 0,
+            "changed": 0,
+            "eligible": 472,
+            "eval_changed": 173,
+            "extra_evals": 303,
+            "novel": 472,
+            "refinements": 173,
+            "repeated_delivery": 0,
+            "select_changed": 0,
+            "select_nodes": 0,
+            "terminal_leaves": 987,
+            "transferred": 0,
+            "width_mass_added": 544,
+            "width_nodes": 7328,
+            "width_realized": 1020
+          },
+          "identical_replica_roots": 0,
+          "n": 19,
+          "net": 0.48673684210526313,
+          "peak2": 0,
+          "peak_count": 19,
+          "regret": 0.0,
+          "root_overlap_us": null,
+          "tail_ms": 2.4884736842105264,
+          "utility": 0.6578947368421053,
+          "wall_ms": 4.216456368421053,
+          "work_ns_per_root": [
+            49481.05263157895,
+            26590.684210526317,
+            2275663.4210526315,
+            140082.2105263158
+          ],
+          "worker_masks": {
+            "0": 19
+          }
+        },
+        {
+          "CPU_ms": 4.228438894736842,
+          "NN": 88.94736842105263,
+          "counts": {
+            "applied": 0,
+            "base_evals": 890,
+            "blocked_receipt": 0,
+            "changed": 0,
+            "eligible": 496,
+            "eval_changed": 182,
+            "extra_evals": 314,
+            "novel": 496,
+            "refinements": 182,
+            "repeated_delivery": 0,
+            "select_changed": 6925,
+            "select_nodes": 7063,
+            "terminal_leaves": 934,
+            "transferred": 0,
+            "width_mass_added": 576,
+            "width_nodes": 7063,
+            "width_realized": 1083
+          },
+          "identical_replica_roots": 0,
+          "n": 19,
+          "net": 0.48,
+          "peak2": 0,
+          "peak_count": 19,
+          "regret": 0.0,
+          "root_overlap_us": null,
+          "tail_ms": 2.6349473684210527,
+          "utility": 0.6578947368421053,
+          "wall_ms": 4.336084842105263,
+          "work_ns_per_root": [
+            75167.57894736843,
+            30986.684210526317,
+            2394732.4736842103,
+            138986.8947368421
+          ],
+          "worker_masks": {
+            "0": 19
+          }
+        },
+        {
+          "CPU_ms": 3.247291684210526,
+          "NN": 62.473684210526315,
+          "counts": {
+            "applied": 67,
+            "base_evals": 701,
+            "blocked_receipt": 319,
+            "changed": 67,
+            "eligible": 744,
+            "eval_changed": 0,
+            "extra_evals": 0,
+            "novel": 425,
+            "refinements": 0,
+            "repeated_delivery": 0,
+            "select_changed": 0,
+            "select_nodes": 0,
+            "terminal_leaves": 1123,
+            "transferred": 100,
+            "width_mass_added": 0,
+            "width_nodes": 0,
+            "width_realized": 0
+          },
+          "identical_replica_roots": 0,
+          "n": 19,
+          "net": 0.5329473684210526,
+          "peak2": 0,
+          "peak_count": 19,
+          "regret": 0.0,
+          "root_overlap_us": null,
+          "tail_ms": 1.6118947368421053,
+          "utility": 0.6578947368421053,
+          "wall_ms": 3.3541005789473686,
+          "work_ns_per_root": [
+            37667.15789473684,
+            20916.315789473683,
+            1406362.3157894737,
+            146872.15789473685
+          ],
+          "worker_masks": {
+            "0": 19
+          }
+        },
+        {
+          "CPU_ms": 3.450669736842105,
+          "NN": 64.52631578947368,
+          "counts": {
+            "applied": 77,
+            "base_evals": 740,
+            "blocked_receipt": 289,
+            "changed": 77,
+            "eligible": 772,
+            "eval_changed": 0,
+            "extra_evals": 0,
+            "novel": 483,
+            "refinements": 0,
+            "repeated_delivery": 0,
+            "select_changed": 6480,
+            "select_nodes": 7670,
+            "terminal_leaves": 1084,
+            "transferred": 127,
+            "width_mass_added": 0,
+            "width_nodes": 0,
+            "width_realized": 0
+          },
+          "identical_replica_roots": 0,
+          "n": 19,
+          "net": 0.5288421052631579,
+          "peak2": 0,
+          "peak_count": 19,
+          "regret": 0.0,
+          "root_overlap_us": null,
+          "tail_ms": 1.7843157894736843,
+          "utility": 0.6578947368421053,
+          "wall_ms": 3.5539527368421053,
+          "work_ns_per_root": [
+            67368.21052631579,
+            24581.36842105263,
+            1540903.8421052631,
+            152276.7894736842
+          ],
+          "worker_masks": {
+            "0": 19
+          }
+        },
+        {
+          "CPU_ms": 3.3838108421052633,
+          "NN": 68,
+          "counts": {
+            "applied": 63,
+            "base_evals": 806,
+            "blocked_receipt": 166,
+            "changed": 63,
+            "eligible": 487,
+            "eval_changed": 0,
+            "extra_evals": 0,
+            "novel": 321,
+            "refinements": 0,
+            "repeated_delivery": 0,
+            "select_changed": 0,
+            "select_nodes": 0,
+            "terminal_leaves": 1018,
+            "transferred": 96,
+            "width_mass_added": 481,
+            "width_nodes": 7439,
+            "width_realized": 867
+          },
+          "identical_replica_roots": 0,
+          "n": 19,
+          "net": 0.5218947368421053,
+          "peak2": 0,
+          "peak_count": 19,
+          "regret": 0.0,
+          "root_overlap_us": null,
+          "tail_ms": 1.8081578947368422,
+          "utility": 0.6578947368421053,
+          "wall_ms": 3.4889716842105263,
+          "work_ns_per_root": [
+            46281.10526315789,
+            23786.0,
+            1599959.3157894737,
+            140074.57894736843
+          ],
+          "worker_masks": {
+            "0": 19
+          }
+        },
+        {
+          "CPU_ms": 3.6906584736842105,
+          "NN": 70.57894736842105,
+          "counts": {
+            "applied": 80,
+            "base_evals": 855,
+            "blocked_receipt": 144,
+            "changed": 80,
+            "eligible": 476,
+            "eval_changed": 0,
+            "extra_evals": 0,
+            "novel": 332,
+            "refinements": 0,
+            "repeated_delivery": 0,
+            "select_changed": 7019,
+            "select_nodes": 7175,
+            "terminal_leaves": 969,
+            "transferred": 112,
+            "width_mass_added": 518,
+            "width_nodes": 7175,
+            "width_realized": 946
+          },
+          "identical_replica_roots": 0,
+          "n": 19,
+          "net": 0.5167368421052632,
+          "peak2": 0,
+          "peak_count": 19,
+          "regret": 0.0,
+          "root_overlap_us": null,
+          "tail_ms": 2.029894736842105,
+          "utility": 0.6578947368421053,
+          "wall_ms": 3.7983991578947367,
+          "work_ns_per_root": [
+            79594.8947368421,
+            29599.63157894737,
+            1776093.7894736843,
+            148596.26315789475
+          ],
+          "worker_masks": {
+            "0": 19
+          }
+        },
+        {
+          "CPU_ms": 4.0216886315789475,
+          "NN": 80.52631578947368,
+          "counts": {
+            "applied": 72,
+            "base_evals": 755,
+            "blocked_receipt": 281,
+            "changed": 72,
+            "eligible": 742,
+            "eval_changed": 162,
+            "extra_evals": 289,
+            "novel": 461,
+            "refinements": 162,
+            "repeated_delivery": 0,
+            "select_changed": 0,
+            "select_nodes": 0,
+            "terminal_leaves": 1069,
+            "transferred": 107,
+            "width_mass_added": 0,
+            "width_nodes": 0,
+            "width_realized": 0
+          },
+          "identical_replica_roots": 0,
+          "n": 19,
+          "net": 0.4968421052631579,
+          "peak2": 0,
+          "peak_count": 19,
+          "regret": 0.0,
+          "root_overlap_us": null,
+          "tail_ms": 2.3756842105263156,
+          "utility": 0.6578947368421053,
+          "wall_ms": 4.131323421052632,
+          "work_ns_per_root": [
+            38978.10526315789,
+            24241.78947368421,
+            2160334.3684210526,
+            152467.47368421053
+          ],
+          "worker_masks": {
+            "0": 19
+          }
+        },
+        {
+          "CPU_ms": 4.030873631578947,
+          "NN": 84.10526315789474,
+          "counts": {
+            "applied": 79,
+            "base_evals": 799,
+            "blocked_receipt": 342,
+            "changed": 79,
+            "eligible": 761,
+            "eval_changed": 175,
+            "extra_evals": 313,
+            "novel": 419,
+            "refinements": 175,
+            "repeated_delivery": 0,
+            "select_changed": 6370,
+            "select_nodes": 7425,
+            "terminal_leaves": 1025,
+            "transferred": 121,
+            "width_mass_added": 0,
+            "width_nodes": 0,
+            "width_realized": 0
+          },
+          "identical_replica_roots": 0,
+          "n": 19,
+          "net": 0.4633684210526316,
+          "peak2": 0,
+          "peak_count": 19,
+          "regret": 0.02631578947368421,
+          "root_overlap_us": null,
+          "tail_ms": 2.451736842105263,
+          "utility": 0.631578947368421,
+          "wall_ms": 4.133663368421052,
+          "work_ns_per_root": [
+            63956.21052631579,
+            23289.42105263158,
+            2220757.947368421,
+            143834.42105263157
+          ],
+          "worker_masks": {
+            "0": 19
+          }
+        },
+        {
+          "CPU_ms": 4.181022736842105,
+          "NN": 85.73684210526316,
+          "counts": {
+            "applied": 75,
+            "base_evals": 832,
+            "blocked_receipt": 198,
+            "changed": 75,
+            "eligible": 504,
+            "eval_changed": 178,
+            "extra_evals": 311,
+            "novel": 306,
+            "refinements": 178,
+            "repeated_delivery": 0,
+            "select_changed": 0,
+            "select_nodes": 0,
+            "terminal_leaves": 992,
+            "transferred": 106,
+            "width_mass_added": 540,
+            "width_nodes": 7385,
+            "width_realized": 1011
+          },
+          "identical_replica_roots": 0,
+          "n": 19,
+          "net": 0.46010526315789474,
+          "peak2": 0,
+          "peak_count": 19,
+          "regret": 0.02631578947368421,
+          "root_overlap_us": null,
+          "tail_ms": 2.501684210526316,
+          "utility": 0.631578947368421,
+          "wall_ms": 4.292428894736842,
+          "work_ns_per_root": [
+            50354.78947368421,
+            29270.105263157893,
+            2284688.6842105263,
+            142038.57894736843
+          ],
+          "worker_masks": {
+            "0": 19
+          }
+        },
+        {
+          "CPU_ms": 4.2015932631578945,
+          "NN": 89.3157894736842,
+          "counts": {
+            "applied": 90,
+            "base_evals": 889,
+            "blocked_receipt": 178,
+            "changed": 90,
+            "eligible": 493,
+            "eval_changed": 186,
+            "extra_evals": 322,
+            "novel": 315,
+            "refinements": 186,
+            "repeated_delivery": 0,
+            "select_changed": 6934,
+            "select_nodes": 7078,
+            "terminal_leaves": 935,
+            "transferred": 120,
+            "width_mass_added": 558,
+            "width_nodes": 7078,
+            "width_realized": 1040
+          },
+          "identical_replica_roots": 0,
+          "n": 19,
+          "net": 0.45294736842105265,
+          "peak2": 0,
+          "peak_count": 19,
+          "regret": 0.02631578947368421,
+          "root_overlap_us": null,
+          "tail_ms": 2.631263157894737,
+          "utility": 0.631578947368421,
+          "wall_ms": 4.306137105263158,
+          "work_ns_per_root": [
+            73976.73684210527,
+            29831.947368421053,
+            2393319.5263157897,
+            138402.57894736843
+          ],
+          "worker_masks": {
+            "0": 19
+          }
+        }
+      ],
+      "factorial_U": {
+        "beta": [
+          0.6529605263157895,
+          -0.0016447368421052683,
+          -0.0016447368421052683,
+          0.0016447368421052683,
+          -0.004934210526315805,
+          -0.0016447368421052683,
+          -0.0016447368421052683,
+          0.0016447368421052683,
+          -0.004934210526315805,
+          -0.0016447368421052683,
+          -0.0016447368421052683,
+          0.0016447368421052683,
+          -0.004934210526315805,
+          -0.0016447368421052683,
+          -0.0016447368421052683,
+          0.0016447368421052683
+        ],
+        "full_minus_base": -0.026315789473684292,
+        "leaveout": {
+          "B": -0.026315789473684292,
+          "S": 0.0,
+          "V": -0.026315789473684292,
+          "X": 0.0
+        },
+        "main": {
+          "B": -0.00986842105263161,
+          "S": -0.0032894736842105365,
+          "V": -0.00986842105263161,
+          "X": -0.0032894736842105365
+        },
+        "pair": {
+          "SB": -0.006578947368421073,
+          "SV": -0.006578947368421073,
+          "SX": 0.006578947368421073,
+          "VB": -0.01973684210526322,
+          "XB": -0.006578947368421073,
+          "XV": -0.006578947368421073
+        }
+      },
+      "factorial_net": {
+        "beta": [
+          0.5015986842105263,
+          -0.0044276315789473705,
+          -0.0073092105263158,
+          0.0014802631578947345,
+          -0.02300657894736842,
+          -0.002111842105263155,
+          -0.0013355263157894745,
+          0.0015855263157894817,
+          -0.004888157894736837,
+          -0.0018092105263157882,
+          -0.0014802631578947206,
+          0.001677631578947368,
+          -0.005388157894736838,
+          -0.0018092105263157882,
+          -0.001664473684210535,
+          0.001835526315789475
+        ],
+        "full_minus_base": -0.0796842105263158,
+        "leaveout": {
+          "B": -0.027052631578947328,
+          "S": -0.007157894736842085,
+          "V": -0.06378947368421051,
+          "X": -0.010421052631578942
+        },
+        "main": {
+          "B": -0.009776315789473675,
+          "S": -0.008855263157894741,
+          "V": -0.04601315789473684,
+          "X": -0.0146184210526316
+        },
+        "pair": {
+          "SB": -0.007236842105263153,
+          "SV": -0.00844736842105262,
+          "SX": 0.005921052631578938,
+          "VB": -0.02155263157894735,
+          "XB": -0.0059210526315788825,
+          "XV": -0.005342105263157898
+        }
+      },
+      "full_vs_base": {
+        "better": 0,
+        "ci": [
+          -0.07894736842105263,
+          0.0
+        ],
+        "gain": -0.02631578947368421,
+        "net": -0.07968421052631579,
+        "worse": 1
+      },
+      "live": {
+        "CPU_ms": 3.4993646315789473,
+        "NN": 62.63157894736842,
+        "counts": {
+          "applied": 0,
+          "base_evals": 704,
+          "blocked_receipt": 0,
+          "changed": 0,
+          "eligible": 769,
+          "eval_changed": 0,
+          "extra_evals": 0,
+          "novel": 769,
+          "refinements": 0,
+          "repeated_delivery": 0,
+          "select_changed": 0,
+          "select_nodes": 0,
+          "terminal_leaves": 1120,
+          "transferred": 0,
+          "width_mass_added": 0,
+          "width_nodes": 0,
+          "width_realized": 0
+        },
+        "identical_replica_roots": 0,
+        "n": 19,
+        "net": 0.5326315789473685,
+        "peak2": 0,
+        "peak_count": 19,
+        "regret": 0.0,
+        "root_overlap_us": null,
+        "tail_ms": 1.7965263157894737,
+        "utility": 0.6578947368421053,
+        "wall_ms": 3.606688947368421,
+        "work_ns_per_root": [
+          41252.0,
+          24338.0,
+          1571253.4736842106,
+          160545.42105263157
+        ],
+        "worker_masks": {
+          "0": 19
+        }
+      },
+      "live_profiles": {
+        "0": 19
+      },
+      "live_vs_base": {
+        "better": 0,
+        "ci": [
+          0.0,
+          0.0
+        ],
+        "gain": 0.0,
+        "net": 0.0,
+        "worse": 0
+      },
+      "matched_full_base": 0,
+      "repeats": {
+        "base": {
+          "NN_sd": 0.0,
+          "best_disagree": 0,
+          "mean_js": 0.0,
+          "net_sd": 0.0,
+          "utility_sd": 0.0,
+          "wall_sd_ms": 0.31468993333706147
+        },
+        "full": {
+          "NN_sd": 0.0,
+          "best_disagree": 0,
+          "mean_js": 0.0,
+          "net_sd": 0.0,
+          "utility_sd": 0.0,
+          "wall_sd_ms": 0.3849886856211696
+        },
+        "live": {
+          "NN_sd": 0.0,
+          "best_disagree": 0,
+          "mean_js": 0.0,
+          "net_sd": 0.0,
+          "utility_sd": 0.0,
+          "wall_sd_ms": 0.482699730454604
+        }
+      },
+      "schedule_base_U_vs_serial": 0.0,
+      "schedule_full_U_vs_serial": 0.0,
+      "schedule_interaction_full_U": 0.0,
+      "schedule_interaction_full_net": 0.0
+    },
+    "TREE2": {
+      "arms": [
+        {
+          "CPU_ms": 4.09569047368421,
+          "NN": 70,
+          "counts": {
+            "applied": 0,
+            "base_evals": 844,
+            "blocked_receipt": 0,
+            "changed": 0,
+            "eligible": 587,
+            "eval_changed": 0,
+            "extra_evals": 0,
+            "novel": 587,
+            "refinements": 0,
+            "repeated_delivery": 0,
+            "select_changed": 0,
+            "select_nodes": 0,
+            "terminal_leaves": 980,
+            "transferred": 0,
+            "width_mass_added": 0,
+            "width_nodes": 0,
+            "width_realized": 0
+          },
+          "identical_replica_roots": 0,
+          "n": 19,
+          "net": 0.5178947368421053,
+          "peak2": 19,
+          "peak_count": 19,
+          "regret": 0.0,
+          "root_overlap_us": null,
+          "tail_ms": 1.2630000000000001,
+          "utility": 0.6578947368421053,
+          "wall_ms": 3.089963052631579,
+          "work_ns_per_root": [
+            57482.10526315789,
+            28112.947368421053,
+            1997276.894736842,
+            216283.63157894736
+          ],
+          "worker_masks": {
+            "3": 19
+          }
+        },
+        {
+          "CPU_ms": 4.1536007368421055,
+          "NN": 70.36842105263158,
+          "counts": {
+            "applied": 0,
+            "base_evals": 851,
+            "blocked_receipt": 0,
+            "changed": 0,
+            "eligible": 681,
+            "eval_changed": 0,
+            "extra_evals": 0,
+            "novel": 681,
+            "refinements": 0,
+            "repeated_delivery": 0,
+            "select_changed": 6207,
+            "select_nodes": 7345,
+            "terminal_leaves": 973,
+            "transferred": 0,
+            "width_mass_added": 0,
+            "width_nodes": 0,
+            "width_realized": 0
+          },
+          "identical_replica_roots": 0,
+          "n": 19,
+          "net": 0.5171578947368421,
+          "peak2": 19,
+          "peak_count": 19,
+          "regret": 0.0,
+          "root_overlap_us": null,
+          "tail_ms": 1.3878947368421053,
+          "utility": 0.6578947368421053,
+          "wall_ms": 3.157064947368421,
+          "work_ns_per_root": [
+            92704.0,
+            29311.63157894737,
+            2068653.7894736843,
+            228961.63157894736
+          ],
+          "worker_masks": {
+            "3": 19
+          }
+        },
+        {
+          "CPU_ms": 4.018013842105264,
+          "NN": 71.94736842105263,
+          "counts": {
+            "applied": 0,
+            "base_evals": 881,
+            "blocked_receipt": 0,
+            "changed": 0,
+            "eligible": 480,
+            "eval_changed": 0,
+            "extra_evals": 0,
+            "novel": 480,
+            "refinements": 0,
+            "repeated_delivery": 0,
+            "select_changed": 0,
+            "select_nodes": 0,
+            "terminal_leaves": 943,
+            "transferred": 0,
+            "width_mass_added": 466,
+            "width_nodes": 7162,
+            "width_realized": 842
+          },
+          "identical_replica_roots": 0,
+          "n": 19,
+          "net": 0.4876842105263158,
+          "peak2": 19,
+          "peak_count": 19,
+          "regret": 0.02631578947368421,
+          "root_overlap_us": null,
+          "tail_ms": 1.3230526315789473,
+          "utility": 0.631578947368421,
+          "wall_ms": 3.032143894736842,
+          "work_ns_per_root": [
+            70958.63157894737,
+            32100.842105263157,
+            2029752.7368421052,
+            203655.63157894736
+          ],
+          "worker_masks": {
+            "3": 19
+          }
+        },
+        {
+          "CPU_ms": 4.129255947368421,
+          "NN": 73.42105263157895,
+          "counts": {
+            "applied": 0,
+            "base_evals": 909,
+            "blocked_receipt": 0,
+            "changed": 0,
+            "eligible": 422,
+            "eval_changed": 0,
+            "extra_evals": 0,
+            "novel": 422,
+            "refinements": 0,
+            "repeated_delivery": 0,
+            "select_changed": 6726,
+            "select_nodes": 6868,
+            "terminal_leaves": 915,
+            "transferred": 0,
+            "width_mass_added": 472,
+            "width_nodes": 6868,
+            "width_realized": 871
+          },
+          "identical_replica_roots": 0,
+          "n": 19,
+          "net": 0.5110526315789473,
+          "peak2": 19,
+          "peak_count": 19,
+          "regret": 0.0,
+          "root_overlap_us": null,
+          "tail_ms": 1.3806842105263157,
+          "utility": 0.6578947368421053,
+          "wall_ms": 3.107747894736842,
+          "work_ns_per_root": [
+            100911.36842105263,
+            35623.89473684211,
+            2138730.8421052634,
+            209224.57894736843
+          ],
+          "worker_masks": {
+            "3": 19
+          }
+        },
+        {
+          "CPU_ms": 4.766000894736842,
+          "NN": 86.52631578947368,
+          "counts": {
+            "applied": 0,
+            "base_evals": 833,
+            "blocked_receipt": 0,
+            "changed": 0,
+            "eligible": 652,
+            "eval_changed": 183,
+            "extra_evals": 325,
+            "novel": 652,
+            "refinements": 183,
+            "repeated_delivery": 0,
+            "select_changed": 0,
+            "select_nodes": 0,
+            "terminal_leaves": 991,
+            "transferred": 0,
+            "width_mass_added": 0,
+            "width_nodes": 0,
+            "width_realized": 0
+          },
+          "identical_replica_roots": 0,
+          "n": 19,
+          "net": 0.4848421052631579,
+          "peak2": 19,
+          "peak_count": 19,
+          "regret": 0.0,
+          "root_overlap_us": null,
+          "tail_ms": 1.611842105263158,
+          "utility": 0.6578947368421053,
+          "wall_ms": 3.4429827894736844,
+          "work_ns_per_root": [
+            58172.63157894737,
+            29332.947368421053,
+            2663246.3157894737,
+            213185.57894736843
+          ],
+          "worker_masks": {
+            "3": 19
+          }
+        },
+        {
+          "CPU_ms": 4.643216105263158,
+          "NN": 90.36842105263158,
+          "counts": {
+            "applied": 0,
+            "base_evals": 889,
+            "blocked_receipt": 0,
+            "changed": 0,
+            "eligible": 716,
+            "eval_changed": 191,
+            "extra_evals": 342,
+            "novel": 716,
+            "refinements": 191,
+            "repeated_delivery": 0,
+            "select_changed": 6121,
+            "select_nodes": 7138,
+            "terminal_leaves": 935,
+            "transferred": 0,
+            "width_mass_added": 0,
+            "width_nodes": 0,
+            "width_realized": 0
+          },
+          "identical_replica_roots": 0,
+          "n": 19,
+          "net": 0.4771578947368421,
+          "peak2": 19,
+          "peak_count": 19,
+          "regret": 0.0,
+          "root_overlap_us": null,
+          "tail_ms": 1.6749473684210525,
+          "utility": 0.6578947368421053,
+          "wall_ms": 3.3629625263157896,
+          "work_ns_per_root": [
+            81898.47368421052,
+            26745.21052631579,
+            2681363.5789473685,
+            194975.68421052632
+          ],
+          "worker_masks": {
+            "3": 19
+          }
+        },
+        {
+          "CPU_ms": 4.861525894736842,
+          "NN": 88.52631578947368,
+          "counts": {
+            "applied": 0,
+            "base_evals": 880,
+            "blocked_receipt": 0,
+            "changed": 0,
+            "eligible": 490,
+            "eval_changed": 180,
+            "extra_evals": 316,
+            "novel": 490,
+            "refinements": 180,
+            "repeated_delivery": 0,
+            "select_changed": 0,
+            "select_nodes": 0,
+            "terminal_leaves": 944,
+            "transferred": 0,
+            "width_mass_added": 511,
+            "width_nodes": 7105,
+            "width_realized": 955
+          },
+          "identical_replica_roots": 0,
+          "n": 19,
+          "net": 0.45452631578947367,
+          "peak2": 19,
+          "peak_count": 19,
+          "regret": 0.02631578947368421,
+          "root_overlap_us": null,
+          "tail_ms": 1.7203684210526315,
+          "utility": 0.631578947368421,
+          "wall_ms": 3.564856842105263,
+          "work_ns_per_root": [
+            74254.8947368421,
+            37585.0,
+            2743116.1578947366,
+            207802.68421052632
+          ],
+          "worker_masks": {
+            "3": 19
+          }
+        },
+        {
+          "CPU_ms": 5.145183736842105,
+          "NN": 91.05263157894737,
+          "counts": {
+            "applied": 0,
+            "base_evals": 912,
+            "blocked_receipt": 0,
+            "changed": 0,
+            "eligible": 472,
+            "eval_changed": 189,
+            "extra_evals": 332,
+            "novel": 472,
+            "refinements": 189,
+            "repeated_delivery": 0,
+            "select_changed": 6751,
+            "select_nodes": 6872,
+            "terminal_leaves": 912,
+            "transferred": 0,
+            "width_mass_added": 530,
+            "width_nodes": 6872,
+            "width_realized": 996
+          },
+          "identical_replica_roots": 0,
+          "n": 19,
+          "net": 0.4494736842105263,
+          "peak2": 19,
+          "peak_count": 19,
+          "regret": 0.02631578947368421,
+          "root_overlap_us": null,
+          "tail_ms": 1.9160526315789475,
+          "utility": 0.631578947368421,
+          "wall_ms": 3.7790764736842104,
+          "work_ns_per_root": [
+            108261.05263157895,
+            40832.15789473684,
+            2954019.6315789474,
+            308086.0
+          ],
+          "worker_masks": {
+            "3": 19
+          }
+        },
+        {
+          "CPU_ms": 3.7892554210526317,
+          "NN": 69.10526315789474,
+          "counts": {
+            "applied": 58,
+            "base_evals": 827,
+            "blocked_receipt": 228,
+            "changed": 58,
+            "eligible": 563,
+            "eval_changed": 0,
+            "extra_evals": 0,
+            "novel": 335,
+            "refinements": 0,
+            "repeated_delivery": 0,
+            "select_changed": 0,
+            "select_nodes": 0,
+            "terminal_leaves": 997,
+            "transferred": 86,
+            "width_mass_added": 0,
+            "width_nodes": 0,
+            "width_realized": 0
+          },
+          "identical_replica_roots": 0,
+          "n": 19,
+          "net": 0.5196842105263157,
+          "peak2": 19,
+          "peak_count": 19,
+          "regret": 0.0,
+          "root_overlap_us": null,
+          "tail_ms": 1.168842105263158,
+          "utility": 0.6578947368421053,
+          "wall_ms": 2.851176157894737,
+          "work_ns_per_root": [
+            55462.89473684211,
+            24197.21052631579,
+            1825480.6315789474,
+            220048.8947368421
+          ],
+          "worker_masks": {
+            "3": 19
+          }
+        },
+        {
+          "CPU_ms": 4.279892526315789,
+          "NN": 72,
+          "counts": {
+            "applied": 78,
+            "base_evals": 882,
+            "blocked_receipt": 251,
+            "changed": 78,
+            "eligible": 645,
+            "eval_changed": 0,
+            "extra_evals": 0,
+            "novel": 394,
+            "refinements": 0,
+            "repeated_delivery": 0,
+            "select_changed": 6124,
+            "select_nodes": 7048,
+            "terminal_leaves": 942,
+            "transferred": 116,
+            "width_mass_added": 0,
+            "width_nodes": 0,
+            "width_realized": 0
+          },
+          "identical_replica_roots": 0,
+          "n": 19,
+          "net": 0.5138947368421053,
+          "peak2": 19,
+          "peak_count": 19,
+          "regret": 0.0,
+          "root_overlap_us": null,
+          "tail_ms": 1.418421052631579,
+          "utility": 0.6578947368421053,
+          "wall_ms": 3.237806157894737,
+          "work_ns_per_root": [
+            89612.0,
+            29879.315789473683,
+            2148533.1052631577,
+            217550.7894736842
+          ],
+          "worker_masks": {
+            "3": 19
+          }
+        },
+        {
+          "CPU_ms": 3.9798763684210527,
+          "NN": 71.47368421052632,
+          "counts": {
+            "applied": 67,
+            "base_evals": 872,
+            "blocked_receipt": 207,
+            "changed": 67,
+            "eligible": 492,
+            "eval_changed": 0,
+            "extra_evals": 0,
+            "novel": 285,
+            "refinements": 0,
+            "repeated_delivery": 0,
+            "select_changed": 0,
+            "select_nodes": 0,
+            "terminal_leaves": 952,
+            "transferred": 98,
+            "width_mass_added": 455,
+            "width_nodes": 7120,
+            "width_realized": 833
+          },
+          "identical_replica_roots": 0,
+          "n": 19,
+          "net": 0.4886315789473684,
+          "peak2": 19,
+          "peak_count": 19,
+          "regret": 0.02631578947368421,
+          "root_overlap_us": null,
+          "tail_ms": 1.3172105263157894,
+          "utility": 0.631578947368421,
+          "wall_ms": 2.9786765789473684,
+          "work_ns_per_root": [
+            72214.26315789473,
+            32861.73684210526,
+            2026862.0,
+            235263.94736842104
+          ],
+          "worker_masks": {
+            "3": 19
+          }
+        },
+        {
+          "CPU_ms": 4.244214052631579,
+          "NN": 73.26315789473684,
+          "counts": {
+            "applied": 81,
+            "base_evals": 906,
+            "blocked_receipt": 168,
+            "changed": 81,
+            "eligible": 497,
+            "eval_changed": 0,
+            "extra_evals": 0,
+            "novel": 329,
+            "refinements": 0,
+            "repeated_delivery": 0,
+            "select_changed": 6777,
+            "select_nodes": 6955,
+            "terminal_leaves": 918,
+            "transferred": 104,
+            "width_mass_added": 482,
+            "width_nodes": 6955,
+            "width_realized": 879
+          },
+          "identical_replica_roots": 0,
+          "n": 19,
+          "net": 0.5113684210526316,
+          "peak2": 19,
+          "peak_count": 19,
+          "regret": 0.0,
+          "root_overlap_us": null,
+          "tail_ms": 1.343,
+          "utility": 0.6578947368421053,
+          "wall_ms": 3.1535415263157893,
+          "work_ns_per_root": [
+            101447.94736842105,
+            34973.26315789474,
+            2116232.5263157897,
+            210110.2105263158
+          ],
+          "worker_masks": {
+            "3": 19
+          }
+        },
+        {
+          "CPU_ms": 5.006208789473685,
+          "NN": 86.94736842105263,
+          "counts": {
+            "applied": 73,
+            "base_evals": 853,
+            "blocked_receipt": 257,
+            "changed": 73,
+            "eligible": 633,
+            "eval_changed": 176,
+            "extra_evals": 313,
+            "novel": 376,
+            "refinements": 176,
+            "repeated_delivery": 0,
+            "select_changed": 0,
+            "select_nodes": 0,
+            "terminal_leaves": 971,
+            "transferred": 121,
+            "width_mass_added": 0,
+            "width_nodes": 0,
+            "width_realized": 0
+          },
+          "identical_replica_roots": 0,
+          "n": 19,
+          "net": 0.484,
+          "peak2": 19,
+          "peak_count": 19,
+          "regret": 0.0,
+          "root_overlap_us": null,
+          "tail_ms": 1.730578947368421,
+          "utility": 0.6578947368421053,
+          "wall_ms": 3.6147717894736844,
+          "work_ns_per_root": [
+            59819.15789473684,
+            32696.105263157893,
+            2835051.736842105,
+            222695.05263157896
+          ],
+          "worker_masks": {
+            "3": 19
+          }
+        },
+        {
+          "CPU_ms": 4.7988327368421055,
+          "NN": 89.63157894736842,
+          "counts": {
+            "applied": 66,
+            "base_evals": 882,
+            "blocked_receipt": 325,
+            "changed": 66,
+            "eligible": 685,
+            "eval_changed": 189,
+            "extra_evals": 335,
+            "novel": 360,
+            "refinements": 189,
+            "repeated_delivery": 0,
+            "select_changed": 6100,
+            "select_nodes": 7135,
+            "terminal_leaves": 942,
+            "transferred": 113,
+            "width_mass_added": 0,
+            "width_nodes": 0,
+            "width_realized": 0
+          },
+          "identical_replica_roots": 0,
+          "n": 19,
+          "net": 0.4786315789473684,
+          "peak2": 19,
+          "peak_count": 19,
+          "regret": 0.0,
+          "root_overlap_us": null,
+          "tail_ms": 1.692842105263158,
+          "utility": 0.6578947368421053,
+          "wall_ms": 3.4212227368421053,
+          "work_ns_per_root": [
+            84696.36842105263,
+            27325.263157894737,
+            2779383.0,
+            207387.73684210525
+          ],
+          "worker_masks": {
+            "3": 19
+          }
+        },
+        {
+          "CPU_ms": 4.802149052631579,
+          "NN": 88.05263157894737,
+          "counts": {
+            "applied": 67,
+            "base_evals": 866,
+            "blocked_receipt": 190,
+            "changed": 67,
+            "eligible": 490,
+            "eval_changed": 180,
+            "extra_evals": 321,
+            "novel": 300,
+            "refinements": 180,
+            "repeated_delivery": 0,
+            "select_changed": 0,
+            "select_nodes": 0,
+            "terminal_leaves": 958,
+            "transferred": 89,
+            "width_mass_added": 500,
+            "width_nodes": 7108,
+            "width_realized": 935
+          },
+          "identical_replica_roots": 0,
+          "n": 19,
+          "net": 0.4554736842105263,
+          "peak2": 19,
+          "peak_count": 19,
+          "regret": 0.02631578947368421,
+          "root_overlap_us": null,
+          "tail_ms": 1.642421052631579,
+          "utility": 0.631578947368421,
+          "wall_ms": 3.4904065263157897,
+          "work_ns_per_root": [
+            69880.78947368421,
+            34846.36842105263,
+            2679061.8947368423,
+            203632.42105263157
+          ],
+          "worker_masks": {
+            "3": 19
+          }
+        },
+        {
+          "CPU_ms": 4.900759210526316,
+          "NN": 90.57894736842105,
+          "counts": {
+            "applied": 86,
+            "base_evals": 898,
+            "blocked_receipt": 156,
+            "changed": 86,
+            "eligible": 486,
+            "eval_changed": 192,
+            "extra_evals": 337,
+            "novel": 330,
+            "refinements": 192,
+            "repeated_delivery": 0,
+            "select_changed": 6741,
+            "select_nodes": 6882,
+            "terminal_leaves": 926,
+            "transferred": 120,
+            "width_mass_added": 521,
+            "width_nodes": 6882,
+            "width_realized": 991
+          },
+          "identical_replica_roots": 0,
+          "n": 19,
+          "net": 0.45042105263157894,
+          "peak2": 19,
+          "peak_count": 19,
+          "regret": 0.02631578947368421,
+          "root_overlap_us": null,
+          "tail_ms": 1.7218947368421054,
+          "utility": 0.631578947368421,
+          "wall_ms": 3.5844244210526317,
+          "work_ns_per_root": [
+            101614.68421052632,
+            39099.84210526316,
+            2758922.1052631577,
+            193099.52631578947
+          ],
+          "worker_masks": {
+            "3": 19
+          }
+        }
+      ],
+      "factorial_U": {
+        "beta": [
+          0.6480263157894737,
+          0.0032894736842105365,
+          -0.00986842105263161,
+          0.0032894736842105365,
+          -0.0032894736842105365,
+          -0.0032894736842105365,
+          -0.0032894736842105365,
+          -0.0032894736842105365,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "full_minus_base": -0.026315789473684292,
+        "leaveout": {
+          "B": 0.0,
+          "S": 0.0,
+          "V": -0.026315789473684292,
+          "X": -0.026315789473684292
+        },
+        "main": {
+          "B": 0.0,
+          "S": 0.006578947368421073,
+          "V": -0.006578947368421073,
+          "X": -0.01973684210526322
+        },
+        "pair": {
+          "SB": 0.0,
+          "SV": -0.013157894736842146,
+          "SX": 0.013157894736842146,
+          "VB": 0.0,
+          "XB": 0.0,
+          "XV": -0.013157894736842146
+        }
+      },
+      "factorial_net": {
+        "beta": [
+          0.4876184210526316,
+          0.0010263157894736877,
+          -0.011539473684210537,
+          0.0034736842105263094,
+          -0.02080263157894737,
+          -0.00392105263157895,
+          -0.002802631578947362,
+          -0.003105263157894729,
+          0.00014473684210526,
+          -0.00021052631578946657,
+          0.0002500000000000141,
+          0.00013157894736842007,
+          0.0001710526315789468,
+          0.0004999999999999935,
+          -9.21052631579003e-05,
+          -0.000421052631578947
+        ],
+        "full_minus_base": -0.06747368421052635,
+        "leaveout": {
+          "B": 0.0009473684210526412,
+          "S": -0.005052631578947364,
+          "V": -0.06094736842105264,
+          "X": -0.028210526315789464
+        },
+        "main": {
+          "B": 0.00028947368421052,
+          "S": 0.0020526315789473754,
+          "V": -0.04160526315789474,
+          "X": -0.023078947368421074
+        },
+        "pair": {
+          "SB": -0.0008421052631578663,
+          "SV": -0.0156842105263158,
+          "SX": 0.013894736842105238,
+          "VB": 0.0006842105263157872,
+          "XB": 0.0010000000000000564,
+          "XV": -0.011210526315789449
+        }
+      },
+      "full_vs_base": {
+        "better": 0,
+        "ci": [
+          -0.07894736842105263,
+          0.0
+        ],
+        "gain": -0.02631578947368421,
+        "net": -0.06747368421052631,
+        "worse": 1
+      },
+      "live": {
+        "CPU_ms": 4.0333939999999995,
+        "NN": 69.94736842105263,
+        "counts": {
+          "applied": 0,
+          "base_evals": 843,
+          "blocked_receipt": 0,
+          "changed": 0,
+          "eligible": 540,
+          "eval_changed": 0,
+          "extra_evals": 0,
+          "novel": 540,
+          "refinements": 0,
+          "repeated_delivery": 0,
+          "select_changed": 0,
+          "select_nodes": 0,
+          "terminal_leaves": 981,
+          "transferred": 0,
+          "width_mass_added": 0,
+          "width_nodes": 0,
+          "width_realized": 0
+        },
+        "identical_replica_roots": 0,
+        "n": 19,
+        "net": 0.518,
+        "peak2": 19,
+        "peak_count": 19,
+        "regret": 0.0,
+        "root_overlap_us": null,
+        "tail_ms": 1.2779473684210527,
+        "utility": 0.6578947368421053,
+        "wall_ms": 3.032347894736842,
+        "work_ns_per_root": [
+          60180.31578947369,
+          28030.736842105263,
+          1993631.105263158,
+          230911.47368421053
+        ],
+        "worker_masks": {
+          "3": 19
+        }
+      },
+      "live_profiles": {
+        "0": 19
+      },
+      "live_vs_base": {
+        "better": 0,
+        "ci": [
+          0.0,
+          0.0
+        ],
+        "gain": 0.0,
+        "net": 0.00010526315789474423,
+        "worse": 0
+      },
+      "matched_full_base": 0,
+      "repeats": {
+        "base": {
+          "NN_sd": 2.299885580677988,
+          "best_disagree": 0,
+          "mean_js": 0.005053380545349685,
+          "net_sd": 0.004599771161355976,
+          "utility_sd": 0.0,
+          "wall_sd_ms": 0.42677970850378877
+        },
+        "full": {
+          "NN_sd": 3.445057481760149,
+          "best_disagree": 2,
+          "mean_js": 0.0019514175952713303,
+          "net_sd": 0.0068901149635202915,
+          "utility_sd": 0.0,
+          "wall_sd_ms": 0.3516281225495346
+        },
+        "live": {
+          "NN_sd": 3.557793520827495,
+          "best_disagree": 1,
+          "mean_js": 0.006317082674170241,
+          "net_sd": 0.007115587041654993,
+          "utility_sd": 0.0,
+          "wall_sd_ms": 0.38512318420464
+        }
+      },
+      "schedule_base_U_vs_serial": 0.0,
+      "schedule_full_U_vs_serial": 0.0,
+      "schedule_interaction_full_U": 0.0,
+      "schedule_interaction_full_net": 0.012210526315789477
+    },
+    "WAVE2": {
+      "arms": [
+        {
+          "CPU_ms": 4.420576368421052,
+          "NN": 67.52631578947368,
+          "counts": {
+            "applied": 0,
+            "base_evals": 797,
+            "blocked_receipt": 0,
+            "changed": 0,
+            "eligible": 551,
+            "eval_changed": 0,
+            "extra_evals": 0,
+            "novel": 551,
+            "refinements": 0,
+            "repeated_delivery": 0,
+            "select_changed": 0,
+            "select_nodes": 0,
+            "terminal_leaves": 1027,
+            "transferred": 0,
+            "width_mass_added": 0,
+            "width_nodes": 0,
+            "width_realized": 0
+          },
+          "identical_replica_roots": 0,
+          "n": 19,
+          "net": 0.5228421052631579,
+          "peak2": 19,
+          "peak_count": 19,
+          "regret": 0.0,
+          "root_overlap_us": null,
+          "tail_ms": 1.5559473684210525,
+          "utility": 0.6578947368421053,
+          "wall_ms": 3.4064200000000002,
+          "work_ns_per_root": [
+            71017.31578947368,
+            29862.315789473683,
+            1948002.4736842106,
+            283888.3157894737
+          ],
+          "worker_masks": {
+            "3": 19
+          }
+        },
+        {
+          "CPU_ms": 4.612028421052631,
+          "NN": 70.73684210526316,
+          "counts": {
+            "applied": 0,
+            "base_evals": 858,
+            "blocked_receipt": 0,
+            "changed": 0,
+            "eligible": 698,
+            "eval_changed": 0,
+            "extra_evals": 0,
+            "novel": 698,
+            "refinements": 0,
+            "repeated_delivery": 0,
+            "select_changed": 6109,
+            "select_nodes": 7050,
+            "terminal_leaves": 966,
+            "transferred": 0,
+            "width_mass_added": 0,
+            "width_nodes": 0,
+            "width_realized": 0
+          },
+          "identical_replica_roots": 0,
+          "n": 19,
+          "net": 0.4901052631578947,
+          "peak2": 19,
+          "peak_count": 19,
+          "regret": 0.02631578947368421,
+          "root_overlap_us": null,
+          "tail_ms": 1.6405263157894736,
+          "utility": 0.631578947368421,
+          "wall_ms": 3.440318789473684,
+          "work_ns_per_root": [
+            102707.05263157895,
+            31041.157894736843,
+            2119754.1052631577,
+            250462.68421052632
+          ],
+          "worker_masks": {
+            "3": 19
+          }
+        },
+        {
+          "CPU_ms": 4.601995052631579,
+          "NN": 71.84210526315789,
+          "counts": {
+            "applied": 0,
+            "base_evals": 879,
+            "blocked_receipt": 0,
+            "changed": 0,
+            "eligible": 489,
+            "eval_changed": 0,
+            "extra_evals": 0,
+            "novel": 489,
+            "refinements": 0,
+            "repeated_delivery": 0,
+            "select_changed": 0,
+            "select_nodes": 0,
+            "terminal_leaves": 945,
+            "transferred": 0,
+            "width_mass_added": 480,
+            "width_nodes": 7210,
+            "width_realized": 841
+          },
+          "identical_replica_roots": 0,
+          "n": 19,
+          "net": 0.48789473684210527,
+          "peak2": 19,
+          "peak_count": 19,
+          "regret": 0.02631578947368421,
+          "root_overlap_us": null,
+          "tail_ms": 1.756,
+          "utility": 0.631578947368421,
+          "wall_ms": 3.5083167368421053,
+          "work_ns_per_root": [
+            87222.26315789473,
+            35407.63157894737,
+            2195180.1052631577,
+            255915.42105263157
+          ],
+          "worker_masks": {
+            "3": 19
+          }
+        },
+        {
+          "CPU_ms": 4.617087947368421,
+          "NN": 72.73684210526316,
+          "counts": {
+            "applied": 0,
+            "base_evals": 896,
+            "blocked_receipt": 0,
+            "changed": 0,
+            "eligible": 456,
+            "eval_changed": 0,
+            "extra_evals": 0,
+            "novel": 456,
+            "refinements": 0,
+            "repeated_delivery": 0,
+            "select_changed": 6796,
+            "select_nodes": 6938,
+            "terminal_leaves": 928,
+            "transferred": 0,
+            "width_mass_added": 492,
+            "width_nodes": 6938,
+            "width_realized": 893
+          },
+          "identical_replica_roots": 0,
+          "n": 19,
+          "net": 0.512421052631579,
+          "peak2": 19,
+          "peak_count": 19,
+          "regret": 0.0,
+          "root_overlap_us": null,
+          "tail_ms": 1.6382631578947369,
+          "utility": 0.6578947368421053,
+          "wall_ms": 3.435524368421053,
+          "work_ns_per_root": [
+            116901.52631578948,
+            39040.84210526316,
+            2128472.052631579,
+            238871.2105263158
+          ],
+          "worker_masks": {
+            "3": 19
+          }
+        },
+        {
+          "CPU_ms": 5.104188052631579,
+          "NN": 86.6842105263158,
+          "counts": {
+            "applied": 0,
+            "base_evals": 820,
+            "blocked_receipt": 0,
+            "changed": 0,
+            "eligible": 806,
+            "eval_changed": 193,
+            "extra_evals": 341,
+            "novel": 806,
+            "refinements": 193,
+            "repeated_delivery": 0,
+            "select_changed": 0,
+            "select_nodes": 0,
+            "terminal_leaves": 1004,
+            "transferred": 0,
+            "width_mass_added": 0,
+            "width_nodes": 0,
+            "width_realized": 0
+          },
+          "identical_replica_roots": 0,
+          "n": 19,
+          "net": 0.4845263157894737,
+          "peak2": 19,
+          "peak_count": 19,
+          "regret": 0.0,
+          "root_overlap_us": null,
+          "tail_ms": 1.912,
+          "utility": 0.6578947368421053,
+          "wall_ms": 3.7587715789473686,
+          "work_ns_per_root": [
+            68592.31578947368,
+            32533.894736842107,
+            2605550.5789473685,
+            249068.15789473685
+          ],
+          "worker_masks": {
+            "3": 19
+          }
+        },
+        {
+          "CPU_ms": 5.132669789473685,
+          "NN": 89.78947368421052,
+          "counts": {
+            "applied": 0,
+            "base_evals": 878,
+            "blocked_receipt": 0,
+            "changed": 0,
+            "eligible": 726,
+            "eval_changed": 192,
+            "extra_evals": 342,
+            "novel": 726,
+            "refinements": 192,
+            "repeated_delivery": 0,
+            "select_changed": 6083,
+            "select_nodes": 7026,
+            "terminal_leaves": 946,
+            "transferred": 0,
+            "width_mass_added": 0,
+            "width_nodes": 0,
+            "width_realized": 0
+          },
+          "identical_replica_roots": 0,
+          "n": 19,
+          "net": 0.4783157894736842,
+          "peak2": 19,
+          "peak_count": 19,
+          "regret": 0.0,
+          "root_overlap_us": null,
+          "tail_ms": 2.0854736842105264,
+          "utility": 0.6578947368421053,
+          "wall_ms": 3.8382065263157896,
+          "work_ns_per_root": [
+            95580.8947368421,
+            30189.684210526317,
+            2693574.4210526315,
+            290478.7894736842
+          ],
+          "worker_masks": {
+            "3": 19
+          }
+        },
+        {
+          "CPU_ms": 5.55576047368421,
+          "NN": 90.63157894736842,
+          "counts": {
+            "applied": 0,
+            "base_evals": 913,
+            "blocked_receipt": 0,
+            "changed": 0,
+            "eligible": 516,
+            "eval_changed": 187,
+            "extra_evals": 323,
+            "novel": 516,
+            "refinements": 187,
+            "repeated_delivery": 0,
+            "select_changed": 0,
+            "select_nodes": 0,
+            "terminal_leaves": 911,
+            "transferred": 0,
+            "width_mass_added": 541,
+            "width_nodes": 7108,
+            "width_realized": 989
+          },
+          "identical_replica_roots": 0,
+          "n": 19,
+          "net": 0.4766315789473684,
+          "peak2": 19,
+          "peak_count": 19,
+          "regret": 0.0,
+          "root_overlap_us": null,
+          "tail_ms": 2.226421052631579,
+          "utility": 0.6578947368421053,
+          "wall_ms": 4.153033894736842,
+          "work_ns_per_root": [
+            90177.84210526316,
+            44602.63157894737,
+            2935309.052631579,
+            245492.94736842104
+          ],
+          "worker_masks": {
+            "3": 19
+          }
+        },
+        {
+          "CPU_ms": 5.40906147368421,
+          "NN": 92.73684210526316,
+          "counts": {
+            "applied": 0,
+            "base_evals": 934,
+            "blocked_receipt": 0,
+            "changed": 0,
+            "eligible": 530,
+            "eval_changed": 197,
+            "extra_evals": 342,
+            "novel": 530,
+            "refinements": 197,
+            "repeated_delivery": 0,
+            "select_changed": 6794,
+            "select_nodes": 6932,
+            "terminal_leaves": 890,
+            "transferred": 0,
+            "width_mass_added": 545,
+            "width_nodes": 6932,
+            "width_realized": 1007
+          },
+          "identical_replica_roots": 0,
+          "n": 19,
+          "net": 0.4461052631578947,
+          "peak2": 19,
+          "peak_count": 19,
+          "regret": 0.02631578947368421,
+          "root_overlap_us": null,
+          "tail_ms": 2.143842105263158,
+          "utility": 0.631578947368421,
+          "wall_ms": 3.9399292105263157,
+          "work_ns_per_root": [
+            115208.73684210527,
+            38779.31578947369,
+            2908919.5263157897,
+            225039.15789473685
+          ],
+          "worker_masks": {
+            "3": 19
+          }
+        },
+        {
+          "CPU_ms": 4.442661210526316,
+          "NN": 68.05263157894737,
+          "counts": {
+            "applied": 68,
+            "base_evals": 807,
+            "blocked_receipt": 246,
+            "changed": 68,
+            "eligible": 602,
+            "eval_changed": 0,
+            "extra_evals": 0,
+            "novel": 356,
+            "refinements": 0,
+            "repeated_delivery": 0,
+            "select_changed": 0,
+            "select_nodes": 0,
+            "terminal_leaves": 1017,
+            "transferred": 98,
+            "width_mass_added": 0,
+            "width_nodes": 0,
+            "width_realized": 0
+          },
+          "identical_replica_roots": 0,
+          "n": 19,
+          "net": 0.5217894736842106,
+          "peak2": 19,
+          "peak_count": 19,
+          "regret": 0.0,
+          "root_overlap_us": null,
+          "tail_ms": 1.488578947368421,
+          "utility": 0.6578947368421053,
+          "wall_ms": 3.3252675789473685,
+          "work_ns_per_root": [
+            70775.94736842105,
+            29620.684210526317,
+            1921395.6842105263,
+            289439.36842105264
+          ],
+          "worker_masks": {
+            "3": 19
+          }
+        },
+        {
+          "CPU_ms": 4.519512789473684,
+          "NN": 69.57894736842105,
+          "counts": {
+            "applied": 73,
+            "base_evals": 836,
+            "blocked_receipt": 226,
+            "changed": 73,
+            "eligible": 602,
+            "eval_changed": 0,
+            "extra_evals": 0,
+            "novel": 376,
+            "refinements": 0,
+            "repeated_delivery": 0,
+            "select_changed": 6134,
+            "select_nodes": 7117,
+            "terminal_leaves": 988,
+            "transferred": 109,
+            "width_mass_added": 0,
+            "width_nodes": 0,
+            "width_realized": 0
+          },
+          "identical_replica_roots": 0,
+          "n": 19,
+          "net": 0.5187368421052632,
+          "peak2": 19,
+          "peak_count": 19,
+          "regret": 0.0,
+          "root_overlap_us": null,
+          "tail_ms": 1.6313684210526316,
+          "utility": 0.6578947368421053,
+          "wall_ms": 3.5032254736842106,
+          "work_ns_per_root": [
+            97989.1052631579,
+            30744.526315789473,
+            1959141.7894736843,
+            238178.8947368421
+          ],
+          "worker_masks": {
+            "3": 19
+          }
+        },
+        {
+          "CPU_ms": 4.512659052631579,
+          "NN": 71.3157894736842,
+          "counts": {
+            "applied": 73,
+            "base_evals": 869,
+            "blocked_receipt": 174,
+            "changed": 73,
+            "eligible": 539,
+            "eval_changed": 0,
+            "extra_evals": 0,
+            "novel": 365,
+            "refinements": 0,
+            "repeated_delivery": 0,
+            "select_changed": 0,
+            "select_nodes": 0,
+            "terminal_leaves": 955,
+            "transferred": 101,
+            "width_mass_added": 485,
+            "width_nodes": 7141,
+            "width_realized": 837
+          },
+          "identical_replica_roots": 0,
+          "n": 19,
+          "net": 0.48894736842105263,
+          "peak2": 19,
+          "peak_count": 19,
+          "regret": 0.02631578947368421,
+          "root_overlap_us": null,
+          "tail_ms": 1.5092105263157896,
+          "utility": 0.631578947368421,
+          "wall_ms": 3.3198824736842107,
+          "work_ns_per_root": [
+            83547.21052631579,
+            35946.10526315789,
+            2030134.894736842,
+            253534.31578947368
+          ],
+          "worker_masks": {
+            "3": 19
+          }
+        },
+        {
+          "CPU_ms": 4.613213894736842,
+          "NN": 73.36842105263158,
+          "counts": {
+            "applied": 76,
+            "base_evals": 908,
+            "blocked_receipt": 144,
+            "changed": 76,
+            "eligible": 422,
+            "eval_changed": 0,
+            "extra_evals": 0,
+            "novel": 278,
+            "refinements": 0,
+            "repeated_delivery": 0,
+            "select_changed": 6694,
+            "select_nodes": 6832,
+            "terminal_leaves": 916,
+            "transferred": 94,
+            "width_mass_added": 494,
+            "width_nodes": 6832,
+            "width_realized": 904
+          },
+          "identical_replica_roots": 0,
+          "n": 19,
+          "net": 0.4848421052631579,
+          "peak2": 19,
+          "peak_count": 19,
+          "regret": 0.02631578947368421,
+          "root_overlap_us": null,
+          "tail_ms": 1.622157894736842,
+          "utility": 0.631578947368421,
+          "wall_ms": 3.4102665789473683,
+          "work_ns_per_root": [
+            115064.52631578948,
+            35687.89473684211,
+            2145454.3684210526,
+            234703.73684210525
+          ],
+          "worker_masks": {
+            "3": 19
+          }
+        },
+        {
+          "CPU_ms": 4.949149421052631,
+          "NN": 86.05263157894737,
+          "counts": {
+            "applied": 68,
+            "base_evals": 843,
+            "blocked_receipt": 298,
+            "changed": 68,
+            "eligible": 703,
+            "eval_changed": 173,
+            "extra_evals": 306,
+            "novel": 405,
+            "refinements": 173,
+            "repeated_delivery": 0,
+            "select_changed": 0,
+            "select_nodes": 0,
+            "terminal_leaves": 981,
+            "transferred": 106,
+            "width_mass_added": 0,
+            "width_nodes": 0,
+            "width_realized": 0
+          },
+          "identical_replica_roots": 0,
+          "n": 19,
+          "net": 0.4857894736842105,
+          "peak2": 19,
+          "peak_count": 19,
+          "regret": 0.0,
+          "root_overlap_us": null,
+          "tail_ms": 1.9538421052631578,
+          "utility": 0.6578947368421053,
+          "wall_ms": 3.691218,
+          "work_ns_per_root": [
+            65011.47368421053,
+            28542.473684210527,
+            2570670.6315789474,
+            241953.8947368421
+          ],
+          "worker_masks": {
+            "3": 19
+          }
+        },
+        {
+          "CPU_ms": 5.054606789473684,
+          "NN": 88.89473684210526,
+          "counts": {
+            "applied": 77,
+            "base_evals": 857,
+            "blocked_receipt": 321,
+            "changed": 77,
+            "eligible": 701,
+            "eval_changed": 196,
+            "extra_evals": 346,
+            "novel": 380,
+            "refinements": 196,
+            "repeated_delivery": 0,
+            "select_changed": 6116,
+            "select_nodes": 7112,
+            "terminal_leaves": 967,
+            "transferred": 121,
+            "width_mass_added": 0,
+            "width_nodes": 0,
+            "width_realized": 0
+          },
+          "identical_replica_roots": 0,
+          "n": 19,
+          "net": 0.48010526315789476,
+          "peak2": 19,
+          "peak_count": 19,
+          "regret": 0.0,
+          "root_overlap_us": null,
+          "tail_ms": 2.0207894736842107,
+          "utility": 0.6578947368421053,
+          "wall_ms": 3.841502105263158,
+          "work_ns_per_root": [
+            93337.36842105263,
+            29009.684210526317,
+            2651277.1578947366,
+            221808.73684210525
+          ],
+          "worker_masks": {
+            "3": 19
+          }
+        },
+        {
+          "CPU_ms": 5.178078368421053,
+          "NN": 88.89473684210526,
+          "counts": {
+            "applied": 68,
+            "base_evals": 885,
+            "blocked_receipt": 162,
+            "changed": 68,
+            "eligible": 463,
+            "eval_changed": 182,
+            "extra_evals": 318,
+            "novel": 301,
+            "refinements": 182,
+            "repeated_delivery": 0,
+            "select_changed": 0,
+            "select_nodes": 0,
+            "terminal_leaves": 939,
+            "transferred": 98,
+            "width_mass_added": 523,
+            "width_nodes": 7030,
+            "width_realized": 961
+          },
+          "identical_replica_roots": 0,
+          "n": 19,
+          "net": 0.4537894736842105,
+          "peak2": 19,
+          "peak_count": 19,
+          "regret": 0.02631578947368421,
+          "root_overlap_us": null,
+          "tail_ms": 2.030315789473684,
+          "utility": 0.631578947368421,
+          "wall_ms": 3.8402524210526314,
+          "work_ns_per_root": [
+            81928.36842105263,
+            37268.0,
+            2693434.4210526315,
+            238376.68421052632
+          ],
+          "worker_masks": {
+            "3": 19
+          }
+        },
+        {
+          "CPU_ms": 5.387994052631579,
+          "NN": 92.26315789473684,
+          "counts": {
+            "applied": 80,
+            "base_evals": 932,
+            "blocked_receipt": 162,
+            "changed": 80,
+            "eligible": 446,
+            "eval_changed": 191,
+            "extra_evals": 335,
+            "novel": 284,
+            "refinements": 191,
+            "repeated_delivery": 0,
+            "select_changed": 6732,
+            "select_nodes": 6867,
+            "terminal_leaves": 892,
+            "transferred": 103,
+            "width_mass_added": 532,
+            "width_nodes": 6867,
+            "width_realized": 983
+          },
+          "identical_replica_roots": 0,
+          "n": 19,
+          "net": 0.44705263157894737,
+          "peak2": 19,
+          "peak_count": 19,
+          "regret": 0.02631578947368421,
+          "root_overlap_us": null,
+          "tail_ms": 2.145421052631579,
+          "utility": 0.631578947368421,
+          "wall_ms": 3.923234789473684,
+          "work_ns_per_root": [
+            116866.73684210527,
+            39271.21052631579,
+            2881278.3157894737,
+            238904.05263157896
+          ],
+          "worker_masks": {
+            "3": 19
+          }
+        }
+      ],
+      "factorial_U": {
+        "beta": [
+          0.6463815789473685,
+          -0.0016447368421052683,
+          -0.008223684210526341,
+          0.0016447368421052683,
+          0.0016447368421052683,
+          -0.0016447368421052683,
+          -0.0016447368421052683,
+          -0.004934210526315805,
+          -0.0016447368421052683,
+          0.0016447368421052683,
+          -0.004934210526315805,
+          -0.0016447368421052683,
+          -0.0016447368421052683,
+          0.0016447368421052683,
+          0.0016447368421052683,
+          0.004934210526315805
+        ],
+        "full_minus_base": -0.026315789473684292,
+        "leaveout": {
+          "B": 0.0,
+          "S": 0.0,
+          "V": 0.0,
+          "X": -0.026315789473684292
+        },
+        "main": {
+          "B": -0.0032894736842105365,
+          "S": -0.0032894736842105365,
+          "V": 0.0032894736842105365,
+          "X": -0.016447368421052683
+        },
+        "pair": {
+          "SB": 0.006578947368421073,
+          "SV": -0.006578947368421073,
+          "SX": 0.006578947368421073,
+          "VB": -0.006578947368421073,
+          "XB": -0.01973684210526322,
+          "XV": -0.006578947368421073
+        }
+      },
+      "factorial_net": {
+        "beta": [
+          0.4862434210526316,
+          -0.004032894736842103,
+          -0.011532894736842103,
+          0.0019276315789473752,
+          -0.01720394736842106,
+          -0.002111842105263155,
+          -0.0016118421052631615,
+          -0.005098684210526325,
+          -0.0011118421052631541,
+          0.0015855263157894747,
+          -0.004940789473684218,
+          -0.0021907894736842154,
+          -0.0012434210526315811,
+          0.0014539473684210616,
+          0.001822368421052642,
+          0.005098684210526311
+        ],
+        "full_minus_base": -0.07578947368421052,
+        "leaveout": {
+          "B": 0.0009473684210526412,
+          "S": -0.006736842105263152,
+          "V": -0.03778947368421054,
+          "X": -0.03305263157894739
+        },
+        "main": {
+          "B": -0.0022236842105263083,
+          "S": -0.008065789473684207,
+          "V": -0.03440789473684212,
+          "X": -0.023065789473684206
+        },
+        "pair": {
+          "SB": 0.006342105263157899,
+          "SV": -0.00844736842105262,
+          "SX": 0.007710526315789501,
+          "VB": -0.004973684210526325,
+          "XB": -0.01976315789473687,
+          "XV": -0.006447368421052646
+        }
+      },
+      "full_vs_base": {
+        "better": 0,
+        "ci": [
+          -0.07894736842105263,
+          0.0
+        ],
+        "gain": -0.02631578947368421,
+        "net": -0.07578947368421052,
+        "worse": 1
+      },
+      "live": {
+        "CPU_ms": 4.532781684210526,
+        "NN": 69.89473684210526,
+        "counts": {
+          "applied": 0,
+          "base_evals": 842,
+          "blocked_receipt": 0,
+          "changed": 0,
+          "eligible": 408,
+          "eval_changed": 0,
+          "extra_evals": 0,
+          "novel": 408,
+          "refinements": 0,
+          "repeated_delivery": 0,
+          "select_changed": 0,
+          "select_nodes": 0,
+          "terminal_leaves": 982,
+          "transferred": 0,
+          "width_mass_added": 455,
+          "width_nodes": 7160,
+          "width_realized": 809
+        },
+        "identical_replica_roots": 0,
+        "n": 19,
+        "net": 0.5181052631578947,
+        "peak2": 19,
+        "peak_count": 19,
+        "regret": 0.0,
+        "root_overlap_us": null,
+        "tail_ms": 1.6107368421052632,
+        "utility": 0.6578947368421053,
+        "wall_ms": 3.3528136842105263,
+        "work_ns_per_root": [
+          85706.57894736843,
+          34253.84210526316,
+          2093911.1578947369,
+          252010.26315789475
+        ],
+        "worker_masks": {
+          "3": 19
+        }
+      },
+      "live_profiles": {
+        "2": 19
+      },
+      "live_vs_base": {
+        "better": 0,
+        "ci": [
+          0.0,
+          0.0
+        ],
+        "gain": 0.0,
+        "net": -0.004736842105263157,
+        "worse": 0
+      },
+      "matched_full_base": 0,
+      "repeats": {
+        "base": {
+          "NN_sd": 7.013145551485138,
+          "best_disagree": 3,
+          "mean_js": 0.011549700361853963,
+          "net_sd": 0.014026291102970278,
+          "utility_sd": 0.0,
+          "wall_sd_ms": 0.7265017828140005
+        },
+        "full": {
+          "NN_sd": 2.59046835838415,
+          "best_disagree": 3,
+          "mean_js": 0.0026499044406515255,
+          "net_sd": 0.0051809367167683,
+          "utility_sd": 0.0,
+          "wall_sd_ms": 0.40454103828780297
+        },
+        "live": {
+          "NN_sd": 4.192725529821986,
+          "best_disagree": 2,
+          "mean_js": 0.013308101550650821,
+          "net_sd": 0.00838545105964397,
+          "utility_sd": 0.0,
+          "wall_sd_ms": 0.4252971826623739
+        }
+      },
+      "schedule_base_U_vs_serial": 0.0,
+      "schedule_full_U_vs_serial": 0.0,
+      "schedule_interaction_full_U": 0.0,
+      "schedule_interaction_full_net": 0.0038947368421052703
+    }
+  },
+  "n": 19
+}
