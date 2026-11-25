@@ -77,7 +77,8 @@ class Server:
             assert S0-E==60-sum(v)>=0
             if arm in FIXED:assert E==0
             if arm in ('BASE','ACTIVE_FIXED'):assert v==[15]*4
-            if arm not in FIXED:assert C0==S0
+            if arm not in FIXED and arm!='BOUND':assert C0==S0
+            if arm=='BOUND' and C0!=S0 and j.get('group')=='CAL':print('BOUND_NONCERT_SHORTFALL',v,C0,S0,E,flush=True)
         else:assert a['account'] is None and a['target_us']==target and a['reserve_us']==reserve
         return a
     def close(self):
@@ -167,7 +168,7 @@ def score():
                 if r['reason']=='CERTIFIED':assert reg==0;stop+=1
             rr.append(dict(id=r['id'],regret=reg,blocks=r['blocks'],evals=r['result']['evaluator_calls'],stop=r['reason']=='CERTIFIED',cert=g is not None and g['witness'] is not None,unsolved_cert=g is not None and g['witness'] is not None and g['interval'][0]!=g['interval'][1],reason=r['reason'],hooks=r['hooks']))
         k=(a['pool'],a['seed'],a['mode'],a['arm']);assert k not in by
-        by[k]=dict(regret=S.mean(r['regret'] for r in rr),whole_us=a['whole_us'],transport_us=a['transport_us'],blocks=a['total_blocks'],evals=sum(r['evals'] for r in rr),credit=(a['account'] or {}).get('credit',0),extra=(a['account'] or {}).get('extra',0),unused=(a['account'] or {}).get('unused',0),stops=sum(r['stop'] for r in rr),certs=sum(r['cert'] for r in rr),unsolved_cert=sum(r['unsolved_cert'] for r in rr),caps=sum(r['reason']=='CAP' for r in rr),roots=rr)
+        by[k]=dict(regret=S.mean(r['regret'] for r in rr),whole_us=a['whole_us'],transport_us=a['transport_us'],blocks=a['total_blocks'],evals=sum(r['evals'] for r in rr),credit=(a['account'] or {}).get('credit',0),extra=(a['account'] or {}).get('extra',0),unused=(a['account'] or {}).get('unused',0),shortfall=(a['account'] or {}).get('shortfall',0),cert_reuse_lb=max(0,(a['account'] or {}).get('credit',0)-(a['account'] or {}).get('unused',0)),cert_reuse_ub=min((a['account'] or {}).get('credit',0),(a['account'] or {}).get('extra',0)),stops=sum(r['stop'] for r in rr),certs=sum(r['cert'] for r in rr),unsolved_cert=sum(r['unsolved_cert'] for r in rr),caps=sum(r['reason']=='CAP' for r in rr),roots=rr)
     assert len(by)==18*2*2*9
     rng=random.Random(202611250810);summary={}
     for st in (*ST,'ALL'):
@@ -176,7 +177,7 @@ def score():
             arms={};paired={}
             for arm in ARMS:
                 rr=[by[i,s,mo,arm] for i in ids for s in SEEDS];roots=[r for x in rr for r in x['roots']]
-                m=dict(n_pools=len(ids),n_runs=len(rr),regret=S.mean(x['regret'] for x in rr),whole_us=S.mean(x['whole_us'] for x in rr),transport_us=S.mean(x['transport_us'] for x in rr),mean_blocks=S.mean(x['blocks'] for x in rr),mean_evals=S.mean(x['evals'] for x in rr),credit=sum(x['credit'] for x in rr),extra=sum(x['extra'] for x in rr),unused=sum(x['unused'] for x in rr),stops=sum(x['stops'] for x in rr),certs=sum(x['certs'] for x in rr),unsolved_cert=sum(x['unsolved_cert'] for x in rr),caps=sum(x['caps'] for x in rr),pools_reused=sum(x['extra']>0 for x in rr),roots_extra=sum(r['blocks']>15 for r in roots),hooks={k:sum(r['hooks'][k] for r in roots) for k in roots[0]['hooks'] if k not in ('leaf_paths','worker_mask','b_events')})
+                m=dict(n_pools=len(ids),n_runs=len(rr),regret=S.mean(x['regret'] for x in rr),whole_us=S.mean(x['whole_us'] for x in rr),transport_us=S.mean(x['transport_us'] for x in rr),mean_blocks=S.mean(x['blocks'] for x in rr),mean_evals=S.mean(x['evals'] for x in rr),credit=sum(x['credit'] for x in rr),extra=sum(x['extra'] for x in rr),unused=sum(x['unused'] for x in rr),noncert_shortfall=sum(x['shortfall']-x['credit'] for x in rr),cert_reuse_lb=sum(x['cert_reuse_lb'] for x in rr),cert_reuse_ub=sum(x['cert_reuse_ub'] for x in rr),pools_cert_reused=sum(x['cert_reuse_lb']>0 for x in rr),stops=sum(x['stops'] for x in rr),certs=sum(x['certs'] for x in rr),unsolved_cert=sum(x['unsolved_cert'] for x in rr),caps=sum(x['caps'] for x in rr),pools_reused=sum(x['extra']>0 for x in rr),roots_extra=sum(r['blocks']>15 for r in roots),hooks={k:sum(r['hooks'][k] for r in roots) for k in roots[0]['hooks'] if k not in ('leaf_paths','worker_mask','b_events')})
                 arms[arm]=m
             for ref in ('BASE','ACTIVE_FIXED','STOP_FIXED','RR','RR_WRITER'):
                 for arm in ARMS:

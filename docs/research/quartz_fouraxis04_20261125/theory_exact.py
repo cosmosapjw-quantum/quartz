@@ -26,3 +26,16 @@ for _ in range(600):
     cut=max(x[i]+y[j] for i in range(cert+1) for j in range(7-i))
     assert full==cut;n+=1
 print('Exact block accounting, risk and STOP contraction assertions',n)
+
+# Independent certified/noncert credit attribution bounds for all possible allocations.
+from itertools import product
+nn=0
+for q in (1,2,3):
+    for b in product(range(4*q+1),repeat=4):
+        if sum(b)>4*q:continue
+        S=sum(max(0,q-i) for i in b);E=sum(max(0,i-q) for i in b);U=S-E
+        for c in product((False,True),repeat=4):
+            C=sum(max(0,q-i) for i,a in zip(b,c) if a)
+            feasible=[x for x in range(E+1) if x<=C and E-x<=S-C]
+            assert min(feasible)==max(0,C-U) and max(feasible)==min(C,E);nn+=1
+print('Exact certified-credit attribution interval assertions',nn)
