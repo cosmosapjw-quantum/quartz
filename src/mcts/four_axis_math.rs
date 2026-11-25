@@ -134,7 +134,9 @@ mod placement_key_tests{
 // P4b: exact finite-budget visit-recommendation reachability.
 pub fn vote_reach(counts:&[u32])->(usize,Vec<Option<u32>>){
     assert!(!counts.is_empty()&&counts.iter().any(|&v|v>0));
-    (0,vec![None;counts.len()])
+    let leader=counts.iter().enumerate().max_by_key(|&(i,v)|(*v,i)).unwrap().0;
+    let d=counts.iter().enumerate().map(|(i,&n)|if i==leader{None}else{Some(counts[leader]-n+u32::from(i<leader))}).collect();
+    (leader,d)
 }
 #[cfg(test)]
 mod vote_reach_tests{

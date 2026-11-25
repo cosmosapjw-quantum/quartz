@@ -28,6 +28,7 @@ pub struct Hooks{
     record_repeats:bool,solved_returns:Mutex<std::collections::BTreeSet<Key>>,
     local_mode:u8,local_remaining:AtomicU64,local_focus:Option<usize>,local_frontier:Option<Frontier>,
     tactical_root_floor:usize,tactical_root_first:Option<usize>,
+    decision_force:Option<(usize,u32,u32)>,
     leaf_paths:Mutex<Vec<Vec<usize>>>,workers:AtomicU64,
     ledger:Mutex<Ledger>,
     gomoku_ledger:Option<Mutex<math::ContextLedger<[u64;8]>>>,
@@ -37,7 +38,7 @@ impl Hooks{
     pub fn new(mask:u8)->Self{Self::new_modes(mask&3,if mask&V!=0{1}else{0},if mask&B!=0{4}else{0},false)}
     pub fn new_modes(mask:u8,vmode:u8,bmode:u8,trace:bool)->Self{
         assert!(mask<=3&&vmode<=4&&bmode<=5);
-        Self{mask,vmode,bmode,trace,record_repeats:false,solved_returns:Mutex::new(std::collections::BTreeSet::new()),local_mode:0,local_remaining:AtomicU64::new(0),local_focus:None,local_frontier:None,tactical_root_floor:0,tactical_root_first:None,counts:std::array::from_fn(|_|AtomicU64::new(0)),ledger:Mutex::new(Ledger::default()),gomoku_ledger:None,gomoku_b_steps:Mutex::new(Vec::new()),leaf_paths:Mutex::new(Vec::new()),workers:AtomicU64::new(0),graph:Mutex::new(Graph::default()),proof_mode:0,proof_priority:true,trace_b:false,b_events:Mutex::new(Vec::new())}
+        Self{mask,vmode,bmode,trace,record_repeats:false,solved_returns:Mutex::new(std::collections::BTreeSet::new()),local_mode:0,local_remaining:AtomicU64::new(0),local_focus:None,local_frontier:None,tactical_root_floor:0,tactical_root_first:None,decision_force:None,counts:std::array::from_fn(|_|AtomicU64::new(0)),ledger:Mutex::new(Ledger::default()),gomoku_ledger:None,gomoku_b_steps:Mutex::new(Vec::new()),leaf_paths:Mutex::new(Vec::new()),workers:AtomicU64::new(0),graph:Mutex::new(Graph::default()),proof_mode:0,proof_priority:true,trace_b:false,b_events:Mutex::new(Vec::new())}
     }
     // Scope only exact unrestricted Freestyle15 board-only evaluator seam.
     pub fn with_gomoku_exact_merge(mut self)->Self{
@@ -57,7 +58,19 @@ impl Hooks{
         self.tactical_root_floor=floor;self.tactical_root_first=first;self
     }
     pub fn tactical_first_action(&self,depth:usize,n:u32)->Option<usize>{
-        if depth==0&&n==0{self.tactical_root_first}else{None}
+        if depth!=0{return None;}
+        if let Some((mv,lo,hi))=self.decision_force{
+            if (lo..hi).contains(&n){return Some(mv);}
+        }
+        if n==0{self.tactical_root_first}else{None}
+    }
+    /// One-worker research-only completed-block control. Do not use with graph
+    /// filtering or other root constraints. Floor and force cleared explicitly.
+    pub fn set_decision_force(&mut self,target:Option<(usize,usize)>,lo:u32,hi:u32){
+        assert!(self.mask==0&&self.proof_mode==0&&self.local_mode==0&&self.tactical_root_first.is_none());
+        if let Some((rank,mv))=target{
+            assert!(rank<225&&lo<hi);self.tactical_root_floor=rank+1;self.decision_force=Some((mv,lo,hi));
+        }else{self.tactical_root_floor=0;self.decision_force=None;}
     }
     /// Only mutate between completed blocks, never while workers are active.
     pub fn configure_local(&mut self,mode:u8,v:u8,b:u8,priority:bool){

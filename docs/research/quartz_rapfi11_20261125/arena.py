@@ -43,8 +43,10 @@ class Server:
         a=json.loads(line)
         a['transport_ns']=time.perf_counter_ns()-start
         return a
-    def search(self,h,arm,cap=256,seed=17):
-        a=self.request(dict(cmd='research_rapfi_shared_search',rule='freestyle',history=h,arm=arm,visits=cap,seed=seed))
+    def search(self,h,arm,cap=256,seed=17,prefix=None):
+        q=dict(cmd='research_rapfi_shared_search',rule='freestyle',history=h,arm=arm,visits=cap,seed=seed)
+        if prefix is not None:q['prefix']=prefix
+        a=self.request(q)
         assert 'error' not in a,a
         check(a,h,arm,cap,seed)
         return a
@@ -77,7 +79,7 @@ def check(a,h,arm,cap,seed):
     if guard is not None:
         assert a['cause']=='GUARDED' and a['best']==guard and a['NN_calls']==a['visits']==0 and a['root_eval'] is None and a['result'] is None and a['quartz'] is None
         return
-    n=a['visits'];assert 1<=n<=cap and (arm=='QUARTZ' or n==cap)
+    n=a['visits'];assert 1<=n<=cap and (arm in ('QUARTZ','DSSTOP') or n==cap)
     r=a['result'];init=a['initial'];ev=a['root_eval']
     assert ev['board']==''.join(map(str,b)) and ev['player']==p
     wdl=[ev[x] for x in ('win','draw','loss')];pi=ev['policy']

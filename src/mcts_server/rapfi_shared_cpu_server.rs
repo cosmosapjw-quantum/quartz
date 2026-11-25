@@ -92,11 +92,12 @@ struct Request{
     #[serde(default)]arm:Option<String>,
     #[serde(default)]visits:Option<u32>,
     #[serde(default)]seed:Option<u64>,
+    #[serde(default)]prefix:Option<u32>,
 }
 fn inner(line:&str)->Result<Value,String>{
     let q:Request=serde_json::from_str(line).map_err(|e|e.to_string())?;
     if q.cmd=="research_rapfi_shared_open"||q.cmd=="research_rapfi_shared_close"{
-        if q.rule.is_some()||q.history.is_some()||q.arm.is_some()||q.visits.is_some()||q.seed.is_some(){return Err("open/close do not accept search options".into());}
+        if q.rule.is_some()||q.history.is_some()||q.arm.is_some()||q.visits.is_some()||q.seed.is_some()||q.prefix.is_some(){return Err("open/close do not accept search options".into());}
         let mut s=session().lock().unwrap();
         if q.cmd=="research_rapfi_shared_open"{
             if s.is_some(){return Err("session already open".into());}
@@ -110,7 +111,9 @@ fn inner(line:&str)->Result<Value,String>{
     let h=q.history.ok_or("history required")?;let arm=q.arm.ok_or("arm required")?;
     let cap=q.visits.ok_or("visits required")?;let seed=q.seed.ok_or("seed required")?;
     let axis=match arm.as_str(){"AX0"=>Some((0,0,0)),"AXS"=>Some((1,0,0)),"AXX"=>Some((2,0,0)),"AXV"=>Some((0,3,0)),"AXB"=>Some((0,0,3)),"AXALL"=>Some((3,3,3)),_=>None};
-    if (!matches!(arm.as_str(),"STANDARD_PW"|"STANDARD_FULL"|"QUARTZ")&&axis.is_none())||!(1..=1024).contains(&cap)||h.len()>224||axis.is_some()&&cap!=96{return Err("bad arm/budget/history".into());}
+    if (!matches!(arm.as_str(),"STANDARD_PW"|"STANDARD_FULL"|"QUARTZ")&&axis.is_none()&&!matches!(arm.as_str(),"DS0"|"DSF"|"DSX"|"DSL"|"DSV"|"DSB"|"DSSTOP"))||!(1..=1024).contains(&cap)||h.len()>224||axis.is_some()&&cap!=96{return Err("bad arm/budget/history".into());}
+    let ds=matches!(arm.as_str(),"DS0"|"DSF"|"DSX"|"DSL"|"DSV"|"DSB"|"DSSTOP");
+    if ds&&(cap!=32||!matches!(q.prefix,Some(8|16)))||!ds&&q.prefix.is_some(){return Err("decision arms require cap32 and prefix8/16 only".into());}
     let start=Instant::now();
     let eval=session().lock().unwrap().as_ref().cloned().ok_or("session not open")?;
     let variant=GomokuVariant::Freestyle;
@@ -130,7 +133,7 @@ fn inner(line:&str)->Result<Value,String>{
     let mut out=json!({"schema":"quartz_rapfi_shared_v1","status":"OK","arm":arm,"rule":"freestyle","history":h,"player":side,"legal":legal,"board":board,"seed":seed,"cap":cap,"proof":proof_json(&p),"evaluator":"rapfi_250615_mix9svq","threads":1});
     // Shared, game-rule-only guard; no advantage attributed to Quartz.
     if let Some(m)=proof::guard(&p){
-        out["axis"]=Value::Null;out["cause"]=json!("GUARDED");out["best"]=json!(m);out["visits"]=json!(0);out["NN_calls"]=json!(0);out["root_eval"]=Value::Null;out["initial"]=Value::Null;out["result"]=Value::Null;out["quartz"]=Value::Null;out["eval_ipc_ns"]=json!(0);out["whole_us"]=json!(start.elapsed().as_micros());return Ok(out);
+        out["decision"]=Value::Null;out["axis"]=Value::Null;out["cause"]=json!("GUARDED");out["best"]=json!(m);out["visits"]=json!(0);out["NN_calls"]=json!(0);out["root_eval"]=Value::Null;out["initial"]=Value::Null;out["result"]=Value::Null;out["quartz"]=Value::Null;out["eval_ipc_ns"]=json!(0);out["whole_us"]=json!(start.elapsed().as_micros());return Ok(out);
     }
     eval.0.lock().unwrap().reset()?;
     let mut cfg=gomoku15_quartz(variant).with_seed(seed);
@@ -144,8 +147,52 @@ fn inner(line:&str)->Result<Value,String>{
     let engine=MctsEngine::new(s,eval.clone(),cfg);
     let init=engine.four_axis_snapshot();
     let t=Instant::now();
-    let mut axis_output=Value::Null;
-    let (visits,cause,telemetry)=if let Some((mask,v,b))=axis{
+    let mut axis_output=Value::Null;let mut decision_output=Value::Null;
+    let (visits,cause,telemetry)=if ds{
+        use crate::mcts::four_axis::Hooks;
+        use crate::mcts::four_axis_math::vote_reach;
+        let pre=q.prefix.unwrap();
+        let merge=arm=="DSB";
+        let mut hook=if merge{Hooks::new_modes(0,0,5,false).with_gomoku_exact_merge()}else{Hooks::new_modes(0,0,0,false)};
+        let mut phases=Vec::new();let mut current=0u32;let mut target=None;let mut target_info=Value::Null;
+        let mut stopped=false;
+        let mut ends=vec![pre,pre+4,pre+8,pre+16,32];ends.sort_unstable();ends.dedup();
+        for end in ends{
+            // STOP uses exactly the standard phase boundaries after prefix
+            // and after the 8-visit intervention slot, never mid-iteration.
+            let t0=Instant::now();engine.four_axis_block(end-current,1,&hook);
+            let step=t0.elapsed().as_micros();current=end;
+            let r=engine.four_axis_snapshot();let ca=r["candidates"].as_array().unwrap();let es=r["edges"].as_array().unwrap();
+            let mut counts=vec![0u32;ca.len()];
+            for (i,e) in es.iter().enumerate(){assert_eq!(e["move"],ca[i][0]);counts[i]=e["n"].as_u64().unwrap() as u32;}
+            assert_eq!(counts.iter().sum::<u32>(),current);
+            let (leader,dist)=vote_reach(&counts);
+            assert_eq!(r["best"],ca[leader][0]);
+            let min_d=dist.iter().flatten().min().copied();
+            let locked=min_d.is_none_or(|d|d>32-current);
+            phases.push(json!({"visits":current,"step_us":step,"result":r,"counters":hook.snapshot(),"min_d":min_d,"locked":locked}));
+            if arm=="DSSTOP"&&current!=pre+4&&current<32&&locked{stopped=true;break;}
+            if current==pre{
+                let reachable=|i:usize|dist[i].is_some_and(|d|d<=32-pre);
+                let idx=match arm.as_str(){
+                    "DSF"=>(0..es.len()).filter(|&i|counts[i]>0&&reachable(i)).max_by_key(|&i|(counts[i],i)),
+                    "DSX"=>(es.len()..ca.len()).find(|&i|reachable(i)),
+                    "DSL"=>Some(leader),
+                    _=>None
+                };
+                target=idx.map(|i|(i,ca[i][0].as_u64().unwrap() as usize));
+                if let Some((i,m))=target{target_info=json!({"rank":i,"move":m,"d":dist[i],"n":counts[i],"materialized":i<es.len(),"leader":ca[leader][0]});}
+                hook.set_decision_force(target,pre,pre+4);
+                hook.configure_local(0,if arm=="DSV"{3}else{0},if merge{3}else{0},true);
+            }else if current==pre+4{
+                hook.set_decision_force(None,0,0);
+            }else if current==pre+8{
+                hook.configure_local(0,0,0,true);
+            }
+        }
+        decision_output=json!({"prefix":pre,"phases":phases,"target":target_info,"stopped":stopped,"b_trace":hook.gomoku_backup_trace(),"exact_merge":merge});
+        (current,(if stopped{"DS_LOCKED"}else{"DS_FIXED"}).to_string(),Value::Null)
+    }else if let Some((mask,v,b))=axis{
         use crate::mcts::four_axis::Hooks;
         let mut hook=if b==3{Hooks::new_modes(0,0,5,false).with_gomoku_exact_merge()}else{Hooks::new_modes(0,0,0,false)};
         let mut phases=Vec::new();
@@ -170,12 +217,12 @@ fn inner(line:&str)->Result<Value,String>{
     let search_us=t.elapsed().as_micros();let result=engine.four_axis_snapshot();let best=result["best"].as_u64().ok_or("no best move")?;
     assert!(visits>0&&visits<=cap);
     assert_eq!(result["root_n"].as_u64(),Some(visits as u64));
-    if arm!="QUARTZ"{assert_eq!(visits,cap);}
+    if arm!="QUARTZ"&&arm!="DSSTOP"{assert_eq!(visits,cap);}
     let native_calls=engine.evaluator_call_count();
     let (calls,ipc,first)={let b=eval.0.lock().unwrap();(b.calls,b.elapsed_ns,b.first.as_ref().ok_or("missing root NN eval")?.json())};
     assert_eq!(calls,native_calls as u64);
     drop(engine);drop(eval);
-    out["cause"]=json!(cause);out["best"]=json!(best);out["visits"]=json!(visits);out["axis"]=axis_output;out["NN_calls"]=json!(calls);out["root_eval"]=first;out["initial"]=init;out["result"]=result;out["quartz"]=telemetry;out["search_us"]=json!(search_us);out["eval_ipc_ns"]=json!(ipc);out["whole_us"]=json!(start.elapsed().as_micros());Ok(out)
+    out["cause"]=json!(cause);out["best"]=json!(best);out["visits"]=json!(visits);out["axis"]=axis_output;out["decision"]=decision_output;out["NN_calls"]=json!(calls);out["root_eval"]=first;out["initial"]=init;out["result"]=result;out["quartz"]=telemetry;out["search_us"]=json!(search_us);out["eval_ipc_ns"]=json!(ipc);out["whole_us"]=json!(start.elapsed().as_micros());Ok(out)
 }
 pub(super) fn handle(line:&str)->Value{match inner(line){Ok(v)=>v,Err(e)=>json!({"error":e})}}
 #[cfg(test)]
