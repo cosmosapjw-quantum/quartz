@@ -27,7 +27,8 @@ def groups(co,split,st):
     return [p for p in n.chunks(r) if len(p)==8]
 def check_lock():
     n.lock()
-    assert sha(D/'GAIN_LOCK.json')==read('C01_GAIN_SHA.json')['gain_sha256'] if (D/'C01_GAIN_SHA.json').exists() else True
+    expected=next(line.split()[0] for line in (D/'C01_IDENTITY.txt').read_text().splitlines() if line.endswith('/GAIN_LOCK.json'))
+    assert sha(D/'GAIN_LOCK.json')==expected
 def fit():
     check_lock();co=read('C07_COHORT.json');g=read('GAIN_LOCK.json')['gain'];pre=preflight()
     write('C07_PREFLIGHT.json',pre)

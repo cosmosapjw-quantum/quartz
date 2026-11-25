@@ -1,0 +1,1402 @@
+{
+  "dp": {
+    "budget_us": 100000,
+    "cache_hit": true,
+    "continuation_step_us": 969,
+    "drop_us": 375,
+    "floors": [
+      1,
+      1,
+      1
+    ],
+    "mode": "DP",
+    "model_identity": "161f9e6e26840754384cb47335d1082d837fa014735cbfaa2517209422e29f24",
+    "model_us": 14,
+    "optional_us": 1007,
+    "overrun_us": 0,
+    "plan_us": 31,
+    "planned": [
+      [
+        "a",
+        32
+      ],
+      [
+        "b",
+        32
+      ]
+    ],
+    "predicted_gain": 0.4,
+    "predicted_ticks": 8,
+    "prefix_step_us": 354,
+    "prefix_us": 600,
+    "rows": [
+      {
+        "cell": 6,
+        "entropy": 0.28898309867585964,
+        "history": "324252",
+        "id": "a",
+        "legal": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "root_hash": "02c34536b1794366",
+        "setup_us": 109,
+        "steps": [
+          {
+            "best": 5,
+            "eval_calls": 2,
+            "policy": [
+              [
+                3,
+                0.25
+              ],
+              [
+                5,
+                0.75
+              ],
+              [
+                2,
+                0.0
+              ],
+              [
+                6,
+                0.0
+              ],
+              [
+                4,
+                0.0
+              ],
+              [
+                1,
+                0.0
+              ],
+              [
+                0,
+                0.0
+              ]
+            ],
+            "root_hash": "02c34536b1794366",
+            "search_us": 148,
+            "visits": 4,
+            "wall_us": 149
+          },
+          {
+            "best": 5,
+            "eval_calls": 2,
+            "policy": [
+              [
+                3,
+                0.125
+              ],
+              [
+                5,
+                0.875
+              ],
+              [
+                2,
+                0.0
+              ],
+              [
+                6,
+                0.0
+              ],
+              [
+                4,
+                0.0
+              ],
+              [
+                1,
+                0.0
+              ],
+              [
+                0,
+                0.0
+              ]
+            ],
+            "root_hash": "02c34536b1794366",
+            "search_us": 106,
+            "visits": 8,
+            "wall_us": 108
+          },
+          {
+            "best": 5,
+            "eval_calls": 2,
+            "policy": [
+              [
+                3,
+                0.0625
+              ],
+              [
+                5,
+                0.9375
+              ],
+              [
+                2,
+                0.0
+              ],
+              [
+                6,
+                0.0
+              ],
+              [
+                4,
+                0.0
+              ],
+              [
+                1,
+                0.0
+              ],
+              [
+                0,
+                0.0
+              ]
+            ],
+            "root_hash": "02c34536b1794366",
+            "search_us": 127,
+            "visits": 16,
+            "wall_us": 128
+          },
+          {
+            "best": 5,
+            "eval_calls": 6,
+            "policy": [
+              [
+                3,
+                0.03125
+              ],
+              [
+                5,
+                0.84375
+              ],
+              [
+                2,
+                0.03125
+              ],
+              [
+                6,
+                0.03125
+              ],
+              [
+                4,
+                0.03125
+              ],
+              [
+                1,
+                0.03125
+              ],
+              [
+                0,
+                0.0
+              ]
+            ],
+            "root_hash": "02c34536b1794366",
+            "search_us": 258,
+            "visits": 32,
+            "wall_us": 259
+          }
+        ],
+        "threat": true,
+        "top": 0.75
+      },
+      {
+        "cell": 0,
+        "entropy": 0.5343107806620332,
+        "history": "4433226223",
+        "id": "b",
+        "legal": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "root_hash": "b298229fa2450efa",
+        "setup_us": 113,
+        "steps": [
+          {
+            "best": 4,
+            "eval_calls": 3,
+            "policy": [
+              [
+                3,
+                0.25
+              ],
+              [
+                5,
+                0.25
+              ],
+              [
+                4,
+                0.5
+              ],
+              [
+                2,
+                0.0
+              ],
+              [
+                6,
+                0.0
+              ],
+              [
+                0,
+                0.0
+              ],
+              [
+                1,
+                0.0
+              ]
+            ],
+            "root_hash": "b298229fa2450efa",
+            "search_us": 204,
+            "visits": 4,
+            "wall_us": 205
+          },
+          {
+            "best": 4,
+            "eval_calls": 3,
+            "policy": [
+              [
+                3,
+                0.125
+              ],
+              [
+                5,
+                0.125
+              ],
+              [
+                4,
+                0.75
+              ],
+              [
+                2,
+                0.0
+              ],
+              [
+                6,
+                0.0
+              ],
+              [
+                0,
+                0.0
+              ],
+              [
+                1,
+                0.0
+              ]
+            ],
+            "root_hash": "b298229fa2450efa",
+            "search_us": 127,
+            "visits": 8,
+            "wall_us": 128
+          },
+          {
+            "best": 4,
+            "eval_calls": 3,
+            "policy": [
+              [
+                3,
+                0.0625
+              ],
+              [
+                5,
+                0.0625
+              ],
+              [
+                4,
+                0.875
+              ],
+              [
+                2,
+                0.0
+              ],
+              [
+                6,
+                0.0
+              ],
+              [
+                0,
+                0.0
+              ],
+              [
+                1,
+                0.0
+              ]
+            ],
+            "root_hash": "b298229fa2450efa",
+            "search_us": 125,
+            "visits": 16,
+            "wall_us": 126
+          },
+          {
+            "best": 4,
+            "eval_calls": 5,
+            "policy": [
+              [
+                3,
+                0.03125
+              ],
+              [
+                5,
+                0.03125
+              ],
+              [
+                4,
+                0.84375
+              ],
+              [
+                2,
+                0.03125
+              ],
+              [
+                6,
+                0.03125
+              ],
+              [
+                0,
+                0.03125
+              ],
+              [
+                1,
+                0.0
+              ]
+            ],
+            "root_hash": "b298229fa2450efa",
+            "search_us": 220,
+            "visits": 32,
+            "wall_us": 220
+          }
+        ],
+        "threat": false,
+        "top": 0.5
+      }
+    ],
+    "schema": "quartz_nn_multiquanta_v1",
+    "seed": 17,
+    "selected": [
+      [
+        "a",
+        32
+      ],
+      [
+        "b",
+        32
+      ]
+    ],
+    "setup_total_us": 222,
+    "threads": 2,
+    "transport_us": 2107.987,
+    "whole_us": 1982
+  },
+  "negative": {
+    "budget_us": 100000,
+    "cache_hit": true,
+    "continuation_step_us": 0,
+    "drop_us": 277,
+    "floors": [
+      1,
+      1,
+      1
+    ],
+    "mode": "DP",
+    "model_identity": "161f9e6e26840754384cb47335d1082d837fa014735cbfaa2517209422e29f24",
+    "model_us": 15,
+    "optional_us": 18,
+    "overrun_us": 0,
+    "plan_us": 18,
+    "planned": [],
+    "predicted_gain": 0.0,
+    "predicted_ticks": 0,
+    "prefix_step_us": 304,
+    "prefix_us": 545,
+    "rows": [
+      {
+        "cell": 6,
+        "entropy": 0.28898309867585964,
+        "history": "324252",
+        "id": "a",
+        "legal": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "root_hash": "02c34536b1794366",
+        "setup_us": 109,
+        "steps": [
+          {
+            "best": 5,
+            "eval_calls": 2,
+            "policy": [
+              [
+                3,
+                0.25
+              ],
+              [
+                5,
+                0.75
+              ],
+              [
+                2,
+                0.0
+              ],
+              [
+                6,
+                0.0
+              ],
+              [
+                4,
+                0.0
+              ],
+              [
+                1,
+                0.0
+              ],
+              [
+                0,
+                0.0
+              ]
+            ],
+            "root_hash": "02c34536b1794366",
+            "search_us": 129,
+            "visits": 4,
+            "wall_us": 129
+          }
+        ],
+        "threat": true,
+        "top": 0.75
+      },
+      {
+        "cell": 0,
+        "entropy": 0.5343107806620332,
+        "history": "4433226223",
+        "id": "b",
+        "legal": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "root_hash": "b298229fa2450efa",
+        "setup_us": 109,
+        "steps": [
+          {
+            "best": 4,
+            "eval_calls": 3,
+            "policy": [
+              [
+                3,
+                0.25
+              ],
+              [
+                5,
+                0.25
+              ],
+              [
+                4,
+                0.5
+              ],
+              [
+                2,
+                0.0
+              ],
+              [
+                6,
+                0.0
+              ],
+              [
+                0,
+                0.0
+              ],
+              [
+                1,
+                0.0
+              ]
+            ],
+            "root_hash": "b298229fa2450efa",
+            "search_us": 174,
+            "visits": 4,
+            "wall_us": 175
+          }
+        ],
+        "threat": false,
+        "top": 0.5
+      }
+    ],
+    "schema": "quartz_nn_multiquanta_v1",
+    "seed": 17,
+    "selected": [],
+    "setup_total_us": 218,
+    "threads": 2,
+    "transport_us": 924.254,
+    "whole_us": 842
+  },
+  "ratio": {
+    "budget_us": 100000,
+    "cache_hit": true,
+    "continuation_step_us": 765,
+    "drop_us": 277,
+    "floors": [
+      1,
+      1,
+      1
+    ],
+    "mode": "RATIO",
+    "model_identity": "161f9e6e26840754384cb47335d1082d837fa014735cbfaa2517209422e29f24",
+    "model_us": 17,
+    "optional_us": 772,
+    "overrun_us": 0,
+    "plan_us": 1,
+    "planned": [
+      [
+        "a",
+        32
+      ],
+      [
+        "b",
+        32
+      ]
+    ],
+    "predicted_gain": 0.4,
+    "predicted_ticks": 8,
+    "prefix_step_us": 358,
+    "prefix_us": 1523,
+    "rows": [
+      {
+        "cell": 6,
+        "entropy": 0.28898309867585964,
+        "history": "324252",
+        "id": "a",
+        "legal": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "root_hash": "02c34536b1794366",
+        "setup_us": 147,
+        "steps": [
+          {
+            "best": 5,
+            "eval_calls": 2,
+            "policy": [
+              [
+                3,
+                0.25
+              ],
+              [
+                5,
+                0.75
+              ],
+              [
+                2,
+                0.0
+              ],
+              [
+                6,
+                0.0
+              ],
+              [
+                4,
+                0.0
+              ],
+              [
+                1,
+                0.0
+              ],
+              [
+                0,
+                0.0
+              ]
+            ],
+            "root_hash": "02c34536b1794366",
+            "search_us": 137,
+            "visits": 4,
+            "wall_us": 138
+          },
+          {
+            "best": 5,
+            "eval_calls": 2,
+            "policy": [
+              [
+                3,
+                0.125
+              ],
+              [
+                5,
+                0.875
+              ],
+              [
+                2,
+                0.0
+              ],
+              [
+                6,
+                0.0
+              ],
+              [
+                4,
+                0.0
+              ],
+              [
+                1,
+                0.0
+              ],
+              [
+                0,
+                0.0
+              ]
+            ],
+            "root_hash": "02c34536b1794366",
+            "search_us": 86,
+            "visits": 8,
+            "wall_us": 86
+          },
+          {
+            "best": 5,
+            "eval_calls": 2,
+            "policy": [
+              [
+                3,
+                0.0625
+              ],
+              [
+                5,
+                0.9375
+              ],
+              [
+                2,
+                0.0
+              ],
+              [
+                6,
+                0.0
+              ],
+              [
+                4,
+                0.0
+              ],
+              [
+                1,
+                0.0
+              ],
+              [
+                0,
+                0.0
+              ]
+            ],
+            "root_hash": "02c34536b1794366",
+            "search_us": 82,
+            "visits": 16,
+            "wall_us": 82
+          },
+          {
+            "best": 5,
+            "eval_calls": 6,
+            "policy": [
+              [
+                3,
+                0.03125
+              ],
+              [
+                5,
+                0.84375
+              ],
+              [
+                2,
+                0.03125
+              ],
+              [
+                6,
+                0.03125
+              ],
+              [
+                4,
+                0.03125
+              ],
+              [
+                1,
+                0.03125
+              ],
+              [
+                0,
+                0.0
+              ]
+            ],
+            "root_hash": "02c34536b1794366",
+            "search_us": 213,
+            "visits": 32,
+            "wall_us": 213
+          }
+        ],
+        "threat": true,
+        "top": 0.75
+      },
+      {
+        "cell": 0,
+        "entropy": 0.5343107806620332,
+        "history": "4433226223",
+        "id": "b",
+        "legal": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "root_hash": "b298229fa2450efa",
+        "setup_us": 990,
+        "steps": [
+          {
+            "best": 4,
+            "eval_calls": 3,
+            "policy": [
+              [
+                3,
+                0.25
+              ],
+              [
+                5,
+                0.25
+              ],
+              [
+                4,
+                0.5
+              ],
+              [
+                2,
+                0.0
+              ],
+              [
+                6,
+                0.0
+              ],
+              [
+                0,
+                0.0
+              ],
+              [
+                1,
+                0.0
+              ]
+            ],
+            "root_hash": "b298229fa2450efa",
+            "search_us": 220,
+            "visits": 4,
+            "wall_us": 220
+          },
+          {
+            "best": 4,
+            "eval_calls": 3,
+            "policy": [
+              [
+                3,
+                0.125
+              ],
+              [
+                5,
+                0.125
+              ],
+              [
+                4,
+                0.75
+              ],
+              [
+                2,
+                0.0
+              ],
+              [
+                6,
+                0.0
+              ],
+              [
+                0,
+                0.0
+              ],
+              [
+                1,
+                0.0
+              ]
+            ],
+            "root_hash": "b298229fa2450efa",
+            "search_us": 87,
+            "visits": 8,
+            "wall_us": 87
+          },
+          {
+            "best": 4,
+            "eval_calls": 3,
+            "policy": [
+              [
+                3,
+                0.0625
+              ],
+              [
+                5,
+                0.0625
+              ],
+              [
+                4,
+                0.875
+              ],
+              [
+                2,
+                0.0
+              ],
+              [
+                6,
+                0.0
+              ],
+              [
+                0,
+                0.0
+              ],
+              [
+                1,
+                0.0
+              ]
+            ],
+            "root_hash": "b298229fa2450efa",
+            "search_us": 84,
+            "visits": 16,
+            "wall_us": 85
+          },
+          {
+            "best": 4,
+            "eval_calls": 5,
+            "policy": [
+              [
+                3,
+                0.03125
+              ],
+              [
+                5,
+                0.03125
+              ],
+              [
+                4,
+                0.84375
+              ],
+              [
+                2,
+                0.03125
+              ],
+              [
+                6,
+                0.03125
+              ],
+              [
+                0,
+                0.03125
+              ],
+              [
+                1,
+                0.0
+              ]
+            ],
+            "root_hash": "b298229fa2450efa",
+            "search_us": 212,
+            "visits": 32,
+            "wall_us": 212
+          }
+        ],
+        "threat": false,
+        "top": 0.5
+      }
+    ],
+    "schema": "quartz_nn_multiquanta_v1",
+    "seed": 17,
+    "selected": [
+      [
+        "a",
+        32
+      ],
+      [
+        "b",
+        32
+      ]
+    ],
+    "setup_total_us": 1137,
+    "threads": 2,
+    "transport_us": 2691.107,
+    "whole_us": 2573
+  },
+  "reject": {
+    "error": "unknown field `oracle`, expected one of `cmd`, `mode`, `seed`, `model_path`, `model_identity`, `jobs`, `budget_us`, `floor_us`, `cells`, `floors` at line 1 column 451"
+  },
+  "setup": {
+    "budget_us": 0,
+    "cache_hit": true,
+    "continuation_step_us": 0,
+    "drop_us": 298,
+    "floors": [],
+    "mode": "SETUP",
+    "model_identity": "161f9e6e26840754384cb47335d1082d837fa014735cbfaa2517209422e29f24",
+    "model_us": 22,
+    "optional_us": 1,
+    "overrun_us": 0,
+    "plan_us": 1,
+    "planned": [],
+    "predicted_gain": 0.0,
+    "predicted_ticks": 0,
+    "prefix_step_us": 0,
+    "prefix_us": 1990,
+    "rows": [
+      {
+        "cell": 0,
+        "entropy": 0.0,
+        "history": "324252",
+        "id": "a",
+        "legal": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "root_hash": "02c34536b1794366",
+        "setup_us": 158,
+        "steps": [],
+        "threat": true,
+        "top": 0.0
+      },
+      {
+        "cell": 0,
+        "entropy": 0.0,
+        "history": "4433226223",
+        "id": "b",
+        "legal": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "root_hash": "b298229fa2450efa",
+        "setup_us": 1800,
+        "steps": [],
+        "threat": false,
+        "top": 0.0
+      }
+    ],
+    "schema": "quartz_nn_multiquanta_v1",
+    "seed": 17,
+    "selected": [],
+    "setup_total_us": 1958,
+    "threads": 2,
+    "transport_us": 2354.142,
+    "whole_us": 2288
+  },
+  "trace": {
+    "budget_us": 0,
+    "cache_hit": false,
+    "continuation_step_us": 900,
+    "drop_us": 399,
+    "floors": [],
+    "mode": "TRACE",
+    "model_identity": "161f9e6e26840754384cb47335d1082d837fa014735cbfaa2517209422e29f24",
+    "model_us": 401,
+    "optional_us": 906,
+    "overrun_us": 0,
+    "plan_us": 1,
+    "planned": [
+      [
+        "a",
+        32
+      ],
+      [
+        "b",
+        32
+      ]
+    ],
+    "predicted_gain": 0.0,
+    "predicted_ticks": 0,
+    "prefix_step_us": 639,
+    "prefix_us": 5927,
+    "rows": [
+      {
+        "cell": 6,
+        "entropy": 0.28898309867585964,
+        "history": "324252",
+        "id": "a",
+        "legal": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "root_hash": "02c34536b1794366",
+        "setup_us": 2312,
+        "steps": [
+          {
+            "best": 5,
+            "eval_calls": 2,
+            "policy": [
+              [
+                3,
+                0.25
+              ],
+              [
+                5,
+                0.75
+              ],
+              [
+                2,
+                0.0
+              ],
+              [
+                6,
+                0.0
+              ],
+              [
+                4,
+                0.0
+              ],
+              [
+                1,
+                0.0
+              ],
+              [
+                0,
+                0.0
+              ]
+            ],
+            "root_hash": "02c34536b1794366",
+            "search_us": 389,
+            "visits": 4,
+            "wall_us": 391
+          },
+          {
+            "best": 5,
+            "eval_calls": 2,
+            "policy": [
+              [
+                3,
+                0.125
+              ],
+              [
+                5,
+                0.875
+              ],
+              [
+                2,
+                0.0
+              ],
+              [
+                6,
+                0.0
+              ],
+              [
+                4,
+                0.0
+              ],
+              [
+                1,
+                0.0
+              ],
+              [
+                0,
+                0.0
+              ]
+            ],
+            "root_hash": "02c34536b1794366",
+            "search_us": 112,
+            "visits": 8,
+            "wall_us": 113
+          },
+          {
+            "best": 5,
+            "eval_calls": 2,
+            "policy": [
+              [
+                3,
+                0.0625
+              ],
+              [
+                5,
+                0.9375
+              ],
+              [
+                2,
+                0.0
+              ],
+              [
+                6,
+                0.0
+              ],
+              [
+                4,
+                0.0
+              ],
+              [
+                1,
+                0.0
+              ],
+              [
+                0,
+                0.0
+              ]
+            ],
+            "root_hash": "02c34536b1794366",
+            "search_us": 98,
+            "visits": 16,
+            "wall_us": 98
+          },
+          {
+            "best": 5,
+            "eval_calls": 6,
+            "policy": [
+              [
+                3,
+                0.03125
+              ],
+              [
+                5,
+                0.84375
+              ],
+              [
+                2,
+                0.03125
+              ],
+              [
+                6,
+                0.03125
+              ],
+              [
+                4,
+                0.03125
+              ],
+              [
+                1,
+                0.03125
+              ],
+              [
+                0,
+                0.0
+              ]
+            ],
+            "root_hash": "02c34536b1794366",
+            "search_us": 232,
+            "visits": 32,
+            "wall_us": 233
+          }
+        ],
+        "threat": true,
+        "top": 0.75
+      },
+      {
+        "cell": 0,
+        "entropy": 0.5343107806620332,
+        "history": "4433226223",
+        "id": "b",
+        "legal": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "root_hash": "b298229fa2450efa",
+        "setup_us": 2546,
+        "steps": [
+          {
+            "best": 4,
+            "eval_calls": 3,
+            "policy": [
+              [
+                3,
+                0.25
+              ],
+              [
+                5,
+                0.25
+              ],
+              [
+                4,
+                0.5
+              ],
+              [
+                2,
+                0.0
+              ],
+              [
+                6,
+                0.0
+              ],
+              [
+                0,
+                0.0
+              ],
+              [
+                1,
+                0.0
+              ]
+            ],
+            "root_hash": "b298229fa2450efa",
+            "search_us": 247,
+            "visits": 4,
+            "wall_us": 248
+          },
+          {
+            "best": 4,
+            "eval_calls": 3,
+            "policy": [
+              [
+                3,
+                0.125
+              ],
+              [
+                5,
+                0.125
+              ],
+              [
+                4,
+                0.75
+              ],
+              [
+                2,
+                0.0
+              ],
+              [
+                6,
+                0.0
+              ],
+              [
+                0,
+                0.0
+              ],
+              [
+                1,
+                0.0
+              ]
+            ],
+            "root_hash": "b298229fa2450efa",
+            "search_us": 99,
+            "visits": 8,
+            "wall_us": 100
+          },
+          {
+            "best": 4,
+            "eval_calls": 3,
+            "policy": [
+              [
+                3,
+                0.0625
+              ],
+              [
+                5,
+                0.0625
+              ],
+              [
+                4,
+                0.875
+              ],
+              [
+                2,
+                0.0
+              ],
+              [
+                6,
+                0.0
+              ],
+              [
+                0,
+                0.0
+              ],
+              [
+                1,
+                0.0
+              ]
+            ],
+            "root_hash": "b298229fa2450efa",
+            "search_us": 97,
+            "visits": 16,
+            "wall_us": 97
+          },
+          {
+            "best": 4,
+            "eval_calls": 5,
+            "policy": [
+              [
+                3,
+                0.03125
+              ],
+              [
+                5,
+                0.03125
+              ],
+              [
+                4,
+                0.84375
+              ],
+              [
+                2,
+                0.03125
+              ],
+              [
+                6,
+                0.03125
+              ],
+              [
+                0,
+                0.03125
+              ],
+              [
+                1,
+                0.0
+              ]
+            ],
+            "root_hash": "b298229fa2450efa",
+            "search_us": 257,
+            "visits": 32,
+            "wall_us": 259
+          }
+        ],
+        "threat": false,
+        "top": 0.5
+      }
+    ],
+    "schema": "quartz_nn_multiquanta_v1",
+    "seed": 17,
+    "selected": [
+      [
+        "a",
+        32
+      ],
+      [
+        "b",
+        32
+      ]
+    ],
+    "setup_total_us": 4858,
+    "threads": 2,
+    "transport_us": 8522.551,
+    "whole_us": 7233
+  }
+}
