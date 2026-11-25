@@ -1,0 +1,67 @@
+{
+  "arm_cost": {
+    "BASE": {
+      "CPU_measured_moves": 1396,
+      "NN_rows": 12435,
+      "moves": 1396,
+      "python_cpu_ns": 318625763220,
+      "rust_cpu_ns_tick_estimate": 3080000000,
+      "visits": 11168,
+      "wall_ns": 255116987754
+    }
+  },
+  "candidate_score": null,
+  "committed": 16,
+  "completed_arena_pairs": 0,
+  "counts": {
+    "CAL": 2,
+    "COMPLETED": 16,
+    "NN_rows": 12435,
+    "TEST": 2,
+    "TRAIN": 12,
+    "compressed_bytes": 3425001,
+    "searched_plies": 1396
+  },
+  "cross_split_D4_states": 0,
+  "length_bins": {
+    "CAL/080": 1,
+    "CAL/100": 1,
+    "TEST/080": 1,
+    "TEST/120": 1,
+    "TRAIN/040": 2,
+    "TRAIN/080": 5,
+    "TRAIN/100": 5
+  },
+  "missing": 0,
+  "observed_positions": 1396,
+  "orphan_temp_files": 0,
+  "plan_sha256": "eb7e07b78ccce10ccc9c0350effd9bf8a3ddc6d1b9ca77aa83418d75c5e7f97c",
+  "planned": 16,
+  "probe_count": 0,
+  "rule_witnesses": {
+    "CAL": 98,
+    "TEST": 108,
+    "TRAIN": 565
+  },
+  "searched_ply_bins": {
+    "CAL/000": 28,
+    "CAL/020": 40,
+    "CAL/040": 40,
+    "CAL/060": 40,
+    "CAL/080": 32,
+    "TEST/000": 28,
+    "TEST/020": 40,
+    "TEST/040": 40,
+    "TEST/060": 40,
+    "TEST/080": 24,
+    "TEST/100": 20,
+    "TEST/120": 2,
+    "TRAIN/000": 168,
+    "TRAIN/020": 240,
+    "TRAIN/040": 224,
+    "TRAIN/060": 200,
+    "TRAIN/080": 158,
+    "TRAIN/100": 32
+  },
+  "unique_D4_states": 1272
+}

@@ -1,0 +1,42 @@
+{
+  "by_color": {
+    "black": {
+      "best_winning_prior_rank_max": 140,
+      "best_winning_prior_rank_mean": 47.414965986394556,
+      "best_winning_prior_rank_median": 45.0,
+      "direct_reply_checks": 56428,
+      "direct_win_checks": 511,
+      "immediate_win_positions": 294,
+      "positions": 699,
+      "single_opponent_threat_blocked": 0,
+      "single_opponent_threat_without_own_win": 22,
+      "strictly_dominated_played": 279,
+      "terminal_win_edge_snapshots": 2,
+      "terminal_win_samples": 14,
+      "winning_materialized_positions": 16,
+      "winning_played_positions": 2,
+      "winning_visited_positions": 2
+    },
+    "white": {
+      "best_winning_prior_rank_max": 155,
+      "best_winning_prior_rank_mean": 28.77027027027027,
+      "best_winning_prior_rank_median": 24.5,
+      "direct_reply_checks": 43515,
+      "direct_win_checks": 1544,
+      "immediate_win_positions": 370,
+      "positions": 697,
+      "single_opponent_threat_blocked": 0,
+      "single_opponent_threat_without_own_win": 16,
+      "strictly_dominated_played": 278,
+      "terminal_win_edge_snapshots": 24,
+      "terminal_win_samples": 86,
+      "winning_materialized_positions": 24,
+      "winning_played_positions": 14,
+      "winning_visited_positions": 24
+    }
+  },
+  "exact_integer_player_and_z_rows": 1396,
+  "finite_records": 16,
+  "no_new_search": true,
+  "scope": "posthoc all pilot splits, descriptive only; not held-out performance"
+}
