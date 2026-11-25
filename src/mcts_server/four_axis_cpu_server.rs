@@ -51,7 +51,7 @@ fn inner(line:&str)->Result<serde_json::Value,String>{
     let vs:Vec<_>=result["edges"].as_array().unwrap().iter().map(|e|(e["move"].as_u64().unwrap() as usize,e["n"].as_u64().unwrap() as u32)).collect();
     let proof=h.root_proof(&state,normal,&vs,q.mode=="GRAPH");
     let best=if proof.is_null(){normal}else{proof["best"].as_u64().unwrap() as usize};
-    let hooks=h.snapshot();let before_drop_us=t.elapsed().as_micros() as u64;let st=Instant::now();drop(engine);let drop_us=st.elapsed().as_micros() as u64;
-    Ok(serde_json::json!({"schema":"quartz_fouraxis03_v1","history":q.history,"arm":q.arm,"seed":q.seed,"mode":q.mode,"model_identity":q.model_identity,"cache_hit":hit,"prefix":prefix,"prefix_hooks":ph.snapshot(),"result":result,"best":best,"proof":proof,"hooks":hooks,"blocks":blocks,"cause":cause,"target_us":q.target_us,"reserve_us":q.reserve_us,"setup_us":setup_us,"prefix_us":prefix_us,"continuation_us":continuation_us,"before_drop_us":before_drop_us,"drop_us":drop_us,"whole_us":t.elapsed().as_micros() as u64}))
+    let hooks=h.snapshot();let prefix_hooks=ph.snapshot();let before_drop_us=t.elapsed().as_micros() as u64;let st=Instant::now();drop(engine);drop(h);drop(ph);let drop_us=st.elapsed().as_micros() as u64;
+    Ok(serde_json::json!({"schema":"quartz_fouraxis03_v1","history":q.history,"arm":q.arm,"seed":q.seed,"mode":q.mode,"model_identity":q.model_identity,"cache_hit":hit,"prefix":prefix,"prefix_hooks":prefix_hooks,"result":result,"best":best,"proof":proof,"hooks":hooks,"blocks":blocks,"cause":cause,"target_us":q.target_us,"reserve_us":q.reserve_us,"setup_us":setup_us,"prefix_us":prefix_us,"continuation_us":continuation_us,"before_drop_us":before_drop_us,"drop_us":drop_us,"whole_us":t.elapsed().as_micros() as u64}))
 }
 pub(super) fn handle(line:&str)->serde_json::Value{match inner(line){Ok(v)=>v,Err(e)=>serde_json::json!({"error":e})}}
