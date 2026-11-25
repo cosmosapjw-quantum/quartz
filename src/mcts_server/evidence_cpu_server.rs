@@ -96,10 +96,10 @@ fn k20_run(engine:&MctsEngine<Connect4>,q:&Req,proof:&[(usize,f64,f64)])->Result
     let mut channel="STOP";let mut pred_gain=0.;let mut pred_cost=0.;
     if let Some(i)=proof_best{
         channel="CERTIFIED";selected=Some(i);
-    }else if q.arm=="K20MATCH"||q.arm=="K20TIME"{
-        channel=if q.arm=="K20MATCH"{"MATCH"}else{"TIME"};
-        let cap=if q.arm=="K20MATCH"{64}else{128};
-        while cur<cap && if q.arm=="K20MATCH"{engine.evaluator_call_count()<q.nn_budget.unwrap()}else{tail.elapsed().as_micros()<q.tail_budget_us.unwrap() as u128}{
+    }else if matches!(q.arm.as_str(),"K20MATCH"|"K20MATCHX"|"K20TIME"){
+        channel=match q.arm.as_str(){"K20MATCH"=>"MATCH","K20MATCHX"=>"MATCHX",_=>"TIME"};
+        let cap=match q.arm.as_str(){"K20MATCH"=>64,"K20MATCHX"=>256,_=>128};
+        while cur<cap && if matches!(q.arm.as_str(),"K20MATCH"|"K20MATCHX"){engine.evaluator_call_count()<q.nn_budget.unwrap()}else{tail.elapsed().as_micros()<q.tail_budget_us.unwrap() as u128}{
             engine.four_axis_block(1,1,&h);cur+=1;
         }
     }else{
@@ -141,10 +141,10 @@ fn k20_run(engine:&MctsEngine<Connect4>,q:&Req,proof:&[(usize,f64,f64)])->Result
 struct Req{cmd:String,history:String,arm:String,cap:u32,seed:u64,model_path:String,model_identity:String,#[serde(default)]controller:Option<Controller>,#[serde(default)]nn_budget:Option<u64>,#[serde(default)]tail_budget_us:Option<u64>}
 fn inner(line:&str)->Result<Value,String>{
     let start=Instant::now();let q:Req=serde_json::from_str(line).map_err(|e|e.to_string())?;
-    let k20=matches!(q.arm.as_str(),"K20LIVE"|"K20N64"|"K20MATCH"|"K20TIME");
+    let k20=matches!(q.arm.as_str(),"K20LIVE"|"K20N64"|"K20MATCH"|"K20MATCHX"|"K20TIME");
     if q.cmd!="research_connect4_evidence_cpu"||(!k20&&!matches!(q.arm.as_str(),"K16N"|"K16BAL"|"K16REV"|"K17EXP"))||![32,64].contains(&q.cap){return Err("bad contract".into());}
     if k20&&q.cap!=64 || (q.arm=="K20LIVE")!=q.controller.is_some() || q.controller.as_ref().is_some_and(|m|!m.valid()) ||
-        (q.arm=="K20MATCH")!=q.nn_budget.is_some() || q.nn_budget.is_some_and(|n|n==0||n>65) ||
+        matches!(q.arm.as_str(),"K20MATCH"|"K20MATCHX")!=q.nn_budget.is_some() || q.nn_budget.is_some_and(|n|n==0||n>65) ||
         (q.arm=="K20TIME")!=q.tail_budget_us.is_some() || q.tail_budget_us.is_some_and(|n|n>1000000){return Err("bad K20 controller/budget".into());}
     let state=Connect4::from_history(&q.history)?;let legal=state.legal_moves();
     if state.is_terminal()||legal.len()<2{return Err("terminal or singleton root".into());}
