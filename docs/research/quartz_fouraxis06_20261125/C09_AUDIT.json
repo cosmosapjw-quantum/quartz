@@ -1,0 +1,91 @@
+{
+  "NN_rows": 82,
+  "action_intervals": 3634,
+  "assets": {
+    "binary_sha": "946bba4ab950a7028a7b513b06c1450f4c7b64bcee142d1b4b01704f19d34195",
+    "model_path": "/home/cosmosapjw/Dropbox/personal_projects/quartz/results/smoke_torch/gomoku15/models/F1_legacy_base/latest.pt",
+    "model_sha": "57b93ba867ff8f9b74f91adef6b38f02f94de0bd7dc177785d668d32e1dcc3ae",
+    "prior_backup_verified": true,
+    "prior_model_backup": "/home/cosmosapjw/Dropbox/personal_projects/quartz_nn_decision_backups/gomoku15_F1_latest.pt"
+  },
+  "bulk_launch": false,
+  "disabled_arena_plan_sha": "3d22320bb6c0453a797242ec2e92ecf5e6272e0d18de4182e553193a167c1361",
+  "disabled_plan_sha": "7afe02766cc2a4199d813ca9ccd3db7e7eabff81d2181f50e37fae741f1f1254",
+  "exact_actions": 442,
+  "identity": {
+    "binary_sha256": "946bba4ab950a7028a7b513b06c1450f4c7b64bcee142d1b4b01704f19d34195",
+    "model_sha256": "57b93ba867ff8f9b74f91adef6b38f02f94de0bd7dc177785d668d32e1dcc3ae",
+    "source_head": "ee33f96525dab126aa7c44816bdd83d9de92a3f5"
+  },
+  "inspect_count": 19,
+  "native_requests": 11,
+  "own_workers_running": 0,
+  "production_directory_exists": false,
+  "production_games": 0,
+  "rejected_count": 8,
+  "scientific_performance_promotion": false,
+  "smoke_games": [
+    {
+      "bytes": 1478,
+      "final": 225,
+      "id": "SMOKE_DRAW",
+      "initial": 224,
+      "searched": 1,
+      "sha256": "fe6a621baf6c9f82e8f81b0e92115e11063e4814d7fa1709c915b38615d3be9b",
+      "status": "COMPLETED",
+      "winner": 0
+    },
+    {
+      "bytes": 5521,
+      "final": 153,
+      "id": "SMOKE_LONG_CENSOR",
+      "initial": 150,
+      "searched": 3,
+      "sha256": "f0127bec072529514678fa547ee9bbc6ad79503ea38a9bac598c892681cf54a0",
+      "status": "CENSORED",
+      "winner": null
+    }
+  ],
+  "smoke_verify": {
+    "arm_cost": {
+      "BASE": {
+        "NN_rows": 28,
+        "moves": 4,
+        "visits": 32,
+        "wall_ns": 614955773
+      }
+    },
+    "candidate_score": null,
+    "committed": 2,
+    "completed_arena_pairs": 0,
+    "counts": {
+      "CENSORED": 1,
+      "COMPLETED": 1,
+      "NN_rows": 28,
+      "SMOKE": 2,
+      "compressed_bytes": 6999,
+      "searched_plies": 4
+    },
+    "cross_split_D4_states": 0,
+    "length_bins": {
+      "SMOKE/140": 1,
+      "SMOKE/220": 1
+    },
+    "missing": 0,
+    "observed_positions": 4,
+    "orphan_temp_files": 0,
+    "plan_sha256": "92cadfeb759d30a3c759d049bc8fa4f9ffa75a298e8b77795e7fccfb0a0c9580",
+    "planned": 2,
+    "probe_count": 0,
+    "rule_witnesses": {
+      "SMOKE": 1
+    },
+    "searched_ply_bins": {
+      "SMOKE/140": 3,
+      "SMOKE/220": 1
+    },
+    "unique_D4_states": 4
+  },
+  "training": false,
+  "unique_nonterminal_rule_states": 14
+}
