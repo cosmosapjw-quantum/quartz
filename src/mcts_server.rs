@@ -55,6 +55,8 @@ mod four_axis_pool_cpu_server;
 mod four_axis_local_cpu_server;
 #[path = "mcts_server/gomoku_long_cpu_server.rs"]
 mod gomoku_long_cpu_server;
+#[path = "mcts_server/rapfi_shared_cpu_server.rs"]
+mod rapfi_shared_cpu_server;
 
 /// Bounded, CPU-only real QUARTZ MCTS for *standard gravity Connect4*.
 /// This research-only endpoint intentionally does not consume the external
@@ -2745,6 +2747,11 @@ pub fn serve() {
             continue;
         }
 
+        if matches!(cmd,"research_rapfi_shared_open"|"research_rapfi_shared_search"|"research_rapfi_shared_close"){
+            emit_stdout_json_value(&rapfi_shared_cpu_server::handle(&line));
+            if let Some(ring)=global_ring_buffer(){ring.set_cmd_done(true);}
+            continue;
+        }
         if cmd == "research_gomoku15_tactical_ladder" {
             emit_stdout_json_value(&gomoku_long_cpu_server::handle_ladder(&line));
             if let Some(ring)=global_ring_buffer() {ring.set_cmd_done(true);}

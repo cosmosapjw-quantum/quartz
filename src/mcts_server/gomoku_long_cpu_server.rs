@@ -6,7 +6,7 @@ use crate::mcts::four_axis::Hooks;
 use serde::Deserialize;
 use serde_json::{json,Value};
 #[path="gomoku_long_proof.rs"]
-mod proof;
+pub(super) mod proof;
 #[derive(Deserialize)]
 #[serde(deny_unknown_fields)]
 struct Req{
@@ -25,7 +25,7 @@ fn rule(s:&str)->Option<(GomokuVariant,u8)>{
         _=>None
     }
 }
-fn proof_json(p:&proof::Proof)->Value{
+pub(super) fn proof_json(p:&proof::Proof)->Value{
     json!({"kind":"rule_two_ply_v1","own":p.own,"opponent":p.opponent,
       "actions":p.bounds.iter().map(|b|json!([b.action,b.lo,b.hi,b.reply])).collect::<Vec<_>>(),
       "interval":p.interval,"witness":p.witness,"risk2":p.risk2})
