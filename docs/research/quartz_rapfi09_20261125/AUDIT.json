@@ -1,0 +1,83 @@
+{
+  "actual_games": 2,
+  "controller_checks": 234,
+  "equal_mean_time": false,
+  "games": [
+    {
+      "bytes": 117119,
+      "id": "PAIR0_Q_BLACK",
+      "plies": 32,
+      "searched_plies": 26,
+      "seconds": 0.8816449760342948,
+      "sha256": "fbd961669139435b2fbddd2da5524addbc3e7de669066d26d33b87b217592eb8",
+      "winner": "STANDARD_PW",
+      "winner_black": -1
+    },
+    {
+      "bytes": 235771,
+      "id": "PAIR0_Q_WHITE",
+      "plies": 69,
+      "searched_plies": 63,
+      "seconds": 2.2310635590110905,
+      "sha256": "afb307783e6dfe60abc0ca6c6e13fb2af7ec0cb1825b23bc9254ee5c886f82b7",
+      "winner": "STANDARD_PW",
+      "winner_black": 1
+    }
+  ],
+  "identity": {
+    "rapfi_bridge": "bacbcfc90f6e4bfd0d9d035455afa3d6667ec32e7fd80cbc1d65a4001b30f64e",
+    "rapfi_config": "32b9180c91247541d399ceef62906d5ffeb48e34eb5f261612987633820d5d3c",
+    "rapfi_source": "1be1551ced57e38d53ed58f6d74bf6f8b4bdc230",
+    "rapfi_weight": "6bc0d1b0ff8e1d857f7f412923cd458f38f1a435087c91ae71fec3676c23ef62",
+    "rust_binary": "752814e4d78714400e0c0d55def11500debe81fe875665c40c599ee265dfd7ee",
+    "rust_source": "495605bde714577ac1e72a546e485d5bc6b23e3f"
+  },
+  "independent_nn_rechecks": 11,
+  "independent_opening_families": 1,
+  "opening_family": "07668099806ac954b6e8218bf018e30518136a08d1aa90a52364835baedbf90b",
+  "quartz_score": 0,
+  "resources": {
+    "QUARTZ": {
+      "NN_calls": 9101,
+      "active_mean_ms": 35.650172775,
+      "causes": {
+        "BudgetExhausted { iterations: 256 }": 38,
+        "GUARDED": 4,
+        "VocNonPositive { max_gvoc: 0.0 }": 2
+      },
+      "controller_checks": 234,
+      "guarded": 4,
+      "mean_ms": 32.429640613636366,
+      "mean_native_ms": 31.803454545454546,
+      "median_ms": 33.96548,
+      "moves": 44,
+      "p95_ms": 46.245056,
+      "penalty_abs_sum": 48.840521,
+      "root_selects": 8028,
+      "visits": 10028
+    },
+    "STANDARD_PW": {
+      "NN_calls": 7985,
+      "active_mean_ms": 34.710125142857144,
+      "causes": {
+        "BudgetExhausted { iterations: 256 }": 35,
+        "GUARDED": 10
+      },
+      "controller_checks": 0,
+      "guarded": 10,
+      "mean_ms": 27.04295008888889,
+      "mean_native_ms": 26.50786666666667,
+      "median_ms": 32.258878,
+      "moves": 45,
+      "p95_ms": 44.178755,
+      "penalty_abs_sum": 0,
+      "root_selects": 0,
+      "visits": 8960
+    }
+  },
+  "root_action_intervals": 17213,
+  "shared_guard_fixtures": 2,
+  "smoke_root_parities": 3,
+  "strength_promotion": false,
+  "training": false
+}
