@@ -1,0 +1,173 @@
+{
+  "identity": {
+    "rapfi_bridge": "bacbcfc90f6e4bfd0d9d035455afa3d6667ec32e7fd80cbc1d65a4001b30f64e",
+    "rapfi_config": "32b9180c91247541d399ceef62906d5ffeb48e34eb5f261612987633820d5d3c",
+    "rapfi_source": "1be1551ced57e38d53ed58f6d74bf6f8b4bdc230",
+    "rapfi_weight": "6bc0d1b0ff8e1d857f7f412923cd458f38f1a435087c91ae71fec3676c23ef62",
+    "rust_binary": "dbd544df9b7288f5c54364a6e4818b0484d3c3be22aab072982a9ec7c4955ea7",
+    "rust_source": "6ad49bf73eabbb3a9f7e8e2d4d9f25687a5756ce"
+  },
+  "jobs": [
+    {
+      "family": "c56a47d1ebe5f8a0568c8f25b9e474f27b3a772a72e6bb96188d1a3ca043d55d",
+      "id": 0,
+      "opening": [
+        141,
+        99,
+        157,
+        126,
+        140,
+        64
+      ]
+    },
+    {
+      "family": "b58be00923f783bae435d76f0d59f86ecbdd9435fd5ab1c48af795b47ae96451",
+      "id": 1,
+      "opening": [
+        130,
+        156,
+        97,
+        65,
+        80,
+        159
+      ]
+    },
+    {
+      "family": "c6e709c26a404b344068cbfa995d4e55a54f85624d9e761b6dcbc920170764b1",
+      "id": 2,
+      "opening": [
+        82,
+        110,
+        124,
+        115,
+        145,
+        128
+      ]
+    },
+    {
+      "family": "7fa5dbffc483ba3b4e558a0ba1c6688141f6cd06d6360837c0e73100148b023c",
+      "id": 3,
+      "opening": [
+        114,
+        127,
+        96,
+        126,
+        67,
+        110
+      ]
+    },
+    {
+      "family": "dae3e325ce185d02d5caf1efd993d5bb2003d662fcae9dcae3953ff85b7d56e3",
+      "id": 4,
+      "opening": [
+        70,
+        160,
+        124,
+        143,
+        83,
+        79
+      ]
+    },
+    {
+      "family": "b33173530929ebba7b1e99576ba5fc9a7761fb7f994099dea53bcb3f8487beb4",
+      "id": 5,
+      "opening": [
+        99,
+        113,
+        115,
+        129,
+        95,
+        68
+      ]
+    },
+    {
+      "family": "44c00ba47e322e0ca4f3b432ed555922fe2382f33eff7342c4717fedd0937810",
+      "id": 6,
+      "opening": [
+        110,
+        84,
+        115,
+        95,
+        128,
+        156
+      ]
+    },
+    {
+      "family": "8069344fc925529b2715d47e67400ece74b5aa2ba38cb49cbaf0b3da7b8cc64e",
+      "id": 7,
+      "opening": [
+        112,
+        94,
+        125,
+        97,
+        70,
+        96
+      ]
+    },
+    {
+      "family": "e40216761f1e03bb5e057e1c5754150ad5b55bf935d8fb8b6b4e6d37be75014f",
+      "id": 8,
+      "opening": [
+        125,
+        112,
+        130,
+        157,
+        81,
+        140
+      ]
+    },
+    {
+      "family": "bea45fe42e63ff467ffb0c3f04b73393b87e10fb2619d49fccb06a6f5db9a277",
+      "id": 9,
+      "opening": [
+        140,
+        100,
+        128,
+        141,
+        65,
+        156
+      ]
+    },
+    {
+      "family": "6c86a055ba49e9b663aaee14b79a7a91f37e3bd13305e07a45a3a164c3f59040",
+      "id": 10,
+      "opening": [
+        139,
+        155,
+        112,
+        83,
+        70,
+        145
+      ]
+    },
+    {
+      "family": "ae66033a9fce6e36df4dc18032496438450df608009c83a46830da1ac2c13cdb",
+      "id": 11,
+      "opening": [
+        159,
+        155,
+        67,
+        144,
+        145,
+        85
+      ]
+    }
+  ],
+  "old_boards": 9802,
+  "old_families": 199,
+  "seed": 202611261901,
+  "source_locks": [
+    {
+      "path": "docs/research/quartz_kinetic16_20261126/C06_GOMOKU_SOURCE.jsonl.gz",
+      "sha256": "2e50ac5db893b7d25f06fda1d794765d1b9379eff9b954ab8bb6799ea58f66dc"
+    },
+    {
+      "path": "docs/research/quartz_kinetic16_20261126/C08_TRAIN_LABELS.jsonl.gz",
+      "sha256": "f073a75048d115375a51ea942a37f9a818ce16e5ffd34174c252ebe5e0eea4d4"
+    },
+    {
+      "path": "docs/research/quartz_kinetic16_20261126/C08_HELDOUT_LABELS.jsonl.gz",
+      "sha256": "46f21b282fde5f227d1d0a1ff3231c668bf2d0545fef4ef505ed10c5eb00970c"
+    }
+  ]
+}
