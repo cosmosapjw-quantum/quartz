@@ -1,0 +1,32 @@
+
+running 4 tests
+test frontier_tests::overlay_shared_child_and_action_width ... FAILED
+test frontier_tests::unchanged_root_value_and_certified_abstention ... FAILED
+test tests::graph_propagates_all_parents ... ok
+test tests::unknown_and_dominance ... ok
+
+failures:
+
+---- frontier_tests::overlay_shared_child_and_action_width stdout ----
+
+thread 'frontier_tests::overlay_shared_child_and_action_width' (271700) panicked at src/mcts/proof_graph.rs:100:9:
+assertion `left == right` failed
+  left: 0
+ right: 1
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+---- frontier_tests::unchanged_root_value_and_certified_abstention stdout ----
+
+thread 'frontier_tests::unchanged_root_value_and_certified_abstention' (271701) panicked at src/mcts/proof_graph.rs:106:9:
+assertion `left == right` failed
+  left: (0, 0)
+ right: (2, 4)
+
+
+failures:
+    frontier_tests::overlay_shared_child_and_action_width
+    frontier_tests::unchanged_root_value_and_certified_abstention
+
+test result: FAILED. 2 passed; 2 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+exit=101

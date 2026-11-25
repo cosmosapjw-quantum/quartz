@@ -69,3 +69,43 @@ mod tests{
     assert_eq!(g.interval(12),UNKNOWN);assert_eq!(g.witness(12),Some(4));
  }
 }
+
+// Local decision-sensitive proof frontier: all hypothetical values are read-only.
+#[derive(Clone,Debug,PartialEq,Eq)]
+pub struct Frontier {
+    pub key:Key, pub path:Vec<(Key,usize,Key)>,
+    pub gains:Vec<(i8,u8,u32)>,pub score:(u8,u32),
+}
+pub fn risk_width(a:&[(usize,I)]) -> (u8,u32) {
+    let d=a.iter().map(|&(m,(l,_))|(a.iter().filter(|x|x.0!=m).map(|x|x.1.1).max().unwrap_or(-1)-l).max(0) as u8).min().unwrap_or(0);
+    (d,a.iter().map(|(_, (l,u))|(*u-*l) as u32).sum())
+}
+impl Graph {
+    pub fn hypothetical(&self,_root:Key,_s:Key,_v:i8)->(u8,u32){(0,0)}
+    pub fn frontier(&self,_root:Key,_cap:usize)->(Option<Frontier>,usize){(None,0)}
+}
+#[cfg(test)]
+mod frontier_tests{
+    use super::*;
+    #[test]fn overlay_shared_child_and_action_width(){
+        let mut g=Graph::default();
+        g.register(1,vec![(0,2),(1,3)]);
+        g.register(2,vec![(0,4)]);
+        g.register(3,vec![(0,4)]);
+        assert_eq!(risk_width(&g.actions(1)),(2,4));
+        assert_eq!(g.hypothetical(1,4,0),(0,0));
+        assert_eq!(g.interval(4),UNKNOWN);
+        assert_eq!(risk_width(&g.actions(1)),(2,4));
+        let (f,n)=g.frontier(1,64);
+        assert_eq!(n,1);
+        let f=f.unwrap();assert_eq!(f.key,4);assert_eq!(f.path,vec![(1,0,2),(2,0,4)]);assert_eq!(f.score,(2,4));
+    }
+    #[test]fn unchanged_root_value_and_certified_abstention(){
+        let mut g=Graph::default();
+        g.register(1,vec![(0,2),(1,3),(2,4)]);
+        assert_eq!(g.hypothetical(1,2,1),(2,4));
+        assert_eq!(g.frontier(1,1).1,1);
+        g.terminal(2,-1);
+        assert!(g.frontier(1,64).0.is_none());
+    }
+}
