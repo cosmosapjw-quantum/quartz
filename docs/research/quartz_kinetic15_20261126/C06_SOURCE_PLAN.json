@@ -1,0 +1,714 @@
+{
+  "arms": [
+    "K15N",
+    "K15S",
+    "K15X",
+    "K15V",
+    "K15B",
+    "K15F4",
+    "K15FH",
+    "K15XH",
+    "K15STOP",
+    "K15LOCK"
+  ],
+  "caps": [
+    32,
+    96
+  ],
+  "continuations": [
+    [
+      "STANDARD_PW",
+      128
+    ],
+    [
+      "STANDARD_FULL",
+      256
+    ]
+  ],
+  "excluded_boards": 4890,
+  "excluded_families": 127,
+  "identity": {
+    "rapfi_bridge": "bacbcfc90f6e4bfd0d9d035455afa3d6667ec32e7fd80cbc1d65a4001b30f64e",
+    "rapfi_config": "32b9180c91247541d399ceef62906d5ffeb48e34eb5f261612987633820d5d3c",
+    "rapfi_source": "1be1551ced57e38d53ed58f6d74bf6f8b4bdc230",
+    "rapfi_weight": "6bc0d1b0ff8e1d857f7f412923cd458f38f1a435087c91ae71fec3676c23ef62",
+    "rust_binary": "53284d2044857cca8280e8ff148edc89711b3b69a2f536947e58a12d3c0cab7d",
+    "rust_source": "7de712172fbbebe2dbf5a8983c852ed0e632305e"
+  },
+  "jobs": [
+    {
+      "family": "49badfddf1d782f6b9082c580918cd1c9d3cebec310541ab96c2a2061eead04a",
+      "group": "TRAIN",
+      "id": "G00",
+      "opening": [
+        155,
+        66,
+        142,
+        65,
+        112,
+        156
+      ],
+      "stratum": "UNFILTERED"
+    },
+    {
+      "family": "345005675238c0ade8b9c1bb6ebad601029e24b38c4b764865fbdc180ffd3ca9",
+      "group": "TRAIN",
+      "id": "G01",
+      "opening": [
+        82,
+        154,
+        160,
+        115,
+        98,
+        112
+      ],
+      "stratum": "SCREEN"
+    },
+    {
+      "family": "d4b08f9044cc5dfd6c5a964fed24b9e51964dbd301f695a261dfecdf75ac8516",
+      "group": "TRAIN",
+      "id": "G02",
+      "opening": [
+        126,
+        98,
+        99,
+        130,
+        85,
+        139
+      ],
+      "stratum": "UNFILTERED"
+    },
+    {
+      "family": "f319e41738688d232bd6d8df0ea0bb2980a8dc98783234faaf0eb4c4c24f14d4",
+      "group": "TRAIN",
+      "id": "G03",
+      "opening": [
+        110,
+        155,
+        139,
+        67,
+        142,
+        144
+      ],
+      "stratum": "SCREEN"
+    },
+    {
+      "family": "80923b885289c0add3edf3827b05c84750467fa2ee80ab5cca7c3bca0d5ad5a0",
+      "group": "TRAIN",
+      "id": "G04",
+      "opening": [
+        79,
+        70,
+        85,
+        126,
+        158,
+        67
+      ],
+      "stratum": "UNFILTERED"
+    },
+    {
+      "family": "faa363281aba84446005795b2b7ca73a6ac4ac204494cdfca614f21525dfe6c3",
+      "group": "TRAIN",
+      "id": "G05",
+      "opening": [
+        69,
+        130,
+        114,
+        70,
+        98,
+        79
+      ],
+      "stratum": "SCREEN"
+    },
+    {
+      "family": "3f64e233839a2371bde754ed6b3956991ed1f3659fd094f67da3464e49edb538",
+      "group": "TRAIN",
+      "id": "G06",
+      "opening": [
+        94,
+        65,
+        141,
+        145,
+        126,
+        128
+      ],
+      "stratum": "UNFILTERED"
+    },
+    {
+      "family": "9933251f70564e25f3bb7a48dd2ac32f5b640faf771e86ea7730ab65beeb49eb",
+      "group": "TRAIN",
+      "id": "G07",
+      "opening": [
+        100,
+        114,
+        67,
+        70,
+        156,
+        157
+      ],
+      "stratum": "SCREEN"
+    },
+    {
+      "family": "9cd5b6c690302e30e07d0f4e4171f84f1f054ff894845035d3951cefd875d7b0",
+      "group": "TRAIN",
+      "id": "G08",
+      "opening": [
+        143,
+        99,
+        82,
+        66,
+        96,
+        154
+      ],
+      "stratum": "UNFILTERED"
+    },
+    {
+      "family": "c0675fed9d95dc7957825290046cc0088a0a3d37987c1762cd89dee2d5a8bbe9",
+      "group": "TRAIN",
+      "id": "G09",
+      "opening": [
+        109,
+        140,
+        70,
+        154,
+        145,
+        68
+      ],
+      "stratum": "SCREEN"
+    },
+    {
+      "family": "ea5d0b7e77b563376e6e269754a1862836b161ff1d2d82a69e2e2f653ee56910",
+      "group": "TRAIN",
+      "id": "G10",
+      "opening": [
+        95,
+        113,
+        130,
+        111,
+        65,
+        109
+      ],
+      "stratum": "UNFILTERED"
+    },
+    {
+      "family": "3bac85b92ab2afb01fbd1bad51106f2a67ba6bba22df6a12f3c8539d61575da3",
+      "group": "TRAIN",
+      "id": "G11",
+      "opening": [
+        64,
+        160,
+        158,
+        99,
+        79,
+        139
+      ],
+      "stratum": "SCREEN"
+    },
+    {
+      "family": "65c03098161a3f326060f892ea92f7292a7d71705d9285da307fd83a9ebd806e",
+      "group": "TRAIN",
+      "id": "G12",
+      "opening": [
+        127,
+        95,
+        126,
+        141,
+        139,
+        143
+      ],
+      "stratum": "UNFILTERED"
+    },
+    {
+      "family": "f1743539f60580bb33111ff4958991884ffab2e6517eb7f8d136d1ee346e5273",
+      "group": "TRAIN",
+      "id": "G13",
+      "opening": [
+        95,
+        99,
+        83,
+        128,
+        127,
+        65
+      ],
+      "stratum": "SCREEN"
+    },
+    {
+      "family": "a90a082349875ff77d98913b77309c2319578619ec6f83701b5c6ffb0344bc15",
+      "group": "TRAIN",
+      "id": "G14",
+      "opening": [
+        94,
+        111,
+        114,
+        158,
+        95,
+        98
+      ],
+      "stratum": "UNFILTERED"
+    },
+    {
+      "family": "4efbd216659a1ef156fbbe4b100bb294954bf6bd04437d50c1a2c06a6054483c",
+      "group": "TRAIN",
+      "id": "G15",
+      "opening": [
+        156,
+        95,
+        96,
+        115,
+        140,
+        126
+      ],
+      "stratum": "SCREEN"
+    },
+    {
+      "family": "4b246d9a801433da0dc924884dadb281d493b15f709757a2da003ab14847d9bc",
+      "group": "TRAIN",
+      "id": "G16",
+      "opening": [
+        65,
+        125,
+        127,
+        94,
+        81,
+        157
+      ],
+      "stratum": "UNFILTERED"
+    },
+    {
+      "family": "ac2138ef42a92928772f3c5706521f2b8501efc4029cd91e8cbb16279cb0815b",
+      "group": "TRAIN",
+      "id": "G17",
+      "opening": [
+        155,
+        83,
+        99,
+        65,
+        69,
+        159
+      ],
+      "stratum": "SCREEN"
+    },
+    {
+      "family": "10634405eaf1d4f7b9117cb5b954a74d603fdeadc7ee1c505e36639042f8db71",
+      "group": "TRAIN",
+      "id": "G18",
+      "opening": [
+        139,
+        84,
+        145,
+        141,
+        114,
+        127
+      ],
+      "stratum": "UNFILTERED"
+    },
+    {
+      "family": "13127ce7192839fe1a949ff3804c784b26fd890bfea468d18d7072ad32d138ca",
+      "group": "TRAIN",
+      "id": "G19",
+      "opening": [
+        83,
+        80,
+        124,
+        68,
+        143,
+        145
+      ],
+      "stratum": "SCREEN"
+    },
+    {
+      "family": "ccc3274a8b2dd141f9d0b3a8f7c019b75c0bf06204e2719c45259037a091aa55",
+      "group": "TRAIN",
+      "id": "G20",
+      "opening": [
+        159,
+        70,
+        115,
+        84,
+        125,
+        160
+      ],
+      "stratum": "UNFILTERED"
+    },
+    {
+      "family": "c35437c7387a678caf5f44e014423acc1979460e41d70fb8412e58778d264989",
+      "group": "TRAIN",
+      "id": "G21",
+      "opening": [
+        158,
+        128,
+        143,
+        141,
+        139,
+        110
+      ],
+      "stratum": "SCREEN"
+    },
+    {
+      "family": "3761e2c0e69e64bc27d2111be6d2220f5264d14de0c1e5f185f7be59cdd9566e",
+      "group": "TRAIN",
+      "id": "G22",
+      "opening": [
+        85,
+        98,
+        80,
+        69,
+        67,
+        154
+      ],
+      "stratum": "UNFILTERED"
+    },
+    {
+      "family": "797a7f0ff0c6bf49fa593d223f8240d1df9ae419a6aa7882d5c19e6221f0a51d",
+      "group": "TRAIN",
+      "id": "G23",
+      "opening": [
+        158,
+        141,
+        67,
+        84,
+        145,
+        160
+      ],
+      "stratum": "SCREEN"
+    },
+    {
+      "family": "512f2023423803506d0686a7beacd7a33d18779316eae5be8fea7b13c9c77fcb",
+      "group": "CAL",
+      "id": "G24",
+      "opening": [
+        80,
+        113,
+        126,
+        115,
+        95,
+        130
+      ],
+      "stratum": "UNFILTERED"
+    },
+    {
+      "family": "f2f29f7e05dd4119f2518da915bb327cc9a259fbebe5b46f9de6407ff21caad4",
+      "group": "CAL",
+      "id": "G25",
+      "opening": [
+        157,
+        94,
+        160,
+        64,
+        81,
+        111
+      ],
+      "stratum": "SCREEN"
+    },
+    {
+      "family": "ac5f7755f3a37e5e97b8e68ff563bc0d292bbc8b1141e582837b6662a5fd471c",
+      "group": "CAL",
+      "id": "G26",
+      "opening": [
+        128,
+        129,
+        155,
+        154,
+        143,
+        113
+      ],
+      "stratum": "UNFILTERED"
+    },
+    {
+      "family": "bd04ab01137497d3aa01fedb82d3e012c5153fc8b831062d0fa6d93d874a3db2",
+      "group": "CAL",
+      "id": "G27",
+      "opening": [
+        94,
+        114,
+        80,
+        145,
+        156,
+        126
+      ],
+      "stratum": "SCREEN"
+    },
+    {
+      "family": "7aba8db32a9fb3563e37564f191b1a4998e9b9d5589427270d4afa84b2a0824e",
+      "group": "CAL",
+      "id": "G28",
+      "opening": [
+        85,
+        79,
+        114,
+        130,
+        144,
+        125
+      ],
+      "stratum": "UNFILTERED"
+    },
+    {
+      "family": "63c84907e224f61e04c83d04b4bd153450906957c69a94c9a6a23da13ea93084",
+      "group": "CAL",
+      "id": "G29",
+      "opening": [
+        69,
+        127,
+        82,
+        113,
+        67,
+        159
+      ],
+      "stratum": "SCREEN"
+    },
+    {
+      "family": "ff54bd614799751f7505ba34ed07333de0fd4a1e89cb02c5a76333d6c6e963c0",
+      "group": "CAL",
+      "id": "G30",
+      "opening": [
+        115,
+        145,
+        130,
+        143,
+        160,
+        66
+      ],
+      "stratum": "UNFILTERED"
+    },
+    {
+      "family": "a8fc928e5c42816b782a3256134b89be8db7c2eb4994522e7f600f26066ba0c3",
+      "group": "CAL",
+      "id": "G31",
+      "opening": [
+        142,
+        124,
+        96,
+        127,
+        140,
+        129
+      ],
+      "stratum": "SCREEN"
+    },
+    {
+      "family": "44fb446cd209524c52b331e0c75a835ddc63f7e464c91839f7d1cf48732704ae",
+      "group": "TEST",
+      "id": "G32",
+      "opening": [
+        109,
+        70,
+        154,
+        65,
+        66,
+        111
+      ],
+      "stratum": "UNFILTERED"
+    },
+    {
+      "family": "330a5c5b88b50d5eb241ce22c7c739514ec9aab4a8fbb3c59e4c22ca3a61e3c0",
+      "group": "TEST",
+      "id": "G33",
+      "opening": [
+        66,
+        98,
+        144,
+        125,
+        114,
+        130
+      ],
+      "stratum": "SCREEN"
+    },
+    {
+      "family": "3595a9fd2a8dfe05c0348b87cc520ca86ac38c7ca014aff3a2912dbeb0b11890",
+      "group": "TEST",
+      "id": "G34",
+      "opening": [
+        68,
+        140,
+        128,
+        65,
+        64,
+        158
+      ],
+      "stratum": "UNFILTERED"
+    },
+    {
+      "family": "1b2d4fea301621741d8d5ba8745f202963d6cd4391e7430fd252e6d91e8c1717",
+      "group": "TEST",
+      "id": "G35",
+      "opening": [
+        160,
+        82,
+        79,
+        109,
+        112,
+        124
+      ],
+      "stratum": "SCREEN"
+    },
+    {
+      "family": "9eece4860c6fa904945ecfdb8815f027f14ecb857de8902252f9a7cadfb83ae6",
+      "group": "TEST",
+      "id": "G36",
+      "opening": [
+        64,
+        141,
+        154,
+        79,
+        109,
+        66
+      ],
+      "stratum": "UNFILTERED"
+    },
+    {
+      "family": "6e592c95f4987414e44a912ea6e82b1ca58174d6687c268d44df3634f3bc3884",
+      "group": "TEST",
+      "id": "G37",
+      "opening": [
+        82,
+        99,
+        112,
+        139,
+        97,
+        66
+      ],
+      "stratum": "SCREEN"
+    },
+    {
+      "family": "8a9cdd7b0e63f275a2e595eec2dd029c48979a6263ba0fbf62a9a15ac41bce16",
+      "group": "TEST",
+      "id": "G38",
+      "opening": [
+        112,
+        139,
+        96,
+        158,
+        67,
+        140
+      ],
+      "stratum": "UNFILTERED"
+    },
+    {
+      "family": "633925ef9a4ea41a3f982b6a1f8af7b4f6bce1dc14fd6d1f8fc05802982ff60e",
+      "group": "TEST",
+      "id": "G39",
+      "opening": [
+        125,
+        139,
+        64,
+        70,
+        111,
+        79
+      ],
+      "stratum": "SCREEN"
+    },
+    {
+      "family": "e31c584b2a1dc47cb4619d33c0557e29d2117980b35da40e2111cfde87585f4d",
+      "group": "TEST",
+      "id": "G40",
+      "opening": [
+        95,
+        154,
+        100,
+        97,
+        114,
+        140
+      ],
+      "stratum": "UNFILTERED"
+    },
+    {
+      "family": "90512f2349107b873090126aca635dd5185cce8d41bf07901ca41f873fd60e5d",
+      "group": "TEST",
+      "id": "G41",
+      "opening": [
+        128,
+        94,
+        85,
+        157,
+        158,
+        144
+      ],
+      "stratum": "SCREEN"
+    },
+    {
+      "family": "f840684235d2530fa33827827f255368ba89ec3c18179478189ad11305f2775d",
+      "group": "TEST",
+      "id": "G42",
+      "opening": [
+        144,
+        68,
+        158,
+        155,
+        80,
+        145
+      ],
+      "stratum": "UNFILTERED"
+    },
+    {
+      "family": "c678000c57757b52be03125ff63efe02017e1454563b076e2d2fda3a57e9790e",
+      "group": "TEST",
+      "id": "G43",
+      "opening": [
+        95,
+        142,
+        130,
+        81,
+        158,
+        68
+      ],
+      "stratum": "SCREEN"
+    },
+    {
+      "family": "6095bf8fd35c265e6b4f9d9ab0ed8f7748ff0212089fc2c9d30d657eaaa4dd85",
+      "group": "TEST",
+      "id": "G44",
+      "opening": [
+        66,
+        79,
+        114,
+        84,
+        65,
+        159
+      ],
+      "stratum": "UNFILTERED"
+    },
+    {
+      "family": "6310728de619b1cdf9e1f3399a6385a7fab5bb22a9601ff9280ca77d428f3162",
+      "group": "TEST",
+      "id": "G45",
+      "opening": [
+        139,
+        99,
+        100,
+        124,
+        127,
+        156
+      ],
+      "stratum": "SCREEN"
+    },
+    {
+      "family": "45b25c5bc777440574a401fb306f01b2a71f7764980f919fba710f04974987d1",
+      "group": "TEST",
+      "id": "G46",
+      "opening": [
+        113,
+        143,
+        97,
+        67,
+        140,
+        64
+      ],
+      "stratum": "UNFILTERED"
+    },
+    {
+      "family": "da42aa27c2216b17ae1d9ba5ae7aadc1d9ce6aaaa2e05c8a773443907d3e3b1f",
+      "group": "TEST",
+      "id": "G47",
+      "opening": [
+        79,
+        85,
+        155,
+        109,
+        99,
+        100
+      ],
+      "stratum": "SCREEN"
+    }
+  ],
+  "screen_cap": 32,
+  "source_cap": 128
+}
