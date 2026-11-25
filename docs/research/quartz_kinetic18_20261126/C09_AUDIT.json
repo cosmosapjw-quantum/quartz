@@ -1,0 +1,231 @@
+{
+  "aggregate_groups": 12,
+  "attempts": 300,
+  "diagnostics": {
+    "common:K16BAL:32": {
+      "potential_panel_gain": 0.11666666666666667,
+      "potential_panel_improvements": 12,
+      "switch_equal": 28,
+      "switch_harmed": 4,
+      "switch_improved": 4,
+      "switches": 36,
+      "visited_strata": {
+        "False": {
+          "mean_gain": -0.05555555555555555,
+          "n": 9
+        },
+        "True": {
+          "mean_gain": 0.012345679012345678,
+          "n": 81
+        }
+      }
+    },
+    "common:K16BAL:64": {
+      "potential_panel_gain": 0.11666666666666667,
+      "potential_panel_improvements": 12,
+      "switch_equal": 26,
+      "switch_harmed": 2,
+      "switch_improved": 6,
+      "switches": 34,
+      "visited_strata": {
+        "False": {
+          "mean_gain": 0.0,
+          "n": 9
+        },
+        "True": {
+          "mean_gain": 0.037037037037037035,
+          "n": 81
+        }
+      }
+    },
+    "common:K16N:32": {
+      "potential_panel_gain": 0.07777777777777778,
+      "potential_panel_improvements": 9,
+      "switch_equal": 7,
+      "switch_harmed": 4,
+      "switch_improved": 1,
+      "switches": 12,
+      "visited_strata": {
+        "False": {
+          "mean_gain": -0.1111111111111111,
+          "n": 9
+        },
+        "True": {
+          "mean_gain": -0.018518518518518517,
+          "n": 81
+        }
+      }
+    },
+    "common:K16N:64": {
+      "potential_panel_gain": 0.044444444444444446,
+      "potential_panel_improvements": 6,
+      "switch_equal": 15,
+      "switch_harmed": 1,
+      "switch_improved": 0,
+      "switches": 16,
+      "visited_strata": {
+        "False": {
+          "mean_gain": 0.0,
+          "n": 9
+        },
+        "True": {
+          "mean_gain": -0.012345679012345678,
+          "n": 81
+        }
+      }
+    },
+    "common:K17EXP:32": {
+      "potential_panel_gain": 0.1,
+      "potential_panel_improvements": 10,
+      "switch_equal": 7,
+      "switch_harmed": 1,
+      "switch_improved": 1,
+      "switches": 9,
+      "visited_strata": {
+        "False": {
+          "mean_gain": -0.05555555555555555,
+          "n": 9
+        },
+        "True": {
+          "mean_gain": 0.006172839506172839,
+          "n": 81
+        }
+      }
+    },
+    "common:K17EXP:64": {
+      "potential_panel_gain": 0.08333333333333333,
+      "potential_panel_improvements": 8,
+      "switch_equal": 20,
+      "switch_harmed": 3,
+      "switch_improved": 4,
+      "switches": 27,
+      "visited_strata": {
+        "False": {
+          "mean_gain": -0.05555555555555555,
+          "n": 9
+        },
+        "True": {
+          "mean_gain": 0.024691358024691357,
+          "n": 81
+        }
+      }
+    },
+    "native:K16BAL:32": {
+      "potential_panel_gain": 0.11666666666666667,
+      "potential_panel_improvements": 12,
+      "switch_equal": 18,
+      "switch_harmed": 1,
+      "switch_improved": 3,
+      "switches": 22,
+      "visited_strata": {
+        "False": {
+          "mean_gain": 0.0,
+          "n": 9
+        },
+        "True": {
+          "mean_gain": 0.018518518518518517,
+          "n": 81
+        }
+      }
+    },
+    "native:K16BAL:64": {
+      "potential_panel_gain": 0.11666666666666667,
+      "potential_panel_improvements": 12,
+      "switch_equal": 26,
+      "switch_harmed": 2,
+      "switch_improved": 5,
+      "switches": 33,
+      "visited_strata": {
+        "False": {
+          "mean_gain": 0.0,
+          "n": 9
+        },
+        "True": {
+          "mean_gain": 0.024691358024691357,
+          "n": 81
+        }
+      }
+    },
+    "native:K16N:32": {
+      "potential_panel_gain": 0.07777777777777778,
+      "potential_panel_improvements": 9,
+      "switch_equal": 0,
+      "switch_harmed": 0,
+      "switch_improved": 0,
+      "switches": 0,
+      "visited_strata": {
+        "False": {
+          "mean_gain": 0.0,
+          "n": 9
+        },
+        "True": {
+          "mean_gain": 0.0,
+          "n": 81
+        }
+      }
+    },
+    "native:K16N:64": {
+      "potential_panel_gain": 0.044444444444444446,
+      "potential_panel_improvements": 6,
+      "switch_equal": 0,
+      "switch_harmed": 0,
+      "switch_improved": 0,
+      "switches": 0,
+      "visited_strata": {
+        "False": {
+          "mean_gain": 0.0,
+          "n": 9
+        },
+        "True": {
+          "mean_gain": 0.0,
+          "n": 81
+        }
+      }
+    },
+    "native:K17EXP:32": {
+      "potential_panel_gain": 0.1,
+      "potential_panel_improvements": 10,
+      "switch_equal": 0,
+      "switch_harmed": 0,
+      "switch_improved": 0,
+      "switches": 0,
+      "visited_strata": {
+        "False": {
+          "mean_gain": 0.0,
+          "n": 9
+        },
+        "True": {
+          "mean_gain": 0.0,
+          "n": 81
+        }
+      }
+    },
+    "native:K17EXP:64": {
+      "potential_panel_gain": 0.08333333333333333,
+      "potential_panel_improvements": 8,
+      "switch_equal": 14,
+      "switch_harmed": 0,
+      "switch_improved": 4,
+      "switches": 18,
+      "visited_strata": {
+        "False": {
+          "mean_gain": 0.0,
+          "n": 9
+        },
+        "True": {
+          "mean_gain": 0.043209876543209874,
+          "n": 81
+        }
+      }
+    }
+  },
+  "exact_actions": 1392,
+  "freeze_before_test": true,
+  "models": 12,
+  "nodes": 739065,
+  "requests": 1644,
+  "roots": 274,
+  "scope": "independent grid replay and K17 family/board exclusions, WDL sign readback, all native moments/forced phase counts, features, kernel weights, CAL selection, TRAIN support, heldout predictions and aggregate scores; no re-solve or full internal MCTS tree trace",
+  "test_predictions": 1080,
+  "train_cal_model_checks": 3552
+}
