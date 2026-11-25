@@ -26,6 +26,7 @@ pub struct Hooks{
     vmode:u8,bmode:u8,trace:bool,
     record_repeats:bool,solved_returns:Mutex<std::collections::BTreeSet<Key>>,
     local_mode:u8,local_remaining:AtomicU64,local_focus:Option<usize>,local_frontier:Option<Frontier>,
+    tactical_root_floor:usize,tactical_root_first:Option<usize>,
     leaf_paths:Mutex<Vec<Vec<usize>>>,workers:AtomicU64,
     ledger:Mutex<Ledger>,
 }
@@ -33,12 +34,22 @@ impl Hooks{
     pub fn new(mask:u8)->Self{Self::new_modes(mask&3,if mask&V!=0{1}else{0},if mask&B!=0{4}else{0},false)}
     pub fn new_modes(mask:u8,vmode:u8,bmode:u8,trace:bool)->Self{
         assert!(mask<=3&&vmode<=4&&bmode<=4);
-        Self{mask,vmode,bmode,trace,record_repeats:false,solved_returns:Mutex::new(std::collections::BTreeSet::new()),local_mode:0,local_remaining:AtomicU64::new(0),local_focus:None,local_frontier:None,counts:std::array::from_fn(|_|AtomicU64::new(0)),ledger:Mutex::new(Ledger::default()),leaf_paths:Mutex::new(Vec::new()),workers:AtomicU64::new(0),graph:Mutex::new(Graph::default()),proof_mode:0,proof_priority:true,trace_b:false,b_events:Mutex::new(Vec::new())}
+        Self{mask,vmode,bmode,trace,record_repeats:false,solved_returns:Mutex::new(std::collections::BTreeSet::new()),local_mode:0,local_remaining:AtomicU64::new(0),local_focus:None,local_frontier:None,tactical_root_floor:0,tactical_root_first:None,counts:std::array::from_fn(|_|AtomicU64::new(0)),ledger:Mutex::new(Ledger::default()),leaf_paths:Mutex::new(Vec::new()),workers:AtomicU64::new(0),graph:Mutex::new(Graph::default()),proof_mode:0,proof_priority:true,trace_b:false,b_events:Mutex::new(Vec::new())}
     }
     pub fn with_graph(mut self,mode:u8)->Self{assert!(mode<=2);self.proof_mode=mode;self}
     pub fn with_b_trace(mut self)->Self{self.trace_b=true;self}
     pub fn with_safe_priority(mut self)->Self{self.proof_priority=false;self}
     pub fn with_repeat_trace(mut self)->Self{self.record_repeats=true;self}
+    /// P3 research-only: preserve the original candidate order, expose its
+    /// prefix through the target rank. First-action override is used only by
+    /// the single-worker ladder endpoint before its first actual visit.
+    pub fn with_tactical_root(mut self,floor:usize,first:Option<usize>)->Self{
+        assert!(self.mask==0&&self.proof_mode==0&&self.local_mode==0&&floor<=225);
+        self.tactical_root_floor=floor;self.tactical_root_first=first;self
+    }
+    pub fn tactical_first_action(&self,depth:usize,n:u32)->Option<usize>{
+        if depth==0&&n==0{self.tactical_root_first}else{None}
+    }
     /// Only mutate between completed blocks, never while workers are active.
     pub fn configure_local(&mut self,mode:u8,v:u8,b:u8,priority:bool){
         assert!(mode<=3&&v<=4&&b<=4);self.local_mode=mode;self.vmode=v;self.bmode=b;self.proof_priority=priority;
@@ -133,6 +144,7 @@ impl Hooks{
     }
     fn add(&self,i:usize,n:u64){self.counts[i].fetch_add(n,Ordering::Relaxed);}
     pub fn width<M:Copy+Send+Sync+'static>(&self,node:&MctsNode<M>,base:usize,depth:usize)->usize{
+        let base=if depth==0{base.max(self.tactical_root_floor).min(node.candidate_count())}else{base};
         if self.mask&X==0{return base;}
         let p=node.candidates.get().expect("expanded node");
         let prior:Vec<_>=p.iter().map(|e|e.1).collect();

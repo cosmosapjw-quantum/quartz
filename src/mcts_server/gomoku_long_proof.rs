@@ -86,7 +86,12 @@ mod tests{
 }
 
 // P3 root-only tactical guard; deliberately not equivalent to all WDL witnesses.
-pub fn guard(_p:&Proof)->Option<u16>{None}
+pub fn guard(p:&Proof)->Option<u16>{
+    if let Some(&a)=p.own.first(){Some(a)}
+    else if p.opponent.len()==1{Some(p.opponent[0])}
+    else if p.bounds.len()==1{Some(p.bounds[0].action)}
+    else{None}
+}
 pub fn target_moves(p:&Proof)->Vec<u16>{
     if !p.own.is_empty(){p.own.clone()}
     else if p.opponent.len()==1{p.opponent.clone()}

@@ -1034,6 +1034,7 @@ where
         }
 
         let n_total = cur_node.n_total.load(Ordering::Acquire);
+        let tactical_first=axes.and_then(|h|h.tactical_first_action(depth,n_total));
         let n_visible = match pw {
             Some(cfg) => {
                 let base_k = cfg.k(n_total).max(1).min(n_candidates);
@@ -1111,6 +1112,7 @@ where
         let mut found_any = false;
 
         for (idx, edge) in edges.iter().enumerate() {
+            if tactical_first.is_some_and(|m|m!=cur_state.move_to_idx(edge.mv)){continue;}
             if let Some(ref p)=proof_plan{if !p.allowed.contains(&cur_state.move_to_idx(edge.mv)){continue;}}
             // A resident mask applies only to the original root. It never
             // changes legal game moves, original edge priors or descendants.

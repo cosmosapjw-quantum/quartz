@@ -5,17 +5,22 @@ from rules import features,ADMITTED
 D=Path(__file__).resolve().parent;ROOT=D.parents[2]
 MODEL=Path('/home/cosmosapjw/Dropbox/personal_projects/quartz/results/smoke_torch/gomoku15/models/F1_legacy_base/latest.pt')
 MODEL_SHA='57b93ba867ff8f9b74f91adef6b38f02f94de0bd7dc177785d668d32e1dcc3ae'
+MODELS={
+    'F1':(MODEL,MODEL_SHA),
+    'F2':(MODEL.parent.parent/'F2_legacy_krefresh/latest.pt','b1309cddebafc3345afd22d736bab0cd8cd11ecb6a2c4fe86bc57b4f455a1c12')
+}
 BIN=ROOT.parent/'quartz_tactical08_target_20261125/mcts_demo'
 PYTHON='/home/cosmosapjw/wssg_p2_20261120/venv/bin/python'
 def sha(p):
     with Path(p).open('rb') as f:return hashlib.file_digest(f,'sha256').hexdigest()
-def identity():
+def identity(model="F1"):
     x=json.loads((D/'C06_BUILD_IDENTITY.json').read_text())
-    assert sha(BIN)==x['binary_sha256'] and sha(MODEL)==MODEL_SHA
-    return dict(model_sha256=MODEL_SHA,binary_sha256=x['binary_sha256'],source_head=x['source_head'])
+    path,digest=MODELS[model]
+    assert sha(BIN)==x['binary_sha256'] and sha(path)==digest
+    return dict(model=model,model_sha256=digest,binary_sha256=x['binary_sha256'],source_head=x['source_head'])
 class Engine:
-    def __init__(self,threads=1):
-        identity();assert threads in (1,2)
+    def __init__(self,threads=1,model="F1"):
+        self.identity=identity(model);self.model_name=model;assert threads in (1,2)
         # Disable transport/model caches for independent observed NN counts.
         for k in ('QUARTZ_DISABLE_COMPILE','QUARTZ_DISABLE_QIPC_SHM','QUARTZ_DISABLE_ASYNC_PIPELINE','QUARTZ_DISABLE_NN_CACHE'):os.environ[k]='1'
         os.environ['OMP_NUM_THREADS']='2';os.environ['MKL_NUM_THREADS']='2'
@@ -28,7 +33,7 @@ class Engine:
         torch.set_num_threads(2)
         try:torch.set_num_interop_threads(1)
         except RuntimeError:pass
-        raw=torch.load(MODEL,map_location='cpu',weights_only=True)
+        raw=torch.load(MODELS[model][0],map_location='cpu',weights_only=True)
         cfg=dict(GAME_CONFIGS['gomoku15'])
         for k in ('filters','blocks','vh','ch'):cfg[k]=raw['cfg'][k]
         cfg.update(_name='gomoku15',_encoder=get_encoder('gomoku15'),search_profile='baseline_strict',penalty_mode='None',vl_mode='disabled',root_only_shaping=True,seed=17,n_threads=threads,batch_size=4,iters=8)
@@ -56,7 +61,8 @@ class Engine:
         cpu_ns=time.process_time_ns()-p0;rust_ticks=ticks()-r0
         if not isinstance(a,dict):raise RuntimeError('native non-dict reply')
         if a.get('error'):return a
-        if a.get('schema')!='quartz_gomoku_long_v1':raise RuntimeError(f'bad schema: {str(a)[:500]}')
+        if a.get('schema') not in ('quartz_gomoku_long_v1','quartz_gomoku_tactical_v1'):raise RuntimeError(f'bad schema: {str(a)[:500]}')
+        a['model_identity']=self.identity
         a['transport_ns']=elapsed;a['nn_batches']=self.batches-b;a['nn_rows']=self.rows-r
         a['python_cpu_ns']=cpu_ns;a['rust_cpu_ticks']=rust_ticks;a['tick_hz']=os.sysconf('SC_CLK_TCK')
         if 'evaluator_calls' in a:
@@ -74,6 +80,10 @@ class Engine:
     def search(self,h,rule='freestyle',arm='BASE',visits=8,threads=1,seed=17):
         assert rule in ADMITTED
         a=self.request(dict(cmd='research_gomoku15_long_search',history=list(h),rule=rule,arm=arm,visits=visits,threads=threads,seed=seed))
+        if a.get('error'):raise RuntimeError(a['error'])
+        return a
+    def ladder(self,h,arm,budgets,rule='freestyle',seed=17):
+        a=self.request(dict(cmd='research_gomoku15_tactical_ladder',history=list(h),rule=rule,arm=arm,budgets=list(budgets),seed=seed))
         if a.get('error'):raise RuntimeError(a['error'])
         return a
     def close(self):
