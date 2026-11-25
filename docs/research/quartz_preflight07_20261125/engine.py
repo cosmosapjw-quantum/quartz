@@ -37,7 +37,10 @@ class Engine:
         self.model_parameters=sum(p.numel() for p in self.model.parameters())
         self.rows=0;self.batches=0;self.first=None
         def hook(m,args,out):
-            x=args[0].detach().cpu();self.batches+=1;self.rows+=int(x.shape[0])
+            x=args[0].detach().cpu()
+            assert x.ndim==4 and tuple(x.shape[1:])==(17,15,15)
+            assert all(torch.isfinite(y).all().item() for y in out),"nonfinite NN output"
+            self.batches+=1;self.rows+=int(x.shape[0])
             if self.first is None:self.first=x[0].reshape(-1).clone()
         self.hook=self.model.register_forward_hook(hook)
         self.client=NNSearchClient(self.model,cfg,torch.device('cpu'),str(BIN))

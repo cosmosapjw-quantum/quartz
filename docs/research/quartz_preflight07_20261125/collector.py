@@ -16,6 +16,15 @@ MANIFEST_SCHEMA='quartz_long_manifest_v1'
 MAX_RECORD_BYTES=64*1024*1024
 GIB=1024**3
 
+def strict_json(data):
+    def pairs(items):
+        out={}
+        for k,v in items:
+            if k in out:raise ValueError("duplicate JSON field: "+k)
+            out[k]=v
+        return out
+    def bad(x):raise ValueError("nonfinite JSON constant: "+x)
+    return json.loads(data,object_pairs_hook=pairs,parse_constant=bad)
 def canonical(o):return json.dumps(o,sort_keys=True,separators=(',',':'),allow_nan=False).encode()
 def digest(o):return hashlib.sha256(canonical(o)).hexdigest()
 def derive_seed(*parts):return int.from_bytes(hashlib.sha256(canonical(parts)).digest()[:8],'big')
@@ -79,6 +88,7 @@ def preflight(p,out,remaining=None):
     disk=shutil.disk_usage(disk_ancestor(out));mem=mem_available()
     return dict(free_bytes=disk.free,available_memory_bytes=mem,estimated_max_ply_bytes=worst,estimated_bytes_per_ply=p['estimated_compressed_bytes_per_ply'],reserve_bytes=p['min_free_gib']*GIB,disk_ok=disk.free>=worst+p['min_free_gib']*GIB,memory_ok=mem>=p['min_available_gib']*GIB,estimate_not_guarantee=True)
 def authorize(p,plan_sha,limit,shard,out):
+    require(__debug__,'assertions must remain enabled')
     validate_plan(p)
     require(p['generation_enabled'] is True,'generation_enabled=false: no production collection')
     require(plan_sha==digest(p),'explicit exact plan hash authorization required')
@@ -87,7 +97,7 @@ def authorize(p,plan_sha,limit,shard,out):
     path=Path(out)
     remaining=p['games']
     if (path/'manifest.json').is_file():
-        require(json.loads((path/'manifest.json').read_text())==manifest(p),'resume plan mismatch')
+        require(strict_json((path/'manifest.json').read_text())==manifest(p),'resume plan mismatch')
         remaining-=verify_store(path)['committed']
     elif path.exists():require(path.is_dir() and not any(path.iterdir()),'nonempty output without manifest')
     pf=preflight(p,out,remaining)
@@ -127,7 +137,7 @@ def load_record(p):
     # Cap decompressed read as well; no arbitrary gzip expansion.
     with gzip.GzipFile(fileobj=__import__('io').BytesIO(raw)) as f:data=f.read(MAX_RECORD_BYTES+1)
     require(len(data)<=MAX_RECORD_BYTES,'decompressed record cap')
-    x=json.loads(data);require(x.get('job',{}).get('game_id')==parts[0],'record id/filename mismatch')
+    x=strict_json(data);require(x.get('job',{}).get('game_id')==parts[0],'record id/filename mismatch')
     return x
 def existing(root,p,job):
     folder=shard_dir(root,job['shard']);files=list(folder.glob(job['game_id']+'.*.json.gz'))
@@ -167,10 +177,12 @@ def choose(a,job,ply,p):
         j-=n
     raise AssertionError('unreachable visit sampler')
 def z_label(w,player):
-    require(w is None or w in (-1,0,1),'invalid winner')
-    require(player in (-1,1),'invalid player')
+    require(w is None or type(w) is int and w in (-1,0,1),'invalid winner')
+    require(type(player) is int and player in (-1,1),'invalid player')
     return None if w is None else w*player
 def validate_record(rec,p,job,positions=None):
+    require(__debug__,'assertions must remain enabled')
+    require(rec.get('winner_black') is None or type(rec.get('winner_black')) is int,'invalid winner type')
     require(set(rec)=={'schema','plan_sha256','identity','job','rule','status','reason','winner_black','moves','final_history','record_type'},'game schema keys')
     require(rec['schema']==GAME_SCHEMA and rec['plan_sha256']==digest(p) and rec['identity']==p['identity'] and rec['job']==job and rec['rule']==p['rule'],'record identity mismatch')
     is_smoke=p['schema']==SMOKE_SCHEMA;require(rec['record_type']==('SMOKE_FIXTURE' if is_smoke else 'SELFPLAY' if p['mode']=='SELFPLAY' else 'PAIRED_ARENA'),'record type mismatch')
@@ -246,7 +258,7 @@ def verify_store(root,probe_manifest=None):
     """Read-only data validation; disk-backed exact D4 board leakage index.
     A probe manifest is metadata only, not MCTS execution or labels for alternatives.
     """
-    root=Path(root);mf=json.loads((root/'manifest.json').read_text());p=mf['plan']
+    root=Path(root);mf=strict_json((root/'manifest.json').read_text());p=mf['plan']
     require(mf==manifest(p) and p['identity']==identity(),'manifest/model/binary mismatch')
     if p['schema']==PLAN_SCHEMA:validate_plan(p)
     jobs={j['game_id']:j for j in planned_jobs(p)}
@@ -309,7 +321,7 @@ def main():
     if args.verify:
         require(args.output is not None,'--output required for verify')
         print(json.dumps(verify_store(args.output,args.probe_manifest),indent=2,sort_keys=True));return
-    p=validate_plan(json.loads(args.plan.read_text()));out=args.output or ROOT.parent/'quartz_long_corpus_NOT_STARTED'
+    p=validate_plan(strict_json(args.plan.read_text()));out=args.output or ROOT.parent/'quartz_long_corpus_NOT_STARTED'
     if args.execute:
         require(args.output is not None,'explicit output required')
         print(json.dumps(execute(p,out,args.shard,args.max_new_games,args.authorize_hash),indent=2));return

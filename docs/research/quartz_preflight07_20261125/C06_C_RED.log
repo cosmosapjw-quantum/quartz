@@ -1,0 +1,11 @@
+Traceback (most recent call last):
+  File "/home/cosmosapjw/quantum/research/quartz_preflight07_20261125/docs/research/quartz_preflight07_20261125/test_adversarial.py", line 31, in <module>
+    if __name__=='__main__':{'B':B,'C':C}[sys.argv[1]]()
+                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/cosmosapjw/quantum/research/quartz_preflight07_20261125/docs/research/quartz_preflight07_20261125/test_adversarial.py", line 29, in C
+    rejects(lambda:load_record(f));print('rejected',nm)
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/cosmosapjw/quantum/research/quartz_preflight07_20261125/docs/research/quartz_preflight07_20261125/test_adversarial.py", line 11, in rejects
+    raise AssertionError('corruption accepted')
+AssertionError: corruption accepted
+exit=1
