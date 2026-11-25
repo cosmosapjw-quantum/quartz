@@ -1,0 +1,1075 @@
+{
+  "NN": 8983,
+  "blocks": 960,
+  "claim": "feedback mechanism and proxy response; no posterior regret, calibrated VOC, brain model, matched-time or strength admission",
+  "continuation_NN": 68599,
+  "continuation_plies": 392,
+  "continuations": 40,
+  "groups": {
+    "ALL": {
+      "MBASE": {
+        "blocks": 240,
+        "changed_final": 0,
+        "changed_from_prefix": 4,
+        "channel_counts": {
+          "0": 240
+        },
+        "counters": {
+          "backup_changed": 0,
+          "extra_evals": 0,
+          "ledger_observations": 16638,
+          "ledger_shared_children": 25,
+          "merge_blends": 0,
+          "proof_scans": 0,
+          "proof_win": 0,
+          "proofs": 0,
+          "select_changed": 0,
+          "select_nodes": 0,
+          "terminal_leaves": 2096,
+          "width_mass_added": 0,
+          "width_nodes": 0
+        },
+        "harmed": {
+          "128": 0,
+          "512": 0
+        },
+        "improved": {
+          "128": 0,
+          "512": 0
+        },
+        "mean_A_end": 0.04001787088717083,
+        "mean_A_start": 0.09957974970814429,
+        "mean_CPU_ms": 24.240153875,
+        "mean_NN": 126,
+        "mean_block_ms": 1.0127,
+        "mean_final_utility": {
+          "128": 0.875,
+          "512": 0.9375
+        },
+        "mean_meta_kl": 3.909135459749907e-17,
+        "mean_monitor_read_ms": 0.16871666666666665,
+        "mean_native_ms": 22.266125,
+        "mean_phi_end": 0.7376851582690273,
+        "mean_phi_start": 0.7632374854217022,
+        "mean_plan_ms": 1.6666666666666667e-05,
+        "mean_prediction_mse": 0.0004683687181810819,
+        "mean_rapfi_CPU_ms": 13.5282445,
+        "mean_response": 0.010848195485271255,
+        "mean_rust_CPU_ms": 10.711909375,
+        "mean_wall_ms": 26.312472375,
+        "n": 16,
+        "negative_phi_blocks": 59,
+        "negative_response": 20,
+        "paired_gain": {
+          "128": 0.0,
+          "512": 0.0
+        },
+        "positive_A_blocks": 20,
+        "prefix_gain": {
+          "128": -0.0625,
+          "512": 0.0625
+        },
+        "sum_depletion": 1.0585561983850438,
+        "sum_reorganization": 0.21923077713633587,
+        "sum_transport": 0.10556613724946834,
+        "sum_work": -0.6280680115791363,
+        "zero_memory_action_difference": 0,
+        "zero_predictor_mse": 0.0005371477717888305,
+        "zero_response": 0
+      },
+      "META": {
+        "blocks": 240,
+        "changed_final": 0,
+        "changed_from_prefix": 4,
+        "channel_counts": {
+          "0": 84,
+          "1": 33,
+          "2": 30,
+          "3": 54,
+          "4": 39
+        },
+        "counters": {
+          "backup_changed": 84,
+          "extra_evals": 322,
+          "ledger_observations": 16523,
+          "ledger_shared_children": 27,
+          "merge_blends": 84,
+          "proof_scans": 452,
+          "proof_win": 99,
+          "proofs": 99,
+          "select_changed": 1680,
+          "select_nodes": 1915,
+          "terminal_leaves": 2088,
+          "width_mass_added": 74,
+          "width_nodes": 1741
+        },
+        "harmed": {
+          "128": 0,
+          "512": 0
+        },
+        "improved": {
+          "128": 0,
+          "512": 0
+        },
+        "mean_A_end": 0.03851214099626324,
+        "mean_A_start": 0.09957974970814429,
+        "mean_CPU_ms": 26.837864687499998,
+        "mean_NN": 146.625,
+        "mean_block_ms": 1.1990125,
+        "mean_final_utility": {
+          "128": 0.875,
+          "512": 0.9375
+        },
+        "mean_meta_kl": 0.0025730995667147994,
+        "mean_monitor_read_ms": 0.16357916666666666,
+        "mean_native_ms": 24.9619375,
+        "mean_phi_end": 0.7365033884545418,
+        "mean_phi_start": 0.7632374854217022,
+        "mean_plan_ms": 0.0,
+        "mean_prediction_mse": 0.0005355759247972709,
+        "mean_rapfi_CPU_ms": 15.46415425,
+        "mean_response": 0.01061085001226815,
+        "mean_rust_CPU_ms": 11.3737104375,
+        "mean_wall_ms": 28.8855625,
+        "n": 16,
+        "negative_phi_blocks": 60,
+        "negative_response": 21,
+        "paired_gain": {
+          "128": 0.0,
+          "512": 0.0
+        },
+        "positive_A_blocks": 21,
+        "prefix_gain": {
+          "128": -0.0625,
+          "512": 0.0625
+        },
+        "sum_depletion": 1.08106086995672,
+        "sum_reorganization": 0.23720875843690192,
+        "sum_transport": 0.10397913056662329,
+        "sum_work": -0.6649543099114691,
+        "zero_memory_action_difference": 12,
+        "zero_predictor_mse": 0.0004990229217013474,
+        "zero_response": 0
+      },
+      "OPEN": {
+        "blocks": 240,
+        "changed_final": 0,
+        "changed_from_prefix": 4,
+        "channel_counts": {
+          "0": 82,
+          "1": 37,
+          "2": 30,
+          "3": 52,
+          "4": 39
+        },
+        "counters": {
+          "backup_changed": 83,
+          "extra_evals": 304,
+          "ledger_observations": 16399,
+          "ledger_shared_children": 27,
+          "merge_blends": 83,
+          "proof_scans": 447,
+          "proof_win": 95,
+          "proofs": 95,
+          "select_changed": 1971,
+          "select_nodes": 2239,
+          "terminal_leaves": 2088,
+          "width_mass_added": 70,
+          "width_nodes": 1701
+        },
+        "harmed": {
+          "128": 0,
+          "512": 0
+        },
+        "improved": {
+          "128": 0,
+          "512": 0
+        },
+        "mean_A_end": 0.038406777646083474,
+        "mean_A_start": 0.09957974970814429,
+        "mean_CPU_ms": 26.961284374999998,
+        "mean_NN": 145.5,
+        "mean_block_ms": 1.180425,
+        "mean_final_utility": {
+          "128": 0.875,
+          "512": 0.9375
+        },
+        "mean_meta_kl": 3.693854839918639e-17,
+        "mean_monitor_read_ms": 0.18535833333333335,
+        "mean_native_ms": 25.0421875,
+        "mean_phi_end": 0.7336632624835956,
+        "mean_phi_start": 0.7632374854217022,
+        "mean_plan_ms": 0.0,
+        "mean_prediction_mse": 0.0005391488015256825,
+        "mean_rapfi_CPU_ms": 15.3777750625,
+        "mean_response": 0.010641069996322201,
+        "mean_rust_CPU_ms": 11.5835093125,
+        "mean_wall_ms": 29.1107503125,
+        "n": 16,
+        "negative_phi_blocks": 61,
+        "negative_response": 19,
+        "paired_gain": {
+          "128": 0.0,
+          "512": 0.0
+        },
+        "positive_A_blocks": 19,
+        "prefix_gain": {
+          "128": -0.0625,
+          "512": 0.0625
+        },
+        "sum_depletion": 1.0815310428468161,
+        "sum_reorganization": 0.23181556783887086,
+        "sum_transport": 0.10276348985384343,
+        "sum_work": -0.7050031348485776,
+        "zero_memory_action_difference": 0,
+        "zero_predictor_mse": 0.0005033233717171128,
+        "zero_response": 0
+      },
+      "YOKE": {
+        "blocks": 240,
+        "changed_final": 0,
+        "changed_from_prefix": 4,
+        "channel_counts": {
+          "0": 84,
+          "1": 33,
+          "2": 30,
+          "3": 54,
+          "4": 39
+        },
+        "counters": {
+          "backup_changed": 40,
+          "extra_evals": 266,
+          "ledger_observations": 16484,
+          "ledger_shared_children": 28,
+          "merge_blends": 40,
+          "proof_scans": 391,
+          "proof_win": 65,
+          "proofs": 65,
+          "select_changed": 1855,
+          "select_nodes": 2109,
+          "terminal_leaves": 2085,
+          "width_mass_added": 112,
+          "width_nodes": 1946
+        },
+        "harmed": {
+          "128": 0,
+          "512": 0
+        },
+        "improved": {
+          "128": 0,
+          "512": 0
+        },
+        "mean_A_end": 0.03927288897382432,
+        "mean_A_start": 0.09957974970814429,
+        "mean_CPU_ms": 30.46914825,
+        "mean_NN": 143.3125,
+        "mean_block_ms": 1.339925,
+        "mean_final_utility": {
+          "128": 0.875,
+          "512": 0.9375
+        },
+        "mean_meta_kl": 2.143549629316281e-17,
+        "mean_monitor_read_ms": 0.20144583333333332,
+        "mean_native_ms": 28.3875,
+        "mean_phi_end": 0.7361801992085911,
+        "mean_phi_start": 0.7632374854217022,
+        "mean_plan_ms": 8.333333333333334e-06,
+        "mean_prediction_mse": 0.000524118572399215,
+        "mean_rapfi_CPU_ms": 16.3105776875,
+        "mean_response": 0.010441397352583844,
+        "mean_rust_CPU_ms": 14.1585705625,
+        "mean_wall_ms": 33.1563559375,
+        "n": 16,
+        "negative_phi_blocks": 60,
+        "negative_response": 18,
+        "paired_gain": {
+          "128": 0.0,
+          "512": 0.0
+        },
+        "positive_A_blocks": 18,
+        "prefix_gain": {
+          "128": -0.0625,
+          "512": 0.0625
+        },
+        "sum_depletion": 1.0699074142083735,
+        "sum_reorganization": 0.22329575994801407,
+        "sum_transport": 0.10499764245925407,
+        "sum_work": -0.6562123393577926,
+        "zero_memory_action_difference": 0,
+        "zero_predictor_mse": 0.00048562603822488844,
+        "zero_response": 0
+      },
+      "feedback": {
+        "roots_all_final_same": 16,
+        "roots_different_META_OPEN_final": 0,
+        "roots_different_META_OPEN_schedule": 9,
+        "roots_different_META_YOKE_final": 0
+      }
+    },
+    "CAL": {
+      "MBASE": {
+        "blocks": 60,
+        "changed_final": 0,
+        "changed_from_prefix": 0,
+        "channel_counts": {
+          "0": 60
+        },
+        "counters": {
+          "backup_changed": 0,
+          "extra_evals": 0,
+          "ledger_observations": 3807,
+          "ledger_shared_children": 0,
+          "merge_blends": 0,
+          "proof_scans": 0,
+          "proof_win": 0,
+          "proofs": 0,
+          "select_changed": 0,
+          "select_nodes": 0,
+          "terminal_leaves": 833,
+          "width_mass_added": 0,
+          "width_nodes": 0
+        },
+        "harmed": {
+          "128": 0,
+          "512": 0
+        },
+        "improved": {
+          "128": 0,
+          "512": 0
+        },
+        "mean_A_end": 0.02309115498031944,
+        "mean_A_start": 0.07859690429373929,
+        "mean_CPU_ms": 14.1752465,
+        "mean_NN": 48.75,
+        "mean_block_ms": 0.35485,
+        "mean_final_utility": {
+          "128": 1.0,
+          "512": 1.0
+        },
+        "mean_meta_kl": 3.036625552354798e-17,
+        "mean_monitor_read_ms": 0.13918333333333333,
+        "mean_native_ms": 12.193,
+        "mean_phi_end": 0.9990914148233933,
+        "mean_phi_start": 0.9992806132938711,
+        "mean_plan_ms": 0.0,
+        "mean_prediction_mse": 0.00046112377681374676,
+        "mean_rapfi_CPU_ms": 5.1595535,
+        "mean_response": 0.012163392494764868,
+        "mean_rust_CPU_ms": 9.015693,
+        "mean_wall_ms": 16.39121175,
+        "n": 4,
+        "negative_phi_blocks": 6,
+        "negative_response": 0,
+        "paired_gain": {
+          "128": 0.0,
+          "512": 0.0
+        },
+        "positive_A_blocks": 0,
+        "prefix_gain": {
+          "128": 0.0,
+          "512": 0.0
+        },
+        "sum_depletion": 0.22122905686977834,
+        "sum_reorganization": 0.00011901115064680466,
+        "sum_transport": -0.0007939403839011341,
+        "sum_work": -0.0008758050325579498,
+        "zero_memory_action_difference": 0,
+        "zero_predictor_mse": 0.0005415758975769849,
+        "zero_response": 0
+      },
+      "META": {
+        "blocks": 60,
+        "changed_final": 0,
+        "changed_from_prefix": 0,
+        "channel_counts": {
+          "0": 32,
+          "1": 6,
+          "2": 6,
+          "3": 11,
+          "4": 5
+        },
+        "counters": {
+          "backup_changed": 0,
+          "extra_evals": 0,
+          "ledger_observations": 3804,
+          "ledger_shared_children": 0,
+          "merge_blends": 0,
+          "proof_scans": 19,
+          "proof_win": 17,
+          "proofs": 17,
+          "select_changed": 352,
+          "select_nodes": 362,
+          "terminal_leaves": 833,
+          "width_mass_added": 3,
+          "width_nodes": 370
+        },
+        "harmed": {
+          "128": 0,
+          "512": 0
+        },
+        "improved": {
+          "128": 0,
+          "512": 0
+        },
+        "mean_A_end": 0.02309023461718553,
+        "mean_A_start": 0.07859690429373929,
+        "mean_CPU_ms": 15.08051875,
+        "mean_NN": 48.75,
+        "mean_block_ms": 0.3859,
+        "mean_final_utility": {
+          "128": 1.0,
+          "512": 1.0
+        },
+        "mean_meta_kl": 0.003361423979381118,
+        "mean_monitor_read_ms": 0.14051666666666668,
+        "mean_native_ms": 13.163,
+        "mean_phi_end": 0.9991052947424472,
+        "mean_phi_start": 0.9992806132938711,
+        "mean_plan_ms": 0.0,
+        "mean_prediction_mse": 0.0005753339024483331,
+        "mean_rapfi_CPU_ms": 5.58476325,
+        "mean_response": 0.012163601321593684,
+        "mean_rust_CPU_ms": 9.4957555,
+        "mean_wall_ms": 17.1943045,
+        "n": 4,
+        "negative_phi_blocks": 5,
+        "negative_response": 0,
+        "paired_gain": {
+          "128": 0.0,
+          "512": 0.0
+        },
+        "positive_A_blocks": 0,
+        "prefix_gain": {
+          "128": 0.0,
+          "512": 0.0
+        },
+        "sum_depletion": 0.22122891992259522,
+        "sum_reorganization": 0.00011896230187051063,
+        "sum_transport": -0.0007977587836198603,
+        "sum_work": -0.0008202365075655464,
+        "zero_memory_action_difference": 1,
+        "zero_predictor_mse": 0.0005415766757096942,
+        "zero_response": 0
+      },
+      "OPEN": {
+        "blocks": 60,
+        "changed_final": 0,
+        "changed_from_prefix": 0,
+        "channel_counts": {
+          "0": 32,
+          "1": 6,
+          "2": 5,
+          "3": 12,
+          "4": 5
+        },
+        "counters": {
+          "backup_changed": 0,
+          "extra_evals": 0,
+          "ledger_observations": 3804,
+          "ledger_shared_children": 0,
+          "merge_blends": 0,
+          "proof_scans": 21,
+          "proof_win": 19,
+          "proofs": 19,
+          "select_changed": 352,
+          "select_nodes": 362,
+          "terminal_leaves": 833,
+          "width_mass_added": 3,
+          "width_nodes": 324
+        },
+        "harmed": {
+          "128": 0,
+          "512": 0
+        },
+        "improved": {
+          "128": 0,
+          "512": 0
+        },
+        "mean_A_end": 0.023090234517401657,
+        "mean_A_start": 0.07859690429373929,
+        "mean_CPU_ms": 13.9355665,
+        "mean_NN": 48.75,
+        "mean_block_ms": 0.36293333333333333,
+        "mean_final_utility": {
+          "128": 1.0,
+          "512": 1.0
+        },
+        "mean_meta_kl": 4.855206324633094e-17,
+        "mean_monitor_read_ms": 0.13711666666666666,
+        "mean_native_ms": 12.0135,
+        "mean_phi_end": 0.9991055614864754,
+        "mean_phi_start": 0.9992806132938711,
+        "mean_plan_ms": 0.0,
+        "mean_prediction_mse": 0.000579079217849821,
+        "mean_rapfi_CPU_ms": 5.093879,
+        "mean_response": 0.012163601342386556,
+        "mean_rust_CPU_ms": 8.841687499999999,
+        "mean_wall_ms": 16.01759175,
+        "n": 4,
+        "negative_phi_blocks": 5,
+        "negative_response": 0,
+        "paired_gain": {
+          "128": 0.0,
+          "512": 0.0
+        },
+        "positive_A_blocks": 0,
+        "prefix_gain": {
+          "128": 0.0,
+          "512": 0.0
+        },
+        "sum_depletion": 0.2212289200052388,
+        "sum_reorganization": 0.00011896230210647391,
+        "sum_transport": -0.0007977591001117626,
+        "sum_work": -0.0008191695316888314,
+        "zero_memory_action_difference": 0,
+        "zero_predictor_mse": 0.0005415766809516964,
+        "zero_response": 0
+      },
+      "YOKE": {
+        "blocks": 60,
+        "changed_final": 0,
+        "changed_from_prefix": 0,
+        "channel_counts": {
+          "0": 32,
+          "1": 6,
+          "2": 6,
+          "3": 11,
+          "4": 5
+        },
+        "counters": {
+          "backup_changed": 0,
+          "extra_evals": 0,
+          "ledger_observations": 3798,
+          "ledger_shared_children": 0,
+          "merge_blends": 0,
+          "proof_scans": 16,
+          "proof_win": 14,
+          "proofs": 14,
+          "select_changed": 357,
+          "select_nodes": 366,
+          "terminal_leaves": 832,
+          "width_mass_added": 5,
+          "width_nodes": 423
+        },
+        "harmed": {
+          "128": 0,
+          "512": 0
+        },
+        "improved": {
+          "128": 0,
+          "512": 0
+        },
+        "mean_A_end": 0.02306543459181511,
+        "mean_A_start": 0.07859690429373929,
+        "mean_CPU_ms": 16.94331025,
+        "mean_NN": 49,
+        "mean_block_ms": 0.4044333333333333,
+        "mean_final_utility": {
+          "128": 1.0,
+          "512": 1.0
+        },
+        "mean_meta_kl": 3.406699893896517e-17,
+        "mean_monitor_read_ms": 0.1607,
+        "mean_native_ms": 14.82875,
+        "mean_phi_end": 0.9991058591071242,
+        "mean_phi_start": 0.9992806132938711,
+        "mean_plan_ms": 0.0,
+        "mean_prediction_mse": 0.0005331290098336317,
+        "mean_rapfi_CPU_ms": 5.37474975,
+        "mean_response": 0.012167631417796582,
+        "mean_rust_CPU_ms": 11.5685605,
+        "mean_wall_ms": 19.779804249999998,
+        "n": 4,
+        "negative_phi_blocks": 7,
+        "negative_response": 0,
+        "paired_gain": {
+          "128": 0.0,
+          "512": 0.0
+        },
+        "positive_A_blocks": 0,
+        "prefix_gain": {
+          "128": 0.0,
+          "512": 0.0
+        },
+        "sum_depletion": 0.22134852543311495,
+        "sum_reorganization": 0.00011916394955729912,
+        "sum_transport": -0.0007773533745817443,
+        "sum_work": -0.0008181806965446045,
+        "zero_memory_action_difference": 0,
+        "zero_predictor_mse": 0.0005416004558377715,
+        "zero_response": 0
+      },
+      "feedback": {
+        "roots_all_final_same": 4,
+        "roots_different_META_OPEN_final": 0,
+        "roots_different_META_OPEN_schedule": 1,
+        "roots_different_META_YOKE_final": 0
+      }
+    },
+    "TEST": {
+      "MBASE": {
+        "blocks": 180,
+        "changed_final": 0,
+        "changed_from_prefix": 4,
+        "channel_counts": {
+          "0": 180
+        },
+        "counters": {
+          "backup_changed": 0,
+          "extra_evals": 0,
+          "ledger_observations": 12831,
+          "ledger_shared_children": 25,
+          "merge_blends": 0,
+          "proof_scans": 0,
+          "proof_win": 0,
+          "proofs": 0,
+          "select_changed": 0,
+          "select_nodes": 0,
+          "terminal_leaves": 1263,
+          "width_mass_added": 0,
+          "width_nodes": 0
+        },
+        "harmed": {
+          "128": 0,
+          "512": 0
+        },
+        "improved": {
+          "128": 0,
+          "512": 0
+        },
+        "mean_A_end": 0.045660109522787956,
+        "mean_A_start": 0.10657403151294595,
+        "mean_CPU_ms": 27.595123,
+        "mean_NN": 151.75,
+        "mean_block_ms": 1.2319833333333334,
+        "mean_final_utility": {
+          "128": 0.8333333333333334,
+          "512": 0.9166666666666666
+        },
+        "mean_meta_kl": 4.199972095548276e-17,
+        "mean_monitor_read_ms": 0.17856111111111111,
+        "mean_native_ms": 25.623833333333334,
+        "mean_phi_end": 0.6505497394175719,
+        "mean_phi_start": 0.6845564427976459,
+        "mean_plan_ms": 2.2222222222222223e-05,
+        "mean_prediction_mse": 0.0004707836986368603,
+        "mean_rapfi_CPU_ms": 16.317808166666666,
+        "mean_response": 0.010409796482106718,
+        "mean_rust_CPU_ms": 11.277314833333334,
+        "mean_wall_ms": 29.61955925,
+        "n": 12,
+        "negative_phi_blocks": 53,
+        "negative_response": 20,
+        "paired_gain": {
+          "128": 0.0,
+          "512": 0.0
+        },
+        "positive_A_blocks": 20,
+        "prefix_gain": {
+          "128": -0.08333333333333333,
+          "512": 0.08333333333333333
+        },
+        "sum_depletion": 0.8373271415152654,
+        "sum_reorganization": 0.21911176598568907,
+        "sum_transport": 0.10636007763336947,
+        "sum_work": -0.6271922065465783,
+        "zero_memory_action_difference": 0,
+        "zero_predictor_mse": 0.0005356717298594456,
+        "zero_response": 0
+      },
+      "META": {
+        "blocks": 180,
+        "changed_final": 0,
+        "changed_from_prefix": 4,
+        "channel_counts": {
+          "0": 52,
+          "1": 27,
+          "2": 24,
+          "3": 43,
+          "4": 34
+        },
+        "counters": {
+          "backup_changed": 84,
+          "extra_evals": 322,
+          "ledger_observations": 12719,
+          "ledger_shared_children": 27,
+          "merge_blends": 84,
+          "proof_scans": 433,
+          "proof_win": 82,
+          "proofs": 82,
+          "select_changed": 1328,
+          "select_nodes": 1553,
+          "terminal_leaves": 1255,
+          "width_mass_added": 71,
+          "width_nodes": 1371
+        },
+        "harmed": {
+          "128": 0,
+          "512": 0
+        },
+        "improved": {
+          "128": 0,
+          "512": 0
+        },
+        "mean_A_end": 0.043652776455955805,
+        "mean_A_start": 0.10657403151294595,
+        "mean_CPU_ms": 30.75698,
+        "mean_NN": 179.25,
+        "mean_block_ms": 1.47005,
+        "mean_final_utility": {
+          "128": 0.8333333333333334,
+          "512": 0.9166666666666666
+        },
+        "mean_meta_kl": 0.0023103247624926934,
+        "mean_monitor_read_ms": 0.17126666666666668,
+        "mean_native_ms": 28.894916666666667,
+        "mean_phi_end": 0.6489694196919067,
+        "mean_phi_start": 0.6845564427976459,
+        "mean_plan_ms": 0.0,
+        "mean_prediction_mse": 0.0005223232655802502,
+        "mean_rapfi_CPU_ms": 18.757284583333334,
+        "mean_response": 0.010093266242492972,
+        "mean_rust_CPU_ms": 11.999695416666667,
+        "mean_wall_ms": 32.7826485,
+        "n": 12,
+        "negative_phi_blocks": 55,
+        "negative_response": 21,
+        "paired_gain": {
+          "128": 0.0,
+          "512": 0.0
+        },
+        "positive_A_blocks": 21,
+        "prefix_gain": {
+          "128": -0.08333333333333333,
+          "512": 0.08333333333333333
+        },
+        "sum_depletion": 0.8598319500341247,
+        "sum_reorganization": 0.23708979613503142,
+        "sum_transport": 0.10477688935024315,
+        "sum_work": -0.6641340734039036,
+        "zero_memory_action_difference": 11,
+        "zero_predictor_mse": 0.00048483833703189845,
+        "zero_response": 0
+      },
+      "OPEN": {
+        "blocks": 180,
+        "changed_final": 0,
+        "changed_from_prefix": 4,
+        "channel_counts": {
+          "0": 50,
+          "1": 31,
+          "2": 25,
+          "3": 40,
+          "4": 34
+        },
+        "counters": {
+          "backup_changed": 83,
+          "extra_evals": 304,
+          "ledger_observations": 12595,
+          "ledger_shared_children": 27,
+          "merge_blends": 83,
+          "proof_scans": 426,
+          "proof_win": 76,
+          "proofs": 76,
+          "select_changed": 1619,
+          "select_nodes": 1877,
+          "terminal_leaves": 1255,
+          "width_mass_added": 67,
+          "width_nodes": 1377
+        },
+        "harmed": {
+          "128": 0,
+          "512": 0
+        },
+        "improved": {
+          "128": 0,
+          "512": 0
+        },
+        "mean_A_end": 0.043512292022310745,
+        "mean_A_start": 0.10657403151294595,
+        "mean_CPU_ms": 31.303190333333333,
+        "mean_NN": 177.75,
+        "mean_block_ms": 1.4529222222222222,
+        "mean_final_utility": {
+          "128": 0.8333333333333334,
+          "512": 0.9166666666666666
+        },
+        "mean_meta_kl": 3.3067376783471536e-17,
+        "mean_monitor_read_ms": 0.2014388888888889,
+        "mean_native_ms": 29.385083333333334,
+        "mean_phi_end": 0.6451824961493022,
+        "mean_phi_start": 0.6845564427976459,
+        "mean_plan_ms": 0.0,
+        "mean_prediction_mse": 0.0005258386627509696,
+        "mean_rapfi_CPU_ms": 18.805740416666666,
+        "mean_response": 0.010133559547634082,
+        "mean_rust_CPU_ms": 12.497449916666666,
+        "mean_wall_ms": 33.4751365,
+        "n": 12,
+        "negative_phi_blocks": 56,
+        "negative_response": 19,
+        "paired_gain": {
+          "128": 0.0,
+          "512": 0.0
+        },
+        "positive_A_blocks": 19,
+        "prefix_gain": {
+          "128": -0.08333333333333333,
+          "512": 0.08333333333333333
+        },
+        "sum_depletion": 0.8603021228415774,
+        "sum_reorganization": 0.23169660553676438,
+        "sum_transport": 0.10356124895395519,
+        "sum_work": -0.7041839653168888,
+        "zero_memory_action_difference": 0,
+        "zero_predictor_mse": 0.0004905722686389183,
+        "zero_response": 0
+      },
+      "YOKE": {
+        "blocks": 180,
+        "changed_final": 0,
+        "changed_from_prefix": 4,
+        "channel_counts": {
+          "0": 52,
+          "1": 27,
+          "2": 24,
+          "3": 43,
+          "4": 34
+        },
+        "counters": {
+          "backup_changed": 40,
+          "extra_evals": 266,
+          "ledger_observations": 12686,
+          "ledger_shared_children": 28,
+          "merge_blends": 40,
+          "proof_scans": 375,
+          "proof_win": 51,
+          "proofs": 51,
+          "select_changed": 1498,
+          "select_nodes": 1743,
+          "terminal_leaves": 1253,
+          "width_mass_added": 107,
+          "width_nodes": 1523
+        },
+        "harmed": {
+          "128": 0,
+          "512": 0
+        },
+        "improved": {
+          "128": 0,
+          "512": 0
+        },
+        "mean_A_end": 0.04467537376782739,
+        "mean_A_start": 0.10657403151294595,
+        "mean_CPU_ms": 34.97776091666667,
+        "mean_NN": 174.75,
+        "mean_block_ms": 1.6517555555555556,
+        "mean_final_utility": {
+          "128": 0.8333333333333334,
+          "512": 0.9166666666666666
+        },
+        "mean_meta_kl": 1.722499541122869e-17,
+        "mean_monitor_read_ms": 0.2150277777777778,
+        "mean_native_ms": 32.90708333333333,
+        "mean_phi_end": 0.6485383125757467,
+        "mean_phi_start": 0.6845564427976459,
+        "mean_plan_ms": 1.1111111111111112e-05,
+        "mean_prediction_mse": 0.0005211150932544095,
+        "mean_rapfi_CPU_ms": 19.955853666666666,
+        "mean_response": 0.00986598599751293,
+        "mean_rust_CPU_ms": 15.02190725,
+        "mean_wall_ms": 37.6152065,
+        "n": 12,
+        "negative_phi_blocks": 53,
+        "negative_response": 18,
+        "paired_gain": {
+          "128": 0.0,
+          "512": 0.0
+        },
+        "positive_A_blocks": 18,
+        "prefix_gain": {
+          "128": -0.08333333333333333,
+          "512": 0.08333333333333333
+        },
+        "sum_depletion": 0.8485588887752586,
+        "sum_reorganization": 0.22317659599845677,
+        "sum_transport": 0.1057749958338358,
+        "sum_work": -0.655394158661248,
+        "zero_memory_action_difference": 0,
+        "zero_predictor_mse": 0.0004669678990205941,
+        "zero_response": 0
+      },
+      "feedback": {
+        "roots_all_final_same": 12,
+        "roots_different_META_OPEN_final": 0,
+        "roots_different_META_OPEN_schedule": 8,
+        "roots_different_META_YOKE_final": 0
+      }
+    }
+  },
+  "hosts": [
+    {
+      "end": {
+        "load": [
+          3.06689453125,
+          2.81982421875,
+          3.14208984375
+        ],
+        "mono": 452913.366637817,
+        "swap": {
+          "pswpin": 74746841,
+          "pswpout": 76323982
+        }
+      },
+      "max_load": 3.07275390625,
+      "seconds": 4.387025057978462,
+      "start": {
+        "load": [
+          3.07275390625,
+          2.81640625,
+          3.14306640625
+        ],
+        "mono": 452908.979612759,
+        "swap": {
+          "pswpin": 74746835,
+          "pswpout": 76323982
+        }
+      },
+      "swap_pages_s": 1.3676694162227547
+    },
+    {
+      "end": {
+        "load": [
+          2.9013671875,
+          2.78955078125,
+          3.13037109375
+        ],
+        "mono": 452919.003097258,
+        "swap": {
+          "pswpin": 74746867,
+          "pswpout": 76323982
+        }
+      },
+      "max_load": 2.9013671875,
+      "seconds": 1.7568118199706078,
+      "start": {
+        "load": [
+          2.9013671875,
+          2.78955078125,
+          3.13037109375
+        ],
+        "mono": 452917.246285438,
+        "swap": {
+          "pswpin": 74746867,
+          "pswpout": 76323982
+        }
+      },
+      "swap_pages_s": 0.0
+    },
+    {
+      "end": {
+        "load": [
+          2.98974609375,
+          2.81005859375,
+          3.13525390625
+        ],
+        "mono": 452924.071442706,
+        "swap": {
+          "pswpin": 74746909,
+          "pswpout": 76323982
+        }
+      },
+      "max_load": 2.98974609375,
+      "seconds": 0.679107463976834,
+      "start": {
+        "load": [
+          2.98974609375,
+          2.81005859375,
+          3.13525390625
+        ],
+        "mono": 452923.392335242,
+        "swap": {
+          "pswpin": 74746909,
+          "pswpout": 76323982
+        }
+      },
+      "swap_pages_s": 0.0
+    },
+    {
+      "end": {
+        "load": [
+          3.12744140625,
+          2.8515625,
+          3.14404296875
+        ],
+        "mono": 452939.878381351,
+        "swap": {
+          "pswpin": 74747006,
+          "pswpout": 76323982
+        }
+      },
+      "max_load": 3.2255859375,
+      "seconds": 12.111591419030447,
+      "start": {
+        "load": [
+          3.07080078125,
+          2.830078125,
+          3.14013671875
+        ],
+        "mono": 452927.766789932,
+        "swap": {
+          "pswpin": 74746920,
+          "pswpout": 76323982
+        }
+      },
+      "swap_pages_s": 7.100635830966996
+    }
+  ],
+  "identity": {
+    "rapfi_bridge": "bacbcfc90f6e4bfd0d9d035455afa3d6667ec32e7fd80cbc1d65a4001b30f64e",
+    "rapfi_config": "32b9180c91247541d399ceef62906d5ffeb48e34eb5f261612987633820d5d3c",
+    "rapfi_source": "1be1551ced57e38d53ed58f6d74bf6f8b4bdc230",
+    "rapfi_weight": "6bc0d1b0ff8e1d857f7f412923cd458f38f1a435087c91ae71fec3676c23ef62",
+    "rust_binary": "e39e1fb23d203330d8f67519178f5be704611492ce931a2c885714b7f43f1f91",
+    "rust_source": "e1af3a794c1942282e0f5f3c77f3f120c611ae63"
+  },
+  "label_disagreement": [
+    {
+      "U128": 0.0,
+      "U512": 1.0,
+      "action": 79,
+      "id": "G09"
+    },
+    {
+      "U128": 1.0,
+      "U512": 0.0,
+      "action": 125,
+      "id": "G09"
+    }
+  ],
+  "requests": 64,
+  "roots": 16,
+  "source_NN": 28790,
+  "source_games": 16,
+  "source_lengths": [
+    23,
+    19,
+    21,
+    23,
+    18,
+    13,
+    13,
+    41,
+    31,
+    59,
+    27,
+    35,
+    32,
+    19,
+    23,
+    13
+  ],
+  "source_plies": 314,
+  "unique_actions": 20,
+  "visits": 16384
+}
