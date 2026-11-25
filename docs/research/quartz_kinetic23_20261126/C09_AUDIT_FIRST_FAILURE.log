@@ -1,0 +1,8 @@
+Traceback (most recent call last):
+  File "/home/cosmosapjw/quantum/research/quartz_kinetic23_20261126/docs/research/quartz_kinetic23_20261126/audit_k23.py", line 67, in <module>
+    w={int(k):v for k,v in z['independent'].items()};assert set(w)==set(r['legal']) and all(v==np.sign(z['scores'][str(a)]) for a,v in w.items())
+                                                                                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/cosmosapjw/quantum/research/quartz_kinetic23_20261126/docs/research/quartz_kinetic23_20261126/audit_k23.py", line 67, in <genexpr>
+    w={int(k):v for k,v in z['independent'].items()};assert set(w)==set(r['legal']) and all(v==np.sign(z['scores'][str(a)]) for a,v in w.items())
+                                                                                                       ~~~~~~~~~~~^^^^^^^^
+TypeError: list indices must be integers or slices, not str
