@@ -5,11 +5,24 @@ use super::four_axis_math::{self as math, Ledger};
 use super::node::{PathEdge,atomic_f64_load,atomic_f64_add};
 use serde_json::{json,Value};
 use std::sync::Mutex;
+use super::proof_graph::{Graph,Key,I};
+use crate::games::connect4::Connect4;
+fn exact_key<G:GameState>(s:&G)->Key{
+    let c=(s as &dyn std::any::Any).downcast_ref::<Connect4>().expect("proof research is unrestricted Connect4 only");
+    assert!(c.active_root_gate_mask().is_none());
+    let mut k=if c.current_player()==1{1u128<<84}else{0};
+    for (i,v) in c.board_flat().iter().enumerate(){k|=((*v+1) as u128)<<(2*i);}
+    k
+}
+fn keyhex(k:Key)->String{format!("{k:022x}")}
+pub struct ProofPlan{pub stop:bool,pub allowed:Vec<usize>}
+
 pub const S:u8=1;pub const X:u8=2;pub const V:u8=4;pub const B:u8=8;
-const NAMES:[&str;22]=["select_nodes","select_changed","select_deep","width_nodes","width_limited","width_mass_added","width_deep","base_evals","extra_evals","exact_child_evals","refinements","eval_changed","terminal_leaves","backup_edges","temporal_blends","merge_blends","backup_changed","terminal_edges","proofs","proof_win","proof_scans","proof_checks"];
+const NAMES:[&str;28]=["select_nodes","select_changed","select_deep","width_nodes","width_limited","width_mass_added","width_deep","base_evals","extra_evals","exact_child_evals","refinements","eval_changed","terminal_leaves","backup_edges","temporal_blends","merge_blends","backup_changed","terminal_edges","proofs","proof_win","proof_scans","proof_checks","graph_register","graph_rule_checks","graph_solved_skips","graph_filtered","graph_width_extra","graph_plans"];
 pub struct Hooks{
     pub mask:u8,
-    counts:[AtomicU64;22],
+    counts:[AtomicU64;28],
+    graph:Mutex<Graph>,pub proof_mode:u8,trace_b:bool,b_events:Mutex<Vec<Value>>,
     vmode:u8,bmode:u8,trace:bool,
     leaf_paths:Mutex<Vec<Vec<usize>>>,workers:AtomicU64,
     ledger:Mutex<Ledger>,
@@ -18,7 +31,53 @@ impl Hooks{
     pub fn new(mask:u8)->Self{Self::new_modes(mask&3,if mask&V!=0{1}else{0},if mask&B!=0{4}else{0},false)}
     pub fn new_modes(mask:u8,vmode:u8,bmode:u8,trace:bool)->Self{
         assert!(mask<=3&&vmode<=4&&bmode<=4);
-        Self{mask,vmode,bmode,trace,counts:std::array::from_fn(|_|AtomicU64::new(0)),ledger:Mutex::new(Ledger::default()),leaf_paths:Mutex::new(Vec::new()),workers:AtomicU64::new(0)}
+        Self{mask,vmode,bmode,trace,counts:std::array::from_fn(|_|AtomicU64::new(0)),ledger:Mutex::new(Ledger::default()),leaf_paths:Mutex::new(Vec::new()),workers:AtomicU64::new(0),graph:Mutex::new(Graph::default()),proof_mode:0,trace_b:false,b_events:Mutex::new(Vec::new())}
+    }
+    pub fn with_graph(mut self,mode:u8)->Self{assert!(mode<=2);self.proof_mode=mode;self}
+    pub fn with_b_trace(mut self)->Self{self.trace_b=true;self}
+    fn register_locked<G:GameState>(&self,g:&mut Graph,s:&G)->Key{
+        let k=exact_key(s);if g.registered(k){return k;}
+        self.add(22,1);
+        if s.is_terminal(){g.terminal(k,s.outcome() as i8);return k;}
+        let mut a=Vec::new();
+        for mv in s.legal_moves(){
+            let c=s.apply_move(mv);let ck=exact_key(&c);self.add(23,1);
+            if c.is_terminal(){g.terminal(ck,c.outcome() as i8);}
+            a.push((s.move_to_idx(mv),ck));
+        }
+        g.register(k,a);k
+    }
+    pub fn proof_register<G:GameState>(&self,s:&G)->Option<I>{
+        if self.proof_mode==0{return None;}
+        let mut g=self.graph.lock().unwrap();let k=self.register_locked(&mut g,s);Some(g.interval(k))
+    }
+    pub fn proof_plan<G:GameState>(&self,s:&G,depth:usize)->Option<ProofPlan>{
+        if self.proof_mode==0{return None;}
+        let mut g=self.graph.lock().unwrap();let k=self.register_locked(&mut g,s);
+        if self.proof_mode==1{return None;}
+        let iv=g.interval(k);self.add(27,1);
+        if depth>0&&iv.0==iv.1{return Some(ProofPlan{stop:true,allowed:Vec::new()});}
+        let all=g.actions(k);let mut allowed=g.allowed(k);let n0=allowed.len();
+        if depth==0{
+            if let Some(w)=g.witness(k){allowed=vec![w];}
+        }
+        if allowed.len()>1{
+            let unknown:Vec<_>=all.iter().filter(|x|allowed.contains(&x.0)&&x.1.0!=x.1.1).map(|x|x.0).collect();
+            if !unknown.is_empty(){allowed=unknown;}
+        }
+        self.add(25,(all.len()-allowed.len()) as u64);
+        assert!(!allowed.is_empty()&&allowed.len()<=n0);
+        Some(ProofPlan{stop:false,allowed})
+    }
+    pub fn proof_width_extra(&self){self.add(26,1);}
+    pub fn root_proof<G:GameState>(&self,s:&G,normal:usize,visits:&[(usize,u32)],dump:bool)->Value{
+        if self.proof_mode==0{return Value::Null;}
+        let mut g=self.graph.lock().unwrap();let k=self.register_locked(&mut g,s);
+        let a=g.actions(k);let allowed=g.allowed(k);let witness=g.witness(k);
+        let best=witness.unwrap_or_else(||if allowed.contains(&normal){normal}else{allowed.iter().copied().max_by_key(|m|(visits.iter().find(|x|x.0==*m).map_or(0,|x|x.1),std::cmp::Reverse(*m))).unwrap()});
+        let mut obj=json!({"key":keyhex(k),"interval":g.interval(k),"actions":a,"allowed":allowed,"witness":witness,"best":best,"nodes":g.nodes.len(),"changes":g.changes,"notices":g.notices,"shared_notices":g.shared_notices,"registered":g.nodes.values().filter(|n|n.actions.is_some()||n.terminal.is_some()).count(),"solved":g.nodes.keys().filter(|&&x|{let i=g.interval(x);i.0==i.1}).count()});
+        if dump{obj["graph"]=json!(g.nodes.iter().map(|(&key,n)|json!({"key":keyhex(key),"interval":g.interval(key),"terminal":n.terminal,"actions":n.actions.as_ref().map(|a|a.iter().map(|&(m,c)|(m,keyhex(c))).collect::<Vec<_>>())})).collect::<Vec<_>>());}
+        obj
     }
     fn add(&self,i:usize,n:u64){self.counts[i].fetch_add(n,Ordering::Relaxed);}
     pub fn width<M:Copy+Send+Sync+'static>(&self,node:&MctsNode<M>,base:usize,depth:usize)->usize{
@@ -45,15 +104,16 @@ impl Hooks{
         o.insert("ledger_shared_children".into(),json!(shared));o.insert("ledger_observations".into(),json!(obs));
         o.insert("leaf_paths".into(),json!(*self.leaf_paths.lock().unwrap()));
         o.insert("worker_mask".into(),json!(self.workers.load(Ordering::Relaxed)));
+        o.insert("b_events".into(),json!(*self.b_events.lock().unwrap()));
         Value::Object(o)
     }
-    fn backup<G:GameState>(&self,path:&[PathEdge<G::Move>],leaf:f32,terminal:bool){
+    fn backup<G:GameState>(&self,root:&G,path:&[PathEdge<G::Move>],leaf:f32,terminal:bool){
         if self.bmode==0{backprop::<G>(path,leaf);return;}
         // All research B writers in this engine share this lock. Readers use
         // the existing weak atomic snapshots; this is NOT an atomic read tuple.
         let mut ledger=self.ledger.lock().unwrap();
         let mut raw=leaf;let mut y=leaf;
-        for pe in path.iter().rev(){
+        for (depth,pe) in path.iter().enumerate().rev(){
             let e=&pe.parent.read_edges()[pe.edge_idx];
             let (own,other)=if self.bmode>=2{ledger.observe_split(e.child.hash,pe.parent.hash,pe.edge_idx,raw)}else{(None,None)};
             let old=match self.bmode{
@@ -65,6 +125,21 @@ impl Hooks{
             self.add(13,1);self.add(17,terminal as u64);
             if !terminal{
                 if let Some((m,n,other))=old{
+                    if self.trace_b{
+                        let mut ev=self.b_events.lock().unwrap();
+                        if ev.len()<8{
+                            let mut child=root.clone();let mut pth=Vec::new();let mut parent_key=0;
+                            for (i,pe) in path.iter().take(depth+1).enumerate(){
+                                if i==depth{parent_key=exact_key(&child);}
+                                let mv=pe.parent.read_edges()[pe.edge_idx].mv;
+                                pth.push(child.move_to_idx(mv));child=child.apply_move(mv);
+                            }
+                            let ck=keyhex(exact_key(&child));
+                            if !ev.iter().any(|x|x["child_key"].as_str()==Some(ck.as_str())){
+                                ev.push(json!({"path":pth,"child_key":ck,"parent_key":keyhex(parent_key),"child_hash":format!("{:016x}",e.child.hash),"parent_hash":format!("{:016x}",pe.parent.hash),"y":y,"m":m,"raw":raw,"n":n,"other":other}));
+                            }
+                        }
+                    }
                     let z=math::blend(y,m,n,false);
                     self.add(if other{15}else{14},1);self.add(16,((z-y).abs()>1e-7) as u64);
                     y=z;
@@ -95,8 +170,11 @@ impl<G:GameState> MctsEngine<G>{
         if let Some(t)=rayon::current_thread_index(){if t<64{h.workers.fetch_or(1u64<<t,Ordering::Relaxed);}}
         let terminal=sel.leaf_state.is_terminal();
         let mut proved=terminal;
+        let known_interval=h.proof_register(&sel.leaf_state);
         let value=if terminal{
             h.add(12,1);sel.leaf_state.outcome()
+        }else if h.proof_mode==2&&known_interval.is_some_and(|x|x.0==x.1){
+            h.add(24,1);proved=true;known_interval.unwrap().0 as f32
         }else{
             if h.trace{
                 let path:Vec<_>=sel.path.iter().map(|pe|self.root_state.move_to_idx(pe.parent.read_edges()[pe.edge_idx].mv)).collect();
@@ -131,7 +209,7 @@ impl<G:GameState> MctsEngine<G>{
             }
             expand_with_result(&sel.leaf,&sel.leaf_state,ev,&self.tt,self.config.pw.as_ref())
         };
-        h.backup::<G>(&sel.path,value,proved);
+        h.backup::<G>(&self.root_state,&sel.path,value,proved);
     }
     // Scope: fresh, nonterminal alternating-turn acyclic game roots, fixed budget,
     // no legacy Quartz/policy/async/TT cap. Endpoint enforces this contract.

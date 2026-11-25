@@ -1024,6 +1024,8 @@ where
             break;
         }
 
+        let proof_plan=axes.and_then(|h|h.proof_plan(cur_state,depth));
+        if proof_plan.as_ref().is_some_and(|p|p.stop){break;}
         let n_candidates = cur_node.candidate_count();
         if n_candidates == 0 {
             break;
@@ -1045,10 +1047,17 @@ where
             None => n_candidates,
         };
 
-        let n_visible = axes.map_or(n_visible, |h|h.width(&cur_node,n_visible,depth));
+        let mut n_visible = axes.map_or(n_visible, |h|h.width(&cur_node,n_visible,depth));
+        if let Some(ref plan)=proof_plan{
+            let c=cur_node.candidates.get().unwrap();
+            assert_eq!(c.len(),cur_state.legal_moves().len());
+            let first=c.iter().position(|x|plan.allowed.contains(&cur_state.move_to_idx(x.0))).expect("eligible legal action");
+            if first>=n_visible{n_visible=first+1;axes.unwrap().proof_width_extra();}
+        }
+
         let n_mat = cur_node.materialized_count();
         if n_mat < n_visible {
-            if reserve_virtual_loss {
+            if reserve_virtual_loss && proof_plan.is_none() {
                 materialize_edges_in_place_best_effort(&cur_node, cur_state, n_visible, tt);
             } else {
                 materialize_edges_in_place(&cur_node, cur_state, n_visible, tt);
@@ -1092,6 +1101,7 @@ where
         let mut found_any = false;
 
         for (idx, edge) in edges.iter().enumerate() {
+            if let Some(ref p)=proof_plan{if !p.allowed.contains(&cur_state.move_to_idx(edge.mv)){continue;}}
             // A resident mask applies only to the original root. It never
             // changes legal game moves, original edge priors or descendants.
             if depth == 0 && root_action_mask.iter().any(|bits| *bits != 0) {

@@ -3,6 +3,7 @@
 pub mod backup;
 pub mod four_axis;
 pub mod four_axis_math;
+pub mod proof_graph;
 pub mod cog02;
 pub mod dynamic10;
 pub mod reopening12;
