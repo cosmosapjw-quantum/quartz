@@ -1,0 +1,235 @@
+{
+  "excluded_boards": 2578,
+  "excluded_families": 71,
+  "grid": [
+    32,
+    48,
+    64,
+    96,
+    128,
+    160,
+    192,
+    256
+  ],
+  "identity": {
+    "rapfi_bridge": "bacbcfc90f6e4bfd0d9d035455afa3d6667ec32e7fd80cbc1d65a4001b30f64e",
+    "rapfi_config": "32b9180c91247541d399ceef62906d5ffeb48e34eb5f261612987633820d5d3c",
+    "rapfi_source": "1be1551ced57e38d53ed58f6d74bf6f8b4bdc230",
+    "rapfi_weight": "6bc0d1b0ff8e1d857f7f412923cd458f38f1a435087c91ae71fec3676c23ef62",
+    "rust_binary": "f2becea4f6c7703cce9f5098e40a01bc9c550e4732566f7cf141e5ef843519f1",
+    "rust_source": "54f5828b7f032b6c38cb88f6844adfcc1354d473"
+  },
+  "jobs": [
+    {
+      "family": "2356409840d38089dbc5e9317d848002f1f86bb677cc139f41c311dd926d186d",
+      "group": "TRAIN",
+      "id": "G00",
+      "opening": [
+        64,
+        114,
+        110,
+        111,
+        97,
+        130
+      ]
+    },
+    {
+      "family": "55740ef7c3c937215a1e12c64c5833c28b7bbef1c0934f650995d0f97de91d8e",
+      "group": "TRAIN",
+      "id": "G01",
+      "opening": [
+        111,
+        130,
+        141,
+        82,
+        79,
+        109
+      ]
+    },
+    {
+      "family": "6fb082b1ed639c332819845885e117a53346a8918e5601fe72cbfc9c47550f7c",
+      "group": "TRAIN",
+      "id": "G02",
+      "opening": [
+        81,
+        126,
+        67,
+        142,
+        127,
+        140
+      ]
+    },
+    {
+      "family": "d6779418bbf6362c07d72fb759bfb048b28cac8e80e07b95ac8596bd011861a0",
+      "group": "TRAIN",
+      "id": "G03",
+      "opening": [
+        140,
+        85,
+        83,
+        115,
+        70,
+        95
+      ]
+    },
+    {
+      "family": "20eedf65c0b7d0b837e76ce5a8bf772bd7e13432c619f46a62d461aa8a21b8a7",
+      "group": "CAL",
+      "id": "G04",
+      "opening": [
+        84,
+        65,
+        140,
+        64,
+        127,
+        115
+      ]
+    },
+    {
+      "family": "5e52295a59340e934179f88c83a10cd12401b0edcd77e07801f83629a19f7aa6",
+      "group": "CAL",
+      "id": "G05",
+      "opening": [
+        67,
+        157,
+        65,
+        80,
+        79,
+        109
+      ]
+    },
+    {
+      "family": "a7eec7b0b2a3f061c1a3a809f8a599b25b964b4f1bffaa5731c6a22e4809c581",
+      "group": "CAL",
+      "id": "G06",
+      "opening": [
+        154,
+        97,
+        143,
+        70,
+        140,
+        66
+      ]
+    },
+    {
+      "family": "c61a8d3302a50bab6f7a8a19adbb3c260ffa5b59ceedf3aa7a6fdf079ecf15d2",
+      "group": "CAL",
+      "id": "G07",
+      "opening": [
+        70,
+        65,
+        160,
+        156,
+        64,
+        110
+      ]
+    },
+    {
+      "family": "5ff8db7480cc6b912be36d8a51389c41d3ef57ed2b782c63fe9090949ea1cc36",
+      "group": "TEST",
+      "id": "G08",
+      "opening": [
+        81,
+        95,
+        97,
+        144,
+        130,
+        67
+      ]
+    },
+    {
+      "family": "7792473d07f85f48b5d10ce9196c9fa56565445dbe06270b5e2adfd2b7467487",
+      "group": "TEST",
+      "id": "G09",
+      "opening": [
+        99,
+        142,
+        81,
+        111,
+        83,
+        159
+      ]
+    },
+    {
+      "family": "f21485817595b964ab0bda6970964756e600b55fe5b4f960bae770290a8dfda9",
+      "group": "TEST",
+      "id": "G10",
+      "opening": [
+        70,
+        140,
+        98,
+        128,
+        68,
+        109
+      ]
+    },
+    {
+      "family": "521160e25c9ecb77a3d1852ed9d0b16cb66163de3962858b183dee42131eb4d9",
+      "group": "TEST",
+      "id": "G11",
+      "opening": [
+        125,
+        158,
+        126,
+        145,
+        154,
+        65
+      ]
+    },
+    {
+      "family": "403b7098de32043d12fa5e1007465bd253e6dd476605846bb851e0a8506297bb",
+      "group": "TEST",
+      "id": "G12",
+      "opening": [
+        97,
+        109,
+        126,
+        110,
+        144,
+        94
+      ]
+    },
+    {
+      "family": "6cff59f002072028a1dee474e76a201c2e6ed987e1e81cab1888518ae0d196b8",
+      "group": "TEST",
+      "id": "G13",
+      "opening": [
+        111,
+        124,
+        95,
+        125,
+        80,
+        67
+      ]
+    },
+    {
+      "family": "1304d86ccbc3fe378c1fa6ee6f91963b3e93c5e472435c42f7dfe6ec430b99e0",
+      "group": "TEST",
+      "id": "G14",
+      "opening": [
+        97,
+        154,
+        155,
+        81,
+        115,
+        79
+      ]
+    },
+    {
+      "family": "f1bdf110f792f9d23f44e312457f4ccc863368294c0534c93afadd3d22aab381",
+      "group": "TEST",
+      "id": "G15",
+      "opening": [
+        114,
+        156,
+        83,
+        124,
+        126,
+        84
+      ]
+    }
+  ],
+  "reference_cap": 128,
+  "rule": "freestyle",
+  "seed": 17
+}
