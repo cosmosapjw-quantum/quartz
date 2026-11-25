@@ -1,0 +1,121 @@
+{
+  "actual_selected_gain_diagnostic": {
+    "SELFPLAY/DP": {
+      "n": 148,
+      "negative": 0,
+      "positive": 29,
+      "predicted_total": 23.976233733586678,
+      "realized_total": 29.0,
+      "unchanged": 119
+    },
+    "SELFPLAY/RATIO": {
+      "n": 168,
+      "negative": 0,
+      "positive": 29,
+      "predicted_total": 24.65716350642822,
+      "realized_total": 29.0,
+      "unchanged": 139
+    },
+    "SELFPLAY/ROBUST_DP": {
+      "n": 78,
+      "negative": 0,
+      "positive": 18,
+      "predicted_total": 11.875582750582764,
+      "realized_total": 18.0,
+      "unchanged": 60
+    },
+    "TACTICAL/DP": {
+      "n": 240,
+      "negative": 12,
+      "positive": 18,
+      "predicted_total": 25.22762531586057,
+      "realized_total": 9.0,
+      "unchanged": 210
+    },
+    "TACTICAL/RATIO": {
+      "n": 252,
+      "negative": 12,
+      "positive": 24,
+      "predicted_total": 24.487443928620376,
+      "realized_total": 15.0,
+      "unchanged": 216
+    },
+    "TACTICAL/ROBUST_DP": {
+      "n": 168,
+      "negative": 12,
+      "positive": 6,
+      "predicted_total": 16.741008991009036,
+      "realized_total": -3.0,
+      "unchanged": 150
+    }
+  },
+  "attempt_groups": {
+    "SELFPLAY/CAL": 496,
+    "SELFPLAY/CHECK": 96,
+    "SELFPLAY/FIT": 80,
+    "SELFPLAY/TEST": 248,
+    "TACTICAL/CAL": 385,
+    "TACTICAL/CHECK": 75,
+    "TACTICAL/FIT": 78,
+    "TACTICAL/TEST": 173
+  },
+  "cal_swap_rate": 2.046990582076985,
+  "cohort": {
+    "SELFPLAY/CAL/-1": 76,
+    "SELFPLAY/CAL/1": 76,
+    "SELFPLAY/CHECK/-1": 16,
+    "SELFPLAY/CHECK/1": 16,
+    "SELFPLAY/FIT/-1": 16,
+    "SELFPLAY/FIT/1": 16,
+    "SELFPLAY/TEST/-1": 32,
+    "SELFPLAY/TEST/1": 32,
+    "TACTICAL/CAL/-1": 76,
+    "TACTICAL/CAL/1": 76,
+    "TACTICAL/CHECK/-1": 16,
+    "TACTICAL/CHECK/1": 16,
+    "TACTICAL/FIT/-1": 16,
+    "TACTICAL/FIT/1": 16,
+    "TACTICAL/TEST/-1": 32,
+    "TACTICAL/TEST/1": 32
+  },
+  "exact_labels": 128,
+  "live_requests": 672,
+  "live_root_traces": 5376,
+  "live_swap_rate": 1126.1108264412824,
+  "median_rank_coverage_recomputed": true,
+  "mirror_vectors": 6,
+  "paired_same_prefix_plan": {
+    "SELFPLAY": {
+      "blocks": 48,
+      "dp_predicted_ge_ratio": 48,
+      "dp_predicted_strictly_gt_ratio": 36,
+      "predicted_difference_sum": 1.582459207459209,
+      "same_prefix": 48
+    },
+    "TACTICAL": {
+      "blocks": 48,
+      "dp_predicted_ge_ratio": 48,
+      "dp_predicted_strictly_gt_ratio": 24,
+      "predicted_difference_sum": 0.7401813872402107,
+      "same_prefix": 48
+    }
+  },
+  "plan_checks": {
+    "DP": 96,
+    "RATIO": 96,
+    "ROBUST_DP": 96
+  },
+  "prior_exposure": 64,
+  "prior_gain_recomputed": true,
+  "robust_live_selected_coverage": {
+    "SELFPLAY/covered": 144,
+    "SELFPLAY/n": 144,
+    "TACTICAL/covered": 204,
+    "TACTICAL/n": 204
+  },
+  "scientific_promotion": false,
+  "score_recomputed": true,
+  "selfplay_events": 8329,
+  "verified_attempts": 1631,
+  "verified_roots": 560
+}
