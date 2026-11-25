@@ -1,0 +1,6038 @@
+{
+  "atlas_NN": 29796,
+  "atlas_requests": 660,
+  "atlas_visits": 37712,
+  "continuation_NN": 385374,
+  "continuation_plies": 2840,
+  "continuations": 202,
+  "gate": {
+    "counts": {
+      "exposed": 9,
+      "negative": 8,
+      "positive": 1,
+      "sub_exposed": 1
+    },
+    "details": {
+      "G00": {
+        "exposed": false,
+        "negative": false,
+        "positive": false,
+        "sub_exposed": false
+      },
+      "G02": {
+        "exposed": false,
+        "negative": false,
+        "positive": false,
+        "sub_exposed": false
+      },
+      "G04": {
+        "exposed": true,
+        "negative": true,
+        "positive": false,
+        "sub_exposed": false
+      },
+      "G05": {
+        "exposed": false,
+        "negative": false,
+        "positive": false,
+        "sub_exposed": false
+      },
+      "G06": {
+        "exposed": true,
+        "negative": true,
+        "positive": false,
+        "sub_exposed": false
+      },
+      "G07": {
+        "exposed": true,
+        "negative": true,
+        "positive": false,
+        "sub_exposed": false
+      },
+      "G08": {
+        "exposed": false,
+        "negative": false,
+        "positive": false,
+        "sub_exposed": false
+      },
+      "G10": {
+        "exposed": false,
+        "negative": false,
+        "positive": false,
+        "sub_exposed": false
+      },
+      "G11": {
+        "exposed": true,
+        "negative": true,
+        "positive": false,
+        "sub_exposed": false
+      },
+      "G12": {
+        "exposed": false,
+        "negative": false,
+        "positive": false,
+        "sub_exposed": false
+      },
+      "G14": {
+        "exposed": false,
+        "negative": false,
+        "positive": false,
+        "sub_exposed": false
+      },
+      "G16": {
+        "exposed": false,
+        "negative": false,
+        "positive": false,
+        "sub_exposed": false
+      },
+      "G18": {
+        "exposed": true,
+        "negative": false,
+        "positive": true,
+        "sub_exposed": true
+      },
+      "G19": {
+        "exposed": true,
+        "negative": true,
+        "positive": false,
+        "sub_exposed": false
+      },
+      "G20": {
+        "exposed": true,
+        "negative": true,
+        "positive": false,
+        "sub_exposed": false
+      },
+      "G21": {
+        "exposed": true,
+        "negative": true,
+        "positive": false,
+        "sub_exposed": false
+      },
+      "G22": {
+        "exposed": true,
+        "negative": true,
+        "positive": false,
+        "sub_exposed": false
+      }
+    },
+    "n": 17,
+    "pass_gate": false
+  },
+  "groups": {
+    "CAL": {
+      "by_cap": {
+        "32": {
+          "arms": {
+            "K15B": {
+              "bounds": {
+                "mean_width": 0.0,
+                "negative": 0,
+                "positive": 0
+              },
+              "changed": 0,
+              "counters": {
+                "extra_evals": 0,
+                "merge_blends": 0,
+                "proofs": 0,
+                "select_changed": 0,
+                "width_mass_added": 0
+              },
+              "cpu_ms": 6.5254578,
+              "gain": {
+                "mean": 0.0,
+                "n": 5,
+                "negative": 0,
+                "positive": 0,
+                "zero": 5
+              },
+              "gain_CI95": [
+                0.0,
+                0.0
+              ],
+              "gain_by_policy": {
+                "STANDARD_FULL": {
+                  "mean": 0.0,
+                  "n": 5,
+                  "negative": 0,
+                  "positive": 0,
+                  "zero": 5
+                },
+                "STANDARD_PW": {
+                  "mean": 0.0,
+                  "n": 5,
+                  "negative": 0,
+                  "positive": 0,
+                  "zero": 5
+                }
+              },
+              "gain_vs_stop": {
+                "mean": 0.0,
+                "n": 5,
+                "negative": 0,
+                "positive": 0,
+                "zero": 5
+              },
+              "locked": 0,
+              "mean_NN": 25.4,
+              "mean_forced": 0,
+              "mean_injection_tv": 0.0,
+              "mean_sub_utility": 0.8,
+              "mean_utility": 0.8,
+              "mean_visits": 32,
+              "negative_KL": 8,
+              "net": {
+                "mean": 0.0010285511999999996,
+                "n": 5,
+                "negative": 2,
+                "positive": 3,
+                "zero": 0
+              },
+              "net_CI95": [
+                -0.0008298128000000001,
+                0.002886915199999999
+              ],
+              "phase_count": 10,
+              "positive_KL": 1,
+              "raw_minus_sub": {
+                "mean": 0.0,
+                "n": 5,
+                "negative": 0,
+                "positive": 0,
+                "zero": 5
+              },
+              "raw_sub_changed": 0,
+              "sub_changed": 0,
+              "sub_gain": {
+                "mean": 0.0,
+                "n": 5,
+                "negative": 0,
+                "positive": 0,
+                "zero": 5
+              },
+              "wall_ms": 7.2064708
+            },
+            "K15F4": {
+              "bounds": {
+                "mean_width": 0.011607142857142858,
+                "negative": 0,
+                "positive": 1
+              },
+              "changed": 0,
+              "counters": {
+                "extra_evals": 0,
+                "merge_blends": 0,
+                "proofs": 0,
+                "select_changed": 0,
+                "width_mass_added": 0
+              },
+              "cpu_ms": 6.5991836,
+              "gain": {
+                "mean": 0.0,
+                "n": 5,
+                "negative": 0,
+                "positive": 0,
+                "zero": 5
+              },
+              "gain_CI95": [
+                0.0,
+                0.0
+              ],
+              "gain_by_policy": {
+                "STANDARD_FULL": {
+                  "mean": 0.0,
+                  "n": 5,
+                  "negative": 0,
+                  "positive": 0,
+                  "zero": 5
+                },
+                "STANDARD_PW": {
+                  "mean": 0.0,
+                  "n": 5,
+                  "negative": 0,
+                  "positive": 0,
+                  "zero": 5
+                }
+              },
+              "gain_vs_stop": {
+                "mean": 0.0,
+                "n": 5,
+                "negative": 0,
+                "positive": 0,
+                "zero": 5
+              },
+              "locked": 0,
+              "mean_NN": 25.4,
+              "mean_forced": 4,
+              "mean_injection_tv": 0.10267857142857142,
+              "mean_sub_utility": 0.8,
+              "mean_utility": 0.8,
+              "mean_visits": 32,
+              "negative_KL": 8,
+              "net": {
+                "mean": 0.0008810995999999995,
+                "n": 5,
+                "negative": 3,
+                "positive": 2,
+                "zero": 0
+              },
+              "net_CI95": [
+                -0.0027357860000000005,
+                0.0044363072
+              ],
+              "phase_count": 10,
+              "positive_KL": 2,
+              "raw_minus_sub": {
+                "mean": 0.0,
+                "n": 5,
+                "negative": 0,
+                "positive": 0,
+                "zero": 5
+              },
+              "raw_sub_changed": 0,
+              "sub_changed": 0,
+              "sub_gain": {
+                "mean": 0.0,
+                "n": 5,
+                "negative": 0,
+                "positive": 0,
+                "zero": 5
+              },
+              "wall_ms": 7.339936
+            },
+            "K15FH": {
+              "bounds": {
+                "mean_width": 0.04375,
+                "negative": 0,
+                "positive": 1
+              },
+              "changed": 5,
+              "counters": {
+                "extra_evals": 0,
+                "merge_blends": 0,
+                "proofs": 0,
+                "select_changed": 0,
+                "width_mass_added": 0
+              },
+              "cpu_ms": 6.5946246,
+              "gain": {
+                "mean": 0.2,
+                "n": 5,
+                "negative": 0,
+                "positive": 1,
+                "zero": 4
+              },
+              "gain_CI95": [
+                0.0,
+                0.6
+              ],
+              "gain_by_policy": {
+                "STANDARD_FULL": {
+                  "mean": 0.2,
+                  "n": 5,
+                  "negative": 0,
+                  "positive": 1,
+                  "zero": 4
+                },
+                "STANDARD_PW": {
+                  "mean": 0.2,
+                  "n": 5,
+                  "negative": 0,
+                  "positive": 1,
+                  "zero": 4
+                }
+              },
+              "gain_vs_stop": {
+                "mean": 0.2,
+                "n": 5,
+                "negative": 0,
+                "positive": 1,
+                "zero": 4
+              },
+              "locked": 0,
+              "mean_NN": 25.8,
+              "mean_forced": 16,
+              "mean_injection_tv": 0.46875,
+              "mean_sub_utility": 0.8,
+              "mean_utility": 1.0,
+              "mean_visits": 32,
+              "negative_KL": 6,
+              "net": {
+                "mean": 0.2008902176,
+                "n": 5,
+                "negative": 2,
+                "positive": 3,
+                "zero": 0
+              },
+              "net_CI95": [
+                -0.0008490228000000001,
+                0.6016870356
+              ],
+              "phase_count": 10,
+              "positive_KL": 4,
+              "raw_minus_sub": {
+                "mean": 0.2,
+                "n": 5,
+                "negative": 0,
+                "positive": 1,
+                "zero": 4
+              },
+              "raw_sub_changed": 5,
+              "sub_changed": 0,
+              "sub_gain": {
+                "mean": 0.0,
+                "n": 5,
+                "negative": 0,
+                "positive": 0,
+                "zero": 5
+              },
+              "wall_ms": 7.5394416
+            },
+            "K15LOCK": {
+              "bounds": {
+                "mean_width": 0.0,
+                "negative": 0,
+                "positive": 0
+              },
+              "changed": 0,
+              "counters": {
+                "extra_evals": 0,
+                "merge_blends": 0,
+                "proofs": 0,
+                "select_changed": 0,
+                "width_mass_added": 0
+              },
+              "cpu_ms": 5.7572612,
+              "gain": {
+                "mean": 0.0,
+                "n": 5,
+                "negative": 0,
+                "positive": 0,
+                "zero": 5
+              },
+              "gain_CI95": [
+                0.0,
+                0.0
+              ],
+              "gain_by_policy": {
+                "STANDARD_FULL": {
+                  "mean": 0.0,
+                  "n": 5,
+                  "negative": 0,
+                  "positive": 0,
+                  "zero": 5
+                },
+                "STANDARD_PW": {
+                  "mean": 0.0,
+                  "n": 5,
+                  "negative": 0,
+                  "positive": 0,
+                  "zero": 5
+                }
+              },
+              "gain_vs_stop": {
+                "mean": 0.0,
+                "n": 5,
+                "negative": 0,
+                "positive": 0,
+                "zero": 5
+              },
+              "locked": 3,
+              "mean_NN": 22.2,
+              "mean_forced": 0,
+              "mean_injection_tv": 0.0,
+              "mean_sub_utility": 0.8,
+              "mean_utility": 0.8,
+              "mean_visits": 27.2,
+              "negative_KL": 8,
+              "net": {
+                "mean": 0.0025649443999999997,
+                "n": 5,
+                "negative": 2,
+                "positive": 3,
+                "zero": 0
+              },
+              "net_CI95": [
+                -0.00019555520000000002,
+                0.0053075184
+              ],
+              "phase_count": 12,
+              "positive_KL": 3,
+              "raw_minus_sub": {
+                "mean": 0.0,
+                "n": 5,
+                "negative": 0,
+                "positive": 0,
+                "zero": 5
+              },
+              "raw_sub_changed": 0,
+              "sub_changed": 0,
+              "sub_gain": {
+                "mean": 0.0,
+                "n": 5,
+                "negative": 0,
+                "positive": 0,
+                "zero": 5
+              },
+              "wall_ms": 6.8202736
+            },
+            "K15N": {
+              "bounds": {
+                "mean_width": 0.0,
+                "negative": 0,
+                "positive": 0
+              },
+              "changed": 0,
+              "counters": {
+                "extra_evals": 0,
+                "merge_blends": 0,
+                "proofs": 0,
+                "select_changed": 0,
+                "width_mass_added": 0
+              },
+              "cpu_ms": 7.039733399999999,
+              "gain": {
+                "mean": 0.0,
+                "n": 5,
+                "negative": 0,
+                "positive": 0,
+                "zero": 5
+              },
+              "gain_CI95": [
+                0.0,
+                0.0
+              ],
+              "gain_by_policy": {
+                "STANDARD_FULL": {
+                  "mean": 0.0,
+                  "n": 5,
+                  "negative": 0,
+                  "positive": 0,
+                  "zero": 5
+                },
+                "STANDARD_PW": {
+                  "mean": 0.0,
+                  "n": 5,
+                  "negative": 0,
+                  "positive": 0,
+                  "zero": 5
+                }
+              },
+              "gain_vs_stop": {
+                "mean": 0.0,
+                "n": 5,
+                "negative": 0,
+                "positive": 0,
+                "zero": 5
+              },
+              "locked": 0,
+              "mean_NN": 25.4,
+              "mean_forced": 0,
+              "mean_injection_tv": 0.0,
+              "mean_sub_utility": 0.8,
+              "mean_utility": 0.8,
+              "mean_visits": 32,
+              "negative_KL": 8,
+              "net": {
+                "mean": 0.0,
+                "n": 5,
+                "negative": 0,
+                "positive": 0,
+                "zero": 5
+              },
+              "net_CI95": [
+                0.0,
+                0.0
+              ],
+              "phase_count": 10,
+              "positive_KL": 1,
+              "raw_minus_sub": {
+                "mean": 0.0,
+                "n": 5,
+                "negative": 0,
+                "positive": 0,
+                "zero": 5
+              },
+              "raw_sub_changed": 0,
+              "sub_changed": 0,
+              "sub_gain": {
+                "mean": 0.0,
+                "n": 5,
+                "negative": 0,
+                "positive": 0,
+                "zero": 5
+              },
+              "wall_ms": 7.773275
+            },
+            "K15S": {
+              "bounds": {
+                "mean_width": 0.0,
+                "negative": 0,
+                "positive": 0
+              },
+              "changed": 1,
+              "counters": {
+                "extra_evals": 0,
+                "merge_blends": 0,
+                "proofs": 0,
+                "select_changed": 204,
+                "width_mass_added": 0
+              },
+              "cpu_ms": 6.820677,
+              "gain": {
+                "mean": 0.0,
+                "n": 5,
+                "negative": 0,
+                "positive": 0,
+                "zero": 5
+              },
+              "gain_CI95": [
+                0.0,
+                0.0
+              ],
+              "gain_by_policy": {
+                "STANDARD_FULL": {
+                  "mean": 0.0,
+                  "n": 5,
+                  "negative": 0,
+                  "positive": 0,
+                  "zero": 5
+                },
+                "STANDARD_PW": {
+                  "mean": 0.0,
+                  "n": 5,
+                  "negative": 0,
+                  "positive": 0,
+                  "zero": 5
+                }
+              },
+              "gain_vs_stop": {
+                "mean": 0.0,
+                "n": 5,
+                "negative": 0,
+                "positive": 0,
+                "zero": 5
+              },
+              "locked": 0,
+              "mean_NN": 25.6,
+              "mean_forced": 0,
+              "mean_injection_tv": 0.0,
+              "mean_sub_utility": 0.8,
+              "mean_utility": 0.8,
+              "mean_visits": 32,
+              "negative_KL": 8,
+              "net": {
+                "mean": 0.00043811279999999956,
+                "n": 5,
+                "negative": 2,
+                "positive": 3,
+                "zero": 0
+              },
+              "net_CI95": [
+                -0.0008038184000000006,
+                0.0014055291999999998
+              ],
+              "phase_count": 10,
+              "positive_KL": 1,
+              "raw_minus_sub": {
+                "mean": 0.0,
+                "n": 5,
+                "negative": 0,
+                "positive": 0,
+                "zero": 5
+              },
+              "raw_sub_changed": 0,
+              "sub_changed": 1,
+              "sub_gain": {
+                "mean": 0.0,
+                "n": 5,
+                "negative": 0,
+                "positive": 0,
+                "zero": 5
+              },
+              "wall_ms": 7.632894
+            },
+            "K15STOP": {
+              "bounds": {
+                "mean_width": 0.0,
+                "negative": 0,
+                "positive": 0
+              },
+              "changed": 0,
+              "counters": {
+                "extra_evals": 0,
+                "merge_blends": 0,
+                "proofs": 0,
+                "select_changed": 0,
+                "width_mass_added": 0
+              },
+              "cpu_ms": 3.0415799999999997,
+              "gain": {
+                "mean": 0.0,
+                "n": 5,
+                "negative": 0,
+                "positive": 0,
+                "zero": 5
+              },
+              "gain_CI95": [
+                0.0,
+                0.0
+              ],
+              "gain_by_policy": {
+                "STANDARD_FULL": {
+                  "mean": 0.0,
+                  "n": 5,
+                  "negative": 0,
+                  "positive": 0,
+                  "zero": 5
+                },
+                "STANDARD_PW": {
+                  "mean": 0.0,
+                  "n": 5,
+                  "negative": 0,
+                  "positive": 0,
+                  "zero": 5
+                }
+              },
+              "gain_vs_stop": {
+                "mean": 0.0,
+                "n": 5,
+                "negative": 0,
+                "positive": 0,
+                "zero": 5
+              },
+              "locked": 0,
+              "mean_NN": 8.2,
+              "mean_forced": 0,
+              "mean_injection_tv": 0.0,
+              "mean_sub_utility": 0.8,
+              "mean_utility": 0.8,
+              "mean_visits": 8,
+              "negative_KL": 0,
+              "net": {
+                "mean": 0.0079963068,
+                "n": 5,
+                "negative": 0,
+                "positive": 5,
+                "zero": 0
+              },
+              "net_CI95": [
+                0.0041484016000000005,
+                0.0122495704
+              ],
+              "phase_count": 0,
+              "positive_KL": 0,
+              "raw_minus_sub": {
+                "mean": 0.0,
+                "n": 5,
+                "negative": 0,
+                "positive": 0,
+                "zero": 5
+              },
+              "raw_sub_changed": 0,
+              "sub_changed": 0,
+              "sub_gain": {
+                "mean": 0.0,
+                "n": 5,
+                "negative": 0,
+                "positive": 0,
+                "zero": 5
+              },
+              "wall_ms": 3.7628635999999998
+            },
+            "K15V": {
+              "bounds": {
+                "mean_width": 0.0,
+                "negative": 0,
+                "positive": 0
+              },
+              "changed": 0,
+              "counters": {
+                "extra_evals": 32,
+                "merge_blends": 0,
+                "proofs": 13,
+                "select_changed": 0,
+                "width_mass_added": 0
+              },
+              "cpu_ms": 8.7362844,
+              "gain": {
+                "mean": 0.0,
+                "n": 5,
+                "negative": 0,
+                "positive": 0,
+                "zero": 5
+              },
+              "gain_CI95": [
+                0.0,
+                0.0
+              ],
+              "gain_by_policy": {
+                "STANDARD_FULL": {
+                  "mean": 0.0,
+                  "n": 5,
+                  "negative": 0,
+                  "positive": 0,
+                  "zero": 5
+                },
+                "STANDARD_PW": {
+                  "mean": 0.0,
+                  "n": 5,
+                  "negative": 0,
+                  "positive": 0,
+                  "zero": 5
+                }
+              },
+              "gain_vs_stop": {
+                "mean": 0.0,
+                "n": 5,
+                "negative": 0,
+                "positive": 0,
+                "zero": 5
+              },
+              "locked": 0,
+              "mean_NN": 31.8,
+              "mean_forced": 0,
+              "mean_injection_tv": 0.0,
+              "mean_sub_utility": 0.8,
+              "mean_utility": 0.8,
+              "mean_visits": 32,
+              "negative_KL": 8,
+              "net": {
+                "mean": -0.0033931020000000007,
+                "n": 5,
+                "negative": 3,
+                "positive": 2,
+                "zero": 0
+              },
+              "net_CI95": [
+                -0.0077051132000000005,
+                0.000510047599999998
+              ],
+              "phase_count": 10,
+              "positive_KL": 1,
+              "raw_minus_sub": {
+                "mean": 0.0,
+                "n": 5,
+                "negative": 0,
+                "positive": 0,
+                "zero": 5
+              },
+              "raw_sub_changed": 0,
+              "sub_changed": 0,
+              "sub_gain": {
+                "mean": 0.0,
+                "n": 5,
+                "negative": 0,
+                "positive": 0,
+                "zero": 5
+              },
+              "wall_ms": 9.6067268
+            },
+            "K15X": {
+              "bounds": {
+                "mean_width": 0.0,
+                "negative": 0,
+                "positive": 0
+              },
+              "changed": 0,
+              "counters": {
+                "extra_evals": 0,
+                "merge_blends": 0,
+                "proofs": 0,
+                "select_changed": 0,
+                "width_mass_added": 19
+              },
+              "cpu_ms": 6.2788226,
+              "gain": {
+                "mean": 0.0,
+                "n": 5,
+                "negative": 0,
+                "positive": 0,
+                "zero": 5
+              },
+              "gain_CI95": [
+                0.0,
+                0.0
+              ],
+              "gain_by_policy": {
+                "STANDARD_FULL": {
+                  "mean": 0.0,
+                  "n": 5,
+                  "negative": 0,
+                  "positive": 0,
+                  "zero": 5
+                },
+                "STANDARD_PW": {
+                  "mean": 0.0,
+                  "n": 5,
+                  "negative": 0,
+                  "positive": 0,
+                  "zero": 5
+                }
+              },
+              "gain_vs_stop": {
+                "mean": 0.0,
+                "n": 5,
+                "negative": 0,
+                "positive": 0,
+                "zero": 5
+              },
+              "locked": 0,
+              "mean_NN": 25.6,
+              "mean_forced": 0,
+              "mean_injection_tv": 0.0,
+              "mean_sub_utility": 0.8,
+              "mean_utility": 0.8,
+              "mean_visits": 32,
+              "negative_KL": 8,
+              "net": {
+                "mean": 0.0015218215999999998,
+                "n": 5,
+                "negative": 1,
+                "positive": 4,
+                "zero": 0
+              },
+              "net_CI95": [
+                -0.0002100828000000001,
+                0.0034105560000000004
+              ],
+              "phase_count": 10,
+              "positive_KL": 1,
+              "raw_minus_sub": {
+                "mean": 0.0,
+                "n": 5,
+                "negative": 0,
+                "positive": 0,
+                "zero": 5
+              },
+              "raw_sub_changed": 0,
+              "sub_changed": 0,
+              "sub_gain": {
+                "mean": 0.0,
+                "n": 5,
+                "negative": 0,
+                "positive": 0,
+                "zero": 5
+              },
+              "wall_ms": 7.7729102
+            },
+            "K15XH": {
+              "bounds": {
+                "mean_width": 0.01875,
+                "negative": 3,
+                "positive": 0
+              },
+              "changed": 5,
+              "counters": {
+                "extra_evals": 0,
+                "merge_blends": 0,
+                "proofs": 0,
+                "select_changed": 0,
+                "width_mass_added": 0
+              },
+              "cpu_ms": 7.1201582000000005,
+              "gain": {
+                "mean": -0.2,
+                "n": 5,
+                "negative": 2,
+                "positive": 0,
+                "zero": 3
+              },
+              "gain_CI95": [
+                -0.4,
+                0.0
+              ],
+              "gain_by_policy": {
+                "STANDARD_FULL": {
+                  "mean": -0.2,
+                  "n": 5,
+                  "negative": 1,
+                  "positive": 0,
+                  "zero": 4
+                },
+                "STANDARD_PW": {
+                  "mean": -0.2,
+                  "n": 5,
+                  "negative": 1,
+                  "positive": 0,
+                  "zero": 4
+                }
+              },
+              "gain_vs_stop": {
+                "mean": -0.2,
+                "n": 5,
+                "negative": 2,
+                "positive": 0,
+                "zero": 3
+              },
+              "locked": 0,
+              "mean_NN": 28,
+              "mean_forced": 16,
+              "mean_injection_tv": 0.5,
+              "mean_sub_utility": 0.8,
+              "mean_utility": 0.6,
+              "mean_visits": 32,
+              "negative_KL": 6,
+              "net": {
+                "mean": -0.2001608496,
+                "n": 5,
+                "negative": 4,
+                "positive": 1,
+                "zero": 0
+              },
+              "net_CI95": [
+                -0.4011888268,
+                0.00046894239999999956
+              ],
+              "phase_count": 10,
+              "positive_KL": 4,
+              "raw_minus_sub": {
+                "mean": -0.2,
+                "n": 5,
+                "negative": 2,
+                "positive": 0,
+                "zero": 3
+              },
+              "raw_sub_changed": 5,
+              "sub_changed": 0,
+              "sub_gain": {
+                "mean": 0.0,
+                "n": 5,
+                "negative": 0,
+                "positive": 0,
+                "zero": 5
+              },
+              "wall_ms": 7.973245
+            }
+          },
+          "different_final_families": 5,
+          "different_sub_families": 1,
+          "nonzero_sub_utility_families": 0,
+          "nonzero_utility_families": 3,
+          "policies": {}
+        },
+        "96": {
+          "arms": {
+            "K15B": {
+              "bounds": {
+                "mean_width": 0.0,
+                "negative": 0,
+                "positive": 0
+              },
+              "changed": 0,
+              "counters": {
+                "extra_evals": 0,
+                "merge_blends": 2,
+                "proofs": 0,
+                "select_changed": 0,
+                "width_mass_added": 0
+              },
+              "cpu_ms": 13.288624200000001,
+              "gain": {
+                "mean": 0.0,
+                "n": 5,
+                "negative": 0,
+                "positive": 0,
+                "zero": 5
+              },
+              "gain_CI95": [
+                0.0,
+                0.0
+              ],
+              "gain_by_policy": {
+                "STANDARD_FULL": {
+                  "mean": 0.0,
+                  "n": 5,
+                  "negative": 0,
+                  "positive": 0,
+                  "zero": 5
+                },
+                "STANDARD_PW": {
+                  "mean": 0.0,
+                  "n": 5,
+                  "negative": 0,
+                  "positive": 0,
+                  "zero": 5
+                }
+              },
+              "gain_vs_stop": {
+                "mean": 0.2,
+                "n": 5,
+                "negative": 0,
+                "positive": 1,
+                "zero": 4
+              },
+              "locked": 0,
+              "mean_NN": 67,
+              "mean_forced": 0,
+              "mean_injection_tv": 0.0,
+              "mean_sub_utility": 1.0,
+              "mean_utility": 1.0,
+              "mean_visits": 96,
+              "negative_KL": 5,
+              "net": {
+                "mean": -0.00030116399999999944,
+                "n": 5,
+                "negative": 1,
+                "positive": 4,
+                "zero": 0
+              },
+              "net_CI95": [
+                -0.0045863171999999995,
+                0.002341225200000001
+              ],
+              "phase_count": 10,
+              "positive_KL": 3,
+              "raw_minus_sub": {
+                "mean": 0.0,
+                "n": 5,
+                "negative": 0,
+                "positive": 0,
+                "zero": 5
+              },
+              "raw_sub_changed": 0,
+              "sub_changed": 0,
+              "sub_gain": {
+                "mean": 0.0,
+                "n": 5,
+                "negative": 0,
+                "positive": 0,
+                "zero": 5
+              },
+              "wall_ms": 15.237739600000001
+            },
+            "K15F4": {
+              "bounds": {
+                "mean_width": 0.005072463768115942,
+                "negative": 0,
+                "positive": 2
+              },
+              "changed": 0,
+              "counters": {
+                "extra_evals": 0,
+                "merge_blends": 0,
+                "proofs": 0,
+                "select_changed": 0,
+                "width_mass_added": 0
+              },
+              "cpu_ms": 13.999682400000001,
+              "gain": {
+                "mean": 0.0,
+                "n": 5,
+                "negative": 0,
+                "positive": 0,
+                "zero": 5
+              },
+              "gain_CI95": [
+                0.0,
+                0.0
+              ],
+              "gain_by_policy": {
+                "STANDARD_FULL": {
+                  "mean": 0.0,
+                  "n": 5,
+                  "negative": 0,
+                  "positive": 0,
+                  "zero": 5
+                },
+                "STANDARD_PW": {
+                  "mean": 0.0,
+                  "n": 5,
+                  "negative": 0,
+                  "positive": 0,
+                  "zero": 5
+                }
+              },
+              "gain_vs_stop": {
+                "mean": 0.2,
+                "n": 5,
+                "negative": 0,
+                "positive": 1,
+                "zero": 4
+              },
+              "locked": 0,
+              "mean_NN": 67,
+              "mean_forced": 4,
+              "mean_injection_tv": 0.0302536231884058,
+              "mean_sub_utility": 1.0,
+              "mean_utility": 1.0,
+              "mean_visits": 96,
+              "negative_KL": 7,
+              "net": {
+                "mean": -0.0017232804,
+                "n": 5,
+                "negative": 3,
+                "positive": 2,
+                "zero": 0
+              },
+              "net_CI95": [
+                -0.006387792399999998,
+                0.0018645559999999986
+              ],
+              "phase_count": 10,
+              "positive_KL": 3,
+              "raw_minus_sub": {
+                "mean": 0.0,
+                "n": 5,
+                "negative": 0,
+                "positive": 0,
+                "zero": 5
+              },
+              "raw_sub_changed": 0,
+              "sub_changed": 0,
+              "sub_gain": {
+                "mean": 0.0,
+                "n": 5,
+                "negative": 0,
+                "positive": 0,
+                "zero": 5
+              },
+              "wall_ms": 15.3522092
+            },
+            "K15FH": {
+              "bounds": {
+                "mean_width": 0.09333333333333334,
+                "negative": 0,
+                "positive": 2
+              },
+              "changed": 4,
+              "counters": {
+                "extra_evals": 0,
+                "merge_blends": 0,
+                "proofs": 0,
+                "select_changed": 0,
+                "width_mass_added": 0
+              },
+              "cpu_ms": 15.3107312,
+              "gain": {
+                "mean": 0.0,
+                "n": 5,
+                "negative": 0,
+                "positive": 0,
+                "zero": 5
+              },
+              "gain_CI95": [
+                0.0,
+                0.0
+              ],
+              "gain_by_policy": {
+                "STANDARD_FULL": {
+                  "mean": 0.0,
+                  "n": 5,
+                  "negative": 0,
+                  "positive": 0,
+                  "zero": 5
+                },
+                "STANDARD_PW": {
+                  "mean": 0.0,
+                  "n": 5,
+                  "negative": 0,
+                  "positive": 0,
+                  "zero": 5
+                }
+              },
+              "gain_vs_stop": {
+                "mean": 0.2,
+                "n": 5,
+                "negative": 0,
+                "positive": 1,
+                "zero": 4
+              },
+              "locked": 0,
+              "mean_NN": 67.4,
+              "mean_forced": 56,
+              "mean_injection_tv": 0.56875,
+              "mean_sub_utility": 0.8,
+              "mean_utility": 1.0,
+              "mean_visits": 96,
+              "negative_KL": 6,
+              "net": {
+                "mean": -0.004345377999999998,
+                "n": 5,
+                "negative": 3,
+                "positive": 2,
+                "zero": 0
+              },
+              "net_CI95": [
+                -0.009061973999999995,
+                0.0002685183999999993
+              ],
+              "phase_count": 10,
+              "positive_KL": 4,
+              "raw_minus_sub": {
+                "mean": 0.2,
+                "n": 5,
+                "negative": 0,
+                "positive": 1,
+                "zero": 4
+              },
+              "raw_sub_changed": 5,
+              "sub_changed": 1,
+              "sub_gain": {
+                "mean": -0.2,
+                "n": 5,
+                "negative": 1,
+                "positive": 0,
+                "zero": 4
+              },
+              "wall_ms": 16.5185096
+            },
+            "K15LOCK": {
+              "bounds": {
+                "mean_width": 0.0,
+                "negative": 0,
+                "positive": 0
+              },
+              "changed": 0,
+              "counters": {
+                "extra_evals": 0,
+                "merge_blends": 0,
+                "proofs": 0,
+                "select_changed": 0,
+                "width_mass_added": 0
+              },
+              "cpu_ms": 18.6464176,
+              "gain": {
+                "mean": 0.0,
+                "n": 5,
+                "negative": 0,
+                "positive": 0,
+                "zero": 5
+              },
+              "gain_CI95": [
+                0.0,
+                0.0
+              ],
+              "gain_by_policy": {
+                "STANDARD_FULL": {
+                  "mean": 0.0,
+                  "n": 5,
+                  "negative": 0,
+                  "positive": 0,
+                  "zero": 5
+                },
+                "STANDARD_PW": {
+                  "mean": 0.0,
+                  "n": 5,
+                  "negative": 0,
+                  "positive": 0,
+                  "zero": 5
+                }
+              },
+              "gain_vs_stop": {
+                "mean": 0.2,
+                "n": 5,
+                "negative": 0,
+                "positive": 1,
+                "zero": 4
+              },
+              "locked": 3,
+              "mean_NN": 60,
+              "mean_forced": 0,
+              "mean_injection_tv": 0.0,
+              "mean_sub_utility": 1.0,
+              "mean_utility": 1.0,
+              "mean_visits": 83.2,
+              "negative_KL": 26,
+              "net": {
+                "mean": -0.011016750799999999,
+                "n": 5,
+                "negative": 4,
+                "positive": 1,
+                "zero": 0
+              },
+              "net_CI95": [
+                -0.019765026399999996,
+                -0.0022684752
+              ],
+              "phase_count": 47,
+              "positive_KL": 14,
+              "raw_minus_sub": {
+                "mean": 0.0,
+                "n": 5,
+                "negative": 0,
+                "positive": 0,
+                "zero": 5
+              },
+              "raw_sub_changed": 0,
+              "sub_changed": 0,
+              "sub_gain": {
+                "mean": 0.0,
+                "n": 5,
+                "negative": 0,
+                "positive": 0,
+                "zero": 5
+              },
+              "wall_ms": 20.8781888
+            },
+            "K15N": {
+              "bounds": {
+                "mean_width": 0.0,
+                "negative": 0,
+                "positive": 0
+              },
+              "changed": 0,
+              "counters": {
+                "extra_evals": 0,
+                "merge_blends": 0,
+                "proofs": 0,
+                "select_changed": 0,
+                "width_mass_added": 0
+              },
+              "cpu_ms": 13.138042200000001,
+              "gain": {
+                "mean": 0.0,
+                "n": 5,
+                "negative": 0,
+                "positive": 0,
+                "zero": 5
+              },
+              "gain_CI95": [
+                0.0,
+                0.0
+              ],
+              "gain_by_policy": {
+                "STANDARD_FULL": {
+                  "mean": 0.0,
+                  "n": 5,
+                  "negative": 0,
+                  "positive": 0,
+                  "zero": 5
+                },
+                "STANDARD_PW": {
+                  "mean": 0.0,
+                  "n": 5,
+                  "negative": 0,
+                  "positive": 0,
+                  "zero": 5
+                }
+              },
+              "gain_vs_stop": {
+                "mean": 0.2,
+                "n": 5,
+                "negative": 0,
+                "positive": 1,
+                "zero": 4
+              },
+              "locked": 0,
+              "mean_NN": 67,
+              "mean_forced": 0,
+              "mean_injection_tv": 0.0,
+              "mean_sub_utility": 1.0,
+              "mean_utility": 1.0,
+              "mean_visits": 96,
+              "negative_KL": 5,
+              "net": {
+                "mean": 0.0,
+                "n": 5,
+                "negative": 0,
+                "positive": 0,
+                "zero": 5
+              },
+              "net_CI95": [
+                0.0,
+                0.0
+              ],
+              "phase_count": 10,
+              "positive_KL": 3,
+              "raw_minus_sub": {
+                "mean": 0.0,
+                "n": 5,
+                "negative": 0,
+                "positive": 0,
+                "zero": 5
+              },
+              "raw_sub_changed": 0,
+              "sub_changed": 0,
+              "sub_gain": {
+                "mean": 0.0,
+                "n": 5,
+                "negative": 0,
+                "positive": 0,
+                "zero": 5
+              },
+              "wall_ms": 14.5768168
+            },
+            "K15S": {
+              "bounds": {
+                "mean_width": 0.0,
+                "negative": 0,
+                "positive": 0
+              },
+              "changed": 0,
+              "counters": {
+                "extra_evals": 0,
+                "merge_blends": 0,
+                "proofs": 0,
+                "select_changed": 785,
+                "width_mass_added": 0
+              },
+              "cpu_ms": 13.126268399999999,
+              "gain": {
+                "mean": 0.0,
+                "n": 5,
+                "negative": 0,
+                "positive": 0,
+                "zero": 5
+              },
+              "gain_CI95": [
+                0.0,
+                0.0
+              ],
+              "gain_by_policy": {
+                "STANDARD_FULL": {
+                  "mean": 0.0,
+                  "n": 5,
+                  "negative": 0,
+                  "positive": 0,
+                  "zero": 5
+                },
+                "STANDARD_PW": {
+                  "mean": 0.0,
+                  "n": 5,
+                  "negative": 0,
+                  "positive": 0,
+                  "zero": 5
+                }
+              },
+              "gain_vs_stop": {
+                "mean": 0.2,
+                "n": 5,
+                "negative": 0,
+                "positive": 1,
+                "zero": 4
+              },
+              "locked": 0,
+              "mean_NN": 67,
+              "mean_forced": 0,
+              "mean_injection_tv": 0.0,
+              "mean_sub_utility": 1.0,
+              "mean_utility": 1.0,
+              "mean_visits": 96,
+              "negative_KL": 5,
+              "net": {
+                "mean": 2.3547600000002004e-05,
+                "n": 5,
+                "negative": 3,
+                "positive": 2,
+                "zero": 0
+              },
+              "net_CI95": [
+                -0.0015415675999999976,
+                0.001766595200000002
+              ],
+              "phase_count": 10,
+              "positive_KL": 3,
+              "raw_minus_sub": {
+                "mean": 0.0,
+                "n": 5,
+                "negative": 0,
+                "positive": 0,
+                "zero": 5
+              },
+              "raw_sub_changed": 0,
+              "sub_changed": 0,
+              "sub_gain": {
+                "mean": 0.0,
+                "n": 5,
+                "negative": 0,
+                "positive": 0,
+                "zero": 5
+              },
+              "wall_ms": 14.2404678
+            },
+            "K15STOP": {
+              "bounds": {
+                "mean_width": 0.0,
+                "negative": 0,
+                "positive": 0
+              },
+              "changed": 1,
+              "counters": {
+                "extra_evals": 0,
+                "merge_blends": 0,
+                "proofs": 0,
+                "select_changed": 0,
+                "width_mass_added": 0
+              },
+              "cpu_ms": 3.265374,
+              "gain": {
+                "mean": -0.2,
+                "n": 5,
+                "negative": 1,
+                "positive": 0,
+                "zero": 4
+              },
+              "gain_CI95": [
+                -0.6,
+                0.0
+              ],
+              "gain_by_policy": {
+                "STANDARD_FULL": {
+                  "mean": -0.2,
+                  "n": 5,
+                  "negative": 1,
+                  "positive": 0,
+                  "zero": 4
+                },
+                "STANDARD_PW": {
+                  "mean": -0.2,
+                  "n": 5,
+                  "negative": 1,
+                  "positive": 0,
+                  "zero": 4
+                }
+              },
+              "gain_vs_stop": {
+                "mean": 0.0,
+                "n": 5,
+                "negative": 0,
+                "positive": 0,
+                "zero": 5
+              },
+              "locked": 0,
+              "mean_NN": 8.2,
+              "mean_forced": 0,
+              "mean_injection_tv": 0.0,
+              "mean_sub_utility": 0.8,
+              "mean_utility": 0.8,
+              "mean_visits": 8,
+              "negative_KL": 0,
+              "net": {
+                "mean": -0.1802546636,
+                "n": 5,
+                "negative": 1,
+                "positive": 4,
+                "zero": 0
+              },
+              "net_CI95": [
+                -0.5770687756,
+                0.0254013032
+              ],
+              "phase_count": 0,
+              "positive_KL": 0,
+              "raw_minus_sub": {
+                "mean": 0.0,
+                "n": 5,
+                "negative": 0,
+                "positive": 0,
+                "zero": 5
+              },
+              "raw_sub_changed": 0,
+              "sub_changed": 1,
+              "sub_gain": {
+                "mean": -0.2,
+                "n": 5,
+                "negative": 1,
+                "positive": 0,
+                "zero": 4
+              },
+              "wall_ms": 4.0892654
+            },
+            "K15V": {
+              "bounds": {
+                "mean_width": 0.0,
+                "negative": 0,
+                "positive": 0
+              },
+              "changed": 0,
+              "counters": {
+                "extra_evals": 106,
+                "merge_blends": 0,
+                "proofs": 36,
+                "select_changed": 0,
+                "width_mass_added": 0
+              },
+              "cpu_ms": 17.3395192,
+              "gain": {
+                "mean": 0.0,
+                "n": 5,
+                "negative": 0,
+                "positive": 0,
+                "zero": 5
+              },
+              "gain_CI95": [
+                0.0,
+                0.0
+              ],
+              "gain_by_policy": {
+                "STANDARD_FULL": {
+                  "mean": 0.0,
+                  "n": 5,
+                  "negative": 0,
+                  "positive": 0,
+                  "zero": 5
+                },
+                "STANDARD_PW": {
+                  "mean": 0.0,
+                  "n": 5,
+                  "negative": 0,
+                  "positive": 0,
+                  "zero": 5
+                }
+              },
+              "gain_vs_stop": {
+                "mean": 0.2,
+                "n": 5,
+                "negative": 0,
+                "positive": 1,
+                "zero": 4
+              },
+              "locked": 0,
+              "mean_NN": 88.2,
+              "mean_forced": 0,
+              "mean_injection_tv": 0.0,
+              "mean_sub_utility": 1.0,
+              "mean_utility": 1.0,
+              "mean_visits": 96,
+              "negative_KL": 6,
+              "net": {
+                "mean": -0.008402953999999999,
+                "n": 5,
+                "negative": 4,
+                "positive": 1,
+                "zero": 0
+              },
+              "net_CI95": [
+                -0.017001551199999996,
+                -0.0017669195999999994
+              ],
+              "phase_count": 10,
+              "positive_KL": 2,
+              "raw_minus_sub": {
+                "mean": 0.0,
+                "n": 5,
+                "negative": 0,
+                "positive": 0,
+                "zero": 5
+              },
+              "raw_sub_changed": 0,
+              "sub_changed": 0,
+              "sub_gain": {
+                "mean": 0.0,
+                "n": 5,
+                "negative": 0,
+                "positive": 0,
+                "zero": 5
+              },
+              "wall_ms": 18.2706412
+            },
+            "K15X": {
+              "bounds": {
+                "mean_width": 0.0,
+                "negative": 0,
+                "positive": 0
+              },
+              "changed": 0,
+              "counters": {
+                "extra_evals": 0,
+                "merge_blends": 0,
+                "proofs": 0,
+                "select_changed": 0,
+                "width_mass_added": 46
+              },
+              "cpu_ms": 13.5699526,
+              "gain": {
+                "mean": 0.0,
+                "n": 5,
+                "negative": 0,
+                "positive": 0,
+                "zero": 5
+              },
+              "gain_CI95": [
+                0.0,
+                0.0
+              ],
+              "gain_by_policy": {
+                "STANDARD_FULL": {
+                  "mean": 0.0,
+                  "n": 5,
+                  "negative": 0,
+                  "positive": 0,
+                  "zero": 5
+                },
+                "STANDARD_PW": {
+                  "mean": 0.0,
+                  "n": 5,
+                  "negative": 0,
+                  "positive": 0,
+                  "zero": 5
+                }
+              },
+              "gain_vs_stop": {
+                "mean": 0.2,
+                "n": 5,
+                "negative": 0,
+                "positive": 1,
+                "zero": 4
+              },
+              "locked": 0,
+              "mean_NN": 67.2,
+              "mean_forced": 0,
+              "mean_injection_tv": 0.0,
+              "mean_sub_utility": 1.0,
+              "mean_utility": 1.0,
+              "mean_visits": 96,
+              "negative_KL": 6,
+              "net": {
+                "mean": -0.0008638207999999999,
+                "n": 5,
+                "negative": 2,
+                "positive": 3,
+                "zero": 0
+              },
+              "net_CI95": [
+                -0.0038319695999999986,
+                0.001794430399999999
+              ],
+              "phase_count": 10,
+              "positive_KL": 2,
+              "raw_minus_sub": {
+                "mean": 0.0,
+                "n": 5,
+                "negative": 0,
+                "positive": 0,
+                "zero": 5
+              },
+              "raw_sub_changed": 0,
+              "sub_changed": 0,
+              "sub_gain": {
+                "mean": 0.0,
+                "n": 5,
+                "negative": 0,
+                "positive": 0,
+                "zero": 5
+              },
+              "wall_ms": 14.512857
+            },
+            "K15XH": {
+              "bounds": {
+                "mean_width": 0.08166666666666668,
+                "negative": 3,
+                "positive": 0
+              },
+              "changed": 5,
+              "counters": {
+                "extra_evals": 0,
+                "merge_blends": 0,
+                "proofs": 0,
+                "select_changed": 0,
+                "width_mass_added": 0
+              },
+              "cpu_ms": 14.1289548,
+              "gain": {
+                "mean": -0.4,
+                "n": 5,
+                "negative": 3,
+                "positive": 0,
+                "zero": 2
+              },
+              "gain_CI95": [
+                -0.7,
+                -0.1
+              ],
+              "gain_by_policy": {
+                "STANDARD_FULL": {
+                  "mean": -0.4,
+                  "n": 5,
+                  "negative": 2,
+                  "positive": 0,
+                  "zero": 3
+                },
+                "STANDARD_PW": {
+                  "mean": -0.4,
+                  "n": 5,
+                  "negative": 2,
+                  "positive": 0,
+                  "zero": 3
+                }
+              },
+              "gain_vs_stop": {
+                "mean": -0.2,
+                "n": 5,
+                "negative": 2,
+                "positive": 0,
+                "zero": 3
+              },
+              "locked": 0,
+              "mean_NN": 71.6,
+              "mean_forced": 56,
+              "mean_injection_tv": 0.5833333333333334,
+              "mean_sub_utility": 0.8,
+              "mean_utility": 0.6,
+              "mean_visits": 96,
+              "negative_KL": 5,
+              "net": {
+                "mean": -0.4019818252,
+                "n": 5,
+                "negative": 4,
+                "positive": 1,
+                "zero": 0
+              },
+              "net_CI95": [
+                -0.7057909188,
+                -0.1029959244
+              ],
+              "phase_count": 10,
+              "positive_KL": 5,
+              "raw_minus_sub": {
+                "mean": -0.2,
+                "n": 5,
+                "negative": 2,
+                "positive": 0,
+                "zero": 3
+              },
+              "raw_sub_changed": 5,
+              "sub_changed": 2,
+              "sub_gain": {
+                "mean": -0.2,
+                "n": 5,
+                "negative": 1,
+                "positive": 0,
+                "zero": 4
+              },
+              "wall_ms": 15.0001028
+            }
+          },
+          "different_final_families": 5,
+          "different_sub_families": 2,
+          "nonzero_sub_utility_families": 1,
+          "nonzero_utility_families": 3,
+          "policies": {}
+        }
+      },
+      "exposure": {
+        "counts": {
+          "exposed": 3,
+          "negative": 3,
+          "positive": 1,
+          "sub_exposed": 1
+        },
+        "details": {
+          "G24": {
+            "exposed": false,
+            "negative": false,
+            "positive": false,
+            "sub_exposed": false
+          },
+          "G25": {
+            "exposed": true,
+            "negative": true,
+            "positive": true,
+            "sub_exposed": true
+          },
+          "G26": {
+            "exposed": true,
+            "negative": true,
+            "positive": false,
+            "sub_exposed": false
+          },
+          "G28": {
+            "exposed": false,
+            "negative": false,
+            "positive": false,
+            "sub_exposed": false
+          },
+          "G30": {
+            "exposed": true,
+            "negative": true,
+            "positive": false,
+            "sub_exposed": false
+          }
+        },
+        "n": 5,
+        "pass_gate": false
+      },
+      "families": 5,
+      "strata": {
+        "SCREEN": 1,
+        "UNFILTERED": 4
+      },
+      "stratified": {
+        "SCREEN": {
+          "counts": {
+            "exposed": 1,
+            "negative": 1,
+            "positive": 1,
+            "sub_exposed": 1
+          },
+          "details": {
+            "G25": {
+              "exposed": true,
+              "negative": true,
+              "positive": true,
+              "sub_exposed": true
+            }
+          },
+          "n": 1,
+          "pass_gate": false
+        },
+        "UNFILTERED": {
+          "counts": {
+            "exposed": 2,
+            "negative": 2,
+            "positive": 0,
+            "sub_exposed": 0
+          },
+          "details": {
+            "G24": {
+              "exposed": false,
+              "negative": false,
+              "positive": false,
+              "sub_exposed": false
+            },
+            "G26": {
+              "exposed": true,
+              "negative": true,
+              "positive": false,
+              "sub_exposed": false
+            },
+            "G28": {
+              "exposed": false,
+              "negative": false,
+              "positive": false,
+              "sub_exposed": false
+            },
+            "G30": {
+              "exposed": true,
+              "negative": true,
+              "positive": false,
+              "sub_exposed": false
+            }
+          },
+          "n": 4,
+          "pass_gate": false
+        }
+      }
+    },
+    "TEST": {
+      "by_cap": {
+        "32": {
+          "arms": {
+            "K15B": {
+              "bounds": {
+                "mean_width": 0.0,
+                "negative": 0,
+                "positive": 0
+              },
+              "changed": 0,
+              "counters": {
+                "extra_evals": 0,
+                "merge_blends": 0,
+                "proofs": 0,
+                "select_changed": 0,
+                "width_mass_added": 0
+              },
+              "cpu_ms": 7.0016869999999995,
+              "gain": {
+                "mean": 0.0,
+                "n": 11,
+                "negative": 0,
+                "positive": 0,
+                "zero": 11
+              },
+              "gain_CI95": [
+                0.0,
+                0.0
+              ],
+              "gain_by_policy": {
+                "STANDARD_FULL": {
+                  "mean": 0.0,
+                  "n": 11,
+                  "negative": 0,
+                  "positive": 0,
+                  "zero": 11
+                },
+                "STANDARD_PW": {
+                  "mean": 0.0,
+                  "n": 11,
+                  "negative": 0,
+                  "positive": 0,
+                  "zero": 11
+                }
+              },
+              "gain_vs_stop": {
+                "mean": 0.09090909090909091,
+                "n": 11,
+                "negative": 0,
+                "positive": 1,
+                "zero": 10
+              },
+              "locked": 0,
+              "mean_NN": 28.90909090909091,
+              "mean_forced": 0,
+              "mean_injection_tv": 0.0,
+              "mean_sub_utility": 0.7954545454545454,
+              "mean_utility": 0.7954545454545454,
+              "mean_visits": 32,
+              "negative_KL": 11,
+              "net": {
+                "mean": 0.0012102198181818187,
+                "n": 11,
+                "negative": 5,
+                "positive": 6,
+                "zero": 0
+              },
+              "net_CI95": [
+                -0.0010710130909090902,
+                0.0039265892727272725
+              ],
+              "phase_count": 22,
+              "positive_KL": 4,
+              "raw_minus_sub": {
+                "mean": 0.0,
+                "n": 11,
+                "negative": 0,
+                "positive": 0,
+                "zero": 11
+              },
+              "raw_sub_changed": 0,
+              "sub_changed": 0,
+              "sub_gain": {
+                "mean": 0.0,
+                "n": 11,
+                "negative": 0,
+                "positive": 0,
+                "zero": 11
+              },
+              "wall_ms": 7.742558909090909
+            },
+            "K15F4": {
+              "bounds": {
+                "mean_width": 0.009334415584415584,
+                "negative": 2,
+                "positive": 1
+              },
+              "changed": 0,
+              "counters": {
+                "extra_evals": 0,
+                "merge_blends": 0,
+                "proofs": 0,
+                "select_changed": 0,
+                "width_mass_added": 0
+              },
+              "cpu_ms": 7.150067454545455,
+              "gain": {
+                "mean": 0.0,
+                "n": 11,
+                "negative": 0,
+                "positive": 0,
+                "zero": 11
+              },
+              "gain_CI95": [
+                0.0,
+                0.0
+              ],
+              "gain_by_policy": {
+                "STANDARD_FULL": {
+                  "mean": 0.0,
+                  "n": 11,
+                  "negative": 0,
+                  "positive": 0,
+                  "zero": 11
+                },
+                "STANDARD_PW": {
+                  "mean": 0.0,
+                  "n": 11,
+                  "negative": 0,
+                  "positive": 0,
+                  "zero": 11
+                }
+              },
+              "gain_vs_stop": {
+                "mean": 0.09090909090909091,
+                "n": 11,
+                "negative": 0,
+                "positive": 1,
+                "zero": 10
+              },
+              "locked": 0,
+              "mean_NN": 29.181818181818183,
+              "mean_forced": 4,
+              "mean_injection_tv": 0.11160714285714285,
+              "mean_sub_utility": 0.7954545454545454,
+              "mean_utility": 0.7954545454545454,
+              "mean_visits": 32,
+              "negative_KL": 15,
+              "net": {
+                "mean": 0.0009134589090909095,
+                "n": 11,
+                "negative": 6,
+                "positive": 5,
+                "zero": 0
+              },
+              "net_CI95": [
+                -0.001250733272727272,
+                0.004032065272727273
+              ],
+              "phase_count": 22,
+              "positive_KL": 7,
+              "raw_minus_sub": {
+                "mean": 0.0,
+                "n": 11,
+                "negative": 0,
+                "positive": 0,
+                "zero": 11
+              },
+              "raw_sub_changed": 1,
+              "sub_changed": 1,
+              "sub_gain": {
+                "mean": 0.0,
+                "n": 11,
+                "negative": 0,
+                "positive": 0,
+                "zero": 11
+              },
+              "wall_ms": 7.8745449999999995
+            },
+            "K15FH": {
+              "bounds": {
+                "mean_width": 0.05113636363636364,
+                "negative": 1,
+                "positive": 2
+              },
+              "changed": 10,
+              "counters": {
+                "extra_evals": 0,
+                "merge_blends": 0,
+                "proofs": 0,
+                "select_changed": 0,
+                "width_mass_added": 0
+              },
+              "cpu_ms": 7.496576,
+              "gain": {
+                "mean": -0.022727272727272728,
+                "n": 11,
+                "negative": 2,
+                "positive": 1,
+                "zero": 8
+              },
+              "gain_CI95": [
+                -0.25,
+                0.22727272727272727
+              ],
+              "gain_by_policy": {
+                "STANDARD_FULL": {
+                  "mean": 0.0,
+                  "n": 11,
+                  "negative": 1,
+                  "positive": 1,
+                  "zero": 9
+                },
+                "STANDARD_PW": {
+                  "mean": -0.045454545454545456,
+                  "n": 11,
+                  "negative": 2,
+                  "positive": 1,
+                  "zero": 8
+                }
+              },
+              "gain_vs_stop": {
+                "mean": 0.06818181818181818,
+                "n": 11,
+                "negative": 1,
+                "positive": 2,
+                "zero": 8
+              },
+              "locked": 0,
+              "mean_NN": 29.545454545454547,
+              "mean_forced": 16,
+              "mean_injection_tv": 0.46875,
+              "mean_sub_utility": 0.7045454545454546,
+              "mean_utility": 0.7727272727272727,
+              "mean_visits": 32,
+              "negative_KL": 13,
+              "net": {
+                "mean": -0.02250683090909091,
+                "n": 11,
+                "negative": 8,
+                "positive": 3,
+                "zero": 0
+              },
+              "net_CI95": [
+                -0.24957244890909092,
+                0.22624099545454546
+              ],
+              "phase_count": 22,
+              "positive_KL": 9,
+              "raw_minus_sub": {
+                "mean": 0.06818181818181818,
+                "n": 11,
+                "negative": 1,
+                "positive": 2,
+                "zero": 8
+              },
+              "raw_sub_changed": 11,
+              "sub_changed": 2,
+              "sub_gain": {
+                "mean": -0.09090909090909091,
+                "n": 11,
+                "negative": 1,
+                "positive": 0,
+                "zero": 10
+              },
+              "wall_ms": 8.453126454545455
+            },
+            "K15LOCK": {
+              "bounds": {
+                "mean_width": 0.0,
+                "negative": 0,
+                "positive": 0
+              },
+              "changed": 0,
+              "counters": {
+                "extra_evals": 0,
+                "merge_blends": 0,
+                "proofs": 0,
+                "select_changed": 0,
+                "width_mass_added": 0
+              },
+              "cpu_ms": 6.339954909090909,
+              "gain": {
+                "mean": 0.0,
+                "n": 11,
+                "negative": 0,
+                "positive": 0,
+                "zero": 11
+              },
+              "gain_CI95": [
+                0.0,
+                0.0
+              ],
+              "gain_by_policy": {
+                "STANDARD_FULL": {
+                  "mean": 0.0,
+                  "n": 11,
+                  "negative": 0,
+                  "positive": 0,
+                  "zero": 11
+                },
+                "STANDARD_PW": {
+                  "mean": 0.0,
+                  "n": 11,
+                  "negative": 0,
+                  "positive": 0,
+                  "zero": 11
+                }
+              },
+              "gain_vs_stop": {
+                "mean": 0.09090909090909091,
+                "n": 11,
+                "negative": 0,
+                "positive": 1,
+                "zero": 10
+              },
+              "locked": 8,
+              "mean_NN": 24,
+              "mean_forced": 0,
+              "mean_injection_tv": 0.0,
+              "mean_sub_utility": 0.7954545454545454,
+              "mean_utility": 0.7954545454545454,
+              "mean_visits": 26.181818181818183,
+              "negative_KL": 11,
+              "net": {
+                "mean": 0.0025336840000000005,
+                "n": 11,
+                "negative": 4,
+                "positive": 7,
+                "zero": 0
+              },
+              "net_CI95": [
+                0.0005753418181818188,
+                0.005105991454545455
+              ],
+              "phase_count": 25,
+              "positive_KL": 4,
+              "raw_minus_sub": {
+                "mean": 0.0,
+                "n": 11,
+                "negative": 0,
+                "positive": 0,
+                "zero": 11
+              },
+              "raw_sub_changed": 0,
+              "sub_changed": 0,
+              "sub_gain": {
+                "mean": 0.0,
+                "n": 11,
+                "negative": 0,
+                "positive": 0,
+                "zero": 11
+              },
+              "wall_ms": 7.2492232727272725
+            },
+            "K15N": {
+              "bounds": {
+                "mean_width": 0.0,
+                "negative": 0,
+                "positive": 0
+              },
+              "changed": 0,
+              "counters": {
+                "extra_evals": 0,
+                "merge_blends": 0,
+                "proofs": 0,
+                "select_changed": 0,
+                "width_mass_added": 0
+              },
+              "cpu_ms": 7.606796909090909,
+              "gain": {
+                "mean": 0.0,
+                "n": 11,
+                "negative": 0,
+                "positive": 0,
+                "zero": 11
+              },
+              "gain_CI95": [
+                0.0,
+                0.0
+              ],
+              "gain_by_policy": {
+                "STANDARD_FULL": {
+                  "mean": 0.0,
+                  "n": 11,
+                  "negative": 0,
+                  "positive": 0,
+                  "zero": 11
+                },
+                "STANDARD_PW": {
+                  "mean": 0.0,
+                  "n": 11,
+                  "negative": 0,
+                  "positive": 0,
+                  "zero": 11
+                }
+              },
+              "gain_vs_stop": {
+                "mean": 0.09090909090909091,
+                "n": 11,
+                "negative": 0,
+                "positive": 1,
+                "zero": 10
+              },
+              "locked": 0,
+              "mean_NN": 28.90909090909091,
+              "mean_forced": 0,
+              "mean_injection_tv": 0.0,
+              "mean_sub_utility": 0.7954545454545454,
+              "mean_utility": 0.7954545454545454,
+              "mean_visits": 32,
+              "negative_KL": 11,
+              "net": {
+                "mean": 0.0,
+                "n": 11,
+                "negative": 0,
+                "positive": 0,
+                "zero": 11
+              },
+              "net_CI95": [
+                0.0,
+                0.0
+              ],
+              "phase_count": 22,
+              "positive_KL": 4,
+              "raw_minus_sub": {
+                "mean": 0.0,
+                "n": 11,
+                "negative": 0,
+                "positive": 0,
+                "zero": 11
+              },
+              "raw_sub_changed": 0,
+              "sub_changed": 0,
+              "sub_gain": {
+                "mean": 0.0,
+                "n": 11,
+                "negative": 0,
+                "positive": 0,
+                "zero": 11
+              },
+              "wall_ms": 8.594880454545455
+            },
+            "K15S": {
+              "bounds": {
+                "mean_width": 0.0,
+                "negative": 0,
+                "positive": 0
+              },
+              "changed": 0,
+              "counters": {
+                "extra_evals": 0,
+                "merge_blends": 0,
+                "proofs": 0,
+                "select_changed": 490,
+                "width_mass_added": 0
+              },
+              "cpu_ms": 6.818218909090909,
+              "gain": {
+                "mean": 0.0,
+                "n": 11,
+                "negative": 0,
+                "positive": 0,
+                "zero": 11
+              },
+              "gain_CI95": [
+                0.0,
+                0.0
+              ],
+              "gain_by_policy": {
+                "STANDARD_FULL": {
+                  "mean": 0.0,
+                  "n": 11,
+                  "negative": 0,
+                  "positive": 0,
+                  "zero": 11
+                },
+                "STANDARD_PW": {
+                  "mean": 0.0,
+                  "n": 11,
+                  "negative": 0,
+                  "positive": 0,
+                  "zero": 11
+                }
+              },
+              "gain_vs_stop": {
+                "mean": 0.09090909090909091,
+                "n": 11,
+                "negative": 0,
+                "positive": 1,
+                "zero": 10
+              },
+              "locked": 0,
+              "mean_NN": 28.90909090909091,
+              "mean_forced": 0,
+              "mean_injection_tv": 0.0,
+              "mean_sub_utility": 0.7954545454545454,
+              "mean_utility": 0.7954545454545454,
+              "mean_visits": 32,
+              "negative_KL": 11,
+              "net": {
+                "mean": 0.0015771560000000003,
+                "n": 11,
+                "negative": 4,
+                "positive": 7,
+                "zero": 0
+              },
+              "net_CI95": [
+                0.00022920690909090949,
+                0.003314537272727273
+              ],
+              "phase_count": 22,
+              "positive_KL": 4,
+              "raw_minus_sub": {
+                "mean": 0.0,
+                "n": 11,
+                "negative": 0,
+                "positive": 0,
+                "zero": 11
+              },
+              "raw_sub_changed": 0,
+              "sub_changed": 0,
+              "sub_gain": {
+                "mean": 0.0,
+                "n": 11,
+                "negative": 0,
+                "positive": 0,
+                "zero": 11
+              },
+              "wall_ms": 7.693027545454545
+            },
+            "K15STOP": {
+              "bounds": {
+                "mean_width": 0.0,
+                "negative": 0,
+                "positive": 0
+              },
+              "changed": 2,
+              "counters": {
+                "extra_evals": 0,
+                "merge_blends": 0,
+                "proofs": 0,
+                "select_changed": 0,
+                "width_mass_added": 0
+              },
+              "cpu_ms": 3.373422090909091,
+              "gain": {
+                "mean": -0.09090909090909091,
+                "n": 11,
+                "negative": 1,
+                "positive": 0,
+                "zero": 10
+              },
+              "gain_CI95": [
+                -0.2727272727272727,
+                0.0
+              ],
+              "gain_by_policy": {
+                "STANDARD_FULL": {
+                  "mean": -0.09090909090909091,
+                  "n": 11,
+                  "negative": 1,
+                  "positive": 0,
+                  "zero": 10
+                },
+                "STANDARD_PW": {
+                  "mean": -0.09090909090909091,
+                  "n": 11,
+                  "negative": 1,
+                  "positive": 0,
+                  "zero": 10
+                }
+              },
+              "gain_vs_stop": {
+                "mean": 0.0,
+                "n": 11,
+                "negative": 0,
+                "positive": 0,
+                "zero": 11
+              },
+              "locked": 0,
+              "mean_NN": 8.636363636363637,
+              "mean_forced": 0,
+              "mean_injection_tv": 0.0,
+              "mean_sub_utility": 0.7045454545454546,
+              "mean_utility": 0.7045454545454546,
+              "mean_visits": 8,
+              "negative_KL": 0,
+              "net": {
+                "mean": -0.08244234127272727,
+                "n": 11,
+                "negative": 1,
+                "positive": 10,
+                "zero": 0
+              },
+              "net_CI95": [
+                -0.26484208745454546,
+                0.010487723818181818
+              ],
+              "phase_count": 0,
+              "positive_KL": 0,
+              "raw_minus_sub": {
+                "mean": 0.0,
+                "n": 11,
+                "negative": 0,
+                "positive": 0,
+                "zero": 11
+              },
+              "raw_sub_changed": 0,
+              "sub_changed": 2,
+              "sub_gain": {
+                "mean": -0.09090909090909091,
+                "n": 11,
+                "negative": 1,
+                "positive": 0,
+                "zero": 10
+              },
+              "wall_ms": 4.0083233636363635
+            },
+            "K15V": {
+              "bounds": {
+                "mean_width": 0.0,
+                "negative": 0,
+                "positive": 0
+              },
+              "changed": 0,
+              "counters": {
+                "extra_evals": 72,
+                "merge_blends": 0,
+                "proofs": 33,
+                "select_changed": 0,
+                "width_mass_added": 0
+              },
+              "cpu_ms": 8.726281727272728,
+              "gain": {
+                "mean": 0.0,
+                "n": 11,
+                "negative": 0,
+                "positive": 0,
+                "zero": 11
+              },
+              "gain_CI95": [
+                0.0,
+                0.0
+              ],
+              "gain_by_policy": {
+                "STANDARD_FULL": {
+                  "mean": 0.0,
+                  "n": 11,
+                  "negative": 0,
+                  "positive": 0,
+                  "zero": 11
+                },
+                "STANDARD_PW": {
+                  "mean": 0.0,
+                  "n": 11,
+                  "negative": 0,
+                  "positive": 0,
+                  "zero": 11
+                }
+              },
+              "gain_vs_stop": {
+                "mean": 0.09090909090909091,
+                "n": 11,
+                "negative": 0,
+                "positive": 1,
+                "zero": 10
+              },
+              "locked": 0,
+              "mean_NN": 35.45454545454545,
+              "mean_forced": 0,
+              "mean_injection_tv": 0.0,
+              "mean_sub_utility": 0.7954545454545454,
+              "mean_utility": 0.7954545454545454,
+              "mean_visits": 32,
+              "negative_KL": 10,
+              "net": {
+                "mean": -0.0022389696363636366,
+                "n": 11,
+                "negative": 8,
+                "positive": 3,
+                "zero": 0
+              },
+              "net_CI95": [
+                -0.0048902954545454545,
+                0.0007029059999999991
+              ],
+              "phase_count": 22,
+              "positive_KL": 5,
+              "raw_minus_sub": {
+                "mean": 0.0,
+                "n": 11,
+                "negative": 0,
+                "positive": 0,
+                "zero": 11
+              },
+              "raw_sub_changed": 0,
+              "sub_changed": 0,
+              "sub_gain": {
+                "mean": 0.0,
+                "n": 11,
+                "negative": 0,
+                "positive": 0,
+                "zero": 11
+              },
+              "wall_ms": 9.62816690909091
+            },
+            "K15X": {
+              "bounds": {
+                "mean_width": 0.0,
+                "negative": 0,
+                "positive": 0
+              },
+              "changed": 0,
+              "counters": {
+                "extra_evals": 0,
+                "merge_blends": 0,
+                "proofs": 0,
+                "select_changed": 0,
+                "width_mass_added": 49
+              },
+              "cpu_ms": 7.1988876363636365,
+              "gain": {
+                "mean": 0.0,
+                "n": 11,
+                "negative": 0,
+                "positive": 0,
+                "zero": 11
+              },
+              "gain_CI95": [
+                0.0,
+                0.0
+              ],
+              "gain_by_policy": {
+                "STANDARD_FULL": {
+                  "mean": 0.0,
+                  "n": 11,
+                  "negative": 0,
+                  "positive": 0,
+                  "zero": 11
+                },
+                "STANDARD_PW": {
+                  "mean": 0.0,
+                  "n": 11,
+                  "negative": 0,
+                  "positive": 0,
+                  "zero": 11
+                }
+              },
+              "gain_vs_stop": {
+                "mean": 0.09090909090909091,
+                "n": 11,
+                "negative": 0,
+                "positive": 1,
+                "zero": 10
+              },
+              "locked": 0,
+              "mean_NN": 29.09090909090909,
+              "mean_forced": 0,
+              "mean_injection_tv": 0.0,
+              "mean_sub_utility": 0.7954545454545454,
+              "mean_utility": 0.7954545454545454,
+              "mean_visits": 32,
+              "negative_KL": 11,
+              "net": {
+                "mean": 0.0008158185454545455,
+                "n": 11,
+                "negative": 6,
+                "positive": 5,
+                "zero": 0
+              },
+              "net_CI95": [
+                -0.0014298280000000002,
+                0.0034242067272727272
+              ],
+              "phase_count": 22,
+              "positive_KL": 4,
+              "raw_minus_sub": {
+                "mean": 0.0,
+                "n": 11,
+                "negative": 0,
+                "positive": 0,
+                "zero": 11
+              },
+              "raw_sub_changed": 0,
+              "sub_changed": 0,
+              "sub_gain": {
+                "mean": 0.0,
+                "n": 11,
+                "negative": 0,
+                "positive": 0,
+                "zero": 11
+              },
+              "wall_ms": 8.060261272727272
+            },
+            "K15XH": {
+              "bounds": {
+                "mean_width": 0.045454545454545456,
+                "negative": 3,
+                "positive": 2
+              },
+              "changed": 11,
+              "counters": {
+                "extra_evals": 0,
+                "merge_blends": 0,
+                "proofs": 0,
+                "select_changed": 0,
+                "width_mass_added": 0
+              },
+              "cpu_ms": 7.667573909090909,
+              "gain": {
+                "mean": -0.20454545454545456,
+                "n": 11,
+                "negative": 3,
+                "positive": 1,
+                "zero": 7
+              },
+              "gain_CI95": [
+                -0.45454545454545453,
+                0.022727272727272728
+              ],
+              "gain_by_policy": {
+                "STANDARD_FULL": {
+                  "mean": -0.18181818181818182,
+                  "n": 11,
+                  "negative": 2,
+                  "positive": 0,
+                  "zero": 9
+                },
+                "STANDARD_PW": {
+                  "mean": -0.22727272727272727,
+                  "n": 11,
+                  "negative": 3,
+                  "positive": 1,
+                  "zero": 7
+                }
+              },
+              "gain_vs_stop": {
+                "mean": -0.11363636363636363,
+                "n": 11,
+                "negative": 2,
+                "positive": 2,
+                "zero": 7
+              },
+              "locked": 0,
+              "mean_NN": 30.181818181818183,
+              "mean_forced": 16,
+              "mean_injection_tv": 0.5,
+              "mean_sub_utility": 0.7045454545454546,
+              "mean_utility": 0.5909090909090909,
+              "mean_visits": 32,
+              "negative_KL": 12,
+              "net": {
+                "mean": -0.20466700854545455,
+                "n": 11,
+                "negative": 7,
+                "positive": 4,
+                "zero": 0
+              },
+              "net_CI95": [
+                -0.45765377690909087,
+                0.022371835818181817
+              ],
+              "phase_count": 22,
+              "positive_KL": 10,
+              "raw_minus_sub": {
+                "mean": -0.11363636363636363,
+                "n": 11,
+                "negative": 2,
+                "positive": 2,
+                "zero": 7
+              },
+              "raw_sub_changed": 11,
+              "sub_changed": 1,
+              "sub_gain": {
+                "mean": -0.09090909090909091,
+                "n": 11,
+                "negative": 1,
+                "positive": 0,
+                "zero": 10
+              },
+              "wall_ms": 8.560403
+            }
+          },
+          "different_final_families": 11,
+          "different_sub_families": 2,
+          "nonzero_sub_utility_families": 1,
+          "nonzero_utility_families": 5,
+          "policies": {}
+        },
+        "96": {
+          "arms": {
+            "K15B": {
+              "bounds": {
+                "mean_width": 0.0,
+                "negative": 0,
+                "positive": 0
+              },
+              "changed": 0,
+              "counters": {
+                "extra_evals": 0,
+                "merge_blends": 11,
+                "proofs": 0,
+                "select_changed": 0,
+                "width_mass_added": 0
+              },
+              "cpu_ms": 14.46496690909091,
+              "gain": {
+                "mean": 0.0,
+                "n": 11,
+                "negative": 0,
+                "positive": 0,
+                "zero": 11
+              },
+              "gain_CI95": [
+                0.0,
+                0.0
+              ],
+              "gain_by_policy": {
+                "STANDARD_FULL": {
+                  "mean": 0.0,
+                  "n": 11,
+                  "negative": 0,
+                  "positive": 0,
+                  "zero": 11
+                },
+                "STANDARD_PW": {
+                  "mean": 0.0,
+                  "n": 11,
+                  "negative": 0,
+                  "positive": 0,
+                  "zero": 11
+                }
+              },
+              "gain_vs_stop": {
+                "mean": 0.09090909090909091,
+                "n": 11,
+                "negative": 0,
+                "positive": 1,
+                "zero": 10
+              },
+              "locked": 0,
+              "mean_NN": 77,
+              "mean_forced": 0,
+              "mean_injection_tv": 0.0,
+              "mean_sub_utility": 0.7954545454545454,
+              "mean_utility": 0.7954545454545454,
+              "mean_visits": 96,
+              "negative_KL": 13,
+              "net": {
+                "mean": 0.0012679525454545456,
+                "n": 11,
+                "negative": 5,
+                "positive": 6,
+                "zero": 0
+              },
+              "net_CI95": [
+                -0.001182366727272727,
+                0.003991647272727271
+              ],
+              "phase_count": 22,
+              "positive_KL": 3,
+              "raw_minus_sub": {
+                "mean": 0.0,
+                "n": 11,
+                "negative": 0,
+                "positive": 0,
+                "zero": 11
+              },
+              "raw_sub_changed": 0,
+              "sub_changed": 0,
+              "sub_gain": {
+                "mean": 0.0,
+                "n": 11,
+                "negative": 0,
+                "positive": 0,
+                "zero": 11
+              },
+              "wall_ms": 15.531591727272726
+            },
+            "K15F4": {
+              "bounds": {
+                "mean_width": 0.006011198945981555,
+                "negative": 2,
+                "positive": 1
+              },
+              "changed": 0,
+              "counters": {
+                "extra_evals": 0,
+                "merge_blends": 0,
+                "proofs": 0,
+                "select_changed": 0,
+                "width_mass_added": 0
+              },
+              "cpu_ms": 14.890541363636364,
+              "gain": {
+                "mean": 0.0,
+                "n": 11,
+                "negative": 0,
+                "positive": 0,
+                "zero": 11
+              },
+              "gain_CI95": [
+                0.0,
+                0.0
+              ],
+              "gain_by_policy": {
+                "STANDARD_FULL": {
+                  "mean": 0.0,
+                  "n": 11,
+                  "negative": 0,
+                  "positive": 0,
+                  "zero": 11
+                },
+                "STANDARD_PW": {
+                  "mean": 0.0,
+                  "n": 11,
+                  "negative": 0,
+                  "positive": 0,
+                  "zero": 11
+                }
+              },
+              "gain_vs_stop": {
+                "mean": 0.09090909090909091,
+                "n": 11,
+                "negative": 0,
+                "positive": 1,
+                "zero": 10
+              },
+              "locked": 0,
+              "mean_NN": 77.36363636363636,
+              "mean_forced": 4,
+              "mean_injection_tv": 0.03689064558629776,
+              "mean_sub_utility": 0.7954545454545454,
+              "mean_utility": 0.7954545454545454,
+              "mean_visits": 96,
+              "negative_KL": 14,
+              "net": {
+                "mean": 0.0004168036363636354,
+                "n": 11,
+                "negative": 5,
+                "positive": 6,
+                "zero": 0
+              },
+              "net_CI95": [
+                -0.0014408334545454554,
+                0.0022873049090909076
+              ],
+              "phase_count": 22,
+              "positive_KL": 8,
+              "raw_minus_sub": {
+                "mean": 0.0,
+                "n": 11,
+                "negative": 0,
+                "positive": 0,
+                "zero": 11
+              },
+              "raw_sub_changed": 0,
+              "sub_changed": 0,
+              "sub_gain": {
+                "mean": 0.0,
+                "n": 11,
+                "negative": 0,
+                "positive": 0,
+                "zero": 11
+              },
+              "wall_ms": 16.49988590909091
+            },
+            "K15FH": {
+              "bounds": {
+                "mean_width": 0.08882575757575757,
+                "negative": 2,
+                "positive": 1
+              },
+              "changed": 11,
+              "counters": {
+                "extra_evals": 0,
+                "merge_blends": 0,
+                "proofs": 0,
+                "select_changed": 0,
+                "width_mass_added": 0
+              },
+              "cpu_ms": 15.230454090909092,
+              "gain": {
+                "mean": -0.022727272727272728,
+                "n": 11,
+                "negative": 2,
+                "positive": 1,
+                "zero": 8
+              },
+              "gain_CI95": [
+                -0.25,
+                0.22727272727272727
+              ],
+              "gain_by_policy": {
+                "STANDARD_FULL": {
+                  "mean": 0.0,
+                  "n": 11,
+                  "negative": 1,
+                  "positive": 1,
+                  "zero": 9
+                },
+                "STANDARD_PW": {
+                  "mean": -0.045454545454545456,
+                  "n": 11,
+                  "negative": 2,
+                  "positive": 1,
+                  "zero": 8
+                }
+              },
+              "gain_vs_stop": {
+                "mean": 0.06818181818181818,
+                "n": 11,
+                "negative": 1,
+                "positive": 2,
+                "zero": 8
+              },
+              "locked": 0,
+              "mean_NN": 78,
+              "mean_forced": 56,
+              "mean_injection_tv": 0.56875,
+              "mean_sub_utility": 0.7954545454545454,
+              "mean_utility": 0.7727272727272727,
+              "mean_visits": 96,
+              "negative_KL": 12,
+              "net": {
+                "mean": -0.022990294545454548,
+                "n": 11,
+                "negative": 6,
+                "positive": 5,
+                "zero": 0
+              },
+              "net_CI95": [
+                -0.25064484054545455,
+                0.22583517181818183
+              ],
+              "phase_count": 22,
+              "positive_KL": 10,
+              "raw_minus_sub": {
+                "mean": -0.022727272727272728,
+                "n": 11,
+                "negative": 2,
+                "positive": 1,
+                "zero": 8
+              },
+              "raw_sub_changed": 11,
+              "sub_changed": 0,
+              "sub_gain": {
+                "mean": 0.0,
+                "n": 11,
+                "negative": 0,
+                "positive": 0,
+                "zero": 11
+              },
+              "wall_ms": 16.254012
+            },
+            "K15LOCK": {
+              "bounds": {
+                "mean_width": 0.0,
+                "negative": 0,
+                "positive": 0
+              },
+              "changed": 0,
+              "counters": {
+                "extra_evals": 0,
+                "merge_blends": 0,
+                "proofs": 0,
+                "select_changed": 0,
+                "width_mass_added": 0
+              },
+              "cpu_ms": 14.218754727272728,
+              "gain": {
+                "mean": 0.0,
+                "n": 11,
+                "negative": 0,
+                "positive": 0,
+                "zero": 11
+              },
+              "gain_CI95": [
+                0.0,
+                0.0
+              ],
+              "gain_by_policy": {
+                "STANDARD_FULL": {
+                  "mean": 0.0,
+                  "n": 11,
+                  "negative": 0,
+                  "positive": 0,
+                  "zero": 11
+                },
+                "STANDARD_PW": {
+                  "mean": 0.0,
+                  "n": 11,
+                  "negative": 0,
+                  "positive": 0,
+                  "zero": 11
+                }
+              },
+              "gain_vs_stop": {
+                "mean": 0.09090909090909091,
+                "n": 11,
+                "negative": 0,
+                "positive": 1,
+                "zero": 10
+              },
+              "locked": 10,
+              "mean_NN": 58.09090909090909,
+              "mean_forced": 0,
+              "mean_injection_tv": 0.0,
+              "mean_sub_utility": 0.7954545454545454,
+              "mean_utility": 0.7954545454545454,
+              "mean_visits": 70.54545454545455,
+              "negative_KL": 40,
+              "net": {
+                "mean": 0.0017603769090909092,
+                "n": 11,
+                "negative": 4,
+                "positive": 7,
+                "zero": 0
+              },
+              "net_CI95": [
+                -0.0017950309090909095,
+                0.0053824274545454555
+              ],
+              "phase_count": 86,
+              "positive_KL": 22,
+              "raw_minus_sub": {
+                "mean": 0.0,
+                "n": 11,
+                "negative": 0,
+                "positive": 0,
+                "zero": 11
+              },
+              "raw_sub_changed": 0,
+              "sub_changed": 0,
+              "sub_gain": {
+                "mean": 0.0,
+                "n": 11,
+                "negative": 0,
+                "positive": 0,
+                "zero": 11
+              },
+              "wall_ms": 15.642033363636363
+            },
+            "K15N": {
+              "bounds": {
+                "mean_width": 0.0,
+                "negative": 0,
+                "positive": 0
+              },
+              "changed": 0,
+              "counters": {
+                "extra_evals": 0,
+                "merge_blends": 0,
+                "proofs": 0,
+                "select_changed": 0,
+                "width_mass_added": 0
+              },
+              "cpu_ms": 15.098943181818182,
+              "gain": {
+                "mean": 0.0,
+                "n": 11,
+                "negative": 0,
+                "positive": 0,
+                "zero": 11
+              },
+              "gain_CI95": [
+                0.0,
+                0.0
+              ],
+              "gain_by_policy": {
+                "STANDARD_FULL": {
+                  "mean": 0.0,
+                  "n": 11,
+                  "negative": 0,
+                  "positive": 0,
+                  "zero": 11
+                },
+                "STANDARD_PW": {
+                  "mean": 0.0,
+                  "n": 11,
+                  "negative": 0,
+                  "positive": 0,
+                  "zero": 11
+                }
+              },
+              "gain_vs_stop": {
+                "mean": 0.09090909090909091,
+                "n": 11,
+                "negative": 0,
+                "positive": 1,
+                "zero": 10
+              },
+              "locked": 0,
+              "mean_NN": 77,
+              "mean_forced": 0,
+              "mean_injection_tv": 0.0,
+              "mean_sub_utility": 0.7954545454545454,
+              "mean_utility": 0.7954545454545454,
+              "mean_visits": 96,
+              "negative_KL": 14,
+              "net": {
+                "mean": 0.0,
+                "n": 11,
+                "negative": 0,
+                "positive": 0,
+                "zero": 11
+              },
+              "net_CI95": [
+                0.0,
+                0.0
+              ],
+              "phase_count": 22,
+              "positive_KL": 3,
+              "raw_minus_sub": {
+                "mean": 0.0,
+                "n": 11,
+                "negative": 0,
+                "positive": 0,
+                "zero": 11
+              },
+              "raw_sub_changed": 0,
+              "sub_changed": 0,
+              "sub_gain": {
+                "mean": 0.0,
+                "n": 11,
+                "negative": 0,
+                "positive": 0,
+                "zero": 11
+              },
+              "wall_ms": 16.046815727272726
+            },
+            "K15S": {
+              "bounds": {
+                "mean_width": 0.0,
+                "negative": 0,
+                "positive": 0
+              },
+              "changed": 0,
+              "counters": {
+                "extra_evals": 0,
+                "merge_blends": 0,
+                "proofs": 0,
+                "select_changed": 2000,
+                "width_mass_added": 0
+              },
+              "cpu_ms": 15.207366181818182,
+              "gain": {
+                "mean": 0.0,
+                "n": 11,
+                "negative": 0,
+                "positive": 0,
+                "zero": 11
+              },
+              "gain_CI95": [
+                0.0,
+                0.0
+              ],
+              "gain_by_policy": {
+                "STANDARD_FULL": {
+                  "mean": 0.0,
+                  "n": 11,
+                  "negative": 0,
+                  "positive": 0,
+                  "zero": 11
+                },
+                "STANDARD_PW": {
+                  "mean": 0.0,
+                  "n": 11,
+                  "negative": 0,
+                  "positive": 0,
+                  "zero": 11
+                }
+              },
+              "gain_vs_stop": {
+                "mean": 0.09090909090909091,
+                "n": 11,
+                "negative": 0,
+                "positive": 1,
+                "zero": 10
+              },
+              "locked": 0,
+              "mean_NN": 77,
+              "mean_forced": 0,
+              "mean_injection_tv": 0.0,
+              "mean_sub_utility": 0.7954545454545454,
+              "mean_utility": 0.7954545454545454,
+              "mean_visits": 96,
+              "negative_KL": 12,
+              "net": {
+                "mean": -0.00021684600000000033,
+                "n": 11,
+                "negative": 6,
+                "positive": 5,
+                "zero": 0
+              },
+              "net_CI95": [
+                -0.0020061558181818187,
+                0.0018705034545454542
+              ],
+              "phase_count": 22,
+              "positive_KL": 4,
+              "raw_minus_sub": {
+                "mean": 0.0,
+                "n": 11,
+                "negative": 0,
+                "positive": 0,
+                "zero": 11
+              },
+              "raw_sub_changed": 0,
+              "sub_changed": 0,
+              "sub_gain": {
+                "mean": 0.0,
+                "n": 11,
+                "negative": 0,
+                "positive": 0,
+                "zero": 11
+              },
+              "wall_ms": 16.37966318181818
+            },
+            "K15STOP": {
+              "bounds": {
+                "mean_width": 0.0,
+                "negative": 0,
+                "positive": 0
+              },
+              "changed": 1,
+              "counters": {
+                "extra_evals": 0,
+                "merge_blends": 0,
+                "proofs": 0,
+                "select_changed": 0,
+                "width_mass_added": 0
+              },
+              "cpu_ms": 3.2804705454545453,
+              "gain": {
+                "mean": -0.09090909090909091,
+                "n": 11,
+                "negative": 1,
+                "positive": 0,
+                "zero": 10
+              },
+              "gain_CI95": [
+                -0.2727272727272727,
+                0.0
+              ],
+              "gain_by_policy": {
+                "STANDARD_FULL": {
+                  "mean": -0.09090909090909091,
+                  "n": 11,
+                  "negative": 1,
+                  "positive": 0,
+                  "zero": 10
+                },
+                "STANDARD_PW": {
+                  "mean": -0.09090909090909091,
+                  "n": 11,
+                  "negative": 1,
+                  "positive": 0,
+                  "zero": 10
+                }
+              },
+              "gain_vs_stop": {
+                "mean": 0.0,
+                "n": 11,
+                "negative": 0,
+                "positive": 0,
+                "zero": 11
+              },
+              "locked": 0,
+              "mean_NN": 8.636363636363637,
+              "mean_forced": 0,
+              "mean_injection_tv": 0.0,
+              "mean_sub_utility": 0.7045454545454546,
+              "mean_utility": 0.7045454545454546,
+              "mean_visits": 8,
+              "negative_KL": 0,
+              "net": {
+                "mean": -0.06727214563636363,
+                "n": 11,
+                "negative": 1,
+                "positive": 10,
+                "zero": 0
+              },
+              "net_CI95": [
+                -0.25116213963636363,
+                0.02819585581818182
+              ],
+              "phase_count": 0,
+              "positive_KL": 0,
+              "raw_minus_sub": {
+                "mean": 0.0,
+                "n": 11,
+                "negative": 0,
+                "positive": 0,
+                "zero": 11
+              },
+              "raw_sub_changed": 0,
+              "sub_changed": 1,
+              "sub_gain": {
+                "mean": -0.09090909090909091,
+                "n": 11,
+                "negative": 1,
+                "positive": 0,
+                "zero": 10
+              },
+              "wall_ms": 4.093857636363636
+            },
+            "K15V": {
+              "bounds": {
+                "mean_width": 0.0,
+                "negative": 0,
+                "positive": 0
+              },
+              "changed": 0,
+              "counters": {
+                "extra_evals": 214,
+                "merge_blends": 0,
+                "proofs": 97,
+                "select_changed": 0,
+                "width_mass_added": 0
+              },
+              "cpu_ms": 18.25796,
+              "gain": {
+                "mean": 0.0,
+                "n": 11,
+                "negative": 0,
+                "positive": 0,
+                "zero": 11
+              },
+              "gain_CI95": [
+                0.0,
+                0.0
+              ],
+              "gain_by_policy": {
+                "STANDARD_FULL": {
+                  "mean": 0.0,
+                  "n": 11,
+                  "negative": 0,
+                  "positive": 0,
+                  "zero": 11
+                },
+                "STANDARD_PW": {
+                  "mean": 0.0,
+                  "n": 11,
+                  "negative": 0,
+                  "positive": 0,
+                  "zero": 11
+                }
+              },
+              "gain_vs_stop": {
+                "mean": 0.09090909090909091,
+                "n": 11,
+                "negative": 0,
+                "positive": 1,
+                "zero": 10
+              },
+              "locked": 0,
+              "mean_NN": 96.36363636363636,
+              "mean_forced": 0,
+              "mean_injection_tv": 0.0,
+              "mean_sub_utility": 0.7954545454545454,
+              "mean_utility": 0.7954545454545454,
+              "mean_visits": 96,
+              "negative_KL": 13,
+              "net": {
+                "mean": -0.006318033636363636,
+                "n": 11,
+                "negative": 9,
+                "positive": 2,
+                "zero": 0
+              },
+              "net_CI95": [
+                -0.011064424,
+                -0.0021610756363636364
+              ],
+              "phase_count": 22,
+              "positive_KL": 3,
+              "raw_minus_sub": {
+                "mean": 0.0,
+                "n": 11,
+                "negative": 0,
+                "positive": 0,
+                "zero": 11
+              },
+              "raw_sub_changed": 0,
+              "sub_changed": 0,
+              "sub_gain": {
+                "mean": 0.0,
+                "n": 11,
+                "negative": 0,
+                "positive": 0,
+                "zero": 11
+              },
+              "wall_ms": 19.89329718181818
+            },
+            "K15X": {
+              "bounds": {
+                "mean_width": 0.0,
+                "negative": 0,
+                "positive": 0
+              },
+              "changed": 0,
+              "counters": {
+                "extra_evals": 0,
+                "merge_blends": 0,
+                "proofs": 0,
+                "select_changed": 0,
+                "width_mass_added": 148
+              },
+              "cpu_ms": 15.585022363636364,
+              "gain": {
+                "mean": 0.0,
+                "n": 11,
+                "negative": 0,
+                "positive": 0,
+                "zero": 11
+              },
+              "gain_CI95": [
+                0.0,
+                0.0
+              ],
+              "gain_by_policy": {
+                "STANDARD_FULL": {
+                  "mean": 0.0,
+                  "n": 11,
+                  "negative": 0,
+                  "positive": 0,
+                  "zero": 11
+                },
+                "STANDARD_PW": {
+                  "mean": 0.0,
+                  "n": 11,
+                  "negative": 0,
+                  "positive": 0,
+                  "zero": 11
+                }
+              },
+              "gain_vs_stop": {
+                "mean": 0.09090909090909091,
+                "n": 11,
+                "negative": 0,
+                "positive": 1,
+                "zero": 10
+              },
+              "locked": 0,
+              "mean_NN": 78.63636363636364,
+              "mean_forced": 0,
+              "mean_injection_tv": 0.0,
+              "mean_sub_utility": 0.7954545454545454,
+              "mean_utility": 0.7954545454545454,
+              "mean_visits": 96,
+              "negative_KL": 12,
+              "net": {
+                "mean": -0.0009721583636363637,
+                "n": 11,
+                "negative": 8,
+                "positive": 3,
+                "zero": 0
+              },
+              "net_CI95": [
+                -0.0036639834545454542,
+                0.0021345732727272738
+              ],
+              "phase_count": 22,
+              "positive_KL": 4,
+              "raw_minus_sub": {
+                "mean": 0.0,
+                "n": 11,
+                "negative": 0,
+                "positive": 0,
+                "zero": 11
+              },
+              "raw_sub_changed": 0,
+              "sub_changed": 0,
+              "sub_gain": {
+                "mean": 0.0,
+                "n": 11,
+                "negative": 0,
+                "positive": 0,
+                "zero": 11
+              },
+              "wall_ms": 16.531997
+            },
+            "K15XH": {
+              "bounds": {
+                "mean_width": 0.0715909090909091,
+                "negative": 4,
+                "positive": 1
+              },
+              "changed": 11,
+              "counters": {
+                "extra_evals": 0,
+                "merge_blends": 0,
+                "proofs": 0,
+                "select_changed": 0,
+                "width_mass_added": 0
+              },
+              "cpu_ms": 14.943311727272727,
+              "gain": {
+                "mean": -0.20454545454545456,
+                "n": 11,
+                "negative": 3,
+                "positive": 1,
+                "zero": 7
+              },
+              "gain_CI95": [
+                -0.45454545454545453,
+                0.022727272727272728
+              ],
+              "gain_by_policy": {
+                "STANDARD_FULL": {
+                  "mean": -0.18181818181818182,
+                  "n": 11,
+                  "negative": 2,
+                  "positive": 0,
+                  "zero": 9
+                },
+                "STANDARD_PW": {
+                  "mean": -0.22727272727272727,
+                  "n": 11,
+                  "negative": 3,
+                  "positive": 1,
+                  "zero": 7
+                }
+              },
+              "gain_vs_stop": {
+                "mean": -0.11363636363636363,
+                "n": 11,
+                "negative": 2,
+                "positive": 2,
+                "zero": 7
+              },
+              "locked": 0,
+              "mean_NN": 80.36363636363636,
+              "mean_forced": 56,
+              "mean_injection_tv": 0.5833333333333333,
+              "mean_sub_utility": 0.7954545454545454,
+              "mean_utility": 0.5909090909090909,
+              "mean_visits": 96,
+              "negative_KL": 11,
+              "net": {
+                "mean": -0.20423419163636364,
+                "n": 11,
+                "negative": 7,
+                "positive": 4,
+                "zero": 0
+              },
+              "net_CI95": [
+                -0.45879006054545457,
+                0.022200049636363628
+              ],
+              "phase_count": 22,
+              "positive_KL": 11,
+              "raw_minus_sub": {
+                "mean": -0.20454545454545456,
+                "n": 11,
+                "negative": 3,
+                "positive": 1,
+                "zero": 7
+              },
+              "raw_sub_changed": 11,
+              "sub_changed": 0,
+              "sub_gain": {
+                "mean": 0.0,
+                "n": 11,
+                "negative": 0,
+                "positive": 0,
+                "zero": 11
+              },
+              "wall_ms": 15.860728636363637
+            }
+          },
+          "different_final_families": 11,
+          "different_sub_families": 1,
+          "nonzero_sub_utility_families": 1,
+          "nonzero_utility_families": 5,
+          "policies": {}
+        }
+      },
+      "exposure": {
+        "counts": {
+          "exposed": 5,
+          "negative": 4,
+          "positive": 2,
+          "sub_exposed": 1
+        },
+        "details": {
+          "G32": {
+            "exposed": false,
+            "negative": false,
+            "positive": false,
+            "sub_exposed": false
+          },
+          "G34": {
+            "exposed": true,
+            "negative": true,
+            "positive": false,
+            "sub_exposed": true
+          },
+          "G35": {
+            "exposed": true,
+            "negative": true,
+            "positive": false,
+            "sub_exposed": false
+          },
+          "G36": {
+            "exposed": false,
+            "negative": false,
+            "positive": false,
+            "sub_exposed": false
+          },
+          "G38": {
+            "exposed": false,
+            "negative": false,
+            "positive": false,
+            "sub_exposed": false
+          },
+          "G40": {
+            "exposed": false,
+            "negative": false,
+            "positive": false,
+            "sub_exposed": false
+          },
+          "G42": {
+            "exposed": false,
+            "negative": false,
+            "positive": false,
+            "sub_exposed": false
+          },
+          "G44": {
+            "exposed": true,
+            "negative": true,
+            "positive": false,
+            "sub_exposed": false
+          },
+          "G45": {
+            "exposed": true,
+            "negative": true,
+            "positive": true,
+            "sub_exposed": false
+          },
+          "G46": {
+            "exposed": false,
+            "negative": false,
+            "positive": false,
+            "sub_exposed": false
+          },
+          "G47": {
+            "exposed": true,
+            "negative": false,
+            "positive": true,
+            "sub_exposed": false
+          }
+        },
+        "n": 11,
+        "pass_gate": false
+      },
+      "families": 11,
+      "strata": {
+        "SCREEN": 3,
+        "UNFILTERED": 8
+      },
+      "stratified": {
+        "SCREEN": {
+          "counts": {
+            "exposed": 3,
+            "negative": 2,
+            "positive": 2,
+            "sub_exposed": 0
+          },
+          "details": {
+            "G35": {
+              "exposed": true,
+              "negative": true,
+              "positive": false,
+              "sub_exposed": false
+            },
+            "G45": {
+              "exposed": true,
+              "negative": true,
+              "positive": true,
+              "sub_exposed": false
+            },
+            "G47": {
+              "exposed": true,
+              "negative": false,
+              "positive": true,
+              "sub_exposed": false
+            }
+          },
+          "n": 3,
+          "pass_gate": false
+        },
+        "UNFILTERED": {
+          "counts": {
+            "exposed": 2,
+            "negative": 2,
+            "positive": 0,
+            "sub_exposed": 1
+          },
+          "details": {
+            "G32": {
+              "exposed": false,
+              "negative": false,
+              "positive": false,
+              "sub_exposed": false
+            },
+            "G34": {
+              "exposed": true,
+              "negative": true,
+              "positive": false,
+              "sub_exposed": true
+            },
+            "G36": {
+              "exposed": false,
+              "negative": false,
+              "positive": false,
+              "sub_exposed": false
+            },
+            "G38": {
+              "exposed": false,
+              "negative": false,
+              "positive": false,
+              "sub_exposed": false
+            },
+            "G40": {
+              "exposed": false,
+              "negative": false,
+              "positive": false,
+              "sub_exposed": false
+            },
+            "G42": {
+              "exposed": false,
+              "negative": false,
+              "positive": false,
+              "sub_exposed": false
+            },
+            "G44": {
+              "exposed": true,
+              "negative": true,
+              "positive": false,
+              "sub_exposed": false
+            },
+            "G46": {
+              "exposed": false,
+              "negative": false,
+              "positive": false,
+              "sub_exposed": false
+            }
+          },
+          "n": 8,
+          "pass_gate": false
+        }
+      }
+    },
+    "TRAIN": {
+      "by_cap": {
+        "32": {
+          "arms": {
+            "K15B": {
+              "bounds": {
+                "mean_width": 0.0,
+                "negative": 0,
+                "positive": 0
+              },
+              "changed": 0,
+              "counters": {
+                "extra_evals": 0,
+                "merge_blends": 3,
+                "proofs": 0,
+                "select_changed": 0,
+                "width_mass_added": 0
+              },
+              "cpu_ms": 5.752853352941177,
+              "gain": {
+                "mean": 0.0,
+                "n": 17,
+                "negative": 0,
+                "positive": 0,
+                "zero": 17
+              },
+              "gain_CI95": [
+                0.0,
+                0.0
+              ],
+              "gain_by_policy": {
+                "STANDARD_FULL": {
+                  "mean": 0.0,
+                  "n": 17,
+                  "negative": 0,
+                  "positive": 0,
+                  "zero": 17
+                },
+                "STANDARD_PW": {
+                  "mean": 0.0,
+                  "n": 17,
+                  "negative": 0,
+                  "positive": 0,
+                  "zero": 17
+                }
+              },
+              "gain_vs_stop": {
+                "mean": -0.029411764705882353,
+                "n": 17,
+                "negative": 1,
+                "positive": 0,
+                "zero": 16
+              },
+              "locked": 0,
+              "mean_NN": 24.58823529411765,
+              "mean_forced": 0,
+              "mean_injection_tv": 0.0,
+              "mean_sub_utility": 0.8235294117647058,
+              "mean_utility": 0.8235294117647058,
+              "mean_visits": 32,
+              "negative_KL": 15,
+              "net": {
+                "mean": 0.0010806322352941177,
+                "n": 17,
+                "negative": 6,
+                "positive": 11,
+                "zero": 0
+              },
+              "net_CI95": [
+                3.0232470588235593e-05,
+                0.0022605702352941175
+              ],
+              "phase_count": 34,
+              "positive_KL": 7,
+              "raw_minus_sub": {
+                "mean": 0.0,
+                "n": 17,
+                "negative": 0,
+                "positive": 0,
+                "zero": 17
+              },
+              "raw_sub_changed": 0,
+              "sub_changed": 0,
+              "sub_gain": {
+                "mean": 0.0,
+                "n": 17,
+                "negative": 0,
+                "positive": 0,
+                "zero": 17
+              },
+              "wall_ms": 6.807057764705882
+            },
+            "K15F4": {
+              "bounds": {
+                "mean_width": 0.008928571428571428,
+                "negative": 3,
+                "positive": 1
+              },
+              "changed": 0,
+              "counters": {
+                "extra_evals": 0,
+                "merge_blends": 0,
+                "proofs": 0,
+                "select_changed": 0,
+                "width_mass_added": 0
+              },
+              "cpu_ms": 5.524353588235294,
+              "gain": {
+                "mean": 0.0,
+                "n": 17,
+                "negative": 0,
+                "positive": 0,
+                "zero": 17
+              },
+              "gain_CI95": [
+                0.0,
+                0.0
+              ],
+              "gain_by_policy": {
+                "STANDARD_FULL": {
+                  "mean": 0.0,
+                  "n": 17,
+                  "negative": 0,
+                  "positive": 0,
+                  "zero": 17
+                },
+                "STANDARD_PW": {
+                  "mean": 0.0,
+                  "n": 17,
+                  "negative": 0,
+                  "positive": 0,
+                  "zero": 17
+                }
+              },
+              "gain_vs_stop": {
+                "mean": -0.029411764705882353,
+                "n": 17,
+                "negative": 1,
+                "positive": 0,
+                "zero": 16
+              },
+              "locked": 0,
+              "mean_NN": 25.294117647058822,
+              "mean_forced": 4,
+              "mean_injection_tv": 0.1013655462184874,
+              "mean_sub_utility": 0.8235294117647058,
+              "mean_utility": 0.8235294117647058,
+              "mean_visits": 32,
+              "negative_KL": 22,
+              "net": {
+                "mean": 0.0015376317647058826,
+                "n": 17,
+                "negative": 6,
+                "positive": 11,
+                "zero": 0
+              },
+              "net_CI95": [
+                0.00037590517647058836,
+                0.0028676424705882356
+              ],
+              "phase_count": 34,
+              "positive_KL": 12,
+              "raw_minus_sub": {
+                "mean": 0.0,
+                "n": 17,
+                "negative": 0,
+                "positive": 0,
+                "zero": 17
+              },
+              "raw_sub_changed": 1,
+              "sub_changed": 1,
+              "sub_gain": {
+                "mean": 0.0,
+                "n": 17,
+                "negative": 0,
+                "positive": 0,
+                "zero": 17
+              },
+              "wall_ms": 6.297935941176471
+            },
+            "K15FH": {
+              "bounds": {
+                "mean_width": 0.042279411764705885,
+                "negative": 3,
+                "positive": 1
+              },
+              "changed": 16,
+              "counters": {
+                "extra_evals": 0,
+                "merge_blends": 0,
+                "proofs": 0,
+                "select_changed": 0,
+                "width_mass_added": 0
+              },
+              "cpu_ms": 5.950908882352941,
+              "gain": {
+                "mean": -0.07352941176470588,
+                "n": 17,
+                "negative": 3,
+                "positive": 1,
+                "zero": 13
+              },
+              "gain_CI95": [
+                -0.23529411764705882,
+                0.08823529411764706
+              ],
+              "gain_by_policy": {
+                "STANDARD_FULL": {
+                  "mean": -0.08823529411764706,
+                  "n": 17,
+                  "negative": 2,
+                  "positive": 1,
+                  "zero": 14
+                },
+                "STANDARD_PW": {
+                  "mean": -0.058823529411764705,
+                  "n": 17,
+                  "negative": 2,
+                  "positive": 1,
+                  "zero": 14
+                }
+              },
+              "gain_vs_stop": {
+                "mean": -0.10294117647058823,
+                "n": 17,
+                "negative": 3,
+                "positive": 1,
+                "zero": 13
+              },
+              "locked": 0,
+              "mean_NN": 26.88235294117647,
+              "mean_forced": 16,
+              "mean_injection_tv": 0.4485294117647059,
+              "mean_sub_utility": 0.8235294117647058,
+              "mean_utility": 0.75,
+              "mean_visits": 32,
+              "negative_KL": 21,
+              "net": {
+                "mean": -0.07284489058823529,
+                "n": 17,
+                "negative": 8,
+                "positive": 9,
+                "zero": 0
+              },
+              "net_CI95": [
+                -0.2347328190588235,
+                0.08796302611764706
+              ],
+              "phase_count": 34,
+              "positive_KL": 13,
+              "raw_minus_sub": {
+                "mean": -0.07352941176470588,
+                "n": 17,
+                "negative": 3,
+                "positive": 1,
+                "zero": 13
+              },
+              "raw_sub_changed": 17,
+              "sub_changed": 1,
+              "sub_gain": {
+                "mean": 0.0,
+                "n": 17,
+                "negative": 0,
+                "positive": 0,
+                "zero": 17
+              },
+              "wall_ms": 6.855791
+            },
+            "K15LOCK": {
+              "bounds": {
+                "mean_width": 0.0,
+                "negative": 0,
+                "positive": 0
+              },
+              "changed": 0,
+              "counters": {
+                "extra_evals": 0,
+                "merge_blends": 0,
+                "proofs": 0,
+                "select_changed": 0,
+                "width_mass_added": 0
+              },
+              "cpu_ms": 5.215990705882353,
+              "gain": {
+                "mean": 0.0,
+                "n": 17,
+                "negative": 0,
+                "positive": 0,
+                "zero": 17
+              },
+              "gain_CI95": [
+                0.0,
+                0.0
+              ],
+              "gain_by_policy": {
+                "STANDARD_FULL": {
+                  "mean": 0.0,
+                  "n": 17,
+                  "negative": 0,
+                  "positive": 0,
+                  "zero": 17
+                },
+                "STANDARD_PW": {
+                  "mean": 0.0,
+                  "n": 17,
+                  "negative": 0,
+                  "positive": 0,
+                  "zero": 17
+                }
+              },
+              "gain_vs_stop": {
+                "mean": -0.029411764705882353,
+                "n": 17,
+                "negative": 1,
+                "positive": 0,
+                "zero": 16
+              },
+              "locked": 9,
+              "mean_NN": 21.647058823529413,
+              "mean_forced": 0,
+              "mean_injection_tv": 0.0,
+              "mean_sub_utility": 0.8235294117647058,
+              "mean_utility": 0.8235294117647058,
+              "mean_visits": 27.764705882352942,
+              "negative_KL": 18,
+              "net": {
+                "mean": 0.002154357529411765,
+                "n": 17,
+                "negative": 3,
+                "positive": 14,
+                "zero": 0
+              },
+              "net_CI95": [
+                0.0009266509411764707,
+                0.003530264941176471
+              ],
+              "phase_count": 42,
+              "positive_KL": 8,
+              "raw_minus_sub": {
+                "mean": 0.0,
+                "n": 17,
+                "negative": 0,
+                "positive": 0,
+                "zero": 17
+              },
+              "raw_sub_changed": 0,
+              "sub_changed": 0,
+              "sub_gain": {
+                "mean": 0.0,
+                "n": 17,
+                "negative": 0,
+                "positive": 0,
+                "zero": 17
+              },
+              "wall_ms": 6.145550764705883
+            },
+            "K15N": {
+              "bounds": {
+                "mean_width": 0.0,
+                "negative": 0,
+                "positive": 0
+              },
+              "changed": 0,
+              "counters": {
+                "extra_evals": 0,
+                "merge_blends": 0,
+                "proofs": 0,
+                "select_changed": 0,
+                "width_mass_added": 0
+              },
+              "cpu_ms": 6.293169470588236,
+              "gain": {
+                "mean": 0.0,
+                "n": 17,
+                "negative": 0,
+                "positive": 0,
+                "zero": 17
+              },
+              "gain_CI95": [
+                0.0,
+                0.0
+              ],
+              "gain_by_policy": {
+                "STANDARD_FULL": {
+                  "mean": 0.0,
+                  "n": 17,
+                  "negative": 0,
+                  "positive": 0,
+                  "zero": 17
+                },
+                "STANDARD_PW": {
+                  "mean": 0.0,
+                  "n": 17,
+                  "negative": 0,
+                  "positive": 0,
+                  "zero": 17
+                }
+              },
+              "gain_vs_stop": {
+                "mean": -0.029411764705882353,
+                "n": 17,
+                "negative": 1,
+                "positive": 0,
+                "zero": 16
+              },
+              "locked": 0,
+              "mean_NN": 24.58823529411765,
+              "mean_forced": 0,
+              "mean_injection_tv": 0.0,
+              "mean_sub_utility": 0.8235294117647058,
+              "mean_utility": 0.8235294117647058,
+              "mean_visits": 32,
+              "negative_KL": 15,
+              "net": {
+                "mean": 0.0,
+                "n": 17,
+                "negative": 0,
+                "positive": 0,
+                "zero": 17
+              },
+              "net_CI95": [
+                0.0,
+                0.0
+              ],
+              "phase_count": 34,
+              "positive_KL": 7,
+              "raw_minus_sub": {
+                "mean": 0.0,
+                "n": 17,
+                "negative": 0,
+                "positive": 0,
+                "zero": 17
+              },
+              "raw_sub_changed": 0,
+              "sub_changed": 0,
+              "sub_gain": {
+                "mean": 0.0,
+                "n": 17,
+                "negative": 0,
+                "positive": 0,
+                "zero": 17
+              },
+              "wall_ms": 7.184046882352941
+            },
+            "K15S": {
+              "bounds": {
+                "mean_width": 0.0,
+                "negative": 0,
+                "positive": 0
+              },
+              "changed": 0,
+              "counters": {
+                "extra_evals": 0,
+                "merge_blends": 0,
+                "proofs": 0,
+                "select_changed": 700,
+                "width_mass_added": 0
+              },
+              "cpu_ms": 6.013730705882353,
+              "gain": {
+                "mean": 0.0,
+                "n": 17,
+                "negative": 0,
+                "positive": 0,
+                "zero": 17
+              },
+              "gain_CI95": [
+                0.0,
+                0.0
+              ],
+              "gain_by_policy": {
+                "STANDARD_FULL": {
+                  "mean": 0.0,
+                  "n": 17,
+                  "negative": 0,
+                  "positive": 0,
+                  "zero": 17
+                },
+                "STANDARD_PW": {
+                  "mean": 0.0,
+                  "n": 17,
+                  "negative": 0,
+                  "positive": 0,
+                  "zero": 17
+                }
+              },
+              "gain_vs_stop": {
+                "mean": -0.029411764705882353,
+                "n": 17,
+                "negative": 1,
+                "positive": 0,
+                "zero": 16
+              },
+              "locked": 0,
+              "mean_NN": 24.58823529411765,
+              "mean_forced": 0,
+              "mean_injection_tv": 0.0,
+              "mean_sub_utility": 0.8235294117647058,
+              "mean_utility": 0.8235294117647058,
+              "mean_visits": 32,
+              "negative_KL": 14,
+              "net": {
+                "mean": 0.0005588775294117647,
+                "n": 17,
+                "negative": 8,
+                "positive": 9,
+                "zero": 0
+              },
+              "net_CI95": [
+                -0.00025428835294117664,
+                0.0014151456470588237
+              ],
+              "phase_count": 34,
+              "positive_KL": 8,
+              "raw_minus_sub": {
+                "mean": 0.0,
+                "n": 17,
+                "negative": 0,
+                "positive": 0,
+                "zero": 17
+              },
+              "raw_sub_changed": 0,
+              "sub_changed": 0,
+              "sub_gain": {
+                "mean": 0.0,
+                "n": 17,
+                "negative": 0,
+                "positive": 0,
+                "zero": 17
+              },
+              "wall_ms": 6.9181248235294115
+            },
+            "K15STOP": {
+              "bounds": {
+                "mean_width": 0.0,
+                "negative": 0,
+                "positive": 0
+              },
+              "changed": 2,
+              "counters": {
+                "extra_evals": 0,
+                "merge_blends": 0,
+                "proofs": 0,
+                "select_changed": 0,
+                "width_mass_added": 0
+              },
+              "cpu_ms": 2.6783560588235296,
+              "gain": {
+                "mean": 0.029411764705882353,
+                "n": 17,
+                "negative": 0,
+                "positive": 1,
+                "zero": 16
+              },
+              "gain_CI95": [
+                0.0,
+                0.08823529411764706
+              ],
+              "gain_by_policy": {
+                "STANDARD_FULL": {
+                  "mean": 0.058823529411764705,
+                  "n": 17,
+                  "negative": 0,
+                  "positive": 1,
+                  "zero": 16
+                },
+                "STANDARD_PW": {
+                  "mean": 0.0,
+                  "n": 17,
+                  "negative": 0,
+                  "positive": 0,
+                  "zero": 17
+                }
+              },
+              "gain_vs_stop": {
+                "mean": 0.0,
+                "n": 17,
+                "negative": 0,
+                "positive": 0,
+                "zero": 17
+              },
+              "locked": 0,
+              "mean_NN": 8.058823529411764,
+              "mean_forced": 0,
+              "mean_injection_tv": 0.0,
+              "mean_sub_utility": 0.8529411764705882,
+              "mean_utility": 0.8529411764705882,
+              "mean_visits": 8,
+              "negative_KL": 0,
+              "net": {
+                "mean": 0.03664139152941177,
+                "n": 17,
+                "negative": 0,
+                "positive": 17,
+                "zero": 0
+              },
+              "net_CI95": [
+                0.005818161529411765,
+                0.09643018529411765
+              ],
+              "phase_count": 0,
+              "positive_KL": 0,
+              "raw_minus_sub": {
+                "mean": 0.0,
+                "n": 17,
+                "negative": 0,
+                "positive": 0,
+                "zero": 17
+              },
+              "raw_sub_changed": 0,
+              "sub_changed": 2,
+              "sub_gain": {
+                "mean": 0.029411764705882353,
+                "n": 17,
+                "negative": 0,
+                "positive": 1,
+                "zero": 16
+              },
+              "wall_ms": 3.228219117647059
+            },
+            "K15V": {
+              "bounds": {
+                "mean_width": 0.0,
+                "negative": 0,
+                "positive": 0
+              },
+              "changed": 0,
+              "counters": {
+                "extra_evals": 118,
+                "merge_blends": 0,
+                "proofs": 40,
+                "select_changed": 0,
+                "width_mass_added": 0
+              },
+              "cpu_ms": 6.863625470588235,
+              "gain": {
+                "mean": 0.0,
+                "n": 17,
+                "negative": 0,
+                "positive": 0,
+                "zero": 17
+              },
+              "gain_CI95": [
+                0.0,
+                0.0
+              ],
+              "gain_by_policy": {
+                "STANDARD_FULL": {
+                  "mean": 0.0,
+                  "n": 17,
+                  "negative": 0,
+                  "positive": 0,
+                  "zero": 17
+                },
+                "STANDARD_PW": {
+                  "mean": 0.0,
+                  "n": 17,
+                  "negative": 0,
+                  "positive": 0,
+                  "zero": 17
+                }
+              },
+              "gain_vs_stop": {
+                "mean": -0.029411764705882353,
+                "n": 17,
+                "negative": 1,
+                "positive": 0,
+                "zero": 16
+              },
+              "locked": 0,
+              "mean_NN": 31.529411764705884,
+              "mean_forced": 0,
+              "mean_injection_tv": 0.0,
+              "mean_sub_utility": 0.8235294117647058,
+              "mean_utility": 0.8235294117647058,
+              "mean_visits": 32,
+              "negative_KL": 16,
+              "net": {
+                "mean": -0.001140912,
+                "n": 17,
+                "negative": 10,
+                "positive": 7,
+                "zero": 0
+              },
+              "net_CI95": [
+                -0.0030747205882352946,
+                0.0005892257647058828
+              ],
+              "phase_count": 34,
+              "positive_KL": 6,
+              "raw_minus_sub": {
+                "mean": 0.0,
+                "n": 17,
+                "negative": 0,
+                "positive": 0,
+                "zero": 17
+              },
+              "raw_sub_changed": 0,
+              "sub_changed": 0,
+              "sub_gain": {
+                "mean": 0.0,
+                "n": 17,
+                "negative": 0,
+                "positive": 0,
+                "zero": 17
+              },
+              "wall_ms": 7.615406764705883
+            },
+            "K15X": {
+              "bounds": {
+                "mean_width": 0.0,
+                "negative": 0,
+                "positive": 0
+              },
+              "changed": 0,
+              "counters": {
+                "extra_evals": 0,
+                "merge_blends": 0,
+                "proofs": 0,
+                "select_changed": 0,
+                "width_mass_added": 55
+              },
+              "cpu_ms": 5.968276764705882,
+              "gain": {
+                "mean": 0.0,
+                "n": 17,
+                "negative": 0,
+                "positive": 0,
+                "zero": 17
+              },
+              "gain_CI95": [
+                0.0,
+                0.0
+              ],
+              "gain_by_policy": {
+                "STANDARD_FULL": {
+                  "mean": 0.0,
+                  "n": 17,
+                  "negative": 0,
+                  "positive": 0,
+                  "zero": 17
+                },
+                "STANDARD_PW": {
+                  "mean": 0.0,
+                  "n": 17,
+                  "negative": 0,
+                  "positive": 0,
+                  "zero": 17
+                }
+              },
+              "gain_vs_stop": {
+                "mean": -0.029411764705882353,
+                "n": 17,
+                "negative": 1,
+                "positive": 0,
+                "zero": 16
+              },
+              "locked": 0,
+              "mean_NN": 24.647058823529413,
+              "mean_forced": 0,
+              "mean_injection_tv": 0.0,
+              "mean_sub_utility": 0.8235294117647058,
+              "mean_utility": 0.8235294117647058,
+              "mean_visits": 32,
+              "negative_KL": 13,
+              "net": {
+                "mean": 0.0006497854117647059,
+                "n": 17,
+                "negative": 6,
+                "positive": 11,
+                "zero": 0
+              },
+              "net_CI95": [
+                -2.328058823529348e-05,
+                0.001334273294117647
+              ],
+              "phase_count": 34,
+              "positive_KL": 7,
+              "raw_minus_sub": {
+                "mean": 0.0,
+                "n": 17,
+                "negative": 0,
+                "positive": 0,
+                "zero": 17
+              },
+              "raw_sub_changed": 0,
+              "sub_changed": 0,
+              "sub_gain": {
+                "mean": 0.0,
+                "n": 17,
+                "negative": 0,
+                "positive": 0,
+                "zero": 17
+              },
+              "wall_ms": 6.89566105882353
+            },
+            "K15XH": {
+              "bounds": {
+                "mean_width": 0.03125,
+                "negative": 8,
+                "positive": 1
+              },
+              "changed": 17,
+              "counters": {
+                "extra_evals": 0,
+                "merge_blends": 0,
+                "proofs": 0,
+                "select_changed": 0,
+                "width_mass_added": 0
+              },
+              "cpu_ms": 6.826253647058824,
+              "gain": {
+                "mean": -0.2647058823529412,
+                "n": 17,
+                "negative": 7,
+                "positive": 0,
+                "zero": 10
+              },
+              "gain_CI95": [
+                -0.4411764705882353,
+                -0.11764705882352941
+              ],
+              "gain_by_policy": {
+                "STANDARD_FULL": {
+                  "mean": -0.35294117647058826,
+                  "n": 17,
+                  "negative": 6,
+                  "positive": 0,
+                  "zero": 11
+                },
+                "STANDARD_PW": {
+                  "mean": -0.17647058823529413,
+                  "n": 17,
+                  "negative": 3,
+                  "positive": 0,
+                  "zero": 14
+                }
+              },
+              "gain_vs_stop": {
+                "mean": -0.29411764705882354,
+                "n": 17,
+                "negative": 8,
+                "positive": 0,
+                "zero": 9
+              },
+              "locked": 0,
+              "mean_NN": 28.941176470588236,
+              "mean_forced": 16,
+              "mean_injection_tv": 0.5,
+              "mean_sub_utility": 0.8529411764705882,
+              "mean_utility": 0.5588235294117647,
+              "mean_visits": 32,
+              "negative_KL": 19,
+              "net": {
+                "mean": -0.26577205070588233,
+                "n": 17,
+                "negative": 13,
+                "positive": 4,
+                "zero": 0
+              },
+              "net_CI95": [
+                -0.4428644816470588,
+                -0.11726013235294118
+              ],
+              "phase_count": 34,
+              "positive_KL": 15,
+              "raw_minus_sub": {
+                "mean": -0.29411764705882354,
+                "n": 17,
+                "negative": 8,
+                "positive": 0,
+                "zero": 9
+              },
+              "raw_sub_changed": 17,
+              "sub_changed": 2,
+              "sub_gain": {
+                "mean": 0.029411764705882353,
+                "n": 17,
+                "negative": 0,
+                "positive": 1,
+                "zero": 16
+              },
+              "wall_ms": 7.692139058823529
+            }
+          },
+          "different_final_families": 17,
+          "different_sub_families": 3,
+          "nonzero_sub_utility_families": 1,
+          "nonzero_utility_families": 9,
+          "policies": {}
+        },
+        "96": {
+          "arms": {
+            "K15B": {
+              "bounds": {
+                "mean_width": 0.0,
+                "negative": 0,
+                "positive": 0
+              },
+              "changed": 0,
+              "counters": {
+                "extra_evals": 0,
+                "merge_blends": 30,
+                "proofs": 0,
+                "select_changed": 0,
+                "width_mass_added": 0
+              },
+              "cpu_ms": 11.707374411764706,
+              "gain": {
+                "mean": 0.0,
+                "n": 17,
+                "negative": 0,
+                "positive": 0,
+                "zero": 17
+              },
+              "gain_CI95": [
+                0.0,
+                0.0
+              ],
+              "gain_by_policy": {
+                "STANDARD_FULL": {
+                  "mean": 0.0,
+                  "n": 17,
+                  "negative": 0,
+                  "positive": 0,
+                  "zero": 17
+                },
+                "STANDARD_PW": {
+                  "mean": 0.0,
+                  "n": 17,
+                  "negative": 0,
+                  "positive": 0,
+                  "zero": 17
+                }
+              },
+              "gain_vs_stop": {
+                "mean": -0.029411764705882353,
+                "n": 17,
+                "negative": 1,
+                "positive": 0,
+                "zero": 16
+              },
+              "locked": 0,
+              "mean_NN": 64.47058823529412,
+              "mean_forced": 0,
+              "mean_injection_tv": 0.0,
+              "mean_sub_utility": 0.8235294117647058,
+              "mean_utility": 0.8235294117647058,
+              "mean_visits": 96,
+              "negative_KL": 12,
+              "net": {
+                "mean": 2.9262705882353134e-05,
+                "n": 17,
+                "negative": 9,
+                "positive": 8,
+                "zero": 0
+              },
+              "net_CI95": [
+                -0.0020434501176470584,
+                0.002160825176470588
+              ],
+              "phase_count": 34,
+              "positive_KL": 8,
+              "raw_minus_sub": {
+                "mean": 0.0,
+                "n": 17,
+                "negative": 0,
+                "positive": 0,
+                "zero": 17
+              },
+              "raw_sub_changed": 0,
+              "sub_changed": 0,
+              "sub_gain": {
+                "mean": 0.0,
+                "n": 17,
+                "negative": 0,
+                "positive": 0,
+                "zero": 17
+              },
+              "wall_ms": 12.663209235294117
+            },
+            "K15F4": {
+              "bounds": {
+                "mean_width": 0.005328218243819266,
+                "negative": 3,
+                "positive": 2
+              },
+              "changed": 0,
+              "counters": {
+                "extra_evals": 0,
+                "merge_blends": 0,
+                "proofs": 0,
+                "select_changed": 0,
+                "width_mass_added": 0
+              },
+              "cpu_ms": 11.432747764705882,
+              "gain": {
+                "mean": 0.0,
+                "n": 17,
+                "negative": 0,
+                "positive": 0,
+                "zero": 17
+              },
+              "gain_CI95": [
+                0.0,
+                0.0
+              ],
+              "gain_by_policy": {
+                "STANDARD_FULL": {
+                  "mean": 0.0,
+                  "n": 17,
+                  "negative": 0,
+                  "positive": 0,
+                  "zero": 17
+                },
+                "STANDARD_PW": {
+                  "mean": 0.0,
+                  "n": 17,
+                  "negative": 0,
+                  "positive": 0,
+                  "zero": 17
+                }
+              },
+              "gain_vs_stop": {
+                "mean": -0.029411764705882353,
+                "n": 17,
+                "negative": 1,
+                "positive": 0,
+                "zero": 16
+              },
+              "locked": 0,
+              "mean_NN": 65,
+              "mean_forced": 4,
+              "mean_injection_tv": 0.03359441602728047,
+              "mean_sub_utility": 0.8235294117647058,
+              "mean_utility": 0.8235294117647058,
+              "mean_visits": 96,
+              "negative_KL": 21,
+              "net": {
+                "mean": 0.0005785159999999997,
+                "n": 17,
+                "negative": 9,
+                "positive": 8,
+                "zero": 0
+              },
+              "net_CI95": [
+                -0.0008499398823529409,
+                0.0021262390588235288
+              ],
+              "phase_count": 34,
+              "positive_KL": 13,
+              "raw_minus_sub": {
+                "mean": 0.0,
+                "n": 17,
+                "negative": 0,
+                "positive": 0,
+                "zero": 17
+              },
+              "raw_sub_changed": 0,
+              "sub_changed": 0,
+              "sub_gain": {
+                "mean": 0.0,
+                "n": 17,
+                "negative": 0,
+                "positive": 0,
+                "zero": 17
+              },
+              "wall_ms": 12.273855176470589
+            },
+            "K15FH": {
+              "bounds": {
+                "mean_width": 0.09350490196078431,
+                "negative": 3,
+                "positive": 2
+              },
+              "changed": 16,
+              "counters": {
+                "extra_evals": 0,
+                "merge_blends": 0,
+                "proofs": 0,
+                "select_changed": 0,
+                "width_mass_added": 0
+              },
+              "cpu_ms": 11.95893694117647,
+              "gain": {
+                "mean": -0.07352941176470588,
+                "n": 17,
+                "negative": 3,
+                "positive": 1,
+                "zero": 13
+              },
+              "gain_CI95": [
+                -0.23529411764705882,
+                0.08823529411764706
+              ],
+              "gain_by_policy": {
+                "STANDARD_FULL": {
+                  "mean": -0.08823529411764706,
+                  "n": 17,
+                  "negative": 2,
+                  "positive": 1,
+                  "zero": 14
+                },
+                "STANDARD_PW": {
+                  "mean": -0.058823529411764705,
+                  "n": 17,
+                  "negative": 2,
+                  "positive": 1,
+                  "zero": 14
+                }
+              },
+              "gain_vs_stop": {
+                "mean": -0.10294117647058823,
+                "n": 17,
+                "negative": 3,
+                "positive": 1,
+                "zero": 13
+              },
+              "locked": 0,
+              "mean_NN": 70.23529411764706,
+              "mean_forced": 56,
+              "mean_injection_tv": 0.5593137254901961,
+              "mean_sub_utility": 0.8235294117647058,
+              "mean_utility": 0.75,
+              "mean_visits": 96,
+              "negative_KL": 19,
+              "net": {
+                "mean": -0.07400327411764707,
+                "n": 17,
+                "negative": 9,
+                "positive": 8,
+                "zero": 0
+              },
+              "net_CI95": [
+                -0.2362589297647059,
+                0.08591059282352942
+              ],
+              "phase_count": 34,
+              "positive_KL": 15,
+              "raw_minus_sub": {
+                "mean": -0.07352941176470588,
+                "n": 17,
+                "negative": 3,
+                "positive": 1,
+                "zero": 13
+              },
+              "raw_sub_changed": 17,
+              "sub_changed": 1,
+              "sub_gain": {
+                "mean": 0.0,
+                "n": 17,
+                "negative": 0,
+                "positive": 0,
+                "zero": 17
+              },
+              "wall_ms": 13.121685411764705
+            },
+            "K15LOCK": {
+              "bounds": {
+                "mean_width": 0.0,
+                "negative": 0,
+                "positive": 0
+              },
+              "changed": 0,
+              "counters": {
+                "extra_evals": 0,
+                "merge_blends": 0,
+                "proofs": 0,
+                "select_changed": 0,
+                "width_mass_added": 0
+              },
+              "cpu_ms": 12.043363764705882,
+              "gain": {
+                "mean": 0.0,
+                "n": 17,
+                "negative": 0,
+                "positive": 0,
+                "zero": 17
+              },
+              "gain_CI95": [
+                0.0,
+                0.0
+              ],
+              "gain_by_policy": {
+                "STANDARD_FULL": {
+                  "mean": 0.0,
+                  "n": 17,
+                  "negative": 0,
+                  "positive": 0,
+                  "zero": 17
+                },
+                "STANDARD_PW": {
+                  "mean": 0.0,
+                  "n": 17,
+                  "negative": 0,
+                  "positive": 0,
+                  "zero": 17
+                }
+              },
+              "gain_vs_stop": {
+                "mean": -0.029411764705882353,
+                "n": 17,
+                "negative": 1,
+                "positive": 0,
+                "zero": 16
+              },
+              "locked": 11,
+              "mean_NN": 52,
+              "mean_forced": 0,
+              "mean_injection_tv": 0.0,
+              "mean_sub_utility": 0.8235294117647058,
+              "mean_utility": 0.8235294117647058,
+              "mean_visits": 76.70588235294117,
+              "negative_KL": 55,
+              "net": {
+                "mean": -0.0006427159999999997,
+                "n": 17,
+                "negative": 10,
+                "positive": 7,
+                "zero": 0
+              },
+              "net_CI95": [
+                -0.003972719176470588,
+                0.0028151860000000003
+              ],
+              "phase_count": 146,
+              "positive_KL": 44,
+              "raw_minus_sub": {
+                "mean": 0.0,
+                "n": 17,
+                "negative": 0,
+                "positive": 0,
+                "zero": 17
+              },
+              "raw_sub_changed": 0,
+              "sub_changed": 0,
+              "sub_gain": {
+                "mean": 0.0,
+                "n": 17,
+                "negative": 0,
+                "positive": 0,
+                "zero": 17
+              },
+              "wall_ms": 13.614143
+            },
+            "K15N": {
+              "bounds": {
+                "mean_width": 0.0,
+                "negative": 0,
+                "positive": 0
+              },
+              "changed": 0,
+              "counters": {
+                "extra_evals": 0,
+                "merge_blends": 0,
+                "proofs": 0,
+                "select_changed": 0,
+                "width_mass_added": 0
+              },
+              "cpu_ms": 11.722005764705882,
+              "gain": {
+                "mean": 0.0,
+                "n": 17,
+                "negative": 0,
+                "positive": 0,
+                "zero": 17
+              },
+              "gain_CI95": [
+                0.0,
+                0.0
+              ],
+              "gain_by_policy": {
+                "STANDARD_FULL": {
+                  "mean": 0.0,
+                  "n": 17,
+                  "negative": 0,
+                  "positive": 0,
+                  "zero": 17
+                },
+                "STANDARD_PW": {
+                  "mean": 0.0,
+                  "n": 17,
+                  "negative": 0,
+                  "positive": 0,
+                  "zero": 17
+                }
+              },
+              "gain_vs_stop": {
+                "mean": -0.029411764705882353,
+                "n": 17,
+                "negative": 1,
+                "positive": 0,
+                "zero": 16
+              },
+              "locked": 0,
+              "mean_NN": 64.47058823529412,
+              "mean_forced": 0,
+              "mean_injection_tv": 0.0,
+              "mean_sub_utility": 0.8235294117647058,
+              "mean_utility": 0.8235294117647058,
+              "mean_visits": 96,
+              "negative_KL": 12,
+              "net": {
+                "mean": 0.0,
+                "n": 17,
+                "negative": 0,
+                "positive": 0,
+                "zero": 17
+              },
+              "net_CI95": [
+                0.0,
+                0.0
+              ],
+              "phase_count": 34,
+              "positive_KL": 8,
+              "raw_minus_sub": {
+                "mean": 0.0,
+                "n": 17,
+                "negative": 0,
+                "positive": 0,
+                "zero": 17
+              },
+              "raw_sub_changed": 0,
+              "sub_changed": 0,
+              "sub_gain": {
+                "mean": 0.0,
+                "n": 17,
+                "negative": 0,
+                "positive": 0,
+                "zero": 17
+              },
+              "wall_ms": 12.647374588235294
+            },
+            "K15S": {
+              "bounds": {
+                "mean_width": 0.0,
+                "negative": 0,
+                "positive": 0
+              },
+              "changed": 0,
+              "counters": {
+                "extra_evals": 0,
+                "merge_blends": 0,
+                "proofs": 0,
+                "select_changed": 2744,
+                "width_mass_added": 0
+              },
+              "cpu_ms": 11.739857647058823,
+              "gain": {
+                "mean": 0.0,
+                "n": 17,
+                "negative": 0,
+                "positive": 0,
+                "zero": 17
+              },
+              "gain_CI95": [
+                0.0,
+                0.0
+              ],
+              "gain_by_policy": {
+                "STANDARD_FULL": {
+                  "mean": 0.0,
+                  "n": 17,
+                  "negative": 0,
+                  "positive": 0,
+                  "zero": 17
+                },
+                "STANDARD_PW": {
+                  "mean": 0.0,
+                  "n": 17,
+                  "negative": 0,
+                  "positive": 0,
+                  "zero": 17
+                }
+              },
+              "gain_vs_stop": {
+                "mean": -0.029411764705882353,
+                "n": 17,
+                "negative": 1,
+                "positive": 0,
+                "zero": 16
+              },
+              "locked": 0,
+              "mean_NN": 64.52941176470588,
+              "mean_forced": 0,
+              "mean_injection_tv": 0.0,
+              "mean_sub_utility": 0.8235294117647058,
+              "mean_utility": 0.8235294117647058,
+              "mean_visits": 96,
+              "negative_KL": 14,
+              "net": {
+                "mean": -3.5703764705882e-05,
+                "n": 17,
+                "negative": 9,
+                "positive": 8,
+                "zero": 0
+              },
+              "net_CI95": [
+                -0.0014420165882352927,
+                0.0013010296470588238
+              ],
+              "phase_count": 34,
+              "positive_KL": 7,
+              "raw_minus_sub": {
+                "mean": 0.0,
+                "n": 17,
+                "negative": 0,
+                "positive": 0,
+                "zero": 17
+              },
+              "raw_sub_changed": 0,
+              "sub_changed": 0,
+              "sub_gain": {
+                "mean": 0.0,
+                "n": 17,
+                "negative": 0,
+                "positive": 0,
+                "zero": 17
+              },
+              "wall_ms": 12.658160823529412
+            },
+            "K15STOP": {
+              "bounds": {
+                "mean_width": 0.0,
+                "negative": 0,
+                "positive": 0
+              },
+              "changed": 2,
+              "counters": {
+                "extra_evals": 0,
+                "merge_blends": 0,
+                "proofs": 0,
+                "select_changed": 0,
+                "width_mass_added": 0
+              },
+              "cpu_ms": 2.730574588235294,
+              "gain": {
+                "mean": 0.029411764705882353,
+                "n": 17,
+                "negative": 0,
+                "positive": 1,
+                "zero": 16
+              },
+              "gain_CI95": [
+                0.0,
+                0.08823529411764706
+              ],
+              "gain_by_policy": {
+                "STANDARD_FULL": {
+                  "mean": 0.058823529411764705,
+                  "n": 17,
+                  "negative": 0,
+                  "positive": 1,
+                  "zero": 16
+                },
+                "STANDARD_PW": {
+                  "mean": 0.0,
+                  "n": 17,
+                  "negative": 0,
+                  "positive": 0,
+                  "zero": 17
+                }
+              },
+              "gain_vs_stop": {
+                "mean": 0.0,
+                "n": 17,
+                "negative": 0,
+                "positive": 0,
+                "zero": 17
+              },
+              "locked": 0,
+              "mean_NN": 8.058823529411764,
+              "mean_forced": 0,
+              "mean_injection_tv": 0.0,
+              "mean_sub_utility": 0.8529411764705882,
+              "mean_utility": 0.8529411764705882,
+              "mean_visits": 8,
+              "negative_KL": 0,
+              "net": {
+                "mean": 0.04739462705882353,
+                "n": 17,
+                "negative": 0,
+                "positive": 17,
+                "zero": 0
+              },
+              "net_CI95": [
+                0.013617776823529411,
+                0.10981650494117647
+              ],
+              "phase_count": 0,
+              "positive_KL": 0,
+              "raw_minus_sub": {
+                "mean": 0.0,
+                "n": 17,
+                "negative": 0,
+                "positive": 0,
+                "zero": 17
+              },
+              "raw_sub_changed": 0,
+              "sub_changed": 2,
+              "sub_gain": {
+                "mean": 0.029411764705882353,
+                "n": 17,
+                "negative": 0,
+                "positive": 1,
+                "zero": 16
+              },
+              "wall_ms": 3.244148705882353
+            },
+            "K15V": {
+              "bounds": {
+                "mean_width": 0.0,
+                "negative": 0,
+                "positive": 0
+              },
+              "changed": 0,
+              "counters": {
+                "extra_evals": 398,
+                "merge_blends": 0,
+                "proofs": 105,
+                "select_changed": 0,
+                "width_mass_added": 0
+              },
+              "cpu_ms": 14.896598000000001,
+              "gain": {
+                "mean": 0.0,
+                "n": 17,
+                "negative": 0,
+                "positive": 0,
+                "zero": 17
+              },
+              "gain_CI95": [
+                0.0,
+                0.0
+              ],
+              "gain_by_policy": {
+                "STANDARD_FULL": {
+                  "mean": 0.0,
+                  "n": 17,
+                  "negative": 0,
+                  "positive": 0,
+                  "zero": 17
+                },
+                "STANDARD_PW": {
+                  "mean": 0.0,
+                  "n": 17,
+                  "negative": 0,
+                  "positive": 0,
+                  "zero": 17
+                }
+              },
+              "gain_vs_stop": {
+                "mean": -0.029411764705882353,
+                "n": 17,
+                "negative": 1,
+                "positive": 0,
+                "zero": 16
+              },
+              "locked": 0,
+              "mean_NN": 87.88235294117646,
+              "mean_forced": 0,
+              "mean_injection_tv": 0.0,
+              "mean_sub_utility": 0.8235294117647058,
+              "mean_utility": 0.8235294117647058,
+              "mean_visits": 96,
+              "negative_KL": 13,
+              "net": {
+                "mean": -0.006349184470588236,
+                "n": 17,
+                "negative": 12,
+                "positive": 5,
+                "zero": 0
+              },
+              "net_CI95": [
+                -0.011934384588235295,
+                -0.001796601647058824
+              ],
+              "phase_count": 34,
+              "positive_KL": 7,
+              "raw_minus_sub": {
+                "mean": 0.0,
+                "n": 17,
+                "negative": 0,
+                "positive": 0,
+                "zero": 17
+              },
+              "raw_sub_changed": 0,
+              "sub_changed": 0,
+              "sub_gain": {
+                "mean": 0.0,
+                "n": 17,
+                "negative": 0,
+                "positive": 0,
+                "zero": 17
+              },
+              "wall_ms": 15.677052
+            },
+            "K15X": {
+              "bounds": {
+                "mean_width": 0.0,
+                "negative": 0,
+                "positive": 0
+              },
+              "changed": 0,
+              "counters": {
+                "extra_evals": 0,
+                "merge_blends": 0,
+                "proofs": 0,
+                "select_changed": 0,
+                "width_mass_added": 150
+              },
+              "cpu_ms": 11.389788411764705,
+              "gain": {
+                "mean": 0.0,
+                "n": 17,
+                "negative": 0,
+                "positive": 0,
+                "zero": 17
+              },
+              "gain_CI95": [
+                0.0,
+                0.0
+              ],
+              "gain_by_policy": {
+                "STANDARD_FULL": {
+                  "mean": 0.0,
+                  "n": 17,
+                  "negative": 0,
+                  "positive": 0,
+                  "zero": 17
+                },
+                "STANDARD_PW": {
+                  "mean": 0.0,
+                  "n": 17,
+                  "negative": 0,
+                  "positive": 0,
+                  "zero": 17
+                }
+              },
+              "gain_vs_stop": {
+                "mean": -0.029411764705882353,
+                "n": 17,
+                "negative": 1,
+                "positive": 0,
+                "zero": 16
+              },
+              "locked": 0,
+              "mean_NN": 65.05882352941177,
+              "mean_forced": 0,
+              "mean_injection_tv": 0.0,
+              "mean_sub_utility": 0.8235294117647058,
+              "mean_utility": 0.8235294117647058,
+              "mean_visits": 96,
+              "negative_KL": 14,
+              "net": {
+                "mean": 0.000664434705882353,
+                "n": 17,
+                "negative": 8,
+                "positive": 9,
+                "zero": 0
+              },
+              "net_CI95": [
+                -0.0010753874117647064,
+                0.0025427215294117644
+              ],
+              "phase_count": 34,
+              "positive_KL": 8,
+              "raw_minus_sub": {
+                "mean": 0.0,
+                "n": 17,
+                "negative": 0,
+                "positive": 0,
+                "zero": 17
+              },
+              "raw_sub_changed": 0,
+              "sub_changed": 0,
+              "sub_gain": {
+                "mean": 0.0,
+                "n": 17,
+                "negative": 0,
+                "positive": 0,
+                "zero": 17
+              },
+              "wall_ms": 12.518465588235294
+            },
+            "K15XH": {
+              "bounds": {
+                "mean_width": 0.07892156862745098,
+                "negative": 8,
+                "positive": 1
+              },
+              "changed": 17,
+              "counters": {
+                "extra_evals": 0,
+                "merge_blends": 0,
+                "proofs": 0,
+                "select_changed": 0,
+                "width_mass_added": 0
+              },
+              "cpu_ms": 13.841083058823529,
+              "gain": {
+                "mean": -0.2647058823529412,
+                "n": 17,
+                "negative": 7,
+                "positive": 0,
+                "zero": 10
+              },
+              "gain_CI95": [
+                -0.4411764705882353,
+                -0.11764705882352941
+              ],
+              "gain_by_policy": {
+                "STANDARD_FULL": {
+                  "mean": -0.35294117647058826,
+                  "n": 17,
+                  "negative": 6,
+                  "positive": 0,
+                  "zero": 11
+                },
+                "STANDARD_PW": {
+                  "mean": -0.17647058823529413,
+                  "n": 17,
+                  "negative": 3,
+                  "positive": 0,
+                  "zero": 14
+                }
+              },
+              "gain_vs_stop": {
+                "mean": -0.29411764705882354,
+                "n": 17,
+                "negative": 8,
+                "positive": 0,
+                "zero": 9
+              },
+              "locked": 0,
+              "mean_NN": 78.23529411764706,
+              "mean_forced": 56,
+              "mean_injection_tv": 0.5833333333333333,
+              "mean_sub_utility": 0.8235294117647058,
+              "mean_utility": 0.5588235294117647,
+              "mean_visits": 96,
+              "negative_KL": 17,
+              "net": {
+                "mean": -0.26894403694117647,
+                "n": 17,
+                "negative": 15,
+                "positive": 2,
+                "zero": 0
+              },
+              "net_CI95": [
+                -0.4462543802352941,
+                -0.11850068011764706
+              ],
+              "phase_count": 34,
+              "positive_KL": 17,
+              "raw_minus_sub": {
+                "mean": -0.2647058823529412,
+                "n": 17,
+                "negative": 7,
+                "positive": 0,
+                "zero": 10
+              },
+              "raw_sub_changed": 17,
+              "sub_changed": 0,
+              "sub_gain": {
+                "mean": 0.0,
+                "n": 17,
+                "negative": 0,
+                "positive": 0,
+                "zero": 17
+              },
+              "wall_ms": 14.909045176470588
+            }
+          },
+          "different_final_families": 17,
+          "different_sub_families": 2,
+          "nonzero_sub_utility_families": 1,
+          "nonzero_utility_families": 9,
+          "policies": {}
+        }
+      },
+      "exposure": {
+        "counts": {
+          "exposed": 9,
+          "negative": 8,
+          "positive": 1,
+          "sub_exposed": 1
+        },
+        "details": {
+          "G00": {
+            "exposed": false,
+            "negative": false,
+            "positive": false,
+            "sub_exposed": false
+          },
+          "G02": {
+            "exposed": false,
+            "negative": false,
+            "positive": false,
+            "sub_exposed": false
+          },
+          "G04": {
+            "exposed": true,
+            "negative": true,
+            "positive": false,
+            "sub_exposed": false
+          },
+          "G05": {
+            "exposed": false,
+            "negative": false,
+            "positive": false,
+            "sub_exposed": false
+          },
+          "G06": {
+            "exposed": true,
+            "negative": true,
+            "positive": false,
+            "sub_exposed": false
+          },
+          "G07": {
+            "exposed": true,
+            "negative": true,
+            "positive": false,
+            "sub_exposed": false
+          },
+          "G08": {
+            "exposed": false,
+            "negative": false,
+            "positive": false,
+            "sub_exposed": false
+          },
+          "G10": {
+            "exposed": false,
+            "negative": false,
+            "positive": false,
+            "sub_exposed": false
+          },
+          "G11": {
+            "exposed": true,
+            "negative": true,
+            "positive": false,
+            "sub_exposed": false
+          },
+          "G12": {
+            "exposed": false,
+            "negative": false,
+            "positive": false,
+            "sub_exposed": false
+          },
+          "G14": {
+            "exposed": false,
+            "negative": false,
+            "positive": false,
+            "sub_exposed": false
+          },
+          "G16": {
+            "exposed": false,
+            "negative": false,
+            "positive": false,
+            "sub_exposed": false
+          },
+          "G18": {
+            "exposed": true,
+            "negative": false,
+            "positive": true,
+            "sub_exposed": true
+          },
+          "G19": {
+            "exposed": true,
+            "negative": true,
+            "positive": false,
+            "sub_exposed": false
+          },
+          "G20": {
+            "exposed": true,
+            "negative": true,
+            "positive": false,
+            "sub_exposed": false
+          },
+          "G21": {
+            "exposed": true,
+            "negative": true,
+            "positive": false,
+            "sub_exposed": false
+          },
+          "G22": {
+            "exposed": true,
+            "negative": true,
+            "positive": false,
+            "sub_exposed": false
+          }
+        },
+        "n": 17,
+        "pass_gate": false
+      },
+      "families": 17,
+      "strata": {
+        "SCREEN": 5,
+        "UNFILTERED": 12
+      },
+      "stratified": {
+        "SCREEN": {
+          "counts": {
+            "exposed": 4,
+            "negative": 4,
+            "positive": 0,
+            "sub_exposed": 0
+          },
+          "details": {
+            "G05": {
+              "exposed": false,
+              "negative": false,
+              "positive": false,
+              "sub_exposed": false
+            },
+            "G07": {
+              "exposed": true,
+              "negative": true,
+              "positive": false,
+              "sub_exposed": false
+            },
+            "G11": {
+              "exposed": true,
+              "negative": true,
+              "positive": false,
+              "sub_exposed": false
+            },
+            "G19": {
+              "exposed": true,
+              "negative": true,
+              "positive": false,
+              "sub_exposed": false
+            },
+            "G21": {
+              "exposed": true,
+              "negative": true,
+              "positive": false,
+              "sub_exposed": false
+            }
+          },
+          "n": 5,
+          "pass_gate": false
+        },
+        "UNFILTERED": {
+          "counts": {
+            "exposed": 5,
+            "negative": 4,
+            "positive": 1,
+            "sub_exposed": 1
+          },
+          "details": {
+            "G00": {
+              "exposed": false,
+              "negative": false,
+              "positive": false,
+              "sub_exposed": false
+            },
+            "G02": {
+              "exposed": false,
+              "negative": false,
+              "positive": false,
+              "sub_exposed": false
+            },
+            "G04": {
+              "exposed": true,
+              "negative": true,
+              "positive": false,
+              "sub_exposed": false
+            },
+            "G06": {
+              "exposed": true,
+              "negative": true,
+              "positive": false,
+              "sub_exposed": false
+            },
+            "G08": {
+              "exposed": false,
+              "negative": false,
+              "positive": false,
+              "sub_exposed": false
+            },
+            "G10": {
+              "exposed": false,
+              "negative": false,
+              "positive": false,
+              "sub_exposed": false
+            },
+            "G12": {
+              "exposed": false,
+              "negative": false,
+              "positive": false,
+              "sub_exposed": false
+            },
+            "G14": {
+              "exposed": false,
+              "negative": false,
+              "positive": false,
+              "sub_exposed": false
+            },
+            "G16": {
+              "exposed": false,
+              "negative": false,
+              "positive": false,
+              "sub_exposed": false
+            },
+            "G18": {
+              "exposed": true,
+              "negative": false,
+              "positive": true,
+              "sub_exposed": true
+            },
+            "G20": {
+              "exposed": true,
+              "negative": true,
+              "positive": false,
+              "sub_exposed": false
+            },
+            "G22": {
+              "exposed": true,
+              "negative": true,
+              "positive": false,
+              "sub_exposed": false
+            }
+          },
+          "n": 12,
+          "pass_gate": false
+        }
+      }
+    }
+  },
+  "identity": {
+    "rapfi_bridge": "bacbcfc90f6e4bfd0d9d035455afa3d6667ec32e7fd80cbc1d65a4001b30f64e",
+    "rapfi_config": "32b9180c91247541d399ceef62906d5ffeb48e34eb5f261612987633820d5d3c",
+    "rapfi_source": "1be1551ced57e38d53ed58f6d74bf6f8b4bdc230",
+    "rapfi_weight": "6bc0d1b0ff8e1d857f7f412923cd458f38f1a435087c91ae71fec3676c23ef62",
+    "rust_binary": "53284d2044857cca8280e8ff148edc89711b3b69a2f536947e58a12d3c0cab7d",
+    "rust_source": "7de712172fbbebe2dbf5a8983c852ed0e632305e"
+  },
+  "label_disagreement": 12,
+  "missing": [
+    "G01",
+    "G03",
+    "G09",
+    "G13",
+    "G15",
+    "G17",
+    "G23",
+    "G27",
+    "G29",
+    "G31",
+    "G33",
+    "G37",
+    "G39",
+    "G41",
+    "G43"
+  ],
+  "model_status": "NOT_FIT_EXPOSURE_GATE",
+  "panel_actions": 101,
+  "prefix_NN": 518,
+  "prefix_probes": 63,
+  "roots": 33,
+  "screen_NN": 23440,
+  "screen_games": 117,
+  "screen_plies": 1152,
+  "screen_root_attempts": 39,
+  "source_NN": 93021,
+  "source_draws": 1,
+  "source_games": 48,
+  "source_min_max_length": [
+    9,
+    225
+  ],
+  "source_plies": 976
+}
