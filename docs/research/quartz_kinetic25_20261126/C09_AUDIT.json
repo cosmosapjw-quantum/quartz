@@ -1,0 +1,147 @@
+{
+  "NN": 424636,
+  "actions": 355,
+  "cross_method": {
+    "ROOT2": {
+      "base": {
+        "NN_delta": 16.736842105263158,
+        "decision_disagree": 4,
+        "mean_js": 0.01925359701136462,
+        "utility_delta": 0.0
+      },
+      "full": {
+        "NN_delta": 24.789473684210527,
+        "decision_disagree": 7,
+        "mean_js": 0.03906448407216458,
+        "utility_delta": 0.02631578947368421
+      },
+      "live": {
+        "NN_delta": 16.736842105263158,
+        "decision_disagree": 4,
+        "mean_js": 0.01925359701136462,
+        "utility_delta": 0.0
+      }
+    },
+    "SERIAL": {
+      "base": {
+        "NN_delta": 0,
+        "decision_disagree": 0,
+        "mean_js": 0.0,
+        "utility_delta": 0.0
+      },
+      "full": {
+        "NN_delta": 0,
+        "decision_disagree": 0,
+        "mean_js": 0.0,
+        "utility_delta": 0.0
+      },
+      "live": {
+        "NN_delta": 0,
+        "decision_disagree": 0,
+        "mean_js": 0.0,
+        "utility_delta": 0.0
+      }
+    },
+    "TREE2": {
+      "base": {
+        "NN_delta": 7.368421052631579,
+        "decision_disagree": 1,
+        "mean_js": 0.016193074798949464,
+        "utility_delta": 0.0
+      },
+      "full": {
+        "NN_delta": 1.263157894736842,
+        "decision_disagree": 2,
+        "mean_js": 0.004104087961247564,
+        "utility_delta": 0.0
+      },
+      "live": {
+        "NN_delta": 7.315789473684211,
+        "decision_disagree": 1,
+        "mean_js": 0.01687126435037914,
+        "utility_delta": 0.0
+      }
+    },
+    "WAVE2": {
+      "base": {
+        "NN_delta": 4.894736842105263,
+        "decision_disagree": 2,
+        "mean_js": 0.007663366603368546,
+        "utility_delta": 0.0
+      },
+      "full": {
+        "NN_delta": 2.9473684210526314,
+        "decision_disagree": 2,
+        "mean_js": 0.005127758828090661,
+        "utility_delta": 0.0
+      },
+      "live": {
+        "NN_delta": 7.2631578947368425,
+        "decision_disagree": 3,
+        "mean_js": 0.018132074775223207,
+        "utility_delta": 0.0
+      }
+    }
+  },
+  "diagnostic_requests": 16,
+  "full_exposure": {
+    "ROOT2": {
+      "B": 10,
+      "S": 19,
+      "V": 18,
+      "X": 19,
+      "all4": 9
+    },
+    "SERIAL": {
+      "B": 14,
+      "S": 19,
+      "V": 17,
+      "X": 19,
+      "all4": 12
+    },
+    "TREE2": {
+      "B": 14,
+      "S": 19,
+      "V": 16,
+      "X": 19,
+      "all4": 11
+    },
+    "WAVE2": {
+      "B": 13,
+      "S": 19,
+      "V": 16,
+      "X": 19,
+      "all4": 10
+    }
+  },
+  "lanes": 5980,
+  "oracle_nodes": 270672,
+  "receipt_totals": {
+    "applied": 12592,
+    "blocked_receipt": 50910,
+    "eligible": 212988,
+    "novel": 162078,
+    "repeated_delivery": 0,
+    "transferred": 22271
+  },
+  "repeat_requests": 228,
+  "requests": 4784,
+  "roots": 70,
+  "scope": "Independent source replay, stored WDL signs, 4784 request accounting, TRAIN/CAL rational contrasts, Walsh and repeated variance, chronological 16 trace receipt/float32/root moment reconstruction. No independent CNN or solver rerun.",
+  "source_NN": 48623,
+  "source_attempts": 240,
+  "source_counts": {
+    "BLOCK": 626,
+    "N32": 1648,
+    "UNIFORM": 544,
+    "WIN": 190
+  },
+  "source_locks": 50,
+  "source_plies": 3008,
+  "trace_blocked": 176,
+  "trace_edges": 6773,
+  "trace_iterations": 2048,
+  "trace_lanes": 20,
+  "trace_receipts": 86,
+  "visits": 612352
+}
