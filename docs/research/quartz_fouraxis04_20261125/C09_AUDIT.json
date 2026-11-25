@@ -1,0 +1,681 @@
+{
+  "attempt_strata": {
+    "HARD/CAL": 74,
+    "HARD/TEST": 243,
+    "HARD/TRAIN": 102,
+    "SELFPLAY/CAL": 40,
+    "SELFPLAY/TEST": 64,
+    "SELFPLAY/TRAIN": 24,
+    "TACTICAL/CAL": 24,
+    "TACTICAL/TEST": 54,
+    "TACTICAL/TRAIN": 30
+  },
+  "cal_pool_checks": 54,
+  "certificates_with_unsolved_value": 350,
+  "certified_stop": 1117,
+  "cohort": {
+    "HARD/CAL/-1": 4,
+    "HARD/CAL/1": 4,
+    "HARD/TEST/-1": 12,
+    "HARD/TEST/1": 12,
+    "HARD/TRAIN/-1": 6,
+    "HARD/TRAIN/1": 6,
+    "SELFPLAY/CAL/-1": 4,
+    "SELFPLAY/CAL/1": 4,
+    "SELFPLAY/TEST/-1": 12,
+    "SELFPLAY/TEST/1": 12,
+    "SELFPLAY/TRAIN/-1": 6,
+    "SELFPLAY/TRAIN/1": 6,
+    "TACTICAL/CAL/-1": 4,
+    "TACTICAL/CAL/1": 4,
+    "TACTICAL/TEST/-1": 12,
+    "TACTICAL/TEST/1": 12,
+    "TACTICAL/TRAIN/-1": 6,
+    "TACTICAL/TRAIN/1": 6
+  },
+  "exposure": {
+    "TIME/ACTIVE_FIXED/backup_changed": 0,
+    "TIME/ACTIVE_FIXED/graph_b_skip": 0,
+    "TIME/ACTIVE_FIXED/graph_filtered": 220023,
+    "TIME/ACTIVE_FIXED/graph_rule_checks": 50270,
+    "TIME/ACTIVE_FIXED/graph_solved_skips": 25344,
+    "TIME/ACTIVE_FIXED/graph_width_extra": 481,
+    "TIME/ACTIVE_FIXED/merge_blends": 0,
+    "TIME/ACTIVE_FIXED/temporal_blends": 0,
+    "TIME/BASE/backup_changed": 0,
+    "TIME/BASE/graph_b_skip": 0,
+    "TIME/BASE/graph_filtered": 0,
+    "TIME/BASE/graph_rule_checks": 0,
+    "TIME/BASE/graph_solved_skips": 0,
+    "TIME/BASE/graph_width_extra": 0,
+    "TIME/BASE/merge_blends": 0,
+    "TIME/BASE/temporal_blends": 0,
+    "TIME/BOUND/backup_changed": 0,
+    "TIME/BOUND/graph_b_skip": 0,
+    "TIME/BOUND/graph_filtered": 52658,
+    "TIME/BOUND/graph_rule_checks": 58050,
+    "TIME/BOUND/graph_solved_skips": 3989,
+    "TIME/BOUND/graph_width_extra": 574,
+    "TIME/BOUND/merge_blends": 0,
+    "TIME/BOUND/temporal_blends": 0,
+    "TIME/RR/backup_changed": 0,
+    "TIME/RR/graph_b_skip": 0,
+    "TIME/RR/graph_filtered": 50026,
+    "TIME/RR/graph_rule_checks": 58676,
+    "TIME/RR/graph_solved_skips": 4155,
+    "TIME/RR/graph_width_extra": 569,
+    "TIME/RR/merge_blends": 0,
+    "TIME/RR/temporal_blends": 0,
+    "TIME/RR_MERGE/backup_changed": 734,
+    "TIME/RR_MERGE/graph_b_skip": 0,
+    "TIME/RR_MERGE/graph_filtered": 48658,
+    "TIME/RR_MERGE/graph_rule_checks": 58150,
+    "TIME/RR_MERGE/graph_solved_skips": 4131,
+    "TIME/RR_MERGE/graph_width_extra": 569,
+    "TIME/RR_MERGE/merge_blends": 737,
+    "TIME/RR_MERGE/temporal_blends": 0,
+    "TIME/RR_SAFE/backup_changed": 0,
+    "TIME/RR_SAFE/graph_b_skip": 0,
+    "TIME/RR_SAFE/graph_filtered": 500,
+    "TIME/RR_SAFE/graph_rule_checks": 50410,
+    "TIME/RR_SAFE/graph_solved_skips": 17872,
+    "TIME/RR_SAFE/graph_width_extra": 0,
+    "TIME/RR_SAFE/merge_blends": 0,
+    "TIME/RR_SAFE/temporal_blends": 0,
+    "TIME/RR_TEMPORAL/backup_changed": 17262,
+    "TIME/RR_TEMPORAL/graph_b_skip": 2,
+    "TIME/RR_TEMPORAL/graph_filtered": 47666,
+    "TIME/RR_TEMPORAL/graph_rule_checks": 56807,
+    "TIME/RR_TEMPORAL/graph_solved_skips": 3921,
+    "TIME/RR_TEMPORAL/graph_width_extra": 521,
+    "TIME/RR_TEMPORAL/merge_blends": 0,
+    "TIME/RR_TEMPORAL/temporal_blends": 17858,
+    "TIME/RR_WRITER/backup_changed": 0,
+    "TIME/RR_WRITER/graph_b_skip": 0,
+    "TIME/RR_WRITER/graph_filtered": 46744,
+    "TIME/RR_WRITER/graph_rule_checks": 57263,
+    "TIME/RR_WRITER/graph_solved_skips": 4021,
+    "TIME/RR_WRITER/graph_width_extra": 546,
+    "TIME/RR_WRITER/merge_blends": 0,
+    "TIME/RR_WRITER/temporal_blends": 0,
+    "TIME/STOP_FIXED/backup_changed": 0,
+    "TIME/STOP_FIXED/graph_b_skip": 0,
+    "TIME/STOP_FIXED/graph_filtered": 30613,
+    "TIME/STOP_FIXED/graph_rule_checks": 42683,
+    "TIME/STOP_FIXED/graph_solved_skips": 3052,
+    "TIME/STOP_FIXED/graph_width_extra": 386,
+    "TIME/STOP_FIXED/merge_blends": 0,
+    "TIME/STOP_FIXED/temporal_blends": 0,
+    "WORK/ACTIVE_FIXED/backup_changed": 0,
+    "WORK/ACTIVE_FIXED/graph_b_skip": 0,
+    "WORK/ACTIVE_FIXED/graph_filtered": 94130,
+    "WORK/ACTIVE_FIXED/graph_rule_checks": 59857,
+    "WORK/ACTIVE_FIXED/graph_solved_skips": 8629,
+    "WORK/ACTIVE_FIXED/graph_width_extra": 556,
+    "WORK/ACTIVE_FIXED/merge_blends": 0,
+    "WORK/ACTIVE_FIXED/temporal_blends": 0,
+    "WORK/BASE/backup_changed": 0,
+    "WORK/BASE/graph_b_skip": 0,
+    "WORK/BASE/graph_filtered": 0,
+    "WORK/BASE/graph_rule_checks": 0,
+    "WORK/BASE/graph_solved_skips": 0,
+    "WORK/BASE/graph_width_extra": 0,
+    "WORK/BASE/merge_blends": 0,
+    "WORK/BASE/temporal_blends": 0,
+    "WORK/BOUND/backup_changed": 0,
+    "WORK/BOUND/graph_b_skip": 0,
+    "WORK/BOUND/graph_filtered": 79446,
+    "WORK/BOUND/graph_rule_checks": 77279,
+    "WORK/BOUND/graph_solved_skips": 5330,
+    "WORK/BOUND/graph_width_extra": 836,
+    "WORK/BOUND/merge_blends": 0,
+    "WORK/BOUND/temporal_blends": 0,
+    "WORK/RR/backup_changed": 0,
+    "WORK/RR/graph_b_skip": 0,
+    "WORK/RR/graph_filtered": 71672,
+    "WORK/RR/graph_rule_checks": 76643,
+    "WORK/RR/graph_solved_skips": 5257,
+    "WORK/RR/graph_width_extra": 724,
+    "WORK/RR/merge_blends": 0,
+    "WORK/RR/temporal_blends": 0,
+    "WORK/RR_MERGE/backup_changed": 1359,
+    "WORK/RR_MERGE/graph_b_skip": 0,
+    "WORK/RR_MERGE/graph_filtered": 72559,
+    "WORK/RR_MERGE/graph_rule_checks": 76662,
+    "WORK/RR_MERGE/graph_solved_skips": 5246,
+    "WORK/RR_MERGE/graph_width_extra": 719,
+    "WORK/RR_MERGE/merge_blends": 1364,
+    "WORK/RR_MERGE/temporal_blends": 0,
+    "WORK/RR_SAFE/backup_changed": 0,
+    "WORK/RR_SAFE/graph_b_skip": 0,
+    "WORK/RR_SAFE/graph_filtered": 543,
+    "WORK/RR_SAFE/graph_rule_checks": 46478,
+    "WORK/RR_SAFE/graph_solved_skips": 10942,
+    "WORK/RR_SAFE/graph_width_extra": 0,
+    "WORK/RR_SAFE/merge_blends": 0,
+    "WORK/RR_SAFE/temporal_blends": 0,
+    "WORK/RR_TEMPORAL/backup_changed": 28121,
+    "WORK/RR_TEMPORAL/graph_b_skip": 12,
+    "WORK/RR_TEMPORAL/graph_filtered": 73114,
+    "WORK/RR_TEMPORAL/graph_rule_checks": 76414,
+    "WORK/RR_TEMPORAL/graph_solved_skips": 5191,
+    "WORK/RR_TEMPORAL/graph_width_extra": 703,
+    "WORK/RR_TEMPORAL/merge_blends": 0,
+    "WORK/RR_TEMPORAL/temporal_blends": 28906,
+    "WORK/RR_WRITER/backup_changed": 0,
+    "WORK/RR_WRITER/graph_b_skip": 0,
+    "WORK/RR_WRITER/graph_filtered": 72795,
+    "WORK/RR_WRITER/graph_rule_checks": 75899,
+    "WORK/RR_WRITER/graph_solved_skips": 5194,
+    "WORK/RR_WRITER/graph_width_extra": 701,
+    "WORK/RR_WRITER/merge_blends": 0,
+    "WORK/RR_WRITER/temporal_blends": 0,
+    "WORK/STOP_FIXED/backup_changed": 0,
+    "WORK/STOP_FIXED/graph_b_skip": 0,
+    "WORK/STOP_FIXED/graph_filtered": 38034,
+    "WORK/STOP_FIXED/graph_rule_checks": 50886,
+    "WORK/STOP_FIXED/graph_solved_skips": 3548,
+    "WORK/STOP_FIXED/graph_width_extra": 486,
+    "WORK/STOP_FIXED/merge_blends": 0,
+    "WORK/STOP_FIXED/temporal_blends": 0
+  },
+  "host_ok": false,
+  "mirror_vectors": 9,
+  "native_pool_requests": 648,
+  "pools": 33,
+  "posthoc_extra_work_outcome": {
+    "ALL/BOUND": {
+      "above15": {
+        "better": 2,
+        "gain": -0.5,
+        "mean": -0.011363636363636364,
+        "n": 44,
+        "worse": 2
+      },
+      "at_most15": {
+        "better": 0,
+        "gain": -9.0,
+        "mean": -0.09,
+        "n": 100,
+        "worse": 10
+      }
+    },
+    "ALL/RR": {
+      "above15": {
+        "better": 2,
+        "gain": -3.5,
+        "mean": -0.07,
+        "n": 50,
+        "worse": 5
+      },
+      "at_most15": {
+        "better": 0,
+        "gain": 0.0,
+        "mean": 0.0,
+        "n": 94,
+        "worse": 0
+      }
+    },
+    "ALL/RR_MERGE": {
+      "above15": {
+        "better": 2,
+        "gain": 0.0,
+        "mean": 0.0,
+        "n": 50,
+        "worse": 1
+      },
+      "at_most15": {
+        "better": 0,
+        "gain": 0.0,
+        "mean": 0.0,
+        "n": 94,
+        "worse": 0
+      }
+    },
+    "ALL/RR_SAFE": {
+      "above15": {
+        "better": 2,
+        "gain": 0.5,
+        "mean": 0.019230769230769232,
+        "n": 26,
+        "worse": 1
+      },
+      "at_most15": {
+        "better": 2,
+        "gain": 1.0,
+        "mean": 0.00847457627118644,
+        "n": 118,
+        "worse": 0
+      }
+    },
+    "ALL/RR_TEMPORAL": {
+      "above15": {
+        "better": 2,
+        "gain": 0.5,
+        "mean": 0.00980392156862745,
+        "n": 51,
+        "worse": 1
+      },
+      "at_most15": {
+        "better": 0,
+        "gain": 0.0,
+        "mean": 0.0,
+        "n": 93,
+        "worse": 0
+      }
+    },
+    "HARD/BOUND": {
+      "above15": {
+        "better": 1,
+        "gain": 0.5,
+        "mean": 0.020833333333333332,
+        "n": 24,
+        "worse": 0
+      },
+      "at_most15": {
+        "better": 0,
+        "gain": 0.0,
+        "mean": 0.0,
+        "n": 24,
+        "worse": 0
+      }
+    },
+    "HARD/RR": {
+      "above15": {
+        "better": 1,
+        "gain": 0.5,
+        "mean": 0.019230769230769232,
+        "n": 26,
+        "worse": 0
+      },
+      "at_most15": {
+        "better": 0,
+        "gain": 0.0,
+        "mean": 0.0,
+        "n": 22,
+        "worse": 0
+      }
+    },
+    "HARD/RR_MERGE": {
+      "above15": {
+        "better": 1,
+        "gain": 0.5,
+        "mean": 0.019230769230769232,
+        "n": 26,
+        "worse": 0
+      },
+      "at_most15": {
+        "better": 0,
+        "gain": 0.0,
+        "mean": 0.0,
+        "n": 22,
+        "worse": 0
+      }
+    },
+    "HARD/RR_SAFE": {
+      "at_most15": {
+        "better": 1,
+        "gain": 0.5,
+        "mean": 0.010416666666666666,
+        "n": 48,
+        "worse": 0
+      }
+    },
+    "HARD/RR_TEMPORAL": {
+      "above15": {
+        "better": 1,
+        "gain": 0.5,
+        "mean": 0.019230769230769232,
+        "n": 26,
+        "worse": 0
+      },
+      "at_most15": {
+        "better": 0,
+        "gain": 0.0,
+        "mean": 0.0,
+        "n": 22,
+        "worse": 0
+      }
+    },
+    "SELFPLAY/BOUND": {
+      "above15": {
+        "better": 0,
+        "gain": -1.0,
+        "mean": -0.125,
+        "n": 8,
+        "worse": 1
+      },
+      "at_most15": {
+        "better": 0,
+        "gain": -5.0,
+        "mean": -0.125,
+        "n": 40,
+        "worse": 6
+      }
+    },
+    "SELFPLAY/RR": {
+      "above15": {
+        "better": 0,
+        "gain": -2.0,
+        "mean": -0.25,
+        "n": 8,
+        "worse": 2
+      },
+      "at_most15": {
+        "better": 0,
+        "gain": 0.0,
+        "mean": 0.0,
+        "n": 40,
+        "worse": 0
+      }
+    },
+    "SELFPLAY/RR_MERGE": {
+      "above15": {
+        "better": 0,
+        "gain": -1.0,
+        "mean": -0.125,
+        "n": 8,
+        "worse": 1
+      },
+      "at_most15": {
+        "better": 0,
+        "gain": 0.0,
+        "mean": 0.0,
+        "n": 40,
+        "worse": 0
+      }
+    },
+    "SELFPLAY/RR_SAFE": {
+      "above15": {
+        "better": 0,
+        "gain": 0.0,
+        "mean": 0.0,
+        "n": 14,
+        "worse": 0
+      },
+      "at_most15": {
+        "better": 0,
+        "gain": 0.0,
+        "mean": 0.0,
+        "n": 34,
+        "worse": 0
+      }
+    },
+    "SELFPLAY/RR_TEMPORAL": {
+      "above15": {
+        "better": 0,
+        "gain": 0.0,
+        "mean": 0.0,
+        "n": 8,
+        "worse": 0
+      },
+      "at_most15": {
+        "better": 0,
+        "gain": 0.0,
+        "mean": 0.0,
+        "n": 40,
+        "worse": 0
+      }
+    },
+    "TACTICAL/BOUND": {
+      "above15": {
+        "better": 1,
+        "gain": 0.0,
+        "mean": 0.0,
+        "n": 12,
+        "worse": 1
+      },
+      "at_most15": {
+        "better": 0,
+        "gain": -4.0,
+        "mean": -0.1111111111111111,
+        "n": 36,
+        "worse": 4
+      }
+    },
+    "TACTICAL/RR": {
+      "above15": {
+        "better": 1,
+        "gain": -2.0,
+        "mean": -0.125,
+        "n": 16,
+        "worse": 3
+      },
+      "at_most15": {
+        "better": 0,
+        "gain": 0.0,
+        "mean": 0.0,
+        "n": 32,
+        "worse": 0
+      }
+    },
+    "TACTICAL/RR_MERGE": {
+      "above15": {
+        "better": 1,
+        "gain": 0.5,
+        "mean": 0.03125,
+        "n": 16,
+        "worse": 0
+      },
+      "at_most15": {
+        "better": 0,
+        "gain": 0.0,
+        "mean": 0.0,
+        "n": 32,
+        "worse": 0
+      }
+    },
+    "TACTICAL/RR_SAFE": {
+      "above15": {
+        "better": 2,
+        "gain": 0.5,
+        "mean": 0.041666666666666664,
+        "n": 12,
+        "worse": 1
+      },
+      "at_most15": {
+        "better": 1,
+        "gain": 0.5,
+        "mean": 0.013888888888888888,
+        "n": 36,
+        "worse": 0
+      }
+    },
+    "TACTICAL/RR_TEMPORAL": {
+      "above15": {
+        "better": 1,
+        "gain": 0.0,
+        "mean": 0.0,
+        "n": 17,
+        "worse": 1
+      },
+      "at_most15": {
+        "better": 0,
+        "gain": 0.0,
+        "mean": 0.0,
+        "n": 31,
+        "worse": 0
+      }
+    }
+  },
+  "prefix_equality_comparisons": 2304,
+  "prefix_groups": 288,
+  "root_action_intervals": 14976,
+  "root_decisions": 2592,
+  "roots": 132,
+  "scheduler_blocks": 33875,
+  "scientific_promotion": false,
+  "selfplay_events": 1177,
+  "smoke_pool_checks": 9,
+  "source_attempts": 655,
+  "swap_pages_delta": {
+    "pswpin": 273,
+    "pswpout": 61187
+  },
+  "termination_counts": {
+    "HARD/TIME/ACTIVE_FIXED/CAP": 13,
+    "HARD/TIME/ACTIVE_FIXED/QUOTA": 30,
+    "HARD/TIME/ACTIVE_FIXED/TIME": 5,
+    "HARD/TIME/BASE/QUOTA": 32,
+    "HARD/TIME/BASE/TIME": 16,
+    "HARD/TIME/BOUND/CAP": 1,
+    "HARD/TIME/BOUND/CERTIFIED": 14,
+    "HARD/TIME/BOUND/TIME": 33,
+    "HARD/TIME/RR/CERTIFIED": 14,
+    "HARD/TIME/RR/TIME": 34,
+    "HARD/TIME/RR_MERGE/CERTIFIED": 16,
+    "HARD/TIME/RR_MERGE/TIME": 32,
+    "HARD/TIME/RR_SAFE/CAP": 12,
+    "HARD/TIME/RR_SAFE/TIME": 36,
+    "HARD/TIME/RR_TEMPORAL/CERTIFIED": 13,
+    "HARD/TIME/RR_TEMPORAL/TIME": 35,
+    "HARD/TIME/RR_WRITER/CERTIFIED": 14,
+    "HARD/TIME/RR_WRITER/TIME": 34,
+    "HARD/TIME/STOP_FIXED/CERTIFIED": 13,
+    "HARD/TIME/STOP_FIXED/QUOTA": 30,
+    "HARD/TIME/STOP_FIXED/TIME": 5,
+    "HARD/WORK/ACTIVE_FIXED/QUOTA": 48,
+    "HARD/WORK/BASE/QUOTA": 48,
+    "HARD/WORK/BOUND/CERTIFIED": 14,
+    "HARD/WORK/BOUND/WORK": 34,
+    "HARD/WORK/RR/CERTIFIED": 15,
+    "HARD/WORK/RR/WORK": 33,
+    "HARD/WORK/RR_MERGE/CERTIFIED": 15,
+    "HARD/WORK/RR_MERGE/WORK": 33,
+    "HARD/WORK/RR_SAFE/WORK": 48,
+    "HARD/WORK/RR_TEMPORAL/CERTIFIED": 15,
+    "HARD/WORK/RR_TEMPORAL/WORK": 33,
+    "HARD/WORK/RR_WRITER/CERTIFIED": 17,
+    "HARD/WORK/RR_WRITER/WORK": 31,
+    "HARD/WORK/STOP_FIXED/CERTIFIED": 15,
+    "HARD/WORK/STOP_FIXED/QUOTA": 33,
+    "SELFPLAY/TIME/ACTIVE_FIXED/CAP": 24,
+    "SELFPLAY/TIME/ACTIVE_FIXED/QUOTA": 20,
+    "SELFPLAY/TIME/ACTIVE_FIXED/TIME": 4,
+    "SELFPLAY/TIME/BASE/CAP": 9,
+    "SELFPLAY/TIME/BASE/QUOTA": 30,
+    "SELFPLAY/TIME/BASE/TIME": 9,
+    "SELFPLAY/TIME/BOUND/CERTIFIED": 33,
+    "SELFPLAY/TIME/BOUND/TIME": 15,
+    "SELFPLAY/TIME/RR/CERTIFIED": 41,
+    "SELFPLAY/TIME/RR/TIME": 7,
+    "SELFPLAY/TIME/RR_MERGE/CERTIFIED": 41,
+    "SELFPLAY/TIME/RR_MERGE/TIME": 7,
+    "SELFPLAY/TIME/RR_SAFE/CAP": 2,
+    "SELFPLAY/TIME/RR_SAFE/CERTIFIED": 33,
+    "SELFPLAY/TIME/RR_SAFE/TIME": 13,
+    "SELFPLAY/TIME/RR_TEMPORAL/CERTIFIED": 42,
+    "SELFPLAY/TIME/RR_TEMPORAL/TIME": 6,
+    "SELFPLAY/TIME/RR_WRITER/CERTIFIED": 40,
+    "SELFPLAY/TIME/RR_WRITER/TIME": 8,
+    "SELFPLAY/TIME/STOP_FIXED/CERTIFIED": 40,
+    "SELFPLAY/TIME/STOP_FIXED/QUOTA": 8,
+    "SELFPLAY/WORK/ACTIVE_FIXED/QUOTA": 48,
+    "SELFPLAY/WORK/BASE/QUOTA": 48,
+    "SELFPLAY/WORK/BOUND/CERTIFIED": 34,
+    "SELFPLAY/WORK/BOUND/WORK": 14,
+    "SELFPLAY/WORK/RR/CERTIFIED": 42,
+    "SELFPLAY/WORK/RR/WORK": 6,
+    "SELFPLAY/WORK/RR_MERGE/CERTIFIED": 42,
+    "SELFPLAY/WORK/RR_MERGE/WORK": 6,
+    "SELFPLAY/WORK/RR_SAFE/CERTIFIED": 34,
+    "SELFPLAY/WORK/RR_SAFE/WORK": 14,
+    "SELFPLAY/WORK/RR_TEMPORAL/CERTIFIED": 42,
+    "SELFPLAY/WORK/RR_TEMPORAL/WORK": 6,
+    "SELFPLAY/WORK/RR_WRITER/CERTIFIED": 42,
+    "SELFPLAY/WORK/RR_WRITER/WORK": 6,
+    "SELFPLAY/WORK/STOP_FIXED/CERTIFIED": 40,
+    "SELFPLAY/WORK/STOP_FIXED/QUOTA": 8,
+    "TACTICAL/TIME/ACTIVE_FIXED/CAP": 23,
+    "TACTICAL/TIME/ACTIVE_FIXED/QUOTA": 24,
+    "TACTICAL/TIME/ACTIVE_FIXED/TIME": 1,
+    "TACTICAL/TIME/BASE/CAP": 4,
+    "TACTICAL/TIME/BASE/QUOTA": 31,
+    "TACTICAL/TIME/BASE/TIME": 13,
+    "TACTICAL/TIME/BOUND/CERTIFIED": 24,
+    "TACTICAL/TIME/BOUND/TIME": 24,
+    "TACTICAL/TIME/RR/CERTIFIED": 31,
+    "TACTICAL/TIME/RR/TIME": 17,
+    "TACTICAL/TIME/RR_MERGE/CERTIFIED": 31,
+    "TACTICAL/TIME/RR_MERGE/TIME": 17,
+    "TACTICAL/TIME/RR_SAFE/CAP": 2,
+    "TACTICAL/TIME/RR_SAFE/CERTIFIED": 21,
+    "TACTICAL/TIME/RR_SAFE/TIME": 25,
+    "TACTICAL/TIME/RR_TEMPORAL/CERTIFIED": 31,
+    "TACTICAL/TIME/RR_TEMPORAL/TIME": 17,
+    "TACTICAL/TIME/RR_WRITER/CERTIFIED": 30,
+    "TACTICAL/TIME/RR_WRITER/TIME": 18,
+    "TACTICAL/TIME/STOP_FIXED/CERTIFIED": 28,
+    "TACTICAL/TIME/STOP_FIXED/QUOTA": 20,
+    "TACTICAL/WORK/ACTIVE_FIXED/QUOTA": 48,
+    "TACTICAL/WORK/BASE/QUOTA": 48,
+    "TACTICAL/WORK/BOUND/CERTIFIED": 22,
+    "TACTICAL/WORK/BOUND/WORK": 26,
+    "TACTICAL/WORK/RR/CERTIFIED": 32,
+    "TACTICAL/WORK/RR/WORK": 16,
+    "TACTICAL/WORK/RR_MERGE/CERTIFIED": 32,
+    "TACTICAL/WORK/RR_MERGE/WORK": 16,
+    "TACTICAL/WORK/RR_SAFE/CERTIFIED": 20,
+    "TACTICAL/WORK/RR_SAFE/WORK": 28,
+    "TACTICAL/WORK/RR_TEMPORAL/CERTIFIED": 32,
+    "TACTICAL/WORK/RR_TEMPORAL/WORK": 16,
+    "TACTICAL/WORK/RR_WRITER/CERTIFIED": 32,
+    "TACTICAL/WORK/RR_WRITER/WORK": 16,
+    "TACTICAL/WORK/STOP_FIXED/CERTIFIED": 30,
+    "TACTICAL/WORK/STOP_FIXED/QUOTA": 18
+  },
+  "train_pool_checks": 18,
+  "valid_certificates": 1285,
+  "worker_counts": {
+    "TIME/ACTIVE_FIXED/roots": 144,
+    "TIME/ACTIVE_FIXED/two": 144,
+    "TIME/BASE/roots": 144,
+    "TIME/BASE/two": 144,
+    "TIME/BOUND/roots": 116,
+    "TIME/BOUND/two": 115,
+    "TIME/RR/roots": 124,
+    "TIME/RR/two": 124,
+    "TIME/RR_MERGE/roots": 124,
+    "TIME/RR_MERGE/two": 124,
+    "TIME/RR_SAFE/roots": 124,
+    "TIME/RR_SAFE/two": 123,
+    "TIME/RR_TEMPORAL/roots": 120,
+    "TIME/RR_TEMPORAL/two": 119,
+    "TIME/RR_WRITER/roots": 124,
+    "TIME/RR_WRITER/two": 124,
+    "TIME/STOP_FIXED/roots": 124,
+    "TIME/STOP_FIXED/two": 124,
+    "WORK/ACTIVE_FIXED/roots": 144,
+    "WORK/ACTIVE_FIXED/two": 144,
+    "WORK/BASE/roots": 144,
+    "WORK/BASE/two": 144,
+    "WORK/BOUND/roots": 116,
+    "WORK/BOUND/two": 116,
+    "WORK/RR/roots": 124,
+    "WORK/RR/two": 124,
+    "WORK/RR_MERGE/roots": 124,
+    "WORK/RR_MERGE/two": 124,
+    "WORK/RR_SAFE/roots": 124,
+    "WORK/RR_SAFE/two": 124,
+    "WORK/RR_TEMPORAL/roots": 124,
+    "WORK/RR_TEMPORAL/two": 124,
+    "WORK/RR_WRITER/roots": 124,
+    "WORK/RR_WRITER/two": 124,
+    "WORK/STOP_FIXED/roots": 124,
+    "WORK/STOP_FIXED/two": 124
+  },
+  "zero_optional_uncertified": {
+    "HARD/TIME/BOUND": 4,
+    "HARD/TIME/RR_TEMPORAL": 4,
+    "HARD/WORK/BOUND": 4,
+    "TACTICAL/TIME/BOUND": 4,
+    "TACTICAL/WORK/BOUND": 4
+  },
+  "zero_optional_uncertified_regret_sum": {
+    "HARD/TIME/BOUND": 0.0,
+    "HARD/TIME/RR_TEMPORAL": 1.0,
+    "HARD/WORK/BOUND": 0.0,
+    "TACTICAL/TIME/BOUND": 0.0,
+    "TACTICAL/WORK/BOUND": 0.0
+  }
+}
