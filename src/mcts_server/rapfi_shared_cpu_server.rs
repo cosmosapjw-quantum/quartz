@@ -134,8 +134,8 @@ fn inner(line:&str)->Result<Value,String>{
     let p5=matches!(arm.as_str(),"P5PW"|"P5FULL"|"P5Q"|"P5ALLOC");
     if p5&&(![32,48,64,96,128,160,192,256].contains(&cap)||q.prefix.is_some()){return Err("bad P5 budget or prefix".into());}
     let axis=match arm.as_str(){"AX0"=>Some((0,0,0)),"AXS"=>Some((1,0,0)),"AXX"=>Some((2,0,0)),"AXV"=>Some((0,3,0)),"AXB"=>Some((0,0,3)),"AXALL"=>Some((3,3,3)),_=>None};
-    if (!matches!(arm.as_str(),"STANDARD_PW"|"STANDARD_FULL"|"QUARTZ")&&axis.is_none()&&!p5&&!meta&&!kinetic&&!exposure&&!evidence&&!matches!(arm.as_str(),"DS0"|"DSF"|"DSX"|"DSL"|"DSV"|"DSB"|"DSSTOP"))||!(1..=1024).contains(&cap)||h.len()>224||axis.is_some()&&cap!=96{return Err("bad arm/budget/history".into());}
-    let ds=matches!(arm.as_str(),"DS0"|"DSF"|"DSX"|"DSL"|"DSV"|"DSB"|"DSSTOP");
+    if (!matches!(arm.as_str(),"STANDARD_PW"|"STANDARD_FULL"|"QUARTZ")&&axis.is_none()&&!p5&&!meta&&!kinetic&&!exposure&&!evidence&&!matches!(arm.as_str(),"DS0"|"DSF"|"DSX"|"DSX2"|"DSL"|"DSV"|"DSB"|"DSSTOP"))||!(1..=1024).contains(&cap)||h.len()>224||axis.is_some()&&cap!=96{return Err("bad arm/budget/history".into());}
+    let ds=matches!(arm.as_str(),"DS0"|"DSF"|"DSX"|"DSX2"|"DSL"|"DSV"|"DSB"|"DSSTOP");
     if ds&&(cap!=32||!matches!(q.prefix,Some(8|16)))||!ds&&q.prefix.is_some(){return Err("decision arms require cap32 and prefix8/16 only".into());}
     let start=Instant::now();
     let eval=session().lock().unwrap().as_ref().cloned().ok_or("session not open")?;
@@ -352,6 +352,7 @@ fn inner(line:&str)->Result<Value,String>{
                 let idx=match arm.as_str(){
                     "DSF"=>(0..es.len()).filter(|&i|counts[i]>0&&reachable(i)).max_by_key(|&i|(counts[i],i)),
                     "DSX"=>(es.len()..ca.len()).find(|&i|reachable(i)),
+                    "DSX2"=>(es.len()..ca.len()).filter(|&i|reachable(i)).nth(1).filter(|&i|out["proof"]["actions"].as_array().unwrap().iter().any(|row|row[0]==ca[i][0]&&row[2].as_i64().unwrap_or(-1)> -1)),
                     "DSL"=>Some(leader),
                     _=>None
                 };
