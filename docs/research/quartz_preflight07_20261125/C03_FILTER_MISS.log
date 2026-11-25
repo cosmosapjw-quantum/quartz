@@ -1,0 +1,532 @@
+   Compiling libc v0.2.184
+   Compiling cfg-if v1.0.4
+   Compiling crossbeam-utils v0.8.21
+   Compiling zerocopy v0.8.48
+   Compiling proc-macro2 v1.0.106
+   Compiling quote v1.0.45
+   Compiling unicode-ident v1.0.24
+   Compiling libm v0.2.16
+   Compiling autocfg v1.5.0
+   Compiling serde_core v1.0.228
+   Compiling num-traits v0.2.19
+   Compiling getrandom v0.2.17
+   Compiling crossbeam-epoch v0.9.18
+   Compiling rand_core v0.6.4
+   Compiling parking_lot_core v0.9.12
+   Compiling rustversion v1.0.22
+   Compiling zmij v1.0.21
+   Compiling rayon-core v1.13.0
+   Compiling getrandom v0.4.2
+   Compiling rustix v1.1.4
+   Compiling crossbeam-deque v0.8.6
+   Compiling syn v2.0.117
+   Compiling scopeguard v1.2.0
+   Compiling serde_json v1.0.149
+   Compiling serde v1.0.228
+   Compiling bitflags v2.11.1
+   Compiling linux-raw-sys v0.12.1
+   Compiling smallvec v1.15.1
+   Compiling ppv-lite86 v0.2.21
+   Compiling serde_derive v1.0.228
+   Compiling lock_api v0.4.14
+   Compiling rand_chacha v0.3.1
+   Compiling rand v0.8.5
+   Compiling either v1.15.0
+   Compiling itoa v1.0.18
+   Compiling fastrand v2.4.1
+   Compiling memchr v2.8.0
+   Compiling once_cell v1.21.4
+   Compiling arc-swap v1.9.1
+   Compiling tempfile v3.27.0
+   Compiling rayon v1.11.0
+   Compiling rand_distr v0.4.3
+   Compiling parking_lot v0.12.5
+   Compiling crossbeam-channel v0.5.15
+   Compiling bumpalo v3.20.2
+   Compiling mcts_demo v0.3.0 (/home/cosmosapjw/quantum/research/quartz_preflight07_20261125)
+warning: unused import: `crate::mcts::node::MctsEdge`
+  --> src/mcts/backup.rs:95:9
+   |
+95 |     use crate::mcts::node::MctsEdge;
+   |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   |
+   = note: `#[warn(unused_imports)]` (part of `#[warn(unused)]`) on by default
+
+warning: unused import: `crate::mcts::tt::leak_node`
+  --> src/mcts/backup.rs:96:9
+   |
+96 |     use crate::mcts::tt::leak_node;
+   |         ^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: unused import: `crate::mcts::quartz::HaltReason`
+  --> src/mcts/policy/cache.rs:35:9
+   |
+35 | pub use crate::mcts::quartz::HaltReason;
+   |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: unused import: `std::sync::atomic::AtomicBool`
+   --> src/mcts/policy/cache.rs:265:9
+    |
+265 |     use std::sync::atomic::AtomicBool;
+    |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: unused import: `bernoulli_kl`
+  --> src/mcts/policy/kl_lucb.rs:26:25
+   |
+26 | use super::kl_helpers::{bernoulli_kl, kl_lower, kl_lucb_beta, kl_upper};
+   |                         ^^^^^^^^^^^^
+
+warning: unused imports: `EdgeRef`, `PolicyCachePublisher`, and `PolicyCache`
+  --> src/mcts/policy/mod.rs:31:17
+   |
+31 | pub use cache::{EdgeRef, PolicyCache, PolicyCachePublisher};
+   |                 ^^^^^^^  ^^^^^^^^^^^  ^^^^^^^^^^^^^^^^^^^^
+
+warning: unused imports: `SequentialHalvingBracket`, `gumbel_top_m`, `initial_bracket`, and `sample_gumbel`
+  --> src/mcts/policy/mod.rs:32:21
+   |
+32 | ...::{gumbel_top_m, initial_bracket, sample_gumbel, SequentialHalvingBracket};
+   |       ^^^^^^^^^^^^  ^^^^^^^^^^^^^^^  ^^^^^^^^^^^^^  ^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: unused imports: `compute_kg_array`, `expected_improvement`, `kg_per_arm`, and `should_halt_by_kg`
+  --> src/mcts/policy/mod.rs:34:5
+   |
+34 |     compute_kg_array, expected_improvement, kg_per_arm, should_halt_by_kg, K...
+   |     ^^^^^^^^^^^^^^^^  ^^^^^^^^^^^^^^^^^^^^  ^^^^^^^^^^  ^^^^^^^^^^^^^^^^^
+
+warning: unused imports: `bernoulli_kl`, `kl_lower`, `kl_lucb_beta`, and `kl_upper`
+  --> src/mcts/policy/mod.rs:36:22
+   |
+36 | pub use kl_helpers::{bernoulli_kl, kl_lower, kl_lucb_beta, kl_upper};
+   |                      ^^^^^^^^^^^^  ^^^^^^^^  ^^^^^^^^^^^^  ^^^^^^^^
+
+warning: unused import: `legacy_quartz::LegacyQuartz`
+  --> src/mcts/policy/mod.rs:39:9
+   |
+39 | pub use legacy_quartz::LegacyQuartz;
+   |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: unused imports: `kl_visit_to_soft`, `soft_policy`, and `soft_value`
+  --> src/mcts/policy/mod.rs:40:17
+   |
+40 | pub use ments::{kl_visit_to_soft, soft_policy, soft_value};
+   |                 ^^^^^^^^^^^^^^^^  ^^^^^^^^^^^  ^^^^^^^^^^
+
+warning: unused imports: `Reservoir`, `lambda_score`, and `quantile`
+  --> src/mcts/policy/mod.rs:41:21
+   |
+41 | pub use reservoir::{lambda_score, quantile, Reservoir};
+   |                     ^^^^^^^^^^^^  ^^^^^^^^  ^^^^^^^^^
+
+warning: unused imports: `TacticalResult` and `tactical_sentinel`
+  --> src/mcts/policy/mod.rs:42:20
+   |
+42 | pub use tactical::{tactical_sentinel, TacticalResult};
+   |                    ^^^^^^^^^^^^^^^^^  ^^^^^^^^^^^^^^
+
+warning: unused import: `EffectivePrior`
+  --> src/mcts/policy/mod.rs:44:49
+   |
+44 |     BoxedPolicy, ControllerTelemetry, EdgeView, EffectivePrior, HaltDeci...
+   |                                                 ^^^^^^^^^^^^^^
+
+warning: unused imports: `connect4_conv::ConvConnect4Evaluator` and `connect4_nn::TinyConnect4Evaluator`
+  --> src/mcts_server.rs:33:40
+   |
+33 | ...4, connect4_nn::TinyConnect4Evaluator, connect4_conv::ConvConnect4Evaluator, G...
+   |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: unused import: `std::sync::atomic::Ordering`
+ --> src/mcts_server/highbranch14_cpu_server.rs:8:5
+  |
+8 | use std::sync::atomic::Ordering;
+  |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: unnecessary parentheses around assigned value
+   --> src/mcts_server/highbranch14_cpu_server.rs:245:22
+    |
+245 |     let same_stats = (first_edges == after_edges);
+    |                      ^                          ^
+    |
+    = note: `#[warn(unused_parens)]` (part of `#[warn(unused)]`) on by default
+help: remove these parentheses
+    |
+245 -     let same_stats = (first_edges == after_edges);
+245 +     let same_stats = first_edges == after_edges;
+    |
+
+warning: use of deprecated constant `std::f32::NEG_INFINITY`: replaced by the `NEG_INFINITY` associated constant on `f32`
+  --> src/mcts/policy/ments.rs:33:21
+   |
+33 |         return f32::NEG_INFINITY;
+   |                     ^^^^^^^^^^^^
+   |
+   = note: `#[warn(deprecated)]` on by default
+
+warning: use of deprecated constant `std::f32::NEG_INFINITY`: replaced by the `NEG_INFINITY` associated constant on `f32`
+  --> src/mcts/policy/ments.rs:36:51
+   |
+36 |         return q_values.iter().cloned().fold(f32::NEG_INFINITY, f32::max);
+   |                                                   ^^^^^^^^^^^^
+
+warning: use of deprecated constant `std::f32::NEG_INFINITY`: replaced by the `NEG_INFINITY` associated constant on `f32`
+  --> src/mcts/policy/ments.rs:38:52
+   |
+38 |     let max_q = q_values.iter().cloned().fold(f32::NEG_INFINITY, f32::max);
+   |                                                    ^^^^^^^^^^^^
+
+warning: use of deprecated constant `std::f32::NEG_INFINITY`: replaced by the `NEG_INFINITY` associated constant on `f32`
+  --> src/mcts/policy/ments.rs:82:52
+   |
+82 |     let max_q = q_values.iter().cloned().fold(f32::NEG_INFINITY, f32::max);
+   |                                                    ^^^^^^^^^^^^
+
+warning: use of deprecated constant `std::f32::NEG_INFINITY`: replaced by the `NEG_INFINITY` associated constant on `f32`
+   --> src/mcts/policy/ments.rs:163:47
+    |
+163 |         assert_eq!(soft_value(&[], 1.0), f32::NEG_INFINITY);
+    |                                               ^^^^^^^^^^^^
+
+warning: use of deprecated method `std::sync::atomic::Atomic::<u64>::fetch_update`: renamed to `try_update` for consistency
+  --> src/mcts/four_axis.rs:48:33
+   |
+48 | ...   if self.local_remaining.fetch_update(Ordering::AcqRel,Ordering::Re...
+   |                               ^^^^^^^^^^^^
+   |
+help: replace the use of the deprecated method
+   |
+48 -         if self.local_remaining.fetch_update(Ordering::AcqRel,Ordering::Relaxed,|n|if n>0{Some(n-1)}else{None}).is_ok(){
+48 +         if self.local_remaining.try_update(Ordering::AcqRel,Ordering::Relaxed,|n|if n>0{Some(n-1)}else{None}).is_ok(){
+   |
+
+warning: associated items `from_board`, `group_stones_and_liberties_on_board`, and `remove_group` are never used
+   --> src/games/go.rs:371:12
+    |
+305 | impl Go {
+    | ------- associated items in this implementation
+...
+371 |     pub fn from_board(size: usize, komi: f32, board: &[u8], side: u8) -...
+    |            ^^^^^^^^^^
+...
+677 |     fn group_stones_and_liberties_on_board(
+    |        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+...
+693 |     fn remove_group(&mut self, pos: usize) -> u16 {
+    |        ^^^^^^^^^^^^
+    |
+    = note: `#[warn(dead_code)]` (part of `#[warn(unused)]`) on by default
+
+warning: methods `size_dim`, `win_len_dim`, `current_player_sign`, `cell_is_empty`, and `cell_is_player` are never used
+   --> src/games/gomoku.rs:417:12
+    |
+414 | impl Gomoku {
+    | ----------- methods in this implementation
+...
+417 |     pub fn size_dim(&self) -> usize {
+    |            ^^^^^^^^
+...
+424 |     pub fn win_len_dim(&self) -> usize {
+    |            ^^^^^^^^^^^
+...
+429 |     pub fn current_player_sign(&self) -> i8 {
+    |            ^^^^^^^^^^^^^^^^^^^
+...
+436 |     pub fn cell_is_empty(&self, pos: usize) -> bool {
+    |            ^^^^^^^^^^^^^
+...
+445 |     pub fn cell_is_player(&self, pos: usize, player: i8) -> bool {
+    |            ^^^^^^^^^^^^^^
+
+warning: associated function `caro` is never used
+   --> src/games/gomoku15.rs:263:12
+    |
+166 | impl Gomoku15 {
+    | ------------- associated function in this implementation
+...
+263 |     pub fn caro() -> Self {
+    |            ^^^^
+
+warning: method `with_tt_enabled` is never used
+   --> src/mcts/mod.rs:321:12
+    |
+238 | impl MctsConfig {
+    | --------------- method in this implementation
+...
+321 |     pub fn with_tt_enabled(mut self, tt_enabled: bool) -> Self {
+    |            ^^^^^^^^^^^^^^^
+
+warning: methods `root_entropy`, `root_value`, and `print_stats` are never used
+    --> src/mcts/mod.rs:1844:12
+     |
+ 396 | impl<G: GameState> MctsEngine<G> {
+     | -------------------------------- methods in this implementation
+...
+1844 |     pub fn root_entropy(&self) -> f32 {
+     |            ^^^^^^^^^^^^
+...
+1856 |     pub fn root_value(&self) -> f32 {
+     |            ^^^^^^^^^^
+...
+1882 |     pub fn print_stats(&self, label: &str) {
+     |            ^^^^^^^^^^^
+
+warning: constant `V` is never used
+  --> src/mcts/four_axis.rs:20:45
+   |
+20 | pub const S:u8=1;pub const X:u8=2;pub const V:u8=4;pub const B:u8=8;
+   |                                             ^
+
+warning: constant `B` is never used
+  --> src/mcts/four_axis.rs:20:62
+   |
+20 | pub const S:u8=1;pub const X:u8=2;pub const V:u8=4;pub const B:u8=8;
+   |                                                              ^
+
+warning: associated function `new` is never used
+  --> src/mcts/four_axis.rs:33:12
+   |
+32 | impl Hooks{
+   | ---------- associated function in this implementation
+33 |     pub fn new(mask:u8)->Self{Self::new_modes(mask&3,if mask&V!=0{1}else...
+   |            ^^^
+
+warning: method `run_four_axis` is never used
+   --> src/mcts/four_axis.rs:309:12
+    |
+230 | impl<G:GameState> MctsEngine<G>{
+    | ------------------------------- method in this implementation
+...
+309 |     pub fn run_four_axis(&self,visits:u32,threads:usize,h:&Hooks){
+    |            ^^^^^^^^^^^^^
+
+warning: constant `SHM_DIR_TO_RUST` is never used
+   --> src/mcts/eval.rs:499:7
+    |
+499 | const SHM_DIR_TO_RUST: u8 = 1;
+    |       ^^^^^^^^^^^^^^^
+
+warning: fields `virtual_losses` and `virtual_value` are never read
+   --> src/mcts/node.rs:329:9
+    |
+322 | pub struct MctsEdgeSnapshot<M> {
+    |            ---------------- fields in this struct
+...
+329 |     pub virtual_losses: i32,
+    |         ^^^^^^^^^^^^^^
+330 |     pub virtual_value: f64,
+    |         ^^^^^^^^^^^^^
+    |
+    = note: `MctsEdgeSnapshot` has a derived impl for the trait `Clone`, but this is intentionally ignored during dead code analysis
+
+warning: method `q_eff` is never used
+   --> src/mcts/node.rs:343:12
+    |
+333 | impl<M: Copy + Send + Sync + 'static> MctsEdgeSnapshot<M> {
+    | --------------------------------------------------------- method in this implementation
+...
+343 |     pub fn q_eff(&self) -> f32 {
+    |            ^^^^^
+
+warning: fields `q_ctrl`, `penalty`, `max_kg_per_ms`, and `prior_surprise` are never read
+  --> src/mcts/policy/cache.rs:63:9
+   |
+45 | pub struct PolicyCache {
+   |            ----------- fields in this struct
+...
+63 |     pub q_ctrl: SmallVec<[f32; 32]>,
+   |         ^^^^^^
+64 |     /// Additive PUCT penalty per arm.
+65 |     pub penalty: SmallVec<[f32; 32]>,
+   |         ^^^^^^^
+...
+80 |     pub max_kg_per_ms: f32,
+   |         ^^^^^^^^^^^^^
+...
+83 |     pub prior_surprise: f32,
+   |         ^^^^^^^^^^^^^^
+   |
+   = note: `PolicyCache` has derived impls for the traits `Debug` and `Clone`, but these are intentionally ignored during dead code analysis
+
+warning: method `snapshot` is never used
+   --> src/mcts/policy/cache.rs:238:12
+    |
+151 | impl PolicyCachePublisher {
+    | ------------------------- method in this implementation
+...
+238 |     pub fn snapshot(&self) -> Arc<PolicyCache> {
+    |            ^^^^^^^^
+
+warning: field `n_total_at_observe` is never read
+   --> src/mcts/policy/kg_stop.rs:221:5
+    |
+207 | struct KgCache {
+    |        ------- field in this struct
+...
+221 |     n_total_at_observe: u32,
+    |     ^^^^^^^^^^^^^^^^^^
+    |
+    = note: `KgCache` has derived impls for the traits `Debug` and `Clone`, but these are intentionally ignored during dead code analysis
+
+warning: fields `best_mu` and `second_ucb` are never read
+  --> src/mcts/policy/kl_lucb.rs:44:5
+   |
+36 | struct Cache {
+   |        ----- fields in this struct
+...
+44 |     best_mu: f32,
+   |     ^^^^^^^
+...
+47 |     second_ucb: f32,
+   |     ^^^^^^^^^^
+   |
+   = note: `Cache` has derived impls for the traits `Debug` and `Clone`, but these are intentionally ignored during dead code analysis
+
+warning: associated function `default_for_budget` is never used
+  --> src/mcts/policy/reservoir.rs:86:12
+   |
+74 | impl Reservoir {
+   | -------------- associated function in this implementation
+...
+86 |     pub fn default_for_budget(_budget: u32) -> Self {
+   |            ^^^^^^^^^^^^^^^^^^
+
+warning: fields `n_visible`, `depth_max`, `mean_q_root`, `sigma_eval`, `best_idx`, and `second_idx` are never read
+  --> src/mcts/policy/trait_def.rs:38:9
+   |
+30 | pub struct SearchSnapshot {
+   |            -------------- fields in this struct
+...
+38 |     pub n_visible: u16,
+   |         ^^^^^^^^^
+...
+42 |     pub depth_max: u16,
+   |         ^^^^^^^^^
+...
+45 |     pub mean_q_root: f32,
+   |         ^^^^^^^^^^^
+...
+52 |     pub sigma_eval: Option<f32>,
+   |         ^^^^^^^^^^
+...
+61 |     pub best_idx: u16,
+   |         ^^^^^^^^
+...
+64 |     pub second_idx: u16,
+   |         ^^^^^^^^^^
+   |
+   = note: `SearchSnapshot` has derived impls for the traits `Debug` and `Clone`, but these are intentionally ignored during dead code analysis
+
+warning: fields `n_virtual`, `q_sum`, `depth`, `last_value`, and `envar_partial` are never read
+  --> src/mcts/policy/trait_def.rs:82:9
+   |
+77 | pub struct EdgeView<'a> {
+   |            -------- fields in this struct
+...
+82 |     pub n_virtual: u32,
+   |         ^^^^^^^^^
+...
+88 |     pub q_sum: f32,
+   |         ^^^^^
+...
+93 |     pub depth: u16,
+   |         ^^^^^
+94 |     /// Last leaf value backed up through this edge.
+95 |     pub last_value: f32,
+   |         ^^^^^^^^^^
+...
+98 |     pub envar_partial: f32,
+   |         ^^^^^^^^^^^^^
+   |
+   = note: `EdgeView` has derived impls for the traits `Debug` and `Clone`, but these are intentionally ignored during dead code analysis
+
+warning: struct `EffectivePrior` is never constructed
+   --> src/mcts/policy/trait_def.rs:173:12
+    |
+173 | pub struct EffectivePrior {
+    |            ^^^^^^^^^^^^^^
+
+warning: method `refresh_prior` is never used
+   --> src/mcts/policy/trait_def.rs:266:8
+    |
+245 | pub trait SearchPolicy: Send + Sync {
+    |           ------------ method in this trait
+...
+266 |     fn refresh_prior(&self, _e: EdgeView<'_>) -> Option<EffectivePrior> {
+    |        ^^^^^^^^^^^^^
+
+warning: associated function `from_value_loss` is never used
+   --> src/mcts/quartz.rs:401:12
+    |
+391 | impl EvalStrength {
+    | ----------------- associated function in this implementation
+...
+401 |     pub fn from_value_loss(vl: f32) -> Self {
+    |            ^^^^^^^^^^^^^^^
+
+warning: field `budget_ms` is never read
+   --> src/mcts/search.rs:130:5
+    |
+129 | pub struct TimeManager {
+    |            ----------- field in this struct
+130 |     budget_ms: u64,
+    |     ^^^^^^^^^
+
+warning: method `with_hard_cap` is never used
+   --> src/mcts/search.rs:144:12
+    |
+136 | impl TimeManager {
+    | ---------------- method in this implementation
+...
+144 |     pub fn with_hard_cap(mut self, cap_ms: u64) -> Self {
+    |            ^^^^^^^^^^^^^
+
+warning: function `root_entropy` is never used
+   --> src/mcts/search.rs:173:8
+    |
+173 | pub fn root_entropy(visit_counts: &[u32]) -> f32 {
+    |        ^^^^^^^^^^^^
+
+warning: function `root_entropy_from_node` is never used
+   --> src/mcts/search.rs:191:8
+    |
+191 | pub fn root_entropy_from_node<M: Copy + Send + Sync + 'static>(
+    |        ^^^^^^^^^^^^^^^^^^^^^^
+
+warning: fields `foundry_mode`, `foundry_axis_id`, `foundry_checkpoint_id`, `foundry_evaluator_id`, `foundry_risk_limit`, and `foundry_min_visits` are never read
+    --> src/mcts_server.rs:1306:5
+     |
+1288 | struct SearchOverrides {
+     |        --------------- fields in this struct
+...
+1306 |     foundry_mode: Option<String>,
+     |     ^^^^^^^^^^^^
+1307 |     foundry_axis_id: Option<String>,
+     |     ^^^^^^^^^^^^^^^
+1308 |     foundry_checkpoint_id: Option<String>,
+     |     ^^^^^^^^^^^^^^^^^^^^^
+1309 |     foundry_evaluator_id: Option<String>,
+     |     ^^^^^^^^^^^^^^^^^^^^
+1310 |     foundry_risk_limit: Option<f32>,
+     |     ^^^^^^^^^^^^^^^^^^
+1311 |     foundry_min_visits: Option<u32>,
+     |     ^^^^^^^^^^^^^^^^^^
+     |
+     = note: `SearchOverrides` has a derived impl for the trait `Clone`, but this is intentionally ignored during dead code analysis
+
+warning: function `cog03_resident13_real_CPU_endpoint_retains_root_and_counter_statistics` should have a snake case name
+    --> src/mcts_server.rs:8132:8
+     |
+8132 | ...fn cog03_resident13_real_CPU_endpoint_retains_root_and_counter_statistics() {
+     |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ help: convert the identifier to snake case: `cog03_resident13_real_cpu_endpoint_retains_root_and_counter_statistics`
+     |
+     = note: `#[warn(non_snake_case)]` (part of `#[warn(nonstandard_style)]`) on by default
+
+warning: `mcts_demo` (bin "mcts_demo" test) generated 51 warnings (run `cargo fix --bin "mcts_demo" -p mcts_demo --tests` to apply 18 suggestions)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 13.36s
+     Running unittests src/main.rs (/home/cosmosapjw/quantum/research/quartz_preflight07_cargo_target_20261125/debug/deps/mcts_demo-702684b104b25dab)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 720 filtered out; finished in 0.00s
+
+exit=0

@@ -85,3 +85,23 @@ pub fn backprop<G: GameState>(path: &[PathEdge<G::Move>], leaf_value: f32) {
         pe.parent.n_total.fetch_add(1, Ordering::AcqRel);
     }
 }
+
+#[cfg(test)]
+mod preflight07_tests {
+    use super::*;
+    use crate::games::gomoku15::{Gomoku15,GomokuVariant};
+    use crate::mcts::{MctsEngine,MctsConfig};
+    use crate::mcts::eval::UniformEval;
+    use crate::mcts::node::MctsEdge;
+    use crate::mcts::tt::leak_node;
+    #[test]
+    fn preflight_same_incoming_is_not_rtt() {
+        let mut cfg=MctsConfig::evaluation(2.0);
+        cfg.pw=Some(crate::mcts::PwConfig::new(1.0,0.0));cfg.max_depth=1;cfg.root_forced_win=false;
+        let e=MctsEngine::new(Gomoku15::new(GomokuVariant::Freestyle),std::sync::Arc::new(UniformEval),cfg);
+        for _ in 0..5{e.iterate();}
+        let edge=&e.root.read_edges()[0];
+        assert_eq!(edge.n.load(Ordering::Acquire),5);
+        assert_eq!(edge.child.rtt_n.load(Ordering::Acquire),0,"one incoming edge is not a transposition");
+    }
+}
