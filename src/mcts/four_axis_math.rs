@@ -65,3 +65,28 @@ mod tests{
     assert_eq!(blend(1.,-1.,4,true),1.);
  }
 }
+
+// C04 red scaffold: certificate must not assert loss from partial coverage.
+pub fn certificate(_terminal_actions:&[Option<f32>])->Option<f32>{None}
+impl Ledger{
+    pub fn observe_split(&mut self,_child:u64,_parent:u64,_edge:usize,_raw:f32)->(Option<(f64,u64)>,Option<(f64,u64)>){(None,None)}
+}
+#[cfg(test)]
+mod mechanism_tests {
+    use super::*;
+    #[test]fn certificate_bounds(){
+        assert_eq!(certificate(&[None,Some(1.),Some(-1.)]),Some(1.));
+        assert_eq!(certificate(&[None,Some(-1.)]),None);
+        assert_eq!(certificate(&[Some(0.),Some(-1.)]),Some(0.));
+        assert_eq!(certificate(&[Some(-1.),Some(-1.)]),Some(-1.));
+        assert_eq!(certificate(&[]),None);
+    }
+    #[test]fn separate_contexts(){
+        let mut l=Ledger::default();
+        assert_eq!(l.observe_split(9,1,0,0.5),(None,None));
+        assert_eq!(l.observe_split(9,1,0,0.5),(Some((0.5,1)),None));
+        assert_eq!(l.observe_split(9,2,0,-0.5),(None,Some((0.5,2))));
+        assert_eq!(l.observe_split(9,1,0,0.),(Some((0.5,2)),Some((-0.5,1))));
+        assert_eq!(l.counts(),(1,2,1,4));
+    }
+}

@@ -1,0 +1,32 @@
+
+running 4 tests
+test mechanism_tests::certificate_bounds ... FAILED
+test mechanism_tests::separate_contexts ... FAILED
+test tests::actual_incoming_provenance ... ok
+test tests::surprise_and_width ... ok
+
+failures:
+
+---- mechanism_tests::certificate_bounds stdout ----
+
+thread 'mechanism_tests::certificate_bounds' (122007) panicked at src/mcts/four_axis_math.rs:78:9:
+assertion `left == right` failed
+  left: None
+ right: Some(1.0)
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+---- mechanism_tests::separate_contexts stdout ----
+
+thread 'mechanism_tests::separate_contexts' (122008) panicked at src/mcts/four_axis_math.rs:87:9:
+assertion `left == right` failed
+  left: (None, None)
+ right: (Some((0.5, 1)), None)
+
+
+failures:
+    mechanism_tests::certificate_bounds
+    mechanism_tests::separate_contexts
+
+test result: FAILED. 2 passed; 2 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+exit=101
