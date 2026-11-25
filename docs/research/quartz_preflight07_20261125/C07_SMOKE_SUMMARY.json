@@ -1,0 +1,72 @@
+{
+  "games": [
+    {
+      "NN_rows": 1,
+      "bytes": 1511,
+      "final_plies": 225,
+      "id": "SMOKE_DRAW",
+      "initial_plies": 224,
+      "path": "SMOKE_DRAW.8245fa868db4e0f1cd8605b7f8882d759290f931e64ba12f7de964f026dc039f.json.gz",
+      "searched": 1,
+      "status": "COMPLETED",
+      "transport_ms": 72.096506,
+      "winner": 0
+    },
+    {
+      "NN_rows": 27,
+      "bytes": 5582,
+      "final_plies": 153,
+      "id": "SMOKE_LONG_CENSOR",
+      "initial_plies": 150,
+      "path": "SMOKE_LONG_CENSOR.7221c2451cdbedac494e8f75d98481b0789cda304b8afbed77f90fc2e5689f74.json.gz",
+      "searched": 3,
+      "status": "CENSORED",
+      "transport_ms": 555.976908,
+      "winner": null
+    }
+  ],
+  "production_games": 0,
+  "verification": {
+    "arm_cost": {
+      "BASE": {
+        "CPU_measured_moves": 4,
+        "NN_rows": 28,
+        "moves": 4,
+        "python_cpu_ns": 738767468,
+        "rust_cpu_ns_tick_estimate": 10000000,
+        "visits": 32,
+        "wall_ns": 628073414
+      }
+    },
+    "candidate_score": null,
+    "committed": 2,
+    "completed_arena_pairs": 0,
+    "counts": {
+      "CENSORED": 1,
+      "COMPLETED": 1,
+      "NN_rows": 28,
+      "SMOKE": 2,
+      "compressed_bytes": 7093,
+      "searched_plies": 4
+    },
+    "cross_split_D4_states": 0,
+    "length_bins": {
+      "SMOKE/140": 1,
+      "SMOKE/220": 1
+    },
+    "missing": 0,
+    "observed_positions": 4,
+    "orphan_temp_files": 0,
+    "plan_sha256": "eca540141952409a8356779cad89acf8e33084f42dda262be4357288288cd7e6",
+    "planned": 2,
+    "probe_count": 0,
+    "rule_witnesses": {
+      "SMOKE": 1
+    },
+    "searched_ply_bins": {
+      "SMOKE/140": 3,
+      "SMOKE/220": 1
+    },
+    "unique_D4_states": 4
+  }
+}

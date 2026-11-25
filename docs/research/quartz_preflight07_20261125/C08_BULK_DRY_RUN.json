@@ -1,0 +1,27 @@
+{
+  "families": 5000,
+  "generation_enabled": false,
+  "max_plies": 225,
+  "mode": "DRY_RUN_NO_ENGINE",
+  "output": "/home/cosmosapjw/quantum/research/quartz_long_corpus_NOT_STARTED",
+  "output_created": false,
+  "plan_sha256": "4d6f4227f561909139ba71bc17b7b43c23c7e4c395ae61d9d161f3cbd31d9766",
+  "planned_games": 10000,
+  "planned_splits": {
+    "CAL": 2000,
+    "TEST": 2000,
+    "TRAIN": 6000
+  },
+  "preflight": {
+    "available_memory_bytes": 18404147200,
+    "disk_ok": false,
+    "estimate_not_guarantee": true,
+    "estimated_bytes_per_ply": 8192,
+    "estimated_max_ply_bytes": 18432000000,
+    "free_bytes": 42983043072,
+    "memory_ok": true,
+    "reserve_bytes": 53687091200
+  },
+  "ready_for_authorized_launch": false,
+  "shards": 4
+}
