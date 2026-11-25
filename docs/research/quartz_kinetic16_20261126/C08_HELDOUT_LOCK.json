@@ -1,0 +1,47 @@
+{
+  "counts": {
+    "EXACT": 8,
+    "GOMOKU": 48
+  },
+  "host": {
+    "end": {
+      "load": [
+        5.6953125,
+        6.34912109375,
+        6.09716796875
+      ],
+      "mono": 456455.612338452,
+      "swap": {
+        "pswpin": 74787801,
+        "pswpout": 76392392
+      }
+    },
+    "max_load": 6.08349609375,
+    "seconds": 16.859982189023867,
+    "start": {
+      "load": [
+        6.08349609375,
+        6.45361328125,
+        6.126953125
+      ],
+      "mono": 456438.752356263,
+      "swap": {
+        "pswpin": 74787737,
+        "pswpout": 76392392
+      }
+    },
+    "swap_pages_s": 3.7959707953704176
+  },
+  "identity": {
+    "c4_book": "38f9834317c37d9516e45a21da598569a5d1556595686593d14c2e63f59c1f38",
+    "c4_model": "161f9e6e26840754384cb47335d1082d837fa014735cbfaa2517209422e29f24",
+    "c4_oracle": "fca2b665b1b3dbd88f2f50a7e0ba86fd8ae253f2861da1ad51cf110c69f741ed",
+    "rapfi_bridge": "bacbcfc90f6e4bfd0d9d035455afa3d6667ec32e7fd80cbc1d65a4001b30f64e",
+    "rapfi_config": "32b9180c91247541d399ceef62906d5ffeb48e34eb5f261612987633820d5d3c",
+    "rapfi_source": "1be1551ced57e38d53ed58f6d74bf6f8b4bdc230",
+    "rapfi_weight": "6bc0d1b0ff8e1d857f7f412923cd458f38f1a435087c91ae71fec3676c23ef62",
+    "rust_binary": "dbd544df9b7288f5c54364a6e4818b0484d3c3be22aab072982a9ec7c4955ea7",
+    "rust_source": "6ad49bf73eabbb3a9f7e8e2d4d9f25687a5756ce"
+  },
+  "sha256": "46f21b282fde5f227d1d0a1ff3231c668bf2d0545fef4ef505ed10c5eb00970c"
+}
