@@ -1,0 +1,1148 @@
+{
+  "labels": {
+    "EXACT": 41
+  },
+  "raw_sha": "99be296633fec09c6f4330d36ca6045065da9d6a54e0825448a434b88a0803a0",
+  "rows": [
+    {
+      "T": 1,
+      "base_error": -0.23811650276184082,
+      "errors": {
+        "base": -0.23811650276184082,
+        "full": 0.0,
+        "legacy": -0.23811650276184082,
+        "proof": 0.0,
+        "top2": 0.0
+      },
+      "full_max_error": 0.0,
+      "gate": false,
+      "id": "LEAF_000",
+      "max_error": 0.0,
+      "omission": 0,
+      "pred": {
+        "base": 0.7618834972381592,
+        "full": 1.0,
+        "legacy": 0.7618834972381592,
+        "proof": 1.0,
+        "top2": 1.0
+      },
+      "proof": 1.0,
+      "source": "TACTICAL_TRAIN_00001",
+      "stratum": "TACTICAL"
+    },
+    {
+      "T": 1,
+      "base_error": -0.16977977752685547,
+      "errors": {
+        "base": -0.16977977752685547,
+        "full": -0.16977977752685547,
+        "legacy": -0.16977977752685547,
+        "proof": -0.16977977752685547,
+        "top2": -0.16977977752685547
+      },
+      "full_max_error": -1.2842750549316406,
+      "gate": false,
+      "id": "LEAF_001",
+      "max_error": -1.2842750549316406,
+      "omission": 0,
+      "pred": {
+        "base": 0.8302202224731445,
+        "full": 0.8302202224731445,
+        "legacy": 0.8302202224731445,
+        "proof": 0.8302202224731445,
+        "top2": 0.8302202224731445
+      },
+      "proof": null,
+      "source": "TACTICAL_TRAIN_00001",
+      "stratum": "TACTICAL"
+    },
+    {
+      "T": 1,
+      "base_error": -0.14388853311538696,
+      "errors": {
+        "base": -0.14388853311538696,
+        "full": 0.0,
+        "legacy": -0.14388853311538696,
+        "proof": 0.0,
+        "top2": 0.0
+      },
+      "full_max_error": 0.0,
+      "gate": false,
+      "id": "LEAF_002",
+      "max_error": 0.0,
+      "omission": 0,
+      "pred": {
+        "base": 0.856111466884613,
+        "full": 1.0,
+        "legacy": 0.856111466884613,
+        "proof": 1.0,
+        "top2": 1.0
+      },
+      "proof": 1.0,
+      "source": "TACTICAL_TRAIN_00001",
+      "stratum": "TACTICAL"
+    },
+    {
+      "T": 1,
+      "base_error": -0.08334207534790039,
+      "errors": {
+        "base": -0.08334207534790039,
+        "full": 0.0,
+        "legacy": -0.08334207534790039,
+        "proof": 0.0,
+        "top2": 0.0
+      },
+      "full_max_error": 0.0,
+      "gate": false,
+      "id": "LEAF_003",
+      "max_error": 0.0,
+      "omission": 0,
+      "pred": {
+        "base": 0.9166579246520996,
+        "full": 1.0,
+        "legacy": 0.9166579246520996,
+        "proof": 1.0,
+        "top2": 1.0
+      },
+      "proof": 1.0,
+      "source": "TACTICAL_TRAIN_00001",
+      "stratum": "TACTICAL"
+    },
+    {
+      "T": 1,
+      "base_error": -0.3330780267715454,
+      "errors": {
+        "base": -0.3330780267715454,
+        "full": -0.3330780267715454,
+        "legacy": -0.3330780267715454,
+        "proof": -0.3330780267715454,
+        "top2": -0.3330780267715454
+      },
+      "full_max_error": -1.6266232132911682,
+      "gate": false,
+      "id": "LEAF_004",
+      "max_error": -1.6330929398536682,
+      "omission": 0,
+      "pred": {
+        "base": 0.6669219732284546,
+        "full": 0.6669219732284546,
+        "legacy": 0.6669219732284546,
+        "proof": 0.6669219732284546,
+        "top2": 0.6669219732284546
+      },
+      "proof": null,
+      "source": "TACTICAL_TRAIN_00006",
+      "stratum": "TACTICAL"
+    },
+    {
+      "T": 1,
+      "base_error": -0.6000846028327942,
+      "errors": {
+        "base": -0.6000846028327942,
+        "full": 0.0,
+        "legacy": -0.3000423014163971,
+        "proof": 0.0,
+        "top2": 0.0
+      },
+      "full_max_error": 0.0,
+      "gate": true,
+      "id": "LEAF_005",
+      "max_error": 0.0,
+      "omission": 0,
+      "pred": {
+        "base": 0.3999153971672058,
+        "full": 1.0,
+        "legacy": 0.6999576985836029,
+        "proof": 1.0,
+        "top2": 1.0
+      },
+      "proof": 1.0,
+      "source": "TACTICAL_TRAIN_00006",
+      "stratum": "TACTICAL"
+    },
+    {
+      "T": 1,
+      "base_error": -0.3596341609954834,
+      "errors": {
+        "base": -0.3596341609954834,
+        "full": -0.602337658405304,
+        "legacy": -0.670447526499629,
+        "proof": -0.3596341609954834,
+        "top2": -0.670447526499629
+      },
+      "full_max_error": -0.8450411558151245,
+      "gate": true,
+      "id": "LEAF_006",
+      "max_error": -0.9812608920037746,
+      "omission": 0,
+      "pred": {
+        "base": 0.6403658390045166,
+        "full": 0.39766234159469604,
+        "legacy": 0.329552473500371,
+        "proof": 0.6403658390045166,
+        "top2": 0.329552473500371
+      },
+      "proof": null,
+      "source": "TACTICAL_TRAIN_00006",
+      "stratum": "TACTICAL"
+    },
+    {
+      "T": 1,
+      "base_error": -0.5234648287296295,
+      "errors": {
+        "base": -0.5234648287296295,
+        "full": -0.9257836788892746,
+        "legacy": -0.980388805270195,
+        "proof": -0.5234648287296295,
+        "top2": -0.980388805270195
+      },
+      "full_max_error": -1.3281025290489197,
+      "gate": true,
+      "id": "LEAF_007",
+      "max_error": -1.4373127818107605,
+      "omission": 0,
+      "pred": {
+        "base": 0.4765351712703705,
+        "full": 0.0742163211107254,
+        "legacy": 0.019611194729804993,
+        "proof": 0.4765351712703705,
+        "top2": 0.019611194729804993
+      },
+      "proof": null,
+      "source": "TACTICAL_TRAIN_00006",
+      "stratum": "TACTICAL"
+    },
+    {
+      "T": 1,
+      "base_error": -0.06187814474105835,
+      "errors": {
+        "base": -0.06187814474105835,
+        "full": 0.0,
+        "legacy": -0.06187814474105835,
+        "proof": 0.0,
+        "top2": 0.0
+      },
+      "full_max_error": 0.0,
+      "gate": false,
+      "id": "LEAF_008",
+      "max_error": 0.0,
+      "omission": 0,
+      "pred": {
+        "base": 0.9381218552589417,
+        "full": 1.0,
+        "legacy": 0.9381218552589417,
+        "proof": 1.0,
+        "top2": 1.0
+      },
+      "proof": 1.0,
+      "source": "TACTICAL_TRAIN_00012",
+      "stratum": "TACTICAL"
+    },
+    {
+      "T": 1,
+      "base_error": -0.04444742202758789,
+      "errors": {
+        "base": -0.04444742202758789,
+        "full": 0.0,
+        "legacy": -0.04444742202758789,
+        "proof": 0.0,
+        "top2": 0.0
+      },
+      "full_max_error": 0.0,
+      "gate": false,
+      "id": "LEAF_009",
+      "max_error": 0.0,
+      "omission": 0,
+      "pred": {
+        "base": 0.9555525779724121,
+        "full": 1.0,
+        "legacy": 0.9555525779724121,
+        "proof": 1.0,
+        "top2": 1.0
+      },
+      "proof": 1.0,
+      "source": "TACTICAL_TRAIN_00012",
+      "stratum": "TACTICAL"
+    },
+    {
+      "T": 1,
+      "base_error": -0.05988246202468872,
+      "errors": {
+        "base": -0.05988246202468872,
+        "full": 0.0,
+        "legacy": -0.05988246202468872,
+        "proof": 0.0,
+        "top2": 0.0
+      },
+      "full_max_error": 0.0,
+      "gate": false,
+      "id": "LEAF_010",
+      "max_error": 0.0,
+      "omission": 0,
+      "pred": {
+        "base": 0.9401175379753113,
+        "full": 1.0,
+        "legacy": 0.9401175379753113,
+        "proof": 1.0,
+        "top2": 1.0
+      },
+      "proof": 1.0,
+      "source": "TACTICAL_TRAIN_00012",
+      "stratum": "TACTICAL"
+    },
+    {
+      "T": 1,
+      "base_error": -0.05167269706726074,
+      "errors": {
+        "base": -0.05167269706726074,
+        "full": 0.0,
+        "legacy": -0.05167269706726074,
+        "proof": 0.0,
+        "top2": 0.0
+      },
+      "full_max_error": 0.0,
+      "gate": false,
+      "id": "LEAF_011",
+      "max_error": -1.21031753718853,
+      "omission": 0,
+      "pred": {
+        "base": 0.9483273029327393,
+        "full": 1.0,
+        "legacy": 0.9483273029327393,
+        "proof": 1.0,
+        "top2": 1.0
+      },
+      "proof": 1.0,
+      "source": "TACTICAL_TRAIN_00012",
+      "stratum": "TACTICAL"
+    },
+    {
+      "T": 1,
+      "base_error": -0.28083091974258423,
+      "errors": {
+        "base": -0.28083091974258423,
+        "full": 0.0,
+        "legacy": -0.28083091974258423,
+        "proof": 0.0,
+        "top2": 0.0
+      },
+      "full_max_error": 0.0,
+      "gate": false,
+      "id": "LEAF_012",
+      "max_error": -1.5138161778450012,
+      "omission": 0,
+      "pred": {
+        "base": 0.7191690802574158,
+        "full": 1.0,
+        "legacy": 0.7191690802574158,
+        "proof": 1.0,
+        "top2": 1.0
+      },
+      "proof": 1.0,
+      "source": "TACTICAL_TRAIN_00014",
+      "stratum": "TACTICAL"
+    },
+    {
+      "T": 1,
+      "base_error": -0.20215314626693726,
+      "errors": {
+        "base": -0.20215314626693726,
+        "full": 0.0,
+        "legacy": -0.20215314626693726,
+        "proof": 0.0,
+        "top2": 0.0
+      },
+      "full_max_error": 0.0,
+      "gate": false,
+      "id": "LEAF_013",
+      "max_error": -1.3773680925369263,
+      "omission": 0,
+      "pred": {
+        "base": 0.7978468537330627,
+        "full": 1.0,
+        "legacy": 0.7978468537330627,
+        "proof": 1.0,
+        "top2": 1.0
+      },
+      "proof": 1.0,
+      "source": "TACTICAL_TRAIN_00014",
+      "stratum": "TACTICAL"
+    },
+    {
+      "T": 1,
+      "base_error": -0.2642211318016052,
+      "errors": {
+        "base": -0.2642211318016052,
+        "full": 0.0,
+        "legacy": -0.2642211318016052,
+        "proof": 0.0,
+        "top2": 0.0
+      },
+      "full_max_error": 0.0,
+      "gate": false,
+      "id": "LEAF_014",
+      "max_error": -1.386084258556366,
+      "omission": 0,
+      "pred": {
+        "base": 0.7357788681983948,
+        "full": 1.0,
+        "legacy": 0.7357788681983948,
+        "proof": 1.0,
+        "top2": 1.0
+      },
+      "proof": 1.0,
+      "source": "TACTICAL_TRAIN_00014",
+      "stratum": "TACTICAL"
+    },
+    {
+      "T": 1,
+      "base_error": -0.24755114316940308,
+      "errors": {
+        "base": -0.24755114316940308,
+        "full": 0.0,
+        "legacy": -0.24755114316940308,
+        "proof": 0.0,
+        "top2": 0.0
+      },
+      "full_max_error": 0.0,
+      "gate": false,
+      "id": "LEAF_015",
+      "max_error": -1.5414364337921143,
+      "omission": 0,
+      "pred": {
+        "base": 0.7524488568305969,
+        "full": 1.0,
+        "legacy": 0.7524488568305969,
+        "proof": 1.0,
+        "top2": 1.0
+      },
+      "proof": 1.0,
+      "source": "TACTICAL_TRAIN_00014",
+      "stratum": "TACTICAL"
+    },
+    {
+      "T": 1,
+      "base_error": -0.9077788293361664,
+      "errors": {
+        "base": -0.9077788293361664,
+        "full": 0.0,
+        "legacy": -0.4538894146680832,
+        "proof": 0.0,
+        "top2": 0.0
+      },
+      "full_max_error": 0.0,
+      "gate": true,
+      "id": "LEAF_016",
+      "max_error": 0.0,
+      "omission": 0,
+      "pred": {
+        "base": 0.09222117066383362,
+        "full": 1.0,
+        "legacy": 0.5461105853319168,
+        "proof": 1.0,
+        "top2": 1.0
+      },
+      "proof": 1.0,
+      "source": "TACTICAL_TRAIN_00017",
+      "stratum": "TACTICAL"
+    },
+    {
+      "T": 1,
+      "base_error": -0.30961519479751587,
+      "errors": {
+        "base": -0.30961519479751587,
+        "full": 0.0,
+        "legacy": -0.30961519479751587,
+        "proof": 0.0,
+        "top2": 0.0
+      },
+      "full_max_error": 0.0,
+      "gate": false,
+      "id": "LEAF_017",
+      "max_error": 0.0,
+      "omission": 0,
+      "pred": {
+        "base": 0.6903848052024841,
+        "full": 1.0,
+        "legacy": 0.6903848052024841,
+        "proof": 1.0,
+        "top2": 1.0
+      },
+      "proof": 1.0,
+      "source": "TACTICAL_TRAIN_00017",
+      "stratum": "TACTICAL"
+    },
+    {
+      "T": 1,
+      "base_error": -0.7104048728942871,
+      "errors": {
+        "base": -0.7104048728942871,
+        "full": 0.0,
+        "legacy": -0.35520243644714355,
+        "proof": 0.0,
+        "top2": 0.0
+      },
+      "full_max_error": 0.0,
+      "gate": true,
+      "id": "LEAF_018",
+      "max_error": 0.0,
+      "omission": 0,
+      "pred": {
+        "base": 0.2895951271057129,
+        "full": 1.0,
+        "legacy": 0.6447975635528564,
+        "proof": 1.0,
+        "top2": 1.0
+      },
+      "proof": 1.0,
+      "source": "TACTICAL_TRAIN_00017",
+      "stratum": "TACTICAL"
+    },
+    {
+      "T": 1,
+      "base_error": -0.5024767220020294,
+      "errors": {
+        "base": -0.5024767220020294,
+        "full": 0.0,
+        "legacy": -0.2512383610010147,
+        "proof": 0.0,
+        "top2": 0.0
+      },
+      "full_max_error": 0.0,
+      "gate": true,
+      "id": "LEAF_019",
+      "max_error": 0.0,
+      "omission": 0,
+      "pred": {
+        "base": 0.4975232779979706,
+        "full": 1.0,
+        "legacy": 0.7487616389989853,
+        "proof": 1.0,
+        "top2": 1.0
+      },
+      "proof": 1.0,
+      "source": "TACTICAL_TRAIN_00017",
+      "stratum": "TACTICAL"
+    },
+    {
+      "T": 1,
+      "base_error": -0.15979820489883423,
+      "errors": {
+        "base": -0.15979820489883423,
+        "full": 0.0,
+        "legacy": -0.15979820489883423,
+        "proof": 0.0,
+        "top2": 0.0
+      },
+      "full_max_error": 0.0,
+      "gate": false,
+      "id": "LEAF_020",
+      "max_error": -1.7373124361038208,
+      "omission": 0,
+      "pred": {
+        "base": 0.8402017951011658,
+        "full": 1.0,
+        "legacy": 0.8402017951011658,
+        "proof": 1.0,
+        "top2": 1.0
+      },
+      "proof": 1.0,
+      "source": "TACTICAL_TRAIN_00021",
+      "stratum": "TACTICAL"
+    },
+    {
+      "T": 1,
+      "base_error": -0.12872493267059326,
+      "errors": {
+        "base": -0.12872493267059326,
+        "full": 0.0,
+        "legacy": -0.12872493267059326,
+        "proof": 0.0,
+        "top2": 0.0
+      },
+      "full_max_error": 0.0,
+      "gate": false,
+      "id": "LEAF_021",
+      "max_error": -1.7437127828598022,
+      "omission": 0,
+      "pred": {
+        "base": 0.8712750673294067,
+        "full": 1.0,
+        "legacy": 0.8712750673294067,
+        "proof": 1.0,
+        "top2": 1.0
+      },
+      "proof": 1.0,
+      "source": "TACTICAL_TRAIN_00021",
+      "stratum": "TACTICAL"
+    },
+    {
+      "T": 1,
+      "base_error": -0.16267645359039307,
+      "errors": {
+        "base": -0.16267645359039307,
+        "full": -0.16267645359039307,
+        "legacy": -0.16267645359039307,
+        "proof": -0.16267645359039307,
+        "top2": -0.16267645359039307
+      },
+      "full_max_error": -1.5092418789863586,
+      "gate": false,
+      "id": "LEAF_022",
+      "max_error": -1.7504501938819885,
+      "omission": 0,
+      "pred": {
+        "base": 0.8373235464096069,
+        "full": 0.8373235464096069,
+        "legacy": 0.8373235464096069,
+        "proof": 0.8373235464096069,
+        "top2": 0.8373235464096069
+      },
+      "proof": null,
+      "source": "TACTICAL_TRAIN_00021",
+      "stratum": "TACTICAL"
+    },
+    {
+      "T": 1,
+      "base_error": -0.1646411418914795,
+      "errors": {
+        "base": -0.1646411418914795,
+        "full": 0.0,
+        "legacy": -0.1646411418914795,
+        "proof": 0.0,
+        "top2": 0.0
+      },
+      "full_max_error": 0.0,
+      "gate": false,
+      "id": "LEAF_023",
+      "max_error": -1.6419669389724731,
+      "omission": 0,
+      "pred": {
+        "base": 0.8353588581085205,
+        "full": 1.0,
+        "legacy": 0.8353588581085205,
+        "proof": 1.0,
+        "top2": 1.0
+      },
+      "proof": 1.0,
+      "source": "TACTICAL_TRAIN_00021",
+      "stratum": "TACTICAL"
+    },
+    {
+      "T": -1,
+      "base_error": 1.913079023361206,
+      "errors": {
+        "base": 1.913079023361206,
+        "full": 1.913079023361206,
+        "legacy": 1.913079023361206,
+        "proof": 1.913079023361206,
+        "top2": 1.913079023361206
+      },
+      "full_max_error": 0.9204379990696907,
+      "gate": false,
+      "id": "LEAF_024",
+      "max_error": 0.9204379990696907,
+      "omission": 0,
+      "pred": {
+        "base": 0.913079023361206,
+        "full": 0.913079023361206,
+        "legacy": 0.913079023361206,
+        "proof": 0.913079023361206,
+        "top2": 0.913079023361206
+      },
+      "proof": null,
+      "source": "SELFPLAY_TRAIN_00715",
+      "stratum": "SELFPLAY"
+    },
+    {
+      "T": 1,
+      "base_error": -0.17487776279449463,
+      "errors": {
+        "base": -0.17487776279449463,
+        "full": -0.17487776279449463,
+        "legacy": -0.17487776279449463,
+        "proof": -0.17487776279449463,
+        "top2": -0.17487776279449463
+      },
+      "full_max_error": -0.7049276232719421,
+      "gate": false,
+      "id": "LEAF_025",
+      "max_error": 0.9891590913757682,
+      "omission": -2,
+      "pred": {
+        "base": 0.8251222372055054,
+        "full": 0.8251222372055054,
+        "legacy": 0.8251222372055054,
+        "proof": 0.8251222372055054,
+        "top2": 0.8251222372055054
+      },
+      "proof": null,
+      "source": "SELFPLAY_TRAIN_00715",
+      "stratum": "SELFPLAY"
+    },
+    {
+      "T": 1,
+      "base_error": -0.11390930414199829,
+      "errors": {
+        "base": -0.11390930414199829,
+        "full": -0.11390930414199829,
+        "legacy": -0.11390930414199829,
+        "proof": -0.11390930414199829,
+        "top2": -0.11390930414199829
+      },
+      "full_max_error": -0.6375903487205505,
+      "gate": false,
+      "id": "LEAF_026",
+      "max_error": 1.1835647821426392,
+      "omission": -2,
+      "pred": {
+        "base": 0.8860906958580017,
+        "full": 0.8860906958580017,
+        "legacy": 0.8860906958580017,
+        "proof": 0.8860906958580017,
+        "top2": 0.8860906958580017
+      },
+      "proof": null,
+      "source": "SELFPLAY_TRAIN_00715",
+      "stratum": "SELFPLAY"
+    },
+    {
+      "T": 1,
+      "base_error": -0.08700621128082275,
+      "errors": {
+        "base": -0.08700621128082275,
+        "full": -0.08700621128082275,
+        "legacy": -0.08700621128082275,
+        "proof": -0.08700621128082275,
+        "top2": -0.08700621128082275
+      },
+      "full_max_error": -0.9890147484838963,
+      "gate": false,
+      "id": "LEAF_027",
+      "max_error": -1.3070470094680786,
+      "omission": 0,
+      "pred": {
+        "base": 0.9129937887191772,
+        "full": 0.9129937887191772,
+        "legacy": 0.9129937887191772,
+        "proof": 0.9129937887191772,
+        "top2": 0.9129937887191772
+      },
+      "proof": null,
+      "source": "SELFPLAY_TRAIN_00715",
+      "stratum": "SELFPLAY"
+    },
+    {
+      "T": 1,
+      "base_error": -1.0876577123999596,
+      "errors": {
+        "base": -1.0876577123999596,
+        "full": 0.0,
+        "legacy": -1.3712154440581799,
+        "proof": 0.0,
+        "top2": 0.0
+      },
+      "full_max_error": 0.0,
+      "gate": true,
+      "id": "LEAF_028",
+      "max_error": 0.34522682428359985,
+      "omission": -2,
+      "pred": {
+        "base": -0.08765771239995956,
+        "full": 1.0,
+        "legacy": -0.37121544405817986,
+        "proof": 1.0,
+        "top2": 1.0
+      },
+      "proof": 1.0,
+      "source": "SELFPLAY_TRAIN_00719",
+      "stratum": "SELFPLAY"
+    },
+    {
+      "T": 1,
+      "base_error": -1.015951981768012,
+      "errors": {
+        "base": -1.015951981768012,
+        "full": 0.0,
+        "legacy": -0.507975990884006,
+        "proof": 0.0,
+        "top2": 0.0
+      },
+      "full_max_error": 0.0,
+      "gate": true,
+      "id": "LEAF_029",
+      "max_error": 0.0,
+      "omission": 0,
+      "pred": {
+        "base": -0.015951981768012047,
+        "full": 1.0,
+        "legacy": 0.492024009115994,
+        "proof": 1.0,
+        "top2": 1.0
+      },
+      "proof": 1.0,
+      "source": "SELFPLAY_TRAIN_00719",
+      "stratum": "SELFPLAY"
+    },
+    {
+      "T": -1,
+      "base_error": 0.9237414300441742,
+      "errors": {
+        "base": 0.9237414300441742,
+        "full": 0.5343557745218277,
+        "legacy": 0.5044098943471909,
+        "proof": 0.9237414300441742,
+        "top2": 0.5044098943471909
+      },
+      "full_max_error": 0.1449701189994812,
+      "gate": true,
+      "id": "LEAF_030",
+      "max_error": 0.08507835865020752,
+      "omission": 0,
+      "pred": {
+        "base": -0.0762585699558258,
+        "full": -0.4656442254781723,
+        "legacy": -0.49559010565280914,
+        "proof": -0.0762585699558258,
+        "top2": -0.49559010565280914
+      },
+      "proof": null,
+      "source": "SELFPLAY_TRAIN_00716",
+      "stratum": "SELFPLAY"
+    },
+    {
+      "T": -1,
+      "base_error": 0.9122130572795868,
+      "errors": {
+        "base": 0.9122130572795868,
+        "full": 0.5036147981882095,
+        "legacy": 0.4942208081483841,
+        "proof": 0.9122130572795868,
+        "top2": 0.4942208081483841
+      },
+      "full_max_error": 0.09501653909683228,
+      "gate": true,
+      "id": "LEAF_031",
+      "max_error": 0.0762285590171814,
+      "omission": 0,
+      "pred": {
+        "base": -0.08778694272041321,
+        "full": -0.49638520181179047,
+        "legacy": -0.5057791918516159,
+        "proof": -0.08778694272041321,
+        "top2": -0.5057791918516159
+      },
+      "proof": null,
+      "source": "SELFPLAY_TRAIN_00716",
+      "stratum": "SELFPLAY"
+    },
+    {
+      "T": 1,
+      "base_error": -0.06886869668960571,
+      "errors": {
+        "base": -0.06886869668960571,
+        "full": 0.0,
+        "legacy": -0.06886869668960571,
+        "proof": 0.0,
+        "top2": 0.0
+      },
+      "full_max_error": 0.0,
+      "gate": false,
+      "id": "LEAF_032",
+      "max_error": -1.2475901395082474,
+      "omission": 0,
+      "pred": {
+        "base": 0.9311313033103943,
+        "full": 1.0,
+        "legacy": 0.9311313033103943,
+        "proof": 1.0,
+        "top2": 1.0
+      },
+      "proof": 1.0,
+      "source": "SELFPLAY_TRAIN_00716",
+      "stratum": "SELFPLAY"
+    },
+    {
+      "T": 1,
+      "base_error": -0.08507835865020752,
+      "errors": {
+        "base": -0.08507835865020752,
+        "full": 0.0,
+        "legacy": -0.08507835865020752,
+        "proof": 0.0,
+        "top2": 0.0
+      },
+      "full_max_error": 0.0,
+      "gate": false,
+      "id": "LEAF_033",
+      "max_error": -0.5718299448490143,
+      "omission": 0,
+      "pred": {
+        "base": 0.9149216413497925,
+        "full": 1.0,
+        "legacy": 0.9149216413497925,
+        "proof": 1.0,
+        "top2": 1.0
+      },
+      "proof": 1.0,
+      "source": "SELFPLAY_TRAIN_00716",
+      "stratum": "SELFPLAY"
+    },
+    {
+      "T": 1,
+      "base_error": -0.1887831687927246,
+      "errors": {
+        "base": -0.1887831687927246,
+        "full": -0.1887831687927246,
+        "legacy": -0.1887831687927246,
+        "proof": -0.1887831687927246,
+        "top2": -0.1887831687927246
+      },
+      "full_max_error": -0.3740609884262085,
+      "gate": false,
+      "id": "LEAF_034",
+      "max_error": -0.6183100938796997,
+      "omission": 0,
+      "pred": {
+        "base": 0.8112168312072754,
+        "full": 0.8112168312072754,
+        "legacy": 0.8112168312072754,
+        "proof": 0.8112168312072754,
+        "top2": 0.8112168312072754
+      },
+      "proof": null,
+      "source": "SELFPLAY_TRAIN_00718",
+      "stratum": "SELFPLAY"
+    },
+    {
+      "T": 1,
+      "base_error": -0.1664833426475525,
+      "errors": {
+        "base": -0.1664833426475525,
+        "full": 0.0,
+        "legacy": -0.1664833426475525,
+        "proof": 0.0,
+        "top2": 0.0
+      },
+      "full_max_error": 0.0,
+      "gate": false,
+      "id": "LEAF_035",
+      "max_error": 0.0,
+      "omission": 0,
+      "pred": {
+        "base": 0.8335166573524475,
+        "full": 1.0,
+        "legacy": 0.8335166573524475,
+        "proof": 1.0,
+        "top2": 1.0
+      },
+      "proof": 1.0,
+      "source": "SELFPLAY_TRAIN_00718",
+      "stratum": "SELFPLAY"
+    },
+    {
+      "T": 1,
+      "base_error": -0.11767518520355225,
+      "errors": {
+        "base": -0.11767518520355225,
+        "full": 0.0,
+        "legacy": -0.11767518520355225,
+        "proof": 0.0,
+        "top2": 0.0
+      },
+      "full_max_error": 0.0,
+      "gate": false,
+      "id": "LEAF_036",
+      "max_error": 0.0,
+      "omission": 0,
+      "pred": {
+        "base": 0.8823248147964478,
+        "full": 1.0,
+        "legacy": 0.8823248147964478,
+        "proof": 1.0,
+        "top2": 1.0
+      },
+      "proof": 1.0,
+      "source": "SELFPLAY_TRAIN_00718",
+      "stratum": "SELFPLAY"
+    },
+    {
+      "T": 1,
+      "base_error": -0.10803443193435669,
+      "errors": {
+        "base": -0.10803443193435669,
+        "full": 0.0,
+        "legacy": -0.10803443193435669,
+        "proof": 0.0,
+        "top2": 0.0
+      },
+      "full_max_error": 0.0,
+      "gate": false,
+      "id": "LEAF_037",
+      "max_error": 0.0,
+      "omission": 0,
+      "pred": {
+        "base": 0.8919655680656433,
+        "full": 1.0,
+        "legacy": 0.8919655680656433,
+        "proof": 1.0,
+        "top2": 1.0
+      },
+      "proof": 1.0,
+      "source": "SELFPLAY_TRAIN_00718",
+      "stratum": "SELFPLAY"
+    },
+    {
+      "T": 1,
+      "base_error": -0.26305556297302246,
+      "errors": {
+        "base": -0.26305556297302246,
+        "full": -0.26305556297302246,
+        "legacy": -0.26305556297302246,
+        "proof": -0.26305556297302246,
+        "top2": -0.26305556297302246
+      },
+      "full_max_error": -1.6856135725975037,
+      "gate": false,
+      "id": "LEAF_038",
+      "max_error": 0.31438642740249634,
+      "omission": -2,
+      "pred": {
+        "base": 0.7369444370269775,
+        "full": 0.7369444370269775,
+        "legacy": 0.7369444370269775,
+        "proof": 0.7369444370269775,
+        "top2": 0.7369444370269775
+      },
+      "proof": null,
+      "source": "SELFPLAY_TRAIN_00722",
+      "stratum": "SELFPLAY"
+    },
+    {
+      "T": 1,
+      "base_error": -0.42761850357055664,
+      "errors": {
+        "base": -0.42761850357055664,
+        "full": -1.1524514555931091,
+        "legacy": -1.180059790611267,
+        "proof": -0.42761850357055664,
+        "top2": -1.180059790611267
+      },
+      "full_max_error": -1.8772844076156616,
+      "gate": true,
+      "id": "LEAF_039",
+      "max_error": 0.06749892234802246,
+      "omission": -2,
+      "pred": {
+        "base": 0.5723814964294434,
+        "full": -0.15245145559310913,
+        "legacy": -0.1800597906112671,
+        "proof": 0.5723814964294434,
+        "top2": -0.1800597906112671
+      },
+      "proof": null,
+      "source": "SELFPLAY_TRAIN_00722",
+      "stratum": "SELFPLAY"
+    },
+    {
+      "T": 1,
+      "base_error": -1.517638623714447,
+      "errors": {
+        "base": -1.517638623714447,
+        "full": 0.0,
+        "legacy": -0.7588193118572235,
+        "proof": 0.0,
+        "top2": 0.0
+      },
+      "full_max_error": 0.0,
+      "gate": true,
+      "id": "LEAF_040",
+      "max_error": 0.0,
+      "omission": 0,
+      "pred": {
+        "base": -0.517638623714447,
+        "full": 1.0,
+        "legacy": 0.2411806881427765,
+        "proof": 1.0,
+        "top2": 1.0
+      },
+      "proof": 1.0,
+      "source": "SELFPLAY_TRAIN_00723",
+      "stratum": "SELFPLAY"
+    }
+  ],
+  "summary": {
+    "ALL": {
+      "families": 12,
+      "gate": 12,
+      "mae": {
+        "base": 0.38736132400610096,
+        "full": 0.17377533309343385,
+        "legacy": 0.34685509863150554,
+        "proof": 0.15982725053298763,
+        "top2": 0.17648224673438362
+      },
+      "mean_full_max_error": -0.28539880156153585,
+      "mean_max_error": -0.4634537254573732,
+      "mean_omission": -0.24390243902439024,
+      "mse": {
+        "base": 0.32416926782682987,
+        "full": 0.17242098708105227,
+        "legacy": 0.2697777591549546,
+        "proof": 0.1525294319998479,
+        "top2": 0.17765738616348375
+      },
+      "n": 41,
+      "omitted": 5,
+      "proofs": 27
+    },
+    "SELFPLAY": {
+      "families": 6,
+      "gate": 6,
+      "mae": {
+        "base": 0.5395101386615458,
+        "full": 0.2900666506851421,
+        "legacy": 0.4766795463750468,
+        "proof": 0.2943696484846227,
+        "top2": 0.2893765603794771
+      },
+      "mean_full_max_error": -0.30047453129116225,
+      "mean_max_error": 0.013929633916739155,
+      "mean_omission": -0.5882352941176471,
+      "mse": {
+        "base": 0.6039839010797007,
+        "full": 0.33430262483319745,
+        "legacy": 0.4991974075906847,
+        "proof": 0.334360281293768,
+        "top2": 0.3357094684756706
+      },
+      "n": 17,
+      "omitted": 5,
+      "proofs": 8
+    },
+    "TACTICAL": {
+      "families": 6,
+      "gate": 6,
+      "mae": {
+        "base": 0.2795892469584942,
+        "full": 0.09140231646597385,
+        "legacy": 0.2548961148131639,
+        "proof": 0.06452638531724612,
+        "top2": 0.09651544123577575
+      },
+      "mean_full_max_error": -0.27472015966971713,
+      "mean_max_error": -0.8016002716807028,
+      "mean_omission": 0,
+      "mse": {
+        "base": 0.12596723593937972,
+        "full": 0.0577548270066161,
+        "legacy": 0.10727217484631246,
+        "proof": 0.023732580416654492,
+        "top2": 0.06570382785901806
+      },
+      "n": 24,
+      "omitted": 0,
+      "proofs": 19
+    }
+  }
+}
