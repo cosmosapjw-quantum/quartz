@@ -1,0 +1,355 @@
+{
+  "continuation_caps": [
+    128,
+    512
+  ],
+  "excluded_boards": 3643,
+  "excluded_families": 103,
+  "identity": {
+    "rapfi_bridge": "bacbcfc90f6e4bfd0d9d035455afa3d6667ec32e7fd80cbc1d65a4001b30f64e",
+    "rapfi_config": "32b9180c91247541d399ceef62906d5ffeb48e34eb5f261612987633820d5d3c",
+    "rapfi_source": "1be1551ced57e38d53ed58f6d74bf6f8b4bdc230",
+    "rapfi_weight": "6bc0d1b0ff8e1d857f7f412923cd458f38f1a435087c91ae71fec3676c23ef62",
+    "rust_binary": "098adc7a4a46fc34ebd78f6e9e335b5f91b86dc63d82658349cfba1153a66178",
+    "rust_source": "f52d9ed476caf0515a2b914138cc3a697bbe0eb8"
+  },
+  "jobs": [
+    {
+      "family": "b71fcd895ad4b07883d5e158aa1ea3c6475dc5c4814ce9e2e964ac41d6335bb3",
+      "group": "TRAIN",
+      "id": "G00",
+      "opening": [
+        84,
+        99,
+        145,
+        141,
+        97,
+        158
+      ],
+      "stratum": "UNFILTERED"
+    },
+    {
+      "family": "32e713ceca2a84a9d5367d4cd4397f5481b523114f4a4651c2ae213c1437c61c",
+      "group": "TRAIN",
+      "id": "G01",
+      "opening": [
+        84,
+        126,
+        159,
+        79,
+        115,
+        95
+      ],
+      "stratum": "SENSITIVE"
+    },
+    {
+      "family": "1ee92c381e90fb66d2c56176863811bb6b94aeb1bd363763069c6d5208c57bb0",
+      "group": "TRAIN",
+      "id": "G02",
+      "opening": [
+        111,
+        68,
+        79,
+        128,
+        80,
+        115
+      ],
+      "stratum": "UNFILTERED"
+    },
+    {
+      "family": "4da0a27e718a49ae174441cb181d23bd28479c4f0bb5840f19cb99a5cce5a710",
+      "group": "TRAIN",
+      "id": "G03",
+      "opening": [
+        160,
+        96,
+        154,
+        129,
+        85,
+        82
+      ],
+      "stratum": "SENSITIVE"
+    },
+    {
+      "family": "d6a1a89a9b51a2432d49ad687f116ad5220a1776eb7a62f8dcb7d1361c4f0972",
+      "group": "TRAIN",
+      "id": "G04",
+      "opening": [
+        83,
+        69,
+        127,
+        95,
+        84,
+        110
+      ],
+      "stratum": "UNFILTERED"
+    },
+    {
+      "family": "2d58d62e91b37feeb989d0c521cba9498ba255712abfbd2184c717b75741b420",
+      "group": "TRAIN",
+      "id": "G05",
+      "opening": [
+        112,
+        81,
+        154,
+        84,
+        113,
+        80
+      ],
+      "stratum": "SENSITIVE"
+    },
+    {
+      "family": "95932ef432726355d787413e486497643ed068c70da16d55c744afce3f8d62bb",
+      "group": "TRAIN",
+      "id": "G06",
+      "opening": [
+        112,
+        85,
+        127,
+        94,
+        126,
+        66
+      ],
+      "stratum": "UNFILTERED"
+    },
+    {
+      "family": "773d4a4180d4e02d97d8903363fe4594de4fc2ec197d06e8a960adf368677565",
+      "group": "TRAIN",
+      "id": "G07",
+      "opening": [
+        67,
+        79,
+        68,
+        155,
+        95,
+        127
+      ],
+      "stratum": "SENSITIVE"
+    },
+    {
+      "family": "c75922115b8a5cd29dd564eeb2dc84392b09b482ca7449dd260bd43d10756927",
+      "group": "TRAIN",
+      "id": "G08",
+      "opening": [
+        109,
+        154,
+        83,
+        160,
+        84,
+        65
+      ],
+      "stratum": "UNFILTERED"
+    },
+    {
+      "family": "ce8da76c21685b623dd93d701c16485e7dc98f8ac7ec185ef03f9841bd27c46c",
+      "group": "TRAIN",
+      "id": "G09",
+      "opening": [
+        68,
+        82,
+        100,
+        130,
+        145,
+        80
+      ],
+      "stratum": "SENSITIVE"
+    },
+    {
+      "family": "2cd801f7ee06b84848366cbb58b7a6d64cec9b8576820f11b4751e5bfa715709",
+      "group": "TRAIN",
+      "id": "G10",
+      "opening": [
+        66,
+        143,
+        94,
+        96,
+        99,
+        109
+      ],
+      "stratum": "UNFILTERED"
+    },
+    {
+      "family": "9ca016a27cc5c96b4929d21be125139e9483a127b94884c6244eecd2e12b6257",
+      "group": "TRAIN",
+      "id": "G11",
+      "opening": [
+        99,
+        111,
+        124,
+        85,
+        96,
+        128
+      ],
+      "stratum": "SENSITIVE"
+    },
+    {
+      "family": "df9933b6dddee0790a9beb073a5892657475b54c4a9b6bdaba0848aafa8b9875",
+      "group": "CAL",
+      "id": "G12",
+      "opening": [
+        128,
+        125,
+        81,
+        69,
+        67,
+        114
+      ],
+      "stratum": "UNFILTERED"
+    },
+    {
+      "family": "467670e8ad99e21f6307c720848416e3a0823d34bbaf6339a1bdffac30103544",
+      "group": "CAL",
+      "id": "G13",
+      "opening": [
+        84,
+        113,
+        159,
+        66,
+        100,
+        125
+      ],
+      "stratum": "SENSITIVE"
+    },
+    {
+      "family": "4d66a99b5865f50f683cd8e391d942f0ffe1115b2a8a817b28be4e6e06f57415",
+      "group": "CAL",
+      "id": "G14",
+      "opening": [
+        115,
+        83,
+        94,
+        65,
+        125,
+        80
+      ],
+      "stratum": "UNFILTERED"
+    },
+    {
+      "family": "365e93a0e81e64671348c2d368ca7671530c778371a6bade0e112fe46e47c125",
+      "group": "CAL",
+      "id": "G15",
+      "opening": [
+        129,
+        156,
+        112,
+        130,
+        83,
+        111
+      ],
+      "stratum": "SENSITIVE"
+    },
+    {
+      "family": "6d082b88965cd76557bf6d3f42dfc1b947dc8e115be2874538748fc1d63cfed5",
+      "group": "TEST",
+      "id": "G16",
+      "opening": [
+        83,
+        68,
+        95,
+        70,
+        157,
+        112
+      ],
+      "stratum": "UNFILTERED"
+    },
+    {
+      "family": "b5e849924217ef20f668461b8247bbd1b63957919004d94ac1ba9aa4d691a1a4",
+      "group": "TEST",
+      "id": "G17",
+      "opening": [
+        115,
+        156,
+        142,
+        70,
+        109,
+        159
+      ],
+      "stratum": "SENSITIVE"
+    },
+    {
+      "family": "22e7a9c0438e4ab4bf3dfd0ce194618dcc61b98313b216a4c7d2a3f6bad4aeb7",
+      "group": "TEST",
+      "id": "G18",
+      "opening": [
+        98,
+        82,
+        114,
+        129,
+        65,
+        70
+      ],
+      "stratum": "UNFILTERED"
+    },
+    {
+      "family": "ea946fb1325066a3e32f3e48ca15ecf320df1666fcb428dd883aae346bf7dfad",
+      "group": "TEST",
+      "id": "G19",
+      "opening": [
+        128,
+        82,
+        139,
+        125,
+        129,
+        160
+      ],
+      "stratum": "SENSITIVE"
+    },
+    {
+      "family": "99e89674249e560b561085db2bad3cb98b9ffb64cdbf3aa103f588ab0bcfbec1",
+      "group": "TEST",
+      "id": "G20",
+      "opening": [
+        115,
+        81,
+        144,
+        66,
+        99,
+        80
+      ],
+      "stratum": "UNFILTERED"
+    },
+    {
+      "family": "e3d53546143090afd4088871f3f49b3d29d106ea9deda777db08bf3ecd1c6cbd",
+      "group": "TEST",
+      "id": "G21",
+      "opening": [
+        66,
+        69,
+        82,
+        129,
+        126,
+        81
+      ],
+      "stratum": "SENSITIVE"
+    },
+    {
+      "family": "9e02495c43c48840cb8683c809dc58fd06accf664f3c4820937f69badb25bef1",
+      "group": "TEST",
+      "id": "G22",
+      "opening": [
+        129,
+        85,
+        115,
+        110,
+        114,
+        125
+      ],
+      "stratum": "UNFILTERED"
+    },
+    {
+      "family": "81d91d129eb1b0968f7fc3c494def957b04bfee1f12ad17796b117efa1f40a0d",
+      "group": "TEST",
+      "id": "G23",
+      "opening": [
+        125,
+        81,
+        68,
+        140,
+        100,
+        115
+      ],
+      "stratum": "SENSITIVE"
+    }
+  ],
+  "source_cap": 128
+}
