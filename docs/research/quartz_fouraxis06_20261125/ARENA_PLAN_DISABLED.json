@@ -1,6 +1,30 @@
 {
   "arm": "BASE",
   "candidate_arm": "CERT",
+  "candidate_visits": 128,
+  "collection_lock": {
+    "files": {
+      "docs/research/quartz_fouraxis06_20261125/collector.py": "e9fbd2a6938a6ced05b4d8ee36f569be9bfd0ae3f04ee7a335a45b22b4697856",
+      "docs/research/quartz_fouraxis06_20261125/engine.py": "1a6573d0a755882e913065dedbb5b09b037ca64bfbd6f7976c1b83d157857c1f",
+      "docs/research/quartz_fouraxis06_20261125/native_smoke.py": "032cad801d1d50e05d36c5e2f7c912b0a04ab3d149588b099e8997cd8f7d11a2",
+      "docs/research/quartz_fouraxis06_20261125/prepare_plan.py": "c0fb12e12e237697d81c53610c84e3a65be09426e360750f7175e170f9718d98",
+      "docs/research/quartz_fouraxis06_20261125/rules.py": "0e7e67cf6b892cbfe7a511060f1eae9bfc560abba5121fe712746dd2c47c5c77",
+      "quartz/encoders.py": "0e32943bace80f916d527aa0d49b982b15d196e29980049fb98fc665097ba084",
+      "quartz/eval_runtime.py": "bf29d0916268571665ae6e89e5ce79107978759af746710c6e29dcf7555146b3",
+      "quartz/models_torch.py": "82feb0cabafd2eaea382acf4fe4f070cbdc324f3c6447a512a769a7b27d30abc",
+      "quartz/runtime_support.py": "63f404a1bc97f5565525a666837857bd2557fdb98a1efdb672f14792c426b7d9",
+      "quartz/selfplay_runtime.py": "13c0eab3d63b18c6073cb25b5b3ef04b98398ace335a0f2d49fe53e63a04b5ef",
+      "quartz/system_runtime.py": "9675fe1034e9358564b2d5731d1c6ff1e2f2ba92c4ded04695cbe2ca8af6ab8e",
+      "quartz/training_catalog.py": "638dd2ab434527126db483f8a8c1ab021e9cb009230cddadb9e56f67618e4943"
+    },
+    "interpreter": "/home/cosmosapjw/wssg_p2_20261120/venv/bin/python",
+    "interpreter_sha256": "e50d468e8b0adfb05733f5b87b3cff34829c4a8c1aea50c865aa8bdfe4bb150f",
+    "versions": {
+      "numpy": "2.3.5",
+      "python": "3.12.3 (main, Aug 31 2026, 10:18:26) [GCC 13.3.0]",
+      "torch": "2.9.1+cpu"
+    }
+  },
   "estimated_compressed_bytes_per_ply": 8192,
   "games": 10000,
   "generation_enabled": false,

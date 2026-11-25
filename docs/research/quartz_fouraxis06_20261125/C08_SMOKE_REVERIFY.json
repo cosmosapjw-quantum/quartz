@@ -1,0 +1,40 @@
+{
+  "arm_cost": {
+    "BASE": {
+      "NN_rows": 28,
+      "moves": 4,
+      "visits": 32,
+      "wall_ns": 614955773
+    }
+  },
+  "candidate_score": null,
+  "committed": 2,
+  "completed_arena_pairs": 0,
+  "counts": {
+    "CENSORED": 1,
+    "COMPLETED": 1,
+    "NN_rows": 28,
+    "SMOKE": 2,
+    "compressed_bytes": 6999,
+    "searched_plies": 4
+  },
+  "cross_split_D4_states": 0,
+  "length_bins": {
+    "SMOKE/140": 1,
+    "SMOKE/220": 1
+  },
+  "missing": 0,
+  "observed_positions": 4,
+  "orphan_temp_files": 0,
+  "plan_sha256": "92cadfeb759d30a3c759d049bc8fa4f9ffa75a298e8b77795e7fccfb0a0c9580",
+  "planned": 2,
+  "probe_count": 0,
+  "rule_witnesses": {
+    "SMOKE": 1
+  },
+  "searched_ply_bins": {
+    "SMOKE/140": 3,
+    "SMOKE/220": 1
+  },
+  "unique_D4_states": 4
+}

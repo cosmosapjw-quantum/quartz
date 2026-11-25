@@ -2,10 +2,11 @@
 Default CLI is read-only dry-run; imports Torch only after a valid execution gate.
 The smoke path is separate and cannot launch a production plan.
 """
-import argparse,collections,fcntl,gzip,hashlib,json,math,os,random,shutil,sqlite3,sys,tempfile,time
+import argparse,collections,fcntl,gzip,hashlib,json,math,os,random,shutil,sqlite3,sys,tempfile,time,subprocess
+from functools import lru_cache
 from pathlib import Path
 from rules import ADMITTED,replay,orbit_history,orbit_board,rule_key
-from engine import D,ROOT,MODEL,BIN,MODEL_SHA,identity,sha
+from engine import D,ROOT,MODEL,BIN,MODEL_SHA,PYTHON,identity,sha
 from native_smoke import check as check_native
 
 PLAN_SCHEMA='quartz_long_plan_v1'
@@ -18,22 +19,35 @@ GIB=1024**3
 def canonical(o):return json.dumps(o,sort_keys=True,separators=(',',':'),allow_nan=False).encode()
 def digest(o):return hashlib.sha256(canonical(o)).hexdigest()
 def derive_seed(*parts):return int.from_bytes(hashlib.sha256(canonical(parts)).digest()[:8],'big')
-def family_id(rule,h):return digest([rule,orbit_history(h)])
+def family_id(rule,h):
+    b,p,w=replay(h,rule);require(w is None,'terminal opening family')
+    # Same board under D4 or reordered compatible histories belongs to one family.
+    return hashlib.sha256(orbit_board(b,p,rule)).hexdigest()
+@lru_cache(maxsize=1)
+def collection_lock():
+    paths=[D/n for n in ('collector.py','engine.py','rules.py','native_smoke.py','prepare_plan.py')]
+    paths += [ROOT/'quartz'/n for n in ('models_torch.py','training_catalog.py','encoders.py','runtime_support.py','selfplay_runtime.py','eval_runtime.py','system_runtime.py')]
+    env=subprocess.check_output([PYTHON,'-c','import sys,json,importlib.metadata as m; print(json.dumps({"python":sys.version,"torch":m.version("torch"),"numpy":m.version("numpy")}))'],text=True)
+    return dict(files={str(p.relative_to(ROOT)):sha(p) for p in paths},interpreter=PYTHON,interpreter_sha256=sha(Path(PYTHON).resolve()),versions=json.loads(env))
+def search_visits(p,arm):
+    return p['candidate_visits'] if p['mode']=='PAIRED_ARENA' and arm=='CERT' else p['visits']
+
 def integer(x,lo,hi):return type(x) is int and lo<=x<=hi
 def require(test,message):
     if not test:raise ValueError(message)
 def validate_plan(p):
-    fields={'schema','generation_enabled','mode','rule','games','replicates_per_family','seed','opening_plies','opening_radius','visits','threads','temperature_plies','max_ply','shards','arm','candidate_arm','min_free_gib','min_available_gib','estimated_compressed_bytes_per_ply','identity'}
+    fields={'schema','generation_enabled','mode','rule','games','replicates_per_family','seed','opening_plies','opening_radius','visits','threads','temperature_plies','max_ply','shards','arm','candidate_arm','min_free_gib','min_available_gib','estimated_compressed_bytes_per_ply','identity','collection_lock','candidate_visits'}
     require(set(p)==fields,'unexpected/missing plan fields')
     require(p['schema']==PLAN_SCHEMA and type(p['generation_enabled']) is bool,'plan schema')
     require(p['mode'] in ('SELFPLAY','PAIRED_ARENA') and p['rule'] in ADMITTED,'unsupported mode or rules')
-    for k,lo,hi in [('games',1,1000000),('replicates_per_family',1,16),('seed',0,2**64-1),('opening_plies',4,8),('opening_radius',2,6),('visits',1,4096),('threads',1,2),('temperature_plies',0,225),('max_ply',5,225),('shards',1,64),('min_free_gib',5,10000),('min_available_gib',2,1000),('estimated_compressed_bytes_per_ply',1024,262144)]:
+    for k,lo,hi in [('games',1,1000000),('replicates_per_family',1,16),('seed',0,2**64-1),('opening_plies',4,8),('opening_radius',2,6),('visits',1,4096),('candidate_visits',1,4096),('threads',1,2),('temperature_plies',0,225),('max_ply',5,225),('shards',1,64),('min_free_gib',5,10000),('min_available_gib',2,1000),('estimated_compressed_bytes_per_ply',1024,262144)]:
         require(integer(p[k],lo,hi),'bad '+k)
     require(p['games']%p['replicates_per_family']==0,'fractional families')
-    require(p['opening_plies']<p['max_ply'] and p['visits']%p['threads']==0,'invalid ply/visit budget')
+    require(p['opening_plies']<p['max_ply'] and p['visits']%p['threads']==0 and p['candidate_visits']%p['threads']==0,'invalid ply/visit budget')
     require(p['arm'] in ('BASE','CERT') and p['candidate_arm'] in ('BASE','CERT'),'unknown arm')
     if p['mode']=='PAIRED_ARENA':require(p['replicates_per_family']==2 and p['arm']=='BASE' and p['candidate_arm']=='CERT','paired arena must have BASE vs CERT color swaps')
     require(p['identity']==identity(),'engine/model/source identity mismatch')
+    require(p['collection_lock']==collection_lock(),'collector/source/interpreter identity mismatch')
     return p
 def job_stream(p):
     validate_plan(p)
@@ -70,7 +84,13 @@ def authorize(p,plan_sha,limit,shard,out):
     require(plan_sha==digest(p),'explicit exact plan hash authorization required')
     require(integer(shard,0,p['shards']-1),'invalid shard')
     require(integer(limit,1,p['games']),'explicit bounded max-new-games required')
-    pf=preflight(p,out)
+    path=Path(out)
+    remaining=p['games']
+    if (path/'manifest.json').is_file():
+        require(json.loads((path/'manifest.json').read_text())==manifest(p),'resume plan mismatch')
+        remaining-=verify_store(path)['committed']
+    elif path.exists():require(path.is_dir() and not any(path.iterdir()),'nonempty output without manifest')
+    pf=preflight(p,out,remaining)
     require(pf['disk_ok'] and pf['memory_ok'],'bulk preflight blocked: insufficient disk reserve or memory')
     return pf
 def manifest(p):
@@ -100,7 +120,7 @@ def shard_dir(root,shard):return Path(root)/f'shard_{shard:03d}'
 def record_bytes(record):
     return gzip.compress(canonical(record)+b'\n',compresslevel=5,mtime=0)
 def load_record(p):
-    p=Path(p);raw=p.read_bytes()
+    p=Path(p);require(p.stat().st_size<=MAX_RECORD_BYTES,'compressed record cap');raw=p.read_bytes()
     require(len(raw)<=MAX_RECORD_BYTES,'compressed record cap')
     parts=p.name.split('.');require(len(parts)==4 and parts[-2:]==['json','gz'],'invalid record filename')
     require(hashlib.sha256(raw).hexdigest()==parts[1],'record checksum mismatch')
@@ -162,8 +182,9 @@ def validate_record(rec,p,job,positions=None):
         b,player,w0=replay(h,p['rule']);require(w0 is None and len(h)<limit,'search after terminal/cap')
         require(row['ply']==len(h) and row['player']==player,'wrong ply/player')
         a=dict(row['native'],history=list(h),board=b,rule=p['rule'])
-        require(a['arm']==(job['black_arm'] if player==1 else job['white_arm']) and a['requested_visits']==p['visits'] and a['threads']==p['threads'] and a['seed']==derive_seed(job['seed'],len(h),'search'),'search config mismatch')
+        require(a['arm']==(job['black_arm'] if player==1 else job['white_arm']) and a['requested_visits']==search_visits(p,a['arm']) and a['threads']==p['threads'] and a['seed']==derive_seed(job['seed'],len(h),'search'),'search config mismatch')
         check_native(a,h,p['rule'])
+        if not is_smoke:require(all(integer(a.get(k),0,2**63-1) for k in ('python_cpu_ns','rust_cpu_ticks')) and integer(a.get('tick_hz'),1,1000000),'missing CPU accounting')
         m,pr,pi=choose(a,job,len(h),p)
         require(row['played_move']==m and row['behavior_probability']==pr and row['policy_target']==pi and m in a['legal'],'behavior/visit target mismatch')
         require(row['z']==z_label(rec['winner_black'],player),'wrong terminal label')
@@ -181,7 +202,7 @@ def play_game(engine,p,job):
         b,player,w=replay(h,p['rule'])
         if w is not None or len(h)>=limit:break
         arm=job['black_arm'] if player==1 else job['white_arm']
-        a=engine.search(h,p['rule'],arm,p['visits'],p['threads'],derive_seed(job['seed'],len(h),'search'))
+        a=engine.search(h,p['rule'],arm,search_visits(p,arm),p['threads'],derive_seed(job['seed'],len(h),'search'))
         check_native(a,h,p['rule'])
         m,pr,pi=choose(a,job,len(h),p)
         # Exact history/board reconstructible from opening + chosen actions.
@@ -195,6 +216,7 @@ def play_game(engine,p,job):
     return r
 def execute(p,out,shard,limit,plan_sha):
     authorize(p,plan_sha,limit,shard,out) # MUST precede model import or directory creation
+    require(Path(sys.executable).resolve()==Path(PYTHON).resolve() and sys.prefix==str(Path(PYTHON).parent.parent),'use locked Torch virtualenv')
     from engine import Engine
     root=init_store(out,p);folder=shard_dir(root,shard);folder.mkdir(exist_ok=True)
     new=skipped=0
@@ -229,7 +251,7 @@ def verify_store(root,probe_manifest=None):
     if p['schema']==PLAN_SCHEMA:validate_plan(p)
     jobs={j['game_id']:j for j in planned_jobs(p)}
     counts=collections.Counter();ids=set();pairs=collections.defaultdict(list);probe_rows=[]
-    length_hist=collections.Counter();ply_hist=collections.Counter();rule_proofs=collections.Counter()
+    length_hist=collections.Counter();ply_hist=collections.Counter();rule_proofs=collections.Counter();arm_cost=collections.defaultdict(collections.Counter)
     with tempfile.TemporaryDirectory(prefix='quartz_long_verify_') as tmp:
         db=sqlite3.connect(str(Path(tmp)/'positions.sqlite'))
         db.execute('CREATE TABLE states (key BLOB PRIMARY KEY, mask INTEGER NOT NULL, count INTEGER NOT NULL)')
@@ -251,6 +273,10 @@ def verify_store(root,probe_manifest=None):
             m=validate_record(r,p,j,position);db.commit()
             counts[j['split']]+=1;counts[r['status']]+=1;counts['searched_plies']+=m['searched'];counts['NN_rows']+=sum(row['native']['nn_rows'] for row in r['moves']);counts['compressed_bytes']+=file.stat().st_size
             length_hist[f"{j['split']}/{m['plies']//20*20:03d}"]+=1
+            for row in r['moves']:
+                a=row['native'];cc=arm_cost[a['arm']];cc['moves']+=1;cc['wall_ns']+=a['transport_ns'];cc['visits']+=a['visits'];cc['NN_rows']+=a['nn_rows']
+                if 'python_cpu_ns' in a:
+                    cc['python_cpu_ns']+=a['python_cpu_ns'];cc['rust_cpu_ns_tick_estimate']+=a['rust_cpu_ticks']*10**9//a['tick_hz'];cc['CPU_measured_moves']+=1
             if p['schema']==PLAN_SCHEMA and p['mode']=='PAIRED_ARENA':
                 pairs[j['family']].append((j,r['winner_black'],m['searched'],sum(x['native']['transport_ns'] for x in r['moves'])))
         state_count,obs=db.execute('SELECT COUNT(*),COALESCE(SUM(count),0) FROM states').fetchone()
@@ -269,8 +295,9 @@ def verify_store(root,probe_manifest=None):
             rr=sorted(rr,key=lambda x:x[0]['replicate'])
             require(rr[0][0]['black_arm']=='CERT' and rr[1][0]['white_arm']=='CERT','invalid arena swap')
             paired_scores.append((2+rr[0][1]-rr[1][1])/4)
-    return dict(plan_sha256=digest(p),planned=len(jobs),committed=len(ids),missing=len(jobs)-len(ids),counts=dict(counts),length_bins=dict(length_hist),searched_ply_bins=dict(ply_hist),rule_witnesses=dict(rule_proofs),unique_D4_states=state_count,observed_positions=obs,cross_split_D4_states=cross,probe_count=len(probes),completed_arena_pairs=len(paired_scores),candidate_score=sum(paired_scores)/len(paired_scores) if paired_scores else None,orphan_temp_files=len(list(root.glob('shard_*/.pending-*.tmp'))))
+    return dict(plan_sha256=digest(p),arm_cost={k:dict(v) for k,v in arm_cost.items()},planned=len(jobs),committed=len(ids),missing=len(jobs)-len(ids),counts=dict(counts),length_bins=dict(length_hist),searched_ply_bins=dict(ply_hist),rule_witnesses=dict(rule_proofs),unique_D4_states=state_count,observed_positions=obs,cross_split_D4_states=cross,probe_count=len(probes),completed_arena_pairs=len(paired_scores),candidate_score=sum(paired_scores)/len(paired_scores) if paired_scores else None,orphan_temp_files=len(list(root.glob('shard_*/.pending-*.tmp'))))
 def main():
+    require(__debug__,'validation requires assertions enabled; do not run Python -O')
     parser=argparse.ArgumentParser()
     parser.add_argument('--plan',type=Path,default=D/'PLAN_DISABLED.json')
     parser.add_argument('--output',type=Path)

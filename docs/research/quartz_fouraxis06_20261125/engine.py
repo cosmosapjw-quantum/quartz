@@ -19,6 +19,7 @@ class Engine:
         # Disable transport/model caches for independent observed NN counts.
         for k in ('QUARTZ_DISABLE_COMPILE','QUARTZ_DISABLE_QIPC_SHM','QUARTZ_DISABLE_ASYNC_PIPELINE','QUARTZ_DISABLE_NN_CACHE'):os.environ[k]='1'
         os.environ['OMP_NUM_THREADS']='2';os.environ['MKL_NUM_THREADS']='2'
+        os.environ['RAYON_NUM_THREADS']=str(threads)
         import torch
         from quartz.models_torch import AlphaZeroNet
         from quartz.training_catalog import GAME_CONFIGS
@@ -42,13 +43,19 @@ class Engine:
         self.client=NNSearchClient(self.model,cfg,torch.device('cpu'),str(BIN))
         self.client.start()
     def request(self,q):
-        self.first=None;b=self.batches;r=self.rows;t=time.perf_counter_ns()
+        self.first=None;b=self.batches;r=self.rows
+        def ticks():
+            s=Path(f'/proc/{self.client.proc.pid}/stat').read_text().rsplit(')',1)[1].split()
+            return int(s[11])+int(s[12])
+        r0=ticks();p0=time.process_time_ns();t=time.perf_counter_ns()
         a=self.client._exchange_search_request(q)
         elapsed=time.perf_counter_ns()-t
+        cpu_ns=time.process_time_ns()-p0;rust_ticks=ticks()-r0
         if not isinstance(a,dict):raise RuntimeError('native non-dict reply')
         if a.get('error'):return a
         if a.get('schema')!='quartz_gomoku_long_v1':raise RuntimeError(f'bad schema: {str(a)[:500]}')
         a['transport_ns']=elapsed;a['nn_batches']=self.batches-b;a['nn_rows']=self.rows-r
+        a['python_cpu_ns']=cpu_ns;a['rust_cpu_ticks']=rust_ticks;a['tick_hz']=os.sysconf('SC_CLK_TCK')
         if 'evaluator_calls' in a:
             assert a['nn_rows']==a['evaluator_calls'],('NN boundary mismatch',a['nn_rows'],a['evaluator_calls'])
             if a['nn_rows']:
