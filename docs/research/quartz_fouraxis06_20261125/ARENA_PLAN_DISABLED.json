@@ -1,0 +1,26 @@
+{
+  "arm": "BASE",
+  "candidate_arm": "CERT",
+  "estimated_compressed_bytes_per_ply": 8192,
+  "games": 10000,
+  "generation_enabled": false,
+  "identity": {
+    "binary_sha256": "946bba4ab950a7028a7b513b06c1450f4c7b64bcee142d1b4b01704f19d34195",
+    "model_sha256": "57b93ba867ff8f9b74f91adef6b38f02f94de0bd7dc177785d668d32e1dcc3ae",
+    "source_head": "ee33f96525dab126aa7c44816bdd83d9de92a3f5"
+  },
+  "max_ply": 225,
+  "min_available_gib": 4,
+  "min_free_gib": 50,
+  "mode": "PAIRED_ARENA",
+  "opening_plies": 6,
+  "opening_radius": 3,
+  "replicates_per_family": 2,
+  "rule": "freestyle",
+  "schema": "quartz_long_plan_v1",
+  "seed": 2026112506,
+  "shards": 4,
+  "temperature_plies": 12,
+  "threads": 1,
+  "visits": 128
+}
