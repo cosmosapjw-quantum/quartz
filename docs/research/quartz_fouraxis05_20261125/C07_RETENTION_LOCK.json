@@ -1,0 +1,63 @@
+{
+  "diag_sha": "b653a862bd658d1114c83513a5b6dea7790addb29ba58633496ff75b2af56c42",
+  "grid": {
+    "0.05": {
+      "CAL": {
+        "better": 3,
+        "exposed_families": 1,
+        "exposed_pairs": 4,
+        "families": 24,
+        "mean": 0.015625,
+        "worse": 0
+      },
+      "TRAIN": {
+        "better": 1,
+        "exposed_families": 7,
+        "exposed_pairs": 18,
+        "families": 36,
+        "mean": 0.003472222222222222,
+        "worse": 0
+      }
+    },
+    "0.1": {
+      "CAL": {
+        "better": 3,
+        "exposed_families": 2,
+        "exposed_pairs": 5,
+        "families": 24,
+        "mean": 0.010416666666666666,
+        "worse": 1
+      },
+      "TRAIN": {
+        "better": 1,
+        "exposed_families": 9,
+        "exposed_pairs": 25,
+        "families": 36,
+        "mean": 0.003472222222222222,
+        "worse": 0
+      }
+    },
+    "0.2": {
+      "CAL": {
+        "better": 3,
+        "exposed_families": 2,
+        "exposed_pairs": 5,
+        "families": 24,
+        "mean": 0.010416666666666666,
+        "worse": 1
+      },
+      "TRAIN": {
+        "better": 6,
+        "exposed_families": 10,
+        "exposed_pairs": 47,
+        "families": 36,
+        "mean": 0.017361111111111112,
+        "worse": 1
+      }
+    }
+  },
+  "labels_sha": "b733b3fdceaa0a26726f18ad0adbd25cdb4957166be70d8d45d8f0b2e98af734",
+  "reason": "insufficient positive train/cal support",
+  "threshold": 0.0,
+  "train_candidate": 0.2
+}
