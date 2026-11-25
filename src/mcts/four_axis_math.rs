@@ -67,9 +67,25 @@ mod tests{
 }
 
 // C04 red scaffold: certificate must not assert loss from partial coverage.
-pub fn certificate(_terminal_actions:&[Option<f32>])->Option<f32>{None}
+pub fn certificate(terminal_actions:&[Option<f32>])->Option<f32>{
+    if terminal_actions.is_empty(){return None;}
+    if terminal_actions.iter().any(|x|*x==Some(1.)){return Some(1.);}
+    if terminal_actions.iter().all(Option::is_some){
+        return terminal_actions.iter().filter_map(|&x|x).reduce(f32::max);
+    }
+    None
+}
 impl Ledger{
-    pub fn observe_split(&mut self,_child:u64,_parent:u64,_edge:usize,_raw:f32)->(Option<(f64,u64)>,Option<(f64,u64)>){(None,None)}
+    pub fn observe_split(&mut self,child:u64,parent:u64,edge:usize,raw:f32)->(Option<(f64,u64)>,Option<(f64,u64)>){
+        let e=self.entries.entry(child).or_default();let key=(parent,edge);
+        let own=e.get(&key).map(|&(s,n)|(s/n as f64,n));
+        let mut other:Vec<_>=e.iter().filter(|(k,_)|**k!=key).collect();
+        other.sort_unstable_by_key(|(k,_)|**k);
+        let (s,n)=other.iter().fold((0.,0u64),|(s,n),(_,v)|(s+v.0,n+v.1));
+        let cross=if n>0{Some((s/n as f64,n))}else{None};
+        let a=e.entry(key).or_default();a.0+=raw as f64;a.1+=1;
+        (own,cross)
+    }
 }
 #[cfg(test)]
 mod mechanism_tests {
