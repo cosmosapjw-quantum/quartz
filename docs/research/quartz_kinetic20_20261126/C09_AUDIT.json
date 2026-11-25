@@ -1,0 +1,41 @@
+{
+  "c4": {
+    "NN": 47263,
+    "actions": 639,
+    "cal_checks": 888,
+    "cpu_within_10pct": 80,
+    "ext_descriptive_boot": [
+      -0.027559055118110236,
+      0.06299212598425197
+    ],
+    "ext_gain": 0.015748031496062992,
+    "extended_exact_NN": 127,
+    "fit_A": 55,
+    "fit_B": 55,
+    "independent_nodes": 587520,
+    "initial_exact_NN": 83,
+    "native_requests": 1280,
+    "roots": 128,
+    "source": {
+      "NN": 75252,
+      "attempts": 360,
+      "latest_within_limited_inventory_discrepancies": 0,
+      "plies": 4621,
+      "queries": 2554
+    },
+    "time_within_10pct": 65,
+    "visits": 67303
+  },
+  "gomoku": {
+    "action_pairs": 31,
+    "families": 12,
+    "games": 62,
+    "label_NN": 67624,
+    "label_plies": 543,
+    "materialized": 20,
+    "policy_disagreements": 1,
+    "queries": 30,
+    "roots": 10
+  },
+  "scope": "independent fixed-grid source replay, split readout/gain-table reconstruction, all exact utility/proof checks and native phase/decision/resource checks; source native moves verified from recorded decisions not independently re-searched, older historical manifests hash-verified and K16-19 opening/board exclusions independently checked; no full MCTS reimplementation"
+}
