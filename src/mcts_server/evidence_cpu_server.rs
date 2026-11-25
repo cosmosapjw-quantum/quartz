@@ -191,24 +191,61 @@ fn k21_run(engine:&MctsEngine<Connect4>,q:&Req,proof:&[(usize,f64,f64)])->Result
     Ok(json!({"states":states,"best":best,"visits":visits,"cause":cause,"proof":proof,"core_us":core_us,
        "meta_ns":meta_ns,"result":engine.four_axis_snapshot()}))
 }
+// K22 fixed-target causal comparison: single resident root, isolated request.
+fn k22_run(engine:&MctsEngine<Connect4>,q:&Req,proof:&[(usize,f64,f64)])->Result<Value,String>{
+    let mut h=Hooks::new_modes(0,0,0,false);let core=Instant::now();
+    engine.four_axis_block(8,1,&h);
+    let pre=engine.four_axis_lite();let p=k21_state(pre.clone(),None);
+    let a=pre.moves[..pre.len].iter().position(|&m|m==pre.best).ok_or("incumbent")?;
+    let b=(0..pre.len).filter(|&i|i!=a).max_by_key(|&i|(pre.n[i],std::cmp::Reverse(i))).ok_or("rival")?;
+    let c=(0..pre.len).find(|&i|i!=a&&i!=b).ok_or("third")?;
+    let panel=[pre.moves[a],pre.moves[b],pre.moves[c]];
+    let chosen=match q.arm.as_str(){"K22N"=>0,"K22F"=>1,"K22X"=>2,"K22LIVE"=>q.causal_table.as_ref().unwrap()[p.bin],_=>return Err("bad causal arm".into())};
+    let target=match chosen{0=>None,1=>Some((b,panel[1])),2=>Some((c,panel[2])),_=>return Err("bad choice".into())};
+    let mut visits=8u32;let goal=pre.nn+12;let cert=certified(proof);
+    let mut pulse=pre.clone();
+    if cert.is_none(){
+        h.set_decision_force(target,8,12);
+        while visits<12 && engine.evaluator_call_count()<goal {engine.four_axis_block(1,1,&h);visits+=1;}
+        pulse=engine.four_axis_lite();
+        if let Some((j,_))=target{assert_eq!(pulse.n[j]-pre.n[j],visits-8);}
+        h.set_decision_force(None,visits,128);
+        while visits<128 && engine.evaluator_call_count()<goal {engine.four_axis_block(1,1,&h);visits+=1;}
+    }
+    let end=engine.four_axis_lite();assert!(end.nn<=goal);let inc=end.nn-pre.nn;
+    let end_state=k21_state(end.clone(),Some(&pre));let pulse_state=k21_state(pulse,Some(&pre));
+    let core_us=core.elapsed().as_micros();let best=cert.unwrap_or(end.best);
+    Ok(json!({"states":[p,pulse_state,end_state],"best":best,"visits":visits,"chosen":chosen,"panel":panel,
+      "forced":target.map(|(_,m)|m),"incremental_nn":inc,"goal_nn":goal,"cause":if cert.is_some(){"CERTIFIED"}else if inc==12{"NN_TARGET"}else{"VISIT_CAP"},
+      "proof":proof,"core_us":core_us,"result":engine.four_axis_snapshot()}))
+}
 #[derive(Deserialize)]
 #[serde(deny_unknown_fields)]
-struct Req{cmd:String,history:String,arm:String,cap:u32,seed:u64,model_path:String,model_identity:String,#[serde(default)]controller:Option<Controller>,#[serde(default)]nn_budget:Option<u64>,#[serde(default)]tail_budget_us:Option<u64>,#[serde(default)]seq_table:Option<[[f64;8];7]>}
+struct Req{cmd:String,history:String,arm:String,cap:u32,seed:u64,model_path:String,model_identity:String,#[serde(default)]controller:Option<Controller>,#[serde(default)]nn_budget:Option<u64>,#[serde(default)]tail_budget_us:Option<u64>,#[serde(default)]seq_table:Option<[[f64;8];7]>,#[serde(default)]causal_table:Option<[usize;8]>}
 fn inner(line:&str)->Result<Value,String>{
     let start=Instant::now();let q:Req=serde_json::from_str(line).map_err(|e|e.to_string())?;
     let k20=matches!(q.arm.as_str(),"K20LIVE"|"K20N64"|"K20MATCH"|"K20MATCHX"|"K20TIME");
     let k21=matches!(q.arm.as_str(),"K21TRACE"|"K21LIVE"|"K21MATCH"|"K21TIME");
-    if q.cmd!="research_connect4_evidence_cpu"||(!k20&&!k21&&!matches!(q.arm.as_str(),"K16N"|"K16BAL"|"K16REV"|"K17EXP"))||![32,64].contains(&q.cap){return Err("bad contract".into());}
-    if (k20||k21)&&q.cap!=64 || (q.arm=="K20LIVE")!=q.controller.is_some() || q.controller.as_ref().is_some_and(|m|!m.valid()) ||
+    let k22=matches!(q.arm.as_str(),"K22N"|"K22F"|"K22X"|"K22LIVE");
+    if q.cmd!="research_connect4_evidence_cpu"||(!k20&&!k21&&!k22&&!matches!(q.arm.as_str(),"K16N"|"K16BAL"|"K16REV"|"K17EXP"))||![32,64].contains(&q.cap){return Err("bad contract".into());}
+    if (k20||k21||k22)&&q.cap!=64 || (q.arm=="K20LIVE")!=q.controller.is_some() || q.controller.as_ref().is_some_and(|m|!m.valid()) ||
         matches!(q.arm.as_str(),"K20MATCH"|"K20MATCHX"|"K21MATCH")!=q.nn_budget.is_some() || q.nn_budget.is_some_and(|n|n==0||n>65) ||
         matches!(q.arm.as_str(),"K20TIME"|"K21TIME")!=q.tail_budget_us.is_some() || q.tail_budget_us.is_some_and(|n|n>1000000){return Err("bad K20/K21 controller/budget".into());}
     if (q.arm=="K21LIVE")!=q.seq_table.is_some() || q.seq_table.as_ref().is_some_and(|t|t.iter().flatten().any(|x|!x.is_finite()||x.abs()>2.)){return Err("bad K21 table".into());}
+    if (q.arm=="K22LIVE")!=q.causal_table.is_some() || q.causal_table.as_ref().is_some_and(|t|t.iter().any(|&x|x>2)){return Err("bad causal table".into());}
     let state=Connect4::from_history(&q.history)?;let legal=state.legal_moves();
     if state.is_terminal()||legal.len()<2{return Err("terminal or singleton root".into());}
-    if (q.arm=="K17EXP"||k20||k21)&&legal.len()<3{return Err("expansion requires three legal moves".into());}
+    if (q.arm=="K17EXP"||k20||k21||k22)&&legal.len()<3{return Err("expansion requires three legal moves".into());}
     let (ev,hit)=model_for_root("conv3x3",Some(&q.model_path),Some(&q.model_identity),true)?;
     let mut cfg=MctsConfig::evaluation(2.).with_seed(q.seed);cfg.root_forced_win=false;cfg.dirichlet=None;cfg.temperature=0.;cfg.quartz=None;
     let engine=MctsEngine::new(state.clone(),ev,cfg);
+    if k22 {
+        let proof=proof_intervals(&state);
+        let mut out=k22_run(&engine,&q,&proof)?;
+        let calls=engine.evaluator_call_count();drop(engine);
+        out.as_object_mut().unwrap().extend(json!({"schema":"quartz_k22_c4_v1","history":q.history,"arm":q.arm,"cap":q.cap,"seed":q.seed,"legal":legal,"model_identity":q.model_identity,"cache_hit":hit,"NN_calls":calls,"whole_us":start.elapsed().as_micros()}).as_object().unwrap().clone());
+        return Ok(out);
+    }
     if k21 {
         let proof=proof_intervals(&state);
         let mut out=k21_run(&engine,&q,&proof)?;
