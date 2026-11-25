@@ -36,6 +36,26 @@ use std::ops::Deref;
 use std::ptr::NonNull;
 use std::sync::atomic::{AtomicI32, AtomicPtr, AtomicU32, AtomicU64, Ordering};
 use std::sync::OnceLock;
+// Stable-address stripes serialize writers without adding a lock to every edge.
+// No stripe is held across another stripe acquisition; selection reads remain
+// weak snapshots. Final joined N/W/M2 represent the same completed samples.
+static SAMPLE_WRITERS: std::sync::LazyLock<[PlMutex<()>;1024]> =
+    std::sync::LazyLock::new(||std::array::from_fn(|_|PlMutex::new(())));
+fn sample_lock(address:usize)->parking_lot::MutexGuard<'static,()>{
+    SAMPLE_WRITERS[((address>>4)^(address>>14))&1023].lock()
+}
+fn record_moment(n:&AtomicU32,w:&AtomicU64,m2:&AtomicU64,x:f64){
+    let n0=n.load(Ordering::Relaxed);
+    let w0=atomic_f64_load(w);
+    let n1=n0.checked_add(1).expect("visit count overflow");
+    if n0>0{
+        let d=x-w0/n0 as f64;
+        atomic_f64_add(m2,d*d*(n0 as f64/n1 as f64));
+    }
+    atomic_f64_add(w,x);
+    n.store(n1,Ordering::Release);
+}
+
 
 // ─────────────────────────────────────────────
 // § ArenaRef<T> — bumpalo-arena-allocated node reference
@@ -313,6 +333,13 @@ impl<M: Copy + Send + Sync + 'static> MctsEdge<M> {
         }
     }
 
+    /// Exact Welford statistics after all completed writers join.
+    pub fn record_sample(&self,x:f32){
+        assert!(x.is_finite(),"nonfinite backed sample");
+        let _g=sample_lock(self as *const Self as usize);
+        record_moment(&self.n,&self.w,&self.m2,x as f64);
+    }
+
     pub fn add_w(&self, delta: f32) {
         atomic_f64_add(&self.w, delta as f64);
     }
@@ -413,7 +440,10 @@ pub struct MctsNode<M> {
     // ── §6.3 MERGE channel: RTT holonomy residual curvature ──────
     // RTT(s) = Var[Q_γ(s)], γᵢ = 서로 다른 경로
     // TT hit 때마다 backed-up Q를 Welford online variance로 누적
-    /// TT 히트 횟수 (서로 다른 경로 수)
+    /// Post-sharing observed sample count (not number of distinct paths)
+    // First actually traversed incoming edge; valid only for this arena lifetime.
+    rtt_first_edge: AtomicU64,
+    rtt_shared: std::sync::atomic::AtomicBool,
     pub rtt_n: AtomicU32,
     /// Welford W: 누적 Q 합 (f64 bits)
     pub rtt_w: AtomicU64,
@@ -438,6 +468,8 @@ impl<M: Copy + Send + Sync + 'static> MctsNode<M> {
             materialize_lock: PlMutex::new(()),
             n_total: AtomicU32::new(0),
             w_total: AtomicU64::new(0),
+            rtt_first_edge: AtomicU64::new(0),
+            rtt_shared: std::sync::atomic::AtomicBool::new(false),
             rtt_n: AtomicU32::new(0),
             rtt_w: AtomicU64::new(0),
             rtt_m2: AtomicU64::new(0),
@@ -475,21 +507,23 @@ impl<M: Copy + Send + Sync + 'static> MctsNode<M> {
         (my_n as f32 / root_n as f32).min(1.0)
     }
 
-    /// backup.rs에서 TT hit path에 대해 호출
-    pub fn record_rtt_hit(&self, q_value: f32) {
-        let q = q_value as f64;
-        let n_old = self.rtt_n.fetch_add(1, Ordering::AcqRel) as f64;
-        let n_new = n_old + 1.0;
-        // Welford update
-        let w_old = f64::from_bits(self.rtt_w.load(Ordering::Acquire));
-        let w_new = w_old + q;
-        atomic_f64_add(&self.rtt_w, q);
-        // M2 += (q - mean_old)(q - mean_new)
-        if n_old >= 1.0 {
-            let mean_old = w_old / n_old;
-            let mean_new = w_new / n_new;
-            let delta_m2 = (q - mean_old) * (q - mean_new);
-            atomic_f64_add(&self.rtt_m2, delta_m2);
+    /// Low-level observed-sample update (also used by isolated tests).
+    pub fn record_rtt_hit(&self,q:f32){
+        assert!(q.is_finite());
+        let _g=sample_lock(self as *const Self as usize);
+        record_moment(&self.rtt_n,&self.rtt_w,&self.rtt_m2,q as f64);
+    }
+    /// Actual traversed incoming-edge provenance, not repeated visit count.
+    /// Once a second distinct edge is observed, count subsequent observations
+    /// as post-sharing dispersion. This is not a unique-path estimator.
+    pub fn record_incoming_sample(&self,edge_id:usize,child_value:f32){
+        assert!(edge_id!=0&&child_value.is_finite());
+        let _g=sample_lock(self as *const Self as usize);
+        let first=self.rtt_first_edge.load(Ordering::Relaxed);
+        if first==0{self.rtt_first_edge.store(edge_id as u64,Ordering::Relaxed);return;}
+        if first!=edge_id as u64{self.rtt_shared.store(true,Ordering::Relaxed);}
+        if self.rtt_shared.load(Ordering::Relaxed){
+            record_moment(&self.rtt_n,&self.rtt_w,&self.rtt_m2,child_value as f64);
         }
     }
 

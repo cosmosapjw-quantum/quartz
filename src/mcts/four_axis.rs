@@ -213,13 +213,7 @@ impl Hooks{
             }
             raw=-raw;y=-y;
             let (vv,vq)=pe.applied_vl;e.remove_vl(vv,vq);
-            let n0=e.n.fetch_add(1,Ordering::AcqRel) as f64;
-            let w0=atomic_f64_load(&e.w);
-            e.add_w(y);
-            if n0>=1.{
-                let mu=w0/n0;let mu1=(w0+y as f64)/(n0+1.);
-                atomic_f64_add(&e.m2,(y as f64-mu)*(y as f64-mu1));
-            }
+            e.record_sample(y);
             // No legacy repeated-edge-as-RTT counter here. Provenance is
             // the actual incoming-context ledger above.
             atomic_f64_add(&pe.parent.w_total,y as f64);
