@@ -1,0 +1,50 @@
+{
+  "arm": "BASE",
+  "candidate_arm": "CERT",
+  "candidate_visits": 8,
+  "collection_lock": {
+    "files": {
+      "docs/research/quartz_preflight07_20261125/collector.py": "58b567ff5fbbfff5b4b3031b161dd97720d4066a88f8e7bcb2ff0161ae03a235",
+      "docs/research/quartz_preflight07_20261125/engine.py": "e2787511d710c91846e152922fdf32b0534512eed51999b199993cb044e7c9ee",
+      "docs/research/quartz_preflight07_20261125/native_smoke.py": "e1b78f9e8cb8e09e2e7a2e81e88fc432173d87971e648d9a2c2dcc9db35c82e7",
+      "docs/research/quartz_preflight07_20261125/prepare_plan.py": "c0fb12e12e237697d81c53610c84e3a65be09426e360750f7175e170f9718d98",
+      "docs/research/quartz_preflight07_20261125/rules.py": "0e104d91da9462bdd29bbc7eca7629bdcd7e7330b93c9bd435122df09e8de42d",
+      "quartz/encoders.py": "0e32943bace80f916d527aa0d49b982b15d196e29980049fb98fc665097ba084",
+      "quartz/eval_runtime.py": "bf29d0916268571665ae6e89e5ce79107978759af746710c6e29dcf7555146b3",
+      "quartz/models_torch.py": "82feb0cabafd2eaea382acf4fe4f070cbdc324f3c6447a512a769a7b27d30abc",
+      "quartz/runtime_support.py": "63f404a1bc97f5565525a666837857bd2557fdb98a1efdb672f14792c426b7d9",
+      "quartz/selfplay_runtime.py": "13c0eab3d63b18c6073cb25b5b3ef04b98398ace335a0f2d49fe53e63a04b5ef",
+      "quartz/system_runtime.py": "9675fe1034e9358564b2d5731d1c6ff1e2f2ba92c4ded04695cbe2ca8af6ab8e",
+      "quartz/training_catalog.py": "638dd2ab434527126db483f8a8c1ab021e9cb009230cddadb9e56f67618e4943"
+    },
+    "interpreter": "/home/cosmosapjw/wssg_p2_20261120/venv/bin/python",
+    "interpreter_sha256": "e50d468e8b0adfb05733f5b87b3cff34829c4a8c1aea50c865aa8bdfe4bb150f",
+    "versions": {
+      "numpy": "2.3.5",
+      "python": "3.12.3 (main, Aug 31 2026, 10:18:26) [GCC 13.3.0]",
+      "torch": "2.9.1+cpu"
+    }
+  },
+  "estimated_compressed_bytes_per_ply": 8192,
+  "games": 16,
+  "generation_enabled": true,
+  "identity": {
+    "binary_sha256": "4a8765eda4822b9b04b8d2e8d1026080d5a2c020f82b75102e214f820347544a",
+    "model_sha256": "57b93ba867ff8f9b74f91adef6b38f02f94de0bd7dc177785d668d32e1dcc3ae",
+    "source_head": "e39e25398ffdf3b63d638988ea47e46a44238d4c"
+  },
+  "max_ply": 225,
+  "min_available_gib": 4,
+  "min_free_gib": 20,
+  "mode": "SELFPLAY",
+  "opening_plies": 6,
+  "opening_radius": 3,
+  "replicates_per_family": 2,
+  "rule": "freestyle",
+  "schema": "quartz_long_plan_v1",
+  "seed": 2026112507,
+  "shards": 1,
+  "temperature_plies": 12,
+  "threads": 1,
+  "visits": 8
+}

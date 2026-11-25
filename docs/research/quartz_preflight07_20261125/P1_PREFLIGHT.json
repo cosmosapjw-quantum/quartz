@@ -1,0 +1,19 @@
+{
+  "families": 8,
+  "games": 16,
+  "output": "/home/cosmosapjw/quantum/research/quartz_preflight07_20261125/docs/research/quartz_preflight07_20261125/P2_CORPUS",
+  "plan_sha": "eb7e07b78ccce10ccc9c0350effd9bf8a3ddc6d1b9ca77aa83418d75c5e7f97c",
+  "preflight": {
+    "available_memory_bytes": 18819653632,
+    "disk_ok": true,
+    "estimate_not_guarantee": true,
+    "estimated_bytes_per_ply": 8192,
+    "estimated_max_ply_bytes": 29491200,
+    "free_bytes": 42960699392,
+    "memory_ok": true,
+    "reserve_bytes": 21474836480
+  },
+  "scope": "16-game pilot only, user explicitly requested P1/P2, distinct 20GiB reserve, previous bulk50GiB unchanged",
+  "thread": 1,
+  "visits": 8
+}
