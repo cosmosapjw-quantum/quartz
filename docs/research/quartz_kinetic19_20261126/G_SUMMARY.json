@@ -1,0 +1,438 @@
+{
+  "action_pairs": 34,
+  "cost": {
+    "DS0": {
+      "mean_NN": 29.666666666666668,
+      "mean_phase_ms": 3.226583333333333,
+      "mean_wall_ms": 8.990352833333333
+    },
+    "DSF": {
+      "mean_NN": 29.666666666666668,
+      "mean_phase_ms": 3.11625,
+      "mean_wall_ms": 8.239615833333334
+    },
+    "DSX": {
+      "mean_NN": 30.333333333333332,
+      "mean_phase_ms": 3.1736666666666666,
+      "mean_wall_ms": 8.374826416666666
+    }
+  },
+  "games": 68,
+  "hidden_equal": 5,
+  "hidden_materialized": 12,
+  "hidden_mean_gain": -0.4583333333333333,
+  "hidden_negative": 7,
+  "hidden_positive": 0,
+  "label_NN": 122954,
+  "label_plies": 980,
+  "n": 12,
+  "native": {
+    "DS0": {
+      "gain_vs_DS0": 0.0,
+      "panel_regret": 0.0,
+      "utility": 0.8333333333333334
+    },
+    "DSF": {
+      "gain_vs_DS0": 0.0,
+      "panel_regret": 0.0,
+      "utility": 0.8333333333333334
+    },
+    "DSX": {
+      "gain_vs_DS0": 0.0,
+      "panel_regret": 0.0,
+      "utility": 0.8333333333333334
+    }
+  },
+  "native_NN": 1076,
+  "policy_disagreements": 6,
+  "q": {
+    "DS0": {
+      "gain_vs_DS0": -0.25,
+      "panel_regret": 0.25,
+      "utility": 0.5833333333333334
+    },
+    "DSF": {
+      "gain_vs_DS0": -0.25,
+      "panel_regret": 0.25,
+      "utility": 0.5833333333333334
+    },
+    "DSX": {
+      "gain_vs_DS0": -0.16666666666666666,
+      "panel_regret": 0.16666666666666666,
+      "utility": 0.6666666666666666
+    }
+  },
+  "requests": 36,
+  "rows": [
+    {
+      "anchor_u": 1.0,
+      "final_visible": {
+        "DS0": 11,
+        "DSF": 11,
+        "DSX": 11
+      },
+      "hidden_u": 1.0,
+      "id": 0,
+      "initial_visible": 5,
+      "labeled_best": 1.0,
+      "native": {
+        "DS0": 1.0,
+        "DSF": 1.0,
+        "DSX": 1.0
+      },
+      "q": {
+        "DS0": 1.0,
+        "DSF": 1.0,
+        "DSX": 1.0
+      },
+      "targets": {
+        "DSF": 173,
+        "DSX": 123
+      },
+      "u": {
+        "109": 1.0,
+        "123": 1.0,
+        "173": 1.0
+      }
+    },
+    {
+      "anchor_u": 1.0,
+      "final_visible": {
+        "DS0": 11,
+        "DSF": 11,
+        "DSX": 11
+      },
+      "hidden_u": 0.0,
+      "id": 1,
+      "initial_visible": 5,
+      "labeled_best": 1.0,
+      "native": {
+        "DS0": 1.0,
+        "DSF": 1.0,
+        "DSX": 1.0
+      },
+      "q": {
+        "DS0": 0.0,
+        "DSF": 0.0,
+        "DSX": 0.0
+      },
+      "targets": {
+        "DSF": 64,
+        "DSX": 100
+      },
+      "u": {
+        "64": 0.0,
+        "100": 0.0,
+        "127": 1.0
+      }
+    },
+    {
+      "anchor_u": 1.0,
+      "final_visible": {
+        "DS0": 11,
+        "DSF": 11,
+        "DSX": 11
+      },
+      "hidden_u": 0.0,
+      "id": 2,
+      "initial_visible": 5,
+      "labeled_best": 1.0,
+      "native": {
+        "DS0": 1.0,
+        "DSF": 1.0,
+        "DSX": 1.0
+      },
+      "q": {
+        "DS0": 0.0,
+        "DSF": 0.0,
+        "DSX": 1.0
+      },
+      "targets": {
+        "DSF": 86,
+        "DSX": 85
+      },
+      "u": {
+        "85": 0.0,
+        "86": 0.0,
+        "142": 1.0
+      }
+    },
+    {
+      "anchor_u": 0.0,
+      "final_visible": {
+        "DS0": 11,
+        "DSF": 11,
+        "DSX": 11
+      },
+      "hidden_u": 0.0,
+      "id": 3,
+      "initial_visible": 5,
+      "labeled_best": 0.0,
+      "native": {
+        "DS0": 0.0,
+        "DSF": 0.0,
+        "DSX": 0.0
+      },
+      "q": {
+        "DS0": 0.0,
+        "DSF": 0.0,
+        "DSX": 0.0
+      },
+      "targets": {
+        "DSF": 144,
+        "DSX": 157
+      },
+      "u": {
+        "111": 0.0,
+        "144": 0.0,
+        "157": 0.0
+      }
+    },
+    {
+      "anchor_u": 1.0,
+      "final_visible": {
+        "DS0": 11,
+        "DSF": 11,
+        "DSX": 11
+      },
+      "hidden_u": 1.0,
+      "id": 4,
+      "initial_visible": 5,
+      "labeled_best": 1.0,
+      "native": {
+        "DS0": 1.0,
+        "DSF": 1.0,
+        "DSX": 1.0
+      },
+      "q": {
+        "DS0": 1.0,
+        "DSF": 1.0,
+        "DSX": 1.0
+      },
+      "targets": {
+        "DSF": null,
+        "DSX": 82
+      },
+      "u": {
+        "54": 1.0,
+        "82": 1.0
+      }
+    },
+    {
+      "anchor_u": 1.0,
+      "final_visible": {
+        "DS0": 11,
+        "DSF": 11,
+        "DSX": 11
+      },
+      "hidden_u": 1.0,
+      "id": 5,
+      "initial_visible": 5,
+      "labeled_best": 1.0,
+      "native": {
+        "DS0": 1.0,
+        "DSF": 1.0,
+        "DSX": 1.0
+      },
+      "q": {
+        "DS0": 0.5,
+        "DSF": 0.5,
+        "DSX": 0.5
+      },
+      "targets": {
+        "DSF": 67,
+        "DSX": 111
+      },
+      "u": {
+        "67": 0.5,
+        "111": 1.0,
+        "112": 1.0,
+        "130": 1.0
+      }
+    },
+    {
+      "anchor_u": 1.0,
+      "final_visible": {
+        "DS0": 11,
+        "DSF": 11,
+        "DSX": 11
+      },
+      "hidden_u": 1.0,
+      "id": 6,
+      "initial_visible": 5,
+      "labeled_best": 1.0,
+      "native": {
+        "DS0": 1.0,
+        "DSF": 1.0,
+        "DSX": 1.0
+      },
+      "q": {
+        "DS0": 1.0,
+        "DSF": 1.0,
+        "DSX": 1.0
+      },
+      "targets": {
+        "DSF": 80,
+        "DSX": 114
+      },
+      "u": {
+        "80": 1.0,
+        "114": 1.0,
+        "144": 1.0
+      }
+    },
+    {
+      "anchor_u": 0.5,
+      "final_visible": {
+        "DS0": 11,
+        "DSF": 11,
+        "DSX": 11
+      },
+      "hidden_u": 0.0,
+      "id": 7,
+      "initial_visible": 5,
+      "labeled_best": 0.5,
+      "native": {
+        "DS0": 0.5,
+        "DSF": 0.5,
+        "DSX": 0.5
+      },
+      "q": {
+        "DS0": 0.5,
+        "DSF": 0.5,
+        "DSX": 0.5
+      },
+      "targets": {
+        "DSF": 108,
+        "DSX": 80
+      },
+      "u": {
+        "80": 0.0,
+        "95": 0.5,
+        "108": 0.5
+      }
+    },
+    {
+      "anchor_u": 0.5,
+      "final_visible": {
+        "DS0": 11,
+        "DSF": 11,
+        "DSX": 11
+      },
+      "hidden_u": 0.0,
+      "id": 8,
+      "initial_visible": 5,
+      "labeled_best": 0.5,
+      "native": {
+        "DS0": 0.5,
+        "DSF": 0.5,
+        "DSX": 0.5
+      },
+      "q": {
+        "DS0": 0.5,
+        "DSF": 0.5,
+        "DSX": 0.5
+      },
+      "targets": {
+        "DSF": null,
+        "DSX": 128
+      },
+      "u": {
+        "111": 0.5,
+        "128": 0.0
+      }
+    },
+    {
+      "anchor_u": 0.5,
+      "final_visible": {
+        "DS0": 11,
+        "DSF": 11,
+        "DSX": 11
+      },
+      "hidden_u": 0.0,
+      "id": 9,
+      "initial_visible": 5,
+      "labeled_best": 1.0,
+      "native": {
+        "DS0": 1.0,
+        "DSF": 1.0,
+        "DSX": 1.0
+      },
+      "q": {
+        "DS0": 0.5,
+        "DSF": 0.5,
+        "DSX": 0.5
+      },
+      "targets": {
+        "DSF": 66,
+        "DSX": 50
+      },
+      "u": {
+        "50": 0.0,
+        "66": 0.5,
+        "125": 0.5,
+        "127": 1.0
+      }
+    },
+    {
+      "anchor_u": 1.0,
+      "final_visible": {
+        "DS0": 11,
+        "DSF": 11,
+        "DSX": 11
+      },
+      "hidden_u": 0.0,
+      "id": 10,
+      "initial_visible": 5,
+      "labeled_best": 1.0,
+      "native": {
+        "DS0": 1.0,
+        "DSF": 1.0,
+        "DSX": 1.0
+      },
+      "q": {
+        "DS0": 1.0,
+        "DSF": 1.0,
+        "DSX": 1.0
+      },
+      "targets": {
+        "DSF": null,
+        "DSX": 94
+      },
+      "u": {
+        "80": 1.0,
+        "94": 0.0
+      }
+    },
+    {
+      "anchor_u": 1.0,
+      "final_visible": {
+        "DS0": 11,
+        "DSF": 11,
+        "DSX": 11
+      },
+      "hidden_u": 0.0,
+      "id": 11,
+      "initial_visible": 5,
+      "labeled_best": 1.0,
+      "native": {
+        "DS0": 1.0,
+        "DSF": 1.0,
+        "DSX": 1.0
+      },
+      "q": {
+        "DS0": 1.0,
+        "DSF": 1.0,
+        "DSX": 1.0
+      },
+      "targets": {
+        "DSF": null,
+        "DSX": 131
+      },
+      "u": {
+        "99": 1.0,
+        "131": 0.0
+      }
+    }
+  ]
+}
