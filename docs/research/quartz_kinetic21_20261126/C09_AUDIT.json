@@ -1,0 +1,152 @@
+{
+  "exact_NN_match_reps": 88,
+  "fit_cells": 112,
+  "history_blobs": 306,
+  "history_commits": 234,
+  "labels": {
+    "TEST": 211,
+    "TRAIN_CAL": 596
+  },
+  "legacy_B13": {
+    "argmax_changes": {
+      "0.25": 0,
+      "1.0": 0
+    },
+    "nonmonotone_steps": {
+      "0.25": 130,
+      "1.0": 133
+    },
+    "operator_sha256": "44204eb2a94bf5456fdc5838c9f75a1fcb897fc6f0e3e546b38cfbba4cd7993e",
+    "rows": [
+      {
+        "curvature": 0.25,
+        "mean_KL": 0.0036791263629344095,
+        "mean_top1_delta": -0.039274504362921604,
+        "n": 167,
+        "visits": 8
+      },
+      {
+        "curvature": 0.25,
+        "mean_KL": 0.003827677035142982,
+        "mean_top1_delta": -0.033288991095269525,
+        "n": 167,
+        "visits": 16
+      },
+      {
+        "curvature": 0.25,
+        "mean_KL": 0.002694472830961091,
+        "mean_top1_delta": -0.021279274479449058,
+        "n": 167,
+        "visits": 24
+      },
+      {
+        "curvature": 0.25,
+        "mean_KL": 0.001927006782102926,
+        "mean_top1_delta": -0.014759720102864212,
+        "n": 167,
+        "visits": 32
+      },
+      {
+        "curvature": 0.25,
+        "mean_KL": 0.0014150559845539886,
+        "mean_top1_delta": -0.010843665363527035,
+        "n": 167,
+        "visits": 40
+      },
+      {
+        "curvature": 0.25,
+        "mean_KL": 0.001090114590405975,
+        "mean_top1_delta": -0.008459945389541593,
+        "n": 167,
+        "visits": 48
+      },
+      {
+        "curvature": 0.25,
+        "mean_KL": 0.0008439784499927305,
+        "mean_top1_delta": -0.007008684782345245,
+        "n": 167,
+        "visits": 56
+      },
+      {
+        "curvature": 0.25,
+        "mean_KL": 0.0007023863086657304,
+        "mean_top1_delta": -0.0060524977927586526,
+        "n": 167,
+        "visits": 64
+      },
+      {
+        "curvature": 1.0,
+        "mean_KL": 0.05938926190529394,
+        "mean_top1_delta": -0.15645620408257863,
+        "n": 167,
+        "visits": 8
+      },
+      {
+        "curvature": 1.0,
+        "mean_KL": 0.06733860181053208,
+        "mean_top1_delta": -0.14884985355555316,
+        "n": 167,
+        "visits": 16
+      },
+      {
+        "curvature": 1.0,
+        "mean_KL": 0.04993600929202431,
+        "mean_top1_delta": -0.10144440088949604,
+        "n": 167,
+        "visits": 24
+      },
+      {
+        "curvature": 1.0,
+        "mean_KL": 0.036763397575925984,
+        "mean_top1_delta": -0.07231824396910552,
+        "n": 167,
+        "visits": 32
+      },
+      {
+        "curvature": 1.0,
+        "mean_KL": 0.027444836133988498,
+        "mean_top1_delta": -0.053665310770390266,
+        "n": 167,
+        "visits": 40
+      },
+      {
+        "curvature": 1.0,
+        "mean_KL": 0.02141215758481462,
+        "mean_top1_delta": -0.0420567129886448,
+        "n": 167,
+        "visits": 48
+      },
+      {
+        "curvature": 1.0,
+        "mean_KL": 0.016686526560808167,
+        "mean_top1_delta": -0.03460709999804223,
+        "n": 167,
+        "visits": 56
+      },
+      {
+        "curvature": 1.0,
+        "mean_KL": 0.01397730687644407,
+        "mean_top1_delta": -0.029807389636239554,
+        "n": 167,
+        "visits": 64
+      }
+    ],
+    "traces": 167
+  },
+  "native_requests": 563,
+  "oracle_nodes": {
+    "TEST": 87407,
+    "TRAIN_CAL": 382130
+  },
+  "roots": 167,
+  "source_NN": 107514,
+  "source_attempts": 480,
+  "source_counts": {
+    "BLOCK": 1345,
+    "N32": 3636,
+    "UNIFORM": 1165,
+    "WIN": 360
+  },
+  "source_plies": 6506,
+  "typed_states": 2801
+}
