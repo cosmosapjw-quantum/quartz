@@ -159,6 +159,8 @@ pub struct Gomoku15 {
     /// Recent move history for AlphaZero-style feature reconstruction.
     recent_moves: [u16; GOMOKU15_HISTORY_MOVES],
     recent_move_len: u8,
+    // Research opt-in only: include ordered recent NN history and rule in TT fingerprint.
+    research_history_tt: bool,
 }
 
 impl Gomoku15 {
@@ -188,6 +190,7 @@ impl Gomoku15 {
             near_black: [0u64; 4],
             recent_moves: [0; GOMOKU15_HISTORY_MOVES],
             recent_move_len: 0,
+            research_history_tt: false,
         }
     }
 
@@ -765,6 +768,8 @@ impl Gomoku15 {
 
     /// Board as 0/1/2 encoding (for JSON protocol compatibility)
     /// Read-only source board for a verified native policy evaluator (0 empty, 1 black, 2 white).
+    pub fn with_research_history_tt(mut self) -> Self {self.research_history_tt=true;self}
+    pub fn research_recent_moves(&self)->&[u16]{&self.recent_moves[..self.recent_move_len as usize]}
     pub fn board_as_12(&self) -> &[u8; N2] {
         &self.board
     }
@@ -918,6 +923,16 @@ impl GameState for Gomoku15 {
     fn hash(&self) -> u64 {
         self.hash
     }
+    fn tt_hash(&self) -> u64 {
+        if !self.research_history_tt{return self.hash;}
+        // Statistical fingerprint only. Never use this as proof identity.
+        let mut h=self.hash^0x9e3779b97f4a7c15;
+        h=(h^(self.rules as u64+1)).wrapping_mul(0x100000001b3);
+        h=(h^self.recent_move_len as u64).wrapping_mul(0x100000001b3);
+        for &mv in self.research_recent_moves(){h=(h^(mv as u64+1)).wrapping_mul(0x100000001b3);}
+        h
+    }
+
 
     fn num_actions(&self) -> usize {
         N2

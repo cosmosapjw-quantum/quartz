@@ -9,10 +9,56 @@ pub struct Proof {
     pub own:Vec<u16>,pub opponent:Vec<u16>,pub bounds:Vec<Bound>,
     pub interval:(i8,i8),pub witness:Option<u16>,pub risk2:u8,
 }
-pub fn key(_board:&[u8;225],_side:i8,_rule:u8)->Key{[0;8]}
-pub fn wins(_board:&[u8;225],_p:u8,_a:usize,_exact:bool)->bool{false}
-pub fn scan(_board:&[u8;225],_p:u8,_exact:bool)->Proof{
-    Proof{own:vec![],opponent:vec![],bounds:vec![],interval:(-1,1),witness:None,risk2:2}
+pub fn key(board:&[u8;225],side:i8,rule:u8)->Key{
+    assert!(side==1||side==-1);assert!(rule<8);
+    let mut out=[0u64;8];
+    for (i,&v) in board.iter().enumerate(){assert!(v<=2);let bit=2*i;out[bit/64]|=(v as u64)<<(bit%64);}
+    out[7]|=((side==1) as u64)<<2;out[7]|=(rule as u64)<<3;out
+}
+pub fn wins(board:&[u8;225],p:u8,a:usize,exact:bool)->bool{
+    assert!(p==1||p==2);
+    if a>=225||board[a]!=0{return false;}
+    let r=(a/15) as i32;let c=(a%15) as i32;
+    for (dr,dc) in [(0,1),(1,0),(1,1),(1,-1)]{
+        let mut n=1;
+        for sign in [-1,1]{
+            let mut rr=r+sign*dr;let mut cc=c+sign*dc;
+            while (0..15).contains(&rr)&&(0..15).contains(&cc)&&board[(15*rr+cc) as usize]==p{
+                n+=1;rr+=sign*dr;cc+=sign*dc;
+            }
+        }
+        if if exact{n==5}else{n>=5}{return true;}
+    }
+    false
+}
+pub fn scan(board:&[u8;225],p:u8,exact:bool)->Proof{
+    let legal:Vec<u16>=(0..225).filter(|&a|board[a]==0).map(|a|a as u16).collect();
+    assert!(!legal.is_empty(),"scan requires nonterminal");
+    let own:Vec<_>=legal.iter().copied().filter(|&a|wins(board,p,a as usize,exact)).collect();
+    let opponent:Vec<_>=legal.iter().copied().filter(|&a|wins(board,3-p,a as usize,exact)).collect();
+    let bounds:Vec<_>=legal.iter().map(|&a|{
+        let (lo,hi,reply)=if own.contains(&a){(1,1,None)}else if legal.len()==1{(0,0,None)}
+        else if let Some(&b)=opponent.iter().find(|&&b|b!=a){(-1,-1,Some(b))}
+        else{(-1,1,None)};
+        Bound{action:a,lo,hi,reply}
+    }).collect();
+    let interval=(bounds.iter().map(|b|b.lo).max().unwrap(),bounds.iter().map(|b|b.hi).max().unwrap());
+    let (risk2,witness)=if bounds.len()==1{(0,Some(bounds[0].action))}else{
+        // Top two distinct action upper endpoints: linear certificate scan,
+        // including all unexpanded legal actions.
+        let mut max1=(-2i8,usize::MAX);let mut max2=-2i8;
+        for (i,b) in bounds.iter().enumerate(){
+            if b.hi>max1.0{max2=max1.0;max1=(b.hi,i);}else{max2=max2.max(b.hi);}
+        }
+        let mut risk=2u8;let mut w=None;
+        for (i,b) in bounds.iter().enumerate(){
+            let other=if i==max1.1{max2}else{max1.0};
+            let d=(other-b.lo).max(0) as u8;risk=risk.min(d);
+            if d==0&&w.is_none(){w=Some(b.action);}
+        }
+        (risk,w)
+    };
+    Proof{own,opponent,bounds,interval,witness,risk2}
 }
 #[cfg(test)]
 mod tests{

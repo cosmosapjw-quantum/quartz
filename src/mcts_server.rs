@@ -53,6 +53,8 @@ mod four_axis_cpu_server;
 mod four_axis_pool_cpu_server;
 #[path = "mcts_server/four_axis_local_cpu_server.rs"]
 mod four_axis_local_cpu_server;
+#[path = "mcts_server/gomoku_long_cpu_server.rs"]
+mod gomoku_long_cpu_server;
 
 /// Bounded, CPU-only real QUARTZ MCTS for *standard gravity Connect4*.
 /// This research-only endpoint intentionally does not consume the external
@@ -2743,6 +2745,11 @@ pub fn serve() {
             continue;
         }
 
+        if cmd == "research_gomoku15_long_inspect" || cmd == "research_gomoku15_long_search" {
+            emit_stdout_json_value(&gomoku_long_cpu_server::handle(&line));
+            if let Some(ring) = global_ring_buffer() { ring.set_cmd_done(true); }
+            continue;
+        }
         if cmd == "research_connect4_fouraxis_local_cpu" {
             emit_stdout_json_value(&four_axis_local_cpu_server::handle(&line));
             if let Some(ring) = global_ring_buffer() { ring.set_cmd_done(true); }
