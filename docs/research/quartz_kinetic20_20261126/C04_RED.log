@@ -1,0 +1,7 @@
+{'error': 'unknown field `controller`, expected one of `cmd`, `history`, `arm`, `cap`, `seed`, `model_path`, `model_identity` at line 1 column 420'}
+Traceback (most recent call last):
+  File "/home/cosmosapjw/quantum/research/quartz_kinetic20_20261126/docs/research/quartz_kinetic20_20261126/native_test.py", line 13, in <module>
+    assert 'error' not in a,a
+           ^^^^^^^^^^^^^^^^
+AssertionError: {'error': 'unknown field `controller`, expected one of `cmd`, `history`, `arm`, `cap`, `seed`, `model_path`, `model_identity` at line 1 column 420'}
+exit=1
