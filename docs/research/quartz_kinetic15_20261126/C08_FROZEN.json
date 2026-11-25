@@ -1,0 +1,149 @@
+{
+  "atlas_sha256": "f1035dc721efb14c381b79c2b40800a5f618dfcb597cc66f8a2a7ea4d73a5484",
+  "gate": {
+    "counts": {
+      "exposed": 9,
+      "negative": 8,
+      "positive": 1,
+      "sub_exposed": 1
+    },
+    "details": {
+      "G00": {
+        "exposed": false,
+        "negative": false,
+        "positive": false,
+        "sub_exposed": false
+      },
+      "G02": {
+        "exposed": false,
+        "negative": false,
+        "positive": false,
+        "sub_exposed": false
+      },
+      "G04": {
+        "exposed": true,
+        "negative": true,
+        "positive": false,
+        "sub_exposed": false
+      },
+      "G05": {
+        "exposed": false,
+        "negative": false,
+        "positive": false,
+        "sub_exposed": false
+      },
+      "G06": {
+        "exposed": true,
+        "negative": true,
+        "positive": false,
+        "sub_exposed": false
+      },
+      "G07": {
+        "exposed": true,
+        "negative": true,
+        "positive": false,
+        "sub_exposed": false
+      },
+      "G08": {
+        "exposed": false,
+        "negative": false,
+        "positive": false,
+        "sub_exposed": false
+      },
+      "G10": {
+        "exposed": false,
+        "negative": false,
+        "positive": false,
+        "sub_exposed": false
+      },
+      "G11": {
+        "exposed": true,
+        "negative": true,
+        "positive": false,
+        "sub_exposed": false
+      },
+      "G12": {
+        "exposed": false,
+        "negative": false,
+        "positive": false,
+        "sub_exposed": false
+      },
+      "G14": {
+        "exposed": false,
+        "negative": false,
+        "positive": false,
+        "sub_exposed": false
+      },
+      "G16": {
+        "exposed": false,
+        "negative": false,
+        "positive": false,
+        "sub_exposed": false
+      },
+      "G18": {
+        "exposed": true,
+        "negative": false,
+        "positive": true,
+        "sub_exposed": true
+      },
+      "G19": {
+        "exposed": true,
+        "negative": true,
+        "positive": false,
+        "sub_exposed": false
+      },
+      "G20": {
+        "exposed": true,
+        "negative": true,
+        "positive": false,
+        "sub_exposed": false
+      },
+      "G21": {
+        "exposed": true,
+        "negative": true,
+        "positive": false,
+        "sub_exposed": false
+      },
+      "G22": {
+        "exposed": true,
+        "negative": true,
+        "positive": false,
+        "sub_exposed": false
+      }
+    },
+    "n": 17,
+    "pass_gate": false
+  },
+  "identity": {
+    "rapfi_bridge": "bacbcfc90f6e4bfd0d9d035455afa3d6667ec32e7fd80cbc1d65a4001b30f64e",
+    "rapfi_config": "32b9180c91247541d399ceef62906d5ffeb48e34eb5f261612987633820d5d3c",
+    "rapfi_source": "1be1551ced57e38d53ed58f6d74bf6f8b4bdc230",
+    "rapfi_weight": "6bc0d1b0ff8e1d857f7f412923cd458f38f1a435087c91ae71fec3676c23ef62",
+    "rust_binary": "53284d2044857cca8280e8ff148edc89711b3b69a2f536947e58a12d3c0cab7d",
+    "rust_source": "7de712172fbbebe2dbf5a8983c852ed0e632305e"
+  },
+  "model_status": "NOT_FIT_EXPOSURE_GATE",
+  "models": {},
+  "price": 0.002,
+  "ridge": 4,
+  "train_families": [
+    "G00",
+    "G02",
+    "G04",
+    "G05",
+    "G06",
+    "G07",
+    "G08",
+    "G10",
+    "G11",
+    "G12",
+    "G14",
+    "G16",
+    "G18",
+    "G19",
+    "G20",
+    "G21",
+    "G22"
+  ],
+  "train_labels_sha256": "6253eee125db44b8658275a96649d99de9ea76d4fcef245d0c7fb8ffef80fec7"
+}
