@@ -1,0 +1,7364 @@
+{
+  "continuation_NN": 46821,
+  "continuation_plies": 649,
+  "continuations": 68,
+  "cost": {
+    "ALL/16": {
+      "families": 24,
+      "mean_NN": [
+        20.916666666666668,
+        19.291666666666668
+      ],
+      "mean_native_ms": [
+        5.122166666666667,
+        4.617758333333334
+      ],
+      "mean_paired_wall_delta_ms": -0.9469240583333334,
+      "mean_visits": [
+        32,
+        28.666666666666668
+      ],
+      "mean_wall_ms": [
+        6.877616325,
+        5.930692266666667
+      ],
+      "pairs": 120,
+      "tick_hz": 100,
+      "total_rapfi_ticks": [
+        32,
+        35
+      ],
+      "total_rust_ticks": [
+        33,
+        26
+      ]
+    },
+    "ALL/8": {
+      "families": 24,
+      "mean_NN": [
+        20.916666666666668,
+        19.291666666666668
+      ],
+      "mean_native_ms": [
+        5.202008333333334,
+        4.896158333333333
+      ],
+      "mean_paired_wall_delta_ms": -0.41749963333333334,
+      "mean_visits": [
+        32,
+        28.666666666666668
+      ],
+      "mean_wall_ms": [
+        6.776286233333334,
+        6.3587866
+      ],
+      "pairs": 120,
+      "tick_hz": 100,
+      "total_rapfi_ticks": [
+        26,
+        27
+      ],
+      "total_rust_ticks": [
+        45,
+        38
+      ]
+    },
+    "CAL/16": {
+      "families": 6,
+      "mean_NN": [
+        27.833333333333332,
+        23.5
+      ],
+      "mean_native_ms": [
+        5.935333333333333,
+        5.210066666666667
+      ],
+      "mean_paired_wall_delta_ms": -2.2909199333333334,
+      "mean_visits": [
+        32,
+        26.666666666666668
+      ],
+      "mean_wall_ms": [
+        8.702528733333333,
+        6.4116088
+      ],
+      "pairs": 30,
+      "tick_hz": 100,
+      "total_rapfi_ticks": [
+        10,
+        13
+      ],
+      "total_rust_ticks": [
+        11,
+        8
+      ]
+    },
+    "CAL/8": {
+      "families": 6,
+      "mean_NN": [
+        27.833333333333332,
+        23.5
+      ],
+      "mean_native_ms": [
+        6.2607,
+        5.426266666666667
+      ],
+      "mean_paired_wall_delta_ms": -0.9656401333333333,
+      "mean_visits": [
+        32,
+        26.666666666666668
+      ],
+      "mean_wall_ms": [
+        7.787963933333334,
+        6.8223238
+      ],
+      "pairs": 30,
+      "tick_hz": 100,
+      "total_rapfi_ticks": [
+        9,
+        6
+      ],
+      "total_rust_ticks": [
+        10,
+        7
+      ]
+    },
+    "TEST/16": {
+      "families": 12,
+      "mean_NN": [
+        17.833333333333332,
+        16.833333333333332
+      ],
+      "mean_native_ms": [
+        4.835416666666667,
+        4.242983333333333
+      ],
+      "mean_paired_wall_delta_ms": -0.6599510833333333,
+      "mean_visits": [
+        32,
+        28.666666666666668
+      ],
+      "mean_wall_ms": [
+        6.268827966666667,
+        5.608876883333333
+      ],
+      "pairs": 60,
+      "tick_hz": 100,
+      "total_rapfi_ticks": [
+        16,
+        12
+      ],
+      "total_rust_ticks": [
+        14,
+        16
+      ]
+    },
+    "TEST/8": {
+      "families": 12,
+      "mean_NN": [
+        17.833333333333332,
+        16.833333333333332
+      ],
+      "mean_native_ms": [
+        4.758616666666667,
+        4.4737833333333334
+      ],
+      "mean_paired_wall_delta_ms": -0.41979058333333336,
+      "mean_visits": [
+        32,
+        28.666666666666668
+      ],
+      "mean_wall_ms": [
+        6.359206566666667,
+        5.939415983333333
+      ],
+      "pairs": 60,
+      "tick_hz": 100,
+      "total_rapfi_ticks": [
+        9,
+        15
+      ],
+      "total_rust_ticks": [
+        23,
+        17
+      ]
+    },
+    "TRAIN/16": {
+      "families": 6,
+      "mean_NN": [
+        20.166666666666668,
+        20
+      ],
+      "mean_native_ms": [
+        4.8825,
+        4.775
+      ],
+      "mean_paired_wall_delta_ms": -0.17687413333333332,
+      "mean_visits": [
+        32,
+        30.666666666666668
+      ],
+      "mean_wall_ms": [
+        6.270280633333333,
+        6.0934065
+      ],
+      "pairs": 30,
+      "tick_hz": 100,
+      "total_rapfi_ticks": [
+        6,
+        10
+      ],
+      "total_rust_ticks": [
+        8,
+        2
+      ]
+    },
+    "TRAIN/8": {
+      "families": 6,
+      "mean_NN": [
+        20.166666666666668,
+        20
+      ],
+      "mean_native_ms": [
+        5.0301,
+        5.2108
+      ],
+      "mean_paired_wall_delta_ms": 0.1352227666666667,
+      "mean_visits": [
+        32,
+        30.666666666666668
+      ],
+      "mean_wall_ms": [
+        6.598767866666667,
+        6.733990633333334
+      ],
+      "pairs": 30,
+      "tick_hz": 100,
+      "total_rapfi_ticks": [
+        8,
+        6
+      ],
+      "total_rust_ticks": [
+        12,
+        14
+      ]
+    }
+  },
+  "groups": {
+    "ALL/ALL/16/DS0": {
+      "final_diff": 0,
+      "final_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "final_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "mean_final_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_mid_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_nn": 20.916666666666668,
+      "mean_visits": 32,
+      "mean_wall_ms": 6.194775666666667,
+      "mechanisms": {
+        "backup_changed": 0,
+        "extra_evals": 0,
+        "ledger_observations": 0,
+        "ledger_shared_children": 0,
+        "merge_blends": 0,
+        "proofs": 0
+      },
+      "mid_diff": 0,
+      "mid_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "mid_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "n": 24,
+      "stop_count": 0,
+      "target_count": 0
+    },
+    "ALL/ALL/16/DSB": {
+      "final_diff": 0,
+      "final_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "final_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "mean_final_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_mid_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_nn": 20.916666666666668,
+      "mean_visits": 32,
+      "mean_wall_ms": 6.470658,
+      "mechanisms": {
+        "backup_changed": 0,
+        "extra_evals": 0,
+        "ledger_observations": 1480,
+        "ledger_shared_children": 0,
+        "merge_blends": 0,
+        "proofs": 0
+      },
+      "mid_diff": 0,
+      "mid_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "mid_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "n": 24,
+      "stop_count": 0,
+      "target_count": 0
+    },
+    "ALL/ALL/16/DSF": {
+      "final_diff": 1,
+      "final_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "final_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "mean_final_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_mid_gain": {
+        "256": -0.041666666666666664,
+        "64": -0.020833333333333332
+      },
+      "mean_nn": 20.916666666666668,
+      "mean_visits": 32,
+      "mean_wall_ms": 6.192113,
+      "mechanisms": {
+        "backup_changed": 0,
+        "extra_evals": 0,
+        "ledger_observations": 0,
+        "ledger_shared_children": 0,
+        "merge_blends": 0,
+        "proofs": 0
+      },
+      "mid_diff": 3,
+      "mid_harmed": {
+        "256": 1,
+        "64": 1
+      },
+      "mid_improved": {
+        "256": 0,
+        "64": 1
+      },
+      "n": 24,
+      "stop_count": 0,
+      "target_count": 17
+    },
+    "ALL/ALL/16/DSL": {
+      "final_diff": 0,
+      "final_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "final_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "mean_final_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_mid_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_nn": 20.875,
+      "mean_visits": 32,
+      "mean_wall_ms": 6.399036833333334,
+      "mechanisms": {
+        "backup_changed": 0,
+        "extra_evals": 0,
+        "ledger_observations": 0,
+        "ledger_shared_children": 0,
+        "merge_blends": 0,
+        "proofs": 0
+      },
+      "mid_diff": 0,
+      "mid_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "mid_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "n": 24,
+      "stop_count": 0,
+      "target_count": 24
+    },
+    "ALL/ALL/16/DSSTOP": {
+      "final_diff": 0,
+      "final_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "final_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "mean_final_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_mid_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_nn": 19.291666666666668,
+      "mean_visits": 28.666666666666668,
+      "mean_wall_ms": 6.053963916666667,
+      "mechanisms": {
+        "backup_changed": 0,
+        "extra_evals": 0,
+        "ledger_observations": 0,
+        "ledger_shared_children": 0,
+        "merge_blends": 0,
+        "proofs": 0
+      },
+      "mid_diff": 0,
+      "mid_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "mid_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "n": 24,
+      "stop_count": 10,
+      "target_count": 0
+    },
+    "ALL/ALL/16/DSV": {
+      "final_diff": 0,
+      "final_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "final_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "mean_final_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_mid_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_nn": 22.166666666666668,
+      "mean_visits": 32,
+      "mean_wall_ms": 6.632624,
+      "mechanisms": {
+        "backup_changed": 0,
+        "extra_evals": 30,
+        "ledger_observations": 0,
+        "ledger_shared_children": 0,
+        "merge_blends": 0,
+        "proofs": 25
+      },
+      "mid_diff": 0,
+      "mid_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "mid_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "n": 24,
+      "stop_count": 0,
+      "target_count": 0
+    },
+    "ALL/ALL/16/DSX": {
+      "final_diff": 1,
+      "final_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "final_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "mean_final_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_mid_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_nn": 22.958333333333332,
+      "mean_visits": 32,
+      "mean_wall_ms": 6.730667666666667,
+      "mechanisms": {
+        "backup_changed": 0,
+        "extra_evals": 0,
+        "ledger_observations": 0,
+        "ledger_shared_children": 0,
+        "merge_blends": 0,
+        "proofs": 0
+      },
+      "mid_diff": 1,
+      "mid_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "mid_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "n": 24,
+      "stop_count": 0,
+      "target_count": 24
+    },
+    "ALL/ALL/8/DS0": {
+      "final_diff": 0,
+      "final_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "final_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "mean_final_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_mid_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_nn": 20.916666666666668,
+      "mean_visits": 32,
+      "mean_wall_ms": 6.448210083333334,
+      "mechanisms": {
+        "backup_changed": 0,
+        "extra_evals": 0,
+        "ledger_observations": 0,
+        "ledger_shared_children": 0,
+        "merge_blends": 0,
+        "proofs": 0
+      },
+      "mid_diff": 0,
+      "mid_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "mid_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "n": 24,
+      "stop_count": 0,
+      "target_count": 0
+    },
+    "ALL/ALL/8/DSB": {
+      "final_diff": 0,
+      "final_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "final_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "mean_final_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_mid_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_nn": 20.916666666666668,
+      "mean_visits": 32,
+      "mean_wall_ms": 6.653036,
+      "mechanisms": {
+        "backup_changed": 0,
+        "extra_evals": 0,
+        "ledger_observations": 931,
+        "ledger_shared_children": 0,
+        "merge_blends": 0,
+        "proofs": 0
+      },
+      "mid_diff": 0,
+      "mid_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "mid_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "n": 24,
+      "stop_count": 0,
+      "target_count": 0
+    },
+    "ALL/ALL/8/DSF": {
+      "final_diff": 1,
+      "final_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "final_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "mean_final_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_mid_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_nn": 20.875,
+      "mean_visits": 32,
+      "mean_wall_ms": 6.64881475,
+      "mechanisms": {
+        "backup_changed": 0,
+        "extra_evals": 0,
+        "ledger_observations": 0,
+        "ledger_shared_children": 0,
+        "merge_blends": 0,
+        "proofs": 0
+      },
+      "mid_diff": 3,
+      "mid_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "mid_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "n": 24,
+      "stop_count": 0,
+      "target_count": 15
+    },
+    "ALL/ALL/8/DSL": {
+      "final_diff": 0,
+      "final_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "final_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "mean_final_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_mid_gain": {
+        "256": -0.041666666666666664,
+        "64": -0.020833333333333332
+      },
+      "mean_nn": 20.916666666666668,
+      "mean_visits": 32,
+      "mean_wall_ms": 6.648402291666667,
+      "mechanisms": {
+        "backup_changed": 0,
+        "extra_evals": 0,
+        "ledger_observations": 0,
+        "ledger_shared_children": 0,
+        "merge_blends": 0,
+        "proofs": 0
+      },
+      "mid_diff": 5,
+      "mid_harmed": {
+        "256": 1,
+        "64": 1
+      },
+      "mid_improved": {
+        "256": 0,
+        "64": 1
+      },
+      "n": 24,
+      "stop_count": 0,
+      "target_count": 24
+    },
+    "ALL/ALL/8/DSSTOP": {
+      "final_diff": 0,
+      "final_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "final_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "mean_final_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_mid_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_nn": 19.291666666666668,
+      "mean_visits": 28.666666666666668,
+      "mean_wall_ms": 6.060294416666666,
+      "mechanisms": {
+        "backup_changed": 0,
+        "extra_evals": 0,
+        "ledger_observations": 0,
+        "ledger_shared_children": 0,
+        "merge_blends": 0,
+        "proofs": 0
+      },
+      "mid_diff": 0,
+      "mid_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "mid_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "n": 24,
+      "stop_count": 10,
+      "target_count": 0
+    },
+    "ALL/ALL/8/DSV": {
+      "final_diff": 0,
+      "final_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "final_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "mean_final_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_mid_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_nn": 22.25,
+      "mean_visits": 32,
+      "mean_wall_ms": 7.812340541666667,
+      "mechanisms": {
+        "backup_changed": 0,
+        "extra_evals": 32,
+        "ledger_observations": 0,
+        "ledger_shared_children": 0,
+        "merge_blends": 0,
+        "proofs": 50
+      },
+      "mid_diff": 0,
+      "mid_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "mid_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "n": 24,
+      "stop_count": 0,
+      "target_count": 0
+    },
+    "ALL/ALL/8/DSX": {
+      "final_diff": 0,
+      "final_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "final_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "mean_final_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_mid_gain": {
+        "256": 0.0,
+        "64": 0.020833333333333332
+      },
+      "mean_nn": 22.958333333333332,
+      "mean_visits": 32,
+      "mean_wall_ms": 6.947095125,
+      "mechanisms": {
+        "backup_changed": 0,
+        "extra_evals": 0,
+        "ledger_observations": 0,
+        "ledger_shared_children": 0,
+        "merge_blends": 0,
+        "proofs": 0
+      },
+      "mid_diff": 4,
+      "mid_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "mid_improved": {
+        "256": 0,
+        "64": 1
+      },
+      "n": 24,
+      "stop_count": 0,
+      "target_count": 24
+    },
+    "ALL/SENSITIVE/16/DS0": {
+      "final_diff": 0,
+      "final_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "final_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "mean_final_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_mid_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_nn": 21,
+      "mean_visits": 32,
+      "mean_wall_ms": 6.074223166666666,
+      "mechanisms": {
+        "backup_changed": 0,
+        "extra_evals": 0,
+        "ledger_observations": 0,
+        "ledger_shared_children": 0,
+        "merge_blends": 0,
+        "proofs": 0
+      },
+      "mid_diff": 0,
+      "mid_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "mid_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "n": 12,
+      "stop_count": 0,
+      "target_count": 0
+    },
+    "ALL/SENSITIVE/16/DSB": {
+      "final_diff": 0,
+      "final_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "final_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "mean_final_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_mid_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_nn": 21,
+      "mean_visits": 32,
+      "mean_wall_ms": 6.045215916666667,
+      "mechanisms": {
+        "backup_changed": 0,
+        "extra_evals": 0,
+        "ledger_observations": 693,
+        "ledger_shared_children": 0,
+        "merge_blends": 0,
+        "proofs": 0
+      },
+      "mid_diff": 0,
+      "mid_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "mid_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "n": 12,
+      "stop_count": 0,
+      "target_count": 0
+    },
+    "ALL/SENSITIVE/16/DSF": {
+      "final_diff": 1,
+      "final_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "final_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "mean_final_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_mid_gain": {
+        "256": -0.08333333333333333,
+        "64": -0.08333333333333333
+      },
+      "mean_nn": 21,
+      "mean_visits": 32,
+      "mean_wall_ms": 5.966894416666666,
+      "mechanisms": {
+        "backup_changed": 0,
+        "extra_evals": 0,
+        "ledger_observations": 0,
+        "ledger_shared_children": 0,
+        "merge_blends": 0,
+        "proofs": 0
+      },
+      "mid_diff": 2,
+      "mid_harmed": {
+        "256": 1,
+        "64": 1
+      },
+      "mid_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "n": 12,
+      "stop_count": 0,
+      "target_count": 12
+    },
+    "ALL/SENSITIVE/16/DSL": {
+      "final_diff": 0,
+      "final_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "final_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "mean_final_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_mid_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_nn": 20.916666666666668,
+      "mean_visits": 32,
+      "mean_wall_ms": 6.1086675,
+      "mechanisms": {
+        "backup_changed": 0,
+        "extra_evals": 0,
+        "ledger_observations": 0,
+        "ledger_shared_children": 0,
+        "merge_blends": 0,
+        "proofs": 0
+      },
+      "mid_diff": 0,
+      "mid_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "mid_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "n": 12,
+      "stop_count": 0,
+      "target_count": 12
+    },
+    "ALL/SENSITIVE/16/DSSTOP": {
+      "final_diff": 0,
+      "final_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "final_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "mean_final_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_mid_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_nn": 20.333333333333332,
+      "mean_visits": 31.333333333333332,
+      "mean_wall_ms": 6.085404916666667,
+      "mechanisms": {
+        "backup_changed": 0,
+        "extra_evals": 0,
+        "ledger_observations": 0,
+        "ledger_shared_children": 0,
+        "merge_blends": 0,
+        "proofs": 0
+      },
+      "mid_diff": 0,
+      "mid_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "mid_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "n": 12,
+      "stop_count": 1,
+      "target_count": 0
+    },
+    "ALL/SENSITIVE/16/DSV": {
+      "final_diff": 0,
+      "final_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "final_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "mean_final_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_mid_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_nn": 21.5,
+      "mean_visits": 32,
+      "mean_wall_ms": 6.52801825,
+      "mechanisms": {
+        "backup_changed": 0,
+        "extra_evals": 6,
+        "ledger_observations": 0,
+        "ledger_shared_children": 0,
+        "merge_blends": 0,
+        "proofs": 16
+      },
+      "mid_diff": 0,
+      "mid_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "mid_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "n": 12,
+      "stop_count": 0,
+      "target_count": 0
+    },
+    "ALL/SENSITIVE/16/DSX": {
+      "final_diff": 1,
+      "final_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "final_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "mean_final_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_mid_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_nn": 22.833333333333332,
+      "mean_visits": 32,
+      "mean_wall_ms": 6.7462116666666665,
+      "mechanisms": {
+        "backup_changed": 0,
+        "extra_evals": 0,
+        "ledger_observations": 0,
+        "ledger_shared_children": 0,
+        "merge_blends": 0,
+        "proofs": 0
+      },
+      "mid_diff": 1,
+      "mid_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "mid_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "n": 12,
+      "stop_count": 0,
+      "target_count": 12
+    },
+    "ALL/SENSITIVE/8/DS0": {
+      "final_diff": 0,
+      "final_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "final_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "mean_final_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_mid_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_nn": 21,
+      "mean_visits": 32,
+      "mean_wall_ms": 6.33268,
+      "mechanisms": {
+        "backup_changed": 0,
+        "extra_evals": 0,
+        "ledger_observations": 0,
+        "ledger_shared_children": 0,
+        "merge_blends": 0,
+        "proofs": 0
+      },
+      "mid_diff": 0,
+      "mid_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "mid_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "n": 12,
+      "stop_count": 0,
+      "target_count": 0
+    },
+    "ALL/SENSITIVE/8/DSB": {
+      "final_diff": 0,
+      "final_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "final_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "mean_final_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_mid_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_nn": 21,
+      "mean_visits": 32,
+      "mean_wall_ms": 6.25550325,
+      "mechanisms": {
+        "backup_changed": 0,
+        "extra_evals": 0,
+        "ledger_observations": 421,
+        "ledger_shared_children": 0,
+        "merge_blends": 0,
+        "proofs": 0
+      },
+      "mid_diff": 0,
+      "mid_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "mid_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "n": 12,
+      "stop_count": 0,
+      "target_count": 0
+    },
+    "ALL/SENSITIVE/8/DSF": {
+      "final_diff": 1,
+      "final_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "final_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "mean_final_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_mid_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_nn": 20.916666666666668,
+      "mean_visits": 32,
+      "mean_wall_ms": 6.085969666666666,
+      "mechanisms": {
+        "backup_changed": 0,
+        "extra_evals": 0,
+        "ledger_observations": 0,
+        "ledger_shared_children": 0,
+        "merge_blends": 0,
+        "proofs": 0
+      },
+      "mid_diff": 3,
+      "mid_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "mid_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "n": 12,
+      "stop_count": 0,
+      "target_count": 12
+    },
+    "ALL/SENSITIVE/8/DSL": {
+      "final_diff": 0,
+      "final_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "final_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "mean_final_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_mid_gain": {
+        "256": -0.08333333333333333,
+        "64": -0.08333333333333333
+      },
+      "mean_nn": 21,
+      "mean_visits": 32,
+      "mean_wall_ms": 6.361457833333334,
+      "mechanisms": {
+        "backup_changed": 0,
+        "extra_evals": 0,
+        "ledger_observations": 0,
+        "ledger_shared_children": 0,
+        "merge_blends": 0,
+        "proofs": 0
+      },
+      "mid_diff": 4,
+      "mid_harmed": {
+        "256": 1,
+        "64": 1
+      },
+      "mid_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "n": 12,
+      "stop_count": 0,
+      "target_count": 12
+    },
+    "ALL/SENSITIVE/8/DSSTOP": {
+      "final_diff": 0,
+      "final_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "final_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "mean_final_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_mid_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_nn": 20.333333333333332,
+      "mean_visits": 31.333333333333332,
+      "mean_wall_ms": 6.18315775,
+      "mechanisms": {
+        "backup_changed": 0,
+        "extra_evals": 0,
+        "ledger_observations": 0,
+        "ledger_shared_children": 0,
+        "merge_blends": 0,
+        "proofs": 0
+      },
+      "mid_diff": 0,
+      "mid_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "mid_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "n": 12,
+      "stop_count": 1,
+      "target_count": 0
+    },
+    "ALL/SENSITIVE/8/DSV": {
+      "final_diff": 0,
+      "final_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "final_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "mean_final_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_mid_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_nn": 21,
+      "mean_visits": 32,
+      "mean_wall_ms": 8.456163166666666,
+      "mechanisms": {
+        "backup_changed": 0,
+        "extra_evals": 0,
+        "ledger_observations": 0,
+        "ledger_shared_children": 0,
+        "merge_blends": 0,
+        "proofs": 30
+      },
+      "mid_diff": 0,
+      "mid_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "mid_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "n": 12,
+      "stop_count": 0,
+      "target_count": 0
+    },
+    "ALL/SENSITIVE/8/DSX": {
+      "final_diff": 0,
+      "final_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "final_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "mean_final_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_mid_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_nn": 22.833333333333332,
+      "mean_visits": 32,
+      "mean_wall_ms": 6.6217465,
+      "mechanisms": {
+        "backup_changed": 0,
+        "extra_evals": 0,
+        "ledger_observations": 0,
+        "ledger_shared_children": 0,
+        "merge_blends": 0,
+        "proofs": 0
+      },
+      "mid_diff": 3,
+      "mid_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "mid_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "n": 12,
+      "stop_count": 0,
+      "target_count": 12
+    },
+    "ALL/UNFILTERED/16/DS0": {
+      "final_diff": 0,
+      "final_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "final_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "mean_final_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_mid_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_nn": 20.833333333333332,
+      "mean_visits": 32,
+      "mean_wall_ms": 6.315328166666667,
+      "mechanisms": {
+        "backup_changed": 0,
+        "extra_evals": 0,
+        "ledger_observations": 0,
+        "ledger_shared_children": 0,
+        "merge_blends": 0,
+        "proofs": 0
+      },
+      "mid_diff": 0,
+      "mid_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "mid_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "n": 12,
+      "stop_count": 0,
+      "target_count": 0
+    },
+    "ALL/UNFILTERED/16/DSB": {
+      "final_diff": 0,
+      "final_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "final_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "mean_final_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_mid_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_nn": 20.833333333333332,
+      "mean_visits": 32,
+      "mean_wall_ms": 6.896100083333334,
+      "mechanisms": {
+        "backup_changed": 0,
+        "extra_evals": 0,
+        "ledger_observations": 787,
+        "ledger_shared_children": 0,
+        "merge_blends": 0,
+        "proofs": 0
+      },
+      "mid_diff": 0,
+      "mid_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "mid_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "n": 12,
+      "stop_count": 0,
+      "target_count": 0
+    },
+    "ALL/UNFILTERED/16/DSF": {
+      "final_diff": 0,
+      "final_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "final_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "mean_final_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_mid_gain": {
+        "256": 0.0,
+        "64": 0.041666666666666664
+      },
+      "mean_nn": 20.833333333333332,
+      "mean_visits": 32,
+      "mean_wall_ms": 6.4173315833333335,
+      "mechanisms": {
+        "backup_changed": 0,
+        "extra_evals": 0,
+        "ledger_observations": 0,
+        "ledger_shared_children": 0,
+        "merge_blends": 0,
+        "proofs": 0
+      },
+      "mid_diff": 1,
+      "mid_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "mid_improved": {
+        "256": 0,
+        "64": 1
+      },
+      "n": 12,
+      "stop_count": 0,
+      "target_count": 5
+    },
+    "ALL/UNFILTERED/16/DSL": {
+      "final_diff": 0,
+      "final_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "final_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "mean_final_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_mid_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_nn": 20.833333333333332,
+      "mean_visits": 32,
+      "mean_wall_ms": 6.689406166666667,
+      "mechanisms": {
+        "backup_changed": 0,
+        "extra_evals": 0,
+        "ledger_observations": 0,
+        "ledger_shared_children": 0,
+        "merge_blends": 0,
+        "proofs": 0
+      },
+      "mid_diff": 0,
+      "mid_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "mid_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "n": 12,
+      "stop_count": 0,
+      "target_count": 12
+    },
+    "ALL/UNFILTERED/16/DSSTOP": {
+      "final_diff": 0,
+      "final_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "final_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "mean_final_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_mid_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_nn": 18.25,
+      "mean_visits": 26,
+      "mean_wall_ms": 6.0225229166666665,
+      "mechanisms": {
+        "backup_changed": 0,
+        "extra_evals": 0,
+        "ledger_observations": 0,
+        "ledger_shared_children": 0,
+        "merge_blends": 0,
+        "proofs": 0
+      },
+      "mid_diff": 0,
+      "mid_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "mid_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "n": 12,
+      "stop_count": 9,
+      "target_count": 0
+    },
+    "ALL/UNFILTERED/16/DSV": {
+      "final_diff": 0,
+      "final_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "final_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "mean_final_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_mid_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_nn": 22.833333333333332,
+      "mean_visits": 32,
+      "mean_wall_ms": 6.73722975,
+      "mechanisms": {
+        "backup_changed": 0,
+        "extra_evals": 24,
+        "ledger_observations": 0,
+        "ledger_shared_children": 0,
+        "merge_blends": 0,
+        "proofs": 9
+      },
+      "mid_diff": 0,
+      "mid_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "mid_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "n": 12,
+      "stop_count": 0,
+      "target_count": 0
+    },
+    "ALL/UNFILTERED/16/DSX": {
+      "final_diff": 0,
+      "final_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "final_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "mean_final_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_mid_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_nn": 23.083333333333332,
+      "mean_visits": 32,
+      "mean_wall_ms": 6.715123666666667,
+      "mechanisms": {
+        "backup_changed": 0,
+        "extra_evals": 0,
+        "ledger_observations": 0,
+        "ledger_shared_children": 0,
+        "merge_blends": 0,
+        "proofs": 0
+      },
+      "mid_diff": 0,
+      "mid_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "mid_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "n": 12,
+      "stop_count": 0,
+      "target_count": 12
+    },
+    "ALL/UNFILTERED/8/DS0": {
+      "final_diff": 0,
+      "final_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "final_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "mean_final_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_mid_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_nn": 20.833333333333332,
+      "mean_visits": 32,
+      "mean_wall_ms": 6.563740166666666,
+      "mechanisms": {
+        "backup_changed": 0,
+        "extra_evals": 0,
+        "ledger_observations": 0,
+        "ledger_shared_children": 0,
+        "merge_blends": 0,
+        "proofs": 0
+      },
+      "mid_diff": 0,
+      "mid_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "mid_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "n": 12,
+      "stop_count": 0,
+      "target_count": 0
+    },
+    "ALL/UNFILTERED/8/DSB": {
+      "final_diff": 0,
+      "final_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "final_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "mean_final_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_mid_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_nn": 20.833333333333332,
+      "mean_visits": 32,
+      "mean_wall_ms": 7.05056875,
+      "mechanisms": {
+        "backup_changed": 0,
+        "extra_evals": 0,
+        "ledger_observations": 510,
+        "ledger_shared_children": 0,
+        "merge_blends": 0,
+        "proofs": 0
+      },
+      "mid_diff": 0,
+      "mid_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "mid_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "n": 12,
+      "stop_count": 0,
+      "target_count": 0
+    },
+    "ALL/UNFILTERED/8/DSF": {
+      "final_diff": 0,
+      "final_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "final_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "mean_final_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_mid_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_nn": 20.833333333333332,
+      "mean_visits": 32,
+      "mean_wall_ms": 7.211659833333333,
+      "mechanisms": {
+        "backup_changed": 0,
+        "extra_evals": 0,
+        "ledger_observations": 0,
+        "ledger_shared_children": 0,
+        "merge_blends": 0,
+        "proofs": 0
+      },
+      "mid_diff": 0,
+      "mid_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "mid_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "n": 12,
+      "stop_count": 0,
+      "target_count": 3
+    },
+    "ALL/UNFILTERED/8/DSL": {
+      "final_diff": 0,
+      "final_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "final_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "mean_final_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_mid_gain": {
+        "256": 0.0,
+        "64": 0.041666666666666664
+      },
+      "mean_nn": 20.833333333333332,
+      "mean_visits": 32,
+      "mean_wall_ms": 6.93534675,
+      "mechanisms": {
+        "backup_changed": 0,
+        "extra_evals": 0,
+        "ledger_observations": 0,
+        "ledger_shared_children": 0,
+        "merge_blends": 0,
+        "proofs": 0
+      },
+      "mid_diff": 1,
+      "mid_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "mid_improved": {
+        "256": 0,
+        "64": 1
+      },
+      "n": 12,
+      "stop_count": 0,
+      "target_count": 12
+    },
+    "ALL/UNFILTERED/8/DSSTOP": {
+      "final_diff": 0,
+      "final_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "final_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "mean_final_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_mid_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_nn": 18.25,
+      "mean_visits": 26,
+      "mean_wall_ms": 5.937431083333333,
+      "mechanisms": {
+        "backup_changed": 0,
+        "extra_evals": 0,
+        "ledger_observations": 0,
+        "ledger_shared_children": 0,
+        "merge_blends": 0,
+        "proofs": 0
+      },
+      "mid_diff": 0,
+      "mid_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "mid_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "n": 12,
+      "stop_count": 9,
+      "target_count": 0
+    },
+    "ALL/UNFILTERED/8/DSV": {
+      "final_diff": 0,
+      "final_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "final_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "mean_final_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_mid_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_nn": 23.5,
+      "mean_visits": 32,
+      "mean_wall_ms": 7.168517916666667,
+      "mechanisms": {
+        "backup_changed": 0,
+        "extra_evals": 32,
+        "ledger_observations": 0,
+        "ledger_shared_children": 0,
+        "merge_blends": 0,
+        "proofs": 20
+      },
+      "mid_diff": 0,
+      "mid_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "mid_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "n": 12,
+      "stop_count": 0,
+      "target_count": 0
+    },
+    "ALL/UNFILTERED/8/DSX": {
+      "final_diff": 0,
+      "final_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "final_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "mean_final_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_mid_gain": {
+        "256": 0.0,
+        "64": 0.041666666666666664
+      },
+      "mean_nn": 23.083333333333332,
+      "mean_visits": 32,
+      "mean_wall_ms": 7.27244375,
+      "mechanisms": {
+        "backup_changed": 0,
+        "extra_evals": 0,
+        "ledger_observations": 0,
+        "ledger_shared_children": 0,
+        "merge_blends": 0,
+        "proofs": 0
+      },
+      "mid_diff": 1,
+      "mid_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "mid_improved": {
+        "256": 0,
+        "64": 1
+      },
+      "n": 12,
+      "stop_count": 0,
+      "target_count": 12
+    },
+    "CAL/ALL/16/DS0": {
+      "final_diff": 0,
+      "final_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "final_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "mean_final_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_mid_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_nn": 27.833333333333332,
+      "mean_visits": 32,
+      "mean_wall_ms": 6.9088658333333335,
+      "mechanisms": {
+        "backup_changed": 0,
+        "extra_evals": 0,
+        "ledger_observations": 0,
+        "ledger_shared_children": 0,
+        "merge_blends": 0,
+        "proofs": 0
+      },
+      "mid_diff": 0,
+      "mid_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "mid_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "n": 6,
+      "stop_count": 0,
+      "target_count": 0
+    },
+    "CAL/ALL/16/DSB": {
+      "final_diff": 0,
+      "final_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "final_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "mean_final_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_mid_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_nn": 27.833333333333332,
+      "mean_visits": 32,
+      "mean_wall_ms": 7.7310315,
+      "mechanisms": {
+        "backup_changed": 0,
+        "extra_evals": 0,
+        "ledger_observations": 386,
+        "ledger_shared_children": 0,
+        "merge_blends": 0,
+        "proofs": 0
+      },
+      "mid_diff": 0,
+      "mid_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "mid_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "n": 6,
+      "stop_count": 0,
+      "target_count": 0
+    },
+    "CAL/ALL/16/DSF": {
+      "final_diff": 1,
+      "final_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "final_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "mean_final_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_mid_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_nn": 27.833333333333332,
+      "mean_visits": 32,
+      "mean_wall_ms": 7.384752166666667,
+      "mechanisms": {
+        "backup_changed": 0,
+        "extra_evals": 0,
+        "ledger_observations": 0,
+        "ledger_shared_children": 0,
+        "merge_blends": 0,
+        "proofs": 0
+      },
+      "mid_diff": 1,
+      "mid_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "mid_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "n": 6,
+      "stop_count": 0,
+      "target_count": 4
+    },
+    "CAL/ALL/16/DSL": {
+      "final_diff": 0,
+      "final_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "final_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "mean_final_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_mid_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_nn": 27.666666666666668,
+      "mean_visits": 32,
+      "mean_wall_ms": 7.0594705,
+      "mechanisms": {
+        "backup_changed": 0,
+        "extra_evals": 0,
+        "ledger_observations": 0,
+        "ledger_shared_children": 0,
+        "merge_blends": 0,
+        "proofs": 0
+      },
+      "mid_diff": 0,
+      "mid_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "mid_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "n": 6,
+      "stop_count": 0,
+      "target_count": 6
+    },
+    "CAL/ALL/16/DSSTOP": {
+      "final_diff": 0,
+      "final_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "final_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "mean_final_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_mid_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_nn": 23.5,
+      "mean_visits": 26.666666666666668,
+      "mean_wall_ms": 7.082802833333333,
+      "mechanisms": {
+        "backup_changed": 0,
+        "extra_evals": 0,
+        "ledger_observations": 0,
+        "ledger_shared_children": 0,
+        "merge_blends": 0,
+        "proofs": 0
+      },
+      "mid_diff": 0,
+      "mid_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "mid_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "n": 6,
+      "stop_count": 4,
+      "target_count": 0
+    },
+    "CAL/ALL/16/DSV": {
+      "final_diff": 0,
+      "final_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "final_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "mean_final_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_mid_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_nn": 28.833333333333332,
+      "mean_visits": 32,
+      "mean_wall_ms": 7.8024561666666665,
+      "mechanisms": {
+        "backup_changed": 0,
+        "extra_evals": 6,
+        "ledger_observations": 0,
+        "ledger_shared_children": 0,
+        "merge_blends": 0,
+        "proofs": 5
+      },
+      "mid_diff": 0,
+      "mid_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "mid_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "n": 6,
+      "stop_count": 0,
+      "target_count": 0
+    },
+    "CAL/ALL/16/DSX": {
+      "final_diff": 1,
+      "final_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "final_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "mean_final_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_mid_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_nn": 29,
+      "mean_visits": 32,
+      "mean_wall_ms": 7.692642166666667,
+      "mechanisms": {
+        "backup_changed": 0,
+        "extra_evals": 0,
+        "ledger_observations": 0,
+        "ledger_shared_children": 0,
+        "merge_blends": 0,
+        "proofs": 0
+      },
+      "mid_diff": 1,
+      "mid_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "mid_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "n": 6,
+      "stop_count": 0,
+      "target_count": 6
+    },
+    "CAL/ALL/8/DS0": {
+      "final_diff": 0,
+      "final_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "final_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "mean_final_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_mid_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_nn": 27.833333333333332,
+      "mean_visits": 32,
+      "mean_wall_ms": 7.308783333333333,
+      "mechanisms": {
+        "backup_changed": 0,
+        "extra_evals": 0,
+        "ledger_observations": 0,
+        "ledger_shared_children": 0,
+        "merge_blends": 0,
+        "proofs": 0
+      },
+      "mid_diff": 0,
+      "mid_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "mid_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "n": 6,
+      "stop_count": 0,
+      "target_count": 0
+    },
+    "CAL/ALL/8/DSB": {
+      "final_diff": 0,
+      "final_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "final_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "mean_final_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_mid_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_nn": 27.833333333333332,
+      "mean_visits": 32,
+      "mean_wall_ms": 8.081034833333334,
+      "mechanisms": {
+        "backup_changed": 0,
+        "extra_evals": 0,
+        "ledger_observations": 249,
+        "ledger_shared_children": 0,
+        "merge_blends": 0,
+        "proofs": 0
+      },
+      "mid_diff": 0,
+      "mid_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "mid_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "n": 6,
+      "stop_count": 0,
+      "target_count": 0
+    },
+    "CAL/ALL/8/DSF": {
+      "final_diff": 1,
+      "final_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "final_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "mean_final_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_mid_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_nn": 27.833333333333332,
+      "mean_visits": 32,
+      "mean_wall_ms": 8.288359666666667,
+      "mechanisms": {
+        "backup_changed": 0,
+        "extra_evals": 0,
+        "ledger_observations": 0,
+        "ledger_shared_children": 0,
+        "merge_blends": 0,
+        "proofs": 0
+      },
+      "mid_diff": 2,
+      "mid_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "mid_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "n": 6,
+      "stop_count": 0,
+      "target_count": 3
+    },
+    "CAL/ALL/8/DSL": {
+      "final_diff": 0,
+      "final_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "final_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "mean_final_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_mid_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_nn": 27.833333333333332,
+      "mean_visits": 32,
+      "mean_wall_ms": 7.971845166666667,
+      "mechanisms": {
+        "backup_changed": 0,
+        "extra_evals": 0,
+        "ledger_observations": 0,
+        "ledger_shared_children": 0,
+        "merge_blends": 0,
+        "proofs": 0
+      },
+      "mid_diff": 0,
+      "mid_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "mid_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "n": 6,
+      "stop_count": 0,
+      "target_count": 6
+    },
+    "CAL/ALL/8/DSSTOP": {
+      "final_diff": 0,
+      "final_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "final_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "mean_final_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_mid_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_nn": 23.5,
+      "mean_visits": 26.666666666666668,
+      "mean_wall_ms": 6.433028166666666,
+      "mechanisms": {
+        "backup_changed": 0,
+        "extra_evals": 0,
+        "ledger_observations": 0,
+        "ledger_shared_children": 0,
+        "merge_blends": 0,
+        "proofs": 0
+      },
+      "mid_diff": 0,
+      "mid_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "mid_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "n": 6,
+      "stop_count": 4,
+      "target_count": 0
+    },
+    "CAL/ALL/8/DSV": {
+      "final_diff": 0,
+      "final_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "final_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "mean_final_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_mid_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_nn": 27.833333333333332,
+      "mean_visits": 32,
+      "mean_wall_ms": 7.5754055000000005,
+      "mechanisms": {
+        "backup_changed": 0,
+        "extra_evals": 0,
+        "ledger_observations": 0,
+        "ledger_shared_children": 0,
+        "merge_blends": 0,
+        "proofs": 11
+      },
+      "mid_diff": 0,
+      "mid_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "mid_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "n": 6,
+      "stop_count": 0,
+      "target_count": 0
+    },
+    "CAL/ALL/8/DSX": {
+      "final_diff": 0,
+      "final_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "final_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "mean_final_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_mid_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_nn": 29,
+      "mean_visits": 32,
+      "mean_wall_ms": 8.809284666666667,
+      "mechanisms": {
+        "backup_changed": 0,
+        "extra_evals": 0,
+        "ledger_observations": 0,
+        "ledger_shared_children": 0,
+        "merge_blends": 0,
+        "proofs": 0
+      },
+      "mid_diff": 1,
+      "mid_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "mid_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "n": 6,
+      "stop_count": 0,
+      "target_count": 6
+    },
+    "CAL/SENSITIVE/16/DS0": {
+      "final_diff": 0,
+      "final_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "final_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "mean_final_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_mid_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_nn": 27,
+      "mean_visits": 32,
+      "mean_wall_ms": 6.3221066666666665,
+      "mechanisms": {
+        "backup_changed": 0,
+        "extra_evals": 0,
+        "ledger_observations": 0,
+        "ledger_shared_children": 0,
+        "merge_blends": 0,
+        "proofs": 0
+      },
+      "mid_diff": 0,
+      "mid_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "mid_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "n": 3,
+      "stop_count": 0,
+      "target_count": 0
+    },
+    "CAL/SENSITIVE/16/DSB": {
+      "final_diff": 0,
+      "final_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "final_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "mean_final_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_mid_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_nn": 27,
+      "mean_visits": 32,
+      "mean_wall_ms": 6.395736,
+      "mechanisms": {
+        "backup_changed": 0,
+        "extra_evals": 0,
+        "ledger_observations": 170,
+        "ledger_shared_children": 0,
+        "merge_blends": 0,
+        "proofs": 0
+      },
+      "mid_diff": 0,
+      "mid_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "mid_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "n": 3,
+      "stop_count": 0,
+      "target_count": 0
+    },
+    "CAL/SENSITIVE/16/DSF": {
+      "final_diff": 1,
+      "final_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "final_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "mean_final_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_mid_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_nn": 27,
+      "mean_visits": 32,
+      "mean_wall_ms": 6.676844333333333,
+      "mechanisms": {
+        "backup_changed": 0,
+        "extra_evals": 0,
+        "ledger_observations": 0,
+        "ledger_shared_children": 0,
+        "merge_blends": 0,
+        "proofs": 0
+      },
+      "mid_diff": 1,
+      "mid_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "mid_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "n": 3,
+      "stop_count": 0,
+      "target_count": 3
+    },
+    "CAL/SENSITIVE/16/DSL": {
+      "final_diff": 0,
+      "final_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "final_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "mean_final_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_mid_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_nn": 26.666666666666668,
+      "mean_visits": 32,
+      "mean_wall_ms": 6.999711,
+      "mechanisms": {
+        "backup_changed": 0,
+        "extra_evals": 0,
+        "ledger_observations": 0,
+        "ledger_shared_children": 0,
+        "merge_blends": 0,
+        "proofs": 0
+      },
+      "mid_diff": 0,
+      "mid_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "mid_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "n": 3,
+      "stop_count": 0,
+      "target_count": 3
+    },
+    "CAL/SENSITIVE/16/DSSTOP": {
+      "final_diff": 0,
+      "final_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "final_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "mean_final_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_mid_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_nn": 24.333333333333332,
+      "mean_visits": 29.333333333333332,
+      "mean_wall_ms": 5.980123333333333,
+      "mechanisms": {
+        "backup_changed": 0,
+        "extra_evals": 0,
+        "ledger_observations": 0,
+        "ledger_shared_children": 0,
+        "merge_blends": 0,
+        "proofs": 0
+      },
+      "mid_diff": 0,
+      "mid_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "mid_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "n": 3,
+      "stop_count": 1,
+      "target_count": 0
+    },
+    "CAL/SENSITIVE/16/DSV": {
+      "final_diff": 0,
+      "final_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "final_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "mean_final_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_mid_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_nn": 29,
+      "mean_visits": 32,
+      "mean_wall_ms": 7.095217333333333,
+      "mechanisms": {
+        "backup_changed": 0,
+        "extra_evals": 6,
+        "ledger_observations": 0,
+        "ledger_shared_children": 0,
+        "merge_blends": 0,
+        "proofs": 2
+      },
+      "mid_diff": 0,
+      "mid_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "mid_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "n": 3,
+      "stop_count": 0,
+      "target_count": 0
+    },
+    "CAL/SENSITIVE/16/DSX": {
+      "final_diff": 1,
+      "final_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "final_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "mean_final_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_mid_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_nn": 28,
+      "mean_visits": 32,
+      "mean_wall_ms": 6.664724,
+      "mechanisms": {
+        "backup_changed": 0,
+        "extra_evals": 0,
+        "ledger_observations": 0,
+        "ledger_shared_children": 0,
+        "merge_blends": 0,
+        "proofs": 0
+      },
+      "mid_diff": 1,
+      "mid_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "mid_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "n": 3,
+      "stop_count": 0,
+      "target_count": 3
+    },
+    "CAL/SENSITIVE/8/DS0": {
+      "final_diff": 0,
+      "final_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "final_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "mean_final_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_mid_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_nn": 27,
+      "mean_visits": 32,
+      "mean_wall_ms": 6.6182533333333335,
+      "mechanisms": {
+        "backup_changed": 0,
+        "extra_evals": 0,
+        "ledger_observations": 0,
+        "ledger_shared_children": 0,
+        "merge_blends": 0,
+        "proofs": 0
+      },
+      "mid_diff": 0,
+      "mid_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "mid_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "n": 3,
+      "stop_count": 0,
+      "target_count": 0
+    },
+    "CAL/SENSITIVE/8/DSB": {
+      "final_diff": 0,
+      "final_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "final_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "mean_final_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_mid_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_nn": 27,
+      "mean_visits": 32,
+      "mean_wall_ms": 6.606230666666667,
+      "mechanisms": {
+        "backup_changed": 0,
+        "extra_evals": 0,
+        "ledger_observations": 98,
+        "ledger_shared_children": 0,
+        "merge_blends": 0,
+        "proofs": 0
+      },
+      "mid_diff": 0,
+      "mid_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "mid_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "n": 3,
+      "stop_count": 0,
+      "target_count": 0
+    },
+    "CAL/SENSITIVE/8/DSF": {
+      "final_diff": 1,
+      "final_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "final_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "mean_final_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_mid_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_nn": 27,
+      "mean_visits": 32,
+      "mean_wall_ms": 6.892965333333334,
+      "mechanisms": {
+        "backup_changed": 0,
+        "extra_evals": 0,
+        "ledger_observations": 0,
+        "ledger_shared_children": 0,
+        "merge_blends": 0,
+        "proofs": 0
+      },
+      "mid_diff": 2,
+      "mid_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "mid_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "n": 3,
+      "stop_count": 0,
+      "target_count": 3
+    },
+    "CAL/SENSITIVE/8/DSL": {
+      "final_diff": 0,
+      "final_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "final_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "mean_final_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_mid_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_nn": 27,
+      "mean_visits": 32,
+      "mean_wall_ms": 6.731634333333333,
+      "mechanisms": {
+        "backup_changed": 0,
+        "extra_evals": 0,
+        "ledger_observations": 0,
+        "ledger_shared_children": 0,
+        "merge_blends": 0,
+        "proofs": 0
+      },
+      "mid_diff": 0,
+      "mid_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "mid_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "n": 3,
+      "stop_count": 0,
+      "target_count": 3
+    },
+    "CAL/SENSITIVE/8/DSSTOP": {
+      "final_diff": 0,
+      "final_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "final_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "mean_final_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_mid_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_nn": 24.333333333333332,
+      "mean_visits": 29.333333333333332,
+      "mean_wall_ms": 6.433307,
+      "mechanisms": {
+        "backup_changed": 0,
+        "extra_evals": 0,
+        "ledger_observations": 0,
+        "ledger_shared_children": 0,
+        "merge_blends": 0,
+        "proofs": 0
+      },
+      "mid_diff": 0,
+      "mid_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "mid_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "n": 3,
+      "stop_count": 1,
+      "target_count": 0
+    },
+    "CAL/SENSITIVE/8/DSV": {
+      "final_diff": 0,
+      "final_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "final_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "mean_final_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_mid_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_nn": 27,
+      "mean_visits": 32,
+      "mean_wall_ms": 6.7414760000000005,
+      "mechanisms": {
+        "backup_changed": 0,
+        "extra_evals": 0,
+        "ledger_observations": 0,
+        "ledger_shared_children": 0,
+        "merge_blends": 0,
+        "proofs": 4
+      },
+      "mid_diff": 0,
+      "mid_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "mid_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "n": 3,
+      "stop_count": 0,
+      "target_count": 0
+    },
+    "CAL/SENSITIVE/8/DSX": {
+      "final_diff": 0,
+      "final_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "final_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "mean_final_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_mid_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_nn": 28,
+      "mean_visits": 32,
+      "mean_wall_ms": 7.546384333333333,
+      "mechanisms": {
+        "backup_changed": 0,
+        "extra_evals": 0,
+        "ledger_observations": 0,
+        "ledger_shared_children": 0,
+        "merge_blends": 0,
+        "proofs": 0
+      },
+      "mid_diff": 1,
+      "mid_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "mid_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "n": 3,
+      "stop_count": 0,
+      "target_count": 3
+    },
+    "CAL/UNFILTERED/16/DS0": {
+      "final_diff": 0,
+      "final_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "final_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "mean_final_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_mid_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_nn": 28.666666666666668,
+      "mean_visits": 32,
+      "mean_wall_ms": 7.495625,
+      "mechanisms": {
+        "backup_changed": 0,
+        "extra_evals": 0,
+        "ledger_observations": 0,
+        "ledger_shared_children": 0,
+        "merge_blends": 0,
+        "proofs": 0
+      },
+      "mid_diff": 0,
+      "mid_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "mid_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "n": 3,
+      "stop_count": 0,
+      "target_count": 0
+    },
+    "CAL/UNFILTERED/16/DSB": {
+      "final_diff": 0,
+      "final_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "final_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "mean_final_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_mid_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_nn": 28.666666666666668,
+      "mean_visits": 32,
+      "mean_wall_ms": 9.066327000000001,
+      "mechanisms": {
+        "backup_changed": 0,
+        "extra_evals": 0,
+        "ledger_observations": 216,
+        "ledger_shared_children": 0,
+        "merge_blends": 0,
+        "proofs": 0
+      },
+      "mid_diff": 0,
+      "mid_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "mid_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "n": 3,
+      "stop_count": 0,
+      "target_count": 0
+    },
+    "CAL/UNFILTERED/16/DSF": {
+      "final_diff": 0,
+      "final_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "final_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "mean_final_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_mid_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_nn": 28.666666666666668,
+      "mean_visits": 32,
+      "mean_wall_ms": 8.09266,
+      "mechanisms": {
+        "backup_changed": 0,
+        "extra_evals": 0,
+        "ledger_observations": 0,
+        "ledger_shared_children": 0,
+        "merge_blends": 0,
+        "proofs": 0
+      },
+      "mid_diff": 0,
+      "mid_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "mid_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "n": 3,
+      "stop_count": 0,
+      "target_count": 1
+    },
+    "CAL/UNFILTERED/16/DSL": {
+      "final_diff": 0,
+      "final_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "final_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "mean_final_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_mid_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_nn": 28.666666666666668,
+      "mean_visits": 32,
+      "mean_wall_ms": 7.11923,
+      "mechanisms": {
+        "backup_changed": 0,
+        "extra_evals": 0,
+        "ledger_observations": 0,
+        "ledger_shared_children": 0,
+        "merge_blends": 0,
+        "proofs": 0
+      },
+      "mid_diff": 0,
+      "mid_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "mid_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "n": 3,
+      "stop_count": 0,
+      "target_count": 3
+    },
+    "CAL/UNFILTERED/16/DSSTOP": {
+      "final_diff": 0,
+      "final_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "final_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "mean_final_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_mid_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_nn": 22.666666666666668,
+      "mean_visits": 24,
+      "mean_wall_ms": 8.185482333333333,
+      "mechanisms": {
+        "backup_changed": 0,
+        "extra_evals": 0,
+        "ledger_observations": 0,
+        "ledger_shared_children": 0,
+        "merge_blends": 0,
+        "proofs": 0
+      },
+      "mid_diff": 0,
+      "mid_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "mid_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "n": 3,
+      "stop_count": 3,
+      "target_count": 0
+    },
+    "CAL/UNFILTERED/16/DSV": {
+      "final_diff": 0,
+      "final_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "final_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "mean_final_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_mid_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_nn": 28.666666666666668,
+      "mean_visits": 32,
+      "mean_wall_ms": 8.509695,
+      "mechanisms": {
+        "backup_changed": 0,
+        "extra_evals": 0,
+        "ledger_observations": 0,
+        "ledger_shared_children": 0,
+        "merge_blends": 0,
+        "proofs": 3
+      },
+      "mid_diff": 0,
+      "mid_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "mid_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "n": 3,
+      "stop_count": 0,
+      "target_count": 0
+    },
+    "CAL/UNFILTERED/16/DSX": {
+      "final_diff": 0,
+      "final_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "final_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "mean_final_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_mid_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_nn": 30,
+      "mean_visits": 32,
+      "mean_wall_ms": 8.720560333333333,
+      "mechanisms": {
+        "backup_changed": 0,
+        "extra_evals": 0,
+        "ledger_observations": 0,
+        "ledger_shared_children": 0,
+        "merge_blends": 0,
+        "proofs": 0
+      },
+      "mid_diff": 0,
+      "mid_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "mid_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "n": 3,
+      "stop_count": 0,
+      "target_count": 3
+    },
+    "CAL/UNFILTERED/8/DS0": {
+      "final_diff": 0,
+      "final_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "final_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "mean_final_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_mid_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_nn": 28.666666666666668,
+      "mean_visits": 32,
+      "mean_wall_ms": 7.999313333333333,
+      "mechanisms": {
+        "backup_changed": 0,
+        "extra_evals": 0,
+        "ledger_observations": 0,
+        "ledger_shared_children": 0,
+        "merge_blends": 0,
+        "proofs": 0
+      },
+      "mid_diff": 0,
+      "mid_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "mid_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "n": 3,
+      "stop_count": 0,
+      "target_count": 0
+    },
+    "CAL/UNFILTERED/8/DSB": {
+      "final_diff": 0,
+      "final_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "final_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "mean_final_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_mid_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_nn": 28.666666666666668,
+      "mean_visits": 32,
+      "mean_wall_ms": 9.555839,
+      "mechanisms": {
+        "backup_changed": 0,
+        "extra_evals": 0,
+        "ledger_observations": 151,
+        "ledger_shared_children": 0,
+        "merge_blends": 0,
+        "proofs": 0
+      },
+      "mid_diff": 0,
+      "mid_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "mid_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "n": 3,
+      "stop_count": 0,
+      "target_count": 0
+    },
+    "CAL/UNFILTERED/8/DSF": {
+      "final_diff": 0,
+      "final_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "final_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "mean_final_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_mid_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_nn": 28.666666666666668,
+      "mean_visits": 32,
+      "mean_wall_ms": 9.683754,
+      "mechanisms": {
+        "backup_changed": 0,
+        "extra_evals": 0,
+        "ledger_observations": 0,
+        "ledger_shared_children": 0,
+        "merge_blends": 0,
+        "proofs": 0
+      },
+      "mid_diff": 0,
+      "mid_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "mid_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "n": 3,
+      "stop_count": 0,
+      "target_count": 0
+    },
+    "CAL/UNFILTERED/8/DSL": {
+      "final_diff": 0,
+      "final_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "final_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "mean_final_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_mid_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_nn": 28.666666666666668,
+      "mean_visits": 32,
+      "mean_wall_ms": 9.212056,
+      "mechanisms": {
+        "backup_changed": 0,
+        "extra_evals": 0,
+        "ledger_observations": 0,
+        "ledger_shared_children": 0,
+        "merge_blends": 0,
+        "proofs": 0
+      },
+      "mid_diff": 0,
+      "mid_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "mid_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "n": 3,
+      "stop_count": 0,
+      "target_count": 3
+    },
+    "CAL/UNFILTERED/8/DSSTOP": {
+      "final_diff": 0,
+      "final_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "final_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "mean_final_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_mid_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_nn": 22.666666666666668,
+      "mean_visits": 24,
+      "mean_wall_ms": 6.432749333333334,
+      "mechanisms": {
+        "backup_changed": 0,
+        "extra_evals": 0,
+        "ledger_observations": 0,
+        "ledger_shared_children": 0,
+        "merge_blends": 0,
+        "proofs": 0
+      },
+      "mid_diff": 0,
+      "mid_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "mid_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "n": 3,
+      "stop_count": 3,
+      "target_count": 0
+    },
+    "CAL/UNFILTERED/8/DSV": {
+      "final_diff": 0,
+      "final_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "final_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "mean_final_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_mid_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_nn": 28.666666666666668,
+      "mean_visits": 32,
+      "mean_wall_ms": 8.409335,
+      "mechanisms": {
+        "backup_changed": 0,
+        "extra_evals": 0,
+        "ledger_observations": 0,
+        "ledger_shared_children": 0,
+        "merge_blends": 0,
+        "proofs": 7
+      },
+      "mid_diff": 0,
+      "mid_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "mid_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "n": 3,
+      "stop_count": 0,
+      "target_count": 0
+    },
+    "CAL/UNFILTERED/8/DSX": {
+      "final_diff": 0,
+      "final_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "final_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "mean_final_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_mid_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_nn": 30,
+      "mean_visits": 32,
+      "mean_wall_ms": 10.072185,
+      "mechanisms": {
+        "backup_changed": 0,
+        "extra_evals": 0,
+        "ledger_observations": 0,
+        "ledger_shared_children": 0,
+        "merge_blends": 0,
+        "proofs": 0
+      },
+      "mid_diff": 0,
+      "mid_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "mid_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "n": 3,
+      "stop_count": 0,
+      "target_count": 3
+    },
+    "TEST/ALL/16/DS0": {
+      "final_diff": 0,
+      "final_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "final_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "mean_final_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_mid_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_nn": 17.833333333333332,
+      "mean_visits": 32,
+      "mean_wall_ms": 5.382934833333334,
+      "mechanisms": {
+        "backup_changed": 0,
+        "extra_evals": 0,
+        "ledger_observations": 0,
+        "ledger_shared_children": 0,
+        "merge_blends": 0,
+        "proofs": 0
+      },
+      "mid_diff": 0,
+      "mid_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "mid_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "n": 12,
+      "stop_count": 0,
+      "target_count": 0
+    },
+    "TEST/ALL/16/DSB": {
+      "final_diff": 0,
+      "final_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "final_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "mean_final_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_mid_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_nn": 17.833333333333332,
+      "mean_visits": 32,
+      "mean_wall_ms": 5.625573583333334,
+      "mechanisms": {
+        "backup_changed": 0,
+        "extra_evals": 0,
+        "ledger_observations": 745,
+        "ledger_shared_children": 0,
+        "merge_blends": 0,
+        "proofs": 0
+      },
+      "mid_diff": 0,
+      "mid_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "mid_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "n": 12,
+      "stop_count": 0,
+      "target_count": 0
+    },
+    "TEST/ALL/16/DSF": {
+      "final_diff": 0,
+      "final_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "final_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "mean_final_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_mid_gain": {
+        "256": -0.08333333333333333,
+        "64": -0.041666666666666664
+      },
+      "mean_nn": 17.833333333333332,
+      "mean_visits": 32,
+      "mean_wall_ms": 5.0736,
+      "mechanisms": {
+        "backup_changed": 0,
+        "extra_evals": 0,
+        "ledger_observations": 0,
+        "ledger_shared_children": 0,
+        "merge_blends": 0,
+        "proofs": 0
+      },
+      "mid_diff": 2,
+      "mid_harmed": {
+        "256": 1,
+        "64": 1
+      },
+      "mid_improved": {
+        "256": 0,
+        "64": 1
+      },
+      "n": 12,
+      "stop_count": 0,
+      "target_count": 8
+    },
+    "TEST/ALL/16/DSL": {
+      "final_diff": 0,
+      "final_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "final_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "mean_final_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_mid_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_nn": 17.833333333333332,
+      "mean_visits": 32,
+      "mean_wall_ms": 5.025089333333334,
+      "mechanisms": {
+        "backup_changed": 0,
+        "extra_evals": 0,
+        "ledger_observations": 0,
+        "ledger_shared_children": 0,
+        "merge_blends": 0,
+        "proofs": 0
+      },
+      "mid_diff": 0,
+      "mid_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "mid_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "n": 12,
+      "stop_count": 0,
+      "target_count": 12
+    },
+    "TEST/ALL/16/DSSTOP": {
+      "final_diff": 0,
+      "final_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "final_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "mean_final_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_mid_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_nn": 16.833333333333332,
+      "mean_visits": 28.666666666666668,
+      "mean_wall_ms": 5.13767025,
+      "mechanisms": {
+        "backup_changed": 0,
+        "extra_evals": 0,
+        "ledger_observations": 0,
+        "ledger_shared_children": 0,
+        "merge_blends": 0,
+        "proofs": 0
+      },
+      "mid_diff": 0,
+      "mid_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "mid_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "n": 12,
+      "stop_count": 5,
+      "target_count": 0
+    },
+    "TEST/ALL/16/DSV": {
+      "final_diff": 0,
+      "final_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "final_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "mean_final_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_mid_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_nn": 18.5,
+      "mean_visits": 32,
+      "mean_wall_ms": 5.65583075,
+      "mechanisms": {
+        "backup_changed": 0,
+        "extra_evals": 8,
+        "ledger_observations": 0,
+        "ledger_shared_children": 0,
+        "merge_blends": 0,
+        "proofs": 13
+      },
+      "mid_diff": 0,
+      "mid_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "mid_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "n": 12,
+      "stop_count": 0,
+      "target_count": 0
+    },
+    "TEST/ALL/16/DSX": {
+      "final_diff": 0,
+      "final_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "final_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "mean_final_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_mid_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_nn": 20.25,
+      "mean_visits": 32,
+      "mean_wall_ms": 5.70150125,
+      "mechanisms": {
+        "backup_changed": 0,
+        "extra_evals": 0,
+        "ledger_observations": 0,
+        "ledger_shared_children": 0,
+        "merge_blends": 0,
+        "proofs": 0
+      },
+      "mid_diff": 0,
+      "mid_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "mid_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "n": 12,
+      "stop_count": 0,
+      "target_count": 12
+    },
+    "TEST/ALL/8/DS0": {
+      "final_diff": 0,
+      "final_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "final_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "mean_final_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_mid_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_nn": 17.833333333333332,
+      "mean_visits": 32,
+      "mean_wall_ms": 5.475613416666667,
+      "mechanisms": {
+        "backup_changed": 0,
+        "extra_evals": 0,
+        "ledger_observations": 0,
+        "ledger_shared_children": 0,
+        "merge_blends": 0,
+        "proofs": 0
+      },
+      "mid_diff": 0,
+      "mid_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "mid_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "n": 12,
+      "stop_count": 0,
+      "target_count": 0
+    },
+    "TEST/ALL/8/DSB": {
+      "final_diff": 0,
+      "final_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "final_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "mean_final_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_mid_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_nn": 17.833333333333332,
+      "mean_visits": 32,
+      "mean_wall_ms": 5.526442666666667,
+      "mechanisms": {
+        "backup_changed": 0,
+        "extra_evals": 0,
+        "ledger_observations": 464,
+        "ledger_shared_children": 0,
+        "merge_blends": 0,
+        "proofs": 0
+      },
+      "mid_diff": 0,
+      "mid_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "mid_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "n": 12,
+      "stop_count": 0,
+      "target_count": 0
+    },
+    "TEST/ALL/8/DSF": {
+      "final_diff": 0,
+      "final_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "final_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "mean_final_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_mid_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_nn": 17.833333333333332,
+      "mean_visits": 32,
+      "mean_wall_ms": 5.46405,
+      "mechanisms": {
+        "backup_changed": 0,
+        "extra_evals": 0,
+        "ledger_observations": 0,
+        "ledger_shared_children": 0,
+        "merge_blends": 0,
+        "proofs": 0
+      },
+      "mid_diff": 0,
+      "mid_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "mid_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "n": 12,
+      "stop_count": 0,
+      "target_count": 7
+    },
+    "TEST/ALL/8/DSL": {
+      "final_diff": 0,
+      "final_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "final_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "mean_final_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_mid_gain": {
+        "256": -0.08333333333333333,
+        "64": -0.041666666666666664
+      },
+      "mean_nn": 17.833333333333332,
+      "mean_visits": 32,
+      "mean_wall_ms": 5.531986666666667,
+      "mechanisms": {
+        "backup_changed": 0,
+        "extra_evals": 0,
+        "ledger_observations": 0,
+        "ledger_shared_children": 0,
+        "merge_blends": 0,
+        "proofs": 0
+      },
+      "mid_diff": 4,
+      "mid_harmed": {
+        "256": 1,
+        "64": 1
+      },
+      "mid_improved": {
+        "256": 0,
+        "64": 1
+      },
+      "n": 12,
+      "stop_count": 0,
+      "target_count": 12
+    },
+    "TEST/ALL/8/DSSTOP": {
+      "final_diff": 0,
+      "final_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "final_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "mean_final_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_mid_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_nn": 16.833333333333332,
+      "mean_visits": 28.666666666666668,
+      "mean_wall_ms": 5.035204333333334,
+      "mechanisms": {
+        "backup_changed": 0,
+        "extra_evals": 0,
+        "ledger_observations": 0,
+        "ledger_shared_children": 0,
+        "merge_blends": 0,
+        "proofs": 0
+      },
+      "mid_diff": 0,
+      "mid_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "mid_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "n": 12,
+      "stop_count": 5,
+      "target_count": 0
+    },
+    "TEST/ALL/8/DSV": {
+      "final_diff": 0,
+      "final_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "final_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "mean_final_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_mid_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_nn": 19.166666666666668,
+      "mean_visits": 32,
+      "mean_wall_ms": 5.76401675,
+      "mechanisms": {
+        "backup_changed": 0,
+        "extra_evals": 16,
+        "ledger_observations": 0,
+        "ledger_shared_children": 0,
+        "merge_blends": 0,
+        "proofs": 27
+      },
+      "mid_diff": 0,
+      "mid_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "mid_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "n": 12,
+      "stop_count": 0,
+      "target_count": 0
+    },
+    "TEST/ALL/8/DSX": {
+      "final_diff": 0,
+      "final_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "final_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "mean_final_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_mid_gain": {
+        "256": 0.0,
+        "64": 0.041666666666666664
+      },
+      "mean_nn": 20.25,
+      "mean_visits": 32,
+      "mean_wall_ms": 6.034872166666666,
+      "mechanisms": {
+        "backup_changed": 0,
+        "extra_evals": 0,
+        "ledger_observations": 0,
+        "ledger_shared_children": 0,
+        "merge_blends": 0,
+        "proofs": 0
+      },
+      "mid_diff": 2,
+      "mid_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "mid_improved": {
+        "256": 0,
+        "64": 1
+      },
+      "n": 12,
+      "stop_count": 0,
+      "target_count": 12
+    },
+    "TEST/SENSITIVE/16/DS0": {
+      "final_diff": 0,
+      "final_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "final_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "mean_final_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_mid_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_nn": 18,
+      "mean_visits": 32,
+      "mean_wall_ms": 5.160472666666666,
+      "mechanisms": {
+        "backup_changed": 0,
+        "extra_evals": 0,
+        "ledger_observations": 0,
+        "ledger_shared_children": 0,
+        "merge_blends": 0,
+        "proofs": 0
+      },
+      "mid_diff": 0,
+      "mid_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "mid_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "n": 6,
+      "stop_count": 0,
+      "target_count": 0
+    },
+    "TEST/SENSITIVE/16/DSB": {
+      "final_diff": 0,
+      "final_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "final_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "mean_final_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_mid_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_nn": 18,
+      "mean_visits": 32,
+      "mean_wall_ms": 5.405654666666667,
+      "mechanisms": {
+        "backup_changed": 0,
+        "extra_evals": 0,
+        "ledger_observations": 349,
+        "ledger_shared_children": 0,
+        "merge_blends": 0,
+        "proofs": 0
+      },
+      "mid_diff": 0,
+      "mid_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "mid_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "n": 6,
+      "stop_count": 0,
+      "target_count": 0
+    },
+    "TEST/SENSITIVE/16/DSF": {
+      "final_diff": 0,
+      "final_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "final_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "mean_final_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_mid_gain": {
+        "256": -0.16666666666666666,
+        "64": -0.16666666666666666
+      },
+      "mean_nn": 18,
+      "mean_visits": 32,
+      "mean_wall_ms": 4.795142,
+      "mechanisms": {
+        "backup_changed": 0,
+        "extra_evals": 0,
+        "ledger_observations": 0,
+        "ledger_shared_children": 0,
+        "merge_blends": 0,
+        "proofs": 0
+      },
+      "mid_diff": 1,
+      "mid_harmed": {
+        "256": 1,
+        "64": 1
+      },
+      "mid_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "n": 6,
+      "stop_count": 0,
+      "target_count": 6
+    },
+    "TEST/SENSITIVE/16/DSL": {
+      "final_diff": 0,
+      "final_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "final_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "mean_final_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_mid_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_nn": 18,
+      "mean_visits": 32,
+      "mean_wall_ms": 4.937417666666667,
+      "mechanisms": {
+        "backup_changed": 0,
+        "extra_evals": 0,
+        "ledger_observations": 0,
+        "ledger_shared_children": 0,
+        "merge_blends": 0,
+        "proofs": 0
+      },
+      "mid_diff": 0,
+      "mid_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "mid_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "n": 6,
+      "stop_count": 0,
+      "target_count": 6
+    },
+    "TEST/SENSITIVE/16/DSSTOP": {
+      "final_diff": 0,
+      "final_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "final_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "mean_final_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_mid_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_nn": 18,
+      "mean_visits": 32,
+      "mean_wall_ms": 5.382767666666667,
+      "mechanisms": {
+        "backup_changed": 0,
+        "extra_evals": 0,
+        "ledger_observations": 0,
+        "ledger_shared_children": 0,
+        "merge_blends": 0,
+        "proofs": 0
+      },
+      "mid_diff": 0,
+      "mid_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "mid_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "n": 6,
+      "stop_count": 0,
+      "target_count": 0
+    },
+    "TEST/SENSITIVE/16/DSV": {
+      "final_diff": 0,
+      "final_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "final_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "mean_final_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_mid_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_nn": 18,
+      "mean_visits": 32,
+      "mean_wall_ms": 5.723757333333333,
+      "mechanisms": {
+        "backup_changed": 0,
+        "extra_evals": 0,
+        "ledger_observations": 0,
+        "ledger_shared_children": 0,
+        "merge_blends": 0,
+        "proofs": 9
+      },
+      "mid_diff": 0,
+      "mid_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "mid_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "n": 6,
+      "stop_count": 0,
+      "target_count": 0
+    },
+    "TEST/SENSITIVE/16/DSX": {
+      "final_diff": 0,
+      "final_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "final_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "mean_final_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_mid_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_nn": 20.166666666666668,
+      "mean_visits": 32,
+      "mean_wall_ms": 5.645508,
+      "mechanisms": {
+        "backup_changed": 0,
+        "extra_evals": 0,
+        "ledger_observations": 0,
+        "ledger_shared_children": 0,
+        "merge_blends": 0,
+        "proofs": 0
+      },
+      "mid_diff": 0,
+      "mid_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "mid_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "n": 6,
+      "stop_count": 0,
+      "target_count": 6
+    },
+    "TEST/SENSITIVE/8/DS0": {
+      "final_diff": 0,
+      "final_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "final_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "mean_final_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_mid_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_nn": 18,
+      "mean_visits": 32,
+      "mean_wall_ms": 5.3671014999999995,
+      "mechanisms": {
+        "backup_changed": 0,
+        "extra_evals": 0,
+        "ledger_observations": 0,
+        "ledger_shared_children": 0,
+        "merge_blends": 0,
+        "proofs": 0
+      },
+      "mid_diff": 0,
+      "mid_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "mid_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "n": 6,
+      "stop_count": 0,
+      "target_count": 0
+    },
+    "TEST/SENSITIVE/8/DSB": {
+      "final_diff": 0,
+      "final_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "final_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "mean_final_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_mid_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_nn": 18,
+      "mean_visits": 32,
+      "mean_wall_ms": 5.377876666666666,
+      "mechanisms": {
+        "backup_changed": 0,
+        "extra_evals": 0,
+        "ledger_observations": 215,
+        "ledger_shared_children": 0,
+        "merge_blends": 0,
+        "proofs": 0
+      },
+      "mid_diff": 0,
+      "mid_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "mid_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "n": 6,
+      "stop_count": 0,
+      "target_count": 0
+    },
+    "TEST/SENSITIVE/8/DSF": {
+      "final_diff": 0,
+      "final_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "final_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "mean_final_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_mid_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_nn": 18,
+      "mean_visits": 32,
+      "mean_wall_ms": 5.248748166666666,
+      "mechanisms": {
+        "backup_changed": 0,
+        "extra_evals": 0,
+        "ledger_observations": 0,
+        "ledger_shared_children": 0,
+        "merge_blends": 0,
+        "proofs": 0
+      },
+      "mid_diff": 0,
+      "mid_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "mid_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "n": 6,
+      "stop_count": 0,
+      "target_count": 6
+    },
+    "TEST/SENSITIVE/8/DSL": {
+      "final_diff": 0,
+      "final_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "final_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "mean_final_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_mid_gain": {
+        "256": -0.16666666666666666,
+        "64": -0.16666666666666666
+      },
+      "mean_nn": 18,
+      "mean_visits": 32,
+      "mean_wall_ms": 5.430014,
+      "mechanisms": {
+        "backup_changed": 0,
+        "extra_evals": 0,
+        "ledger_observations": 0,
+        "ledger_shared_children": 0,
+        "merge_blends": 0,
+        "proofs": 0
+      },
+      "mid_diff": 3,
+      "mid_harmed": {
+        "256": 1,
+        "64": 1
+      },
+      "mid_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "n": 6,
+      "stop_count": 0,
+      "target_count": 6
+    },
+    "TEST/SENSITIVE/8/DSSTOP": {
+      "final_diff": 0,
+      "final_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "final_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "mean_final_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_mid_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_nn": 18,
+      "mean_visits": 32,
+      "mean_wall_ms": 5.2072883333333335,
+      "mechanisms": {
+        "backup_changed": 0,
+        "extra_evals": 0,
+        "ledger_observations": 0,
+        "ledger_shared_children": 0,
+        "merge_blends": 0,
+        "proofs": 0
+      },
+      "mid_diff": 0,
+      "mid_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "mid_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "n": 6,
+      "stop_count": 0,
+      "target_count": 0
+    },
+    "TEST/SENSITIVE/8/DSV": {
+      "final_diff": 0,
+      "final_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "final_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "mean_final_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_mid_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_nn": 18,
+      "mean_visits": 32,
+      "mean_wall_ms": 5.6750655,
+      "mechanisms": {
+        "backup_changed": 0,
+        "extra_evals": 0,
+        "ledger_observations": 0,
+        "ledger_shared_children": 0,
+        "merge_blends": 0,
+        "proofs": 19
+      },
+      "mid_diff": 0,
+      "mid_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "mid_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "n": 6,
+      "stop_count": 0,
+      "target_count": 0
+    },
+    "TEST/SENSITIVE/8/DSX": {
+      "final_diff": 0,
+      "final_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "final_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "mean_final_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_mid_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_nn": 20.166666666666668,
+      "mean_visits": 32,
+      "mean_wall_ms": 5.9946478333333335,
+      "mechanisms": {
+        "backup_changed": 0,
+        "extra_evals": 0,
+        "ledger_observations": 0,
+        "ledger_shared_children": 0,
+        "merge_blends": 0,
+        "proofs": 0
+      },
+      "mid_diff": 1,
+      "mid_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "mid_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "n": 6,
+      "stop_count": 0,
+      "target_count": 6
+    },
+    "TEST/UNFILTERED/16/DS0": {
+      "final_diff": 0,
+      "final_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "final_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "mean_final_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_mid_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_nn": 17.666666666666668,
+      "mean_visits": 32,
+      "mean_wall_ms": 5.605397,
+      "mechanisms": {
+        "backup_changed": 0,
+        "extra_evals": 0,
+        "ledger_observations": 0,
+        "ledger_shared_children": 0,
+        "merge_blends": 0,
+        "proofs": 0
+      },
+      "mid_diff": 0,
+      "mid_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "mid_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "n": 6,
+      "stop_count": 0,
+      "target_count": 0
+    },
+    "TEST/UNFILTERED/16/DSB": {
+      "final_diff": 0,
+      "final_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "final_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "mean_final_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_mid_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_nn": 17.666666666666668,
+      "mean_visits": 32,
+      "mean_wall_ms": 5.8454925,
+      "mechanisms": {
+        "backup_changed": 0,
+        "extra_evals": 0,
+        "ledger_observations": 396,
+        "ledger_shared_children": 0,
+        "merge_blends": 0,
+        "proofs": 0
+      },
+      "mid_diff": 0,
+      "mid_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "mid_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "n": 6,
+      "stop_count": 0,
+      "target_count": 0
+    },
+    "TEST/UNFILTERED/16/DSF": {
+      "final_diff": 0,
+      "final_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "final_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "mean_final_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_mid_gain": {
+        "256": 0.0,
+        "64": 0.08333333333333333
+      },
+      "mean_nn": 17.666666666666668,
+      "mean_visits": 32,
+      "mean_wall_ms": 5.3520579999999995,
+      "mechanisms": {
+        "backup_changed": 0,
+        "extra_evals": 0,
+        "ledger_observations": 0,
+        "ledger_shared_children": 0,
+        "merge_blends": 0,
+        "proofs": 0
+      },
+      "mid_diff": 1,
+      "mid_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "mid_improved": {
+        "256": 0,
+        "64": 1
+      },
+      "n": 6,
+      "stop_count": 0,
+      "target_count": 2
+    },
+    "TEST/UNFILTERED/16/DSL": {
+      "final_diff": 0,
+      "final_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "final_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "mean_final_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_mid_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_nn": 17.666666666666668,
+      "mean_visits": 32,
+      "mean_wall_ms": 5.112761,
+      "mechanisms": {
+        "backup_changed": 0,
+        "extra_evals": 0,
+        "ledger_observations": 0,
+        "ledger_shared_children": 0,
+        "merge_blends": 0,
+        "proofs": 0
+      },
+      "mid_diff": 0,
+      "mid_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "mid_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "n": 6,
+      "stop_count": 0,
+      "target_count": 6
+    },
+    "TEST/UNFILTERED/16/DSSTOP": {
+      "final_diff": 0,
+      "final_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "final_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "mean_final_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_mid_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_nn": 15.666666666666666,
+      "mean_visits": 25.333333333333332,
+      "mean_wall_ms": 4.892572833333333,
+      "mechanisms": {
+        "backup_changed": 0,
+        "extra_evals": 0,
+        "ledger_observations": 0,
+        "ledger_shared_children": 0,
+        "merge_blends": 0,
+        "proofs": 0
+      },
+      "mid_diff": 0,
+      "mid_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "mid_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "n": 6,
+      "stop_count": 5,
+      "target_count": 0
+    },
+    "TEST/UNFILTERED/16/DSV": {
+      "final_diff": 0,
+      "final_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "final_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "mean_final_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_mid_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_nn": 19,
+      "mean_visits": 32,
+      "mean_wall_ms": 5.587904166666667,
+      "mechanisms": {
+        "backup_changed": 0,
+        "extra_evals": 8,
+        "ledger_observations": 0,
+        "ledger_shared_children": 0,
+        "merge_blends": 0,
+        "proofs": 4
+      },
+      "mid_diff": 0,
+      "mid_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "mid_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "n": 6,
+      "stop_count": 0,
+      "target_count": 0
+    },
+    "TEST/UNFILTERED/16/DSX": {
+      "final_diff": 0,
+      "final_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "final_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "mean_final_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_mid_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_nn": 20.333333333333332,
+      "mean_visits": 32,
+      "mean_wall_ms": 5.7574945,
+      "mechanisms": {
+        "backup_changed": 0,
+        "extra_evals": 0,
+        "ledger_observations": 0,
+        "ledger_shared_children": 0,
+        "merge_blends": 0,
+        "proofs": 0
+      },
+      "mid_diff": 0,
+      "mid_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "mid_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "n": 6,
+      "stop_count": 0,
+      "target_count": 6
+    },
+    "TEST/UNFILTERED/8/DS0": {
+      "final_diff": 0,
+      "final_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "final_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "mean_final_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_mid_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_nn": 17.666666666666668,
+      "mean_visits": 32,
+      "mean_wall_ms": 5.584125333333333,
+      "mechanisms": {
+        "backup_changed": 0,
+        "extra_evals": 0,
+        "ledger_observations": 0,
+        "ledger_shared_children": 0,
+        "merge_blends": 0,
+        "proofs": 0
+      },
+      "mid_diff": 0,
+      "mid_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "mid_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "n": 6,
+      "stop_count": 0,
+      "target_count": 0
+    },
+    "TEST/UNFILTERED/8/DSB": {
+      "final_diff": 0,
+      "final_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "final_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "mean_final_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_mid_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_nn": 17.666666666666668,
+      "mean_visits": 32,
+      "mean_wall_ms": 5.675008666666667,
+      "mechanisms": {
+        "backup_changed": 0,
+        "extra_evals": 0,
+        "ledger_observations": 249,
+        "ledger_shared_children": 0,
+        "merge_blends": 0,
+        "proofs": 0
+      },
+      "mid_diff": 0,
+      "mid_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "mid_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "n": 6,
+      "stop_count": 0,
+      "target_count": 0
+    },
+    "TEST/UNFILTERED/8/DSF": {
+      "final_diff": 0,
+      "final_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "final_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "mean_final_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_mid_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_nn": 17.666666666666668,
+      "mean_visits": 32,
+      "mean_wall_ms": 5.6793518333333335,
+      "mechanisms": {
+        "backup_changed": 0,
+        "extra_evals": 0,
+        "ledger_observations": 0,
+        "ledger_shared_children": 0,
+        "merge_blends": 0,
+        "proofs": 0
+      },
+      "mid_diff": 0,
+      "mid_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "mid_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "n": 6,
+      "stop_count": 0,
+      "target_count": 1
+    },
+    "TEST/UNFILTERED/8/DSL": {
+      "final_diff": 0,
+      "final_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "final_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "mean_final_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_mid_gain": {
+        "256": 0.0,
+        "64": 0.08333333333333333
+      },
+      "mean_nn": 17.666666666666668,
+      "mean_visits": 32,
+      "mean_wall_ms": 5.633959333333333,
+      "mechanisms": {
+        "backup_changed": 0,
+        "extra_evals": 0,
+        "ledger_observations": 0,
+        "ledger_shared_children": 0,
+        "merge_blends": 0,
+        "proofs": 0
+      },
+      "mid_diff": 1,
+      "mid_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "mid_improved": {
+        "256": 0,
+        "64": 1
+      },
+      "n": 6,
+      "stop_count": 0,
+      "target_count": 6
+    },
+    "TEST/UNFILTERED/8/DSSTOP": {
+      "final_diff": 0,
+      "final_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "final_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "mean_final_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_mid_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_nn": 15.666666666666666,
+      "mean_visits": 25.333333333333332,
+      "mean_wall_ms": 4.863120333333333,
+      "mechanisms": {
+        "backup_changed": 0,
+        "extra_evals": 0,
+        "ledger_observations": 0,
+        "ledger_shared_children": 0,
+        "merge_blends": 0,
+        "proofs": 0
+      },
+      "mid_diff": 0,
+      "mid_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "mid_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "n": 6,
+      "stop_count": 5,
+      "target_count": 0
+    },
+    "TEST/UNFILTERED/8/DSV": {
+      "final_diff": 0,
+      "final_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "final_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "mean_final_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_mid_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_nn": 20.333333333333332,
+      "mean_visits": 32,
+      "mean_wall_ms": 5.852968000000001,
+      "mechanisms": {
+        "backup_changed": 0,
+        "extra_evals": 16,
+        "ledger_observations": 0,
+        "ledger_shared_children": 0,
+        "merge_blends": 0,
+        "proofs": 8
+      },
+      "mid_diff": 0,
+      "mid_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "mid_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "n": 6,
+      "stop_count": 0,
+      "target_count": 0
+    },
+    "TEST/UNFILTERED/8/DSX": {
+      "final_diff": 0,
+      "final_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "final_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "mean_final_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_mid_gain": {
+        "256": 0.0,
+        "64": 0.08333333333333333
+      },
+      "mean_nn": 20.333333333333332,
+      "mean_visits": 32,
+      "mean_wall_ms": 6.0750965,
+      "mechanisms": {
+        "backup_changed": 0,
+        "extra_evals": 0,
+        "ledger_observations": 0,
+        "ledger_shared_children": 0,
+        "merge_blends": 0,
+        "proofs": 0
+      },
+      "mid_diff": 1,
+      "mid_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "mid_improved": {
+        "256": 0,
+        "64": 1
+      },
+      "n": 6,
+      "stop_count": 0,
+      "target_count": 6
+    },
+    "TRAIN/ALL/16/DS0": {
+      "final_diff": 0,
+      "final_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "final_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "mean_final_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_mid_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_nn": 20.166666666666668,
+      "mean_visits": 32,
+      "mean_wall_ms": 7.104367166666667,
+      "mechanisms": {
+        "backup_changed": 0,
+        "extra_evals": 0,
+        "ledger_observations": 0,
+        "ledger_shared_children": 0,
+        "merge_blends": 0,
+        "proofs": 0
+      },
+      "mid_diff": 0,
+      "mid_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "mid_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "n": 6,
+      "stop_count": 0,
+      "target_count": 0
+    },
+    "TRAIN/ALL/16/DSB": {
+      "final_diff": 0,
+      "final_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "final_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "mean_final_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_mid_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_nn": 20.166666666666668,
+      "mean_visits": 32,
+      "mean_wall_ms": 6.900453333333333,
+      "mechanisms": {
+        "backup_changed": 0,
+        "extra_evals": 0,
+        "ledger_observations": 349,
+        "ledger_shared_children": 0,
+        "merge_blends": 0,
+        "proofs": 0
+      },
+      "mid_diff": 0,
+      "mid_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "mid_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "n": 6,
+      "stop_count": 0,
+      "target_count": 0
+    },
+    "TRAIN/ALL/16/DSF": {
+      "final_diff": 0,
+      "final_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "final_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "mean_final_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_mid_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_nn": 20.166666666666668,
+      "mean_visits": 32,
+      "mean_wall_ms": 7.236499833333333,
+      "mechanisms": {
+        "backup_changed": 0,
+        "extra_evals": 0,
+        "ledger_observations": 0,
+        "ledger_shared_children": 0,
+        "merge_blends": 0,
+        "proofs": 0
+      },
+      "mid_diff": 0,
+      "mid_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "mid_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "n": 6,
+      "stop_count": 0,
+      "target_count": 5
+    },
+    "TRAIN/ALL/16/DSL": {
+      "final_diff": 0,
+      "final_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "final_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "mean_final_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_mid_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_nn": 20.166666666666668,
+      "mean_visits": 32,
+      "mean_wall_ms": 8.486498166666667,
+      "mechanisms": {
+        "backup_changed": 0,
+        "extra_evals": 0,
+        "ledger_observations": 0,
+        "ledger_shared_children": 0,
+        "merge_blends": 0,
+        "proofs": 0
+      },
+      "mid_diff": 0,
+      "mid_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "mid_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "n": 6,
+      "stop_count": 0,
+      "target_count": 6
+    },
+    "TRAIN/ALL/16/DSSTOP": {
+      "final_diff": 0,
+      "final_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "final_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "mean_final_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_mid_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_nn": 20,
+      "mean_visits": 30.666666666666668,
+      "mean_wall_ms": 6.857712333333334,
+      "mechanisms": {
+        "backup_changed": 0,
+        "extra_evals": 0,
+        "ledger_observations": 0,
+        "ledger_shared_children": 0,
+        "merge_blends": 0,
+        "proofs": 0
+      },
+      "mid_diff": 0,
+      "mid_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "mid_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "n": 6,
+      "stop_count": 1,
+      "target_count": 0
+    },
+    "TRAIN/ALL/16/DSV": {
+      "final_diff": 0,
+      "final_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "final_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "mean_final_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_mid_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_nn": 22.833333333333332,
+      "mean_visits": 32,
+      "mean_wall_ms": 7.416378333333333,
+      "mechanisms": {
+        "backup_changed": 0,
+        "extra_evals": 16,
+        "ledger_observations": 0,
+        "ledger_shared_children": 0,
+        "merge_blends": 0,
+        "proofs": 7
+      },
+      "mid_diff": 0,
+      "mid_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "mid_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "n": 6,
+      "stop_count": 0,
+      "target_count": 0
+    },
+    "TRAIN/ALL/16/DSX": {
+      "final_diff": 0,
+      "final_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "final_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "mean_final_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_mid_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_nn": 22.333333333333332,
+      "mean_visits": 32,
+      "mean_wall_ms": 7.827026,
+      "mechanisms": {
+        "backup_changed": 0,
+        "extra_evals": 0,
+        "ledger_observations": 0,
+        "ledger_shared_children": 0,
+        "merge_blends": 0,
+        "proofs": 0
+      },
+      "mid_diff": 0,
+      "mid_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "mid_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "n": 6,
+      "stop_count": 0,
+      "target_count": 6
+    },
+    "TRAIN/ALL/8/DS0": {
+      "final_diff": 0,
+      "final_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "final_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "mean_final_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_mid_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_nn": 20.166666666666668,
+      "mean_visits": 32,
+      "mean_wall_ms": 7.532830166666667,
+      "mechanisms": {
+        "backup_changed": 0,
+        "extra_evals": 0,
+        "ledger_observations": 0,
+        "ledger_shared_children": 0,
+        "merge_blends": 0,
+        "proofs": 0
+      },
+      "mid_diff": 0,
+      "mid_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "mid_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "n": 6,
+      "stop_count": 0,
+      "target_count": 0
+    },
+    "TRAIN/ALL/8/DSB": {
+      "final_diff": 0,
+      "final_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "final_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "mean_final_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_mid_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_nn": 20.166666666666668,
+      "mean_visits": 32,
+      "mean_wall_ms": 7.478223833333333,
+      "mechanisms": {
+        "backup_changed": 0,
+        "extra_evals": 0,
+        "ledger_observations": 218,
+        "ledger_shared_children": 0,
+        "merge_blends": 0,
+        "proofs": 0
+      },
+      "mid_diff": 0,
+      "mid_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "mid_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "n": 6,
+      "stop_count": 0,
+      "target_count": 0
+    },
+    "TRAIN/ALL/8/DSF": {
+      "final_diff": 0,
+      "final_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "final_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "mean_final_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_mid_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_nn": 20,
+      "mean_visits": 32,
+      "mean_wall_ms": 7.378799333333333,
+      "mechanisms": {
+        "backup_changed": 0,
+        "extra_evals": 0,
+        "ledger_observations": 0,
+        "ledger_shared_children": 0,
+        "merge_blends": 0,
+        "proofs": 0
+      },
+      "mid_diff": 1,
+      "mid_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "mid_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "n": 6,
+      "stop_count": 0,
+      "target_count": 5
+    },
+    "TRAIN/ALL/8/DSL": {
+      "final_diff": 0,
+      "final_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "final_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "mean_final_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_mid_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_nn": 20.166666666666668,
+      "mean_visits": 32,
+      "mean_wall_ms": 7.5577906666666665,
+      "mechanisms": {
+        "backup_changed": 0,
+        "extra_evals": 0,
+        "ledger_observations": 0,
+        "ledger_shared_children": 0,
+        "merge_blends": 0,
+        "proofs": 0
+      },
+      "mid_diff": 1,
+      "mid_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "mid_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "n": 6,
+      "stop_count": 0,
+      "target_count": 6
+    },
+    "TRAIN/ALL/8/DSSTOP": {
+      "final_diff": 0,
+      "final_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "final_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "mean_final_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_mid_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_nn": 20,
+      "mean_visits": 30.666666666666668,
+      "mean_wall_ms": 7.7377408333333335,
+      "mechanisms": {
+        "backup_changed": 0,
+        "extra_evals": 0,
+        "ledger_observations": 0,
+        "ledger_shared_children": 0,
+        "merge_blends": 0,
+        "proofs": 0
+      },
+      "mid_diff": 0,
+      "mid_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "mid_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "n": 6,
+      "stop_count": 1,
+      "target_count": 0
+    },
+    "TRAIN/ALL/8/DSV": {
+      "final_diff": 0,
+      "final_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "final_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "mean_final_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_mid_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_nn": 22.833333333333332,
+      "mean_visits": 32,
+      "mean_wall_ms": 12.145923166666666,
+      "mechanisms": {
+        "backup_changed": 0,
+        "extra_evals": 16,
+        "ledger_observations": 0,
+        "ledger_shared_children": 0,
+        "merge_blends": 0,
+        "proofs": 12
+      },
+      "mid_diff": 0,
+      "mid_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "mid_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "n": 6,
+      "stop_count": 0,
+      "target_count": 0
+    },
+    "TRAIN/ALL/8/DSX": {
+      "final_diff": 0,
+      "final_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "final_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "mean_final_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_mid_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_nn": 22.333333333333332,
+      "mean_visits": 32,
+      "mean_wall_ms": 6.9093515,
+      "mechanisms": {
+        "backup_changed": 0,
+        "extra_evals": 0,
+        "ledger_observations": 0,
+        "ledger_shared_children": 0,
+        "merge_blends": 0,
+        "proofs": 0
+      },
+      "mid_diff": 1,
+      "mid_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "mid_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "n": 6,
+      "stop_count": 0,
+      "target_count": 6
+    },
+    "TRAIN/SENSITIVE/16/DS0": {
+      "final_diff": 0,
+      "final_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "final_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "mean_final_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_mid_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_nn": 21,
+      "mean_visits": 32,
+      "mean_wall_ms": 7.6538406666666665,
+      "mechanisms": {
+        "backup_changed": 0,
+        "extra_evals": 0,
+        "ledger_observations": 0,
+        "ledger_shared_children": 0,
+        "merge_blends": 0,
+        "proofs": 0
+      },
+      "mid_diff": 0,
+      "mid_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "mid_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "n": 3,
+      "stop_count": 0,
+      "target_count": 0
+    },
+    "TRAIN/SENSITIVE/16/DSB": {
+      "final_diff": 0,
+      "final_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "final_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "mean_final_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_mid_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_nn": 21,
+      "mean_visits": 32,
+      "mean_wall_ms": 6.973818333333333,
+      "mechanisms": {
+        "backup_changed": 0,
+        "extra_evals": 0,
+        "ledger_observations": 174,
+        "ledger_shared_children": 0,
+        "merge_blends": 0,
+        "proofs": 0
+      },
+      "mid_diff": 0,
+      "mid_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "mid_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "n": 3,
+      "stop_count": 0,
+      "target_count": 0
+    },
+    "TRAIN/SENSITIVE/16/DSF": {
+      "final_diff": 0,
+      "final_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "final_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "mean_final_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_mid_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_nn": 21,
+      "mean_visits": 32,
+      "mean_wall_ms": 7.600449333333334,
+      "mechanisms": {
+        "backup_changed": 0,
+        "extra_evals": 0,
+        "ledger_observations": 0,
+        "ledger_shared_children": 0,
+        "merge_blends": 0,
+        "proofs": 0
+      },
+      "mid_diff": 0,
+      "mid_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "mid_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "n": 3,
+      "stop_count": 0,
+      "target_count": 3
+    },
+    "TRAIN/SENSITIVE/16/DSL": {
+      "final_diff": 0,
+      "final_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "final_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "mean_final_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_mid_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_nn": 21,
+      "mean_visits": 32,
+      "mean_wall_ms": 7.560123666666667,
+      "mechanisms": {
+        "backup_changed": 0,
+        "extra_evals": 0,
+        "ledger_observations": 0,
+        "ledger_shared_children": 0,
+        "merge_blends": 0,
+        "proofs": 0
+      },
+      "mid_diff": 0,
+      "mid_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "mid_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "n": 3,
+      "stop_count": 0,
+      "target_count": 3
+    },
+    "TRAIN/SENSITIVE/16/DSSTOP": {
+      "final_diff": 0,
+      "final_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "final_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "mean_final_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_mid_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_nn": 21,
+      "mean_visits": 32,
+      "mean_wall_ms": 7.595961,
+      "mechanisms": {
+        "backup_changed": 0,
+        "extra_evals": 0,
+        "ledger_observations": 0,
+        "ledger_shared_children": 0,
+        "merge_blends": 0,
+        "proofs": 0
+      },
+      "mid_diff": 0,
+      "mid_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "mid_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "n": 3,
+      "stop_count": 0,
+      "target_count": 0
+    },
+    "TRAIN/SENSITIVE/16/DSV": {
+      "final_diff": 0,
+      "final_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "final_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "mean_final_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_mid_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_nn": 21,
+      "mean_visits": 32,
+      "mean_wall_ms": 7.569341,
+      "mechanisms": {
+        "backup_changed": 0,
+        "extra_evals": 0,
+        "ledger_observations": 0,
+        "ledger_shared_children": 0,
+        "merge_blends": 0,
+        "proofs": 5
+      },
+      "mid_diff": 0,
+      "mid_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "mid_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "n": 3,
+      "stop_count": 0,
+      "target_count": 0
+    },
+    "TRAIN/SENSITIVE/16/DSX": {
+      "final_diff": 0,
+      "final_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "final_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "mean_final_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_mid_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_nn": 23,
+      "mean_visits": 32,
+      "mean_wall_ms": 9.029106666666667,
+      "mechanisms": {
+        "backup_changed": 0,
+        "extra_evals": 0,
+        "ledger_observations": 0,
+        "ledger_shared_children": 0,
+        "merge_blends": 0,
+        "proofs": 0
+      },
+      "mid_diff": 0,
+      "mid_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "mid_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "n": 3,
+      "stop_count": 0,
+      "target_count": 3
+    },
+    "TRAIN/SENSITIVE/8/DS0": {
+      "final_diff": 0,
+      "final_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "final_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "mean_final_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_mid_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_nn": 21,
+      "mean_visits": 32,
+      "mean_wall_ms": 7.978263666666667,
+      "mechanisms": {
+        "backup_changed": 0,
+        "extra_evals": 0,
+        "ledger_observations": 0,
+        "ledger_shared_children": 0,
+        "merge_blends": 0,
+        "proofs": 0
+      },
+      "mid_diff": 0,
+      "mid_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "mid_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "n": 3,
+      "stop_count": 0,
+      "target_count": 0
+    },
+    "TRAIN/SENSITIVE/8/DSB": {
+      "final_diff": 0,
+      "final_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "final_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "mean_final_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_mid_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_nn": 21,
+      "mean_visits": 32,
+      "mean_wall_ms": 7.660029,
+      "mechanisms": {
+        "backup_changed": 0,
+        "extra_evals": 0,
+        "ledger_observations": 108,
+        "ledger_shared_children": 0,
+        "merge_blends": 0,
+        "proofs": 0
+      },
+      "mid_diff": 0,
+      "mid_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "mid_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "n": 3,
+      "stop_count": 0,
+      "target_count": 0
+    },
+    "TRAIN/SENSITIVE/8/DSF": {
+      "final_diff": 0,
+      "final_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "final_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "mean_final_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_mid_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_nn": 20.666666666666668,
+      "mean_visits": 32,
+      "mean_wall_ms": 6.953417,
+      "mechanisms": {
+        "backup_changed": 0,
+        "extra_evals": 0,
+        "ledger_observations": 0,
+        "ledger_shared_children": 0,
+        "merge_blends": 0,
+        "proofs": 0
+      },
+      "mid_diff": 1,
+      "mid_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "mid_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "n": 3,
+      "stop_count": 0,
+      "target_count": 3
+    },
+    "TRAIN/SENSITIVE/8/DSL": {
+      "final_diff": 0,
+      "final_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "final_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "mean_final_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_mid_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_nn": 21,
+      "mean_visits": 32,
+      "mean_wall_ms": 7.854169,
+      "mechanisms": {
+        "backup_changed": 0,
+        "extra_evals": 0,
+        "ledger_observations": 0,
+        "ledger_shared_children": 0,
+        "merge_blends": 0,
+        "proofs": 0
+      },
+      "mid_diff": 1,
+      "mid_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "mid_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "n": 3,
+      "stop_count": 0,
+      "target_count": 3
+    },
+    "TRAIN/SENSITIVE/8/DSSTOP": {
+      "final_diff": 0,
+      "final_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "final_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "mean_final_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_mid_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_nn": 21,
+      "mean_visits": 32,
+      "mean_wall_ms": 7.884747333333333,
+      "mechanisms": {
+        "backup_changed": 0,
+        "extra_evals": 0,
+        "ledger_observations": 0,
+        "ledger_shared_children": 0,
+        "merge_blends": 0,
+        "proofs": 0
+      },
+      "mid_diff": 0,
+      "mid_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "mid_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "n": 3,
+      "stop_count": 0,
+      "target_count": 0
+    },
+    "TRAIN/SENSITIVE/8/DSV": {
+      "final_diff": 0,
+      "final_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "final_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "mean_final_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_mid_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_nn": 21,
+      "mean_visits": 32,
+      "mean_wall_ms": 15.733045666666666,
+      "mechanisms": {
+        "backup_changed": 0,
+        "extra_evals": 0,
+        "ledger_observations": 0,
+        "ledger_shared_children": 0,
+        "merge_blends": 0,
+        "proofs": 7
+      },
+      "mid_diff": 0,
+      "mid_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "mid_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "n": 3,
+      "stop_count": 0,
+      "target_count": 0
+    },
+    "TRAIN/SENSITIVE/8/DSX": {
+      "final_diff": 0,
+      "final_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "final_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "mean_final_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_mid_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_nn": 23,
+      "mean_visits": 32,
+      "mean_wall_ms": 6.951306,
+      "mechanisms": {
+        "backup_changed": 0,
+        "extra_evals": 0,
+        "ledger_observations": 0,
+        "ledger_shared_children": 0,
+        "merge_blends": 0,
+        "proofs": 0
+      },
+      "mid_diff": 1,
+      "mid_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "mid_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "n": 3,
+      "stop_count": 0,
+      "target_count": 3
+    },
+    "TRAIN/UNFILTERED/16/DS0": {
+      "final_diff": 0,
+      "final_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "final_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "mean_final_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_mid_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_nn": 19.333333333333332,
+      "mean_visits": 32,
+      "mean_wall_ms": 6.554893666666667,
+      "mechanisms": {
+        "backup_changed": 0,
+        "extra_evals": 0,
+        "ledger_observations": 0,
+        "ledger_shared_children": 0,
+        "merge_blends": 0,
+        "proofs": 0
+      },
+      "mid_diff": 0,
+      "mid_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "mid_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "n": 3,
+      "stop_count": 0,
+      "target_count": 0
+    },
+    "TRAIN/UNFILTERED/16/DSB": {
+      "final_diff": 0,
+      "final_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "final_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "mean_final_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_mid_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_nn": 19.333333333333332,
+      "mean_visits": 32,
+      "mean_wall_ms": 6.827088333333333,
+      "mechanisms": {
+        "backup_changed": 0,
+        "extra_evals": 0,
+        "ledger_observations": 175,
+        "ledger_shared_children": 0,
+        "merge_blends": 0,
+        "proofs": 0
+      },
+      "mid_diff": 0,
+      "mid_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "mid_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "n": 3,
+      "stop_count": 0,
+      "target_count": 0
+    },
+    "TRAIN/UNFILTERED/16/DSF": {
+      "final_diff": 0,
+      "final_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "final_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "mean_final_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_mid_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_nn": 19.333333333333332,
+      "mean_visits": 32,
+      "mean_wall_ms": 6.872550333333333,
+      "mechanisms": {
+        "backup_changed": 0,
+        "extra_evals": 0,
+        "ledger_observations": 0,
+        "ledger_shared_children": 0,
+        "merge_blends": 0,
+        "proofs": 0
+      },
+      "mid_diff": 0,
+      "mid_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "mid_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "n": 3,
+      "stop_count": 0,
+      "target_count": 2
+    },
+    "TRAIN/UNFILTERED/16/DSL": {
+      "final_diff": 0,
+      "final_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "final_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "mean_final_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_mid_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_nn": 19.333333333333332,
+      "mean_visits": 32,
+      "mean_wall_ms": 9.412872666666667,
+      "mechanisms": {
+        "backup_changed": 0,
+        "extra_evals": 0,
+        "ledger_observations": 0,
+        "ledger_shared_children": 0,
+        "merge_blends": 0,
+        "proofs": 0
+      },
+      "mid_diff": 0,
+      "mid_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "mid_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "n": 3,
+      "stop_count": 0,
+      "target_count": 3
+    },
+    "TRAIN/UNFILTERED/16/DSSTOP": {
+      "final_diff": 0,
+      "final_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "final_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "mean_final_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_mid_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_nn": 19,
+      "mean_visits": 29.333333333333332,
+      "mean_wall_ms": 6.119463666666667,
+      "mechanisms": {
+        "backup_changed": 0,
+        "extra_evals": 0,
+        "ledger_observations": 0,
+        "ledger_shared_children": 0,
+        "merge_blends": 0,
+        "proofs": 0
+      },
+      "mid_diff": 0,
+      "mid_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "mid_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "n": 3,
+      "stop_count": 1,
+      "target_count": 0
+    },
+    "TRAIN/UNFILTERED/16/DSV": {
+      "final_diff": 0,
+      "final_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "final_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "mean_final_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_mid_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_nn": 24.666666666666668,
+      "mean_visits": 32,
+      "mean_wall_ms": 7.263415666666667,
+      "mechanisms": {
+        "backup_changed": 0,
+        "extra_evals": 16,
+        "ledger_observations": 0,
+        "ledger_shared_children": 0,
+        "merge_blends": 0,
+        "proofs": 2
+      },
+      "mid_diff": 0,
+      "mid_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "mid_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "n": 3,
+      "stop_count": 0,
+      "target_count": 0
+    },
+    "TRAIN/UNFILTERED/16/DSX": {
+      "final_diff": 0,
+      "final_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "final_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "mean_final_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_mid_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_nn": 21.666666666666668,
+      "mean_visits": 32,
+      "mean_wall_ms": 6.624945333333333,
+      "mechanisms": {
+        "backup_changed": 0,
+        "extra_evals": 0,
+        "ledger_observations": 0,
+        "ledger_shared_children": 0,
+        "merge_blends": 0,
+        "proofs": 0
+      },
+      "mid_diff": 0,
+      "mid_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "mid_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "n": 3,
+      "stop_count": 0,
+      "target_count": 3
+    },
+    "TRAIN/UNFILTERED/8/DS0": {
+      "final_diff": 0,
+      "final_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "final_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "mean_final_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_mid_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_nn": 19.333333333333332,
+      "mean_visits": 32,
+      "mean_wall_ms": 7.087396666666667,
+      "mechanisms": {
+        "backup_changed": 0,
+        "extra_evals": 0,
+        "ledger_observations": 0,
+        "ledger_shared_children": 0,
+        "merge_blends": 0,
+        "proofs": 0
+      },
+      "mid_diff": 0,
+      "mid_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "mid_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "n": 3,
+      "stop_count": 0,
+      "target_count": 0
+    },
+    "TRAIN/UNFILTERED/8/DSB": {
+      "final_diff": 0,
+      "final_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "final_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "mean_final_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_mid_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_nn": 19.333333333333332,
+      "mean_visits": 32,
+      "mean_wall_ms": 7.296418666666667,
+      "mechanisms": {
+        "backup_changed": 0,
+        "extra_evals": 0,
+        "ledger_observations": 110,
+        "ledger_shared_children": 0,
+        "merge_blends": 0,
+        "proofs": 0
+      },
+      "mid_diff": 0,
+      "mid_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "mid_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "n": 3,
+      "stop_count": 0,
+      "target_count": 0
+    },
+    "TRAIN/UNFILTERED/8/DSF": {
+      "final_diff": 0,
+      "final_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "final_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "mean_final_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_mid_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_nn": 19.333333333333332,
+      "mean_visits": 32,
+      "mean_wall_ms": 7.804181666666667,
+      "mechanisms": {
+        "backup_changed": 0,
+        "extra_evals": 0,
+        "ledger_observations": 0,
+        "ledger_shared_children": 0,
+        "merge_blends": 0,
+        "proofs": 0
+      },
+      "mid_diff": 0,
+      "mid_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "mid_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "n": 3,
+      "stop_count": 0,
+      "target_count": 2
+    },
+    "TRAIN/UNFILTERED/8/DSL": {
+      "final_diff": 0,
+      "final_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "final_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "mean_final_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_mid_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_nn": 19.333333333333332,
+      "mean_visits": 32,
+      "mean_wall_ms": 7.261412333333333,
+      "mechanisms": {
+        "backup_changed": 0,
+        "extra_evals": 0,
+        "ledger_observations": 0,
+        "ledger_shared_children": 0,
+        "merge_blends": 0,
+        "proofs": 0
+      },
+      "mid_diff": 0,
+      "mid_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "mid_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "n": 3,
+      "stop_count": 0,
+      "target_count": 3
+    },
+    "TRAIN/UNFILTERED/8/DSSTOP": {
+      "final_diff": 0,
+      "final_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "final_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "mean_final_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_mid_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_nn": 19,
+      "mean_visits": 29.333333333333332,
+      "mean_wall_ms": 7.590734333333334,
+      "mechanisms": {
+        "backup_changed": 0,
+        "extra_evals": 0,
+        "ledger_observations": 0,
+        "ledger_shared_children": 0,
+        "merge_blends": 0,
+        "proofs": 0
+      },
+      "mid_diff": 0,
+      "mid_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "mid_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "n": 3,
+      "stop_count": 1,
+      "target_count": 0
+    },
+    "TRAIN/UNFILTERED/8/DSV": {
+      "final_diff": 0,
+      "final_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "final_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "mean_final_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_mid_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_nn": 24.666666666666668,
+      "mean_visits": 32,
+      "mean_wall_ms": 8.558800666666667,
+      "mechanisms": {
+        "backup_changed": 0,
+        "extra_evals": 16,
+        "ledger_observations": 0,
+        "ledger_shared_children": 0,
+        "merge_blends": 0,
+        "proofs": 5
+      },
+      "mid_diff": 0,
+      "mid_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "mid_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "n": 3,
+      "stop_count": 0,
+      "target_count": 0
+    },
+    "TRAIN/UNFILTERED/8/DSX": {
+      "final_diff": 0,
+      "final_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "final_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "mean_final_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_mid_gain": {
+        "256": 0.0,
+        "64": 0.0
+      },
+      "mean_nn": 21.666666666666668,
+      "mean_visits": 32,
+      "mean_wall_ms": 6.867397,
+      "mechanisms": {
+        "backup_changed": 0,
+        "extra_evals": 0,
+        "ledger_observations": 0,
+        "ledger_shared_children": 0,
+        "merge_blends": 0,
+        "proofs": 0
+      },
+      "mid_diff": 0,
+      "mid_harmed": {
+        "256": 0,
+        "64": 0
+      },
+      "mid_improved": {
+        "256": 0,
+        "64": 0
+      },
+      "n": 3,
+      "stop_count": 0,
+      "target_count": 3
+    }
+  },
+  "identity": {
+    "rapfi_bridge": "bacbcfc90f6e4bfd0d9d035455afa3d6667ec32e7fd80cbc1d65a4001b30f64e",
+    "rapfi_config": "32b9180c91247541d399ceef62906d5ffeb48e34eb5f261612987633820d5d3c",
+    "rapfi_source": "1be1551ced57e38d53ed58f6d74bf6f8b4bdc230",
+    "rapfi_weight": "6bc0d1b0ff8e1d857f7f412923cd458f38f1a435087c91ae71fec3676c23ef62",
+    "rust_binary": "5e86af2d7564de5574a691c8801dfd783c9afdd05b575b365686902abda094be",
+    "rust_source": "4d1b97b4dd9fb600af4e2ec9db81673881c6af1b"
+  },
+  "label_disagreement": [
+    {
+      "U256": 1.0,
+      "U64": 0.5,
+      "id": "G12",
+      "move": 66
+    },
+    {
+      "U256": 1.0,
+      "U64": 0.0,
+      "id": "G12",
+      "move": 111
+    }
+  ],
+  "nn": 7108,
+  "probes": 27,
+  "requests": 336,
+  "roots": 24,
+  "scientific_promotion": false,
+  "snapshots": 1492,
+  "source_NN": 19056,
+  "source_games": 24,
+  "source_lengths": [
+    38,
+    21,
+    13,
+    19,
+    17,
+    27,
+    28,
+    21,
+    22,
+    47,
+    27,
+    17,
+    30,
+    15,
+    13,
+    15,
+    19,
+    19,
+    19,
+    21,
+    33,
+    31,
+    9,
+    15
+  ],
+  "source_plies": 392,
+  "unique_actions": 34,
+  "visits": 10592
+}
