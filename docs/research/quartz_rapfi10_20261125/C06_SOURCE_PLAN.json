@@ -1,0 +1,243 @@
+{
+  "cap": 64,
+  "excluded_boards": 1401,
+  "excluded_families": 31,
+  "identity": {
+    "rapfi_bridge": "bacbcfc90f6e4bfd0d9d035455afa3d6667ec32e7fd80cbc1d65a4001b30f64e",
+    "rapfi_config": "32b9180c91247541d399ceef62906d5ffeb48e34eb5f261612987633820d5d3c",
+    "rapfi_source": "1be1551ced57e38d53ed58f6d74bf6f8b4bdc230",
+    "rapfi_weight": "6bc0d1b0ff8e1d857f7f412923cd458f38f1a435087c91ae71fec3676c23ef62",
+    "rust_binary": "58804ca0341654435c5e2528333a2fedfd1ec30f2b6f83ac128504b012f3fca4",
+    "rust_source": "91203c16d33fb073bbc3321dac37041bce286ffa"
+  },
+  "jobs": [
+    {
+      "desired_player": 1,
+      "family": "86c85910beef8cf80a33b7e476f07f0bcd0caadec66cbea9a15ed960a890faa8",
+      "group": "TRAIN",
+      "id": "G00",
+      "opening": [
+        128,
+        98,
+        83,
+        96,
+        158,
+        80
+      ]
+    },
+    {
+      "desired_player": -1,
+      "family": "3fb49f3fa330813a703aa4055bc4474b93e10e2f182f076704ea6ebc432b2056",
+      "group": "TRAIN",
+      "id": "G01",
+      "opening": [
+        85,
+        69,
+        145,
+        80,
+        130,
+        154
+      ]
+    },
+    {
+      "desired_player": 1,
+      "family": "ceb952fd1e7fc4af4b68919c03151e02a94f6de10973dc8ece257ec7c9511158",
+      "group": "TRAIN",
+      "id": "G02",
+      "opening": [
+        143,
+        64,
+        145,
+        156,
+        81,
+        126
+      ]
+    },
+    {
+      "desired_player": -1,
+      "family": "ded5321ede9ae1084548d6844c1ad0d4031b9c24ccaf8ec2e0f76546bc70fa0b",
+      "group": "TRAIN",
+      "id": "G03",
+      "opening": [
+        125,
+        127,
+        85,
+        84,
+        94,
+        128
+      ]
+    },
+    {
+      "desired_player": 1,
+      "family": "91505742f169bdc7fb7d800c8c088166f65e25482f7fd4d5df1cf4aa8670cbfd",
+      "group": "CAL",
+      "id": "G04",
+      "opening": [
+        157,
+        158,
+        156,
+        159,
+        94,
+        160
+      ]
+    },
+    {
+      "desired_player": -1,
+      "family": "d124f0913ad088b77a52cef4a63e770d82c0d8448f858951c024e4eeffb1cc45",
+      "group": "CAL",
+      "id": "G05",
+      "opening": [
+        129,
+        95,
+        82,
+        158,
+        141,
+        111
+      ]
+    },
+    {
+      "desired_player": 1,
+      "family": "5667383ebec9adf6ef521f52aaec910eab27db2ac907ece2aa9713da33c38f3b",
+      "group": "CAL",
+      "id": "G06",
+      "opening": [
+        130,
+        127,
+        115,
+        145,
+        65,
+        128
+      ]
+    },
+    {
+      "desired_player": -1,
+      "family": "1d6e4a97502fc9ad6eb347ae6acd6b73198cc4b3e3157d35186917df682f0b31",
+      "group": "CAL",
+      "id": "G07",
+      "opening": [
+        113,
+        141,
+        70,
+        145,
+        139,
+        111
+      ]
+    },
+    {
+      "desired_player": 1,
+      "family": "df2edcce83321111b34bbffa663a7fcd30b73dfa7bae993de47dd81805e84554",
+      "group": "TEST",
+      "id": "G08",
+      "opening": [
+        139,
+        64,
+        112,
+        94,
+        66,
+        115
+      ]
+    },
+    {
+      "desired_player": -1,
+      "family": "e76a526848d9d1a6475fe23f9ebb5627ec505e9346e4c29d360add1f43058f30",
+      "group": "TEST",
+      "id": "G09",
+      "opening": [
+        70,
+        157,
+        144,
+        84,
+        95,
+        156
+      ]
+    },
+    {
+      "desired_player": 1,
+      "family": "739e5a3aada74c1507791e5fd6fe4c0557fb85b14e78f52e00171665a444ca2e",
+      "group": "TEST",
+      "id": "G10",
+      "opening": [
+        109,
+        141,
+        99,
+        64,
+        126,
+        145
+      ]
+    },
+    {
+      "desired_player": -1,
+      "family": "a71fc40cb008ef58fc62ac0619772871c5e6b2cf8673268d3c30115bf90d28ea",
+      "group": "TEST",
+      "id": "G11",
+      "opening": [
+        144,
+        81,
+        112,
+        115,
+        64,
+        98
+      ]
+    },
+    {
+      "desired_player": 1,
+      "family": "b00d1d60bba8a56c724c919fb15ba5ccd2524ddfb1dacf94754356337fb56ceb",
+      "group": "TEST",
+      "id": "G12",
+      "opening": [
+        158,
+        114,
+        65,
+        124,
+        99,
+        130
+      ]
+    },
+    {
+      "desired_player": -1,
+      "family": "a1e5c3b8d20411c86553fb20bb8ed0c3d52b7bd3333aefcc9a2932ce6db9e785",
+      "group": "TEST",
+      "id": "G13",
+      "opening": [
+        64,
+        112,
+        145,
+        70,
+        115,
+        141
+      ]
+    },
+    {
+      "desired_player": 1,
+      "family": "087a1484d59baf549c9f28a4af3a2d67c9e59ae12b816a09cb4c151b2cad2301",
+      "group": "TEST",
+      "id": "G14",
+      "opening": [
+        115,
+        128,
+        109,
+        110,
+        96,
+        68
+      ]
+    },
+    {
+      "desired_player": -1,
+      "family": "2271be754a28d282404a064c2c90d5c0b58cc600ee9c6878a2a9b2a4d43f5cd7",
+      "group": "TEST",
+      "id": "G15",
+      "opening": [
+        113,
+        70,
+        141,
+        83,
+        81,
+        144
+      ]
+    }
+  ],
+  "max_games": 16,
+  "policy": "STANDARD_PW",
+  "rule": "freestyle",
+  "seed": 17
+}
