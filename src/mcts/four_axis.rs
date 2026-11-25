@@ -18,11 +18,11 @@ fn keyhex(k:Key)->String{format!("{k:022x}")}
 pub struct ProofPlan{pub stop:bool,pub allowed:Vec<usize>}
 
 pub const S:u8=1;pub const X:u8=2;pub const V:u8=4;pub const B:u8=8;
-const NAMES:[&str;28]=["select_nodes","select_changed","select_deep","width_nodes","width_limited","width_mass_added","width_deep","base_evals","extra_evals","exact_child_evals","refinements","eval_changed","terminal_leaves","backup_edges","temporal_blends","merge_blends","backup_changed","terminal_edges","proofs","proof_win","proof_scans","proof_checks","graph_register","graph_rule_checks","graph_solved_skips","graph_filtered","graph_width_extra","graph_plans"];
+const NAMES:[&str;29]=["select_nodes","select_changed","select_deep","width_nodes","width_limited","width_mass_added","width_deep","base_evals","extra_evals","exact_child_evals","refinements","eval_changed","terminal_leaves","backup_edges","temporal_blends","merge_blends","backup_changed","terminal_edges","proofs","proof_win","proof_scans","proof_checks","graph_register","graph_rule_checks","graph_solved_skips","graph_filtered","graph_width_extra","graph_plans","graph_b_skip"];
 pub struct Hooks{
     pub mask:u8,
-    counts:[AtomicU64;28],
-    graph:Mutex<Graph>,pub proof_mode:u8,trace_b:bool,b_events:Mutex<Vec<Value>>,
+    counts:[AtomicU64;29],
+    graph:Mutex<Graph>,pub proof_mode:u8,proof_priority:bool,trace_b:bool,b_events:Mutex<Vec<Value>>,
     vmode:u8,bmode:u8,trace:bool,
     leaf_paths:Mutex<Vec<Vec<usize>>>,workers:AtomicU64,
     ledger:Mutex<Ledger>,
@@ -31,10 +31,25 @@ impl Hooks{
     pub fn new(mask:u8)->Self{Self::new_modes(mask&3,if mask&V!=0{1}else{0},if mask&B!=0{4}else{0},false)}
     pub fn new_modes(mask:u8,vmode:u8,bmode:u8,trace:bool)->Self{
         assert!(mask<=3&&vmode<=4&&bmode<=4);
-        Self{mask,vmode,bmode,trace,counts:std::array::from_fn(|_|AtomicU64::new(0)),ledger:Mutex::new(Ledger::default()),leaf_paths:Mutex::new(Vec::new()),workers:AtomicU64::new(0),graph:Mutex::new(Graph::default()),proof_mode:0,trace_b:false,b_events:Mutex::new(Vec::new())}
+        Self{mask,vmode,bmode,trace,counts:std::array::from_fn(|_|AtomicU64::new(0)),ledger:Mutex::new(Ledger::default()),leaf_paths:Mutex::new(Vec::new()),workers:AtomicU64::new(0),graph:Mutex::new(Graph::default()),proof_mode:0,proof_priority:true,trace_b:false,b_events:Mutex::new(Vec::new())}
     }
     pub fn with_graph(mut self,mode:u8)->Self{assert!(mode<=2);self.proof_mode=mode;self}
     pub fn with_b_trace(mut self)->Self{self.trace_b=true;self}
+    pub fn with_safe_priority(mut self)->Self{self.proof_priority=false;self}
+    /// Read exact root facts without constructing a full diagnostic JSON snapshot.
+    pub fn root_control<G:GameState>(&self,s:&G)->(Option<usize>,u8,u8){
+        if self.proof_mode==0{return (None,2,0);}
+        let mut g=self.graph.lock().unwrap();let k=self.register_locked(&mut g,s);
+        let a=g.actions(k);
+        let risk=a.iter().map(|&(m,(l,_))|{
+            let u=a.iter().filter(|x|x.0!=m).map(|x|x.1.1).max().unwrap_or(-1);
+            (u-l).max(0) as u8
+        }).min().unwrap();
+        let best_l=a.iter().map(|x|x.1.0).max().unwrap();
+        let h=a.iter().filter(|x|x.1.1>=best_l&&x.1.0<x.1.1).count() as u8;
+        let w=g.witness(k);assert_eq!(w.is_some(),risk==0);(w,risk,h)
+    }
+
     fn register_locked<G:GameState>(&self,g:&mut Graph,s:&G)->Key{
         let k=exact_key(s);if g.registered(k){return k;}
         self.add(22,1);
@@ -61,7 +76,7 @@ impl Hooks{
         if depth==0{
             if let Some(w)=g.witness(k){allowed=vec![w];}
         }
-        if allowed.len()>1{
+        if self.proof_priority&&allowed.len()>1{
             let unknown:Vec<_>=all.iter().filter(|x|allowed.contains(&x.0)&&x.1.0!=x.1.1).map(|x|x.0).collect();
             if !unknown.is_empty(){allowed=unknown;}
         }
@@ -111,6 +126,14 @@ impl Hooks{
         if self.bmode==0{backprop::<G>(path,leaf);return;}
         // All research B writers in this engine share this lock. Readers use
         // the existing weak atomic snapshots; this is NOT an atomic read tuple.
+        let mut exact_children=Vec::new();
+        if self.proof_mode!=0&&self.bmode>=2&&!terminal{
+            let mut state=root.clone();
+            for pe in path{
+                state=state.apply_move(pe.parent.read_edges()[pe.edge_idx].mv);
+                exact_children.push(exact_key(&state));
+            }
+        }
         let mut ledger=self.ledger.lock().unwrap();
         let mut raw=leaf;let mut y=leaf;
         for (depth,pe) in path.iter().enumerate().rev(){
@@ -125,6 +148,11 @@ impl Hooks{
             self.add(13,1);self.add(17,terminal as u64);
             if !terminal{
                 if let Some((m,n,other))=old{
+                    let unresolved=if exact_children.is_empty(){true}else{
+                        let iv=self.graph.lock().unwrap().interval(exact_children[depth]);iv.0!=iv.1
+                    };
+                    if !unresolved{self.add(28,1);}
+                    if unresolved{
                     if self.trace_b{
                         let mut ev=self.b_events.lock().unwrap();
                         if ev.len()<8{
@@ -143,6 +171,7 @@ impl Hooks{
                     let z=math::blend(y,m,n,false);
                     self.add(if other{15}else{14},1);self.add(16,((z-y).abs()>1e-7) as u64);
                     y=z;
+                    }
                 }
             }
             raw=-raw;y=-y;
