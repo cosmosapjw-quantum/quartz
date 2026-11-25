@@ -280,6 +280,12 @@ impl Hooks{
         }
     }
 }
+// K21: quiescent serial, at most seven legal actions. Accounting, not posterior samples.
+#[derive(Clone,Debug,serde::Serialize)]
+pub struct LiteRoot {
+    pub len:usize,pub moves:[usize;7],pub n:[u32;7],pub w:[f64;7],
+    pub m2:[f64;7],pub prior:[f64;7],pub visits:u32,pub nn:u64,pub best:usize,
+}
 impl<G:GameState> MctsEngine<G>{
     pub fn prepare_local(&self,h:&mut Hooks)->Value{
         h.local_focus=None;h.local_frontier=None;
@@ -394,6 +400,19 @@ impl<G:GameState> MctsEngine<G>{
         for (i,e) in self.root.read_edges().iter().enumerate(){n[i]=e.n.load(Ordering::Acquire);}
         assert_eq!(n.iter().sum::<u32>(),self.root.n_total.load(Ordering::Acquire));
         let (_,d)=math::vote_reach(&n);d.into_iter().flatten().min()
+    }
+    pub fn four_axis_lite(&self)->LiteRoot{
+        let ca=self.root.candidates.get().expect("initialized candidates");
+        let len=ca.len();assert!((1..=7).contains(&len));
+        let mut r=LiteRoot{len,moves:[0;7],n:[0;7],w:[0.;7],m2:[0.;7],prior:[0.;7],
+            visits:self.root.n_total.load(Ordering::Acquire),nn:self.evaluator_call_count(),
+            best:self.best_move().map(|m|self.root_state.move_to_idx(m)).expect("nonempty root")};
+        for (i,(m,p)) in ca.iter().enumerate(){r.moves[i]=self.root_state.move_to_idx(*m);r.prior[i]=*p as f64;}
+        for (i,e) in self.root.read_edges().iter().enumerate(){
+            assert_eq!(r.moves[i],self.root_state.move_to_idx(e.mv));
+            r.n[i]=e.n.load(Ordering::Acquire);r.w[i]=atomic_f64_load(&e.w);r.m2[i]=atomic_f64_load(&e.m2);
+        }
+        assert_eq!(r.n.iter().sum::<u32>(),r.visits);r
     }
     pub fn four_axis_snapshot(&self)->Value{
         let e:Vec<_>=self.root.read_edges().iter().map(|e|json!({"move":self.root_state.move_to_idx(e.mv),"n":e.n.load(Ordering::Acquire),"w":atomic_f64_load(&e.w),"m2":atomic_f64_load(&e.m2),"prior":e.p,"child_hash":format!("{:016x}",e.child.hash),"vl":e.virtual_losses.load(Ordering::Acquire),"vvalue":atomic_f64_load(&e.virtual_value)})).collect();
