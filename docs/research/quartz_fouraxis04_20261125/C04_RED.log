@@ -1,0 +1,30 @@
+
+running 2 tests
+test tests::time_and_caps ... FAILED
+test tests::real_reuse_and_fixed_quota ... FAILED
+
+failures:
+
+---- tests::time_and_caps stdout ----
+
+thread 'tests::time_and_caps' (199550) panicked at src/mcts_server/four_axis_pool_plan.rs:23:5:
+assertion `left == right` failed
+  left: None
+ right: Some(3)
+
+---- tests::real_reuse_and_fixed_quota stdout ----
+
+thread 'tests::real_reuse_and_fixed_quota' (199549) panicked at src/mcts_server/four_axis_pool_plan.rs:16:5:
+assertion `left == right` failed
+  left: None
+ right: Some(1)
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+
+failures:
+    tests::real_reuse_and_fixed_quota
+    tests::time_and_caps
+
+test result: FAILED. 0 passed; 2 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+exit=101
