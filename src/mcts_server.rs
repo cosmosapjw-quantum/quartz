@@ -51,6 +51,8 @@ use prior15_cpu_server::handle_research_gomoku15_prior_cpu;
 mod evidence_cpu_server;
 #[path = "mcts_server/k25_cpu_server.rs"]
 mod k25_cpu_server;
+#[path = "mcts_server/k26_cpu_server.rs"]
+mod k26_cpu_server;
 #[path = "mcts_server/four_axis_cpu_server.rs"]
 mod four_axis_cpu_server;
 #[path = "mcts_server/four_axis_pool_cpu_server.rs"]
@@ -2764,6 +2766,11 @@ pub fn serve() {
         if cmd == "research_gomoku15_long_inspect" || cmd == "research_gomoku15_long_search" {
             emit_stdout_json_value(&gomoku_long_cpu_server::handle(&line));
             if let Some(ring) = global_ring_buffer() { ring.set_cmd_done(true); }
+            continue;
+        }
+        if cmd == "research_connect4_k26_cpu" {
+            emit_stdout_json_value(&k26_cpu_server::handle(&line));
+            if let Some(ring)=global_ring_buffer(){ring.set_cmd_done(true);}
             continue;
         }
         if cmd == "research_connect4_k25_cpu" {
