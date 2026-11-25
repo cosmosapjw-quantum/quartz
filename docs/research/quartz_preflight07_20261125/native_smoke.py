@@ -25,12 +25,33 @@ def check(a,h,rule,inspect=False,deep=False):
                 assert (l,u)==(-1,1)
                 assert not any(win_at(b0,j,1 if p0==1 else 2,rule) for j,x in enumerate(b0) if not x)
     if inspect:return
+    assert __debug__,"validation cannot be optimized away"
+    integer=lambda x:type(x) is int and x>=0
+    number=lambda x:type(x) in (int,float) and math.isfinite(x)
+    assert all(integer(a[k]) for k in ('best','visits','requested_visits','nn_rows','nn_batches','evaluator_calls','setup_us','search_us','drop_us','whole_us','transport_ns'))
+    assert a['arm'] in ('BASE','CERT') and a['threads'] in (1,2)
     assert a['best'] in legal and a['visits']<=a['requested_visits']
+    if a['arm']=='CERT':
+        assert dict((m,u) for m,l,u,r in pr['actions'])[a['best']]>=pr['interval'][0]
+    h0=int(a['board_hash'],16)^0x9e3779b97f4a7c15
+    for v0 in [RULES[rule]+1,len(a['recent'])]+[m+1 for m in a['recent']]:h0=((h0^v0)*0x100000001b3)&((1<<64)-1)
+    assert a['tt_hash']==f'{h0:016x}'
     if a['cause']=='CERTIFIED':
         assert a['arm']=='CERT' and a['best']==pr['witness'] and a['result'] is None and a['visits']==a['evaluator_calls']==a['nn_rows']==0
     else:
         v=a['result'];assert a['cause']=='VISITS' and a['visits']==a['requested_visits']==v['root_n'] and v['root_hash']==a['tt_hash']
-        assert v['best'] in legal and {m for m,_ in v['candidates']}==set(legal)
+        assert v['best'] in legal and len(v['candidates'])==len(legal) and {m for m,_ in v['candidates']}==set(legal)
+        assert all(integer(m) and number(p0) and p0>=0 for m,p0 in v['candidates'])
+        assert abs(sum(p0 for _,p0 in v['candidates'])-1)<=1e-5
+        if a['arm']=='BASE':assert a['best']==v['best']
+        else:assert pr['witness'] is None
+        assert number(v['root_w']) and integer(v['root_n']) and integer(v['evaluator_calls'])
+        for e,(m,p0) in zip(v['edges'],v['candidates']):
+            assert e['move']==m and number(e['prior']) and abs(e['prior']-p0)<=1e-7
+            assert integer(e['n']) and number(e['w']) and number(e['m2']) and number(e['vvalue'])
+            n=e['n'];w=e['w'];M=e['m2']
+            assert -1e-7<=M<=(n-w*w/n if n else 0)+1e-5
+            if n==0:assert w==0 and M==0
         assert [e['move'] for e in v['edges']]==[m for m,_ in v['candidates'][:len(v['edges'])]]
         assert sum(e['n'] for e in v['edges'])==v['root_n']
         assert abs(sum(e['w'] for e in v['edges'])-v['root_w'])<1e-5
