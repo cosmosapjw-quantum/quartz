@@ -1,0 +1,38 @@
+{
+  "c4": {
+    "NN": 15901,
+    "attempts": 100,
+    "cal": 74,
+    "cal_joint_checks": 1776,
+    "exact_actions": 424,
+    "freeze_before_atlas_and_labels": true,
+    "independent_nodes": 276017,
+    "native_queries": 510,
+    "policy_checks": 340,
+    "roots": 85,
+    "secondary_BAL64_boot": [
+      -0.023529411764705882,
+      0.058823529411764705
+    ],
+    "secondary_BAL64_gain_vs_N64": 0.01764705882352941,
+    "secondary_BAL64_negative": 1,
+    "secondary_BAL64_positive": 3,
+    "test_joint_checks": 510,
+    "training": 110,
+    "visits": 24480
+  },
+  "gomoku": {
+    "action_pairs": 34,
+    "continuation_NN": 122954,
+    "continuation_plies": 980,
+    "continuations": 68,
+    "hidden_materialized": 12,
+    "native_queries": 36,
+    "policy_disagreements": 6,
+    "roots": 12,
+    "source_NN": 11132,
+    "source_families": 12,
+    "source_plies": 95
+  },
+  "scope": "independent C4/Gomoku rule replay, source split/hash checks, native phase counts, independent joint fit/selection/readout, compact continuation replay; no repeat exact oracle or full internal MCTS simulation"
+}
