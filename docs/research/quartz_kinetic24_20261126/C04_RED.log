@@ -1,0 +1,7 @@
+{'error': 'bad contract'}
+Traceback (most recent call last):
+  File "/home/cosmosapjw/quantum/research/quartz_kinetic24_20261126/docs/research/quartz_kinetic24_20261126/native_test.py", line 9, in <module>
+    assert 'error' not in a,a
+           ^^^^^^^^^^^^^^^^
+AssertionError: {'error': 'bad contract'}
+exit=1
