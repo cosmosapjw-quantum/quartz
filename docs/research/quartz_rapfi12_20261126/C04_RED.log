@@ -1,0 +1,21 @@
+
+running 1 test
+test allocation_cap_tests::two_tiers ... FAILED
+
+failures:
+
+---- allocation_cap_tests::two_tiers stdout ----
+
+thread 'allocation_cap_tests::two_tiers' (1307568) panicked at src/mcts/four_axis_math.rs:158:9:
+assertion `left == right` failed
+  left: 128
+ right: 256
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+
+failures:
+    allocation_cap_tests::two_tiers
+
+test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 6 filtered out; finished in 0.00s
+
+exit=101

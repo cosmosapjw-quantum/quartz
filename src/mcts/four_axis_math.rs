@@ -148,3 +148,15 @@ mod vote_reach_tests{
         assert_eq!(vote_reach(&[4]),(0,vec![None]));
     }
 }
+
+// P5 allocation: choose a new finite horizon once, after the shared prefix.
+pub fn allocation_cap(scale:u32,_distance:Option<u32>)->u32{scale}
+#[cfg(test)]
+mod allocation_cap_tests{
+    use super::*;
+    #[test]fn two_tiers(){
+        assert_eq!(allocation_cap(128,Some(4)),256);
+        assert_eq!(allocation_cap(128,Some(5)),64);
+        assert_eq!(allocation_cap(32,None),16);
+    }
+}
