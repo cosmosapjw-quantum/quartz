@@ -1,0 +1,7 @@
+{'move': 6, 'move_str': '(0,6)', 'hbar_eff': 0.0, 'p_flip': 0.5, 'iters': 200}
+Traceback (most recent call last):
+  File "/home/cosmosapjw/quantum/research/quartz_kinetic26_20261126/docs/research/quartz_kinetic26_20261126/native_test.py", line 9, in <module>
+    assert a.get('schema')=='quartz_k26_c4_v1',a
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: {'move': 6, 'move_str': '(0,6)', 'hbar_eff': 0.0, 'p_flip': 0.5, 'iters': 200}
+exit=1
